@@ -2,103 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1910F14BE54
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 18:08:44 +0100 (CET)
-Received: from localhost ([::1]:34102 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBAF914BE56
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 18:10:43 +0100 (CET)
+Received: from localhost ([::1]:34140 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwULy-0006sk-Is
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 12:08:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41624)
+	id 1iwUNu-0000b3-Sd
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 12:10:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41892)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1iwUL4-0006MX-H2
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:07:47 -0500
+ (envelope-from <eric.auger@redhat.com>) id 1iwUM5-0007UZ-Im
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:08:51 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1iwUL3-0003pq-Ba
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:07:46 -0500
-Received: from mout.kundenserver.de ([212.227.126.134]:39253)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1iwUL3-0003oZ-2R
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:07:45 -0500
-Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
- (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MC2k1-1irE5L0PeP-00CPhf; Tue, 28 Jan 2020 18:07:34 +0100
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20200117192808.129398-1-jkz@google.com>
- <20200117192808.129398-2-jkz@google.com>
- <295472c5-4378-4ae1-1e9f-854b15075cf6@vivier.eu> <871rrjfrok.fsf@linaro.org>
-From: Laurent Vivier <laurent@vivier.eu>
-Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
- 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
-Subject: Re: [PATCH v2 1/4] linux-user: Use `qemu_log' for non-strace logging
-Message-ID: <1aeb55ef-3563-9b97-7f15-59cd8408bd2a@vivier.eu>
-Date: Tue, 28 Jan 2020 18:07:30 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.1
+ (envelope-from <eric.auger@redhat.com>) id 1iwUM3-0004lx-7u
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:08:48 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:26768
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
+ id 1iwUM3-0004lH-4R
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:08:47 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1580231326;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=75LFc8/V23KF9sB/i94GdNbY4kFrRm2yk00bDSiZu+E=;
+ b=Kwp184F33r6u5pBzl9ueVlB9KTd0zQFY8ajKlIq1RbLvC4PjotawnyNIHVPvZNcdPrHTpo
+ 1UW5F+k3hcAisdc/wbKPLVjIpdOJKgRRBQ+BnbLKQf/6yli6fWjNmNKogBaMO3RGisd3yH
+ q6L703xuJiAF2IW/7ddInoLlVfG+ytM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-69-NdX-c1xZMp6O_6njXkEYsQ-1; Tue, 28 Jan 2020 12:08:27 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 660B7184BBD5;
+ Tue, 28 Jan 2020 17:08:25 +0000 (UTC)
+Received: from [10.36.116.37] (ovpn-116-37.ams2.redhat.com [10.36.116.37])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 47E1E5DA7E;
+ Tue, 28 Jan 2020 17:08:14 +0000 (UTC)
+Subject: Re: [PATCH v2 2/7] hw/acpi/nvdimm: Fix for NVDIMM incorrect DSM
+ output buffer length
+To: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+ qemu-devel@nongnu.org, qemu-arm@nongnu.org, imammedo@redhat.com
+References: <20200117174522.22044-1-shameerali.kolothum.thodi@huawei.com>
+ <20200117174522.22044-3-shameerali.kolothum.thodi@huawei.com>
+From: Auger Eric <eric.auger@redhat.com>
+Message-ID: <61f82ad0-d973-1bd9-411e-77abbb4dd950@redhat.com>
+Date: Tue, 28 Jan 2020 18:08:12 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.4.0
 MIME-Version: 1.0
-In-Reply-To: <871rrjfrok.fsf@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:t1+Gua8NRtFM/jOkIcWZSsplueMx7xIHPlud+gHQo0CzGqS5qjC
- cICG7PjbVw4vbleGi2kcv6ZE/oAoKRJx0iJe2zP51IF6WOMdJvMqEDbTnzpEdhjY7QXt+go
- 4GPiK+NCLBSr5YOGO7GuVfenIsPDvaaqsnk8DxL9scRzbbjvozRkk3PfNnypLeW1q2v9Vmi
- UsBAZ+A1gt6W8HnhQa4jg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:4PTYNAQms+U=:kyEOnxxYwR9S0VP4aXB74N
- fZSt/fFEyBN1OGFJfkq4Idm5Y1YmxBOo16KV3fokO3s4Sq1DRVSW3BpgYp3UNfx8ckBEwZVXN
- YLl3u4hBsGEbnF8L3+uZsmnqYVidnq8RASiI1GDb6e/S6DVRUuBx5Kj9VK0be6quCYah97Dqm
- 0vxlf6aa6z3jUyhyY5l41utlI8fqcBEtRa+q6FuiyIZTo+vjNRn7kOLRkRWy8L8OLWD0paDkm
- hStLkjWAf+cIRCjT0eoCWe9AGZB9cCVOFqxbvlfIXYKNhiZKvcf2lOscbLFOtSj+mGemWL3DN
- jAO7qV+ycBbM0M9BTAcTb6OqquRE5r9IXZAp1CUPkBxwEYHzDa+VI7ryef4YS7poqa8OHouc5
- NQr/3Cy8vNM/sLw4OX9dOKaSYhJCgMWRwrmVgtJ51JuPE3RFrfvDK11vhCvuqBBsNZlr8YJKD
- oXILZ7/xskF3zSsEuAwLVx3i9emGgP3Rt6lamAIRiS6DZ9dGDn85g0NU766DQQ52MM0JGPTAR
- LJ/nzJXwEv2HU9VJBzyA4qpt3JEhPuCz1ZvBakkwwbwz9TrXQoDWSzrtj5j1L3UpEnP7638AZ
- oHkj3Pi+avHfSrihh78WY27HRk106E4bx1NVH4nltoFjLDyxeoCdaI0zFNyraublfQHpMjB07
- 0RHV3ishYokMAqgBUGw614Lgy8kk5sNT3aJEYmZQaGrb6bGE2AnSB/X0YCiKsewqW/ZDMJncX
- doj0JNt7j0ZsG79+nl2spJcpjywLelYQuGRt87+RQmkjDfZHzLE3+0BwcUh3AYGMki64WXe3Z
- 8q+XhH1aEU154fii0pnF6AQOqepqMOctwsCK5wPx6FV4HCVrvVvzOHgOBQ81Yqx7XzTAVFO
+In-Reply-To: <20200117174522.22044-3-shameerali.kolothum.thodi@huawei.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: NdX-c1xZMp6O_6njXkEYsQ-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.126.134
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -110,88 +77,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Josh Kunz <jkz@google.com>, riku.voipio@iki.fi, qemu-devel@nongnu.org,
- imp@bsdimp.com, armbru@redhat.com
+Cc: peter.maydell@linaro.org, xiaoguangrong.eric@gmail.com, mst@redhat.com,
+ linuxarm@huawei.com, xuwei5@hisilicon.com, shannon.zhaosl@gmail.com,
+ lersek@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 28/01/2020 à 17:53, Alex Bennée a écrit :
+Hi Shameer,
+On 1/17/20 6:45 PM, Shameer Kolothum wrote:
+> As per ACPI spec 6.3, Table 19-419 Object Conversion Rules, if
+> the Buffer Field <= to the size of an Integer (in bits), it will
+> be treated as an integer. Moreover, the integer size depends on
+> DSDT tables revision number. If revision number is < 2, integer
+> size is 32 bits, otherwise it is 64 bits. Current NVDIMM common
+> DSM aml code (NCAL) uses CreateField() for creating DSM output
+> buffer. This creates an issue in arm/virt platform where DSDT
+> revision number is 2 and results in DSM buffer with a wrong
+> size(8 bytes) gets returned when actual length is < 8 bytes.
+> This causes guest kernel to report,
 > 
-> Laurent Vivier <laurent@vivier.eu> writes:
+> "nfit ACPI0012:00: found a zero length table '0' parsing nfit"
 > 
->> Le 17/01/2020 à 20:28, Josh Kunz a écrit :
->>> Since most calls to `gemu_log` are actually logging unimplemented features,
->>> this change replaces most non-strace calls to `gemu_log` with calls to
->>> `qemu_log_mask(LOG_UNIMP, ...)`.  This allows the user to easily log to
->>> a file, and to mask out these log messages if they desire.
->>>
->>> Note: This change is slightly backwards incompatible, since now these
->>> "unimplemented" log messages will not be logged by default.
->>
->> This is a good incompatibility as these messages were unexpected by  the
->> tools catching stderr. They don't happen on "real" systems.
->>
->> ...
->>> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
->>> index 249e4b95fc..629f3a21b5 100644
->>> --- a/linux-user/syscall.c
->>> +++ b/linux-user/syscall.c
->>> @@ -1545,20 +1545,18 @@ static inline abi_long target_to_host_cmsg(struct msghdr *msgh,
->>>              - sizeof(struct target_cmsghdr);
->>>  
->>>          space += CMSG_SPACE(len);
->>> -        if (space > msgh->msg_controllen) {
->>> -            space -= CMSG_SPACE(len);
->>> -            /* This is a QEMU bug, since we allocated the payload
->>> -             * area ourselves (unlike overflow in host-to-target
->>> -             * conversion, which is just the guest giving us a buffer
->>> -             * that's too small). It can't happen for the payload types
->>> -             * we currently support; if it becomes an issue in future
->>> -             * we would need to improve our allocation strategy to
->>> -             * something more intelligent than "twice the size of the
->>> -             * target buffer we're reading from".
->>> -             */
->>> -            gemu_log("Host cmsg overflow\n");
->>> -            break;
->>> -        }
->>> +
->>> +        /*
->>> +         * This is a QEMU bug, since we allocated the payload
->>> +         * area ourselves (unlike overflow in host-to-target
->>> +         * conversion, which is just the guest giving us a buffer
->>> +         * that's too small). It can't happen for the payload types
->>> +         * we currently support; if it becomes an issue in future
->>> +         * we would need to improve our allocation strategy to
->>> +         * something more intelligent than "twice the size of the
->>> +         * target buffer we're reading from".
->>> +         */
->>> +        assert(space > msgh->msg_controllen && "Host cmsg overflow");
-
-Should it be in fact :
-
-  assert(space <= msgh->msg_controllen && "Host cmsg overflow");
-
->>>          if (tswap32(target_cmsg->cmsg_level) == TARGET_SOL_SOCKET) {
->>>              cmsg->cmsg_level = SOL_SOCKET;
->>
->> Could you move this to a separate patch: you are not using qemu_log()
->> here and I'm not convinced that crashing is better than ignoring the
->> remaining part of the buffer.
+> In order to fix this, aml code is now modified such that it builds
+> the DSM output buffer in a byte by byte fashion when length is
+> smaller than Integer size.
 > 
-> I suggested it should be an assert in the first place. It certainly
-> makes sense to keep it in a separate patch though. I guess you could
-> argue for:
+> Suggested-by: Igor Mammedov <imammedo@redhat.com>
+> Signed-off-by: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
+> ---
+> Please find the previous discussion on this here,
+> https://patchwork.kernel.org/cover/11174959/
 > 
->   qemu_log_mask(LOG_UNIMP, "%s: unhandled message size");
+> ---
+>  hw/acpi/nvdimm.c                            | 36 +++++++++++++++++++--
+>  tests/qtest/bios-tables-test-allowed-diff.h |  2 ++
+>  2 files changed, 35 insertions(+), 3 deletions(-)
 > 
-> but is it really better to partially work and continue? It seems like
-> you would get more subtle hidden bugs.
+> diff --git a/hw/acpi/nvdimm.c b/hw/acpi/nvdimm.c
+> index 9fdad6dc3f..5e7b8318d0 100644
+> --- a/hw/acpi/nvdimm.c
+> +++ b/hw/acpi/nvdimm.c
+> @@ -964,6 +964,7 @@ static void nvdimm_build_common_dsm(Aml *dev)
+>      Aml *method, *ifctx, *function, *handle, *uuid, *dsm_mem, *elsectx2;
+>      Aml *elsectx, *unsupport, *unpatched, *expected_uuid, *uuid_invalid;
+>      Aml *pckg, *pckg_index, *pckg_buf, *field, *dsm_out_buf, *dsm_out_buf_size;
+> +    Aml *whilectx, *offset;
+>      uint8_t byte_list[1];
+>  
+>      method = aml_method(NVDIMM_COMMON_DSM, 5, AML_SERIALIZED);
+> @@ -1117,13 +1118,42 @@ static void nvdimm_build_common_dsm(Aml *dev)
+>      /* RLEN is not included in the payload returned to guest. */
+>      aml_append(method, aml_subtract(aml_name(NVDIMM_DSM_OUT_BUF_SIZE),
+>                 aml_int(4), dsm_out_buf_size));
+> +
+> +    /*
+> +     * As per ACPI spec 6.3, Table 19-419 Object Conversion Rules, if
+> +     * the Buffer Field <= to the size of an Integer (in bits), it will
+> +     * be treated as an integer. Moreover, the integer size depends on
+> +     * DSDT tables revision number. If revision number is < 2, integer
+> +     * size is 32 bits, otherwise it is 64 bits.
+> +     * Because of this CreateField() canot be used if RLEN < Integer Size.
+nit: Because of this, CreateField() cannot
 
-ok, you're right. crash seems to be a better solution.
+Thanks
 
-So, we only need to move this change to a separate patch.
-
-Thanks,
-Laurent
+Eric
+> +     * Hence build dsm_out_buf byte by byte.
+> +     */
+> +    ifctx = aml_if(aml_lless(dsm_out_buf_size, aml_sizeof(aml_int(0))));
+> +    offset = aml_local(2);
+> +    aml_append(ifctx, aml_store(aml_int(0), offset));
+> +    aml_append(ifctx, aml_name_decl("TBUF", aml_buffer(1, NULL)));
+> +    aml_append(ifctx, aml_store(aml_buffer(0, NULL), dsm_out_buf));
+> +
+> +    whilectx = aml_while(aml_lless(offset, dsm_out_buf_size));
+> +    /* Copy 1 byte at offset from ODAT to temporary buffer(TBUF). */
+> +    aml_append(whilectx, aml_store(aml_derefof(aml_index(
+> +                                   aml_name(NVDIMM_DSM_OUT_BUF), offset)),
+> +                                   aml_index(aml_name("TBUF"), aml_int(0))));
+> +    aml_append(whilectx, aml_concatenate(dsm_out_buf, aml_name("TBUF"),
+> +                                         dsm_out_buf));
+> +    aml_append(whilectx, aml_increment(offset));
+> +    aml_append(ifctx, whilectx);
+> +
+> +    aml_append(ifctx, aml_return(dsm_out_buf));
+> +    aml_append(method, ifctx);
+> +
+> +    /* If RLEN >= Integer size, just use CreateField() operator */
+>      aml_append(method, aml_store(aml_shiftleft(dsm_out_buf_size, aml_int(3)),
+>                                   dsm_out_buf_size));
+>      aml_append(method, aml_create_field(aml_name(NVDIMM_DSM_OUT_BUF),
+>                 aml_int(0), dsm_out_buf_size, "OBUF"));
+> -    aml_append(method, aml_concatenate(aml_buffer(0, NULL), aml_name("OBUF"),
+> -                                       dsm_out_buf));
+> -    aml_append(method, aml_return(dsm_out_buf));
+> +    aml_append(method, aml_return(aml_name("OBUF")));
+> +
+>      aml_append(dev, method);
+>  }
+>  
+> diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
+> index dfb8523c8b..eb8bae1407 100644
+> --- a/tests/qtest/bios-tables-test-allowed-diff.h
+> +++ b/tests/qtest/bios-tables-test-allowed-diff.h
+> @@ -1 +1,3 @@
+>  /* List of comma-separated changed AML files to ignore */
+> +"tests/data/acpi/pc/SSDT.dimmpxm",
+> +"tests/data/acpi/q35/SSDT.dimmpxm",
+> 
 
 
