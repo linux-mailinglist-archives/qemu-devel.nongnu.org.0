@@ -2,64 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 591CF14BCB2
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 16:19:39 +0100 (CET)
-Received: from localhost ([::1]:60452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CA0414BCE0
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 16:31:29 +0100 (CET)
+Received: from localhost ([::1]:60566 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwSeQ-0005Nu-3P
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 10:19:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33275)
+	id 1iwSps-0003EH-4j
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 10:31:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35711)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1iwSdD-0004ML-7T
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 10:18:24 -0500
+ (envelope-from <eric.auger@redhat.com>) id 1iwSoF-0002AP-Qu
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 10:29:49 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1iwSdA-0003dr-Ts
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 10:18:22 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:48365
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <eric.auger@redhat.com>) id 1iwSoD-0001X5-Um
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 10:29:47 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:47156
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1iwSdA-0003d1-Jv
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 10:18:20 -0500
+ (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
+ id 1iwSoD-0001Vs-Rz
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 10:29:45 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580224699;
+ s=mimecast20190719; t=1580225384;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zjC0WJacR+CukA9vSHIb1ajtg0i3wEuf7gyGAcSjcxY=;
- b=aftfcSVCIwDfcjrmEYP0+2sPwFVeY4AeG2PfETe+3UjthjXXZXrH0CdRFQqvUT3hKw3DKW
- gUPfmZxVP4kppPqIuPpIQBG7Wx28xAyP6KLSf5ZxqdE7Qb6DAK9kEk35VhjUQLvr4pf7S8
- 1jeC85g7/rCqtqVNPAu4tcqY3JlnWAk=
+ bh=qszdijBA+Sr3knp3xlx4nc7EJz5wv7Zo8TLSCoWED58=;
+ b=GI0v3MNGncKnAsgh97uP8KpjBMTsVVqik+DdYjnrfMJ3PhLLchL8vvnl3NajxF+jYFxqKY
+ vTYSfroEcRBLpe//JIvOqJTnODt1ICkIBB7V1olQp0XxmnSjKfA+hX8WyErulhOXWT7R6U
+ aB367JrTWs9BE4gAKegx12FMT2sotIQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-298-OfeGEKmGNI6C074GOxKJKQ-1; Tue, 28 Jan 2020 10:18:17 -0500
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-65-qcGKa7nlNnOn7sbjlDgKwA-1; Tue, 28 Jan 2020 10:29:27 -0500
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A8CF21019129;
- Tue, 28 Jan 2020 15:18:16 +0000 (UTC)
-Received: from linux.fritz.box.com (ovpn-117-106.ams2.redhat.com
- [10.36.117.106])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3116489D2E;
- Tue, 28 Jan 2020 15:18:14 +0000 (UTC)
-From: Kevin Wolf <kwolf@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH 2/2] mirror: Don't let an operation wait for itself
-Date: Tue, 28 Jan 2020 16:17:55 +0100
-Message-Id: <20200128151755.25162-3-kwolf@redhat.com>
-In-Reply-To: <20200128151755.25162-1-kwolf@redhat.com>
-References: <20200128151755.25162-1-kwolf@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2D41613EB;
+ Tue, 28 Jan 2020 15:29:25 +0000 (UTC)
+Received: from [10.36.116.37] (ovpn-116-37.ams2.redhat.com [10.36.116.37])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0FB2719E9C;
+ Tue, 28 Jan 2020 15:29:16 +0000 (UTC)
+Subject: Re: [PATCH v2 0/7] ARM virt: Add NVDIMM support
+To: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+ qemu-devel@nongnu.org, qemu-arm@nongnu.org, imammedo@redhat.com
+References: <20200117174522.22044-1-shameerali.kolothum.thodi@huawei.com>
+From: Auger Eric <eric.auger@redhat.com>
+Message-ID: <7b338b7c-fd47-930b-53d5-894711c69941@redhat.com>
+Date: Tue, 28 Jan 2020 16:29:13 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.4.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: OfeGEKmGNI6C074GOxKJKQ-1
+In-Reply-To: <20200117174522.22044-1-shameerali.kolothum.thodi@huawei.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: qcGKa7nlNnOn7sbjlDgKwA-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,123 +75,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, jsnow@redhat.com, qemu-devel@nongnu.org,
- mreitz@redhat.com
+Cc: peter.maydell@linaro.org, xiaoguangrong.eric@gmail.com, mst@redhat.com,
+ linuxarm@huawei.com, xuwei5@hisilicon.com, shannon.zhaosl@gmail.com,
+ lersek@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-mirror_wait_for_free_in_flight_slot() just picks a random operation to
-wait for. However, when mirror_co_read() waits for free slots, its
-MirrorOp is already in s->ops_in_flight, so if not enough slots are
-immediately available, an operation can end up waiting for itself to
-complete, which results in a hang.
+Hi Shameer,
 
-Fix this by passing the current MirrorOp and skipping this operation
-when picking an operation to wait for.
+On 1/17/20 6:45 PM, Shameer Kolothum wrote:
+> This series adds NVDIMM support to arm/virt platform.
+> The series reuses some of the patches posted by Eric
+> in his earlier attempt here[1].
+> 
+> Patch #1 is a fix to the Guest reboot issue on NVDIMM
+> hot add case described here[2] and patch #2 is another
+> fix to the nvdimm aml issue discussed here[3].
+> 
+> I have done a basic sanity testing of NVDIMM deviecs
+> with Guest booting with both ACPI and DT. Further testing
+> is always welcome.
+> 
+> Please let me know your feedback.
 
-Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=3D1794692
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
----
- block/mirror.c | 21 ++++++++++++---------
- 1 file changed, 12 insertions(+), 9 deletions(-)
 
-diff --git a/block/mirror.c b/block/mirror.c
-index 8959e4255f..cacbc70014 100644
---- a/block/mirror.c
-+++ b/block/mirror.c
-@@ -283,11 +283,14 @@ static int mirror_cow_align(MirrorBlockJob *s, int64_=
-t *offset,
- }
-=20
- static inline void coroutine_fn
--mirror_wait_for_any_operation(MirrorBlockJob *s, bool active)
-+mirror_wait_for_any_operation(MirrorBlockJob *s, MirrorOp *self, bool acti=
-ve)
- {
-     MirrorOp *op;
-=20
-     QTAILQ_FOREACH(op, &s->ops_in_flight, next) {
-+        if (self =3D=3D op) {
-+            continue;
-+        }
-         /* Do not wait on pseudo ops, because it may in turn wait on
-          * some other operation to start, which may in fact be the
-          * caller of this function.  Since there is only one pseudo op
-@@ -302,10 +305,10 @@ mirror_wait_for_any_operation(MirrorBlockJob *s, bool=
- active)
- }
-=20
- static inline void coroutine_fn
--mirror_wait_for_free_in_flight_slot(MirrorBlockJob *s)
-+mirror_wait_for_free_in_flight_slot(MirrorBlockJob *s, MirrorOp *self)
- {
-     /* Only non-active operations use up in-flight slots */
--    mirror_wait_for_any_operation(s, false);
-+    mirror_wait_for_any_operation(s, self, false);
- }
-=20
- /* Perform a mirror copy operation.
-@@ -348,7 +351,7 @@ static void coroutine_fn mirror_co_read(void *opaque)
-=20
-     while (s->buf_free_count < nb_chunks) {
-         trace_mirror_yield_in_flight(s, op->offset, s->in_flight);
--        mirror_wait_for_free_in_flight_slot(s);
-+        mirror_wait_for_free_in_flight_slot(s, op);
-     }
-=20
-     /* Now make a QEMUIOVector taking enough granularity-sized chunks
-@@ -555,7 +558,7 @@ static uint64_t coroutine_fn mirror_iteration(MirrorBlo=
-ckJob *s)
-=20
-         while (s->in_flight >=3D MAX_IN_FLIGHT) {
-             trace_mirror_yield_in_flight(s, offset, s->in_flight);
--            mirror_wait_for_free_in_flight_slot(s);
-+            mirror_wait_for_free_in_flight_slot(s, pseudo_op);
-         }
-=20
-         if (s->ret < 0) {
-@@ -609,7 +612,7 @@ static void mirror_free_init(MirrorBlockJob *s)
- static void coroutine_fn mirror_wait_for_all_io(MirrorBlockJob *s)
- {
-     while (s->in_flight > 0) {
--        mirror_wait_for_free_in_flight_slot(s);
-+        mirror_wait_for_free_in_flight_slot(s, NULL);
-     }
- }
-=20
-@@ -794,7 +797,7 @@ static int coroutine_fn mirror_dirty_init(MirrorBlockJo=
-b *s)
-             if (s->in_flight >=3D MAX_IN_FLIGHT) {
-                 trace_mirror_yield(s, UINT64_MAX, s->buf_free_count,
-                                    s->in_flight);
--                mirror_wait_for_free_in_flight_slot(s);
-+                mirror_wait_for_free_in_flight_slot(s, NULL);
-                 continue;
-             }
-=20
-@@ -947,7 +950,7 @@ static int coroutine_fn mirror_run(Job *job, Error **er=
-rp)
-         /* Do not start passive operations while there are active
-          * writes in progress */
-         while (s->in_active_write_counter) {
--            mirror_wait_for_any_operation(s, true);
-+            mirror_wait_for_any_operation(s, NULL, true);
-         }
-=20
-         if (s->ret < 0) {
-@@ -973,7 +976,7 @@ static int coroutine_fn mirror_run(Job *job, Error **er=
-rp)
-             if (s->in_flight >=3D MAX_IN_FLIGHT || s->buf_free_count =3D=
-=3D 0 ||
-                 (cnt =3D=3D 0 && s->in_flight > 0)) {
-                 trace_mirror_yield(s, cnt, s->buf_free_count, s->in_flight=
-);
--                mirror_wait_for_free_in_flight_slot(s);
-+                mirror_wait_for_free_in_flight_slot(s, NULL);
-                 continue;
-             } else if (cnt !=3D 0) {
-                 delay_ns =3D mirror_iteration(s);
---=20
-2.20.1
+With this version, I do not get the former spurious warning reported on v1.
+
+I can see the nvdimm device topology using ndctl. So it looks fine to me.
+
+Unfortunately we cannot test with DAX as kernel dependencies are not yet
+resolved yet but this is an independent problem.
+
+Thanks
+
+Eric
+> 
+> Thanks,
+> Shameer
+> 
+> [1] https://patchwork.kernel.org/cover/10830777/
+> [2] https://patchwork.kernel.org/patch/11154757/
+> [3] https://patchwork.kernel.org/cover/11174959/
+> 
+> v1 --> v2
+>  -Reworked patch #1 and now fix is inside qemu_ram_resize().
+>  -Added patch #2 to fix the nvdim aml issue.
+>  -Dropped support to DT cold plug.
+>  -Updated test_acpi_virt_tcg_memhp() with pc-dimm and nvdimms(patch #7)
+> 
+> Kwangwoo Lee (2):
+>   nvdimm: Use configurable ACPI IO base and size
+>   hw/arm/virt: Add nvdimm hot-plug infrastructure
+> 
+> Shameer Kolothum (5):
+>   exec: Fix for qemu_ram_resize() callback
+>   hw/acpi/nvdimm: Fix for NVDIMM incorrect DSM output  buffer  length
+>   hw/arm/virt: Add nvdimm hotplug support
+>   tests: Update ACPI tables list for upcoming arm/virt test changes
+>   tests/bios-tables-test: Update arm/virt memhp test
+> 
+>  docs/specs/acpi_hw_reduced_hotplug.rst      |  1 +
+>  exec.c                                      | 36 +++++++----
+>  hw/acpi/generic_event_device.c              | 13 ++++
+>  hw/acpi/nvdimm.c                            | 68 +++++++++++++++++----
+>  hw/arm/Kconfig                              |  1 +
+>  hw/arm/virt-acpi-build.c                    |  6 ++
+>  hw/arm/virt.c                               | 35 +++++++++--
+>  hw/i386/acpi-build.c                        |  6 ++
+>  hw/i386/acpi-build.h                        |  3 +
+>  hw/i386/pc_piix.c                           |  2 +
+>  hw/i386/pc_q35.c                            |  2 +
+>  hw/mem/Kconfig                              |  2 +-
+>  include/exec/ram_addr.h                     |  5 +-
+>  include/hw/acpi/generic_event_device.h      |  1 +
+>  include/hw/arm/virt.h                       |  1 +
+>  include/hw/mem/nvdimm.h                     |  3 +
+>  tests/data/acpi/virt/NFIT.memhp             |  0
+>  tests/data/acpi/virt/SSDT.memhp             |  0
+>  tests/qtest/bios-tables-test-allowed-diff.h |  5 ++
+>  tests/qtest/bios-tables-test.c              |  9 ++-
+>  20 files changed, 163 insertions(+), 36 deletions(-)
+>  create mode 100644 tests/data/acpi/virt/NFIT.memhp
+>  create mode 100644 tests/data/acpi/virt/SSDT.memhp
+> 
 
 
