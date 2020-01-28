@@ -2,71 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D278914C13E
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 20:51:14 +0100 (CET)
-Received: from localhost ([::1]:36856 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6130914C13B
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 20:48:06 +0100 (CET)
+Received: from localhost ([::1]:36784 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwWtF-0003Rf-SK
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 14:51:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58097)
+	id 1iwWqD-0007Qv-DR
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 14:48:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36961)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1iwWeJ-0002WE-It
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 14:35:48 -0500
+ (envelope-from <Babu.Moger@amd.com>) id 1iwWnq-0004hC-0x
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 14:45:39 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1iwWeH-0003AR-Ky
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 14:35:47 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:30093
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iwWeH-00039X-I0
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 14:35:45 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580240145;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qBZvDcth/H/tG4ZadvsPjr+ycfqaAiNbMhj46VR4jeY=;
- b=bjb/2cUC/3cTMsLPfQDQg+T12aXNaayhzUXK+0BXavfMQKOpLkzSd0QKhbFkQhCu+47QxG
- Wf5jWFiZ1vNOUgfYAka8HYbiUffV7YTppQczEhqtTe6H3zvumX50oiiw7FdmOuJHift6Zg
- qiG1oJyM7K1TgfuOMdZMKmhFi998Lks=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-421-jjwwRIqZOZihHZQk4qzX3w-1; Tue, 28 Jan 2020 14:35:41 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8DDAF1005514;
- Tue, 28 Jan 2020 19:35:38 +0000 (UTC)
-Received: from work-vm (unknown [10.36.118.74])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 268AA19486;
- Tue, 28 Jan 2020 19:35:36 +0000 (UTC)
-Date: Tue, 28 Jan 2020 19:35:34 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Maxim Levitsky <mlevitsk@redhat.com>
-Subject: Re: [PATCH 9/9] monitor/hmp: Prefer to use hmp_handle_error for
- error reporting in block hmp commands
-Message-ID: <20200128193534.GG3215@work-vm>
-References: <20191120185850.18986-1-mlevitsk@redhat.com>
- <20191120185850.18986-10-mlevitsk@redhat.com>
- <87tv6piuj3.fsf@dusky.pond.sub.org>
- <e59646ae85bce7f38747dc706ca34324393e7441.camel@redhat.com>
- <87zhe9nhdl.fsf@dusky.pond.sub.org>
- <418004b0c3e8bf1c076a46d514f2267d971f6929.camel@redhat.com>
+ (envelope-from <Babu.Moger@amd.com>) id 1iwWno-0003gi-4I
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 14:45:37 -0500
+Received: from mail-bn8nam11on2046.outbound.protection.outlook.com
+ ([40.107.236.46]:6223 helo=NAM11-BN8-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <Babu.Moger@amd.com>) id 1iwWnn-0003gJ-OQ
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 14:45:36 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=kTxRWc3BV5xxUygWMHHjwgfWfCxw44BVSO3MaXA+V3tyIdWl4M3iv4ilNY//dSWyJw4+6y5w8KMm3sTQzHCV8MKo7nJCguXXXR5K+vtd+lPTgS+JBN9RhHgLyWDe1KtZemzTpGAHm4qrDfq0FKmZlP59WohVJNLLY52tSaywnbSqvZTiWySr8dXYP2tP6HzpfvrpilHG47ZIcN37tJ3H5880jHyBcYXol+7OXYjTaOx8WZNEChCU899YrMpoePs5ArgGRvae8pVynI2BJR7E05OKtTeJBDl73rOeLR+T+e/NLRcrXi0vCWsrBh/1i1ASMNadZRscWy6pfqEZvujzKw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=kfOaLhCK7c6hwojxFacn5UUfLV9ANHh2Kz9lpJCoXcY=;
+ b=Y8Eq50/Uc8ElZNhbxJ7fGZ2boQl9xpdEtowJbipv3e40A/iEfklfmKohHpuwWJJMbskm3wXJtDtnlUMEX3atsgJQaALjNp/bKVxOrdlIjg0NhKD7bNoZSTCr0+aKunuVdkcYK5AG3qeKGv05LX6jxJExWhF35aVNYl0qSKyeYphwyNcTCkd4rB7J4vnUkS3YoJCYfri9dhPrw1IxOo8qXDYCL9pvw4Etq3GNQS7nEhGndt41XqOY79QiP+IFp+NC91TMd040jWk12XxXLCUrjfDKeJc4IKE+5zjesYGPU/jyyzUcPgHa/DYfw1/QvKDQmTArPBL7wL+j8dsJrYNYSg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=kfOaLhCK7c6hwojxFacn5UUfLV9ANHh2Kz9lpJCoXcY=;
+ b=4SNJs7iMRzUreyZjwVjnFxUx4C7WraldbuqB8t8ttVMS3OGlaYbcmNOORSdgI3g4P3osVxAADJUSf1Ugi9e51h9jKTcv4e11BA40oMAiOLQYYxQ8nOAoRfzimTBCX2A9mYdC4oDeDTfOp4kMVlVTbifahHBAWau4QJUWVqtUoCI=
+Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=Babu.Moger@amd.com; 
+Received: from CY4PR12MB1574.namprd12.prod.outlook.com (10.172.71.23) by
+ CY4PR12MB1271.namprd12.prod.outlook.com (10.168.167.22) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2665.22; Tue, 28 Jan 2020 19:45:33 +0000
+Received: from CY4PR12MB1574.namprd12.prod.outlook.com
+ ([fe80::610a:6908:1e18:49fd]) by CY4PR12MB1574.namprd12.prod.outlook.com
+ ([fe80::610a:6908:1e18:49fd%7]) with mapi id 15.20.2665.026; Tue, 28 Jan 2020
+ 19:45:33 +0000
+Subject: Re: [PATCH v3 07/18] machine: Add a new function init_apicid_fn in
+ MachineClass
+To: Igor Mammedov <imammedo@redhat.com>
+References: <157541968844.46157.17994918142533791313.stgit@naples-babu.amd.com>
+ <157541986210.46157.5082551407581177819.stgit@naples-babu.amd.com>
+ <20200128172919.4ecb5896@redhat.com>
+From: Babu Moger <babu.moger@amd.com>
+Message-ID: <e5271e1c-55bc-e3d2-eb4c-2329eef07c9f@amd.com>
+Date: Tue, 28 Jan 2020 13:45:31 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
+In-Reply-To: <20200128172919.4ecb5896@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SN6PR01CA0006.prod.exchangelabs.com (2603:10b6:805:b6::19)
+ To CY4PR12MB1574.namprd12.prod.outlook.com
+ (2603:10b6:910:e::23)
 MIME-Version: 1.0
-In-Reply-To: <418004b0c3e8bf1c076a46d514f2267d971f6929.camel@redhat.com>
-User-Agent: Mutt/1.13.3 (2020-01-12)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: jjwwRIqZOZihHZQk4qzX3w-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 207.211.31.81
+Received: from [10.236.30.87] (165.204.77.1) by
+ SN6PR01CA0006.prod.exchangelabs.com (2603:10b6:805:b6::19) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2665.19 via Frontend Transport; Tue, 28 Jan 2020 19:45:32 +0000
+X-Originating-IP: [165.204.77.1]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 0d581349-fe54-46e1-4be7-08d7a42aa353
+X-MS-TrafficTypeDiagnostic: CY4PR12MB1271:
+X-Microsoft-Antispam-PRVS: <CY4PR12MB1271F5F14C3696CCC4237F43950A0@CY4PR12MB1271.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
+X-Forefront-PRVS: 029651C7A1
+X-Forefront-Antispam-Report: SFV:NSPM;
+ SFS:(10009020)(4636009)(376002)(346002)(366004)(39860400002)(136003)(396003)(189003)(199004)(8936002)(53546011)(8676002)(81156014)(956004)(81166006)(52116002)(66556008)(186003)(26005)(16526019)(2616005)(66476007)(66946007)(6916009)(36756003)(316002)(44832011)(16576012)(5660300002)(31686004)(6486002)(2906002)(4326008)(31696002)(86362001)(478600001);
+ DIR:OUT; SFP:1101; SCL:1; SRVR:CY4PR12MB1271;
+ H:CY4PR12MB1574.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+Received-SPF: None (protection.outlook.com: amd.com does not designate
+ permitted sender hosts)
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: IEqVYVNwW0fsiFTsDrKVXo8vm/wPtcKwqfI7UbwwXZWuzUjFUGBihD26UZ2hvGqYdkJSazi9xEeM0dD0YcSwQbh68kkqQ4WdSKcFM+jvMMqrYFIgqdgON2rTW5RgtfiEZpgYsloG46AVqJsCtkDBWtsGCoZubrwxqbqF1MOfgu6YafbL2hSKzcEAR4Fw1w5GwzaxGRQlY2ti9PxGcp8slXq1aObbtbb2/amA8ciIC0T+YBZ08mFDKc4FuUHKRclw338pfqez7O/87Vcp7ISvTmOSo9wodPc0Ux0whoecIaRwQ+PmKvwNEHnIWZkIG3bE9WZs3BStgPjB/4+uctJqZm4o8IroGmloUvVOWWTR0YPYQZGrn/koWlqPIiJwNAGuj1vwtXNydOAaLG8+0NO7oM4k9Nd8Kr3anElPOHhfcVIANKI1UAlF4VMySYR6tB3J
+X-MS-Exchange-AntiSpam-MessageData: sFgIWbh0Uaxvc+KpWzZgGDkt/qRAXe+OzW/swe0qhN9qWwkyx3vRvnqwfSI6l0ZLmMUSe+H3X6TUQY/fNHU3ollMwoTw5ovnhG+Yi43Xec1unwFNMYjRLn1tDyU5V+0tzfNvaYjTuBlxY48gxP4GCA==
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0d581349-fe54-46e1-4be7-08d7a42aa353
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jan 2020 19:45:33.4240 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: zvVYIuuExtDTVd3qKFmmUiHZw9YSH8U6Jc9AwsirPzn3FBnTSDqLdnUwVT93XRE9
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR12MB1271
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 40.107.236.46
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,163 +109,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, qemu-block@nongnu.org,
- qemu-devel@nongnu.org
+Cc: ehabkost@redhat.com, mst@redhat.com, armbru@redhat.com,
+ qemu-devel@nongnu.org, pbonzini@redhat.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Maxim Levitsky (mlevitsk@redhat.com) wrote:
-> On Mon, 2020-01-27 at 14:44 +0100, Markus Armbruster wrote:
-> > Maxim Levitsky <mlevitsk@redhat.com> writes:
-> >=20
-> > > On Wed, 2019-11-27 at 09:38 +0100, Markus Armbruster wrote:
-> > > > Title is too long.  blockdev-hmp-cmds.c will become
-> > > > block/monitor/block-hmp-cmds.c in v2.  With this in mind, suggest
-> > > >=20
-> > > >     block/monitor: Prefer to use hmp_handle_error() to report HMP e=
-rrors
-> > > >=20
-> > > > Maxim Levitsky <mlevitsk@redhat.com> writes:
-> > > >=20
-> > > > > This way they all will be prefixed with 'Error:' which some parse=
-rs
-> > > > > (e.g libvirt need)
-> > > >=20
-> > > > Sadly, "all" is far from true.  Consider
-> > > >=20
-> > > >     void hmp_drive_add(Monitor *mon, const QDict *qdict)
-> > > >     {
-> > > >         Error *err =3D NULL;
-> > > >         DriveInfo *dinfo =3D NULL;
-> > > >         QemuOpts *opts;
-> > > >         MachineClass *mc;
-> > > >         const char *optstr =3D qdict_get_str(qdict, "opts");
-> > > >         bool node =3D qdict_get_try_bool(qdict, "node", false);
-> > > >=20
-> > > >         if (node) {
-> > > >             hmp_drive_add_node(mon, optstr);
-> > > >             return;
-> > > >         }
-> > > >=20
-> > > >         opts =3D drive_def(optstr);
-> > > >         if (!opts)
-> > > >             return;
-> > > >=20
-> > > >=20
-> > > > hmp_drive_add_node() uses error_report() and error_report_err().  E=
-asy
-> > > > enough to fix if you move the function here, as I suggested in my r=
-eview
-> > > > of PATCH 8.
-> > >=20
-> > > To be honest that involves exporting the monitor_bdrv_states variable=
- and
-> > > bds_tree_init, which were both static before, but I created a patch t=
-hat does that,
-> > > If that is all right, I'll squash it with some of my patches.
-> > >=20
-> > >=20
-> > > >=20
-> > > > drive_def() is a wrapper around qemu_opts_parse_noisily(), which us=
-es
-> > > > error_report_err().  You can't change qemu_opts_parse_noisily() to =
-use
-> > > > hmp_handle_error().  You'd have to convert drive_def() to Error, wh=
-ich
-> > > > involves switching it to qemu_opts_parse() + qemu_opts_print_help()=
-.
-> > > >=20
-> > > > These are just the first two error paths in this file.  There's muc=
-h
-> > > > more.  Truly routing all HMP errors through hmp_handle_error() take=
-s a
-> > > > *massive* Error conversion effort, with a high risk of missing Erro=
-r
-> > > > conversions, followed by a never-ending risk of non-Error stuff cre=
-eping
-> > > > in.
-> > >=20
-> > > Oops. Active can of worms is detected. Take cover!
-> >=20
-> > :)
-> >=20
-> > > > There must be an easier way.
-> > > >=20
-> > > > Consider vreport():
-> > > >=20
-> > > >     switch (type) {
-> > > >     case REPORT_TYPE_ERROR:
-> > > >         break;
-> > > >     case REPORT_TYPE_WARNING:
-> > > >         error_printf("warning: ");
-> > > >         break;
-> > > >     case REPORT_TYPE_INFO:
-> > > >         error_printf("info: ");
-> > > >         break;
-> > > >     }
-> > > >=20
-> > > > Adding the prefix here (either unconditionally, or if cur_mon) cove=
-rs
-> > > > all HMP errors reported with error_report() & friends in one blow.
-> > >=20
-> > > This is a very good idea.
-> > > If feels like this should be done unconditionally, although that will
-> > > break probably some scripts that depend on exact value of the error m=
-essage (but to be honest,
-> > > scripts shouldn't be doing that in first place).
-> > >=20
-> > > Doing that with cur_mon (took me some time to figure out what that is=
-) will
-> > > limit the damage but its a bit of a hack.
-> > >=20
-> > >=20
-> > > I think that this is a very good change anyway though so if everyone =
-agrees,
-> > > I will be more that happy to do this change.
-> > > Thoughts?
-> >=20
-> > I think adding an "error: " tag has been proposed before.
-> >=20
-> > I dislike overly decorated error messages, because decoration tends to
-> > obscure information.
-> >=20
-> > However, when there's significant non-error output, or even uncertainty
-> > of what's an error and what's something else, decoration can help.
-> Yes, also this way it is consistent
 
-Yes I also like it; I wouldn't worry too much about things parsing error
-messages for the exact error message; if anything is doing that then the
-corresponding case needs to have big red flags around it.
 
-Dave
+On 1/28/20 10:29 AM, Igor Mammedov wrote:
+> On Tue, 03 Dec 2019 18:37:42 -0600
+> Babu Moger <babu.moger@amd.com> wrote:
+> 
+>> Add a new function init_apicid_fn in MachineClass to initialize the mode
+>> specific handlers to decode the apic ids.
+>>
+>> Signed-off-by: Babu Moger <babu.moger@amd.com>
+>> ---
+>>  include/hw/boards.h |    1 +
+>>  vl.c                |    3 +++
+>>  2 files changed, 4 insertions(+)
+>>
+>> diff --git a/include/hw/boards.h b/include/hw/boards.h
+>> index d4fab218e6..ce5aa365cb 100644
+>> --- a/include/hw/boards.h
+>> +++ b/include/hw/boards.h
+>> @@ -238,6 +238,7 @@ struct MachineClass {
+>>                                                           unsigned cpu_index);
+>>      const CPUArchIdList *(*possible_cpu_arch_ids)(MachineState *machine);
+>>      int64_t (*get_default_cpu_node_id)(const MachineState *ms, int idx);
+>> +    void (*init_apicid_fn)(MachineState *ms);
+> it's x86 specific, so why it wasn put into PCMachineClass?
 
-> >=20
-> > Perhaps you can give some examples where the proposed decoration helps.
-> It helps to tag most monitor messages with error prefix which was the roo=
-t cause of
-> me starting to work on this refactoring.
-> You suggested this, and I kind of like that idea.
->=20
-> >=20
-> > > > That leaves the ones that are still reported with monitor_printf().
-> > > > Converting those to error_report() looks far more tractable to me.
-> > >=20
-> > > Yep, in fact I grepped the tree for monitor_printf and there are not
-> > > that much instances of this used for error reporting, so it might
-> > > be possible to have 'error' prefix on all monitor errors that way
-> > > and not only for the block layer.
-> >=20
-> > I figure "all" would be more useful than "just for the block layer".
-> Yep, the cover letter is outdated, now this patch series touch way
-> more that the block layer.
->=20
-> Best regards,
-> =09Maxim Levitsky
->=20
->=20
->=20
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Yes. It is x86 specific for now. I tried to make it generic function so
+other OSes can use it if required(like we have done in
+possible_cpu_arch_ids). It initializes functions required to build the
+apicid for each CPUs. We need these functions much early in the
+initialization. It should be initialized before parse_numa_opts or
+machine_run_board_init(in v1.c) which are called from generic context. We
+cannot use PCMachineClass at this time.
 
+> 
+> 
+>>  };
+>>  
+>>  /**
+>> diff --git a/vl.c b/vl.c
+>> index a42c24a77f..b6af604e11 100644
+>> --- a/vl.c
+>> +++ b/vl.c
+>> @@ -4318,6 +4318,9 @@ int main(int argc, char **argv, char **envp)
+>>      current_machine->cpu_type = machine_class->default_cpu_type;
+>>      if (cpu_option) {
+>>          current_machine->cpu_type = parse_cpu_option(cpu_option);
+>> +        if (machine_class->init_apicid_fn) {
+>> +            machine_class->init_apicid_fn(current_machine);
+>> +        }
+>>      }
+>>      parse_numa_opts(current_machine);
+>>  
+>>
+>>
+> 
 
