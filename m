@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA82514C0DB
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 20:22:57 +0100 (CET)
-Received: from localhost ([::1]:35998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48DBF14C082
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 20:03:21 +0100 (CET)
+Received: from localhost ([::1]:35664 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwWRs-0001iL-RJ
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 14:22:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36707)
+	id 1iwW8u-0002Ki-8R
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 14:03:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36722)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iwV7o-0003g5-Mh
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:58:09 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iwV7p-0003j4-WF
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:58:12 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iwV7n-00087K-GJ
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:58:08 -0500
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:33897)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iwV7o-00088K-J7
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:58:09 -0500
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:50765)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iwV7n-00083j-9a
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:58:07 -0500
-Received: by mail-wr1-x42e.google.com with SMTP id t2so17106243wrr.1
- for <qemu-devel@nongnu.org>; Tue, 28 Jan 2020 09:58:07 -0800 (PST)
+ id 1iwV7o-00087c-C2
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:58:08 -0500
+Received: by mail-wm1-x335.google.com with SMTP id a5so3534740wmb.0
+ for <qemu-devel@nongnu.org>; Tue, 28 Jan 2020 09:58:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=UHvLFzmHTkjHMXmJaoCxJ0YHmI8i0R5/gsXric3VkuQ=;
- b=uMwp6bKKAhuztyLDm0Jrv+IQqIqXmt6Edxg0Dx7UXbfd+zEfAdDBicLhgdbQs+wLXp
- eBRBeUiKgbbyx1VroO7U0ZCoWgkRtxzBrRQILTvenH92S4+kXUajk9kxj5pOf1ihsWzK
- AClec8/43Al+Mk97j1fcVf0sHtcz/YJSGpOtOc+GYW/rtrNNOY/x8esxb4UWTN8BCqci
- XFwPAOuETV7LfVmNa0nxlEhv7DHgU7R5khLfnCZnqixEd/bsNVf9EkSi8U4jVRq6rDLG
- PU/7rOcxjgnLu9rkiNeurj/64AOn6RPs1ni94ptg20IZF6y8nNP5tSZxRCKVKBEKChaN
- a73A==
+ bh=R63pa3BaoQR6sTJRowljkz1+uv2L05XdtkPzVnlv3Tw=;
+ b=HaiyIjjJbvyuSmF7G6d/pt6AqbeEIpRB6V0k39wqMU0vK18dieFS651QptELRUWEZV
+ JdYondakpx3Z29SoyFS6hg7Fr3X4ORskNhCe2nanf9iYSRiM0XSUNC6bXD5axryOqxTh
+ liZD+MidKecCoeRfFAk6mlwJLVFUgYimRwXsloDva/PrcXPCmUHR3NSWK2EF97vYslX5
+ RAzwE7bUyHgVhd71a7q5D7z/0cjudm6cWDSWCgi4lUgi5U0SMj0Sz1+NdbSW/wqU8uux
+ TxnN5AvZM3kIhnqmqOjGr2tPj0XdY9Cdr/YGHUExeAl/MzBQpJet/mp7efOzsV2PcRC/
+ gUSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=UHvLFzmHTkjHMXmJaoCxJ0YHmI8i0R5/gsXric3VkuQ=;
- b=KPWtEEig+s20ODX5i2yv/06DvASqePrXWXtDFRC6NRlm5afkoLmYlhqgPDb+4nFLXb
- eFbmkTceI2IUX2+1ao5lfFEN9NXe/wZjGx6zojuYS6l6XeVFxOg1lsIJEwDI9/ZvEoTj
- LmJBK+oPxIvnt2oeavX3oej5jCfkL1C2myHSHpEWWbOrk7F20wl/9TaguuBLa5k2u1le
- DEWmR1mDJb0jKBlhUKLctgh64ZUBPBDJoRl7ox56LoKiroio7UWIdQEKWkWPf9Lu2Eon
- 3VMmDDpayyJaK1XFArorIL5EfyCArmPYIymL3w8Sw4hUoBthNYCq9QAcBXfTjljInPTy
- 3Yuw==
-X-Gm-Message-State: APjAAAU8U7PD3DI3lqeIiUs7IIPnzJLWHUMK5N3arKz6HsaoZUK5oKwn
- hf6aDbGuW/eUOqIh8Gy9vJRUwSHB
-X-Google-Smtp-Source: APXvYqyVBxdrfBuLu6V6JoLkOsIEGT/iyuu2kCUM/T9rskOhS33dIAG9BTIW1aCZB66QnyjORuj5Aw==
-X-Received: by 2002:adf:f80b:: with SMTP id s11mr31555734wrp.12.1580234285054; 
- Tue, 28 Jan 2020 09:58:05 -0800 (PST)
+ bh=R63pa3BaoQR6sTJRowljkz1+uv2L05XdtkPzVnlv3Tw=;
+ b=OAjvZPb6eZgxQoYRjs/VgJMC16b2vDEwTNKuawgCjh3ZzunsUbz3Jf14UamzBTipPv
+ KekZAdWNcUrk9CTlN2JrKWnsG5m4RFJuryKCuWeDmOcypEY+keaxbR7IlKH7HB09Td2z
+ YfDgFb+J/lnLzzrqJrs7zJytxzsdr+GkcdIkeqPbylm24mQP7hIrqhd+n4dT38XcswBz
+ rocuhG9Gtu1Op4o5l2tGxvnu911vdWdy1lOVhs5HQN4bZpj4w4SeAImZJzNrUPQt47K8
+ RSHUQ+93Xpw/Io90iBtqXUxp9f6LzpI1wTQbgUDidwXswwQG4aHB/vsbRi11PWYEFzp8
+ mXJw==
+X-Gm-Message-State: APjAAAW2H4lWBZ9v9ROwZPdzhKFd/C4l85WNcvfg5Hq7ABNnUikhR3F8
+ 9sOa5AkSVWzVpU7FW8LuesAzZ1Dg
+X-Google-Smtp-Source: APXvYqyawrOaPy2l/4q//2WLklEmmxvCVeVoR9RmhaUsLEQs4s1pnj9OBJBzdBlQpV4ZfhREUYE6qg==
+X-Received: by 2002:a1c:7203:: with SMTP id n3mr6275900wmc.119.1580234287231; 
+ Tue, 28 Jan 2020 09:58:07 -0800 (PST)
 Received: from localhost.localdomain (93-36-56-206.ip58.fastwebnet.it.
  [93.36.56.206])
- by smtp.gmail.com with ESMTPSA id o4sm27046968wrx.25.2020.01.28.09.58.02
+ by smtp.gmail.com with ESMTPSA id o4sm27046968wrx.25.2020.01.28.09.58.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Jan 2020 09:58:04 -0800 (PST)
+ Tue, 28 Jan 2020 09:58:06 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 109/142] meson: convert hw/acpi
-Date: Tue, 28 Jan 2020 18:53:09 +0100
-Message-Id: <20200128175342.9066-110-pbonzini@redhat.com>
+Subject: [PATCH 110/142] meson: convert hw/9pfs
+Date: Tue, 28 Jan 2020 18:53:10 +0100
+Message-Id: <20200128175342.9066-111-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200128175342.9066-1-pbonzini@redhat.com>
 References: <20200128175342.9066-1-pbonzini@redhat.com>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42e
+X-Received-From: 2a00:1450:4864:20::335
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,92 +87,138 @@ From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- hw/Makefile.objs      |  1 -
- hw/acpi/Makefile.objs | 24 ------------------------
- hw/acpi/meson.build   | 22 ++++++++++++++++++++++
+ Kconfig.host          |  1 +
+ Makefile.objs         |  5 -----
+ Makefile.target       |  1 -
+ hw/9pfs/Kconfig       |  4 ++++
+ hw/9pfs/Makefile.objs |  9 ---------
+ hw/9pfs/meson.build   | 20 ++++++++++++++++++++
+ hw/Makefile.objs      |  6 ------
  hw/meson.build        |  1 +
- 4 files changed, 23 insertions(+), 25 deletions(-)
- delete mode 100644 hw/acpi/Makefile.objs
- create mode 100644 hw/acpi/meson.build
+ 8 files changed, 26 insertions(+), 21 deletions(-)
+ delete mode 100644 hw/9pfs/Makefile.objs
+ create mode 100644 hw/9pfs/meson.build
+ delete mode 100644 hw/Makefile.objs
 
-diff --git a/hw/Makefile.objs b/hw/Makefile.objs
-index 5823867997..3dc4decfb5 100644
---- a/hw/Makefile.objs
-+++ b/hw/Makefile.objs
-@@ -1,6 +1,5 @@
- ifeq ($(CONFIG_SOFTMMU), y)
- devices-dirs-$(call lor,$(CONFIG_VIRTIO_9P),$(call land,$(CONFIG_VIRTFS),$(CONFIG_XEN))) += 9pfs/
--devices-dirs-y += acpi/
+diff --git a/Kconfig.host b/Kconfig.host
+index 55136e037d..ce78e49c5c 100644
+--- a/Kconfig.host
++++ b/Kconfig.host
+@@ -34,6 +34,7 @@ config VHOST_KERNEL
+ config XEN
+     bool
+     select FSDEV_9P if VIRTFS
++    select 9PFS if VIRTFS
+ 
+ config VIRTFS
+     bool
+diff --git a/Makefile.objs b/Makefile.objs
+index 25468baee4..9006b282bd 100644
+--- a/Makefile.objs
++++ b/Makefile.objs
+@@ -58,11 +58,6 @@ common-obj-$(if $(CONFIG_LZFSE),m) += block-dmg-lzfse$(DSOSUF)
+ common-obj-$(if $(and $(CONFIG_BZIP2),$(CONFIG_DMG)),m) += block-dmg-bz2$(DSOSUF)
  endif
  
- common-obj-y += $(devices-dirs-y)
-diff --git a/hw/acpi/Makefile.objs b/hw/acpi/Makefile.objs
+-#######################################################################
+-# Target-independent parts used in system and user emulation
+-
+-common-obj-y = hw/
+-
+ ######################################################################
+ # Resource file for Windows executables
+ version-obj-$(CONFIG_WIN32) += $(BUILD_DIR)/version.o
+diff --git a/Makefile.target b/Makefile.target
+index 1ce0c7f800..e269300203 100644
+--- a/Makefile.target
++++ b/Makefile.target
+@@ -155,7 +155,6 @@ endif #CONFIG_BSD_USER
+ ifdef CONFIG_SOFTMMU
+ obj-y += arch_init.o cpus.o gdbstub.o balloon.o ioport.o
+ obj-y += qtest.o
+-obj-y += hw/
+ obj-y += memory.o
+ obj-y += memory_mapping.o
+ LIBS := $(libs_softmmu) $(LIBS)
+diff --git a/hw/9pfs/Kconfig b/hw/9pfs/Kconfig
+index 3ae5749661..d3ebd73730 100644
+--- a/hw/9pfs/Kconfig
++++ b/hw/9pfs/Kconfig
+@@ -2,8 +2,12 @@ config FSDEV_9P
+     bool
+     depends on VIRTFS
+ 
++config 9PFS
++    bool
++
+ config VIRTIO_9P
+     bool
+     default y
+     depends on VIRTFS && VIRTIO
+     select FSDEV_9P
++    select 9PFS
+diff --git a/hw/9pfs/Makefile.objs b/hw/9pfs/Makefile.objs
 deleted file mode 100644
-index 99253057e1..0000000000
---- a/hw/acpi/Makefile.objs
+index 70ded6fd8f..0000000000
+--- a/hw/9pfs/Makefile.objs
 +++ /dev/null
-@@ -1,24 +0,0 @@
--ifeq ($(CONFIG_ACPI),y)
--common-obj-$(CONFIG_ACPI_X86) += core.o piix4.o pcihp.o
--common-obj-$(CONFIG_ACPI_X86_ICH) += ich9.o tco.o
--common-obj-$(CONFIG_ACPI_CPU_HOTPLUG) += cpu_hotplug.o
--common-obj-$(CONFIG_ACPI_MEMORY_HOTPLUG) += memory_hotplug.o
--common-obj-$(CONFIG_ACPI_CPU_HOTPLUG) += cpu.o
--common-obj-$(CONFIG_ACPI_NVDIMM) += nvdimm.o
--common-obj-$(CONFIG_ACPI_VMGENID) += vmgenid.o
--common-obj-$(CONFIG_ACPI_HW_REDUCED) += generic_event_device.o
--common-obj-$(call lnot,$(CONFIG_ACPI_X86)) += acpi-stub.o
--common-obj-$(call lnot,$(CONFIG_PC)) += acpi-x86-stub.o
+@@ -1,9 +0,0 @@
+-common-obj-y  = 9p.o 9p-util.o
+-common-obj-y += 9p-local.o 9p-xattr.o
+-common-obj-y += 9p-xattr-user.o 9p-posix-acl.o
+-common-obj-y += coth.o cofs.o codir.o cofile.o
+-common-obj-y += coxattr.o 9p-synth.o
+-common-obj-y += 9p-proxy.o
 -
--common-obj-y += acpi_interface.o
--common-obj-y += bios-linker-loader.o
--common-obj-y += aml-build.o utils.o
--common-obj-$(CONFIG_ACPI_PCI) += pci.o
--common-obj-$(CONFIG_TPM) += tpm.o
--
--common-obj-$(CONFIG_IPMI) += ipmi.o
--common-obj-$(call lnot,$(CONFIG_IPMI)) += ipmi-stub.o
--else
--common-obj-y += acpi-stub.o
--endif
--common-obj-$(CONFIG_ALL) += acpi-stub.o acpi-x86-stub.o ipmi-stub.o
-diff --git a/hw/acpi/meson.build b/hw/acpi/meson.build
+-common-obj-$(CONFIG_XEN) += xen-9p-backend.o
+-obj-$(CONFIG_VIRTIO_9P) += virtio-9p-device.o
+diff --git a/hw/9pfs/meson.build b/hw/9pfs/meson.build
 new file mode 100644
-index 0000000000..356f50705f
+index 0000000000..cc09426212
 --- /dev/null
-+++ b/hw/acpi/meson.build
-@@ -0,0 +1,22 @@
-+acpi_ss = ss.source_set()
-+acpi_ss.add(files(
-+  'acpi_interface.c',
-+  'aml-build.c',
-+  'bios-linker-loader.c',
-+  'utils.c',
++++ b/hw/9pfs/meson.build
+@@ -0,0 +1,20 @@
++fs_ss = ss.source_set()
++fs_ss.add(files(
++  '9p-local.c',
++  '9p-posix-acl.c',
++  '9p-proxy.c',
++  '9p-synth.c',
++  '9p-util.c',
++  '9p-xattr-user.c',
++  '9p-xattr.c',
++  '9p.c',
++  'codir.c',
++  'cofile.c',
++  'cofs.c',
++  'coth.c',
++  'coxattr.c',
 +))
-+acpi_ss.add(when: 'CONFIG_ACPI_CPU_HOTPLUG', if_true: files('cpu.c'))
-+acpi_ss.add(when: 'CONFIG_ACPI_CPU_HOTPLUG', if_true: files('cpu_hotplug.c'))
-+acpi_ss.add(when: 'CONFIG_ACPI_MEMORY_HOTPLUG', if_true: files('memory_hotplug.c'))
-+acpi_ss.add(when: 'CONFIG_ACPI_NVDIMM', if_true: files('nvdimm.c'))
-+acpi_ss.add(when: 'CONFIG_ACPI_PCI', if_true: files('pci.c'))
-+acpi_ss.add(when: 'CONFIG_ACPI_VMGENID', if_true: files('vmgenid.c'))
-+acpi_ss.add(when: 'CONFIG_ACPI_HW_REDUCED', if_true: files('generic_event_device.c'))
-+acpi_ss.add(when: 'CONFIG_ACPI_X86', if_true: files('core.c', 'piix4.c', 'pcihp.c'), if_false: files('acpi-stub.c'))
-+acpi_ss.add(when: 'CONFIG_ACPI_X86_ICH', if_true: files('ich9.c', 'tco.c'))
-+acpi_ss.add(when: 'CONFIG_IPMI', if_true: files('ipmi.c'), if_false: files('ipmi-stub.c'))
-+acpi_ss.add(when: 'CONFIG_PC', if_false: files('acpi-x86-stub.c'))
-+acpi_ss.add(when: 'CONFIG_TPM', if_true: files('tpm.c'))
-+softmmu_ss.add(when: 'CONFIG_ACPI', if_false: files('acpi-stub.c'))
-+softmmu_ss.add_all(when: 'CONFIG_ACPI', if_true: acpi_ss)
-+softmmu_ss.add(when: 'CONFIG_ALL', if_true: files('acpi-stub.c', 'acpi-x86-stub.c', 'ipmi-stub.c'))
++fs_ss.add(when: 'CONFIG_XEN', if_true: files('xen-9p-backend.c'))
++softmmu_ss.add_all(when: 'CONFIG_9PFS', if_true: fs_ss)
++
++specific_ss.add(when: 'CONFIG_VIRTIO_9P', if_true: files('virtio-9p-device.c'))
+diff --git a/hw/Makefile.objs b/hw/Makefile.objs
+deleted file mode 100644
+index 3dc4decfb5..0000000000
+--- a/hw/Makefile.objs
++++ /dev/null
+@@ -1,6 +0,0 @@
+-ifeq ($(CONFIG_SOFTMMU), y)
+-devices-dirs-$(call lor,$(CONFIG_VIRTIO_9P),$(call land,$(CONFIG_VIRTFS),$(CONFIG_XEN))) += 9pfs/
+-endif
+-
+-common-obj-y += $(devices-dirs-y)
+-obj-y += $(devices-dirs-y)
 diff --git a/hw/meson.build b/hw/meson.build
-index ffa3f06dc0..55ca2b2b61 100644
+index 55ca2b2b61..ba8763cad8 100644
 --- a/hw/meson.build
 +++ b/hw/meson.build
 @@ -1,3 +1,4 @@
-+subdir('acpi')
++subdir('9pfs')
+ subdir('acpi')
  subdir('adc')
  subdir('audio')
- subdir('block')
 -- 
 2.21.0
 
