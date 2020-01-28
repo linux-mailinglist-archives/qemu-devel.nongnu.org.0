@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86E0714C0E3
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 20:25:18 +0100 (CET)
-Received: from localhost ([::1]:36034 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A00D14C080
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 20:03:16 +0100 (CET)
+Received: from localhost ([::1]:35660 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwWU9-0005wp-G5
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 14:25:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36840)
+	id 1iwW8o-00022X-Dj
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 14:03:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37065)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iwV7v-0003xQ-KC
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:58:20 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iwV81-0004A5-1F
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:58:26 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iwV7r-0008DJ-I0
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:58:15 -0500
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:40201)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iwV7u-0008LS-Pz
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:58:20 -0500
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:35729)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iwV7r-0008B6-4i
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:58:11 -0500
-Received: by mail-wm1-x331.google.com with SMTP id t14so3551361wmi.5
- for <qemu-devel@nongnu.org>; Tue, 28 Jan 2020 09:58:11 -0800 (PST)
+ id 1iwV7u-0008Iw-BS
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:58:14 -0500
+Received: by mail-wm1-x335.google.com with SMTP id b2so3601605wma.0
+ for <qemu-devel@nongnu.org>; Tue, 28 Jan 2020 09:58:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=IzZJtSsh+xbI6vbXJ8yrybHvyWpVZezOavCZ41u0hbQ=;
- b=uLxacSMc9YrZESGx+KKbyBglwxTTJHhTCphmm0W0+IOHsnmyAD/ungxdkfjzw6M4wQ
- G7B6kQsaX9YMC9EMWnDf/9NiT8e2IvOBA9NnSjFRgCutn27Dz32kaHPyTpoe61nsYs5o
- lkioBl8yVNfO245enJeBoJhyiTGk+y3tcFEJc7hb5LMc1FmvgG0CkHAdM+a3txs+qYag
- +v5im2H/uQhbPY5HxiNAgmdkjnYF4NMs9uKZ7NIeoK9dAbRgSniRu+ScLlsw2Lz+D4Oe
- w2YSCkIBDo3f/+l9BXXxI41vh1swebbDz0Bp5zUiBYXPV3WHb4GyGby4T0s39T+qm3RL
- yKQw==
+ bh=oyj6Hk0UiGPqsuH6G2vn3gRhp2E65whr5iaHzfEIsf4=;
+ b=XFVxA4eFajxn2085Nps45XsTSUsh5m8QBh1+OwbCKM0JPGGH3q0VdTKuCuALSy92mT
+ +cP02RRkcbMQrLNRBFRfYzp1llOb9NZSMNLMArEMXSTrFP6QHHb9PHZ1ML15Gzd0QneF
+ 59jdiCzGdgVBDVF67QrB0xoRev30nbNEE9LB8/2KwDQkhaRC/khZaYOOmRiBRtqjuPWW
+ DO08qq6W1/+CgwG7d0kX+gFfGahOzu/W5K7evUrIHMYUdxHRhx1d5tHuBuF9rXV2pCqD
+ WWZ214s7L2AZxQmUc+Uz9rcm0KC9E7mWkrZh2uUVt6us1EZlcYwiOm/ym8etVHpTYo3p
+ /HtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=IzZJtSsh+xbI6vbXJ8yrybHvyWpVZezOavCZ41u0hbQ=;
- b=cLFN6vY5VM5QpwVlwlJGxuXWAucA+53ttoIwdbQgSGvH/BS3qGSFXL6EMUovXIUGN8
- KfNIY7Xneh0b9SuyWLOFFvbVQSWPgfdhs0HvQeVe5e5hDv5LDVqgWzrKmA5LUS/kIUol
- C+iM87bYNTMJ+Lf+PrM23g9MdLkH7MtH9Cb0NDUw7fV8ySnJx72TuPJVtk4zOJsJR7gw
- V8egzRVk5SOU+cOtXywcDcs/XmyCCiH/xiiBP3ZqORp2q9Ujj9bq0cMXHr5j7fPt/306
- XRqH1pS5w7btsRDTVHv9OGTARjJSMvFp7xjJ9asudgJXNzNm4l/WPyYP+lhT1NH9Sltt
- P5QQ==
-X-Gm-Message-State: APjAAAXxdlhPdiJf8bGQyjUB1Yqn/D2JQytQuG4So2v+N6jj+dbqDiLr
- Ppygmq9u6M3h5+0BZf5aTQkJQWfL
-X-Google-Smtp-Source: APXvYqw1M36+il57kWbikYTrj/nKRgTcrdVagrJS2Z+M6pmHOYG6dpRgUCRjyvJFJ4vSyQLlZ2vUdA==
-X-Received: by 2002:a05:600c:108a:: with SMTP id
- e10mr6268992wmd.10.1580234289369; 
- Tue, 28 Jan 2020 09:58:09 -0800 (PST)
+ bh=oyj6Hk0UiGPqsuH6G2vn3gRhp2E65whr5iaHzfEIsf4=;
+ b=kQfp0v9OhBLAMvcCbu6qCnanxrrlIb+uFY13Paqb9o24IJeSrIkQe/UxiXMdjFEag+
+ KBPRtGakIYRtBcn5PcHJcPNd39CWwOt1uBQgL/xAjOm0AZAyPpkzf0szn6jmcizDxaoY
+ Xlox1OEvZ9YtaWVuH2he3ND/wJohWRRQaSB4OgC87cbjyf7p4fmfOOHHXVGnIKqBYwFK
+ KeaR4gA8oZbskmxUMV95dM+lg5cTRQO44+4UAB/s42ndpENwJuhG6DFS7pYb0BOLe6bQ
+ ocaBpP4t73BrYUDs8Er9Z0Se6s9tVXfbfyypTT5MoWzocqG/9H9qnQS1sOrNtrkFy6tD
+ QJow==
+X-Gm-Message-State: APjAAAXfn73VNzrCq80FNKDxHTubz/3HOjukg0HvpNf1HqUbyqLcHhCh
+ sNJladbNibiZWRc6yHMRc/wATXVA
+X-Google-Smtp-Source: APXvYqx56sKDOODUB/l8pFwElQS7zf5A9Gweb9KIqbrXtQjD6F7U6Y8r26zD1/IRuutUKfP96rGmfg==
+X-Received: by 2002:a7b:c459:: with SMTP id l25mr6166246wmi.17.1580234292260; 
+ Tue, 28 Jan 2020 09:58:12 -0800 (PST)
 Received: from localhost.localdomain (93-36-56-206.ip58.fastwebnet.it.
  [93.36.56.206])
- by smtp.gmail.com with ESMTPSA id o4sm27046968wrx.25.2020.01.28.09.58.07
+ by smtp.gmail.com with ESMTPSA id o4sm27046968wrx.25.2020.01.28.09.58.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Jan 2020 09:58:08 -0800 (PST)
+ Tue, 28 Jan 2020 09:58:11 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 111/142] meson: convert hw/arch*
-Date: Tue, 28 Jan 2020 18:53:11 +0100
-Message-Id: <20200128175342.9066-112-pbonzini@redhat.com>
+Subject: [PATCH 112/142] meson: target
+Date: Tue, 28 Jan 2020 18:53:12 +0100
+Message-Id: <20200128175342.9066-113-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200128175342.9066-1-pbonzini@redhat.com>
 References: <20200128175342.9066-1-pbonzini@redhat.com>
@@ -68,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::331
+X-Received-From: 2a00:1450:4864:20::335
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,418 +87,696 @@ From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- Makefile.target             |  7 ----
- hw/alpha/Makefile.objs      |  1 -
- hw/alpha/meson.build        |  8 ++++
- hw/arm/Makefile.objs        | 53 ------------------------
- hw/arm/meson.build          | 56 +++++++++++++++++++++++++
- hw/cris/Makefile.objs       |  2 -
- hw/cris/meson.build         |  5 +++
- hw/hppa/Makefile.objs       |  1 -
- hw/hppa/meson.build         |  4 ++
- hw/i386/kvm/Makefile.objs   |  5 ---
- hw/i386/kvm/meson.build     |  8 ++++
- hw/i386/meson.build         | 25 +++++++++++
- hw/i386/xen/Makefile.objs   |  1 -
- hw/i386/xen/meson.build     |  7 ++++
- hw/lm32/Makefile.objs       |  3 --
- hw/lm32/meson.build         |  6 +++
- hw/m68k/meson.build         |  7 ++++
- hw/meson.build              | 23 +++++++++++
- hw/microblaze/Makefile.objs |  4 --
- hw/microblaze/meson.build   |  7 ++++
- hw/mips/Makefile.objs       |  8 ----
- hw/mips/meson.build         | 11 +++++
- hw/moxie/Makefile.objs      |  2 -
- hw/moxie/meson.build        |  4 ++
- hw/nios2/Makefile.objs      |  3 --
- hw/nios2/meson.build        |  6 +++
- hw/openrisc/Makefile.objs   |  2 -
- hw/openrisc/meson.build     |  5 +++
- hw/ppc/Makefile.objs        | 36 ----------------
- hw/ppc/meson.build          | 82 +++++++++++++++++++++++++++++++++++++
- hw/riscv/Makefile.objs      | 15 -------
- hw/riscv/meson.build        | 18 ++++++++
- hw/s390x/Makefile.objs      | 36 ----------------
- hw/s390x/meson.build        | 45 ++++++++++++++++++++
- hw/sh4/Makefile.objs        |  4 --
- hw/sh4/meson.build          | 10 +++++
- hw/sparc/Makefile.objs      |  3 --
- hw/sparc/meson.build        |  6 +++
- hw/sparc64/Makefile.objs    |  4 --
- hw/sparc64/meson.build      |  6 +++
- hw/tricore/Makefile.objs    |  1 -
- hw/tricore/meson.build      |  4 ++
- hw/unicore32/Makefile.objs  |  4 --
- hw/unicore32/meson.build    |  5 +++
- hw/xenpv/Makefile.objs      |  2 -
- hw/xenpv/meson.build        |  1 +
- hw/xtensa/Makefile.objs     |  6 ---
- hw/xtensa/meson.build       | 11 +++++
- meson.build                 |  4 ++
- 49 files changed, 374 insertions(+), 203 deletions(-)
- delete mode 100644 hw/alpha/Makefile.objs
- create mode 100644 hw/alpha/meson.build
- delete mode 100644 hw/arm/Makefile.objs
- create mode 100644 hw/arm/meson.build
- delete mode 100644 hw/cris/Makefile.objs
- create mode 100644 hw/cris/meson.build
- delete mode 100644 hw/hppa/Makefile.objs
- create mode 100644 hw/hppa/meson.build
- delete mode 100644 hw/i386/kvm/Makefile.objs
- create mode 100644 hw/i386/kvm/meson.build
- create mode 100644 hw/i386/meson.build
- delete mode 100644 hw/i386/xen/Makefile.objs
- create mode 100644 hw/i386/xen/meson.build
- delete mode 100644 hw/lm32/Makefile.objs
- create mode 100644 hw/lm32/meson.build
- create mode 100644 hw/m68k/meson.build
- delete mode 100644 hw/microblaze/Makefile.objs
- create mode 100644 hw/microblaze/meson.build
- delete mode 100644 hw/mips/Makefile.objs
- create mode 100644 hw/mips/meson.build
- delete mode 100644 hw/moxie/Makefile.objs
- create mode 100644 hw/moxie/meson.build
- delete mode 100644 hw/nios2/Makefile.objs
- create mode 100644 hw/nios2/meson.build
- delete mode 100644 hw/openrisc/Makefile.objs
- create mode 100644 hw/openrisc/meson.build
- delete mode 100644 hw/ppc/Makefile.objs
- create mode 100644 hw/ppc/meson.build
- delete mode 100644 hw/riscv/Makefile.objs
- create mode 100644 hw/riscv/meson.build
- delete mode 100644 hw/s390x/Makefile.objs
- create mode 100644 hw/s390x/meson.build
- delete mode 100644 hw/sh4/Makefile.objs
- create mode 100644 hw/sh4/meson.build
- delete mode 100644 hw/sparc/Makefile.objs
- create mode 100644 hw/sparc/meson.build
- delete mode 100644 hw/sparc64/Makefile.objs
- create mode 100644 hw/sparc64/meson.build
- delete mode 100644 hw/tricore/Makefile.objs
- create mode 100644 hw/tricore/meson.build
- delete mode 100644 hw/unicore32/Makefile.objs
- create mode 100644 hw/unicore32/meson.build
- delete mode 100644 hw/xenpv/Makefile.objs
- create mode 100644 hw/xenpv/meson.build
- delete mode 100644 hw/xtensa/Makefile.objs
- create mode 100644 hw/xtensa/meson.build
+ .gitignore                      |  2 +-
+ Makefile.target                 |  3 +-
+ libdecnumber/Makefile.objs      |  5 ---
+ libdecnumber/meson.build        |  7 ++++
+ meson.build                     | 11 ++++++
+ scripts/decodetree.py           |  2 +-
+ target/alpha/Makefile.objs      |  4 --
+ target/alpha/meson.build        | 18 +++++++++
+ target/arm/Makefile.objs        | 69 ---------------------------------
+ target/arm/meson.build          | 57 +++++++++++++++++++++++++++
+ target/arm/translate-sve.c      |  2 +-
+ target/arm/translate-vfp.inc.c  |  4 +-
+ target/arm/translate.c          |  8 ++--
+ target/cris/Makefile.objs       |  3 --
+ target/cris/meson.build         | 14 +++++++
+ target/hppa/Makefile.objs       | 11 ------
+ target/hppa/meson.build         | 19 +++++++++
+ target/hppa/translate.c         |  2 +-
+ target/i386/Makefile.objs       | 22 -----------
+ target/i386/hvf/Makefile.objs   |  2 -
+ target/i386/hvf/meson.build     | 12 ++++++
+ target/i386/meson.build         | 41 ++++++++++++++++++++
+ target/lm32/Makefile.objs       |  4 --
+ target/lm32/meson.build         | 15 +++++++
+ target/m68k/Makefile.objs       |  5 ---
+ target/m68k/meson.build         | 17 ++++++++
+ target/meson.build              | 20 ++++++++++
+ target/microblaze/Makefile.objs |  3 --
+ target/microblaze/meson.build   | 14 +++++++
+ target/mips/Makefile.objs       |  5 ---
+ target/mips/meson.build         | 22 +++++++++++
+ target/moxie/Makefile.objs      |  2 -
+ target/moxie/meson.build        | 14 +++++++
+ target/nios2/Makefile.objs      |  4 --
+ target/nios2/meson.build        | 15 +++++++
+ target/openrisc/Makefile.objs   | 15 -------
+ target/openrisc/disas.c         |  2 +-
+ target/openrisc/meson.build     | 23 +++++++++++
+ target/openrisc/translate.c     |  2 +-
+ target/ppc/Makefile.objs        | 20 ----------
+ target/ppc/meson.build          | 37 ++++++++++++++++++
+ target/riscv/Makefile.objs      | 28 -------------
+ target/riscv/meson.build        | 33 ++++++++++++++++
+ target/riscv/translate.c        |  4 +-
+ target/s390x/Makefile.objs      | 10 -----
+ target/s390x/meson.build        | 42 +++++++++++++++++++-
+ target/sh4/Makefile.objs        |  3 --
+ target/sh4/meson.build          | 14 +++++++
+ target/sparc/Makefile.objs      |  7 ----
+ target/sparc/meson.build        | 23 +++++++++++
+ target/tilegx/Makefile.objs     |  1 -
+ target/tilegx/meson.build       | 13 +++++++
+ target/tricore/Makefile.objs    |  1 -
+ target/tricore/meson.build      | 14 +++++++
+ target/unicore32/Makefile.objs  |  8 ----
+ target/unicore32/meson.build    | 14 +++++++
+ target/xtensa/Makefile.objs     | 16 --------
+ target/xtensa/meson.build       | 30 ++++++++++++++
+ 58 files changed, 553 insertions(+), 265 deletions(-)
+ delete mode 100644 libdecnumber/Makefile.objs
+ create mode 100644 libdecnumber/meson.build
+ delete mode 100644 target/alpha/Makefile.objs
+ create mode 100644 target/alpha/meson.build
+ delete mode 100644 target/arm/Makefile.objs
+ create mode 100644 target/arm/meson.build
+ delete mode 100644 target/cris/Makefile.objs
+ create mode 100644 target/cris/meson.build
+ delete mode 100644 target/hppa/Makefile.objs
+ create mode 100644 target/hppa/meson.build
+ delete mode 100644 target/i386/Makefile.objs
+ delete mode 100644 target/i386/hvf/Makefile.objs
+ create mode 100644 target/i386/hvf/meson.build
+ create mode 100644 target/i386/meson.build
+ delete mode 100644 target/lm32/Makefile.objs
+ create mode 100644 target/lm32/meson.build
+ delete mode 100644 target/m68k/Makefile.objs
+ create mode 100644 target/m68k/meson.build
+ delete mode 100644 target/microblaze/Makefile.objs
+ create mode 100644 target/microblaze/meson.build
+ delete mode 100644 target/mips/Makefile.objs
+ create mode 100644 target/mips/meson.build
+ delete mode 100644 target/moxie/Makefile.objs
+ create mode 100644 target/moxie/meson.build
+ delete mode 100644 target/nios2/Makefile.objs
+ create mode 100644 target/nios2/meson.build
+ delete mode 100644 target/openrisc/Makefile.objs
+ create mode 100644 target/openrisc/meson.build
+ delete mode 100644 target/ppc/Makefile.objs
+ create mode 100644 target/ppc/meson.build
+ delete mode 100644 target/riscv/Makefile.objs
+ create mode 100644 target/riscv/meson.build
+ delete mode 100644 target/s390x/Makefile.objs
+ delete mode 100644 target/sh4/Makefile.objs
+ create mode 100644 target/sh4/meson.build
+ delete mode 100644 target/sparc/Makefile.objs
+ create mode 100644 target/sparc/meson.build
+ delete mode 100644 target/tilegx/Makefile.objs
+ create mode 100644 target/tilegx/meson.build
+ delete mode 100644 target/tricore/Makefile.objs
+ create mode 100644 target/tricore/meson.build
+ delete mode 100644 target/unicore32/Makefile.objs
+ create mode 100644 target/unicore32/meson.build
+ delete mode 100644 target/xtensa/Makefile.objs
+ create mode 100644 target/xtensa/meson.build
 
+diff --git a/.gitignore b/.gitignore
+index 5cce371901..9fada8e46c 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -160,4 +160,4 @@ trace-dtrace-root.h
+ trace-dtrace-root.dtrace
+ trace-ust-all.h
+ trace-ust-all.c
+-/target/arm/decode-sve.inc.c
++/target/arm/decode-sve.inc
 diff --git a/Makefile.target b/Makefile.target
-index e269300203..584cfb58c4 100644
+index 584cfb58c4..675c23acc8 100644
 --- a/Makefile.target
 +++ b/Makefile.target
-@@ -171,13 +171,6 @@ LIBS := $(LIBS) $(VDE_LIBS) $(SLIRP_LIBS)
+@@ -116,7 +116,6 @@ obj-$(CONFIG_TCG) += tcg/tcg-common.o tcg/optimize.o
+ obj-$(CONFIG_TCG_INTERPRETER) += tcg/tci.o
+ obj-$(CONFIG_TCG_INTERPRETER) += disas/tci.o
+ obj-$(CONFIG_TCG) += fpu/softfloat.o
+-obj-y += target/$(TARGET_BASE_ARCH)/
+ obj-y += disas.o
+ obj-$(call notempty,$(TARGET_XML_FILES)) += gdbstub-xml.o
+ LIBS := $(libs_cpu) $(LIBS)
+@@ -169,7 +168,7 @@ LIBS := $(LIBS) $(BRLAPI_LIBS) $(SDL_LIBS) $(SPICE_LIBS) $(OPENGL_LIBS) $(SECCOM
+ LIBS := $(LIBS) $(COREAUDIO_LIBS) $(DSOUND_LIBS)
+ LIBS := $(LIBS) $(VDE_LIBS) $(SLIRP_LIBS)
  LIBS := $(LIBS) $(LIBUSB_LIBS) $(SMARTCARD_LIBS) $(USB_REDIR_LIBS)
- LIBS := $(LIBS) $(VIRGL_LIBS)
+-LIBS := $(LIBS) $(VIRGL_LIBS)
++LIBS := $(LIBS) $(VIRGL_LIBS) $(CURSES_LIBS)
  
--# Hardware support
--ifeq ($(TARGET_NAME), sparc64)
--obj-y += hw/sparc64/
--else
--obj-y += hw/$(TARGET_BASE_ARCH)/
--endif
--
  generated-files-y += hmp-commands.h hmp-commands-info.h
  
- endif # CONFIG_SOFTMMU
-diff --git a/hw/alpha/Makefile.objs b/hw/alpha/Makefile.objs
+diff --git a/libdecnumber/Makefile.objs b/libdecnumber/Makefile.objs
 deleted file mode 100644
-index 62fdf3edec..0000000000
---- a/hw/alpha/Makefile.objs
-+++ /dev/null
-@@ -1 +0,0 @@
--obj-$(CONFIG_DP264) += dp264.o pci.o typhoon.o
-diff --git a/hw/alpha/meson.build b/hw/alpha/meson.build
-new file mode 100644
-index 0000000000..81ca215777
---- /dev/null
-+++ b/hw/alpha/meson.build
-@@ -0,0 +1,8 @@
-+alpha_ss = ss.source_set()
-+alpha_ss.add(when: 'CONFIG_DP264', if_true: files(
-+  'dp264.c',
-+  'pci.c',
-+  'typhoon.c',
-+))
-+
-+hw_arch += {'alpha': alpha_ss}
-diff --git a/hw/arm/Makefile.objs b/hw/arm/Makefile.objs
-deleted file mode 100644
-index fe749f65fd..0000000000
---- a/hw/arm/Makefile.objs
-+++ /dev/null
-@@ -1,53 +0,0 @@
--obj-y += boot.o
--obj-$(CONFIG_PLATFORM_BUS) += sysbus-fdt.o
--obj-$(CONFIG_ARM_VIRT) += virt.o
--obj-$(CONFIG_ACPI) += virt-acpi-build.o
--obj-$(CONFIG_DIGIC) += digic_boards.o
--obj-$(CONFIG_EXYNOS4) += exynos4_boards.o
--obj-$(CONFIG_EMCRAFT_SF2) += msf2-som.o
--obj-$(CONFIG_HIGHBANK) += highbank.o
--obj-$(CONFIG_INTEGRATOR) += integratorcp.o
--obj-$(CONFIG_MAINSTONE) += mainstone.o
--obj-$(CONFIG_MICROBIT) += microbit.o
--obj-$(CONFIG_MUSICPAL) += musicpal.o
--obj-$(CONFIG_NETDUINO2) += netduino2.o
--obj-$(CONFIG_NSERIES) += nseries.o
--obj-$(CONFIG_SX1) += omap_sx1.o
--obj-$(CONFIG_CHEETAH) += palm.o
--obj-$(CONFIG_GUMSTIX) += gumstix.o
--obj-$(CONFIG_SPITZ) += spitz.o
--obj-$(CONFIG_TOSA) += tosa.o
--obj-$(CONFIG_Z2) += z2.o
--obj-$(CONFIG_REALVIEW) += realview.o
--obj-$(CONFIG_SBSA_REF) += sbsa-ref.o
--obj-$(CONFIG_STELLARIS) += stellaris.o
--obj-$(CONFIG_COLLIE) += collie.o
--obj-$(CONFIG_VERSATILE) += versatilepb.o
--obj-$(CONFIG_VEXPRESS) += vexpress.o
--obj-$(CONFIG_ZYNQ) += xilinx_zynq.o
--obj-$(CONFIG_SABRELITE) += sabrelite.o
--
--obj-$(CONFIG_ARM_V7M) += armv7m.o
--obj-$(CONFIG_EXYNOS4) += exynos4210.o
--obj-$(CONFIG_PXA2XX) += pxa2xx.o pxa2xx_gpio.o pxa2xx_pic.o
--obj-$(CONFIG_DIGIC) += digic.o
--obj-$(CONFIG_OMAP) += omap1.o omap2.o
--obj-$(CONFIG_STRONGARM) += strongarm.o
--obj-$(CONFIG_ALLWINNER_A10) += allwinner-a10.o cubieboard.o
--obj-$(CONFIG_RASPI) += bcm2835_peripherals.o bcm2836.o raspi.o
--obj-$(CONFIG_STM32F205_SOC) += stm32f205_soc.o
--obj-$(CONFIG_XLNX_ZYNQMP_ARM) += xlnx-zynqmp.o xlnx-zcu102.o
--obj-$(CONFIG_XLNX_VERSAL) += xlnx-versal.o xlnx-versal-virt.o
--obj-$(CONFIG_FSL_IMX25) += fsl-imx25.o imx25_pdk.o
--obj-$(CONFIG_FSL_IMX31) += fsl-imx31.o kzm.o
--obj-$(CONFIG_FSL_IMX6) += fsl-imx6.o
--obj-$(CONFIG_ASPEED_SOC) += aspeed_soc.o aspeed.o aspeed_ast2600.o
--obj-$(CONFIG_MPS2) += mps2.o
--obj-$(CONFIG_MPS2) += mps2-tz.o
--obj-$(CONFIG_MSF2) += msf2-soc.o
--obj-$(CONFIG_MUSCA) += musca.o
--obj-$(CONFIG_ARMSSE) += armsse.o
--obj-$(CONFIG_FSL_IMX7) += fsl-imx7.o mcimx7d-sabre.o
--obj-$(CONFIG_ARM_SMMUV3) += smmu-common.o smmuv3.o
--obj-$(CONFIG_FSL_IMX6UL) += fsl-imx6ul.o mcimx6ul-evk.o
--obj-$(CONFIG_NRF51_SOC) += nrf51_soc.o
-diff --git a/hw/arm/meson.build b/hw/arm/meson.build
-new file mode 100644
-index 0000000000..5b32c48fda
---- /dev/null
-+++ b/hw/arm/meson.build
-@@ -0,0 +1,56 @@
-+arm_ss = ss.source_set()
-+arm_ss.add(files('boot.c'))
-+arm_ss.add(when: 'CONFIG_PLATFORM_BUS', if_true: files('sysbus-fdt.c'))
-+arm_ss.add(when: 'CONFIG_ARM_VIRT', if_true: files('virt.c'))
-+arm_ss.add(when: 'CONFIG_ACPI', if_true: files('virt-acpi-build.c'))
-+arm_ss.add(when: 'CONFIG_DIGIC', if_true: files('digic_boards.c'))
-+arm_ss.add(when: 'CONFIG_EXYNOS4', if_true: files('exynos4_boards.c'))
-+arm_ss.add(when: 'CONFIG_EMCRAFT_SF2', if_true: files('msf2-som.c'))
-+arm_ss.add(when: 'CONFIG_HIGHBANK', if_true: files('highbank.c'))
-+arm_ss.add(when: 'CONFIG_INTEGRATOR', if_true: files('integratorcp.c'))
-+arm_ss.add(when: 'CONFIG_MAINSTONE', if_true: files('mainstone.c'))
-+arm_ss.add(when: 'CONFIG_MICROBIT', if_true: files('microbit.c'))
-+arm_ss.add(when: 'CONFIG_MUSICPAL', if_true: files('musicpal.c'))
-+arm_ss.add(when: 'CONFIG_NETDUINO2', if_true: files('netduino2.c'))
-+arm_ss.add(when: 'CONFIG_NSERIES', if_true: files('nseries.c'))
-+arm_ss.add(when: 'CONFIG_SX1', if_true: files('omap_sx1.c'))
-+arm_ss.add(when: 'CONFIG_CHEETAH', if_true: files('palm.c'))
-+arm_ss.add(when: 'CONFIG_GUMSTIX', if_true: files('gumstix.c'))
-+arm_ss.add(when: 'CONFIG_SPITZ', if_true: files('spitz.c'))
-+arm_ss.add(when: 'CONFIG_TOSA', if_true: files('tosa.c'))
-+arm_ss.add(when: 'CONFIG_Z2', if_true: files('z2.c'))
-+arm_ss.add(when: 'CONFIG_REALVIEW', if_true: files('realview.c'))
-+arm_ss.add(when: 'CONFIG_SBSA_REF', if_true: files('sbsa-ref.c'))
-+arm_ss.add(when: 'CONFIG_STELLARIS', if_true: files('stellaris.c'))
-+arm_ss.add(when: 'CONFIG_COLLIE', if_true: files('collie.c'))
-+arm_ss.add(when: 'CONFIG_VERSATILE', if_true: files('versatilepb.c'))
-+arm_ss.add(when: 'CONFIG_VEXPRESS', if_true: files('vexpress.c'))
-+arm_ss.add(when: 'CONFIG_ZYNQ', if_true: files('xilinx_zynq.c'))
-+arm_ss.add(when: 'CONFIG_SABRELITE', if_true: files('sabrelite.c'))
-+
-+arm_ss.add(when: 'CONFIG_ARM_V7M', if_true: files('armv7m.c'))
-+arm_ss.add(when: 'CONFIG_EXYNOS4', if_true: files('exynos4210.c'))
-+arm_ss.add(when: 'CONFIG_PXA2XX', if_true: files('pxa2xx.c', 'pxa2xx_gpio.c', 'pxa2xx_pic.c'))
-+arm_ss.add(when: 'CONFIG_DIGIC', if_true: files('digic.c'))
-+arm_ss.add(when: 'CONFIG_OMAP', if_true: files('omap1.c', 'omap2.c'))
-+arm_ss.add(when: 'CONFIG_STRONGARM', if_true: files('strongarm.c'))
-+arm_ss.add(when: 'CONFIG_ALLWINNER_A10', if_true: files('allwinner-a10.c', 'cubieboard.c'))
-+arm_ss.add(when: 'CONFIG_RASPI', if_true: files('bcm2835_peripherals.c', 'bcm2836.c', 'raspi.c'))
-+arm_ss.add(when: 'CONFIG_STM32F205_SOC', if_true: files('stm32f205_soc.c'))
-+arm_ss.add(when: 'CONFIG_XLNX_ZYNQMP_ARM', if_true: files('xlnx-zynqmp.c', 'xlnx-zcu102.c'))
-+arm_ss.add(when: 'CONFIG_XLNX_VERSAL', if_true: files('xlnx-versal.c', 'xlnx-versal-virt.c'))
-+arm_ss.add(when: 'CONFIG_FSL_IMX25', if_true: files('fsl-imx25.c', 'imx25_pdk.c'))
-+arm_ss.add(when: 'CONFIG_FSL_IMX31', if_true: files('fsl-imx31.c', 'kzm.c'))
-+arm_ss.add(when: 'CONFIG_FSL_IMX6', if_true: files('fsl-imx6.c'))
-+arm_ss.add(when: 'CONFIG_ASPEED_SOC', if_true: files('aspeed_soc.c', 'aspeed.c', 'aspeed_ast2600.c'))
-+arm_ss.add(when: 'CONFIG_MPS2', if_true: files('mps2.c'))
-+arm_ss.add(when: 'CONFIG_MPS2', if_true: files('mps2-tz.c'))
-+arm_ss.add(when: 'CONFIG_MSF2', if_true: files('msf2-soc.c'))
-+arm_ss.add(when: 'CONFIG_MUSCA', if_true: files('musca.c'))
-+arm_ss.add(when: 'CONFIG_ARMSSE', if_true: files('armsse.c'))
-+arm_ss.add(when: 'CONFIG_FSL_IMX7', if_true: files('fsl-imx7.c', 'mcimx7d-sabre.c'))
-+arm_ss.add(when: 'CONFIG_ARM_SMMUV3', if_true: files('smmu-common.c', 'smmuv3.c'))
-+arm_ss.add(when: 'CONFIG_FSL_IMX6UL', if_true: files('fsl-imx6ul.c', 'mcimx6ul-evk.c'))
-+arm_ss.add(when: 'CONFIG_NRF51_SOC', if_true: files('nrf51_soc.c'))
-+
-+hw_arch += {'arm': arm_ss}
-diff --git a/hw/cris/Makefile.objs b/hw/cris/Makefile.objs
-deleted file mode 100644
-index a4a27b3a13..0000000000
---- a/hw/cris/Makefile.objs
-+++ /dev/null
-@@ -1,2 +0,0 @@
--obj-y += boot.o
--obj-$(CONFIG_AXIS) += axis_dev88.o
-diff --git a/hw/cris/meson.build b/hw/cris/meson.build
-new file mode 100644
-index 0000000000..dc808a4e0f
---- /dev/null
-+++ b/hw/cris/meson.build
-@@ -0,0 +1,5 @@
-+cris_ss = ss.source_set()
-+cris_ss.add(files('boot.c'))
-+cris_ss.add(when: 'CONFIG_AXIS', if_true: files('axis_dev88.c'))
-+
-+hw_arch += {'cris': cris_ss}
-diff --git a/hw/hppa/Makefile.objs b/hw/hppa/Makefile.objs
-deleted file mode 100644
-index 67838f50a3..0000000000
---- a/hw/hppa/Makefile.objs
-+++ /dev/null
-@@ -1 +0,0 @@
--obj-$(CONFIG_DINO) += pci.o machine.o dino.o
-diff --git a/hw/hppa/meson.build b/hw/hppa/meson.build
-new file mode 100644
-index 0000000000..392cf9952b
---- /dev/null
-+++ b/hw/hppa/meson.build
-@@ -0,0 +1,4 @@
-+hppa_ss = ss.source_set()
-+hppa_ss.add(when: 'CONFIG_DINO', if_true: files('pci.c', 'machine.c', 'dino.c'))
-+
-+hw_arch += {'hppa': hppa_ss}
-diff --git a/hw/i386/kvm/Makefile.objs b/hw/i386/kvm/Makefile.objs
-deleted file mode 100644
-index 0c8d5f2dee..0000000000
---- a/hw/i386/kvm/Makefile.objs
+index d81db0443a..0000000000
+--- a/libdecnumber/Makefile.objs
 +++ /dev/null
 @@ -1,5 +0,0 @@
--obj-y += clock.o
--obj-$(CONFIG_APIC) += apic.o
--obj-$(CONFIG_IOAPIC) += ioapic.o
--obj-$(CONFIG_I8254) += i8254.o
--obj-$(CONFIG_I8259) += i8259.o
-diff --git a/hw/i386/kvm/meson.build b/hw/i386/kvm/meson.build
+-obj-y += decContext.o
+-obj-y += decNumber.o
+-obj-y += dpd/decimal32.o
+-obj-y += dpd/decimal64.o
+-obj-y += dpd/decimal128.o
+diff --git a/libdecnumber/meson.build b/libdecnumber/meson.build
 new file mode 100644
-index 0000000000..95467f1ded
+index 0000000000..4d04139af4
 --- /dev/null
-+++ b/hw/i386/kvm/meson.build
-@@ -0,0 +1,8 @@
-+i386_kvm_ss = ss.source_set()
-+i386_kvm_ss.add(files('clock.c'))
-+i386_kvm_ss.add(when: 'CONFIG_APIC', if_true: files('apic.c'))
-+i386_kvm_ss.add(when: 'CONFIG_I8254', if_true: files('i8254.c'))
-+i386_kvm_ss.add(when: 'CONFIG_I8259', if_true: files('i8259.c'))
-+i386_kvm_ss.add(when: 'CONFIG_IOAPIC', if_true: files('ioapic.c'))
-+
-+i386_ss.add_all(when: 'CONFIG_KVM', if_true: i386_kvm_ss)
-diff --git a/hw/i386/meson.build b/hw/i386/meson.build
-new file mode 100644
-index 0000000000..71d3827a5d
---- /dev/null
-+++ b/hw/i386/meson.build
-@@ -0,0 +1,25 @@
-+i386_ss = ss.source_set()
-+i386_ss.add(files(
-+  'acpi-build.c',
-+  'fw_cfg.c',
-+  'kvmvapic.c',
-+  'e820_memory_layout.c',
-+  'multiboot.c',
-+  'pc.c',
-+  'pc_sysfw.c',
-+  'x86.c',
-+  'x86-iommu.c',
-+))
-+
-+i386_ss.add(when: 'CONFIG_AMD_IOMMU', if_true: files('amd_iommu.c'))
-+i386_ss.add(when: 'CONFIG_I440FX', if_true: files('pc_piix.c'))
-+i386_ss.add(when: 'CONFIG_MICROVM', if_true: files('microvm.c'))
-+i386_ss.add(when: 'CONFIG_Q35', if_true: files('pc_q35.c'))
-+i386_ss.add(when: 'CONFIG_VMMOUSE', if_true: files('vmmouse.c'))
-+i386_ss.add(when: 'CONFIG_VMPORT', if_true: files('vmport.c'))
-+i386_ss.add(when: 'CONFIG_VTD', if_true: files('intel_iommu.c'))
-+
-+subdir('kvm')
-+subdir('xen')
-+
-+hw_arch += {'i386': i386_ss}
-diff --git a/hw/i386/xen/Makefile.objs b/hw/i386/xen/Makefile.objs
-deleted file mode 100644
-index be9d10cf2a..0000000000
---- a/hw/i386/xen/Makefile.objs
-+++ /dev/null
-@@ -1 +0,0 @@
--obj-y += xen_platform.o xen_apic.o xen_pvdevice.o xen-hvm.o xen-mapcache.o
-diff --git a/hw/i386/xen/meson.build b/hw/i386/xen/meson.build
-new file mode 100644
-index 0000000000..be84130300
---- /dev/null
-+++ b/hw/i386/xen/meson.build
++++ b/libdecnumber/meson.build
 @@ -0,0 +1,7 @@
-+i386_ss.add(when: 'CONFIG_XEN', if_true: files(
-+  'xen-hvm.c',
-+  'xen-mapcache.c',
-+  'xen_apic.c',
-+  'xen_platform.c',
-+  'xen_pvdevice.c',
-+))
-diff --git a/hw/lm32/Makefile.objs b/hw/lm32/Makefile.objs
++libdecnumber = files(
++  'decContext.c',
++  'decNumber.c',
++  'dpd/decimal128.c',
++  'dpd/decimal32.c',
++  'dpd/decimal64.c',
++)
+diff --git a/meson.build b/meson.build
+index 26ae726779..e24f927f37 100644
+--- a/meson.build
++++ b/meson.build
+@@ -35,6 +35,10 @@ configure_file(input: files('scripts/ninjatool.py'),
+                output: 'ninjatool',
+                configuration: config_host)
+ 
++decodetree = generator(find_program('scripts/decodetree.py'),
++                       output: 'decode-@BASENAME@.inc',
++                       arguments: ['@INPUT@', '@EXTRA_ARGS@', '-o', '@OUTPUT@'])
++
+ m = cc.find_library('m', required: false)
+ util = cc.find_library('util', required: false)
+ winmm = []
+@@ -607,6 +611,7 @@ subdir('audio')
+ subdir('io')
+ subdir('chardev')
+ subdir('fsdev')
++subdir('libdecnumber')
+ subdir('target')
+ subdir('dump')
+ 
+@@ -724,6 +729,9 @@ foreach target : target_dirs
+   if target.endswith('-softmmu')
+     qemu_target_name = 'qemu-system-' + target_name
+     target_type='system'
++    t = target_softmmu_arch[arch].apply(config_target, strict: false)
++    arch_srcs += t.sources()
++
+     hw_dir = target_name == 'sparc64' ? 'sparc64' : arch
+     hw = hw_arch[hw_dir].apply(config_target, strict: false)
+     arch_srcs += hw.sources()
+@@ -744,6 +752,9 @@ foreach target : target_dirs
+     )
+   endif
+ 
++  t = target_arch[arch].apply(config_target, strict: false)
++  arch_srcs += t.sources()
++
+   target_common = common_ss.apply(config_target, strict: false)
+   objects = common_all.extract_objects(target_common.sources())
+ 
+diff --git a/scripts/decodetree.py b/scripts/decodetree.py
+index d8c59cab60..1ff4878cea 100755
+--- a/scripts/decodetree.py
++++ b/scripts/decodetree.py
+@@ -1198,7 +1198,7 @@ def main():
+     long_opts = ['decode=', 'translate=', 'output=', 'insnwidth=',
+                  'static-decode=', 'varinsnwidth=']
+     try:
+-        (opts, args) = getopt.getopt(sys.argv[1:], 'o:vw:', long_opts)
++        (opts, args) = getopt.gnu_getopt(sys.argv[1:], 'o:vw:', long_opts)
+     except getopt.GetoptError as err:
+         error(0, err)
+     for o, a in opts:
+diff --git a/target/alpha/Makefile.objs b/target/alpha/Makefile.objs
 deleted file mode 100644
-index c3941866c7..0000000000
---- a/hw/lm32/Makefile.objs
+index 63664629f6..0000000000
+--- a/target/alpha/Makefile.objs
++++ /dev/null
+@@ -1,4 +0,0 @@
+-obj-$(CONFIG_SOFTMMU) += machine.o
+-obj-y += translate.o helper.o cpu.o
+-obj-y += int_helper.o fpu_helper.o vax_helper.o sys_helper.o mem_helper.o
+-obj-y += gdbstub.o
+diff --git a/target/alpha/meson.build b/target/alpha/meson.build
+new file mode 100644
+index 0000000000..1aec55abb4
+--- /dev/null
++++ b/target/alpha/meson.build
+@@ -0,0 +1,18 @@
++alpha_ss = ss.source_set()
++alpha_ss.add(files(
++  'cpu.c',
++  'fpu_helper.c',
++  'gdbstub.c',
++  'helper.c',
++  'int_helper.c',
++  'mem_helper.c',
++  'sys_helper.c',
++  'translate.c',
++  'vax_helper.c',
++))
++
++alpha_softmmu_ss = ss.source_set()
++alpha_softmmu_ss.add(files('machine.c'))
++
++target_arch += {'alpha': alpha_ss}
++target_softmmu_arch += {'alpha': alpha_softmmu_ss}
+diff --git a/target/arm/Makefile.objs b/target/arm/Makefile.objs
+deleted file mode 100644
+index cf26c16f5f..0000000000
+--- a/target/arm/Makefile.objs
++++ /dev/null
+@@ -1,69 +0,0 @@
+-obj-$(CONFIG_TCG) += arm-semi.o
+-obj-y += helper.o vfp_helper.o
+-obj-y += cpu.o gdbstub.o
+-obj-$(TARGET_AARCH64) += cpu64.o gdbstub64.o
+-
+-obj-$(CONFIG_SOFTMMU) += machine.o arch_dump.o monitor.o
+-obj-$(CONFIG_SOFTMMU) += arm-powerctl.o
+-
+-obj-$(CONFIG_KVM) += kvm.o
+-obj-$(call land,$(CONFIG_KVM),$(call lnot,$(TARGET_AARCH64))) += kvm32.o
+-obj-$(call land,$(CONFIG_KVM),$(TARGET_AARCH64)) += kvm64.o
+-obj-$(call lnot,$(CONFIG_KVM)) += kvm-stub.o
+-
+-DECODETREE = $(SRC_PATH)/scripts/decodetree.py
+-
+-target/arm/decode-sve.inc.c: $(SRC_PATH)/target/arm/sve.decode $(DECODETREE)
+-	$(call quiet-command,\
+-	  $(PYTHON) $(DECODETREE) --decode disas_sve -o $@ $<,\
+-	  "GEN", $(TARGET_DIR)$@)
+-
+-target/arm/decode-vfp.inc.c: $(SRC_PATH)/target/arm/vfp.decode $(DECODETREE)
+-	$(call quiet-command,\
+-	  $(PYTHON) $(DECODETREE) --static-decode disas_vfp -o $@ $<,\
+-	  "GEN", $(TARGET_DIR)$@)
+-
+-target/arm/decode-vfp-uncond.inc.c: $(SRC_PATH)/target/arm/vfp-uncond.decode $(DECODETREE)
+-	$(call quiet-command,\
+-	  $(PYTHON) $(DECODETREE) --static-decode disas_vfp_uncond -o $@ $<,\
+-	  "GEN", $(TARGET_DIR)$@)
+-
+-target/arm/decode-a32.inc.c: $(SRC_PATH)/target/arm/a32.decode $(DECODETREE)
+-	$(call quiet-command,\
+-	  $(PYTHON) $(DECODETREE) --static-decode disas_a32 -o $@ $<,\
+-	  "GEN", $(TARGET_DIR)$@)
+-
+-target/arm/decode-a32-uncond.inc.c: $(SRC_PATH)/target/arm/a32-uncond.decode $(DECODETREE)
+-	$(call quiet-command,\
+-	  $(PYTHON) $(DECODETREE) --static-decode disas_a32_uncond -o $@ $<,\
+-	  "GEN", $(TARGET_DIR)$@)
+-
+-target/arm/decode-t32.inc.c: $(SRC_PATH)/target/arm/t32.decode $(DECODETREE)
+-	$(call quiet-command,\
+-	  $(PYTHON) $(DECODETREE) --static-decode disas_t32 -o $@ $<,\
+-	  "GEN", $(TARGET_DIR)$@)
+-
+-target/arm/decode-t16.inc.c: $(SRC_PATH)/target/arm/t16.decode $(DECODETREE)
+-	$(call quiet-command,\
+-	  $(PYTHON) $(DECODETREE) -w 16 --static-decode disas_t16 -o $@ $<,\
+-	  "GEN", $(TARGET_DIR)$@)
+-
+-target/arm/translate-sve.o: target/arm/decode-sve.inc.c
+-target/arm/translate.o: target/arm/decode-vfp.inc.c
+-target/arm/translate.o: target/arm/decode-vfp-uncond.inc.c
+-target/arm/translate.o: target/arm/decode-a32.inc.c
+-target/arm/translate.o: target/arm/decode-a32-uncond.inc.c
+-target/arm/translate.o: target/arm/decode-t32.inc.c
+-target/arm/translate.o: target/arm/decode-t16.inc.c
+-
+-obj-y += tlb_helper.o debug_helper.o
+-obj-y += translate.o op_helper.o
+-obj-y += crypto_helper.o
+-obj-y += iwmmxt_helper.o vec_helper.o neon_helper.o
+-obj-y += m_helper.o
+-
+-obj-$(CONFIG_SOFTMMU) += psci.o
+-
+-obj-$(TARGET_AARCH64) += translate-a64.o helper-a64.o
+-obj-$(TARGET_AARCH64) += translate-sve.o sve_helper.o
+-obj-$(TARGET_AARCH64) += pauth_helper.o
+diff --git a/target/arm/meson.build b/target/arm/meson.build
+new file mode 100644
+index 0000000000..2b7d2147ea
+--- /dev/null
++++ b/target/arm/meson.build
+@@ -0,0 +1,57 @@
++gen = [
++  decodetree.process('sve.decode', extra_args: '--decode=disas_sve'),
++  decodetree.process('vfp.decode', extra_args: '--static-decode=disas_vfp'),
++  decodetree.process('vfp-uncond.decode', extra_args: '--static-decode=disas_vfp_uncond'),
++  decodetree.process('a32.decode', extra_args: '--static-decode=disas_a32'),
++  decodetree.process('a32-uncond.decode', extra_args: '--static-decode=disas_a32_uncond'),
++  decodetree.process('t32.decode', extra_args: '--static-decode=disas_t32'),
++  decodetree.process('t16.decode', extra_args: ['-w', '16', '--static-decode=disas_t16']),
++]
++
++arm_ss = ss.source_set()
++arm_ss.add(gen)
++arm_ss.add(files(
++  'cpu.c',
++  'crypto_helper.c',
++  'debug_helper.c',
++  'gdbstub.c',
++  'helper.c',
++  'iwmmxt_helper.c',
++  'm_helper.c',
++  'neon_helper.c',
++  'op_helper.c',
++  'tlb_helper.c',
++  'translate.c',
++  'vec_helper.c',
++  'vfp_helper.c',
++))
++arm_ss.add(zlib)
++
++arm_ss.add(when: 'CONFIG_TCG', if_true: files('arm-semi.c'))
++
++kvm_ss = ss.source_set()
++kvm_ss.add(when: 'TARGET_AARCH64', if_true: 'kvm64.c', if_false: 'kvm32.c')
++arm_ss.add_all(when: 'CONFIG_KVM', if_true: kvm_ss)
++arm_ss.add(when: 'CONFIG_KVM', if_true: files('kvm.c'), if_false: files('kvm-stub.c'))
++
++arm_ss.add(when: 'TARGET_AARCH64', if_true: files(
++  'cpu64.c',
++  'gdbstub64.c',
++  'helper-a64.c',
++  'pauth_helper.c',
++  'sve_helper.c',
++  'translate-a64.c',
++  'translate-sve.c',
++))
++
++arm_softmmu_ss = ss.source_set()
++arm_softmmu_ss.add(files(
++  'arch_dump.c',
++  'arm-powerctl.c',
++  'machine.c',
++  'monitor.c',
++  'psci.c',
++))
++
++target_arch += {'arm': arm_ss}
++target_softmmu_arch += {'arm': arm_softmmu_ss}
+diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
+index 5d7edd0907..28a0127309 100644
+--- a/target/arm/translate-sve.c
++++ b/target/arm/translate-sve.c
+@@ -100,7 +100,7 @@ static inline int msz_dtype(DisasContext *s, int msz)
+  * Include the generated decoder.
+  */
+ 
+-#include "decode-sve.inc.c"
++#include "decode-sve.inc"
+ 
+ /*
+  * Implement all of the translator functions referenced by the decoder.
+diff --git a/target/arm/translate-vfp.inc.c b/target/arm/translate-vfp.inc.c
+index bf90ac0e5b..623a906a50 100644
+--- a/target/arm/translate-vfp.inc.c
++++ b/target/arm/translate-vfp.inc.c
+@@ -27,8 +27,8 @@
+  */
+ 
+ /* Include the generated VFP decoder */
+-#include "decode-vfp.inc.c"
+-#include "decode-vfp-uncond.inc.c"
++#include "decode-vfp.inc"
++#include "decode-vfp-uncond.inc"
+ 
+ /*
+  * The imm8 encodes the sign bit, enough bits to represent an exponent in
+diff --git a/target/arm/translate.c b/target/arm/translate.c
+index 2b6c1f91bf..ada05176b1 100644
+--- a/target/arm/translate.c
++++ b/target/arm/translate.c
+@@ -7518,10 +7518,10 @@ static int t16_pop_list(DisasContext *s, int x)
+  * Include the generated decoders.
+  */
+ 
+-#include "decode-a32.inc.c"
+-#include "decode-a32-uncond.inc.c"
+-#include "decode-t32.inc.c"
+-#include "decode-t16.inc.c"
++#include "decode-a32.inc"
++#include "decode-a32-uncond.inc"
++#include "decode-t32.inc"
++#include "decode-t16.inc"
+ 
+ /* Helpers to swap operands for reverse-subtract.  */
+ static void gen_rsb(TCGv_i32 dst, TCGv_i32 a, TCGv_i32 b)
+diff --git a/target/cris/Makefile.objs b/target/cris/Makefile.objs
+deleted file mode 100644
+index 7779227fc4..0000000000
+--- a/target/cris/Makefile.objs
 +++ /dev/null
 @@ -1,3 +0,0 @@
--# LM32 boards
--obj-$(CONFIG_LM32) += lm32_boards.o
--obj-$(CONFIG_MILKYMIST) += milkymist.o
-diff --git a/hw/lm32/meson.build b/hw/lm32/meson.build
+-obj-y += translate.o op_helper.o helper.o cpu.o
+-obj-y += gdbstub.o
+-obj-$(CONFIG_SOFTMMU) += mmu.o machine.o
+diff --git a/target/cris/meson.build b/target/cris/meson.build
 new file mode 100644
-index 0000000000..8caf0a727f
+index 0000000000..67c3793c85
 --- /dev/null
-+++ b/hw/lm32/meson.build
-@@ -0,0 +1,6 @@
++++ b/target/cris/meson.build
+@@ -0,0 +1,14 @@
++cris_ss = ss.source_set()
++cris_ss.add(files(
++  'cpu.c',
++  'gdbstub.c',
++  'helper.c',
++  'op_helper.c',
++  'translate.c',
++))
++
++cris_softmmu_ss = ss.source_set()
++cris_softmmu_ss.add(files('mmu.c', 'machine.c'))
++
++target_arch += {'cris': cris_ss}
++target_softmmu_arch += {'cris': cris_softmmu_ss}
+diff --git a/target/hppa/Makefile.objs b/target/hppa/Makefile.objs
+deleted file mode 100644
+index 174f50a96c..0000000000
+--- a/target/hppa/Makefile.objs
++++ /dev/null
+@@ -1,11 +0,0 @@
+-obj-y += translate.o helper.o cpu.o op_helper.o gdbstub.o mem_helper.o
+-obj-y += int_helper.o
+-obj-$(CONFIG_SOFTMMU) += machine.o
+-
+-DECODETREE = $(SRC_PATH)/scripts/decodetree.py
+-
+-target/hppa/decode.inc.c: $(SRC_PATH)/target/hppa/insns.decode $(DECODETREE)
+-	$(call quiet-command,\
+-	  $(PYTHON) $(DECODETREE) -o $@ $<, "GEN", $(TARGET_DIR)$@)
+-
+-target/hppa/translate.o: target/hppa/decode.inc.c
+diff --git a/target/hppa/meson.build b/target/hppa/meson.build
+new file mode 100644
+index 0000000000..8a7ff82efc
+--- /dev/null
++++ b/target/hppa/meson.build
+@@ -0,0 +1,19 @@
++gen = decodetree.process('insns.decode')
++
++hppa_ss = ss.source_set()
++hppa_ss.add(gen)
++hppa_ss.add(files(
++  'cpu.c',
++  'gdbstub.c',
++  'helper.c',
++  'int_helper.c',
++  'mem_helper.c',
++  'op_helper.c',
++  'translate.c',
++))
++
++hppa_softmmu_ss = ss.source_set()
++hppa_softmmu_ss.add(files('machine.c'))
++
++target_arch += {'hppa': hppa_ss}
++target_softmmu_arch += {'hppa': hppa_softmmu_ss}
+diff --git a/target/hppa/translate.c b/target/hppa/translate.c
+index 2f8d407a82..a3f3926f6c 100644
+--- a/target/hppa/translate.c
++++ b/target/hppa/translate.c
+@@ -334,7 +334,7 @@ static int expand_shl11(DisasContext *ctx, int val)
+ 
+ 
+ /* Include the auto-generated decoder.  */
+-#include "decode.inc.c"
++#include "decode-insns.inc"
+ 
+ /* We are not using a goto_tb (for whatever reason), but have updated
+    the iaq (for whatever reason), so don't do it again on exit.  */
+diff --git a/target/i386/Makefile.objs b/target/i386/Makefile.objs
+deleted file mode 100644
+index 48e0c28434..0000000000
+--- a/target/i386/Makefile.objs
++++ /dev/null
+@@ -1,22 +0,0 @@
+-obj-y += helper.o cpu.o gdbstub.o xsave_helper.o
+-obj-$(CONFIG_TCG) += translate.o
+-obj-$(CONFIG_TCG) += bpt_helper.o cc_helper.o excp_helper.o fpu_helper.o
+-obj-$(CONFIG_TCG) += int_helper.o mem_helper.o misc_helper.o mpx_helper.o
+-obj-$(CONFIG_TCG) += seg_helper.o smm_helper.o svm_helper.o
+-obj-$(call lnot,$(CONFIG_KVM)) += kvm-stub.o
+-ifeq ($(CONFIG_SOFTMMU),y)
+-obj-y += machine.o arch_memory_mapping.o arch_dump.o monitor.o
+-obj-$(CONFIG_KVM) += kvm.o
+-obj-$(CONFIG_HYPERV) += hyperv.o
+-obj-$(call lnot,$(CONFIG_HYPERV)) += hyperv-stub.o
+-ifeq ($(CONFIG_WIN32),y)
+-obj-$(CONFIG_HAX) += hax-all.o hax-mem.o hax-windows.o
+-endif
+-ifeq ($(CONFIG_POSIX),y)
+-obj-$(CONFIG_HAX) += hax-all.o hax-mem.o hax-posix.o
+-endif
+-obj-$(CONFIG_HVF) += hvf/
+-obj-$(CONFIG_WHPX) += whpx-all.o
+-endif
+-obj-$(CONFIG_SEV) += sev.o
+-obj-$(call lnot,$(CONFIG_SEV)) += sev-stub.o
+diff --git a/target/i386/hvf/Makefile.objs b/target/i386/hvf/Makefile.objs
+deleted file mode 100644
+index 927b86bc67..0000000000
+--- a/target/i386/hvf/Makefile.objs
++++ /dev/null
+@@ -1,2 +0,0 @@
+-obj-y += hvf.o
+-obj-y += x86.o x86_cpuid.o x86_decode.o x86_descr.o x86_emu.o x86_flags.o x86_mmu.o x86hvf.o x86_task.o
+diff --git a/target/i386/hvf/meson.build b/target/i386/hvf/meson.build
+new file mode 100644
+index 0000000000..c8a43717ee
+--- /dev/null
++++ b/target/i386/hvf/meson.build
+@@ -0,0 +1,12 @@
++i386_softmmu_ss.add(when: [hvf, 'CONFIG_HVF'], if_true: files(
++  'hvf.c',
++  'x86.c',
++  'x86_cpuid.c',
++  'x86_decode.c',
++  'x86_descr.c',
++  'x86_emu.c',
++  'x86_flags.c',
++  'x86_mmu.c',
++  'x86_task.c',
++  'x86hvf.c',
++))
+diff --git a/target/i386/meson.build b/target/i386/meson.build
+new file mode 100644
+index 0000000000..58a70da6b3
+--- /dev/null
++++ b/target/i386/meson.build
+@@ -0,0 +1,41 @@
++i386_ss = ss.source_set()
++i386_ss.add(files(
++  'cpu.c',
++  'gdbstub.c',
++  'helper.c',
++  'xsave_helper.c',
++))
++i386_ss.add(when: 'CONFIG_TCG', if_true: files(
++  'bpt_helper.c',
++  'cc_helper.c',
++  'excp_helper.c',
++  'fpu_helper.c',
++  'int_helper.c',
++  'mem_helper.c',
++  'misc_helper.c',
++  'mpx_helper.c',
++  'seg_helper.c',
++  'smm_helper.c',
++  'svm_helper.c',
++  'translate.c',
++))
++i386_ss.add(when: 'CONFIG_KVM', if_false: files('kvm-stub.c'))
++i386_ss.add(when: 'CONFIG_SEV', if_true: files('sev.c'), if_false: files('sev-stub.c'))
++
++i386_softmmu_ss = ss.source_set()
++i386_softmmu_ss.add(files(
++  'arch_dump.c',
++  'arch_memory_mapping.c',
++  'machine.c',
++  'monitor.c',
++))
++i386_softmmu_ss.add(when: 'CONFIG_HYPERV', if_true: files('hyperv.c'), if_false: files('hyperv-stub.c'))
++i386_softmmu_ss.add(when: 'CONFIG_KVM', if_true: files('kvm.c'))
++i386_softmmu_ss.add(when: 'CONFIG_WHPX', if_true: files('whpx-all.c'))
++i386_softmmu_ss.add(when: ['CONFIG_POSIX', 'CONFIG_HAX'], if_true: files('hax-all.c', 'hax-mem.c', 'hax-posix.c'))
++i386_softmmu_ss.add(when: ['CONFIG_WIN32', 'CONFIG_HAX'], if_true: files('hax-all.c', 'hax-mem.c', 'hax-windows.c'))
++
++subdir('hvf')
++
++target_arch += {'i386': i386_ss}
++target_softmmu_arch += {'i386': i386_softmmu_ss}
+diff --git a/target/lm32/Makefile.objs b/target/lm32/Makefile.objs
+deleted file mode 100644
+index c3e1bd6bd6..0000000000
+--- a/target/lm32/Makefile.objs
++++ /dev/null
+@@ -1,4 +0,0 @@
+-obj-y += translate.o op_helper.o helper.o cpu.o
+-obj-y += gdbstub.o
+-obj-y += lm32-semi.o
+-obj-$(CONFIG_SOFTMMU) += machine.o
+diff --git a/target/lm32/meson.build b/target/lm32/meson.build
+new file mode 100644
+index 0000000000..ef0eef07f1
+--- /dev/null
++++ b/target/lm32/meson.build
+@@ -0,0 +1,15 @@
 +lm32_ss = ss.source_set()
-+# LM32 boards
-+lm32_ss.add(when: 'CONFIG_LM32', if_true: files('lm32_boards.c'))
-+lm32_ss.add(when: 'CONFIG_MILKYMIST', if_true: files('milkymist.c'))
++lm32_ss.add(files(
++  'cpu.c',
++  'gdbstub.c',
++  'helper.c',
++  'lm32-semi.c',
++  'op_helper.c',
++  'translate.c',
++))
 +
-+hw_arch += {'lm32': lm32_ss}
-diff --git a/hw/m68k/meson.build b/hw/m68k/meson.build
++lm32_softmmu_ss = ss.source_set()
++lm32_softmmu_ss.add(files('machine.c'))
++
++target_arch += {'lm32': lm32_ss}
++target_softmmu_arch += {'lm32': lm32_softmmu_ss}
+diff --git a/target/m68k/Makefile.objs b/target/m68k/Makefile.objs
+deleted file mode 100644
+index ac61948676..0000000000
+--- a/target/m68k/Makefile.objs
++++ /dev/null
+@@ -1,5 +0,0 @@
+-obj-y += m68k-semi.o
+-obj-y += translate.o op_helper.o helper.o cpu.o
+-obj-y += fpu_helper.o softfloat.o
+-obj-y += gdbstub.o
+-obj-$(CONFIG_SOFTMMU) += monitor.o
+diff --git a/target/m68k/meson.build b/target/m68k/meson.build
 new file mode 100644
-index 0000000000..ca0044c652
+index 0000000000..05cd9fbd1e
 --- /dev/null
-+++ b/hw/m68k/meson.build
-@@ -0,0 +1,7 @@
++++ b/target/m68k/meson.build
+@@ -0,0 +1,17 @@
 +m68k_ss = ss.source_set()
-+m68k_ss.add(when: 'CONFIG_AN5206', if_true: files('an5206.c', 'mcf5206.c'))
-+m68k_ss.add(when: 'CONFIG_MCF5208', if_true: files('mcf5208.c', 'mcf_intc.c'))
-+m68k_ss.add(when: 'CONFIG_NEXTCUBE', if_true: files('next-kbd.c', 'next-cube.c'))
-+m68k_ss.add(when: 'CONFIG_Q800', if_true: files('q800.c'))
++m68k_ss.add(files(
++  'cpu.c',
++  'fpu_helper.c',
++  'gdbstub.c',
++  'helper.c',
++  'm68k-semi.c',
++  'op_helper.c',
++  'softfloat.c',
++  'translate.c',
++))
 +
-+hw_arch += {'m68k': m68k_ss}
-diff --git a/hw/meson.build b/hw/meson.build
-index ba8763cad8..6ca4c598b4 100644
---- a/hw/meson.build
-+++ b/hw/meson.build
-@@ -40,3 +40,26 @@ subdir('vfio')
- subdir('virtio')
- subdir('watchdog')
- subdir('xen')
++m68k_softmmu_ss = ss.source_set()
++m68k_softmmu_ss.add(files('monitor.c'))
 +
++target_arch += {'m68k': m68k_ss}
++target_softmmu_arch += {'m68k': m68k_softmmu_ss}
+diff --git a/target/meson.build b/target/meson.build
+index e29dd3e01f..d98d276459 100644
+--- a/target/meson.build
++++ b/target/meson.build
+@@ -1 +1,21 @@
 +subdir('alpha')
 +subdir('arm')
 +subdir('cris')
@@ -514,560 +791,666 @@ index ba8763cad8..6ca4c598b4 100644
 +subdir('openrisc')
 +subdir('ppc')
 +subdir('riscv')
-+subdir('s390x')
+ subdir('s390x')
 +subdir('sh4')
 +subdir('sparc')
-+subdir('sparc64')
++subdir('tilegx')
 +subdir('tricore')
 +subdir('unicore32')
-+subdir('xenpv')
 +subdir('xtensa')
-diff --git a/hw/microblaze/Makefile.objs b/hw/microblaze/Makefile.objs
+diff --git a/target/microblaze/Makefile.objs b/target/microblaze/Makefile.objs
 deleted file mode 100644
-index 8595a62f6c..0000000000
---- a/hw/microblaze/Makefile.objs
-+++ /dev/null
-@@ -1,4 +0,0 @@
--obj-$(CONFIG_PETALOGIX_S3ADSP1800) += petalogix_s3adsp1800_mmu.o
--obj-$(CONFIG_PETALOGIX_ML605) += petalogix_ml605_mmu.o
--obj-$(CONFIG_XLNX_ZYNQMP_PMU) += xlnx-zynqmp-pmu.o
--obj-y += boot.o
-diff --git a/hw/microblaze/meson.build b/hw/microblaze/meson.build
-new file mode 100644
-index 0000000000..bb9e4eb8f4
---- /dev/null
-+++ b/hw/microblaze/meson.build
-@@ -0,0 +1,7 @@
-+microblaze_ss = ss.source_set()
-+microblaze_ss.add(files('boot.c'))
-+microblaze_ss.add(when: 'CONFIG_PETALOGIX_S3ADSP1800', if_true: files('petalogix_s3adsp1800_mmu.c'))
-+microblaze_ss.add(when: 'CONFIG_PETALOGIX_ML605', if_true: files('petalogix_ml605_mmu.c'))
-+microblaze_ss.add(when: 'CONFIG_XLNX_ZYNQMP_PMU', if_true: files('xlnx-zynqmp-pmu.c'))
-+
-+hw_arch += {'microblaze': microblaze_ss}
-diff --git a/hw/mips/Makefile.objs b/hw/mips/Makefile.objs
-deleted file mode 100644
-index 525809af07..0000000000
---- a/hw/mips/Makefile.objs
-+++ /dev/null
-@@ -1,8 +0,0 @@
--obj-y += addr.o mips_int.o
--obj-$(CONFIG_R4K) += mips_r4k.o
--obj-$(CONFIG_MALTA) += gt64xxx_pci.o mips_malta.o
--obj-$(CONFIG_MIPSSIM) += mips_mipssim.o
--obj-$(CONFIG_JAZZ) += mips_jazz.o
--obj-$(CONFIG_FULONG) += mips_fulong2e.o
--obj-$(CONFIG_MIPS_CPS) += cps.o
--obj-$(CONFIG_MIPS_BOSTON) += boston.o
-diff --git a/hw/mips/meson.build b/hw/mips/meson.build
-new file mode 100644
-index 0000000000..06adda2d82
---- /dev/null
-+++ b/hw/mips/meson.build
-@@ -0,0 +1,11 @@
-+mips_ss = ss.source_set()
-+mips_ss.add(files('addr.c', 'mips_int.c'))
-+mips_ss.add(when: 'CONFIG_FULONG', if_true: files('mips_fulong2e.c'))
-+mips_ss.add(when: 'CONFIG_JAZZ', if_true: files('mips_jazz.c'))
-+mips_ss.add(when: 'CONFIG_MALTA', if_true: files('gt64xxx_pci.c', 'mips_malta.c'))
-+mips_ss.add(when: 'CONFIG_MIPSSIM', if_true: files('mips_mipssim.c'))
-+mips_ss.add(when: 'CONFIG_MIPS_BOSTON', if_true: files('boston.c'))
-+mips_ss.add(when: 'CONFIG_MIPS_CPS', if_true: files('cps.c'))
-+mips_ss.add(when: 'CONFIG_R4K', if_true: files('mips_r4k.c'))
-+
-+hw_arch += {'mips': mips_ss}
-diff --git a/hw/moxie/Makefile.objs b/hw/moxie/Makefile.objs
-deleted file mode 100644
-index ddbf300f54..0000000000
---- a/hw/moxie/Makefile.objs
-+++ /dev/null
-@@ -1,2 +0,0 @@
--# moxie boards
--obj-$(CONFIG_MOXIESIM) += moxiesim.o
-diff --git a/hw/moxie/meson.build b/hw/moxie/meson.build
-new file mode 100644
-index 0000000000..05a7c2e00f
---- /dev/null
-+++ b/hw/moxie/meson.build
-@@ -0,0 +1,4 @@
-+moxie_ss = ss.source_set()
-+moxie_ss.add(when: 'CONFIG_MOXIESIM', if_true: files('moxiesim.c'))
-+
-+hw_arch += {'moxie': moxie_ss}
-diff --git a/hw/nios2/Makefile.objs b/hw/nios2/Makefile.objs
-deleted file mode 100644
-index 3e017981ba..0000000000
---- a/hw/nios2/Makefile.objs
+index f3d7b44c89..0000000000
+--- a/target/microblaze/Makefile.objs
 +++ /dev/null
 @@ -1,3 +0,0 @@
--obj-y = boot.o cpu_pic.o
--obj-$(CONFIG_NIOS2_10M50) += 10m50_devboard.o
--obj-$(CONFIG_NIOS2_GENERIC_NOMMU) += generic_nommu.o
-diff --git a/hw/nios2/meson.build b/hw/nios2/meson.build
+-obj-y += translate.o op_helper.o helper.o cpu.o
+-obj-y += gdbstub.o
+-obj-$(CONFIG_SOFTMMU) += mmu.o
+diff --git a/target/microblaze/meson.build b/target/microblaze/meson.build
 new file mode 100644
-index 0000000000..dd66ebb32f
+index 0000000000..b8fe4afe61
 --- /dev/null
-+++ b/hw/nios2/meson.build
-@@ -0,0 +1,6 @@
-+nios2_ss = ss.source_set()
-+nios2_ss.add(files('boot.c', 'cpu_pic.c'))
-+nios2_ss.add(when: 'CONFIG_NIOS2_10M50', if_true: files('10m50_devboard.c'))
-+nios2_ss.add(when: 'CONFIG_NIOS2_GENERIC_NOMMU', if_true: files('generic_nommu.c'))
++++ b/target/microblaze/meson.build
+@@ -0,0 +1,14 @@
++microblaze_ss = ss.source_set()
++microblaze_ss.add(files(
++  'cpu.c',
++  'gdbstub.c',
++  'helper.c',
++  'op_helper.c',
++  'translate.c',
++))
 +
-+hw_arch += {'nios2': nios2_ss}
-diff --git a/hw/openrisc/Makefile.objs b/hw/openrisc/Makefile.objs
++microblaze_softmmu_ss = ss.source_set()
++microblaze_softmmu_ss.add(files('mmu.c'))
++
++target_arch += {'microblaze': microblaze_ss}
++target_softmmu_arch += {'microblaze': microblaze_softmmu_ss}
+diff --git a/target/mips/Makefile.objs b/target/mips/Makefile.objs
 deleted file mode 100644
-index aa04de7f5a..0000000000
---- a/hw/openrisc/Makefile.objs
+index 3448ad5e19..0000000000
+--- a/target/mips/Makefile.objs
++++ /dev/null
+@@ -1,5 +0,0 @@
+-obj-y += translate.o dsp_helper.o op_helper.o lmi_helper.o helper.o cpu.o
+-obj-y += gdbstub.o msa_helper.o
+-obj-$(CONFIG_SOFTMMU) += mips-semi.o
+-obj-$(CONFIG_SOFTMMU) += machine.o cp0_timer.o
+-obj-$(CONFIG_KVM) += kvm.o
+diff --git a/target/mips/meson.build b/target/mips/meson.build
+new file mode 100644
+index 0000000000..ad35f00bc6
+--- /dev/null
++++ b/target/mips/meson.build
+@@ -0,0 +1,22 @@
++mips_ss = ss.source_set()
++mips_ss.add(files(
++  'cpu.c',
++  'dsp_helper.c',
++  'gdbstub.c',
++  'helper.c',
++  'lmi_helper.c',
++  'msa_helper.c',
++  'op_helper.c',
++  'translate.c',
++))
++mips_ss.add(when: 'CONFIG_KVM', if_true: files('kvm.c'))
++
++mips_softmmu_ss = ss.source_set()
++mips_softmmu_ss.add(files(
++  'cp0_timer.c',
++  'machine.c',
++  'mips-semi.c',
++))
++
++target_arch += {'mips': mips_ss}
++target_softmmu_arch += {'mips': mips_softmmu_ss}
+diff --git a/target/moxie/Makefile.objs b/target/moxie/Makefile.objs
+deleted file mode 100644
+index 6381d4d636..0000000000
+--- a/target/moxie/Makefile.objs
 +++ /dev/null
 @@ -1,2 +0,0 @@
--obj-y = pic_cpu.o cputimer.o
--obj-$(CONFIG_OR1K_SIM) += openrisc_sim.o
-diff --git a/hw/openrisc/meson.build b/hw/openrisc/meson.build
+-obj-y += translate.o helper.o machine.o cpu.o machine.o
+-obj-$(CONFIG_SOFTMMU) += mmu.o
+diff --git a/target/moxie/meson.build b/target/moxie/meson.build
 new file mode 100644
-index 0000000000..57c42558e1
+index 0000000000..b4beb528cc
 --- /dev/null
-+++ b/hw/openrisc/meson.build
-@@ -0,0 +1,5 @@
-+openrisc_ss = ss.source_set()
-+openrisc_ss.add(files('pic_cpu.c', 'cputimer.c'))
-+openrisc_ss.add(when: 'CONFIG_OR1K_SIM', if_true: files('openrisc_sim.c'))
++++ b/target/moxie/meson.build
+@@ -0,0 +1,14 @@
++moxie_ss = ss.source_set()
++moxie_ss.add(files(
++  'cpu.c',
++  'helper.c',
++  'machine.c',
++  'machine.c',
++  'translate.c',
++))
 +
-+hw_arch += {'openrisc': openrisc_ss}
-diff --git a/hw/ppc/Makefile.objs b/hw/ppc/Makefile.objs
++moxie_softmmu_ss = ss.source_set()
++moxie_softmmu_ss.add(files('mmu.c'))
++
++target_arch += {'moxie': moxie_ss}
++target_softmmu_arch += {'moxie': moxie_softmmu_ss}
+diff --git a/target/nios2/Makefile.objs b/target/nios2/Makefile.objs
 deleted file mode 100644
-index 101e9fc591..0000000000
---- a/hw/ppc/Makefile.objs
+index 010de0e7a6..0000000000
+--- a/target/nios2/Makefile.objs
 +++ /dev/null
-@@ -1,36 +0,0 @@
--# shared objects
--obj-y += ppc.o ppc_booke.o fdt.o fw_cfg.o
--# IBM pSeries (sPAPR)
--obj-$(CONFIG_PSERIES) += spapr.o spapr_caps.o spapr_vio.o spapr_events.o
--obj-$(CONFIG_PSERIES) += spapr_hcall.o spapr_iommu.o spapr_rtas.o
--obj-$(CONFIG_PSERIES) += spapr_pci.o spapr_rtc.o spapr_drc.o
--obj-$(CONFIG_PSERIES) += spapr_cpu_core.o spapr_ovec.o spapr_irq.o
--obj-$(CONFIG_PSERIES) += spapr_tpm_proxy.o
--obj-$(CONFIG_SPAPR_RNG) +=  spapr_rng.o
--# IBM PowerNV
--obj-$(CONFIG_POWERNV) += pnv.o pnv_xscom.o pnv_core.o pnv_lpc.o pnv_psi.o pnv_occ.o pnv_bmc.o
--obj-$(CONFIG_POWERNV) += pnv_homer.o pnv_pnor.o
+@@ -1,4 +0,0 @@
+-obj-y += translate.o op_helper.o helper.o cpu.o mmu.o nios2-semi.o
+-obj-$(CONFIG_SOFTMMU) += monitor.o
 -
--
--ifeq ($(CONFIG_PCI)$(CONFIG_PSERIES)$(CONFIG_LINUX), yyy)
--obj-y += spapr_pci_vfio.o spapr_pci_nvlink2.o
--endif
--obj-$(CONFIG_PSERIES) += spapr_rtas_ddw.o
--# PowerPC 4xx boards
--obj-$(CONFIG_PPC405) += ppc405_boards.o ppc405_uc.o
--obj-$(CONFIG_PPC440) += ppc440_bamboo.o ppc440_pcix.o ppc440_uc.o
--obj-$(CONFIG_PPC4XX) += ppc4xx_pci.o ppc4xx_devs.o
--obj-$(CONFIG_SAM460EX) += sam460ex.o
--# PReP
--obj-$(CONFIG_PREP) += prep.o
--obj-$(CONFIG_PREP) += prep_systemio.o
--obj-${CONFIG_RS6000_MC} += rs6000_mc.o
--# OldWorld PowerMac
--obj-$(CONFIG_MAC_OLDWORLD) += mac_oldworld.o
--# NewWorld PowerMac
--obj-$(CONFIG_MAC_NEWWORLD) += mac_newworld.o
--# e500
--obj-$(CONFIG_E500) += e500.o mpc8544ds.o e500plat.o
--obj-$(CONFIG_E500) += mpc8544_guts.o ppce500_spin.o
--# PowerPC 440 Xilinx ML507 reference board.
--obj-$(CONFIG_VIRTEX) += virtex_ml507.o
-diff --git a/hw/ppc/meson.build b/hw/ppc/meson.build
+-$(obj)/op_helper.o: QEMU_CFLAGS += $(HELPER_CFLAGS)
+diff --git a/target/nios2/meson.build b/target/nios2/meson.build
 new file mode 100644
-index 0000000000..aae2a2cd65
+index 0000000000..e643917db1
 --- /dev/null
-+++ b/hw/ppc/meson.build
-@@ -0,0 +1,82 @@
-+ppc_ss = ss.source_set()
-+ppc_ss.add(files(
-+  'fdt.c',
-+  'fw_cfg.c',
-+  'ppc.c',
-+  'ppc_booke.c',
-+), fdt)
++++ b/target/nios2/meson.build
+@@ -0,0 +1,15 @@
++nios2_ss = ss.source_set()
++nios2_ss.add(files(
++  'cpu.c',
++  'helper.c',
++  'mmu.c',
++  'nios2-semi.c',
++  'op_helper.c',
++  'translate.c',
++))
 +
-+# IBM pSeries (sPAPR)
-+ppc_ss.add(when: 'CONFIG_PSERIES', if_true: files(
-+  'spapr.c',
-+  'spapr_caps.c',
-+  'spapr_vio.c',
-+  'spapr_events.c'
-+))
-+ppc_ss.add(when: 'CONFIG_PSERIES', if_true: files(
-+  'spapr_hcall.c',
-+  'spapr_iommu.c',
-+  'spapr_rtas.c'))
-+ppc_ss.add(when: 'CONFIG_PSERIES', if_true: files(
-+  'spapr_pci.c',
-+  'spapr_rtc.c',
-+  'spapr_drc.c'
-+))
-+ppc_ss.add(when: 'CONFIG_PSERIES', if_true: files(
-+  'spapr_cpu_core.c',
-+  'spapr_ovec.c',
-+  'spapr_irq.c',
-+  'spapr_tpm_proxy.c'
-+))
-+ppc_ss.add(when: 'CONFIG_SPAPR_RNG', if_true: files('spapr_rng.c'))
++nios2_softmmu_ss = ss.source_set()
++nios2_softmmu_ss.add(files('monitor.c'))
 +
-+# IBM PowerNV
-+ppc_ss.add(when: 'CONFIG_POWERNV', if_true: files(
-+  'pnv.c',
-+  'pnv_xscom.c',
-+  'pnv_core.c',
-+  'pnv_lpc.c',
-+  'pnv_psi.c',
-+  'pnv_occ.c',
-+  'pnv_bmc.c',
-+  'pnv_homer.c',
-+  'pnv_pnor.c',
-+))
-+ppc_ss.add(when: ['CONFIG_PCI', 'CONFIG_PSERIES', 'CONFIG_LINUX'], if_true: files(
-+  'spapr_pci_vfio.c',
-+  'spapr_pci_nvlink2.c'
-+))
-+ppc_ss.add(when: 'CONFIG_PSERIES', if_true: files('spapr_rtas_ddw.c'))
-+# PowerPC 4xx boards
-+ppc_ss.add(when: 'CONFIG_PPC405', if_true: files(
-+  'ppc405_boards.c',
-+  'ppc405_uc.c'))
-+ppc_ss.add(when: 'CONFIG_PPC440', if_true: files(
-+  'ppc440_bamboo.c',
-+  'ppc440_pcix.c', 'ppc440_uc.c'))
-+ppc_ss.add(when: 'CONFIG_PPC4XX', if_true: files(
-+  'ppc4xx_pci.c',
-+  'ppc4xx_devs.c'))
-+ppc_ss.add(when: 'CONFIG_SAM460EX', if_true: files('sam460ex.c'))
-+# PReP
-+ppc_ss.add(when: 'CONFIG_PREP', if_true: files('prep.c'))
-+ppc_ss.add(when: 'CONFIG_PREP', if_true: files('prep_systemio.c'))
-+ppc_ss.add(when: 'CONFIG_RS6000_MC', if_true: files('rs6000_mc.c'))
-+# OldWorld PowerMac
-+ppc_ss.add(when: 'CONFIG_MAC_OLDWORLD', if_true: files('mac_oldworld.c'))
-+# NewWorld PowerMac
-+ppc_ss.add(when: 'CONFIG_MAC_NEWWORLD', if_true: files('mac_newworld.c'))
-+# e500
-+ppc_ss.add(when: 'CONFIG_E500', if_true: files(
-+  'e500.c',
-+  'mpc8544ds.c',
-+  'e500plat.c'
-+))
-+ppc_ss.add(when: 'CONFIG_E500', if_true: files(
-+  'mpc8544_guts.c',
-+  'ppce500_spin.c'
-+))
-+# PowerPC 440 Xilinx ML507 reference board.
-+ppc_ss.add(when: 'CONFIG_VIRTEX', if_true: files('virtex_ml507.c'))
-+
-+hw_arch += {'ppc': ppc_ss}
-diff --git a/hw/riscv/Makefile.objs b/hw/riscv/Makefile.objs
++target_arch += {'nios2': nios2_ss}
++target_softmmu_arch += {'nios2': nios2_softmmu_ss}
+diff --git a/target/openrisc/Makefile.objs b/target/openrisc/Makefile.objs
 deleted file mode 100644
-index fc3c6dd7c8..0000000000
---- a/hw/riscv/Makefile.objs
+index b5432f4684..0000000000
+--- a/target/openrisc/Makefile.objs
 +++ /dev/null
 @@ -1,15 +0,0 @@
--obj-y += boot.o
--obj-$(CONFIG_SPIKE) += riscv_htif.o
--obj-$(CONFIG_HART) += riscv_hart.o
--obj-$(CONFIG_SIFIVE_E) += sifive_e.o
--obj-$(CONFIG_SIFIVE_E) += sifive_e_prci.o
--obj-$(CONFIG_SIFIVE) += sifive_clint.o
--obj-$(CONFIG_SIFIVE) += sifive_gpio.o
--obj-$(CONFIG_SIFIVE) += sifive_plic.o
--obj-$(CONFIG_SIFIVE) += sifive_test.o
--obj-$(CONFIG_SIFIVE_U) += sifive_u.o
--obj-$(CONFIG_SIFIVE_U) += sifive_u_otp.o
--obj-$(CONFIG_SIFIVE_U) += sifive_u_prci.o
--obj-$(CONFIG_SIFIVE) += sifive_uart.o
--obj-$(CONFIG_SPIKE) += spike.o
--obj-$(CONFIG_RISCV_VIRT) += virt.o
-diff --git a/hw/riscv/meson.build b/hw/riscv/meson.build
+-obj-$(CONFIG_SOFTMMU) += machine.o
+-obj-y += cpu.o exception.o interrupt.o mmu.o translate.o disas.o
+-obj-y += exception_helper.o fpu_helper.o \
+-         interrupt_helper.o sys_helper.o
+-obj-y += gdbstub.o
+-
+-DECODETREE = $(SRC_PATH)/scripts/decodetree.py
+-
+-target/openrisc/decode.inc.c: \
+-  $(SRC_PATH)/target/openrisc/insns.decode $(DECODETREE)
+-	$(call quiet-command,\
+-	  $(PYTHON) $(DECODETREE) -o $@ $<, "GEN", $(TARGET_DIR)$@)
+-
+-target/openrisc/translate.o: target/openrisc/decode.inc.c
+-target/openrisc/disas.o: target/openrisc/decode.inc.c
+diff --git a/target/openrisc/disas.c b/target/openrisc/disas.c
+index ce112640b9..d5e0a4396c 100644
+--- a/target/openrisc/disas.c
++++ b/target/openrisc/disas.c
+@@ -25,7 +25,7 @@
+ typedef disassemble_info DisasContext;
+ 
+ /* Include the auto-generated decoder.  */
+-#include "decode.inc.c"
++#include "decode-insns.inc"
+ 
+ #define output(mnemonic, format, ...) \
+     (info->fprintf_func(info->stream, "%-9s " format, \
+diff --git a/target/openrisc/meson.build b/target/openrisc/meson.build
 new file mode 100644
-index 0000000000..5d17557ed0
+index 0000000000..9774a58306
 --- /dev/null
-+++ b/hw/riscv/meson.build
-@@ -0,0 +1,18 @@
-+riscv_ss = ss.source_set()
-+riscv_ss.add(files('boot.c'))
-+riscv_ss.add(when: 'CONFIG_HART', if_true: files('riscv_hart.c'))
-+riscv_ss.add(when: 'CONFIG_RISCV_VIRT', if_true: files('virt.c'))
-+riscv_ss.add(when: 'CONFIG_SIFIVE', if_true: files('sifive_clint.c'))
-+riscv_ss.add(when: 'CONFIG_SIFIVE', if_true: files('sifive_gpio.c'))
-+riscv_ss.add(when: 'CONFIG_SIFIVE', if_true: files('sifive_plic.c'))
-+riscv_ss.add(when: 'CONFIG_SIFIVE', if_true: files('sifive_test.c'))
-+riscv_ss.add(when: 'CONFIG_SIFIVE', if_true: files('sifive_uart.c'))
-+riscv_ss.add(when: 'CONFIG_SIFIVE_E', if_true: files('sifive_e.c'))
-+riscv_ss.add(when: 'CONFIG_SIFIVE_E', if_true: files('sifive_e_prci.c'))
-+riscv_ss.add(when: 'CONFIG_SIFIVE_U', if_true: files('sifive_u.c'))
-+riscv_ss.add(when: 'CONFIG_SIFIVE_U', if_true: files('sifive_u_otp.c'))
-+riscv_ss.add(when: 'CONFIG_SIFIVE_U', if_true: files('sifive_u_prci.c'))
-+riscv_ss.add(when: 'CONFIG_SPIKE', if_true: files('riscv_htif.c'))
-+riscv_ss.add(when: 'CONFIG_SPIKE', if_true: files('spike.c'))
++++ b/target/openrisc/meson.build
+@@ -0,0 +1,23 @@
++gen = decodetree.process('insns.decode')
 +
-+hw_arch += {'riscv': riscv_ss}
-diff --git a/hw/s390x/Makefile.objs b/hw/s390x/Makefile.objs
++openrisc_ss = ss.source_set()
++openrisc_ss.add(gen)
++openrisc_ss.add(files(
++  'cpu.c',
++  'disas.c',
++  'exception.c',
++  'exception_helper.c',
++  'fpu_helper.c',
++  'gdbstub.c',
++  'interrupt.c',
++  'interrupt_helper.c',
++  'mmu.c',
++  'sys_helper.c',
++  'translate.c',
++))
++
++openrisc_softmmu_ss = ss.source_set()
++openrisc_softmmu_ss.add(files('machine.c'))
++
++target_arch += {'openrisc': openrisc_ss}
++target_softmmu_arch += {'openrisc': openrisc_softmmu_ss}
+diff --git a/target/openrisc/translate.c b/target/openrisc/translate.c
+index 8dd28d6cf1..26d9bb7e3c 100644
+--- a/target/openrisc/translate.c
++++ b/target/openrisc/translate.c
+@@ -65,7 +65,7 @@ static inline bool is_user(DisasContext *dc)
+ }
+ 
+ /* Include the auto-generated decoder.  */
+-#include "decode.inc.c"
++#include "decode-insns.inc"
+ 
+ static TCGv cpu_sr;
+ static TCGv cpu_regs[32];
+diff --git a/target/ppc/Makefile.objs b/target/ppc/Makefile.objs
 deleted file mode 100644
-index e02ed80b68..0000000000
---- a/hw/s390x/Makefile.objs
+index e8fa18ce13..0000000000
+--- a/target/ppc/Makefile.objs
 +++ /dev/null
-@@ -1,36 +0,0 @@
--obj-y += s390-virtio-hcall.o
--obj-y += sclp.o
--obj-y += event-facility.o
--obj-y += sclpquiesce.o
--obj-y += sclpcpu.o
--obj-y += ipl.o
--obj-y += css.o
--obj-$(CONFIG_S390_CCW_VIRTIO) += s390-virtio-ccw.o
--obj-$(CONFIG_TERMINAL3270) += 3270-ccw.o
--ifeq ($(CONFIG_VIRTIO_CCW),y)
--obj-y += virtio-ccw.o
--obj-$(CONFIG_VIRTIO_SERIAL) += virtio-ccw-serial.o
--obj-$(CONFIG_VIRTIO_BALLOON) += virtio-ccw-balloon.o
--obj-$(CONFIG_VIRTIO_SCSI) += virtio-ccw-scsi.o
--obj-$(CONFIG_VIRTIO_RNG) += virtio-ccw-rng.o
--obj-$(CONFIG_VIRTIO_CRYPTO) += virtio-ccw-crypto.o
--obj-$(CONFIG_VIRTIO_GPU) += virtio-ccw-gpu.o
--obj-$(CONFIG_VIRTIO_INPUT) += virtio-ccw-input.o
--obj-$(CONFIG_VIRTIO_NET) += virtio-ccw-net.o
--obj-$(CONFIG_VIRTIO_BLK) += virtio-ccw-blk.o
--obj-$(call land,$(CONFIG_VIRTIO_9P),$(CONFIG_VIRTFS)) += virtio-ccw-9p.o
--obj-$(CONFIG_VHOST_VSOCK) += vhost-vsock-ccw.o
+@@ -1,20 +0,0 @@
+-obj-y += cpu-models.o
+-obj-y += cpu.o
+-obj-y += translate.o
+-ifeq ($(CONFIG_SOFTMMU),y)
+-obj-y += machine.o mmu_helper.o mmu-hash32.o monitor.o arch_dump.o
+-obj-$(TARGET_PPC64) += mmu-hash64.o mmu-book3s-v3.o compat.o
+-obj-$(TARGET_PPC64) += mmu-radix64.o
 -endif
--obj-y += css-bridge.o
--obj-y += ccw-device.o
--obj-y += s390-pci-bus.o s390-pci-inst.o
--obj-y += s390-skeys.o
--obj-y += s390-stattrib.o
--obj-y += tod.o
--obj-y += tod-qemu.o
--obj-$(CONFIG_KVM) += tod-kvm.o
--obj-$(CONFIG_KVM) += s390-skeys-kvm.o
--obj-$(CONFIG_KVM) += s390-stattrib-kvm.o
--obj-y += s390-ccw.o
--obj-y += ap-device.o
--obj-y += ap-bridge.o
-diff --git a/hw/s390x/meson.build b/hw/s390x/meson.build
+-obj-$(CONFIG_KVM) += kvm.o
+-obj-$(call lnot,$(CONFIG_KVM)) += kvm-stub.o
+-obj-y += dfp_helper.o
+-obj-y += excp_helper.o
+-obj-y += fpu_helper.o
+-obj-y += int_helper.o
+-obj-y += timebase_helper.o
+-obj-y += misc_helper.o
+-obj-y += mem_helper.o
+-obj-y += ../../libdecnumber/
+-obj-$(CONFIG_USER_ONLY) += user_only_helper.o
+-obj-y += gdbstub.o
+diff --git a/target/ppc/meson.build b/target/ppc/meson.build
 new file mode 100644
-index 0000000000..f9a0bf8812
+index 0000000000..bbfef90e08
 --- /dev/null
-+++ b/hw/s390x/meson.build
-@@ -0,0 +1,45 @@
++++ b/target/ppc/meson.build
+@@ -0,0 +1,37 @@
++ppc_ss = ss.source_set()
++ppc_ss.add(files(
++  'cpu-models.c',
++  'cpu.c',
++  'dfp_helper.c',
++  'excp_helper.c',
++  'fpu_helper.c',
++  'gdbstub.c',
++  'int_helper.c',
++  'mem_helper.c',
++  'misc_helper.c',
++  'timebase_helper.c',
++  'translate.c',
++))
++
++ppc_ss.add(libdecnumber)
++
++ppc_ss.add(when: 'CONFIG_KVM', if_true: files('kvm.c'), if_false: files('kvm-stub.c'))
++ppc_ss.add(when: 'CONFIG_USER_ONLY', if_true: files('user_only_helper.c'))
++
++ppc_softmmu_ss = ss.source_set()
++ppc_softmmu_ss.add(files(
++  'arch_dump.c',
++  'machine.c',
++  'mmu-hash32.c',
++  'mmu_helper.c',
++  'monitor.c',
++))
++ppc_softmmu_ss.add(when: 'TARGET_PPC64', if_true: files(
++  'compat.c',
++  'mmu-book3s-v3.c',
++  'mmu-hash64.c',
++  'mmu-radix64.c',
++))
++
++target_arch += {'ppc': ppc_ss}
++target_softmmu_arch += {'ppc': ppc_softmmu_ss}
+diff --git a/target/riscv/Makefile.objs b/target/riscv/Makefile.objs
+deleted file mode 100644
+index ff651f69f6..0000000000
+--- a/target/riscv/Makefile.objs
++++ /dev/null
+@@ -1,28 +0,0 @@
+-obj-y += translate.o op_helper.o cpu_helper.o cpu.o csr.o fpu_helper.o gdbstub.o
+-obj-$(CONFIG_SOFTMMU) += pmp.o
+-
+-ifeq ($(CONFIG_SOFTMMU),y)
+-obj-y += monitor.o
+-endif
+-
+-DECODETREE = $(SRC_PATH)/scripts/decodetree.py
+-
+-decode32-y = $(SRC_PATH)/target/riscv/insn32.decode
+-decode32-$(TARGET_RISCV64) += $(SRC_PATH)/target/riscv/insn32-64.decode
+-
+-decode16-y = $(SRC_PATH)/target/riscv/insn16.decode
+-decode16-$(TARGET_RISCV32) += $(SRC_PATH)/target/riscv/insn16-32.decode
+-decode16-$(TARGET_RISCV64) += $(SRC_PATH)/target/riscv/insn16-64.decode
+-
+-target/riscv/decode_insn32.inc.c: $(decode32-y) $(DECODETREE)
+-	$(call quiet-command, \
+-	  $(PYTHON) $(DECODETREE) -o $@ --static-decode decode_insn32 \
+-          $(decode32-y), "GEN", $(TARGET_DIR)$@)
+-
+-target/riscv/decode_insn16.inc.c: $(decode16-y) $(DECODETREE)
+-	$(call quiet-command, \
+-	  $(PYTHON) $(DECODETREE) -o $@ --static-decode decode_insn16 \
+-          --insnwidth 16 $(decode16-y), "GEN", $(TARGET_DIR)$@)
+-
+-target/riscv/translate.o: target/riscv/decode_insn32.inc.c \
+-	target/riscv/decode_insn16.inc.c
+diff --git a/target/riscv/meson.build b/target/riscv/meson.build
+new file mode 100644
+index 0000000000..219dd744c1
+--- /dev/null
++++ b/target/riscv/meson.build
+@@ -0,0 +1,33 @@
++# FIXME extra_args should accept files()
++dir = meson.current_source_dir()
++gen32 = [
++  decodetree.process('insn16.decode', extra_args: [dir / 'insn16-32.decode', '--static-decode=decode_insn16', '--insnwidth=16']),
++  decodetree.process('insn32.decode', extra_args: '--static-decode=decode_insn32'),
++]
++
++gen64 = [
++  decodetree.process('insn16.decode', extra_args: [dir / 'insn16-64.decode', '--static-decode=decode_insn16', '--insnwidth=16']),
++  decodetree.process('insn32.decode', extra_args: [dir / 'insn32-64.decode', '--static-decode=decode_insn32']),
++]
++
++riscv_ss = ss.source_set()
++riscv_ss.add(when: 'TARGET_RISCV32', if_true: gen32)
++riscv_ss.add(when: 'TARGET_RISCV64', if_true: gen64)
++riscv_ss.add(files(
++  'cpu.c',
++  'cpu_helper.c',
++  'csr.c',
++  'fpu_helper.c',
++  'gdbstub.c',
++  'op_helper.c',
++  'translate.c',
++))
++
++riscv_softmmu_ss = ss.source_set()
++riscv_softmmu_ss.add(files(
++  'pmp.c',
++  'monitor.c'
++))
++
++target_arch += {'riscv': riscv_ss}
++target_softmmu_arch += {'riscv': riscv_softmmu_ss}
+diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+index ab6a891dc3..dbba004133 100644
+--- a/target/riscv/translate.c
++++ b/target/riscv/translate.c
+@@ -564,7 +564,7 @@ static int ex_rvc_shifti(DisasContext *ctx, int imm)
+ }
+ 
+ /* Include the auto-generated decoder for 32 bit insn */
+-#include "decode_insn32.inc.c"
++#include "decode-insn32.inc"
+ 
+ static bool gen_arith_imm_fn(DisasContext *ctx, arg_i *a,
+                              void (*func)(TCGv, TCGv, target_long))
+@@ -707,7 +707,7 @@ static bool gen_shift(DisasContext *ctx, arg_r *a,
+ #include "insn_trans/trans_privileged.inc.c"
+ 
+ /* Include the auto-generated decoder for 16 bit insn */
+-#include "decode_insn16.inc.c"
++#include "decode-insn16.inc"
+ 
+ static void decode_opc(DisasContext *ctx)
+ {
+diff --git a/target/s390x/Makefile.objs b/target/s390x/Makefile.objs
+deleted file mode 100644
+index 9b9accc5fd..0000000000
+--- a/target/s390x/Makefile.objs
++++ /dev/null
+@@ -1,10 +0,0 @@
+-obj-y += cpu.o cpu_models.o cpu_features.o gdbstub.o interrupt.o helper.o
+-obj-$(CONFIG_TCG) += translate.o cc_helper.o excp_helper.o fpu_helper.o
+-obj-$(CONFIG_TCG) += int_helper.o mem_helper.o misc_helper.o crypto_helper.o
+-obj-$(CONFIG_TCG) += vec_helper.o vec_int_helper.o vec_string_helper.o
+-obj-$(CONFIG_TCG) += vec_fpu_helper.o
+-obj-$(CONFIG_SOFTMMU) += machine.o ioinst.o arch_dump.o mmu_helper.o diag.o
+-obj-$(CONFIG_SOFTMMU) += sigp.o
+-obj-$(CONFIG_KVM) += kvm.o
+-obj-$(call lnot,$(CONFIG_KVM)) += kvm-stub.o
+-obj-$(call lnot,$(CONFIG_TCG)) += tcg-stub.o
+diff --git a/target/s390x/meson.build b/target/s390x/meson.build
+index 980f67cc85..4757e58133 100644
+--- a/target/s390x/meson.build
++++ b/target/s390x/meson.build
+@@ -1,3 +1,30 @@
 +s390x_ss = ss.source_set()
 +s390x_ss.add(files(
-+  'ap-bridge.c',
-+  'ap-device.c',
-+  'ccw-device.c',
-+  'css-bridge.c',
-+  'css.c',
-+  'event-facility.c',
-+  'ipl.c',
-+  's390-ccw.c',
-+  's390-pci-bus.c',
-+  's390-pci-inst.c',
-+  's390-skeys.c',
-+  's390-stattrib.c',
-+  's390-virtio-hcall.c',
-+  'sclp.c',
-+  'sclpcpu.c',
-+  'sclpquiesce.c',
-+  'tod-qemu.c',
-+  'tod.c',
++  'cpu.c',
++  'cpu_features.c',
++  'cpu_models.c',
++  'gdbstub.c',
++  'helper.c',
++  'interrupt.c',
 +))
-+s390x_ss.add(when: 'CONFIG_KVM', if_true: files(
-+  'tod-kvm.c',
-+  's390-skeys-kvm.c',
-+  's390-stattrib-kvm.c',
++
++s390x_ss.add(when: 'CONFIG_TCG', if_true: files(
++  'cc_helper.c',
++  'crypto_helper.c',
++  'excp_helper.c',
++  'fpu_helper.c',
++  'int_helper.c',
++  'mem_helper.c',
++  'misc_helper.c',
++  'translate.c',
++  'vec_fpu_helper.c',
++  'vec_helper.c',
++  'vec_int_helper.c',
++  'vec_string_helper.c',
++), if_false: 'tcg-stub.c')
++
++s390x_ss.add(when: 'CONFIG_KVM', if_true: files('kvm.c'), if_false: files('kvm-stub.c'))
++
+ gen_features = executable('gen-features', 'gen-features.c', native: true)
+ 
+ gen_features_h = custom_target('gen-features.h',
+@@ -5,4 +32,17 @@ gen_features_h = custom_target('gen-features.h',
+                                capture: true,
+                                command: gen_features)
+ 
+-specific_ss.add(gen_features_h)
++s390x_ss.add(gen_features_h)
++
++s390x_softmmu_ss = ss.source_set()
++s390x_softmmu_ss.add(files(
++  'arch_dump.c',
++  'diag.c',
++  'ioinst.c',
++  'machine.c',
++  'mmu_helper.c',
++  'sigp.c',
 +))
-+s390x_ss.add(when: 'CONFIG_S390_CCW_VIRTIO', if_true: files('s390-virtio-ccw.c'))
-+s390x_ss.add(when: 'CONFIG_TERMINAL3270', if_true: files('3270-ccw.c'))
 +
-+virtio_ss = ss.source_set()
-+virtio_ss.add(files('virtio-ccw.c'))
-+virtio_ss.add(when: 'CONFIG_VIRTIO_BALLOON', if_true: files('virtio-ccw-balloon.c'))
-+virtio_ss.add(when: 'CONFIG_VIRTIO_BLK', if_true: files('virtio-ccw-blk.c'))
-+virtio_ss.add(when: 'CONFIG_VIRTIO_CRYPTO', if_true: files('virtio-ccw-crypto.c'))
-+virtio_ss.add(when: 'CONFIG_VIRTIO_GPU', if_true: files('virtio-ccw-gpu.c'))
-+virtio_ss.add(when: 'CONFIG_VIRTIO_INPUT', if_true: files('virtio-ccw-input.c'))
-+virtio_ss.add(when: 'CONFIG_VIRTIO_NET', if_true: files('virtio-ccw-net.c'))
-+virtio_ss.add(when: 'CONFIG_VIRTIO_RNG', if_true: files('virtio-ccw-rng.c'))
-+virtio_ss.add(when: 'CONFIG_VIRTIO_SCSI', if_true: files('virtio-ccw-scsi.c'))
-+virtio_ss.add(when: 'CONFIG_VIRTIO_SERIAL', if_true: files('virtio-ccw-serial.c'))
-+virtio_ss.add(when: ['CONFIG_VIRTIO_9P', 'CONFIG_VIRTFS'], if_true: files('virtio-ccw-blk.c'))
-+virtio_ss.add(when: 'CONFIG_VHOST_VSOCK', if_true: files('vhost-vsock-ccw.c'))
-+s390x_ss.add_all(when: 'CONFIG_VIRTIO_CCW', if_true: virtio_ss)
-+
-+hw_arch += {'s390x': s390x_ss}
-diff --git a/hw/sh4/Makefile.objs b/hw/sh4/Makefile.objs
++target_arch += {'s390x': s390x_ss}
++target_softmmu_arch += {'s390x': s390x_softmmu_ss}
+diff --git a/target/sh4/Makefile.objs b/target/sh4/Makefile.objs
 deleted file mode 100644
-index 2a707f9473..0000000000
---- a/hw/sh4/Makefile.objs
-+++ /dev/null
-@@ -1,4 +0,0 @@
--obj-y += sh7750.o sh7750_regnames.o
--obj-y += sh_pci.o
--obj-$(CONFIG_R2D) +=  r2d.o
--obj-$(CONFIG_SHIX) += shix.o
-diff --git a/hw/sh4/meson.build b/hw/sh4/meson.build
-new file mode 100644
-index 0000000000..303c0f4287
---- /dev/null
-+++ b/hw/sh4/meson.build
-@@ -0,0 +1,10 @@
-+sh4_ss = ss.source_set()
-+sh4_ss.add(files(
-+  'sh7750.c',
-+  'sh7750_regnames.c',
-+  'sh_pci.c'
-+))
-+sh4_ss.add(when: 'CONFIG_R2D', if_true: files('r2d.c'))
-+sh4_ss.add(when: 'CONFIG_SHIX', if_true: files('shix.c'))
-+
-+hw_arch += {'sh4': sh4_ss}
-diff --git a/hw/sparc/Makefile.objs b/hw/sparc/Makefile.objs
-deleted file mode 100644
-index d57e33f83e..0000000000
---- a/hw/sparc/Makefile.objs
+index 2c25d96e65..0000000000
+--- a/target/sh4/Makefile.objs
 +++ /dev/null
 @@ -1,3 +0,0 @@
--obj-$(CONFIG_SUN4M) += sun4m_iommu.o
--obj-$(CONFIG_SUN4M) += sun4m.o
--obj-$(CONFIG_LEON3) += leon3.o
-diff --git a/hw/sparc/meson.build b/hw/sparc/meson.build
+-obj-y += translate.o op_helper.o helper.o cpu.o
+-obj-$(CONFIG_SOFTMMU) += monitor.o
+-obj-y += gdbstub.o
+diff --git a/target/sh4/meson.build b/target/sh4/meson.build
 new file mode 100644
-index 0000000000..19c442c90d
+index 0000000000..56a57576da
 --- /dev/null
-+++ b/hw/sparc/meson.build
-@@ -0,0 +1,6 @@
-+sparc_ss = ss.source_set()
-+sparc_ss.add(when: 'CONFIG_LEON3', if_true: files('leon3.c'))
-+sparc_ss.add(when: 'CONFIG_SUN4M', if_true: files('sun4m.c'))
-+sparc_ss.add(when: 'CONFIG_SUN4M', if_true: files('sun4m_iommu.c'))
++++ b/target/sh4/meson.build
+@@ -0,0 +1,14 @@
++sh4_ss = ss.source_set()
++sh4_ss.add(files(
++  'cpu.c',
++  'gdbstub.c',
++  'helper.c',
++  'op_helper.c',
++  'translate.c',
++))
 +
-+hw_arch += {'sparc': sparc_ss}
-diff --git a/hw/sparc64/Makefile.objs b/hw/sparc64/Makefile.objs
++sh4_softmmu_ss = ss.source_set()
++sh4_softmmu_ss.add(files('monitor.c'))
++
++target_arch += {'sh4': sh4_ss}
++target_softmmu_arch += {'sh4': sh4_softmmu_ss}
+diff --git a/target/sparc/Makefile.objs b/target/sparc/Makefile.objs
 deleted file mode 100644
-index af0525c1a2..0000000000
---- a/hw/sparc64/Makefile.objs
+index ec905698c5..0000000000
+--- a/target/sparc/Makefile.objs
 +++ /dev/null
-@@ -1,4 +0,0 @@
--obj-y += sparc64.o
--obj-$(CONFIG_SUN4U) += sun4u_iommu.o
--obj-$(CONFIG_SUN4U) += sun4u.o
--obj-$(CONFIG_NIAGARA) += niagara.o
-diff --git a/hw/sparc64/meson.build b/hw/sparc64/meson.build
+@@ -1,7 +0,0 @@
+-obj-$(CONFIG_SOFTMMU) += machine.o monitor.o
+-obj-y += translate.o helper.o cpu.o
+-obj-y += fop_helper.o cc_helper.o win_helper.o mmu_helper.o ldst_helper.o
+-obj-$(TARGET_SPARC) += int32_helper.o
+-obj-$(TARGET_SPARC64) += int64_helper.o
+-obj-$(TARGET_SPARC64) += vis_helper.o
+-obj-y += gdbstub.o
+diff --git a/target/sparc/meson.build b/target/sparc/meson.build
 new file mode 100644
-index 0000000000..58b5504651
+index 0000000000..a3638b9503
 --- /dev/null
-+++ b/hw/sparc64/meson.build
-@@ -0,0 +1,6 @@
-+sparc64_ss = ss.source_set()
-+sparc64_ss.add(files('sparc64.c'))
-+sparc64_ss.add(when: 'CONFIG_NIAGARA', if_true: files('niagara.c'))
-+sparc64_ss.add(when: 'CONFIG_SUN4U', if_true: files('sun4u.c', 'sun4u_iommu.c'))
++++ b/target/sparc/meson.build
+@@ -0,0 +1,23 @@
++sparc_ss = ss.source_set()
++sparc_ss.add(files(
++  'cc_helper.c',
++  'cpu.c',
++  'fop_helper.c',
++  'gdbstub.c',
++  'helper.c',
++  'ldst_helper.c',
++  'mmu_helper.c',
++  'translate.c',
++  'win_helper.c',
++))
++sparc_ss.add(when: 'TARGET_SPARC', if_true: files('int32_helper.c'))
++sparc_ss.add(when: 'TARGET_SPARC64', if_true: files('int64_helper.c', 'vis_helper.c'))
 +
-+hw_arch += {'sparc64': sparc64_ss}
-diff --git a/hw/tricore/Makefile.objs b/hw/tricore/Makefile.objs
++sparc_softmmu_ss = ss.source_set()
++sparc_softmmu_ss.add(files(
++  'machine.c',
++  'monitor.c',
++))
++
++target_arch += {'sparc': sparc_ss}
++target_softmmu_arch += {'sparc': sparc_softmmu_ss}
+diff --git a/target/tilegx/Makefile.objs b/target/tilegx/Makefile.objs
 deleted file mode 100644
-index 5501f6c1a8..0000000000
---- a/hw/tricore/Makefile.objs
+index 0db778f407..0000000000
+--- a/target/tilegx/Makefile.objs
 +++ /dev/null
 @@ -1 +0,0 @@
--obj-$(CONFIG_TRICORE) += tricore_testboard.o
-diff --git a/hw/tricore/meson.build b/hw/tricore/meson.build
+-obj-y += cpu.o translate.o helper.o simd_helper.o
+diff --git a/target/tilegx/meson.build b/target/tilegx/meson.build
 new file mode 100644
-index 0000000000..579aa13c78
+index 0000000000..678590439c
 --- /dev/null
-+++ b/hw/tricore/meson.build
-@@ -0,0 +1,4 @@
++++ b/target/tilegx/meson.build
+@@ -0,0 +1,13 @@
++tilegx_ss = ss.source_set()
++tilegx_ss.add(files(
++  'cpu.c',
++  'helper.c',
++  'simd_helper.c',
++  'translate.c',
++))
++tilegx_ss.add(zlib)
++
++tilegx_softmmu_ss = ss.source_set()
++
++target_arch += {'tilegx': tilegx_ss}
++target_softmmu_arch += {'tilegx': tilegx_softmmu_ss}
+diff --git a/target/tricore/Makefile.objs b/target/tricore/Makefile.objs
+deleted file mode 100644
+index 7a05670718..0000000000
+--- a/target/tricore/Makefile.objs
++++ /dev/null
+@@ -1 +0,0 @@
+-obj-y += translate.o helper.o cpu.o op_helper.o fpu_helper.o
+diff --git a/target/tricore/meson.build b/target/tricore/meson.build
+new file mode 100644
+index 0000000000..d7db4464f8
+--- /dev/null
++++ b/target/tricore/meson.build
+@@ -0,0 +1,14 @@
 +tricore_ss = ss.source_set()
-+tricore_ss.add(when: 'CONFIG_TRICORE', if_true: files('tricore_testboard.c'))
++tricore_ss.add(files(
++  'cpu.c',
++  'fpu_helper.c',
++  'helper.c',
++  'op_helper.c',
++  'translate.c',
++))
++tricore_ss.add(zlib)
 +
-+hw_arch += {'tricore': tricore_ss}
-diff --git a/hw/unicore32/Makefile.objs b/hw/unicore32/Makefile.objs
++tricore_softmmu_ss = ss.source_set()
++
++target_arch += {'tricore': tricore_ss}
++target_softmmu_arch += {'tricore': tricore_softmmu_ss}
+diff --git a/target/unicore32/Makefile.objs b/target/unicore32/Makefile.objs
 deleted file mode 100644
-index e0fd628523..0000000000
---- a/hw/unicore32/Makefile.objs
+index 35d8bf530d..0000000000
+--- a/target/unicore32/Makefile.objs
 +++ /dev/null
-@@ -1,4 +0,0 @@
--# For UniCore32 machines and boards
+@@ -1,8 +0,0 @@
+-obj-y += translate.o op_helper.o helper.o cpu.o
+-obj-y += ucf64_helper.o
 -
--# PKUnity-v3 SoC and board information
--obj-${CONFIG_PUV3} += puv3.o
-diff --git a/hw/unicore32/meson.build b/hw/unicore32/meson.build
+-obj-$(CONFIG_SOFTMMU) += softmmu.o
+-
+-# Huh? Uses curses directly instead of using ui/console.h interfaces ...
+-helper.o-cflags := $(CURSES_CFLAGS)
+-helper.o-libs := $(CURSES_LIBS)
+diff --git a/target/unicore32/meson.build b/target/unicore32/meson.build
 new file mode 100644
-index 0000000000..fc26d6bcab
+index 0000000000..0fa78772eb
 --- /dev/null
-+++ b/hw/unicore32/meson.build
-@@ -0,0 +1,5 @@
++++ b/target/unicore32/meson.build
+@@ -0,0 +1,14 @@
 +unicore32_ss = ss.source_set()
-+# PKUnity-v3 SoC and board information
-+unicore32_ss.add(when: 'CONFIG_PUV3', if_true: files('puv3.c'))
++unicore32_ss.add(files(
++  'cpu.c',
++  'helper.c',
++  'op_helper.c',
++  'translate.c',
++  'ucf64_helper.c',
++), curses)
 +
-+hw_arch += {'unicore32': unicore32_ss}
-diff --git a/hw/xenpv/Makefile.objs b/hw/xenpv/Makefile.objs
++unicore32_softmmu_ss = ss.source_set()
++unicore32_softmmu_ss.add(files('softmmu.c'))
++
++target_arch += {'unicore32': unicore32_ss}
++target_softmmu_arch += {'unicore32': unicore32_softmmu_ss}
+diff --git a/target/xtensa/Makefile.objs b/target/xtensa/Makefile.objs
 deleted file mode 100644
-index 8bfa4586ab..0000000000
---- a/hw/xenpv/Makefile.objs
+index c7e7fe6063..0000000000
+--- a/target/xtensa/Makefile.objs
 +++ /dev/null
-@@ -1,2 +0,0 @@
--# Xen PV machine support
--obj-$(CONFIG_XEN) += xen_machine_pv.o
-diff --git a/hw/xenpv/meson.build b/hw/xenpv/meson.build
+@@ -1,16 +0,0 @@
+-obj-y += core-dc232b.o
+-obj-y += core-dc233c.o
+-obj-y += core-de212.o
+-obj-y += core-fsf.o
+-obj-y += core-sample_controller.o
+-obj-y += core-test_kc705_be.o
+-obj-y += core-test_mmuhifi_c3.o
+-obj-$(CONFIG_SOFTMMU) += monitor.o xtensa-semi.o
+-obj-y += xtensa-isa.o
+-obj-y += translate.o op_helper.o helper.o cpu.o
+-obj-$(CONFIG_SOFTMMU) += dbg_helper.o
+-obj-y += exc_helper.o
+-obj-y += fpu_helper.o
+-obj-y += gdbstub.o
+-obj-$(CONFIG_SOFTMMU) += mmu_helper.o
+-obj-y += win_helper.o
+diff --git a/target/xtensa/meson.build b/target/xtensa/meson.build
 new file mode 100644
-index 0000000000..d269a8308e
+index 0000000000..27e453e1d1
 --- /dev/null
-+++ b/hw/xenpv/meson.build
-@@ -0,0 +1 @@
-+i386_ss.add(when: 'CONFIG_XEN', if_true: files('xen_machine_pv.c'))
-diff --git a/hw/xtensa/Makefile.objs b/hw/xtensa/Makefile.objs
-deleted file mode 100644
-index 2b40e1b60a..0000000000
---- a/hw/xtensa/Makefile.objs
-+++ /dev/null
-@@ -1,6 +0,0 @@
--obj-y += mx_pic.o
--obj-y += pic_cpu.o
--obj-y += xtensa_memory.o
--obj-$(CONFIG_XTENSA_SIM) += sim.o
--obj-$(CONFIG_XTENSA_VIRT) += virt.o
--obj-$(CONFIG_XTENSA_XTFPGA) += xtfpga.o
-diff --git a/hw/xtensa/meson.build b/hw/xtensa/meson.build
-new file mode 100644
-index 0000000000..1d5835df4b
---- /dev/null
-+++ b/hw/xtensa/meson.build
-@@ -0,0 +1,11 @@
++++ b/target/xtensa/meson.build
+@@ -0,0 +1,30 @@
 +xtensa_ss = ss.source_set()
 +xtensa_ss.add(files(
-+  'mx_pic.c',
-+  'pic_cpu.c',
-+  'xtensa_memory.c',
++  'core-dc232b.c',
++  'core-dc233c.c',
++  'core-de212.c',
++  'core-fsf.c',
++  'core-sample_controller.c',
++  'core-test_kc705_be.c',
++  'core-test_mmuhifi_c3.c',
++  'cpu.c',
++  'exc_helper.c',
++  'fpu_helper.c',
++  'gdbstub.c',
++  'helper.c',
++  'op_helper.c',
++  'translate.c',
++  'win_helper.c',
++  'xtensa-isa.c',
 +))
-+xtensa_ss.add(when: 'CONFIG_XTENSA_SIM', if_true: files('sim.c'))
-+xtensa_ss.add(when: 'CONFIG_XTENSA_VIRT', if_true: files('virt.c'))
-+xtensa_ss.add(when: 'CONFIG_XTENSA_XTFPGA', if_true: files('xtfpga.c'))
 +
-+hw_arch += {'xtensa': xtensa_ss}
-diff --git a/meson.build b/meson.build
-index 0c61aa5cd4..26ae726779 100644
---- a/meson.build
-+++ b/meson.build
-@@ -724,6 +724,10 @@ foreach target : target_dirs
-   if target.endswith('-softmmu')
-     qemu_target_name = 'qemu-system-' + target_name
-     target_type='system'
-+    hw_dir = target_name == 'sparc64' ? 'sparc64' : arch
-+    hw = hw_arch[hw_dir].apply(config_target, strict: false)
-+    arch_srcs += hw.sources()
++xtensa_softmmu_ss = ss.source_set()
++xtensa_softmmu_ss.add(files(
++  'dbg_helper.c',
++  'mmu_helper.c',
++  'monitor.c',
++  'xtensa-semi.c',
++))
 +
-     arch_srcs += target_devices_h[target]
-   else
-     target_type='user'
++target_arch += {'xtensa': xtensa_ss}
++target_softmmu_arch += {'xtensa': xtensa_softmmu_ss}
 -- 
 2.21.0
 
