@@ -2,67 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF83414C0E0
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 20:24:39 +0100 (CET)
-Received: from localhost ([::1]:36028 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 324E014C0EA
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 20:26:30 +0100 (CET)
+Received: from localhost ([::1]:36066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwWTX-0004sd-0n
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 14:24:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56642)
+	id 1iwWVJ-0000Gg-6h
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 14:26:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58025)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <quintela@redhat.com>) id 1iwVc3-0004Ig-6v
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 13:29:24 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1iwVcw-0005sc-6V
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 13:30:19 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <quintela@redhat.com>) id 1iwVbz-0001Vt-Iy
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 13:29:21 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:50362
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1iwVbz-0001QB-8Q
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 13:29:19 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580236155;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=tOE7J6mnxgiLuufN3u3RqlXv5Pa6U0VZOiLgw2fMtpw=;
- b=XFzBdAeIiK8/iKcfZDHx6XyuFs4Eet2dtx7lF7m4hrb7IJGg2jnerB7LzldWDe4wSsnKRG
- GR35ZNsqlpaAeW2Z4MkaK2FMs0vyaKcGmO4UJ00h5D5+GF+6r/xlsH2t1HMBYUPY5Jdqb+
- o+QtHjtUdkZIDKz+1cTe1tWrDzAx17Q=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-420-Jz6PjBTKOnWOlkEjE6zhMw-1; Tue, 28 Jan 2020 13:29:12 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6F81A477;
- Tue, 28 Jan 2020 18:29:11 +0000 (UTC)
-Received: from redhat.com (ovpn-117-159.ams2.redhat.com [10.36.117.159])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 030BC5DA70;
- Tue, 28 Jan 2020 18:29:10 +0000 (UTC)
-From: Juan Quintela <quintela@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PULL 00/19] 10 next patches
-In-Reply-To: <CAFEAcA-46VVr2sGWEEdxKOCBVxAFZhTJJUiVpVLUO3BTapBu2w@mail.gmail.com>
- (Peter Maydell's message of "Tue, 28 Jan 2020 17:08:12 +0000")
-References: <20200127223321.2742-1-quintela@redhat.com>
- <CAFEAcA-46VVr2sGWEEdxKOCBVxAFZhTJJUiVpVLUO3BTapBu2w@mail.gmail.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
-Date: Tue, 28 Jan 2020 19:29:08 +0100
-Message-ID: <87lfprzb7v.fsf@secure.laptop>
+ (envelope-from <richard.henderson@linaro.org>) id 1iwVcv-0003TT-0M
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 13:30:17 -0500
+Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533]:46786)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1iwVcu-0003ON-Hr
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 13:30:16 -0500
+Received: by mail-pg1-x533.google.com with SMTP id z124so7431191pgb.13
+ for <qemu-devel@nongnu.org>; Tue, 28 Jan 2020 10:30:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=gu28XqLqTSlFdE/kBPSen0vEHfYvKF+hY1ehdI/UZtU=;
+ b=lgMBg+o8dOqTTqj6lQYzIYzVxJEGEzsAAMDUsaT7evvZRQXaG7MmrijIjc9ShV1UHn
+ peWxZYxDRfBNFbynYOGUptHxFceQwl6816mGl/aCWY3tz3/pLHeX+9qIqJSpPz4pzw7E
+ Ap9mvSVi1iNGVX5HNJqzo89AFZM6dmkzXsmlXGkCiDhiYjb71Gli+ClB+OC4+j9iLVgA
+ 24dQ0zBOFcTgPXU9Lams4a1zvyphPcewuSxLWWqX2vFYapPE3ZxdrdRS8/eqDg1f+Wbx
+ JfN6+Vht549DfbmSza0TdnWmVmb1mwy7PV61jFRahdCecnypuoV8RXgs6GKYVtmLb/D0
+ N0dw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=gu28XqLqTSlFdE/kBPSen0vEHfYvKF+hY1ehdI/UZtU=;
+ b=GNvrZKSPF4zTbWz1a0HV8iUpAZQ1oWm3tvWqpLbhRhdt0FRWskt8bKnJnhBFOS4EpW
+ Fo7QL2Joi4fc50ybffPEb7yc4ECAulVtIxOeN7n+nxIDMT0PENKR8p1g7JdeeyzkB8uV
+ 3vZquQYf6RtEpn9IVOJOhuAB2o0SMbqGM7LnG9gzW/+XKYWnn7rbhzXE7oEcvQxMSZWY
+ lCwL6jO3o+/Ch81BopQQuxxA3IraVweIEflXiH8ePatuIcEObohZphF4yw/lJb8zzmsp
+ 4x1WMxyFnJwOL4bZriPWlc7cHs+otsvyrjR8fwpmY6Zf5qPEgaDY0jP0d+7hqMMgCkzq
+ NT8g==
+X-Gm-Message-State: APjAAAWVq+cgkF1z01G1dzjdzqzp+77Mh2O3hCbjjwVq0RBoA5Kke9Cq
+ MtIdvTQH/9XJVcoKM3ZrrR2SoLiwptk=
+X-Google-Smtp-Source: APXvYqwGJ6Zc0MAd/KcEDaDa1pkbDJQy2NNVRZke8aNtydbAB2OwMCJJ8oXtupfO364XKfgVJgy5xQ==
+X-Received: by 2002:a65:5786:: with SMTP id b6mr26586444pgr.316.1580236214615; 
+ Tue, 28 Jan 2020 10:30:14 -0800 (PST)
+Received: from [192.168.1.11] (97-126-123-70.tukw.qwest.net. [97.126.123.70])
+ by smtp.gmail.com with ESMTPSA id
+ w3sm20337041pgj.48.2020.01.28.10.30.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 28 Jan 2020 10:30:13 -0800 (PST)
+Subject: Re: Performance hit in qemu-system-ppc
+To: Howard Spoelstra <hsp.cat7@gmail.com>,
+ qemu-devel qemu-devel <qemu-devel@nongnu.org>
+References: <CABLmASG93Fz-=XR45Z7pcaUkF8De3EdZbS_=901w_vhYUPiuXg@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <331cc94e-38d0-9259-337a-ce759ed8edba@linaro.org>
+Date: Tue, 28 Jan 2020 10:30:12 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: Jz6PjBTKOnWOlkEjE6zhMw-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+In-Reply-To: <CABLmASG93Fz-=XR45Z7pcaUkF8De3EdZbS_=901w_vhYUPiuXg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::533
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,53 +83,16 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Peter Maydell <peter.maydell@linaro.org> wrote:
-> On Mon, 27 Jan 2020 at 22:34, Juan Quintela <quintela@redhat.com> wrote:
->>
->> The following changes since commit 105b07f1ba462ec48b27e5cb74ddf81c6a793=
-64c:
->>
->>   Merge remote-tracking branch 'remotes/cohuck/tags/s390x-20200127'
->> into staging (2020-01-27 13:02:36 +0000)
->>
->> are available in the Git repository at:
->>
->>   https://github.com/juanquintela/qemu.git tags/10_next-pull-request
->>
->> for you to fetch changes up to 3189f80ee7b44c968796e63f81c92c915fccdb08:
->>
->>   migration/compress: compress QEMUFile is not writable (2020-01-27
->> 20:47:24 +0100)
->>
->> ----------------------------------------------------------------
->> Migration pull request
->>
->> This pull request include:
->> - simplify get_qlist (eric)
->> - fix null in multifd_send_terminate_threads (zhimin)
->> - small fix for compress (wei)
->> - migrate multifd + cancel fixes (juan)
->> - migrate compression: the bits that are reviewed (juan)
->>
->
-> Hi -- this passed tests, but half the commits seem to
-> have incorrectly still got the below-the-'---'-line
-> remarks in them: could you strip those out and resend,
-> please?
+On 1/25/20 3:30 PM, Howard Spoelstra wrote:
+> I noticed a considerable (~20%) slowdown in the cpu performance of qemu-system-ppc.
 
-ouch
+ENOINFO.
 
-Sorry.
+For what test case?  This should not have been on any hot path.
 
-Later, Juan.
 
+r~
 
