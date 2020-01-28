@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C1F214C077
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 19:58:29 +0100 (CET)
-Received: from localhost ([::1]:35590 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE81A14C004
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 19:42:28 +0100 (CET)
+Received: from localhost ([::1]:35354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwW4B-0003g6-Hs
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 13:58:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33045)
+	id 1iwVoh-0004Um-Ij
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 13:42:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33197)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iwV5w-0000vL-PB
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:56:15 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iwV60-00013E-8V
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:56:18 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iwV5u-0003ea-Hl
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:56:12 -0500
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:38602)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iwV5y-0003qL-R3
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:56:16 -0500
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:38904)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iwV5u-0003ce-AF
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:56:10 -0500
-Received: by mail-wm1-x32e.google.com with SMTP id a9so3569673wmj.3
- for <qemu-devel@nongnu.org>; Tue, 28 Jan 2020 09:56:10 -0800 (PST)
+ id 1iwV5y-0003ny-Ik
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:56:14 -0500
+Received: by mail-wm1-x344.google.com with SMTP id a9so3569850wmj.3
+ for <qemu-devel@nongnu.org>; Tue, 28 Jan 2020 09:56:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=dwvuFVVrkbo9Wc98gZC3wbI0ZbeUVor6//1tXy84EAY=;
- b=WHnEj13Fp24ZR6n2RVtIjb/FBqNnF2fFaZiCq0DdW8/7HIWZMvL2a6eCtjPspeU77Z
- 3zw+Sz7ROK3Zpgkm0kfDExzvsNyT6JD6IdbGaeftMEkU1NoFTCd6LTj9mnUTpL8zgZvg
- FcqES26mJLVoFEKcsW+2s4LRUq7GWE9khR/UgbD6PCXB3QwpWYr9y9oDFY9AbcGaxqHg
- 636Jy3gKfXXeETMH9cxyhY+bM10p+CGxiBx6fIUdZccM86gPFdWeQkEmVcX7VUisaDa+
- KvnQRbAGxSaSDGy4hCbLiKNwTliX8mDHVBD0jEjETrX+b80DI999bGGUz9ADfVW1MhkO
- ih9A==
+ bh=TeH0JwK9IkWiUyAxej3j/G9tNh3AQcxNkFOZ44jNwuA=;
+ b=YeZfSfLcuTsjX95g5SlE60zCyoG8x6rVc+/sDNMu0yCnqCvUepjkUInr0ssoqsMtKO
+ Pxdrfe/j1ehM5R9wgPuV+MeWhlZNQ7MxgsQzJt9JmhqB+kaRSrk7+5OZBM/mWmbqBXpC
+ dvah4Ema+9HgBfEpZZ3EWmjyUYsuVts9cE6H+7LqhxdGoX8uxi9haaV3yy/T83NeDHyc
+ QFLEeu8DgBkJ+VFQypMUHJvo15aaGvxyNR0OqRzY6kWpHn9sdtJ8rqgW6DvtDg3m4pv2
+ alqbFq+ym2TafIQMKVe20LTN6kUcSgbE6u0peDjgafOjVt9dSmd3Nxf+rKliVpyxdYug
+ +uow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=dwvuFVVrkbo9Wc98gZC3wbI0ZbeUVor6//1tXy84EAY=;
- b=Gn2Zk1pj26hrwMnFR9kUIUymoFdjh5gMGwRlQMrSyHsv5qnp9A5LD9cwLAYYkuPIX/
- aHF47WC3iN+hVV9ViKwA2dxFCyK2HenpKVJvJvAhVyKx1Q+p1PYNVL07FxKMToQJoYv6
- QnlO6r4wCfRap3x8z0afHnhyMaP5aedOXvdnyDCAcI6vwz6520AWqsGnHbvNdl90JJic
- 42gEWszLV0kaWr5lQCT2MBhTEKsrQXSk4ZDVk381eYAtCRbxC4Ej8ytzcb7ePJGmzIDq
- Xx3Y+B2ImrYLXyQTnJTcRLRDYS6R0kRHqLXM5aVd6mbNfBbG1g3AriJQQ6BlIGxe8ICf
- uIZA==
-X-Gm-Message-State: APjAAAWvh2wEJlNIqHkBmIjY+CASxuq2TJnvTKUf+ep5F8BJkayMhVXo
- lJhZV4dphBYUWE6j/aMDdL/FJ8VI
-X-Google-Smtp-Source: APXvYqx/HYY8vvCt6aBI5YqPwLWKj3IzklXGlYjfoC4vYN7GvX9pLWZm18B7tL0Uc6CyDFlmByY3Uw==
-X-Received: by 2002:a7b:c4c3:: with SMTP id g3mr6161000wmk.131.1580234169114; 
- Tue, 28 Jan 2020 09:56:09 -0800 (PST)
+ bh=TeH0JwK9IkWiUyAxej3j/G9tNh3AQcxNkFOZ44jNwuA=;
+ b=XcZ/I3fvBCsy8kWH+Z4TQYO4pj5FOHxojRbgG3z2ifHNElHCojHSzZ58MTwJ7f2hHZ
+ jDSGf4UX07yMqFfXhrWdFUEwegLrVbMJN8pCdkxGA2IQ+eI0WxQ5n1p5gruYzuJLCtL2
+ ppiaZW51WiiDgTge/pfRpeOppIs5l/qsDOFqrQVJxUUGleNps70+q4wNsnYbY1WQi23p
+ Tyr41npZkGycjl2Mf0RSC0rTgGFSm8PEyAmGSIE4tths4wzodxweNcWa2wY9iQTPUZ+M
+ cZacfi4BJYl9d74KeyWNVeL39PTGmBsJAWxqmVc1J5jO86dlIb7uKBNaT3nEO1bauzYk
+ UJ+A==
+X-Gm-Message-State: APjAAAV1nQFvr37vx7DPUq+aysfwqJVsCnpBxuunPIHxm/DDKgUUUqhk
+ 9qg7qVHKBYeNfFG4frf+oXqH3DXR
+X-Google-Smtp-Source: APXvYqycd7aCvNo8DOoCX7hxlLNXZ9LdcDO7nFvGmXU+GIhYof4YKlJmrRdTnqoXUMOPooq+Fl13OA==
+X-Received: by 2002:a1c:1b4d:: with SMTP id b74mr6513368wmb.33.1580234173330; 
+ Tue, 28 Jan 2020 09:56:13 -0800 (PST)
 Received: from localhost.localdomain (93-36-56-206.ip58.fastwebnet.it.
  [93.36.56.206])
- by smtp.gmail.com with ESMTPSA id o4sm27046968wrx.25.2020.01.28.09.56.06
+ by smtp.gmail.com with ESMTPSA id o4sm27046968wrx.25.2020.01.28.09.56.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Jan 2020 09:56:08 -0800 (PST)
+ Tue, 28 Jan 2020 09:56:12 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 059/142] meson: convert dump/
-Date: Tue, 28 Jan 2020 18:52:19 +0100
-Message-Id: <20200128175342.9066-60-pbonzini@redhat.com>
+Subject: [PATCH 061/142] meson: convert replay directory to Meson
+Date: Tue, 28 Jan 2020 18:52:21 +0100
+Message-Id: <20200128175342.9066-62-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200128175342.9066-1-pbonzini@redhat.com>
 References: <20200128175342.9066-1-pbonzini@redhat.com>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32e
+X-Received-From: 2a00:1450:4864:20::344
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,122 +86,73 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- Makefile.objs      | 3 +--
- Makefile.target    | 1 -
- configure          | 4 ++++
- dump/Makefile.objs | 3 ---
- dump/meson.build   | 4 ++++
- meson.build        | 9 +++++++++
- 6 files changed, 18 insertions(+), 6 deletions(-)
- delete mode 100644 dump/Makefile.objs
- create mode 100644 dump/meson.build
+ Makefile.objs        |  1 -
+ meson.build          |  1 +
+ replay/Makefile.objs |  9 ---------
+ replay/meson.build   | 11 +++++++++++
+ 4 files changed, 12 insertions(+), 10 deletions(-)
+ delete mode 100644 replay/Makefile.objs
+ create mode 100644 replay/meson.build
 
 diff --git a/Makefile.objs b/Makefile.objs
-index 56d5e855da..6a99d750f6 100644
+index c4cea8d046..7b6985b4fb 100644
 --- a/Makefile.objs
 +++ b/Makefile.objs
-@@ -35,8 +35,7 @@ qom-obj-y = qom/libqom.fa
- # single QEMU executable should support all CPUs and machines.
+@@ -62,7 +62,6 @@ common-obj-$(if $(CONFIG_LZFSE),m) += block-dmg-lzfse$(DSOSUF)
+ common-obj-$(if $(and $(CONFIG_BZIP2),$(CONFIG_DMG)),m) += block-dmg-bz2$(DSOSUF)
  
- ifeq ($(CONFIG_SOFTMMU),y)
--common-obj-y = dump/
--common-obj-y += monitor/
-+common-obj-y = monitor/
- common-obj-y += net/
- common-obj-$(CONFIG_LINUX) += fsdev/
+ common-obj-y += hw/
+-common-obj-y += replay/
+ common-obj-y += backends/
+ endif
  
-diff --git a/Makefile.target b/Makefile.target
-index 638e550530..06a5744f4a 100644
---- a/Makefile.target
-+++ b/Makefile.target
-@@ -155,7 +155,6 @@ endif #CONFIG_BSD_USER
- ifdef CONFIG_SOFTMMU
- obj-y += arch_init.o cpus.o gdbstub.o balloon.o ioport.o
- obj-y += qtest.o
--obj-y += dump/
- obj-y += hw/
- obj-y += monitor/
- obj-y += qapi/
-diff --git a/configure b/configure
-index 1af0a73e39..3868d60222 100755
---- a/configure
-+++ b/configure
-@@ -2391,6 +2391,7 @@ int main(void) { lzo_version(); return 0; }
- EOF
-     if compile_prog "" "-llzo2" ; then
-         libs_softmmu="$libs_softmmu -llzo2"
-+        lzo_libs="-llzo2"
-         lzo="yes"
-     else
-         if test "$lzo" = "yes"; then
-@@ -2410,6 +2411,7 @@ int main(void) { snappy_max_compressed_length(4096); return 0; }
- EOF
-     if compile_prog "" "-lsnappy" ; then
-         libs_softmmu="$libs_softmmu -lsnappy"
-+        snappy_libs='-lsnappy'
-         snappy="yes"
-     else
-         if test "$snappy" = "yes"; then
-@@ -7150,10 +7152,12 @@ fi
- 
- if test "$lzo" = "yes" ; then
-   echo "CONFIG_LZO=y" >> $config_host_mak
-+  echo "LZO_LIBS=$lzo_libs" >> $config_host_mak
- fi
- 
- if test "$snappy" = "yes" ; then
-   echo "CONFIG_SNAPPY=y" >> $config_host_mak
-+  echo "SNAPPY_LIBS=$snappy_libs" >> $config_host_mak
- fi
- 
- if test "$bzip2" = "yes" ; then
-diff --git a/dump/Makefile.objs b/dump/Makefile.objs
-deleted file mode 100644
-index d2a5db3b81..0000000000
---- a/dump/Makefile.objs
-+++ /dev/null
-@@ -1,3 +0,0 @@
--obj-y += dump.o
--common-obj-y += dump-hmp-cmds.o
--obj-$(TARGET_X86_64) += win_dump.o
-diff --git a/dump/meson.build b/dump/meson.build
-new file mode 100644
-index 0000000000..2eff29c3ea
---- /dev/null
-+++ b/dump/meson.build
-@@ -0,0 +1,4 @@
-+softmmu_ss.add(files('dump-hmp-cmds.c'))
-+
-+specific_ss.add(when: 'CONFIG_SOFTMMU', if_true: [files('dump.c'), snappy, lzo])
-+specific_ss.add(when: ['CONFIG_SOFTMMU', 'TARGET_X86_64'], if_true: files('win_dump.c'))
 diff --git a/meson.build b/meson.build
-index cac9c894f4..1ecc46d280 100644
+index 0532ab3101..d72edea6a8 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -264,6 +264,14 @@ if 'CONFIG_FDT' in config_host
-   fdt = declare_dependency(compile_args: config_host['FDT_CFLAGS'].split(),
-                            link_args: config_host['FDT_LIBS'].split())
- endif
-+snappy = declare_dependency()
-+if 'CONFIG_SNAPPY' in config_host
-+  snappy = declare_dependency(link_args: config_host['SNAPPY_LIBS'].split())
-+endif
-+lzo = declare_dependency()
-+if 'CONFIG_LZO' in config_host
-+  lzo = declare_dependency(link_args: config_host['LZO_LIBS'].split())
-+endif
+@@ -601,6 +601,7 @@ softmmu_ss.add(when: ['CONFIG_FDT', fdt],  if_true: [files('device_tree.c')])
+ common_ss.add(files('cpus-common.c'))
  
- create_config = find_program('scripts/create_config')
- minikconf = find_program('scripts/minikconf.py')
-@@ -558,6 +566,7 @@ subdir('io')
- subdir('chardev')
- subdir('fsdev')
- subdir('target')
-+subdir('dump')
+ subdir('monitor')
++subdir('replay')
  
- block_ss.add(files(
-   'block.c',
+ mods = []
+ block_mods = []
+diff --git a/replay/Makefile.objs b/replay/Makefile.objs
+deleted file mode 100644
+index cee6539a23..0000000000
+--- a/replay/Makefile.objs
++++ /dev/null
+@@ -1,9 +0,0 @@
+-common-obj-y += replay.o
+-common-obj-y += replay-internal.o
+-common-obj-y += replay-events.o
+-common-obj-y += replay-time.o
+-common-obj-y += replay-input.o
+-common-obj-y += replay-char.o
+-common-obj-y += replay-snapshot.o
+-common-obj-y += replay-net.o
+-common-obj-y += replay-audio.o
+\ No newline at end of file
+diff --git a/replay/meson.build b/replay/meson.build
+new file mode 100644
+index 0000000000..b53218940a
+--- /dev/null
++++ b/replay/meson.build
+@@ -0,0 +1,11 @@
++softmmu_ss.add(files(
++  'replay.c',
++  'replay-internal.c',
++  'replay-events.c',
++  'replay-time.c',
++  'replay-input.c',
++  'replay-char.c',
++  'replay-snapshot.c',
++  'replay-net.c',
++  'replay-audio.c',
++))
 -- 
 2.21.0
 
