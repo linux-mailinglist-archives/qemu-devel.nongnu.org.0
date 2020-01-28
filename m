@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1E4D14C109
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 20:33:14 +0100 (CET)
-Received: from localhost ([::1]:36278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01D9F14C112
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 20:34:44 +0100 (CET)
+Received: from localhost ([::1]:36310 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwWbp-0004im-Jd
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 14:33:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38223)
+	id 1iwWdG-0008Tv-Ud
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 14:34:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38893)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iwV8T-00053u-Aa
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:58:51 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iwV8y-0005TX-W8
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:59:27 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iwV8Q-0001Lq-Q1
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:58:49 -0500
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:53150)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iwV8u-0002Fi-Km
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:59:20 -0500
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:40888)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iwV8Q-0001HL-FZ
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:58:46 -0500
-Received: by mail-wm1-x343.google.com with SMTP id p9so3521438wmc.2
- for <qemu-devel@nongnu.org>; Tue, 28 Jan 2020 09:58:45 -0800 (PST)
+ id 1iwV8t-0002Ag-Tm
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:59:16 -0500
+Received: by mail-wm1-x343.google.com with SMTP id t14so3554506wmi.5
+ for <qemu-devel@nongnu.org>; Tue, 28 Jan 2020 09:59:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=D/DK8VQpigR6LqDpMI8lCYXI3QQOVMmBO7lwOM6akAY=;
- b=J3DI5E2Qmu6mcfhy4WIix0ZM027Ixwwjl3copCKSCp5h4DZPXHsMk7Io+bcU5CfenY
- IdK57sFOOPbQUtL8DO+YkjK/wfnnHnTYHBVwM+RZd3YxCeaSEukgmRC0VBb6J8Jfw3M4
- NP7SNffeXU2po1ycAjMlBKtkhofaN94GuwBi0z4alzBmQ/s4ZfZtwBFHrDXi5v/AylgU
- kF4zg4C+hKLMJ6zQ2m57p/AGXf78xRDwZv94V3vKrJ7bl9kx6kcshr6NnPdMiZryHjEE
- 6CQwj4kLZc+j+Jy4IOzgWAHPj9fIbrcrFMC0j8zcY3BCUM6ajemFkdr6ejOAtats6yB2
- gJCA==
+ bh=Qg0rqhelSxqHAuBbEP3yj5gLyfUEdSUsRIW3yTOCip8=;
+ b=vPyQYAvHqJrc7PMBGuGrGfVzu8kaCfy3aq/eLjFBZpvuzNmAPzXW44twuTDqJ2P6PF
+ HslNvet8wYX383JG1Ldto/dYIlSIK1iK9C1840MvtOOsJf9qP36IOsWN2kE/QZpECeK7
+ z1n74uNC1m60VnaNeDbxoQaMQsilpyX9cR+I33CNYWhWLPhbtkPrMfjqyxw/jNlPVZdT
+ 8RhRU6fDMk76CtZkrCHl0N+1tNyu6XcDweIl0XNOANP65KM5RpIo1KYtMW264nag4euS
+ CfFoRrF1xBfUF6IuWhGbmHIYsmqqD9jopMYbFsgCkknCWn6PqtIw83xh3cKIN6I6zF+L
+ P0CA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=D/DK8VQpigR6LqDpMI8lCYXI3QQOVMmBO7lwOM6akAY=;
- b=Q8ySZ7mSCOU2rQF+bPDv0dTmlLfU/Lbjd34AHRTnVeJpdeMH5fC2Gn5EqHnaBcfQdQ
- xSxhFLWeLD6Gks+CifId9Ef7GPywxfC6e4WuJi1OT+O9nCRJ91m4G1pSqw+MBebgcrrm
- AatM5nOL3Ccqnwn8SbybOFUuWUn54MDI5qFuY+wPBssjEe04SPd2MIhkB5H9a70/6mKk
- pH47t22AAzNaRisOtOfOLfGvonilJLw0tZELmzwItOG4UIU4sMQS1js2h4OLSL77U4vX
- dhknq9W1KFVS33pU0qiNndlnEYmT+oOC0GcTCkT2yFTb1OVAPKLNH1Yx/6bPt1VygVr4
- eGwg==
-X-Gm-Message-State: APjAAAXrNaFc/pIaenjGtzvLX7hfi6PiWNKNUbWL+UG52ANI7kWCYSN6
- MrS+kDH+TcN0PVRNm+lr7KuM3AQM
-X-Google-Smtp-Source: APXvYqxNmkh4R4e2Lm51tOS78tQX4dIixEr1fjvmLWO918wolRwf/Zew7FhECmRP2KAfdDdj54JblQ==
-X-Received: by 2002:a1c:1b4d:: with SMTP id b74mr6523340wmb.33.1580234324154; 
- Tue, 28 Jan 2020 09:58:44 -0800 (PST)
+ bh=Qg0rqhelSxqHAuBbEP3yj5gLyfUEdSUsRIW3yTOCip8=;
+ b=DmHO86x+sDecqC1AjLpEkpLWfRC6d8v6PFT67ULOauR2p6BsYKpOYHMdiS89/xW9Bm
+ iNUCtvHXZqH5CKcF5jESbO4HIPDsJHXwAFKngzi6iNjp6il1+CHRptatlK5bnqy/IHql
+ FcvlPgXQL3/exA3+In2ViO26DT4+K2vV7T8FVK1dyVLEes170NLoWXoyeuHjSnCQGs/b
+ RvrKDD5QlYl5ymQyyyTteK0lqcnU1gc87/6G6d8Lxz/spYIJAAfK+dbF5lOhmBdAPbuV
+ viQ6Oesz1Q7qHYd8cRCdXDTE2qa8tNaKKLp8aB1zWTJfL0cLM97JuIvTA9ySEhjtcsVx
+ uBjg==
+X-Gm-Message-State: APjAAAUV4/tq4JNDLaHrcyeKZNJdaJauKQumaP7If/Zv5nGyWSJqaNft
+ /4S1HwYiOeeMKpf9yf+2C2JyEGw/
+X-Google-Smtp-Source: APXvYqwB4+H5/WC3t8VfddLyvhelDGnGPfu6sSBlTKf41ld252w21zNnR4q20gCaxjBM8leteLRLrg==
+X-Received: by 2002:a7b:c932:: with SMTP id h18mr6298440wml.171.1580234351951; 
+ Tue, 28 Jan 2020 09:59:11 -0800 (PST)
 Received: from localhost.localdomain (93-36-56-206.ip58.fastwebnet.it.
  [93.36.56.206])
- by smtp.gmail.com with ESMTPSA id o4sm27046968wrx.25.2020.01.28.09.58.42
+ by smtp.gmail.com with ESMTPSA id o4sm27046968wrx.25.2020.01.28.09.59.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Jan 2020 09:58:43 -0800 (PST)
+ Tue, 28 Jan 2020 09:59:11 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 125/142] meson: build texi doc
-Date: Tue, 28 Jan 2020 18:53:25 +0100
-Message-Id: <20200128175342.9066-126-pbonzini@redhat.com>
+Subject: [PATCH 137/142] meson: convert pc-bios/optionrom
+Date: Tue, 28 Jan 2020 18:53:37 +0100
+Message-Id: <20200128175342.9066-138-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200128175342.9066-1-pbonzini@redhat.com>
 References: <20200128175342.9066-1-pbonzini@redhat.com>
@@ -87,425 +87,292 @@ From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- Makefile                       | 138 ++-------------------------------
- docs/interop/qemu-ga-ref.texi  |   2 +-
- docs/interop/qemu-qmp-ref.texi |   2 +-
- docs/meson.build               |   1 +
- meson.build                    | 115 ++++++++++++++++++++++++++-
- rules.mak                      |  12 ---
- 6 files changed, 123 insertions(+), 147 deletions(-)
+ Makefile                      | 18 ++------
+ configure                     | 20 +--------
+ pc-bios/meson.build           |  4 ++
+ pc-bios/optionrom/Makefile    | 77 -----------------------------------
+ pc-bios/optionrom/meson.build | 72 ++++++++++++++++++++++++++++++++
+ scripts/signrom.py            |  2 +
+ 6 files changed, 82 insertions(+), 111 deletions(-)
+ delete mode 100644 pc-bios/optionrom/Makefile
+ create mode 100644 pc-bios/optionrom/meson.build
 
 diff --git a/Makefile b/Makefile
-index 2614138f62..e99d09c5ee 100644
+index 112bae68b2..e95042fa3d 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -11,7 +11,6 @@ BUILD_DIR=$(CURDIR)
- SRC_PATH=.
- 
- UNCHECKED_GOALS := %clean TAGS cscope ctags dist \
--    html info pdf txt \
-     help check-help print-% \
-     docker docker-% vm-help vm-test vm-build-%
- 
-@@ -114,29 +113,13 @@ edk2-decompressed = $(basename $(wildcard pc-bios/edk2-*.fd.bz2))
+@@ -112,8 +112,7 @@ generated-files-y += .git-submodule-status
  Makefile: ;
  configure: ;
  
--.PHONY: all clean cscope distclean html info install install-doc \
--	pdf txt recurse-all dist msi FORCE
-+.PHONY: all clean cscope distclean install \
-+	recurse-all dist msi FORCE
+-.PHONY: all clean cscope distclean install \
+-	recurse-all dist msi FORCE
++.PHONY: all clean cscope distclean install dist msi FORCE
  
  $(call set-vpath, $(SRC_PATH))
  
- LIBS+=-lz $(LIBS_TOOLS)
- 
--ifdef BUILD_DOCS
--DOCS=qemu-doc.html qemu-doc.txt qemu.1 qemu-img.1 qemu-nbd.8
--DOCS+=docs/interop/qemu-qmp-ref.html docs/interop/qemu-qmp-ref.txt docs/interop/qemu-qmp-ref.7
--DOCS+=docs/interop/qemu-ga-ref.html docs/interop/qemu-ga-ref.txt docs/interop/qemu-ga-ref.7
--DOCS+=docs/qemu-block-drivers.7
--DOCS+=docs/qemu-cpu-models.7
--ifdef CONFIG_VIRTFS
--DOCS+=fsdev/virtfs-proxy-helper.1
--endif
--ifdef CONFIG_TRACE_SYSTEMTAP
--DOCS+=scripts/qemu-trace-stap.1
--endif
--else
--DOCS=
--endif
--
- SUBDIR_MAKEFLAGS=$(if $(V),,--no-print-directory --quiet) BUILD_DIR=$(BUILD_DIR)
- 
- ifneq ($(wildcard config-host.mak),)
-@@ -145,7 +128,7 @@ endif
+@@ -127,7 +126,7 @@ endif
  
  include $(SRC_PATH)/tests/Makefile.include
  
--all: $(DOCS) $(if $(BUILD_DOCS),sphinxdocs) recurse-all modules
-+all: recurse-all modules
+-all: recurse-all modules
++all: modules
  
  DTC_MAKE_ARGS=-I$(SRC_PATH)/dtc VPATH=$(SRC_PATH)/dtc -C dtc V="$(V)" LIBFDT_srcdir=$(SRC_PATH)/dtc/libfdt
  DTC_CFLAGS=$(CFLAGS) $(QEMU_CFLAGS)
-@@ -221,26 +204,14 @@ qemu-%.tar.bz2:
- 	$(SRC_PATH)/scripts/make-release "$(SRC_PATH)" "$(patsubst qemu-%.tar.bz2,%,$@)"
+@@ -170,20 +169,9 @@ subdir-dtc: dtc/all
+ subdir-capstone: capstone/all
+ subdir-slirp: slirp/all
  
- distclean: clean
--	rm -f config-host.mak config-host.h* config-host.ld $(DOCS) qemu-options.texi qemu-img-cmds.texi qemu-monitor.texi qemu-monitor-info.texi
-+	rm -f config-host.mak config-host.h* config-host.ld
- 	rm -f tests/tcg/config-*.mak
- 	rm -f config-all-disas.mak config.status
- 	rm -f po/*.mo tests/qemu-iotests/common.env
- 	rm -f roms/seabios/config.mak roms/vgabios/config.mak
--	rm -f qemu-doc.info qemu-doc.aux qemu-doc.cp qemu-doc.cps
--	rm -f qemu-doc.fn qemu-doc.fns qemu-doc.info qemu-doc.ky qemu-doc.kys
--	rm -f qemu-doc.log qemu-doc.pdf qemu-doc.pg qemu-doc.toc qemu-doc.tp
--	rm -f qemu-doc.vr qemu-doc.txt
- 	rm -f qemu-plugins-ld.symbols qemu-plugins-ld64.symbols
- 	rm -f config.log
- 	rm -f linux-headers/asm
--	rm -f docs/version.texi
--	rm -f docs/interop/qemu-ga-qapi.texi docs/interop/qemu-qmp-qapi.texi
--	rm -f docs/interop/qemu-qmp-ref.7 docs/interop/qemu-ga-ref.7
--	rm -f docs/interop/qemu-qmp-ref.txt docs/interop/qemu-ga-ref.txt
--	rm -f docs/interop/qemu-qmp-ref.pdf docs/interop/qemu-ga-ref.pdf
--	rm -f docs/interop/qemu-qmp-ref.html docs/interop/qemu-ga-ref.html
--	rm -f docs/qemu-block-drivers.7
--	rm -f docs/qemu-cpu-models.7
- 	rm -Rf .sdk
- 	if test -f dtc/version_gen.h; then $(MAKE) $(DTC_MAKE_ARGS) clean; fi
+-ROM_DIRS = $(addprefix pc-bios/, $(ROMS))
+-ROM_DIRS_RULES=$(foreach t, all clean, $(addsuffix /$(t), $(ROM_DIRS)))
+-# Only keep -O and -g cflags
+-.PHONY: $(ROM_DIRS_RULES)
+-$(ROM_DIRS_RULES):
+-	$(call quiet-command,$(MAKE) $(SUBDIR_MAKEFLAGS) -C $(dir $@) V="$(V)" TARGET_DIR="$(dir $@)" CFLAGS="$(filter -O% -g%,$(CFLAGS))" $(notdir $@),)
+-
+-.PHONY: recurse-all recurse-clean
+-recurse-all: $(ROM_DIRS)
+-recurse-clean: $(addsuffix /clean, $(ROM_DIRS))
+-
+ ######################################################################
  
-@@ -280,38 +251,6 @@ BLOBS=
- DESCS=
+-clean: recurse-clean
++clean:
+ # avoid old build problems by removing potentially incorrect old files
+ 	rm -f config.mak op-i386.h opc-i386.h gen-op-i386.h op-arm.h opc-arm.h gen-op-arm.h
+ 	find . \( -name '*.so' -o -name '*.dll' -o -name '*.mo' -o -name '*.[oda]' \) -type f \
+diff --git a/configure b/configure
+index 64d52fa589..ef9640344c 100755
+--- a/configure
++++ b/configure
+@@ -6314,23 +6314,6 @@ if test "$guest_agent_msi" = "yes"; then
+   esac
+ fi
+ 
+-# Mac OS X ships with a broken assembler
+-roms=
+-if { test "$cpu" = "i386" || test "$cpu" = "x86_64"; } && \
+-        test "$targetos" != "Darwin" && test "$targetos" != "SunOS" && \
+-        test "$softmmu" = yes ; then
+-    # Different host OS linkers have different ideas about the name of the ELF
+-    # emulation. Linux and OpenBSD/amd64 use 'elf_i386'; FreeBSD uses the _fbsd
+-    # variant; OpenBSD/i386 uses the _obsd variant; and Windows uses i386pe.
+-    for emu in elf_i386 elf_i386_fbsd elf_i386_obsd i386pe; do
+-        if "$ld" -verbose 2>&1 | grep -q "^[[:space:]]*$emu[[:space:]]*$"; then
+-            ld_i386_emulation="$emu"
+-            roms="optionrom"
+-            break
+-        fi
+-    done
+-fi
+-
+ # Probe for the need for relocating the user-only binary.
+ if ( [ "$linux_user" = yes ] || [ "$bsd_user" = yes ] ) && [ "$pie" = no ]; then
+   textseg_addr=
+@@ -7497,7 +7480,6 @@ else
+ fi
+ QEMU_INCLUDES="-iquote ${source_path}/tcg $QEMU_INCLUDES"
+ 
+-echo "ROMS=$roms" >> $config_host_mak
+ echo "MAKE=$make" >> $config_host_mak
+ echo "INSTALL=$install" >> $config_host_mak
+ echo "INSTALL_DIR=$install -d -m 0755" >> $config_host_mak
+@@ -8024,7 +8006,7 @@ LINKS="Makefile"
+ LINKS="$LINKS tests/tcg/lm32/Makefile po/Makefile"
+ LINKS="$LINKS tests/tcg/Makefile.target tests/fp/Makefile"
+ LINKS="$LINKS tests/plugin/Makefile"
+-LINKS="$LINKS pc-bios/optionrom/Makefile pc-bios/keymaps"
++LINKS="$LINKS pc-bios/keymaps"
+ LINKS="$LINKS pc-bios/s390-ccw/Makefile"
+ LINKS="$LINKS roms/seabios/Makefile roms/vgabios/Makefile"
+ LINKS="$LINKS pc-bios/qemu-icon.bmp"
+diff --git a/pc-bios/meson.build b/pc-bios/meson.build
+index 013c75ce43..ef062457a1 100644
+--- a/pc-bios/meson.build
++++ b/pc-bios/meson.build
+@@ -102,6 +102,10 @@ if dtc.found()
+   alias_target('update-dtb', t)
  endif
  
--install-doc: $(DOCS)
--	$(INSTALL_DIR) "$(DESTDIR)$(qemu_docdir)"
--	$(INSTALL_DATA) qemu-doc.html "$(DESTDIR)$(qemu_docdir)"
--	$(INSTALL_DATA) qemu-doc.txt "$(DESTDIR)$(qemu_docdir)"
--	$(INSTALL_DATA) docs/interop/qemu-qmp-ref.html "$(DESTDIR)$(qemu_docdir)"
--	$(INSTALL_DATA) docs/interop/qemu-qmp-ref.txt "$(DESTDIR)$(qemu_docdir)"
--ifdef CONFIG_POSIX
--	$(INSTALL_DIR) "$(DESTDIR)$(mandir)/man1"
--	$(INSTALL_DATA) qemu.1 "$(DESTDIR)$(mandir)/man1"
--	$(INSTALL_DIR) "$(DESTDIR)$(mandir)/man7"
--	$(INSTALL_DATA) docs/interop/qemu-qmp-ref.7 "$(DESTDIR)$(mandir)/man7"
--	$(INSTALL_DATA) docs/qemu-block-drivers.7 "$(DESTDIR)$(mandir)/man7"
--	$(INSTALL_DATA) docs/qemu-cpu-models.7 "$(DESTDIR)$(mandir)/man7"
--ifeq ($(CONFIG_TOOLS),y)
--	$(INSTALL_DATA) qemu-img.1 "$(DESTDIR)$(mandir)/man1"
--	$(INSTALL_DIR) "$(DESTDIR)$(mandir)/man8"
--	$(INSTALL_DATA) qemu-nbd.8 "$(DESTDIR)$(mandir)/man8"
--endif
--ifdef CONFIG_TRACE_SYSTEMTAP
--	$(INSTALL_DATA) scripts/qemu-trace-stap.1 "$(DESTDIR)$(mandir)/man1"
--endif
--ifeq ($(CONFIG_GUEST_AGENT),y)
--	$(INSTALL_DATA) docs/interop/qemu-ga-ref.html "$(DESTDIR)$(qemu_docdir)"
--	$(INSTALL_DATA) docs/interop/qemu-ga-ref.txt "$(DESTDIR)$(qemu_docdir)"
--	$(INSTALL_DATA) docs/interop/qemu-ga-ref.7 "$(DESTDIR)$(mandir)/man7"
--endif
--endif
--ifdef CONFIG_VIRTFS
--	$(INSTALL_DIR) "$(DESTDIR)$(mandir)/man1"
--	$(INSTALL_DATA) fsdev/virtfs-proxy-helper.1 "$(DESTDIR)$(mandir)/man1"
--endif
--
- install-datadir:
- 	$(INSTALL_DIR) "$(DESTDIR)$(qemu_datadir)"
- 
-@@ -324,8 +263,7 @@ endif
- 
- ICON_SIZES=16x16 24x24 32x32 48x48 64x64 128x128 256x256 512x512
- 
--install: all $(if $(BUILD_DOCS),install-doc) \
--	install-datadir install-localstatedir \
-+install: all install-datadir install-localstatedir \
- 	$(if $(INSTALL_BLOBS),$(edk2-decompressed))
- ifdef CONFIG_TRACE_SYSTEMTAP
- 	$(INSTALL_PROG) "scripts/qemu-trace-stap" $(DESTDIR)$(bindir)
-@@ -372,66 +310,6 @@ endif
- 		$(INSTALL_DATA) $(SRC_PATH)/pc-bios/keymaps/$$x "$(DESTDIR)$(qemu_datadir)/keymaps"; \
- 	done
- 
--# documentation
--MAKEINFO=makeinfo
--MAKEINFOINCLUDES= -I docs -I $(<D) -I $(@D)
--MAKEINFOFLAGS=--no-split --number-sections $(MAKEINFOINCLUDES)
--TEXI2PODFLAGS=$(MAKEINFOINCLUDES) -DVERSION="$(VERSION)" -DCONFDIR="$(qemu_confdir)"
--TEXI2PDFFLAGS=$(if $(V),,--quiet) -I $(SRC_PATH) $(MAKEINFOINCLUDES)
--
--%.html: %.texi docs/version.texi
--	$(call quiet-command,LC_ALL=C $(MAKEINFO) $(MAKEINFOFLAGS) --no-headers \
--	--html $< -o $@,"GEN","$@")
--
--%.info: %.texi docs/version.texi
--	$(call quiet-command,$(MAKEINFO) $(MAKEINFOFLAGS) $< -o $@,"GEN","$@")
--
--%.txt: %.texi docs/version.texi
--	$(call quiet-command,LC_ALL=C $(MAKEINFO) $(MAKEINFOFLAGS) --no-headers \
--	--plaintext $< -o $@,"GEN","$@")
--
--%.pdf: %.texi docs/version.texi
--	$(call quiet-command,texi2pdf $(TEXI2PDFFLAGS) $< -o $@,"GEN","$@")
--
--docs/interop/qemu-qmp-qapi.texi: qapi/qapi-doc.texi
--	@cp -p $< $@
--
--docs/interop/qemu-ga-qapi.texi: qga/qga-qapi-doc.texi
--	@cp -p $< $@
--
--qemu.1: qemu-doc.texi qemu-options.texi qemu-monitor.texi qemu-monitor-info.texi
--qemu.1: qemu-option-trace.texi
--qemu-img.1: qemu-img.texi qemu-option-trace.texi qemu-img-cmds.texi
--fsdev/virtfs-proxy-helper.1: fsdev/virtfs-proxy-helper.texi
--qemu-nbd.8: qemu-nbd.texi qemu-option-trace.texi
--docs/qemu-block-drivers.7: docs/qemu-block-drivers.texi
--docs/qemu-cpu-models.7: docs/qemu-cpu-models.texi
--scripts/qemu-trace-stap.1: scripts/qemu-trace-stap.texi
--
--html: qemu-doc.html docs/interop/qemu-qmp-ref.html docs/interop/qemu-ga-ref.html sphinxdocs
--info: qemu-doc.info docs/interop/qemu-qmp-ref.info docs/interop/qemu-ga-ref.info
--pdf: qemu-doc.pdf docs/interop/qemu-qmp-ref.pdf docs/interop/qemu-ga-ref.pdf
--txt: qemu-doc.txt docs/interop/qemu-qmp-ref.txt docs/interop/qemu-ga-ref.txt
--
--qemu-doc.html qemu-doc.info qemu-doc.pdf qemu-doc.txt: \
--	qemu-img.texi qemu-nbd.texi qemu-options.texi \
--	qemu-tech.texi qemu-option-trace.texi \
--	qemu-deprecated.texi qemu-monitor.texi qemu-img-cmds.texi \
--	qemu-monitor-info.texi docs/qemu-block-drivers.texi \
--	docs/qemu-cpu-models.texi docs/security.texi
--
--docs/interop/qemu-ga-ref.dvi docs/interop/qemu-ga-ref.html \
--    docs/interop/qemu-ga-ref.info docs/interop/qemu-ga-ref.pdf \
--    docs/interop/qemu-ga-ref.txt docs/interop/qemu-ga-ref.7: \
--	docs/interop/qemu-ga-ref.texi docs/interop/qemu-ga-qapi.texi
--
--docs/interop/qemu-qmp-ref.dvi docs/interop/qemu-qmp-ref.html \
--    docs/interop/qemu-qmp-ref.info docs/interop/qemu-qmp-ref.pdf \
--    docs/interop/qemu-qmp-ref.txt docs/interop/qemu-qmp-ref.7: \
--	docs/interop/qemu-qmp-ref.texi docs/interop/qemu-qmp-qapi.texi
--
--$(filter %.1 %.7 %.8,$(DOCS)): scripts/texi2pod.pl
--
- ifdef CONFIG_WIN32
- 
- INSTALLER = qemu-setup-$(VERSION)$(EXESUF)
-@@ -454,7 +332,7 @@ installer: $(INSTALLER)
- 
- INSTDIR=/tmp/qemu-nsis
- 
--$(INSTALLER): install-doc $(SRC_PATH)/qemu.nsi
-+$(INSTALLER): $(SRC_PATH)/qemu.nsi
- 	$(MAKE) install prefix=${INSTDIR}
- ifdef SIGNCODE
- 	(cd ${INSTDIR}; \
-@@ -525,10 +403,6 @@ endif
- 	@echo  '  docker          - Help about targets running tests inside containers'
- 	@echo  '  vm-help         - Help about targets running tests inside VM'
- 	@echo  ''
--	@echo  'Documentation targets:'
--	@echo  '  html info pdf txt'
--	@echo  '                  - Build documentation in specified format'
--	@echo  ''
- ifdef CONFIG_WIN32
- 	@echo  'Windows targets:'
- 	@echo  '  installer       - Build NSIS-based installer for QEMU'
-diff --git a/docs/interop/qemu-ga-ref.texi b/docs/interop/qemu-ga-ref.texi
-index ddb76ce1c2..a23cc2ed7f 100644
---- a/docs/interop/qemu-ga-ref.texi
-+++ b/docs/interop/qemu-ga-ref.texi
-@@ -65,7 +65,7 @@ along with this manual.  If not, see http://www.gnu.org/licenses/.
- @c for texi2pod:
- @c man begin DESCRIPTION
- 
--@include qemu-ga-qapi.texi
-+@include qga/qga-qapi-doc.texi
- 
- @c man end
- 
-diff --git a/docs/interop/qemu-qmp-ref.texi b/docs/interop/qemu-qmp-ref.texi
-index bb25758bd0..ea1d7fe6c2 100644
---- a/docs/interop/qemu-qmp-ref.texi
-+++ b/docs/interop/qemu-qmp-ref.texi
-@@ -65,7 +65,7 @@ along with this manual.  If not, see http://www.gnu.org/licenses/.
- @c for texi2pod:
- @c man begin DESCRIPTION
- 
--@include qemu-qmp-qapi.texi
-+@include qapi/qapi-doc.texi
- 
- @c man end
- 
-diff --git a/docs/meson.build b/docs/meson.build
-index 124987dc57..020ac5173e 100644
---- a/docs/meson.build
-+++ b/docs/meson.build
-@@ -75,6 +75,7 @@ if sphinx.found()
-     'specs/ppc-xive.rst',
-   ]
-   specs = custom_target('sphinx-specs',
-+                build_by_default: build_docs,
-                 input: specs_rst,
-                 depend_files: [files('conf.py', 'specs/conf.py')],
-                 output: 'specs',
-diff --git a/meson.build b/meson.build
-index 04068fd765..caf99f5082 100644
---- a/meson.build
-+++ b/meson.build
-@@ -466,13 +466,32 @@ foreach d : hx_headers
-                 command: [hxtool, '-h', '@INPUT0@'])
- endforeach
- 
-+# meson makes it a bit difficult to refer to build targets
-+# and texi tools don't generate depfiles
-+# let's make doc generation depend on all texi
-+texi_deps = [
-+  'docs/interop/qemu-ga-ref.texi',
-+  'docs/interop/qemu-qmp-ref.texi',
-+  'docs/qemu-block-drivers.texi',
-+  'docs/qemu-cpu-models.texi',
-+  'docs/security.texi',
-+  'fsdev/virtfs-proxy-helper.texi',
-+  'qemu-deprecated.texi',
-+  'qemu-doc.texi',
-+  'qemu-img.texi',
-+  'qemu-nbd.texi',
-+  'qemu-option-trace.texi',
-+  'qemu-tech.texi',
-+  'scripts/qemu-trace-stap.texi',
-+]
-+
- foreach d : [
-   ['qemu-options.hx', 'qemu-options.texi'],
-   ['hmp-commands.hx', 'qemu-monitor.texi'],
-   ['hmp-commands-info.hx', 'qemu-monitor-info.texi'],
-   ['qemu-img-cmds.hx', 'qemu-img-cmds.texi'],
- ]
--  custom_target(d[1],
-+  texi_deps += custom_target(d[1],
-                 input: files(d[0]),
-                 output: d[1],
-                 capture: true,
-@@ -951,3 +970,97 @@ endif
- 
- subdir('pc-bios')
- subdir('docs')
-+
-+makeinfo = find_program('makeinfo', required: build_docs)
-+
-+docs_inc = [
-+  '-I', meson.current_source_dir(),
-+  '-I', meson.current_build_dir() / 'docs',
-+  '-I', '@OUTDIR@',
-+]
-+
-+texi = {
-+  'qemu-doc': files('qemu-doc.texi'),
-+  'qemu-qmp-ref': files('docs/interop/qemu-qmp-ref.texi'),
-+}
-+if 'CONFIG_GUEST_AGENT' in config_host
-+  texi += {'qemu-ga-ref': files('docs/interop/qemu-ga-ref.texi')}
++if host_machine.cpu_family() in ['x86', 'x86_64']
++  subdir('optionrom')
 +endif
 +
-+if makeinfo.found() and build_docs
-+  foreach doc, input: texi
-+    cmd = [
-+      'env', 'LC_ALL=C', makeinfo, '--no-split', '--number-sections', docs_inc,
-+      '@INPUT0@', '-o', '@OUTPUT@',
-+    ]
-+    foreach ext, args: {
-+        'info': [],
-+        'html': ['--no-headers', '--html'],
-+        'txt': ['--no-headers', '--plaintext'],
-+    }
-+      output = doc + '.' + ext
-+      custom_target(output,
-+                    input: input + texi_deps,
-+                    output: output,
-+                    install: true,
-+                    install_dir: config_host['qemu_docdir'],
-+                    command: cmd + args)
-+    endforeach
+ cc = meson.get_compiler('c')
+ if host_machine.cpu_family() == 's390x' and cc.has_argument('-march=z900')
+   subdir('s390-ccw')
+diff --git a/pc-bios/optionrom/Makefile b/pc-bios/optionrom/Makefile
+deleted file mode 100644
+index 51cb6ca9d8..0000000000
+--- a/pc-bios/optionrom/Makefile
++++ /dev/null
+@@ -1,77 +0,0 @@
+-CURRENT_MAKEFILE := $(realpath $(word $(words $(MAKEFILE_LIST)),$(MAKEFILE_LIST)))
+-SRC_DIR := $(dir $(CURRENT_MAKEFILE))
+-TOPSRC_DIR := $(SRC_DIR)/../..
+-VPATH = $(SRC_DIR)
+-
+-all: multiboot.bin linuxboot.bin linuxboot_dma.bin kvmvapic.bin pvh.bin
+-# Dummy command so that make thinks it has done something
+-	@true
+-
+-include ../../config-host.mak
+-
+-quiet-command = $(if $(V),$1,$(if $(2),@printf "  %-7s %s\n" $2 $3 && $1, @$1))
+-cc-option = $(if $(shell $(CC) $1 -S -o /dev/null -xc /dev/null >/dev/null 2>&1 && echo OK), $1, $2)
+-
+-# Compiling with no optimization creates ROMs that are too large
+-ifeq ($(lastword $(filter -O%, -O0 $(CFLAGS))),-O0)
+-override CFLAGS += -O2
+-endif
+-override CFLAGS += -march=i486
+-
+-# Flags for dependency generation
+-override CPPFLAGS += -MMD -MP -MT $@ -MF $(@D)/$(*F).d
+-
+-override CFLAGS += $(filter -W%, $(QEMU_CFLAGS))
+-override CFLAGS += $(CFLAGS_NOPIE) -ffreestanding -I$(TOPSRC_DIR)/include
+-override CFLAGS += $(call cc-option, -fno-stack-protector)
+-override CFLAGS += $(call cc-option, -m16)
+-
+-ifeq ($(filter -m16, $(CFLAGS)),)
+-# Attempt to work around compilers that lack -m16 (GCC <= 4.8, clang <= ??)
+-# On GCC we add -fno-toplevel-reorder to keep the order of asm blocks with
+-# respect to the rest of the code.  clang does not have -fno-toplevel-reorder,
+-# but it places all asm blocks at the beginning and we're relying on it for
+-# the option ROM header.  So just force clang not to use the integrated
+-# assembler, which doesn't support .code16gcc.
+-override CFLAGS += $(call cc-option, -fno-toplevel-reorder)
+-override CFLAGS += $(call cc-option, -no-integrated-as)
+-override CFLAGS += -m32 -include $(SRC_DIR)/code16gcc.h
+-endif
+-
+-Wa = -Wa,
+-override ASFLAGS += -32
+-override CFLAGS += $(call cc-option, $(Wa)-32)
+-
+-
+-LD_I386_EMULATION ?= elf_i386
+-override LDFLAGS = -m $(LD_I386_EMULATION) -T $(SRC_DIR)/flat.lds
+-override LDFLAGS += $(LDFLAGS_NOPIE)
+-
+-all: multiboot.bin linuxboot.bin linuxboot_dma.bin kvmvapic.bin pvh.bin
+-
+-pvh.img: pvh.o pvh_main.o
+-
+-%.o: %.S
+-	$(call quiet-command,$(CPP) $(CPPFLAGS) -c -o - $< | $(AS) $(ASFLAGS) -o $@,"AS","$@")
+-
+-%.o: %.c
+-	$(call quiet-command,$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@,"CC","$@")
+-
+-%.img: %.o
+-	$(call quiet-command,$(LD) $(LDFLAGS) -s -o $@ $^,"BUILD","$@")
+-
+-%.raw: %.img
+-	$(call quiet-command,$(OBJCOPY) -O binary -j .text $< $@,"BUILD","$@")
+-
+-%.bin: %.raw
+-	$(call quiet-command,$(PYTHON) $(TOPSRC_DIR)/scripts/signrom.py $< $@,"SIGN","$@")
+-
+-include $(wildcard *.d)
+-
+-clean:
+-	rm -f *.o *.d *.raw *.img *.bin *~
+-
+-# suppress auto-removal of intermediate files
+-.SECONDARY:
+-
+-.PHONY: all clean
+diff --git a/pc-bios/optionrom/meson.build b/pc-bios/optionrom/meson.build
+new file mode 100644
+index 0000000000..5761736a68
+--- /dev/null
++++ b/pc-bios/optionrom/meson.build
+@@ -0,0 +1,72 @@
++cc = meson.get_compiler('c')
++objcopy = find_program('objcopy')
++signrom = find_program(meson.current_source_dir() / '../../scripts/signrom.py')
++
++emu = ''
++foreach e: ['elf_i386', 'elf_i386_fbsd', 'elf_i386_obsd', 'i386pe']
++  if cc.has_multi_link_arguments('-m32', '-Wl,-m' + e)
++    emu = e
++    break
++  endif
++endforeach
++
++if emu == ''
++  message('No suitable compiler/linker found to build optionrom')
++else
++  link_args = ['-nostdlib', '-m32', '-Wl,-m' + e]
++  link_args += cc.get_supported_link_arguments('-Wl,--build-id=none')
++  if cc.has_multi_link_arguments('-fno-pie', '-no-pie')
++    link_args += ['-no-pie']
++  endif
++
++  link_args += '-Wl,-T' + meson.current_source_dir() / 'flat.lds'
++
++  c_args = ['-ffreestanding', '-march=i486']
++  c_args += cc.get_supported_arguments('-fno-pie', '-fno-stack-protector', '-m32')
++
++  # Compiling with no optimization creates ROMs that are too large
++  code16_c_args = ['-O2']
++  if cc.has_argument('-m16')
++    code16_c_args += '-m16'
++  else
++    # Attempt to work around compilers that lack -m16 (GCC <= 4.8, clang <= ??)
++    # On GCC we add -fno-toplevel-reorder to keep the order of asm blocks with
++    # respect to the rest of the code.  clang does not have -fno-toplevel-reorder,
++    # but it places all asm blocks at the beginning and we're relying on it for
++    # the option ROM header.  So just force clang not to use the integrated
++    # assembler, which doesn't support .code16gcc.
++    code16_c_args += cc.get_supported_arguments('-fno-toplevel-reorder', '-no-integrated-as')
++    code16_c_args += ['-m32', '-include', meson.current_source_dir() / 'code16gcc.h']
++  endif
++
++  foreach target, opt: {
++    'multiboot': {'src': ['multiboot.S'], 'cargs': ['-m32', '-g0']},
++    'linuxboot_dma': {'src': ['linuxboot_dma.c'], 'cargs': code16_c_args},
++    'linuxboot': {'src': ['linuxboot.S']},
++    'kvmvapic': {'src': ['kvmvapic.S']},
++    'pvh': {'src': ['pvh.S', 'pvh_main.c']},
++   }
++    img = executable(
++      target + '.img',
++      opt['src'],
++      c_args: [c_args, opt.get('cargs', [])],
++      include_directories: include_directories('../../include'),
++      link_args: link_args,
++    )
++
++    raw = custom_target(
++      target + '.raw',
++      output: target + '.raw',
++      input: img,
++      command: [objcopy, '-O', 'binary', '-j', '.text', '@INPUT@', '@OUTPUT@'],
++    )
++
++    bin = custom_target(
++      target + '.bin',
++      output: target + '.bin',
++      input: raw,
++      command: [signrom, '@INPUT@', '@OUTPUT@'],
++      build_by_default: true,
++    )
 +  endforeach
 +endif
+diff --git a/scripts/signrom.py b/scripts/signrom.py
+index 313ee28a17..ba9ac0350e 100644
+--- a/scripts/signrom.py
++++ b/scripts/signrom.py
+@@ -1,3 +1,5 @@
++#!/usr/bin/env python
 +
-+texi2pdf = find_program('texi2pdf', required: false)
-+
-+if texi2pdf.found()
-+  foreach doc, input: texi
-+    output = doc + '.pdf'
-+    custom_target(output,
-+                  input: input + texi_deps,
-+                  output: output,
-+                  command: [texi2pdf, '-q', docs_inc, '@INPUT0@', '-o', '@OUTPUT@'])
-+  endforeach
-+endif
-+
-+texi2pod = find_program('scripts/texi2pod.pl')
-+pod2man = find_program('pod2man', required: build_docs)
-+
-+mans = {
-+  'qemu-block-drivers.7': files('docs/qemu-block-drivers.texi'),
-+  'qemu-cpu-models.7': files('docs/qemu-cpu-models.texi'),
-+  'qemu-qmp-ref.7': files('docs/interop/qemu-qmp-ref.texi'),
-+  'qemu.1': files('qemu-doc.texi'),
-+}
-+if 'CONFIG_GUEST_AGENT' in config_host
-+  mans += {'qemu-ga-ref.7': files('docs/interop/qemu-ga-ref.texi')}
-+endif
-+if 'CONFIG_TOOLS' in config_host
-+  mans += {'qemu-img.7': files('qemu-img.texi')}
-+  mans += {'qemu-nbd.8': files('qemu-nbd.texi')}
-+endif
-+if 'CONFIG_VIRTFS' in config_host
-+  mans += {'virtfs-proxy-helper.1': files('fsdev/virtfs-proxy-helper.texi')}
-+endif
-+if 'CONFIG_TRACE_SYSTEMTAP' in config_host
-+  mans += {'qemu-trace-stap.1': files('scripts/qemu-trace-stap.texi')}
-+endif
-+
-+if pod2man.found() and build_docs
-+  foreach man, input: mans
-+    pod = custom_target(man + '.pod',
-+                        input: input + texi_deps,
-+                        output: man + '.pod',
-+                        command: [texi2pod,
-+                                  '-DVERSION="' + config_host['VERSION'] + '"',
-+                                  '-DCONFDIR="' + config_host['qemu_confdir'] + '"',
-+                                  '@INPUT0@', '@OUTPUT@'])
-+    section = man[-1]
-+    man = custom_target(man,
-+                        input: pod,
-+                        output: man,
-+                        capture: true,
-+                        install: true,
-+                        install_dir: config_host['mandir'] / 'man' + section,
-+                        command: [pod2man, '--utf8', '--section=' + section, '--center=" "',
-+                                  '--release=" "', '@INPUT@'])
-+  endforeach
-+endif
-diff --git a/rules.mak b/rules.mak
-index 6c6b9098e7..92597864fe 100644
---- a/rules.mak
-+++ b/rules.mak
-@@ -378,15 +378,3 @@ define unnest-vars
-         $(eval -include $(patsubst %.o,%.d,$(patsubst %.mo,%.d,$(filter %.o,$($v)))))
-         $(eval $v := $(filter-out %/,$($v))))
- endef
--
--TEXI2MAN = $(call quiet-command, \
--	perl -Ww -- $(SRC_PATH)/scripts/texi2pod.pl $(TEXI2PODFLAGS) $< $@.pod && \
--	$(POD2MAN) --section=$(subst .,,$(suffix $@)) --center=" " --release=" " $@.pod > $@, \
--	"GEN","$@")
--
--%.1:
--	$(call TEXI2MAN)
--%.7:
--	$(call TEXI2MAN)
--%.8:
--	$(call TEXI2MAN)
+ from __future__ import print_function
+ #
+ # Option ROM signing utility
 -- 
 2.21.0
 
