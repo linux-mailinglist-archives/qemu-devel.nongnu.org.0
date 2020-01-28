@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6546814BFE8
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 19:32:33 +0100 (CET)
-Received: from localhost ([::1]:35224 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BAE914BFE4
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 19:32:07 +0100 (CET)
+Received: from localhost ([::1]:35220 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwVf6-0007Q5-3f
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 13:32:32 -0500
-Received: from [2001:470:142:3::10] (port=59706 helo=eggs.gnu.org)
+	id 1iwVeg-0006qS-5e
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 13:32:06 -0500
+Received: from [2001:470:142:3::10] (port=59770 helo=eggs.gnu.org)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iwV59-0007vv-3Z
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:55:24 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iwV5A-0007zy-6c
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:55:25 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iwV54-0001hh-P6
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:55:22 -0500
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:36295)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iwV58-0001oU-Ut
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:55:24 -0500
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:37425)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iwV53-0001aI-Mn
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:55:18 -0500
-Received: by mail-wr1-x443.google.com with SMTP id z3so17126073wru.3
- for <qemu-devel@nongnu.org>; Tue, 28 Jan 2020 09:55:16 -0800 (PST)
+ id 1iwV58-0001jq-6x
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:55:22 -0500
+Received: by mail-wr1-x431.google.com with SMTP id w15so17137995wru.4
+ for <qemu-devel@nongnu.org>; Tue, 28 Jan 2020 09:55:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=HINL6J6/Q21GKz35F6oJJvZeMUYceOY2knspGcuD++E=;
- b=f993nKwlDtL2Giph8hqvzo9vNvyp1d2o7M/NUoJVa+8lGQVUb43ZNOtuLH96rjjW7U
- E2d3SL4BjCvxHbxvHSzhlCJa/DQOfAIkn/n2hEgE9oqO0AC87jeLj0ask0aDROdMXnfx
- A8e8s4nP1KIyvjVqjEt24hxi+xynq5ubyo6xVw5Y8wDAclU1OLpd85T5T8ZLvsDDbFeI
- 9uMKV3tOfRHTBcHKPzDLi6zifTlpuO3KS2LZgIr3iUDzL1Xd0GRLJPX7VtgqqDw/UU09
- y+Dd+0DYD7z0ssWult/C7MSceP+t0zyNFaqrVV3By/4MWZ+Z96126Lj7mlv4v1CVWD/U
- qSog==
+ bh=LMZiYWum7K5FFftwGEHqxzP9jxnxtuhS2JjQK1I+4dg=;
+ b=bry2SMkg+aOeqbx9Wph87sODEbLIQjqukHRjPcqT4j1UST5ZE2jrWA/fr1YbwFce/0
+ bbAOOzQyU3ijQIHfNSSFqbLYsQLhae8cWFKLinEDlz/JV9BjkDQOeQowMVRk5sEI/EZ4
+ pzE0yG5w7bAPJ4h3c78J1Dd1W+PbgTC/BylBzbFRfNe67OQZlmN5DbjOrL7YVTMiAz9B
+ DjtmEsyBrcPQ7A7t188AlUje112v0Ira63YWrNodlbXkfjS0DoHUx3Y3nGB7Y9mzll38
+ IzbWgDwFb3Ss+3k+6EQhZyev+HnA3qQzUc3ldj+eAwMd5eQfCdbKy2EFB0XkLZyDLp0U
+ 1j/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=HINL6J6/Q21GKz35F6oJJvZeMUYceOY2knspGcuD++E=;
- b=fQbVfMZ8/9kEkL5UEIQ2eAZivOiIlf6EGlQ/Yru8I8ckwv43wIdL01mXGSnkKBD/aV
- Ho8dHfygPAJQEAWVVO+vCavePLNJMNXR6/ZOurkv0Pb7k6hdM/WZaAtQ0dL35D++HZNZ
- fTGZAwqMTOUaxft02s1Obr3Xm3/uxhmr1BuvHSPVmyiJpY1K9nbCyJ61XnCqp2XnLLtv
- cyZ9w4XClKnFsaEp7IoLt963K9U6SyoKer/pwRsaACyPVVLwnKmujHS3t+Lq+VzYYiVm
- 7gyh45MRBoYb2drYt1Go44/ktLjh3xtOgThCOSH8X965zUJBCTt2C5J3c8MHgFYfsjt6
- oFlw==
-X-Gm-Message-State: APjAAAXGaeWTSPVqUK2iPSTWRT0v0Y1iLzMhdZLtJ/9oi1kX63J2bu5P
- kJR+DqBY3PB++5hYUlWKQGET0Anb
-X-Google-Smtp-Source: APXvYqyLyEa34LxsJdWBLQl+kS0PXV+toEPd0BGM5Xyu7yudcQLkK22jLgwn2sb6HA5rktnRW2mNSw==
-X-Received: by 2002:a5d:484f:: with SMTP id n15mr29684814wrs.365.1580234115254; 
- Tue, 28 Jan 2020 09:55:15 -0800 (PST)
+ bh=LMZiYWum7K5FFftwGEHqxzP9jxnxtuhS2JjQK1I+4dg=;
+ b=mpdXdEOT6FWWVj40LFg1kOjBWdNwJj4weUbPFxXAAI7u1CRoDLLYLESrm6k/Ds2qAA
+ txlceSc95vkpSUytlQxnseiH471UE+4nta5LVxYlcxy3coFEgMD/NZqspiRzzccuaTf6
+ 9vshSNIr4UteLf9dhoyHtaTloYQBr6rvMUrrWgp7zCs9pCOksC5vPdCjcwqiS96v+t5t
+ gz0GIHhf6cS4YO7AzkzINOSbBfblOM7D3Q9vpsnDIPVNteOadSWQK5OmVRs7fMGn5hny
+ cd1x9CqCpJ+VnCxncQTB2nE9qHYNz35s/d84XekHEZJG0nttKdjugCkQItPvl+Vtww0R
+ nqfw==
+X-Gm-Message-State: APjAAAVggc3qYIdRc1Xhy8wPwnD359vS7GfiLy3gsfDN1sW358zudj0o
+ bEx/usai2mEoF8pWnXajX1b9BOmp
+X-Google-Smtp-Source: APXvYqx3+wRRfJZFD7BZQuWnFHDOT2nBDB9//wros/hHAHW9VoA3I+a88+9EREtmn42itFj2QAp/Bw==
+X-Received: by 2002:a5d:44ca:: with SMTP id z10mr29998882wrr.266.1580234119833; 
+ Tue, 28 Jan 2020 09:55:19 -0800 (PST)
 Received: from localhost.localdomain (93-36-56-206.ip58.fastwebnet.it.
  [93.36.56.206])
- by smtp.gmail.com with ESMTPSA id o4sm27046968wrx.25.2020.01.28.09.55.13
+ by smtp.gmail.com with ESMTPSA id o4sm27046968wrx.25.2020.01.28.09.55.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Jan 2020 09:55:14 -0800 (PST)
+ Tue, 28 Jan 2020 09:55:19 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 036/142] meson: configure 50-qemu-gpu.json
-Date: Tue, 28 Jan 2020 18:51:56 +0100
-Message-Id: <20200128175342.9066-37-pbonzini@redhat.com>
+Subject: [PATCH 038/142] build-sys hack: link with whole .fa archives
+Date: Tue, 28 Jan 2020 18:51:58 +0100
+Message-Id: <20200128175342.9066-39-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200128175342.9066-1-pbonzini@redhat.com>
 References: <20200128175342.9066-1-pbonzini@redhat.com>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::443
+X-Received-From: 2a00:1450:4864:20::431
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,83 +85,69 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
+In order to link the *-obj-y files into tests, we will make static
+libraries of them in Meson, and then link them as whole archives
+into the tests.  To separate regular static libraries from link-whole
+libraries, give them a different file extension.
+
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- Makefile                           | 13 +------------
- contrib/vhost-user-gpu/meson.build |  5 +++++
- rules.mak                          |  7 -------
- 3 files changed, 6 insertions(+), 19 deletions(-)
+ rules.mak | 18 +++++++++++++-----
+ 1 file changed, 13 insertions(+), 5 deletions(-)
 
-diff --git a/Makefile b/Makefile
-index 040bcad43a..3629563bc6 100644
---- a/Makefile
-+++ b/Makefile
-@@ -128,13 +128,8 @@ $(call set-vpath, $(SRC_PATH))
- 
- LIBS+=-lz $(LIBS_TOOLS)
- 
--vhost-user-json-y =
- HELPERS-y =
- 
--ifeq ($(CONFIG_LINUX)$(CONFIG_VIRGL)$(CONFIG_GBM)$(CONFIG_TOOLS),yyyy)
--vhost-user-json-y += contrib/vhost-user-gpu/50-qemu-gpu.json
--endif
--
- # Sphinx does not allow building manuals into the same directory as
- # the source files, so if we're doing an in-tree QEMU build we must
- # build the manuals into a subdirectory (and then install them from
-@@ -240,7 +235,7 @@ dummy := $(call unnest-vars,, \
- 
- include $(SRC_PATH)/tests/Makefile.include
- 
--all: $(DOCS) $(if $(BUILD_DOCS),sphinxdocs) $(TOOLS) $(HELPERS-y) recurse-all modules $(vhost-user-json-y)
-+all: $(DOCS) $(if $(BUILD_DOCS),sphinxdocs) $(TOOLS) $(HELPERS-y) recurse-all modules
- 
- config-host.h: config-host.h-timestamp
- config-host.h-timestamp: config-host.mak
-@@ -522,12 +517,6 @@ endif
- ifneq ($(HELPERS-y),)
- 	$(call install-prog,$(HELPERS-y),$(DESTDIR)$(libexecdir))
- endif
--ifneq ($(vhost-user-json-y),)
--	$(INSTALL_DIR) "$(DESTDIR)$(qemu_datadir)/vhost-user/"
--	for x in $(vhost-user-json-y); do \
--		$(INSTALL_DATA) $$x "$(DESTDIR)$(qemu_datadir)/vhost-user/"; \
--	done
--endif
- ifdef CONFIG_TRACE_SYSTEMTAP
- 	$(INSTALL_PROG) "scripts/qemu-trace-stap" $(DESTDIR)$(bindir)
- endif
-diff --git a/contrib/vhost-user-gpu/meson.build b/contrib/vhost-user-gpu/meson.build
-index 8778aa79de..7303b6dbaf 100644
---- a/contrib/vhost-user-gpu/meson.build
-+++ b/contrib/vhost-user-gpu/meson.build
-@@ -2,4 +2,9 @@ if 'CONFIG_VIRGL' in config_host and 'CONFIG_GBM' in config_host
-   executable('vhost-user-gpu', files('main.c', 'virgl.c', 'vugbm.c'),
-              link_with: libvhost_user,
-              dependencies: [qemuutil, pixman, gbm, virgl])
-+
-+  configure_file(input: '50-qemu-gpu.json.in',
-+                 output: '50-qemu-gpu.json',
-+                 configuration: config_host,
-+                 install_dir: config_host['qemu_datadir'] / 'vhost-user')
- endif
 diff --git a/rules.mak b/rules.mak
-index fa9960cdbd..52891849c8 100644
+index 52891849c8..a10a972521 100644
 --- a/rules.mak
 +++ b/rules.mak
-@@ -393,10 +393,3 @@ TEXI2MAN = $(call quiet-command, \
- 	$(call TEXI2MAN)
- %.8:
- 	$(call TEXI2MAN)
--
--GEN_SUBST = $(call quiet-command, \
--	sed -e "s!@libexecdir@!$(libexecdir)!g" < $< > $@, \
--	"GEN","$@")
--
--%.json: %.json.in
--	$(call GEN_SUBST)
+@@ -39,6 +39,13 @@ find-symbols = $(if $1, $(sort $(shell $(NM) -P -g $1 | $2)))
+ defined-symbols = $(call find-symbols,$1,awk '$$2!="U"{print $$1}')
+ undefined-symbols = $(call find-symbols,$1,awk '$$2=="U"{print $$1}')
+ 
++WL := -Wl,
++ifdef CONFIG_DARWIN
++whole-archive = $(WL)-force_load,$1
++else
++whole-archive = $(WL)--whole-archive $1 $(WL)--no-whole-archive
++endif
++
+ # All the .mo objects in -m variables are also added into corresponding -y
+ # variable in unnest-vars, but filtered out here, when LINK is called.
+ #
+@@ -54,11 +61,12 @@ undefined-symbols = $(call find-symbols,$1,awk '$$2=="U"{print $$1}')
+ # This is necessary because the exectuable itself may not use the function, in
+ # which case the function would not be linked in. Then the DSO loading will
+ # fail because of the missing symbol.
+-process-archive-undefs = $(filter-out %.a %.mo,$1) \
++process-archive-undefs = $(filter-out %.a %.fa %.mo,$1) \
+                 $(addprefix $(WL_U), \
+-                     $(filter $(call defined-symbols,$(filter %.a, $1)), \
++                     $(filter $(call defined-symbols,$(filter %.a %.fa, $1)), \
+                               $(call undefined-symbols,$(filter %.mo,$1)))) \
+-                $(filter %.a,$1)
++		$(foreach l,$(filter %.fa,$1),$(call whole-archive,$l)) \
++		$(filter %.a,$1)
+ 
+ extract-libs = $(strip $(foreach o,$(filter-out %.mo,$1),$($o-libs)))
+ expand-objs = $(strip $(sort $(filter %.o,$1)) \
+@@ -122,7 +130,7 @@ LD_REL := $(CC) -nostdlib $(LD_REL_FLAGS)
+ modules:
+ 
+ %$(EXESUF): %.o
+-	$(call LINK,$(filter %.o %.a %.mo, $^))
++	$(call LINK,$(filter %.o %.a %.mo %.fa, $^))
+ 
+ %.a:
+ 	$(call quiet-command,rm -f $@ && $(AR) rcs $@ $^,"AR","$(TARGET_DIR)$@")
+@@ -378,7 +386,7 @@ define unnest-vars
+                 $(error $o added in $v but $o-objs is not set)))
+         $(shell mkdir -p ./ $(sort $(dir $($v))))
+         # Include all the .d files
+-        $(eval -include $(patsubst %.o,%.d,$(patsubst %.mo,%.d,$($v))))
++        $(eval -include $(patsubst %.o,%.d,$(patsubst %.mo,%.d,$(filter %.o,$($v)))))
+         $(eval $v := $(filter-out %/,$($v))))
+ endef
+ 
 -- 
 2.21.0
 
