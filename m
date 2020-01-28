@@ -2,74 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21EA614B331
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 12:01:51 +0100 (CET)
-Received: from localhost ([::1]:57086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BD2D14B342
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 12:06:34 +0100 (CET)
+Received: from localhost ([::1]:57264 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwOcw-0007ap-3j
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 06:01:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54369)
+	id 1iwOhV-0006Rk-AS
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 06:06:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55380)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1iwOb0-0005oT-80
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 05:59:51 -0500
+ (envelope-from <liam.merwick@oracle.com>) id 1iwOew-0002sV-Ge
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 06:03:55 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1iwOaz-0001B6-AR
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 05:59:50 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:22999
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1iwOaz-0001Ah-6H
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 05:59:49 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580209188;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=zkBmLB/JJN+ZEUKVcBSlwaA4CVInlGKUEFyoXzxOk0c=;
- b=fXELHI0QLMHmwO8z0I78NWTFrVuERDWLLoP9IF1iPnLp7cyJLThfC44oBPxh2a1+WW5mS5
- iKlSNy6DjhuLOSbhrEokvoDY/A+LpQMqwGu+IzdNUw7YXv3kjBwtGHLhSFepiMGZ9lLCVu
- 9KxRvOeB4G5GuSrHq58xB7vX+safwtg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-436-tIEVltOqNAaIXhAAJWjV1w-1; Tue, 28 Jan 2020 05:59:46 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6FCC213E1;
- Tue, 28 Jan 2020 10:59:45 +0000 (UTC)
-Received: from linux.fritz.box (ovpn-117-106.ams2.redhat.com [10.36.117.106])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6BC5360BFB;
- Tue, 28 Jan 2020 10:59:33 +0000 (UTC)
-Date: Tue, 28 Jan 2020 11:59:32 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: Making QEMU easier for management tools and applications
-Message-ID: <20200128105932.GC6431@linux.fritz.box>
-References: <87h81unja8.fsf@dusky.pond.sub.org>
- <20191224134139.GD2710539@redhat.com>
- <30664f6e-81da-a6e6-9b20-037fc91290fb@redhat.com>
- <878slyej29.fsf@dusky.pond.sub.org>
- <a41ae09b-021f-2fda-0b03-7b37c5624ab3@redhat.com>
- <20200123190145.GI657556@redhat.com>
- <2561a069-ce5f-3c30-b04e-db7cd2fcdc85@redhat.com>
- <20200124095027.GA824327@redhat.com>
- <20200127143505.GD5669@linux.fritz.box>
- <20200127202925.GE3419@work-vm>
+ (envelope-from <liam.merwick@oracle.com>) id 1iwOev-0003kV-L7
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 06:03:54 -0500
+Received: from aserp2120.oracle.com ([141.146.126.78]:46448)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <liam.merwick@oracle.com>)
+ id 1iwOet-0003jQ-HN; Tue, 28 Jan 2020 06:03:51 -0500
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+ by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 00SAxIWG116083;
+ Tue, 28 Jan 2020 11:03:10 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=corp-2019-08-05;
+ bh=DYh0RIFuVSZpob2NSOUwbR0dZjvLnDjhfJ8y8tcSRaw=;
+ b=ra1pIZ+EfY/9Ia+i7P4FP+K3yIDdM9Dg2uR9D7U9QkdleJnEPouvQdS3XJ6PReGo8yzP
+ wqCLufL0DqkttXomhM7vlhNkKwh16Nt/1UZBIuN7of5ygqFRNEpI8GQS7c59XD5jErnN
+ DIbng7ex+PnjfD9Ay10uRlWYHx6KvJQWCQJZl3EY56KedoDVDTnFAJ3eQSFeYLtGnm2/
+ R/l4CPEyk0imQJw5C3eXYk16Lf+V8Ta0v+c+TK2R9hqNqJKP1z/9Gnp6X5R1ABsXmb9E
+ lzkmKBEmFgZelMthLytJG53T8xfKSml2XA6KERwusvubTgIhQE2U2dmtXZdpxkguu4O3 iQ== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+ by aserp2120.oracle.com with ESMTP id 2xrdmqdh06-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 28 Jan 2020 11:03:10 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 00SAxM6S066892;
+ Tue, 28 Jan 2020 11:01:09 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+ by aserp3020.oracle.com with ESMTP id 2xry70f6x0-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 28 Jan 2020 11:01:09 +0000
+Received: from abhmp0005.oracle.com (abhmp0005.oracle.com [141.146.116.11])
+ by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 00SB170B026049;
+ Tue, 28 Jan 2020 11:01:07 GMT
+Received: from [10.175.203.109] (/10.175.203.109)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Tue, 28 Jan 2020 03:01:06 -0800
+Subject: Re: [PATCH v4 2/7] Acceptance tests: Extract _console_interaction()
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20200120235159.18510-1-f4bug@amsat.org>
+ <20200120235159.18510-3-f4bug@amsat.org>
+From: Liam Merwick <liam.merwick@oracle.com>
+Message-ID: <3b9b2028-1562-1fe2-65d8-bc038f60573c@oracle.com>
+Date: Tue, 28 Jan 2020 11:01:03 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.0
 MIME-Version: 1.0
-In-Reply-To: <20200127202925.GE3419@work-vm>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: tIEVltOqNAaIXhAAJWjV1w-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+In-Reply-To: <20200120235159.18510-3-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9513
+ signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1911140001 definitions=main-2001280089
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9513
+ signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
+ priorityscore=1501 malwarescore=0
+ suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1911140001
+ definitions=main-2001280089
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-MIME-Autoconverted: from 8bit to quoted-printable by aserp2120.oracle.com id
+ 00SAxIWG116083
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 141.146.126.78
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,59 +96,29 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- "Denis V. Lunev" <den@virtuozzo.com>, Cleber Rosa <cleber@redhat.com>,
- Stefan Hajnoczi <stefanha@gmail.com>, Markus Armbruster <armbru@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Dominik Csapak <d.csapak@proxmox.com>,
- John Snow <jsnow@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Alistair Francis <alistair@alistair23.me>,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>,
+ Niek Linnenbank <nieklinnenbank@gmail.com>, qemu-arm@nongnu.org,
+ Cleber Rosa <crosa@redhat.com>, Laurent Bonnans <laurent.bonnans@here.com>,
+ Cheng Xiang <ext-cheng.xiang@here.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 27.01.2020 um 21:29 hat Dr. David Alan Gilbert geschrieben:
-> * Kevin Wolf (kwolf@redhat.com) wrote:
-> > A command history already exists for qmp-shell. It's better than bash
-> > because it doesn't mix QMP history with whatever else I do on my
-> > computer.
-> >=20
-> > Autocomplete in qmp-shell doesn't exist, as far as I know, but if
-> > implemented, it could be a lot more useful than bash completion because
-> > it could offer key completion based on the QMP schema.
-> >=20
-> > This is in fact a big part of the problem that qmp-shell really needs t=
-o
-> > solve before it can replace HMP: How to make writing commands at least
-> > almost as simple as with HMP. If I can just press tab a few times to
-> > cycle through the available options for the command, that would already
-> > be a massive improvement over writing JSON manually (which you would
-> > still have to do with your text-file based approach, without any
-> > QMP-specific support).
+On 20/01/2020 23:51, Philippe Mathieu-Daud=C3=A9 wrote:
+> Since we are going to re-use the code shared between
+> wait_for_console_pattern() and exec_command_and_wait_for_pattern(),
+> extract the common part into a local function.
 >=20
-> Doing all that in a python process (i.e. an actual python shell with a
-> bunch of qemu commands added) seems easyish.
+> Tested-by: Niek Linnenbank <nieklinnenbank@gmail.com>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
-It does. Polishing everything for the perfect experience could be a bit
-more work, but just querying the schema and providing some
-autocompletion from it sounds easy enough.
+Reviewed-by: Liam Merwick <liam.merwick@oracle.com>
+Tested-by: Liam Merwick <liam.merwick@oracle.com>
 
-> > The other part that it needs to solve is how to be available by default
-> > without specifying anything on the command line. Basically, if I press
-> > Ctrl-Alt-2, I want to get to a monitor shell. If that shell is
-> > implemented internally or by an external Python process, I don't mind.
->=20
-> That is a harder part. (I rarely use Ctrl-Alt-2 actually; I mostly
-> use HMP on stdin).
-
-I don't think it would be that hard, actually.
-
-If you have a -qmp-shell option that takes a chardev and defaults to vc,
-you've solved the part with both stdio and Ctrl-Alt-2. Now all you need
-to do is launch the Python child process, pass it a pair of pipes for
-communication and forward everything between the pipes and the chardev.
-
-(That's the theory anyway.)
-
-Kevin
-
+> ---
+>   tests/acceptance/avocado_qemu/__init__.py | 31 +++++++++++++---------=
+-
+>   1 file changed, 17 insertions(+), 14 deletions(-)
 
