@@ -2,76 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86CF214C130
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 20:44:00 +0100 (CET)
-Received: from localhost ([::1]:36688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19D0014C12C
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 20:42:49 +0100 (CET)
+Received: from localhost ([::1]:36656 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwWmF-0000ju-JM
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 14:43:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34002)
+	id 1iwWl6-0006zq-6u
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 14:42:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40944)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iwVf8-0000CM-Mo
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 13:32:35 -0500
+ (envelope-from <wainersm@redhat.com>) id 1iwVjW-0006OP-0L
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 13:37:07 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iwVf7-0000Eg-HU
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 13:32:34 -0500
-Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:38785)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iwVf7-0000CR-9o
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 13:32:33 -0500
-Received: by mail-pl1-x641.google.com with SMTP id t6so5449879plj.5
- for <qemu-devel@nongnu.org>; Tue, 28 Jan 2020 10:32:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=3FFMCR8sdXEoSiA365oWEWFgYiyrqQdXUFAmRVZXTUw=;
- b=hdSYwsPrGkkncCD4J9tQsacjrzQ13mi6LmEzBkuRoA8MQ1YLREp2945t/WLphzXB/P
- 12JXkr2qYeUF7G5CAuckEeabC1rHXYaoC8azN6QkTrcQ4221G5DvJhwxqPXUTUWRZZN0
- FYtXOBBF+JYvzKtq6rHTz5Q4bAN/W0NZq0SN5f8iRE1xcEDoTA69NqV6Gbqo8CKn4BCZ
- T35M1urJgR69+C+lPyFSPbHggQpH6xlbEV+72to5fKx6kSzghfxdeOj8lpDuP7M82ZhR
- lzfHQeSSyI4IwLGIa/Hx3s+eR4FoJgjgqfKVTQsFyMY7DAwnkX+oIZ/EraZs6g0zseb7
- gUOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=3FFMCR8sdXEoSiA365oWEWFgYiyrqQdXUFAmRVZXTUw=;
- b=EhOGFAq7dMDRuvcNeKEEVldK+jSlN8adtVDuYb3RWU0rTON+OReGGEX432mufiG+M7
- FgpCnEfbVau9KlWIhoURhLV1+YtBl9r+Li93u8H7A6p9DN1XuOvRv7FKdxc0WXur+msc
- wZbSnxI7YFdmpIsSMBqMJA1cJ5VH/aSNw+GwRcKFWirMGX8lahoIHksi7jqsiR3ssQ3H
- fAR4Vf++61Y7sHZ/ZMN6DPwdjV9OQsM3Zl7+57TZ7hhkbJl3y10W4IFd4Vh0qRLfPWr5
- NXFaAga9Kpwo61KmMyDN6lP4wGLBV7kesXtD4ssGkq7RD5CVGb21gd6J0FPmgZK1Pg8P
- C/+Q==
-X-Gm-Message-State: APjAAAXBwIgBC9KkMu16Go9ESUXQTr5jnf+TXIEI8uXfuzoqvz2gLkcf
- mtJEAIfW2WcNcZjATMLdHxdwrQ==
-X-Google-Smtp-Source: APXvYqyFLSDUuIkAvp4Uc3BBRrFgmW3hn5+6demG/yFr7hjJiR1ZJs7TN7OooI/cgyecvjc780jISA==
-X-Received: by 2002:a17:90a:a88f:: with SMTP id
- h15mr6503848pjq.32.1580236351958; 
- Tue, 28 Jan 2020 10:32:31 -0800 (PST)
-Received: from [192.168.1.11] (97-126-123-70.tukw.qwest.net. [97.126.123.70])
- by smtp.gmail.com with ESMTPSA id
- m71sm3440296pje.0.2020.01.28.10.32.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 28 Jan 2020 10:32:31 -0800 (PST)
-Subject: Re: [PATCH v2] riscv: Add helper to make NaN-boxing for FP register
-To: Ian Jiang <ianjiang.ict@gmail.com>, qemu-devel@nongnu.org
-References: <20200128003707.17028-1-ianjiang.ict@gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <b14a65dd-b565-77ca-d479-f88e53ca0721@linaro.org>
-Date: Tue, 28 Jan 2020 10:32:29 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ (envelope-from <wainersm@redhat.com>) id 1iwVjT-0007ez-FT
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 13:37:05 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:56353
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <wainersm@redhat.com>) id 1iwVjT-0007cL-8a
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 13:37:03 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1580236620;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=RBa/N6CLUvkTgoymHNbFYoT9+rFiGOIqvSnIJ1hi3cQ=;
+ b=EUx3/ka5bhj9bBT77WjqigwJV2Upo/dXcT6aUmW+fw6i11XdzvpfxxkcdImI6KrExidUgC
+ /92Iokig9htzCPUCFjyoGjW5zvQZ/g03irYxY5CMjp0b4I+I+kCuU8ldAIOj2+/wZsblfB
+ 71wyRFIKZ2KvuHpQxepPMuQX3uqzC80=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-167-hz7X8TDKNW-liJqeD7781A-1; Tue, 28 Jan 2020 13:36:56 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 55FF313E4
+ for <qemu-devel@nongnu.org>; Tue, 28 Jan 2020 18:36:55 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-116-65.gru2.redhat.com
+ [10.97.116.65])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id ED1F53DA3;
+ Tue, 28 Jan 2020 18:36:53 +0000 (UTC)
+Subject: Re: [PATCH] Acceptance test: provides to use different transport for
+ migration
+To: Oksana Vohchana <ovoshcha@redhat.com>, qemu-devel@nongnu.org
+References: <20200123123004.28156-1-ovoshcha@redhat.com>
+From: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Message-ID: <0882f704-5631-9088-92a1-a27638b523cb@redhat.com>
+Date: Tue, 28 Jan 2020 16:36:51 -0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.4.0
 MIME-Version: 1.0
-In-Reply-To: <20200128003707.17028-1-ianjiang.ict@gmail.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20200123123004.28156-1-ovoshcha@redhat.com>
 Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: hz7X8TDKNW-liJqeD7781A-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::641
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,23 +75,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: palmer@dabbelt.com, Alistair.Francis@wdc.com, sagark@eecs.berkeley.edu,
- kbastian@mail.uni-paderborn.de
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/27/20 4:37 PM, Ian Jiang wrote:
-> The function that makes NaN-boxing when a 32-bit value is assigned
-> to a 64-bit FP register is split out to a helper gen_nanbox_fpr().
-> Then it is applied in translating of the FLW instruction.
-> 
-> Signed-off-by: Ian Jiang <ianjiang.ict@gmail.com>
+Hi Oksana,
+
+Thanks for your first contribution to QEMU. Some comments below.
+
+On 1/23/20 10:30 AM, Oksana Vohchana wrote:
+> Along with VM migration via TCP, we can use migration through EXEC
+> and UNIX transport protocol
+>
+> Signed-off-by: Oksana Vohchana <ovoshcha@redhat.com>
 > ---
->  target/riscv/insn_trans/trans_rvf.inc.c | 17 +++++++++++++++--
->  1 file changed, 15 insertions(+), 2 deletions(-)
+>   tests/acceptance/migration.py | 50 ++++++++++++++++++++++++-----------
+>   1 file changed, 35 insertions(+), 15 deletions(-)
+>
+> diff --git a/tests/acceptance/migration.py b/tests/acceptance/migration.py
+> index a44c1ae58f..8bbe28d52d 100644
+> --- a/tests/acceptance/migration.py
+> +++ b/tests/acceptance/migration.py
+> @@ -10,10 +10,13 @@
+>   # later.  See the COPYING file in the top-level directory.
+>   
+>   
+> +import tempfile
+>   from avocado_qemu import Test
+> +from avocado import skipUnless\
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Remove the trailing '\'.
 
+>   
+>   from avocado.utils import network
+>   from avocado.utils import wait
+> +from avocado.utils.path import find_command, CmdNotFoundError
 
-r~
+CmdNotFoundError is never used.
+
+>   
+>   
+>   class Migration(Test):
+> @@ -24,6 +27,26 @@ class Migration(Test):
+>       def migration_finished(vm):
+>           return vm.command('query-migrate')['status'] in ('completed', 'failed')
+>   
+> +    def do_migrate(self, dest_uri, src_uri=None):
+> +        source_vm = self.get_vm()
+> +        dest_vm = self.get_vm('-incoming', dest_uri)
+> +        dest_vm.launch()
+> +        if src_uri is None:
+> +            src_uri = dest_uri
+> +        source_vm.launch()
+> +        source_vm.qmp('migrate', uri=src_uri)
+> +        self.assert_migration(source_vm, dest_vm)
+> +
+> +    def assert_migration(self, source_vm, dest_vm):
+> +        wait.wait_for(self.migration_finished,
+> +                      timeout=self.timeout,
+> +                      step=0.1,
+> +                      args=(source_vm,))
+> +        self.assertEqual(source_vm.command('query-migrate')['status'], 'completed')
+> +        self.assertEqual(dest_vm.command('query-migrate')['status'], 'completed')
+> +        self.assertEqual(dest_vm.command('query-status')['status'], 'running')
+> +        self.assertEqual(source_vm.command('query-status')['status'], 'postmigrate')
+> +
+>       def _get_free_port(self):
+>           port = network.find_free_port()
+>           if port is None:
+> @@ -32,19 +55,16 @@ class Migration(Test):
+>   
+>   
+>       def test_migration_with_tcp_localhost(self):
+> -        source_vm = self.get_vm()
+>           dest_uri = 'tcp:localhost:%u' % self._get_free_port()
+> -        dest_vm = self.get_vm('-incoming', dest_uri)
+> -        dest_vm.launch()
+> -        source_vm.launch()
+> -        source_vm.qmp('migrate', uri=dest_uri)
+> -        wait.wait_for(
+> -            self.migration_finished,
+> -            timeout=self.timeout,
+> -            step=0.1,
+> -            args=(source_vm,)
+> -        )
+> -        self.assertEqual(dest_vm.command('query-migrate')['status'], 'completed')
+> -        self.assertEqual(source_vm.command('query-migrate')['status'], 'completed')
+> -        self.assertEqual(dest_vm.command('query-status')['status'], 'running')
+> -        self.assertEqual(source_vm.command('query-status')['status'], 'postmigrate')
+> +        self.do_migrate(dest_uri)
+> +
+> +    def test_migration_with_unix(self):
+> +        with tempfile.TemporaryDirectory(prefix='socket_') as socket_path:
+> +            dest_uri = 'unix:%s/qemu-test.sock' % socket_path
+> +            self.do_migrate(dest_uri)
+> +    @skipUnless(find_command('nc', default=False), "nc command not found on the system")
+> +    def test_migration_with_exec(self):
+
+Please add a blank line between the two methods.
+
+> +        free_port = self._get_free_port()
+> +        dest_uri = 'exec:nc -l localhost %u' % free_port
+> +        src_uri = 'exec:nc localhost %u' % free_port
+> +        self.do_migrate(dest_uri, src_uri)
+
 
