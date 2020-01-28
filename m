@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D561114C0E2
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 20:24:53 +0100 (CET)
-Received: from localhost ([::1]:36032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4403514C0AF
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 20:10:58 +0100 (CET)
+Received: from localhost ([::1]:35750 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwWTk-0005EJ-Td
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 14:24:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37942)
+	id 1iwWGH-0004s2-7K
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 14:10:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38203)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iwV8N-0004v0-AQ
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:58:45 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iwV8T-00053H-15
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:58:50 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iwV8L-00015y-15
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:58:43 -0500
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:45425)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iwV8R-0001Oq-MP
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:58:48 -0500
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:38281)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iwV8K-00012k-Md
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:58:40 -0500
-Received: by mail-wr1-x435.google.com with SMTP id a6so2512841wrx.12
- for <qemu-devel@nongnu.org>; Tue, 28 Jan 2020 09:58:40 -0800 (PST)
+ id 1iwV8R-0001M3-EA
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:58:47 -0500
+Received: by mail-wr1-x42e.google.com with SMTP id y17so17117330wrh.5
+ for <qemu-devel@nongnu.org>; Tue, 28 Jan 2020 09:58:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=qDLCPnXjd/iVjHweWz1qT0ww0/vBO7l7RrD/8qo57Hk=;
- b=OcBh34H4WJ+GgiSNW84/wAjA2FRc5At4htUh/r8kv86N18t5tiwxr8j+m6iiQNKP9s
- vsP/df5YdfyrzLoBskjJyzcVIqN0JawMRlP9yOD0N2+2aTGVAkF6WX1Fv6koQ/u4Szw8
- K1x3q5rIOw77UrARjcIEVZKyshf0J+dgFYnoGxx35Q0kTaOiEkYklgMF3wo0PeJWYLRM
- 21TD6RHe6BD4rWxQvZMC/9thOQ9zo+wza62VM+Ahis1H79DuekPOj0XaHn3dQuFS9VIe
- 768SpMK+xS5wrjiRu7j8ey/ICctmVbMHsmx1AxyjRh6Ddx8BDITzRRxIjfE8f4P7W4ce
- /aiA==
+ bh=p1Zihj/GqyEcMAsZS8ZsodZ02ptkYWUxedNuRcGDcM8=;
+ b=A/XLUxWNA2oRXGV8vvn8CjNcdZ3odFrhrvniXPj3S6O4bsAjSB7MASdeHaOvOsaZXP
+ dUnrW/wCiO65qvAv3RbCvd64qGe6bS+43vgnWtLNZteuibJZ9MftpmiY4O32Zm9BH4bd
+ PAq4fGU3K529b+6eKy0LlvrtoMg5mkbVP6bhpynHzudY8xBt3d9DEHaz9MzrUIuNXf94
+ QhhfqffCSa5H7atgH0zBvd78SG8OcE79fjhYcq8R+w4Xh0UzWsm+C2zQ/A5umxFJt00R
+ oiuN5D4CM2rMDk5F1BFlOzEd1a3goUMcfrsm9NFE+hWJVgDVJSQAPNP5suHgSbUbICmx
+ MjJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=qDLCPnXjd/iVjHweWz1qT0ww0/vBO7l7RrD/8qo57Hk=;
- b=p79f6WkBylElHoNjK070QBP1ke2OOUpH7W/eCc7yABOxy+qO9ff7De709SGM7JUVw4
- B8vc3SLe2mON7EeGJkfU5L0Qbgqt3heT+jTc222KEEYgO4Ltnf0UVjYuPFnKbq73qZGE
- Qpiqj7EoU9yar/tUrME59GPFoBSniCgfbcrIv9DWCmtu/vpPz+bpBWWJMEPdSbeNTrYZ
- jk9VpxCGuDxAYH8Hn3jEtH2AP/JXnQxSq3QE9DE3bpSJ1D733atb7M9PEOkeM42fjId6
- toSmbGxmIV9PKkJrlyoUY6YZcJL9VfY479FThuZo6sB3jnpULgGLhxP6blpnBIDX21NM
- YPSQ==
-X-Gm-Message-State: APjAAAXzQnEvQx4qRCVg/omsn1w2/SxBjmjtN2B842T8VifgDLrP2POM
- Pl6i72VtDGwnj+noFVTXmK3XYP3V
-X-Google-Smtp-Source: APXvYqx5E6ZFrvT5cL/i3rWArR00ORfhLBw1L2T/G3BVZIoiPmm6PnY5Z/mWGERvW50eGU9de1FQ+w==
-X-Received: by 2002:a5d:608a:: with SMTP id w10mr28447293wrt.136.1580234319453; 
- Tue, 28 Jan 2020 09:58:39 -0800 (PST)
+ bh=p1Zihj/GqyEcMAsZS8ZsodZ02ptkYWUxedNuRcGDcM8=;
+ b=JxiCvzipLef3pGzLbgBHmCmsK2CBHNR9AKI9+5laKDG+kpbH+Yg6MGq9WkxOOGfUgH
+ +p2O4241Ajlrzqhf7HcdMPTabbQmiz8OOm9gFXQFr4/SyvKZ+pbroqNDbI/p6P+RqSOw
+ s/xvabj5VLpwwQ1ae4prB0cDcxCFF8CpLherYo2X3BhokLuV/7hFVBjoM5xwxvC7rZ9e
+ 09f41mg6hgYYT4QkWm6Zeko+vzyTcasB1EgzjH3u3do9zaM4EJBl0qAKUbMTnVZodMxK
+ 6ee9vix2UldTg42zihKvzULRNO57SFRhII7GZHbI6Qb5Efsp1wCq4R6Q0cD93BpHUjJT
+ L/3g==
+X-Gm-Message-State: APjAAAUGzlPWqeERGgLCBuD2zue2aiOHQdZIDOQzhAWr6k019cA/Kvps
+ DloLOI9S/O7CqicMdLL+v51Dwo8C
+X-Google-Smtp-Source: APXvYqwK/HxSrMzaCXy70OWOusX0G7LaO25YIpoBovJxh3wHWX05rnPSpEq8an0icxkfWsUv5qrWbg==
+X-Received: by 2002:adf:b193:: with SMTP id q19mr29578702wra.78.1580234326266; 
+ Tue, 28 Jan 2020 09:58:46 -0800 (PST)
 Received: from localhost.localdomain (93-36-56-206.ip58.fastwebnet.it.
  [93.36.56.206])
- by smtp.gmail.com with ESMTPSA id o4sm27046968wrx.25.2020.01.28.09.58.36
+ by smtp.gmail.com with ESMTPSA id o4sm27046968wrx.25.2020.01.28.09.58.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Jan 2020 09:58:38 -0800 (PST)
+ Tue, 28 Jan 2020 09:58:45 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 123/142] meson: sphinx-build
-Date: Tue, 28 Jan 2020 18:53:23 +0100
-Message-Id: <20200128175342.9066-124-pbonzini@redhat.com>
+Subject: [PATCH 126/142] meson: add NSIS building
+Date: Tue, 28 Jan 2020 18:53:26 +0100
+Message-Id: <20200128175342.9066-127-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200128175342.9066-1-pbonzini@redhat.com>
 References: <20200128175342.9066-1-pbonzini@redhat.com>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::435
+X-Received-From: 2a00:1450:4864:20::42e
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,237 +87,182 @@ From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- Makefile         | 67 ++----------------------------------
- docs/meson.build | 88 ++++++++++++++++++++++++++++++++++++++++++++++++
- meson.build      |  2 ++
- 3 files changed, 92 insertions(+), 65 deletions(-)
- create mode 100644 docs/meson.build
+ Makefile        | 57 ------------------------------------------------
+ meson.build     | 23 ++++++++++++++++++++
+ scripts/nsis.sh | 58 +++++++++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 81 insertions(+), 57 deletions(-)
+ create mode 100755 scripts/nsis.sh
 
 diff --git a/Makefile b/Makefile
-index 898aa81232..c8681ddec7 100644
+index e99d09c5ee..7c1e6d9e9c 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -121,19 +121,8 @@ $(call set-vpath, $(SRC_PATH))
+@@ -310,62 +310,6 @@ endif
+ 		$(INSTALL_DATA) $(SRC_PATH)/pc-bios/keymaps/$$x "$(DESTDIR)$(qemu_datadir)/keymaps"; \
+ 	done
  
- LIBS+=-lz $(LIBS_TOOLS)
- 
--# Sphinx does not allow building manuals into the same directory as
--# the source files, so if we're doing an in-tree QEMU build we must
--# build the manuals into a subdirectory (and then install them from
--# there for 'make install'). For an out-of-tree build we can just
--# use the docs/ subdirectory in the build tree as normal.
--ifeq ($(realpath $(SRC_PATH)),$(realpath .))
--MANUAL_BUILDDIR := docs/built
+-ifdef CONFIG_WIN32
+-
+-INSTALLER = qemu-setup-$(VERSION)$(EXESUF)
+-
+-nsisflags = -V2 -NOCD
+-
+-ifneq ($(wildcard $(SRC_PATH)/dll),)
+-ifeq ($(ARCH),x86_64)
+-# 64 bit executables
+-DLL_PATH = $(SRC_PATH)/dll/w64
+-nsisflags += -DW64
 -else
--MANUAL_BUILDDIR := docs
+-# 32 bit executables
+-DLL_PATH = $(SRC_PATH)/dll/w32
+-endif
 -endif
 -
- ifdef BUILD_DOCS
--DOCS=qemu-doc.html qemu-doc.txt qemu.1 qemu-img.1 qemu-nbd.8 $(MANUAL_BUILDDIR)/interop/qemu-ga.8
-+DOCS=qemu-doc.html qemu-doc.txt qemu.1 qemu-img.1 qemu-nbd.8
- DOCS+=docs/interop/qemu-qmp-ref.html docs/interop/qemu-qmp-ref.txt docs/interop/qemu-qmp-ref.7
- DOCS+=docs/interop/qemu-ga-ref.html docs/interop/qemu-ga-ref.txt docs/interop/qemu-ga-ref.7
- DOCS+=docs/qemu-block-drivers.7
-@@ -231,11 +220,6 @@ dist: qemu-$(VERSION).tar.bz2
- qemu-%.tar.bz2:
- 	$(SRC_PATH)/scripts/make-release "$(SRC_PATH)" "$(patsubst qemu-%.tar.bz2,%,$@)"
- 
--define clean-manual =
--rm -rf $(MANUAL_BUILDDIR)/$1/_static
--rm -f $(MANUAL_BUILDDIR)/$1/objects.inv $(MANUAL_BUILDDIR)/$1/searchindex.js $(MANUAL_BUILDDIR)/$1/*.html
--endef
+-.PHONY: installer
+-installer: $(INSTALLER)
 -
- distclean: clean
- 	rm -f config-host.mak config-host.h* config-host.ld $(DOCS) qemu-options.texi qemu-img-cmds.texi qemu-monitor.texi qemu-monitor-info.texi
- 	rm -f tests/tcg/config-*.mak
-@@ -257,10 +241,6 @@ distclean: clean
- 	rm -f docs/interop/qemu-qmp-ref.html docs/interop/qemu-ga-ref.html
- 	rm -f docs/qemu-block-drivers.7
- 	rm -f docs/qemu-cpu-models.7
--	rm -rf .doctrees
--	$(call clean-manual,devel)
--	$(call clean-manual,interop)
--	$(call clean-manual,specs)
- 	rm -Rf .sdk
- 	if test -f dtc/version_gen.h; then $(MAKE) $(DTC_MAKE_ARGS) clean; fi
- 
-@@ -300,22 +280,7 @@ BLOBS=
- DESCS=
+-INSTDIR=/tmp/qemu-nsis
+-
+-$(INSTALLER): $(SRC_PATH)/qemu.nsi
+-	$(MAKE) install prefix=${INSTDIR}
+-ifdef SIGNCODE
+-	(cd ${INSTDIR}; \
+-         for i in *.exe; do \
+-           $(SIGNCODE) $${i}; \
+-         done \
+-        )
+-endif # SIGNCODE
+-	(cd ${INSTDIR}; \
+-         for i in qemu-system-*.exe; do \
+-           arch=$${i%.exe}; \
+-           arch=$${arch#qemu-system-}; \
+-           echo Section \"$$arch\" Section_$$arch; \
+-           echo SetOutPath \"\$$INSTDIR\"; \
+-           echo File \"\$${BINDIR}\\$$i\"; \
+-           echo SectionEnd; \
+-         done \
+-        ) >${INSTDIR}/system-emulations.nsh
+-	makensis $(nsisflags) \
+-                $(if $(BUILD_DOCS),-DCONFIG_DOCUMENTATION="y") \
+-                $(if $(CONFIG_GTK),-DCONFIG_GTK="y") \
+-                -DBINDIR="${INSTDIR}" \
+-                $(if $(DLL_PATH),-DDLLDIR="$(DLL_PATH)") \
+-                -DSRCDIR="$(SRC_PATH)" \
+-                -DOUTFILE="$(INSTALLER)" \
+-                -DDISPLAYVERSION="$(VERSION)" \
+-                $(SRC_PATH)/qemu.nsi
+-	rm -r ${INSTDIR}
+-ifdef SIGNCODE
+-	$(SIGNCODE) $(INSTALLER)
+-endif # SIGNCODE
+-endif # CONFIG_WIN
+-
+ # Add a dependency on the generated files, so that they are always
+ # rebuilt before other object files
+ ifneq ($(wildcard config-host.mak),)
+@@ -405,7 +349,6 @@ endif
+ 	@echo  ''
+ ifdef CONFIG_WIN32
+ 	@echo  'Windows targets:'
+-	@echo  '  installer       - Build NSIS-based installer for QEMU'
+ ifdef QEMU_GA_MSI_ENABLED
+ 	@echo  '  msi             - Build MSI-based installer for qemu-ga'
  endif
- 
--# Note that we manually filter-out the non-Sphinx documentation which
--# is currently built into the docs/interop directory in the build tree,
--# and also any sphinx-built manpages.
--define install-manual =
--for d in $$(cd $(MANUAL_BUILDDIR) && find $1 -type d); do $(INSTALL_DIR) "$(DESTDIR)$(qemu_docdir)/$$d"; done
--for f in $$(cd $(MANUAL_BUILDDIR) && find $1 -type f -a '!' '(' -name '*.[0-9]' -o -name 'qemu-*-qapi.*' -o -name 'qemu-*-ref.*' ')' ); do $(INSTALL_DATA) "$(MANUAL_BUILDDIR)/$$f" "$(DESTDIR)$(qemu_docdir)/$$f"; done
--endef
--
--# Note that we deliberately do not install the "devel" manual: it is
--# for QEMU developers, and not interesting to our users.
--.PHONY: install-sphinxdocs
--install-sphinxdocs: sphinxdocs
--	$(call install-manual,interop)
--	$(call install-manual,specs)
--
--install-doc: $(DOCS) install-sphinxdocs
-+install-doc: $(DOCS)
- 	$(INSTALL_DIR) "$(DESTDIR)$(qemu_docdir)"
- 	$(INSTALL_DATA) qemu-doc.html "$(DESTDIR)$(qemu_docdir)"
- 	$(INSTALL_DATA) qemu-doc.txt "$(DESTDIR)$(qemu_docdir)"
-@@ -337,7 +302,6 @@ ifdef CONFIG_TRACE_SYSTEMTAP
- 	$(INSTALL_DATA) scripts/qemu-trace-stap.1 "$(DESTDIR)$(mandir)/man1"
- endif
- ifeq ($(CONFIG_GUEST_AGENT),y)
--	$(INSTALL_DATA) $(MANUAL_BUILDDIR)/interop/qemu-ga.8 "$(DESTDIR)$(mandir)/man8"
- 	$(INSTALL_DATA) docs/interop/qemu-ga-ref.html "$(DESTDIR)$(qemu_docdir)"
- 	$(INSTALL_DATA) docs/interop/qemu-ga-ref.txt "$(DESTDIR)$(qemu_docdir)"
- 	$(INSTALL_DATA) docs/interop/qemu-ga-ref.7 "$(DESTDIR)$(mandir)/man7"
-@@ -435,33 +399,6 @@ docs/version.texi: $(SRC_PATH)/VERSION config-host.mak
- %.pdf: %.texi docs/version.texi
- 	$(call quiet-command,texi2pdf $(TEXI2PDFFLAGS) $< -o $@,"GEN","$@")
- 
--# Sphinx builds all its documentation at once in one invocation
--# and handles "don't rebuild things unless necessary" itself.
--# The '.doctrees' files are cached information to speed this up.
--.PHONY: sphinxdocs
--sphinxdocs: $(MANUAL_BUILDDIR)/devel/index.html $(MANUAL_BUILDDIR)/interop/index.html $(MANUAL_BUILDDIR)/specs/index.html
--
--# Canned command to build a single manual
--# Arguments: $1 = manual name, $2 = Sphinx builder ('html' or 'man')
--# Note the use of different doctree for each (manual, builder) tuple;
--# this works around Sphinx not handling parallel invocation on
--# a single doctree: https://github.com/sphinx-doc/sphinx/issues/2946
--build-manual = $(call quiet-command,CONFDIR="$(qemu_confdir)" sphinx-build $(if $(V),,-q) -W -b $2 -D version=$(VERSION) -D release="$(FULL_VERSION)" -d .doctrees/$1-$2 $(SRC_PATH)/docs/$1 $(MANUAL_BUILDDIR)/$1 ,"SPHINX","$(MANUAL_BUILDDIR)/$1")
--# We assume all RST files in the manual's directory are used in it
--manual-deps = $(wildcard $(SRC_PATH)/docs/$1/*.rst) $(SRC_PATH)/docs/$1/conf.py $(SRC_PATH)/docs/conf.py
--
--$(MANUAL_BUILDDIR)/devel/index.html: $(call manual-deps,devel)
--	$(call build-manual,devel,html)
--
--$(MANUAL_BUILDDIR)/interop/index.html: $(call manual-deps,interop)
--	$(call build-manual,interop,html)
--
--$(MANUAL_BUILDDIR)/specs/index.html: $(call manual-deps,specs)
--	$(call build-manual,specs,html)
--
--$(MANUAL_BUILDDIR)/interop/qemu-ga.8: $(call manual-deps,interop)
--	$(call build-manual,interop,man)
--
- docs/interop/qemu-qmp-qapi.texi: qapi/qapi-doc.texi
- 	@cp -p $< $@
- 
-diff --git a/docs/meson.build b/docs/meson.build
-new file mode 100644
-index 0000000000..0f86c0b522
---- /dev/null
-+++ b/docs/meson.build
-@@ -0,0 +1,88 @@
-+sphinx = find_program('sphinx-build', required: build_docs)
-+
-+SPHINX_ARGS = [sphinx, '-W', '-q', '-d', '@PRIVATE_DIR@',
-+               '-Dversion=' + config_host['VERSION'],
-+               '-Drelease=' + config_host['PKGVERSION']]
-+
-+if sphinx.found()
-+  devel_rst = [
-+    'devel/decodetree.rst',
-+    'devel/index.rst',
-+    'devel/kconfig.rst',
-+    'devel/loads-stores.rst',
-+    'devel/memory.rst',
-+    'devel/migration.rst',
-+    'devel/secure-coding-practices.rst',
-+    'devel/stable-process.rst',
-+    'devel/tcg.rst',
-+    'devel/testing.rst',
-+  ]
-+  devel = custom_target('sphinx-devel',
-+                build_by_default: build_docs,
-+                input: devel_rst,
-+                depend_files: [files('conf.py', 'devel/conf.py')],
-+                output: 'devel',
-+                command: [SPHINX_ARGS, '-b', 'html',
-+                          meson.current_source_dir() / 'devel',
-+                          '@OUTPUT@',
-+                         ])
-+
-+  interop_rst = [
-+    'interop/bitmaps.rst',
-+    'interop/index.rst',
-+    'interop/live-block-operations.rst',
-+    'interop/qemu-ga.rst',
-+    'interop/pr-helper.rst',
-+    'interop/vhost-user-gpu.rst',
-+    'interop/vhost-user.rst',
-+  ]
-+  interop_man_pages = []
-+  if 'CONFIG_GUEST_AGENT' in config_host
-+    interop_man_pages += ['qemu-ga.8']
-+  endif
-+  interop = custom_target('sphinx-interop',
-+                build_by_default: build_docs,
-+                input: interop_rst,
-+                depend_files: [files('conf.py', 'interop/conf.py')],
-+                output: 'interop',
-+                command: [SPHINX_ARGS, '-b', 'html',
-+                          meson.current_source_dir() / 'interop',
-+                          '@OUTPUT@',
-+                         ])
-+  interop_man = custom_target('sphinx-interop-man',
-+                   build_by_default: build_docs,
-+                   input: interop_rst,
-+                   depend_files: [files('conf.py', 'interop/conf.py')],
-+                   output: interop_man_pages,
-+                   install_dir: get_option('mandir') / 'man8',
-+                   command: [SPHINX_ARGS, '-b', 'man',
-+                             meson.current_source_dir() / 'interop',
-+                             '@OUTPUT@',
-+                            ])
-+  if build_docs
-+    install_subdir(meson.current_build_dir() / 'interop',
-+                   install_dir: config_host['qemu_docdir'],
-+                   exclude_directories: '.doctrees')
-+  endif
-+
-+  specs_rst = [
-+    'specs/index.rst',
-+    'specs/ppc-spapr-xive.rst',
-+    'specs/ppc-xive.rst',
-+  ]
-+  specs = custom_target('sphinx-specs',
-+                input: specs_rst,
-+                depend_files: [files('conf.py', 'specs/conf.py')],
-+                output: 'specs',
-+                command: [SPHINX_ARGS, '-b', 'html',
-+                          meson.current_source_dir() / 'specs',
-+                          '@OUTPUT@',
-+                         ])
-+  if build_docs
-+    install_subdir(meson.current_build_dir() / 'specs',
-+                   install_dir: config_host['qemu_docdir'],
-+                   exclude_directories: '.doctrees')
-+  endif
-+
-+  sphinxdocs = alias_target('sphinxdocs', devel, interop, interop_man, specs)
-+endif
 diff --git a/meson.build b/meson.build
-index 0dd6d9f723..04068fd765 100644
+index caf99f5082..6d1fc2fb19 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -7,6 +7,7 @@ config_host = kconfig.load(meson.current_build_dir() / 'config-host.mak')
- config_all_disas = kconfig.load(meson.current_build_dir() / 'config-all-disas.mak')
- 
- enable_modules = 'CONFIG_MODULES' in config_host
-+build_docs = 'BUILD_DOCS' in config_host
- 
- add_project_arguments(config_host['CFLAGS'].split(),
-                       language: ['c', 'objc'])
-@@ -949,3 +950,4 @@ if have_tools
+@@ -1064,3 +1064,26 @@ if pod2man.found() and build_docs
+                                   '--release=" "', '@INPUT@'])
+   endforeach
  endif
- 
- subdir('pc-bios')
-+subdir('docs')
++
++if host_machine.system() == 'windows'
++  nsis_cmd = [
++    find_program('scripts/nsis.sh'),
++    '@OUTPUT@',
++    get_option('prefix'),
++    meson.current_source_dir(),
++    host_machine.cpu_family(),
++    '-DDISPLAYVERSION=@0@'.format(config_host['VERSION']),
++  ]
++  if build_docs
++    nsis_cmd += '-DCONFIG_DOCUMENTATION=y'
++  endif
++  if 'CONFIG_GTK' in config_host
++    nsis_cmd += '-DCONFIG_GTK=y'
++  endif
++
++  custom_target('nsis',
++                output: 'qemu-setup-' + config_host['VERSION'] + '.exe',
++                input: files('qemu.nsi'),
++                build_always_stale: true,
++                command: nsis_cmd + ['@INPUT@'])
++endif
+diff --git a/scripts/nsis.sh b/scripts/nsis.sh
+new file mode 100755
+index 0000000000..ad23708724
+--- /dev/null
++++ b/scripts/nsis.sh
+@@ -0,0 +1,58 @@
++#!/bin/bash
++
++OUTFILE="$1"
++shift
++PREFIX="$1"
++shift
++SRCDIR="$1"
++shift
++CPU="$1"
++shift
++
++DESTDIR=$(mktemp -d)
++trap "rm -rf $DESTDIR" EXIT
++make DESTDIR="$DESTDIR" install
++
++signcode() {
++    if [ -z "$SIGNCODE" ]; then
++        return
++    fi
++    "$SIGNCODE" "$@"
++}
++
++shopt -s nullglob
++
++(
++    cd "$DESTDIR$PREFIX"
++    for i in qemu-system-*.exe; do
++        arch=${i%.exe}
++        arch=${arch#qemu-system-}
++        echo Section \"$arch\" Section_$arch
++        echo SetOutPath \"\$INSTDIR\"
++        echo File \"\${BINDIR}\\$i\"
++        echo SectionEnd
++    done
++) > "$DESTDIR$PREFIX/system-emulations.nsh"
++
++(
++    cd "$DESTDIR$PREFIX"
++    for i in *.exe; do
++        signcode "$i"
++    done
++)
++
++if [ "$CPU" = "x86_64" ]; then
++    CPUARG="-DW64"
++    DLLDIR="w64"
++else
++    DLLDIR="w32"
++fi
++
++if [ -d "$SRCDIR/dll" ]; then
++   DLLARG="-DDLLDIR=$SRCDIR/dll/$DLLDIR"
++fi
++
++makensis -V2 -NOCD -DSRCDIR="$SRCDIR" -DBINDIR="$DESTDIR$PREFIX" \
++         $CPUARG $DLLARG -DOUTFILE="$OUTFILE" "$@"
++
++signcode "$OUTFILE"
 -- 
 2.21.0
 
