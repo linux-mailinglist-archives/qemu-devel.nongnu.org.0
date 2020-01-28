@@ -2,65 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C87F14BF25
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 19:05:53 +0100 (CET)
-Received: from localhost ([::1]:34866 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8038B14BF65
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 19:18:57 +0100 (CET)
+Received: from localhost ([::1]:35034 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwVFI-0003p0-4P
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 13:05:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54775)
+	id 1iwVRw-0004El-HL
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 13:18:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60660)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1iwV2N-0002uM-P5
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:52:33 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iwV5f-0000Vo-SR
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:55:57 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1iwV2M-0004hB-EI
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:52:31 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:41972
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1iwV2K-0004e6-NS
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:52:29 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580233947;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=IVhBXVMXWZJPwnkcUaIXIOuybMXd6BsQs0heIODrJZM=;
- b=URtb6cTGlY/VriZxfmF9fZDTX8YY1jrxsOgUTgkOy2RfTKVNkHwl7VSQ+C4SIAIqUQ4LeR
- ORtl5/4yGugE5uFF1L+XM1Qyoj7/LdMLScXbobq+zHKLJhz5FbmgpefFSpXopweWuPzvlF
- 9/4M+pZFri4hh+zMI+ve2JMCspSwsjA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-358-wxRrMBeyOIKY1nTd9nHaHQ-1; Tue, 28 Jan 2020 12:52:23 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0E3C2800EBB;
- Tue, 28 Jan 2020 17:52:22 +0000 (UTC)
-Received: from linux.fritz.box.com (ovpn-117-106.ams2.redhat.com
- [10.36.117.106])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0F0DD60BE0;
- Tue, 28 Jan 2020 17:52:20 +0000 (UTC)
-From: Kevin Wolf <kwolf@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH v2 4/4] monitor: Move qmp_query_qmp_schema to
- qmp-cmds-control.c
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iwV5e-000327-39
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:55:55 -0500
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:34410)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1iwV5c-0002yM-UX
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:55:54 -0500
+Received: by mail-wr1-x442.google.com with SMTP id t2so17098584wrr.1
+ for <qemu-devel@nongnu.org>; Tue, 28 Jan 2020 09:55:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=DIpao2wiSZrcXVkYxq+H6UyeJnhxpyHCws3dP6NHkE4=;
+ b=QlxOaWKZWXAlURUEfvZdKGCV+JtcT4lNDW8x9Mx6N6jzChAjrFPSn9am+TAk7YAAXP
+ 6b0+ZOOG2GEOeXbRUgI+1Dx9bWq9Z/5kFCD/gBhH/WBKF1FQElQgP5FCNPFlLQPU6Zn/
+ P6GoxlCYnItPHnc1Hf06yWTEiKKbY9FiXzgzzLVeKgzL/bLhx8nvC1TuOgpp4w5niJXv
+ iloF1WXAxO1XGpzwRndnywXQmrttJnyXeHr/HdgaHCY2jl3aLh4xs27CPVbg8iQsxnR5
+ qa+qHQddzVGOb98GQCdLIzpYlgYztmE+NMRvgeXe8Fi0uOOZUycabhGWl0d/l2ppr65L
+ 3vHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=DIpao2wiSZrcXVkYxq+H6UyeJnhxpyHCws3dP6NHkE4=;
+ b=LCdCjzzGOvHQ5JkF7N/P7ZMUYDQqGhuxTexxIx9M5IZP0IN8EggdQUgAOVTFxbFP5w
+ tG9IWtlUNqT3ezdox5CvPvaxCKpcDl3j/0mbwdf27B0yOO2mwVUtG7Z7oInXrqIzCCUT
+ gAW+Y9ZEHI3phgWsVBa1xM4F5LKfzmvR7ay3iCyxJWF+KWbs6sX57WvnabKkmq4OaI7M
+ bYBFpCoKJYOmE8WIvTuBIWD2mA9enQIDM58Fx0au5E9z9oVomopbSLVxVEHpKlu19oH7
+ TQ7Do+cHJ1X5sua52X+g/s9nX+qhPbDVMZuyofAbH3EKuFUtMiMWrv+aiyJbjGd+IyFb
+ s82g==
+X-Gm-Message-State: APjAAAVxKEnHzaXe9DhlUWVcDs8yLGwndJBS38hA8jUKvT+X2wEudXGn
+ qCC2f/IeWt/AtBwtwsfohIPjZEP0
+X-Google-Smtp-Source: APXvYqy5jLAHtBs1NiZ8+/hWuchQF0EGULWU/PpOsczzlDSkIQ3Nyp7wEMYFVjuzTw5lDHtED3YzRA==
+X-Received: by 2002:a5d:484f:: with SMTP id n15mr29687093wrs.365.1580234150412; 
+ Tue, 28 Jan 2020 09:55:50 -0800 (PST)
+Received: from localhost.localdomain (93-36-56-206.ip58.fastwebnet.it.
+ [93.36.56.206])
+ by smtp.gmail.com with ESMTPSA id o4sm27046968wrx.25.2020.01.28.09.55.48
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 28 Jan 2020 09:55:49 -0800 (PST)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 051/142] configure, Makefile;
+ remove TOOLS and HELPERS-y variable
 Date: Tue, 28 Jan 2020 18:52:11 +0100
-Message-Id: <20200128175211.30007-5-kwolf@redhat.com>
-In-Reply-To: <20200128175211.30007-1-kwolf@redhat.com>
-References: <20200128175211.30007-1-kwolf@redhat.com>
+Message-Id: <20200128175342.9066-52-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20200128175342.9066-1-pbonzini@redhat.com>
+References: <20200128175342.9066-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: wxRrMBeyOIKY1nTd9nHaHQ-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::442
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,101 +80,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, armbru@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-monitor/misc.c contains code that works only in the system emulator, so
-it can't be linked to tools like a storage daemon. In order to make
-schema introspection available for tools, move the function to
-monitor/qmp-cmds-control.c, which can be linked into the storage daemon.
+Everything involving tools is now done by meson.
 
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- monitor/monitor-internal.h |  3 +++
- monitor/misc.c             | 16 ----------------
- monitor/qmp-cmds-control.c | 16 ++++++++++++++++
- 3 files changed, 19 insertions(+), 16 deletions(-)
+ Makefile  | 12 ++----------
+ configure |  2 --
+ 2 files changed, 2 insertions(+), 12 deletions(-)
 
-diff --git a/monitor/monitor-internal.h b/monitor/monitor-internal.h
-index 4d402ded85..3e6baba88f 100644
---- a/monitor/monitor-internal.h
-+++ b/monitor/monitor-internal.h
-@@ -180,4 +180,7 @@ void help_cmd(Monitor *mon, const char *name);
- void handle_hmp_command(MonitorHMP *mon, const char *cmdline);
- int hmp_compare_cmd(const char *name, const char *list);
-=20
-+void qmp_query_qmp_schema(QDict *qdict, QObject **ret_data,
-+                                 Error **errp);
-+
- #endif
-diff --git a/monitor/misc.c b/monitor/misc.c
-index 482e19a154..a64963cef4 100644
---- a/monitor/misc.c
-+++ b/monitor/misc.c
-@@ -75,7 +75,6 @@
- #include "qapi/qapi-init-commands.h"
- #include "qapi/error.h"
- #include "qapi/qmp-event.h"
--#include "qapi/qapi-introspect.h"
- #include "sysemu/cpus.h"
- #include "qemu/cutils.h"
- #include "tcg/tcg.h"
-@@ -232,21 +231,6 @@ static void hmp_info_help(Monitor *mon, const QDict *q=
-dict)
-     help_cmd(mon, "info");
- }
-=20
--/*
-- * Minor hack: generated marshalling suppressed for this command
-- * ('gen': false in the schema) so we can parse the JSON string
-- * directly into QObject instead of first parsing it with
-- * visit_type_SchemaInfoList() into a SchemaInfoList, then marshal it
-- * to QObject with generated output marshallers, every time.  Instead,
-- * we do it in test-qobject-input-visitor.c, just to make sure
-- * qapi-gen.py's output actually conforms to the schema.
-- */
--static void qmp_query_qmp_schema(QDict *qdict, QObject **ret_data,
--                                 Error **errp)
--{
--    *ret_data =3D qobject_from_qlit(&qmp_schema_qlit);
--}
+diff --git a/Makefile b/Makefile
+index ee79c2dbfa..25eb7336cc 100644
+--- a/Makefile
++++ b/Makefile
+@@ -124,8 +124,6 @@ $(call set-vpath, $(SRC_PATH))
+ 
+ LIBS+=-lz $(LIBS_TOOLS)
+ 
+-HELPERS-y =
 -
- static void monitor_init_qmp_commands(void)
- {
-     /*
-diff --git a/monitor/qmp-cmds-control.c b/monitor/qmp-cmds-control.c
-index dc789de3f8..c65d6fdf0f 100644
---- a/monitor/qmp-cmds-control.c
-+++ b/monitor/qmp-cmds-control.c
-@@ -29,6 +29,7 @@
- #include "qapi/error.h"
- #include "qapi/qapi-commands-control.h"
- #include "qapi/qapi-emit-events.h"
-+#include "qapi/qapi-introspect.h"
-=20
- /*
-  * Accept QMP capabilities in @list for @mon.
-@@ -151,3 +152,18 @@ EventInfoList *qmp_query_events(Error **errp)
-=20
-     return ev_list;
- }
-+
-+/*
-+ * Minor hack: generated marshalling suppressed for this command
-+ * ('gen': false in the schema) so we can parse the JSON string
-+ * directly into QObject instead of first parsing it with
-+ * visit_type_SchemaInfoList() into a SchemaInfoList, then marshal it
-+ * to QObject with generated output marshallers, every time.  Instead,
-+ * we do it in test-qobject-input-visitor.c, just to make sure
-+ * qapi-gen.py's output actually conforms to the schema.
-+ */
-+void qmp_query_qmp_schema(QDict *qdict, QObject **ret_data,
-+                                 Error **errp)
-+{
-+    *ret_data =3D qobject_from_qlit(&qmp_schema_qlit);
-+}
---=20
-2.20.1
+ # Sphinx does not allow building manuals into the same directory as
+ # the source files, so if we're doing an in-tree QEMU build we must
+ # build the manuals into a subdirectory (and then install them from
+@@ -165,7 +163,7 @@ dummy := $(call unnest-vars,, \
+ 
+ include $(SRC_PATH)/tests/Makefile.include
+ 
+-all: $(DOCS) $(if $(BUILD_DOCS),sphinxdocs) $(TOOLS) $(HELPERS-y) recurse-all modules
++all: $(DOCS) $(if $(BUILD_DOCS),sphinxdocs) recurse-all modules
+ 
+ TARGET_DIRS_RULES := $(foreach t, all clean install, $(addsuffix /$(t), $(TARGET_DIRS)))
+ SUBDIR_RULES=$(patsubst %,subdir-%, $(TARGET_DIRS))
+@@ -265,7 +263,7 @@ clean: recurse-clean
+ 		! -path ./roms/edk2/ArmPkg/Library/GccLto/liblto-arm.a \
+ 		! -path ./roms/edk2/BaseTools/Source/Python/UPT/Dll/sqlite3.dll \
+ 		-exec rm {} +
+-	rm -f $(filter-out %.tlb,$(TOOLS)) $(HELPERS-y) TAGS cscope.* *.pod *~ */*~
++	rm -f TAGS cscope.* *.pod *~ */*~
+ 	rm -f fsdev/*.pod scsi/*.pod
+ 	rm -f $(foreach f,$(generated-files-y),$(f) $(f)-timestamp)
+ 
+@@ -415,12 +413,6 @@ install: all $(if $(BUILD_DOCS),install-doc) \
+ 	install-datadir install-localstatedir install-includedir \
+ 	$(if $(INSTALL_BLOBS),$(edk2-decompressed)) \
+ 	recurse-install
+-ifneq ($(TOOLS),)
+-	$(call install-prog,$(TOOLS),$(DESTDIR)$(bindir))
+-endif
+-ifneq ($(HELPERS-y),)
+-	$(call install-prog,$(HELPERS-y),$(DESTDIR)$(libexecdir))
+-endif
+ ifdef CONFIG_TRACE_SYSTEMTAP
+ 	$(INSTALL_PROG) "scripts/qemu-trace-stap" $(DESTDIR)$(bindir)
+ endif
+diff --git a/configure b/configure
+index 11586bfc20..a9919d5c58 100755
+--- a/configure
++++ b/configure
+@@ -6203,7 +6203,6 @@ if [ "$eventfd" = "yes" ]; then
+   ivshmem=yes
+ fi
+ 
+-tools=""
+ if test "$softmmu" = yes ; then
+   if test "$linux" = yes; then
+     if test "$virtfs" != no && test "$cap_ng" = yes && test "$attr" = yes ; then
+@@ -7471,7 +7470,6 @@ else
+ fi
+ QEMU_INCLUDES="-iquote ${source_path}/tcg $QEMU_INCLUDES"
+ 
+-echo "TOOLS=$tools" >> $config_host_mak
+ echo "ROMS=$roms" >> $config_host_mak
+ echo "MAKE=$make" >> $config_host_mak
+ echo "INSTALL=$install" >> $config_host_mak
+-- 
+2.21.0
+
 
 
