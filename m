@@ -2,73 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B50F614B31B
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 11:58:06 +0100 (CET)
-Received: from localhost ([::1]:57002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54D4314B35E
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 12:11:53 +0100 (CET)
+Received: from localhost ([::1]:57326 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwOZJ-000438-Rx
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 05:58:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53442)
+	id 1iwOme-0001f6-CS
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 06:11:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57260)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eric.auger@redhat.com>) id 1iwOYD-00039L-DK
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 05:56:58 -0500
+ (envelope-from <bounces@canonical.com>) id 1iwOls-0001Cs-Pz
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 06:11:06 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eric.auger@redhat.com>) id 1iwOYB-0007O5-PM
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 05:56:57 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:39982
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
- id 1iwOYB-0007Nh-F6
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 05:56:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580209014;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Z5jK0A7x5c7aYCZz0uGyY1d3eb/SjK28XgKdCurftkM=;
- b=IWWbvjzbT551qdJQlLbIMIn8Hy9U4rB78utzfPM9JVezGKXWpX1cQ2TIx2EBzXAKrBqlQT
- 4K38RlMSDvin2E5m8z89a+XD0KGu0ldeae/h4gQWLmRFvD1z4DFhb4cJCnAqKsRZ0DeCpv
- 7WMmekH/QEPhuUndkjIk4lXjc0cG978=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-284-nvTkwhPPMO-uKv8R6dwkBQ-1; Tue, 28 Jan 2020 05:56:52 -0500
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 899798010D0;
- Tue, 28 Jan 2020 10:56:51 +0000 (UTC)
-Received: from [10.36.116.37] (ovpn-116-37.ams2.redhat.com [10.36.116.37])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 345F88E612;
- Tue, 28 Jan 2020 10:56:46 +0000 (UTC)
-Subject: Re: [RFC PATCH] hw/arm/virt: Support NMI injection
-To: Marc Zyngier <maz@kernel.org>
-References: <20191219040612.28431-1-gshan@redhat.com>
- <d972631d-7db7-b6d5-61b8-244ae2c85882@redhat.com>
- <1b718429-c74e-fbac-84b8-379f3291db40@redhat.com>
- <ff78ed012e7b8fbd656e7e4b477ee0a4@kernel.org>
-From: Auger Eric <eric.auger@redhat.com>
-Message-ID: <3ae0557c-c289-8a23-d62f-3dc2a12c0623@redhat.com>
-Date: Tue, 28 Jan 2020 11:56:44 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.4.0
+ (envelope-from <bounces@canonical.com>) id 1iwOlr-0001ET-C9
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 06:11:04 -0500
+Received: from indium.canonical.com ([91.189.90.7]:45742)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iwOlr-0001Da-53
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 06:11:03 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iwOlp-0006D7-Eh
+ for <qemu-devel@nongnu.org>; Tue, 28 Jan 2020 11:11:01 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 6CC9E2E80CB
+ for <qemu-devel@nongnu.org>; Tue, 28 Jan 2020 11:11:01 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <ff78ed012e7b8fbd656e7e4b477ee0a4@kernel.org>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: nvTkwhPPMO-uKv8R6dwkBQ-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=WINDOWS-1252
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+Date: Tue, 28 Jan 2020 10:58:17 -0000
+From: Frank Heimes <1859656@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=maas; status=New; importance=Undecided;
+ assignee=lee.trager@canonical.com; 
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug: product=ubuntu-z-systems; status=Triaged; importance=High;
+ assignee=maas; 
+X-Launchpad-Bug-Tags: s390x
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: fheimes ltrager paelzer sfeole
+X-Launchpad-Bug-Reporter: Sean Feole (sfeole)
+X-Launchpad-Bug-Modifier: Frank Heimes (fheimes)
+References: <157902669328.14768.4315907500950527119.malonedeb@wampee.canonical.com>
+Message-Id: <158020909766.19232.18348718339215570447.malone@gac.canonical.com>
+Subject: [Bug 1859656] Re: [2.6] Unable to reboot s390x KVM machine after
+ initial deploy
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="b8d1327fd820d6bf500589d6da587d5037c7d88e";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 3f7dcde994e6be0b25b1274fba8c91c01e664d0e
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -77,130 +71,153 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, drjones@redhat.com, Gavin Shan <gshan@redhat.com>,
- jthierry@redhat.com, aik@ozlabs.ru, qemu-devel@nongnu.org, qemu-arm@nongnu.org,
- shan.gavin@gmail.com, pbonzini@redhat.com
+Reply-To: Bug 1859656 <1859656@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Marc,
-On 1/28/20 10:25 AM, Marc Zyngier wrote:
-> Gavin, Eric,
->=20
-> On 2020-01-28 08:05, Auger Eric wrote:
->> Hi,
->>
->> On 1/28/20 7:48 AM, Gavin Shan wrote:
->>> [including more folks into the discussion]
->>>
->>>> On Fri, 17 Jan 2020 at 14:00, Peter Maydell <peter.maydell@linaro.org>
->>>> wrote:
->>>>> On Thu, 19 Dec 2019 at 04:06, Gavin Shan <gshan@redhat.com> wrote:
->>>>>> This supports NMI injection for virtual machine and currently it's
->>>>>> only
->>>>>> supported on GICv3 controller, which is emulated by qemu or host
->>>>>> kernel.
->>>>>> The design is highlighted as below:
->>>>>>
->>>>>> * The NMI is identified by its priority (0x20). In the guest (linux)
->>>>>> kernel, the GICC_PMR is set to 0x80, to block all interrupts except
->>>>>> the NMIs when the external interrupt is disabled. It means the FIQ
->>>>>> and IRQ bit in PSTATE isn't touched when the functionality (NMI) is
->>>>>> functional.
->>>>>> * LPIs aren't considered as NMIs because of their nature. It means
->>>>>> NMI
->>>>>> is either SPI or PPI. Besides, the NMIs are injected in round-robin
->>>>>> fashion is there are multiple NMIs existing.
->>>>>> * When the GICv3 controller is emulated by qemu, the interrupt state=
-s
->>>>>> (e.g. enabled, priority) is fetched from the corresponding data
->>>>>> struct
->>>>>> directly. However, we have to pause all CPUs to fetch the interrupt
->>>>>> states from host in advance if the GICv3 controller is emulated by
->>>>>> host.
->>>>>>
->>>>>> The testing scenario is to tweak guest (linux) kernel where the
->>>>>> pl011 SPI
->>>>>> can be enabled as NMI by request_nmi(). Check "/proc/interrupts"
->>>>>> after injecting
->>>>>> several NMIs, to see if the interrupt count is increased or not. The
->>>>>> result
->>>>>> is just as expected.
->>>>>>
->>>>
->>>> So, QEMU is trying to emulate actual hardware. None of this
->>>> looks to me like what GICv3 hardware does... If you want to
->>>> have the virt board send an interrupt, do it the usual way
->>>> by wiring up a qemu_irq from some device to the GIC, please.
->>>> (More generally, there is no concept of an "NMI" in the GIC;
->>>> there are just interrupts at varying possible guest-programmable
->>>> priority levels.)
->>>>
->>>
->>> Peter, I missed to read your reply in time and apologies for late
->>> response.
->>>
->>> Yes, there is no concept of "NMI" in the GIC from hardware perspective.
->>> However, NMI has been supported from the software by kernel commit
->>> bc3c03ccb4641 ("arm64: Enable the support of pseudo-NMIs"). The NMIs
->>> have higher priority than normal ones. NMIs are deliverable after
->>> local_irq_disable() because the SYS_ICC_PMR_EL1 is tweaked so that
->>> normal interrupts are masked only.
->=20
-> And none of that is an NMI. This is a completely SW-defined mechanism,
-> and you can't rely on this to inject something that would behave as
-> a NMI in in a guest. I thought the "pseudo" prefix would give it away :-(=
-.
->=20
->>>
->>> It's unclear about the purpose of "nmi" QMP/HMP command. It's why I
->>> put a RFC tag. The command has been supported by multiple architects
->>> including x86/ppc. However, they are having different behaviors. The
->>> system will be restarted on ppc with this command, but a NMI is injecte=
-d
->>> through LAPIC on x86. So I'm not sure what architect (system reset on
->>> ppc or injecting NMI on x86) aarch64 should follow.
->=20
-> The x86 NMI has no equivalent on ARM, full stop. And the only thing that
-> the ARM implementation should follow is the letter of the architecture,
-> without added concepts.
->=20
->> arm_pmu driver was reworked to use pseudo-NMIs. I don't know the exact
->> status of this work though
->> (https://patchwork.kernel.org/cover/11047407/). So we cannot use any
->> random NMI for guest injection.
->>
->> I wonder whether we should implement the KVM_NMI vcpu ioctl once we have
->> agreed on which behavior is expected upon NMI injection. However the
->> kernel doc says this ioctl only is well defined if "KVM_CREATE_IRQCHIP
->> has not been called" (?).
->=20
-> But what architectural concept would you map your KVM_NMI to? The number
-> of things you can do is pretty limited:
->=20
-> - Reset: we already have this
-> - Interrupt: you don't get to decide the priority or the group
-> - SError: Pretty much fatal in all cases
->=20
-> You *could* try something like SDEI [1], but that's a pretty terrible
-> interface too.
+It took some time (due to travel), but I was now able to do a setup
+based on the old 2.6.0 version [2.6.0 (7803-g6fc5f26eb-
+0ubuntu1~18.04.1)] for testing.
 
-Thank you for the pointer.
+And with the combination:
 
-So Gavin, not sure the QEMU QMP/HMP NMI command is relevant on ARM (at
-least at this point)?
+$ apt-cache policy maas
+maas:
+  Installed: 2.6.0-7803-g6fc5f26eb-0ubuntu1~18.04.1
+  Candidate: 2.6.0-7803-g6fc5f26eb-0ubuntu1~18.04.1
+  Version table:
+ *** 2.6.0-7803-g6fc5f26eb-0ubuntu1~18.04.1 500
+        500 http://ppa.launchpad.net/maas-maintainers/testing/ubuntu bionic=
+/main s390x Packages
+        100 /var/lib/dpkg/status
+     2.4.2-7034-g2f5deb8b8-0ubuntu1 500
+        500 http://us.ports.ubuntu.com/ubuntu-ports bionic-updates/main s39=
+0x Packages
+     2.4.0~beta2-6865-gec43e47e6-0ubuntu1 500
+        500 http://us.ports.ubuntu.com/ubuntu-ports bionic/main s390x Packa=
+ges
+and:
+$ apt-cache policy qemu
+qemu:
+  Installed: (none)
+  Candidate: 1:2.11+dfsg-1ubuntu7.21
+  Version table:
+     1:2.11+dfsg-1ubuntu7.21 500
+        500 http://us.ports.ubuntu.com/ubuntu-ports bionic-updates/universe=
+ s390x Packages
+     1:2.11+dfsg-1ubuntu7.20 500
+        500 http://ports.ubuntu.com/ubuntu-ports bionic-security/universe s=
+390x Packages
+     1:2.11+dfsg-1ubuntu7 500
+        500 http://us.ports.ubuntu.com/ubuntu-ports bionic/universe s390x P=
+ackages
+the system seems to successful commissions, similar to the latest maas 2.6.=
+2 version (see above).
+But then the VM ends again in state Ready / off.
 
-Thanks
+virsh shows the VM as shutoff:
+ubuntu@s1lp11:~$ sudo -H -u maas bash -c 'virsh -c qemu+ssh://ubuntu@192.16=
+8.122.1/system list --all'
+ubuntu@192.168.122.1's password: =
 
-Eric
+ Id    Name                           State
+----------------------------------------------------
+ -     vm1                            shut off
+
+The os element looks like this - with the two entries:
+  <os>
+    <type arch=3D's390x' machine=3D's390-ccw-virtio-bionic'>hvm</type>
+    <boot dev=3D'network'/>
+    <boot dev=3D'hd'/>
+  </os>
+
+A manual start (with the help of virsh, console enabled) shows that it
+network boots (see attachment).
+
+Removing the network entry and booting didn't work - looks like no OS
+deployed on disk yet.
+
+To sum it up - also not working on this 2.6.0 env. that I've just
+created.
 
 
->=20
-> =A0=A0=A0=A0=A0=A0=A0 M.
->=20
-> [1]
-> https://static.docs.arm.com/den0054/a/ARM_DEN0054A_Software_Delegated_Exc=
-eption_Interface.pdf
->=20
+** Attachment added: "boot_console.txt"
+   https://bugs.launchpad.net/ubuntu-z-systems/+bug/1859656/+attachment/532=
+3507/+files/boot_console.txt
 
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1859656
+
+Title:
+  [2.6] Unable to reboot s390x KVM machine after initial deploy
+
+Status in MAAS:
+  New
+Status in QEMU:
+  Incomplete
+Status in Ubuntu on IBM z Systems:
+  Triaged
+
+Bug description:
+  MAAS version: 2.6.1 (7832-g17912cdc9-0ubuntu1~18.04.1)
+  Arch: S390x
+
+  Appears that MAAS can not find the s390x bootloader to boot from the
+  disk, not sure how maas determines this.  However this was working in
+  the past. I had originally thought that if the maas machine was
+  deployed then it defaulted to boot from disk.
+
+  If I force the VM to book from disk, the VM starts up as expected.
+
+  Reproduce:
+
+  - Deploy Disco on S390x KVM instance
+  - Reboot it
+
+  on the KVM console...
+
+  Connected to domain s2lp6g001
+  Escape character is ^]
+  done
+  =C2=A0=C2=A0Using IPv4 address: 10.246.75.160
+  =C2=A0=C2=A0Using TFTP server: 10.246.72.3
+  =C2=A0=C2=A0Bootfile name: 'boots390x.bin'
+  =C2=A0=C2=A0Receiving data:  0 KBytes
+  =C2=A0=C2=A0TFTP error: file not found: boots390x.bin
+  Trying pxelinux.cfg files...
+  =C2=A0=C2=A0Receiving data:  0 KBytes
+  =C2=A0=C2=A0Receiving data:  0 KBytes
+  Failed to load OS from network
+
+  =3D=3D> /var/log/maas/rackd.log <=3D=3D
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] boots39=
+0x.bin requested by 10.246.75.160
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/6=
+5a9ca43-9541-49be-b315-e2ca85936ea2 requested by 10.246.75.160
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
+1-52-54-00-e5-d7-bb requested by 10.246.75.160
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
+AF64BA0 requested by 10.246.75.160
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
+AF64BA requested by 10.246.75.160
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
+AF64B requested by 10.246.75.160
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
+AF64 requested by 10.246.75.160
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
+AF6 requested by 10.246.75.160
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
+AF requested by 10.246.75.160
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
+A requested by 10.246.75.160
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
+ requested by 10.246.75.160
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/d=
+efault requested by 10.246.75.160
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/maas/+bug/1859656/+subscriptions
 
