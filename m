@@ -2,66 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6178B14C174
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 21:13:10 +0100 (CET)
-Received: from localhost ([::1]:37148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D616D14C193
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 21:24:39 +0100 (CET)
+Received: from localhost ([::1]:37342 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwXET-0001BA-2G
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 15:13:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35677)
+	id 1iwXPa-0004jf-TU
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 15:24:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40040)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ehabkost@redhat.com>) id 1iwXDY-00007V-Ra
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 15:12:14 -0500
+ (envelope-from <wainersm@redhat.com>) id 1iwXOh-00041C-1g
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 15:23:44 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ehabkost@redhat.com>) id 1iwXDW-00062M-II
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 15:12:12 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:23820
+ (envelope-from <wainersm@redhat.com>) id 1iwXOf-0002iq-J6
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 15:23:42 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:59116
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1iwXDW-00061k-DK
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 15:12:10 -0500
+ (Exim 4.71) (envelope-from <wainersm@redhat.com>) id 1iwXOf-0002gr-Fq
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 15:23:41 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580242329;
+ s=mimecast20190719; t=1580243021;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=yDI3a729Ba74N5OXJ+rWZzpeVwbPoD+JAMo+l+0rEBg=;
- b=QaGZ38R71unxuIlzBr+lH2VEfoTF3LG2+V7rKWPR5iPsY6IuvxYmiPTOglnb+u4snWmQvU
- RAoQ8BB+OsG5cWL1lZ7LzVkrG4F4JEAsX5HXOW7CA6M1bZxYprgJGK0TsL4EtP49ByL+r8
- Bcqo6zUAvqkdksuihB9InDgT7q8vOrE=
+ bh=qgVxJ0FiX0XFhW50/G5ckJdu9IU+U+OKfSKSSF8FeBM=;
+ b=TQkEqr0ma+kgGSdroBS3FRuDYjfskRvmA8tu7W4xSrpaKF2NEZsdSxR71Ici+5yH+BgXFX
+ mT3pt7EfkHSphe+V7GvET9LtJN40mr8t9DCSO8uu/BE4JpU1PsdkG29Cg9eW41V0MQ1+Zu
+ V2POPgf9R+650R7r+s3IfTkWiUxoJ04=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-122-HTQPd9XFMeWOy_l2S7PV4A-1; Tue, 28 Jan 2020 15:12:06 -0500
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-82-Lv8HEl7HNcWztAszEFqaUQ-1; Tue, 28 Jan 2020 15:23:34 -0500
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9419A107ACC9;
- Tue, 28 Jan 2020 20:12:05 +0000 (UTC)
-Received: from localhost (unused-10-15-17-6.yyz.redhat.com [10.15.17.6])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DF95F100194E;
- Tue, 28 Jan 2020 20:12:02 +0000 (UTC)
-Date: Tue, 28 Jan 2020 15:12:02 -0500
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Babu Moger <babu.moger@amd.com>
-Subject: Re: [PATCH v3 07/18] machine: Add a new function init_apicid_fn in
- MachineClass
-Message-ID: <20200128201202.GK18770@habkost.net>
-References: <157541968844.46157.17994918142533791313.stgit@naples-babu.amd.com>
- <157541986210.46157.5082551407581177819.stgit@naples-babu.amd.com>
- <20200128172919.4ecb5896@redhat.com>
- <e5271e1c-55bc-e3d2-eb4c-2329eef07c9f@amd.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C6228800D41;
+ Tue, 28 Jan 2020 20:23:32 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-116-65.gru2.redhat.com
+ [10.97.116.65])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6CFB45C219;
+ Tue, 28 Jan 2020 20:23:20 +0000 (UTC)
+Subject: Re: [PATCH v4 7/7] tests/boot_linux_console: Tag Emcraft Smartfusion2
+ as running 'u-boot'
+To: Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <f4bug@amsat.org>, qemu-devel@nongnu.org
+References: <20200120235159.18510-1-f4bug@amsat.org>
+ <20200120235159.18510-8-f4bug@amsat.org>
+ <addb50ef-b6cd-fec1-2266-f062cae65090@redhat.com>
+From: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Message-ID: <0debd0ec-16e4-2d96-c634-26bdb6db6215@redhat.com>
+Date: Tue, 28 Jan 2020 18:23:18 -0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.4.0
 MIME-Version: 1.0
-In-Reply-To: <e5271e1c-55bc-e3d2-eb4c-2329eef07c9f@amd.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: HTQPd9XFMeWOy_l2S7PV4A-1
+In-Reply-To: <addb50ef-b6cd-fec1-2266-f062cae65090@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-MC-Unique: Lv8HEl7HNcWztAszEFqaUQ-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
@@ -75,90 +78,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mst@redhat.com, armbru@redhat.com, qemu-devel@nongnu.org,
- pbonzini@redhat.com, Igor Mammedov <imammedo@redhat.com>, rth@twiddle.net
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Alistair Francis <alistair@alistair23.me>,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>, qemu-arm@nongnu.org,
+ Cleber Rosa <crosa@redhat.com>, Laurent Bonnans <laurent.bonnans@here.com>,
+ Cheng Xiang <ext-cheng.xiang@here.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jan 28, 2020 at 01:45:31PM -0600, Babu Moger wrote:
->=20
->=20
-> On 1/28/20 10:29 AM, Igor Mammedov wrote:
-> > On Tue, 03 Dec 2019 18:37:42 -0600
-> > Babu Moger <babu.moger@amd.com> wrote:
-> >=20
-> >> Add a new function init_apicid_fn in MachineClass to initialize the mo=
-de
-> >> specific handlers to decode the apic ids.
-> >>
-> >> Signed-off-by: Babu Moger <babu.moger@amd.com>
-> >> ---
-> >>  include/hw/boards.h |    1 +
-> >>  vl.c                |    3 +++
-> >>  2 files changed, 4 insertions(+)
-> >>
-> >> diff --git a/include/hw/boards.h b/include/hw/boards.h
-> >> index d4fab218e6..ce5aa365cb 100644
-> >> --- a/include/hw/boards.h
-> >> +++ b/include/hw/boards.h
-> >> @@ -238,6 +238,7 @@ struct MachineClass {
-> >>                                                           unsigned cpu=
-_index);
-> >>      const CPUArchIdList *(*possible_cpu_arch_ids)(MachineState *machi=
-ne);
-> >>      int64_t (*get_default_cpu_node_id)(const MachineState *ms, int id=
-x);
-> >> +    void (*init_apicid_fn)(MachineState *ms);
-> > it's x86 specific, so why it wasn put into PCMachineClass?
->=20
-> Yes. It is x86 specific for now. I tried to make it generic function so
-> other OSes can use it if required(like we have done in
-> possible_cpu_arch_ids). It initializes functions required to build the
-> apicid for each CPUs. We need these functions much early in the
-> initialization. It should be initialized before parse_numa_opts or
-> machine_run_board_init(in v1.c) which are called from generic context. We
-> cannot use PCMachineClass at this time.
 
-Even if the only user of the new hook will be x86, you are
-introducing a generic API, so a x86-specific name doesn't seem
-appropriate.
+On 1/27/20 2:05 PM, Thomas Huth wrote:
+> On 21/01/2020 00.51, Philippe Mathieu-Daud=C3=A9 wrote:
+>> Avocado tags are handy to automatically select tests matching
+>> the tags. Since this test also runs U-Boot, tag it.
+>>
+>> We can run all the tests using U-Boot as once with:
+>>
+>>    $ avocado --show=3Dapp run -t u-boot tests/acceptance/
+>>    JOB LOG    : avocado/job-results/job-2020-01-21T00.16-ee9344e/job.log
+>>     (1/3) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_a=
+rm_emcraft_sf2: PASS (16.59 s)
+>>     (2/3) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_a=
+rm_raspi2_uboot: PASS (0.47 s)
+>>     (3/3) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_a=
+arch64_raspi3_uboot: PASS (2.43 s)
+>>    RESULTS    : PASS 3 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT =
+0 | CANCEL 0
+>>    JOB TIME   : 19.78 s
+>>
+>> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+>> ---
+>>   tests/acceptance/boot_linux_console.py | 1 +
+>>   1 file changed, 1 insertion(+)
+>>
+>> diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/b=
+oot_linux_console.py
+>> index 22b360118d..4a4cf9d0ea 100644
+>> --- a/tests/acceptance/boot_linux_console.py
+>> +++ b/tests/acceptance/boot_linux_console.py
+>> @@ -305,6 +305,7 @@ class BootLinuxConsole(Test):
+>>           :avocado: tags=3Darch:arm
+>>           :avocado: tags=3Dmachine:emcraft-sf2
+>>           :avocado: tags=3Dendian:little
+>> +        :avocado: tags=3Du-boot
+>>           """
+>>           uboot_url =3D ('https://raw.githubusercontent.com/'
+>>                        'Subbaraya-Sundeep/qemu-test-binaries/'
+>>
+> We should maybe move that test to another file, too, since it is not
+> using Linux. Or should we maybe rename boot_linux_console.py to simply
+> boot_console.py ?
 
-I suggest using a generic name and documenting its rules and
-intended usage explicitly.  Something like "pre_init" might be
-good enough, as long as the rules documented clearly (e.g. it
-will be called before NUMA initialization, but after CPU model
-lookup).
+Thinking aloud: maybe create a directory 'boot' (or 'boot_tests') and=20
+group tests in files according to the 'arch' tag.
 
-However, I believe we can implement the same functionality
-without a new generic initialization hook.  See my reply to patch
-16/18.
+Example:
 
->=20
-> >=20
-> >=20
-> >>  };
-> >> =20
-> >>  /**
-> >> diff --git a/vl.c b/vl.c
-> >> index a42c24a77f..b6af604e11 100644
-> >> --- a/vl.c
-> >> +++ b/vl.c
-> >> @@ -4318,6 +4318,9 @@ int main(int argc, char **argv, char **envp)
-> >>      current_machine->cpu_type =3D machine_class->default_cpu_type;
-> >>      if (cpu_option) {
-> >>          current_machine->cpu_type =3D parse_cpu_option(cpu_option);
-> >> +        if (machine_class->init_apicid_fn) {
-> >> +            machine_class->init_apicid_fn(current_machine);
-> >> +        }
-> >>      }
-> >>      parse_numa_opts(current_machine);
-> >> =20
-> >>
-> >>
-> >=20
->=20
+[wainersm@localhost boot]$ tree
+.
+=E2=94=94=E2=94=80=E2=94=80 arm.py
 
---=20
-Eduardo
+0 directories, 1 file
+[wainersm@localhost boot]$ cat arm.py
+from avocado_qemu import Test
+
+class BootArmTest(Test):
+ =C2=A0=C2=A0=C2=A0 """
+ =C2=A0=C2=A0=C2=A0 :avocado: tags=3Darch:arm
+ =C2=A0=C2=A0=C2=A0 """
+ =C2=A0=C2=A0=C2=A0 def test_linux_virt()
+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 """
+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 :avocado: tags=3Dmachine:virt
+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 :avocado: tags=3Dlinux-boot
+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 """
+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # Test here
+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pass
+
+ =C2=A0=C2=A0=C2=A0 def test_uboot_emcraft_sf2()
+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 """
+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 :avocado: tags=3Dmachine:emcraf=
+t-sf2
+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 :avocado: tags=3Dendian:little
+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 :avocado: tags=3Du-boot
+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 """
+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # Test here
+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pass
+--------------
+
+
+Back to this patch...
+
+Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+
+
+>
+>   Thomas
+>
+>
 
 
