@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19D0014C12C
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 20:42:49 +0100 (CET)
-Received: from localhost ([::1]:36656 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E85514C135
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 20:46:08 +0100 (CET)
+Received: from localhost ([::1]:36734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwWl6-0006zq-6u
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 14:42:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40944)
+	id 1iwWoJ-0004Cz-Ej
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 14:46:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53104)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <wainersm@redhat.com>) id 1iwVjW-0006OP-0L
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 13:37:07 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1iwVrs-000495-TD
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 13:45:47 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <wainersm@redhat.com>) id 1iwVjT-0007ez-FT
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 13:37:05 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:56353
+ (envelope-from <dgilbert@redhat.com>) id 1iwVrl-0004mn-BL
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 13:45:44 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:51680
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <wainersm@redhat.com>) id 1iwVjT-0007cL-8a
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 13:37:03 -0500
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iwVrk-0004ka-RW
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 13:45:37 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580236620;
+ s=mimecast20190719; t=1580237136;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RBa/N6CLUvkTgoymHNbFYoT9+rFiGOIqvSnIJ1hi3cQ=;
- b=EUx3/ka5bhj9bBT77WjqigwJV2Upo/dXcT6aUmW+fw6i11XdzvpfxxkcdImI6KrExidUgC
- /92Iokig9htzCPUCFjyoGjW5zvQZ/g03irYxY5CMjp0b4I+I+kCuU8ldAIOj2+/wZsblfB
- 71wyRFIKZ2KvuHpQxepPMuQX3uqzC80=
+ bh=//OPQMYIIL8FX6VvWWkcpVZqyUAuETIBp0TOUprAVB4=;
+ b=F2Ph4oRpiKTzfusTjQNZJJGdG6zLSKynC+RPqv5D3y0PxnlJeO1ZndhpA1EroAyDIbyEh8
+ 6uCnBQ5Hf7tDes/ra+SoCS/PE6KwWVJnpip1Y5WqSAyxcg2vr796P4x30Mg2ciYeVhlcF1
+ SbwmotkIkfndFdzyN749tqXjm6Ixukc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-167-hz7X8TDKNW-liJqeD7781A-1; Tue, 28 Jan 2020 13:36:56 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-303--4l_umlRNYaD1Devpr--Gw-1; Tue, 28 Jan 2020 13:45:30 -0500
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 55FF313E4
- for <qemu-devel@nongnu.org>; Tue, 28 Jan 2020 18:36:55 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-116-65.gru2.redhat.com
- [10.97.116.65])
- by smtp.corp.redhat.com (Postfix) with ESMTP id ED1F53DA3;
- Tue, 28 Jan 2020 18:36:53 +0000 (UTC)
-Subject: Re: [PATCH] Acceptance test: provides to use different transport for
- migration
-To: Oksana Vohchana <ovoshcha@redhat.com>, qemu-devel@nongnu.org
-References: <20200123123004.28156-1-ovoshcha@redhat.com>
-From: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-ID: <0882f704-5631-9088-92a1-a27638b523cb@redhat.com>
-Date: Tue, 28 Jan 2020 16:36:51 -0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.4.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4C00A1800D41;
+ Tue, 28 Jan 2020 18:45:29 +0000 (UTC)
+Received: from work-vm (unknown [10.36.118.74])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CD66060BE0;
+ Tue, 28 Jan 2020 18:45:24 +0000 (UTC)
+Date: Tue, 28 Jan 2020 18:45:22 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Maxim Levitsky <mlevitsk@redhat.com>
+Subject: Re: [PATCH v3 09/13] monitor/hmp: move remaining hmp_block*
+ functions to block-hmp-cmds.c
+Message-ID: <20200128184522.GA3215@work-vm>
+References: <20200127103647.17761-1-mlevitsk@redhat.com>
+ <20200127103647.17761-10-mlevitsk@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200123123004.28156-1-ovoshcha@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: hz7X8TDKNW-liJqeD7781A-1
+In-Reply-To: <20200127103647.17761-10-mlevitsk@redhat.com>
+User-Agent: Mutt/1.13.3 (2020-01-12)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: -4l_umlRNYaD1Devpr--Gw-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
@@ -75,107 +74,459 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Oksana,
+* Maxim Levitsky (mlevitsk@redhat.com) wrote:
+> Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
 
-Thanks for your first contribution to QEMU. Some comments below.
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
-On 1/23/20 10:30 AM, Oksana Vohchana wrote:
-> Along with VM migration via TCP, we can use migration through EXEC
-> and UNIX transport protocol
->
-> Signed-off-by: Oksana Vohchana <ovoshcha@redhat.com>
 > ---
->   tests/acceptance/migration.py | 50 ++++++++++++++++++++++++-----------
->   1 file changed, 35 insertions(+), 15 deletions(-)
->
-> diff --git a/tests/acceptance/migration.py b/tests/acceptance/migration.py
-> index a44c1ae58f..8bbe28d52d 100644
-> --- a/tests/acceptance/migration.py
-> +++ b/tests/acceptance/migration.py
-> @@ -10,10 +10,13 @@
->   # later.  See the COPYING file in the top-level directory.
->   
->   
-> +import tempfile
->   from avocado_qemu import Test
-> +from avocado import skipUnless\
-
-Remove the trailing '\'.
-
->   
->   from avocado.utils import network
->   from avocado.utils import wait
-> +from avocado.utils.path import find_command, CmdNotFoundError
-
-CmdNotFoundError is never used.
-
->   
->   
->   class Migration(Test):
-> @@ -24,6 +27,26 @@ class Migration(Test):
->       def migration_finished(vm):
->           return vm.command('query-migrate')['status'] in ('completed', 'failed')
->   
-> +    def do_migrate(self, dest_uri, src_uri=None):
-> +        source_vm = self.get_vm()
-> +        dest_vm = self.get_vm('-incoming', dest_uri)
-> +        dest_vm.launch()
-> +        if src_uri is None:
-> +            src_uri = dest_uri
-> +        source_vm.launch()
-> +        source_vm.qmp('migrate', uri=src_uri)
-> +        self.assert_migration(source_vm, dest_vm)
+>  block/monitor/block-hmp-cmds.c     | 138 +++++++++++++++++++++++++++++
+>  include/block/block-hmp-commands.h |   9 ++
+>  include/monitor/hmp.h              |   6 --
+>  monitor/hmp-cmds.c                 | 137 ----------------------------
+>  4 files changed, 147 insertions(+), 143 deletions(-)
+>=20
+> diff --git a/block/monitor/block-hmp-cmds.c b/block/monitor/block-hmp-cmd=
+s.c
+> index df0178d0f9..60d63bfe18 100644
+> --- a/block/monitor/block-hmp-cmds.c
+> +++ b/block/monitor/block-hmp-cmds.c
+> @@ -29,6 +29,7 @@
+>  #include "block/block_int.h"
+>  #include "block/block-hmp-commands.h"
+>  #include "monitor/hmp.h"
+> +#include "qemu-io.h"
+> =20
+>  void hmp_drive_add(Monitor *mon, const QDict *qdict)
+>  {
+> @@ -415,3 +416,140 @@ void hmp_nbd_server_stop(Monitor *mon, const QDict =
+*qdict)
+>      qmp_nbd_server_stop(&err);
+>      hmp_handle_error(mon, err);
+>  }
 > +
-> +    def assert_migration(self, source_vm, dest_vm):
-> +        wait.wait_for(self.migration_finished,
-> +                      timeout=self.timeout,
-> +                      step=0.1,
-> +                      args=(source_vm,))
-> +        self.assertEqual(source_vm.command('query-migrate')['status'], 'completed')
-> +        self.assertEqual(dest_vm.command('query-migrate')['status'], 'completed')
-> +        self.assertEqual(dest_vm.command('query-status')['status'], 'running')
-> +        self.assertEqual(source_vm.command('query-status')['status'], 'postmigrate')
+> +void hmp_block_resize(Monitor *mon, const QDict *qdict)
+> +{
+> +    const char *device =3D qdict_get_str(qdict, "device");
+> +    int64_t size =3D qdict_get_int(qdict, "size");
+> +    Error *err =3D NULL;
 > +
->       def _get_free_port(self):
->           port = network.find_free_port()
->           if port is None:
-> @@ -32,19 +55,16 @@ class Migration(Test):
->   
->   
->       def test_migration_with_tcp_localhost(self):
-> -        source_vm = self.get_vm()
->           dest_uri = 'tcp:localhost:%u' % self._get_free_port()
-> -        dest_vm = self.get_vm('-incoming', dest_uri)
-> -        dest_vm.launch()
-> -        source_vm.launch()
-> -        source_vm.qmp('migrate', uri=dest_uri)
-> -        wait.wait_for(
-> -            self.migration_finished,
-> -            timeout=self.timeout,
-> -            step=0.1,
-> -            args=(source_vm,)
-> -        )
-> -        self.assertEqual(dest_vm.command('query-migrate')['status'], 'completed')
-> -        self.assertEqual(source_vm.command('query-migrate')['status'], 'completed')
-> -        self.assertEqual(dest_vm.command('query-status')['status'], 'running')
-> -        self.assertEqual(source_vm.command('query-status')['status'], 'postmigrate')
-> +        self.do_migrate(dest_uri)
+> +    qmp_block_resize(true, device, false, NULL, size, &err);
+> +    hmp_handle_error(mon, err);
+> +}
 > +
-> +    def test_migration_with_unix(self):
-> +        with tempfile.TemporaryDirectory(prefix='socket_') as socket_path:
-> +            dest_uri = 'unix:%s/qemu-test.sock' % socket_path
-> +            self.do_migrate(dest_uri)
-> +    @skipUnless(find_command('nc', default=False), "nc command not found on the system")
-> +    def test_migration_with_exec(self):
-
-Please add a blank line between the two methods.
-
-> +        free_port = self._get_free_port()
-> +        dest_uri = 'exec:nc -l localhost %u' % free_port
-> +        src_uri = 'exec:nc localhost %u' % free_port
-> +        self.do_migrate(dest_uri, src_uri)
+> +void hmp_block_stream(Monitor *mon, const QDict *qdict)
+> +{
+> +    Error *error =3D NULL;
+> +    const char *device =3D qdict_get_str(qdict, "device");
+> +    const char *base =3D qdict_get_try_str(qdict, "base");
+> +    int64_t speed =3D qdict_get_try_int(qdict, "speed", 0);
+> +
+> +    qmp_block_stream(true, device, device, base !=3D NULL, base, false, =
+NULL,
+> +                     false, NULL, qdict_haskey(qdict, "speed"), speed, t=
+rue,
+> +                     BLOCKDEV_ON_ERROR_REPORT, false, false, false, fals=
+e,
+> +                     &error);
+> +
+> +    hmp_handle_error(mon, error);
+> +}
+> +
+> +void hmp_block_passwd(Monitor *mon, const QDict *qdict)
+> +{
+> +    const char *device =3D qdict_get_str(qdict, "device");
+> +    const char *password =3D qdict_get_str(qdict, "password");
+> +    Error *err =3D NULL;
+> +
+> +    qmp_block_passwd(true, device, false, NULL, password, &err);
+> +    hmp_handle_error(mon, err);
+> +}
+> +
+> +void hmp_block_set_io_throttle(Monitor *mon, const QDict *qdict)
+> +{
+> +    Error *err =3D NULL;
+> +    char *device =3D (char *) qdict_get_str(qdict, "device");
+> +    BlockIOThrottle throttle =3D {
+> +        .bps =3D qdict_get_int(qdict, "bps"),
+> +        .bps_rd =3D qdict_get_int(qdict, "bps_rd"),
+> +        .bps_wr =3D qdict_get_int(qdict, "bps_wr"),
+> +        .iops =3D qdict_get_int(qdict, "iops"),
+> +        .iops_rd =3D qdict_get_int(qdict, "iops_rd"),
+> +        .iops_wr =3D qdict_get_int(qdict, "iops_wr"),
+> +    };
+> +
+> +    /* qmp_block_set_io_throttle has separate parameters for the
+> +     * (deprecated) block device name and the qdev ID but the HMP
+> +     * version has only one, so we must decide which one to pass. */
+> +    if (blk_by_name(device)) {
+> +        throttle.has_device =3D true;
+> +        throttle.device =3D device;
+> +    } else {
+> +        throttle.has_id =3D true;
+> +        throttle.id =3D device;
+> +    }
+> +
+> +    qmp_block_set_io_throttle(&throttle, &err);
+> +    hmp_handle_error(mon, err);
+> +}
+> +
+> +void hmp_eject(Monitor *mon, const QDict *qdict)
+> +{
+> +    bool force =3D qdict_get_try_bool(qdict, "force", false);
+> +    const char *device =3D qdict_get_str(qdict, "device");
+> +    Error *err =3D NULL;
+> +
+> +    qmp_eject(true, device, false, NULL, true, force, &err);
+> +    hmp_handle_error(mon, err);
+> +}
+> +
+> +void hmp_qemu_io(Monitor *mon, const QDict *qdict)
+> +{
+> +    BlockBackend *blk;
+> +    BlockBackend *local_blk =3D NULL;
+> +    bool qdev =3D qdict_get_try_bool(qdict, "qdev", false);
+> +    const char* device =3D qdict_get_str(qdict, "device");
+> +    const char* command =3D qdict_get_str(qdict, "command");
+> +    Error *err =3D NULL;
+> +    int ret;
+> +
+> +    if (qdev) {
+> +        blk =3D blk_by_qdev_id(device, &err);
+> +        if (!blk) {
+> +            goto fail;
+> +        }
+> +    } else {
+> +        blk =3D blk_by_name(device);
+> +        if (!blk) {
+> +            BlockDriverState *bs =3D bdrv_lookup_bs(NULL, device, &err);
+> +            if (bs) {
+> +                blk =3D local_blk =3D blk_new(bdrv_get_aio_context(bs),
+> +                                          0, BLK_PERM_ALL);
+> +                ret =3D blk_insert_bs(blk, bs, &err);
+> +                if (ret < 0) {
+> +                    goto fail;
+> +                }
+> +            } else {
+> +                goto fail;
+> +            }
+> +        }
+> +    }
+> +
+> +    /*
+> +     * Notably absent: Proper permission management. This is sad, but it=
+ seems
+> +     * almost impossible to achieve without changing the semantics and t=
+hereby
+> +     * limiting the use cases of the qemu-io HMP command.
+> +     *
+> +     * In an ideal world we would unconditionally create a new BlockBack=
+end for
+> +     * qemuio_command(), but we have commands like 'reopen' and want the=
+m to
+> +     * take effect on the exact BlockBackend whose name the user passed =
+instead
+> +     * of just on a temporary copy of it.
+> +     *
+> +     * Another problem is that deleting the temporary BlockBackend invol=
+ves
+> +     * draining all requests on it first, but some qemu-iotests cases wa=
+nt to
+> +     * issue multiple aio_read/write requests and expect them to complet=
+e in
+> +     * the background while the monitor has already returned.
+> +     *
+> +     * This is also what prevents us from saving the original permission=
+s and
+> +     * restoring them later: We can't revoke permissions until all reque=
+sts
+> +     * have completed, and we don't know when that is nor can we really =
+let
+> +     * anything else run before we have revoken them to avoid race condi=
+tions.
+> +     *
+> +     * What happens now is that command() in qemu-io-cmds.c can extend t=
+he
+> +     * permissions if necessary for the qemu-io command. And they simply=
+ stay
+> +     * extended, possibly resulting in a read-only guest device keeping =
+write
+> +     * permissions. Ugly, but it appears to be the lesser evil.
+> +     */
+> +    qemuio_command(blk, command);
+> +
+> +fail:
+> +    blk_unref(local_blk);
+> +    hmp_handle_error(mon, err);
+> +}
+> diff --git a/include/block/block-hmp-commands.h b/include/block/block-hmp=
+-commands.h
+> index 721b9a1978..99145c8fcf 100644
+> --- a/include/block/block-hmp-commands.h
+> +++ b/include/block/block-hmp-commands.h
+> @@ -26,4 +26,13 @@ void hmp_nbd_server_add(Monitor *mon, const QDict *qdi=
+ct);
+>  void hmp_nbd_server_remove(Monitor *mon, const QDict *qdict);
+>  void hmp_nbd_server_stop(Monitor *mon, const QDict *qdict);
+> =20
+> +void hmp_block_resize(Monitor *mon, const QDict *qdict);
+> +void hmp_block_stream(Monitor *mon, const QDict *qdict);
+> +void hmp_block_passwd(Monitor *mon, const QDict *qdict);
+> +void hmp_block_set_io_throttle(Monitor *mon, const QDict *qdict);
+> +void hmp_eject(Monitor *mon, const QDict *qdict);
+> +
+> +void hmp_qemu_io(Monitor *mon, const QDict *qdict);
+> +
+> +
+>  #endif
+> diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
+> index 736a969131..47a7cad734 100644
+> --- a/include/monitor/hmp.h
+> +++ b/include/monitor/hmp.h
+> @@ -58,9 +58,7 @@ void hmp_cont(Monitor *mon, const QDict *qdict);
+>  void hmp_system_wakeup(Monitor *mon, const QDict *qdict);
+>  void hmp_nmi(Monitor *mon, const QDict *qdict);
+>  void hmp_set_link(Monitor *mon, const QDict *qdict);
+> -void hmp_block_passwd(Monitor *mon, const QDict *qdict);
+>  void hmp_balloon(Monitor *mon, const QDict *qdict);
+> -void hmp_block_resize(Monitor *mon, const QDict *qdict);
+>  void hmp_loadvm(Monitor *mon, const QDict *qdict);
+>  void hmp_savevm(Monitor *mon, const QDict *qdict);
+>  void hmp_delvm(Monitor *mon, const QDict *qdict);
+> @@ -80,10 +78,7 @@ void hmp_migrate_start_postcopy(Monitor *mon, const QD=
+ict *qdict);
+>  void hmp_x_colo_lost_heartbeat(Monitor *mon, const QDict *qdict);
+>  void hmp_set_password(Monitor *mon, const QDict *qdict);
+>  void hmp_expire_password(Monitor *mon, const QDict *qdict);
+> -void hmp_eject(Monitor *mon, const QDict *qdict);
+>  void hmp_change(Monitor *mon, const QDict *qdict);
+> -void hmp_block_set_io_throttle(Monitor *mon, const QDict *qdict);
+> -void hmp_block_stream(Monitor *mon, const QDict *qdict);
+>  void hmp_migrate(Monitor *mon, const QDict *qdict);
+>  void hmp_device_add(Monitor *mon, const QDict *qdict);
+>  void hmp_device_del(Monitor *mon, const QDict *qdict);
+> @@ -98,7 +93,6 @@ void hmp_chardev_add(Monitor *mon, const QDict *qdict);
+>  void hmp_chardev_change(Monitor *mon, const QDict *qdict);
+>  void hmp_chardev_remove(Monitor *mon, const QDict *qdict);
+>  void hmp_chardev_send_break(Monitor *mon, const QDict *qdict);
+> -void hmp_qemu_io(Monitor *mon, const QDict *qdict);
+>  void hmp_cpu_add(Monitor *mon, const QDict *qdict);
+>  void hmp_object_add(Monitor *mon, const QDict *qdict);
+>  void hmp_object_del(Monitor *mon, const QDict *qdict);
+> diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+> index 67d2ca8a4c..c224e0f338 100644
+> --- a/monitor/hmp-cmds.c
+> +++ b/monitor/hmp-cmds.c
+> @@ -46,7 +46,6 @@
+>  #include "qom/object_interfaces.h"
+>  #include "ui/console.h"
+>  #include "block/qapi.h"
+> -#include "qemu-io.h"
+>  #include "qemu/cutils.h"
+>  #include "qemu/error-report.h"
+>  #include "exec/ramlist.h"
+> @@ -1307,16 +1306,6 @@ void hmp_set_link(Monitor *mon, const QDict *qdict=
+)
+>      hmp_handle_error(mon, err);
+>  }
+> =20
+> -void hmp_block_passwd(Monitor *mon, const QDict *qdict)
+> -{
+> -    const char *device =3D qdict_get_str(qdict, "device");
+> -    const char *password =3D qdict_get_str(qdict, "password");
+> -    Error *err =3D NULL;
+> -
+> -    qmp_block_passwd(true, device, false, NULL, password, &err);
+> -    hmp_handle_error(mon, err);
+> -}
+> -
+>  void hmp_balloon(Monitor *mon, const QDict *qdict)
+>  {
+>      int64_t value =3D qdict_get_int(qdict, "value");
+> @@ -1326,16 +1315,6 @@ void hmp_balloon(Monitor *mon, const QDict *qdict)
+>      hmp_handle_error(mon, err);
+>  }
+> =20
+> -void hmp_block_resize(Monitor *mon, const QDict *qdict)
+> -{
+> -    const char *device =3D qdict_get_str(qdict, "device");
+> -    int64_t size =3D qdict_get_int(qdict, "size");
+> -    Error *err =3D NULL;
+> -
+> -    qmp_block_resize(true, device, false, NULL, size, &err);
+> -    hmp_handle_error(mon, err);
+> -}
+> -
+>  void hmp_loadvm(Monitor *mon, const QDict *qdict)
+>  {
+>      int saved_vm_running  =3D runstate_is_running();
+> @@ -1818,15 +1797,6 @@ void hmp_expire_password(Monitor *mon, const QDict=
+ *qdict)
+>      hmp_handle_error(mon, err);
+>  }
+> =20
+> -void hmp_eject(Monitor *mon, const QDict *qdict)
+> -{
+> -    bool force =3D qdict_get_try_bool(qdict, "force", false);
+> -    const char *device =3D qdict_get_str(qdict, "device");
+> -    Error *err =3D NULL;
+> -
+> -    qmp_eject(true, device, false, NULL, true, force, &err);
+> -    hmp_handle_error(mon, err);
+> -}
+> =20
+>  #ifdef CONFIG_VNC
+>  static void hmp_change_read_arg(void *opaque, const char *password,
+> @@ -1884,49 +1854,6 @@ void hmp_change(Monitor *mon, const QDict *qdict)
+>      hmp_handle_error(mon, err);
+>  }
+> =20
+> -void hmp_block_set_io_throttle(Monitor *mon, const QDict *qdict)
+> -{
+> -    Error *err =3D NULL;
+> -    char *device =3D (char *) qdict_get_str(qdict, "device");
+> -    BlockIOThrottle throttle =3D {
+> -        .bps =3D qdict_get_int(qdict, "bps"),
+> -        .bps_rd =3D qdict_get_int(qdict, "bps_rd"),
+> -        .bps_wr =3D qdict_get_int(qdict, "bps_wr"),
+> -        .iops =3D qdict_get_int(qdict, "iops"),
+> -        .iops_rd =3D qdict_get_int(qdict, "iops_rd"),
+> -        .iops_wr =3D qdict_get_int(qdict, "iops_wr"),
+> -    };
+> -
+> -    /* qmp_block_set_io_throttle has separate parameters for the
+> -     * (deprecated) block device name and the qdev ID but the HMP
+> -     * version has only one, so we must decide which one to pass. */
+> -    if (blk_by_name(device)) {
+> -        throttle.has_device =3D true;
+> -        throttle.device =3D device;
+> -    } else {
+> -        throttle.has_id =3D true;
+> -        throttle.id =3D device;
+> -    }
+> -
+> -    qmp_block_set_io_throttle(&throttle, &err);
+> -    hmp_handle_error(mon, err);
+> -}
+> -
+> -void hmp_block_stream(Monitor *mon, const QDict *qdict)
+> -{
+> -    Error *error =3D NULL;
+> -    const char *device =3D qdict_get_str(qdict, "device");
+> -    const char *base =3D qdict_get_try_str(qdict, "base");
+> -    int64_t speed =3D qdict_get_try_int(qdict, "speed", 0);
+> -
+> -    qmp_block_stream(true, device, device, base !=3D NULL, base, false, =
+NULL,
+> -                     false, NULL, qdict_haskey(qdict, "speed"), speed, t=
+rue,
+> -                     BLOCKDEV_ON_ERROR_REPORT, false, false, false, fals=
+e,
+> -                     &error);
+> -
+> -    hmp_handle_error(mon, error);
+> -}
+> -
+>  typedef struct HMPMigrationStatus
+>  {
+>      QEMUTimer *timer;
+> @@ -2219,70 +2146,6 @@ void hmp_chardev_send_break(Monitor *mon, const QD=
+ict *qdict)
+>      hmp_handle_error(mon, local_err);
+>  }
+> =20
+> -void hmp_qemu_io(Monitor *mon, const QDict *qdict)
+> -{
+> -    BlockBackend *blk;
+> -    BlockBackend *local_blk =3D NULL;
+> -    bool qdev =3D qdict_get_try_bool(qdict, "qdev", false);
+> -    const char* device =3D qdict_get_str(qdict, "device");
+> -    const char* command =3D qdict_get_str(qdict, "command");
+> -    Error *err =3D NULL;
+> -    int ret;
+> -
+> -    if (qdev) {
+> -        blk =3D blk_by_qdev_id(device, &err);
+> -        if (!blk) {
+> -            goto fail;
+> -        }
+> -    } else {
+> -        blk =3D blk_by_name(device);
+> -        if (!blk) {
+> -            BlockDriverState *bs =3D bdrv_lookup_bs(NULL, device, &err);
+> -            if (bs) {
+> -                blk =3D local_blk =3D blk_new(bdrv_get_aio_context(bs),
+> -                                          0, BLK_PERM_ALL);
+> -                ret =3D blk_insert_bs(blk, bs, &err);
+> -                if (ret < 0) {
+> -                    goto fail;
+> -                }
+> -            } else {
+> -                goto fail;
+> -            }
+> -        }
+> -    }
+> -
+> -    /*
+> -     * Notably absent: Proper permission management. This is sad, but it=
+ seems
+> -     * almost impossible to achieve without changing the semantics and t=
+hereby
+> -     * limiting the use cases of the qemu-io HMP command.
+> -     *
+> -     * In an ideal world we would unconditionally create a new BlockBack=
+end for
+> -     * qemuio_command(), but we have commands like 'reopen' and want the=
+m to
+> -     * take effect on the exact BlockBackend whose name the user passed =
+instead
+> -     * of just on a temporary copy of it.
+> -     *
+> -     * Another problem is that deleting the temporary BlockBackend invol=
+ves
+> -     * draining all requests on it first, but some qemu-iotests cases wa=
+nt to
+> -     * issue multiple aio_read/write requests and expect them to complet=
+e in
+> -     * the background while the monitor has already returned.
+> -     *
+> -     * This is also what prevents us from saving the original permission=
+s and
+> -     * restoring them later: We can't revoke permissions until all reque=
+sts
+> -     * have completed, and we don't know when that is nor can we really =
+let
+> -     * anything else run before we have revoken them to avoid race condi=
+tions.
+> -     *
+> -     * What happens now is that command() in qemu-io-cmds.c can extend t=
+he
+> -     * permissions if necessary for the qemu-io command. And they simply=
+ stay
+> -     * extended, possibly resulting in a read-only guest device keeping =
+write
+> -     * permissions. Ugly, but it appears to be the lesser evil.
+> -     */
+> -    qemuio_command(blk, command);
+> -
+> -fail:
+> -    blk_unref(local_blk);
+> -    hmp_handle_error(mon, err);
+> -}
+> -
+>  void hmp_object_del(Monitor *mon, const QDict *qdict)
+>  {
+>      const char *id =3D qdict_get_str(qdict, "id");
+> --=20
+> 2.17.2
+>=20
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
