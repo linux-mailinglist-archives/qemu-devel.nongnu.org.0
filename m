@@ -2,66 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5DD814B2F4
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 11:48:25 +0100 (CET)
-Received: from localhost ([::1]:56846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E77FB14B319
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 11:56:27 +0100 (CET)
+Received: from localhost ([::1]:56964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwOPw-0007lW-KX
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 05:48:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51241)
+	id 1iwOXi-0002Tp-QN
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 05:56:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52389)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eric.auger@redhat.com>) id 1iwOOu-00072g-Ns
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 05:47:24 -0500
+ (envelope-from <n54@gmx.com>) id 1iwOTp-0000cP-AV
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 05:52:26 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eric.auger@redhat.com>) id 1iwOOt-0001KA-Re
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 05:47:20 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:46828
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
- id 1iwOOt-0001Jv-Oj
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 05:47:19 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580208439;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=z43FRblCwedOjRZvSZiB/yhTk6UmQiFMUw8swuZX8Wo=;
- b=M7Xn4ZwyRb4NTUaBbx0AvgfdKFILtDOPE4KleJGR0m1Z8Y+e34lLIu0opbwiKwMdvKvbW3
- pABQ8AHORTyGkmOvdofOkU0IIsTf3VGl3qbCoIE6vwRu8Iev92025zM3V/X2DhO7KeiaTG
- zZx5wI2zeke5Y+PoBHCkpOvJetstR6U=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-301-2W3dnW85NyWrDNwJwjlzmQ-1; Tue, 28 Jan 2020 05:47:15 -0500
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9181813E1;
- Tue, 28 Jan 2020 10:47:14 +0000 (UTC)
-Received: from [10.36.116.37] (ovpn-116-37.ams2.redhat.com [10.36.116.37])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7E0AE1001B08;
- Tue, 28 Jan 2020 10:47:12 +0000 (UTC)
-To: qemu list <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
- Peter Maydell <peter.maydell@linaro.org>
-From: Auger Eric <eric.auger@redhat.com>
-Subject: [question] hw/arm/virt: about the default gic-version in accelerated
- mode
-Message-ID: <df1d6ae5-b734-ef64-4ef9-c661e8f797e8@redhat.com>
-Date: Tue, 28 Jan 2020 11:47:09 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.4.0
+ (envelope-from <n54@gmx.com>) id 1iwOTn-0004is-Ua
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 05:52:25 -0500
+Received: from mout.gmx.net ([212.227.15.18]:51839)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <n54@gmx.com>) id 1iwOTn-0004i9-Hr
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 05:52:23 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1580208735;
+ bh=WsY8swjSmAssMYRjClxdfY23Vl55y4mQ4Au8Z2MDGSk=;
+ h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
+ b=N/mO5DYLCX3JMF+Y86xwtHJgZpugWtzAejOJfioU+CI06v8d0GwNxvhrlDQZuXM83
+ jw1mLMUKNKqiLGYwwfq2EDZMX/337198P/OGc2UocSetWw5q+Fn88kgYnvqVKShoPK
+ pJBxY/jM6rG6Dg7t0fx5+aYnBLi7WbT2+VNf63rU=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from localhost.localdomain ([89.71.135.231]) by mail.gmx.com
+ (mrgmx005 [212.227.17.184]) with ESMTPSA (Nemesis) id
+ 1MUosN-1j5ZXj3rVZ-00Qkb3; Tue, 28 Jan 2020 11:52:15 +0100
+From: Kamil Rytarowski <n54@gmx.com>
+To: slp@redhat.com, pbonzini@redhat.com, peter.maydell@linaro.org,
+ max@m00nbsd.net
+Subject: [PATCH v2 2/4] Add the NetBSD Virtual Machine Monitor accelerator.
+Date: Tue, 28 Jan 2020 11:51:33 +0100
+Message-Id: <20200128105133.2245-1-n54@gmx.com>
+X-Mailer: git-send-email 2.24.1
+In-Reply-To: <20200128085438.hhz3f55bow75zl35@dritchie>
+References: <20200128085438.hhz3f55bow75zl35@dritchie>
 MIME-Version: 1.0
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: 2W3dnW85NyWrDNwJwjlzmQ-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:Pw18AC6T4KJLsRdTk22pD7W9h16uzXrbVMEBqbGsvQb44zrTidt
+ IWj3YuxzJ2skm96+LB9zOVCnw7lhpo7u/iRLBYP3XwVqgjr7aJnooY1k7HID71rpnhmjKGo
+ EWBAuT+q2ZpXtweLMdSbj2LIAS9cmtLpkTFnDQk9XPvjvvm51X4bhCXS8i/Roirk7ZSVbyD
+ Ab8Yh1N75C5/flsmKIRRw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:NW42WudnbNc=:UmV/dD1X5DWR/OHZqSkPt4
+ 4jBI07AF1/Dxr5LV18iTLK+gET+w98SRpq0tF2Xw5UgBoqnoPZCfIE/3JaIfk/UiwlTUHzDlV
+ ra2NNJ/3kgjOyqyufGxjzpnNZJIVfqmgVkT1/zU6b0HQECi6CG7cTYQodoF+WR1Qxv7bJW81t
+ cP/jPqdnQ5XcLtkOPGVRFOCU1pJUJZPAQN63kXJPsFl6iovR5H+DgKsKYQ++h+n2Qp8hrOOhu
+ wEKQAK1B1/2E4P4gi4ojzzzW4hrZpN8+MRuPmga+2hkqgathpxBdhkWxndDXa38RxHhC1/mTx
+ NNMu8GKYSxS/vIOwlwawCXkHI0B7KRaRIcKNvTSjxeUYrNXbkzLfBi6CKbA7WdfZe6qjimCa9
+ uq8ymoyA/2nTMP1fN9bdozC28lsXyu2M4S1ogRn3gEyJzzM2OYNqxoWbA4q1bqJ9D5bPC72tw
+ zK6yG/anSj3M+qf6acWmPgIV7+Vm3C5x/HpNOvRitv8QxDXGiN0wJEbDE1UWO4Q5RFRrlw7nV
+ TKoJ5oY0IVY2+JS2qM19FPOsSspJ7mUjtl3xDEv5oEcl4FB4n4tVwZrVsEaD+Z245mv2Uuuxz
+ aI1BDSqeMC7L9T0SzBUYUOA1CUUYTbd6gY8nboyaSfcQbEDpcXzmpjdcmcURVIEJyzITnzF9j
+ tLx5DmKV2eyLAFHaQ+ZgfTE/eeY/P8etgRkN9XImG7OIiZLBNwKviRfmzDbFvooy0EIiQEgX6
+ VwVcZ+VZUCBVb2t/DhFd0e6ZjVOv4z4xdS6xF3sfjhHWHSbqhYN6IEHax7E62ZfyMD70wiLP8
+ 6nf39itk/DP2qwHoJ0FYxhxEsc5sfTMPrxohFYMxVockh/RSkFc2DTZuEjJQPNm75ubG3oE5p
+ h6NK/6YQ8SwTq8pjboqWnmcQCDJtjHryqZljMKcq5cnUIgBX5HAoouCdvwIklxftmDfRnNIBd
+ dKqK5Y9/hagvtBmnyM8SZuAuXWxswnnoquME/nJT7OrL7L7Dk0bFgSEHnXqUE5V7Vv76DCuZD
+ J3ql68gv1T21wERUKnvbI2EySIIEaE5EhVstUtoiMLHRQpvyuUd+l5J245gW3etNWOehJHGYG
+ 7Ooe76ROXM0RecUO3j1TbTuYjBDNGhx3d5ap67wa1if1O9/Xui10hmytFaQcT5Oo1awNXu/6G
+ LDUGWhtZ6RiJlvpVHLPFESTjZc+v9k6WfEbPfTfSGto5E+6DDkxy6bORSYyw+2Pyq2EFA=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 207.211.31.120
+X-Received-From: 212.227.15.18
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,36 +77,195 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jones <drjones@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Kamil Rytarowski <n54@gmx.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Peter,
+From: Maxime Villard <max@m00nbsd.net>
 
-When arm virt machine is run in accelerated mode with "-cpu host
--machine virt", the default gic version is 2.
+Introduces the configure support for the new NetBSD Virtual Machine Monito=
+r that
+allows for hypervisor acceleration from usermode components on the NetBSD
+platform.
 
-I understand the rationale with TCG where we don't have MSI ITS
-emulation along with GICv3 so we need to choose GICv2 to get GICv2M
-functionality.
+Signed-off-by: Maxime Villard <max@m00nbsd.net>
+Signed-off-by: Kamil Rytarowski <n54@gmx.com>
+=2D--
+ configure       | 36 ++++++++++++++++++++++++++++++++++++
+ qemu-options.hx | 16 ++++++++--------
+ 2 files changed, 44 insertions(+), 8 deletions(-)
 
-However in KVM mode, I would have expected to see the host GIC probed to
-set the same version on guest. Indeed most of our HW now have GICv3
-without GICv2 compat mode so our default values lead to weird traces:
+diff --git a/configure b/configure
+index 0ce2c0354a..eb456a271e 100755
+=2D-- a/configure
++++ b/configure
+@@ -241,6 +241,17 @@ supported_whpx_target() {
+     return 1
+ }
 
-"
-qemu-system-aarch64: PMU: KVM_SET_DEVICE_ATTR: Invalid argument
-qemu-system-aarch64: failed to set irq for PMU
-"
++supported_nvmm_target() {
++    test "$nvmm" =3D "yes" || return 1
++    glob "$1" "*-softmmu" || return 1
++    case "${1%-softmmu}" in
++        i386|x86_64)
++            return 0
++        ;;
++    esac
++    return 1
++}
++
+ supported_target() {
+     case "$1" in
+         *-softmmu)
+@@ -268,6 +279,7 @@ supported_target() {
+     supported_hax_target "$1" && return 0
+     supported_hvf_target "$1" && return 0
+     supported_whpx_target "$1" && return 0
++    supported_nvmm_target "$1" && return 0
+     print_error "TCG disabled, but hardware accelerator not available for=
+ '$target'"
+     return 1
+ }
+@@ -387,6 +399,7 @@ kvm=3D"no"
+ hax=3D"no"
+ hvf=3D"no"
+ whpx=3D"no"
++nvmm=3D"no"
+ rdma=3D""
+ pvrdma=3D""
+ gprof=3D"no"
+@@ -1168,6 +1181,10 @@ for opt do
+   ;;
+   --enable-whpx) whpx=3D"yes"
+   ;;
++  --disable-nvmm) nvmm=3D"no"
++  ;;
++  --enable-nvmm) nvmm=3D"yes"
++  ;;
+   --disable-tcg-interpreter) tcg_interpreter=3D"no"
+   ;;
+   --enable-tcg-interpreter) tcg_interpreter=3D"yes"
+@@ -1768,6 +1785,7 @@ disabled with --disable-FEATURE, default is enabled =
+if available:
+   hax             HAX acceleration support
+   hvf             Hypervisor.framework acceleration support
+   whpx            Windows Hypervisor Platform acceleration support
++  nvmm            NetBSD Virtual Machine Monitor acceleration support
+   rdma            Enable RDMA-based migration
+   pvrdma          Enable PVRDMA support
+   vde             support for vde network
+@@ -2757,6 +2775,20 @@ if test "$whpx" !=3D "no" ; then
+     fi
+ fi
 
-I would like to propose a patch to improve those errors and also suggest
-a hint. But I also wanted to know whether you would accept to change the
-default value with KVM and choose the host version instead of 2. For TCG
-we would keep v2.
++##########################################
++# NetBSD Virtual Machine Monitor (NVMM) accelerator check
++if test "$nvmm" !=3D "no" ; then
++    if check_include "nvmm.h" ; then
++        nvmm=3D"yes"
++	LIBS=3D"-lnvmm $LIBS"
++    else
++        if test "$nvmm" =3D "yes"; then
++            feature_not_found "NVMM" "NVMM is not available"
++        fi
++        nvmm=3D"no"
++    fi
++fi
++
+ ##########################################
+ # Sparse probe
+ if test "$sparse" !=3D "no" ; then
+@@ -6495,6 +6527,7 @@ echo "KVM support       $kvm"
+ echo "HAX support       $hax"
+ echo "HVF support       $hvf"
+ echo "WHPX support      $whpx"
++echo "NVMM support      $nvmm"
+ echo "TCG support       $tcg"
+ if test "$tcg" =3D "yes" ; then
+     echo "TCG debug enabled $debug_tcg"
+@@ -7771,6 +7804,9 @@ fi
+ if test "$target_aligned_only" =3D "yes" ; then
+   echo "TARGET_ALIGNED_ONLY=3Dy" >> $config_target_mak
+ fi
++if supported_nvmm_target $target; then
++    echo "CONFIG_NVMM=3Dy" >> $config_target_mak
++fi
+ if test "$target_bigendian" =3D "yes" ; then
+   echo "TARGET_WORDS_BIGENDIAN=3Dy" >> $config_target_mak
+ fi
+diff --git a/qemu-options.hx b/qemu-options.hx
+index e9d6231438..4ddf7c91a0 100644
+=2D-- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -31,7 +31,7 @@ DEF("machine", HAS_ARG, QEMU_OPTION_machine, \
+     "-machine [type=3D]name[,prop[=3Dvalue][,...]]\n"
+     "                selects emulated machine ('-machine help' for list)\=
+n"
+     "                property accel=3Daccel1[:accel2[:...]] selects accel=
+erator\n"
+-    "                supported accelerators are kvm, xen, hax, hvf, whpx =
+or tcg (default: tcg)\n"
++    "                supported accelerators are kvm, xen, hax, hvf, nvmm,=
+ whpx or tcg (default: tcg)\n"
+     "                vmport=3Don|off|auto controls emulation of vmport (d=
+efault: auto)\n"
+     "                dump-guest-core=3Don|off include guest memory in a c=
+ore dump (default=3Don)\n"
+     "                mem-merge=3Don|off controls memory merge support (de=
+fault: on)\n"
+@@ -63,9 +63,9 @@ Supported machine properties are:
+ @table @option
+ @item accel=3D@var{accels1}[:@var{accels2}[:...]]
+ This is used to enable an accelerator. Depending on the target architectu=
+re,
+-kvm, xen, hax, hvf, whpx or tcg can be available. By default, tcg is used=
+. If there is
+-more than one accelerator specified, the next one is used if the previous=
+ one
+-fails to initialize.
++kvm, xen, hax, hvf, nvmm, whpx or tcg can be available. By default, tcg i=
+s used.
++If there is more than one accelerator specified, the next one is used if =
+the
++previous one fails to initialize.
+ @item vmport=3Don|off|auto
+ Enables emulation of VMWare IO port, for vmmouse etc. auto says to select=
+ the
+ value based on accel. For accel=3Dxen the default is off otherwise the de=
+fault
+@@ -110,7 +110,7 @@ ETEXI
 
-Thanks
-
-Eric
+ DEF("accel", HAS_ARG, QEMU_OPTION_accel,
+     "-accel [accel=3D]accelerator[,prop[=3Dvalue][,...]]\n"
+-    "                select accelerator (kvm, xen, hax, hvf, whpx or tcg;=
+ use 'help' for a list)\n"
++    "                select accelerator (kvm, xen, hax, hvf, nvmm, whpx o=
+r tcg; use 'help' for a list)\n"
+     "                igd-passthru=3Don|off (enable Xen integrated Intel g=
+raphics passthrough, default=3Doff)\n"
+     "                kernel-irqchip=3Don|off|split controls accelerated i=
+rqchip support (default=3Don)\n"
+     "                kvm-shadow-mem=3Dsize of KVM shadow MMU in bytes\n"
+@@ -120,9 +120,9 @@ STEXI
+ @item -accel @var{name}[,prop=3D@var{value}[,...]]
+ @findex -accel
+ This is used to enable an accelerator. Depending on the target architectu=
+re,
+-kvm, xen, hax, hvf, whpx or tcg can be available. By default, tcg is used=
+. If there is
+-more than one accelerator specified, the next one is used if the previous=
+ one
+-fails to initialize.
++kvm, xen, hax, hvf, nvmm, whpx or tcg can be available. By default, tcg i=
+s used.
++If there is more than one accelerator specified, the next one is used if =
+the
++previous one fails to initialize.
+ @table @option
+ @item igd-passthru=3Don|off
+ When Xen is in use, this option controls whether Intel integrated graphic=
+s
+=2D-
+2.24.1
 
 
