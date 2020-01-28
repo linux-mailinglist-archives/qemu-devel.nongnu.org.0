@@ -2,66 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D6A214C364
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jan 2020 00:07:49 +0100 (CET)
-Received: from localhost ([::1]:38466 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF78814C389
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jan 2020 00:29:52 +0100 (CET)
+Received: from localhost ([::1]:38688 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwZxU-0001k5-9S
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 18:07:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39347)
+	id 1iwaIp-00019n-Tj
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 18:29:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57638)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1iwZwM-0000zf-Vt
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 18:06:47 -0500
+ (envelope-from <keithp@keithp.org>) id 1iwaHe-0000Oh-Jj
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 18:28:42 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1iwZwF-0001p5-8b
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 18:06:38 -0500
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:37436)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
- id 1iwZwE-0001oU-Ry
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 18:06:31 -0500
-Received: by mail-ot1-x342.google.com with SMTP id d3so13471351otp.4
- for <qemu-devel@nongnu.org>; Tue, 28 Jan 2020 15:06:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=zCL22YU7pFaBiDnjXHN08GRLnVf2Bi19CoDrxy9L/k8=;
- b=Vd7ylhfFKbh4x4a1hBwcDwxx8xyWDPFnycpmlpnkNaJ+hi6KVMNKwS1yYTv88q6fUJ
- m3vEIBxprNrtrWt12SjWjQIdFUWfTeXYH+aJNynDJ0yRVSxdmVMppCV/urVBGSiSGtki
- 3DO2mt8i/E0mT2fWIKX5STRej1Hm+Eb4QdERNyswCEgaf2gdOClD24i6n1MzyaX29+uQ
- eqPvSR+ZL+3ZVkHji6rLXD2totcZFdjboRNpHt03L1nEogR1FBHtKR7gKT509spflwjx
- pnNTrL5CYRdfHoST1wYqhDFtsGU1mf1yv/cW6KQ7Zu+NTTWBxebHza+coyuo3xpiMeGx
- LW4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=zCL22YU7pFaBiDnjXHN08GRLnVf2Bi19CoDrxy9L/k8=;
- b=figDNZL04a1FVmR0DQErBqi1p7uzO4fc+DDqphCqONLtlYzlcrpziOpiMX6hQeTZqz
- OaEr3xFgAolpy17gwPoW54WKaz81c8q0RrRGDyjBtuuGAFLrXjBxy6IVxPJ1Pyihaj0U
- ktaAoUyHvMyCJMz8e+NyPItMNw8WT9mRTD0E5U2wjo2AjlGitMWtBkTPPG6mE82cvxYL
- M9kFpzOiCSxH7feW32MzIk7WkpW8x3MERJPm4oxjPdkqil9XVHpkcmJDW46EK26fSXoQ
- T8Wu7HPynJniHljvb4Ce3VGc3jOljiu5zmsDxqRVZ1rT6DQ5fpsQiihv9y4iXxh8fsSP
- GxKw==
-X-Gm-Message-State: APjAAAW43KgJv1DRlvBI39GmDdw+SVNsy0AR9ymXaQLFWt7UISNUk57v
- 3KmTz9nW7vKo28M51E7fBF6zHfSA92l+xzYv1+A=
-X-Google-Smtp-Source: APXvYqw/HfSlrVt3KvOVg1+9/diqC1HOLDlRjIRsPvXQ/n1zIuNyvFs3MblJ4be8tDNNEKx4HowIo8tGZSDAo8w1sf0=
-X-Received: by 2002:a9d:7305:: with SMTP id e5mr17596718otk.64.1580252789085; 
- Tue, 28 Jan 2020 15:06:29 -0800 (PST)
+ (envelope-from <keithp@keithp.org>) id 1iwaHa-0003Mt-8O
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 18:28:38 -0500
+Received: from home.keithp.com ([63.227.221.253]:44574 helo=elaine.keithp.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <keithp@keithp.org>)
+ id 1iwaHZ-0003Fd-I4; Tue, 28 Jan 2020 18:28:34 -0500
+Received: from localhost (localhost [127.0.0.1])
+ by elaine.keithp.com (Postfix) with ESMTP id 678783F2A89A;
+ Tue, 28 Jan 2020 15:18:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=keithp.com; s=mail;
+ t=1580253527; bh=7Y0B12sjxbCmxcUD7U3lzMcN37ri9JmAhWvA6DIcUk4=;
+ h=From:To:Cc:Subject:Date:From;
+ b=uyBo0WYT/zVcEmU5Iew8EWcgeJR348kKoZ6bYArUzu6lz+qcSggJ5Sw2P9B4RkjXz
+ GLF9HhbLL3H+cvlCwE9Ncu8Juuhm0SnnJCWYdkhJ5lb5kXklpAM9bYtGcn3hgwQpoN
+ EyNwASHGzLKlWUEx4TgNxo6fbSASseTGDeSnxZUoqsAm0EnidVO7hu5E4sT/wPSi8L
+ Mt9GXeI9dzCEMP7r/HTbuJT/+IF00N0c0ydIy/ASORqgJTlHWd+2/5El+jrWu3gc0a
+ cPU0i+s3VWOGA/UxQMX0xkzreBgNkRnWFj1ecvIIj4nRMc6L03/yE7emeSon3TTilV
+ YYDgkwBG5KfNw==
+X-Virus-Scanned: Debian amavisd-new at keithp.com
+Received: from elaine.keithp.com ([127.0.0.1])
+ by localhost (elaine.keithp.com [127.0.0.1]) (amavisd-new, port 10024)
+ with LMTP id J-d7V1Gxgh2c; Tue, 28 Jan 2020 15:18:45 -0800 (PST)
+Received: from keithp.com (koto.keithp.com [10.0.0.2])
+ by elaine.keithp.com (Postfix) with ESMTPSA id C0EE33F2A895;
+ Tue, 28 Jan 2020 15:18:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=keithp.com; s=mail;
+ t=1580253525; bh=7Y0B12sjxbCmxcUD7U3lzMcN37ri9JmAhWvA6DIcUk4=;
+ h=From:To:Cc:Subject:Date:From;
+ b=VayVtdOz74fstVh6cyoeg4cDIzkYsL0hIDjeuXeK/ogCKUzKlRnrvnCB6+MgYe7GL
+ I364tkmjgHsWYr8Vt3yG+xp6TEAWZ9gGfPLu7bPBnvgtANLMLayTvyhA5iKstafXyW
+ qr9/2v7TDk0/cXOLD7WuoDayIuu/azExblb+hzJdxNw6dQRp8i5pyaQyMXT3SKz2Tc
+ JmvnMtzKkyo20QSsjyrZsP/X7GPkG1hKZU6Eh0MuiIhvcADKQj0mgKkBWurZKMtCBh
+ eY72nejcnBkJsSAcCwiekZsfco0pEzWhSiEv58Bo8mXQyUKwY3KEqRkkIi8Shj/+Zu
+ 3JpEX6MyDouFg==
+Received: by keithp.com (Postfix, from userid 1000)
+ id A20BB1582162; Tue, 28 Jan 2020 15:18:45 -0800 (PST)
+To: qemu-devel@nongnu.org
+Cc: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>, qemu-riscv@nongnu.org,
+ Keith Packard <keithp@keithp.com>
+Subject: [PATCH] riscv: Add semihosting support [v3]
+Date: Tue, 28 Jan 2020 15:18:40 -0800
+Message-Id: <20200128231840.508986-1-keithp@keithp.com>
+X-Mailer: git-send-email 2.25.0
 MIME-Version: 1.0
-References: <1580242161-20333-1-git-send-email-aleksandar.markovic@rt-rk.com>
- <1580242161-20333-5-git-send-email-aleksandar.markovic@rt-rk.com>
-In-Reply-To: <1580242161-20333-5-git-send-email-aleksandar.markovic@rt-rk.com>
-From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Date: Wed, 29 Jan 2020 00:06:12 +0100
-Message-ID: <CAL1e-=g2FTxL60JD1YWFLSQ_fMBHXBis1ynpbjF-jBmek_FzQg@mail.gmail.com>
-Subject: Re: [PULL 4/6] hw/core/loader: Let load_elf() populate the
- processor-specific flags
-To: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
-Content-Type: multipart/alternative; boundary="000000000000261a16059d3b4631"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::342
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 63.227.221.253
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,2469 +77,1339 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- QEMU Developers <qemu-devel@nongnu.org>, Laurent Vivier <laurent@vivier.eu>,
- Max Filippov <jcmvbkbc@gmail.com>,
- KONRAD Frederic <frederic.konrad@adacore.com>,
- "Edgar E . Iglesias" <edgar.iglesias@gmail.com>, Jia Liu <proljc@gmail.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- Richard Henderson <rth@twiddle.net>, Artyom Tarasenko <atar4qemu@gmail.com>,
- Thomas Huth <thuth@redhat.com>, Fabien Chouteau <chouteau@adacore.com>,
- Michael Rolnik <mrolnik@gmail.com>, David Gibson <david@gibson.dropbear.id.au>,
- Thomas Huth <huth@tuxfamily.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- Michael Walle <michael@walle.cc>, amarkovic@wavecomp.com,
- Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to: Keith Packard <keithp@keithp.com>
+From: Keith Packard via <qemu-devel@nongnu.org>
 
---000000000000261a16059d3b4631
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Adapt the arm semihosting support code for RISCV. This implementation
+is based on the standard for RISC-V semihosting as documented in
 
-21:10 Uto, 28.01.2020. Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
-=D1=98=D0=B5 =D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:
->
-> From: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
->
+	https://riscv.org/specifications/
 
-Unfortunately, some spelling errors of mine slipped through the cracks:
+Signed-off-by: Keith Packard <keithp@keithp.com>
 
-> While loading the executable, some platforms (like AVR) need to
-> determine CPU type that executable is built for by reading the
-> field 'e_flags' of the ELF header of tha executable.
->
+---
 
-s/tha/the
+v2:
+	Update PC after exception is handled to follow
+	change in the ARM version for SYS_READC
 
-> This patch enables such discovery of that field while using any
-> of the following functions:
->
->   - load_elf()
->   - load_elf_as()
->   - load_elf_ram()
->   - load_elf_ram_sym()
->
-> The argument added to these functions is called 'pflags' and is of
-> type 'uint32_t*' (that matches the the pointer to the 'elf_word' -
+v3:
+	Disallow semihosting in user mode; report a regular
+	breakpoint in that case.
+---
+ default-configs/riscv32-softmmu.mak           |    1 +
+ linux-user/qemu.h                             |    2 +
+ qemu-options.hx                               |    4 +-
+ target/riscv/Makefile.objs                    |    2 +-
+ target/riscv/cpu.h                            |    2 +
+ target/riscv/cpu_bits.h                       |    1 +
+ target/riscv/cpu_helper.c                     |    9 +
+ .../riscv/insn_trans/trans_privileged.inc.c   |   23 +-
+ target/riscv/riscv-semi.c                     | 1073 +++++++++++++++++
+ target/riscv/translate.c                      |   11 +
+ 10 files changed, 1124 insertions(+), 4 deletions(-)
+ create mode 100644 target/riscv/riscv-semi.c
 
-s/the the/the
-
-May I ask you, Peter, to fix them while applying?
-
-Regards,
-Aleksandar
-
-> the type of the field 'e_flags' in both 32-bit and 64-bit variants
-> of ELF header). Callers are allowed to pass NULL as that argument,
-> and in such case no lookup to the field 'e_flags' will happen, and
-> no information will be returned, of course.
->
-> CC: Richard Henderson <rth@twiddle.net>
-> CC: Peter Maydell <peter.maydell@linaro.org>
-> CC: Edgar E. Iglesias <edgar.iglesias@gmail.com>
-> CC: Michael Walle <michael@walle.cc>
-> CC: Thomas Huth <huth@tuxfamily.org>
-> CC: Laurent Vivier <laurent@vivier.eu>
-> CC: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> CC: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>
-> CC: Aurelien Jarno <aurelien@aurel32.net>
-> CC: Jia Liu <proljc@gmail.com>
-> CC: David Gibson <david@gibson.dropbear.id.au>
-> CC: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> CC: BALATON Zoltan <balaton@eik.bme.hu>
-> CC: Christian Borntraeger <borntraeger@de.ibm.com>
-> CC: Thomas Huth <thuth@redhat.com>
-> CC: Artyom Tarasenko <atar4qemu@gmail.com>
-> CC: Fabien Chouteau <chouteau@adacore.com>
-> CC: KONRAD Frederic <frederic.konrad@adacore.com>
-> CC: Max Filippov <jcmvbkbc@gmail.com>
->
-> Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
-> Signed-off-by: Michael Rolnik <mrolnik@gmail.com>
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> Signed-off-by: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-> Message-Id: <
-1580079311-20447-24-git-send-email-aleksandar.markovic@rt-rk.com>
-> ---
->  hw/alpha/dp264.c               |  4 ++--
->  hw/arm/armv7m.c                |  2 +-
->  hw/arm/boot.c                  |  2 +-
->  hw/core/generic-loader.c       |  2 +-
->  hw/core/loader.c               | 37 +++++++++++++++++++-----------------=
--
->  hw/cris/boot.c                 |  2 +-
->  hw/hppa/machine.c              |  4 ++--
->  hw/i386/multiboot.c            |  2 +-
->  hw/i386/x86.c                  |  2 +-
->  hw/lm32/lm32_boards.c          |  4 ++--
->  hw/lm32/milkymist.c            |  2 +-
->  hw/m68k/an5206.c               |  2 +-
->  hw/m68k/mcf5208.c              |  2 +-
->  hw/m68k/q800.c                 |  2 +-
->  hw/microblaze/boot.c           |  4 ++--
->  hw/mips/mips_fulong2e.c        |  2 +-
->  hw/mips/mips_malta.c           |  3 ++-
->  hw/mips/mips_mipssim.c         |  2 +-
->  hw/mips/mips_r4k.c             |  2 +-
->  hw/moxie/moxiesim.c            |  2 +-
->  hw/nios2/boot.c                |  4 ++--
->  hw/openrisc/openrisc_sim.c     |  2 +-
->  hw/pci-host/prep.c             |  3 ++-
->  hw/ppc/e500.c                  |  2 +-
->  hw/ppc/mac_newworld.c          |  4 ++--
->  hw/ppc/mac_oldworld.c          |  4 ++--
->  hw/ppc/ppc440_bamboo.c         |  2 +-
->  hw/ppc/sam460ex.c              |  3 ++-
->  hw/ppc/spapr.c                 |  6 +++---
->  hw/ppc/virtex_ml507.c          |  2 +-
->  hw/riscv/boot.c                |  4 ++--
->  hw/s390x/ipl.c                 |  7 ++++---
->  hw/sparc/leon3.c               |  2 +-
->  hw/sparc/sun4m.c               |  4 ++--
->  hw/sparc64/sun4u.c             |  5 +++--
->  hw/tricore/tricore_testboard.c |  2 +-
->  hw/xtensa/sim.c                |  2 +-
->  hw/xtensa/xtfpga.c             |  2 +-
->  include/hw/elf_ops.h           |  6 +++++-
->  include/hw/loader.h            | 21 ++++++++++++---------
->  40 files changed, 92 insertions(+), 79 deletions(-)
->
-> diff --git a/hw/alpha/dp264.c b/hw/alpha/dp264.c
-> index f2026fd..a8f9a89 100644
-> --- a/hw/alpha/dp264.c
-> +++ b/hw/alpha/dp264.c
-> @@ -115,7 +115,7 @@ static void clipper_init(MachineState *machine)
->          exit(1);
->      }
->      size =3D load_elf(palcode_filename, NULL, cpu_alpha_superpage_to_phy=
-s,
-> -                    NULL, &palcode_entry, &palcode_low, &palcode_high,
-> +                    NULL, &palcode_entry, &palcode_low, &palcode_high,
-NULL,
->                      0, EM_ALPHA, 0, 0);
->      if (size < 0) {
->          error_report("could not load palcode '%s'", palcode_filename);
-> @@ -134,7 +134,7 @@ static void clipper_init(MachineState *machine)
->          uint64_t param_offset;
->
->          size =3D load_elf(kernel_filename, NULL,
-cpu_alpha_superpage_to_phys,
-> -                        NULL, &kernel_entry, &kernel_low, &kernel_high,
-> +                        NULL, &kernel_entry, &kernel_low, &kernel_high,
-NULL,
->                          0, EM_ALPHA, 0, 0);
->          if (size < 0) {
->              error_report("could not load kernel '%s'", kernel_filename);
-> diff --git a/hw/arm/armv7m.c b/hw/arm/armv7m.c
-> index 5d4a581..7531b97 100644
-> --- a/hw/arm/armv7m.c
-> +++ b/hw/arm/armv7m.c
-> @@ -331,7 +331,7 @@ void armv7m_load_kernel(ARMCPU *cpu, const char
-*kernel_filename, int mem_size)
->
->      if (kernel_filename) {
->          image_size =3D load_elf_as(kernel_filename, NULL, NULL, NULL,
-> -                                 &entry, &lowaddr,
-> +                                 &entry, &lowaddr, NULL,
->                                   NULL, big_endian, EM_ARM, 1, 0, as);
->          if (image_size < 0) {
->              image_size =3D load_image_targphys_as(kernel_filename, 0,
-> diff --git a/hw/arm/boot.c b/hw/arm/boot.c
-> index 8fb4a63..0c213ca 100644
-> --- a/hw/arm/boot.c
-> +++ b/hw/arm/boot.c
-> @@ -903,7 +903,7 @@ static int64_t arm_load_elf(struct arm_boot_info
-*info, uint64_t *pentry,
->      }
->
->      ret =3D load_elf_as(info->kernel_filename, NULL, NULL, NULL,
-> -                      pentry, lowaddr, highaddr, big_endian, elf_machine=
-,
-> +                      pentry, lowaddr, highaddr, NULL, big_endian,
-elf_machine,
->                        1, data_swab, as);
->      if (ret <=3D 0) {
->          /* The header loaded but the image didn't */
-> diff --git a/hw/core/generic-loader.c b/hw/core/generic-loader.c
-> index e7eb57e..b9aaa52 100644
-> --- a/hw/core/generic-loader.c
-> +++ b/hw/core/generic-loader.c
-> @@ -140,7 +140,7 @@ static void generic_loader_realize(DeviceState *dev,
-Error **errp)
->
->          if (!s->force_raw) {
->              size =3D load_elf_as(s->file, NULL, NULL, NULL, &entry, NULL=
-,
-NULL,
-> -                               big_endian, 0, 0, 0, as);
-> +                               NULL, big_endian, 0, 0, 0, as);
->
->              if (size < 0) {
->                  size =3D load_uimage_as(s->file, &entry, NULL, NULL, NUL=
-L,
-NULL,
-> diff --git a/hw/core/loader.c b/hw/core/loader.c
-> index 5099f27..d1b78f6 100644
-> --- a/hw/core/loader.c
-> +++ b/hw/core/loader.c
-> @@ -406,12 +406,12 @@ int load_elf(const char *filename,
->               uint64_t (*elf_note_fn)(void *, void *, bool),
->               uint64_t (*translate_fn)(void *, uint64_t),
->               void *translate_opaque, uint64_t *pentry, uint64_t *lowaddr=
-,
-> -             uint64_t *highaddr, int big_endian, int elf_machine,
-> -             int clear_lsb, int data_swab)
-> +             uint64_t *highaddr, uint32_t *pflags, int big_endian,
-> +             int elf_machine, int clear_lsb, int data_swab)
->  {
->      return load_elf_as(filename, elf_note_fn, translate_fn,
-translate_opaque,
-> -                       pentry, lowaddr, highaddr, big_endian,
-elf_machine,
-> -                       clear_lsb, data_swab, NULL);
-> +                       pentry, lowaddr, highaddr, pflags, big_endian,
-> +                       elf_machine, clear_lsb, data_swab, NULL);
->  }
->
->  /* return < 0 if error, otherwise the number of bytes loaded in memory *=
-/
-> @@ -419,12 +419,12 @@ int load_elf_as(const char *filename,
->                  uint64_t (*elf_note_fn)(void *, void *, bool),
->                  uint64_t (*translate_fn)(void *, uint64_t),
->                  void *translate_opaque, uint64_t *pentry, uint64_t
-*lowaddr,
-> -                uint64_t *highaddr, int big_endian, int elf_machine,
-> -                int clear_lsb, int data_swab, AddressSpace *as)
-> +                uint64_t *highaddr, uint32_t *pflags, int big_endian,
-> +                int elf_machine, int clear_lsb, int data_swab,
-AddressSpace *as)
->  {
->      return load_elf_ram(filename, elf_note_fn, translate_fn,
-translate_opaque,
-> -                        pentry, lowaddr, highaddr, big_endian,
-elf_machine,
-> -                        clear_lsb, data_swab, as, true);
-> +                        pentry, lowaddr, highaddr, pflags, big_endian,
-> +                        elf_machine, clear_lsb, data_swab, as, true);
->  }
->
->  /* return < 0 if error, otherwise the number of bytes loaded in memory *=
-/
-> @@ -432,13 +432,13 @@ int load_elf_ram(const char *filename,
->                   uint64_t (*elf_note_fn)(void *, void *, bool),
->                   uint64_t (*translate_fn)(void *, uint64_t),
->                   void *translate_opaque, uint64_t *pentry, uint64_t
-*lowaddr,
-> -                 uint64_t *highaddr, int big_endian, int elf_machine,
-> -                 int clear_lsb, int data_swab, AddressSpace *as,
-> -                 bool load_rom)
-> +                 uint64_t *highaddr, uint32_t *pflags, int big_endian,
-> +                 int elf_machine, int clear_lsb, int data_swab,
-> +                 AddressSpace *as, bool load_rom)
->  {
->      return load_elf_ram_sym(filename, elf_note_fn,
->                              translate_fn, translate_opaque,
-> -                            pentry, lowaddr, highaddr, big_endian,
-> +                            pentry, lowaddr, highaddr, pflags,
-big_endian,
->                              elf_machine, clear_lsb, data_swab, as,
->                              load_rom, NULL);
->  }
-> @@ -448,8 +448,9 @@ int load_elf_ram_sym(const char *filename,
->                       uint64_t (*elf_note_fn)(void *, void *, bool),
->                       uint64_t (*translate_fn)(void *, uint64_t),
->                       void *translate_opaque, uint64_t *pentry,
-> -                     uint64_t *lowaddr, uint64_t *highaddr, int
-big_endian,
-> -                     int elf_machine, int clear_lsb, int data_swab,
-> +                     uint64_t *lowaddr, uint64_t *highaddr, uint32_t
-*pflags,
-> +                     int big_endian, int elf_machine,
-> +                     int clear_lsb, int data_swab,
->                       AddressSpace *as, bool load_rom, symbol_fn_t sym_cb=
-)
->  {
->      int fd, data_order, target_data_order, must_swab, ret =3D
-ELF_LOAD_FAILED;
-> @@ -490,13 +491,13 @@ int load_elf_ram_sym(const char *filename,
->      if (e_ident[EI_CLASS] =3D=3D ELFCLASS64) {
->          ret =3D load_elf64(filename, fd, elf_note_fn,
->                           translate_fn, translate_opaque, must_swab,
-> -                         pentry, lowaddr, highaddr, elf_machine,
-clear_lsb,
-> -                         data_swab, as, load_rom, sym_cb);
-> +                         pentry, lowaddr, highaddr, pflags, elf_machine,
-> +                         clear_lsb, data_swab, as, load_rom, sym_cb);
->      } else {
->          ret =3D load_elf32(filename, fd, elf_note_fn,
->                           translate_fn, translate_opaque, must_swab,
-> -                         pentry, lowaddr, highaddr, elf_machine,
-clear_lsb,
-> -                         data_swab, as, load_rom, sym_cb);
-> +                         pentry, lowaddr, highaddr, pflags, elf_machine,
-> +                         clear_lsb, data_swab, as, load_rom, sym_cb);
->      }
->
->   fail:
-> diff --git a/hw/cris/boot.c b/hw/cris/boot.c
-> index 2d2cc0c..b8947bc 100644
-> --- a/hw/cris/boot.c
-> +++ b/hw/cris/boot.c
-> @@ -76,7 +76,7 @@ void cris_load_image(CRISCPU *cpu, struct
-cris_load_info *li)
->         devboard SDK.  */
->      image_size =3D load_elf(li->image_filename, NULL,
->                            translate_kernel_address, NULL,
-> -                          &entry, NULL, &high, 0, EM_CRIS, 0, 0);
-> +                          &entry, NULL, &high, NULL, 0, EM_CRIS, 0, 0);
->      li->entry =3D entry;
->      if (image_size < 0) {
->          /* Takes a kimage from the axis devboard SDK.  */
-> diff --git a/hw/hppa/machine.c b/hw/hppa/machine.c
-> index 2d62a24..d8755ec 100644
-> --- a/hw/hppa/machine.c
-> +++ b/hw/hppa/machine.c
-> @@ -155,7 +155,7 @@ static void machine_hppa_init(MachineState *machine)
->      }
->
->      size =3D load_elf(firmware_filename, NULL, NULL, NULL,
-> -                    &firmware_entry, &firmware_low, &firmware_high,
-> +                    &firmware_entry, &firmware_low, &firmware_high, NULL=
-,
->                      true, EM_PARISC, 0, 0);
->
->      /* Unfortunately, load_elf sign-extends reading elf32.  */
-> @@ -184,7 +184,7 @@ static void machine_hppa_init(MachineState *machine)
->      /* Load kernel */
->      if (kernel_filename) {
->          size =3D load_elf(kernel_filename, NULL, &cpu_hppa_to_phys,
-> -                        NULL, &kernel_entry, &kernel_low, &kernel_high,
-> +                        NULL, &kernel_entry, &kernel_low, &kernel_high,
-NULL,
->                          true, EM_PARISC, 0, 0);
->
->          /* Unfortunately, load_elf sign-extends reading elf32.  */
-> diff --git a/hw/i386/multiboot.c b/hw/i386/multiboot.c
-> index 9a59f95..9e7d69d 100644
-> --- a/hw/i386/multiboot.c
-> +++ b/hw/i386/multiboot.c
-> @@ -199,7 +199,7 @@ int load_multiboot(FWCfgState *fw_cfg,
->          }
->
->          kernel_size =3D load_elf(kernel_filename, NULL, NULL, NULL,
-&elf_entry,
-> -                               &elf_low, &elf_high, 0, I386_ELF_MACHINE,
-> +                               &elf_low, &elf_high, NULL, 0,
-I386_ELF_MACHINE,
->                                 0, 0);
->          if (kernel_size < 0) {
->              error_report("Error while loading elf kernel");
-> diff --git a/hw/i386/x86.c b/hw/i386/x86.c
-> index 9b9a4d5..7f38e6b 100644
-> --- a/hw/i386/x86.c
-> +++ b/hw/i386/x86.c
-> @@ -413,7 +413,7 @@ static bool load_elfboot(const char *kernel_filename,
->      uint64_t elf_note_type =3D XEN_ELFNOTE_PHYS32_ENTRY;
->      kernel_size =3D load_elf(kernel_filename, read_pvh_start_addr,
->                             NULL, &elf_note_type, &elf_entry,
-> -                           &elf_low, &elf_high, 0, I386_ELF_MACHINE,
-> +                           &elf_low, &elf_high, NULL, 0,
-I386_ELF_MACHINE,
->                             0, 0);
->
->      if (kernel_size < 0) {
-> diff --git a/hw/lm32/lm32_boards.c b/hw/lm32/lm32_boards.c
-> index 5ae308b..d1894ad 100644
-> --- a/hw/lm32/lm32_boards.c
-> +++ b/hw/lm32/lm32_boards.c
-> @@ -138,7 +138,7 @@ static void lm32_evr_init(MachineState *machine)
->          int kernel_size;
->
->          kernel_size =3D load_elf(kernel_filename, NULL, NULL, NULL,
-> -                               &entry, NULL, NULL,
-> +                               &entry, NULL, NULL, NULL,
->                                 1, EM_LATTICEMICO32, 0, 0);
->          reset_info->bootstrap_pc =3D entry;
->
-> @@ -232,7 +232,7 @@ static void lm32_uclinux_init(MachineState *machine)
->          int kernel_size;
->
->          kernel_size =3D load_elf(kernel_filename, NULL, NULL, NULL,
-> -                               &entry, NULL, NULL,
-> +                               &entry, NULL, NULL, NULL,
->                                 1, EM_LATTICEMICO32, 0, 0);
->          reset_info->bootstrap_pc =3D entry;
->
-> diff --git a/hw/lm32/milkymist.c b/hw/lm32/milkymist.c
-> index 460d322..6d46134 100644
-> --- a/hw/lm32/milkymist.c
-> +++ b/hw/lm32/milkymist.c
-> @@ -177,7 +177,7 @@ milkymist_init(MachineState *machine)
->
->          /* Boots a kernel elf binary.  */
->          kernel_size =3D load_elf(kernel_filename, NULL, NULL, NULL,
-> -                               &entry, NULL, NULL,
-> +                               &entry, NULL, NULL, NULL,
->                                 1, EM_LATTICEMICO32, 0, 0);
->          reset_info->bootstrap_pc =3D entry;
->
-> diff --git a/hw/m68k/an5206.c b/hw/m68k/an5206.c
-> index 54ccbe1..bed43a9 100644
-> --- a/hw/m68k/an5206.c
-> +++ b/hw/m68k/an5206.c
-> @@ -65,7 +65,7 @@ static void an5206_init(MachineState *machine)
->      }
->
->      kernel_size =3D load_elf(kernel_filename, NULL, NULL, NULL, &elf_ent=
-ry,
-> -                           NULL, NULL, 1, EM_68K, 0, 0);
-> +                           NULL, NULL, NULL, 1, EM_68K, 0, 0);
->      entry =3D elf_entry;
->      if (kernel_size < 0) {
->          kernel_size =3D load_uimage(kernel_filename, &entry, NULL, NULL,
-> diff --git a/hw/m68k/mcf5208.c b/hw/m68k/mcf5208.c
-> index 158c5e4..a999c21 100644
-> --- a/hw/m68k/mcf5208.c
-> +++ b/hw/m68k/mcf5208.c
-> @@ -329,7 +329,7 @@ static void mcf5208evb_init(MachineState *machine)
->      }
->
->      kernel_size =3D load_elf(kernel_filename, NULL, NULL, NULL, &elf_ent=
-ry,
-> -                           NULL, NULL, 1, EM_68K, 0, 0);
-> +                           NULL, NULL, NULL, 1, EM_68K, 0, 0);
->      entry =3D elf_entry;
->      if (kernel_size < 0) {
->          kernel_size =3D load_uimage(kernel_filename, &entry, NULL, NULL,
-> diff --git a/hw/m68k/q800.c b/hw/m68k/q800.c
-> index 12491ec..1e32363 100644
-> --- a/hw/m68k/q800.c
-> +++ b/hw/m68k/q800.c
-> @@ -342,7 +342,7 @@ static void q800_init(MachineState *machine)
->      if (linux_boot) {
->          uint64_t high;
->          kernel_size =3D load_elf(kernel_filename, NULL, NULL, NULL,
-> -                               &elf_entry, NULL, &high, 1,
-> +                               &elf_entry, NULL, &high, NULL, 1,
->                                 EM_68K, 0, 0);
->          if (kernel_size < 0) {
->              error_report("could not load kernel '%s'", kernel_filename);
-> diff --git a/hw/microblaze/boot.c b/hw/microblaze/boot.c
-> index d1d7dfb..925e3f7 100644
-> --- a/hw/microblaze/boot.c
-> +++ b/hw/microblaze/boot.c
-> @@ -145,13 +145,13 @@ void microblaze_load_kernel(MicroBlazeCPU *cpu,
-hwaddr ddr_base,
->
->          /* Boots a kernel elf binary.  */
->          kernel_size =3D load_elf(kernel_filename, NULL, NULL, NULL,
-> -                               &entry, &low, &high,
-> +                               &entry, &low, &high, NULL,
->                                 big_endian, EM_MICROBLAZE, 0, 0);
->          base32 =3D entry;
->          if (base32 =3D=3D 0xc0000000) {
->              kernel_size =3D load_elf(kernel_filename, NULL,
->                                     translate_kernel_address, NULL,
-> -                                   &entry, NULL, NULL,
-> +                                   &entry, NULL, NULL, NULL,
->                                     big_endian, EM_MICROBLAZE, 0, 0);
->          }
->          /* Always boot into physical ram.  */
-> diff --git a/hw/mips/mips_fulong2e.c b/hw/mips/mips_fulong2e.c
-> index 9eaa6e2..2e043cb 100644
-> --- a/hw/mips/mips_fulong2e.c
-> +++ b/hw/mips/mips_fulong2e.c
-> @@ -119,7 +119,7 @@ static int64_t load_kernel(CPUMIPSState *env)
->                             cpu_mips_kseg0_to_phys, NULL,
->                             (uint64_t *)&kernel_entry,
->                             (uint64_t *)&kernel_low, (uint64_t
-*)&kernel_high,
-> -                           0, EM_MIPS, 1, 0);
-> +                           NULL, 0, EM_MIPS, 1, 0);
->      if (kernel_size < 0) {
->          error_report("could not load kernel '%s': %s",
->                       loaderparams.kernel_filename,
-> diff --git a/hw/mips/mips_malta.c b/hw/mips/mips_malta.c
-> index 5aaeaa8..34b76bb 100644
-> --- a/hw/mips/mips_malta.c
-> +++ b/hw/mips/mips_malta.c
-> @@ -1039,7 +1039,8 @@ static int64_t load_kernel(void)
->      kernel_size =3D load_elf(loaderparams.kernel_filename, NULL,
->                             cpu_mips_kseg0_to_phys, NULL,
->                             (uint64_t *)&kernel_entry, NULL,
-> -                           (uint64_t *)&kernel_high, big_endian,
-EM_MIPS, 1, 0);
-> +                           (uint64_t *)&kernel_high, NULL, big_endian,
-EM_MIPS,
-> +                           1, 0);
->      if (kernel_size < 0) {
->          error_report("could not load kernel '%s': %s",
->                       loaderparams.kernel_filename,
-> diff --git a/hw/mips/mips_mipssim.c b/hw/mips/mips_mipssim.c
-> index 84c03dd..b934ca9 100644
-> --- a/hw/mips/mips_mipssim.c
-> +++ b/hw/mips/mips_mipssim.c
-> @@ -74,7 +74,7 @@ static int64_t load_kernel(void)
->      kernel_size =3D load_elf(loaderparams.kernel_filename, NULL,
->                             cpu_mips_kseg0_to_phys, NULL,
->                             (uint64_t *)&entry, NULL,
-> -                           (uint64_t *)&kernel_high, big_endian,
-> +                           (uint64_t *)&kernel_high, NULL, big_endian,
->                             EM_MIPS, 1, 0);
->      if (kernel_size >=3D 0) {
->          if ((entry & ~0x7fffffffULL) =3D=3D 0x80000000) {
-> diff --git a/hw/mips/mips_r4k.c b/hw/mips/mips_r4k.c
-> index fd926a3..b2aec43 100644
-> --- a/hw/mips/mips_r4k.c
-> +++ b/hw/mips/mips_r4k.c
-> @@ -98,7 +98,7 @@ static int64_t load_kernel(void)
->      kernel_size =3D load_elf(loaderparams.kernel_filename, NULL,
->                             cpu_mips_kseg0_to_phys, NULL,
->                             (uint64_t *)&entry, NULL,
-> -                           (uint64_t *)&kernel_high, big_endian,
-> +                           (uint64_t *)&kernel_high, NULL, big_endian,
->                             EM_MIPS, 1, 0);
->      if (kernel_size >=3D 0) {
->          if ((entry & ~0x7fffffffULL) =3D=3D 0x80000000) {
-> diff --git a/hw/moxie/moxiesim.c b/hw/moxie/moxiesim.c
-> index 57af1b4..1d06e39 100644
-> --- a/hw/moxie/moxiesim.c
-> +++ b/hw/moxie/moxiesim.c
-> @@ -58,7 +58,7 @@ static void load_kernel(MoxieCPU *cpu, LoaderParams
-*loader_params)
->      ram_addr_t initrd_offset;
->
->      kernel_size =3D load_elf(loader_params->kernel_filename,  NULL, NULL=
-,
-NULL,
-> -                           &entry, &kernel_low, &kernel_high, 1,
-EM_MOXIE,
-> +                           &entry, &kernel_low, &kernel_high, NULL, 1,
-EM_MOXIE,
->                             0, 0);
->
->      if (kernel_size <=3D 0) {
-> diff --git a/hw/nios2/boot.c b/hw/nios2/boot.c
-> index d78bc9e..46b8349 100644
-> --- a/hw/nios2/boot.c
-> +++ b/hw/nios2/boot.c
-> @@ -147,7 +147,7 @@ void nios2_load_kernel(Nios2CPU *cpu, hwaddr ddr_base=
-,
->
->          /* Boots a kernel elf binary. */
->          kernel_size =3D load_elf(kernel_filename, NULL, NULL, NULL,
-> -                               &entry, &low, &high,
-> +                               &entry, &low, &high, NULL,
->                                 big_endian, EM_ALTERA_NIOS2, 0, 0);
->          if ((uint32_t)entry =3D=3D 0xc0000000) {
->              /*
-> @@ -158,7 +158,7 @@ void nios2_load_kernel(Nios2CPU *cpu, hwaddr ddr_base=
-,
->               */
->              kernel_size =3D load_elf(kernel_filename, NULL,
->                                     translate_kernel_address, NULL,
-> -                                   &entry, NULL, NULL,
-> +                                   &entry, NULL, NULL, NULL,
->                                     big_endian, EM_ALTERA_NIOS2, 0, 0);
->              boot_info.bootstrap_pc =3D ddr_base + 0xc0000000 +
->                  (entry & 0x07ffffff);
-> diff --git a/hw/openrisc/openrisc_sim.c b/hw/openrisc/openrisc_sim.c
-> index 79e7049..ad53712 100644
-> --- a/hw/openrisc/openrisc_sim.c
-> +++ b/hw/openrisc/openrisc_sim.c
-> @@ -98,7 +98,7 @@ static void openrisc_load_kernel(ram_addr_t ram_size,
->
->      if (kernel_filename && !qtest_enabled()) {
->          kernel_size =3D load_elf(kernel_filename, NULL, NULL, NULL,
-> -                               &elf_entry, NULL, NULL, 1, EM_OPENRISC,
-> +                               &elf_entry, NULL, NULL, NULL, 1,
-EM_OPENRISC,
->                                 1, 0);
->          entry =3D elf_entry;
->          if (kernel_size < 0) {
-> diff --git a/hw/pci-host/prep.c b/hw/pci-host/prep.c
-> index f2f8821..1aff72b 100644
-> --- a/hw/pci-host/prep.c
-> +++ b/hw/pci-host/prep.c
-> @@ -335,7 +335,8 @@ static void raven_realize(PCIDevice *d, Error **errp)
->          if (filename) {
->              if (s->elf_machine !=3D EM_NONE) {
->                  bios_size =3D load_elf(filename, NULL, NULL, NULL, NULL,
-> -                                     NULL, NULL, 1, s->elf_machine, 0,
-0);
-> +                                     NULL, NULL, NULL, 1, s->elf_machine=
-,
-> +                                     0, 0);
->              }
->              if (bios_size < 0) {
->                  bios_size =3D get_image_size(filename);
-> diff --git a/hw/ppc/e500.c b/hw/ppc/e500.c
-> index 12b6a5b..886442e 100644
-> --- a/hw/ppc/e500.c
-> +++ b/hw/ppc/e500.c
-> @@ -1049,7 +1049,7 @@ void ppce500_init(MachineState *machine)
->      filename =3D qemu_find_file(QEMU_FILE_TYPE_BIOS, payload_name);
->
->      payload_size =3D load_elf(filename, NULL, NULL, NULL,
-> -                            &bios_entry, &loadaddr, NULL,
-> +                            &bios_entry, &loadaddr, NULL, NULL,
->                              1, PPC_ELF_MACHINE, 0, 0);
->      if (payload_size < 0) {
->          /*
-> diff --git a/hw/ppc/mac_newworld.c b/hw/ppc/mac_newworld.c
-> index 3594517..464d012 100644
-> --- a/hw/ppc/mac_newworld.c
-> +++ b/hw/ppc/mac_newworld.c
-> @@ -168,7 +168,7 @@ static void ppc_core99_init(MachineState *machine)
->      /* Load OpenBIOS (ELF) */
->      if (filename) {
->          bios_size =3D load_elf(filename, NULL, NULL, NULL, NULL,
-> -                             NULL, NULL, 1, PPC_ELF_MACHINE, 0, 0);
-> +                             NULL, NULL, NULL, 1, PPC_ELF_MACHINE, 0, 0)=
+diff --git a/default-configs/riscv32-softmmu.mak b/default-configs/riscv3=
+2-softmmu.mak
+index 1ae077ed87..21b7bedf19 100644
+--- a/default-configs/riscv32-softmmu.mak
++++ b/default-configs/riscv32-softmmu.mak
+@@ -3,6 +3,7 @@
+ # Uncomment the following lines to disable these optional devices:
+ #
+ #CONFIG_PCI_DEVICES=3Dn
++CONFIG_SEMIHOSTING=3Dy
+=20
+ # Boards:
+ #
+diff --git a/linux-user/qemu.h b/linux-user/qemu.h
+index 560a68090e..122d95d6b6 100644
+--- a/linux-user/qemu.h
++++ b/linux-user/qemu.h
+@@ -105,6 +105,8 @@ typedef struct TaskState {
+     /* FPA state */
+     FPA11 fpa;
+ # endif
++#endif
++#if defined(TARGET_ARM) || defined(TARGET_RISCV)
+     int swi_errno;
+ #endif
+ #if defined(TARGET_I386) && !defined(TARGET_X86_64)
+diff --git a/qemu-options.hx b/qemu-options.hx
+index 224a8e8712..4892e6b12c 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -4109,7 +4109,7 @@ ETEXI
+ DEF("semihosting", 0, QEMU_OPTION_semihosting,
+     "-semihosting    semihosting mode\n",
+     QEMU_ARCH_ARM | QEMU_ARCH_M68K | QEMU_ARCH_XTENSA | QEMU_ARCH_LM32 |
+-    QEMU_ARCH_MIPS | QEMU_ARCH_NIOS2)
++    QEMU_ARCH_MIPS | QEMU_ARCH_NIOS2 | QEMU_ARCH_RISCV)
+ STEXI
+ @item -semihosting
+ @findex -semihosting
+@@ -4119,7 +4119,7 @@ DEF("semihosting-config", HAS_ARG, QEMU_OPTION_semi=
+hosting_config,
+     "-semihosting-config [enable=3Don|off][,target=3Dnative|gdb|auto][,c=
+hardev=3Did][,arg=3Dstr[,...]]\n" \
+     "                semihosting configuration\n",
+ QEMU_ARCH_ARM | QEMU_ARCH_M68K | QEMU_ARCH_XTENSA | QEMU_ARCH_LM32 |
+-QEMU_ARCH_MIPS | QEMU_ARCH_NIOS2)
++QEMU_ARCH_MIPS | QEMU_ARCH_NIOS2 | QEMU_ARCH_RISCV)
+ STEXI
+ @item -semihosting-config [enable=3Don|off][,target=3Dnative|gdb|auto][,=
+chardev=3Did][,arg=3Dstr[,...]]
+ @findex -semihosting-config
+diff --git a/target/riscv/Makefile.objs b/target/riscv/Makefile.objs
+index ff651f69f6..6fd7f40e29 100644
+--- a/target/riscv/Makefile.objs
++++ b/target/riscv/Makefile.objs
+@@ -1,4 +1,4 @@
+-obj-y +=3D translate.o op_helper.o cpu_helper.o cpu.o csr.o fpu_helper.o=
+ gdbstub.o
++obj-y +=3D translate.o op_helper.o cpu_helper.o cpu.o csr.o fpu_helper.o=
+ gdbstub.o riscv-semi.o
+ obj-$(CONFIG_SOFTMMU) +=3D pmp.o
+=20
+ ifeq ($(CONFIG_SOFTMMU),y)
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index de0a8d893a..310ec6ab40 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -338,6 +338,8 @@ void riscv_cpu_register_gdb_regs_for_features(CPUStat=
+e *cs);
+ typedef CPURISCVState CPUArchState;
+ typedef RISCVCPU ArchCPU;
+=20
++target_ulong do_riscv_semihosting(CPURISCVState *env);
++
+ #include "exec/cpu-all.h"
+=20
+ #endif /* RISCV_CPU_H */
+diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+index e99834856c..c45745d73b 100644
+--- a/target/riscv/cpu_bits.h
++++ b/target/riscv/cpu_bits.h
+@@ -496,6 +496,7 @@
+ #define RISCV_EXCP_INST_PAGE_FAULT         0xc /* since: priv-1.10.0 */
+ #define RISCV_EXCP_LOAD_PAGE_FAULT         0xd /* since: priv-1.10.0 */
+ #define RISCV_EXCP_STORE_PAGE_FAULT        0xf /* since: priv-1.10.0 */
++#define RISCV_EXCP_SEMIHOST                0x10
+=20
+ #define RISCV_EXCP_INT_FLAG                0x80000000
+ #define RISCV_EXCP_INT_MASK                0x7fffffff
+diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+index 85403da9c8..6a04469936 100644
+--- a/target/riscv/cpu_helper.c
++++ b/target/riscv/cpu_helper.c
+@@ -532,6 +532,15 @@ void riscv_cpu_do_interrupt(CPUState *cs)
+         [PRV_M] =3D RISCV_EXCP_M_ECALL
+     };
+=20
++    if  (cause =3D=3D RISCV_EXCP_SEMIHOST) {
++        if (env->priv >=3D PRV_S) {
++            env->gpr[xA0] =3D do_riscv_semihosting(env);
++            env->pc +=3D 4;
++            return;
++        }
++        cause =3D RISCV_EXCP_BREAKPOINT;
++    }
++
+     if (!async) {
+         /* set tval to badaddr for traps with address information */
+         switch (cause) {
+diff --git a/target/riscv/insn_trans/trans_privileged.inc.c b/target/risc=
+v/insn_trans/trans_privileged.inc.c
+index c5e4b3e49a..ddc26e889f 100644
+--- a/target/riscv/insn_trans/trans_privileged.inc.c
++++ b/target/riscv/insn_trans/trans_privileged.inc.c
+@@ -29,7 +29,28 @@ static bool trans_ecall(DisasContext *ctx, arg_ecall *=
+a)
+=20
+ static bool trans_ebreak(DisasContext *ctx, arg_ebreak *a)
+ {
+-    generate_exception(ctx, RISCV_EXCP_BREAKPOINT);
++    uint32_t pre    =3D opcode_at(&ctx->base, ctx->base.pc_next - 4);
++    uint32_t ebreak =3D opcode_at(&ctx->base, ctx->base.pc_next);
++    uint32_t post   =3D opcode_at(&ctx->base, ctx->base.pc_next + 4);
++
++    /* The RISC-V semihosting spec specifies the following
++     * three-instruction sequence to flag a semihosting call:
++     *
++     *      slli zero, zero, 0x1f       0x01f01013
++     *      ebreak                      0x00100073
++     *      srai zero, zero, 0x7        0x40705013
++     *
++     * The two shift operations on the zero register are no-ops, used
++     * here to signify a semihosting exception, rather than a breakpoint=
+.
++     *
++     * Uncompressed instructions are used so that the sequence is easy
++     * to validate.
++     */
++    if  (pre =3D=3D 0x01f01013 && ebreak =3D=3D 0x00100073 && post =3D=3D=
+ 0x40705013) {
++        generate_exception(ctx, RISCV_EXCP_SEMIHOST);
++    } else {
++        generate_exception(ctx, RISCV_EXCP_BREAKPOINT);
++    }
+     exit_tb(ctx); /* no chaining */
+     ctx->base.is_jmp =3D DISAS_NORETURN;
+     return true;
+diff --git a/target/riscv/riscv-semi.c b/target/riscv/riscv-semi.c
+new file mode 100644
+index 0000000000..60d67a476e
+--- /dev/null
++++ b/target/riscv/riscv-semi.c
+@@ -0,0 +1,1073 @@
++/*
++ *  RISC-V semihosting syscalls
++ *
++ *  Copyright (c) 2005, 2007 CodeSourcery.
++ *  Copyright (c) 2019 Linaro
++ *  Copyright =C2=A9 2019 Keith Packard
++ *  Written by Paul Brook.
++ *  Adapted for RISC-V by Keith Packard
++ *
++ *  This program is free software; you can redistribute it and/or modify
++ *  it under the terms of the GNU General Public License as published by
++ *  the Free Software Foundation; either version 2 of the License, or
++ *  (at your option) any later version.
++ *
++ *  This program is distributed in the hope that it will be useful,
++ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
++ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ *  GNU General Public License for more details.
++ *
++ *  You should have received a copy of the GNU General Public License
++ *  along with this program; if not, see <http://www.gnu.org/licenses/>.
++ *
++ *  ARM Semihosting is documented in:
++ *     Semihosting for AArch32 and AArch64 Release 2.0
++ *     https://static.docs.arm.com/100863/0200/semihosting.pdf
++ */
++
++#include "qemu/osdep.h"
++
++#include "cpu.h"
++#include "hw/semihosting/semihost.h"
++#include "hw/semihosting/console.h"
++#include "qemu/log.h"
++#ifdef CONFIG_USER_ONLY
++#include "qemu.h"
++
++#define RISCV_HEAP_SIZE (128 * 1024 * 1024)
++#else
++#include "exec/gdbstub.h"
++#include "qemu/cutils.h"
++#endif
++
++#define TARGET_SYS_OPEN        0x01
++#define TARGET_SYS_CLOSE       0x02
++#define TARGET_SYS_WRITEC      0x03
++#define TARGET_SYS_WRITE0      0x04
++#define TARGET_SYS_WRITE       0x05
++#define TARGET_SYS_READ        0x06
++#define TARGET_SYS_READC       0x07
++#define TARGET_SYS_ISTTY       0x09
++#define TARGET_SYS_SEEK        0x0a
++#define TARGET_SYS_FLEN        0x0c
++#define TARGET_SYS_TMPNAM      0x0d
++#define TARGET_SYS_REMOVE      0x0e
++#define TARGET_SYS_RENAME      0x0f
++#define TARGET_SYS_CLOCK       0x10
++#define TARGET_SYS_TIME        0x11
++#define TARGET_SYS_SYSTEM      0x12
++#define TARGET_SYS_ERRNO       0x13
++#define TARGET_SYS_GET_CMDLINE 0x15
++#define TARGET_SYS_HEAPINFO    0x16
++#define TARGET_SYS_EXIT        0x18
++#define TARGET_SYS_SYNCCACHE   0x19
++#define TARGET_SYS_EXIT_EXTENDED 0x20
++
++/* ADP_Stopped_ApplicationExit is used for exit(0),
++ * anything else is implemented as exit(1) */
++#define ADP_Stopped_ApplicationExit     (0x20026)
++
++#ifndef O_BINARY
++#define O_BINARY 0
++#endif
++
++#define GDB_O_RDONLY  0x000
++#define GDB_O_WRONLY  0x001
++#define GDB_O_RDWR    0x002
++#define GDB_O_APPEND  0x008
++#define GDB_O_CREAT   0x200
++#define GDB_O_TRUNC   0x400
++#define GDB_O_BINARY  0
++
++static int gdb_open_modeflags[12] =3D {
++    GDB_O_RDONLY,
++    GDB_O_RDONLY | GDB_O_BINARY,
++    GDB_O_RDWR,
++    GDB_O_RDWR | GDB_O_BINARY,
++    GDB_O_WRONLY | GDB_O_CREAT | GDB_O_TRUNC,
++    GDB_O_WRONLY | GDB_O_CREAT | GDB_O_TRUNC | GDB_O_BINARY,
++    GDB_O_RDWR | GDB_O_CREAT | GDB_O_TRUNC,
++    GDB_O_RDWR | GDB_O_CREAT | GDB_O_TRUNC | GDB_O_BINARY,
++    GDB_O_WRONLY | GDB_O_CREAT | GDB_O_APPEND,
++    GDB_O_WRONLY | GDB_O_CREAT | GDB_O_APPEND | GDB_O_BINARY,
++    GDB_O_RDWR | GDB_O_CREAT | GDB_O_APPEND,
++    GDB_O_RDWR | GDB_O_CREAT | GDB_O_APPEND | GDB_O_BINARY
++};
++
++static int open_modeflags[12] =3D {
++    O_RDONLY,
++    O_RDONLY | O_BINARY,
++    O_RDWR,
++    O_RDWR | O_BINARY,
++    O_WRONLY | O_CREAT | O_TRUNC,
++    O_WRONLY | O_CREAT | O_TRUNC | O_BINARY,
++    O_RDWR | O_CREAT | O_TRUNC,
++    O_RDWR | O_CREAT | O_TRUNC | O_BINARY,
++    O_WRONLY | O_CREAT | O_APPEND,
++    O_WRONLY | O_CREAT | O_APPEND | O_BINARY,
++    O_RDWR | O_CREAT | O_APPEND,
++    O_RDWR | O_CREAT | O_APPEND | O_BINARY
++};
++
++typedef enum GuestFDType {
++    GuestFDUnused =3D 0,
++    GuestFDHost =3D 1,
++    GuestFDGDB =3D 2,
++    GuestFDFeatureFile =3D 3,
++} GuestFDType;
++
++/*
++ * Guest file descriptors are integer indexes into an array of
++ * these structures (we will dynamically resize as necessary).
++ */
++typedef struct GuestFD {
++    GuestFDType type;
++    union {
++        int hostfd;
++        target_ulong featurefile_offset;
++    };
++} GuestFD;
++
++static GArray *guestfd_array;
++
++/*
++ * Allocate a new guest file descriptor and return it; if we
++ * couldn't allocate a new fd then return -1.
++ * This is a fairly simplistic implementation because we don't
++ * expect that most semihosting guest programs will make very
++ * heavy use of opening and closing fds.
++ */
++static int alloc_guestfd(void)
++{
++    guint i;
++
++    if (!guestfd_array) {
++        /* New entries zero-initialized, i.e. type GuestFDUnused */
++        guestfd_array =3D g_array_new(FALSE, TRUE, sizeof(GuestFD));
++    }
++
++    for (i =3D 0; i < guestfd_array->len; i++) {
++        GuestFD *gf =3D &g_array_index(guestfd_array, GuestFD, i);
++
++        if (gf->type =3D=3D GuestFDUnused) {
++            return i;
++        }
++    }
++
++    /* All elements already in use: expand the array */
++    g_array_set_size(guestfd_array, i + 1);
++    return i;
++}
++
++/*
++ * Look up the guestfd in the data structure; return NULL
++ * for out of bounds, but don't check whether the slot is unused.
++ * This is used internally by the other guestfd functions.
++ */
++static GuestFD *do_get_guestfd(int guestfd)
++{
++    if (!guestfd_array) {
++        return NULL;
++    }
++
++    if (guestfd < 0 || guestfd >=3D guestfd_array->len) {
++        return NULL;
++    }
++
++    return &g_array_index(guestfd_array, GuestFD, guestfd);
++}
++
++/*
++ * Associate the specified guest fd (which must have been
++ * allocated via alloc_fd() and not previously used) with
++ * the specified host/gdb fd.
++ */
++static void associate_guestfd(int guestfd, int hostfd)
++{
++    GuestFD *gf =3D do_get_guestfd(guestfd);
++
++    assert(gf);
++    gf->type =3D use_gdb_syscalls() ? GuestFDGDB : GuestFDHost;
++    gf->hostfd =3D hostfd;
++}
++
++/*
++ * Deallocate the specified guest file descriptor. This doesn't
++ * close the host fd, it merely undoes the work of alloc_fd().
++ */
++static void dealloc_guestfd(int guestfd)
++{
++    GuestFD *gf =3D do_get_guestfd(guestfd);
++
++    assert(gf);
++    gf->type =3D GuestFDUnused;
++}
++
++/*
++ * Given a guest file descriptor, get the associated struct.
++ * If the fd is not valid, return NULL. This is the function
++ * used by the various semihosting calls to validate a handle
++ * from the guest.
++ * Note: calling alloc_guestfd() or dealloc_guestfd() will
++ * invalidate any GuestFD* obtained by calling this function.
++ */
++static GuestFD *get_guestfd(int guestfd)
++{
++    GuestFD *gf =3D do_get_guestfd(guestfd);
++
++    if (!gf || gf->type =3D=3D GuestFDUnused) {
++        return NULL;
++    }
++    return gf;
++}
++
++/*
++ * The semihosting API has no concept of its errno being thread-safe,
++ * as the API design predates SMP CPUs and was intended as a simple
++ * real-hardware set of debug functionality. For QEMU, we make the
++ * errno be per-thread in linux-user mode; in softmmu it is a simple
++ * global, and we assume that the guest takes care of avoiding any races=
+.
++ */
++#ifndef CONFIG_USER_ONLY
++static target_ulong syscall_err;
++
++#include "exec/softmmu-semi.h"
++#endif
++
++static inline uint32_t set_swi_errno(CPURISCVState *env, uint32_t code)
++{
++    if (code =3D=3D (uint32_t)-1) {
++#ifdef CONFIG_USER_ONLY
++        CPUState *cs =3D env_cpu(env);
++        TaskState *ts =3D cs->opaque;
++
++        ts->swi_errno =3D errno;
++#else
++        syscall_err =3D errno;
++#endif
++    }
++    return code;
++}
++
++static inline uint32_t get_swi_errno(CPURISCVState *env)
++{
++#ifdef CONFIG_USER_ONLY
++    CPUState *cs =3D env_cpu(env);
++    TaskState *ts =3D cs->opaque;
++
++    return ts->swi_errno;
++#else
++    return syscall_err;
++#endif
++}
++
++static target_ulong riscv_semi_syscall_len;
++
++static void riscv_semi_cb(CPUState *cs, target_ulong ret, target_ulong e=
+rr)
++{
++    RISCVCPU *cpu =3D RISCV_CPU(cs);
++    CPURISCVState *env =3D &cpu->env;
++    target_ulong reg0 =3D env->gpr[xA0];
++
++    if (ret =3D=3D (target_ulong)-1) {
++        errno =3D err;
++        set_swi_errno(env, -1);
++        reg0 =3D ret;
++    } else {
++        /* Fixup syscalls that use nonstardard return conventions.  */
++        switch (reg0) {
++        case TARGET_SYS_WRITE:
++        case TARGET_SYS_READ:
++            reg0 =3D riscv_semi_syscall_len - ret;
++            break;
++        case TARGET_SYS_SEEK:
++            reg0 =3D 0;
++            break;
++        default:
++            reg0 =3D ret;
++            break;
++        }
++    }
++    env->gpr[xA0] =3D reg0;
++}
++
++static target_ulong riscv_flen_buf(RISCVCPU *cpu)
++{
++    /* Return an address in target memory of 64 bytes where the remote
++     * gdb should write its stat struct. (The format of this structure
++     * is defined by GDB's remote protocol and is not target-specific.)
++     * We put this on the guest's stack just below SP.
++     */
++    CPURISCVState *env =3D &cpu->env;
++    target_ulong sp;
++
++    sp =3D env->gpr[xSP];
++
++    return sp - 64;
++}
++
++static void riscv_semi_flen_cb(CPUState *cs, target_ulong ret, target_ul=
+ong err)
++{
++    RISCVCPU *cpu =3D RISCV_CPU(cs);
++    CPURISCVState *env =3D &cpu->env;
++    /* The size is always stored in big-endian order, extract
++       the value. We assume the size always fit in 32 bits.  */
++    uint32_t size;
++    cpu_memory_rw_debug(cs, riscv_flen_buf(cpu) + 32, (uint8_t *)&size, =
+4, 0);
++    size =3D be32_to_cpu(size);
++    env->gpr[xA0] =3D size;
++    errno =3D err;
++    set_swi_errno(env, -1);
++}
++
++static int riscv_semi_open_guestfd;
++
++static void riscv_semi_open_cb(CPUState *cs, target_ulong ret, target_ul=
+ong err)
++{
++    RISCVCPU *cpu =3D RISCV_CPU(cs);
++    CPURISCVState *env =3D &cpu->env;
++    if (ret =3D=3D (target_ulong)-1) {
++        errno =3D err;
++        set_swi_errno(env, -1);
++        dealloc_guestfd(riscv_semi_open_guestfd);
++    } else {
++        associate_guestfd(riscv_semi_open_guestfd, ret);
++        ret =3D riscv_semi_open_guestfd;
++    }
++
++    env->gpr[xA0] =3D ret;
++}
++
++static target_ulong riscv_gdb_syscall(RISCVCPU *cpu, gdb_syscall_complet=
+e_cb cb,
++                                    const char *fmt, ...)
++{
++    va_list va;
++    CPURISCVState *env =3D &cpu->env;
++
++    va_start(va, fmt);
++    gdb_do_syscallv(cb, fmt, va);
++    va_end(va);
++
++    /*
++     * FIXME: in softmmu mode, the gdbstub will schedule our callback
++     * to occur, but will not actually call it to complete the syscall
++     * until after this function has returned and we are back in the
++     * CPU main loop. Therefore callers to this function must not
++     * do anything with its return value, because it is not necessarily
++     * the result of the syscall, but could just be the old value of X0.
++     * The only thing safe to do with this is that the callers of
++     * do_riscv_semihosting() will write it straight back into X0.
++     * (In linux-user mode, the callback will have happened before
++     * gdb_do_syscallv() returns.)
++     *
++     * We should tidy this up so neither this function nor
++     * do_riscv_semihosting() return a value, so the mistake of
++     * doing something with the return value is not possible to make.
++     */
++
++    return env->gpr[xA0];
++}
++
++/*
++ * Types for functions implementing various semihosting calls
++ * for specific types of guest file descriptor. These must all
++ * do the work and return the required return value for the guest,
++ * setting the guest errno if appropriate.
++ */
++typedef uint32_t sys_closefn(RISCVCPU *cpu, GuestFD *gf);
++typedef uint32_t sys_writefn(RISCVCPU *cpu, GuestFD *gf,
++                             target_ulong buf, uint32_t len);
++typedef uint32_t sys_readfn(RISCVCPU *cpu, GuestFD *gf,
++                            target_ulong buf, uint32_t len);
++typedef uint32_t sys_isattyfn(RISCVCPU *cpu, GuestFD *gf);
++typedef uint32_t sys_seekfn(RISCVCPU *cpu, GuestFD *gf,
++                            target_ulong offset);
++typedef uint32_t sys_flenfn(RISCVCPU *cpu, GuestFD *gf);
++
++static uint32_t host_closefn(RISCVCPU *cpu, GuestFD *gf)
++{
++    CPURISCVState *env =3D &cpu->env;
++
++    return set_swi_errno(env, close(gf->hostfd));
++}
++
++static uint32_t host_writefn(RISCVCPU *cpu, GuestFD *gf,
++                             target_ulong buf, uint32_t len)
++{
++    uint32_t ret;
++    CPURISCVState *env =3D &cpu->env;
++    char *s =3D lock_user(VERIFY_READ, buf, len, 1);
++    if (!s) {
++        /* Return bytes not written on error */
++        return len;
++    }
++    ret =3D set_swi_errno(env, write(gf->hostfd, s, len));
++    unlock_user(s, buf, 0);
++    if (ret =3D=3D (uint32_t)-1) {
++        ret =3D 0;
++    }
++    /* Return bytes not written */
++    return len - ret;
++}
++
++static uint32_t host_readfn(RISCVCPU *cpu, GuestFD *gf,
++                            target_ulong buf, uint32_t len)
++{
++    uint32_t ret;
++    CPURISCVState *env =3D &cpu->env;
++    char *s =3D lock_user(VERIFY_WRITE, buf, len, 0);
++    if (!s) {
++        /* return bytes not read */
++        return len;
++    }
++    do {
++        ret =3D set_swi_errno(env, read(gf->hostfd, s, len));
++    } while (ret =3D=3D -1 && errno =3D=3D EINTR);
++    unlock_user(s, buf, len);
++    if (ret =3D=3D (uint32_t)-1) {
++        ret =3D 0;
++    }
++    /* Return bytes not read */
++    return len - ret;
++}
++
++static uint32_t host_isattyfn(RISCVCPU *cpu, GuestFD *gf)
++{
++    return isatty(gf->hostfd);
++}
++
++static uint32_t host_seekfn(RISCVCPU *cpu, GuestFD *gf, target_ulong off=
+set)
++{
++    CPURISCVState *env =3D &cpu->env;
++    uint32_t ret =3D set_swi_errno(env, lseek(gf->hostfd, offset, SEEK_S=
+ET));
++    if (ret =3D=3D (uint32_t)-1) {
++        return -1;
++    }
++    return 0;
++}
++
++static uint32_t host_flenfn(RISCVCPU *cpu, GuestFD *gf)
++{
++    CPURISCVState *env =3D &cpu->env;
++    struct stat buf;
++    uint32_t ret =3D set_swi_errno(env, fstat(gf->hostfd, &buf));
++    if (ret =3D=3D (uint32_t)-1) {
++        return -1;
++    }
++    return buf.st_size;
++}
++
++static uint32_t gdb_closefn(RISCVCPU *cpu, GuestFD *gf)
++{
++    return riscv_gdb_syscall(cpu, riscv_semi_cb, "close,%x", gf->hostfd)=
 ;
->
->          g_free(filename);
->      } else {
-> @@ -192,7 +192,7 @@ static void ppc_core99_init(MachineState *machine)
->
->          kernel_size =3D load_elf(kernel_filename, NULL,
->                                 translate_kernel_address, NULL,
-> -                               NULL, &lowaddr, NULL, 1, PPC_ELF_MACHINE,
-> +                               NULL, &lowaddr, NULL, NULL, 1,
-PPC_ELF_MACHINE,
->                                 0, 0);
->          if (kernel_size < 0)
->              kernel_size =3D load_aout(kernel_filename, kernel_base,
-> diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
-> index 0fa680b..7318d7e 100644
-> --- a/hw/ppc/mac_oldworld.c
-> +++ b/hw/ppc/mac_oldworld.c
-> @@ -143,7 +143,7 @@ static void ppc_heathrow_init(MachineState *machine)
->
->      /* Load OpenBIOS (ELF) */
->      if (filename) {
-> -        bios_size =3D load_elf(filename, NULL, 0, NULL, NULL, NULL, NULL=
-,
-> +        bios_size =3D load_elf(filename, NULL, 0, NULL, NULL, NULL, NULL=
-,
-NULL,
->                               1, PPC_ELF_MACHINE, 0, 0);
->          g_free(filename);
->      } else {
-> @@ -166,7 +166,7 @@ static void ppc_heathrow_init(MachineState *machine)
->          kernel_base =3D KERNEL_LOAD_ADDR;
->          kernel_size =3D load_elf(kernel_filename, NULL,
->                                 translate_kernel_address, NULL,
-> -                               NULL, &lowaddr, NULL, 1, PPC_ELF_MACHINE,
-> +                               NULL, &lowaddr, NULL, NULL, 1,
-PPC_ELF_MACHINE,
->                                 0, 0);
->          if (kernel_size < 0)
->              kernel_size =3D load_aout(kernel_filename, kernel_base,
-> diff --git a/hw/ppc/ppc440_bamboo.c b/hw/ppc/ppc440_bamboo.c
-> index b782641..da777ef 100644
-> --- a/hw/ppc/ppc440_bamboo.c
-> +++ b/hw/ppc/ppc440_bamboo.c
-> @@ -253,7 +253,7 @@ static void bamboo_init(MachineState *machine)
->                                NULL, NULL);
->          if (success < 0) {
->              success =3D load_elf(kernel_filename, NULL, NULL, NULL,
-&elf_entry,
-> -                               &elf_lowaddr, NULL, 1, PPC_ELF_MACHINE,
-> +                               &elf_lowaddr, NULL, NULL, 1,
-PPC_ELF_MACHINE,
->                                 0, 0);
->              entry =3D elf_entry;
->              loadaddr =3D elf_lowaddr;
-> diff --git a/hw/ppc/sam460ex.c b/hw/ppc/sam460ex.c
-> index 437e214..89bc70e 100644
-> --- a/hw/ppc/sam460ex.c
-> +++ b/hw/ppc/sam460ex.c
-> @@ -439,7 +439,8 @@ static void sam460ex_init(MachineState *machine)
->
->              success =3D load_elf(machine->kernel_filename, NULL,
->                                 NULL, NULL, &elf_entry,
-> -                               &elf_lowaddr, NULL, 1, PPC_ELF_MACHINE,
-0, 0);
-> +                               &elf_lowaddr, NULL, NULL, 1,
-PPC_ELF_MACHINE, 0,
-> +                               0);
->              entry =3D elf_entry;
->              loadaddr =3D elf_lowaddr;
->          }
-> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> index 02cf53f..a0076e5 100644
-> --- a/hw/ppc/spapr.c
-> +++ b/hw/ppc/spapr.c
-> @@ -2895,13 +2895,13 @@ static void spapr_machine_init(MachineState
-*machine)
->
->          spapr->kernel_size =3D load_elf(kernel_filename, NULL,
->                                        translate_kernel_address, NULL,
-> -                                      NULL, &lowaddr, NULL, 1,
-> +                                      NULL, &lowaddr, NULL, NULL, 1,
->                                        PPC_ELF_MACHINE, 0, 0);
->          if (spapr->kernel_size =3D=3D ELF_LOAD_WRONG_ENDIAN) {
->              spapr->kernel_size =3D load_elf(kernel_filename, NULL,
->                                            translate_kernel_address,
-NULL, NULL,
-> -                                          &lowaddr, NULL, 0,
-PPC_ELF_MACHINE,
-> -                                          0, 0);
-> +                                          &lowaddr, NULL, NULL, 0,
-> +                                          PPC_ELF_MACHINE, 0, 0);
->              spapr->kernel_le =3D spapr->kernel_size > 0;
->          }
->          if (spapr->kernel_size < 0) {
-> diff --git a/hw/ppc/virtex_ml507.c b/hw/ppc/virtex_ml507.c
-> index 6862552..7526947 100644
-> --- a/hw/ppc/virtex_ml507.c
-> +++ b/hw/ppc/virtex_ml507.c
-> @@ -259,7 +259,7 @@ static void virtex_init(MachineState *machine)
->
->          /* Boots a kernel elf binary.  */
->          kernel_size =3D load_elf(kernel_filename, NULL, NULL, NULL,
-> -                               &entry, &low, &high, 1, PPC_ELF_MACHINE,
-> +                               &entry, &low, &high, NULL, 1,
-PPC_ELF_MACHINE,
->                                 0, 0);
->          boot_info.bootstrap_pc =3D entry & 0x00ffffff;
->
-> diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
-> index 027303d..b8e7652 100644
-> --- a/hw/riscv/boot.c
-> +++ b/hw/riscv/boot.c
-> @@ -101,7 +101,7 @@ target_ulong riscv_load_firmware(const char
-*firmware_filename,
->      uint64_t firmware_entry, firmware_start, firmware_end;
->
->      if (load_elf(firmware_filename, NULL, NULL, NULL, &firmware_entry,
-> -                 &firmware_start, &firmware_end, 0, EM_RISCV, 1, 0) > 0)
-{
-> +                 &firmware_start, &firmware_end, NULL, 0, EM_RISCV, 1,
-0) > 0) {
->          return firmware_entry;
->      }
->
-> @@ -119,7 +119,7 @@ target_ulong riscv_load_kernel(const char
-*kernel_filename, symbol_fn_t sym_cb)
->      uint64_t kernel_entry, kernel_high;
->
->      if (load_elf_ram_sym(kernel_filename, NULL, NULL, NULL,
-> -                         &kernel_entry, NULL, &kernel_high, 0,
-> +                         &kernel_entry, NULL, &kernel_high, NULL, 0,
->                           EM_RISCV, 1, 0, NULL, true, sym_cb) > 0) {
->          return kernel_entry;
->      }
-> diff --git a/hw/s390x/ipl.c b/hw/s390x/ipl.c
-> index b3ae901..ca8e7db 100644
-> --- a/hw/s390x/ipl.c
-> +++ b/hw/s390x/ipl.c
-> @@ -139,7 +139,7 @@ static void s390_ipl_realize(DeviceState *dev, Error
-**errp)
->
->          bios_size =3D load_elf(bios_filename, NULL,
->                               bios_translate_addr, &fwbase,
-> -                             &ipl->bios_start_addr, NULL, NULL, 1,
-> +                             &ipl->bios_start_addr, NULL, NULL, NULL, 1,
->                               EM_S390, 0, 0);
->          if (bios_size > 0) {
->              /* Adjust ELF start address to final location */
-> @@ -164,7 +164,7 @@ static void s390_ipl_realize(DeviceState *dev, Error
-**errp)
->      if (ipl->kernel) {
->          kernel_size =3D load_elf(ipl->kernel, NULL, NULL, NULL,
->                                 &pentry, NULL,
-> -                               NULL, 1, EM_S390, 0, 0);
-> +                               NULL, NULL, 1, EM_S390, 0, 0);
->          if (kernel_size < 0) {
->              kernel_size =3D load_image_targphys(ipl->kernel, 0, ram_size=
++}
++
++static uint32_t gdb_writefn(RISCVCPU *cpu, GuestFD *gf,
++                            target_ulong buf, uint32_t len)
++{
++    riscv_semi_syscall_len =3D len;
++    return riscv_gdb_syscall(cpu, riscv_semi_cb, "write,%x,%x,%x",
++                           gf->hostfd, buf, len);
++}
++
++static uint32_t gdb_readfn(RISCVCPU *cpu, GuestFD *gf,
++                           target_ulong buf, uint32_t len)
++{
++    riscv_semi_syscall_len =3D len;
++    return riscv_gdb_syscall(cpu, riscv_semi_cb, "read,%x,%x,%x",
++                           gf->hostfd, buf, len);
++}
++
++static uint32_t gdb_isattyfn(RISCVCPU *cpu, GuestFD *gf)
++{
++    return riscv_gdb_syscall(cpu, riscv_semi_cb, "isatty,%x", gf->hostfd=
 );
->              if (kernel_size < 0) {
-> @@ -473,7 +473,8 @@ static int load_netboot_image(Error **errp)
->
->      img_size =3D load_elf_ram(netboot_filename, NULL, NULL, NULL,
->                              &ipl->start_addr,
-> -                            NULL, NULL, 1, EM_S390, 0, 0, NULL, false);
-> +                            NULL, NULL, NULL, 1, EM_S390, 0, 0, NULL,
-> +                            false);
->
->      if (img_size < 0) {
->          img_size =3D load_image_size(netboot_filename, ram_ptr, ram_size=
++}
++
++static uint32_t gdb_seekfn(RISCVCPU *cpu, GuestFD *gf, target_ulong offs=
+et)
++{
++    return riscv_gdb_syscall(cpu, riscv_semi_cb, "lseek,%x,%x,0",
++                           gf->hostfd, offset);
++}
++
++static uint32_t gdb_flenfn(RISCVCPU *cpu, GuestFD *gf)
++{
++    return riscv_gdb_syscall(cpu, riscv_semi_flen_cb, "fstat,%x,%x",
++                           gf->hostfd, riscv_flen_buf(cpu));
++}
++
++#define SHFB_MAGIC_0 0x53
++#define SHFB_MAGIC_1 0x48
++#define SHFB_MAGIC_2 0x46
++#define SHFB_MAGIC_3 0x42
++
++/* Feature bits reportable in feature byte 0 */
++#define SH_EXT_EXIT_EXTENDED (1 << 0)
++#define SH_EXT_STDOUT_STDERR (1 << 1)
++
++static const uint8_t featurefile_data[] =3D {
++    SHFB_MAGIC_0,
++    SHFB_MAGIC_1,
++    SHFB_MAGIC_2,
++    SHFB_MAGIC_3,
++    SH_EXT_EXIT_EXTENDED | SH_EXT_STDOUT_STDERR, /* Feature byte 0 */
++};
++
++static void init_featurefile_guestfd(int guestfd)
++{
++    GuestFD *gf =3D do_get_guestfd(guestfd);
++
++    assert(gf);
++    gf->type =3D GuestFDFeatureFile;
++    gf->featurefile_offset =3D 0;
++}
++
++static uint32_t featurefile_closefn(RISCVCPU *cpu, GuestFD *gf)
++{
++    /* Nothing to do */
++    return 0;
++}
++
++static uint32_t featurefile_writefn(RISCVCPU *cpu, GuestFD *gf,
++                                    target_ulong buf, uint32_t len)
++{
++    /* This fd can never be open for writing */
++    CPURISCVState *env =3D &cpu->env;
++
++    errno =3D EBADF;
++    return set_swi_errno(env, -1);
++}
++
++static uint32_t featurefile_readfn(RISCVCPU *cpu, GuestFD *gf,
++                                   target_ulong buf, uint32_t len)
++{
++    uint32_t i;
++#ifndef CONFIG_USER_ONLY
++    CPURISCVState *env =3D &cpu->env;
++#endif
++    char *s;
++
++    s =3D lock_user(VERIFY_WRITE, buf, len, 0);
++    if (!s) {
++        return len;
++    }
++
++    for (i =3D 0; i < len; i++) {
++        if (gf->featurefile_offset >=3D sizeof(featurefile_data)) {
++            break;
++        }
++        s[i] =3D featurefile_data[gf->featurefile_offset];
++        gf->featurefile_offset++;
++    }
++
++    unlock_user(s, buf, len);
++
++    /* Return number of bytes not read */
++    return len - i;
++}
++
++static uint32_t featurefile_isattyfn(RISCVCPU *cpu, GuestFD *gf)
++{
++    return 0;
++}
++
++static uint32_t featurefile_seekfn(RISCVCPU *cpu, GuestFD *gf,
++                                   target_ulong offset)
++{
++    gf->featurefile_offset =3D offset;
++    return 0;
++}
++
++static uint32_t featurefile_flenfn(RISCVCPU *cpu, GuestFD *gf)
++{
++    return sizeof(featurefile_data);
++}
++
++typedef struct GuestFDFunctions {
++    sys_closefn *closefn;
++    sys_writefn *writefn;
++    sys_readfn *readfn;
++    sys_isattyfn *isattyfn;
++    sys_seekfn *seekfn;
++    sys_flenfn *flenfn;
++} GuestFDFunctions;
++
++static const GuestFDFunctions guestfd_fns[] =3D {
++    [GuestFDHost] =3D {
++        .closefn =3D host_closefn,
++        .writefn =3D host_writefn,
++        .readfn =3D host_readfn,
++        .isattyfn =3D host_isattyfn,
++        .seekfn =3D host_seekfn,
++        .flenfn =3D host_flenfn,
++    },
++    [GuestFDGDB] =3D {
++        .closefn =3D gdb_closefn,
++        .writefn =3D gdb_writefn,
++        .readfn =3D gdb_readfn,
++        .isattyfn =3D gdb_isattyfn,
++        .seekfn =3D gdb_seekfn,
++        .flenfn =3D gdb_flenfn,
++    },
++    [GuestFDFeatureFile] =3D {
++        .closefn =3D featurefile_closefn,
++        .writefn =3D featurefile_writefn,
++        .readfn =3D featurefile_readfn,
++        .isattyfn =3D featurefile_isattyfn,
++        .seekfn =3D featurefile_seekfn,
++        .flenfn =3D featurefile_flenfn,
++    },
++};
++
++/* Read the input value from the argument block; fail the semihosting
++ * call if the memory read fails.
++ */
++#define GET_ARG(n) do {                                                 =
+\
++        if (get_user_ual(arg ## n, args + (n) * sizeof(target_ulong))) {=
+ \
++            errno =3D EFAULT;                                           =
+  \
++            return set_swi_errno(env, -1);                              =
+\
++        }                                                               =
+\
++    } while (0)
++
++#define SET_ARG(n, val)                                 \
++    put_user_ual(val, args + (n) * sizeof(target_ulong))
++
++/*
++ * Do a semihosting call.
++ *
++ * The specification always says that the "return register" either
++ * returns a specific value or is corrupted, so we don't need to
++ * report to our caller whether we are returning a value or trying to
++ * leave the register unchanged. We use 0xdeadbeef as the return value
++ * when there isn't a defined return value for the call.
++ */
++target_ulong do_riscv_semihosting(CPURISCVState *env)
++{
++    RISCVCPU *cpu =3D env_archcpu(env);
++    CPUState *cs =3D env_cpu(env);
++    target_ulong args;
++    target_ulong arg0, arg1, arg2, arg3;
++    char * s;
++    int nr;
++    uint32_t ret;
++    uint32_t len;
++    GuestFD *gf;
++
++    nr =3D env->gpr[xA0] & 0xffffffffU;
++    args =3D env->gpr[xA1];
++
++    switch (nr) {
++    case TARGET_SYS_OPEN:
++    {
++        int guestfd;
++
++        GET_ARG(0);
++        GET_ARG(1);
++        GET_ARG(2);
++        s =3D lock_user_string(arg0);
++        if (!s) {
++            errno =3D EFAULT;
++            return set_swi_errno(env, -1);
++        }
++        if (arg1 >=3D 12) {
++            unlock_user(s, arg0, 0);
++            errno =3D EINVAL;
++            return set_swi_errno(env, -1);
++        }
++
++        guestfd =3D alloc_guestfd();
++        if (guestfd < 0) {
++            unlock_user(s, arg0, 0);
++            errno =3D EMFILE;
++            return set_swi_errno(env, -1);
++        }
++
++        if (strcmp(s, ":tt") =3D=3D 0) {
++            int result_fileno;
++
++            /*
++             * We implement SH_EXT_STDOUT_STDERR, so:
++             *  open for read =3D=3D stdin
++             *  open for write =3D=3D stdout
++             *  open for append =3D=3D stderr
++             */
++            if (arg1 < 4) {
++                result_fileno =3D STDIN_FILENO;
++            } else if (arg1 < 8) {
++                result_fileno =3D STDOUT_FILENO;
++            } else {
++                result_fileno =3D STDERR_FILENO;
++            }
++            associate_guestfd(guestfd, result_fileno);
++            unlock_user(s, arg0, 0);
++            return guestfd;
++        }
++        if (strcmp(s, ":semihosting-features") =3D=3D 0) {
++            unlock_user(s, arg0, 0);
++            /* We must fail opens for modes other than 0 ('r') or 1 ('rb=
+') */
++            if (arg1 !=3D 0 && arg1 !=3D 1) {
++                dealloc_guestfd(guestfd);
++                errno =3D EACCES;
++                return set_swi_errno(env, -1);
++            }
++            init_featurefile_guestfd(guestfd);
++            return guestfd;
++        }
++
++        if (use_gdb_syscalls()) {
++            riscv_semi_open_guestfd =3D guestfd;
++            ret =3D riscv_gdb_syscall(cpu, riscv_semi_open_cb, "open,%s,=
+%x,1a4", arg0,
++                                  (int)arg2+1, gdb_open_modeflags[arg1])=
+;
++        } else {
++            ret =3D set_swi_errno(env, open(s, open_modeflags[arg1], 064=
+4));
++            if (ret =3D=3D (uint32_t)-1) {
++                dealloc_guestfd(guestfd);
++            } else {
++                associate_guestfd(guestfd, ret);
++                ret =3D guestfd;
++            }
++        }
++        unlock_user(s, arg0, 0);
++        return ret;
++    }
++    case TARGET_SYS_CLOSE:
++        GET_ARG(0);
++
++        gf =3D get_guestfd(arg0);
++        if (!gf) {
++            errno =3D EBADF;
++            return set_swi_errno(env, -1);
++        }
++
++        ret =3D guestfd_fns[gf->type].closefn(cpu, gf);
++        dealloc_guestfd(arg0);
++        return ret;
++    case TARGET_SYS_WRITEC:
++        qemu_semihosting_console_outc(env, args);
++        return 0xdeadbeef;
++    case TARGET_SYS_WRITE0:
++        return qemu_semihosting_console_outs(env, args);
++    case TARGET_SYS_WRITE:
++        GET_ARG(0);
++        GET_ARG(1);
++        GET_ARG(2);
++        len =3D arg2;
++
++        gf =3D get_guestfd(arg0);
++        if (!gf) {
++            errno =3D EBADF;
++            return set_swi_errno(env, -1);
++        }
++
++        return guestfd_fns[gf->type].writefn(cpu, gf, arg1, len);
++    case TARGET_SYS_READ:
++        GET_ARG(0);
++        GET_ARG(1);
++        GET_ARG(2);
++        len =3D arg2;
++
++        gf =3D get_guestfd(arg0);
++        if (!gf) {
++            errno =3D EBADF;
++            return set_swi_errno(env, -1);
++        }
++
++        return guestfd_fns[gf->type].readfn(cpu, gf, arg1, len);
++    case TARGET_SYS_READC:
++        return qemu_semihosting_console_inc(env);
++    case TARGET_SYS_ISTTY:
++        GET_ARG(0);
++
++        gf =3D get_guestfd(arg0);
++        if (!gf) {
++            errno =3D EBADF;
++            return set_swi_errno(env, -1);
++        }
++
++        return guestfd_fns[gf->type].isattyfn(cpu, gf);
++    case TARGET_SYS_SEEK:
++        GET_ARG(0);
++        GET_ARG(1);
++
++        gf =3D get_guestfd(arg0);
++        if (!gf) {
++            errno =3D EBADF;
++            return set_swi_errno(env, -1);
++        }
++
++        return guestfd_fns[gf->type].seekfn(cpu, gf, arg1);
++    case TARGET_SYS_FLEN:
++        GET_ARG(0);
++
++        gf =3D get_guestfd(arg0);
++        if (!gf) {
++            errno =3D EBADF;
++            return set_swi_errno(env, -1);
++        }
++
++        return guestfd_fns[gf->type].flenfn(cpu, gf);
++    case TARGET_SYS_TMPNAM:
++        qemu_log_mask(LOG_UNIMP, "%s: SYS_TMPNAM not implemented", __fun=
+c__);
++        return -1;
++    case TARGET_SYS_REMOVE:
++        GET_ARG(0);
++        GET_ARG(1);
++        if (use_gdb_syscalls()) {
++            ret =3D riscv_gdb_syscall(cpu, riscv_semi_cb, "unlink,%s",
++                                  arg0, (int)arg1+1);
++        } else {
++            s =3D lock_user_string(arg0);
++            if (!s) {
++                errno =3D EFAULT;
++                return set_swi_errno(env, -1);
++            }
++            ret =3D  set_swi_errno(env, remove(s));
++            unlock_user(s, arg0, 0);
++        }
++        return ret;
++    case TARGET_SYS_RENAME:
++        GET_ARG(0);
++        GET_ARG(1);
++        GET_ARG(2);
++        GET_ARG(3);
++        if (use_gdb_syscalls()) {
++            return riscv_gdb_syscall(cpu, riscv_semi_cb, "rename,%s,%s",
++                                   arg0, (int)arg1+1, arg2, (int)arg3+1)=
+;
++        } else {
++            char *s2;
++            s =3D lock_user_string(arg0);
++            s2 =3D lock_user_string(arg2);
++            if (!s || !s2) {
++                errno =3D EFAULT;
++                ret =3D set_swi_errno(env, -1);
++            } else {
++                ret =3D set_swi_errno(env, rename(s, s2));
++            }
++            if (s2)
++                unlock_user(s2, arg2, 0);
++            if (s)
++                unlock_user(s, arg0, 0);
++            return ret;
++        }
++    case TARGET_SYS_CLOCK:
++        return clock() / (CLOCKS_PER_SEC / 100);
++    case TARGET_SYS_TIME:
++        return set_swi_errno(env, time(NULL));
++    case TARGET_SYS_SYSTEM:
++        GET_ARG(0);
++        GET_ARG(1);
++        if (use_gdb_syscalls()) {
++            return riscv_gdb_syscall(cpu, riscv_semi_cb, "system,%s",
++                                   arg0, (int)arg1+1);
++        } else {
++            s =3D lock_user_string(arg0);
++            if (!s) {
++                errno =3D EFAULT;
++                return set_swi_errno(env, -1);
++            }
++            ret =3D set_swi_errno(env, system(s));
++            unlock_user(s, arg0, 0);
++            return ret;
++        }
++    case TARGET_SYS_ERRNO:
++        return get_swi_errno(env);
++    case TARGET_SYS_GET_CMDLINE:
++        {
++            /* Build a command-line from the original argv.
++             *
++             * The inputs are:
++             *     * arg0, pointer to a buffer of at least the size
++             *               specified in arg1.
++             *     * arg1, size of the buffer pointed to by arg0 in
++             *               bytes.
++             *
++             * The outputs are:
++             *     * arg0, pointer to null-terminated string of the
++             *               command line.
++             *     * arg1, length of the string pointed to by arg0.
++             */
++
++            char *output_buffer;
++            size_t input_size;
++            size_t output_size;
++            int status =3D 0;
++#if !defined(CONFIG_USER_ONLY)
++            const char *cmdline;
++#else
++            TaskState *ts =3D cs->opaque;
++#endif
++            GET_ARG(0);
++            GET_ARG(1);
++            input_size =3D arg1;
++            /* Compute the size of the output string.  */
++#if !defined(CONFIG_USER_ONLY)
++            cmdline =3D semihosting_get_cmdline();
++            if (cmdline =3D=3D NULL) {
++                cmdline =3D ""; /* Default to an empty line. */
++            }
++            output_size =3D strlen(cmdline) + 1; /* Count terminating 0.=
+ */
++#else
++            unsigned int i;
++
++            output_size =3D ts->info->arg_end - ts->info->arg_start;
++            if (!output_size) {
++                /*
++                 * We special-case the "empty command line" case (argc=3D=
+=3D0).
++                 * Just provide the terminating 0.
++                 */
++                output_size =3D 1;
++            }
++#endif
++
++            if (output_size > input_size) {
++                /* Not enough space to store command-line arguments.  */
++                errno =3D E2BIG;
++                return set_swi_errno(env, -1);
++            }
++
++            /* Adjust the command-line length.  */
++            if (SET_ARG(1, output_size - 1)) {
++                /* Couldn't write back to argument block */
++                errno =3D EFAULT;
++                return set_swi_errno(env, -1);
++            }
++
++            /* Lock the buffer on the RISC-V side.  */
++            output_buffer =3D lock_user(VERIFY_WRITE, arg0, output_size,=
+ 0);
++            if (!output_buffer) {
++                errno =3D EFAULT;
++                return set_swi_errno(env, -1);
++            }
++
++            /* Copy the command-line arguments.  */
++#if !defined(CONFIG_USER_ONLY)
++            pstrcpy(output_buffer, output_size, cmdline);
++#else
++            if (output_size =3D=3D 1) {
++                /* Empty command-line.  */
++                output_buffer[0] =3D '\0';
++                goto out;
++            }
++
++            if (copy_from_user(output_buffer, ts->info->arg_start,
++                               output_size)) {
++                errno =3D EFAULT;
++                status =3D set_swi_errno(env, -1);
++                goto out;
++            }
++
++            /* Separate arguments by white spaces.  */
++            for (i =3D 0; i < output_size - 1; i++) {
++                if (output_buffer[i] =3D=3D 0) {
++                    output_buffer[i] =3D ' ';
++                }
++            }
++        out:
++#endif
++            /* Unlock the buffer on the RISC-V side.  */
++            unlock_user(output_buffer, arg0, output_size);
++
++            return status;
++        }
++    case TARGET_SYS_HEAPINFO:
++        {
++            target_ulong retvals[4];
++            target_ulong limit;
++            int i;
++#ifdef CONFIG_USER_ONLY
++            TaskState *ts =3D cs->opaque;
++#endif
++
++            GET_ARG(0);
++
++#ifdef CONFIG_USER_ONLY
++            /*
++             * Some C libraries assume the heap immediately follows .bss=
+, so
++             * allocate it using sbrk.
++             */
++            if (!ts->heap_limit) {
++                abi_ulong ret;
++
++                ts->heap_base =3D do_brk(0);
++                limit =3D ts->heap_base + RISCV_HEAP_SIZE;
++                /* Try a big heap, and reduce the size if that fails.  *=
+/
++                for (;;) {
++                    ret =3D do_brk(limit);
++                    if (ret >=3D limit) {
++                        break;
++                    }
++                    limit =3D (ts->heap_base >> 1) + (limit >> 1);
++                }
++                ts->heap_limit =3D limit;
++            }
++
++            retvals[0] =3D ts->heap_base;
++            retvals[1] =3D ts->heap_limit;
++            retvals[2] =3D ts->stack_base;
++            retvals[3] =3D 0; /* Stack limit.  */
++#else
++            limit =3D ram_size;
++            /* TODO: Make this use the limit of the loaded application. =
+ */
++            retvals[0] =3D limit / 2;
++            retvals[1] =3D limit;
++            retvals[2] =3D limit; /* Stack base */
++            retvals[3] =3D 0; /* Stack limit.  */
++#endif
++
++            for (i =3D 0; i < ARRAY_SIZE(retvals); i++) {
++                bool fail;
++
++                fail =3D put_user_ual(retvals[i], arg0 + i * sizeof(targ=
+et_ulong));
++
++                if (fail) {
++                    /* Couldn't write back to argument block */
++                    errno =3D EFAULT;
++                    return set_swi_errno(env, -1);
++                }
++            }
++            return 0;
++        }
++    case TARGET_SYS_EXIT:
++    case TARGET_SYS_EXIT_EXTENDED:
++        if (nr =3D=3D TARGET_SYS_EXIT_EXTENDED || sizeof(target_ulong) =3D=
+=3D 0) {
++            /*
++             * The A64 version of SYS_EXIT takes a parameter block,
++             * so the application-exit type can return a subcode which
++             * is the exit status code from the application.
++             * SYS_EXIT_EXTENDED is an a new-in-v2.0 optional function
++             * which allows A32/T32 guests to also provide a status code=
+.
++             */
++            GET_ARG(0);
++            GET_ARG(1);
++
++            if (arg0 =3D=3D ADP_Stopped_ApplicationExit) {
++                ret =3D arg1;
++            } else {
++                ret =3D 1;
++            }
++        } else {
++            /*
++             * The A32/T32 version of SYS_EXIT specifies only
++             * Stopped_ApplicationExit as normal exit, but does not
++             * allow the guest to specify the exit status code.
++             * Everything else is considered an error.
++             */
++            ret =3D (args =3D=3D ADP_Stopped_ApplicationExit) ? 0 : 1;
++        }
++        gdb_exit(env, ret);
++        exit(ret);
++    case TARGET_SYS_SYNCCACHE:
++        /*
++         * Clean the D-cache and invalidate the I-cache for the specifie=
+d
++         * virtual address range. This is a nop for us since we don't
++         * implement caches. This is only present on A64.
++         */
++        if (sizeof(target_ulong) =3D=3D 8) {
++            return 0;
++        }
++        /* fall through -- invalid for A32/T32 */
++    default:
++        fprintf(stderr, "qemu: Unsupported SemiHosting SWI 0x%02x\n", nr=
 );
-> diff --git a/hw/sparc/leon3.c b/hw/sparc/leon3.c
-> index 8038887..f5a087d 100644
-> --- a/hw/sparc/leon3.c
-> +++ b/hw/sparc/leon3.c
-> @@ -297,7 +297,7 @@ static void leon3_generic_hw_init(MachineState
-*machine)
->          uint64_t entry;
->
->          kernel_size =3D load_elf(kernel_filename, NULL, NULL, NULL,
-> -                               &entry, NULL, NULL,
-> +                               &entry, NULL, NULL, NULL,
->                                 1 /* big endian */, EM_SPARC, 0, 0);
->          if (kernel_size < 0) {
->              kernel_size =3D load_uimage(kernel_filename, NULL, &entry,
-> diff --git a/hw/sparc/sun4m.c b/hw/sparc/sun4m.c
-> index df33b32..25e96db 100644
-> --- a/hw/sparc/sun4m.c
-> +++ b/hw/sparc/sun4m.c
-> @@ -270,7 +270,7 @@ static unsigned long sun4m_load_kernel(const char
-*kernel_filename,
->  #endif
->          kernel_size =3D load_elf(kernel_filename, NULL,
->                                 translate_kernel_address, NULL,
-> -                               NULL, NULL, NULL, 1, EM_SPARC, 0, 0);
-> +                               NULL, NULL, NULL, NULL, 1, EM_SPARC, 0,
-0);
->          if (kernel_size < 0)
->              kernel_size =3D load_aout(kernel_filename, KERNEL_LOAD_ADDR,
->                                      RAM_size - KERNEL_LOAD_ADDR,
-bswap_needed,
-> @@ -721,7 +721,7 @@ static void prom_init(hwaddr addr, const char
-*bios_name)
->      if (filename) {
->          ret =3D load_elf(filename, NULL,
->                         translate_prom_address, &addr, NULL,
-> -                       NULL, NULL, 1, EM_SPARC, 0, 0);
-> +                       NULL, NULL, NULL, 1, EM_SPARC, 0, 0);
->          if (ret < 0 || ret > PROM_SIZE_MAX) {
->              ret =3D load_image_targphys(filename, addr, PROM_SIZE_MAX);
->          }
-> diff --git a/hw/sparc64/sun4u.c b/hw/sparc64/sun4u.c
-> index 5d710d6..b7ac42f 100644
-> --- a/hw/sparc64/sun4u.c
-> +++ b/hw/sparc64/sun4u.c
-> @@ -175,7 +175,8 @@ static uint64_t sun4u_load_kernel(const char
-*kernel_filename,
->          bswap_needed =3D 0;
->  #endif
->          kernel_size =3D load_elf(kernel_filename, NULL, NULL, NULL,
-kernel_entry,
-> -                               kernel_addr, &kernel_top, 1, EM_SPARCV9,
-0, 0);
-> +                               kernel_addr, &kernel_top, NULL, 1,
-EM_SPARCV9, 0,
-> +                               0);
->          if (kernel_size < 0) {
->              *kernel_addr =3D KERNEL_LOAD_ADDR;
->              *kernel_entry =3D KERNEL_LOAD_ADDR;
-> @@ -439,7 +440,7 @@ static void prom_init(hwaddr addr, const char
-*bios_name)
->      filename =3D qemu_find_file(QEMU_FILE_TYPE_BIOS, bios_name);
->      if (filename) {
->          ret =3D load_elf(filename, NULL, translate_prom_address, &addr,
-> -                       NULL, NULL, NULL, 1, EM_SPARCV9, 0, 0);
-> +                       NULL, NULL, NULL, NULL, 1, EM_SPARCV9, 0, 0);
->          if (ret < 0 || ret > PROM_SIZE_MAX) {
->              ret =3D load_image_targphys(filename, addr, PROM_SIZE_MAX);
->          }
-> diff --git a/hw/tricore/tricore_testboard.c
-b/hw/tricore/tricore_testboard.c
-> index aef3289..20c9ccb 100644
-> --- a/hw/tricore/tricore_testboard.c
-> +++ b/hw/tricore/tricore_testboard.c
-> @@ -42,7 +42,7 @@ static void tricore_load_kernel(CPUTriCoreState *env)
->
->      kernel_size =3D load_elf(tricoretb_binfo.kernel_filename, NULL,
->                             NULL, NULL, &entry, NULL,
-> -                           NULL, 0,
-> +                           NULL, NULL, 0,
->                             EM_TRICORE, 1, 0);
->      if (kernel_size <=3D 0) {
->          error_report("no kernel file '%s'",
-> diff --git a/hw/xtensa/sim.c b/hw/xtensa/sim.c
-> index a22743a..aeb46d8 100644
-> --- a/hw/xtensa/sim.c
-> +++ b/hw/xtensa/sim.c
-> @@ -108,7 +108,7 @@ void xtensa_sim_load_kernel(XtensaCPU *cpu,
-MachineState *machine)
->          uint64_t elf_entry;
->          uint64_t elf_lowaddr;
->          int success =3D load_elf(kernel_filename, NULL,
-translate_phys_addr, cpu,
-> -                               &elf_entry, &elf_lowaddr, NULL,
-big_endian,
-> +                               &elf_entry, &elf_lowaddr, NULL, NULL,
-big_endian,
->                                 EM_XTENSA, 0, 0);
->
->          if (success > 0) {
-> diff --git a/hw/xtensa/xtfpga.c b/hw/xtensa/xtfpga.c
-> index 8220c7a..8e2dd13 100644
-> --- a/hw/xtensa/xtfpga.c
-> +++ b/hw/xtensa/xtfpga.c
-> @@ -415,7 +415,7 @@ static void xtfpga_init(const XtfpgaBoardDesc *board,
-MachineState *machine)
->          uint64_t elf_entry;
->          uint64_t elf_lowaddr;
->          int success =3D load_elf(kernel_filename, NULL,
-translate_phys_addr, cpu,
-> -                &elf_entry, &elf_lowaddr, NULL, be, EM_XTENSA, 0, 0);
-> +                &elf_entry, &elf_lowaddr, NULL, NULL, be, EM_XTENSA, 0,
-0);
->          if (success > 0) {
->              entry_point =3D elf_entry;
->          } else {
-> diff --git a/include/hw/elf_ops.h b/include/hw/elf_ops.h
-> index e07d276..a1411bf 100644
-> --- a/include/hw/elf_ops.h
-> +++ b/include/hw/elf_ops.h
-> @@ -316,7 +316,8 @@ static int glue(load_elf, SZ)(const char *name, int
-fd,
->                                void *translate_opaque,
->                                int must_swab, uint64_t *pentry,
->                                uint64_t *lowaddr, uint64_t *highaddr,
-> -                              int elf_machine, int clear_lsb, int
-data_swab,
-> +                              uint32_t *pflags, int elf_machine,
-> +                              int clear_lsb, int data_swab,
->                                AddressSpace *as, bool load_rom,
->                                symbol_fn_t sym_cb)
->  {
-> @@ -389,6 +390,9 @@ static int glue(load_elf, SZ)(const char *name, int
-fd,
->              }
->      }
->
-> +    if (pflags) {
-> +        *pflags =3D (elf_word)ehdr.e_flags;
-> +    }
->      if (pentry)
->          *pentry =3D (uint64_t)(elf_sword)ehdr.e_entry;
->
-> diff --git a/include/hw/loader.h b/include/hw/loader.h
-> index 48a96cd..a9eeea3 100644
-> --- a/include/hw/loader.h
-> +++ b/include/hw/loader.h
-> @@ -101,6 +101,7 @@ const char *load_elf_strerror(int error);
->   * @pentry: Populated with program entry point. Ignored if NULL.
->   * @lowaddr: Populated with lowest loaded address. Ignored if NULL.
->   * @highaddr: Populated with highest loaded address. Ignored if NULL.
-> + * @pflags: Populated with ELF processor-specific flags. Ignore if NULL.
->   * @bigendian: Expected ELF endianness. 0 for LE otherwise BE
->   * @elf_machine: Expected ELF machine type
->   * @clear_lsb: Set to mask off LSB of addresses (Some architectures use
-> @@ -131,8 +132,9 @@ int load_elf_ram_sym(const char *filename,
->                       uint64_t (*elf_note_fn)(void *, void *, bool),
->                       uint64_t (*translate_fn)(void *, uint64_t),
->                       void *translate_opaque, uint64_t *pentry,
-> -                     uint64_t *lowaddr, uint64_t *highaddr, int
-big_endian,
-> -                     int elf_machine, int clear_lsb, int data_swab,
-> +                     uint64_t *lowaddr, uint64_t *highaddr, uint32_t
-*pflags,
-> +                     int big_endian, int elf_machine,
-> +                     int clear_lsb, int data_swab,
->                       AddressSpace *as, bool load_rom, symbol_fn_t
-sym_cb);
->
->  /** load_elf_ram:
-> @@ -143,9 +145,9 @@ int load_elf_ram(const char *filename,
->                   uint64_t (*elf_note_fn)(void *, void *, bool),
->                   uint64_t (*translate_fn)(void *, uint64_t),
->                   void *translate_opaque, uint64_t *pentry, uint64_t
-*lowaddr,
-> -                 uint64_t *highaddr, int big_endian, int elf_machine,
-> -                 int clear_lsb, int data_swab, AddressSpace *as,
-> -                 bool load_rom);
-> +                 uint64_t *highaddr, uint32_t *pflags, int big_endian,
-> +                 int elf_machine, int clear_lsb, int data_swab,
-> +                 AddressSpace *as, bool load_rom);
->
->  /** load_elf_as:
->   * Same as load_elf_ram(), but always loads the elf as ROM
-> @@ -154,8 +156,9 @@ int load_elf_as(const char *filename,
->                  uint64_t (*elf_note_fn)(void *, void *, bool),
->                  uint64_t (*translate_fn)(void *, uint64_t),
->                  void *translate_opaque, uint64_t *pentry, uint64_t
-*lowaddr,
-> -                uint64_t *highaddr, int big_endian, int elf_machine,
-> -                int clear_lsb, int data_swab, AddressSpace *as);
-> +                uint64_t *highaddr, uint32_t *pflags, int big_endian,
-> +                int elf_machine, int clear_lsb, int data_swab,
-> +                AddressSpace *as);
->
->  /** load_elf:
->   * Same as load_elf_as(), but doesn't allow the caller to specify an
-> @@ -165,8 +168,8 @@ int load_elf(const char *filename,
->               uint64_t (*elf_note_fn)(void *, void *, bool),
->               uint64_t (*translate_fn)(void *, uint64_t),
->               void *translate_opaque, uint64_t *pentry, uint64_t *lowaddr=
-,
-> -             uint64_t *highaddr, int big_endian, int elf_machine,
-> -             int clear_lsb, int data_swab);
-> +             uint64_t *highaddr, uint32_t *pflags, int big_endian,
-> +             int elf_machine, int clear_lsb, int data_swab);
->
->  /** load_elf_hdr:
->   * @filename: Path of ELF file
-> --
-> 2.7.4
->
->
++        cpu_dump_state(cs, stderr, 0);
++        abort();
++    }
++}
+diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+index 14dc71156b..4ee0d75f86 100644
+--- a/target/riscv/translate.c
++++ b/target/riscv/translate.c
+@@ -55,6 +55,7 @@ typedef struct DisasContext {
+        to reset this known value.  */
+     int frm;
+     bool ext_ifencei;
++    CPUState *cs;
+ } DisasContext;
+=20
+ #ifdef TARGET_RISCV64
+@@ -698,6 +699,15 @@ static bool gen_shift(DisasContext *ctx, arg_r *a,
+     return true;
+ }
+=20
++static uint32_t opcode_at(DisasContextBase *dcbase, target_ulong pc)
++{
++    DisasContext *ctx =3D container_of(dcbase, DisasContext, base);
++    CPUState *cpu =3D ctx->cs;
++    CPURISCVState *env =3D cpu->env_ptr;
++
++    return cpu_ldl_code(env, pc);
++}
++
+ /* Include insn module translation function */
+ #include "insn_trans/trans_rvi.inc.c"
+ #include "insn_trans/trans_rvm.inc.c"
+@@ -743,6 +753,7 @@ static void riscv_tr_init_disas_context(DisasContextB=
+ase *dcbase, CPUState *cs)
+     ctx->misa =3D env->misa;
+     ctx->frm =3D -1;  /* unknown rounding mode */
+     ctx->ext_ifencei =3D cpu->cfg.ext_ifencei;
++    ctx->cs =3D cs;
+ }
+=20
+ static void riscv_tr_tb_start(DisasContextBase *db, CPUState *cpu)
+--=20
+2.25.0
 
---000000000000261a16059d3b4631
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<p dir=3D"ltr"></p>
-<p dir=3D"ltr">21:10 Uto, 28.01.2020. Aleksandar Markovic &lt;<a href=3D"ma=
-ilto:aleksandar.markovic@rt-rk.com">aleksandar.markovic@rt-rk.com</a>&gt; =
-=D1=98=D0=B5 =D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:<br>
-&gt;<br>
-&gt; From: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:f4bug@amsat.or=
-g">f4bug@amsat.org</a>&gt;<br>
-&gt;</p>
-<p dir=3D"ltr">Unfortunately, some spelling errors of mine slipped through =
-the cracks:<br></p>
-<p dir=3D"ltr">&gt; While loading the executable, some platforms (like AVR)=
- need to<br>
-&gt; determine CPU type that executable is built for by reading the<br>
-&gt; field &#39;e_flags&#39; of the ELF header of tha executable.<br>
-&gt;</p>
-<p dir=3D"ltr">s/tha/the</p>
-<p dir=3D"ltr">&gt; This patch enables such discovery of that field while u=
-sing any<br>
-&gt; of the following functions:<br>
-&gt;<br>
-&gt; =C2=A0 - load_elf()<br>
-&gt; =C2=A0 - load_elf_as()<br>
-&gt; =C2=A0 - load_elf_ram()<br>
-&gt; =C2=A0 - load_elf_ram_sym()<br>
-&gt;<br>
-&gt; The argument added to these functions is called &#39;pflags&#39; and i=
-s of<br>
-&gt; type &#39;uint32_t*&#39; (that matches the the pointer to the &#39;elf=
-_word&#39; -</p>
-<p dir=3D"ltr">s/the the/the</p>
-<p dir=3D"ltr">May I ask you, Peter, to fix them while applying?</p>
-<p dir=3D"ltr">Regards,<br>
-Aleksandar</p>
-<p dir=3D"ltr">&gt; the type of the field &#39;e_flags&#39; in both 32-bit =
-and 64-bit variants<br>
-&gt; of ELF header). Callers are allowed to pass NULL as that argument,<br>
-&gt; and in such case no lookup to the field &#39;e_flags&#39; will happen,=
- and<br>
-&gt; no information will be returned, of course.<br>
-&gt;<br>
-&gt; CC: Richard Henderson &lt;<a href=3D"mailto:rth@twiddle.net">rth@twidd=
-le.net</a>&gt;<br>
-&gt; CC: Peter Maydell &lt;<a href=3D"mailto:peter.maydell@linaro.org">pete=
-r.maydell@linaro.org</a>&gt;<br>
-&gt; CC: Edgar E. Iglesias &lt;<a href=3D"mailto:edgar.iglesias@gmail.com">=
-edgar.iglesias@gmail.com</a>&gt;<br>
-&gt; CC: Michael Walle &lt;michael@walle.cc&gt;<br>
-&gt; CC: Thomas Huth &lt;<a href=3D"mailto:huth@tuxfamily.org">huth@tuxfami=
-ly.org</a>&gt;<br>
-&gt; CC: Laurent Vivier &lt;<a href=3D"mailto:laurent@vivier.eu">laurent@vi=
-vier.eu</a>&gt;<br>
-&gt; CC: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:f4bug@amsat.org"=
->f4bug@amsat.org</a>&gt;<br>
-&gt; CC: Aleksandar Rikalo &lt;<a href=3D"mailto:aleksandar.rikalo@rt-rk.co=
-m">aleksandar.rikalo@rt-rk.com</a>&gt;<br>
-&gt; CC: Aurelien Jarno &lt;<a href=3D"mailto:aurelien@aurel32.net">aurelie=
-n@aurel32.net</a>&gt;<br>
-&gt; CC: Jia Liu &lt;<a href=3D"mailto:proljc@gmail.com">proljc@gmail.com</=
-a>&gt;<br>
-&gt; CC: David Gibson &lt;<a href=3D"mailto:david@gibson.dropbear.id.au">da=
-vid@gibson.dropbear.id.au</a>&gt;<br>
-&gt; CC: Mark Cave-Ayland &lt;<a href=3D"mailto:mark.cave-ayland@ilande.co.=
-uk">mark.cave-ayland@ilande.co.uk</a>&gt;<br>
-&gt; CC: BALATON Zoltan &lt;<a href=3D"mailto:balaton@eik.bme.hu">balaton@e=
-ik.bme.hu</a>&gt;<br>
-&gt; CC: Christian Borntraeger &lt;<a href=3D"mailto:borntraeger@de.ibm.com=
-">borntraeger@de.ibm.com</a>&gt;<br>
-&gt; CC: Thomas Huth &lt;<a href=3D"mailto:thuth@redhat.com">thuth@redhat.c=
-om</a>&gt;<br>
-&gt; CC: Artyom Tarasenko &lt;<a href=3D"mailto:atar4qemu@gmail.com">atar4q=
-emu@gmail.com</a>&gt;<br>
-&gt; CC: Fabien Chouteau &lt;<a href=3D"mailto:chouteau@adacore.com">choute=
-au@adacore.com</a>&gt;<br>
-&gt; CC: KONRAD Frederic &lt;<a href=3D"mailto:frederic.konrad@adacore.com"=
->frederic.konrad@adacore.com</a>&gt;<br>
-&gt; CC: Max Filippov &lt;<a href=3D"mailto:jcmvbkbc@gmail.com">jcmvbkbc@gm=
-ail.com</a>&gt;<br>
-&gt;<br>
-&gt; Reviewed-by: Aleksandar Markovic &lt;<a href=3D"mailto:amarkovic@wavec=
-omp.com">amarkovic@wavecomp.com</a>&gt;<br>
-&gt; Signed-off-by: Michael Rolnik &lt;<a href=3D"mailto:mrolnik@gmail.com"=
->mrolnik@gmail.com</a>&gt;<br>
-&gt; Signed-off-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:f4bug=
-@amsat.org">f4bug@amsat.org</a>&gt;<br>
-&gt; Signed-off-by: Aleksandar Markovic &lt;<a href=3D"mailto:aleksandar.m.=
-mail@gmail.com">aleksandar.m.mail@gmail.com</a>&gt;<br>
-&gt; Message-Id: &lt;<a href=3D"mailto:1580079311-20447-24-git-send-email-a=
-leksandar.markovic@rt-rk.com">1580079311-20447-24-git-send-email-aleksandar=
-.markovic@rt-rk.com</a>&gt;<br>
-&gt; ---<br>
-&gt; =C2=A0hw/alpha/dp264.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0|=C2=A0 4 ++--<br>
-&gt; =C2=A0hw/arm/armv7m.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 |=C2=A0 2 +-<br>
-&gt; =C2=A0hw/arm/boot.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 |=C2=A0 2 +-<br>
-&gt; =C2=A0hw/core/generic-loader.c=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 2 +-<=
-br>
-&gt; =C2=A0hw/core/loader.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0| 37 +++++++++++++++++++------------------<br>
-&gt; =C2=A0hw/cris/boot.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0|=C2=A0 2 +-<br>
-&gt; =C2=A0hw/hppa/machine.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 |=C2=A0 4 ++--<br>
-&gt; =C2=A0hw/i386/multiboot.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=
-=C2=A0 2 +-<br>
-&gt; =C2=A0hw/i386/x86.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 |=C2=A0 2 +-<br>
-&gt; =C2=A0hw/lm32/lm32_boards.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =
-4 ++--<br>
-&gt; =C2=A0hw/lm32/milkymist.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=
-=C2=A0 2 +-<br>
-&gt; =C2=A0hw/m68k/an5206.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0|=C2=A0 2 +-<br>
-&gt; =C2=A0hw/m68k/mcf5208.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 |=C2=A0 2 +-<br>
-&gt; =C2=A0hw/m68k/q800.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0|=C2=A0 2 +-<br>
-&gt; =C2=A0hw/microblaze/boot.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=
-=C2=A0 4 ++--<br>
-&gt; =C2=A0hw/mips/mips_fulong2e.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 2 +-<=
-br>
-&gt; =C2=A0hw/mips/mips_malta.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=
-=C2=A0 3 ++-<br>
-&gt; =C2=A0hw/mips/mips_mipssim.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =
-2 +-<br>
-&gt; =C2=A0hw/mips/mips_r4k.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0|=C2=A0 2 +-<br>
-&gt; =C2=A0hw/moxie/moxiesim.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=
-=C2=A0 2 +-<br>
-&gt; =C2=A0hw/nios2/boot.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 |=C2=A0 4 ++--<br>
-&gt; =C2=A0hw/openrisc/openrisc_sim.c=C2=A0 =C2=A0 =C2=A0|=C2=A0 2 +-<br>
-&gt; =C2=A0hw/pci-host/prep.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0|=C2=A0 3 ++-<br>
-&gt; =C2=A0hw/ppc/e500.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 |=C2=A0 2 +-<br>
-&gt; =C2=A0hw/ppc/mac_newworld.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =
-4 ++--<br>
-&gt; =C2=A0hw/ppc/mac_oldworld.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =
-4 ++--<br>
-&gt; =C2=A0hw/ppc/ppc440_bamboo.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =
-2 +-<br>
-&gt; =C2=A0hw/ppc/sam460ex.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 |=C2=A0 3 ++-<br>
-&gt; =C2=A0hw/ppc/spapr.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0|=C2=A0 6 +++---<br>
-&gt; =C2=A0hw/ppc/virtex_ml507.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =
-2 +-<br>
-&gt; =C2=A0hw/riscv/boot.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 |=C2=A0 4 ++--<br>
-&gt; =C2=A0hw/s390x/ipl.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0|=C2=A0 7 ++++---<br>
-&gt; =C2=A0hw/sparc/leon3.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0|=C2=A0 2 +-<br>
-&gt; =C2=A0hw/sparc/sun4m.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0|=C2=A0 4 ++--<br>
-&gt; =C2=A0hw/sparc64/sun4u.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0|=C2=A0 5 +++--<br>
-&gt; =C2=A0hw/tricore/tricore_testboard.c |=C2=A0 2 +-<br>
-&gt; =C2=A0hw/xtensa/sim.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 |=C2=A0 2 +-<br>
-&gt; =C2=A0hw/xtensa/xtfpga.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0|=C2=A0 2 +-<br>
-&gt; =C2=A0include/hw/elf_ops.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=
-=C2=A0 6 +++++-<br>
-&gt; =C2=A0include/hw/loader.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 2=
-1 ++++++++++++---------<br>
-&gt; =C2=A040 files changed, 92 insertions(+), 79 deletions(-)<br>
-&gt;<br>
-&gt; diff --git a/hw/alpha/dp264.c b/hw/alpha/dp264.c<br>
-&gt; index f2026fd..a8f9a89 100644<br>
-&gt; --- a/hw/alpha/dp264.c<br>
-&gt; +++ b/hw/alpha/dp264.c<br>
-&gt; @@ -115,7 +115,7 @@ static void clipper_init(MachineState *machine)<br=
->
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0exit(1);<br>
-&gt; =C2=A0 =C2=A0 =C2=A0}<br>
-&gt; =C2=A0 =C2=A0 =C2=A0size =3D load_elf(palcode_filename, NULL, cpu_alph=
-a_superpage_to_phys,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- NULL, &amp;palcode_entry, &amp;palcode_low, &amp;palcode_high,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- NULL, &amp;palcode_entry, &amp;palcode_low, &amp;palcode_high, NULL,<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A00, EM_ALPHA, 0, 0);<br>
-&gt; =C2=A0 =C2=A0 =C2=A0if (size &lt; 0) {<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0error_report(&quot;could not load pa=
-lcode &#39;%s&#39;&quot;, palcode_filename);<br>
-&gt; @@ -134,7 +134,7 @@ static void clipper_init(MachineState *machine)<br=
->
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0uint64_t param_offset;<br>
-&gt;<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0size =3D load_elf(kernel_filename, N=
-ULL, cpu_alpha_superpage_to_phys,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 NULL, &amp;kernel_entry, &amp;kernel_low, &amp;kernel_high,<=
-br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 NULL, &amp;kernel_entry, &amp;kernel_low, &amp;kernel_high, =
-NULL,<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A00, EM_ALPHA, 0, 0);<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (size &lt; 0) {<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0error_report(&quot;cou=
-ld not load kernel &#39;%s&#39;&quot;, kernel_filename);<br>
-&gt; diff --git a/hw/arm/armv7m.c b/hw/arm/armv7m.c<br>
-&gt; index 5d4a581..7531b97 100644<br>
-&gt; --- a/hw/arm/armv7m.c<br>
-&gt; +++ b/hw/arm/armv7m.c<br>
-&gt; @@ -331,7 +331,7 @@ void armv7m_load_kernel(ARMCPU *cpu, const char *k=
-ernel_filename, int mem_size)<br>
-&gt;<br>
-&gt; =C2=A0 =C2=A0 =C2=A0if (kernel_filename) {<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0image_size =3D load_elf_as(kernel_fi=
-lename, NULL, NULL, NULL,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&amp;entry, &amp;lowaddr,<=
-br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&amp;entry, &amp;lowaddr, =
-NULL,<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 NULL, big_endian, EM_ARM, =
-1, 0, as);<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (image_size &lt; 0) {<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0image_size =3D load_im=
-age_targphys_as(kernel_filename, 0,<br>
-&gt; diff --git a/hw/arm/boot.c b/hw/arm/boot.c<br>
-&gt; index 8fb4a63..0c213ca 100644<br>
-&gt; --- a/hw/arm/boot.c<br>
-&gt; +++ b/hw/arm/boot.c<br>
-&gt; @@ -903,7 +903,7 @@ static int64_t arm_load_elf(struct arm_boot_info *=
-info, uint64_t *pentry,<br>
-&gt; =C2=A0 =C2=A0 =C2=A0}<br>
-&gt;<br>
-&gt; =C2=A0 =C2=A0 =C2=A0ret =3D load_elf_as(info-&gt;kernel_filename, NULL=
-, NULL, NULL,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 pentry, lowaddr, highaddr, big_endian, elf_machine,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 pentry, lowaddr, highaddr, NULL, big_endian, elf_machine,<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A01, data_swab, as);<br>
-&gt; =C2=A0 =C2=A0 =C2=A0if (ret &lt;=3D 0) {<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* The header loaded but the image d=
-idn&#39;t */<br>
-&gt; diff --git a/hw/core/generic-loader.c b/hw/core/generic-loader.c<br>
-&gt; index e7eb57e..b9aaa52 100644<br>
-&gt; --- a/hw/core/generic-loader.c<br>
-&gt; +++ b/hw/core/generic-loader.c<br>
-&gt; @@ -140,7 +140,7 @@ static void generic_loader_realize(DeviceState *de=
-v, Error **errp)<br>
-&gt;<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (!s-&gt;force_raw) {<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0size =3D load_elf_as(s=
--&gt;file, NULL, NULL, NULL, &amp;entry, NULL, NULL,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0big_endian, 0, 0, 0, as);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0NULL, big_endian, 0, 0, 0, as);<b=
-r>
-&gt;<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (size &lt; 0) {<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0size =3D=
- load_uimage_as(s-&gt;file, &amp;entry, NULL, NULL, NULL, NULL,<br>
-&gt; diff --git a/hw/core/loader.c b/hw/core/loader.c<br>
-&gt; index 5099f27..d1b78f6 100644<br>
-&gt; --- a/hw/core/loader.c<br>
-&gt; +++ b/hw/core/loader.c<br>
-&gt; @@ -406,12 +406,12 @@ int load_elf(const char *filename,<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 uint64_t (*elf_note_f=
-n)(void *, void *, bool),<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 uint64_t (*translate_=
-fn)(void *, uint64_t),<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 void *translate_opaqu=
-e, uint64_t *pentry, uint64_t *lowaddr,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0uint64_t *highaddr, i=
-nt big_endian, int elf_machine,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0int clear_lsb, int da=
-ta_swab)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0uint64_t *highaddr, u=
-int32_t *pflags, int big_endian,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0int elf_machine, int =
-clear_lsb, int data_swab)<br>
-&gt; =C2=A0{<br>
-&gt; =C2=A0 =C2=A0 =C2=A0return load_elf_as(filename, elf_note_fn, translat=
-e_fn, translate_opaque,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0pentry, lowaddr, highaddr, big_endian, elf_machine,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0clear_lsb, data_swab, NULL);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0pentry, lowaddr, highaddr, pflags, big_endian,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0elf_machine, clear_lsb, data_swab, NULL);<br>
-&gt; =C2=A0}<br>
-&gt;<br>
-&gt; =C2=A0/* return &lt; 0 if error, otherwise the number of bytes loaded =
-in memory */<br>
-&gt; @@ -419,12 +419,12 @@ int load_elf_as(const char *filename,<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0uint64_t=
- (*elf_note_fn)(void *, void *, bool),<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0uint64_t=
- (*translate_fn)(void *, uint64_t),<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0void *tr=
-anslate_opaque, uint64_t *pentry, uint64_t *lowaddr,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 uint64_t *hig=
-haddr, int big_endian, int elf_machine,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 int clear_lsb=
-, int data_swab, AddressSpace *as)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 uint64_t *hig=
-haddr, uint32_t *pflags, int big_endian,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 int elf_machi=
-ne, int clear_lsb, int data_swab, AddressSpace *as)<br>
-&gt; =C2=A0{<br>
-&gt; =C2=A0 =C2=A0 =C2=A0return load_elf_ram(filename, elf_note_fn, transla=
-te_fn, translate_opaque,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 pentry, lowaddr, highaddr, big_endian, elf_machine,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 clear_lsb, data_swab, as, true);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 pentry, lowaddr, highaddr, pflags, big_endian,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 elf_machine, clear_lsb, data_swab, as, true);<br>
-&gt; =C2=A0}<br>
-&gt;<br>
-&gt; =C2=A0/* return &lt; 0 if error, otherwise the number of bytes loaded =
-in memory */<br>
-&gt; @@ -432,13 +432,13 @@ int load_elf_ram(const char *filename,<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 uint64_=
-t (*elf_note_fn)(void *, void *, bool),<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 uint64_=
-t (*translate_fn)(void *, uint64_t),<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 void *t=
-ranslate_opaque, uint64_t *pentry, uint64_t *lowaddr,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0uint64_=
-t *highaddr, int big_endian, int elf_machine,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0int cle=
-ar_lsb, int data_swab, AddressSpace *as,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bool lo=
-ad_rom)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0uint64_=
-t *highaddr, uint32_t *pflags, int big_endian,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0int elf=
-_machine, int clear_lsb, int data_swab,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Address=
-Space *as, bool load_rom)<br>
-&gt; =C2=A0{<br>
-&gt; =C2=A0 =C2=A0 =C2=A0return load_elf_ram_sym(filename, elf_note_fn,<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0translate_fn, translate_opaque,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 pentry, lowaddr, highaddr, big_endian,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 pentry, lowaddr, highaddr, pflags, big_endian,=
-<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0elf_machine, clear_lsb, data_swab, as,<br=
->
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0load_rom, NULL);<br>
-&gt; =C2=A0}<br>
-&gt; @@ -448,8 +448,9 @@ int load_elf_ram_sym(const char *filename,<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 uint64_t (*elf_note_fn)(void *, void *, bool),<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 uint64_t (*translate_fn)(void *, uint64_t),<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 void *translate_opaque, uint64_t *pentry,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0uint64_t *lowaddr, uint64_t *highaddr, int big_endian,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0int elf_machine, int clear_lsb, int data_swab,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0uint64_t *lowaddr, uint64_t *highaddr, uint32_t *pflags,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0int big_endian, int elf_machine,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0int clear_lsb, int data_swab,<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 AddressSpace *as, bool load_rom, symbol_fn_t sym_cb)<br>
-&gt; =C2=A0{<br>
-&gt; =C2=A0 =C2=A0 =C2=A0int fd, data_order, target_data_order, must_swab, =
-ret =3D ELF_LOAD_FAILED;<br>
-&gt; @@ -490,13 +491,13 @@ int load_elf_ram_sym(const char *filename,<br>
-&gt; =C2=A0 =C2=A0 =C2=A0if (e_ident[EI_CLASS] =3D=3D ELFCLASS64) {<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ret =3D load_elf64(filename, fd, elf=
-_note_fn,<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 translate_fn, translate_opaque, must_swab,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0pentry, lowaddr, highaddr, elf_machine, clear_lsb,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0data_swab, as, load_rom, sym_cb);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0pentry, lowaddr, highaddr, pflags, elf_machine,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0clear_lsb, data_swab, as, load_rom, sym_cb);<br>
-&gt; =C2=A0 =C2=A0 =C2=A0} else {<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ret =3D load_elf32(filename, fd, elf=
-_note_fn,<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 translate_fn, translate_opaque, must_swab,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0pentry, lowaddr, highaddr, elf_machine, clear_lsb,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0data_swab, as, load_rom, sym_cb);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0pentry, lowaddr, highaddr, pflags, elf_machine,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0clear_lsb, data_swab, as, load_rom, sym_cb);<br>
-&gt; =C2=A0 =C2=A0 =C2=A0}<br>
-&gt;<br>
-&gt; =C2=A0 fail:<br>
-&gt; diff --git a/hw/cris/boot.c b/hw/cris/boot.c<br>
-&gt; index 2d2cc0c..b8947bc 100644<br>
-&gt; --- a/hw/cris/boot.c<br>
-&gt; +++ b/hw/cris/boot.c<br>
-&gt; @@ -76,7 +76,7 @@ void cris_load_image(CRISCPU *cpu, struct cris_load_=
-info *li)<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 devboard SDK.=C2=A0 */<br>
-&gt; =C2=A0 =C2=A0 =C2=A0image_size =3D load_elf(li-&gt;image_filename, NUL=
-L,<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0translate_kernel_address, NULL,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 &amp;entry, NULL, &amp;high, 0, EM_CRIS, 0, 0);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 &amp;entry, NULL, &amp;high, NULL, 0, EM_CRIS, 0, 0);=
-<br>
-&gt; =C2=A0 =C2=A0 =C2=A0li-&gt;entry =3D entry;<br>
-&gt; =C2=A0 =C2=A0 =C2=A0if (image_size &lt; 0) {<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* Takes a kimage from the axis devb=
-oard SDK.=C2=A0 */<br>
-&gt; diff --git a/hw/hppa/machine.c b/hw/hppa/machine.c<br>
-&gt; index 2d62a24..d8755ec 100644<br>
-&gt; --- a/hw/hppa/machine.c<br>
-&gt; +++ b/hw/hppa/machine.c<br>
-&gt; @@ -155,7 +155,7 @@ static void machine_hppa_init(MachineState *machin=
-e)<br>
-&gt; =C2=A0 =C2=A0 =C2=A0}<br>
-&gt;<br>
-&gt; =C2=A0 =C2=A0 =C2=A0size =3D load_elf(firmware_filename, NULL, NULL, N=
-ULL,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- &amp;firmware_entry, &amp;firmware_low, &amp;firmware_high,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- &amp;firmware_entry, &amp;firmware_low, &amp;firmware_high, NULL,<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0true, EM_PARISC, 0, 0);<br>
-&gt;<br>
-&gt; =C2=A0 =C2=A0 =C2=A0/* Unfortunately, load_elf sign-extends reading el=
-f32.=C2=A0 */<br>
-&gt; @@ -184,7 +184,7 @@ static void machine_hppa_init(MachineState *machin=
-e)<br>
-&gt; =C2=A0 =C2=A0 =C2=A0/* Load kernel */<br>
-&gt; =C2=A0 =C2=A0 =C2=A0if (kernel_filename) {<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0size =3D load_elf(kernel_filename, N=
-ULL, &amp;cpu_hppa_to_phys,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 NULL, &amp;kernel_entry, &amp;kernel_low, &amp;kernel_high,<=
-br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 NULL, &amp;kernel_entry, &amp;kernel_low, &amp;kernel_high, =
-NULL,<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0true, EM_PARISC, 0, 0);<br>
-&gt;<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* Unfortunately, load_elf sign-exte=
-nds reading elf32.=C2=A0 */<br>
-&gt; diff --git a/hw/i386/multiboot.c b/hw/i386/multiboot.c<br>
-&gt; index 9a59f95..9e7d69d 100644<br>
-&gt; --- a/hw/i386/multiboot.c<br>
-&gt; +++ b/hw/i386/multiboot.c<br>
-&gt; @@ -199,7 +199,7 @@ int load_multiboot(FWCfgState *fw_cfg,<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-&gt;<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0kernel_size =3D load_elf(kernel_file=
-name, NULL, NULL, NULL, &amp;elf_entry,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&amp;elf_low, &amp;elf_high, 0, I=
-386_ELF_MACHINE,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&amp;elf_low, &amp;elf_high, NULL=
-, 0, I386_ELF_MACHINE,<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 0, 0);<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (kernel_size &lt; 0) {<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0error_report(&quot;Err=
-or while loading elf kernel&quot;);<br>
-&gt; diff --git a/hw/i386/x86.c b/hw/i386/x86.c<br>
-&gt; index 9b9a4d5..7f38e6b 100644<br>
-&gt; --- a/hw/i386/x86.c<br>
-&gt; +++ b/hw/i386/x86.c<br>
-&gt; @@ -413,7 +413,7 @@ static bool load_elfboot(const char *kernel_filena=
-me,<br>
-&gt; =C2=A0 =C2=A0 =C2=A0uint64_t elf_note_type =3D XEN_ELFNOTE_PHYS32_ENTR=
-Y;<br>
-&gt; =C2=A0 =C2=A0 =C2=A0kernel_size =3D load_elf(kernel_filename, read_pvh=
-_start_addr,<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 NULL, &amp;elf_note_type, &amp;elf_entry,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0&amp;elf_low, &amp;elf_high, 0, I386_ELF_MACHIN=
-E,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0&amp;elf_low, &amp;elf_high, NULL, 0, I386_ELF_=
-MACHINE,<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 0, 0);<br>
-&gt;<br>
-&gt; =C2=A0 =C2=A0 =C2=A0if (kernel_size &lt; 0) {<br>
-&gt; diff --git a/hw/lm32/lm32_boards.c b/hw/lm32/lm32_boards.c<br>
-&gt; index 5ae308b..d1894ad 100644<br>
-&gt; --- a/hw/lm32/lm32_boards.c<br>
-&gt; +++ b/hw/lm32/lm32_boards.c<br>
-&gt; @@ -138,7 +138,7 @@ static void lm32_evr_init(MachineState *machine)<b=
-r>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0int kernel_size;<br>
-&gt;<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0kernel_size =3D load_elf(kernel_file=
-name, NULL, NULL, NULL,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&amp;entry, NULL, NULL,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&amp;entry, NULL, NULL, NULL,<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 1, EM_LATTICEMICO32, 0, 0);<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0reset_info-&gt;bootstrap_pc =3D entr=
-y;<br>
-&gt;<br>
-&gt; @@ -232,7 +232,7 @@ static void lm32_uclinux_init(MachineState *machin=
-e)<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0int kernel_size;<br>
-&gt;<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0kernel_size =3D load_elf(kernel_file=
-name, NULL, NULL, NULL,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&amp;entry, NULL, NULL,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&amp;entry, NULL, NULL, NULL,<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 1, EM_LATTICEMICO32, 0, 0);<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0reset_info-&gt;bootstrap_pc =3D entr=
-y;<br>
-&gt;<br>
-&gt; diff --git a/hw/lm32/milkymist.c b/hw/lm32/milkymist.c<br>
-&gt; index 460d322..6d46134 100644<br>
-&gt; --- a/hw/lm32/milkymist.c<br>
-&gt; +++ b/hw/lm32/milkymist.c<br>
-&gt; @@ -177,7 +177,7 @@ milkymist_init(MachineState *machine)<br>
-&gt;<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* Boots a kernel elf binary.=C2=A0 =
-*/<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0kernel_size =3D load_elf(kernel_file=
-name, NULL, NULL, NULL,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&amp;entry, NULL, NULL,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&amp;entry, NULL, NULL, NULL,<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 1, EM_LATTICEMICO32, 0, 0);<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0reset_info-&gt;bootstrap_pc =3D entr=
-y;<br>
-&gt;<br>
-&gt; diff --git a/hw/m68k/an5206.c b/hw/m68k/an5206.c<br>
-&gt; index 54ccbe1..bed43a9 100644<br>
-&gt; --- a/hw/m68k/an5206.c<br>
-&gt; +++ b/hw/m68k/an5206.c<br>
-&gt; @@ -65,7 +65,7 @@ static void an5206_init(MachineState *machine)<br>
-&gt; =C2=A0 =C2=A0 =C2=A0}<br>
-&gt;<br>
-&gt; =C2=A0 =C2=A0 =C2=A0kernel_size =3D load_elf(kernel_filename, NULL, NU=
-LL, NULL, &amp;elf_entry,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0NULL, NULL, 1, EM_68K, 0, 0);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0NULL, NULL, NULL, 1, EM_68K, 0, 0);<br>
-&gt; =C2=A0 =C2=A0 =C2=A0entry =3D elf_entry;<br>
-&gt; =C2=A0 =C2=A0 =C2=A0if (kernel_size &lt; 0) {<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0kernel_size =3D load_uimage(kernel_f=
-ilename, &amp;entry, NULL, NULL,<br>
-&gt; diff --git a/hw/m68k/mcf5208.c b/hw/m68k/mcf5208.c<br>
-&gt; index 158c5e4..a999c21 100644<br>
-&gt; --- a/hw/m68k/mcf5208.c<br>
-&gt; +++ b/hw/m68k/mcf5208.c<br>
-&gt; @@ -329,7 +329,7 @@ static void mcf5208evb_init(MachineState *machine)=
-<br>
-&gt; =C2=A0 =C2=A0 =C2=A0}<br>
-&gt;<br>
-&gt; =C2=A0 =C2=A0 =C2=A0kernel_size =3D load_elf(kernel_filename, NULL, NU=
-LL, NULL, &amp;elf_entry,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0NULL, NULL, 1, EM_68K, 0, 0);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0NULL, NULL, NULL, 1, EM_68K, 0, 0);<br>
-&gt; =C2=A0 =C2=A0 =C2=A0entry =3D elf_entry;<br>
-&gt; =C2=A0 =C2=A0 =C2=A0if (kernel_size &lt; 0) {<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0kernel_size =3D load_uimage(kernel_f=
-ilename, &amp;entry, NULL, NULL,<br>
-&gt; diff --git a/hw/m68k/q800.c b/hw/m68k/q800.c<br>
-&gt; index 12491ec..1e32363 100644<br>
-&gt; --- a/hw/m68k/q800.c<br>
-&gt; +++ b/hw/m68k/q800.c<br>
-&gt; @@ -342,7 +342,7 @@ static void q800_init(MachineState *machine)<br>
-&gt; =C2=A0 =C2=A0 =C2=A0if (linux_boot) {<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0uint64_t high;<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0kernel_size =3D load_elf(kernel_file=
-name, NULL, NULL, NULL,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&amp;elf_entry, NULL, &amp;high, =
-1,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&amp;elf_entry, NULL, &amp;high, =
-NULL, 1,<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 EM_68K, 0, 0);<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (kernel_size &lt; 0) {<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0error_report(&quot;cou=
-ld not load kernel &#39;%s&#39;&quot;, kernel_filename);<br>
-&gt; diff --git a/hw/microblaze/boot.c b/hw/microblaze/boot.c<br>
-&gt; index d1d7dfb..925e3f7 100644<br>
-&gt; --- a/hw/microblaze/boot.c<br>
-&gt; +++ b/hw/microblaze/boot.c<br>
-&gt; @@ -145,13 +145,13 @@ void microblaze_load_kernel(MicroBlazeCPU *cpu, =
-hwaddr ddr_base,<br>
-&gt;<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* Boots a kernel elf binary.=C2=A0 =
-*/<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0kernel_size =3D load_elf(kernel_file=
-name, NULL, NULL, NULL,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&amp;entry, &amp;low, &amp;high,<=
-br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&amp;entry, &amp;low, &amp;high, =
-NULL,<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 big_endian, EM_MICROBLAZE, 0, 0);=
-<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0base32 =3D entry;<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (base32 =3D=3D 0xc0000000) {<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0kernel_size =3D load_e=
-lf(kernel_filename, NULL,<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 translate_kernel_ad=
-dress, NULL,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&amp;entry, NULL, N=
-ULL,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&amp;entry, NULL, N=
-ULL, NULL,<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 big_endian, EM_MICR=
-OBLAZE, 0, 0);<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* Always boot into physical ram.=C2=
-=A0 */<br>
-&gt; diff --git a/hw/mips/mips_fulong2e.c b/hw/mips/mips_fulong2e.c<br>
-&gt; index 9eaa6e2..2e043cb 100644<br>
-&gt; --- a/hw/mips/mips_fulong2e.c<br>
-&gt; +++ b/hw/mips/mips_fulong2e.c<br>
-&gt; @@ -119,7 +119,7 @@ static int64_t load_kernel(CPUMIPSState *env)<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 cpu_mips_kseg0_to_phys, NULL,<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 (uint64_t *)&amp;kernel_entry,<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 (uint64_t *)&amp;kernel_low, (uint64_t *)&amp;k=
-ernel_high,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A00, EM_MIPS, 1, 0);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0NULL, 0, EM_MIPS, 1, 0);<br>
-&gt; =C2=A0 =C2=A0 =C2=A0if (kernel_size &lt; 0) {<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0error_report(&quot;could not load ke=
-rnel &#39;%s&#39;: %s&quot;,<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 loaderparams.kernel_filename,<br>
-&gt; diff --git a/hw/mips/mips_malta.c b/hw/mips/mips_malta.c<br>
-&gt; index 5aaeaa8..34b76bb 100644<br>
-&gt; --- a/hw/mips/mips_malta.c<br>
-&gt; +++ b/hw/mips/mips_malta.c<br>
-&gt; @@ -1039,7 +1039,8 @@ static int64_t load_kernel(void)<br>
-&gt; =C2=A0 =C2=A0 =C2=A0kernel_size =3D load_elf(loaderparams.kernel_filen=
-ame, NULL,<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 cpu_mips_kseg0_to_phys, NULL,<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 (uint64_t *)&amp;kernel_entry, NULL,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0(uint64_t *)&amp;kernel_high, big_endian, EM_MI=
-PS, 1, 0);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0(uint64_t *)&amp;kernel_high, NULL, big_endian,=
- EM_MIPS,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A01, 0);<br>
-&gt; =C2=A0 =C2=A0 =C2=A0if (kernel_size &lt; 0) {<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0error_report(&quot;could not load ke=
-rnel &#39;%s&#39;: %s&quot;,<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 loaderparams.kernel_filename,<br>
-&gt; diff --git a/hw/mips/mips_mipssim.c b/hw/mips/mips_mipssim.c<br>
-&gt; index 84c03dd..b934ca9 100644<br>
-&gt; --- a/hw/mips/mips_mipssim.c<br>
-&gt; +++ b/hw/mips/mips_mipssim.c<br>
-&gt; @@ -74,7 +74,7 @@ static int64_t load_kernel(void)<br>
-&gt; =C2=A0 =C2=A0 =C2=A0kernel_size =3D load_elf(loaderparams.kernel_filen=
-ame, NULL,<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 cpu_mips_kseg0_to_phys, NULL,<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 (uint64_t *)&amp;entry, NULL,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0(uint64_t *)&amp;kernel_high, big_endian,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0(uint64_t *)&amp;kernel_high, NULL, big_endian,=
-<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 EM_MIPS, 1, 0);<br>
-&gt; =C2=A0 =C2=A0 =C2=A0if (kernel_size &gt;=3D 0) {<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if ((entry &amp; ~0x7fffffffULL) =3D=
-=3D 0x80000000) {<br>
-&gt; diff --git a/hw/mips/mips_r4k.c b/hw/mips/mips_r4k.c<br>
-&gt; index fd926a3..b2aec43 100644<br>
-&gt; --- a/hw/mips/mips_r4k.c<br>
-&gt; +++ b/hw/mips/mips_r4k.c<br>
-&gt; @@ -98,7 +98,7 @@ static int64_t load_kernel(void)<br>
-&gt; =C2=A0 =C2=A0 =C2=A0kernel_size =3D load_elf(loaderparams.kernel_filen=
-ame, NULL,<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 cpu_mips_kseg0_to_phys, NULL,<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 (uint64_t *)&amp;entry, NULL,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0(uint64_t *)&amp;kernel_high, big_endian,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0(uint64_t *)&amp;kernel_high, NULL, big_endian,=
-<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 EM_MIPS, 1, 0);<br>
-&gt; =C2=A0 =C2=A0 =C2=A0if (kernel_size &gt;=3D 0) {<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if ((entry &amp; ~0x7fffffffULL) =3D=
-=3D 0x80000000) {<br>
-&gt; diff --git a/hw/moxie/moxiesim.c b/hw/moxie/moxiesim.c<br>
-&gt; index 57af1b4..1d06e39 100644<br>
-&gt; --- a/hw/moxie/moxiesim.c<br>
-&gt; +++ b/hw/moxie/moxiesim.c<br>
-&gt; @@ -58,7 +58,7 @@ static void load_kernel(MoxieCPU *cpu, LoaderParams =
-*loader_params)<br>
-&gt; =C2=A0 =C2=A0 =C2=A0ram_addr_t initrd_offset;<br>
-&gt;<br>
-&gt; =C2=A0 =C2=A0 =C2=A0kernel_size =3D load_elf(loader_params-&gt;kernel_=
-filename,=C2=A0 NULL, NULL, NULL,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0&amp;entry, &amp;kernel_low, &amp;kernel_high, =
-1, EM_MOXIE,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0&amp;entry, &amp;kernel_low, &amp;kernel_high, =
-NULL, 1, EM_MOXIE,<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 0, 0);<br>
-&gt;<br>
-&gt; =C2=A0 =C2=A0 =C2=A0if (kernel_size &lt;=3D 0) {<br>
-&gt; diff --git a/hw/nios2/boot.c b/hw/nios2/boot.c<br>
-&gt; index d78bc9e..46b8349 100644<br>
-&gt; --- a/hw/nios2/boot.c<br>
-&gt; +++ b/hw/nios2/boot.c<br>
-&gt; @@ -147,7 +147,7 @@ void nios2_load_kernel(Nios2CPU *cpu, hwaddr ddr_b=
-ase,<br>
-&gt;<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* Boots a kernel elf binary. */<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0kernel_size =3D load_elf(kernel_file=
-name, NULL, NULL, NULL,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&amp;entry, &amp;low, &amp;high,<=
-br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&amp;entry, &amp;low, &amp;high, =
-NULL,<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 big_endian, EM_ALTERA_NIOS2, 0, 0=
-);<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if ((uint32_t)entry =3D=3D 0xc000000=
-0) {<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/*<br>
-&gt; @@ -158,7 +158,7 @@ void nios2_load_kernel(Nios2CPU *cpu, hwaddr ddr_b=
-ase,<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0kernel_size =3D load_e=
-lf(kernel_filename, NULL,<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 translate_kernel_ad=
-dress, NULL,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&amp;entry, NULL, N=
-ULL,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&amp;entry, NULL, N=
-ULL, NULL,<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 big_endian, EM_ALTE=
-RA_NIOS2, 0, 0);<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0boot_info.bootstrap_pc=
- =3D ddr_base + 0xc0000000 +<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(entry &=
-amp; 0x07ffffff);<br>
-&gt; diff --git a/hw/openrisc/openrisc_sim.c b/hw/openrisc/openrisc_sim.c<b=
-r>
-&gt; index 79e7049..ad53712 100644<br>
-&gt; --- a/hw/openrisc/openrisc_sim.c<br>
-&gt; +++ b/hw/openrisc/openrisc_sim.c<br>
-&gt; @@ -98,7 +98,7 @@ static void openrisc_load_kernel(ram_addr_t ram_size=
-,<br>
-&gt;<br>
-&gt; =C2=A0 =C2=A0 =C2=A0if (kernel_filename &amp;&amp; !qtest_enabled()) {=
-<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0kernel_size =3D load_elf(kernel_file=
-name, NULL, NULL, NULL,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&amp;elf_entry, NULL, NULL, 1, EM=
-_OPENRISC,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&amp;elf_entry, NULL, NULL, NULL,=
- 1, EM_OPENRISC,<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 1, 0);<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0entry =3D elf_entry;<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (kernel_size &lt; 0) {<br>
-&gt; diff --git a/hw/pci-host/prep.c b/hw/pci-host/prep.c<br>
-&gt; index f2f8821..1aff72b 100644<br>
-&gt; --- a/hw/pci-host/prep.c<br>
-&gt; +++ b/hw/pci-host/prep.c<br>
-&gt; @@ -335,7 +335,8 @@ static void raven_realize(PCIDevice *d, Error **er=
-rp)<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (filename) {<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (s-&gt;elf_machine =
-!=3D EM_NONE) {<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bios_siz=
-e =3D load_elf(filename, NULL, NULL, NULL, NULL,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0NULL, NULL, =
-1, s-&gt;elf_machine, 0, 0);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0NULL, NULL, =
-NULL, 1, s-&gt;elf_machine,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A00, 0);<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (bios_size &lt; 0) =
-{<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bios_siz=
-e =3D get_image_size(filename);<br>
-&gt; diff --git a/hw/ppc/e500.c b/hw/ppc/e500.c<br>
-&gt; index 12b6a5b..886442e 100644<br>
-&gt; --- a/hw/ppc/e500.c<br>
-&gt; +++ b/hw/ppc/e500.c<br>
-&gt; @@ -1049,7 +1049,7 @@ void ppce500_init(MachineState *machine)<br>
-&gt; =C2=A0 =C2=A0 =C2=A0filename =3D qemu_find_file(QEMU_FILE_TYPE_BIOS, p=
-ayload_name);<br>
-&gt;<br>
-&gt; =C2=A0 =C2=A0 =C2=A0payload_size =3D load_elf(filename, NULL, NULL, NU=
-LL,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 &amp;bios_entry, &amp;loadaddr, NULL,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 &amp;bios_entry, &amp;loadaddr, NULL, NULL,<br=
->
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A01, PPC_ELF_MACHINE, 0, 0);<br>
-&gt; =C2=A0 =C2=A0 =C2=A0if (payload_size &lt; 0) {<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/*<br>
-&gt; diff --git a/hw/ppc/mac_newworld.c b/hw/ppc/mac_newworld.c<br>
-&gt; index 3594517..464d012 100644<br>
-&gt; --- a/hw/ppc/mac_newworld.c<br>
-&gt; +++ b/hw/ppc/mac_newworld.c<br>
-&gt; @@ -168,7 +168,7 @@ static void ppc_core99_init(MachineState *machine)=
-<br>
-&gt; =C2=A0 =C2=A0 =C2=A0/* Load OpenBIOS (ELF) */<br>
-&gt; =C2=A0 =C2=A0 =C2=A0if (filename) {<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bios_size =3D load_elf(filename, NUL=
-L, NULL, NULL, NULL,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0NULL, NULL, 1, PPC_ELF_MACHINE, 0, 0);<b=
-r>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0NULL, NULL, NULL, 1, PPC_ELF_MACHINE, 0,=
- 0);<br>
-&gt;<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0g_free(filename);<br>
-&gt; =C2=A0 =C2=A0 =C2=A0} else {<br>
-&gt; @@ -192,7 +192,7 @@ static void ppc_core99_init(MachineState *machine)=
-<br>
-&gt;<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0kernel_size =3D load_elf(kernel_file=
-name, NULL,<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 translate_kernel_address, NULL,<b=
-r>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0NULL, &amp;lowaddr, NULL, 1, PPC_=
-ELF_MACHINE,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0NULL, &amp;lowaddr, NULL, NULL, 1=
-, PPC_ELF_MACHINE,<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 0, 0);<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (kernel_size &lt; 0)<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0kernel_size =3D load_a=
-out(kernel_filename, kernel_base,<br>
-&gt; diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c<br>
-&gt; index 0fa680b..7318d7e 100644<br>
-&gt; --- a/hw/ppc/mac_oldworld.c<br>
-&gt; +++ b/hw/ppc/mac_oldworld.c<br>
-&gt; @@ -143,7 +143,7 @@ static void ppc_heathrow_init(MachineState *machin=
-e)<br>
-&gt;<br>
-&gt; =C2=A0 =C2=A0 =C2=A0/* Load OpenBIOS (ELF) */<br>
-&gt; =C2=A0 =C2=A0 =C2=A0if (filename) {<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 bios_size =3D load_elf(filename, NULL, 0,=
- NULL, NULL, NULL, NULL,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 bios_size =3D load_elf(filename, NULL, 0,=
- NULL, NULL, NULL, NULL, NULL,<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 1, PPC_ELF_MACHINE, 0, 0);<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0g_free(filename);<br>
-&gt; =C2=A0 =C2=A0 =C2=A0} else {<br>
-&gt; @@ -166,7 +166,7 @@ static void ppc_heathrow_init(MachineState *machin=
-e)<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0kernel_base =3D KERNEL_LOAD_ADDR;<br=
->
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0kernel_size =3D load_elf(kernel_file=
-name, NULL,<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 translate_kernel_address, NULL,<b=
-r>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0NULL, &amp;lowaddr, NULL, 1, PPC_=
-ELF_MACHINE,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0NULL, &amp;lowaddr, NULL, NULL, 1=
-, PPC_ELF_MACHINE,<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 0, 0);<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (kernel_size &lt; 0)<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0kernel_size =3D load_a=
-out(kernel_filename, kernel_base,<br>
-&gt; diff --git a/hw/ppc/ppc440_bamboo.c b/hw/ppc/ppc440_bamboo.c<br>
-&gt; index b782641..da777ef 100644<br>
-&gt; --- a/hw/ppc/ppc440_bamboo.c<br>
-&gt; +++ b/hw/ppc/ppc440_bamboo.c<br>
-&gt; @@ -253,7 +253,7 @@ static void bamboo_init(MachineState *machine)<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0NULL, NULL);<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (success &lt; 0) {<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0success =3D load_elf(k=
-ernel_filename, NULL, NULL, NULL, &amp;elf_entry,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&amp;elf_lowaddr, NULL, 1, PPC_EL=
-F_MACHINE,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&amp;elf_lowaddr, NULL, NULL, 1, =
-PPC_ELF_MACHINE,<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 0, 0);<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0entry =3D elf_entry;<b=
-r>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0loadaddr =3D elf_lowad=
-dr;<br>
-&gt; diff --git a/hw/ppc/sam460ex.c b/hw/ppc/sam460ex.c<br>
-&gt; index 437e214..89bc70e 100644<br>
-&gt; --- a/hw/ppc/sam460ex.c<br>
-&gt; +++ b/hw/ppc/sam460ex.c<br>
-&gt; @@ -439,7 +439,8 @@ static void sam460ex_init(MachineState *machine)<b=
-r>
-&gt;<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0success =3D load_elf(m=
-achine-&gt;kernel_filename, NULL,<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 NULL, NULL, &amp;elf_entry,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&amp;elf_lowaddr, NULL, 1, PPC_EL=
-F_MACHINE, 0, 0);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&amp;elf_lowaddr, NULL, NULL, 1, =
-PPC_ELF_MACHINE, 0,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A00);<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0entry =3D elf_entry;<b=
-r>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0loadaddr =3D elf_lowad=
-dr;<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-&gt; diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c<br>
-&gt; index 02cf53f..a0076e5 100644<br>
-&gt; --- a/hw/ppc/spapr.c<br>
-&gt; +++ b/hw/ppc/spapr.c<br>
-&gt; @@ -2895,13 +2895,13 @@ static void spapr_machine_init(MachineState *m=
-achine)<br>
-&gt;<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0spapr-&gt;kernel_size =3D load_elf(k=
-ernel_filename, NULL,<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0transl=
-ate_kernel_address, NULL,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 NULL, &amp;=
-lowaddr, NULL, 1,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 NULL, &amp;=
-lowaddr, NULL, NULL, 1,<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0PPC_EL=
-F_MACHINE, 0, 0);<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (spapr-&gt;kernel_size =3D=3D ELF=
-_LOAD_WRONG_ENDIAN) {<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0spapr-&gt;kernel_size =
-=3D load_elf(kernel_filename, NULL,<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0translate_kernel_address, NULL, NULL,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 &amp;lowaddr, NULL, 0, PPC_ELF_MACHINE,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 0, 0);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 &amp;lowaddr, NULL, NULL, 0,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 PPC_ELF_MACHINE, 0, 0);<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0spapr-&gt;kernel_le =
-=3D spapr-&gt;kernel_size &gt; 0;<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (spapr-&gt;kernel_size &lt; 0) {<=
-br>
-&gt; diff --git a/hw/ppc/virtex_ml507.c b/hw/ppc/virtex_ml507.c<br>
-&gt; index 6862552..7526947 100644<br>
-&gt; --- a/hw/ppc/virtex_ml507.c<br>
-&gt; +++ b/hw/ppc/virtex_ml507.c<br>
-&gt; @@ -259,7 +259,7 @@ static void virtex_init(MachineState *machine)<br>
-&gt;<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* Boots a kernel elf binary.=C2=A0 =
-*/<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0kernel_size =3D load_elf(kernel_file=
-name, NULL, NULL, NULL,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&amp;entry, &amp;low, &amp;high, =
-1, PPC_ELF_MACHINE,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&amp;entry, &amp;low, &amp;high, =
-NULL, 1, PPC_ELF_MACHINE,<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 0, 0);<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0boot_info.bootstrap_pc =3D entry &am=
-p; 0x00ffffff;<br>
-&gt;<br>
-&gt; diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c<br>
-&gt; index 027303d..b8e7652 100644<br>
-&gt; --- a/hw/riscv/boot.c<br>
-&gt; +++ b/hw/riscv/boot.c<br>
-&gt; @@ -101,7 +101,7 @@ target_ulong riscv_load_firmware(const char *firmw=
-are_filename,<br>
-&gt; =C2=A0 =C2=A0 =C2=A0uint64_t firmware_entry, firmware_start, firmware_=
-end;<br>
-&gt;<br>
-&gt; =C2=A0 =C2=A0 =C2=A0if (load_elf(firmware_filename, NULL, NULL, NULL, =
-&amp;firmware_entry,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&amp;fi=
-rmware_start, &amp;firmware_end, 0, EM_RISCV, 1, 0) &gt; 0) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&amp;fi=
-rmware_start, &amp;firmware_end, NULL, 0, EM_RISCV, 1, 0) &gt; 0) {<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return firmware_entry;<br>
-&gt; =C2=A0 =C2=A0 =C2=A0}<br>
-&gt;<br>
-&gt; @@ -119,7 +119,7 @@ target_ulong riscv_load_kernel(const char *kernel_=
-filename, symbol_fn_t sym_cb)<br>
-&gt; =C2=A0 =C2=A0 =C2=A0uint64_t kernel_entry, kernel_high;<br>
-&gt;<br>
-&gt; =C2=A0 =C2=A0 =C2=A0if (load_elf_ram_sym(kernel_filename, NULL, NULL, =
-NULL,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0&amp;kernel_entry, NULL, &amp;kernel_high, 0,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0&amp;kernel_entry, NULL, &amp;kernel_high, NULL, 0,<br=
->
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 EM_RISCV, 1, 0, NULL, true, sym_cb) &gt; 0) {<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return kernel_entry;<br>
-&gt; =C2=A0 =C2=A0 =C2=A0}<br>
-&gt; diff --git a/hw/s390x/ipl.c b/hw/s390x/ipl.c<br>
-&gt; index b3ae901..ca8e7db 100644<br>
-&gt; --- a/hw/s390x/ipl.c<br>
-&gt; +++ b/hw/s390x/ipl.c<br>
-&gt; @@ -139,7 +139,7 @@ static void s390_ipl_realize(DeviceState *dev, Err=
-or **errp)<br>
-&gt;<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bios_size =3D load_elf(bios_filename=
-, NULL,<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bios_translate_addr, &amp;fwbase,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&amp;ipl-&gt;bios_start_addr, NULL, NULL=
-, 1,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&amp;ipl-&gt;bios_start_addr, NULL, NULL=
-, NULL, 1,<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 EM_S390, 0, 0);<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (bios_size &gt; 0) {<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* Adjust ELF start ad=
-dress to final location */<br>
-&gt; @@ -164,7 +164,7 @@ static void s390_ipl_realize(DeviceState *dev, Err=
-or **errp)<br>
-&gt; =C2=A0 =C2=A0 =C2=A0if (ipl-&gt;kernel) {<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0kernel_size =3D load_elf(ipl-&gt;ker=
-nel, NULL, NULL, NULL,<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &amp;pentry, NULL,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0NULL, 1, EM_S390, 0, 0);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0NULL, NULL, 1, EM_S390, 0, 0);<br=
->
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (kernel_size &lt; 0) {<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0kernel_size =3D load_i=
-mage_targphys(ipl-&gt;kernel, 0, ram_size);<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (kernel_size &lt; 0=
-) {<br>
-&gt; @@ -473,7 +473,8 @@ static int load_netboot_image(Error **errp)<br>
-&gt;<br>
-&gt; =C2=A0 =C2=A0 =C2=A0img_size =3D load_elf_ram(netboot_filename, NULL, =
-NULL, NULL,<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&amp;ipl-&gt;start_addr,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 NULL, NULL, 1, EM_S390, 0, 0, NULL, false);<br=
->
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 NULL, NULL, NULL, 1, EM_S390, 0, 0, NULL,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 false);<br>
-&gt;<br>
-&gt; =C2=A0 =C2=A0 =C2=A0if (img_size &lt; 0) {<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0img_size =3D load_image_size(netboot=
-_filename, ram_ptr, ram_size);<br>
-&gt; diff --git a/hw/sparc/leon3.c b/hw/sparc/leon3.c<br>
-&gt; index 8038887..f5a087d 100644<br>
-&gt; --- a/hw/sparc/leon3.c<br>
-&gt; +++ b/hw/sparc/leon3.c<br>
-&gt; @@ -297,7 +297,7 @@ static void leon3_generic_hw_init(MachineState *ma=
-chine)<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0uint64_t entry;<br>
-&gt;<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0kernel_size =3D load_elf(kernel_file=
-name, NULL, NULL, NULL,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&amp;entry, NULL, NULL,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&amp;entry, NULL, NULL, NULL,<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 1 /* big endian */, EM_SPARC, 0, =
-0);<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (kernel_size &lt; 0) {<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0kernel_size =3D load_u=
-image(kernel_filename, NULL, &amp;entry,<br>
-&gt; diff --git a/hw/sparc/sun4m.c b/hw/sparc/sun4m.c<br>
-&gt; index df33b32..25e96db 100644<br>
-&gt; --- a/hw/sparc/sun4m.c<br>
-&gt; +++ b/hw/sparc/sun4m.c<br>
-&gt; @@ -270,7 +270,7 @@ static unsigned long sun4m_load_kernel(const char =
-*kernel_filename,<br>
-&gt; =C2=A0#endif<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0kernel_size =3D load_elf(kernel_file=
-name, NULL,<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 translate_kernel_address, NULL,<b=
-r>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0NULL, NULL, NULL, 1, EM_SPARC, 0,=
- 0);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0NULL, NULL, NULL, NULL, 1, EM_SPA=
-RC, 0, 0);<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (kernel_size &lt; 0)<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0kernel_size =3D load_a=
-out(kernel_filename, KERNEL_LOAD_ADDR,<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0RAM_size - KE=
-RNEL_LOAD_ADDR, bswap_needed,<br>
-&gt; @@ -721,7 +721,7 @@ static void prom_init(hwaddr addr, const char *bio=
-s_name)<br>
-&gt; =C2=A0 =C2=A0 =C2=A0if (filename) {<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ret =3D load_elf(filename, NULL,<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 translate_prom_address, &amp;addr, NULL,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0NULL, NULL, 1, EM_SPARC, 0, 0);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0NULL, NULL, NULL, 1, EM_SPARC, 0, 0);<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (ret &lt; 0 || ret &gt; PROM_SIZE=
-_MAX) {<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ret =3D load_image_tar=
-gphys(filename, addr, PROM_SIZE_MAX);<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-&gt; diff --git a/hw/sparc64/sun4u.c b/hw/sparc64/sun4u.c<br>
-&gt; index 5d710d6..b7ac42f 100644<br>
-&gt; --- a/hw/sparc64/sun4u.c<br>
-&gt; +++ b/hw/sparc64/sun4u.c<br>
-&gt; @@ -175,7 +175,8 @@ static uint64_t sun4u_load_kernel(const char *kern=
-el_filename,<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bswap_needed =3D 0;<br>
-&gt; =C2=A0#endif<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0kernel_size =3D load_elf(kernel_file=
-name, NULL, NULL, NULL, kernel_entry,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0kernel_addr, &amp;kernel_top, 1, =
-EM_SPARCV9, 0, 0);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0kernel_addr, &amp;kernel_top, NUL=
-L, 1, EM_SPARCV9, 0,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A00);<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (kernel_size &lt; 0) {<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*kernel_addr =3D KERNE=
-L_LOAD_ADDR;<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*kernel_entry =3D KERN=
-EL_LOAD_ADDR;<br>
-&gt; @@ -439,7 +440,7 @@ static void prom_init(hwaddr addr, const char *bio=
-s_name)<br>
-&gt; =C2=A0 =C2=A0 =C2=A0filename =3D qemu_find_file(QEMU_FILE_TYPE_BIOS, b=
-ios_name);<br>
-&gt; =C2=A0 =C2=A0 =C2=A0if (filename) {<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ret =3D load_elf(filename, NULL, tra=
-nslate_prom_address, &amp;addr,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0NULL, NULL, NULL, 1, EM_SPARCV9, 0, 0);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0NULL, NULL, NULL, NULL, 1, EM_SPARCV9, 0, 0);<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (ret &lt; 0 || ret &gt; PROM_SIZE=
-_MAX) {<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ret =3D load_image_tar=
-gphys(filename, addr, PROM_SIZE_MAX);<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-&gt; diff --git a/hw/tricore/tricore_testboard.c b/hw/tricore/tricore_testb=
-oard.c<br>
-&gt; index aef3289..20c9ccb 100644<br>
-&gt; --- a/hw/tricore/tricore_testboard.c<br>
-&gt; +++ b/hw/tricore/tricore_testboard.c<br>
-&gt; @@ -42,7 +42,7 @@ static void tricore_load_kernel(CPUTriCoreState *env=
-)<br>
-&gt;<br>
-&gt; =C2=A0 =C2=A0 =C2=A0kernel_size =3D load_elf(tricoretb_binfo.kernel_fi=
-lename, NULL,<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 NULL, NULL, &amp;entry, NULL,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0NULL, 0,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0NULL, NULL, 0,<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 EM_TRICORE, 1, 0);<br>
-&gt; =C2=A0 =C2=A0 =C2=A0if (kernel_size &lt;=3D 0) {<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0error_report(&quot;no kernel file &#=
-39;%s&#39;&quot;,<br>
-&gt; diff --git a/hw/xtensa/sim.c b/hw/xtensa/sim.c<br>
-&gt; index a22743a..aeb46d8 100644<br>
-&gt; --- a/hw/xtensa/sim.c<br>
-&gt; +++ b/hw/xtensa/sim.c<br>
-&gt; @@ -108,7 +108,7 @@ void xtensa_sim_load_kernel(XtensaCPU *cpu, Machin=
-eState *machine)<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0uint64_t elf_entry;<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0uint64_t elf_lowaddr;<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0int success =3D load_elf(kernel_file=
-name, NULL, translate_phys_addr, cpu,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&amp;elf_entry, &amp;elf_lowaddr,=
- NULL, big_endian,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&amp;elf_entry, &amp;elf_lowaddr,=
- NULL, NULL, big_endian,<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 EM_XTENSA, 0, 0);<br>
-&gt;<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (success &gt; 0) {<br>
-&gt; diff --git a/hw/xtensa/xtfpga.c b/hw/xtensa/xtfpga.c<br>
-&gt; index 8220c7a..8e2dd13 100644<br>
-&gt; --- a/hw/xtensa/xtfpga.c<br>
-&gt; +++ b/hw/xtensa/xtfpga.c<br>
-&gt; @@ -415,7 +415,7 @@ static void xtfpga_init(const XtfpgaBoardDesc *boa=
-rd, MachineState *machine)<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0uint64_t elf_entry;<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0uint64_t elf_lowaddr;<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0int success =3D load_elf(kernel_file=
-name, NULL, translate_phys_addr, cpu,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &amp;elf_entr=
-y, &amp;elf_lowaddr, NULL, be, EM_XTENSA, 0, 0);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &amp;elf_entr=
-y, &amp;elf_lowaddr, NULL, NULL, be, EM_XTENSA, 0, 0);<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (success &gt; 0) {<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0entry_point =3D elf_en=
-try;<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} else {<br>
-&gt; diff --git a/include/hw/elf_ops.h b/include/hw/elf_ops.h<br>
-&gt; index e07d276..a1411bf 100644<br>
-&gt; --- a/include/hw/elf_ops.h<br>
-&gt; +++ b/include/hw/elf_ops.h<br>
-&gt; @@ -316,7 +316,8 @@ static int glue(load_elf, SZ)(const char *name, in=
-t fd,<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0void *translate_opaque,<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0int must_swab, uint64_t *pentry,<b=
-r>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0uint64_t *lowaddr, uint64_t *higha=
-ddr,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 int elf_machine, int clear_lsb, int dat=
-a_swab,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 uint32_t *pflags, int elf_machine,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 int clear_lsb, int data_swab,<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0AddressSpace *as, bool load_rom,<b=
-r>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0symbol_fn_t sym_cb)<br>
-&gt; =C2=A0{<br>
-&gt; @@ -389,6 +390,9 @@ static int glue(load_elf, SZ)(const char *name, in=
-t fd,<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-&gt; =C2=A0 =C2=A0 =C2=A0}<br>
-&gt;<br>
-&gt; +=C2=A0 =C2=A0 if (pflags) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 *pflags =3D (elf_word)ehdr.e_flags;<br>
-&gt; +=C2=A0 =C2=A0 }<br>
-&gt; =C2=A0 =C2=A0 =C2=A0if (pentry)<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*pentry =3D (uint64_t)(elf_sword)ehd=
-r.e_entry;<br>
-&gt;<br>
-&gt; diff --git a/include/hw/loader.h b/include/hw/loader.h<br>
-&gt; index 48a96cd..a9eeea3 100644<br>
-&gt; --- a/include/hw/loader.h<br>
-&gt; +++ b/include/hw/loader.h<br>
-&gt; @@ -101,6 +101,7 @@ const char *load_elf_strerror(int error);<br>
-&gt; =C2=A0 * @pentry: Populated with program entry point. Ignored if NULL.=
-<br>
-&gt; =C2=A0 * @lowaddr: Populated with lowest loaded address. Ignored if NU=
-LL.<br>
-&gt; =C2=A0 * @highaddr: Populated with highest loaded address. Ignored if =
-NULL.<br>
-&gt; + * @pflags: Populated with ELF processor-specific flags. Ignore if NU=
-LL.<br>
-&gt; =C2=A0 * @bigendian: Expected ELF endianness. 0 for LE otherwise BE<br=
->
-&gt; =C2=A0 * @elf_machine: Expected ELF machine type<br>
-&gt; =C2=A0 * @clear_lsb: Set to mask off LSB of addresses (Some architectu=
-res use<br>
-&gt; @@ -131,8 +132,9 @@ int load_elf_ram_sym(const char *filename,<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 uint64_t (*elf_note_fn)(void *, void *, bool),<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 uint64_t (*translate_fn)(void *, uint64_t),<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 void *translate_opaque, uint64_t *pentry,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0uint64_t *lowaddr, uint64_t *highaddr, int big_endian,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0int elf_machine, int clear_lsb, int data_swab,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0uint64_t *lowaddr, uint64_t *highaddr, uint32_t *pflags,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0int big_endian, int elf_machine,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0int clear_lsb, int data_swab,<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 AddressSpace *as, bool load_rom, symbol_fn_t sym_cb);<br>
-&gt;<br>
-&gt; =C2=A0/** load_elf_ram:<br>
-&gt; @@ -143,9 +145,9 @@ int load_elf_ram(const char *filename,<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 uint64_=
-t (*elf_note_fn)(void *, void *, bool),<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 uint64_=
-t (*translate_fn)(void *, uint64_t),<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 void *t=
-ranslate_opaque, uint64_t *pentry, uint64_t *lowaddr,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0uint64_=
-t *highaddr, int big_endian, int elf_machine,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0int cle=
-ar_lsb, int data_swab, AddressSpace *as,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bool lo=
-ad_rom);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0uint64_=
-t *highaddr, uint32_t *pflags, int big_endian,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0int elf=
-_machine, int clear_lsb, int data_swab,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Address=
-Space *as, bool load_rom);<br>
-&gt;<br>
-&gt; =C2=A0/** load_elf_as:<br>
-&gt; =C2=A0 * Same as load_elf_ram(), but always loads the elf as ROM<br>
-&gt; @@ -154,8 +156,9 @@ int load_elf_as(const char *filename,<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0uint64_t=
- (*elf_note_fn)(void *, void *, bool),<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0uint64_t=
- (*translate_fn)(void *, uint64_t),<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0void *tr=
-anslate_opaque, uint64_t *pentry, uint64_t *lowaddr,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 uint64_t *hig=
-haddr, int big_endian, int elf_machine,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 int clear_lsb=
-, int data_swab, AddressSpace *as);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 uint64_t *hig=
-haddr, uint32_t *pflags, int big_endian,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 int elf_machi=
-ne, int clear_lsb, int data_swab,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 AddressSpace =
-*as);<br>
-&gt;<br>
-&gt; =C2=A0/** load_elf:<br>
-&gt; =C2=A0 * Same as load_elf_as(), but doesn&#39;t allow the caller to sp=
-ecify an<br>
-&gt; @@ -165,8 +168,8 @@ int load_elf(const char *filename,<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 uint64_t (*elf_note_f=
-n)(void *, void *, bool),<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 uint64_t (*translate_=
-fn)(void *, uint64_t),<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 void *translate_opaqu=
-e, uint64_t *pentry, uint64_t *lowaddr,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0uint64_t *highaddr, i=
-nt big_endian, int elf_machine,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0int clear_lsb, int da=
-ta_swab);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0uint64_t *highaddr, u=
-int32_t *pflags, int big_endian,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0int elf_machine, int =
-clear_lsb, int data_swab);<br>
-&gt;<br>
-&gt; =C2=A0/** load_elf_hdr:<br>
-&gt; =C2=A0 * @filename: Path of ELF file<br>
-&gt; -- <br>
-&gt; 2.7.4<br>
-&gt;<br>
-&gt;<br>
-</p>
-
---000000000000261a16059d3b4631--
 
