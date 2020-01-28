@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01D9F14C112
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 20:34:44 +0100 (CET)
-Received: from localhost ([::1]:36310 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B322314C102
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 20:31:58 +0100 (CET)
+Received: from localhost ([::1]:36234 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwWdG-0008Tv-Ud
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 14:34:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38893)
+	id 1iwWab-0002oo-Pq
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 14:31:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38888)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iwV8y-0005TX-W8
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:59:27 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iwV8y-0005TQ-V8
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:59:22 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iwV8u-0002Fi-Km
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iwV8u-0002Dz-3U
  for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:59:20 -0500
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:40888)
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:45424)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iwV8t-0002Ag-Tm
+ id 1iwV8t-0002Bo-RP
  for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:59:16 -0500
-Received: by mail-wm1-x343.google.com with SMTP id t14so3554506wmi.5
- for <qemu-devel@nongnu.org>; Tue, 28 Jan 2020 09:59:13 -0800 (PST)
+Received: by mail-wr1-x430.google.com with SMTP id a6so2514880wrx.12
+ for <qemu-devel@nongnu.org>; Tue, 28 Jan 2020 09:59:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Qg0rqhelSxqHAuBbEP3yj5gLyfUEdSUsRIW3yTOCip8=;
- b=vPyQYAvHqJrc7PMBGuGrGfVzu8kaCfy3aq/eLjFBZpvuzNmAPzXW44twuTDqJ2P6PF
- HslNvet8wYX383JG1Ldto/dYIlSIK1iK9C1840MvtOOsJf9qP36IOsWN2kE/QZpECeK7
- z1n74uNC1m60VnaNeDbxoQaMQsilpyX9cR+I33CNYWhWLPhbtkPrMfjqyxw/jNlPVZdT
- 8RhRU6fDMk76CtZkrCHl0N+1tNyu6XcDweIl0XNOANP65KM5RpIo1KYtMW264nag4euS
- CfFoRrF1xBfUF6IuWhGbmHIYsmqqD9jopMYbFsgCkknCWn6PqtIw83xh3cKIN6I6zF+L
- P0CA==
+ bh=xKsruomlpZIj63jCP80AfOWLcpIpXh9Adez6NQRvp84=;
+ b=rHl4rApd9UcQ/wF0NCxE6neHQbyyBJW6FVpRJ/I5Gs0uViXUb8RONv4yM9eR381ufY
+ b0DM++yZUA0KSvnes2Mr3d9EdNUEm1ncTM2REI72q0Tw+z2g6j7gKEVVxU1h/C8fjM+g
+ 1MghD0C3o7jDA4aeg2RbNiebvPS0uaeQPvBouiCI0HKmal/l/Oi9MZ3l9GS/4Sjuvh9K
+ NNz24nfWVZi5f0h4ohQ9YKy50NgjvIpgK9NxYSrlNxIIOzEdVv/GImIzgnAzyY/XXOaH
+ 6SAUXB1dvQXkvK6OXq8QuzWemsdC/Os87lnPfxYED9xL+uQ3appdwAJb0YkUD/edjE5+
+ 2Sxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=Qg0rqhelSxqHAuBbEP3yj5gLyfUEdSUsRIW3yTOCip8=;
- b=DmHO86x+sDecqC1AjLpEkpLWfRC6d8v6PFT67ULOauR2p6BsYKpOYHMdiS89/xW9Bm
- iNUCtvHXZqH5CKcF5jESbO4HIPDsJHXwAFKngzi6iNjp6il1+CHRptatlK5bnqy/IHql
- FcvlPgXQL3/exA3+In2ViO26DT4+K2vV7T8FVK1dyVLEes170NLoWXoyeuHjSnCQGs/b
- RvrKDD5QlYl5ymQyyyTteK0lqcnU1gc87/6G6d8Lxz/spYIJAAfK+dbF5lOhmBdAPbuV
- viQ6Oesz1Q7qHYd8cRCdXDTE2qa8tNaKKLp8aB1zWTJfL0cLM97JuIvTA9ySEhjtcsVx
- uBjg==
-X-Gm-Message-State: APjAAAUV4/tq4JNDLaHrcyeKZNJdaJauKQumaP7If/Zv5nGyWSJqaNft
- /4S1HwYiOeeMKpf9yf+2C2JyEGw/
-X-Google-Smtp-Source: APXvYqwB4+H5/WC3t8VfddLyvhelDGnGPfu6sSBlTKf41ld252w21zNnR4q20gCaxjBM8leteLRLrg==
-X-Received: by 2002:a7b:c932:: with SMTP id h18mr6298440wml.171.1580234351951; 
- Tue, 28 Jan 2020 09:59:11 -0800 (PST)
+ bh=xKsruomlpZIj63jCP80AfOWLcpIpXh9Adez6NQRvp84=;
+ b=Ij/hyvCvNZEE7RI6GnOvyx3fYLjSB7GG3qL+khr+ORR0rBySkLnafhuZtjrjT4oxyD
+ uC/rV3Nrl+TVVoqXzYX+0KRaGPIosU5fPev5yVvMf+HPGXkkVF1rhaShA1u8Wu/BGETI
+ moM4g7NlAAI0LNmdDH2ATDNdTrufztFGRIxe+OCjpWTYodCXIiNcke+NOPh1e+e4QY1T
+ 7MFwdV42jMZkunmDlChHTexmMSnvFE8nY1B/hJRI2Ngm9E1TcO2YEDxH3FpwDCC3pZgz
+ A4fGitjEl833Rj3XNNIQObJR4zlqgpd9iZxjCUYQt8eeeIycVCIifa6xXufn6HMWdpjB
+ R8gQ==
+X-Gm-Message-State: APjAAAUH5B/IeqFW4hANDymYwj97YGhW6zASkuhhVtqHyV9blOEq6P59
+ 6BsInf8vtpEyzRxLMsc2YeE9xpOV
+X-Google-Smtp-Source: APXvYqwK2QwcPRqdGv6EM561nwbCYfH8ak718uMisy1I3pvIs81fSmUHapKXAayQkvb4Z68uLeofGQ==
+X-Received: by 2002:a5d:5345:: with SMTP id t5mr32023869wrv.0.1580234353982;
+ Tue, 28 Jan 2020 09:59:13 -0800 (PST)
 Received: from localhost.localdomain (93-36-56-206.ip58.fastwebnet.it.
  [93.36.56.206])
- by smtp.gmail.com with ESMTPSA id o4sm27046968wrx.25.2020.01.28.09.59.10
+ by smtp.gmail.com with ESMTPSA id o4sm27046968wrx.25.2020.01.28.09.59.12
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Jan 2020 09:59:11 -0800 (PST)
+ Tue, 28 Jan 2020 09:59:13 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 137/142] meson: convert pc-bios/optionrom
-Date: Tue, 28 Jan 2020 18:53:37 +0100
-Message-Id: <20200128175342.9066-138-pbonzini@redhat.com>
+Subject: [PATCH 138/142] rules.mak: drop unneeded macros
+Date: Tue, 28 Jan 2020 18:53:38 +0100
+Message-Id: <20200128175342.9066-139-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200128175342.9066-1-pbonzini@redhat.com>
 References: <20200128175342.9066-1-pbonzini@redhat.com>
@@ -67,7 +68,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::343
+X-Received-From: 2a00:1450:4864:20::430
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,300 +80,225 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-André Lureau <marcandre.lureau@redhat.com>
-
-Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- Makefile                      | 18 ++------
- configure                     | 20 +--------
- pc-bios/meson.build           |  4 ++
- pc-bios/optionrom/Makefile    | 77 -----------------------------------
- pc-bios/optionrom/meson.build | 72 ++++++++++++++++++++++++++++++++
- scripts/signrom.py            |  2 +
- 6 files changed, 82 insertions(+), 111 deletions(-)
- delete mode 100644 pc-bios/optionrom/Makefile
- create mode 100644 pc-bios/optionrom/meson.build
+ docs/devel/build-system.txt |   5 +-
+ rules.mak                   | 179 ------------------------------------
+ 2 files changed, 1 insertion(+), 183 deletions(-)
 
-diff --git a/Makefile b/Makefile
-index 112bae68b2..e95042fa3d 100644
---- a/Makefile
-+++ b/Makefile
-@@ -112,8 +112,7 @@ generated-files-y += .git-submodule-status
- Makefile: ;
- configure: ;
+diff --git a/docs/devel/build-system.txt b/docs/devel/build-system.txt
+index 41bd08ea3a..fea67b207c 100644
+--- a/docs/devel/build-system.txt
++++ b/docs/devel/build-system.txt
+@@ -404,10 +404,7 @@ using Makefile.target for the build rules.
+ - rules.mak
  
--.PHONY: all clean cscope distclean install \
--	recurse-all dist msi FORCE
-+.PHONY: all clean cscope distclean install dist msi FORCE
+ This file provides the generic helper rules for invoking build tools, in
+-particular the compiler and linker. This also contains the magic (hairy)
+-'unnest-vars' function which is used to merge the variable definitions
+-from all Makefile.objs in the source tree down into the main Makefile
+-context.
++particular the compiler and linker.
  
- $(call set-vpath, $(SRC_PATH))
  
-@@ -127,7 +126,7 @@ endif
+ - default-configs/*.mak
+diff --git a/rules.mak b/rules.mak
+index 92597864fe..dd4ec2aa92 100644
+--- a/rules.mak
++++ b/rules.mak
+@@ -161,15 +161,6 @@ define install-prog
+ 	$(if $(STRIP),$(STRIP) $(foreach T,$1,"$2/$(notdir $T)"),)
+ endef
  
- include $(SRC_PATH)/tests/Makefile.include
+-# find-in-path
+-# Usage: $(call find-in-path, prog)
+-# Looks in the PATH if the argument contains no slash, else only considers one
+-# specific directory.  Returns an # empty string if the program doesn't exist
+-# there.
+-find-in-path = $(if $(findstring /, $1), \
+-        $(wildcard $1), \
+-        $(wildcard $(patsubst %, %/$1, $(subst :, ,$(PATH)))))
+-
+ # Logical functions (for operating on y/n values like CONFIG_FOO vars)
+ # Inputs to these must be either "y" (true) or "n" or "" (both false)
+ # Output is always either "y" or "n".
+@@ -208,173 +199,3 @@ clean: clean-timestamp
  
--all: recurse-all modules
-+all: modules
- 
- DTC_MAKE_ARGS=-I$(SRC_PATH)/dtc VPATH=$(SRC_PATH)/dtc -C dtc V="$(V)" LIBFDT_srcdir=$(SRC_PATH)/dtc/libfdt
- DTC_CFLAGS=$(CFLAGS) $(QEMU_CFLAGS)
-@@ -170,20 +169,9 @@ subdir-dtc: dtc/all
- subdir-capstone: capstone/all
- subdir-slirp: slirp/all
- 
--ROM_DIRS = $(addprefix pc-bios/, $(ROMS))
--ROM_DIRS_RULES=$(foreach t, all clean, $(addsuffix /$(t), $(ROM_DIRS)))
--# Only keep -O and -g cflags
--.PHONY: $(ROM_DIRS_RULES)
--$(ROM_DIRS_RULES):
--	$(call quiet-command,$(MAKE) $(SUBDIR_MAKEFLAGS) -C $(dir $@) V="$(V)" TARGET_DIR="$(dir $@)" CFLAGS="$(filter -O% -g%,$(CFLAGS))" $(notdir $@),)
+ # will delete the target of a rule if commands exit with a nonzero exit status
+ .DELETE_ON_ERROR:
 -
--.PHONY: recurse-all recurse-clean
--recurse-all: $(ROM_DIRS)
--recurse-clean: $(addsuffix /clean, $(ROM_DIRS))
+-# save-vars
+-# Usage: $(call save-vars, vars)
+-# Save each variable $v in $vars as save-vars-$v, save their object's
+-# variables, then clear $v.  saved-vars-$v contains the variables that
+-# where saved for the objects, in order to speedup load-vars.
+-define save-vars
+-    $(foreach v,$1,
+-        $(eval save-vars-$v := $(value $v))
+-        $(eval saved-vars-$v := $(foreach o,$($v), \
+-            $(if $($o-cflags), $o-cflags $(eval save-vars-$o-cflags := $($o-cflags))$(eval $o-cflags := )) \
+-            $(if $($o-libs), $o-libs $(eval save-vars-$o-libs := $($o-libs))$(eval $o-libs := )) \
+-            $(if $($o-objs), $o-objs $(eval save-vars-$o-objs := $($o-objs))$(eval $o-objs := ))))
+-        $(eval $v := ))
+-endef
 -
- ######################################################################
- 
--clean: recurse-clean
-+clean:
- # avoid old build problems by removing potentially incorrect old files
- 	rm -f config.mak op-i386.h opc-i386.h gen-op-i386.h op-arm.h opc-arm.h gen-op-arm.h
- 	find . \( -name '*.so' -o -name '*.dll' -o -name '*.mo' -o -name '*.[oda]' \) -type f \
-diff --git a/configure b/configure
-index 64d52fa589..ef9640344c 100755
---- a/configure
-+++ b/configure
-@@ -6314,23 +6314,6 @@ if test "$guest_agent_msi" = "yes"; then
-   esac
- fi
- 
--# Mac OS X ships with a broken assembler
--roms=
--if { test "$cpu" = "i386" || test "$cpu" = "x86_64"; } && \
--        test "$targetos" != "Darwin" && test "$targetos" != "SunOS" && \
--        test "$softmmu" = yes ; then
--    # Different host OS linkers have different ideas about the name of the ELF
--    # emulation. Linux and OpenBSD/amd64 use 'elf_i386'; FreeBSD uses the _fbsd
--    # variant; OpenBSD/i386 uses the _obsd variant; and Windows uses i386pe.
--    for emu in elf_i386 elf_i386_fbsd elf_i386_obsd i386pe; do
--        if "$ld" -verbose 2>&1 | grep -q "^[[:space:]]*$emu[[:space:]]*$"; then
--            ld_i386_emulation="$emu"
--            roms="optionrom"
--            break
--        fi
--    done
--fi
+-# load-vars
+-# Usage: $(call load-vars, vars, add_var)
+-# Load the saved value for each variable in @vars, and the per object
+-# variables.
+-# Append @add_var's current value to the loaded value.
+-define load-vars
+-    $(eval $2-new-value := $(value $2))
+-    $(foreach v,$1,
+-        $(eval $v := $(value save-vars-$v))
+-        $(foreach o,$(saved-vars-$v),
+-            $(eval $o := $(save-vars-$o)) $(eval save-vars-$o := ))
+-        $(eval save-vars-$v := )
+-        $(eval saved-vars-$v := ))
+-    $(eval $2 := $(value $2) $($2-new-value))
+-endef
 -
- # Probe for the need for relocating the user-only binary.
- if ( [ "$linux_user" = yes ] || [ "$bsd_user" = yes ] ) && [ "$pie" = no ]; then
-   textseg_addr=
-@@ -7497,7 +7480,6 @@ else
- fi
- QEMU_INCLUDES="-iquote ${source_path}/tcg $QEMU_INCLUDES"
- 
--echo "ROMS=$roms" >> $config_host_mak
- echo "MAKE=$make" >> $config_host_mak
- echo "INSTALL=$install" >> $config_host_mak
- echo "INSTALL_DIR=$install -d -m 0755" >> $config_host_mak
-@@ -8024,7 +8006,7 @@ LINKS="Makefile"
- LINKS="$LINKS tests/tcg/lm32/Makefile po/Makefile"
- LINKS="$LINKS tests/tcg/Makefile.target tests/fp/Makefile"
- LINKS="$LINKS tests/plugin/Makefile"
--LINKS="$LINKS pc-bios/optionrom/Makefile pc-bios/keymaps"
-+LINKS="$LINKS pc-bios/keymaps"
- LINKS="$LINKS pc-bios/s390-ccw/Makefile"
- LINKS="$LINKS roms/seabios/Makefile roms/vgabios/Makefile"
- LINKS="$LINKS pc-bios/qemu-icon.bmp"
-diff --git a/pc-bios/meson.build b/pc-bios/meson.build
-index 013c75ce43..ef062457a1 100644
---- a/pc-bios/meson.build
-+++ b/pc-bios/meson.build
-@@ -102,6 +102,10 @@ if dtc.found()
-   alias_target('update-dtb', t)
- endif
- 
-+if host_machine.cpu_family() in ['x86', 'x86_64']
-+  subdir('optionrom')
-+endif
-+
- cc = meson.get_compiler('c')
- if host_machine.cpu_family() == 's390x' and cc.has_argument('-march=z900')
-   subdir('s390-ccw')
-diff --git a/pc-bios/optionrom/Makefile b/pc-bios/optionrom/Makefile
-deleted file mode 100644
-index 51cb6ca9d8..0000000000
---- a/pc-bios/optionrom/Makefile
-+++ /dev/null
-@@ -1,77 +0,0 @@
--CURRENT_MAKEFILE := $(realpath $(word $(words $(MAKEFILE_LIST)),$(MAKEFILE_LIST)))
--SRC_DIR := $(dir $(CURRENT_MAKEFILE))
--TOPSRC_DIR := $(SRC_DIR)/../..
--VPATH = $(SRC_DIR)
+-# fix-paths
+-# Usage: $(call fix-paths, obj_path, src_path, vars)
+-# Add prefix @obj_path to all objects in @vars, and add prefix @src_path to all
+-# directories in @vars.
+-define fix-paths
+-    $(foreach v,$3,
+-        $(foreach o,$($v),
+-            $(if $($o-libs),
+-                $(eval $1$o-libs := $($o-libs)))
+-            $(if $($o-cflags),
+-                $(eval $1$o-cflags := $($o-cflags)))
+-            $(if $($o-objs),
+-                $(eval $1$o-objs := $(addprefix $1,$($o-objs)))))
+-        $(eval $v := $(addprefix $1,$(filter-out %/,$($v))) \
+-                     $(addprefix $2,$(filter %/,$($v)))))
+-endef
 -
--all: multiboot.bin linuxboot.bin linuxboot_dma.bin kvmvapic.bin pvh.bin
--# Dummy command so that make thinks it has done something
--	@true
+-# unnest-var-recursive
+-# Usage: $(call unnest-var-recursive, obj_prefix, vars, var)
+-#
+-# Unnest @var by including subdir Makefile.objs, while protect others in @vars
+-# unchanged.
+-#
+-# @obj_prefix is the starting point of object path prefix.
+-#
+-define unnest-var-recursive
+-    $(eval dirs := $(sort $(filter %/,$($3))))
+-    $(eval $3 := $(filter-out %/,$($3)))
+-    $(foreach d,$(dirs:%/=%),
+-            $(call save-vars,$2)
+-            $(eval obj := $(if $1,$1/)$d)
+-            $(eval -include $(SRC_PATH)/$d/Makefile.objs)
+-            $(call fix-paths,$(if $1,$1/)$d/,$d/,$2)
+-            $(call load-vars,$2,$3)
+-            $(call unnest-var-recursive,$1,$2,$3))
+-endef
 -
--include ../../config-host.mak
+-# unnest-vars
+-# Usage: $(call unnest-vars, obj_prefix, vars)
+-#
+-# @obj_prefix: object path prefix, can be empty, or '..', etc. Don't include
+-# ending '/'.
+-#
+-# @vars: the list of variable names to unnest.
+-#
+-# This macro will scan subdirectories's Makefile.objs, include them, to build
+-# up each variable listed in @vars.
+-#
+-# Per object and per module cflags and libs are saved with relative path fixed
+-# as well, those variables include -libs, -cflags and -objs. Items in -objs are
+-# also fixed to relative path against SRC_PATH plus the prefix @obj_prefix.
+-#
+-# All nested variables postfixed by -m in names are treated as DSO variables,
+-# and will be built as modules, if enabled.
+-#
+-# A simple example of the unnest:
+-#
+-#     obj_prefix = ..
+-#     vars = hot cold
+-#     hot  = fire.o sun.o season/
+-#     cold = snow.o water/ season/
+-#
+-# Unnest through a faked source directory structure:
+-#
+-#     SRC_PATH
+-#        ├── water
+-#        │   └── Makefile.objs──────────────────┐
+-#        │       │ hot += steam.o               │
+-#        │       │ cold += ice.mo               │
+-#        │       │ ice.mo-libs := -licemaker    │
+-#        │       │ ice.mo-objs := ice1.o ice2.o │
+-#        │       └──────────────────────────────┘
+-#        │
+-#        └── season
+-#            └── Makefile.objs──────┐
+-#                │ hot += summer.o  │
+-#                │ cold += winter.o │
+-#                └──────────────────┘
+-#
+-# In the end, the result will be:
+-#
+-#     hot  = ../fire.o ../sun.o ../season/summer.o
+-#     cold = ../snow.o ../water/ice.mo ../season/winter.o
+-#     ../water/ice.mo-libs = -licemaker
+-#     ../water/ice.mo-objs = ../water/ice1.o ../water/ice2.o
+-#
+-# Note that 'hot' didn't include 'water/' in the input, so 'steam.o' is not
+-# included.
+-#
+-define unnest-vars
+-    # In the case of target build (i.e. $1 == ..), fix path for top level
+-    # Makefile.objs objects
+-    $(if $1,$(call fix-paths,$1/,,$2))
 -
--quiet-command = $(if $(V),$1,$(if $(2),@printf "  %-7s %s\n" $2 $3 && $1, @$1))
--cc-option = $(if $(shell $(CC) $1 -S -o /dev/null -xc /dev/null >/dev/null 2>&1 && echo OK), $1, $2)
+-    # Descend and include every subdir Makefile.objs
+-    $(foreach v, $2,
+-        $(call unnest-var-recursive,$1,$2,$v)
+-        # Pass the .mo-cflags and .mo-libs along to its member objects
+-        $(foreach o, $(filter %.mo,$($v)),
+-            $(foreach p,$($o-objs),
+-                $(if $($o-cflags), $(eval $p-cflags += $($o-cflags)))
+-                $(if $($o-libs), $(eval $p-libs += $($o-libs))))))
 -
--# Compiling with no optimization creates ROMs that are too large
--ifeq ($(lastword $(filter -O%, -O0 $(CFLAGS))),-O0)
--override CFLAGS += -O2
--endif
--override CFLAGS += -march=i486
+-    # For all %.mo objects that are directly added into -y, just expand them
+-    $(foreach v,$(filter %-y,$2),
+-        $(eval $v := $(foreach o,$($v),$(if $($o-objs),$($o-objs),$o))))
 -
--# Flags for dependency generation
--override CPPFLAGS += -MMD -MP -MT $@ -MF $(@D)/$(*F).d
+-    $(foreach v,$(filter %-m,$2),
+-        # All .o found in *-m variables are single object modules, create .mo
+-        # for them
+-        $(foreach o,$(filter %.o,$($v)),
+-            $(eval $(o:%.o=%.mo)-objs := $o))
+-        # Now unify .o in -m variable to .mo
+-        $(eval $v := $($v:%.o=%.mo))
+-        $(eval modules-m += $($v))
 -
--override CFLAGS += $(filter -W%, $(QEMU_CFLAGS))
--override CFLAGS += $(CFLAGS_NOPIE) -ffreestanding -I$(TOPSRC_DIR)/include
--override CFLAGS += $(call cc-option, -fno-stack-protector)
--override CFLAGS += $(call cc-option, -m16)
+-        # For module build, build shared libraries during "make modules"
+-        # For non-module build, add -m to -y
+-        $(if $(CONFIG_MODULES),
+-             $(foreach o,$($v),
+-                   $(eval $($o-objs): CFLAGS += $(DSO_OBJ_CFLAGS))
+-                   $(eval $o: $($o-objs)))
+-             $(eval $(patsubst %-m,%-y,$v) += $($v))
+-             $(eval modules: $($v:%.mo=%$(DSOSUF))),
+-             $(eval $(patsubst %-m,%-y,$v) += $(call expand-objs, $($v)))))
 -
--ifeq ($(filter -m16, $(CFLAGS)),)
--# Attempt to work around compilers that lack -m16 (GCC <= 4.8, clang <= ??)
--# On GCC we add -fno-toplevel-reorder to keep the order of asm blocks with
--# respect to the rest of the code.  clang does not have -fno-toplevel-reorder,
--# but it places all asm blocks at the beginning and we're relying on it for
--# the option ROM header.  So just force clang not to use the integrated
--# assembler, which doesn't support .code16gcc.
--override CFLAGS += $(call cc-option, -fno-toplevel-reorder)
--override CFLAGS += $(call cc-option, -no-integrated-as)
--override CFLAGS += -m32 -include $(SRC_DIR)/code16gcc.h
--endif
--
--Wa = -Wa,
--override ASFLAGS += -32
--override CFLAGS += $(call cc-option, $(Wa)-32)
--
--
--LD_I386_EMULATION ?= elf_i386
--override LDFLAGS = -m $(LD_I386_EMULATION) -T $(SRC_DIR)/flat.lds
--override LDFLAGS += $(LDFLAGS_NOPIE)
--
--all: multiboot.bin linuxboot.bin linuxboot_dma.bin kvmvapic.bin pvh.bin
--
--pvh.img: pvh.o pvh_main.o
--
--%.o: %.S
--	$(call quiet-command,$(CPP) $(CPPFLAGS) -c -o - $< | $(AS) $(ASFLAGS) -o $@,"AS","$@")
--
--%.o: %.c
--	$(call quiet-command,$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@,"CC","$@")
--
--%.img: %.o
--	$(call quiet-command,$(LD) $(LDFLAGS) -s -o $@ $^,"BUILD","$@")
--
--%.raw: %.img
--	$(call quiet-command,$(OBJCOPY) -O binary -j .text $< $@,"BUILD","$@")
--
--%.bin: %.raw
--	$(call quiet-command,$(PYTHON) $(TOPSRC_DIR)/scripts/signrom.py $< $@,"SIGN","$@")
--
--include $(wildcard *.d)
--
--clean:
--	rm -f *.o *.d *.raw *.img *.bin *~
--
--# suppress auto-removal of intermediate files
--.SECONDARY:
--
--.PHONY: all clean
-diff --git a/pc-bios/optionrom/meson.build b/pc-bios/optionrom/meson.build
-new file mode 100644
-index 0000000000..5761736a68
---- /dev/null
-+++ b/pc-bios/optionrom/meson.build
-@@ -0,0 +1,72 @@
-+cc = meson.get_compiler('c')
-+objcopy = find_program('objcopy')
-+signrom = find_program(meson.current_source_dir() / '../../scripts/signrom.py')
-+
-+emu = ''
-+foreach e: ['elf_i386', 'elf_i386_fbsd', 'elf_i386_obsd', 'i386pe']
-+  if cc.has_multi_link_arguments('-m32', '-Wl,-m' + e)
-+    emu = e
-+    break
-+  endif
-+endforeach
-+
-+if emu == ''
-+  message('No suitable compiler/linker found to build optionrom')
-+else
-+  link_args = ['-nostdlib', '-m32', '-Wl,-m' + e]
-+  link_args += cc.get_supported_link_arguments('-Wl,--build-id=none')
-+  if cc.has_multi_link_arguments('-fno-pie', '-no-pie')
-+    link_args += ['-no-pie']
-+  endif
-+
-+  link_args += '-Wl,-T' + meson.current_source_dir() / 'flat.lds'
-+
-+  c_args = ['-ffreestanding', '-march=i486']
-+  c_args += cc.get_supported_arguments('-fno-pie', '-fno-stack-protector', '-m32')
-+
-+  # Compiling with no optimization creates ROMs that are too large
-+  code16_c_args = ['-O2']
-+  if cc.has_argument('-m16')
-+    code16_c_args += '-m16'
-+  else
-+    # Attempt to work around compilers that lack -m16 (GCC <= 4.8, clang <= ??)
-+    # On GCC we add -fno-toplevel-reorder to keep the order of asm blocks with
-+    # respect to the rest of the code.  clang does not have -fno-toplevel-reorder,
-+    # but it places all asm blocks at the beginning and we're relying on it for
-+    # the option ROM header.  So just force clang not to use the integrated
-+    # assembler, which doesn't support .code16gcc.
-+    code16_c_args += cc.get_supported_arguments('-fno-toplevel-reorder', '-no-integrated-as')
-+    code16_c_args += ['-m32', '-include', meson.current_source_dir() / 'code16gcc.h']
-+  endif
-+
-+  foreach target, opt: {
-+    'multiboot': {'src': ['multiboot.S'], 'cargs': ['-m32', '-g0']},
-+    'linuxboot_dma': {'src': ['linuxboot_dma.c'], 'cargs': code16_c_args},
-+    'linuxboot': {'src': ['linuxboot.S']},
-+    'kvmvapic': {'src': ['kvmvapic.S']},
-+    'pvh': {'src': ['pvh.S', 'pvh_main.c']},
-+   }
-+    img = executable(
-+      target + '.img',
-+      opt['src'],
-+      c_args: [c_args, opt.get('cargs', [])],
-+      include_directories: include_directories('../../include'),
-+      link_args: link_args,
-+    )
-+
-+    raw = custom_target(
-+      target + '.raw',
-+      output: target + '.raw',
-+      input: img,
-+      command: [objcopy, '-O', 'binary', '-j', '.text', '@INPUT@', '@OUTPUT@'],
-+    )
-+
-+    bin = custom_target(
-+      target + '.bin',
-+      output: target + '.bin',
-+      input: raw,
-+      command: [signrom, '@INPUT@', '@OUTPUT@'],
-+      build_by_default: true,
-+    )
-+  endforeach
-+endif
-diff --git a/scripts/signrom.py b/scripts/signrom.py
-index 313ee28a17..ba9ac0350e 100644
---- a/scripts/signrom.py
-+++ b/scripts/signrom.py
-@@ -1,3 +1,5 @@
-+#!/usr/bin/env python
-+
- from __future__ import print_function
- #
- # Option ROM signing utility
+-    # Post-process all the unnested vars
+-    $(foreach v,$2,
+-        $(foreach o, $(filter %.mo,$($v)),
+-            # Find all the .mo objects in variables and add dependency rules
+-            # according to .mo-objs. Report error if not set
+-            $(if $($o-objs),
+-                $(eval $(o:%.mo=%$(DSOSUF)): module-common.o $($o-objs))))
+-        $(shell mkdir -p ./ $(sort $(dir $($v))))
+-        # Include all the .d files
+-        $(eval -include $(patsubst %.o,%.d,$(patsubst %.mo,%.d,$(filter %.o,$($v)))))
+-        $(eval $v := $(filter-out %/,$($v))))
+-endef
 -- 
 2.21.0
 
