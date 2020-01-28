@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE5D614BF46
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 19:10:39 +0100 (CET)
-Received: from localhost ([::1]:34924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21FAB14BF2D
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Jan 2020 19:08:04 +0100 (CET)
+Received: from localhost ([::1]:34902 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwVJu-0002Us-LR
-	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 13:10:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58096)
+	id 1iwVHP-0007S6-4q
+	for lists+qemu-devel@lfdr.de; Tue, 28 Jan 2020 13:08:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58102)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iwV4I-0006Uj-I3
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:54:32 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iwV4I-0006WJ-Ei
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:54:31 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iwV4G-0008L3-JJ
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:54:29 -0500
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:50732)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iwV4H-0008Mk-99
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:54:30 -0500
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:32930)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iwV4G-0008IP-D1
- for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:54:28 -0500
-Received: by mail-wm1-x330.google.com with SMTP id a5so3523334wmb.0
- for <qemu-devel@nongnu.org>; Tue, 28 Jan 2020 09:54:27 -0800 (PST)
+ id 1iwV4H-0008Kk-2U
+ for qemu-devel@nongnu.org; Tue, 28 Jan 2020 12:54:29 -0500
+Received: by mail-wm1-x342.google.com with SMTP id m10so2318108wmc.0
+ for <qemu-devel@nongnu.org>; Tue, 28 Jan 2020 09:54:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=gnuJrzJMsy83i/juNiNrTB42IxUjXYwNq6iNGjiTIgE=;
- b=MESs5IiaseSx+qdPosxBSAjb5kqr0zBgOE0rp3FlJ3wZiZx+aoUL5Lg9nXfwkvxT+q
- idRPypNFsX17x9J3EioEriMFsnGl2wK4tF0bHBnMYULwYEkThvAN1gg5swuLYjV0wPXK
- cWXKraAt1uCzs/MSVe3qHg2Y59hD05twqw8smA1iAMQy581ga1RfTi2ilc17ZL8RMUFv
- EPkoTmjp2clSHU4OGQCjTFu77zXZVNV7U/s7k+rjF/8LUouUrAz5RUVySDSA3dJ5j3Ra
- a0mtF2zYifWcdUnlCz3dV8dXk6rSlesAxTBXNZopkGcgBCMCJTuWLtKJ9lJpsTC+gxdY
- AC5g==
+ bh=qSGNSZ4LLs8L913XxoD2kYp6B0ALh2tsPmhGXALrdSs=;
+ b=OzI0FXcutbJ9y5lw59va4idbimLGg3tiNr06ZHGXYZA8CRtI77m3ZfWn6C8BeCqTtu
+ Qm/G1XBqYJqlAtTh2oum6nPvp86uv75LGYbMk20xTssBqPpwMTGqxjd8YKSoVVeRmQdI
+ S4YwZflasYzBdvkep5vukVNc2DR0x94Su08FZ4FadXykfGsJD/BS3QQBsrlG59OBxuMV
+ vAjf7K6/wbkh3uWJPyOf8KGtJcH+Mr30gMGoSuuCfOx9rBROdEHn+b/ok2uAlOFpSsmf
+ oxbdslWSEMzz4NUehWwBKwQiaGwhihCWMCeEjBKb9kRg8kogXGii05UEns0oOkzki5hM
+ Ai1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=gnuJrzJMsy83i/juNiNrTB42IxUjXYwNq6iNGjiTIgE=;
- b=P6h8rBWccd9DczvlQqqzjDStz9IstMRCM6m+EBGPQRRbhjZ9Ygut6XaGO61/7UNyDR
- AGdCF+7p6zwRnVcbKBNJCR0CIDq6T4YYE4uLWoXCU9/r6uzd9Wc0ffXbhYxVt5eNNgK6
- ysBcvArn6CIuGHlMJgY5uA0Bf7zSQJePSPajSDIg8+WpXJ4xtQNpfpXBUbFivJVHLpdO
- WeuF/cHEfSNHEtYhvzSTgYHS3PTWug9c25avdnY0pru0/A411gw54eGfMncvbGNLlPcu
- cx/rjkTkIKgB2zEOeix6RJ0gk6bVFRx5oU1TzTALIJHszr6aXX+yyEJZ+4h+kEMgIvMz
- Wx3w==
-X-Gm-Message-State: APjAAAWUAGduSYgneikszydCwgsQ/z/WUz3e8j1Ag567B0R9K6aw8N0u
- HyN3Go2N/0sSPh4fMn3AMP6ndRrt
-X-Google-Smtp-Source: APXvYqwnQgQ3dv2o5f7SpBpt34AS/UqJ/aaKJAP2+Z5fvpvitjuhcTG31RF6/Yi67cxpJKUvr/UTUg==
-X-Received: by 2002:a7b:cc6a:: with SMTP id n10mr6351802wmj.170.1580234066011; 
- Tue, 28 Jan 2020 09:54:26 -0800 (PST)
+ bh=qSGNSZ4LLs8L913XxoD2kYp6B0ALh2tsPmhGXALrdSs=;
+ b=gIuIZH3I3EBnOaqmSbPsno3F1gNd09z0Iv6Q/Xzj/2UWuXI0VxWMRmne8b/l0mFDqV
+ wFkvST+K5NDMLAPEbBMIC1FkiapQCUctC/+EoC8FHCYj1BuRA+pkNKcn3ehqt5JwmfJ4
+ tfnKUCHGSjXaCmUnvIW1JjmGovB8muayW/zj+S7o+QozuTu1skyyc+wBqWkzBwqPMCsA
+ khlvqVtPZASPDX/DbndsPkXalUKDW7zfHxRAdZmtllKr3ln1ensFYIpP/Xufk6b61yZf
+ 0taPogx4YnhnHTzg7rRy2+z3AsyPVHeK82w4AWODivcQaWXyiW3tv34glrnnEHWxO4cX
+ i9jQ==
+X-Gm-Message-State: APjAAAUOZEsOh6vD5TIMK6KdCcYSXMgxSX9fAsfGLCCtFbsKR6zrx+cr
+ HE/oX8Y/84vfUOUB99MmWLSe4WdF
+X-Google-Smtp-Source: APXvYqwkG8E02rXpPH5nNw+h0xSxTuyfP0s+Erq8fHPbDN7zNX8t5VEb/uNQKhXMWi86syj2LcmMeA==
+X-Received: by 2002:a7b:c152:: with SMTP id z18mr6233429wmi.70.1580234067863; 
+ Tue, 28 Jan 2020 09:54:27 -0800 (PST)
 Received: from localhost.localdomain (93-36-56-206.ip58.fastwebnet.it.
  [93.36.56.206])
- by smtp.gmail.com with ESMTPSA id o4sm27046968wrx.25.2020.01.28.09.54.24
+ by smtp.gmail.com with ESMTPSA id o4sm27046968wrx.25.2020.01.28.09.54.26
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Jan 2020 09:54:25 -0800 (PST)
+ Tue, 28 Jan 2020 09:54:27 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 015/142] meson: add version.o
-Date: Tue, 28 Jan 2020 18:51:35 +0100
-Message-Id: <20200128175342.9066-16-pbonzini@redhat.com>
+Subject: [PATCH 016/142] contrib/libvhost-user: convert to Meson
+Date: Tue, 28 Jan 2020 18:51:36 +0100
+Message-Id: <20200128175342.9066-17-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200128175342.9066-1-pbonzini@redhat.com>
 References: <20200128175342.9066-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::330
+X-Received-From: 2a00:1450:4864:20::342
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,44 +79,116 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-André Lureau <marcandre.lureau@redhat.com>
+Since libqemuutil.a has been converted to Meson, the conversion is
+straightforward.
 
-Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- meson.build | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+ Makefile                            | 14 ++++----------
+ Makefile.objs                       |  1 -
+ contrib/libvhost-user/Makefile.objs |  1 -
+ contrib/libvhost-user/meson.build   |  2 ++
+ meson.build                         |  8 ++++++++
+ 5 files changed, 14 insertions(+), 12 deletions(-)
+ delete mode 100644 contrib/libvhost-user/Makefile.objs
+ create mode 100644 contrib/libvhost-user/meson.build
 
+diff --git a/Makefile b/Makefile
+index f9c3b73ba6..e09b20887c 100644
+--- a/Makefile
++++ b/Makefile
+@@ -290,7 +290,6 @@ dummy := $(call unnest-vars,, \
+                 ivshmem-client-obj-y \
+                 ivshmem-server-obj-y \
+                 rdmacm-mux-obj-y \
+-                libvhost-user-obj-y \
+                 vhost-user-scsi-obj-y \
+                 vhost-user-blk-obj-y \
+                 vhost-user-input-obj-y \
+@@ -405,11 +404,6 @@ $(BUILD_DIR)/version.o: $(SRC_PATH)/version.rc config-host.h
+ 
+ Makefile: $(version-obj-y)
+ 
+-######################################################################
+-# Build libraries
+-
+-libvhost-user.a: $(libvhost-user-obj-y)
+-
+ ######################################################################
+ 
+ COMMON_LDADDS = libqemuutil.a
+@@ -506,21 +500,21 @@ ivshmem-client$(EXESUF): $(ivshmem-client-obj-y) $(COMMON_LDADDS)
+ ivshmem-server$(EXESUF): $(ivshmem-server-obj-y) $(COMMON_LDADDS)
+ 	$(call LINK, $^)
+ endif
+-vhost-user-scsi$(EXESUF): $(vhost-user-scsi-obj-y) libvhost-user.a $(COMMON_LDADDS)
++vhost-user-scsi$(EXESUF): $(vhost-user-scsi-obj-y) contrib/libvhost-user/libvhost-user.a $(COMMON_LDADDS)
+ 	$(call LINK, $^)
+-vhost-user-blk$(EXESUF): $(vhost-user-blk-obj-y) libvhost-user.a $(COMMON_LDADDS)
++vhost-user-blk$(EXESUF): $(vhost-user-blk-obj-y) contrib/libvhost-user/libvhost-user.a $(COMMON_LDADDS)
+ 	$(call LINK, $^)
+ 
+ rdmacm-mux$(EXESUF): LIBS += "-libumad"
+ rdmacm-mux$(EXESUF): $(rdmacm-mux-obj-y) $(COMMON_LDADDS)
+ 	$(call LINK, $^)
+ 
+-vhost-user-gpu$(EXESUF): $(vhost-user-gpu-obj-y) $(libvhost-user-obj-y) $(COMMON_LDADDS)
++vhost-user-gpu$(EXESUF): $(vhost-user-gpu-obj-y) contrib/libvhost-user/libvhost-user.a $(COMMON_LDADDS)
+ 	$(call LINK, $^)
+ 
+ ifdef CONFIG_VHOST_USER_INPUT
+ ifdef CONFIG_LINUX
+-vhost-user-input$(EXESUF): $(vhost-user-input-obj-y) libvhost-user.a $(COMMON_LDADDS)
++vhost-user-input$(EXESUF): $(vhost-user-input-obj-y) contrib/libvhost-user/libvhost-user.a $(COMMON_LDADDS)
+ 	$(call LINK, $^)
+ 
+ # build by default, do not install
+diff --git a/Makefile.objs b/Makefile.objs
+index dc726b2131..9a14ef50fd 100644
+--- a/Makefile.objs
++++ b/Makefile.objs
+@@ -108,7 +108,6 @@ qga-vss-dll-obj-y = qga/
+ elf2dmp-obj-y = contrib/elf2dmp/
+ ivshmem-client-obj-$(CONFIG_IVSHMEM) = contrib/ivshmem-client/
+ ivshmem-server-obj-$(CONFIG_IVSHMEM) = contrib/ivshmem-server/
+-libvhost-user-obj-y = contrib/libvhost-user/
+ vhost-user-scsi.o-cflags := $(LIBISCSI_CFLAGS)
+ vhost-user-scsi.o-libs := $(LIBISCSI_LIBS)
+ vhost-user-scsi-obj-y = contrib/vhost-user-scsi/
+diff --git a/contrib/libvhost-user/Makefile.objs b/contrib/libvhost-user/Makefile.objs
+deleted file mode 100644
+index ef3778edd4..0000000000
+--- a/contrib/libvhost-user/Makefile.objs
++++ /dev/null
+@@ -1 +0,0 @@
+-libvhost-user-obj-y += libvhost-user.o libvhost-user-glib.o
+diff --git a/contrib/libvhost-user/meson.build b/contrib/libvhost-user/meson.build
+new file mode 100644
+index 0000000000..03ba2af071
+--- /dev/null
++++ b/contrib/libvhost-user/meson.build
+@@ -0,0 +1,2 @@
++libvhost_user = static_library('vhost-user',
++                               [files('libvhost-user.c', 'libvhost-user-glib.c')])
 diff --git a/meson.build b/meson.build
-index d22c0c93d3..94727e8dfb 100644
+index 94727e8dfb..6e5240c37e 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -23,8 +23,14 @@ configure_file(input: files('scripts/ninjatool.py'),
- m = cc.find_library('m', required: false)
- util = cc.find_library('util', required: false)
- socket = []
-+version_res = []
- if host_machine.system() == 'windows'
-   socket = cc.find_library('ws2_32')
-+
-+  win = import('windows')
-+  version_res = win.compile_resources('version.rc',
-+                                      depend_files: files('pc-bios/qemu-nsis.ico'),
-+                                      include_directories: include_directories('.'))
- endif
- glib = declare_dependency(compile_args: config_host['GLIB_CFLAGS'].split(),
-                           link_args: config_host['GLIB_LIBS'].split())
-@@ -179,4 +185,5 @@ util_ss = util_ss.apply(config_host, strict: false)
- libqemuutil = static_library('qemuutil',
-                              sources: util_ss.sources() + stub_ss.sources() + genh,
+@@ -187,3 +187,11 @@ libqemuutil = static_library('qemuutil',
                               dependencies: [util_ss.dependencies(), m, glib, socket])
--qemuutil = declare_dependency(link_with: libqemuutil)
-+qemuutil = declare_dependency(link_with: libqemuutil,
-+                              sources: version_res)
+ qemuutil = declare_dependency(link_with: libqemuutil,
+                               sources: version_res)
++
++# Other build targets
++
++if have_tools
++  if 'CONFIG_VHOST_USER' in config_host
++    subdir('contrib/libvhost-user')
++  endif
++endif
 -- 
 2.21.0
 
