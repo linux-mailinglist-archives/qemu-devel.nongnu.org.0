@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3418914D419
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jan 2020 00:54:09 +0100 (CET)
-Received: from localhost ([::1]:53220 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2D7414D43A
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jan 2020 00:59:45 +0100 (CET)
+Received: from localhost ([::1]:53494 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwx9s-0001PT-8f
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jan 2020 18:54:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43099)
+	id 1iwxFI-0008IB-O4
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jan 2020 18:59:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45039)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iwx6g-00063b-D4
- for qemu-devel@nongnu.org; Wed, 29 Jan 2020 18:50:51 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1iwxC0-0003VV-IA
+ for qemu-devel@nongnu.org; Wed, 29 Jan 2020 18:56:21 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iwx6f-00021Q-D5
- for qemu-devel@nongnu.org; Wed, 29 Jan 2020 18:50:50 -0500
-Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:40980)
+ (envelope-from <richard.henderson@linaro.org>) id 1iwxBy-0006YF-BU
+ for qemu-devel@nongnu.org; Wed, 29 Jan 2020 18:56:19 -0500
+Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e]:54658)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iwx6f-0001z1-86
- for qemu-devel@nongnu.org; Wed, 29 Jan 2020 18:50:49 -0500
-Received: by mail-pg1-x541.google.com with SMTP id x8so633211pgk.8
- for <qemu-devel@nongnu.org>; Wed, 29 Jan 2020 15:50:49 -0800 (PST)
+ id 1iwxBy-0006UU-48
+ for qemu-devel@nongnu.org; Wed, 29 Jan 2020 18:56:18 -0500
+Received: by mail-pj1-x102e.google.com with SMTP id dw13so497319pjb.4
+ for <qemu-devel@nongnu.org>; Wed, 29 Jan 2020 15:56:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=hzb8NcUQbv45scvKLglQU4SM5eoWvCxZQ9M8gcvvhdo=;
- b=FodJI5lxpDaSXWte5AGYcFjO1ff3+cS1m6o4m/yzDx97xcRvoiSuJkLt1KrWa/vOBK
- RffW80IC6wjZcvufWyVRl7eoDyPj+PMiL5XreA5iNAkaCqeaMXecJo7mHxI66dtAAZdS
- pILP9QWcFtbOs3S+/6/1/LnrCPVwZS31BlADUPuYxZPEiGPp5wVfOT8mBuQS8TYZ3Gdz
- Ah+YZOOB6k9vwCRI1EVSK+XQiTCPbnvQH1NUcasW3j0kVLmTft+bQ/MpMr+QT4PKjiz/
- ZCrB8aSA0wT+rxrL2QQroS+a2CyWCXAAXeRvQMKRMC07QKyLGQYoGdyEIA96s73r1FTD
- xUXQ==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=oixdmiGNiYR4A87wyzZ9gvtOTzjdyaM42/ZisE5MzRg=;
+ b=t4FnqgBtCn05kJh1sp5fhFEzlVTC8keFzloD3JnrunNcVEF4fGVX66qtdQb4NBorYj
+ Ik9HGAzezwQ6qipPrXN02YuEB8yLrpaTD/4Z+dq7+M8/L7PjOhAmD4QHPHm9ukHDjEoK
+ 2NK3sjL6lB3+5YF6Di2eD4kqRahXWkrPEGoo7jCcm3q6VD9vCzl3/umE8MOAzKypdOEX
+ 5FvYMIByRTN9JG+o2pyDyD6oFbbLJz4YEpkYAS7RUz+zN4BG9OEHeZWE7tYklnfv3Fa0
+ kNEFa/O7wk3bcxTOiT78aAWe/l2eX6RAthMCneiVpGgWIc8FNzjTll3pPuLRZgvvnT+L
+ YiMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=hzb8NcUQbv45scvKLglQU4SM5eoWvCxZQ9M8gcvvhdo=;
- b=ldFOHHxNknY3C4V3+rWV7Qv7gnGySKXk8jAkAZd0mFtU0D4C/NFUxPPlRJ3xIMtE6I
- qnT+51yO2wfBmYoARsbGJZNy8bSeolYJE/DAsTsRKq3BYotmFQUilH/aGpxmlF5K3Zr+
- nNlnxuOC84JrIJ4rUYLtP7Tmv49RICLnNqAuViaZNeBjlpiWbNLR56sgwu2Qi6rDGxv+
- ng+d1UYS7+BJkPqCsnTWXFVVoRkDo20wF/5CmSwAi4hF1xAvUzkZTUFIX2csGs7Yb29j
- Ec1f7+FiIY7qT7UBV9qSXyTIL4/EXGfJiqqr5QnFAzKlXWRd5D6/djY5Dz24aWZPjoJ/
- +xNg==
-X-Gm-Message-State: APjAAAWYMdO5QQ2tSJbcwCvIyjXF1OwI00BzDUMZqZADLaINC40dz8NP
- 6MPY1sef7i7V6n96e381Z5/YDyLE48U=
-X-Google-Smtp-Source: APXvYqxu6VCiyCDuzDvriLTQ14jAVp16vKY+pu+d3SQ0b0BUboPos7Bbl/niYwrWJWy++LYEW5NqAw==
-X-Received: by 2002:a62:1409:: with SMTP id 9mr2188185pfu.2.1580341848076;
- Wed, 29 Jan 2020 15:50:48 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=oixdmiGNiYR4A87wyzZ9gvtOTzjdyaM42/ZisE5MzRg=;
+ b=Qv2C97ixlXcrZJ4aYmMfBGxW1IHvXNWQM6Okc+/apbpPXd27KNu+lj1AEnl61WC34i
+ RqnADPlUsKfo5gYXPzrnJKh0djB/7A28sFuWm67EiK4W77Kuq/NyVH7xjnoIoh63HvLP
+ x8LAfbrYnFle9mqPpDrlAY0l39UnztKiR1zmnlMw55syf2SNdTszBjH1fEMIHUL5dQhO
+ Ymo94UEttQt1N071Lhiry+VkzObaiohj5w9e9VMzqfABM/x83nbGjWs+fkjLdF+W3DQc
+ vbUeP6NcEU8/EdjaJ8Fy1XluRFatWWZv3orbiehdpUeZ1iy9ZsdvwgJOU0m3fZRtFwqx
+ nKDA==
+X-Gm-Message-State: APjAAAVdqUGBE/jY0e8biYuGYaysb9yWKnjETUtuTJw06gatTSt/wBBu
+ v/AVEQeDHSj4lxZ3jwDV5Cykaoyr6bw=
+X-Google-Smtp-Source: APXvYqwLhAEW3VKIiKMJyAuFgruskVvM1QASOlGGMPfAA79vdIlXcml4E93qBKHMIglYTU5TRtWy9g==
+X-Received: by 2002:a17:90a:109:: with SMTP id b9mr2506626pjb.77.1580342176237; 
+ Wed, 29 Jan 2020 15:56:16 -0800 (PST)
 Received: from localhost.localdomain (97-126-123-70.tukw.qwest.net.
  [97.126.123.70])
- by smtp.gmail.com with ESMTPSA id 13sm3740195pfi.78.2020.01.29.15.50.46
+ by smtp.gmail.com with ESMTPSA id r3sm3953626pfg.145.2020.01.29.15.56.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 29 Jan 2020 15:50:47 -0800 (PST)
+ Wed, 29 Jan 2020 15:56:15 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 4/4] target/ppc: Use probe_write for DCBZ
-Date: Wed, 29 Jan 2020 15:50:40 -0800
-Message-Id: <20200129235040.24022-5-richard.henderson@linaro.org>
+Subject: [PATCH v5 00/41] target/arm: Implement ARMv8.1-VHE
+Date: Wed, 29 Jan 2020 15:55:33 -0800
+Message-Id: <20200129235614.29829-1-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200129235040.24022-1-richard.henderson@linaro.org>
-References: <20200129235040.24022-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::541
+X-Received-From: 2607:f8b0:4864:20::102e
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,31 +77,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: hsp.cat7@gmail.com, qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
+Cc: peter.maydell@linaro.org, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Using probe_write instead of tlb_vaddr_to_host means that we
-process watchpoints and notdirty pages more efficiently.
+Version 5 applies the feedback given vs version 4, back in December.
+There was quite a bit (thanks) and I believe I've gotten it all.
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/ppc/mem_helper.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+FWIW, the patches without review are:
+   0028-target-arm-Add-VHE-system-register-redirection-an.patch
+   0030-target-arm-Flush-tlb-for-ASID-changes-in-EL2-0-tr.patch
+   0031-target-arm-Flush-tlbs-for-E2-0-translation-regime.patch
 
-diff --git a/target/ppc/mem_helper.c b/target/ppc/mem_helper.c
-index 0cb78777e7..98f589552b 100644
---- a/target/ppc/mem_helper.c
-+++ b/target/ppc/mem_helper.c
-@@ -298,7 +298,7 @@ static void dcbz_common(CPUPPCState *env, target_ulong addr,
-     }
- 
-     /* Try fast path translate */
--    haddr = tlb_vaddr_to_host(env, addr, MMU_DATA_STORE, mmu_idx);
-+    haddr = probe_write(env, addr, dcbz_size, mmu_idx, retaddr);
-     if (haddr) {
-         memset(haddr, 0, dcbz_size);
-     } else {
+
+r~
+
+
+Alex Bennée (1):
+  target/arm: check TGE and E2H flags for EL0 pauth traps
+
+Richard Henderson (40):
+  target/arm: Define isar_feature_aa64_vh
+  target/arm: Enable HCR_E2H for VHE
+  target/arm: Add CONTEXTIDR_EL2
+  target/arm: Add TTBR1_EL2
+  target/arm: Update CNTVCT_EL0 for VHE
+  target/arm: Split out vae1_tlbmask
+  target/arm: Split out alle1_tlbmask
+  target/arm: Simplify tlb_force_broadcast alternatives
+  target/arm: Rename ARMMMUIdx*_S12NSE* to ARMMMUIdx*_E10_*
+  target/arm: Rename ARMMMUIdx_S2NS to ARMMMUIdx_Stage2
+  target/arm: Rename ARMMMUIdx_S1NSE* to ARMMMUIdx_Stage1_E*
+  target/arm: Rename ARMMMUIdx_S1SE[01] to ARMMMUIdx_SE10_[01]
+  target/arm: Rename ARMMMUIdx*_S1E3 to ARMMMUIdx*_SE3
+  target/arm: Rename ARMMMUIdx_S1E2 to ARMMMUIdx_E2
+  target/arm: Recover 4 bits from TBFLAGs
+  target/arm: Expand TBFLAG_ANY.MMUIDX to 4 bits
+  target/arm: Rearrange ARMMMUIdxBit
+  target/arm: Tidy ARMMMUIdx m-profile definitions
+  target/arm: Reorganize ARMMMUIdx
+  target/arm: Add regime_has_2_ranges
+  target/arm: Update arm_mmu_idx for VHE
+  target/arm: Update arm_sctlr for VHE
+  target/arm: Update aa64_zva_access for EL2
+  target/arm: Update ctr_el0_access for EL2
+  target/arm: Add the hypervisor virtual counter
+  target/arm: Update timer access for VHE
+  target/arm: Update define_one_arm_cp_reg_with_opaque for VHE
+  target/arm: Add VHE system register redirection and aliasing
+  target/arm: Add VHE timer register redirection and aliasing
+  target/arm: Flush tlb for ASID changes in EL2&0 translation regime
+  target/arm: Flush tlbs for E2&0 translation regime
+  target/arm: Update arm_phys_excp_target_el for TGE
+  target/arm: Update {fp,sve}_exception_el for VHE
+  target/arm: Update get_a64_user_mem_index for VHE
+  target/arm: Update arm_cpu_do_interrupt_aarch64 for VHE
+  target/arm: Enable ARMv8.1-VHE in -cpu max
+  target/arm: Move arm_excp_unmasked to cpu.c
+  target/arm: Pass more cpu state to arm_excp_unmasked
+  target/arm: Use bool for unmasked in arm_excp_unmasked
+  target/arm: Raise only one interrupt in arm_cpu_exec_interrupt
+
+ target/arm/cpu-param.h     |    2 +-
+ target/arm/cpu-qom.h       |    1 +
+ target/arm/cpu.h           |  423 +++++--------
+ target/arm/internals.h     |   73 ++-
+ target/arm/translate.h     |    4 +-
+ target/arm/cpu.c           |  162 ++++-
+ target/arm/cpu64.c         |    1 +
+ target/arm/debug_helper.c  |   50 +-
+ target/arm/helper-a64.c    |    2 +-
+ target/arm/helper.c        | 1230 +++++++++++++++++++++++++++---------
+ target/arm/pauth_helper.c  |   14 +-
+ target/arm/translate-a64.c |   47 +-
+ target/arm/translate.c     |   74 ++-
+ 13 files changed, 1402 insertions(+), 681 deletions(-)
+
 -- 
 2.20.1
 
