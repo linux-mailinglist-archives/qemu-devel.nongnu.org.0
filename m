@@ -2,64 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7789014D281
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jan 2020 22:29:03 +0100 (CET)
-Received: from localhost ([::1]:51570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8EC714D2A5
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jan 2020 22:39:06 +0100 (CET)
+Received: from localhost ([::1]:51776 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwutS-0004Vi-EW
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jan 2020 16:29:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59624)
+	id 1iwv3B-0004yq-Oo
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jan 2020 16:39:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45002)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iwupJ-0005oU-R8
- for qemu-devel@nongnu.org; Wed, 29 Jan 2020 16:24:46 -0500
+ (envelope-from <jpewhacker@gmail.com>) id 1iwsqo-0000k5-9c
+ for qemu-devel@nongnu.org; Wed, 29 Jan 2020 14:18:11 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iwupI-0000zX-Mq
- for qemu-devel@nongnu.org; Wed, 29 Jan 2020 16:24:45 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:21511
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iwupI-0000yU-He
- for qemu-devel@nongnu.org; Wed, 29 Jan 2020 16:24:44 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580333084;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/QoB+Io08NfOpDheh+GozLBIB+1HoMFpfftGG6ycXEM=;
- b=KF234yKm0VQVg1MpAvVFmvrzQGZBqaOn6M6G4WPNgrmrwWHaQ30ejzBr3aYtt4OwJ4egVB
- ubnJaMYtxsyhCdLCXeu6N3+Qp/LZ88/xpKa+g9z+iMbK68lzqQn6s+QGYPlYRVX1PKTn5H
- P/QJHqIDvr/2fBkeO9KRW654Zti91sI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-86-SH7pic85Pg6cVdzplIih-Q-1; Wed, 29 Jan 2020 16:24:38 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 39968100550E;
- Wed, 29 Jan 2020 21:24:37 +0000 (UTC)
-Received: from x1w.redhat.com (ovpn-205-184.brq.redhat.com [10.40.205.184])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 400AC60C05;
- Wed, 29 Jan 2020 21:24:35 +0000 (UTC)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: Denis Plotnikov <dplotnikov@virtuozzo.com>,
-	qemu-devel@nongnu.org
-Subject: [PATCH v2 12/29] python/qemu/accel: Use binutils::binary_get_accels()
-Date: Wed, 29 Jan 2020 22:23:28 +0100
-Message-Id: <20200129212345.20547-13-philmd@redhat.com>
-In-Reply-To: <20200129212345.20547-1-philmd@redhat.com>
-References: <20200129212345.20547-1-philmd@redhat.com>
+ (envelope-from <jpewhacker@gmail.com>) id 1iwsqn-0008Sw-D2
+ for qemu-devel@nongnu.org; Wed, 29 Jan 2020 14:18:10 -0500
+Received: from mail-io1-xd42.google.com ([2607:f8b0:4864:20::d42]:36234)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <jpewhacker@gmail.com>)
+ id 1iwsqn-0008Rf-9U
+ for qemu-devel@nongnu.org; Wed, 29 Jan 2020 14:18:09 -0500
+Received: by mail-io1-xd42.google.com with SMTP id d15so1042878iog.3
+ for <qemu-devel@nongnu.org>; Wed, 29 Jan 2020 11:18:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=JssBp+Af03CgiiTxeYvhyMv5hXNuQpZd/7qsT00yHQk=;
+ b=ctvexfqjoGQ5T5Sn1vLgbpYvSzDPoj0uoS0TVohl3YJz2a5tiDMM2aGASlTNA4rsx2
+ mpuudbsaV3AZLL6Vh7gIfijPEHoqBPgPhuesItEkbDDzOTIKd4fvn3Yqgma/MyRog04b
+ f8kjNuD9QFnqMNCYEjSTQ7c+MMeFQ2TSwjFNPYL/wyAlJUXyim/H3XyhDo+kwxKCKuK+
+ lkszu7Y7eYQt2l0h8qj5xS3BkelgIH1uCUFCZ4kD7Kyi/evF9lu5NIl0obgY1dZlIqA0
+ RCJHQo4AmV8vG54JUEV37uDn4xUk18n91xqRk6gim7rZz73J/xzy2BwKCGJV2Lb7nnRq
+ dw3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=JssBp+Af03CgiiTxeYvhyMv5hXNuQpZd/7qsT00yHQk=;
+ b=kRVzyOqrrYtk+tblnqVWoQsu02R+E/8Opm3jcn1JwF4wQ3VWktqZgYIN21n65Gssvs
+ RIrnLoKxDo9QLM1wn+VgQqkxJmePJzJUjB26CHDbViJUZrMo6Y/KqcVXuppMbybpT/zU
+ OtiebODkJk9dPlrFVPs8zsikHz3E0Gnta3gTmtulgjtfCBizuJacm6RyuK32FrE8ciYg
+ HZVa+RWcLkyTqznXGjCJWgLGGxyp4YkX4CAhDWGDKbSkzbZx4nSsbbUwfHUdzyfL8VEw
+ A+n9uMeObqBtdkFRtxkz1Fp2ZJWWp7lIjfkzxce8MKFNwK19NAEzksGgN5G9INOGwcug
+ IusA==
+X-Gm-Message-State: APjAAAWymEUUsYUauCb61OMPnoWmkYrd0zC2ssnILXVC8jaqw6xrMWsB
+ Vj/Gr6/5OD3xwpGY8OGNW9LlDd3mLJY=
+X-Google-Smtp-Source: APXvYqxuHq/oBv4epVwHoQWW9A0tiqDb88Ly6lD0S4ibzNEGAvMeRJlBG3wt4HVmpfBJUbFMirJsmQ==
+X-Received: by 2002:a5d:905a:: with SMTP id v26mr887540ioq.77.1580325487942;
+ Wed, 29 Jan 2020 11:18:07 -0800 (PST)
+Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
+ by smtp.gmail.com with ESMTPSA id i13sm767646ioi.67.2020.01.29.11.18.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 29 Jan 2020 11:18:07 -0800 (PST)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] ui/gtk: Respect -show-cursor option
+Date: Wed, 29 Jan 2020 13:17:29 -0600
+Message-Id: <20200129191754.3578615-1-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: SH7pic85Pg6cVdzplIih-Q-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::d42
+X-Mailman-Approved-At: Wed, 29 Jan 2020 16:37:05 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,80 +77,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Cornelia Huck <cohuck@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>, Joshua Watt <JPEWhacker@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Instead of parsing the process help output, use the
-binary_get_accels() helper which queries the list of
-accelerators over a QMP socket.
+If the user specifies the -show-cursor option, force the cursor to be
+shown even if it would not otherwise.
 
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 ---
- python/qemu/accel.py | 26 ++++----------------------
- 1 file changed, 4 insertions(+), 22 deletions(-)
+ ui/gtk.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/python/qemu/accel.py b/python/qemu/accel.py
-index 0b38ddf0ab..cde51ae159 100644
---- a/python/qemu/accel.py
-+++ b/python/qemu/accel.py
-@@ -16,7 +16,8 @@ accelerators.
-=20
- import logging
- import os
--import subprocess
-+
-+from .binutils import binary_get_accels
-=20
- LOG =3D logging.getLogger(__name__)
-=20
-@@ -27,25 +28,6 @@ ADDITIONAL_ARCHES =3D {
-     "aarch64" : "armhf"
- }
-=20
--def list_accel(qemu_bin):
--    """
--    List accelerators enabled in the QEMU binary.
--
--    @param qemu_bin (str): path to the QEMU binary.
--    @raise Exception: if failed to run `qemu -accel help`
--    @return a list of accelerator names.
--    """
--    if not qemu_bin:
--        return []
--    try:
--        out =3D subprocess.check_output([qemu_bin, '-accel', 'help'],
--                                      universal_newlines=3DTrue)
--    except:
--        LOG.debug("Failed to get the list of accelerators in %s", qemu_bin=
-)
--        raise
--    # Skip the first line which is the header.
--    return [acc.strip() for acc in out.splitlines()[1:]]
--
- def kvm_available(target_arch=3DNone, qemu_bin=3DNone):
-     """
-     Check if KVM is available using the following heuristic:
-@@ -64,7 +46,7 @@ def kvm_available(target_arch=3DNone, qemu_bin=3DNone):
-         if target_arch !=3D host_arch:
-             if target_arch !=3D ADDITIONAL_ARCHES.get(host_arch):
-                 return False
--    if qemu_bin and "kvm" not in list_accel(qemu_bin):
-+    if qemu_bin and "kvm" not in binary_get_accels(qemu_bin):
-         return False
-     return True
-=20
-@@ -74,4 +56,4 @@ def tcg_available(qemu_bin):
-=20
-     @param qemu_bin (str): path to the QEMU binary
-     """
--    return 'tcg' in list_accel(qemu_bin)
-+    return 'tcg' in binary_get_accels(qemu_bin)
---=20
-2.21.1
+diff --git a/ui/gtk.c b/ui/gtk.c
+index d18892d1de..bdd1b53236 100644
+--- a/ui/gtk.c
++++ b/ui/gtk.c
+@@ -258,7 +258,8 @@ static void gd_update_cursor(VirtualConsole *vc)
+     }
+ 
+     window = gtk_widget_get_window(GTK_WIDGET(vc->gfx.drawing_area));
+-    if (s->full_screen || qemu_input_is_absolute() || s->ptr_owner == vc) {
++    if (cursor_hide &&
++        (s->full_screen || qemu_input_is_absolute() || s->ptr_owner == vc)) {
+         gdk_window_set_cursor(window, s->null_cursor);
+     } else {
+         gdk_window_set_cursor(window, NULL);
+-- 
+2.24.1
 
 
