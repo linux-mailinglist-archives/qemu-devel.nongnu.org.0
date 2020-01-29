@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A315814D44A
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jan 2020 01:05:11 +0100 (CET)
-Received: from localhost ([::1]:53624 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B0C814D49B
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jan 2020 01:19:11 +0100 (CET)
+Received: from localhost ([::1]:54022 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwxKY-0007kf-Mc
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jan 2020 19:05:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45476)
+	id 1iwxY6-0006ZG-KB
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jan 2020 19:19:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45483)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iwxCU-0004Ba-JJ
- for qemu-devel@nongnu.org; Wed, 29 Jan 2020 18:56:51 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1iwxCU-0004Bs-Od
+ for qemu-devel@nongnu.org; Wed, 29 Jan 2020 18:56:52 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iwxCT-0008Fw-E0
+ (envelope-from <richard.henderson@linaro.org>) id 1iwxCT-0008Gs-KR
  for qemu-devel@nongnu.org; Wed, 29 Jan 2020 18:56:50 -0500
-Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:37261)
+Received: from mail-pj1-x1043.google.com ([2607:f8b0:4864:20::1043]:50702)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iwxCQ-000883-4k
+ id 1iwxCT-0008CE-Ci
  for qemu-devel@nongnu.org; Wed, 29 Jan 2020 18:56:49 -0500
-Received: by mail-pg1-x544.google.com with SMTP id q127so650647pga.4
- for <qemu-devel@nongnu.org>; Wed, 29 Jan 2020 15:56:46 -0800 (PST)
+Received: by mail-pj1-x1043.google.com with SMTP id r67so508014pjb.0
+ for <qemu-devel@nongnu.org>; Wed, 29 Jan 2020 15:56:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=qRKwqyVud14kmLqcBJZ9BOc7sQ/amtWCt21hXg2UNtM=;
- b=on4o/zGUYgNqRKSks1mmwPFQd2ioIxvx3Q0OMSb/fvonp+3RiI2G9ut3MbXHj0Rcg4
- qsWkXai61NxzA4RDD3IBtTR+GNDqkL1OgqR35ngqCzssokXyEeL2WuYF90kFv+nLMjDs
- f24xtJ5iYKW/5yjRbWTtbesmldLhH4GAG5umTaayvEVoFBzERBdB1VhFShk/aIi54IAf
- mFYDKLa6VFK4xwawtG8lBbiZwyUZ57h8UgP/SKafgfnlvcxDz1yRhknp4jNZtWMoKhW0
- 7LlNlg9Y25MaN+eA/6FS8asj9cEd+D6du9vlSRnejnbr8YLCTMxhIrj4W69FCxo0VlVi
- G34Q==
+ bh=B70lUsejZyqB+eYbfOUUmwYftosrBwYUJeBX3Yctqno=;
+ b=nZhrTj5CPpy36/NRxqphTe4VNUA/eJa7SViOdyFJCCyd9AvP9m/dJkslUcXh30bfqR
+ JJmburJ2oPLq5uz8qm41dTKXf+zbsBwxmrA1EOPWv9qD2pfLmvDmzHc6dv1BLAHJGVdM
+ pVMlSg0lDbwof3d5e/470xPAovxcY9Tqodirts/GaN32+qIWNNLKgup5c3KLgm4YrIFr
+ gMn+Eab8Ljj2wVuogOWFXrHi+bb0IBP/jTPAwWKS9XUeshb4cEwcOTNiqKEDm9Fsol8L
+ Q+KWPSTJFTsitVUuuQhZkMLEY9m92dnl5mouexOzFrCfgiL5pRwLCq+WmZ0h/VBrftiq
+ xneQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=qRKwqyVud14kmLqcBJZ9BOc7sQ/amtWCt21hXg2UNtM=;
- b=jB4QnXWKQfsYi8wombvSKmHm9/LYl+8MPuG7Rx//EHofJHoSXvFl8wH5BWWmAJJOMD
- SaLLIwUPFd54PRJZXFpNapTtdYgiJc+4iXoypwj5Zw4H+gH7gEVnW97w3LALQgIUjBWG
- sqWv63djhM0ILYK6/15dzGScTbugrpj9LMubJN2aFH+2HyRZxtMT6Efl+4SwXxdH1kxd
- JuFAQlyVnWZV1kNnzilR9/vWoGJTYlYbg5yG2/JxiltoXd+NlWSVDAqgWtxGr1FYu0Kr
- S7KhzLUQ5fl1EeIHp1hmwQy7qQwur/Zk3KxCC8p301q0afBBdouzJ6gWx5VVAgESejIy
- 4Gzw==
-X-Gm-Message-State: APjAAAXg4rWv/SIAMUZmnJOc9h7feNP6qdMyNm72YkWPNyvUrNDKJJK2
- 9Cjzw5x1ys+QS1hUREUCksnjUriWsVA=
-X-Google-Smtp-Source: APXvYqwFx8FMeDStpEeg/Q6ALLJfz7hOCe7LIQxt/sNaXjfxxokyXoWaoW7afAp0zkjvh6GsehrdtA==
-X-Received: by 2002:a63:7119:: with SMTP id m25mr1716444pgc.131.1580342204867; 
- Wed, 29 Jan 2020 15:56:44 -0800 (PST)
+ bh=B70lUsejZyqB+eYbfOUUmwYftosrBwYUJeBX3Yctqno=;
+ b=PdepMMr94l5Ql9FKAOjLdqozhZYpRZii/2SqVi+tVTMoXOf5oi1Udx9RyF1fXhrNWD
+ sQX1zDsMEZRQtQ87gfR/uBlKVn9/aL4nDJLKqwsrD9QvyEsCBz8E/j5OLTB31vVAv3d6
+ lke7lt1g5AXYYYhyX7IfboVXsyUjPuasq7SXHz6SIlfrzxI9wDZgW+9dnUbRY87XX4c6
+ 7nVsMr41j0sLufTa8QhvYDxAGHMmDsz6zb6Y6qMSICPPvuVfu6guyYolkfPOXVaaOVyj
+ CDJ9eNKx6EkRiRO3Nq4vnt2V4xckgCUayY9+m1VRIDFbuWRN3Ys4NUfk3tAODPXcgyNP
+ dMIA==
+X-Gm-Message-State: APjAAAXwsKu0UptgEKigV5UoYwpDhOVXxWV8yVSe4mwKZqiaSjNnkV3a
+ ZEmCspB5a+x2kK6oqOqPl0nsRBraIHo=
+X-Google-Smtp-Source: APXvYqx6CAdRF0wntfuI3zXREzfGM+To6EK4CWrN3cyvxKygOXC/1WXjv8WyJPYmRqp7tKzuTdpzvw==
+X-Received: by 2002:a17:902:8ec9:: with SMTP id
+ x9mr1953139plo.182.1580342206210; 
+ Wed, 29 Jan 2020 15:56:46 -0800 (PST)
 Received: from localhost.localdomain (97-126-123-70.tukw.qwest.net.
  [97.126.123.70])
- by smtp.gmail.com with ESMTPSA id r3sm3953626pfg.145.2020.01.29.15.56.43
+ by smtp.gmail.com with ESMTPSA id r3sm3953626pfg.145.2020.01.29.15.56.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 29 Jan 2020 15:56:44 -0800 (PST)
+ Wed, 29 Jan 2020 15:56:45 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 23/41] target/arm: Update aa64_zva_access for EL2
-Date: Wed, 29 Jan 2020 15:55:56 -0800
-Message-Id: <20200129235614.29829-24-richard.henderson@linaro.org>
+Subject: [PATCH v5 24/41] target/arm: Update ctr_el0_access for EL2
+Date: Wed, 29 Jan 2020 15:55:57 -0800
+Message-Id: <20200129235614.29829-25-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200129235614.29829-1-richard.henderson@linaro.org>
 References: <20200129235614.29829-1-richard.henderson@linaro.org>
@@ -67,7 +68,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::544
+X-Received-From: 2607:f8b0:4864:20::1043
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,8 +84,7 @@ Cc: peter.maydell@linaro.org, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The comment that we don't support EL2 is somewhat out of date.
-Update to include checks against HCR_EL2.TDZ.
+Update to include checks against HCR_EL2.TID2.
 
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
@@ -93,17 +93,17 @@ Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
  1 file changed, 21 insertions(+), 5 deletions(-)
 
 diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 37ea382050..33f4cbbc64 100644
+index 33f4cbbc64..e79237ea12 100644
 --- a/target/arm/helper.c
 +++ b/target/arm/helper.c
-@@ -4159,11 +4159,27 @@ static void tlbi_aa64_ipas2e1is_write(CPUARMState *env, const ARMCPRegInfo *ri,
- static CPAccessResult aa64_zva_access(CPUARMState *env, const ARMCPRegInfo *ri,
-                                       bool isread)
+@@ -5264,11 +5264,27 @@ static const ARMCPRegInfo el3_cp_reginfo[] = {
+ static CPAccessResult ctr_el0_access(CPUARMState *env, const ARMCPRegInfo *ri,
+                                      bool isread)
  {
--    /* We don't implement EL2, so the only control on DC ZVA is the
--     * bit in the SCTLR which can prohibit access for EL0.
+-    /* Only accessible in EL0 if SCTLR.UCT is set (and only in AArch64,
+-     * but the AArch32 CTR has its own reginfo struct)
 -     */
--    if (arm_current_el(env) == 0 && !(env->cp15.sctlr_el[1] & SCTLR_DZE)) {
+-    if (arm_current_el(env) == 0 && !(env->cp15.sctlr_el[1] & SCTLR_UCT)) {
 -        return CP_ACCESS_TRAP;
 +    int cur_el = arm_current_el(env);
 +
@@ -112,23 +112,23 @@ index 37ea382050..33f4cbbc64 100644
 +
 +        if (cur_el == 0) {
 +            if ((hcr & (HCR_E2H | HCR_TGE)) == (HCR_E2H | HCR_TGE)) {
-+                if (!(env->cp15.sctlr_el[2] & SCTLR_DZE)) {
++                if (!(env->cp15.sctlr_el[2] & SCTLR_UCT)) {
 +                    return CP_ACCESS_TRAP_EL2;
 +                }
 +            } else {
-+                if (!(env->cp15.sctlr_el[1] & SCTLR_DZE)) {
++                if (!(env->cp15.sctlr_el[1] & SCTLR_UCT)) {
 +                    return CP_ACCESS_TRAP;
 +                }
-+                if (hcr & HCR_TDZ) {
++                if (hcr & HCR_TID2) {
 +                    return CP_ACCESS_TRAP_EL2;
 +                }
 +            }
-+        } else if (hcr & HCR_TDZ) {
++        } else if (hcr & HCR_TID2) {
 +            return CP_ACCESS_TRAP_EL2;
 +        }
      }
-     return CP_ACCESS_OK;
- }
+ 
+     if (arm_current_el(env) < 2 && arm_hcr_el2_eff(env) & HCR_TID2) {
 -- 
 2.20.1
 
