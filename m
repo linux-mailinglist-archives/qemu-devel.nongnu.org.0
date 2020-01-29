@@ -2,43 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCF8C14D091
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jan 2020 19:36:29 +0100 (CET)
-Received: from localhost ([::1]:50044 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1994414D0D0
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jan 2020 20:00:32 +0100 (CET)
+Received: from localhost ([::1]:50252 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwsCS-0008HS-UM
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jan 2020 13:36:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55288)
+	id 1iwsZi-00037S-Mt
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jan 2020 14:00:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36361)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1iwsB0-0006QG-SO
- for qemu-devel@nongnu.org; Wed, 29 Jan 2020 13:35:01 -0500
+ (envelope-from <philmd@redhat.com>) id 1iwsYm-0002hd-24
+ for qemu-devel@nongnu.org; Wed, 29 Jan 2020 13:59:33 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1iwsAy-00047f-Fj
- for qemu-devel@nongnu.org; Wed, 29 Jan 2020 13:34:58 -0500
-Received: from mx2.rt-rk.com ([89.216.37.149]:33123 helo=mail.rt-rk.com)
+ (envelope-from <philmd@redhat.com>) id 1iwsYi-0004qw-S2
+ for qemu-devel@nongnu.org; Wed, 29 Jan 2020 13:59:30 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:26123
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
- id 1iwsAy-00042m-1A
- for qemu-devel@nongnu.org; Wed, 29 Jan 2020 13:34:56 -0500
-Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id DF6121A1FFA;
- Wed, 29 Jan 2020 19:34:53 +0100 (CET)
-X-Virus-Scanned: amavisd-new at rt-rk.com
-Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
- [10.10.14.106])
- by mail.rt-rk.com (Postfix) with ESMTPSA id B6F531A1FF4;
- Wed, 29 Jan 2020 19:34:53 +0100 (CET)
-From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 6/6] target/mips: Add implementation of GINVT instruction
-Date: Wed, 29 Jan 2020 19:34:17 +0100
-Message-Id: <1580322857-14331-7-git-send-email-aleksandar.markovic@rt-rk.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1580322857-14331-1-git-send-email-aleksandar.markovic@rt-rk.com>
-References: <1580322857-14331-1-git-send-email-aleksandar.markovic@rt-rk.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
-X-Received-From: 89.216.37.149
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iwsYi-0004q5-Ij
+ for qemu-devel@nongnu.org; Wed, 29 Jan 2020 13:59:28 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1580324368;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=m4Om27dMMc+MwDJO33ko3fPEMZ8mfK4CNT5yOi9uQV0=;
+ b=jWFW8F4YmgJrlmJSsPZnb6DkjUn2xRvlVeiz3nLoaofCEUDiBNEJmctHGth7UE5Ydvzt6u
+ vKyRqC+26j4NwauyoIFPpiLGYqby9i4sfEzgaeAk1rL2g2zznAuuMQ81Pj3Yg2kWtdWxsT
+ HJkVdLTml5mI9aTvd3ZaPUSfZSQTbDU=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-374-qTBEPwB2M2e-AUB36JNkpg-1; Wed, 29 Jan 2020 13:59:20 -0500
+Received: by mail-wr1-f70.google.com with SMTP id w6so351018wrm.16
+ for <qemu-devel@nongnu.org>; Wed, 29 Jan 2020 10:59:19 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=3ZZ+IeHTC4FUkzKLbzuxzj4KT1R3XIan3G+l/tmpPIo=;
+ b=MqOOz0kGH/Lk6BCYLjZBNDhvLgqrv15zbxgeXS/iWF+NrBDLF1y8K0PYpIqffEIh59
+ nJgmtR2jCe5NmVbmbhMg+YDkM36P9V6mfjPySBaqw8axQpaCraxx7Lu+KTveppLMFR8K
+ 0/g/Lc2hT4KfiMmsE5h0On5Ct9rynI1q9nCQ+xOnNfFsIGesXb4VPqA+o52r4ctYLc2A
+ qy5zPPbnXUNQurWNGL73LeYojooZmSXXRh70++YYGFkgQw9WtDe2LCacHszxDhvoOab9
+ t2imFQqzp2tmp5NzeGghz2gh+k4WR7i7IJHaua7GXk70z8YFAKVl2VBaUOkDfQJDgNZA
+ srkQ==
+X-Gm-Message-State: APjAAAXs3wT4az8UpHIcle1f9aPI7vaEx5/I8quO+FZo0iNJGTqsoXWF
+ M/LJN7CqD/W8AFdYg1z1Jq1iiAyVKAAi4dUO1vafQte4cnl0XmdIB7O+uH1MugXqG3uIyKZH+Fy
+ OrUp1AXqBPGtPlxk=
+X-Received: by 2002:adf:f5cb:: with SMTP id k11mr265657wrp.71.1580324359055;
+ Wed, 29 Jan 2020 10:59:19 -0800 (PST)
+X-Google-Smtp-Source: APXvYqx5snWWIuuHvNH4RE31xURvkW/qwtyl790Il40uv9J9jsvY3WMiwOCEBiTXUZ8GHD6H2jKy5w==
+X-Received: by 2002:adf:f5cb:: with SMTP id k11mr265643wrp.71.1580324358851;
+ Wed, 29 Jan 2020 10:59:18 -0800 (PST)
+Received: from [192.168.1.35] (113.red-83-57-172.dynamicip.rima-tde.net.
+ [83.57.172.113])
+ by smtp.gmail.com with ESMTPSA id c15sm3925182wrt.1.2020.01.29.10.59.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 29 Jan 2020 10:59:18 -0800 (PST)
+Subject: Re: [PATCH] default-configs: add CONFIG_PARALLEL to hppa-softmmu
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20200129182804.19284-1-alex.bennee@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <ff7dbd5f-4b38-f53b-f688-1f6841ea7bf3@redhat.com>
+Date: Wed, 29 Jan 2020 19:59:17 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
+MIME-Version: 1.0
+In-Reply-To: <20200129182804.19284-1-alex.bennee@linaro.org>
+Content-Language: en-US
+X-MC-Unique: qTBEPwB2M2e-AUB36JNkpg-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -50,511 +91,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Yongbok Kim <yongbok.kim@mips.com>,
- amarkovic@wavecomp.com
+Cc: richard.henderson@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Yongbok Kim <yongbok.kim@mips.com>
+Hi Alex,
 
-Implement emulation of GINVT instruction. As QEMU doesn't support
-caches and virtualization, this implementation covers only one
-instruction (GINVT - Global Invalidate TLB) among all TLB-related
-MIPS instructions.
+On 1/29/20 7:28 PM, Alex Benn=C3=A9e wrote:
+> The PARISC Lasi chipset emulation requires some of the common parallel
+> support and fails to build on a --without-default-devices. I am
+> assuming the chipset emulation is non-optional for the HPPA case.
+ >
 
-Reviewed-by: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>
-Signed-off-by: Yongbok Kim <yongbok.kim@mips.com>
-Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
-Message-Id: <1579883929-1517-5-git-send-email-aleksandar.markovic@rt-rk.com>
+Fixes: 376b851909d
+
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> ---
+>   default-configs/hppa-softmmu.mak | 1 +
+>   1 file changed, 1 insertion(+)
+>=20
+> diff --git a/default-configs/hppa-softmmu.mak b/default-configs/hppa-soft=
+mmu.mak
+> index b64c5eb3ff..9083ce8634 100644
+> --- a/default-configs/hppa-softmmu.mak
+> +++ b/default-configs/hppa-softmmu.mak
+> @@ -3,6 +3,7 @@
+>   # Uncomment the following lines to disable these optional devices:
+>   #
+>   #CONFIG_PCI_DEVICES=3Dn
+> +CONFIG_PARALLEL=3Dy
+
+We now use Kconfig :)
+
+CONFIG_DINO=3Dy pulls from hw/hppa/Kconfig:
+
+config DINO
+     bool
+     imply PCI_DEVICES
+     imply E1000_PCI
+     imply VIRTIO_VGA
+     select PCI
+     select SERIAL
+     select ISA_BUS
+     select I8259
+     select IDE_CMD646
+     select MC146818RTC
+     select LSI_SCSI_PCI
+     select LASI_82596
+     select LASIPS2
+     select ARTIST
+
+The fix is:
+
+-- >8 --
+diff --git a/hw/hppa/Kconfig b/hw/hppa/Kconfig
+index 82178c7dcb..22948db025 100644
+--- a/hw/hppa/Kconfig
++++ b/hw/hppa/Kconfig
+@@ -12,4 +12,5 @@ config DINO
+      select LSI_SCSI_PCI
+      select LASI_82596
+      select LASIPS2
++    select PARALLEL
+      select ARTIST
 ---
- disas/mips.c            |  10 ++++
- target/mips/cpu.h       |   2 +-
- target/mips/helper.c    |  20 ++++++--
- target/mips/helper.h    |   2 +
- target/mips/internal.h  |   1 +
- target/mips/op_helper.c | 129 +++++++++++++++++++++++++++++++++++++++++-------
- target/mips/translate.c |  46 ++++++++++++++++-
- 7 files changed, 184 insertions(+), 26 deletions(-)
 
-diff --git a/disas/mips.c b/disas/mips.c
-index dfefe5e..b9a5204 100644
---- a/disas/mips.c
-+++ b/disas/mips.c
-@@ -1409,6 +1409,16 @@ const struct mips_opcode mips_builtin_opcodes[] =
- {"dvp",        "t",     0x41600024, 0xffe0ffff, TRAP|WR_t,            0, I32R6},
- {"evp",        "",      0x41600004, 0xffffffff, TRAP,                 0, I32R6},
- {"evp",        "t",     0x41600004, 0xffe0ffff, TRAP|WR_t,            0, I32R6},
-+{"ginvi",      "v",     0x7c00003d, 0xfc1ffcff, TRAP | INSN_TLB,      0, I32R6},
-+{"ginvt",      "v",     0x7c0000bd, 0xfc1ffcff, TRAP | INSN_TLB,      0, I32R6},
-+{"crc32b",     "t,v,t", 0x7c00000f, 0xfc00ff3f, WR_d | RD_s | RD_t,   0, I32R6},
-+{"crc32h",     "t,v,t", 0x7c00004f, 0xfc00ff3f, WR_d | RD_s | RD_t,   0, I32R6},
-+{"crc32w",     "t,v,t", 0x7c00008f, 0xfc00ff3f, WR_d | RD_s | RD_t,   0, I32R6},
-+{"crc32d",     "t,v,t", 0x7c0000cf, 0xfc00ff3f, WR_d | RD_s | RD_t,   0, I64R6},
-+{"crc32cb",    "t,v,t", 0x7c00010f, 0xfc00ff3f, WR_d | RD_s | RD_t,   0, I32R6},
-+{"crc32ch",    "t,v,t", 0x7c00014f, 0xfc00ff3f, WR_d | RD_s | RD_t,   0, I32R6},
-+{"crc32cw",    "t,v,t", 0x7c00018f, 0xfc00ff3f, WR_d | RD_s | RD_t,   0, I32R6},
-+{"crc32cd",    "t,v,t", 0x7c0001cf, 0xfc00ff3f, WR_d | RD_s | RD_t,   0, I64R6},
- 
- /* MSA */
- {"sll.b",   "+d,+e,+f", 0x7800000d, 0xffe0003f, WR_VD|RD_VS|RD_VT,  0, MSA},
-diff --git a/target/mips/cpu.h b/target/mips/cpu.h
-index 7cf1b49..94d01ea 100644
---- a/target/mips/cpu.h
-+++ b/target/mips/cpu.h
-@@ -309,7 +309,7 @@ typedef struct mips_def_t mips_def_t;
- #define CP0_REG04__USERLOCAL       2
- #define CP0_REG04__XCONTEXTCONFIG  3
- #define CP0_REG04__DBGCONTEXTID    4
--#define CP0_REG00__MMID            5
-+#define CP0_REG04__MMID            5
- /* CP0 Register 05 */
- #define CP0_REG05__PAGEMASK        0
- #define CP0_REG05__PAGEGRAIN       1
-diff --git a/target/mips/helper.c b/target/mips/helper.c
-index 781930a..afd78b1 100644
---- a/target/mips/helper.c
-+++ b/target/mips/helper.c
-@@ -72,8 +72,13 @@ int r4k_map_address(CPUMIPSState *env, hwaddr *physical, int *prot,
-                     target_ulong address, int rw, int access_type)
- {
-     uint16_t ASID = env->CP0_EntryHi & env->CP0_EntryHi_ASID_mask;
-+    uint32_t MMID = env->CP0_MemoryMapID;
-+    bool mi = !!((env->CP0_Config5 >> CP0C5_MI) & 1);
-+    uint32_t tlb_mmid;
-     int i;
- 
-+    MMID = mi ? MMID : (uint32_t) ASID;
-+
-     for (i = 0; i < env->tlb->tlb_in_use; i++) {
-         r4k_tlb_t *tlb = &env->tlb->mmu.r4k.tlb[i];
-         /* 1k pages are not supported. */
-@@ -84,8 +89,9 @@ int r4k_map_address(CPUMIPSState *env, hwaddr *physical, int *prot,
-         tag &= env->SEGMask;
- #endif
- 
--        /* Check ASID, virtual page number & size */
--        if ((tlb->G == 1 || tlb->ASID == ASID) && VPN == tag && !tlb->EHINV) {
-+        /* Check ASID/MMID, virtual page number & size */
-+        tlb_mmid = mi ? tlb->MMID : (uint32_t) tlb->ASID;
-+        if ((tlb->G == 1 || tlb_mmid == MMID) && VPN == tag && !tlb->EHINV) {
-             /* TLB match */
-             int n = !!(address & mask & ~(mask >> 1));
-             /* Check access rights */
-@@ -1418,14 +1424,20 @@ void r4k_invalidate_tlb(CPUMIPSState *env, int idx, int use_extra)
-     target_ulong addr;
-     target_ulong end;
-     uint16_t ASID = env->CP0_EntryHi & env->CP0_EntryHi_ASID_mask;
-+    uint32_t MMID = env->CP0_MemoryMapID;
-+    bool mi = !!((env->CP0_Config5 >> CP0C5_MI) & 1);
-+    uint32_t tlb_mmid;
-     target_ulong mask;
- 
-+    MMID = mi ? MMID : (uint32_t) ASID;
-+
-     tlb = &env->tlb->mmu.r4k.tlb[idx];
-     /*
--     * The qemu TLB is flushed when the ASID changes, so no need to
-+     * The qemu TLB is flushed when the ASID/MMID changes, so no need to
-      * flush these entries again.
-      */
--    if (tlb->G == 0 && tlb->ASID != ASID) {
-+    tlb_mmid = mi ? tlb->MMID : (uint32_t) tlb->ASID;
-+    if (tlb->G == 0 && tlb_mmid != MMID) {
-         return;
-     }
- 
-diff --git a/target/mips/helper.h b/target/mips/helper.h
-index 5b1f8bb..84fdd9f 100644
---- a/target/mips/helper.h
-+++ b/target/mips/helper.h
-@@ -120,6 +120,7 @@ DEF_HELPER_2(mtc0_tcschefback, void, env, tl)
- DEF_HELPER_2(mttc0_tcschefback, void, env, tl)
- DEF_HELPER_2(mtc0_entrylo1, void, env, tl)
- DEF_HELPER_2(mtc0_context, void, env, tl)
-+DEF_HELPER_2(mtc0_memorymapid, void, env, tl)
- DEF_HELPER_2(mtc0_pagemask, void, env, tl)
- DEF_HELPER_2(mtc0_pagegrain, void, env, tl)
- DEF_HELPER_2(mtc0_segctl0, void, env, tl)
-@@ -376,6 +377,7 @@ DEF_HELPER_1(ei, tl, env)
- DEF_HELPER_1(eret, void, env)
- DEF_HELPER_1(eretnc, void, env)
- DEF_HELPER_1(deret, void, env)
-+DEF_HELPER_3(ginvt, void, env, tl, i32)
- #endif /* !CONFIG_USER_ONLY */
- DEF_HELPER_1(rdhwr_cpunum, tl, env)
- DEF_HELPER_1(rdhwr_synci_step, tl, env)
-diff --git a/target/mips/internal.h b/target/mips/internal.h
-index 3f435b5..df55f84 100644
---- a/target/mips/internal.h
-+++ b/target/mips/internal.h
-@@ -95,6 +95,7 @@ struct r4k_tlb_t {
-     target_ulong VPN;
-     uint32_t PageMask;
-     uint16_t ASID;
-+    uint32_t MMID;
-     unsigned int G:1;
-     unsigned int C0:3;
-     unsigned int C1:3;
-diff --git a/target/mips/op_helper.c b/target/mips/op_helper.c
-index 7425a88..15d05a5 100644
---- a/target/mips/op_helper.c
-+++ b/target/mips/op_helper.c
-@@ -1389,6 +1389,17 @@ void helper_mtc0_context(CPUMIPSState *env, target_ulong arg1)
-     env->CP0_Context = (env->CP0_Context & 0x007FFFFF) | (arg1 & ~0x007FFFFF);
- }
- 
-+void helper_mtc0_memorymapid(CPUMIPSState *env, target_ulong arg1)
-+{
-+    int32_t old;
-+    old = env->CP0_MemoryMapID;
-+    env->CP0_MemoryMapID = (int32_t) arg1;
-+    /* If the MemoryMapID changes, flush qemu's TLB.  */
-+    if (old != env->CP0_MemoryMapID) {
-+        cpu_mips_tlb_flush(env);
-+    }
-+}
-+
- void update_pagemask(CPUMIPSState *env, target_ulong arg1, int32_t *pagemask)
- {
-     uint64_t mask = arg1 >> (TARGET_PAGE_BITS + 1);
-@@ -1825,6 +1836,8 @@ void helper_mtc0_config5(CPUMIPSState *env, target_ulong arg1)
- {
-     env->CP0_Config5 = (env->CP0_Config5 & (~env->CP0_Config5_rw_bitmask)) |
-                        (arg1 & env->CP0_Config5_rw_bitmask);
-+    env->CP0_EntryHi_ASID_mask = (env->CP0_Config5 & (1 << CP0C5_MI)) ?
-+            0x0 : (env->CP0_Config4 & (1 << CP0C4_AE)) ? 0x3ff : 0xff;
-     compute_hflags(env);
- }
- 
-@@ -2268,6 +2281,7 @@ static void r4k_fill_tlb(CPUMIPSState *env, int idx)
-     tlb->VPN &= env->SEGMask;
- #endif
-     tlb->ASID = env->CP0_EntryHi & env->CP0_EntryHi_ASID_mask;
-+    tlb->MMID = env->CP0_MemoryMapID;
-     tlb->PageMask = env->CP0_PageMask;
-     tlb->G = env->CP0_EntryLo0 & env->CP0_EntryLo1 & 1;
-     tlb->V0 = (env->CP0_EntryLo0 & 2) != 0;
-@@ -2286,13 +2300,18 @@ static void r4k_fill_tlb(CPUMIPSState *env, int idx)
- 
- void r4k_helper_tlbinv(CPUMIPSState *env)
- {
--    int idx;
--    r4k_tlb_t *tlb;
-+    bool mi = !!((env->CP0_Config5 >> CP0C5_MI) & 1);
-     uint16_t ASID = env->CP0_EntryHi & env->CP0_EntryHi_ASID_mask;
-+    uint32_t MMID = env->CP0_MemoryMapID;
-+    uint32_t tlb_mmid;
-+    r4k_tlb_t *tlb;
-+    int idx;
- 
-+    MMID = mi ? MMID : (uint32_t) ASID;
-     for (idx = 0; idx < env->tlb->nb_tlb; idx++) {
-         tlb = &env->tlb->mmu.r4k.tlb[idx];
--        if (!tlb->G && tlb->ASID == ASID) {
-+        tlb_mmid = mi ? tlb->MMID : (uint32_t) tlb->ASID;
-+        if (!tlb->G && tlb_mmid == MMID) {
-             tlb->EHINV = 1;
-         }
-     }
-@@ -2311,11 +2330,16 @@ void r4k_helper_tlbinvf(CPUMIPSState *env)
- 
- void r4k_helper_tlbwi(CPUMIPSState *env)
- {
--    r4k_tlb_t *tlb;
--    int idx;
-+    bool mi = !!((env->CP0_Config5 >> CP0C5_MI) & 1);
-     target_ulong VPN;
--    uint16_t ASID;
-+    uint16_t ASID = env->CP0_EntryHi & env->CP0_EntryHi_ASID_mask;
-+    uint32_t MMID = env->CP0_MemoryMapID;
-+    uint32_t tlb_mmid;
-     bool EHINV, G, V0, D0, V1, D1, XI0, XI1, RI0, RI1;
-+    r4k_tlb_t *tlb;
-+    int idx;
-+
-+    MMID = mi ? MMID : (uint32_t) ASID;
- 
-     idx = (env->CP0_Index & ~0x80000000) % env->tlb->nb_tlb;
-     tlb = &env->tlb->mmu.r4k.tlb[idx];
-@@ -2323,7 +2347,6 @@ void r4k_helper_tlbwi(CPUMIPSState *env)
- #if defined(TARGET_MIPS64)
-     VPN &= env->SEGMask;
- #endif
--    ASID = env->CP0_EntryHi & env->CP0_EntryHi_ASID_mask;
-     EHINV = (env->CP0_EntryHi & (1 << CP0EnHi_EHINV)) != 0;
-     G = env->CP0_EntryLo0 & env->CP0_EntryLo1 & 1;
-     V0 = (env->CP0_EntryLo0 & 2) != 0;
-@@ -2335,11 +2358,12 @@ void r4k_helper_tlbwi(CPUMIPSState *env)
-     XI1 = (env->CP0_EntryLo1 >> CP0EnLo_XI) &1;
-     RI1 = (env->CP0_EntryLo1 >> CP0EnLo_RI) &1;
- 
-+    tlb_mmid = mi ? tlb->MMID : (uint32_t) tlb->ASID;
-     /*
-      * Discard cached TLB entries, unless tlbwi is just upgrading access
-      * permissions on the current entry.
-      */
--    if (tlb->VPN != VPN || tlb->ASID != ASID || tlb->G != G ||
-+    if (tlb->VPN != VPN || tlb_mmid != MMID || tlb->G != G ||
-         (!tlb->EHINV && EHINV) ||
-         (tlb->V0 && !V0) || (tlb->D0 && !D0) ||
-         (!tlb->XI0 && XI0) || (!tlb->RI0 && RI0) ||
-@@ -2362,14 +2386,17 @@ void r4k_helper_tlbwr(CPUMIPSState *env)
- 
- void r4k_helper_tlbp(CPUMIPSState *env)
- {
-+    bool mi = !!((env->CP0_Config5 >> CP0C5_MI) & 1);
-     r4k_tlb_t *tlb;
-     target_ulong mask;
-     target_ulong tag;
-     target_ulong VPN;
--    uint16_t ASID;
-+    uint16_t ASID = env->CP0_EntryHi & env->CP0_EntryHi_ASID_mask;
-+    uint32_t MMID = env->CP0_MemoryMapID;
-+    uint32_t tlb_mmid;
-     int i;
- 
--    ASID = env->CP0_EntryHi & env->CP0_EntryHi_ASID_mask;
-+    MMID = mi ? MMID : (uint32_t) ASID;
-     for (i = 0; i < env->tlb->nb_tlb; i++) {
-         tlb = &env->tlb->mmu.r4k.tlb[i];
-         /* 1k pages are not supported. */
-@@ -2379,8 +2406,9 @@ void r4k_helper_tlbp(CPUMIPSState *env)
- #if defined(TARGET_MIPS64)
-         tag &= env->SEGMask;
- #endif
--        /* Check ASID, virtual page number & size */
--        if ((tlb->G == 1 || tlb->ASID == ASID) && VPN == tag && !tlb->EHINV) {
-+        tlb_mmid = mi ? tlb->MMID : (uint32_t) tlb->ASID;
-+        /* Check ASID/MMID, virtual page number & size */
-+        if ((tlb->G == 1 || tlb_mmid == MMID) && VPN == tag && !tlb->EHINV) {
-             /* TLB match */
-             env->CP0_Index = i;
-             break;
-@@ -2397,8 +2425,9 @@ void r4k_helper_tlbp(CPUMIPSState *env)
- #if defined(TARGET_MIPS64)
-             tag &= env->SEGMask;
- #endif
--            /* Check ASID, virtual page number & size */
--            if ((tlb->G == 1 || tlb->ASID == ASID) && VPN == tag) {
-+            tlb_mmid = mi ? tlb->MMID : (uint32_t) tlb->ASID;
-+            /* Check ASID/MMID, virtual page number & size */
-+            if ((tlb->G == 1 || tlb_mmid == MMID) && VPN == tag) {
-                 r4k_mips_tlb_flush_extra(env, i);
-                 break;
-             }
-@@ -2420,16 +2449,20 @@ static inline uint64_t get_entrylo_pfn_from_tlb(uint64_t tlb_pfn)
- 
- void r4k_helper_tlbr(CPUMIPSState *env)
- {
-+    bool mi = !!((env->CP0_Config5 >> CP0C5_MI) & 1);
-+    uint16_t ASID = env->CP0_EntryHi & env->CP0_EntryHi_ASID_mask;
-+    uint32_t MMID = env->CP0_MemoryMapID;
-+    uint32_t tlb_mmid;
-     r4k_tlb_t *tlb;
--    uint16_t ASID;
-     int idx;
- 
--    ASID = env->CP0_EntryHi & env->CP0_EntryHi_ASID_mask;
-+    MMID = mi ? MMID : (uint32_t) ASID;
-     idx = (env->CP0_Index & ~0x80000000) % env->tlb->nb_tlb;
-     tlb = &env->tlb->mmu.r4k.tlb[idx];
- 
--    /* If this will change the current ASID, flush qemu's TLB.  */
--    if (ASID != tlb->ASID) {
-+    tlb_mmid = mi ? tlb->MMID : (uint32_t) tlb->ASID;
-+    /* If this will change the current ASID/MMID, flush qemu's TLB.  */
-+    if (MMID != tlb_mmid) {
-         cpu_mips_tlb_flush(env);
-     }
- 
-@@ -2441,7 +2474,8 @@ void r4k_helper_tlbr(CPUMIPSState *env)
-         env->CP0_EntryLo0 = 0;
-         env->CP0_EntryLo1 = 0;
-     } else {
--        env->CP0_EntryHi = tlb->VPN | tlb->ASID;
-+        env->CP0_EntryHi = mi ? tlb->VPN : tlb->VPN | tlb->ASID;
-+        env->CP0_MemoryMapID = tlb->MMID;
-         env->CP0_PageMask = tlb->PageMask;
-         env->CP0_EntryLo0 = tlb->G | (tlb->V0 << 1) | (tlb->D0 << 2) |
-                         ((uint64_t)tlb->RI0 << CP0EnLo_RI) |
-@@ -2484,6 +2518,63 @@ void helper_tlbinvf(CPUMIPSState *env)
-     env->tlb->helper_tlbinvf(env);
- }
- 
-+static void global_invalidate_tlb(CPUMIPSState *env,
-+                           uint32_t invMsgVPN2,
-+                           uint8_t invMsgR,
-+                           uint32_t invMsgMMid,
-+                           bool invAll,
-+                           bool invVAMMid,
-+                           bool invMMid,
-+                           bool invVA)
-+{
-+
-+    int idx;
-+    r4k_tlb_t *tlb;
-+    bool VAMatch;
-+    bool MMidMatch;
-+
-+    for (idx = 0; idx < env->tlb->nb_tlb; idx++) {
-+        tlb = &env->tlb->mmu.r4k.tlb[idx];
-+        VAMatch =
-+            (((tlb->VPN & ~tlb->PageMask) == (invMsgVPN2 & ~tlb->PageMask))
-+#ifdef TARGET_MIPS64
-+            &&
-+            (extract64(env->CP0_EntryHi, 62, 2) == invMsgR)
-+#endif
-+            );
-+        MMidMatch = tlb->MMID == invMsgMMid;
-+        if ((invAll && (idx > env->CP0_Wired)) ||
-+            (VAMatch && invVAMMid && (tlb->G || MMidMatch)) ||
-+            (VAMatch && invVA) ||
-+            (MMidMatch && !(tlb->G) && invMMid)) {
-+            tlb->EHINV = 1;
-+        }
-+    }
-+    cpu_mips_tlb_flush(env);
-+}
-+
-+void helper_ginvt(CPUMIPSState *env, target_ulong arg, uint32_t type)
-+{
-+    bool invAll = type == 0;
-+    bool invVA = type == 1;
-+    bool invMMid = type == 2;
-+    bool invVAMMid = type == 3;
-+    uint32_t invMsgVPN2 = arg & (TARGET_PAGE_MASK << 1);
-+    uint8_t invMsgR = 0;
-+    uint32_t invMsgMMid = env->CP0_MemoryMapID;
-+    CPUState *other_cs = first_cpu;
-+
-+#ifdef TARGET_MIPS64
-+    invMsgR = extract64(arg, 62, 2);
-+#endif
-+
-+    CPU_FOREACH(other_cs) {
-+        MIPSCPU *other_cpu = MIPS_CPU(other_cs);
-+        global_invalidate_tlb(&other_cpu->env, invMsgVPN2, invMsgR, invMsgMMid,
-+                              invAll, invVAMMid, invMMid, invVA);
-+    }
-+}
-+
- /* Specials */
- target_ulong helper_di(CPUMIPSState *env)
- {
-diff --git a/target/mips/translate.c b/target/mips/translate.c
-index d51330c..d745bd2 100644
---- a/target/mips/translate.c
-+++ b/target/mips/translate.c
-@@ -388,6 +388,7 @@ enum {
-     OPC_BSHFL    = 0x20 | OPC_SPECIAL3,
-     OPC_DBSHFL   = 0x24 | OPC_SPECIAL3,
-     OPC_RDHWR    = 0x3B | OPC_SPECIAL3,
-+    OPC_GINV     = 0x3D | OPC_SPECIAL3,
- 
-     /* Loongson 2E */
-     OPC_MULT_G_2E   = 0x18 | OPC_SPECIAL3,
-@@ -2548,6 +2549,7 @@ typedef struct DisasContext {
-     bool abs2008;
-     bool saar;
-     bool mi;
-+    int gi;
- } DisasContext;
- 
- #define DISAS_STOP       DISAS_TARGET_0
-@@ -7131,6 +7133,11 @@ static void gen_mfc0(DisasContext *ctx, TCGv arg, int reg, int sel)
-             tcg_gen_ext32s_tl(arg, arg);
-             register_name = "UserLocal";
-             break;
-+        case CP0_REG04__MMID:
-+            CP0_CHECK(ctx->mi);
-+            gen_helper_mtc0_memorymapid(cpu_env, arg);
-+            register_name = "MMID";
-+            break;
-         default:
-             goto cp0_unimplemented;
-         }
-@@ -7871,6 +7878,11 @@ static void gen_mtc0(DisasContext *ctx, TCGv arg, int reg, int sel)
-                           offsetof(CPUMIPSState, active_tc.CP0_UserLocal));
-             register_name = "UserLocal";
-             break;
-+        case CP0_REG04__MMID:
-+            CP0_CHECK(ctx->mi);
-+            gen_mfc0_load32(arg, offsetof(CPUMIPSState, CP0_MemoryMapID));
-+            register_name = "MMID";
-+            break;
-         default:
-             goto cp0_unimplemented;
-         }
-@@ -8629,6 +8641,11 @@ static void gen_dmfc0(DisasContext *ctx, TCGv arg, int reg, int sel)
-                           offsetof(CPUMIPSState, active_tc.CP0_UserLocal));
-             register_name = "UserLocal";
-             break;
-+        case CP0_REG04__MMID:
-+            CP0_CHECK(ctx->mi);
-+            gen_helper_mtc0_memorymapid(cpu_env, arg);
-+            register_name = "MMID";
-+            break;
-         default:
-             goto cp0_unimplemented;
-         }
-@@ -9351,6 +9368,11 @@ static void gen_dmtc0(DisasContext *ctx, TCGv arg, int reg, int sel)
-                           offsetof(CPUMIPSState, active_tc.CP0_UserLocal));
-             register_name = "UserLocal";
-             break;
-+        case CP0_REG04__MMID:
-+            CP0_CHECK(ctx->mi);
-+            gen_mfc0_load32(arg, offsetof(CPUMIPSState, CP0_MemoryMapID));
-+            register_name = "MMID";
-+            break;
-         default:
-             goto cp0_unimplemented;
-         }
-@@ -27209,6 +27231,25 @@ static void decode_opc_special3_r6(CPUMIPSState *env, DisasContext *ctx)
-             }
-         }
-         break;
-+#ifndef CONFIG_USER_ONLY
-+    case OPC_GINV:
-+        if (unlikely(ctx->gi <= 1)) {
-+            generate_exception_end(ctx, EXCP_RI);
-+        }
-+        check_cp0_enabled(ctx);
-+        switch ((ctx->opcode >> 6) & 3) {
-+        case 0:    /* GINVI */
-+            /* Treat as NOP. */
-+            break;
-+        case 2:    /* GINVT */
-+            gen_helper_0e1i(ginvt, cpu_gpr[rs], extract32(ctx->opcode, 8, 2));
-+            break;
-+        default:
-+            generate_exception_end(ctx, EXCP_RI);
-+            break;
-+        }
-+        break;
-+#endif
- #if defined(TARGET_MIPS64)
-     case R6_OPC_SCD:
-         gen_st_cond(ctx, rt, rs, imm, MO_TEQ, false);
-@@ -30767,6 +30808,7 @@ static void mips_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
-     ctx->nan2008 = (env->active_fpu.fcr31 >> FCR31_NAN2008) & 1;
-     ctx->abs2008 = (env->active_fpu.fcr31 >> FCR31_ABS2008) & 1;
-     ctx->mi = (env->CP0_Config5 >> CP0C5_MI) & 1;
-+    ctx->gi = (env->CP0_Config5 >> CP0C5_GI) & 3;
-     restore_cpu_state(env, ctx);
- #ifdef CONFIG_USER_ONLY
-         ctx->mem_idx = MIPS_HFLAG_UM;
-@@ -31227,8 +31269,8 @@ void cpu_state_reset(CPUMIPSState *env)
-     if (env->CP0_Config3 & (1 << CP0C3_CMGCR)) {
-         env->CP0_CMGCRBase = 0x1fbf8000 >> 4;
-     }
--    env->CP0_EntryHi_ASID_mask = (env->CP0_Config4 & (1 << CP0C4_AE)) ?
--                                 0x3ff : 0xff;
-+    env->CP0_EntryHi_ASID_mask = (env->CP0_Config5 & (1 << CP0C5_MI)) ?
-+            0x0 : (env->CP0_Config4 & (1 << CP0C4_AE)) ? 0x3ff : 0xff;
-     env->CP0_Status = (1 << CP0St_BEV) | (1 << CP0St_ERL);
-     /*
-      * Vectored interrupts not implemented, timer on int 7,
--- 
-2.7.4
+Btw I suggested Sven to use a different config for LASI:
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg667945.html
 
 
