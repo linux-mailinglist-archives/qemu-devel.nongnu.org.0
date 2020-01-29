@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09D7E14C833
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jan 2020 10:38:30 +0100 (CET)
-Received: from localhost ([::1]:43278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FFE314C83D
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jan 2020 10:41:47 +0100 (CET)
+Received: from localhost ([::1]:43366 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwjno-0000Gq-3N
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jan 2020 04:38:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51429)
+	id 1iwjr0-0007Ej-Hy
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jan 2020 04:41:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51766)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <fthain@telegraphics.com.au>) id 1iwjl4-0003bX-6P
- for qemu-devel@nongnu.org; Wed, 29 Jan 2020 04:35:39 -0500
+ (envelope-from <fthain@telegraphics.com.au>) id 1iwjlO-0004LY-Kn
+ for qemu-devel@nongnu.org; Wed, 29 Jan 2020 04:35:59 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <fthain@telegraphics.com.au>) id 1iwjl2-0000kl-4H
- for qemu-devel@nongnu.org; Wed, 29 Jan 2020 04:35:38 -0500
-Received: from kvm5.telegraphics.com.au ([98.124.60.144]:50070)
+ (envelope-from <fthain@telegraphics.com.au>) id 1iwjlN-0001Df-Fe
+ for qemu-devel@nongnu.org; Wed, 29 Jan 2020 04:35:58 -0500
+Received: from kvm5.telegraphics.com.au ([98.124.60.144]:50030)
  by eggs.gnu.org with esmtp (Exim 4.71)
  (envelope-from <fthain@telegraphics.com.au>)
- id 1iwjl2-0000kF-08; Wed, 29 Jan 2020 04:35:36 -0500
+ id 1iwjlN-0000jK-AQ; Wed, 29 Jan 2020 04:35:57 -0500
 Received: by kvm5.telegraphics.com.au (Postfix, from userid 502)
- id 6A76F299C0; Wed, 29 Jan 2020 04:35:35 -0500 (EST)
+ id 1A37A299AD; Wed, 29 Jan 2020 04:35:35 -0500 (EST)
+Message-Id: <cover.1580290069.git.fthain@telegraphics.com.au>
+From: Finn Thain <fthain@telegraphics.com.au>
+Subject: [PATCH v4 00/14] Fixes for DP8393X SONIC device emulation
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 29 Jan 2020 20:27:49 +1100
 To: Jason Wang <jasowang@redhat.com>,
     qemu-devel@nongnu.org
-Message-Id: <dae9a2e3f6cdd403e6afab901b234a8b7f3289b8.1580290069.git.fthain@telegraphics.com.au>
-In-Reply-To: <cover.1580290069.git.fthain@telegraphics.com.au>
-References: <cover.1580290069.git.fthain@telegraphics.com.au>
-From: Finn Thain <fthain@telegraphics.com.au>
-Subject: [PATCH v4 05/14] dp8393x: Update LLFA and CRDA registers from rx
- descriptor
-Date: Wed, 29 Jan 2020 20:27:49 +1100
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
 X-Received-From: 98.124.60.144
 X-BeenThere: qemu-devel@nongnu.org
@@ -51,64 +51,63 @@ Cc: =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Follow the algorithm given in the National Semiconductor DP83932C
-datasheet in section 3.4.7:
+Hi All,
 
-    At the next reception, the SONIC re-reads the last RXpkt.link field,
-    and updates its CRDA register to point to the next descriptor.
+There are bugs in the emulated dp8393x device that can stop packet
+reception in a Linux/m68k guest (q800 machine).
 
-The chip is designed to allow the host to provide a new list of
-descriptors in this way.
+With a Linux/m68k v5.5 guest (q800), it's possible to remotely trigger
+an Oops by sending ping floods.
 
-Signed-off-by: Finn Thain <fthain@telegraphics.com.au>
-Tested-by: Laurent Vivier <laurent@vivier.eu>
+With a Linux/mips guest (magnum machine), the driver fails to probe
+the dp8393x device.
+
+With a NetBSD/arc 5.1 guest (magnum), the bugs in the device can be
+fatal to the guest kernel.
+
+Whilst debugging the device, I found that the receiver algorithm
+differs from the one described in the National Semiconductor
+datasheet.
+
+This patch series resolves these bugs.
+
+AFAIK, all bugs in the Linux sonic driver were fixed in Linux v5.5.
 ---
 Changed since v1:
- - Update CRDA register from LLFA register after EOL is cleared.
----
- hw/net/dp8393x.c | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
+ - Minor revisions as described beneath commit logs.
+ - Dropped patches 4/10 and 7/10.
+ - Added 5 new patches.
 
-diff --git a/hw/net/dp8393x.c b/hw/net/dp8393x.c
-index ece72cbf42..249be403af 100644
---- a/hw/net/dp8393x.c
-+++ b/hw/net/dp8393x.c
-@@ -784,12 +784,13 @@ static ssize_t dp8393x_receive(NetClientState *nc, const uint8_t * buf,
-         address = dp8393x_crda(s) + sizeof(uint16_t) * 5 * width;
-         address_space_rw(&s->as, address, MEMTXATTRS_UNSPECIFIED,
-                          (uint8_t *)s->data, size, 0);
--        if (dp8393x_get(s, width, 0) & SONIC_DESC_EOL) {
-+        s->regs[SONIC_LLFA] = dp8393x_get(s, width, 0);
-+        if (s->regs[SONIC_LLFA] & SONIC_DESC_EOL) {
-             /* Still EOL ; stop reception */
-             return -1;
--        } else {
--            s->regs[SONIC_CRDA] = s->regs[SONIC_LLFA];
-         }
-+        /* Link has been updated by host */
-+        s->regs[SONIC_CRDA] = s->regs[SONIC_LLFA];
-     }
- 
-     /* Save current position */
-@@ -837,7 +838,7 @@ static ssize_t dp8393x_receive(NetClientState *nc, const uint8_t * buf,
-     address_space_rw(&s->as, dp8393x_crda(s),
-         MEMTXATTRS_UNSPECIFIED, (uint8_t *)s->data, size, 1);
- 
--    /* Move to next descriptor */
-+    /* Check link field */
-     size = sizeof(uint16_t) * width;
-     address_space_rw(&s->as, dp8393x_crda(s) + sizeof(uint16_t) * 5 * width,
-         MEMTXATTRS_UNSPECIFIED, (uint8_t *)s->data, size, 0);
-@@ -852,6 +853,8 @@ static ssize_t dp8393x_receive(NetClientState *nc, const uint8_t * buf,
-         dp8393x_put(s, width, 0, 0);
-         address_space_rw(&s->as, address, MEMTXATTRS_UNSPECIFIED,
-                          (uint8_t *)s->data, size, 1);
-+
-+        /* Move to next descriptor */
-         s->regs[SONIC_CRDA] = s->regs[SONIC_LLFA];
-         s->regs[SONIC_ISR] |= SONIC_ISR_PKTRX;
-         s->regs[SONIC_RSC] = (s->regs[SONIC_RSC] & 0xff00) | (((s->regs[SONIC_RSC] & 0x00ff) + 1) & 0x00ff);
--- 
+Changed since v2:
+ - Minor revisions as described beneath commit logs.
+ - Dropped patch 13/13.
+ - Added 2 new patches.
+
+Changed since v3:
+ - Replaced patch 13/14 with patch suggested by Philippe Mathieu-Daud=C3=A9=
+.
+
+
+Finn Thain (14):
+  dp8393x: Mask EOL bit from descriptor addresses
+  dp8393x: Always use 32-bit accesses
+  dp8393x: Clean up endianness hacks
+  dp8393x: Have dp8393x_receive() return the packet size
+  dp8393x: Update LLFA and CRDA registers from rx descriptor
+  dp8393x: Clear RRRA command register bit only when appropriate
+  dp8393x: Implement packet size limit and RBAE interrupt
+  dp8393x: Don't clobber packet checksum
+  dp8393x: Use long-word-aligned RRA pointers in 32-bit mode
+  dp8393x: Pad frames to word or long word boundary
+  dp8393x: Clear descriptor in_use field to release packet
+  dp8393x: Always update RRA pointers and sequence numbers
+  dp8393x: Don't reset Silicon Revision register
+  dp8393x: Don't stop reception upon RBE interrupt assertion
+
+ hw/net/dp8393x.c | 202 +++++++++++++++++++++++++++++++----------------
+ 1 file changed, 134 insertions(+), 68 deletions(-)
+
+--=20
 2.24.1
 
 
