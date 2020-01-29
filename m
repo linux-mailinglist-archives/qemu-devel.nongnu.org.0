@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B85F14D456
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jan 2020 01:09:07 +0100 (CET)
-Received: from localhost ([::1]:53738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57E3C14D484
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jan 2020 01:14:08 +0100 (CET)
+Received: from localhost ([::1]:53894 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwxOM-00068H-7C
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jan 2020 19:09:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45721)
+	id 1iwxTD-0007Mx-CX
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jan 2020 19:14:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45677)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iwxCl-0004Z5-5Z
- for qemu-devel@nongnu.org; Wed, 29 Jan 2020 18:57:08 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1iwxCj-0004Wj-J9
+ for qemu-devel@nongnu.org; Wed, 29 Jan 2020 18:57:06 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iwxCj-0000Q3-JU
- for qemu-devel@nongnu.org; Wed, 29 Jan 2020 18:57:07 -0500
-Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:40620)
+ (envelope-from <richard.henderson@linaro.org>) id 1iwxCi-0000NO-K5
+ for qemu-devel@nongnu.org; Wed, 29 Jan 2020 18:57:05 -0500
+Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:41627)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iwxCj-0000J5-Cc
- for qemu-devel@nongnu.org; Wed, 29 Jan 2020 18:57:05 -0500
-Received: by mail-pl1-x642.google.com with SMTP id y1so588322plp.7
- for <qemu-devel@nongnu.org>; Wed, 29 Jan 2020 15:57:01 -0800 (PST)
+ id 1iwxCi-0000Jp-DT
+ for qemu-devel@nongnu.org; Wed, 29 Jan 2020 18:57:04 -0500
+Received: by mail-pf1-x444.google.com with SMTP id w62so487241pfw.8
+ for <qemu-devel@nongnu.org>; Wed, 29 Jan 2020 15:57:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=F3b6cVaxHro/6V3bv0YUWDcSAvk6/AJQY4c2EzGHEcc=;
- b=h4b/t62o/p1YVwiwGiKuAgxtVAS/txoQhJDmc8sNM7lhwoHiXn0SFX28M2dST12aMf
- D/02hR2WnCP/UCHtWElpXpi+VhXWiMKwGA+vLKehtFOd4pvpuDvJtWj1v+PTaTAagpwV
- ZZlGwIQGaMxt7GP7unR0wF+BY5s4TMNvb64l/BaNPi1uUElal1Z1bt4nL6eFCZ8jan++
- AcR2NHjLpZP0QIGIlXIurOekeXjkfEF7BXjN/Xm5T8xBEe7c/ehx7rVFkcPwxveRruuF
- TYgh7Kfzjenn8Tr0gkRU7Udp9ANBAqF55TH2RJhDZ8HUREXfsPmQPAO17Ovpnt6tKf8o
- f41w==
+ bh=SGeLc3qxQKehoU2r6strpWrIYiHy87e8XV3hfYvH5nc=;
+ b=yuH0JFfTChQoH7NzGD+5AmfG5ugXTRNY1y4EazBqd9Ob5pNRM5NwYxuCfwHgY14gel
+ +xRdy8G69qPJGN4C7PSyhu22GK18Y21efOmSXfRdTzQSzRVi7h+Oy+xB2aI2gAkmaKpJ
+ P+nV4u816s31byIbNNaFJtQQ8xoVrufn5q8a1bclpA/JsB7hWBXrg7whhswhdgNuAJtk
+ e3PnVkzy24Upq/cQ0jsJX2lN1MBkEzcxlH0wQHi+GX2uZ+LgvXGX44Ht59M7PIPGZyo8
+ lXkfyGHwD0ymz9P+U3zMqZZ3Od2F+TntXbdXSXAxJuplo3parGxriJ3oTl3lKU7pQI6H
+ OIlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=F3b6cVaxHro/6V3bv0YUWDcSAvk6/AJQY4c2EzGHEcc=;
- b=A31hQ8v8zMEdZlJaq2EifgaKJ5N6dloHiiLMMvqoTNuZuaqPFQJyUaVIs7JNZR0utB
- qInm9xrbjjZJSDXFg9O7Y7URLsQf7wZ97Uijy1Ceq1r4yELK1+7tWTy4MzSGRLuapePG
- obcKR4p7mxvZ2rkwtGNtUvnvqI06G5FZfHcXGNIxoFfVej7XPPGOvA92gnukzSPyURNv
- KtE8Qc4YFLAYegLjIGw3qJKn2KtzefdmknFLU0/Pl8KMl2WxNFQYQT6Hbrvg7YQp0BMV
- fQmmZyd/Xj8wet36p/vZjqkJloVUek07Kg0CaN+jw2HbU1Q/cmLGu7l5HWzboF6ocT+N
- Hvjg==
-X-Gm-Message-State: APjAAAX/L462JaQFzSPnZ9m8evebY/broTU+vDm1/7RXV0uJbtCdVvV6
- XC0APb7ZbV6IcGTxhxD1UDtF1YlG7Y4=
-X-Google-Smtp-Source: APXvYqxnQ/41tNukIBuhl6RE8LC3928U8WCO1I+pLDbfQnyQ/th7gVadqwQhQny+ZvCyiXVnETjgnQ==
-X-Received: by 2002:a17:902:34d:: with SMTP id
- 71mr1837796pld.316.1580342220648; 
- Wed, 29 Jan 2020 15:57:00 -0800 (PST)
+ bh=SGeLc3qxQKehoU2r6strpWrIYiHy87e8XV3hfYvH5nc=;
+ b=NRUIVHFHi372JEW05HX+Zda17vkylEKpckSIhDXs+ExU0VRVxP+neEkFl8gKNdA5bv
+ QMCjce2diXiShPKCCd6Rs72ow5aQ5AyPSDXxwguxOVndsZrrd0P5DQEirGT+46g1/pH9
+ f5ZUhFQhHMeghpw/XB6D4jJKOOj+iApgqAW+UulH5jtmBEu3TjKm3KRAmhtbHIIzTguT
+ bT99uvc4Rty7ThIcA1DKSsvvw7UoCerFJ0ItzcKhjBbZaSUaOAlzRB0JB/CVG2O+DfXD
+ Vr/OkGyh+ev0r+jq4PSXOPPCNKRkhzbnOwR29fqwaB3lmkNmo2iQtiYM469XjPBHhkpL
+ LKiw==
+X-Gm-Message-State: APjAAAVin8oM5jdkF24Q28JzgpVfnjh/CME8GaCFJdVefEGiTARZg1FG
+ jomG9AY+jgWa/LXrrfhi5PFXkgGF4Ek=
+X-Google-Smtp-Source: APXvYqwtid2ZGp6kVWRPtfWoyiFrnVftatvzQ+nD3KFLox5eZHq9QE0/+KRLKDkzfbHkG+e7VHZWXg==
+X-Received: by 2002:aa7:8149:: with SMTP id d9mr2057401pfn.170.1580342221881; 
+ Wed, 29 Jan 2020 15:57:01 -0800 (PST)
 Received: from localhost.localdomain (97-126-123-70.tukw.qwest.net.
  [97.126.123.70])
- by smtp.gmail.com with ESMTPSA id r3sm3953626pfg.145.2020.01.29.15.56.59
+ by smtp.gmail.com with ESMTPSA id r3sm3953626pfg.145.2020.01.29.15.57.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 29 Jan 2020 15:57:00 -0800 (PST)
+ Wed, 29 Jan 2020 15:57:01 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 35/41] target/arm: Update get_a64_user_mem_index for VHE
-Date: Wed, 29 Jan 2020 15:56:08 -0800
-Message-Id: <20200129235614.29829-36-richard.henderson@linaro.org>
+Subject: [PATCH v5 36/41] target/arm: Update arm_cpu_do_interrupt_aarch64 for
+ VHE
+Date: Wed, 29 Jan 2020 15:56:09 -0800
+Message-Id: <20200129235614.29829-37-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200129235614.29829-1-richard.henderson@linaro.org>
 References: <20200129235614.29829-1-richard.henderson@linaro.org>
@@ -67,7 +67,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::642
+X-Received-From: 2607:f8b0:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,158 +83,42 @@ Cc: peter.maydell@linaro.org, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The EL2&0 translation regime is affected by Load Register (unpriv).
-
-The code structure used here will facilitate later changes in this
-area for implementing UAO and NV.
+When VHE is enabled, the exception level below EL2 is not EL1,
+but EL0, and so to identify the entry vector offset for exceptions
+targeting EL2 we need to look at the width of EL0, not of EL1.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/cpu.h           |  9 ++++----
- target/arm/translate.h     |  2 ++
- target/arm/helper.c        | 22 +++++++++++++++++++
- target/arm/translate-a64.c | 44 ++++++++++++++++++++++++--------------
- 4 files changed, 57 insertions(+), 20 deletions(-)
+ target/arm/helper.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index cc027a2eb2..fe3326aa26 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -3207,10 +3207,10 @@ typedef ARMCPU ArchCPU;
-  * |              |     |   TBFLAG_A32   |              |
-  * |              |     +-----+----------+  TBFLAG_AM32 |
-  * |  TBFLAG_ANY  |           |TBFLAG_M32|              |
-- * |              |           +-------------------------|
-- * |              |           |       TBFLAG_A64        |
-- * +--------------+-----------+-------------------------+
-- *  31          20          14                         0
-+ * |              |         +-+----------+--------------|
-+ * |              |         |         TBFLAG_A64        |
-+ * +--------------+---------+---------------------------+
-+ *  31          20        15                           0
-  *
-  * Unless otherwise noted, these bits are cached in env->hflags.
-  */
-@@ -3276,6 +3276,7 @@ FIELD(TBFLAG_A64, PAUTH_ACTIVE, 8, 1)
- FIELD(TBFLAG_A64, BT, 9, 1)
- FIELD(TBFLAG_A64, BTYPE, 10, 2)         /* Not cached. */
- FIELD(TBFLAG_A64, TBID, 12, 2)
-+FIELD(TBFLAG_A64, UNPRIV, 14, 1)
- 
- static inline bool bswap_code(bool sctlr_b)
- {
-diff --git a/target/arm/translate.h b/target/arm/translate.h
-index a32b6b1b3a..5b167c416a 100644
---- a/target/arm/translate.h
-+++ b/target/arm/translate.h
-@@ -73,6 +73,8 @@ typedef struct DisasContext {
-      * ie A64 LDX*, LDAX*, A32/T32 LDREX*, LDAEX*.
-      */
-     bool is_ldex;
-+    /* True if AccType_UNPRIV should be used for LDTR et al */
-+    bool unpriv;
-     /* True if v8.3-PAuth is active.  */
-     bool pauth_active;
-     /* True with v8.5-BTI and SCTLR_ELx.BT* set.  */
 diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 6f11b821f7..a2eb01f97c 100644
+index a2eb01f97c..a089ba8a5f 100644
 --- a/target/arm/helper.c
 +++ b/target/arm/helper.c
-@@ -12030,6 +12030,28 @@ static uint32_t rebuild_hflags_a64(CPUARMState *env, int el, int fp_el,
-         }
-     }
+@@ -9036,14 +9036,19 @@ static void arm_cpu_do_interrupt_aarch64(CPUState *cs)
+          * immediately lower than the target level is using AArch32 or AArch64
+          */
+         bool is_aa64;
++        uint64_t hcr;
  
-+    /* Compute the condition for using AccType_UNPRIV for LDTR et al. */
-+    /* TODO: ARMv8.2-UAO */
-+    switch (mmu_idx) {
-+    case ARMMMUIdx_E10_1:
-+    case ARMMMUIdx_SE10_1:
-+        /* TODO: ARMv8.3-NV */
-+        flags = FIELD_DP32(flags, TBFLAG_A64, UNPRIV, 1);
-+        break;
-+    case ARMMMUIdx_E20_2:
-+        /* TODO: ARMv8.4-SecEL2 */
-+        /*
-+         * Note that E20_2 is gated by HCR_EL2.E2H == 1, but E20_0 is
-+         * gated by HCR_EL2.<E2H,TGE> == '11', and so is LDTR.
-+         */
-+        if (env->cp15.hcr_el2 & HCR_TGE) {
-+            flags = FIELD_DP32(flags, TBFLAG_A64, UNPRIV, 1);
-+        }
-+        break;
-+    default:
-+        break;
-+    }
-+
-     return rebuild_hflags_common(env, fp_el, mmu_idx, flags);
- }
- 
-diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-index 9cac6c9232..ee907c4e99 100644
---- a/target/arm/translate-a64.c
-+++ b/target/arm/translate-a64.c
-@@ -105,25 +105,36 @@ void a64_translate_init(void)
-         offsetof(CPUARMState, exclusive_high), "exclusive_high");
- }
- 
--static inline int get_a64_user_mem_index(DisasContext *s)
-+/*
-+ * Return the core mmu_idx to use for A64 "unprivileged load/store" insns
-+ */
-+static int get_a64_user_mem_index(DisasContext *s)
- {
--    /* Return the core mmu_idx to use for A64 "unprivileged load/store" insns:
--     *  if EL1, access as if EL0; otherwise access at current EL
-+    /*
-+     * If AccType_UNPRIV is not used, the insn uses AccType_NORMAL,
-+     * which is the usual mmu_idx for this cpu state.
-      */
--    ARMMMUIdx useridx;
-+    ARMMMUIdx useridx = s->mmu_idx;
- 
--    switch (s->mmu_idx) {
--    case ARMMMUIdx_E10_1:
--        useridx = ARMMMUIdx_E10_0;
--        break;
--    case ARMMMUIdx_SE10_1:
--        useridx = ARMMMUIdx_SE10_0;
--        break;
--    case ARMMMUIdx_Stage2:
--        g_assert_not_reached();
--    default:
--        useridx = s->mmu_idx;
--        break;
-+    if (s->unpriv) {
-+        /*
-+         * We have pre-computed the condition for AccType_UNPRIV.
-+         * Therefore we should never get here with a mmu_idx for
-+         * which we do not know the corresponding user mmu_idx.
-+         */
-+        switch (useridx) {
-+        case ARMMMUIdx_E10_1:
-+            useridx = ARMMMUIdx_E10_0;
-+            break;
-+        case ARMMMUIdx_E20_2:
-+            useridx = ARMMMUIdx_E20_0;
-+            break;
-+        case ARMMMUIdx_SE10_1:
-+            useridx = ARMMMUIdx_SE10_0;
-+            break;
-+        default:
-+            g_assert_not_reached();
-+        }
-     }
-     return arm_to_core_mmu_idx(useridx);
- }
-@@ -14171,6 +14182,7 @@ static void aarch64_tr_init_disas_context(DisasContextBase *dcbase,
-     dc->pauth_active = FIELD_EX32(tb_flags, TBFLAG_A64, PAUTH_ACTIVE);
-     dc->bt = FIELD_EX32(tb_flags, TBFLAG_A64, BT);
-     dc->btype = FIELD_EX32(tb_flags, TBFLAG_A64, BTYPE);
-+    dc->unpriv = FIELD_EX32(tb_flags, TBFLAG_A64, UNPRIV);
-     dc->vec_len = 0;
-     dc->vec_stride = 0;
-     dc->cp_regs = arm_cpu->cp_regs;
+         switch (new_el) {
+         case 3:
+             is_aa64 = (env->cp15.scr_el3 & SCR_RW) != 0;
+             break;
+         case 2:
+-            is_aa64 = (env->cp15.hcr_el2 & HCR_RW) != 0;
+-            break;
++            hcr = arm_hcr_el2_eff(env);
++            if ((hcr & (HCR_E2H | HCR_TGE)) != (HCR_E2H | HCR_TGE)) {
++                is_aa64 = (hcr & HCR_RW) != 0;
++                break;
++            }
++            /* fall through */
+         case 1:
+             is_aa64 = is_a64(env);
+             break;
 -- 
 2.20.1
 
