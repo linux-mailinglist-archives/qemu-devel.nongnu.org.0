@@ -2,61 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B4FD14CAD0
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jan 2020 13:26:45 +0100 (CET)
-Received: from localhost ([::1]:45626 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEF4414CAD7
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jan 2020 13:28:05 +0100 (CET)
+Received: from localhost ([::1]:45650 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwmQe-00077y-JA
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jan 2020 07:26:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58591)
+	id 1iwmRw-00011c-N7
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jan 2020 07:28:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59688)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <salil.mehta@huawei.com>) id 1iwmNb-0002fE-2j
- for qemu-devel@nongnu.org; Wed, 29 Jan 2020 07:23:36 -0500
+ (envelope-from <cohuck@redhat.com>) id 1iwmPP-0005zp-TD
+ for qemu-devel@nongnu.org; Wed, 29 Jan 2020 07:25:28 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <salil.mehta@huawei.com>) id 1iwmNZ-0003bF-Ke
- for qemu-devel@nongnu.org; Wed, 29 Jan 2020 07:23:35 -0500
-Received: from lhrrgout.huawei.com ([185.176.76.210]:2069 helo=huawei.com)
+ (envelope-from <cohuck@redhat.com>) id 1iwmPO-0000jq-2I
+ for qemu-devel@nongnu.org; Wed, 29 Jan 2020 07:25:27 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:24317
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <salil.mehta@huawei.com>)
- id 1iwmNS-0003MZ-KV; Wed, 29 Jan 2020 07:23:26 -0500
-Received: from LHREML712-CAH.china.huawei.com (unknown [172.18.7.106])
- by Forcepoint Email with ESMTP id 37468B91853492B7E997;
- Wed, 29 Jan 2020 12:23:23 +0000 (GMT)
-Received: from lhreml706-chm.china.huawei.com (10.201.108.55) by
- LHREML712-CAH.china.huawei.com (10.201.108.35) with Microsoft SMTP Server
- (TLS) id 14.3.408.0; Wed, 29 Jan 2020 12:23:23 +0000
-Received: from lhreml703-chm.china.huawei.com (10.201.108.52) by
- lhreml706-chm.china.huawei.com (10.201.108.55) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.1713.5; Wed, 29 Jan 2020 12:23:22 +0000
-Received: from lhreml703-chm.china.huawei.com ([10.201.68.198]) by
- lhreml703-chm.china.huawei.com ([10.201.68.198]) with mapi id 15.01.1713.004; 
- Wed, 29 Jan 2020 12:23:22 +0000
-From: Salil Mehta <salil.mehta@huawei.com>
-To: Salil Mehta <salil.mehta@huawei.com>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>, "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>
-Subject: RE: [Question] Regarding presence of duplicate ACPI CPU entries at
- two	nodes \\_SB.CXXX and \\_SB.CPUS.CXXX  of namespace
-Thread-Topic: [Question] Regarding presence of duplicate ACPI CPU entries at
- two	nodes \\_SB.CXXX and \\_SB.CPUS.CXXX  of namespace
-Thread-Index: AQHV1p7lAR0wNvQnjUiflhxrwArEnA==
-Date: Wed, 29 Jan 2020 12:23:22 +0000
-Message-ID: <ff644207a4fb4bfb84df4bcecc7b044b@huawei.com>
-References: <590fb35353de473d9c689caead95c659@huawei.com>
-In-Reply-To: <590fb35353de473d9c689caead95c659@huawei.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.202.227.103]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1iwmPN-0000gM-O4
+ for qemu-devel@nongnu.org; Wed, 29 Jan 2020 07:25:25 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1580300725;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=eD0787NDohNjvxappA/qu+C3lhvoXKd+Eyz4of1nOSo=;
+ b=EHtNf7XcBa8XRiZre60N8oEuHL+ePRhJ1+CNeu06aWTIjfJF4oOLv0pusl+iTNYRtggJ4m
+ dKKFMh8hVZWyRKcz9vnfeonIFC/sABYdhN40HDSxIVy7mV/twUqPw4YCIlFero/hJ8D6Kf
+ ER5gCXlWE8qgCIf7p/rwRkku8TLz12c=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-335-vwla4zUSPA-eS1tmUB1m8A-1; Wed, 29 Jan 2020 07:25:23 -0500
+X-MC-Unique: vwla4zUSPA-eS1tmUB1m8A-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7EF66107ACC5;
+ Wed, 29 Jan 2020 12:25:21 +0000 (UTC)
+Received: from gondolin (ovpn-116-225.ams2.redhat.com [10.36.116.225])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A0F985C219;
+ Wed, 29 Jan 2020 12:25:08 +0000 (UTC)
+Date: Wed, 29 Jan 2020 13:25:05 +0100
+From: Cornelia Huck <cohuck@redhat.com>
+To: "Liu, Yi L" <yi.l.liu@intel.com>
+Subject: Re: [RFC v3 06/25] scripts/update-linux-headers: Import iommu.h
+Message-ID: <20200129132505.52501bda.cohuck@redhat.com>
+In-Reply-To: <1580300216-86172-7-git-send-email-yi.l.liu@intel.com>
+References: <1580300216-86172-1-git-send-email-yi.l.liu@intel.com>
+ <1580300216-86172-7-git-send-email-yi.l.liu@intel.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 185.176.76.210
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,169 +71,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
- "drjones@redhat.com" <drjones@redhat.com>,
- "sameo@linux.intel.com" <sameo@linux.intel.com>,
- "mst@redhat.com" <mst@redhat.com>, Linuxarm <linuxarm@huawei.com>,
- "eric.auger@redhat.com" <eric.auger@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, pbonzini <pbonzini@redhat.com>,
- "lersek@redhat.com" <lersek@redhat.com>
+Cc: kevin.tian@intel.com, Jacob Pan <jacob.jun.pan@linux.intel.com>,
+ Yi Sun <yi.y.sun@linux.intel.com>, kvm@vger.kernel.org, mst@redhat.com,
+ jun.j.tian@intel.com, qemu-devel@nongnu.org, peterx@redhat.com,
+ eric.auger@redhat.com, alex.williamson@redhat.com, pbonzini@redhat.com,
+ hao.wu@intel.com, yi.y.sun@intel.com, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Please ignore this!
+On Wed, 29 Jan 2020 04:16:37 -0800
+"Liu, Yi L" <yi.l.liu@intel.com> wrote:
 
+> From: Eric Auger <eric.auger@redhat.com>
+> 
+> Update the script to import the new iommu.h uapi header.
+> 
+> Cc: Kevin Tian <kevin.tian@intel.com>
+> Cc: Jacob Pan <jacob.jun.pan@linux.intel.com>
+> Cc: Peter Xu <peterx@redhat.com>
+> Cc: Yi Sun <yi.y.sun@linux.intel.com>
+> Cc: Michael S. Tsirkin <mst@redhat.com>
+> Cc: Cornelia Huck <cohuck@redhat.com>
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+> ---
+>  scripts/update-linux-headers.sh | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/scripts/update-linux-headers.sh b/scripts/update-linux-headers.sh
+> index f76d773..dfdfdfd 100755
+> --- a/scripts/update-linux-headers.sh
+> +++ b/scripts/update-linux-headers.sh
+> @@ -141,7 +141,7 @@ done
+>  
+>  rm -rf "$output/linux-headers/linux"
+>  mkdir -p "$output/linux-headers/linux"
+> -for header in kvm.h vfio.h vfio_ccw.h vhost.h \
+> +for header in kvm.h vfio.h vfio_ccw.h vhost.h iommu.h \
+>                psci.h psp-sev.h userfaultfd.h mman.h; do
+>      cp "$tmpdir/include/linux/$header" "$output/linux-headers/linux"
+>  done
 
-> From: Linuxarm [mailto:linuxarm-bounces@huawei.com] On Behalf Of Salil Me=
-hta
-> Sent: Wednesday, January 29, 2020 11:51 AM
-> To: qemu-devel@nongnu.org; qemu-arm@nongnu.org
-> Cc: peter.maydell@linaro.org; drjones@redhat.com; sameo@linux.intel.com;
-> mst@redhat.com; Linuxarm <linuxarm@huawei.com>; eric.auger@redhat.com;
-> pbonzini <pbonzini@redhat.com>; Igor Mammedov <imammedo@redhat.com>;
-> lersek@redhat.com
-> Subject: [Question] Regarding presence of duplicate ACPI CPU entries at t=
-wo nodes
-> \\_SB.CXXX and \\_SB.CPUS.CXXX of namespace
->=20
-> Hello,
->=20
-> Observation:
-> If we launch Linux Guest VM using QEMU(running on any type host. I am usi=
-ng x86)
-> with
-> CPU based on any ARM64 architecture then I could see QEMU populating ACPI=
- nodes
-> related to same CPU at 2 places of the ACPI namespace:
-> 1. \\_SB.CXXX
-> 2. \\_SB.CPUS.CXXX
->=20
-> Above results in Guest VM showing duplicate CPU entries in the sysfs for =
-the
-> same CPUS.
-> I could make out the entries under \\_SB.CPUS.XXX are part of the contain=
-er.
->=20
-> estuary:/$ ls -al /sys/bus/acpi/devices/
->=20
-> Observation 1: (belongs to \\_SB.C00X)
-> ACPI0007:00 -> ../../../devices/LNXSYSTM:00/LNXSYBUS:00/ACPI0007:00
-> ACPI0007:01 -> ../../../devices/LNXSYSTM:00/LNXSYBUS:00/ACPI0007:01
-> ACPI0007:02 -> ../../../devices/LNXSYSTM:00/LNXSYBUS:00/ACPI0007:02
-> ACPI0007:03 -> ../../../devices/LNXSYSTM:00/LNXSYBUS:00/ACPI0007:03
-> ACPI0007:04 -> ../../../devices/LNXSYSTM:00/LNXSYBUS:00/ACPI0007:04
-> ACPI0007:05 -> ../../../devices/LNXSYSTM:00/LNXSYBUS:00/ACPI0007:05
->=20
-> Observation 2: (belongs to \\_SB.CPUS.C00X and under container ACPI0010:0=
-0 part
-> of \\_SB.CPUS)
-> ACPI0007:06
-> -> ../../../devices/LNXSYSTM:00/LNXSYBUS:00/ACPI0010:00/ACPI0007:06
-> ACPI0007:07
-> -> ../../../devices/LNXSYSTM:00/LNXSYBUS:00/ACPI0010:00/ACPI0007:07
-> ACPI0007:08
-> -> ../../../devices/LNXSYSTM:00/LNXSYBUS:00/ACPI0010:00/ACPI0007:08
-> ACPI0007:09
-> -> ../../../devices/LNXSYSTM:00/LNXSYBUS:00/ACPI0010:00/ACPI0007:09
-> ACPI0007:0a
-> -> ../../../devices/LNXSYSTM:00/LNXSYBUS:00/ACPI0010:00/ACPI0007:0a
-> ACPI0007:0b
-> -> ../../../devices/LNXSYSTM:00/LNXSYBUS:00/ACPI0010:00/ACPI0007:0b
-> ACPI0010:00 -> ../../../devices/LNXSYSTM:00/LNXSYBUS:00/ACPI0010:00
->=20
->=20
-> estuary:/$ cat /sys/bus/acpi/devices/ACPI0010\:00/path
-> \_SB_.CPUS
->=20
-> estuary:/$ cat /sys/bus/acpi/devices/ACPI0007\:00/uid
-> 0
-> estuary:/$ cat /sys/bus/acpi/devices/ACPI0007\:00/path
-> \_SB_.C000
->=20
-> estuary:/$ cat /sys/bus/acpi/devices/ACPI0007\:06/uid
-> 0
-> estuary:/$ cat /sys/bus/acpi/devices/ACPI0007\:06/path
-> \_SB_.CPUS.C000
->=20
->=20
->=20
-> QEMU Code Excerpt:
-> I could trace with in QEMU AML code, the CPUS are being appended at 2 pla=
-ces:
->=20
->=20
-> Code 1. File: hw/arm/virt-acpi-build.c (Cause of Observation 1 i.e. \\_SB=
-.CXXX )
->=20
-> static void acpi_dsdt_add_cpus(Aml *scope, int smp_cpus)
-> {
->     uint16_t i;
->=20
->     for (i =3D 0; i < smp_cpus; i++) { --->{should be possible cpus anywa=
-ys}
->         Aml *dev =3D aml_device("C%.03X", i);
->         aml_append(dev, aml_name_decl("_HID", aml_string("ACPI0007")));
->         aml_append(dev, aml_name_decl("_UID", aml_int(i)));
->         aml_append(scope, dev);
->     }
-> }
->=20
->=20
-> Code 2. File: hw/acpi/cpu.c (Cause of Observation 2 i.e. \\_SB.CPUS.CXXX)
->=20
-> void build_cpus_aml(..)
-> {
-> [...]
->   cpus_dev =3D aml_device("\\_SB.CPUS");
->   {
->     [...]
->             /* build Processor object for each processor */
->         for (i =3D 0; i < arch_ids->len; i++) {
->             Aml *dev;
->             Aml *uid =3D aml_int(i);
->             GArray *madt_buf =3D g_array_new(0, 1, 1);
->             int arch_id =3D arch_ids->cpus[i].arch_id;
->=20
->             if (opts.acpi_1_compatible && arch_id < 255) {
->                 dev =3D aml_processor(i, 0, 0, CPU_NAME_FMT, i);
->             } else {
->                 dev =3D aml_device(CPU_NAME_FMT, i);
->                 aml_append(dev, aml_name_decl("_HID",
-> aml_string("ACPI0007")));
->                 aml_append(dev, aml_name_decl("_UID", uid));
->             }
->     [...]
->   }
-> [...]
-> }
->=20
->=20
->=20
-> Questions:
-> Q1. I could not understand the purpose of keeping acpi_dsdt_add_cpus() af=
-ter
-> the code 2.
->      was introduced as part of the below change and which is already addi=
-ng CPUS
-> related
->      AML to \\_SB.CPUS namespace?
->=20
-> acpi: cpuhp: add CPU devices AML with _STA method
-> commit 5e1b5d93887b52eede156f846b6c4c5c8bbcfcdb
->=20
-> Q2. Do we really require CPUs being added by acpi_dsdt_add_cpus() in \\_S=
-B.CXXX
->      Namespace OR is it a stray code left?
->=20
->=20
->=20
-> Please help to correct if there is a gap in my understanding here and ple=
-ase
-> forgive me if I have terribly missed out something very basic here.
->=20
-> Many thanks!
->=20
-> Best Regards
-> Salil
->=20
+Acked-by: Cornelia Huck <cohuck@redhat.com>
+
 
