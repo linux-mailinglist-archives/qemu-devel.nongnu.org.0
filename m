@@ -2,53 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 117D814C685
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jan 2020 07:33:05 +0100 (CET)
-Received: from localhost ([::1]:41852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1018614C683
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jan 2020 07:31:47 +0100 (CET)
+Received: from localhost ([::1]:41836 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwguN-0004hm-K9
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jan 2020 01:33:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38713)
+	id 1iwgt7-00033N-Ge
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jan 2020 01:31:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38687)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iwgsD-0002Qy-Hm
- for qemu-devel@nongnu.org; Wed, 29 Jan 2020 01:30:51 -0500
+ (envelope-from <bounces@canonical.com>) id 1iwgsB-0002Qr-MU
+ for qemu-devel@nongnu.org; Wed, 29 Jan 2020 01:30:48 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iwgsC-0008Ny-2b
- for qemu-devel@nongnu.org; Wed, 29 Jan 2020 01:30:49 -0500
-Received: from ozlabs.org ([203.11.71.1]:54241)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iwgsB-0008K2-5I; Wed, 29 Jan 2020 01:30:48 -0500
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 486tsG2bM0z9sPK; Wed, 29 Jan 2020 17:30:42 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1580279442;
- bh=OTyr7VTqhuMws5D0OO/Wvh09PnkBArZf3MdS5Lqe+ew=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=DQydiAJy893TQI0843D5Hlhv1At7Y5e75t+agK95A2rwFBUJFtE0Zw0DTjpnHjRHB
- yxpfgzBeDP/SPXo8ZIrNwSe7sH/afFFloXjSwnk57V6rApvFEa+vXJZHsckQCnVKe7
- Qyivwv/hGl0ennk5HrUFicWEpN+RPtsqo9q6zCeI=
-Date: Wed, 29 Jan 2020 17:16:35 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Oliver O'Halloran <oohall@gmail.com>
-Subject: Re: [PATCH 1/2] ppc/pnv: Add models for POWER9 PHB4 PCIe Host bridge
-Message-ID: <20200129061635.GA42099@umbus.fritz.box>
-References: <20200127144506.11132-1-clg@kaod.org>
- <20200127144506.11132-2-clg@kaod.org>
- <20200129030920.GX42099@umbus.fritz.box>
- <CAOSf1CHvYOMd2cjQDLT44QxyQakkV6a8eBrWX+V6FhQMQh2GWA@mail.gmail.com>
+ (envelope-from <bounces@canonical.com>) id 1iwgsA-0008MQ-DX
+ for qemu-devel@nongnu.org; Wed, 29 Jan 2020 01:30:47 -0500
+Received: from indium.canonical.com ([91.189.90.7]:42524)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iwgsA-0008LC-85
+ for qemu-devel@nongnu.org; Wed, 29 Jan 2020 01:30:46 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iwgs8-0005x4-Px
+ for <qemu-devel@nongnu.org>; Wed, 29 Jan 2020 06:30:44 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id AF3F02E80C9
+ for <qemu-devel@nongnu.org>; Wed, 29 Jan 2020 06:30:44 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="eGwLO2yoW8Ya4hN1"
-Content-Disposition: inline
-In-Reply-To: <CAOSf1CHvYOMd2cjQDLT44QxyQakkV6a8eBrWX+V6FhQMQh2GWA@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 29 Jan 2020 06:20:57 -0000
+From: Tobias Koch <1823790@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: arm linux-user
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: fritz-the-cat m-luescher pmaydell tobijk
+X-Launchpad-Bug-Reporter: =?utf-8?q?Matthias_L=C3=BCscher_=28m-luescher=29?=
+X-Launchpad-Bug-Modifier: Tobias Koch (tobijk)
+References: <155475569461.20468.17957138207618410360.malonedeb@chaenomeles.canonical.com>
+Message-Id: <158027885730.5789.11536537411712920970.malone@wampee.canonical.com>
+Subject: [Bug 1823790] Re: QEMU mishandling of SO_PEERSEC forces systemd into
+ tight loop
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="b8d1327fd820d6bf500589d6da587d5037c7d88e";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: ae2996602298fb58204cb4f965e998b505d6f487
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 203.11.71.1
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -57,107 +66,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
- Nicholas Piggin <npiggin@gmail.com>, qemu-devel@nongnu.org
+Reply-To: Bug 1823790 <1823790@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+I'm a bit surprised that this bug doesn't get more attention, as it
+makes it very hard to run qemu-emulated containers of Bionic hosted on
+Bionic. Running such containers is a common way to cross-compile
+packages for foreign architectures in the absence of sufficiently
+powerful target HW.
 
---eGwLO2yoW8Ya4hN1
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The documentation on SO_PEERSEC is indeed sparse, but I do want to
+second Fritz in his approach. I don't see a reason, why treating the
+payload as incorrect and throwing it back at the application is better
+than handling it and saying it is not implemented (which is the case).
 
-On Wed, Jan 29, 2020 at 02:54:19PM +1100, Oliver O'Halloran wrote:
-> On Wed, Jan 29, 2020 at 2:09 PM David Gibson
-> <david@gibson.dropbear.id.au> wrote:
-> >
-> > On Mon, Jan 27, 2020 at 03:45:05PM +0100, C=E9dric Le Goater wrote:
-> > > From: Benjamin Herrenschmidt <benh@kernel.crashing.org>
-> > >
->=20
-> *snip*
->=20
-> > > +
-> > > +/*
-> > > + * The CONFIG_DATA register expects little endian accesses, but as t=
-he
-> > > + * region is big endian, we have to swap the value.
-> > > + */
-> > > +static void pnv_phb4_config_write(PnvPHB4 *phb, unsigned off,
-> > > +                                  unsigned size, uint64_t val)
-> > > +{
-> > > +    uint32_t cfg_addr, limit;
-> > > +    PCIDevice *pdev;
-> > > +
-> > > +    pdev =3D pnv_phb4_find_cfg_dev(phb);
-> > > +    if (!pdev) {
-> > > +        return;
-> > > +    }
-> > > +    cfg_addr =3D (phb->regs[PHB_CONFIG_ADDRESS >> 3] >> 32) & 0xffc;
-> > > +    cfg_addr |=3D off;
-> > > +    limit =3D pci_config_size(pdev);
-> > > +    if (limit <=3D cfg_addr) {
-> > > +        /*
-> > > +         * conventional pci device can be behind pcie-to-pci bridge.
-> > > +         * 256 <=3D addr < 4K has no effects.
-> > > +         */
-> > > +        return;
-> > > +    }
-> > > +    switch (size) {
-> > > +    case 1:
-> > > +        break;
-> > > +    case 2:
-> > > +        val =3D bswap16(val);
-> >
-> > I'm a little confused by these byteswaps.  As I see below the device
-> > is set to big endian, so the values passed in here should already be
-> > in host-native endian.  Why do you need the swap?  Are some of the
-> > registers in the bank BE and some LE?
->=20
-> All the registers are BE except for CONFIG_DATA, which isn't actually
-> a register. It's really a window into the config space of the device
-> specified in CONFIG_ADDR so it doesn't do any byte-swapping.
+Arguably, applications should be fixed to handle the error correctly,
+but I'm afraid that is a can of worms. I have encountered the same
+problem with systemd, apt and getent. Would the maintainers be open to
+an SRU request on QEMU for this?
 
-Ah, right, that makes sense.
+-- =
 
->=20
-> > > +        break;
-> > > +    case 4:
-> > > +        val =3D bswap32(val);
-> > > +        break;
-> > > +    default:
-> > > +        g_assert_not_reached();
-> > > +    }
-> > > +    pci_host_config_write_common(pdev, cfg_addr, limit, val, size);
-> > > +}
->=20
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1823790
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+Title:
+  QEMU mishandling of SO_PEERSEC forces systemd into tight loop
 
---eGwLO2yoW8Ya4hN1
-Content-Type: application/pgp-signature; name="signature.asc"
+Status in QEMU:
+  New
 
------BEGIN PGP SIGNATURE-----
+Bug description:
+  While building Debian images for embedded ARM target systems I
+  detected that QEMU seems to force newer systemd daemons into a tight
+  loop.
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl4xI0AACgkQbDjKyiDZ
-s5LLRw/5ARvpO6HxH0dQJnXw9I+mw6AVXH+dkHmrZ3Z0a6IhP0HPOKPNt4NR8c6k
-5SjJsSitGz0fyAY662rLZ0Z0eoRGq4o09oXaiTX74QVlU6bYMtip6oQE9irNlXTW
-tBAmpF+aVcT7+KmpCaCKmYKyPou9Og3F+Oj3tDH+CtzkQ7RF2i3ug6ybuBh9SOcD
-rAE1++R0PmbGrUJsatfEu+Ia41HszrtZKb0WK1Re2BDkgrEELNORYX7oRLyReYXS
-kIzr15i5dndeByT92RFGzvvkMsExrBFimuRpwjmdemmZG+doToIVQh22Fx47ssao
-niOpAuwmMO6VCDxfkWfPz+91t/wvtxwWP58BBZw/BZyOZz8yJkA0s3OL5bWEMIKg
-ZVtlG6PUCL5pc7EZ8fiCmMoWKVcFWYNoE8fJaCLBa3I1PZosrU6pgHYRbyKaBckY
-ZRKWJuDsOl9I4wKkYQaIirEJ2k7vzXot58KOUaTcOYaok/uCUBFoc9mllqZ4fBBU
-XY3RtXtygApJeYVVqNQClPGSZ5S5mFtQ82CExFcksyaUR97iK2xt7E2wG+hlJSh2
-NwCPcpfdEt4Nr4vT7MZeBudVhzkoIMuGDxmK/lDy/E11qHV2hl/3oY2CcKITVMHn
-NiBSrJAukcyt1lr6LHnyALnJ6XJ9BGwe5+HCSOiWOSItKevmTe4=
-=NVMH
------END PGP SIGNATURE-----
+  My setup is the following:
 
---eGwLO2yoW8Ya4hN1--
+  Host machine: Ubuntu 18.04, amd64
+  LXD container: Debian Buster, arm64, systemd 241
+  QEMU: qemu-aarch64-static, 4.0.0-rc2 (custom build) and 3.1.0 (Debian 1:3=
+.1+dfsg-7)
+
+  To easily reproduce the issue I have created the following repository:
+  https://github.com/lueschem/edi-qemu
+
+  The call where systemd gets looping is the following:
+  2837 getsockopt(3,1,31,274891889456,274887218756,274888927920) =3D -1 err=
+no=3D34 (Numerical result out of range)
+
+  Furthermore I also verified that the issue is not related to LXD.
+  The same behavior can be reproduced using systemd-nspawn.
+
+  This issue reported against systemd seems to be related:
+  https://github.com/systemd/systemd/issues/11557
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1823790/+subscriptions
 
