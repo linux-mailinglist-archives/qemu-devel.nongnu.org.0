@@ -2,71 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC53914D1B7
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jan 2020 21:08:14 +0100 (CET)
-Received: from localhost ([::1]:50754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A87B14D1EA
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jan 2020 21:27:26 +0100 (CET)
+Received: from localhost ([::1]:51018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwtdF-0002If-Pv
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jan 2020 15:08:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34857)
+	id 1iwtvp-0008Uz-6N
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jan 2020 15:27:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41295)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <wainersm@redhat.com>) id 1iwtcT-0001tD-Nq
- for qemu-devel@nongnu.org; Wed, 29 Jan 2020 15:07:26 -0500
+ (envelope-from <beata.michalska@linaro.org>) id 1iwttg-0005Av-Ny
+ for qemu-devel@nongnu.org; Wed, 29 Jan 2020 15:25:13 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <wainersm@redhat.com>) id 1iwtcR-0006fF-CP
- for qemu-devel@nongnu.org; Wed, 29 Jan 2020 15:07:24 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:56279
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <wainersm@redhat.com>) id 1iwtcR-0006cX-7V
- for qemu-devel@nongnu.org; Wed, 29 Jan 2020 15:07:23 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580328442;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=0P2o0/phqblrjEdbXPs8WmUrGIzVAbFM+ZED37HU6u4=;
- b=BOgtSrCy5WX6eKerbFlGpIvPiryihqpvqwHMgXRObeOxW9/wXNQ7XEt0yaziNDunmmipvc
- B9aDeQdc77Jm8PibmK1SrUpO/sjMZNd4Zj7uduJ7I7E/GFwHD/CVYbmFYxT32IfO+WFmWT
- B2S91ut7nFLUPfL1t14zpsx5mAiC4TI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-185-59uGBL_AOb2aItqlCqQwUg-1; Wed, 29 Jan 2020 15:07:20 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 384A5107ACC7
- for <qemu-devel@nongnu.org>; Wed, 29 Jan 2020 20:07:19 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-116-51.gru2.redhat.com
- [10.97.116.51])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 764785DA7B;
- Wed, 29 Jan 2020 20:07:15 +0000 (UTC)
-Subject: Re: [PATCH 4/5] python/qemu: qmp: Make QEMUMonitorProtocol a context
- manager
-To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
-References: <20191227134101.244496-1-wainersm@redhat.com>
- <20191227134101.244496-5-wainersm@redhat.com>
- <b32d57ea-de80-bbe2-b771-ae736ef485b1@redhat.com>
-From: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-ID: <7ff9fed1-45af-80d7-3214-1d3df86882c4@redhat.com>
-Date: Wed, 29 Jan 2020 18:07:14 -0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.4.0
-MIME-Version: 1.0
-In-Reply-To: <b32d57ea-de80-bbe2-b771-ae736ef485b1@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: 59uGBL_AOb2aItqlCqQwUg-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+ (envelope-from <beata.michalska@linaro.org>) id 1iwttf-00011R-Lh
+ for qemu-devel@nongnu.org; Wed, 29 Jan 2020 15:25:12 -0500
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:35954)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <beata.michalska@linaro.org>)
+ id 1iwttf-0000v0-EZ
+ for qemu-devel@nongnu.org; Wed, 29 Jan 2020 15:25:11 -0500
+Received: by mail-wr1-x442.google.com with SMTP id z3so1091354wru.3
+ for <qemu-devel@nongnu.org>; Wed, 29 Jan 2020 12:25:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id;
+ bh=5PiI2JpLPXOD+rhRs9PjT8IxzU7v7C1XqbI6jKm2tH8=;
+ b=iPBw6PhmDE72adZ8akd4XeUE8dJvenckql6hJ+U+FpzRpIw0sYb0RBMJe3Ea/dUkoX
+ oV2abATZvmbcgmr8k/CJf+d3bn+9UvQik1a4oUu/QxQlZUrpmswocbQrt1yGdgQSwhQ3
+ GMdxhiP66sQ2/uHRYyDYcilnRYlUBHdHZtVOCPwsO66wXE+ofbThdUG2ycH61acP87WJ
+ AHEZPHL6ZJKi485xpU+YLrJz+T1xMS14TCBntcMs67ZQ9ySsWDb4TRc5FYlGoatscVrG
+ VR4uik1p8XcWMQr9h9SLQepvSVOfKi90BsLJIgZNKKBwvygaLKE9CS6HotvVL7YXa9Ry
+ Y7lQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=5PiI2JpLPXOD+rhRs9PjT8IxzU7v7C1XqbI6jKm2tH8=;
+ b=Z0n8eXzkZSYgBKXT/LoaoC34v1jzbtT8c8bOplQgdSupEHKOOvLUJ2pu+qIuH2cgzQ
+ wv8FF0BNFt2griqyPbGZ1g9zCUgmFex4Yp3yXkp6hepapZWmzszGVNdGy7lxq/dLP5dC
+ mzoXkpWfMknq4cbTljt1riKdtwJCccKytLTX1l52G8qdoiToftNt0YcXf6SRBVEeuIpl
+ enZKJrh0u/pz0MFmDyiw06xKrQoqHOlF2ht7J/qTO2pRjjD0YMEAi+lr0NO4ir3Qwh9T
+ exlQ2Qm/63mDAXrbkChC+2rtUBBLdpzjpoqtfyTSak/pZeY5HAE4xJDdu0QF7+w00FdG
+ Xy6A==
+X-Gm-Message-State: APjAAAUcpw0qtKpCv2bpfwHxGmNlFYHlpBUiXRcYIYCPH85bWXas9G3t
+ a2QiSTpkvztDzsDhp0gX7E1sVUKZLCg=
+X-Google-Smtp-Source: APXvYqzHPzyBe0Bphrsvbb0c0NUyVZ5k7zDuDZ3BqSnCCZVfmTQUu16+tksblF9fEaldbHZwvLhNOQ==
+X-Received: by 2002:adf:ed83:: with SMTP id c3mr604190wro.51.1580329510061;
+ Wed, 29 Jan 2020 12:25:10 -0800 (PST)
+Received: from moi-limbo-9350.home
+ (host86-131-78-194.range86-131.btcentralplus.com. [86.131.78.194])
+ by smtp.gmail.com with ESMTPSA id h2sm4377518wrt.45.2020.01.29.12.25.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 29 Jan 2020 12:25:09 -0800 (PST)
+From: Beata Michalska <beata.michalska@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/2] target/arm: kvm: Support for KVM DABT without valid ISS
+Date: Wed, 29 Jan 2020 20:24:39 +0000
+Message-Id: <20200129202441.12745-1-beata.michalska@linaro.org>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::442
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,82 +71,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ehabkost@redhat.com, crosa@redhat.com
+Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, kvmarm@lists.cs.columbia.edu,
+ Christoffer.Dall@arm.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Some of the ARMv7 & ARMv8 load/store instructions might trigger a data abort
+exception with no valid ISS info to be decoded. The lack of decode info
+makes it at least tricky to emulate the instruction which is one of the
+(many) reasons why KVM will not even try to do so.
 
-On 1/8/20 10:23 PM, John Snow wrote:
->
-> On 12/27/19 8:41 AM, Wainer dos Santos Moschetta wrote:
->> This implement the __enter__ and __exit__ functions on
->> QEMUMonitorProtocol class so that it can be used on 'with'
->> statement and the resources will be free up on block end:
->>
->> with QEMUMonitorProtocol(socket_path) as qmp:
->>      qmp.connect()
->>      qmp.command('query-status')
->>
->> Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
->> ---
->>   python/qemu/qmp.py | 15 +++++++++++++--
->>   1 file changed, 13 insertions(+), 2 deletions(-)
->>
->> diff --git a/python/qemu/qmp.py b/python/qemu/qmp.py
->> index 914b8c6774..6d55f53595 100644
->> --- a/python/qemu/qmp.py
->> +++ b/python/qemu/qmp.py
->> @@ -139,6 +139,15 @@ class QEMUMonitorProtocol:
->>                   raise QMPConnectError("Error while reading from socket")
->>               self.__sock.settimeout(None)
->>   
->> +    def __enter__(self):
->> +        # Implement context manager enter function.
->> +        return self
->> +
->> +    def __exit__(self, exc_type, exc_value, exc_traceback):
->> +        # Implement context manager exit function.
->> +        self.close()
->> +        return False
->> +
->>       def connect(self, negotiate=True):
->>           """
->>           Connect to the QMP Monitor and perform capabilities negotiation.
->> @@ -259,8 +268,10 @@ class QEMUMonitorProtocol:
->>           """
->>           Close the socket and socket file.
->>           """
->> -        self.__sock.close()
->> -        self.__sockfile.close()
->> +        if self.__sock:
->> +            self.__sock.close()
->> +        if self.__sockfile:
->> +            self.__sockfile.close()
-> Not evident on cold read: does self.close() change self.__sock and
-> self.__sockfile such that they are false-ish?
+So far, if a guest made an attempt to access memory outside the memory slot,
+KVM reported vague ENOSYS. As a result QEMU exited with no useful information
+being provided or even a clue on what has just happened.
+
+ARM KVM introduced support for notifying guest of an attempt to execute
+an instruction that resulted in dabt with no valid ISS decoding info.
+This still leaves QEMU to handle the case, but at least now, it can enable
+further debugging of the encountered issue by being more verbose
+in a (hopefully) useful way.
+
+v2:
+- Improving/re-phrasing messaging
+- Dropping messing around with forced sync (@see [PATCH v2 1/2])
+  and PC alignment
 
 
-Because self.__exit__() calls self.close() even when a runtime exception 
-raises, there isn't any guarantee that self.__sockfile and self.__sock 
-were initialized. That's the reason why I added those guards.
+Beata Michalska (2):
+  target/arm: kvm: Inject events at the last stage of sync
+  target/arm: kvm: Handle DABT with no valid ISS
 
+ target/arm/cpu.h     |  2 ++
+ target/arm/kvm.c     | 96 ++++++++++++++++++++++++++++++++++++++++++++++++++++
+ target/arm/kvm32.c   | 23 +++++++------
+ target/arm/kvm64.c   | 23 +++++++------
+ target/arm/kvm_arm.h | 19 +++++++++++
+ 5 files changed, 143 insertions(+), 20 deletions(-)
 
->
-> close() I suspect might need to actually unset the __sock and __sockfile
-> fields.
-
-The QEMUMonitorProtocol object is designed to be disposed after close() 
-being called. So I don't see any reason to unset those fields. Unless I 
-am missing something here...
-
-Thanks for the comments!
-
-- Wainer
-
->
->>   
->>       def settimeout(self, timeout):
->>           """
->>
+-- 
+2.7.4
 
 
