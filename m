@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F4E314C5EF
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jan 2020 06:39:03 +0100 (CET)
-Received: from localhost ([::1]:41404 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B01E614C5E9
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jan 2020 06:37:27 +0100 (CET)
+Received: from localhost ([::1]:41380 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwg46-0007pf-9g
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jan 2020 00:39:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44770)
+	id 1iwg2Y-0004Sn-OP
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jan 2020 00:37:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44772)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alxndr@bu.edu>) id 1iwfza-0007pC-9e
+ (envelope-from <alxndr@bu.edu>) id 1iwfza-0007pk-Ga
  for qemu-devel@nongnu.org; Wed, 29 Jan 2020 00:34:23 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alxndr@bu.edu>) id 1iwfzY-0001vq-VD
+ (envelope-from <alxndr@bu.edu>) id 1iwfzZ-0001vz-Ed
  for qemu-devel@nongnu.org; Wed, 29 Jan 2020 00:34:22 -0500
 Received: from mail-mw2nam10on2110.outbound.protection.outlook.com
  ([40.107.94.110]:45280 helo=NAM10-MW2-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <alxndr@bu.edu>) id 1iwfzY-0001tn-OO
- for qemu-devel@nongnu.org; Wed, 29 Jan 2020 00:34:20 -0500
+ (Exim 4.71) (envelope-from <alxndr@bu.edu>) id 1iwfzZ-0001tn-8G
+ for qemu-devel@nongnu.org; Wed, 29 Jan 2020 00:34:21 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=mXYcQ6As6saFouVcSKNyVO3wUbRkiqWTy/yt1twd9tZbhPrKGgzoLx+lGPznU7nORd29qMuuMiuMHXqnnrLRABVWqbL8BwLx4ozvmFCqrjCrEv2XjwV35A6DZpKLYlge+W+/tq6jn9OOUKMWn4psN0RNciq2+CGSsiOaucR1BYI8DhwoaQ0r8/RukGt6PMon7BZIt+uCSnf9SBqCBqFNFyUKyHS6IUjUQQdTyNcdLLcPkTmBTKcYMnSisaSTAjG5UbBphnxgS1hnwj/Bqa4kN2OjysUulMw5oxTqfe/U8RUnbz9mciVvuuw8pwBUYO+X9rMAw0HRmGkC3aOO/P7tag==
+ b=Mw+zh3hnm5CuYequdKL2JL8+y5Y40aWGP+BdqiAxz07g9LJMlmKd0Y+2XIKSPL3BswrpsHiG9w1Vdod4Nk3VmwOZE1km2oJR1Ng8Ul86oqbv7FJry78bWDa99P2BGVhy69bf4iMi5AyK0N7twDf/IRP6oL7L9g80YPRm74MS+iTuAkpgP/7TNUgCJhfOnH0ZZgwKXiUQDgRfPlwVhe5QjlmUESMmKy+Je3yoWhWxymYUGU/lT35zMWrYvrVx+0FPdAQkayxo710hUMXr0TtMJQiB2MMutXhnhlXae7JNiwt2mk+t6FIdjTHPuKPcFwJvSiJ2u+xpLjzAX0/w03hO+Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1hQfW9/9q8KnXyTWzkxHml6DPaJtmQZHPkWi5XPf+6I=;
- b=mNPrcIGlBNrgeRo0zbeyMmNicfEf3oAeX1hbzjg04f8c4FU/XjNI/XvVq61jH0B5Vgq31b+ZszPhQ+bKe4ldBnTpQctX7r3cOz/Qa0iS26jKMQ8Cb7MztNV0RZWuFsrkEFnyGLymq1K/wRheJqLTu8Xo69wJx1f0YX+UwfO3NpmGMB9XCT7L9jRfz2D+th17+TWCjX7REiFyKsAaFEtzMvBsfLFZxwCkrTay+TEKP7t15BsHR2YxbGhoIIPuBaiBiypI+x/Ot8Bv1VxQU1r8OR42O3qyu8ZcigbAWtjR267VKC6jMUu4FvMZaheNuT/pNxzqO+veGzc4D/N6afBtvg==
+ bh=9pyU+EWwWoz7a+tVKk2F3sx5oHPPmQUWy8kzp3v+g28=;
+ b=EIa6vE583RIBRstJmFzd0yLPhzfvkGF2jWj3MHHY8iiba/t6Qcio6oJ3DpaCnyqZ2JqKra/hflZvIwV4+c30zllKhoAqBCpmucGeRfmyIQHZKORqfMOpQSgn94nouI4vV/DayJU6qb0d7IsY5dW8X5umhA17EZckGjqeF/dsWx8xPRZFPE80yrb8ITE1H3GQK6MBcxLptiBhF6Z+e8G7EKuKZbI/49H7HTpsupNiFoHMYySzLWIztdCUI/+db6B2CxujlhQzKmz8mYGEomEGYeHSGfIVVjuWBUF9M4RceUyJ9C8OveY3a1+6zjXE5svPXL89GWUIJ11bBQlQDxbXzg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=bu.edu; dmarc=pass action=none header.from=bu.edu; dkim=pass
  header.d=bu.edu; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bushare.onmicrosoft.com; s=selector2-bushare-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1hQfW9/9q8KnXyTWzkxHml6DPaJtmQZHPkWi5XPf+6I=;
- b=GfwWn2BqSudLORtN0bbTZqzTuBsSlCALEhxrL4bOyCh4ZZorr0DHBA0i0czyx4SkdEaFEl29/mLFtgG4syRVlueR+2dVQQVL+X57wwHHAyapdlFBdYNDmtHyQP0itXBZNut6kHiHxZcStkiPpBfv/TN9TLw6JFUVtzgf4wiHIio=
+ bh=9pyU+EWwWoz7a+tVKk2F3sx5oHPPmQUWy8kzp3v+g28=;
+ b=OV4iy/8rRXe9qZRkqe8z0t2hurflIhdPduyhNw5LFayu1/qZZB3YrVQv7gLIGdN/NiK/zvNGcXBlT4e03a98fTOCPUV79WDG1xHz2O/mB7WKDQMZrXCzOLCHMCzfU5X3BJI+FYI0lFThmToCy5ygUFyFc9i3vRoSbJDBOst6VGc=
 Received: from SN6PR03MB3871.namprd03.prod.outlook.com (52.135.102.32) by
  SN6PR03MB4206.namprd03.prod.outlook.com (52.135.110.13) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2665.20; Wed, 29 Jan 2020 05:34:19 +0000
+ 15.20.2665.20; Wed, 29 Jan 2020 05:34:20 +0000
 Received: from SN6PR03MB3871.namprd03.prod.outlook.com
  ([fe80::9c11:10cd:6e97:bbe8]) by SN6PR03MB3871.namprd03.prod.outlook.com
  ([fe80::9c11:10cd:6e97:bbe8%7]) with mapi id 15.20.2665.026; Wed, 29 Jan 2020
- 05:34:19 +0000
+ 05:34:20 +0000
 Received: from mozz.bu.edu (128.197.127.33) by
  MN2PR05CA0029.namprd05.prod.outlook.com (2603:10b6:208:c0::42) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2686.19 via Frontend Transport; Wed, 29 Jan 2020 05:34:15 +0000
+ 15.20.2686.19 via Frontend Transport; Wed, 29 Jan 2020 05:34:16 +0000
 From: "Bulekov, Alexander" <alxndr@bu.edu>
 To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Subject: [PATCH v8 06/21] libqtest: make bufwrite rely on the TransportOps
-Thread-Topic: [PATCH v8 06/21] libqtest: make bufwrite rely on the TransportOps
-Thread-Index: AQHV1mW/o0Yy4OFvvEeIP+CkCLlDxQ==
-Date: Wed, 29 Jan 2020 05:34:16 +0000
-Message-ID: <20200129053357.27454-7-alxndr@bu.edu>
+Subject: [PATCH v8 07/21] qtest: add in-process incoming command handler
+Thread-Topic: [PATCH v8 07/21] qtest: add in-process incoming command handler
+Thread-Index: AQHV1mW/jLQxr4PAlUSaT2U/4rKEEA==
+Date: Wed, 29 Jan 2020 05:34:17 +0000
+Message-ID: <20200129053357.27454-8-alxndr@bu.edu>
 References: <20200129053357.27454-1-alxndr@bu.edu>
 In-Reply-To: <20200129053357.27454-1-alxndr@bu.edu>
 Accept-Language: en-US
@@ -69,11 +69,11 @@ x-clientproxiedby: MN2PR05CA0029.namprd05.prod.outlook.com
 authentication-results: spf=none (sender IP is ) smtp.mailfrom=alxndr@bu.edu; 
 x-ms-exchange-messagesentrepresentingtype: 1
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 9e5decdb-714b-48c0-b3c1-08d7a47ce17e
+x-ms-office365-filtering-correlation-id: cb54efd7-e4d7-45a8-ce7b-08d7a47ce1fe
 x-ms-traffictypediagnostic: SN6PR03MB4206:
 x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <SN6PR03MB4206984E1150B4CAD6D949BFBA050@SN6PR03MB4206.namprd03.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:1468;
+x-microsoft-antispam-prvs: <SN6PR03MB42067014AC33319403A53557BA050@SN6PR03MB4206.namprd03.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:1824;
 x-forefront-prvs: 02973C87BC
 x-forefront-antispam-report: SFV:NSPM;
  SFS:(10019020)(4636009)(376002)(136003)(366004)(346002)(396003)(39860400002)(189003)(199004)(478600001)(75432002)(36756003)(316002)(6916009)(2906002)(786003)(4326008)(54906003)(26005)(186003)(956004)(2616005)(6486002)(7696005)(52116002)(16526019)(1076003)(5660300002)(71200400001)(86362001)(66446008)(66556008)(66946007)(66476007)(8936002)(81156014)(81166006)(64756008)(8676002);
@@ -84,18 +84,18 @@ received-spf: None (protection.outlook.com: bu.edu does not designate
  permitted sender hosts)
 x-ms-exchange-senderadcheck: 1
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 4Q7AKSAijwpEECFGUCT751QPJ+rgiIko4pZDyUeo3Issy1JFvceKx+tlrGvAVpIzLirZM3w0RTwhH8pjxA73Vur+CZv1JJXgPhAJJM9WOhpCc5f5MbTbrP+jwhWl8qgaPBPZfnlLIs7jqRn2wdxp0RdSjwmy1OTRLcXqoomBuwKS9Eiy3D7WFXTajZ3t8VonydqoWx11hAq6AQ0D4C08ppQGUojuepp5qbZkOCH6ufBCYUZsU33HO5WWCQqBdnUhH5Y+io2AH+fQ2o46+8rB0P2DUGPgqDGj/GnZ8XXmJT7+QiXl4hYOtpHTgbihg0Cj4YpmsOGUagmPxBSdTaeCoPkZy0BYmi9ECXb8UVnuhHaX7VOdl8Icsm7/qLC/R/QfA1l+bWOLpTUY9Jd5btAXvxZ051dDg9KrF/zmrjlflpiYXoiA8iiJlgCduva4QJ+z
-x-ms-exchange-antispam-messagedata: kK5sMtKie4bk+rlCBmf7c4KPE/7TrQkPhBVJGAbQPiUEvQr40fX7kPqnabR8ZmCVCaIN4/NpAeN/KTGXWGF64PpHLRZMVy6TGs2fEbvAKRjHPHp78fyaWVuNUUmjFjsxCjwYdFQa5wUp9pzKip9pkQ==
+x-microsoft-antispam-message-info: 7eJ46z4wLzOsE/kllf7fTsAp4liJ9QThL0GD95e5Kw5LhNA15zYg2zNy/IDHYx/sm9sg/AeYPYsPUcp1PYVS4vokCyP8ctMNFzmbrkQCPDjIHkNybmYk7P8QyP2sCpFitoAMfzni+Q+wdPzGktot1JJgjPg6TFgsgbmFxQD0a5jZLqgVpf5YluUo1hJEQI4KobHsAWk9teXbAX2q5ZS1LGPxlRy+VXxSyn0Ty/5Co78S9/9cIxwDw8i6GotzbISRRAPZPI5Y+yZPeVDm0fuTTuzsQ9XmGHyqDtdh7hp3NGINijionOX0vzZDiGUW4dRcPy0JEjOB2+YEO0NmFlqGWXANpSjb+DBMYM8dLaVxktxv0g6iGhGs19CnjEQtW+69yiAuwXIK9D2QS5qQMA5KqMMzPIC7FS03aJLw/FkL+0yvDBCs+VM/t9w+QOW+bGIY
+x-ms-exchange-antispam-messagedata: MHIn2iC2/fUP4vHzP/krIg96wDVsodFPVvuEfMhsuhwg+rVTTruBnv2MrWgZN2JM02pBqw6q4UJN9e+ymfkGkvN7VA5PzPW9XnRUn/VYIt6M3RyMeW5+H+EbgMlTajK0Gl4oup8kbaBFncfwFYokig==
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: bu.edu
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9e5decdb-714b-48c0-b3c1-08d7a47ce17e
-X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Jan 2020 05:34:16.4490 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: cb54efd7-e4d7-45a8-ce7b-08d7a47ce1fe
+X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Jan 2020 05:34:17.2935 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: d57d32cc-c121-488f-b07b-dfe705680c71
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: SyMDhakMpueyZ4CbDPVkqhJmssTxG53kCMTb+qJDi/L5dnjIcj8RzS6SRO10JrXf
+X-MS-Exchange-CrossTenant-userprincipalname: 2THVo8HFEp4OMuVOUEkb1E205Dv6Z5qjM0p/w4R7xQM7Y01DyWn3/zuQOuScK0JR
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR03MB4206
 X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
 X-Received-From: 40.107.94.110
@@ -117,136 +117,49 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When using qtest "in-process" communication, qtest_sendf directly calls
-a function in the server (qtest.c). Previously, bufwrite used
-socket_send, which bypasses the TransportOps enabling the call into
-qtest.c. This change replaces the socket_send calls with ops->send,
-maintaining the benefits of the direct socket_send call, while adding
-support for in-process qtest calls.
+The handler allows a qtest client to send commands to the server by
+directly calling a function, rather than using a file/CharBackend
 
 Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- tests/qtest/libqtest.c | 71 ++++++++++++++++++++++++++++++++++++++++--
- tests/qtest/libqtest.h |  4 +++
- 2 files changed, 73 insertions(+), 2 deletions(-)
+ include/sysemu/qtest.h |  1 +
+ qtest.c                | 13 +++++++++++++
+ 2 files changed, 14 insertions(+)
 
-diff --git a/tests/qtest/libqtest.c b/tests/qtest/libqtest.c
-index e5056a1d0f..49075b55a1 100644
---- a/tests/qtest/libqtest.c
-+++ b/tests/qtest/libqtest.c
-@@ -37,10 +37,18 @@
+diff --git a/include/sysemu/qtest.h b/include/sysemu/qtest.h
+index e2f1047fd7..eedd3664f0 100644
+--- a/include/sysemu/qtest.h
++++ b/include/sysemu/qtest.h
+@@ -28,5 +28,6 @@ void qtest_server_init(const char *qtest_chrdev, const ch=
+ar *qtest_log, Error **
 =20
+ void qtest_server_set_send_handler(void (*send)(void *, const char *),
+                                  void *opaque);
++void qtest_server_inproc_recv(void *opaque, const char *buf);
 =20
- typedef void (*QTestSendFn)(QTestState *s, const char *buf);
-+typedef void (*ExternalSendFn)(void *s, const char *buf);
- typedef GString* (*QTestRecvFn)(QTestState *);
-=20
- typedef struct QTestClientTransportOps {
-     QTestSendFn     send;      /* for sending qtest commands */
-+
-+    /*
-+     * use external_send to send qtest command strings through functions w=
-hich
-+     * do not accept a QTestState as the first parameter.
-+     */
-+    ExternalSendFn  external_send;
-+
-     QTestRecvFn     recv_line; /* for receiving qtest command responses */
- } QTestTransportOps;
-=20
-@@ -1078,8 +1086,8 @@ void qtest_bufwrite(QTestState *s, uint64_t addr, con=
-st void *data, size_t size)
-=20
-     bdata =3D g_base64_encode(data, size);
-     qtest_sendf(s, "b64write 0x%" PRIx64 " 0x%zx ", addr, size);
--    socket_send(s->fd, bdata, strlen(bdata));
--    socket_send(s->fd, "\n", 1);
-+    s->ops.send(s, bdata);
-+    s->ops.send(s, "\n");
-     qtest_rsp(s, 0);
-     g_free(bdata);
- }
-@@ -1367,3 +1375,62 @@ static void qtest_client_set_rx_handler(QTestState *=
-s, QTestRecvFn recv)
- {
-     s->ops.recv_line =3D recv;
- }
-+/* A type-safe wrapper for s->send() */
-+static void send_wrapper(QTestState *s, const char *buf)
-+{
-+    s->ops.external_send(s, buf);
-+}
-+
-+static GString *qtest_client_inproc_recv_line(QTestState *s)
-+{
-+    GString *line;
-+    size_t offset;
-+    char *eol;
-+
-+    eol =3D strchr(s->rx->str, '\n');
-+    offset =3D eol - s->rx->str;
-+    line =3D g_string_new_len(s->rx->str, offset);
-+    g_string_erase(s->rx, 0, offset + 1);
-+    return line;
-+}
-+
-+QTestState *qtest_inproc_init(QTestState **s, bool log, const char* arch,
-+                    void (*send)(void*, const char*))
-+{
-+    QTestState *qts;
-+    qts =3D g_new0(QTestState, 1);
-+    *s =3D qts; /* Expose qts early on, since the query endianness relies =
-on it */
-+    qts->wstatus =3D 0;
-+    for (int i =3D 0; i < MAX_IRQ; i++) {
-+        qts->irq_level[i] =3D false;
-+    }
-+
-+    qtest_client_set_rx_handler(qts, qtest_client_inproc_recv_line);
-+
-+    /* send() may not have a matching protoype, so use a type-safe wrapper=
- */
-+    qts->ops.external_send =3D send;
-+    qtest_client_set_tx_handler(qts, send_wrapper);
-+
-+    qts->big_endian =3D qtest_query_target_endianness(qts);
-+
-+    /*
-+     * Set a dummy path for QTEST_QEMU_BINARY. Doesn't need to exist, but =
-this
-+     * way, qtest_get_arch works for inproc qtest.
-+     */
-+    gchar *bin_path =3D g_strconcat("/qemu-system-", arch, NULL);
-+    setenv("QTEST_QEMU_BINARY", bin_path, 0);
-+    g_free(bin_path);
-+
-+    return qts;
-+}
-+
-+void qtest_client_inproc_recv(void *opaque, const char *str)
-+{
-+    QTestState *qts =3D *(QTestState **)opaque;
-+
-+    if (!qts->rx) {
-+        qts->rx =3D g_string_new(NULL);
-+    }
-+    g_string_append(qts->rx, str);
-+    return;
-+}
-diff --git a/tests/qtest/libqtest.h b/tests/qtest/libqtest.h
-index c9e21e05b3..f5cf93c386 100644
---- a/tests/qtest/libqtest.h
-+++ b/tests/qtest/libqtest.h
-@@ -729,4 +729,8 @@ bool qtest_probe_child(QTestState *s);
-  */
- void qtest_set_expected_status(QTestState *s, int status);
-=20
-+QTestState *qtest_inproc_init(QTestState **s, bool log, const char* arch,
-+                    void (*send)(void*, const char*));
-+
-+void qtest_client_inproc_recv(void *opaque, const char *str);
  #endif
+diff --git a/qtest.c b/qtest.c
+index 938c3746d6..ad6eb6a526 100644
+--- a/qtest.c
++++ b/qtest.c
+@@ -803,3 +803,16 @@ bool qtest_driver(void)
+ {
+     return qtest_chr.chr !=3D NULL;
+ }
++
++void qtest_server_inproc_recv(void *dummy, const char *buf)
++{
++    static GString *gstr;
++    if (!gstr) {
++        gstr =3D g_string_new(NULL);
++    }
++    g_string_append(gstr, buf);
++    if (gstr->str[gstr->len - 1] =3D=3D '\n') {
++        qtest_process_inbuf(NULL, gstr);
++        g_string_truncate(gstr, 0);
++    }
++}
 --=20
 2.23.0
 
