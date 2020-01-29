@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 054AE14CC1A
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jan 2020 15:08:30 +0100 (CET)
-Received: from localhost ([::1]:47042 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB5EF14CC1F
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jan 2020 15:09:47 +0100 (CET)
+Received: from localhost ([::1]:47064 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwo17-0002gF-38
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jan 2020 09:08:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40532)
+	id 1iwo2M-0005Jl-NQ
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jan 2020 09:09:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40533)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dplotnikov@virtuozzo.com>) id 1iwo09-0001Ks-LR
+ (envelope-from <dplotnikov@virtuozzo.com>) id 1iwo09-0001Kt-JW
  for qemu-devel@nongnu.org; Wed, 29 Jan 2020 09:07:30 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dplotnikov@virtuozzo.com>) id 1iwo08-0001Cm-CB
+ (envelope-from <dplotnikov@virtuozzo.com>) id 1iwo08-0001Ct-DF
  for qemu-devel@nongnu.org; Wed, 29 Jan 2020 09:07:29 -0500
-Received: from relay.sw.ru ([185.231.240.75]:53592)
+Received: from relay.sw.ru ([185.231.240.75]:53604)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dplotnikov@virtuozzo.com>)
- id 1iwo08-00013L-4x; Wed, 29 Jan 2020 09:07:28 -0500
+ id 1iwo08-00013Q-68; Wed, 29 Jan 2020 09:07:28 -0500
 Received: from dptest2.qa.sw.ru ([10.94.4.71])
  by relay.sw.ru with esmtp (Exim 4.92.3)
  (envelope-from <dplotnikov@virtuozzo.com>)
- id 1iwnzt-0003j6-1e; Wed, 29 Jan 2020 17:07:13 +0300
+ id 1iwnzt-0003j6-4s; Wed, 29 Jan 2020 17:07:13 +0300
 From: Denis Plotnikov <dplotnikov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 1/4] virtio: introduce VIRTQUEUE_DEFUALT_SIZE instead of
- hardcoded constants
-Date: Wed, 29 Jan 2020 17:06:59 +0300
-Message-Id: <20200129140702.5411-2-dplotnikov@virtuozzo.com>
+Subject: [PATCH v1 2/4] virtio: increase virtuqueue size for virtio-scsi and
+ virtio-blk
+Date: Wed, 29 Jan 2020 17:07:00 +0300
+Message-Id: <20200129140702.5411-3-dplotnikov@virtuozzo.com>
 X-Mailer: git-send-email 2.17.0
 In-Reply-To: <20200129140702.5411-1-dplotnikov@virtuozzo.com>
 References: <20200129140702.5411-1-dplotnikov@virtuozzo.com>
@@ -52,69 +52,52 @@ Cc: fam@euphon.net, kwolf@redhat.com, vsementsov@virtuozzo.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The goal is to reduce the amount of requests issued by a guest on
+1M reads/writes. This rises the performance up to 4% on that kind of
+disk access pattern.
+
+The maximum chunk size to be used for the guest disk accessing is
+limited with seg_max parameter, which represents the max amount of
+pices in the scatter-geather list in one guest disk request.
+
+Since seg_max is virqueue_size dependent, increasing the virtqueue
+size increases seg_max, which, in turn, increases the maximum size
+of data to be read/write from guest disk.
+
+More details in the original problem statment:
+https://lists.gnu.org/archive/html/qemu-devel/2017-12/msg03721.html
+
+Suggested-by: Denis V. Lunev <den@openvz.org>
 Signed-off-by: Denis Plotnikov <dplotnikov@virtuozzo.com>
 ---
- hw/block/virtio-blk.c      | 6 ++++--
- hw/scsi/virtio-scsi.c      | 5 +++--
- include/hw/virtio/virtio.h | 1 +
- 3 files changed, 8 insertions(+), 4 deletions(-)
+ hw/core/machine.c          | 3 +++
+ include/hw/virtio/virtio.h | 2 +-
+ 2 files changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/hw/block/virtio-blk.c b/hw/block/virtio-blk.c
-index 09f46ed85f..72f935033f 100644
---- a/hw/block/virtio-blk.c
-+++ b/hw/block/virtio-blk.c
-@@ -914,7 +914,8 @@ static void virtio_blk_update_config(VirtIODevice *vdev, uint8_t *config)
-     memset(&blkcfg, 0, sizeof(blkcfg));
-     virtio_stq_p(vdev, &blkcfg.capacity, capacity);
-     virtio_stl_p(vdev, &blkcfg.seg_max,
--                 s->conf.seg_max_adjust ? s->conf.queue_size - 2 : 128 - 2);
-+                 s->conf.seg_max_adjust ? s->conf.queue_size - 2 :
-+                                          VIRTQUEUE_DEFAULT_SIZE - 2);
-     virtio_stw_p(vdev, &blkcfg.geometry.cylinders, conf->cyls);
-     virtio_stl_p(vdev, &blkcfg.blk_size, blk_size);
-     virtio_stw_p(vdev, &blkcfg.min_io_size, conf->min_io_size / blk_size);
-@@ -1272,7 +1273,8 @@ static Property virtio_blk_properties[] = {
-     DEFINE_PROP_BIT("request-merging", VirtIOBlock, conf.request_merging, 0,
-                     true),
-     DEFINE_PROP_UINT16("num-queues", VirtIOBlock, conf.num_queues, 1),
--    DEFINE_PROP_UINT16("queue-size", VirtIOBlock, conf.queue_size, 128),
-+    DEFINE_PROP_UINT16("queue-size", VirtIOBlock, conf.queue_size,
-+                       VIRTQUEUE_DEFAULT_SIZE),
-     DEFINE_PROP_BOOL("seg-max-adjust", VirtIOBlock, conf.seg_max_adjust, true),
-     DEFINE_PROP_LINK("iothread", VirtIOBlock, conf.iothread, TYPE_IOTHREAD,
-                      IOThread *),
-diff --git a/hw/scsi/virtio-scsi.c b/hw/scsi/virtio-scsi.c
-index 3b61563609..36f66046ae 100644
---- a/hw/scsi/virtio-scsi.c
-+++ b/hw/scsi/virtio-scsi.c
-@@ -660,7 +660,8 @@ static void virtio_scsi_get_config(VirtIODevice *vdev,
+diff --git a/hw/core/machine.c b/hw/core/machine.c
+index 3e288bfceb..8bc401d8b7 100644
+--- a/hw/core/machine.c
++++ b/hw/core/machine.c
+@@ -28,6 +28,9 @@
+ #include "hw/mem/nvdimm.h"
  
-     virtio_stl_p(vdev, &scsiconf->num_queues, s->conf.num_queues);
-     virtio_stl_p(vdev, &scsiconf->seg_max,
--                 s->conf.seg_max_adjust ? s->conf.virtqueue_size - 2 : 128 - 2);
-+                 s->conf.seg_max_adjust ? s->conf.virtqueue_size - 2 :
-+                                          VIRTQUEUE_DEFAULT_SIZE - 2);
-     virtio_stl_p(vdev, &scsiconf->max_sectors, s->conf.max_sectors);
-     virtio_stl_p(vdev, &scsiconf->cmd_per_lun, s->conf.cmd_per_lun);
-     virtio_stl_p(vdev, &scsiconf->event_info_size, sizeof(VirtIOSCSIEvent));
-@@ -965,7 +966,7 @@ static void virtio_scsi_device_unrealize(DeviceState *dev, Error **errp)
- static Property virtio_scsi_properties[] = {
-     DEFINE_PROP_UINT32("num_queues", VirtIOSCSI, parent_obj.conf.num_queues, 1),
-     DEFINE_PROP_UINT32("virtqueue_size", VirtIOSCSI,
--                                         parent_obj.conf.virtqueue_size, 128),
-+                       parent_obj.conf.virtqueue_size, VIRTQUEUE_DEFAULT_SIZE),
-     DEFINE_PROP_BOOL("seg_max_adjust", VirtIOSCSI,
-                       parent_obj.conf.seg_max_adjust, true),
-     DEFINE_PROP_UINT32("max_sectors", VirtIOSCSI, parent_obj.conf.max_sectors,
+ GlobalProperty hw_compat_4_2[] = {
++    { "virtio-blk-device", "queue-size", "128"},
++    { "virtio-scsi-device", "virtqueue_size", "128"},
++    { "vhost-blk-device", "virtqueue_size", "128"},
+     { "virtio-blk-device", "x-enable-wce-if-config-wce", "off" },
+     { "virtio-blk-device", "seg-max-adjust", "off"},
+     { "virtio-scsi-device", "seg_max_adjust", "off"},
 diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
-index b69d517496..a66ea2368b 100644
+index a66ea2368b..16d540e390 100644
 --- a/include/hw/virtio/virtio.h
 +++ b/include/hw/virtio/virtio.h
-@@ -48,6 +48,7 @@ size_t virtio_feature_get_config_size(VirtIOFeature *features,
+@@ -48,7 +48,7 @@ size_t virtio_feature_get_config_size(VirtIOFeature *features,
  typedef struct VirtQueue VirtQueue;
  
  #define VIRTQUEUE_MAX_SIZE 1024
-+#define VIRTQUEUE_DEFAULT_SIZE 128
+-#define VIRTQUEUE_DEFAULT_SIZE 128
++#define VIRTQUEUE_DEFAULT_SIZE 256
  
  typedef struct VirtQueueElement
  {
