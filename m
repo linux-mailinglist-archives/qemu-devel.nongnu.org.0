@@ -2,73 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8EC714D2A5
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jan 2020 22:39:06 +0100 (CET)
-Received: from localhost ([::1]:51776 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70A6714D2BE
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jan 2020 22:53:59 +0100 (CET)
+Received: from localhost ([::1]:52018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwv3B-0004yq-Oo
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jan 2020 16:39:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45002)
+	id 1iwvHa-0004Nh-H4
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jan 2020 16:53:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60184)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jpewhacker@gmail.com>) id 1iwsqo-0000k5-9c
- for qemu-devel@nongnu.org; Wed, 29 Jan 2020 14:18:11 -0500
+ (envelope-from <bounces@canonical.com>) id 1iwuq8-0007fJ-GC
+ for qemu-devel@nongnu.org; Wed, 29 Jan 2020 16:25:37 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jpewhacker@gmail.com>) id 1iwsqn-0008Sw-D2
- for qemu-devel@nongnu.org; Wed, 29 Jan 2020 14:18:10 -0500
-Received: from mail-io1-xd42.google.com ([2607:f8b0:4864:20::d42]:36234)
+ (envelope-from <bounces@canonical.com>) id 1iwuq7-0003DG-9f
+ for qemu-devel@nongnu.org; Wed, 29 Jan 2020 16:25:36 -0500
+Received: from indium.canonical.com ([91.189.90.7]:40050)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <jpewhacker@gmail.com>)
- id 1iwsqn-0008Rf-9U
- for qemu-devel@nongnu.org; Wed, 29 Jan 2020 14:18:09 -0500
-Received: by mail-io1-xd42.google.com with SMTP id d15so1042878iog.3
- for <qemu-devel@nongnu.org>; Wed, 29 Jan 2020 11:18:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=JssBp+Af03CgiiTxeYvhyMv5hXNuQpZd/7qsT00yHQk=;
- b=ctvexfqjoGQ5T5Sn1vLgbpYvSzDPoj0uoS0TVohl3YJz2a5tiDMM2aGASlTNA4rsx2
- mpuudbsaV3AZLL6Vh7gIfijPEHoqBPgPhuesItEkbDDzOTIKd4fvn3Yqgma/MyRog04b
- f8kjNuD9QFnqMNCYEjSTQ7c+MMeFQ2TSwjFNPYL/wyAlJUXyim/H3XyhDo+kwxKCKuK+
- lkszu7Y7eYQt2l0h8qj5xS3BkelgIH1uCUFCZ4kD7Kyi/evF9lu5NIl0obgY1dZlIqA0
- RCJHQo4AmV8vG54JUEV37uDn4xUk18n91xqRk6gim7rZz73J/xzy2BwKCGJV2Lb7nnRq
- dw3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=JssBp+Af03CgiiTxeYvhyMv5hXNuQpZd/7qsT00yHQk=;
- b=kRVzyOqrrYtk+tblnqVWoQsu02R+E/8Opm3jcn1JwF4wQ3VWktqZgYIN21n65Gssvs
- RIrnLoKxDo9QLM1wn+VgQqkxJmePJzJUjB26CHDbViJUZrMo6Y/KqcVXuppMbybpT/zU
- OtiebODkJk9dPlrFVPs8zsikHz3E0Gnta3gTmtulgjtfCBizuJacm6RyuK32FrE8ciYg
- HZVa+RWcLkyTqznXGjCJWgLGGxyp4YkX4CAhDWGDKbSkzbZx4nSsbbUwfHUdzyfL8VEw
- A+n9uMeObqBtdkFRtxkz1Fp2ZJWWp7lIjfkzxce8MKFNwK19NAEzksGgN5G9INOGwcug
- IusA==
-X-Gm-Message-State: APjAAAWymEUUsYUauCb61OMPnoWmkYrd0zC2ssnILXVC8jaqw6xrMWsB
- Vj/Gr6/5OD3xwpGY8OGNW9LlDd3mLJY=
-X-Google-Smtp-Source: APXvYqxuHq/oBv4epVwHoQWW9A0tiqDb88Ly6lD0S4ibzNEGAvMeRJlBG3wt4HVmpfBJUbFMirJsmQ==
-X-Received: by 2002:a5d:905a:: with SMTP id v26mr887540ioq.77.1580325487942;
- Wed, 29 Jan 2020 11:18:07 -0800 (PST)
-Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
- by smtp.gmail.com with ESMTPSA id i13sm767646ioi.67.2020.01.29.11.18.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 29 Jan 2020 11:18:07 -0800 (PST)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] ui/gtk: Respect -show-cursor option
-Date: Wed, 29 Jan 2020 13:17:29 -0600
-Message-Id: <20200129191754.3578615-1-JPEWhacker@gmail.com>
-X-Mailer: git-send-email 2.24.1
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iwuq7-00039y-2d
+ for qemu-devel@nongnu.org; Wed, 29 Jan 2020 16:25:35 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iwuq6-0001gS-27
+ for <qemu-devel@nongnu.org>; Wed, 29 Jan 2020 21:25:34 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 0A2852E80AD
+ for <qemu-devel@nongnu.org>; Wed, 29 Jan 2020 21:25:34 +0000 (UTC)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::d42
-X-Mailman-Approved-At: Wed, 29 Jan 2020 16:37:05 -0500
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 29 Jan 2020 21:18:59 -0000
+From: rinigus <rinigus.git@gmail.com>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: rinigus-git
+X-Launchpad-Bug-Reporter: rinigus (rinigus-git)
+X-Launchpad-Bug-Modifier: rinigus (rinigus-git)
+Message-Id: <158033273927.19447.5685950954198072756.malonedeb@gac.canonical.com>
+Subject: [Bug 1861341] [NEW] ARM QEMU: Unknown syscall 397
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="b8d1327fd820d6bf500589d6da587d5037c7d88e";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: cdf84f6f1fe5969b4fb8d5d2397d62a9eda2bf4f
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
+X-Mailman-Approved-At: Wed, 29 Jan 2020 16:53:17 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -77,33 +64,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gerd Hoffmann <kraxel@redhat.com>, Joshua Watt <JPEWhacker@gmail.com>
+Reply-To: Bug 1861341 <1861341@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If the user specifies the -show-cursor option, force the cursor to be
-shown even if it would not otherwise.
+Public bug reported:
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
----
- ui/gtk.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+QEMU is reporting
 
-diff --git a/ui/gtk.c b/ui/gtk.c
-index d18892d1de..bdd1b53236 100644
---- a/ui/gtk.c
-+++ b/ui/gtk.c
-@@ -258,7 +258,8 @@ static void gd_update_cursor(VirtualConsole *vc)
-     }
- 
-     window = gtk_widget_get_window(GTK_WIDGET(vc->gfx.drawing_area));
--    if (s->full_screen || qemu_input_is_absolute() || s->ptr_owner == vc) {
-+    if (cursor_hide &&
-+        (s->full_screen || qemu_input_is_absolute() || s->ptr_owner == vc)) {
-         gdk_window_set_cursor(window, s->null_cursor);
-     } else {
-         gdk_window_set_cursor(window, NULL);
--- 
-2.24.1
+```
+Unknown syscall 397
+```
 
+(statx if I read tables right) when used via flatpak for ARM images on
+x86_64. This has been reproduced on Fedora and Gentoo.
+
+To reproduce:
+
+- get flatpak KDE 5.12 for arm:
+
+flatpak install --user org.kde.Sdk/arm/5.12 org.kde.Platform/arm/5.12
+
+
+- run qmake inside Sdk:
+
+QEMU_STRACE=3D1 flatpak run --filesystem=3Dhost --command=3Dqmake
+org.kde.Sdk/arm/5.12 .
+
+
+You will get a host of messages with unknown syscall. In practice, qmake wi=
+ll fail to find .pro files if you have them in that folder and libraries in=
+ the system.
+
+As far as I understand, Flatpak images are built on AARCH64 hardware.
+
+My config on Gentoo:
+
+kernel: 4.19.86-gentoo x86_64
+app-emulation/qemu: ~4.2.0-r1 , same with 4.0.0
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1861341
+
+Title:
+  ARM QEMU: Unknown syscall 397
+
+Status in QEMU:
+  New
+
+Bug description:
+  QEMU is reporting
+
+  ```
+  Unknown syscall 397
+  ```
+
+  (statx if I read tables right) when used via flatpak for ARM images on
+  x86_64. This has been reproduced on Fedora and Gentoo.
+
+  To reproduce:
+
+  - get flatpak KDE 5.12 for arm:
+
+  flatpak install --user org.kde.Sdk/arm/5.12 org.kde.Platform/arm/5.12
+
+  =
+
+  - run qmake inside Sdk:
+
+  QEMU_STRACE=3D1 flatpak run --filesystem=3Dhost --command=3Dqmake
+  org.kde.Sdk/arm/5.12 .
+
+  =
+
+  You will get a host of messages with unknown syscall. In practice, qmake =
+will fail to find .pro files if you have them in that folder and libraries =
+in the system.
+
+  As far as I understand, Flatpak images are built on AARCH64 hardware.
+
+  My config on Gentoo:
+
+  kernel: 4.19.86-gentoo x86_64
+  app-emulation/qemu: ~4.2.0-r1 , same with 4.0.0
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1861341/+subscriptions
 
