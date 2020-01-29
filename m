@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A11D14D283
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jan 2020 22:29:25 +0100 (CET)
-Received: from localhost ([::1]:51574 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7789014D281
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jan 2020 22:29:03 +0100 (CET)
+Received: from localhost ([::1]:51570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwuto-0004iL-7v
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jan 2020 16:29:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59569)
+	id 1iwutS-0004Vi-EW
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jan 2020 16:29:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59624)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iwupG-0005cv-7w
- for qemu-devel@nongnu.org; Wed, 29 Jan 2020 16:24:43 -0500
+ (envelope-from <philmd@redhat.com>) id 1iwupJ-0005oU-R8
+ for qemu-devel@nongnu.org; Wed, 29 Jan 2020 16:24:46 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iwupE-0000nn-SF
- for qemu-devel@nongnu.org; Wed, 29 Jan 2020 16:24:42 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:56774
+ (envelope-from <philmd@redhat.com>) id 1iwupI-0000zX-Mq
+ for qemu-devel@nongnu.org; Wed, 29 Jan 2020 16:24:45 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:21511
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iwupE-0000nA-Oo
- for qemu-devel@nongnu.org; Wed, 29 Jan 2020 16:24:40 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iwupI-0000yU-He
+ for qemu-devel@nongnu.org; Wed, 29 Jan 2020 16:24:44 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580333080;
+ s=mimecast20190719; t=1580333084;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=p9/BUqYrXR/AdhcGhJKpMEvgaqrclFXB8RiepMBdAM8=;
- b=MXEj7nTSSHrh9eKA68X32E6RL0wqyYBFnwZe/Lm7+c7vmLfuaDfcw9JbGQsDUO/4MJ6TYE
- +6s7gLi0VcgkDytWZHLrWzVtwrtzP+ttx0zrY6u6O9nIOMaUcYTN/zjILhF8AIl3dA2fD3
- 9WjN7oMfcRHwX8SEsqR3B0cxWKluvfk=
+ bh=/QoB+Io08NfOpDheh+GozLBIB+1HoMFpfftGG6ycXEM=;
+ b=KF234yKm0VQVg1MpAvVFmvrzQGZBqaOn6M6G4WPNgrmrwWHaQ30ejzBr3aYtt4OwJ4egVB
+ ubnJaMYtxsyhCdLCXeu6N3+Qp/LZ88/xpKa+g9z+iMbK68lzqQn6s+QGYPlYRVX1PKTn5H
+ P/QJHqIDvr/2fBkeO9KRW654Zti91sI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-394-IUsB0qhzNAGt-i8YKmqrkQ-1; Wed, 29 Jan 2020 16:24:35 -0500
+ us-mta-86-SH7pic85Pg6cVdzplIih-Q-1; Wed, 29 Jan 2020 16:24:38 -0500
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C7E1B18A6EC3;
- Wed, 29 Jan 2020 21:24:34 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 39968100550E;
+ Wed, 29 Jan 2020 21:24:37 +0000 (UTC)
 Received: from x1w.redhat.com (ovpn-205-184.brq.redhat.com [10.40.205.184])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 13F5360C05;
- Wed, 29 Jan 2020 21:24:27 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 400AC60C05;
+ Wed, 29 Jan 2020 21:24:35 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: Denis Plotnikov <dplotnikov@virtuozzo.com>,
 	qemu-devel@nongnu.org
-Subject: [PATCH v2 11/29] python/qemu: Add binutils::binary_get_accels()
-Date: Wed, 29 Jan 2020 22:23:27 +0100
-Message-Id: <20200129212345.20547-12-philmd@redhat.com>
+Subject: [PATCH v2 12/29] python/qemu/accel: Use binutils::binary_get_accels()
+Date: Wed, 29 Jan 2020 22:23:28 +0100
+Message-Id: <20200129212345.20547-13-philmd@redhat.com>
 In-Reply-To: <20200129212345.20547-1-philmd@redhat.com>
 References: <20200129212345.20547-1-philmd@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: IUsB0qhzNAGt-i8YKmqrkQ-1
+X-MC-Unique: SH7pic85Pg6cVdzplIih-Q-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
@@ -79,62 +79,71 @@ Cc: Cornelia Huck <cohuck@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a helper to query the list of accelerators built into a
-QEMU binary.
+Instead of parsing the process help output, use the
+binary_get_accels() helper which queries the list of
+accelerators over a QMP socket.
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- python/qemu/binutils.py          | 10 ++++++++++
- tests/acceptance/core_scripts.py | 10 ++++++++++
- 2 files changed, 20 insertions(+)
+ python/qemu/accel.py | 26 ++++----------------------
+ 1 file changed, 4 insertions(+), 22 deletions(-)
 
-diff --git a/python/qemu/binutils.py b/python/qemu/binutils.py
-index 76f256f5d2..bba203bc8d 100644
---- a/python/qemu/binutils.py
-+++ b/python/qemu/binutils.py
-@@ -86,3 +86,13 @@ def binary_get_qom_implementations(qemu_bin, type_name, =
-include_abstract=3DFalse):
-         LOG.info(res)
-         vm.shutdown()
-         return [m['name'] for m in res]
-+
-+def binary_get_accels(qemu_bin):
-+    '''
-+    Get list of accelerators supported by a QEMU binary
-+
-+    @param qemu_bin (str): path to the QEMU binary
-+    @return list of accelerators supported by the binary
-+    '''
-+    accel_types =3D binary_get_qom_implementations(qemu_bin, "accel", Fals=
-e)
-+    return [a.strip("-accel") for a in accel_types]
-diff --git a/tests/acceptance/core_scripts.py b/tests/acceptance/core_scrip=
-ts.py
-index c2fe4acf1d..7380f2f49b 100644
---- a/tests/acceptance/core_scripts.py
-+++ b/tests/acceptance/core_scripts.py
-@@ -16,6 +16,7 @@ import logging
+diff --git a/python/qemu/accel.py b/python/qemu/accel.py
+index 0b38ddf0ab..cde51ae159 100644
+--- a/python/qemu/accel.py
++++ b/python/qemu/accel.py
+@@ -16,7 +16,8 @@ accelerators.
 =20
- sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'pytho=
-n'))
- from avocado_qemu import Test
-+from qemu.binutils import binary_get_accels
- from qemu.binutils import binary_get_arch
- from qemu.binutils import binary_get_machines
- from qemu.binutils import binary_get_qom_implementations
-@@ -59,3 +60,12 @@ class PythonQemuCoreScripts(Test):
-         for t in type_impl:
-             logger.debug('type: {}'.format(t))
-         self.assertIn(type_name, type_impl)
+ import logging
+ import os
+-import subprocess
 +
-+    def test_get_accels(self):
-+        logger =3D logging.getLogger('core')
-+        accels =3D binary_get_accels(self.qemu_bin)
-+        for a in accels:
-+            logger.debug('accel: {}'.format(a))
-+        self.assertNotIn("accel", accels)
-+        # qtest is always available
-+        self.assertIn("qtest", accels)
++from .binutils import binary_get_accels
+=20
+ LOG =3D logging.getLogger(__name__)
+=20
+@@ -27,25 +28,6 @@ ADDITIONAL_ARCHES =3D {
+     "aarch64" : "armhf"
+ }
+=20
+-def list_accel(qemu_bin):
+-    """
+-    List accelerators enabled in the QEMU binary.
+-
+-    @param qemu_bin (str): path to the QEMU binary.
+-    @raise Exception: if failed to run `qemu -accel help`
+-    @return a list of accelerator names.
+-    """
+-    if not qemu_bin:
+-        return []
+-    try:
+-        out =3D subprocess.check_output([qemu_bin, '-accel', 'help'],
+-                                      universal_newlines=3DTrue)
+-    except:
+-        LOG.debug("Failed to get the list of accelerators in %s", qemu_bin=
+)
+-        raise
+-    # Skip the first line which is the header.
+-    return [acc.strip() for acc in out.splitlines()[1:]]
+-
+ def kvm_available(target_arch=3DNone, qemu_bin=3DNone):
+     """
+     Check if KVM is available using the following heuristic:
+@@ -64,7 +46,7 @@ def kvm_available(target_arch=3DNone, qemu_bin=3DNone):
+         if target_arch !=3D host_arch:
+             if target_arch !=3D ADDITIONAL_ARCHES.get(host_arch):
+                 return False
+-    if qemu_bin and "kvm" not in list_accel(qemu_bin):
++    if qemu_bin and "kvm" not in binary_get_accels(qemu_bin):
+         return False
+     return True
+=20
+@@ -74,4 +56,4 @@ def tcg_available(qemu_bin):
+=20
+     @param qemu_bin (str): path to the QEMU binary
+     """
+-    return 'tcg' in list_accel(qemu_bin)
++    return 'tcg' in binary_get_accels(qemu_bin)
 --=20
 2.21.1
 
