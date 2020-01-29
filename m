@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C987914D2A6
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jan 2020 22:39:59 +0100 (CET)
-Received: from localhost ([::1]:51790 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8223214D2A3
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jan 2020 22:37:40 +0100 (CET)
+Received: from localhost ([::1]:51738 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwv42-0006OJ-Rv
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jan 2020 16:39:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60119)
+	id 1iwv1n-0002gU-IS
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jan 2020 16:37:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60206)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iwuq1-0007OP-Bz
- for qemu-devel@nongnu.org; Wed, 29 Jan 2020 16:25:30 -0500
+ (envelope-from <philmd@redhat.com>) id 1iwuqA-0007mk-Qc
+ for qemu-devel@nongnu.org; Wed, 29 Jan 2020 16:25:39 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iwuq0-0002t3-E6
- for qemu-devel@nongnu.org; Wed, 29 Jan 2020 16:25:29 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:59237
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1iwuq9-0003JV-S5
+ for qemu-devel@nongnu.org; Wed, 29 Jan 2020 16:25:38 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:41724
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iwuq0-0002qI-9r
- for qemu-devel@nongnu.org; Wed, 29 Jan 2020 16:25:28 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iwuq9-0003Hy-Nh
+ for qemu-devel@nongnu.org; Wed, 29 Jan 2020 16:25:37 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580333127;
+ s=mimecast20190719; t=1580333137;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3RgfhbTdW/N69ju8x61MEPmXC48AqPEUH+WU3+4iKWA=;
- b=R/xes4cT2J99tbAFb4FSjdqw1bpKnq833If/bRvshTh4wDv7b5jHccdLLEQwk8j1j6XoXG
- pCx1YxNHgo2hNbggHu1lU49reyp9s1TpHkGqQpGKFWF/W/KX4jhqhXCripYGUKke03not1
- iks3f3SdDF4gH8TcYWw5c/GmO7w0L3M=
+ bh=uiedpZTv7GmUSWFb2P5HHTvKQsPxGrqU0L3xrq+7LT8=;
+ b=AmuyO9UGs8hYh2RyvqpZd1ik60uDCtz0n8p+GYfN+iSqbRu6ELtiKbGP1QZZNzVrccR2xy
+ ScJocB7RAXuiWgvsvmorFZCOJtxBW2peb8IQAeGgE8JZBDxAGbA5xe4+xylXn6w3udsIsT
+ wwwTqfT+mHvjiiXLlgk4YDGLrxHk1kQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-404-ifms6K_HNY6hM2bHC8FTSQ-1; Wed, 29 Jan 2020 16:25:26 -0500
+ us-mta-374-niuQ9ddZOKWiXaAOunKqCw-1; Wed, 29 Jan 2020 16:25:33 -0500
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3EE678017CC;
- Wed, 29 Jan 2020 21:25:25 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C18D018A6EC1;
+ Wed, 29 Jan 2020 21:25:32 +0000 (UTC)
 Received: from x1w.redhat.com (ovpn-205-184.brq.redhat.com [10.40.205.184])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 39D9D60BF3;
- Wed, 29 Jan 2020 21:25:23 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AD56160BF3;
+ Wed, 29 Jan 2020 21:25:25 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: Denis Plotnikov <dplotnikov@virtuozzo.com>,
 	qemu-devel@nongnu.org
-Subject: [PATCH v2 27/29] tests/acceptance/migration: Default to -nodefaults
-Date: Wed, 29 Jan 2020 22:23:43 +0100
-Message-Id: <20200129212345.20547-28-philmd@redhat.com>
+Subject: [PATCH v2 28/29] tests/acceptance/version: Default to -nodefaults
+Date: Wed, 29 Jan 2020 22:23:44 +0100
+Message-Id: <20200129212345.20547-29-philmd@redhat.com>
 In-Reply-To: <20200129212345.20547-1-philmd@redhat.com>
 References: <20200129212345.20547-1-philmd@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: ifms6K_HNY6hM2bHC8FTSQ-1
+X-MC-Unique: niuQ9ddZOKWiXaAOunKqCw-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,27 +88,21 @@ This fixes errors when running a binary built with
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- tests/acceptance/migration.py | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ tests/acceptance/version.py | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/tests/acceptance/migration.py b/tests/acceptance/migration.py
-index a44c1ae58f..d09e5d3fe7 100644
---- a/tests/acceptance/migration.py
-+++ b/tests/acceptance/migration.py
-@@ -32,10 +32,12 @@ class Migration(Test):
-=20
-=20
-     def test_migration_with_tcp_localhost(self):
--        source_vm =3D self.get_vm()
-         dest_uri =3D 'tcp:localhost:%u' % self._get_free_port()
-         dest_vm =3D self.get_vm('-incoming', dest_uri)
-+        dest_vm.add_args('-nodefaults')
-         dest_vm.launch()
-+        source_vm =3D self.get_vm()
-+        source_vm.add_args('-nodefaults')
-         source_vm.launch()
-         source_vm.qmp('migrate', uri=3Ddest_uri)
-         wait.wait_for(
+diff --git a/tests/acceptance/version.py b/tests/acceptance/version.py
+index 67c2192c93..79b923d4fc 100644
+--- a/tests/acceptance/version.py
++++ b/tests/acceptance/version.py
+@@ -17,6 +17,7 @@ class Version(Test):
+     :avocado: tags=3Dquick
+     """
+     def test_qmp_human_info_version(self):
++        self.vm.add_args('-nodefaults')
+         self.vm.launch()
+         res =3D self.vm.command('human-monitor-command',
+                               command_line=3D'info version')
 --=20
 2.21.1
 
