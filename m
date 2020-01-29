@@ -2,87 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11ABC14D2E1
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jan 2020 23:14:58 +0100 (CET)
-Received: from localhost ([::1]:52232 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30C8114D316
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jan 2020 23:28:49 +0100 (CET)
+Received: from localhost ([::1]:52324 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwvbs-00005u-Ln
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jan 2020 17:14:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46142)
+	id 1iwvpI-00035a-1M
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jan 2020 17:28:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48931)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iwvb8-0007xm-Q0
- for qemu-devel@nongnu.org; Wed, 29 Jan 2020 17:14:12 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1iwvns-0001xt-LW
+ for qemu-devel@nongnu.org; Wed, 29 Jan 2020 17:27:22 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iwvb7-0004Rm-Cc
- for qemu-devel@nongnu.org; Wed, 29 Jan 2020 17:14:10 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:55517
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <dgibson@ozlabs.org>) id 1iwvnq-0002sF-Vr
+ for qemu-devel@nongnu.org; Wed, 29 Jan 2020 17:27:20 -0500
+Received: from bilbo.ozlabs.org ([203.11.71.1]:38911 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iwvb7-0004Pf-9Y
- for qemu-devel@nongnu.org; Wed, 29 Jan 2020 17:14:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580336048;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Orkb16fzFt+j8LRSI2l+x3fXuu8vaiTa5Sl14qGMEAU=;
- b=dXH1MRRmcEgqHXySwlXagtxEPp6VAOlidyGNiFb95gmiY962ycayP/Hsw0l061lYnVsVhA
- zkZZzlH2LIBfrxgACmU8F2AS9wppAaXqvvFDkJMLgrG7dI7eb/p3s2wzNNRC2dbeNbzztS
- zN9QVNlISi/XCDfJwNZfaeC7Jo1uizc=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-94-XfYNuScDNKuVRmPoMZL3WA-1; Wed, 29 Jan 2020 17:14:06 -0500
-Received: by mail-wr1-f69.google.com with SMTP id y7so689048wrm.3
- for <qemu-devel@nongnu.org>; Wed, 29 Jan 2020 14:14:05 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=V95vDayRoYJudj08dD6qnS3E+E6e/23z05vYjRc/ESY=;
- b=XWOTnJoMLWe0+87DfIJ2y5jabkPNT9oJWakREbov8ZJvcG4GA17lsY7ELeUD9OX2+J
- mD0TYkOwpyGZgOBrpE5ZO2lPoMgw+JlWvBpjvLG5NUU+I/D8hKT2/nHtWgAoj2V+XgJ9
- qB57HG02V2cRb0l56Nj8zTFXfkZtcfngylwgJn63VaNVVzDOsQ9bGByLJj69fUIfZwlc
- U8NyOxgVHPnPNrVN7VMREBAFGk1zCytxwuXAheOilYmCZI1YqapzHH0Sy0WwzHj1xRdX
- dvwaahZgLn6ygnQDNelsqydlkaoDi8svjEaEMjJO878URdqi/9VqnDPSo/zvmh4Aeh5O
- BC0Q==
-X-Gm-Message-State: APjAAAUAT7CcrmABSN2lyY6y9irL32+29bVGDF7A6DIWfH3w+NDpxCMN
- A1gv0n4ejrRbDnsm2s7zExmsOmGHn/wVdkjuqq25DTOTqe5kZpQHEdIPYltD6ECKXKHPFC3I2Ag
- 0UOEMMLkPu1FWWU8=
-X-Received: by 2002:a05:600c:cd:: with SMTP id
- u13mr1333183wmm.24.1580336041903; 
- Wed, 29 Jan 2020 14:14:01 -0800 (PST)
-X-Google-Smtp-Source: APXvYqwwu454lGtIW+yLCvB9ZtcoMDdALZU13ybLWplCL68F56CgpKffFI4zKOsx07IUmwY7C2LMrw==
-X-Received: by 2002:a05:600c:cd:: with SMTP id
- u13mr1333157wmm.24.1580336041562; 
- Wed, 29 Jan 2020 14:14:01 -0800 (PST)
-Received: from [192.168.1.35] (113.red-83-57-172.dynamicip.rima-tde.net.
- [83.57.172.113])
- by smtp.gmail.com with ESMTPSA id a6sm4668650wrm.69.2020.01.29.14.14.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 29 Jan 2020 14:14:00 -0800 (PST)
-Subject: Re: [PATCH] qemu-deprecated: Remove text about Python 2
-To: Aleksandar Markovic <aleksandar.m.mail@gmail.com>,
- Thomas Huth <thuth@redhat.com>
-References: <20200109095116.18201-1-thuth@redhat.com>
- <CAL1e-=jnAMtpNNHO1rqG-63K_5uM-QfVYoMcj0NZeHwKCWG4uQ@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <af4485d4-1706-c464-2320-dff3b5f29fd7@redhat.com>
-Date: Wed, 29 Jan 2020 23:13:59 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1iwvnp-0002my-Fq; Wed, 29 Jan 2020 17:27:18 -0500
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 487J4v6kQtz9sP6; Thu, 30 Jan 2020 09:27:11 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1580336831;
+ bh=oc22GZkS5CxQkD+w1PrD6nOoE5OZECmE6DZRtAK+0DY=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=W/18ripnqtNe6Z4iWIAefl2iDaPNNS1anHJCNvXqU9s+voZ8srJYcZ7uaAI/C542j
+ ss1vLfvQtD2Y6F8WhfrmUBxeSaqk9wkpGWaVGe37M92FndXrD+sUv4oNflqupD9fdY
+ gg2jOvUZdkX3UWpy+iyykARbOX1nEo+wjY87Z79s=
+Date: Thu, 30 Jan 2020 09:14:44 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
+Subject: Re: [PATCH 0/2] ppc/pnv: Add models for PHB4 and PHB3 PCIe Host
+ bridges
+Message-ID: <20200129221444.GA2640@umbus.fritz.box>
+References: <20200127144506.11132-1-clg@kaod.org>
+ <20200129063103.GB42099@umbus.fritz.box>
+ <ad66cad0-98ff-7ab1-9be9-8bc234279ff6@kaod.org>
 MIME-Version: 1.0
-In-Reply-To: <CAL1e-=jnAMtpNNHO1rqG-63K_5uM-QfVYoMcj0NZeHwKCWG4uQ@mail.gmail.com>
-Content-Language: en-US
-X-MC-Unique: XfYNuScDNKuVRmPoMZL3WA-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="zhXaljGHf11kAtnf"
+Content-Disposition: inline
+In-Reply-To: <ad66cad0-98ff-7ab1-9be9-8bc234279ff6@kaod.org>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+ [fuzzy]
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -94,70 +57,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>,
- John Snow <jsnow@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: qemu-ppc@nongnu.org, Oliver O'Halloran <oohall@gmail.com>,
+ qemu-devel@nongnu.org, Nicholas Piggin <npiggin@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Aleksandar,
 
-On 1/9/20 1:49 PM, Aleksandar Markovic wrote:
->=20
->=20
-> On Thursday, January 9, 2020, Thomas Huth <thuth@redhat.com=20
-> <mailto:thuth@redhat.com>> wrote:
->=20
->     Python 2 support has been removed, so we should now also remove
->     the announcement text for the deprecation.
->=20
->     Signed-off-by: Thomas Huth <thuth@redhat.com <mailto:thuth@redhat.com=
->>
->     ---
->      =C2=A0qemu-deprecated.texi | 8 --------
->      =C2=A01 file changed, 8 deletions(-)
->=20
->=20
-> Reviewed by: Aleksandar Markovic <amarkovic@wavecomp.com=20
-> <mailto:amarkovic@wavecomp.com>>
-
-I use pwclient to collect patchwork patches, this one is:
-https://patchwork.kernel.org/patch/11325373/
-Your comment is listed, but your tag is ignored... I am not sure why.
-
-John used:
-Content-Transfer-Encoding: 7bit
-
-You:
+--zhXaljGHf11kAtnf
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-This might be why? I have no clue.
+On Wed, Jan 29, 2020 at 02:15:35PM +0100, C=E9dric Le Goater wrote:
+> On 1/29/20 7:31 AM, David Gibson wrote:
+> > On Mon, Jan 27, 2020 at 03:45:04PM +0100, C=E9dric Le Goater wrote:
+> >> Hello,
+> >>
+> >> These are models for the PCIe Host Bridges, PHB3 and PHB4, as found on
+> >> POWER8 and POWER9 processors. It includes the PowerBus logic interface
+> >> (PBCQ), IOMMU support, a single PCIe Gen.3/4 Root Complex, and support
+> >> for MSI and LSI interrupt sources as found on each system depending on
+> >> the interrupt controller: XICS or XIVE.
+> >>
+> >> No default device layout is provided and PCI devices can be added on
+> >> any of the available PCIe Root Port (pcie.0 .. 2) with address 0x0 as
+> >> the firwware (skiboot) only accepts a single device per root port. To
+> >> run a simple system with a network and a storage adapters, use a
+> >> command line options such as :
+> >>
+> >>   -device e1000e,netdev=3Dnet0,mac=3DC0:FF:EE:00:00:02,bus=3Dpcie.0,ad=
+dr=3D0x0
+> >>   -netdev bridge,id=3Dnet0,helper=3D/usr/libexec/qemu-bridge-helper,br=
+=3Dvirbr0,id=3Dhostnet0
+> >>
+> >>   -device megasas,id=3Dscsi0,bus=3Dpcie.1,addr=3D0x0
+> >>   -drive file=3D$disk,if=3Dnone,id=3Ddrive-scsi0-0-0-0,format=3Dqcow2,=
+cache=3Dnone
+> >>   -device scsi-hd,bus=3Dscsi0.0,channel=3D0,scsi-id=3D0,lun=3D0,drive=
+=3Ddrive-scsi0-0-0-0,id=3Dscsi0-0-0-0,bootindex=3D2
+> >>
+> >> If more are needed, include a bridge.
+> >>
+> >> Multi chip is supported, each chip adding its set of PHB controllers
+> >> and its PCI busses. The model doesn't emulate the EEH error handling
+> >> and cold plugging PHB devices still needs some work.
+> >>
+> >> XICS requires some adjustment to support the PHB3 MSI. The changes are
+> >> provided in the PHB3 model but they could be decoupled in prereq
+> >> patches.
+> >=20
+> > Applied to ppc-for-5.0, thanks.
+>=20
+> Should we add a default set of devices on PHB1 like found on OpenPOWER=20
+> system ? On a P8 we have  :
+
+I think that's kind of up to you.
 
 >=20
->     diff --git a/qemu-deprecated.texi b/qemu-deprecated.texi
->     index 7033e531de..8b23e98474 100644
->     --- a/qemu-deprecated.texi
->     +++ b/qemu-deprecated.texi
->     @@ -341,14 +341,6 @@ they have no effect when used with @option{-n}
->     to skip image creation.
->      =C2=A0Silently ignored options can be confusing, so this combination=
- of
->      =C2=A0options will be made an error in future versions.
+>  +-[0001:00]---00.0-[01-07]----00.0-[02-07]--+-01.0-[03-04]----00.0-[04]-=
+---00.0  ASPEED Technology, Inc. ASPEED Graphics Family
+>  |                                           +-02.0-[05]----00.0  Texas I=
+nstruments TUSB73x0 SuperSpeed USB 3.0 xHCI Host Controller
+>  |                                           +-03.0-[06]--+-00.0  Broadco=
+m Inc. and subsidiaries NetXtreme BCM5718 Gigabit Ethernet PCIe
+>  |                                           |            \-00.1  Broadco=
+m Inc. and subsidiaries NetXtreme BCM5718 Gigabit Ethernet PCIe
+>  |                                           \-04.0-[07]----00.0  Marvell=
+ Technology Group Ltd. 88SE9235 PCIe 2.0 x2 4-port SATA 6 Gb/s Controller
 >=20
->     -@section Build system
->     -
->     -@subsection Python 2 support (since 4.1.0)
->     -
->     -In the future, QEMU will require Python 3 to be available at
->     -build time.=C2=A0 Support for Python 2 in scripts shipped with QEMU
->     -is deprecated.
->     -
->      =C2=A0@section Backwards compatibility
 >=20
->      =C2=A0@subsection Runnability guarantee of CPU models (since 4.1.0)
->     --=20
->     2.18.1
->=20
+> C.
 >=20
 
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--zhXaljGHf11kAtnf
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl4yA9IACgkQbDjKyiDZ
+s5LrABAA05+f5KfQAP3FnYkhSVcu8WBKPRsn6l5C0xd0Zh7I89kXUPaRTcCbVSaP
+Q5y9ODZcsg2y47sl4Gz/oWqJ88/lil9mnurybWQcF8iDuT3UTfSFd9Js/QBTmuuh
+2UL02n5vvWp/XD+krS1SETLQR5YW+ju2lA/gX1Umm+HlOZfHzuWEu67vctIlDAWX
+fuz9Bv/+36Wln0oYxiHM8xa2gXkJ6YNHnDElb5HbafBRkwZqiRMYzKSbZ6BHugE1
+xknFI6drp4ONMrtr5mRlbxA8bz5yBY+wwUOQ28ZBuI/x/lped1DJ6ynCbS+qXsS/
+uEUGtYlBhnXUtzT9WNC7yOrrwDc1IvKmpXr4dAyo8WdIwsTS3XXY8T3RHBa3GhAr
+a++6MHFlRguhXbgZ+pMTDj/n9OUfGA3NF82GGpIK2CruFvXTo7fIpfNxjUp40y9l
+olJYyNIrSVEnEMYBm9okJboooP9rcLCGft6gsJv2VVb6fCgd4FedqgGJ35Qpjhqs
+I6kLjQhgrpVIJzg3vxw/5DSh48JoI7io7ZRMs0+a2rbe01TM1bLPU/wLXMvbQLiG
+n3Kl2sgOBgfJsZm7taObxSXE/w9vuBtC/vnUAqwWD5B1204+Tbkzg+ln9DYl7aZk
+W6wgRRZUF5ifecK2roMX+atQ/LBv4kyFSegIQHdp0MjvezWCS0w=
+=N/B6
+-----END PGP SIGNATURE-----
+
+--zhXaljGHf11kAtnf--
 
