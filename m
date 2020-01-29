@@ -2,59 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C9AE14C5F3
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jan 2020 06:39:51 +0100 (CET)
-Received: from localhost ([::1]:41410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B3A514C5FD
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jan 2020 06:42:58 +0100 (CET)
+Received: from localhost ([::1]:41468 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwg4s-0000e5-3s
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jan 2020 00:39:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44847)
+	id 1iwg7t-0006Jv-Jx
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jan 2020 00:42:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44842)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alxndr@bu.edu>) id 1iwfze-00081W-MX
- for qemu-devel@nongnu.org; Wed, 29 Jan 2020 00:34:28 -0500
+ (envelope-from <alxndr@bu.edu>) id 1iwfze-00080K-Cz
+ for qemu-devel@nongnu.org; Wed, 29 Jan 2020 00:34:27 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alxndr@bu.edu>) id 1iwfzc-00023a-QS
+ (envelope-from <alxndr@bu.edu>) id 1iwfzd-00025U-Ac
  for qemu-devel@nongnu.org; Wed, 29 Jan 2020 00:34:26 -0500
 Received: from mail-mw2nam10on2098.outbound.protection.outlook.com
  ([40.107.94.98]:3168 helo=NAM10-MW2-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <alxndr@bu.edu>) id 1iwfzc-0001yv-JW
- for qemu-devel@nongnu.org; Wed, 29 Jan 2020 00:34:24 -0500
+ (Exim 4.71) (envelope-from <alxndr@bu.edu>) id 1iwfzd-0001yv-3h
+ for qemu-devel@nongnu.org; Wed, 29 Jan 2020 00:34:25 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nPlAx+3u/Qh61qwje6BhAOkmqls4oQYFGAF8Brp5XgGALwoeVbhsCx45vay9vrVWZ7DlNU+jeVpMKWiSIkE41dqRJDbnWIVgT4CAlKOjme3NJFdCFIj56Ker/Nrnw6Gv2BWmg/UyjA6IHCwxzOeJrBLu1uJ4f9rDHYFAGHX6bC22FlxPOusJkofztVeGrwgqZGfEOe2Z3JNqNXXrPypyaM8wZf3661da13KI/9lf64CPEYJ1AjJliBo5rL6sBV0JAY/lIGsofToQNm3KoXfJSirpYKpMc0y+OTF3RFfP0ly1SW7iePg2DJeaIXXvXD5Kdh6+7jXrJTEppPJWmmc6tQ==
+ b=hh9ooGr5ft70q9n/j1wqlssJNgcYNWCr424tVfQ03qwt6+dmwzhR0uX1Y4f7bOpT59umOBt3eXpNTXeJ95ZYTlpWzEbYT34GhYbLu2K4NMgU3cKGoNa2ZkpriVNoM9unJmK6HQ9/x8cU/kRMv5o1F5RXszw0ysAGxkE7cjRrxhIrNudbvCJGcapt8JtlkMj6VVp1VWs1QoYr3Lva9rlYSh9DKXq+/+mnJ8umB0uj9wlwjwf7FWreYd7hZQJ1qPhKQpvO0Ze62XNGCrQWBHm6HzQkHxLYYEWyA7DJJ5mHYhwHfjE5GsTh/m45j3n4k5/j8ryQ0k8S9qUD0F5EV9kjjA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=toT/WI9KXvNf9J/kQU+FipO7JDB1RCpX0zle0UZW2mc=;
- b=lhBxsXeEeM05A8QInXUx3AGF9oHglcp06DtCcmukqhggp6OQv/WKe/vOlk122IWbmmFcfPNAhuYSoOTsD0tursIW/nAbXd/XOZgKDuq9BFdgVam2nGl4r6bt2KL02QTFWMOgL85DD82F6AL5l5QSjq4HQW4UaSMnlbJel1jSkOmmxlAoQJwHV1EWIVFdKJsS5lT28vV8dIgLFVv9sLWV9DtWUJN4dwLCL3KBoB8WH3NTlWeBu2jo2dU0qPhgSdUSOJyGs/yYzHFDGZW54iWEzObdL/h5o+CkTbnwLOgDIxewkdHceJXsiJnIDxyeYNXjRSwLVKkuWQiSugS1bh+YeQ==
+ bh=lSRiX7Iqr0XGgElbFjbFwnDm2n/o2jF2k/868jK3+dg=;
+ b=IXe+LpAmj1v2vk6e0Qccniue6KCnvYKt69EyYpXevUU7vI3d9V2hgipru+bnd9CHjAyBpBqM5OQ17x6zhG96lyZtDI1QNf432lDTCtrbsMKDnqRX813FoLwJbFevstyqgYxygrsPQpXYOsMnnAK8hVxcQeREfWiUtRV0wTMn27sPWVWR9gA2i3NR42dyTsm9dZOyQ6wc73tJFSAckLqkCJyafpfnXeFPUymSe5IR9H+g1/NLFgsF9yfF8kAhoInmavAIGirqE5fwK2XNxeMXvWfEYhU4Hx/QvH+QfWbr0fRsKeZHm4UQRVCJBL9EgoeQeyvGM5gOPcm8uN76ubljCg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=bu.edu; dmarc=pass action=none header.from=bu.edu; dkim=pass
  header.d=bu.edu; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bushare.onmicrosoft.com; s=selector2-bushare-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=toT/WI9KXvNf9J/kQU+FipO7JDB1RCpX0zle0UZW2mc=;
- b=DzEyENu+baG3O1fLffbulJCuu1YjgQKO5AkV0ZeeuKwVQ/TcOr5zVzK5t4io/3pthh0aIV9nB/EPwqKSW40KsDrcNlRw1G1fMN3fIm/b1ovtOgaGre+JlOPgci14aAznBzW7Ojay7Cj2NzhG3v57vZd3OC1FnfD2aAyEZhDzv4o=
+ bh=lSRiX7Iqr0XGgElbFjbFwnDm2n/o2jF2k/868jK3+dg=;
+ b=DZnEqKEvYGLQYeMRPxhVsr6+vFKXcmfAUM+PLB2VCbd1VI1b7oRIjOoKyPbxoFclb7SLKfg2l71iu70wn1PwZkp9k5HKUbF+8Ah55Y01ZLxhwLYEbGKpb8TmXam31YHSz965GM4Fk5N7xfTeck03nKO10vjlkUitrWTx5bOxMlA=
 Received: from SN6PR03MB3871.namprd03.prod.outlook.com (52.135.102.32) by
  SN6PR03MB4206.namprd03.prod.outlook.com (52.135.110.13) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2665.20; Wed, 29 Jan 2020 05:34:22 +0000
+ 15.20.2665.20; Wed, 29 Jan 2020 05:34:23 +0000
 Received: from SN6PR03MB3871.namprd03.prod.outlook.com
  ([fe80::9c11:10cd:6e97:bbe8]) by SN6PR03MB3871.namprd03.prod.outlook.com
  ([fe80::9c11:10cd:6e97:bbe8%7]) with mapi id 15.20.2665.026; Wed, 29 Jan 2020
- 05:34:22 +0000
+ 05:34:23 +0000
 Received: from mozz.bu.edu (128.197.127.33) by
  MN2PR05CA0029.namprd05.prod.outlook.com (2603:10b6:208:c0::42) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2686.19 via Frontend Transport; Wed, 29 Jan 2020 05:34:20 +0000
+ 15.20.2686.19 via Frontend Transport; Wed, 29 Jan 2020 05:34:21 +0000
 From: "Bulekov, Alexander" <alxndr@bu.edu>
 To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Subject: [PATCH v8 11/21] fuzz: add fuzzer skeleton
-Thread-Topic: [PATCH v8 11/21] fuzz: add fuzzer skeleton
-Thread-Index: AQHV1mXBODJcqzH0AEWyTrehxjp55A==
-Date: Wed, 29 Jan 2020 05:34:20 +0000
-Message-ID: <20200129053357.27454-12-alxndr@bu.edu>
+Subject: [PATCH v8 12/21] exec: keep ram block across fork when using qtest
+Thread-Topic: [PATCH v8 12/21] exec: keep ram block across fork when using
+ qtest
+Thread-Index: AQHV1mXC3G4gWTOQDUaVZGhdrRfl7Q==
+Date: Wed, 29 Jan 2020 05:34:21 +0000
+Message-ID: <20200129053357.27454-13-alxndr@bu.edu>
 References: <20200129053357.27454-1-alxndr@bu.edu>
 In-Reply-To: <20200129053357.27454-1-alxndr@bu.edu>
 Accept-Language: en-US
@@ -69,11 +70,11 @@ x-clientproxiedby: MN2PR05CA0029.namprd05.prod.outlook.com
 authentication-results: spf=none (sender IP is ) smtp.mailfrom=alxndr@bu.edu; 
 x-ms-exchange-messagesentrepresentingtype: 1
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: f3ed7b38-703d-43a6-7d32-08d7a47ce415
+x-ms-office365-filtering-correlation-id: b61fc5f4-517b-4767-4167-08d7a47ce490
 x-ms-traffictypediagnostic: SN6PR03MB4206:
 x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <SN6PR03MB42069E6EC48916DABD42C6E8BA050@SN6PR03MB4206.namprd03.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:2512;
+x-microsoft-antispam-prvs: <SN6PR03MB4206C59FDA6825DECC13D314BA050@SN6PR03MB4206.namprd03.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:4941;
 x-forefront-prvs: 02973C87BC
 x-forefront-antispam-report: SFV:NSPM;
  SFS:(10019020)(4636009)(376002)(136003)(366004)(346002)(396003)(39860400002)(189003)(199004)(478600001)(75432002)(36756003)(316002)(6916009)(2906002)(786003)(4326008)(54906003)(26005)(186003)(956004)(2616005)(6486002)(7696005)(52116002)(16526019)(1076003)(5660300002)(71200400001)(86362001)(66446008)(66556008)(66946007)(66476007)(8936002)(81156014)(81166006)(64756008)(8676002);
@@ -84,18 +85,18 @@ received-spf: None (protection.outlook.com: bu.edu does not designate
  permitted sender hosts)
 x-ms-exchange-senderadcheck: 1
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 0DHIsM1jWTp8xt3tlNtbarET4kzdIQUNnAW7UQ+qvA+fG+PKw5TTGl9FlJYSmPNO1BLGj/j3rN/Hb41/PKHz6fJxbEDDweDAMqnaBBMtSBVtB3J/2Sr8hmVB9L9FD89684EOI+5xt2uvTIdkNpmP4JUvF5ihxinMrOriDkRpIzg/2xBuSqn8euigwLIn+tzLHBlf+SF96z2uI5gDan36f0DytIlrmsnDTfnqUdHfh1ihS0fLkuekwPp/nE0GiyVvJQiYp0p1c2bfaJpjFKdlXMZR2COPL0ZApFma757crmqXzLc7xdBHLT1ejlyyue+i3HLTXhrMunzN0b0Lcupk/lKqTEwKvoE71viDJR0/TMOcE/366DTTMfzQhafZZbSPJois8hFwYmZ8UXVZWxqMKsb32thqOhLejT4Ap3hqk9u7X94LzcYG+ZIEBvAmD6aH
-x-ms-exchange-antispam-messagedata: Ta8QyhesrFuNIJNFDrHKDmGQ9plWk98NWXCGixPaWEmoT3+6QECIGm3IHj+5Bmqs9t5c15W6D6Y5PTD+YVSRU+3hqUV15EEpfCslv4Hh7bFhiYCWvATJ+fzwxP+2jLkxtFrt1RKm6Mu3ZmRitmJDxg==
+x-microsoft-antispam-message-info: 1D1ks+LelUWxshlEgjoyxM8Y6/GRY7243hwM/mHd0cRGbt8Nyx9pxffkEX/MVtHj2Ct7KiAozmP/J7JzNxxdKID8TQEyGJAG1XqWBmP5ODZmulYoHHWUdEpCnQ8cZJSPtJEJftZI0L9OZu5iuHwqdP4vt1cm7+4JotMudPzJZastxm4HmH/ULpLrx2gZRlmbD94MbnXi2Ha78TEyN4GTYoNaEaIHYNEl8osmoSNbVcwdTatK5sjnZCC7UhBQmKrlt/2i+l2czmObniccxTToCMdQLVc8i8t7559kSkZzfY5PVWF6BYyci5ZNvgkQ9rGdeV3kFPtU4NQejqTrGAlDeS/5OzIvTKwKIQeXNZ6TefE69ZcS4HmjlMcSWw3rfdy/Z18mjWxA4L7j+UoAFSBAqd324sralsVTkwOso5tXf6ToONOz5Ae9H8BCQRmbXEZv
+x-ms-exchange-antispam-messagedata: StWA5d/YS9MEURqoHHUkVQ/XuWN/w9blGt254NfnVW4J87dOuOF0Fx0MH8P6ttwKD9FY48eiV20Y+CJlzUof3rFmf7zcURbJLTaPVTCPHVWkxvrtgb3157K12yoOQ9nxQ2y/euhNCjfn2sgEV1l/sA==
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: bu.edu
-X-MS-Exchange-CrossTenant-Network-Message-Id: f3ed7b38-703d-43a6-7d32-08d7a47ce415
-X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Jan 2020 05:34:20.7876 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: b61fc5f4-517b-4767-4167-08d7a47ce490
+X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Jan 2020 05:34:21.5442 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: d57d32cc-c121-488f-b07b-dfe705680c71
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: DXNDHDVWbzYfMTUVbqpYZfn71M6ZL7KjMBANYVmUscx7zpN8Xe6etOonyaIF/sAo
+X-MS-Exchange-CrossTenant-userprincipalname: w6oStuu50Ed2Kt1KDhVd6kzkYNtsThzFnykE9BWIPcO5S2LWQRVo663BpGv+KUcO
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR03MB4206
 X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
 X-Received-From: 40.107.94.98
@@ -110,337 +111,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- "Bulekov, Alexander" <alxndr@bu.edu>, "bsd@redhat.com" <bsd@redhat.com>,
- "stefanha@redhat.com" <stefanha@redhat.com>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>
+Cc: "pbonzini@redhat.com" <pbonzini@redhat.com>,
+ "bsd@redhat.com" <bsd@redhat.com>, Richard Henderson <rth@twiddle.net>,
+ "stefanha@redhat.com" <stefanha@redhat.com>, "Bulekov, 
+ Alexander" <alxndr@bu.edu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-tests/fuzz/fuzz.c serves as the entry point for the virtual-device
-fuzzer. Namely, libfuzzer invokes the LLVMFuzzerInitialize and
-LLVMFuzzerTestOneInput functions, both of which are defined in this
-file. This change adds a "FuzzTarget" struct, along with the
-fuzz_add_target function, which should be used to define new fuzz
-targets.
+Ram blocks were marked MADV_DONTFORK breaking fuzzing-tests which
+execute each test-input in a forked process.
 
 Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- tests/qtest/fuzz/Makefile.include |   6 +
- tests/qtest/fuzz/fuzz.c           | 179 ++++++++++++++++++++++++++++++
- tests/qtest/fuzz/fuzz.h           |  95 ++++++++++++++++
- 3 files changed, 280 insertions(+)
- create mode 100644 tests/qtest/fuzz/Makefile.include
- create mode 100644 tests/qtest/fuzz/fuzz.c
- create mode 100644 tests/qtest/fuzz/fuzz.h
+ exec.c | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
 
-diff --git a/tests/qtest/fuzz/Makefile.include b/tests/qtest/fuzz/Makefile.=
-include
-new file mode 100644
-index 0000000000..8632bb89f4
---- /dev/null
-+++ b/tests/qtest/fuzz/Makefile.include
-@@ -0,0 +1,6 @@
-+QEMU_PROG_FUZZ=3Dqemu-fuzz-$(TARGET_NAME)$(EXESUF)
-+
-+fuzz-obj-y +=3D tests/qtest/libqtest.o
-+fuzz-obj-y +=3D tests/qtest/fuzz/fuzz.o # Fuzzer skeleton
-+
-+FUZZ_CFLAGS +=3D -I$(SRC_PATH)/tests -I$(SRC_PATH)/tests/qtest
-diff --git a/tests/qtest/fuzz/fuzz.c b/tests/qtest/fuzz/fuzz.c
-new file mode 100644
-index 0000000000..0d78ac8d36
---- /dev/null
-+++ b/tests/qtest/fuzz/fuzz.c
-@@ -0,0 +1,179 @@
-+/*
-+ * fuzzing driver
-+ *
-+ * Copyright Red Hat Inc., 2019
-+ *
-+ * Authors:
-+ *  Alexander Bulekov   <alxndr@bu.edu>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or late=
-r.
-+ * See the COPYING file in the top-level directory.
-+ *
-+ */
-+
-+#include "qemu/osdep.h"
-+
-+#include <wordexp.h>
-+
+diff --git a/exec.c b/exec.c
+index d4b769d0d4..99368f175b 100644
+--- a/exec.c
++++ b/exec.c
+@@ -35,6 +35,7 @@
+ #include "sysemu/kvm.h"
+ #include "sysemu/sysemu.h"
+ #include "sysemu/tcg.h"
 +#include "sysemu/qtest.h"
-+#include "sysemu/runstate.h"
-+#include "sysemu/sysemu.h"
-+#include "qemu/main-loop.h"
-+#include "tests/qtest/libqtest.h"
-+#include "tests/qtest/libqos/qgraph.h"
-+#include "fuzz.h"
-+
-+#define MAX_EVENT_LOOPS 10
-+
-+typedef struct FuzzTargetState {
-+        FuzzTarget *target;
-+        QSLIST_ENTRY(FuzzTargetState) target_list;
-+} FuzzTargetState;
-+
-+typedef QSLIST_HEAD(, FuzzTargetState) FuzzTargetList;
-+
-+static const char *fuzz_arch =3D TARGET_NAME;
-+
-+static FuzzTargetList *fuzz_target_list;
-+static FuzzTarget *fuzz_target;
-+static QTestState *fuzz_qts;
-+
-+
-+
-+void flush_events(QTestState *s)
-+{
-+    int i =3D MAX_EVENT_LOOPS;
-+    while (g_main_context_pending(NULL) && i-- > 0) {
-+        main_loop_wait(false);
-+    }
-+}
-+
-+static QTestState *qtest_setup(void)
-+{
-+    qtest_server_set_send_handler(&qtest_client_inproc_recv, &fuzz_qts);
-+    return qtest_inproc_init(&fuzz_qts, false, fuzz_arch,
-+            &qtest_server_inproc_recv);
-+}
-+
-+void fuzz_add_target(const FuzzTarget *target)
-+{
-+    FuzzTargetState *tmp;
-+    FuzzTargetState *target_state;
-+    if (!fuzz_target_list) {
-+        fuzz_target_list =3D g_new0(FuzzTargetList, 1);
-+    }
-+
-+    QSLIST_FOREACH(tmp, fuzz_target_list, target_list) {
-+        if (g_strcmp0(tmp->target->name, target->name) =3D=3D 0) {
-+            fprintf(stderr, "Error: Fuzz target name %s already in use\n",
-+                    target->name);
-+            abort();
+ #include "qemu/timer.h"
+ #include "qemu/config-file.h"
+ #include "qemu/error-report.h"
+@@ -2306,8 +2307,15 @@ static void ram_block_add(RAMBlock *new_block, Error=
+ **errp, bool shared)
+     if (new_block->host) {
+         qemu_ram_setup_dump(new_block->host, new_block->max_length);
+         qemu_madvise(new_block->host, new_block->max_length, QEMU_MADV_HUG=
+EPAGE);
+-        /* MADV_DONTFORK is also needed by KVM in absence of synchronous M=
+MU */
+-        qemu_madvise(new_block->host, new_block->max_length, QEMU_MADV_DON=
+TFORK);
++        /*
++         * MADV_DONTFORK is also needed by KVM in absence of synchronous M=
+MU
++         * Configure it unless the machine is a qtest server, in which cas=
+e
++         * KVM is not used and it may be forked (eg for fuzzing purposes).
++         */
++        if (!qtest_enabled()) {
++            qemu_madvise(new_block->host, new_block->max_length,
++                         QEMU_MADV_DONTFORK);
 +        }
-+    }
-+    target_state =3D g_new0(FuzzTargetState, 1);
-+    target_state->target =3D g_new0(FuzzTarget, 1);
-+    *(target_state->target) =3D *target;
-+    QSLIST_INSERT_HEAD(fuzz_target_list, target_state, target_list);
-+}
-+
-+
-+
-+static void usage(char *path)
-+{
-+    printf("Usage: %s --fuzz-target=3DFUZZ_TARGET [LIBFUZZER ARGUMENTS]\n"=
-, path);
-+    printf("where FUZZ_TARGET is one of:\n");
-+    FuzzTargetState *tmp;
-+    if (!fuzz_target_list) {
-+        fprintf(stderr, "Fuzz target list not initialized\n");
-+        abort();
-+    }
-+    QSLIST_FOREACH(tmp, fuzz_target_list, target_list) {
-+        printf(" * %s  : %s\n", tmp->target->name,
-+                tmp->target->description);
-+    }
-+    exit(0);
-+}
-+
-+static FuzzTarget *fuzz_get_target(char* name)
-+{
-+    FuzzTargetState *tmp;
-+    if (!fuzz_target_list) {
-+        fprintf(stderr, "Fuzz target list not initialized\n");
-+        abort();
-+    }
-+
-+    QSLIST_FOREACH(tmp, fuzz_target_list, target_list) {
-+        if (strcmp(tmp->target->name, name) =3D=3D 0) {
-+            return tmp->target;
-+        }
-+    }
-+    return NULL;
-+}
-+
-+
-+/* Executed for each fuzzing-input */
-+int LLVMFuzzerTestOneInput(const unsigned char *Data, size_t Size)
-+{
-+    /*
-+     * Do the pre-fuzz-initialization before the first fuzzing iteration,
-+     * instead of before the actual fuzz loop. This is needed since libfuz=
-zer
-+     * may fork off additional workers, prior to the fuzzing loop, and if
-+     * pre_fuzz() sets up e.g. shared memory, this should be done for the
-+     * individual worker processes
-+     */
-+    static int pre_fuzz_done;
-+    if (!pre_fuzz_done && fuzz_target->pre_fuzz) {
-+        fuzz_target->pre_fuzz(fuzz_qts);
-+        pre_fuzz_done =3D true;
-+    }
-+
-+    fuzz_target->fuzz(fuzz_qts, Data, Size);
-+    return 0;
-+}
-+
-+/* Executed once, prior to fuzzing */
-+int LLVMFuzzerInitialize(int *argc, char ***argv, char ***envp)
-+{
-+
-+    char *target_name;
-+
-+    /* Initialize qgraph and modules */
-+    qos_graph_init();
-+    module_call_init(MODULE_INIT_FUZZ_TARGET);
-+    module_call_init(MODULE_INIT_QOM);
-+    module_call_init(MODULE_INIT_LIBQOS);
-+
-+    if (*argc <=3D 1) {
-+        usage(**argv);
-+    }
-+
-+    /* Identify the fuzz target */
-+    target_name =3D (*argv)[1];
-+    if (!strstr(target_name, "--fuzz-target=3D")) {
-+        usage(**argv);
-+    }
-+
-+    target_name +=3D strlen("--fuzz-target=3D");
-+
-+    fuzz_target =3D fuzz_get_target(target_name);
-+    if (!fuzz_target) {
-+        usage(**argv);
-+    }
-+
-+    fuzz_qts =3D qtest_setup();
-+
-+    if (fuzz_target->pre_vm_init) {
-+        fuzz_target->pre_vm_init();
-+    }
-+
-+    /* Run QEMU's softmmu main with the fuzz-target dependent arguments */
-+    const char *init_cmdline =3D fuzz_target->get_init_cmdline(fuzz_target=
-);
-+
-+    /* Split the runcmd into an argv and argc */
-+    wordexp_t result;
-+    wordexp(init_cmdline, &result, 0);
-+
-+    qemu_init(result.we_wordc, result.we_wordv, NULL);
-+
-+    return 0;
-+}
-diff --git a/tests/qtest/fuzz/fuzz.h b/tests/qtest/fuzz/fuzz.h
-new file mode 100644
-index 0000000000..03901d414e
---- /dev/null
-+++ b/tests/qtest/fuzz/fuzz.h
-@@ -0,0 +1,95 @@
-+/*
-+ * fuzzing driver
-+ *
-+ * Copyright Red Hat Inc., 2019
-+ *
-+ * Authors:
-+ *  Alexander Bulekov   <alxndr@bu.edu>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or late=
-r.
-+ * See the COPYING file in the top-level directory.
-+ *
-+ */
-+
-+#ifndef FUZZER_H_
-+#define FUZZER_H_
-+
-+#include "qemu/osdep.h"
-+#include "qemu/units.h"
-+#include "qapi/error.h"
-+
-+#include "tests/qtest/libqtest.h"
-+
-+/**
-+ * A libfuzzer fuzzing target
-+ *
-+ * The QEMU fuzzing binary is built with all available targets, each
-+ * with a unique @name that can be specified on the command-line to
-+ * select which target should run.
-+ *
-+ * A target must implement ->fuzz() to process a random input.  If QEMU
-+ * crashes in ->fuzz() then libfuzzer will record a failure.
-+ *
-+ * Fuzzing targets are registered with fuzz_add_target():
-+ *
-+ *   static const FuzzTarget fuzz_target =3D {
-+ *       .name =3D "my-device-fifo",
-+ *       .description =3D "Fuzz the FIFO buffer registers of my-device",
-+ *       ...
-+ *   };
-+ *
-+ *   static void register_fuzz_target(void)
-+ *   {
-+ *       fuzz_add_target(&fuzz_target);
-+ *   }
-+ *   fuzz_target_init(register_fuzz_target);
-+ */
-+typedef struct FuzzTarget {
-+    const char *name;         /* target identifier (passed to --fuzz-targe=
-t=3D)*/
-+    const char *description;  /* help text */
-+
-+
-+    /*
-+     * returns the arg-list that is passed to qemu/softmmu init()
-+     * Cannot be NULL
-+     */
-+    const char* (*get_init_cmdline)(struct FuzzTarget *);
-+
-+    /*
-+     * will run once, prior to running qemu/softmmu init.
-+     * eg: set up shared-memory for communication with the child-process
-+     * Can be NULL
-+     */
-+    void(*pre_vm_init)(void);
-+
-+    /*
-+     * will run once, after QEMU has been initialized, prior to the fuzz-l=
-oop.
-+     * eg: detect the memory map
-+     * Can be NULL
-+     */
-+    void(*pre_fuzz)(QTestState *);
-+
-+    /*
-+     * accepts and executes an input from libfuzzer. this is repeatedly
-+     * executed during the fuzzing loop. Its should handle setup, input
-+     * execution and cleanup.
-+     * Cannot be NULL
-+     */
-+    void(*fuzz)(QTestState *, const unsigned char *, size_t);
-+
-+} FuzzTarget;
-+
-+void flush_events(QTestState *);
-+void reboot(QTestState *);
-+
-+/*
-+ * makes a copy of *target and adds it to the target-list.
-+ * i.e. fine to set up target on the caller's stack
-+ */
-+void fuzz_add_target(const FuzzTarget *target);
-+
-+int LLVMFuzzerTestOneInput(const unsigned char *Data, size_t Size);
-+int LLVMFuzzerInitialize(int *argc, char ***argv, char ***envp);
-+
-+#endif
-+
+         ram_block_notify_add(new_block->host, new_block->max_length);
+     }
+ }
 --=20
 2.23.0
 
