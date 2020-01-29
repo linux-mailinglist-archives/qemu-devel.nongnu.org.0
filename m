@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4E2D14D29D
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jan 2020 22:36:02 +0100 (CET)
-Received: from localhost ([::1]:51692 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91A9114D290
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jan 2020 22:33:58 +0100 (CET)
+Received: from localhost ([::1]:51656 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwv0D-0007bA-P6
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jan 2020 16:36:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59908)
+	id 1iwuyD-00045B-J6
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jan 2020 16:33:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60000)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iwupi-0006m0-CY
- for qemu-devel@nongnu.org; Wed, 29 Jan 2020 16:25:11 -0500
+ (envelope-from <philmd@redhat.com>) id 1iwupq-00072q-Kg
+ for qemu-devel@nongnu.org; Wed, 29 Jan 2020 16:25:19 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iwuph-0001je-BD
- for qemu-devel@nongnu.org; Wed, 29 Jan 2020 16:25:10 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:28723
+ (envelope-from <philmd@redhat.com>) id 1iwupo-00027E-GT
+ for qemu-devel@nongnu.org; Wed, 29 Jan 2020 16:25:18 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:49135
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iwuph-0001iZ-61
- for qemu-devel@nongnu.org; Wed, 29 Jan 2020 16:25:09 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iwupo-000264-By
+ for qemu-devel@nongnu.org; Wed, 29 Jan 2020 16:25:16 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580333108;
+ s=mimecast20190719; t=1580333116;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fxCbZvWGXhZEqXnL1eu7ZzSOcxT178OazYB5pgkaTrA=;
- b=MTL4/ZsxUc1UVesPMVx4r+lu3ljMgBV+/Ccz283J7yigrdJzrj2UV4vTR7R/mLMoNKB7lt
- vqFegqpdYS1ks7bpJfU9N7/Meyv/4we366ZF+SGBFnZChEuZnWFII0G0vxYbKIF7fJ74xd
- BuOjXwFO5OCw1WzvDdi2ZuUHDqYQjHc=
+ bh=zHcKnvFMFlOZ2mkGt6IOtxw5PebUiE3muwUyy7LVCck=;
+ b=HEhMiHmlV0jpI16Wgw3e1fz+2/fUeyKLQCJlDcl0nubbyJmImXdKXfrcSTgBCtuatDLAQY
+ dS131xTo5WWkwYAvNUJn99XdHwEgrbiqyzQyZm13Z1j8xjrn9OWXPVZhPhmK+1yh5YTziG
+ h+w+dG1JBt7vETmdGmpRTgBJIT9dmGk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-336-BYMYJ2RPNGWprl87g9T0wQ-1; Wed, 29 Jan 2020 16:25:06 -0500
+ us-mta-327-Yv9yRtJlNzOy6xMsG85Ixw-1; Wed, 29 Jan 2020 16:25:14 -0500
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C4D1318A6EC0;
- Wed, 29 Jan 2020 21:25:05 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0B6358010C2;
+ Wed, 29 Jan 2020 21:25:13 +0000 (UTC)
 Received: from x1w.redhat.com (ovpn-205-184.brq.redhat.com [10.40.205.184])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C189F60BF3;
- Wed, 29 Jan 2020 21:25:01 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3D8FA60BF3;
+ Wed, 29 Jan 2020 21:25:06 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: Denis Plotnikov <dplotnikov@virtuozzo.com>,
 	qemu-devel@nongnu.org
-Subject: [RFC PATCH v2 21/29] tests/acceptance/virtio_check_params: Kludge to
- skip tests on MIPS
-Date: Wed, 29 Jan 2020 22:23:37 +0100
-Message-Id: <20200129212345.20547-22-philmd@redhat.com>
+Subject: [PATCH v2 22/29] tests/acceptance/virtio_check_params: Support the
+ s390x architecture
+Date: Wed, 29 Jan 2020 22:23:38 +0100
+Message-Id: <20200129212345.20547-23-philmd@redhat.com>
 In-Reply-To: <20200129212345.20547-1-philmd@redhat.com>
 References: <20200129212345.20547-1-philmd@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: BYMYJ2RPNGWprl87g9T0wQ-1
+X-MC-Unique: Yv9yRtJlNzOy6xMsG85Ixw-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,33 +81,29 @@ Cc: Cornelia Huck <cohuck@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The MIPS default machine expects a BIOS.
-To be able to run QMP queries on the machine, we have to use
-the '-bios' command line option.
+We can run these tests on the s390x architecture too,
+we were just missing to properly parse the machine names.
 
+Suggested-by: Cornelia Huck <cohuck@redhat.com>
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
-RFC: This is not the correct place, this should be generic,
-     or the MIPS machine need some rework.
----
- tests/acceptance/virtio_check_params.py | 3 +++
- 1 file changed, 3 insertions(+)
+ tests/acceptance/virtio_check_params.py | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/tests/acceptance/virtio_check_params.py b/tests/acceptance/vir=
 tio_check_params.py
-index 8752e25f08..73200c9c5b 100755
+index 73200c9c5b..b14cfb5958 100755
 --- a/tests/acceptance/virtio_check_params.py
 +++ b/tests/acceptance/virtio_check_params.py
-@@ -131,6 +131,9 @@ class VirtioMaxSegSettingsCheck(Test):
-                 EXCLUDED_MACHINES +=3D ['xenfv', 'xenpv']
-         # collect all machine types except the ones in EXCLUDED_MACHINES
-         with QEMUMachine(self.qemu_bin) as vm:
-+            if arch.startswith('mips'):
-+                # FIXME kludge for MIPS default machine
-+                vm.add_args('-bios', '/dev/null')
-             vm.launch()
-             machines =3D [m['name'] for m in vm.command('query-machines')]
-             vm.shutdown()
+@@ -111,6 +111,8 @@ class VirtioMaxSegSettingsCheck(Test):
+             # machine types like pc-<chip_name>-x.x[.x]
+             ver =3D mt[2]
+             ver =3D ver.split(".");
++        elif arch =3D=3D 's390x':
++            ver =3D mt[len('s390-ccw-virtio-'):].split('.')
+         else:
+             raise TestCancel('Unsupported architecture: %s' % arch)
+=20
 --=20
 2.21.1
 
