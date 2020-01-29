@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A01E914CC20
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jan 2020 15:09:48 +0100 (CET)
-Received: from localhost ([::1]:47066 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 519D814CC1B
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jan 2020 15:08:32 +0100 (CET)
+Received: from localhost ([::1]:47044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwo2N-0005NB-N6
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jan 2020 09:09:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40540)
+	id 1iwo19-0002hn-D1
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jan 2020 09:08:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40526)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dplotnikov@virtuozzo.com>) id 1iwo09-0001Ku-NN
+ (envelope-from <dplotnikov@virtuozzo.com>) id 1iwo09-0001Kp-Kt
  for qemu-devel@nongnu.org; Wed, 29 Jan 2020 09:07:30 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dplotnikov@virtuozzo.com>) id 1iwo08-0001Cz-Dm
+ (envelope-from <dplotnikov@virtuozzo.com>) id 1iwo08-0001D4-E2
  for qemu-devel@nongnu.org; Wed, 29 Jan 2020 09:07:29 -0500
-Received: from relay.sw.ru ([185.231.240.75]:53602)
+Received: from relay.sw.ru ([185.231.240.75]:53598)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dplotnikov@virtuozzo.com>)
- id 1iwo08-00013P-5d; Wed, 29 Jan 2020 09:07:28 -0500
+ id 1iwo08-00013U-78; Wed, 29 Jan 2020 09:07:28 -0500
 Received: from dptest2.qa.sw.ru ([10.94.4.71])
  by relay.sw.ru with esmtp (Exim 4.92.3)
  (envelope-from <dplotnikov@virtuozzo.com>)
- id 1iwnzt-0003j6-AZ; Wed, 29 Jan 2020 17:07:13 +0300
+ id 1iwnzt-0003j6-Dl; Wed, 29 Jan 2020 17:07:13 +0300
 From: Denis Plotnikov <dplotnikov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 3/4] tests: add virtuqueue size checking to
- virtio_seg_max_adjust test
-Date: Wed, 29 Jan 2020 17:07:01 +0300
-Message-Id: <20200129140702.5411-4-dplotnikov@virtuozzo.com>
+Subject: [PATCH v1 4/4] tests: rename virtio_seg_max_adjust to
+ virtio_check_params
+Date: Wed, 29 Jan 2020 17:07:02 +0300
+Message-Id: <20200129140702.5411-5-dplotnikov@virtuozzo.com>
 X-Mailer: git-send-email 2.17.0
 In-Reply-To: <20200129140702.5411-1-dplotnikov@virtuozzo.com>
 References: <20200129140702.5411-1-dplotnikov@virtuozzo.com>
@@ -52,93 +52,20 @@ Cc: fam@euphon.net, kwolf@redhat.com, vsementsov@virtuozzo.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is due to the change in the default virtqueue_size in the
-latest machine type to improve guest disks performance.
+Since, virtio_seg_max_adjust checks not only seg_max, but also
+virtqueue_size parameter, let's make the test more general and
+add new parameters to be checked there in the future.
 
 Signed-off-by: Denis Plotnikov <dplotnikov@virtuozzo.com>
 ---
- tests/acceptance/virtio_seg_max_adjust.py | 33 ++++++++++++++---------
- 1 file changed, 21 insertions(+), 12 deletions(-)
+ .../{virtio_seg_max_adjust.py => virtio_check_params.py}          | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ rename tests/acceptance/{virtio_seg_max_adjust.py => virtio_check_params.py} (100%)
 
-diff --git a/tests/acceptance/virtio_seg_max_adjust.py b/tests/acceptance/virtio_seg_max_adjust.py
-index 5458573138..645d69b313 100755
---- a/tests/acceptance/virtio_seg_max_adjust.py
-+++ b/tests/acceptance/virtio_seg_max_adjust.py
-@@ -27,8 +27,10 @@ from qemu.machine import QEMUMachine
- from avocado_qemu import Test
- 
- #list of machine types and virtqueue properties to test
--VIRTIO_SCSI_PROPS = {'seg_max_adjust': 'seg_max_adjust'}
--VIRTIO_BLK_PROPS = {'seg_max_adjust': 'seg-max-adjust'}
-+VIRTIO_SCSI_PROPS = {'seg_max_adjust': 'seg_max_adjust',
-+                     'queue_size': 'virtqueue_size'}
-+VIRTIO_BLK_PROPS = {'seg_max_adjust': 'seg-max-adjust',
-+                    'queue_size': 'queue-size'}
- 
- DEV_TYPES = {'virtio-scsi-pci': VIRTIO_SCSI_PROPS,
-              'virtio-blk-pci': VIRTIO_BLK_PROPS}
-@@ -40,7 +42,7 @@ VM_DEV_PARAMS = {'virtio-scsi-pci': ['-device', 'virtio-scsi-pci,id=scsi0'],
-                                     'driver=null-co,id=drive0,if=none']}
- 
- 
--class VirtioMaxSegSettingsCheck(Test):
-+class VirtioPramsCheck(Test):
-     @staticmethod
-     def make_pattern(props):
-         pattern_items = ['{0} = \w+'.format(prop) for prop in props]
-@@ -72,20 +74,24 @@ class VirtioMaxSegSettingsCheck(Test):
-                 props[p[0]] = p[1]
-         return query_ok, props, error
- 
--    def check_mt(self, mt, dev_type_name):
-+    def check_mt(self, mt, expected_props, dev_type_name):
-         with QEMUMachine(self.qemu_bin) as vm:
--            vm.set_machine(mt["name"])
-+            vm.set_machine(mt)
-             for s in VM_DEV_PARAMS[dev_type_name]:
-                 vm.add_args(s)
-             vm.launch()
-             query_ok, props, error = self.query_virtqueue(vm, dev_type_name)
- 
-         if not query_ok:
--            self.fail('machine type {0}: {1}'.format(mt['name'], error))
-+            self.fail('machine type {0}: {1}'.format(mt, error))
- 
-         for prop_name, prop_val in props.items():
--            expected_val = mt[prop_name]
--            self.assertEqual(expected_val, prop_val)
-+            expected_val = expected_props[prop_name]
-+            msg = 'Property value mismatch for (MT: {0}, '\
-+                  'property name: {1}): expected value: "{2}" '\
-+                  'actual value: "{3}"'\
-+                  .format(mt, prop_name, expected_val, prop_val)
-+            self.assertEqual(expected_val, prop_val, msg)
- 
-     @staticmethod
-     def seg_max_adjust_enabled(mt):
-@@ -120,15 +126,18 @@ class VirtioMaxSegSettingsCheck(Test):
- 
-         for dev_type in DEV_TYPES:
-             # create the list of machine types and their parameters.
--            mtypes = list()
-+            mtypes = dict()
-             for m in machines:
-                 if self.seg_max_adjust_enabled(m):
-                     enabled = 'true'
-+                    queue_size = '256'
-                 else:
-                     enabled = 'false'
--                mtypes.append({'name': m,
--                               DEV_TYPES[dev_type]['seg_max_adjust']: enabled})
-+                    queue_size = '128'
-+                mtypes[m] = {
-+                    DEV_TYPES[dev_type]['seg_max_adjust']: enabled,
-+                    DEV_TYPES[dev_type]['queue_size']: queue_size }
- 
-             # test each machine type for a device type
-             for mt in mtypes:
--                self.check_mt(mt, dev_type)
-+                self.check_mt(mt, mtypes[mt], dev_type)
+diff --git a/tests/acceptance/virtio_seg_max_adjust.py b/tests/acceptance/virtio_check_params.py
+similarity index 100%
+rename from tests/acceptance/virtio_seg_max_adjust.py
+rename to tests/acceptance/virtio_check_params.py
 -- 
 2.17.0
 
