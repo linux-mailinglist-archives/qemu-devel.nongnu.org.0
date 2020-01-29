@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0A4014C5EB
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jan 2020 06:37:32 +0100 (CET)
-Received: from localhost ([::1]:41384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CE6014C5F5
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jan 2020 06:41:20 +0100 (CET)
+Received: from localhost ([::1]:41442 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwg2e-0004g7-0F
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jan 2020 00:37:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44805)
+	id 1iwg6J-0002wz-Ct
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jan 2020 00:41:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44790)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alxndr@bu.edu>) id 1iwfzc-0007tx-2D
- for qemu-devel@nongnu.org; Wed, 29 Jan 2020 00:34:25 -0500
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alxndr@bu.edu>) id 1iwfza-0001yA-GN
+ (envelope-from <alxndr@bu.edu>) id 1iwfzb-0007rL-5Y
  for qemu-devel@nongnu.org; Wed, 29 Jan 2020 00:34:24 -0500
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <alxndr@bu.edu>) id 1iwfzZ-0001wH-UV
+ for qemu-devel@nongnu.org; Wed, 29 Jan 2020 00:34:23 -0500
 Received: from mail-mw2nam10on2110.outbound.protection.outlook.com
  ([40.107.94.110]:45280 helo=NAM10-MW2-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <alxndr@bu.edu>) id 1iwfza-0001tn-7U
- for qemu-devel@nongnu.org; Wed, 29 Jan 2020 00:34:22 -0500
+ (Exim 4.71) (envelope-from <alxndr@bu.edu>) id 1iwfzZ-0001tn-O1
+ for qemu-devel@nongnu.org; Wed, 29 Jan 2020 00:34:21 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=AyzAB66gdcjN+eIJEhSxJvhm42qDxS3eVF5Rv7DZ4OpDk0wf+8H5JUP5n8+pRuUPWcZax+nxZxjsTXd4O91p9PMvg4OBRGHX0KNJSkYm6lJDyK9PAxlQBki9ZyfTTm1NyC6KMvXK1GZnYVwT+elhIsYcaqWM9xKLb6YbVM8TTHgCOOYIbtGExJQNdBaN+p1MgNH70WPL34qaQlDcOKVQysZ96S+FRiA0ZHHIDS3PGoW6mgbULCYBWdy9Z+tweq0QGfXNzZxVVAkEFjyQKjlbEap1BMGMsUu9FHO4W4tk4WAOL/1A6149ns8SfRMKoqF/fRCSPXMMbhAiRWZ56ztPaw==
+ b=SvWP7TTxO6O6aGmtM+Oy4rhr/urXdM5DaYLr9qPyVHF2OOPN41lDX0kFPnyk7CFZMCYek2krqw7xgB6/yWl5C0gAx2DYCHYOlIqMs3rWUB7wD2jTmp+uZhTsJP3TACYcr2RFR5cgvUO95n1MZqqaEMJG4jloxDFfcGuaI18Tj77DK0wT6EnoXYqrTnMWBCMYVcPF4JLH8LiK8BcZRYTLtW3uziJzfYebdsS8rfeO8wpGFivVqS5h/6Pd9fH6n02TaKx7c/zuAzlXThteSQsEGQBp2u4K7PW9k6R+f6F2XAXM5/L4Thzs7FJGBeEo2+KcttyImxIGoFSQspgmrKDYHw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BMCyJN3nzC2ixzb7DkXR5cQ3SesaeOMGZjfVp8Oc6oQ=;
- b=B9yzvlFU12zkefbTTqVpNjaV5vPQsgDziWeyK23BzxZjCbPBOussRi61bRHnmHIfTd1fLtw1jfcRTbnpkT7ttF5tZryqm8rd7ILvQsJXLcvrfwh1xsQDQnS687f4DRiiA/VenlI6LV5U1er9r3i80SHct2NGRE45ds1ob2e2/QcG1vAw+ILaIvo3LSkOieD6LabfCOkMTKEjTchxB6RsV+XUKQA1Frs0t0p+sUpNbcZZyYa2EmoWhZ5jHPGtEjf96sZ/163ocRXfaBYdnCEfcts9NVOGtaU4hcuB6cgTrfMfZsBZRr/S80Q4uVbanHwuEOJlMok10fM1DosXMXXscw==
+ bh=t5mnk3e1ZGtlIjME4MaJ9YJ8gCqwJraw8SK866ibAro=;
+ b=h9P2qDqQfoi2C/DuXPhiv5jKi4Is1gjtGuoWktUWA5H6TwwXk//MLOzPRTgISERiXFDq8V86bJJ63BvWJJGrz0CVRaIfxFUXd0y6Drwhpx614ym1dpcw7t2k2HWWPwte4HjgGtyV361XLV/AuRQCCUKNyFIUT4tSCPDoZSt7mq6s4c+Tn62ZAVslNhHU7jAHrEI4/bDmp0kU+/G2zVckUZJljyEgDKVl9YLAhdQrCUATrANzVucMx86ZSprQgJ++GDz0xIZrjjPNaP+U0qkAHF6oQ+pYNRDcenA9m/IxhChoORQKt/ut5dblc3OSgCpSc02WzCQ4nNE8TMoaqOF0HQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=bu.edu; dmarc=pass action=none header.from=bu.edu; dkim=pass
  header.d=bu.edu; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bushare.onmicrosoft.com; s=selector2-bushare-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BMCyJN3nzC2ixzb7DkXR5cQ3SesaeOMGZjfVp8Oc6oQ=;
- b=r5QwkO/4CL/21eFVZcXT0fBJRW0FkRzakbRX4ZTNSkBvZSliy+V5IvAoIK/Pbsj6C/qLcqfUSTzyBjGw7FWINWFjrOftXQWwYoEpYeCdYdqZPdQOU9MHYyQxMqxnYmir918D1vpltn4FSy6Vu8uUqN4Nmr6JESXYOM/eo8wVEv8=
+ bh=t5mnk3e1ZGtlIjME4MaJ9YJ8gCqwJraw8SK866ibAro=;
+ b=7WuWq6I0DCYg5T8lvxgFGmFRMXagK/cOEkdKpgIVA8xEqI8eu2L09jdKpSMsOI4JyF72NPDEQVU6OLuoQ2ZYSB0CzmD+L81FeEN7AmotDZ7ak5T+DyCx9gdhb+UNqz5Yi7u+Ja0sDBd3pyI13/va58JzzkZUFvLMGSa2yJ0f2Io=
 Received: from SN6PR03MB3871.namprd03.prod.outlook.com (52.135.102.32) by
  SN6PR03MB4206.namprd03.prod.outlook.com (52.135.110.13) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2665.20; Wed, 29 Jan 2020 05:34:21 +0000
+ 15.20.2665.20; Wed, 29 Jan 2020 05:34:20 +0000
 Received: from SN6PR03MB3871.namprd03.prod.outlook.com
  ([fe80::9c11:10cd:6e97:bbe8]) by SN6PR03MB3871.namprd03.prod.outlook.com
  ([fe80::9c11:10cd:6e97:bbe8%7]) with mapi id 15.20.2665.026; Wed, 29 Jan 2020
- 05:34:21 +0000
+ 05:34:20 +0000
 Received: from mozz.bu.edu (128.197.127.33) by
  MN2PR05CA0029.namprd05.prod.outlook.com (2603:10b6:208:c0::42) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2686.19 via Frontend Transport; Wed, 29 Jan 2020 05:34:18 +0000
+ 15.20.2686.19 via Frontend Transport; Wed, 29 Jan 2020 05:34:17 +0000
 From: "Bulekov, Alexander" <alxndr@bu.edu>
 To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Subject: [PATCH v8 09/21] libqos: split qos-test and libqos makefile vars
-Thread-Topic: [PATCH v8 09/21] libqos: split qos-test and libqos makefile vars
-Thread-Index: AQHV1mXAnqhNAPsH+EumEwZ5o7EBVg==
+Subject: [PATCH v8 08/21] libqos: rename i2c_send and i2c_recv
+Thread-Topic: [PATCH v8 08/21] libqos: rename i2c_send and i2c_recv
+Thread-Index: AQHV1mXA9OiKkf3e90WaPrlX2yGbuQ==
 Date: Wed, 29 Jan 2020 05:34:18 +0000
-Message-ID: <20200129053357.27454-10-alxndr@bu.edu>
+Message-ID: <20200129053357.27454-9-alxndr@bu.edu>
 References: <20200129053357.27454-1-alxndr@bu.edu>
 In-Reply-To: <20200129053357.27454-1-alxndr@bu.edu>
 Accept-Language: en-US
@@ -69,11 +69,11 @@ x-clientproxiedby: MN2PR05CA0029.namprd05.prod.outlook.com
 authentication-results: spf=none (sender IP is ) smtp.mailfrom=alxndr@bu.edu; 
 x-ms-exchange-messagesentrepresentingtype: 1
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 24b72875-e1a6-4dad-62a3-08d7a47ce309
+x-ms-office365-filtering-correlation-id: 9dc1ef48-5eea-4b1f-5e47-08d7a47ce27f
 x-ms-traffictypediagnostic: SN6PR03MB4206:
 x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <SN6PR03MB4206B22A2DDCAA67B2E62876BA050@SN6PR03MB4206.namprd03.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:2958;
+x-microsoft-antispam-prvs: <SN6PR03MB4206D678E3EEBFBC42226E2ABA050@SN6PR03MB4206.namprd03.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:3173;
 x-forefront-prvs: 02973C87BC
 x-forefront-antispam-report: SFV:NSPM;
  SFS:(10019020)(4636009)(376002)(136003)(366004)(346002)(396003)(39860400002)(189003)(199004)(478600001)(75432002)(36756003)(316002)(6916009)(2906002)(786003)(4326008)(54906003)(26005)(186003)(956004)(2616005)(6486002)(7696005)(52116002)(16526019)(1076003)(5660300002)(71200400001)(86362001)(66446008)(66556008)(66946007)(66476007)(8936002)(81156014)(81166006)(64756008)(8676002);
@@ -84,19 +84,18 @@ received-spf: None (protection.outlook.com: bu.edu does not designate
  permitted sender hosts)
 x-ms-exchange-senderadcheck: 1
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 2THsEF2sMBK/Q1Dn/ppOQ39SXh866ahiafu5HL9C31fNIHWExoO8twb35THdqeKiZWm5dBqpX0xprN6fMkGBvZqRcUCYee+CoP5AXcspD+MGW4zDARWncsXBLBBWEDl+sEk6rXP15SsJyRKfGaQmSip+MTwfv3oJlOD1ue8DGOrT4eQBJ/5Rnfq7ZCRrtPGPootxXxJGFcv3Y3pKN7J4t921toT9onV7bYASt916PhmBI0/LskfmeVEhO1uilhMHYCWLgzY+XN21ZrQf3T4Cn4EulEG7NyVphJU2+85oakY9DHuIRHbOVmITW4D/tIirMFmz1g/kaEU8tOdgWyNqJgEha1YN/V1/U2ajmZrVRPn+JFwAY9N7CXDUAPDB7FbhCGLQ47jkQ+CEAjK1rVjVz4NMY2pkPIgqnZnKtMeHK8mCKZb62ll4A2V4+aWdagYE
-x-ms-exchange-antispam-messagedata: SOgtBy9EoEvlUTQu4LuZOuXKRjwF3H0zVc+TboO+MG45lHbj5BdP3QW98qeNKUW9sjdHvqK6wPrJYfavmxojTr/Uke3TgUynNByPhB+Q3AvyLPK6r5/8aKdtwy2oeoqkf6o2gW38WO4CthUV76OcdQ==
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <53578642B95A8243A7F3A9E639E2294B@namprd03.prod.outlook.com>
-Content-Transfer-Encoding: base64
+x-microsoft-antispam-message-info: IGAfQU30oaF+9fp5U/yX8K6Zo4a5aDzQGN3xsesGt+Uzproh7kXN8jdzDly9iu3T3H1zbem/zGJAqAPYdBBWFXHHjshqKro9s8VFavR/aYgrVzgx9TAbCYELPSXhAZrMfInE9JcrwtFxOILKX5qm+j4HAK1s3PzSYiI2AmdKWNOM30B2zoKosSAmVqg5WVb9CDx3cjskn0+a3kO/34uKTxA86sisVzGvOgA9lOyFtHi1SdrFuw1qR1SlFb/JsELYoe1C3CEAtXl+LoKNEoF+3CZT0NjRj+R7FfEdmdRNTf6cjV/h8a9kT3W77Qk5ze03Qb3reI9NG9KMSbopBbrr67hihQnyMr35eozCYmtLkSePIaYoNwrID4EK41kTwIYcEs/tQrqtC9GJeOmEChp5Aow+jsRuEQrsAtIrKe2B8F9Gn/Rfz7XYw6Qr42uVsnZP
+x-ms-exchange-antispam-messagedata: +0EBVXjFtcs1Smyvqjy6z74LuAz3cy+7gmUDxURnzAj0DaVlAUWnVznG6sudPJY6Dj5JPAeD8vKgm0oWnt2hV5HDEulYyPD6OoCayEOzCYFjTa2pOrqfLMFSB1lVRGMAGcbRgF3P82d/rKHOOXFoRg==
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: bu.edu
-X-MS-Exchange-CrossTenant-Network-Message-Id: 24b72875-e1a6-4dad-62a3-08d7a47ce309
-X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Jan 2020 05:34:19.0236 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9dc1ef48-5eea-4b1f-5e47-08d7a47ce27f
+X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Jan 2020 05:34:18.1141 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: d57d32cc-c121-488f-b07b-dfe705680c71
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: vCEKbM3Y034r0SOCiB3e4mBuKLX2T0YZqzhvS2MOVm+7e3mTIAXZHgp/CuB72IV3
+X-MS-Exchange-CrossTenant-userprincipalname: S+YcEYXYas8l495C1pucKTOOVhxM2tSouIeIHEKA6UyPlMHKB1xPDz7/gOspHlTV
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR03MB4206
 X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
 X-Received-From: 40.107.94.110
@@ -112,116 +111,116 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- "Bulekov, 
- Alexander" <alxndr@bu.edu>, Darren Kenny <darren.kenny@oracle.com>,
- "bsd@redhat.com" <bsd@redhat.com>, "stefanha@redhat.com" <stefanha@redhat.com>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>,
- =?utf-8?B?UGhpbGlwcGUgTWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
+ "Bulekov, Alexander" <alxndr@bu.edu>, "bsd@redhat.com" <bsd@redhat.com>,
+ "stefanha@redhat.com" <stefanha@redhat.com>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-TW9zdCBxb3MtcmVsYXRlZCBvYmplY3RzIHdlcmUgc3BlY2lmaWVkIGluIHRoZSBxb3MtdGVzdC1v
-YmoteSB2YXJpYWJsZS4NCnFvcy10ZXN0LW9iai15IGFsc28gaW5jbHVkZWQgcW9zLXRlc3QubyB3
-aGljaCBkZWZpbmVzIGEgbWFpbigpLg0KVGhpcyBtYWRlIGl0IGRpZmZpY3VsdCB0byByZXB1cnBv
-c2UgcW9zLXRlc3Qtb2JqLXkgdG8gbGluayBhbnl0aGluZw0KYmVzaWRlIHRlc3RzL3Fvcy10ZXN0
-IGFnYWluc3QgbGlicW9zLiBUaGlzIGNoYW5nZSBzZXBhcmF0ZXMgb2JqZWN0cyB0aGF0DQphcmUg
-bGlicW9zLXNwZWNpZmljIGFuZCBvbmVzIHRoYXQgYXJlIHFvcy10ZXN0IHNwZWNpZmljIGludG8g
-ZGlmZmVyZW50DQp2YXJpYWJsZXMuDQoNClNpZ25lZC1vZmYtYnk6IEFsZXhhbmRlciBCdWxla292
-IDxhbHhuZHJAYnUuZWR1Pg0KUmV2aWV3ZWQtYnk6IERhcnJlbiBLZW5ueSA8ZGFycmVuLmtlbm55
-QG9yYWNsZS5jb20+DQpSZXZpZXdlZC1ieTogU3RlZmFuIEhham5vY3ppIDxzdGVmYW5oYUByZWRo
-YXQuY29tPg0KUmV2aWV3ZWQtYnk6IFBoaWxpcHBlIE1hdGhpZXUtRGF1ZMOpIDxwaGlsbWRAcmVk
-aGF0LmNvbT4NCi0tLQ0KIHRlc3RzL3F0ZXN0L01ha2VmaWxlLmluY2x1ZGUgfCA3MSArKysrKysr
-KysrKysrKysrKystLS0tLS0tLS0tLS0tLS0tLS0NCiAxIGZpbGUgY2hhbmdlZCwgMzYgaW5zZXJ0
-aW9ucygrKSwgMzUgZGVsZXRpb25zKC0pDQoNCmRpZmYgLS1naXQgYS90ZXN0cy9xdGVzdC9NYWtl
-ZmlsZS5pbmNsdWRlIGIvdGVzdHMvcXRlc3QvTWFrZWZpbGUuaW5jbHVkZQ0KaW5kZXggZTZiYjRh
-YjI4Yy4uMDhhNDhjMTI1MiAxMDA2NDQNCi0tLSBhL3Rlc3RzL3F0ZXN0L01ha2VmaWxlLmluY2x1
-ZGUNCisrKyBiL3Rlc3RzL3F0ZXN0L01ha2VmaWxlLmluY2x1ZGUNCkBAIC0xNTcsNTIgKzE1Nyw1
-MyBAQCBjaGVjay1xdGVzdC1zMzkweC15ICs9IG1pZ3JhdGlvbi10ZXN0DQogIyBsaWJxb3MgLyBx
-Z3JhcGggOg0KIGxpYnFncmFwaC1vYmoteSA9IHRlc3RzL3F0ZXN0L2xpYnFvcy9xZ3JhcGgubw0K
-IA0KLWxpYnFvcy1vYmoteSA9ICQobGlicWdyYXBoLW9iai15KSB0ZXN0cy9xdGVzdC9saWJxb3Mv
-cGNpLm8gdGVzdHMvcXRlc3QvbGlicW9zL2Z3X2NmZy5vDQotbGlicW9zLW9iai15ICs9IHRlc3Rz
-L3F0ZXN0L2xpYnFvcy9tYWxsb2Mubw0KLWxpYnFvcy1vYmoteSArPSB0ZXN0cy9xdGVzdC9saWJx
-b3MvbGlicW9zLm8NCi1saWJxb3Mtc3BhcHItb2JqLXkgPSAkKGxpYnFvcy1vYmoteSkgdGVzdHMv
-cXRlc3QvbGlicW9zL21hbGxvYy1zcGFwci5vDQorbGlicW9zLWNvcmUtb2JqLXkgPSAkKGxpYnFn
-cmFwaC1vYmoteSkgdGVzdHMvcXRlc3QvbGlicW9zL3BjaS5vIHRlc3RzL3F0ZXN0L2xpYnFvcy9m
-d19jZmcubw0KK2xpYnFvcy1jb3JlLW9iai15ICs9IHRlc3RzL3F0ZXN0L2xpYnFvcy9tYWxsb2Mu
-bw0KK2xpYnFvcy1jb3JlLW9iai15ICs9IHRlc3RzL3F0ZXN0L2xpYnFvcy9saWJxb3Mubw0KK2xp
-YnFvcy1zcGFwci1vYmoteSA9ICQobGlicW9zLWNvcmUtb2JqLXkpIHRlc3RzL3F0ZXN0L2xpYnFv
-cy9tYWxsb2Mtc3BhcHIubw0KIGxpYnFvcy1zcGFwci1vYmoteSArPSB0ZXN0cy9xdGVzdC9saWJx
-b3MvbGlicW9zLXNwYXByLm8NCiBsaWJxb3Mtc3BhcHItb2JqLXkgKz0gdGVzdHMvcXRlc3QvbGli
-cW9zL3J0YXMubw0KIGxpYnFvcy1zcGFwci1vYmoteSArPSB0ZXN0cy9xdGVzdC9saWJxb3MvcGNp
-LXNwYXByLm8NCi1saWJxb3MtcGMtb2JqLXkgPSAkKGxpYnFvcy1vYmoteSkgdGVzdHMvcXRlc3Qv
-bGlicW9zL3BjaS1wYy5vDQorbGlicW9zLXBjLW9iai15ID0gJChsaWJxb3MtY29yZS1vYmoteSkg
-dGVzdHMvcXRlc3QvbGlicW9zL3BjaS1wYy5vDQogbGlicW9zLXBjLW9iai15ICs9IHRlc3RzL3F0
-ZXN0L2xpYnFvcy9tYWxsb2MtcGMubyB0ZXN0cy9xdGVzdC9saWJxb3MvbGlicW9zLXBjLm8NCiBs
-aWJxb3MtcGMtb2JqLXkgKz0gdGVzdHMvcXRlc3QvbGlicW9zL2FoY2kubw0KIGxpYnFvcy11c2It
-b2JqLXkgPSAkKGxpYnFvcy1zcGFwci1vYmoteSkgJChsaWJxb3MtcGMtb2JqLXkpIHRlc3RzL3F0
-ZXN0L2xpYnFvcy91c2Iubw0KIA0KICMgcW9zIGRldmljZXM6DQotcW9zLXRlc3Qtb2JqLXkgPSB0
-ZXN0cy9xdGVzdC9xb3MtdGVzdC5vICQobGlicWdyYXBoLW9iai15KQ0KLXFvcy10ZXN0LW9iai15
-ICs9ICQobGlicW9zLXBjLW9iai15KSAkKGxpYnFvcy1zcGFwci1vYmoteSkNCi1xb3MtdGVzdC1v
-YmoteSArPSB0ZXN0cy9xdGVzdC9saWJxb3MvZTEwMDBlLm8NCi1xb3MtdGVzdC1vYmoteSArPSB0
-ZXN0cy9xdGVzdC9saWJxb3MvaTJjLm8NCi1xb3MtdGVzdC1vYmoteSArPSB0ZXN0cy9xdGVzdC9s
-aWJxb3MvaTJjLWlteC5vDQotcW9zLXRlc3Qtb2JqLXkgKz0gdGVzdHMvcXRlc3QvbGlicW9zL2ky
-Yy1vbWFwLm8NCi1xb3MtdGVzdC1vYmoteSArPSB0ZXN0cy9xdGVzdC9saWJxb3Mvc2RoY2kubw0K
-LXFvcy10ZXN0LW9iai15ICs9IHRlc3RzL3F0ZXN0L2xpYnFvcy90cGNpMjAwLm8NCi1xb3MtdGVz
-dC1vYmoteSArPSB0ZXN0cy9xdGVzdC9saWJxb3MvdmlydGlvLm8NCi1xb3MtdGVzdC1vYmotJChD
-T05GSUdfVklSVEZTKSArPSB0ZXN0cy9xdGVzdC9saWJxb3MvdmlydGlvLTlwLm8NCi1xb3MtdGVz
-dC1vYmoteSArPSB0ZXN0cy9xdGVzdC9saWJxb3MvdmlydGlvLWJhbGxvb24ubw0KLXFvcy10ZXN0
-LW9iai15ICs9IHRlc3RzL3F0ZXN0L2xpYnFvcy92aXJ0aW8tYmxrLm8NCi1xb3MtdGVzdC1vYmot
-eSArPSB0ZXN0cy9xdGVzdC9saWJxb3MvdmlydGlvLW1taW8ubw0KLXFvcy10ZXN0LW9iai15ICs9
-IHRlc3RzL3F0ZXN0L2xpYnFvcy92aXJ0aW8tbmV0Lm8NCi1xb3MtdGVzdC1vYmoteSArPSB0ZXN0
-cy9xdGVzdC9saWJxb3MvdmlydGlvLXBjaS5vDQotcW9zLXRlc3Qtb2JqLXkgKz0gdGVzdHMvcXRl
-c3QvbGlicW9zL3ZpcnRpby1wY2ktbW9kZXJuLm8NCi1xb3MtdGVzdC1vYmoteSArPSB0ZXN0cy9x
-dGVzdC9saWJxb3MvdmlydGlvLXJuZy5vDQotcW9zLXRlc3Qtb2JqLXkgKz0gdGVzdHMvcXRlc3Qv
-bGlicW9zL3ZpcnRpby1zY3NpLm8NCi1xb3MtdGVzdC1vYmoteSArPSB0ZXN0cy9xdGVzdC9saWJx
-b3MvdmlydGlvLXNlcmlhbC5vDQorbGlicW9zLW9iai15ID0gICQobGlicWdyYXBoLW9iai15KQ0K
-K2xpYnFvcy1vYmoteSArPSAkKGxpYnFvcy1wYy1vYmoteSkgJChsaWJxb3Mtc3BhcHItb2JqLXkp
-DQorbGlicW9zLW9iai15ICs9IHRlc3RzL3F0ZXN0L2xpYnFvcy9lMTAwMGUubw0KK2xpYnFvcy1v
-YmoteSArPSB0ZXN0cy9xdGVzdC9saWJxb3MvaTJjLm8NCitsaWJxb3Mtb2JqLXkgKz0gdGVzdHMv
-cXRlc3QvbGlicW9zL2kyYy1pbXgubw0KK2xpYnFvcy1vYmoteSArPSB0ZXN0cy9xdGVzdC9saWJx
-b3MvaTJjLW9tYXAubw0KK2xpYnFvcy1vYmoteSArPSB0ZXN0cy9xdGVzdC9saWJxb3Mvc2RoY2ku
-bw0KK2xpYnFvcy1vYmoteSArPSB0ZXN0cy9xdGVzdC9saWJxb3MvdHBjaTIwMC5vDQorbGlicW9z
-LW9iai15ICs9IHRlc3RzL3F0ZXN0L2xpYnFvcy92aXJ0aW8ubw0KK2xpYnFvcy1vYmotJChDT05G
-SUdfVklSVEZTKSArPSB0ZXN0cy9xdGVzdC9saWJxb3MvdmlydGlvLTlwLm8NCitsaWJxb3Mtb2Jq
-LXkgKz0gdGVzdHMvcXRlc3QvbGlicW9zL3ZpcnRpby1iYWxsb29uLm8NCitsaWJxb3Mtb2JqLXkg
-Kz0gdGVzdHMvcXRlc3QvbGlicW9zL3ZpcnRpby1ibGsubw0KK2xpYnFvcy1vYmoteSArPSB0ZXN0
-cy9xdGVzdC9saWJxb3MvdmlydGlvLW1taW8ubw0KK2xpYnFvcy1vYmoteSArPSB0ZXN0cy9xdGVz
-dC9saWJxb3MvdmlydGlvLW5ldC5vDQorbGlicW9zLW9iai15ICs9IHRlc3RzL3F0ZXN0L2xpYnFv
-cy92aXJ0aW8tcGNpLm8NCitsaWJxb3Mtb2JqLXkgKz0gdGVzdHMvcXRlc3QvbGlicW9zL3ZpcnRp
-by1wY2ktbW9kZXJuLm8NCitsaWJxb3Mtb2JqLXkgKz0gdGVzdHMvcXRlc3QvbGlicW9zL3ZpcnRp
-by1ybmcubw0KK2xpYnFvcy1vYmoteSArPSB0ZXN0cy9xdGVzdC9saWJxb3MvdmlydGlvLXNjc2ku
-bw0KK2xpYnFvcy1vYmoteSArPSB0ZXN0cy9xdGVzdC9saWJxb3MvdmlydGlvLXNlcmlhbC5vDQog
-DQogIyBxb3MgbWFjaGluZXM6DQotcW9zLXRlc3Qtb2JqLXkgKz0gdGVzdHMvcXRlc3QvbGlicW9z
-L2FhcmNoNjQteGxueC16Y3UxMDItbWFjaGluZS5vDQotcW9zLXRlc3Qtb2JqLXkgKz0gdGVzdHMv
-cXRlc3QvbGlicW9zL2FybS1pbXgyNS1wZGstbWFjaGluZS5vDQotcW9zLXRlc3Qtb2JqLXkgKz0g
-dGVzdHMvcXRlc3QvbGlicW9zL2FybS1uODAwLW1hY2hpbmUubw0KLXFvcy10ZXN0LW9iai15ICs9
-IHRlc3RzL3F0ZXN0L2xpYnFvcy9hcm0tcmFzcGkyLW1hY2hpbmUubw0KLXFvcy10ZXN0LW9iai15
-ICs9IHRlc3RzL3F0ZXN0L2xpYnFvcy9hcm0tc2FicmVsaXRlLW1hY2hpbmUubw0KLXFvcy10ZXN0
-LW9iai15ICs9IHRlc3RzL3F0ZXN0L2xpYnFvcy9hcm0tc21ka2MyMTAtbWFjaGluZS5vDQotcW9z
-LXRlc3Qtb2JqLXkgKz0gdGVzdHMvcXRlc3QvbGlicW9zL2FybS12aXJ0LW1hY2hpbmUubw0KLXFv
-cy10ZXN0LW9iai15ICs9IHRlc3RzL3F0ZXN0L2xpYnFvcy9hcm0teGlsaW54LXp5bnEtYTktbWFj
-aGluZS5vDQotcW9zLXRlc3Qtb2JqLXkgKz0gdGVzdHMvcXRlc3QvbGlicW9zL3BwYzY0X3BzZXJp
-ZXMtbWFjaGluZS5vDQotcW9zLXRlc3Qtb2JqLXkgKz0gdGVzdHMvcXRlc3QvbGlicW9zL3g4Nl82
-NF9wYy1tYWNoaW5lLm8NCitsaWJxb3Mtb2JqLXkgKz0gdGVzdHMvcXRlc3QvbGlicW9zL2FhcmNo
-NjQteGxueC16Y3UxMDItbWFjaGluZS5vDQorbGlicW9zLW9iai15ICs9IHRlc3RzL3F0ZXN0L2xp
-YnFvcy9hcm0taW14MjUtcGRrLW1hY2hpbmUubw0KK2xpYnFvcy1vYmoteSArPSB0ZXN0cy9xdGVz
-dC9saWJxb3MvYXJtLW44MDAtbWFjaGluZS5vDQorbGlicW9zLW9iai15ICs9IHRlc3RzL3F0ZXN0
-L2xpYnFvcy9hcm0tcmFzcGkyLW1hY2hpbmUubw0KK2xpYnFvcy1vYmoteSArPSB0ZXN0cy9xdGVz
-dC9saWJxb3MvYXJtLXNhYnJlbGl0ZS1tYWNoaW5lLm8NCitsaWJxb3Mtb2JqLXkgKz0gdGVzdHMv
-cXRlc3QvbGlicW9zL2FybS1zbWRrYzIxMC1tYWNoaW5lLm8NCitsaWJxb3Mtb2JqLXkgKz0gdGVz
-dHMvcXRlc3QvbGlicW9zL2FybS12aXJ0LW1hY2hpbmUubw0KK2xpYnFvcy1vYmoteSArPSB0ZXN0
-cy9xdGVzdC9saWJxb3MvYXJtLXhpbGlueC16eW5xLWE5LW1hY2hpbmUubw0KK2xpYnFvcy1vYmot
-eSArPSB0ZXN0cy9xdGVzdC9saWJxb3MvcHBjNjRfcHNlcmllcy1tYWNoaW5lLm8NCitsaWJxb3Mt
-b2JqLXkgKz0gdGVzdHMvcXRlc3QvbGlicW9zL3g4Nl82NF9wYy1tYWNoaW5lLm8NCiANCiAjIHFv
-cyB0ZXN0czoNCitxb3MtdGVzdC1vYmoteSArPSB0ZXN0cy9xdGVzdC9xb3MtdGVzdC5vDQogcW9z
-LXRlc3Qtb2JqLXkgKz0gdGVzdHMvcXRlc3QvYWM5Ny10ZXN0Lm8NCiBxb3MtdGVzdC1vYmoteSAr
-PSB0ZXN0cy9xdGVzdC9kczEzMzgtdGVzdC5vDQogcW9zLXRlc3Qtb2JqLXkgKz0gdGVzdHMvcXRl
-c3QvZTEwMDAtdGVzdC5vDQpAQCAtMjM0LDcgKzIzNSw3IEBAIGNoZWNrLXVuaXQteSArPSB0ZXN0
-cy90ZXN0LXFncmFwaCQoRVhFU1VGKQ0KIHRlc3RzL3Rlc3QtcWdyYXBoJChFWEVTVUYpOiB0ZXN0
-cy90ZXN0LXFncmFwaC5vICQobGlicWdyYXBoLW9iai15KQ0KIA0KIGNoZWNrLXF0ZXN0LWdlbmVy
-aWMteSArPSBxb3MtdGVzdA0KLXRlc3RzL3F0ZXN0L3Fvcy10ZXN0JChFWEVTVUYpOiAkKHFvcy10
-ZXN0LW9iai15KQ0KK3Rlc3RzL3F0ZXN0L3Fvcy10ZXN0JChFWEVTVUYpOiAkKHFvcy10ZXN0LW9i
-ai15KSAkKGxpYnFvcy1vYmoteSkNCiANCiAjIFFUZXN0IGRlcGVuZGVuY2llczoNCiB0ZXN0cy9x
-dGVzdC9xbXAtdGVzdCQoRVhFU1VGKTogdGVzdHMvcXRlc3QvcW1wLXRlc3Qubw0KLS0gDQoyLjIz
-LjANCg0K
+The names i2c_send and i2c_recv collide with functions defined in
+hw/i2c/core.c. This causes an error when linking against libqos and
+softmmu simultaneously (for example when using qtest inproc). Rename the
+libqos functions to avoid this.
+
+Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+Acked-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+---
+ tests/qtest/libqos/i2c.c   | 10 +++++-----
+ tests/qtest/libqos/i2c.h   |  4 ++--
+ tests/qtest/pca9552-test.c | 10 +++++-----
+ 3 files changed, 12 insertions(+), 12 deletions(-)
+
+diff --git a/tests/qtest/libqos/i2c.c b/tests/qtest/libqos/i2c.c
+index 156114e745..38f800dbab 100644
+--- a/tests/qtest/libqos/i2c.c
++++ b/tests/qtest/libqos/i2c.c
+@@ -10,12 +10,12 @@
+ #include "libqos/i2c.h"
+ #include "libqtest.h"
+=20
+-void i2c_send(QI2CDevice *i2cdev, const uint8_t *buf, uint16_t len)
++void qi2c_send(QI2CDevice *i2cdev, const uint8_t *buf, uint16_t len)
+ {
+     i2cdev->bus->send(i2cdev->bus, i2cdev->addr, buf, len);
+ }
+=20
+-void i2c_recv(QI2CDevice *i2cdev, uint8_t *buf, uint16_t len)
++void qi2c_recv(QI2CDevice *i2cdev, uint8_t *buf, uint16_t len)
+ {
+     i2cdev->bus->recv(i2cdev->bus, i2cdev->addr, buf, len);
+ }
+@@ -23,8 +23,8 @@ void i2c_recv(QI2CDevice *i2cdev, uint8_t *buf, uint16_t =
+len)
+ void i2c_read_block(QI2CDevice *i2cdev, uint8_t reg,
+                     uint8_t *buf, uint16_t len)
+ {
+-    i2c_send(i2cdev, &reg, 1);
+-    i2c_recv(i2cdev, buf, len);
++    qi2c_send(i2cdev, &reg, 1);
++    qi2c_recv(i2cdev, buf, len);
+ }
+=20
+ void i2c_write_block(QI2CDevice *i2cdev, uint8_t reg,
+@@ -33,7 +33,7 @@ void i2c_write_block(QI2CDevice *i2cdev, uint8_t reg,
+     uint8_t *cmd =3D g_malloc(len + 1);
+     cmd[0] =3D reg;
+     memcpy(&cmd[1], buf, len);
+-    i2c_send(i2cdev, cmd, len + 1);
++    qi2c_send(i2cdev, cmd, len + 1);
+     g_free(cmd);
+ }
+=20
+diff --git a/tests/qtest/libqos/i2c.h b/tests/qtest/libqos/i2c.h
+index 945b65b34c..c65f087834 100644
+--- a/tests/qtest/libqos/i2c.h
++++ b/tests/qtest/libqos/i2c.h
+@@ -47,8 +47,8 @@ struct QI2CDevice {
+ void *i2c_device_create(void *i2c_bus, QGuestAllocator *alloc, void *addr)=
+;
+ void add_qi2c_address(QOSGraphEdgeOptions *opts, QI2CAddress *addr);
+=20
+-void i2c_send(QI2CDevice *dev, const uint8_t *buf, uint16_t len);
+-void i2c_recv(QI2CDevice *dev, uint8_t *buf, uint16_t len);
++void qi2c_send(QI2CDevice *dev, const uint8_t *buf, uint16_t len);
++void qi2c_recv(QI2CDevice *dev, uint8_t *buf, uint16_t len);
+=20
+ void i2c_read_block(QI2CDevice *dev, uint8_t reg,
+                     uint8_t *buf, uint16_t len);
+diff --git a/tests/qtest/pca9552-test.c b/tests/qtest/pca9552-test.c
+index 4b800d3c3e..d80ed93cd3 100644
+--- a/tests/qtest/pca9552-test.c
++++ b/tests/qtest/pca9552-test.c
+@@ -32,22 +32,22 @@ static void receive_autoinc(void *obj, void *data, QGue=
+stAllocator *alloc)
+=20
+     pca9552_init(i2cdev);
+=20
+-    i2c_send(i2cdev, &reg, 1);
++    qi2c_send(i2cdev, &reg, 1);
+=20
+     /* PCA9552_LS0 */
+-    i2c_recv(i2cdev, &resp, 1);
++    qi2c_recv(i2cdev, &resp, 1);
+     g_assert_cmphex(resp, =3D=3D, 0x54);
+=20
+     /* PCA9552_LS1 */
+-    i2c_recv(i2cdev, &resp, 1);
++    qi2c_recv(i2cdev, &resp, 1);
+     g_assert_cmphex(resp, =3D=3D, 0x55);
+=20
+     /* PCA9552_LS2 */
+-    i2c_recv(i2cdev, &resp, 1);
++    qi2c_recv(i2cdev, &resp, 1);
+     g_assert_cmphex(resp, =3D=3D, 0x55);
+=20
+     /* PCA9552_LS3 */
+-    i2c_recv(i2cdev, &resp, 1);
++    qi2c_recv(i2cdev, &resp, 1);
+     g_assert_cmphex(resp, =3D=3D, 0x54);
+ }
+=20
+--=20
+2.23.0
+
 
