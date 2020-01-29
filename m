@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 225D114D298
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jan 2020 22:35:12 +0100 (CET)
-Received: from localhost ([::1]:51688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62BFE14D2A2
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jan 2020 22:37:37 +0100 (CET)
+Received: from localhost ([::1]:51734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwuzP-0006Tm-5K
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jan 2020 16:35:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60060)
+	id 1iwv1k-0002SC-Do
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jan 2020 16:37:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60072)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iwupw-0007Dw-0u
- for qemu-devel@nongnu.org; Wed, 29 Jan 2020 16:25:24 -0500
+ (envelope-from <philmd@redhat.com>) id 1iwupw-0007FE-RK
+ for qemu-devel@nongnu.org; Wed, 29 Jan 2020 16:25:25 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iwupu-0002Qc-VR
- for qemu-devel@nongnu.org; Wed, 29 Jan 2020 16:25:23 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:34068
+ (envelope-from <philmd@redhat.com>) id 1iwupv-0002S5-NM
+ for qemu-devel@nongnu.org; Wed, 29 Jan 2020 16:25:24 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:44475
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iwupu-0002OW-R6
- for qemu-devel@nongnu.org; Wed, 29 Jan 2020 16:25:22 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iwupv-0002R9-IB
+ for qemu-devel@nongnu.org; Wed, 29 Jan 2020 16:25:23 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580333122;
+ s=mimecast20190719; t=1580333123;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cXcVC77YOLB0xyx7AypnYrGKPm12vH6HbD8K8wr1Eo8=;
- b=QhvpILCdWH4c5Ar+ageBSQBHA5WGut/R1LMG9t4TYBBIanvvS5+5WmXEGBgERjh1Zk4QPl
- CNvzfZUijPN71/p2mzo/wgBfA09ttoTJ+qnbE63KiL8WB+X5h2zwdEc2QJzOC8UjVnudOG
- QZpbpVeUfdm0GUuVr2BCukvfXtKjT80=
+ bh=z1YPxrH/NEwLU/qG9sunz38BY6jEll2Q5sPq0M4BS4g=;
+ b=UJVtwhT9T4U4HerIPsbu2A6iSLe0zU6C09jinFzt1s8cvbtcyll/Ot/PEXniqfvfts7sCY
+ tSdgTxTETmOu+RoQUQgYB33oHIxf+w8Ji7BAp/3K2iH97bVHcuNXJGVM2C5TFCAV0bNdwi
+ YOgv6gktngwu1Z6AvvXTh/k5fMpvVwY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-310-FXSOEKH7ND-KlXBUL6SUzw-1; Wed, 29 Jan 2020 16:25:18 -0500
+ us-mta-276-f23z-rCONniScigDas1fbQ-1; Wed, 29 Jan 2020 16:25:21 -0500
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E88EE8010C2;
- Wed, 29 Jan 2020 21:25:17 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5C4EA477;
+ Wed, 29 Jan 2020 21:25:20 +0000 (UTC)
 Received: from x1w.redhat.com (ovpn-205-184.brq.redhat.com [10.40.205.184])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EEA6660BF3;
- Wed, 29 Jan 2020 21:25:15 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 60B7E60BF3;
+ Wed, 29 Jan 2020 21:25:18 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: Denis Plotnikov <dplotnikov@virtuozzo.com>,
 	qemu-devel@nongnu.org
-Subject: [PATCH v2 24/29] tests/acceptance/virtio_check_params: Default to
- -nodefaults
-Date: Wed, 29 Jan 2020 22:23:40 +0100
-Message-Id: <20200129212345.20547-25-philmd@redhat.com>
+Subject: [PATCH v2 25/29] tests/acceptance/virtio_check_params: Require a
+ virtio-scsi-pci device
+Date: Wed, 29 Jan 2020 22:23:41 +0100
+Message-Id: <20200129212345.20547-26-philmd@redhat.com>
 In-Reply-To: <20200129212345.20547-1-philmd@redhat.com>
 References: <20200129212345.20547-1-philmd@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: FXSOEKH7ND-KlXBUL6SUzw-1
+X-MC-Unique: f23z-rCONniScigDas1fbQ-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
@@ -80,32 +80,38 @@ Cc: Cornelia Huck <cohuck@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We don't need the default options to run this test.
+When running this test with QEMU configured using
+--without-default-devices, we get:
 
-This fixes errors when running a binary built with
---without-default-devices such:
+  ERROR: qemu-system-s390x: -device virtio-scsi-pci,id=3Dscsi0: 'virtio-scs=
+i-pci' is not a valid device model name
 
-  ERROR: qemu-system-s390x: Unknown device 'virtio-net-ccw' for bus 'virtua=
-l-css-bus'
+To be able to run the acceptance tests with a binary built using
+--without-default-devices, add a 'device' tag. The Test::setUp()
+method will verify the device is available, else cancel (skip)
+the test.
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- tests/acceptance/virtio_check_params.py | 1 +
- 1 file changed, 1 insertion(+)
+ tests/acceptance/virtio_check_params.py | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/tests/acceptance/virtio_check_params.py b/tests/acceptance/vir=
 tio_check_params.py
-index 2c14af825d..3466aa5b32 100755
+index 3466aa5b32..95a9048786 100755
 --- a/tests/acceptance/virtio_check_params.py
 +++ b/tests/acceptance/virtio_check_params.py
-@@ -81,6 +81,7 @@ class VirtioMaxSegSettingsCheck(Test):
-         logger.debug(mt)
-         with QEMUMachine(self.qemu_bin) as vm:
-             vm.set_machine(mt["name"])
-+            vm.add_args('-nodefaults')
-             for s in VM_DEV_PARAMS[dev_type_name]:
-                 vm.add_args(s)
-             try:
+@@ -44,6 +44,9 @@ VM_DEV_PARAMS =3D {'virtio-scsi-pci': ['-device', 'virtio=
+-scsi-pci,id=3Dscsi0'],
+=20
+=20
+ class VirtioMaxSegSettingsCheck(Test):
++    """
++    :avocado: tags=3Ddevice:virtio-scsi-pci
++    """
+     @staticmethod
+     def make_pattern(props):
+         pattern_items =3D ['{0} =3D \w+'.format(prop) for prop in props]
 --=20
 2.21.1
 
