@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91A9114D290
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jan 2020 22:33:58 +0100 (CET)
-Received: from localhost ([::1]:51656 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2EB614D29C
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jan 2020 22:35:50 +0100 (CET)
+Received: from localhost ([::1]:51690 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwuyD-00045B-J6
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jan 2020 16:33:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60000)
+	id 1iwv01-0007Qf-Nr
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jan 2020 16:35:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60028)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iwupq-00072q-Kg
- for qemu-devel@nongnu.org; Wed, 29 Jan 2020 16:25:19 -0500
+ (envelope-from <philmd@redhat.com>) id 1iwups-00075W-8Z
+ for qemu-devel@nongnu.org; Wed, 29 Jan 2020 16:25:21 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iwupo-00027E-GT
- for qemu-devel@nongnu.org; Wed, 29 Jan 2020 16:25:18 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:49135
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1iwupq-0002Eq-VI
+ for qemu-devel@nongnu.org; Wed, 29 Jan 2020 16:25:20 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:20034
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iwupo-000264-By
- for qemu-devel@nongnu.org; Wed, 29 Jan 2020 16:25:16 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iwupq-0002Bu-FA
+ for qemu-devel@nongnu.org; Wed, 29 Jan 2020 16:25:18 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580333116;
+ s=mimecast20190719; t=1580333118;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zHcKnvFMFlOZ2mkGt6IOtxw5PebUiE3muwUyy7LVCck=;
- b=HEhMiHmlV0jpI16Wgw3e1fz+2/fUeyKLQCJlDcl0nubbyJmImXdKXfrcSTgBCtuatDLAQY
- dS131xTo5WWkwYAvNUJn99XdHwEgrbiqyzQyZm13Z1j8xjrn9OWXPVZhPhmK+1yh5YTziG
- h+w+dG1JBt7vETmdGmpRTgBJIT9dmGk=
+ bh=zT+uuh6avARiNQsN/PIYvN90hkJck+KhsDfZiEfl+bE=;
+ b=VBg5Tpo4BBq47qPQofUWSSWCW+BObunFpSlWOb1kybqEAjf7toBslMuTkhX40tXCw4eLS2
+ LprXnZ5ldTXX74fJzL6AXHPxTJtth4jpWDAzQLBxYc+CxWMPVqAezaYR3AKalppoT/ZU8Y
+ YQ97IyeJHXxabIaiveaDEI5GnXSxVDA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-327-Yv9yRtJlNzOy6xMsG85Ixw-1; Wed, 29 Jan 2020 16:25:14 -0500
+ us-mta-179-Xo6aUt6ONDCDKsK3VPt0yQ-1; Wed, 29 Jan 2020 16:25:16 -0500
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0B6358010C2;
- Wed, 29 Jan 2020 21:25:13 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 78411800D4E;
+ Wed, 29 Jan 2020 21:25:15 +0000 (UTC)
 Received: from x1w.redhat.com (ovpn-205-184.brq.redhat.com [10.40.205.184])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3D8FA60BF3;
- Wed, 29 Jan 2020 21:25:06 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7EB7A60BF3;
+ Wed, 29 Jan 2020 21:25:13 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: Denis Plotnikov <dplotnikov@virtuozzo.com>,
 	qemu-devel@nongnu.org
-Subject: [PATCH v2 22/29] tests/acceptance/virtio_check_params: Support the
- s390x architecture
-Date: Wed, 29 Jan 2020 22:23:38 +0100
-Message-Id: <20200129212345.20547-23-philmd@redhat.com>
+Subject: [PATCH v2 23/29] tests/acceptance/virtio_check_params: Support the
+ ppc architecture
+Date: Wed, 29 Jan 2020 22:23:39 +0100
+Message-Id: <20200129212345.20547-24-philmd@redhat.com>
 In-Reply-To: <20200129212345.20547-1-philmd@redhat.com>
 References: <20200129212345.20547-1-philmd@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: Yv9yRtJlNzOy6xMsG85Ixw-1
+X-MC-Unique: Xo6aUt6ONDCDKsK3VPt0yQ-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,29 +81,54 @@ Cc: Cornelia Huck <cohuck@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We can run these tests on the s390x architecture too,
+We can run these tests on the pSeries machines too,
 we were just missing to properly parse the machine names.
+
+Note: we have to exclude the versioned machines from QEMU 2.8
+to 2.11 which fail, such:
+
+  TestFail: machine type pseries-2.8: No Transactional Memory support in TC=
+G, try appending -machine cap-htm=3Doff
 
 Suggested-by: Cornelia Huck <cohuck@redhat.com>
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- tests/acceptance/virtio_check_params.py | 2 ++
- 1 file changed, 2 insertions(+)
+ tests/acceptance/virtio_check_params.py | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
 diff --git a/tests/acceptance/virtio_check_params.py b/tests/acceptance/vir=
 tio_check_params.py
-index 73200c9c5b..b14cfb5958 100755
+index b14cfb5958..2c14af825d 100755
 --- a/tests/acceptance/virtio_check_params.py
 +++ b/tests/acceptance/virtio_check_params.py
-@@ -111,6 +111,8 @@ class VirtioMaxSegSettingsCheck(Test):
-             # machine types like pc-<chip_name>-x.x[.x]
-             ver =3D mt[2]
+@@ -113,6 +113,8 @@ class VirtioMaxSegSettingsCheck(Test):
              ver =3D ver.split(".");
-+        elif arch =3D=3D 's390x':
-+            ver =3D mt[len('s390-ccw-virtio-'):].split('.')
+         elif arch =3D=3D 's390x':
+             ver =3D mt[len('s390-ccw-virtio-'):].split('.')
++        elif arch.startswith('ppc'):
++            ver =3D mt[len('pseries-'):].split('.')
          else:
              raise TestCancel('Unsupported architecture: %s' % arch)
 =20
+@@ -131,6 +133,9 @@ class VirtioMaxSegSettingsCheck(Test):
+             EXCLUDED_MACHINES +=3D ['isapc', 'microvm']
+             if os.geteuid() !=3D 0:
+                 EXCLUDED_MACHINES +=3D ['xenfv', 'xenpv']
++        elif arch.startswith('ppc'):
++            EXCLUDED_MACHINES +=3D ['pseries-2.8', 'pseries-2.9',
++                                  'pseries-2.10', 'pseries-2.11']
+         # collect all machine types except the ones in EXCLUDED_MACHINES
+         with QEMUMachine(self.qemu_bin) as vm:
+             if arch.startswith('mips'):
+@@ -142,6 +147,8 @@ class VirtioMaxSegSettingsCheck(Test):
+         for m in EXCLUDED_MACHINES:
+             if m in machines:
+                 machines.remove(m)
++        if arch.startswith('ppc'):
++            machines =3D [m for m in machines if m.startswith('pseries')]
+=20
+         for dev_type in DEV_TYPES:
+             # create the list of machine types and their parameters.
 --=20
 2.21.1
 
