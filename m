@@ -2,59 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6E7614C5E5
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jan 2020 06:35:41 +0100 (CET)
-Received: from localhost ([::1]:41340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30C1514C5EA
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jan 2020 06:37:29 +0100 (CET)
+Received: from localhost ([::1]:41382 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwg0q-0000xZ-Fo
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jan 2020 00:35:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44690)
+	id 1iwg2a-0004TW-8u
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jan 2020 00:37:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44702)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alxndr@bu.edu>) id 1iwfzV-0007j9-ET
- for qemu-devel@nongnu.org; Wed, 29 Jan 2020 00:34:18 -0500
+ (envelope-from <alxndr@bu.edu>) id 1iwfzV-0007jB-Nn
+ for qemu-devel@nongnu.org; Wed, 29 Jan 2020 00:34:19 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alxndr@bu.edu>) id 1iwfzT-0001qa-IM
- for qemu-devel@nongnu.org; Wed, 29 Jan 2020 00:34:16 -0500
+ (envelope-from <alxndr@bu.edu>) id 1iwfzU-0001rF-A8
+ for qemu-devel@nongnu.org; Wed, 29 Jan 2020 00:34:17 -0500
 Received: from mail-mw2nam10on2091.outbound.protection.outlook.com
  ([40.107.94.91]:22496 helo=NAM10-MW2-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <alxndr@bu.edu>) id 1iwfzT-0001pW-83
- for qemu-devel@nongnu.org; Wed, 29 Jan 2020 00:34:15 -0500
+ (Exim 4.71) (envelope-from <alxndr@bu.edu>) id 1iwfzU-0001pW-1D
+ for qemu-devel@nongnu.org; Wed, 29 Jan 2020 00:34:16 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=mJCusPI3tdpAQTnFFNbh/BbTIT+P3oaJ/cqLUbpJN3IsrYTiPnc5muZuOkWr500mt+TZodt97/POZuaHMz1cNXu6WlT3V2Q5ClDhUz9COKVI5cP3c3YllxBB0/Tfk4ehs7q82Q6Qf70FgiFNDMvIqo35eqZtI79c77n5UkUF3rzXVyrkIX6bu3o6KGgpYajWg9D6dEet2MEJqbOwTUAq78VFEjxPA7/uLG6fj3S+gr0zB7hua1J7KNv+4vf73GJQF58cdvBz4qKmMXDbyRdEI71L6H6XDxqSCFVklcUeTSXEk/WJsRHC2S3LmcMRarKOq9YC6qS8E8O4A+QcMa8KWA==
+ b=mKIcETTRn8S1e8a8tRaOio6ly6TocW97gEZ7ZCpWiP3AG9DoyTDQYAhLgHc9fpMt/7+SO1Q2hVEgojxN+JbeWr9qHIojjQg3X3fnu+JxbAoi8kASAPaXkool6FHuxrLE/p7nad78glvmtQv+gEb9PkI5aI+Dgz2aOW1336vS8fXlPAHTIzCzxqXW327ie3y3xWzfdgXVTLuMNWWZik08om3KYwlxt+mPaWq3IIhzxLGp2d/nemgjY7BAL7raCu9XolxViQV9XtoyyRlsV20z20cFsCcbIoRuytp0WhpFyxX7X7fRRYLhze95ykVA1sJF0tTofGua9WuZuIiB5XEd6w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HE8rbnNKUm3xcxX4f44aVvF2XQ3YhiWAvkXfKrclWuc=;
- b=i0Ax48PSPi+rHhRev7pguYWYahFtx9flEAg8XHzSOiREm2AGM8x6zmhWEyoKaeBvOSXrAsUGbVqTZE3pHOYwhcd/4oegHKQS9+ZRb3ioF/ExUFOZCJjBccKHNl5zqLy9wspbOkjhVoo0dXCehxDTVNeIRSkzsnPsXt7TZA06dVpkZoPFq8YhxY3v2ppEYsFEnrzhiG9hoolKZwpsLOHSbDtGDK7o6rQaRK3XkawiYksEMM58SfzcmXbA0cLhRmIdvme0AoKIafYIs8buqkqyfZ470fn6Uy3hR2L50KvkDDzJ2CJ2/BbaWBvbHG43LR7lLwpwnaMMtt6VmaGdT1DKCA==
+ bh=H3AbiafKcwkO/i1CZ45RPGDmkOgqEJ+LQcknF7dRvqA=;
+ b=OrcClVPOXMyHyZ2eFWhgGgVD2FFRdb6sUUK1ClH0oaqdiAIykzTcEBIqDnuPYWYka4SrO8zWSPITZ2Dwg7TdB8P5Kcz9vGfnv9Die9umNezm/cXCsuZC3rIbrt7jilmbYDWv6dJOx5mzjgHYicbuZN4ntCtER9lCxN4jEfuXUBKiJ2nBaf2Wf8TugLE0tq2q2WKwCx2/XK0VL0v/I8A1JVGziq4UteWEXcDrAI80fLIo5J4maWsZs5uf3CFhA7SeOzcImvrtiA6mXwX1Fa49dywRvv27sR8sjLLPODVU9mwgHGZTOZ+6J/+DQ1wSyrVUhG8UjhWwdTQFluM4x2THNg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=bu.edu; dmarc=pass action=none header.from=bu.edu; dkim=pass
  header.d=bu.edu; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bushare.onmicrosoft.com; s=selector2-bushare-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HE8rbnNKUm3xcxX4f44aVvF2XQ3YhiWAvkXfKrclWuc=;
- b=zOzjr8BGAcIz5A7pyabYHdf8Vtnoi0xtztJUIbwL2ngPW74hbVdeKAa/tQvg9Yhz4RlQBMr6ImbmbCiIuo4bG/Y+OwKY9sqAP5lAf3ztcsRa4idGb7CXcrj0km+H5dadMzGV8QpnBs2xT/E9mlId+uWduxT6Ji6BnAmz7QdLtOo=
+ bh=H3AbiafKcwkO/i1CZ45RPGDmkOgqEJ+LQcknF7dRvqA=;
+ b=0jrPoDf4eNt27qtEbnGE3FtIIYmn/HrCBJ5IUG1iu6iaxhDWXKnv6XURH1eiAevoJGI/iJH4/iMJCGQo9q0zj7//XkJN9Krgzzlpwj6T8rpa9MTCbFKhMNOk7XaHglGx2SJQNYUKzosMiCFeizXxCSMTslb3MPzEyD0kLJ0vZ68=
 Received: from SN6PR03MB3871.namprd03.prod.outlook.com (52.135.102.32) by
  SN6PR03MB4206.namprd03.prod.outlook.com (52.135.110.13) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2665.20; Wed, 29 Jan 2020 05:34:11 +0000
+ 15.20.2665.20; Wed, 29 Jan 2020 05:34:12 +0000
 Received: from SN6PR03MB3871.namprd03.prod.outlook.com
  ([fe80::9c11:10cd:6e97:bbe8]) by SN6PR03MB3871.namprd03.prod.outlook.com
  ([fe80::9c11:10cd:6e97:bbe8%7]) with mapi id 15.20.2665.026; Wed, 29 Jan 2020
- 05:34:11 +0000
+ 05:34:12 +0000
 Received: from mozz.bu.edu (128.197.127.33) by
  MN2PR05CA0029.namprd05.prod.outlook.com (2603:10b6:208:c0::42) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2686.19 via Frontend Transport; Wed, 29 Jan 2020 05:34:10 +0000
+ 15.20.2686.19 via Frontend Transport; Wed, 29 Jan 2020 05:34:11 +0000
 From: "Bulekov, Alexander" <alxndr@bu.edu>
 To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Subject: [PATCH v8 00/21] Add virtual device fuzzing support
-Thread-Topic: [PATCH v8 00/21] Add virtual device fuzzing support
-Thread-Index: AQHV1mW7NwDRzZjdg02Reyy5lPfySw==
+Subject: [PATCH v8 01/21] softmmu: split off vl.c:main() into main.c
+Thread-Topic: [PATCH v8 01/21] softmmu: split off vl.c:main() into main.c
+Thread-Index: AQHV1mW8u8fYAEdjZEui8FKIGMV7gQ==
 Date: Wed, 29 Jan 2020 05:34:11 +0000
-Message-ID: <20200129053357.27454-1-alxndr@bu.edu>
+Message-ID: <20200129053357.27454-2-alxndr@bu.edu>
+References: <20200129053357.27454-1-alxndr@bu.edu>
+In-Reply-To: <20200129053357.27454-1-alxndr@bu.edu>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -67,11 +69,11 @@ x-clientproxiedby: MN2PR05CA0029.namprd05.prod.outlook.com
 authentication-results: spf=none (sender IP is ) smtp.mailfrom=alxndr@bu.edu; 
 x-ms-exchange-messagesentrepresentingtype: 1
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: ccecd3f5-03bd-44d3-9cdb-08d7a47cde52
+x-ms-office365-filtering-correlation-id: b126982e-13a0-442e-76da-08d7a47cdecc
 x-ms-traffictypediagnostic: SN6PR03MB4206:
 x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <SN6PR03MB42069490E18E7DBA429BF12DBA050@SN6PR03MB4206.namprd03.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:1122;
+x-microsoft-antispam-prvs: <SN6PR03MB4206F10B39FAEE5299469ACCBA050@SN6PR03MB4206.namprd03.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
 x-forefront-prvs: 02973C87BC
 x-forefront-antispam-report: SFV:NSPM;
  SFS:(10019020)(4636009)(376002)(136003)(366004)(346002)(396003)(39860400002)(189003)(199004)(478600001)(75432002)(36756003)(316002)(6916009)(2906002)(786003)(4326008)(54906003)(26005)(186003)(956004)(2616005)(6486002)(7696005)(52116002)(16526019)(1076003)(5660300002)(71200400001)(86362001)(66446008)(66556008)(66946007)(66476007)(8936002)(81156014)(81166006)(64756008)(8676002);
@@ -82,19 +84,18 @@ received-spf: None (protection.outlook.com: bu.edu does not designate
  permitted sender hosts)
 x-ms-exchange-senderadcheck: 1
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: XlfE5zHT2orCnx9Bd/CQLuLi4pcXfMGCeRRxn+W/2YdRweO99OzcwHjxQPeLkWJp1PQIblCzxsWNlT/yoFhSY5DbRa0T7g1FA3vk+wsDwScOXqxYgOkmaHhCukDKHMCD67Mno6dauh9y6gp7r4mJY2Uf09WnUT7QSE8Pj12/ReHmDJLPjtMJrrzMBb4s4JJ8TGCFNU9LNK3ICZCK6Qnh1HH5A2RQH7X4nJasO0KCxIOdWMmzbhwHnSGPDOyvYxMgLHptFo+cTPQ/FvF6VGzllSzDRD0Fu0hWUMrqJCFQ86Yd8/s88zMfYE+GQuX31j3BfqRc3JuudjfQ7jSiQ5K1kayGjVYDpU98DvnaphC2Sh8Ha1ugdgaP4D5cfvZcMPpzbR/LhEaB/T9QaOBPwv3sBaPcI6U9EeQMs+xQRLjJOsBzJfHAEnG1IUwKacxroIMm
-x-ms-exchange-antispam-messagedata: kDnPu5J0txzfbeXZwN+ug0FVAxOiruKUTCpqeaMV5yCFHroR1ylavAJj6wdQSNKZMHVhiBbWycFEBexlongz/yNjZMFrZElIG7rm5uwQhwfHqcQqEIbsj1WUSMFNZEVnIGRD+hYvF15o28cY9zk8Bg==
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <CDE8381F3901B445B096CE0245B8DEA0@namprd03.prod.outlook.com>
-Content-Transfer-Encoding: base64
+x-microsoft-antispam-message-info: wrcQjhhiHyAOZ+/WInwAjRqQuiYpzoiOD9u4bCmtXcEsPoyPa7PI8nhElqzIZR+JiJi0LzekL9idHZ2Zh6fQV0v3HxwPhrcuwRtkTxNlLZrf+nX3jAAdSl+JbQzpuInFgAVqYvRTfmWcs3xMssmuUZmEbYUuGcdnD703R99qfsd/3bIbZUAoSs/bHBdMzMOxZpB862bXPaxPYIdyVWEiIBgS8vrUbpkLlKItrxEfb+X+erUmNugOpEokaOgZJKNHcVSLv9v5CfVgVBL2wSqgXvgG733BXQoYZaE7zOTIRQu9LO2GdCM9b8s/KPkf87SLj+WRJUuEIlOe5FqosSmXFtQWPUrkVQ1phBvcHZwebOpDlhuAglF3+mv17kP7O1nkY24ptZUrQHFARm1HFprZ57mqVUsVW/ZexAkHQZdN/m5YrPs7+OFKVTlR30abMLYQ
+x-ms-exchange-antispam-messagedata: mpwIAFbsm2fM05GnIiqxlO+nScXfvbcGxQ1Rxo+lifWMim+gxOxNFP8GB21Fb66X7Wih1tINUuwKSvwJCOQ8x96pip3K7GuTucj7a3rER5JG8g3vLa+G9+iURdljGqi0rxAddr0OpGMUNcut0igjgw==
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: bu.edu
-X-MS-Exchange-CrossTenant-Network-Message-Id: ccecd3f5-03bd-44d3-9cdb-08d7a47cde52
-X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Jan 2020 05:34:11.1399 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: b126982e-13a0-442e-76da-08d7a47cdecc
+X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Jan 2020 05:34:11.9135 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: d57d32cc-c121-488f-b07b-dfe705680c71
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: qDCbKuf/DPdUluooSSPsKXeo7768Dj1FVV9GLmo3dzwI7qyyRZy0mZjMq/cG7n4n
+X-MS-Exchange-CrossTenant-userprincipalname: phKpH4aAECKgMbiVQvueLHPOGHzBms3ZNFwK4dgPFG0CDq30Y/c0ziHTMlUNOrAC
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR03MB4206
 X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
 X-Received-From: 40.107.94.91
@@ -110,113 +111,250 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: "pbonzini@redhat.com" <pbonzini@redhat.com>,
- "bsd@redhat.com" <bsd@redhat.com>,
- "darren.kenny@oracle.com" <darren.kenny@oracle.com>,
- "stefanha@redhat.com" <stefanha@redhat.com>, "Bulekov, 
- Alexander" <alxndr@bu.edu>
+ "bsd@redhat.com" <bsd@redhat.com>, "stefanha@redhat.com" <stefanha@redhat.com>,
+ "Bulekov, Alexander" <alxndr@bu.edu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-VGhpcyBzZXJpZXMgYWRkcyBhIGZyYW1ld29yayBmb3IgY292ZXJhZ2UtZ3VpZGVkIGZ1enppbmcg
-b2YNCnZpcnR1YWwtZGV2aWNlcy4gRnV6emluZyB0YXJnZXRzIGFyZSBiYXNlZCBvbiBxdGVzdCBh
-bmQgY2FuIG1ha2UgdXNlIG9mDQp0aGUgbGlicW9zIGFic3RyYWN0aW9ucy4NCg0KVjg6DQogKiBT
-bWFsbCBmaXhlcyB0byB0aGUgdmlydGlvLW5ldC4NCiAqIEtlZXAgcmN1X2F0Zm9yayB3aGVuIG5v
-dCB1c2luZyBxdGVzdC4NCg0KVjc6DQogKiB2aXJ0aW8tbmV0OiBhZGQgdmlydGlvLW5ldC1jaGVj
-ay11c2VkIHdoaWNoIHdhaXRzIGZvciBpbnB1dHMgb24NCiB0aGUgdHgvY3RybCB2cSBieSB3YXRj
-aGluZyB0aGUgdXNlZCB2cmluZy4NCiAqIHZpcnRpby1uZXQ6IGFkZCB2aXJ0aW8tbmV0LXNvY2tl
-dCB3aGljaCB1c2VzIHRoZSBzb2NrZXQgYmFja2VuZCBhbmQgY2FuDQogZXhlcmNpc2UgdGhlIHJ4
-IGNvbXBvbmVudHMgb2YgdmlydGlvLW5ldC4NCiAqIHZpcnRpby1uZXQ6IGFkZCB2aXJ0aW8tbmV0
-LXNsaXJwIHdoaWNoIHVzZXMgdGhlIHVzZXIgYmFja2VuZCBhbmQgZXhlcmNpc2VzDQogc2xpcnAu
-IFRoaXMgbWF5IGxlYWQgdG8gcmVhbCB0cmFmZmljIGVtaXR0ZWQgYnkgcWVtdSBzbyBpdCBpcyBi
-ZXN0IHRvDQogcnVuIGluIGFuIGlzb2xhdGVkIG5ldHdvcmsgZW52aXJvbm1lbnQuDQogKiBidWls
-ZCBzaG91bGQgc3VjY2VlZCBhZnRlciBlYWNoIGNvbW1pdA0KDQpWNS9WNjoNCiAqIGFkZGVkIHZp
-cnRpby1zY3NpIGZ1enplcg0KICogYWRkIHN1cHBvcnQgZm9yIHVzaW5nIGZvcmstYmFzZWQgZnV6
-emVycyB3aXRoIG11bHRpcGxlIGxpYmZ1enplcg0KICAgd29ya2Vycw0KICogbWlzYyBmaXhlcyBh
-ZGRyZXNzaW5nIFY0IGNvbW1lbnRzDQogKiBjbGVhbnVwIGluLXByb2Nlc3MgaGFuZGxlcnMvZ2xv
-YmFscyBpbiBsaWJxdGVzdC5jDQogKiBzbWFsbCBmaXhlcyB0byBmb3JrLWJhc2VkIGZ1enppbmcg
-YW5kIHN1cHBvcnQgZm9yIG11bHRpcGxlIHdvcmtlcnMNCiAqIGNoYW5nZXMgdG8gdGhlIHZpcnRp
-by1uZXQgZnV6emVyIHRvIGtpY2sgYWZ0ZXIgZWFjaCB2cSBhZGQNCg0KVjQ6DQogKiBhZGQvdHJh
-bnNmZXIgbGljZW5zZSBoZWFkZXJzIHRvIG5ldyBmaWxlcw0KICogcmVzdHJ1Y3R1cmUgdGhlIGFk
-ZGVkIFFUZXN0Q2xpZW50VHJhbnNwb3J0T3BzIHN0cnVjdA0KICogcmVzdHJ1Y3R1cmUgdGhlIEZ1
-enpUYXJnZXQgc3RydWN0IGFuZCBmdXp6ZXIgc2tlbGV0b24NCiAqIGZvcmstYmFzZWQgZnV6emVy
-IG5vdyBkaXJlY3RseSBtbWFwcyBzaG0gb3ZlciB0aGUgY292ZXJhZ2UgYml0bWFwcw0KICogZml4
-ZXMgdG8gaTQ0MCBhbmQgdmlydGlvLW5ldCBmdXp6IHRhcmdldHMNCiAqIHVuZG8gdGhlIGNoYW5n
-ZXMgdG8gcXRlc3RfbWVtd3JpdGUNCiAqIHBvc3NpYmxlIHRvIGJ1aWxkIC9mdXp6IGFuZCAvYWxs
-IGluIHRoZSBzYW1lIGJ1aWxkLWRpcg0KICogbWlzYyBmaXhlcyB0byBhZGRyZXNzIFYzIGNvbW1l
-bnRzDQoNClYzOg0KICogcmViYXNlZCBvbnRvIHY0LjEuMCsNCiAqIGFkZCB0aGUgZnV6emVyIGFz
-IGEgbmV3IGJ1aWxkLXRhcmdldCB0eXBlIGluIHRoZSBidWlsZC1zeXN0ZW0NCiAqIGFkZCBpbmRp
-cmVjdGlvbiB0byBxdGVzdCBjbGllbnQvc2VydmVyIGNvbW11bmljYXRpb24gZnVuY3Rpb25zDQog
-KiByZW1vdmUgcmFtZmlsZSBhbmQgc25hcHNob3QtYmFzZWQgZnV6emluZyBzdXBwb3J0DQogKiBh
-ZGQgaTQ0MGZ4IGZ1enotdGFyZ2V0IGFzIGEgcmVmZXJlbmNlIGZvciBkZXZlbG9wZXJzLg0KICog
-YWRkIGxpbmtlci1zY3JpcHQgdG8gYXNzaXN0IHdpdGggZm9yay1iYXNlZCBmdXp6ZXINCg0KVjI6
-DQogKiBzcGxpdCBvZmYgY2hhbmdlcyB0byBxb3MgdmlydGlvLW5ldCBhbmQgcXRlc3Qgc2VydmVy
-IHRvIG90aGVyIHBhdGNoZXMNCiAqIG1vdmUgdmw6bWFpbiBpbml0aWFsaXphdGlvbiBpbnRvIG5l
-dyBmdW5jOiBxZW11X2luaXQNCiAqIG1vdmVkIHVzZWZ1bCBmdW5jdGlvbnMgZnJvbSBxb3MtdGVz
-dC5jIHRvIGEgc2VwYXJhdGUgb2JqZWN0DQogKiB1c2Ugc3RydWN0IG9mIGZ1bmN0aW9uIHBvaW50
-ZXJzIGZvciBhZGRfZnV6el90YXJnZXQoKSwgaW5zdGVhZCBvZg0KICAgYXJndW1lbnRzDQogKiBt
-b3ZlIHJhbWZpbGUgdG8gbWlncmF0aW9uL3FlbXUtZmlsZQ0KICogcmV3cml0ZSBmb3JrLWJhc2Vk
-IGZ1enplciBwZW5kaW5nIHBhdGNoIHRvIGxpYmZ1enplcg0KICogcGFzcyBjaGVjay1wYXRjaA0K
-DQpBbGV4YW5kZXIgQnVsZWtvdiAoMjEpOg0KICBzb2Z0bW11OiBzcGxpdCBvZmYgdmwuYzptYWlu
-KCkgaW50byBtYWluLmMNCiAgbW9kdWxlOiBjaGVjayBtb2R1bGUgd2Fzbid0IGFscmVhZHkgaW5p
-dGlhbGl6ZWQNCiAgZnV6ejogYWRkIEZVWlpfVEFSR0VUIG1vZHVsZSB0eXBlDQogIHF0ZXN0OiBh
-ZGQgcXRlc3Rfc2VydmVyX3NlbmQgYWJzdHJhY3Rpb24NCiAgbGlicXRlc3Q6IGFkZCBhIGxheWVy
-IG9mIGFic3RyYWN0aW9uIHRvIHNlbmQvcmVjdg0KICBsaWJxdGVzdDogbWFrZSBidWZ3cml0ZSBy
-ZWx5IG9uIHRoZSBUcmFuc3BvcnRPcHMNCiAgcXRlc3Q6IGFkZCBpbi1wcm9jZXNzIGluY29taW5n
-IGNvbW1hbmQgaGFuZGxlcg0KICBsaWJxb3M6IHJlbmFtZSBpMmNfc2VuZCBhbmQgaTJjX3JlY3YN
-CiAgbGlicW9zOiBzcGxpdCBxb3MtdGVzdCBhbmQgbGlicW9zIG1ha2VmaWxlIHZhcnMNCiAgbGli
-cW9zOiBtb3ZlIHVzZWZ1bCBxb3MtdGVzdCBmdW5jcyB0byBxb3NfZXh0ZXJuYWwNCiAgZnV6ejog
-YWRkIGZ1enplciBza2VsZXRvbg0KICBleGVjOiBrZWVwIHJhbSBibG9jayBhY3Jvc3MgZm9yayB3
-aGVuIHVzaW5nIHF0ZXN0DQogIG1haW46IGtlZXAgcmN1X2F0Zm9yayBjYWxsYmFjayBlbmFibGVk
-IGZvciBxdGVzdA0KICBmdXp6OiBzdXBwb3J0IGZvciBmb3JrLWJhc2VkIGZ1enppbmcuDQogIGZ1
-eno6IGFkZCBzdXBwb3J0IGZvciBxb3MtYXNzaXN0ZWQgZnV6eiB0YXJnZXRzDQogIGZ1eno6IGFk
-ZCB0YXJnZXQvZnV6eiBtYWtlZmlsZSBydWxlcw0KICBmdXp6OiBhZGQgY29uZmlndXJlIGZsYWcg
-LS1lbmFibGUtZnV6emluZw0KICBmdXp6OiBhZGQgaTQ0MGZ4IGZ1enogdGFyZ2V0cw0KICBmdXp6
-OiBhZGQgdmlydGlvLW5ldCBmdXp6IHRhcmdldA0KICBmdXp6OiBhZGQgdmlydGlvLXNjc2kgZnV6
-eiB0YXJnZXQNCiAgZnV6ejogYWRkIGRvY3VtZW50YXRpb24gdG8gZG9jcy9kZXZlbC8NCg0KIE1h
-a2VmaWxlICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgIDE2ICstDQogTWFrZWZpbGUub2Jq
-cyAgICAgICAgICAgICAgICAgICAgICAgfCAgIDIgKw0KIE1ha2VmaWxlLnRhcmdldCAgICAgICAg
-ICAgICAgICAgICAgIHwgIDE4ICsrLQ0KIGNvbmZpZ3VyZSAgICAgICAgICAgICAgICAgICAgICAg
-ICAgIHwgIDM5ICsrKysrDQogZG9jcy9kZXZlbC9mdXp6aW5nLnR4dCAgICAgICAgICAgICAgfCAx
-MTYgKysrKysrKysrKysrKysNCiBleGVjLmMgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB8
-ICAxMiArLQ0KIGluY2x1ZGUvcWVtdS9tb2R1bGUuaCAgICAgICAgICAgICAgIHwgICA0ICstDQog
-aW5jbHVkZS9zeXNlbXUvcXRlc3QuaCAgICAgICAgICAgICAgfCAgIDQgKw0KIGluY2x1ZGUvc3lz
-ZW11L3N5c2VtdS5oICAgICAgICAgICAgIHwgICA0ICsNCiBtYWluLmMgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICB8ICA1MyArKysrKysrDQogcXRlc3QuYyAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgfCAgMzEgKysrLQ0KIHRlc3RzL3F0ZXN0L01ha2VmaWxlLmluY2x1ZGUgICAgICAg
-IHwgIDcyICsrKystLS0tLQ0KIHRlc3RzL3F0ZXN0L2Z1enovTWFrZWZpbGUuaW5jbHVkZSAgIHwg
-IDE4ICsrKw0KIHRlc3RzL3F0ZXN0L2Z1enovZm9ya19mdXp6LmMgICAgICAgIHwgIDU1ICsrKysr
-KysNCiB0ZXN0cy9xdGVzdC9mdXp6L2ZvcmtfZnV6ei5oICAgICAgICB8ICAyMyArKysNCiB0ZXN0
-cy9xdGVzdC9mdXp6L2ZvcmtfZnV6ei5sZCAgICAgICB8ICAzNyArKysrKw0KIHRlc3RzL3F0ZXN0
-L2Z1enovZnV6ei5jICAgICAgICAgICAgIHwgMTc5ICsrKysrKysrKysrKysrKysrKysrKysNCiB0
-ZXN0cy9xdGVzdC9mdXp6L2Z1enouaCAgICAgICAgICAgICB8ICA5NSArKysrKysrKysrKysNCiB0
-ZXN0cy9xdGVzdC9mdXp6L2k0NDBmeF9mdXp6LmMgICAgICB8IDE3OCArKysrKysrKysrKysrKysr
-KysrKysNCiB0ZXN0cy9xdGVzdC9mdXp6L3Fvc19mdXp6LmMgICAgICAgICB8IDIyOSArKysrKysr
-KysrKysrKysrKysrKysrKysrKysrDQogdGVzdHMvcXRlc3QvZnV6ei9xb3NfZnV6ei5oICAgICAg
-ICAgfCAgMzMgKysrKw0KIHRlc3RzL3F0ZXN0L2Z1enovdmlydGlvX25ldF9mdXp6LmMgIHwgMTk1
-ICsrKysrKysrKysrKysrKysrKysrKysrDQogdGVzdHMvcXRlc3QvZnV6ei92aXJ0aW9fc2NzaV9m
-dXp6LmMgfCAyMDAgKysrKysrKysrKysrKysrKysrKysrKysrDQogdGVzdHMvcXRlc3QvbGlicW9z
-L2kyYy5jICAgICAgICAgICAgfCAgMTAgKy0NCiB0ZXN0cy9xdGVzdC9saWJxb3MvaTJjLmggICAg
-ICAgICAgICB8ICAgNCArLQ0KIHRlc3RzL3F0ZXN0L2xpYnFvcy9xb3NfZXh0ZXJuYWwuYyAgIHwg
-MTY4ICsrKysrKysrKysrKysrKysrKysrDQogdGVzdHMvcXRlc3QvbGlicW9zL3Fvc19leHRlcm5h
-bC5oICAgfCAgMjggKysrKw0KIHRlc3RzL3F0ZXN0L2xpYnF0ZXN0LmMgICAgICAgICAgICAgIHwg
-MTE5ICsrKysrKysrKysrKystLQ0KIHRlc3RzL3F0ZXN0L2xpYnF0ZXN0LmggICAgICAgICAgICAg
-IHwgICA0ICsNCiB0ZXN0cy9xdGVzdC9wY2E5NTUyLXRlc3QuYyAgICAgICAgICB8ICAxMCArLQ0K
-IHRlc3RzL3F0ZXN0L3Fvcy10ZXN0LmMgICAgICAgICAgICAgIHwgMTMyICstLS0tLS0tLS0tLS0t
-LS0NCiB1dGlsL21vZHVsZS5jICAgICAgICAgICAgICAgICAgICAgICB8ICAgNyArDQogdmwuYyAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfCAgNDUgKysrLS0tDQogMzMgZmlsZXMgY2hh
-bmdlZCwgMTkxNiBpbnNlcnRpb25zKCspLCAyMjQgZGVsZXRpb25zKC0pDQogY3JlYXRlIG1vZGUg
-MTAwNjQ0IGRvY3MvZGV2ZWwvZnV6emluZy50eHQNCiBjcmVhdGUgbW9kZSAxMDA2NDQgbWFpbi5j
-DQogY3JlYXRlIG1vZGUgMTAwNjQ0IHRlc3RzL3F0ZXN0L2Z1enovTWFrZWZpbGUuaW5jbHVkZQ0K
-IGNyZWF0ZSBtb2RlIDEwMDY0NCB0ZXN0cy9xdGVzdC9mdXp6L2ZvcmtfZnV6ei5jDQogY3JlYXRl
-IG1vZGUgMTAwNjQ0IHRlc3RzL3F0ZXN0L2Z1enovZm9ya19mdXp6LmgNCiBjcmVhdGUgbW9kZSAx
-MDA2NDQgdGVzdHMvcXRlc3QvZnV6ei9mb3JrX2Z1enoubGQNCiBjcmVhdGUgbW9kZSAxMDA2NDQg
-dGVzdHMvcXRlc3QvZnV6ei9mdXp6LmMNCiBjcmVhdGUgbW9kZSAxMDA2NDQgdGVzdHMvcXRlc3Qv
-ZnV6ei9mdXp6LmgNCiBjcmVhdGUgbW9kZSAxMDA2NDQgdGVzdHMvcXRlc3QvZnV6ei9pNDQwZnhf
-ZnV6ei5jDQogY3JlYXRlIG1vZGUgMTAwNjQ0IHRlc3RzL3F0ZXN0L2Z1enovcW9zX2Z1enouYw0K
-IGNyZWF0ZSBtb2RlIDEwMDY0NCB0ZXN0cy9xdGVzdC9mdXp6L3Fvc19mdXp6LmgNCiBjcmVhdGUg
-bW9kZSAxMDA2NDQgdGVzdHMvcXRlc3QvZnV6ei92aXJ0aW9fbmV0X2Z1enouYw0KIGNyZWF0ZSBt
-b2RlIDEwMDY0NCB0ZXN0cy9xdGVzdC9mdXp6L3ZpcnRpb19zY3NpX2Z1enouYw0KIGNyZWF0ZSBt
-b2RlIDEwMDY0NCB0ZXN0cy9xdGVzdC9saWJxb3MvcW9zX2V4dGVybmFsLmMNCiBjcmVhdGUgbW9k
-ZSAxMDA2NDQgdGVzdHMvcXRlc3QvbGlicW9zL3Fvc19leHRlcm5hbC5oDQoNCi0tIA0KMi4yMy4w
-DQoNCg==
+A program might rely on functions implemented in vl.c, but implement its
+own main(). By placing main into a separate source file, there are no
+complaints about duplicate main()s when linking against vl.o. For
+example, the virtual-device fuzzer uses a main() provided by libfuzzer,
+and needs to perform some initialization before running the softmmu
+initialization. Now, main simply calls three vl.c functions which
+handle the guest initialization, main loop and cleanup.
+
+Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+---
+ Makefile                |  1 +
+ Makefile.objs           |  2 ++
+ Makefile.target         |  2 +-
+ include/sysemu/sysemu.h |  4 ++++
+ main.c                  | 53 +++++++++++++++++++++++++++++++++++++++++
+ vl.c                    | 36 +++++++---------------------
+ 6 files changed, 70 insertions(+), 28 deletions(-)
+ create mode 100644 main.c
+
+diff --git a/Makefile b/Makefile
+index 32bd554480..e6de7a47bb 100644
+--- a/Makefile
++++ b/Makefile
+@@ -473,6 +473,7 @@ $(SOFTMMU_ALL_RULES): $(chardev-obj-y)
+ $(SOFTMMU_ALL_RULES): $(crypto-obj-y)
+ $(SOFTMMU_ALL_RULES): $(io-obj-y)
+ $(SOFTMMU_ALL_RULES): config-all-devices.mak
++$(SOFTMMU_ALL_RULES): $(softmmu-main-y)
+ ifdef DECOMPRESS_EDK2_BLOBS
+ $(SOFTMMU_ALL_RULES): $(edk2-decompressed)
+ endif
+diff --git a/Makefile.objs b/Makefile.objs
+index 7c1e50f9d6..5ab166fed5 100644
+--- a/Makefile.objs
++++ b/Makefile.objs
+@@ -84,6 +84,8 @@ common-obj-$(CONFIG_FDT) +=3D device_tree.o
+ # qapi
+=20
+ common-obj-y +=3D qapi/
++
++softmmu-obj-y =3D main.o
+ endif
+=20
+ #######################################################################
+diff --git a/Makefile.target b/Makefile.target
+index 6e61f607b1..8dcf3dddd8 100644
+--- a/Makefile.target
++++ b/Makefile.target
+@@ -202,7 +202,7 @@ endif
+ COMMON_LDADDS =3D ../libqemuutil.a
+=20
+ # build either PROG or PROGW
+-$(QEMU_PROG_BUILD): $(all-obj-y) $(COMMON_LDADDS)
++$(QEMU_PROG_BUILD): $(all-obj-y) $(COMMON_LDADDS) $(softmmu-obj-y)
+ 	$(call LINK, $(filter-out %.mak, $^))
+ ifdef CONFIG_DARWIN
+ 	$(call quiet-command,Rez -append $(SRC_PATH)/pc-bios/qemu.rsrc -o $@,"REZ=
+","$(TARGET_DIR)$@")
+diff --git a/include/sysemu/sysemu.h b/include/sysemu/sysemu.h
+index 80c57fdc4e..270df5fa34 100644
+--- a/include/sysemu/sysemu.h
++++ b/include/sysemu/sysemu.h
+@@ -118,6 +118,10 @@ QemuOpts *qemu_get_machine_opts(void);
+=20
+ bool defaults_enabled(void);
+=20
++void qemu_init(int argc, char **argv, char **envp);
++void qemu_main_loop(void);
++void qemu_cleanup(void);
++
+ extern QemuOptsList qemu_legacy_drive_opts;
+ extern QemuOptsList qemu_common_drive_opts;
+ extern QemuOptsList qemu_drive_opts;
+diff --git a/main.c b/main.c
+new file mode 100644
+index 0000000000..f10ceda541
+--- /dev/null
++++ b/main.c
+@@ -0,0 +1,53 @@
++/*
++ * QEMU System Emulator
++ *
++ * Copyright (c) 2003-2008 Fabrice Bellard
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a=
+ copy
++ * of this software and associated documentation files (the "Software"), t=
+o deal
++ * in the Software without restriction, including without limitation the r=
+ights
++ * to use, copy, modify, merge, publish, distribute, sublicense, and/or se=
+ll
++ * copies of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be included=
+ in
++ * all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS=
+ OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY=
+,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
++ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OT=
+HER
++ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING=
+ FROM,
++ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS =
+IN
++ * THE SOFTWARE.
++ */
++
++#include "qemu/osdep.h"
++#include "qemu-common.h"
++#include "sysemu/sysemu.h"
++
++#ifdef CONFIG_SDL
++#if defined(__APPLE__) || defined(main)
++#include <SDL.h>
++int main(int argc, char **argv)
++{
++    return qemu_main(argc, argv, NULL);
++}
++#undef main
++#define main qemu_main
++#endif
++#endif /* CONFIG_SDL */
++
++#ifdef CONFIG_COCOA
++#undef main
++#define main qemu_main
++#endif /* CONFIG_COCOA */
++
++int main(int argc, char **argv, char **envp)
++{
++    qemu_init(argc, argv, envp);
++    qemu_main_loop();
++    qemu_cleanup();
++
++    return 0;
++}
+diff --git a/vl.c b/vl.c
+index 751401214c..bb77935f04 100644
+--- a/vl.c
++++ b/vl.c
+@@ -36,25 +36,6 @@
+ #include "sysemu/seccomp.h"
+ #include "sysemu/tcg.h"
+=20
+-#ifdef CONFIG_SDL
+-#if defined(__APPLE__) || defined(main)
+-#include <SDL.h>
+-int qemu_main(int argc, char **argv, char **envp);
+-int main(int argc, char **argv)
+-{
+-    return qemu_main(argc, argv, NULL);
+-}
+-#undef main
+-#define main qemu_main
+-#endif
+-#endif /* CONFIG_SDL */
+-
+-#ifdef CONFIG_COCOA
+-#undef main
+-#define main qemu_main
+-#endif /* CONFIG_COCOA */
+-
+-
+ #include "qemu/error-report.h"
+ #include "qemu/sockets.h"
+ #include "sysemu/accel.h"
+@@ -1657,7 +1638,7 @@ static bool main_loop_should_exit(void)
+     return false;
+ }
+=20
+-static void main_loop(void)
++void qemu_main_loop(void)
+ {
+ #ifdef CONFIG_PROFILER
+     int64_t ti;
+@@ -2820,7 +2801,7 @@ static void configure_accelerators(const char *progna=
+me)
+     }
+ }
+=20
+-int main(int argc, char **argv, char **envp)
++void qemu_init(int argc, char **argv, char **envp)
+ {
+     int i;
+     int snapshot, linux_boot;
+@@ -3372,7 +3353,7 @@ int main(int argc, char **argv, char **envp)
+             case QEMU_OPTION_watchdog:
+                 if (watchdog) {
+                     error_report("only one watchdog option may be given");
+-                    return 1;
++                    exit(1);
+                 }
+                 watchdog =3D optarg;
+                 break;
+@@ -4284,7 +4265,7 @@ int main(int argc, char **argv, char **envp)
+     parse_numa_opts(current_machine);
+=20
+     /* do monitor/qmp handling at preconfig state if requested */
+-    main_loop();
++    qemu_main_loop();
+=20
+     audio_init_audiodevs();
+=20
+@@ -4394,7 +4375,7 @@ int main(int argc, char **argv, char **envp)
+     if (vmstate_dump_file) {
+         /* dump and exit */
+         dump_vmstate_json_to_file(vmstate_dump_file);
+-        return 0;
++        exit(0);
+     }
+=20
+     if (incoming) {
+@@ -4411,8 +4392,11 @@ int main(int argc, char **argv, char **envp)
+     accel_setup_post(current_machine);
+     os_setup_post();
+=20
+-    main_loop();
++    return;
++}
+=20
++void qemu_cleanup(void)
++{
+     gdbserver_cleanup();
+=20
+     /*
+@@ -4449,6 +4433,4 @@ int main(int argc, char **argv, char **envp)
+     qemu_chr_cleanup();
+     user_creatable_cleanup();
+     /* TODO: unref root container, check all devices are ok */
+-
+-    return 0;
+ }
+--=20
+2.23.0
+
 
