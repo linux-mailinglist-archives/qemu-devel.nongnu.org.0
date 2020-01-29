@@ -2,78 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0B6714D49E
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jan 2020 01:19:46 +0100 (CET)
-Received: from localhost ([::1]:54030 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6626B14D441
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jan 2020 01:02:24 +0100 (CET)
+Received: from localhost ([::1]:53560 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwxYf-0007mB-Mz
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jan 2020 19:19:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47994)
+	id 1iwxHr-0003I3-C7
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jan 2020 19:02:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45069)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <prvs=29084464a=jgrall@amazon.com>)
- id 1iwvjG-0001S8-UU
- for qemu-devel@nongnu.org; Wed, 29 Jan 2020 17:22:35 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1iwxC1-0003Y4-63
+ for qemu-devel@nongnu.org; Wed, 29 Jan 2020 18:56:22 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <prvs=29084464a=jgrall@amazon.com>)
- id 1iwvjG-0005zT-20
- for qemu-devel@nongnu.org; Wed, 29 Jan 2020 17:22:34 -0500
-Received: from smtp-fw-9102.amazon.com ([207.171.184.29]:43609)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <prvs=29084464a=jgrall@amazon.com>)
- id 1iwvjD-0005uw-GM; Wed, 29 Jan 2020 17:22:31 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
- t=1580336552; x=1611872552;
- h=subject:to:cc:references:from:message-id:date:
- mime-version:in-reply-to:content-transfer-encoding;
- bh=Hr++Xm5/SV7JXThAprauznben7RfJdieVJTXWnIIrzU=;
- b=rMQEcUw+iQ7RFqunvRYaY2c0czXAm/pdD9r6colzZeQhyMilf5CQa2jp
- nJI8TadPXUnTD3YzzScWArJvxez051zmd+RP7pxYp2/GVcJ2Jm5vV9was
- KYACM7RLQ+jxp4m1ztTom4lkQOdhzh+PQ8wqcuSGYE3nG8Hus9Mvn5Fku k=;
-IronPort-SDR: duQNqjC0vKtnAwnN17m+Ex5lKeC3uKAZlerF7G6ef6Is9JC9wCVNCuSaFbosyFZoifP796SDj4
- yciI89LZxk5w==
-X-IronPort-AV: E=Sophos;i="5.70,379,1574121600"; d="scan'208";a="21907583"
-Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO
- email-inbound-relay-2a-6e2fc477.us-west-2.amazon.com) ([10.47.23.38])
- by smtp-border-fw-out-9102.sea19.amazon.com with ESMTP;
- 29 Jan 2020 22:22:19 +0000
-Received: from EX13MTAUEA002.ant.amazon.com
- (pdx4-ws-svc-p6-lb7-vlan2.pdx.amazon.com [10.170.41.162])
- by email-inbound-relay-2a-6e2fc477.us-west-2.amazon.com (Postfix) with ESMTPS
- id 6DF74A1762; Wed, 29 Jan 2020 22:22:18 +0000 (UTC)
-Received: from EX13D32EUB003.ant.amazon.com (10.43.166.165) by
- EX13MTAUEA002.ant.amazon.com (10.43.61.77) with Microsoft SMTP Server (TLS)
- id 15.0.1236.3; Wed, 29 Jan 2020 22:22:18 +0000
-Received: from EX13MTAUEA002.ant.amazon.com (10.43.61.77) by
- EX13D32EUB003.ant.amazon.com (10.43.166.165) with Microsoft SMTP Server (TLS)
- id 15.0.1367.3; Wed, 29 Jan 2020 22:22:17 +0000
-Received: from a483e7b01a66.ant.amazon.com (10.95.157.113) by
- mail-relay.amazon.com (10.43.61.169) with Microsoft SMTP Server id
- 15.0.1236.3 via Frontend Transport; Wed, 29 Jan 2020 22:22:15 +0000
-Subject: Re: [PATCH] xen-bus/block: explicitly assign event channels to an
- AioContext
-To: Anthony PERARD <anthony.perard@citrix.com>, Paul Durrant
- <pdurrant@amazon.com>
-CC: <xen-devel@lists.xenproject.org>, <qemu-block@nongnu.org>,
- <qemu-devel@nongnu.org>, Stefano Stabellini <sstabellini@kernel.org>, "Stefan
- Hajnoczi" <stefanha@redhat.com>, Kevin Wolf <kwolf@redhat.com>, Max Reitz
- <mreitz@redhat.com>
-References: <20191216143451.19024-1-pdurrant@amazon.com>
- <20191219171158.GF1267@perard.uk.xensource.com>
-From: Julien Grall <jgrall@amazon.com>
-Message-ID: <b2762e84-1cc4-649c-9b53-8754678525f6@amazon.com>
-Date: Wed, 29 Jan 2020 22:22:14 +0000
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:68.0)
- Gecko/20100101 Thunderbird/68.4.1
+ (envelope-from <richard.henderson@linaro.org>) id 1iwxC0-0006hc-5b
+ for qemu-devel@nongnu.org; Wed, 29 Jan 2020 18:56:21 -0500
+Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:38125)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1iwxBz-0006fE-W8
+ for qemu-devel@nongnu.org; Wed, 29 Jan 2020 18:56:20 -0500
+Received: by mail-pl1-x644.google.com with SMTP id t6so594597plj.5
+ for <qemu-devel@nongnu.org>; Wed, 29 Jan 2020 15:56:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=rTQU923fsMMcx9+LorcmqOCU1SgJ9njP17/lCw46c9M=;
+ b=apKe758o243LhK53nTuGC6pehIvt5b8F40bu31M6disFBX3YKI4TYlgm89Ph7yxl3U
+ ZWy7vPMqVl16Gs2wNLZY3DEmcCSNuDXI47WY/0hblvD2WeqwkmWKDZi2bXgRRihKRlEr
+ Q941w1jKfx2zNnfRGUKuGhSaPoJguv53jy+/DA2yEcYaI8ja70ODtSeC5/JHS7+Hqhji
+ Pam/6ZfXmxyFaWyW7qwX8K1vunWOG9alF2Sr91LWj5/350iqAB5VhVVmkx+JcKOM1cJf
+ Q46UgxgVUF2N0fN8ipKEXWF/147n/FsMLzAwQZ8ym/kD+G/NBGVnifKO2tLa2HILC4+z
+ uiEQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=rTQU923fsMMcx9+LorcmqOCU1SgJ9njP17/lCw46c9M=;
+ b=C1m6sb8geMlNwRVySybDPdyod0z8c3auTMui+Z1BiDmHN7C1r8UIZVOQc4A0htrHbg
+ ryo7m19WOUpkfGOem+y5TdOKvXKHh/8EfkyFT5yPSVhjMNu6+5tfJe8FOIik6dEPAdEl
+ E6dj5L+lh2GZH642lettppMOI/uquFr2HfkvllxOccJYu6do/eoXrG/M7F6/wOy5n5v3
+ mfqAwe1Vtr3H/hRpUaZid1xwbp1yCaeHTcTEOjXL5YslcwKz6lrAgNHtx4Xc363F5STn
+ wx8VR2UNQhvRZ7eWIB/WYWYyV0/GVVuhZt6I45oPesBcHDcwhE1gakQEG/5GmuGSn/aM
+ QeOg==
+X-Gm-Message-State: APjAAAVoAs2+1UdABt4ekehD2EoaXAy76na2eyCEEgSrsDZ3rtpfo788
+ nZ8I62TjxQNUWw6c4e+JFRhAIhbiTv4=
+X-Google-Smtp-Source: APXvYqwkgqYNgJgCsvzjiIIinw/Fe0CwIs7Y9Ln/djELn1zMxNVxYx6kV3q0HDpnK8JssNnyOqETUw==
+X-Received: by 2002:a17:902:7e4b:: with SMTP id
+ a11mr1913208pln.61.1580342178678; 
+ Wed, 29 Jan 2020 15:56:18 -0800 (PST)
+Received: from localhost.localdomain (97-126-123-70.tukw.qwest.net.
+ [97.126.123.70])
+ by smtp.gmail.com with ESMTPSA id r3sm3953626pfg.145.2020.01.29.15.56.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 29 Jan 2020 15:56:18 -0800 (PST)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v5 02/41] target/arm: Enable HCR_E2H for VHE
+Date: Wed, 29 Jan 2020 15:55:35 -0800
+Message-Id: <20200129235614.29829-3-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200129235614.29829-1-richard.henderson@linaro.org>
+References: <20200129235614.29829-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20191219171158.GF1267@perard.uk.xensource.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
-X-Received-From: 207.171.184.29
-X-Mailman-Approved-At: Wed, 29 Jan 2020 19:02:01 -0500
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::644
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,46 +80,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: peter.maydell@linaro.org, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Anthony,
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ target/arm/cpu.h    | 7 -------
+ target/arm/helper.c | 6 +++++-
+ 2 files changed, 5 insertions(+), 8 deletions(-)
 
-On 19/12/2019 17:11, Anthony PERARD wrote:
-> On Mon, Dec 16, 2019 at 02:34:51PM +0000, Paul Durrant wrote:
->> It is not safe to close an event channel from the QEMU main thread when
->> that channel's poller is running in IOThread context.
->>
->> This patch adds a new xen_device_set_event_channel_context() function
->> to explicitly assign the channel AioContext, and modifies
->> xen_device_bind_event_channel() to initially assign the channel's poller
->> to the QEMU main thread context. The code in xen-block's dataplane is
->> then modified to assign the channel to IOThread context during
->> xen_block_dataplane_start() and de-assign it during in
->> xen_block_dataplane_stop(), such that the channel is always assigned
->> back to main thread context before it is closed. aio_set_fd_handler()
->> already deals with all the necessary synchronization when moving an fd
->> between AioContext-s so no extra code is needed to manage this.
->>
->> Reported-by: Julien Grall <jgrall@amazon.com>
->> Signed-off-by: Paul Durrant <pdurrant@amazon.com>
-> 
-> Reviewed-by: Anthony PERARD <anthony.perard@citrix.com>
-
-I can't find the patch in QEMU upstream. Are we missing any ack/review 
-for this patch?
-
-> 
->> Tested against an HVM debian guest with a QCOW2 image as system disk, and
->> as a hot-plugged/unplgged secondary disk.
-> 
-> And I've run an osstest flight with the patch.
-> 
-> Thanks,
-> 
-
-Cheers,
-
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index 0477cef1ea..239c9eb783 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -1417,13 +1417,6 @@ static inline void xpsr_write(CPUARMState *env, uint32_t val, uint32_t mask)
+ #define HCR_ATA       (1ULL << 56)
+ #define HCR_DCT       (1ULL << 57)
+ 
+-/*
+- * When we actually implement ARMv8.1-VHE we should add HCR_E2H to
+- * HCR_MASK and then clear it again if the feature bit is not set in
+- * hcr_write().
+- */
+-#define HCR_MASK      ((1ULL << 34) - 1)
+-
+ #define SCR_NS                (1U << 0)
+ #define SCR_IRQ               (1U << 1)
+ #define SCR_FIQ               (1U << 2)
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 19a57a17da..f5ce05fdf3 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -4721,7 +4721,8 @@ static const ARMCPRegInfo el3_no_el2_v8_cp_reginfo[] = {
+ static void hcr_write(CPUARMState *env, const ARMCPRegInfo *ri, uint64_t value)
+ {
+     ARMCPU *cpu = env_archcpu(env);
+-    uint64_t valid_mask = HCR_MASK;
++    /* Begin with bits defined in base ARMv8.0.  */
++    uint64_t valid_mask = MAKE_64BIT_MASK(0, 34);
+ 
+     if (arm_feature(env, ARM_FEATURE_EL3)) {
+         valid_mask &= ~HCR_HCD;
+@@ -4735,6 +4736,9 @@ static void hcr_write(CPUARMState *env, const ARMCPRegInfo *ri, uint64_t value)
+          */
+         valid_mask &= ~HCR_TSC;
+     }
++    if (cpu_isar_feature(aa64_vh, cpu)) {
++        valid_mask |= HCR_E2H;
++    }
+     if (cpu_isar_feature(aa64_lor, cpu)) {
+         valid_mask |= HCR_TLOR;
+     }
 -- 
-Julien Grall
+2.20.1
+
 
