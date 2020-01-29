@@ -2,106 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE7B414CF53
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jan 2020 18:10:03 +0100 (CET)
-Received: from localhost ([::1]:49246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AC2414CF33
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jan 2020 18:06:52 +0100 (CET)
+Received: from localhost ([::1]:49210 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwqqp-0007J9-2X
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jan 2020 12:10:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51018)
+	id 1iwqni-0004K9-Uv
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jan 2020 12:06:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51349)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <Babu.Moger@amd.com>) id 1iwqmC-0003CW-6R
- for qemu-devel@nongnu.org; Wed, 29 Jan 2020 12:05:17 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1iwqmj-0003hv-70
+ for qemu-devel@nongnu.org; Wed, 29 Jan 2020 12:05:50 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <Babu.Moger@amd.com>) id 1iwqmA-0003qr-V7
- for qemu-devel@nongnu.org; Wed, 29 Jan 2020 12:05:16 -0500
-Received: from mail-bn7nam10on2056.outbound.protection.outlook.com
- ([40.107.92.56]:8844 helo=NAM10-BN7-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <Babu.Moger@amd.com>) id 1iwqmA-0003mJ-KS
- for qemu-devel@nongnu.org; Wed, 29 Jan 2020 12:05:14 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=hv+nm+DkxnJo0JzbUWS/C0UfFmZVmSJvAKadXi1nCPKZmDjVyAK0ZL5UV1bbrYhDbOQqtfzLhOe8DL8oLk8AqlD/rmet5YkNXyYIbwgu/XK8T5jLRfnM9Zu3MtrvpMjLs7bR2M5c+gP+YPQ+iBAqz84GcJqBNU8GA2vMXzs/O6kwKhe/0LYGisl5ENjb9aktgAO52wRM7A60adU8nmc2kyj1CxRXCRGeOE7PjmqBOZxbAV+HzRFPfMQbcUsZXdEUyslWwU8/cd3XRW4L4+LPYzzRk1OXf9talE6MQAd+zKbrO0cmBnmN+3hsAblV2OeyzsqDsDdMYy2l9tKiNUbUpQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UJGJaA1x2iAQ3kWwdV0Ka8kk5ejKfYkmGvJrSRH2224=;
- b=B6rGgsy0W0HJ4ZkddiwqggTePbHcgsGhFD0wP91iHqm8unhkzlIEsM8t0+YWZTsVyF+k6WaMZt/4xEA7ZwDxjNq/wcwCItH+h+Qtf3Y/n7V2ND9Ft8cadCVMiNwf0gSfk0N5lHsTXCgos9H8Ae/0RoeBRxg8FUJ0//Zl9kiOw2yrBC/hJzURnublfHImkKZzjheXCBCk5yeRT6iMdHDCQauv2U+WZ05XTGa63U1rGa6tLW5Yc858z6+HW4J7oucsprsUjVnJK6DF2SNElkQrT/0ONRRl0YR9C5dEU7zRqFSR12af/vuFLInYdSfY8IgPrzqwNvFJjSKfSwZHyExQnA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UJGJaA1x2iAQ3kWwdV0Ka8kk5ejKfYkmGvJrSRH2224=;
- b=HtcnZvPJJMA6z7HK7HRYcjTEEwqqLxP3tG77UmFIp0cot6iopFrcB/FJZ5OdqjqDJRRVn+y5Q2MydrNxbcvdGKGxeA3xB/SIt5CVD4ozwuf1bjtSkIK5VGufpk9N/NwkOjOi+CQ50RyXLuMhgaTEkX7p/5csi9HetMoR+C34LTQ=
-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=Babu.Moger@amd.com; 
-Received: from CY4PR12MB1574.namprd12.prod.outlook.com (10.172.71.23) by
- CY4PR12MB1942.namprd12.prod.outlook.com (10.175.82.19) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2665.24; Wed, 29 Jan 2020 17:05:12 +0000
-Received: from CY4PR12MB1574.namprd12.prod.outlook.com
- ([fe80::610a:6908:1e18:49fd]) by CY4PR12MB1574.namprd12.prod.outlook.com
- ([fe80::610a:6908:1e18:49fd%7]) with mapi id 15.20.2665.026; Wed, 29 Jan 2020
- 17:05:12 +0000
-Subject: Re: [PATCH v3 07/18] machine: Add a new function init_apicid_fn in
- MachineClass
-To: Eduardo Habkost <ehabkost@redhat.com>
-References: <157541968844.46157.17994918142533791313.stgit@naples-babu.amd.com>
- <157541986210.46157.5082551407581177819.stgit@naples-babu.amd.com>
- <20200128172919.4ecb5896@redhat.com>
- <e5271e1c-55bc-e3d2-eb4c-2329eef07c9f@amd.com>
- <20200129101458.6a108431@redhat.com>
- <49869aff-011a-9ab9-6aeb-09c8009b7eb6@amd.com>
- <20200129165133.GR18770@habkost.net>
-From: Babu Moger <babu.moger@amd.com>
-Message-ID: <f930f097-2b75-799a-f2cf-3aaa9164c798@amd.com>
-Date: Wed, 29 Jan 2020 11:05:09 -0600
+ (envelope-from <richard.henderson@linaro.org>) id 1iwqmh-0004xH-Cr
+ for qemu-devel@nongnu.org; Wed, 29 Jan 2020 12:05:48 -0500
+Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:33129)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1iwqmh-0004w3-5f
+ for qemu-devel@nongnu.org; Wed, 29 Jan 2020 12:05:47 -0500
+Received: by mail-pg1-x541.google.com with SMTP id 6so95602pgk.0
+ for <qemu-devel@nongnu.org>; Wed, 29 Jan 2020 09:05:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=+zN1pkKq1oz2sKf5PNAJNK2rTWQFEmWAmYPEH0wv3RU=;
+ b=gVrFXbRVNJGayeDPpBuOXAOPifgiWF79Rfe9Tb+WaKcjbR/lKU475Wde9BWw1MUNWp
+ MPMWy3stGpOX/3iq5mY+C3am0H/EPzkn7vWUtxDxL3+Ot6IIaJ2N4fRVO5qk4LsQmUnu
+ no7DOKZEcOllI8/9XaEQf27ShGLi5CgCi1w3qlJt9JKpOu2EjC4RwwOiOnn+bmanG3xd
+ pxwu42EZHkuyAgg9kRqP1bvFHgmq4i4pZI2woNrGNpsIhltXVz9mAdkewfjFKLOJymt7
+ PYRj+vINiA63hI0vobRFRapNrgyAz/3/Wr+kVn0qUvhU7WqEpn1//3uUua8G4vuAqM/d
+ scAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=+zN1pkKq1oz2sKf5PNAJNK2rTWQFEmWAmYPEH0wv3RU=;
+ b=FGKnGaS9xZKQFBusF39gUlot9y7He6EAV+SirIrG8ScRGZzxMBkJx73yR0OEhZWNRg
+ NCrL3RbhUdbF/fdgJzo/wqeo9oJGge7HpUJ2/k31eLi2gCiSOOf+4sWBkfY0vOmlmvHR
+ RS/G8C5kfmebeiP2bRgpnP3uLyWDgZPYbHv7mmI/vyp8loAUOK4LEk5g7R0Z6d3uY9Xq
+ vwjQmijcq7Kd/sAza9Nt87CSrlEwtriZPMySoPA6yooJLsBqj+1GQKHXYyn0uyuQ2Q8o
+ tgzUVUcE8GjHpf4EGeHYvGSTaAc1E0iJcrq6lGJOXNR5tPSNC97p+Wz1iIsW91QNKVo/
+ 0P8Q==
+X-Gm-Message-State: APjAAAUOBX6YiIxNfWNGBiPkK289iVTgWl9JVI2+FLtcGgRyGMLLfEfx
+ 7cliulDbox5UB4OcQ+zJ0SGN6A==
+X-Google-Smtp-Source: APXvYqwOWvxbFBS53cP9aXF5Nsgdf71oEAKtJGikLmtEdkvasFs2Pn5izI0Bu2PfDcccmxWoIZTCQA==
+X-Received: by 2002:a62:2a07:: with SMTP id q7mr510398pfq.153.1580317545925;
+ Wed, 29 Jan 2020 09:05:45 -0800 (PST)
+Received: from [192.168.1.11] (97-126-123-70.tukw.qwest.net. [97.126.123.70])
+ by smtp.gmail.com with ESMTPSA id
+ w4sm3237166pjt.23.2020.01.29.09.05.44
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 29 Jan 2020 09:05:45 -0800 (PST)
+Subject: Re: [PATCH v4 30/40] target/arm: Flush tlbs for E2&0 translation
+ regime
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20191203022937.1474-1-richard.henderson@linaro.org>
+ <20191203022937.1474-31-richard.henderson@linaro.org>
+ <CAFEAcA-=s0rd78PUQSLV3j0xM4RdynxGv6jUYaYUqMVExsZb8A@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <768e2785-9336-0eeb-4296-4608fd541d9d@linaro.org>
+Date: Wed, 29 Jan 2020 09:05:43 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
-In-Reply-To: <20200129165133.GR18770@habkost.net>
+ Thunderbird/68.4.1
+MIME-Version: 1.0
+In-Reply-To: <CAFEAcA-=s0rd78PUQSLV3j0xM4RdynxGv6jUYaYUqMVExsZb8A@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BN6PR16CA0001.namprd16.prod.outlook.com
- (2603:10b6:404:f5::11) To CY4PR12MB1574.namprd12.prod.outlook.com
- (2603:10b6:910:e::23)
-MIME-Version: 1.0
-Received: from [10.236.30.87] (165.204.77.1) by
- BN6PR16CA0001.namprd16.prod.outlook.com (2603:10b6:404:f5::11) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2665.21 via Frontend Transport; Wed, 29 Jan 2020 17:05:10 +0000
-X-Originating-IP: [165.204.77.1]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 72c2f282-266a-45c0-67ab-08d7a4dd6706
-X-MS-TrafficTypeDiagnostic: CY4PR12MB1942:
-X-Microsoft-Antispam-PRVS: <CY4PR12MB19429A452C61EB9AA7CF0BDD95050@CY4PR12MB1942.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
-X-Forefront-PRVS: 02973C87BC
-X-Forefront-Antispam-Report: SFV:NSPM;
- SFS:(10009020)(4636009)(366004)(346002)(39860400002)(136003)(396003)(376002)(189003)(199004)(5660300002)(4326008)(31696002)(31686004)(36756003)(66946007)(81156014)(81166006)(66556008)(8676002)(66476007)(86362001)(6916009)(8936002)(6486002)(53546011)(478600001)(2906002)(44832011)(52116002)(956004)(2616005)(186003)(16526019)(26005)(16576012)(316002);
- DIR:OUT; SFP:1101; SCL:1; SRVR:CY4PR12MB1942;
- H:CY4PR12MB1574.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-Received-SPF: None (protection.outlook.com: amd.com does not designate
- permitted sender hosts)
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Xbzz6SpQwtbB/CL6mynmG593SvTUUoKhgHkB9qiAUfDmpb5IWJWbfyc2aW1xRRawSl0q12lDtaV7KxgwEH7BNy5VYto5rXIg2RPixEvkTYUuPzX+0W1hCtKobSaSE/mq0uXcvfkioTkzxGygsIZv69jdnNZdCLnxtwqI+SAiNLmAKOa9P9+/IVLK84ucTh30gkMkK59rX1z9w1EpU98mtbwiQHfrpd09xR1JP/NhuhKIy2jGNGZzAwuOPCdbtU0Mtc6VX+VIGoM1aLkTAWhG9iAcjM0UxTpmL5ed0N4tAWU5etVzjT7cKm6A+u6nBX6WAhuCGdAAstvcoKSFFT4Gd4dSyFbM9cfMNNNG3U/MCT9MU9NeudBG5kULYuFvvW4MBs6/AxCFUpjblLmetyF+SwiUuDRDmeXOBhluyjGUOAA8m08dwif/KkxYa2Yub9tP
-X-MS-Exchange-AntiSpam-MessageData: N5+5bLWGqSZ5gUB0CplLQiYUn2P4uWk7Jn1CJVHtWIuXFjzMfn0IKh6/cDadhs5brlHqT721MaENSHQLm4sYYXt1IsqyiIlvvm/7Rge3ooj4UrFDZPu3LPH5vla6TgyFrrKXqYMHVBAWApOXJK0dkg==
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 72c2f282-266a-45c0-67ab-08d7a4dd6706
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jan 2020 17:05:12.1174 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: YQuhLuaaBLCx2s6Kp2+qbSFFHDqugm8pxZZoyk4NfMgnZjgRywvRsaxjmyrDlusT
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR12MB1942
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.92.56
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::541
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -113,69 +85,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mst@redhat.com, armbru@redhat.com, qemu-devel@nongnu.org,
- pbonzini@redhat.com, Igor Mammedov <imammedo@redhat.com>, rth@twiddle.net
+Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 1/29/20 10:51 AM, Eduardo Habkost wrote:
-> On Wed, Jan 29, 2020 at 10:32:01AM -0600, Babu Moger wrote:
->>
->>
->> On 1/29/20 3:14 AM, Igor Mammedov wrote:
->>> On Tue, 28 Jan 2020 13:45:31 -0600
->>> Babu Moger <babu.moger@amd.com> wrote:
->>>
->>>> On 1/28/20 10:29 AM, Igor Mammedov wrote:
->>>>> On Tue, 03 Dec 2019 18:37:42 -0600
->>>>> Babu Moger <babu.moger@amd.com> wrote:
->>>>>   
->>>>>> Add a new function init_apicid_fn in MachineClass to initialize the mode
->>>>>> specific handlers to decode the apic ids.
->>>>>>
->>>>>> Signed-off-by: Babu Moger <babu.moger@amd.com>
->>>>>> ---
->>>>>>  include/hw/boards.h |    1 +
->>>>>>  vl.c                |    3 +++
->>>>>>  2 files changed, 4 insertions(+)
->>>>>>
->>>>>> diff --git a/include/hw/boards.h b/include/hw/boards.h
->>>>>> index d4fab218e6..ce5aa365cb 100644
->>>>>> --- a/include/hw/boards.h
->>>>>> +++ b/include/hw/boards.h
->>>>>> @@ -238,6 +238,7 @@ struct MachineClass {
->>>>>>                                                           unsigned cpu_index);
->>>>>>      const CPUArchIdList *(*possible_cpu_arch_ids)(MachineState *machine);
->>>>>>      int64_t (*get_default_cpu_node_id)(const MachineState *ms, int idx);
->>>>>> +    void (*init_apicid_fn)(MachineState *ms);  
->>>>> it's x86 specific, so why it wasn put into PCMachineClass?  
->>>>
->>>> Yes. It is x86 specific for now. I tried to make it generic function so
->>>> other OSes can use it if required(like we have done in
->>>> possible_cpu_arch_ids). It initializes functions required to build the
->>>> apicid for each CPUs. We need these functions much early in the
->>>> initialization. It should be initialized before parse_numa_opts or
->>>> machine_run_board_init(in v1.c) which are called from generic context. We
->>>> cannot use PCMachineClass at this time.
->>>
->>> could you point to specific patches in this series that require
->>> apic ids being initialized before parse_numa_opts and elaborate why?
->>>
->>> we already have possible_cpu_arch_ids() which could be called very
->>> early and calculates APIC IDs in x86 case, so why not reuse it?
->>
->> Forgot to respond to this. The possible_cpu_arch_ids does not use the numa
->> information to build the apic id. We cannot re-use it without changing it
->> drastically.
+On 12/6/19 9:14 AM, Peter Maydell wrote:
+>>  static void tlbi_aa64_alle2_write(CPUARMState *env, const ARMCPRegInfo *ri,
+>>                                    uint64_t value)
+>>  {
+>> -    ARMCPU *cpu = env_archcpu(env);
+>> -    CPUState *cs = CPU(cpu);
+>> +    CPUState *cs = env_cpu(env);
+>> +    int mask = vae2_tlbmask(env);
 > 
-> I don't get it.  I see multiple patches in this series changing
-> pc_possible_cpu_arch_ids() (which is really expected, if you are
-> changing how APIC IDs are generated).
+> Why do we use the 'v' mask function for a non 'v' TLB op?
 > 
+>>
+>> -    tlb_flush_by_mmuidx(cs, ARMMMUIdxBit_E2);
+>> +    tlb_flush_by_mmuidx(cs, mask);
+> 
+> The spec fror TLBI ALLE2 doesn't say it depends on
+> what the E2H setting is. It says it flushes all entries
+> for either NS EL2 or NS EL2&0 translation regimes.
+> Wouldn't that be
+> ARMMMUIdxBit_EL20_0 | ARMMMUIdxBit_EL20_2 | ARMMMUIdxBit_E2
+> ?
+> 
+> Contrast TLBI VAE2, which does say that the entries it
+> flushes depend on the current setting of HCR_EL2.E2H.
 
-My bad. I mispoke on that.I should have said the current decoding
-logic(x86_apicid_from_cpu_idx, x86_topo_ids_from_apicid,
-x86_apicid_from_topo_ids) cannot be used as is.
+Hmm.  True.  It would seem that ALLE1 has the same bug, because I confused
+matters in 4a354502869.  Will fix both.
+
+
+r~
 
