@@ -2,70 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2D7414D43A
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jan 2020 00:59:45 +0100 (CET)
-Received: from localhost ([::1]:53494 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6112214D42E
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jan 2020 00:58:05 +0100 (CET)
+Received: from localhost ([::1]:53446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwxFI-0008IB-O4
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jan 2020 18:59:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45039)
+	id 1iwxDg-0004vO-7h
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jan 2020 18:58:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45044)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iwxC0-0003VV-IA
- for qemu-devel@nongnu.org; Wed, 29 Jan 2020 18:56:21 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1iwxBz-0003VW-Ox
+ for qemu-devel@nongnu.org; Wed, 29 Jan 2020 18:56:20 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iwxBy-0006YF-BU
+ (envelope-from <richard.henderson@linaro.org>) id 1iwxBy-0006bb-Sb
  for qemu-devel@nongnu.org; Wed, 29 Jan 2020 18:56:19 -0500
-Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e]:54658)
+Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:44500)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iwxBy-0006UU-48
+ id 1iwxBy-0006Xu-NN
  for qemu-devel@nongnu.org; Wed, 29 Jan 2020 18:56:18 -0500
-Received: by mail-pj1-x102e.google.com with SMTP id dw13so497319pjb.4
- for <qemu-devel@nongnu.org>; Wed, 29 Jan 2020 15:56:17 -0800 (PST)
+Received: by mail-pl1-x642.google.com with SMTP id d9so583115plo.11
+ for <qemu-devel@nongnu.org>; Wed, 29 Jan 2020 15:56:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=oixdmiGNiYR4A87wyzZ9gvtOTzjdyaM42/ZisE5MzRg=;
- b=t4FnqgBtCn05kJh1sp5fhFEzlVTC8keFzloD3JnrunNcVEF4fGVX66qtdQb4NBorYj
- Ik9HGAzezwQ6qipPrXN02YuEB8yLrpaTD/4Z+dq7+M8/L7PjOhAmD4QHPHm9ukHDjEoK
- 2NK3sjL6lB3+5YF6Di2eD4kqRahXWkrPEGoo7jCcm3q6VD9vCzl3/umE8MOAzKypdOEX
- 5FvYMIByRTN9JG+o2pyDyD6oFbbLJz4YEpkYAS7RUz+zN4BG9OEHeZWE7tYklnfv3Fa0
- kNEFa/O7wk3bcxTOiT78aAWe/l2eX6RAthMCneiVpGgWIc8FNzjTll3pPuLRZgvvnT+L
- YiMA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=xmTFM7XVxmDplai/Pm/8V26hKCruWDVLPwrJtq92t10=;
+ b=Hsv24qE8VM69C/+R13Le8JWRtdyJ+ZhuS3lO29bEYX+8FerBFLRDcNe+HUsLPvCddU
+ Vbs6PnEaaUH+3lP/4vd+qjUBpgEWr0NJF3rjSKe4j+4oStUlHd2AHm0aolYCTnum7uUq
+ hJ8vx/IBV8XBlRSRQoGFZQ6JF3OsWxpsi6Cuhux2kTITOnTUd+M9Whcn6QWIOJrYI+rY
+ p7F2pJ5qNz0Xj+LgOr/Ta6FgwXNCcIfWSgJ7vHunVFXR7ihHcJiNon/9ILcZyLLTeC+K
+ kgulh3FY3LWX3mKEn5b/z/tHS4Jib+edd5Kxqe0+BriZNTo0fXDW7bDaWhxmaW3r6iQK
+ AIXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=oixdmiGNiYR4A87wyzZ9gvtOTzjdyaM42/ZisE5MzRg=;
- b=Qv2C97ixlXcrZJ4aYmMfBGxW1IHvXNWQM6Okc+/apbpPXd27KNu+lj1AEnl61WC34i
- RqnADPlUsKfo5gYXPzrnJKh0djB/7A28sFuWm67EiK4W77Kuq/NyVH7xjnoIoh63HvLP
- x8LAfbrYnFle9mqPpDrlAY0l39UnztKiR1zmnlMw55syf2SNdTszBjH1fEMIHUL5dQhO
- Ymo94UEttQt1N071Lhiry+VkzObaiohj5w9e9VMzqfABM/x83nbGjWs+fkjLdF+W3DQc
- vbUeP6NcEU8/EdjaJ8Fy1XluRFatWWZv3orbiehdpUeZ1iy9ZsdvwgJOU0m3fZRtFwqx
- nKDA==
-X-Gm-Message-State: APjAAAVdqUGBE/jY0e8biYuGYaysb9yWKnjETUtuTJw06gatTSt/wBBu
- v/AVEQeDHSj4lxZ3jwDV5Cykaoyr6bw=
-X-Google-Smtp-Source: APXvYqwLhAEW3VKIiKMJyAuFgruskVvM1QASOlGGMPfAA79vdIlXcml4E93qBKHMIglYTU5TRtWy9g==
-X-Received: by 2002:a17:90a:109:: with SMTP id b9mr2506626pjb.77.1580342176237; 
- Wed, 29 Jan 2020 15:56:16 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=xmTFM7XVxmDplai/Pm/8V26hKCruWDVLPwrJtq92t10=;
+ b=MXapj98p7HccxTFYYrGHvaEjhmlZ65AVmJXHdHMmQfFuRWKyfTGtmHiXmbA33/WoFk
+ +UVOK/EoAlS9SE1AH3u5mY1l+E8X67CKBUuklfDZ0oS/r1yXBgBeTvI/QCZeGpMEdjlX
+ 9gn0SevCLtvGTJRvBlP8K2o4xlLwg8CO/uKoxy1VCVJMZNNt4GYsz75rX3R3o8DBCgKa
+ 28+oINRfYYKEcHnRUmbELMtv0TR+1JScNKHtihOl3EcYkm7N/y7WHvhgGMUMSWf4FC+z
+ hj8LkwZ+1mC5//hfntwyzhBK1lh78zkwIOSs5Pg3U7PAsTEMdJhmTW41ZclkC+tz4JsY
+ NZyg==
+X-Gm-Message-State: APjAAAUItIrs6NWI7FpwmpWD8V+/mOswvvKYQZqDc8O5n17J/Qisg2kk
+ QamC06i/kPAOQKeYOCNe84DTz4nrCPc=
+X-Google-Smtp-Source: APXvYqwri33GPXvpO5pfSxFgz1+6AZVyzmH9ngGfi5kZLw+DxUhRAE4mwdBBxgk3Rd6QaMCW1B77Lg==
+X-Received: by 2002:a17:902:8e84:: with SMTP id
+ bg4mr1867680plb.11.1580342177387; 
+ Wed, 29 Jan 2020 15:56:17 -0800 (PST)
 Received: from localhost.localdomain (97-126-123-70.tukw.qwest.net.
  [97.126.123.70])
- by smtp.gmail.com with ESMTPSA id r3sm3953626pfg.145.2020.01.29.15.56.15
+ by smtp.gmail.com with ESMTPSA id r3sm3953626pfg.145.2020.01.29.15.56.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 29 Jan 2020 15:56:15 -0800 (PST)
+ Wed, 29 Jan 2020 15:56:16 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 00/41] target/arm: Implement ARMv8.1-VHE
-Date: Wed, 29 Jan 2020 15:55:33 -0800
-Message-Id: <20200129235614.29829-1-richard.henderson@linaro.org>
+Subject: [PATCH v5 01/41] target/arm: Define isar_feature_aa64_vh
+Date: Wed, 29 Jan 2020 15:55:34 -0800
+Message-Id: <20200129235614.29829-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200129235614.29829-1-richard.henderson@linaro.org>
+References: <20200129235614.29829-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::102e
+X-Received-From: 2607:f8b0:4864:20::642
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,78 +84,28 @@ Cc: peter.maydell@linaro.org, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Version 5 applies the feedback given vs version 4, back in December.
-There was quite a bit (thanks) and I believe I've gotten it all.
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ target/arm/cpu.h | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-FWIW, the patches without review are:
-   0028-target-arm-Add-VHE-system-register-redirection-an.patch
-   0030-target-arm-Flush-tlb-for-ASID-changes-in-EL2-0-tr.patch
-   0031-target-arm-Flush-tlbs-for-E2-0-translation-regime.patch
-
-
-r~
-
-
-Alex Bennée (1):
-  target/arm: check TGE and E2H flags for EL0 pauth traps
-
-Richard Henderson (40):
-  target/arm: Define isar_feature_aa64_vh
-  target/arm: Enable HCR_E2H for VHE
-  target/arm: Add CONTEXTIDR_EL2
-  target/arm: Add TTBR1_EL2
-  target/arm: Update CNTVCT_EL0 for VHE
-  target/arm: Split out vae1_tlbmask
-  target/arm: Split out alle1_tlbmask
-  target/arm: Simplify tlb_force_broadcast alternatives
-  target/arm: Rename ARMMMUIdx*_S12NSE* to ARMMMUIdx*_E10_*
-  target/arm: Rename ARMMMUIdx_S2NS to ARMMMUIdx_Stage2
-  target/arm: Rename ARMMMUIdx_S1NSE* to ARMMMUIdx_Stage1_E*
-  target/arm: Rename ARMMMUIdx_S1SE[01] to ARMMMUIdx_SE10_[01]
-  target/arm: Rename ARMMMUIdx*_S1E3 to ARMMMUIdx*_SE3
-  target/arm: Rename ARMMMUIdx_S1E2 to ARMMMUIdx_E2
-  target/arm: Recover 4 bits from TBFLAGs
-  target/arm: Expand TBFLAG_ANY.MMUIDX to 4 bits
-  target/arm: Rearrange ARMMMUIdxBit
-  target/arm: Tidy ARMMMUIdx m-profile definitions
-  target/arm: Reorganize ARMMMUIdx
-  target/arm: Add regime_has_2_ranges
-  target/arm: Update arm_mmu_idx for VHE
-  target/arm: Update arm_sctlr for VHE
-  target/arm: Update aa64_zva_access for EL2
-  target/arm: Update ctr_el0_access for EL2
-  target/arm: Add the hypervisor virtual counter
-  target/arm: Update timer access for VHE
-  target/arm: Update define_one_arm_cp_reg_with_opaque for VHE
-  target/arm: Add VHE system register redirection and aliasing
-  target/arm: Add VHE timer register redirection and aliasing
-  target/arm: Flush tlb for ASID changes in EL2&0 translation regime
-  target/arm: Flush tlbs for E2&0 translation regime
-  target/arm: Update arm_phys_excp_target_el for TGE
-  target/arm: Update {fp,sve}_exception_el for VHE
-  target/arm: Update get_a64_user_mem_index for VHE
-  target/arm: Update arm_cpu_do_interrupt_aarch64 for VHE
-  target/arm: Enable ARMv8.1-VHE in -cpu max
-  target/arm: Move arm_excp_unmasked to cpu.c
-  target/arm: Pass more cpu state to arm_excp_unmasked
-  target/arm: Use bool for unmasked in arm_excp_unmasked
-  target/arm: Raise only one interrupt in arm_cpu_exec_interrupt
-
- target/arm/cpu-param.h     |    2 +-
- target/arm/cpu-qom.h       |    1 +
- target/arm/cpu.h           |  423 +++++--------
- target/arm/internals.h     |   73 ++-
- target/arm/translate.h     |    4 +-
- target/arm/cpu.c           |  162 ++++-
- target/arm/cpu64.c         |    1 +
- target/arm/debug_helper.c  |   50 +-
- target/arm/helper-a64.c    |    2 +-
- target/arm/helper.c        | 1230 +++++++++++++++++++++++++++---------
- target/arm/pauth_helper.c  |   14 +-
- target/arm/translate-a64.c |   47 +-
- target/arm/translate.c     |   74 ++-
- 13 files changed, 1402 insertions(+), 681 deletions(-)
-
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index c1aedbeac0..0477cef1ea 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -3678,6 +3678,11 @@ static inline bool isar_feature_aa64_sve(const ARMISARegisters *id)
+     return FIELD_EX64(id->id_aa64pfr0, ID_AA64PFR0, SVE) != 0;
+ }
+ 
++static inline bool isar_feature_aa64_vh(const ARMISARegisters *id)
++{
++    return FIELD_EX64(id->id_aa64mmfr1, ID_AA64MMFR1, VH) != 0;
++}
++
+ static inline bool isar_feature_aa64_lor(const ARMISARegisters *id)
+ {
+     return FIELD_EX64(id->id_aa64mmfr1, ID_AA64MMFR1, LO) != 0;
 -- 
 2.20.1
 
