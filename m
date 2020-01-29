@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 793C514D286
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jan 2020 22:31:24 +0100 (CET)
-Received: from localhost ([::1]:51604 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C9E414D295
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jan 2020 22:35:00 +0100 (CET)
+Received: from localhost ([::1]:51686 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwuvj-0007c4-EN
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jan 2020 16:31:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59685)
+	id 1iwuzD-00064m-4C
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jan 2020 16:34:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59733)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iwupN-0005wz-O0
- for qemu-devel@nongnu.org; Wed, 29 Jan 2020 16:24:50 -0500
+ (envelope-from <philmd@redhat.com>) id 1iwupS-00069D-FF
+ for qemu-devel@nongnu.org; Wed, 29 Jan 2020 16:24:55 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iwupM-00018a-P9
- for qemu-devel@nongnu.org; Wed, 29 Jan 2020 16:24:49 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:34711
+ (envelope-from <philmd@redhat.com>) id 1iwupR-0001HA-Cv
+ for qemu-devel@nongnu.org; Wed, 29 Jan 2020 16:24:54 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:57434
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iwupM-00016i-Cb
- for qemu-devel@nongnu.org; Wed, 29 Jan 2020 16:24:48 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iwupR-0001GP-9S
+ for qemu-devel@nongnu.org; Wed, 29 Jan 2020 16:24:53 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580333088;
+ s=mimecast20190719; t=1580333092;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=QAEhVlilSHEoQwZ80b+fvIYLiGexZzTICM1DESVQf1w=;
- b=RRfueUGxnL6gM6VnSuhWWF4W3kjUaG718dG/V59dYXZvt42jkZNzkd1zrHGSQTTcqFIA0e
- 3dU1MLFBhkzejRFQ8koQ1G/Nt/6M7yV01QFku5FB27wuW1qJjOdJze/6QqdPh9G6f+ne48
- 5MOdRHChTRi5Hgbyjeac7+CacjUZ80I=
+ bh=HyYGUWUsJJCNtttCSH0oBPVnAMD7cX3BJej4nyJypFc=;
+ b=G2GsiJa3CfP9Xd0PE7/7v2wtA8bDRqqv6hxoQtgQ5vkNeR+E7ARbXPaVgIxPI53Z3AM0Sl
+ c7C11NNkKKJu09YwZRlyMxVdXwnIdJVFiCrr8g4JhLYTkjJJapk03pnqouheBJ69r/jLKS
+ oz/XZ1VZQdZN3RAFlkjPL84UH2xC6GY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-100-yAbYSDP-NWCf5gNDRKzSKA-1; Wed, 29 Jan 2020 16:24:45 -0500
+ us-mta-308-DH35DtRhOb-n5KzgJApPOQ-1; Wed, 29 Jan 2020 16:24:47 -0500
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 828A7DB61;
- Wed, 29 Jan 2020 21:24:44 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EAFF6DB60;
+ Wed, 29 Jan 2020 21:24:46 +0000 (UTC)
 Received: from x1w.redhat.com (ovpn-205-184.brq.redhat.com [10.40.205.184])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 82CAA60BF3;
- Wed, 29 Jan 2020 21:24:42 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id F14C960BF3;
+ Wed, 29 Jan 2020 21:24:44 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: Denis Plotnikov <dplotnikov@virtuozzo.com>,
 	qemu-devel@nongnu.org
-Subject: [PATCH v2 15/29] tests: rename virtio_seg_max_adjust to
- virtio_check_params
-Date: Wed, 29 Jan 2020 22:23:31 +0100
-Message-Id: <20200129212345.20547-16-philmd@redhat.com>
+Subject: [PATCH v2 16/29] tests/acceptance/virtio_check_params: Only remove
+ listed machines
+Date: Wed, 29 Jan 2020 22:23:32 +0100
+Message-Id: <20200129212345.20547-17-philmd@redhat.com>
 In-Reply-To: <20200129212345.20547-1-philmd@redhat.com>
 References: <20200129212345.20547-1-philmd@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: yAbYSDP-NWCf5gNDRKzSKA-1
+X-MC-Unique: DH35DtRhOb-n5KzgJApPOQ-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
@@ -80,26 +80,44 @@ Cc: Cornelia Huck <cohuck@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Denis Plotnikov <dplotnikov@virtuozzo.com>
+Do not remove unavailable machines, this fixes:
 
-Since, virtio_seg_max_adjust checks not only seg_max, but also
-virtqueue_size parameter, let's make the test more general and
-add new parameters to be checked there in the future.
+  VirtioMaxSegSettingsCheck.test_machine_types: ERROR: list.remove(x): x no=
+t in list (0.12 s)
 
-Signed-off-by: Denis Plotnikov <dplotnikov@virtuozzo.com>
-Message-Id: <20200129140702.5411-5-dplotnikov@virtuozzo.com>
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- .../{virtio_seg_max_adjust.py =3D> virtio_check_params.py}          | 0
- 1 file changed, 0 insertions(+), 0 deletions(-)
- rename tests/acceptance/{virtio_seg_max_adjust.py =3D> virtio_check_params=
-.py} (100%)
+TODO check how to use attribute (Wainer)
+---
+ tests/acceptance/virtio_check_params.py | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/tests/acceptance/virtio_seg_max_adjust.py b/tests/acceptance/v=
-irtio_check_params.py
-similarity index 100%
-rename from tests/acceptance/virtio_seg_max_adjust.py
-rename to tests/acceptance/virtio_check_params.py
+diff --git a/tests/acceptance/virtio_check_params.py b/tests/acceptance/vir=
+tio_check_params.py
+index 5458573138..4a417b8ef5 100755
+--- a/tests/acceptance/virtio_check_params.py
++++ b/tests/acceptance/virtio_check_params.py
+@@ -109,14 +109,15 @@ class VirtioMaxSegSettingsCheck(Test):
+         return False
+=20
+     def test_machine_types(self):
+-        # collect all machine types except 'none', 'isapc', 'microvm'
++        EXCLUDED_MACHINES =3D ['none', 'isapc', 'microvm']
++        # collect all machine types except the ones in EXCLUDED_MACHINES
+         with QEMUMachine(self.qemu_bin) as vm:
+             vm.launch()
+             machines =3D [m['name'] for m in vm.command('query-machines')]
+             vm.shutdown()
+-        machines.remove('none')
+-        machines.remove('isapc')
+-        machines.remove('microvm')
++        for m in EXCLUDED_MACHINES:
++            if m in machines:
++                machines.remove(m)
+=20
+         for dev_type in DEV_TYPES:
+             # create the list of machine types and their parameters.
 --=20
 2.21.1
 
