@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D877F14C989
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jan 2020 12:24:35 +0100 (CET)
-Received: from localhost ([::1]:44548 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0782C14C984
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jan 2020 12:22:55 +0100 (CET)
+Received: from localhost ([::1]:44528 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwlST-0006Ue-AE
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jan 2020 06:24:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60250)
+	id 1iwlQs-0003uD-2w
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jan 2020 06:22:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60258)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <quintela@redhat.com>) id 1iwlKt-0002Sn-Ak
+ (envelope-from <quintela@redhat.com>) id 1iwlKt-0002Uo-Us
  for qemu-devel@nongnu.org; Wed, 29 Jan 2020 06:16:44 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <quintela@redhat.com>) id 1iwlKs-0006ei-6g
+ (envelope-from <quintela@redhat.com>) id 1iwlKs-0006f7-Sj
  for qemu-devel@nongnu.org; Wed, 29 Jan 2020 06:16:43 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:21066
- helo=us-smtp-1.mimecast.com)
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:53547
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1iwlKs-0006eP-2O
+ (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1iwlKs-0006ev-Ok
  for qemu-devel@nongnu.org; Wed, 29 Jan 2020 06:16:42 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580296601;
+ s=mimecast20190719; t=1580296602;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gJIadrTNkzEmMqCAUdGwvBZO5d00l8VMeCgOqcs5A8I=;
- b=eO1HNy8jHi/GNsg+Ul7GCp+F0PzlYH06mqb+Xv8hRqCIpy3K3beJSHvoEc7tGM8qZN5Mpq
- dOHmH03WPQ3e7agZMiwjYZDFE8+QrXkzPwrnCnVXuJJcPMT6E0Gb3XTDFz6z5qx8YB4Qfg
- vWLT3dPqU5B3u341UvAybjRoA6a17l8=
+ bh=Hjjwn0fOpYN/gfMzUwOqi6F4cm4+9cIjd+x69SSGxI4=;
+ b=M5q6NuNRHz+DzTdvIrc+I/8sDCv9h3svSuXO73Xah2ZoFTyDhgII1eOAYp54QDB4ZIlf7X
+ T2v4z03nmz8xMylNUnLcNIPHXJkyityBb/KnE+Dh7kwHmySctKhLog2jzh7Wd8QNjtavaJ
+ /1u6/fRBEPOQbLRuM7SknUk6Lh9OnPs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-395-wGr03NNDM82lfznCrFxdig-1; Wed, 29 Jan 2020 06:16:38 -0500
+ us-mta-291-2n1jwJJYM1ug131zSFiebQ-1; Wed, 29 Jan 2020 06:16:40 -0500
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6B86263AD8
- for <qemu-devel@nongnu.org>; Wed, 29 Jan 2020 11:16:37 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 876CF8F70C1;
+ Wed, 29 Jan 2020 11:16:39 +0000 (UTC)
 Received: from secure.mitica (ovpn-116-64.ams2.redhat.com [10.36.116.64])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5F11889D2E;
- Wed, 29 Jan 2020 11:16:33 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C2E0F89D2E;
+ Wed, 29 Jan 2020 11:16:37 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 17/18] migration: Simplify get_qlist
-Date: Wed, 29 Jan 2020 12:15:35 +0100
-Message-Id: <20200129111536.9497-18-quintela@redhat.com>
+Subject: [PULL 18/18] migration/compress: compress QEMUFile is not writable
+Date: Wed, 29 Jan 2020 12:15:36 +0100
+Message-Id: <20200129111536.9497-19-quintela@redhat.com>
 In-Reply-To: <20200129111536.9497-1-quintela@redhat.com>
 References: <20200129111536.9497-1-quintela@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: wGr03NNDM82lfznCrFxdig-1
+X-MC-Unique: 2n1jwJJYM1ug131zSFiebQ-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,115 +74,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Juan Quintela <quintela@redhat.com>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Eric Auger <eric.auger@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+ Wei Yang <richardw.yang@linux.intel.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Eric Auger <eric.auger@redhat.com>
+From: Wei Yang <richardw.yang@linux.intel.com>
 
-Instead of inserting read elements at the head and
-then reversing the list, it is simpler to add
-each element after the previous one. Introduce
-QLIST_RAW_INSERT_AFTER helper and use it in
-get_qlist().
+We open a file with empty_ops for compress QEMUFile, which means this is
+not writable.
 
-Signed-off-by: Eric Auger <eric.auger@redhat.com>
-Suggested-by: Juan Quintela <quintela@redhat.com>
+Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
 Reviewed-by: Juan Quintela <quintela@redhat.com>
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 ---
- include/qemu/queue.h      | 19 ++++++-------------
- migration/vmstate-types.c | 10 +++++++---
- 2 files changed, 13 insertions(+), 16 deletions(-)
+ migration/qemu-file.c | 16 +++-------------
+ 1 file changed, 3 insertions(+), 13 deletions(-)
 
-diff --git a/include/qemu/queue.h b/include/qemu/queue.h
-index 4d4554a7ce..19425f973f 100644
---- a/include/qemu/queue.h
-+++ b/include/qemu/queue.h
-@@ -515,6 +515,12 @@ union {                                               =
-                  \
-              (elm);                                                       =
-     \
-              (elm) =3D *QLIST_RAW_NEXT(elm, entry))
+diff --git a/migration/qemu-file.c b/migration/qemu-file.c
+index bbb2b63927..1c3a358a14 100644
+--- a/migration/qemu-file.c
++++ b/migration/qemu-file.c
+@@ -764,11 +764,8 @@ static int qemu_compress_data(z_stream *stream, uint8_=
+t *dest, size_t dest_len,
+ /* Compress size bytes of data start at p and store the compressed
+  * data to the buffer of f.
+  *
+- * When f is not writable, return -1 if f has no space to save the
+- * compressed data.
+- * When f is wirtable and it has no space to save the compressed data,
+- * do fflush first, if f still has no space to save the compressed
+- * data, return -1.
++ * Since the file is dummy file with empty_ops, return -1 if f has no spac=
+e to
++ * save the compressed data.
+  */
+ ssize_t qemu_put_compression_data(QEMUFile *f, z_stream *stream,
+                                   const uint8_t *p, size_t size)
+@@ -776,14 +773,7 @@ ssize_t qemu_put_compression_data(QEMUFile *f, z_strea=
+m *stream,
+     ssize_t blen =3D IO_BUF_SIZE - f->buf_index - sizeof(int32_t);
 =20
-+#define QLIST_RAW_INSERT_AFTER(head, prev, elem, entry) do {              =
-     \
-+        *QLIST_RAW_NEXT(prev, entry) =3D elem;                            =
-       \
-+        *QLIST_RAW_PREVIOUS(elem, entry) =3D QLIST_RAW_NEXT(prev, entry); =
-       \
-+        *QLIST_RAW_NEXT(elem, entry) =3D NULL;                            =
-       \
-+} while (0)
-+
- #define QLIST_RAW_INSERT_HEAD(head, elm, entry) do {                      =
-     \
-         void *first =3D *QLIST_RAW_FIRST(head);                           =
-       \
-         *QLIST_RAW_FIRST(head) =3D elm;                                   =
-       \
-@@ -527,17 +533,4 @@ union {                                               =
-                  \
-         }                                                                 =
-     \
- } while (0)
-=20
--#define QLIST_RAW_REVERSE(head, elm, entry) do {                          =
-     \
--        void *iter =3D *QLIST_RAW_FIRST(head), *prev =3D NULL, *next;     =
-         \
--        while (iter) {                                                    =
-     \
--            next =3D *QLIST_RAW_NEXT(iter, entry);                        =
-       \
--            *QLIST_RAW_PREVIOUS(iter, entry) =3D QLIST_RAW_NEXT(next, entr=
-y);    \
--            *QLIST_RAW_NEXT(iter, entry) =3D prev;                        =
-       \
--            prev =3D iter;                                                =
-       \
--            iter =3D next;                                                =
-       \
--        }                                                                 =
-     \
--        *QLIST_RAW_FIRST(head) =3D prev;                                  =
-       \
--        *QLIST_RAW_PREVIOUS(prev, entry) =3D QLIST_RAW_FIRST(head);       =
-       \
--} while (0)
--
- #endif /* QEMU_SYS_QUEUE_H */
-diff --git a/migration/vmstate-types.c b/migration/vmstate-types.c
-index 1eee36773a..35e784c9d9 100644
---- a/migration/vmstate-types.c
-+++ b/migration/vmstate-types.c
-@@ -879,7 +879,7 @@ static int get_qlist(QEMUFile *f, void *pv, size_t unus=
-ed_size,
-     /* offset of the QLIST entry in a QLIST element */
-     size_t entry_offset =3D field->start;
-     int version_id =3D field->version_id;
--    void *elm;
-+    void *elm, *prev =3D NULL;
-=20
-     trace_get_qlist(field->name, vmsd->name, vmsd->version_id);
-     if (version_id > vmsd->version_id) {
-@@ -900,9 +900,13 @@ static int get_qlist(QEMUFile *f, void *pv, size_t unu=
-sed_size,
-             g_free(elm);
-             return ret;
-         }
--        QLIST_RAW_INSERT_HEAD(pv, elm, entry_offset);
-+        if (!prev) {
-+            QLIST_RAW_INSERT_HEAD(pv, elm, entry_offset);
-+        } else {
-+            QLIST_RAW_INSERT_AFTER(pv, prev, elm, entry_offset);
-+        }
-+        prev =3D elm;
+     if (blen < compressBound(size)) {
+-        if (!qemu_file_is_writable(f)) {
+-            return -1;
+-        }
+-        qemu_fflush(f);
+-        blen =3D IO_BUF_SIZE - sizeof(int32_t);
+-        if (blen < compressBound(size)) {
+-            return -1;
+-        }
++        return -1;
      }
--    QLIST_RAW_REVERSE(pv, elm, entry_offset);
-     trace_get_qlist_end(field->name, vmsd->name);
 =20
-     return ret;
+     blen =3D qemu_compress_data(stream, f->buf + f->buf_index + sizeof(int=
+32_t),
 --=20
 2.24.1
 
