@@ -2,64 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A87B14D1EA
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jan 2020 21:27:26 +0100 (CET)
-Received: from localhost ([::1]:51018 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 804FF14D1E8
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jan 2020 21:26:44 +0100 (CET)
+Received: from localhost ([::1]:50990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwtvp-0008Uz-6N
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jan 2020 15:27:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41295)
+	id 1iwtv9-0006lw-Iz
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jan 2020 15:26:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41412)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <beata.michalska@linaro.org>) id 1iwttg-0005Av-Ny
- for qemu-devel@nongnu.org; Wed, 29 Jan 2020 15:25:13 -0500
+ (envelope-from <beata.michalska@linaro.org>) id 1iwttn-0005LI-VE
+ for qemu-devel@nongnu.org; Wed, 29 Jan 2020 15:25:21 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <beata.michalska@linaro.org>) id 1iwttf-00011R-Lh
- for qemu-devel@nongnu.org; Wed, 29 Jan 2020 15:25:12 -0500
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:35954)
+ (envelope-from <beata.michalska@linaro.org>) id 1iwttm-0001J7-Ti
+ for qemu-devel@nongnu.org; Wed, 29 Jan 2020 15:25:19 -0500
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:37879)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <beata.michalska@linaro.org>)
- id 1iwttf-0000v0-EZ
- for qemu-devel@nongnu.org; Wed, 29 Jan 2020 15:25:11 -0500
-Received: by mail-wr1-x442.google.com with SMTP id z3so1091354wru.3
- for <qemu-devel@nongnu.org>; Wed, 29 Jan 2020 12:25:11 -0800 (PST)
+ id 1iwttm-0001Hk-OA
+ for qemu-devel@nongnu.org; Wed, 29 Jan 2020 15:25:18 -0500
+Received: by mail-wr1-x444.google.com with SMTP id w15so1081971wru.4
+ for <qemu-devel@nongnu.org>; Wed, 29 Jan 2020 12:25:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id;
- bh=5PiI2JpLPXOD+rhRs9PjT8IxzU7v7C1XqbI6jKm2tH8=;
- b=iPBw6PhmDE72adZ8akd4XeUE8dJvenckql6hJ+U+FpzRpIw0sYb0RBMJe3Ea/dUkoX
- oV2abATZvmbcgmr8k/CJf+d3bn+9UvQik1a4oUu/QxQlZUrpmswocbQrt1yGdgQSwhQ3
- GMdxhiP66sQ2/uHRYyDYcilnRYlUBHdHZtVOCPwsO66wXE+ofbThdUG2ycH61acP87WJ
- AHEZPHL6ZJKi485xpU+YLrJz+T1xMS14TCBntcMs67ZQ9ySsWDb4TRc5FYlGoatscVrG
- VR4uik1p8XcWMQr9h9SLQepvSVOfKi90BsLJIgZNKKBwvygaLKE9CS6HotvVL7YXa9Ry
- Y7lQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=+tZ0YBqhVEsxFXOR05MPD9ATHbI+tc6ggHRmtxE2t3s=;
+ b=hmZ6qyaI6/s1G9fnfQJcUMPDpFu9Z3QQVzkxagMyyHwmFeewG3Pom3ubikvAIRvOBU
+ VJBypdw++F73MZW0g1YdJR0bfVSWuO4AVnfKlAgdVI34ILKKBKySNiMaLQI/qLUoDIbi
+ DgYv3OLEP4Vl3hNRWoYwKTcSl7BDaIuxkZCiw2/4knZX2Bz3RUP6PauRghFz28offnot
+ oeuqe1k6Feq8WxWs3IT2hh2kDDJsKce6HlMVZ5+18n43TalBEpQ8OKRrrUgJIEIY0xmj
+ 08MmPAG4ZH4tTTkxkIdhRy///qnucEDZuhyOzGPGR3c+SGxXMEGI3ZENZTHXDwZOuzFH
+ 36RA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=5PiI2JpLPXOD+rhRs9PjT8IxzU7v7C1XqbI6jKm2tH8=;
- b=Z0n8eXzkZSYgBKXT/LoaoC34v1jzbtT8c8bOplQgdSupEHKOOvLUJ2pu+qIuH2cgzQ
- wv8FF0BNFt2griqyPbGZ1g9zCUgmFex4Yp3yXkp6hepapZWmzszGVNdGy7lxq/dLP5dC
- mzoXkpWfMknq4cbTljt1riKdtwJCccKytLTX1l52G8qdoiToftNt0YcXf6SRBVEeuIpl
- enZKJrh0u/pz0MFmDyiw06xKrQoqHOlF2ht7J/qTO2pRjjD0YMEAi+lr0NO4ir3Qwh9T
- exlQ2Qm/63mDAXrbkChC+2rtUBBLdpzjpoqtfyTSak/pZeY5HAE4xJDdu0QF7+w00FdG
- Xy6A==
-X-Gm-Message-State: APjAAAUcpw0qtKpCv2bpfwHxGmNlFYHlpBUiXRcYIYCPH85bWXas9G3t
- a2QiSTpkvztDzsDhp0gX7E1sVUKZLCg=
-X-Google-Smtp-Source: APXvYqzHPzyBe0Bphrsvbb0c0NUyVZ5k7zDuDZ3BqSnCCZVfmTQUu16+tksblF9fEaldbHZwvLhNOQ==
-X-Received: by 2002:adf:ed83:: with SMTP id c3mr604190wro.51.1580329510061;
- Wed, 29 Jan 2020 12:25:10 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references;
+ bh=+tZ0YBqhVEsxFXOR05MPD9ATHbI+tc6ggHRmtxE2t3s=;
+ b=d+beX0j+bIVcFvy22A2E8aG+KH11tDTZWkHtBjzohGzShDlVxOM7AYLKgpMWIFv5Y8
+ N6rdvLk7ho/U4qU7Ue/Efk+cSkad2JRG7/Vhjx3Q07pphyGxQ4Drp1xZGQVCAAFjSU8d
+ //u6ZmndPpS639aokPMoCQhIUPs+I84XaJx4WX0I+J4+UUW2/FhgysYG7ZN/r6ue8y72
+ FUYDxks3pd+fUxsEIKXExTFmd/6hNxowSxW308L/XhHGyaLgC32vO9YG6Fx6OKSNz9OT
+ otXh0YLPKvZqbRoAJ8pqBXzjbPghJjxO/7+ddr+NoxL89mAU55htyX5DYR2jcXSVP1iE
+ XdJw==
+X-Gm-Message-State: APjAAAVETZrYhgibFsSS6TkvQgK8Dqj+VV6qO+DKsWQ1qGYN/8DC3VJ/
+ tpd52tEyr+yMcAhfjy45wdoEduo3TRA=
+X-Google-Smtp-Source: APXvYqxeG+727dSd9hpflWUs37JO+uDRBt85YuaVw/2/qEYgkhJrgszDi4Osfq32YMA7sHZ23onsUw==
+X-Received: by 2002:adf:f18b:: with SMTP id h11mr711078wro.56.1580329517572;
+ Wed, 29 Jan 2020 12:25:17 -0800 (PST)
 Received: from moi-limbo-9350.home
  (host86-131-78-194.range86-131.btcentralplus.com. [86.131.78.194])
- by smtp.gmail.com with ESMTPSA id h2sm4377518wrt.45.2020.01.29.12.25.09
+ by smtp.gmail.com with ESMTPSA id h2sm4377518wrt.45.2020.01.29.12.25.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 29 Jan 2020 12:25:09 -0800 (PST)
+ Wed, 29 Jan 2020 12:25:17 -0800 (PST)
 From: Beata Michalska <beata.michalska@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/2] target/arm: kvm: Support for KVM DABT without valid ISS
-Date: Wed, 29 Jan 2020 20:24:39 +0000
-Message-Id: <20200129202441.12745-1-beata.michalska@linaro.org>
+Subject: [PATCH v2 1/2] target/arm: kvm: Inject events at the last stage of
+ sync
+Date: Wed, 29 Jan 2020 20:24:40 +0000
+Message-Id: <20200129202441.12745-2-beata.michalska@linaro.org>
+In-Reply-To: <20200129202441.12745-1-beata.michalska@linaro.org>
+References: <20200129202441.12745-1-beata.michalska@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::442
+X-Received-From: 2a00:1450:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,38 +80,118 @@ Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, kvmarm@lists.cs.columbia.edu,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Some of the ARMv7 & ARMv8 load/store instructions might trigger a data abort
-exception with no valid ISS info to be decoded. The lack of decode info
-makes it at least tricky to emulate the instruction which is one of the
-(many) reasons why KVM will not even try to do so.
+KVM_SET_VCPU_EVENTS might actually lead to vcpu registers being modified.
+As such this should be the last step of sync to avoid potential overwriting
+of whatever changes KVM might have done.
 
-So far, if a guest made an attempt to access memory outside the memory slot,
-KVM reported vague ENOSYS. As a result QEMU exited with no useful information
-being provided or even a clue on what has just happened.
+Signed-off-by: Beata Michalska <beata.michalska@linaro.org>
+---
+ target/arm/kvm32.c | 20 ++++++++++----------
+ target/arm/kvm64.c | 20 ++++++++++----------
+ 2 files changed, 20 insertions(+), 20 deletions(-)
 
-ARM KVM introduced support for notifying guest of an attempt to execute
-an instruction that resulted in dabt with no valid ISS decoding info.
-This still leaves QEMU to handle the case, but at least now, it can enable
-further debugging of the encountered issue by being more verbose
-in a (hopefully) useful way.
-
-v2:
-- Improving/re-phrasing messaging
-- Dropping messing around with forced sync (@see [PATCH v2 1/2])
-  and PC alignment
-
-
-Beata Michalska (2):
-  target/arm: kvm: Inject events at the last stage of sync
-  target/arm: kvm: Handle DABT with no valid ISS
-
- target/arm/cpu.h     |  2 ++
- target/arm/kvm.c     | 96 ++++++++++++++++++++++++++++++++++++++++++++++++++++
- target/arm/kvm32.c   | 23 +++++++------
- target/arm/kvm64.c   | 23 +++++++------
- target/arm/kvm_arm.h | 19 +++++++++++
- 5 files changed, 143 insertions(+), 20 deletions(-)
-
+diff --git a/target/arm/kvm32.c b/target/arm/kvm32.c
+index 32bf8d6..cf2b47f 100644
+--- a/target/arm/kvm32.c
++++ b/target/arm/kvm32.c
+@@ -386,17 +386,17 @@ int kvm_arch_put_registers(CPUState *cs, int level)
+         return ret;
+     }
+ 
+-    ret = kvm_put_vcpu_events(cpu);
+-    if (ret) {
+-        return ret;
+-    }
+-
+     write_cpustate_to_list(cpu, true);
+ 
+     if (!write_list_to_kvmstate(cpu, level)) {
+         return EINVAL;
+     }
+ 
++    ret = kvm_put_vcpu_events(cpu);
++    if (ret) {
++        return ret;
++    }
++
+     kvm_arm_sync_mpstate_to_kvm(cpu);
+ 
+     return ret;
+@@ -462,11 +462,6 @@ int kvm_arch_get_registers(CPUState *cs)
+     }
+     vfp_set_fpscr(env, fpscr);
+ 
+-    ret = kvm_get_vcpu_events(cpu);
+-    if (ret) {
+-        return ret;
+-    }
+-
+     if (!write_kvmstate_to_list(cpu)) {
+         return EINVAL;
+     }
+@@ -475,6 +470,11 @@ int kvm_arch_get_registers(CPUState *cs)
+      */
+     write_list_to_cpustate(cpu);
+ 
++    ret = kvm_get_vcpu_events(cpu);
++    if (ret) {
++        return ret;
++    }
++
+     kvm_arm_sync_mpstate_to_qemu(cpu);
+ 
+     return 0;
+diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
+index 6344113..d06fd32 100644
+--- a/target/arm/kvm64.c
++++ b/target/arm/kvm64.c
+@@ -1043,17 +1043,17 @@ int kvm_arch_put_registers(CPUState *cs, int level)
+         return ret;
+     }
+ 
+-    ret = kvm_put_vcpu_events(cpu);
+-    if (ret) {
+-        return ret;
+-    }
+-
+     write_cpustate_to_list(cpu, true);
+ 
+     if (!write_list_to_kvmstate(cpu, level)) {
+         return -EINVAL;
+     }
+ 
++    ret = kvm_put_vcpu_events(cpu);
++    if (ret) {
++        return ret;
++    }
++
+     kvm_arm_sync_mpstate_to_kvm(cpu);
+ 
+     return ret;
+@@ -1251,11 +1251,6 @@ int kvm_arch_get_registers(CPUState *cs)
+     }
+     vfp_set_fpcr(env, fpr);
+ 
+-    ret = kvm_get_vcpu_events(cpu);
+-    if (ret) {
+-        return ret;
+-    }
+-
+     if (!write_kvmstate_to_list(cpu)) {
+         return -EINVAL;
+     }
+@@ -1264,6 +1259,11 @@ int kvm_arch_get_registers(CPUState *cs)
+      */
+     write_list_to_cpustate(cpu);
+ 
++    ret = kvm_get_vcpu_events(cpu);
++    if (ret) {
++        return ret;
++    }
++
+     kvm_arm_sync_mpstate_to_qemu(cpu);
+ 
+     /* TODO: other registers */
 -- 
 2.7.4
 
