@@ -2,65 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 410EA14C81D
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jan 2020 10:32:21 +0100 (CET)
-Received: from localhost ([::1]:43208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CAA114C849
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jan 2020 10:45:42 +0100 (CET)
+Received: from localhost ([::1]:43414 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwjhs-0002pB-BZ
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jan 2020 04:32:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48863)
+	id 1iwjun-0002fQ-G3
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jan 2020 04:45:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53830)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <hsp.cat7@gmail.com>) id 1iwjga-00023c-LU
- for qemu-devel@nongnu.org; Wed, 29 Jan 2020 04:31:01 -0500
+ (envelope-from <armbru@redhat.com>) id 1iwjqR-0006pY-UG
+ for qemu-devel@nongnu.org; Wed, 29 Jan 2020 04:41:13 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <hsp.cat7@gmail.com>) id 1iwjgZ-00023j-Jq
- for qemu-devel@nongnu.org; Wed, 29 Jan 2020 04:31:00 -0500
-Received: from mail-ot1-x32b.google.com ([2607:f8b0:4864:20::32b]:39513)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <hsp.cat7@gmail.com>)
- id 1iwjgX-000212-29; Wed, 29 Jan 2020 04:30:57 -0500
-Received: by mail-ot1-x32b.google.com with SMTP id 77so14900043oty.6;
- Wed, 29 Jan 2020 01:30:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=1nidJn4TpMHPwHjg1Q8KqftSQN0wR/SmnvkXiE1Sje4=;
- b=oAqb89EHzPEWa3J9wOS0b0rUmVr9eYzPNPKK7BXe3GE3cIpjzuXE+X06vwu9DXyq7g
- h/+bQWI5K0T9UZ/TovfmEwYDE2N6wjlszbY2dQUD/IcXY9DvuslVcB2xbUNJuxexiEsv
- MkmbRC18tfP1MCGMB0PnD1ewYZrFDDLH4AEoWCxD5pZN+wYkZdgPLviLJHdJvncO1R6w
- GpGNsV0+WhK9OClWOvLz4tBIgamUbXrYvuveBfSZ8GP53opmRIhMQ8M9cqZv4mTSNVG5
- Fo2gZelM19CQ24hIssA7S6r/Nc+sFW2mfp4FPD7Z9GC9++QlKkNGzaNYP5ALyYwI9Lce
- ruWQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=1nidJn4TpMHPwHjg1Q8KqftSQN0wR/SmnvkXiE1Sje4=;
- b=FX9BqG5QuMgaFiYAeXkmhY0cx16qcKP4XdK4hNr17Pb91fBZ09joTtt7DtyRj2jSqX
- R+ziLFIalnpygF+fBtu/tO+G4K85OZsoLILEy/NUy6Fk5tgtWe5qUr1NIQmTKG9XR0u0
- 4Sg22K/IIMPwUB11Wu5nZu2XUCrOyUdJ4AVdldaiEivSgz76u/IRTEeG6+rbqOJyt+y0
- vfYjH4UcsPgZEAAgHOrx0eevJAGyCoGid0JUHz10Jrt4yUid04FM5g/V1yameS4ZRR4k
- TRC/temDQ5H9bQjdDKigLvToovC+KLh+o/jFEhPX3DrgVhgwHmV98bQhmo+6UmC5tUi0
- R97A==
-X-Gm-Message-State: APjAAAU94ViaQHld7GikSVZYN4OFgCLkX2nr0PqkZOHqKsXRqzuhlNzY
- o9OQyHSJPMpXwQ8EuG3XhEXllFPN3H3hh1BNwIk=
-X-Google-Smtp-Source: APXvYqw6RtZyK3hvdBy7IZF8RFlr7p/RsdgJsdbtZhWH5VXIIXzCC3Pb5rio5JC23sBdQg9Dpn5C1lBM3ORwbX79SZU=
-X-Received: by 2002:a9d:4711:: with SMTP id a17mr20509122otf.233.1580290256126; 
- Wed, 29 Jan 2020 01:30:56 -0800 (PST)
+ (envelope-from <armbru@redhat.com>) id 1iwjqQ-0007FL-GV
+ for qemu-devel@nongnu.org; Wed, 29 Jan 2020 04:41:11 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:38152
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iwjqQ-0007Ex-CZ
+ for qemu-devel@nongnu.org; Wed, 29 Jan 2020 04:41:10 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1580290869;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=snFbLWDvlubWL+bO0Tgjrxd0VHp864cc8e54N8CIccA=;
+ b=PY21q9GIqxEJnnyXRbY2U2+aZMxeL3ASHumD2m+C99Dz3OJF5Zl0SyDVPmYylIyQBj0VMt
+ fqw9TRk9bnK11n59ls4tu3KOf+oY62z4VGvH6Xhqxyxrfph+TG3AfhCMMEij5HBROrDHoG
+ sllVz+kzPcgQMgD0sBwJ/QsIGfWmRdY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-38-_5MxlMndPdisLNYlbYv6VQ-1; Wed, 29 Jan 2020 04:41:06 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8933A13E1;
+ Wed, 29 Jan 2020 09:41:05 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-116-131.ams2.redhat.com
+ [10.36.116.131])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 327B08EA03;
+ Wed, 29 Jan 2020 09:41:05 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id B59351138404; Wed, 29 Jan 2020 10:41:03 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Subject: Re: [PATCH v2 2/4] qapi: Create module 'control'
+References: <20200128175211.30007-1-kwolf@redhat.com>
+ <20200128175211.30007-3-kwolf@redhat.com>
+ <8736by4q3m.fsf@dusky.pond.sub.org>
+ <20200129090953.GA5690@linux.fritz.box>
+Date: Wed, 29 Jan 2020 10:41:03 +0100
+In-Reply-To: <20200129090953.GA5690@linux.fritz.box> (Kevin Wolf's message of
+ "Wed, 29 Jan 2020 10:09:53 +0100")
+Message-ID: <87sgjy1txs.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-References: <CABLmASG93Fz-=XR45Z7pcaUkF8De3EdZbS_=901w_vhYUPiuXg@mail.gmail.com>
- <331cc94e-38d0-9259-337a-ce759ed8edba@linaro.org>
-In-Reply-To: <331cc94e-38d0-9259-337a-ce759ed8edba@linaro.org>
-From: Howard Spoelstra <hsp.cat7@gmail.com>
-Date: Wed, 29 Jan 2020 10:30:45 +0100
-Message-ID: <CABLmASFOU7j=OCMVT9df5irSRNSHKxXYXo3dWrODOyZZp=Xp6w@mail.gmail.com>
-Subject: Re: Performance hit in qemu-system-ppc
-To: Richard Henderson <richard.henderson@linaro.org>,
- qemu-ppc <qemu-ppc@nongnu.org>
-Content-Type: multipart/alternative; boundary="0000000000005bc712059d43ff17"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::32b
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: _5MxlMndPdisLNYlbYv6VQ-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,78 +78,176 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel qemu-devel <qemu-devel@nongnu.org>
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000005bc712059d43ff17
-Content-Type: text/plain; charset="UTF-8"
+Kevin Wolf <kwolf@redhat.com> writes:
 
-On Tue, Jan 28, 2020 at 7:30 PM Richard Henderson <
-richard.henderson@linaro.org> wrote:
-
-> On 1/25/20 3:30 PM, Howard Spoelstra wrote:
-> > I noticed a considerable (~20%) slowdown in the cpu performance of
-> qemu-system-ppc.
+> Am 29.01.2020 um 09:35 hat Markus Armbruster geschrieben:
+>> Kevin Wolf <kwolf@redhat.com> writes:
+>>=20
+>> > misc.json contains definitions that are related to the system emulator=
+,
+>> > so it can't be used for other tools like the storage daemon. This patc=
+h
+>> > moves basic functionality that is shared between all tools (and mostly
+>> > related to the monitor itself) into a new control.json, which could be
+>> > used in tools as well.
+>> >
+>> > Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+>> > ---
+>> >  qapi/control.json          | 218 ++++++++++++++++++++++++++++++++++++=
++
+>> >  qapi/misc.json             | 212 ------------------------------------
+>> >  qapi/qapi-schema.json      |   1 +
+>> >  monitor/monitor-internal.h |   1 +
+>> >  monitor/hmp-cmds.c         |   1 +
+>> >  monitor/misc.c             |   1 +
+>> >  monitor/qmp-cmds.c         |   1 +
+>> >  monitor/qmp.c              |   2 +-
+>> >  tests/qtest/qmp-test.c     |   2 +-
+>> >  ui/gtk.c                   |   1 +
+>> >  qapi/Makefile.objs         |   6 +-
+>> >  11 files changed, 229 insertions(+), 217 deletions(-)
+>> >  create mode 100644 qapi/control.json
+>> >
+>> > diff --git a/qapi/control.json b/qapi/control.json
+>> > new file mode 100644
+>> > index 0000000000..a82a18da1a
+>> > --- /dev/null
+>> > +++ b/qapi/control.json
+>> > @@ -0,0 +1,218 @@
+>> > +# -*- Mode: Python -*-
+>> > +#
+>> > +
+>>=20
+>> Let's add a copyright notice:
+>>=20
+>>    # Copyright (C) 2011-2020 Red Hat, Inc.
+>>    #
+>>    # This work is licensed under the terms of the GNU GPL, version 2 or =
+later.
+>>    # See the COPYING file in the top-level directory.
 >
-> ENOINFO.
+> I'm not adding anything new, but just moving code from a file that
+> doesn't have a copyright notice. In fact, almost none of the schema
+> files have a copyright notice. I'm not comfortable adding legal
+> assertions without verifying that they are correct, and certainly not as
+> a side-effect of a code movement patch. This would be an unrelated
+> change.
 >
-> For what test case?  This should not have been on any hot path.
+> I suggest that we leave this patch as is, and if you think copyright
+> notices should be added, the correct information can be tracked down
+> and added consistently for all schema files in a separate series.
+
+There is nothing to be tracked down.  Anything that lacks an explicit
+copyright notice is under GPLv2+, as per LICENSE.
+
+>> > +##
+>> > +# =3D Monitor definitions (shared between system emulator and tools)
+>> > +##
+>>=20
+>> This comment does double-duty: it's for readers of this source file, and
+>> for readers of generated docs/interop/qemu-qmp-ref.*.  It's okay for
+>> the former, but not the latter, as the resulting table of contents
+>> shows:
+>> [...]
 >
+>> Proposed header:
+>>=20
+>>     # =3D QMP monitor control
 >
-Hi,
-I tested Mac OS 9.2 and 10.3/4 with qemu-system-ppc built from 4.2 and
-current master like this:
+> Works for me.
+>
+>> > diff --git a/qapi/qapi-schema.json b/qapi/qapi-schema.json
+>> > index 9751b11f8f..61fd91ede7 100644
+>> > --- a/qapi/qapi-schema.json
+>> > +++ b/qapi/qapi-schema.json
+>> > @@ -103,6 +103,7 @@
+>> >  { 'include': 'qdev.json' }
+>> >  { 'include': 'machine.json' }
+>> >  { 'include': 'machine-target.json' }
+>> > +{ 'include': 'control.json' }
+>> >  { 'include': 'misc.json' }
+>> >  { 'include': 'misc-target.json' }
+>> >  { 'include': 'audio.json' }
+>>=20
+>> This determines position within docs/interop/qemu-qmp-ref.*.  Next to
+>> misc.json is the least change.  Perhaps putting it next to
+>> introspect.json would be better.
+>>=20
+>> If we split @quit off control.json, then we could include the .json
+>> providing @quit next to @stop & friends.  Again, I'm not demanding such
+>> a split.
+>
+> I'll put it before introspect.json for now.
+>
+> I don't think the whole order is overly meaningful and it could use some
+> rearrangement in general. Again, unrelated to this series.
 
-Command line:
-./qemu-system-ppc -L pc-bios -boot c -M mac99,via=pmu -m 512 \
--serial stdio -sdl \
--hda 9.2.img (10.3.img|10.4.img)
+Yes, the order could use some love.
 
-Mac OS 9.2 MacBench 5.0 reports processor speed:
-4.2: ~190%
-Master: ~160%
+>> > diff --git a/monitor/monitor-internal.h b/monitor/monitor-internal.h
+>> > index d78f5ca190..4d402ded85 100644
+>> > --- a/monitor/monitor-internal.h
+>> > +++ b/monitor/monitor-internal.h
+>> > @@ -27,6 +27,7 @@
+>> > =20
+>> >  #include "chardev/char-fe.h"
+>> >  #include "monitor/monitor.h"
+>> > +#include "qapi/qapi-types-control.h"
+>> >  #include "qapi/qmp/dispatch.h"
+>> >  #include "qapi/qmp/json-parser.h"
+>> >  #include "qemu/readline.h"
+>> > diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+>> > index d0e0af893a..abb052836b 100644
+>> > --- a/monitor/hmp-cmds.c
+>> > +++ b/monitor/hmp-cmds.c
+>> > @@ -33,6 +33,7 @@
+>> >  #include "qapi/qapi-commands-char.h"
+>> >  #include "qapi/qapi-commands-migration.h"
+>> >  #include "qapi/qapi-commands-misc.h"
+>> > +#include "qapi/qapi-commands-control.h"
+>> >  #include "qapi/qapi-commands-net.h"
+>> >  #include "qapi/qapi-commands-rocker.h"
+>> >  #include "qapi/qapi-commands-run-state.h"
+>>=20
+>> Please keep the qapi/qapi-commands-* sorted, like you do ...
+>
+> It is sorted! It's exactly where you would expect "-monitor"... *sigh*
+>
+> /me goes back to finding each #include and moving it.
+> /me hates renaming header files.
+>
+>> > diff --git a/qapi/Makefile.objs b/qapi/Makefile.objs
+>> > index a8f1f4c35e..20fcc37c2c 100644
+>> > --- a/qapi/Makefile.objs
+>> > +++ b/qapi/Makefile.objs
+>> > @@ -5,9 +5,9 @@ util-obj-y +=3D opts-visitor.o qapi-clone-visitor.o
+>> >  util-obj-y +=3D qmp-event.o
+>> >  util-obj-y +=3D qapi-util.o
+>> > =20
+>> > -QAPI_COMMON_MODULES =3D audio authz block-core block char common cryp=
+to
+>> > -QAPI_COMMON_MODULES +=3D dump error introspect job machine migration =
+misc net
+>> > -QAPI_COMMON_MODULES +=3D qdev qom rdma rocker run-state sockets tpm
+>> > +QAPI_COMMON_MODULES =3D audio authz block-core block char common cont=
+rol crypto
+>> > +QAPI_COMMON_MODULES +=3D dump error introspect job machine migration =
+misc
+>> > +QAPI_COMMON_MODULES +=3D net qdev qom rdma rocker run-state sockets t=
+pm
+>> >  QAPI_COMMON_MODULES +=3D trace transaction ui
+>> >  QAPI_TARGET_MODULES =3D machine-target misc-target
+>> >  QAPI_MODULES =3D $(QAPI_COMMON_MODULES) $(QAPI_TARGET_MODULES)
+>>=20
+>> With the comments and the include directives tidied up:
+>> Reviewed-by: Markus Armbruster <armbru@redhat.com>
+>
+> Thanks. (I assume this means even without the copyright header.)
 
-Mac OSX 10.3.9 Skidmarks 4.0.1 test: specific drop in performance of
-MPEG(INT) test:
-4.2: 118%
-Master: 100%
+I'd prefer with, but I'll accept without.
 
-Mac OS 10.4.11 Skidmarks 4.0.1 test: specific drop in performance of
-MPEG(INT) test:
-4.2: 117%
-Master: 99%
-
-Best,
-Howard
-
---0000000000005bc712059d43ff17
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Jan 28, 2020 at 7:30 PM Richa=
-rd Henderson &lt;<a href=3D"mailto:richard.henderson@linaro.org" target=3D"=
-_blank">richard.henderson@linaro.org</a>&gt; wrote:<br></div><blockquote cl=
-ass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid=
- rgb(204,204,204);padding-left:1ex">On 1/25/20 3:30 PM, Howard Spoelstra wr=
-ote:<br>
-&gt; I noticed a considerable (~20%) slowdown in the cpu performance of qem=
-u-system-ppc.<br>
-<br>
-ENOINFO.<br>
-<br>
-For what test case?=C2=A0 This should not have been on any hot path.<br>
-<br></blockquote><div><br></div><div>Hi, <br></div><div>I tested Mac OS 9.2=
- and 10.3/4 with qemu-system-ppc built from 4.2 and current master like thi=
-s:<br><br>Command line:<br>./qemu-system-ppc -L pc-bios -boot c -M mac99,vi=
-a=3Dpmu -m 512 \<br>-serial stdio -sdl \<br>-hda 9.2.img (10.3.img|10.4.img=
-)<br><br>Mac OS 9.2 MacBench 5.0 reports processor speed:<br>4.2: ~190%<br>=
-Master: ~160%<br><br>Mac OSX 10.3.9 Skidmarks 4.0.1 test: specific drop in =
-performance of MPEG(INT) test:<br>4.2: 118% =C2=A0<br>Master: 100% <br><br>=
-Mac OS 10.4.11 Skidmarks 4.0.1 test: specific drop in performance of MPEG(I=
-NT) test:<br>4.2: 117%<br>Master: 99%</div><div><br> </div><div>Best,</div>=
-<div>Howard<br></div></div></div>
-
---0000000000005bc712059d43ff17--
 
