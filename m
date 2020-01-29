@@ -2,72 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CE8B14D1E7
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jan 2020 21:26:21 +0100 (CET)
-Received: from localhost ([::1]:50986 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13B9114D265
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jan 2020 22:21:47 +0100 (CET)
+Received: from localhost ([::1]:51414 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwtum-0005u4-6M
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jan 2020 15:26:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41104)
+	id 1iwumP-0003a0-JC
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jan 2020 16:21:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58691)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <wainersm@redhat.com>) id 1iwttR-0004zt-0A
- for qemu-devel@nongnu.org; Wed, 29 Jan 2020 15:24:58 -0500
+ (envelope-from <bounces@canonical.com>) id 1iwulM-0002uX-Qu
+ for qemu-devel@nongnu.org; Wed, 29 Jan 2020 16:20:41 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <wainersm@redhat.com>) id 1iwttO-0000LS-Sy
- for qemu-devel@nongnu.org; Wed, 29 Jan 2020 15:24:56 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:40452
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <wainersm@redhat.com>) id 1iwttN-0000GI-EQ
- for qemu-devel@nongnu.org; Wed, 29 Jan 2020 15:24:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580329491;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=msn+4JuMETfwAU/0a7q3M3ZdaHSQK44bFRghDrNmLL4=;
- b=InSHptbe9j485O9d8G+HNHsEv9zKIunEtNMtF0vVAtPEFI3pQ8rJ9z9GgbpArwWActYqv/
- EWjcTit43RW6Ss+TapVyM7RG1aGui3292zK/vjoOFYIu4ByTrBFL1uBz2MUqtRh2fws4+Y
- qPNdZS5qI+Zmgj+KJBgokHZ2mKBySV4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-333-j_QhJbJ0OZC9B-d_5j0xjg-1; Wed, 29 Jan 2020 15:24:49 -0500
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0349318C35A3
- for <qemu-devel@nongnu.org>; Wed, 29 Jan 2020 20:24:48 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-116-51.gru2.redhat.com
- [10.97.116.51])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8DB69100194E;
- Wed, 29 Jan 2020 20:24:44 +0000 (UTC)
-Subject: Re: [PATCH] python: Treat None-return of greeting cmd
-To: =?UTF-8?B?THVrw6HFoSBEb2t0b3I=?= <ldoktor@redhat.com>,
- qemu-devel@nongnu.org
-References: <20200120071202.30646-1-ldoktor@redhat.com>
-From: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-ID: <ba9c2d1b-d4d9-340c-0e6a-66afa4765d76@redhat.com>
-Date: Wed, 29 Jan 2020 18:24:42 -0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.4.0
+ (envelope-from <bounces@canonical.com>) id 1iwulL-0005P5-NW
+ for qemu-devel@nongnu.org; Wed, 29 Jan 2020 16:20:40 -0500
+Received: from indium.canonical.com ([91.189.90.7]:39882)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iwulL-0005OK-II
+ for qemu-devel@nongnu.org; Wed, 29 Jan 2020 16:20:39 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iwulJ-0001QZ-TL
+ for <qemu-devel@nongnu.org>; Wed, 29 Jan 2020 21:20:37 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id DCE532E80C9
+ for <qemu-devel@nongnu.org>; Wed, 29 Jan 2020 21:20:37 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20200120071202.30646-1-ldoktor@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: j_QhJbJ0OZC9B-d_5j0xjg-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+Date: Wed, 29 Jan 2020 21:11:24 -0000
+From: Eric Corriveau <1856724@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: belliash deorder docmax3 ec911
+X-Launchpad-Bug-Reporter: Rafal Kupiec (belliash)
+X-Launchpad-Bug-Modifier: Eric Corriveau (ec911)
+References: <157659673737.27526.16943710669363851261.malonedeb@chaenomeles.canonical.com>
+Message-Id: <158033228457.19031.14920956574733044970.malone@gac.canonical.com>
+Subject: [Bug 1856724] Re: SB.PCI0.SMB0 device drivers unavailable
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="b8d1327fd820d6bf500589d6da587d5037c7d88e";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 2137ada4db682f8250e3f87c5f0633ae31da9f9f
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -76,37 +64,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- ehabkost@redhat.com, crosa@redhat.com
+Reply-To: Bug 1856724 <1856724@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+I'm also having this issue on a Win 10 VM running on a unRaid server.
 
-On 1/20/20 5:12 AM, Luk=C3=A1=C5=A1 Doktor wrote:
-> In case qemu process dies the "monitor.cmd" returns None which gets
-> passed to the "__negotiate_capabilities" and leads to unhandled
-> exception. Let's only check the resp in case it has a value.
->
-> Signed-off-by: Luk=C3=A1=C5=A1 Doktor <ldoktor@redhat.com>
-> ---
->   python/qemu/qmp.py | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+-- =
 
-Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1856724
 
->
-> diff --git a/python/qemu/qmp.py b/python/qemu/qmp.py
-> index 5c8cf6a056..a3e5de718a 100644
-> --- a/python/qemu/qmp.py
-> +++ b/python/qemu/qmp.py
-> @@ -73,7 +73,7 @@ class QEMUMonitorProtocol(object):
->               raise QMPConnectError
->           # Greeting seems ok, negotiate capabilities
->           resp =3D self.cmd('qmp_capabilities')
-> -        if "return" in resp:
-> +        if resp and "return" in resp:
->               return greeting
->           raise QMPCapabilitiesError
->  =20
+Title:
+  SB.PCI0.SMB0 device drivers unavailable
 
+Status in QEMU:
+  New
+
+Bug description:
+  QEMU 4.2 introduces new device with this code:
+
+  static void build_smb0(Aml *table, I2CBus *smbus, int devnr, int func)
+  {
+      Aml *scope =3D aml_scope("_SB.PCI0");
+      Aml *dev =3D aml_device("SMB0");
+
+      aml_append(dev, aml_name_decl("_HID", aml_eisaid("APP0005")));
+      aml_append(dev, aml_name_decl("_ADR", aml_int(devnr << 16 | func)));
+      build_acpi_ipmi_devices(dev, BUS(smbus), "\\_SB.PCI0.SMB0");
+      aml_append(scope, dev);
+      aml_append(table, scope);
+  }
+
+  It is detected by Windows 10 as 'Unknown Device' and there is no driver a=
+vailable.
+  Please provide a working Windows driver or give ability to disable this d=
+evice.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1856724/+subscriptions
 
