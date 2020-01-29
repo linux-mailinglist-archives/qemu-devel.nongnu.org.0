@@ -2,68 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91C0914CE94
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jan 2020 17:42:50 +0100 (CET)
-Received: from localhost ([::1]:48712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B107914CEA6
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jan 2020 17:46:44 +0100 (CET)
+Received: from localhost ([::1]:48778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwqQT-00009e-MM
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jan 2020 11:42:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43267)
+	id 1iwqUF-0001nZ-Qx
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jan 2020 11:46:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44123)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ehabkost@redhat.com>) id 1iwqPm-0008AE-O9
- for qemu-devel@nongnu.org; Wed, 29 Jan 2020 11:42:07 -0500
+ (envelope-from <keithp@keithp.com>) id 1iwqT8-0001EQ-Su
+ for qemu-devel@nongnu.org; Wed, 29 Jan 2020 11:45:36 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ehabkost@redhat.com>) id 1iwqPk-0001eh-Sr
- for qemu-devel@nongnu.org; Wed, 29 Jan 2020 11:42:06 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:43547
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <keithp@keithp.com>) id 1iwqT5-0008A1-7Z
+ for qemu-devel@nongnu.org; Wed, 29 Jan 2020 11:45:32 -0500
+Received: from home.keithp.com ([63.227.221.253]:50190 helo=elaine.keithp.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1iwqPk-0001cx-Co
- for qemu-devel@nongnu.org; Wed, 29 Jan 2020 11:42:04 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580316123;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=RXvQMXCn8T031UCQCNfRm1ZIWorYknaDITzhN0zd47k=;
- b=PSMKyIEj2K2vrb5xPFpd8LvrPArZRlvsdRjpzptENthqxT92w5YU/mxsbxdIn61GHt2Sld
- TnE8hHMk2XbvlLxxkSt6RSS7NGLBjtUDoJmmWE+U5FVg4jAhFfuGznwDYTj0JjuuJWX+fv
- 0nUgPRPn1v3dHcpLY2YapI9tyJXLDcw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-371-MmWplWtwPxWERwB14HwjWQ-1; Wed, 29 Jan 2020 11:41:59 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D7B538051A4;
- Wed, 29 Jan 2020 16:41:57 +0000 (UTC)
-Received: from localhost (unused-10-15-17-6.yyz.redhat.com [10.15.17.6])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 31F5C84BC4;
- Wed, 29 Jan 2020 16:41:55 +0000 (UTC)
-Date: Wed, 29 Jan 2020 11:41:54 -0500
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Babu Moger <babu.moger@amd.com>
-Subject: Re: [PATCH v3 16/18] hw/i386: Introduce EPYC mode function handlers
-Message-ID: <20200129164154.GP18770@habkost.net>
-References: <157541968844.46157.17994918142533791313.stgit@naples-babu.amd.com>
- <157541992659.46157.18191224973398213624.stgit@naples-babu.amd.com>
- <20200128200438.GJ18770@habkost.net>
- <90118d85-941f-52f1-1976-0831ed3378c4@amd.com>
+ (Exim 4.71) (envelope-from <keithp@keithp.com>)
+ id 1iwqT4-00083r-EP; Wed, 29 Jan 2020 11:45:31 -0500
+Received: from localhost (localhost [127.0.0.1])
+ by elaine.keithp.com (Postfix) with ESMTP id 45B923F2A8ED;
+ Wed, 29 Jan 2020 08:45:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=keithp.com; s=mail;
+ t=1580316328; bh=AQ7qwDOrgr4oCXbypzhvadC6PyJ4NatHch4UA6L6ykA=;
+ h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+ b=RD6TMZnTWaEtpPa8vpmhDA325+sxDObVt6pBKjRYrKmD2EudMif7/dvxGt/0SJXk3
+ gvs/KnKnQy4fg9WUygIzpkweabR8QAjHxY0AgHsg0IjXhkdtcBBwouN4ca1SLIXSdf
+ AoZ9yyezBd2SSFdSA3XGiRMaQatReORhRpKIafKg2Br0vn1GpIJp/JHlgcC/bejcZ0
+ FKvmyTLy5eKcIDqoBcC6mXw0L9/DxyyhBN0wywXoQsE6OVehm6AEfwr+ynC7VqA/g3
+ FMjTFYeMCUctqsN8lns4mV55IevXZjLHviQ11c8Gsxyko+cfiIxrFw2DAiadnDL/zM
+ mx3GWeJnG90XQ==
+X-Virus-Scanned: Debian amavisd-new at keithp.com
+Received: from elaine.keithp.com ([127.0.0.1])
+ by localhost (elaine.keithp.com [127.0.0.1]) (amavisd-new, port 10024)
+ with LMTP id Tmxo_cOdKbCG; Wed, 29 Jan 2020 08:45:28 -0800 (PST)
+Received: from keithp.com (koto.keithp.com [10.0.0.2])
+ by elaine.keithp.com (Postfix) with ESMTPSA id DD9A03F2A8EB;
+ Wed, 29 Jan 2020 08:45:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=keithp.com; s=mail;
+ t=1580316327; bh=AQ7qwDOrgr4oCXbypzhvadC6PyJ4NatHch4UA6L6ykA=;
+ h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+ b=evulIWUclSre/ENP/QGh8RQhduNzs7DvX6qSDlEIkRJjZqGyWm83WPN7l+9AUF3DU
+ //rJs4qOZW8U6HMs2IN5QJAhM19/q1agc9rdD0hicMUzvhUNuzY3YUadfGyO1/ngXD
+ VyH88ZNC6mPijOWhJlygOiny+YtFsAJLk+oSetMsVsijGCQtvBUBbh3Jq2gXBcxty4
+ mnDCZQr1172K6NVu5zJv6kbgRaxk2hNG3XafWR4DQDtFU1xOR+nXWjVnfDTaEduAT9
+ So6UARstWlV6A1svI1bLt++qzDCmwoRX0UJlPiRi7MkxcNA4ljD9ID+7+FiZDm2Csw
+ QVoWS+VKZhu/A==
+Received: by keithp.com (Postfix, from userid 1000)
+ id BEAF61582162; Wed, 29 Jan 2020 08:45:27 -0800 (PST)
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>, Riku Voipio <riku.voipio@iki.fi>,
+ Laurent Vivier <laurent@vivier.eu>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ "open list\:RISC-V" <qemu-riscv@nongnu.org>
+Subject: Re: [PATCH] riscv: Add semihosting support [v4]
+In-Reply-To: <CAFEAcA_dD3eAfKvOGOoXe3NWKg1PiW8=s2Xk41w19Tk67R-R4A@mail.gmail.com>
+References: <20200128233224.515233-1-keithp@keithp.com>
+ <CAFEAcA_dD3eAfKvOGOoXe3NWKg1PiW8=s2Xk41w19Tk67R-R4A@mail.gmail.com>
+Date: Wed, 29 Jan 2020 08:45:27 -0800
+Message-ID: <877e1arz2w.fsf@keithp.org>
 MIME-Version: 1.0
-In-Reply-To: <90118d85-941f-52f1-1976-0831ed3378c4@amd.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: MmWplWtwPxWERwB14HwjWQ-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+Content-Type: multipart/signed; boundary="=-=-=";
+ micalg=pgp-sha256; protocol="application/pgp-signature"
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 63.227.221.253
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,39 +79,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mst@redhat.com, armbru@redhat.com, qemu-devel@nongnu.org,
- imammedo@redhat.com, pbonzini@redhat.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to: "Keith Packard" <keithp@keithp.com>
+From: "Keith Packard" via <qemu-devel@nongnu.org>
 
-On Tue, Jan 28, 2020 at 03:48:15PM -0600, Babu Moger wrote:
-> On 1/28/20 2:04 PM, Eduardo Habkost wrote:
-[...]
-> > If you need a CPU model to provide special behavior,
-> > you have two options:
-> >=20
-> > * Add a method pointer to X86CPUClass and/or X86CPUDefinition
-> > * Add a QOM property to enable/disable special behavior, and
-> >   include the property in the CPU model definition.
-> >=20
-> > The second option might be preferable long term, but might
-> > require more work because the property would become visible in
-> > query-cpu-model-expansion and in the command line.  The first
-> > option may be acceptable to avoid extra user-visible complexity
-> > in the first version.
->=20
-> Yes. We need to have a special behavior for specific model.
-> I will look at both these above approaches closely. Challenge is this
-> needs to be done much early in the initialization(before parse_numa_opts
-> or machine_run_board_init). Will research more on this.
+--=-=-=
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 
-You should be able to look up the requested CPU model using
-object_class_by_name(machine->cpu_type).  If you do this inside
-x86-specific code before calling
-apicid_from_cpu_idx/topo_ids_from_apicid/apicid_from_topo_ids,
-you probably won't need a init_apicid_fn hook.
+Peter Maydell <peter.maydell@linaro.org> writes:
 
---=20
-Eduardo
+> True but irrelevant. You need to refer to a proper
+> risc-v specification for your semihosting.
 
+The RISC-V Foundation defined semihosting as relative to the existing
+ARM specification, so using a link to that is appropriate here.
+
+Here's the current specification of the unprivileged ISA, which includes
+the definition of semihosting
+
+        https://riscv.org/specifications/
+
+While it may be nice in some abstract sense to create a "better"
+semihosting spec, that's not what the RISC-V foundation has decided to
+do.
+
+=2D-=20
+=2Dkeith
+
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEw4O3eCVWE9/bQJ2R2yIaaQAAABEFAl4xtqcACgkQ2yIaaQAA
+ABGTww//fZsnRw7sJLy7xuY29NXr60SREv4ldVOQktPdPEJFbkLwz7e+Iqvbfm6q
+pg/4Okfp6wDvCip+mduu7PFSjIbRG3yoqpChCJWaHcmPUJQJ5xcsZJ2v2TE5XdbU
+WJvBXaaf3PkTdPNmcSMjCiTiksSjqePNAYPn3b5xNz9LhlVwzo5tWDopbdHLEbWQ
+aSLhCFZwm7mq39Fia9thnTUuXkyZkDTAYbwdW30mEonBtnZ6PoJGcrTM+4JvdIR9
+A8uur3hkJDyFoF7ykw783tI9Z8rIqGGNxvEpLvudQlbBn9x8/z/GcgGWIojlYfVf
+gQLhSEK8PGkaiAkZ6huA3sPkeMoC72x3vnB5uCondbxTS42KEtLIUBnwSvuBUlwd
+y3O3H02kClAiOcsGLRccMuYpw9s+7dSDAXqerwS3dIl4gxXYzI17c5BG0cwn8OOX
+sbTNBoZoEyERrLnOXQs1q9NKMG6xkvVUvIsYwBnEMMoM+Ve2fhd/N0AmIj7yhnKj
+i8ahgFGORWyCNQOqL/oO33yNKMERoPJl8XBonwGweb45KRZ0wKq6eNUxr67fGmv/
+R7biHBPW86tVoMRIXYK4HyUEeAbFiIMUWf8OhPA96iHt0hqK3/iV/Kj+daoc9j4a
+tnZ5QmcozYWNRHa+XghS3jO4tlxFSLeUvYfKHM6RrHnoyqk2Cec=
+=KogH
+-----END PGP SIGNATURE-----
+--=-=-=--
 
