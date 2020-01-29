@@ -2,67 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EF0514CEBD
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jan 2020 17:59:10 +0100 (CET)
-Received: from localhost ([::1]:48878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7B2114CF49
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jan 2020 18:08:01 +0100 (CET)
+Received: from localhost ([::1]:49222 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwqgH-0005YR-4l
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jan 2020 11:59:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48370)
+	id 1iwqoq-0005Tu-SL
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jan 2020 12:08:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49952)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1iwqfS-0004t2-J0
- for qemu-devel@nongnu.org; Wed, 29 Jan 2020 11:58:19 -0500
+ (envelope-from <philmd@redhat.com>) id 1iwqju-0001El-Fm
+ for qemu-devel@nongnu.org; Wed, 29 Jan 2020 12:02:55 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1iwqfR-0007jU-M1
- for qemu-devel@nongnu.org; Wed, 29 Jan 2020 11:58:18 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:30473
+ (envelope-from <philmd@redhat.com>) id 1iwqjr-0000MB-5G
+ for qemu-devel@nongnu.org; Wed, 29 Jan 2020 12:02:53 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:25850
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1iwqfR-0007hf-IQ
- for qemu-devel@nongnu.org; Wed, 29 Jan 2020 11:58:17 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iwqjr-0000KY-1j
+ for qemu-devel@nongnu.org; Wed, 29 Jan 2020 12:02:51 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580317097;
+ s=mimecast20190719; t=1580317369;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zcedKwbQKirhf2xNz6xKw9zd6IjAink5bmFF/iOtFAA=;
- b=CkIwr+2d53kATfgJbDXzP9mBCpmA3Ekl2Tytb2asCiu2LkYKS9ROtmBmO5iYrBqBVgG9wY
- tJFW5bZBVLugwI+2QxbRnC88uka5DEiRoIHfJ8pMrWxxhO0K0RFaeXyUR8ySfkAIxxOUT/
- xIWzFkW6ONHbb4yGXKCvurU2k6CVIcA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-438-4t8ogeOjN_-e_S4WbRl6oQ-1; Wed, 29 Jan 2020 11:58:13 -0500
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A142B1080D6C;
- Wed, 29 Jan 2020 16:58:12 +0000 (UTC)
-Received: from linux.fritz.box (ovpn-116-205.ams2.redhat.com [10.36.116.205])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 938B25C28C;
- Wed, 29 Jan 2020 16:58:11 +0000 (UTC)
-Date: Wed, 29 Jan 2020 17:58:10 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH v3 2/4] qapi: Create module 'control'
-Message-ID: <20200129165810.GD5690@linux.fritz.box>
-References: <20200129102239.31435-1-kwolf@redhat.com>
- <20200129102239.31435-3-kwolf@redhat.com>
- <871rri2pb6.fsf@dusky.pond.sub.org>
+ bh=qRuO0QIwwShWfyZnToG5Tfi4DKZojx5okFgJzW9Cxuk=;
+ b=f6+BRca28AwOfJxXPt/TQc25aQhhRTtap5iDH9TqrhTFBurmZoK6gRAsm3yTkXRt0HoGUo
+ W42VvKpcl9PZzlMP5j+ehULto5jbnjNl1C6XtMk6YPBgw8yGe/ZwjhbAtAXH/o1nh62WwQ
+ zGZ9wbwazy8jnMaeQXuEgMMxDHeRHz0=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-401-MKT13_aTMpiNbN5KkI-ADA-1; Wed, 29 Jan 2020 12:02:48 -0500
+Received: by mail-wr1-f71.google.com with SMTP id z14so124826wrs.4
+ for <qemu-devel@nongnu.org>; Wed, 29 Jan 2020 09:02:47 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=ZRTKiIzIWhYy26bQjiBl0ByPw6WmgJ/wAYWZtVVOehI=;
+ b=VhhJzmsMZpzTKURIOyjbSyFKnQKvaq6ZzQ4PYBOg0hFzhwn2kVEuYtemjKPakBjQtp
+ dPOE0Q0WTcRvXWAMHSrQaslg7AZkoGuc9SWYRKXSKlGqsAveUjLRRXc6dgWErgu1jja6
+ 3zy/UoPpH9YvuFGDMkKinfoGzRbjk+iu7HA5IZiiaZ6frnTkVl0LvTR3PbIzYVkS6KoM
+ H1/HifrDt6UBa1N8ESgoNpGUtbPVvI2vrPbSr87SXXbCJuCDsKB1GrnfGGGlHgO/OwJj
+ Wf2NoGn5lZSpa3h2/PyZn02I2xmxaSlMZkRP2n4RC7PDRkYxemqOrcRjB0ueMpuD2sdr
+ N8hA==
+X-Gm-Message-State: APjAAAW3nZYFjRsYvzxqmGTJd5b6hYVvcMgAK+vUHEPtxhmILX6psV1L
+ mKrd+i+8+o0ZOh58TtXv3LtntmSP+ZeyShEaz3F+o8aqWFEK8fTaYNqIBl7sm4kH9StmGHiLcF9
+ GxeEHxtBSrkbcvF8=
+X-Received: by 2002:adf:fd84:: with SMTP id d4mr35916165wrr.211.1580317365629; 
+ Wed, 29 Jan 2020 09:02:45 -0800 (PST)
+X-Google-Smtp-Source: APXvYqxiq7ZxLYnlSLBjL0pnEXnXvkt064Gfyxh+Mngd7NuwB6RLGlharXlfzsiJyMbGmKbAGvY0ZQ==
+X-Received: by 2002:adf:fd84:: with SMTP id d4mr35916112wrr.211.1580317365114; 
+ Wed, 29 Jan 2020 09:02:45 -0800 (PST)
+Received: from [192.168.1.35] (113.red-83-57-172.dynamicip.rima-tde.net.
+ [83.57.172.113])
+ by smtp.gmail.com with ESMTPSA id 124sm3044489wmc.29.2020.01.29.09.02.43
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 29 Jan 2020 09:02:44 -0800 (PST)
+Subject: Re: [PATCH v1 1/4] virtio: introduce VIRTQUEUE_DEFUALT_SIZE instead
+ of hardcoded constants
+To: Denis Plotnikov <dplotnikov@virtuozzo.com>, qemu-devel@nongnu.org
+References: <20200129140702.5411-1-dplotnikov@virtuozzo.com>
+ <20200129140702.5411-2-dplotnikov@virtuozzo.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <31265bbb-e8b2-d78f-2caa-f1909a755291@redhat.com>
+Date: Wed, 29 Jan 2020 18:02:43 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-In-Reply-To: <871rri2pb6.fsf@dusky.pond.sub.org>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: 4t8ogeOjN_-e_S4WbRl6oQ-1
+In-Reply-To: <20200129140702.5411-2-dplotnikov@virtuozzo.com>
+Content-Language: en-US
+X-MC-Unique: MKT13_aTMpiNbN5KkI-ADA-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=WINDOWS-1252; format=flowed
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,31 +93,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: fam@euphon.net, kwolf@redhat.com, vsementsov@virtuozzo.com,
+ ehabkost@redhat.com, qemu-block@nongnu.org, mst@redhat.com, mreitz@redhat.com,
+ stefanha@redhat.com, pbonzini@redhat.com, den@virtuozzo.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 29.01.2020 um 17:35 hat Markus Armbruster geschrieben:
-> Kevin Wolf <kwolf@redhat.com> writes:
->=20
-> > misc.json contains definitions that are related to the system emulator,
-> > so it can't be used for other tools like the storage daemon. This patch
-> > moves basic functionality that is shared between all tools (and mostly
-> > related to the monitor itself) into a new control.json, which could be
-> > used in tools as well.
-> >
-> > Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> > Reviewed-by: Markus Armbruster <armbru@redhat.com>
->=20
-> I'd like to retitle this patch and the next one:
->=20
->     qapi: Split control.json off misc.json
->     monitor: Collect "control" command handlers in qmp-cmds.control.c
->=20
-> Okay?
+On 1/29/20 3:06 PM, Denis Plotnikov wrote:
+> Signed-off-by: Denis Plotnikov <dplotnikov@virtuozzo.com>
 
-Sure, why not.
+typo VIRTQUEUE_DEFUALT_SIZE -> VIRTQUEUE_DEFAULT_SIZE in subject
 
-Kevin
+With subject fixed:
+Reviewed-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
+
+> ---
+>   hw/block/virtio-blk.c      | 6 ++++--
+>   hw/scsi/virtio-scsi.c      | 5 +++--
+>   include/hw/virtio/virtio.h | 1 +
+>   3 files changed, 8 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/hw/block/virtio-blk.c b/hw/block/virtio-blk.c
+> index 09f46ed85f..72f935033f 100644
+> --- a/hw/block/virtio-blk.c
+> +++ b/hw/block/virtio-blk.c
+> @@ -914,7 +914,8 @@ static void virtio_blk_update_config(VirtIODevice *vd=
+ev, uint8_t *config)
+>       memset(&blkcfg, 0, sizeof(blkcfg));
+>       virtio_stq_p(vdev, &blkcfg.capacity, capacity);
+>       virtio_stl_p(vdev, &blkcfg.seg_max,
+> -                 s->conf.seg_max_adjust ? s->conf.queue_size - 2 : 128 -=
+ 2);
+> +                 s->conf.seg_max_adjust ? s->conf.queue_size - 2 :
+> +                                          VIRTQUEUE_DEFAULT_SIZE - 2);
+>       virtio_stw_p(vdev, &blkcfg.geometry.cylinders, conf->cyls);
+>       virtio_stl_p(vdev, &blkcfg.blk_size, blk_size);
+>       virtio_stw_p(vdev, &blkcfg.min_io_size, conf->min_io_size / blk_siz=
+e);
+> @@ -1272,7 +1273,8 @@ static Property virtio_blk_properties[] =3D {
+>       DEFINE_PROP_BIT("request-merging", VirtIOBlock, conf.request_mergin=
+g, 0,
+>                       true),
+>       DEFINE_PROP_UINT16("num-queues", VirtIOBlock, conf.num_queues, 1),
+> -    DEFINE_PROP_UINT16("queue-size", VirtIOBlock, conf.queue_size, 128),
+> +    DEFINE_PROP_UINT16("queue-size", VirtIOBlock, conf.queue_size,
+> +                       VIRTQUEUE_DEFAULT_SIZE),
+>       DEFINE_PROP_BOOL("seg-max-adjust", VirtIOBlock, conf.seg_max_adjust=
+, true),
+>       DEFINE_PROP_LINK("iothread", VirtIOBlock, conf.iothread, TYPE_IOTHR=
+EAD,
+>                        IOThread *),
+> diff --git a/hw/scsi/virtio-scsi.c b/hw/scsi/virtio-scsi.c
+> index 3b61563609..36f66046ae 100644
+> --- a/hw/scsi/virtio-scsi.c
+> +++ b/hw/scsi/virtio-scsi.c
+> @@ -660,7 +660,8 @@ static void virtio_scsi_get_config(VirtIODevice *vdev=
+,
+>  =20
+>       virtio_stl_p(vdev, &scsiconf->num_queues, s->conf.num_queues);
+>       virtio_stl_p(vdev, &scsiconf->seg_max,
+> -                 s->conf.seg_max_adjust ? s->conf.virtqueue_size - 2 : 1=
+28 - 2);
+> +                 s->conf.seg_max_adjust ? s->conf.virtqueue_size - 2 :
+> +                                          VIRTQUEUE_DEFAULT_SIZE - 2);
+>       virtio_stl_p(vdev, &scsiconf->max_sectors, s->conf.max_sectors);
+>       virtio_stl_p(vdev, &scsiconf->cmd_per_lun, s->conf.cmd_per_lun);
+>       virtio_stl_p(vdev, &scsiconf->event_info_size, sizeof(VirtIOSCSIEve=
+nt));
+> @@ -965,7 +966,7 @@ static void virtio_scsi_device_unrealize(DeviceState =
+*dev, Error **errp)
+>   static Property virtio_scsi_properties[] =3D {
+>       DEFINE_PROP_UINT32("num_queues", VirtIOSCSI, parent_obj.conf.num_qu=
+eues, 1),
+>       DEFINE_PROP_UINT32("virtqueue_size", VirtIOSCSI,
+> -                                         parent_obj.conf.virtqueue_size,=
+ 128),
+> +                       parent_obj.conf.virtqueue_size, VIRTQUEUE_DEFAULT=
+_SIZE),
+>       DEFINE_PROP_BOOL("seg_max_adjust", VirtIOSCSI,
+>                         parent_obj.conf.seg_max_adjust, true),
+>       DEFINE_PROP_UINT32("max_sectors", VirtIOSCSI, parent_obj.conf.max_s=
+ectors,
+> diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
+> index b69d517496..a66ea2368b 100644
+> --- a/include/hw/virtio/virtio.h
+> +++ b/include/hw/virtio/virtio.h
+> @@ -48,6 +48,7 @@ size_t virtio_feature_get_config_size(VirtIOFeature *fe=
+atures,
+>   typedef struct VirtQueue VirtQueue;
+>  =20
+>   #define VIRTQUEUE_MAX_SIZE 1024
+> +#define VIRTQUEUE_DEFAULT_SIZE 128
+>  =20
+>   typedef struct VirtQueueElement
+>   {
+>=20
 
 
