@@ -2,132 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C23914D2BB
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jan 2020 22:51:36 +0100 (CET)
-Received: from localhost ([::1]:51968 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 426F214D2C2
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jan 2020 22:56:07 +0100 (CET)
+Received: from localhost ([::1]:52064 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwvFH-0003CE-Ah
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jan 2020 16:51:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36715)
+	id 1iwvJe-0005e1-BY
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jan 2020 16:56:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39654)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <deller@gmx.de>) id 1iwv62-0000Vi-Aq
- for qemu-devel@nongnu.org; Wed, 29 Jan 2020 16:42:04 -0500
+ (envelope-from <gshan@redhat.com>) id 1iwvIS-0004x1-Ni
+ for qemu-devel@nongnu.org; Wed, 29 Jan 2020 16:54:53 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <deller@gmx.de>) id 1iwv60-000338-FO
- for qemu-devel@nongnu.org; Wed, 29 Jan 2020 16:42:02 -0500
-Received: from mout.gmx.net ([212.227.17.22]:56809)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <deller@gmx.de>)
- id 1iwv5y-00031r-La; Wed, 29 Jan 2020 16:41:59 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1580334100;
- bh=nnf7xTDUx7a4k4Dp/aAiOiKGIR16VjCeFOQGMR6PN/g=;
- h=X-UI-Sender-Class:Subject:To:Cc:References:From:Date:In-Reply-To;
- b=Lm7pjBKBopTjw3MyWaJZB61EJ0hdXBdiJ7Eo3O2eMcLtn2vdbcAUBe6VThUUZv9xL
- u/2KJ0ZYVC45BFwnjKj/tbn9eXdFoBL3vTh5iGcWfiB0JIVuK2QznEB3A5igxUT0Rd
- 04c9b7pUC68h4SHsfHk5X27Ja1yJ83Grp3z5s8ZY=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [192.168.20.60] ([92.116.131.63]) by mail.gmx.com (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1N0XD2-1jkBou1K6O-00wUYc; Wed, 29
- Jan 2020 22:41:40 +0100
-Subject: Re: [PATCH] MAINTAINERS: Cover hppa-softmmu.mak in the HP-PARISC
- Machines section
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20200129190316.16901-1-philmd@redhat.com>
-From: Helge Deller <deller@gmx.de>
-Autocrypt: addr=deller@gmx.de; keydata=
- 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
- c2TFWAS8k6RLkk41ZUU8ENX8+qZx/Q==
-Message-ID: <874615ac-6149-7660-ed95-60483c0443af@gmx.de>
-Date: Wed, 29 Jan 2020 22:41:39 +0100
+ (envelope-from <gshan@redhat.com>) id 1iwvIQ-0001MZ-Nu
+ for qemu-devel@nongnu.org; Wed, 29 Jan 2020 16:54:51 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:47746
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <gshan@redhat.com>) id 1iwvIQ-0001M3-JK
+ for qemu-devel@nongnu.org; Wed, 29 Jan 2020 16:54:50 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1580334889;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=2caJ/6uS2IIJxFpAJghqrpPksPreFo/O+EejdndpHkc=;
+ b=dzKKYgBdJHwnLgmy34eweXMezbUPQ7ZyYC6s7k4465vuoA08gJsAmUEtj/wQq7Ymj6eqru
+ mPwty/nrbZXTdSQs9RCx9XP6DO/+28942Aatnt1OsB1whKqa1V/DLRwHABm/DJQFZvFh08
+ RodWC1ntDnuq+uIi8N6NNSr4f3g5mYg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-148-OvNL_kj3OkSqqFG-cnZIwQ-1; Wed, 29 Jan 2020 16:54:48 -0500
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 13B8A1882CC9;
+ Wed, 29 Jan 2020 21:54:47 +0000 (UTC)
+Received: from localhost.localdomain (vpn2-54-25.bne.redhat.com [10.64.54.25])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 78D8884BB8;
+ Wed, 29 Jan 2020 21:54:41 +0000 (UTC)
+Subject: Re: [RFC PATCH] hw/arm/virt: Support NMI injection
+To: Julien Thierry <jthierry@redhat.com>, qemu-arm@nongnu.org
+References: <20191219040612.28431-1-gshan@redhat.com>
+ <d972631d-7db7-b6d5-61b8-244ae2c85882@redhat.com>
+ <f4699b81-26ac-fcd4-d3fc-f6e055beeb65@redhat.com>
+ <9f82206e-0852-ae17-8c77-01d2a5cea97d@redhat.com>
+ <51a83889-f2ef-5403-6661-710cfa1ffe01@redhat.com>
+From: Gavin Shan <gshan@redhat.com>
+Message-ID: <4a517e53-9a7c-903a-9fbc-e1aab1cccefb@redhat.com>
+Date: Thu, 30 Jan 2020 08:54:37 +1100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ Thunderbird/68.2.0
 MIME-Version: 1.0
-In-Reply-To: <20200129190316.16901-1-philmd@redhat.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <51a83889-f2ef-5403-6661-710cfa1ffe01@redhat.com>
 Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:p7vzAnsDOniINOhuIdgHQ16Csit207DA/ybdZSjjxtGVzXVIe56
- GX+ETITN6hFkoTJTMEX+1Rk3wbNww6eAhQoE2Av5i/Qg7shIrQCgoucGvAd/nV9kuCK0D3D
- PVhYGVVnIyIriYWghx0spzDDR6Ey5S9oZtTeFhTnTw64A8Lz7Q+cV0xiJzqtE0j4IcS/VLk
- 6+NSICskzzLeJP94OG0+Q==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:raPvCswBalQ=:y4VtWYcyxZJWzHArpMn0Rl
- dacnVlAuBnN95RwsQlMc1gcsJSYncdrHKK4vX7O6RCJ2gWtnXTipURa4ywBezpa4hxHBoOtKF
- JfCPJLmQwtPwi8SwJMPI+OwfOW90hvo36MPhvbJq5cGi0bnO9vZnZWMg8yWq0G6F/BGhzh8EI
- DNlXif8hrNKSy3Roa/J51nSHqmr1PC3CYler57AHPpVzqgg2kmPTlW60sszoo7lTQ+BdVq0Wn
- rB0fx27N5Pbx8nNAqth1JGfw98QMwhc3F+TY1p+XKL68AqbzK8eo297JQOQBjmPZZj0ZwOnit
- LUSQJDHlrMfl4XErdw1h4N2zxMpbxgdMQ0KOr1gM8/WVHsw0E44Fr3VNuVw1XlqypM1f9kETy
- 9TkqeBOA6ZmucPbeRxNxfgp+UvM/hPfMSV+iuZQbi2+QVkUGu79mMVCA5xFApbVyveFraPySa
- IdtQdm6xvLsJ9LQs2nvlvIUjkVRgXsRQGtDJvEHgoNq8vNNF2io0SCCLSSTHgsF2zhY4tlgnc
- 7htIdRBARC52vbTNqOkTUcUKiYunYzRbVXGMckSnd2D+UxXTEnHF2T0bQ5xcDKtDzo7O3BhBq
- 2SY/ivy9ya0+dRDIEVIEzVEnOiog02RpDRlCPc4CcNwm9NMMuQf/7HEa1BgeLReNofKcm2c7V
- 4JIQnhqS2QUZOt1wtP+z0vRsLAlcK+dsmsY1l0YsVz+jvkM0ZINMqk1Akp4s7c9yFSQwagJr+
- GYH7+hKzThz/lY3ZmzZfsPK+hUNj6jrmhR5xPQsJlMzpxUofalAn+3Df5xxjWWeHkT4wX1TTm
- Lb01jyOvf/RcP8ZA5so45VFNlgoHRipF0btLOqZTobbk7nYW2LqXXyyf2q/xsX1D4ZXArSoUA
- zy5ahLwqUo6f7lPahusX+D3f9it+YmgdfD18ivW9D649CtVYtj3Hi96sCpCQlktuFAgm/sGny
- 1eNPn24UeSFEzMmxwvw6WPzIi8/rde6ViTmBA8rL2YbHqA3m7DuA/euYJRfYNUfPXyAUlPOSn
- nEAPG85Eviok71/u0zojjSsUYuW9T9OUp4GL7L9EqQXcig+6ceI6oFH07D85Hhe0yFgqE4L8l
- nH2A/1JlMGt5B0Lr2dJ4mi+ROKghz9+GN16ljVTVkabdc619OJEpsOEWr84cFiM3pH2xZT7c/
- Qez8WBrii8IIeCiHJ2aSTRql1R92tFwoz+7O2A0hERXHKxqzn9ll3wUbA8Sbwr1n0xx8gz/FU
- w21Z0Jlu80luOHcTg
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: OvNL_kj3OkSqqFG-cnZIwQ-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.17.22
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -139,34 +78,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Richard Henderson <rth@twiddle.net>
+Reply-To: Gavin Shan <gshan@redhat.com>
+Cc: peter.maydell@linaro.org, drjones@redhat.com, aik@ozlabs.ru, maz@kernel.org,
+ qemu-devel@nongnu.org, eric.auger@redhat.com, shan.gavin@gmail.com,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 29.01.20 20:03, Philippe Mathieu-Daud=C3=A9 wrote:
-> Modifications to default-configs/hppa-softmmu.mak should be
-> reviewed by the hppa-softmmu users (currently a single machine).
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+On 1/29/20 6:57 PM, Julien Thierry wrote:
+> On 1/29/20 3:46 AM, Gavin Shan wrote:
+>> On 1/28/20 7:29 PM, Julien Thierry wrote:
 
-Acked-by: Helge Deller <deller@gmx.de>
+.../...
 
-> ---
->  MAINTAINERS | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index efd3f3875f..2c00a49c42 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -896,6 +896,7 @@ HP B160L
->  M: Richard Henderson <rth@twiddle.net>
->  R: Helge Deller <deller@gmx.de>
->  S: Odd Fixes
-> +F: default-configs/hppa-softmmu.mak
->  F: hw/hppa/
->  F: pc-bios/hppa-firmware.img
->
->
+>>
+>> Julien, thanks for the explanation. The question we're not sure if NMI should
+>> be injected on receiving HMP/QMP "nmi" command. It means it's not clear what
+>> behavior we should have for this command on ARM. However, I have one more
+>> unrelated question: "pseudo" NMI on ARM64 should be PPI? I mean SPI can't
+>> be "pseudo" NMI.
+>>
+> 
+> I'm not sure I understand why you say "SPI can't be "pseudo" NMI". Currently both PPI and SPI are supported in the "pseudo" NMI scheme. Do you think that should not be the case? If so, can you elaborate?
+> 
+> Thanks,
+> 
+
+Julien, NMI interrupt is connected to the system by request_nmi() where we have
+a check as below. -EINVAL will be returned from request_nmi() on those interrupts
+whose descriptors aren't marked with IRQ_NOAUTOEN. SPI falls into this category.
+Please refer to below code snippet extracted from gic_irq_domain_map() for more
+details.
+
+kernel/irq/manage.c::request_nmi()
+
+int request_nmi(unsigned int irq, irq_handler_t handler,
+                 unsigned long irqflags, const char *name, void *dev_id)
+{
+	:
+         if (!desc || irq_settings_can_autoenable(desc) ||
+             !irq_settings_can_request(desc) ||
+             WARN_ON(irq_settings_is_per_cpu_devid(desc)) ||
+             !irq_supports_nmi(desc))
+		return -EINVAL;
+	:
+}
+
+
+acpi_register_gsi
+    irq_create_fwspec_mapping
+       irq_domain_alloc_irqs
+          __irq_domain_alloc_irqs
+             irq_domain_alloc_irqs_hierarchy
+                gic_irq_domain_alloc                  # irq_domain_ops::alloc
+                   gic_irq_domain_map
+
+drivers/irqchip/irq-gic-v3.c::gic_irq_domain_map()
+
+static int gic_irq_domain_map(struct irq_domain *d, unsigned int irq,
+                               irq_hw_number_t hw)
+{
+	:
+        switch (__get_intid_range(hw)) {
+         case PPI_RANGE:
+         case EPPI_RANGE:
+                 irq_set_percpu_devid(irq);
+                 irq_domain_set_info(d, irq, hw, chip, d->host_data,
+                                     handle_percpu_devid_irq, NULL, NULL);
+                 irq_set_status_flags(irq, IRQ_NOAUTOEN);                      <<<< this flag
+                 break;
+
+         case SPI_RANGE:
+         case ESPI_RANGE:
+                 irq_domain_set_info(d, irq, hw, chip, d->host_data,
+                                     handle_fasteoi_irq, NULL, NULL);
+                 irq_set_probe(irq);
+                 irqd_set_single_target(irq_desc_get_irq_data(irq_to_desc(irq)));
+                 break;
+            :
+	}
+         :
+}
+
+Thanks,
+Gavin
 
 
