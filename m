@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FDDA14D28B
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jan 2020 22:33:26 +0100 (CET)
-Received: from localhost ([::1]:51650 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 793C514D286
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jan 2020 22:31:24 +0100 (CET)
+Received: from localhost ([::1]:51604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwuxh-0002jB-4X
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jan 2020 16:33:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59669)
+	id 1iwuvj-0007c4-EN
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jan 2020 16:31:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59685)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iwupN-0005vM-17
- for qemu-devel@nongnu.org; Wed, 29 Jan 2020 16:24:51 -0500
+ (envelope-from <philmd@redhat.com>) id 1iwupN-0005wz-O0
+ for qemu-devel@nongnu.org; Wed, 29 Jan 2020 16:24:50 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iwupL-00016U-Nu
- for qemu-devel@nongnu.org; Wed, 29 Jan 2020 16:24:48 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:21950
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1iwupM-00018a-P9
+ for qemu-devel@nongnu.org; Wed, 29 Jan 2020 16:24:49 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:34711
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iwupL-00015p-Jy
- for qemu-devel@nongnu.org; Wed, 29 Jan 2020 16:24:47 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iwupM-00016i-Cb
+ for qemu-devel@nongnu.org; Wed, 29 Jan 2020 16:24:48 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580333087;
+ s=mimecast20190719; t=1580333088;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VnD9aoRab6oQ9NaFbCYY9TrtYVXwppQtRDl4lv6JVKg=;
- b=bLjUgWrKwHg5xGaQaM+aZqC0oTuKv+G5UXFVtkj//PeskUmEzjP9cMeTt5em5+JjnsLLhg
- eXVGH0z8mgJLT++3a1mELK6Q8Hxn10qR9FPj8ROPZTWSeD0BV1dDqxlBYdIQFfFD8SxmUX
- ugwJJ2Do7MCA7rFJVeY8/8U/BqfzU0M=
+ bh=QAEhVlilSHEoQwZ80b+fvIYLiGexZzTICM1DESVQf1w=;
+ b=RRfueUGxnL6gM6VnSuhWWF4W3kjUaG718dG/V59dYXZvt42jkZNzkd1zrHGSQTTcqFIA0e
+ 3dU1MLFBhkzejRFQ8koQ1G/Nt/6M7yV01QFku5FB27wuW1qJjOdJze/6QqdPh9G6f+ne48
+ 5MOdRHChTRi5Hgbyjeac7+CacjUZ80I=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-306-EL5qIPryPY67LZ2yqFtV8g-1; Wed, 29 Jan 2020 16:24:43 -0500
+ us-mta-100-yAbYSDP-NWCf5gNDRKzSKA-1; Wed, 29 Jan 2020 16:24:45 -0500
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1807E10054E3;
- Wed, 29 Jan 2020 21:24:42 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 828A7DB61;
+ Wed, 29 Jan 2020 21:24:44 +0000 (UTC)
 Received: from x1w.redhat.com (ovpn-205-184.brq.redhat.com [10.40.205.184])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1C7A460BF3;
- Wed, 29 Jan 2020 21:24:39 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 82CAA60BF3;
+ Wed, 29 Jan 2020 21:24:42 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: Denis Plotnikov <dplotnikov@virtuozzo.com>,
 	qemu-devel@nongnu.org
-Subject: [RFC PATCH v2 14/29] tests/acceptance: Use 'device' tags to check
- availability in QEMU binary
-Date: Wed, 29 Jan 2020 22:23:30 +0100
-Message-Id: <20200129212345.20547-15-philmd@redhat.com>
+Subject: [PATCH v2 15/29] tests: rename virtio_seg_max_adjust to
+ virtio_check_params
+Date: Wed, 29 Jan 2020 22:23:31 +0100
+Message-Id: <20200129212345.20547-16-philmd@redhat.com>
 In-Reply-To: <20200129212345.20547-1-philmd@redhat.com>
 References: <20200129212345.20547-1-philmd@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: EL5qIPryPY67LZ2yqFtV8g-1
+X-MC-Unique: yAbYSDP-NWCf5gNDRKzSKA-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,50 +80,26 @@ Cc: Cornelia Huck <cohuck@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We already use the 'device' tag in Avocado tests.
-If any of the requested device is not available in the QEMU binary,
-the tests will be cancelled (skipped).
+From: Denis Plotnikov <dplotnikov@virtuozzo.com>
 
+Since, virtio_seg_max_adjust checks not only seg_max, but also
+virtqueue_size parameter, let's make the test more general and
+add new parameters to be checked there in the future.
+
+Signed-off-by: Denis Plotnikov <dplotnikov@virtuozzo.com>
+Message-Id: <20200129140702.5411-5-dplotnikov@virtuozzo.com>
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
-RFC because I'm not certain, we might want to find bugs where
-    a device is missing in the built binary...
----
- tests/acceptance/avocado_qemu/__init__.py | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ .../{virtio_seg_max_adjust.py =3D> virtio_check_params.py}          | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ rename tests/acceptance/{virtio_seg_max_adjust.py =3D> virtio_check_params=
+.py} (100%)
 
-diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptance/a=
-vocado_qemu/__init__.py
-index 53ec8512d1..44062aea56 100644
---- a/tests/acceptance/avocado_qemu/__init__.py
-+++ b/tests/acceptance/avocado_qemu/__init__.py
-@@ -20,6 +20,7 @@ SRC_ROOT_DIR =3D os.path.join(os.path.dirname(__file__), =
-'..', '..', '..')
- sys.path.append(os.path.join(SRC_ROOT_DIR, 'python'))
-=20
- from qemu.binutils import binary_get_arch
-+from qemu.binutils import binary_get_devices
- from qemu.binutils import binary_get_machines
- from qemu.binutils import binary_get_version
- from qemu.machine import QEMUMachine
-@@ -158,6 +159,16 @@ class Test(avocado.Test):
-             if self.machine not in binary_get_machines(self.qemu_bin):
-                 self.cancel(fmt.format(self.machine))
-=20
-+        # Verify devices
-+        self.devices =3D self.tags.get('device', [])
-+        bin_devices =3D binary_get_devices(self.qemu_bin)
-+        logger.debug('devices: {}'.format(self.devices))
-+        fmt =3D "Test expects device '{}' which is missing from QEMU binar=
-y"
-+        for dev in self.devices:
-+            logger.debug(dev)
-+            if dev not in bin_devices:
-+                self.cancel(fmt.format(dev))
-+
-     def _new_vm(self, *args):
-         vm =3D QEMUMachine(self.qemu_bin, sock_dir=3Dtempfile.mkdtemp())
-         if args:
+diff --git a/tests/acceptance/virtio_seg_max_adjust.py b/tests/acceptance/v=
+irtio_check_params.py
+similarity index 100%
+rename from tests/acceptance/virtio_seg_max_adjust.py
+rename to tests/acceptance/virtio_check_params.py
 --=20
 2.21.1
 
