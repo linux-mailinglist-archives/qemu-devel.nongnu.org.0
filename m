@@ -2,38 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7392914C82E
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jan 2020 10:37:01 +0100 (CET)
-Received: from localhost ([::1]:43246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09D7E14C833
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Jan 2020 10:38:30 +0100 (CET)
+Received: from localhost ([::1]:43278 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwjmO-0005No-HK
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jan 2020 04:37:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51410)
+	id 1iwjno-0000Gq-3N
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jan 2020 04:38:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51429)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <fthain@telegraphics.com.au>) id 1iwjl3-0003bV-TS
+ (envelope-from <fthain@telegraphics.com.au>) id 1iwjl4-0003bX-6P
  for qemu-devel@nongnu.org; Wed, 29 Jan 2020 04:35:39 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <fthain@telegraphics.com.au>) id 1iwjl1-0000k9-RS
- for qemu-devel@nongnu.org; Wed, 29 Jan 2020 04:35:37 -0500
-Received: from kvm5.telegraphics.com.au ([98.124.60.144]:50046)
+ (envelope-from <fthain@telegraphics.com.au>) id 1iwjl2-0000kl-4H
+ for qemu-devel@nongnu.org; Wed, 29 Jan 2020 04:35:38 -0500
+Received: from kvm5.telegraphics.com.au ([98.124.60.144]:50070)
  by eggs.gnu.org with esmtp (Exim 4.71)
  (envelope-from <fthain@telegraphics.com.au>)
- id 1iwjl1-0000jY-N6; Wed, 29 Jan 2020 04:35:35 -0500
+ id 1iwjl2-0000kF-08; Wed, 29 Jan 2020 04:35:36 -0500
 Received: by kvm5.telegraphics.com.au (Postfix, from userid 502)
- id 57278299BE; Wed, 29 Jan 2020 04:35:35 -0500 (EST)
+ id 6A76F299C0; Wed, 29 Jan 2020 04:35:35 -0500 (EST)
 To: Jason Wang <jasowang@redhat.com>,
     qemu-devel@nongnu.org
-Message-Id: <1753b927c867d25e87da8d5d20fa0b9d60f938cb.1580290069.git.fthain@telegraphics.com.au>
+Message-Id: <dae9a2e3f6cdd403e6afab901b234a8b7f3289b8.1580290069.git.fthain@telegraphics.com.au>
 In-Reply-To: <cover.1580290069.git.fthain@telegraphics.com.au>
 References: <cover.1580290069.git.fthain@telegraphics.com.au>
 From: Finn Thain <fthain@telegraphics.com.au>
-Subject: [PATCH v4 04/14] dp8393x: Have dp8393x_receive() return the packet
- size
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Subject: [PATCH v4 05/14] dp8393x: Update LLFA and CRDA registers from rx
+ descriptor
 Date: Wed, 29 Jan 2020 20:27:49 +1100
-Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
 X-Received-From: 98.124.60.144
 X-BeenThere: qemu-devel@nongnu.org
@@ -54,59 +51,64 @@ Cc: =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This function re-uses its 'size' argument as a scratch variable.
-Instead, declare a local 'size' variable for that purpose so that the
-function result doesn't get messed up.
+Follow the algorithm given in the National Semiconductor DP83932C
+datasheet in section 3.4.7:
+
+    At the next reception, the SONIC re-reads the last RXpkt.link field,
+    and updates its CRDA register to point to the next descriptor.
+
+The chip is designed to allow the host to provide a new list of
+descriptors in this way.
 
 Signed-off-by: Finn Thain <fthain@telegraphics.com.au>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 Tested-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/net/dp8393x.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+Changed since v1:
+ - Update CRDA register from LLFA register after EOL is cleared.
+---
+ hw/net/dp8393x.c | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
 
 diff --git a/hw/net/dp8393x.c b/hw/net/dp8393x.c
-index 2d2ace2549..ece72cbf42 100644
+index ece72cbf42..249be403af 100644
 --- a/hw/net/dp8393x.c
 +++ b/hw/net/dp8393x.c
-@@ -757,20 +757,21 @@ static int dp8393x_receive_filter(dp8393xState *s, =
-const uint8_t * buf,
- }
-=20
- static ssize_t dp8393x_receive(NetClientState *nc, const uint8_t * buf,
--                               size_t size)
-+                               size_t pkt_size)
- {
-     dp8393xState *s =3D qemu_get_nic_opaque(nc);
-     int packet_type;
-     uint32_t available, address;
--    int width, rx_len =3D size;
-+    int width, rx_len =3D pkt_size;
-     uint32_t checksum;
-+    int size;
-=20
-     width =3D (s->regs[SONIC_DCR] & SONIC_DCR_DW) ? 2 : 1;
-=20
-     s->regs[SONIC_RCR] &=3D ~(SONIC_RCR_PRX | SONIC_RCR_LBK | SONIC_RCR_=
-FAER |
-         SONIC_RCR_CRCR | SONIC_RCR_LPKT | SONIC_RCR_BC | SONIC_RCR_MC);
-=20
--    packet_type =3D dp8393x_receive_filter(s, buf, size);
-+    packet_type =3D dp8393x_receive_filter(s, buf, pkt_size);
-     if (packet_type < 0) {
-         DPRINTF("packet not for netcard\n");
-         return -1;
-@@ -864,7 +865,7 @@ static ssize_t dp8393x_receive(NetClientState *nc, co=
-nst uint8_t * buf,
-     /* Done */
-     dp8393x_update_irq(s);
-=20
--    return size;
-+    return pkt_size;
- }
-=20
- static void dp8393x_reset(DeviceState *dev)
---=20
+@@ -784,12 +784,13 @@ static ssize_t dp8393x_receive(NetClientState *nc, const uint8_t * buf,
+         address = dp8393x_crda(s) + sizeof(uint16_t) * 5 * width;
+         address_space_rw(&s->as, address, MEMTXATTRS_UNSPECIFIED,
+                          (uint8_t *)s->data, size, 0);
+-        if (dp8393x_get(s, width, 0) & SONIC_DESC_EOL) {
++        s->regs[SONIC_LLFA] = dp8393x_get(s, width, 0);
++        if (s->regs[SONIC_LLFA] & SONIC_DESC_EOL) {
+             /* Still EOL ; stop reception */
+             return -1;
+-        } else {
+-            s->regs[SONIC_CRDA] = s->regs[SONIC_LLFA];
+         }
++        /* Link has been updated by host */
++        s->regs[SONIC_CRDA] = s->regs[SONIC_LLFA];
+     }
+ 
+     /* Save current position */
+@@ -837,7 +838,7 @@ static ssize_t dp8393x_receive(NetClientState *nc, const uint8_t * buf,
+     address_space_rw(&s->as, dp8393x_crda(s),
+         MEMTXATTRS_UNSPECIFIED, (uint8_t *)s->data, size, 1);
+ 
+-    /* Move to next descriptor */
++    /* Check link field */
+     size = sizeof(uint16_t) * width;
+     address_space_rw(&s->as, dp8393x_crda(s) + sizeof(uint16_t) * 5 * width,
+         MEMTXATTRS_UNSPECIFIED, (uint8_t *)s->data, size, 0);
+@@ -852,6 +853,8 @@ static ssize_t dp8393x_receive(NetClientState *nc, const uint8_t * buf,
+         dp8393x_put(s, width, 0, 0);
+         address_space_rw(&s->as, address, MEMTXATTRS_UNSPECIFIED,
+                          (uint8_t *)s->data, size, 1);
++
++        /* Move to next descriptor */
+         s->regs[SONIC_CRDA] = s->regs[SONIC_LLFA];
+         s->regs[SONIC_ISR] |= SONIC_ISR_PKTRX;
+         s->regs[SONIC_RSC] = (s->regs[SONIC_RSC] & 0xff00) | (((s->regs[SONIC_RSC] & 0x00ff) + 1) & 0x00ff);
+-- 
 2.24.1
 
 
