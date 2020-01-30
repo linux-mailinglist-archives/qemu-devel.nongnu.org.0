@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C3B314D777
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jan 2020 09:26:45 +0100 (CET)
-Received: from localhost ([::1]:57196 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EECAE14D77B
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jan 2020 09:27:30 +0100 (CET)
+Received: from localhost ([::1]:57204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ix59w-0003TI-Cg
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 03:26:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57477)
+	id 1ix5Ag-0004cc-2T
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 03:27:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57486)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1ix596-0002b7-9f
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 03:25:53 -0500
+ (envelope-from <bounces@canonical.com>) id 1ix596-0002bd-RH
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 03:25:54 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1ix594-00072D-Qm
+ (envelope-from <bounces@canonical.com>) id 1ix595-00072T-OJ
  for qemu-devel@nongnu.org; Thu, 30 Jan 2020 03:25:52 -0500
-Received: from indium.canonical.com ([91.189.90.7]:55658)
+Received: from indium.canonical.com ([91.189.90.7]:55706)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1ix594-00071w-LB
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 03:25:50 -0500
+ id 1ix595-00072N-Iw
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 03:25:51 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1ix593-0005YX-Vk
- for <qemu-devel@nongnu.org>; Thu, 30 Jan 2020 08:25:49 +0000
+ id 1ix594-0005cW-Tg
+ for <qemu-devel@nongnu.org>; Thu, 30 Jan 2020 08:25:50 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id EF3D82E80C3
- for <qemu-devel@nongnu.org>; Thu, 30 Jan 2020 08:25:49 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id D86F62E8030
+ for <qemu-devel@nongnu.org>; Thu, 30 Jan 2020 08:25:50 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 30 Jan 2020 08:19:28 -0000
+Date: Thu, 30 Jan 2020 08:20:18 -0000
 From: Philippe Vaucher <philippe.vaucher@gmail.com>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -45,7 +45,7 @@ X-Launchpad-Bug-Commenters: dflogeras2 liuke philippe-vaucher pmaydell
 X-Launchpad-Bug-Reporter: Kan Li (liuke)
 X-Launchpad-Bug-Modifier: Philippe Vaucher (philippe-vaucher)
 References: <154353638253.10384.17899256838547579767.malonedeb@chaenomeles.canonical.com>
-Message-Id: <158037236852.18993.10303164159264845353.malone@gac.canonical.com>
+Message-Id: <158037241886.5216.2510233085899630280.malone@wampee.canonical.com>
 Subject: [Bug 1805913] Re: readdir() returns NULL (errno=EOVERFLOW) for 32-bit
  user-static qemu on 64-bit host
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
@@ -54,7 +54,7 @@ Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="b8d1327fd820d6bf500589d6da587d5037c7d88e";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 0fc79f95e711a719316494eb2ea0eea0342b0b82
+X-Launchpad-Hash: 913d7b7ef4f24cb79e8744ec5c590f724ce83e9d
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
@@ -71,17 +71,7 @@ Reply-To: Bug 1805913 <1805913@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Is there a workaround for this? I tried:
-
-- Building on an XFS partition.
-- Building from ubuntu:16.04 so the host has glib <2.27.
-
-It looks like the only way is to have the chroot with glib <2.27, and in
-alpine images glib is at minimum 2.56.
-
-If the bug is fixed in glib maybe I can install glib from master? I'm
-trying to build multi-arch docker images and this bug is what prevents
-me from providing arm/v7 images for the raspberry pi.
+Sorry, meant `< 2.28` above.
 
 -- =
 
