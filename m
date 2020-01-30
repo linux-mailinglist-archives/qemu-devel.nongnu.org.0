@@ -2,64 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BB3114E505
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jan 2020 22:44:48 +0100 (CET)
-Received: from localhost ([::1]:39562 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D03914E51F
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jan 2020 22:52:14 +0100 (CET)
+Received: from localhost ([::1]:39788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ixHcF-000395-5s
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 16:44:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59138)
+	id 1ixHjR-0006Ng-IC
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 16:52:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59198)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@redhat.com>) id 1ixHWf-0002UD-2A
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 16:39:02 -0500
+ (envelope-from <danielhb413@gmail.com>) id 1ixHWw-00039G-9V
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 16:39:19 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1ixHWb-0000tM-KW
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 16:39:00 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:27045
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1ixHWb-0000s3-0n
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 16:38:57 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580420336;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=7fwh0ME1HVlBOgnkxranGKr/eF5Lv+1xWTQqUr+ffoQ=;
- b=FRT1CmdBrCjeSD3NmSFbT6jA+NXivSk1lClWbOYQPY4qTPrUVms/1n0l8jNDxUJXKCxr4m
- RLGnEnNEbqVp6QhNW++a+RW4FZASeNXQ6K3qV8V7DAwIX+zZfVB/lG+rShABScET/UN+sD
- 3D0b7ShHpAreYZMHLxduLwzBVDkMaqE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-3-vjG5wI40Nr-WL6SgY4zSPw-1; Thu, 30 Jan 2020 16:38:54 -0500
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8265818A6EC0;
- Thu, 30 Jan 2020 21:38:53 +0000 (UTC)
-Received: from localhost (unknown [10.36.118.87])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BD81E5C296;
- Thu, 30 Jan 2020 21:38:47 +0000 (UTC)
-From: Stefan Hajnoczi <stefanha@redhat.com>
+ (envelope-from <danielhb413@gmail.com>) id 1ixHWu-0001Ih-Vo
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 16:39:18 -0500
+Received: from mail-qv1-xf43.google.com ([2607:f8b0:4864:20::f43]:34451)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <danielhb413@gmail.com>)
+ id 1ixHWu-0001H1-Qj; Thu, 30 Jan 2020 16:39:16 -0500
+Received: by mail-qv1-xf43.google.com with SMTP id o18so2282180qvf.1;
+ Thu, 30 Jan 2020 13:39:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=h5SbyMypGbh8uE4ME+OX7Faq9skFF2b4ce/NxvMRXi0=;
+ b=u52YfGAyBg/d63zYVZsqnwxPNDcozpJBjx+d7ScilQLXuJRmW4Lo+Ih3roXV60/j1b
+ Iz8Ui6xEKx0bHe9syMosASyD9+ZcgrplAQlYZZeNUSYafpeM44leZMAYTI0RskAap5oR
+ g5y+99vy14jch5SEpYBbjzjcMI2Y4cS3cyu105kSU40IjpZ9PAZBWXBqYpo5pR7RMG0X
+ W9xvODT+gWLCD0aYuR0T6AhyUxayOzZlHCgKM4ru4aduYqK6hIxZmeNRXdrnfXGqvwdT
+ KgF4DPpnsusTcZ6Pw+VJ4VX87dJeAe7/grfHc2GkWf71KxetvdP9O4+/folwp7CvQCTs
+ L+HA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=h5SbyMypGbh8uE4ME+OX7Faq9skFF2b4ce/NxvMRXi0=;
+ b=Z5bcL5Qw+MuwmO0QAaFb9eXiptdxNIqlM3DFO29un3L4gZ75n+CNFJ8cMd+vKSdmgE
+ 7vmClqoy3zi1QegDk8cYwFYzAfqq+fTaDXjMOhtTGkGJYlrQAcgoFOx+7WDj9wmsLeNx
+ 1NAfe3fZPoxaoOIUxenad972qpdAK464F5NS9OmQ25qjnSkfrSOLSISjUgPEkzhT4KZJ
+ 94KriJycenbzEmBid0ZVWCckeWipe88LoCeGmXLCsT5z/xpwgSUeKVdnufmKuragrmID
+ 1hjTRRWP9a7TcwynLb9B9jyMsdJIP5sfkfwGhUACr6eWBpXP1AwPNh8iQaUv6bB9WfQ3
+ 2j+Q==
+X-Gm-Message-State: APjAAAUPx5U9Sy2KBuQXLu4l5XxK8fGhpUa25t4UcoE1zF+O1eYMB7eH
+ pLfsyUyCD0uI2WMDx8KFrfgyMX2E
+X-Google-Smtp-Source: APXvYqwR7W8rsPFY+GGY5SUQqmNEKYGS1nTxp5eVAxfVB16sGGBugTsJEPaqGE8evEaNRW5LuOL1tw==
+X-Received: by 2002:ad4:53a5:: with SMTP id j5mr7064662qvv.239.1580420355455; 
+ Thu, 30 Jan 2020 13:39:15 -0800 (PST)
+Received: from rekt.ibmuc.com ([2804:431:c7c7:c177:887c:ce1b:6a44:15ec])
+ by smtp.gmail.com with ESMTPSA id f26sm3650597qtv.77.2020.01.30.13.39.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 30 Jan 2020 13:39:15 -0800 (PST)
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 5/5] qemu_set_log_filename: filename argument may be NULL
-Date: Thu, 30 Jan 2020 21:38:14 +0000
-Message-Id: <20200130213814.334195-6-stefanha@redhat.com>
-In-Reply-To: <20200130213814.334195-1-stefanha@redhat.com>
-References: <20200130213814.334195-1-stefanha@redhat.com>
+Subject: [PATCH v9 0/4] delete created files when
+ block_crypto_co_create_opts_luks fails
+Date: Thu, 30 Jan 2020 18:39:03 -0300
+Message-Id: <20200130213907.2830642-1-danielhb413@gmail.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: vjG5wI40Nr-WL6SgY4zSPw-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::f43
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,108 +76,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Salvador Fandino <salvador@qindel.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: kwolf@redhat.com, Daniel Henrique Barboza <danielhb413@gmail.com>,
+ qemu-block@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Salvador Fandino <salvador@qindel.com>
+The version 8 of this patch series got buried and it's now
+conflicting with master. Rebase and re-sending it.
 
-NULL is a valid log filename used to indicate we want to use stderr
-but qemu_set_log_filename (which is called by bsd-user/main.c) was not
-handling it correctly.
+Also, I contemplated the idea of moving/copying the password
+verification in qcrypto_block_luks_create() all the way back to the
+start of block_crypto_co_create_opts_luks(), failing early before the
+bdrv_create_file(), avoiding the problem altogether without the
+need of a delete_file API I'm trying to push here (see patch 03
+commit message for detailed info about the bug).
 
-That also made redundant a couple of NULL checks in calling code which
-have been removed.
+This idea was dropped after I saw that:
 
-Signed-off-by: Salvador Fandino <salvador@qindel.com>
-Message-Id: <20200123193626.19956-1-salvador@qindel.com>
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
----
- trace/control.c |  4 +---
- util/log.c      | 28 ++++++++++++++++------------
- vl.c            |  5 +----
- 3 files changed, 18 insertions(+), 19 deletions(-)
+- We would need to store the resulting password, now being retrieved
+early in block_crypto_co_create_opts_luks(), in a new
+QCryptoBlockCreateOptions string to be used inside
+qcrypto_block_luks_create() as intended. An alternative would be to
+call qcrypto_secret_lookup_as_utf8() twice, discarding the first
+string;
 
-diff --git a/trace/control.c b/trace/control.c
-index 0fb8124160..6c775e68eb 100644
---- a/trace/control.c
-+++ b/trace/control.c
-@@ -229,9 +229,7 @@ void trace_init_file(const char *file)
-     /* If both the simple and the log backends are enabled, "--trace file"
-      * only applies to the simple backend; use "-D" for the log backend.
-      */
--    if (file) {
--        qemu_set_log_filename(file, &error_fatal);
--    }
-+    qemu_set_log_filename(file, &error_fatal);
- #else
-     if (file) {
-         fprintf(stderr, "error: --trace file=3D...: "
-diff --git a/util/log.c b/util/log.c
-index 867264da8d..47f2827397 100644
---- a/util/log.c
-+++ b/util/log.c
-@@ -148,25 +148,29 @@ void qemu_log_needs_buffers(void)
-  * Allow the user to include %d in their logfile which will be
-  * substituted with the current PID. This is useful for debugging many
-  * nested linux-user tasks but will result in lots of logs.
-+ *
-+ * filename may be NULL. In that case, log output is sent to stderr
-  */
- void qemu_set_log_filename(const char *filename, Error **errp)
- {
--    char *pidstr;
-     g_free(logfilename);
-     logfilename =3D NULL;
-=20
--    pidstr =3D strstr(filename, "%");
--    if (pidstr) {
--        /* We only accept one %d, no other format strings */
--        if (pidstr[1] !=3D 'd' || strchr(pidstr + 2, '%')) {
--            error_setg(errp, "Bad logfile format: %s", filename);
--            return;
--        } else {
--            logfilename =3D g_strdup_printf(filename, getpid());
--        }
--    } else {
--        logfilename =3D g_strdup(filename);
-+    if (filename) {
-+            char *pidstr =3D strstr(filename, "%");
-+            if (pidstr) {
-+                /* We only accept one %d, no other format strings */
-+                if (pidstr[1] !=3D 'd' || strchr(pidstr + 2, '%')) {
-+                    error_setg(errp, "Bad logfile format: %s", filename);
-+                    return;
-+                } else {
-+                    logfilename =3D g_strdup_printf(filename, getpid());
-+                }
-+            } else {
-+                logfilename =3D g_strdup(filename);
-+            }
-     }
-+
-     qemu_log_close();
-     qemu_set_log(qemu_loglevel);
- }
-diff --git a/vl.c b/vl.c
-index 24951b51a9..7dcb0879c4 100644
---- a/vl.c
-+++ b/vl.c
-@@ -3903,10 +3903,7 @@ int main(int argc, char **argv, char **envp)
-=20
-     /* Open the logfile at this point and set the log mask if necessary.
-      */
--    if (log_file) {
--        qemu_set_log_filename(log_file, &error_fatal);
--    }
--
-+    qemu_set_log_filename(log_file, &error_fatal);
-     if (log_mask) {
-         int mask;
-         mask =3D qemu_str_to_log_mask(log_mask);
---=20
+- There are a lot of ways to fail in qcrypto_block_luks_create()
+other than a non-UTF8 password that would trigger the same problem.
+A more appropiate way of doing what I intended, instead of
+copying/hacking code around to fail before bdrv_create(), is some sort
+of bdrv_validate() API that would encapsulate everything that is
+related to user input validation for the security drivers. This
+API could then be called before the file creation (maybe inside
+bdrv_create itself) and fail early if needed. This is too overkill
+for what I'm trying to fix here, and I'm not sure if it would be
+a net gain compared to the delete_file API.
+
+
+All that said, I believe that this patch series presents a sane
+solution with the code we have ATM.
+
+
+changes in this version:
+- rebase with current master at 204aa60b37
+- previous version:
+https://lists.gnu.org/archive/html/qemu-devel/2019-11/msg01551.html
+
+
+Daniel Henrique Barboza (4):
+  block: introducing 'bdrv_co_delete_file' interface
+  block.c: adding bdrv_co_delete_file
+  crypto.c: cleanup created file when block_crypto_co_create_opts_luks
+    fails
+  qemu-iotests: adding LUKS cleanup for non-UTF8 secret error
+
+ block.c                    | 26 +++++++++++++++
+ block/crypto.c             | 18 ++++++++++
+ block/file-posix.c         | 23 +++++++++++++
+ include/block/block.h      |  1 +
+ include/block/block_int.h  |  4 +++
+ tests/qemu-iotests/282     | 67 ++++++++++++++++++++++++++++++++++++++
+ tests/qemu-iotests/282.out | 11 +++++++
+ tests/qemu-iotests/group   |  1 +
+ 8 files changed, 151 insertions(+)
+ create mode 100755 tests/qemu-iotests/282
+ create mode 100644 tests/qemu-iotests/282.out
+
+-- 
 2.24.1
 
 
