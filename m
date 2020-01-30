@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 791B314DDFE
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jan 2020 16:38:27 +0100 (CET)
-Received: from localhost ([::1]:34340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06EEC14DDF7
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jan 2020 16:37:06 +0100 (CET)
+Received: from localhost ([::1]:34284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ixBti-0000jt-IN
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 10:38:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59307)
+	id 1ixBsO-0008CK-QQ
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 10:37:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58302)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liam.merwick@oracle.com>) id 1ixBt1-0000Ki-60
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 10:37:44 -0500
+ (envelope-from <liam.merwick@oracle.com>) id 1ixBrE-0007iZ-Mr
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 10:35:53 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <liam.merwick@oracle.com>) id 1ixBt0-0004es-3Z
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 10:37:43 -0500
-Received: from userp2120.oracle.com ([156.151.31.85]:44700)
+ (envelope-from <liam.merwick@oracle.com>) id 1ixBrD-0001co-8v
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 10:35:52 -0500
+Received: from userp2120.oracle.com ([156.151.31.85]:42608)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <liam.merwick@oracle.com>)
- id 1ixBsz-0004dQ-Rm
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 10:37:42 -0500
+ id 1ixBrC-0001TV-NR
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 10:35:51 -0500
 Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
- by userp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 00UFXmSb152381;
- Thu, 30 Jan 2020 15:37:33 GMT
+ by userp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 00UFXixG152337;
+ Thu, 30 Jan 2020 15:35:32 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=subject : to : cc :
  references : from : message-id : date : mime-version : in-reply-to :
  content-type : content-transfer-encoding; s=corp-2019-08-05;
- bh=REA/fyhpQPwEo0O4zh+qY0Mp8X6BCfS8/70r9dw+YXc=;
- b=Sf/zNOk5ZsDH6BUGaA6/nMr5mUGnmGjV41Ywkzvwp1xHtj+oVnMadvS+DjzvwHOY7rJv
- cAw+dG22fvnc1mDSroDufmRSrNzxvdXCd1OlSLW+hNF5m7UZjJol9is3NUxHWiVwbGrl
- SRTD5QwazapRIkEhOpje0F3Rrr1Qvw+/0yNwkUT1I98h6Z2K4gATzeidiAMjNpq9S9m4
- xyE+7J10c53/6qTccO/ZXaVaf+ixH16J4wnYm8SpfPOWI1wjEE2OBnDfJlZpaqM/nuBn
- MkqHs8IKTaKTHyfr/HwCMtnf/s8TygiDvdN/HGFbY2111NLyNKAQRapuso4f3FuHb5T+ 4w== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
- by userp2120.oracle.com with ESMTP id 2xrearmqpg-1
+ bh=/m0zuViR65AQuWEZKuOew3oN5i/GHd3M7ttRBqmaJNM=;
+ b=hYzY/TqzNplFML41ySEiuPFBvmSaCmdZtfi0F942U/9InUY/BvsqCHxdFWFMOvHHia0s
+ dC6FAfj3CTh1KvfuYJFJ4ZcgFfpNq/FFlOP59A0mUBihmhJ3LCHXouf0SIpBq1W0Imta
+ xXIXTQT4lCAoG7z9zagOg8Bu4fkhnrBHt1rHOrZGnlfgsBr5SjDGwcwIZtHqLhVVGey0
+ uL9JqK+LpIZGEn7DxHrEnP4zHc9ZlRlXBwoHfsARPMAHKYWZqfnWxl29kbyvKSsf8W+j
+ d7KbF1HluApFzLt6Eo/1olMl8+YZt7CRHC2gakQ/1+XannaI9NC9w3Bdo/IJ/z5rA1kn AQ== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by userp2120.oracle.com with ESMTP id 2xrearmq68-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 30 Jan 2020 15:37:33 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
- by userp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 00UFZIPi125377;
- Thu, 30 Jan 2020 15:35:33 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
- by userp3030.oracle.com with ESMTP id 2xuemwm909-1
+ Thu, 30 Jan 2020 15:35:32 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 00UFZ8O6066610;
+ Thu, 30 Jan 2020 15:35:32 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+ by userp3020.oracle.com with ESMTP id 2xu8e8w05y-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 30 Jan 2020 15:35:33 +0000
-Received: from abhmp0016.oracle.com (abhmp0016.oracle.com [141.146.116.22])
- by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 00UFYCDE027471;
- Thu, 30 Jan 2020 15:34:12 GMT
+ Thu, 30 Jan 2020 15:35:31 +0000
+Received: from abhmp0008.oracle.com (abhmp0008.oracle.com [141.146.116.14])
+ by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 00UFYJ1F014194;
+ Thu, 30 Jan 2020 15:34:19 GMT
 Received: from [10.175.206.58] (/10.175.206.58)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Thu, 30 Jan 2020 07:34:12 -0800
-Subject: Re: [PATCH 2/6] tests/boot_linux_console: add BIOS acceptance test
+ with ESMTP ; Thu, 30 Jan 2020 07:34:18 -0800
+Subject: Re: [PATCH 5/6] tests/boot_linux_console: add extract_from_rpm method
 To: Stefano Garzarella <sgarzare@redhat.com>
 References: <1580142994-1836-1-git-send-email-liam.merwick@oracle.com>
- <1580142994-1836-3-git-send-email-liam.merwick@oracle.com>
- <20200130112721.vm5u5zv7bifjremw@steredhat>
+ <1580142994-1836-6-git-send-email-liam.merwick@oracle.com>
+ <20200130120506.mq6tejv5i2k776k5@steredhat>
 From: Liam Merwick <liam.merwick@oracle.com>
-Message-ID: <ce5b024f-8fd6-d325-a9f7-fbea4ffeff0f@oracle.com>
-Date: Thu, 30 Jan 2020 15:34:09 +0000
+Message-ID: <f60513b8-b974-a46b-f829-993e45a0cff9@oracle.com>
+Date: Thu, 30 Jan 2020 15:34:15 +0000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.3.0
 MIME-Version: 1.0
-In-Reply-To: <20200130112721.vm5u5zv7bifjremw@steredhat>
+In-Reply-To: <20200130120506.mq6tejv5i2k776k5@steredhat>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -70,7 +70,7 @@ X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9516
  signatures=668685
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
  malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=819
  adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.0.1-1911140001 definitions=main-2001300112
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9516
@@ -78,7 +78,7 @@ X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9516
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
  priorityscore=1501 malwarescore=0
  suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=867 adultscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1911140001
  definitions=main-2001300112
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
@@ -100,53 +100,62 @@ Cc: fam@euphon.net, slp@redhat.com, alex.bennee@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 30/01/2020 11:27, Stefano Garzarella wrote:
-> Hi Liam,
-> 
-> On Mon, Jan 27, 2020 at 04:36:30PM +0000, Liam Merwick wrote:
->> Add tests to use qboot with the 'pc' and 'microvm' machine classes
->> by adding the '-bios' option via self.vm.add_args() before calling
->> do_test_x86_64_machine().
+On 30/01/2020 12:05, Stefano Garzarella wrote:
+> On Mon, Jan 27, 2020 at 04:36:33PM +0000, Liam Merwick wrote:
+>> Add a method to extract a specified file from an RPM to the test's
+>> working directory and return the path to the extracted file.
 >>
 >> Signed-off-by: Liam Merwick <liam.merwick@oracle.com>
 >> ---
->>   tests/acceptance/boot_linux_console.py | 15 ++++++++++++++-
->>   1 file changed, 14 insertions(+), 1 deletion(-)
+>>   tests/acceptance/boot_linux_console.py | 14 ++++++++++++++
+>>   1 file changed, 14 insertions(+)
 >>
 >> diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
->> index aa5b07b1c609..8daf6461ffac 100644
+>> index 43bc928b03a2..6af19ae3b14a 100644
 >> --- a/tests/acceptance/boot_linux_console.py
 >> +++ b/tests/acceptance/boot_linux_console.py
-
-...
-
+>> @@ -51,6 +51,20 @@ class BootLinuxConsole(Test):
+>>           os.chdir(cwd)
+>>           return self.workdir + path
 >>   
->> +    def test_x86_64_microvm_qboot(self):
+>> +    def extract_from_rpm(self, rpm, path):
 >> +        """
->> +        :avocado: tags=machine:microvm
->> +        """
->> +        self.vm.add_args('-bios', 'pc-bios/bios-microvm.bin')
->> +        self.do_test_x86_64_machine()
+>> +        Extracts a file from a rpm package into the test workdir
 >> +
+>> +        :param rpm: path to the rpm archive
+>> +        :param path: path within the rpm archive of the file to be extracted
+>> +        :returns: path of the extracted file
+>> +        """
+>> +        cwd = os.getcwd()
+>> +        os.chdir(self.workdir)
+>> +        process.run("rpm2cpio %s | cpio -id %s" % (rpm, path), shell=True)
+>> +        os.chdir(cwd)
+>> +        return self.workdir + '/' + path
+>                                    ^
+>      Is the extra slash needed? (just because the extract_from_deb()
+>      doesn't put it)
 > 
-> Reading the docs/microvm.rst, microvm should use qboot as default, so
-> the test_x86_64_microvm() and test_x86_64_microvm_qboot() maybe are the
-> same (I didn't test them).
 
-I traced loader_write_rom() and in both cases bios-microvm.bin got
-loaded. While there may be a slight benefit in verifying that usage of
-an explicit -bios works, I think I'll just drop the unnecessary test
-case in patches 2 and 6 in v2.
 
-> 
->>       def test_mips_malta(self):
->>           """
->>           :avocado: tags=arch:mips
-> 
-> Thanks for doing these tests!
-
-And thanks for reviewing the series.
+Yes, I needed to put it in there because the 'path' passed in for
+processing by cpio is a relative patch unlike the deb arg so it
+couldn't be just appended to 'self.workdir' which doesn't end in a '/'.
 
 Regards,
 Liam
+
+
+> Anyway this patch LGTM:
+> 
+> Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
+> 
+>> +
+>>       def do_test_x86_64_machine(self):
+>>           """
+>>           :avocado: tags=arch:x86_64
+>> -- 
+>> 1.8.3.1
+>>
+> 
+
 
