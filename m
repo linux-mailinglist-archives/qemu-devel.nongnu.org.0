@@ -2,84 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 065CA14DA3C
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jan 2020 12:57:11 +0100 (CET)
-Received: from localhost ([::1]:59572 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1790814DA37
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jan 2020 12:53:58 +0100 (CET)
+Received: from localhost ([::1]:59530 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ix8Ra-0008MC-3S
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 06:57:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40955)
+	id 1ix8OT-0005mg-5z
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 06:53:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41494)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <sgarzare@redhat.com>) id 1ix8Ki-0001CK-TZ
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 06:50:06 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1ix8NG-0004O8-0k
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 06:52:43 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <sgarzare@redhat.com>) id 1ix8Kg-0002Yu-I9
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 06:50:03 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:60200
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <sgarzare@redhat.com>) id 1ix8Kg-0002YO-DQ
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 06:50:02 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580385001;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=UUv1P2Iq01vNmZUT9bkkpZDZe2kSMid6fMyKsFYFcaE=;
- b=Fi3/7nBTjoLYSx54Qn9Mhp4DIIWqdPEuK3HvZN18dYxhQOM+c/aXQeBKXBziCTExlz6PVF
- UyXOw7o7Bq6aQ7cD8Q35GrE+ytU42RkPz/RPKnzHRYsvcdSVnAbyNXmcdss51iZhBWM3hW
- x9ej5L1v/J3BbYZKZ1pPjBvLbn0aMb4=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-169-JWVvGaRxP5-oqPqGfUbT1Q-1; Thu, 30 Jan 2020 06:49:55 -0500
-Received: by mail-wr1-f70.google.com with SMTP id b13so1565453wrx.22
- for <qemu-devel@nongnu.org>; Thu, 30 Jan 2020 03:49:54 -0800 (PST)
+ (envelope-from <peter.maydell@linaro.org>) id 1ix8N8-0004IA-RR
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 06:52:38 -0500
+Received: from mail-oi1-x234.google.com ([2607:f8b0:4864:20::234]:37372)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1ix8N8-0004G8-2w
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 06:52:34 -0500
+Received: by mail-oi1-x234.google.com with SMTP id q84so3222435oic.4
+ for <qemu-devel@nongnu.org>; Thu, 30 Jan 2020 03:52:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=OlVoJeLQtqT+0tkd1QEC9zZkcrl/hztqXIVsSUzxZE0=;
+ b=I2oINoPuiAAbx1Zj9yRNZSts9n5iQUa/iZPF4fjgPbTkAPuLgTCNrQ+rU7De1zDcVi
+ XycGf4+Nh2YJT9e+WdTX0F+7HhKWWZfh17Wm4WIKRB376oDO5L9ecsnr5vlf6Rp2WS03
+ ZoEyorWbmU3pn9mkgrDsyqPKgFXbOQJrFslBcnJkaZNtIN816z3a72YJy929DDkixPuA
+ r4G0a/uIb0OaDzXgR6zmSoXZw5c5YGJxVb3v+xuixFyLkdvq+bB5TGYBiB1vC0rlOC/1
+ Px2GkSO4DhPAmExkBxtKTSwMjWbWText9UbyzSa3w+AZ+X6qQdNCIIyq0ta/boBbBhEN
+ JKrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=F01aSopn8U1FsiaKf3EfBYdzuSa6/mxsOmTh+Ri5bHo=;
- b=czNx9R0sHbFxQv+JdKxQEJGNNLjgjzzNbxcqAWq9tL57nReBYIcBxqt4d8qWD3UoCs
- dntQ0TiJ+9zcXQO7tvyJEyoeWeQXcq76ZwlnF3hZRZXB789PJEx8ud22J+ZCozUE9cO8
- NHKO6Qop22kA2jqQEm65GGB78i0uIOIUjeZVdTa6iDMMmwLnIbIxt73AHzc4ZJvDlbPz
- mqvtaKjn8NmmAkcmQRbUoz1kAESvq1pzrKYIrvkMdqx8spcpAkU/2NuYjEdtQ+ow+kIX
- +s+tKqRkHuXrJWaPYxBPNuI8Zc6kkkzy53A5YwFoZFrrFKxBSM0Q+E62ObbpT3yAux1C
- rIPw==
-X-Gm-Message-State: APjAAAWN8Ne4Zc68zhCCEkA8/beTyeAqI5fOgeW35oEd3GKU1sLNDHzt
- bu3heu6SHwXN4cdU9CDAT5fwVpWNuLjDAonVhFn4LfRkXIHmBVUKiKHaavGxQhsSZC+9QsWhh2x
- 0dHXkfX9l47A06FU=
-X-Received: by 2002:a05:600c:23ce:: with SMTP id
- p14mr5037391wmb.114.1580384994040; 
- Thu, 30 Jan 2020 03:49:54 -0800 (PST)
-X-Google-Smtp-Source: APXvYqxxFo4Pa9XX5/agT6DXSJc2EFrvn7Ct2xO2k5ohrEYrSpH69qTKBe7dYigCCkjUzNLECT1TqQ==
-X-Received: by 2002:a05:600c:23ce:: with SMTP id
- p14mr5037352wmb.114.1580384993734; 
- Thu, 30 Jan 2020 03:49:53 -0800 (PST)
-Received: from steredhat (host209-4-dynamic.27-79-r.retail.telecomitalia.it.
- [79.27.4.209])
- by smtp.gmail.com with ESMTPSA id m21sm6226441wmi.27.2020.01.30.03.49.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Jan 2020 03:49:53 -0800 (PST)
-Date: Thu, 30 Jan 2020 12:49:50 +0100
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: Liam Merwick <liam.merwick@oracle.com>
-Subject: Re: [PATCH 1/6] tests/boot_linux_console: add microvm acceptance test
-Message-ID: <20200130114950.mudigrwt3n7rpffm@steredhat>
-References: <1580142994-1836-1-git-send-email-liam.merwick@oracle.com>
- <1580142994-1836-2-git-send-email-liam.merwick@oracle.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=OlVoJeLQtqT+0tkd1QEC9zZkcrl/hztqXIVsSUzxZE0=;
+ b=Stm29HSdRUtfFwhqRJhzFuF81ME6dyEdf82/q692VLb4XefV8OYPAyulT2EbdrcDwQ
+ 11vsa72KpL79oT+jvAQ/Tp41HQmKeg33JjNPPAym0uuCpyIFEtjka9AP5JNv4epudNqt
+ ZgP96saWbx3vhZ6Lk4hdu96Sk+dVKWyP6hck+cB1P/9+GWpY5gDldYpcGAxcVWxOHYeS
+ Sl2Cpkn7gaTMM/hSxGBioIBZQ4laNpF5u4YXRUZEgiUdL2Mev7z5ZLd9uZqTlLId7N02
+ 0PnSH/+DaDfsfZ7pVH14ufbBXOeGW/h4OK9zWjrlVTe/fliByX0TH4IRl/XMXybJSk/Z
+ Vs+Q==
+X-Gm-Message-State: APjAAAWZ9Lo4Ax6DpSFGBgyi3s3gJGSv1PKcP9rL+5dcqV50NLBkfDjN
+ XYAnVd020C/bJvY6dbKUloLsrEZSHOb0hS0Q9yjE7w==
+X-Google-Smtp-Source: APXvYqxmpqcMmjJwoqQ/onpfh3IRhKrTd7ebJlyBOYXxX5YA/MiMaRSy6UHoW197BEQa1DQEJV/dGIJuJGQ7FPOV9m0=
+X-Received: by 2002:aca:b2c5:: with SMTP id b188mr2570898oif.163.1580385150395; 
+ Thu, 30 Jan 2020 03:52:30 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <1580142994-1836-2-git-send-email-liam.merwick@oracle.com>
-X-MC-Unique: JWVvGaRxP5-oqPqGfUbT1Q-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+References: <CAL1e-=j5WJkV=X+KkfBuS3pjf6z3aJrtu4xpYeVbjEUYiWxxTQ@mail.gmail.com>
+ <CAL1e-=ghxDLcU3iqkZ8q_sbk_DyR70t2a-jFtoNDVa7iTkMXsQ@mail.gmail.com>
+ <3d768689-b69f-02d9-b3b1-0c5a9a68df89@vivier.eu>
+In-Reply-To: <3d768689-b69f-02d9-b3b1-0c5a9a68df89@vivier.eu>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 30 Jan 2020 11:52:19 +0000
+Message-ID: <CAFEAcA8ph4Bt1S7k6NfySYM9O1YARxE54r-izDpDWoWX41z98w@mail.gmail.com>
+Subject: Re: [GSoC/Outreachy QEMU proposal] Extend support for ioctls in QEMU
+ linux-user mode
+To: Laurent Vivier <laurent@vivier.eu>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::234
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,69 +76,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, slp@redhat.com, alex.bennee@linaro.org,
- qemu-devel@nongnu.org, wainersm@redhat.com, pbonzini@redhat.com,
- philmd@redhat.com
+Cc: Stefan Hajnoczi <stefanha@redhat.com>,
+ Aleksandar Markovic <aleksandar.m.mail@gmail.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jan 27, 2020 at 04:36:29PM +0000, Liam Merwick wrote:
-> Refactor test_x86_64_pc() to test_x86_64_machine() so that separate
-> functions which specify the Avocado tag of ':avocado: tags=3Dmachine:'
-> as being either 'pc' or 'microvm' can be used to test booting a
-> compressed kernel using either machine class.
->=20
-> Signed-off-by: Liam Merwick <liam.merwick@oracle.com>
-> ---
->  tests/acceptance/boot_linux_console.py | 15 +++++++++++++--
->  1 file changed, 13 insertions(+), 2 deletions(-)
+On Thu, 30 Jan 2020 at 11:20, Laurent Vivier <laurent@vivier.eu> wrote:
+>
+> Le 30/01/2020 =C3=A0 12:09, Aleksandar Markovic a =C3=A9crit :
+> > Laurent, all this seems to be dependant on whether you are ready to
+> > mentor the project. Are you?
+>
+> Yes, of course.
+>
+> > The deadline for submitting GSoC/Outreachy projects (within QEMU) is
+> > just around the corner (Feb 1). I leave to Laurent or Peter (should the=
+y
+> > give "go" to this proposal) to officially submit the project on our wik=
+i
+> > page created for that purpose, in the form they deem the best.
+>
+> Peter, is it ok for you?
 
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
+I don't really have the time to do GSoC mentoring projects;
+if you are willing to do the mentoring then that's great.
 
->=20
-> diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/bo=
-ot_linux_console.py
-> index e40b84651b0b..aa5b07b1c609 100644
-> --- a/tests/acceptance/boot_linux_console.py
-> +++ b/tests/acceptance/boot_linux_console.py
-> @@ -51,10 +51,9 @@ class BootLinuxConsole(Test):
->          os.chdir(cwd)
->          return self.workdir + path
-> =20
-> -    def test_x86_64_pc(self):
-> +    def do_test_x86_64_machine(self):
->          """
->          :avocado: tags=3Darch:x86_64
-> -        :avocado: tags=3Dmachine:pc
->          """
->          kernel_url =3D ('https://archives.fedoraproject.org/pub/archive/=
-fedora'
->                        '/linux/releases/29/Everything/x86_64/os/images/px=
-eboot'
-> @@ -70,6 +69,18 @@ class BootLinuxConsole(Test):
->          console_pattern =3D 'Kernel command line: %s' % kernel_command_l=
-ine
->          self.wait_for_console_pattern(console_pattern)
-> =20
-> +    def test_x86_64_pc(self):
-> +        """
-> +        :avocado: tags=3Dmachine:pc
-> +        """
-> +        self.do_test_x86_64_machine()
-> +
-> +    def test_x86_64_microvm(self):
-> +        """
-> +        :avocado: tags=3Dmachine:microvm
-> +        """
-> +        self.do_test_x86_64_machine()
-> +
->      def test_mips_malta(self):
->          """
->          :avocado: tags=3Darch:mips
-> --=20
-> 1.8.3.1
->=20
-
---=20
-
+thanks
+-- PMM
 
