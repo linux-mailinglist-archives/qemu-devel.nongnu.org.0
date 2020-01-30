@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F77514E4DD
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jan 2020 22:36:49 +0100 (CET)
-Received: from localhost ([::1]:39382 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21D8114E4F5
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jan 2020 22:41:30 +0100 (CET)
+Received: from localhost ([::1]:39484 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ixHUW-0005f0-5o
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 16:36:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56265)
+	id 1ixHZ3-0005fn-3d
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 16:41:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56330)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@redhat.com>) id 1ixHQE-00083r-Ld
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 16:32:23 -0500
+ (envelope-from <stefanha@redhat.com>) id 1ixHQL-0008DQ-TK
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 16:32:30 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1ixHQD-0006IH-Da
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 16:32:22 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:20495
+ (envelope-from <stefanha@redhat.com>) id 1ixHQK-0006OK-So
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 16:32:29 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:34353
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1ixHQD-0006Hy-8l
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 16:32:21 -0500
+ (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1ixHQJ-0006Ma-AO
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 16:32:27 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580419940;
+ s=mimecast20190719; t=1580419946;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mVn5LzPSG/yYiTSVziR8xhw8Osu/tHcOxSJdpsoQJns=;
- b=KEM2l33yCiUvppeoruZ0lsrpohz04wB0T9HXm4jswiUXK0h8NFSn9I+BpwBp0TBX6XYZ86
- uxvfOpXNJT2TNLw0j//+9ku5ZrO3jJGlU2x9aaq5xb9eoWtMHQInW8FxHmfsyhjnBhgOXU
- cpVtXOfOfch2LXB/cCOlhp6WZCmzqpU=
+ bh=xHs5kWWppNV6p8BzmwaptGcin4Jlu0OeZMb6NCzD4bI=;
+ b=cPALE5AsWw0UQW+7RcNx88lv9ZlBYvm/n4zhumi9X6gnCjSCMvuNUlvStS+GfboCAaIhTY
+ pVvmHh5e2/zfF5INe8C8PoyPFADrxF93J93TnmvyFqL7rEYPsYfgKV5A53Xd90/4Dm3Jgv
+ 4Y1rs6lr+bsXprozHwQvL5LRHEN+ZAc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-123-6WYJImbBPEa3mv9uvnDsRQ-1; Thu, 30 Jan 2020 16:32:18 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-183-Xu48HumdOoG1ng5mD25LTQ-1; Thu, 30 Jan 2020 16:32:24 -0500
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CC42610CE784;
- Thu, 30 Jan 2020 21:32:16 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 54657800D41;
+ Thu, 30 Jan 2020 21:32:23 +0000 (UTC)
 Received: from localhost (unknown [10.36.118.87])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D499F60BE0;
- Thu, 30 Jan 2020 21:32:10 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 09503100194E;
+ Thu, 30 Jan 2020 21:32:17 +0000 (UTC)
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 08/18] stubs: add stubs for io_uring interface
-Date: Thu, 30 Jan 2020 21:31:04 +0000
-Message-Id: <20200130213114.325157-9-stefanha@redhat.com>
+Subject: [PULL 09/18] util/async: add aio interfaces for io_uring
+Date: Thu, 30 Jan 2020 21:31:05 +0000
+Message-Id: <20200130213114.325157-10-stefanha@redhat.com>
 In-Reply-To: <20200130213114.325157-1-stefanha@redhat.com>
 References: <20200130213114.325157-1-stefanha@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: 6WYJImbBPEa3mv9uvnDsRQ-1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-MC-Unique: Xu48HumdOoG1ng5mD25LTQ-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
@@ -82,92 +82,77 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Aarushi Mehta <mehta.aaru20@gmail.com>
 
-Follow linux-aio.o and stub out the block/io_uring.o APIs that will be
-missing when a binary is linked with obj-util-y but without
-block-util-y (e.g. vhost-user-gpu).
-
-For example, the stubs are necessary so that a binary using util/async.o
-from obj-util-y for qemu_bh_new() links successfully.  In this case
-block/io_uring.o from block-util-y isn't needed and we can avoid
-dragging in the block layer by linking the stubs instead.  The stub
-functions never get called.
-
 Signed-off-by: Aarushi Mehta <mehta.aaru20@gmail.com>
 Acked-by: Stefano Garzarella <sgarzare@redhat.com>
 Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-Message-id: 20200120141858.587874-6-stefanha@redhat.com
-Message-Id: <20200120141858.587874-6-stefanha@redhat.com>
+Message-id: 20200120141858.587874-7-stefanha@redhat.com
+Message-Id: <20200120141858.587874-7-stefanha@redhat.com>
 Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- MAINTAINERS         |  1 +
- stubs/Makefile.objs |  1 +
- stubs/io_uring.c    | 32 ++++++++++++++++++++++++++++++++
- 3 files changed, 34 insertions(+)
- create mode 100644 stubs/io_uring.c
+ util/async.c | 36 ++++++++++++++++++++++++++++++++++++
+ 1 file changed, 36 insertions(+)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index a19437c13d..4ceb1ad882 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2641,6 +2641,7 @@ M: Stefan Hajnoczi <stefanha@redhat.com>
- L: qemu-block@nongnu.org
- S: Maintained
- F: block/io_uring.c
-+F: stubs/io_uring.c
+diff --git a/util/async.c b/util/async.c
+index b1fa5319e5..c192a24a61 100644
+--- a/util/async.c
++++ b/util/async.c
+@@ -276,6 +276,14 @@ aio_ctx_finalize(GSource     *source)
+     }
+ #endif
 =20
- qcow2
- M: Kevin Wolf <kwolf@redhat.com>
-diff --git a/stubs/Makefile.objs b/stubs/Makefile.objs
-index 8b0ff25508..7afbe5fb61 100644
---- a/stubs/Makefile.objs
-+++ b/stubs/Makefile.objs
-@@ -13,6 +13,7 @@ stub-obj-y +=3D iothread.o
- stub-obj-y +=3D iothread-lock.o
- stub-obj-y +=3D is-daemonized.o
- stub-obj-$(CONFIG_LINUX_AIO) +=3D linux-aio.o
-+stub-obj-$(CONFIG_LINUX_IO_URING) +=3D io_uring.o
- stub-obj-y +=3D machine-init-done.o
- stub-obj-y +=3D migr-blocker.o
- stub-obj-y +=3D change-state-handler.o
-diff --git a/stubs/io_uring.c b/stubs/io_uring.c
-new file mode 100644
-index 0000000000..622d1e4648
---- /dev/null
-+++ b/stubs/io_uring.c
-@@ -0,0 +1,32 @@
-+/*
-+ * Linux io_uring support.
-+ *
-+ * Copyright (C) 2009 IBM, Corp.
-+ * Copyright (C) 2009 Red Hat, Inc.
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or late=
-r.
-+ * See the COPYING file in the top-level directory.
-+ */
-+#include "qemu/osdep.h"
-+#include "block/aio.h"
-+#include "block/raw-aio.h"
++#ifdef CONFIG_LINUX_IO_URING
++    if (ctx->linux_io_uring) {
++        luring_detach_aio_context(ctx->linux_io_uring, ctx);
++        luring_cleanup(ctx->linux_io_uring);
++        ctx->linux_io_uring =3D NULL;
++    }
++#endif
 +
-+void luring_detach_aio_context(LuringState *s, AioContext *old_context)
+     assert(QSLIST_EMPTY(&ctx->scheduled_coroutines));
+     qemu_bh_delete(ctx->co_schedule_bh);
+=20
+@@ -340,6 +348,29 @@ LinuxAioState *aio_get_linux_aio(AioContext *ctx)
+ }
+ #endif
+=20
++#ifdef CONFIG_LINUX_IO_URING
++LuringState *aio_setup_linux_io_uring(AioContext *ctx, Error **errp)
 +{
-+    abort();
++    if (ctx->linux_io_uring) {
++        return ctx->linux_io_uring;
++    }
++
++    ctx->linux_io_uring =3D luring_init(errp);
++    if (!ctx->linux_io_uring) {
++        return NULL;
++    }
++
++    luring_attach_aio_context(ctx->linux_io_uring, ctx);
++    return ctx->linux_io_uring;
 +}
 +
-+void luring_attach_aio_context(LuringState *s, AioContext *new_context)
++LuringState *aio_get_linux_io_uring(AioContext *ctx)
 +{
-+    abort();
++    assert(ctx->linux_io_uring);
++    return ctx->linux_io_uring;
 +}
++#endif
 +
-+LuringState *luring_init(Error **errp)
-+{
-+    abort();
-+}
+ void aio_notify(AioContext *ctx)
+ {
+     /* Write e.g. bh->scheduled before reading ctx->notify_me.  Pairs
+@@ -434,6 +465,11 @@ AioContext *aio_context_new(Error **errp)
+ #ifdef CONFIG_LINUX_AIO
+     ctx->linux_aio =3D NULL;
+ #endif
 +
-+void luring_cleanup(LuringState *s)
-+{
-+    abort();
-+}
++#ifdef CONFIG_LINUX_IO_URING
++    ctx->linux_io_uring =3D NULL;
++#endif
++
+     ctx->thread_pool =3D NULL;
+     qemu_rec_mutex_init(&ctx->lock);
+     timerlistgroup_init(&ctx->tlg, aio_timerlist_notify, ctx);
 --=20
 2.24.1
 
