@@ -2,80 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8BE214DD44
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jan 2020 15:50:17 +0100 (CET)
-Received: from localhost ([::1]:33738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AE1B14DD5E
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jan 2020 15:54:28 +0100 (CET)
+Received: from localhost ([::1]:33826 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ixB96-0000Hh-GC
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 09:50:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43180)
+	id 1ixBD9-0003Tc-F2
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 09:54:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44917)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <palmerdabbelt@google.com>) id 1ixB7y-0007qs-Gi
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 09:49:08 -0500
+ (envelope-from <armbru@redhat.com>) id 1ixBCE-0002wj-9b
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 09:53:31 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <palmerdabbelt@google.com>) id 1ixB7x-000087-EM
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 09:49:06 -0500
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:35859)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <palmerdabbelt@google.com>)
- id 1ixB7x-00005A-3Z
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 09:49:05 -0500
-Received: by mail-wm1-x343.google.com with SMTP id p17so4555302wma.1
- for <qemu-devel@nongnu.org>; Thu, 30 Jan 2020 06:49:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=date:from:subject:cc:to:in-reply-to:references:message-id
- :mime-version:content-transfer-encoding;
- bh=kMhzUeveepxyKpMH/W5N9hLcHtE1Kufs05P0GwzNzjg=;
- b=D4aDVhnU7rNI654tnzgAVsQyMAeC95Mp0Kbce4byIr7DJkB0LdABPR54CuMnni2xE8
- MuJTkLCr1kjLuwGraUWDhIB7Jd2pNRFQRmgkJtyJi9UCCyFO0L54kEliqx9ir1+HFG9b
- egGJqT0FjUZdAweMBbBd+fcCSjffXdaRi76f3RTobHAIcWJv6Kb94X7RT5Bwb+xDnDyf
- 4d0q+Ss2eoj0T7cTfwnGAsF3udC2SB+ODDWRF3LBqq2L7XMVup1lJUR0IXPH9dIxJpem
- oJPBmD6cHXzRCr9YQmM01/v3Lwy9zj/Bs16EnRtUuk5v2fgLsGwziicWv95dHKKiCpB1
- vIdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:subject:cc:to:in-reply-to:references
- :message-id:mime-version:content-transfer-encoding;
- bh=kMhzUeveepxyKpMH/W5N9hLcHtE1Kufs05P0GwzNzjg=;
- b=Xnj0AZ6tEn2m/c5npZv5h7xmziymLUGN5+7i12FCbVnYLKQT8KzjsFFbARN4PCDA+d
- 8vi3KcvjiSabRsPCsCDCJPuxK3whOuHVC+1x442QAdeXutK76sZlc+gcXJX59DZgOz8A
- qHy/N9/tBM/oWxtXEdbLwa2fKjssuRsNJtRWW98YFz83055Q9+IdbeGpzq/FGJJV4A/R
- x/ucUVVISQiK12M6PywZhAkWC0FYVDBlmfjw2kaVFO8bPPKzzaSuJ/ZqtGd+kdoAsPxW
- 9syeawlwR7WtsqhrI16gHIO3dADOurGqOj7ol90gdp28rBuvMPjot+ubz+CGXpv1fEDh
- 0nbg==
-X-Gm-Message-State: APjAAAW3Pxe/KImaSEH3oA6QDw9hfv+IGMZzUkUlLuCSMT9eeopuYdPJ
- /Xkrqw2C7+WepojpdNpEppiF+Q==
-X-Google-Smtp-Source: APXvYqz3pbtbmnh3zLbqBhiOVAzAQ0es6y98s5yLzt0PtLvFq8OjVsIu+vAAlMcC/b3PQJAADjlVxQ==
-X-Received: by 2002:a05:600c:146:: with SMTP id
- w6mr6429232wmm.180.1580395743781; 
- Thu, 30 Jan 2020 06:49:03 -0800 (PST)
-Received: from localhost ([2a00:79e0:d:11:1da2:3fd4:a302:4fff])
- by smtp.gmail.com with ESMTPSA id s16sm7814666wrn.78.2020.01.30.06.49.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Jan 2020 06:49:03 -0800 (PST)
-Date: Thu, 30 Jan 2020 06:49:03 -0800 (PST)
-X-Google-Original-Date: Thu, 30 Jan 2020 14:48:47 GMT (+0000)
-From: Palmer Dabbelt <palmerdabbelt@google.com>
-X-Google-Original-From: Palmer Dabbelt <palmer@dabbelt.com>
-Subject: Re: [PATCH v2 2/2] hw/riscv: Provide rdtime callback for TCG in CLINT
- emulation
-CC: Peter Maydell <peter.maydell@linaro.org>,
- Alistair Francis <Alistair.Francis@wdc.com>, sagark@eecs.berkeley.edu,
- Atish Patra <Atish.Patra@wdc.com>, 
- anup@brainfault.org, qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
- Anup Patel <Anup.Patel@wdc.com>
-To: Anup Patel <Anup.Patel@wdc.com>
-In-Reply-To: <20200122112952.94284-3-anup.patel@wdc.com>
-References: <20200122112952.94284-3-anup.patel@wdc.com>
- <20200122112952.94284-1-anup.patel@wdc.com>
-Message-ID: <mhng-89da94b9-64c1-43e7-ae24-5a21ffc6d695@palmerdabbelt-glaptop1>
-Mime-Version: 1.0 (MHng)
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::343
+ (envelope-from <armbru@redhat.com>) id 1ixBCC-0001e2-4y
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 09:53:30 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:59743
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1ixBCC-0001cp-26
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 09:53:28 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1580396006;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=M6G0ompb1ivojDIVNm6pIRuwvrreWG7GCjFh+g8NPY8=;
+ b=SPCckROaouls7dwSsDkWP7S/oa2jhep4ffzJ+ND3tUJ3AFGUBJsTQshrIiU51kdn6qpw1N
+ FPvTxZbt/PvM8fE2HH560XeDjNmR0cYLsGUDjb9IMXIj+HZzWj5jYnHXgAD5AmolWLzZDP
+ zJUpaQHAKK/9OE5Diukh9kpWfza/ztg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-201-uHZwcKHNN1WqyjDKbm6P4w-1; Thu, 30 Jan 2020 09:53:22 -0500
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 88782800D5E;
+ Thu, 30 Jan 2020 14:53:21 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-116-131.ams2.redhat.com
+ [10.36.116.131])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DFF44100194E;
+ Thu, 30 Jan 2020 14:53:18 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 707411138404; Thu, 30 Jan 2020 15:53:17 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Subject: Re: [PATCH 02/13] qcrypto-luks: implement encryption key management
+References: <20200114193350.10830-1-mlevitsk@redhat.com>
+ <20200114193350.10830-3-mlevitsk@redhat.com>
+ <87r1zti6r8.fsf@dusky.pond.sub.org>
+ <dc902f2ba314b63da7ae7a003463f9268e7b3535.camel@redhat.com>
+ <20200128171116.GU1446339@redhat.com>
+ <20200128173251.GZ1446339@redhat.com>
+ <20200130123847.GE6438@linux.fritz.box>
+ <20200130125319.GD1891831@redhat.com>
+ <20200130142310.GF6438@linux.fritz.box>
+Date: Thu, 30 Jan 2020 15:53:17 +0100
+In-Reply-To: <20200130142310.GF6438@linux.fritz.box> (Kevin Wolf's message of
+ "Thu, 30 Jan 2020 15:23:10 +0100")
+Message-ID: <87eevhov1e.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-MC-Unique: uHZwcKHNN1WqyjDKbm6P4w-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,38 +84,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Maxim Levitsky <mlevitsk@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 22 Jan 2020 11:30:36 GMT (+0000), Anup Patel wrote:
-> This patch extends CLINT emulation to provide rdtime callback for
-> TCG. This rdtime callback will be called wheneven TIME CSRs are
-> read in privileged modes.
->
-> Signed-off-by: Anup Patel <anup.patel@wdc.com>
-> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-> ---
->  hw/riscv/sifive_clint.c | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/hw/riscv/sifive_clint.c b/hw/riscv/sifive_clint.c
-> index e5a8f75cee..805503dc27 100644
-> --- a/hw/riscv/sifive_clint.c
-> +++ b/hw/riscv/sifive_clint.c
-> @@ -236,6 +236,7 @@ DeviceState *sifive_clint_create(hwaddr addr, hwaddr size, uint32_t num_harts,
->          if (!env) {
->              continue;
->          }
-> +        riscv_cpu_set_rdtime_fn(env, cpu_riscv_read_rtc);
->          env->timer = timer_new_ns(QEMU_CLOCK_VIRTUAL,
->                                    &sifive_clint_timer_cb, cpu);
->          env->timecmp = 0;
-> -- 
-> 2.17.1
+Kevin Wolf <kwolf@redhat.com> writes:
 
-Can you make this optional?  Ideally via a command-line argument, but at a
-minimum as via the board configuration files.  As it stands this will enable
-the direct rdtime implemnetation everywhere, and while that's sensible for the
-virt board I'd prefer to avoid changing the behavior of the sifive_u board in
-ways that differ from the hardware when that's easy.
+> Am 30.01.2020 um 13:53 hat Daniel P. Berrang=C3=A9 geschrieben:
+[...]
+>> Personally I really don't like the idea of using "new-secret:null"
+>> as a way to request deletion of a keyslot. That's too magical
+>> for an action that is so dangerous to data IMhO.
+>>=20
+>> I think of these operations as activating & deactivating keyslots,
+>> hence my suggestion to use an explicit "active: true|false" to
+>> associate the core action being performed, instead of inferring
+>> the action indirectly from the secret.
+>
+> The general idea of the amend interface is more that you describe a
+> desired state rather than operations to achieve it.
+
+Point taken.
+
+>> I think this could lend itself better to future extensions too.
+>> eg currently we're just activating or deactivating a keyslot.
+>> it is conceivable in future (LUKS2) we might want to modify an
+>> existing keyslot in some way. In that scenario, "active" can
+>> be updated to be allowed to be optional such that:
+>>=20
+>>  - active: true ->  activate a currently inactive keyslot
+>>  - active: false -> deactivate a currently active keyslot
+>>  - active omitted -> modify a currently active keyslot
+>
+> This distinction feels artificial to me. All three operations just
+> change the content of a keyslot. Whether it contained a key or not in
+> the old state shouldn't make a difference for how to get a new value
+> (which could be a new key or just an empty keyslot) written to it.
+
+*If* you can get it to fail only safely.  Can you?
+
+> Making an omitted key mean something different from the other options so
+> that it's not just defaulting to one of them is problematic, too. We
+> have at least one place where it works like this (backing files) and it
+> tends to give us headaches.
+
+Seconded.
+
 
