@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2441814DF09
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jan 2020 17:24:15 +0100 (CET)
-Received: from localhost ([::1]:35374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E163114DEE6
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jan 2020 17:20:13 +0100 (CET)
+Received: from localhost ([::1]:35214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ixCc2-0001r1-5o
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 11:24:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43289)
+	id 1ixCY8-0003HM-Q6
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 11:20:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43305)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1ixCU8-0005nJ-0h
+ (envelope-from <peter.maydell@linaro.org>) id 1ixCU9-0005nZ-Dx
  for qemu-devel@nongnu.org; Thu, 30 Jan 2020 11:16:06 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1ixCU6-00038A-CF
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 11:16:03 -0500
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:36101)
+ (envelope-from <peter.maydell@linaro.org>) id 1ixCU8-0003Bf-0S
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 11:16:05 -0500
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:34167)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1ixCU6-00037D-5Q
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 11:16:02 -0500
-Received: by mail-wr1-x443.google.com with SMTP id z3so4816357wru.3
- for <qemu-devel@nongnu.org>; Thu, 30 Jan 2020 08:16:02 -0800 (PST)
+ id 1ixCU7-000393-6p
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 11:16:03 -0500
+Received: by mail-wr1-x436.google.com with SMTP id t2so4820711wrr.1
+ for <qemu-devel@nongnu.org>; Thu, 30 Jan 2020 08:16:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=FudFrPLs/FW28wgW4YGWYEJ4ys1uBPtYGVZ/qV1IY/0=;
- b=F+unshtH700rv40WL/rt6Kk1EVMPrfMuA2LZV+2W3UYilLAG7Oc4xZkOXSB1HmvxQz
- QEXu6gqBaSZ4cp0Z5l2tPHrE2Tkhtv/qqzpowWZTeWdpbrcROtz9KM/WBdaqBW09nB+K
- Xg8fHXWKpWxqLJXZtUcmPE+IJfIm8voLaguOGvTxe49jP2EMmcqpERCzrIWw9YyG6JMU
- crXD5qmBC/URL4kO7UPQu/ZnGB/PoScPjQuc8//Vf2JiorKJb977AOrDJFp5pwkR5VZ3
- A3Vvn6Qv1CLY6a3/XBir/RRFp/3PNYcafWHDpQNnI6UNEoOVfvOeTtxWl5DV3hbxQxrz
- 4VkQ==
+ bh=ERHeiWskVVmxjb2Ajc2jvjv2vBrDDeE9YX+KaKuyjf4=;
+ b=G2ZBCJG/iYrMNladcfXdCekpZM8jYd1JHHFsWOilQ73Zefd2vOrGz4D9oVVfgezEoT
+ QdH9rb9sLwRJdef78rgD+8b87AhR2qn7Fl5hnLuq2xcqsKE4tu0fdkfY2NKZnDwqxVf7
+ 0bwQBMmB4A7QtinzWmeYJpoF+aBkN9OXwYWMP6kRQg/rPrVOvk5crkwgxmCLi+MQLo+K
+ hFtSChMurGr47H+J7HnEhDpV/0T8l3lRFSEpWWV+D/BdDmlinBPFY+sXFOeQiAf8yjur
+ NhONlTvhbylsGOav9fSKo9I9fnkNgOHoIkNed6cW4NVI/uzTb0iFT6D5meFzAc4xptJb
+ h9Jw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=FudFrPLs/FW28wgW4YGWYEJ4ys1uBPtYGVZ/qV1IY/0=;
- b=YgX/esXk8zx42FvF6DrWhin/kkWy1HBHtpPW70sjFDVAEkvSJCBXWbm9Y9OepzYrwm
- BHZKW1XDAfAm+RS/FiWEUETiQwrNYKm2GjPY6PcwYRAuAfSnHAydAS5YYvis7dU+FF4w
- J5UWYi+OkOnuOM3WUg5v8F5QnrjBMz7FA2nQ2OoW5xh0sA2T+eajaWyuuVxefqUa5/D+
- W/+vyBmd9zhb0jo5bb3lyhe4lvAWF9EkAvvVBoMqk4sU24Fgu6iJkJ314LmdcnQmJH53
- /SmQi2RZsjP0p077rAxIe2FIh0JPHUK9j6rkteknihv+YDgxvwJFk+EnZkmOHYZpm5Sy
- 3zAw==
-X-Gm-Message-State: APjAAAWEpy0oalTT7Y4T5G1+fXKsBsQ6FqSAriT+zVxBpDnfPmDdZBzw
- Fgz632uN1V+PUXFgiPy14V7z88k5g2RFlA==
-X-Google-Smtp-Source: APXvYqyILcGWB3J8Izj0T7GaH0f4bzA9t1BC7YsWMz1Eeabpk/ttdMjuhkuq0csvcrmZBQT8Aa0f/Q==
-X-Received: by 2002:adf:f484:: with SMTP id l4mr6759498wro.207.1580400960970; 
- Thu, 30 Jan 2020 08:16:00 -0800 (PST)
+ bh=ERHeiWskVVmxjb2Ajc2jvjv2vBrDDeE9YX+KaKuyjf4=;
+ b=TDWAY3Rv2hxOd/ql2hVDa+TBdYLC8BoqXfRNcUCZMQFM2ErDQv8oS+vJ3hAfm/1kYB
+ Cn2VOuTGw2kcwUzidjacm1wbdT1LMYIBvsgPkIyMA11PyNvXwtfC9xaRvQEtps2sAu1/
+ rVdoWdHlseTyNhIlBYujqt1/kIaP81Sk3JJdJUNoNSuZJNZ1+MGtLsQ1J55asJOkn+sS
+ 7ervGYK/eJLrKxfYFnr/QBOyXFEHYCoEN6fXTvSuyxZzBww67L4JUS/9tBQ9YyLhfvQg
+ LgZaGGndyJCH0sxIMA7qV+pqZGf9mxquscwc5efNtGsvPc8l1LdZXBYWE4BajB0Ntr9w
+ k3vg==
+X-Gm-Message-State: APjAAAXw8a0Z3X/AfNExtxU8hiV4DEfdSKQkmHwaaLv+8fpB2PEiz7JV
+ M65E4ibczZUwB6Trst9Kbpnd1X4iCMscFg==
+X-Google-Smtp-Source: APXvYqw6nhgPa2OpCgzJK0y/GBDhjbzAQ+QY1I6gtECFgi9WFYA6PPkRVOtrepqHOfavu2n9Tt+TLQ==
+X-Received: by 2002:a05:6000:1201:: with SMTP id
+ e1mr512122wrx.386.1580400961981; 
+ Thu, 30 Jan 2020 08:16:01 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id a22sm6994442wmd.20.2020.01.30.08.16.00
+ by smtp.gmail.com with ESMTPSA id a22sm6994442wmd.20.2020.01.30.08.16.01
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Jan 2020 08:16:00 -0800 (PST)
+ Thu, 30 Jan 2020 08:16:01 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 20/26] hw/intc/arm_gicv3_kvm: Stop wrongly programming
- GICR_PENDBASER.PTZ bit
-Date: Thu, 30 Jan 2020 16:15:27 +0000
-Message-Id: <20200130161533.8180-21-peter.maydell@linaro.org>
+Subject: [PULL 21/26] target/arm/kvm: trivial: Clean up header documentation
+Date: Thu, 30 Jan 2020 16:15:28 +0000
+Message-Id: <20200130161533.8180-22-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200130161533.8180-1-peter.maydell@linaro.org>
 References: <20200130161533.8180-1-peter.maydell@linaro.org>
@@ -67,7 +67,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::443
+X-Received-From: 2a00:1450:4864:20::436
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,58 +82,175 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Zenghui Yu <yuzenghui@huawei.com>
+From: Andrew Jones <drjones@redhat.com>
 
-If LPIs are disabled, KVM will just ignore the GICR_PENDBASER.PTZ bit when
-restoring GICR_CTLR.  Setting PTZ here makes littlt sense in "reduce GIC
-initialization time".
-
-And what's worse, PTZ is generally programmed by guest to indicate to the
-Redistributor whether the LPI Pending table is zero when enabling LPIs.
-If migration is triggered when the PTZ has just been cleared by guest (and
-before enabling LPIs), we will see PTZ==1 on the destination side, which
-is not as expected.  Let's just drop this hackish userspace behavior.
-
-Also take this chance to refine the comment a bit.
-
-Fixes: 367b9f527bec ("hw/intc/arm_gicv3_kvm: Implement get/put functions")
-Signed-off-by: Zenghui Yu <yuzenghui@huawei.com>
-Message-id: 20200119133051.642-1-yuzenghui@huawei.com
+Signed-off-by: Andrew Jones <drjones@redhat.com>
+Message-id: 20200120101023.16030-2-drjones@redhat.com
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/intc/arm_gicv3_kvm.c | 11 ++++-------
- 1 file changed, 4 insertions(+), 7 deletions(-)
+ target/arm/kvm_arm.h | 46 ++++++++++++++++++++++++++------------------
+ 1 file changed, 27 insertions(+), 19 deletions(-)
 
-diff --git a/hw/intc/arm_gicv3_kvm.c b/hw/intc/arm_gicv3_kvm.c
-index 9c7f4ab8711..49304ca589d 100644
---- a/hw/intc/arm_gicv3_kvm.c
-+++ b/hw/intc/arm_gicv3_kvm.c
-@@ -336,7 +336,10 @@ static void kvm_arm_gicv3_put(GICv3State *s)
-     kvm_gicd_access(s, GICD_CTLR, &reg, true);
+diff --git a/target/arm/kvm_arm.h b/target/arm/kvm_arm.h
+index 8e14d400e8a..b48a9c95573 100644
+--- a/target/arm/kvm_arm.h
++++ b/target/arm/kvm_arm.h
+@@ -28,9 +28,9 @@
+ int kvm_arm_vcpu_init(CPUState *cs);
  
-     if (redist_typer & GICR_TYPER_PLPIS) {
--        /* Set base addresses before LPIs are enabled by GICR_CTLR write */
-+        /*
-+         * Restore base addresses before LPIs are potentially enabled by
-+         * GICR_CTLR write
-+         */
-         for (ncpu = 0; ncpu < s->num_cpu; ncpu++) {
-             GICv3CPUState *c = &s->cpu[ncpu];
+ /**
+- * kvm_arm_vcpu_finalize
++ * kvm_arm_vcpu_finalize:
+  * @cs: CPUState
+- * @feature: int
++ * @feature: feature to finalize
+  *
+  * Finalizes the configuration of the specified VCPU feature by
+  * invoking the KVM_ARM_VCPU_FINALIZE ioctl. Features requiring
+@@ -75,8 +75,8 @@ void kvm_arm_register_device(MemoryRegion *mr, uint64_t devid, uint64_t group,
+ int kvm_arm_init_cpreg_list(ARMCPU *cpu);
  
-@@ -347,12 +350,6 @@ static void kvm_arm_gicv3_put(GICv3State *s)
-             kvm_gicr_access(s, GICR_PROPBASER + 4, ncpu, &regh, true);
+ /**
+- * kvm_arm_reg_syncs_via_cpreg_list
+- * regidx: KVM register index
++ * kvm_arm_reg_syncs_via_cpreg_list:
++ * @regidx: KVM register index
+  *
+  * Return true if this KVM register should be synchronized via the
+  * cpreg list of arbitrary system registers, false if it is synchronized
+@@ -85,8 +85,8 @@ int kvm_arm_init_cpreg_list(ARMCPU *cpu);
+ bool kvm_arm_reg_syncs_via_cpreg_list(uint64_t regidx);
  
-             reg64 = c->gicr_pendbaser;
--            if (!(c->gicr_ctlr & GICR_CTLR_ENABLE_LPIS)) {
--                /* Setting PTZ is advised if LPIs are disabled, to reduce
--                 * GIC initialization time.
--                 */
--                reg64 |= GICR_PENDBASER_PTZ;
--            }
-             regl = (uint32_t)reg64;
-             kvm_gicr_access(s, GICR_PENDBASER, ncpu, &regl, true);
-             regh = (uint32_t)(reg64 >> 32);
+ /**
+- * kvm_arm_cpreg_level
+- * regidx: KVM register index
++ * kvm_arm_cpreg_level:
++ * @regidx: KVM register index
+  *
+  * Return the level of this coprocessor/system register.  Return value is
+  * either KVM_PUT_RUNTIME_STATE, KVM_PUT_RESET_STATE, or KVM_PUT_FULL_STATE.
+@@ -148,6 +148,8 @@ void kvm_arm_init_serror_injection(CPUState *cs);
+  * @cpu: ARMCPU
+  *
+  * Get VCPU related state from kvm.
++ *
++ * Returns: 0 if success else < 0 error code
+  */
+ int kvm_get_vcpu_events(ARMCPU *cpu);
+ 
+@@ -156,6 +158,8 @@ int kvm_get_vcpu_events(ARMCPU *cpu);
+  * @cpu: ARMCPU
+  *
+  * Put VCPU related state to kvm.
++ *
++ * Returns: 0 if success else < 0 error code
+  */
+ int kvm_put_vcpu_events(ARMCPU *cpu);
+ 
+@@ -205,10 +209,12 @@ typedef struct ARMHostCPUFeatures {
+ 
+ /**
+  * kvm_arm_get_host_cpu_features:
+- * @ahcc: ARMHostCPUClass to fill in
++ * @ahcf: ARMHostCPUClass to fill in
+  *
+  * Probe the capabilities of the host kernel's preferred CPU and fill
+  * in the ARMHostCPUClass struct accordingly.
++ *
++ * Returns true on success and false otherwise.
+  */
+ bool kvm_arm_get_host_cpu_features(ARMHostCPUFeatures *ahcf);
+ 
+@@ -242,7 +248,7 @@ void kvm_arm_set_cpu_features_from_host(ARMCPU *cpu);
+ bool kvm_arm_aarch32_supported(CPUState *cs);
+ 
+ /**
+- * bool kvm_arm_pmu_supported:
++ * kvm_arm_pmu_supported:
+  * @cs: CPUState
+  *
+  * Returns: true if the KVM VCPU can enable its PMU
+@@ -251,7 +257,7 @@ bool kvm_arm_aarch32_supported(CPUState *cs);
+ bool kvm_arm_pmu_supported(CPUState *cs);
+ 
+ /**
+- * bool kvm_arm_sve_supported:
++ * kvm_arm_sve_supported:
+  * @cs: CPUState
+  *
+  * Returns true if the KVM VCPU can enable SVE and false otherwise.
+@@ -259,26 +265,30 @@ bool kvm_arm_pmu_supported(CPUState *cs);
+ bool kvm_arm_sve_supported(CPUState *cs);
+ 
+ /**
+- * kvm_arm_get_max_vm_ipa_size - Returns the number of bits in the
+- * IPA address space supported by KVM
+- *
++ * kvm_arm_get_max_vm_ipa_size:
+  * @ms: Machine state handle
++ *
++ * Returns the number of bits in the IPA address space supported by KVM
+  */
+ int kvm_arm_get_max_vm_ipa_size(MachineState *ms);
+ 
+ /**
+- * kvm_arm_sync_mpstate_to_kvm
++ * kvm_arm_sync_mpstate_to_kvm:
+  * @cpu: ARMCPU
+  *
+  * If supported set the KVM MP_STATE based on QEMU's model.
++ *
++ * Returns 0 on success and -1 on failure.
+  */
+ int kvm_arm_sync_mpstate_to_kvm(ARMCPU *cpu);
+ 
+ /**
+- * kvm_arm_sync_mpstate_to_qemu
++ * kvm_arm_sync_mpstate_to_qemu:
+  * @cpu: ARMCPU
+  *
+  * If supported get the MP_STATE from KVM and store in QEMU's model.
++ *
++ * Returns 0 on success and aborts on failure.
+  */
+ int kvm_arm_sync_mpstate_to_qemu(ARMCPU *cpu);
+ 
+@@ -292,7 +302,8 @@ int kvm_arm_set_irq(int cpu, int irqtype, int irq, int level);
+ 
+ static inline void kvm_arm_set_cpu_features_from_host(ARMCPU *cpu)
+ {
+-    /* This should never actually be called in the "not KVM" case,
++    /*
++     * This should never actually be called in the "not KVM" case,
+      * but set up the fields to indicate an error anyway.
+      */
+     cpu->kvm_target = QEMU_KVM_ARM_TARGET_NONE;
+@@ -377,23 +388,20 @@ bool kvm_arm_handle_debug(CPUState *cs, struct kvm_debug_exit_arch *debug_exit);
+  *
+  * Return: TRUE if any hardware breakpoints in use.
+  */
+-
+ bool kvm_arm_hw_debug_active(CPUState *cs);
+ 
+ /**
+  * kvm_arm_copy_hw_debug_data:
+- *
+  * @ptr: kvm_guest_debug_arch structure
+  *
+  * Copy the architecture specific debug registers into the
+  * kvm_guest_debug ioctl structure.
+  */
+ struct kvm_guest_debug_arch;
+-
+ void kvm_arm_copy_hw_debug_data(struct kvm_guest_debug_arch *ptr);
+ 
+ /**
+- * its_class_name
++ * its_class_name:
+  *
+  * Return the ITS class name to use depending on whether KVM acceleration
+  * and KVM CAP_SIGNAL_MSI are supported
 -- 
 2.20.1
 
