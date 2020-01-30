@@ -2,65 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 567E414DB5E
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jan 2020 14:13:14 +0100 (CET)
-Received: from localhost ([::1]:60578 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBFDD14DB7A
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jan 2020 14:25:03 +0100 (CET)
+Received: from localhost ([::1]:60692 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ix9dA-0001ls-UU
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 08:13:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41516)
+	id 1ix9oX-0006IQ-U6
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 08:24:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44329)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1ix9cL-0001KE-Rj
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 08:12:22 -0500
+ (envelope-from <philmd@redhat.com>) id 1ix9nk-0005rV-4B
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 08:24:09 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1ix9cK-0004iL-Je
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 08:12:21 -0500
-Received: from mail-ot1-x32e.google.com ([2607:f8b0:4864:20::32e]:42111)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1ix9cK-0004fx-Ci
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 08:12:20 -0500
-Received: by mail-ot1-x32e.google.com with SMTP id 66so3013468otd.9
- for <qemu-devel@nongnu.org>; Thu, 30 Jan 2020 05:12:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=LXTwNq53EI3y2ZVBQYBZh8Gxa6lbOvk/HQh0pW5GU7s=;
- b=GtabE0AhHWxutSoeVUXfdySgzNkHvFsmqrGyYIfN0dty8dbyrhXgJS0id2SLJesa2p
- fksNDAv6zTjyDrPgWRLmnCYNN5tejlPPxyzsyLN0gtPP6fz0DeNNkC7sbMaFUgPIn5kj
- LR01zEdj/nxh8+MIvupPb012rP7kRoEt/3l930WaPGGrVcYahEsU1cVkoxhmO0AZ4Qjj
- vE7473DQJo/WxThL7n0SPTpuvViWimLnj+DpxNtHWkG6MW6Lv6IJ92PrWB4ew/wvyIOE
- VyzD91UjOMuXeiu1ZfDH9BjmKZc6qfHBXGAxzv7gy4rb09RWLasen14d2v60kuRg8UQ8
- 3Nuw==
+ (envelope-from <philmd@redhat.com>) id 1ix9nh-0001Ut-MR
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 08:24:06 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:57497
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1ix9nh-0001US-JC
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 08:24:05 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1580390644;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=erPkdlaAj6fcWGDdulB8eblIVh6S2jlOorb+TF2nnMA=;
+ b=h2H2XlivACHWjRc334snr+fj21al7wMaywe2fre+fT5xR6p7zrOd7U/iPse5luEkmZ+MiY
+ Jr6Y1HSjCjJJUYL8Hir0Luglk+X8Bzy/bCbOEeyvdtYmE/6I4rTwU3ttEf+YAbseUjUhQ+
+ cOVWITpklp8driYOJFzRIh+TsGfwUZ0=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-84-WTSXtBmzPCKaLJjuXKEsHQ-1; Thu, 30 Jan 2020 08:24:02 -0500
+Received: by mail-wr1-f69.google.com with SMTP id k18so1715365wrw.9
+ for <qemu-devel@nongnu.org>; Thu, 30 Jan 2020 05:24:02 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=LXTwNq53EI3y2ZVBQYBZh8Gxa6lbOvk/HQh0pW5GU7s=;
- b=lEyBZMt/f9LhBDp+LM/jQLZ1892un17pvnOpTRXqkbnUf7fWZiZZ0iHyPtqt+aThQe
- KhX+EFxmColjZatoEh83od7YjxZpf+8IES0vJtW9aVQWFfCZduQtwtfpjidXM2cWHKi9
- rHeRxHl5jQCiMyYRs2NTLG84Tf2cvXOfx+7iFpWdhz8jJ5+aJCX01smwqUbjwqzadHg3
- a7PoX1ljm9mwSgqe10lr0PCTj13h48ZMN7fwzxKxZdb3MLKaM4SRTTFdUPYiTU5GOVF0
- ffxokeScPWnaggtN/cTlCTIp9C6POkZvlpNZSVyOXGVKrgvI4nDqAybSGjKKwosQjFce
- PxfA==
-X-Gm-Message-State: APjAAAVyaKhP5gXE+t4/qS6qidEuSWUXO+G5DCjQgs3/4OiNv3Qjipyk
- sbkAakUST1k0u53KvH1eonPjuy2q3IGYNYtzz0apIg==
-X-Google-Smtp-Source: APXvYqznO59q+wKzbb0vKt0LSHoOb8QI+gFXkxmj5pt+3kxCB6jOxvDtgfNlzlVJxtCir2a9xBWYmWnwAuEsbaCOfyI=
-X-Received: by 2002:a05:6830:4a4:: with SMTP id
- l4mr3427931otd.91.1580389939070; 
- Thu, 30 Jan 2020 05:12:19 -0800 (PST)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=DGHzVtcPwtF+mzP6/sebta0M9m1Iwvc7R+CyODx7uEk=;
+ b=YQLsKNjcIASUPKYp2+wUwTT7EE1lv4ngPnZuMSfZhPwjaEKUjDOYcHmvS5Bai3RsGH
+ uJ4U8s7AawZeNgqKsNberH3Sdn5XPq95BupopCVXwTVw9eO67gDX/VeQHBzufT+aALBA
+ uK2q6lBOCNyRufVI4DuU/CFuhItbLKyiimSvBHtybQEESY4A1FlN39Fb0zlEqJ2law0k
+ 8yxPKear3wqE6iVkV5octZfG3ASMEBcNrm89vjCt7Hb85JbJXuI+w49XA1oGjNIFY7Yd
+ kmvFOIcb0WIG3+GsLGrdkDndKNRM8bJEILZWYXbD026aqyiDBEcsFYTcJYSAiTqmVi2m
+ CWBA==
+X-Gm-Message-State: APjAAAWz4NuYKLesFc79evcrnNVqV5mCkGrjB7ciP0Y6A0Fw/ovtQuwM
+ ZlXrNe8rjZgITsUAqcNwT6w32nO1QOjEQAwJF8+p+rsDxdOgHeIF4BCl6qxqp7zsuo9OxUnaNP4
+ xy+7zqRq+T+wlG3o=
+X-Received: by 2002:a1c:7406:: with SMTP id p6mr6014209wmc.82.1580390641466;
+ Thu, 30 Jan 2020 05:24:01 -0800 (PST)
+X-Google-Smtp-Source: APXvYqztaRkz1iqd91XHODjYPGo6CwSRiVaah4LfMHFkCfIfpgIerny6CxdFfUxv2zbDSB6k4ooeRw==
+X-Received: by 2002:a1c:7406:: with SMTP id p6mr6014182wmc.82.1580390641226;
+ Thu, 30 Jan 2020 05:24:01 -0800 (PST)
+Received: from [192.168.1.35] (113.red-83-57-172.dynamicip.rima-tde.net.
+ [83.57.172.113])
+ by smtp.gmail.com with ESMTPSA id n1sm7148072wrw.52.2020.01.30.05.24.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 30 Jan 2020 05:24:00 -0800 (PST)
+Subject: Re: [PATCH v2 01/29] hw/core: Allow setting 'virtio-blk-device.scsi'
+ property on OSX host
+To: Cornelia Huck <cohuck@redhat.com>
+References: <20200129212345.20547-1-philmd@redhat.com>
+ <20200129212345.20547-2-philmd@redhat.com>
+ <20200130132003.50057b0d.cohuck@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <161e2df7-c0b1-7d0c-2c33-e2439475d367@redhat.com>
+Date: Thu, 30 Jan 2020 14:23:59 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-References: <20200129111536.9497-1-quintela@redhat.com>
-In-Reply-To: <20200129111536.9497-1-quintela@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 30 Jan 2020 13:12:08 +0000
-Message-ID: <CAFEAcA9L1yNvVVK6LpuA2-Fiif6FGaf+U7-2sUvCQKV9qyFsng@mail.gmail.com>
-Subject: Re: [PULL 00/18] Pull migration patches
-To: Juan Quintela <quintela@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::32e
+In-Reply-To: <20200130132003.50057b0d.cohuck@redhat.com>
+Content-Language: en-US
+X-MC-Unique: WTSXtBmzPCKaLJjuXKEsHQ-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,46 +93,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Thomas Huth <thuth@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Denis Plotnikov <dplotnikov@virtuozzo.com>, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 29 Jan 2020 at 11:16, Juan Quintela <quintela@redhat.com> wrote:
->
-> The following changes since commit 4c60e3289875ae6c516a37523bcecb87f68ce67c:
->
->   Merge remote-tracking branch 'remotes/rth/tags/pull-pa-20200127' into staging (2020-01-28 15:11:04 +0000)
->
-> are available in the Git repository at:
->
->   https://github.com/juanquintela/qemu.git tags/pull-migration-pull-request
->
-> for you to fetch changes up to 42d24611afc7610808ecb8770cf40e84714dd28e:
->
->   migration/compress: compress QEMUFile is not writable (2020-01-29 11:28:59 +0100)
->
-> ----------------------------------------------------------------
-> Migration pull request
->
-> (this is a rerun of the previous pull request without the --- bits and
-> rebased to latest)
->
-> This pull request include:                                                            |
-> - simplify get_qlist (eric)                                                           |
-> - fix null in multifd_send_terminate_threads (zhimin)                                 |
-> - small fix for compress (wei)                                                        |
-> - migrate multifd + cancel fixes (juan)                                               |
-> - migrate compression: the bits that are reviewed (juan)
->
-> ----------------------------------------------------------------
+On 1/30/20 1:20 PM, Cornelia Huck wrote:
+> On Wed, 29 Jan 2020 22:23:17 +0100
+> Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> wrote:
+>=20
+>> Commit ed65fd1a27 restricted the 'scsi' property to Linux hosts:
+>=20
+> It was restricted to Linux hosts before that commit; that only became
+> problematic because we set it unconditionally in the compat code.
+>=20
+>>
+>>    1261 static Property virtio_blk_properties[] =3D {
+>>    1262     DEFINE_BLOCK_PROPERTIES(VirtIOBlock, conf.conf),
+>>    ...
+>>    1268 #ifdef __linux__
+>>    1269     DEFINE_PROP_BIT64("scsi", VirtIOBlock, host_features,
+>>    1270                       VIRTIO_BLK_F_SCSI, false),
+>>    1271 #endif
+>=20
+> What about:
+>=20
+> Commit ed65fd1a2750 ("virtio-blk: switch off scsi-passthrough by
+> default") changed the default value of the 'scsi' property of
+> virtio-blk, which is only available on Linux hosts. It also added an
+> unconditional compat entry for 2.4 or earlier machines.
 
+OK!
 
-Applied, thanks.
+>>
+>> When we try to set this property on a pre-2.4 machine on OSX,
+>=20
+> Pre-2.5, I think?
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/5.0
-for any user-visible changes.
+Yes :S
 
--- PMM
+>> we get:
+>>
+>>     Unexpected error in object_property_find() at qom/object.c:1201:
+>>     qemu-system-x86_64: -device virtio-blk-pci,id=3Dscsi0,drive=3Ddrive0=
+: can't apply global virtio-blk-device.scsi=3Dtrue: Property '.scsi' not fo=
+und
+>>
+>> Fix this error by marking the property optional.
+>>
+>> Fixes: ed65fd1a27
+>=20
+> Fixes: ed65fd1a2750 ("virtio-blk: switch off scsi-passthrough by default"=
+)
+
+OK.
+
+>=20
+>> Suggested-by: Cornelia Huck <cohuck@redhat.com>
+>> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+>> ---
+>>   hw/core/machine.c | 3 ++-
+>>   1 file changed, 2 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/hw/core/machine.c b/hw/core/machine.c
+>> index 3e288bfceb..d8e30e4895 100644
+>> --- a/hw/core/machine.c
+>> +++ b/hw/core/machine.c
+>> @@ -148,7 +148,8 @@ GlobalProperty hw_compat_2_5[] =3D {
+>>   const size_t hw_compat_2_5_len =3D G_N_ELEMENTS(hw_compat_2_5);
+>>  =20
+>>   GlobalProperty hw_compat_2_4[] =3D {
+>> -    { "virtio-blk-device", "scsi", "true" },
+>> +    /* Optional because the 'scsi' property is Linux-only */
+>> +    { "virtio-blk-device", "scsi", "true", .optional =3D true },
+>>       { "e1000", "extra_mac_registers", "off" },
+>>       { "virtio-pci", "x-disable-pcie", "on" },
+>>       { "virtio-pci", "migrate-extra", "off" },
+>=20
+> Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+
+Thanks!
+
 
