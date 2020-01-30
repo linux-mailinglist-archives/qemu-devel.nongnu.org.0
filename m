@@ -2,65 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0254114E310
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jan 2020 20:21:55 +0100 (CET)
-Received: from localhost ([::1]:38202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D98A714E34A
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jan 2020 20:35:04 +0100 (CET)
+Received: from localhost ([::1]:38268 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ixFNx-0002Eg-JY
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 14:21:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38586)
+	id 1ixFah-000634-OB
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 14:35:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43187)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <wainersm@redhat.com>) id 1ixFMT-0001av-5K
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 14:20:22 -0500
+ (envelope-from <philmd@redhat.com>) id 1ixFZS-0005bk-5K
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 14:33:48 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <wainersm@redhat.com>) id 1ixFMQ-00040C-4c
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 14:20:20 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:52170
+ (envelope-from <philmd@redhat.com>) id 1ixFZP-0007vz-P5
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 14:33:45 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:26489
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <wainersm@redhat.com>) id 1ixFMP-0003ve-OJ
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 14:20:18 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1ixFZP-0007ut-Lg
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 14:33:43 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580412016;
+ s=mimecast20190719; t=1580412822;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=uxw7baXKd/ZrzNM5pSZvTs9uCgzhNxpbWo6T9baQa0A=;
- b=EybLcY5QrectSWLIA/BI+i9Mo7WvBgA/+vY/LGHjoPK2i1UfYQvhcsRBIPhuUo/hOknscm
- 4E7sgB4nFW94olS1LWCTJzSPMeHp27KRrW2305wVM7TLFwRJqtf+SI7R4n5tC3zmLub/Of
- jFzH14jMCCTzjnnVJI9Ea70xP7qbw6A=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-70-_0zaBoT3NOCPczxSvRRjHQ-1; Thu, 30 Jan 2020 14:19:58 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 57C0018C43D9;
- Thu, 30 Jan 2020 19:19:57 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-116-40.gru2.redhat.com
- [10.97.116.40])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6EBD760BE0;
- Thu, 30 Jan 2020 19:19:48 +0000 (UTC)
-Subject: Re: [PATCH 5/6] tests/boot_linux_console: add extract_from_rpm method
-To: Liam Merwick <liam.merwick@oracle.com>,
- Stefano Garzarella <sgarzare@redhat.com>
-References: <1580142994-1836-1-git-send-email-liam.merwick@oracle.com>
- <1580142994-1836-6-git-send-email-liam.merwick@oracle.com>
- <20200130120506.mq6tejv5i2k776k5@steredhat>
- <f60513b8-b974-a46b-f829-993e45a0cff9@oracle.com>
-From: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-ID: <d6bed079-9e79-5e64-f7e2-76499f24454c@redhat.com>
-Date: Thu, 30 Jan 2020 17:19:47 -0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.4.0
+ bh=/Ih0Xt/lNc3Sb83+N7/A5K3Je4+BthAhgIf9Y+vsgkc=;
+ b=DiGrD5zu1X09S3pn7bU/Mzr9PzDzdR+XxtV6zIG4b/tOyiCwC+PXDIIdINghO35uPh8Zmn
+ TxCMQuvm/k9i2mu2HOOXNuHCOuOKSbiN92JEJ4lubGBqDoskhuMCyXL0B62G/xfzZP8yW4
+ FwHlwrKQbg3RL/NHyxCA7mWdqPYPtV8=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-194-_T2OMfxqM8GGiM_EqTjRYg-1; Thu, 30 Jan 2020 14:33:39 -0500
+Received: by mail-wr1-f69.google.com with SMTP id j4so2175007wrs.13
+ for <qemu-devel@nongnu.org>; Thu, 30 Jan 2020 11:33:38 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=iTh3S7B6OIc70IUnfml1D4BS+yZ9oXS4akyRyrJzR4U=;
+ b=EssIwXV0gaB9/EwvybqVVFL1gJAf/eDbwW85+3DJvFnfhajDWLdw1IVi1azSB0GQBH
+ dgW+OlDowuh0c85qhhG1X1OI/wjbIU/6LIHmqYH46jPP7pgX0wHDJjkrR+WS9E1ubZRm
+ /khgovAmkgAEzmW98lfgfevcFzjJkRHDEfXYyIgHTeyungCVR8udBPA3KWw9UOrQGBRY
+ ivH0Z4DASezDtgGJZg/j2s/HahsYqEHfdZEMwX9s8fYC/pModo0ANjvz1vvGw1cWOmqs
+ 0cI0hVHvpkoUWLXoqQH2nTJugMvVdLly3NLS1JRyoK7r/KkguAtZOd3O4I+GiYxjtiT1
+ 47+A==
+X-Gm-Message-State: APjAAAWesj85bwSoaqV1W/dY0lS0xXygdkEN99nMiki7O7bXCDHkUQDg
+ tTNnuoKw81/Q0EON/bjuj4ydwKzW+NU8hwSomacpllSKzZ+lmEpEByxyxD1naeax/LZQH4DFlVa
+ PxbApBfMIr/AUjQ8=
+X-Received: by 2002:a5d:5267:: with SMTP id l7mr7137715wrc.84.1580412817788;
+ Thu, 30 Jan 2020 11:33:37 -0800 (PST)
+X-Google-Smtp-Source: APXvYqw3pqJnuneyI9vLnB3Ta4tfvtZZfGqqpoxn6BQl/HTprWI8xbT7SU/PUXD+zJHHawszdd08KA==
+X-Received: by 2002:a5d:5267:: with SMTP id l7mr7137697wrc.84.1580412817564;
+ Thu, 30 Jan 2020 11:33:37 -0800 (PST)
+Received: from [192.168.1.35] (113.red-83-57-172.dynamicip.rima-tde.net.
+ [83.57.172.113])
+ by smtp.gmail.com with ESMTPSA id z3sm8689296wrs.94.2020.01.30.11.33.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 30 Jan 2020 11:33:37 -0800 (PST)
+Subject: Re: [PATCH] machine/memory encryption: Disable mem merge
+To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>,
+ qemu-devel@nongnu.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
+ brijesh.singh@amd.com
+References: <20200130175046.85850-1-dgilbert@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <2596f4f2-fb41-d8a1-a3e8-043f4edd88e0@redhat.com>
+Date: Thu, 30 Jan 2020 20:33:35 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-In-Reply-To: <f60513b8-b974-a46b-f829-993e45a0cff9@oracle.com>
+In-Reply-To: <20200130175046.85850-1-dgilbert@redhat.com>
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: _0zaBoT3NOCPczxSvRRjHQ-1
+X-MC-Unique: _T2OMfxqM8GGiM_EqTjRYg-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
@@ -78,104 +92,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, slp@redhat.com, alex.bennee@linaro.org,
- qemu-devel@nongnu.org, pbonzini@redhat.com, philmd@redhat.com
+Cc: aarcange@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 1/30/20 6:50 PM, Dr. David Alan Gilbert (git) wrote:
+> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+>=20
+> When a host is running with memory encryption, the memory isn't visible
+> to the host kernel; attempts to merge that memory are futile because
+> what it's really comparing is encrypted memory, usually encrypted
+> with different keys.
+>=20
+> Automatically turn mem-merge off when memory encryption is specified.
+>=20
+> https://bugzilla.redhat.com/show_bug.cgi?id=3D1796356
+>=20
+> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> ---
+>   hw/core/machine.c | 8 ++++++++
+>   1 file changed, 8 insertions(+)
+>=20
+> diff --git a/hw/core/machine.c b/hw/core/machine.c
+> index 3e288bfceb..029e1f85b8 100644
+> --- a/hw/core/machine.c
+> +++ b/hw/core/machine.c
+> @@ -419,6 +419,14 @@ static void machine_set_memory_encryption(Object *ob=
+j, const char *value,
+>  =20
+>       g_free(ms->memory_encryption);
+>       ms->memory_encryption =3D g_strdup(value);
+> +
+> +    /*
+> +     * With memory encryption, the host can't see the real contents of R=
+AM,
+> +     * so there's no point in it trying to merge areas.
+> +     */
+> +    if (value) {
+> +        machine_set_mem_merge(obj, false, errp);
 
-On 1/30/20 1:34 PM, Liam Merwick wrote:
-> On 30/01/2020 12:05, Stefano Garzarella wrote:
->> On Mon, Jan 27, 2020 at 04:36:33PM +0000, Liam Merwick wrote:
->>> Add a method to extract a specified file from an RPM to the test's
->>> working directory and return the path to the extracted file.
->>>
->>> Signed-off-by: Liam Merwick <liam.merwick@oracle.com>
->>> ---
->>> =C2=A0 tests/acceptance/boot_linux_console.py | 14 ++++++++++++++
->>> =C2=A0 1 file changed, 14 insertions(+)
->>>
->>> diff --git a/tests/acceptance/boot_linux_console.py=20
->>> b/tests/acceptance/boot_linux_console.py
->>> index 43bc928b03a2..6af19ae3b14a 100644
->>> --- a/tests/acceptance/boot_linux_console.py
->>> +++ b/tests/acceptance/boot_linux_console.py
->>> @@ -51,6 +51,20 @@ class BootLinuxConsole(Test):
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 os.chdir(cwd)
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return self.work=
-dir + path
->>> =C2=A0 +=C2=A0=C2=A0=C2=A0 def extract_from_rpm(self, rpm, path):
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 """
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Extracts a file from a rpm =
-package into the test workdir
->>> +
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 :param rpm: path to the rpm=
- archive
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 :param path: path within th=
-e rpm archive of the file to be=20
->>> extracted
+Using the helper is cleaner than accessing ms->mem_merge.
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-
-Might not be obvious to users that `path` should start with '.', and if=20
-he/she doesn't do that then extract_from_rpm() will silently fail to=20
-extract the file. So could you document that?
-
->>>
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 :returns: path of the extra=
-cted file
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 """
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 cwd =3D os.getcwd()
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 os.chdir(self.workdir)
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 process.run("rpm2cpio %s | =
-cpio -id %s" % (rpm, path),=20
->>> shell=3DTrue)
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 os.chdir(cwd)
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return self.workdir + '/' +=
- path
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^
->> =C2=A0=C2=A0=C2=A0=C2=A0 Is the extra slash needed? (just because the ex=
-tract_from_deb()
->> =C2=A0=C2=A0=C2=A0=C2=A0 doesn't put it)
->>
->
->
-> Yes, I needed to put it in there because the 'path' passed in for
-> processing by cpio is a relative patch unlike the deb arg so it
-> couldn't be just appended to 'self.workdir' which doesn't end in a '/'.
-
-
-It is a good practice use the `os.path` module methods when dealing with=20
-filesystem paths. So that can be replaced with:
-
- >>> os.path.normpath(os.path.join('/path/to/workdir', './file/in/rpm'))
-'/path/to/workdir/file/in/rpm'
-
-Thanks,
-
-Wainer
-
-
->
->
-> Regards,
-> Liam
->
->
->> Anyway this patch LGTM:
->>
->> Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
->>
->>> +
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 def do_test_x86_64_machine(self):
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 """
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 :avocado: tags=
-=3Darch:x86_64
->>> --=20
->>> 1.8.3.1
->>>
->>
->
+> +    }
+>   }
+>  =20
+>   static bool machine_get_nvdimm(Object *obj, Error **errp)
+>=20
 
 
