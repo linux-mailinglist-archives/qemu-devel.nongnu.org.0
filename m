@@ -2,64 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCEEE14DD9C
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jan 2020 16:10:11 +0100 (CET)
-Received: from localhost ([::1]:34000 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6179F14DDB7
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jan 2020 16:24:18 +0100 (CET)
+Received: from localhost ([::1]:34134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ixBSM-00047h-TW
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 10:10:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50005)
+	id 1ixBg1-0000IV-F2
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 10:24:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54430)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <hsp.cat7@gmail.com>) id 1ixBRV-0003ZW-Nd
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 10:09:18 -0500
+ (envelope-from <vsementsov@virtuozzo.com>) id 1ixBeU-0007Fj-3y
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 10:22:43 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <hsp.cat7@gmail.com>) id 1ixBRU-0007cb-Oa
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 10:09:17 -0500
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:32926)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <hsp.cat7@gmail.com>)
- id 1ixBRU-0007c7-JW; Thu, 30 Jan 2020 10:09:16 -0500
-Received: by mail-ot1-x343.google.com with SMTP id b18so3459224otp.0;
- Thu, 30 Jan 2020 07:09:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=cFATQpzQNU17smYHCyopvBByflLAEHZ878jKdScNHDY=;
- b=JwbZDII0NemQ5eDf7II4dwL5ZReEgo2Rg+n2W01e0z0THO27aqwNkP043M3454eRTF
- +pMGQ1H7bYNzi4btRRCveCD4FregrANin0BfkTQzNenG1OmtHpmVs0xbwO6ltfdoK+Sd
- /0trJAnj0kB4gpxXnHr3yCHAAylEQnSECyQGOShtvrdJfWZqqYayBIAF4fbnVnQYzAAK
- XYwZXobUc/DxZJXnt6ciMqhwU0R+eL2lgQCE8NJ9lHYK/w2SHsZGiBcS7T1ZqXLF8YEf
- bM07Iz11VRAXX4yaSxpaiWTNpHsWhtiJOmuBH5AN88HlQzTBCN3nNDDqQg03njKqdpO4
- CK6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=cFATQpzQNU17smYHCyopvBByflLAEHZ878jKdScNHDY=;
- b=tVCwNHHjW0rig5BeQKoDr9UAUFzEQnjqLAFbVpTP/pA8mZe71myx+fx47JB0s9iu7c
- 1oNaO07qufxiIFXxGLLu8nO8jFfsYIISJrNXUwTOT+VgFx/3vD/6PASdM3Wi+0fuJcM/
- Thi1btxsJpm8G36X6MIJ4Cro0LXdJcWv3kKZf37GP8gt4uhLbITUtuvYNTa4Ib4d0UZ1
- srarvA5CzJLouQXrC1u25Dlr1RJ8ZTDgI+atnuls1SmUnVB5vYLZjGB4TNrlcmCBgZIa
- FnDSp+XlhdY/ouJxwL3ywZ39oyYdecZXxp2voQZqZrZ0Qzv8eQqaj1vftUJp4QcdRvqz
- bUOw==
-X-Gm-Message-State: APjAAAWQVQisD16CxhtCdPHGtUcdnz0UP5047Rx9NQ9X2r0PfvxBExgY
- +fPKI51fYli8QeHZVUFr9r3H1qkfQGm8FkiSh84=
-X-Google-Smtp-Source: APXvYqxR0SZLUQXNYuoPmI48GL7n+MBUpaJulcLbuNH7Ls8V7+ENXc1y56JpG3+flPiWmaj6oaMQvpG6/wjqQ0ATsKs=
-X-Received: by 2002:a05:6830:139a:: with SMTP id
- d26mr3977216otq.75.1580396955898; 
- Thu, 30 Jan 2020 07:09:15 -0800 (PST)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1ixBeS-0007TZ-Vg
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 10:22:42 -0500
+Received: from relay.sw.ru ([185.231.240.75]:47744)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1ixBeQ-0007Ib-7p; Thu, 30 Jan 2020 10:22:38 -0500
+Received: from vovaso.qa.sw.ru ([10.94.3.0] helo=kvm.qa.sw.ru)
+ by relay.sw.ru with esmtp (Exim 4.92.3)
+ (envelope-from <vsementsov@virtuozzo.com>)
+ id 1ixBeK-0008C5-9B; Thu, 30 Jan 2020 18:22:32 +0300
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH 0/3] request_alignment vs file size
+Date: Thu, 30 Jan 2020 18:22:15 +0300
+Message-Id: <20200130152218.7600-1-vsementsov@virtuozzo.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-References: <20200129235040.24022-1-richard.henderson@linaro.org>
-In-Reply-To: <20200129235040.24022-1-richard.henderson@linaro.org>
-From: Howard Spoelstra <hsp.cat7@gmail.com>
-Date: Thu, 30 Jan 2020 16:09:04 +0100
-Message-ID: <CABLmASHGOGsDYo-jmqs2XCTvGbw80x1OAghx1AVTCOz2WMFKxw@mail.gmail.com>
-Subject: Re: [PATCH 0/4] target/ppc: Use probe_access
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: multipart/alternative; boundary="0000000000002918aa059d5cd71b"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::343
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
+X-Received-From: 185.231.240.75
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,80 +45,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc <qemu-ppc@nongnu.org>,
- qemu-devel qemu-devel <qemu-devel@nongnu.org>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: kwolf@redhat.com, den@openvz.org, vsementsov@virtuozzo.com,
+ qemu-devel@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000002918aa059d5cd71b
-Content-Type: text/plain; charset="UTF-8"
+Hi.
 
-As this patch set solved the performance issue and even led to the highest
-scores I ever saw on the benchmark tool I used, let me add a:
+This is a continuation for thread
+ "request_alignment vs file size, how to fix crash?"
+ <2ca46523-44a2-1a48-dfa3-11bda9eef8e8@virtuozzo.com>
+ https://lists.gnu.org/archive/html/qemu-devel/2020-01/msg07276.html
 
-Tested-by: Howard Spoelstra <hsp.cat7@gmail.com>
+Generic block-layer assumes that file size is aligned to
+request_alignment, and may crash otherwise (see patch 03 for simple
+reproducer).
 
-On Thu, Jan 30, 2020 at 12:50 AM Richard Henderson <
-richard.henderson@linaro.org> wrote:
+So, let's at least check this thing on generic driver open,
+and fix file-posix to consider file-size, when it wants to fallback to
+large request_alignment.
 
-> The first two address the performance regression noticed
-> by Howard Spoelstra.  The last two are just something I
-> noticed at the same time.
->
->
-> r~
->
->
-> Richard Henderson (4):
->   target/ppc: Use probe_access for LSW, STSW
->   target/ppc: Use probe_access for LMW, STMW
->   target/ppc: Remove redundant mask in DCBZ
->   target/ppc: Use probe_write for DCBZ
->
->  target/ppc/mem_helper.c | 197 +++++++++++++++++++++++++++++++++-------
->  1 file changed, 162 insertions(+), 35 deletions(-)
->
-> --
-> 2.20.1
->
->
+Vladimir Sementsov-Ogievskiy (3):
+  block/file-posix: add raw_getlength_fd
+  block/file-posix: consider file size when fallback to max_align
+  block: fail on open when file size is unaligned to request_alignment
 
---0000000000002918aa059d5cd71b
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ block.c            |  7 ++++++
+ block/file-posix.c | 60 +++++++++++++++++++++++++++++-----------------
+ 2 files changed, 45 insertions(+), 22 deletions(-)
 
-<div dir=3D"ltr"><div>As this patch set solved the performance issue and ev=
-en led to the highest scores I ever saw on the benchmark tool I used, let m=
-e add a:</div><div><br></div><div>Tested-by: Howard Spoelstra &lt;<a href=
-=3D"mailto:hsp.cat7@gmail.com" target=3D"_blank">hsp.cat7@gmail.com</a>&gt;=
-</div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_=
-attr">On Thu, Jan 30, 2020 at 12:50 AM Richard Henderson &lt;<a href=3D"mai=
-lto:richard.henderson@linaro.org" target=3D"_blank">richard.henderson@linar=
-o.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"ma=
-rgin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:=
-1ex">The first two address the performance regression noticed<br>
-by Howard Spoelstra.=C2=A0 The last two are just something I<br>
-noticed at the same time.<br>
-<br>
-<br>
-r~<br>
-<br>
-<br>
-Richard Henderson (4):<br>
-=C2=A0 target/ppc: Use probe_access for LSW, STSW<br>
-=C2=A0 target/ppc: Use probe_access for LMW, STMW<br>
-=C2=A0 target/ppc: Remove redundant mask in DCBZ<br>
-=C2=A0 target/ppc: Use probe_write for DCBZ<br>
-<br>
-=C2=A0target/ppc/mem_helper.c | 197 +++++++++++++++++++++++++++++++++------=
--<br>
-=C2=A01 file changed, 162 insertions(+), 35 deletions(-)<br>
-<br>
--- <br>
-2.20.1<br>
-<br>
-</blockquote></div>
+-- 
+2.21.0
 
---0000000000002918aa059d5cd71b--
 
