@@ -2,103 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 722B214DDDD
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jan 2020 16:30:12 +0100 (CET)
-Received: from localhost ([::1]:34228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 791B314DDFE
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jan 2020 16:38:27 +0100 (CET)
+Received: from localhost ([::1]:34340 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ixBlj-0006Iu-I8
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 10:30:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56532)
+	id 1ixBti-0000jt-IN
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 10:38:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59307)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1ixBkv-0005lO-5U
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 10:29:22 -0500
+ (envelope-from <liam.merwick@oracle.com>) id 1ixBt1-0000Ki-60
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 10:37:44 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1ixBkt-0002ff-Vn
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 10:29:21 -0500
-Received: from mail-vi1eur05on2095.outbound.protection.outlook.com
- ([40.107.21.95]:1933 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
+ (envelope-from <liam.merwick@oracle.com>) id 1ixBt0-0004es-3Z
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 10:37:43 -0500
+Received: from userp2120.oracle.com ([156.151.31.85]:44700)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1ixBkq-0002bz-1j; Thu, 30 Jan 2020 10:29:16 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FpdrCywi/uNJ/XZw9EWueyinMxpv8GLGBjwN6kMCWJktx7k6Gz3GHgcm6hBMU/o1I29SUcFLMAZnaOzCNG2nQcBjsFM6qDURUxLFKx0Q0qLwGk8x0NE5C9LLomFcNTwP7i2Trl6gqZPmgaMK2ad31IlRK6v6vo3QUtL2e1VPBlD02ZtIMkYB7c6z3vCbAjcWqQErEWTCQ103trVKJ8I0YRI6PhEzHxc/XwroaBLS6U4ns4oNTXBG921LoXAhWXKQM1uJbI1LZWiS7BxCKP2s+MzRNvq9zid4HKLqLHhatmoHAZ1+6t/CsbhhDjNqPf1YsJxKyM5a+MyISaCmiLtsGg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tOIiXK5hj1Rk4HFhYsj9Ot1Tsoqnzuu2IBAI+auvyqk=;
- b=RZaGUb7wdLw/+cLwgSCDo2Lo02LU5I+9+PpjEKGpcgDAahszOv2xMZBG7Z6gCE56UbTjvqdGeirb0+zdeYZe1u1U2HZG4kX0KtzelKHQs5SaA3dIvDUotYLozr2tj4GGEdAlttYCBt45xXsvjlvkHHB2xrNCJ5JjCq7X1OrfdOTZfz10PoOAqHfovESYeWyCIUge0dR6EgovpDePpU2oPPgV1nqqK/Is4G1PzmwDAHE8QILfodqgIeiqLJ2NVSuPo45DckkaO9dyPQrvFCmMglkja1n944ag/RX5thPdziEM/TY6C9C44/YDI6eZMz1Kyella9lXrZrMAZlbJraM9Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tOIiXK5hj1Rk4HFhYsj9Ot1Tsoqnzuu2IBAI+auvyqk=;
- b=iO2SHgoEtXzFGjxPsXCNOb17tqa6Aqr/hNLNiRk+eGdFNwu/2NLdO8Z1DQ3k5hBW7NOgeVQOVbgipF0n9QyXLbQWX9Hg4P85fwGvr/hDgiBP58XPc6okm/GMmzhHcqTbrhWt62SLlwLluabLxvqLlFRm7rbRrvdNfLw4cWJpBWk=
-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=vsementsov@virtuozzo.com; 
-Received: from AM6PR08MB4423.eurprd08.prod.outlook.com (20.179.7.140) by
- AM6PR08MB5112.eurprd08.prod.outlook.com (10.255.123.81) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2686.27; Thu, 30 Jan 2020 15:29:14 +0000
-Received: from AM6PR08MB4423.eurprd08.prod.outlook.com
- ([fe80::11a9:a944:c946:3030]) by AM6PR08MB4423.eurprd08.prod.outlook.com
- ([fe80::11a9:a944:c946:3030%7]) with mapi id 15.20.2686.025; Thu, 30 Jan 2020
- 15:29:13 +0000
-Subject: Re: [PATCH 00/10] python: Explicit usage of Python 3
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20200129231402.23384-1-philmd@redhat.com>
- <0a858225-685d-3ffd-845c-6c1f8a438307@virtuozzo.com>
- <c90ce40e-428a-ed5e-531f-b2ca99121dfc@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-X-Tagtoolbar-Keys: D20200130182910987
-Message-ID: <ba8cf924-39fb-7f7b-40a2-204026fd1a63@virtuozzo.com>
-Date: Thu, 30 Jan 2020 18:29:11 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.2.1
-In-Reply-To: <c90ce40e-428a-ed5e-531f-b2ca99121dfc@redhat.com>
+ (Exim 4.71) (envelope-from <liam.merwick@oracle.com>)
+ id 1ixBsz-0004dQ-Rm
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 10:37:42 -0500
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+ by userp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 00UFXmSb152381;
+ Thu, 30 Jan 2020 15:37:33 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=corp-2019-08-05;
+ bh=REA/fyhpQPwEo0O4zh+qY0Mp8X6BCfS8/70r9dw+YXc=;
+ b=Sf/zNOk5ZsDH6BUGaA6/nMr5mUGnmGjV41Ywkzvwp1xHtj+oVnMadvS+DjzvwHOY7rJv
+ cAw+dG22fvnc1mDSroDufmRSrNzxvdXCd1OlSLW+hNF5m7UZjJol9is3NUxHWiVwbGrl
+ SRTD5QwazapRIkEhOpje0F3Rrr1Qvw+/0yNwkUT1I98h6Z2K4gATzeidiAMjNpq9S9m4
+ xyE+7J10c53/6qTccO/ZXaVaf+ixH16J4wnYm8SpfPOWI1wjEE2OBnDfJlZpaqM/nuBn
+ MkqHs8IKTaKTHyfr/HwCMtnf/s8TygiDvdN/HGFbY2111NLyNKAQRapuso4f3FuHb5T+ 4w== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+ by userp2120.oracle.com with ESMTP id 2xrearmqpg-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 30 Jan 2020 15:37:33 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+ by userp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 00UFZIPi125377;
+ Thu, 30 Jan 2020 15:35:33 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+ by userp3030.oracle.com with ESMTP id 2xuemwm909-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 30 Jan 2020 15:35:33 +0000
+Received: from abhmp0016.oracle.com (abhmp0016.oracle.com [141.146.116.22])
+ by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 00UFYCDE027471;
+ Thu, 30 Jan 2020 15:34:12 GMT
+Received: from [10.175.206.58] (/10.175.206.58)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Thu, 30 Jan 2020 07:34:12 -0800
+Subject: Re: [PATCH 2/6] tests/boot_linux_console: add BIOS acceptance test
+To: Stefano Garzarella <sgarzare@redhat.com>
+References: <1580142994-1836-1-git-send-email-liam.merwick@oracle.com>
+ <1580142994-1836-3-git-send-email-liam.merwick@oracle.com>
+ <20200130112721.vm5u5zv7bifjremw@steredhat>
+From: Liam Merwick <liam.merwick@oracle.com>
+Message-ID: <ce5b024f-8fd6-d325-a9f7-fbea4ffeff0f@oracle.com>
+Date: Thu, 30 Jan 2020 15:34:09 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.0
+MIME-Version: 1.0
+In-Reply-To: <20200130112721.vm5u5zv7bifjremw@steredhat>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: HE1PR05CA0382.eurprd05.prod.outlook.com
- (2603:10a6:7:94::41) To AM6PR08MB4423.eurprd08.prod.outlook.com
- (2603:10a6:20b:bf::12)
-MIME-Version: 1.0
-Received: from [172.16.24.200] (185.231.240.5) by
- HE1PR05CA0382.eurprd05.prod.outlook.com (2603:10a6:7:94::41) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2686.27 via Frontend Transport; Thu, 30 Jan 2020 15:29:12 +0000
-X-Tagtoolbar-Keys: D20200130182910987
-X-Originating-IP: [185.231.240.5]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: fbe134b6-f6ed-4a84-9aac-08d7a5992937
-X-MS-TrafficTypeDiagnostic: AM6PR08MB5112:
-X-Microsoft-Antispam-PRVS: <AM6PR08MB51126E6A2DE8BD0A92A3366BC1040@AM6PR08MB5112.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-Forefront-PRVS: 02981BE340
-X-Forefront-Antispam-Report: SFV:NSPM;
- SFS:(10019020)(396003)(136003)(376002)(366004)(346002)(39850400004)(189003)(199004)(86362001)(8676002)(5660300002)(31696002)(16526019)(26005)(8936002)(186003)(81166006)(81156014)(66556008)(66476007)(6486002)(66946007)(7416002)(966005)(52116002)(316002)(16576012)(478600001)(54906003)(2906002)(4326008)(36756003)(53546011)(31686004)(956004)(2616005);
- DIR:OUT; SFP:1102; SCL:1; SRVR:AM6PR08MB5112;
- H:AM6PR08MB4423.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-Received-SPF: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ZC/ZQzqKtGAd7Coe/XLQhIZN9xHSp8KPhkdzo1WXjQdWG3ywAWcI2uNT3Zf3o0uXufu8TOjpu1o7SOnq8ixAnDNkeiM1FTytDH2qdtQ9SXRny1zIBY+1qtgbJOEKwgyBWVSLpzflTF/lnKtXfiqNzpnnNKLbnpht0cRcYjotSXuTktA1U+1MoqwI2O7pHBtBMvXZlxESPLgEVBrYh6QtvTboI3sZogP6gSwDCRQQWT442S/ZujoS1ziRyk6fLSCgW2EOiKTXjphR3t2f4iox1mYz4L++r9gy3qkrRLoTpMIOxkDqLhbouxSTpbhhAbCHVpZBSto3EozPQ70zKdebTv2OsWkvIGXWjTQFRUYvi9Fhp8d7EV5AedEIdtFx5M23rlGggodq5X6cn2XE2pnpDHe3O0ixtZ35QVnSZ7ZiIKG+k8iDvWp9JIBF7g385DAI+tcWtOH/wBYXfDr7sTzn8wVwHlir7PSecMUSFsJwT+jOq/dZ8sDDcJAMBZmcUaJ5OShavQ5wA/yCJSDRPlHfHQ==
-X-MS-Exchange-AntiSpam-MessageData: lNpIDRkLZOm+tlu4Pj7mwmH0XZw+J8RvODaMk07vsG7iAW0p7nSN1ZNAyps6jhSYSRgSFdOK+ZN6v7wpn5eqF3pPaUuSJP1iFa3+EaE+12iH6aUfE+jbPeyYk497NhxbTIaqHzC04ZRqgjnxCznbFw==
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fbe134b6-f6ed-4a84-9aac-08d7a5992937
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jan 2020 15:29:13.8052 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: cXhmU41pAv2Dc9DxPvc3StpY6hzBd+3Vb8HDu/PjcVvV67y9VGIxuNBdBylxUMjFKWLNT9NCDCgDM723aV6IQa7ZjKDRSA6GjyzUDGGeKTs=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB5112
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.21.95
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9516
+ signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1911140001 definitions=main-2001300112
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9516
+ signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
+ priorityscore=1501 malwarescore=0
+ suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1911140001
+ definitions=main-2001300112
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 156.151.31.85
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -110,67 +94,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
- Juan Quintela <quintela@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Michael Roth <mdroth@linux.vnet.ibm.com>, Max Reitz <mreitz@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, qemu-block@nongnu.org,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: fam@euphon.net, slp@redhat.com, alex.bennee@linaro.org,
+ qemu-devel@nongnu.org, wainersm@redhat.com, pbonzini@redhat.com,
+ philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-30.01.2020 18:04, Philippe Mathieu-Daud=C3=A9 wrote:
-> On 1/30/20 3:02 PM, Vladimir Sementsov-Ogievskiy wrote:
->> First, thanks for handling this!
+On 30/01/2020 11:27, Stefano Garzarella wrote:
+> Hi Liam,
+> 
+> On Mon, Jan 27, 2020 at 04:36:30PM +0000, Liam Merwick wrote:
+>> Add tests to use qboot with the 'pc' and 'microvm' machine classes
+>> by adding the '-bios' option via self.vm.add_args() before calling
+>> do_test_x86_64_machine().
 >>
->> 30.01.2020 2:13, Philippe Mathieu-Daud=C3=A9 wrote:
->>> Hello,
->>>
->>> These are mechanical sed patches used to convert the
->>> code base to Python 3, as suggested on this thread:
->>> https://www.mail-archive.com/qemu-devel@nongnu.org/msg675024.html
->>>
->>> Regards,
->>>
->>> Phil.
->>>
->>> Philippe Mathieu-Daud=C3=A9 (10):
->>> =C2=A0=C2=A0 scripts: Explicit usage of Python 3
->>> =C2=A0=C2=A0 tests/qemu-iotests: Explicit usage of Python 3
->>> =C2=A0=C2=A0 tests: Explicit usage of Python 3
->>> =C2=A0=C2=A0 scripts/minikconf: Explicit usage of Python 3
->>> =C2=A0=C2=A0 tests/acceptance: Remove shebang header
->>> =C2=A0=C2=A0 scripts/tracetool: Remove shebang header
->>> =C2=A0=C2=A0 tests/vm: Remove shebang header
->>> =C2=A0=C2=A0 tests/qemu-iotests: Explicit usage of Python 3
->>> =C2=A0=C2=A0 scripts: Explicit usage of Python 3
->>> =C2=A0=C2=A0 tests/qemu-iotests/check: Update to match Python 3 interpr=
-eter
->>>
+>> Signed-off-by: Liam Merwick <liam.merwick@oracle.com>
+>> ---
+>>   tests/acceptance/boot_linux_console.py | 15 ++++++++++++++-
+>>   1 file changed, 14 insertions(+), 1 deletion(-)
 >>
->> Could you please not use same subject for different patches? Such things=
- are hard to manage during patch porting from version to version.
->=20
-> I can change but I'm not understanding what you want.
+>> diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
+>> index aa5b07b1c609..8daf6461ffac 100644
+>> --- a/tests/acceptance/boot_linux_console.py
+>> +++ b/tests/acceptance/boot_linux_console.py
 
-I just want different subjects for different patches (you use the same for =
-01 and 09, for 02 and 08), if it possible :) But I don't insist.
+...
 
->=20
->>
->> Also, will you update checkpatch.pl, to avoid appearing unversioned pyth=
-on again?
->=20
-> I'm not sure I can because checkpatch.pl is written in Perl, but I'll try=
-.
->=20
+>>   
+>> +    def test_x86_64_microvm_qboot(self):
+>> +        """
+>> +        :avocado: tags=machine:microvm
+>> +        """
+>> +        self.vm.add_args('-bios', 'pc-bios/bios-microvm.bin')
+>> +        self.do_test_x86_64_machine()
+>> +
+> 
+> Reading the docs/microvm.rst, microvm should use qboot as default, so
+> the test_x86_64_microvm() and test_x86_64_microvm_qboot() maybe are the
+> same (I didn't test them).
 
+I traced loader_write_rom() and in both cases bios-microvm.bin got
+loaded. While there may be a slight benefit in verifying that usage of
+an explicit -bios works, I think I'll just drop the unnecessary test
+case in patches 2 and 6 in v2.
 
---=20
-Best regards,
-Vladimir
+> 
+>>       def test_mips_malta(self):
+>>           """
+>>           :avocado: tags=arch:mips
+> 
+> Thanks for doing these tests!
+
+And thanks for reviewing the series.
+
+Regards,
+Liam
 
