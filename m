@@ -2,105 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B558114DF21
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jan 2020 17:30:01 +0100 (CET)
-Received: from localhost ([::1]:35532 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BE1114DF1C
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jan 2020 17:28:20 +0100 (CET)
+Received: from localhost ([::1]:35498 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ixChc-0003vv-Po
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 11:30:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47329)
+	id 1ixCfz-0000fw-DE
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 11:28:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47328)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1ixCcI-0003Xb-NO
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 11:24:34 -0500
+ (envelope-from <mlevitsk@redhat.com>) id 1ixCcI-0003XW-8X
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 11:24:31 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1ixCcG-0004RS-Ev
+ (envelope-from <mlevitsk@redhat.com>) id 1ixCcH-0004Sw-79
  for qemu-devel@nongnu.org; Thu, 30 Jan 2020 11:24:30 -0500
-Received: from mail-vi1eur05on20707.outbound.protection.outlook.com
- ([2a01:111:f400:7d00::707]:32128
- helo=EUR05-VI1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1ixCcF-0004Or-Ng; Thu, 30 Jan 2020 11:24:28 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jEAIXJjIdg06J535pMgDwkkSWhuNAOBD6NuV6O814cF3PEhMOzAhoNY41/9OmqN23McwkiLTnGS0uf5x2rx0jALQKTmk9HELv9AyuSNZkmNdIInTc6Q8gEf/H7w85X6X9qMnwQfGxdWL69lLZcH2QQQ2yHQzqhpZslEpOGQMibJRu0+oT3h7i6ZbtxpBbc/eBobmmsynRpWWbZ4zC5w3EEsV4Y0DTIkDxun8DoFfxAzKjJuj6KZ6LkHwtw/ni/eQn08CH0NawEE3PQ6O2IXaYZ5xkmu6GDB+DCZba3i2vtyL554Uk8BUu4459ap2lnVw0wnCFjFFfBy46uFxJCml+Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VtJs1BVb4JzV6ZNjAhE+hxydlKU51wnt7itCvw+/SS0=;
- b=QuiCPyHxibAzvHXn5UITMAt87XUeu39B/HQROXjhLRRDKhFlkgdZ5Xi1LsZ+o+vLQ4MBU3G4IVCDNuFlvNIBuuyGpbjRWjy3wQ3Rgxs2vpclHZjvOdouUcQpT9pIHhItlOL36QcGbabDbLUY5zjwnjhyJIbCBbyrBakkJ8fJJ7U0ZBXnxhTOc6nCXK6+s1k2BsPSEY8swcXXeNdaNPy2MOD+RnJDbB+3fSwSKrJi4hPtyW63sOMhKx68hc1nZ8UfBBbvFkBtY9dBimJHPM+lIhg26Wag+0+snhfKeGGGv8w5s0LvJ8AUBEiKmlq2kVF3N58UM2nm8k9nEhWr5Iw2GA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VtJs1BVb4JzV6ZNjAhE+hxydlKU51wnt7itCvw+/SS0=;
- b=bKjc0B75AZudtlm/OmreABhhFLwG2dSz2N6UOS6iE5SN1dQfKvubkeOElNTWV68Pwy0LnJAYJdZlmAVZR4LzGNXBlsyuOJC0jY6A/vfRc7+qEi3WbwbevWu4uXV473KWVeL/g4KsQi5OBszfrpTIvXr8856DCoEUAuvfpSvDDvI=
-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=andrey.shinkevich@virtuozzo.com; 
-Received: from AM6PR08MB5048.eurprd08.prod.outlook.com (10.255.123.95) by
- AM6PR08MB3717.eurprd08.prod.outlook.com (20.178.91.87) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2686.27; Thu, 30 Jan 2020 16:24:21 +0000
-Received: from AM6PR08MB5048.eurprd08.prod.outlook.com
- ([fe80::8805:5633:ca46:c8c8]) by AM6PR08MB5048.eurprd08.prod.outlook.com
- ([fe80::8805:5633:ca46:c8c8%7]) with mapi id 15.20.2686.025; Thu, 30 Jan 2020
- 16:24:21 +0000
-Subject: Re: [PATCH v2 6/7] block/block-copy: reduce intersecting request lock
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>
-References: <20191127180840.11937-1-vsementsov@virtuozzo.com>
- <20191127180840.11937-7-vsementsov@virtuozzo.com>
- <632dfc93-5d42-2a9a-64f3-d6b0fca9e8dc@virtuozzo.com>
- <61f94246-4f74-c9ba-05a5-0da1c88be541@virtuozzo.com>
-From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-Organization: Virtuozzo
-Message-ID: <d451b4b9-27b9-bc43-afb9-eecc682c5586@virtuozzo.com>
-Date: Thu, 30 Jan 2020 19:24:19 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
-In-Reply-To: <61f94246-4f74-c9ba-05a5-0da1c88be541@virtuozzo.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:57067
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mlevitsk@redhat.com>) id 1ixCcH-0004RZ-1j
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 11:24:29 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1580401468;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=LyMUHV/lq0z4ysTjfpPoak59tssXUYb+BoTtmfQXyCo=;
+ b=Aal+Xfa1Xeq/PPIbCLwi3KwDHEQYRsvUbx3Qjzdc1+v95fRcy5feumRFiaoFqvoVWLgEE1
+ KKgduPfpmloLDfXUiz8YZujg0Yn9aBYHCHYCb+I10lzN9Oxja2ZQ4WRm3AeuQvNazC3d5I
+ DHvS4eLAl8L9+IAIgz+fFP3Xa/+/kAM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-46-7mImUWOpN2Cm9gVwxOkyOQ-1; Thu, 30 Jan 2020 11:24:26 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5D9741902EB3;
+ Thu, 30 Jan 2020 16:24:25 +0000 (UTC)
+Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.78])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BF266CFCC;
+ Thu, 30 Jan 2020 16:24:20 +0000 (UTC)
+Message-ID: <3ae12c75db4ce389ad3c355bc112593d86e7a256.camel@redhat.com>
+Subject: Re: [PATCH 11/13] block/crypto: implement blockdev-amend
+From: Maxim Levitsky <mlevitsk@redhat.com>
+To: "Daniel P." =?ISO-8859-1?Q?Berrang=E9?= <berrange@redhat.com>
+Date: Thu, 30 Jan 2020 18:24:19 +0200
+In-Reply-To: <20200128174008.GB1446339@redhat.com>
+References: <20200114193350.10830-1-mlevitsk@redhat.com>
+ <20200114193350.10830-12-mlevitsk@redhat.com>
+ <20200128174008.GB1446339@redhat.com>
+Mime-Version: 1.0
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: 7mImUWOpN2Cm9gVwxOkyOQ-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: HE1P195CA0003.EURP195.PROD.OUTLOOK.COM (2603:10a6:3:fd::13)
- To AM6PR08MB5048.eurprd08.prod.outlook.com
- (2603:10a6:20b:ee::31)
-MIME-Version: 1.0
-Received: from [172.16.24.225] (185.231.240.5) by
- HE1P195CA0003.EURP195.PROD.OUTLOOK.COM (2603:10a6:3:fd::13) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2665.20 via Frontend Transport; Thu, 30 Jan 2020 16:24:20 +0000
-X-Originating-IP: [185.231.240.5]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: de0fb9ad-fadb-46dc-8aeb-08d7a5a0dcd1
-X-MS-TrafficTypeDiagnostic: AM6PR08MB3717:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB3717F5C9035C237EAF6805FCF4040@AM6PR08MB3717.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:983;
-X-Forefront-PRVS: 02981BE340
-X-Forefront-Antispam-Report: SFV:NSPM;
- SFS:(10019020)(396003)(39850400004)(346002)(376002)(136003)(366004)(199004)(189003)(2906002)(52116002)(110136005)(16576012)(31696002)(36916002)(316002)(86362001)(66946007)(6486002)(66556008)(66476007)(31686004)(478600001)(53546011)(5660300002)(54906003)(186003)(2616005)(16526019)(956004)(44832011)(4326008)(26005)(8676002)(81166006)(81156014)(36756003)(8936002);
- DIR:OUT; SFP:1102; SCL:1; SRVR:AM6PR08MB3717;
- H:AM6PR08MB5048.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-Received-SPF: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: bVqDKJdI7HdlTxWGRV4vYEadZAZKwug8eFlq01uoWhsaNzDrBsOWWuyOH3j9NKo4+pbmH/OP6O0JLB7Jt+ifu3e76xSCkiUDiigDHYCg26YIAwj4VHjk67lOpnAZwwTTBSKK4HrycWDpIHJvNVZ1zRIxBrXTZ4STk9Pm0jJ3rg9OBfonxH4i3Rzw6mb/sIi54dw6wVwmjBUr65U1ZI623AhWmGU+mx30DQownFxgKgsJXB6t9Bn3yyELTA5OTe3WFJFaxXJqAghTZmgTM67Zxr8P4sSwP5N3L/91r9fJtWhcF1ITN0G1kdbJT2Oo/4UYULy8bzvi0RFLOrwwRq5WsG1/w/rEFIgb3QfYKLNfGizLe8gcPjV01YrfTcl3+s3Pl0zh+MtYlfUHBu84jTDuRYb9dm1xe//gJ4WMLUImKJSo8of7Ugkwas5BMWevQeKV
-X-MS-Exchange-AntiSpam-MessageData: w6LEOgSUIlA9Opn5MaXyDRkvDP79LeKltrZWWrxWYo9xa0efjrwfL7oUFz9mus+07434WXAGdKgZB4DjZsq2ni1WpWZoG+IEwWRPpeO7kWn8JZNaaLUefbCBI38yffbJcLLq+JC9rlbDv9+YfuNGQw==
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: de0fb9ad-fadb-46dc-8aeb-08d7a5a0dcd1
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jan 2020 16:24:21.5764 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: j+83eiz05DZXnrH+utXoQzEo1+fbO1JpZCC8olFKhpGdBtddsFnIaDYv9q9Nu3kkI2VRcvJ4zSLHuG4wonp5Ws9kUTCDsdQyMCkm2aUv7xM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3717
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 2a01:111:f400:7d00::707
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -112,377 +72,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "kwolf@redhat.com" <kwolf@redhat.com>, Denis Lunev <den@virtuozzo.com>,
- "jsnow@redhat.com" <jsnow@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "mreitz@redhat.com" <mreitz@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, John Snow <jsnow@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 30/01/2020 16:45, Vladimir Sementsov-Ogievskiy wrote:
-> 29.01.2020 23:05, Andrey Shinkevich wrote:
->>
->>
->> On 27/11/2019 21:08, Vladimir Sementsov-Ogievskiy wrote:
->>> Currently, block_copy operation lock the whole requested region. But
->>> there is no reason to lock clusters, which are already copied, it will
->>> disturb other parallel block_copy requests for no reason.
->>>
->>> Let's instead do the following:
->>>
->>> Lock only sub-region, which we are going to operate on. Then, after
->>> copying all dirty sub-regions, we should wait for intersecting
->>> requests block-copy, if they failed, we should retry these new dirty
->>> clusters.
->>>
->>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
->>> ---
->>> =C2=A0=C2=A0 block/block-copy.c | 116=20
->>> +++++++++++++++++++++++++++++++++++++--------
->>> =C2=A0=C2=A0 1 file changed, 95 insertions(+), 21 deletions(-)
->>>
->>> diff --git a/block/block-copy.c b/block/block-copy.c
->>> index 20068cd699..aca44b13fb 100644
->>> --- a/block/block-copy.c
->>> +++ b/block/block-copy.c
->>> @@ -39,29 +39,62 @@ static BlockCopyInFlightReq=20
->>> *block_copy_find_inflight_req(BlockCopyState *s,
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return NULL;
->>> =C2=A0=C2=A0 }
->>> -static void coroutine_fn=20
->>> block_copy_wait_inflight_reqs(BlockCopyState *s,
->>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 int64_t offset,
->>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 int64_t bytes)
->>> +/*
->>> + * If there are no intersecting requests return false. Otherwise,=20
->>> wait for the
->>> + * first found intersecting request to finish and return true.
->>> + */
->>> +static bool coroutine_fn block_copy_wait_one(BlockCopyState *s,=20
->>> int64_t start,
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 int64_t end)
->>> =C2=A0=C2=A0 {
->>> -=C2=A0=C2=A0=C2=A0 BlockCopyInFlightReq *req;
->>> +=C2=A0=C2=A0=C2=A0 BlockCopyInFlightReq *req =3D block_copy_find_infli=
-ght_req(s,=20
->>> start, end);
->>> -=C2=A0=C2=A0=C2=A0 while ((req =3D block_copy_find_inflight_req(s, off=
-set, bytes))) {
->>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 qemu_co_queue_wait(&req->wa=
-it_queue, NULL);
->>> +=C2=A0=C2=A0=C2=A0 if (!req) {
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return false;
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->>> +
->>> +=C2=A0=C2=A0=C2=A0 qemu_co_queue_wait(&req->wait_queue, NULL);
->>> +
->>> +=C2=A0=C2=A0=C2=A0 return true;
->>> =C2=A0=C2=A0 }
->>> +/* Called only on full-dirty region */
->>> =C2=A0=C2=A0 static void block_copy_inflight_req_begin(BlockCopyState *=
-s,
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 BlockCopyInFlightReq *req,
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 int64_t offset, int64_t=20
->>> bytes)
->>> =C2=A0=C2=A0 {
->>> +=C2=A0=C2=A0=C2=A0 assert(!block_copy_find_inflight_req(s, offset, byt=
-es));
->>> +
->>> +=C2=A0=C2=A0=C2=A0 bdrv_reset_dirty_bitmap(s->copy_bitmap, offset, byt=
-es);
->>> +
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 req->offset =3D offset;
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 req->bytes =3D bytes;
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 qemu_co_queue_init(&req->wait_queu=
-e);
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 QLIST_INSERT_HEAD(&s->inflight_req=
-s, req, list);
->>> =C2=A0=C2=A0 }
->>> -static void coroutine_fn=20
->>> block_copy_inflight_req_end(BlockCopyInFlightReq *req)
->>> +static void coroutine_fn=20
->>> block_copy_inflight_req_shrink(BlockCopyState *s,
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 BlockCopyInFlightReq *req, =
-int64_t new_bytes)
->>> =C2=A0=C2=A0 {
->>> +=C2=A0=C2=A0=C2=A0 if (new_bytes =3D=3D req->bytes) {
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return;
->>> +=C2=A0=C2=A0=C2=A0 }
->>> +
->>> +=C2=A0=C2=A0=C2=A0 assert(new_bytes > 0 && new_bytes < req->bytes);
->>> +
->>> +=C2=A0=C2=A0=C2=A0 bdrv_set_dirty_bitmap(s->copy_bitmap,
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 req->offset + new_bytes, req->bytes -=20
->>> new_bytes);
->>> +
->>> +=C2=A0=C2=A0=C2=A0 req->bytes =3D new_bytes;
->>> +=C2=A0=C2=A0=C2=A0 qemu_co_queue_restart_all(&req->wait_queue);
->>
->> Won't we get the performance degradation with that function frequent=20
->> call?
+On Tue, 2020-01-28 at 17:40 +0000, Daniel P. Berrang=C3=A9 wrote:
+> On Tue, Jan 14, 2020 at 09:33:48PM +0200, Maxim Levitsky wrote:
+> > Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+> > ---
+> >  block/crypto.c       | 70 ++++++++++++++++++++++++++++++++------------
+> >  qapi/block-core.json | 14 ++++++++-
+> >  2 files changed, 64 insertions(+), 20 deletions(-)
+> >=20
+> > diff --git a/block/crypto.c b/block/crypto.c
+> > index 081880bced..6836337863 100644
+> > --- a/block/crypto.c
+> > +++ b/block/crypto.c
 >=20
-> Why do you think so? In IO most of performance depends on disk speed and=
-=20
-> how
-> we organize requests sequence. The whole original series shows=20
-> performance improvement.
 >=20
-> This patch reduces lock around request, locking only the part we are=20
-> working on now,
-> this is for better interactivity. After calling block-status, the=20
-> request is shrinked
-> to possibly unlock some other requests, waiting on the tail of our=20
-> request.. Do you
-> have a better suggestion on this synchronization?
+> > =20
+> > +static int
+> > +coroutine_fn block_crypto_co_amend(BlockDriverState *bs,
+> > +                                   BlockdevAmendOptions *opts,
+> > +                                   bool force,
+> > +                                   Error **errp)
 >=20
+> This should have a _luks suffix given...
 
-I cannot answer right away. One need to measure the performance in each=20
-case.
+100% agree. Fixed now.
 
-Andrey
->>
->>> +}
->>> +
->>> +static void coroutine_fn block_copy_inflight_req_end(BlockCopyState *s=
+> > +{
+> > +    QCryptoBlockAmendOptions amend_opts;
+> > +
+> > +    amend_opts =3D (QCryptoBlockAmendOptions) {
+> > +        .format =3D Q_CRYPTO_BLOCK_FORMAT_LUKS,
+> > +        .u.luks =3D *qapi_BlockdevAmendOptionsLUKS_base(&opts->u.luks)=
 ,
->>> +                                                    =20
->>> BlockCopyInFlightReq *req,
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 int ret)
->>> +{
->>> +=C2=A0=C2=A0=C2=A0 if (ret < 0) {
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bdrv_set_dirty_bitmap(s->co=
-py_bitmap, req->offset, req->bytes);
->>> +=C2=A0=C2=A0=C2=A0 }
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 QLIST_REMOVE(req, list);
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 qemu_co_queue_restart_all(&req->wa=
-it_queue);
->>> =C2=A0=C2=A0 }
->>> @@ -344,12 +377,19 @@ int64_t=20
->>> block_copy_reset_unallocated(BlockCopyState *s,
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return ret;
->>> =C2=A0=C2=A0 }
->>> -int coroutine_fn block_copy(BlockCopyState *s,
->>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 int64_t offset, uint64_t bytes,
->>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 bool *error_is_read)
->>> +/*
->>> + * block_copy_dirty_clusters
->>> + *
->>> + * Copy dirty clusters in @start/@bytes range.
->>
->> %s/start/offset/ ?
->>
->>> + * Returns 1 if dirty clusters found and successfully copied, 0 if=20
->>> no dirty
->>> + * clusters found and -errno on failure.
->>> + */
->>> +static int coroutine_fn block_copy_dirty_clusters(BlockCopyState *s,
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- int64_t offset,=20
->>> int64_t bytes,
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- bool *error_is_read)
->>> =C2=A0=C2=A0 {
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 int ret =3D 0;
->>> -=C2=A0=C2=A0=C2=A0 BlockCopyInFlightReq req;
->>> +=C2=A0=C2=A0=C2=A0 bool found_dirty =3D false;
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /*
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * block_copy() user is respo=
-nsible for keeping source and=20
->>> target in same
->>> @@ -361,10 +401,8 @@ int coroutine_fn block_copy(BlockCopyState *s,
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 assert(QEMU_IS_ALIGNED(offset, s->=
-cluster_size));
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 assert(QEMU_IS_ALIGNED(bytes, s->c=
-luster_size));
->>> -=C2=A0=C2=A0=C2=A0 block_copy_wait_inflight_reqs(s, offset, bytes);
->>> -=C2=A0=C2=A0=C2=A0 block_copy_inflight_req_begin(s, &req, offset, byte=
-s);
->>> -
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 while (bytes) {
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 BlockCopyInFlightReq req;
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 int64_t ne=
-xt_zero, cur_bytes, status_bytes;
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (!bdrv_=
-dirty_bitmap_get(s->copy_bitmap, offset)) {
->>> @@ -374,6 +412,8 @@ int coroutine_fn block_copy(BlockCopyState *s,
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 continue; /* already copied */
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 found_dirty =3D true;
->>> +
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 cur_bytes =
-=3D MIN(bytes, s->copy_size);
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 next_zero =
-=3D bdrv_dirty_bitmap_next_zero(s->copy_bitmap,=20
->>> offset,
->>> @@ -383,10 +423,12 @@ int coroutine_fn block_copy(BlockCopyState *s,
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 assert(next_zero < offset + cur_bytes); /* no need to=20
->>> do MIN() */
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 cur_bytes =3D next_zero - offset;
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 block_copy_inflight_req_beg=
-in(s, &req, offset, cur_bytes);
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret =3D bl=
-ock_copy_block_status(s, offset, cur_bytes,=20
->>> &status_bytes);
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 block_copy_inflight_req_shr=
-ink(s, &req, status_bytes);
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (s->ski=
-p_unallocated && !(ret & BDRV_BLOCK_ALLOCATED)) {
->>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bdr=
-v_reset_dirty_bitmap(s->copy_bitmap, offset,=20
->>> status_bytes);
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 blo=
-ck_copy_inflight_req_end(s, &req, 0);
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 s->progress_reset_callback(s->progress_opaque);
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 trace_block_copy_skip_range(s, offset, status_bytes);
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 offset +=3D status_bytes;
->>> @@ -398,15 +440,13 @@ int coroutine_fn block_copy(BlockCopyState *s,
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 trace_bloc=
-k_copy_process(s, offset);
->>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bdrv_reset_dirty_bitmap(s->=
-copy_bitmap, offset, cur_bytes);
->>> -
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 co_get_fro=
-m_shres(s->mem, cur_bytes);
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret =3D bl=
-ock_copy_do_copy(s, offset, cur_bytes, ret &=20
->>> BDRV_BLOCK_ZERO,
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 error_is=
-_read);
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 co_put_to_=
-shres(s->mem, cur_bytes);
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 block_copy_inflight_req_end=
-(s, &req, ret);
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (ret < =
-0) {
->>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bdr=
-v_set_dirty_bitmap(s->copy_bitmap, offset, cur_bytes);
->>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bre=
-ak;
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret=
-urn ret;
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 s->progres=
-s_bytes_callback(cur_bytes, s->progress_opaque);
->>> @@ -414,7 +454,41 @@ int coroutine_fn block_copy(BlockCopyState *s,
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bytes -=3D=
- cur_bytes;
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->>> -=C2=A0=C2=A0=C2=A0 block_copy_inflight_req_end(&req);
->>> +=C2=A0=C2=A0=C2=A0 return found_dirty;
->>> +}
->>> -=C2=A0=C2=A0=C2=A0 return ret;
->>> +int coroutine_fn block_copy(BlockCopyState *s, int64_t start,=20
->>> uint64_t bytes,
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 bool *error_is_read)
->>> +{
->>> +=C2=A0=C2=A0=C2=A0 while (true) {
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 int ret =3D block_copy_dirt=
-y_clusters(s, start, bytes,=20
->>> error_is_read);
->>> +
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (ret < 0) {
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /*
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 * IO operation failed, which means the whole block_copy=20
->>> request
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 * failed.
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 */
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret=
-urn ret;
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (ret) {
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /*
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 * Something was copied, which means that there were=20
->>> yield points
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 * and some new dirty bits may appered (due to failed=20
->>> parallel
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 * block-copy requests).
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 */
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 con=
-tinue;
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->>> +
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /*
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * Here ret =3D=3D 0, =
-which means that there is no dirty=20
->>> clusters in
->>
->> there is no dirty cluster in
->>
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * requested region.
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
->>> +
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (!block_copy_wait_one(s,=
- start, bytes)) {
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* =
-No dirty bits and nothing to wait: the whole request=20
->>> is done */
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bre=
-ak;
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->>> +=C2=A0=C2=A0=C2=A0 }
->>> +
->>> +=C2=A0=C2=A0=C2=A0 return 0;
->>> =C2=A0=C2=A0 }
->>>
->>
 >=20
+> ...this is hardcoded to luks
 >=20
+> > +    };
+> > +    return block_crypto_amend_options_generic(bs, &amend_opts, force, =
+errp);
+> > +}
+> > =20
+> >  static void
+> >  block_crypto_child_perms(BlockDriverState *bs, BdrvChild *c,
+> > @@ -812,6 +843,7 @@ static BlockDriver bdrv_crypto_luks =3D {
+> >      .bdrv_get_info      =3D block_crypto_get_info_luks,
+> >      .bdrv_get_specific_info =3D block_crypto_get_specific_info_luks,
+> >      .bdrv_amend_options =3D block_crypto_amend_options,
+> > +    .bdrv_co_amend      =3D block_crypto_co_amend,
+> > =20
+> >      .strong_runtime_opts =3D block_crypto_strong_runtime_opts,
+> >  };
+>=20
+> Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 
---=20
-With the best regards,
-Andrey Shinkevich
+Thanks for the review,
+=09Best regards,
+=09=09Maxim Levitsky
+>=20
+>=20
+>=20
+> Regards,
+> Daniel
+
 
 
