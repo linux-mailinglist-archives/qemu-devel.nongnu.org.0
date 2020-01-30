@@ -2,47 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88F7114DC44
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jan 2020 14:48:35 +0100 (CET)
-Received: from localhost ([::1]:32790 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CB4614DBE9
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jan 2020 14:30:43 +0100 (CET)
+Received: from localhost ([::1]:60740 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ixABO-0003wN-K3
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 08:48:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36716)
+	id 1ix9u6-0000Ph-Ef
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 08:30:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45446)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <franz.haider@jolla.com>) id 1ix9R2-0007Zg-2P
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 08:00:41 -0500
+ (envelope-from <philmd@redhat.com>) id 1ix9tI-0008Ov-N8
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 08:29:53 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <franz.haider@jolla.com>) id 1ix9Qw-0006vF-Ub
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 08:00:39 -0500
-Received: from smtp81.ord1d.emailsrvr.com ([184.106.54.81]:35817)
+ (envelope-from <philmd@redhat.com>) id 1ix9tB-0005lC-NA
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 08:29:51 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:53148
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <franz.haider@jolla.com>)
- id 1ix9Qw-0006uW-Qp
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 08:00:34 -0500
-X-Auth-ID: franz.haider@jollamobile.com
-Received: by smtp3.relay.ord1d.emailsrvr.com (Authenticated sender:
- franz.haider-AT-jollamobile.com) with ESMTPSA id 9D6B160140; 
- Thu, 30 Jan 2020 08:00:32 -0500 (EST)
-X-Sender-Id: franz.haider@jollamobile.com
-Received: from [10.1.3.125] ([UNAVAILABLE]. [185.252.118.68])
- (using TLSv1.2 with cipher DHE-RSA-AES128-SHA)
- by 0.0.0.0:465 (trex/5.7.12); Thu, 30 Jan 2020 08:00:33 -0500
-To: Riku Voipio <riku.voipio@iki.fi>
-From: Frajo <franz.haider@jolla.com>
-Subject: linux-user: Support f_flags in statfs64 when available.
-Message-ID: <2e405fe7-efab-dae5-93d6-02575773fd6e@jolla.com>
-Date: Thu, 30 Jan 2020 15:00:30 +0200
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1ix9tA-0005fm-Jl
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 08:29:45 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1580390975;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=KREE3Nucfhn3kYs7Ms6ptr1Zw7I8lizr9weCX4sIh+4=;
+ b=AzrxO6hegaB0/N+Ot5YKwEqSc9I2932Bct58BUG0SRUejAR8K+AdW5iU2vC9J82/Rbg0qe
+ i7leCdwYkni5tE4sRyLcLLazerGSouLBRJipFVId3n70/Ak8H5xfjO0KrGF9vkYMUapY5Q
+ SDu9xhqLtzc01G2zJJ9qVFzwIqf0N1g=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-106-t5CM4W5HP6GAFFkHfAOq5A-1; Thu, 30 Jan 2020 08:29:33 -0500
+Received: by mail-wr1-f69.google.com with SMTP id h30so1713430wrh.5
+ for <qemu-devel@nongnu.org>; Thu, 30 Jan 2020 05:29:33 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Daa+3ygvMZCBO7CUtkrbOylFq1LMYnRkrNrg8w96ULI=;
+ b=PSNOk5rPUv5ku3uKMn0jeYJqWY+92av26nZYGjWBl5yowoMphdlFB5IG6xkExRL2sf
+ S60+0KL2CiA4uatOeVvHdecme76bfZEnDR9SIrZpaueC+SuhGpDACzRsgAkaoi9zsvf5
+ NEx8wuChSOy1sQS3wURJL/m6xlzyUL/zEBCuQ5rQ3Zx8K+nlk3zi+b7+zjY/1/mGOjyp
+ PX9BO40/Mepg0gwtJvrBDi30eFHxpyFX76kWqfbYoFG6ph3Sj2396YcWwFJn8X5h8HE5
+ 9ssTHCkF6xZ+ryrTjreFqur/kTET5XeamST1S7qMazUYTGc5BQswwCdIctFO05oO2swX
+ M44g==
+X-Gm-Message-State: APjAAAUfSDbE6JjTIvpUeTj+KcABf3aJGeEebhIsujWpkIP16dTyxv69
+ IUzKCAt8z0QbsbYqtag3Fdv2+x1WVreAGn02/aaudSqbMQKgUO9IZ1f+aPwfog9HqP6IxWh9h4n
+ Un94/uoMYORvg9Rg=
+X-Received: by 2002:a7b:c444:: with SMTP id l4mr5624127wmi.178.1580390972479; 
+ Thu, 30 Jan 2020 05:29:32 -0800 (PST)
+X-Google-Smtp-Source: APXvYqwZl2kj4MujTdIj0lZODiF+hNSxCLXJ3Ew0I0ufiagC5RNtQx8wh88HJsL6hfErCMBSDoiprg==
+X-Received: by 2002:a7b:c444:: with SMTP id l4mr5624107wmi.178.1580390972246; 
+ Thu, 30 Jan 2020 05:29:32 -0800 (PST)
+Received: from [192.168.1.35] (113.red-83-57-172.dynamicip.rima-tde.net.
+ [83.57.172.113])
+ by smtp.gmail.com with ESMTPSA id d10sm7342363wrw.64.2020.01.30.05.29.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 30 Jan 2020 05:29:31 -0800 (PST)
+Subject: Re: [PATCH v2 19/29] tests/acceptance/virtio_check_params: Only test
+ Xen as superuser
+To: Cornelia Huck <cohuck@redhat.com>
+References: <20200129212345.20547-1-philmd@redhat.com>
+ <20200129212345.20547-20-philmd@redhat.com>
+ <20200130133751.4e954bb1.cohuck@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <29514738-d5e0-a649-67c1-69bd200eafd1@redhat.com>
+Date: Thu, 30 Jan 2020 14:29:30 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.2.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <20200130133751.4e954bb1.cohuck@redhat.com>
 Content-Language: en-US
+X-MC-Unique: t5CM4W5HP6GAFFkHfAOq5A-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
-X-Received-From: 184.106.54.81
-X-Mailman-Approved-At: Thu, 30 Jan 2020 08:47:11 -0500
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,57 +93,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ Denis Plotnikov <dplotnikov@virtuozzo.com>, qemu-devel@nongnu.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-linux-user: Support f_flags in statfs64 when available.
-Same as d4247ec2d79ef2477cb886fa688706b068119736 but for statfs64
-When running rpm within qemu-arm-dynamic this could cause rpm fail with=20
-an error like
-"installing package A needs B MB on the C filesystem" depending on what=20
-is in memory in f_flags.
-https://github.com/rpm-software-management/rpm/blob/af06db1d5558870f7fb8f=
-5c502572c2d27af5c71/lib/transaction.c#L164
+On 1/30/20 1:37 PM, Cornelia Huck wrote:
+> On Wed, 29 Jan 2020 22:23:35 +0100
+> Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> wrote:
+>=20
+>> When running the test unprivileged, we get:
+>>
+>>    $ avocado --show=3Dapp,machine run tests/acceptance/virtio_check_para=
+ms.py
+>>    JOB ID     : b631d5d692e49b791b211d33b80730315d561d45
+>>    JOB LOG    : job-results/job-2020-01-22T17.56-b631d5d/job.log
+>>     (1/1) tests/acceptance/virtio_check_params.py:VirtioMaxSegSettingsCh=
+eck.test_machine_types:
+>>    machine: {'name': 'pc-i440fx-2.12', 'seg_max_adjust': 'false', 'devic=
+e': 'virtio-scsi-pci'}
+>>    machine: {'name': 'pc-i440fx-2.0', 'seg_max_adjust': 'false', 'device=
+': 'virtio-scsi-pci'}
+>>    machine: {'name': 'xenpv', 'seg_max_adjust': 'false', 'device': 'virt=
+io-scsi-pci'}
+>>    FAIL: machine type xenpv: <class 'qemu.qmp.QMPConnectError'> (0.40 s)
+>>
+>> Looking at the job.log file we find:
+>>
+>>    xencall: error: Could not obtain handle on privileged command interfa=
+ce: No such file or directory
+>>    xen be core: xen be core: can't open xen interface
+>>
+>> Do not run this test on Xen machines if not superuser.
+>>
+>> Acked-by: Cornelia Huck <cohuck@redhat.com>
+>> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+>> ---
+>>   tests/acceptance/virtio_check_params.py | 2 ++
+>>   1 file changed, 2 insertions(+)
+>=20
+> I still think changing the title to "Test Xen only as superuser" would
+> be an improvement.
 
- From 6ceb5662b5fae827d2c0cdd9896eec75997c060a Mon Sep 17 00:00:00 2001
-From: Franz-Josef Haider <franz.haider@jolla.com>
-Date: Thu, 30 Jan 2020 14:28:24 +0200
-Subject: [PATCH 1/1] linux-user: Support f_flags in statfs64 when availab=
-le.
-
-Same as d4247ec2d79ef2477cb886fa688706b068119736 but for statfs64
-
-Signed-off-by: Franz-Josef Haider <franz.haider@jolla.com>
----
- =C2=A0linux-user/syscall.c | 5 +++++
- =C2=A01 file changed, 5 insertions(+)
-
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index d60142f069..45782b1009 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -8997,6 +8997,11 @@ static abi_long do_syscall1(void *cpu_env, int=20
-num, abi_long arg1,
- =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- __put_user(stfs.f_fsid.__val[1], &target_stfs->f_fsid.val[1]);
- =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- __put_user(stfs.f_namelen, &target_stfs->f_namelen);
- =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- __put_user(stfs.f_frsize, &target_stfs->f_frsize);
-+#ifdef _STATFS_F_FLAGS
-+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 __put=
-_user(stfs.f_flags, &target_stfs->f_flags);
-+#else
-+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 __put=
-_user(0, &target_stfs->f_flags);
-+#endif
- =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- memset(target_stfs->f_spare, 0, sizeof(target_stfs->f_spare));
- =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- unlock_user_struct(target_stfs, arg3, 1);
- =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
---=20
-2.20.1
+If it fits the 72chars in patch subject, I'm happy to change :)
 
 
