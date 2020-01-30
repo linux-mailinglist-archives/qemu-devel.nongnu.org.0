@@ -2,73 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0398214D499
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jan 2020 01:18:08 +0100 (CET)
-Received: from localhost ([::1]:53992 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEB6F14D4A6
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jan 2020 01:28:16 +0100 (CET)
+Received: from localhost ([::1]:54126 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iwxX5-00051V-0T
-	for lists+qemu-devel@lfdr.de; Wed, 29 Jan 2020 19:18:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45783)
+	id 1iwxgt-0002Fj-Tr
+	for lists+qemu-devel@lfdr.de; Wed, 29 Jan 2020 19:28:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53577)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iwxCo-0004hq-Rq
- for qemu-devel@nongnu.org; Wed, 29 Jan 2020 18:57:14 -0500
+ (envelope-from <pbonzini@redhat.com>) id 1iwxg2-0001q0-Dq
+ for qemu-devel@nongnu.org; Wed, 29 Jan 2020 19:27:23 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iwxCn-0000d9-Ox
- for qemu-devel@nongnu.org; Wed, 29 Jan 2020 18:57:10 -0500
-Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:44507)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iwxCn-0000aP-Ik
- for qemu-devel@nongnu.org; Wed, 29 Jan 2020 18:57:09 -0500
-Received: by mail-pl1-x643.google.com with SMTP id d9so583902plo.11
- for <qemu-devel@nongnu.org>; Wed, 29 Jan 2020 15:57:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=+IcLBVINlWFp15bwGPClMMXcW2UX7TXl5ScSRzLV8s8=;
- b=Sd1HmgEImCAPDy8h78uIk35Vaxeiaa4KHBkSf4wisaBIjRWQNfgP5fTH2vmu+18vVB
- mAhev6gG4KvT/4LuADmz0oAGLwNHvFmh+Y7TMl/dtJwTYBl3RLE7JTk8i72qS2qtr26h
- 8uaCzWLSgjG3d3RJi9xNPPiUsLlkIRueuOpN/3FFSqIJVq4r8X9EMjmA4aN0vNTfmgi+
- C3n6BlBCQOzaiHdCBBXZ9/x+KxrrZqFQHjKyFU41wf23K8J5MoUCiPnCfuSvPgW6UMiu
- Ae1wNnld3tjxT8ZelQ4pEVNMSqUt0gzq3rWORZDvmBiIFXGb6tJnObyjwsalAaF/mePK
- NSJA==
+ (envelope-from <pbonzini@redhat.com>) id 1iwxg0-000669-2G
+ for qemu-devel@nongnu.org; Wed, 29 Jan 2020 19:27:20 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:27842
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iwxfz-00064B-Ui
+ for qemu-devel@nongnu.org; Wed, 29 Jan 2020 19:27:20 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1580344038;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=j/PQsF/oROczdcK8m7w5nKbXVN9HKW2hoUw3TuMQc2E=;
+ b=TbkyKb2u9zg4NtgqOo7nC7OyGWCptzxqrowMyeG77NVRQXu6Q5xheUohc6gq2ILuhrvtQt
+ rN7H87tquHbH0mxcuuuLgEhPT0jO1GlH1/reJCtbmLjJ9SqpZxkDJhwkk+lzt+vmwoWCux
+ EeZzmFJEqjUNAn3SCak3Fa7OdVa++KI=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-308-WmlbH06WOBCrJt3jla45kA-1; Wed, 29 Jan 2020 19:27:17 -0500
+Received: by mail-wr1-f69.google.com with SMTP id c17so859251wrp.10
+ for <qemu-devel@nongnu.org>; Wed, 29 Jan 2020 16:27:16 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=+IcLBVINlWFp15bwGPClMMXcW2UX7TXl5ScSRzLV8s8=;
- b=dtJN1V+GUejL1hKncWWuWAqw9udxlKUwJ5cQaPD0SH8MH7nMDub6xAJ1/D2UiOjgxO
- sDLhukr1/wx6R6KmUN4BL6u71STX22mk4Mwc/g6mqyCFZKpqooQxbUbZpNQqLaUItFGy
- 4S402iAnNgydiB+uaMKlEFZsP9xa0PXagtRbI5sUmEXeFyrsreQY27XhI6BMVa9RGHIj
- vbHyLxeVJU/y2B2YQi81uI/84aO8w0fuO36HaTb96qjU1mfoaONxiJRoQuCCgZxo9CK4
- 5WowR4i7zuSe7c8LB9Ij8NccGJfeTHD0nUxmJwiBiTPaHSeI54+JGLzuOyl+Nx30kl2J
- Pdmg==
-X-Gm-Message-State: APjAAAVF/QWgox6c+U74eTejpOsaYphl2GuG037mmSuZng7GI9WO2y9n
- 9pvk2ycGmZSHUvJ8VFA8LUPipCOjLRc=
-X-Google-Smtp-Source: APXvYqyY+eM9zx7RyztB5gEglyk5tdQ+U2ei8LZH/cPAc27IztaswG+AeZJKrDslokDk8Xa+ml/ifQ==
-X-Received: by 2002:a17:90b:3cc:: with SMTP id
- go12mr2480433pjb.89.1580342228315; 
- Wed, 29 Jan 2020 15:57:08 -0800 (PST)
-Received: from localhost.localdomain (97-126-123-70.tukw.qwest.net.
- [97.126.123.70])
- by smtp.gmail.com with ESMTPSA id r3sm3953626pfg.145.2020.01.29.15.57.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 29 Jan 2020 15:57:07 -0800 (PST)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v5 41/41] target/arm: Raise only one interrupt in
- arm_cpu_exec_interrupt
-Date: Wed, 29 Jan 2020 15:56:14 -0800
-Message-Id: <20200129235614.29829-42-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200129235614.29829-1-richard.henderson@linaro.org>
-References: <20200129235614.29829-1-richard.henderson@linaro.org>
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=j/PQsF/oROczdcK8m7w5nKbXVN9HKW2hoUw3TuMQc2E=;
+ b=dAvTqunVJf6X6YyP4zcm/jnbsxQZUuIc5f0CMcFwznXOY6TVyXZNvjfom8GDjmf6mr
+ Mu9Jt/w3lA/FmKacbWG2wG7Ew5QV4p9K/qzAvROf26EuNs6+8QO5zRSOub7lHAjyENaB
+ iLXqZcJK1TsTCGUdFfXv0t4FpW4e53H8XRRe3DLRd6CguYJqaFqc4DeCdbI4rzxmOqTh
+ LAFEFygAebTfRzPk0+wlYbDZSLR3Rp9FX9ptqEH99Cl8lrRM6ZP99sioVsxJuyBGKA57
+ b1pQXX3dYs2ATypeMoO1EPHT3KZ0Qkcng4pgP4Ea00SaudsAWifYwcW2BoNE2ZXJx7Ms
+ nJFg==
+X-Gm-Message-State: APjAAAUnStrrZewnpYcXCVVpbmO/LeN10xxzJ1ACcoWJHMHhuEPer2P0
+ Ej/s50EO2JpGhxgP+o5z/GjVgjjmasndSuC2F5ljnOmZQrivB9pvXkejp6gfSxnRDQOJOfPImRc
+ DqqoyRY5zHAy4ehg=
+X-Received: by 2002:adf:e686:: with SMTP id r6mr1570655wrm.177.1580344035677; 
+ Wed, 29 Jan 2020 16:27:15 -0800 (PST)
+X-Google-Smtp-Source: APXvYqw8tq/+TuB40OdRWKnY2W934BNpbg33IQGF3MZB7n6LdNmnvQfTUYOZhMrDut/QRYd/hPLqwQ==
+X-Received: by 2002:adf:e686:: with SMTP id r6mr1570624wrm.177.1580344035315; 
+ Wed, 29 Jan 2020 16:27:15 -0800 (PST)
+Received: from [10.1.251.141] ([80.188.125.198])
+ by smtp.gmail.com with ESMTPSA id s22sm4065964wmh.4.2020.01.29.16.27.14
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 29 Jan 2020 16:27:14 -0800 (PST)
+Subject: Re: [PATCH] seqlock: fix seqlock_write_unlock_impl function
+To: Luc Michel <luc.michel@greensocs.com>, qemu-devel@nongnu.org
+References: <20200129144948.2161551-1-luc.michel@greensocs.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <b1ce57c0-7947-e569-cbcb-f47e5b5b3aff@redhat.com>
+Date: Thu, 30 Jan 2020 01:27:13 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::643
+In-Reply-To: <20200129144948.2161551-1-luc.michel@greensocs.com>
+Content-Language: en-US
+X-MC-Unique: WmlbH06WOBCrJt3jla45kA-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,95 +89,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The fall through organization of this function meant that we
-would raise an interrupt, then might overwrite that with another.
-Since interrupt prioritization is IMPLEMENTATION DEFINED, we
-can recognize these in any order we choose.
+On 29/01/20 15:49, Luc Michel wrote:
+> The seqlock write unlock function was incorrectly calling
+> seqlock_write_begin() instead of seqlock_write_end(), and was releasing
+> the lock before incrementing the sequence. This could lead to a race
+> condition and a corrupted sequence number becoming odd even though the
+> lock is not held.
+> 
+> Signed-off-by: Luc Michel <luc.michel@greensocs.com>
+> ---
+>  include/qemu/seqlock.h | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/include/qemu/seqlock.h b/include/qemu/seqlock.h
+> index fd408b7ec5..8b6b4ee4bb 100644
+> --- a/include/qemu/seqlock.h
+> +++ b/include/qemu/seqlock.h
+> @@ -53,15 +53,15 @@ static inline void seqlock_write_lock_impl(QemuSeqLock *sl, QemuLockable *lock)
+>      seqlock_write_begin(sl);
+>  }
+>  #define seqlock_write_lock(sl, lock) \
+>      seqlock_write_lock_impl(sl, QEMU_MAKE_LOCKABLE(lock))
+>  
+> -/* Lock out other writers and update the count.  */
+> +/* Update the count and release the lock.  */
+>  static inline void seqlock_write_unlock_impl(QemuSeqLock *sl, QemuLockable *lock)
+>  {
+> +    seqlock_write_end(sl);
+>      qemu_lockable_unlock(lock);
+> -    seqlock_write_begin(sl);
+>  }
+>  #define seqlock_write_unlock(sl, lock) \
+>      seqlock_write_unlock_impl(sl, QEMU_MAKE_LOCKABLE(lock))
+>  
+>  
+> 
 
-Unify the code to raise the interrupt in a block at the end.
+Queued, thanks very much.
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/arm/cpu.c | 30 ++++++++++++------------------
- 1 file changed, 12 insertions(+), 18 deletions(-)
-
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 06d72ac9d6..3ce809306e 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -535,17 +535,15 @@ bool arm_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
-     uint64_t hcr_el2 = arm_hcr_el2_eff(env);
-     uint32_t target_el;
-     uint32_t excp_idx;
--    bool ret = false;
-+
-+    /* The prioritization of interrupts is IMPLEMENTATION DEFINED. */
- 
-     if (interrupt_request & CPU_INTERRUPT_FIQ) {
-         excp_idx = EXCP_FIQ;
-         target_el = arm_phys_excp_target_el(cs, excp_idx, cur_el, secure);
-         if (arm_excp_unmasked(cs, excp_idx, target_el,
-                               cur_el, secure, hcr_el2)) {
--            cs->exception_index = excp_idx;
--            env->exception.target_el = target_el;
--            cc->do_interrupt(cs);
--            ret = true;
-+            goto found;
-         }
-     }
-     if (interrupt_request & CPU_INTERRUPT_HARD) {
-@@ -553,10 +551,7 @@ bool arm_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
-         target_el = arm_phys_excp_target_el(cs, excp_idx, cur_el, secure);
-         if (arm_excp_unmasked(cs, excp_idx, target_el,
-                               cur_el, secure, hcr_el2)) {
--            cs->exception_index = excp_idx;
--            env->exception.target_el = target_el;
--            cc->do_interrupt(cs);
--            ret = true;
-+            goto found;
-         }
-     }
-     if (interrupt_request & CPU_INTERRUPT_VIRQ) {
-@@ -564,10 +559,7 @@ bool arm_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
-         target_el = 1;
-         if (arm_excp_unmasked(cs, excp_idx, target_el,
-                               cur_el, secure, hcr_el2)) {
--            cs->exception_index = excp_idx;
--            env->exception.target_el = target_el;
--            cc->do_interrupt(cs);
--            ret = true;
-+            goto found;
-         }
-     }
-     if (interrupt_request & CPU_INTERRUPT_VFIQ) {
-@@ -575,14 +567,16 @@ bool arm_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
-         target_el = 1;
-         if (arm_excp_unmasked(cs, excp_idx, target_el,
-                               cur_el, secure, hcr_el2)) {
--            cs->exception_index = excp_idx;
--            env->exception.target_el = target_el;
--            cc->do_interrupt(cs);
--            ret = true;
-+            goto found;
-         }
-     }
-+    return false;
- 
--    return ret;
-+ found:
-+    cs->exception_index = excp_idx;
-+    env->exception.target_el = target_el;
-+    cc->do_interrupt(cs);
-+    return true;
- }
- 
- #if !defined(CONFIG_USER_ONLY) || !defined(TARGET_AARCH64)
--- 
-2.20.1
+Paolo
 
 
