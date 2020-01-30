@@ -2,59 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D99814D96C
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jan 2020 12:02:20 +0100 (CET)
-Received: from localhost ([::1]:58496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B67C14D986
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jan 2020 12:11:56 +0100 (CET)
+Received: from localhost ([::1]:58706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ix7aV-0005lI-G9
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 06:02:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49344)
+	id 1ix7jn-0000as-4c
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 06:11:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52628)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1ix7ZV-0005IZ-Cm
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 06:01:18 -0500
+ (envelope-from <bounces@canonical.com>) id 1ix7ip-0008Al-2m
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 06:10:56 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1ix7ZS-0000Ir-UH
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 06:01:17 -0500
-Received: from indium.canonical.com ([91.189.90.7]:47638)
+ (envelope-from <bounces@canonical.com>) id 1ix7io-0003fU-1X
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 06:10:55 -0500
+Received: from indium.canonical.com ([91.189.90.7]:48320)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1ix7ZS-0000IX-OQ
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 06:01:14 -0500
+ id 1ix7in-0003fE-Se
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 06:10:53 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1ix7ZR-0000jy-I4
- for <qemu-devel@nongnu.org>; Thu, 30 Jan 2020 11:01:13 +0000
+ id 1ix7im-0001HV-Oz
+ for <qemu-devel@nongnu.org>; Thu, 30 Jan 2020 11:10:52 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 850592E8030
- for <qemu-devel@nongnu.org>; Thu, 30 Jan 2020 11:01:13 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id B8F712E8024
+ for <qemu-devel@nongnu.org>; Thu, 30 Jan 2020 11:10:52 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 30 Jan 2020 10:47:16 -0000
-From: diddly <dflogeras2@gmail.com>
+Date: Thu, 30 Jan 2020 10:57:59 -0000
+From: Wojtek Lewandowski <1861394@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: linux-user syscall-abi
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: dflogeras2 liuke philippe-vaucher pmaydell
- schneiderit
-X-Launchpad-Bug-Reporter: Kan Li (liuke)
-X-Launchpad-Bug-Modifier: diddly (dflogeras2)
-References: <154353638253.10384.17899256838547579767.malonedeb@chaenomeles.canonical.com>
-Message-Id: <158038123699.5214.8178800642015819750.malone@soybean.canonical.com>
-Subject: [Bug 1805913] Re: readdir() returns NULL (errno=EOVERFLOW) for 32-bit
- user-static qemu on 64-bit host
+X-Launchpad-Bug-Commenters: jurand0289
+X-Launchpad-Bug-Reporter: Wojtek Lewandowski (jurand0289)
+X-Launchpad-Bug-Modifier: Wojtek Lewandowski (jurand0289)
+References: <158038104311.4545.16494729596486297372.malonedeb@soybean.canonical.com>
+Message-Id: <158038187935.5055.5715094452594841397.launchpad@chaenomeles.canonical.com>
+Subject: [Bug 1861394] Re: qemu-system-riscv64 hangs after poweroff linux
+ command
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="b8d1327fd820d6bf500589d6da587d5037c7d88e";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: abd31c868d29728ad2a42677575d6af5aa65eb67
+X-Launchpad-Hash: 9451f963e1eb69c8d705a08cae5d7e1a862860c9
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
@@ -67,84 +65,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1805913 <1805913@bugs.launchpad.net>
+Reply-To: Bug 1861394 <1861394@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There has been some motion on this by Aladjev Andrew.  I will butcher
-the explanation of his approach if I try, but it is described in the
-following bugs.  I have no idea of the schedule, or even possibility of
-adoption; it seems to still be in proof-of-concept phase.
+** Description changed:
 
-GLIBC bug (see last several posts)
-https://sourceware.org/bugzilla/show_bug.cgi?id=3D23960
+  QEMU Version : v4.2.0-773-g43d1455-dirty (commit
+  43d1455cf84283466e5c22a217db5ef4b8197b14)
+  =
 
-Kernel bugzilla (last two posts)
-https://bugzilla.kernel.org/show_bug.cgi?id=3D205957
+  Command: qemu-system-riscv64 -machine virt -kernel ./bbl -nographic
+  -initrd rootfs.cpio.gz -append "root=3D/dev/ram console=3DttyS0"
+  =
 
-** Bug watch added: Sourceware.org Bugzilla #23960
-   https://sourceware.org/bugzilla/show_bug.cgi?id=3D23960
+  Host:LSB Version:    :core-4.1-amd64:core-4.1-noarch
+  Distributor ID: CentOS
+  Description:    CentOS Linux release 7.7.1908 (Core)
+  Release:        7.7.1908
+  Codename:       Core
+  =
 
-** Bug watch added: Linux Kernel Bug Tracker #205957
-   https://bugzilla.kernel.org/show_bug.cgi?id=3D205957
+- =
+
+- Problem: after boot, when type poweroff -f it hangs (not quitting). I hav=
+e tested this for x86_64, and aarch64 and it works fine. The problem appear=
+s only for risv64(of those mentioned). Last time i have checked it worked a=
+lso for riscv64 and it was on the d0f90e1423b4f412adc620eee93e8bfef8af4117 =
+commit
++ Problem: after boot, when type poweroff -f it hangs (not quitting). I
++ have tested this for x86_64, and aarch64 and it works fine. The problem
++ appears only for risv64(of those mentioned). Last time I have checked,
++ it worked  for all the mentioned architectures. It was on the
++ d0f90e1423b4f412adc620eee93e8bfef8af4117 commit
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1805913
+https://bugs.launchpad.net/bugs/1861394
 
 Title:
-  readdir() returns NULL (errno=3DEOVERFLOW) for 32-bit user-static qemu
-  on 64-bit host
+  qemu-system-riscv64 hangs after poweroff linux command
 
 Status in QEMU:
   New
 
 Bug description:
-  This can be simply reproduced by compiling and running the attached C
-  code (readdir-bug.c) under 32-bit user-static qemu, such as qemu-arm-
-  static:
+  QEMU Version : v4.2.0-773-g43d1455-dirty (commit
+  43d1455cf84283466e5c22a217db5ef4b8197b14)
 
-  # Setup docker for user-static binfmt
-  docker run --rm --privileged multiarch/qemu-user-static:register --reset
-  # Compile the code and run (readdir for / is fine, so create a new direct=
-ory /test).
-  docker run -v /path/to/qemu-arm-static:/usr/bin/qemu-arm-static -v /path/=
-to/readdir-bug.c:/tmp/readdir-bug.c -it --rm arm32v7/ubuntu:18.10 bash -c '=
-{ apt update && apt install -y gcc; } >&/dev/null && mkdir -p /test && cd /=
-test && gcc /tmp/readdir-bug.c && ./a.out'
-  dir=3D0xff5b4150
-  readdir(dir)=3D(nil)
-  errno=3D75: Value too large for defined data type
+  Command: qemu-system-riscv64 -machine virt -kernel ./bbl -nographic
+  -initrd rootfs.cpio.gz -append "root=3D/dev/ram console=3DttyS0"
 
-  Do remember to replace the /path/to/qemu-arm-static and /path/to
-  /readdir-bug.c to the actual paths of the files.
+  Host:LSB Version:    :core-4.1-amd64:core-4.1-noarch
+  Distributor ID: CentOS
+  Description:    CentOS Linux release 7.7.1908 (Core)
+  Release:        7.7.1908
+  Codename:       Core
 
-  The root cause is in glibc:
-  https://sourceware.org/git/?p=3Dglibc.git;a=3Dblob;f=3Dsysdeps/unix/sysv/=
-linux/getdents.c;h=3D6d09a5be7057e2792be9150d3a2c7b293cf6fc34;hb=3Da5275ba5=
-378c9256d18e582572b4315e8edfcbfb#l87
-
-  By C standard, the return type of readdir() is DIR*, in which the
-  inode number and offset are 32-bit integers, therefore, glibc calls
-  getdents64() and check if the inode number and offset fits the 32-bit
-  range, and reports EOVERFLOW if not.
-
-  The problem here is for 32-bit user-static qemu running on 64-bit
-  host, getdents64 simply passing through the inode number and offset
-  from underlying getdents64 syscall (from 64-bit kernel), which is very
-  likely to not fit into 32-bit range. On real hardware, the 32-bit
-  kernel creates 32-bit inode numbers, therefore works properly.
-
-  The glibc code makes sense to do the check to be conformant with C
-  standard, therefore ideally it should be a fix on qemu side. I admit
-  this is difficult because qemu has to maintain a mapping between
-  underlying 64-bit inode numbers and 32-bit inode numbers, which would
-  severely hurt the performance. I don't expect this could be fix
-  anytime soon (or even there would be a fix), but it would be
-  worthwhile to surface this issue.
+  Problem: after boot, when type poweroff -f it hangs (not quitting). I
+  have tested this for x86_64, and aarch64 and it works fine. The
+  problem appears only for risv64(of those mentioned). Last time I have
+  checked, it worked  for all the mentioned architectures. It was on the
+  d0f90e1423b4f412adc620eee93e8bfef8af4117 commit
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1805913/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1861394/+subscriptions
 
