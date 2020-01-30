@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 663B014DF08
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jan 2020 17:23:58 +0100 (CET)
-Received: from localhost ([::1]:35370 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFC6E14DF15
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jan 2020 17:27:30 +0100 (CET)
+Received: from localhost ([::1]:35476 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ixCbl-000194-Eb
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 11:23:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43195)
+	id 1ixCfB-0007Ov-O3
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 11:27:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43239)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1ixCU0-0005hU-VP
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 11:15:59 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1ixCU5-0005it-Ky
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 11:16:02 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1ixCTz-00032F-Kz
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 11:15:56 -0500
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:40737)
+ (envelope-from <peter.maydell@linaro.org>) id 1ixCU3-00035a-G1
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 11:16:01 -0500
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:46973)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1ixCTz-00031F-EV
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 11:15:55 -0500
-Received: by mail-wm1-x336.google.com with SMTP id t14so4929774wmi.5
- for <qemu-devel@nongnu.org>; Thu, 30 Jan 2020 08:15:54 -0800 (PST)
+ id 1ixCU1-00033a-Ht
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 11:15:57 -0500
+Received: by mail-wr1-x42d.google.com with SMTP id z7so4713297wrl.13
+ for <qemu-devel@nongnu.org>; Thu, 30 Jan 2020 08:15:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=gkX8yXLvj1vB2iCrSft8XMOOTuSOUkNF1VyrSoIYYZ0=;
- b=xn06Bu8Y8p6Mb/gr9v8gxt9p1OFbG9ltNMV+MfV0p8ufrag+9mbqje/dnCdbXI8aJN
- K5jZb2Y0XS8W3F+qeedPs8zgSyd3aZLK/u2qF5tdCU5iUCgueBI8M7wY1NCB935iiNYH
- NKVjQHXjTm2+NObJjvxeRAVNNLaKHx2J3k41gNYgWtc8VmJSRB0yFNySjI1PjvO9i7J/
- UspMYRzPJkg6ta4Dw4ksojUFGom0Z1p4Q5GCoCFa/OhX3RtkovXZh5nqPKTXh8dle1Ca
- i7bVcm1At8m95OAZj4URp1yYm9x/ZN1cA3KE8F0CaR8l0S5YnPPixZqA2pR6gFN4xUmL
- G51Q==
+ bh=1jUSJvJpc6/xZHAejsMbUNB1llqeZQaXh0iGP/56VKU=;
+ b=R2H81PivjVHu58X+bBtVqRCcUoVHZ6smZOVqe8POH/aK12fFD6IqC2AcVcVAyHn0yf
+ pZ5j9pe4wF4gQIBJf62YwzpjpcVA3JLR25Bb5T2kgqbnwmY7p6S00x6LZFXAWCr1tMhO
+ 1E7M9PHI8Puwi6Cg/NcV4ldcj31KQXc5rgqKOB770rTocaG/SOHU14Cr3UcECbIE9LB6
+ lIvk8YcZmmPq+kLK7yVkJeTG3pNzcA4lsWuzdE8ZehU9DH/5sDRAmWZgM4RKppOfCl7N
+ AUve0H4b/Q1JRuI9LQEOD4bOn0342us9ge3DODP1U7bf61z6gtd34QGA8rsDYr8qJvTw
+ Ob8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=gkX8yXLvj1vB2iCrSft8XMOOTuSOUkNF1VyrSoIYYZ0=;
- b=Cp7JnYXTic9ehGy4LwzNKfOjNKRsBtHrUmlOXKe3CCxG/HnNDzJuI4Y8y+we1P1YG8
- MmcNu/BxaPPKxbQcioXIhlogUB+DA7FCzXASOlIy+QGVowhWp/u7GZuH5WZnQZPuEwBn
- /xgAjwye1EEKBH60/Jnyx9Zn16PT20XIk+lD23IZCXVoxzrQd8x6BNDjxmn4unqA12Lg
- oZRzHOpAeYsPHp0X49qRuPJwha3Xsm5L1oKi+wVWFHG+wfGXbwLzlYpcZg8DEdhbZCKq
- 89tcqJA8kW+wdujIjgEHKjGzFIg1xijLtBYRWSG9RZL73ytK0QEoFwU8WhE0EhV228cm
- Ltlg==
-X-Gm-Message-State: APjAAAXE8Bju04MGQEKbtiK9bC5cbKBcB+ITElvzh7/GjjXy/fOszECR
- eD/iQH1SsAJi1vSWiLeaYX6GoibPfe1uHQ==
-X-Google-Smtp-Source: APXvYqz9hoeI32wTYT/D8OHI6PAAEZ6GkBLFv1pGT8KHKHpKR8k2gJ8rmtQLJIpewOn5B34NPrFxww==
-X-Received: by 2002:a05:600c:20c6:: with SMTP id
- y6mr6443641wmm.95.1580400953175; 
- Thu, 30 Jan 2020 08:15:53 -0800 (PST)
+ bh=1jUSJvJpc6/xZHAejsMbUNB1llqeZQaXh0iGP/56VKU=;
+ b=dgWlzuRhQXpplaFnPgPtxfuogUHiPXeyziaI+Iobq5y6B0h80/YxZrrNurx0QpK/p7
+ E95w9vds2FVyzIwC5r13GzOZfOcRpPIklRBoXmOZMenwcpNzeCWxQRN0D6Hyqjee+0jR
+ vPE6apaVfDjOOIzFDi2Lm4u80OSq7wqnbSrozn4NKb1hOrvAgN4T+e9k/iJwmA9lkYvg
+ V45SQMfo4nP0BJkNtjXTldWi6F/Md7v8BC7aD+PjKpci3fFCQ83oD2rOfouphzWoDlgS
+ hAt7fZJQmsFsnCpG6DJ0pq6jwCJlQUyDy4CKboItzExyodOUgBDxB8aT90GjC5bvoUd0
+ nQtQ==
+X-Gm-Message-State: APjAAAUmMd7ApfytZrJDeJ6lwVNd1MWh8BnpMG8wy6Ks3vtsAiTEG0e2
+ EVm7dbmQuiZXifG/oM1RsGcb9J0/BpDO2A==
+X-Google-Smtp-Source: APXvYqxiWqaZt4Icon4vOKuDW1sQ2sGobeGTwVQCXS/SFC3x60UiITfP/5xrUH4oqdLVqhrsH6IxHQ==
+X-Received: by 2002:a05:6000:12ce:: with SMTP id
+ l14mr6781509wrx.342.1580400954423; 
+ Thu, 30 Jan 2020 08:15:54 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id a22sm6994442wmd.20.2020.01.30.08.15.52
+ by smtp.gmail.com with ESMTPSA id a22sm6994442wmd.20.2020.01.30.08.15.53
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Jan 2020 08:15:52 -0800 (PST)
+ Thu, 30 Jan 2020 08:15:53 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 15/26] hw/core/qdev: update hotplug reset regarding resettable
-Date: Thu, 30 Jan 2020 16:15:22 +0000
-Message-Id: <20200130161533.8180-16-peter.maydell@linaro.org>
+Subject: [PULL 16/26] hw/core: deprecate old reset functions and introduce new
+ ones
+Date: Thu, 30 Jan 2020 16:15:23 +0000
+Message-Id: <20200130161533.8180-17-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200130161533.8180-1-peter.maydell@linaro.org>
 References: <20200130161533.8180-1-peter.maydell@linaro.org>
@@ -68,7 +69,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::336
+X-Received-From: 2a00:1450:4864:20::42d
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,89 +86,156 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Damien Hedde <damien.hedde@greensocs.com>
 
-This commit make use of the resettable API to reset the device being
-hotplugged when it is realized. Also it ensures it is put in a reset
-state coherent with the parent it is plugged into.
+Deprecate device_legacy_reset(), qdev_reset_all() and
+qbus_reset_all() to be replaced by new functions
+device_cold_reset() and bus_cold_reset() which uses resettable API.
 
-Note that there is a difference in the reset. Instead of resetting
-only the hotplugged device, we reset also its subtree (switch to
-resettable API). This is not expected to be a problem because
-sub-buses are just realized too. If a hotplugged device has any
-sub-buses it is logical to reset them too at this point.
+Also introduce resettable_cold_reset_fn() which may be used as a
+replacement for qdev_reset_all_fn and qbus_reset_all_fn().
 
-The recently added should_be_hidden and PCI's partially_hotplugged
-mechanisms do not interfere with realize operation:
-+ In the should_be_hidden use case, device creation is
-delayed.
-+ The partially_hotplugged mechanism prevents a device to be
-unplugged and unrealized from qdev POV and unrealized.
+Following patches will be needed to look at legacy reset call sites
+and switch to resettable api. The legacy functions will be removed
+when unused.
 
 Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-id: 20200123132823.1117486-8-damien.hedde@greensocs.com
+Message-id: 20200123132823.1117486-9-damien.hedde@greensocs.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/hw/resettable.h | 11 +++++++++++
- hw/core/qdev.c          | 15 ++++++++++++++-
- 2 files changed, 25 insertions(+), 1 deletion(-)
+ include/hw/qdev-core.h  | 27 +++++++++++++++++++++++++++
+ include/hw/resettable.h |  9 +++++++++
+ hw/core/bus.c           |  5 +++++
+ hw/core/qdev.c          |  5 +++++
+ hw/core/resettable.c    |  5 +++++
+ 5 files changed, 51 insertions(+)
 
-diff --git a/include/hw/resettable.h b/include/hw/resettable.h
-index 96073354fd6..5e215d94e42 100644
---- a/include/hw/resettable.h
-+++ b/include/hw/resettable.h
-@@ -153,6 +153,17 @@ struct ResettableState {
-     bool exit_phase_in_progress;
- };
+diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
+index 09b7a441eb6..1405b8a990a 100644
+--- a/include/hw/qdev-core.h
++++ b/include/hw/qdev-core.h
+@@ -411,6 +411,13 @@ int qdev_walk_children(DeviceState *dev,
+                        qdev_walkerfn *post_devfn, qbus_walkerfn *post_busfn,
+                        void *opaque);
  
 +/**
-+ * resettable_state_clear:
-+ * Clear the state. It puts the state to the initial (zeroed) state required
-+ * to reuse an object. Typically used in realize step of base classes
-+ * implementing the interface.
++ * @qdev_reset_all:
++ * Reset @dev. See @qbus_reset_all() for more details.
++ *
++ * Note: This function is deprecated and will be removed when it becomes unused.
++ * Please use device_cold_reset() now.
 + */
-+static inline void resettable_state_clear(ResettableState *state)
-+{
-+    memset(state, 0, sizeof(ResettableState));
-+}
+ void qdev_reset_all(DeviceState *dev);
+ void qdev_reset_all_fn(void *opaque);
+ 
+@@ -423,10 +430,28 @@ void qdev_reset_all_fn(void *opaque);
+  * hard reset means that qbus_reset_all will reset all state of the device.
+  * For PCI devices, for example, this will include the base address registers
+  * or configuration space.
++ *
++ * Note: This function is deprecated and will be removed when it becomes unused.
++ * Please use bus_cold_reset() now.
+  */
+ void qbus_reset_all(BusState *bus);
+ void qbus_reset_all_fn(void *opaque);
+ 
++/**
++ * device_cold_reset:
++ * Reset device @dev and perform a recursive processing using the resettable
++ * interface. It triggers a RESET_TYPE_COLD.
++ */
++void device_cold_reset(DeviceState *dev);
++
++/**
++ * bus_cold_reset:
++ *
++ * Reset bus @bus and perform a recursive processing using the resettable
++ * interface. It triggers a RESET_TYPE_COLD.
++ */
++void bus_cold_reset(BusState *bus);
 +
  /**
-  * resettable_reset:
-  * Trigger a reset on an object @obj of type @type. @obj must implement
+  * device_is_in_reset:
+  * Return true if the device @dev is currently being reset.
+@@ -457,6 +482,8 @@ void qdev_machine_init(void);
+  * device_legacy_reset:
+  *
+  * Reset a single device (by calling the reset method).
++ * Note: This function is deprecated and will be removed when it becomes unused.
++ * Please use device_cold_reset() now.
+  */
+ void device_legacy_reset(DeviceState *dev);
+ 
+diff --git a/include/hw/resettable.h b/include/hw/resettable.h
+index 5e215d94e42..f4c4bab0eff 100644
+--- a/include/hw/resettable.h
++++ b/include/hw/resettable.h
+@@ -221,6 +221,15 @@ bool resettable_is_in_reset(Object *obj);
+  */
+ void resettable_change_parent(Object *obj, Object *newp, Object *oldp);
+ 
++/**
++ * resettable_cold_reset_fn:
++ * Helper to call resettable_reset((Object *) opaque, RESET_TYPE_COLD).
++ *
++ * This function is typically useful to register a reset handler with
++ * qemu_register_reset.
++ */
++void resettable_cold_reset_fn(void *opaque);
++
+ /**
+  * resettable_class_set_parent_phases:
+  *
+diff --git a/hw/core/bus.c b/hw/core/bus.c
+index 2698f715bd7..3dc0a825f09 100644
+--- a/hw/core/bus.c
++++ b/hw/core/bus.c
+@@ -68,6 +68,11 @@ int qbus_walk_children(BusState *bus,
+     return 0;
+ }
+ 
++void bus_cold_reset(BusState *bus)
++{
++    resettable_reset(OBJECT(bus), RESET_TYPE_COLD);
++}
++
+ bool bus_is_in_reset(BusState *bus)
+ {
+     return resettable_is_in_reset(OBJECT(bus));
 diff --git a/hw/core/qdev.c b/hw/core/qdev.c
-index 28fc93b1074..7697f033b19 100644
+index 7697f033b19..3937d1eb1a5 100644
 --- a/hw/core/qdev.c
 +++ b/hw/core/qdev.c
-@@ -909,6 +909,12 @@ static void device_set_realized(Object *obj, bool value, Error **errp)
-             }
-         }
+@@ -361,6 +361,11 @@ void qbus_reset_all_fn(void *opaque)
+     qbus_reset_all(bus);
+ }
  
-+        /*
-+         * Clear the reset state, in case the object was previously unrealized
-+         * with a dirty state.
-+         */
-+        resettable_state_clear(&dev->reset);
++void device_cold_reset(DeviceState *dev)
++{
++    resettable_reset(OBJECT(dev), RESET_TYPE_COLD);
++}
 +
-         QLIST_FOREACH(bus, &dev->child_bus, sibling) {
-             object_property_set_bool(OBJECT(bus), true, "realized",
-                                          &local_err);
-@@ -917,7 +923,14 @@ static void device_set_realized(Object *obj, bool value, Error **errp)
-             }
-         }
-         if (dev->hotplugged) {
--            device_legacy_reset(dev);
-+            /*
-+             * Reset the device, as well as its subtree which, at this point,
-+             * should be realized too.
-+             */
-+            resettable_assert_reset(OBJECT(dev), RESET_TYPE_COLD);
-+            resettable_change_parent(OBJECT(dev), OBJECT(dev->parent_bus),
-+                                     NULL);
-+            resettable_release_reset(OBJECT(dev), RESET_TYPE_COLD);
-         }
-         dev->pending_deleted_event = false;
+ bool device_is_in_reset(DeviceState *dev)
+ {
+     return resettable_is_in_reset(OBJECT(dev));
+diff --git a/hw/core/resettable.c b/hw/core/resettable.c
+index 6e0b0f492f1..96a99ce39ea 100644
+--- a/hw/core/resettable.c
++++ b/hw/core/resettable.c
+@@ -264,6 +264,11 @@ void resettable_change_parent(Object *obj, Object *newp, Object *oldp)
+     }
+ }
  
++void resettable_cold_reset_fn(void *opaque)
++{
++    resettable_reset((Object *) opaque, RESET_TYPE_COLD);
++}
++
+ void resettable_class_set_parent_phases(ResettableClass *rc,
+                                         ResettableEnterPhase enter,
+                                         ResettableHoldPhase hold,
 -- 
 2.20.1
 
