@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 129A914DF6D
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jan 2020 17:48:45 +0100 (CET)
-Received: from localhost ([::1]:35982 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 605ED14DF73
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jan 2020 17:52:08 +0100 (CET)
+Received: from localhost ([::1]:36068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ixCzk-0004AX-4k
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 11:48:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56270)
+	id 1ixD31-0007e3-FU
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 11:52:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58212)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1ixCxY-0002pn-UL
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 11:46:30 -0500
+ (envelope-from <armbru@redhat.com>) id 1ixD2A-00078W-Nd
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 11:51:15 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1ixCxX-0006Xi-2U
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 11:46:28 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:31685
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <armbru@redhat.com>) id 1ixD29-0000Ja-19
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 11:51:14 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:58258
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1ixCxW-0006Wq-Uh
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 11:46:27 -0500
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1ixD28-0000IO-Td
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 11:51:12 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580402786;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1580403071;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6lHZ6sr/y9rqZ3RLBtC7LXKmLkOQElaxv2JuYk3ZdOE=;
- b=flHzvxLmSa8sst+h3HWJ0kOqk3PdrPWTxXG0/Akj+DPv0PllSOH1437Nc2mg1TOSiZmSmi
- qblrSvROwWUp+h/+HDq8EtNU31RntGOzdtZte39HFAdWnL9itNBkXCQMT9+xX1KQFcwVLQ
- 9MM6K+8ljIFXSIEKH03y/QY/cIcQANk=
+ bh=Nz6HePjNQp6rCqGWZUzhSMOBg9IwDDzcsesnJJ/nZYU=;
+ b=NwM/d4A0mod2cMg3lQFxWC0cIkQRdheDJJG/QvMIke5jyVg4drUsmbpfupalhO8TEWW/A2
+ 2KVdcJVA4dnRt8CFUBKV+WB96Y8y6ZI9/bzmGtcNJ3A7Q/+AMq4hpvM8/u33YOf75trNij
+ sKp58ts0oXtKqctpl+TuUtQEvxa18ow=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-6-P1zrVIw0N7qSjmUD4SrqSw-1; Thu, 30 Jan 2020 11:46:24 -0500
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-214-EX0pY2qBPfWuIxWn8RuwIQ-1; Thu, 30 Jan 2020 11:51:07 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 31F9C8010F3
- for <qemu-devel@nongnu.org>; Thu, 30 Jan 2020 16:46:23 +0000 (UTC)
-Received: from redhat.com (ovpn-112-54.ams2.redhat.com [10.36.112.54])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4713F5C54A;
- Thu, 30 Jan 2020 16:46:22 +0000 (UTC)
-Date: Thu, 30 Jan 2020 16:46:18 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Juan Quintela <quintela@redhat.com>
-Subject: Re: [PATCH v2] git: Make submodule check only needed modules
-Message-ID: <20200130164618.GS1891831@redhat.com>
-References: <20200130162810.14503-1-quintela@redhat.com>
- <20200130163120.GR1891831@redhat.com>
- <87pnf0c2r8.fsf@secure.laptop>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B4D7C8010F6;
+ Thu, 30 Jan 2020 16:51:05 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-116-131.ams2.redhat.com
+ [10.36.116.131])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DA20087B30;
+ Thu, 30 Jan 2020 16:50:55 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 6D2B81138404; Thu, 30 Jan 2020 17:50:54 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH v6 00/11] error: auto propagated local_err part I
+References: <20200110194158.14190-1-vsementsov@virtuozzo.com>
+ <95d4bf85-b52d-b076-e1fe-8237a28c9d25@virtuozzo.com>
+Date: Thu, 30 Jan 2020 17:50:54 +0100
+In-Reply-To: <95d4bf85-b52d-b076-e1fe-8237a28c9d25@virtuozzo.com> (Vladimir
+ Sementsov-Ogievskiy's message of "Thu, 30 Jan 2020 15:36:55 +0300")
+Message-ID: <87d0b0nb0x.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <87pnf0c2r8.fsf@secure.laptop>
-User-Agent: Mutt/1.13.3 (2020-01-12)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: P1zrVIw0N7qSjmUD4SrqSw-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: EX0pY2qBPfWuIxWn8RuwIQ-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,37 +76,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Stefano Stabellini <sstabellini@kernel.org>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>, qemu-block@nongnu.org,
+ Paul Durrant <paul@xen.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
+ Greg Kurz <groug@kaod.org>, Gerd Hoffmann <kraxel@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
+ Max Reitz <mreitz@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
+ Stefan Berger <stefanb@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jan 30, 2020 at 05:44:59PM +0100, Juan Quintela wrote:
-> Daniel P. Berrang=C3=A9 <berrange@redhat.com> wrote:
-> > On Thu, Jan 30, 2020 at 05:28:10PM +0100, Juan Quintela wrote:
-> >> If one is compiling more than one tree from the same source, it is
-> >> possible that they need different submodules.  Change the check to see
-> >> that all modules that we are interested in are updated, discarding the
-> >> ones that we don't care about.
-> >>=20
-> >> Signed-off-by: Juan Quintela <quintela@redhat.com>
-> >>=20
-> >
-> > Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
->=20
-> Should I send the pull request?
+Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> writes:
 
-Sure, I'm was leaving this for the "Misc queue" maintainer but if yuou
-want it sooner....
+> Markus, what about this? Should I respin?
 
-Regards,
-Daniel
---=20
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
- :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com=
- :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
- :|
+I still haven't looked at this, must be frustrating for you, sorry!
+I've been under water ever since my Christmas vacation...  If you rather
+want me to look at a v7 that addresses the review comments from others,
+then go ahead and respin.
 
 
