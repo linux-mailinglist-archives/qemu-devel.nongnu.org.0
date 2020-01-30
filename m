@@ -2,79 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 866FB14E18B
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jan 2020 19:46:33 +0100 (CET)
-Received: from localhost ([::1]:37774 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE12514E1D0
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jan 2020 19:48:38 +0100 (CET)
+Received: from localhost ([::1]:37804 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ixEpk-0007bv-8E
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 13:46:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47697)
+	id 1ixErl-00030b-P5
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 13:48:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47814)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ganeshgr@linux.ibm.com>) id 1ixEoI-0006TR-KK
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 13:45:04 -0500
+ (envelope-from <ganeshgr@linux.ibm.com>) id 1ixEoa-0006sF-QB
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 13:45:21 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ganeshgr@linux.ibm.com>) id 1ixEoH-0004tl-6L
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 13:45:02 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:3510
+ (envelope-from <ganeshgr@linux.ibm.com>) id 1ixEoZ-0005G0-Kr
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 13:45:20 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:13940
  helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <ganeshgr@linux.ibm.com>)
- id 1ixEoG-0004rt-HJ
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 13:45:01 -0500
-Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+ id 1ixEoZ-0005F4-Fm
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 13:45:19 -0500
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
  by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 00UIinP8142024
- for <qemu-devel@nongnu.org>; Thu, 30 Jan 2020 13:44:59 -0500
-Received: from e06smtp01.uk.ibm.com (e06smtp01.uk.ibm.com [195.75.94.97])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2xuvd5sdgd-1
+ 00UIj36d092933
+ for <qemu-devel@nongnu.org>; Thu, 30 Jan 2020 13:45:18 -0500
+Received: from e06smtp04.uk.ibm.com (e06smtp04.uk.ibm.com [195.75.94.100])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2xv09x1ssx-1
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Thu, 30 Jan 2020 13:44:59 -0500
+ for <qemu-devel@nongnu.org>; Thu, 30 Jan 2020 13:45:17 -0500
 Received: from localhost
- by e06smtp01.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ by e06smtp04.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
  Violators will be prosecuted
  for <qemu-devel@nongnu.org> from <ganeshgr@linux.ibm.com>;
- Thu, 30 Jan 2020 18:44:57 -0000
-Received: from b06cxnps3074.portsmouth.uk.ibm.com (9.149.109.194)
- by e06smtp01.uk.ibm.com (192.168.101.131) with IBM ESMTP SMTP Gateway:
+ Thu, 30 Jan 2020 18:45:16 -0000
+Received: from b06cxnps4074.portsmouth.uk.ibm.com (9.149.109.196)
+ by e06smtp04.uk.ibm.com (192.168.101.134) with IBM ESMTP SMTP Gateway:
  Authorized Use Only! Violators will be prosecuted; 
  (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Thu, 30 Jan 2020 18:44:54 -0000
+ Thu, 30 Jan 2020 18:45:13 -0000
 Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
  [9.149.105.58])
- by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 00UIirYU65339452
+ by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 00UIjDU643778100
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 30 Jan 2020 18:44:53 GMT
+ Thu, 30 Jan 2020 18:45:13 GMT
 Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 23B6C4C04A;
- Thu, 30 Jan 2020 18:44:53 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 03E804C044;
+ Thu, 30 Jan 2020 18:45:13 +0000 (GMT)
 Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id BF3244C040;
- Thu, 30 Jan 2020 18:44:46 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id A47D14C04A;
+ Thu, 30 Jan 2020 18:45:06 +0000 (GMT)
 Received: from localhost.localdomain.com (unknown [9.102.3.98])
  by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Thu, 30 Jan 2020 18:44:46 +0000 (GMT)
+ Thu, 30 Jan 2020 18:45:06 +0000 (GMT)
 From: Ganesh Goudar <ganeshgr@linux.ibm.com>
 To: aik@ozlabs.ru, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
  david@gibson.dropbear.id.au
-Subject: [PATCH v21 0/7]target-ppc/spapr: Add FWNMI support in QEMU for
- PowerKVM guests
-Date: Fri, 31 Jan 2020 00:14:16 +0530
+Subject: [PATCH v21 1/7] Wrapper function to wait on condition for the main
+ loop mutex
+Date: Fri, 31 Jan 2020 00:14:17 +0530
 X-Mailer: git-send-email 2.17.2
+In-Reply-To: <20200130184423.20519-1-ganeshgr@linux.ibm.com>
+References: <20200130184423.20519-1-ganeshgr@linux.ibm.com>
 X-TM-AS-GCONF: 00
-x-cbid: 20013018-4275-0000-0000-0000039C8856
+x-cbid: 20013018-0016-0000-0000-000002E246DD
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 20013018-4276-0000-0000-000038B0A70D
-Message-Id: <20200130184423.20519-1-ganeshgr@linux.ibm.com>
+x-cbparentid: 20013018-0017-0000-0000-0000334512CB
+Message-Id: <20200130184423.20519-2-ganeshgr@linux.ibm.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
  definitions=2020-01-30_06:2020-01-30,
  2020-01-30 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 lowpriorityscore=0
- adultscore=0 priorityscore=1501 phishscore=0 suspectscore=0
- impostorscore=0 bulkscore=0 mlxlogscore=999 spamscore=0 malwarescore=0
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ priorityscore=1501
+ impostorscore=0 mlxlogscore=925 mlxscore=0 suspectscore=0 malwarescore=0
+ bulkscore=0 adultscore=0 clxscore=1015 lowpriorityscore=0 phishscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-1911200001 definitions=main-2001300127
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
 X-Received-From: 148.163.158.5
@@ -94,105 +96,58 @@ Cc: paulus@ozlabs.org, Ganesh Goudar <ganeshgr@linux.ibm.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch set adds support for FWNMI in PowerKVM guests.
+From: Aravinda Prasad <arawinda.p@gmail.com>
 
-System errors such as SLB multihit and memory errors
-that cannot be corrected by hardware is passed on to
-the kernel for handling by raising machine check
-exception (an NMI). Upon such machine check exceptions,
-if the address in error belongs to guest then KVM
-invokes guests' 0x200 interrupt vector if the guest
-is not FWNMI capable. For FWNMI capable guest
-KVM passes the control to QEMU by exiting the guest.
+Introduce a wrapper function to wait on condition for
+the main loop mutex. This function atomically releases
+the main loop mutex and causes the calling thread to
+block on the condition. This wrapper is required because
+qemu_global_mutex is a static variable.
 
-This patch series adds functionality to QEMU to pass
-on such machine check exceptions to the FWNMI capable
-guest kernel by building an error log and invoking
-the guest registered machine check handling routine.
-
-The KVM changes are now part of the upstream kernel
-(commit e20bbd3d). This series contain QEMU changes.
-
-Change Log v21:
-  - Use error_setg() for failure handling in apply hook.
-  - Report warning if FWNMI enabled for TCG.
-  - Enable FWNMI by default for machine type 5.0.
-
-Change Log v20:
-  - Remove code left over from previous version.
-
-Change Log v19:
-  - Create error object for migration blocker in machine_init().
-  - Remove the check to see fwnmi calls are already registered,
-    which is no longer needed.
-  - Register fwnmi RTAS calls in core_rtas_register_types() where
-    other RTAS calls are registered.
-  - Bail out from interlock call if the cap is not set.
-  - Reorder and add missing S-O-Bs.
-
-Change Log v18:
-  - Dynamically create the Error object before adding it as blocker
-  - In apply hook check if the fwnmi calls are already registered and
-    if kvm supports fwnmi before registering the fwnmi calls.
-  - In rtas_ibm_nmi_register() test the feature flag before attempting
-    to get the RTAS address
-  - Introduce a bool member "fwnmi_calls_registered" to check if the
-    fwnmi calls are registered and use the same in needed hook to save
-    the state during migration. 
-
-Change Log v17:
-  - Add fwnmi cap to migration state
-  - Reprhase the commit message in patch 2/7
-
-Change Log v16:
-  - Fixed coding style problems
-
-Change Log v15:
-  - Removed cap_ppc_fwnmi
-  - Moved fwnmi registeration to .apply hook
-  - Assume SLOF has allocated enough room for rtas error log
-  - Using ARRAY_SIZE to end the loop
-  - Do not set FWNMI cap in post_load, now its done in .apply hook
-
-Change Log v14:
-  - Feature activation moved to a separate patch
-  - Fixed issues with migration blocker
-
-Change Log v13:
-  - Minor fixes (mostly nits)
-  - Moved FWNMI guest registration check from patch 4 to 3.
-
-Change Log v12:
-  - Rebased to latest ppc-for-4.2 (SHA b1e8156743)
-
-Change Log v11:
-  - Moved FWNMI SPAPR cap defaults to 4.2 class option
-  - Fixed issues with handling fwnmi KVM capability
-
+Signed-off-by: Aravinda Prasad <arawinda.p@gmail.com>
+Signed-off-by: Ganesh Goudar <ganeshgr@linux.ibm.com>
+Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+Reviewed-by: Greg Kurz <groug@kaod.org>
 ---
+ cpus.c                   | 5 +++++
+ include/qemu/main-loop.h | 8 ++++++++
+ 2 files changed, 13 insertions(+)
 
-Aravinda Prasad (7):
-  Wrapper function to wait on condition for the main loop mutex
-  ppc: spapr: Introduce FWNMI capability
-  target/ppc: Handle NMI guest exit
-  target/ppc: Build rtas error log upon an MCE
-  ppc: spapr: Handle "ibm,nmi-register" and "ibm,nmi-interlock" RTAS
-    calls
-  migration: Include migration support for machine check handling
-  ppc: spapr: Activate the FWNMI functionality
-
- cpus.c                   |   5 +
- hw/ppc/spapr.c           |  60 +++++++++
- hw/ppc/spapr_caps.c      |  28 ++++
- hw/ppc/spapr_events.c    | 269 +++++++++++++++++++++++++++++++++++++++
- hw/ppc/spapr_rtas.c      |  87 +++++++++++++
- include/hw/ppc/spapr.h   |  25 +++-
- include/qemu/main-loop.h |   8 ++
- target/ppc/kvm.c         |  24 ++++
- target/ppc/kvm_ppc.h     |   8 ++
- target/ppc/trace-events  |   1 +
- 10 files changed, 513 insertions(+), 2 deletions(-)
-
+diff --git a/cpus.c b/cpus.c
+index b612116f95..b4f8b84b61 100644
+--- a/cpus.c
++++ b/cpus.c
+@@ -1839,6 +1839,11 @@ void qemu_mutex_unlock_iothread(void)
+     qemu_mutex_unlock(&qemu_global_mutex);
+ }
+ 
++void qemu_cond_wait_iothread(QemuCond *cond)
++{
++    qemu_cond_wait(cond, &qemu_global_mutex);
++}
++
+ static bool all_vcpus_paused(void)
+ {
+     CPUState *cpu;
+diff --git a/include/qemu/main-loop.h b/include/qemu/main-loop.h
+index f6ba78ea73..a6d20b0719 100644
+--- a/include/qemu/main-loop.h
++++ b/include/qemu/main-loop.h
+@@ -295,6 +295,14 @@ void qemu_mutex_lock_iothread_impl(const char *file, int line);
+  */
+ void qemu_mutex_unlock_iothread(void);
+ 
++/*
++ * qemu_cond_wait_iothread: Wait on condition for the main loop mutex
++ *
++ * This function atomically releases the main loop mutex and causes
++ * the calling thread to block on the condition.
++ */
++void qemu_cond_wait_iothread(QemuCond *cond);
++
+ /* internal interfaces */
+ 
+ void qemu_fd_register(int fd);
 -- 
 2.17.2
 
