@@ -2,88 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE8FB14E5B5
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jan 2020 23:57:02 +0100 (CET)
-Received: from localhost ([::1]:40570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E5B914E61E
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 00:29:05 +0100 (CET)
+Received: from localhost ([::1]:40960 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ixIk9-0006xZ-Q2
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 17:57:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58967)
+	id 1ixJFA-0004Te-0c
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 18:29:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40481)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1ixIjJ-0006J0-1m
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 17:56:10 -0500
+ (envelope-from <bounces@canonical.com>) id 1ixHwS-00019b-GW
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 17:05:41 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1ixIjH-00052W-LV
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 17:56:08 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:25529
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1ixIjH-00050l-Hp
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 17:56:07 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580424967;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=nZl5WJLGu/Kb9nx/OMVQnbbdrthLAfMHn+roVUhfr88=;
- b=cAC8JcikJn0RTcpmQROyVg1AD/wyO011k8+40CfAVXU9IgQ8RYcUoKvQpTBRb7BYMeE7X4
- DwzzyvSqgjDse8Dlr1mHVdJmPShrfROGKQvfWkVsYkFk0u2ZVBWJT2gezIJ0FPi7lDGAf9
- IL/vFnVkyBkCQGIUl499qBYsrPn2/SM=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-166-qkgJxA6xPBG5rytKT1ahfw-1; Thu, 30 Jan 2020 17:56:02 -0500
-Received: by mail-wr1-f72.google.com with SMTP id k18so2407384wrw.9
- for <qemu-devel@nongnu.org>; Thu, 30 Jan 2020 14:56:02 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=L2nh/xd8TZKAhtFAsfOxokciGQ4yE5L/QxNJVEgoMAg=;
- b=KuQYRFiMXpgh8TXUmgyv67EjNpfu6GTSXsgZU44p28YX1LCr5oWOrNYrY0jeirgMEm
- y5q5T4h0vSXIm/Hd8J84B+YuOqpSuHjBvtvsTzcrUAAjmVUKxu8Mq0px83PTjvWl8DSt
- 5HBLllorMyDu+/JGEK1W1fbIot0gA2hkELbcIyhE15tHCyo7WZkZNJ2DGK08SeGsjUSG
- jF1swjxI8ZuJGjuAMCAaTy6gu7KmKtOHqZl9eeccef6FMdF24gRrQBy9XaAiqLQqR35D
- ZIMzAFLnC7vBTwKZhWh7D3Mo2+o/4zJK9xqm7iN4Jw2ZWRf1jByN2DeWFBGaW0Mybb1x
- KtxQ==
-X-Gm-Message-State: APjAAAUII7DoRSz7iBrn8GFcyboueLlROYmBDLtnRJ+6xADlYC7S48St
- 1J5+zTaIN25WgtW/L4JrbSD4T/Hu58TIyKR3wtVJD8WNp8qYYYoWVHJhesFbhZqniybdEReqfuY
- nH2brwv+MidALkE4=
-X-Received: by 2002:a7b:ce10:: with SMTP id m16mr7618932wmc.115.1580424961577; 
- Thu, 30 Jan 2020 14:56:01 -0800 (PST)
-X-Google-Smtp-Source: APXvYqxyKvUy4KlnUYKiQOVtv/iZOnH8L0RjXYEa9hmn5MEm9LR/EGAglBMwSv55kPZ9EsmT/cw+Lg==
-X-Received: by 2002:a7b:ce10:: with SMTP id m16mr7618918wmc.115.1580424961382; 
- Thu, 30 Jan 2020 14:56:01 -0800 (PST)
-Received: from [192.168.1.35] (113.red-83-57-172.dynamicip.rima-tde.net.
- [83.57.172.113])
- by smtp.gmail.com with ESMTPSA id y20sm8055538wmj.23.2020.01.30.14.56.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 30 Jan 2020 14:56:00 -0800 (PST)
-Subject: Re: [PATCH v2 3/3] tests/acceptance: avocado_qemu: Refactor the
- handler of 'machine' parameter
-To: Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-devel@nongnu.org
-References: <20191218170003.31356-1-wainersm@redhat.com>
- <20191218170003.31356-4-wainersm@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <a91835b1-dc60-2832-69cd-c25a7a658f3d@redhat.com>
-Date: Thu, 30 Jan 2020 23:55:59 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ (envelope-from <bounces@canonical.com>) id 1ixHwR-00046v-1Y
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 17:05:40 -0500
+Received: from indium.canonical.com ([91.189.90.7]:35572)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1ixHwQ-00045S-ST
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 17:05:38 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1ixHwP-0006rE-F9
+ for <qemu-devel@nongnu.org>; Thu, 30 Jan 2020 22:05:37 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 6AE622E80C0
+ for <qemu-devel@nongnu.org>; Thu, 30 Jan 2020 22:05:37 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20191218170003.31356-4-wainersm@redhat.com>
-Content-Language: en-US
-X-MC-Unique: qkgJxA6xPBG5rytKT1ahfw-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+Date: Thu, 30 Jan 2020 21:59:21 -0000
+From: Noah Bergbauer <noah.bergbauer@tum.de>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: noah-bergbauer
+X-Launchpad-Bug-Reporter: Noah Bergbauer (noah-bergbauer)
+X-Launchpad-Bug-Modifier: Noah Bergbauer (noah-bergbauer)
+Message-Id: <158042156192.19296.13362308580628501069.malonedeb@gac.canonical.com>
+Subject: [Bug 1861458] [NEW] Clock drift issue with -soundhw hda
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="0a62c17273454a1313f81a74a2198ec30b44c7b6";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: b77550c681cfc6d388ecf16cda8ce5f67b8f5446
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-Received-From: 91.189.90.7
+X-Mailman-Approved-At: Thu, 30 Jan 2020 18:27:55 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -92,50 +64,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ehabkost@redhat.com, crosa@redhat.com
+Reply-To: Bug 1861458 <1861458@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/18/19 6:00 PM, Wainer dos Santos Moschetta wrote:
-> The Test._param_to_vm_args variable contain VM arguments that should be a=
-dded
-> at launch which were originated from test parameters. Use this variable
-> to set -M from 'machine' parameter as well.
->=20
-> Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-> ---
->   tests/acceptance/avocado_qemu/__init__.py | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
->=20
-> diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptance=
-/avocado_qemu/__init__.py
-> index aff32668d9..ba9539d511 100644
-> --- a/tests/acceptance/avocado_qemu/__init__.py
-> +++ b/tests/acceptance/avocado_qemu/__init__.py
-> @@ -120,6 +120,8 @@ class Test(avocado.Test):
->  =20
->           self.machine =3D self.params.get('machine',
->                                          default=3Dself._get_unique_tag_v=
-al('machine'))
-> +        if self.machine:
-> +            self._param_to_vm_args.extend(['-M', self.machine])
->  =20
->           default_qemu_bin =3D pick_default_qemu_bin(arch=3Dself.arch)
->           self.qemu_bin =3D self.params.get('qemu_bin',
-> @@ -162,8 +164,6 @@ class Test(avocado.Test):
->               name =3D str(uuid.uuid4())
->           if self._vms.get(name) is None:
->               self._vms[name] =3D self._new_vm(*args)
-> -            if self.machine is not None:
-> -                self._vms[name].set_machine(self.machine)
->           return self._vms[name]
->  =20
->       def tearDown(self):
->=20
+Public bug reported:
 
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Here's the scenario: I'm working on code for loopback audio recording
+(i.e. recording what you're hearing) using WASAPI on Windows. As I
+usually develop on Linux, I'm using qemu to test this on a Windows 10
+VM. The heart of WASAPI audio recording is the
+IAudioCaptureClient::GetBuffer function (https://docs.microsoft.com/en-
+us/windows/win32/api/audioclient/nf-audioclient-iaudiocaptureclient-
+getbuffer). Among other things, this function produces a timestamp for
+when the audio buffer it returned is supposed to be played.
 
-Also, applied to my python-next tree:
-https://gitlab.com/philmd/qemu/commits/python-next
+When the audio device in question is the qemu hda device, this timestamp
+is wrong.
 
+There is a clock drift error (I measured it to be about 0.1%, i.e. 1ms
+drift every second =3D a full second after 16 minutes) that causes the
+audio clock to advance faster than the system clock. Paradoxically, this
+does not affect audio playback through qemu at all, no delay there. Only
+the timestamps returned to recording applications are completely bogus.
+
+Unfortunately I'm not intimately familiar with the inner workings of
+Intel HD Audio. All I can tell you is that this timestamp is supposedly
+obtained directly from the hardware (which would be qemu in this case),
+which is also why e.g. chromium implements a workaround for buggy
+hardware that returns incorrect timestamps.
+
+Here are the relevant parts of my command line (version 4.2.0):
+-enable-kvm -machine pc-q35-3.1,kernel-irqchip=3Don -cpu host,kvm=3Doff,hv_=
+time,hv_relaxed,hv_vapic,hv_spinlocks=3D0x1fff,hv_vendor_id=3DNvidiaFuckU -=
+rtc base=3Dlocaltime -nodefaults -soundhw hda
+
+Just wanted to let you know about this because it took me three days of
+utter confusion and frustration to figure this out.
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1861458
+
+Title:
+  Clock drift issue with -soundhw hda
+
+Status in QEMU:
+  New
+
+Bug description:
+  Here's the scenario: I'm working on code for loopback audio recording
+  (i.e. recording what you're hearing) using WASAPI on Windows. As I
+  usually develop on Linux, I'm using qemu to test this on a Windows 10
+  VM. The heart of WASAPI audio recording is the
+  IAudioCaptureClient::GetBuffer function (https://docs.microsoft.com
+  /en-us/windows/win32/api/audioclient/nf-audioclient-
+  iaudiocaptureclient-getbuffer). Among other things, this function
+  produces a timestamp for when the audio buffer it returned is supposed
+  to be played.
+
+  When the audio device in question is the qemu hda device, this
+  timestamp is wrong.
+
+  There is a clock drift error (I measured it to be about 0.1%, i.e. 1ms
+  drift every second =3D a full second after 16 minutes) that causes the
+  audio clock to advance faster than the system clock. Paradoxically,
+  this does not affect audio playback through qemu at all, no delay
+  there. Only the timestamps returned to recording applications are
+  completely bogus.
+
+  Unfortunately I'm not intimately familiar with the inner workings of
+  Intel HD Audio. All I can tell you is that this timestamp is
+  supposedly obtained directly from the hardware (which would be qemu in
+  this case), which is also why e.g. chromium implements a workaround
+  for buggy hardware that returns incorrect timestamps.
+
+  Here are the relevant parts of my command line (version 4.2.0):
+  -enable-kvm -machine pc-q35-3.1,kernel-irqchip=3Don -cpu host,kvm=3Doff,h=
+v_time,hv_relaxed,hv_vapic,hv_spinlocks=3D0x1fff,hv_vendor_id=3DNvidiaFuckU=
+ -rtc base=3Dlocaltime -nodefaults -soundhw hda
+
+  Just wanted to let you know about this because it took me three days
+  of utter confusion and frustration to figure this out.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1861458/+subscriptions
 
