@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BBD914E526
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jan 2020 22:54:41 +0100 (CET)
-Received: from localhost ([::1]:39838 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B23814E52B
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jan 2020 22:56:34 +0100 (CET)
+Received: from localhost ([::1]:39878 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ixHlo-0002IS-Bv
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 16:54:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33363)
+	id 1ixHnd-0005lC-43
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 16:56:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33405)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1ixHcT-0004sY-CS
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 16:45:02 -0500
+ (envelope-from <mreitz@redhat.com>) id 1ixHcW-0004xd-PU
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 16:45:06 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1ixHcS-00044o-BI
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 16:45:01 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:54458
+ (envelope-from <mreitz@redhat.com>) id 1ixHcU-0004BZ-FQ
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 16:45:03 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:42073
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1ixHcS-00044C-82
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 16:45:00 -0500
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1ixHcU-0004A4-AJ
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 16:45:02 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580420699;
+ s=mimecast20190719; t=1580420701;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/oPtPL8zf9tJoCJa4teoozK5YutntkpEjfe0LxqwwmU=;
- b=TLFbjOyDbxh3aZ8swKrdBGjno2rRmH+lAsL6kyaXMvOx3sIY9R+pFwtqnaDIKAlJqnLLKS
- dYIp2kDS6VddWLnXK7UiwdRI33jCEt+Emdx15WjEPXSi+6MBUoH4cuMsOrG0aSEadBCy5M
- Dd8RGs4KMGcsQSVzqBjsw9hUIWJFO3o=
+ bh=x/ebeROUpozO9G18Nn37Qclo1gAsS3p1IXwOd05lc8I=;
+ b=LtoxdsnWH63ctD4RZwlbv4lExr6sjxIOBB7LIPI1M+1XgF5ySpd92R3uXl2R6zRlts7SX6
+ zJS5eoeIDxU7ZO7KQycLTomnpCZJKxhHs3yOE8J+ZzzQLkOqm6LwE4sKJXaNS5a+W38M/w
+ WR7D0x88rhddcZk06gdP821PBkhl4Ls=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-13-Rz-x4JnINymMcem07Z0-2A-1; Thu, 30 Jan 2020 16:44:56 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-256-eHk9S9_ONHazVFui3XAe4g-1; Thu, 30 Jan 2020 16:44:58 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E10F27341D;
- Thu, 30 Jan 2020 21:44:54 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3B98B800E21;
+ Thu, 30 Jan 2020 21:44:57 +0000 (UTC)
 Received: from localhost (ovpn-204-145.brq.redhat.com [10.40.204.145])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7B1B060BE1;
- Thu, 30 Jan 2020 21:44:54 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C6BEB19756;
+ Thu, 30 Jan 2020 21:44:56 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v3 09/21] quorum: Add QuorumChild.to_be_replaced
-Date: Thu, 30 Jan 2020 22:44:19 +0100
-Message-Id: <20200130214431.333510-10-mreitz@redhat.com>
+Subject: [PATCH v3 10/21] quorum: Implement .bdrv_recurse_can_replace()
+Date: Thu, 30 Jan 2020 22:44:20 +0100
+Message-Id: <20200130214431.333510-11-mreitz@redhat.com>
 In-Reply-To: <20200130214431.333510-1-mreitz@redhat.com>
 References: <20200130214431.333510-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: Rz-x4JnINymMcem07Z0-2A-1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: eHk9S9_ONHazVFui3XAe4g-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,66 +76,91 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We will need this to verify that Quorum can let one of its children be
-replaced without breaking anything else.
-
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block/quorum.c | 25 +++++++++++++++++++++++++
- 1 file changed, 25 insertions(+)
+ block/quorum.c | 57 ++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 57 insertions(+)
 
 diff --git a/block/quorum.c b/block/quorum.c
-index 59cd524502..6a7224c9e4 100644
+index 6a7224c9e4..22c1060b42 100644
 --- a/block/quorum.c
 +++ b/block/quorum.c
-@@ -67,6 +67,13 @@ typedef struct QuorumVotes {
-=20
- typedef struct QuorumChild {
-     BdrvChild *child;
-+
-+    /*
-+     * If set, check whether this node can be replaced without any
-+     * other parent noticing: Unshare CONSISTENT_READ, and take the
-+     * WRITE permission.
-+     */
-+    bool to_be_replaced;
- } QuorumChild;
-=20
- /* the following structure holds the state of one quorum instance */
-@@ -1128,6 +1135,18 @@ static void quorum_child_perm(BlockDriverState *bs, =
-BdrvChild *c,
-                               uint64_t perm, uint64_t shared,
-                               uint64_t *nperm, uint64_t *nshared)
- {
-+    BDRVQuorumState *s =3D bs->opaque;
-+    int child_i =3D -1;
-+
-+    if (c) {
-+        for (child_i =3D 0; child_i < s->num_children; child_i++) {
-+            if (s->children[child_i].child =3D=3D c) {
-+                break;
-+            }
-+        }
-+        assert(child_i < s->num_children);
-+    }
-+
-     *nperm =3D perm & DEFAULT_PERM_PASSTHROUGH;
-=20
-     /*
-@@ -1137,6 +1156,12 @@ static void quorum_child_perm(BlockDriverState *bs, =
-BdrvChild *c,
-     *nshared =3D (shared & (BLK_PERM_CONSISTENT_READ |
-                           BLK_PERM_WRITE_UNCHANGED))
-              | DEFAULT_PERM_UNCHANGED;
-+
-+    if (child_i >=3D 0 && s->children[child_i].to_be_replaced) {
-+        /* Prepare for sudden data changes */
-+        *nperm |=3D BLK_PERM_WRITE;
-+        *nshared &=3D ~BLK_PERM_CONSISTENT_READ;
-+    }
+@@ -825,6 +825,62 @@ static bool quorum_recurse_is_first_non_filter(BlockDr=
+iverState *bs,
+     return false;
  }
 =20
- static const char *const quorum_strong_runtime_opts[] =3D {
++static bool quorum_recurse_can_replace(BlockDriverState *bs,
++                                       BlockDriverState *to_replace)
++{
++    BDRVQuorumState *s =3D bs->opaque;
++    int i;
++
++    for (i =3D 0; i < s->num_children; i++) {
++        /*
++         * We have no idea whether our children show the same data as
++         * this node (@bs).  It is actually highly likely that
++         * @to_replace does not, because replacing a broken child is
++         * one of the main use cases here.
++         *
++         * We do know that the new BDS will match @bs, so replacing
++         * any of our children by it will be safe.  It cannot change
++         * the data this quorum node presents to its parents.
++         *
++         * However, replacing @to_replace by @bs in any of our
++         * children's chains may change visible data somewhere in
++         * there.  We therefore cannot recurse down those chains with
++         * bdrv_recurse_can_replace().
++         * (More formally, bdrv_recurse_can_replace() requires that
++         * @to_replace will be replaced by something matching the @bs
++         * passed to it.  We cannot guarantee that.)
++         *
++         * Thus, we can only check whether any of our immediate
++         * children matches @to_replace.
++         *
++         * (In the future, we might add a function to recurse down a
++         * chain that checks that nothing there cares about a change
++         * in data from the respective child in question.  For
++         * example, most filters do not care when their child's data
++         * suddenly changes, as long as their parents do not care.)
++         */
++        if (s->children[i].child->bs =3D=3D to_replace) {
++            int ret;
++
++            /*
++             * We now have to ensure that there is no other parent
++             * that cares about replacing this child by a node with
++             * potentially different data.
++             */
++            s->children[i].to_be_replaced =3D true;
++            ret =3D bdrv_child_refresh_perms(bs, s->children[i].child, NUL=
+L);
++
++            /* Revert permissions */
++            s->children[i].to_be_replaced =3D false;
++            bdrv_child_refresh_perms(bs, s->children[i].child, &error_abor=
+t);
++
++            return ret =3D=3D 0;
++        }
++    }
++
++    return false;
++}
++
+ static int quorum_valid_threshold(int threshold, int num_children, Error *=
+*errp)
+ {
+=20
+@@ -1197,6 +1253,7 @@ static BlockDriver bdrv_quorum =3D {
+=20
+     .is_filter                          =3D true,
+     .bdrv_recurse_is_first_non_filter   =3D quorum_recurse_is_first_non_fi=
+lter,
++    .bdrv_recurse_can_replace           =3D quorum_recurse_can_replace,
+=20
+     .strong_runtime_opts                =3D quorum_strong_runtime_opts,
+ };
 --=20
 2.24.1
 
