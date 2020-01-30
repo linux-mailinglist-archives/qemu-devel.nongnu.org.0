@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB55014DF28
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jan 2020 17:31:29 +0100 (CET)
-Received: from localhost ([::1]:35560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE57F14DF3D
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jan 2020 17:34:29 +0100 (CET)
+Received: from localhost ([::1]:35634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ixCj2-0005K5-Si
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 11:31:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43271)
+	id 1ixClw-0008Ik-N7
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 11:34:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43325)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1ixCU7-0005ms-3G
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 11:16:06 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1ixCUA-0005nf-St
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 11:16:07 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1ixCU5-00037G-KJ
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 11:16:02 -0500
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:52560)
+ (envelope-from <peter.maydell@linaro.org>) id 1ixCU9-0003Eb-IV
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 11:16:06 -0500
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:52508)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1ixCU4-00035o-EQ
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 11:16:01 -0500
-Received: by mail-wm1-x333.google.com with SMTP id p9so4410436wmc.2
- for <qemu-devel@nongnu.org>; Thu, 30 Jan 2020 08:16:00 -0800 (PST)
+ id 1ixCU9-0003Cn-Cm
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 11:16:05 -0500
+Received: by mail-wm1-x343.google.com with SMTP id p9so4410870wmc.2
+ for <qemu-devel@nongnu.org>; Thu, 30 Jan 2020 08:16:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=dtQiX/MRRlIpxjI4PpXQAgny+XholocDWMM4mNtP8hw=;
- b=T6Ax4MNCp9n7ti4kobHPMF/yOGEiWv9V7JaWdtm4ioLfDHOmNzS1LCd2Q4XfOxDkcu
- Smegi6DCUKdLZ5ZFlpYZ1iLYOskjl8K7TfBJ7Ayy9UyR/t5zi0XCmO4T3ikjlPSpR5ot
- b3D3JMI/RsKy+CmXepquAaJxBLV0znsIF1689K9d88g1YSCj38XIyatiWR+lC9b4xB2k
- ohnfu9d3e9t2BkPAptFhTS94fOcCXOGw4jlZViY0F47uHfUAwYetrcWL59i9nf5DW6Xh
- 2255QPqraAdIsbjz3YzfdPwoHXfmsvBBhkaTVxgI4jjUlA9Wlv5juMl8pYa94SbBufkE
- DqTA==
+ bh=mqPGs4XNEvxPX2EtaQrvJmfPijwJDTsAZANFfzH5G5A=;
+ b=Z09bGIAJlfDJyyCxeXyPnMAWgPDWnxxCZGqs7adw5mR42gBukizBXxo3obb7DaLjtv
+ t8CHNvZfJ5u23CCOwZXJrMP9Lw99ts/XTm69gJC7wwQTHIOq+nWVHNRpr++QimFkYvSH
+ kI4pzFyq+rU4RCJj2RANhYWIgChmHN1VHrSX7oGn3XROJr+egPuk0+cMNi2w6nkAvTiz
+ Lp3N52wdWOBq97nYKyKfvcpJwn7qcy7iA9juH8Xqcrbjeuxeun3JvbK54qOav64sstvU
+ zIFl6NYtEoaeMatzlpd1jlGEyMTAxF+/w4dL2ORB7oVOjUrMct4fbKpknZrrnmRpiNKJ
+ p1Cg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=dtQiX/MRRlIpxjI4PpXQAgny+XholocDWMM4mNtP8hw=;
- b=CbbaVF7PSE6f8xNMpQYDxh09tLUqmP6+iD1nmohlCd9TL7oeSKN6dc9XbWjCG/QPaU
- uvQDunwnmhXKjB34qyZye1DOLfKhW/L5y0xOC7zeMBbsjMPSfWKZJVnwv0IeOmVuRLOH
- NMcmqCISK8gz70M6RRVPAH+IYs0Vgsk73q7bm4SgYHXSb4fa97diNrT05CPi8cUUZOk0
- XieNKfiXUj6yteVTo2W/U2ukOQO4V81UruQhsagH0NjAhmVJVFizXc0B7Bo6rRxSszc5
- L2vLpWfGIEq6yJqYNTnadhCwnNXVZTfL4wHMzwuN5iUQ/DRMhAYhmEZWxrfaOWnr8KOt
- dz7A==
-X-Gm-Message-State: APjAAAWqYUGpWMEqHGYQYF1/W58gmolROwNVCFdMn/dbsgov1JlXZXwt
- aLJLsqBQShhdE4aQs9OcaqxnerY/a1wKSg==
-X-Google-Smtp-Source: APXvYqy4jR7M/6lz0hTdCYGP8OANqsvE2q/Z9PPEFSBj5I13sYNsfILwtYpkyn3nHBFV80FFP1Rxtw==
-X-Received: by 2002:a05:600c:21c6:: with SMTP id
- x6mr6454258wmj.177.1580400958718; 
- Thu, 30 Jan 2020 08:15:58 -0800 (PST)
+ bh=mqPGs4XNEvxPX2EtaQrvJmfPijwJDTsAZANFfzH5G5A=;
+ b=YjpzQii47IrXUKqiXTmOQT7gCN2bTdl03EKHq6y2GflXRvsBOR3mMTBnehdyc0XPQr
+ gCuBCrqHKDFt/0w+R+3rrgdj3GceIYfO7m86nmJShX7uoWzCySFnc3mjUt0Vfo83c3CP
+ PaQUOCKepNBkIXklMSK3jW0jmUoB43yg95v7WwZs5Pm8PDpom6IWUeBeGIAZ2k5j3mh4
+ GNYYYTKE5kxn5J1PhIUHlI7zDyzA1J+x4tbA2BhdKd/B6tnVZidEDhddgU4G9MZoBKLC
+ w69xerXQPzbHfY97bIMevQuF72kXcOBzkQt2ba0bAenuvcs15gE6+uNfAk80uN9F7G8F
+ dr9Q==
+X-Gm-Message-State: APjAAAXKT79YzbbgrnLCNsYth61GVBCycccNRyc8/GyD1hoZ1n1SdRUA
+ KouxisUzVSqssQSie2HKW7vWamsULy1lYw==
+X-Google-Smtp-Source: APXvYqxOT6QHWq6RX8rKssGjkiRCfY4N4IO4Z7d4GVJyurrViQorWpC4D5AWUmSKBPZ7EcaHglyCYw==
+X-Received: by 2002:a1c:7317:: with SMTP id d23mr6601607wmb.165.1580400963959; 
+ Thu, 30 Jan 2020 08:16:03 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id a22sm6994442wmd.20.2020.01.30.08.15.57
+ by smtp.gmail.com with ESMTPSA id a22sm6994442wmd.20.2020.01.30.08.16.02
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Jan 2020 08:15:57 -0800 (PST)
+ Thu, 30 Jan 2020 08:16:03 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 18/26] vl: replace deprecated qbus_reset_all registration
-Date: Thu, 30 Jan 2020 16:15:25 +0000
-Message-Id: <20200130161533.8180-19-peter.maydell@linaro.org>
+Subject: [PULL 23/26] target/arm/kvm64: kvm64 cpus have timer registers
+Date: Thu, 30 Jan 2020 16:15:30 +0000
+Message-Id: <20200130161533.8180-24-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200130161533.8180-1-peter.maydell@linaro.org>
 References: <20200130161533.8180-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::333
+X-Received-From: 2a00:1450:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,110 +81,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Damien Hedde <damien.hedde@greensocs.com>
+From: Andrew Jones <drjones@redhat.com>
 
-Replace deprecated qbus_reset_all by resettable_cold_reset_fn for
-the sysbus reset registration.
+Add the missing GENERIC_TIMER feature to kvm64 cpus.
 
-Apart for the raspi machines, this does not impact the behavior
-because:
-+ at this point resettable just calls the old reset methods of devices
-  and buses in the same order as qdev/qbus.
-+ resettable handlers registered with qemu_register_reset are
-  serialized; there is no interleaving.
-+ eventual explicit calls to legacy reset API (device_reset or
-  qdev/qbus_reset) inside this reset handler will not be masked out
-  by resettable mechanism; they do not go through resettable api.
+We don't currently use these registers when KVM is enabled, but it's
+probably best we add the feature flag for consistency and potential
+future use. There's also precedent, as we add the PMU feature flag to
+KVM enabled guests, even though we don't use those registers either.
 
-For the raspi machines, during the sysbus reset the sd-card is not
-reset twice anymore but only once. This is a consequence of switching
-both sysbus reset and changing parent to resettable; it detects the
-second reset is not needed. This has no impact on the state after
-reset; the sd-card reset method only reset local state and query
-information from the block backend.
+This change was originally posted as a hunk of a different, never
+merged patch from Bijan Mottahedeh.
 
-The raspi reset change can be observed by using the following command
-(reset will occurs, then do Ctrl-C to end qemu; no firmware is
-given here).
-qemu-system-aarch64 -M raspi3 \
-    -trace resettable_phase_hold_exec \
-    -trace qdev_update_parent_bus \
-    -trace resettable_change_parent \
-    -trace qdev_reset -trace qbus_reset
-
-Before the patch, the qdev/qbus_reset traces show when reset method are
-called. After the patch, the resettable_phase_hold_exec show when reset
-method are called.
-
-The traced reset order of the raspi3 is listed below. I've added empty
-lines and the tree structure.
-
- +->bcm2835-peripherals reset
- |
- |       +->sd-card reset
- |   +->sd-bus reset
- +->bcm2835_gpio reset
- |      -> dev_update_parent_bus (move the sd-card on the sdhci-bus)
- |      -> resettable_change_parent
- |
- +->bcm2835-dma reset
- |
- |   +->bcm2835-sdhost-bus reset
- +->bcm2835-sdhost reset
- |
- |       +->sd-card (reset ONLY BEFORE BEFORE THE PATCH)
- |   +->sdhci-bus reset
- +->generic-sdhci reset
- |
- +->bcm2835-rng reset
- +->bcm2835-property reset
- +->bcm2835-fb reset
- +->bcm2835-mbox reset
- +->bcm2835-aux reset
- +->pl011 reset
- +->bcm2835-ic reset
- +->bcm2836-control reset
-System reset
-
-In both case, the sd-card is reset (being on bcm2835_gpio/sd-bus) then moved
-to generic-sdhci/sdhci-bus by the bcm2835_gpio reset method.
-
-Before the patch, it is then reset again being part of generic-sdhci/sdhci-bus.
-After the patch, it considered again for reset but its reset method is not
-called because it is already flagged as reset.
-
-Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Andrew Jones <drjones@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-id: 20200123132823.1117486-11-damien.hedde@greensocs.com
+Message-id: 20200120101023.16030-4-drjones@redhat.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- vl.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+ target/arm/kvm64.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/vl.c b/vl.c
-index b0f52c4d6e0..24951b51a94 100644
---- a/vl.c
-+++ b/vl.c
-@@ -4381,7 +4381,15 @@ int main(int argc, char **argv, char **envp)
+diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
+index 6344113a680..8955d23affd 100644
+--- a/target/arm/kvm64.c
++++ b/target/arm/kvm64.c
+@@ -604,6 +604,7 @@ bool kvm_arm_get_host_cpu_features(ARMHostCPUFeatures *ahcf)
+     set_feature(&features, ARM_FEATURE_NEON);
+     set_feature(&features, ARM_FEATURE_AARCH64);
+     set_feature(&features, ARM_FEATURE_PMU);
++    set_feature(&features, ARM_FEATURE_GENERIC_TIMER);
  
-     /* TODO: once all bus devices are qdevified, this should be done
-      * when bus is created by qdev.c */
--    qemu_register_reset(qbus_reset_all_fn, sysbus_get_default());
-+    /*
-+     * TODO: If we had a main 'reset container' that the whole system
-+     * lived in, we could reset that using the multi-phase reset
-+     * APIs. For the moment, we just reset the sysbus, which will cause
-+     * all devices hanging off it (and all their child buses, recursively)
-+     * to be reset. Note that this will *not* reset any Device objects
-+     * which are not attached to some part of the qbus tree!
-+     */
-+    qemu_register_reset(resettable_cold_reset_fn, sysbus_get_default());
-     qemu_run_machine_init_done_notifiers();
+     ahcf->features = features;
  
-     if (rom_check_and_register_reset() != 0) {
 -- 
 2.20.1
 
