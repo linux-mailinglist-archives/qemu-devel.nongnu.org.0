@@ -2,69 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1790814DA37
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jan 2020 12:53:58 +0100 (CET)
-Received: from localhost ([::1]:59530 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 776F814DA4A
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jan 2020 13:02:03 +0100 (CET)
+Received: from localhost ([::1]:59616 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ix8OT-0005mg-5z
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 06:53:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41494)
+	id 1ix8WI-0001bn-97
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 07:02:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43729)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1ix8NG-0004O8-0k
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 06:52:43 -0500
+ (envelope-from <sgarzare@redhat.com>) id 1ix8Uv-00013F-VS
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 07:00:38 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1ix8N8-0004IA-RR
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 06:52:38 -0500
-Received: from mail-oi1-x234.google.com ([2607:f8b0:4864:20::234]:37372)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1ix8N8-0004G8-2w
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 06:52:34 -0500
-Received: by mail-oi1-x234.google.com with SMTP id q84so3222435oic.4
- for <qemu-devel@nongnu.org>; Thu, 30 Jan 2020 03:52:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=OlVoJeLQtqT+0tkd1QEC9zZkcrl/hztqXIVsSUzxZE0=;
- b=I2oINoPuiAAbx1Zj9yRNZSts9n5iQUa/iZPF4fjgPbTkAPuLgTCNrQ+rU7De1zDcVi
- XycGf4+Nh2YJT9e+WdTX0F+7HhKWWZfh17Wm4WIKRB376oDO5L9ecsnr5vlf6Rp2WS03
- ZoEyorWbmU3pn9mkgrDsyqPKgFXbOQJrFslBcnJkaZNtIN816z3a72YJy929DDkixPuA
- r4G0a/uIb0OaDzXgR6zmSoXZw5c5YGJxVb3v+xuixFyLkdvq+bB5TGYBiB1vC0rlOC/1
- Px2GkSO4DhPAmExkBxtKTSwMjWbWText9UbyzSa3w+AZ+X6qQdNCIIyq0ta/boBbBhEN
- JKrg==
+ (envelope-from <sgarzare@redhat.com>) id 1ix8Ut-000675-RB
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 07:00:37 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:34408
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <sgarzare@redhat.com>) id 1ix8Ur-00060u-Tm
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 07:00:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1580385630;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=vy7u4q8TR2GGJyzKwVBCUpKv0DoP8t5DqGXYDBRGGYw=;
+ b=ENODQFQUiUmy2E0uJEkWD0i5TwucIiz5HvJ/1TJfqzmgI1IshyGNyHAHWKzti5rNO9qQgj
+ ZujRGb+Oj8XKLyFuI1ywAEv5G+JnbVGhK2EKMw1SUyLK4xO6zHb2t2fSYoDkQsEgb9d1r9
+ +Gx86s+Y4ydolNs+sjeeJQiJG/LcQaQ=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-109-6qec5vt6NeqS9Bp3mE4duQ-1; Thu, 30 Jan 2020 07:00:26 -0500
+Received: by mail-wm1-f70.google.com with SMTP id q125so420446wme.1
+ for <qemu-devel@nongnu.org>; Thu, 30 Jan 2020 04:00:25 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=OlVoJeLQtqT+0tkd1QEC9zZkcrl/hztqXIVsSUzxZE0=;
- b=Stm29HSdRUtfFwhqRJhzFuF81ME6dyEdf82/q692VLb4XefV8OYPAyulT2EbdrcDwQ
- 11vsa72KpL79oT+jvAQ/Tp41HQmKeg33JjNPPAym0uuCpyIFEtjka9AP5JNv4epudNqt
- ZgP96saWbx3vhZ6Lk4hdu96Sk+dVKWyP6hck+cB1P/9+GWpY5gDldYpcGAxcVWxOHYeS
- Sl2Cpkn7gaTMM/hSxGBioIBZQ4laNpF5u4YXRUZEgiUdL2Mev7z5ZLd9uZqTlLId7N02
- 0PnSH/+DaDfsfZ7pVH14ufbBXOeGW/h4OK9zWjrlVTe/fliByX0TH4IRl/XMXybJSk/Z
- Vs+Q==
-X-Gm-Message-State: APjAAAWZ9Lo4Ax6DpSFGBgyi3s3gJGSv1PKcP9rL+5dcqV50NLBkfDjN
- XYAnVd020C/bJvY6dbKUloLsrEZSHOb0hS0Q9yjE7w==
-X-Google-Smtp-Source: APXvYqxmpqcMmjJwoqQ/onpfh3IRhKrTd7ebJlyBOYXxX5YA/MiMaRSy6UHoW197BEQa1DQEJV/dGIJuJGQ7FPOV9m0=
-X-Received: by 2002:aca:b2c5:: with SMTP id b188mr2570898oif.163.1580385150395; 
- Thu, 30 Jan 2020 03:52:30 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=PdXaGxr33UPSeEOHnRK6scKFehznpwVs8y8hfQVkGXo=;
+ b=gNXqDyCeJxfdw3Eyoy2VjUuq6XcQTU23xpP2wwEMbQnzfUSH5B6/380ceb3tUs8E4B
+ sV9g0MFDRVzyrgXSkJzor+T2Idh7YCmXoEZgIvIv8StgEzbrL04gWlGj9KorPvdAQ24g
+ 3DI+wIWd7VTwlwE0K7CkWyO821eavKWdXp40l0PzdVv9Dmc9DTVQwDVRQLigMDaVC4Vy
+ GLlaPq+yNm/UcacVUfiPovXSrgzVIY+o6Onrz9pJErL3kIKrVC/AAuuQiqzAseKc43aH
+ yAxZXSoE9+g+3x18nJX5Ps4gBWrfeOTaIfm+xal28syYP5EkQcCZQr+q6R6vZo8TQ0dh
+ kxzw==
+X-Gm-Message-State: APjAAAWQO9v1bfh9h7FNAbZk1nBJb/ZNFCSvCfGjoHWrYVWLSDsmnHZT
+ 9l1UIxlE3++ZDMhcMyydB2VxeQKPtntSz+LXlW94c5QwgN9Cbni49ogB5FhhR7m86oFjM8RWWEn
+ cp15vFCJbuQVCXFA=
+X-Received: by 2002:adf:dc86:: with SMTP id r6mr5219738wrj.68.1580385624818;
+ Thu, 30 Jan 2020 04:00:24 -0800 (PST)
+X-Google-Smtp-Source: APXvYqygMETwCUYB1S4kAngxqSPkczt7NWlqpLIOzeyjKgWYfItGHpG2RzoTj577/Eq3YyhYsHTVcA==
+X-Received: by 2002:adf:dc86:: with SMTP id r6mr5219672wrj.68.1580385624261;
+ Thu, 30 Jan 2020 04:00:24 -0800 (PST)
+Received: from steredhat (host209-4-dynamic.27-79-r.retail.telecomitalia.it.
+ [79.27.4.209])
+ by smtp.gmail.com with ESMTPSA id d23sm7092160wra.30.2020.01.30.04.00.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 30 Jan 2020 04:00:23 -0800 (PST)
+Date: Thu, 30 Jan 2020 13:00:20 +0100
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: Liam Merwick <liam.merwick@oracle.com>
+Subject: Re: [PATCH 4/6] travis.yml: install rpm2cpio for acceptance tests
+Message-ID: <20200130120020.zawcwbrvqncjgynj@steredhat>
+References: <1580142994-1836-1-git-send-email-liam.merwick@oracle.com>
+ <1580142994-1836-5-git-send-email-liam.merwick@oracle.com>
 MIME-Version: 1.0
-References: <CAL1e-=j5WJkV=X+KkfBuS3pjf6z3aJrtu4xpYeVbjEUYiWxxTQ@mail.gmail.com>
- <CAL1e-=ghxDLcU3iqkZ8q_sbk_DyR70t2a-jFtoNDVa7iTkMXsQ@mail.gmail.com>
- <3d768689-b69f-02d9-b3b1-0c5a9a68df89@vivier.eu>
-In-Reply-To: <3d768689-b69f-02d9-b3b1-0c5a9a68df89@vivier.eu>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 30 Jan 2020 11:52:19 +0000
-Message-ID: <CAFEAcA8ph4Bt1S7k6NfySYM9O1YARxE54r-izDpDWoWX41z98w@mail.gmail.com>
-Subject: Re: [GSoC/Outreachy QEMU proposal] Extend support for ioctls in QEMU
- linux-user mode
-To: Laurent Vivier <laurent@vivier.eu>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <1580142994-1836-5-git-send-email-liam.merwick@oracle.com>
+X-MC-Unique: 6qec5vt6NeqS9Bp3mE4duQ-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::234
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,32 +89,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Hajnoczi <stefanha@redhat.com>,
- Aleksandar Markovic <aleksandar.m.mail@gmail.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: fam@euphon.net, slp@redhat.com, alex.bennee@linaro.org,
+ qemu-devel@nongnu.org, wainersm@redhat.com, pbonzini@redhat.com,
+ philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 30 Jan 2020 at 11:20, Laurent Vivier <laurent@vivier.eu> wrote:
->
-> Le 30/01/2020 =C3=A0 12:09, Aleksandar Markovic a =C3=A9crit :
-> > Laurent, all this seems to be dependant on whether you are ready to
-> > mentor the project. Are you?
->
-> Yes, of course.
->
-> > The deadline for submitting GSoC/Outreachy projects (within QEMU) is
-> > just around the corner (Feb 1). I leave to Laurent or Peter (should the=
-y
-> > give "go" to this proposal) to officially submit the project on our wik=
-i
-> > page created for that purpose, in the form they deem the best.
->
-> Peter, is it ok for you?
+On Mon, Jan 27, 2020 at 04:36:32PM +0000, Liam Merwick wrote:
+> The extract_from_rpm() method added for the PVH acceptance tests needs
+> rpm2cpio to extract a vmlinux binary from an RPM.
+>=20
+> Signed-off-by: Liam Merwick <liam.merwick@oracle.com>
+> ---
+>  .travis.yml | 1 +
+>  1 file changed, 1 insertion(+)
 
-I don't really have the time to do GSoC mentoring projects;
-if you are willing to do the mentoring then that's great.
+Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
 
-thanks
--- PMM
+>=20
+> diff --git a/.travis.yml b/.travis.yml
+> index 1ae645e9fcec..3d8c2a38e679 100644
+> --- a/.travis.yml
+> +++ b/.travis.yml
+> @@ -278,6 +278,7 @@ matrix:
+>              - python3-pil
+>              - python3-pip
+>              - python3.5-venv
+> +            - rpm2cpio
+>              - tesseract-ocr
+>              - tesseract-ocr-eng
+> =20
+> --=20
+> 1.8.3.1
+>=20
+
 
