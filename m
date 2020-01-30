@@ -2,56 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06F5314DAB8
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jan 2020 13:36:36 +0100 (CET)
-Received: from localhost ([::1]:59998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A31E14DABF
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jan 2020 13:38:09 +0100 (CET)
+Received: from localhost ([::1]:60042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ix93j-0007MB-1d
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 07:36:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54497)
+	id 1ix95E-0002Y7-4P
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 07:38:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54545)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mlevitsk@redhat.com>) id 1ix92N-0005ae-Cf
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 07:35:12 -0500
+ (envelope-from <mlevitsk@redhat.com>) id 1ix92O-0005bG-QA
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 07:35:14 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mlevitsk@redhat.com>) id 1ix92M-0004XC-AW
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 07:35:11 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:25141
+ (envelope-from <mlevitsk@redhat.com>) id 1ix92N-0004Zq-EF
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 07:35:12 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:55183
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mlevitsk@redhat.com>) id 1ix92M-0004R1-6s
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 07:35:10 -0500
+ (Exim 4.71) (envelope-from <mlevitsk@redhat.com>) id 1ix92N-0004Rx-9i
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 07:35:11 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580387703;
+ s=mimecast20190719; t=1580387705;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xIB5EKz/PP52nepCG9ZIBf61jVupUOv7U1wULQeWDdA=;
- b=VjpNTvRqy1+hgfumobsWF69BdzaXotxit/DkzYGEtuM/1A3GzIm6eBt6bQUoZRVRSylzxV
- TdIS8pbKNbB866g+PgqwbiCTMvQHnLUoxPCqSh3IDXIlBgxlZb2xubidYxxj9w+bpFncYO
- k8wihcXlaBA6cWbicIr81PXOOiYOdOc=
+ bh=mDDYN1526RpxoYeW85lvREBRRxEe2IGN9z2m/v1Qfbk=;
+ b=UActzBrPCox55rYSTpS4abVPy+3RqRC2JsuQeQw0EE5+wlYDikgwwQ2QAbyqaMX73NdCUs
+ 4u6GqAVMNkx1CK2ixXC12Z7Aou104sh8iDl8G3THzdYkVXiMNKCWYKV8K7w1lJDZEOgXUK
+ y6o+iB6rtIaT4MUnX3cyiVhjQugDRNs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-15-yUKiICx_MR2KgsZ-giPTQg-1; Thu, 30 Jan 2020 07:35:00 -0500
+ us-mta-97-romJZpZMOJyvZRLSqcNIZw-1; Thu, 30 Jan 2020 07:35:03 -0500
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A12FB100550E;
- Thu, 30 Jan 2020 12:34:59 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 12148107ACC4;
+ Thu, 30 Jan 2020 12:35:02 +0000 (UTC)
 Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.78])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A0A6E167A3;
- Thu, 30 Jan 2020 12:34:57 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 06D2E19756;
+ Thu, 30 Jan 2020 12:34:59 +0000 (UTC)
 From: Maxim Levitsky <mlevitsk@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 02/11] monitor/hmp: uninline add_init_drive
-Date: Thu, 30 Jan 2020 14:34:39 +0200
-Message-Id: <20200130123448.21093-3-mlevitsk@redhat.com>
+Subject: [PATCH v4 03/11] monitor/hmp: rename device-hotplug.c to
+ block/monitor/block-hmp-cmds.c
+Date: Thu, 30 Jan 2020 14:34:40 +0200
+Message-Id: <20200130123448.21093-4-mlevitsk@redhat.com>
 In-Reply-To: <20200130123448.21093-1-mlevitsk@redhat.com>
 References: <20200130123448.21093-1-mlevitsk@redhat.com>
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: yUKiICx_MR2KgsZ-giPTQg-1
+X-MC-Unique: romJZpZMOJyvZRLSqcNIZw-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
@@ -77,76 +78,149 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Maxim Levitsky <mlevitsk@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is only used by hmp_drive_add.
-The code is just a bit shorter this way.
+These days device-hotplug.c only contains the hmp_drive_add
+In the next patch, rest of hmp_drive* functions will be moved
+there.
 
-No functional changes
+Also add block-hmp-cmds.h to contain prototypes of these
+functions
+
+License for block-hmp-cmds.h since it contains the code
+moved from sysemu.h which lacks license and thus according
+to LICENSE is under GPLv2+
+
 
 Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
 Reviewed-by: Markus Armbruster <armbru@redhat.com>
 ---
- device-hotplug.c | 31 ++++++++++++-------------------
- 1 file changed, 12 insertions(+), 19 deletions(-)
+ MAINTAINERS                                      |  1 +
+ Makefile.objs                                    |  2 +-
+ block/Makefile.objs                              |  1 +
+ block/monitor/Makefile.objs                      |  1 +
+ .../monitor/block-hmp-cmds.c                     |  3 ++-
+ include/block/block-hmp-cmds.h                   | 16 ++++++++++++++++
+ include/sysemu/sysemu.h                          |  3 ---
+ monitor/misc.c                                   |  1 +
+ 8 files changed, 23 insertions(+), 5 deletions(-)
+ create mode 100644 block/monitor/Makefile.objs
+ rename device-hotplug.c =3D> block/monitor/block-hmp-cmds.c (97%)
+ create mode 100644 include/block/block-hmp-cmds.h
 
-diff --git a/device-hotplug.c b/device-hotplug.c
-index f01d53774b..554e4d98db 100644
+diff --git a/MAINTAINERS b/MAINTAINERS
+index efd3f3875f..068051d053 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1884,6 +1884,7 @@ Block QAPI, monitor, command line
+ M: Markus Armbruster <armbru@redhat.com>
+ S: Supported
+ F: blockdev.c
++F: blockdev-hmp-cmds.c
+ F: block/qapi.c
+ F: qapi/block*.json
+ F: qapi/transaction.json
+diff --git a/Makefile.objs b/Makefile.objs
+index f2da7241fc..dc3fd58b24 100644
+--- a/Makefile.objs
++++ b/Makefile.objs
+@@ -39,7 +39,7 @@ common-obj-y +=3D dump/
+ common-obj-y +=3D job-qmp.o
+ common-obj-y +=3D monitor/
+ common-obj-y +=3D net/
+-common-obj-y +=3D qdev-monitor.o device-hotplug.o
++common-obj-y +=3D qdev-monitor.o
+ common-obj-$(CONFIG_WIN32) +=3D os-win32.o
+ common-obj-$(CONFIG_POSIX) +=3D os-posix.o
+=20
+diff --git a/block/Makefile.objs b/block/Makefile.objs
+index 330529b0b7..3f65544a6b 100644
+--- a/block/Makefile.objs
++++ b/block/Makefile.objs
+@@ -44,6 +44,7 @@ block-obj-y +=3D crypto.o
+ block-obj-y +=3D aio_task.o
+ block-obj-y +=3D backup-top.o
+ block-obj-y +=3D filter-compress.o
++common-obj-y +=3D monitor/
+=20
+ common-obj-y +=3D stream.o
+=20
+diff --git a/block/monitor/Makefile.objs b/block/monitor/Makefile.objs
+new file mode 100644
+index 0000000000..0a74f9a8b5
+--- /dev/null
++++ b/block/monitor/Makefile.objs
+@@ -0,0 +1 @@
++common-obj-y +=3D block-hmp-cmds.o
+diff --git a/device-hotplug.c b/block/monitor/block-hmp-cmds.c
+similarity index 97%
+rename from device-hotplug.c
+rename to block/monitor/block-hmp-cmds.c
+index 554e4d98db..bcf35b4b44 100644
 --- a/device-hotplug.c
-+++ b/device-hotplug.c
-@@ -34,42 +34,35 @@
++++ b/block/monitor/block-hmp-cmds.c
+@@ -1,5 +1,5 @@
+ /*
+- * QEMU device hotplug helpers
++ * Blockdev HMP commands
+  *
+  * Copyright (c) 2004 Fabrice Bellard
+  *
+@@ -33,6 +33,7 @@
+ #include "sysemu/sysemu.h"
  #include "monitor/monitor.h"
  #include "block/block_int.h"
++#include "block/block-hmp-cmds.h"
 =20
--static DriveInfo *add_init_drive(const char *optstr)
+=20
+ void hmp_drive_add(Monitor *mon, const QDict *qdict)
+diff --git a/include/block/block-hmp-cmds.h b/include/block/block-hmp-cmds.=
+h
+new file mode 100644
+index 0000000000..0db8a889a1
+--- /dev/null
++++ b/include/block/block-hmp-cmds.h
+@@ -0,0 +1,16 @@
++/*
++ * HMP commands related to the block layer
++ *
++ * Copyright (c) 2020 Red Hat, Inc.
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2.
++ * or (at your option) any later version.
++ * See the COPYING file in the top-level directory.
++ */
 +
-+void hmp_drive_add(Monitor *mon, const QDict *qdict)
- {
-     Error *err =3D NULL;
-     DriveInfo *dinfo;
-     QemuOpts *opts;
-     MachineClass *mc;
-+    const char *optstr =3D qdict_get_str(qdict, "opts");
-+    bool node =3D qdict_get_try_bool(qdict, "node", false);
++#ifndef BLOCK_HMP_COMMANDS_H
++#define BLOCK_HMP_COMMANDS_H
 +
-+    if (node) {
-+        hmp_drive_add_node(mon, optstr);
-+        return;
-+    }
++void hmp_drive_add(Monitor *mon, const QDict *qdict);
++
++#endif
+diff --git a/include/sysemu/sysemu.h b/include/sysemu/sysemu.h
+index 80c57fdc4e..c48635666d 100644
+--- a/include/sysemu/sysemu.h
++++ b/include/sysemu/sysemu.h
+@@ -68,9 +68,6 @@ extern int nb_option_roms;
+ extern const char *prom_envs[MAX_PROM_ENVS];
+ extern unsigned int nb_prom_envs;
 =20
-     opts =3D drive_def(optstr);
-     if (!opts)
--        return NULL;
-+        return;
-=20
-     mc =3D MACHINE_GET_CLASS(current_machine);
-     dinfo =3D drive_new(opts, mc->block_default_type, &err);
-     if (err) {
-         error_report_err(err);
-         qemu_opts_del(opts);
--        return NULL;
--    }
+-/* generic hotplug */
+-void hmp_drive_add(Monitor *mon, const QDict *qdict);
 -
--    return dinfo;
--}
--
--void hmp_drive_add(Monitor *mon, const QDict *qdict)
--{
--    DriveInfo *dinfo =3D NULL;
--    const char *opts =3D qdict_get_str(qdict, "opts");
--    bool node =3D qdict_get_try_bool(qdict, "node", false);
--
--    if (node) {
--        hmp_drive_add_node(mon, opts);
--        return;
-+        goto err;
-     }
+ /* pcie aer error injection */
+ void hmp_pcie_aer_inject_error(Monitor *mon, const QDict *qdict);
 =20
--    dinfo =3D add_init_drive(opts);
-     if (!dinfo) {
--        goto err;
-+        return;
-     }
-=20
-     switch (dinfo->type) {
+diff --git a/monitor/misc.c b/monitor/misc.c
+index 4752150a67..b8f3cce19e 100644
+--- a/monitor/misc.c
++++ b/monitor/misc.c
+@@ -66,6 +66,7 @@
+ #include "qemu/option.h"
+ #include "qemu/thread.h"
+ #include "block/qapi.h"
++#include "block/block-hmp-cmds.h"
+ #include "qapi/qapi-commands-char.h"
+ #include "qapi/qapi-commands-migration.h"
+ #include "qapi/qapi-commands-misc.h"
 --=20
 2.17.2
 
