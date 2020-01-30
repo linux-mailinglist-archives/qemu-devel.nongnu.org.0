@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE57F14DF3D
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jan 2020 17:34:29 +0100 (CET)
-Received: from localhost ([::1]:35634 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93A4F14DF45
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jan 2020 17:36:33 +0100 (CET)
+Received: from localhost ([::1]:35732 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ixClw-0008Ik-N7
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 11:34:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43325)
+	id 1ixCnw-0003TV-Di
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 11:36:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43369)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1ixCUA-0005nf-St
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 11:16:07 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1ixCUD-0005qw-7p
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 11:16:10 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1ixCU9-0003Eb-IV
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 11:16:06 -0500
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:52508)
+ (envelope-from <peter.maydell@linaro.org>) id 1ixCUB-0003H2-2a
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 11:16:08 -0500
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:34862)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1ixCU9-0003Cn-Cm
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 11:16:05 -0500
-Received: by mail-wm1-x343.google.com with SMTP id p9so4410870wmc.2
- for <qemu-devel@nongnu.org>; Thu, 30 Jan 2020 08:16:05 -0800 (PST)
+ id 1ixCUA-0003Eh-R2
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 11:16:07 -0500
+Received: by mail-wr1-x430.google.com with SMTP id g17so4828289wro.2
+ for <qemu-devel@nongnu.org>; Thu, 30 Jan 2020 08:16:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=mqPGs4XNEvxPX2EtaQrvJmfPijwJDTsAZANFfzH5G5A=;
- b=Z09bGIAJlfDJyyCxeXyPnMAWgPDWnxxCZGqs7adw5mR42gBukizBXxo3obb7DaLjtv
- t8CHNvZfJ5u23CCOwZXJrMP9Lw99ts/XTm69gJC7wwQTHIOq+nWVHNRpr++QimFkYvSH
- kI4pzFyq+rU4RCJj2RANhYWIgChmHN1VHrSX7oGn3XROJr+egPuk0+cMNi2w6nkAvTiz
- Lp3N52wdWOBq97nYKyKfvcpJwn7qcy7iA9juH8Xqcrbjeuxeun3JvbK54qOav64sstvU
- zIFl6NYtEoaeMatzlpd1jlGEyMTAxF+/w4dL2ORB7oVOjUrMct4fbKpknZrrnmRpiNKJ
- p1Cg==
+ bh=jCTq+59n1kUdQU8gu/KWOGZ9LyXQo5qog/dLshBHXPE=;
+ b=wVrfV6c3SfEc2Hm69gJte442h7q7AFg/qTYiiiEXwB4j9Dh0Grngz2cQuG+r2j3Zds
+ eW7vRAaR0eF+ES9st8Cv0I0m5dWCmilOc4GlE4eLx58qNhjlrZ6cn2FZOxdD7D7/pBW0
+ aG9ySu3ovdAl/ytnkowezKUkjZUyzEonoU/qy0XAbYCDS8D5g50UsPei4Rg2fU2PjNlH
+ 7lH3jUJs6QT3hvp41DFO83qqNBVgb1F/Ri3PV7ihLAppegCjO2O5Fkkg9+gr6dXlXN9F
+ Eq4OfKd/TDagfdSaJonXNPMk2uu2w7Xzp6BG7HYX8ToROuRgnZHQkyp+Dz88VRYOPmJm
+ +GRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=mqPGs4XNEvxPX2EtaQrvJmfPijwJDTsAZANFfzH5G5A=;
- b=YjpzQii47IrXUKqiXTmOQT7gCN2bTdl03EKHq6y2GflXRvsBOR3mMTBnehdyc0XPQr
- gCuBCrqHKDFt/0w+R+3rrgdj3GceIYfO7m86nmJShX7uoWzCySFnc3mjUt0Vfo83c3CP
- PaQUOCKepNBkIXklMSK3jW0jmUoB43yg95v7WwZs5Pm8PDpom6IWUeBeGIAZ2k5j3mh4
- GNYYYTKE5kxn5J1PhIUHlI7zDyzA1J+x4tbA2BhdKd/B6tnVZidEDhddgU4G9MZoBKLC
- w69xerXQPzbHfY97bIMevQuF72kXcOBzkQt2ba0bAenuvcs15gE6+uNfAk80uN9F7G8F
- dr9Q==
-X-Gm-Message-State: APjAAAXKT79YzbbgrnLCNsYth61GVBCycccNRyc8/GyD1hoZ1n1SdRUA
- KouxisUzVSqssQSie2HKW7vWamsULy1lYw==
-X-Google-Smtp-Source: APXvYqxOT6QHWq6RX8rKssGjkiRCfY4N4IO4Z7d4GVJyurrViQorWpC4D5AWUmSKBPZ7EcaHglyCYw==
-X-Received: by 2002:a1c:7317:: with SMTP id d23mr6601607wmb.165.1580400963959; 
- Thu, 30 Jan 2020 08:16:03 -0800 (PST)
+ bh=jCTq+59n1kUdQU8gu/KWOGZ9LyXQo5qog/dLshBHXPE=;
+ b=TU8+NzX3vbLECPSGPn060FxGfvAxhxHn06yQNlmQotYPflv6PY2+yjNMjO+vq1YFpr
+ hgc3M6pFwfoo7JKP0/z/Sw2ULGHy5AK6Kyik89xsZwHcb7u9DrFMhRJfHInbeG49wxxA
+ 5QBxLdlx2fBr1XY7nbw+yXYDKpUkhQVdmMjNz5z7/gt4BpIgEkQFNTOq4JLiFb9mx4Yk
+ 26s0/Y31yKEf8qC5zEqpVftWmCTeVvrDhybfBJ0wAcawUXJWopymohjpZOtp5HFOiEn3
+ 3DOupat/TrCJ5ppMojj8NUWzJCNMLZXwRF6Z8Q7SEG+wwSC1FYVPflIQooVE5BCD0/H1
+ Ihqw==
+X-Gm-Message-State: APjAAAXHHvLl92GzKrHPtKUJHo4TFD42qg5wTX7XN+SX1mX+49pHiDcW
+ oqCsrHaZswjyr//UXyTospWMRK5x27d9rw==
+X-Google-Smtp-Source: APXvYqy/gAg/xJE+bfHIX9bvTbaxNlQF4NjSB8SBi+lnBv3L4uNLVS3mLJo7NSx9gZPJrb0oaVEISg==
+X-Received: by 2002:a5d:45c4:: with SMTP id b4mr6275654wrs.303.1580400965057; 
+ Thu, 30 Jan 2020 08:16:05 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id a22sm6994442wmd.20.2020.01.30.08.16.02
+ by smtp.gmail.com with ESMTPSA id a22sm6994442wmd.20.2020.01.30.08.16.04
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Jan 2020 08:16:03 -0800 (PST)
+ Thu, 30 Jan 2020 08:16:04 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 23/26] target/arm/kvm64: kvm64 cpus have timer registers
-Date: Thu, 30 Jan 2020 16:15:30 +0000
-Message-Id: <20200130161533.8180-24-peter.maydell@linaro.org>
+Subject: [PULL 24/26] tests/arm-cpu-features: Check feature default values
+Date: Thu, 30 Jan 2020 16:15:31 +0000
+Message-Id: <20200130161533.8180-25-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200130161533.8180-1-peter.maydell@linaro.org>
 References: <20200130161533.8180-1-peter.maydell@linaro.org>
@@ -66,7 +66,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::343
+X-Received-From: 2a00:1450:4864:20::430
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,36 +83,82 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Andrew Jones <drjones@redhat.com>
 
-Add the missing GENERIC_TIMER feature to kvm64 cpus.
-
-We don't currently use these registers when KVM is enabled, but it's
-probably best we add the feature flag for consistency and potential
-future use. There's also precedent, as we add the PMU feature flag to
-KVM enabled guests, even though we don't use those registers either.
-
-This change was originally posted as a hunk of a different, never
-merged patch from Bijan Mottahedeh.
+If we know what the default value should be then we can test for
+that as well as the feature existence.
 
 Signed-off-by: Andrew Jones <drjones@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20200120101023.16030-4-drjones@redhat.com
+Message-id: 20200120101023.16030-5-drjones@redhat.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/kvm64.c | 1 +
- 1 file changed, 1 insertion(+)
+ tests/qtest/arm-cpu-features.c | 37 +++++++++++++++++++++++++---------
+ 1 file changed, 28 insertions(+), 9 deletions(-)
 
-diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
-index 6344113a680..8955d23affd 100644
---- a/target/arm/kvm64.c
-+++ b/target/arm/kvm64.c
-@@ -604,6 +604,7 @@ bool kvm_arm_get_host_cpu_features(ARMHostCPUFeatures *ahcf)
-     set_feature(&features, ARM_FEATURE_NEON);
-     set_feature(&features, ARM_FEATURE_AARCH64);
-     set_feature(&features, ARM_FEATURE_PMU);
-+    set_feature(&features, ARM_FEATURE_GENERIC_TIMER);
+diff --git a/tests/qtest/arm-cpu-features.c b/tests/qtest/arm-cpu-features.c
+index bef3ed24b60..a039e3c8d72 100644
+--- a/tests/qtest/arm-cpu-features.c
++++ b/tests/qtest/arm-cpu-features.c
+@@ -159,6 +159,25 @@ static bool resp_get_feature(QDict *resp, const char *feature)
+     qobject_unref(_resp);                                              \
+ })
  
-     ahcf->features = features;
++#define assert_feature(qts, cpu_type, feature, expected_value)         \
++({                                                                     \
++    QDict *_resp, *_props;                                             \
++                                                                       \
++    _resp = do_query_no_props(qts, cpu_type);                          \
++    g_assert(_resp);                                                   \
++    g_assert(resp_has_props(_resp));                                   \
++    _props = resp_get_props(_resp);                                    \
++    g_assert(qdict_get(_props, feature));                              \
++    g_assert(qdict_get_bool(_props, feature) == (expected_value));     \
++    qobject_unref(_resp);                                              \
++})
++
++#define assert_has_feature_enabled(qts, cpu_type, feature)             \
++    assert_feature(qts, cpu_type, feature, true)
++
++#define assert_has_feature_disabled(qts, cpu_type, feature)            \
++    assert_feature(qts, cpu_type, feature, false)
++
+ static void assert_type_full(QTestState *qts)
+ {
+     const char *error;
+@@ -405,16 +424,16 @@ static void test_query_cpu_model_expansion(const void *data)
+     assert_error(qts, "host", "The CPU type 'host' requires KVM", NULL);
  
+     /* Test expected feature presence/absence for some cpu types */
+-    assert_has_feature(qts, "max", "pmu");
+-    assert_has_feature(qts, "cortex-a15", "pmu");
++    assert_has_feature_enabled(qts, "max", "pmu");
++    assert_has_feature_enabled(qts, "cortex-a15", "pmu");
+     assert_has_not_feature(qts, "cortex-a15", "aarch64");
+ 
+     if (g_str_equal(qtest_get_arch(), "aarch64")) {
+-        assert_has_feature(qts, "max", "aarch64");
+-        assert_has_feature(qts, "max", "sve");
+-        assert_has_feature(qts, "max", "sve128");
+-        assert_has_feature(qts, "cortex-a57", "pmu");
+-        assert_has_feature(qts, "cortex-a57", "aarch64");
++        assert_has_feature_enabled(qts, "max", "aarch64");
++        assert_has_feature_enabled(qts, "max", "sve");
++        assert_has_feature_enabled(qts, "max", "sve128");
++        assert_has_feature_enabled(qts, "cortex-a57", "pmu");
++        assert_has_feature_enabled(qts, "cortex-a57", "aarch64");
+ 
+         sve_tests_default(qts, "max");
+ 
+@@ -451,8 +470,8 @@ static void test_query_cpu_model_expansion_kvm(const void *data)
+         QDict *resp;
+         char *error;
+ 
+-        assert_has_feature(qts, "host", "aarch64");
+-        assert_has_feature(qts, "host", "pmu");
++        assert_has_feature_enabled(qts, "host", "aarch64");
++        assert_has_feature_enabled(qts, "host", "pmu");
+ 
+         assert_error(qts, "cortex-a15",
+             "We cannot guarantee the CPU type 'cortex-a15' works "
 -- 
 2.20.1
 
