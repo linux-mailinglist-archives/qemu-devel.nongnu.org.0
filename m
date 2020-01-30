@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C1B114DED5
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jan 2020 17:17:46 +0100 (CET)
-Received: from localhost ([::1]:35052 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 043B614DED7
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jan 2020 17:17:49 +0100 (CET)
+Received: from localhost ([::1]:35066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ixCVl-0006tY-Cg
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 11:17:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42937)
+	id 1ixCVn-0006zq-W7
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 11:17:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42975)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1ixCTj-0005Cu-I3
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 11:15:41 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1ixCTl-0005D1-IV
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 11:15:42 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1ixCTi-0002mO-Iz
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 11:15:39 -0500
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:36010)
+ (envelope-from <peter.maydell@linaro.org>) id 1ixCTj-0002nh-I9
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 11:15:41 -0500
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:35687)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1ixCTi-0002lY-CB
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 11:15:38 -0500
-Received: by mail-wr1-x435.google.com with SMTP id z3so4814441wru.3
- for <qemu-devel@nongnu.org>; Thu, 30 Jan 2020 08:15:38 -0800 (PST)
+ id 1ixCTj-0002ms-C9
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 11:15:39 -0500
+Received: by mail-wr1-x443.google.com with SMTP id g17so4826026wro.2
+ for <qemu-devel@nongnu.org>; Thu, 30 Jan 2020 08:15:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=mMMzZ+kJqObYT5iMYIjH237jW2O9OAivtR4JI0BwSss=;
- b=ADsT3cDW5tT4g3EPfv3xc/Ip4oaFxBLfWD1MrLdSjEZ4dpecv/y+cFmr86s5ONopJb
- WIahDVtQY1DN8cVJBaJYOwlNMmQstokvI2oSGsSo1OTK93YLuHhUKii7wcwq48Apt5/D
- zjoLFeiTKb796J4WS3kJi4+Z4v12Lws2vOIYFx8ZZ1y/sqJDtI63U9rlaniYh5aEZ/CO
- iso9jwzB5eBFWHvvjEZ7QGZ7/v6iMELM2hrPi1m+GKeicZEC4OxWFhSEUs7MP13AXR6v
- ssU4ekvcfdOvghjx3tIr3rCGRFaN3+SShj9NZG2QDe+n+dAHPauLIInM51CW/2jUpO07
- emUg==
+ bh=toXoJk3kWKWDO6UmwWx0b6Nlul4ANvuG6q0d24EnKXQ=;
+ b=X2XyrrVhUwOVshAUgEsnyTu9eoKCB57WH0tVejYJhQ5oYqupu2u15o8bcYq8F7ldH0
+ JgrTwyG2Dtm7+x/GJsCn66wOlOukQxLm9pxTbzrT/NWi/Zyk0KBi0nSsLRsRu5LKpDRP
+ 47DDktESraA4iD8GtPWV2QSlVgFm4HpNcZV4AQSVDq6xQkxXFMZwaBaWx/nhfu3hk9fI
+ SCJ7cLUjW8sZcQcJWswDx9KAMErdwg7uCGLGxOAbhVGRMsSuUKeoZVUnvSMqMfVmkqxN
+ hhyUVa+su2JM3S8uHYWEpmh77gXoFIuzcKHkL4Wm351IjMP0lpFGCzYXr2G1ntpk/Cv/
+ y2Ag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=mMMzZ+kJqObYT5iMYIjH237jW2O9OAivtR4JI0BwSss=;
- b=n48JXQmvpzHbeRqQTx/jwU6Rw++z+rTCOU/4Jax/At3100pciTBFqtgZz8G1KHHal3
- 6+BWnpPu92XrGWy0esYLIDWvXcRnLJidnLV8WQKdCb90QRHWoQh/pOoelqODMvzVohbA
- /FDw6v68CwEIHPmcpvww5BQ9UcGnV2QbByb71KT5Jn6TLGtMdHQqVAQAfVtWZS5EFMgN
- +JJMCiNEsIGuk8KKvVYStInWmWSFILYmwTQtpPcJXoj7nYTJg7ZgfXM2RkJrYc5epQ2u
- 6rbGVOFMI/+Q0bC8o+KoDfbDsUjW0ntr05j1j+sOXj/nHSOwNZnaOrJnogqoJgIrFnYp
- Kyqw==
-X-Gm-Message-State: APjAAAV2NtdHep1VfJcYoQJuWKFzys3xyxGbA0KBpmWw4BBslxdquqTj
- vXv9+0Et40w0iYXQTQVVsE4DKHBxlaQFew==
-X-Google-Smtp-Source: APXvYqyLPpIASvAP9AwAIOf9Rm/Z/Jc/3Oy2SPfKkqCBZvUFS9X6hRKrqdoz7P+8wvHSqc5DdXieyg==
-X-Received: by 2002:adf:81e3:: with SMTP id 90mr6181385wra.23.1580400937095;
- Thu, 30 Jan 2020 08:15:37 -0800 (PST)
+ bh=toXoJk3kWKWDO6UmwWx0b6Nlul4ANvuG6q0d24EnKXQ=;
+ b=ass1DmNA24SnhbioEqIcWRwhcn2k6O92u/Dach0QkPmIoLJOAWn2ozydil7/RCjM03
+ WSkVJfcrUZzIglp3Z2zWP3aZ+k3AfXQBjilAOlaLWa0sUqP0CQRUU4sECFpT0JnOKb6r
+ H19fYDZGoSYDl+E2LaisgEXE+ra4/jBpf6XPIKUtFgoGJ1ZFydKTeCxsCfSkTZETE5+U
+ 5mGcgD4h+z3ybBMtTE4Gb711eKdDtAdBX6oXV6j8ooVvcREtDulel0ub/UZV5+/8Txf6
+ KdA8pmfaYhcb9eU1a/wZXUlr6tFpcMBeY7v12wKbV7od235bb5xVRI1fbTmPSN8Q1rgA
+ y1bA==
+X-Gm-Message-State: APjAAAV2E0Y8oe2NMkmC7MSpPmEPrk3EhV87yXVdgV1YBuF82NV9SsV9
+ zRYbTLMZlA+/RNVETPzXNUzFhXKUkRB8dw==
+X-Google-Smtp-Source: APXvYqyd8wRwCRMYXC15aGDi6OfNDcsly+vVxS35QozWXkKJL0wi0aUQ10hikWYve1K8R3WpWwZqBQ==
+X-Received: by 2002:adf:f484:: with SMTP id l4mr6757720wro.207.1580400938111; 
+ Thu, 30 Jan 2020 08:15:38 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id a22sm6994442wmd.20.2020.01.30.08.15.35
+ by smtp.gmail.com with ESMTPSA id a22sm6994442wmd.20.2020.01.30.08.15.37
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Jan 2020 08:15:36 -0800 (PST)
+ Thu, 30 Jan 2020 08:15:37 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/26] hw/core/or-irq: Fix incorrect assert forbidding
- num-lines == MAX_OR_LINES
-Date: Thu, 30 Jan 2020 16:15:08 +0000
-Message-Id: <20200130161533.8180-2-peter.maydell@linaro.org>
+Subject: [PULL 02/26] target/arm/arm-semi: Don't let the guest close
+ stdin/stdout/stderr
+Date: Thu, 30 Jan 2020 16:15:09 +0000
+Message-Id: <20200130161533.8180-3-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200130161533.8180-1-peter.maydell@linaro.org>
 References: <20200130161533.8180-1-peter.maydell@linaro.org>
@@ -68,7 +68,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::435
+X-Received-From: 2a00:1450:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,39 +83,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The num-lines property of the TYPE_OR_GATE device sets the number
-of input lines it has. An assert() in or_irq_realize() restricts
-this to the maximum supported by the implementation. However we
-got the condition in the assert wrong: it should be using <=,
-because num-lines == MAX_OR_LINES is permitted, and means that
-all entries from 0 to MAX_OR_LINES-1 in the s->levels[] array
-are used.
+The guest can use the semihosting API to open a handle
+corresponding to QEMU's own stdin, stdout, or stderr.
+When the guest closes this handle, we should not
+close the underlying host stdin/stdout/stderr
+the way we would do if the handle corresponded to
+a host fd we'd opened on behalf of the guest in SYS_OPEN.
 
-We didn't notice this previously because no user has so far
-needed that many input lines.
-
-Reported-by: Guenter Roeck <linux@roeck-us.net>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Guenter Roeck <linux@roeck-us.net>
-Message-id: 20200120142235.10432-1-peter.maydell@linaro.org
+Message-id: 20200124172954.28481-1-peter.maydell@linaro.org
 ---
- hw/core/or-irq.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ target/arm/arm-semi.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/hw/core/or-irq.c b/hw/core/or-irq.c
-index 4bbdbcb321b..d8f3754e967 100644
---- a/hw/core/or-irq.c
-+++ b/hw/core/or-irq.c
-@@ -58,7 +58,7 @@ static void or_irq_realize(DeviceState *dev, Error **errp)
+diff --git a/target/arm/arm-semi.c b/target/arm/arm-semi.c
+index 788fe61b51a..8718fd01948 100644
+--- a/target/arm/arm-semi.c
++++ b/target/arm/arm-semi.c
+@@ -403,6 +403,15 @@ static uint32_t host_closefn(ARMCPU *cpu, GuestFD *gf)
  {
-     qemu_or_irq *s = OR_IRQ(dev);
+     CPUARMState *env = &cpu->env;
  
--    assert(s->num_lines < MAX_OR_LINES);
-+    assert(s->num_lines <= MAX_OR_LINES);
- 
-     qdev_init_gpio_in(dev, or_irq_handler, s->num_lines);
++    /*
++     * Only close the underlying host fd if it's one we opened on behalf
++     * of the guest in SYS_OPEN.
++     */
++    if (gf->hostfd == STDIN_FILENO ||
++        gf->hostfd == STDOUT_FILENO ||
++        gf->hostfd == STDERR_FILENO) {
++        return 0;
++    }
+     return set_swi_errno(env, close(gf->hostfd));
  }
+ 
 -- 
 2.20.1
 
