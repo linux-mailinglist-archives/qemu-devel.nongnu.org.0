@@ -2,67 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A33C14DE9D
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jan 2020 17:13:07 +0100 (CET)
-Received: from localhost ([::1]:34792 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A305114DED6
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jan 2020 17:17:48 +0100 (CET)
+Received: from localhost ([::1]:35062 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ixCRG-0004Gs-Mo
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 11:13:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41381)
+	id 1ixCVn-0006yy-Ko
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 11:17:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42949)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mlevitsk@redhat.com>) id 1ixCQX-0003iW-2l
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 11:12:21 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1ixCTj-0005Cv-WC
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 11:15:41 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mlevitsk@redhat.com>) id 1ixCQW-0007zO-3z
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 11:12:21 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:53505
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mlevitsk@redhat.com>) id 1ixCQW-0007z7-0O
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 11:12:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580400739;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=CZ+PaMyGUviZE9r49TikQGoEihaVpjQ/jm0IiQ/DYT4=;
- b=IvyUyYnRt2WXmrbYskvMoYZTvjMMpqtwEOJIumJr7vSPyA1oKLeRfAp9OHg0HeipupMiCA
- qheudouvM2Z+sE784zqjlcPMqoK5Lat5iUKx6JCA61ppt3WUlBwERqyhhfqTaoO+ZEIkm2
- YJJqdd4FZOYVXGUvloMiWp4p9LvMqXg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-259-zV3onNlyMh-X-LMZBvobpA-1; Thu, 30 Jan 2020 11:12:17 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 98ECE10509B4;
- Thu, 30 Jan 2020 16:12:16 +0000 (UTC)
-Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.78])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 214485DA75;
- Thu, 30 Jan 2020 16:12:09 +0000 (UTC)
-Message-ID: <3d5144ed83abeaa588dbaff3a126817646478575.camel@redhat.com>
-Subject: Re: [PATCH 08/13] iotests: filter few more luks specific create
- options
-From: Maxim Levitsky <mlevitsk@redhat.com>
-To: "Daniel P." =?ISO-8859-1?Q?Berrang=E9?= <berrange@redhat.com>
-Date: Thu, 30 Jan 2020 18:12:09 +0200
-In-Reply-To: <20200128173619.GA1446339@redhat.com>
-References: <20200114193350.10830-1-mlevitsk@redhat.com>
- <20200114193350.10830-9-mlevitsk@redhat.com>
- <20200128173619.GA1446339@redhat.com>
-Mime-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: zV3onNlyMh-X-LMZBvobpA-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+ (envelope-from <peter.maydell@linaro.org>) id 1ixCTi-0002mX-K3
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 11:15:39 -0500
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:55195)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1ixCTi-0002kj-C6
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 11:15:38 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id g1so4388396wmh.4
+ for <qemu-devel@nongnu.org>; Thu, 30 Jan 2020 08:15:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=xZaR9rb1/sVNvbvOgVU3MJD3KYb+kjgUbySH3y2vGMU=;
+ b=aI75FW6OZdL1IWEOKnHWRNf7cprHarg4cVq6rj0OJAFPPXY0cQgnUfYSRKxEUkcne/
+ QPUXD132BOMUKgL9hxMAFz+tMyGjVZAI8o5KdBc93kWeKWbeVgwqDAPeo1o9SVdVqlTf
+ TNwt92VBHx4/MImOmNGnD+3/WSdbI9jIj5M+NuDrnNDSYv2FftTdr9O1VVEqYX+HLBN8
+ NR2QJPvctloSdipM15UMgig7Us8Nyze4m4wTqPigRgOzeJqv+85JmlJHCEbKTz3prj/Y
+ E7+YmXnNNZ/eNEUxObUr6ExW+SpTK5Qjst35bMN/bGf6clx/UaQf6Farcf/z2WLusEAy
+ M2vg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=xZaR9rb1/sVNvbvOgVU3MJD3KYb+kjgUbySH3y2vGMU=;
+ b=Stwg/rvQ2Zu4T+f5tCoHEid/xzF2s0+zj3ep1w+wNR7rjUgGU/01CZKDW8oVBO+vzu
+ oQCNZ5BAjQJvY/zB45npWVCVU8OH/tWaEwWGDNzqvCBVQruri0pI82z4xeM+lw8A+Ep6
+ UzCXaUf/tkuWgGRIRKkr8yjga5pExtI1Upn6UjgSfa4yVwBcjmtfrJmV2roMyGCkIEn6
+ IjGqMjZYm6EscnggBlqSrAZM0cGQavg10dayz/QdGlcraxDNiIeeomhZcngFT7B4QtfZ
+ H1J1gcPlz7Er24cwMHDKxqhtGt41lv6kIvshutLBtoRhuZoCutSbNeuVlfCLyOYEeeF5
+ rCnQ==
+X-Gm-Message-State: APjAAAXFZ4jjgYZnV221ooUZuShiDpWSlgA9BOD6Wm/fy624zVXyeKRo
+ Dh1PvD0LHLraW46OMwLBktHhXhUcs3H/uA==
+X-Google-Smtp-Source: APXvYqwuW0NgrxzfIs6Stt5S3MR9MXLZdj2/SMe+ne6vZINiGc+9rcG4UGn/tJJaKspMn+C3okNXmw==
+X-Received: by 2002:a7b:c444:: with SMTP id l4mr6309387wmi.178.1580400935848; 
+ Thu, 30 Jan 2020 08:15:35 -0800 (PST)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id a22sm6994442wmd.20.2020.01.30.08.15.34
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 30 Jan 2020 08:15:35 -0800 (PST)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/26] target-arm queue
+Date: Thu, 30 Jan 2020 16:15:07 +0000
+Message-Id: <20200130161533.8180-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::32c
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,62 +77,133 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 2020-01-28 at 17:36 +0000, Daniel P. Berrang=C3=A9 wrote:
-> On Tue, Jan 14, 2020 at 09:33:45PM +0200, Maxim Levitsky wrote:
-> > This allows more tests to be able to have same output on both qcow2 luk=
-s encrypted images
-> > and raw luks images
-> >=20
-> > Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
-> > ---
-> >  tests/qemu-iotests/087.out       | 6 +++---
-> >  tests/qemu-iotests/134.out       | 2 +-
-> >  tests/qemu-iotests/158.out       | 4 ++--
-> >  tests/qemu-iotests/188.out       | 2 +-
-> >  tests/qemu-iotests/189.out       | 4 ++--
-> >  tests/qemu-iotests/198.out       | 4 ++--
-> >  tests/qemu-iotests/common.filter | 6 ++++--
-> >  7 files changed, 15 insertions(+), 13 deletions(-)
-> >=20
-> > diff --git a/tests/qemu-iotests/087.out b/tests/qemu-iotests/087.out
-> > index 2d92ea847b..b61ba638af 100644
-> > --- a/tests/qemu-iotests/087.out
-> > +++ b/tests/qemu-iotests/087.out
-> > @@ -34,7 +34,7 @@ QMP_VERSION
->=20
-> 1> =20
-> >  =3D=3D=3D Encrypted image QCow =3D=3D=3D
-> > =20
-> > -Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D134217728 encrypti=
-on=3Don encrypt.key-secret=3Dsec0
-> > +Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D134217728 encrypti=
-on=3Don
->=20
-> I'm not convinced about this - it feels like this is throwing
-> away relevant info to be validated about the test scenario
-This is mostly echo of the input info so it is only nice to have to debug t=
-he test IMHO.
+target-arm queue. The big thing here is the landing of the 3-phase
+reset patches...
 
->=20
-> Can you give more info about the scenario this benefits us in ?
+-- PMM
 
-This allows me to have same test output for raw luks and qcow2, and thus
-use mostly the same test (sans adding the encrypt.* prefix everywhere) for =
-both
-luks and qcow2.
+The following changes since commit 204aa60b37c23a89e690d418f49787d274303ca7:
 
-Best regards,
-=09Maxim Levitsky
+  Merge remote-tracking branch 'remotes/amarkovic/tags/mips-queue-jan-29-2020' into staging (2020-01-30 14:18:45 +0000)
 
->=20
-> Regards,
-> Daniel
+are available in the Git repository at:
 
+  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20200130
 
+for you to fetch changes up to dea101a1ae9968c9fec6ab0291489dad7c49f36f:
+
+  target/arm/cpu: Add the kvm-no-adjvtime CPU property (2020-01-30 16:02:06 +0000)
+
+----------------------------------------------------------------
+target-arm queue:
+ * hw/core/or-irq: Fix incorrect assert forbidding num-lines == MAX_OR_LINES
+ * target/arm/arm-semi: Don't let the guest close stdin/stdout/stderr
+ * aspeed: some minor bugfixes
+ * aspeed: add eMMC controller model for AST2600 SoC
+ * hw/arm/raspi: Remove obsolete use of -smp to set the soc 'enabled-cpus'
+ * New 3-phase reset API for device models
+ * hw/intc/arm_gicv3_kvm: Stop wrongly programming GICR_PENDBASER.PTZ bit
+ * Arm KVM: stop/restart the guest counter when the VM is stopped and started
+
+----------------------------------------------------------------
+Andrew Jeffery (2):
+      hw/sd: Configure number of slots exposed by the ASPEED SDHCI model
+      hw/arm: ast2600: Wire up the eMMC controller
+
+Andrew Jones (6):
+      target/arm/kvm: trivial: Clean up header documentation
+      hw/arm/virt: Add missing 5.0 options call to 4.2 options
+      target/arm/kvm64: kvm64 cpus have timer registers
+      tests/arm-cpu-features: Check feature default values
+      target/arm/kvm: Implement virtual time adjustment
+      target/arm/cpu: Add the kvm-no-adjvtime CPU property
+
+Cédric Le Goater (2):
+      ftgmac100: check RX and TX buffer alignment
+      hw/arm/aspeed: add a 'execute-in-place' property to boot directly from CE0
+
+Damien Hedde (11):
+      add device_legacy_reset function to prepare for reset api change
+      hw/core/qdev: add trace events to help with resettable transition
+      hw/core: create Resettable QOM interface
+      hw/core: add Resettable support to BusClass and DeviceClass
+      hw/core/resettable: add support for changing parent
+      hw/core/qdev: handle parent bus change regarding resettable
+      hw/core/qdev: update hotplug reset regarding resettable
+      hw/core: deprecate old reset functions and introduce new ones
+      docs/devel/reset.rst: add doc about Resettable interface
+      vl: replace deprecated qbus_reset_all registration
+      hw/s390x/ipl: replace deprecated qdev_reset_all registration
+
+Joel Stanley (1):
+      misc/pca9552: Add qom set and get
+
+Peter Maydell (2):
+      hw/core/or-irq: Fix incorrect assert forbidding num-lines == MAX_OR_LINES
+      target/arm/arm-semi: Don't let the guest close stdin/stdout/stderr
+
+Philippe Mathieu-Daudé (1):
+      hw/arm/raspi: Remove obsolete use of -smp to set the soc 'enabled-cpus'
+
+Zenghui Yu (1):
+      hw/intc/arm_gicv3_kvm: Stop wrongly programming GICR_PENDBASER.PTZ bit
+
+ hw/core/Makefile.objs          |   1 +
+ tests/Makefile.include         |   1 +
+ include/hw/arm/aspeed.h        |   2 +
+ include/hw/arm/aspeed_soc.h    |   2 +
+ include/hw/arm/virt.h          |   1 +
+ include/hw/qdev-core.h         |  58 +++++++-
+ include/hw/resettable.h        | 247 +++++++++++++++++++++++++++++++++
+ include/hw/sd/aspeed_sdhci.h   |   1 +
+ target/arm/cpu.h               |   7 +
+ target/arm/kvm_arm.h           |  95 ++++++++++---
+ hw/arm/aspeed.c                |  72 ++++++++--
+ hw/arm/aspeed_ast2600.c        |  31 ++++-
+ hw/arm/aspeed_soc.c            |   2 +
+ hw/arm/raspi.c                 |   2 -
+ hw/arm/virt.c                  |   9 ++
+ hw/audio/intel-hda.c           |   2 +-
+ hw/core/bus.c                  | 102 ++++++++++++++
+ hw/core/or-irq.c               |   2 +-
+ hw/core/qdev.c                 | 160 ++++++++++++++++++++--
+ hw/core/resettable.c           | 301 +++++++++++++++++++++++++++++++++++++++++
+ hw/hyperv/hyperv.c             |   2 +-
+ hw/i386/microvm.c              |   2 +-
+ hw/i386/pc.c                   |   2 +-
+ hw/ide/microdrive.c            |   8 +-
+ hw/intc/arm_gicv3_kvm.c        |  11 +-
+ hw/intc/spapr_xive.c           |   2 +-
+ hw/misc/pca9552.c              |  90 ++++++++++++
+ hw/net/ftgmac100.c             |  13 ++
+ hw/ppc/pnv_psi.c               |   4 +-
+ hw/ppc/spapr_pci.c             |   2 +-
+ hw/ppc/spapr_vio.c             |   2 +-
+ hw/s390x/ipl.c                 |  10 +-
+ hw/s390x/s390-pci-inst.c       |   2 +-
+ hw/scsi/vmw_pvscsi.c           |   2 +-
+ hw/sd/aspeed_sdhci.c           |  11 +-
+ hw/sd/omap_mmc.c               |   2 +-
+ hw/sd/pl181.c                  |   2 +-
+ target/arm/arm-semi.c          |   9 ++
+ target/arm/cpu.c               |   2 +
+ target/arm/cpu64.c             |   1 +
+ target/arm/kvm.c               | 120 ++++++++++++++++
+ target/arm/kvm32.c             |   3 +
+ target/arm/kvm64.c             |   4 +
+ target/arm/machine.c           |   7 +
+ target/arm/monitor.c           |   1 +
+ tests/qtest/arm-cpu-features.c |  41 ++++--
+ vl.c                           |  10 +-
+ docs/arm-cpu-features.rst      |  37 ++++-
+ docs/devel/index.rst           |   1 +
+ docs/devel/reset.rst           | 289 +++++++++++++++++++++++++++++++++++++++
+ hw/core/trace-events           |  27 ++++
+ 51 files changed, 1727 insertions(+), 90 deletions(-)
+ create mode 100644 include/hw/resettable.h
+ create mode 100644 hw/core/resettable.c
+ create mode 100644 docs/devel/reset.rst
 
