@@ -2,90 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E2A314DF4D
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jan 2020 17:39:31 +0100 (CET)
-Received: from localhost ([::1]:35802 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A628F14DF40
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jan 2020 17:34:51 +0100 (CET)
+Received: from localhost ([::1]:35670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ixCqo-0000ZA-5b
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 11:39:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49601)
+	id 1ixCmI-0000PB-LT
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 11:34:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50267)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liam.merwick@oracle.com>) id 1ixChw-0005Ls-2H
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 11:30:21 -0500
+ (envelope-from <berrange@redhat.com>) id 1ixCjK-0006sB-TF
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 11:31:50 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <liam.merwick@oracle.com>) id 1ixChu-0004cX-Ks
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 11:30:19 -0500
-Received: from aserp2120.oracle.com ([141.146.126.78]:49950)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <liam.merwick@oracle.com>)
- id 1ixChu-0004bD-B1
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 11:30:18 -0500
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 00UGSF7d194782;
- Thu, 30 Jan 2020 16:30:08 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=subject : from : to :
- cc : references : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=corp-2019-08-05;
- bh=oUB5i7LGFHKpTQgigjjZPBJpO1xkpbU2Q2d4TNXGdJQ=;
- b=EHKdgp9wGvajX2QDBPWpH70QiHjHV/tpdmkuap9zoasc0FDFllV+DJ0iy4qZBo6GOr6Q
- tLY6zfR5BcVjENwwObJE5t2Pq/lkD1+sZtZK3j8i23WNBewYBCrCimWxcNIQZuv1dk/J
- hrV71OlTIB/gkxIGnGGyetdgGVxKI0ll1LABB8dz9ZumTKvf+Jk52078iAxBsZzdQ2I7
- k8mdqP2dY1DAH66ev+1AedoPBmqftMrM030h0YjAAmzbvK869wQ3rm82cT46AmrE6lnV
- Szn8V4uTEhM2MtFPz42Q9m+mEbRRWjDaFgIyGokLlhXeJSZnozZzjzRcLdL8dcilg1ku RQ== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
- by aserp2120.oracle.com with ESMTP id 2xrdmqw9uv-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 30 Jan 2020 16:30:08 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
- by userp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 00UGTgjH094193;
- Thu, 30 Jan 2020 16:30:07 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
- by userp3030.oracle.com with ESMTP id 2xuemwqhed-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 30 Jan 2020 16:29:59 +0000
-Received: from abhmp0016.oracle.com (abhmp0016.oracle.com [141.146.116.22])
- by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 00UGSuJe032128;
- Thu, 30 Jan 2020 16:28:56 GMT
-Received: from [10.175.206.58] (/10.175.206.58)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Thu, 30 Jan 2020 08:28:55 -0800
-Subject: Re: [PATCH 2/6] tests/boot_linux_console: add BIOS acceptance test
-From: Liam Merwick <liam.merwick@oracle.com>
-To: Stefano Garzarella <sgarzare@redhat.com>
-References: <1580142994-1836-1-git-send-email-liam.merwick@oracle.com>
- <1580142994-1836-3-git-send-email-liam.merwick@oracle.com>
- <20200130112721.vm5u5zv7bifjremw@steredhat>
- <ce5b024f-8fd6-d325-a9f7-fbea4ffeff0f@oracle.com>
-Message-ID: <525a194e-131a-56e2-2870-e8709a214135@oracle.com>
-Date: Thu, 30 Jan 2020 16:28:52 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.0
+ (envelope-from <berrange@redhat.com>) id 1ixCjJ-0006OE-KX
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 11:31:46 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:36190
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1ixCjJ-0006L1-FR
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 11:31:45 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1580401902;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=JB9ldd1TbM97bscB88eIEyMKF4rBCSiTIs2gH1McC7E=;
+ b=DvUPzou3YcmSGwgJowBZnyXup8fI7VYVRy2wOBZfHxmpWVKhWPUd6wW5ct4mnPPi31XF6Z
+ 3eC4x+Yg2bcJhESsvaGOHGpZqKQlgeE7U5suBFnY9VVFPohGzlkPGeeCjnubbH5+GYC1WA
+ 0FZrYvmbic9++9pqryDLErS6mM3UJAI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-225-UqznFZHLMkqGvqCrkVeDyw-1; Thu, 30 Jan 2020 11:31:25 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A20A21851FC2
+ for <qemu-devel@nongnu.org>; Thu, 30 Jan 2020 16:31:24 +0000 (UTC)
+Received: from redhat.com (ovpn-112-54.ams2.redhat.com [10.36.112.54])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8118687B38;
+ Thu, 30 Jan 2020 16:31:23 +0000 (UTC)
+Date: Thu, 30 Jan 2020 16:31:20 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Juan Quintela <quintela@redhat.com>
+Subject: Re: [PATCH v2] git: Make submodule check only needed modules
+Message-ID: <20200130163120.GR1891831@redhat.com>
+References: <20200130162810.14503-1-quintela@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <ce5b024f-8fd6-d325-a9f7-fbea4ffeff0f@oracle.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9516
- signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1911140001 definitions=main-2001300115
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9516
- signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
- priorityscore=1501 malwarescore=0
- suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1911140001
- definitions=main-2001300115
+In-Reply-To: <20200130162810.14503-1-quintela@redhat.com>
+User-Agent: Mutt/1.13.3 (2020-01-12)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: UqznFZHLMkqGvqCrkVeDyw-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by aserp2120.oracle.com id
- 00UGSF7d194782
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 141.146.126.78
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -97,86 +74,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, slp@redhat.com, philmd@redhat.com, qemu-devel@nongnu.org,
- wainersm@redhat.com, pbonzini@redhat.com, alex.bennee@linaro.org
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 30/01/2020 15:34, Liam Merwick wrote:
-> On 30/01/2020 11:27, Stefano Garzarella wrote:
->> Hi Liam,
->>
->> On Mon, Jan 27, 2020 at 04:36:30PM +0000, Liam Merwick wrote:
->>> Add tests to use qboot with the 'pc' and 'microvm' machine classes
->>> by adding the '-bios' option via self.vm.add_args() before calling
->>> do_test_x86_64_machine().
->>>
->>> Signed-off-by: Liam Merwick <liam.merwick@oracle.com>
->>> ---
->>> =C2=A0 tests/acceptance/boot_linux_console.py | 15 ++++++++++++++-
->>> =C2=A0 1 file changed, 14 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/tests/acceptance/boot_linux_console.py=20
->>> b/tests/acceptance/boot_linux_console.py
->>> index aa5b07b1c609..8daf6461ffac 100644
->>> --- a/tests/acceptance/boot_linux_console.py
->>> +++ b/tests/acceptance/boot_linux_console.py
+On Thu, Jan 30, 2020 at 05:28:10PM +0100, Juan Quintela wrote:
+> If one is compiling more than one tree from the same source, it is
+> possible that they need different submodules.  Change the check to see
+> that all modules that we are interested in are updated, discarding the
+> ones that we don't care about.
 >=20
-> ...
+> Signed-off-by: Juan Quintela <quintela@redhat.com>
 >=20
->>> +=C2=A0=C2=A0=C2=A0 def test_x86_64_microvm_qboot(self):
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 """
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 :avocado: tags=3Dmachine:=
-microvm
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 """
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 self.vm.add_args('-bios',=
- 'pc-bios/bios-microvm.bin')
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 self.do_test_x86_64_machi=
-ne()
->>> +
->>
->> Reading the docs/microvm.rst, microvm should use qboot as default, so
->> the test_x86_64_microvm() and test_x86_64_microvm_qboot() maybe are th=
-e
->> same (I didn't test them).
+> ---
 >=20
-> I traced loader_write_rom() and in both cases bios-microvm.bin got
-> loaded. While there may be a slight benefit in verifying that usage of
-> an explicit -bios works, I think I'll just drop the unnecessary test
-> case in patches 2 and 6 in v2.
+> v1->v2:
+> patchw insists in not using tabs
+> ---
+>  scripts/git-submodule.sh | 12 ++++++++----
+>  1 file changed, 8 insertions(+), 4 deletions(-)
 >=20
+> diff --git a/scripts/git-submodule.sh b/scripts/git-submodule.sh
+> index 98ca0f2737..65ed877aef 100755
+> --- a/scripts/git-submodule.sh
+> +++ b/scripts/git-submodule.sh
+> @@ -59,10 +59,14 @@ status)
+>      fi
+> =20
+>      test -f "$substat" || exit 1
+> -    CURSTATUS=3D$($GIT submodule status $modules)
+> -    OLDSTATUS=3D$(cat $substat)
+> -    test "$CURSTATUS" =3D "$OLDSTATUS"
+> -    exit $?
+> +    for module in $modules; do
+> +        CURSTATUS=3D$($GIT submodule status $module)
+> +        OLDSTATUS=3D$(cat $substat | grep $module)
+> +        if test "$CURSTATUS" !=3D "$OLDSTATUS"; then
+> +            exit 1
+> +        fi
+> +    done
+> +    exit 0
+>      ;;
+>  update)
+>      if test -z "$maybe_modules"
 
-When making that change to remove the test case from Patch2, it dawned
-on me that it might be worth testing microvm with a different bios=20
-instead...
-
---- a/tests/acceptance/boot_linux_console.py
-+++ b/tests/acceptance/boot_linux_console.py
-@@ -87,6 +87,13 @@ class BootLinuxConsole(Test):
-          """
-          self.do_test_x86_64_machine()
-
-+    def test_x86_64_microvm_seabios(self):
-+        """
-+        :avocado: tags=3Dmachine:microvm
-+        """
-+        self.vm.add_args('-bios', 'pc-bios/bios.bin')
-+        self.do_test_x86_64_machine()
-+
+Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 
 
->>
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 def test_mips_malta(self):
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 """
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 :avocado: tags=
-=3Darch:mips
->>
->> Thanks for doing these tests!
->=20
-> And thanks for reviewing the series.
->=20
-> Regards,
-> Liam
->=20
+Regards,
+Daniel
+--=20
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
+ :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com=
+ :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
+ :|
 
 
