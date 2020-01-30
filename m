@@ -2,71 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F149F14E513
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jan 2020 22:49:09 +0100 (CET)
-Received: from localhost ([::1]:39738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66DEE14E52C
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jan 2020 22:56:45 +0100 (CET)
+Received: from localhost ([::1]:39880 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ixHgT-00023q-1F
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 16:49:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59298)
+	id 1ixHno-00069L-CZ
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 16:56:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33204)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <danielhb413@gmail.com>) id 1ixHX4-0003Xy-NA
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 16:39:29 -0500
+ (envelope-from <mreitz@redhat.com>) id 1ixHcM-0004cI-8U
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 16:44:55 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <danielhb413@gmail.com>) id 1ixHX3-0001ZO-AE
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 16:39:26 -0500
-Received: from mail-qk1-x72f.google.com ([2607:f8b0:4864:20::72f]:41260)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <danielhb413@gmail.com>)
- id 1ixHX3-0001XJ-66; Thu, 30 Jan 2020 16:39:25 -0500
-Received: by mail-qk1-x72f.google.com with SMTP id s187so4510666qke.8;
- Thu, 30 Jan 2020 13:39:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=r4T6tb7o7Rg9yHUzyw3ObbNCSy+JF9iuvJwNjdgekxA=;
- b=tFU/Jko4NOE4ZNsx1pnEfWMG1+875neVX3l5wsuVfc0IvWPdGQgdJSAaw04WmregAl
- 7Dv/aFjNqlhD3aLmCKsGZFc3QOjfCLv79RFrMIJTsvtnv9cvq+BOWn4rsSE2VUhtbQD/
- wJkp4b4uzWr1atS18KuFPzqFMvyRJbaHyF6v0bqPsLQ7ZKIb02okmZlMroqpub2AXBxT
- h34LviDaD6aT6e2cm4n/z36UzMUEB+i2Ot2VGhCGsCvAt2K9oSkLLcrigKZsvA7dAbfX
- 6CwS0vmO435bUV2fmTfmZqFITY2AhFkYN/YnANtJjQ4UZ9JUvJfzzqUlf2ZcZ+wdmvwK
- ffBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=r4T6tb7o7Rg9yHUzyw3ObbNCSy+JF9iuvJwNjdgekxA=;
- b=nvX544RR47CaM0mH1SsAYHe3MIZWS6FiUxtTE5Txw0oIl8UnxC/3trsAkqHV1sx4uW
- 6hL8VfFkELfKKWjswKO0rPrBkS4uR4pJ/F5WM1e2T7HFhH0ArL5kiWtODBp1NCviYBm6
- /QhA86lM+91JDc7/VsvS1JbZvF5H1zp9QoD26ue6qAzQO3bMPXCF4nZJ6bkESZtkyrdh
- D9fgad7dH5pexBTytLLTpZ9U8Teei9Sy36T2dJFjY2s9FXBiCmMGBlTiJDQaofVxdLXc
- ZjQ1jbiHb3OLpzTpeUj6iKFy9UE2ouNdtGBYsFPn/Z9XnhFEetIa85/dltxRQXH6g1c5
- OOrw==
-X-Gm-Message-State: APjAAAXCKk5u46OuaPXxgm7E3+d0lEEn5zcTGbXWPrxjv7IDhVebHCEg
- 6K6bQMlYA9UiWFM8c8AOfB1cR0uU
-X-Google-Smtp-Source: APXvYqyHDTMcNGSizsiAepjDnye+5V39bwaVkN+tw4nMHOOyfKUfj4EeSOWGiHJBiq5FEsSJlHm7AA==
-X-Received: by 2002:a05:620a:ce5:: with SMTP id
- c5mr7335365qkj.49.1580420363506; 
- Thu, 30 Jan 2020 13:39:23 -0800 (PST)
-Received: from rekt.ibmuc.com ([2804:431:c7c7:c177:887c:ce1b:6a44:15ec])
- by smtp.gmail.com with ESMTPSA id f26sm3650597qtv.77.2020.01.30.13.39.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Jan 2020 13:39:23 -0800 (PST)
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v9 4/4] qemu-iotests: adding LUKS cleanup for non-UTF8 secret
- error
-Date: Thu, 30 Jan 2020 18:39:07 -0300
-Message-Id: <20200130213907.2830642-5-danielhb413@gmail.com>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20200130213907.2830642-1-danielhb413@gmail.com>
-References: <20200130213907.2830642-1-danielhb413@gmail.com>
+ (envelope-from <mreitz@redhat.com>) id 1ixHcK-0003fC-GH
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 16:44:54 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:51067
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1ixHcK-0003c5-Ad
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 16:44:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1580420692;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=EcqaxMqEMxQzt/D3+IxWTW0CvvEpGGrBmPyEZ7IDHOQ=;
+ b=SyuAQt2ITsNRo+mxUUn5hEVVokraOMEcss11R1Y/MlwPjJN98pf1Uk1KKDoXXK61Rkmfm3
+ QVMmCNWCuqCvQbaHP5eXnlvSxFH3yPIUYp2VSOwJZ6WDouqpeGhp1kgNRrUzsjiejOLxmz
+ DYVvJHfRnw+04ak8YzAomZLYad61EZQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-27-VnW5T_20OZC3KEpcVTvGGw-1; Thu, 30 Jan 2020 16:44:34 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B6B826C3F2;
+ Thu, 30 Jan 2020 21:44:33 +0000 (UTC)
+Received: from localhost (ovpn-204-145.brq.redhat.com [10.40.204.145])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4F61887B00;
+ Thu, 30 Jan 2020 21:44:33 +0000 (UTC)
+From: Max Reitz <mreitz@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH v3 00/21] block: Fix check_to_replace_node()
+Date: Thu, 30 Jan 2020 22:44:10 +0100
+Message-Id: <20200130214431.333510-1-mreitz@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::72f
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: VnW5T_20OZC3KEpcVTvGGw-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,124 +68,146 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, Daniel Henrique Barboza <danielhb413@gmail.com>,
- qemu-block@nongnu.org, mreitz@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch adds a new test file to exercise the case where
-qemu-img fails to complete for the LUKS format when a non-UTF8
-secret is used.
+Branch: https://github.com/XanClic/qemu.git fix-can-replace-v3
+Branch: https://git.xanclic.moe/XanClic/qemu.git fix-can-replace-v3
 
-Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
----
- tests/qemu-iotests/282     | 67 ++++++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/282.out | 11 +++++++
- tests/qemu-iotests/group   |  1 +
- 3 files changed, 79 insertions(+)
- create mode 100755 tests/qemu-iotests/282
- create mode 100644 tests/qemu-iotests/282.out
+v1: https://lists.nongnu.org/archive/html/qemu-block/2019-09/msg01027.html
+v2: https://lists.nongnu.org/archive/html/qemu-block/2019-11/msg00370.html
 
-diff --git a/tests/qemu-iotests/282 b/tests/qemu-iotests/282
-new file mode 100755
-index 0000000000..081eb12080
---- /dev/null
-+++ b/tests/qemu-iotests/282
-@@ -0,0 +1,67 @@
-+#!/usr/bin/env bash
-+#
-+# Test qemu-img file cleanup for LUKS when using a non-UTF8 secret
-+#
-+# Copyright (C) 2020, IBM Corporation.
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+#
-+
-+seq=`basename $0`
-+echo "QA output created by $seq"
-+
-+status=1	# failure is the default!
-+TEST_IMAGE_FILE='vol.img'
-+
-+_cleanup()
-+{
-+  _cleanup_test_img
-+  rm non_utf8_secret
-+  rm -f $TEST_IMAGE_FILE
-+}
-+trap "_cleanup; exit \$status" 0 1 2 3 15
-+
-+# get standard environment, filters and checks
-+. ./common.rc
-+. ./common.filter
-+
-+_supported_fmt luks
-+_supported_proto generic
-+_unsupported_proto vxhs
-+
-+echo "== Create non-UTF8 secret =="
-+echo -n -e '\x3a\x3c\x3b\xff' > non_utf8_secret
-+SECRET="secret,id=sec0,file=non_utf8_secret"
-+
-+echo "== Throws an error because of invalid UTF-8 secret =="
-+$QEMU_IMG create -f $IMGFMT --object $SECRET -o "key-secret=sec0" $TEST_IMAGE_FILE 4M
-+
-+echo "== Image file should not exist after the error =="
-+if test -f "$TEST_IMAGE_FILE"; then
-+    exit 1
-+fi
-+
-+echo "== Create a stub image file and run qemu-img again =="
-+touch $TEST_IMAGE_FILE
-+$QEMU_IMG create -f $IMGFMT --object $SECRET -o "key-secret=sec0" $TEST_IMAGE_FILE 4M
-+
-+echo "== Pre-existing image file should also be deleted after the error =="
-+if test -f "$TEST_IMAGE_FILE"; then
-+    exit 1
-+fi
-+
-+# success, all done
-+echo "*** done"
-+rm -f $seq.full
-+status=0
-diff --git a/tests/qemu-iotests/282.out b/tests/qemu-iotests/282.out
-new file mode 100644
-index 0000000000..5d079dabce
---- /dev/null
-+++ b/tests/qemu-iotests/282.out
-@@ -0,0 +1,11 @@
-+QA output created by 282
-+== Create non-UTF8 secret ==
-+== Throws an error because of invalid UTF-8 secret ==
-+qemu-img: vol.img: Data from secret sec0 is not valid UTF-8
-+Formatting 'vol.img', fmt=luks size=4194304 key-secret=sec0
-+== Image file should not exist after the error ==
-+== Create a stub image file and run qemu-img again ==
-+qemu-img: vol.img: Data from secret sec0 is not valid UTF-8
-+Formatting 'vol.img', fmt=luks size=4194304 key-secret=sec0
-+== Pre-existing image file should also be deleted after the error ==
-+ *** done
-diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
-index e041cc1ee3..9d8bf8f783 100644
---- a/tests/qemu-iotests/group
-+++ b/tests/qemu-iotests/group
-@@ -289,3 +289,4 @@
- 279 rw backing quick
- 280 rw migration quick
- 281 rw quick
-+282 rw img quick
--- 
+
+Hi,
+
+For what this series does, see the cover letter of v1 (linked above).
+
+
+In v3 I=E2=80=99ve addressed Vladimir=E2=80=99s further comments:
+- Patch 9: Skip the loop if c =3D=3D NULL (and also renamed @i to @child_i)
+
+- Patch 10: Drop local_err, check bdrv_child_refresh_perm()=E2=80=99s retur=
+n
+            value instead
+
+- Patch 11: Amended commit message and comment
+
+- Patch 12: Extended to cover the =E2=80=9Cnew=E2=80=9D compress filter dri=
+ver
+
+- Patch 15: Dropped; considering qemu never actually creates loops,
+            there is never an unsafe configuration.  Sometimes the user
+            may not get what they want, but then maybe this was actually
+            what they wanted.  I think the discussion I had with
+            Vladimir shows that this issue isn=E2=80=99t as clear-cut as I
+            thought, so let=E2=80=99s wait with a =E2=80=9Cfix=E2=80=9D unt=
+il someone actually
+            has a problem with the current behavior.
+
+- Patch 17: Dropped; was superseded by a patch from Thomas.
+
+- Patch 16 (was 18):
+  - Moved doc string under def
+  - Pointed out that @expected_node may be None, but this only means
+    that the leaf must not exist.
+  - Contracted asserts
+  - %s/path_node/child_name/
+  - Kept the prefix /, because, well, why not
+  - Kept % for formatting, because I don=E2=80=99t see the advantage of
+    .format() =E2=80=93 I would have liked to use f strings, but those were=
+ only
+    introduced in 3.6, and our minimum version is 3.5.
+
+- Patch 17: Added
+
+- Patch 18 (was 19): Dropped removal of self.vm.shutdown(), because
+                     that=E2=80=99s done by patch 17 now
+
+- Patch 20 (was 21): Moved doc strings under defs (kept R-b, because
+                     that seemed right to do)
+
+- Patch 21 (was 22): Moved doc string under def
+
+- Patch 23: Dropped, because it only tested things changed by the old
+            patch 17 (which I dropped, too)
+
+
+git backport-diff against v2:
+
+Key:
+[----] : patches are identical
+[####] : number of functional differences between upstream/downstream patch
+[down] : patch is downstream-only
+The flags [FC] indicate (F)unctional and (C)ontextual differences, respecti=
+vely
+
+001/21:[----] [--] 'blockdev: Allow external snapshots everywhere'
+002/21:[----] [--] 'blockdev: Allow resizing everywhere'
+003/21:[----] [--] 'block: Drop bdrv_is_first_non_filter()'
+004/21:[----] [--] 'iotests: Let 041 use -blockdev for quorum children'
+005/21:[----] [--] 'quorum: Fix child permissions'
+006/21:[----] [--] 'block: Add bdrv_recurse_can_replace()'
+007/21:[----] [--] 'blkverify: Implement .bdrv_recurse_can_replace()'
+008/21:[----] [--] 'quorum: Store children in own structure'
+009/21:[0014] [FC] 'quorum: Add QuorumChild.to_be_replaced'
+010/21:[0011] [FC] 'quorum: Implement .bdrv_recurse_can_replace()'
+011/21:[0002] [FC] 'block: Use bdrv_recurse_can_replace()'
+012/21:[0009] [FC] 'block: Remove bdrv_recurse_is_first_non_filter()'
+013/21:[----] [--] 'mirror: Double-check immediately before replacing'
+014/21:[----] [--] 'quorum: Stop marking it as a filter'
+015/21:[----] [--] 'iotests: Use complete_and_wait() in 155'
+016/21:[0053] [FC] 'iotests: Add VM.assert_block_path()'
+017/21:[down] 'iotests/041: Drop superfluous shutdowns'
+018/21:[0001] [FC] 'iotests: Resolve TODOs in 041'
+019/21:[----] [--] 'iotests: Use self.image_len in TestRepairQuorum'
+020/21:[0016] [FC] 'iotests: Add tests for invalid Quorum @replaces'
+021/21:[0006] [FC] 'iotests: Check that @replaces can replace filters'
+
+
+Max Reitz (21):
+  blockdev: Allow external snapshots everywhere
+  blockdev: Allow resizing everywhere
+  block: Drop bdrv_is_first_non_filter()
+  iotests: Let 041 use -blockdev for quorum children
+  quorum: Fix child permissions
+  block: Add bdrv_recurse_can_replace()
+  blkverify: Implement .bdrv_recurse_can_replace()
+  quorum: Store children in own structure
+  quorum: Add QuorumChild.to_be_replaced
+  quorum: Implement .bdrv_recurse_can_replace()
+  block: Use bdrv_recurse_can_replace()
+  block: Remove bdrv_recurse_is_first_non_filter()
+  mirror: Double-check immediately before replacing
+  quorum: Stop marking it as a filter
+  iotests: Use complete_and_wait() in 155
+  iotests: Add VM.assert_block_path()
+  iotests/041: Drop superfluous shutdowns
+  iotests: Resolve TODOs in 041
+  iotests: Use self.image_len in TestRepairQuorum
+  iotests: Add tests for invalid Quorum @replaces
+  iotests: Check that @replaces can replace filters
+
+ block.c                       |  85 +++++++++---------
+ block/blkverify.c             |  20 ++---
+ block/copy-on-read.c          |   9 --
+ block/filter-compress.c       |   9 --
+ block/mirror.c                |  14 ++-
+ block/quorum.c                | 160 ++++++++++++++++++++++++++--------
+ block/replication.c           |   7 --
+ block/throttle.c              |   8 --
+ blockdev.c                    |  10 ---
+ include/block/block.h         |   5 --
+ include/block/block_int.h     |  16 ++--
+ tests/qemu-iotests/041        | 138 +++++++++++++++++++++++++----
+ tests/qemu-iotests/041.out    |   4 +-
+ tests/qemu-iotests/155        |   7 +-
+ tests/qemu-iotests/iotests.py |  56 ++++++++++++
+ 15 files changed, 375 insertions(+), 173 deletions(-)
+
+--=20
 2.24.1
 
 
