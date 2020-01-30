@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC30C14DEE4
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jan 2020 17:19:35 +0100 (CET)
-Received: from localhost ([::1]:35154 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E59314DEEC
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jan 2020 17:21:44 +0100 (CET)
+Received: from localhost ([::1]:35308 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ixCXW-00024L-QD
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 11:19:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43057)
+	id 1ixCZb-0005XV-IP
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 11:21:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43078)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1ixCTp-0005JT-5H
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 11:15:46 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1ixCTq-0005Ms-Hv
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 11:15:47 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1ixCTn-0002ri-QV
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 11:15:45 -0500
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:46148)
+ (envelope-from <peter.maydell@linaro.org>) id 1ixCTp-0002tC-3H
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 11:15:46 -0500
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:32865)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1ixCTn-0002qv-It
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 11:15:43 -0500
-Received: by mail-wr1-x443.google.com with SMTP id z7so4712099wrl.13
- for <qemu-devel@nongnu.org>; Thu, 30 Jan 2020 08:15:43 -0800 (PST)
+ id 1ixCTo-0002sS-SW
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 11:15:45 -0500
+Received: by mail-wr1-x443.google.com with SMTP id b6so4846097wrq.0
+ for <qemu-devel@nongnu.org>; Thu, 30 Jan 2020 08:15:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=ZWmtOIpfdmdXcrfzwoUW/vZybX7QtXbShko2WRx4PHw=;
- b=W2hlKuow0Pq4OuC0L4KTU6TjLvhiL+u7gym9QNc7UA/Jbj0oduCZ/2a+yklMW23rD8
- MRdzCPqNbNZ5fJsXq3Z6Ms5S+Xvv8wA+a/gs8FbbyL/iD1/tEkqi4Czb7TM/N5l9tfY/
- FxCtB6FgDLNpZcIKC0ymfN5dvygy0aXSxC9oIT6mT5CbrZ6/qNRGev2X9boSGYyb0/NH
- GMsjTvpvNhEU5hRCVqbVSCkQ9QHNDYSXDP71jD68f4ohaZprMeiK9o+uEz2E7jqgEGfC
- 9s9fY1CvfbkHEFEOmgYfWO1YzK7aB5qO7Qv9ZTD5T+J1K61NqEkdIlgOepTnbXQOwr4H
- kqjQ==
+ bh=CvOZoQCzaXRX99AzHkA3Ml/rAbedFDJt0FwyBDVaLOE=;
+ b=E013q0/qPOgOKyzdgJtZXoHmQCNV4Q4G5NrBIXRfnGNaZ5sxY9kkG4ZUKA4fdqnmNv
+ O6l9JT8UOfbBfYWkq1MJr7rI4EPR9t1j9nHZeFbTfACroz+qUSO1V2gspI63z4wK1yL7
+ szUCR3QZ+LCrz7kUYWx4OcFvHc8fgPnEqgFI/furrFz8laBa0Dn9jTzQZtwVBwwgcKFL
+ obJjnT8u0j95Aj3qL1F1853YezgbEvmIDw1MCLfqhaIXaLY9NUgQySYOa/IvRBwiXCgK
+ YEk5Sn40z/X1dOelhU4JhoCD1fSn4sRAGElrx5GjmxtZy+4AFTKXxIfwSYwqZZjhk5gW
+ Z2vA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ZWmtOIpfdmdXcrfzwoUW/vZybX7QtXbShko2WRx4PHw=;
- b=A325niZFF6lAk5p0eiYdHK3WjSHaxrSg37saWRbfqFYbvVLC+B4Ewt6CArnSKVPPu6
- Q+bWrZLxa4gHj38tasxpV7kmgagrR9PDzfr6Fi8fsIoeUriUCMOsp+L9h/h8FeuTXL1+
- bPymNZ6Tvx8E3Lk/KFDmormcghgqaXrrSOAQdoZtlAzwvRFtBpSulZM8xWymJWQ0oRzj
- rb+PuiwprbyOnWoaScVxZii+48CCmkMSKs6hM3Ww29PxA6JzYGdBLk0wq9l49tr3d6Ul
- Nkt0PwNRvIFRZqx9a+75eB5iKr0VK54D5AgVwEFHY8OZEq01+GDug/dfPcNawINUwgr5
- W3tQ==
-X-Gm-Message-State: APjAAAV661Om31d/wn5MAqw6AvRT2xulu4b4G4s5OpX/Q6Y0e7BMwK1m
- nHbYPZkLpNWZfRRvav8F0wUvQ6WOX5IoBw==
-X-Google-Smtp-Source: APXvYqzsvymuBcAjsYEheDILVRzyQZ+0kJPpa5CaQo38t1GmvITPG7IQ5BXg74HlbXGsulZz5P9nbQ==
-X-Received: by 2002:a5d:45c4:: with SMTP id b4mr6274055wrs.303.1580400942292; 
- Thu, 30 Jan 2020 08:15:42 -0800 (PST)
+ bh=CvOZoQCzaXRX99AzHkA3Ml/rAbedFDJt0FwyBDVaLOE=;
+ b=JNrH3J4k1Q3hkUNEuI+6IBXnScSdcF6LWKbREeGK7C6JzJGg/KHsP5+rjRVWr5AiOd
+ 1WQtWow3nHiEMgPFYHIELCdlYRljd3Ux8SOVdWeKj5bs/4H7qcUbpydaCH/cARC5UHrk
+ KXAnqj2uo2UbtBN+C3MFxYBl/cvDcM/GWL/fgkOozyN249hD6A0RwLkRKjIeZrputss0
+ NE8W7h10+U+RDkGjZosdYpsiPRFN0dbmS1O65ST+aCQ85vehHlwRpF5iFmusKJtQopGo
+ q1GrBhDvAibKXL5xDul4Xns3arKre8bgCqcoEsN3jBMz7zgJ1+9gh9RkwLoXqpB3G1kj
+ QeuA==
+X-Gm-Message-State: APjAAAWjlmi+/zh/Gs56b4fpmYVxOHfp+BWLQJdbl54TIqJlVXOhpErd
+ cxhU7+840jKtjl5o+OStPcMfGb5c2/lRUw==
+X-Google-Smtp-Source: APXvYqwwvm5IuGWANVot7LwX/btI7jVH7kMJ5vosTzDlNo7c4qrkGh2p5g8lFxI2k/ODeTieLmWNXA==
+X-Received: by 2002:a5d:4ed0:: with SMTP id s16mr6621185wrv.144.1580400943720; 
+ Thu, 30 Jan 2020 08:15:43 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id a22sm6994442wmd.20.2020.01.30.08.15.41
+ by smtp.gmail.com with ESMTPSA id a22sm6994442wmd.20.2020.01.30.08.15.42
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Jan 2020 08:15:41 -0800 (PST)
+ Thu, 30 Jan 2020 08:15:43 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 06/26] hw/arm/aspeed: add a 'execute-in-place' property to boot
- directly from CE0
-Date: Thu, 30 Jan 2020 16:15:13 +0000
-Message-Id: <20200130161533.8180-7-peter.maydell@linaro.org>
+Subject: [PULL 07/26] misc/pca9552: Add qom set and get
+Date: Thu, 30 Jan 2020 16:15:14 +0000
+Message-Id: <20200130161533.8180-8-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200130161533.8180-1-peter.maydell@linaro.org>
 References: <20200130161533.8180-1-peter.maydell@linaro.org>
@@ -83,122 +82,157 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Cédric Le Goater <clg@kaod.org>
+From: Joel Stanley <joel@jms.id.au>
 
-The overhead for the OpenBMC firmware images using the a custom U-Boot
-is around 2 seconds, which is fine, but with a U-Boot from mainline,
-it takes an extra 50 seconds or so to reach Linux. A quick survey on
-the number of reads performed on the flash memory region gives the
-following figures :
+Following the pattern of the work recently done with the ASPEED GPIO
+model, this adds support for inspecting and modifying the PCA9552 LEDs
+from the monitor.
 
-  OpenBMC U-Boot      922478 (~ 3.5 MBytes)
-  Mainline U-Boot   20569977 (~ 80  MBytes)
+ (qemu) qom-set  /machine/unattached/device[17] led0 on
+ (qemu) qom-set  /machine/unattached/device[17] led0 off
+ (qemu) qom-set  /machine/unattached/device[17] led0 pwm0
+ (qemu) qom-set  /machine/unattached/device[17] led0 pwm1
 
-QEMU must be trashing the TCG TBs and reloading text very often. Some
-addresses are read more than 250.000 times. Until we find a solution
-to improve boot time, execution from MMIO is not activated by default.
-
-Setting this option also breaks migration compatibility.
-
+Signed-off-by: Joel Stanley <joel@jms.id.au>
+Signed-off-by: Cédric Le Goater <clg@kaod.org>
+Message-id: 20200114103433.30534-6-clg@kaod.org
+[clg: - removed the "qom-get" examples from the commit log
+      - merged memory leak fixes from Joel ]
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-id: 20200114103433.30534-5-clg@kaod.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/hw/arm/aspeed.h |  2 ++
- hw/arm/aspeed.c         | 44 ++++++++++++++++++++++++++++++++++++-----
- 2 files changed, 41 insertions(+), 5 deletions(-)
+ hw/misc/pca9552.c | 90 +++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 90 insertions(+)
 
-diff --git a/include/hw/arm/aspeed.h b/include/hw/arm/aspeed.h
-index 4423cd0cda7..18521484b90 100644
---- a/include/hw/arm/aspeed.h
-+++ b/include/hw/arm/aspeed.h
-@@ -19,6 +19,8 @@ typedef struct AspeedBoardState AspeedBoardState;
+diff --git a/hw/misc/pca9552.c b/hw/misc/pca9552.c
+index 73be28d9369..efd961e0414 100644
+--- a/hw/misc/pca9552.c
++++ b/hw/misc/pca9552.c
+@@ -15,12 +15,16 @@
+ #include "hw/misc/pca9552.h"
+ #include "hw/misc/pca9552_regs.h"
+ #include "migration/vmstate.h"
++#include "qapi/error.h"
++#include "qapi/visitor.h"
  
- typedef struct AspeedMachine {
-     MachineState parent_obj;
-+
-+    bool mmio_exec;
- } AspeedMachine;
+ #define PCA9552_LED_ON   0x0
+ #define PCA9552_LED_OFF  0x1
+ #define PCA9552_LED_PWM0 0x2
+ #define PCA9552_LED_PWM1 0x3
  
- #define ASPEED_MACHINE_CLASS(klass) \
-diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
-index 8702256af1b..a17843f0d3b 100644
---- a/hw/arm/aspeed.c
-+++ b/hw/arm/aspeed.c
-@@ -261,11 +261,18 @@ static void aspeed_machine_init(MachineState *machine)
-          * SoC and 128MB for the AST2500 SoC, which is twice as big as
-          * needed by the flash modules of the Aspeed machines.
-          */
--        memory_region_init_rom(boot_rom, OBJECT(bmc), "aspeed.boot_rom",
--                               fl->size, &error_abort);
--        memory_region_add_subregion(get_system_memory(), FIRMWARE_ADDR,
--                                    boot_rom);
--        write_boot_rom(drive0, FIRMWARE_ADDR, fl->size, &error_abort);
-+        if (ASPEED_MACHINE(machine)->mmio_exec) {
-+            memory_region_init_alias(boot_rom, OBJECT(bmc), "aspeed.boot_rom",
-+                                     &fl->mmio, 0, fl->size);
-+            memory_region_add_subregion(get_system_memory(), FIRMWARE_ADDR,
-+                                        boot_rom);
-+        } else {
-+            memory_region_init_rom(boot_rom, OBJECT(bmc), "aspeed.boot_rom",
-+                                   fl->size, &error_abort);
-+            memory_region_add_subregion(get_system_memory(), FIRMWARE_ADDR,
-+                                        boot_rom);
-+            write_boot_rom(drive0, FIRMWARE_ADDR, fl->size, &error_abort);
-+        }
-     }
- 
-     aspeed_board_binfo.ram_size = ram_size;
-@@ -399,6 +406,30 @@ static void witherspoon_bmc_i2c_init(AspeedBoardState *bmc)
-     /* Bus 11: TODO ucd90160@64 */
- }
- 
-+static bool aspeed_get_mmio_exec(Object *obj, Error **errp)
-+{
-+    return ASPEED_MACHINE(obj)->mmio_exec;
-+}
++static const char *led_state[] = {"on", "off", "pwm0", "pwm1"};
 +
-+static void aspeed_set_mmio_exec(Object *obj, bool value, Error **errp)
-+{
-+    ASPEED_MACHINE(obj)->mmio_exec = value;
-+}
-+
-+static void aspeed_machine_instance_init(Object *obj)
-+{
-+    ASPEED_MACHINE(obj)->mmio_exec = false;
-+}
-+
-+static void aspeed_machine_class_props_init(ObjectClass *oc)
-+{
-+    object_class_property_add_bool(oc, "execute-in-place",
-+                                   aspeed_get_mmio_exec,
-+                                   aspeed_set_mmio_exec, &error_abort);
-+    object_class_property_set_description(oc, "execute-in-place",
-+                           "boot directly from CE0 flash device", &error_abort);
-+}
-+
- static void aspeed_machine_class_init(ObjectClass *oc, void *data)
+ static uint8_t pca9552_pin_get_config(PCA9552State *s, int pin)
  {
-     MachineClass *mc = MACHINE_CLASS(oc);
-@@ -408,6 +439,8 @@ static void aspeed_machine_class_init(ObjectClass *oc, void *data)
-     mc->no_floppy = 1;
-     mc->no_cdrom = 1;
-     mc->no_parallel = 1;
-+
-+    aspeed_machine_class_props_init(oc);
+     uint8_t reg   = PCA9552_LS0 + (pin / 4);
+@@ -169,6 +173,82 @@ static int pca9552_event(I2CSlave *i2c, enum i2c_event event)
+     return 0;
  }
  
- static void aspeed_machine_palmetto_class_init(ObjectClass *oc, void *data)
-@@ -550,6 +583,7 @@ static const TypeInfo aspeed_machine_types[] = {
-         .name          = TYPE_ASPEED_MACHINE,
-         .parent        = TYPE_MACHINE,
-         .instance_size = sizeof(AspeedMachine),
-+        .instance_init = aspeed_machine_instance_init,
-         .class_size    = sizeof(AspeedMachineClass),
-         .class_init    = aspeed_machine_class_init,
-         .abstract      = true,
++static void pca9552_get_led(Object *obj, Visitor *v, const char *name,
++                            void *opaque, Error **errp)
++{
++    PCA9552State *s = PCA9552(obj);
++    int led, rc, reg;
++    uint8_t state;
++
++    rc = sscanf(name, "led%2d", &led);
++    if (rc != 1) {
++        error_setg(errp, "%s: error reading %s", __func__, name);
++        return;
++    }
++    if (led < 0 || led > s->nr_leds) {
++        error_setg(errp, "%s invalid led %s", __func__, name);
++        return;
++    }
++    /*
++     * Get the LSx register as the qom interface should expose the device
++     * state, not the modeled 'input line' behaviour which would come from
++     * reading the INPUTx reg
++     */
++    reg = PCA9552_LS0 + led / 4;
++    state = (pca9552_read(s, reg) >> (led % 8)) & 0x3;
++    visit_type_str(v, name, (char **)&led_state[state], errp);
++}
++
++/*
++ * Return an LED selector register value based on an existing one, with
++ * the appropriate 2-bit state value set for the given LED number (0-3).
++ */
++static inline uint8_t pca955x_ledsel(uint8_t oldval, int led_num, int state)
++{
++        return (oldval & (~(0x3 << (led_num << 1)))) |
++                ((state & 0x3) << (led_num << 1));
++}
++
++static void pca9552_set_led(Object *obj, Visitor *v, const char *name,
++                            void *opaque, Error **errp)
++{
++    PCA9552State *s = PCA9552(obj);
++    Error *local_err = NULL;
++    int led, rc, reg, val;
++    uint8_t state;
++    char *state_str;
++
++    visit_type_str(v, name, &state_str, &local_err);
++    if (local_err) {
++        error_propagate(errp, local_err);
++        return;
++    }
++    rc = sscanf(name, "led%2d", &led);
++    if (rc != 1) {
++        error_setg(errp, "%s: error reading %s", __func__, name);
++        return;
++    }
++    if (led < 0 || led > s->nr_leds) {
++        error_setg(errp, "%s invalid led %s", __func__, name);
++        return;
++    }
++
++    for (state = 0; state < ARRAY_SIZE(led_state); state++) {
++        if (!strcmp(state_str, led_state[state])) {
++            break;
++        }
++    }
++    if (state >= ARRAY_SIZE(led_state)) {
++        error_setg(errp, "%s invalid led state %s", __func__, state_str);
++        return;
++    }
++
++    reg = PCA9552_LS0 + led / 4;
++    val = pca9552_read(s, reg);
++    val = pca955x_ledsel(val, led % 4, state);
++    pca9552_write(s, reg, val);
++}
++
+ static const VMStateDescription pca9552_vmstate = {
+     .name = "PCA9552",
+     .version_id = 0,
+@@ -204,6 +284,7 @@ static void pca9552_reset(DeviceState *dev)
+ static void pca9552_initfn(Object *obj)
+ {
+     PCA9552State *s = PCA9552(obj);
++    int led;
+ 
+     /* If support for the other PCA955X devices are implemented, these
+      * constant values might be part of class structure describing the
+@@ -211,6 +292,15 @@ static void pca9552_initfn(Object *obj)
+      */
+     s->max_reg = PCA9552_LS3;
+     s->nr_leds = 16;
++
++    for (led = 0; led < s->nr_leds; led++) {
++        char *name;
++
++        name = g_strdup_printf("led%d", led);
++        object_property_add(obj, name, "bool", pca9552_get_led, pca9552_set_led,
++                            NULL, NULL, NULL);
++        g_free(name);
++    }
+ }
+ 
+ static void pca9552_class_init(ObjectClass *klass, void *data)
 -- 
 2.20.1
 
