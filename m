@@ -2,82 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8EFD14D9CA
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jan 2020 12:30:05 +0100 (CET)
-Received: from localhost ([::1]:58936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2542E14D9D5
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jan 2020 12:32:14 +0100 (CET)
+Received: from localhost ([::1]:59000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ix81M-00029Q-QI
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 06:30:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59410)
+	id 1ix83R-0004p9-5r
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 06:32:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58483)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <sgarzare@redhat.com>) id 1ix7yr-0007ec-Sy
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 06:27:30 -0500
+ (envelope-from <eric.auger@redhat.com>) id 1ix7xH-0004xd-Rn
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 06:25:53 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <sgarzare@redhat.com>) id 1ix7yq-0005p5-SA
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 06:27:29 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:53862
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <eric.auger@redhat.com>) id 1ix7xG-0004G2-Em
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 06:25:51 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:41537
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <sgarzare@redhat.com>) id 1ix7yq-0005or-NT
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 06:27:28 -0500
+ (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
+ id 1ix7xG-0004FO-Av
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 06:25:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580383648;
+ s=mimecast20190719; t=1580383550;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rbFkGSbP4v9su3dr8zIFRQHEnDKlGt6WODekK1AFCT4=;
- b=LK9jbbuD2ZRhRnVHoD6EVGFDld9b2bqVV5NEBo8B5Fw0BEWemh+wPbWIHz28oNovmu2Y+S
- 6/XgdfB8g9GS08LBhkKGaMiMJ8krAVHSfvUDeIGcfQec20hg6/N67EtUVhtdCv0+JgQ/FM
- wbp+TlDeNI5EN+G+ijNuPcOvBHUsico=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-427-LafuDznWPdqW19ElsjW4WQ-1; Thu, 30 Jan 2020 06:27:26 -0500
-Received: by mail-wr1-f69.google.com with SMTP id y7so1579050wrm.3
- for <qemu-devel@nongnu.org>; Thu, 30 Jan 2020 03:27:26 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=7vsQc/iAUG4jzCzBp6+/NlJC2k5WdnAqONCb+kmFKaQ=;
- b=YTPXizkabxtcvhePh8+mPLilkE82ncCAwTg+fDW2P64DzOUpuTLaWGa3SB11Pn8fc4
- XU/EJNy/ydOXXosrjZL6tzFSgkwVIh/Tj4FkFPJqPTXcitKxmofWgYy3VjQPqOraITwS
- oqOXE/lbOazoDkBNGKIhoroOgumdXamEHr+jLRJ1z53Dwiup1vKSx5d8i9KYcqWvLvJK
- EE99Bq+h29oUEsawYMeSF0Yucamm/+sSMBsc2KxzbqQJsGsgSg07gPQuPn2frughFXF8
- mKgsBjSlUfye5RmJYYsft5L6IpJuFTVoGsN2OTCsuTFtm+ILJCg0cH9rg9UPvEVEYo4E
- e5WQ==
-X-Gm-Message-State: APjAAAUSALKyuk9zXcKTvwvkTetue/GM+lDNYxiukbNMF9k0OKd6FWCy
- 49ZYf9930tUUEAuv6pTFiXWeRFgbEJWmg8r5KtPFiT67o0BAqhqgU5XoSo+AdRE9DwqEuHhaY8y
- uqDjwUUjp0BnO940=
-X-Received: by 2002:a7b:cf01:: with SMTP id l1mr5034173wmg.86.1580383645471;
- Thu, 30 Jan 2020 03:27:25 -0800 (PST)
-X-Google-Smtp-Source: APXvYqz9iSnl8LWhTQXDLKu+y1pasva7oY9i+xJQQkpTk+kwaI/wECbnI8JiGyH1qBnQxnWR6Z06uQ==
-X-Received: by 2002:a7b:cf01:: with SMTP id l1mr5034157wmg.86.1580383645247;
- Thu, 30 Jan 2020 03:27:25 -0800 (PST)
-Received: from steredhat (host209-4-dynamic.27-79-r.retail.telecomitalia.it.
- [79.27.4.209])
- by smtp.gmail.com with ESMTPSA id k13sm6752098wrx.59.2020.01.30.03.27.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Jan 2020 03:27:23 -0800 (PST)
-Date: Thu, 30 Jan 2020 12:27:21 +0100
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: Liam Merwick <liam.merwick@oracle.com>
-Subject: Re: [PATCH 2/6] tests/boot_linux_console: add BIOS acceptance test
-Message-ID: <20200130112721.vm5u5zv7bifjremw@steredhat>
-References: <1580142994-1836-1-git-send-email-liam.merwick@oracle.com>
- <1580142994-1836-3-git-send-email-liam.merwick@oracle.com>
+ bh=tZ8t/jvrMH9gmFlHWP1z+sDKBsuOrEE26InOIEyQnuA=;
+ b=Vrk5yF2JhghvBuVNi1SL9AyL6jAyRLXVTPD/gbo8PwedGrJAD5fRzlHRsUROUoZnU331LW
+ nlGXEz6BFz4nlbj3FCst5ERKMjfbzkVTcB/xgez79cZQoNpOn1+TdFTVQGsKyB8NW43PI0
+ nQw1a5+AWBuScIp8mBM/QiWjAHp7goY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-329-5jvxqSYYPiuftcR82U1fbQ-1; Thu, 30 Jan 2020 06:25:48 -0500
+X-MC-Unique: 5jvxqSYYPiuftcR82U1fbQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ACC221800D41;
+ Thu, 30 Jan 2020 11:25:46 +0000 (UTC)
+Received: from laptop.redhat.com (ovpn-116-37.ams2.redhat.com [10.36.116.37])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E28AF1001B05;
+ Thu, 30 Jan 2020 11:25:41 +0000 (UTC)
+From: Eric Auger <eric.auger@redhat.com>
+To: eric.auger.pro@gmail.com, eric.auger@redhat.com, maz@kernel.org,
+ kvmarm@lists.cs.columbia.edu, kvm@vger.kernel.org, qemu-devel@nongnu.org,
+ qemu-arm@nongnu.org
+Subject: [kvm-unit-tests PATCH v2 4/9] arm: pmu: Check Required Event Support
+Date: Thu, 30 Jan 2020 12:25:05 +0100
+Message-Id: <20200130112510.15154-5-eric.auger@redhat.com>
+In-Reply-To: <20200130112510.15154-1-eric.auger@redhat.com>
+References: <20200130112510.15154-1-eric.auger@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <1580142994-1836-3-git-send-email-liam.merwick@oracle.com>
-X-MC-Unique: LafuDznWPdqW19ElsjW4WQ-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,73 +71,146 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, slp@redhat.com, alex.bennee@linaro.org,
- qemu-devel@nongnu.org, wainersm@redhat.com, pbonzini@redhat.com,
- philmd@redhat.com
+Cc: peter.maydell@linaro.org, andrew.murray@arm.com, drjones@redhat.com,
+ alexandru.elisei@arm.com, andre.przywara@arm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Liam,
+If event counters are implemented check the common events
+required by the PMUv3 are implemented.
 
-On Mon, Jan 27, 2020 at 04:36:30PM +0000, Liam Merwick wrote:
-> Add tests to use qboot with the 'pc' and 'microvm' machine classes
-> by adding the '-bios' option via self.vm.add_args() before calling
-> do_test_x86_64_machine().
->=20
-> Signed-off-by: Liam Merwick <liam.merwick@oracle.com>
-> ---
->  tests/acceptance/boot_linux_console.py | 15 ++++++++++++++-
->  1 file changed, 14 insertions(+), 1 deletion(-)
->=20
-> diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/bo=
-ot_linux_console.py
-> index aa5b07b1c609..8daf6461ffac 100644
-> --- a/tests/acceptance/boot_linux_console.py
-> +++ b/tests/acceptance/boot_linux_console.py
-> @@ -60,7 +60,6 @@ class BootLinuxConsole(Test):
->                        '/vmlinuz')
->          kernel_hash =3D '23bebd2680757891cf7adedb033532163a792495'
->          kernel_path =3D self.fetch_asset(kernel_url, asset_hash=3Dkernel=
-_hash)
-> -
->          self.vm.set_console()
->          kernel_command_line =3D self.KERNEL_COMMON_COMMAND_LINE + 'conso=
-le=3DttyS0'
->          self.vm.add_args('-kernel', kernel_path,
-> @@ -75,12 +74,26 @@ class BootLinuxConsole(Test):
->          """
->          self.do_test_x86_64_machine()
-> =20
-> +    def test_x86_64_pc_qboot(self):
-> +        """
-> +        :avocado: tags=3Dmachine:pc
-> +        """
-> +        self.vm.add_args('-bios', 'pc-bios/bios-microvm.bin')
-> +        self.do_test_x86_64_machine()
-> +
->      def test_x86_64_microvm(self):
->          """
->          :avocado: tags=3Dmachine:microvm
->          """
->          self.do_test_x86_64_machine()
-> =20
-> +    def test_x86_64_microvm_qboot(self):
-> +        """
-> +        :avocado: tags=3Dmachine:microvm
-> +        """
-> +        self.vm.add_args('-bios', 'pc-bios/bios-microvm.bin')
-> +        self.do_test_x86_64_machine()
-> +
+Some are unconditionally required (SW_INCR, CPU_CYCLES,
+either INST_RETIRED or INST_SPEC). Some others only are
+required if the implementation implements some other features.
 
-Reading the docs/microvm.rst, microvm should use qboot as default, so
-the test_x86_64_microvm() and test_x86_64_microvm_qboot() maybe are the
-same (I didn't test them).
+Check those wich are unconditionally required.
 
->      def test_mips_malta(self):
->          """
->          :avocado: tags=3Darch:mips
+This test currently fails on TCG as neither INST_RETIRED
+or INST_SPEC are supported.
 
-Thanks for doing these tests!
-Stefano
+Signed-off-by: Eric Auger <eric.auger@redhat.com>
+
+---
+
+v1 -> v2:
+- fix is_event_supported()
+- fix boolean condition for PMU v4
+- fix PMCEID0 definition
+
+RFC ->v1:
+- add a comment to explain the PMCEID0/1 splits
+---
+ arm/pmu.c         | 62 +++++++++++++++++++++++++++++++++++++++++++++++
+ arm/unittests.cfg |  6 +++++
+ 2 files changed, 68 insertions(+)
+
+diff --git a/arm/pmu.c b/arm/pmu.c
+index d24857e..4a26a76 100644
+--- a/arm/pmu.c
++++ b/arm/pmu.c
+@@ -101,6 +101,10 @@ static inline void precise_instrs_loop(int loop, uin=
+t32_t pmcr)
+ 	: [pmcr] "r" (pmcr), [z] "r" (0)
+ 	: "cc");
+ }
++
++/* event counter tests only implemented for aarch64 */
++static void test_event_introspection(void) {}
++
+ #elif defined(__aarch64__)
+ #define ID_AA64DFR0_PERFMON_SHIFT 8
+ #define ID_AA64DFR0_PERFMON_MASK  0xf
+@@ -139,6 +143,61 @@ static inline void precise_instrs_loop(int loop, uin=
+t32_t pmcr)
+ 	: [pmcr] "r" (pmcr)
+ 	: "cc");
+ }
++
++#define PMCEID1_EL0 sys_reg(3, 3, 9, 12, 7)
++
++static bool is_event_supported(uint32_t n, bool warn)
++{
++	uint64_t pmceid0 =3D read_sysreg(pmceid0_el0);
++	uint64_t pmceid1 =3D read_sysreg_s(PMCEID1_EL0);
++	bool supported;
++	uint64_t reg;
++
++	/*
++	 * The low 32-bits of PMCEID0/1 respectly describe
++	 * event support for events 0-31/32-63. Their High
++	 * 32-bits describe support for extended events
++	 * starting at 0x4000, using the same split.
++	 */
++	if (n >=3D 0x0  && n <=3D 0x3F)
++		reg =3D (pmceid0 & 0xFFFFFFFF) | ((pmceid1 & 0xFFFFFFFF) << 32);
++	else if  (n >=3D 0x4000 && n <=3D 0x403F)
++		reg =3D (pmceid0 >> 32) | ((pmceid1 >> 32) << 32);
++	else
++		abort();
++
++	supported =3D  reg & (1UL << (n & 0x3F));
++
++	if (!supported && warn)
++		report_info("event %d is not supported", n);
++	return supported;
++}
++
++static void test_event_introspection(void)
++{
++	bool required_events;
++
++	if (!pmu.nb_implemented_counters) {
++		report_skip("No event counter, skip ...");
++		return;
++	}
++
++	/* PMUv3 requires an implementation includes some common events */
++	required_events =3D is_event_supported(0x0, true) /* SW_INCR */ &&
++			  is_event_supported(0x11, true) /* CPU_CYCLES */ &&
++			  (is_event_supported(0x8, true) /* INST_RETIRED */ ||
++			   is_event_supported(0x1B, true) /* INST_PREC */);
++
++	if (pmu.version =3D=3D 0x4) {
++		/* ARMv8.1 PMU: STALL_FRONTEND and STALL_BACKEND are required */
++		required_events =3D required_events &&
++				  is_event_supported(0x23, true) &&
++				  is_event_supported(0x24, true);
++	}
++
++	report(required_events, "Check required events are implemented");
++}
++
+ #endif
+=20
+ /*
+@@ -326,6 +385,9 @@ int main(int argc, char *argv[])
+ 		       "Monotonically increasing cycle count");
+ 		report(check_cpi(cpi), "Cycle/instruction ratio");
+ 		pmccntr64_test();
++	} else if (strcmp(argv[1], "event-introspection") =3D=3D 0) {
++		report_prefix_push(argv[1]);
++		test_event_introspection();
+ 	} else {
+ 		report_abort("Unknown sub-test '%s'", argv[1]);
+ 	}
+diff --git a/arm/unittests.cfg b/arm/unittests.cfg
+index 79f0d7a..4433ef3 100644
+--- a/arm/unittests.cfg
++++ b/arm/unittests.cfg
+@@ -66,6 +66,12 @@ file =3D pmu.flat
+ groups =3D pmu
+ extra_params =3D -append 'cycle-counter 0'
+=20
++[pmu-event-introspection]
++file =3D pmu.flat
++groups =3D pmu
++arch =3D arm64
++extra_params =3D -append 'event-introspection'
++
+ # Test PMU support (TCG) with -icount IPC=3D1
+ #[pmu-tcg-icount-1]
+ #file =3D pmu.flat
+--=20
+2.20.1
 
 
