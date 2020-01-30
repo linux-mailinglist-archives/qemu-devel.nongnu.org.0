@@ -2,84 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 288D214DA35
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jan 2020 12:53:34 +0100 (CET)
-Received: from localhost ([::1]:59526 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 065CA14DA3C
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jan 2020 12:57:11 +0100 (CET)
+Received: from localhost ([::1]:59572 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ix8O5-00056g-8t
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 06:53:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40502)
+	id 1ix8Ra-0008MC-3S
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 06:57:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40955)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <sbhat@linux.ibm.com>) id 1ix8JP-0007PW-Bg
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 06:48:45 -0500
+ (envelope-from <sgarzare@redhat.com>) id 1ix8Ki-0001CK-TZ
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 06:50:06 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <sbhat@linux.ibm.com>) id 1ix8JM-0001KV-58
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 06:48:42 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:53858)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <sbhat@linux.ibm.com>) id 1ix8JL-0001H4-RS
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 06:48:40 -0500
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 00UBirHX099873
- for <qemu-devel@nongnu.org>; Thu, 30 Jan 2020 06:48:37 -0500
-Received: from e06smtp01.uk.ibm.com (e06smtp01.uk.ibm.com [195.75.94.97])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2xue96vvsw-1
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Thu, 30 Jan 2020 06:48:37 -0500
-Received: from localhost
- by e06smtp01.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
- Violators will be prosecuted
- for <qemu-devel@nongnu.org> from <sbhat@linux.ibm.com>;
- Thu, 30 Jan 2020 11:48:34 -0000
-Received: from b06cxnps3075.portsmouth.uk.ibm.com (9.149.109.195)
- by e06smtp01.uk.ibm.com (192.168.101.131) with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted; 
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Thu, 30 Jan 2020 11:48:31 -0000
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
- [9.149.105.59])
- by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 00UBmUHj57933906
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 30 Jan 2020 11:48:30 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 88C29A4057;
- Thu, 30 Jan 2020 11:48:30 +0000 (GMT)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 6BEDFA4040;
- Thu, 30 Jan 2020 11:48:29 +0000 (GMT)
-Received: from lep8c.aus.stglabs.ibm.com (unknown [9.40.192.207])
- by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Thu, 30 Jan 2020 11:48:29 +0000 (GMT)
-Subject: [PATCH v5 4/4] spapr: Add Hcalls to support PAPR NVDIMM device
-From: Shivaprasad G Bhat <sbhat@linux.ibm.com>
-To: imammedo@redhat.com, david@gibson.dropbear.id.au,
- xiaoguangrong.eric@gmail.com, mst@redhat.com
-Date: Thu, 30 Jan 2020 05:48:28 -0600
-In-Reply-To: <158038485571.16440.14734905006978949612.stgit@lep8c.aus.stglabs.ibm.com>
-References: <158038485571.16440.14734905006978949612.stgit@lep8c.aus.stglabs.ibm.com>
-User-Agent: StGit/0.17.1-dirty
+ (envelope-from <sgarzare@redhat.com>) id 1ix8Kg-0002Yu-I9
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 06:50:03 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:60200
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <sgarzare@redhat.com>) id 1ix8Kg-0002YO-DQ
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 06:50:02 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1580385001;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=UUv1P2Iq01vNmZUT9bkkpZDZe2kSMid6fMyKsFYFcaE=;
+ b=Fi3/7nBTjoLYSx54Qn9Mhp4DIIWqdPEuK3HvZN18dYxhQOM+c/aXQeBKXBziCTExlz6PVF
+ UyXOw7o7Bq6aQ7cD8Q35GrE+ytU42RkPz/RPKnzHRYsvcdSVnAbyNXmcdss51iZhBWM3hW
+ x9ej5L1v/J3BbYZKZ1pPjBvLbn0aMb4=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-169-JWVvGaRxP5-oqPqGfUbT1Q-1; Thu, 30 Jan 2020 06:49:55 -0500
+Received: by mail-wr1-f70.google.com with SMTP id b13so1565453wrx.22
+ for <qemu-devel@nongnu.org>; Thu, 30 Jan 2020 03:49:54 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=F01aSopn8U1FsiaKf3EfBYdzuSa6/mxsOmTh+Ri5bHo=;
+ b=czNx9R0sHbFxQv+JdKxQEJGNNLjgjzzNbxcqAWq9tL57nReBYIcBxqt4d8qWD3UoCs
+ dntQ0TiJ+9zcXQO7tvyJEyoeWeQXcq76ZwlnF3hZRZXB789PJEx8ud22J+ZCozUE9cO8
+ NHKO6Qop22kA2jqQEm65GGB78i0uIOIUjeZVdTa6iDMMmwLnIbIxt73AHzc4ZJvDlbPz
+ mqvtaKjn8NmmAkcmQRbUoz1kAESvq1pzrKYIrvkMdqx8spcpAkU/2NuYjEdtQ+ow+kIX
+ +s+tKqRkHuXrJWaPYxBPNuI8Zc6kkkzy53A5YwFoZFrrFKxBSM0Q+E62ObbpT3yAux1C
+ rIPw==
+X-Gm-Message-State: APjAAAWN8Ne4Zc68zhCCEkA8/beTyeAqI5fOgeW35oEd3GKU1sLNDHzt
+ bu3heu6SHwXN4cdU9CDAT5fwVpWNuLjDAonVhFn4LfRkXIHmBVUKiKHaavGxQhsSZC+9QsWhh2x
+ 0dHXkfX9l47A06FU=
+X-Received: by 2002:a05:600c:23ce:: with SMTP id
+ p14mr5037391wmb.114.1580384994040; 
+ Thu, 30 Jan 2020 03:49:54 -0800 (PST)
+X-Google-Smtp-Source: APXvYqxxFo4Pa9XX5/agT6DXSJc2EFrvn7Ct2xO2k5ohrEYrSpH69qTKBe7dYigCCkjUzNLECT1TqQ==
+X-Received: by 2002:a05:600c:23ce:: with SMTP id
+ p14mr5037352wmb.114.1580384993734; 
+ Thu, 30 Jan 2020 03:49:53 -0800 (PST)
+Received: from steredhat (host209-4-dynamic.27-79-r.retail.telecomitalia.it.
+ [79.27.4.209])
+ by smtp.gmail.com with ESMTPSA id m21sm6226441wmi.27.2020.01.30.03.49.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 30 Jan 2020 03:49:53 -0800 (PST)
+Date: Thu, 30 Jan 2020 12:49:50 +0100
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: Liam Merwick <liam.merwick@oracle.com>
+Subject: Re: [PATCH 1/6] tests/boot_linux_console: add microvm acceptance test
+Message-ID: <20200130114950.mudigrwt3n7rpffm@steredhat>
+References: <1580142994-1836-1-git-send-email-liam.merwick@oracle.com>
+ <1580142994-1836-2-git-send-email-liam.merwick@oracle.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-x-cbid: 20013011-4275-0000-0000-0000039C658F
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 20013011-4276-0000-0000-000038B0832B
-Message-Id: <158038490304.16440.12988347988338519913.stgit@lep8c.aus.stglabs.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
- definitions=2020-01-30_03:2020-01-28,
- 2020-01-30 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0
- priorityscore=1501 suspectscore=2 malwarescore=0 spamscore=0 bulkscore=0
- phishscore=0 clxscore=1015 impostorscore=0 mlxlogscore=999 mlxscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-1911200001 definitions=main-2001300087
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.156.1
+In-Reply-To: <1580142994-1836-2-git-send-email-liam.merwick@oracle.com>
+X-MC-Unique: JWVvGaRxP5-oqPqGfUbT1Q-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,413 +91,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, sbhat@linux.vnet.ibm.com, qemu-devel@nongnu.org
+Cc: fam@euphon.net, slp@redhat.com, alex.bennee@linaro.org,
+ qemu-devel@nongnu.org, wainersm@redhat.com, pbonzini@redhat.com,
+ philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch implements few of the necessary hcalls for the nvdimm support.
+On Mon, Jan 27, 2020 at 04:36:29PM +0000, Liam Merwick wrote:
+> Refactor test_x86_64_pc() to test_x86_64_machine() so that separate
+> functions which specify the Avocado tag of ':avocado: tags=3Dmachine:'
+> as being either 'pc' or 'microvm' can be used to test booting a
+> compressed kernel using either machine class.
+>=20
+> Signed-off-by: Liam Merwick <liam.merwick@oracle.com>
+> ---
+>  tests/acceptance/boot_linux_console.py | 15 +++++++++++++--
+>  1 file changed, 13 insertions(+), 2 deletions(-)
 
-PAPR semantics is such that each NVDIMM device is comprising of multiple
-SCM(Storage Class Memory) blocks. The guest requests the hypervisor to
-bind each of the SCM blocks of the NVDIMM device using hcalls. There can
-be SCM block unbind requests in case of driver errors or unplug(not
-supported now) use cases. The NVDIMM label read/writes are done through
-hcalls.
+Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
 
-Since each virtual NVDIMM device is divided into multiple SCM blocks,
-the bind, unbind, and queries using hcalls on those blocks can come
-independently. This doesn't fit well into the qemu device semantics,
-where the map/unmap are done at the (whole)device/object level granularity.
-The patch doesnt actually bind/unbind on hcalls but let it happen at the
-device_add/del phase itself instead.
+>=20
+> diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/bo=
+ot_linux_console.py
+> index e40b84651b0b..aa5b07b1c609 100644
+> --- a/tests/acceptance/boot_linux_console.py
+> +++ b/tests/acceptance/boot_linux_console.py
+> @@ -51,10 +51,9 @@ class BootLinuxConsole(Test):
+>          os.chdir(cwd)
+>          return self.workdir + path
+> =20
+> -    def test_x86_64_pc(self):
+> +    def do_test_x86_64_machine(self):
+>          """
+>          :avocado: tags=3Darch:x86_64
+> -        :avocado: tags=3Dmachine:pc
+>          """
+>          kernel_url =3D ('https://archives.fedoraproject.org/pub/archive/=
+fedora'
+>                        '/linux/releases/29/Everything/x86_64/os/images/px=
+eboot'
+> @@ -70,6 +69,18 @@ class BootLinuxConsole(Test):
+>          console_pattern =3D 'Kernel command line: %s' % kernel_command_l=
+ine
+>          self.wait_for_console_pattern(console_pattern)
+> =20
+> +    def test_x86_64_pc(self):
+> +        """
+> +        :avocado: tags=3Dmachine:pc
+> +        """
+> +        self.do_test_x86_64_machine()
+> +
+> +    def test_x86_64_microvm(self):
+> +        """
+> +        :avocado: tags=3Dmachine:microvm
+> +        """
+> +        self.do_test_x86_64_machine()
+> +
+>      def test_mips_malta(self):
+>          """
+>          :avocado: tags=3Darch:mips
+> --=20
+> 1.8.3.1
+>=20
 
-The guest kernel makes bind/unbind requests for the virtual NVDIMM device
-at the region level granularity. Without interleaving, each virtual NVDIMM
-device is presented as a separate guest physical address range. So, there
-is no way a partial bind/unbind request can come for the vNVDIMM in a
-hcall for a subset of SCM blocks of a virtual NVDIMM. Hence it is safe to
-do bind/unbind everything during the device_add/del.
-
-Signed-off-by: Shivaprasad G Bhat <sbhat@linux.ibm.com>
----
- hw/ppc/Makefile.objs   |    2 
- hw/ppc/spapr_nvdimm.c  |  327 ++++++++++++++++++++++++++++++++++++++++++++++++
- include/hw/ppc/spapr.h |    8 +
- 3 files changed, 335 insertions(+), 2 deletions(-)
- create mode 100644 hw/ppc/spapr_nvdimm.c
-
-diff --git a/hw/ppc/Makefile.objs b/hw/ppc/Makefile.objs
-index a4bac57be6..c3d3cc56eb 100644
---- a/hw/ppc/Makefile.objs
-+++ b/hw/ppc/Makefile.objs
-@@ -7,7 +7,7 @@ obj-$(CONFIG_PSERIES) += spapr.o spapr_caps.o spapr_vio.o spapr_events.o
- obj-$(CONFIG_PSERIES) += spapr_hcall.o spapr_iommu.o spapr_rtas.o
- obj-$(CONFIG_PSERIES) += spapr_pci.o spapr_rtc.o spapr_drc.o
- obj-$(CONFIG_PSERIES) += spapr_cpu_core.o spapr_ovec.o spapr_irq.o
--obj-$(CONFIG_PSERIES) += spapr_tpm_proxy.o
-+obj-$(CONFIG_PSERIES) += spapr_tpm_proxy.o spapr_nvdimm.o
- obj-$(CONFIG_SPAPR_RNG) +=  spapr_rng.o
- obj-$(call land,$(CONFIG_PSERIES),$(CONFIG_LINUX)) += spapr_pci_vfio.o spapr_pci_nvlink2.o
- # IBM PowerNV
-diff --git a/hw/ppc/spapr_nvdimm.c b/hw/ppc/spapr_nvdimm.c
-new file mode 100644
-index 0000000000..8d1c2dc009
---- /dev/null
-+++ b/hw/ppc/spapr_nvdimm.c
-@@ -0,0 +1,327 @@
-+/*
-+ * QEMU PAPR Storage Class Memory Interfaces
-+ *
-+ * Copyright (c) 2019-2020, IBM Corporation.
-+ *
-+ * Permission is hereby granted, free of charge, to any person obtaining a copy
-+ * of this software and associated documentation files (the "Software"), to deal
-+ * in the Software without restriction, including without limitation the rights
-+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-+ * copies of the Software, and to permit persons to whom the Software is
-+ * furnished to do so, subject to the following conditions:
-+ *
-+ * The above copyright notice and this permission notice shall be included in
-+ * all copies or substantial portions of the Software.
-+ *
-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-+ * THE SOFTWARE.
-+ */
-+#include "qemu/osdep.h"
-+#include "qapi/error.h"
-+#include "hw/ppc/spapr.h"
-+#include "hw/ppc/spapr_drc.h"
-+#include "hw/mem/nvdimm.h"
-+#include "qemu/range.h"
-+#include "qemu/nvdimm-utils.h"
-+
-+static target_ulong h_scm_read_metadata(PowerPCCPU *cpu,
-+                                        SpaprMachineState *spapr,
-+                                        target_ulong opcode,
-+                                        target_ulong *args)
-+{
-+    uint32_t drc_index = args[0];
-+    uint64_t offset = args[1];
-+    uint64_t numBytesToRead = args[2];
-+    SpaprDrc *drc = spapr_drc_by_index(drc_index);
-+    NVDIMMDevice *nvdimm;
-+    NVDIMMClass *ddc;
-+    uint64_t data = 0;
-+    uint8_t buf[8] = { 0 };
-+
-+    if (!drc || !drc->dev ||
-+        spapr_drc_type(drc) != SPAPR_DR_CONNECTOR_TYPE_PMEM) {
-+        return H_PARAMETER;
-+    }
-+
-+    if (numBytesToRead != 1 && numBytesToRead != 2 &&
-+        numBytesToRead != 4 && numBytesToRead != 8) {
-+        return H_P3;
-+    }
-+
-+    nvdimm = NVDIMM(drc->dev);
-+    if ((offset + numBytesToRead < offset) ||
-+        (nvdimm->label_size < numBytesToRead + offset)) {
-+        return H_P2;
-+    }
-+
-+    ddc = NVDIMM_GET_CLASS(nvdimm);
-+    ddc->read_label_data(nvdimm, buf, numBytesToRead, offset);
-+
-+    switch (numBytesToRead) {
-+    case 1:
-+        data = ldub_p(buf);
-+        break;
-+    case 2:
-+        data = lduw_be_p(buf);
-+        break;
-+    case 4:
-+        data = ldl_be_p(buf);
-+        break;
-+    case 8:
-+        data = ldq_be_p(buf);
-+        break;
-+    default:
-+        g_assert_not_reached();
-+    }
-+
-+    args[0] = data;
-+
-+    return H_SUCCESS;
-+}
-+
-+static target_ulong h_scm_write_metadata(PowerPCCPU *cpu,
-+                                         SpaprMachineState *spapr,
-+                                         target_ulong opcode,
-+                                         target_ulong *args)
-+{
-+    uint32_t drc_index = args[0];
-+    uint64_t offset = args[1];
-+    uint64_t data = args[2];
-+    uint64_t numBytesToWrite = args[3];
-+    SpaprDrc *drc = spapr_drc_by_index(drc_index);
-+    NVDIMMDevice *nvdimm;
-+    NVDIMMClass *ddc;
-+    uint8_t buf[8] = { 0 };
-+
-+    if (!drc || !drc->dev ||
-+        spapr_drc_type(drc) != SPAPR_DR_CONNECTOR_TYPE_PMEM) {
-+        return H_PARAMETER;
-+    }
-+
-+    if (numBytesToWrite != 1 && numBytesToWrite != 2 &&
-+        numBytesToWrite != 4 && numBytesToWrite != 8) {
-+        return H_P4;
-+    }
-+
-+    nvdimm = NVDIMM(drc->dev);
-+    if ((offset + numBytesToWrite < offset) ||
-+        (nvdimm->label_size < numBytesToWrite + offset)) {
-+        return H_P2;
-+    }
-+
-+    switch (numBytesToWrite) {
-+    case 1:
-+        if (data & 0xffffffffffffff00) {
-+            return H_P2;
-+        }
-+        stb_p(buf, data);
-+        break;
-+    case 2:
-+        if (data & 0xffffffffffff0000) {
-+            return H_P2;
-+        }
-+        stw_be_p(buf, data);
-+        break;
-+    case 4:
-+        if (data & 0xffffffff00000000) {
-+            return H_P2;
-+        }
-+        stl_be_p(buf, data);
-+        break;
-+    case 8:
-+        stq_be_p(buf, data);
-+        break;
-+    default:
-+            g_assert_not_reached();
-+    }
-+
-+    ddc = NVDIMM_GET_CLASS(nvdimm);
-+    ddc->write_label_data(nvdimm, buf, numBytesToWrite, offset);
-+
-+    return H_SUCCESS;
-+}
-+
-+static target_ulong h_scm_bind_mem(PowerPCCPU *cpu, SpaprMachineState *spapr,
-+                                   target_ulong opcode, target_ulong *args)
-+{
-+    uint32_t drc_index = args[0];
-+    uint64_t starting_idx = args[1];
-+    uint64_t no_of_scm_blocks_to_bind = args[2];
-+    uint64_t target_logical_mem_addr = args[3];
-+    uint64_t continue_token = args[4];
-+    uint64_t size;
-+    uint64_t total_no_of_scm_blocks;
-+    SpaprDrc *drc = spapr_drc_by_index(drc_index);
-+    hwaddr addr;
-+    NVDIMMDevice *nvdimm;
-+
-+    if (!drc || !drc->dev ||
-+        spapr_drc_type(drc) != SPAPR_DR_CONNECTOR_TYPE_PMEM) {
-+        return H_PARAMETER;
-+    }
-+
-+    /*
-+     * Currently continue token should be zero qemu has already bound
-+     * everything and this hcall doesnt return H_BUSY.
-+     */
-+    if (continue_token > 0) {
-+        return H_P5;
-+    }
-+
-+    /* Currently qemu assigns the address. */
-+    if (target_logical_mem_addr != 0xffffffffffffffff) {
-+        return H_OVERLAP;
-+    }
-+
-+    nvdimm = NVDIMM(drc->dev);
-+
-+    size = object_property_get_uint(OBJECT(nvdimm),
-+                                    PC_DIMM_SIZE_PROP, &error_abort);
-+
-+    total_no_of_scm_blocks = size / SPAPR_MINIMUM_SCM_BLOCK_SIZE;
-+
-+    if (starting_idx > total_no_of_scm_blocks) {
-+        return H_P2;
-+    }
-+
-+    if (((starting_idx + no_of_scm_blocks_to_bind) < starting_idx) ||
-+        ((starting_idx + no_of_scm_blocks_to_bind) > total_no_of_scm_blocks)) {
-+        return H_P3;
-+    }
-+
-+    addr = object_property_get_uint(OBJECT(nvdimm),
-+                                    PC_DIMM_ADDR_PROP, &error_abort);
-+
-+    addr += starting_idx * SPAPR_MINIMUM_SCM_BLOCK_SIZE;
-+
-+    /* Already bound, Return target logical address in R5 */
-+    args[1] = addr;
-+    args[2] = no_of_scm_blocks_to_bind;
-+
-+    return H_SUCCESS;
-+}
-+
-+static target_ulong h_scm_unbind_mem(PowerPCCPU *cpu, SpaprMachineState *spapr,
-+                                     target_ulong opcode, target_ulong *args)
-+{
-+    uint32_t drc_index = args[0];
-+    uint64_t starting_scm_logical_addr = args[1];
-+    uint64_t no_of_scm_blocks_to_unbind = args[2];
-+    uint64_t continue_token = args[3];
-+    uint64_t size_to_unbind;
-+    Range blockrange = range_empty;
-+    Range nvdimmrange = range_empty;
-+    SpaprDrc *drc = spapr_drc_by_index(drc_index);
-+    NVDIMMDevice *nvdimm;
-+    uint64_t size, addr;
-+
-+    if (!drc || !drc->dev ||
-+        spapr_drc_type(drc) != SPAPR_DR_CONNECTOR_TYPE_PMEM) {
-+        return H_PARAMETER;
-+    }
-+
-+    /* continue_token should be zero as this hcall doesn't return H_BUSY. */
-+    if (continue_token > 0) {
-+        return H_P4;
-+    }
-+
-+    /* Check if starting_scm_logical_addr is block aligned */
-+    if (!QEMU_IS_ALIGNED(starting_scm_logical_addr,
-+                         SPAPR_MINIMUM_SCM_BLOCK_SIZE)) {
-+        return H_P2;
-+    }
-+
-+    size_to_unbind = no_of_scm_blocks_to_unbind * SPAPR_MINIMUM_SCM_BLOCK_SIZE;
-+    if (no_of_scm_blocks_to_unbind == 0 || no_of_scm_blocks_to_unbind !=
-+                               size_to_unbind / SPAPR_MINIMUM_SCM_BLOCK_SIZE) {
-+        return H_P3;
-+    }
-+
-+    nvdimm = NVDIMM(drc->dev);
-+    size = object_property_get_int(OBJECT(nvdimm), PC_DIMM_SIZE_PROP,
-+                                   &error_abort);
-+    addr = object_property_get_int(OBJECT(nvdimm), PC_DIMM_ADDR_PROP,
-+                                   &error_abort);
-+
-+    range_init_nofail(&nvdimmrange, addr, size);
-+    range_init_nofail(&blockrange, starting_scm_logical_addr, size_to_unbind);
-+
-+    if (!range_contains_range(&nvdimmrange, &blockrange)) {
-+        return H_P3;
-+    }
-+
-+    args[1] = no_of_scm_blocks_to_unbind;
-+
-+    /* let unplug take care of actual unbind */
-+    return H_SUCCESS;
-+}
-+
-+#define H_UNBIND_SCOPE_ALL 0x1
-+#define H_UNBIND_SCOPE_DRC 0x2
-+
-+static target_ulong h_scm_unbind_all(PowerPCCPU *cpu, SpaprMachineState *spapr,
-+                                     target_ulong opcode, target_ulong *args)
-+{
-+    uint64_t target_scope = args[0];
-+    uint32_t drc_index = args[1];
-+    uint64_t continue_token = args[2];
-+    NVDIMMDevice *nvdimm;
-+    uint64_t size;
-+    uint64_t no_of_scm_blocks_unbound = 0;
-+
-+    /* continue_token should be zero as this hcall doesn't return H_BUSY. */
-+    if (continue_token > 0) {
-+        return H_P4;
-+    }
-+
-+    if (target_scope == H_UNBIND_SCOPE_DRC) {
-+        SpaprDrc *drc = spapr_drc_by_index(drc_index);
-+
-+        if (!drc || !drc->dev ||
-+            spapr_drc_type(drc) != SPAPR_DR_CONNECTOR_TYPE_PMEM) {
-+            return H_P2;
-+        }
-+
-+        nvdimm = NVDIMM(drc->dev);
-+        size = object_property_get_int(OBJECT(nvdimm), PC_DIMM_SIZE_PROP,
-+                                       &error_abort);
-+
-+        no_of_scm_blocks_unbound = size / SPAPR_MINIMUM_SCM_BLOCK_SIZE;
-+    } else if (target_scope ==  H_UNBIND_SCOPE_ALL) {
-+        GSList *list, *nvdimms;
-+
-+        nvdimms = nvdimm_get_device_list();
-+        for (list = nvdimms; list; list = list->next) {
-+            nvdimm = list->data;
-+            size = object_property_get_int(OBJECT(nvdimm), PC_DIMM_SIZE_PROP,
-+                                           &error_abort);
-+
-+            no_of_scm_blocks_unbound += size / SPAPR_MINIMUM_SCM_BLOCK_SIZE;
-+        }
-+        g_slist_free(nvdimms);
-+    } else {
-+        return H_PARAMETER;
-+    }
-+
-+    args[1] = no_of_scm_blocks_unbound;
-+
-+    /* let unplug take care of actual unbind */
-+    return H_SUCCESS;
-+}
-+
-+static void spapr_scm_register_types(void)
-+{
-+    /* qemu/scm specific hcalls */
-+    spapr_register_hypercall(H_SCM_READ_METADATA, h_scm_read_metadata);
-+    spapr_register_hypercall(H_SCM_WRITE_METADATA, h_scm_write_metadata);
-+    spapr_register_hypercall(H_SCM_BIND_MEM, h_scm_bind_mem);
-+    spapr_register_hypercall(H_SCM_UNBIND_MEM, h_scm_unbind_mem);
-+    spapr_register_hypercall(H_SCM_UNBIND_ALL, h_scm_unbind_all);
-+}
-+
-+type_init(spapr_scm_register_types)
-diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-index ed2de4bae5..633ff5202b 100644
---- a/include/hw/ppc/spapr.h
-+++ b/include/hw/ppc/spapr.h
-@@ -287,6 +287,7 @@ struct SpaprMachineState {
- #define H_P7              -60
- #define H_P8              -61
- #define H_P9              -62
-+#define H_OVERLAP         -68
- #define H_UNSUPPORTED_FLAG -256
- #define H_MULTI_THREADS_ACTIVE -9005
- 
-@@ -494,8 +495,13 @@ struct SpaprMachineState {
- #define H_INT_ESB               0x3C8
- #define H_INT_SYNC              0x3CC
- #define H_INT_RESET             0x3D0
-+#define H_SCM_READ_METADATA     0x3E4
-+#define H_SCM_WRITE_METADATA    0x3E8
-+#define H_SCM_BIND_MEM          0x3EC
-+#define H_SCM_UNBIND_MEM        0x3F0
-+#define H_SCM_UNBIND_ALL        0x3FC
- 
--#define MAX_HCALL_OPCODE        H_INT_RESET
-+#define MAX_HCALL_OPCODE        H_SCM_UNBIND_ALL
- 
- /* The hcalls above are standardized in PAPR and implemented by pHyp
-  * as well.
+--=20
 
 
