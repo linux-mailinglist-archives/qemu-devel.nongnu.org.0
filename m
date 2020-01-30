@@ -2,49 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52B7B14E63A
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 00:53:02 +0100 (CET)
-Received: from localhost ([::1]:41136 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8469A14E62A
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 00:49:41 +0100 (CET)
+Received: from localhost ([::1]:41096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ixJcL-0002eN-Cs
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 18:53:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54623)
+	id 1ixJZ6-0000Sw-Js
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 18:49:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53356)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1ixJb8-0001Kw-Su
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 18:51:49 -0500
+ (envelope-from <philmd@redhat.com>) id 1ixJXU-00088g-Ss
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 18:48:02 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1ixJb7-0000Bl-AD
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 18:51:46 -0500
-Received: from bilbo.ozlabs.org ([203.11.71.1]:52261 helo=ozlabs.org)
+ (envelope-from <philmd@redhat.com>) id 1ixJXT-0004Ho-NI
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 18:48:00 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:25402
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1ixJb6-00006T-6k; Thu, 30 Jan 2020 18:51:45 -0500
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 487xvw6KRdz9sPK; Fri, 31 Jan 2020 10:51:40 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1580428300;
- bh=e57HoC3aVPGjoH1pP3Gic6kHd8jS4U06Ue9NDAEfA/c=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=PeM1f/HVfaES1VzFWAl/lAcRV9u2WYezTyJUJW5rGRb1c6VtXF1BkQYrcupHzftH7
- 90kzFxklIMNBAObR06ERRQFn6kRg6Ltad6bs92CTEgGqLKoLiN1cZNSf7mhg3wNzSN
- 8oAv9yRIzZCvnTkX7g1PF1QFhSVtX1/jQ6uEn/R0=
-Date: Fri, 31 Jan 2020 10:47:05 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH] spapr: Enable DD2.3 accelerated count cache flush in
- pseries-5.0 machine
-Message-ID: <20200130234705.GB15210@umbus.fritz.box>
-References: <20200130012622.8564-1-david@gibson.dropbear.id.au>
- <20200130094849.03194668@bahia.lan>
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1ixJXT-0004FS-JA
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 18:47:59 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1580428079;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Tngp9GPrOTBwPQ6Bzph7QX4dsHxKhUf223UHgXjuq5k=;
+ b=g36Y9HVXAXcQZ1WZ85U0Stl4LJdNgTTRdrV7nicm3Qtt8VDKuGo9o/YhLDPITHX0X/Mqbp
+ nXV82zXzRIZctW2YGpmi0xb9/LHblRv2wYus+NBT8Syrf3U36mTkAwL9TvJfkTVCkcLwPd
+ F0OhcCyv12xj5aTzb5eeTFy+OLfZUhU=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-17-UsG0g7VjOzqOIzRXyQ3CXQ-1; Thu, 30 Jan 2020 18:47:57 -0500
+Received: by mail-wr1-f69.google.com with SMTP id z14so2469316wrs.4
+ for <qemu-devel@nongnu.org>; Thu, 30 Jan 2020 15:47:57 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=BqDe7Cj8FT35afwZ7Z18l1nXaF9b4b2GM42iw9a3gLY=;
+ b=PY+YfSULil5lnfH/fiHbrzbpoH/aXVoYXd8ZgvPKiJimPSxkbQfNd810vFeAzHAyby
+ HauosGc0NKq3I4ZCPFnPl7ULJdotKaXOBV8ZaoizUPct7C+3qmSlCzE3nsI7psxR4eZJ
+ hNG8qcBXpzqorwSMwUn5cSBnfLyuO1MPW7N9s0C83uL9Id++lcHj4pZp5LAwTLiiDWH6
+ wuS9FEi1XQnQ7ojiMkNUSaR3mf5LEm1SU+BnrkZfXmUbKVyOxOXEmTAI0x0g/V+c8oIA
+ 5lP3fGpA8HLCqcSQpdtKFD2w52NdHq0H0Unc/s0az2bhq26FN2q8C/g4HVYvtWJKi7eB
+ 4YKg==
+X-Gm-Message-State: APjAAAV+ydP3apZ3YHzViCrEq94UdisuzK8B9DwNE4OBHIuhH0e1pSWF
+ eu9+sVudOJ9mzUjhKIcgh9CFK01d5xwLkPwDkbqda3mSmwElW7w28eSLsBQn2IKYHUniax5oxI2
+ WzKFaderB7CIIliM=
+X-Received: by 2002:a5d:4285:: with SMTP id k5mr8017124wrq.72.1580428075261;
+ Thu, 30 Jan 2020 15:47:55 -0800 (PST)
+X-Google-Smtp-Source: APXvYqzgxpjyuUEBwc3eUqIM0ptp5DlvPeawGxcWdCo6pV92vhECbiOddUA/blxEwAA3nvGtdKjSWg==
+X-Received: by 2002:a5d:4285:: with SMTP id k5mr8017097wrq.72.1580428075086;
+ Thu, 30 Jan 2020 15:47:55 -0800 (PST)
+Received: from [192.168.1.35] (113.red-83-57-172.dynamicip.rima-tde.net.
+ [83.57.172.113])
+ by smtp.gmail.com with ESMTPSA id a198sm8022382wme.12.2020.01.30.15.47.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 30 Jan 2020 15:47:54 -0800 (PST)
+Subject: Re: [PATCH v2 07/12] tests/acceptance: Remove shebang header
+To: qemu-devel@nongnu.org
+References: <20200130163232.10446-1-philmd@redhat.com>
+ <20200130163232.10446-8-philmd@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <29489dc7-6ec0-afcd-a26f-1f8eeafe7b7a@redhat.com>
+Date: Fri, 31 Jan 2020 00:47:52 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="3uo+9/B/ebqu+fSQ"
-Content-Disposition: inline
-In-Reply-To: <20200130094849.03194668@bahia.lan>
+In-Reply-To: <20200130163232.10446-8-philmd@redhat.com>
+Content-Language: en-US
+X-MC-Unique: UsG0g7VjOzqOIzRXyQ3CXQ-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 203.11.71.1
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,189 +92,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, aik@ozlabs.ru, mpe@ellerman.id.au,
- qemu-devel@nongnu.org, paulus@ozlabs.org, qemu-ppc@nongnu.org, clg@kaod.org
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ Juan Quintela <quintela@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>, kvm@vger.kernel.org,
+ Stefan Hajnoczi <stefanha@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
---3uo+9/B/ebqu+fSQ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, Jan 30, 2020 at 09:48:49AM +0100, Greg Kurz wrote:
-> On Thu, 30 Jan 2020 12:26:22 +1100
-> David Gibson <david@gibson.dropbear.id.au> wrote:
+On 1/30/20 5:32 PM, Philippe Mathieu-Daud=C3=A9 wrote:
+> Patch created mechanically by running:
 >=20
-> > For POWER9 DD2.2 cpus, the best current Spectre v2 indirect branch
-> > mitigation is "count cache disabled", which is configured with:
-> >     -machine cap-ibs=3Dfixed-ccd
-> > However, this option isn't available on DD2.3 CPUs with KVM, because th=
-ey
-> > don't have the count cache disabled.
-> >=20
-> > For POWER9 DD2.3 cpus, it is "count cache flush with assist", configured
-> > with:
-> >     -machine cap-ibs=3Dworkaround,cap-ccf-assist=3Don
-> > However this option isn't available on DD2.2 CPUs with KVM, because they
-> > don't have the special CCF assist instruction this relies on.
-> >=20
-> > On current machine types, we default to "count cache flush w/o assist",
-> > that is:
-> >     -machine cap-ibs=3Dworkaround,cap-ccf-assist=3Doff
-> > This runs, with mitigation on both DD2.2 and DD2.3 host cpus, but has a
-> > fairly significant performance impact.
-> >=20
-> > It turns out we can do better.  The special instruction that CCF assist
-> > uses to trigger a count cache flush is a no-op on earlier CPUs, rather =
-than
-> > trapping or causing other badness.  It doesn't, of itself, implement the
-> > mitigation, but *if* we have count-cache-disabled, then the count cache
-> > flush is unnecessary, and so using the count cache flush mitigation is
-> > harmless.
-> >=20
-> > Therefore for the new pseries-5.0 machine type, enable cap-ccf-assist by
-> > default.  Along with that, suppress throwing an error if cap-ccf-assist
-> > is selected but KVM doesn't support it, as long as KVM *is* giving us
-> > count-cache-disabled.  To allow TCG to work out of the box, even though=
- it
-> > doesn't implement the ccf flush assist, downgrade the error in that cas=
-e to
-> > a warning.  This matches several Spectre mitigations where we allow TCG
-> > to operate for debugging, since we don't really make guarantees about T=
-CG
-> > security properties anyway.
-> >=20
-> > While we're there, make the TCG warning for this case match that for ot=
-her
-> > mitigations.
-> >=20
-> > Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-> > ---
-> >  hw/ppc/spapr.c      |  5 ++++-
-> >  hw/ppc/spapr_caps.c | 26 ++++++++++++++++++++++----
-> >  2 files changed, 26 insertions(+), 5 deletions(-)
-> >=20
-> > I have put this into my ppc-for-5.0 tree already, and hope to send a
-> > pull request tomorrow (Jan 31).
-> >=20
-> > diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> > index 02cf53fc5b..deaa44f1ab 100644
-> > --- a/hw/ppc/spapr.c
-> > +++ b/hw/ppc/spapr.c
-> > @@ -4397,7 +4397,7 @@ static void spapr_machine_class_init(ObjectClass =
-*oc, void *data)
-> >      smc->default_caps.caps[SPAPR_CAP_HPT_MAXPAGESIZE] =3D 16; /* 64kiB=
- */
-> >      smc->default_caps.caps[SPAPR_CAP_NESTED_KVM_HV] =3D SPAPR_CAP_OFF;
-> >      smc->default_caps.caps[SPAPR_CAP_LARGE_DECREMENTER] =3D SPAPR_CAP_=
-ON;
-> > -    smc->default_caps.caps[SPAPR_CAP_CCF_ASSIST] =3D SPAPR_CAP_OFF;
-> > +    smc->default_caps.caps[SPAPR_CAP_CCF_ASSIST] =3D SPAPR_CAP_ON;
-> >      spapr_caps_add_properties(smc, &error_abort);
-> >      smc->irq =3D &spapr_irq_dual;
-> >      smc->dr_phb_enabled =3D true;
-> > @@ -4465,8 +4465,11 @@ DEFINE_SPAPR_MACHINE(5_0, "5.0", true);
-> >   */
-> >  static void spapr_machine_4_2_class_options(MachineClass *mc)
-> >  {
-> > +    SpaprMachineClass *smc =3D SPAPR_MACHINE_CLASS(mc);
-> > +
-> >      spapr_machine_5_0_class_options(mc);
-> >      compat_props_add(mc->compat_props, hw_compat_4_2, hw_compat_4_2_le=
-n);
-> > +    smc->default_caps.caps[SPAPR_CAP_CCF_ASSIST] =3D SPAPR_CAP_OFF;
-> >  }
-> > =20
-> >  DEFINE_SPAPR_MACHINE(4_2, "4.2", false);
-> > diff --git a/hw/ppc/spapr_caps.c b/hw/ppc/spapr_caps.c
-> > index 481dfd2a27..d0d4b32a40 100644
-> > --- a/hw/ppc/spapr_caps.c
-> > +++ b/hw/ppc/spapr_caps.c
-> > @@ -482,18 +482,36 @@ static void cap_large_decr_cpu_apply(SpaprMachine=
-State *spapr,
-> >  static void cap_ccf_assist_apply(SpaprMachineState *spapr, uint8_t val,
-> >                                   Error **errp)
-> >  {
-> > +    Error *local_err =3D NULL;
-> >      uint8_t kvm_val =3D kvmppc_get_cap_count_cache_flush_assist();
-> > =20
-> >      if (tcg_enabled() && val) {
-> > -        /* TODO - for now only allow broken for TCG */
-> > -        error_setg(errp,
-> > -"Requested count cache flush assist capability level not supported by =
-tcg,"
-> > -                   " try appending -machine cap-ccf-assist=3Doff");
-> > +        /* TCG doesn't implement anything here, but allow with a warni=
-ng */
-> > +        error_setg(&local_err,
-> > +                   "TCG doesn't support requested feature, cap-ccf-ass=
-ist=3Don");
+>    $ chmod 644 $(git grep -lF '#!/usr/bin/env python' \
+>        | xargs grep -L 'if __name__.*__main__')
+>    $ sed -i "/^#\!\/usr\/bin\/\(env\ \)\?python.\?$/d" \
+>        $(git grep -lF '#!/usr/bin/env python' \
+>        | xargs grep -L 'if __name__.*__main__')
 >=20
-> The only user for local_err is warn_report_err() below. It would be simpl=
-er to
-> simply call warn_report() here.
-
-Yeah, fair enough.  I was doing it this way for consistency with some
-of the other cases where we warn only on TCG, but there's not really
-any point.  Revised in my tree.
-
+> Reported-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> Suggested-by: Stefan Hajnoczi <stefanha@redhat.com>
+> Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+> Acked-by: Stefan Hajnoczi <stefanha@redhat.com>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> ---
+>   tests/acceptance/virtio_seg_max_adjust.py  | 1 -
+>   tests/acceptance/x86_cpu_model_versions.py | 1 -
+>   2 files changed, 2 deletions(-)
+>   mode change 100755 =3D> 100644 tests/acceptance/virtio_seg_max_adjust.p=
+y
 >=20
-> >      } else if (kvm_enabled() && (val > kvm_val)) {
-> > +        uint8_t kvm_ibs =3D kvmppc_get_cap_safe_indirect_branch();
-> > +
-> > +        if (kvm_ibs =3D=3D SPAPR_CAP_FIXED_CCD) {
-> > +            /*
-> > +             * If we don't have CCF assist on the host, the assist
-> > +             * instruction is a harmless no-op.  It won't correctly
-> > +             * implement the cache count flush *but* if we have
-> > +             * count-cache-disabled in the host, that flush is
-> > +             * unnnecessary.  So, specifically allow this case.  This
-> > +             * allows us to have better performance on POWER9 DD2.3,
-> > +             * while still working on POWER9 DD2.2 and POWER8 host
-> > +             * cpus.
-> > +             */
-> > +            return;
-> > +        }
-> >          error_setg(errp,
-> >  "Requested count cache flush assist capability level not supported by =
-kvm,"
-> >                     " try appending -machine cap-ccf-assist=3Doff");
-> >      }
-> > +
-> > +    if (local_err !=3D NULL)
-> > +        warn_report_err(local_err);
-> >  }
-> > =20
-> >  SpaprCapabilityInfo capability_table[SPAPR_CAP_NUM] =3D {
+> diff --git a/tests/acceptance/virtio_seg_max_adjust.py b/tests/acceptance=
+/virtio_seg_max_adjust.py
+> old mode 100755
+> new mode 100644
+> index 5458573138..8d4f24da49
+> --- a/tests/acceptance/virtio_seg_max_adjust.py
+> +++ b/tests/acceptance/virtio_seg_max_adjust.py
+> @@ -1,4 +1,3 @@
+> -#!/usr/bin/env python
+>   #
+>   # Test virtio-scsi and virtio-blk queue settings for all machine types
+>   #
+> diff --git a/tests/acceptance/x86_cpu_model_versions.py b/tests/acceptanc=
+e/x86_cpu_model_versions.py
+> index 90558d9a71..01ff614ec2 100644
+> --- a/tests/acceptance/x86_cpu_model_versions.py
+> +++ b/tests/acceptance/x86_cpu_model_versions.py
+> @@ -1,4 +1,3 @@
+> -#!/usr/bin/env python
+>   #
+>   # Basic validation of x86 versioned CPU models and CPU model aliases
+>   #
 >=20
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+Thanks, applied to my python-next tree:
+https://gitlab.com/philmd/qemu/commits/python-next
 
---3uo+9/B/ebqu+fSQ
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl4zavkACgkQbDjKyiDZ
-s5ITJw/+NDxZw24to5zFivls10qS5j7DYXzZQgrLdgqcfR8ks//7CDAEVQAA9fym
-9MEUKR0kUqjNwImVYvt2wNW5Zskp1287IIRb3uFGFKFN+F1zCN7Pur1aOuG4K/86
-mZ95Tka08hwnD9E4xO5suWJ2//D2mIPc8MwcrO8QPWRTxLSDZWFrwaCx4rIvQTNx
-nNCtlhmHRyT6S8OtLU5c/8768gCtaj6UoGeK+I79JiHzcEuv44464gGavnMF7lDh
-qgLAyhMlHvG7tDuUH4DwCbxy6sUnPx0tMO1ppxqDXXhF+eLtlssB68GOkFatxTay
-sB+Au3GD4aE2qwGAUxrKZ0S/HFU3k6Mnp01n0ONSdoImyoJqdroXEAtIkM85E+Cf
-3ADkdxjxqeZ3zQZNsKMcanUCo0ljUwrRWevYvTkVB3ydg7soCbjgwMvtmPFGnMb7
-dHR3/RJxXwY0hVps7ywltjt0w/a6V1Cbcpu4SHuswrAegKEWoj/+/VdpKfIANMwy
-vkw62FtG+PI/Qx83B3QaojDQRz5iXzPLGc15z1sI7uBF3eP2EHyNaXfQCyrLOqn8
-nj+aP3myLmxdDOUFy1vOOhSrCUBLq+yqfsoBC3SMKWc9KWeGR15cTirebl7S15wb
-s+jHqrvwzMzZpR1JIVlXkwyafbX8kXAfzp8SF3E2cugdikyTqMg=
-=nwTO
------END PGP SIGNATURE-----
-
---3uo+9/B/ebqu+fSQ--
 
