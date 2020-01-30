@@ -2,80 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A8C814DE14
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jan 2020 16:42:01 +0100 (CET)
-Received: from localhost ([::1]:34364 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9755214DE35
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jan 2020 16:51:47 +0100 (CET)
+Received: from localhost ([::1]:34466 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ixBxA-0001ra-GS
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 10:42:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60584)
+	id 1ixC6c-0005px-MJ
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 10:51:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34925)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <palmerdabbelt@google.com>) id 1ixBwQ-0001Ob-E6
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 10:41:15 -0500
+ (envelope-from <bounces@canonical.com>) id 1ixC5j-000547-MT
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 10:50:52 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <palmerdabbelt@google.com>) id 1ixBwP-00039I-5A
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 10:41:14 -0500
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:46474)
+ (envelope-from <bounces@canonical.com>) id 1ixC5i-00067t-CR
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 10:50:51 -0500
+Received: from indium.canonical.com ([91.189.90.7]:33266)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <palmerdabbelt@google.com>)
- id 1ixBwO-00036C-T1
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 10:41:13 -0500
-Received: by mail-wr1-x444.google.com with SMTP id z7so4548599wrl.13
- for <qemu-devel@nongnu.org>; Thu, 30 Jan 2020 07:41:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=date:from:subject:cc:to:in-reply-to:references:message-id
- :mime-version:content-transfer-encoding;
- bh=TqdxCq8HJGFxkopVlfL9vKt9zf5Mhvk+4P/TZ0pMgsk=;
- b=vHqkS6CvPiPCADFLG5wYwBKsU1JwngycIB2w6bLzvBG8kR8o2KmA1uAMENy+f/OBqa
- 2BTujHzzDsy81xoh1dRQ9wBas+kR4GOXddukFBrS56YjyhGkXSGGd/Usfuamvd97Ya2V
- xnxz8broO4bWc+ZS5e8M6T2mIjYsHGj07Q0i9QLU8jt9PNJfOVVRfCrY1Tya1Ox5ZgEx
- oOq2jGMaEp2MdRCKv7yvhRzwzEMJ3ofDfuc34pyvzhGX4MpQVd2nmVvWbT6yXboReGA1
- K8hSwfXbAyXZkUU1mOW96BOo4YR0zx48kkZ8w1PqSHvEnawJ3w68e6tRay0ZOx6lFqb1
- aQQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:subject:cc:to:in-reply-to:references
- :message-id:mime-version:content-transfer-encoding;
- bh=TqdxCq8HJGFxkopVlfL9vKt9zf5Mhvk+4P/TZ0pMgsk=;
- b=U8m79K4xMZHJvNmDMFDTdwDZRo900ybMuTYzBG8jk0MX8AZ4eEcF+fnNgey7vj1JyH
- +otTpffl6beQNhjTWZuAzer7FHfNYgk4nR6E/LzcTRy48Z9ZU93nmUyPTTBBbnzrXKzB
- ZXj5VLHCgso9yIsmdwDwupx5dzz/dIr34qN1SrsmSYLppssaVOxz//UzS/8uvYdqGuVn
- Jn1wg2VUDJtFhqCa92xAXbE1lHir+bE1aP0d7kuZKvvpAX8pycGO1nzzdbEBm25MzSXI
- /hQ+g9PX9QT/vuynZ0s2PGxxQ3g5TQ7tZ/hOt4P2CKSurn6ic9lMIVlHRmYx2Bhmpsmx
- ldow==
-X-Gm-Message-State: APjAAAU4lc4xTQ8lMqfyRBQIIZj02IcHYmFx3lBSi9blikyfbjN/eST8
- r7E+kN/4vNW5aDt7KdlB8o5+Ug==
-X-Google-Smtp-Source: APXvYqzkdFR2SNwoPiw3hmoOFyHK5/2ot3Xw2xyHO5tnq9Jh1DRSqkjlV09XQ6dPrQOBYoF7r4zJTQ==
-X-Received: by 2002:a5d:404b:: with SMTP id w11mr6127174wrp.171.1580398871123; 
- Thu, 30 Jan 2020 07:41:11 -0800 (PST)
-Received: from localhost ([2a00:79e0:d:11:1da2:3fd4:a302:4fff])
- by smtp.gmail.com with ESMTPSA id s8sm2667347wmf.45.2020.01.30.07.41.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Jan 2020 07:41:10 -0800 (PST)
-Date: Thu, 30 Jan 2020 07:41:10 -0800 (PST)
-X-Google-Original-Date: Thu, 30 Jan 2020 15:13:27 GMT (+0000)
-From: Palmer Dabbelt <palmerdabbelt@google.com>
-X-Google-Original-From: Palmer Dabbelt <palmer@dabbelt.com>
-Subject: Re: [PATCH v2] riscv/virt: Add syscon reboot and poweroff DT nodes
-CC: Peter Maydell <peter.maydell@linaro.org>,
- Alistair Francis <Alistair.Francis@wdc.com>, sagark@eecs.berkeley.edu,
- Atish Patra <Atish.Patra@wdc.com>, 
- Christoph Hellwig <hch@lst.de>, anup@brainfault.org, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org, Anup Patel <Anup.Patel@wdc.com>
-To: Anup Patel <Anup.Patel@wdc.com>
-In-Reply-To: <20200122131641.34953-1-anup.patel@wdc.com>
-References: <20200122131641.34953-1-anup.patel@wdc.com>
-Message-ID: <mhng-dab9223a-0a91-4196-809e-2b6e6e2bce28@palmerdabbelt-glaptop1>
-Mime-Version: 1.0 (MHng)
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::444
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1ixC5i-00064V-6a
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 10:50:50 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1ixC5f-0001B8-Np
+ for <qemu-devel@nongnu.org>; Thu, 30 Jan 2020 15:50:47 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 15C392E80EB
+ for <qemu-devel@nongnu.org>; Thu, 30 Jan 2020 15:50:47 +0000 (UTC)
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 30 Jan 2020 15:43:45 -0000
+From: Frank Heimes <1859656@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=maas; status=New; importance=Undecided;
+ assignee=lee.trager@canonical.com; 
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug: product=ubuntu-z-systems; status=Triaged; importance=High;
+ assignee=maas; 
+X-Launchpad-Bug-Tags: s390x
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: fheimes ltrager paelzer sfeole
+X-Launchpad-Bug-Reporter: Sean Feole (sfeole)
+X-Launchpad-Bug-Modifier: Frank Heimes (fheimes)
+References: <157902669328.14768.4315907500950527119.malonedeb@wampee.canonical.com>
+Message-Id: <158039902521.5017.1034744902841893735.malone@chaenomeles.canonical.com>
+Subject: [Bug 1859656] Re: [2.6] Unable to reboot s390x KVM machine after
+ initial deploy
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="b8d1327fd820d6bf500589d6da587d5037c7d88e";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 3ab3e892ee4c26fe6924e53dbeed1d0be0c26a42
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -84,85 +71,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Bug 1859656 <1859656@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 22 Jan 2020 13:17:23 GMT (+0000), Anup Patel wrote:
-> The SiFive test device found on virt machine can be used by
-> generic syscon reboot and poweroff drivers available in Linux
-> kernel.
->
-> This patch updates FDT generation in virt machine so that
-> Linux kernel can probe and use generic syscon drivers.
->
-> Signed-off-by: Anup Patel <anup.patel@wdc.com>
-> ---
-> Changes since v1:
->  - Rebased on latest QEMU master commit 3e08b2b9cb64bff2b73fa9128c0e49bfcde0dd40
-> ---
->  hw/riscv/virt.c | 26 ++++++++++++++++++++++----
->  1 file changed, 22 insertions(+), 4 deletions(-)
->
-> diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-> index c44b865959..6d682f8a78 100644
-> --- a/hw/riscv/virt.c
-> +++ b/hw/riscv/virt.c
-> @@ -182,11 +182,10 @@ static void create_fdt(RISCVVirtState *s, const struct MemmapEntry *memmap,
->      uint64_t mem_size, const char *cmdline)
->  {
->      void *fdt;
-> -    int cpu;
-> +    int cpu, i;
->      uint32_t *cells;
->      char *nodename;
-> -    uint32_t plic_phandle, phandle = 1;
-> -    int i;
-> +    uint32_t plic_phandle, test_phandle, phandle = 1;
->      hwaddr flashsize = virt_memmap[VIRT_FLASH].size / 2;
->      hwaddr flashbase = virt_memmap[VIRT_FLASH].base;
->  
-> @@ -356,16 +355,35 @@ static void create_fdt(RISCVVirtState *s, const struct MemmapEntry *memmap,
->      create_pcie_irq_map(fdt, nodename, plic_phandle);
->      g_free(nodename);
->  
-> +    test_phandle = phandle++;
->      nodename = g_strdup_printf("/test@%lx",
->          (long)memmap[VIRT_TEST].base);
->      qemu_fdt_add_subnode(fdt, nodename);
->      {
-> -        const char compat[] = "sifive,test1\0sifive,test0";
-> +        const char compat[] = "sifive,test1\0sifive,test0\0syscon";
->          qemu_fdt_setprop(fdt, nodename, "compatible", compat, sizeof(compat));
->      }
->      qemu_fdt_setprop_cells(fdt, nodename, "reg",
->          0x0, memmap[VIRT_TEST].base,
->          0x0, memmap[VIRT_TEST].size);
-> +    qemu_fdt_setprop_cell(fdt, nodename, "phandle", test_phandle);
-> +    test_phandle = qemu_fdt_get_phandle(fdt, nodename);
-> +    g_free(nodename);
-> +
-> +    nodename = g_strdup_printf("/reboot");
-> +    qemu_fdt_add_subnode(fdt, nodename);
-> +    qemu_fdt_setprop_string(fdt, nodename, "compatible", "syscon-reboot");
-> +    qemu_fdt_setprop_cell(fdt, nodename, "regmap", test_phandle);
-> +    qemu_fdt_setprop_cell(fdt, nodename, "offset", 0x0);
-> +    qemu_fdt_setprop_cell(fdt, nodename, "value", FINISHER_RESET);
-> +    g_free(nodename);
-> +
-> +    nodename = g_strdup_printf("/poweroff");
-> +    qemu_fdt_add_subnode(fdt, nodename);
-> +    qemu_fdt_setprop_string(fdt, nodename, "compatible", "syscon-poweroff");
-> +    qemu_fdt_setprop_cell(fdt, nodename, "regmap", test_phandle);
-> +    qemu_fdt_setprop_cell(fdt, nodename, "offset", 0x0);
-> +    qemu_fdt_setprop_cell(fdt, nodename, "value", FINISHER_PASS);
->      g_free(nodename);
->  
->      nodename = g_strdup_printf("/uart@%lx",
+@Lee, do you think that the boot log from comment #18 looks fine?
+https://bugs.launchpad.net/ubuntu-z-systems/+bug/1859656/+attachment/532350=
+7/+files/boot_console.txt
 
-Reviewed-by: Palmer Dabbelt <palmerdabbelt@google.com>
+What would be the usual next step for MAAS KVM on s390x if the above is suc=
+cessful (me not really knowing the exact internal flow)?
+Is it then netbooting again and redirecting to the disk (same on all platfo=
+rms)?
 
-Thanks, I've queued this up for master.  I'm still hoping to get the H
-extension stuff in as part of my next PR, but if that gets blocked again then
-I'll send this up before then.  I'd like to get it in sooner rather than later
-so we can do the Linux side of things.
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1859656
+
+Title:
+  [2.6] Unable to reboot s390x KVM machine after initial deploy
+
+Status in MAAS:
+  New
+Status in QEMU:
+  Incomplete
+Status in Ubuntu on IBM z Systems:
+  Triaged
+
+Bug description:
+  MAAS version: 2.6.1 (7832-g17912cdc9-0ubuntu1~18.04.1)
+  Arch: S390x
+
+  Appears that MAAS can not find the s390x bootloader to boot from the
+  disk, not sure how maas determines this.  However this was working in
+  the past. I had originally thought that if the maas machine was
+  deployed then it defaulted to boot from disk.
+
+  If I force the VM to book from disk, the VM starts up as expected.
+
+  Reproduce:
+
+  - Deploy Disco on S390x KVM instance
+  - Reboot it
+
+  on the KVM console...
+
+  Connected to domain s2lp6g001
+  Escape character is ^]
+  done
+  =C2=A0=C2=A0Using IPv4 address: 10.246.75.160
+  =C2=A0=C2=A0Using TFTP server: 10.246.72.3
+  =C2=A0=C2=A0Bootfile name: 'boots390x.bin'
+  =C2=A0=C2=A0Receiving data:  0 KBytes
+  =C2=A0=C2=A0TFTP error: file not found: boots390x.bin
+  Trying pxelinux.cfg files...
+  =C2=A0=C2=A0Receiving data:  0 KBytes
+  =C2=A0=C2=A0Receiving data:  0 KBytes
+  Failed to load OS from network
+
+  =3D=3D> /var/log/maas/rackd.log <=3D=3D
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] boots39=
+0x.bin requested by 10.246.75.160
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/6=
+5a9ca43-9541-49be-b315-e2ca85936ea2 requested by 10.246.75.160
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
+1-52-54-00-e5-d7-bb requested by 10.246.75.160
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
+AF64BA0 requested by 10.246.75.160
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
+AF64BA requested by 10.246.75.160
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
+AF64B requested by 10.246.75.160
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
+AF64 requested by 10.246.75.160
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
+AF6 requested by 10.246.75.160
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
+AF requested by 10.246.75.160
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
+A requested by 10.246.75.160
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
+ requested by 10.246.75.160
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/d=
+efault requested by 10.246.75.160
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/maas/+bug/1859656/+subscriptions
 
