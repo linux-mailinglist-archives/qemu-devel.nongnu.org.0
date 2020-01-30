@@ -2,64 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B642E14DADB
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jan 2020 13:43:15 +0100 (CET)
-Received: from localhost ([::1]:60134 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FD9014DAE7
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jan 2020 13:44:25 +0100 (CET)
+Received: from localhost ([::1]:60148 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ix9AA-0001Rf-QB
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 07:43:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56284)
+	id 1ix9BI-00035R-44
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 07:44:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56721)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <cohuck@redhat.com>) id 1ix95D-0003l1-Pw
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 07:38:09 -0500
+ (envelope-from <kwolf@redhat.com>) id 1ix961-0005QG-50
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 07:38:58 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cohuck@redhat.com>) id 1ix95C-0000tQ-Ol
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 07:38:07 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:37555
+ (envelope-from <kwolf@redhat.com>) id 1ix95z-0002CQ-No
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 07:38:57 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:44389
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1ix95C-0000sK-Km
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 07:38:06 -0500
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1ix95z-0002Am-It
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 07:38:55 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580387886;
+ s=mimecast20190719; t=1580387935;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=CJXARBSwjxFrJadX5Pz42s+C5a9dXrL8e2+s1bSXG/0=;
- b=SI94vNt29kP8P9+sN4ZJbuwKHtpH7ndX2yGLpyPUQ2iVqd0846N7pHwi9IKwQsZ8Hr/Bb/
- iKSfUQuAWk+OizDBBZfSXPPvV20vPhzX0Pm3dnAhcNg8mNZ6dA8e59lIHgABXAgK2rhdxN
- zHb7U6zyFmGgZqszkFDjocD+6FWnfUQ=
+ bh=+GnB+cXdmokeSMQBdd0RXqARS2wmP6c0ELCqi+s3ZXw=;
+ b=f0T04jr06TKVU/4of4V1KZ8+ccKjtwSHyfvbLRQUJEsa+BB87G8cQDQaVvRlJzklO9ApR2
+ pZBDk1ZRlSZLyAGl84TF/+pgQ1NmAWM/XsZGfFmwORlLhafg85p7Rh4sZ+qKfPmuux6/Aj
+ JwedbF9q2hwk1du5RUrZwu3GVxeJQZo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-369-c_HUm-V4P0-OCxJ0kYSE9Q-1; Thu, 30 Jan 2020 07:38:01 -0500
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-243-6O42ln5mP-2HYkY_Y9mkrA-1; Thu, 30 Jan 2020 07:38:53 -0500
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AF40B18FF661;
- Thu, 30 Jan 2020 12:38:00 +0000 (UTC)
-Received: from gondolin (ovpn-117-199.ams2.redhat.com [10.36.117.199])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C20265C1B2;
- Thu, 30 Jan 2020 12:37:54 +0000 (UTC)
-Date: Thu, 30 Jan 2020 13:37:51 +0100
-From: Cornelia Huck <cohuck@redhat.com>
-To: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
-Subject: Re: [PATCH v2 19/29] tests/acceptance/virtio_check_params: Only
- test Xen as superuser
-Message-ID: <20200130133751.4e954bb1.cohuck@redhat.com>
-In-Reply-To: <20200129212345.20547-20-philmd@redhat.com>
-References: <20200129212345.20547-1-philmd@redhat.com>
- <20200129212345.20547-20-philmd@redhat.com>
-Organization: Red Hat GmbH
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 89D021005510;
+ Thu, 30 Jan 2020 12:38:52 +0000 (UTC)
+Received: from linux.fritz.box (ovpn-117-25.ams2.redhat.com [10.36.117.25])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 736F677927;
+ Thu, 30 Jan 2020 12:38:48 +0000 (UTC)
+Date: Thu, 30 Jan 2020 13:38:47 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Subject: Re: [PATCH 02/13] qcrypto-luks: implement encryption key management
+Message-ID: <20200130123847.GE6438@linux.fritz.box>
+References: <20200114193350.10830-1-mlevitsk@redhat.com>
+ <20200114193350.10830-3-mlevitsk@redhat.com>
+ <87r1zti6r8.fsf@dusky.pond.sub.org>
+ <dc902f2ba314b63da7ae7a003463f9268e7b3535.camel@redhat.com>
+ <20200128171116.GU1446339@redhat.com>
+ <20200128173251.GZ1446339@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: c_HUm-V4P0-OCxJ0kYSE9Q-1
+In-Reply-To: <20200128173251.GZ1446339@redhat.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-MC-Unique: 6O42ln5mP-2HYkY_Y9mkrA-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 207.211.31.120
@@ -74,47 +78,125 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- Denis Plotnikov <dplotnikov@virtuozzo.com>, qemu-devel@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
+Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ Maxim Levitsky <mlevitsk@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 29 Jan 2020 22:23:35 +0100
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> wrote:
+Am 28.01.2020 um 18:32 hat Daniel P. Berrang=E9 geschrieben:
+> On Tue, Jan 28, 2020 at 05:11:16PM +0000, Daniel P. Berrang=E9 wrote:
+> > On Tue, Jan 21, 2020 at 03:13:01PM +0200, Maxim Levitsky wrote:
+> > > On Tue, 2020-01-21 at 08:54 +0100, Markus Armbruster wrote:
+> > >=20
+> > > <trimmed>
+> > >=20
+> > > > > +##
+> > > > > +# @LUKSKeyslotUpdate:
+> > > > > +#
+> > > > > +# @keyslot:         If specified, will update only keyslot with =
+this index
+> > > > > +#
+> > > > > +# @old-secret:      If specified, will only update keyslots that
+> > > > > +#                   can be opened with password which is contain=
+ed in
+> > > > > +#                   QCryptoSecret with @old-secret ID
+> > > > > +#
+> > > > > +#                   If neither @keyslot nor @old-secret is speci=
+fied,
+> > > > > +#                   first empty keyslot is selected for the upda=
+te
+> > > > > +#
+> > > > > +# @new-secret:      The ID of a QCryptoSecret object providing a=
+ new decryption
+> > > > > +#                   key to place in all matching keyslots.
+> > > > > +#                   null/empty string erases all matching keyslo=
+ts
+> > > >=20
+> > > > I hate making the empty string do something completely different th=
+an a
+> > > > non-empty string.
+> > > >=20
+> > > > What about making @new-secret optional, and have absent @new-secret
+> > > > erase?
+> > >=20
+> > > I don't remember already why I and Keven Wolf decided to do this this=
+ way, but I think that you are right here.
+> > > I don't mind personally to do this this way.
+> > > empty string though is my addition, since its not possible to pass nu=
+ll on command line.
+> >=20
+> > IIUC this a result of using  "StrOrNull" for this one field...
+> >=20
+> >=20
+> > > > > +# Since: 5.0
+> > > > > +##
+> > > > > +{ 'struct': 'LUKSKeyslotUpdate',
+> > > > > +  'data': {
+> > > > > +           '*keyslot': 'int',
+> > > > > +           '*old-secret': 'str',
+> > > > > +           'new-secret' : 'StrOrNull',
+> > > > > +           '*iter-time' : 'int' } }
+> >=20
+> > It looks wierd here to be special casing "new-secret" to "StrOrNull"
+> > instead of just marking it as an optional string field
+> >=20
+> >    "*new-secret": "str"
+> >=20
+> > which would be possible to use from the command line, as you simply
+> > omit the field.
+> >=20
+> > I guess the main danger here is that we're using this as a trigger
+> > to erase keyslots. So simply omitting "new-secret" can result
+> > in damage to the volume by accident which is not an attractive
+> > mode.
 
-> When running the test unprivileged, we get:
->=20
->   $ avocado --show=3Dapp,machine run tests/acceptance/virtio_check_params=
-.py
->   JOB ID     : b631d5d692e49b791b211d33b80730315d561d45
->   JOB LOG    : job-results/job-2020-01-22T17.56-b631d5d/job.log
->    (1/1) tests/acceptance/virtio_check_params.py:VirtioMaxSegSettingsChec=
-k.test_machine_types:
->   machine: {'name': 'pc-i440fx-2.12', 'seg_max_adjust': 'false', 'device'=
-: 'virtio-scsi-pci'}
->   machine: {'name': 'pc-i440fx-2.0', 'seg_max_adjust': 'false', 'device':=
- 'virtio-scsi-pci'}
->   machine: {'name': 'xenpv', 'seg_max_adjust': 'false', 'device': 'virtio=
--scsi-pci'}
->   FAIL: machine type xenpv: <class 'qemu.qmp.QMPConnectError'> (0.40 s)
->=20
-> Looking at the job.log file we find:
->=20
->   xencall: error: Could not obtain handle on privileged command interface=
-: No such file or directory
->   xen be core: xen be core: can't open xen interface
->=20
-> Do not run this test on Xen machines if not superuser.
->=20
-> Acked-by: Cornelia Huck <cohuck@redhat.com>
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> ---
->  tests/acceptance/virtio_check_params.py | 2 ++
->  1 file changed, 2 insertions(+)
+Right. It's been a while since I discussed this with Maxim, but I think
+this was the motivation for me to suggest an explicit null value.
 
-I still think changing the title to "Test Xen only as superuser" would
-be an improvement.
+As long as we don't support passing null from the command line, I see
+the problem with it, though. Empty string (which I think we didn't
+discuss before) looks like a reasonable enough workaround to me, but if
+you think this is too much magic, then maybe not.
+
+> Thinking about this again, I really believe we ought to be moire
+> explicit about disabling the keyslot by having the "active" field.
+> eg
+>=20
+> { 'struct': 'LUKSKeyslotUpdate',
+>   'data': {
+>           'active': 'bool',
+>           '*keyslot': 'int',
+>           '*old-secret': 'str',
+>           '*new-secret' : 'str',
+>           '*iter-time' : 'int' } }
+>=20
+> "new-secret" is thus only needed when "active" =3D=3D true.
+
+Hm. At the very least, I would make 'active' optional and default to
+true, so that for adding or updating you must only specify 'new-secret'
+and for deleting only 'active'.
+
+> This avoids the problem with being unable to specify a null for
+> StrOrNull on the command line too.
+
+If we ever get a way to pass null on the command line, how would we
+think about a struct like this? Will it still feel right, or will it
+feel like we feel about simple unions today (they exist, we would like
+to get rid of them, but we can't because compatibility)?
+
+Instead of keeping talking about potential future extensions, would it
+make more sense to just extend the grammar of the keyval parser now so
+that you can specify a type, including null?
+
+We already wanted to use an alternate for keyslot (int) and old-secret
+(str) initially, which makes it clear on the schema level that you can
+only specify one of both. It would have worked fine for QMP, but not on
+the command line because we can't tell integers from strings there. If
+we can distinguish them as foo:int=3D2 and foo:str=3D2 then that wouldn't b=
+e
+a problem any more either.
+
+Kevin
 
 
