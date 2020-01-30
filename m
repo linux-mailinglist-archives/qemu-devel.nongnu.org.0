@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC40C14D9F4
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jan 2020 12:40:38 +0100 (CET)
-Received: from localhost ([::1]:59180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC8BC14DA02
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jan 2020 12:42:57 +0100 (CET)
+Received: from localhost ([::1]:59252 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ix8BY-00030m-Jz
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 06:40:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36056)
+	id 1ix8Do-0006ZT-Ul
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 06:42:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36120)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1ix89p-0001IX-Mt
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 06:38:51 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1ix89t-0001ME-C2
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 06:38:54 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1ix89n-0008Si-Uv
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 06:38:49 -0500
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:44589)
+ (envelope-from <alex.bennee@linaro.org>) id 1ix89s-00007Y-33
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 06:38:53 -0500
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:42018)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1ix89n-0008Rd-Oz
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 06:38:47 -0500
-Received: by mail-wr1-x42f.google.com with SMTP id m16so3578936wrx.11
- for <qemu-devel@nongnu.org>; Thu, 30 Jan 2020 03:38:47 -0800 (PST)
+ id 1ix89r-00005I-TB
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 06:38:52 -0500
+Received: by mail-wr1-x436.google.com with SMTP id k11so3605075wrd.9
+ for <qemu-devel@nongnu.org>; Thu, 30 Jan 2020 03:38:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=CT3wh8Y3xSMP1+ExU06YY5pwEwL732fslH3YW3xC8eU=;
- b=fbRJEINgt4OZX0r8VhiVSBQvB53IBCWgmD7Ov8JQo9la3KChrByn0Z2yonIMCe5bdD
- FTOk/NO7y7XRar7+i3gCZE+E+aB31VxUhtDF1l3PRsg1PrBctjjKeQrqbICVvG6fcNAN
- YkJrQYsTyCdOHH1JyWeTVpPggkYBEiibkAM0WiPdm6LHThPQGOLsWLMc7oh7OZchYu5C
- vDj902phRacNLGHB9hw8miG3/rPtxc+WniwLQxAuPUQqEHmg16jYo9LSAao4ANY+IvgY
- b7qa4Os60o/YnF7CN7rcC08GMYAws/k9X01EMvwdurelZM7KC/oS92Qh86wDZ3Xvzg5N
- /YIA==
+ bh=/MBe1mn2zd5kU6RFA9wgs7vxr6r85wMgGco2Q4w0dfQ=;
+ b=SIUBZIipkNKtAiIq86e3HVtOIEWViS3+DT9L709pIAqkIDnl02Cl+xdqFis7DwtH0C
+ 6IB/9PAV5Lb+t2AwwAW7tOU7FGx/OKZgXBfpZ1qb25rUYPdbpHd02vtOkwW8zY8TZo2U
+ s67IcHBfKH0g0AaBJeZqusfAgVNG2SZNCofDh9vcY0AZaPI7zFgs39kQ2PUYSI0fWKV8
+ equ88VjWt99t/E7yFOuE92hTCZ7hltzT/5hMCXxdrdzYBAs7NSG0++OiTFyMQIvVkP5e
+ j0ly57tCwOs9P0L40sFtUwkg+BAJ80jnKrsDlUI8NqCNH++G6QNMF+kiBG8SDG1yYN6h
+ u4Gg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=CT3wh8Y3xSMP1+ExU06YY5pwEwL732fslH3YW3xC8eU=;
- b=qIzIF6aXjQp+ogMg3dEkcm/SbrBpfQrkXR6AcVwjO+ZnjSDOUG8PPEX+NMr7JLW999
- J4nfPGBXZyrY+dNx5WYcqnm8chewct7x+zdauZEue3xflKjN1QMKVH6lUM7aRZsN8Xve
- XfhzAkkGzA6tw0a8EB0vHhkZSQ523woDW0o9ReYiT3u5BsVLLyV20sbN5HNv3aDN8tQb
- POOqZVdJ+EcK5ZZZoszLdtXgl5aFKWAcV/bIWydV/khoGTSncDMghCyVTGH+wxANiPPC
- 42mpfwIKuF/pRa2d3wQ5k3wP3ViJkFp0gi0yMPCDRAydnuprmlcT2nwmRiQZFG1z+BPU
- Ks/A==
-X-Gm-Message-State: APjAAAX7JC1tlJXmXuYlXc4XpmjBW0jAQ3agOVGC+5azr5PjCfgWuOyY
- ih4HnPmaX41ftoj2wWomCqTkaw==
-X-Google-Smtp-Source: APXvYqwVVcwlRiOZLDVjAv46s1mtHJTIaEeKzDeNxVGoIUhG/2LKpMUXkgrleRxrnoOQU7DEHbj7Yg==
-X-Received: by 2002:adf:eb8e:: with SMTP id t14mr4990412wrn.384.1580384326739; 
- Thu, 30 Jan 2020 03:38:46 -0800 (PST)
+ bh=/MBe1mn2zd5kU6RFA9wgs7vxr6r85wMgGco2Q4w0dfQ=;
+ b=MtGIwf4g5OypXGGUODkDqFAA7Ms6D/Tw9sMXeLQXClyhJI8gRvRFgmu4NSDHPTY3b2
+ QJn59+la1pXQOPPA5zfAHWmFDiAtS5MQuzW5UJCChU3s7N2MVifmctkonhhZPn8JZeFN
+ sxeDhLALbPXAWNsqxvMuiw7uUb4Nln9cMqqmcCvkvnzyk+wf7w7ZnLoilwS7UdSDk5tA
+ V+RYUQezxNqW4dmXSij/3oA/H5jeg5rF/38kIB7ks5D94Mhz3WScF+Rn67vQPWD8FBqz
+ jMKq3JJgFqwsHb9QFERxDLa0cqMKfxsEvOGx4M8r7o05IbNLkvtprMWgFXcp8DW3R+Lj
+ hgnA==
+X-Gm-Message-State: APjAAAWv86eOpgnK4IQF6vfJML8HYiwLvrSuquU06LlpNxoX4e9Lmix2
+ XaYDFF0PNajXqWZFOgjxWCOt0Q==
+X-Google-Smtp-Source: APXvYqw0DYJAxAP4yeYmQTlcrGk6C69oSn7pYpoP+21IkKdibPuhcmV4aqOrFesZtry+Z38mnvq9WQ==
+X-Received: by 2002:adf:e9d2:: with SMTP id l18mr5046674wrn.344.1580384330867; 
+ Thu, 30 Jan 2020 03:38:50 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id f127sm6075202wma.4.2020.01.30.03.38.43
+ by smtp.gmail.com with ESMTPSA id q130sm6076642wme.19.2020.01.30.03.38.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Jan 2020 03:38:43 -0800 (PST)
+ Thu, 30 Jan 2020 03:38:49 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 9EF711FF92;
+ by zen.linaroharston (Postfix) with ESMTP id B3A041FF93;
  Thu, 30 Jan 2020 11:32:23 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v2 05/12] .shippable: --disable-docs for cross-compile tests
-Date: Thu, 30 Jan 2020 11:32:16 +0000
-Message-Id: <20200130113223.31046-6-alex.bennee@linaro.org>
+Subject: [PATCH v2 06/12] hw/hppa/Kconfig: LASI chipset requires PARALLEL port
+Date: Thu, 30 Jan 2020 11:32:17 +0000
+Message-Id: <20200130113223.31046-7-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200130113223.31046-1-alex.bennee@linaro.org>
 References: <20200130113223.31046-1-alex.bennee@linaro.org>
@@ -69,7 +69,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42f
+X-Received-From: 2a00:1450:4864:20::436
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,33 +82,45 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: fam@euphon.net, berrange@redhat.com, stefanb@linux.vnet.ibm.com,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- richard.henderson@linaro.org, f4bug@amsat.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>, cota@braap.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Helge Deller <deller@gmx.de>, richard.henderson@linaro.org, f4bug@amsat.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, cota@braap.org,
  stefanha@redhat.com, marcandre.lureau@redhat.com, pbonzini@redhat.com,
- aurelien@aurel32.net
+ aurelien@aurel32.net, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The sphinx support is fairly new and we don't seem to have all the
-bugs worked out for cross development environments right now.
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
+The PARISC Lasi chipset emulation requires some of the common parallel
+support and fails to build on a --without-default-devices:
+
+    LINK    hppa-softmmu/qemu-system-hppa
+  /usr/bin/ld: hw/hppa/lasi.o: in function `lasi_init':
+  hw/hppa/lasi.c:324: undefined reference to `parallel_mm_init'
+  collect2: error: ld returned 1 exit status
+  make[1]: *** [Makefile:206: qemu-system-hppa] Error 1
+
+Fixes: 376b851909d
+Reported-by: Alex Bennée <alex.bennee@linaro.org>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Acked-by: Helge Deller <deller@gmx.de>
+Message-Id: <20200129192350.27143-1-philmd@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- .shippable.yml | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/hppa/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/.shippable.yml b/.shippable.yml
-index 83aae08bb4..2cce7b5689 100644
---- a/.shippable.yml
-+++ b/.shippable.yml
-@@ -37,5 +37,5 @@ build:
-     - unset CC
-     - mkdir build
-     - cd build
--    - ../configure ${QEMU_CONFIGURE_OPTS} --target-list=${TARGET_LIST}
-+    - ../configure --disable-docs ${QEMU_CONFIGURE_OPTS} --target-list=${TARGET_LIST}
-     - make -j$(($(getconf _NPROCESSORS_ONLN) + 1))
+diff --git a/hw/hppa/Kconfig b/hw/hppa/Kconfig
+index 82178c7dcb..22948db025 100644
+--- a/hw/hppa/Kconfig
++++ b/hw/hppa/Kconfig
+@@ -12,4 +12,5 @@ config DINO
+     select LSI_SCSI_PCI
+     select LASI_82596
+     select LASIPS2
++    select PARALLEL
+     select ARTIST
 -- 
 2.20.1
 
