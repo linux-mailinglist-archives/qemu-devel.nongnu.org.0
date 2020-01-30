@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F3B914DA97
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jan 2020 13:27:29 +0100 (CET)
-Received: from localhost ([::1]:59862 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 332E614DAA1
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jan 2020 13:33:53 +0100 (CET)
+Received: from localhost ([::1]:59906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ix8uu-0002qv-Mi
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 07:27:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51729)
+	id 1ix916-0004wa-1V
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 07:33:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53722)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <cohuck@redhat.com>) id 1ix8uD-0002SI-19
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 07:26:45 -0500
+ (envelope-from <cohuck@redhat.com>) id 1ix906-00043y-6F
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 07:32:52 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cohuck@redhat.com>) id 1ix8uC-0004qg-39
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 07:26:44 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:27848
+ (envelope-from <cohuck@redhat.com>) id 1ix902-0002TO-OU
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 07:32:49 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:25683
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1ix8uB-0004qL-WB
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 07:26:44 -0500
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1ix902-0002T3-Kl
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 07:32:46 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580387203;
+ s=mimecast20190719; t=1580387566;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=70RqZy7s9xLDgNk2ERx301qO0PYw1je6OlxbarV9Uwo=;
- b=Qv7QOjDQDX4153d+wf2vBwfQYlTJj3waj97C0SV/Y3OninGvDtbvBMArHu0X5WkwTuieKq
- k+Zk6CYFj1YVUbH33nNcjYbl4S4nUJl9xdQahBtxp99tzPqUEVw/ONXc0c1uSMCM/J1cuf
- v/p9XKG1TE3l1uW3htI9Pxu6Dqw69M8=
+ bh=VkiuKTZaOx89iTbz+jb3MVZc+M11BjA9rgss98dvDlc=;
+ b=g0rczBZ8TDafd2g8sPB2Z+eWxvwXaU6pILrsKZ0GufR5gbmZtz67iHv4GvYsMgbRVBB0p1
+ dmSVDfXpapXfTA2T6PD1MtnwSAyymiu4czpY641pFb6qPF6GTN3r3boErRdEufENWaEhB6
+ M7eu0aHeifuJwaoQqnsgZlWo8d07mHo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-268-esMCWEs2NCCZlP_7t5GiHw-1; Thu, 30 Jan 2020 07:26:39 -0500
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-360-Fmlv2CN6NI-3uHxavaFaRQ-1; Thu, 30 Jan 2020 07:32:43 -0500
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D497E18FE862;
- Thu, 30 Jan 2020 12:26:38 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8E7F9108838E;
+ Thu, 30 Jan 2020 12:32:42 +0000 (UTC)
 Received: from gondolin (ovpn-117-199.ams2.redhat.com [10.36.117.199])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0F3905C1B2;
- Thu, 30 Jan 2020 12:26:27 +0000 (UTC)
-Date: Thu, 30 Jan 2020 13:26:25 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8918B863D6;
+ Thu, 30 Jan 2020 12:32:35 +0000 (UTC)
+Date: Thu, 30 Jan 2020 13:32:33 +0100
 From: Cornelia Huck <cohuck@redhat.com>
 To: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
-Subject: Re: [PATCH v2 04/29] tests/acceptance: Use 'version-min' tag to
- verify QEMU binary version
-Message-ID: <20200130132625.533fb4ca.cohuck@redhat.com>
-In-Reply-To: <20200129212345.20547-5-philmd@redhat.com>
+Subject: Re: [PATCH v2 15/29] tests: rename virtio_seg_max_adjust to
+ virtio_check_params
+Message-ID: <20200130133233.05452052.cohuck@redhat.com>
+In-Reply-To: <20200129212345.20547-16-philmd@redhat.com>
 References: <20200129212345.20547-1-philmd@redhat.com>
- <20200129212345.20547-5-philmd@redhat.com>
+ <20200129212345.20547-16-philmd@redhat.com>
 Organization: Red Hat GmbH
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: esMCWEs2NCCZlP_7t5GiHw-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: Fmlv2CN6NI-3uHxavaFaRQ-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
@@ -80,30 +80,32 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 29 Jan 2020 22:23:20 +0100
+On Wed, 29 Jan 2020 22:23:31 +0100
 Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> wrote:
 
-> Introduce the 'version-min' tag.
-> Tests can set it to the minimum version of QEMU they require.
-> If QEMU is older, the tests will be cancelled (skipped):
+> From: Denis Plotnikov <dplotnikov@virtuozzo.com>
 >=20
->   $ python -m avocado --show=3Dapp run tests/acceptance/x86_cpu_model_ver=
-sions.py
->    (01/11) X86CPUModelAliases.test_4_0_alias_compatibility: CANCEL: Test =
-expects version '4.1' but QEMU binary is '3.1.1' (0.10 s)
->    (02/11) X86CPUModelAliases.test_4_1_alias: CANCEL: Test expects versio=
-n '4.1' but QEMU binary is '3.1.1' (0.10 s)
->    (03/11) X86CPUModelAliases.test_none_alias: CANCEL: Test expects versi=
-on '4.1' but QEMU binary is '3.1.1' (0.10 s)
->    ...
+> Since, virtio_seg_max_adjust checks not only seg_max, but also
+> virtqueue_size parameter, let's make the test more general and
+> add new parameters to be checked there in the future.
 >=20
+> Signed-off-by: Denis Plotnikov <dplotnikov@virtuozzo.com>
+> Message-Id: <20200129140702.5411-5-dplotnikov@virtuozzo.com>
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 > ---
->  tests/acceptance/avocado_qemu/__init__.py | 18 ++++++++++++++++++
->  1 file changed, 18 insertions(+)
+>  .../{virtio_seg_max_adjust.py =3D> virtio_check_params.py}          | 0
+>  1 file changed, 0 insertions(+), 0 deletions(-)
+>  rename tests/acceptance/{virtio_seg_max_adjust.py =3D> virtio_check_para=
+ms.py} (100%)
+>=20
+> diff --git a/tests/acceptance/virtio_seg_max_adjust.py b/tests/acceptance=
+/virtio_check_params.py
+> similarity index 100%
+> rename from tests/acceptance/virtio_seg_max_adjust.py
+> rename to tests/acceptance/virtio_check_params.py
 
-Hm... this might cause headaches if someone tries to backport tests on
-distro versions; but we probably won't be able to test for the feature
-in many cases anyway?
+Makes sense, especially if we want to add non-blk/scsi checks in there.
+
+Acked-by: Cornelia Huck <cohuck@redhat.com>
 
 
