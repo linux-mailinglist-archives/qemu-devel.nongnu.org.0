@@ -2,60 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E5B914E61E
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 00:29:05 +0100 (CET)
-Received: from localhost ([::1]:40960 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFBB014E5D5
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 00:03:01 +0100 (CET)
+Received: from localhost ([::1]:40606 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ixJFA-0004Te-0c
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 18:29:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40481)
+	id 1ixIpw-0008S5-HR
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 18:03:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33656)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1ixHwS-00019b-GW
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 17:05:41 -0500
+ (envelope-from <no-reply@patchew.org>) id 1ixIor-000808-2X
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 18:01:54 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1ixHwR-00046v-1Y
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 17:05:40 -0500
-Received: from indium.canonical.com ([91.189.90.7]:35572)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1ixHwQ-00045S-ST
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 17:05:38 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1ixHwP-0006rE-F9
- for <qemu-devel@nongnu.org>; Thu, 30 Jan 2020 22:05:37 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 6AE622E80C0
- for <qemu-devel@nongnu.org>; Thu, 30 Jan 2020 22:05:37 +0000 (UTC)
+ (envelope-from <no-reply@patchew.org>) id 1ixIop-0006Fj-Cp
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 18:01:52 -0500
+Resent-Date: Thu, 30 Jan 2020 18:01:52 -0500
+Resent-Message-Id: <E1ixIop-0006Fj-Cp@eggs.gnu.org>
+Received: from sender4-of-o51.zoho.com ([136.143.188.51]:21162)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1ixIop-0006Eo-55; Thu, 30 Jan 2020 18:01:51 -0500
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1580425296151821.8129367430024;
+ Thu, 30 Jan 2020 15:01:36 -0800 (PST)
+In-Reply-To: <20200130213907.2830642-1-danielhb413@gmail.com>
+Subject: Re: [PATCH v9 0/4] delete created files when
+ block_crypto_co_create_opts_luks fails
+Message-ID: <158042529491.12871.13608440111125476825@a1bbccc8075a>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 30 Jan 2020 21:59:21 -0000
-From: Noah Bergbauer <noah.bergbauer@tum.de>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: noah-bergbauer
-X-Launchpad-Bug-Reporter: Noah Bergbauer (noah-bergbauer)
-X-Launchpad-Bug-Modifier: Noah Bergbauer (noah-bergbauer)
-Message-Id: <158042156192.19296.13362308580628501069.malonedeb@gac.canonical.com>
-Subject: [Bug 1861458] [NEW] Clock drift issue with -soundhw hda
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="0a62c17273454a1313f81a74a2198ec30b44c7b6";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: b77550c681cfc6d388ecf16cda8ce5f67b8f5446
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: danielhb413@gmail.com
+Date: Thu, 30 Jan 2020 15:01:36 -0800 (PST)
+X-ZohoMailClient: External
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-X-Mailman-Approved-At: Thu, 30 Jan 2020 18:27:55 -0500
+ [fuzzy]
+X-Received-From: 136.143.188.51
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -64,95 +51,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1861458 <1861458@bugs.launchpad.net>
+Reply-To: qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, danielhb413@gmail.com, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
-
-Here's the scenario: I'm working on code for loopback audio recording
-(i.e. recording what you're hearing) using WASAPI on Windows. As I
-usually develop on Linux, I'm using qemu to test this on a Windows 10
-VM. The heart of WASAPI audio recording is the
-IAudioCaptureClient::GetBuffer function (https://docs.microsoft.com/en-
-us/windows/win32/api/audioclient/nf-audioclient-iaudiocaptureclient-
-getbuffer). Among other things, this function produces a timestamp for
-when the audio buffer it returned is supposed to be played.
-
-When the audio device in question is the qemu hda device, this timestamp
-is wrong.
-
-There is a clock drift error (I measured it to be about 0.1%, i.e. 1ms
-drift every second =3D a full second after 16 minutes) that causes the
-audio clock to advance faster than the system clock. Paradoxically, this
-does not affect audio playback through qemu at all, no delay there. Only
-the timestamps returned to recording applications are completely bogus.
-
-Unfortunately I'm not intimately familiar with the inner workings of
-Intel HD Audio. All I can tell you is that this timestamp is supposedly
-obtained directly from the hardware (which would be qemu in this case),
-which is also why e.g. chromium implements a workaround for buggy
-hardware that returns incorrect timestamps.
-
-Here are the relevant parts of my command line (version 4.2.0):
--enable-kvm -machine pc-q35-3.1,kernel-irqchip=3Don -cpu host,kvm=3Doff,hv_=
-time,hv_relaxed,hv_vapic,hv_spinlocks=3D0x1fff,hv_vendor_id=3DNvidiaFuckU -=
-rtc base=3Dlocaltime -nodefaults -soundhw hda
-
-Just wanted to let you know about this because it took me three days of
-utter confusion and frustration to figure this out.
-
-** Affects: qemu
-     Importance: Undecided
-         Status: New
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1861458
-
-Title:
-  Clock drift issue with -soundhw hda
-
-Status in QEMU:
-  New
-
-Bug description:
-  Here's the scenario: I'm working on code for loopback audio recording
-  (i.e. recording what you're hearing) using WASAPI on Windows. As I
-  usually develop on Linux, I'm using qemu to test this on a Windows 10
-  VM. The heart of WASAPI audio recording is the
-  IAudioCaptureClient::GetBuffer function (https://docs.microsoft.com
-  /en-us/windows/win32/api/audioclient/nf-audioclient-
-  iaudiocaptureclient-getbuffer). Among other things, this function
-  produces a timestamp for when the audio buffer it returned is supposed
-  to be played.
-
-  When the audio device in question is the qemu hda device, this
-  timestamp is wrong.
-
-  There is a clock drift error (I measured it to be about 0.1%, i.e. 1ms
-  drift every second =3D a full second after 16 minutes) that causes the
-  audio clock to advance faster than the system clock. Paradoxically,
-  this does not affect audio playback through qemu at all, no delay
-  there. Only the timestamps returned to recording applications are
-  completely bogus.
-
-  Unfortunately I'm not intimately familiar with the inner workings of
-  Intel HD Audio. All I can tell you is that this timestamp is
-  supposedly obtained directly from the hardware (which would be qemu in
-  this case), which is also why e.g. chromium implements a workaround
-  for buggy hardware that returns incorrect timestamps.
-
-  Here are the relevant parts of my command line (version 4.2.0):
-  -enable-kvm -machine pc-q35-3.1,kernel-irqchip=3Don -cpu host,kvm=3Doff,h=
-v_time,hv_relaxed,hv_vapic,hv_spinlocks=3D0x1fff,hv_vendor_id=3DNvidiaFuckU=
- -rtc base=3Dlocaltime -nodefaults -soundhw hda
-
-  Just wanted to let you know about this because it took me three days
-  of utter confusion and frustration to figure this out.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1861458/+subscriptions
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDEzMDIxMzkwNy4yODMw
+NjQyLTEtZGFuaWVsaGI0MTNAZ21haWwuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIGZhaWxlZCB0
+aGUgZG9ja2VyLXF1aWNrQGNlbnRvczcgYnVpbGQgdGVzdC4gUGxlYXNlIGZpbmQgdGhlIHRlc3Rp
+bmcgY29tbWFuZHMgYW5kCnRoZWlyIG91dHB1dCBiZWxvdy4gSWYgeW91IGhhdmUgRG9ja2VyIGlu
+c3RhbGxlZCwgeW91IGNhbiBwcm9iYWJseSByZXByb2R1Y2UgaXQKbG9jYWxseS4KCj09PSBURVNU
+IFNDUklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKbWFrZSBkb2NrZXItaW1hZ2UtY2VudG9zNyBW
+PTEgTkVUV09SSz0xCnRpbWUgbWFrZSBkb2NrZXItdGVzdC1xdWlja0BjZW50b3M3IFNIT1dfRU5W
+PTEgSj0xNCBORVRXT1JLPTEKPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KCnFlbXUtc3lzdGVtLXg4
+Nl82NDogLWFjY2VsIGt2bTogZmFpbGVkIHRvIGluaXRpYWxpemUga3ZtOiBObyBzdWNoIGZpbGUg
+b3IgZGlyZWN0b3J5CnFlbXUtc3lzdGVtLXg4Nl82NDogZmFsbGluZyBiYWNrIHRvIHRjZwoqKgpF
+UlJPUjovdG1wL3FlbXUtdGVzdC9zcmMvdGVzdHMvcXRlc3QvbWlncmF0aW9uLWhlbHBlcnMuYzox
+MTk6Y2hlY2tfbWlncmF0aW9uX3N0YXR1czogYXNzZXJ0aW9uIGZhaWxlZCAoY3VycmVudF9zdGF0
+dXMgIT0gImNvbXBsZXRlZCIpOiAoImNvbXBsZXRlZCIgIT0gImNvbXBsZXRlZCIpCkVSUk9SIC0g
+QmFpbCBvdXQhIEVSUk9SOi90bXAvcWVtdS10ZXN0L3NyYy90ZXN0cy9xdGVzdC9taWdyYXRpb24t
+aGVscGVycy5jOjExOTpjaGVja19taWdyYXRpb25fc3RhdHVzOiBhc3NlcnRpb24gZmFpbGVkIChj
+dXJyZW50X3N0YXR1cyAhPSAiY29tcGxldGVkIik6ICgiY29tcGxldGVkIiAhPSAiY29tcGxldGVk
+IikKbWFrZTogKioqIFtjaGVjay1xdGVzdC14ODZfNjRdIEVycm9yIDEKbWFrZTogKioqIFdhaXRp
+bmcgZm9yIHVuZmluaXNoZWQgam9icy4uLi4KICBURVNUICAgIGlvdGVzdC1xY293MjogMTg0CiAg
+VEVTVCAgICBpb3Rlc3QtcWNvdzI6IDE4NgotLS0KICAgIHJhaXNlIENhbGxlZFByb2Nlc3NFcnJv
+cihyZXRjb2RlLCBjbWQpCnN1YnByb2Nlc3MuQ2FsbGVkUHJvY2Vzc0Vycm9yOiBDb21tYW5kICdb
+J3N1ZG8nLCAnLW4nLCAnZG9ja2VyJywgJ3J1bicsICctLWxhYmVsJywgJ2NvbS5xZW11Lmluc3Rh
+bmNlLnV1aWQ9MGNhY2E5NzhiY2RkNGY2MWI1ODRlN2ZlMmQ5NTA1MGUnLCAnLXUnLCAnMTAwMScs
+ICctLXNlY3VyaXR5LW9wdCcsICdzZWNjb21wPXVuY29uZmluZWQnLCAnLS1ybScsICctZScsICdU
+QVJHRVRfTElTVD0nLCAnLWUnLCAnRVhUUkFfQ09ORklHVVJFX09QVFM9JywgJy1lJywgJ1Y9Jywg
+Jy1lJywgJ0o9MTQnLCAnLWUnLCAnREVCVUc9JywgJy1lJywgJ1NIT1dfRU5WPTEnLCAnLWUnLCAn
+Q0NBQ0hFX0RJUj0vdmFyL3RtcC9jY2FjaGUnLCAnLXYnLCAnL2hvbWUvcGF0Y2hldy8uY2FjaGUv
+cWVtdS1kb2NrZXItY2NhY2hlOi92YXIvdG1wL2NjYWNoZTp6JywgJy12JywgJy92YXIvdG1wL3Bh
+dGNoZXctdGVzdGVyLXRtcC1nXzhkYjQzZS9zcmMvZG9ja2VyLXNyYy4yMDIwLTAxLTMwLTE3LjUw
+LjMxLjM1ODU6L3Zhci90bXAvcWVtdTp6LHJvJywgJ3FlbXU6Y2VudG9zNycsICcvdmFyL3RtcC9x
+ZW11L3J1bicsICd0ZXN0LXF1aWNrJ10nIHJldHVybmVkIG5vbi16ZXJvIGV4aXQgc3RhdHVzIDIu
+CmZpbHRlcj0tLWZpbHRlcj1sYWJlbD1jb20ucWVtdS5pbnN0YW5jZS51dWlkPTBjYWNhOTc4YmNk
+ZDRmNjFiNTg0ZTdmZTJkOTUwNTBlCm1ha2VbMV06ICoqKiBbZG9ja2VyLXJ1bl0gRXJyb3IgMQpt
+YWtlWzFdOiBMZWF2aW5nIGRpcmVjdG9yeSBgL3Zhci90bXAvcGF0Y2hldy10ZXN0ZXItdG1wLWdf
+OGRiNDNlL3NyYycKbWFrZTogKioqIFtkb2NrZXItcnVuLXRlc3QtcXVpY2tAY2VudG9zN10gRXJy
+b3IgMgoKcmVhbCAgICAxMW00LjYwNHMKdXNlciAgICAwbTkuNTA3cwoKClRoZSBmdWxsIGxvZyBp
+cyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAyMDAxMzAyMTM5MDcuMjgz
+MDY0Mi0xLWRhbmllbGhiNDEzQGdtYWlsLmNvbS90ZXN0aW5nLmRvY2tlci1xdWlja0BjZW50b3M3
+Lz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRj
+aGV3IFtodHRwczovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8g
+cGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
 
