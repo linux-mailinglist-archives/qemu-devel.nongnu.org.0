@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B52514E4EC
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jan 2020 22:39:39 +0100 (CET)
-Received: from localhost ([::1]:39454 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C27414E509
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jan 2020 22:45:58 +0100 (CET)
+Received: from localhost ([::1]:39614 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ixHXG-0002nq-E0
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 16:39:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56715)
+	id 1ixHdN-0004tF-A9
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 16:45:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56795)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@redhat.com>) id 1ixHQr-0000WJ-7B
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 16:33:02 -0500
+ (envelope-from <stefanha@redhat.com>) id 1ixHR5-0000e1-DF
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 16:33:17 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1ixHQp-00074w-4B
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 16:33:01 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:57485
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <stefanha@redhat.com>) id 1ixHQz-0007IA-Sl
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 16:33:11 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:58223
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1ixHQo-00073y-W3
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 16:32:59 -0500
+ (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1ixHQw-0007GF-Sq
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 16:33:06 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580419978;
+ s=mimecast20190719; t=1580419985;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=SMMIrVJy0uwR8Uuxe8xOKWdDD+Tu4OY0UK1A96PYN3Q=;
- b=i2NKrCczm+lt7g5OJAyd8ErJT6FNqKW8li13efLdW6UIrtABaZZpc8LYUFKddyuAjZQpJ1
- fDoivzbT3Pmf1Rj0PNIxL/IzCshOqbZPfA/oBkCBrGf1WkXb0POPAeFcc3gmCvVgMBXWrT
- aU10QncsTrHO63tkjzInQ1x3ig46k80=
+ bh=/HGmUHjCPxCFbKBVxQL3WgeKYD6TdAhjbnQqC/l5sfA=;
+ b=elL0X1YbNcjpmcsuwiKGI33lNc0zrWBC2YqD84NxXk7gP+4Y5gAv/Hl18eTILU1JNe/p0o
+ uyulF1TlNoBc0w3wim/jJH2/mQe43G3YS9v4kvJhhBEf1JLimbFIqGcsHU9ZVaaEhO9k7Z
+ vyPBNBTxcNkS1GkqfJDJm7dckDrCilw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-411-sefOwBRhMV-vBy981I0THg-1; Thu, 30 Jan 2020 16:32:56 -0500
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-438-vGnvEmcJP1Wnz7GY_Ps10g-1; Thu, 30 Jan 2020 16:33:03 -0500
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1B33C800D41;
- Thu, 30 Jan 2020 21:32:55 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 498E2100550E;
+ Thu, 30 Jan 2020 21:33:02 +0000 (UTC)
 Received: from localhost (unknown [10.36.118.87])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C131087B2C;
- Thu, 30 Jan 2020 21:32:49 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 85B6460BE0;
+ Thu, 30 Jan 2020 21:32:56 +0000 (UTC)
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 16/18] qemu-nbd: adds option for aio engines
-Date: Thu, 30 Jan 2020 21:31:12 +0000
-Message-Id: <20200130213114.325157-17-stefanha@redhat.com>
+Subject: [PULL 17/18] tests/qemu-iotests: enable testing with aio options
+Date: Thu, 30 Jan 2020 21:31:13 +0000
+Message-Id: <20200130213114.325157-18-stefanha@redhat.com>
 In-Reply-To: <20200130213114.325157-1-stefanha@redhat.com>
 References: <20200130213114.325157-1-stefanha@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: sefOwBRhMV-vBy981I0THg-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: vGnvEmcJP1Wnz7GY_Ps10g-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,63 +82,158 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: Aarushi Mehta <mehta.aaru20@gmail.com>
 
 Signed-off-by: Aarushi Mehta <mehta.aaru20@gmail.com>
-Acked-by: Eric Blake <eblake@redhat.com>
 Acked-by: Stefano Garzarella <sgarzare@redhat.com>
 Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-Message-id: 20200120141858.587874-14-stefanha@redhat.com
-Message-Id: <20200120141858.587874-14-stefanha@redhat.com>
+Message-id: 20200120141858.587874-15-stefanha@redhat.com
+Message-Id: <20200120141858.587874-15-stefanha@redhat.com>
 Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- docs/interop/qemu-nbd.rst |  4 ++--
- qemu-nbd.c                | 12 ++++--------
- 2 files changed, 6 insertions(+), 10 deletions(-)
+ tests/qemu-iotests/check      | 15 ++++++++++++++-
+ tests/qemu-iotests/common.rc  | 14 ++++++++++++++
+ tests/qemu-iotests/iotests.py | 12 ++++++++++--
+ 3 files changed, 38 insertions(+), 3 deletions(-)
 
-diff --git a/docs/interop/qemu-nbd.rst b/docs/interop/qemu-nbd.rst
-index 873bb9e17d..df7b6b9d0d 100644
---- a/docs/interop/qemu-nbd.rst
-+++ b/docs/interop/qemu-nbd.rst
-@@ -108,8 +108,8 @@ driver options if ``--image-opts`` is specified.
+diff --git a/tests/qemu-iotests/check b/tests/qemu-iotests/check
+index 2890785a10..39ed5bc1be 100755
+--- a/tests/qemu-iotests/check
++++ b/tests/qemu-iotests/check
+@@ -137,6 +137,7 @@ sortme=3Dfalse
+ expunge=3Dtrue
+ have_test_arg=3Dfalse
+ cachemode=3Dfalse
++aiomode=3Dfalse
 =20
- .. option:: --aio=3DAIO
+ tmp=3D"${TEST_DIR}"/$$
+ rm -f $tmp.list $tmp.tmp $tmp.sed
+@@ -146,6 +147,7 @@ export IMGFMT_GENERIC=3Dtrue
+ export IMGPROTO=3Dfile
+ export IMGOPTS=3D""
+ export CACHEMODE=3D"writeback"
++export AIOMODE=3D"threads"
+ export QEMU_IO_OPTIONS=3D""
+ export QEMU_IO_OPTIONS_NO_FMT=3D""
+ export CACHEMODE_IS_DEFAULT=3Dtrue
+@@ -230,6 +232,11 @@ s/ .*//p
+         CACHEMODE_IS_DEFAULT=3Dfalse
+         cachemode=3Dfalse
+         continue
++    elif $aiomode
++    then
++        AIOMODE=3D"$r"
++        aiomode=3Dfalse
++        continue
+     fi
 =20
--  Set the asynchronous I/O mode between ``threads`` (the default)
--  and ``native`` (Linux only).
-+  Set the asynchronous I/O mode between ``threads`` (the default),
-+  ``native`` (Linux only), and ``io_uring`` (Linux 5.1+).
+     xpand=3Dtrue
+@@ -274,6 +281,7 @@ other options
+     -n                  show me, do not run tests
+     -o options          -o options to pass to qemu-img create/convert
+     -c mode             cache mode
++    -i mode             AIO mode
+     -makecheck          pretty print output for make check
 =20
- .. option:: --discard=3DDISCARD
+ testlist options
+@@ -438,10 +446,13 @@ testlist options
+             cachemode=3Dtrue
+             xpand=3Dfalse
+             ;;
++        -i)
++            aiomode=3Dtrue
++            xpand=3Dfalse
++            ;;
+         -T)        # deprecated timestamp option
+             xpand=3Dfalse
+             ;;
+-
+         -v)
+             verbose=3Dtrue
+             xpand=3Dfalse
+@@ -520,6 +531,8 @@ done
 =20
-diff --git a/qemu-nbd.c b/qemu-nbd.c
-index 108a51f7eb..db29a0d0ed 100644
---- a/qemu-nbd.c
-+++ b/qemu-nbd.c
-@@ -135,7 +135,7 @@ static void usage(const char *name)
- "                            '[ID_OR_NAME]'\n"
- "  -n, --nocache             disable host cache\n"
- "      --cache=3DMODE          set cache mode (none, writeback, ...)\n"
--"      --aio=3DMODE            set AIO mode (native or threads)\n"
-+"      --aio=3DMODE            set AIO mode (native, io_uring or threads)\=
-n"
- "      --discard=3DMODE        set discard mode (ignore, unmap)\n"
- "      --detect-zeroes=3DMODE  set detect-zeroes mode (off, on, unmap)\n"
- "      --image-opts          treat FILE as a full set of image options\n"
-@@ -726,13 +726,9 @@ int main(int argc, char **argv)
-                 exit(EXIT_FAILURE);
-             }
-             seen_aio =3D true;
--            if (!strcmp(optarg, "native")) {
--                flags |=3D BDRV_O_NATIVE_AIO;
--            } else if (!strcmp(optarg, "threads")) {
--                /* this is the default */
--            } else {
--               error_report("invalid aio mode `%s'", optarg);
--               exit(EXIT_FAILURE);
-+            if (bdrv_parse_aio(optarg, &flags) < 0) {
-+                error_report("Invalid aio mode '%s'", optarg);
-+                exit(EXIT_FAILURE);
-             }
-             break;
-         case QEMU_NBD_OPT_DISCARD:
+ # Set qemu-io cache mode with $CACHEMODE we have
+ QEMU_IO_OPTIONS=3D"$QEMU_IO_OPTIONS --cache $CACHEMODE"
++# Set qemu-io aio mode with $AIOMODE we have
++QEMU_IO_OPTIONS=3D"$QEMU_IO_OPTIONS --aio $AIOMODE"
+=20
+ QEMU_IO_OPTIONS_NO_FMT=3D"$QEMU_IO_OPTIONS"
+ if [ "$IMGOPTSSYNTAX" !=3D "true" ]; then
+diff --git a/tests/qemu-iotests/common.rc b/tests/qemu-iotests/common.rc
+index d088392ab6..9ccde32634 100644
+--- a/tests/qemu-iotests/common.rc
++++ b/tests/qemu-iotests/common.rc
+@@ -645,6 +645,20 @@ _default_cache_mode()
+         return
+     fi
+ }
++_supported_aio_modes()
++{
++    for mode; do
++        if [ "$mode" =3D "$AIOMODE" ]; then
++            return
++        fi
++    done
++    _notrun "not suitable for aio mode: $AIOMODE"
++}
++_default_aio_mode()
++{
++    AIOMODE=3D"$1"
++    QEMU_IO=3D"$QEMU_IO --aio $1"
++}
+=20
+ _unsupported_imgopts()
+ {
+diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
+index 0b62c42851..89aa2df2f3 100644
+--- a/tests/qemu-iotests/iotests.py
++++ b/tests/qemu-iotests/iotests.py
+@@ -65,6 +65,7 @@ test_dir =3D os.environ.get('TEST_DIR')
+ sock_dir =3D os.environ.get('SOCK_DIR')
+ output_dir =3D os.environ.get('OUTPUT_DIR', '.')
+ cachemode =3D os.environ.get('CACHEMODE')
++aiomode =3D os.environ.get('AIOMODE')
+ qemu_default_machine =3D os.environ.get('QEMU_DEFAULT_MACHINE')
+=20
+ socket_scm_helper =3D os.environ.get('SOCKET_SCM_HELPER', 'socket_scm_help=
+er')
+@@ -495,6 +496,7 @@ class VM(qtest.QEMUQtestMachine):
+             options.append('file=3D%s' % path)
+             options.append('format=3D%s' % format)
+             options.append('cache=3D%s' % cachemode)
++            options.append('aio=3D%s' % aiomode)
+=20
+         if opts:
+             options.append(opts)
+@@ -937,6 +939,10 @@ def verify_cache_mode(supported_cache_modes=3D[]):
+     if supported_cache_modes and (cachemode not in supported_cache_modes):
+         notrun('not suitable for this cache mode: %s' % cachemode)
+=20
++def verify_aio_mode(supported_aio_modes=3D[]):
++    if supported_aio_modes and (aiomode not in supported_aio_modes):
++        notrun('not suitable for this aio mode: %s' % aiomode)
++
+ def supports_quorum():
+     return 'quorum' in qemu_img_pipe('--help')
+=20
+@@ -1023,8 +1029,9 @@ def execute_unittest(output, verbosity, debug):
+=20
+ def execute_test(test_function=3DNone,
+                  supported_fmts=3D[], supported_oses=3D['linux'],
+-                 supported_cache_modes=3D[], unsupported_fmts=3D[],
+-                 supported_protocols=3D[], unsupported_protocols=3D[]):
++                 supported_cache_modes=3D[], supported_aio_modes=3D{},
++                 unsupported_fmts=3D[], supported_protocols=3D[],
++                 unsupported_protocols=3D[]):
+     """Run either unittest or script-style tests."""
+=20
+     # We are using TEST_DIR and QEMU_DEFAULT_MACHINE as proxies to
+@@ -1041,6 +1048,7 @@ def execute_test(test_function=3DNone,
+     verify_protocol(supported_protocols, unsupported_protocols)
+     verify_platform(supported_oses)
+     verify_cache_mode(supported_cache_modes)
++    verify_aio_mode(supported_aio_modes)
+=20
+     if debug:
+         output =3D sys.stdout
 --=20
 2.24.1
 
