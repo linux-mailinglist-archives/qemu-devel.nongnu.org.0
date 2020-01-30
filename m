@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7524614DEE5
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jan 2020 17:19:45 +0100 (CET)
-Received: from localhost ([::1]:35170 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E98D914DEE1
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jan 2020 17:19:30 +0100 (CET)
+Received: from localhost ([::1]:35146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ixCXg-0002TX-E9
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 11:19:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43007)
+	id 1ixCXR-0001v8-VA
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 11:19:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43022)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1ixCTn-0005EI-2q
+ (envelope-from <peter.maydell@linaro.org>) id 1ixCTn-0005Fn-OT
  for qemu-devel@nongnu.org; Thu, 30 Jan 2020 11:15:44 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1ixCTl-0002pW-Ms
+ (envelope-from <peter.maydell@linaro.org>) id 1ixCTm-0002qh-Or
  for qemu-devel@nongnu.org; Thu, 30 Jan 2020 11:15:43 -0500
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:37957)
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:41021)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1ixCTl-0002ow-G8
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 11:15:41 -0500
-Received: by mail-wr1-x434.google.com with SMTP id y17so4793650wrh.5
- for <qemu-devel@nongnu.org>; Thu, 30 Jan 2020 08:15:41 -0800 (PST)
+ id 1ixCTm-0002pv-J1
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 11:15:42 -0500
+Received: by mail-wr1-x433.google.com with SMTP id c9so4774130wrw.8
+ for <qemu-devel@nongnu.org>; Thu, 30 Jan 2020 08:15:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=Jci5UMvt1t2+jMJhQKLKRFtdxDN9HBP2iHqJUzBoJJw=;
- b=PrDR8JLhJ5f0lrn7X4mPAYDy/K3eyihcetzFcbrCJUj+vfRPY7sn6PkQU323Kuxul0
- Ui3GJ8k0987U3UBuLPnL7cz2XJVh9XxH7L+4nonfZ6dEgtxa3lBmCeGfXStjlQEE2uK9
- BFh/eAX9bDQ/KEDWAskozbvFpwOnyTcH0pIKQ1nb+7K4cd1Pcat9KfOroD3wmJ8/Cpcq
- +5bS7WZBXeXLPJHQZh0lTNJpI4Xy6pWWqbJGggscfPW6siaOMQgQ9Z6x0u49XV70XUcP
- 1UC9VuxPJcfYi9CUgTk/ibAke5ECzfHTMWLBFZJRm1Jrp+Pte4jaM3Ba+YeIQbgwHV1L
- 3dpg==
+ bh=z+ASr97qRHWdGDkuW0JTlLEKSAPzhK7Fyg2RWeqPj4E=;
+ b=UJ+jcONYjiFdetct/5mTdvSIUPUpfHoQ84c1AWZAal4xlRl5SiuhdwV4PnNXJMPiw2
+ qdqquTRFpEQOLWp4krtuWKM6fnBIHt4IJQM7ZofohbFC+IwV2bPdC47eY850F3yi4eDG
+ AXMmJOK7rwGC611zMlZQ46/AyNWiM7Cid/aK8pqYBi2s85N3Xv3sMCTQ9g0jlF2lHLY8
+ vYjko7XXXphg+ne8pVHcjOAG0rRplCgwZsOTwlLVDYa1F/QXzhNKQO6HLcLuCt7n1iY2
+ AYMUxyeny1g/ifOQC/HpoRkmxLOAXa6+mfylhSP68m82K1BL0gZ9t65ACoTx84vDmCT7
+ FWGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Jci5UMvt1t2+jMJhQKLKRFtdxDN9HBP2iHqJUzBoJJw=;
- b=a54MEzEsqL8VSVcCu6RRs4gOSiIBdZvFVWaNKOFRHB8KRMw1kfXxLnkkKdVLsGIokY
- xLJxT9DgM+2SNhRWzlEKs15zs5L/6KQ6cHGwi74j0QBrzuiMpxMNT2UMD01EbN/GEOpb
- ngpts3dx6iF7jY9dr3aBPOeGAcHXzfThAUvjhVJSiGF1DgvLHL4vfz1HzN0zOiu8BtRL
- 1OQRa0UezsGM9sdfRta2OrgG5ef7AYXUJcTV7BmOvRZTyi/kTcGGW3ivD1z0wFY0raKj
- 8HcEsr9fZQ1M/jjPznZLeuvZnNovo0fdRphUUROltRiRu472hQIwztIE3WBoUUnEI2rn
- IzxA==
-X-Gm-Message-State: APjAAAXqRjnLr57009Q8hUBPqbDxchVarBuojeYPP/5z2pWJT+mFLS9E
- OhEiyN3p1awAN8Iq6wYOv+T0Y593dBc7Ow==
-X-Google-Smtp-Source: APXvYqzxt4UD5TCyKZU8AKpmscgWjo3qJPvHCEbjfPh3VfMZNX9CitKZvIZTArMNoilXkr2Bw4RUmg==
-X-Received: by 2002:adf:cd04:: with SMTP id w4mr6799941wrm.219.1580400940280; 
- Thu, 30 Jan 2020 08:15:40 -0800 (PST)
+ bh=z+ASr97qRHWdGDkuW0JTlLEKSAPzhK7Fyg2RWeqPj4E=;
+ b=fcTETRVv33wTPfGdg0dylaYAvdKgFYNcqpOFsG5Har1leINhtQn3oUJqZs9aeRpItQ
+ PuDJh2vufOOKB5qcOi3YHXAs/Wt8ByCnowxMEk5QbKNtbSAh4bwp9ApPSMnmZtNcO5wX
+ Fz8uRQa8xdtsBiYz3J4FwzYzUMg2Iq3S0YoLwCjmspChnOpbS+AhKnx7nfgf+iP4+1FI
+ IF4GSZjO4N6JJoB/B87FA7RyTpiPia6abCS0cicMx3FgjoYPNoRIdpNB7PMxRy981fIg
+ YOEwxD6IYnsvnUDbvqCDSAdb7WHZm5qUd34Q/tNQ9/Vp2gWbe12Curn9pC4b201b36EW
+ Xv8w==
+X-Gm-Message-State: APjAAAWkMEr2gTDToMHRfOp7reSP9OKRJfLt9YDPL/qwxUrAaidancOv
+ duI4ry/q6iKegIJLKalB37lnK1v4OGYgew==
+X-Google-Smtp-Source: APXvYqx9d4NGVezLRdPDGBvrNTPvlTpcHuU1B14LaZPUBPp0OWur0Ueb7CIF7tNntnmgSKnjn/DeGg==
+X-Received: by 2002:adf:bc87:: with SMTP id g7mr6543503wrh.121.1580400941313; 
+ Thu, 30 Jan 2020 08:15:41 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id a22sm6994442wmd.20.2020.01.30.08.15.39
+ by smtp.gmail.com with ESMTPSA id a22sm6994442wmd.20.2020.01.30.08.15.40
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Jan 2020 08:15:39 -0800 (PST)
+ Thu, 30 Jan 2020 08:15:40 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 04/26] hw/arm: ast2600: Wire up the eMMC controller
-Date: Thu, 30 Jan 2020 16:15:11 +0000
-Message-Id: <20200130161533.8180-5-peter.maydell@linaro.org>
+Subject: [PULL 05/26] ftgmac100: check RX and TX buffer alignment
+Date: Thu, 30 Jan 2020 16:15:12 +0000
+Message-Id: <20200130161533.8180-6-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200130161533.8180-1-peter.maydell@linaro.org>
 References: <20200130161533.8180-1-peter.maydell@linaro.org>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::434
+X-Received-From: 2a00:1450:4864:20::433
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,167 +82,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Andrew Jeffery <andrew@aj.id.au>
+From: Cédric Le Goater <clg@kaod.org>
 
-Initialise another SDHCI model instance for the AST2600's eMMC
-controller and use the SDHCI's num_slots value introduced previously to
-determine whether we should create an SD card instance for the new slot.
+These buffers should be aligned on 16 bytes.
 
-Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Ignore invalid RX and TX buffer addresses and log an error. All
+incoming and outgoing traffic will be dropped because no valid RX or
+TX descriptors will be available.
+
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
-Message-id: 20200114103433.30534-3-clg@kaod.org
-[ clg : - removed ternary operator from sdhci_attach_drive()
-        - renamed SDHCI objects with a '-controller' prefix ]
-Signed-off-by: Cédric Le Goater <clg@kaod.org>
+Message-id: 20200114103433.30534-4-clg@kaod.org
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/hw/arm/aspeed_soc.h |  2 ++
- hw/arm/aspeed.c             | 26 +++++++++++++++++---------
- hw/arm/aspeed_ast2600.c     | 29 ++++++++++++++++++++++++++---
- 3 files changed, 45 insertions(+), 12 deletions(-)
+ hw/net/ftgmac100.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-diff --git a/include/hw/arm/aspeed_soc.h b/include/hw/arm/aspeed_soc.h
-index e84380984f7..90ac7f7ffa3 100644
---- a/include/hw/arm/aspeed_soc.h
-+++ b/include/hw/arm/aspeed_soc.h
-@@ -57,6 +57,7 @@ typedef struct AspeedSoCState {
-     AspeedGPIOState gpio;
-     AspeedGPIOState gpio_1_8v;
-     AspeedSDHCIState sdhci;
-+    AspeedSDHCIState emmc;
- } AspeedSoCState;
+diff --git a/hw/net/ftgmac100.c b/hw/net/ftgmac100.c
+index 4ad2594d3a6..2f92b65d4ef 100644
+--- a/hw/net/ftgmac100.c
++++ b/hw/net/ftgmac100.c
+@@ -198,6 +198,8 @@ typedef struct {
+     uint32_t        des3;
+ } FTGMAC100Desc;
  
- #define TYPE_ASPEED_SOC "aspeed-soc"
-@@ -126,6 +127,7 @@ enum {
-     ASPEED_MII4,
-     ASPEED_SDRAM,
-     ASPEED_XDMA,
-+    ASPEED_EMMC,
- };
- 
- #endif /* ASPEED_SOC_H */
-diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
-index 4174e313cae..8702256af1b 100644
---- a/hw/arm/aspeed.c
-+++ b/hw/arm/aspeed.c
-@@ -171,6 +171,19 @@ static void aspeed_board_init_flashes(AspeedSMCState *s, const char *flashtype,
-     }
- }
- 
-+static void sdhci_attach_drive(SDHCIState *sdhci, DriveInfo *dinfo)
-+{
-+        DeviceState *card;
++#define FTGMAC100_DESC_ALIGNMENT 16
 +
-+        card = qdev_create(qdev_get_child_bus(DEVICE(sdhci), "sd-bus"),
-+                           TYPE_SD_CARD);
-+        if (dinfo) {
-+            qdev_prop_set_drive(card, "drive", blk_by_legacy_dinfo(dinfo),
-+                                &error_fatal);
-+        }
-+        object_property_set_bool(OBJECT(card), true, "realized", &error_fatal);
-+}
-+
- static void aspeed_machine_init(MachineState *machine)
- {
-     AspeedBoardState *bmc;
-@@ -264,16 +277,11 @@ static void aspeed_machine_init(MachineState *machine)
-     }
- 
-     for (i = 0; i < bmc->soc.sdhci.num_slots; i++) {
--        SDHCIState *sdhci = &bmc->soc.sdhci.slots[i];
--        DriveInfo *dinfo = drive_get_next(IF_SD);
--        BlockBackend *blk;
--        DeviceState *card;
-+        sdhci_attach_drive(&bmc->soc.sdhci.slots[i], drive_get_next(IF_SD));
-+    }
- 
--        blk = dinfo ? blk_by_legacy_dinfo(dinfo) : NULL;
--        card = qdev_create(qdev_get_child_bus(DEVICE(sdhci), "sd-bus"),
--                           TYPE_SD_CARD);
--        qdev_prop_set_drive(card, "drive", blk, &error_fatal);
--        object_property_set_bool(OBJECT(card), true, "realized", &error_fatal);
-+    if (bmc->soc.emmc.num_slots) {
-+        sdhci_attach_drive(&bmc->soc.emmc.slots[0], drive_get_next(IF_SD));
-     }
- 
-     arm_load_kernel(ARM_CPU(first_cpu), machine, &aspeed_board_binfo);
-diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
-index fb73c4043ea..90cf1c755d3 100644
---- a/hw/arm/aspeed_ast2600.c
-+++ b/hw/arm/aspeed_ast2600.c
-@@ -46,6 +46,7 @@ static const hwaddr aspeed_soc_ast2600_memmap[] = {
-     [ASPEED_ADC]       = 0x1E6E9000,
-     [ASPEED_VIDEO]     = 0x1E700000,
-     [ASPEED_SDHCI]     = 0x1E740000,
-+    [ASPEED_EMMC]      = 0x1E750000,
-     [ASPEED_GPIO]      = 0x1E780000,
-     [ASPEED_GPIO_1_8V] = 0x1E780800,
-     [ASPEED_RTC]       = 0x1E781000,
-@@ -64,6 +65,7 @@ static const hwaddr aspeed_soc_ast2600_memmap[] = {
- 
- #define ASPEED_SOC_AST2600_MAX_IRQ 128
- 
-+/* Shared Peripheral Interrupt values below are offset by -32 from datasheet */
- static const int aspeed_soc_ast2600_irqmap[] = {
-     [ASPEED_UART1]     = 47,
-     [ASPEED_UART2]     = 48,
-@@ -77,6 +79,7 @@ static const int aspeed_soc_ast2600_irqmap[] = {
-     [ASPEED_ADC]       = 78,
-     [ASPEED_XDMA]      = 6,
-     [ASPEED_SDHCI]     = 43,
-+    [ASPEED_EMMC]      = 15,
-     [ASPEED_GPIO]      = 40,
-     [ASPEED_GPIO_1_8V] = 11,
-     [ASPEED_RTC]       = 13,
-@@ -196,16 +199,26 @@ static void aspeed_soc_ast2600_init(Object *obj)
-     sysbus_init_child_obj(obj, "gpio_1_8v", OBJECT(&s->gpio_1_8v),
-                           sizeof(s->gpio_1_8v), typename);
- 
--    sysbus_init_child_obj(obj, "sdc", OBJECT(&s->sdhci), sizeof(s->sdhci),
--                          TYPE_ASPEED_SDHCI);
-+    sysbus_init_child_obj(obj, "sd-controller", OBJECT(&s->sdhci),
-+                          sizeof(s->sdhci), TYPE_ASPEED_SDHCI);
- 
-     object_property_set_int(OBJECT(&s->sdhci), 2, "num-slots", &error_abort);
- 
-     /* Init sd card slot class here so that they're under the correct parent */
-     for (i = 0; i < ASPEED_SDHCI_NUM_SLOTS; ++i) {
--        sysbus_init_child_obj(obj, "sdhci[*]", OBJECT(&s->sdhci.slots[i]),
-+        sysbus_init_child_obj(obj, "sd-controller.sdhci[*]",
-+                              OBJECT(&s->sdhci.slots[i]),
-                               sizeof(s->sdhci.slots[i]), TYPE_SYSBUS_SDHCI);
-     }
-+
-+    sysbus_init_child_obj(obj, "emmc-controller", OBJECT(&s->emmc),
-+                          sizeof(s->emmc), TYPE_ASPEED_SDHCI);
-+
-+    object_property_set_int(OBJECT(&s->emmc), 1, "num-slots", &error_abort);
-+
-+    sysbus_init_child_obj(obj, "emmc-controller.sdhci",
-+                          OBJECT(&s->emmc.slots[0]), sizeof(s->emmc.slots[0]),
-+                          TYPE_SYSBUS_SDHCI);
- }
- 
  /*
-@@ -497,6 +510,16 @@ static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
-                     sc->memmap[ASPEED_SDHCI]);
-     sysbus_connect_irq(SYS_BUS_DEVICE(&s->sdhci), 0,
-                        aspeed_soc_get_irq(s, ASPEED_SDHCI));
+  * Specific RTL8211E MII Registers
+  */
+@@ -722,6 +724,12 @@ static void ftgmac100_write(void *opaque, hwaddr addr,
+         s->itc = value;
+         break;
+     case FTGMAC100_RXR_BADR: /* Ring buffer address */
++        if (!QEMU_IS_ALIGNED(value, FTGMAC100_DESC_ALIGNMENT)) {
++            qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad RX buffer alignment 0x%"
++                          HWADDR_PRIx "\n", __func__, value);
++            return;
++        }
 +
-+    /* eMMC */
-+    object_property_set_bool(OBJECT(&s->emmc), true, "realized", &err);
-+    if (err) {
-+        error_propagate(errp, err);
-+        return;
-+    }
-+    sysbus_mmio_map(SYS_BUS_DEVICE(&s->emmc), 0, sc->memmap[ASPEED_EMMC]);
-+    sysbus_connect_irq(SYS_BUS_DEVICE(&s->emmc), 0,
-+                       aspeed_soc_get_irq(s, ASPEED_EMMC));
- }
+         s->rx_ring = value;
+         s->rx_descriptor = s->rx_ring;
+         break;
+@@ -731,6 +739,11 @@ static void ftgmac100_write(void *opaque, hwaddr addr,
+         break;
  
- static void aspeed_soc_ast2600_class_init(ObjectClass *oc, void *data)
+     case FTGMAC100_NPTXR_BADR: /* Transmit buffer address */
++        if (!QEMU_IS_ALIGNED(value, FTGMAC100_DESC_ALIGNMENT)) {
++            qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad TX buffer alignment 0x%"
++                          HWADDR_PRIx "\n", __func__, value);
++            return;
++        }
+         s->tx_ring = value;
+         s->tx_descriptor = s->tx_ring;
+         break;
 -- 
 2.20.1
 
