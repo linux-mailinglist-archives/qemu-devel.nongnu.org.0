@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E163114DEE6
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jan 2020 17:20:13 +0100 (CET)
-Received: from localhost ([::1]:35214 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 262B514DF0E
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jan 2020 17:25:50 +0100 (CET)
+Received: from localhost ([::1]:35428 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ixCY8-0003HM-Q6
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 11:20:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43305)
+	id 1ixCdZ-0004WO-0s
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 11:25:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43324)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1ixCU9-0005nZ-Dx
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 11:16:06 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1ixCUA-0005nb-SY
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 11:16:07 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1ixCU8-0003Bf-0S
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 11:16:05 -0500
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:34167)
+ (envelope-from <peter.maydell@linaro.org>) id 1ixCU9-0003DL-1m
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 11:16:06 -0500
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:34857)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1ixCU7-000393-6p
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 11:16:03 -0500
-Received: by mail-wr1-x436.google.com with SMTP id t2so4820711wrr.1
+ id 1ixCU8-0003Al-2s
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 11:16:04 -0500
+Received: by mail-wr1-x42b.google.com with SMTP id g17so4828095wro.2
  for <qemu-devel@nongnu.org>; Thu, 30 Jan 2020 08:16:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=ERHeiWskVVmxjb2Ajc2jvjv2vBrDDeE9YX+KaKuyjf4=;
- b=G2ZBCJG/iYrMNladcfXdCekpZM8jYd1JHHFsWOilQ73Zefd2vOrGz4D9oVVfgezEoT
- QdH9rb9sLwRJdef78rgD+8b87AhR2qn7Fl5hnLuq2xcqsKE4tu0fdkfY2NKZnDwqxVf7
- 0bwQBMmB4A7QtinzWmeYJpoF+aBkN9OXwYWMP6kRQg/rPrVOvk5crkwgxmCLi+MQLo+K
- hFtSChMurGr47H+J7HnEhDpV/0T8l3lRFSEpWWV+D/BdDmlinBPFY+sXFOeQiAf8yjur
- NhONlTvhbylsGOav9fSKo9I9fnkNgOHoIkNed6cW4NVI/uzTb0iFT6D5meFzAc4xptJb
- h9Jw==
+ bh=gSLa+L8UHN8Zul6cdyurNAj3S1KEuk+YWX46WL96ynQ=;
+ b=hz+/JARDrqZVsZNA29lVrQU3hCtuYg/Ib3X/X4YuHMgLnHukq6y16o/+SxkoCEIOKk
+ 3bGhGpaXwgmdq/SURP2etf5ymBR3aqgyUIwI6oZdhwKiQkSZzAb/wW65aHFvi3dEzMFr
+ iiW4/uZxpI+Zk3xIs/Bbt34yuucq48tEeqt6X1N66YB5qAqHHc4QI9LA8xoov21l3hXH
+ /UNn387K5aVbprooVm1pJLGs+CThXJbXAsWjM2pqppAuyagbWKFJGPGwVjKv62Bmc6Vd
+ 8K291f8xA4Mb0GUQRszEa+/gBOKA6uBvs7ewvITgVl/cf/yMDCeofyjeGfFo/oK8RHPg
+ NcxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ERHeiWskVVmxjb2Ajc2jvjv2vBrDDeE9YX+KaKuyjf4=;
- b=TDWAY3Rv2hxOd/ql2hVDa+TBdYLC8BoqXfRNcUCZMQFM2ErDQv8oS+vJ3hAfm/1kYB
- Cn2VOuTGw2kcwUzidjacm1wbdT1LMYIBvsgPkIyMA11PyNvXwtfC9xaRvQEtps2sAu1/
- rVdoWdHlseTyNhIlBYujqt1/kIaP81Sk3JJdJUNoNSuZJNZ1+MGtLsQ1J55asJOkn+sS
- 7ervGYK/eJLrKxfYFnr/QBOyXFEHYCoEN6fXTvSuyxZzBww67L4JUS/9tBQ9YyLhfvQg
- LgZaGGndyJCH0sxIMA7qV+pqZGf9mxquscwc5efNtGsvPc8l1LdZXBYWE4BajB0Ntr9w
- k3vg==
-X-Gm-Message-State: APjAAAXw8a0Z3X/AfNExtxU8hiV4DEfdSKQkmHwaaLv+8fpB2PEiz7JV
- M65E4ibczZUwB6Trst9Kbpnd1X4iCMscFg==
-X-Google-Smtp-Source: APXvYqw6nhgPa2OpCgzJK0y/GBDhjbzAQ+QY1I6gtECFgi9WFYA6PPkRVOtrepqHOfavu2n9Tt+TLQ==
-X-Received: by 2002:a05:6000:1201:: with SMTP id
- e1mr512122wrx.386.1580400961981; 
- Thu, 30 Jan 2020 08:16:01 -0800 (PST)
+ bh=gSLa+L8UHN8Zul6cdyurNAj3S1KEuk+YWX46WL96ynQ=;
+ b=dbB4wwIpf83C1NaQjdw2pbiGYOgkd8B6PxjYnRVXkXpsSyRCJ97TqXT8N6oWnIHvLY
+ svsI5NOKaQ4E0HhjfLDQJwk3Xin3wbIUQ+jzzDV49oNJ0PgfEfjX6moD+4zpBY0kFAfM
+ 6Iqo9fqoPz9JC0sUc4GybRjBmEkHwzcQr7rhhYNC0l62euRclgKH/z26LKkvpL5iD9wB
+ mTzQ0R9A+NUOk1d+SOUw5RFZ7PSqriPz23/iJuR+poJsqjyTFzCTo73JJb3lVPev3VaH
+ aLYYEA/t/SIbRbWrKTihARfSiZOn2eklfYU/tzLnyQHywgLQyKoE8ZfAGN0KVl9IKLHK
+ n54g==
+X-Gm-Message-State: APjAAAX/ztTmvQWsaClGrUxqI3SZb8Yq9n2EAlshw9qqir5sVEWkjyK8
+ L740CjPcK3EbmG7xXKgRgsxS0BejY70FHw==
+X-Google-Smtp-Source: APXvYqz9wkuvQmCsM7Q68u1crBLeZijzo2ujTn+Ln/vmpu4tDIMeVMWttPkXcBfmMhk8v3Ii+HQqGg==
+X-Received: by 2002:adf:cd04:: with SMTP id w4mr6801677wrm.219.1580400962838; 
+ Thu, 30 Jan 2020 08:16:02 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id a22sm6994442wmd.20.2020.01.30.08.16.01
+ by smtp.gmail.com with ESMTPSA id a22sm6994442wmd.20.2020.01.30.08.16.02
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Jan 2020 08:16:01 -0800 (PST)
+ Thu, 30 Jan 2020 08:16:02 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 21/26] target/arm/kvm: trivial: Clean up header documentation
-Date: Thu, 30 Jan 2020 16:15:28 +0000
-Message-Id: <20200130161533.8180-22-peter.maydell@linaro.org>
+Subject: [PULL 22/26] hw/arm/virt: Add missing 5.0 options call to 4.2 options
+Date: Thu, 30 Jan 2020 16:15:29 +0000
+Message-Id: <20200130161533.8180-23-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200130161533.8180-1-peter.maydell@linaro.org>
 References: <20200130161533.8180-1-peter.maydell@linaro.org>
@@ -67,7 +66,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::436
+X-Received-From: 2a00:1450:4864:20::42b
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,172 +84,25 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: Andrew Jones <drjones@redhat.com>
 
 Signed-off-by: Andrew Jones <drjones@redhat.com>
-Message-id: 20200120101023.16030-2-drjones@redhat.com
+Message-id: 20200120101023.16030-3-drjones@redhat.com
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/kvm_arm.h | 46 ++++++++++++++++++++++++++------------------
- 1 file changed, 27 insertions(+), 19 deletions(-)
+ hw/arm/virt.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/target/arm/kvm_arm.h b/target/arm/kvm_arm.h
-index 8e14d400e8a..b48a9c95573 100644
---- a/target/arm/kvm_arm.h
-+++ b/target/arm/kvm_arm.h
-@@ -28,9 +28,9 @@
- int kvm_arm_vcpu_init(CPUState *cs);
+diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+index 656b0081c2c..91d4b838b2e 100644
+--- a/hw/arm/virt.c
++++ b/hw/arm/virt.c
+@@ -2153,6 +2153,7 @@ DEFINE_VIRT_MACHINE_AS_LATEST(5, 0)
  
- /**
-- * kvm_arm_vcpu_finalize
-+ * kvm_arm_vcpu_finalize:
-  * @cs: CPUState
-- * @feature: int
-+ * @feature: feature to finalize
-  *
-  * Finalizes the configuration of the specified VCPU feature by
-  * invoking the KVM_ARM_VCPU_FINALIZE ioctl. Features requiring
-@@ -75,8 +75,8 @@ void kvm_arm_register_device(MemoryRegion *mr, uint64_t devid, uint64_t group,
- int kvm_arm_init_cpreg_list(ARMCPU *cpu);
- 
- /**
-- * kvm_arm_reg_syncs_via_cpreg_list
-- * regidx: KVM register index
-+ * kvm_arm_reg_syncs_via_cpreg_list:
-+ * @regidx: KVM register index
-  *
-  * Return true if this KVM register should be synchronized via the
-  * cpreg list of arbitrary system registers, false if it is synchronized
-@@ -85,8 +85,8 @@ int kvm_arm_init_cpreg_list(ARMCPU *cpu);
- bool kvm_arm_reg_syncs_via_cpreg_list(uint64_t regidx);
- 
- /**
-- * kvm_arm_cpreg_level
-- * regidx: KVM register index
-+ * kvm_arm_cpreg_level:
-+ * @regidx: KVM register index
-  *
-  * Return the level of this coprocessor/system register.  Return value is
-  * either KVM_PUT_RUNTIME_STATE, KVM_PUT_RESET_STATE, or KVM_PUT_FULL_STATE.
-@@ -148,6 +148,8 @@ void kvm_arm_init_serror_injection(CPUState *cs);
-  * @cpu: ARMCPU
-  *
-  * Get VCPU related state from kvm.
-+ *
-+ * Returns: 0 if success else < 0 error code
-  */
- int kvm_get_vcpu_events(ARMCPU *cpu);
- 
-@@ -156,6 +158,8 @@ int kvm_get_vcpu_events(ARMCPU *cpu);
-  * @cpu: ARMCPU
-  *
-  * Put VCPU related state to kvm.
-+ *
-+ * Returns: 0 if success else < 0 error code
-  */
- int kvm_put_vcpu_events(ARMCPU *cpu);
- 
-@@ -205,10 +209,12 @@ typedef struct ARMHostCPUFeatures {
- 
- /**
-  * kvm_arm_get_host_cpu_features:
-- * @ahcc: ARMHostCPUClass to fill in
-+ * @ahcf: ARMHostCPUClass to fill in
-  *
-  * Probe the capabilities of the host kernel's preferred CPU and fill
-  * in the ARMHostCPUClass struct accordingly.
-+ *
-+ * Returns true on success and false otherwise.
-  */
- bool kvm_arm_get_host_cpu_features(ARMHostCPUFeatures *ahcf);
- 
-@@ -242,7 +248,7 @@ void kvm_arm_set_cpu_features_from_host(ARMCPU *cpu);
- bool kvm_arm_aarch32_supported(CPUState *cs);
- 
- /**
-- * bool kvm_arm_pmu_supported:
-+ * kvm_arm_pmu_supported:
-  * @cs: CPUState
-  *
-  * Returns: true if the KVM VCPU can enable its PMU
-@@ -251,7 +257,7 @@ bool kvm_arm_aarch32_supported(CPUState *cs);
- bool kvm_arm_pmu_supported(CPUState *cs);
- 
- /**
-- * bool kvm_arm_sve_supported:
-+ * kvm_arm_sve_supported:
-  * @cs: CPUState
-  *
-  * Returns true if the KVM VCPU can enable SVE and false otherwise.
-@@ -259,26 +265,30 @@ bool kvm_arm_pmu_supported(CPUState *cs);
- bool kvm_arm_sve_supported(CPUState *cs);
- 
- /**
-- * kvm_arm_get_max_vm_ipa_size - Returns the number of bits in the
-- * IPA address space supported by KVM
-- *
-+ * kvm_arm_get_max_vm_ipa_size:
-  * @ms: Machine state handle
-+ *
-+ * Returns the number of bits in the IPA address space supported by KVM
-  */
- int kvm_arm_get_max_vm_ipa_size(MachineState *ms);
- 
- /**
-- * kvm_arm_sync_mpstate_to_kvm
-+ * kvm_arm_sync_mpstate_to_kvm:
-  * @cpu: ARMCPU
-  *
-  * If supported set the KVM MP_STATE based on QEMU's model.
-+ *
-+ * Returns 0 on success and -1 on failure.
-  */
- int kvm_arm_sync_mpstate_to_kvm(ARMCPU *cpu);
- 
- /**
-- * kvm_arm_sync_mpstate_to_qemu
-+ * kvm_arm_sync_mpstate_to_qemu:
-  * @cpu: ARMCPU
-  *
-  * If supported get the MP_STATE from KVM and store in QEMU's model.
-+ *
-+ * Returns 0 on success and aborts on failure.
-  */
- int kvm_arm_sync_mpstate_to_qemu(ARMCPU *cpu);
- 
-@@ -292,7 +302,8 @@ int kvm_arm_set_irq(int cpu, int irqtype, int irq, int level);
- 
- static inline void kvm_arm_set_cpu_features_from_host(ARMCPU *cpu)
+ static void virt_machine_4_2_options(MachineClass *mc)
  {
--    /* This should never actually be called in the "not KVM" case,
-+    /*
-+     * This should never actually be called in the "not KVM" case,
-      * but set up the fields to indicate an error anyway.
-      */
-     cpu->kvm_target = QEMU_KVM_ARM_TARGET_NONE;
-@@ -377,23 +388,20 @@ bool kvm_arm_handle_debug(CPUState *cs, struct kvm_debug_exit_arch *debug_exit);
-  *
-  * Return: TRUE if any hardware breakpoints in use.
-  */
--
- bool kvm_arm_hw_debug_active(CPUState *cs);
- 
- /**
-  * kvm_arm_copy_hw_debug_data:
-- *
-  * @ptr: kvm_guest_debug_arch structure
-  *
-  * Copy the architecture specific debug registers into the
-  * kvm_guest_debug ioctl structure.
-  */
- struct kvm_guest_debug_arch;
--
- void kvm_arm_copy_hw_debug_data(struct kvm_guest_debug_arch *ptr);
- 
- /**
-- * its_class_name
-+ * its_class_name:
-  *
-  * Return the ITS class name to use depending on whether KVM acceleration
-  * and KVM CAP_SIGNAL_MSI are supported
++    virt_machine_5_0_options(mc);
+     compat_props_add(mc->compat_props, hw_compat_4_2, hw_compat_4_2_len);
+ }
+ DEFINE_VIRT_MACHINE(4, 2)
 -- 
 2.20.1
 
