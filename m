@@ -2,63 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEB7E14DF5A
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jan 2020 17:43:23 +0100 (CET)
-Received: from localhost ([::1]:35890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCF0014DF4C
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jan 2020 17:38:53 +0100 (CET)
+Received: from localhost ([::1]:35794 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ixCuY-0005nD-RO
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 11:43:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51314)
+	id 1ixCqC-0007ji-Tg
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 11:38:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50806)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1ixCm7-0001Vi-17
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 11:34:39 -0500
+ (envelope-from <pbonzini@redhat.com>) id 1ixClC-0008OO-0K
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 11:33:43 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1ixCm5-00035x-Vl
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 11:34:38 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:31759
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <pbonzini@redhat.com>) id 1ixClA-0008Dh-KP
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 11:33:41 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:42179
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1ixCm5-00033c-Qz
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 11:34:37 -0500
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1ixClA-00087J-DM
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 11:33:40 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580402077;
+ s=mimecast20190719; t=1580402016;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1qnDsqImwz/Uv9R8giOqJwFHxTUvFqTQrHir4xcVefQ=;
- b=b1zdKxyUqaHOQ2q1syJQ7l17GLH7h6RLbbYk+7GZ65le4Y8leAL3iKwA4ZI8jZ7Z1txWAd
- o4ATuuwmfVI22XYRv5YoKRUpjfwhNO/uH+BikggSpESrUwQ9q+JlODrAIFykGtMRPKHSW0
- f1ur4qXTdCXmwaCpswLh6s2pCu6OR4c=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-341-LHOElC_kPPujkg5t4gV6qw-1; Thu, 30 Jan 2020 11:34:35 -0500
-X-MC-Unique: LHOElC_kPPujkg5t4gV6qw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C71E88010CC;
- Thu, 30 Jan 2020 16:34:33 +0000 (UTC)
-Received: from x1w.redhat.com (ovpn-205-184.brq.redhat.com [10.40.205.184])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0280A5DA75;
- Thu, 30 Jan 2020 16:34:28 +0000 (UTC)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 12/12] tests/qemu-iotests/check: Only check for Python 3
- interpreter
-Date: Thu, 30 Jan 2020 17:32:32 +0100
-Message-Id: <20200130163232.10446-13-philmd@redhat.com>
-In-Reply-To: <20200130163232.10446-1-philmd@redhat.com>
-References: <20200130163232.10446-1-philmd@redhat.com>
+ bh=hNEA1GIzWXT/wo5gy6Vd0WcfjAAmLoSs3VyTc5jGVMc=;
+ b=KP2hJQuOF/7RDPGU4mNGUQo2eji/AejB0BnUXHziWsQDMHT4OHGvy+7cgyWIQtFMYgQKdI
+ qc9iD/W7JwrDoGIBLnmyx9dDgRhaWdx3347T5xdC7V14k1CvYuZVE30tqfxS3NgF+DP9PM
+ r/kqctMEa7vWKsdv1o9Y/Nc1Pgmz7sY=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-88-K6h2-M0dNVWP2GdXuXfJRw-1; Thu, 30 Jan 2020 11:33:32 -0500
+Received: by mail-wr1-f69.google.com with SMTP id i9so1981354wru.1
+ for <qemu-devel@nongnu.org>; Thu, 30 Jan 2020 08:33:31 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Idgu1ovbdhEjBDTiMNMMknYRQxAZFr079uqbL8FDl/A=;
+ b=bPfMMxT3vNWiw2NcyRe9+0VAgycqYNpXDne+0LFPUYMuBEyO/lOVq8IQqKD7flFNLq
+ OKDGOkvyJPy5Yz2zlodyfuTYahPenk6Ncz+32wKbW5wnrkrmfBBZ3DhRWkcymB6rdd79
+ u5/70XLZAQByOg4L5+f4+QXsT/YYdRDKXurqgJyAZrkILV2MGEb+vKBXIw26yTd1Gxdd
+ bjMuBuUS4IOxjx7teFBRj8jdST9ppLJXGWF8UM1sJ56uYqcA9uYt1amAREy2f+RKmMr2
+ qypziO16o4YW89UY6ZXm9ueBWtsycP7RzhNHbjzq/09Z8DzykuDUubzRNJbY6MPTklPw
+ ulJA==
+X-Gm-Message-State: APjAAAW0svROoj8/WK/uDeeQlButeEOIFDfEIikaljg+NOHRXL0HdzzZ
+ r87tdemFGFtMq5IgY1u1qnI5ZYTaKnl6xV2E/IfGjPGRwTQraxxbj6Kf+az1RRc0M48uhPW84yI
+ QY2FkxgqpXKaGeCY=
+X-Received: by 2002:adf:f850:: with SMTP id d16mr6349213wrq.161.1580402010932; 
+ Thu, 30 Jan 2020 08:33:30 -0800 (PST)
+X-Google-Smtp-Source: APXvYqxedRCAD9LhGhFv/4AuZTMcHCAKEPcEd5gnPV6geTOku9onKmvBNZj9e1VHSmvjt1b2TTq36g==
+X-Received: by 2002:adf:f850:: with SMTP id d16mr6349193wrq.161.1580402010715; 
+ Thu, 30 Jan 2020 08:33:30 -0800 (PST)
+Received: from [10.200.153.153] ([213.175.37.12])
+ by smtp.gmail.com with ESMTPSA id c9sm7099750wme.41.2020.01.30.08.33.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 30 Jan 2020 08:33:29 -0800 (PST)
+Subject: Re: [PATCH v2] hw/*/Makefile.objs: Move many .o files to common-objs
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Thomas Huth <thuth@redhat.com>
+References: <20200130133841.10779-1-thuth@redhat.com>
+ <871rrh9fkc.fsf@linaro.org>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <8077a146-f190-a584-9700-e2931a2a3beb@redhat.com>
+Date: Thu, 30 Jan 2020 17:33:28 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <871rrh9fkc.fsf@linaro.org>
+Content-Language: en-US
+X-MC-Unique: K6h2-M0dNVWP2GdXuXfJRw-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,47 +91,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- Juan Quintela <quintela@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Michael Roth <mdroth@linux.vnet.ibm.com>, kvm@vger.kernel.org,
- Stefan Hajnoczi <stefanha@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Max Reitz <mreitz@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Richard Henderson <rth@twiddle.net>
+Cc: "Daniel P . Berrange" <berrange@redhat.com>, qemu-trivial@nongnu.org,
+ qemu-devel@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-All the iotests Python scripts have been converted to search for
-the Python 3 interpreter. Update the ./check script accordingly.
+On 30/01/20 15:36, Alex Benn=C3=A9e wrote:
+>=20
+>> We have many files that apparently do not depend on the target CPU
+>> configuration, i.e. which can be put into common-obj-y instead of
+>> obj-y.
+> While common-obj-y is still shared by linux-user this will also add
+> slightly to user-only build times.
 
-Acked-by: Stefan Hajnoczi <stefanha@redhat.com>
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
- tests/qemu-iotests/check | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+It won't, all the directories that Thomas is touching are under ifeq
+($(CONFIG_SOFTMMU), y)...endif in hw/Makefile.objs.
 
-diff --git a/tests/qemu-iotests/check b/tests/qemu-iotests/check
-index bdcd64aea4..2e7d29d570 100755
---- a/tests/qemu-iotests/check
-+++ b/tests/qemu-iotests/check
-@@ -825,8 +825,7 @@ do
-=20
-         start=3D$(_wallclock)
-=20
--        if [ "$(head -n 1 "$source_iotests/$seq" | sed 's/3$//')" \
--            =3D=3D "#!/usr/bin/env python" ]; then
-+        if [ "$(head -n 1 "$source_iotests/$seq")" =3D=3D "#!/usr/bin/en=
-v python3" ]; then
-             if $python_usable; then
-                 run_command=3D"$PYTHON $seq"
-             else
---=20
-2.21.1
+> I'd like to see some separation of:
+>=20
+>  common-user-obj
+>  common-sys-obj
+
+That actually is done in the Meson conversion, where they are called
+respectively user_ss and softmmu_ss ("ss" stands for sourceset).  They
+are added like so to common_ss:
+
+common_ss.add_all(when: 'CONFIG_SOFTMMU', if_true: softmmu_ss)
+common_ss.add_all(when: 'CONFIG_USER_ONLY', if_true: user_ss)
+
+> and I guess the stuff already common to everything is already in
+> libqemuutil.a
+
+In my meson-poc branch, the only files that are added directly to
+common_ss rather than softmmu_ss or user_ss are the files in hw/core and
+the disassemblers.
+
+Paolo
 
 
