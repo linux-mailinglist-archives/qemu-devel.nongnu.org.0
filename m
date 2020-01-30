@@ -2,65 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88C0D14E6D0
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 02:13:59 +0100 (CET)
-Received: from localhost ([::1]:42558 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1807114E6DB
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 02:41:14 +0100 (CET)
+Received: from localhost ([::1]:47414 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ixKsg-0002ll-LB
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 20:13:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59543)
+	id 1ixLJ3-0005w2-6J
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 20:41:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42369)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1ixKrw-0002Jg-6g
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 20:13:13 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1ixLIE-0005OA-LZ
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 20:40:24 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1ixKru-0002lS-Vy
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 20:13:11 -0500
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:34674)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
- id 1ixKru-0002kw-PZ
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 20:13:10 -0500
-Received: by mail-ot1-x343.google.com with SMTP id a15so5089095otf.1
- for <qemu-devel@nongnu.org>; Thu, 30 Jan 2020 17:13:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=D2XLdd38zIoHxWUicyqjI+KIqj+lpNSKfejzDOiOJK8=;
- b=lk1+5Luo/ho8y95pEq6PqoQkyZDEt7MAE/G5L48xsrks68xOaL1uYNJBDLjoQeKpJJ
- sNaOGDr3YuV6C0d9L90Jj6Nh3zKQsFbD4MVpnpvM1I9zI5gUZRN0PEsmgo7mpSHz84qA
- fqw9nqVn+KFTISJxajFZTMjoKu+0tIKuK72Tvjps3WzoJFsTtVMf449ZgXeVhqOTfKqN
- FTUmpEAlTkAYghXqPu1zd8R33C40o6tgRqt2DPne46TWiU4gqPlNMDxWQ6sQsFTrfrbW
- RF0YcgETfo0aTMbG8n61IoSu3MBH00aV9sMnZdVw1T4EBTwL/CDvwlofBYmFvECF/gIA
- z7IQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=D2XLdd38zIoHxWUicyqjI+KIqj+lpNSKfejzDOiOJK8=;
- b=hsbG1cbaGExW5y1+CGfu7uRTQb767M55r1MQWFji95PMyXdxiMuYBA7o3FmHjYgUXh
- VQrjP39jpL+MpbwMipyBTd7Xmnp39ElFpSat1s4oiKh7tcCCMuVtLzjALHhmed6pVBXY
- 7kg6BAjGPD9UYsSWSWGwyVcZvlFigxrY/R6WfiJ9i59r7u+M6AC4Vgd5altZ7GUQT0j3
- DZNeL/qPnOX7NbjUwPcw+qHH6m2mlFGQOIPvXQhyllXEOHVFi2xxPWrFSaljyHpXnPwF
- 82IYJAQudRbzlCubQ96jGMVLBqdIdqStaMnolPG5+KhQUWharWya1CmSmvaX7zClz705
- mU2A==
-X-Gm-Message-State: APjAAAWv49X8wC4UYNf5DZzhGCcnPTedh8KZPjbc4z5PXU1vDw6I2A6D
- tQu2S4KX/DHE8ouGgU9F0XA5UP2X83pCilC6X4I=
-X-Google-Smtp-Source: APXvYqxh9pPKj7/uNnCZH5Ejm/9nqcky5X2AOeMOr/xD4E0bKHGzYzkmoz0gxPwZJobmqRSyN3Zky8cB/gz5G7X8dc4=
-X-Received: by 2002:a9d:7305:: with SMTP id e5mr5591394otk.64.1580433189908;
- Thu, 30 Jan 2020 17:13:09 -0800 (PST)
+ (envelope-from <dgibson@ozlabs.org>) id 1ixLID-0003cL-AM
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 20:40:22 -0500
+Received: from ozlabs.org ([203.11.71.1]:42271)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1ixLIC-0003Sg-Dn; Thu, 30 Jan 2020 20:40:21 -0500
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4880KD6XTTz9sRW; Fri, 31 Jan 2020 12:40:16 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1580434816;
+ bh=kcdnTsxMSW/rcbOQcSOdUmz81WYvHyVzuEUi7iV104U=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=KRJQjqbzh2eNKOdX5Ocu4gb7wxtAkF7yK06BdDD/Ar7L+JYP/h9TXLi0jbgzF5gKV
+ EqvKWY/3UIlN0ujHrsF3FTUkC35me8RzmtwxHINZbUXdnMU7bzEoI7F9suloLcoB29
+ Ev5bo/h+hvQCpnpxwYourSlboWaaxSzyKpf/V210=
+Date: Fri, 31 Jan 2020 10:54:33 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH 0/4] target/ppc: Use probe_access
+Message-ID: <20200130235433.GC15210@umbus.fritz.box>
+References: <20200129235040.24022-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-References: <1580428993-4767-1-git-send-email-aleksandar.markovic@rt-rk.com>
- <20200131010941.10636-1-philmd@redhat.com>
-In-Reply-To: <20200131010941.10636-1-philmd@redhat.com>
-From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Date: Fri, 31 Jan 2020 02:12:59 +0100
-Message-ID: <CAL1e-=i2samx0r+B_UFP6ya0hSNeaib45ok6KY8c3u5h0wbHdg@mail.gmail.com>
-Subject: Re: [PATCH 0/2] !fixup target/avr merger-rc4
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000e0383c059d654602"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::343
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="PuGuTyElPB9bOcsM"
+Content-Disposition: inline
+In-Reply-To: <20200129235040.24022-1-richard.henderson@linaro.org>
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,82 +54,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Sarah Harris <S.E.Harris@kent.ac.uk>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Aleksandar Markovic <aleksandar.markovic@rt-rk.com>,
- Michael Rolnik <mrolnik@gmail.com>,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, hsp.cat7@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000e0383c059d654602
-Content-Type: text/plain; charset="UTF-8"
+
+--PuGuTyElPB9bOcsM
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jan 31, 2020 at 2:09 AM Philippe Mathieu-Daud=C3=A9 <philmd@redhat.=
-com>
-wrote:
->
-> Aleksandar, I addressed Alex Benn=C3=A9e comment as fixup, so you
-> can squash directly. See:
-> https://www.mail-archive.com/qemu-devel@nongnu.org/msg673846.html
->
-> - convert DB_PRINT() to trace-events
-> - fix style/indentation
->
-> Based-on: <1580428993-4767-1-git-send-email-aleksandar.markovic@rt-rk.com=
->
->
+On Wed, Jan 29, 2020 at 03:50:36PM -0800, Richard Henderson wrote:
+> The first two address the performance regression noticed
+> by Howard Spoelstra.  The last two are just something I
+> noticed at the same time.
 
-That is great!
+Applied to ppc-for-5.0, thanks.
 
-I am going to squash it into corresponding patches, and mention that in
-commit messages.
-Then I guess some r-b (by Alex) can be added.
+>=20
+>=20
+> r~
+>=20
+>=20
+> Richard Henderson (4):
+>   target/ppc: Use probe_access for LSW, STSW
+>   target/ppc: Use probe_access for LMW, STMW
+>   target/ppc: Remove redundant mask in DCBZ
+>   target/ppc: Use probe_write for DCBZ
+>=20
+>  target/ppc/mem_helper.c | 197 +++++++++++++++++++++++++++++++++-------
+>  1 file changed, 162 insertions(+), 35 deletions(-)
+>=20
 
-Cool!
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
-> Philippe Mathieu-Daud=C3=A9 (2):
->   !fixup "hw/misc: Add limited support for AVR power device"
->   !fixup "hw/timer: Add limited support for AVR 16-bit timer peripheral"
->
->  hw/misc/avr_power.c    | 17 +++++++++--------
->  hw/timer/avr_timer16.c | 25 +++++++++++++++----------
->  hw/misc/trace-events   |  4 ++++
->  hw/timer/trace-events  | 12 ++++++++++++
->  4 files changed, 40 insertions(+), 18 deletions(-)
->
-> --
-> 2.21.1
->
+--PuGuTyElPB9bOcsM
+Content-Type: application/pgp-signature; name="signature.asc"
 
---000000000000e0383c059d654602
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+-----BEGIN PGP SIGNATURE-----
 
-<div dir=3D"ltr"><br><br>On Fri, Jan 31, 2020 at 2:09 AM Philippe Mathieu-D=
-aud=C3=A9 &lt;<a href=3D"mailto:philmd@redhat.com">philmd@redhat.com</a>&gt=
-; wrote:<br>&gt;<br>&gt; Aleksandar, I addressed Alex Benn=C3=A9e comment a=
-s fixup, so you<br>&gt; can squash directly. See:<br>&gt; <a href=3D"https:=
-//www.mail-archive.com/qemu-devel@nongnu.org/msg673846.html">https://www.ma=
-il-archive.com/qemu-devel@nongnu.org/msg673846.html</a><br>&gt;<br>&gt; - c=
-onvert DB_PRINT() to trace-events<br>&gt; - fix style/indentation<br>&gt;<b=
-r>&gt; Based-on: &lt;<a href=3D"mailto:1580428993-4767-1-git-send-email-ale=
-ksandar.markovic@rt-rk.com">1580428993-4767-1-git-send-email-aleksandar.mar=
-kovic@rt-rk.com</a>&gt;<br><div>&gt;</div><div><br></div><div>That is great=
-!</div><div><br></div><div>I am going to squash it into corresponding patch=
-es, and mention that in commit messages.</div><div>Then I guess some r-b (b=
-y Alex) can be added.<br></div><div><br></div><div>Cool!<br></div><div><br>=
-</div>&gt; Philippe Mathieu-Daud=C3=A9 (2):<br>&gt; =C2=A0 !fixup &quot;hw/=
-misc: Add limited support for AVR power device&quot;<br>&gt; =C2=A0 !fixup =
-&quot;hw/timer: Add limited support for AVR 16-bit timer peripheral&quot;<b=
-r>&gt;<br>&gt; =C2=A0hw/misc/avr_power.c =C2=A0 =C2=A0| 17 +++++++++-------=
--<br>&gt; =C2=A0hw/timer/avr_timer16.c | 25 +++++++++++++++----------<br>&g=
-t; =C2=A0hw/misc/trace-events =C2=A0 | =C2=A04 ++++<br>&gt; =C2=A0hw/timer/=
-trace-events =C2=A0| 12 ++++++++++++<br>&gt; =C2=A04 files changed, 40 inse=
-rtions(+), 18 deletions(-)<br>&gt;<br>&gt; --<br>&gt; 2.21.1<br>&gt;<br></d=
-iv>
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl4zbLgACgkQbDjKyiDZ
+s5IV1Q/+OV6aiOK6W44zYwhnS/x7sgMJKVzZ8wmmalzqjRscnO/LyaH72ee7+Wja
+pHuToqGHBrTmczRVgj9c4gywme9aziho2tuWELwKqQDBD4GNvDIRx+9s4lCl3p/G
+n0LoFjIrNdPsRlskGH2f433q4GAWRqWCbVYmtm/+gH9jbLgY6vk3OU0pBHwURsfO
+GoJJge3CV/hpsCg6Y2+inhSaiPD83y2IkVg+KYz4ONp1mtYT2nj9Whq0LsYS88KY
+CFKK6ARhDPqrsHSyqO4IYM7di7rb85a2Qaced8JCiEiokA5qFqlnyR02b6PcQMkP
+3YhgkNuePJIM+bAnNzQ0pvc7uBtdf4uQEwXhbdA6y8+kmP/Ea/knhQ5uN7LyZqWO
++yZDcyRvPHp2fGHcEh4W3X/fPiLsKlV+V6CD6anQ7NHtOcoG3GJPA946bzF4Os+Q
+ppU+e3QPLZhEoY7ErgUS/T85GtGmYUjr+yg5tmyjOThogl0VfFrSZLINKVvv5V1S
+o5m9jGBx9XXv3upjmiLB03jusEwbJFN2pDxwf1Wb2Dc1Gb11c3bEcMI+bLEYu9o5
+YPtGDZp/gv6l6iXeK+3dv+15xMpkWccsU9fwQKeVNZcrYA81lc54WeNvViTQAa6g
+erLO6GxjdN2e8HS+2cOZJWV9BOsH1dWbqnVO22aFUJnczuHp7QA=
+=Lsw1
+-----END PGP SIGNATURE-----
 
---000000000000e0383c059d654602--
+--PuGuTyElPB9bOcsM--
 
