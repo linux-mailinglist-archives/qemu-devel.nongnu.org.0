@@ -2,48 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3710214E639
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 00:53:02 +0100 (CET)
-Received: from localhost ([::1]:41134 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 911AA14E626
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 00:48:03 +0100 (CET)
+Received: from localhost ([::1]:41078 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ixJcL-0002du-9C
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 18:53:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54622)
+	id 1ixJXW-0007rn-6R
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 18:48:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53007)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1ixJb8-0001Kl-UZ
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 18:51:48 -0500
+ (envelope-from <philmd@redhat.com>) id 1ixJWO-0007IG-CN
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 18:46:55 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1ixJb7-0000BT-6V
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 18:51:46 -0500
-Received: from bilbo.ozlabs.org ([203.11.71.1]:46965 helo=ozlabs.org)
+ (envelope-from <philmd@redhat.com>) id 1ixJWL-0002rL-Pb
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 18:46:51 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:25894
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1ixJb6-00006Q-8i; Thu, 30 Jan 2020 18:51:45 -0500
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 487xvw5vhFz9sPW; Fri, 31 Jan 2020 10:51:40 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1580428300;
- bh=V5H4XMQoUqe+XDP5P4Tl83JigQAeZX4iXaO1VkHJa/Y=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ZDxgQrsPoJ5C5XNDbRL5rbgbepoFeXxbIjfdQRbkX8aZA1vFBtL9q5CXm/hYVeRUS
- Q6og5Q5VxN9lmyb1UEPO8Jp7aqNGFgFKkjacEHnGMwtfq+bIHC3H0JwMpqXCNeWwi/
- dyKEjmdby1g0PIDYvyahcToQcg+z6krE69eORN5w=
-Date: Fri, 31 Jan 2020 10:39:06 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Ganesh Goudar <ganeshgr@linux.ibm.com>
-Subject: Re: [PATCH v21 0/7]target-ppc/spapr: Add FWNMI support in QEMU for
- PowerKVM guests
-Message-ID: <20200130233906.GA15210@umbus.fritz.box>
-References: <20200130184423.20519-1-ganeshgr@linux.ibm.com>
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1ixJWK-0002pE-5S
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 18:46:48 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1580428006;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=E/1/fpM+uIvTTGLaInPwc2lQDzHE5KcORyzhWhPzClE=;
+ b=dGAl9LD+rJQDaaweNX/STkFFRHG7807PCBVddImyLBIstF2+wm9qJW50gu9uc20MmbTwoJ
+ RSQqmXTsp4qnoI9DOvOEsyOKcrLiHrBeWcX4wxEXqK+IoWFVAHx4YMWFAUrVV+gcby2U7q
+ yO+/bwkUDJ7oWTdn42Ga2QCiyqrJU7M=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-320--XTC4gocMYyXTIQxkOxTOw-1; Thu, 30 Jan 2020 18:46:42 -0500
+Received: by mail-wm1-f70.google.com with SMTP id m21so1366699wmg.6
+ for <qemu-devel@nongnu.org>; Thu, 30 Jan 2020 15:46:42 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=dLEGO8KYRWQaQYVfnRG/qPNSgEXfE58ncEinyGY2FMY=;
+ b=aIOoVMxXw+zUD2h8uYxAM0/0mZxOtYxV57hVeOqvuq0U3WwCz8KumiAGEoIckLwwqH
+ wDSXgi4g7Xp5xVMgBEMFjUCCHhVpW1inDAA8EVShS+oqmBeZe2yomsMfSF5iSiGfLzJe
+ wEhsrloRH/c62k36aSHq+1mJEiOWFAo/bw3gh87xmUot738cNsQi2W/WElqbraxuTP9e
+ xNX340teZcFaOc8WnGeZToYfLo+bRXJtoFkvc47dHfDqbmDr240/ckCtlmC2j+v/8T0r
+ 01MkQQqO4cvFeksfpJomHTMqVK/QY/sVrOYaqSx1bEMHVZfr1SG2eHPskDm3cdTaMmDO
+ qb3Q==
+X-Gm-Message-State: APjAAAXlAK5ULCcTA4ZyXBHBBUY+RgfqnJ2xioA1EbABYLuBzSZZZfzF
+ WNbk8684EbJ0YggdHpwvHGJFXZ8CCPeFy8EDiCSNwjKuPJ7dzL/YIjPS8utixy2Aj4ValilCf2s
+ R6BKFO7fPxXjA0nk=
+X-Received: by 2002:a5d:6a88:: with SMTP id s8mr8094145wru.173.1580428001386; 
+ Thu, 30 Jan 2020 15:46:41 -0800 (PST)
+X-Google-Smtp-Source: APXvYqxyFYKC/hs/Am1qtbd8bupOTLdbsnaW1UdF3fE/g1goEp1qLjjPr5oI2ViFYCzXFzZhk1jKFQ==
+X-Received: by 2002:a5d:6a88:: with SMTP id s8mr8094123wru.173.1580428001129; 
+ Thu, 30 Jan 2020 15:46:41 -0800 (PST)
+Received: from [192.168.1.35] (113.red-83-57-172.dynamicip.rima-tde.net.
+ [83.57.172.113])
+ by smtp.gmail.com with ESMTPSA id t9sm7884427wmj.28.2020.01.30.15.46.37
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 30 Jan 2020 15:46:40 -0800 (PST)
+Subject: Re: [RFC PATCH] tests/acceptance: Add a test for the N800 and N810
+ arm machines
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+References: <20200129131920.22302-1-thuth@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <647b2004-4b56-7322-72ba-abb0309938de@redhat.com>
+Date: Fri, 31 Jan 2020 00:46:36 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="BOKacYhQ+x31HxR3"
-Content-Disposition: inline
-In-Reply-To: <20200130184423.20519-1-ganeshgr@linux.ibm.com>
+In-Reply-To: <20200129131920.22302-1-thuth@redhat.com>
+Content-Language: en-US
+X-MC-Unique: -XTC4gocMYyXTIQxkOxTOw-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 203.11.71.1
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,146 +91,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: arawinda.p@gmail.com, aik@ozlabs.ru, qemu-devel@nongnu.org, groug@kaod.org,
- paulus@ozlabs.org, qemu-ppc@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-arm@nongnu.org,
+ Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
---BOKacYhQ+x31HxR3
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Fri, Jan 31, 2020 at 12:14:16AM +0530, Ganesh Goudar wrote:
-> This patch set adds support for FWNMI in PowerKVM guests.
+On 1/29/20 2:19 PM, Thomas Huth wrote:
+> Old kernels from the Meego project can be used to check that Linux
+> is at least starting on these machines.
 >=20
-> System errors such as SLB multihit and memory errors
-> that cannot be corrected by hardware is passed on to
-> the kernel for handling by raising machine check
-> exception (an NMI). Upon such machine check exceptions,
-> if the address in error belongs to guest then KVM
-> invokes guests' 0x200 interrupt vector if the guest
-> is not FWNMI capable. For FWNMI capable guest
-> KVM passes the control to QEMU by exiting the guest.
->=20
-> This patch series adds functionality to QEMU to pass
-> on such machine check exceptions to the FWNMI capable
-> guest kernel by building an error log and invoking
-> the guest registered machine check handling routine.
->=20
-> The KVM changes are now part of the upstream kernel
-> (commit e20bbd3d). This series contain QEMU changes.
-
-Applied to ppc-for-5.0.
-
->=20
-> Change Log v21:
->   - Use error_setg() for failure handling in apply hook.
->   - Report warning if FWNMI enabled for TCG.
->   - Enable FWNMI by default for machine type 5.0.
->=20
-> Change Log v20:
->   - Remove code left over from previous version.
->=20
-> Change Log v19:
->   - Create error object for migration blocker in machine_init().
->   - Remove the check to see fwnmi calls are already registered,
->     which is no longer needed.
->   - Register fwnmi RTAS calls in core_rtas_register_types() where
->     other RTAS calls are registered.
->   - Bail out from interlock call if the cap is not set.
->   - Reorder and add missing S-O-Bs.
->=20
-> Change Log v18:
->   - Dynamically create the Error object before adding it as blocker
->   - In apply hook check if the fwnmi calls are already registered and
->     if kvm supports fwnmi before registering the fwnmi calls.
->   - In rtas_ibm_nmi_register() test the feature flag before attempting
->     to get the RTAS address
->   - Introduce a bool member "fwnmi_calls_registered" to check if the
->     fwnmi calls are registered and use the same in needed hook to save
->     the state during migration.=20
->=20
-> Change Log v17:
->   - Add fwnmi cap to migration state
->   - Reprhase the commit message in patch 2/7
->=20
-> Change Log v16:
->   - Fixed coding style problems
->=20
-> Change Log v15:
->   - Removed cap_ppc_fwnmi
->   - Moved fwnmi registeration to .apply hook
->   - Assume SLOF has allocated enough room for rtas error log
->   - Using ARRAY_SIZE to end the loop
->   - Do not set FWNMI cap in post_load, now its done in .apply hook
->=20
-> Change Log v14:
->   - Feature activation moved to a separate patch
->   - Fixed issues with migration blocker
->=20
-> Change Log v13:
->   - Minor fixes (mostly nits)
->   - Moved FWNMI guest registration check from patch 4 to 3.
->=20
-> Change Log v12:
->   - Rebased to latest ppc-for-4.2 (SHA b1e8156743)
->=20
-> Change Log v11:
->   - Moved FWNMI SPAPR cap defaults to 4.2 class option
->   - Fixed issues with handling fwnmi KVM capability
->=20
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
 > ---
+>   The serial console is written to the second UART, so this needs Phil's
+>   "Allow to use other serial consoles than default" patch as a prerequisi=
+te:
+>   Based-on: <20200120235159.18510-5-f4bug@amsat.org>
 >=20
-> Aravinda Prasad (7):
->   Wrapper function to wait on condition for the main loop mutex
->   ppc: spapr: Introduce FWNMI capability
->   target/ppc: Handle NMI guest exit
->   target/ppc: Build rtas error log upon an MCE
->   ppc: spapr: Handle "ibm,nmi-register" and "ibm,nmi-interlock" RTAS
->     calls
->   migration: Include migration support for machine check handling
->   ppc: spapr: Activate the FWNMI functionality
+>   MAINTAINERS                          |  1 +
+>   tests/acceptance/machine_arm_n8x0.py | 49 ++++++++++++++++++++++++++++
+>   2 files changed, 50 insertions(+)
+>   create mode 100644 tests/acceptance/machine_arm_n8x0.py
 >=20
->  cpus.c                   |   5 +
->  hw/ppc/spapr.c           |  60 +++++++++
->  hw/ppc/spapr_caps.c      |  28 ++++
->  hw/ppc/spapr_events.c    | 269 +++++++++++++++++++++++++++++++++++++++
->  hw/ppc/spapr_rtas.c      |  87 +++++++++++++
->  include/hw/ppc/spapr.h   |  25 +++-
->  include/qemu/main-loop.h |   8 ++
->  target/ppc/kvm.c         |  24 ++++
->  target/ppc/kvm_ppc.h     |   8 ++
->  target/ppc/trace-events  |   1 +
->  10 files changed, 513 insertions(+), 2 deletions(-)
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index ddf6fe0794..560507e821 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -672,6 +672,7 @@ F: hw/rtc/twl92230.c
+>   F: include/hw/display/blizzard.h
+>   F: include/hw/input/tsc2xxx.h
+>   F: include/hw/misc/cbus.h
+> +F: tests/acceptance/machine_arm_n8x0.py
+>  =20
+>   Palm
+>   M: Andrzej Zaborowski <balrogg@gmail.com>
+> diff --git a/tests/acceptance/machine_arm_n8x0.py b/tests/acceptance/mach=
+ine_arm_n8x0.py
+> new file mode 100644
+> index 0000000000..e5741f2d8d
+> --- /dev/null
+> +++ b/tests/acceptance/machine_arm_n8x0.py
+> @@ -0,0 +1,49 @@
+> +# Functional test that boots a Linux kernel and checks the console
+> +#
+> +# Copyright (c) 2020 Red Hat, Inc.
+> +#
+> +# Author:
+> +#  Thomas Huth <thuth@redhat.com>
+> +#
+> +# This work is licensed under the terms of the GNU GPL, version 2 or
+> +# later.  See the COPYING file in the top-level directory.
+> +
+> +import os
+> +
+> +from avocado import skipUnless
+> +from avocado_qemu import Test
+> +from avocado_qemu import wait_for_console_pattern
+> +
+> +class N8x0Machine(Test):
+> +    """Boots the Linux kernel and checks that the console is operational=
+"""
+> +
+> +    timeout =3D 90
+> +
+> +    def __do_test_n8x0(self):
+> +        kernel_url =3D ('http://stskeeps.subnetmask.net/meego-n8x0/'
+> +                      'meego-arm-n8x0-1.0.80.20100712.1431-'
+> +                      'vmlinuz-2.6.35~rc4-129.1-n8x0')
+> +        kernel_hash =3D 'e9d5ab8d7548923a0061b6fbf601465e479ed269'
+> +        kernel_path =3D self.fetch_asset(kernel_url, asset_hash=3Dkernel=
+_hash)
+> +
+> +        self.vm.set_console(console_index=3D1)
+> +        self.vm.add_args('-kernel', kernel_path,
+> +                         '-append', 'printk.time=3D0 console=3DttyS1')
+> +        self.vm.launch()
+> +        wait_for_console_pattern(self, 'TSC2005 driver initializing')
+> +
+> +    @skipUnless(os.getenv('AVOCADO_ALLOW_UNTRUSTED_CODE'), 'untrusted co=
+de')
+> +    def test_n800(self):
+> +        """
+> +        :avocado: tags=3Darch:arm
+> +        :avocado: tags=3Dmachine:n800
+> +        """
+> +        self.__do_test_n8x0()
+> +
+> +    @skipUnless(os.getenv('AVOCADO_ALLOW_UNTRUSTED_CODE'), 'untrusted co=
+de')
+> +    def test_n810(self):
+> +        """
+> +        :avocado: tags=3Darch:arm
+> +        :avocado: tags=3Dmachine:n810
+> +        """
+> +        self.__do_test_n8x0()
 >=20
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
---BOKacYhQ+x31HxR3
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl4zaRUACgkQbDjKyiDZ
-s5KDfhAAhwQF7Kdx95uWFF5sStrjcluD08f0X1bs/i4Ib1VcKwUCFVEmNcWSMYHH
-oxamdP0fgO/Ct/iCT9cUon2x9nAdfh/pB35qSv7qjLVeObfrpo48ToVX7VfeRTui
-ZGAxFUb1rR0rjRZK4s061oC88loAVg87v1AchruHP2+XwSIUMgaEdfDylKuWXiLT
-zCp7eJrBQ1UHipGV+GMjBYDYpdxgUzQfVlZ0bE5ynErh/tq6U/UpivXsLTETWcuT
-Utbc7ruZKTaBONsPSfVTYolXzQ1p5AainyTl5f8XmWsz3Ria9zsfnbSDdTC98dml
-85uLPkWLOPnkKUAMipA57tQAFTOS9qhrRzwtUVEISgscPd0FloOVDCf/4Cm70et1
-/I+YIXQ+G0XyzuAYhrL1wPcaN9vaLBR0tQuNcRFszZN70dfQXqcXFEuJSj8kZAQB
-0Ty9HIHtPfLOx8glniEc4Cs8M+xkcqXy4yEpK557uqmAUzzX1bFh96XQ8+mQmSN9
-+OEumRUFaIEcZiPGA7Sqm3IchjEtyRhOBFtX1EB7VVNI4owXqgGlxup+/Z73U0Iu
-ZG7i/yQerhWI72Ncp9XquJmivb7XamAOJTDcjw47yjoSYehXZVyETn3lK3llGgGa
-0rtoN87olmD2gfjBUQ45p8Df03CEUU3UBosYTIYMp9B5bD3Du9s=
-=sYJV
------END PGP SIGNATURE-----
-
---BOKacYhQ+x31HxR3--
 
