@@ -2,80 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22D9014DFDA
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jan 2020 18:25:24 +0100 (CET)
-Received: from localhost ([::1]:36654 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDCA214DFE8
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jan 2020 18:31:29 +0100 (CET)
+Received: from localhost ([::1]:36778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ixDZC-0005lX-No
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 12:25:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44093)
+	id 1ixDf6-0000TC-Ls
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 12:31:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46784)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1ixDYB-0005AT-HV
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 12:24:20 -0500
+ (envelope-from <mlevitsk@redhat.com>) id 1ixDdE-00079E-In
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 12:29:33 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1ixDY9-000264-TG
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 12:24:18 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:45496
+ (envelope-from <mlevitsk@redhat.com>) id 1ixDdD-0006QE-Bu
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 12:29:32 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:48599
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1ixDY9-00024v-O3
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 12:24:17 -0500
+ (Exim 4.71) (envelope-from <mlevitsk@redhat.com>) id 1ixDdD-0006Ne-8o
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 12:29:31 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580405056;
+ s=mimecast20190719; t=1580405370;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=AHNI6b90Cfq7eLwriuRYeEBHCEIObcSrg7pWukngDng=;
- b=GkDj7Ol+vKPZphmf9xpdNh7jQ6dD4Lll34YSMlp4FVQi1egfU9PicT2mSqCuq01+zbE/S8
- nNzIWAUxW+N8Bq3PQfKmbzuK3nMh3vB/MEn9a5VViuFVtfknm9dBYVV/nf3AWeg+QC/XhV
- 95THvyOSvcdHDyKBlowog6l+9vjC8aM=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-288-LMUkDR-qMB6nt4PKS9xpXQ-1; Thu, 30 Jan 2020 12:24:15 -0500
-X-MC-Unique: LMUkDR-qMB6nt4PKS9xpXQ-1
-Received: by mail-wr1-f70.google.com with SMTP id s13so2023594wru.7
- for <qemu-devel@nongnu.org>; Thu, 30 Jan 2020 09:24:14 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to;
- bh=e44ASm2/Vabdqe55waeZKNYo6ESc/BRrjH1de49Tihg=;
- b=PzxYBy23aXJ/7NyrHHY5IUUCIx9TWmHONjjaKqZrZGm0A6QXkNMAjGe03jd+sBFyho
- pr2DPEnmigmhOIa9cYCH5CDuTz2Q/Hj7mnLgfBdKeoOTdl6h5p5qH3evipItOgjKA2yH
- KzD2rOxoX8TbyqaxiTtgpVQTIruTGgwnFy1XGh+ldAVyGZurBngmLGC6CrLwuYhq1Alw
- oFQv674dVMVkb+1fLTcLcHu1GyIE+FYCp4B2rjeL7jIHHFWU72T+GN13vFQfyTZJmZXT
- ZbcgyaQjF434TmeVAWHyWAhDDiLenElra04GyR/pUDORnrcURi+hvkocL56I04lGokPx
- JV9w==
-X-Gm-Message-State: APjAAAX4ja+8s+yImNpaYQKej/SB2njfAe3T3Yky6HgibZbQy6VOa+45
- Vm4Qc6j6NPu7eUY53q7JsIvcKX8y37zPkp1zl+N7j38hy4lvJrYYD//pT0CPJ6Xd3yv6ohlvZ6/
- YaCgPxY/Z8s0pQIQ=
-X-Received: by 2002:adf:f850:: with SMTP id d16mr6562595wrq.161.1580405053816; 
- Thu, 30 Jan 2020 09:24:13 -0800 (PST)
-X-Google-Smtp-Source: APXvYqy4kvwd0gYGoqm+EmEKARVWULE+AKHcUZJ2GIy3Ep/yazNjNqrJbYUy5pZgX/x4xKzJbfQNhw==
-X-Received: by 2002:adf:f850:: with SMTP id d16mr6562574wrq.161.1580405053530; 
- Thu, 30 Jan 2020 09:24:13 -0800 (PST)
-Received: from [10.200.153.153] ([213.175.37.12])
- by smtp.gmail.com with ESMTPSA id y131sm7563036wmc.13.2020.01.30.09.24.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 30 Jan 2020 09:24:12 -0800 (PST)
-Subject: Re: [PATCH v8 13/21] main: keep rcu_atfork callback enabled for qtest
-To: Stefan Hajnoczi <stefanha@redhat.com>, "Bulekov, Alexander" <alxndr@bu.edu>
-References: <20200129053357.27454-1-alxndr@bu.edu>
- <20200129053357.27454-14-alxndr@bu.edu>
- <20200130144224.GC180311@stefanha-x1.localdomain>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <4bc49889-081e-6016-b8d5-a5d1fd615830@redhat.com>
-Date: Thu, 30 Jan 2020 18:24:11 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ content-transfer-encoding:content-transfer-encoding;
+ bh=ECPqTyZsswZw3GBB/5nUX+uXnP0IbYfrQgGu81ljF9E=;
+ b=P4fqGUDdXrXGSi/epOXjaKhggjKGDp9QijfOLec1muuUxA5hO86v9xAfX9MjFpsYFk04AU
+ AwY6A9GsqwnJ1QzC5jx8t9BXr8MiisWOHEyBMwIx3bbBWpsN21XOj3IhZchJHQHgmhpyPI
+ SCbZOXVSOy+HE6TbKa53XvSUDEfTyrc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-208-FYj41myBPpqzeJSB8M7bvQ-1; Thu, 30 Jan 2020 12:29:27 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1751618FE868;
+ Thu, 30 Jan 2020 17:29:26 +0000 (UTC)
+Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.78])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 947005D9E5;
+ Thu, 30 Jan 2020 17:29:21 +0000 (UTC)
+From: Maxim Levitsky <mlevitsk@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 00/14] LUKS: encryption slot management using amend
+ interface
+Date: Thu, 30 Jan 2020 19:29:05 +0200
+Message-Id: <20200130172919.13424-1-mlevitsk@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200130144224.GC180311@stefanha-x1.localdomain>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: FYj41myBPpqzeJSB8M7bvQ-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="HXEpzlQjqR8hxRgpZjtgchmFWCmzQykSo"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,77 +68,123 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "bsd@redhat.com" <bsd@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ qemu-block@nongnu.org, John Snow <jsnow@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ Maxim Levitsky <mlevitsk@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---HXEpzlQjqR8hxRgpZjtgchmFWCmzQykSo
-Content-Type: multipart/mixed; boundary="BecBHoReZ0SAyHCQ6kJC1SjAK9nKapn8o"
+Here is the updated series of my patches, incorporating all the feedback I =
+received.
 
---BecBHoReZ0SAyHCQ6kJC1SjAK9nKapn8o
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Patches are strictly divided by topic to 3 groups, and each group depends o=
+n former groups.
 
-On 30/01/20 15:42, Stefan Hajnoczi wrote:
->> +
->> +    /*
->> +     * If QTest is enabled, keep the rcu_atfork enabled, since system p=
-rocesses
->> +     * may be forked testing purposes (e.g. fork-server based fuzzing)
->> +     */
->> +    if (!qtest_enabled()) {
->> +        rcu_disable_atfork();
->> +    }
-> I haven't reviewed the details of whether resources are leaked across
-> fork but in general it makes sense that we want an RCU thread in the
-> fork child:
+* Patches 1,2 implement qcrypto generic amend interface, including definiti=
+on
+  of structs used in crypto.json and implement this in luks crypto driver
+  Nothing is exposed to the user at this stage
 
-Note that there is a possible deadlock between fork and synchronize_rcu
-(see commit 73c6e40, "rcu: completely disable pthread_atfork callbacks
-as soon as possible", 2016-01-27):
+* Patches 3-9 use the code from patches 1,2 to implement qemu-img amend bas=
+ed encryption slot management
+  for luks and for qcow2, and add a bunch of iotests to cover that.
 
-- the CPU thread is inside a RCU critical section and wants to take the
-BQL in order to do MMIO
+* Patches 10-13 add x-blockdev-amend (I'll drop the -x prefix if you like),=
+ and wire it
+  to luks and qcow2 driver to implement qmp based encryption slot managemen=
+t also using
+  the code from patches 1,2, and also add a bunch of iotests to cover this.
 
-- the I/O thread, which is owning the BQL, forks and calls
-rcu_init_lock, which tries to take the rcu_sync_lock
+V2:
+=09* Still the same API interface.
+=09* Added new patch to refactor qcow2 amend options
+=09* Reworked main code implementation to be hopefully cleaner.
+=09* Fixed iotests hopefully.
 
-- the call_rcu thread has taken rcu_sync_lock in synchronize_rcu, but
-synchronize_rcu needs the CPU thread to end the critical section before
-returning.
+Best regards,
+        Maxim Levitsky
 
-Therefore it would be best if the fork server could fork before a single
-CPU instruction is executed, and then rcu_disable_atfork could be moved
-right after the fork server is started (just like right now we do it
-right after os_daemonize).  We probably talked about this before, but
-how do you ensure that the fork server is started before threads are
-created (apart from the RCU thread)?
+Maxim Levitsky (14):
+  qcrypto/core: add generic infrastructure for crypto options amendment
+  qcrypto/luks: implement encryption key management
+  block/amend: add 'force' option
+  block/amend: separate amend and create options for qemu-img
+  block/amend: refactor qcow2 amend options
+  block/crypto: rename two functions
+  block/crypto: implement the encryption key management
+  block/qcow2: extend qemu-img amend interface with crypto options
+  iotests: filter few more luks specific create options
+  iotests: qemu-img tests for luks key management
+  block/core: add generic infrastructure for x-blockdev-amend qmp
+    command
+  block/crypto: implement blockdev-amend
+  block/qcow2: implement blockdev-amend
+  iotests: add tests for blockdev-amend
 
-Paolo
+ block.c                          |   4 +-
+ block/Makefile.objs              |   2 +-
+ block/amend.c                    | 108 ++++++++
+ block/crypto.c                   | 204 +++++++++++++--
+ block/crypto.h                   |  45 +++-
+ block/qcow2.c                    | 319 +++++++++++++---------
+ crypto/block-luks.c              | 391 ++++++++++++++++++++++++++-
+ crypto/block.c                   |  31 +++
+ crypto/blockpriv.h               |   8 +
+ include/block/block.h            |   1 +
+ include/block/block_int.h        |  24 +-
+ include/crypto/block.h           |  22 ++
+ qapi/block-core.json             |  68 +++++
+ qapi/crypto.json                 |  64 +++++
+ qapi/job.json                    |   4 +-
+ qemu-img-cmds.hx                 |   4 +-
+ qemu-img.c                       |  44 +++-
+ qemu-img.texi                    |   6 +-
+ tests/qemu-iotests/049.out       | 102 ++++----
+ tests/qemu-iotests/061.out       |  12 +-
+ tests/qemu-iotests/079.out       |  18 +-
+ tests/qemu-iotests/082.out       | 437 +++++++++++++++++++++----------
+ tests/qemu-iotests/085.out       |  38 +--
+ tests/qemu-iotests/087.out       |   6 +-
+ tests/qemu-iotests/115.out       |   2 +-
+ tests/qemu-iotests/121.out       |   4 +-
+ tests/qemu-iotests/125.out       | 192 +++++++-------
+ tests/qemu-iotests/134.out       |   2 +-
+ tests/qemu-iotests/144.out       |   4 +-
+ tests/qemu-iotests/158.out       |   4 +-
+ tests/qemu-iotests/182.out       |   2 +-
+ tests/qemu-iotests/185.out       |   8 +-
+ tests/qemu-iotests/188.out       |   2 +-
+ tests/qemu-iotests/189.out       |   4 +-
+ tests/qemu-iotests/198.out       |   4 +-
+ tests/qemu-iotests/243.out       |  16 +-
+ tests/qemu-iotests/250.out       |   2 +-
+ tests/qemu-iotests/255.out       |   8 +-
+ tests/qemu-iotests/263.out       |   4 +-
+ tests/qemu-iotests/280.out       |   2 +-
+ tests/qemu-iotests/300           | 207 +++++++++++++++
+ tests/qemu-iotests/300.out       |  99 +++++++
+ tests/qemu-iotests/301           |  90 +++++++
+ tests/qemu-iotests/301.out       |  30 +++
+ tests/qemu-iotests/302           | 284 ++++++++++++++++++++
+ tests/qemu-iotests/302.out       |  40 +++
+ tests/qemu-iotests/303           | 235 +++++++++++++++++
+ tests/qemu-iotests/303.out       |  33 +++
+ tests/qemu-iotests/common.filter |   6 +-
+ tests/qemu-iotests/group         |   6 +
+ 50 files changed, 2730 insertions(+), 522 deletions(-)
+ create mode 100644 block/amend.c
+ create mode 100755 tests/qemu-iotests/300
+ create mode 100644 tests/qemu-iotests/300.out
+ create mode 100755 tests/qemu-iotests/301
+ create mode 100644 tests/qemu-iotests/301.out
+ create mode 100644 tests/qemu-iotests/302
+ create mode 100644 tests/qemu-iotests/302.out
+ create mode 100644 tests/qemu-iotests/303
+ create mode 100644 tests/qemu-iotests/303.out
 
-
---BecBHoReZ0SAyHCQ6kJC1SjAK9nKapn8o--
-
---HXEpzlQjqR8hxRgpZjtgchmFWCmzQykSo
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEE8TM4V0tmI4mGbHaCv/vSX3jHroMFAl4zETsACgkQv/vSX3jH
-roMylwf/bzJorKjagrArYgCWuralalImcbl22Rr2LRIxqYwvbRVd4VdPfsGHWQ7Q
-VRoVcKazcgjlxPGe5U3cTpPVleK2FbfBsDBJMAXhdhc2WxYtvOZgMCA+0pEOpMI7
-HBZV1wQUmUKDH07yAi9gFIYGEF/cKuoigNtrpnf9EE7ILrUvMsaFIQRtwSdDtjOc
-+tadtdkgKgLiStgiM9gdVxyLA1Gu0qS7ydECo/cx5Ehs5r8PXeAyT474M9KJTOKw
-GerRXts1LqEpjWya+UPEIMh0iKbJtwpyfSOcA1vS3Jqz9Ys+xJwuXTBMigkjkxcq
-Jy7HlAJuSwp3Lv4SWOG4U86+HjcTvg==
-=7Gge
------END PGP SIGNATURE-----
-
---HXEpzlQjqR8hxRgpZjtgchmFWCmzQykSo--
+--=20
+2.17.2
 
 
