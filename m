@@ -2,58 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE0D814DF6F
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jan 2020 17:49:34 +0100 (CET)
-Received: from localhost ([::1]:36004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F23FA14DF69
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jan 2020 17:46:57 +0100 (CET)
+Received: from localhost ([::1]:35964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ixD0X-0005LJ-P3
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 11:49:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54762)
+	id 1ixCxy-0002Pf-G7
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 11:46:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55645)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ovoshcha@redhat.com>) id 1ixCtz-0005NU-EU
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 11:42:48 -0500
+ (envelope-from <quintela@redhat.com>) id 1ixCwI-0001Dy-Cr
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 11:45:11 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ovoshcha@redhat.com>) id 1ixCty-0008LF-4T
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 11:42:47 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:31662
+ (envelope-from <quintela@redhat.com>) id 1ixCwG-0003P8-Kw
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 11:45:09 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:56460
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ovoshcha@redhat.com>) id 1ixCty-0008L3-0Z
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 11:42:46 -0500
+ (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1ixCwG-0003LT-2i
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 11:45:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580402565;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=nq8shDh5nxJjg02cbMGDylXu+sFYAPVUasKVVYAD/X0=;
- b=ifNWRW8yRQuw9JKNQi0MrxoljfO/E/7rPRyb+VznRCYIaQGk7f++ZcoubqK5L5VmeJa5w0
- GVb9ugm8qSUrLwIy+v55IpFon7+6kdPdfYM/8sXLYXnw7r6Uoa3jL/CBNjVKqBZAS5cJe6
- 3qvz4M/Fe6G4JisNgAYyYGDKcaMPWaM=
+ s=mimecast20190719; t=1580402706;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=mvffK6wvGez8mmfLGV3KAt0KsmfMEUdujHgjRO4RNG8=;
+ b=fTgNnQ0/X/XOCEem31wU8wXwwTRasIdlHX2wMnEgTQRq7S2pAkvf0D38RpatTTYFSxQQLg
+ G+VBFxq0Cl4saGjW9TFNDkeyypQfAkiBOs0acIXULXD72YYePGttQ/9Jn2PF9G+sm14D/e
+ 1GH7F1GiDK3veeFnQyVBzjOni8B11ms=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-371-TdcXEcdNMryu4LUhRTce2Q-1; Thu, 30 Jan 2020 11:42:43 -0500
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-265-P8C5FnN9NC-NsJBsseztZg-1; Thu, 30 Jan 2020 11:45:03 -0500
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AAF2519057A1
- for <qemu-devel@nongnu.org>; Thu, 30 Jan 2020 16:42:42 +0000 (UTC)
-Received: from kh066.redhat.com (ovpn-116-182.ams2.redhat.com [10.36.116.182])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8927C10018FF;
- Thu, 30 Jan 2020 16:42:36 +0000 (UTC)
-From: Oksana Vohchana <ovoshcha@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 REPOST] Acceptance test: provides to use different
- transport for migration
-Date: Thu, 30 Jan 2020 18:42:35 +0200
-Message-Id: <20200130164235.12306-1-ovoshcha@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B4ECB190B2A0
+ for <qemu-devel@nongnu.org>; Thu, 30 Jan 2020 16:45:02 +0000 (UTC)
+Received: from redhat.com (ovpn-117-53.ams2.redhat.com [10.36.117.53])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4A65460BE1;
+ Thu, 30 Jan 2020 16:45:02 +0000 (UTC)
+From: Juan Quintela <quintela@redhat.com>
+To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
+Subject: Re: [PATCH v2] git: Make submodule check only needed modules
+In-Reply-To: <20200130163120.GR1891831@redhat.com> ("Daniel P. =?utf-8?Q?B?=
+ =?utf-8?Q?errang=C3=A9=22's?=
+ message of "Thu, 30 Jan 2020 16:31:20 +0000")
+References: <20200130162810.14503-1-quintela@redhat.com>
+ <20200130163120.GR1891831@redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+Date: Thu, 30 Jan 2020 17:44:59 +0100
+Message-ID: <87pnf0c2r8.fsf@secure.laptop>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: TdcXEcdNMryu4LUhRTce2Q-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: P8C5FnN9NC-NsJBsseztZg-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -69,111 +76,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: philmd@redhat.com, wainersm@redhat.com, crosa@redhat.com
+Reply-To: quintela@redhat.com
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Along with VM migration via TCP, we can use migration through EXEC
-and UNIX transport protocol
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> wrote:
+> On Thu, Jan 30, 2020 at 05:28:10PM +0100, Juan Quintela wrote:
+>> If one is compiling more than one tree from the same source, it is
+>> possible that they need different submodules.  Change the check to see
+>> that all modules that we are interested in are updated, discarding the
+>> ones that we don't care about.
+>>=20
+>> Signed-off-by: Juan Quintela <quintela@redhat.com>
+>>=20
+>
+> Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 
-Signed-off-by: Oksana Vohchana <ovoshcha@redhat.com>
----
-v2:
-  - Removes unnecessary symbols and unused method
----
- tests/acceptance/migration.py | 51 ++++++++++++++++++++++++-----------
- 1 file changed, 36 insertions(+), 15 deletions(-)
+Should I send the pull request?
 
-diff --git a/tests/acceptance/migration.py b/tests/acceptance/migration.py
-index a44c1ae58f..1f6a674843 100644
---- a/tests/acceptance/migration.py
-+++ b/tests/acceptance/migration.py
-@@ -10,10 +10,13 @@
- # later.  See the COPYING file in the top-level directory.
-=20
-=20
-+import tempfile
- from avocado_qemu import Test
-+from avocado import skipUnless
-=20
- from avocado.utils import network
- from avocado.utils import wait
-+from avocado.utils.path import find_command
-=20
-=20
- class Migration(Test):
-@@ -24,6 +27,26 @@ class Migration(Test):
-     def migration_finished(vm):
-         return vm.command('query-migrate')['status'] in ('completed', 'fai=
-led')
-=20
-+    def do_migrate(self, dest_uri, src_uri=3DNone):
-+        source_vm =3D self.get_vm()
-+        dest_vm =3D self.get_vm('-incoming', dest_uri)
-+        dest_vm.launch()
-+        if src_uri is None:
-+            src_uri =3D dest_uri
-+        source_vm.launch()
-+        source_vm.qmp('migrate', uri=3Dsrc_uri)
-+        self.assert_migration(source_vm, dest_vm)
-+
-+    def assert_migration(self, source_vm, dest_vm):
-+        wait.wait_for(self.migration_finished,
-+                      timeout=3Dself.timeout,
-+                      step=3D0.1,
-+                      args=3D(source_vm,))
-+        self.assertEqual(source_vm.command('query-migrate')['status'], 'co=
-mpleted')
-+        self.assertEqual(dest_vm.command('query-migrate')['status'], 'comp=
-leted')
-+        self.assertEqual(dest_vm.command('query-status')['status'], 'runni=
-ng')
-+        self.assertEqual(source_vm.command('query-status')['status'], 'pos=
-tmigrate')
-+
-     def _get_free_port(self):
-         port =3D network.find_free_port()
-         if port is None:
-@@ -32,19 +55,17 @@ class Migration(Test):
-=20
-=20
-     def test_migration_with_tcp_localhost(self):
--        source_vm =3D self.get_vm()
-         dest_uri =3D 'tcp:localhost:%u' % self._get_free_port()
--        dest_vm =3D self.get_vm('-incoming', dest_uri)
--        dest_vm.launch()
--        source_vm.launch()
--        source_vm.qmp('migrate', uri=3Ddest_uri)
--        wait.wait_for(
--            self.migration_finished,
--            timeout=3Dself.timeout,
--            step=3D0.1,
--            args=3D(source_vm,)
--        )
--        self.assertEqual(dest_vm.command('query-migrate')['status'], 'comp=
-leted')
--        self.assertEqual(source_vm.command('query-migrate')['status'], 'co=
-mpleted')
--        self.assertEqual(dest_vm.command('query-status')['status'], 'runni=
-ng')
--        self.assertEqual(source_vm.command('query-status')['status'], 'pos=
-tmigrate')
-+        self.do_migrate(dest_uri)
-+
-+    def test_migration_with_unix(self):
-+        with tempfile.TemporaryDirectory(prefix=3D'socket_') as socket_pat=
-h:
-+            dest_uri =3D 'unix:%s/qemu-test.sock' % socket_path
-+            self.do_migrate(dest_uri)
-+
-+    @skipUnless(find_command('nc', default=3DFalse), "nc command not found=
- on the system")
-+    def test_migration_with_exec(self):
-+        free_port =3D self._get_free_port()
-+        dest_uri =3D 'exec:nc -l localhost %u' % free_port
-+        src_uri =3D 'exec:nc localhost %u' % free_port
-+        self.do_migrate(dest_uri, src_uri)
---=20
-2.21.1
+Later, Juan.
 
 
