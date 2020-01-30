@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54FF214E005
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jan 2020 18:38:10 +0100 (CET)
-Received: from localhost ([::1]:36954 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10C8214DFF6
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Jan 2020 18:33:52 +0100 (CET)
+Received: from localhost ([::1]:36818 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ixDlZ-00032I-Cp
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 12:38:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47136)
+	id 1ixDhP-0004mU-1V
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 12:33:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47161)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mlevitsk@redhat.com>) id 1ixDdg-0007tu-Ce
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 12:30:05 -0500
+ (envelope-from <mlevitsk@redhat.com>) id 1ixDdi-0007yO-JW
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 12:30:04 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mlevitsk@redhat.com>) id 1ixDdb-0008Ln-QR
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 12:30:00 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:58721
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <mlevitsk@redhat.com>) id 1ixDdg-0000FL-Mb
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 12:30:02 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:49334
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mlevitsk@redhat.com>) id 1ixDdb-0008Je-KL
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 12:29:55 -0500
+ (Exim 4.71) (envelope-from <mlevitsk@redhat.com>) id 1ixDdg-0000E4-In
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 12:30:00 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580405395;
+ s=mimecast20190719; t=1580405400;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rkB9ZEa0m8XBFo3M3uPzZ3ujCfkv9rb9bOzu/2URZaI=;
- b=cK8+CFaR+4rGKDlq5iemZm6T9bTxrcFyrvhmed2okhdHJZBxhpJ1XSGZ2oHjQWlH4rag+x
- +foMQYa5GH2Duy7x1I2OyzYlEhOYDntQvyc07ISWql51ECDdQQlJLpunQOwvUfy29HCQsm
- XQJejqEnlPXv8d2FOE4uoxmOCOBuRHU=
+ bh=0SnQErtj/RpArzMwWvh0zWa6Uq6D1qsid6HwWxCWupA=;
+ b=bLIIUXF3DkhaPPkj35N8mrnnYuXvTveGckQXOYDs7xFyB+ZzovSAzViSi3BXBskXLuYZdM
+ Udau3hoa6ATCwaOPQwTcAdQ0qB00+ykbMWG+IxGqrJQu2oiCi+44N3CM7owc8xvAdQg8B9
+ SsgoysrM5hTejd6jPcHnsPtJyHbHAxo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-378-tgb7e4wpMlGjuhNo8SR8jA-1; Thu, 30 Jan 2020 12:29:52 -0500
+ us-mta-38-bmBqdSgHN6uVjtXqCEKjYA-1; Thu, 30 Jan 2020 12:29:55 -0500
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D84BF800D41;
- Thu, 30 Jan 2020 17:29:51 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6DF44107ACC9;
+ Thu, 30 Jan 2020 17:29:54 +0000 (UTC)
 Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.78])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9F2D75D9E5;
- Thu, 30 Jan 2020 17:29:49 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3D64B5DDAA;
+ Thu, 30 Jan 2020 17:29:52 +0000 (UTC)
 From: Maxim Levitsky <mlevitsk@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 08/14] block/qcow2: extend qemu-img amend interface with
- crypto options
-Date: Thu, 30 Jan 2020 19:29:13 +0200
-Message-Id: <20200130172919.13424-9-mlevitsk@redhat.com>
+Subject: [PATCH v2 09/14] iotests: filter few more luks specific create options
+Date: Thu, 30 Jan 2020 19:29:14 +0200
+Message-Id: <20200130172919.13424-10-mlevitsk@redhat.com>
 In-Reply-To: <20200130172919.13424-1-mlevitsk@redhat.com>
 References: <20200130172919.13424-1-mlevitsk@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: tgb7e4wpMlGjuhNo8SR8jA-1
+X-MC-Unique: bmBqdSgHN6uVjtXqCEKjYA-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,823 +77,198 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that we have all the infrastructure in place,
-wire it in the qcow2 driver and expose this to the user.
+This allows more tests to be able to have same output on both qcow2 luks en=
+crypted images
+and raw luks images
 
 Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
 ---
- block/qcow2.c              |  83 +++++++++--
- tests/qemu-iotests/082.out | 288 +++++++++++++++++++++++++++++++++++++
- 2 files changed, 360 insertions(+), 11 deletions(-)
+ tests/qemu-iotests/087.out       | 6 +++---
+ tests/qemu-iotests/134.out       | 2 +-
+ tests/qemu-iotests/158.out       | 4 ++--
+ tests/qemu-iotests/188.out       | 2 +-
+ tests/qemu-iotests/189.out       | 4 ++--
+ tests/qemu-iotests/198.out       | 4 ++--
+ tests/qemu-iotests/263.out       | 4 ++--
+ tests/qemu-iotests/common.filter | 6 ++++--
+ 8 files changed, 17 insertions(+), 15 deletions(-)
 
-diff --git a/block/qcow2.c b/block/qcow2.c
-index b1a03a56a5..59c8a772cc 100644
---- a/block/qcow2.c
-+++ b/block/qcow2.c
-@@ -173,6 +173,19 @@ static ssize_t qcow2_crypto_hdr_write_func(QCryptoBloc=
-k *block, size_t offset,
-     return ret;
+diff --git a/tests/qemu-iotests/087.out b/tests/qemu-iotests/087.out
+index f23bffbbf1..d5ff53302e 100644
+--- a/tests/qemu-iotests/087.out
++++ b/tests/qemu-iotests/087.out
+@@ -34,7 +34,7 @@ QMP_VERSION
+=20
+ =3D=3D=3D Encrypted image QCow =3D=3D=3D
+=20
+-Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT encryption=3Don encrypt.key-s=
+ecret=3Dsec0 size=3D134217728
++Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT encryption=3Don size=3D134217=
+728
+ Testing:
+ QMP_VERSION
+ {"return": {}}
+@@ -46,7 +46,7 @@ QMP_VERSION
+=20
+ =3D=3D=3D Encrypted image LUKS =3D=3D=3D
+=20
+-Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT encrypt.format=3Dluks encrypt=
+.key-secret=3Dsec0 size=3D134217728
++Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D134217728
+ Testing:
+ QMP_VERSION
+ {"return": {}}
+@@ -58,7 +58,7 @@ QMP_VERSION
+=20
+ =3D=3D=3D Missing driver =3D=3D=3D
+=20
+-Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT encryption=3Don encrypt.key-s=
+ecret=3Dsec0 size=3D134217728
++Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT encryption=3Don size=3D134217=
+728
+ Testing: -S
+ QMP_VERSION
+ {"return": {}}
+diff --git a/tests/qemu-iotests/134.out b/tests/qemu-iotests/134.out
+index f2878f5f3a..e4733c0b81 100644
+--- a/tests/qemu-iotests/134.out
++++ b/tests/qemu-iotests/134.out
+@@ -1,5 +1,5 @@
+ QA output created by 134
+-Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT encryption=3Don encrypt.key-s=
+ecret=3Dsec0 size=3D134217728
++Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT encryption=3Don size=3D134217=
+728
+=20
+ =3D=3D reading whole image =3D=3D
+ read 134217728/134217728 bytes at offset 0
+diff --git a/tests/qemu-iotests/158.out b/tests/qemu-iotests/158.out
+index fa2294bb85..52ea9a488f 100644
+--- a/tests/qemu-iotests/158.out
++++ b/tests/qemu-iotests/158.out
+@@ -1,6 +1,6 @@
+ QA output created by 158
+ =3D=3D create base =3D=3D
+-Formatting 'TEST_DIR/t.IMGFMT.base', fmt=3DIMGFMT encryption=3Don encrypt.=
+key-secret=3Dsec0 size=3D134217728
++Formatting 'TEST_DIR/t.IMGFMT.base', fmt=3DIMGFMT encryption=3Don size=3D1=
+34217728
+=20
+ =3D=3D writing whole image =3D=3D
+ wrote 134217728/134217728 bytes at offset 0
+@@ -10,7 +10,7 @@ wrote 134217728/134217728 bytes at offset 0
+ read 134217728/134217728 bytes at offset 0
+ 128 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ =3D=3D create overlay =3D=3D
+-Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT encryption=3Don encrypt.key-s=
+ecret=3Dsec0 size=3D134217728 backing_file=3DTEST_DIR/t.IMGFMT.base
++Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT encryption=3Don size=3D134217=
+728 backing_file=3DTEST_DIR/t.IMGFMT.base
+=20
+ =3D=3D writing part of a cluster =3D=3D
+ wrote 1024/1024 bytes at offset 0
+diff --git a/tests/qemu-iotests/188.out b/tests/qemu-iotests/188.out
+index 4b9aadd51c..5426861b18 100644
+--- a/tests/qemu-iotests/188.out
++++ b/tests/qemu-iotests/188.out
+@@ -1,5 +1,5 @@
+ QA output created by 188
+-Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT encrypt.format=3Dluks encrypt=
+.key-secret=3Dsec0 encrypt.iter-time=3D10 size=3D16777216
++Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D16777216
+=20
+ =3D=3D reading whole image =3D=3D
+ read 16777216/16777216 bytes at offset 0
+diff --git a/tests/qemu-iotests/189.out b/tests/qemu-iotests/189.out
+index e536d95d53..bc213cbe14 100644
+--- a/tests/qemu-iotests/189.out
++++ b/tests/qemu-iotests/189.out
+@@ -1,6 +1,6 @@
+ QA output created by 189
+ =3D=3D create base =3D=3D
+-Formatting 'TEST_DIR/t.IMGFMT.base', fmt=3DIMGFMT encrypt.format=3Dluks en=
+crypt.key-secret=3Dsec0 encrypt.iter-time=3D10 size=3D16777216
++Formatting 'TEST_DIR/t.IMGFMT.base', fmt=3DIMGFMT size=3D16777216
+=20
+ =3D=3D writing whole image =3D=3D
+ wrote 16777216/16777216 bytes at offset 0
+@@ -10,7 +10,7 @@ wrote 16777216/16777216 bytes at offset 0
+ read 16777216/16777216 bytes at offset 0
+ 16 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ =3D=3D create overlay =3D=3D
+-Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT encrypt.format=3Dluks encrypt=
+.key-secret=3Dsec1 encrypt.iter-time=3D10 size=3D16777216 backing_file=3DTE=
+ST_DIR/t.IMGFMT.base
++Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D16777216 backing_file=
+=3DTEST_DIR/t.IMGFMT.base
+=20
+ =3D=3D writing part of a cluster =3D=3D
+ wrote 1024/1024 bytes at offset 0
+diff --git a/tests/qemu-iotests/198.out b/tests/qemu-iotests/198.out
+index b0f2d417af..acfdf96b0c 100644
+--- a/tests/qemu-iotests/198.out
++++ b/tests/qemu-iotests/198.out
+@@ -1,12 +1,12 @@
+ QA output created by 198
+ =3D=3D create base =3D=3D
+-Formatting 'TEST_DIR/t.IMGFMT.base', fmt=3DIMGFMT encrypt.format=3Dluks en=
+crypt.key-secret=3Dsec0 encrypt.iter-time=3D10 size=3D16777216
++Formatting 'TEST_DIR/t.IMGFMT.base', fmt=3DIMGFMT size=3D16777216
+=20
+ =3D=3D writing whole image base =3D=3D
+ wrote 16777216/16777216 bytes at offset 0
+ 16 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ =3D=3D create overlay =3D=3D
+-Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT encrypt.format=3Dluks encrypt=
+.key-secret=3Dsec1 encrypt.iter-time=3D10 size=3D16777216 backing_file=3DTE=
+ST_DIR/t.IMGFMT.base
++Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D16777216 backing_file=
+=3DTEST_DIR/t.IMGFMT.base
+=20
+ =3D=3D writing whole image layer =3D=3D
+ wrote 16777216/16777216 bytes at offset 0
+diff --git a/tests/qemu-iotests/263.out b/tests/qemu-iotests/263.out
+index 4cf5c79ed8..54bfbeeff8 100644
+--- a/tests/qemu-iotests/263.out
++++ b/tests/qemu-iotests/263.out
+@@ -2,7 +2,7 @@ QA output created by 263
+=20
+ testing LUKS qcow2 encryption
+=20
+-Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT encrypt.format=3Dluks encrypt=
+.key-secret=3Dsec0 encrypt.iter-time=3D10 size=3D1048576
++Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D1048576
+ =3D=3D reading the whole image =3D=3D
+ read 1048576/1048576 bytes at offset 0
+ 1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+@@ -21,7 +21,7 @@ read 982528/982528 bytes at offset 66048
+=20
+ testing legacy AES qcow2 encryption
+=20
+-Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT encrypt.format=3Daes encrypt.=
+key-secret=3Dsec0 size=3D1048576
++Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D1048576
+ =3D=3D reading the whole image =3D=3D
+ read 1048576/1048576 bytes at offset 0
+ 1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+diff --git a/tests/qemu-iotests/common.filter b/tests/qemu-iotests/common.f=
+ilter
+index 3f8ee3e5f7..bcc4495d52 100644
+--- a/tests/qemu-iotests/common.filter
++++ b/tests/qemu-iotests/common.filter
+@@ -150,8 +150,10 @@ _filter_img_create()
+         -e "s# block_state_zero=3D\\(on\\|off\\)##g" \
+         -e "s# log_size=3D[0-9]\\+##g" \
+         -e "s# refcount_bits=3D[0-9]\\+##g" \
+-        -e "s# key-secret=3D[a-zA-Z0-9]\\+##g" \
+-        -e "s# iter-time=3D[0-9]\\+##g" \
++        -e "s# \\(encrypt\\.\\)\\?key-secret=3D[a-zA-Z0-9]\\+##g" \
++        -e "s# \\(encrypt\\.\\)\\?slot=3D[0-9]\\+##g" \
++        -e "s# \\(encrypt\\.\\)\\?iter-time=3D[0-9]\\+##g" \
++        -e "s# encrypt\\.format=3D[a-zA-Z0-9]\\+##g" \
+         -e "s# force_size=3D\\(on\\|off\\)##g"
  }
 =20
-+static QDict*
-+qcow2_extract_crypto_opts(QemuOpts *opts, const char *fmt, Error **errp)
-+{
-+    QDict *cryptoopts_qdict;
-+    QDict *opts_qdict;
-+
-+    /* Extract "encrypt." options into a qdict */
-+    opts_qdict =3D qemu_opts_to_qdict(opts, NULL);
-+    qdict_extract_subqdict(opts_qdict, &cryptoopts_qdict, "encrypt.");
-+    qobject_unref(opts_qdict);
-+    qdict_put_str(cryptoopts_qdict, "format", "luks");
-+    return cryptoopts_qdict;
-+}
-=20
- /*=20
-  * read qcow2 extension and fill bs
-@@ -4620,20 +4633,18 @@ static ssize_t qcow2_measure_crypto_hdr_write_func(=
-QCryptoBlock *block,
- static bool qcow2_measure_luks_headerlen(QemuOpts *opts, size_t *len,
-                                          Error **errp)
- {
--    QDict *opts_qdict;
--    QDict *cryptoopts_qdict;
-     QCryptoBlockCreateOptions *cryptoopts;
-+    QDict *crypto_opts_dict;
-     QCryptoBlock *crypto;
-=20
--    /* Extract "encrypt." options into a qdict */
--    opts_qdict =3D qemu_opts_to_qdict(opts, NULL);
--    qdict_extract_subqdict(opts_qdict, &cryptoopts_qdict, "encrypt.");
--    qobject_unref(opts_qdict);
-+    crypto_opts_dict =3D qcow2_extract_crypto_opts(opts, "luks", errp);
-+    if (!crypto_opts_dict) {
-+        return false;
-+    }
-+
-+    cryptoopts =3D block_crypto_create_opts_init(crypto_opts_dict, errp);
-+    qobject_unref(crypto_opts_dict);
-=20
--    /* Build QCryptoBlockCreateOptions object from qdict */
--    qdict_put_str(cryptoopts_qdict, "format", "luks");
--    cryptoopts =3D block_crypto_create_opts_init(cryptoopts_qdict, errp);
--    qobject_unref(cryptoopts_qdict);
-     if (!cryptoopts) {
-         return false;
-     }
-@@ -5072,6 +5083,7 @@ typedef enum Qcow2AmendOperation {
-     QCOW2_NO_OPERATION =3D 0,
-=20
-     QCOW2_UPGRADING,
-+    QCOW2_UPDATING_ENCRYPTION,
-     QCOW2_CHANGING_REFCOUNT_ORDER,
-     QCOW2_DOWNGRADING,
- } Qcow2AmendOperation;
-@@ -5153,6 +5165,7 @@ static int qcow2_amend_options(BlockDriverState *bs, =
-QemuOpts *opts,
-     int ret;
-     QemuOptDesc *desc =3D opts->list->desc;
-     Qcow2AmendHelperCBInfo helper_cb_info;
-+    bool encryption_update =3D false;
-=20
-     while (desc && desc->name) {
-         if (!qemu_opt_find(opts, desc->name)) {
-@@ -5179,6 +5192,18 @@ static int qcow2_amend_options(BlockDriverState *bs,=
- QemuOpts *opts,
-             backing_file =3D qemu_opt_get(opts, BLOCK_OPT_BACKING_FILE);
-         } else if (!strcmp(desc->name, BLOCK_OPT_BACKING_FMT)) {
-             backing_format =3D qemu_opt_get(opts, BLOCK_OPT_BACKING_FMT);
-+        } else if (g_str_has_prefix(desc->name, "encrypt.")) {
-+            if (!s->crypto) {
-+                error_setg(errp,
-+                           "Can't amend encryption options - encryption no=
-t present");
-+                return -EINVAL;
-+            }
-+            if (s->crypt_method_header !=3D QCOW_CRYPT_LUKS) {
-+                error_setg(errp,
-+                           "Only LUKS encryption options can be amended");
-+                return -ENOTSUP;
-+            }
-+            encryption_update =3D true;
-         } else if (!strcmp(desc->name, BLOCK_OPT_LAZY_REFCOUNTS)) {
-             lazy_refcounts =3D qemu_opt_get_bool(opts, BLOCK_OPT_LAZY_REFC=
-OUNTS,
-                                                lazy_refcounts);
-@@ -5221,7 +5246,8 @@ static int qcow2_amend_options(BlockDriverState *bs, =
-QemuOpts *opts,
-         .original_status_cb =3D status_cb,
-         .original_cb_opaque =3D cb_opaque,
-         .total_operations =3D (new_version !=3D old_version)
--                          + (s->refcount_bits !=3D refcount_bits)
-+                          + (s->refcount_bits !=3D refcount_bits) +
-+                            (encryption_update =3D=3D true)
-     };
-=20
-     /* Upgrade first (some features may require compat=3D1.1) */
-@@ -5234,6 +5260,33 @@ static int qcow2_amend_options(BlockDriverState *bs,=
- QemuOpts *opts,
-         }
-     }
-=20
-+    if (encryption_update) {
-+        QDict *amend_opts_dict;
-+        QCryptoBlockAmendOptions *amend_opts;
-+
-+        helper_cb_info.current_operation =3D QCOW2_UPDATING_ENCRYPTION;
-+        amend_opts_dict =3D qcow2_extract_crypto_opts(opts, "luks", errp);
-+        if (!amend_opts_dict) {
-+            return -EINVAL;
-+        }
-+        amend_opts =3D block_crypto_amend_opts_init(amend_opts_dict, errp)=
-;
-+        qobject_unref(amend_opts_dict);
-+        if (!amend_opts) {
-+            return -EINVAL;
-+        }
-+        ret =3D qcrypto_block_amend_options(s->crypto,
-+                                          qcow2_crypto_hdr_read_func,
-+                                          qcow2_crypto_hdr_write_func,
-+                                          bs,
-+                                          amend_opts,
-+                                          force,
-+                                          errp);
-+        qapi_free_QCryptoBlockAmendOptions(amend_opts);
-+        if (ret < 0) {
-+            return ret;
-+        }
-+    }
-+
-     if (s->refcount_bits !=3D refcount_bits) {
-         int refcount_order =3D ctz32(refcount_bits);
-=20
-@@ -5488,6 +5541,14 @@ static QemuOptsList qcow2_amend_opts =3D {
-     .name =3D "qcow2-amend-opts",
-     .head =3D QTAILQ_HEAD_INITIALIZER(qcow2_amend_opts.head),
-     .desc =3D {
-+        BLOCK_CRYPTO_OPT_DEF_LUKS_KEYSLOT_UPDATE("encrypt.keys.0."),
-+        BLOCK_CRYPTO_OPT_DEF_LUKS_KEYSLOT_UPDATE("encrypt.keys.1."),
-+        BLOCK_CRYPTO_OPT_DEF_LUKS_KEYSLOT_UPDATE("encrypt.keys.2."),
-+        BLOCK_CRYPTO_OPT_DEF_LUKS_KEYSLOT_UPDATE("encrypt.keys.3."),
-+        BLOCK_CRYPTO_OPT_DEF_LUKS_KEYSLOT_UPDATE("encrypt.keys.4."),
-+        BLOCK_CRYPTO_OPT_DEF_LUKS_KEYSLOT_UPDATE("encrypt.keys.5."),
-+        BLOCK_CRYPTO_OPT_DEF_LUKS_KEYSLOT_UPDATE("encrypt.keys.6."),
-+        BLOCK_CRYPTO_OPT_DEF_LUKS_KEYSLOT_UPDATE("encrypt.keys.7."),
-         QCOW_COMMON_OPTIONS,
-         { /* end of list */ }
-     }
-diff --git a/tests/qemu-iotests/082.out b/tests/qemu-iotests/082.out
-index c68458da8c..56461267e3 100644
---- a/tests/qemu-iotests/082.out
-+++ b/tests/qemu-iotests/082.out
-@@ -620,6 +620,38 @@ Amend options for 'qcow2':
-   compat=3D<str>           - Compatibility level (v2 [0.10] or v3 [1.1])
-   data_file=3D<str>        - File name of an external data file
-   data_file_raw=3D<bool (on/off)> - The external data file must stay valid=
- as a raw image
-+  encrypt.keys.0.iter-time=3D<num> - Time to spend in PBKDF in millisecond=
-s
-+  encrypt.keys.0.keyslot=3D<num> - Select a single keyslot to modify expli=
-citly
-+  encrypt.keys.0.new-secret=3D<str> - New secret to set in the matching ke=
-yslots. Empty string to erase
-+  encrypt.keys.0.old-secret=3D<str> - Select all keyslots that match this =
-password
-+  encrypt.keys.1.iter-time=3D<num> - Time to spend in PBKDF in millisecond=
-s
-+  encrypt.keys.1.keyslot=3D<num> - Select a single keyslot to modify expli=
-citly
-+  encrypt.keys.1.new-secret=3D<str> - New secret to set in the matching ke=
-yslots. Empty string to erase
-+  encrypt.keys.1.old-secret=3D<str> - Select all keyslots that match this =
-password
-+  encrypt.keys.2.iter-time=3D<num> - Time to spend in PBKDF in millisecond=
-s
-+  encrypt.keys.2.keyslot=3D<num> - Select a single keyslot to modify expli=
-citly
-+  encrypt.keys.2.new-secret=3D<str> - New secret to set in the matching ke=
-yslots. Empty string to erase
-+  encrypt.keys.2.old-secret=3D<str> - Select all keyslots that match this =
-password
-+  encrypt.keys.3.iter-time=3D<num> - Time to spend in PBKDF in millisecond=
-s
-+  encrypt.keys.3.keyslot=3D<num> - Select a single keyslot to modify expli=
-citly
-+  encrypt.keys.3.new-secret=3D<str> - New secret to set in the matching ke=
-yslots. Empty string to erase
-+  encrypt.keys.3.old-secret=3D<str> - Select all keyslots that match this =
-password
-+  encrypt.keys.4.iter-time=3D<num> - Time to spend in PBKDF in millisecond=
-s
-+  encrypt.keys.4.keyslot=3D<num> - Select a single keyslot to modify expli=
-citly
-+  encrypt.keys.4.new-secret=3D<str> - New secret to set in the matching ke=
-yslots. Empty string to erase
-+  encrypt.keys.4.old-secret=3D<str> - Select all keyslots that match this =
-password
-+  encrypt.keys.5.iter-time=3D<num> - Time to spend in PBKDF in millisecond=
-s
-+  encrypt.keys.5.keyslot=3D<num> - Select a single keyslot to modify expli=
-citly
-+  encrypt.keys.5.new-secret=3D<str> - New secret to set in the matching ke=
-yslots. Empty string to erase
-+  encrypt.keys.5.old-secret=3D<str> - Select all keyslots that match this =
-password
-+  encrypt.keys.6.iter-time=3D<num> - Time to spend in PBKDF in millisecond=
-s
-+  encrypt.keys.6.keyslot=3D<num> - Select a single keyslot to modify expli=
-citly
-+  encrypt.keys.6.new-secret=3D<str> - New secret to set in the matching ke=
-yslots. Empty string to erase
-+  encrypt.keys.6.old-secret=3D<str> - Select all keyslots that match this =
-password
-+  encrypt.keys.7.iter-time=3D<num> - Time to spend in PBKDF in millisecond=
-s
-+  encrypt.keys.7.keyslot=3D<num> - Select a single keyslot to modify expli=
-citly
-+  encrypt.keys.7.new-secret=3D<str> - New secret to set in the matching ke=
-yslots. Empty string to erase
-+  encrypt.keys.7.old-secret=3D<str> - Select all keyslots that match this =
-password
-   lazy_refcounts=3D<bool (on/off)> - Postpone refcount updates
-   refcount_bits=3D<num>    - Width of a reference count entry in bits
-   size=3D<size>            - Virtual disk size
-@@ -631,6 +663,38 @@ Amend options for 'qcow2':
-   compat=3D<str>           - Compatibility level (v2 [0.10] or v3 [1.1])
-   data_file=3D<str>        - File name of an external data file
-   data_file_raw=3D<bool (on/off)> - The external data file must stay valid=
- as a raw image
-+  encrypt.keys.0.iter-time=3D<num> - Time to spend in PBKDF in millisecond=
-s
-+  encrypt.keys.0.keyslot=3D<num> - Select a single keyslot to modify expli=
-citly
-+  encrypt.keys.0.new-secret=3D<str> - New secret to set in the matching ke=
-yslots. Empty string to erase
-+  encrypt.keys.0.old-secret=3D<str> - Select all keyslots that match this =
-password
-+  encrypt.keys.1.iter-time=3D<num> - Time to spend in PBKDF in millisecond=
-s
-+  encrypt.keys.1.keyslot=3D<num> - Select a single keyslot to modify expli=
-citly
-+  encrypt.keys.1.new-secret=3D<str> - New secret to set in the matching ke=
-yslots. Empty string to erase
-+  encrypt.keys.1.old-secret=3D<str> - Select all keyslots that match this =
-password
-+  encrypt.keys.2.iter-time=3D<num> - Time to spend in PBKDF in millisecond=
-s
-+  encrypt.keys.2.keyslot=3D<num> - Select a single keyslot to modify expli=
-citly
-+  encrypt.keys.2.new-secret=3D<str> - New secret to set in the matching ke=
-yslots. Empty string to erase
-+  encrypt.keys.2.old-secret=3D<str> - Select all keyslots that match this =
-password
-+  encrypt.keys.3.iter-time=3D<num> - Time to spend in PBKDF in millisecond=
-s
-+  encrypt.keys.3.keyslot=3D<num> - Select a single keyslot to modify expli=
-citly
-+  encrypt.keys.3.new-secret=3D<str> - New secret to set in the matching ke=
-yslots. Empty string to erase
-+  encrypt.keys.3.old-secret=3D<str> - Select all keyslots that match this =
-password
-+  encrypt.keys.4.iter-time=3D<num> - Time to spend in PBKDF in millisecond=
-s
-+  encrypt.keys.4.keyslot=3D<num> - Select a single keyslot to modify expli=
-citly
-+  encrypt.keys.4.new-secret=3D<str> - New secret to set in the matching ke=
-yslots. Empty string to erase
-+  encrypt.keys.4.old-secret=3D<str> - Select all keyslots that match this =
-password
-+  encrypt.keys.5.iter-time=3D<num> - Time to spend in PBKDF in millisecond=
-s
-+  encrypt.keys.5.keyslot=3D<num> - Select a single keyslot to modify expli=
-citly
-+  encrypt.keys.5.new-secret=3D<str> - New secret to set in the matching ke=
-yslots. Empty string to erase
-+  encrypt.keys.5.old-secret=3D<str> - Select all keyslots that match this =
-password
-+  encrypt.keys.6.iter-time=3D<num> - Time to spend in PBKDF in millisecond=
-s
-+  encrypt.keys.6.keyslot=3D<num> - Select a single keyslot to modify expli=
-citly
-+  encrypt.keys.6.new-secret=3D<str> - New secret to set in the matching ke=
-yslots. Empty string to erase
-+  encrypt.keys.6.old-secret=3D<str> - Select all keyslots that match this =
-password
-+  encrypt.keys.7.iter-time=3D<num> - Time to spend in PBKDF in millisecond=
-s
-+  encrypt.keys.7.keyslot=3D<num> - Select a single keyslot to modify expli=
-citly
-+  encrypt.keys.7.new-secret=3D<str> - New secret to set in the matching ke=
-yslots. Empty string to erase
-+  encrypt.keys.7.old-secret=3D<str> - Select all keyslots that match this =
-password
-   lazy_refcounts=3D<bool (on/off)> - Postpone refcount updates
-   refcount_bits=3D<num>    - Width of a reference count entry in bits
-   size=3D<size>            - Virtual disk size
-@@ -642,6 +706,38 @@ Amend options for 'qcow2':
-   compat=3D<str>           - Compatibility level (v2 [0.10] or v3 [1.1])
-   data_file=3D<str>        - File name of an external data file
-   data_file_raw=3D<bool (on/off)> - The external data file must stay valid=
- as a raw image
-+  encrypt.keys.0.iter-time=3D<num> - Time to spend in PBKDF in millisecond=
-s
-+  encrypt.keys.0.keyslot=3D<num> - Select a single keyslot to modify expli=
-citly
-+  encrypt.keys.0.new-secret=3D<str> - New secret to set in the matching ke=
-yslots. Empty string to erase
-+  encrypt.keys.0.old-secret=3D<str> - Select all keyslots that match this =
-password
-+  encrypt.keys.1.iter-time=3D<num> - Time to spend in PBKDF in millisecond=
-s
-+  encrypt.keys.1.keyslot=3D<num> - Select a single keyslot to modify expli=
-citly
-+  encrypt.keys.1.new-secret=3D<str> - New secret to set in the matching ke=
-yslots. Empty string to erase
-+  encrypt.keys.1.old-secret=3D<str> - Select all keyslots that match this =
-password
-+  encrypt.keys.2.iter-time=3D<num> - Time to spend in PBKDF in millisecond=
-s
-+  encrypt.keys.2.keyslot=3D<num> - Select a single keyslot to modify expli=
-citly
-+  encrypt.keys.2.new-secret=3D<str> - New secret to set in the matching ke=
-yslots. Empty string to erase
-+  encrypt.keys.2.old-secret=3D<str> - Select all keyslots that match this =
-password
-+  encrypt.keys.3.iter-time=3D<num> - Time to spend in PBKDF in millisecond=
-s
-+  encrypt.keys.3.keyslot=3D<num> - Select a single keyslot to modify expli=
-citly
-+  encrypt.keys.3.new-secret=3D<str> - New secret to set in the matching ke=
-yslots. Empty string to erase
-+  encrypt.keys.3.old-secret=3D<str> - Select all keyslots that match this =
-password
-+  encrypt.keys.4.iter-time=3D<num> - Time to spend in PBKDF in millisecond=
-s
-+  encrypt.keys.4.keyslot=3D<num> - Select a single keyslot to modify expli=
-citly
-+  encrypt.keys.4.new-secret=3D<str> - New secret to set in the matching ke=
-yslots. Empty string to erase
-+  encrypt.keys.4.old-secret=3D<str> - Select all keyslots that match this =
-password
-+  encrypt.keys.5.iter-time=3D<num> - Time to spend in PBKDF in millisecond=
-s
-+  encrypt.keys.5.keyslot=3D<num> - Select a single keyslot to modify expli=
-citly
-+  encrypt.keys.5.new-secret=3D<str> - New secret to set in the matching ke=
-yslots. Empty string to erase
-+  encrypt.keys.5.old-secret=3D<str> - Select all keyslots that match this =
-password
-+  encrypt.keys.6.iter-time=3D<num> - Time to spend in PBKDF in millisecond=
-s
-+  encrypt.keys.6.keyslot=3D<num> - Select a single keyslot to modify expli=
-citly
-+  encrypt.keys.6.new-secret=3D<str> - New secret to set in the matching ke=
-yslots. Empty string to erase
-+  encrypt.keys.6.old-secret=3D<str> - Select all keyslots that match this =
-password
-+  encrypt.keys.7.iter-time=3D<num> - Time to spend in PBKDF in millisecond=
-s
-+  encrypt.keys.7.keyslot=3D<num> - Select a single keyslot to modify expli=
-citly
-+  encrypt.keys.7.new-secret=3D<str> - New secret to set in the matching ke=
-yslots. Empty string to erase
-+  encrypt.keys.7.old-secret=3D<str> - Select all keyslots that match this =
-password
-   lazy_refcounts=3D<bool (on/off)> - Postpone refcount updates
-   refcount_bits=3D<num>    - Width of a reference count entry in bits
-   size=3D<size>            - Virtual disk size
-@@ -653,6 +749,38 @@ Amend options for 'qcow2':
-   compat=3D<str>           - Compatibility level (v2 [0.10] or v3 [1.1])
-   data_file=3D<str>        - File name of an external data file
-   data_file_raw=3D<bool (on/off)> - The external data file must stay valid=
- as a raw image
-+  encrypt.keys.0.iter-time=3D<num> - Time to spend in PBKDF in millisecond=
-s
-+  encrypt.keys.0.keyslot=3D<num> - Select a single keyslot to modify expli=
-citly
-+  encrypt.keys.0.new-secret=3D<str> - New secret to set in the matching ke=
-yslots. Empty string to erase
-+  encrypt.keys.0.old-secret=3D<str> - Select all keyslots that match this =
-password
-+  encrypt.keys.1.iter-time=3D<num> - Time to spend in PBKDF in millisecond=
-s
-+  encrypt.keys.1.keyslot=3D<num> - Select a single keyslot to modify expli=
-citly
-+  encrypt.keys.1.new-secret=3D<str> - New secret to set in the matching ke=
-yslots. Empty string to erase
-+  encrypt.keys.1.old-secret=3D<str> - Select all keyslots that match this =
-password
-+  encrypt.keys.2.iter-time=3D<num> - Time to spend in PBKDF in millisecond=
-s
-+  encrypt.keys.2.keyslot=3D<num> - Select a single keyslot to modify expli=
-citly
-+  encrypt.keys.2.new-secret=3D<str> - New secret to set in the matching ke=
-yslots. Empty string to erase
-+  encrypt.keys.2.old-secret=3D<str> - Select all keyslots that match this =
-password
-+  encrypt.keys.3.iter-time=3D<num> - Time to spend in PBKDF in millisecond=
-s
-+  encrypt.keys.3.keyslot=3D<num> - Select a single keyslot to modify expli=
-citly
-+  encrypt.keys.3.new-secret=3D<str> - New secret to set in the matching ke=
-yslots. Empty string to erase
-+  encrypt.keys.3.old-secret=3D<str> - Select all keyslots that match this =
-password
-+  encrypt.keys.4.iter-time=3D<num> - Time to spend in PBKDF in millisecond=
-s
-+  encrypt.keys.4.keyslot=3D<num> - Select a single keyslot to modify expli=
-citly
-+  encrypt.keys.4.new-secret=3D<str> - New secret to set in the matching ke=
-yslots. Empty string to erase
-+  encrypt.keys.4.old-secret=3D<str> - Select all keyslots that match this =
-password
-+  encrypt.keys.5.iter-time=3D<num> - Time to spend in PBKDF in millisecond=
-s
-+  encrypt.keys.5.keyslot=3D<num> - Select a single keyslot to modify expli=
-citly
-+  encrypt.keys.5.new-secret=3D<str> - New secret to set in the matching ke=
-yslots. Empty string to erase
-+  encrypt.keys.5.old-secret=3D<str> - Select all keyslots that match this =
-password
-+  encrypt.keys.6.iter-time=3D<num> - Time to spend in PBKDF in millisecond=
-s
-+  encrypt.keys.6.keyslot=3D<num> - Select a single keyslot to modify expli=
-citly
-+  encrypt.keys.6.new-secret=3D<str> - New secret to set in the matching ke=
-yslots. Empty string to erase
-+  encrypt.keys.6.old-secret=3D<str> - Select all keyslots that match this =
-password
-+  encrypt.keys.7.iter-time=3D<num> - Time to spend in PBKDF in millisecond=
-s
-+  encrypt.keys.7.keyslot=3D<num> - Select a single keyslot to modify expli=
-citly
-+  encrypt.keys.7.new-secret=3D<str> - New secret to set in the matching ke=
-yslots. Empty string to erase
-+  encrypt.keys.7.old-secret=3D<str> - Select all keyslots that match this =
-password
-   lazy_refcounts=3D<bool (on/off)> - Postpone refcount updates
-   refcount_bits=3D<num>    - Width of a reference count entry in bits
-   size=3D<size>            - Virtual disk size
-@@ -664,6 +792,38 @@ Amend options for 'qcow2':
-   compat=3D<str>           - Compatibility level (v2 [0.10] or v3 [1.1])
-   data_file=3D<str>        - File name of an external data file
-   data_file_raw=3D<bool (on/off)> - The external data file must stay valid=
- as a raw image
-+  encrypt.keys.0.iter-time=3D<num> - Time to spend in PBKDF in millisecond=
-s
-+  encrypt.keys.0.keyslot=3D<num> - Select a single keyslot to modify expli=
-citly
-+  encrypt.keys.0.new-secret=3D<str> - New secret to set in the matching ke=
-yslots. Empty string to erase
-+  encrypt.keys.0.old-secret=3D<str> - Select all keyslots that match this =
-password
-+  encrypt.keys.1.iter-time=3D<num> - Time to spend in PBKDF in millisecond=
-s
-+  encrypt.keys.1.keyslot=3D<num> - Select a single keyslot to modify expli=
-citly
-+  encrypt.keys.1.new-secret=3D<str> - New secret to set in the matching ke=
-yslots. Empty string to erase
-+  encrypt.keys.1.old-secret=3D<str> - Select all keyslots that match this =
-password
-+  encrypt.keys.2.iter-time=3D<num> - Time to spend in PBKDF in millisecond=
-s
-+  encrypt.keys.2.keyslot=3D<num> - Select a single keyslot to modify expli=
-citly
-+  encrypt.keys.2.new-secret=3D<str> - New secret to set in the matching ke=
-yslots. Empty string to erase
-+  encrypt.keys.2.old-secret=3D<str> - Select all keyslots that match this =
-password
-+  encrypt.keys.3.iter-time=3D<num> - Time to spend in PBKDF in millisecond=
-s
-+  encrypt.keys.3.keyslot=3D<num> - Select a single keyslot to modify expli=
-citly
-+  encrypt.keys.3.new-secret=3D<str> - New secret to set in the matching ke=
-yslots. Empty string to erase
-+  encrypt.keys.3.old-secret=3D<str> - Select all keyslots that match this =
-password
-+  encrypt.keys.4.iter-time=3D<num> - Time to spend in PBKDF in millisecond=
-s
-+  encrypt.keys.4.keyslot=3D<num> - Select a single keyslot to modify expli=
-citly
-+  encrypt.keys.4.new-secret=3D<str> - New secret to set in the matching ke=
-yslots. Empty string to erase
-+  encrypt.keys.4.old-secret=3D<str> - Select all keyslots that match this =
-password
-+  encrypt.keys.5.iter-time=3D<num> - Time to spend in PBKDF in millisecond=
-s
-+  encrypt.keys.5.keyslot=3D<num> - Select a single keyslot to modify expli=
-citly
-+  encrypt.keys.5.new-secret=3D<str> - New secret to set in the matching ke=
-yslots. Empty string to erase
-+  encrypt.keys.5.old-secret=3D<str> - Select all keyslots that match this =
-password
-+  encrypt.keys.6.iter-time=3D<num> - Time to spend in PBKDF in millisecond=
-s
-+  encrypt.keys.6.keyslot=3D<num> - Select a single keyslot to modify expli=
-citly
-+  encrypt.keys.6.new-secret=3D<str> - New secret to set in the matching ke=
-yslots. Empty string to erase
-+  encrypt.keys.6.old-secret=3D<str> - Select all keyslots that match this =
-password
-+  encrypt.keys.7.iter-time=3D<num> - Time to spend in PBKDF in millisecond=
-s
-+  encrypt.keys.7.keyslot=3D<num> - Select a single keyslot to modify expli=
-citly
-+  encrypt.keys.7.new-secret=3D<str> - New secret to set in the matching ke=
-yslots. Empty string to erase
-+  encrypt.keys.7.old-secret=3D<str> - Select all keyslots that match this =
-password
-   lazy_refcounts=3D<bool (on/off)> - Postpone refcount updates
-   refcount_bits=3D<num>    - Width of a reference count entry in bits
-   size=3D<size>            - Virtual disk size
-@@ -675,6 +835,38 @@ Amend options for 'qcow2':
-   compat=3D<str>           - Compatibility level (v2 [0.10] or v3 [1.1])
-   data_file=3D<str>        - File name of an external data file
-   data_file_raw=3D<bool (on/off)> - The external data file must stay valid=
- as a raw image
-+  encrypt.keys.0.iter-time=3D<num> - Time to spend in PBKDF in millisecond=
-s
-+  encrypt.keys.0.keyslot=3D<num> - Select a single keyslot to modify expli=
-citly
-+  encrypt.keys.0.new-secret=3D<str> - New secret to set in the matching ke=
-yslots. Empty string to erase
-+  encrypt.keys.0.old-secret=3D<str> - Select all keyslots that match this =
-password
-+  encrypt.keys.1.iter-time=3D<num> - Time to spend in PBKDF in millisecond=
-s
-+  encrypt.keys.1.keyslot=3D<num> - Select a single keyslot to modify expli=
-citly
-+  encrypt.keys.1.new-secret=3D<str> - New secret to set in the matching ke=
-yslots. Empty string to erase
-+  encrypt.keys.1.old-secret=3D<str> - Select all keyslots that match this =
-password
-+  encrypt.keys.2.iter-time=3D<num> - Time to spend in PBKDF in millisecond=
-s
-+  encrypt.keys.2.keyslot=3D<num> - Select a single keyslot to modify expli=
-citly
-+  encrypt.keys.2.new-secret=3D<str> - New secret to set in the matching ke=
-yslots. Empty string to erase
-+  encrypt.keys.2.old-secret=3D<str> - Select all keyslots that match this =
-password
-+  encrypt.keys.3.iter-time=3D<num> - Time to spend in PBKDF in millisecond=
-s
-+  encrypt.keys.3.keyslot=3D<num> - Select a single keyslot to modify expli=
-citly
-+  encrypt.keys.3.new-secret=3D<str> - New secret to set in the matching ke=
-yslots. Empty string to erase
-+  encrypt.keys.3.old-secret=3D<str> - Select all keyslots that match this =
-password
-+  encrypt.keys.4.iter-time=3D<num> - Time to spend in PBKDF in millisecond=
-s
-+  encrypt.keys.4.keyslot=3D<num> - Select a single keyslot to modify expli=
-citly
-+  encrypt.keys.4.new-secret=3D<str> - New secret to set in the matching ke=
-yslots. Empty string to erase
-+  encrypt.keys.4.old-secret=3D<str> - Select all keyslots that match this =
-password
-+  encrypt.keys.5.iter-time=3D<num> - Time to spend in PBKDF in millisecond=
-s
-+  encrypt.keys.5.keyslot=3D<num> - Select a single keyslot to modify expli=
-citly
-+  encrypt.keys.5.new-secret=3D<str> - New secret to set in the matching ke=
-yslots. Empty string to erase
-+  encrypt.keys.5.old-secret=3D<str> - Select all keyslots that match this =
-password
-+  encrypt.keys.6.iter-time=3D<num> - Time to spend in PBKDF in millisecond=
-s
-+  encrypt.keys.6.keyslot=3D<num> - Select a single keyslot to modify expli=
-citly
-+  encrypt.keys.6.new-secret=3D<str> - New secret to set in the matching ke=
-yslots. Empty string to erase
-+  encrypt.keys.6.old-secret=3D<str> - Select all keyslots that match this =
-password
-+  encrypt.keys.7.iter-time=3D<num> - Time to spend in PBKDF in millisecond=
-s
-+  encrypt.keys.7.keyslot=3D<num> - Select a single keyslot to modify expli=
-citly
-+  encrypt.keys.7.new-secret=3D<str> - New secret to set in the matching ke=
-yslots. Empty string to erase
-+  encrypt.keys.7.old-secret=3D<str> - Select all keyslots that match this =
-password
-   lazy_refcounts=3D<bool (on/off)> - Postpone refcount updates
-   refcount_bits=3D<num>    - Width of a reference count entry in bits
-   size=3D<size>            - Virtual disk size
-@@ -686,6 +878,38 @@ Amend options for 'qcow2':
-   compat=3D<str>           - Compatibility level (v2 [0.10] or v3 [1.1])
-   data_file=3D<str>        - File name of an external data file
-   data_file_raw=3D<bool (on/off)> - The external data file must stay valid=
- as a raw image
-+  encrypt.keys.0.iter-time=3D<num> - Time to spend in PBKDF in millisecond=
-s
-+  encrypt.keys.0.keyslot=3D<num> - Select a single keyslot to modify expli=
-citly
-+  encrypt.keys.0.new-secret=3D<str> - New secret to set in the matching ke=
-yslots. Empty string to erase
-+  encrypt.keys.0.old-secret=3D<str> - Select all keyslots that match this =
-password
-+  encrypt.keys.1.iter-time=3D<num> - Time to spend in PBKDF in millisecond=
-s
-+  encrypt.keys.1.keyslot=3D<num> - Select a single keyslot to modify expli=
-citly
-+  encrypt.keys.1.new-secret=3D<str> - New secret to set in the matching ke=
-yslots. Empty string to erase
-+  encrypt.keys.1.old-secret=3D<str> - Select all keyslots that match this =
-password
-+  encrypt.keys.2.iter-time=3D<num> - Time to spend in PBKDF in millisecond=
-s
-+  encrypt.keys.2.keyslot=3D<num> - Select a single keyslot to modify expli=
-citly
-+  encrypt.keys.2.new-secret=3D<str> - New secret to set in the matching ke=
-yslots. Empty string to erase
-+  encrypt.keys.2.old-secret=3D<str> - Select all keyslots that match this =
-password
-+  encrypt.keys.3.iter-time=3D<num> - Time to spend in PBKDF in millisecond=
-s
-+  encrypt.keys.3.keyslot=3D<num> - Select a single keyslot to modify expli=
-citly
-+  encrypt.keys.3.new-secret=3D<str> - New secret to set in the matching ke=
-yslots. Empty string to erase
-+  encrypt.keys.3.old-secret=3D<str> - Select all keyslots that match this =
-password
-+  encrypt.keys.4.iter-time=3D<num> - Time to spend in PBKDF in millisecond=
-s
-+  encrypt.keys.4.keyslot=3D<num> - Select a single keyslot to modify expli=
-citly
-+  encrypt.keys.4.new-secret=3D<str> - New secret to set in the matching ke=
-yslots. Empty string to erase
-+  encrypt.keys.4.old-secret=3D<str> - Select all keyslots that match this =
-password
-+  encrypt.keys.5.iter-time=3D<num> - Time to spend in PBKDF in millisecond=
-s
-+  encrypt.keys.5.keyslot=3D<num> - Select a single keyslot to modify expli=
-citly
-+  encrypt.keys.5.new-secret=3D<str> - New secret to set in the matching ke=
-yslots. Empty string to erase
-+  encrypt.keys.5.old-secret=3D<str> - Select all keyslots that match this =
-password
-+  encrypt.keys.6.iter-time=3D<num> - Time to spend in PBKDF in millisecond=
-s
-+  encrypt.keys.6.keyslot=3D<num> - Select a single keyslot to modify expli=
-citly
-+  encrypt.keys.6.new-secret=3D<str> - New secret to set in the matching ke=
-yslots. Empty string to erase
-+  encrypt.keys.6.old-secret=3D<str> - Select all keyslots that match this =
-password
-+  encrypt.keys.7.iter-time=3D<num> - Time to spend in PBKDF in millisecond=
-s
-+  encrypt.keys.7.keyslot=3D<num> - Select a single keyslot to modify expli=
-citly
-+  encrypt.keys.7.new-secret=3D<str> - New secret to set in the matching ke=
-yslots. Empty string to erase
-+  encrypt.keys.7.old-secret=3D<str> - Select all keyslots that match this =
-password
-   lazy_refcounts=3D<bool (on/off)> - Postpone refcount updates
-   refcount_bits=3D<num>    - Width of a reference count entry in bits
-   size=3D<size>            - Virtual disk size
-@@ -697,6 +921,38 @@ Amend options for 'qcow2':
-   compat=3D<str>           - Compatibility level (v2 [0.10] or v3 [1.1])
-   data_file=3D<str>        - File name of an external data file
-   data_file_raw=3D<bool (on/off)> - The external data file must stay valid=
- as a raw image
-+  encrypt.keys.0.iter-time=3D<num> - Time to spend in PBKDF in millisecond=
-s
-+  encrypt.keys.0.keyslot=3D<num> - Select a single keyslot to modify expli=
-citly
-+  encrypt.keys.0.new-secret=3D<str> - New secret to set in the matching ke=
-yslots. Empty string to erase
-+  encrypt.keys.0.old-secret=3D<str> - Select all keyslots that match this =
-password
-+  encrypt.keys.1.iter-time=3D<num> - Time to spend in PBKDF in millisecond=
-s
-+  encrypt.keys.1.keyslot=3D<num> - Select a single keyslot to modify expli=
-citly
-+  encrypt.keys.1.new-secret=3D<str> - New secret to set in the matching ke=
-yslots. Empty string to erase
-+  encrypt.keys.1.old-secret=3D<str> - Select all keyslots that match this =
-password
-+  encrypt.keys.2.iter-time=3D<num> - Time to spend in PBKDF in millisecond=
-s
-+  encrypt.keys.2.keyslot=3D<num> - Select a single keyslot to modify expli=
-citly
-+  encrypt.keys.2.new-secret=3D<str> - New secret to set in the matching ke=
-yslots. Empty string to erase
-+  encrypt.keys.2.old-secret=3D<str> - Select all keyslots that match this =
-password
-+  encrypt.keys.3.iter-time=3D<num> - Time to spend in PBKDF in millisecond=
-s
-+  encrypt.keys.3.keyslot=3D<num> - Select a single keyslot to modify expli=
-citly
-+  encrypt.keys.3.new-secret=3D<str> - New secret to set in the matching ke=
-yslots. Empty string to erase
-+  encrypt.keys.3.old-secret=3D<str> - Select all keyslots that match this =
-password
-+  encrypt.keys.4.iter-time=3D<num> - Time to spend in PBKDF in millisecond=
-s
-+  encrypt.keys.4.keyslot=3D<num> - Select a single keyslot to modify expli=
-citly
-+  encrypt.keys.4.new-secret=3D<str> - New secret to set in the matching ke=
-yslots. Empty string to erase
-+  encrypt.keys.4.old-secret=3D<str> - Select all keyslots that match this =
-password
-+  encrypt.keys.5.iter-time=3D<num> - Time to spend in PBKDF in millisecond=
-s
-+  encrypt.keys.5.keyslot=3D<num> - Select a single keyslot to modify expli=
-citly
-+  encrypt.keys.5.new-secret=3D<str> - New secret to set in the matching ke=
-yslots. Empty string to erase
-+  encrypt.keys.5.old-secret=3D<str> - Select all keyslots that match this =
-password
-+  encrypt.keys.6.iter-time=3D<num> - Time to spend in PBKDF in millisecond=
-s
-+  encrypt.keys.6.keyslot=3D<num> - Select a single keyslot to modify expli=
-citly
-+  encrypt.keys.6.new-secret=3D<str> - New secret to set in the matching ke=
-yslots. Empty string to erase
-+  encrypt.keys.6.old-secret=3D<str> - Select all keyslots that match this =
-password
-+  encrypt.keys.7.iter-time=3D<num> - Time to spend in PBKDF in millisecond=
-s
-+  encrypt.keys.7.keyslot=3D<num> - Select a single keyslot to modify expli=
-citly
-+  encrypt.keys.7.new-secret=3D<str> - New secret to set in the matching ke=
-yslots. Empty string to erase
-+  encrypt.keys.7.old-secret=3D<str> - Select all keyslots that match this =
-password
-   lazy_refcounts=3D<bool (on/off)> - Postpone refcount updates
-   refcount_bits=3D<num>    - Width of a reference count entry in bits
-   size=3D<size>            - Virtual disk size
-@@ -725,6 +981,38 @@ Amend options for 'qcow2':
-   compat=3D<str>           - Compatibility level (v2 [0.10] or v3 [1.1])
-   data_file=3D<str>        - File name of an external data file
-   data_file_raw=3D<bool (on/off)> - The external data file must stay valid=
- as a raw image
-+  encrypt.keys.0.iter-time=3D<num> - Time to spend in PBKDF in millisecond=
-s
-+  encrypt.keys.0.keyslot=3D<num> - Select a single keyslot to modify expli=
-citly
-+  encrypt.keys.0.new-secret=3D<str> - New secret to set in the matching ke=
-yslots. Empty string to erase
-+  encrypt.keys.0.old-secret=3D<str> - Select all keyslots that match this =
-password
-+  encrypt.keys.1.iter-time=3D<num> - Time to spend in PBKDF in millisecond=
-s
-+  encrypt.keys.1.keyslot=3D<num> - Select a single keyslot to modify expli=
-citly
-+  encrypt.keys.1.new-secret=3D<str> - New secret to set in the matching ke=
-yslots. Empty string to erase
-+  encrypt.keys.1.old-secret=3D<str> - Select all keyslots that match this =
-password
-+  encrypt.keys.2.iter-time=3D<num> - Time to spend in PBKDF in millisecond=
-s
-+  encrypt.keys.2.keyslot=3D<num> - Select a single keyslot to modify expli=
-citly
-+  encrypt.keys.2.new-secret=3D<str> - New secret to set in the matching ke=
-yslots. Empty string to erase
-+  encrypt.keys.2.old-secret=3D<str> - Select all keyslots that match this =
-password
-+  encrypt.keys.3.iter-time=3D<num> - Time to spend in PBKDF in millisecond=
-s
-+  encrypt.keys.3.keyslot=3D<num> - Select a single keyslot to modify expli=
-citly
-+  encrypt.keys.3.new-secret=3D<str> - New secret to set in the matching ke=
-yslots. Empty string to erase
-+  encrypt.keys.3.old-secret=3D<str> - Select all keyslots that match this =
-password
-+  encrypt.keys.4.iter-time=3D<num> - Time to spend in PBKDF in millisecond=
-s
-+  encrypt.keys.4.keyslot=3D<num> - Select a single keyslot to modify expli=
-citly
-+  encrypt.keys.4.new-secret=3D<str> - New secret to set in the matching ke=
-yslots. Empty string to erase
-+  encrypt.keys.4.old-secret=3D<str> - Select all keyslots that match this =
-password
-+  encrypt.keys.5.iter-time=3D<num> - Time to spend in PBKDF in millisecond=
-s
-+  encrypt.keys.5.keyslot=3D<num> - Select a single keyslot to modify expli=
-citly
-+  encrypt.keys.5.new-secret=3D<str> - New secret to set in the matching ke=
-yslots. Empty string to erase
-+  encrypt.keys.5.old-secret=3D<str> - Select all keyslots that match this =
-password
-+  encrypt.keys.6.iter-time=3D<num> - Time to spend in PBKDF in millisecond=
-s
-+  encrypt.keys.6.keyslot=3D<num> - Select a single keyslot to modify expli=
-citly
-+  encrypt.keys.6.new-secret=3D<str> - New secret to set in the matching ke=
-yslots. Empty string to erase
-+  encrypt.keys.6.old-secret=3D<str> - Select all keyslots that match this =
-password
-+  encrypt.keys.7.iter-time=3D<num> - Time to spend in PBKDF in millisecond=
-s
-+  encrypt.keys.7.keyslot=3D<num> - Select a single keyslot to modify expli=
-citly
-+  encrypt.keys.7.new-secret=3D<str> - New secret to set in the matching ke=
-yslots. Empty string to erase
-+  encrypt.keys.7.old-secret=3D<str> - Select all keyslots that match this =
-password
-   lazy_refcounts=3D<bool (on/off)> - Postpone refcount updates
-   refcount_bits=3D<num>    - Width of a reference count entry in bits
-   size=3D<size>            - Virtual disk size
 --=20
 2.17.2
 
