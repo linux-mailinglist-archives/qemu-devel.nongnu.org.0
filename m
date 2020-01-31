@@ -2,42 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D9FF14E8A7
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 07:12:50 +0100 (CET)
-Received: from localhost ([::1]:48724 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 375B614E8A5
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 07:12:45 +0100 (CET)
+Received: from localhost ([::1]:48722 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ixPXt-0003Zy-KO
-	for lists+qemu-devel@lfdr.de; Fri, 31 Jan 2020 01:12:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59116)
+	id 1ixPXo-0003Yu-8o
+	for lists+qemu-devel@lfdr.de; Fri, 31 Jan 2020 01:12:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59119)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1ixPUr-0006b6-0H
+ (envelope-from <dgibson@ozlabs.org>) id 1ixPUr-0006b7-3a
  for qemu-devel@nongnu.org; Fri, 31 Jan 2020 01:09:42 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1ixPUp-0000Ov-St
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 01:09:40 -0500
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:44231 helo=ozlabs.org)
+ (envelope-from <dgibson@ozlabs.org>) id 1ixPUp-0000P6-VU
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 01:09:41 -0500
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:43735 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1ixPUp-0000LD-IE; Fri, 31 Jan 2020 01:09:39 -0500
+ id 1ixPUp-0000LI-KT; Fri, 31 Jan 2020 01:09:39 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4886Hs30XFz9sSG; Fri, 31 Jan 2020 17:09:29 +1100 (AEDT)
+ id 4886Hs3nJ7z9sSF; Fri, 31 Jan 2020 17:09:29 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1580450969;
- bh=2jmkwg3BUMMJqmimdvGd8n4T5fRDXI2SsSNGCZE1miI=;
+ bh=xwNu4FGfWX/egNgtR4ivugsA4AmzcHorSgS/59pdGpI=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=j8iX98X1RXCjSwtaLsNW63D+6/aflhzM6WpnSC5yGQfTXddIqDl/bdddE7rUNI+hv
- 4XFLvLHoYhws7G8weG/+i7ks8pObaxXxtvmEy1jItM6qzwGu35VBT4sNCGXAhrrVbi
- EBwaeYk/gropnXkGrd26zbZQNHLZSjZrKcxn4HrY=
+ b=QvBNHJq7AoHbJaDV2uaEggp8kZVJyem2mcevqewxDVEpoQ0R5KoF/aie1y6qnXvbi
+ uLE9oRKKpis4vmFp6nunfF3nfd2KEEonFzRr2QYSFkNCCVMVSo3PULlqFEpEpFpgdw
+ s5qYx1j+iLc1WdXevRyTKN/3Eu0N7GYABg2y1feY=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 09/34] spapr: Don't allow multiple active vCPUs at CAS
-Date: Fri, 31 Jan 2020 17:08:59 +1100
-Message-Id: <20200131060924.147449-10-david@gibson.dropbear.id.au>
+Subject: [PULL 10/34] ppc/pnv: Add support for HRMOR on Radix host
+Date: Fri, 31 Jan 2020 17:09:00 +1100
+Message-Id: <20200131060924.147449-11-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200131060924.147449-1-david@gibson.dropbear.id.au>
 References: <20200131060924.147449-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
@@ -53,60 +54,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, David Gibson <david@gibson.dropbear.id.au>,
- qemu-ppc@nongnu.org, qemu-devel@nongnu.org, groug@kaod.org
+Cc: lvivier@redhat.com, qemu-devel@nongnu.org, groug@kaod.org,
+ qemu-ppc@nongnu.org, =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Greg Kurz <groug@kaod.org>
+From: C=C3=A9dric Le Goater <clg@kaod.org>
 
-According to the description of "ibm,client-architecture-support" that
-can found in LoPAPR "B.6.2.3 Root Node Methods":
+When in HV mode, if EA[0] is 0, the Hypervisor Offset Real Mode
+Register controls the access.
 
-If multiple partition processors or threads are active at the time of
-the ibm,client-architecture-support method call, or an error is detected
-in the format of the ibm,architecture.vec structure, the err? boolean
-shall be TRUE; else FALSE.
-
-We certainly don't want to temper with the platform or with the PCR of
-the other vCPUs if they happen to be active. Ensure we have only one
-active vCPU and fail CAS otherwise. This is just for conformance and
-robustness, it doesn't fix any known bugs.
-
-Signed-off-by: Greg Kurz <groug@kaod.org>
-Message-Id: <157969867170.571404.12117797348882189656.stgit@bahia.lan>
+Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+Message-Id: <20200127144154.10170-2-clg@kaod.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/spapr_hcall.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ target/ppc/mmu-radix64.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
-index ffb14641f9..b8bb66b5c0 100644
---- a/hw/ppc/spapr_hcall.c
-+++ b/hw/ppc/spapr_hcall.c
-@@ -1676,6 +1676,18 @@ static target_ulong h_client_architecture_support(=
-PowerPCCPU *cpu,
-     Error *local_err =3D NULL;
-     bool raw_mode_supported =3D false;
-     bool guest_xive;
-+    CPUState *cs;
-+
-+    /* CAS is supposed to be called early when only the boot vCPU is act=
-ive. */
-+    CPU_FOREACH(cs) {
-+        if (cs =3D=3D CPU(cpu)) {
-+            continue;
-+        }
-+        if (!cs->halted) {
-+            warn_report("guest has multiple active vCPUs at CAS, which i=
-s not allowed");
-+            return H_MULTI_THREADS_ACTIVE;
-+        }
-+    }
+diff --git a/target/ppc/mmu-radix64.c b/target/ppc/mmu-radix64.c
+index 066e324464..224e646c50 100644
+--- a/target/ppc/mmu-radix64.c
++++ b/target/ppc/mmu-radix64.c
+@@ -235,6 +235,12 @@ int ppc_radix64_handle_mmu_fault(PowerPCCPU *cpu, va=
+ddr eaddr, int rwx,
+         /* In real mode top 4 effective addr bits (mostly) ignored */
+         raddr =3D eaddr & 0x0FFFFFFFFFFFFFFFULL;
 =20
-     cas_pvr =3D cas_check_pvr(spapr, cpu, &addr, &raw_mode_supported, &l=
-ocal_err);
-     if (local_err) {
++        /* In HV mode, add HRMOR if top EA bit is clear */
++        if (msr_hv || !env->has_hv_mode) {
++            if (!(eaddr >> 63)) {
++                raddr |=3D env->spr[SPR_HRMOR];
++           }
++        }
+         tlb_set_page(cs, eaddr & TARGET_PAGE_MASK, raddr & TARGET_PAGE_M=
+ASK,
+                      PAGE_READ | PAGE_WRITE | PAGE_EXEC, mmu_idx,
+                      TARGET_PAGE_SIZE);
 --=20
 2.24.1
 
