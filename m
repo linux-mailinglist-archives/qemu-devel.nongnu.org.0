@@ -2,78 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BB1E14EC7B
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 13:28:55 +0100 (CET)
-Received: from localhost ([::1]:52208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C75414EC9A
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 13:41:57 +0100 (CET)
+Received: from localhost ([::1]:52318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ixVPq-0005Yv-DE
-	for lists+qemu-devel@lfdr.de; Fri, 31 Jan 2020 07:28:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33586)
+	id 1ixVcS-0002oA-Km
+	for lists+qemu-devel@lfdr.de; Fri, 31 Jan 2020 07:41:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38768)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1ixVP1-000580-QW
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 07:28:04 -0500
+ (envelope-from <bounces@canonical.com>) id 1ixVbP-0002Pb-P2
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 07:40:53 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1ixVP0-0007Rc-Kl
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 07:28:03 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:27739
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1ixVP0-0007Q7-Ge
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 07:28:02 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580473682;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=o07wf33T7b01eg8hIsXyaCmaR/muSP2k6vcCnC5MFHE=;
- b=cAOPVI66B72LkrvlCLkI0shRZgn6Ke+gp9SNgnFSe/guSKUHD6ddLs3Z6JLPWo86toydze
- /1RXcno1INPxJh/81m7qeRNHUxRkUihZlFzpzPfX3DKUQxN3b9FNFN3N1iT9D8higsEoyM
- oJCVDU0gO52roUHVv7GRogi+ia79mOY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-33-qpHuXxPqOluBlt3hKur_bQ-1; Fri, 31 Jan 2020 07:28:00 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 52571100550E;
- Fri, 31 Jan 2020 12:27:59 +0000 (UTC)
-Received: from [10.3.116.181] (ovpn-116-181.phx2.redhat.com [10.3.116.181])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 51BCB60BE0;
- Fri, 31 Jan 2020 12:27:51 +0000 (UTC)
-Subject: Re: Making QEMU easier for management tools and applications
-To: Kevin Wolf <kwolf@redhat.com>, Markus Armbruster <armbru@redhat.com>
-References: <20200123190145.GI657556@redhat.com>
- <2561a069-ce5f-3c30-b04e-db7cd2fcdc85@redhat.com>
- <871rrp474i.fsf@dusky.pond.sub.org> <20200124102743.GB824327@redhat.com>
- <20200124143841.GG4732@dhcp-200-226.str.redhat.com>
- <87sgk3x2im.fsf@dusky.pond.sub.org> <20200127115606.GA5669@linux.fritz.box>
- <1c65b678-7bb4-a4cc-5fa6-03d6d27cf381@redhat.com>
- <20200128102855.GA6431@linux.fritz.box> <87mua7bvwf.fsf@dusky.pond.sub.org>
- <20200128125409.GF6431@linux.fritz.box>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <4cf1864c-3527-b015-0691-1788a37f4f7e@redhat.com>
-Date: Fri, 31 Jan 2020 06:27:50 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ (envelope-from <bounces@canonical.com>) id 1ixVbN-00070C-AF
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 07:40:51 -0500
+Received: from indium.canonical.com ([91.189.90.7]:60616)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1ixVbN-0006x7-4l
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 07:40:49 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1ixVbL-0000yr-Kl
+ for <qemu-devel@nongnu.org>; Fri, 31 Jan 2020 12:40:47 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 722A42E80C9
+ for <qemu-devel@nongnu.org>; Fri, 31 Jan 2020 12:40:47 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20200128125409.GF6431@linux.fritz.box>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: qpHuXxPqOluBlt3hKur_bQ-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 31 Jan 2020 12:30:36 -0000
+From: Max Reitz <1860759@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: eblake ildar-users xanclic
+X-Launchpad-Bug-Reporter: Ildar (ildar-users)
+X-Launchpad-Bug-Modifier: Max Reitz (xanclic)
+References: <157985376657.5102.13233182944615356318.malonedeb@wampee.canonical.com>
+Message-Id: <158047383613.27016.11439532050083192360.malone@soybean.canonical.com>
+Subject: [Bug 1860759] Re: [REGRESSION] option `-snapshot` ignored with
+ blockdev
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="0a62c17273454a1313f81a74a2198ec30b44c7b6";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 1ad4e61e5a91e5add727455a117751bf3c6c3f70
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -82,41 +65,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- "Denis V. Lunev" <den@virtuozzo.com>, Cleber Rosa <cleber@redhat.com>,
- Stefan Hajnoczi <stefanha@gmail.com>, qemu-devel <qemu-devel@nongnu.org>,
- Eduardo Habkost <ehabkost@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- John Snow <jsnow@redhat.com>, Dominik Csapak <d.csapak@proxmox.com>
+Reply-To: Bug 1860759 <1860759@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/28/20 6:54 AM, Kevin Wolf wrote:
+Hi,
 
->>
->> The arguments as dotted keys:
->>
->>      id=bar,backend.type=file,backend.data.out=/tmp/bar.log
->>
->> Observe there's quite some of nesting.  While that's somewhat cumbersome
->> in JSON, it's a lot worse with dotted keys, because there nesting means
->> repeated key prefixes.  I could give much worse examples, actually.
-> 
-> This is true, but even without the repeated keys (e.g. in a syntax that
-> would use brackets), it would still be unnecessarily verbose and
-> probably hard to remember:
-> 
->      id=bar,backend={type=file,data={out=/tmp/bar.log}}
+The technical difference is that -blockdev requires you (the user or
+management software) to create all block graph nodes explicitly.  -drive
+snapshot=3Don implicitly creates a qcow2 node above the actual disk image
+(and that node points to a temporary image in /tmp).  So because it=E2=80=
+=99s
+implicit and not explicit, it can=E2=80=99t work with -blockdev.
 
-With shells like bash, that would need quoting to avoid unintended brace 
-expansions.  It is not the end of the world to require shell quoting 
-(and passing JSON on the command line definitely needs it), but a syntax 
-that avoids shell quoting is marginally easier to type and reason about.
+With -blockdev, the user has to create this temporary overlay, open it
+in qemu (with blockdev-add or -blockdev), and then delete it.
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+Max
 
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1860759
+
+Title:
+  [REGRESSION] option `-snapshot` ignored with blockdev
+
+Status in QEMU:
+  New
+
+Bug description:
+  After upgrade of qemu 3.1.0 =E2=86=92 4.2.0 I found that running with lib=
+virt doesn't honor `-snapshot` option anymore. I.e. disk images get modifie=
+d.
+  Using `-hda` option honors `-snapshot`
+
+  So I made a test case without libvirt. Testcase using 4.2.0:
+
+  > qemu -hda tmp-16G.img -cdrom regular-rescue-latest-x86_64.iso -m 2G
+
+  This works fine and tmp-16G.img stays unmodified.
+
+  But:
+  > /usr/bin/qemu-system-x86_64 -name guest=3Dtest-linux,debug-threads=3Don=
+ -S -machine pc-i440fx-3.1,accel=3Dkvm,usb=3Doff,vmport=3Doff,dump-guest-co=
+re=3Doff -cpu Broadwell-noTSX,vme=3Don,ss=3Don,f16c=3Don,rdrand=3Don,hyperv=
+isor=3Don,arat=3Don,tsc-adjust=3Don,xsaveopt=3Don,pdpe1gb=3Don,abm=3Don -m =
+2048 -overcommit mem-lock=3Doff -smp 3,sockets=3D3,cores=3D1,threads=3D1 -u=
+uid d32a9191-f51d-4fae-a419-b73d85b49198 -no-user-config -nodefaults -rtc b=
+ase=3Dutc,driftfix=3Dslew -global kvm-pit.lost_tick_policy=3Ddelay -no-hpet=
+ -no-shutdown -global PIIX4_PM.disable_s3=3D1 -global PIIX4_PM.disable_s4=
+=3D1 -boot strict=3Don -device ich9-usb-ehci1,id=3Dusb,bus=3Dpci.0,addr=3D0=
+x5.0x7 -device ich9-usb-uhci1,masterbus=3Dusb.0,firstport=3D0,bus=3Dpci.0,m=
+ultifunction=3Don,addr=3D0x5 -device ich9-usb-uhci2,masterbus=3Dusb.0,first=
+port=3D2,bus=3Dpci.0,addr=3D0x5.0x1 -device ich9-usb-uhci3,masterbus=3Dusb.=
+0,firstport=3D4,bus=3Dpci.0,addr=3D0x5.0x2 -blockdev \{\"driver\":\"file\",=
+\"filename\":\"/tmp/regular-rescue-latest-x86_64.iso\",\"node-name\":\"libv=
+irt-2-storage\",\"auto-read-only\":true,\"discard\":\"unmap\"} -blockdev \{=
+\"node-name\":\"libvirt-2-format\",\"read-only\":true,\"driver\":\"raw\",\"=
+file\":\"libvirt-2-storage\"} -device ide-cd,bus=3Dide.0,unit=3D0,drive=3Dl=
+ibvirt-2-format,id=3Dide0-0-0,bootindex=3D1 -blockdev \{\"driver\":\"file\"=
+,\"filename\":\"/tmp/tmp-2G.img\",\"node-name\":\"libvirt-1-storage\",\"aut=
+o-read-only\":true,\"discard\":\"unmap\"} -blockdev \{\"node-name\":\"libvi=
+rt-1-format\",\"read-only\":false,\"driver\":\"qcow2\",\"file\":\"libvirt-1=
+-storage\",\"backing\":null} -device virtio-blk-pci,scsi=3Doff,bus=3Dpci.0,=
+addr=3D0x7,drive=3Dlibvirt-1-format,id=3Dvirtio-disk0 -netdev user,id=3Dhos=
+tnet0 -device e1000,netdev=3Dhostnet0,id=3Dnet0,mac=3D52:54:00:ab:d8:29,bus=
+=3Dpci.0,addr=3D0x3 -chardev pty,id=3Dcharserial0 -device isa-serial,charde=
+v=3Dcharserial0,id=3Dserial0 -device qxl-vga,id=3Dvideo0,ram_size=3D6710886=
+4,vram_size=3D67108864,vram64_size_mb=3D0,vgamem_mb=3D16,max_outputs=3D1,bu=
+s=3Dpci.0,addr=3D0x2 -device intel-hda,id=3Dsound0,bus=3Dpci.0,addr=3D0x4 -=
+device hda-duplex,id=3Dsound0-codec0,bus=3Dsound0.0,cad=3D0 -device virtio-=
+balloon-pci,id=3Dballoon0,bus=3Dpci.0,addr=3D0x6 -snapshot -sandbox on,obso=
+lete=3Ddeny,elevateprivileges=3Ddeny,spawn=3Ddeny,resourcecontrol=3Ddeny -m=
+sg timestamp=3Don
+
+  This modifies tmp-16G.img.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1860759/+subscriptions
 
