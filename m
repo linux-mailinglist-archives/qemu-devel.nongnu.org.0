@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30E2B14F05E
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 17:06:11 +0100 (CET)
-Received: from localhost ([::1]:55360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1859414F063
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 17:08:08 +0100 (CET)
+Received: from localhost ([::1]:55406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ixYo6-0005c1-7x
-	for lists+qemu-devel@lfdr.de; Fri, 31 Jan 2020 11:06:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40150)
+	id 1ixYpz-00005P-4c
+	for lists+qemu-devel@lfdr.de; Fri, 31 Jan 2020 11:08:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40178)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1ixXz2-0005h3-79
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 10:13:25 -0500
+ (envelope-from <imammedo@redhat.com>) id 1ixXz3-0005ja-EV
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 10:13:26 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1ixXz1-00064g-2U
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 10:13:24 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:32614
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <imammedo@redhat.com>) id 1ixXz2-0006CU-8W
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 10:13:25 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:36882
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1ixXz0-000642-Ux
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 10:13:23 -0500
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1ixXz2-0006AQ-3q
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 10:13:24 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580483602;
+ s=mimecast20190719; t=1580483603;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ptI/lk1uvICFg8vCxGj0QRW2065nqGMLPXBASMM/wzY=;
- b=fD2+4Ue4659avJA+KKfJNc2qq7lfy25Eki25rPsSe1FrGNiTkjqE70LZ46p9GF7PghK/lf
- OArUtQ4hDGdqUuvr4BCvwLN38k3S8ZNUGUFWm6OKR4xWOokzkdZq3C59pVTCkehBHaUTAd
- KlqhjKyWAXsoXKHMQ+FHRXHPDvPPXjM=
+ bh=vpz++9MC9J/xw9EMwaLlmSSaNVzyVBQ/A8wZaBbbuvk=;
+ b=Q+Itn0dJncZpf7C5kvkTM4HcUl4Y89mrxCSMcrGMzR/zT8NH117VTljTpdq308z+HqVbnJ
+ ztjhq+MikfFV+6ug0Atzxzl4c+7IhlZxLlh8DC42PVTnEX6hLbaFhaYDH4rfbk+wSfsVRU
+ YFE/ePTvT01rfMpig1nRmybh2FAgLq8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-388-UTW2UgICPH6Z1-Rvl5bQ7A-1; Fri, 31 Jan 2020 10:13:19 -0500
+ us-mta-67-OFIoa3K0OGu_S_A4N6VDrQ-1; Fri, 31 Jan 2020 10:13:21 -0500
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3E9B11402
- for <qemu-devel@nongnu.org>; Fri, 31 Jan 2020 15:13:18 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9B45818C43C2
+ for <qemu-devel@nongnu.org>; Fri, 31 Jan 2020 15:13:20 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BA16B89E7A
- for <qemu-devel@nongnu.org>; Fri, 31 Jan 2020 15:13:17 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 22F8986C4B
+ for <qemu-devel@nongnu.org>; Fri, 31 Jan 2020 15:13:19 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 57/80] ppc/e500: drop RAM size fixup
-Date: Fri, 31 Jan 2020 16:09:27 +0100
-Message-Id: <1580483390-131164-58-git-send-email-imammedo@redhat.com>
+Subject: [PATCH v4 60/80] ppc/mac_oldworld: use memdev for RAM
+Date: Fri, 31 Jan 2020 16:09:30 +0100
+Message-Id: <1580483390-131164-61-git-send-email-imammedo@redhat.com>
 In-Reply-To: <1580483390-131164-1-git-send-email-imammedo@redhat.com>
 References: <1580483390-131164-1-git-send-email-imammedo@redhat.com>
-MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: UTW2UgICPH6Z1-Rvl5bQ7A-1
+X-MC-Unique: OFIoa3K0OGu_S_A4N6VDrQ-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,81 +74,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If user provided non-sense RAM size, board will complain and
-continue running with max RAM size supported.
-Also RAM is going to be allocated by generic code, so it won't be
-possible for board to fix things up for user.
-
-Make it error message and exit to force user fix CLI,
-instead of accepting non-sense CLI values.
-
-While at it, replace usage of global ram_size with
-machine->ram_size
+memory_region_allocate_system_memory() API is going away, so
+replace it with memdev allocated MemoryRegion. The later is
+initialized by generic code, so board only needs to opt in
+to memdev scheme by providing
+  MachineClass::default_ram_id
+and using MachineState::ram instead of manually initializing
+RAM memory region.
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 Acked-by: David Gibson <david@gibson.dropbear.id.au>
+Acked-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
-v2:
- * fix format string cousing build failure on 32-bit host
-   (Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>)
----
- hw/ppc/e500.c | 16 +++++++++-------
- 1 file changed, 9 insertions(+), 7 deletions(-)
+ hw/ppc/mac_oldworld.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/hw/ppc/e500.c b/hw/ppc/e500.c
-index 886442e..960024b 100644
---- a/hw/ppc/e500.c
-+++ b/hw/ppc/e500.c
-@@ -906,12 +906,14 @@ void ppce500_init(MachineState *machine)
-=20
-     env =3D firstenv;
-=20
--    /* Fixup Memory size on a alignment boundary */
--    ram_size &=3D ~(RAM_SIZES_ALIGN - 1);
--    machine->ram_size =3D ram_size;
-+    if (!QEMU_IS_ALIGNED(machine->ram_size, RAM_SIZES_ALIGN)) {
-+        error_report("RAM size must be multiple of %" PRIu64, RAM_SIZES_AL=
-IGN);
-+        exit(EXIT_FAILURE);
-+    }
-=20
-     /* Register Memory */
--    memory_region_allocate_system_memory(ram, NULL, "mpc8544ds.ram", ram_s=
-ize);
-+    memory_region_allocate_system_memory(ram, NULL, "mpc8544ds.ram",
-+                                         machine->ram_size);
-     memory_region_add_subregion(address_space_mem, 0, ram);
-=20
-     dev =3D qdev_create(NULL, "e500-ccsr");
-@@ -1083,7 +1085,7 @@ void ppce500_init(MachineState *machine)
-         kernel_base =3D cur_base;
-         kernel_size =3D load_image_targphys(machine->kernel_filename,
-                                           cur_base,
--                                          ram_size - cur_base);
-+                                          machine->ram_size - cur_base);
-         if (kernel_size < 0) {
-             error_report("could not load kernel '%s'",
-                          machine->kernel_filename);
-@@ -1097,7 +1099,7 @@ void ppce500_init(MachineState *machine)
-     if (machine->initrd_filename) {
-         initrd_base =3D (cur_base + INITRD_LOAD_PAD) & ~INITRD_PAD_MASK;
-         initrd_size =3D load_image_targphys(machine->initrd_filename, init=
-rd_base,
--                                          ram_size - initrd_base);
-+                                          machine->ram_size - initrd_base)=
-;
-=20
-         if (initrd_size < 0) {
-             error_report("could not load initial ram disk '%s'",
-@@ -1115,7 +1117,7 @@ void ppce500_init(MachineState *machine)
-      * ensures enough space between kernel and initrd.
-      */
-     dt_base =3D (loadaddr + payload_size + DTC_LOAD_PAD) & ~DTC_PAD_MASK;
--    if (dt_base + DTB_MAX_SIZE > ram_size) {
-+    if (dt_base + DTB_MAX_SIZE > machine->ram_size) {
-             error_report("not enough memory for device tree");
-             exit(1);
+diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
+index 7318d7e..66e434b 100644
+--- a/hw/ppc/mac_oldworld.c
++++ b/hw/ppc/mac_oldworld.c
+@@ -91,7 +91,6 @@ static void ppc_heathrow_init(MachineState *machine)
+     CPUPPCState *env =3D NULL;
+     char *filename;
+     int linux_boot, i;
+-    MemoryRegion *ram =3D g_new(MemoryRegion, 1);
+     MemoryRegion *bios =3D g_new(MemoryRegion, 1);
+     uint32_t kernel_base, initrd_base, cmdline_base =3D 0;
+     int32_t kernel_size, initrd_size;
+@@ -127,9 +126,7 @@ static void ppc_heathrow_init(MachineState *machine)
+         exit(1);
      }
+=20
+-    memory_region_allocate_system_memory(ram, NULL, "ppc_heathrow.ram",
+-                                         ram_size);
+-    memory_region_add_subregion(sysmem, 0, ram);
++    memory_region_add_subregion(sysmem, 0, machine->ram);
+=20
+     /* allocate and load BIOS */
+     memory_region_init_ram(bios, NULL, "ppc_heathrow.bios", BIOS_SIZE,
+@@ -446,6 +443,7 @@ static void heathrow_class_init(ObjectClass *oc, void *=
+data)
+     mc->default_cpu_type =3D POWERPC_CPU_TYPE_NAME("750_v3.1");
+     mc->default_display =3D "std";
+     mc->ignore_boot_device_suffixes =3D true;
++    mc->default_ram_id =3D "ppc_heathrow.ram";
+     fwc->get_dev_path =3D heathrow_fw_dev_path;
+ }
+=20
 --=20
 2.7.4
 
