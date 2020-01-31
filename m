@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD0EB14F39D
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 22:13:00 +0100 (CET)
-Received: from localhost ([::1]:59576 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6F7514F39C
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 22:12:59 +0100 (CET)
+Received: from localhost ([::1]:59578 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ixdb1-0004H1-Qv
+	id 1ixdb1-0004Io-0I
 	for lists+qemu-devel@lfdr.de; Fri, 31 Jan 2020 16:12:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60547)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60579)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ixdZE-0002r3-Vc
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 16:11:10 -0500
+ id 1ixdZG-0002rP-PL
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 16:11:12 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ixdZD-0003DB-S4
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 16:11:08 -0500
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:53534)
+ id 1ixdZF-0003KS-4w
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 16:11:10 -0500
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:54696)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ixdZD-00037M-M5; Fri, 31 Jan 2020 16:11:07 -0500
-Received: by mail-wm1-x342.google.com with SMTP id s10so9486666wmh.3;
- Fri, 31 Jan 2020 13:11:07 -0800 (PST)
+ id 1ixdZE-0003F3-UF; Fri, 31 Jan 2020 16:11:09 -0500
+Received: by mail-wm1-x344.google.com with SMTP id g1so9483594wmh.4;
+ Fri, 31 Jan 2020 13:11:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=4DgmTmXDTc3XoP6PgS5i3UFuOxUpLW86Z2TRHb2sW7Y=;
- b=Q7fwoFA+EQR0CiQgBgZOQ5CaZrdqAXXioJyRqD7h88Q+6KNWrGehCo+aO3LOVY3wop
- J0I0DdY9Nnq+Ozv2IvonCGNyz5AS2a2CyMlqvrPlFtiY3J95XFt6bEJhf0q4T4oXvpWE
- /nVaGbrczBb1h/GPPl5UyrQ2mQtuKotjP2I3aj/XwEhSB7fJSLDMhho/uWx05CogzieH
- vuVyJN3zu8rFtEpPalXoVQ9v/mSf4p5epxQqcOx04mqhnHsF1ti48SlMQn4ldcQnlfEq
- scpUlBskFRoNz+F41tVtwQ0G232HL/OnSSe7kAvTCmvbXfje4wS5G1ZpzkDAq3VteyzA
- ctJA==
+ bh=qui543OYuTfKdLmeSHcAvTrY+hYv6Ip3HFhW4S9oNcs=;
+ b=iyUPTWspBRumgyv9VuNHpRhM1mc+lCvRIx7fMqyHY6zDBg7PiFGsBARiyIN5Ryrbuh
+ seAzXIifSB1BXVMLq94SmhL1Z3wZFoqD9gfBN7grphC50pYxIW/c1C17e+dCY4boAi4H
+ asPLEMLoltVFwXrZcswXjt7V/JcWbKfeWDPqoTxwixv/Hv4vWxtmtxCrGcFjPAaszE0r
+ ss3xKZscW7dQdGpkNBqEGaqoPbielmlNoPJRgUr5vjxdqDlcO2uDQMDLi2pQ2af0bVpc
+ ZuSHwIcfRX1y6dXiqciTE9zsuJD9JfYHGhZBzEC0JonzaMWvdlqIUQZe1HERRfKBl3Dn
+ LA2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=4DgmTmXDTc3XoP6PgS5i3UFuOxUpLW86Z2TRHb2sW7Y=;
- b=qVndfdzzO87hHYNQaR0DES1XkMLSK8MC2IF1fj/fEB5X2hIiPa/33qlQ8plyhP4x4Z
- OU+bFg2dcw3OuxUMjTm/AFX8EnbFIscTFTJASEch6qjzYfjSpvfnA8wYknfNZtTonpht
- UZOrygwRg519PBuzG2T0FCCSi/ZX+1tT289Qk0PRfOKv+CW7CWnuVH+HKzJ7ckBe7ka0
- CF7ImuhjPoNFH9JUKRXEy8XgES2QFRQ++gL603IQ5fCgZlx4ptPq7MO6WRfQgeH2mg6L
- vP9AQSe2w1iagYNPgrjtUwoG/EHs1eATpLQ9pNhVXl1I7Yoct8odDBW/QmVL4M2feLp5
- 4VuQ==
-X-Gm-Message-State: APjAAAUH12P0JbFIBiLEZP6SqnxZhu2vWGrmYASAho3R8oZpuquS03jO
- Z1pkr0pRccAl825hmxFye2f87+9L
-X-Google-Smtp-Source: APXvYqwDeC6XCb6vU2d6E13J6cD5QgYS7FHbxMoue0Qg0a3ay/X/agLyP2G9mDHp53l7AY7p2fvTlg==
-X-Received: by 2002:a1c:740a:: with SMTP id p10mr13978564wmc.65.1580505066363; 
- Fri, 31 Jan 2020 13:11:06 -0800 (PST)
+ bh=qui543OYuTfKdLmeSHcAvTrY+hYv6Ip3HFhW4S9oNcs=;
+ b=A2m5TlcsPMZ3W6Zjk4nyVv0Ohg6nDbq5aNFJ22zbkbuBGpIUR3c40M2NVD/sd7lGFv
+ n8cBKoZ1DhORq6izhJVwgpr7Se/ojLASnho0eIpsOZfl1sHdOJp9DpOzWuzWoM/CmdiG
+ zWpU1qCiBCBtjEuxivYp4ViT5UTpl4MKtTo+BFmPicP7vdYcnwxDyHB2I9vrHaQJWkMg
+ WVNOkKimblCH1JmTyDsl4fcMf1wCmSd2gtihYN61CpvUOMNQl+mItCM9qB3sRkaFnIoj
+ PJvJwXzVFhU0iXfaJIHgg22QC8GW6MvVuZ9M54CPa4Jdx4myiNVzVycXSuVRU+eg29y4
+ C4OQ==
+X-Gm-Message-State: APjAAAUGJ/41L6qLEl2yJHaA0gC2Yti+bgA4jsCG3DPGd26qytuJ/Q37
+ scBGxeuFDcHzZLdcV+YKJ2A4AmnT
+X-Google-Smtp-Source: APXvYqx/i3s5llQjVvWSorRMt7ATq2pXb4YT1Hl7nI718jgkBbbxp7e8/NZ9IWBQZx2nvdykPl9Lcw==
+X-Received: by 2002:a1c:a515:: with SMTP id o21mr14155267wme.85.1580505067668; 
+ Fri, 31 Jan 2020 13:11:07 -0800 (PST)
 Received: from x1w.redhat.com (113.red-83-57-172.dynamicip.rima-tde.net.
  [83.57.172.113])
- by smtp.gmail.com with ESMTPSA id d204sm12236025wmd.30.2020.01.31.13.11.05
+ by smtp.gmail.com with ESMTPSA id d204sm12236025wmd.30.2020.01.31.13.11.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 31 Jan 2020 13:11:05 -0800 (PST)
+ Fri, 31 Jan 2020 13:11:07 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/2] tests/acceptance: Extract boot_integratorcp() from
- test_integratorcp()
-Date: Fri, 31 Jan 2020 22:11:01 +0100
-Message-Id: <20200131211102.29612-2-f4bug@amsat.org>
+Subject: [PATCH 2/2] tests/acceptance/integratorcp: Verify Tux is displayed on
+ framebuffer
+Date: Fri, 31 Jan 2020 22:11:02 +0100
+Message-Id: <20200131211102.29612-3-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200131211102.29612-1-f4bug@amsat.org>
 References: <20200131211102.29612-1-f4bug@amsat.org>
@@ -70,7 +70,7 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::342
+X-Received-From: 2a00:1450:4864:20::344
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,47 +92,106 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As we want to re-use this code, extract it as a new function.
-Since we are using the PL011 serial console, add a Avocado tag
-to ease filtering of tests.
+Add a test that verifies the Tux logo is displayed on the framebuffer.
+
+We simply follow the OpenCV "Template Matching with Multiple Objects"
+tutorial, replacing Lionel Messi by Tux:
+https://docs.opencv.org/4.2.0/d4/dc6/tutorial_py_template_matching.html
+
+When OpenCV and NumPy are installed, this test can be run using:
+
+  $ AVOCADO_ALLOW_UNTRUSTED_CODE=hmmm \
+    avocado --show=app,framebuffer run -t device:framebuffer \
+      tests/acceptance/machine_arm_integratorcp.py
+  JOB ID     : 8c46b0f8269242e87d738247883ea2a470df949e
+  JOB LOG    : avocado/job-results/job-2020-01-31T21.38-8c46b0f/job.log
+   (1/1) tests/acceptance/machine_arm_integratorcp.py:IntegratorMachine.test_framebuffer_tux_logo:
+  framebuffer: found Tux at position [x, y] = (0, 0)
+  PASS (3.96 s)
+  RESULTS    : PASS 1 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0 | CANCEL 0
+  JOB TIME   : 4.23 s
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- tests/acceptance/machine_arm_integratorcp.py | 16 ++++++++++------
- 1 file changed, 10 insertions(+), 6 deletions(-)
+The resulting match is https://pasteboard.co/ISz7kr8.png
+
+For matching SMP machines, these suggestion might work:
+https://stackoverflow.com/questions/50579050/template-matching-with-multiple-objects-in-opencv-python
+---
+ tests/acceptance/machine_arm_integratorcp.py | 51 ++++++++++++++++++++
+ 1 file changed, 51 insertions(+)
 
 diff --git a/tests/acceptance/machine_arm_integratorcp.py b/tests/acceptance/machine_arm_integratorcp.py
-index 4f9ab40f2f..748819916d 100644
+index 748819916d..a706fe1b44 100644
 --- a/tests/acceptance/machine_arm_integratorcp.py
 +++ b/tests/acceptance/machine_arm_integratorcp.py
-@@ -19,12 +19,7 @@ class IntegratorMachine(Test):
+@@ -9,11 +9,26 @@
+ # later.  See the COPYING file in the top-level directory.
  
-     timeout = 90
+ import os
++import logging
  
--    @skipUnless(os.getenv('AVOCADO_ALLOW_UNTRUSTED_CODE'), 'untrusted code')
--    def test_integratorcp(self):
--        """
--        :avocado: tags=arch:arm
--        :avocado: tags=machine:integratorcp
--        """
-+    def boot_integratorcp(self):
-         kernel_url = ('https://github.com/zayac/qemu-arm/raw/master/'
-                       'arm-test/kernel/zImage.integrator')
-         kernel_hash = '0d7adba893c503267c946a3cbdc63b4b54f25468'
-@@ -40,4 +35,13 @@ class IntegratorMachine(Test):
-                          '-initrd', initrd_path,
-                          '-append', 'printk.time=0 console=ttyAMA0')
-         self.vm.launch()
+ from avocado import skipUnless
+ from avocado_qemu import Test
+ from avocado_qemu import wait_for_console_pattern
+ 
 +
++NUMPY_AVAILABLE = True
++try:
++    import numpy as np
++except ImportError:
++    NUMPY_AVAILABLE = False
++
++CV2_AVAILABLE = True
++try:
++    import cv2
++except ImportError:
++    CV2_AVAILABLE = False
++
++
+ class IntegratorMachine(Test):
+     """Boots the Linux kernel and checks that the console is operational"""
+ 
+@@ -45,3 +60,39 @@ class IntegratorMachine(Test):
+         """
+         self.boot_integratorcp()
+         wait_for_console_pattern(self, 'Log in as root')
++
++    @skipUnless(NUMPY_AVAILABLE, 'Python NumPy not installed')
++    @skipUnless(CV2_AVAILABLE, 'Python OpenCV not installed')
 +    @skipUnless(os.getenv('AVOCADO_ALLOW_UNTRUSTED_CODE'), 'untrusted code')
-+    def test_integratorcp(self):
++    def test_framebuffer_tux_logo(self):
 +        """
 +        :avocado: tags=arch:arm
 +        :avocado: tags=machine:integratorcp
-+        :avocado: tags=device:pl011
++        :avocado: tags=device:pl110
++        :avocado: tags=device:framebuffer
 +        """
++        screendump_path = os.path.join(self.workdir, "screendump.pbm")
++        tuxlogo_url = ('https://github.com/torvalds/linux/raw/v2.6.12/'
++                       'drivers/video/logo/logo_linux_vga16.ppm')
++        tuxlogo_hash = '3991c2ddbd1ddaecda7601f8aafbcf5b02dc86af'
++        tuxlogo_path = self.fetch_asset(tuxlogo_url, asset_hash=tuxlogo_hash)
++
 +        self.boot_integratorcp()
-         wait_for_console_pattern(self, 'Log in as root')
++        framebuffer_ready = 'Console: switching to colour frame buffer device'
++        wait_for_console_pattern(self, framebuffer_ready)
++        self.vm.command('human-monitor-command', command_line='stop')
++        self.vm.command('human-monitor-command',
++                        command_line='screendump %s' % screendump_path)
++        logger = logging.getLogger('framebuffer')
++
++        cpu_count = 1
++        match_threshold = 0.92
++        screendump_bgr = cv2.imread(screendump_path)
++        screendump_gray = cv2.cvtColor(screendump_bgr, cv2.COLOR_BGR2GRAY)
++        result = cv2.matchTemplate(screendump_gray, cv2.imread(tuxlogo_path, 0),
++                                   cv2.TM_CCOEFF_NORMED)
++        loc = np.where(result >= match_threshold)
++        tux_count = 0
++        for tux_count, pt in enumerate(zip(*loc[::-1]), start=1):
++            logger.debug('found Tux at position [x, y] = %s', pt)
++        self.assertGreaterEqual(tux_count, cpu_count)
 -- 
 2.21.1
 
