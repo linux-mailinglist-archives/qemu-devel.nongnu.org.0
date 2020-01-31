@@ -2,24 +2,24 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A09E14F182
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 18:47:02 +0100 (CET)
-Received: from localhost ([::1]:57208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EB0F14F193
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 18:50:58 +0100 (CET)
+Received: from localhost ([::1]:57266 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ixaNh-0005UK-Am
-	for lists+qemu-devel@lfdr.de; Fri, 31 Jan 2020 12:47:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41315)
+	id 1ixaRV-0002tc-8t
+	for lists+qemu-devel@lfdr.de; Fri, 31 Jan 2020 12:50:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41306)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1ixaLa-0002gO-AP
+ (envelope-from <eblake@redhat.com>) id 1ixaLa-0002fr-3G
  for qemu-devel@nongnu.org; Fri, 31 Jan 2020 12:44:51 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1ixaLY-0004OM-VX
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 12:44:50 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:20904
+ (envelope-from <eblake@redhat.com>) id 1ixaLZ-0004Oa-1t
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 12:44:49 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:29443
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1ixaLY-0004Nf-Pi
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1ixaLY-0004Nk-S7
  for qemu-devel@nongnu.org; Fri, 31 Jan 2020 12:44:48 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1580492688;
@@ -27,33 +27,33 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=bKI/xOJyK4CEKumsYglI3UK/B8/0BuSux4WShyruRtU=;
- b=gMrWUDp21dmatYcclw3QRCEJ6vRQoGH+iaXED1ALKH8t/XmQgcw5cxvUCYZpiFII9E5L1i
- 3Xsvfzrn+bZpL/N7wm8GBPaOpka2h5kqgVSb1I291+mLQpeVqEg9+MtWUBUjyPR1xrXUCc
- UU2/b/qElbpfa6iSuf7tcrMpV9vyKqc=
+ bh=hityjKMfB0ls/+JKoTt1mzdgEMZFRSfbIhfAQvP0UgA=;
+ b=IMkhNQJNBWIKEn4O7NM2S10isN1pNMhL732/i/P/Yrg1AMd7xS2KRf515RDBTj7PVHxlMX
+ KIJ99zi78HOrnIYIuH6Ago9ANgZDsoyAMV5LeaZiJf7TqliFNgW2dw1MC6nO211Z0vSHCi
+ IOmFYo53RaTdRko58DfOCVufseYWFVg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-415-5TsUAxCrOmeiVtF9B3E9pA-1; Fri, 31 Jan 2020 12:44:43 -0500
+ us-mta-319-DvDKizFLPamuqUujl0zeJg-1; Fri, 31 Jan 2020 12:44:44 -0500
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6BEE01937FC5;
- Fri, 31 Jan 2020 17:44:42 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 13F9F1937FC6;
+ Fri, 31 Jan 2020 17:44:43 +0000 (UTC)
 Received: from blue.redhat.com (ovpn-116-181.phx2.redhat.com [10.3.116.181])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EEF1584BCE;
- Fri, 31 Jan 2020 17:44:41 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 991B77FB60;
+ Fri, 31 Jan 2020 17:44:42 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 05/17] block: Don't advertise zero_init_truncate with
- encryption
-Date: Fri, 31 Jan 2020 11:44:24 -0600
-Message-Id: <20200131174436.2961874-6-eblake@redhat.com>
+Subject: [PATCH 06/17] block: Improve bdrv_has_zero_init_truncate with backing
+ file
+Date: Fri, 31 Jan 2020 11:44:25 -0600
+Message-Id: <20200131174436.2961874-7-eblake@redhat.com>
 In-Reply-To: <20200131174436.2961874-1-eblake@redhat.com>
 References: <20200131174436.2961874-1-eblake@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: 5TsUAxCrOmeiVtF9B3E9pA-1
+X-MC-Unique: DvDKizFLPamuqUujl0zeJg-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
@@ -77,89 +77,46 @@ Cc: david.edmondson@oracle.com, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit 38841dcd correctly argued that having qcow2 blindly return 1
-for .bdrv_has_zero_init() is wrong for preallocated images built on
-block devices, while .bdrv_has_zero_init_truncate() can still return 1
-because it is only relied on when changing size with PREALLOC_MODE_OFF
-(and this is true even for v2 images which lack the notion of an
-explicit zero cluster, since the block layer already filters out the
-case of a larger backing file leaking through).  However, it missed
-the fact that encrypted images do not default to reading as zero in
-any case.
-
-However, instead of changing qcow2's .bdrv_has_zero_init_truncate() to
-point to a one-off function that special-cases bs->encryption, it is
-smarter to just move the logic about encryption directly to the block
-layer (that is, the driver callbacks will never be invoked for
-encrypted images, just like they are already not called when a backing
-file is present).  This solution fixes the qcow2 issue, has no effect
-on the crypto driver (which already lacks .bdrv_has_zero_init*
-callbacks), and no other driver currently uses bs->encrypted.
-
-One other reason to fix this at the block layer: any information we
-expose about an encrypted image that in turn may alter timing of
-algorithms run on that image can be considered a (slight) information
-leak; refusing to optimize zero handling of encrypted images thus
-avoids the possibility of that being a security concern.
+When we added bdrv_has_zero_init_truncate(), we chose to blindly
+return 0 if a backing file was present, because we knew of the corner
+case where a backing layer larger than the current layer might leak
+the tail of the backing layer into the resized region.  But as this
+setup is rare, it penalizes the more common case of a backing layer
+smaller than the current layer.
 
 Signed-off-by: Eric Blake <eblake@redhat.com>
 ---
- block.c       | 19 ++++++++++++++++---
- block/qcow2.c |  2 --
- 2 files changed, 16 insertions(+), 5 deletions(-)
+ block.c | 14 ++++++++++++--
+ 1 file changed, 12 insertions(+), 2 deletions(-)
 
 diff --git a/block.c b/block.c
-index 6c2b2bd2e292..296845040e59 100644
+index 296845040e59..d132662f3103 100644
 --- a/block.c
 +++ b/block.c
-@@ -5077,9 +5077,12 @@ int bdrv_has_zero_init(BlockDriverState *bs)
-         return 0;
-     }
-
--    /* If BS is a copy on write image, it is initialized to
--       the contents of the base image, which may not be zeroes.  */
--    if (bs->backing) {
-+    /*
-+     * If BS is a copy on write image, it is initialized to the
-+     * contents of the base image, which may not be zeroes.  Likewise,
-+     * encrypted images do not read as zero.
-+     */
-+    if (bs->backing || bs->encrypted) {
-         return 0;
-     }
-     if (bs->drv->bdrv_has_zero_init) {
-@@ -5099,6 +5102,16 @@ int bdrv_has_zero_init_truncate(BlockDriverState *bs=
+@@ -5112,9 +5112,19 @@ int bdrv_has_zero_init_truncate(BlockDriverState *bs=
 )
          return 0;
      }
 
 +    /*
-+     * Encrypted images never default to reading all zero; and even if
-+     * they did, advertising that fact might lead to an information
-+     * leak based on timing comparisons of algorithms that change if
-+     * our result were dynamic.
++     * If the current layer is smaller than the backing layer,
++     * truncation may expose backing data; treat failure to query size
++     * in the same manner. Otherwise, we can trust the driver.
 +     */
-+    if (bs->encrypted) {
-+        return 0;
-+    }
 +
      if (bs->backing) {
-         /* Depends on the backing image length, but better safe than sorry=
+-        /* Depends on the backing image length, but better safe than sorry=
  */
-         return 0;
-diff --git a/block/qcow2.c b/block/qcow2.c
-index 6ea06dbdf48a..40aa751d1de7 100644
---- a/block/qcow2.c
-+++ b/block/qcow2.c
-@@ -4934,8 +4934,6 @@ static int qcow2_has_zero_init(BlockDriverState *bs)
-
-     if (!preallocated) {
-         return 1;
--    } else if (bs->encrypted) {
 -        return 0;
-     } else {
-         return bdrv_has_zero_init(s->data_file->bs);
++        int64_t back =3D bdrv_getlength(bs->backing->bs);
++        int64_t curr =3D bdrv_getlength(bs);
++
++        if (back < 0 || curr < back) {
++            return 0;
++        }
      }
+     if (bs->drv->bdrv_has_zero_init_truncate) {
+         return bs->drv->bdrv_has_zero_init_truncate(bs);
 --=20
 2.24.1
 
