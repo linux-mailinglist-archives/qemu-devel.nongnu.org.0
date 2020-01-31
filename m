@@ -2,77 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F71814F08E
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 17:21:34 +0100 (CET)
-Received: from localhost ([::1]:55698 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0B1614F04F
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 17:01:58 +0100 (CET)
+Received: from localhost ([::1]:55262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ixZ2z-0003Rw-75
-	for lists+qemu-devel@lfdr.de; Fri, 31 Jan 2020 11:21:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45957)
+	id 1ixYk1-00061h-QE
+	for lists+qemu-devel@lfdr.de; Fri, 31 Jan 2020 11:01:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46715)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1ixY6U-0008Db-8C
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 10:21:08 -0500
+ (envelope-from <kchamart@redhat.com>) id 1ixY8k-0001ea-90
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 10:23:27 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1ixY6S-0005Hq-85
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 10:21:05 -0500
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:32883)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1ixY6R-00058Q-Ob
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 10:21:04 -0500
-Received: by mail-wm1-x342.google.com with SMTP id m10so9051250wmc.0
- for <qemu-devel@nongnu.org>; Fri, 31 Jan 2020 07:21:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=MXOi1qvLvE3KNt33S4qvG4RLPUd9orOU/oy9xupr8AY=;
- b=VqjCyVZ5xnkSxVPwwXy00UB/cvQceUwBcmIJqkKfj+ZtQjow3k8oiPnV8SgyIaZ2cV
- HXSjNNih5ZM6DIzAjEFhWmrxwWEMGc9fxVRHX08dFUxUbWYWFCWH/MI9+mFwGaqg7jA4
- Jv1A9ZDSE/UsvI1QYV4CxbY9SZ8k4VTAutF7u5QNvHXb3rPUH2mkv0oZzlnKx/m/gZ7B
- N2JLIoYlsG9hP9QKdmhSzo1bkMREyGL3AvzPHuP9XJh5PtjexM761vTEPNbaTWzNvuFk
- rk7pnKRQW2MTCfUrtTXEkEb2+hmmpbGKCV+CIUTxIH6ctzu10er1D855QQK7emHHKsVN
- n8pA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=MXOi1qvLvE3KNt33S4qvG4RLPUd9orOU/oy9xupr8AY=;
- b=PlxcMYF4jMXER8YKtFnUQ5TzQTVjCp1wfIKIdr8PtUjbKpIdtkH4Pjmh4tVPoAnwRQ
- SviX+XVc8bCLAPWTKXx64MryS09vb8bbtat/tRSHzzEFOdXhmCxefPnGEKAk8OqZLD+d
- rSQda6JZHyyGFg+Wd6AvLfH5Xqxqw2AZvDr1HmSAGwu4FjRBSFawnLgWNDLE6DkhEbGr
- gQWCLvZ3XqTyI30e/gmoMvIpBaR935d8w2KlWfkmdvnCydO7qUYp+q6Gx9oCka8mkQoc
- +G1Xb4B8JO5Z89sTchlIuSA33Qgr2NuwrRojKif93sO0SsVbJoiydx8UTAboflQSfro/
- 12fA==
-X-Gm-Message-State: APjAAAXgWFxxLXN8HbBD8KhDzWA/FhZCXS44QE5uul0Pb7rJCCy6Je7d
- UlghaCoJz0Q7WDAeLb1E8R1zUg==
-X-Google-Smtp-Source: APXvYqxhdymk8tpkDcu2P7lgJVcHoxZ8MG0vDJHOxSiBtvrDEsMFEUlbNWF639P5OVYNXXypFnrLVg==
-X-Received: by 2002:a05:600c:292:: with SMTP id
- 18mr13357407wmk.128.1580484061213; 
- Fri, 31 Jan 2020 07:21:01 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id d23sm12430172wra.30.2020.01.31.07.20.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 31 Jan 2020 07:21:00 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 51C4B1FF87;
- Fri, 31 Jan 2020 15:20:59 +0000 (GMT)
-References: <20200124162606.8787-1-peter.maydell@linaro.org>
- <20200124162606.8787-2-peter.maydell@linaro.org>
-User-agent: mu4e 1.3.7; emacs 27.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH v2 1/8] Makefile: Ensure we don't run Sphinx in parallel
- for manpages
-In-reply-to: <20200124162606.8787-2-peter.maydell@linaro.org>
-Date: Fri, 31 Jan 2020 15:20:59 +0000
-Message-ID: <878sln8xes.fsf@linaro.org>
+ (envelope-from <kchamart@redhat.com>) id 1ixY8i-00030x-Si
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 10:23:26 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:31456
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <kchamart@redhat.com>) id 1ixY8i-0002vO-KP
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 10:23:24 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1580484198;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=TawxEKQ4luwMe/Cf3ho+H6grhw051OxwGtYMWM4eEjo=;
+ b=jMpavgzl0JQiTvciKEkiU5EXkOsD5VXtNTE//ls3up8w+QQMnOBv7hNwqJ0lrXnxJryeCA
+ R8MSIw6HuSzVdgVqyfGvc/xTbesN5R4SV99Jj0NPSIgS/IfRvCEcLqoXsFDZ9yxwXsaqeD
+ ESz3P7S/kCIahkm3ixnJUTjoHuPiyyg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-407-XtiSWXTxOw-G4GUZMY7yVA-1; Fri, 31 Jan 2020 10:22:56 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AA4668010F0;
+ Fri, 31 Jan 2020 15:22:54 +0000 (UTC)
+Received: from paraplu.localdomain (ovpn-117-101.ams2.redhat.com
+ [10.36.117.101])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C12EB86C4B;
+ Fri, 31 Jan 2020 15:22:44 +0000 (UTC)
+Received: by paraplu.localdomain (Postfix, from userid 1001)
+ id 48E953E04B8; Fri, 31 Jan 2020 16:22:43 +0100 (CET)
+Date: Fri, 31 Jan 2020 16:22:43 +0100
+From: Kashyap Chamarthy <kchamart@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: Improving QOM documentation [Was: Re: Making QEMU easier for
+ management tools and applications]
+Message-ID: <20200131152243.GA24572@paraplu>
+References: <1B253197-5592-472A-AA26-E0614A13C91A@redhat.com>
+ <87o8v52hz9.fsf@dusky.pond.sub.org>
+ <8CF8359B-1E52-4F7A-944E-C1C14FEC4F92@redhat.com>
+ <87r200zzje.fsf@dusky.pond.sub.org>
+ <20200115121953.GJ93923@redhat.com>
+ <874kwwvmuv.fsf@dusky.pond.sub.org>
+ <20200130210902.GA25927@paraplu>
+ <87y2toi29o.fsf@dusky.pond.sub.org>
+ <CAFEAcA-545QS9mnM6hwa6TxUpw_pDQ3Pa8tkf4qtzWS1Zi_fxQ@mail.gmail.com>
+ <CABgObfaB=wHXyJbQR163bZdFHhWdCc4D8sWRHzte019_hSTuhA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <CABgObfaB=wHXyJbQR163bZdFHhWdCc4D8sWRHzte019_hSTuhA@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: XtiSWXTxOw-G4GUZMY7yVA-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::342
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,146 +85,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org, qemu-devel@nongnu.org,
- Richard Henderson <richard.henderson@linaro.org>,
- Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Greg Kurz <groug@kaod.org>, Stefan Hajnoczi <stefanha@redhat.com>,
- John Snow <jsnow@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ "Denis V. Lunev" <den@virtuozzo.com>, Stefan Hajnoczi <stefanha@gmail.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Christophe de Dinechin <dinechin@redhat.com>,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ Dominik Csapak <d.csapak@proxmox.com>, John Snow <jsnow@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Fri, Jan 31, 2020 at 12:02:05PM +0100, Paolo Bonzini wrote:
+> Il ven 31 gen 2020, 11:36 Peter Maydell <peter.maydell@linaro.org> ha
+> scritto:
 
-Peter Maydell <peter.maydell@linaro.org> writes:
+[...]
 
-> Sphinx will corrupt its doctree cache if we run two copies
-> of it in parallel. In commit 6bda415c10d966c8d3 we worked
-> around this by having separate doctrees for 'html' vs 'manpage'
-> runs. However now that we have more than one manpage produced
-> from a single manual we can run into this again when trying
-> to produce the two manpages.
->
-> Use the trick described in 'Atomic Rules in GNU Make'
-> https://www.cmcrossroads.com/article/atomic-rules-gnu-make
-> to ensure that we only run the Sphinx manpage builder once
-> for each manual, even if we're producing several manpages.
-> This fixes doctree corruption in parallel builds and also
-> avoids pointlessly running Sphinx more often than we need to.
->
-> (In GNU Make 4.3 there is builtin support for this, via
-> the "&:" syntax, but we can't wait for that to be available
-> in all the distros we support...)
->
-> The generic "one invocation for multiple output files"
-> machinery is provided as a macro named 'atomic' in rules.mak;
-> we then wrap this in a more specific macro for defining
-> the rule and dependencies for the manpages in a Sphinx
-> manual, to avoid excessive repetition.
->
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> The advantage of putting them in the header is that you have them all in
+> one place (inline functions and structs must be in the header). In practi=
+ce
+> that balances for me the disadvantage of having some comments far from th=
+e
+> code they document, which increases the risk of bitrot especially for
+> comments such as "called with lock X held".
+>=20
+> I definitely agree that the overview/introduction/conventions
+> > side of things is where we'd benefit most if somebody wanted
+> > to try to tackle that. We could roll
+> > https://wiki.qemu.org/Documentation/QOMConventions
+> > into that if we had a better place to put that info.
+> >
+>=20
+> I am travelling this weekend so I might try to do some kind of thread
+> summary and brain dump in the wiki. I'll leave to Kashyap to do the rST
+> conversion and patch submission. ;-)
 
-I won't claim I fully follow the invocation but it works and I have
-tested it.
+Thanks!  Happy to be the 'scribe' ;-)  I have a skeltal
+qemu-object-model.rst file sitting with some initial content based on
+various sources, including one of your presentations[*] from 2014.
+I'll wait for your new Wiki link to incorporate that content.
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-Tested-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+(Minor aside: I'm not sure if this file should be in docs/interop/ dir,
+which IIRC, is for things that are 'external' interfaces.  And I learn
+that QOM is used both internally in and as an external interface, e.g.
+whenever a device is being created, machine types, CPU config, etc.)
 
+            - - -
 
-> ---
->  Makefile  | 17 ++++++++++-------
->  rules.mak | 36 ++++++++++++++++++++++++++++++++++++
->  2 files changed, 46 insertions(+), 7 deletions(-)
->
-> diff --git a/Makefile b/Makefile
-> index 04c77d3b962..9b7ff1dc82f 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -1028,6 +1028,14 @@ build-manual =3D $(call quiet-command,CONFDIR=3D"$=
-(qemu_confdir)" sphinx-build $(if
->  manual-deps =3D $(wildcard $(SRC_PATH)/docs/$1/*.rst) \
->                $(wildcard $(SRC_PATH)/docs/$1/*.rst.inc) \
->                $(SRC_PATH)/docs/$1/conf.py $(SRC_PATH)/docs/conf.py
-> +# Macro to write out the rule and dependencies for building manpages
-> +# Usage: $(call define-manpage-rule,manualname,manpage1 manpage2...[,ext=
-radeps])
-> +# 'extradeps' is optional, and specifies extra files (eg .hx files) that
-> +# the manual page depends on.
-> +define define-manpage-rule
-> +$(call atomic,$(foreach manpage,$2,$(MANUAL_BUILDDIR)/$1/$(manpage)),$(c=
-all manual-deps,$1) $3)
-> +	$(call build-manual,$1,man)
-> +endef
->=20=20
->  $(MANUAL_BUILDDIR)/devel/index.html: $(call manual-deps,devel)
->  	$(call build-manual,devel,html)
-> @@ -1041,14 +1049,9 @@ $(MANUAL_BUILDDIR)/specs/index.html: $(call manual=
--deps,specs)
->  $(MANUAL_BUILDDIR)/system/index.html: $(call manual-deps,system)
->  	$(call build-manual,system,html)
->=20=20
-> -$(MANUAL_BUILDDIR)/interop/qemu-ga.8: $(call manual-deps,interop)
-> -	$(call build-manual,interop,man)
-> +$(call define-manpage-rule,interop,qemu-ga.8 qemu-nbd.8)
->=20=20
-> -$(MANUAL_BUILDDIR)/interop/qemu-nbd.8: $(call manual-deps,interop)
-> -	$(call build-manual,interop,man)
-> -
-> -$(MANUAL_BUILDDIR)/system/qemu-block-drivers.7: $(call manual-deps,syste=
-m)
-> -	$(call build-manual,system,man)
-> +$(call define-manpage-rule,system,qemu-block-drivers.7)
->=20=20
->  $(MANUAL_BUILDDIR)/index.html: $(SRC_PATH)/docs/index.html.in qemu-versi=
-on.h
->  	@mkdir -p "$(MANUAL_BUILDDIR)"
-> diff --git a/rules.mak b/rules.mak
-> index 967295dd2b6..50f6776f529 100644
-> --- a/rules.mak
-> +++ b/rules.mak
-> @@ -399,3 +399,39 @@ GEN_SUBST =3D $(call quiet-command, \
->=20=20
->  %.json: %.json.in
->  	$(call GEN_SUBST)
-> +
-> +# Support for building multiple output files by atomically executing
-> +# a single rule which depends on several input files (so the rule
-> +# will be executed exactly once, not once per output file, and
-> +# not multiple times in parallel.) For more explanation see:
-> +# https://www.cmcrossroads.com/article/atomic-rules-gnu-make
-> +
-> +# Given a space-separated list of filenames, create the name of
-> +# a 'sentinel' file to use to indicate that they have been built.
-> +# We use fixed text on the end to avoid accidentally triggering
-> +# automatic pattern rules, and . on the start to make the file
-> +# not show up in ls output.
-> +sentinel =3D .$(subst $(SPACE),_,$(subst /,_,$1)).sentinel.
-> +
-> +# Define an atomic rule that builds multiple outputs from multiple input=
-s.
-> +# To use:
-> +#    $(call atomic,out1 out2 ...,in1 in2 ...)
-> +#    <TAB>rule to do the operation
-> +#
-> +# Make 4.3 will have native support for this, and you would be able
-> +# to instead write:
-> +#    out1 out2 ... &: in1 in2 ...
-> +#    <TAB>rule to do the operation
-> +#
-> +# The way this works is that it creates a make rule
-> +# "out1 out2 ... : sentinel-file ; @:" which says that the sentinel
-> +# depends on the dependencies, and the rule to do that is "do nothing".
-> +# Then we have a rule
-> +# "sentinel-file : in1 in2 ..."
-> +# whose commands start with "touch sentinel-file" and then continue
-> +# with the rule text provided by the user of this 'atomic' function.
-> +# The foreach... is there to delete the sentinel file if any of the
-> +# output files don't exist, so that we correctly rebuild in that situati=
-on.
-> +atomic =3D $(eval $1: $(call sentinel,$1) ; @:) \
-> +         $(call sentinel,$1) : $2 ; @touch $$@ \
-> +         $(foreach t,$1,$(if $(wildcard $t),,$(shell rm -f $(call sentin=
-el,$1))))
+I've re-skimmed your scarily-titled "QOM exegesis and apocalypse" 2014
+KVM Forum talk slides[*], where the "Why QOM?" slide says:
 
+    All device creation, device configuration, backend creation and
+    backed configuration done through a single interface
+   =20
+    Rigorous support for introspection both of runtime objects and type
+    capabilities
+
+Me wonders how much of the above "Why" still holds true today.  Although
+further slides give more clues on what worked and what didn't.
+
+I'll wait for fresher details from your upcoming Wiki :-)
+
+[*] http://www.linux-kvm.org/images/9/90/Kvmforum14-qom.pdf
 
 --=20
-Alex Benn=C3=A9e
+/kashyap
+
 
