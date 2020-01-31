@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC6F214F185
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 18:48:56 +0100 (CET)
-Received: from localhost ([::1]:57234 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58DF014F181
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 18:46:45 +0100 (CET)
+Received: from localhost ([::1]:57206 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ixaPX-0007oO-RL
-	for lists+qemu-devel@lfdr.de; Fri, 31 Jan 2020 12:48:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41274)
+	id 1ixaNQ-0004vX-Cn
+	for lists+qemu-devel@lfdr.de; Fri, 31 Jan 2020 12:46:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41384)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1ixaLZ-0002dH-2I
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 12:44:50 -0500
+ (envelope-from <eblake@redhat.com>) id 1ixaLc-0002ld-8q
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 12:44:53 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1ixaLX-0004Me-TZ
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 12:44:48 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:37655
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <eblake@redhat.com>) id 1ixaLb-0004SP-7C
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 12:44:52 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:28460
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1ixaLX-0004Lz-Q6
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 12:44:47 -0500
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1ixaLb-0004Rd-1Y
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 12:44:51 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580492687;
+ s=mimecast20190719; t=1580492690;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=B51it5BXKL4ctGbDQxLb2aHXVzqtTtPhPQiH6qrqs8g=;
- b=KhtwGyRTLypocGK523GiaWvsKwbRIS6QVEYONWgyW3RpT+S64CBnzDsckOHKaxk/aDZoXh
- k2fxHRqvOVsR4VI83Fn7CxEk6Jnd4DTfcJO5UPtAgzCltCmp318sxfIVVgTfvIM4BA+IhE
- a/1ZT+AwYh1z3TmDr9rrQPUX3Rjcw/Q=
+ bh=TAXHXGHUzOtsBvmo26uXaYT7Dh6K1j22oz09jejpdqU=;
+ b=LP2JcZRSw7BFQWTaDOJd9zTVwP5ZfWYO2lsoLMhfmSn0Zy28DajLmIBog6p7hs3hC8m8Xe
+ iEii1SoXjIf5vWlFYS5EtMDxqAIZixeqtVnOUA8ezH9fUpj5lrs3VdX3bx8cQhhC/++Z1Z
+ OoSA6lvrYhHFjO4PWA2z0Pb092fFgRE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-340-ZmvyKsZBONawh1gVfeoFCg-1; Fri, 31 Jan 2020 12:44:45 -0500
+ us-mta-226-v79gN-BqM_2enLWrON2g6g-1; Fri, 31 Jan 2020 12:44:46 -0500
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C03A88F4966;
- Fri, 31 Jan 2020 17:44:43 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DD0ED107ACC4;
+ Fri, 31 Jan 2020 17:44:44 +0000 (UTC)
 Received: from blue.redhat.com (ovpn-116-181.phx2.redhat.com [10.3.116.181])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3A166811E3;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EA6DB811E3;
  Fri, 31 Jan 2020 17:44:43 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 07/17] gluster: Drop useless has_zero_init callback
-Date: Fri, 31 Jan 2020 11:44:26 -0600
-Message-Id: <20200131174436.2961874-8-eblake@redhat.com>
+Subject: [PATCH 08/17] sheepdog: Consistently set bdrv_has_zero_init_truncate
+Date: Fri, 31 Jan 2020 11:44:27 -0600
+Message-Id: <20200131174436.2961874-9-eblake@redhat.com>
 In-Reply-To: <20200131174436.2961874-1-eblake@redhat.com>
 References: <20200131174436.2961874-1-eblake@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: ZmvyKsZBONawh1gVfeoFCg-1
+X-MC-Unique: v79gN-BqM_2enLWrON2g6g-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,74 +70,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: david.edmondson@oracle.com, Kevin Wolf <kwolf@redhat.com>,
- "open list:GLUSTER" <integration@gluster.org>, qemu-block@nongnu.org,
- mreitz@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ "open list:Sheepdog" <sheepdog@lists.wpkg.org>, qemu-block@nongnu.org,
+ mreitz@redhat.com, david.edmondson@oracle.com, Liu Yuan <namei.unix@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-block.c already defaults to 0 if we don't provide a callback; there's
-no need to write a callback that always fails.
+block_int.h claims that .bdrv_has_zero_init must return 0 if
+.bdrv_has_zero_init_truncate does likewise; but this is violated if
+only the former callback is provided if .bdrv_co_truncate also exists.
+When adding the latter callback, it was mistakenly added to only one
+of the three possible sheepdog instantiations.
 
+Fixes: 1dcaf527
 Signed-off-by: Eric Blake <eblake@redhat.com>
 ---
- block/gluster.c | 14 --------------
- 1 file changed, 14 deletions(-)
+ block/sheepdog.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/block/gluster.c b/block/gluster.c
-index 4fa4a77a4777..9d952c70981b 100644
---- a/block/gluster.c
-+++ b/block/gluster.c
-@@ -1357,12 +1357,6 @@ static int64_t qemu_gluster_allocated_file_size(Bloc=
-kDriverState *bs)
-     }
- }
-
--static int qemu_gluster_has_zero_init(BlockDriverState *bs)
--{
--    /* GlusterFS volume could be backed by a block device */
--    return 0;
--}
--
- /*
-  * Find allocation range in @bs around offset @start.
-  * May change underlying file descriptor's file offset.
-@@ -1567,8 +1561,6 @@ static BlockDriver bdrv_gluster =3D {
-     .bdrv_co_readv                =3D qemu_gluster_co_readv,
-     .bdrv_co_writev               =3D qemu_gluster_co_writev,
-     .bdrv_co_flush_to_disk        =3D qemu_gluster_co_flush_to_disk,
--    .bdrv_has_zero_init           =3D qemu_gluster_has_zero_init,
--    .bdrv_has_zero_init_truncate  =3D qemu_gluster_has_zero_init,
- #ifdef CONFIG_GLUSTERFS_DISCARD
-     .bdrv_co_pdiscard             =3D qemu_gluster_co_pdiscard,
- #endif
-@@ -1599,8 +1591,6 @@ static BlockDriver bdrv_gluster_tcp =3D {
-     .bdrv_co_readv                =3D qemu_gluster_co_readv,
-     .bdrv_co_writev               =3D qemu_gluster_co_writev,
-     .bdrv_co_flush_to_disk        =3D qemu_gluster_co_flush_to_disk,
--    .bdrv_has_zero_init           =3D qemu_gluster_has_zero_init,
--    .bdrv_has_zero_init_truncate  =3D qemu_gluster_has_zero_init,
- #ifdef CONFIG_GLUSTERFS_DISCARD
-     .bdrv_co_pdiscard             =3D qemu_gluster_co_pdiscard,
- #endif
-@@ -1631,8 +1621,6 @@ static BlockDriver bdrv_gluster_unix =3D {
-     .bdrv_co_readv                =3D qemu_gluster_co_readv,
-     .bdrv_co_writev               =3D qemu_gluster_co_writev,
-     .bdrv_co_flush_to_disk        =3D qemu_gluster_co_flush_to_disk,
--    .bdrv_has_zero_init           =3D qemu_gluster_has_zero_init,
--    .bdrv_has_zero_init_truncate  =3D qemu_gluster_has_zero_init,
- #ifdef CONFIG_GLUSTERFS_DISCARD
-     .bdrv_co_pdiscard             =3D qemu_gluster_co_pdiscard,
- #endif
-@@ -1669,8 +1657,6 @@ static BlockDriver bdrv_gluster_rdma =3D {
-     .bdrv_co_readv                =3D qemu_gluster_co_readv,
-     .bdrv_co_writev               =3D qemu_gluster_co_writev,
-     .bdrv_co_flush_to_disk        =3D qemu_gluster_co_flush_to_disk,
--    .bdrv_has_zero_init           =3D qemu_gluster_has_zero_init,
--    .bdrv_has_zero_init_truncate  =3D qemu_gluster_has_zero_init,
- #ifdef CONFIG_GLUSTERFS_DISCARD
-     .bdrv_co_pdiscard             =3D qemu_gluster_co_pdiscard,
- #endif
+diff --git a/block/sheepdog.c b/block/sheepdog.c
+index cfa84338a2d6..522c16a93676 100644
+--- a/block/sheepdog.c
++++ b/block/sheepdog.c
+@@ -3269,6 +3269,7 @@ static BlockDriver bdrv_sheepdog_tcp =3D {
+     .bdrv_co_create               =3D sd_co_create,
+     .bdrv_co_create_opts          =3D sd_co_create_opts,
+     .bdrv_has_zero_init           =3D bdrv_has_zero_init_1,
++    .bdrv_has_zero_init_truncate  =3D bdrv_has_zero_init_1,
+     .bdrv_getlength               =3D sd_getlength,
+     .bdrv_get_allocated_file_size =3D sd_get_allocated_file_size,
+     .bdrv_co_truncate             =3D sd_co_truncate,
+@@ -3307,6 +3308,7 @@ static BlockDriver bdrv_sheepdog_unix =3D {
+     .bdrv_co_create               =3D sd_co_create,
+     .bdrv_co_create_opts          =3D sd_co_create_opts,
+     .bdrv_has_zero_init           =3D bdrv_has_zero_init_1,
++    .bdrv_has_zero_init_truncate  =3D bdrv_has_zero_init_1,
+     .bdrv_getlength               =3D sd_getlength,
+     .bdrv_get_allocated_file_size =3D sd_get_allocated_file_size,
+     .bdrv_co_truncate             =3D sd_co_truncate,
 --=20
 2.24.1
 
