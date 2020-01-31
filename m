@@ -2,89 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5D6E14EEA4
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 15:40:20 +0100 (CET)
-Received: from localhost ([::1]:53916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23B5114EEB4
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 15:47:47 +0100 (CET)
+Received: from localhost ([::1]:54010 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ixXT2-000724-1S
-	for lists+qemu-devel@lfdr.de; Fri, 31 Jan 2020 09:40:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50329)
+	id 1ixXaE-0001XG-7x
+	for lists+qemu-devel@lfdr.de; Fri, 31 Jan 2020 09:47:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52106)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1ixXRw-0006ae-My
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 09:39:13 -0500
+ (envelope-from <bounces@canonical.com>) id 1ixXYP-0000hk-1e
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 09:45:54 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1ixXRv-0003gZ-4t
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 09:39:12 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:46491
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1ixXRv-0003g0-1i
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 09:39:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580481550;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=BeE+vuCWexBfgZgiUVnhxC1hnWiZRso5WkmGs/ppe60=;
- b=Q9kr7EgvVG0VkfSC+XPs48wlSoXrwwAnsPuByvSnAp2LJoNLZ9ac4WHi1fmEJ2j4cTlMwS
- /fwWC3yriW2NMiJEdYs0Q5+CD0AoaCQnXJq0Q8U7lHDgphMsuGZ6ZKhGZNiHmm8zvGYkqW
- /kyMcD4gEJ1RALxNgtiKCx41K3ghV/c=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-275-Bv9ItNT3MqK6lQDa8Q8jLA-1; Fri, 31 Jan 2020 09:39:01 -0500
-Received: by mail-wm1-f72.google.com with SMTP id b202so2898915wmb.2
- for <qemu-devel@nongnu.org>; Fri, 31 Jan 2020 06:39:01 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=CIls9w6Bd31ftgXjuHKhY4rvQcEqPd2EkxfiCgI7Fkw=;
- b=UgMeOUx5W3ReUPPeUntzRXnZ5azAnqSqwzseu2niKiq6XYQWSPfFnnOIME7SMADfJh
- 0RHWcLBhVtQpyTLZouW1xKU1nB/zxRqVml8jMc4GXKbr9wrrWE1R0DKbx9eN8ZrxgtYe
- iRipw/fT/QsLkNlnKb8cfGglq8uVgU9g3bZGyr6Be76n97Vn6Ua2hjBtonnwTxwnyd0Q
- RhDpPr5ngUjrGJOC7IY6d463PGH0ydnqg7zz22B55HeZqloenGvPe20Nu+ybAE/jDL6Z
- tWuIyGYDX8Lno4GzsJUVqz85gBTMtSs74YSQQhvwnzYlb717GgSP2xqjfKBAlag0AbY9
- DVbQ==
-X-Gm-Message-State: APjAAAXged+vqkCQsZNhiKVqoq7lxwTJ6qWx2keUMrn4T4EZOasA6sn2
- 5g0n1pPQ8T8CgpfYwkf2+87HzrevDW3OMQHvfIRCSyW7UWQat5kjRD7hwNqASXm0k4ps8uZs2da
- FrchybYys1xXs5Cg=
-X-Received: by 2002:a7b:ce94:: with SMTP id q20mr12829054wmj.4.1580481540157; 
- Fri, 31 Jan 2020 06:39:00 -0800 (PST)
-X-Google-Smtp-Source: APXvYqwflfEx+KbgjwSxlbvbxOKSjO7trst0jjCYmLejzTuthUYrbOuKLW807Vx+RSk4PRs+gjS0pw==
-X-Received: by 2002:a7b:ce94:: with SMTP id q20mr12828978wmj.4.1580481538982; 
- Fri, 31 Jan 2020 06:38:58 -0800 (PST)
-Received: from [192.168.1.35] (113.red-83-57-172.dynamicip.rima-tde.net.
- [83.57.172.113])
- by smtp.gmail.com with ESMTPSA id e16sm12240849wrs.73.2020.01.31.06.38.58
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 31 Jan 2020 06:38:58 -0800 (PST)
-Subject: Re: [PULL 0/5] Tracing patches
-To: Peter Maydell <peter.maydell@linaro.org>,
- Stefan Hajnoczi <stefanha@redhat.com>
-References: <20200130213814.334195-1-stefanha@redhat.com>
- <CAFEAcA_=_8ZFC=DF3UkqvWqvjQsCHjc=_fYcMmbXs=iLp7JrcQ@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <f5e22fef-d746-b6f4-2766-0c6258e7b47e@redhat.com>
-Date: Fri, 31 Jan 2020 15:38:57 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ (envelope-from <bounces@canonical.com>) id 1ixXYM-000058-HQ
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 09:45:51 -0500
+Received: from indium.canonical.com ([91.189.90.7]:36786)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1ixXYM-0008Vb-Bt
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 09:45:50 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1ixXYK-0000pZ-GM
+ for <qemu-devel@nongnu.org>; Fri, 31 Jan 2020 14:45:48 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 4A1442E80CB
+ for <qemu-devel@nongnu.org>; Fri, 31 Jan 2020 14:45:48 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA_=_8ZFC=DF3UkqvWqvjQsCHjc=_fYcMmbXs=iLp7JrcQ@mail.gmail.com>
-Content-Language: en-US
-X-MC-Unique: Bv9ItNT3MqK6lQDa8Q8jLA-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+Date: Fri, 31 Jan 2020 14:39:23 -0000
+From: Joey Adams <joeyadams3.14159@gmail.com>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: joeyadams3-14159 meoporter philmd
+X-Launchpad-Bug-Reporter: Marshall Porter (meoporter)
+X-Launchpad-Bug-Modifier: Joey Adams (joeyadams3-14159)
+References: <157336268640.31256.1488114867676518393.malonedeb@wampee.canonical.com>
+Message-Id: <158048156373.18744.11887580173085196346.malone@gac.canonical.com>
+Subject: [Bug 1851972] Re: pc-q35-4.1 and AMD Navi 5700/XT incompatible
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="0a62c17273454a1313f81a74a2198ec30b44c7b6";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 0910623da2ca9de336ec55608f3b70cf3827c7e1
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -93,71 +64,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>
+Reply-To: Bug 1851972 <1851972@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/31/20 2:57 PM, Peter Maydell wrote:
-> On Thu, 30 Jan 2020 at 21:38, Stefan Hajnoczi <stefanha@redhat.com> wrote=
-:
->>
->> The following changes since commit 928173659d6e5dc368284f73f90ea1d129e1f=
-57d:
->>
->>    Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-2=
-0200130' into staging (2020-01-30 16:19:04 +0000)
->>
->> are available in the Git repository at:
->>
->>    https://github.com/stefanha/qemu.git tags/tracing-pull-request
->>
->> for you to fetch changes up to e144a605a614d22165000c69e8e1dc6986d45cd8:
->>
->>    qemu_set_log_filename: filename argument may be NULL (2020-01-30 21:3=
-3:50 +0000)
->>
->> ----------------------------------------------------------------
->> Pull request
->>
->> ----------------------------------------------------------------
->>
->> Peter Maydell (3):
->>    docs/devel/tracing.txt: Recommend only
->>      trace_event_get_state_backends()
->>    memory.c: Use trace_event_get_state_backends()
->>    hw/display/qxl.c: Use trace_event_get_state_backends()
->>
->> Philippe Mathieu-Daud=C3=A9 (1):
->>    Makefile: Keep trace-events-subdirs ordered
->>
->> Salvador Fandino (1):
->>    qemu_set_log_filename: filename argument may be NULL
->=20
-> Here's a weird one -- with this pullreq applied I
-> see a new warning running check-tcg on the linux-user
-> static config build:
->=20
->    TEST    linux-test on aarch64
->    TEST    testthread on aarch64
->    TEST    float_madds on aarch64
->    DIFF    float_madds.out with
-> /home/petmay01/linaro/qemu-for-merges/tests/tcg/aarch64/float_ma
-> dds.ref
->    TEST    fcvt on aarch64
-> warning: TCG temporary leaks before 0000000000400a0c
->    DIFF    fcvt.out with
-> /home/petmay01/linaro/qemu-for-merges/tests/tcg/aarch64/fcvt.ref
->    TEST    pauth-1 on aarch64
->    TEST    pauth-2 on aarch64
->=20
-> but I'm not sure why any of the patches here would have
-> provoked that, unless they're now causing a log message
-> that would previously have been suppressed or directed
-> somewhere else to be emitted.
+Commit d1972be13f ("accel/kvm: Make "kernel_irqchip" default on") fixes
+the default mixup I described above.  This isn't related to Marshall's
+issue as it involves qemu 3.0 vs 3.1, but at least it cleans up some
+confusion.
 
-Looking at the last patch "qemu_set_log_filename: filename argument may=20
-be NULL", maybe these were previously logged into a ./'(null)' logfile?
+-- =
 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1851972
+
+Title:
+  pc-q35-4.1 and AMD Navi 5700/XT incompatible
+
+Status in QEMU:
+  New
+
+Bug description:
+  Hello,
+
+  I am not sure if this qualifies as a "bug"; it is be more of an
+  unknown issue with default settings. However, since the default value
+  of q35 default_kernel_irqchip_split was changed seemingly due to
+  similar user feedback, I thought this was important to share..
+
+  AMD Navi 5700/XT vfio-pci passthrough seems incompatible with
+  one/multiple settings in pc-q35-3.1 and higher. The workaround for me
+  is that pc-q35-3.0 still works fine passing through the GPU and
+  official drivers can load/install fine.
+
+  The default/generic GPU drivers in a Fedora 30 or Windows 1903 guest
+  do work; the monitor displays the desktop in a 800x600 resolution and
+  things are rendered fine.. so the basic functionality of the card
+  seems fine with pc-q35-4.1.
+
+  But attempting to use the official open source AMD driver with the
+  card resulted in a hung kernel for the Fedora 30 guest.. and a BSOD on
+  the Windows 1903 guest immediately during driver install.
+
+  I do not see any errors in Qemu command output.. did not investigate
+  other logs or KVM etc, because I am not sure what to look for or how
+  to go about it. Also not sure which combination of the latest q35
+  default settings are valid combinations to try either, because it
+  seems that multiple things have changed related to pcie-root-port
+  defaults and other machine options. I am happy to run tests and
+  provide feedback if that helps identify the issue.
+
+  I am using "Linux arch 5.4.0-rc6-mainline" kernel on ArchLinux host
+  with AMD Navi reset pci quirk patch applied.
+
+  My working Qemu command line is this:
+
+  QEMU_AUDIO_DRV=3Dpa \
+  QEMU_PA_SERVER=3D/run/user/1000/pulse/native \
+  /usr/bin/qemu-system-x86_64 \
+  -name windows \
+  -m 16g \
+  -accel kvm \
+  -machine pc-q35-3.0,accel=3Dkvm,pflash0=3Dovmf0,pflash1=3Dovmf1 \
+  -blockdev node-name=3Dovmf0,driver=3Dfile,filename=3D/virt/qemu/roms/OVMF=
+_CODE.fd,read-only=3Don \
+  -blockdev node-name=3Dovmf1,driver=3Dfile,filename=3D/virt/qemu/machines/=
+windows/OVMF_VARS.fd \
+  -boot menu=3Don \
+  -global kvm-pit.lost_tick_policy=3Ddiscard \
+  -no-hpet \
+  -rtc base=3Dutc,clock=3Dhost,driftfix=3Dslew \
+  -cpu host,kvm=3Doff,hv_vendor_id=3DRedHatRedHat,hv_spinlocks=3D0x1fff,hv_=
+vapic,hv_time,hv_reset,hv_vpindex,hv_runtime,hv_relaxed,hv_synic,hv_stimer \
+  -smp sockets=3D1,cores=3D4,threads=3D1 \
+  -nodefaults \
+  -netdev bridge,br=3Dbr0,id=3Dnet0 \
+  -device virtio-net-pci,netdev=3Dnet0,addr=3D19.0,mac=3D52:54:00:12:34:77 \
+  -device virtio-scsi-pci \
+  -blockdev raw,node-name=3Ddisk0,cache.direct=3Doff,discard=3Dunmap,file.d=
+river=3Dfile,file.aio=3Dthreads,file.filename=3D/virt/qemu/machines/windows=
+/os.raw \
+  -device scsi-hd,drive=3Ddisk0,rotation_rate=3D1 \
+  -blockdev raw,node-name=3Ddisk1,cache.direct=3Doff,discard=3Dunmap,file.d=
+river=3Dfile,file.aio=3Dthreads,file.filename=3D/virt/qemu/machines/windows=
+/data.raw \
+  -device scsi-hd,drive=3Ddisk1,rotation_rate=3D1 \
+  -drive index=3D0,if=3Dide,media=3Dcdrom,readonly,file=3D/virt/qemu/isos/W=
+in10_1903_V2_English_x64.iso \
+  -drive index=3D1,if=3Dide,media=3Dcdrom,readonly,file=3D/virt/qemu/isos/v=
+irtio-win-0.1.173.iso \
+  -device ich9-intel-hda,addr=3D1b.0 \
+  -device hda-output \
+  -monitor stdio \
+  -display none \
+  -vga none \
+  -device pcie-root-port,id=3Dpcierp0,chassis=3D1,slot=3D1,addr=3D1c.0,disa=
+ble-acs=3Don,multifunction=3Don \
+  -device pcie-root-port,id=3Dpcierp1,chassis=3D2,slot=3D2,addr=3D1c.1,disa=
+ble-acs=3Don \
+  -device x3130-upstream,bus=3Dpcierp0,id=3Dpcieu0 \
+  -device xio3130-downstream,bus=3Dpcieu0,id=3Dpcied0,chassis=3D11,slot=3D1=
+1 \
+  -device vfio-pci,host=3D03:00.0,bus=3Dpcied0,addr=3D00.0,multifunction=3D=
+on \
+  -device vfio-pci,host=3D03:00.1,bus=3Dpcied0,addr=3D00.1 \
+  -device qemu-xhci,addr=3D1d.0 \
+  -device usb-host,vendorid=3D0x258a,productid=3D0x0001 \
+  -device usb-host,vendorid=3D0x1bcf,productid=3D0x0005 ;
+
+  Thank you!
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1851972/+subscriptions
 
