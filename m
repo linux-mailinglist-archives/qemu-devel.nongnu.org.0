@@ -2,54 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DAA214F194
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 18:51:01 +0100 (CET)
-Received: from localhost ([::1]:57270 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B325F14F17F
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 18:46:34 +0100 (CET)
+Received: from localhost ([::1]:57204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ixaRY-00031Q-8J
-	for lists+qemu-devel@lfdr.de; Fri, 31 Jan 2020 12:51:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41447)
+	id 1ixaNF-0004U2-Nt
+	for lists+qemu-devel@lfdr.de; Fri, 31 Jan 2020 12:46:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41207)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1ixaLe-0002tg-Pb
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 12:44:56 -0500
+ (envelope-from <eblake@redhat.com>) id 1ixaLW-0002c4-Dg
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 12:44:47 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1ixaLd-0004WH-I6
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 12:44:54 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:32497
+ (envelope-from <eblake@redhat.com>) id 1ixaLV-0004IY-H3
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 12:44:46 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:28292
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1ixaLd-0004Vm-EC
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 12:44:53 -0500
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1ixaLV-0004IC-E3
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 12:44:45 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580492693;
+ s=mimecast20190719; t=1580492685;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=OWuBJrCDI7xTRzpXC70WCHo60lyzDCMfSvd7HoDdn5Y=;
- b=h112lvmArx6QHhPvtmzwwpw7JT+ba4PoRmrkskgi8CpeSky0dEt5C34ccWBJq8FkYeiYtD
- ebaT8WAcjAIQXzsOP9l8y5ChN7QkWEaHFCCrmJdoHXv7bxQgRafZLfz6blO+3MVqxq11Fi
- agh9GnE66m8oSYplvxeqrKdKuDVcH0A=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=PYMN4/fJJtaeioiL4a/PkGI8sWoRPSVQYwn4SQ5i6MU=;
+ b=RuFp133sicr6oJTjNf0syXSxWpryMOuspJych9mKSy6pDKZ+jy0sLt7eW58nzHcmwESnjX
+ 5FrbsWKR02Jo4OQDDK/qdwrcwFgnxTO5fqIb0kmoQiZS5rsnTxEpfY6USqwEQjcxg5pKeE
+ i0AtQbhFaAjwCyGFZieGkGEqmLZQmT4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-35-nuISxwZtOB2vcaB8LA3mGQ-1; Fri, 31 Jan 2020 12:44:38 -0500
+ us-mta-321-Vd7cCsdFMfOmNuSr9ew7AQ-1; Fri, 31 Jan 2020 12:44:41 -0500
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0B7DD800D48;
- Fri, 31 Jan 2020 17:44:37 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C8F87800D48;
+ Fri, 31 Jan 2020 17:44:39 +0000 (UTC)
 Received: from blue.redhat.com (ovpn-116-181.phx2.redhat.com [10.3.116.181])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9AC347FB60;
- Fri, 31 Jan 2020 17:44:36 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 51D28811E3;
+ Fri, 31 Jan 2020 17:44:39 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 00/17] Improve qcow2 all-zero detection
-Date: Fri, 31 Jan 2020 11:44:19 -0600
-Message-Id: <20200131174436.2961874-1-eblake@redhat.com>
+Subject: [PATCH 01/17] qcow2: Comment typo fixes
+Date: Fri, 31 Jan 2020 11:44:20 -0600
+Message-Id: <20200131174436.2961874-2-eblake@redhat.com>
+In-Reply-To: <20200131174436.2961874-1-eblake@redhat.com>
+References: <20200131174436.2961874-1-eblake@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: nuISxwZtOB2vcaB8LA3mGQ-1
+X-MC-Unique: Vd7cCsdFMfOmNuSr9ew7AQ-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
@@ -68,97 +71,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: david.edmondson@oracle.com, qemu-block@nongnu.org, mreitz@redhat.com
+Cc: david.edmondson@oracle.com, Kevin Wolf <kwolf@redhat.com>,
+ qemu-block@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Based-on: <20200124103458.1525982-2-david.edmondson@oracle.com>
-([PATCH v2 1/2] qemu-img: Add --target-is-zero to convert)
+Various trivial typos noticed while working on this file.
 
-I'm working on adding an NBD extension that reports whether an image
-is already all zero when the client first connects.  I initially
-thought I could write the NBD code to just call bdrv_has_zero_init(),
-but that turned out to be a bad assumption that instead resulted in
-this patch series.  The NBD patch will come later (and cross-posted to
-the NBD protocol, libnbd, nbdkit, and qemu, as it will affect all four
-repositories).
+Signed-off-by: Eric Blake <eblake@redhat.com>
+---
+ block/qcow2.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-I do have an RFC question on patch 13 - as implemented here, I set a
-qcow2 bit if the image has all clusters known zero and no backing
-image.  But it may be more useful to instead report whether all
-clusters _allocated in this layer_ are zero, at which point the
-overall image is all-zero only if the backing file also has that
-property (or even make it two bits).  The tweaks to subsequent patches
-based on what we think makes the most useful semantics shouldn't be
-hard.
+diff --git a/block/qcow2.c b/block/qcow2.c
+index cef9d72b3a16..30fd3d13032a 100644
+--- a/block/qcow2.c
++++ b/block/qcow2.c
+@@ -174,7 +174,7 @@ static ssize_t qcow2_crypto_hdr_write_func(QCryptoBlock=
+ *block, size_t offset,
+ }
 
-[repo.or.cz appears to be down as I type this; I'll post a link to a
-repository later when it comes back up]
 
-Eric Blake (17):
-  qcow2: Comment typo fixes
-  qcow2: List autoclear bit names in header
-  qcow2: Avoid feature name extension on small cluster size
-  block: Improve documentation of .bdrv_has_zero_init
-  block: Don't advertise zero_init_truncate with encryption
-  block: Improve bdrv_has_zero_init_truncate with backing file
-  gluster: Drop useless has_zero_init callback
-  sheepdog: Consistently set bdrv_has_zero_init_truncate
-  block: Refactor bdrv_has_zero_init{,_truncate}
-  block: Add new BDRV_ZERO_OPEN flag
-  file-posix: Support BDRV_ZERO_OPEN
-  gluster: Support BDRV_ZERO_OPEN
-  qcow2: Add new autoclear feature for all zero image
-  qcow2: Expose all zero bit through .bdrv_known_zeroes
-  qcow2: Implement all-zero autoclear bit
-  iotests: Add new test for qcow2 all-zero bit
-  qcow2: Let qemu-img check cover all-zero bit
+-/*=20
++/*
+  * read qcow2 extension and fill bs
+  * start reading from start_offset
+  * finish reading upon magic of value 0 or when end_offset reached
+@@ -3251,7 +3251,7 @@ qcow2_co_create(BlockdevCreateOptions *create_options=
+, Error **errp)
+      * inconsistency later.
+      *
+      * We do need a refcount table because growing the refcount table mean=
+s
+-     * allocating two new refcount blocks - the seconds of which would be =
+at
++     * allocating two new refcount blocks - the second of which would be a=
+t
+      * 2 GB for 64k clusters, and we don't want to have a 2 GB initial fil=
+e
+      * size for any qcow2 image.
+      */
+@@ -3495,7 +3495,7 @@ qcow2_co_create(BlockdevCreateOptions *create_options=
+, Error **errp)
+         goto out;
+     }
 
- block.c                    |  62 +++++----
- block/file-posix.c         |  16 ++-
- block/file-win32.c         |   3 +-
- block/gluster.c            |  34 +++--
- block/nfs.c                |   7 +-
- block/parallels.c          |   4 +-
- block/qcow.c               |   2 +-
- block/qcow2-refcount.c     |  60 +++++++-
- block/qcow2-snapshot.c     |  11 ++
- block/qcow2.c              | 150 +++++++++++++++++---
- block/qcow2.h              |   6 +-
- block/qed.c                |   3 +-
- block/raw-format.c         |  12 +-
- block/rbd.c                |   3 +-
- block/sheepdog.c           |   7 +-
- block/ssh.c                |   7 +-
- block/vdi.c                |   8 +-
- block/vhdx.c               |  16 +--
- block/vmdk.c               |   9 +-
- block/vpc.c                |   8 +-
- blockdev.c                 |   2 +-
- docs/interop/qcow2.txt     |  15 +-
- include/block/block.h      |  38 ++++-
- include/block/block_int.h  |  14 +-
- qapi/block-core.json       |   4 +
- qemu-img.c                 |   9 +-
- tests/qemu-iotests/031.out |  14 +-
- tests/qemu-iotests/036     |   6 +-
- tests/qemu-iotests/036.out |  10 +-
- tests/qemu-iotests/060.out |   6 +-
- tests/qemu-iotests/061     |   6 +-
- tests/qemu-iotests/061.out |  26 ++--
- tests/qemu-iotests/065     |  12 +-
- tests/qemu-iotests/082.out |   7 +
- tests/qemu-iotests/122     |   2 +-
- tests/qemu-iotests/188     |   2 +-
- tests/qemu-iotests/188.out |   2 +-
- tests/qemu-iotests/206.out |   4 +
- tests/qemu-iotests/242.out |   1 +
- tests/qemu-iotests/285     | 124 +++++++++++++++++
- tests/qemu-iotests/285.out | 277 +++++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/group   |   1 +
- 42 files changed, 832 insertions(+), 178 deletions(-)
- create mode 100755 tests/qemu-iotests/285
- create mode 100644 tests/qemu-iotests/285.out
+-    /* Want a backing file? There you go.*/
++    /* Want a backing file? There you go. */
+     if (qcow2_opts->has_backing_file) {
+         const char *backing_format =3D NULL;
 
 --=20
 2.24.1
