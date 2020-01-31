@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9709E14EFA3
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 16:35:12 +0100 (CET)
-Received: from localhost ([::1]:54824 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 252D314F019
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 16:49:03 +0100 (CET)
+Received: from localhost ([::1]:55038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ixYK5-0007bs-CQ
-	for lists+qemu-devel@lfdr.de; Fri, 31 Jan 2020 10:35:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40143)
+	id 1ixYXW-0002Ze-5l
+	for lists+qemu-devel@lfdr.de; Fri, 31 Jan 2020 10:49:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40298)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1ixXz1-0005g7-Ri
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 10:13:24 -0500
+ (envelope-from <imammedo@redhat.com>) id 1ixXz9-0005yV-An
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 10:13:32 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1ixXz0-00064A-OQ
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 10:13:23 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:30810
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <imammedo@redhat.com>) id 1ixXz8-0006ad-4L
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 10:13:31 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:44675
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1ixXz0-00063w-Kx
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 10:13:22 -0500
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1ixXz8-0006ZM-0a
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 10:13:30 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580483602;
+ s=mimecast20190719; t=1580483609;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=51hU26oe5hSckeQrPgtwDnTHSZBEjCU11c+7qIaKBrQ=;
- b=AHp1SlU5KE9FhndM02qNsZfvDUY5VW6beD2gl8BwiVOmo251ya6aoFzXOeEtudyw731MIp
- GQfNb6991vWOaznX9XmQyqCWtjb+kZ5TWFbQU0f9ezixkGGZhHoxokhoo6BrTHvIaY2j8G
- B1mUgXBzV2N9IPVCqXbdbuSdSmOM7kw=
+ bh=idHv5dKo/9rNqWVnDYADAVuoRWNEBCA/lsvuGxRUqAE=;
+ b=SpxXbU0y6YQao76VmzpuJi7ydI98SA0mcfq5pnuB8bQ+QnJ+BMsEJsCeFH86O1MKm0wR3h
+ lXZOcZ6IqXkpfFBNif2xOq7wo2iNzSvsps1piUVM4SZbk+4IAZYeHaXtBJ597jhJ/EdYMs
+ fc8Np0qzzDJ27BFZSup2Y5UmHfNv0DM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-3-ye89umpMMgGrICVcclRF_A-1; Fri, 31 Jan 2020 10:13:20 -0500
+ us-mta-151-vhuPJmNoOq-3NDYT4-W08g-1; Fri, 31 Jan 2020 10:13:20 -0500
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0CD64100550E
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CED33107B0EF
  for <qemu-devel@nongnu.org>; Fri, 31 Jan 2020 15:13:19 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 876A186C4B
- for <qemu-devel@nongnu.org>; Fri, 31 Jan 2020 15:13:18 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 54D3189E7E
+ for <qemu-devel@nongnu.org>; Fri, 31 Jan 2020 15:13:19 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 58/80] ppc/e500: use memdev for RAM
-Date: Fri, 31 Jan 2020 16:09:28 +0100
-Message-Id: <1580483390-131164-59-git-send-email-imammedo@redhat.com>
+Subject: [PATCH v4 59/80] ppc/mac_newworld: use memdev for RAM
+Date: Fri, 31 Jan 2020 16:09:29 +0100
+Message-Id: <1580483390-131164-60-git-send-email-imammedo@redhat.com>
 In-Reply-To: <1580483390-131164-1-git-send-email-imammedo@redhat.com>
 References: <1580483390-131164-1-git-send-email-imammedo@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: ye89umpMMgGrICVcclRF_A-1
+X-MC-Unique: vhuPJmNoOq-3NDYT4-W08g-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,62 +84,45 @@ RAM memory region.
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 Acked-by: David Gibson <david@gibson.dropbear.id.au>
+Acked-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
- hw/ppc/e500.c      | 5 +----
- hw/ppc/e500plat.c  | 1 +
- hw/ppc/mpc8544ds.c | 1 +
- 3 files changed, 3 insertions(+), 4 deletions(-)
+ hw/ppc/mac_newworld.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/hw/ppc/e500.c b/hw/ppc/e500.c
-index 960024b..d5dfe9f 100644
---- a/hw/ppc/e500.c
-+++ b/hw/ppc/e500.c
-@@ -831,7 +831,6 @@ static void ppce500_power_off(void *opaque, int line, i=
-nt on)
- void ppce500_init(MachineState *machine)
- {
-     MemoryRegion *address_space_mem =3D get_system_memory();
--    MemoryRegion *ram =3D g_new(MemoryRegion, 1);
-     PPCE500MachineState *pms =3D PPCE500_MACHINE(machine);
-     const PPCE500MachineClass *pmc =3D PPCE500_MACHINE_GET_CLASS(machine);
-     PCIBus *pci_bus;
-@@ -912,9 +911,7 @@ void ppce500_init(MachineState *machine)
+diff --git a/hw/ppc/mac_newworld.c b/hw/ppc/mac_newworld.c
+index 464d012..b8189bf 100644
+--- a/hw/ppc/mac_newworld.c
++++ b/hw/ppc/mac_newworld.c
+@@ -118,7 +118,7 @@ static void ppc_core99_init(MachineState *machine)
+     char *filename;
+     IrqLines *openpic_irqs;
+     int linux_boot, i, j, k;
+-    MemoryRegion *ram =3D g_new(MemoryRegion, 1), *bios =3D g_new(MemoryRe=
+gion, 1);
++    MemoryRegion *bios =3D g_new(MemoryRegion, 1);
+     hwaddr kernel_base, initrd_base, cmdline_base =3D 0;
+     long kernel_size, initrd_size;
+     UNINHostState *uninorth_pci;
+@@ -152,8 +152,7 @@ static void ppc_core99_init(MachineState *machine)
      }
 =20
-     /* Register Memory */
--    memory_region_allocate_system_memory(ram, NULL, "mpc8544ds.ram",
--                                         machine->ram_size);
--    memory_region_add_subregion(address_space_mem, 0, ram);
-+    memory_region_add_subregion(address_space_mem, 0, machine->ram);
+     /* allocate RAM */
+-    memory_region_allocate_system_memory(ram, NULL, "ppc_core99.ram", ram_=
+size);
+-    memory_region_add_subregion(get_system_memory(), 0, ram);
++    memory_region_add_subregion(get_system_memory(), 0, machine->ram);
 =20
-     dev =3D qdev_create(NULL, "e500-ccsr");
-     object_property_add_child(qdev_get_machine(), "e500-ccsr",
-diff --git a/hw/ppc/e500plat.c b/hw/ppc/e500plat.c
-index 7078386..bddd5e7 100644
---- a/hw/ppc/e500plat.c
-+++ b/hw/ppc/e500plat.c
-@@ -97,6 +97,7 @@ static void e500plat_machine_class_init(ObjectClass *oc, =
+     /* allocate and load BIOS */
+     memory_region_init_ram(bios, NULL, "ppc_core99.bios", BIOS_SIZE,
+@@ -586,6 +585,7 @@ static void core99_machine_class_init(ObjectClass *oc, =
 void *data)
-     mc->init =3D e500plat_init;
-     mc->max_cpus =3D 32;
-     mc->default_cpu_type =3D POWERPC_CPU_TYPE_NAME("e500v2_v30");
-+    mc->default_ram_id =3D "mpc8544ds.ram";
-     machine_class_allow_dynamic_sysbus_dev(mc, TYPE_ETSEC_COMMON);
-  }
-=20
-diff --git a/hw/ppc/mpc8544ds.c b/hw/ppc/mpc8544ds.c
-index c2c5e11..8117750 100644
---- a/hw/ppc/mpc8544ds.c
-+++ b/hw/ppc/mpc8544ds.c
-@@ -55,6 +55,7 @@ static void e500plat_machine_class_init(ObjectClass *oc, =
-void *data)
-     mc->init =3D mpc8544ds_init;
-     mc->max_cpus =3D 15;
-     mc->default_cpu_type =3D POWERPC_CPU_TYPE_NAME("e500v2_v30");
-+    mc->default_ram_id =3D "mpc8544ds.ram";
+ #else
+     mc->default_cpu_type =3D POWERPC_CPU_TYPE_NAME("7400_v2.9");
+ #endif
++    mc->default_ram_id =3D "ppc_core99.ram";
+     mc->ignore_boot_device_suffixes =3D true;
+     fwc->get_dev_path =3D core99_fw_dev_path;
  }
-=20
- #define TYPE_MPC8544DS_MACHINE  MACHINE_TYPE_NAME("mpc8544ds")
 --=20
 2.7.4
 
