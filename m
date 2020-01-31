@@ -2,57 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 681BF14EF5F
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 16:16:37 +0100 (CET)
-Received: from localhost ([::1]:54556 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E82314EF6F
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 16:19:31 +0100 (CET)
+Received: from localhost ([::1]:54600 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ixY28-0001KM-CN
-	for lists+qemu-devel@lfdr.de; Fri, 31 Jan 2020 10:16:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38957)
+	id 1ixY4w-0004nl-5m
+	for lists+qemu-devel@lfdr.de; Fri, 31 Jan 2020 10:19:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38966)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1ixXy5-0003sh-1L
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 10:12:26 -0500
+ (envelope-from <imammedo@redhat.com>) id 1ixXy6-0003tt-7w
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 10:12:28 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1ixXy3-0003dw-Im
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 10:12:24 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:35823
+ (envelope-from <imammedo@redhat.com>) id 1ixXy3-0003d8-4l
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 10:12:25 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:46317
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1ixXy3-0003dC-Ep
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1ixXy3-0003ca-1J
  for qemu-devel@nongnu.org; Fri, 31 Jan 2020 10:12:23 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580483543;
+ s=mimecast20190719; t=1580483542;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YmqElnk/bINDH3NkcnPj7THknDUU+vhGcCdawd93G5w=;
- b=cDjp3iOJHWkCd5NVsXmDM84nBNeXPl7nk+jmq6lR8wncuXETycoc0CMesYyd9wTgIAH5np
- oMQVJXN9fL7/vTOVrBiwJ5pW+RsR7aisiON6wRHtnXGZ2WcDUiuB2T9f8BagB09o0+jMis
- IhjX20f0v65zXxfNG9r8GEFVWyb6DJc=
+ bh=mY1uuSxedRWD/rMTKc+TLX/3CqWaSjv6RVwLiEIe70o=;
+ b=YpXTxvVeCIl95IsIXp3kW8kv0ERmvZyC1EIn4rh7t5j99KtYRNtvly7vlTrbcqNpj/zTYb
+ 7gI3735/FCA0RLEzWkX+AVpO+HjkUvmAbL3aRFA79EkJ8MbwJR+g3jt64Ikiye1S8o7h4Y
+ CEQAc0tBCSyXqvnKf1v0epMHOC3DTnM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-249-D76r-IgHP2ObSsjfjGZawg-1; Fri, 31 Jan 2020 10:12:19 -0500
+ us-mta-307-osRGniNTPr-R0031nRuxgQ-1; Fri, 31 Jan 2020 10:12:20 -0500
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2C0A718C43C1;
- Fri, 31 Jan 2020 15:12:18 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 48C6413F5;
+ Fri, 31 Jan 2020 15:12:19 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 313A48887E;
- Fri, 31 Jan 2020 15:12:17 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 742C787B06;
+ Fri, 31 Jan 2020 15:12:18 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 05/80] initialize MachineState::ram in NUMA case
-Date: Fri, 31 Jan 2020 16:08:35 +0100
-Message-Id: <1580483390-131164-6-git-send-email-imammedo@redhat.com>
+Subject: [PATCH v4 06/80] vl.c: move -m parsing after memory backends has been
+ processed
+Date: Fri, 31 Jan 2020 16:08:36 +0100
+Message-Id: <1580483390-131164-7-git-send-email-imammedo@redhat.com>
 In-Reply-To: <1580483390-131164-1-git-send-email-imammedo@redhat.com>
 References: <1580483390-131164-1-git-send-email-imammedo@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: D76r-IgHP2ObSsjfjGZawg-1
+X-MC-Unique: osRGniNTPr-R0031nRuxgQ-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
@@ -71,154 +72,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pasic@linux.ibm.com, pbonzini@redhat.com, ehabkost@redhat.com
+Cc: pasic@linux.ibm.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In case of NUMA there are 2 cases to consider:
- 1. '-numa node,memdev', the only one that will be available
-    for 5.0 and newer machine types.
+It will be possible for main RAM to come from memory-backend
+and we should check that size specified in -m matches the size
+of the backend and [MachineState::]ram_size also matches
+backend's size.
 
-    In this case reuse current behavior, with only difference
-    memdevs are put into MachineState::ram container +
-    a temporary glue to keep memory_region_allocate_system_memory()
-    working until all boards converted.
+However -m parsing (set_memory_options()) happens before backends
+are intialized (object_create_delayed()) which complicates it.
+Consolidate set_memory_options() and assigning parsed results to
+current_machine after backends are initialized, so it would be
+possible access the initialized backend instance to compare
+sizes.
 
- 2. fake NUMA ("-numa node mem" and default RAM splitting)
-    the later has been deprecated and will be removed but the former
-    is going to stay available for compat reasons for 5.0 and
-    older machine types
-
-    it takes allocate_system_memory_nonnuma() path, like non-NUMA
-    case and falls under conversion to memdev.  So extend non-NUMA
-    MachineState::ram initialization introduced in previous patch
-    to take care of fake NUMA case.
+This patch only consolidates scattered places touching ram_size
+within vl.c. And follow up patch will integrate backend handling
+to set_memory_options().
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 ---
-CC: ehabkost@redhat.com
-CC: pbonzini@redhat.com
 CC: pasic@linux.ibm.com
+CC: pbonzini@redhat.com
 ---
- include/sysemu/numa.h |  1 +
- hw/core/numa.c        | 43 ++++++++++++++++++++++++++++++-------------
- vl.c                  |  2 +-
- 3 files changed, 32 insertions(+), 14 deletions(-)
+ vl.c | 27 ++++++++++++++-------------
+ 1 file changed, 14 insertions(+), 13 deletions(-)
 
-diff --git a/include/sysemu/numa.h b/include/sysemu/numa.h
-index ba693cc..ad58ee8 100644
---- a/include/sysemu/numa.h
-+++ b/include/sysemu/numa.h
-@@ -112,5 +112,6 @@ void numa_default_auto_assign_ram(MachineClass *mc, Nod=
-eInfo *nodes,
-                                   int nb_nodes, ram_addr_t size);
- void numa_cpu_pre_plug(const struct CPUArchId *slot, DeviceState *dev,
-                        Error **errp);
-+bool numa_uses_legacy_mem(void);
-=20
- #endif
-diff --git a/hw/core/numa.c b/hw/core/numa.c
-index 8264336..e6baf2c 100644
---- a/hw/core/numa.c
-+++ b/hw/core/numa.c
-@@ -52,6 +52,11 @@ QemuOptsList qemu_numa_opts =3D {
- };
-=20
- static int have_memdevs;
-+bool numa_uses_legacy_mem(void)
-+{
-+    return !have_memdevs;
-+}
-+
- static int have_mem;
- static int max_numa_nodeid; /* Highest specified NUMA node ID, plus one.
-                              * For all nodes, nodeid < max_numa_nodeid
-@@ -652,6 +657,23 @@ void numa_default_auto_assign_ram(MachineClass *mc, No=
-deInfo *nodes,
-     nodes[i].node_mem =3D size - usedmem;
- }
-=20
-+static void numa_init_memdev_container(MachineState *ms, MemoryRegion *ram=
-)
-+{
-+    int i;
-+    uint64_t addr =3D 0;
-+
-+    for (i =3D 0; i < ms->numa_state->num_nodes; i++) {
-+        uint64_t size =3D ms->numa_state->nodes[i].node_mem;
-+        HostMemoryBackend *backend =3D ms->numa_state->nodes[i].node_memde=
-v;
-+        if (!backend) {
-+            continue;
-+        }
-+        MemoryRegion *seg =3D machine_consume_memdev(ms, backend);
-+        memory_region_add_subregion(ram, addr, seg);
-+        addr +=3D size;
-+    }
-+}
-+
- void numa_complete_configuration(MachineState *ms)
- {
-     int i;
-@@ -734,6 +756,12 @@ void numa_complete_configuration(MachineState *ms)
-             exit(1);
-         }
-=20
-+        if (!numa_uses_legacy_mem() && mc->default_ram_id) {
-+            ms->ram =3D g_new(MemoryRegion, 1);
-+            memory_region_init(ms->ram, OBJECT(ms), mc->default_ram_id,
-+                               ram_size);
-+            numa_init_memdev_container(ms, ms->ram);
-+        }
-         /* QEMU needs at least all unique node pair distances to build
-          * the whole NUMA distance table. QEMU treats the distance table
-          * as symmetric by default, i.e. distance A->B =3D=3D distance B->=
-A.
-@@ -800,27 +828,16 @@ void memory_region_allocate_system_memory(MemoryRegio=
-n *mr, Object *owner,
-                                           const char *name,
-                                           uint64_t ram_size)
- {
--    uint64_t addr =3D 0;
--    int i;
-     MachineState *ms =3D MACHINE(qdev_get_machine());
-=20
-     if (ms->numa_state =3D=3D NULL ||
--        ms->numa_state->num_nodes =3D=3D 0 || !have_memdevs) {
-+        ms->numa_state->num_nodes =3D=3D 0 || numa_uses_legacy_mem()) {
-         allocate_system_memory_nonnuma(mr, owner, name, ram_size);
-         return;
-     }
-=20
-     memory_region_init(mr, owner, name, ram_size);
--    for (i =3D 0; i < ms->numa_state->num_nodes; i++) {
--        uint64_t size =3D ms->numa_state->nodes[i].node_mem;
--        HostMemoryBackend *backend =3D ms->numa_state->nodes[i].node_memde=
-v;
--        if (!backend) {
--            continue;
--        }
--        MemoryRegion *seg =3D machine_consume_memdev(ms, backend);
--        memory_region_add_subregion(mr, addr, seg);
--        addr +=3D size;
--    }
-+    numa_init_memdev_container(ms, mr);
- }
-=20
- static void numa_stat_memory_devices(NumaNodeMem node_mem[])
 diff --git a/vl.c b/vl.c
-index 2367cb6..2ef9237 100644
+index 2ef9237..1c0314d 100644
 --- a/vl.c
 +++ b/vl.c
-@@ -4324,7 +4324,7 @@ int main(int argc, char **argv, char **envp)
+@@ -2689,6 +2689,14 @@ static void set_memory_options(uint64_t *ram_slots, =
+ram_addr_t *maxram_size,
+         exit(EXIT_FAILURE);
+     }
+=20
++    if (!xen_enabled()) {
++        /* On 32-bit hosts, QEMU is limited by virtual address space */
++        if (ram_size > (2047 << 20) && HOST_LONG_BITS =3D=3D 32) {
++            error_report("at most 2047 MB RAM can be simulated");
++            exit(1);
++        }
++    }
++
+     loc_pop(&loc);
+ }
+=20
+@@ -3850,8 +3858,6 @@ int main(int argc, char **argv, char **envp)
+     machine_class =3D select_machine();
+     object_set_machine_compat_props(machine_class->compat_props);
+=20
+-    set_memory_options(&ram_slots, &maxram_size, machine_class);
+-
+     os_daemonize();
+     rcu_disable_atfork();
+=20
+@@ -4156,9 +4162,6 @@ int main(int argc, char **argv, char **envp)
+     machine_opts =3D qemu_get_machine_opts();
+     qemu_opt_foreach(machine_opts, machine_set_property, current_machine,
+                      &error_fatal);
+-    current_machine->ram_size =3D ram_size;
+-    current_machine->maxram_size =3D maxram_size;
+-    current_machine->ram_slots =3D ram_slots;
+=20
+     /*
+      * Note: uses machine properties such as kernel-irqchip, must run
+@@ -4269,14 +4272,6 @@ int main(int argc, char **argv, char **envp)
+=20
+     tpm_init();
+=20
+-    if (!xen_enabled()) {
+-        /* On 32-bit hosts, QEMU is limited by virtual address space */
+-        if (ram_size > (2047 << 20) && HOST_LONG_BITS =3D=3D 32) {
+-            error_report("at most 2047 MB RAM can be simulated");
+-            exit(1);
+-        }
+-    }
+-
+     blk_mig_init();
+     ram_mig_init();
+     dirty_bitmap_mig_init();
+@@ -4321,6 +4316,12 @@ int main(int argc, char **argv, char **envp)
+     if (cpu_option) {
+         current_machine->cpu_type =3D parse_cpu_option(cpu_option);
+     }
++
++    set_memory_options(&ram_slots, &maxram_size, machine_class);
++    current_machine->ram_size =3D ram_size;
++    current_machine->maxram_size =3D maxram_size;
++    current_machine->ram_slots =3D ram_slots;
++
      parse_numa_opts(current_machine);
 =20
      if (machine_class->default_ram_id && current_machine->ram_size &&
--        !current_machine->ram_memdev_id) {
-+        numa_uses_legacy_mem() && !current_machine->ram_memdev_id) {
-         create_default_memdev(current_machine, mem_path, mem_prealloc);
-     }
-     /* do monitor/qmp handling at preconfig state if requested */
 --=20
 2.7.4
 
