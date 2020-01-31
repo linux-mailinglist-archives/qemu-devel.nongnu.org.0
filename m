@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3228F14E6CD
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 02:11:27 +0100 (CET)
-Received: from localhost ([::1]:42542 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88C0D14E6D0
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 02:13:59 +0100 (CET)
+Received: from localhost ([::1]:42558 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ixKqD-0000Oq-OY
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 20:11:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58389)
+	id 1ixKsg-0002ll-LB
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 20:13:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59543)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1ixKou-0007vO-6T
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 20:10:05 -0500
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1ixKrw-0002Jg-6g
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 20:13:13 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1ixKos-00077N-BN
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 20:10:03 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:38703
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1ixKos-00072O-7i
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 20:10:02 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580432997;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=wAKgo7Pb5RXY3JeoxK8pKIRYXPT9L1pD79bpcBQT6do=;
- b=XD3HxmxAVo3SQZLoXjUkGQoRmOVzdNRO/frrS9vwYD47NozLDK1ayU0VOWAhOyDYleVESV
- N4aIoRF11RI1nM0tQrwsDuYgBInnSbnGAwhu7omfYjbJEPIAV3LQv+jS2P+EhZq1+FbAEX
- BaaamAEzK4dn5VsEtWAEeFZGeTcknsc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-146-X3UfZ4b6McqnUKOeMJY1cQ-1; Thu, 30 Jan 2020 20:09:55 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7DBF2182B8EB;
- Fri, 31 Jan 2020 01:09:54 +0000 (UTC)
-Received: from x1w.redhat.com (ovpn-204-34.brq.redhat.com [10.40.204.34])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 558725DA75;
- Fri, 31 Jan 2020 01:09:52 +0000 (UTC)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 2/2] !fixup "hw/timer: Add limited support for AVR 16-bit
- timer peripheral"
-Date: Fri, 31 Jan 2020 02:09:41 +0100
-Message-Id: <20200131010941.10636-3-philmd@redhat.com>
-In-Reply-To: <20200131010941.10636-1-philmd@redhat.com>
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1ixKru-0002lS-Vy
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 20:13:11 -0500
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:34674)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
+ id 1ixKru-0002kw-PZ
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 20:13:10 -0500
+Received: by mail-ot1-x343.google.com with SMTP id a15so5089095otf.1
+ for <qemu-devel@nongnu.org>; Thu, 30 Jan 2020 17:13:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=D2XLdd38zIoHxWUicyqjI+KIqj+lpNSKfejzDOiOJK8=;
+ b=lk1+5Luo/ho8y95pEq6PqoQkyZDEt7MAE/G5L48xsrks68xOaL1uYNJBDLjoQeKpJJ
+ sNaOGDr3YuV6C0d9L90Jj6Nh3zKQsFbD4MVpnpvM1I9zI5gUZRN0PEsmgo7mpSHz84qA
+ fqw9nqVn+KFTISJxajFZTMjoKu+0tIKuK72Tvjps3WzoJFsTtVMf449ZgXeVhqOTfKqN
+ FTUmpEAlTkAYghXqPu1zd8R33C40o6tgRqt2DPne46TWiU4gqPlNMDxWQ6sQsFTrfrbW
+ RF0YcgETfo0aTMbG8n61IoSu3MBH00aV9sMnZdVw1T4EBTwL/CDvwlofBYmFvECF/gIA
+ z7IQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=D2XLdd38zIoHxWUicyqjI+KIqj+lpNSKfejzDOiOJK8=;
+ b=hsbG1cbaGExW5y1+CGfu7uRTQb767M55r1MQWFji95PMyXdxiMuYBA7o3FmHjYgUXh
+ VQrjP39jpL+MpbwMipyBTd7Xmnp39ElFpSat1s4oiKh7tcCCMuVtLzjALHhmed6pVBXY
+ 7kg6BAjGPD9UYsSWSWGwyVcZvlFigxrY/R6WfiJ9i59r7u+M6AC4Vgd5altZ7GUQT0j3
+ DZNeL/qPnOX7NbjUwPcw+qHH6m2mlFGQOIPvXQhyllXEOHVFi2xxPWrFSaljyHpXnPwF
+ 82IYJAQudRbzlCubQ96jGMVLBqdIdqStaMnolPG5+KhQUWharWya1CmSmvaX7zClz705
+ mU2A==
+X-Gm-Message-State: APjAAAWv49X8wC4UYNf5DZzhGCcnPTedh8KZPjbc4z5PXU1vDw6I2A6D
+ tQu2S4KX/DHE8ouGgU9F0XA5UP2X83pCilC6X4I=
+X-Google-Smtp-Source: APXvYqxh9pPKj7/uNnCZH5Ejm/9nqcky5X2AOeMOr/xD4E0bKHGzYzkmoz0gxPwZJobmqRSyN3Zky8cB/gz5G7X8dc4=
+X-Received: by 2002:a9d:7305:: with SMTP id e5mr5591394otk.64.1580433189908;
+ Thu, 30 Jan 2020 17:13:09 -0800 (PST)
+MIME-Version: 1.0
 References: <1580428993-4767-1-git-send-email-aleksandar.markovic@rt-rk.com>
  <20200131010941.10636-1-philmd@redhat.com>
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: X3UfZ4b6McqnUKOeMJY1cQ-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+In-Reply-To: <20200131010941.10636-1-philmd@redhat.com>
+From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Date: Fri, 31 Jan 2020 02:12:59 +0100
+Message-ID: <CAL1e-=i2samx0r+B_UFP6ya0hSNeaib45ok6KY8c3u5h0wbHdg@mail.gmail.com>
+Subject: Re: [PATCH 0/2] !fixup target/avr merger-rc4
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Content-Type: multipart/alternative; boundary="000000000000e0383c059d654602"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,181 +73,81 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Sarah Harris <S.E.Harris@kent.ac.uk>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
  Aleksandar Markovic <aleksandar.markovic@rt-rk.com>,
  Michael Rolnik <mrolnik@gmail.com>,
  Aleksandar Markovic <amarkovic@wavecomp.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Convert DB_PRINT() to trace events.
+--000000000000e0383c059d654602
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
- hw/timer/avr_timer16.c | 25 +++++++++++++++----------
- hw/timer/trace-events  | 12 ++++++++++++
- 2 files changed, 27 insertions(+), 10 deletions(-)
+On Fri, Jan 31, 2020 at 2:09 AM Philippe Mathieu-Daud=C3=A9 <philmd@redhat.=
+com>
+wrote:
+>
+> Aleksandar, I addressed Alex Benn=C3=A9e comment as fixup, so you
+> can squash directly. See:
+> https://www.mail-archive.com/qemu-devel@nongnu.org/msg673846.html
+>
+> - convert DB_PRINT() to trace-events
+> - fix style/indentation
+>
+> Based-on: <1580428993-4767-1-git-send-email-aleksandar.markovic@rt-rk.com=
+>
+>
 
-diff --git a/hw/timer/avr_timer16.c b/hw/timer/avr_timer16.c
-index 4e16afc61c..073f36aa76 100644
---- a/hw/timer/avr_timer16.c
-+++ b/hw/timer/avr_timer16.c
-@@ -36,6 +36,7 @@
- #include "qemu/log.h"
- #include "hw/irq.h"
- #include "hw/qdev-properties.h"
-+#include "trace.h"
-=20
- /* Register offsets */
- #define T16_CRA     0x0
-@@ -104,7 +105,6 @@
- /* Helper macros */
- #define VAL16(l, h) ((h << 8) | l)
- #define DB_PRINT(fmt, args...) /* Nothing */
--/*#define DB_PRINT(fmt, args...) printf("%s: " fmt "\n", __func__, ## args=
-)*/
-=20
- static inline int64_t avr_timer16_ns_to_ticks(AVRTimer16State *t16, int64_=
-t t)
- {
-@@ -168,8 +168,8 @@ static void avr_timer16_clksrc_update(AVRTimer16State *=
-t16)
-     if (divider) {
-         t16->freq_hz =3D t16->cpu_freq_hz / divider;
-         t16->period_ns =3D NANOSECONDS_PER_SECOND / t16->freq_hz;
--        DB_PRINT("Timer frequency %" PRIu64 " hz, period %" PRIu64 " ns (%=
-f s)",
--                 t16->freq_hz, t16->period_ns, 1 / (double)t16->freq_hz);
-+        trace_avr_timer16_clksrc_update(t16->freq_hz, t16->period_ns,
-+                                        (uint64_t)(1e6 / t16->freq_hz));
-     }
- }
-=20
-@@ -235,8 +235,7 @@ static void avr_timer16_set_alarm(AVRTimer16State *t16)
-         t16->reset_time_ns + ((CNT(t16) + alarm_offset) * t16->period_ns);
-     timer_mod(t16->timer, alarm_ns);
-=20
--    DB_PRINT("next alarm %" PRIu64 " ns from now",
--        alarm_offset * t16->period_ns);
-+    trace_avr_timer16_next_alarm(alarm_offset * t16->period_ns);
- }
-=20
- static void avr_timer16_interrupt(void *opaque)
-@@ -253,11 +252,11 @@ static void avr_timer16_interrupt(void *opaque)
-         return;
-     }
-=20
--    DB_PRINT("interrupt, cnt =3D %d", CNT(t16));
-+    trace_avr_timer16_interrupt_count(CNT(t16));
-=20
-     /* Counter overflow */
-     if (t16->next_interrupt =3D=3D OVERFLOW) {
--        DB_PRINT("0xffff overflow");
-+        trace_avr_timer16_interrupt_overflow("counter 0xffff");
-         avr_timer16_clock_reset(t16);
-         if (t16->imsk & T16_INT_TOV) {
-             t16->ifr |=3D T16_INT_TOV;
-@@ -266,12 +265,12 @@ static void avr_timer16_interrupt(void *opaque)
-     }
-     /* Check for ocra overflow in CTC mode */
-     if (mode =3D=3D T16_MODE_CTC_OCRA && t16->next_interrupt =3D=3D COMPA)=
- {
--        DB_PRINT("CTC OCRA overflow");
-+        trace_avr_timer16_interrupt_overflow("CTC OCRA");
-         avr_timer16_clock_reset(t16);
-     }
-     /* Check for icr overflow in CTC mode */
-     if (mode =3D=3D T16_MODE_CTC_ICR && t16->next_interrupt =3D=3D CAPT) {
--        DB_PRINT("CTC ICR overflow");
-+        trace_avr_timer16_interrupt_overflow("CTC ICR");
-         avr_timer16_clock_reset(t16);
-         if (t16->imsk & T16_INT_IC) {
-             t16->ifr |=3D T16_INT_IC;
-@@ -367,6 +366,8 @@ static uint64_t avr_timer16_read(void *opaque, hwaddr o=
-ffset, unsigned size)
-     default:
-         break;
-     }
-+    trace_avr_timer16_read(offset, retval);
-+
-     return (uint64_t)retval;
- }
-=20
-@@ -378,7 +379,7 @@ static void avr_timer16_write(void *opaque, hwaddr offs=
-et,
-     uint8_t val8 =3D (uint8_t)val64;
-     uint8_t prev_clk_src =3D CLKSRC(t16);
-=20
--    DB_PRINT("write %d to offset %d", val8, (uint8_t)offset);
-+    trace_avr_timer16_write(offset, val8);
-=20
-     switch (offset) {
-     case T16_CRA:
-@@ -475,6 +476,7 @@ static uint64_t avr_timer16_imsk_read(void *opaque,
- {
-     assert(size =3D=3D 1);
-     AVRTimer16State *t16 =3D opaque;
-+    trace_avr_timer16_read_imsk(offset ? 0 : t16->imsk);
-     if (offset !=3D 0) {
-         return 0;
-     }
-@@ -486,6 +488,7 @@ static void avr_timer16_imsk_write(void *opaque, hwaddr=
- offset,
- {
-     assert(size =3D=3D 1);
-     AVRTimer16State *t16 =3D opaque;
-+    trace_avr_timer16_write_imsk(val64);
-     if (offset !=3D 0) {
-         return;
-     }
-@@ -498,6 +501,7 @@ static uint64_t avr_timer16_ifr_read(void *opaque,
- {
-     assert(size =3D=3D 1);
-     AVRTimer16State *t16 =3D opaque;
-+    trace_avr_timer16_read_ifr(offset ? 0 : t16->ifr);
-     if (offset !=3D 0) {
-         return 0;
-     }
-@@ -509,6 +513,7 @@ static void avr_timer16_ifr_write(void *opaque, hwaddr =
-offset,
- {
-     assert(size =3D=3D 1);
-     AVRTimer16State *t16 =3D opaque;
-+    trace_avr_timer16_write_imsk(val64);
-     if (offset !=3D 0) {
-         return;
-     }
-diff --git a/hw/timer/trace-events b/hw/timer/trace-events
-index 29fda7870e..5d9f4c93fb 100644
---- a/hw/timer/trace-events
-+++ b/hw/timer/trace-events
-@@ -74,3 +74,15 @@ nrf51_timer_write(uint64_t addr, uint32_t value, unsigne=
-d size) "write addr 0x%"
- bcm2835_systmr_irq(bool enable) "timer irq state %u"
- bcm2835_systmr_read(uint64_t offset, uint64_t data) "timer read: offset 0x=
-%" PRIx64 " data 0x%" PRIx64
- bcm2835_systmr_write(uint64_t offset, uint64_t data) "timer write: offset =
-0x%" PRIx64 " data 0x%" PRIx64
-+
-+# avr_timer16.c
-+avr_timer16_read(uint8_t addr, uint8_t value) "timer16 read addr:%u value:=
-%u"
-+avr_timer16_read_ifr(uint8_t value) "timer16 read addr:ifr value:%u"
-+avr_timer16_read_imsk(uint8_t value) "timer16 read addr:imsk value:%u"
-+avr_timer16_write(uint8_t addr, uint8_t value) "timer16 write addr:%u valu=
-e:%u"
-+avr_timer16_write_ifr(uint8_t value) "timer16 write addr:ifr value:%u"
-+avr_timer16_write_imsk(uint8_t value) "timer16 write addr:imsk value:%u"
-+avr_timer16_interrupt_count(uint8_t cnt) "count: %u"
-+avr_timer16_interrupt_overflow(const char *reason) "overflow: %s"
-+avr_timer16_next_alarm(uint64_t delay_ns) "next alarm: %" PRIu64 " ns from=
- now"
-+avr_timer16_clksrc_update(uint64_t freq_hz, uint64_t period_ns, uint64_t d=
-elay_s) "timer frequency: %" PRIu64 " Hz, period: %" PRIu64 " ns (%" PRId64=
- " us)"
---=20
-2.21.1
+That is great!
 
+I am going to squash it into corresponding patches, and mention that in
+commit messages.
+Then I guess some r-b (by Alex) can be added.
+
+Cool!
+
+> Philippe Mathieu-Daud=C3=A9 (2):
+>   !fixup "hw/misc: Add limited support for AVR power device"
+>   !fixup "hw/timer: Add limited support for AVR 16-bit timer peripheral"
+>
+>  hw/misc/avr_power.c    | 17 +++++++++--------
+>  hw/timer/avr_timer16.c | 25 +++++++++++++++----------
+>  hw/misc/trace-events   |  4 ++++
+>  hw/timer/trace-events  | 12 ++++++++++++
+>  4 files changed, 40 insertions(+), 18 deletions(-)
+>
+> --
+> 2.21.1
+>
+
+--000000000000e0383c059d654602
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><br><br>On Fri, Jan 31, 2020 at 2:09 AM Philippe Mathieu-D=
+aud=C3=A9 &lt;<a href=3D"mailto:philmd@redhat.com">philmd@redhat.com</a>&gt=
+; wrote:<br>&gt;<br>&gt; Aleksandar, I addressed Alex Benn=C3=A9e comment a=
+s fixup, so you<br>&gt; can squash directly. See:<br>&gt; <a href=3D"https:=
+//www.mail-archive.com/qemu-devel@nongnu.org/msg673846.html">https://www.ma=
+il-archive.com/qemu-devel@nongnu.org/msg673846.html</a><br>&gt;<br>&gt; - c=
+onvert DB_PRINT() to trace-events<br>&gt; - fix style/indentation<br>&gt;<b=
+r>&gt; Based-on: &lt;<a href=3D"mailto:1580428993-4767-1-git-send-email-ale=
+ksandar.markovic@rt-rk.com">1580428993-4767-1-git-send-email-aleksandar.mar=
+kovic@rt-rk.com</a>&gt;<br><div>&gt;</div><div><br></div><div>That is great=
+!</div><div><br></div><div>I am going to squash it into corresponding patch=
+es, and mention that in commit messages.</div><div>Then I guess some r-b (b=
+y Alex) can be added.<br></div><div><br></div><div>Cool!<br></div><div><br>=
+</div>&gt; Philippe Mathieu-Daud=C3=A9 (2):<br>&gt; =C2=A0 !fixup &quot;hw/=
+misc: Add limited support for AVR power device&quot;<br>&gt; =C2=A0 !fixup =
+&quot;hw/timer: Add limited support for AVR 16-bit timer peripheral&quot;<b=
+r>&gt;<br>&gt; =C2=A0hw/misc/avr_power.c =C2=A0 =C2=A0| 17 +++++++++-------=
+-<br>&gt; =C2=A0hw/timer/avr_timer16.c | 25 +++++++++++++++----------<br>&g=
+t; =C2=A0hw/misc/trace-events =C2=A0 | =C2=A04 ++++<br>&gt; =C2=A0hw/timer/=
+trace-events =C2=A0| 12 ++++++++++++<br>&gt; =C2=A04 files changed, 40 inse=
+rtions(+), 18 deletions(-)<br>&gt;<br>&gt; --<br>&gt; 2.21.1<br>&gt;<br></d=
+iv>
+
+--000000000000e0383c059d654602--
 
