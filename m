@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3940114ECF3
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 14:09:49 +0100 (CET)
-Received: from localhost ([::1]:52866 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A0B714ECF9
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 14:10:52 +0100 (CET)
+Received: from localhost ([::1]:52896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ixW3Q-0000DL-9Z
-	for lists+qemu-devel@lfdr.de; Fri, 31 Jan 2020 08:09:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48266)
+	id 1ixW4R-00020n-Ab
+	for lists+qemu-devel@lfdr.de; Fri, 31 Jan 2020 08:10:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48911)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1ixW0M-0005Yj-Cx
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 08:06:42 -0500
+ (envelope-from <wainersm@redhat.com>) id 1ixW2L-0007tn-Di
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 08:08:42 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1ixW0K-0007kC-3l
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 08:06:38 -0500
-Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:41813)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1ixW0J-0007i3-Gz
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 08:06:36 -0500
-Received: by mail-oi1-x241.google.com with SMTP id i1so7137421oie.8
- for <qemu-devel@nongnu.org>; Fri, 31 Jan 2020 05:06:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=buu9s3cSE4Z+dUhMarYywYO9VZOciHOl5cGsLW5o5rw=;
- b=xlBKCqbTMX9Sz2LzaWsG3CyWLBtEeB6M61pR3L5O9RlpXLesrc6f3q94KUObRnx19+
- usp0ohWJ1cV23Zd8pBU8Ig41CQXCaSkSW08cl8m001rOQ7VduE8sFlhovYJIviOmrEzA
- Vyt8wXTI4nWVvgoflw5AeUHizSdnBSk81Sqr2HVRj8Q9MtRs2NjVOPfiEbZBwhuslFCW
- xMX05GHyp9dIysGlK8BqNUx1uNUd7cqfwFae6FtnxQPBNCKFIL29VSqauL3tShtoik3m
- i0Gw5gUHWULSHkZb/RJMRrR4mDwoSI38z4emO8vtFq4DaqsBLgvZD3Y/9dCttf60s4xL
- j/xQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=buu9s3cSE4Z+dUhMarYywYO9VZOciHOl5cGsLW5o5rw=;
- b=Yg4rVWejfyE33YIU8NDDRxA5AdOtHuktB1e2c32UJPitood6/41HKyaEj9TOgzogJn
- nnSVv2vSysw5G7gVal4d84AQ6zGfxWVr62aXrZuHtWtR/HO+Nz6ZvGccB2HVq1mlm99k
- Y366Wty/tes6rhgWRn78YPyX5ZCFBpwBtgBWbGsUl+dXH7g3Rp5tiNUc4Zr8OOpLMft0
- ZKdrnk3naZF+jk7rcX17uafevnmV+uO3WPoB5rneA4XQbY120qcWJY+u/fL+klIGet4W
- x9uYkKjZFUEm26ZLfsMTdkz6+GVscj+v16AZwZEkkkJ/jMVJDmCaYb2ec//p8ys1Id8f
- 188w==
-X-Gm-Message-State: APjAAAWJAAAczEeAfbr0RxYBiczR6gO5/Na59URQky77JU3csTrNhhkC
- RQvHW5yXO06bpYy4o3rEi+gsNG1jbw6Zqke76rtRSg==
-X-Google-Smtp-Source: APXvYqz1+ZnCPrtYznQrImz8hni73fsMFP0zVLIEHrV89mv3JyDQXBX3KBQ7MpWZnOUoXaNTL7thaT1Dvl86rEqXkFo=
-X-Received: by 2002:a05:6808:3b2:: with SMTP id
- n18mr6034414oie.146.1580475994162; 
- Fri, 31 Jan 2020 05:06:34 -0800 (PST)
+ (envelope-from <wainersm@redhat.com>) id 1ixW2J-0003X5-5o
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 08:08:40 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:23297
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <wainersm@redhat.com>) id 1ixW2I-0003UZ-Td
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 08:08:39 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1580476118;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=WD9XJunk4udcum0FdR8WtrQEOzr5FIDs1fs2L9kD3J4=;
+ b=RemdxnV9HfMp4H9dOzDxjaU4B5++J6+jQLA9EOs8xQlEMkZlXb+ePTU7+S6Zy8xzgVz1Gf
+ jP+3VW+x+N9L/3/bRTpaVbo5fZZzM1LP898odddB3WEKYMg7Gvej32C3EL1Ruj2KHRWsES
+ 0PRTb3VVaDRfqCYLvKrFqgyc5N7bagg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-235-eCJVtjFjMkym4CYwHou0jA-1; Fri, 31 Jan 2020 08:08:34 -0500
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4337E8C8E05
+ for <qemu-devel@nongnu.org>; Fri, 31 Jan 2020 13:08:33 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-116-40.gru2.redhat.com
+ [10.97.116.40])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 090668885B;
+ Fri, 31 Jan 2020 13:08:28 +0000 (UTC)
+Subject: Re: [PATCH 0/5] python/qemu: qmp: Fix, delint and improvements
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20191227134101.244496-1-wainersm@redhat.com>
+ <fe3ffe05-c620-7770-2752-3d2c4973da03@redhat.com>
+From: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Message-ID: <a729dffa-2c74-8cfe-123c-8d5fe47f9cb5@redhat.com>
+Date: Fri, 31 Jan 2020 11:08:27 -0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.4.0
 MIME-Version: 1.0
-References: <20200129235614.29829-1-richard.henderson@linaro.org>
- <20200129235614.29829-3-richard.henderson@linaro.org>
-In-Reply-To: <20200129235614.29829-3-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 31 Jan 2020 13:06:23 +0000
-Message-ID: <CAFEAcA8bX4h1hjOaRv7n0wH+F+2QAVjx4wPBXCdk+RbGW0g6Sw@mail.gmail.com>
-Subject: Re: [PATCH v5 02/41] target/arm: Enable HCR_E2H for VHE
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <fe3ffe05-c620-7770-2752-3d2c4973da03@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: eCJVtjFjMkym4CYwHou0jA-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::241
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,77 +77,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: ehabkost@redhat.com, crosa@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 29 Jan 2020 at 23:56, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  target/arm/cpu.h    | 7 -------
->  target/arm/helper.c | 6 +++++-
->  2 files changed, 5 insertions(+), 8 deletions(-)
->
-> diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-> index 0477cef1ea..239c9eb783 100644
-> --- a/target/arm/cpu.h
-> +++ b/target/arm/cpu.h
-> @@ -1417,13 +1417,6 @@ static inline void xpsr_write(CPUARMState *env, ui=
-nt32_t val, uint32_t mask)
->  #define HCR_ATA       (1ULL << 56)
->  #define HCR_DCT       (1ULL << 57)
->
-> -/*
-> - * When we actually implement ARMv8.1-VHE we should add HCR_E2H to
-> - * HCR_MASK and then clear it again if the feature bit is not set in
-> - * hcr_write().
-> - */
-> -#define HCR_MASK      ((1ULL << 34) - 1)
-> -
->  #define SCR_NS                (1U << 0)
->  #define SCR_IRQ               (1U << 1)
->  #define SCR_FIQ               (1U << 2)
-> diff --git a/target/arm/helper.c b/target/arm/helper.c
-> index 19a57a17da..f5ce05fdf3 100644
-> --- a/target/arm/helper.c
-> +++ b/target/arm/helper.c
-> @@ -4721,7 +4721,8 @@ static const ARMCPRegInfo el3_no_el2_v8_cp_reginfo[=
-] =3D {
->  static void hcr_write(CPUARMState *env, const ARMCPRegInfo *ri, uint64_t=
- value)
->  {
->      ARMCPU *cpu =3D env_archcpu(env);
-> -    uint64_t valid_mask =3D HCR_MASK;
-> +    /* Begin with bits defined in base ARMv8.0.  */
-> +    uint64_t valid_mask =3D MAKE_64BIT_MASK(0, 34);
->
->      if (arm_feature(env, ARM_FEATURE_EL3)) {
->          valid_mask &=3D ~HCR_HCD;
-> @@ -4735,6 +4736,9 @@ static void hcr_write(CPUARMState *env, const ARMCP=
-RegInfo *ri, uint64_t value)
->           */
->          valid_mask &=3D ~HCR_TSC;
->      }
-> +    if (cpu_isar_feature(aa64_vh, cpu)) {
-> +        valid_mask |=3D HCR_E2H;
-> +    }
->      if (cpu_isar_feature(aa64_lor, cpu)) {
->          valid_mask |=3D HCR_TLOR;
->      }
 
-Should HCR_E2H be in the list of bits for which we do
-a tlb_flush () in hcr_write()? (Currently we do this for
-VM, PTW and DC.) Given some of the later TLB-flushing
-changes have code that is "we only need to flush these
-TLB indexes when this register is written if E2H=3D=3D1",
-it makes it easier to be sure we have the right behaviour
-if we don't need to think through scenarios of "write
-to the register, then set E2H=3D=3D1"...
+On 1/30/20 8:41 PM, Philippe Mathieu-Daud=C3=A9 wrote:
+> On 12/27/19 2:40 PM, Wainer dos Santos Moschetta wrote:
+>> I started fixing an issue on exception handling which in some places
+>> currently use the deprecated (in Python 3.3) `socket.error`. Then I
+>> ended up delinting the module code and making some improvements.
+>>
+>> Git:
+>> - Tree: https://github.com/wainersm/qemu
+>> - Branch: python_qmp_sockets_error
+>>
+>> CI:
+>> - Travis (FAIL): https://travis-ci.org/wainersm/qemu/builds/629772066
+>> =C2=A0=C2=A0 Failure not related with this series. Even QEMU master bran=
+ch is
+>> =C2=A0=C2=A0 failing to build when `--without-default-devices --disable-=
+user`.
+>>
+>> Wainer dos Santos Moschetta (5):
+>> =C2=A0=C2=A0 python/qemu: qmp: Replace socket.error with OSError
+>> =C2=A0=C2=A0 python/qemu: Delint the qmp module
+>> =C2=A0=C2=A0 python/qemu: qmp: Make accept()'s timeout configurable
+>> =C2=A0=C2=A0 python/qemu: qmp: Make QEMUMonitorProtocol a context manage=
+r
+>> =C2=A0=C2=A0 python/qemu: qmp: Remove unnused attributes
+>>
+>> =C2=A0 python/qemu/qmp.py | 91 +++++++++++++++++++++++++++++++++--------=
+-----
+>> =C2=A0 1 file changed, 65 insertions(+), 26 deletions(-)
+>>
+>
+> Thanks, applied patches 1, 2 and 5 to my python-next tree:
+> https://gitlab.com/philmd/qemu/commits/python-next
+>
+>
 
-thanks
--- PMM
+Great, I was going to ask you that. Patches 3 and 4 are likely to need a=20
+respin.
+
+Thanks Philippe!
+
+
 
