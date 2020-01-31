@@ -2,90 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D01D14EF1A
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 16:05:00 +0100 (CET)
-Received: from localhost ([::1]:54230 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8914A14EF8D
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 16:28:11 +0100 (CET)
+Received: from localhost ([::1]:54732 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ixXqt-0002b0-Is
-	for lists+qemu-devel@lfdr.de; Fri, 31 Jan 2020 10:04:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35920)
+	id 1ixYDI-0007O5-Vv
+	for lists+qemu-devel@lfdr.de; Fri, 31 Jan 2020 10:28:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39139)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liam.merwick@oracle.com>) id 1ixXpL-0001KG-N8
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 10:03:25 -0500
+ (envelope-from <imammedo@redhat.com>) id 1ixXyF-0004Cp-IX
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 10:12:37 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <liam.merwick@oracle.com>) id 1ixXpK-0003A7-9r
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 10:03:23 -0500
-Received: from userp2120.oracle.com ([156.151.31.85]:40750)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <liam.merwick@oracle.com>)
- id 1ixXpK-00038j-17
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 10:03:22 -0500
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
- by userp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 00VErgXb062498;
- Fri, 31 Jan 2020 15:03:13 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=corp-2019-08-05;
- bh=zXBsTISomMyCgoC+86sjB1Wwa6DygwQ46La4orjAFNg=;
- b=DWkw6Zijw6LHrAPbDQ20fhMUnv5w4XUqFoX6UmnS8BymXyZGv4QaBA0jc43zfikbZ/JA
- Uoz+4eU5PrfBSfTibp5CaGTBp/YCcv5jo5lkcx55K5G6fpY38RWS5dTvjyVGNs/Uvxtg
- 7lueZLlo7Zveh0TyVlvQd1Er2CvU5838F0v9z5UBOMza5o22uwcJojdXeTXBuDMKZNny
- UuKSVqc3kjfBWy7X1NS8kJYELXtnIfNfwfyheuamdj4CSBt5/EM0rAjjGw4SWTSKIXVG
- 2jrBkwZuxlXYu8QG0y2ROLQ903h9R81cy6/4pPkiO6mchMvNgczanacMPxkv5GrPbTR6 uQ== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
- by userp2120.oracle.com with ESMTP id 2xrearttfj-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 31 Jan 2020 15:03:12 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
- by aserp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 00VF0IW4011081;
- Fri, 31 Jan 2020 15:03:12 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
- by aserp3030.oracle.com with ESMTP id 2xv8nr55xc-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 31 Jan 2020 15:03:11 +0000
-Received: from abhmp0011.oracle.com (abhmp0011.oracle.com [141.146.116.17])
- by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 00VF3Aq1007004;
- Fri, 31 Jan 2020 15:03:10 GMT
-Received: from [10.175.183.219] (/10.175.183.219)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Fri, 31 Jan 2020 07:03:10 -0800
-Subject: Re: [PATCH 6/6] tests/boot_linux_console: add PVH acceptance tests
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- alex.bennee@linaro.org, fam@euphon.net
-References: <1580142994-1836-1-git-send-email-liam.merwick@oracle.com>
- <1580142994-1836-7-git-send-email-liam.merwick@oracle.com>
- <33e03e74-e579-c0e8-e1fc-bd408aeb32e8@redhat.com>
-From: Liam Merwick <liam.merwick@oracle.com>
-Message-ID: <8bf4b25b-0e1b-1d7a-d166-e7b746dba207@oracle.com>
-Date: Fri, 31 Jan 2020 15:03:06 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.0
+ (envelope-from <imammedo@redhat.com>) id 1ixXyD-0003up-6X
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 10:12:35 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:48353)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1ixXyD-0003tM-1f
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 10:12:33 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1580483552;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=cJKiy5GLdFCfqLUKOVoQk1Fec/SLyG7E0OpRK2jKN9Y=;
+ b=QX6sgqAzLC5O+VxHQ/Xe+QTtJ0AKbl8og9bgKY/F2srBkzXB9HnoPs4KJS7s4mDI7Csb/j
+ znOfQDVbAgNvOMSRh9zpQoqqbGWdAltR3k5Zvm6DQe5bXj/qp/1s6xV69pR7iAG2/0tyqu
+ Ewc4h/4ltCXP2GJdKQyThUt6Q87ZNWE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-16-XwqlBuP1OUi4vg9-39H3zQ-1; Fri, 31 Jan 2020 10:12:10 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 58A211005510
+ for <qemu-devel@nongnu.org>; Fri, 31 Jan 2020 15:12:09 +0000 (UTC)
+Received: from dell-r430-03.lab.eng.brq.redhat.com
+ (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id ABCC98BE00
+ for <qemu-devel@nongnu.org>; Fri, 31 Jan 2020 15:12:08 +0000 (UTC)
+From: Igor Mammedov <imammedo@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v4 00/80] refactor main RAM allocation to use hostmem backend
+Date: Fri, 31 Jan 2020 16:08:30 +0100
+Message-Id: <1580483390-131164-1-git-send-email-imammedo@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <33e03e74-e579-c0e8-e1fc-bd408aeb32e8@redhat.com>
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Language: en-US
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9516
- signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1911140001 definitions=main-2001310127
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9516
- signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
- priorityscore=1501 malwarescore=0
- suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1911140001
- definitions=main-2001310127
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: XwqlBuP1OUi4vg9-39H3zQ-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by userp2120.oracle.com id
- 00VErgXb062498
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 156.151.31.85
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -97,144 +67,291 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: slp@redhat.com, qemu-devel@nongnu.org, wainersm@redhat.com,
- pbonzini@redhat.com, sgarzare@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 30/01/2020 23:57, Philippe Mathieu-Daud=E9 wrote:
-> On 1/27/20 5:36 PM, Liam Merwick wrote:
->> Add tests to boot an uncompressed kernel using the x86/HVM direct boot=
-=20
->> ABI.
->> The vmlinux binary is obtained from a small RPM for Kata containers an=
+v4:
+  - pick up new Reviewed-by-s
+  - Fix access to uninitialized pagesize/hpsize in
+    "[PATCH REPOST v3 74/80] exec: cleanup  qemu_minrampagesize()/qemu_maxr=
+ampagesize()"
+  - Make explicitly provided memory-backend work by using string property i=
+nstead
+    of link so it would be possible to delay access to the backend to the t=
+ime
+    when backends are initialized.
+  - added new patches to make explicit backend work nice with -m and do san=
+ity
+    check on ram_size
+      'vl.c: move -m parsing after memory backends has been processed'
+      'vl.c: ensure that ram_size matches size of machine.memory-backend"
+    all this ram_size business needs cleanup too, but that's out of the sco=
+pe
+    of this series.
+  - include m68k/q800 board into conversion
+  - drop patches that were merged through other trees
+
+v3:
+  - due to libvirt not being ready, postpone till 5.1
+     * [PATCH v2 82/86] numa: forbid '-numa node,  mem' for 5.0 and newer m=
+achine types
+     and depended
+       [PATCH v2 86/86] numa: remove deprecated implicit RAM distribution  =
+between nodes
+  - drop as not related "[PATCH v2 85/86] numa: make exit() usage consisten=
+t"
+  - drop "[PATCH v2 76/86] post conversion default_ram_id cleanup"
+    so that default memory-backedend won't be created for boards that do no=
+t care
+    about -m. Which makes -m optin feature. We should decide  what do in  c=
+ase
+    board doesn't use -m (but that's out of scope of this series)
+  - use object_register_sugar_prop() instead of hacking compat props direct=
+ly
+  - simplified/reworked aspeed patches
+  - s/RAM_ADDR_FMT/size_to_str()/
+  - rename 'ram-memdev' property to 'memory-backend'
+  - minor fixes to numa-test
+  - fixes for issues noticed during review of
+       [PATCH v2 66/86] ppc/{ppc440_bamboo,sam460x}: drop RAM size fixup
+
+v2:
+  - fix compile errors on mingw32 host by introducing RAM_ADDR_UFMT [11/86]
+  - replace "[PATCH 43/86] hppa: drop RAM size fixup" with alternative
+    patches made by Philippe (which effectively do the same thing but other
+    way around)
+  - ppc440: fix crash and add suggested valid RAM size in error output.
+    s/ppc4xx_sdram_adjust/ppc4xx_sdram_prep/ and simplify it by removing
+    not necessary nested loop
+  - rebase on current master due to new conflicts
+
+
+Series removes ad hoc RAM allocation API (memory_region_allocate_system_mem=
+ory)
+and consolidates it around hostmem backend. It allows to
+ * resolve conflicts between global -mem-prealloc and hostmem's "policy" op=
+tion
+   fixing premature allocation before binding policy is applied
+ * simplify complicated memory allocation routines which had to deal with 2=
+ ways
+   to allocate RAM.
+ * it allows to reuse hostmem backends of a choice for main RAM without add=
+ing
+   extra CLI options to duplicate hostmem features.
+   Recent case was -mem-shared, to enable vhost-user on targets that don't
+   support hostmem backends [1] (ex: s390)
+ * move RAM allocation from individual boards into generic machine code and
+   provide them with prepared MemoryRegion.
+ * clean up deprecated NUMA features which were tied to the old API (see pa=
+tches)
+    - "numa: remove deprecated -mem-path fallback to anonymous RAM"
+    - (POSTPONED, waiting on libvirt side) "forbid '-numa node,mem' for 5.0=
+ and newer machine types"
+    - (POSTPONED) "numa: remove deprecated implicit RAM distribution betwee=
+n nodes"
+
+Conversion introduces a new machine.memory-backend property and wrapper cod=
+e that
+aliases global -mem-path and -mem-alloc into automatically created hostmem
+backend properties (provided memory-backend was not set explicitly given by=
+ user).
+And then follows bulk of trivial patches that incrementally convert individ=
+ual
+boards to using machine.memory-backend provided MemoryRegion.
+
+Board conversion typically involves:
+ * providing MachineClass::default_ram_size and MachineClass::default_ram_i=
 d
->> extracted using the new extract_from_rpm() method.
->>
->> Signed-off-by: Liam Merwick <liam.merwick@oracle.com>
->> ---
->> =A0 tests/acceptance/boot_linux_console.py | 49=20
->> +++++++++++++++++++++++++++++-----
->> =A0 1 file changed, 43 insertions(+), 6 deletions(-)
->>
->> diff --git a/tests/acceptance/boot_linux_console.py=20
->> b/tests/acceptance/boot_linux_console.py
->> index 6af19ae3b14a..ab2200aa0e47 100644
->> --- a/tests/acceptance/boot_linux_console.py
->> +++ b/tests/acceptance/boot_linux_console.py
->> @@ -65,15 +65,26 @@ class BootLinuxConsole(Test):
->> =A0=A0=A0=A0=A0=A0=A0=A0=A0 os.chdir(cwd)
->> =A0=A0=A0=A0=A0=A0=A0=A0=A0 return self.workdir + '/' + path
->> -=A0=A0=A0 def do_test_x86_64_machine(self):
->> +=A0=A0=A0 def do_test_x86_64_machine(self, pvh=3DFalse):
->> =A0=A0=A0=A0=A0=A0=A0=A0=A0 """
->> =A0=A0=A0=A0=A0=A0=A0=A0=A0 :avocado: tags=3Darch:x86_64
->> =A0=A0=A0=A0=A0=A0=A0=A0=A0 """
->> -=A0=A0=A0=A0=A0=A0=A0 kernel_url =3D=20
->> ('https://archives.fedoraproject.org/pub/archive/fedora'
->> -                     =20
->> '/linux/releases/29/Everything/x86_64/os/images/pxeboot'
->> -=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 '/vml=
-inuz')
->> -=A0=A0=A0=A0=A0=A0=A0 kernel_hash =3D '23bebd2680757891cf7adedb033532=
-163a792495'
->> -=A0=A0=A0=A0=A0=A0=A0 kernel_path =3D self.fetch_asset(kernel_url,=20
->> asset_hash=3Dkernel_hash)
->> +=A0=A0=A0=A0=A0=A0=A0 if pvh:
->> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 rpm_url =3D ('https://yum.oracle.co=
-m/repo/OracleLinux/'
->> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 'O=
-L7/olcne/x86_64/getPackage/'
->> +                      =20
->> 'kernel-uek-container-4.14.35-1902.6.6.1.el7.x86_64.rpm')
->> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 rpm_hash =3D '4c781711a9d32dcb8e81d=
-a2b397cb98926744e23'
->> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 rpm_path =3D self.fetch_asset(rpm_u=
-rl, asset_hash=3Drpm_hash)
->> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 kernel_path =3D self.extract_from_r=
-pm(rpm_path,
->> +                                               =20
->> './usr/share/kata-containers/'
->> +                                   =20
->> 'vmlinux-4.14.35-1902.6.6.1.el7.container')
->> +=A0=A0=A0=A0=A0=A0=A0 else:
->> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 kernel_url =3D=20
->> ('https://archives.fedoraproject.org/pub/archive/'
->> +                         =20
->> 'fedora/linux/releases/29/Everything/x86_64/os/'
->> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0 'images/pxeboot/vmlinuz')
->> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 kernel_hash =3D '23bebd2680757891cf=
-7adedb033532163a792495'
->> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 kernel_path =3D self.fetch_asset(ke=
-rnel_url,=20
->> asset_hash=3Dkernel_hash)
->> +
->=20
-> Can you try using a dictionaries instead? This way we can add more=20
-> images easily.
-> See IMAGE_INFO in tests/acceptance/linux_ssh_mips_malta.py.
+   so generic code could create default backend if user didn't explicitly p=
+rovide
+   memory-backend or -m options
+ * dropping memory_region_allocate_system_memory() call
+ * using convenience MachineState::ram MemoryRegion, which points to Memory=
+Region
+   allocated by ram-memdev
+On top of that for some boards:
+ * added missing ram_size checks (typically it were boards with fixed ram s=
+ize)
+ * ram_size fixups were replaced by checks and hard errors, forcing user to
+   provide correct "-m" values instead of ignoring it and continuing runnin=
+g.
 
-I can. I won't convert the users of extract_from_deb() but will try make=20
-it easily extendable.
+After all boards are converted the old API is removed and memory allocation
+routines are cleaned up.
 
+git tree for testing:
+  https://github.com/imammedo/qemu convert_main_ram_to_memdev_v4
 
---- a/tests/acceptance/boot_linux_console.py
-+++ b/tests/acceptance/boot_linux_console.py
-@@ -31,6 +31,29 @@ class BootLinuxConsole(Test):
+previous rev:
+  https://github.com/imammedo/qemu convert_main_ram_to_memdev_v3
+  https://lists.nongnu.org/archive/html/qemu-devel/2020-01/msg05299.html
 
-      KERNEL_COMMON_COMMAND_LINE =3D 'printk.time=3D0 '
+Igor Mammedov (80):
+  numa: remove deprecated -mem-path fallback to anonymous RAM
+  machine: introduce memory-backend property
+  machine: alias -mem-path and -mem-prealloc into memory-foo backend
+  machine: introduce convenience MachineState::ram
+  initialize MachineState::ram in NUMA case
+  vl.c: move -m parsing after memory backends has been processed
+  vl.c: ensure that ram_size matches size of machine.memory-backend
+  alpha/dp264: use memdev for RAM
+  arm/aspeed: actually check RAM size
+  arm/aspeed: use memdev for RAM
+  arm/collie: use memdev for RAM
+  arm/cubieboard: use memdev for RAM
+  arm/digic_boards: use memdev for RAM
+  arm/highbank: use memdev for RAM
+  arm/imx25_pdk: drop RAM size fixup
+  arm/imx25_pdk: use memdev for RAM
+  arm/integratorcp: use memdev for RAM
+  arm/kzm: drop RAM size fixup
+  arm/kzm: use memdev for RAM
+  arm/mcimx6ul-evk: use memdev for RAM
+  arm/mcimx7d-sabre: use memdev for RAM
+  arm/mps2-tz: use memdev for RAM
+  arm/mps2: use memdev for RAM
+  arm/musicpal: use memdev for RAM
+  arm/nseries: use memdev for RAM
+  arm/omap_sx1: use memdev for RAM
+  arm/palm: use memdev for RAM
+  arm/raspi: use memdev for RAM
+  arm/sabrelite: use memdev for RAM
+  arm/sbsa-ref: use memdev for RAM
+  arm/versatilepb: use memdev for RAM
+  arm/vexpress: use memdev for RAM
+  arm/virt: use memdev for RAM
+  arm/xilinx_zynq: drop RAM size fixup
+  arm/xilinx_zynq: use memdev for RAM
+  arm/xlnx-versal-virt: use memdev for RAM
+  arm/xlnx-zcu102: use memdev for RAM
+  s390x/s390-virtio-ccw: use memdev for RAM
+  null-machine: use memdev for RAM
+  cris/axis_dev88: use memdev for RAM
+  hppa: use memdev for RAM
+  x86/microvm: use memdev for RAM
+  x86/pc: use memdev for RAM
+  lm32/lm32_boards: use memdev for RAM
+  lm32/milkymist: use memdev for RAM
+  m68k/an5206: use memdev for RAM
+  m68k/q800: use memdev for RAM
+  m68k/mcf5208: use memdev for RAM
+  m68k/next-cube: use memdev for RAM
+  mips/boston: use memdev for RAM
+  mips/mips_fulong2e: drop RAM size fixup
+  mips/mips_fulong2e: use memdev for RAM
+  mips/mips_jazz: use memdev for RAM
+  mips/mips_malta: use memdev for RAM
+  mips/mips_mipssim: use memdev for RAM
+  mips/mips_r4k: use memdev for RAM
+  ppc/e500: drop RAM size fixup
+  ppc/e500: use memdev for RAM
+  ppc/mac_newworld: use memdev for RAM
+  ppc/mac_oldworld: use memdev for RAM
+  ppc/pnv: use memdev for RAM
+  ppc/ppc405_boards: add RAM size checks
+  ppc/ppc405_boards: use memdev for RAM
+  ppc/{ppc440_bamboo, sam460ex}: drop RAM size fixup
+  ppc/{ppc440_bamboo, sam460ex}: use memdev for RAM
+  ppc/prep: use memdev for RAM
+  ppc/spapr: use memdev for RAM
+  ppc/virtex_ml507: remove unused arguments
+  ppc/virtex_ml507: use memdev for RAM
+  sparc/leon3: use memdev for RAM
+  sparc/sun4m: use memdev for RAM
+  sparc/niagara: use memdev for RAM
+  remove no longer used memory_region_allocate_system_memory()
+  exec: cleanup qemu_minrampagesize()/qemu_maxrampagesize()
+  exec: drop bogus mem_path from qemu_ram_alloc_from_fd()
+  make mem_path local variable
+  hostmem: introduce "prealloc-threads" property
+  hostmem: fix strict bind policy
+  tests/numa-test: make top level args dynamic and g_autofree(cli)
+    cleanups
+  tests:numa-test: use explicit memdev to specify node RAM
 
-+    KERNEL_PATH_INFO =3D {
-+        ('x86_64', 'bzImage'): {
-+            'type': 'file',
-+            'url': 'https://archives.fedoraproject.org/'
-+                   'pub/archive/fedora/linux/releases/29/Everything/'
-+                   'x86_64/os/images/pxeboot/vmlinuz',
-+            'hash': '23bebd2680757891cf7adedb033532163a792495'
-+        }
-+    }
-+
-+    def get_kernel_path(self, key):
-+        """
-+        For the provided key, download (and extract, if necessary) the=20
-kernel
-+        and return the path the the kernel binary.
-+
-+        :param key: index into KERNEL_PATH_INFO dict containing kernel=20
-location
-+        :returns: path of the extracted file
-+        """
-+        dinfo =3D self.KERNEL_PATH_INFO[(self.arch, key)]
-+
-+        if dinfo['type'] is 'file':
-+            return self.fetch_asset(dinfo['url'], asset_hash=3Ddinfo['ha=
-sh'])
-+
-      def wait_for_console_pattern(self, success_message):
-          wait_for_console_pattern(self, success_message,
-                                   failure_message=3D'Kernel panic - not=20
-syncing')
-@@ -72,11 +95,7 @@ class BootLinuxConsole(Test):
-          Common routine to boot an x86_64 guest.
-          Caller must specify tags=3Darch and tags=3Dmachine
-          """
--        kernel_url =3D=20
-('https://archives.fedoraproject.org/pub/archive/fedora'
--=20
-'/linux/releases/29/Everything/x86_64/os/images/pxeboot'
--                      '/vmlinuz')
--        kernel_hash =3D '23bebd2680757891cf7adedb033532163a792495'
--        kernel_path =3D self.fetch_asset(kernel_url, asset_hash=3Dkernel=
-_hash)
-+        kernel_path =3D self.get_kernel_path('bzImage')
-          self.vm.set_console()
-          kernel_command_line =3D self.KERNEL_COMMON_COMMAND_LINE +=20
-'console=3DttyS0'
-          self.vm.add_args('-kernel', kernel_path,
+ hw/alpha/alpha_sys.h          |   2 +-
+ include/hw/boards.h           |  51 ++++++----------
+ include/hw/misc/aspeed_sdmc.h |   1 +
+ include/hw/ppc/ppc4xx.h       |   9 ++-
+ include/sysemu/hostmem.h      |  20 +++++-
+ include/sysemu/numa.h         |   1 +
+ include/sysemu/sysemu.h       |   2 -
+ backends/hostmem-file.c       |   8 ---
+ backends/hostmem-memfd.c      |   1 -
+ backends/hostmem-ram.c        |   2 -
+ backends/hostmem.c            |  53 +++++++++++-----
+ exec.c                        |  64 ++------------------
+ hw/alpha/dp264.c              |   3 +-
+ hw/alpha/typhoon.c            |   8 +--
+ hw/arm/aspeed.c               |  18 +++---
+ hw/arm/collie.c               |  17 ++++--
+ hw/arm/cubieboard.c           |  25 +++-----
+ hw/arm/digic_boards.c         |  40 ++++++------
+ hw/arm/highbank.c             |  10 ++-
+ hw/arm/imx25_pdk.c            |  13 ++--
+ hw/arm/integratorcp.c         |   9 ++-
+ hw/arm/kzm.c                  |  18 +++---
+ hw/arm/mcimx6ul-evk.c         |  25 +++-----
+ hw/arm/mcimx7d-sabre.c        |  25 +++-----
+ hw/arm/mps2-tz.c              |  15 +++--
+ hw/arm/mps2.c                 |  15 +++--
+ hw/arm/musicpal.c             |  18 ++++--
+ hw/arm/nseries.c              |  32 ++++++----
+ hw/arm/omap_sx1.c             |  20 ++++--
+ hw/arm/palm.c                 |  20 ++++--
+ hw/arm/raspi.c                |  32 ++++------
+ hw/arm/sabrelite.c            |  23 +++----
+ hw/arm/sbsa-ref.c             |   7 +--
+ hw/arm/versatilepb.c          |   7 +--
+ hw/arm/vexpress.c             |  14 ++---
+ hw/arm/virt.c                 |   7 +--
+ hw/arm/xilinx_zynq.c          |  20 +++---
+ hw/arm/xlnx-versal-virt.c     |   7 +--
+ hw/arm/xlnx-zcu102.c          |   7 +--
+ hw/core/machine.c             |  48 +++++++++++++++
+ hw/core/null-machine.c        |   8 +--
+ hw/core/numa.c                | 101 +++++++++----------------------
+ hw/cris/axis_dev88.c          |   8 +--
+ hw/hppa/machine.c             |  10 +--
+ hw/i386/microvm.c             |  12 ++--
+ hw/i386/pc.c                  |  19 +++---
+ hw/lm32/lm32_boards.c         |  39 ++++++++----
+ hw/lm32/milkymist.c           |  21 ++++---
+ hw/m68k/an5206.c              |   5 +-
+ hw/m68k/mcf5208.c             |   5 +-
+ hw/m68k/next-cube.c           |   5 +-
+ hw/m68k/q800.c                |   6 +-
+ hw/mips/boston.c              |  11 ++--
+ hw/mips/mips_fulong2e.c       |  15 ++---
+ hw/mips/mips_jazz.c           |   7 +--
+ hw/mips/mips_malta.c          |  10 ++-
+ hw/mips/mips_mipssim.c        |   9 +--
+ hw/mips/mips_r4k.c            |  12 ++--
+ hw/misc/aspeed_sdmc.c         |  83 +++++++++++++++++++------
+ hw/ppc/e500.c                 |  17 +++---
+ hw/ppc/e500plat.c             |   1 +
+ hw/ppc/mac_newworld.c         |   6 +-
+ hw/ppc/mac_oldworld.c         |   6 +-
+ hw/ppc/mpc8544ds.c            |   1 +
+ hw/ppc/pnv.c                  |   8 +--
+ hw/ppc/ppc405_boards.c        |  48 +++++++++------
+ hw/ppc/ppc440_bamboo.c        |  12 ++--
+ hw/ppc/ppc4xx_devs.c          |  63 +++++++++----------
+ hw/ppc/prep.c                 |  15 +++--
+ hw/ppc/sam460ex.c             |   6 +-
+ hw/ppc/spapr.c                |   8 +--
+ hw/ppc/virtex_ml507.c         |  19 +++---
+ hw/s390x/s390-virtio-ccw.c    |   7 +--
+ hw/sparc/leon3.c              |   6 +-
+ hw/sparc/sun4m.c              |  74 +++++++++++-----------
+ hw/sparc64/niagara.c          |   7 +--
+ qemu-deprecated.texi          |   9 ---
+ tests/qtest/numa-test.c       | 138 ++++++++++++++++++++++----------------=
+----
+ vl.c                          |  78 +++++++++++++++++++-----
+ 79 files changed, 831 insertions(+), 801 deletions(-)
 
-
-Regards,
-Liam
+--=20
+2.7.4
 
 
