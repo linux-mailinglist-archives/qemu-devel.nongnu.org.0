@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E56114F083
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 17:15:50 +0100 (CET)
-Received: from localhost ([::1]:55600 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E32C14F088
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 17:17:58 +0100 (CET)
+Received: from localhost ([::1]:55644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ixYxR-000392-4j
-	for lists+qemu-devel@lfdr.de; Fri, 31 Jan 2020 11:15:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41840)
+	id 1ixYzV-00081r-Gh
+	for lists+qemu-devel@lfdr.de; Fri, 31 Jan 2020 11:17:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42642)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1ixY0O-0008FA-HS
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 10:14:50 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1ixY1T-0001YZ-LH
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 10:15:58 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1ixY0L-0005Br-FL
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 10:14:48 -0500
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:36962)
+ (envelope-from <alex.bennee@linaro.org>) id 1ixY1Q-0004jE-1t
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 10:15:55 -0500
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:37894)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1ixY0L-00056M-70
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 10:14:45 -0500
-Received: by mail-wr1-x444.google.com with SMTP id w15so9039731wru.4
- for <qemu-devel@nongnu.org>; Fri, 31 Jan 2020 07:14:45 -0800 (PST)
+ id 1ixY1P-0004bJ-8i
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 10:15:51 -0500
+Received: by mail-wr1-x441.google.com with SMTP id y17so9040466wrh.5
+ for <qemu-devel@nongnu.org>; Fri, 31 Jan 2020 07:15:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=references:user-agent:from:to:cc:subject:in-reply-to:date
  :message-id:mime-version:content-transfer-encoding;
- bh=w2X0DjYvTl+Huffu87kNbth7R3MRel+9eE0ZqHo7caI=;
- b=vky973hzjyMp/3TT+3EgEfT27+6uBeyqJetaT+siSX9tqrXVe7GRaS6lKSjf/iyeQa
- gjnj5JjDMVz80hcJEbbplpwFAP4UjBKMJLxr12Sfp3aEa6/Z4fQpy3Z6IJPQpJ7dsard
- dEyWq6NVg5hXexjQUBOFj0e6SbKAN0TLu5UOhCMACfGvpb8EnlI4UAhpYFmXGRbrS0/y
- QTpElxNWjUdlqrv+Tt65ILLWKrG8Mx8uuo75/+C+a57pp0bEmK2BSzizGlLafPv/mkEm
- iSsPVEy47XysrBL3Ux6WH44pK/FZ6kZPkS1t0Squz77p+XzvgJ0vNE/TCBjyS791NoPX
- QIrA==
+ bh=tkrF7/eyIoWJWpPbuCMlmuIs+8b+v9+ovFP4qFY+uCA=;
+ b=dFYDcXCnQjpDHIJ7tpxjtAwna7jORoZneqAZmV5HypI9mTuzm6FK5NpIukvXCNLIH8
+ aJFe399CTMvCJ2r74DtkK+0IIvrnnGLBwu9OjZaurL5/ISUgL1lRhAC3KxyVaZuZp8xl
+ noAoc9gE7pmcj0/PRHBSL+2WxE//wXtB7nqXdCeFfDovAyCDm96iIQrrqciWMyaFbq9I
+ 4Cl9F9uBhfTOBf6xTbCuU09d7o2jQTxPh+QWFuntJjhTLq8W3DF4o/XQlEeYXMhLseGO
+ iwN1/Vg8CvGaTc+xBIoz7ZD9IHWlX6F7jbMZBWwmGmKyiVUKXBD5JZ2XV/MfxUzVLnL1
+ Z8ow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:references:user-agent:from:to:cc:subject
  :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=w2X0DjYvTl+Huffu87kNbth7R3MRel+9eE0ZqHo7caI=;
- b=SkBM70kGEX2kDTXme1m6cqRw9+YZMMXyAl82cKts9YuM0QtsDrUxDmGyRz7VHJRwh0
- YhhKpdMC3VOy6r2SHEuUX00ffGfEi39yBW7q5KxZKBvIoN+kY6UJETqCpx8VeoDcltLe
- Y1vGTanDT/WWYTIlMY4BBvHYUNgDMMh1qbvX7HY64oeAphwic88XRoolCME886lK6ZOC
- 0+rGWiNIKCk33NPsaFTLnLKZcw2MXimXneXKocISzcRSwJuJz0ibRnA6hW6clwkMkkJJ
- tKvSxTNqxXsyK8Dj5ViZUIo2GxHpKWxFqejrSrUtJjRV/bm85o4O9zZVMx2JEDGw7jsH
- OROw==
-X-Gm-Message-State: APjAAAUAO0sSjx3PJQ0leFWY3TaiP00FGDJ3QPyobW9NXV+ZeAkXupks
- N3eMznH1q8CYMAK+nJCAswmkAw==
-X-Google-Smtp-Source: APXvYqxnytKOz/2NmOY1h1qQr1Gpu/SjtWOrKh/UQBp0QS9slMlQ0FOogOoQetz55PbRpERCqwR53w==
-X-Received: by 2002:a5d:6144:: with SMTP id y4mr12373944wrt.367.1580483684020; 
- Fri, 31 Jan 2020 07:14:44 -0800 (PST)
+ bh=tkrF7/eyIoWJWpPbuCMlmuIs+8b+v9+ovFP4qFY+uCA=;
+ b=piITjftWcnoGWMwJQ13uzC7WYOvamNdvDs9CvncE1UJmEJQHQhNrYrEVR/9eJXO0Ur
+ 1TX7G0SyxlaLZBl8Zg+TZR7b50Akgj1hPq7LQgYiBJLZQxBZyFLB7MEI3qmDQbU7x7Aw
+ /h7SiWm/ukoxL/zv+XIBl87WxPhP09tcWPLA2mGzsHidPf1YmpqEuhnQ97AVBQxnFanY
+ ciS63G2GrBj4eu4oGlChMwSVsfsftW0nAH9+nLQOHn+nW17+pzdNzt6K7kG9IDqMpGV8
+ 49pL8Ym09idnIVCfq7emWbEpGHhvNqk6Zv6bdWdQcZI2X/ffuak7Takx5UP9mmI7ogLn
+ i4AA==
+X-Gm-Message-State: APjAAAUKKKDltSiXXIeFoIARhQSRDkgMI09Z63L5IOOHYtdzNFAP9UfC
+ gfh0RQ6uWx5uk6vp8DbVSRaNGA==
+X-Google-Smtp-Source: APXvYqz6F6a8ZdaPEGGZDzXQtfT/UnXX/X6MrxgFPd5c5cv/Qfp+wnVrLb18MkmkG6nKZhLTjehcBQ==
+X-Received: by 2002:a5d:6886:: with SMTP id h6mr12802807wru.154.1580483749273; 
+ Fri, 31 Jan 2020 07:15:49 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id c9sm11149999wmc.47.2020.01.31.07.14.42
+ by smtp.gmail.com with ESMTPSA id b16sm10895460wmj.39.2020.01.31.07.15.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 31 Jan 2020 07:14:42 -0800 (PST)
+ Fri, 31 Jan 2020 07:15:47 -0800 (PST)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id F10921FF87;
- Fri, 31 Jan 2020 15:14:41 +0000 (GMT)
+ by zen.linaroharston (Postfix) with ESMTP id 4428C1FF87;
+ Fri, 31 Jan 2020 15:15:47 +0000 (GMT)
 References: <20200124162606.8787-1-peter.maydell@linaro.org>
- <20200124162606.8787-7-peter.maydell@linaro.org>
+ <20200124162606.8787-8-peter.maydell@linaro.org>
 User-agent: mu4e 1.3.7; emacs 27.0.60
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH v2 6/8] qemu-img-cmds.hx: Remove texinfo document fragments
-In-reply-to: <20200124162606.8787-7-peter.maydell@linaro.org>
-Date: Fri, 31 Jan 2020 15:14:41 +0000
-Message-ID: <87eevf8xpa.fsf@linaro.org>
+Subject: Re: [PATCH v2 7/8] scripts/qemu-trace-stap: Convert documentation
+ to rST
+In-reply-to: <20200124162606.8787-8-peter.maydell@linaro.org>
+Date: Fri, 31 Jan 2020 15:15:47 +0000
+Message-ID: <87blqj8xng.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::444
+X-Received-From: 2a00:1450:4864:20::441
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,235 +94,412 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Peter Maydell <peter.maydell@linaro.org> writes:
 
-> Now the qemu-img documentation has been converted to rST, we can
-> remove the texinfo document fragments from qemu-img-cmds.hx, as
-> they are no longer used.
+> The qemu-trace-stap documentation is currently in
+> scripts/qemu-trace-stap.texi in Texinfo format, which we
+> present to the user as:
+>  * a qemu-trace-stap manpage
+>  * but not (unusually for QEMU) part of the HTML docs
+>
+> Convert the documentation to rST format that lives in
+> the docs/ subdirectory, and present it to the user as:
+>  * a qemu-trace-stap manpage
+>  * part of the interop/ Sphinx manual
+>
+> There are minor formatting changes to suit Sphinx, but no
+> content changes.
 >
 > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+Tested-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
 > ---
->  qemu-img-cmds.hx | 56 +++---------------------------------------------
->  1 file changed, 3 insertions(+), 53 deletions(-)
+>  Makefile                         |   9 +-
+>  MAINTAINERS                      |   1 +
+>  docs/interop/conf.py             |   4 +-
+>  docs/interop/index.rst           |   1 +
+>  docs/interop/qemu-trace-stap.rst | 124 +++++++++++++++++++++++++++
+>  scripts/qemu-trace-stap.texi     | 140 -------------------------------
+>  6 files changed, 134 insertions(+), 145 deletions(-)
+>  create mode 100644 docs/interop/qemu-trace-stap.rst
+>  delete mode 100644 scripts/qemu-trace-stap.texi
 >
-> diff --git a/qemu-img-cmds.hx b/qemu-img-cmds.hx
-> index 0c8b210b3c3..32e999d0965 100644
-> --- a/qemu-img-cmds.hx
-> +++ b/qemu-img-cmds.hx
-> @@ -1,143 +1,93 @@
->  HXCOMM Keep the list of subcommands sorted by name.
->  HXCOMM Use DEFHEADING() to define headings in both help text and texi
-> -HXCOMM Text between STEXI and ETEXI are copied to texi version and
-> +HXCOMM Text between SRST and ERST are copied to rST version and
->  HXCOMM discarded from C version
->  HXCOMM DEF(command, callback, arg_string) is used to construct
->  HXCOMM command structures and help message.
-> -HXCOMM HXCOMM can be used for comments, discarded from both texi and C
-> +HXCOMM HXCOMM can be used for comments, discarded from both rST and C
+> diff --git a/Makefile b/Makefile
+> index 4e1a5e9906c..5dded94bf63 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -357,7 +357,7 @@ ifdef CONFIG_VIRTFS
+>  DOCS+=3Dfsdev/virtfs-proxy-helper.1
+>  endif
+>  ifdef CONFIG_TRACE_SYSTEMTAP
+> -DOCS+=3Dscripts/qemu-trace-stap.1
+> +DOCS+=3D$(MANUAL_BUILDDIR)/interop/qemu-trace-stap.1
+>  endif
+>  else
+>  DOCS=3D
+> @@ -848,7 +848,7 @@ ifeq ($(CONFIG_TOOLS),y)
+>  	$(INSTALL_DATA) $(MANUAL_BUILDDIR)/interop/qemu-nbd.8 "$(DESTDIR)$(mand=
+ir)/man8"
+>  endif
+>  ifdef CONFIG_TRACE_SYSTEMTAP
+> -	$(INSTALL_DATA) scripts/qemu-trace-stap.1 "$(DESTDIR)$(mandir)/man1"
+> +	$(INSTALL_DATA) $(MANUAL_BUILDDIR)/interop/qemu-trace-stap.1 "$(DESTDIR=
+)$(mandir)/man1"
+>  endif
+>  ifneq (,$(findstring qemu-ga,$(TOOLS)))
+>  	$(INSTALL_DATA) $(MANUAL_BUILDDIR)/interop/qemu-ga.8 "$(DESTDIR)$(mandi=
+r)/man8"
+> @@ -1050,7 +1050,9 @@ $(MANUAL_BUILDDIR)/specs/index.html: $(call manual-=
+deps,specs)
+>  $(MANUAL_BUILDDIR)/system/index.html: $(call manual-deps,system)
+>  	$(call build-manual,system,html)
 >=20=20
-> -HXCOMM When amending the TEXI sections, please remember to copy the usage
-> +HXCOMM When amending the rST sections, please remember to copy the usage
->  HXCOMM over to the per-command sections in qemu-img.texi.
+> -$(call define-manpage-rule,interop,qemu-ga.8 qemu-img.1 qemu-nbd.8,$(SRC=
+_PATH/qemu-img-cmds.hx))
+> +$(call define-manpage-rule,interop,\
+> +       qemu-ga.8 qemu-img.1 qemu-nbd.8 qemu-trace-stap.1,\
+> +       $(SRC_PATH/qemu-img-cmds.hx))
 >=20=20
-> -STEXI
+>  $(call define-manpage-rule,system,qemu-block-drivers.7)
+>=20=20
+> @@ -1078,7 +1080,6 @@ qemu.1: qemu-doc.texi qemu-options.texi qemu-monito=
+r.texi qemu-monitor-info.texi
+>  qemu.1: qemu-option-trace.texi
+>  fsdev/virtfs-proxy-helper.1: fsdev/virtfs-proxy-helper.texi
+>  docs/qemu-cpu-models.7: docs/qemu-cpu-models.texi
+> -scripts/qemu-trace-stap.1: scripts/qemu-trace-stap.texi
+>=20=20
+>  html: qemu-doc.html docs/interop/qemu-qmp-ref.html docs/interop/qemu-ga-=
+ref.html sphinxdocs
+>  info: qemu-doc.info docs/interop/qemu-qmp-ref.info docs/interop/qemu-ga-=
+ref.info
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 39423cd07f2..54c4429069d 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -2191,6 +2191,7 @@ F: qemu-option-trace.texi
+>  F: scripts/tracetool.py
+>  F: scripts/tracetool/
+>  F: scripts/qemu-trace-stap*
+> +F: docs/interop/qemu-trace-stap.rst
+>  F: docs/devel/tracing.txt
+>  T: git https://github.com/stefanha/qemu.git tracing
+>=20=20
+> diff --git a/docs/interop/conf.py b/docs/interop/conf.py
+> index 0de444a900d..baea7fb50ee 100644
+> --- a/docs/interop/conf.py
+> +++ b/docs/interop/conf.py
+> @@ -22,5 +22,7 @@ man_pages =3D [
+>      ('qemu-img', 'qemu-img', u'QEMU disk image utility',
+>       ['Fabrice Bellard'], 1),
+>      ('qemu-nbd', 'qemu-nbd', u'QEMU Disk Network Block Device Server',
+> -     ['Anthony Liguori <anthony@codemonkey.ws>'], 8)
+> +     ['Anthony Liguori <anthony@codemonkey.ws>'], 8),
+> +    ('qemu-trace-stap', 'qemu-trace-stap', u'QEMU SystemTap trace tool',
+> +     [], 1)
+>  ]
+> diff --git a/docs/interop/index.rst b/docs/interop/index.rst
+> index 5e4de07d4cc..d756a826b26 100644
+> --- a/docs/interop/index.rst
+> +++ b/docs/interop/index.rst
+> @@ -20,5 +20,6 @@ Contents:
+>     qemu-ga
+>     qemu-img
+>     qemu-nbd
+> +   qemu-trace-stap
+>     vhost-user
+>     vhost-user-gpu
+> diff --git a/docs/interop/qemu-trace-stap.rst b/docs/interop/qemu-trace-s=
+tap.rst
+> new file mode 100644
+> index 00000000000..fb70445c751
+> --- /dev/null
+> +++ b/docs/interop/qemu-trace-stap.rst
+> @@ -0,0 +1,124 @@
+> +QEMU SystemTap trace tool
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D
+> +
+> +Synopsis
+> +--------
+> +
+> +**qemu-trace-stap** [*GLOBAL-OPTIONS*] *COMMAND* [*COMMAND-OPTIONS*] *AR=
+GS*...
+> +
+> +Description
+> +-----------
+> +
+> +The ``qemu-trace-stap`` program facilitates tracing of the execution
+> +of QEMU emulators using SystemTap.
+> +
+> +It is required to have the SystemTap runtime environment installed to use
+> +this program, since it is a wrapper around execution of the ``stap``
+> +program.
+> +
+> +Options
+> +-------
+> +
+> +.. program:: qemu-trace-stap
+> +
+> +The following global options may be used regardless of which command
+> +is executed:
+> +
+> +.. option:: --verbose, -v
+> +
+> +  Display verbose information about command execution.
+> +
+> +The following commands are valid:
+> +
+> +.. option:: list BINARY PATTERN...
+> +
+> +  List all the probe names provided by *BINARY* that match
+> +  *PATTERN*.
+> +
+> +  If *BINARY* is not an absolute path, it will be located by searching
+> +  the directories listed in the ``$PATH`` environment variable.
+> +
+> +  *PATTERN* is a plain string that is used to filter the results of
+> +  this command. It may optionally contain a ``*`` wildcard to facilitate
+> +  matching multiple probes without listing each one explicitly. Multiple
+> +  *PATTERN* arguments may be given, causing listing of probes that match
+> +  any of the listed names. If no *PATTERN* is given, the all possible
+> +  probes will be listed.
+> +
+> +  For example, to list all probes available in the ``qemu-system-x86_64``
+> +  binary:
+> +
+> +  ::
+> +
+> +    $ qemu-trace-stap list qemu-system-x86_64
+> +
+> +  To filter the list to only cover probes related to QEMU's cryptographic
+> +  subsystem, in a binary outside ``$PATH``
+> +
+> +  ::
+> +
+> +    $ qemu-trace-stap list /opt/qemu/4.0.0/bin/qemu-system-x86_64 'qcryp=
+to*'
+> +
+> +.. option:: run OPTIONS BINARY PATTERN...
+> +
+> +  Run a trace session, printing formatted output any time a process that=
+ is
+> +  executing *BINARY* triggers a probe matching *PATTERN*.
+> +
+> +  If *BINARY* is not an absolute path, it will be located by searching
+> +  the directories listed in the ``$PATH`` environment variable.
+> +
+> +  *PATTERN* is a plain string that matches a probe name shown by the
+> +  *LIST* command. It may optionally contain a ``*`` wildcard to
+> +  facilitate matching multiple probes without listing each one explicitl=
+y.
+> +  Multiple *PATTERN* arguments may be given, causing all matching probes
+> +  to be monitored. At least one *PATTERN* is required, since stap is not
+> +  capable of tracing all known QEMU probes concurrently without overflow=
+ing
+> +  its trace buffer.
+> +
+> +  Invocation of this command does not need to be synchronized with
+> +  invocation of the QEMU process(es). It will match probes on all
+> +  existing running processes and all future launched processes,
+> +  unless told to only monitor a specific process.
+> +
+> +  Valid command specific options are:
+> +
+> +  .. program:: qemu-trace-stap-run
+> +
+> +  .. option:: --pid=3DPID, -p PID
+> +
+> +    Restrict the tracing session so that it only triggers for the process
+> +    identified by *PID*.
+> +
+> +  For example, to monitor all processes executing ``qemu-system-x86_64``
+> +  as found on ``$PATH``, displaying all I/O related probes:
+> +
+> +  ::
+> +
+> +    $ qemu-trace-stap run qemu-system-x86_64 'qio*'
+> +
+> +  To monitor only the QEMU process with PID 1732
+> +
+> +  ::
+> +
+> +    $ qemu-trace-stap run --pid=3D1732 qemu-system-x86_64 'qio*'
+> +
+> +  To monitor QEMU processes running an alternative binary outside of
+> +  ``$PATH``, displaying verbose information about setup of the
+> +  tracing environment:
+> +
+> +  ::
+> +
+> +    $ qemu-trace-stap -v run /opt/qemu/4.0.0/qemu-system-x86_64 'qio*'
+> +
+> +See also
+> +--------
+> +
+> +:manpage:`qemu(1)`, :manpage:`stap(1)`
+> +
+> +..
+> +  Copyright (C) 2019 Red Hat, Inc.
+> +
+> +  This program is free software; you can redistribute it and/or modify
+> +  it under the terms of the GNU General Public License as published by
+> +  the Free Software Foundation; either version 2 of the License, or
+> +  (at your option) any later version.
+> diff --git a/scripts/qemu-trace-stap.texi b/scripts/qemu-trace-stap.texi
+> deleted file mode 100644
+> index 07bb9eb94e7..00000000000
+> --- a/scripts/qemu-trace-stap.texi
+> +++ /dev/null
+> @@ -1,140 +0,0 @@
+> -@example
+> -@c man begin SYNOPSIS
+> -@command{qemu-trace-stap} @var{GLOBAL-OPTIONS} @var{COMMAND} @var{COMMAN=
+D-OPTIONS} @var{ARGS...}
+> -@c man end
+> -@end example
+> -
+> -@c man begin DESCRIPTION
+> -
+> -The @command{qemu-trace-stap} program facilitates tracing of the executi=
+on
+> -of QEMU emulators using SystemTap.
+> -
+> -It is required to have the SystemTap runtime environment installed to use
+> -this program, since it is a wrapper around execution of the @command{sta=
+p}
+> -program.
+> -
+> -@c man end
+> -
+> -@c man begin OPTIONS
+> -
+> -The following global options may be used regardless of which command
+> -is executed:
+> -
 > -@table @option
-> -ETEXI
+> -@item @var{--verbose}, @var{-v}
 > -
->  DEF("amend", img_amend,
->      "amend [--object objectdef] [--image-opts] [-p] [-q] [-f fmt] [-t ca=
-che] -o options filename")
-> -STEXI
-> -@item amend [--object @var{objectdef}] [--image-opts] [-p] [-q] [-f @var=
-{fmt}] [-t @var{cache}] -o @var{options} @var{filename}
-> -ETEXI
->  SRST
->  .. option:: amend [--object OBJECTDEF] [--image-opts] [-p] [-q] [-f FMT]=
- [-t CACHE] -o OPTIONS FILENAME
->  ERST
->=20=20
->  DEF("bench", img_bench,
->      "bench [-c count] [-d depth] [-f fmt] [--flush-interval=3Dflush_inte=
-rval] [-n] [--no-drain] [-o offset] [--pattern=3Dpattern] [-q] [-s buffer_s=
-ize] [-S step_size] [-t cache] [-w] [-U] filename")
-> -STEXI
-> -@item bench [-c @var{count}] [-d @var{depth}] [-f @var{fmt}] [--flush-in=
-terval=3D@var{flush_interval}] [-n] [--no-drain] [-o @var{offset}] [--patte=
-rn=3D@var{pattern}] [-q] [-s @var{buffer_size}] [-S @var{step_size}] [-t @v=
-ar{cache}] [-w] [-U] @var{filename}
-> -ETEXI
->  SRST
->  .. option:: bench [-c COUNT] [-d DEPTH] [-f FMT] [--flush-interval=3DFLU=
-SH_INTERVAL] [-n] [--no-drain] [-o OFFSET] [--pattern=3DPATTERN] [-q] [-s B=
-UFFER_SIZE] [-S STEP_SIZE] [-t CACHE] [-w] [-U] FILENAME
->  ERST
->  DEF("check", img_check,
->      "check [--object objectdef] [--image-opts] [-q] [-f fmt] [--output=
-=3Dofmt] [-r [leaks | all]] [-T src_cache] [-U] filename")
-> -STEXI
-> -@item check [--object @var{objectdef}] [--image-opts] [-q] [-f @var{fmt}=
-] [--output=3D@var{ofmt}] [-r [leaks | all]] [-T @var{src_cache}] [-U] @var=
-{filename}
-> -ETEXI
->  SRST
->  .. option:: check [--object OBJECTDEF] [--image-opts] [-q] [-f FMT] [--o=
-utput=3DOFMT] [-r [leaks | all]] [-T SRC_CACHE] [-U] FILENAME
->  ERST
->=20=20
->  DEF("commit", img_commit,
->      "commit [--object objectdef] [--image-opts] [-q] [-f fmt] [-t cache]=
- [-b base] [-d] [-p] filename")
-> -STEXI
-> -@item commit [--object @var{objectdef}] [--image-opts] [-q] [-f @var{fmt=
-}] [-t @var{cache}] [-b @var{base}] [-d] [-p] @var{filename}
-> -ETEXI
->  SRST
->  .. option:: commit [--object OBJECTDEF] [--image-opts] [-q] [-f FMT] [-t=
- CACHE] [-b BASE] [-d] [-p] FILENAME
->  ERST
->=20=20
->  DEF("compare", img_compare,
->      "compare [--object objectdef] [--image-opts] [-f fmt] [-F fmt] [-T s=
-rc_cache] [-p] [-q] [-s] [-U] filename1 filename2")
-> -STEXI
-> -@item compare [--object @var{objectdef}] [--image-opts] [-f @var{fmt}] [=
--F @var{fmt}] [-T @var{src_cache}] [-p] [-q] [-s] [-U] @var{filename1} @var=
-{filename2}
-> -ETEXI
->  SRST
->  .. option:: compare [--object OBJECTDEF] [--image-opts] [-f FMT] [-F FMT=
-] [-T SRC_CACHE] [-p] [-q] [-s] [-U] FILENAME1 FILENAME2
->  ERST
->=20=20
->  DEF("convert", img_convert,
->      "convert [--object objectdef] [--image-opts] [--target-image-opts] [=
--U] [-C] [-c] [-p] [-q] [-n] [-f fmt] [-t cache] [-T src_cache] [-O output_=
-fmt] [-B backing_file] [-o options] [-l snapshot_param] [-S sparse_size] [-=
-m num_coroutines] [-W] [--salvage] filename [filename2 [...]] output_filena=
-me")
-> -STEXI
-> -@item convert [--object @var{objectdef}] [--image-opts] [--target-image-=
-opts] [-U] [-C] [-c] [-p] [-q] [-n] [-f @var{fmt}] [-t @var{cache}] [-T @va=
-r{src_cache}] [-O @var{output_fmt}] [-B @var{backing_file}] [-o @var{option=
-s}] [-l @var{snapshot_param}] [-S @var{sparse_size}] [-m @var{num_coroutine=
-s}] [-W] [--salvage] @var{filename} [@var{filename2} [...]] @var{output_fil=
-ename}
-> -ETEXI
->  SRST
->  .. option:: convert [--object OBJECTDEF] [--image-opts] [--target-image-=
-opts] [-U] [-C] [-c] [-p] [-q] [-n] [-f FMT] [-t CACHE] [-T SRC_CACHE] [-O =
-OUTPUT_FMT] [-B BACKING_FILE] [-o OPTIONS] [-l SNAPSHOT_PARAM] [-S SPARSE_S=
-IZE] [-m NUM_COROUTINES] [-W] [--salvage] FILENAME [FILENAME2 [...]] OUTPUT=
-_FILENAME
->  ERST
->=20=20
->  DEF("create", img_create,
->      "create [--object objectdef] [-q] [-f fmt] [-b backing_file] [-F bac=
-king_fmt] [-u] [-o options] filename [size]")
-> -STEXI
-> -@item create [--object @var{objectdef}] [-q] [-f @var{fmt}] [-b @var{bac=
-king_file}] [-F @var{backing_fmt}] [-u] [-o @var{options}] @var{filename} [=
-@var{size}]
-> -ETEXI
->  SRST
->  .. option:: create [--object OBJECTDEF] [-q] [-f FMT] [-b BACKING_FILE] =
-[-F BACKING_FMT] [-u] [-o OPTIONS] FILENAME [SIZE]
->  ERST
->=20=20
->  DEF("dd", img_dd,
->      "dd [--image-opts] [-U] [-f fmt] [-O output_fmt] [bs=3Dblock_size] [=
-count=3Dblocks] [skip=3Dblocks] if=3Dinput of=3Doutput")
-> -STEXI
-> -@item dd [--image-opts] [-U] [-f @var{fmt}] [-O @var{output_fmt}] [bs=3D=
-@var{block_size}] [count=3D@var{blocks}] [skip=3D@var{blocks}] if=3D@var{in=
-put} of=3D@var{output}
-> -ETEXI
->  SRST
->  .. option:: dd [--image-opts] [-U] [-f FMT] [-O OUTPUT_FMT] [bs=3DBLOCK_=
-SIZE] [count=3DBLOCKS] [skip=3DBLOCKS] if=3DINPUT of=3DOUTPUT
->  ERST
->=20=20
->  DEF("info", img_info,
->      "info [--object objectdef] [--image-opts] [-f fmt] [--output=3Dofmt]=
- [--backing-chain] [-U] filename")
-> -STEXI
-> -@item info [--object @var{objectdef}] [--image-opts] [-f @var{fmt}] [--o=
-utput=3D@var{ofmt}] [--backing-chain] [-U] @var{filename}
-> -ETEXI
->  SRST
->  .. option:: info [--object OBJECTDEF] [--image-opts] [-f FMT] [--output=
-=3DOFMT] [--backing-chain] [-U] FILENAME
->  ERST
->=20=20
->  DEF("map", img_map,
->      "map [--object objectdef] [--image-opts] [-f fmt] [--output=3Dofmt] =
-[-U] filename")
-> -STEXI
-> -@item map [--object @var{objectdef}] [--image-opts] [-f @var{fmt}] [--ou=
-tput=3D@var{ofmt}] [-U] @var{filename}
-> -ETEXI
->  SRST
->  .. option:: map [--object OBJECTDEF] [--image-opts] [-f FMT] [--output=
-=3DOFMT] [-U] FILENAME
->  ERST
->=20=20
->  DEF("measure", img_measure,
->  "measure [--output=3Dofmt] [-O output_fmt] [-o options] [--size N | [--o=
-bject objectdef] [--image-opts] [-f fmt] [-l snapshot_param] filename]")
-> -STEXI
-> -@item measure [--output=3D@var{ofmt}] [-O @var{output_fmt}] [-o @var{opt=
-ions}] [--size @var{N} | [--object @var{objectdef}] [--image-opts] [-f @var=
-{fmt}] [-l @var{snapshot_param}] @var{filename}]
-> -ETEXI
->  SRST
->  .. option:: measure [--output=3DOFMT] [-O OUTPUT_FMT] [-o OPTIONS] [--si=
-ze N | [--object OBJECTDEF] [--image-opts] [-f FMT] [-l SNAPSHOT_PARAM] FIL=
-ENAME]
->  ERST
->=20=20
->  DEF("snapshot", img_snapshot,
->      "snapshot [--object objectdef] [--image-opts] [-U] [-q] [-l | -a sna=
-pshot | -c snapshot | -d snapshot] filename")
-> -STEXI
-> -@item snapshot [--object @var{objectdef}] [--image-opts] [-U] [-q] [-l |=
- -a @var{snapshot} | -c @var{snapshot} | -d @var{snapshot}] @var{filename}
-> -ETEXI
->  SRST
->  .. option:: snapshot [--object OBJECTDEF] [--image-opts] [-U] [-q] [-l |=
- -a SNAPSHOT | -c SNAPSHOT | -d SNAPSHOT] FILENAME
->  ERST
->=20=20
->  DEF("rebase", img_rebase,
->      "rebase [--object objectdef] [--image-opts] [-U] [-q] [-f fmt] [-t c=
-ache] [-T src_cache] [-p] [-u] -b backing_file [-F backing_fmt] filename")
-> -STEXI
-> -@item rebase [--object @var{objectdef}] [--image-opts] [-U] [-q] [-f @va=
-r{fmt}] [-t @var{cache}] [-T @var{src_cache}] [-p] [-u] -b @var{backing_fil=
-e} [-F @var{backing_fmt}] @var{filename}
-> -ETEXI
->  SRST
->  .. option:: rebase [--object OBJECTDEF] [--image-opts] [-U] [-q] [-f FMT=
-] [-t CACHE] [-T SRC_CACHE] [-p] [-u] -b BACKING_FILE [-F BACKING_FMT] FILE=
-NAME
->  ERST
->=20=20
->  DEF("resize", img_resize,
->      "resize [--object objectdef] [--image-opts] [-f fmt] [--preallocatio=
-n=3Dprealloc] [-q] [--shrink] filename [+ | -]size")
-> -STEXI
-> -@item resize [--object @var{objectdef}] [--image-opts] [-f @var{fmt}] [-=
--preallocation=3D@var{prealloc}] [-q] [--shrink] @var{filename} [+ | -]@var=
-{size}
-> -ETEXI
->  SRST
->  .. option:: resize [--object OBJECTDEF] [--image-opts] [-f FMT] [--preal=
-location=3DPREALLOC] [-q] [--shrink] FILENAME [+ | -]SIZE
->  ERST
+> -Display verbose information about command execution.
 > -
-> -STEXI
 > -@end table
-> -ETEXI
+> -
+> -The following commands are valid:
+> -
+> -@table @option
+> -
+> -@item @var{list} @var{BINARY} @var{PATTERN...}
+> -
+> -List all the probe names provided by @var{BINARY} that match
+> -@var{PATTERN}.
+> -
+> -If @var{BINARY} is not an absolute path, it will be located by searching
+> -the directories listed in the @code{$PATH} environment variable.
+> -
+> -@var{PATTERN} is a plain string that is used to filter the results of
+> -this command. It may optionally contain a @code{*} wildcard to facilitate
+> -matching multiple probes without listing each one explicitly. Multiple
+> -@var{PATTERN} arguments may be given, causing listing of probes that mat=
+ch
+> -any of the listed names. If no @var{PATTERN} is given, the all possible
+> -probes will be listed.
+> -
+> -For example, to list all probes available in the @command{qemu-system-x8=
+6_64}
+> -binary:
+> -
+> -@example
+> -$ qemu-trace-stap list qemu-system-x86_64
+> -@end example
+> -
+> -To filter the list to only cover probes related to QEMU's cryptographic
+> -subsystem, in a binary outside @code{$PATH}
+> -
+> -@example
+> -$ qemu-trace-stap list /opt/qemu/4.0.0/bin/qemu-system-x86_64 'qcrypto*'
+> -@end example
+> -
+> -
+> -@item @var{run} @var{OPTIONS} @var{BINARY} @var{PATTERN...}
+> -
+> -Run a trace session, printing formatted output any time a process that is
+> -executing @var{BINARY} triggers a probe matching @var{PATTERN}.
+> -
+> -If @var{BINARY} is not an absolute path, it will be located by searching
+> -the directories listed in the @code{$PATH} environment variable.
+> -
+> -@var{PATTERN} is a plain string that matches a probe name shown by the
+> -@var{list} command. It may optionally contain a @code{*} wildcard to
+> -facilitate matching multiple probes without listing each one explicitly.
+> -Multiple @var{PATTERN} arguments may be given, causing all matching prob=
+es
+> -to be monitored. At least one @var{PATTERN} is required, since stap is n=
+ot
+> -capable of tracing all known QEMU probes concurrently without overflowing
+> -its trace buffer.
+> -
+> -Invocation of this command does not need to be synchronized with
+> -invocation of the QEMU process(es). It will match probes on all
+> -existing running processes and all future launched processes,
+> -unless told to only monitor a specific process.
+> -
+> -Valid command specific options are:
+> -
+> -@table @option
+> -@item @var{--pid=3DPID}, @var{-p PID}
+> -
+> -Restrict the tracing session so that it only triggers for the process
+> -identified by @code{PID}.
+> -
+> -@end table
+> -
+> -For example, to monitor all processes executing @command{qemu-system-x86=
+_64}
+> -as found on $PATH, displaying all I/O related probes:
+> -
+> -@example
+> -$ qemu-trace-stap run qemu-system-x86_64 'qio*'
+> -@end example
+> -
+> -To monitor only the QEMU process with PID 1732
+> -
+> -@example
+> -$ qemu-trace-stap run --pid=3D1732 qemu-system-x86_64 'qio*'
+> -@end example
+> -
+> -To monitor QEMU processes running an alternative binary outside of
+> -@code{$PATH}, displaying verbose information about setup of the
+> -tracing environment:
+> -
+> -@example
+> -$ qemu-trace-stap -v run /opt/qemu/4.0.0/qemu-system-x86_64 'qio*'
+> -@end example
+> -
+> -@end table
+> -
+> -@c man end
+> -
+> -@ignore
+> -
+> -@setfilename qemu-trace-stap
+> -@settitle QEMU SystemTap trace tool
+> -
+> -@c man begin LICENSE
+> -
+> -Copyright (C) 2019 Red Hat, Inc.
+> -
+> -This program is free software; you can redistribute it and/or modify
+> -it under the terms of the GNU General Public License as published by
+> -the Free Software Foundation; either version 2 of the License, or
+> -# (at your option) any later version.
+> -
+> -@c man end
+> -
+> -@c man begin SEEALSO
+> -qemu(1), stap(1)
+> -@c man end
+> -
+> -@end ignore
 
 
 --=20
