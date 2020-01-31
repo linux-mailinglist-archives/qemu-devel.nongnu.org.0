@@ -2,62 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1ADDD14F12A
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 18:16:45 +0100 (CET)
-Received: from localhost ([::1]:56828 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A272D14F11D
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 18:12:40 +0100 (CET)
+Received: from localhost ([::1]:56746 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ixZuO-0006MJ-6j
-	for lists+qemu-devel@lfdr.de; Fri, 31 Jan 2020 12:16:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59951)
+	id 1ixZqR-0002ft-8p
+	for lists+qemu-devel@lfdr.de; Fri, 31 Jan 2020 12:12:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58666)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1ixZtO-0005vk-7G
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 12:15:43 -0500
+ (envelope-from <eblake@redhat.com>) id 1ixZpB-0001PI-O4
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 12:11:22 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1ixZtN-00086l-16
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 12:15:42 -0500
-Received: from indium.canonical.com ([91.189.90.7]:38480)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1ixZtM-0007zn-S5
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 12:15:40 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1ixZtJ-0002gI-RY
- for <qemu-devel@nongnu.org>; Fri, 31 Jan 2020 17:15:37 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id CBFB42E80C0
- for <qemu-devel@nongnu.org>; Fri, 31 Jan 2020 17:15:37 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 31 Jan 2020 17:02:46 -0000
-From: =?utf-8?q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>
+ (envelope-from <eblake@redhat.com>) id 1ixZp9-0002kH-R7
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 12:11:20 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:30555
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1ixZp9-0002he-NL
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 12:11:19 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1580490678;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=XmYUhX+Coo8LK5j6iZ/AGX0kk82S6qjoh9Wg6ExfkyQ=;
+ b=TI75IPFgQMTe0S/ZWCAh7MFntWmbNUm/wjPB7/FXixIf/E86evriHZF8Ku6agqfSjHcyiD
+ q/dgX7SyQVcK4RAzRWZTwYlsT/IG1vXJxxUbQjVqSHlGzEIbm4KRGehKJ/SqzXaSmFULpB
+ KFje2KxuPK3CRE7y70Lg0N7oPODszq0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-341-IkSHn0a0O6qX5_nIt96ScQ-1; Fri, 31 Jan 2020 12:11:16 -0500
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A4F68800D5B;
+ Fri, 31 Jan 2020 17:11:15 +0000 (UTC)
+Received: from [10.3.116.181] (ovpn-116-181.phx2.redhat.com [10.3.116.181])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 379281001B2B;
+ Fri, 31 Jan 2020 17:11:12 +0000 (UTC)
+Subject: Re: [PATCH v2 0/2] finish qemu-nbd --partition deprecation
+From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: tcg testcase
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: stvlvrn
-X-Launchpad-Bug-Reporter: Stevie Lavern (stvlvrn)
-X-Launchpad-Bug-Modifier: =?utf-8?q?Alex_Benn=C3=A9e_=28ajbennee=29?=
-References: <158038956597.5319.13308249814127344774.malonedeb@chaenomeles.canonical.com>
-Message-Id: <158049016711.20266.13259801440809425215.launchpad@wampee.canonical.com>
-Subject: [Bug 1861404] Re: AVX instruction VMOVDQU implementation error for
- YMM registers
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="0a62c17273454a1313f81a74a2198ec30b44c7b6";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 6daf66a9be2463601a9f02393ec9492c3e484414
+References: <20200123164650.1741798-1-eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <b3fe3a5b-0692-fb35-55ec-281fc2699e98@redhat.com>
+Date: Fri, 31 Jan 2020 11:11:12 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
+MIME-Version: 1.0
+In-Reply-To: <20200123164650.1741798-1-eblake@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-MC-Unique: IkSHn0a0O6qX5_nIt96ScQ-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -66,88 +75,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1861404 <1861404@bugs.launchpad.net>
+Cc: peter.maydell@linaro.org,
+ "libvirt-list@redhat.com" <libvirt-list@redhat.com>, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Tags added: tcg testcase
+ping
 
--- =
+On 1/23/20 10:46 AM, Eric Blake wrote:
+> Based-on: <20200116141511.16849-1-peter.maydell@linaro.org>
+> (0/3 convert qemu-nbd, qemu-block-drivers to rST)
+> 
+> In v2:
+> - rebased on top of rST doc changes
+> - patch 1 added
+> 
+> Eric Blake (2):
+>    docs: Fix typo in qemu-nbd -P replacement
+>    qemu-nbd: Removed deprecated --partition option
+> 
+>   docs/interop/qemu-nbd.rst |  15 ++---
+>   qemu-deprecated.texi      |  49 ++++++--------
+>   qemu-nbd.c                | 133 +-------------------------------------
+>   3 files changed, 24 insertions(+), 173 deletions(-)
+> 
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1861404
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
-Title:
-  AVX instruction VMOVDQU implementation error for YMM registers
-
-Status in QEMU:
-  New
-
-Bug description:
-  Hi,
-
-  Tested with Qemu 4.2.0, and with git version
-  bddff6f6787c916b0e9d63ef9e4d442114257739.
-
-  The x86 AVX instruction VMOVDQU doesn't work properly with YMM registers =
-(32 bytes).
-  It works with XMM registers (16 bytes) though.
-
-  See the attached test case `ymm.c`: when copying from memory-to-ymm0
-  and then back from ymm0-to-memory using VMOVDQU, Qemu only copies the
-  first 16 of the total 32 bytes.
-
-  ```
-  user@ubuntu ~/Qemu % gcc -o ymm ymm.c -Wall -Wextra -Werror
-
-  user@ubuntu ~/Qemu % ./ymm
-  00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F 10 11 12 13 14 15 16 17 1=
-8 19 1A 1B 1C 1D 1E 1F
-
-  user@ubuntu ~/Qemu % ./x86_64-linux-user/qemu-x86_64 -cpu max ymm
-  00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F 00 00 00 00 00 00 00 00 0=
-0 00 00 00 00 00 00 00
-  ```
-
-  This seems to be because in `translate.c > gen_sse()`, the case
-  handling the VMOVDQU instruction calls `gen_ldo_env_A0` which always
-  performs a 16 bytes copy using two 8 bytes load and store operations
-  (with `tcg_gen_qemu_ld_i64` and `tcg_gen_st_i64`).
-
-  Instead, the `gen_ldo_env_A0` function should generate a copy with a
-  size corresponding to the used register.
-
-  =
-
-  ```
-  static void gen_sse(CPUX86State *env, DisasContext *s, int b,
-                      target_ulong pc_start, int rex_r)
-  {
-          [...]
-          case 0x26f: /* movdqu xmm, ea */
-              if (mod !=3D 3) {
-                  gen_lea_modrm(env, s, modrm);
-                  gen_ldo_env_A0(s, offsetof(CPUX86State, xmm_regs[reg]));
-              } else { =
-
-          [...]
-  ```
-
-  ```
-  static inline void gen_ldo_env_A0(DisasContext *s, int offset)
-  {
-      int mem_index =3D s->mem_index;
-      tcg_gen_qemu_ld_i64(s->tmp1_i64, s->A0, mem_index, MO_LEQ);
-      tcg_gen_st_i64(s->tmp1_i64, cpu_env, offset + offsetof(ZMMReg, ZMM_Q(=
-0)));
-      tcg_gen_addi_tl(s->tmp0, s->A0, 8);
-      tcg_gen_qemu_ld_i64(s->tmp1_i64, s->tmp0, mem_index, MO_LEQ);
-      tcg_gen_st_i64(s->tmp1_i64, cpu_env, offset + offsetof(ZMMReg, ZMM_Q(=
-1)));
-  }
-  ```
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1861404/+subscriptions
 
