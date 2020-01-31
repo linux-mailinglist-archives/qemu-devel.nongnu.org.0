@@ -2,62 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C42CD14F39F
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 22:16:55 +0100 (CET)
-Received: from localhost ([::1]:59644 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F93014F39B
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 22:12:33 +0100 (CET)
+Received: from localhost ([::1]:59574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ixdeo-0006d5-Rd
-	for lists+qemu-devel@lfdr.de; Fri, 31 Jan 2020 16:16:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33899)
+	id 1ixdaZ-00048d-TC
+	for lists+qemu-devel@lfdr.de; Fri, 31 Jan 2020 16:12:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60530)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1ixddc-0006Cz-L5
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 16:15:42 -0500
+ (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1ixdZD-0002r0-QP
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 16:11:08 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1ixdda-0006u6-Bk
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 16:15:40 -0500
-Received: from indium.canonical.com ([91.189.90.7]:40136)
+ (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1ixdZC-00036M-NT
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 16:11:07 -0500
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:37439)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1ixdda-0006sO-4j
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 16:15:38 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1ixddY-0007jg-Ve
- for <qemu-devel@nongnu.org>; Fri, 31 Jan 2020 21:15:36 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id D4A5D2E80C8
- for <qemu-devel@nongnu.org>; Fri, 31 Jan 2020 21:15:36 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 31 Jan 2020 21:02:07 -0000
-From: Richard Henderson <rth@twiddle.net>
+ (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1ixdZC-00033v-Ex; Fri, 31 Jan 2020 16:11:06 -0500
+Received: by mail-wr1-x442.google.com with SMTP id w15so10303584wru.4;
+ Fri, 31 Jan 2020 13:11:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=V2AmHIlbU76zIkcF/u/ceGhk60yLlbr1/AGmeHDgj7Q=;
+ b=vch9QieTrt2vV8Vxr2DnkzzFKYP07yX+t93oPBqOAZuBCd7Lry+L77DvLSxpFeaoGY
+ t3pGyAtinKZyX3PQmE7HytBwHzgCyvZnk4ap/C6twZ4bbJ2XFT1FhTxYgXrFrsGhqT3l
+ Wy6PIaqF0KWIGmW8dLYhoVQOAp3T3nzrKuK0exy/F314wR0Iop9nnMjbWogz/2mhUqDr
+ xFt0KPmSBTn2aoeVPw16XlDZHU5C2EGAzDjf6hmA2c9vnb+6x8fKrU0r16zaOW7ZDPHj
+ LHNl3g+BvvByzG/xWA1aeWLj03Kh68BxmWUX58BEFQf+rR8TeZIM2A7TwlpRU58UO4os
+ Ye5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=V2AmHIlbU76zIkcF/u/ceGhk60yLlbr1/AGmeHDgj7Q=;
+ b=s/sr51iFSKF6nEvIAzMhzMrvOnos4SJXWiBCyySMAkoSplhBtiZnMzeNigdDRnvF56
+ V7rrO06GFM2EI2gxhqQk0z8J6/JdLjhoSd7YfvkbWK7fT+/ohB6vofjgXx1Y2XV9bXPk
+ 993RzKBYAWFbaFbrBD7jjkDpVxcxp6v+zfyIwOMH8AI/Td+tf5ZrtErqpNDvSxVUWnW9
+ 4mcMJMuLKyDCKE8pM1ULnZs8xa6m1oFwQAzDxJahXcP0cLiLKCXxPN13ort7z1L2v7fe
+ 1jJpxvInFcd4vhnC8hqUtShu4pRJJUT6RP180YceDnJHYlFSKKAJ92xdUC8PzAGVOG7c
+ hqEQ==
+X-Gm-Message-State: APjAAAXJmrpPs8PeLXdpESNe30UlQJzfx6jqEnOb3I6UpUVVTR0s0nuA
+ O883pFB/HWf0cJm4UDqi950tS46i
+X-Google-Smtp-Source: APXvYqyzijMY7qF90uvdKpndvsEY+UWL3nHGJu3iLgGeZ1R2IY1ihpxPo5aWm8H8wEVufYD72uLcbg==
+X-Received: by 2002:adf:fe43:: with SMTP id m3mr316471wrs.213.1580505065011;
+ Fri, 31 Jan 2020 13:11:05 -0800 (PST)
+Received: from x1w.redhat.com (113.red-83-57-172.dynamicip.rima-tde.net.
+ [83.57.172.113])
+ by smtp.gmail.com with ESMTPSA id d204sm12236025wmd.30.2020.01.31.13.11.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 31 Jan 2020 13:11:03 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: tcg testcase
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: amarkovic rth stvlvrn
-X-Launchpad-Bug-Reporter: Stevie Lavern (stvlvrn)
-X-Launchpad-Bug-Modifier: Richard Henderson (rth)
-References: <158038956597.5319.13308249814127344774.malonedeb@chaenomeles.canonical.com>
-Message-Id: <158050452751.8211.8131089451171466061.malone@chaenomeles.canonical.com>
-Subject: [Bug 1861404] Re: AVX instruction VMOVDQU implementation error for
- YMM registers
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="0a62c17273454a1313f81a74a2198ec30b44c7b6";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 83cfe7140971f527652d2254e522e429877de159
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+Subject: [PATCH 0/2] tests/acceptance/integratorcp: Verify Tux is displayed on
+ framebuffer
+Date: Fri, 31 Jan 2020 22:11:00 +0100
+Message-Id: <20200131211102.29612-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.21.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::442
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -66,97 +80,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1861404 <1861404@bugs.launchpad.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-arm@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Because the sse code is sloppy, and it was interpreted
-as the sse instruction movdqu.
+Hi,
 
-AVX support was coded for GSoC last year,
+This is a simple Avocado test that use OpenCV to find the
+Tux logo on the framebuffer screen dump.
 
-https://lists.nongnu.org/archive/html/qemu-devel/2019-08/msg05369.html
+It is very fast, around 4 seconds on my laptop.
 
-but it has not been completely reviewed and committed.
+Tux found by OpenCV: https://pasteboard.co/ISz7kr8.png
 
-There is no support for AVX in master.
+Regards,
 
--- =
+Phil.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1861404
+Based-on: <20200131170233.14584-1-thuth@redhat.com>
+"tests/acceptance: Add a test for the integratorcp arm machine"
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg675828.html
 
-Title:
-  AVX instruction VMOVDQU implementation error for YMM registers
+Philippe Mathieu-Daudé (2):
+  tests/acceptance: Extract boot_integratorcp() from test_integratorcp()
+  tests/acceptance/integratorcp: Verify Tux is displayed on framebuffer
 
-Status in QEMU:
-  New
+ tests/acceptance/machine_arm_integratorcp.py | 67 ++++++++++++++++++--
+ 1 file changed, 61 insertions(+), 6 deletions(-)
 
-Bug description:
-  Hi,
+-- 
+2.21.1
 
-  Tested with Qemu 4.2.0, and with git version
-  bddff6f6787c916b0e9d63ef9e4d442114257739.
-
-  The x86 AVX instruction VMOVDQU doesn't work properly with YMM registers =
-(32 bytes).
-  It works with XMM registers (16 bytes) though.
-
-  See the attached test case `ymm.c`: when copying from memory-to-ymm0
-  and then back from ymm0-to-memory using VMOVDQU, Qemu only copies the
-  first 16 of the total 32 bytes.
-
-  ```
-  user@ubuntu ~/Qemu % gcc -o ymm ymm.c -Wall -Wextra -Werror
-
-  user@ubuntu ~/Qemu % ./ymm
-  00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F 10 11 12 13 14 15 16 17 1=
-8 19 1A 1B 1C 1D 1E 1F
-
-  user@ubuntu ~/Qemu % ./x86_64-linux-user/qemu-x86_64 -cpu max ymm
-  00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F 00 00 00 00 00 00 00 00 0=
-0 00 00 00 00 00 00 00
-  ```
-
-  This seems to be because in `translate.c > gen_sse()`, the case
-  handling the VMOVDQU instruction calls `gen_ldo_env_A0` which always
-  performs a 16 bytes copy using two 8 bytes load and store operations
-  (with `tcg_gen_qemu_ld_i64` and `tcg_gen_st_i64`).
-
-  Instead, the `gen_ldo_env_A0` function should generate a copy with a
-  size corresponding to the used register.
-
-  =
-
-  ```
-  static void gen_sse(CPUX86State *env, DisasContext *s, int b,
-                      target_ulong pc_start, int rex_r)
-  {
-          [...]
-          case 0x26f: /* movdqu xmm, ea */
-              if (mod !=3D 3) {
-                  gen_lea_modrm(env, s, modrm);
-                  gen_ldo_env_A0(s, offsetof(CPUX86State, xmm_regs[reg]));
-              } else { =
-
-          [...]
-  ```
-
-  ```
-  static inline void gen_ldo_env_A0(DisasContext *s, int offset)
-  {
-      int mem_index =3D s->mem_index;
-      tcg_gen_qemu_ld_i64(s->tmp1_i64, s->A0, mem_index, MO_LEQ);
-      tcg_gen_st_i64(s->tmp1_i64, cpu_env, offset + offsetof(ZMMReg, ZMM_Q(=
-0)));
-      tcg_gen_addi_tl(s->tmp0, s->A0, 8);
-      tcg_gen_qemu_ld_i64(s->tmp1_i64, s->tmp0, mem_index, MO_LEQ);
-      tcg_gen_st_i64(s->tmp1_i64, cpu_env, offset + offsetof(ZMMReg, ZMM_Q(=
-1)));
-  }
-  ```
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1861404/+subscriptions
 
