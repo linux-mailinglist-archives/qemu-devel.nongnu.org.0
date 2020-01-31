@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D91B614E8B8
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 07:19:22 +0100 (CET)
-Received: from localhost ([::1]:48830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8885A14E8C6
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 07:25:18 +0100 (CET)
+Received: from localhost ([::1]:48952 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ixPeD-0005yj-Tr
-	for lists+qemu-devel@lfdr.de; Fri, 31 Jan 2020 01:19:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59275)
+	id 1ixPjx-00005H-HZ
+	for lists+qemu-devel@lfdr.de; Fri, 31 Jan 2020 01:25:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59574)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1ixPUu-0006iB-GG
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 01:09:45 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1ixPVE-0007aj-He
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 01:10:05 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1ixPUs-0000Ur-Th
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 01:09:44 -0500
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:49775 helo=ozlabs.org)
+ (envelope-from <dgibson@ozlabs.org>) id 1ixPVD-0000w3-Ex
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 01:10:04 -0500
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:35313 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1ixPUs-0000Pm-Gx; Fri, 31 Jan 2020 01:09:42 -0500
+ id 1ixPVD-0000QE-43; Fri, 31 Jan 2020 01:10:03 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4886Hs66Xdz9sSK; Fri, 31 Jan 2020 17:09:29 +1100 (AEDT)
+ id 4886Hs6m0Cz9sSP; Fri, 31 Jan 2020 17:09:29 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1580450969;
- bh=/gMtryY5Y8bw1UckL7OkaDAyp68AQ1ZkrQyBfh5fIBQ=;
+ bh=T5HcPQ8r1av4lIVQhAhCglYzvv+qvm2F5/heyqORLNc=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=dlA7uKdORs5Hap1/wggcOEi5VS7oxgw9w92Xc5q/yxikPBJA8kmCePh/Kt42T4HkI
- RisyrolsMrK7/BKH8FlGosGJ1fiO67XJTobgxhTJvHR9proAfgzwiTxobFOBsjo/D6
- rdhD0YfgbOQ0X3s+V92PnnKQSPJ4dAYEIzohJ7Yg=
+ b=Dz+uyYOrBLwVdlL/qHGNijlOP8C7TmmeXhkLYqbpT3rYpzAvT6myYMBws5Ryk3vYX
+ hGsRQZ4EcJkm4GVspo0pjDZc+ShKgimyW942eQHcCIcISm4VMEIiFg5rX8S0+SpB4i
+ WaCiPHLi/z2KsSUurTqpihy8u0FRGlPudqBctVoI=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 13/34] tpm: Move tpm_tis_show_buffer to tpm_util.c
-Date: Fri, 31 Jan 2020 17:09:03 +1100
-Message-Id: <20200131060924.147449-14-david@gibson.dropbear.id.au>
+Subject: [PULL 14/34] spapr: Implement get_dt_compatible() callback
+Date: Fri, 31 Jan 2020 17:09:04 +1100
+Message-Id: <20200131060924.147449-15-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200131060924.147449-1-david@gibson.dropbear.id.au>
 References: <20200131060924.147449-1-david@gibson.dropbear.id.au>
@@ -56,156 +56,70 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: lvivier@redhat.com, Stefan Berger <stefanb@linux.vnet.ibm.com>,
  qemu-devel@nongnu.org, groug@kaod.org, qemu-ppc@nongnu.org,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  David Gibson <david@gibson.dropbear.id.au>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Stefan Berger <stefanb@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Stefan Berger <stefanb@linux.vnet.ibm.com>
 
+For devices that cannot be statically initialized, implement a
+get_dt_compatible() callback that allows us to ask the device for
+the 'compatible' value.
+
 Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
-Message-Id: <20200121152935.649898-2-stefanb@linux.ibm.com>
+Message-Id: <20200121152935.649898-3-stefanb@linux.ibm.com>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/tpm/tpm_tis.c    | 32 ++++----------------------------
- hw/tpm/tpm_util.c   | 25 +++++++++++++++++++++++++
- hw/tpm/tpm_util.h   |  3 +++
- hw/tpm/trace-events |  2 +-
- 4 files changed, 33 insertions(+), 29 deletions(-)
+ hw/ppc/spapr_vio.c         | 11 +++++++++--
+ include/hw/ppc/spapr_vio.h |  1 +
+ 2 files changed, 10 insertions(+), 2 deletions(-)
 
-diff --git a/hw/tpm/tpm_tis.c b/hw/tpm/tpm_tis.c
-index 5362df2711..31facb896d 100644
---- a/hw/tpm/tpm_tis.c
-+++ b/hw/tpm/tpm_tis.c
-@@ -107,30 +107,6 @@ static uint8_t tpm_tis_locality_from_addr(hwaddr add=
-r)
-     return (uint8_t)((addr >> TPM_TIS_LOCALITY_SHIFT) & 0x7);
- }
+diff --git a/hw/ppc/spapr_vio.c b/hw/ppc/spapr_vio.c
+index f14944e900..0b085eabe4 100644
+--- a/hw/ppc/spapr_vio.c
++++ b/hw/ppc/spapr_vio.c
+@@ -87,6 +87,7 @@ static int vio_make_devnode(SpaprVioDevice *dev,
+     SpaprVioDeviceClass *pc =3D VIO_SPAPR_DEVICE_GET_CLASS(dev);
+     int vdevice_off, node_off, ret;
+     char *dt_name;
++    const char *dt_compatible;
 =20
--static void tpm_tis_show_buffer(const unsigned char *buffer,
--                                size_t buffer_size, const char *string)
--{
--    size_t len, i;
--    char *line_buffer, *p;
--
--    len =3D MIN(tpm_cmd_get_size(buffer), buffer_size);
--
--    /*
--     * allocate enough room for 3 chars per buffer entry plus a
--     * newline after every 16 chars and a final null terminator.
--     */
--    line_buffer =3D g_malloc(len * 3 + (len / 16) + 1);
--
--    for (i =3D 0, p =3D line_buffer; i < len; i++) {
--        if (i && !(i % 16)) {
--            p +=3D sprintf(p, "\n");
--        }
--        p +=3D sprintf(p, "%.2X ", buffer[i]);
--    }
--    trace_tpm_tis_show_buffer(string, len, line_buffer);
--
--    g_free(line_buffer);
--}
-=20
- /*
-  * Set the given flags in the STS register by clearing the register but
-@@ -156,8 +132,8 @@ static void tpm_tis_sts_set(TPMLocality *l, uint32_t =
-flags)
-  */
- static void tpm_tis_tpm_send(TPMState *s, uint8_t locty)
- {
--    if (trace_event_get_state_backends(TRACE_TPM_TIS_SHOW_BUFFER)) {
--        tpm_tis_show_buffer(s->buffer, s->be_buffer_size, "To TPM");
-+    if (trace_event_get_state_backends(TRACE_TPM_UTIL_SHOW_BUFFER)) {
-+        tpm_util_show_buffer(s->buffer, s->be_buffer_size, "To TPM");
+     vdevice_off =3D fdt_path_offset(fdt, "/vdevice");
+     if (vdevice_off < 0) {
+@@ -113,9 +114,15 @@ static int vio_make_devnode(SpaprVioDevice *dev,
+         }
      }
 =20
-     /*
-@@ -325,8 +301,8 @@ static void tpm_tis_request_completed(TPMIf *ti, int =
-ret)
-     s->loc[locty].state =3D TPM_TIS_STATE_COMPLETION;
-     s->rw_offset =3D 0;
-=20
--    if (trace_event_get_state_backends(TRACE_TPM_TIS_SHOW_BUFFER)) {
--        tpm_tis_show_buffer(s->buffer, s->be_buffer_size, "From TPM");
-+    if (trace_event_get_state_backends(TRACE_TPM_UTIL_SHOW_BUFFER)) {
-+        tpm_util_show_buffer(s->buffer, s->be_buffer_size, "From TPM");
-     }
-=20
-     if (TPM_TIS_IS_VALID_LOCTY(s->next_locty)) {
-diff --git a/hw/tpm/tpm_util.c b/hw/tpm/tpm_util.c
-index 62b091f0c0..c0a0f3d71f 100644
---- a/hw/tpm/tpm_util.c
-+++ b/hw/tpm/tpm_util.c
-@@ -350,3 +350,28 @@ void tpm_sized_buffer_reset(TPMSizedBuffer *tsb)
-     tsb->buffer =3D NULL;
-     tsb->size =3D 0;
- }
-+
-+void tpm_util_show_buffer(const unsigned char *buffer,
-+                          size_t buffer_size, const char *string)
-+{
-+    size_t len, i;
-+    char *line_buffer, *p;
-+
-+    len =3D MIN(tpm_cmd_get_size(buffer), buffer_size);
-+
-+    /*
-+     * allocate enough room for 3 chars per buffer entry plus a
-+     * newline after every 16 chars and a final null terminator.
-+     */
-+    line_buffer =3D g_malloc(len * 3 + (len / 16) + 1);
-+
-+    for (i =3D 0, p =3D line_buffer; i < len; i++) {
-+        if (i && !(i % 16)) {
-+            p +=3D sprintf(p, "\n");
-+        }
-+        p +=3D sprintf(p, "%.2X ", buffer[i]);
+-    if (pc->dt_compatible) {
++    if (pc->get_dt_compatible) {
++        dt_compatible =3D pc->get_dt_compatible(dev);
++    } else {
++        dt_compatible =3D pc->dt_compatible;
 +    }
-+    trace_tpm_util_show_buffer(string, len, line_buffer);
 +
-+    g_free(line_buffer);
-+}
-diff --git a/hw/tpm/tpm_util.h b/hw/tpm/tpm_util.h
-index f397ac21b8..7889081fba 100644
---- a/hw/tpm/tpm_util.h
-+++ b/hw/tpm/tpm_util.h
-@@ -79,4 +79,7 @@ typedef struct TPMSizedBuffer {
++    if (dt_compatible) {
+         ret =3D fdt_setprop_string(fdt, node_off, "compatible",
+-                                 pc->dt_compatible);
++                                 dt_compatible);
+         if (ret < 0) {
+             return ret;
+         }
+diff --git a/include/hw/ppc/spapr_vio.h b/include/hw/ppc/spapr_vio.h
+index ce6d9b0c66..bed7df60e3 100644
+--- a/include/hw/ppc/spapr_vio.h
++++ b/include/hw/ppc/spapr_vio.h
+@@ -58,6 +58,7 @@ typedef struct SpaprVioDeviceClass {
+     void (*realize)(SpaprVioDevice *dev, Error **errp);
+     void (*reset)(SpaprVioDevice *dev);
+     int (*devnode)(SpaprVioDevice *dev, void *fdt, int node_off);
++    const char *(*get_dt_compatible)(SpaprVioDevice *dev);
+ } SpaprVioDeviceClass;
 =20
- void tpm_sized_buffer_reset(TPMSizedBuffer *tsb);
-=20
-+void tpm_util_show_buffer(const unsigned char *buffer,
-+                          size_t buffer_size, const char *string);
-+
- #endif /* TPM_TPM_UTIL_H */
-diff --git a/hw/tpm/trace-events b/hw/tpm/trace-events
-index 89804bcd64..357c9e9a84 100644
---- a/hw/tpm/trace-events
-+++ b/hw/tpm/trace-events
-@@ -14,6 +14,7 @@ tpm_util_get_buffer_size_len(uint32_t len, size_t expec=
-ted) "tpm_resp->len =3D %u,
- tpm_util_get_buffer_size_hdr_len2(uint32_t len, size_t expected) "tpm2_r=
-esp->hdr.len =3D %u, expected =3D %zu"
- tpm_util_get_buffer_size_len2(uint32_t len, size_t expected) "tpm2_resp-=
->len =3D %u, expected =3D %zu"
- tpm_util_get_buffer_size(size_t len) "buffersize of device: %zu"
-+tpm_util_show_buffer(const char *direction, size_t len, const char *buf)=
- "direction: %s len: %zu\n%s"
-=20
- # tpm_emulator.c
- tpm_emulator_set_locality(uint8_t locty) "setting locality to %d"
-@@ -36,7 +37,6 @@ tpm_emulator_pre_save(void) ""
- tpm_emulator_inst_init(void) ""
-=20
- # tpm_tis.c
--tpm_tis_show_buffer(const char *direction, size_t len, const char *buf) =
-"direction: %s len: %zu\nbuf: %s"
- tpm_tis_raise_irq(uint32_t irqmask) "Raising IRQ for flag 0x%08x"
- tpm_tis_new_active_locality(uint8_t locty) "Active locality is now %d"
- tpm_tis_abort(uint8_t locty) "New active locality is %d"
+ struct SpaprVioDevice {
 --=20
 2.24.1
 
