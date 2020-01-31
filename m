@@ -2,47 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6D0914E66F
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 01:14:40 +0100 (CET)
-Received: from localhost ([::1]:41382 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3464C14E64E
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 01:04:00 +0100 (CET)
+Received: from localhost ([::1]:41202 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ixJxH-0001Eu-PB
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 19:14:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58786)
+	id 1ixJmx-0006wH-9u
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 19:03:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58157)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1ixJnp-0007rr-Jl
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 19:04:56 -0500
+ (envelope-from <philmd@redhat.com>) id 1ixJmA-0006VA-40
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 19:03:11 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1ixJnn-00033u-4r
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 19:04:53 -0500
-Received: from mx2.rt-rk.com ([89.216.37.149]:51207 helo=mail.rt-rk.com)
+ (envelope-from <philmd@redhat.com>) id 1ixJm9-0001Yh-2z
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 19:03:10 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:25605)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
- id 1ixJnm-0002tq-Th
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 19:04:51 -0500
-Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id 133531A2104;
- Fri, 31 Jan 2020 01:03:38 +0100 (CET)
-X-Virus-Scanned: amavisd-new at rt-rk.com
-Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
- [10.10.14.106])
- by mail.rt-rk.com (Postfix) with ESMTPSA id DD5E21A20EF;
- Fri, 31 Jan 2020 01:03:37 +0100 (CET)
-From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH rc4 19/29] target/avr: Add section about AVR into QEMU
- documentation
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1ixJm8-0001Xp-W1
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 19:03:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1580428988;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=C0lLpkn3BT8naoFppv9fNNj6OuOE0XGJFYmYxGrk5rg=;
+ b=HhYN0+qQtzzy3a4Bb9WFHvRZMsODdOo5sddTbtKxx8NtvmLAl5LtvELVWbhUkP6YFEHdgT
+ 4fBlrxfODytXeDVJupEIBYnUs0iUdqJJsl94aKL7XTjLB1VkBQIj+nQFkq8jUcTa8cyAD3
+ w7gAbyJoTDEFaxF6NbocObtH+2Zn+2M=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-18-OvpFkC7dOaGubJicHFE7Kw-1; Thu, 30 Jan 2020 19:03:06 -0500
+Received: by mail-wm1-f69.google.com with SMTP id d4so1375879wmd.7
+ for <qemu-devel@nongnu.org>; Thu, 30 Jan 2020 16:03:06 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=P1pkQw5BKitbcECgnzocHMZpFG0gxrYnFX1iWPDZlW8=;
+ b=jOwGJWfBOQ6QTZR/fXF6fgjO3HMNXozKkiStFmY3F2r02yzW+hPmXUFIlWZUjVs5e/
+ BxKeIjow9eqzMGfuAsL44HNqVhu5yMNF1dB0S/sWY5xBvx/jQQLQCT9S/btpi4gu3DVB
+ UOoR4CFcxa7v57NNvjxjoRGDyoEBtvaHLurFJqbtiYyT0bYKU7baT17H3v7kMdivhQKY
+ r4DqlWRSHgh6PqkOvME1OcM/NjoTnrs3n+ey+a9lLdZBRcSwK+52p4E93UVkKsbpoaVJ
+ Nuq9KxRoVmQ37btazr0Bw6codmeD4qEg2xlgwYBgqjZqybS7KdC2nGF+07sVa765iWXi
+ mlyw==
+X-Gm-Message-State: APjAAAUcFhnPEeyfDSd8flKpgw1pWV+ixEBttNjgOtfNKhasU4YlO8n0
+ Lo5CiIJgOiPLm/E1nODvkVZxVp07klHGJvlNow5G9PrXO42ETPaWz12hH7rTMsUxh3VubIlfmUH
+ OxZ8VviJVh64zDCg=
+X-Received: by 2002:adf:c54e:: with SMTP id s14mr7875714wrf.385.1580428985007; 
+ Thu, 30 Jan 2020 16:03:05 -0800 (PST)
+X-Google-Smtp-Source: APXvYqxUkUPwod8HrBUPRq3zaNK48Q+1CX0h3tgNVVKi26UB4/o9nsFvS1RzDtTojpbQyz18tGysyA==
+X-Received: by 2002:adf:c54e:: with SMTP id s14mr7875693wrf.385.1580428984747; 
+ Thu, 30 Jan 2020 16:03:04 -0800 (PST)
+Received: from [192.168.1.35] (113.red-83-57-172.dynamicip.rima-tde.net.
+ [83.57.172.113])
+ by smtp.gmail.com with ESMTPSA id k8sm1979612wrq.67.2020.01.30.16.03.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 30 Jan 2020 16:03:04 -0800 (PST)
+Subject: Re: [PATCH 3/6] tests/boot_linux_console: fix extract_from_deb()
+ comment
+To: Liam Merwick <liam.merwick@oracle.com>, alex.bennee@linaro.org,
+ fam@euphon.net
+References: <1580142994-1836-1-git-send-email-liam.merwick@oracle.com>
+ <1580142994-1836-4-git-send-email-liam.merwick@oracle.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <403fd74d-eacf-f130-4d4d-c6bcf18d3e96@redhat.com>
 Date: Fri, 31 Jan 2020 01:03:03 +0100
-Message-Id: <1580428993-4767-20-git-send-email-aleksandar.markovic@rt-rk.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1580428993-4767-1-git-send-email-aleksandar.markovic@rt-rk.com>
-References: <1580428993-4767-1-git-send-email-aleksandar.markovic@rt-rk.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <1580142994-1836-4-git-send-email-liam.merwick@oracle.com>
+Content-Language: en-US
+X-MC-Unique: OvpFkC7dOaGubJicHFE7Kw-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=WINDOWS-1252; format=flowed
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
-X-Received-From: 89.216.37.149
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,108 +92,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Michael Rolnik <mrolnik@gmail.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Cc: qemu-devel@nongnu.org, pbonzini@redhat.com, wainersm@redhat.com,
+ slp@redhat.com, sgarzare@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Michael Rolnik <mrolnik@gmail.com>
+On 1/27/20 5:36 PM, Liam Merwick wrote:
+> The second param in extract_from_deb() is 'path' not 'file'
+>=20
+> Signed-off-by: Liam Merwick <liam.merwick@oracle.com>
+> ---
+>   tests/acceptance/boot_linux_console.py | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/bo=
+ot_linux_console.py
+> index 8daf6461ffac..43bc928b03a2 100644
+> --- a/tests/acceptance/boot_linux_console.py
+> +++ b/tests/acceptance/boot_linux_console.py
+> @@ -40,7 +40,7 @@ class BootLinuxConsole(Test):
+>           Extracts a file from a deb package into the test workdir
+>  =20
+>           :param deb: path to the deb archive
+> -        :param file: path within the deb archive of the file to be extra=
+cted
+> +        :param path: path within the deb archive of the file to be extra=
+cted
+>           :returns: path of the extracted file
+>           """
+>           cwd =3D os.getcwd()
+>=20
 
-Explains basic ways of using AVR target in QEMU.
+Reviewed-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
 
-Signed-off-by: Michael Rolnik <mrolnik@gmail.com>
-Message-Id: <20200118191416.19934-16-mrolnik@gmail.com>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-[PMD: Fixed typos]
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-Signed-off-by: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
----
- qemu-doc.texi | 51 +++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 51 insertions(+)
-
-diff --git a/qemu-doc.texi b/qemu-doc.texi
-index 2328e7e..aaf4e54 100644
---- a/qemu-doc.texi
-+++ b/qemu-doc.texi
-@@ -1723,6 +1723,7 @@ differences are mentioned in the following sections=
-.
- * Microblaze System emulator::
- * SH4 System emulator::
- * Xtensa System emulator::
-+* AVR System emulator::
- @end menu
-=20
- @node PowerPC System emulator
-@@ -2496,6 +2497,56 @@ so should only be used with trusted guest OS.
-=20
- @c man end
-=20
-+@node AVR System emulator
-+@section AVR System emulator
-+@cindex system emulation (AVR)
-+
-+Use the executable @file{qemu-system-avr} to emulates a AVR 8 bit based =
-machine
-+having one for the following cores: avr1, avr2, avr25, avr3, avr31, avr3=
-5, avr4,
-+avr5, avr51, avr6, avrtiny, xmega2, xmega3, xmega4, xmega5, xmega6 and x=
-mega7.
-+
-+As for now it supports few Arduino boards for educational and testing pu=
-rposes.
-+These boards use a ATmega controller, which model is limited to USART & =
-16 bit
-+timer devices, enought to run FreeRTOS based applications (like this @ur=
-l{https://github.com/seharris/qemu-avr-tests/blob/master/free-rtos/Demo/A=
-VR_ATMega2560_GCC/demo.elf,,demo})
-+
-+Following are examples of possible usages, assuming demo.elf is compiled=
- for
-+AVR cpu
-+@itemize
-+
-+@item Continuous non interrupted execution
-+@example
-+qemu-system-avr -machine mega2560 -bios demo.elf
-+@end example
-+
-+@item Continuous non interrupted execution with serial output into telne=
-t window
-+@example
-+qemu-system-avr -machine mega2560 -bios demo.elf -serial tcp::5678,serve=
-r,nowait -nographic
-+@end example
-+and then in another shell
-+@example
-+telnet localhost 5678
-+@end example
-+
-+@item Debugging wit GDB debugger
-+@example
-+qemu-system-avr -machine mega2560 -bios demo.elf -s -S
-+@end example
-+and then in another shell
-+@example
-+avr-gdb demo.elf
-+@end example
-+and then within GDB shell
-+@example
-+target remote :1234
-+@end example
-+
-+@item Print out executed instructions
-+@example
-+qemu-system-avr -machine mega2560 -bios demo.elf -d in_asm
-+@end example
-+
-+@end itemize
-+
- @node QEMU User space emulator
- @chapter QEMU User space emulator
-=20
---=20
-2.7.4
+Also, applied to my python-next tree:
+https://gitlab.com/philmd/qemu/commits/python-next
 
 
