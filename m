@@ -2,44 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7821614E8B5
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 07:17:39 +0100 (CET)
-Received: from localhost ([::1]:48804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84B6F14E8A9
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 07:13:51 +0100 (CET)
+Received: from localhost ([::1]:48746 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ixPcY-0003Fy-Da
-	for lists+qemu-devel@lfdr.de; Fri, 31 Jan 2020 01:17:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59385)
+	id 1ixPYs-0005sU-K2
+	for lists+qemu-devel@lfdr.de; Fri, 31 Jan 2020 01:13:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59390)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1ixPUy-0006uL-BP
+ (envelope-from <dgibson@ozlabs.org>) id 1ixPUy-0006ug-Gd
  for qemu-devel@nongnu.org; Fri, 31 Jan 2020 01:09:49 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1ixPUw-0000Yo-R2
+ (envelope-from <dgibson@ozlabs.org>) id 1ixPUx-0000ZG-4F
  for qemu-devel@nongnu.org; Fri, 31 Jan 2020 01:09:48 -0500
-Received: from ozlabs.org ([203.11.71.1]:37575)
+Received: from ozlabs.org ([203.11.71.1]:59227)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1ixPUw-0000VQ-FC; Fri, 31 Jan 2020 01:09:46 -0500
+ id 1ixPUw-0000WJ-OR; Fri, 31 Jan 2020 01:09:47 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4886Hv0hxDz9sSl; Fri, 31 Jan 2020 17:09:30 +1100 (AEDT)
+ id 4886Hv3Mzgz9sSg; Fri, 31 Jan 2020 17:09:31 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1580450971;
- bh=b+jEKCcOsZP9lpCTW7dR8B27vCgt7Ad6CoaXidvsZDI=;
+ bh=fKPavTsxkuQdbNDZU0BEGGp8qbruBMk+OGeYF/Wc2+Y=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=EI1/AUjnDWJXexDp3ztsNkDxMElzWpxa/sy9otXh05Tjo0gKWcv05B2kIwBAxpdLN
- 0qlBVVj3K74D+VtshCrTIPjAJTMg8+FM6rqEmNk4+7QBg6Iueu040JydRBjQf1ez7L
- RyZMTTYgq0wxnEFzuwvzvLphAk/RMcZsK18tHRqg=
+ b=kGdE1Cw52xyAOEyObZFNTW02x4SjNxmYlqi087KRXJ0scY6Pd9m9oW+3xsgXtpWsU
+ FJksaAvBS9sBiHdkpmPfMJkHJcrWEITnpvRIQAhCqNiFEoHJkDHPmSHTf7OLkEQEOP
+ laeNU2VRG8HFi0AOtB150zej3RgKb2aM/LcVLcWg=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 21/34] ppc/pnv: change the PowerNV machine devices to be non
- user creatable
-Date: Fri, 31 Jan 2020 17:09:11 +1100
-Message-Id: <20200131060924.147449-22-david@gibson.dropbear.id.au>
+Subject: [PULL 22/34] spapr: Enable DD2.3 accelerated count cache flush in
+ pseries-5.0 machine
+Date: Fri, 31 Jan 2020 17:09:12 +1100
+Message-Id: <20200131060924.147449-23-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200131060924.147449-1-david@gibson.dropbear.id.au>
 References: <20200131060924.147449-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -55,180 +54,125 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- groug@kaod.org, qemu-ppc@nongnu.org,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: lvivier@redhat.com, David Gibson <david@gibson.dropbear.id.au>,
+ qemu-ppc@nongnu.org, qemu-devel@nongnu.org, groug@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: C=C3=A9dric Le Goater <clg@kaod.org>
+For POWER9 DD2.2 cpus, the best current Spectre v2 indirect branch
+mitigation is "count cache disabled", which is configured with:
+    -machine cap-ibs=3Dfixed-ccd
+However, this option isn't available on DD2.3 CPUs with KVM, because they
+don't have the count cache disabled.
 
-The PowerNV machine emulates an OpenPOWER system and the PowerNV chip
-devices are models of the internal logic of the POWER processor. They
-can not be instantiated by the user on the QEMU command line.
+For POWER9 DD2.3 cpus, it is "count cache flush with assist", configured
+with:
+    -machine cap-ibs=3Dworkaround,cap-ccf-assist=3Don
+However this option isn't available on DD2.2 CPUs with KVM, because they
+don't have the special CCF assist instruction this relies on.
 
-The PHB3/PHB4 devices could be an exception in the future after some
-rework on how the device tree is built. For the moment, exclude them
-also.
+On current machine types, we default to "count cache flush w/o assist",
+that is:
+    -machine cap-ibs=3Dworkaround,cap-ccf-assist=3Doff
+This runs, with mitigation on both DD2.2 and DD2.3 host cpus, but has a
+fairly significant performance impact.
 
-Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
-Message-Id: <20200129113720.7404-1-clg@kaod.org>
-Tested-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Greg Kurz <groug@kaod.org>
+It turns out we can do better.  The special instruction that CCF assist
+uses to trigger a count cache flush is a no-op on earlier CPUs, rather th=
+an
+trapping or causing other badness.  It doesn't, of itself, implement the
+mitigation, but *if* we have count-cache-disabled, then the count cache
+flush is unnecessary, and so using the count cache flush mitigation is
+harmless.
+
+Therefore for the new pseries-5.0 machine type, enable cap-ccf-assist by
+default.  Along with that, suppress throwing an error if cap-ccf-assist
+is selected but KVM doesn't support it, as long as KVM *is* giving us
+count-cache-disabled.  To allow TCG to work out of the box, even though i=
+t
+doesn't implement the ccf flush assist, downgrade the error in that case =
+to
+a warning.  This matches several Spectre mitigations where we allow TCG
+to operate for debugging, since we don't really make guarantees about TCG
+security properties anyway.
+
+While we're there, make the TCG warning for this case match that for othe=
+r
+mitigations.
+
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/pci-host/pnv_phb3.c      | 2 ++
- hw/pci-host/pnv_phb3_pbcq.c | 1 +
- hw/pci-host/pnv_phb4.c      | 3 ++-
- hw/pci-host/pnv_phb4_pec.c  | 2 ++
- hw/ppc/pnv_core.c           | 2 ++
- hw/ppc/pnv_homer.c          | 1 +
- hw/ppc/pnv_lpc.c            | 1 +
- hw/ppc/pnv_occ.c            | 1 +
- 8 files changed, 12 insertions(+), 1 deletion(-)
+ hw/ppc/spapr.c      |  5 ++++-
+ hw/ppc/spapr_caps.c | 21 +++++++++++++++++----
+ 2 files changed, 21 insertions(+), 5 deletions(-)
 
-diff --git a/hw/pci-host/pnv_phb3.c b/hw/pci-host/pnv_phb3.c
-index f03399c406..74618fadf0 100644
---- a/hw/pci-host/pnv_phb3.c
-+++ b/hw/pci-host/pnv_phb3.c
-@@ -1115,6 +1115,7 @@ static void pnv_phb3_class_init(ObjectClass *klass,=
- void *data)
-     dc->realize =3D pnv_phb3_realize;
-     device_class_set_props(dc, pnv_phb3_properties);
-     set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
-+    dc->user_creatable =3D false;
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index a0076e5fbd..fe8266a1d1 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -4397,7 +4397,7 @@ static void spapr_machine_class_init(ObjectClass *o=
+c, void *data)
+     smc->default_caps.caps[SPAPR_CAP_HPT_MAXPAGESIZE] =3D 16; /* 64kiB *=
+/
+     smc->default_caps.caps[SPAPR_CAP_NESTED_KVM_HV] =3D SPAPR_CAP_OFF;
+     smc->default_caps.caps[SPAPR_CAP_LARGE_DECREMENTER] =3D SPAPR_CAP_ON=
+;
+-    smc->default_caps.caps[SPAPR_CAP_CCF_ASSIST] =3D SPAPR_CAP_OFF;
++    smc->default_caps.caps[SPAPR_CAP_CCF_ASSIST] =3D SPAPR_CAP_ON;
+     spapr_caps_add_properties(smc, &error_abort);
+     smc->irq =3D &spapr_irq_dual;
+     smc->dr_phb_enabled =3D true;
+@@ -4465,8 +4465,11 @@ DEFINE_SPAPR_MACHINE(5_0, "5.0", true);
+  */
+ static void spapr_machine_4_2_class_options(MachineClass *mc)
+ {
++    SpaprMachineClass *smc =3D SPAPR_MACHINE_CLASS(mc);
++
+     spapr_machine_5_0_class_options(mc);
+     compat_props_add(mc->compat_props, hw_compat_4_2, hw_compat_4_2_len)=
+;
++    smc->default_caps.caps[SPAPR_CAP_CCF_ASSIST] =3D SPAPR_CAP_OFF;
  }
 =20
- static const TypeInfo pnv_phb3_type_info =3D {
-@@ -1168,6 +1169,7 @@ static void pnv_phb3_root_port_class_init(ObjectCla=
-ss *klass, void *data)
+ DEFINE_SPAPR_MACHINE(4_2, "4.2", false);
+diff --git a/hw/ppc/spapr_caps.c b/hw/ppc/spapr_caps.c
+index 481dfd2a27..7f933a98ed 100644
+--- a/hw/ppc/spapr_caps.c
++++ b/hw/ppc/spapr_caps.c
+@@ -485,11 +485,24 @@ static void cap_ccf_assist_apply(SpaprMachineState =
+*spapr, uint8_t val,
+     uint8_t kvm_val =3D kvmppc_get_cap_count_cache_flush_assist();
 =20
-     device_class_set_parent_realize(dc, pnv_phb3_root_port_realize,
-                                     &rpc->parent_realize);
-+    dc->user_creatable =3D false;
-=20
-     k->vendor_id =3D PCI_VENDOR_ID_IBM;
-     k->device_id =3D 0x03dc;
-diff --git a/hw/pci-host/pnv_phb3_pbcq.c b/hw/pci-host/pnv_phb3_pbcq.c
-index 6f0c05be68..f232228b0e 100644
---- a/hw/pci-host/pnv_phb3_pbcq.c
-+++ b/hw/pci-host/pnv_phb3_pbcq.c
-@@ -335,6 +335,7 @@ static void pnv_pbcq_class_init(ObjectClass *klass, v=
-oid *data)
-     xdc->dt_xscom =3D pnv_pbcq_dt_xscom;
-=20
-     dc->realize =3D pnv_pbcq_realize;
-+    dc->user_creatable =3D false;
- }
-=20
- static const TypeInfo pnv_pbcq_type_info =3D {
-diff --git a/hw/pci-host/pnv_phb4.c b/hw/pci-host/pnv_phb4.c
-index 61235d13a6..23cf093928 100644
---- a/hw/pci-host/pnv_phb4.c
-+++ b/hw/pci-host/pnv_phb4.c
-@@ -1290,7 +1290,7 @@ static void pnv_phb4_class_init(ObjectClass *klass,=
- void *data)
-     dc->realize         =3D pnv_phb4_realize;
-     device_class_set_props(dc, pnv_phb4_properties);
-     set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
--    dc->user_creatable  =3D true;
-+    dc->user_creatable  =3D false;
-     dc->reset           =3D pnv_phb4_reset;
-=20
-     xfc->notify         =3D pnv_phb4_xive_notify;
-@@ -1368,6 +1368,7 @@ static void pnv_phb4_root_port_class_init(ObjectCla=
-ss *klass, void *data)
-     PCIERootPortClass *rpc =3D PCIE_ROOT_PORT_CLASS(klass);
-=20
-     dc->desc     =3D "IBM PHB4 PCIE Root Port";
-+    dc->user_creatable =3D false;
-=20
-     device_class_set_parent_realize(dc, pnv_phb4_root_port_realize,
-                                     &rpc->parent_realize);
-diff --git a/hw/pci-host/pnv_phb4_pec.c b/hw/pci-host/pnv_phb4_pec.c
-index fd92041d69..68e1db3eac 100644
---- a/hw/pci-host/pnv_phb4_pec.c
-+++ b/hw/pci-host/pnv_phb4_pec.c
-@@ -490,6 +490,7 @@ static void pnv_pec_class_init(ObjectClass *klass, vo=
-id *data)
-=20
-     dc->realize =3D pnv_pec_realize;
-     device_class_set_props(dc, pnv_pec_properties);
-+    dc->user_creatable =3D false;
-=20
-     pecc->xscom_nest_base =3D pnv_pec_xscom_nest_base;
-     pecc->xscom_pci_base  =3D pnv_pec_xscom_pci_base;
-@@ -568,6 +569,7 @@ static void pnv_pec_stk_class_init(ObjectClass *klass=
-, void *data)
-=20
-     device_class_set_props(dc, pnv_pec_stk_properties);
-     dc->realize =3D pnv_pec_stk_realize;
-+    dc->user_creatable =3D false;
-=20
-     /* TODO: reset regs ? */
- }
-diff --git a/hw/ppc/pnv_core.c b/hw/ppc/pnv_core.c
-index f7247222bc..234562040d 100644
---- a/hw/ppc/pnv_core.c
-+++ b/hw/ppc/pnv_core.c
-@@ -325,6 +325,7 @@ static void pnv_core_class_init(ObjectClass *oc, void=
- *data)
-     dc->realize =3D pnv_core_realize;
-     dc->unrealize =3D pnv_core_unrealize;
-     device_class_set_props(dc, pnv_core_properties);
-+    dc->user_creatable =3D false;
- }
-=20
- #define DEFINE_PNV_CORE_TYPE(family, cpu_model) \
-@@ -423,6 +424,7 @@ static void pnv_quad_class_init(ObjectClass *oc, void=
- *data)
-=20
-     dc->realize =3D pnv_quad_realize;
-     device_class_set_props(dc, pnv_quad_properties);
-+    dc->user_creatable =3D false;
- }
-=20
- static const TypeInfo pnv_quad_info =3D {
-diff --git a/hw/ppc/pnv_homer.c b/hw/ppc/pnv_homer.c
-index 93ae42f7e4..9a262629b7 100644
---- a/hw/ppc/pnv_homer.c
-+++ b/hw/ppc/pnv_homer.c
-@@ -360,6 +360,7 @@ static void pnv_homer_class_init(ObjectClass *klass, =
-void *data)
-     dc->realize =3D pnv_homer_realize;
-     dc->desc =3D "PowerNV HOMER Memory";
-     device_class_set_props(dc, pnv_homer_properties);
-+    dc->user_creatable =3D false;
- }
-=20
- static const TypeInfo pnv_homer_type_info =3D {
-diff --git a/hw/ppc/pnv_lpc.c b/hw/ppc/pnv_lpc.c
-index d1de98f04c..5989d723c5 100644
---- a/hw/ppc/pnv_lpc.c
-+++ b/hw/ppc/pnv_lpc.c
-@@ -762,6 +762,7 @@ static void pnv_lpc_class_init(ObjectClass *klass, vo=
-id *data)
-     dc->realize =3D pnv_lpc_realize;
-     dc->desc =3D "PowerNV LPC Controller";
-     device_class_set_props(dc, pnv_lpc_properties);
-+    dc->user_creatable =3D false;
- }
-=20
- static const TypeInfo pnv_lpc_info =3D {
-diff --git a/hw/ppc/pnv_occ.c b/hw/ppc/pnv_occ.c
-index 2173fac0e7..5a716c256e 100644
---- a/hw/ppc/pnv_occ.c
-+++ b/hw/ppc/pnv_occ.c
-@@ -280,6 +280,7 @@ static void pnv_occ_class_init(ObjectClass *klass, vo=
-id *data)
-     dc->realize =3D pnv_occ_realize;
-     dc->desc =3D "PowerNV OCC Controller";
-     device_class_set_props(dc, pnv_occ_properties);
-+    dc->user_creatable =3D false;
- }
-=20
- static const TypeInfo pnv_occ_type_info =3D {
+     if (tcg_enabled() && val) {
+-        /* TODO - for now only allow broken for TCG */
+-        error_setg(errp,
+-"Requested count cache flush assist capability level not supported by tc=
+g,"
+-                   " try appending -machine cap-ccf-assist=3Doff");
++        /* TCG doesn't implement anything here, but allow with a warning=
+ */
++        warn_report("TCG doesn't support requested feature, cap-ccf-assi=
+st=3Don");
+     } else if (kvm_enabled() && (val > kvm_val)) {
++        uint8_t kvm_ibs =3D kvmppc_get_cap_safe_indirect_branch();
++
++        if (kvm_ibs =3D=3D SPAPR_CAP_FIXED_CCD) {
++            /*
++             * If we don't have CCF assist on the host, the assist
++             * instruction is a harmless no-op.  It won't correctly
++             * implement the cache count flush *but* if we have
++             * count-cache-disabled in the host, that flush is
++             * unnnecessary.  So, specifically allow this case.  This
++             * allows us to have better performance on POWER9 DD2.3,
++             * while still working on POWER9 DD2.2 and POWER8 host
++             * cpus.
++             */
++            return;
++        }
+         error_setg(errp,
+ "Requested count cache flush assist capability level not supported by kv=
+m,"
+                    " try appending -machine cap-ccf-assist=3Doff");
 --=20
 2.24.1
 
