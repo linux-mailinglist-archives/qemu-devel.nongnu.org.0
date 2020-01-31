@@ -2,44 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE29B153DCA
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 05:08:59 +0100 (CET)
-Received: from localhost ([::1]:60310 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BDD8153DFB
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 06:00:03 +0100 (CET)
+Received: from localhost ([::1]:60600 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izYTK-0007Y9-Cr
-	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 23:08:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50342)
+	id 1izZGk-0001ay-50
+	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 00:00:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45903)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kuhn.chenqun@huawei.com>) id 1izYSb-000730-Vd
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 23:08:14 -0500
+ (envelope-from <raphael.norwitz@nutanix.com>) id 1izZG1-00011V-EA
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 23:59:18 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kuhn.chenqun@huawei.com>) id 1izYSa-0006Fr-Tw
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 23:08:13 -0500
-Received: from szxga06-in.huawei.com ([45.249.212.32]:49730 helo=huawei.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kuhn.chenqun@huawei.com>)
- id 1izYSa-0005cL-J0; Wed, 05 Feb 2020 23:08:12 -0500
-Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id A8F8C5063DAE48B9B491;
- Thu,  6 Feb 2020 12:08:04 +0800 (CST)
-Received: from HGHY4C002233111.china.huawei.com (10.133.205.93) by
- DGGEMS412-HUB.china.huawei.com (10.3.19.212) with Microsoft SMTP Server id
- 14.3.439.0; Thu, 6 Feb 2020 12:07:56 +0800
-From: <kuhn.chenqun@huawei.com>
-To: <qemu-devel@nongnu.org>, <clg@kaod.org>, <peter.maydell@linaro.org>
-Subject: [PATCH] aspeed/i2c:fix uninitialized variable warning
-Date: Thu, 6 Feb 2020 12:07:53 +0800
-Message-ID: <20200206040753.42252-1-kuhn.chenqun@huawei.com>
-X-Mailer: git-send-email 2.14.1.windows.1
+ (envelope-from <raphael.norwitz@nutanix.com>) id 1izZFz-0004sG-MR
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 23:59:16 -0500
+Received: from [192.146.154.1] (port=4212 helo=mcp01.nutanix.com)
+ by eggs.gnu.org with esmtp (Exim 4.71)
+ (envelope-from <raphael.norwitz@nutanix.com>) id 1izZFz-0004eK-Eq
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 23:59:15 -0500
+Received: from localhost.localdomain (unknown [10.40.36.165])
+ by mcp01.nutanix.com (Postfix) with ESMTP id E6C9910074C0;
+ Thu,  6 Feb 2020 04:59:10 +0000 (UTC)
+Date: Fri, 31 Jan 2020 16:21:59 -0500
+From: Raphael Norwitz <raphael.norwitz@nutanix.com>
+To: qemu-devel@nongnu.org, mst@redhat.com
+Subject: Re: [PATCH v2 0/3] vhost-user: Lift Max Ram Slots Limitation
+Message-ID: <20200131212126.GA2422@localhost.localdomain>
+References: <1579143426-18305-1-git-send-email-raphael.norwitz@nutanix.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-X-Originating-IP: [10.133.205.93]
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <1579143426-18305-1-git-send-email-raphael.norwitz@nutanix.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 45.249.212.32
+X-Received-From: 192.146.154.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -51,46 +48,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, andrew@aj.id.au, zhang.zhanghailiang@huawei.com,
- Chen Qun <kuhn.chenqun@huawei.com>, joel@jms.id.au
+Cc: raphael.s.norwitz@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Chen Qun <kuhn.chenqun@huawei.com>
+Ping
 
-Fix warning:
-hw/i2c/aspeed_i2c.c: In function =E2=80=98aspeed_i2c_bus_write=E2=80=99:
-glib/glib-autocleanups.h:28:3: warning: =E2=80=98cmd_flags=E2=80=99 may b=
-e
-used uninitialized in this function [-Wmaybe-uninitialized]
-   g_free (*pp);
-   ^~~~~~~~~~~~
-hw/i2c/aspeed_i2c.c:403:22: note: =E2=80=98cmd_flags=E2=80=99 was declare=
-d here
-     g_autofree char *cmd_flags;
-                      ^~~~~~~~~
-
-Reported-by: Euler Robot <euler.robot@huawei.com>
-Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
----
- hw/i2c/aspeed_i2c.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/hw/i2c/aspeed_i2c.c b/hw/i2c/aspeed_i2c.c
-index 9cda968501..fb973a983d 100644
---- a/hw/i2c/aspeed_i2c.c
-+++ b/hw/i2c/aspeed_i2c.c
-@@ -400,7 +400,7 @@ static bool aspeed_i2c_check_sram(AspeedI2CBus *bus)
+On Wed, Jan 15, 2020 at 09:57:03PM -0500, Raphael Norwitz wrote:
+>=20
+> In QEMU today, a VM with a vhost-user device can hot add memory a
+> maximum of 8 times. See these threads, among others:
+>=20
+> [1] https://lists.gnu.org/archive/html/qemu-devel/2019-07/msg01046.html=
+ =20
+>     https://lists.gnu.org/archive/html/qemu-devel/2019-07/msg01236.html=
 =20
- static void aspeed_i2c_bus_cmd_dump(AspeedI2CBus *bus)
- {
--    g_autofree char *cmd_flags;
-+    g_autofree char *cmd_flags =3D NULL;
-     uint32_t count;
+>=20
+> [2] https://lists.gnu.org/archive/html/qemu-devel/2017-11/msg04656.html=
 =20
-     if (bus->cmd & (I2CD_RX_BUFF_ENABLE | I2CD_RX_BUFF_ENABLE)) {
---=20
-2.23.0
-
-
+>=20
+> This series introduces a new protocol feature
+> VHOST_USER_PROTOCOL_F_CONFIGURE_SLOTS which, when enabled, lifts the
+> restriction on the maximum number RAM slots imposed by vhost-user.
+>=20
+> The patch consists of 3 changes:
+> 1. Fixed assert in vhost_user_set_mem_table_postcopy:
+>    This is a bug fix in the postcopy migration path
+> 2. Refactor vhost_user_set_mem_table functions:
+>    This is a non-functional change refractoring the
+>    vhost_user_set_mem_table and vhost_user_set_mem_table_postcopy
+>    functions such that the feature can be more cleanly added.
+> 3. Lift max memory slots limit imposed by vhost-user:
+>    This change introduces the new protocol feature
+>    VHOST_USER_PROTOCOL_F_CONFIGURE_SLOTS.
+>=20
+> The implementation details are explained in more detail in the commit
+> messages, but at a high level the new protocol feature works as follows=
+:
+> - If the VHOST_USER_PROTCOL_F_CONFIGURE_SLOTS feature is enabled, QEMU =
+will
+>   send multiple VHOST_USER_ADD_MEM_REG and VHOST_USER_REM_MEM_REG
+>   messages to map and unmap individual memory regions instead of one la=
+rge
+>   VHOST_USER_SET_MEM_TABLE message containing all memory regions.
+> - The vhost-user struct maintains a =E2=80=99shadow state=E2=80=99 of m=
+emory regions
+>   already sent to the guest. Each time vhost_user_set_mem_table is call=
+ed,
+>   the shadow state is compared with the new device state. A
+>   VHOST_USER_REM_MEM_REG will be sent for each region in the shadow sta=
+te
+>   not in the device state. Then, a VHOST_USER_ADD_MEM_REG will be sent
+>   for each region in the device state but not the shadow state. After
+>   these messages have been sent, the shadow state will be updated to
+>   reflect the new device state.
+>=20
+> The VHOST_USER_SET_MEM_TABLE message was not reused because as the numb=
+er of
+> regions grows, the message becomes very large. In practice, such large
+> messages caused problems (truncated messages) and in the past it seems =
+the
+> community has opted for smaller fixed size messages where possible. VRI=
+NGs,
+> for example, are sent to the backend individually instead of in one mas=
+sive
+> message.
+>=20
+> Current Limitations:
+> - postcopy migration is not supported when the
+>   VHOST_USER_PROTOCOL_F_CONFIGURE_SLOTS has been negotiated.=20
+> - VHOST_USER_PROTOCOL_F_CONFIGURE_SLOTS cannot be negotiated when
+>   VHOST_USER_PROTOCOL_F_REPLY_ACK has also been negotiated.
+>=20
+> Both of these limitations are due to resource contraints. They are not
+> imposed for technical reasons.
+>=20
+> Changes since V1:
+>     * Kept the assert in vhost_user_set_mem_table_postcopy, but moved i=
+t
+>       to prevent corruption
+>     * Made QEMU send a single VHOST_USER_GET_MAX_MEMSLOTS message at
+>       startup and cache the returned value so that QEMU does not need t=
+o
+>       query the backend every time vhost_backend_memslots_limit is call=
+ed.
+>=20
+> Best,
+> Raphael
+>=20
+> Raphael Norwitz (3):
+>   Fixed assert in vhost_user_set_mem_table_postcopy
+>   Refactor vhost_user_set_mem_table functions
+>   Lift max memory slots limit imposed by vhost-user
+>=20
+>  docs/interop/vhost-user.rst |  43 +++++
+>  hw/virtio/vhost-user.c      | 385 +++++++++++++++++++++++++++++++++---=
+--------
+>  2 files changed, 336 insertions(+), 92 deletions(-)
+>=20
+> --=20
+> 1.8.3.1
+>=20
+>=20
 
