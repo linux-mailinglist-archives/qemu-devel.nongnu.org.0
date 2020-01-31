@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 263A614E8B2
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 07:17:14 +0100 (CET)
-Received: from localhost ([::1]:48798 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 447F614E8B9
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 07:19:25 +0100 (CET)
+Received: from localhost ([::1]:48833 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ixPc9-0002c3-65
-	for lists+qemu-devel@lfdr.de; Fri, 31 Jan 2020 01:17:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59148)
+	id 1ixPeG-00065U-8X
+	for lists+qemu-devel@lfdr.de; Fri, 31 Jan 2020 01:19:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59180)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1ixPUr-0006bR-MS
+ (envelope-from <dgibson@ozlabs.org>) id 1ixPUs-0006cB-AY
  for qemu-devel@nongnu.org; Fri, 31 Jan 2020 01:09:43 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1ixPUq-0000QR-CG
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 01:09:41 -0500
-Received: from ozlabs.org ([203.11.71.1]:39913)
+ (envelope-from <dgibson@ozlabs.org>) id 1ixPUq-0000RF-Kh
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 01:09:42 -0500
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:55675 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1ixPUq-0000LQ-0a; Fri, 31 Jan 2020 01:09:40 -0500
+ id 1ixPUq-0000Ld-9c; Fri, 31 Jan 2020 01:09:40 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4886Hs4dDJz9sSH; Fri, 31 Jan 2020 17:09:29 +1100 (AEDT)
+ id 4886Hs5dhgz9sSL; Fri, 31 Jan 2020 17:09:29 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1580450969;
- bh=0PDGeHNNFly2LX5qs4wnsyQKICr3TyHxGxrkZ3zjoiQ=;
+ bh=HZ6MMSrGN35mEgYWbJ6raH9CmczvTz+3+v1fB4KOqJo=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=duNUy9RjfaxRQXgQgIXMOENy8wbcERBmVpusk4c+J0lOcJKUD0WpRwKM+1v/EtVcr
- 4VOCAgji3/3HTVydhdNXDMwnRgmShll9UOBTChwdHaWCYSg075GCRFqllZBJl8kHUU
- yBFj6Zw7txOjZ2qtTvTD8hvuJ/HWj31z+E4byp78=
+ b=HwaZ4R321M4iTrGWzd8EvKqSdDHIN2h7uJY59Ll4na3klVa2SfL7t6D5XnelyNVXl
+ birXMdTN/BX3pt5fiLycZkCd/35/DQSaTCpFiWPtACd+zteGz1SAmdEwli80k/EBmY
+ ivrhURD4Oj5OqqyQxBSA+oFBpxTA+l12LobddzM4=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 11/34] ppc/pnv: remove useless "core-pir" property alias.
-Date: Fri, 31 Jan 2020 17:09:01 +1100
-Message-Id: <20200131060924.147449-12-david@gibson.dropbear.id.au>
+Subject: [PULL 12/34] ppc/pnv: Add support for "hostboot" mode
+Date: Fri, 31 Jan 2020 17:09:02 +1100
+Message-Id: <20200131060924.147449-13-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200131060924.147449-1-david@gibson.dropbear.id.au>
 References: <20200131060924.147449-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 203.11.71.1
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2401:3900:2:1::2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,141 +62,172 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: C=C3=A9dric Le Goater <clg@kaod.org>
 
-Commit 158e17a65e1a ("ppc/pnv: Link "chip" property to PnvCore::chip
-pointer") introduced some cleanups of the PnvCore realize handler.
-Let's continue by reworking a bit the interface of the PnvCore
-handlers for the CPU threads. These changes make the "core-pir"
-property alias unused. Remove it.
+When the "hb-mode" option is activated on the powernv machine, the
+firmware is mapped at 0x8000000 and the HRMOR of the HW threads are
+set to the same address.
+
+The PNOR mapping on the FW address space of the LPC bus is left enabled
+to let the firmware load any other images required to boot the host.
 
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
-Message-Id: <20200127144154.10170-3-clg@kaod.org>
+Message-Id: <20200127144154.10170-4-clg@kaod.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/pnv_core.c | 28 +++++++++++++---------------
- 1 file changed, 13 insertions(+), 15 deletions(-)
+ hw/ppc/pnv.c              | 28 +++++++++++++++++++++++++++-
+ hw/ppc/pnv_core.c         |  3 +++
+ hw/ppc/pnv_lpc.c          |  5 ++++-
+ include/hw/ppc/pnv.h      |  2 ++
+ include/hw/ppc/pnv_core.h |  1 +
+ 5 files changed, 37 insertions(+), 2 deletions(-)
 
-diff --git a/hw/ppc/pnv_core.c b/hw/ppc/pnv_core.c
-index 8ca5fbd1a9..5fe3f21e12 100644
---- a/hw/ppc/pnv_core.c
-+++ b/hw/ppc/pnv_core.c
-@@ -40,11 +40,11 @@ static const char *pnv_core_cpu_typename(PnvCore *pc)
-     return cpu_type;
+diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
+index e61994cf5a..9442e5eb63 100644
+--- a/hw/ppc/pnv.c
++++ b/hw/ppc/pnv.c
+@@ -716,7 +716,7 @@ static void pnv_init(MachineState *machine)
+         exit(1);
+     }
+=20
+-    fw_size =3D load_image_targphys(fw_filename, FW_LOAD_ADDR, FW_MAX_SI=
+ZE);
++    fw_size =3D load_image_targphys(fw_filename, pnv->fw_load_addr, FW_M=
+AX_SIZE);
+     if (fw_size < 0) {
+         error_report("Could not load OPAL firmware '%s'", fw_filename);
+         exit(1);
+@@ -1533,6 +1533,7 @@ static void pnv_chip_core_realize(PnvChip *chip, Er=
+ror **errp)
+     PnvChipClass *pcc =3D PNV_CHIP_GET_CLASS(chip);
+     const char *typename =3D pnv_chip_core_typename(chip);
+     int i, core_hwid;
++    PnvMachineState *pnv =3D PNV_MACHINE(qdev_get_machine());
+=20
+     if (!object_class_by_name(typename)) {
+         error_setg(errp, "Unable to find PowerNV CPU Core '%s'", typenam=
+e);
+@@ -1571,6 +1572,8 @@ static void pnv_chip_core_realize(PnvChip *chip, Er=
+ror **errp)
+         object_property_set_int(OBJECT(pnv_core),
+                                 pcc->core_pir(chip, core_hwid),
+                                 "pir", &error_fatal);
++        object_property_set_int(OBJECT(pnv_core), pnv->fw_load_addr,
++                                "hrmor", &error_fatal);
+         object_property_set_link(OBJECT(pnv_core), OBJECT(chip), "chip",
+                                  &error_abort);
+         object_property_set_bool(OBJECT(pnv_core), true, "realized",
+@@ -1767,6 +1770,22 @@ static void pnv_machine_power10_class_init(ObjectC=
+lass *oc, void *data)
+     pmc->dt_power_mgt =3D pnv_dt_power_mgt;
  }
 =20
--static void pnv_core_cpu_reset(PowerPCCPU *cpu, PnvChip *chip)
-+static void pnv_core_cpu_reset(PnvCore *pc, PowerPCCPU *cpu)
++static bool pnv_machine_get_hb(Object *obj, Error **errp)
++{
++    PnvMachineState *pnv =3D PNV_MACHINE(obj);
++
++    return !!pnv->fw_load_addr;
++}
++
++static void pnv_machine_set_hb(Object *obj, bool value, Error **errp)
++{
++    PnvMachineState *pnv =3D PNV_MACHINE(obj);
++
++    if (value) {
++        pnv->fw_load_addr =3D 0x8000000;
++    }
++}
++
+ static void pnv_machine_class_init(ObjectClass *oc, void *data)
  {
-     CPUState *cs =3D CPU(cpu);
-     CPUPPCState *env =3D &cpu->env;
--    PnvChipClass *pcc =3D PNV_CHIP_GET_CLASS(chip);
-+    PnvChipClass *pcc =3D PNV_CHIP_GET_CLASS(pc->chip);
+     MachineClass *mc =3D MACHINE_CLASS(oc);
+@@ -1786,6 +1805,13 @@ static void pnv_machine_class_init(ObjectClass *oc=
+, void *data)
+      */
+     mc->default_ram_size =3D INITRD_LOAD_ADDR + INITRD_MAX_SIZE;
+     ispc->print_info =3D pnv_pic_print_info;
++
++    object_class_property_add_bool(oc, "hb-mode",
++                                   pnv_machine_get_hb, pnv_machine_set_h=
+b,
++                                   &error_abort);
++    object_class_property_set_description(oc, "hb-mode",
++                              "Use a hostboot like boot loader",
++                              NULL);
+ }
 =20
-     cpu_reset(cs);
-=20
-@@ -56,7 +56,7 @@ static void pnv_core_cpu_reset(PowerPCCPU *cpu, PnvChip=
- *chip)
+ #define DEFINE_PNV8_CHIP_TYPE(type, class_initfn) \
+diff --git a/hw/ppc/pnv_core.c b/hw/ppc/pnv_core.c
+index 5fe3f21e12..f7247222bc 100644
+--- a/hw/ppc/pnv_core.c
++++ b/hw/ppc/pnv_core.c
+@@ -56,6 +56,8 @@ static void pnv_core_cpu_reset(PnvCore *pc, PowerPCCPU =
+*cpu)
      env->nip =3D 0x10;
      env->msr |=3D MSR_HVB; /* Hypervisor mode */
 =20
--    pcc->intc_reset(chip, cpu);
-+    pcc->intc_reset(pc->chip, cpu);
++    env->spr[SPR_HRMOR] =3D pc->hrmor;
++
+     pcc->intc_reset(pc->chip, cpu);
  }
 =20
- /*
-@@ -162,14 +162,14 @@ static const MemoryRegionOps pnv_core_power9_xscom_=
-ops =3D {
-     .endianness =3D DEVICE_BIG_ENDIAN,
+@@ -289,6 +291,7 @@ static void pnv_core_unrealize(DeviceState *dev, Erro=
+r **errp)
+=20
+ static Property pnv_core_properties[] =3D {
+     DEFINE_PROP_UINT32("pir", PnvCore, pir, 0),
++    DEFINE_PROP_UINT64("hrmor", PnvCore, hrmor, 0),
+     DEFINE_PROP_LINK("chip", PnvCore, chip, TYPE_PNV_CHIP, PnvChip *),
+     DEFINE_PROP_END_OF_LIST(),
+ };
+diff --git a/hw/ppc/pnv_lpc.c b/hw/ppc/pnv_lpc.c
+index 22b205532b..d1de98f04c 100644
+--- a/hw/ppc/pnv_lpc.c
++++ b/hw/ppc/pnv_lpc.c
+@@ -825,6 +825,7 @@ ISABus *pnv_lpc_isa_create(PnvLpcController *lpc, boo=
+l use_cpld, Error **errp)
+     qemu_irq *irqs;
+     qemu_irq_handler handler;
+     PnvMachineState *pnv =3D PNV_MACHINE(qdev_get_machine());
++    bool hostboot_mode =3D !!pnv->fw_load_addr;
+=20
+     /* let isa_bus_new() create its own bridge on SysBus otherwise
+      * devices speficied on the command line won't find the bus and
+@@ -859,7 +860,9 @@ ISABus *pnv_lpc_isa_create(PnvLpcController *lpc, boo=
+l use_cpld, Error **errp)
+      * Start disabled. The HIOMAP protocol will activate the mapping
+      * with HIOMAP_C_CREATE_WRITE_WINDOW
+      */
+-    memory_region_set_enabled(&pnv->pnor->mmio, false);
++    if (!hostboot_mode) {
++        memory_region_set_enabled(&pnv->pnor->mmio, false);
++    }
+=20
+     return isa_bus;
+ }
+diff --git a/include/hw/ppc/pnv.h b/include/hw/ppc/pnv.h
+index d65dd32036..f225f2f6bf 100644
+--- a/include/hw/ppc/pnv.h
++++ b/include/hw/ppc/pnv.h
+@@ -217,6 +217,8 @@ struct PnvMachineState {
+     Notifier     powerdown_notifier;
+=20
+     PnvPnor      *pnor;
++
++    hwaddr       fw_load_addr;
  };
 =20
--static void pnv_core_cpu_realize(PowerPCCPU *cpu, PnvChip *chip, Error *=
-*errp)
-+static void pnv_core_cpu_realize(PnvCore *pc, PowerPCCPU *cpu, Error **e=
-rrp)
- {
-     CPUPPCState *env =3D &cpu->env;
-     int core_pir;
-     int thread_index =3D 0; /* TODO: TCG supports only one thread */
-     ppc_spr_t *pir =3D &env->spr_cb[SPR_PIR];
-     Error *local_err =3D NULL;
--    PnvChipClass *pcc =3D PNV_CHIP_GET_CLASS(chip);
-+    PnvChipClass *pcc =3D PNV_CHIP_GET_CLASS(pc->chip);
+ #define PNV_FDT_ADDR          0x01000000
+diff --git a/include/hw/ppc/pnv_core.h b/include/hw/ppc/pnv_core.h
+index 55eee95104..113550eb7f 100644
+--- a/include/hw/ppc/pnv_core.h
++++ b/include/hw/ppc/pnv_core.h
+@@ -40,6 +40,7 @@ typedef struct PnvCore {
+     /*< public >*/
+     PowerPCCPU **threads;
+     uint32_t pir;
++    uint64_t hrmor;
+     PnvChip *chip;
 =20
-     object_property_set_bool(OBJECT(cpu), true, "realized", &local_err);
-     if (local_err) {
-@@ -177,13 +177,13 @@ static void pnv_core_cpu_realize(PowerPCCPU *cpu, P=
-nvChip *chip, Error **errp)
-         return;
-     }
-=20
--    pcc->intc_create(chip, cpu, &local_err);
-+    pcc->intc_create(pc->chip, cpu, &local_err);
-     if (local_err) {
-         error_propagate(errp, local_err);
-         return;
-     }
-=20
--    core_pir =3D object_property_get_uint(OBJECT(cpu), "core-pir", &erro=
-r_abort);
-+    core_pir =3D object_property_get_uint(OBJECT(pc), "pir", &error_abor=
-t);
-=20
-     /*
-      * The PIR of a thread is the core PIR + the thread index. We will
-@@ -203,7 +203,7 @@ static void pnv_core_reset(void *dev)
-     int i;
-=20
-     for (i =3D 0; i < cc->nr_threads; i++) {
--        pnv_core_cpu_reset(pc->threads[i], pc->chip);
-+        pnv_core_cpu_reset(pc, pc->threads[i]);
-     }
- }
-=20
-@@ -231,8 +231,6 @@ static void pnv_core_realize(DeviceState *dev, Error =
-**errp)
-=20
-         snprintf(name, sizeof(name), "thread[%d]", i);
-         object_property_add_child(OBJECT(pc), name, obj, &error_abort);
--        object_property_add_alias(obj, "core-pir", OBJECT(pc),
--                                  "pir", &error_abort);
-=20
-         cpu->machine_data =3D g_new0(PnvCPUState, 1);
-=20
-@@ -240,7 +238,7 @@ static void pnv_core_realize(DeviceState *dev, Error =
-**errp)
-     }
-=20
-     for (j =3D 0; j < cc->nr_threads; j++) {
--        pnv_core_cpu_realize(pc->threads[j], pc->chip, &local_err);
-+        pnv_core_cpu_realize(pc, pc->threads[j], &local_err);
-         if (local_err) {
-             goto err;
-         }
-@@ -263,12 +261,12 @@ err:
-     error_propagate(errp, local_err);
- }
-=20
--static void pnv_core_cpu_unrealize(PowerPCCPU *cpu, PnvChip *chip)
-+static void pnv_core_cpu_unrealize(PnvCore *pc, PowerPCCPU *cpu)
- {
-     PnvCPUState *pnv_cpu =3D pnv_cpu_state(cpu);
--    PnvChipClass *pcc =3D PNV_CHIP_GET_CLASS(chip);
-+    PnvChipClass *pcc =3D PNV_CHIP_GET_CLASS(pc->chip);
-=20
--    pcc->intc_destroy(chip, cpu);
-+    pcc->intc_destroy(pc->chip, cpu);
-     cpu_remove_sync(CPU(cpu));
-     cpu->machine_data =3D NULL;
-     g_free(pnv_cpu);
-@@ -284,7 +282,7 @@ static void pnv_core_unrealize(DeviceState *dev, Erro=
-r **errp)
-     qemu_unregister_reset(pnv_core_reset, pc);
-=20
-     for (i =3D 0; i < cc->nr_threads; i++) {
--        pnv_core_cpu_unrealize(pc->threads[i], pc->chip);
-+        pnv_core_cpu_unrealize(pc, pc->threads[i]);
-     }
-     g_free(pc->threads);
- }
+     MemoryRegion xscom_regs;
 --=20
 2.24.1
 
