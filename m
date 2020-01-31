@@ -2,69 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D98414EBE1
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 12:44:03 +0100 (CET)
-Received: from localhost ([::1]:51793 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2864914EBE7
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 12:45:40 +0100 (CET)
+Received: from localhost ([::1]:51830 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ixUiQ-0007hu-Lq
-	for lists+qemu-devel@lfdr.de; Fri, 31 Jan 2020 06:44:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45686)
+	id 1ixUjz-0001SM-7u
+	for lists+qemu-devel@lfdr.de; Fri, 31 Jan 2020 06:45:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46384)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yi.l.liu@intel.com>) id 1ixUgl-0006NE-Lv
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 06:42:21 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1ixUj2-0000eB-TP
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 06:44:42 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <yi.l.liu@intel.com>) id 1ixUgk-0007PG-94
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 06:42:19 -0500
-Received: from mga09.intel.com ([134.134.136.24]:60601)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <yi.l.liu@intel.com>) id 1ixUgj-0007NR-VZ
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 06:42:18 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 31 Jan 2020 03:42:16 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,385,1574150400"; d="scan'208";a="233379445"
-Received: from fmsmsx108.amr.corp.intel.com ([10.18.124.206])
- by orsmga006.jf.intel.com with ESMTP; 31 Jan 2020 03:42:16 -0800
-Received: from fmsmsx122.amr.corp.intel.com (10.18.125.37) by
- FMSMSX108.amr.corp.intel.com (10.18.124.206) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Fri, 31 Jan 2020 03:42:16 -0800
-Received: from shsmsx101.ccr.corp.intel.com (10.239.4.153) by
- fmsmsx122.amr.corp.intel.com (10.18.125.37) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Fri, 31 Jan 2020 03:42:16 -0800
-Received: from shsmsx104.ccr.corp.intel.com ([169.254.5.197]) by
- SHSMSX101.ccr.corp.intel.com ([169.254.1.30]) with mapi id 14.03.0439.000;
- Fri, 31 Jan 2020 19:42:14 +0800
-From: "Liu, Yi L" <yi.l.liu@intel.com>
-To: David Gibson <david@gibson.dropbear.id.au>
-Subject: RE: [RFC v3 03/25] hw/iommu: introduce IOMMUContext
-Thread-Topic: [RFC v3 03/25] hw/iommu: introduce IOMMUContext
-Thread-Index: AQHV1p1ISlCEZJtKwkqCei/mecuDIagDpFsAgADzWWA=
-Date: Fri, 31 Jan 2020 11:42:13 +0000
-Message-ID: <A2975661238FB949B60364EF0F2C25743A199306@SHSMSX104.ccr.corp.intel.com>
-References: <1580300216-86172-1-git-send-email-yi.l.liu@intel.com>
- <1580300216-86172-4-git-send-email-yi.l.liu@intel.com>
- <20200131040644.GG15210@umbus.fritz.box>
-In-Reply-To: <20200131040644.GG15210@umbus.fritz.box>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 11.2.0.6
-dlp-reaction: no-action
-x-ctpclassification: CTP_NT
-x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiN2JhM2VjZTItYTc3Zi00M2NiLTg3YWItODUyNDhkOGY2ZDk3IiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoib0lGeGU1N2lWSFdxeGdjUFc0eTI3UUxsYXRMbGV0Z1wvdFlQSWRkSTB5c3lSOVJGNXZRczlzSFhiVVRnVzhKXC9PIn0=
-x-originating-ip: [10.239.127.40]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ (envelope-from <peter.maydell@linaro.org>) id 1ixUj1-0003U3-AJ
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 06:44:40 -0500
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:42462)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1ixUj1-0003RV-3r
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 06:44:39 -0500
+Received: by mail-ot1-x343.google.com with SMTP id 66so6254575otd.9
+ for <qemu-devel@nongnu.org>; Fri, 31 Jan 2020 03:44:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=AZDYNDSbSEPlDO5GL/RS+Paol6CiMRQi6AXB3v402Lk=;
+ b=hnFWcE9aOVEPSt5J6yaewPu7Hfwv2ncyyO9jMFlK2k0v1O5ROqyiKJ5AE1znjXkL+/
+ boJRxvwMrvgSOmswnPFADlVusGsXGJuaA3DBxOTeuj2n/uyyW05vrZ2x01kZbNskqp7C
+ ttbq3oKBXpyzTOQW33fKPlF8GLRL0+1TiQM6ykp68uTQMIFfi4KBzF5DczpuR5eLIGNJ
+ xQFr4gm5BGnqdvu4kfdabErSCccsePqmj0EnqYl3sDd0e65rox53XyBfuwDOTYQ2plYD
+ xBArO3AIx6rHAUMaxSyPySwKsd/eckFlHza+0Q3AqvIGntI5xxq8uKqX+rKmFhjbMbug
+ f2ww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=AZDYNDSbSEPlDO5GL/RS+Paol6CiMRQi6AXB3v402Lk=;
+ b=QgamiEZQFSpmX+fNBaXxctckEEuW/1gR5kgKGYpq4xeZk8EdAL5MajiuEu/2N5MK4U
+ GlnqEPsV3a9eHjbi3QU0uvf8wDgsb76ZkfA8JWOqLIbBZtgS9YuGfzRyEpp58pvST28y
+ fflDtkbeUqlJBZj4uXZuac6x08OglbgCIQSdwgJJIWgAnxvl+0GpCxmyN7H+fu+AK3Rf
+ Ixx8Nn1ksKWaK8pxg5egGC2UU5h8iHYhKRLvNljNHKsEQYn8KaGt9RSHulGSXrSO8OY/
+ QIKLfJTc33cTaSLC2HvX7xRqRTBCkcahHRk0Tjl5ujTW2xVoOHWpwzLjBFzJJEZKjpZb
+ P6MQ==
+X-Gm-Message-State: APjAAAW8WYy54yNQ26lERT4/leYr7t0JKG4DNeW8zPLT4tOlL1U0XYEp
+ +QmReF+aMHT8ujWwcF12iVO8qgdsCQbKextuAEJWkC6QxO8=
+X-Google-Smtp-Source: APXvYqzMnU8MAY8Qdai2I3Wy5ckKIHFpZZ8X5qRLha/RMsd8QyHqNxoRZnZcFeaA6w0hy9lrMdAJj7UMMOMKbgUgGnY=
+X-Received: by 2002:a05:6830:4a4:: with SMTP id
+ l4mr7256026otd.91.1580471077954; 
+ Fri, 31 Jan 2020 03:44:37 -0800 (PST)
 MIME-Version: 1.0
+References: <20200124162606.8787-1-peter.maydell@linaro.org>
+In-Reply-To: <20200124162606.8787-1-peter.maydell@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 31 Jan 2020 11:44:27 +0000
+Message-ID: <CAFEAcA9wHqKhpiCXG1AokYDJ0DHbzG0Qg6WogY1bqDdgt5iRag@mail.gmail.com>
+Subject: Re: [PATCH v2 0/8] qemu-img, qemu-trace-stap, virtfs-proxy-helper:
+ convert to rST
+To: QEMU Developers <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 134.134.136.24
+X-Received-From: 2607:f8b0:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,115 +73,131 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Tian, Kevin" <kevin.tian@intel.com>,
- Jacob Pan <jacob.jun.pan@linux.intel.com>, Yi Sun <yi.y.sun@linux.intel.com>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>, "mst@redhat.com" <mst@redhat.com>,
- "Tian, Jun J" <jun.j.tian@intel.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "peterx@redhat.com" <peterx@redhat.com>,
- "eric.auger@redhat.com" <eric.auger@redhat.com>,
- "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>, "Sun, Yi Y" <yi.y.sun@intel.com>,
- "Wu, Hao" <hao.wu@intel.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
+ Markus Armbruster <armbru@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
+ Max Reitz <mreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi David,
+I know it's only a week, but could I ping for review on this?
+(statements of the form "I do want to review but need more
+time" also welcome.) Given the potential for conflicts with
+other changes that touch the docs, plus that there's other
+patchsets which depend on this one, it would be nice to put
+it into the tree sooner rather than later.
 
-> From: David Gibson [mailto:david@gibson.dropbear.id.au]
-> Sent: Friday, January 31, 2020 12:07 PM
-> To: Liu, Yi L <yi.l.liu@intel.com>
-> Subject: Re: [RFC v3 03/25] hw/iommu: introduce IOMMUContext
->=20
-> On Wed, Jan 29, 2020 at 04:16:34AM -0800, Liu, Yi L wrote:
-> > From: Peter Xu <peterx@redhat.com>
-> >
-> > Currently, many platform vendors provide the capability of dual stage
-> > DMA address translation in hardware. For example, nested translation
-> > on Intel VT-d scalable mode, nested stage translation on ARM SMMUv3,
-> > and etc. Also there are efforts to make QEMU vIOMMU be backed by dual
-> > stage DMA address translation capability provided by hardware to have
-> > better address translation support for passthru devices.
-> >
-> > As so, making vIOMMU be backed by dual stage translation capability
-> > requires QEMU vIOMMU to have a way to get aware of such hardware
-> > capability and also require a way to receive DMA address translation
-> > faults (e.g. I/O page request) from host as guest owns stage-1 translat=
-ion
-> > structures in dual stage DAM address translation.
-> >
-> > This patch adds IOMMUContext as an abstract of vIOMMU related operation=
-s.
-> > Like provide a way for passthru modules (e.g. VFIO) to register
-> > DualStageIOMMUObject instances. And in future, it is expected to offer
-> > support for receiving host DMA translation faults happened on stage-1
-> > translation.
-> >
-> > For more backgrounds, may refer to the discussion below, while there
-> > is also difference between the current implementation and original
-> > proposal. This patch introduces the IOMMUContext as an abstract layer
-> > for passthru module (e.g. VFIO) calls into vIOMMU. The first introduced
-> > interface is to make QEMU vIOMMU be aware of dual stage translation
-> > capability.
-> >
-> > https://lists.gnu.org/archive/html/qemu-devel/2019-07/msg05022.html
->=20
-> Again, is there a reason for not making this a QOM class or interface?
+Still in need of review: patches 1 (makefile magic),
+5 (the qemu-img conversion itself), 7 (qemu-trace-stap).
 
-I guess it is enough to make a simple abstract layer as explained in prior
-email. IOMMUContext is to provide explicit method for VFIO to call into
-vIOMMU emulators.
+thanks
+-- PMM
 
->=20
-> I'm not very clear on the relationship betwen an IOMMUContext and a
-> DualStageIOMMUObject.  Can there be many IOMMUContexts to a
-> DualStageIOMMUOBject?  The other way around?  Or is it just
-> zero-or-one DualStageIOMMUObjects to an IOMMUContext?
-
-It is possible. As the below patch shows, DualStageIOMMUObject is per vfio
-container. IOMMUContext can be either per-device or shared across devices,
-it depends on vendor specific vIOMMU emulators.
-[RFC v3 10/25] vfio: register DualStageIOMMUObject to vIOMMU
-https://www.spinics.net/lists/kvm/msg205198.html
-
-Take Intel vIOMMU as an example, there is a per device structure which
-includes IOMMUContext instance and a DualStageIOMMUObject pointer.
-
-+struct VTDIOMMUContext {
-+    VTDBus *vtd_bus;
-+    uint8_t devfn;
-+    IOMMUContext iommu_context;
-+    DualStageIOMMUObject *dsi_obj;
-+    IntelIOMMUState *iommu_state;
-+};
-https://www.spinics.net/lists/kvm/msg205196.html
-
-I think this would leave space for vendor specific vIOMMU emulators to
-design their own relationship between an IOMMUContext and a
-DualStageIOMMUObject.
-
-> > Cc: Kevin Tian <kevin.tian@intel.com>
-> > Cc: Jacob Pan <jacob.jun.pan@linux.intel.com>
-> > Cc: Peter Xu <peterx@redhat.com>
-
-[...]
-
-> > + */
-> > +
-> > +#include "qemu/osdep.h"
-> > +#include "hw/iommu/iommu_context.h"
-> > +
-> > +int iommu_context_register_ds_iommu(IOMMUContext *iommu_ctx,
-> > +                                    DualStageIOMMUObject *dsi_obj)
-> > +{
-> > +    if (!iommu_ctx || !dsi_obj) {
->=20
-> Would this ever happen apart from a bug in the caller?  If not it
-> should be an assert().
-
-Got it, thanks, I'll check all other alike in this series and fix them in
-next version.
-
-Thanks,
-Yi Liu
+On Fri, 24 Jan 2020 at 16:26, Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> This patchset converts the following documentation to rST format:
+>  * qemu-img
+>  * qemu-trace-stap
+>  * virtfs-proxy-helper
+>
+> (That means everything in step 3 in the plan:
+> https://wiki.qemu.org/Features/Documentation#3:_Convert_things_which_are_mostly_standalone_manpages
+> will be done except for qemu-cpu-models.texi. That
+> should be a straightforward conversion but I haven't
+> touched it yet because I know there's an on-list patch
+> that updates the texi and wanted to avoid a conflict.)
+>
+> The patchset includes a new Sphinx extension which handles parsing
+> the .hx files which provide documentation fragments for the qemu-img
+> manual.
+>
+> Changes from v1 to v2:
+>  * rebased on master, since the qemu-nbd conversion has now
+>    gone in
+>  * the patches at the end to convert qemu-trace-stap and
+>    virtfs-proxy-helper are new
+>  * new patch at the start of the series which fixes a
+>    bug in our makefiles where we could try to invoke
+>    Sphinx twice in parallel on the same doctree (which
+>    causes it to crash, as well as being unnecessary work)
+>  * fixed the import line for ExtensionError, so this
+>    should now work with Sphinx 1.8
+>
+> I've assigned manpages to interop/ or system/ according
+> to the structure set out in the wiki page above. We should
+> have a discussion about whether some of these should go
+> in a new tools/ manual or not (I'll start a separate
+> thread for that), but it's easy enough to move them
+> later if we need to.
+>
+> The general approach follows the outline in the email I
+> sent the other day:
+> https://lists.gnu.org/archive/html/qemu-devel/2020-01/msg03786.html
+>
+> The new Sphinx extension implements the hxtool-doc::
+> directive, which indicates where the assembled rST
+> document fragments should be inserted into the manual.
+> qemu-img-cmds.hx doesn't use the DEFHEADING or ARCHHEADING
+> directives, but the extension implements them (tested
+> with some local modifications to the .hx file to check
+> that they do the right thing).
+>
+> As noted in the commit message for the qemu-img.texi conversion,
+> I have not attempted to tackle any of the muddle in the
+> current documentation structure or the repetition between
+> the manual document, the fragments in the .hx file and
+> the C code; this is a "simplest thing that works"
+> like-for-like conversion.
+>
+> Another deliberate omission is that I have not attempted
+> to get links between our various Sphinx manuals (system,
+> interop, etc) working yet, as this is not totally trivial
+> and the odd minor missed hyperlink doesn't seem to me
+> to be a deal-breaker.
+>
+> Sorry about the size of the main 'convert qemu-img'
+> patch, but it's unavoidable when converting a big
+> document between formats.
+>
+> thanks
+> -- PMM
+>
+> Peter Maydell (8):
+>   Makefile: Ensure we don't run Sphinx in parallel for manpages
+>   hxtool: Support SRST/ERST directives
+>   docs/sphinx: Add new hxtool Sphinx extension
+>   qemu-img-cmds.hx: Add rST documentation fragments
+>   qemu-img: Convert invocation documentation to rST
+>   qemu-img-cmds.hx: Remove texinfo document fragments
+>   scripts/qemu-trace-stap: Convert documentation to rST
+>   virtfs-proxy-helper: Convert documentation to rST
+>
+>  Makefile                             |  46 +-
+>  MAINTAINERS                          |   3 +
+>  docs/conf.py                         |   3 +-
+>  docs/interop/conf.py                 |   9 +-
+>  docs/interop/index.rst               |   3 +
+>  docs/interop/qemu-img.rst            | 822 +++++++++++++++++++++++++++
+>  docs/interop/qemu-trace-stap.rst     | 124 ++++
+>  docs/interop/virtfs-proxy-helper.rst |  72 +++
+>  docs/sphinx/hxtool.py                | 210 +++++++
+>  fsdev/virtfs-proxy-helper.texi       |  63 --
+>  qemu-doc.texi                        |  10 +-
+>  qemu-img-cmds.hx                     |  99 ++--
+>  qemu-img.texi                        | 795 --------------------------
+>  rules.mak                            |  36 ++
+>  scripts/hxtool                       |  33 +-
+>  scripts/qemu-trace-stap.texi         | 140 -----
+>  16 files changed, 1383 insertions(+), 1085 deletions(-)
+>  create mode 100644 docs/interop/qemu-img.rst
+>  create mode 100644 docs/interop/qemu-trace-stap.rst
+>  create mode 100644 docs/interop/virtfs-proxy-helper.rst
+>  create mode 100644 docs/sphinx/hxtool.py
+>  delete mode 100644 fsdev/virtfs-proxy-helper.texi
+>  delete mode 100644 qemu-img.texi
+>  delete mode 100644 scripts/qemu-trace-stap.texi
+>
+> --
+> 2.20.1
 
