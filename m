@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAB9714E8C7
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 07:25:51 +0100 (CET)
-Received: from localhost ([::1]:48960 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C436514E8B7
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 07:19:19 +0100 (CET)
+Received: from localhost ([::1]:48828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ixPkU-0000xL-JT
-	for lists+qemu-devel@lfdr.de; Fri, 31 Jan 2020 01:25:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59737)
+	id 1ixPeA-0005pF-SZ
+	for lists+qemu-devel@lfdr.de; Fri, 31 Jan 2020 01:19:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59496)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1ixPVN-0007tN-FJ
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 01:10:15 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1ixPV4-0007AT-F1
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 01:09:56 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1ixPVL-00017l-Mb
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 01:10:13 -0500
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:58457 helo=ozlabs.org)
+ (envelope-from <dgibson@ozlabs.org>) id 1ixPV2-0000eZ-CX
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 01:09:54 -0500
+Received: from ozlabs.org ([203.11.71.1]:55539)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1ixPVL-0000bb-B9; Fri, 31 Jan 2020 01:10:11 -0500
+ id 1ixPV1-0000bt-PY; Fri, 31 Jan 2020 01:09:52 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4886Hw3Vrsz9sSq; Fri, 31 Jan 2020 17:09:32 +1100 (AEDT)
+ id 4886Hw4SpJz9sSs; Fri, 31 Jan 2020 17:09:32 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1580450972;
- bh=h02ZFxBZNpn77OCNsfO9YeyOtGiKTlPS1kn6dDZJ3Q0=;
+ bh=ba//WSybPgMfxn4Zj0a8PozqTWTPrObeYBxqTRI8U/Q=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=EZdnI7uFKoFvQ2lLEJKZXrtOSwCH+wfiIBwGJk8lFnNLDB+LMb1ouzDnEosylab+q
- 7ZUbRk8gtkkiSyhoaGwxhUbOcDl9jTa4WhklAdANfPTtd5aq72r5bPL928abBRY8m1
- +TfS7yTaECNYCFd96CK5r6GgQWjxekVEkZBVT8xs=
+ b=c8Q2GlVc90STUe79urg681hIZz6jTYpvLIkAU8tz9/bNMJcx2h77mZ7/zXCBxbS1z
+ /mUwMA7e9NnAs8bjusBPRfixd9lfwX0TWvRcfytrQFqYAQ6/iS5Oscxrj9sTVxUKtO
+ z4w1g0Z3RgzIX7uMtE0OqV4UrzfGmBUriz9mLiVo=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 26/34] target/ppc: Handle NMI guest exit
-Date: Fri, 31 Jan 2020 17:09:16 +1100
-Message-Id: <20200131060924.147449-27-david@gibson.dropbear.id.au>
+Subject: [PULL 27/34] target/ppc: Build rtas error log upon an MCE
+Date: Fri, 31 Jan 2020 17:09:17 +1100
+Message-Id: <20200131060924.147449-28-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200131060924.147449-1-david@gibson.dropbear.id.au>
 References: <20200131060924.147449-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2401:3900:2:1::2
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,210 +61,378 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Aravinda Prasad <arawinda.p@gmail.com>
 
-Memory error such as bit flips that cannot be corrected
-by hardware are passed on to the kernel for handling.
-If the memory address in error belongs to guest then
-the guest kernel is responsible for taking suitable action.
-Patch [1] enhances KVM to exit guest with exit reason
-set to KVM_EXIT_NMI in such cases. This patch handles
-KVM_EXIT_NMI exit.
+Upon a machine check exception (MCE) in a guest address space,
+KVM causes a guest exit to enable QEMU to build and pass the
+error to the guest in the PAPR defined rtas error log format.
 
-[1] https://www.spinics.net/lists/kvm-ppc/msg12637.html
-    (e20bbd3d and related commits)
+This patch builds the rtas error log, copies it to the rtas_addr
+and then invokes the guest registered machine check handler. The
+handler in the guest takes suitable action(s) depending on the type
+and criticality of the error. For example, if an error is
+unrecoverable memory corruption in an application inside the
+guest, then the guest kernel sends a SIGBUS to the application.
+For recoverable errors, the guest performs recovery actions and
+logs the error.
 
 Signed-off-by: Aravinda Prasad <arawinda.p@gmail.com>
+[Assume SLOF has allocated enough room for rtas error log]
 Signed-off-by: Ganesh Goudar <ganeshgr@linux.ibm.com>
 Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
-Reviewed-by: Greg Kurz <groug@kaod.org>
-Message-Id: <20200130184423.20519-4-ganeshgr@linux.ibm.com>
-[dwg: #ifdefs to fix compile for 32-bit target]
+Message-Id: <20200130184423.20519-5-ganeshgr@linux.ibm.com>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/spapr.c          |  8 ++++++++
- hw/ppc/spapr_events.c   | 37 +++++++++++++++++++++++++++++++++++++
- include/hw/ppc/spapr.h  | 10 ++++++++++
- target/ppc/kvm.c        | 18 ++++++++++++++++++
- target/ppc/kvm_ppc.h    |  2 ++
- target/ppc/trace-events |  1 +
- 6 files changed, 76 insertions(+)
+ hw/ppc/spapr_events.c  | 220 ++++++++++++++++++++++++++++++++++++++++-
+ hw/ppc/spapr_rtas.c    |  26 +++++
+ include/hw/ppc/spapr.h |   6 +-
+ target/ppc/kvm.c       |   4 +-
+ 4 files changed, 253 insertions(+), 3 deletions(-)
 
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index aa739e943f..06e295cdf1 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -1677,6 +1677,12 @@ static void spapr_machine_reset(MachineState *mach=
-ine)
-     first_ppc_cpu->env.gpr[5] =3D 0;
-=20
-     spapr->cas_reboot =3D false;
-+
-+    spapr->mc_status =3D -1;
-+    spapr->guest_machine_check_addr =3D -1;
-+
-+    /* Signal all vCPUs waiting on this condition */
-+    qemu_cond_broadcast(&spapr->mc_delivery_cond);
- }
-=20
- static void spapr_create_nvram(SpaprMachineState *spapr)
-@@ -2971,6 +2977,8 @@ static void spapr_machine_init(MachineState *machin=
-e)
-=20
-         kvmppc_spapr_enable_inkernel_multitce();
-     }
-+
-+    qemu_cond_init(&spapr->mc_delivery_cond);
- }
-=20
- static int spapr_kvm_type(MachineState *machine, const char *vm_type)
 diff --git a/hw/ppc/spapr_events.c b/hw/ppc/spapr_events.c
-index e355e000d0..dfc0de840a 100644
+index dfc0de840a..54eaf28a9e 100644
 --- a/hw/ppc/spapr_events.c
 +++ b/hw/ppc/spapr_events.c
-@@ -40,6 +40,7 @@
- #include "hw/ppc/spapr_drc.h"
- #include "qemu/help_option.h"
- #include "qemu/bcd.h"
-+#include "qemu/main-loop.h"
- #include "hw/ppc/spapr_ovec.h"
- #include <libfdt.h>
+@@ -214,6 +214,104 @@ struct hp_extended_log {
+     struct rtas_event_log_v6_hp hp;
+ } QEMU_PACKED;
 =20
-@@ -622,6 +623,42 @@ void spapr_hotplug_req_remove_by_count_indexed(Spapr=
-DrcType drc_type,
++struct rtas_event_log_v6_mc {
++#define RTAS_LOG_V6_SECTION_ID_MC                   0x4D43 /* MC */
++    struct rtas_event_log_v6_section_header hdr;
++    uint32_t fru_id;
++    uint32_t proc_id;
++    uint8_t error_type;
++#define RTAS_LOG_V6_MC_TYPE_UE                           0
++#define RTAS_LOG_V6_MC_TYPE_SLB                          1
++#define RTAS_LOG_V6_MC_TYPE_ERAT                         2
++#define RTAS_LOG_V6_MC_TYPE_TLB                          4
++#define RTAS_LOG_V6_MC_TYPE_D_CACHE                      5
++#define RTAS_LOG_V6_MC_TYPE_I_CACHE                      7
++    uint8_t sub_err_type;
++#define RTAS_LOG_V6_MC_UE_INDETERMINATE                  0
++#define RTAS_LOG_V6_MC_UE_IFETCH                         1
++#define RTAS_LOG_V6_MC_UE_PAGE_TABLE_WALK_IFETCH         2
++#define RTAS_LOG_V6_MC_UE_LOAD_STORE                     3
++#define RTAS_LOG_V6_MC_UE_PAGE_TABLE_WALK_LOAD_STORE     4
++#define RTAS_LOG_V6_MC_SLB_PARITY                        0
++#define RTAS_LOG_V6_MC_SLB_MULTIHIT                      1
++#define RTAS_LOG_V6_MC_SLB_INDETERMINATE                 2
++#define RTAS_LOG_V6_MC_ERAT_PARITY                       1
++#define RTAS_LOG_V6_MC_ERAT_MULTIHIT                     2
++#define RTAS_LOG_V6_MC_ERAT_INDETERMINATE                3
++#define RTAS_LOG_V6_MC_TLB_PARITY                        1
++#define RTAS_LOG_V6_MC_TLB_MULTIHIT                      2
++#define RTAS_LOG_V6_MC_TLB_INDETERMINATE                 3
++    uint8_t reserved_1[6];
++    uint64_t effective_address;
++    uint64_t logical_address;
++} QEMU_PACKED;
++
++struct mc_extended_log {
++    struct rtas_event_log_v6 v6hdr;
++    struct rtas_event_log_v6_mc mc;
++} QEMU_PACKED;
++
++struct MC_ierror_table {
++    unsigned long srr1_mask;
++    unsigned long srr1_value;
++    bool nip_valid; /* nip is a valid indicator of faulting address */
++    uint8_t error_type;
++    uint8_t error_subtype;
++    unsigned int initiator;
++    unsigned int severity;
++};
++
++static const struct MC_ierror_table mc_ierror_table[] =3D {
++{ 0x00000000081c0000, 0x0000000000040000, true,
++  RTAS_LOG_V6_MC_TYPE_UE, RTAS_LOG_V6_MC_UE_IFETCH,
++  RTAS_LOG_INITIATOR_CPU, RTAS_LOG_SEVERITY_ERROR_SYNC, },
++{ 0x00000000081c0000, 0x0000000000080000, true,
++  RTAS_LOG_V6_MC_TYPE_SLB, RTAS_LOG_V6_MC_SLB_PARITY,
++  RTAS_LOG_INITIATOR_CPU, RTAS_LOG_SEVERITY_ERROR_SYNC, },
++{ 0x00000000081c0000, 0x00000000000c0000, true,
++  RTAS_LOG_V6_MC_TYPE_SLB, RTAS_LOG_V6_MC_SLB_MULTIHIT,
++  RTAS_LOG_INITIATOR_CPU, RTAS_LOG_SEVERITY_ERROR_SYNC, },
++{ 0x00000000081c0000, 0x0000000000100000, true,
++  RTAS_LOG_V6_MC_TYPE_ERAT, RTAS_LOG_V6_MC_ERAT_MULTIHIT,
++  RTAS_LOG_INITIATOR_CPU, RTAS_LOG_SEVERITY_ERROR_SYNC, },
++{ 0x00000000081c0000, 0x0000000000140000, true,
++  RTAS_LOG_V6_MC_TYPE_TLB, RTAS_LOG_V6_MC_TLB_MULTIHIT,
++  RTAS_LOG_INITIATOR_CPU, RTAS_LOG_SEVERITY_ERROR_SYNC, },
++{ 0x00000000081c0000, 0x0000000000180000, true,
++  RTAS_LOG_V6_MC_TYPE_UE, RTAS_LOG_V6_MC_UE_PAGE_TABLE_WALK_IFETCH,
++  RTAS_LOG_INITIATOR_CPU, RTAS_LOG_SEVERITY_ERROR_SYNC, } };
++
++struct MC_derror_table {
++    unsigned long dsisr_value;
++    bool dar_valid; /* dar is a valid indicator of faulting address */
++    uint8_t error_type;
++    uint8_t error_subtype;
++    unsigned int initiator;
++    unsigned int severity;
++};
++
++static const struct MC_derror_table mc_derror_table[] =3D {
++{ 0x00008000, false,
++  RTAS_LOG_V6_MC_TYPE_UE, RTAS_LOG_V6_MC_UE_LOAD_STORE,
++  RTAS_LOG_INITIATOR_CPU, RTAS_LOG_SEVERITY_ERROR_SYNC, },
++{ 0x00004000, true,
++  RTAS_LOG_V6_MC_TYPE_UE, RTAS_LOG_V6_MC_UE_PAGE_TABLE_WALK_LOAD_STORE,
++  RTAS_LOG_INITIATOR_CPU, RTAS_LOG_SEVERITY_ERROR_SYNC, },
++{ 0x00000800, true,
++  RTAS_LOG_V6_MC_TYPE_ERAT, RTAS_LOG_V6_MC_ERAT_MULTIHIT,
++  RTAS_LOG_INITIATOR_CPU, RTAS_LOG_SEVERITY_ERROR_SYNC, },
++{ 0x00000400, true,
++  RTAS_LOG_V6_MC_TYPE_TLB, RTAS_LOG_V6_MC_TLB_MULTIHIT,
++  RTAS_LOG_INITIATOR_CPU, RTAS_LOG_SEVERITY_ERROR_SYNC, },
++{ 0x00000080, true,
++  RTAS_LOG_V6_MC_TYPE_SLB, RTAS_LOG_V6_MC_SLB_MULTIHIT,  /* Before PARIT=
+Y */
++  RTAS_LOG_INITIATOR_CPU, RTAS_LOG_SEVERITY_ERROR_SYNC, },
++{ 0x00000100, true,
++  RTAS_LOG_V6_MC_TYPE_SLB, RTAS_LOG_V6_MC_SLB_PARITY,
++  RTAS_LOG_INITIATOR_CPU, RTAS_LOG_SEVERITY_ERROR_SYNC, } };
++
++#define SRR1_MC_LOADSTORE(srr1) ((srr1) & PPC_BIT(42))
++
+ typedef enum EventClass {
+     EVENT_CLASS_INTERNAL_ERRORS     =3D 0,
+     EVENT_CLASS_EPOW                =3D 1,
+@@ -623,7 +721,125 @@ void spapr_hotplug_req_remove_by_count_indexed(Spap=
+rDrcType drc_type,
                              RTAS_LOG_V6_HP_ACTION_REMOVE, drc_type, &drc=
 _id);
  }
 =20
-+void spapr_mce_req_event(PowerPCCPU *cpu)
+-void spapr_mce_req_event(PowerPCCPU *cpu)
++static uint32_t spapr_mce_get_elog_type(PowerPCCPU *cpu, bool recovered,
++                                        struct mc_extended_log *ext_elog=
+)
++{
++    int i;
++    CPUPPCState *env =3D &cpu->env;
++    uint32_t summary;
++    uint64_t dsisr =3D env->spr[SPR_DSISR];
++
++    summary =3D RTAS_LOG_VERSION_6 | RTAS_LOG_OPTIONAL_PART_PRESENT;
++    if (recovered) {
++        summary |=3D RTAS_LOG_DISPOSITION_FULLY_RECOVERED;
++    } else {
++        summary |=3D RTAS_LOG_DISPOSITION_NOT_RECOVERED;
++    }
++
++    if (SRR1_MC_LOADSTORE(env->spr[SPR_SRR1])) {
++        for (i =3D 0; i < ARRAY_SIZE(mc_derror_table); i++) {
++            if (!(dsisr & mc_derror_table[i].dsisr_value)) {
++                continue;
++            }
++
++            ext_elog->mc.error_type =3D mc_derror_table[i].error_type;
++            ext_elog->mc.sub_err_type =3D mc_derror_table[i].error_subty=
+pe;
++            if (mc_derror_table[i].dar_valid) {
++                ext_elog->mc.effective_address =3D cpu_to_be64(env->spr[=
+SPR_DAR]);
++            }
++
++            summary |=3D mc_derror_table[i].initiator
++                        | mc_derror_table[i].severity;
++
++            return summary;
++        }
++    } else {
++        for (i =3D 0; i < ARRAY_SIZE(mc_ierror_table); i++) {
++            if ((env->spr[SPR_SRR1] & mc_ierror_table[i].srr1_mask) !=3D
++                    mc_ierror_table[i].srr1_value) {
++                continue;
++            }
++
++            ext_elog->mc.error_type =3D mc_ierror_table[i].error_type;
++            ext_elog->mc.sub_err_type =3D mc_ierror_table[i].error_subty=
+pe;
++            if (mc_ierror_table[i].nip_valid) {
++                ext_elog->mc.effective_address =3D cpu_to_be64(env->nip)=
+;
++            }
++
++            summary |=3D mc_ierror_table[i].initiator
++                        | mc_ierror_table[i].severity;
++
++            return summary;
++        }
++    }
++
++    summary |=3D RTAS_LOG_INITIATOR_CPU;
++    return summary;
++}
++
++static void spapr_mce_dispatch_elog(PowerPCCPU *cpu, bool recovered)
 +{
 +    SpaprMachineState *spapr =3D SPAPR_MACHINE(qdev_get_machine());
 +    CPUState *cs =3D CPU(cpu);
++    uint64_t rtas_addr;
++    CPUPPCState *env =3D &cpu->env;
++    PowerPCCPUClass *pcc =3D POWERPC_CPU_GET_CLASS(cpu);
++    target_ulong msr =3D 0;
++    struct rtas_error_log log;
++    struct mc_extended_log *ext_elog;
++    uint32_t summary;
 +
-+    if (spapr->guest_machine_check_addr =3D=3D -1) {
-+        /*
-+         * This implies that we have hit a machine check either when the
-+         * guest has not registered FWNMI (i.e., "ibm,nmi-register" not
-+         * called) or between system reset and "ibm,nmi-register".
-+         * Fall back to the old machine check behavior in such cases.
-+         */
-+        cs->exception_index =3D POWERPC_EXCP_MCHECK;
-+        ppc_cpu_do_interrupt(cs);
++    /*
++     * Properly set bits in MSR before we invoke the handler.
++     * SRR0/1, DAR and DSISR are properly set by KVM
++     */
++    if (!(*pcc->interrupts_big_endian)(cpu)) {
++        msr |=3D (1ULL << MSR_LE);
++    }
++
++    if (env->msr & (1ULL << MSR_SF)) {
++        msr |=3D (1ULL << MSR_SF);
++    }
++
++    msr |=3D (1ULL << MSR_ME);
++
++    ext_elog =3D g_malloc0(sizeof(*ext_elog));
++    summary =3D spapr_mce_get_elog_type(cpu, recovered, ext_elog);
++
++    log.summary =3D cpu_to_be32(summary);
++    log.extended_length =3D cpu_to_be32(sizeof(*ext_elog));
++
++    spapr_init_v6hdr(&ext_elog->v6hdr);
++    ext_elog->mc.hdr.section_id =3D cpu_to_be16(RTAS_LOG_V6_SECTION_ID_M=
+C);
++    ext_elog->mc.hdr.section_length =3D
++                    cpu_to_be16(sizeof(struct rtas_event_log_v6_mc));
++    ext_elog->mc.hdr.section_version =3D 1;
++
++    /* get rtas addr from fdt */
++    rtas_addr =3D spapr_get_rtas_addr();
++    if (!rtas_addr) {
++        /* Unable to fetch rtas_addr. Hence reset the guest */
++        ppc_cpu_do_system_reset(cs);
++        g_free(ext_elog);
 +        return;
 +    }
 +
-+    while (spapr->mc_status !=3D -1) {
-+        /*
-+         * Check whether the same CPU got machine check error
-+         * while still handling the mc error (i.e., before
-+         * that CPU called "ibm,nmi-interlock")
-+         */
-+        if (spapr->mc_status =3D=3D cpu->vcpu_id) {
-+            qemu_system_guest_panicked(NULL);
-+            return;
-+        }
-+        qemu_cond_wait_iothread(&spapr->mc_delivery_cond);
-+        /* Meanwhile if the system is reset, then just return */
-+        if (spapr->guest_machine_check_addr =3D=3D -1) {
-+            return;
-+        }
-+    }
-+    spapr->mc_status =3D cpu->vcpu_id;
++    stq_be_phys(&address_space_memory, rtas_addr + RTAS_ERROR_LOG_OFFSET=
+,
++                env->gpr[3]);
++    cpu_physical_memory_write(rtas_addr + RTAS_ERROR_LOG_OFFSET +
++                              sizeof(env->gpr[3]), &log, sizeof(log));
++    cpu_physical_memory_write(rtas_addr + RTAS_ERROR_LOG_OFFSET +
++                              sizeof(env->gpr[3]) + sizeof(log), ext_elo=
+g,
++                              sizeof(*ext_elog));
++
++    env->gpr[3] =3D rtas_addr + RTAS_ERROR_LOG_OFFSET;
++    env->msr =3D msr;
++    env->nip =3D spapr->guest_machine_check_addr;
++
++    g_free(ext_elog);
 +}
 +
++void spapr_mce_req_event(PowerPCCPU *cpu, bool recovered)
+ {
+     SpaprMachineState *spapr =3D SPAPR_MACHINE(qdev_get_machine());
+     CPUState *cs =3D CPU(cpu);
+@@ -657,6 +873,8 @@ void spapr_mce_req_event(PowerPCCPU *cpu)
+         }
+     }
+     spapr->mc_status =3D cpu->vcpu_id;
++
++    spapr_mce_dispatch_elog(cpu, recovered);
+ }
+=20
  static void check_exception(PowerPCCPU *cpu, SpaprMachineState *spapr,
-                             uint32_t token, uint32_t nargs,
-                             target_ulong args,
+diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
+index 85135e0e1a..89b7eb6c54 100644
+--- a/hw/ppc/spapr_rtas.c
++++ b/hw/ppc/spapr_rtas.c
+@@ -476,6 +476,32 @@ void spapr_dt_rtas_tokens(void *fdt, int rtas)
+     }
+ }
+=20
++hwaddr spapr_get_rtas_addr(void)
++{
++    SpaprMachineState *spapr =3D SPAPR_MACHINE(qdev_get_machine());
++    int rtas_node;
++    const fdt32_t *rtas_data;
++    void *fdt =3D spapr->fdt_blob;
++
++    /* fetch rtas addr from fdt */
++    rtas_node =3D fdt_path_offset(fdt, "/rtas");
++    if (rtas_node < 0) {
++        return 0;
++    }
++
++    rtas_data =3D fdt_getprop(fdt, rtas_node, "linux,rtas-base", NULL);
++    if (!rtas_data) {
++        return 0;
++    }
++
++    /*
++     * We assume that the OS called RTAS instantiate-rtas, but some othe=
+r
++     * OS might call RTAS instantiate-rtas-64 instead. This fine as of n=
+ow
++     * as SLOF only supports 32-bit variant.
++     */
++    return (hwaddr)fdt32_to_cpu(*rtas_data);
++}
++
+ static void core_rtas_register_types(void)
+ {
+     spapr_rtas_register(RTAS_DISPLAY_CHARACTER, "display-character",
 diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-index 7bc5fc3a9e..909d3976f9 100644
+index 909d3976f9..652a5514e8 100644
 --- a/include/hw/ppc/spapr.h
 +++ b/include/hw/ppc/spapr.h
-@@ -191,6 +191,15 @@ struct SpaprMachineState {
-      * occurs during the unplug process. */
-     QTAILQ_HEAD(, SpaprDimmState) pending_dimm_unplugs;
+@@ -727,6 +727,9 @@ void spapr_load_rtas(SpaprMachineState *spapr, void *=
+fdt, hwaddr addr);
 =20
-+    /* State related to "ibm,nmi-register" and "ibm,nmi-interlock" calls=
- */
-+    target_ulong guest_machine_check_addr;
-+    /*
-+     * mc_status is set to -1 if mc is not in progress, else is set to t=
-he CPU
-+     * handling the mc.
-+     */
-+    int mc_status;
-+    QemuCond mc_delivery_cond;
+ #define RTAS_ERROR_LOG_MAX      2048
+=20
++/* Offset from rtas-base where error log is placed */
++#define RTAS_ERROR_LOG_OFFSET       0x30
 +
-     /*< public >*/
-     char *kvm_type;
-     char *host_model;
-@@ -804,6 +813,7 @@ void spapr_clear_pending_events(SpaprMachineState *sp=
+ #define RTAS_EVENT_SCAN_RATE    1
+=20
+ /* This helper should be used to encode interrupt specifiers when the re=
+lated
+@@ -813,7 +816,7 @@ void spapr_clear_pending_events(SpaprMachineState *sp=
 apr);
  int spapr_max_server_number(SpaprMachineState *spapr);
  void spapr_store_hpte(PowerPCCPU *cpu, hwaddr ptex,
                        uint64_t pte0, uint64_t pte1);
-+void spapr_mce_req_event(PowerPCCPU *cpu);
+-void spapr_mce_req_event(PowerPCCPU *cpu);
++void spapr_mce_req_event(PowerPCCPU *cpu, bool recovered);
 =20
  /* DRC callbacks. */
  void spapr_core_release(DeviceState *dev);
+@@ -904,4 +907,5 @@ void spapr_check_pagesize(SpaprMachineState *spapr, h=
+waddr pagesize,
+ #define SPAPR_OV5_XIVE_BOTH     0x80 /* Only to advertise on the platfor=
+m */
+=20
+ void spapr_set_all_lpcrs(target_ulong value, target_ulong mask);
++hwaddr spapr_get_rtas_addr(void);
+ #endif /* HW_SPAPR_H */
 diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
-index 4438d0c743..56a6865521 100644
+index 56a6865521..7f44b1aa1a 100644
 --- a/target/ppc/kvm.c
 +++ b/target/ppc/kvm.c
-@@ -1705,6 +1705,13 @@ int kvm_arch_handle_exit(CPUState *cs, struct kvm_=
-run *run)
-         ret =3D 0;
-         break;
-=20
-+#if defined(TARGET_PPC64)
-+    case KVM_EXIT_NMI:
-+        trace_kvm_handle_nmi_exception();
-+        ret =3D kvm_handle_nmi(cpu, run);
-+        break;
-+#endif
-+
-     default:
-         fprintf(stderr, "KVM: unknown exit reason %d\n", run->exit_reaso=
-n);
-         ret =3D -1;
-@@ -2800,6 +2807,17 @@ int kvm_arch_msi_data_to_gsi(uint32_t data)
-     return data & 0xffff;
- }
-=20
-+#if defined(TARGET_PPC64)
-+int kvm_handle_nmi(PowerPCCPU *cpu, struct kvm_run *run)
-+{
-+    cpu_synchronize_state(CPU(cpu));
-+
-+    spapr_mce_req_event(cpu);
-+
-+    return 0;
-+}
-+#endif
-+
- int kvmppc_enable_hwrng(void)
+@@ -2810,9 +2810,11 @@ int kvm_arch_msi_data_to_gsi(uint32_t data)
+ #if defined(TARGET_PPC64)
+ int kvm_handle_nmi(PowerPCCPU *cpu, struct kvm_run *run)
  {
-     if (!kvm_enabled() || !kvm_check_extension(kvm_state, KVM_CAP_PPC_HW=
-RNG)) {
-diff --git a/target/ppc/kvm_ppc.h b/target/ppc/kvm_ppc.h
-index 2c60dedd0d..9e4f2357cc 100644
---- a/target/ppc/kvm_ppc.h
-+++ b/target/ppc/kvm_ppc.h
-@@ -84,6 +84,8 @@ void kvm_check_mmu(PowerPCCPU *cpu, Error **errp);
- void kvmppc_set_reg_ppc_online(PowerPCCPU *cpu, unsigned int online);
- void kvmppc_set_reg_tb_offset(PowerPCCPU *cpu, int64_t tb_offset);
-=20
-+int kvm_handle_nmi(PowerPCCPU *cpu, struct kvm_run *run);
++    bool recovered =3D run->flags & KVM_RUN_PPC_NMI_DISP_FULLY_RECOV;
 +
- #else
+     cpu_synchronize_state(CPU(cpu));
 =20
- static inline uint32_t kvmppc_get_tbfreq(void)
-diff --git a/target/ppc/trace-events b/target/ppc/trace-events
-index 3dc6740706..6d15aa90b4 100644
---- a/target/ppc/trace-events
-+++ b/target/ppc/trace-events
-@@ -28,3 +28,4 @@ kvm_handle_papr_hcall(void) "handle PAPR hypercall"
- kvm_handle_epr(void) "handle epr"
- kvm_handle_watchdog_expiry(void) "handle watchdog expiry"
- kvm_handle_debug_exception(void) "handle debug exception"
-+kvm_handle_nmi_exception(void) "handle NMI exception"
+-    spapr_mce_req_event(cpu);
++    spapr_mce_req_event(cpu, recovered);
+=20
+     return 0;
+ }
 --=20
 2.24.1
 
