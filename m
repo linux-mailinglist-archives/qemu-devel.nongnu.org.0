@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C066114EFC0
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 16:38:22 +0100 (CET)
-Received: from localhost ([::1]:54872 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C5D514EFFC
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 16:45:55 +0100 (CET)
+Received: from localhost ([::1]:54992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ixYNB-0002Uu-Pr
-	for lists+qemu-devel@lfdr.de; Fri, 31 Jan 2020 10:38:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39434)
+	id 1ixYUU-0006nW-IV
+	for lists+qemu-devel@lfdr.de; Fri, 31 Jan 2020 10:45:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39593)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1ixXyV-0004dp-LN
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 10:12:52 -0500
+ (envelope-from <imammedo@redhat.com>) id 1ixXyb-0004uB-EA
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 10:12:58 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1ixXyU-0004QS-B9
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 10:12:51 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:33199
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <imammedo@redhat.com>) id 1ixXya-0004nm-8K
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 10:12:57 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:42848
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1ixXyU-0004O0-6n
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 10:12:50 -0500
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1ixXya-0004mA-4W
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 10:12:56 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580483569;
+ s=mimecast20190719; t=1580483575;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5NE+pIwI1/9J1SA7iUBu5XCliVsKI//qwibiKODuqPg=;
- b=JQ9FHNba9+gN0NWSQkzvq0GuUGRM/bWwt64ccghzCNMfb7jgh+ul/Y1YtGaYA16ctgroi7
- hAF7xKzrxluEbHHOLKzicponxG7tghVB2Z2JOHPiPPIy4U5j6SG3LNLXXcHg34GnSeBUs3
- AIDOoa+GQucGjiKtLv48J+dH29Mb7kc=
+ bh=WUVk7Y/DldEDMWna04nvqRR+uZy+wthMy1YY+tuIsio=;
+ b=SSOl8Fii4j0BDH5/3R5hoqCcRdE8Jp0HhV5Nsu1+z9El0hjLfMeX+Bw6LZyJVZ9mfsFAa+
+ zh04oHfZDUbCxK2nAU8Xp6BWTSjUMQ9hWSAS6Y8zrAzbKfnGh3JWl/YRn96q+JajVYR6cj
+ kwapGTmXttFkgS7ie6+b7Fqfg8mu9UI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-121-3CUcdvS-PGaEdmgBTLH4Gw-1; Fri, 31 Jan 2020 10:12:47 -0500
+ us-mta-289-3ICG7mhKMVmYkyVEcp3ggw-1; Fri, 31 Jan 2020 10:12:48 -0500
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 54721100550E
- for <qemu-devel@nongnu.org>; Fri, 31 Jan 2020 15:12:46 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E2797800D50
+ for <qemu-devel@nongnu.org>; Fri, 31 Jan 2020 15:12:47 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CECD986C4B
- for <qemu-devel@nongnu.org>; Fri, 31 Jan 2020 15:12:45 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 69F8486C4B
+ for <qemu-devel@nongnu.org>; Fri, 31 Jan 2020 15:12:47 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 32/80] arm/vexpress: use memdev for RAM
-Date: Fri, 31 Jan 2020 16:09:02 +0100
-Message-Id: <1580483390-131164-33-git-send-email-imammedo@redhat.com>
+Subject: [PATCH v4 34/80] arm/xilinx_zynq: drop RAM size fixup
+Date: Fri, 31 Jan 2020 16:09:04 +0100
+Message-Id: <1580483390-131164-35-git-send-email-imammedo@redhat.com>
 In-Reply-To: <1580483390-131164-1-git-send-email-imammedo@redhat.com>
 References: <1580483390-131164-1-git-send-email-imammedo@redhat.com>
-MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: 3CUcdvS-PGaEdmgBTLH4Gw-1
+X-MC-Unique: 3ICG7mhKMVmYkyVEcp3ggw-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,90 +74,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-replace it with memdev allocated MemoryRegion. The later is
-initialized by generic code, so board only needs to opt in
-to memdev scheme by providing
-  MachineClass::default_ram_id
-and using MachineState::ram instead of manually initializing
-RAM memory region.
+If user provided non-sense RAM size, board will complain and
+continue running with max RAM size supported.
+Also RAM is going to be allocated by generic code, so it won't be
+possible for board to fix things up for user.
+
+Make it error message and exit to force user fix CLI,
+instead of accepting non-sense CLI values.
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- hw/arm/vexpress.c | 14 +++++---------
- 1 file changed, 5 insertions(+), 9 deletions(-)
+ hw/arm/xilinx_zynq.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/hw/arm/vexpress.c b/hw/arm/vexpress.c
-index 4673a88..ed683ee 100644
---- a/hw/arm/vexpress.c
-+++ b/hw/arm/vexpress.c
-@@ -273,7 +273,6 @@ static void a9_daughterboard_init(const VexpressMachine=
-State *vms,
+diff --git a/hw/arm/xilinx_zynq.c b/hw/arm/xilinx_zynq.c
+index 3a0fa5b..df950fc 100644
+--- a/hw/arm/xilinx_zynq.c
++++ b/hw/arm/xilinx_zynq.c
+@@ -158,7 +158,6 @@ static inline void zynq_init_spi_flashes(uint32_t base_=
+addr, qemu_irq irq,
+=20
+ static void zynq_init(MachineState *machine)
  {
-     MachineState *machine =3D MACHINE(vms);
-     MemoryRegion *sysmem =3D get_system_memory();
--    MemoryRegion *ram =3D g_new(MemoryRegion, 1);
-     MemoryRegion *lowram =3D g_new(MemoryRegion, 1);
-     ram_addr_t low_ram_size;
+-    ram_addr_t ram_size =3D machine->ram_size;
+     ARMCPU *cpu;
+     MemoryRegion *address_space_mem =3D get_system_memory();
+     MemoryRegion *ext_ram =3D g_new(MemoryRegion, 1);
+@@ -168,6 +167,12 @@ static void zynq_init(MachineState *machine)
+     qemu_irq pic[64];
+     int n;
 =20
-@@ -283,8 +282,6 @@ static void a9_daughterboard_init(const VexpressMachine=
-State *vms,
-         exit(1);
-     }
++    /* max 2GB ram */
++    if (machine->ram_size > 0x80000000) {
++        error_report("RAM size more than %d is not supported", 0x80000000)=
+;
++        exit(EXIT_FAILURE);
++    }
++
+     cpu =3D ARM_CPU(object_new(machine->cpu_type));
 =20
--    memory_region_allocate_system_memory(ram, NULL, "vexpress.highmem",
+     /* By default A9 CPUs have EL3 enabled.  This board does not
+@@ -184,14 +189,9 @@ static void zynq_init(MachineState *machine)
+                             &error_fatal);
+     object_property_set_bool(OBJECT(cpu), true, "realized", &error_fatal);
+=20
+-    /* max 2GB ram */
+-    if (ram_size > 0x80000000) {
+-        ram_size =3D 0x80000000;
+-    }
+-
+     /* DDR remapped to address zero.  */
+     memory_region_allocate_system_memory(ext_ram, NULL, "zynq.ext_ram",
 -                                         ram_size);
-     low_ram_size =3D ram_size;
-     if (low_ram_size > 0x4000000) {
-         low_ram_size =3D 0x4000000;
-@@ -293,9 +290,10 @@ static void a9_daughterboard_init(const VexpressMachin=
-eState *vms,
-      * address space should in theory be remappable to various
-      * things including ROM or RAM; we always map the RAM there.
-      */
--    memory_region_init_alias(lowram, NULL, "vexpress.lowmem", ram, 0, low_=
-ram_size);
-+    memory_region_init_alias(lowram, NULL, "vexpress.lowmem", machine->ram=
-,
-+                             0, low_ram_size);
-     memory_region_add_subregion(sysmem, 0x0, lowram);
--    memory_region_add_subregion(sysmem, 0x60000000, ram);
-+    memory_region_add_subregion(sysmem, 0x60000000, machine->ram);
++                                         machine->ram_size);
+     memory_region_add_subregion(address_space_mem, 0, ext_ram);
 =20
-     /* 0x1e000000 A9MPCore (SCU) private memory region */
-     init_cpus(machine, cpu_type, TYPE_A9MPCORE_PRIV, 0x1e000000, pic,
-@@ -360,7 +358,6 @@ static void a15_daughterboard_init(const VexpressMachin=
-eState *vms,
- {
-     MachineState *machine =3D MACHINE(vms);
-     MemoryRegion *sysmem =3D get_system_memory();
--    MemoryRegion *ram =3D g_new(MemoryRegion, 1);
-     MemoryRegion *sram =3D g_new(MemoryRegion, 1);
+     /* 256K of on-chip memory */
+@@ -300,7 +300,7 @@ static void zynq_init(MachineState *machine)
+     sysbus_connect_irq(busdev, 0, pic[40 - IRQ_OFFSET]);
+     sysbus_mmio_map(busdev, 0, 0xF8007000);
 =20
-     {
-@@ -375,10 +372,8 @@ static void a15_daughterboard_init(const VexpressMachi=
-neState *vms,
-         }
-     }
-=20
--    memory_region_allocate_system_memory(ram, NULL, "vexpress.highmem",
--                                         ram_size);
-     /* RAM is from 0x80000000 upwards; there is no low-memory alias for it=
-. */
--    memory_region_add_subregion(sysmem, 0x80000000, ram);
-+    memory_region_add_subregion(sysmem, 0x80000000, machine->ram);
-=20
-     /* 0x2c000000 A15MPCore private memory region (GIC) */
-     init_cpus(machine, cpu_type, TYPE_A15MPCORE_PRIV,
-@@ -795,6 +790,7 @@ static void vexpress_class_init(ObjectClass *oc, void *=
-data)
-     mc->init =3D vexpress_common_init;
-     mc->max_cpus =3D 4;
-     mc->ignore_memory_transaction_failures =3D true;
-+    mc->default_ram_id =3D "vexpress.highmem";
- }
-=20
- static void vexpress_a9_class_init(ObjectClass *oc, void *data)
+-    zynq_binfo.ram_size =3D ram_size;
++    zynq_binfo.ram_size =3D machine->ram_size;
+     zynq_binfo.nb_cpus =3D 1;
+     zynq_binfo.board_id =3D 0xd32;
+     zynq_binfo.loader_start =3D 0;
 --=20
 2.7.4
 
