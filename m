@@ -2,69 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 415D414E7AA
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 04:47:00 +0100 (CET)
-Received: from localhost ([::1]:48072 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FCD614E7D6
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 05:21:07 +0100 (CET)
+Received: from localhost ([::1]:48220 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ixNGk-0007JE-TX
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 22:46:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50492)
+	id 1ixNnm-0004kr-7y
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 23:21:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58868)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1ixNFq-0006sM-5i
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 22:46:03 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1ixNlv-0003Kr-0Y
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 23:19:13 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1ixNFo-0003ri-55
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 22:46:01 -0500
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:42767)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
- id 1ixNFo-0003rD-03
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 22:46:00 -0500
-Received: by mail-ot1-x343.google.com with SMTP id 66so5299839otd.9
- for <qemu-devel@nongnu.org>; Thu, 30 Jan 2020 19:45:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=DNBA4y8bHv8iCKajimatU39v6YwgTgZT7lKIrHPROGM=;
- b=tp0cg8Aht+Sdw6bSryvCRIS+M3vJj4So5W/yOM8/Y/Q0L4j+fgknpuLP8l2VXB5x0L
- B02LAIOwbno1BHThcEMht8GGsSjeBHJCTPSDlufoir2JT30Xj3Wit0nhTQqfSoVvenBs
- J2Bx5Y/FBAEjznmME7T6NvWhWcNOFOL7SNOUQjnHSZBJ7S3tCzhL4sYA5I/fpHKDYN9Q
- 71yX0Dx8uJ8NH2mclyVoQKQ2bX7W1sU1zZ5sKjNcTQX3w/9VLsL/xzJJAX2NM8fFt16H
- abqL8esSgG5e9T8qw0iiyNZEY2PvRGx5d64mt+dQ6KRmP1aq1FvznfC9/zzRsuFyg3yw
- t/Ow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=DNBA4y8bHv8iCKajimatU39v6YwgTgZT7lKIrHPROGM=;
- b=IBND6yLDddke8178rxgUXFMw+9Rkl0aHeCUUVt2ExXIh0OzBuo6gAZBDjq177dSgs8
- A9qx8T8lKOiX7h94WV2cZScJjQjzaEyd2ZSBuLBXAD1ynv65y8tveA3/s9nXtjiTGD+P
- 1APm29hfL6gpJtSkU7J9BfDWar08NvI5x4jh6q1TgK0gtOMYiPfyybhuHsSB7jatP/69
- 0qX0QvIqW/TERdr6LWTibw4ByurvtGdhOYdg7DLrxJJye+cJIg8BSf0X/GibleQnYRsb
- HfshOMrEU16NUzBd6uUDvTxxll5i7dcnWSDKgEnzNeQjmB+a8ffPYqD/tNGA/EKT+Kx+
- td2Q==
-X-Gm-Message-State: APjAAAUHgu8t9aGxuPEyTaO/F+7ypcdW4rp45YNM9z4dXXVcJqfIca2n
- Gfw1P2ASTAfohKHXQX13w2HGhXlbDFQKeMj7SPk=
-X-Google-Smtp-Source: APXvYqxI9oZaBzNDKX3hYnsOpXKllSvtlif2mYvIGtSIbfefZAcQ+NhiV9z/rGRLazmUp5rwBH+ny+zKpYOdVaPNkvU=
-X-Received: by 2002:a9d:6505:: with SMTP id i5mr5805151otl.121.1580442358994; 
- Thu, 30 Jan 2020 19:45:58 -0800 (PST)
+ (envelope-from <dgibson@ozlabs.org>) id 1ixNlt-00027x-EM
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 23:19:10 -0500
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:56291 helo=ozlabs.org)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>) id 1ixNls-00023c-Vx
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 23:19:09 -0500
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4883rR4R0jz9sRQ; Fri, 31 Jan 2020 15:19:03 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1580444343;
+ bh=S8HBFAr+JEPEt6RudSE2u2FRnvTK1cgTyXZx/iPTRdU=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=OhPkwtwZM+eUMobCQtW4UNn1sRRPuk4Ul6MdQXX3oLy3SY58Z2wldCSIRs6reItaU
+ nja5hiA6LgM/70Rcm/u69f+eBIaen+w5Let/iSr+4BfZGJ0Gcp60Im2Mhvm1ExI8oq
+ jY+3WwXgVRhzQqEFvLZQtcxlxCkf43oQVIT0/cS0=
+Date: Fri, 31 Jan 2020 14:59:14 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: "Liu, Yi L" <yi.l.liu@intel.com>
+Subject: Re: [RFC v3 02/25] hw/iommu: introduce DualStageIOMMUObject
+Message-ID: <20200131035914.GF15210@umbus.fritz.box>
+References: <1580300216-86172-1-git-send-email-yi.l.liu@intel.com>
+ <1580300216-86172-3-git-send-email-yi.l.liu@intel.com>
 MIME-Version: 1.0
-References: <1580428993-4767-1-git-send-email-aleksandar.markovic@rt-rk.com>
- <1580428993-4767-25-git-send-email-aleksandar.markovic@rt-rk.com>
- <CAL1e-=j3b6Gfo4K56=tXc9jbXAy3fou5Dsxq3ns9C89mpuPXxA@mail.gmail.com>
- <CAAdtpL6F=qbWT7keQxHtacndN+JUM32tyd9vW0ZEEMYYN=a=3g@mail.gmail.com>
-In-Reply-To: <CAAdtpL6F=qbWT7keQxHtacndN+JUM32tyd9vW0ZEEMYYN=a=3g@mail.gmail.com>
-From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Date: Fri, 31 Jan 2020 04:45:48 +0100
-Message-ID: <CAL1e-=hqWdFckhi30iws0_OMEB01dvs=ARTvpWrAJ4bF5qrKbQ@mail.gmail.com>
-Subject: Re: [PATCH rc4 24/29] hw/avr: Add some ATmega microcontrollers
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="B0nZA57HJSoPbsHY"
+Content-Disposition: inline
+In-Reply-To: <1580300216-86172-3-git-send-email-yi.l.liu@intel.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::343
+X-Received-From: 2401:3900:2:1::2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,145 +55,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Thomas Huth <thuth@redhat.com>, "Daniel P. Berrange" <berrange@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: kevin.tian@intel.com, Jacob Pan <jacob.jun.pan@linux.intel.com>,
+ Yi Sun <yi.y.sun@linux.intel.com>, kvm@vger.kernel.org, mst@redhat.com,
+ jun.j.tian@intel.com, qemu-devel@nongnu.org, peterx@redhat.com,
+ eric.auger@redhat.com, alex.williamson@redhat.com, pbonzini@redhat.com,
+ yi.y.sun@intel.com, hao.wu@intel.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jan 31, 2020 at 4:09 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
-g> wrote:
->
-> Hi Aleksandar,
->
-> Cc'ing Thomas & Daniel who are not lawyers but tried to explain me few
-> times how licensing works.
->
-> On Fri, Jan 31, 2020 at 2:56 AM Aleksandar Markovic
-> <aleksandar.m.mail@gmail.com> wrote:
-> > On Fri, Jan 31, 2020 at 1:03 AM Aleksandar Markovic
-> > <aleksandar.markovic@rt-rk.com> wrote:
-> > >
-> > > From: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> > >
-> > > Add some AVR microcontrollers from the ATmega family:
-> > >
-> > >   - middle range: ATmega168 and ATmega328
-> > >   - high range: ATmega1280 and ATmega2560
-> > >
-> > > For product comparison:
-> > >   https://www.microchip.com/wwwproducts/ProductCompare/ATmega168P/ATm=
-ega328P
-> > >   https://www.microchip.com/wwwproducts/ProductCompare/ATmega1280/ATm=
-ega2560
-> > >
-> > > Datasheets:
-> > >   http://ww1.microchip.com/downloads/en/DeviceDoc/ATmega48A-PA-88A-PA=
--168A-PA-328-P-DS-DS40002061A.pdf
-> > >   http://ww1.microchip.com/downloads/en/DeviceDoc/Atmel-2549-8-bit-AV=
-R-Microcontroller-ATmega640-1280-1281-2560-2561_datasheet.pdf
-> > >
-> > > [AM: Remove word 'Atmel' from filenames and all elements of code]
-> > > Suggested-by: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-> > >
-> > > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> > > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> > > Signed-off-by: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-> > > ---
-> > >  hw/avr/Kconfig       |   5 +
-> > >  hw/avr/Makefile.objs |   1 +
-> > >  hw/avr/atmega.c      | 470 +++++++++++++++++++++++++++++++++++++++++=
-++++++++++
-> > >  hw/avr/atmega.h      |  48 ++++++
-> > >  4 files changed, 524 insertions(+)
-> > >  create mode 100644 hw/avr/Kconfig
-> > >  create mode 100644 hw/avr/atmega.c
-> > >  create mode 100644 hw/avr/atmega.h
-> > >
-> > > diff --git a/hw/avr/Kconfig b/hw/avr/Kconfig
-> > > new file mode 100644
-> > > index 0000000..9e6527e
-> > > --- /dev/null
-> > > +++ b/hw/avr/Kconfig
-> > > @@ -0,0 +1,5 @@
-> > > +config AVR_ATMEGA_MCU
-> > > +    bool
-> > > +    select AVR_TIMER16
-> > > +    select AVR_USART
-> > > +    select AVR_POWER
-> > > diff --git a/hw/avr/Makefile.objs b/hw/avr/Makefile.objs
-> > > index 123f174..af0fdde 100644
-> > > --- a/hw/avr/Makefile.objs
-> > > +++ b/hw/avr/Makefile.objs
-> > > @@ -1 +1,2 @@
-> > >  obj-y +=3D boot.o
-> > > +obj-$(CONFIG_AVR_ATMEGA_MCU) +=3D atmega.o
-> > > diff --git a/hw/avr/atmega.c b/hw/avr/atmega.c
-> > > new file mode 100644
-> > > index 0000000..8cdf28b
-> > > --- /dev/null
-> > > +++ b/hw/avr/atmega.c
-> > > @@ -0,0 +1,470 @@
-> > > +/*
-> > > + * QEMU ATmega MCU
-> > > + *
-> > > + * Copyright (c) 2019 Philippe Mathieu-Daud=C3=A9
-> > > + *
-> > > + * This work is licensed under the terms of the GNU GPLv2 or later.
-> > > + * See the COPYING file in the top-level directory.
-> > > + * SPDX-License-Identifier: GPL-2.0-or-later
-> > > + */
-> >
-> > Philippe,
-> >
-> > Michael and I already agreed at some moment that the whole target AVR
-> > should have harmonized licenses, and Sarrah agreed to change her
-> > license to achieve this. Do you agree to harmonize your licenses with
-> > the rest of the project? (This would mean changing the preable, but of
-> > course you remain copyright carrier as is now.)
->
-> What license do you want to use? I always use "GPLv2 or later" with
-> QEMU, mostly following what the others do.
->
-> Per https://wiki.qemu.org/License:
->
->   Source files with no licensing information are released under the
-> GNU General Public License, version 2 or (at your option) any later
-> version.
->
-> Reading about licensing is not fun :(
->
 
-Philippe, here is the deal: All new files for AVR platform has the
-following preamble, that Michael chose from the outset:
+--B0nZA57HJSoPbsHY
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2.1 of the License, or (at your option) any later version.
-+ *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see
-+ * <http://www.gnu.org/licenses/lgpl-2.1.html>
+On Wed, Jan 29, 2020 at 04:16:33AM -0800, Liu, Yi L wrote:
+> From: Liu Yi L <yi.l.liu@intel.com>
+>=20
+> Currently, many platform vendors provide the capability of dual stage
+> DMA address translation in hardware. For example, nested translation
+> on Intel VT-d scalable mode, nested stage translation on ARM SMMUv3,
+> and etc. In dual stage DMA address translation, there are two stages
+> address translation, stage-1 (a.k.a first-level) and stage-2 (a.k.a
+> second-level) translation structures. Stage-1 translation results are
+> also subjected to stage-2 translation structures. Take vSVA (Virtual
+> Shared Virtual Addressing) as an example, guest IOMMU driver owns
+> stage-1 translation structures (covers GVA->GPA translation), and host
+> IOMMU driver owns stage-2 translation structures (covers GPA->HPA
+> translation). VMM is responsible to bind stage-1 translation structures
+> to host, thus hardware could achieve GVA->GPA and then GPA->HPA
+> translation. For more background on SVA, refer the below links.
+>  - https://www.youtube.com/watch?v=3DKq_nfGK5MwQ
+>  - https://events19.lfasiallc.com/wp-content/uploads/2017/11/\
+> Shared-Virtual-Memory-in-KVM_Yi-Liu.pdf
+>=20
+> As above, dual stage DMA translation offers two stage address mappings,
+> which could have better DMA address translation support for passthru
+> devices. This is also what vIOMMU developers are doing so far. Efforts
+> includes vSVA enabling from Yi Liu and SMMUv3 Nested Stage Setup from
+> Eric Auger.
+> https://www.spinics.net/lists/kvm/msg198556.html
+> https://lists.gnu.org/archive/html/qemu-devel/2019-07/msg02842.html
+>=20
+> Both efforts are aiming to expose a vIOMMU with dual stage hardware
+> backed. As so, QEMU needs to have an explicit object to stand for
+> the dual stage capability from hardware. Such object offers abstract
+> for the dual stage DMA translation related operations, like:
+>=20
+>  1) PASID allocation (allow host to intercept in PASID allocation)
+>  2) bind stage-1 translation structures to host
+>  3) propagate stage-1 cache invalidation to host
+>  4) DMA address translation fault (I/O page fault) servicing etc.
+>=20
+> This patch introduces DualStageIOMMUObject to stand for the hardware
+> dual stage DMA translation capability. PASID allocation/free are the
+> first operation included in it, in future, there will be more operations
+> like bind_stage1_pgtbl and invalidate_stage1_cache and etc.
+>=20
+> Cc: Kevin Tian <kevin.tian@intel.com>
+> Cc: Jacob Pan <jacob.jun.pan@linux.intel.com>
+> Cc: Peter Xu <peterx@redhat.com>
+> Cc: Eric Auger <eric.auger@redhat.com>
+> Cc: Yi Sun <yi.y.sun@linux.intel.com>
+> Cc: David Gibson <david@gibson.dropbear.id.au>
+> Signed-off-by: Liu Yi L <yi.l.liu@intel.com>
 
-Now, it is preferable that licenses are harmonized within a module,
-and I ask you to change the preamble to be the same as the rest of the
-module, that is all. This practically means LGPL2.1+later instead
-LGPL2.0+later. I think it is reasonable that we want to simplify out
-license stuff, not complicate it with different licenses within a
-module. There are examples of complications in cases of different
-license within the same module, so it would be ideal if we avoid such
-situations.
+Several overall queries about this:
 
-Aleksandar
+1) Since it's explicitly handling PASIDs, this seems a lot more
+   specific to SVM than the name suggests.  I'd suggest a rename.
 
-> >
-> > Thanks,
-> > Aleksandar
+2) Why are you hand rolling structures of pointers, rather than making
+   this a QOM class or interface and putting those things into methods?
+
+3) It's not really clear to me if this is for the case where both
+   stages of translation are visible to the guest, or only one of
+   them.
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--B0nZA57HJSoPbsHY
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl4zphIACgkQbDjKyiDZ
+s5IQYg/+LAuO22iNHumMZpGs30DHJ8l/gPm+BizzzE4S4QHRwO5Pe8etzEUWfcRw
+ZlVfNTPtgKLOmgfJFk3kZt53UCuogwq4bodiNhTZ6ykCuq5LlADFMVhiaUJoUr8l
+vfcOfD7QhQw0zCG8vPoMh+hn1eBd6KfcoyW9TW8vK0/OzNBYhj8mg0vVcjrDOSQS
+Lzs/x8Pl8gnppwxgKqYBP8PATVeMOgnFPEfUaejvxW6/Dqg0Bwe55KF4ze/flAyA
+PQbdHeX/c/9tGjqjJ2bVDTGylgCyFIIqaXgdSR3xUniSWf7ttwRM9b7VJrHT86wQ
+D9NXjKIHQnhbgYOnsz3iI809oX3JFo8DKj2WvCvwWtLZO+ZyG1qR/SOEQZlGCe1S
+w5ItoN1T5Bdq21OVDifi3iVsr20RJsMgwzwbG3YJu2jW9w3iH7tvjAsjT4sVuS62
+YvhonQBiLpKr0FJsic9bgbTVnDDfQE9Nsm/cfnXrKIp505ELTFhl7BpLeit3TyCy
+PNqf2r0ICn5ZoxsZ1sK2MbBAm8K+rYKXmINk3R4vBfw8Cve1K5HZZWpoCqkCF1tb
+CUcwU/3B1Nem2hOGfI7JJIDXOf2BQuKnLVrTKuPOSO+ibYGWQO+BGmgoTG7ofZcf
+gfkkOAWSvkaOHu1w2GM/DudhRC/rRPdOcEPldvhE9V8dVn8c8HU=
+=YSYx
+-----END PGP SIGNATURE-----
+
+--B0nZA57HJSoPbsHY--
 
