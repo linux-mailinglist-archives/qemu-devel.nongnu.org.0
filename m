@@ -2,70 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E441914EEC0
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 15:49:41 +0100 (CET)
-Received: from localhost ([::1]:54028 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0934514EECE
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 15:54:17 +0100 (CET)
+Received: from localhost ([::1]:54096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ixXc4-0003cb-UR
-	for lists+qemu-devel@lfdr.de; Fri, 31 Jan 2020 09:49:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53852)
+	id 1ixXgU-000645-TT
+	for lists+qemu-devel@lfdr.de; Fri, 31 Jan 2020 09:54:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58693)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1ixXZV-0001lO-GE
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 09:47:07 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1ixXfM-0005PO-U8
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 09:53:06 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1ixXZT-0001QC-DC
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 09:47:01 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:32285
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1ixXZR-0001KJ-Hh
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 09:46:59 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580482015;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=LIECwYuI/LdyU5huu2OmcBqdAE2Or9vq9vxvqXvhCqY=;
- b=C3B0lk9tD5Q317xW7oFgKDYT1kAOouyDHhEDvgRtupV4WlrdZYi0BDw2154jnzZTUTres5
- pgLBFE2kPgyKGZ+DzveSJWmfomuMf6PcS0k/MEgqFpUt/kkdcWN8yhUgpDHn3B/pntNmGA
- hgyuXSjCl9IcPElQUFKlLocoQb8F7Xw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-118-DpFyAiMBMXKjXrzV08CvsA-1; Fri, 31 Jan 2020 09:46:51 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E3250800D53;
- Fri, 31 Jan 2020 14:46:49 +0000 (UTC)
-Received: from [10.3.116.181] (ovpn-116-181.phx2.redhat.com [10.3.116.181])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1F4F660BE1;
- Fri, 31 Jan 2020 14:46:49 +0000 (UTC)
-Subject: Re: [PATCH v11 1/2] docs: improve qcow2 spec about extending image
- header
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20200131142219.3264-1-vsementsov@virtuozzo.com>
- <20200131142219.3264-2-vsementsov@virtuozzo.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <acc0be89-de1a-7406-ddfd-e95f154f0aef@redhat.com>
-Date: Fri, 31 Jan 2020 08:46:48 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ (envelope-from <alex.bennee@linaro.org>) id 1ixXfL-0000ZO-IF
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 09:53:04 -0500
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:40687)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1ixXfL-0000Xm-9A
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 09:53:03 -0500
+Received: by mail-wr1-x442.google.com with SMTP id j104so8919761wrj.7
+ for <qemu-devel@nongnu.org>; Fri, 31 Jan 2020 06:53:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=nA+qHn+r1zOEXnmkqs1YpSUQU3YPmVelMWhzQ5Ift5A=;
+ b=CtDHQv6UsrgBcllmuGv4G+YdQX92gWmfhOSDXLERjMmtTV5mKtZRB86JE6FCOXrAXY
+ p8nfgv+tb4MTCaY75VtnX4Vlzag824VuyBbJPye7gO1r3wF/v7W5BDtBO8JKZ/FQPflm
+ tmpdBUw+ETQ322MZKbTNAoRcHKXXVEzpeeGwO/yW5WotkBtvLQPf/Gr3ZI10Eug0KgRl
+ X9WTKBecIzWdX3pWT2+rtCfBIBjjQUtKaCMfEhLSC5hPSvBcsNIHsIckMAKqoeYdaVFm
+ EdGoB+VPyboXGhthcfKxYI/LNod3BHsEsiInApvVaSIYYDJNEPDulwl2nAVtiPGNX/5L
+ phWg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=nA+qHn+r1zOEXnmkqs1YpSUQU3YPmVelMWhzQ5Ift5A=;
+ b=SG8BZdMAVEOgtnOGTAQSXRi3Ee8/LvImEEB0tLuQi/BXy/Vt4xrdmI/2UZRgMtcNdq
+ 2iBDVd7eiD2m1R2auxff4T/+542HBEDin9OAqyaGkNV6g06A7hk56EcsgXQ7Zaz3Adel
+ jxCz61zUZgXReRasCOWwbEwAJhm8kZp9psyFlQerTdK/bsgRTL3AQkLk//4qqSfET0TC
+ EFWraomUXlVEWcb/n6ywsiwll9541hMHZL0sESkUUqDtBvQvGF5Ht7JMoSSU+TPUOVq5
+ 2ZP9J0Q79ODn1kYIrZpIjktuCbvPP7chCFpx/dVXlfXrhO85StKwQGSq08tfLJi+cEMk
+ Rbdg==
+X-Gm-Message-State: APjAAAVsjwTr9UPYncieiLzEE9LCO4RtlygtQh5FehjoaS8ybFg1H3rl
+ o0FrkiRnCA1T7G4aqv/LR/kHfw==
+X-Google-Smtp-Source: APXvYqyMSKp5GvmzN4uwjkX+Grjz+LB7dPoQjsMpdsRw67eW6DoxUBzKa+fi4zWlfNme3J8cHO4mwQ==
+X-Received: by 2002:a5d:6048:: with SMTP id j8mr13145459wrt.41.1580482381883; 
+ Fri, 31 Jan 2020 06:53:01 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id y20sm11137339wmj.23.2020.01.31.06.52.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 31 Jan 2020 06:52:59 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 2B7A01FF87;
+ Fri, 31 Jan 2020 14:52:59 +0000 (GMT)
+References: <1580428993-4767-1-git-send-email-aleksandar.markovic@rt-rk.com>
+ <20200131010941.10636-1-philmd@redhat.com>
+ <20200131010941.10636-2-philmd@redhat.com> <87sgjv9883.fsf@linaro.org>
+ <CAP+75-WkRVeV3B09C7sTkzzH6DSNzO4vitTf7Q4SYBSxL1CgSg@mail.gmail.com>
+User-agent: mu4e 1.3.7; emacs 27.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH 1/2] !fixup "hw/misc: Add limited support for AVR power
+ device"
+In-reply-to: <CAP+75-WkRVeV3B09C7sTkzzH6DSNzO4vitTf7Q4SYBSxL1CgSg@mail.gmail.com>
+Date: Fri, 31 Jan 2020 14:52:59 +0000
+Message-ID: <87mua38ypg.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20200131142219.3264-2-vsementsov@virtuozzo.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: DpFyAiMBMXKjXrzV08CvsA-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::442
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,40 +85,136 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, armbru@redhat.com, qemu-devel@nongnu.org,
- dplotnikov@virtuozzo.com, den@openvz.org, mreitz@redhat.com
+Cc: Sarah Harris <S.E.Harris@kent.ac.uk>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Aleksandar Markovic <aleksandar.markovic@rt-rk.com>,
+ Michael Rolnik <mrolnik@gmail.com>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Aleksandar Markovic <aleksandar.m.mail@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/31/20 8:22 AM, Vladimir Sementsov-Ogievskiy wrote:
-> Make it more obvious how to add new fields to the version 3 header and
-> how to interpret them.
-> 
-> The specification is adjusted so that for new defined optional fields:
-> 
-> 1. Software may support some of these optional fields and ignore the
->     others, which means that features may be backported to downstream
->     Qemu independently.
-> 2. If we want to add incompatible field (or a field, for which some its
 
-s/some/some of/
+Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
 
->     values would be incompatible), it must be accompanied by
->     incompatible feature bit.
-> 
-> Also the concept of "default is zero" is clarified, as it's strange to
-> say that the value of the field is assumed to be zero for the software
-> version which don't know about the field at all and don't know how to
-> treat it be it zero or not.
-> 
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> Reviewed-by: Eric Blake <eblake@redhat.com>
-> ---
->   docs/interop/qcow2.txt | 45 +++++++++++++++++++++++++++++++++++++++---
->   1 file changed, 42 insertions(+), 3 deletions(-)
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+> On Fri, Jan 31, 2020 at 12:27 PM Alex Benn=C3=A9e <alex.bennee@linaro.org=
+> wrote:
+>> Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
+>>
+>> > - convert DB_PRINT() to trace-events
+>> > - fix style/indentation
+>> >
+>> > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+>> > ---
+>> >  hw/misc/avr_power.c  | 17 +++++++++--------
+>> >  hw/misc/trace-events |  4 ++++
+>> >  2 files changed, 13 insertions(+), 8 deletions(-)
+>> >
+>> > diff --git a/hw/misc/avr_power.c b/hw/misc/avr_power.c
+>> > index 598bc7279c..65ff7c4405 100644
+>> > --- a/hw/misc/avr_power.c
+>> > +++ b/hw/misc/avr_power.c
+>> > @@ -27,9 +27,7 @@
+>> >  #include "qemu/log.h"
+>> >  #include "hw/qdev-properties.h"
+>> >  #include "hw/irq.h"
+>> > -
+>> > -#define DB_PRINT(fmt, args...) /* Nothing */
+>> > -/*#define DB_PRINT(fmt, args...) printf("%s: " fmt "\n", __func__, ##=
+ args)*/
+>> > +#include "trace.h"
+>> >
+>> >  static void avr_mask_reset(DeviceState *dev)
+>> >  {
+>> > @@ -48,19 +46,20 @@ static uint64_t avr_mask_read(void *opaque, hwaddr=
+ offset, unsigned size)
+>> >      assert(offset =3D=3D 0);
+>> >      AVRMaskState *s =3D opaque;
+>> >
+>> > +    trace_avr_power_read(s->val);
+>> > +
+>> >      return (uint64_t)s->val;
+>> >  }
+>> >
+>> >  static void avr_mask_write(void *opaque, hwaddr offset,
+>> > -                              uint64_t val64, unsigned size)
+>> > +                           uint64_t val64, unsigned size)
+>> >  {
+>> >      assert(size =3D=3D 1);
+>> >      assert(offset =3D=3D 0);
+>> >      AVRMaskState *s =3D opaque;
+>> >      uint8_t val8 =3D val64;
+>> >
+>> > -    DB_PRINT("write %d to offset %d", val8, (uint8_t)offset);
+>> > -
+>> > +    trace_avr_power_write(val8);
+>>
+>> You've dropped offset in this trace point which is probably worth
+>> keeping so you track where is being written to. Same with the read.
+>
+> I dropped it because it is always 0x00, the register is 8bit wide. See
+> below, memory_region_init_io(...,1).
+> I thought about adding a "name" property so each instance can display
+> the device it belongs to, but this was too invasive, so I decided to
+> keep this change for later.
 
+Ahh I did wonder (I was reviewing without applying). Might be worth
+mentioning in the commit then.
+
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+
+>
+>> >      s->val =3D val8;
+>> >      for (int i =3D 0; i < 8; i++) {
+>> >          qemu_set_irq(s->irq[i], (val8 & (1 << i)) !=3D 0);
+>> > @@ -71,7 +70,9 @@ static const MemoryRegionOps avr_mask_ops =3D {
+>> >      .read =3D avr_mask_read,
+>> >      .write =3D avr_mask_write,
+>> >      .endianness =3D DEVICE_NATIVE_ENDIAN,
+>> > -    .impl =3D {.max_access_size =3D 1}
+>> > +    .impl =3D {
+>> > +        .max_access_size =3D 1,
+>> > +    },
+>> >  };
+>> >
+>> >  static void avr_mask_init(Object *dev)
+>> > @@ -80,7 +81,7 @@ static void avr_mask_init(Object *dev)
+>> >      SysBusDevice *busdev =3D SYS_BUS_DEVICE(dev);
+>> >
+>> >      memory_region_init_io(&s->iomem, dev, &avr_mask_ops, s, TYPE_AVR_=
+MASK,
+>> > -            0x01);
+>> > +                          0x01);
+>
+> ^ Region has only 1 address: 0x00.
+>
+>> >      sysbus_init_mmio(busdev, &s->iomem);
+>> >
+>> >      for (int i =3D 0; i < 8; i++) {
+>> > diff --git a/hw/misc/trace-events b/hw/misc/trace-events
+>> > index 7f0f5dff3a..f716881bb1 100644
+>> > --- a/hw/misc/trace-events
+>> > +++ b/hw/misc/trace-events
+>> > @@ -179,3 +179,7 @@ via1_rtc_cmd_pram_read(int addr, int value) "addr=
+=3D%u value=3D0x%02x"
+>> >  via1_rtc_cmd_pram_write(int addr, int value) "addr=3D%u value=3D0x%02=
+x"
+>> >  via1_rtc_cmd_pram_sect_read(int sector, int offset, int addr, int val=
+ue) "sector=3D%u offset=3D%u addr=3D%d value=3D0x%02x"
+>> >  via1_rtc_cmd_pram_sect_write(int sector, int offset, int addr, int va=
+lue) "sector=3D%u offset=3D%u addr=3D%d value=3D0x%02x"
+>> > +
+>> > +# avr_power.c
+>> > +avr_power_read(uint8_t value) "power_reduc read value:%u"
+>> > +avr_power_write(uint8_t value) "power_reduc write value:%u"
+>>
+>>
+>> --
+>> Alex Benn=C3=A9e
+>>
+
+
+--=20
+Alex Benn=C3=A9e
 
