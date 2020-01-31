@@ -2,64 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FC4114F04C
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 17:00:03 +0100 (CET)
-Received: from localhost ([::1]:55216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74B3014F041
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 16:58:44 +0100 (CET)
+Received: from localhost ([::1]:55210 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ixYiA-00041B-8e
-	for lists+qemu-devel@lfdr.de; Fri, 31 Jan 2020 11:00:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40611)
+	id 1ixYgt-0002T1-Fs
+	for lists+qemu-devel@lfdr.de; Fri, 31 Jan 2020 10:58:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46526)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1ixXzO-0006ZP-BG
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 10:13:47 -0500
+ (envelope-from <philmd@redhat.com>) id 1ixY8A-0001Cz-MT
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 10:22:52 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1ixXzM-0007gd-SV
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 10:13:46 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:46959
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1ixY85-0002B4-Hg
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 10:22:50 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:27462
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1ixXzM-0007cQ-MC
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 10:13:44 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1ixY85-00021f-DG
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 10:22:45 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580483624;
+ s=mimecast20190719; t=1580484161;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=InmtWZr4VBzvXoi7lXHgyU80VuAxaHMHEJa5KAgZjbI=;
- b=AnPkJNxYuYgzTjYOeqOJ18JBYWkFqCkoG0UiSD/6/qmwliZXbiNW+wbV2xB1Unegqah68z
- ec/TyqrPB4+qAW1IfXBxZdYf/P73j+8JzXhuASJam7Pp11OIXYiNy5IeMY9MLLw1+N6f6U
- gO5xpa4GtOYDZyXKeW3QmWKbjdIp1SQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-354-WmdFy3BgOP2H3HT7VeCTVg-1; Fri, 31 Jan 2020 10:13:41 -0500
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D8BC5107ACC5
- for <qemu-devel@nongnu.org>; Fri, 31 Jan 2020 15:13:40 +0000 (UTC)
-Received: from dell-r430-03.lab.eng.brq.redhat.com
- (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5EF8F86C4B
- for <qemu-devel@nongnu.org>; Fri, 31 Jan 2020 15:13:40 +0000 (UTC)
-From: Igor Mammedov <imammedo@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v4 80/80] tests:numa-test: use explicit memdev to specify node
- RAM
-Date: Fri, 31 Jan 2020 16:09:50 +0100
-Message-Id: <1580483390-131164-81-git-send-email-imammedo@redhat.com>
-In-Reply-To: <1580483390-131164-1-git-send-email-imammedo@redhat.com>
-References: <1580483390-131164-1-git-send-email-imammedo@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: WmdFy3BgOP2H3HT7VeCTVg-1
+ bh=fU5Q9tAwBYTsvgE9OlTFZHnEXlfsFRDbT/TVi3Mr1rc=;
+ b=GTy0jJGt6oXR+lqEjZh/NMbKdN7jGHG7+4R7ufZKpaCWouu7Ln+qLDs20d/5JnojY2mWah
+ DYUCa4ODANQ2QuqI3vgpsY8GTtil9NNh7WQmA9L3dXNW+JwNUZZkd897pmtF7YkvPmzgKb
+ IIGrU9pA4NeKio1jwp2MTC1K3WkLDhA=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-290-dCQTsqoVOqKzlvUIZtkkXw-1; Fri, 31 Jan 2020 10:22:40 -0500
+Received: by mail-wm1-f72.google.com with SMTP id p5so2949270wmc.4
+ for <qemu-devel@nongnu.org>; Fri, 31 Jan 2020 07:22:39 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Vtsd8qbd0GVSBzMa2gL/dKjK2YFld8SxxOYyDlMtD5E=;
+ b=n92GZpwEN6q4+Mlovyl0lRUSuW2hijXUZTjfkBUKefkm/m375o1Sf7ulDveZZ62FGa
+ ODNLGGcI906cmXhd1p8+t3eAV8eaGen7PgCcay8Pb2M7KLjUvZwYs1WP+eqaBRS8WN7s
+ 2HSySR3t/tcfMY98yO5TGuOGpXYsBUpLrxl5q2uNgsT0iWYCQoE5IPCBou3wS3wjg4a2
+ Hm8R3Rv8Ar2P8P6LsenZL3dXGJ5sW7FEgeVzIdHE829uEvWKU+RJXXg3ofgn6Uyc5rB1
+ q+A36DruurIJw6Wo0QUzN0PHTaMbnpvghws8AKyJ0qZQsoDf+kT8daSMjHLwS0uW4zrS
+ OC+g==
+X-Gm-Message-State: APjAAAUk32VYIwfrK1sA/GXHBRnwvWA8vzrnjmwlTMt+QybNrsWwrRNd
+ SjMZMFXZgp0VhwoOYefbEeXFOZN4EFKtexznxDrR4n4qZ0amVIncZul1fWriMCk5lNcrqPXMZRV
+ eL9vScrsIW1hDRPk=
+X-Received: by 2002:a1c:1b42:: with SMTP id b63mr12885588wmb.16.1580484158666; 
+ Fri, 31 Jan 2020 07:22:38 -0800 (PST)
+X-Google-Smtp-Source: APXvYqyFv2EPzeHmGY5DjwLV7fzsv7m+45OtWqIvBRdtR+NIrj3AOvJVd0I1vih61bGZ0xendy8Jwg==
+X-Received: by 2002:a1c:1b42:: with SMTP id b63mr12885560wmb.16.1580484158368; 
+ Fri, 31 Jan 2020 07:22:38 -0800 (PST)
+Received: from [192.168.1.35] (113.red-83-57-172.dynamicip.rima-tde.net.
+ [83.57.172.113])
+ by smtp.gmail.com with ESMTPSA id 133sm3812095wmd.5.2020.01.31.07.22.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 31 Jan 2020 07:22:37 -0800 (PST)
+Subject: Re: [PATCH v2 01/12] tests/docker: move most cross compilers to
+ buster base
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20200130113223.31046-1-alex.bennee@linaro.org>
+ <20200130113223.31046-2-alex.bennee@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <0d238467-022b-0024-ac40-452b49361fe1@redhat.com>
+Date: Fri, 31 Jan 2020 16:22:36 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
+MIME-Version: 1.0
+In-Reply-To: <20200130113223.31046-2-alex.bennee@linaro.org>
+Content-Language: en-US
+X-MC-Unique: dCQTsqoVOqKzlvUIZtkkXw-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,150 +93,176 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: fam@euphon.net, berrange@redhat.com, stefanb@linux.vnet.ibm.com,
+ richard.henderson@linaro.org, f4bug@amsat.org, cota@braap.org,
+ stefanha@redhat.com, marcandre.lureau@redhat.com, pbonzini@redhat.com,
+ aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Follow up patches will remove automatic RAM distribution
-between nodes and will make default machine types require
-"memdev" option instead of legacy "mem" option.
+On 1/30/20 12:32 PM, Alex Benn=C3=A9e wrote:
+> This includes fixing up the dependencies (Which were already wrong for
+> one of the mips variants).
+>=20
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> ---
+>   tests/docker/Makefile.include                    | 16 ++++++++--------
+>   tests/docker/dockerfiles/debian-amd64.docker     |  2 +-
+>   .../docker/dockerfiles/debian-armel-cross.docker |  2 +-
+>   .../docker/dockerfiles/debian-armhf-cross.docker |  2 +-
+>   .../dockerfiles/debian-mips64el-cross.docker     |  2 +-
+>   .../dockerfiles/debian-mipsel-cross.docker       |  2 +-
+>   .../dockerfiles/debian-ppc64el-cross.docker      |  2 +-
+>   .../docker/dockerfiles/debian-s390x-cross.docker |  2 +-
+>   8 files changed, 15 insertions(+), 15 deletions(-)
+>=20
+> diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.includ=
+e
+> index 19dbe26169..43a8678688 100644
+> --- a/tests/docker/Makefile.include
+> +++ b/tests/docker/Makefile.include
+> @@ -91,19 +91,12 @@ endif
+>   # Enforce dependencies for composite images
+>   docker-image-debian9-mxe: docker-image-debian9
+>   ifeq ($(HOST_ARCH),x86_64)
+> -docker-image-debian-amd64: docker-image-debian9
+> +docker-image-debian-amd64: docker-image-debian10
+>   DOCKER_PARTIAL_IMAGES +=3D debian-amd64-cross
+>   else
+>   docker-image-debian-amd64-cross: docker-image-debian10
+>   DOCKER_PARTIAL_IMAGES +=3D debian-amd64
+>   endif
+> -docker-image-debian-armel-cross: docker-image-debian9
+> -docker-image-debian-armhf-cross: docker-image-debian9
+> -docker-image-debian-mips-cross: docker-image-debian9
+> -docker-image-debian-mipsel-cross: docker-image-debian9
+> -docker-image-debian-mips64el-cross: docker-image-debian9
+> -docker-image-debian-ppc64el-cross: docker-image-debian9
+> -docker-image-debian-s390x-cross: docker-image-debian9
+>   docker-image-debian-win32-cross: docker-image-debian9-mxe
+>   docker-image-debian-win64-cross: docker-image-debian9-mxe
+>  =20
+> @@ -118,12 +111,19 @@ endif
+>  =20
+>   docker-image-debian-alpha-cross: docker-image-debian10
+>   docker-image-debian-arm64-cross: docker-image-debian10
+> +docker-image-debian-armel-cross: docker-image-debian10
+> +docker-image-debian-armhf-cross: docker-image-debian10
+>   docker-image-debian-hppa-cross: docker-image-debian10
+>   docker-image-debian-m68k-cross: docker-image-debian10
+> +docker-image-debian-mips-cross: docker-image-debian10
+>   docker-image-debian-mips64-cross: docker-image-debian10
+> +docker-image-debian-mips64el-cross: docker-image-debian10
+> +docker-image-debian-mipsel-cross: docker-image-debian10
+>   docker-image-debian-powerpc-cross: docker-image-debian10
+>   docker-image-debian-ppc64-cross: docker-image-debian10
+> +docker-image-debian-ppc64el-cross: docker-image-debian10
+>   docker-image-debian-riscv64-cross: docker-image-debian10
+> +docker-image-debian-s390x-cross: docker-image-debian10
+>   docker-image-debian-sh4-cross: docker-image-debian10
+>   docker-image-debian-sparc64-cross: docker-image-debian10
+>  =20
+> diff --git a/tests/docker/dockerfiles/debian-amd64.docker b/tests/docker/=
+dockerfiles/debian-amd64.docker
+> index 431e947ebd..3b860af106 100644
+> --- a/tests/docker/dockerfiles/debian-amd64.docker
+> +++ b/tests/docker/dockerfiles/debian-amd64.docker
+> @@ -4,7 +4,7 @@
+>   # This docker target builds on the debian Stretch base image. Further
+>   # libraries which are not widely available are installed by hand.
+>   #
+> -FROM qemu:debian9
+> +FROM qemu:debian10
+>   MAINTAINER Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+>  =20
+>   RUN apt update && \
+> diff --git a/tests/docker/dockerfiles/debian-armel-cross.docker b/tests/d=
+ocker/dockerfiles/debian-armel-cross.docker
+> index 15378f8ea2..e3794a61c9 100644
+> --- a/tests/docker/dockerfiles/debian-armel-cross.docker
+> +++ b/tests/docker/dockerfiles/debian-armel-cross.docker
+> @@ -3,7 +3,7 @@
+>   #
+>   # This docker target builds on the debian Stretch base image.
+>   #
+> -FROM qemu:debian9
+> +FROM qemu:debian10
+>   MAINTAINER Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+>  =20
+>   # Add the foreign architecture we want and install dependencies
+> diff --git a/tests/docker/dockerfiles/debian-armhf-cross.docker b/tests/d=
+ocker/dockerfiles/debian-armhf-cross.docker
+> index 4a20af6fe1..e163b8b956 100644
+> --- a/tests/docker/dockerfiles/debian-armhf-cross.docker
+> +++ b/tests/docker/dockerfiles/debian-armhf-cross.docker
+> @@ -3,7 +3,7 @@
+>   #
+>   # This docker target builds on the debian Stretch base image.
+>   #
+> -FROM qemu:debian9
+> +FROM qemu:debian10
+>  =20
+>   # Add the foreign architecture we want and install dependencies
+>   RUN dpkg --add-architecture armhf
+> diff --git a/tests/docker/dockerfiles/debian-mips64el-cross.docker b/test=
+s/docker/dockerfiles/debian-mips64el-cross.docker
+> index 2fca112405..453b53ef72 100644
+> --- a/tests/docker/dockerfiles/debian-mips64el-cross.docker
+> +++ b/tests/docker/dockerfiles/debian-mips64el-cross.docker
+> @@ -4,7 +4,7 @@
+>   # This docker target builds on the debian Stretch base image.
+>   #
+>  =20
+> -FROM qemu:debian9
+> +FROM qemu:debian10
+>  =20
+>   MAINTAINER Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+>  =20
+> diff --git a/tests/docker/dockerfiles/debian-mipsel-cross.docker b/tests/=
+docker/dockerfiles/debian-mipsel-cross.docker
+> index 4abf7832ac..3b6e975c68 100644
+> --- a/tests/docker/dockerfiles/debian-mipsel-cross.docker
+> +++ b/tests/docker/dockerfiles/debian-mipsel-cross.docker
+> @@ -3,7 +3,7 @@
+>   #
+>   # This docker target builds on the debian Stretch base image.
+>   #
+> -FROM qemu:debian9
+> +FROM qemu:debian10
+>  =20
+>   MAINTAINER Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+>  =20
+> diff --git a/tests/docker/dockerfiles/debian-ppc64el-cross.docker b/tests=
+/docker/dockerfiles/debian-ppc64el-cross.docker
+> index 9973df9ff7..cd386f01d9 100644
+> --- a/tests/docker/dockerfiles/debian-ppc64el-cross.docker
+> +++ b/tests/docker/dockerfiles/debian-ppc64el-cross.docker
+> @@ -3,7 +3,7 @@
+>   #
+>   # This docker target builds on the debian Stretch base image.
+>   #
+> -FROM qemu:debian9
+> +FROM qemu:debian10
+>  =20
+>   # Add the foreign architecture we want and install dependencies
+>   RUN dpkg --add-architecture ppc64el && \
+> diff --git a/tests/docker/dockerfiles/debian-s390x-cross.docker b/tests/d=
+ocker/dockerfiles/debian-s390x-cross.docker
+> index eb73c98855..43fe59836f 100644
+> --- a/tests/docker/dockerfiles/debian-s390x-cross.docker
+> +++ b/tests/docker/dockerfiles/debian-s390x-cross.docker
+> @@ -3,7 +3,7 @@
+>   #
+>   # This docker target builds on the debian Stretch base image.
+>   #
+> -FROM qemu:debian9
+> +FROM qemu:debian10
+>  =20
+>   # Add the s390x architecture
+>   RUN dpkg --add-architecture s390x
+>=20
 
-Make tests to follow new rules and add an additional test
-for legacy "mem" option on old machine type, to make sure
-it won't regress in the future.
-
-Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Acked-by: Thomas Huth <thuth@redhat.com>
----
-v3:
-   * s/strcmp/g_str_equal/
-   * put -object lines before -m
-     (Thomas Huth <thuth@redhat.com>)
-   * drop new test_pc_legacy_mem(), due to dropping
-      "numa: forbid '-numa node,mem' for 5.0 and newer machine types"
-     it will be posted later, when libvirt side is prepared for
-     disabled '-numa node,mem' (hopefully 5.1)
----
- tests/qtest/numa-test.c | 30 ++++++++++++++++++------------
- 1 file changed, 18 insertions(+), 12 deletions(-)
-
-diff --git a/tests/qtest/numa-test.c b/tests/qtest/numa-test.c
-index 35999ea..2f9b7f6 100644
---- a/tests/qtest/numa-test.c
-+++ b/tests/qtest/numa-test.c
-@@ -25,9 +25,8 @@ static void test_mon_explicit(const void *data)
-     g_autofree char *s =3D NULL;
-     g_autofree char *cli =3D NULL;
-=20
--    cli =3D make_cli(data, "-smp 8 "
--                   "-numa node,nodeid=3D0,cpus=3D0-3 "
--                   "-numa node,nodeid=3D1,cpus=3D4-7 ");
-+    cli =3D make_cli(data, "-smp 8 -numa node,nodeid=3D0,memdev=3Dram,cpus=
-=3D0-3 "
-+                         "-numa node,nodeid=3D1,cpus=3D4-7");
-     qts =3D qtest_init(cli);
-=20
-     s =3D qtest_hmp(qts, "info numa");
-@@ -37,13 +36,13 @@ static void test_mon_explicit(const void *data)
-     qtest_quit(qts);
- }
-=20
--static void test_mon_default(const void *data)
-+static void test_def_cpu_split(const void *data)
- {
-     QTestState *qts;
-     g_autofree char *s =3D NULL;
-     g_autofree char *cli =3D NULL;
-=20
--    cli =3D make_cli(data, "-smp 8 -numa node -numa node");
-+    cli =3D make_cli(data, "-smp 8 -numa node,memdev=3Dram -numa node");
-     qts =3D qtest_init(cli);
-=20
-     s =3D qtest_hmp(qts, "info numa");
-@@ -60,7 +59,7 @@ static void test_mon_partial(const void *data)
-     g_autofree char *cli =3D NULL;
-=20
-     cli =3D make_cli(data, "-smp 8 "
--                   "-numa node,nodeid=3D0,cpus=3D0-1 "
-+                   "-numa node,nodeid=3D0,memdev=3Dram,cpus=3D0-1 "
-                    "-numa node,nodeid=3D1,cpus=3D4-5 ");
-     qts =3D qtest_init(cli);
-=20
-@@ -87,7 +86,8 @@ static void test_query_cpus(const void *data)
-     QTestState *qts;
-     g_autofree char *cli =3D NULL;
-=20
--    cli =3D make_cli(data, "-smp 8 -numa node,cpus=3D0-3 -numa node,cpus=
-=3D4-7");
-+    cli =3D make_cli(data, "-smp 8 -numa node,memdev=3Dram,cpus=3D0-3 "
-+                         "-numa node,cpus=3D4-7");
-     qts =3D qtest_init(cli);
-     cpus =3D get_cpus(qts, &resp);
-     g_assert(cpus);
-@@ -125,7 +125,7 @@ static void pc_numa_cpu(const void *data)
-     g_autofree char *cli =3D NULL;
-=20
-     cli =3D make_cli(data, "-cpu pentium -smp 8,sockets=3D2,cores=3D2,thre=
-ads=3D2 "
--        "-numa node,nodeid=3D0 -numa node,nodeid=3D1 "
-+        "-numa node,nodeid=3D0,memdev=3Dram -numa node,nodeid=3D1 "
-         "-numa cpu,node-id=3D1,socket-id=3D0 "
-         "-numa cpu,node-id=3D0,socket-id=3D1,core-id=3D0 "
-         "-numa cpu,node-id=3D0,socket-id=3D1,core-id=3D1,thread-id=3D0 "
-@@ -178,7 +178,7 @@ static void spapr_numa_cpu(const void *data)
-     g_autofree char *cli =3D NULL;
-=20
-     cli =3D make_cli(data, "-smp 4,cores=3D4 "
--        "-numa node,nodeid=3D0 -numa node,nodeid=3D1 "
-+        "-numa node,nodeid=3D0,memdev=3Dram -numa node,nodeid=3D1 "
-         "-numa cpu,node-id=3D0,core-id=3D0 "
-         "-numa cpu,node-id=3D0,core-id=3D1 "
-         "-numa cpu,node-id=3D0,core-id=3D2 "
-@@ -223,7 +223,7 @@ static void aarch64_numa_cpu(const void *data)
-     g_autofree char *cli =3D NULL;
-=20
-     cli =3D make_cli(data, "-smp 2 "
--        "-numa node,nodeid=3D0 -numa node,nodeid=3D1 "
-+        "-numa node,nodeid=3D0,memdev=3Dram -numa node,nodeid=3D1 "
-         "-numa cpu,node-id=3D1,thread-id=3D0 "
-         "-numa cpu,node-id=3D0,thread-id=3D1");
-     qts =3D qtest_init(cli);
-@@ -270,7 +270,7 @@ static void pc_dynamic_cpu_cfg(const void *data)
-=20
-     /* create 2 numa nodes */
-     g_assert(!qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'set-numa-node',"
--        " 'arguments': { 'type': 'node', 'nodeid': 0 } }")));
-+        " 'arguments': { 'type': 'node', 'nodeid': 0, 'memdev': 'ram' } }"=
-)));
-     g_assert(!qmp_rsp_is_err(qtest_qmp(qs, "{ 'execute': 'set-numa-node',"
-         " 'arguments': { 'type': 'node', 'nodeid': 1 } }")));
-=20
-@@ -542,13 +542,19 @@ int main(int argc, char **argv)
-     g_autoptr(GString) args =3D g_string_new(NULL);
-     const char *arch =3D qtest_get_arch();
-=20
-+    if (g_str_equal(arch, "ppc64")) {
-+        g_string_append(args, " -object memory-backend-ram,id=3Dram,size=
-=3D512M");
-+    } else {
-+        g_string_append(args, " -object memory-backend-ram,id=3Dram,size=
-=3D128M");
-+    }
-+
-     if (g_str_equal(arch, "aarch64")) {
-         g_string_append(args, " -machine virt");
-     }
-=20
-     g_test_init(&argc, &argv, NULL);
-=20
--    qtest_add_data_func("/numa/mon/default", args, test_mon_default);
-+    qtest_add_data_func("/numa/mon/cpus/default", args, test_def_cpu_split=
-);
-     qtest_add_data_func("/numa/mon/cpus/explicit", args, test_mon_explicit=
-);
-     qtest_add_data_func("/numa/mon/cpus/partial", args, test_mon_partial);
-     qtest_add_data_func("/numa/qmp/cpus/query-cpus", args, test_query_cpus=
-);
---=20
-2.7.4
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
 
