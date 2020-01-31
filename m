@@ -2,71 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CCDC14E7CC
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 05:12:43 +0100 (CET)
-Received: from localhost ([::1]:48172 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76F9C14E8A6
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 07:12:47 +0100 (CET)
+Received: from localhost ([::1]:48720 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ixNfe-0002MC-5S
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 23:12:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56895)
+	id 1ixPXp-0003Ud-ET
+	for lists+qemu-devel@lfdr.de; Fri, 31 Jan 2020 01:12:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59042)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1ixNek-0001xd-DR
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 23:11:48 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1ixPUo-0006ah-Jm
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 01:09:39 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1ixNeh-0004ij-Db
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 23:11:46 -0500
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:46875)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
- id 1ixNeh-0004hv-6Z
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 23:11:43 -0500
-Received: by mail-oi1-x243.google.com with SMTP id a22so5964281oid.13
- for <qemu-devel@nongnu.org>; Thu, 30 Jan 2020 20:11:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=3cASlOeLtV5shwV3o9KiBx7hM6tNYbRzmHDbSAoZZcY=;
- b=p/ZFn7A1LwXZoY7WggfczK1xLrdCBqxOSB/cT/kl8GcmdeYZ59qwGKIJzpkvxmDWzW
- zLYtSHHbSOOesvM+gHSGSkFJuMZKEwzvLNblrhGgAvAxR3PbY1uHkfehcLk74thGd0zg
- Epi7bu8cQ0+hX1X3sZupIJG04uaMsvk+CxlUMXza1lHAavnIS7iolcnF3FlJm/np4sWz
- YthE7y/lrpYxMAs6AE9CevZE90f1EBpX72ycR4kFLi89OYDKl2VyANNlMKxkzwXEr15Y
- HmFOMk9J7g7rHdp0VQchms8rzH0GZJL3yUCk2lYYxSaxy41zz5PrLe7iZdWDuhPnRPx+
- oZGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=3cASlOeLtV5shwV3o9KiBx7hM6tNYbRzmHDbSAoZZcY=;
- b=jJgMw2vOYitQqSHP1SB44JMHFxB/CM0xewwP41skfMfDShNwyWN4AJEk/yIsVTviR7
- fT8HhbLYyAxsgPmYsAG5hI6DleHhKIXx6K/Qrn86mifHCm+135ruJJc/cyOitAuCLpuZ
- cH1VSFpic6tjCkmyCsJIZjzbsmAjLyfcqwMBp1EcFSzulthUQJVuYSFaRr4V3eZJYAlb
- O4bAfyBoHAz1fSjhM1R2vII+a/4q4xfa4apyS/RXf2QVGQ/kCtNnlc38oA1DM9yOUrvo
- b/E1t3WG2pU7aE2viL97NkfH5H3Cfm6WPLrXI99MnSPxuYIOswJ/ifBK0aqXTBBhkEll
- QDRw==
-X-Gm-Message-State: APjAAAWrZoDl7DSWCSO00BgrI0JuqKN012f6D0lVXD+Ilupv5lrZirsY
- YN4Ls/Hj0wuk7/lMsE2TBE5Gs8x5gqnJqPoNkEE=
-X-Google-Smtp-Source: APXvYqwOqH4BV4G3gW3dX8eAs8yTCjPGFzI2nJ+SUuuKZlIaNTFsPfJubY8kedeiIBB634r7FZOGTgHm7AjLUGMqKoA=
-X-Received: by 2002:a05:6808:64e:: with SMTP id
- z14mr4958813oih.79.1580443902032; 
- Thu, 30 Jan 2020 20:11:42 -0800 (PST)
+ (envelope-from <dgibson@ozlabs.org>) id 1ixPUn-0000Ir-3z
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 01:09:38 -0500
+Received: from ozlabs.org ([203.11.71.1]:51119)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1ixPUm-0008Ur-7a; Fri, 31 Jan 2020 01:09:37 -0500
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4886Hr4D96z9sRQ; Fri, 31 Jan 2020 17:09:28 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1580450968;
+ bh=VO1FEGeWVuxfOOHdHwYKoxVEtGUBVlmBxF7MTVVEorg=;
+ h=From:To:Cc:Subject:Date:From;
+ b=eJkFjsVwUlg+IRS7XigEgBaUk2ZoRsBoSKvmXE9zQIJjaofSnWhFOFhL8UaHaWCfE
+ qqM09aLxifTzVHFIGpyLxBjv5cBEZrl8a62ltbZ0JeS0ycifqSO4guWTHmiAcm5azW
+ LuOWZjdGThO2yp0ZuGqNWJY+dbu7gs/giyby+5RY=
+From: David Gibson <david@gibson.dropbear.id.au>
+To: peter.maydell@linaro.org
+Subject: [PULL 00/34] ppc-for-5.0 queue 20200131
+Date: Fri, 31 Jan 2020 17:08:50 +1100
+Message-Id: <20200131060924.147449-1-david@gibson.dropbear.id.au>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-References: <1580428993-4767-1-git-send-email-aleksandar.markovic@rt-rk.com>
- <1580428993-4767-25-git-send-email-aleksandar.markovic@rt-rk.com>
- <CAL1e-=j3b6Gfo4K56=tXc9jbXAy3fou5Dsxq3ns9C89mpuPXxA@mail.gmail.com>
- <CAAdtpL6F=qbWT7keQxHtacndN+JUM32tyd9vW0ZEEMYYN=a=3g@mail.gmail.com>
- <CAL1e-=hqWdFckhi30iws0_OMEB01dvs=ARTvpWrAJ4bF5qrKbQ@mail.gmail.com>
-In-Reply-To: <CAL1e-=hqWdFckhi30iws0_OMEB01dvs=ARTvpWrAJ4bF5qrKbQ@mail.gmail.com>
-From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Date: Fri, 31 Jan 2020 05:11:31 +0100
-Message-ID: <CAL1e-=i-=NkATmB0XJ12mGBOin-OGZ5VMc1BD3O1iheNfbhBAQ@mail.gmail.com>
-Subject: Re: [PATCH rc4 24/29] hw/avr: Add some ATmega microcontrollers
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::243
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,156 +52,196 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Thomas Huth <thuth@redhat.com>, "Daniel P. Berrange" <berrange@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: lvivier@redhat.com, David Gibson <david@gibson.dropbear.id.au>,
+ qemu-ppc@nongnu.org, qemu-devel@nongnu.org, groug@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jan 31, 2020 at 4:45 AM Aleksandar Markovic
-<aleksandar.m.mail@gmail.com> wrote:
->
-> On Fri, Jan 31, 2020 at 4:09 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.=
-org> wrote:
-> >
-> > Hi Aleksandar,
-> >
-> > Cc'ing Thomas & Daniel who are not lawyers but tried to explain me few
-> > times how licensing works.
-> >
-> > On Fri, Jan 31, 2020 at 2:56 AM Aleksandar Markovic
-> > <aleksandar.m.mail@gmail.com> wrote:
-> > > On Fri, Jan 31, 2020 at 1:03 AM Aleksandar Markovic
-> > > <aleksandar.markovic@rt-rk.com> wrote:
-> > > >
-> > > > From: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> > > >
-> > > > Add some AVR microcontrollers from the ATmega family:
-> > > >
-> > > >   - middle range: ATmega168 and ATmega328
-> > > >   - high range: ATmega1280 and ATmega2560
-> > > >
-> > > > For product comparison:
-> > > >   https://www.microchip.com/wwwproducts/ProductCompare/ATmega168P/A=
-Tmega328P
-> > > >   https://www.microchip.com/wwwproducts/ProductCompare/ATmega1280/A=
-Tmega2560
-> > > >
-> > > > Datasheets:
-> > > >   http://ww1.microchip.com/downloads/en/DeviceDoc/ATmega48A-PA-88A-=
-PA-168A-PA-328-P-DS-DS40002061A.pdf
-> > > >   http://ww1.microchip.com/downloads/en/DeviceDoc/Atmel-2549-8-bit-=
-AVR-Microcontroller-ATmega640-1280-1281-2560-2561_datasheet.pdf
-> > > >
-> > > > [AM: Remove word 'Atmel' from filenames and all elements of code]
-> > > > Suggested-by: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-> > > >
-> > > > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> > > > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> > > > Signed-off-by: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-> > > > ---
-> > > >  hw/avr/Kconfig       |   5 +
-> > > >  hw/avr/Makefile.objs |   1 +
-> > > >  hw/avr/atmega.c      | 470 +++++++++++++++++++++++++++++++++++++++=
-++++++++++++
-> > > >  hw/avr/atmega.h      |  48 ++++++
-> > > >  4 files changed, 524 insertions(+)
-> > > >  create mode 100644 hw/avr/Kconfig
-> > > >  create mode 100644 hw/avr/atmega.c
-> > > >  create mode 100644 hw/avr/atmega.h
-> > > >
-> > > > diff --git a/hw/avr/Kconfig b/hw/avr/Kconfig
-> > > > new file mode 100644
-> > > > index 0000000..9e6527e
-> > > > --- /dev/null
-> > > > +++ b/hw/avr/Kconfig
-> > > > @@ -0,0 +1,5 @@
-> > > > +config AVR_ATMEGA_MCU
-> > > > +    bool
-> > > > +    select AVR_TIMER16
-> > > > +    select AVR_USART
-> > > > +    select AVR_POWER
-> > > > diff --git a/hw/avr/Makefile.objs b/hw/avr/Makefile.objs
-> > > > index 123f174..af0fdde 100644
-> > > > --- a/hw/avr/Makefile.objs
-> > > > +++ b/hw/avr/Makefile.objs
-> > > > @@ -1 +1,2 @@
-> > > >  obj-y +=3D boot.o
-> > > > +obj-$(CONFIG_AVR_ATMEGA_MCU) +=3D atmega.o
-> > > > diff --git a/hw/avr/atmega.c b/hw/avr/atmega.c
-> > > > new file mode 100644
-> > > > index 0000000..8cdf28b
-> > > > --- /dev/null
-> > > > +++ b/hw/avr/atmega.c
-> > > > @@ -0,0 +1,470 @@
-> > > > +/*
-> > > > + * QEMU ATmega MCU
-> > > > + *
-> > > > + * Copyright (c) 2019 Philippe Mathieu-Daud=C3=A9
-> > > > + *
-> > > > + * This work is licensed under the terms of the GNU GPLv2 or later=
-.
-> > > > + * See the COPYING file in the top-level directory.
-> > > > + * SPDX-License-Identifier: GPL-2.0-or-later
-> > > > + */
-> > >
-> > > Philippe,
-> > >
-> > > Michael and I already agreed at some moment that the whole target AVR
-> > > should have harmonized licenses, and Sarrah agreed to change her
-> > > license to achieve this. Do you agree to harmonize your licenses with
-> > > the rest of the project? (This would mean changing the preable, but o=
-f
-> > > course you remain copyright carrier as is now.)
-> >
-> > What license do you want to use? I always use "GPLv2 or later" with
-> > QEMU, mostly following what the others do.
-> >
-> > Per https://wiki.qemu.org/License:
-> >
-> >   Source files with no licensing information are released under the
-> > GNU General Public License, version 2 or (at your option) any later
-> > version.
-> >
-> > Reading about licensing is not fun :(
-> >
->
-> Philippe, here is the deal: All new files for AVR platform has the
-> following preamble, that Michael chose from the outset:
->
-> + * This library is free software; you can redistribute it and/or
-> + * modify it under the terms of the GNU Lesser General Public
-> + * License as published by the Free Software Foundation; either
-> + * version 2.1 of the License, or (at your option) any later version.
-> + *
-> + * This library is distributed in the hope that it will be useful,
-> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
-> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-> + * Lesser General Public License for more details.
-> + *
-> + * You should have received a copy of the GNU Lesser General Public
-> + * License along with this library; if not, see
-> + * <http://www.gnu.org/licenses/lgpl-2.1.html>
->
-> Now, it is preferable that licenses are harmonized within a module,
-> and I ask you to change the preamble to be the same as the rest of the
-> module, that is all. This practically means LGPL2.1+later instead
-> LGPL2.0+later. I think it is reasonable that we want to simplify out
-> license stuff, not complicate it with different licenses within a
-> module. There are examples of complications in cases of different
-> license within the same module, so it would be ideal if we avoid such
-> situations.
->
+The following changes since commit 928173659d6e5dc368284f73f90ea1d129e1f5=
+7d:
 
-I didn't mean to scare you, I am just a developer like you, and I want
-to avoid thinking about licenses, and think of our real work, so, I
-gather, in my layman terms, it is better to have the same license for
-the new platform in its entirety, if possible, that is all. :)
+  Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-202=
+00130' into staging (2020-01-30 16:19:04 +0000)
 
-> Aleksandar
->
-> > >
-> > > Thanks,
-> > > Aleksandar
+are available in the Git repository at:
+
+  git://github.com/dgibson/qemu.git tags/ppc-for-5.0-20200131
+
+for you to fetch changes up to 532fe321cf06d39d864de3642b4e1b18cc83c4de:
+
+  target/ppc: Use probe_write for DCBZ (2020-01-31 14:54:16 +1100)
+
+----------------------------------------------------------------
+ppc patch queue 2020-01-31
+
+Here's the next batch of patches for ppc and associated machine types.
+Highlights includes:
+ * Remove the deprecated "prep" machine type and its OpenHackware
+   firmware
+ * Add TCG emulation of the msgsndp etc. supervisor privileged
+   doorbell instructions
+ * Allow "pnv" machine type to run Hostboot style firmwares
+ * Add a virtual TPM device for spapr machines
+ * Implement devices for POWER8 PHB3 and POWER9 PHB4 host bridges for
+   the pnv machine type
+ * Use faster Spectre mitigation by default for POWER9 DD2.3 machines
+ * Introduce Firmware Assisted NMI dump facility for spapr machines
+ * Fix a performance regression with load/store multiple instructions
+   in TCG
+
+as well as some other assorted cleanups and fixes.
+
+----------------------------------------------------------------
+Aravinda Prasad (7):
+      Wrapper function to wait on condition for the main loop mutex
+      ppc: spapr: Introduce FWNMI capability
+      target/ppc: Handle NMI guest exit
+      target/ppc: Build rtas error log upon an MCE
+      ppc: spapr: Handle "ibm,nmi-register" and "ibm,nmi-interlock" RTAS =
+calls
+      migration: Include migration support for machine check handling
+      ppc: spapr: Activate the FWNMI functionality
+
+BALATON Zoltan (1):
+      target/ppc/cpu.h: Put macro parameter in parentheses
+
+Benjamin Herrenschmidt (1):
+      ppc/pnv: Add models for POWER9 PHB4 PCIe Host bridge
+
+C=C3=A9dric Le Goater (9):
+      ppc/pnv: use QEMU unit definition MiB
+      ppc/pnv: improve error logging when a PNOR update fails
+      target/ppc: Add privileged message send facilities
+      target/ppc: add support for Hypervisor Facility Unavailable Excepti=
+on
+      ppc/pnv: Add support for HRMOR on Radix host
+      ppc/pnv: remove useless "core-pir" property alias.
+      ppc/pnv: Add support for "hostboot" mode
+      ppc/pnv: Add models for POWER8 PHB3 PCIe Host bridge
+      ppc/pnv: change the PowerNV machine devices to be non user creatabl=
+e
+
+David Gibson (1):
+      spapr: Enable DD2.3 accelerated count cache flush in pseries-5.0 ma=
+chine
+
+Fabiano Rosas (1):
+      target/ppc: Clarify the meaning of return values in kvm_handle_debu=
+g
+
+Greg Kurz (2):
+      spapr: Fail CAS if option vector table cannot be parsed
+      spapr: Don't allow multiple active vCPUs at CAS
+
+Igor Mammedov (1):
+      ppc:virtex_ml507: remove unused arguments
+
+Marc-Andr=C3=A9 Lureau (1):
+      docs/specs/tpm: reST-ify TPM documentation
+
+Richard Henderson (4):
+      target/ppc: Use probe_access for LSW, STSW
+      target/ppc: Use probe_access for LMW, STMW
+      target/ppc: Remove redundant mask in DCBZ
+      target/ppc: Use probe_write for DCBZ
+
+Stefan Berger (5):
+      tpm: Move tpm_tis_show_buffer to tpm_util.c
+      spapr: Implement get_dt_compatible() callback
+      tpm_spapr: Support TPM for ppc64 using CRQ based interface
+      tpm_spapr: Support suspend and resume
+      hw/ppc/Kconfig: Enable TPM_SPAPR as part of PSERIES config
+
+Thomas Huth (1):
+      hw/ppc/prep: Remove the deprecated "prep" machine and the OpenHackw=
+are BIOS
+
+ .gitmodules                         |    3 -
+ MAINTAINERS                         |    1 -
+ Makefile                            |    2 +-
+ cpus.c                              |    5 +
+ docs/interop/firmware.json          |    3 +-
+ docs/specs/index.rst                |    1 +
+ docs/specs/tpm.rst                  |  503 ++++++++++++
+ docs/specs/tpm.txt                  |  427 -----------
+ hw/intc/xics.c                      |   14 +-
+ hw/pci-host/Makefile.objs           |    2 +
+ hw/pci-host/pnv_phb3.c              | 1197 +++++++++++++++++++++++++++++
+ hw/pci-host/pnv_phb3_msi.c          |  349 +++++++++
+ hw/pci-host/pnv_phb3_pbcq.c         |  358 +++++++++
+ hw/pci-host/pnv_phb4.c              | 1439 +++++++++++++++++++++++++++++=
+++++++
+ hw/pci-host/pnv_phb4_pec.c          |  595 +++++++++++++++
+ hw/ppc/Kconfig                      |    2 +
+ hw/ppc/pnv.c                        |  204 ++++-
+ hw/ppc/pnv_core.c                   |   33 +-
+ hw/ppc/pnv_homer.c                  |    1 +
+ hw/ppc/pnv_lpc.c                    |    6 +-
+ hw/ppc/pnv_occ.c                    |    1 +
+ hw/ppc/pnv_pnor.c                   |    6 +-
+ hw/ppc/ppc.c                        |   18 -
+ hw/ppc/prep.c                       |  384 +---------
+ hw/ppc/spapr.c                      |   63 +-
+ hw/ppc/spapr_caps.c                 |   49 +-
+ hw/ppc/spapr_events.c               |  269 +++++++
+ hw/ppc/spapr_hcall.c                |   20 +
+ hw/ppc/spapr_rtas.c                 |   87 +++
+ hw/ppc/spapr_vio.c                  |   11 +-
+ hw/ppc/virtex_ml507.c               |    7 +-
+ hw/tpm/Kconfig                      |    6 +
+ hw/tpm/Makefile.objs                |    1 +
+ hw/tpm/tpm_spapr.c                  |  429 +++++++++++
+ hw/tpm/tpm_tis.c                    |   32 +-
+ hw/tpm/tpm_util.c                   |   25 +
+ hw/tpm/tpm_util.h                   |    3 +
+ hw/tpm/trace-events                 |   16 +-
+ include/hw/pci-host/pnv_phb3.h      |  164 ++++
+ include/hw/pci-host/pnv_phb3_regs.h |  450 +++++++++++
+ include/hw/pci-host/pnv_phb4.h      |  230 ++++++
+ include/hw/pci-host/pnv_phb4_regs.h |  553 ++++++++++++++
+ include/hw/pci/pcie_port.h          |    1 +
+ include/hw/ppc/pnv.h                |   13 +
+ include/hw/ppc/pnv_core.h           |    1 +
+ include/hw/ppc/pnv_xscom.h          |   20 +
+ include/hw/ppc/ppc.h                |    1 -
+ include/hw/ppc/spapr.h              |   25 +-
+ include/hw/ppc/spapr_vio.h          |    1 +
+ include/hw/ppc/xics.h               |    5 +
+ include/qemu/main-loop.h            |    8 +
+ include/sysemu/tpm.h                |    3 +
+ pc-bios/README                      |    3 -
+ pc-bios/ppc_rom.bin                 |  Bin 1048576 -> 0 bytes
+ qapi/tpm.json                       |    6 +-
+ qemu-deprecated.texi                |    6 -
+ qemu-doc.texi                       |   15 +-
+ roms/openhackware                   |    1 -
+ target/ppc/cpu.h                    |    8 +-
+ target/ppc/excp_helper.c            |   79 +-
+ target/ppc/helper.h                 |    4 +
+ target/ppc/kvm.c                    |   43 +-
+ target/ppc/kvm_ppc.h                |    8 +
+ target/ppc/mem_helper.c             |  197 ++++-
+ target/ppc/misc_helper.c            |   63 ++
+ target/ppc/mmu-radix64.c            |    6 +
+ target/ppc/trace-events             |    1 +
+ target/ppc/translate.c              |   26 +
+ target/ppc/translate_init.inc.c     |   20 +-
+ tests/qtest/boot-order-test.c       |   25 -
+ tests/qtest/cdrom-test.c            |    2 +-
+ tests/qtest/endianness-test.c       |    2 +-
+ 72 files changed, 7549 insertions(+), 1013 deletions(-)
+ create mode 100644 docs/specs/tpm.rst
+ delete mode 100644 docs/specs/tpm.txt
+ create mode 100644 hw/pci-host/pnv_phb3.c
+ create mode 100644 hw/pci-host/pnv_phb3_msi.c
+ create mode 100644 hw/pci-host/pnv_phb3_pbcq.c
+ create mode 100644 hw/pci-host/pnv_phb4.c
+ create mode 100644 hw/pci-host/pnv_phb4_pec.c
+ create mode 100644 hw/tpm/tpm_spapr.c
+ create mode 100644 include/hw/pci-host/pnv_phb3.h
+ create mode 100644 include/hw/pci-host/pnv_phb3_regs.h
+ create mode 100644 include/hw/pci-host/pnv_phb4.h
+ create mode 100644 include/hw/pci-host/pnv_phb4_regs.h
+ delete mode 100644 pc-bios/ppc_rom.bin
+ delete mode 160000 roms/openhackware
 
