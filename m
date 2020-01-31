@@ -2,86 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E137C14E67F
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 01:18:40 +0100 (CET)
-Received: from localhost ([::1]:41456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9258E14E66A
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 01:14:28 +0100 (CET)
+Received: from localhost ([::1]:41376 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ixK1A-000072-08
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 19:18:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60073)
+	id 1ixJx5-0000fm-Ih
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 19:14:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33069)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1ixJrW-00082u-8B
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 19:08:43 -0500
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1ixJvN-00073e-M6
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 19:12:43 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1ixJrV-0006FV-0j
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 19:08:42 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:45808
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1ixJrU-0006Ef-TT
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 19:08:40 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580429320;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=cWFeGbfOde6zsE6AsSexVnApO0+c/p/D0hneNf7rPUY=;
- b=WIBYS7OTvC5YK2gNw6LcD7R+Y7hD+RdHwnC1TkQhlJZMVgY8NtUno9d7G081NgQij6U6la
- lN2gtovv+E3KcI4V7/9A+a5TA09Gi1qqRBo4Q0ZkN416mOqr4nVcypPNY+mnlkWDA1eryc
- 3Y8WAOXnCgiEpAUk/JZcm+yY1jxQo/U=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-357-cEdPEqykN-irivYYJJFfXQ-1; Thu, 30 Jan 2020 19:08:30 -0500
-Received: by mail-wm1-f70.google.com with SMTP id n17so2042396wmk.1
- for <qemu-devel@nongnu.org>; Thu, 30 Jan 2020 16:08:30 -0800 (PST)
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1ixJvL-0001kQ-T4
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 19:12:41 -0500
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:45672)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
+ id 1ixJvL-0001ek-Ll
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 19:12:39 -0500
+Received: by mail-ot1-x344.google.com with SMTP id 59so4896725otp.12
+ for <qemu-devel@nongnu.org>; Thu, 30 Jan 2020 16:12:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=WO+/rxSuvLS9jRhP3Q6B1kM76Uh95qSAdjN054WH6EM=;
+ b=WyHNHoRLrTqmuJCafB80fnfhNXuilQtSKrJhSKg24RpHrJ5KsoR5biwOYDh9PTIxMQ
+ 2h5nvNhat+wiBL6inLbLBD78Wg+fTFTeq5ZAOoxrqm+sI9t78QJokrwDIG9RnRb2ZFth
+ UW+pNa/fd4Kxou6rFWEDUQ8yBl6+6QFJYPUfEHCBTA2XkO+Kc6kBGzwNakWLFcOxy2M+
+ a100AcAPrET/MLqSbMKG78WJTeusOJAzk8BM0WrQaI3Lw5qpNhyVoScJbes7IlFpqVLz
+ 3Z4ZqyqWaQbALTXuBUEKz8akKSYItZiV007bftK6aJzk/uOzTRBCCQ846Dsh+dkuhoHi
+ Tysw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=HS/Q2dEgKLk3NCpgo2yx7ccd09VDmjo0oxNkHQsC21Q=;
- b=plHo3JmdLhLboqHPLNw0DEUmU2AW9QUw2hupVgxfAOXUW5A4VMurISTub4GrZSe5bn
- yjgPGdDi97dRdi4U3sYCAhMzcrQCNH5whhFmiUeyYnYgiui2rmtFe7v+8OawtxhQjWkv
- HuwKVQyMBCxHQf1yauKeibgiwHJxNDve0deE5XJO/aqjjevZOqefjmUF094D1Z9PlcTq
- 9dTrZ3JLnrbAL7yQbAajDPquRBQJUA31MoZyaqIiJLeWel1wlMLLNHLvqNbs0V3Il6ew
- VLyU/xtFVjZ75VRZHYrApnq6wL/SndZ+pH0p9kuTM7OVA3GALnRW0IPs68e1Bpsn3gXI
- bTFA==
-X-Gm-Message-State: APjAAAXhRMm5naAnzuGWiHd+JX1CHh9WtTqKCg1kWFVALerBlXKYhsLy
- VA7bLYfT/XWC4/If3G/eJpw/OK7enJdOYO4GrXYvor2qVYv9RtcrEY211TYzB9n66cFlv0H/mst
- HidAcPrI1sJ4CdJM=
-X-Received: by 2002:a1c:3906:: with SMTP id g6mr8575673wma.49.1580429309453;
- Thu, 30 Jan 2020 16:08:29 -0800 (PST)
-X-Google-Smtp-Source: APXvYqzp6Sar7iqM8k5XV4ROJeaESaNrWjle3T74mxNm2YxFMqNqSBjpvMAtKWot/T6kBvXdba/v/g==
-X-Received: by 2002:a1c:3906:: with SMTP id g6mr8575652wma.49.1580429309231;
- Thu, 30 Jan 2020 16:08:29 -0800 (PST)
-Received: from [192.168.1.35] (113.red-83-57-172.dynamicip.rima-tde.net.
- [83.57.172.113])
- by smtp.gmail.com with ESMTPSA id q124sm17485129wme.2.2020.01.30.16.08.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 30 Jan 2020 16:08:28 -0800 (PST)
-Subject: Re: [PATCH v2 18/29] tests/acceptance/virtio_check_params: List
- machine being tested
-To: Denis Plotnikov <dplotnikov@virtuozzo.com>, qemu-devel@nongnu.org
-References: <20200129212345.20547-1-philmd@redhat.com>
- <20200129212345.20547-19-philmd@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <57f7c506-a6a4-23ec-f8c0-a12363c7526c@redhat.com>
-Date: Fri, 31 Jan 2020 01:08:27 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=WO+/rxSuvLS9jRhP3Q6B1kM76Uh95qSAdjN054WH6EM=;
+ b=XPdZnAv+2Rg7PW5PdLXw+MIYWC6PxCgMLrxpX+Ynwuq571NeDL6Hw+jeyy4kE472LU
+ GyrDBSGUSAQYybHOPs5NiWZ1kVyAZ/uGMbIe1cRDRv9qC4x1Yl1BEiD73kHr/pu/D3ei
+ XulM5Ab5llOMHoleOtEk2nTY6Fne3MhKReiV6Ftmm26q8f3aF5NIyZztEQAeqRzdBCLj
+ yW9sWfYzPL4AW8zuud4ypo8YPYmFT/L3iW0Lg1qkUIOMz9dpPrj4vPpzuUmfbzOglDZa
+ U4tvFDVhGwypX0LFglVNAop4o26aKX0EUOvByhJB31lkiYfuzR2+96puADVtYBGruqrW
+ EBEg==
+X-Gm-Message-State: APjAAAUO7sviijl8+6q8wYLNzn0j6bvc4Hy8zRYqd66pAuXTMsFR7M2T
+ Y5xGMoq+Blx1eUVUc7ubOE6pCTpOzXkyeOnlePQ=
+X-Google-Smtp-Source: APXvYqyrGpQvSoROlY1eXat5/Bo+8d9kFQKaYf2M1bItoUdnG9FS5vwg9hjqUKdXKZnlbWv7L2jUhh2hBs+4e8irz50=
+X-Received: by 2002:a05:6830:12c3:: with SMTP id
+ a3mr5757363otq.341.1580429544339; 
+ Thu, 30 Jan 2020 16:12:24 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20200129212345.20547-19-philmd@redhat.com>
-Content-Language: en-US
-X-MC-Unique: cEdPEqykN-irivYYJJFfXQ-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+References: <1580428993-4767-1-git-send-email-aleksandar.markovic@rt-rk.com>
+In-Reply-To: <1580428993-4767-1-git-send-email-aleksandar.markovic@rt-rk.com>
+From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Date: Fri, 31 Jan 2020 01:12:13 +0100
+Message-ID: <CAL1e-=jVVSad52xEe0Fich+iWywmPtmtR2P9KLjeMtYNC1JqwQ@mail.gmail.com>
+Subject: Re: [PATCH rc4 00/29] target/avr merger
+To: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>,
+ Michael Rolnik <mrolnik@gmail.com>, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::344
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,62 +77,178 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Cornelia Huck <cohuck@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/29/20 10:23 PM, Philippe Mathieu-Daud=C3=A9 wrote:
-> Add logging for easier debugging of failures:
->=20
->    $ avocado --show=3Dmachine run tests/acceptance/virtio_check_params.py
->     (1/1) tests/acceptance/virtio_check_params.py:VirtioMaxSegSettingsChe=
-ck.test_machine_types:
->    machine: {'name': 'pc-i440fx-2.12', 'seg_max_adjust': 'false', 'device=
-': 'virtio-scsi-pci'}
->    machine: {'name': 'pc-i440fx-2.0', 'seg_max_adjust': 'false', 'device'=
-: 'virtio-scsi-pci'}
->    machine: {'name': 'pc-q35-4.2', 'seg_max_adjust': 'false', 'device': '=
-virtio-scsi-pci'}
->    machine: {'name': 'pc-i440fx-2.5', 'seg_max_adjust': 'false', 'device'=
-: 'virtio-scsi-pci'}
->    machine: {'name': 'pc-i440fx-4.2', 'seg_max_adjust': 'false', 'device'=
-: 'virtio-scsi-pci'}
->    ...
->=20
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> ---
->   tests/acceptance/virtio_check_params.py | 4 ++++
->   1 file changed, 4 insertions(+)
->=20
-> diff --git a/tests/acceptance/virtio_check_params.py b/tests/acceptance/v=
-irtio_check_params.py
-> index 51a2dd76e8..f679b0eec7 100755
-> --- a/tests/acceptance/virtio_check_params.py
-> +++ b/tests/acceptance/virtio_check_params.py
-> @@ -21,6 +21,7 @@
->   import sys
->   import os
->   import re
-> +import logging
->  =20
->   sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'py=
-thon'))
->   from qemu.machine import QEMUMachine
-> @@ -73,6 +74,9 @@ class VirtioMaxSegSettingsCheck(Test):
->           return query_ok, props, error
->  =20
->       def check_mt(self, mt, dev_type_name):
-> +        mt['device'] =3D dev_type_name # Only for the debug() call.
-> +        logger =3D logging.getLogger('machine')
-> +        logger.debug(mt)
->           with QEMUMachine(self.qemu_bin) as vm:
->               vm.set_machine(mt["name"])
->               for s in VM_DEV_PARAMS[dev_type_name]:
->=20
+Michael, Philippe,
 
-Thanks, applied to my python-next tree:
-https://gitlab.com/philmd/qemu/commits/python-next
+Can you guys do a quick checkup of this rc4? rc4, rc3,and rc2 should
+be functionally 100% equivalent.
 
+Thank you,
+Aleksandar
+
+On Fri, Jan 31, 2020 at 1:06 AM Aleksandar Markovic
+<aleksandar.markovic@rt-rk.com> wrote:
+>
+> From: Aleksandar Markovic <amarkovic@wavecomp.com>
+>
+> This is the AVR port from Michael, release (merge) candidate 4.
+>
+> The series can be found also in this repository:
+>
+> https://github.com/AMarkovic/qemu-avr-merger-rc4
+>
+> History:
+>
+> Since v3:
+>
+> - Removed a patch on load_elf() modification, since it has been merged
+> - Removed references to CONFIG_USER_ONLY and provided a guard against
+>   building lunux user mode for AVR
+> - Removed all references to 'Atmel' (including file renames)
+> - Rebased the code (there was common interface change regarding 'props')
+> - Various corrections of commit messages
+> - A bit field for AVRFeatures is nor 64 bit long
+> - Other minor fixes
+>
+> Since v2:
+>
+> - First patch is split into six smaller logical units (net result
+>   remains the same)
+> - Patch "hw/core/loader: Let load_elf populate the processor-specific
+>   flags" was redone to reflect the original intent that was lost in
+>   transalation between multiple autors
+> - Patch "hw/avr: Add helper to load raw/ELF firmware binaries" was
+>   corrected only in one line to rectify type of "e_flags"
+> - Patch "target/avr: Add section about AVR into QEMU documentation"
+> - Spurious <message-Id:> elements were removed
+> - The series was rebased to the latest code
+>
+> Since v1:
+>
+> - Addressed Thomas comments
+> - Fixed a non-critical bug in ATmega (incorrect SRAM base address)
+> - Added ELF parsing requested by Aleksandar
+> - Dropped default machine (as with the ARM port)
+>
+> Michael Rolnik (25):
+>   target/avr: Add basic parameters for new AVR platform
+>   target/avr: Introduce AVR CPU class object
+>   target/avr: Add migration support
+>   target/avr: Add GDB support
+>   target/avr: Introduce enumeration AVRFeature
+>   target/avr: Add defintions of AVR core types
+>   target/avr: Add instruction helpers
+>   target/avr: Add instruction translation - Register definitions
+>   target/avr: Add instruction translation - Arithmetic and Logic
+>     Instructions
+>   target/avr: Add instruction translation - Branch Instructions
+>   target/avr: Add instruction translation - Data Transfer Instructions
+>   target/avr: Add instruction translation - Bit and Bit-test
+>     Instructions
+>   target/avr: Add instruction translation - MCU Control Instructions
+>   target/avr: Add instruction translation - CPU main translation
+>     function
+>   target/avr: Add instruction disassembly function
+>   hw/char: Add limited support for AVR USART peripheral
+>   hw/timer: Add limited support for AVR 16-bit timer peripheral
+>   hw/misc: Add limited support for AVR power device
+>   target/avr: Add section about AVR into QEMU documentation
+>   target/avr: Register AVR support with the rest of QEMU
+>   target/avr: Add machine none test
+>   target/avr: Update MAINTAINERS file
+>   target/avr: Update build system
+>   tests/boot-serial-test: Test some Arduino boards (AVR based)
+>   tests/acceptance: Test the Arduino MEGA2560 board
+>
+> Philippe Mathieu-Daud=C3=A9 (4):
+>   hw/avr: Add helper to load raw/ELF firmware binaries
+>   hw/avr: Add some ATmega microcontrollers
+>   hw/avr: Add some Arduino boards
+>   .travis.yml: Run the AVR acceptance tests
+>
+>  .travis.yml                      |    2 +-
+>  MAINTAINERS                      |   31 +
+>  arch_init.c                      |    2 +
+>  configure                        |    7 +
+>  default-configs/avr-softmmu.mak  |    5 +
+>  gdb-xml/avr-cpu.xml              |   49 +
+>  hw/avr/Kconfig                   |    9 +
+>  hw/avr/Makefile.objs             |    3 +
+>  hw/avr/arduino.c                 |  151 ++
+>  hw/avr/atmega.c                  |  470 ++++++
+>  hw/avr/atmega.h                  |   48 +
+>  hw/avr/boot.c                    |   74 +
+>  hw/avr/boot.h                    |   33 +
+>  hw/char/Kconfig                  |    3 +
+>  hw/char/Makefile.objs            |    1 +
+>  hw/char/avr_usart.c              |  320 ++++
+>  hw/misc/Kconfig                  |    3 +
+>  hw/misc/Makefile.objs            |    2 +
+>  hw/misc/avr_power.c              |  112 ++
+>  hw/timer/Kconfig                 |    3 +
+>  hw/timer/Makefile.objs           |    2 +
+>  hw/timer/avr_timer16.c           |  604 ++++++++
+>  include/disas/dis-asm.h          |   19 +
+>  include/elf.h                    |    2 +
+>  include/hw/char/avr_usart.h      |   93 ++
+>  include/hw/misc/avr_power.h      |   46 +
+>  include/hw/timer/avr_timer16.h   |   94 ++
+>  include/sysemu/arch_init.h       |    1 +
+>  qapi/machine.json                |    3 +-
+>  qemu-doc.texi                    |   51 +
+>  target/avr/Makefile.objs         |   34 +
+>  target/avr/cpu-param.h           |   37 +
+>  target/avr/cpu-qom.h             |   54 +
+>  target/avr/cpu.c                 |  818 +++++++++++
+>  target/avr/cpu.h                 |  259 ++++
+>  target/avr/disas.c               |  246 ++++
+>  target/avr/gdbstub.c             |   84 ++
+>  target/avr/helper.c              |  342 +++++
+>  target/avr/helper.h              |   29 +
+>  target/avr/insn.decode           |  182 +++
+>  target/avr/machine.c             |  121 ++
+>  target/avr/translate.c           | 2997 ++++++++++++++++++++++++++++++++=
+++++++
+>  tests/acceptance/machine_avr6.py |   50 +
+>  tests/qtest/Makefile.include     |    2 +
+>  tests/qtest/boot-serial-test.c   |   11 +
+>  tests/qtest/machine-none-test.c  |    1 +
+>  46 files changed, 7508 insertions(+), 2 deletions(-)
+>  create mode 100644 default-configs/avr-softmmu.mak
+>  create mode 100644 gdb-xml/avr-cpu.xml
+>  create mode 100644 hw/avr/Kconfig
+>  create mode 100644 hw/avr/Makefile.objs
+>  create mode 100644 hw/avr/arduino.c
+>  create mode 100644 hw/avr/atmega.c
+>  create mode 100644 hw/avr/atmega.h
+>  create mode 100644 hw/avr/boot.c
+>  create mode 100644 hw/avr/boot.h
+>  create mode 100644 hw/char/avr_usart.c
+>  create mode 100644 hw/misc/avr_power.c
+>  create mode 100644 hw/timer/avr_timer16.c
+>  create mode 100644 include/hw/char/avr_usart.h
+>  create mode 100644 include/hw/misc/avr_power.h
+>  create mode 100644 include/hw/timer/avr_timer16.h
+>  create mode 100644 target/avr/Makefile.objs
+>  create mode 100644 target/avr/cpu-param.h
+>  create mode 100644 target/avr/cpu-qom.h
+>  create mode 100644 target/avr/cpu.c
+>  create mode 100644 target/avr/cpu.h
+>  create mode 100644 target/avr/disas.c
+>  create mode 100644 target/avr/gdbstub.c
+>  create mode 100644 target/avr/helper.c
+>  create mode 100644 target/avr/helper.h
+>  create mode 100644 target/avr/insn.decode
+>  create mode 100644 target/avr/machine.c
+>  create mode 100644 target/avr/translate.c
+>  create mode 100644 tests/acceptance/machine_avr6.py
+>
+> --
+> 2.7.4
+>
+>
 
