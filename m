@@ -2,65 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99FC014F1A3
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 18:52:33 +0100 (CET)
-Received: from localhost ([::1]:57312 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8277214F17E
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 18:46:34 +0100 (CET)
+Received: from localhost ([::1]:57202 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ixaT2-0006O6-Kr
-	for lists+qemu-devel@lfdr.de; Fri, 31 Jan 2020 12:52:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41361)
+	id 1ixaNF-0004Sj-5O
+	for lists+qemu-devel@lfdr.de; Fri, 31 Jan 2020 12:46:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41211)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1ixaLb-0002jY-J7
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 12:44:52 -0500
+ (envelope-from <eblake@redhat.com>) id 1ixaLW-0002c5-H0
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 12:44:47 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1ixaLa-0004Qn-4j
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 12:44:51 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:30298
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <eblake@redhat.com>) id 1ixaLV-0004Ix-Kb
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 12:44:46 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:27108
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1ixaLZ-0004Pu-Tk
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 12:44:50 -0500
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1ixaLV-0004HX-HA
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 12:44:45 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580492689;
+ s=mimecast20190719; t=1580492684;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xOcmGmzDjNdL53A3beBj1FGQfubPjec9rtjHXJju37M=;
- b=IWikJnzqsG+PrVikzolD7EmPP7BaERKKlqNdTedYJmXv/EGhWh6rPdXVfdcuIibzmgd0oI
- XI2Wxw7+UgzQeVBqvOHGAI+S8MEbO1sWlcUghX/W33Y0Fjx16aeiOEBNZscD/rs6AfPX8v
- 4RFskVnF7hph0BD/2V687ZOg12UJYok=
+ bh=y3UezPAkLNH5PjZcf6ESIZM+p07nrMqbwQwde4FJnfw=;
+ b=P4a+Z5CenmRzFF7kNHrABm+O4/k00axnwZV1mkUgNgOLtmHwm1pb0Q7zm1YHMoRBZlnrE9
+ /A4zn1EBMzh0HEcjFLwW8gVV4bThqEP3aAG6jk6xmgv2OwqL17hksUSmcY+U0+19mtVkfQ
+ 6T9dOESt7dWDdWhGBPqjmoj/lqhnDI8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-377-Jn7vHhgnNgidW9bvBLtCZQ-1; Fri, 31 Jan 2020 12:44:42 -0500
+ us-mta-296-WL7OkWzdOqKhTIAEP-OaqQ-1; Fri, 31 Jan 2020 12:44:42 -0500
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 25436800D54;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C2DA013F9;
  Fri, 31 Jan 2020 17:44:41 +0000 (UTC)
 Received: from blue.redhat.com (ovpn-116-181.phx2.redhat.com [10.3.116.181])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A95887FB60;
- Fri, 31 Jan 2020 17:44:40 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 530EC7FB60;
+ Fri, 31 Jan 2020 17:44:41 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 03/17] qcow2: Avoid feature name extension on small cluster
- size
-Date: Fri, 31 Jan 2020 11:44:22 -0600
-Message-Id: <20200131174436.2961874-4-eblake@redhat.com>
+Subject: [PATCH 04/17] block: Improve documentation of .bdrv_has_zero_init
+Date: Fri, 31 Jan 2020 11:44:23 -0600
+Message-Id: <20200131174436.2961874-5-eblake@redhat.com>
 In-Reply-To: <20200131174436.2961874-1-eblake@redhat.com>
 References: <20200131174436.2961874-1-eblake@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: Jn7vHhgnNgidW9bvBLtCZQ-1
+X-MC-Unique: WL7OkWzdOqKhTIAEP-OaqQ-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,81 +75,35 @@ Cc: david.edmondson@oracle.com, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As the feature name table can be quite large (over 9k if all 64 bits
-of all three feature fields have names; a mere 8 features leaves only
-8 bytes for a backing file name in a 512-byte cluster), it is unwise
-to emit this optional header in images with small cluster sizes.
+Several drivers supply .bdrv_has_zero_init that returns 1, but lack
+the .bdrv_has_zero_init_truncate callback (parallels and qed outright,
+vdi in some scenarios).  A literal reading of the existing
+documentation says such drivers are broken, because
+bdrv_has_zero_init_truncate() defaults to zero if the callback is
+missing; but in practice, the tie between the two functions is only
+relevant when truncate is supported.  Clarify the documentation to
+make it obvious that this is okay.
 
-Update iotest 036 to skip running on small cluster sizes; meanwhile,
-note that iotest 061 never passed on alternative cluster sizes
-(however, I limited this patch to tests with output affected by adding
-feature names, rather than auditing for other tests that are not
-robust to alternative cluster sizes).
-
+Fixes: 1dcaf527
 Signed-off-by: Eric Blake <eblake@redhat.com>
 ---
- block/qcow2.c          | 11 +++++++++--
- tests/qemu-iotests/036 |  6 ++++--
- tests/qemu-iotests/061 |  6 ++++--
- 3 files changed, 17 insertions(+), 6 deletions(-)
+ include/block/block_int.h | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/block/qcow2.c b/block/qcow2.c
-index d3e7709ac2b4..6ea06dbdf48a 100644
---- a/block/qcow2.c
-+++ b/block/qcow2.c
-@@ -2819,8 +2819,15 @@ int qcow2_update_header(BlockDriverState *bs)
-         buflen -=3D ret;
-     }
+diff --git a/include/block/block_int.h b/include/block/block_int.h
+index 640fb82c789e..77ab45dc87cf 100644
+--- a/include/block/block_int.h
++++ b/include/block/block_int.h
+@@ -444,7 +444,8 @@ struct BlockDriver {
+     /*
+      * Returns 1 if newly created images are guaranteed to contain only
+      * zeros, 0 otherwise.
+-     * Must return 0 if .bdrv_has_zero_init_truncate() returns 0.
++     * Must return 0 if .bdrv_co_truncate is set and
++     * .bdrv_has_zero_init_truncate() returns 0.
+      */
+     int (*bdrv_has_zero_init)(BlockDriverState *bs);
 
--    /* Feature table */
--    if (s->qcow_version >=3D 3) {
-+    /*
-+     * Feature table.  A mere 8 feature names occupies 392 bytes, and
-+     * when coupled with the v3 minimum header of 104 bytes plus the
-+     * 8-byte end-of-extension marker, that would leave only 8 bytes
-+     * for a backing file name in an image with 512-byte clusters.
-+     * Thus, we choose to omit this header for cluster sizes 4k and
-+     * smaller.
-+     */
-+    if (s->qcow_version >=3D 3 && s->cluster_size > 4096) {
-         static const Qcow2Feature features[] =3D {
-             {
-                 .type =3D QCOW2_FEAT_TYPE_INCOMPATIBLE,
-diff --git a/tests/qemu-iotests/036 b/tests/qemu-iotests/036
-index 512598421c20..cf522de7a1aa 100755
---- a/tests/qemu-iotests/036
-+++ b/tests/qemu-iotests/036
-@@ -44,8 +44,10 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
- _supported_fmt qcow2
- _supported_proto file
- # Only qcow2v3 and later supports feature bits;
--# qcow2.py does not support external data files
--_unsupported_imgopts 'compat=3D0.10' data_file
-+# qcow2.py does not support external data files;
-+# this test requires a cluster size large enough for the feature table
-+_unsupported_imgopts 'compat=3D0.10' data_file \
-+=09=09     'cluster_size=3D\(512\|1024\|2048\|4096\)'
-
- echo
- echo =3D=3D=3D Image with unknown incompatible feature bit =3D=3D=3D
-diff --git a/tests/qemu-iotests/061 b/tests/qemu-iotests/061
-index 36b040491fef..ce285d308408 100755
---- a/tests/qemu-iotests/061
-+++ b/tests/qemu-iotests/061
-@@ -44,8 +44,10 @@ _supported_os Linux
- # Conversion between different compat versions can only really work
- # with refcount_bits=3D16;
- # we have explicit tests for data_file here, but the whole test does
--# not work with it
--_unsupported_imgopts 'refcount_bits=3D\([^1]\|.\([^6]\|$\)\)' data_file
-+# not work with it;
-+# we have explicit tests for various cluster sizes, the remaining tests
-+# require the default 64k cluster
-+_unsupported_imgopts 'refcount_bits=3D\([^1]\|.\([^6]\|$\)\)' data_file cl=
-uster_size
-
- echo
- echo "=3D=3D=3D Testing version downgrade with zero expansion =3D=3D=3D"
 --=20
 2.24.1
 
