@@ -2,73 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90A8714E905
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 08:00:21 +0100 (CET)
-Received: from localhost ([::1]:49244 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0246014E90C
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 08:06:42 +0100 (CET)
+Received: from localhost ([::1]:49290 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ixQHs-0008TP-L2
-	for lists+qemu-devel@lfdr.de; Fri, 31 Jan 2020 02:00:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46090)
+	id 1ixQO2-0001wl-3J
+	for lists+qemu-devel@lfdr.de; Fri, 31 Jan 2020 02:06:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48173)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gshan@redhat.com>) id 1ixQH2-0007wA-OD
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 01:59:29 -0500
+ (envelope-from <bounces@canonical.com>) id 1ixQNI-0001YJ-JL
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 02:05:58 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <gshan@redhat.com>) id 1ixQH0-000623-J3
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 01:59:28 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:52911
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <gshan@redhat.com>) id 1ixQH0-000618-G2
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 01:59:26 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580453965;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=KCttjTOypNyQ843GWrpw9fGXjQuWe6vFCW0vJ1KRroo=;
- b=MHfWYHLOhnAjkwiqYlrRt+uOO8En6GF0AGKVmL1ppJNlwcngK/dDY41ASm/8LewDUppqC1
- fGulxPw1egGFuKaZnPdLQcBEU33dIboEhavP+NIhsWUWc+AA5qsELW3nR+YxINbfdnYEJJ
- gb0X0wlgWw8QJgQZ93O2plD5azgqt9I=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-126-NSxVcOdIN4y-afn7I4jV4A-1; Fri, 31 Jan 2020 01:59:20 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ED19610054E3;
- Fri, 31 Jan 2020 06:59:18 +0000 (UTC)
-Received: from localhost.localdomain (vpn2-54-25.bne.redhat.com [10.64.54.25])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7873219C4F;
- Fri, 31 Jan 2020 06:59:13 +0000 (UTC)
-Subject: Re: [RFC PATCH] hw/arm/virt: Support NMI injection
-To: Marc Zyngier <maz@kernel.org>, Alexey Kardashevskiy <aik@ozlabs.ru>
-References: <20191219040612.28431-1-gshan@redhat.com>
- <d972631d-7db7-b6d5-61b8-244ae2c85882@redhat.com>
- <7f6e29e6-1df9-4513-79ba-b53873b0735e@ozlabs.ru>
- <544f261e4b9c97f1d3a5fb64cef42ba5@kernel.org>
-From: Gavin Shan <gshan@redhat.com>
-Message-ID: <ff584722-1b51-e538-7c45-c71cdc40105f@redhat.com>
-Date: Fri, 31 Jan 2020 17:59:10 +1100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.0
+ (envelope-from <bounces@canonical.com>) id 1ixQNH-0005mm-Ah
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 02:05:56 -0500
+Received: from indium.canonical.com ([91.189.90.7]:56522)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1ixQNH-0005mT-5W
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 02:05:55 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1ixQNF-0004Lp-OA
+ for <qemu-devel@nongnu.org>; Fri, 31 Jan 2020 07:05:53 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id B25902E80C0
+ for <qemu-devel@nongnu.org>; Fri, 31 Jan 2020 07:05:53 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <544f261e4b9c97f1d3a5fb64cef42ba5@kernel.org>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: NSxVcOdIN4y-afn7I4jV4A-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=WINDOWS-1252; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+Date: Fri, 31 Jan 2020 06:58:19 -0000
+From: Ildar <1860759@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: eblake ildar-users xanclic
+X-Launchpad-Bug-Reporter: Ildar (ildar-users)
+X-Launchpad-Bug-Modifier: Ildar (ildar-users)
+References: <157985376657.5102.13233182944615356318.malonedeb@wampee.canonical.com>
+ <157986030424.5154.393920880621051062.malone@chaenomeles.canonical.com>
+ <CACAYGhuurXCHk7b9we2P7Vbx_dajAN5_i4FyL7Ck3q4-m7fbQA@mail.gmail.com>
+ <15cde2ad-31d0-69ea-fecf-4db380c55984@redhat.com>
+Message-Id: <CACAYGhsk9haGf4szPUeqiwxQHd7pTTO8zgzi=JOWNbmnU4cWuA@mail.gmail.com>
+Subject: Re: [Bug 1860759] Re: [REGRESSION] option `-snapshot` ignored with
+ blockdev
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="0a62c17273454a1313f81a74a2198ec30b44c7b6";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: e3a83be3b6feb50420a435d576a8aca87badcea6
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -77,53 +68,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Gavin Shan <gshan@redhat.com>
-Cc: peter.maydell@linaro.org, drjones@redhat.com, jthierry@redhat.com,
- qemu-devel@nongnu.org, eric.auger@redhat.com, qemu-arm@nongnu.org,
- shan.gavin@gmail.com, pbonzini@redhat.com
+Reply-To: Bug 1860759 <1860759@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/29/20 8:04 PM, Marc Zyngier wrote:
-> On 2020-01-29 02:44, Alexey Kardashevskiy wrote:
->> On 28/01/2020 17:48, Gavin Shan wrote:
->>> but a NMI is injected
->>> through LAPIC on x86. So I'm not sure what architect (system reset on
->>> ppc or injecting NMI on x86) aarch64 should follow.
->>
->> I'd say whatever triggers in-kernel debugger or kdump but I am not
->> familiar with ARM at all :)
->=20
-> All that is completely OS specific, and has no relation to the architectu=
-re.
-> As I mentioned in another part of the thread, the closest thing to this
-> would be to implement SDEI together with an IMPDEF mechanism to enter it
-> (or even generate a RAS error).
->=20
-> On the other hand, SDEI is pretty horrible, and means either KVM or QEMU
-> acting like a firmware for the guest. To say that I'm not keen is a massi=
-ve
-> understatement.
->=20
->  =A0=A0=A0=A0=A0=A0=A0 M.
+Thank a lot for the detailed answer. Surely it's worth discussing qemu here
+leaving libvirt for RH bugzilla.
 
-Marc, could you please explain a bit about "IMPDEF mechanism"? I'm not sure=
- if
-it means a non-standard SDEI event should be used, corresponding to the HMP=
-/QMP
-"nmi" command.
+> But since modern qemu has declared -snapshot to be unsupported with
+-blockdev, and modern libvirt has switched to -blockdev, I claim that this
+is not a qemu bug, but a libvirt feature request.
 
-Also, If I'm correct, you agree that a crash dump should be triggered on ar=
-m64
-guest once HMP/QMP "nmi" command is issued? I also dig into SDEI a bit. It =
-seems
-the SDEI support in QEMU isn't upstream yet:
+I'm convinced this isn't qemu's bug. And everything you wrote is
+well-justified. Yet, one question left unanswered:
+> Do you mean that snapshot-ing isn't possible totally for blockdev?
+> Actually I didn't quite caught the reason why a blockdev supports backing
+but not {backing to a file on /tmp then promptly deleted} ? What's the
+technical difference?
 
+Thanks!
 
-https://patchew.org/QEMU/20191105091056.9541-1-guoheyi@huawei.com/
+-- =
 
-Thanks,
-Gavin
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1860759
 
+Title:
+  [REGRESSION] option `-snapshot` ignored with blockdev
 
+Status in QEMU:
+  New
+
+Bug description:
+  After upgrade of qemu 3.1.0 =E2=86=92 4.2.0 I found that running with lib=
+virt doesn't honor `-snapshot` option anymore. I.e. disk images get modifie=
+d.
+  Using `-hda` option honors `-snapshot`
+
+  So I made a test case without libvirt. Testcase using 4.2.0:
+
+  > qemu -hda tmp-16G.img -cdrom regular-rescue-latest-x86_64.iso -m 2G
+
+  This works fine and tmp-16G.img stays unmodified.
+
+  But:
+  > /usr/bin/qemu-system-x86_64 -name guest=3Dtest-linux,debug-threads=3Don=
+ -S -machine pc-i440fx-3.1,accel=3Dkvm,usb=3Doff,vmport=3Doff,dump-guest-co=
+re=3Doff -cpu Broadwell-noTSX,vme=3Don,ss=3Don,f16c=3Don,rdrand=3Don,hyperv=
+isor=3Don,arat=3Don,tsc-adjust=3Don,xsaveopt=3Don,pdpe1gb=3Don,abm=3Don -m =
+2048 -overcommit mem-lock=3Doff -smp 3,sockets=3D3,cores=3D1,threads=3D1 -u=
+uid d32a9191-f51d-4fae-a419-b73d85b49198 -no-user-config -nodefaults -rtc b=
+ase=3Dutc,driftfix=3Dslew -global kvm-pit.lost_tick_policy=3Ddelay -no-hpet=
+ -no-shutdown -global PIIX4_PM.disable_s3=3D1 -global PIIX4_PM.disable_s4=
+=3D1 -boot strict=3Don -device ich9-usb-ehci1,id=3Dusb,bus=3Dpci.0,addr=3D0=
+x5.0x7 -device ich9-usb-uhci1,masterbus=3Dusb.0,firstport=3D0,bus=3Dpci.0,m=
+ultifunction=3Don,addr=3D0x5 -device ich9-usb-uhci2,masterbus=3Dusb.0,first=
+port=3D2,bus=3Dpci.0,addr=3D0x5.0x1 -device ich9-usb-uhci3,masterbus=3Dusb.=
+0,firstport=3D4,bus=3Dpci.0,addr=3D0x5.0x2 -blockdev \{\"driver\":\"file\",=
+\"filename\":\"/tmp/regular-rescue-latest-x86_64.iso\",\"node-name\":\"libv=
+irt-2-storage\",\"auto-read-only\":true,\"discard\":\"unmap\"} -blockdev \{=
+\"node-name\":\"libvirt-2-format\",\"read-only\":true,\"driver\":\"raw\",\"=
+file\":\"libvirt-2-storage\"} -device ide-cd,bus=3Dide.0,unit=3D0,drive=3Dl=
+ibvirt-2-format,id=3Dide0-0-0,bootindex=3D1 -blockdev \{\"driver\":\"file\"=
+,\"filename\":\"/tmp/tmp-2G.img\",\"node-name\":\"libvirt-1-storage\",\"aut=
+o-read-only\":true,\"discard\":\"unmap\"} -blockdev \{\"node-name\":\"libvi=
+rt-1-format\",\"read-only\":false,\"driver\":\"qcow2\",\"file\":\"libvirt-1=
+-storage\",\"backing\":null} -device virtio-blk-pci,scsi=3Doff,bus=3Dpci.0,=
+addr=3D0x7,drive=3Dlibvirt-1-format,id=3Dvirtio-disk0 -netdev user,id=3Dhos=
+tnet0 -device e1000,netdev=3Dhostnet0,id=3Dnet0,mac=3D52:54:00:ab:d8:29,bus=
+=3Dpci.0,addr=3D0x3 -chardev pty,id=3Dcharserial0 -device isa-serial,charde=
+v=3Dcharserial0,id=3Dserial0 -device qxl-vga,id=3Dvideo0,ram_size=3D6710886=
+4,vram_size=3D67108864,vram64_size_mb=3D0,vgamem_mb=3D16,max_outputs=3D1,bu=
+s=3Dpci.0,addr=3D0x2 -device intel-hda,id=3Dsound0,bus=3Dpci.0,addr=3D0x4 -=
+device hda-duplex,id=3Dsound0-codec0,bus=3Dsound0.0,cad=3D0 -device virtio-=
+balloon-pci,id=3Dballoon0,bus=3Dpci.0,addr=3D0x6 -snapshot -sandbox on,obso=
+lete=3Ddeny,elevateprivileges=3Ddeny,spawn=3Ddeny,resourcecontrol=3Ddeny -m=
+sg timestamp=3Don
+
+  This modifies tmp-16G.img.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1860759/+subscriptions
 
