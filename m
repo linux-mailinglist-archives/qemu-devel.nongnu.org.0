@@ -2,91 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BD3B14F071
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 17:10:09 +0100 (CET)
-Received: from localhost ([::1]:55466 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D042514F058
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 17:04:55 +0100 (CET)
+Received: from localhost ([::1]:55328 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ixYrw-0003pg-EE
-	for lists+qemu-devel@lfdr.de; Fri, 31 Jan 2020 11:10:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52445)
+	id 1ixYms-000353-Rj
+	for lists+qemu-devel@lfdr.de; Fri, 31 Jan 2020 11:04:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52573)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dinechin@redhat.com>) id 1ixYMR-0002tK-5M
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 10:37:39 -0500
+ (envelope-from <thuth@redhat.com>) id 1ixYMf-0003BY-9B
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 10:37:50 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dinechin@redhat.com>) id 1ixYMO-0000nF-Eg
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 10:37:33 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:47154
+ (envelope-from <thuth@redhat.com>) id 1ixYMc-0001cr-PK
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 10:37:49 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:40382
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dinechin@redhat.com>) id 1ixYMO-0000kw-AH
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 10:37:32 -0500
+ (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1ixYMc-0001ZR-Km
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 10:37:46 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580485050;
+ s=mimecast20190719; t=1580485065;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=FtileLFHCXHe2XbeFkM9NusNK5K06fSlsbkD7oUMZck=;
- b=NP1eSNBnKj6usKm6tWBM8hoeuzfWRWWjSrTequQRIfj24oDFEuFmppQYNHRNdx3T6achGV
- gdwXlgb16Y0+dGaeyG4QASW+gJj071fna3xPUKXOsM9dJRzU5MaVYBnxRKNCdozebMO+QN
- QdcE0qCC3c2uB4Bgn9TVbCcT44prT5k=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-118-W3Mu_O0yOPOzLLWkk4LWQg-1; Fri, 31 Jan 2020 10:37:25 -0500
-Received: by mail-wm1-f72.google.com with SMTP id o193so2962550wme.8
- for <qemu-devel@nongnu.org>; Fri, 31 Jan 2020 07:37:25 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
- :content-transfer-encoding:message-id:references:to;
- bh=Kw90eqlIOjx+IKxs3valqqQlQRy2seWNM9S3LSInzUI=;
- b=UxGpQQU+uE9BICWNuGHMn0x5fW1cEpLc5jmlkLNoji5sQHSGYTyyObYCxHGF9LGWv2
- jNyvcoX4PgpkU8ZT6IR/Mm1vOO8tKJY/sSY67ygxLEbGif4m5NrlfqmZQu6idThfqX2F
- 4mKlg2Tjk3JAAj0y3KcB4vTXK/Me//g9ZbM1X3ah4OcrOxqoSixyIW8U8prpAWZd30L8
- tuCFLNoqmiITZH8lBWRcnFAAKVBYOr9/+i98/3Dxypz6Qybp+KJAJ7xSM+hyni917CAs
- tXyjLNhEpzSumdbANKw/7KJHIiVn1gdWgjUagoP5yHeQNVzgf2jatYvrOPeh0mHgm3De
- 2GTA==
-X-Gm-Message-State: APjAAAWiFSTzeK7IQ4fwRaeuCrdGx2FL1rGHR3Jw4zMQ1Rw96RVlFIWO
- 1h3dUw70LFBKsE3vqOTJ0flJOHZ/D5kb4mAZ2SxN3eKGhiy3JQwt9/xCyBut/bNTei+C5F7KWL2
- HW9MHIA3XDWffQiQ=
-X-Received: by 2002:a5d:568a:: with SMTP id f10mr12505606wrv.180.1580485044104; 
- Fri, 31 Jan 2020 07:37:24 -0800 (PST)
-X-Google-Smtp-Source: APXvYqycYfn8NveAA9yLb8QeKPzLWTLyXf3v8MG4hJz0AbW0qQZvUtEZ6673m3PXzR6E8F6beg+7Ng==
-X-Received: by 2002:a5d:568a:: with SMTP id f10mr12505580wrv.180.1580485043827; 
- Fri, 31 Jan 2020 07:37:23 -0800 (PST)
-Received: from [192.168.61.145] ([5.255.146.68])
- by smtp.gmail.com with ESMTPSA id c141sm11415068wme.41.2020.01.31.07.37.22
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 31 Jan 2020 07:37:23 -0800 (PST)
-Mime-Version: 1.0 (Mac OS X Mail 13.0 \(3608.60.0.2.5\))
-Subject: Re: Improving QOM documentation [Was: Re: Making QEMU easier for
- management tools and applications]
-From: Christophe de Dinechin <dinechin@redhat.com>
-In-Reply-To: <0a626b76-1b45-991f-ebf9-d6dec2a84ffb@redhat.com>
-Date: Fri, 31 Jan 2020 16:37:21 +0100
-Message-Id: <17767A47-BB66-40D6-9BC6-03B56FB198CA@redhat.com>
-References: <20200108104306.GC5057@dhcp-200-226.str.redhat.com>
- <97F153BD-FB8A-46C7-90D0-9E894B9E0292@redhat.com>
- <20200108133842.GE5057@dhcp-200-226.str.redhat.com>
- <87d0bmchq0.fsf@dusky.pond.sub.org>
- <1B253197-5592-472A-AA26-E0614A13C91A@redhat.com>
- <87o8v52hz9.fsf@dusky.pond.sub.org>
- <8CF8359B-1E52-4F7A-944E-C1C14FEC4F92@redhat.com>
- <87r200zzje.fsf@dusky.pond.sub.org> <20200115121953.GJ93923@redhat.com>
- <874kwwvmuv.fsf@dusky.pond.sub.org> <20200130210902.GA25927@paraplu>
- <87y2toi29o.fsf@dusky.pond.sub.org>
- <0a626b76-1b45-991f-ebf9-d6dec2a84ffb@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-X-Mailer: Apple Mail (2.3608.60.0.2.5)
-X-MC-Unique: W3Mu_O0yOPOzLLWkk4LWQg-1
+ in-reply-to:in-reply-to:references:references:openpgp:openpgp;
+ bh=9jy40/GjKC7DYdS/NvjQ3SUh+0kwsNSaJnXA5Cb+cHg=;
+ b=E1H5LXp/eqSUG5G1NKyUeag0wb3M1+YFVfLG7MjQ509aHi79PtGz6ZpXSgq064OywubcAH
+ SVUht9pK3oZdC60PxJFvP9H9n7JtgtGrZDo8+g5iBuN3KBXTsD0R+5fj1SJPguKFX2IftZ
+ Hxs1xPRJG47+pZHb7waN/AZyGvIBTm8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-297-pbb4seWrMCeL4l8JVPufoA-1; Fri, 31 Jan 2020 10:37:42 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9EB5A800D5C;
+ Fri, 31 Jan 2020 15:37:40 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-116-176.ams2.redhat.com [10.36.116.176])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1D3095DA81;
+ Fri, 31 Jan 2020 15:37:25 +0000 (UTC)
+Subject: Re: [PATCH v2 08/12] .travis.yml: Add description to each job
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
+References: <20200130113223.31046-1-alex.bennee@linaro.org>
+ <20200130113223.31046-9-alex.bennee@linaro.org>
+ <79ebc114-fb94-7dee-b57c-b3df7be038bf@redhat.com>
+ <ca68c7c0-3750-b5b5-5bf2-e16b2cd503dd@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Openpgp: preference=signencrypt
+Message-ID: <7f124f8c-7d01-c7b4-b23d-3c776ca3f17a@redhat.com>
+Date: Fri, 31 Jan 2020 16:37:24 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
+MIME-Version: 1.0
+In-Reply-To: <ca68c7c0-3750-b5b5-5bf2-e16b2cd503dd@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: pbb4seWrMCeL4l8JVPufoA-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain;
-	charset=utf-8
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -98,53 +79,162 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- =?utf-8?B?IkRhbmllbCBQLiBCZXJyYW5nw6ki?= <berrange@redhat.com>,
- "Denis V. Lunev" <den@virtuozzo.com>, Kashyap Chamarthy <kchamart@redhat.com>,
- Stefan Hajnoczi <stefanha@gmail.com>, Markus Armbruster <armbru@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>,
- =?utf-8?Q?Marc-Andr=C3=A9_Lureau?= <marcandre.lureau@redhat.com>,
- Dominik Csapak <d.csapak@proxmox.com>, John Snow <jsnow@redhat.com>,
- ehabkost@redhat.com
+Cc: fam@euphon.net, berrange@redhat.com, stefanb@linux.vnet.ibm.com,
+ richard.henderson@linaro.org, f4bug@amsat.org, cota@braap.org,
+ stefanha@redhat.com, pbonzini@redhat.com, marcandre.lureau@redhat.com,
+ aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-> On 31 Jan 2020, at 08:46, Paolo Bonzini <pbonzini@redhat.com> wrote:
+On 31/01/2020 16.24, Philippe Mathieu-Daud=C3=A9 wrote:
+> On 1/30/20 8:06 PM, Thomas Huth wrote:
+>> On 30/01/2020 12.32, Alex Benn=C3=A9e wrote:
+>>> From: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+>>>
+>>> The NAME variable can be used to describe nicely a job (see [*]).
+>>> As we currently have 32 jobs, use it. This helps for quickly
+>>> finding a particular job.
+>>>
+>>> =C2=A0=C2=A0 before: https://travis-ci.org/qemu/qemu/builds/639887646
+>>> =C2=A0=C2=A0 after: https://travis-ci.org/philmd/qemu/builds/641795043
+>>>
+>>> [*]
+>>> https://docs.travis-ci.com/user/customizing-the-build/#naming-jobs-with=
+in-matrices
+>>>
+>>>
+>>> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+>>> Message-Id: <20200125183135.28317-1-f4bug@amsat.org>
+>>>
+>>> ---
+>>> [ajb]
+>>> =C2=A0=C2=A0 - drop [x86]
+>>> ---
+>>> =C2=A0 .travis.yml | 101 ++++++++++++++++++++++++++++++++++------------=
+------
+>>> =C2=A0 1 file changed, 67 insertions(+), 34 deletions(-)
+>>>
+>>> diff --git a/.travis.yml b/.travis.yml
+>>> index 7526967847..056db1adac 100644
+>>> --- a/.travis.yml
+>>> +++ b/.travis.yml
+>>> @@ -96,24 +96,28 @@ after_script:
+>>> =C2=A0 =C2=A0 matrix:
+>>> =C2=A0=C2=A0=C2=A0 include:
+>>> -=C2=A0=C2=A0=C2=A0 - env:
+>>> +=C2=A0=C2=A0=C2=A0 - name: "GCC static (user)"
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 env:
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - CONFIG=3D"--di=
+sable-system --static"
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - CACHE_NAME=3D"=
+${TRAVIS_BRANCH}-linux-gcc-default"
+>>> =C2=A0 =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # we split the system buil=
+ds as it takes a while to build
+>>> them all
+>>> -=C2=A0=C2=A0=C2=A0 - env:
+>>> +=C2=A0=C2=A0=C2=A0 - name: "GCC (main-softmmu)"
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 env:
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - CONFIG=3D"--di=
+sable-user
+>>> --target-list=3D${MAIN_SOFTMMU_TARGETS}"
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - CACHE_NAME=3D"=
+${TRAVIS_BRANCH}-linux-gcc-default"
+>>> =C2=A0 =C2=A0 -=C2=A0=C2=A0=C2=A0 - env:
+>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - CONFIG=3D"--disable-user
+>>> --target-list-exclude=3D${MAIN_SOFTMMU_TARGETS}"
+>>> +=C2=A0=C2=A0=C2=A0 - name: "GCC (other-softmmu)"
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 env:
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - CONFIG=3D"--disable-user
+>>> --target-list-exclude=3D${MAIN_SOFTMMU_TARGETS}"
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - CACHE_NAME=3D"=
+${TRAVIS_BRANCH}-linux-gcc-default"
+>>> =C2=A0 =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # Just build tools and run=
+ minimal unit and softfloat checks
+>>> -=C2=A0=C2=A0=C2=A0 - env:
+>>> +=C2=A0=C2=A0=C2=A0 - name: "GCC check-softfloat (user)"
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 env:
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - BASE_CONFIG=3D=
+"--enable-tools"
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - CONFIG=3D"--di=
+sable-user --disable-system"
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - TEST_CMD=3D"ma=
+ke check-unit check-softfloat -j3"
+>>> @@ -121,41 +125,48 @@ matrix:
+>>> =C2=A0 =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # --enable-debug implies -=
+-enable-debug-tcg, also runs
+>>> quite a bit slower
+>>> -=C2=A0=C2=A0=C2=A0 - env:
+>>> +=C2=A0=C2=A0=C2=A0 - name: "GCC debug (main-softmmu)"
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 env:
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - CONFIG=3D"--en=
+able-debug
+>>> --target-list=3D${MAIN_SOFTMMU_TARGETS}"
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - CACHE_NAME=3D"=
+${TRAVIS_BRANCH}-linux-gcc-debug"
+>>> =C2=A0 =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # TCG debug can be run jus=
+t on its own and is mostly
+>>> agnostic to user/softmmu distinctions
+>>> -=C2=A0=C2=A0=C2=A0 - env:
+>>> +=C2=A0=C2=A0=C2=A0 - name: "GCC debug (user)"
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 env:
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - CONFIG=3D"--en=
+able-debug-tcg --disable-system"
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - CACHE_NAME=3D"=
+${TRAVIS_BRANCH}-linux-gcc-debug-tcg"
+>>> =C2=A0 =C2=A0 -=C2=A0=C2=A0=C2=A0 - env:
+>>> +=C2=A0=C2=A0=C2=A0 - name: "GCC some libs disabled (main-softmmu)"
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 env:
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - CONFIG=3D"--di=
+sable-linux-aio --disable-cap-ng
+>>> --disable-attr --disable-brlapi --disable-libusb
+>>> --disable-replication --target-list=3D${MAIN_SOFTMMU_TARGETS}"
+>>> =C2=A0 =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # Module builds are mostly=
+ of interest to major distros
+>>> -=C2=A0=C2=A0=C2=A0 - env:
+>>> +=C2=A0=C2=A0=C2=A0 - name: "GCC modules (main-softmmu)"
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 env:
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - CONFIG=3D"--en=
+able-modules
+>>> --target-list=3D${MAIN_SOFTMMU_TARGETS}"
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - CACHE_NAME=3D"=
+${TRAVIS_BRANCH}-linux-gcc-default"
+>>> =C2=A0 =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # Alternate coroutines imp=
+lementations are only really of
+>>> interest to KVM users
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # However we can't test against KVM on T=
+ravis so we can only
+>>> run unit tests
+>>> -=C2=A0=C2=A0=C2=A0 - env:
+>>> +=C2=A0=C2=A0=C2=A0 - name: "check-unit coroutine=3Ducontext"
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 env:
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - CONFIG=3D"--wi=
+th-coroutine=3Ducontext --disable-tcg"
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - TEST_CMD=3D"ma=
+ke check-unit -j3 V=3D1"
+>>> =C2=A0 =C2=A0 -=C2=A0=C2=A0=C2=A0 - env:
+>>> +=C2=A0=C2=A0=C2=A0 - name: "check-unit coroutine=3Dsigaltstack"
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 env:
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - CONFIG=3D"--wi=
+th-coroutine=3Dsigaltstack --disable-tcg"
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - TEST_CMD=3D"ma=
+ke check-unit -j3 V=3D1"
+>>> =C2=A0 =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # Check we can build docs =
+and tools (out of tree)
+>>> -=C2=A0=C2=A0=C2=A0 - env:
+>>> +=C2=A0=C2=A0=C2=A0 - name: "[x86] tools and docs"
+>>
+>> Could you please also drop this "[x86]" here?
 >=20
-> On 31/01/20 07:11, Markus Armbruster wrote:
->> May I present you Armbru's Comment Trust Levels:
->>=20
->> ACTL2: The comment may be overly terse or incomplete, but the
->> probability for it to be outright wrong is low.
->>=20
->> ACTL1: Treat as helpful guidance (with gratitude), but trust only the
->> code.
->>=20
->> ACTL0: It is a tale Told by an idiot[**], full of sound and fury,
->> Signifying nothing.
->>=20
->> Most comments in decently maintained code are at ACTL1.
->>=20
->> Around the time initial QOM development solidified, object.h's comments
->> were ACTL2.  The neglect that is now clearly visible there makes me
->> downgrade to ACTL1.
->>=20
->> Paolo will have a more informed and possibly different opinion.
+> The hunk got applied into the next patch:
 >=20
-> I think around initial development it was ACTL3, now it's around 1.8.
+> =C2=A0=C2=A0=C2=A0=C2=A0 # Check we can build docs and tools (out of tree=
+)
+> -=C2=A0=C2=A0=C2=A0 - name: "[x86] tools and docs"
+> +=C2=A0=C2=A0=C2=A0 - name: "tools and docs (bionic)"
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dist: bionic
 
-Interestingly, the initial doc suggested ACTL to be an whole value between
-0 and 2. Now it=E2=80=99s fractional and value 3 has a meaning you can gues=
-s
-to be =E2=80=9Cabove 2=E2=80=9D=E2=80=A6
+Ok, fine for me, too.
 
-How fast this happened tells you everything you need to know about
-documentation/specifications and actual implementations :-)
-
->=20
-> Paolo
->=20
+ Thomas
 
 
