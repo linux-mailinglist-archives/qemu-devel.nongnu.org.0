@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34E7214F039
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 16:56:36 +0100 (CET)
-Received: from localhost ([::1]:55163 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DEA914F034
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 16:55:09 +0100 (CET)
+Received: from localhost ([::1]:55136 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ixYep-0007Ho-7M
-	for lists+qemu-devel@lfdr.de; Fri, 31 Jan 2020 10:56:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40275)
+	id 1ixYdQ-00053n-5u
+	for lists+qemu-devel@lfdr.de; Fri, 31 Jan 2020 10:55:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40384)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1ixXz8-0005xF-FQ
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 10:13:31 -0500
+ (envelope-from <imammedo@redhat.com>) id 1ixXzD-00067k-EV
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 10:13:36 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1ixXz7-0006XA-Dc
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 10:13:30 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:25820
+ (envelope-from <imammedo@redhat.com>) id 1ixXzC-0006os-6h
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 10:13:35 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:59316
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1ixXz7-0006VZ-9O
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 10:13:29 -0500
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1ixXzC-0006mN-1U
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 10:13:34 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580483608;
+ s=mimecast20190719; t=1580483613;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=l09PZh3LMPFFSSeA4z+UmyRz8btXjx2m3+jM/i9wPNU=;
- b=Cino08E3su+j+PKZMUOB7njPYOiLB11mG2LPtGf0QbZl0nUUzkynFZdp90nyRetLSDSivj
- /frMil8GKnjFYsyojr7MUR+/o5SZGO5uNec0WObb66qCT3V9BZPe822/UGqVx/pViWKVLS
- Mfe8eIB1XMCs1Il3qDrodLBmy1KJoFo=
+ bh=0xKf0Uk1qJdJw/qNvI+DrsDdBTXzAOxfmaK6bOhb73k=;
+ b=L7LLNRfodIblFKZMAvGxD8nlACNWaVwpZ+sT2VeJxLNIMLTKOpVojnqnPGQII7xLLL0uMl
+ ZhZMSGXBhwA7SLSeCiI8WVsYLlanGHtOueb+Al4sTuEqTxdS9Lo6DhW50BCpHoXAee1BAq
+ AXkviP84flICBnzksxGuyuukoHajcWQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-284-Xf_7btezOM-oNsncQ0GZ0w-1; Fri, 31 Jan 2020 10:13:27 -0500
+ us-mta-314-E56ixI1AOzyNHCwyHT0WrA-1; Fri, 31 Jan 2020 10:13:30 -0500
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 30F4F18C43C2
- for <qemu-devel@nongnu.org>; Fri, 31 Jan 2020 15:13:26 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 00A0918C43C4
+ for <qemu-devel@nongnu.org>; Fri, 31 Jan 2020 15:13:27 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id ABCF186C4B
- for <qemu-devel@nongnu.org>; Fri, 31 Jan 2020 15:13:25 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7B19B86C4B
+ for <qemu-devel@nongnu.org>; Fri, 31 Jan 2020 15:13:26 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 67/80] ppc/spapr: use memdev for RAM
-Date: Fri, 31 Jan 2020 16:09:37 +0100
-Message-Id: <1580483390-131164-68-git-send-email-imammedo@redhat.com>
+Subject: [PATCH v4 68/80] ppc/virtex_ml507: remove unused arguments
+Date: Fri, 31 Jan 2020 16:09:38 +0100
+Message-Id: <1580483390-131164-69-git-send-email-imammedo@redhat.com>
 In-Reply-To: <1580483390-131164-1-git-send-email-imammedo@redhat.com>
 References: <1580483390-131164-1-git-send-email-imammedo@redhat.com>
+MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: Xf_7btezOM-oNsncQ0GZ0w-1
+X-MC-Unique: E56ixI1AOzyNHCwyHT0WrA-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 205.139.110.61
@@ -73,56 +74,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-memory_region_allocate_system_memory() API is going away, so
-replace it with memdev allocated MemoryRegion. The later is
-initialized by generic code, so board only needs to opt in
-to memdev scheme by providing
-  MachineClass::default_ram_id
-and using MachineState::ram instead of manually initializing
-RAM memory region.
-
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Acked-by: David Gibson <david@gibson.dropbear.id.au>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Acked-by: David Gibson <david@gibson.dopbear.id.au>
 ---
- hw/ppc/spapr.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+ hw/ppc/virtex_ml507.c | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index a0076e5..b792e72 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -2587,7 +2587,6 @@ static void spapr_machine_init(MachineState *machine)
-     PCIHostState *phb;
+diff --git a/hw/ppc/virtex_ml507.c b/hw/ppc/virtex_ml507.c
+index 7526947..91dd00e 100644
+--- a/hw/ppc/virtex_ml507.c
++++ b/hw/ppc/virtex_ml507.c
+@@ -89,10 +89,7 @@ static void mmubooke_create_initial_mapping(CPUPPCState =
+*env,
+     tlb->PID =3D 0;
+ }
+=20
+-static PowerPCCPU *ppc440_init_xilinx(ram_addr_t *ram_size,
+-                                      int do_init,
+-                                      const char *cpu_type,
+-                                      uint32_t sysclk)
++static PowerPCCPU *ppc440_init_xilinx(const char *cpu_type, uint32_t syscl=
+k)
+ {
+     PowerPCCPU *cpu;
+     CPUPPCState *env;
+@@ -213,7 +210,7 @@ static void virtex_init(MachineState *machine)
      int i;
-     MemoryRegion *sysmem =3D get_system_memory();
--    MemoryRegion *ram =3D g_new(MemoryRegion, 1);
-     hwaddr node0_size =3D spapr_node0_size(machine);
-     long load_limit, fw_size;
-     char *filename;
-@@ -2766,10 +2765,8 @@ static void spapr_machine_init(MachineState *machine=
-)
-         kvmppc_enable_h_page_init();
-     }
 =20
--    /* allocate RAM */
--    memory_region_allocate_system_memory(ram, NULL, "ppc_spapr.ram",
--                                         machine->ram_size);
--    memory_region_add_subregion(sysmem, 0, ram);
-+    /* map RAM */
-+    memory_region_add_subregion(sysmem, 0, machine->ram);
-=20
-     /* always allocate the device memory information */
-     machine->device_memory =3D g_malloc0(sizeof(*machine->device_memory));
-@@ -4344,6 +4341,7 @@ static void spapr_machine_class_init(ObjectClass *oc,=
- void *data)
-     mc->no_parallel =3D 1;
-     mc->default_boot_order =3D "";
-     mc->default_ram_size =3D 512 * MiB;
-+    mc->default_ram_id =3D "ppc_spapr.ram";
-     mc->default_display =3D "std";
-     mc->kvm_type =3D spapr_kvm_type;
-     machine_class_allow_dynamic_sysbus_dev(mc, TYPE_SPAPR_PCI_HOST_BRIDGE)=
+     /* init CPUs */
+-    cpu =3D ppc440_init_xilinx(&ram_size, 1, machine->cpu_type, 400000000)=
 ;
++    cpu =3D ppc440_init_xilinx(machine->cpu_type, 400000000);
+     env =3D &cpu->env;
+=20
+     if (env->mmu_model !=3D POWERPC_MMU_BOOKE) {
 --=20
 2.7.4
 
