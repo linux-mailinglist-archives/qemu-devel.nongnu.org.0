@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CE5014F1A8
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 18:53:07 +0100 (CET)
-Received: from localhost ([::1]:57328 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D587C14F192
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 18:50:12 +0100 (CET)
+Received: from localhost ([::1]:57260 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ixaTa-0007Nk-6n
-	for lists+qemu-devel@lfdr.de; Fri, 31 Jan 2020 12:53:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41667)
+	id 1ixaQl-0001ni-Ra
+	for lists+qemu-devel@lfdr.de; Fri, 31 Jan 2020 12:50:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41719)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1ixaLp-0003NX-Uf
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 12:45:09 -0500
+ (envelope-from <eblake@redhat.com>) id 1ixaLs-0003TK-Hv
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 12:45:10 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1ixaLm-0004nj-Mq
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 12:45:05 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:46514
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <eblake@redhat.com>) id 1ixaLp-0004u2-Ro
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 12:45:08 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:48990
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1ixaLm-0004m9-Fr
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 12:45:02 -0500
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1ixaLp-0004tY-LL
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 12:45:05 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580492702;
+ s=mimecast20190719; t=1580492705;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vSXT9TeN+7rkm9Q6hKCJz30xc5WswAgdcGlCz6C8fUM=;
- b=KaxGas0yE6Wm4KGovhgFlpv7rcVikqWkLLJ/RWM9sHMIK8ZnS3BzqtgH23PUJcuVlwOhSt
- puZTo4BmxVgUqlzS1XwpvTYTbHHoHGtusbjYJ1kuZpTw5YXGPKyNaxmHTk94wOKa86nn6k
- xBKX280u05GThJ1+yv4L9d1ZWleQvlw=
+ bh=cSq7DecclquLgo3YGvTsrqUS/ylJr0pUGFtgCoasKd0=;
+ b=edmyrVdGXxGZTmq/REkoNzE8kdeYR0uap4VSUuj036JEf5nQXPgKPOem6MorUFghOCpZ+r
+ yZdxVBpYoBnUEIGgLhC+5hukJhUVjbzg6n60lJBHWGIx1K3MVyGNZjrqlscBEvdQwLGRLM
+ 6R9sY8WAnyngJr4x5t/7SC17gvtZyvI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-44-u4T0iZxpMtCLKRls8FVvpg-1; Fri, 31 Jan 2020 12:44:58 -0500
+ us-mta-40-Lc1a6eBuNwuGlmU6qd7oHg-1; Fri, 31 Jan 2020 12:45:00 -0500
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E358D107ACC4;
- Fri, 31 Jan 2020 17:44:56 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D63981937FC0;
+ Fri, 31 Jan 2020 17:44:59 +0000 (UTC)
 Received: from blue.redhat.com (ovpn-116-181.phx2.redhat.com [10.3.116.181])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 656D47FB60;
- Fri, 31 Jan 2020 17:44:56 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1FCC87FB60;
+ Fri, 31 Jan 2020 17:44:57 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 15/17] qcow2: Implement all-zero autoclear bit
-Date: Fri, 31 Jan 2020 11:44:34 -0600
-Message-Id: <20200131174436.2961874-16-eblake@redhat.com>
+Subject: [PATCH 16/17] iotests: Add new test for qcow2 all-zero bit
+Date: Fri, 31 Jan 2020 11:44:35 -0600
+Message-Id: <20200131174436.2961874-17-eblake@redhat.com>
 In-Reply-To: <20200131174436.2961874-1-eblake@redhat.com>
 References: <20200131174436.2961874-1-eblake@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: u4T0iZxpMtCLKRls8FVvpg-1
+X-MC-Unique: Lc1a6eBuNwuGlmU6qd7oHg-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,636 +75,411 @@ Cc: david.edmondson@oracle.com, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Wire up the autoclear bit just defined in the previous patch. When we
-create an image or clear it with .bdrv_make_empty, we know that it
-reads as all zeroes.  Reading an image does not change the previous
-status, nor does writing zeroes, trimming (because we specifically set
-trimmed clusters to read as zero), or resize (because the new length
-reads as zero).  This leaves normal writes, data copies, snapshot
-reverts, and altering the backing file that can change the status.
-Furthermore, it is not safe to claim that an encrypted image or an
-image with a backing file reads as all zeroes.
-
-Implementation-wise, we clear the bit from the file on the first
-modification, and then rewrite it when marking the image clean; some
-callers want to rewrite it (to either set or clear), while others want
-to preserve the current value; the modifications to qemu_mark_clean
-make it easier to consolidate the logic for when setting the bit is
-safe.
-
-A number of iotests have altered output, in situations where we have a
-provably zero image at that point in the test.
-
-Later, we may want to wire in further checks to qemu-img check that
-validates if the bit is set correctly, and/or to set the bit in images
-where it would be valid, but I did not do that here.
+Cover various scenarios to show that the bit gets set even for
+fully-allocated images, as well as scenarios where it is properly
+cleared.
 
 Signed-off-by: Eric Blake <eblake@redhat.com>
 ---
- block/qcow2-snapshot.c     | 11 +++++
- block/qcow2.c              | 97 ++++++++++++++++++++++++++++++++++----
- block/qcow2.h              |  5 +-
- tests/qemu-iotests/031.out |  6 +--
- tests/qemu-iotests/036.out |  6 +--
- tests/qemu-iotests/061.out | 12 +++--
- tests/qemu-iotests/065     | 12 ++---
- tests/qemu-iotests/082.out |  7 +++
- tests/qemu-iotests/206.out |  4 ++
- tests/qemu-iotests/242.out |  1 +
- 10 files changed, 134 insertions(+), 27 deletions(-)
+ tests/qemu-iotests/285     | 107 +++++++++++++++
+ tests/qemu-iotests/285.out | 257 +++++++++++++++++++++++++++++++++++++
+ tests/qemu-iotests/group   |   1 +
+ 3 files changed, 365 insertions(+)
+ create mode 100755 tests/qemu-iotests/285
+ create mode 100644 tests/qemu-iotests/285.out
 
-diff --git a/block/qcow2-snapshot.c b/block/qcow2-snapshot.c
-index 5ab64da1ec36..e19f1b3ef5fa 100644
---- a/block/qcow2-snapshot.c
-+++ b/block/qcow2-snapshot.c
-@@ -781,6 +781,16 @@ int qcow2_snapshot_goto(BlockDriverState *bs, const ch=
-ar *snapshot_id)
-         goto fail;
-     }
-
-+    /*
-+     * With modification to the qcow2 spec, snapshots could store
-+     * whether they are in an all zero state. But for now, we assume
-+     * all snapshots are nonzero.
-+     */
-+    ret =3D qcow2_mark_nonzero(bs);
-+    if (ret < 0) {
-+        goto fail;
-+    }
+diff --git a/tests/qemu-iotests/285 b/tests/qemu-iotests/285
+new file mode 100755
+index 000000000000..66037af237a1
+--- /dev/null
++++ b/tests/qemu-iotests/285
+@@ -0,0 +1,107 @@
++#!/usr/bin/env bash
++#
++# Test qcow2 all-zero autoclear bit
++#
++# Copyright (C) 2020 Red Hat, Inc.
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License as published by
++# the Free Software Foundation; either version 2 of the License, or
++# (at your option) any later version.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program.  If not, see <http://www.gnu.org/licenses/>.
++#
 +
-     /*
-      * Make sure that the current L1 table is big enough to contain the wh=
-ole
-      * L1 table of the snapshot. If the snapshot L1 table is smaller, the
-@@ -1044,6 +1054,7 @@ int qcow2_snapshot_load_tmp(BlockDriverState *bs,
-     s->l1_size =3D sn->l1_size;
-     s->l1_table_offset =3D sn->l1_table_offset;
-     s->l1_table =3D new_l1_table;
-+    s->autoclear_features &=3D ~QCOW2_AUTOCLEAR_ALL_ZERO;
-
-     for(i =3D 0;i < s->l1_size; i++) {
-         be64_to_cpus(&s->l1_table[i]);
-diff --git a/block/qcow2.c b/block/qcow2.c
-index 3f61d806a14b..6b1969e4d90a 100644
---- a/block/qcow2.c
-+++ b/block/qcow2.c
-@@ -480,6 +480,40 @@ static void report_unsupported_feature(Error **errp, Q=
-cow2Feature *table,
-     g_free(features);
- }
-
-+/*
-+ * Clear the all zero bit and flushes afterwards if necessary.
-+ *
-+ * If updating the header fails, it is not safe to proceed with
-+ * modifying the image.
-+ */
-+int qcow2_mark_nonzero(BlockDriverState *bs)
++seq=3D$(basename $0)
++echo "QA output created by $seq"
++
++status=3D1=09# failure is the default!
++
++_cleanup()
 +{
-+    BDRVQcow2State *s =3D bs->opaque;
-+    uint64_t val;
-+    int ret;
-+
-+    if (!(s->autoclear_features & QCOW2_AUTOCLEAR_ALL_ZERO)) {
-+        return 0; /* already marked non-zero, including version 2 */
-+    }
-+
-+    assert(s->qcow_version >=3D 3);
-+
-+    val =3D cpu_to_be64(s->autoclear_features & ~QCOW2_AUTOCLEAR_ALL_ZERO)=
-;
-+    ret =3D bdrv_pwrite(bs->file, offsetof(QCowHeader, autoclear_features)=
-,
-+                      &val, sizeof(val));
-+    if (ret < 0) {
-+        return ret;
-+    }
-+    ret =3D bdrv_flush(bs->file->bs);
-+    if (ret < 0) {
-+        return ret;
-+    }
-+
-+    /* Only clear the in-memory flag if the header was updated successfull=
-y */
-+    s->autoclear_features &=3D ~QCOW2_AUTOCLEAR_ALL_ZERO;
-+    return 0;
++    _cleanup_test_img
 +}
++trap "_cleanup; exit \$status" 0 1 2 3 15
 +
- /*
-  * Sets the dirty bit and flushes afterwards if necessary.
-  *
-@@ -518,16 +552,27 @@ int qcow2_mark_dirty(BlockDriverState *bs)
- /*
-  * Clears the dirty bit and flushes before if necessary.  Only call this
-  * function when there are no pending requests, it does not guard against
-- * concurrent requests dirtying the image.
-+ * concurrent requests dirtying the image. If all_zero is 0 or 1, adjust
-+ * the value of s->autoclear; if -1, preserve the cached value.
-  */
--static int qcow2_mark_clean(BlockDriverState *bs)
-+static int qcow2_mark_clean(BlockDriverState *bs, int all_zero)
- {
-     BDRVQcow2State *s =3D bs->opaque;
-
--    if (s->incompatible_features & QCOW2_INCOMPAT_DIRTY) {
-+    if (all_zero =3D=3D -1) {
-+        all_zero =3D !!(s->autoclear_features & QCOW2_AUTOCLEAR_ALL_ZERO);
-+    }
-+    if (bs->backing || bs->encrypted || s->qcow_version < 3) {
-+        all_zero =3D 0;
-+    }
-+    if (s->incompatible_features & QCOW2_INCOMPAT_DIRTY ||
-+        (all_zero && !(s->autoclear_features & QCOW2_AUTOCLEAR_ALL_ZERO)))=
- {
-         int ret;
-
-         s->incompatible_features &=3D ~QCOW2_INCOMPAT_DIRTY;
-+        if (all_zero) {
-+            s->autoclear_features |=3D QCOW2_AUTOCLEAR_ALL_ZERO;
-+        }
-
-         ret =3D qcow2_flush_caches(bs);
-         if (ret < 0) {
-@@ -616,7 +661,13 @@ static int coroutine_fn qcow2_co_check_locked(BlockDri=
-verState *bs,
-     }
-
-     if (fix && result->check_errors =3D=3D 0 && result->corruptions =3D=3D=
- 0) {
--        ret =3D qcow2_mark_clean(bs);
-+        /*
-+         * In the case of fixing an image, we've actually spent the
-+         * time of traversing every cluster, and could thus turn the
-+         * all_zero bit on if the check proves it is correct; but for
-+         * now, it is easier to just always drop the all_zero bit.
-+         */
-+        ret =3D qcow2_mark_clean(bs, 0);
-         if (ret < 0) {
-             return ret;
-         }
-@@ -1069,7 +1120,7 @@ static int qcow2_update_options_prepare(BlockDriverSt=
-ate *bs,
-     }
-
-     if (s->use_lazy_refcounts && !r->use_lazy_refcounts) {
--        ret =3D qcow2_mark_clean(bs);
-+        ret =3D qcow2_mark_clean(bs, -1);
-         if (ret < 0) {
-             error_setg_errno(errp, -ret, "Failed to disable lazy refcounts=
-");
-             goto fail;
-@@ -1865,7 +1916,7 @@ static int qcow2_reopen_prepare(BDRVReopenState *stat=
-e,
-             goto fail;
-         }
-
--        ret =3D qcow2_mark_clean(state->bs);
-+        ret =3D qcow2_mark_clean(state->bs, -1);
-         if (ret < 0) {
-             goto fail;
-         }
-@@ -2486,6 +2537,11 @@ static coroutine_fn int qcow2_co_pwritev_part(
-
-     trace_qcow2_writev_start_req(qemu_coroutine_self(), offset, bytes);
-
-+    ret =3D qcow2_mark_nonzero(bs);
-+    if (ret < 0) {
-+        goto fail_nometa;
-+    }
++# get standard environment, filters and checks
++. ./common.rc
++. ./common.filter
 +
-     while (bytes !=3D 0 && aio_task_pool_status(aio) =3D=3D 0) {
-
-         l2meta =3D NULL;
-@@ -2586,7 +2642,7 @@ static int qcow2_inactivate(BlockDriverState *bs)
-     }
-
-     if (result =3D=3D 0) {
--        qcow2_mark_clean(bs);
-+        qcow2_mark_clean(bs, -1);
-     }
-
-     return result;
-@@ -3443,6 +3499,9 @@ qcow2_co_create(BlockdevCreateOptions *create_options=
-, Error **errp)
-         header->autoclear_features |=3D
-             cpu_to_be64(QCOW2_AUTOCLEAR_DATA_FILE_RAW);
-     }
-+    if (version >=3D 3 && !qcow2_opts->has_backing_file) {
-+        header->autoclear_features |=3D cpu_to_be64(QCOW2_AUTOCLEAR_ALL_ZE=
-RO);
-+    }
-
-     ret =3D blk_pwrite(blk, 0, header, cluster_size, 0);
-     g_free(header);
-@@ -3793,6 +3852,11 @@ static coroutine_fn int qcow2_co_pdiscard(BlockDrive=
-rState *bs,
-     }
-
-     qemu_co_mutex_lock(&s->lock);
-+    /*
-+     * No need to call qcow2_mark_nonzero: v2 images lack autoclear
-+     * bits and so are already nonzero; v3 images pass full_discard=3Dfals=
-e
-+     * so that discarded clusters still read as zero.
-+     */
-     ret =3D qcow2_cluster_discard(bs, offset, bytes, QCOW2_DISCARD_REQUEST=
++_supported_fmt qcow2
++_supported_proto file
++_supported_os Linux
++# Autoclear bit is not available in compat=3D0.10;
++# encrypted images never advertise all-zero bit
++_unsupported_imgopts 'compat=3D0.10' encrypt
++
++for mode in off metadata falloc full; do
++
++    echo
++    echo "=3D=3D=3D preallocation=3D$mode =3D=3D=3D"
++    echo
++
++    _make_test_img -o "preallocation=3D$mode" 32M
++
++    # Actions that do not lose the all-zero nature of the image:
++    $QEMU_IO -c 'w -z 0 16M' -c 'discard 8M 16M' "$TEST_IMG" | _filter_qem=
+u_io
++    $QEMU_IMG resize --preallocation=3D$mode "$TEST_IMG" +8M
++    $QEMU_IO -c 'r -P 0 0 40M' "$TEST_IMG" | _filter_qemu_io
++    $QEMU_IMG info "$TEST_IMG" | _filter_img_info --format-specific
++
++    # Writing data must clear the all-zero bit:
++    $QEMU_IO -c 'w -P 1 32M 1M' "$TEST_IMG" | _filter_qemu_io
++    $QEMU_IMG info "$TEST_IMG" | _filter_img_info --format-specific
++
++    # Alas, rewriting the image back to zero does not restore the bit
++    # (checking if each write gets us back to zero does not scale)
++    $QEMU_IO -c 'w -z 32M 1M' "$TEST_IMG" | _filter_qemu_io
++    $QEMU_IMG info "$TEST_IMG" | _filter_img_info --format-specific
++
++done
++
++echo
++echo "=3D=3D=3D backing files =3D=3D=3D"
++echo
++
++# Even when a backing file is all zero, we do not set all-zero bit;
++# this is true whether we create with a backing file or rebase later
++TEST_IMG_SAVE=3D$TEST_IMG
++TEST_IMG=3D$TEST_IMG.base
++_make_test_img 32M
++TEST_IMG=3D$TEST_IMG_SAVE
++_make_test_img -b "$TEST_IMG.base" -F qcow2 32M
++$QEMU_IMG info "$TEST_IMG" | _filter_img_info --format-specific
++_make_test_img 32M
++$QEMU_IMG info "$TEST_IMG" | _filter_img_info --format-specific
++$QEMU_IMG rebase -u -F qcow2 -b "$TEST_IMG.base" "$TEST_IMG"
++$QEMU_IMG info "$TEST_IMG" | _filter_img_info --format-specific
++
++# qemu-img commit clears an image, but because it still has a backing file=
 ,
-                                 false);
-     qemu_co_mutex_unlock(&s->lock);
-@@ -3902,6 +3966,11 @@ qcow2_co_copy_range_to(BlockDriverState *bs,
-
-     qemu_co_mutex_lock(&s->lock);
-
-+    ret =3D qcow2_mark_nonzero(bs);
-+    if (ret < 0) {
-+        goto fail;
-+    }
++# setting the all-zero bit is not correct
++$QEMU_IO -c 'w -P 1 0 1M' "$TEST_IMG" | _filter_qemu_io
++$QEMU_IMG commit "$TEST_IMG"
++$QEMU_IMG info "$TEST_IMG" | _filter_img_info --format-specific
 +
-     while (bytes !=3D 0) {
-
-         l2meta =3D NULL;
-@@ -4334,6 +4403,11 @@ qcow2_co_pwritev_compressed_part(BlockDriverState *b=
-s,
-         return -ENOTSUP;
-     }
-
-+    ret =3D qcow2_mark_nonzero(bs);
-+    if (ret < 0) {
-+        return ret;
-+    }
++echo
++echo "=3D=3D=3D internal snapshots =3D=3D=3D"
++echo
 +
-     if (bytes =3D=3D 0) {
-         /*
-          * align end of file to a sector boundary to ease reading with
-@@ -4547,7 +4621,7 @@ static int make_completely_empty(BlockDriverState *bs=
-)
-
-     /* Now finally the in-memory information corresponds to the on-disk
-      * structures and is correct */
--    ret =3D qcow2_mark_clean(bs);
-+    ret =3D qcow2_mark_clean(bs, 1);
-     if (ret < 0) {
-         goto fail;
-     }
-@@ -4615,6 +4689,9 @@ static int qcow2_make_empty(BlockDriverState *bs)
-             break;
-         }
-     }
-+    if (!bs->backing && !bs->encrypted && s->qcow_version >=3D 3) {
-+        s->autoclear_features |=3D QCOW2_AUTOCLEAR_ALL_ZERO;
-+    }
-
-     return ret;
- }
-@@ -5002,7 +5079,7 @@ static int qcow2_downgrade(BlockDriverState *bs, int =
-target_version,
-
-     /* clear incompatible features */
-     if (s->incompatible_features & QCOW2_INCOMPAT_DIRTY) {
--        ret =3D qcow2_mark_clean(bs);
-+        ret =3D qcow2_mark_clean(bs, 0);
-         if (ret < 0) {
-             error_setg_errno(errp, -ret, "Failed to make the image clean")=
-;
-             return ret;
-@@ -5372,7 +5449,7 @@ static int qcow2_amend_options(BlockDriverState *bs, =
-QemuOpts *opts,
-             s->use_lazy_refcounts =3D true;
-         } else {
-             /* make image clean first */
--            ret =3D qcow2_mark_clean(bs);
-+            ret =3D qcow2_mark_clean(bs, -1);
-             if (ret < 0) {
-                 error_setg_errno(errp, -ret, "Failed to make the image cle=
-an");
-                 return ret;
-diff --git a/block/qcow2.h b/block/qcow2.h
-index 6fc2d323d753..7b971ed825ed 100644
---- a/block/qcow2.h
-+++ b/block/qcow2.h
-@@ -243,8 +243,8 @@ enum {
-     QCOW2_AUTOCLEAR_ALL_ZERO            =3D 1 << QCOW2_AUTOCLEAR_ALL_ZERO_=
-BITNR,
-
-     QCOW2_AUTOCLEAR_MASK                =3D QCOW2_AUTOCLEAR_BITMAPS
--                                        | QCOW2_AUTOCLEAR_DATA_FILE_RAW,
--    /* TODO: Add _ALL_ZERO to _MASK once it is handled correctly */
-+                                        | QCOW2_AUTOCLEAR_DATA_FILE_RAW
-+                                        | QCOW2_AUTOCLEAR_ALL_ZERO,
- };
-
- enum qcow2_discard_type {
-@@ -610,6 +610,7 @@ int64_t qcow2_refcount_metadata_size(int64_t clusters, =
-size_t cluster_size,
-
- int qcow2_mark_dirty(BlockDriverState *bs);
- int qcow2_mark_corrupt(BlockDriverState *bs);
-+int qcow2_mark_nonzero(BlockDriverState *bs);
- int qcow2_mark_consistent(BlockDriverState *bs);
- int qcow2_update_header(BlockDriverState *bs);
-
-diff --git a/tests/qemu-iotests/031.out b/tests/qemu-iotests/031.out
-index bb1afa7b87f6..293f67e96bb6 100644
---- a/tests/qemu-iotests/031.out
-+++ b/tests/qemu-iotests/031.out
-@@ -111,7 +111,7 @@ nb_snapshots              0
- snapshot_offset           0x0
- incompatible_features     []
- compatible_features       []
--autoclear_features        []
-+autoclear_features        [2]
- refcount_order            4
- header_length             104
-
-@@ -144,7 +144,7 @@ nb_snapshots              0
- snapshot_offset           0x0
- incompatible_features     []
- compatible_features       []
--autoclear_features        []
-+autoclear_features        [2]
- refcount_order            4
- header_length             104
-
-@@ -177,7 +177,7 @@ nb_snapshots              0
- snapshot_offset           0x0
- incompatible_features     []
- compatible_features       []
--autoclear_features        []
-+autoclear_features        [2]
- refcount_order            4
- header_length             104
-
-diff --git a/tests/qemu-iotests/036.out b/tests/qemu-iotests/036.out
-index e409acf60e2b..5eea8b2bb547 100644
---- a/tests/qemu-iotests/036.out
-+++ b/tests/qemu-iotests/036.out
-@@ -5,7 +5,7 @@ QA output created by 036
- Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D67108864
- incompatible_features     [63]
- compatible_features       []
--autoclear_features        []
-+autoclear_features        [2]
- qemu-img: Could not open 'TEST_DIR/t.IMGFMT': Unsupported IMGFMT feature(s=
-): Unknown incompatible feature: 8000000000000000
- qemu-img: Could not open 'TEST_DIR/t.IMGFMT': Unsupported IMGFMT feature(s=
-): Test feature
-
-@@ -23,7 +23,7 @@ qemu-img: Could not open 'TEST_DIR/t.IMGFMT': Unsupported=
- IMGFMT feature(s): tes
- Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D67108864
- incompatible_features     []
- compatible_features       []
--autoclear_features        [63]
-+autoclear_features        [2, 63]
- Header extension:
- magic                     0x6803f857
- length                    336
-@@ -35,7 +35,7 @@ data                      <binary>
- No errors were found on the image.
- incompatible_features     []
- compatible_features       []
--autoclear_features        []
-+autoclear_features        [2]
- Header extension:
- magic                     0x6803f857
- length                    336
-diff --git a/tests/qemu-iotests/061.out b/tests/qemu-iotests/061.out
-index d873f79bb606..3d471c2bde14 100644
---- a/tests/qemu-iotests/061.out
-+++ b/tests/qemu-iotests/061.out
-@@ -20,7 +20,7 @@ nb_snapshots              0
- snapshot_offset           0x0
- incompatible_features     []
- compatible_features       [0]
--autoclear_features        []
-+autoclear_features        [2]
- refcount_order            4
- header_length             104
-
-@@ -78,7 +78,7 @@ nb_snapshots              0
- snapshot_offset           0x0
- incompatible_features     []
- compatible_features       [0]
--autoclear_features        []
-+autoclear_features        [2]
- refcount_order            4
- header_length             104
-
-@@ -189,7 +189,7 @@ nb_snapshots              0
- snapshot_offset           0x0
- incompatible_features     []
- compatible_features       [42]
--autoclear_features        [42]
-+autoclear_features        [2, 42]
- refcount_order            4
- header_length             104
-
-@@ -491,6 +491,7 @@ virtual size: 64 MiB (67108864 bytes)
- cluster_size: 65536
- Format specific information:
-     compat: 1.1
++# For now, internal snapshots do not remember the all-zero bit
++_make_test_img 32M
++$QEMU_IMG info "$TEST_IMG" | _filter_img_info --format-specific
++$QEMU_IMG snapshot -c snap "$TEST_IMG"
++$QEMU_IO -c 'w -P 1 0 1M' "$TEST_IMG" | _filter_qemu_io
++$QEMU_IMG snapshot -l snap "$TEST_IMG"
++$QEMU_IMG info "$TEST_IMG" | _filter_img_info --format-specific \
++    | _filter_date | _filter_vmstate_size
++
++# success, all done
++echo "*** done"
++rm -f $seq.full
++status=3D0
+diff --git a/tests/qemu-iotests/285.out b/tests/qemu-iotests/285.out
+new file mode 100644
+index 000000000000..e43ff9906b5f
+--- /dev/null
++++ b/tests/qemu-iotests/285.out
+@@ -0,0 +1,257 @@
++QA output created by 285
++
++=3D=3D=3D preallocation=3Doff =3D=3D=3D
++
++Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D33554432 preallocation=
+=3Doff
++wrote 16777216/16777216 bytes at offset 0
++16 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++discard 16777216/16777216 bytes at offset 8388608
++16 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++Image resized.
++read 41943040/41943040 bytes at offset 0
++40 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++image: TEST_DIR/t.IMGFMT
++file format: IMGFMT
++virtual size: 40 MiB (41943040 bytes)
++disk size: 260 KiB
++Format specific information:
++    compat: 1.1
 +    all zero: true
-     lazy refcounts: false
-     refcount bits: 16
-     data file: TEST_DIR/t.IMGFMT.data
-@@ -511,6 +512,7 @@ virtual size: 64 MiB (67108864 bytes)
- cluster_size: 65536
- Format specific information:
-     compat: 1.1
++    lazy refcounts: false
++    refcount bits: 16
++    corrupt: false
++wrote 1048576/1048576 bytes at offset 33554432
++1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++image: TEST_DIR/t.IMGFMT
++file format: IMGFMT
++virtual size: 40 MiB (41943040 bytes)
++disk size: 1.25 MiB
++Format specific information:
++    compat: 1.1
++    lazy refcounts: false
++    refcount bits: 16
++    corrupt: false
++wrote 1048576/1048576 bytes at offset 33554432
++1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++image: TEST_DIR/t.IMGFMT
++file format: IMGFMT
++virtual size: 40 MiB (41943040 bytes)
++disk size: 1.25 MiB
++Format specific information:
++    compat: 1.1
++    lazy refcounts: false
++    refcount bits: 16
++    corrupt: false
++
++=3D=3D=3D preallocation=3Dmetadata =3D=3D=3D
++
++Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D33554432 preallocation=
+=3Dmetadata
++wrote 16777216/16777216 bytes at offset 0
++16 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++discard 16777216/16777216 bytes at offset 8388608
++16 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++Image resized.
++read 41943040/41943040 bytes at offset 0
++40 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++image: TEST_DIR/t.IMGFMT
++file format: IMGFMT
++virtual size: 40 MiB (41943040 bytes)
++disk size: 260 KiB
++Format specific information:
++    compat: 1.1
 +    all zero: true
-     lazy refcounts: false
-     refcount bits: 16
-     data file: foo
-@@ -524,6 +526,7 @@ virtual size: 64 MiB (67108864 bytes)
- cluster_size: 65536
- Format specific information:
-     compat: 1.1
++    lazy refcounts: false
++    refcount bits: 16
++    corrupt: false
++wrote 1048576/1048576 bytes at offset 33554432
++1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++image: TEST_DIR/t.IMGFMT
++file format: IMGFMT
++virtual size: 40 MiB (41943040 bytes)
++disk size: 1.25 MiB
++Format specific information:
++    compat: 1.1
++    lazy refcounts: false
++    refcount bits: 16
++    corrupt: false
++wrote 1048576/1048576 bytes at offset 33554432
++1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++image: TEST_DIR/t.IMGFMT
++file format: IMGFMT
++virtual size: 40 MiB (41943040 bytes)
++disk size: 1.25 MiB
++Format specific information:
++    compat: 1.1
++    lazy refcounts: false
++    refcount bits: 16
++    corrupt: false
++
++=3D=3D=3D preallocation=3Dfalloc =3D=3D=3D
++
++Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D33554432 preallocation=
+=3Dfalloc
++wrote 16777216/16777216 bytes at offset 0
++16 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++discard 16777216/16777216 bytes at offset 8388608
++16 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++Image resized.
++read 41943040/41943040 bytes at offset 0
++40 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++image: TEST_DIR/t.IMGFMT
++file format: IMGFMT
++virtual size: 40 MiB (41943040 bytes)
++disk size: 24.3 MiB
++Format specific information:
++    compat: 1.1
 +    all zero: true
-     lazy refcounts: false
-     refcount bits: 16
-     data file raw: false
-@@ -538,6 +541,7 @@ virtual size: 64 MiB (67108864 bytes)
- cluster_size: 65536
- Format specific information:
-     compat: 1.1
++    lazy refcounts: false
++    refcount bits: 16
++    corrupt: false
++wrote 1048576/1048576 bytes at offset 33554432
++1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++image: TEST_DIR/t.IMGFMT
++file format: IMGFMT
++virtual size: 40 MiB (41943040 bytes)
++disk size: 24.3 MiB
++Format specific information:
++    compat: 1.1
++    lazy refcounts: false
++    refcount bits: 16
++    corrupt: false
++wrote 1048576/1048576 bytes at offset 33554432
++1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++image: TEST_DIR/t.IMGFMT
++file format: IMGFMT
++virtual size: 40 MiB (41943040 bytes)
++disk size: 24.3 MiB
++Format specific information:
++    compat: 1.1
++    lazy refcounts: false
++    refcount bits: 16
++    corrupt: false
++
++=3D=3D=3D preallocation=3Dfull =3D=3D=3D
++
++Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D33554432 preallocation=
+=3Dfull
++wrote 16777216/16777216 bytes at offset 0
++16 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++discard 16777216/16777216 bytes at offset 8388608
++16 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++Image resized.
++read 41943040/41943040 bytes at offset 0
++40 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++image: TEST_DIR/t.IMGFMT
++file format: IMGFMT
++virtual size: 40 MiB (41943040 bytes)
++disk size: 24.3 MiB
++Format specific information:
++    compat: 1.1
 +    all zero: true
-     lazy refcounts: false
-     refcount bits: 16
-     data file: TEST_DIR/t.IMGFMT.data
-@@ -550,6 +554,7 @@ virtual size: 64 MiB (67108864 bytes)
- cluster_size: 65536
- Format specific information:
-     compat: 1.1
++    lazy refcounts: false
++    refcount bits: 16
++    corrupt: false
++wrote 1048576/1048576 bytes at offset 33554432
++1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++image: TEST_DIR/t.IMGFMT
++file format: IMGFMT
++virtual size: 40 MiB (41943040 bytes)
++disk size: 24.3 MiB
++Format specific information:
++    compat: 1.1
++    lazy refcounts: false
++    refcount bits: 16
++    corrupt: false
++wrote 1048576/1048576 bytes at offset 33554432
++1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++image: TEST_DIR/t.IMGFMT
++file format: IMGFMT
++virtual size: 40 MiB (41943040 bytes)
++disk size: 24.3 MiB
++Format specific information:
++    compat: 1.1
++    lazy refcounts: false
++    refcount bits: 16
++    corrupt: false
++
++=3D=3D=3D backing files =3D=3D=3D
++
++Formatting 'TEST_DIR/t.IMGFMT.base', fmt=3DIMGFMT size=3D33554432
++Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D33554432 backing_file=
+=3DTEST_DIR/t.IMGFMT.base backing_fmt=3DIMGFMT
++image: TEST_DIR/t.IMGFMT
++file format: IMGFMT
++virtual size: 32 MiB (33554432 bytes)
++disk size: 196 KiB
++backing file: TEST_DIR/t.IMGFMT.base
++backing file format: IMGFMT
++Format specific information:
++    compat: 1.1
++    lazy refcounts: false
++    refcount bits: 16
++    corrupt: false
++Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D33554432
++image: TEST_DIR/t.IMGFMT
++file format: IMGFMT
++virtual size: 32 MiB (33554432 bytes)
++disk size: 196 KiB
++Format specific information:
++    compat: 1.1
 +    all zero: true
-     lazy refcounts: false
-     refcount bits: 16
-     data file: TEST_DIR/t.IMGFMT.data
-@@ -563,6 +568,7 @@ virtual size: 64 MiB (67108864 bytes)
- cluster_size: 65536
- Format specific information:
-     compat: 1.1
++    lazy refcounts: false
++    refcount bits: 16
++    corrupt: false
++image: TEST_DIR/t.IMGFMT
++file format: IMGFMT
++virtual size: 32 MiB (33554432 bytes)
++disk size: 196 KiB
++backing file: TEST_DIR/t.IMGFMT.base
++backing file format: IMGFMT
++Format specific information:
++    compat: 1.1
 +    all zero: true
-     lazy refcounts: false
-     refcount bits: 16
-     data file: TEST_DIR/t.IMGFMT.data
-diff --git a/tests/qemu-iotests/065 b/tests/qemu-iotests/065
-index 5b21eb96bd09..d47b3d30d0de 100755
---- a/tests/qemu-iotests/065
-+++ b/tests/qemu-iotests/065
-@@ -94,17 +94,17 @@ class TestQCow2(TestQemuImgInfo):
- class TestQCow3NotLazy(TestQemuImgInfo):
-     '''Testing a qcow2 version 3 image with lazy refcounts disabled'''
-     img_options =3D 'compat=3D1.1,lazy_refcounts=3Doff'
--    json_compare =3D { 'compat': '1.1', 'lazy-refcounts': False,
-+    json_compare =3D { 'compat': '1.1', 'all-zero': True, 'lazy-refcounts'=
-: False,
-                      'refcount-bits': 16, 'corrupt': False }
--    human_compare =3D [ 'compat: 1.1', 'lazy refcounts: false',
-+    human_compare =3D [ 'compat: 1.1', 'all zero: true', 'lazy refcounts: =
-false',
-                       'refcount bits: 16', 'corrupt: false' ]
-
- class TestQCow3Lazy(TestQemuImgInfo):
-     '''Testing a qcow2 version 3 image with lazy refcounts enabled'''
-     img_options =3D 'compat=3D1.1,lazy_refcounts=3Don'
--    json_compare =3D { 'compat': '1.1', 'lazy-refcounts': True,
-+    json_compare =3D { 'compat': '1.1', 'all-zero': True, 'lazy-refcounts'=
-: True,
-                      'refcount-bits': 16, 'corrupt': False }
--    human_compare =3D [ 'compat: 1.1', 'lazy refcounts: true',
-+    human_compare =3D [ 'compat: 1.1', 'all zero: true', 'lazy refcounts: =
-true',
-                       'refcount bits: 16', 'corrupt: false' ]
-
- class TestQCow3NotLazyQMP(TestQMP):
-@@ -112,7 +112,7 @@ class TestQCow3NotLazyQMP(TestQMP):
-        with lazy refcounts enabled'''
-     img_options =3D 'compat=3D1.1,lazy_refcounts=3Doff'
-     qemu_options =3D 'lazy-refcounts=3Don'
--    compare =3D { 'compat': '1.1', 'lazy-refcounts': False,
-+    compare =3D { 'compat': '1.1', 'all-zero': True, 'lazy-refcounts': Fal=
-se,
-                 'refcount-bits': 16, 'corrupt': False }
-
-
-@@ -121,7 +121,7 @@ class TestQCow3LazyQMP(TestQMP):
-        with lazy refcounts disabled'''
-     img_options =3D 'compat=3D1.1,lazy_refcounts=3Don'
-     qemu_options =3D 'lazy-refcounts=3Doff'
--    compare =3D { 'compat': '1.1', 'lazy-refcounts': True,
-+    compare =3D { 'compat': '1.1', 'all-zero': True, 'lazy-refcounts': Tru=
-e,
-                 'refcount-bits': 16, 'corrupt': False }
-
- TestImageInfoSpecific =3D None
-diff --git a/tests/qemu-iotests/082.out b/tests/qemu-iotests/082.out
-index 9d4ed4dc9d61..6729a43712f2 100644
---- a/tests/qemu-iotests/082.out
-+++ b/tests/qemu-iotests/082.out
-@@ -17,6 +17,7 @@ virtual size: 128 MiB (134217728 bytes)
- cluster_size: 4096
- Format specific information:
-     compat: 1.1
++    lazy refcounts: false
++    refcount bits: 16
++    corrupt: false
++wrote 1048576/1048576 bytes at offset 0
++1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++Image committed.
++image: TEST_DIR/t.IMGFMT
++file format: IMGFMT
++virtual size: 32 MiB (33554432 bytes)
++disk size: 260 KiB
++backing file: TEST_DIR/t.IMGFMT.base
++backing file format: IMGFMT
++Format specific information:
++    compat: 1.1
++    lazy refcounts: false
++    refcount bits: 16
++    corrupt: false
++
++=3D=3D=3D internal snapshots =3D=3D=3D
++
++Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D33554432
++image: TEST_DIR/t.IMGFMT
++file format: IMGFMT
++virtual size: 32 MiB (33554432 bytes)
++disk size: 196 KiB
++Format specific information:
++    compat: 1.1
 +    all zero: true
-     lazy refcounts: true
-     refcount bits: 16
-     corrupt: false
-@@ -29,6 +30,7 @@ virtual size: 128 MiB (134217728 bytes)
- cluster_size: 8192
- Format specific information:
-     compat: 1.1
-+    all zero: true
-     lazy refcounts: true
-     refcount bits: 16
-     corrupt: false
-@@ -299,6 +301,7 @@ virtual size: 128 MiB (134217728 bytes)
- cluster_size: 4096
- Format specific information:
-     compat: 1.1
-+    all zero: true
-     lazy refcounts: true
-     refcount bits: 16
-     corrupt: false
-@@ -310,6 +313,7 @@ virtual size: 128 MiB (134217728 bytes)
- cluster_size: 8192
- Format specific information:
-     compat: 1.1
-+    all zero: true
-     lazy refcounts: true
-     refcount bits: 16
-     corrupt: false
-@@ -579,6 +583,7 @@ virtual size: 128 MiB (134217728 bytes)
- cluster_size: 65536
- Format specific information:
-     compat: 1.1
-+    all zero: true
-     lazy refcounts: true
-     refcount bits: 16
-     corrupt: false
-@@ -590,6 +595,7 @@ virtual size: 130 MiB (136314880 bytes)
- cluster_size: 65536
- Format specific information:
-     compat: 1.1
-+    all zero: true
-     lazy refcounts: false
-     refcount bits: 16
-     corrupt: false
-@@ -601,6 +607,7 @@ virtual size: 132 MiB (138412032 bytes)
- cluster_size: 65536
- Format specific information:
-     compat: 1.1
-+    all zero: true
-     lazy refcounts: true
-     refcount bits: 16
-     corrupt: false
-diff --git a/tests/qemu-iotests/206.out b/tests/qemu-iotests/206.out
-index 61e7241e0bf3..aa27d75d12b1 100644
---- a/tests/qemu-iotests/206.out
-+++ b/tests/qemu-iotests/206.out
-@@ -18,6 +18,7 @@ virtual size: 128 MiB (134217728 bytes)
- cluster_size: 65536
- Format specific information:
-     compat: 1.1
-+    all zero: true
-     lazy refcounts: false
-     refcount bits: 16
-     corrupt: false
-@@ -40,6 +41,7 @@ virtual size: 64 MiB (67108864 bytes)
- cluster_size: 65536
- Format specific information:
-     compat: 1.1
-+    all zero: true
-     lazy refcounts: false
-     refcount bits: 16
-     corrupt: false
-@@ -62,6 +64,7 @@ virtual size: 32 MiB (33554432 bytes)
- cluster_size: 2097152
- Format specific information:
-     compat: 1.1
-+    all zero: true
-     lazy refcounts: true
-     refcount bits: 1
-     corrupt: false
-@@ -102,6 +105,7 @@ encrypted: yes
- cluster_size: 65536
- Format specific information:
-     compat: 1.1
-+    all zero: true
-     lazy refcounts: false
-     refcount bits: 16
-     encrypt:
-diff --git a/tests/qemu-iotests/242.out b/tests/qemu-iotests/242.out
-index 7ac8404d11c8..807f24549e89 100644
---- a/tests/qemu-iotests/242.out
-+++ b/tests/qemu-iotests/242.out
-@@ -153,6 +153,7 @@ virtual size: 1 MiB (1048576 bytes)
- cluster_size: 65536
- Format specific information:
-     compat: 1.1
-+    all zero: true
-     lazy refcounts: false
-     bitmaps:
-         [0]:
++    lazy refcounts: false
++    refcount bits: 16
++    corrupt: false
++wrote 1048576/1048576 bytes at offset 0
++1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++qemu-img: Expecting one image file name
++Try 'qemu-img --help' for more information
++image: TEST_DIR/t.IMGFMT
++file format: IMGFMT
++virtual size: 32 MiB (33554432 bytes)
++disk size:     SIZE
++Snapshot list:
++ID        TAG                 VM SIZE                DATE       VM CLOCK
++1         snap                   SIZE yyyy-mm-dd hh:mm:ss   00:00:00.000
++Format specific information:
++    compat: 1.1
++    lazy refcounts: false
++    refcount bits: 16
++    corrupt: false
++*** done
+diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
+index e041cc1ee360..e9b20818fad5 100644
+--- a/tests/qemu-iotests/group
++++ b/tests/qemu-iotests/group
+@@ -289,3 +289,4 @@
+ 279 rw backing quick
+ 280 rw migration quick
+ 281 rw quick
++285 rw quick
 --=20
 2.24.1
 
