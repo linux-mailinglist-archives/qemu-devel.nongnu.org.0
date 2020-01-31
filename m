@@ -2,79 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCE5814F13F
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 18:25:14 +0100 (CET)
-Received: from localhost ([::1]:56908 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA0BF14F14A
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 18:31:08 +0100 (CET)
+Received: from localhost ([::1]:56964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ixa2b-0001dQ-SY
-	for lists+qemu-devel@lfdr.de; Fri, 31 Jan 2020 12:25:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33572)
+	id 1ixa8J-0004X9-Ok
+	for lists+qemu-devel@lfdr.de; Fri, 31 Jan 2020 12:31:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35124)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1ixa1N-0000iu-5s
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 12:23:59 -0500
+ (envelope-from <philmd@redhat.com>) id 1ixa6z-0003vN-Iv
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 12:29:46 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1ixa1J-0002mC-OK
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 12:23:55 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:56150
+ (envelope-from <philmd@redhat.com>) id 1ixa6y-00024V-5Y
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 12:29:45 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:27990
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1ixa1J-0002le-Kb
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 12:23:53 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1ixa6y-000241-0j
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 12:29:44 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580491432;
+ s=mimecast20190719; t=1580491783;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=NCnIy5nV5jdiJLAobGpgr6JyF1W9ZElJgutLBa59Isg=;
- b=NVlfX2jU30MNXvKN4Ohc4QuVUIpfHIFeA0JbBMDGumi6PjL8X1IVYLxGo+2BIW4JgiWZ2X
- JKT9+yCN6RPDs9A/5hxO5Gyq44i1Ru3/wMeXhjIlZzeQs6IUSdHjapGuUkHUWemzGWAMXI
- SHlL15eJ6RtRiyTsnZylyOErEFi0XTU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-349-gtVYkZRvODeEKyNfRXC5BQ-1; Fri, 31 Jan 2020 12:23:40 -0500
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 960A910CE791;
- Fri, 31 Jan 2020 17:23:38 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-116-131.ams2.redhat.com
- [10.36.116.131])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EC2D67792F;
- Fri, 31 Jan 2020 17:23:29 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 7FFF91138404; Fri, 31 Jan 2020 18:23:28 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Kashyap Chamarthy <kchamart@redhat.com>
-Subject: Re: Improving QOM documentation [Was: Re: Making QEMU easier for
- management tools and applications]
-References: <1B253197-5592-472A-AA26-E0614A13C91A@redhat.com>
- <87o8v52hz9.fsf@dusky.pond.sub.org>
- <8CF8359B-1E52-4F7A-944E-C1C14FEC4F92@redhat.com>
- <87r200zzje.fsf@dusky.pond.sub.org>
- <20200115121953.GJ93923@redhat.com>
- <874kwwvmuv.fsf@dusky.pond.sub.org> <20200130210902.GA25927@paraplu>
- <87y2toi29o.fsf@dusky.pond.sub.org>
- <CAFEAcA-545QS9mnM6hwa6TxUpw_pDQ3Pa8tkf4qtzWS1Zi_fxQ@mail.gmail.com>
- <CABgObfaB=wHXyJbQR163bZdFHhWdCc4D8sWRHzte019_hSTuhA@mail.gmail.com>
- <20200131152243.GA24572@paraplu>
-Date: Fri, 31 Jan 2020 18:23:28 +0100
-In-Reply-To: <20200131152243.GA24572@paraplu> (Kashyap Chamarthy's message of
- "Fri, 31 Jan 2020 16:22:43 +0100")
-Message-ID: <87sgjvbkvj.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+ bh=RiUUERfxtQIni726C2SFhdCH+wyDUGW8ag+xGhC92Uk=;
+ b=AfbRtn/eaSmHAYopYmwmwvdoFT+v5m5HOf+w9u9FlbjVgAdGc7VyWA497AxynM1+oZiQB9
+ xnIPjw1CU8rTvHCOa3RS4AbUPKQvTXC+zP8IJP5Z8owZkYBWIqQB+6lDLBiCpIjadjwxUD
+ drYAZ+OyOO1IuTZaTlUzhhXgB44lydg=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-174-Zmkpe2fGOjWqalqmcyUxcg-1; Fri, 31 Jan 2020 12:29:40 -0500
+Received: by mail-wr1-f70.google.com with SMTP id c6so3657315wrm.18
+ for <qemu-devel@nongnu.org>; Fri, 31 Jan 2020 09:29:40 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=pyWs5en4emEbQSJRUh+L57NzcxSke7rDEsQR7e4lZLw=;
+ b=V7l9ZYPpOuzV0WKCJI8ATZLnGFwVmyGXJ0tGqc7Y/UOZiYO85gHXX+acT8dih1DKwj
+ 4Z0Ki83FXEPW96tk6JinTLHsT2OhNRJ5pIkbZf9QZ7kcvqEqpjpxfNb0e1paMFG2ezQj
+ WmIn590aNEsSWlOwn10g7zcRlQuPhfwUyTA6cLdOsHXFxEwY6kSvett7OmkI5qtbwZPN
+ 4CnuSSIqAG/joRL0PVRrCe6F8L1YxLYZ7WZ/QtnEoU5P2phVgduiebUGs6oo4DQ8fvw4
+ 71gn8nvbHUKVCAPWBW9yKAO64arxfpeZSlY/CmtwGUFnXN6t/walFZfgaRU0FkNu7KAU
+ M0AQ==
+X-Gm-Message-State: APjAAAXeTqmAEdZ/Xeg23cfa8YPEOOW7kkTqkYzA+u5hJjm0uiy2oPlq
+ B4R55XCWoBFrTthCW/h7JYznN1rQDdUM2KkY9IOm1bjk45ilongPCuI6gJNibTVAs02b0pVYqmx
+ hkBpWPrRsPxqCdWo=
+X-Received: by 2002:adf:f401:: with SMTP id g1mr12906765wro.129.1580491779567; 
+ Fri, 31 Jan 2020 09:29:39 -0800 (PST)
+X-Google-Smtp-Source: APXvYqyTzRTw4/UDMuoOlH1Me3o1TAMeNqOm1WdAzDCUbAKqvC14V3FGTNjsFT9rSDLxbQ4gGkrJWA==
+X-Received: by 2002:adf:f401:: with SMTP id g1mr12906744wro.129.1580491779258; 
+ Fri, 31 Jan 2020 09:29:39 -0800 (PST)
+Received: from [192.168.1.35] (113.red-83-57-172.dynamicip.rima-tde.net.
+ [83.57.172.113])
+ by smtp.gmail.com with ESMTPSA id r3sm13207724wrn.34.2020.01.31.09.29.38
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 31 Jan 2020 09:29:38 -0800 (PST)
+Subject: Re: [PATCH] tests/acceptance: Add a test for the integratorcp arm
+ machine
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+References: <20200131170233.14584-1-thuth@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <0919c227-fcf6-44ae-c3de-2ce2ce13ea3d@redhat.com>
+Date: Fri, 31 Jan 2020 18:29:37 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: gtVYkZRvODeEKyNfRXC5BQ-1
+In-Reply-To: <20200131170233.14584-1-thuth@redhat.com>
+Content-Language: en-US
+X-MC-Unique: Zmkpe2fGOjWqalqmcyUxcg-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,116 +91,157 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- "Daniel P. =?utf-8?Q?Berrang?= =?utf-8?Q?=C3=A9?=" <berrange@redhat.com>,
- "Denis V. Lunev" <den@virtuozzo.com>, Stefan Hajnoczi <stefanha@gmail.com>,
- qemu-devel <qemu-devel@nongnu.org>, Eduardo Habkost <ehabkost@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Christophe de Dinechin <dinechin@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
- Dominik Csapak <d.csapak@proxmox.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Kashyap Chamarthy <kchamart@redhat.com> writes:
+On 1/31/20 6:02 PM, Thomas Huth wrote:
+> There is a kernel and initrd available on github which we can use
+> for testing this machine.
+>=20
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>   MAINTAINERS                                  |  1 +
+>   tests/acceptance/machine_arm_integratorcp.py | 43 ++++++++++++++++++++
+>   2 files changed, 44 insertions(+)
+>   create mode 100644 tests/acceptance/machine_arm_integratorcp.py
+>=20
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 6e4976d366..6a03835037 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -599,6 +599,7 @@ S: Maintained
+>   F: hw/arm/integratorcp.c
+>   F: hw/misc/arm_integrator_debug.c
+>   F: include/hw/misc/arm_integrator_debug.h
+> +F: tests/acceptance/machine_arm_integratorcp.py
+>  =20
+>   MCIMX6UL EVK / i.MX6ul
+>   M: Peter Maydell <peter.maydell@linaro.org>
+> diff --git a/tests/acceptance/machine_arm_integratorcp.py b/tests/accepta=
+nce/machine_arm_integratorcp.py
+> new file mode 100644
+> index 0000000000..4f9ab40f2f
+> --- /dev/null
+> +++ b/tests/acceptance/machine_arm_integratorcp.py
+> @@ -0,0 +1,43 @@
+> +# Functional test that boots a Linux kernel and checks the console
+> +#
+> +# Copyright (c) 2020 Red Hat, Inc.
+> +#
+> +# Author:
+> +#  Thomas Huth <thuth@redhat.com>
+> +#
+> +# This work is licensed under the terms of the GNU GPL, version 2 or
+> +# later.  See the COPYING file in the top-level directory.
+> +
+> +import os
+> +
+> +from avocado import skipUnless
+> +from avocado_qemu import Test
+> +from avocado_qemu import wait_for_console_pattern
+> +
+> +class IntegratorMachine(Test):
+> +    """Boots the Linux kernel and checks that the console is operational=
+"""
+> +
+> +    timeout =3D 90
+> +
+> +    @skipUnless(os.getenv('AVOCADO_ALLOW_UNTRUSTED_CODE'), 'untrusted co=
+de')
+> +    def test_integratorcp(self):
+> +        """
+> +        :avocado: tags=3Darch:arm
+> +        :avocado: tags=3Dmachine:integratorcp
+> +        """
+> +        kernel_url =3D ('https://github.com/zayac/qemu-arm/raw/master/'
+> +                      'arm-test/kernel/zImage.integrator')
+> +        kernel_hash =3D '0d7adba893c503267c946a3cbdc63b4b54f25468'
+> +        kernel_path =3D self.fetch_asset(kernel_url, asset_hash=3Dkernel=
+_hash)
+> +
+> +        initrd_url =3D ('https://github.com/zayac/qemu-arm/raw/master/'
+> +                      'arm-test/kernel/arm_root.img')
+> +        initrd_hash =3D 'b51e4154285bf784e017a37586428332d8c7bd8b'
+> +        initrd_path =3D self.fetch_asset(initrd_url, asset_hash=3Dinitrd=
+_hash)
+> +
+> +        self.vm.set_console()
+> +        self.vm.add_args('-kernel', kernel_path,
+> +                         '-initrd', initrd_path,
+> +                         '-append', 'printk.time=3D0 console=3DttyAMA0')
+> +        self.vm.launch()
+> +        wait_for_console_pattern(self, 'Log in as root')
+>=20
 
-> On Fri, Jan 31, 2020 at 12:02:05PM +0100, Paolo Bonzini wrote:
->> Il ven 31 gen 2020, 11:36 Peter Maydell <peter.maydell@linaro.org> ha
->> scritto:
->
-> [...]
->
->> The advantage of putting them in the header is that you have them all in
->> one place (inline functions and structs must be in the header). In pract=
-ice
->> that balances for me the disadvantage of having some comments far from t=
-he
->> code they document, which increases the risk of bitrot especially for
->> comments such as "called with lock X held".
->>=20
->> I definitely agree that the overview/introduction/conventions
->> > side of things is where we'd benefit most if somebody wanted
->> > to try to tackle that. We could roll
->> > https://wiki.qemu.org/Documentation/QOMConventions
->> > into that if we had a better place to put that info.
->> >
->>=20
->> I am travelling this weekend so I might try to do some kind of thread
->> summary and brain dump in the wiki. I'll leave to Kashyap to do the rST
->> conversion and patch submission. ;-)
->
-> Thanks!  Happy to be the 'scribe' ;-)  I have a skeltal
-> qemu-object-model.rst file sitting with some initial content based on
-> various sources, including one of your presentations[*] from 2014.
-> I'll wait for your new Wiki link to incorporate that content.
->
-> (Minor aside: I'm not sure if this file should be in docs/interop/ dir,
-> which IIRC, is for things that are 'external' interfaces.  And I learn
-> that QOM is used both internally in and as an external interface, e.g.
-> whenever a device is being created, machine types, CPU config, etc.)
+Nice. I see the framebuffer is also working.
 
-docs/devel/qapi-code-gen.txt has the same problem: it's mostly internal
-stuff, but there's also introspection, which is an external interface.
+I'd add a test on the CPU, and device listed:
 
->
->             - - -
->
-> I've re-skimmed your scarily-titled "QOM exegesis and apocalypse" 2014
-> KVM Forum talk slides[*], where the "Why QOM?" slide says:
->
->     All device creation, device configuration, backend creation and
->     backed configuration done through a single interface
->    =20
->     Rigorous support for introspection both of runtime objects and type
->     capabilities
+Log in as root with no password.
+qemu login: root
+login[724]: root login  on `ttyAMA0'
 
-For a value of "rigorous".
 
-Let me propose QAPI's query-qmp-schema as the tin standard[*] of
-introspection:
 
-* It's documented
+BusyBox v1.1.2 (2006.05.04-15:30+0000) Built-in shell (ash)
+Enter 'help' for a list of built-in commands.
 
-* It comes with something that can pass as a type system
+# cat /proc/cpuinfo
+Processor       : ARM926EJ-Sid(wb) rev 5 (v5l)
+BogoMIPS        : 930.61
+Features        : swp half thumb fastmult edsp java
+CPU implementer : 0x41
+CPU architecture: 5TEJ
+CPU variant     : 0x0
+CPU part        : 0x926
+CPU revision    : 5
+Cache type      : write-through
+Cache clean     : not required
+Cache lockdown  : not supported
+Cache format    : Harvard
+I size          : 4096
+I assoc         : 4
+I line length   : 32
+I sets          : 32
+D size          : 65536
+D assoc         : 4
+D line length   : 32
+D sets          : 512
 
-* It actually tells you the full truth.
+Hardware        : ARM-IntegratorCP
+Revision        : 0000
+Serial          : 0000000000000000
+# cat /proc/io
+/proc/iomem     /proc/ioports
+# cat /proc/iomem
+00000000-07ffffff : System RAM
+   00022000-0020431f : Kernel text
+   00206000-002670db : Kernel data
+15000000-15000fff : mb:15
+16000000-16000fff : mb:16
+   16000000-16000fff : uart-pl011
+17000000-17000fff : mb:17
+   17000000-17000fff : uart-pl011
+18000000-18000fff : mb:18
+   18000000-18000fff : kmi-pl050
+19000000-19000fff : mb:19
+   19000000-19000fff : kmi-pl050
+1c000000-1c000fff : mb:1c
+   1c000000-1c000fff : mmci-pl18x
+24000000-25ffffff : armflash.0
+c0000000-c0000fff : mb:c0
+   c0000000-c0000fff : clcd-pl11x
+c8000000-c800000f : smc91x.0
+   c8000000-c800000f : smc91x
+#
 
-Now compare to QOM:
+Anyway this can be done in another patch on top, so:
 
-* Documentation
-
-  QAPI: docs/devel/qapi-code-gen.txt section "Client JSON Protocol
-  introspection"
-
-  QOM: Nada
-
-* Type system
-
-  QAPI: A few built-in types specified in the documentation, type
-  constructors for complex types.
-
-  QOM: Types are strings, and you just need to know what they mean.
-  Some string patterns are special: link<STR>, child<STR>, STR[INT], and
-  you just need to know what that means, too.
-
-* Full truth
-
-  QAPI: If you can access it at the interface, you can also see it in
-  introspection.
-
-  QOM: Type introspection can show you only the properties of a freshly
-  created object.  Properties that get created only later are invisible.
-  Properties that depend on global state are unreliable.  Object
-  introspection is reliable, but only for that object in its current
-  state.
-
-> Me wonders how much of the above "Why" still holds true today.  Although
-> further slides give more clues on what worked and what didn't.
->
-> I'll wait for fresher details from your upcoming Wiki :-)
->
-> [*] http://www.linux-kvm.org/images/9/90/Kvmforum14-qom.pdf
-
-[*] Gold was too expensive, but we had some tin on hand, so...
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
 
