@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A31114E89E
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 07:11:10 +0100 (CET)
-Received: from localhost ([::1]:48676 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6C2814E8AD
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 07:14:36 +0100 (CET)
+Received: from localhost ([::1]:48752 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ixPWG-0008Uz-J0
-	for lists+qemu-devel@lfdr.de; Fri, 31 Jan 2020 01:11:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59110)
+	id 1ixPZb-0007G8-S8
+	for lists+qemu-devel@lfdr.de; Fri, 31 Jan 2020 01:14:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59127)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1ixPUq-0006b5-Qo
+ (envelope-from <dgibson@ozlabs.org>) id 1ixPUr-0006bA-A2
  for qemu-devel@nongnu.org; Fri, 31 Jan 2020 01:09:42 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1ixPUp-0000NV-OC
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 01:09:40 -0500
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:54387 helo=ozlabs.org)
+ (envelope-from <dgibson@ozlabs.org>) id 1ixPUq-0000PT-3o
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 01:09:41 -0500
+Received: from ozlabs.org ([203.11.71.1]:52511)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1ixPUp-0000KF-DW; Fri, 31 Jan 2020 01:09:39 -0500
+ id 1ixPUp-0000Kj-Oi; Fri, 31 Jan 2020 01:09:40 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4886Hs0FW1z9sRh; Fri, 31 Jan 2020 17:09:28 +1100 (AEDT)
+ id 4886Hs0wtmz9sRp; Fri, 31 Jan 2020 17:09:29 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1580450969;
- bh=WQAj6rnhkHrN1qnR0hnpwhKAM67m8dgKt8Vo6en0Quc=;
+ bh=PVwxscjrI7jhsuwlQkAC7qDnh7+BHJbvc7CrDJ8cLlc=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=DuoRkdED8r2l/DkJZ01foge6zcja/wz3I6ON94EVlTGJIMS30vAVNiJMF9bFZv8h4
- x728rE4+vZYg72iNgupMJSKCqQeIKxnirClrc3Sat6eSAO6jKoJ+iUO6r+dLsRYush
- /W9kSpVNBO3pJdwkfGYzGcaOOmpClOsYx7QIp6LQ=
+ b=JAPs3N/ehNEn3ob3K+o4piuvtfLu7p8V/z5R5x3vWu2pf8N4vbyuD+hnoJIXCatdE
+ S6AIAZ77O2px21dTOCWGWhc7h2SdKBKa3I5dWFdRchFDg+GVpikFypUq/2ByjIZPle
+ CtXeUEnL0BZPCqq38v9B2HlHSW8zLHl+LPehDs5c=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 05/34] target/ppc: Clarify the meaning of return values in
- kvm_handle_debug
-Date: Fri, 31 Jan 2020 17:08:55 +1100
-Message-Id: <20200131060924.147449-6-david@gibson.dropbear.id.au>
+Subject: [PULL 06/34] spapr: Fail CAS if option vector table cannot be parsed
+Date: Fri, 31 Jan 2020 17:08:56 +1100
+Message-Id: <20200131060924.147449-7-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200131060924.147449-1-david@gibson.dropbear.id.au>
 References: <20200131060924.147449-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2401:3900:2:1::2
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,92 +54,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, Fabiano Rosas <farosas@linux.ibm.com>,
- qemu-devel@nongnu.org, groug@kaod.org, qemu-ppc@nongnu.org,
- Leonardo Bras <leonardo@ibm.com>, David Gibson <david@gibson.dropbear.id.au>
+Cc: lvivier@redhat.com, qemu-devel@nongnu.org, groug@kaod.org,
+ qemu-ppc@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Fabiano Rosas <farosas@linux.ibm.com>
+From: Greg Kurz <groug@kaod.org>
 
-The kvm_handle_debug function can return 0 to go back into the guest
-or return 1 to notify the gdbstub thread and pass control to GDB.
+Most of the option vector helpers have assertions to check their
+arguments aren't null. The guest can provide an arbitrary address
+for the CAS structure that would result in such null arguments.
+Fail CAS with H_PARAMETER and print a warning instead of aborting
+QEMU.
 
-Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
-Message-Id: <20200110151344.278471-2-farosas@linux.ibm.com>
-Tested-by: Leonardo Bras <leonardo@ibm.com>
+Signed-off-by: Greg Kurz <groug@kaod.org>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Message-Id: <157925255250.397143.10855183619366882459.stgit@bahia.lan>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- target/ppc/kvm.c | 15 +++++++++------
- 1 file changed, 9 insertions(+), 6 deletions(-)
+ hw/ppc/spapr_hcall.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
-index 06fd0cc162..c05dde5985 100644
---- a/target/ppc/kvm.c
-+++ b/target/ppc/kvm.c
-@@ -53,6 +53,9 @@
+diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
+index f1799b1b70..ffb14641f9 100644
+--- a/hw/ppc/spapr_hcall.c
++++ b/hw/ppc/spapr_hcall.c
+@@ -1703,7 +1703,15 @@ static target_ulong h_client_architecture_support(=
+PowerPCCPU *cpu,
+     ov_table =3D addr;
 =20
- #define PROC_DEVTREE_CPU      "/proc/device-tree/cpus/"
-=20
-+#define DEBUG_RETURN_GUEST 0
-+#define DEBUG_RETURN_GDB   1
-+
- const KVMCapabilityInfo kvm_arch_required_capabilities[] =3D {
-     KVM_CAP_LAST_INFO
- };
-@@ -1564,7 +1567,7 @@ void kvm_arch_update_guest_debug(CPUState *cs, stru=
-ct kvm_guest_debug *dbg)
- static int kvm_handle_hw_breakpoint(CPUState *cs,
-                                     struct kvm_debug_exit_arch *arch_inf=
-o)
- {
--    int handle =3D 0;
-+    int handle =3D DEBUG_RETURN_GUEST;
-     int n;
-     int flag =3D 0;
-=20
-@@ -1572,13 +1575,13 @@ static int kvm_handle_hw_breakpoint(CPUState *cs,
-         if (arch_info->status & KVMPPC_DEBUG_BREAKPOINT) {
-             n =3D find_hw_breakpoint(arch_info->address, GDB_BREAKPOINT_=
-HW);
-             if (n >=3D 0) {
--                handle =3D 1;
-+                handle =3D DEBUG_RETURN_GDB;
-             }
-         } else if (arch_info->status & (KVMPPC_DEBUG_WATCH_READ |
-                                         KVMPPC_DEBUG_WATCH_WRITE)) {
-             n =3D find_hw_watchpoint(arch_info->address,  &flag);
-             if (n >=3D 0) {
--                handle =3D 1;
-+                handle =3D DEBUG_RETURN_GDB;
-                 cs->watchpoint_hit =3D &hw_watchpoint;
-                 hw_watchpoint.vaddr =3D hw_debug_points[n].addr;
-                 hw_watchpoint.flags =3D flag;
-@@ -1590,12 +1593,12 @@ static int kvm_handle_hw_breakpoint(CPUState *cs,
-=20
- static int kvm_handle_singlestep(void)
- {
--    return 1;
-+    return DEBUG_RETURN_GDB;
- }
-=20
- static int kvm_handle_sw_breakpoint(void)
- {
--    return 1;
-+    return DEBUG_RETURN_GDB;
- }
-=20
- static int kvm_handle_debug(PowerPCCPU *cpu, struct kvm_run *run)
-@@ -1647,7 +1650,7 @@ static int kvm_handle_debug(PowerPCCPU *cpu, struct=
- kvm_run *run)
-     env->error_code =3D POWERPC_EXCP_INVAL;
-     ppc_cpu_do_interrupt(cs);
-=20
--    return 0;
-+    return DEBUG_RETURN_GUEST;
- }
-=20
- int kvm_arch_handle_exit(CPUState *cs, struct kvm_run *run)
+     ov1_guest =3D spapr_ovec_parse_vector(ov_table, 1);
++    if (!ov1_guest) {
++        warn_report("guest didn't provide option vector 1");
++        return H_PARAMETER;
++    }
+     ov5_guest =3D spapr_ovec_parse_vector(ov_table, 5);
++    if (!ov5_guest) {
++        warn_report("guest didn't provide option vector 5");
++        return H_PARAMETER;
++    }
+     if (spapr_ovec_test(ov5_guest, OV5_MMU_BOTH)) {
+         error_report("guest requested hash and radix MMU, which is inval=
+id.");
+         exit(EXIT_FAILURE);
 --=20
 2.24.1
 
