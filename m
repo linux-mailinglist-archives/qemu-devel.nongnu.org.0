@@ -2,60 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B704914F385
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 22:01:51 +0100 (CET)
-Received: from localhost ([::1]:59498 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C42CD14F39F
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 22:16:55 +0100 (CET)
+Received: from localhost ([::1]:59644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ixdQE-0001Bc-BT
-	for lists+qemu-devel@lfdr.de; Fri, 31 Jan 2020 16:01:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56894)
+	id 1ixdeo-0006d5-Rd
+	for lists+qemu-devel@lfdr.de; Fri, 31 Jan 2020 16:16:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33899)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1ixdPO-0000gf-35
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 16:00:59 -0500
+ (envelope-from <bounces@canonical.com>) id 1ixddc-0006Cz-L5
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 16:15:42 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1ixdPM-0008VA-T0
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 16:00:57 -0500
-Received: from indium.canonical.com ([91.189.90.7]:39078)
+ (envelope-from <bounces@canonical.com>) id 1ixdda-0006u6-Bk
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 16:15:40 -0500
+Received: from indium.canonical.com ([91.189.90.7]:40136)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1ixdPM-0008ST-No
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 16:00:56 -0500
+ id 1ixdda-0006sO-4j
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 16:15:38 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1ixdPI-0006sZ-3J
- for <qemu-devel@nongnu.org>; Fri, 31 Jan 2020 21:00:52 +0000
+ id 1ixddY-0007jg-Ve
+ for <qemu-devel@nongnu.org>; Fri, 31 Jan 2020 21:15:36 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 0F1C32E80CC
- for <qemu-devel@nongnu.org>; Fri, 31 Jan 2020 21:00:52 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id D4A5D2E80C8
+ for <qemu-devel@nongnu.org>; Fri, 31 Jan 2020 21:15:36 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 31 Jan 2020 20:51:51 -0000
-From: Laurent Vivier <Laurent@vivier.eu>
+Date: Fri, 31 Jan 2020 21:02:07 -0000
+From: Richard Henderson <rth@twiddle.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
- assignee=Laurent@vivier.eu; 
-X-Launchpad-Bug-Tags: arm linux-user
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: tcg testcase
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: fritz-the-cat laurent-vivier m-luescher pmaydell
- tobijk
-X-Launchpad-Bug-Reporter: =?utf-8?q?Matthias_L=C3=BCscher_=28m-luescher=29?=
-X-Launchpad-Bug-Modifier: Laurent Vivier (laurent-vivier)
-References: <155475569461.20468.17957138207618410360.malonedeb@chaenomeles.canonical.com>
-Message-Id: <158050391153.19408.2270800998696422828.malone@wampee.canonical.com>
-Subject: [Bug 1823790] Re: QEMU mishandling of SO_PEERSEC forces systemd into
- tight loop
+X-Launchpad-Bug-Commenters: amarkovic rth stvlvrn
+X-Launchpad-Bug-Reporter: Stevie Lavern (stvlvrn)
+X-Launchpad-Bug-Modifier: Richard Henderson (rth)
+References: <158038956597.5319.13308249814127344774.malonedeb@chaenomeles.canonical.com>
+Message-Id: <158050452751.8211.8131089451171466061.malone@chaenomeles.canonical.com>
+Subject: [Bug 1861404] Re: AVX instruction VMOVDQU implementation error for
+ YMM registers
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="0a62c17273454a1313f81a74a2198ec30b44c7b6";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: a2d8694a2bec018a889a57a896854ffeca633b7f
+X-Launchpad-Hash: 83cfe7140971f527652d2254e522e429877de159
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
@@ -68,53 +66,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1823790 <1823790@bugs.launchpad.net>
+Reply-To: Bug 1861404 <1861404@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Could you test the attached patch?
+Because the sse code is sloppy, and it was interpreted
+as the sse instruction movdqu.
 
-** Patch added: "Implement SO_PEERSEC"
-   https://bugs.launchpad.net/qemu/+bug/1823790/+attachment/5324494/+files/=
-0001-linux-user-implement-TARGET_SO_PEERSEC.patch
+AVX support was coded for GSoC last year,
+
+https://lists.nongnu.org/archive/html/qemu-devel/2019-08/msg05369.html
+
+but it has not been completely reviewed and committed.
+
+There is no support for AVX in master.
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1823790
+https://bugs.launchpad.net/bugs/1861404
 
 Title:
-  QEMU mishandling of SO_PEERSEC forces systemd into tight loop
+  AVX instruction VMOVDQU implementation error for YMM registers
 
 Status in QEMU:
-  Confirmed
+  New
 
 Bug description:
-  While building Debian images for embedded ARM target systems I
-  detected that QEMU seems to force newer systemd daemons into a tight
-  loop.
+  Hi,
 
-  My setup is the following:
+  Tested with Qemu 4.2.0, and with git version
+  bddff6f6787c916b0e9d63ef9e4d442114257739.
 
-  Host machine: Ubuntu 18.04, amd64
-  LXD container: Debian Buster, arm64, systemd 241
-  QEMU: qemu-aarch64-static, 4.0.0-rc2 (custom build) and 3.1.0 (Debian 1:3=
-.1+dfsg-7)
+  The x86 AVX instruction VMOVDQU doesn't work properly with YMM registers =
+(32 bytes).
+  It works with XMM registers (16 bytes) though.
 
-  To easily reproduce the issue I have created the following repository:
-  https://github.com/lueschem/edi-qemu
+  See the attached test case `ymm.c`: when copying from memory-to-ymm0
+  and then back from ymm0-to-memory using VMOVDQU, Qemu only copies the
+  first 16 of the total 32 bytes.
 
-  The call where systemd gets looping is the following:
-  2837 getsockopt(3,1,31,274891889456,274887218756,274888927920) =3D -1 err=
-no=3D34 (Numerical result out of range)
+  ```
+  user@ubuntu ~/Qemu % gcc -o ymm ymm.c -Wall -Wextra -Werror
 
-  Furthermore I also verified that the issue is not related to LXD.
-  The same behavior can be reproduced using systemd-nspawn.
+  user@ubuntu ~/Qemu % ./ymm
+  00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F 10 11 12 13 14 15 16 17 1=
+8 19 1A 1B 1C 1D 1E 1F
 
-  This issue reported against systemd seems to be related:
-  https://github.com/systemd/systemd/issues/11557
+  user@ubuntu ~/Qemu % ./x86_64-linux-user/qemu-x86_64 -cpu max ymm
+  00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F 00 00 00 00 00 00 00 00 0=
+0 00 00 00 00 00 00 00
+  ```
+
+  This seems to be because in `translate.c > gen_sse()`, the case
+  handling the VMOVDQU instruction calls `gen_ldo_env_A0` which always
+  performs a 16 bytes copy using two 8 bytes load and store operations
+  (with `tcg_gen_qemu_ld_i64` and `tcg_gen_st_i64`).
+
+  Instead, the `gen_ldo_env_A0` function should generate a copy with a
+  size corresponding to the used register.
+
+  =
+
+  ```
+  static void gen_sse(CPUX86State *env, DisasContext *s, int b,
+                      target_ulong pc_start, int rex_r)
+  {
+          [...]
+          case 0x26f: /* movdqu xmm, ea */
+              if (mod !=3D 3) {
+                  gen_lea_modrm(env, s, modrm);
+                  gen_ldo_env_A0(s, offsetof(CPUX86State, xmm_regs[reg]));
+              } else { =
+
+          [...]
+  ```
+
+  ```
+  static inline void gen_ldo_env_A0(DisasContext *s, int offset)
+  {
+      int mem_index =3D s->mem_index;
+      tcg_gen_qemu_ld_i64(s->tmp1_i64, s->A0, mem_index, MO_LEQ);
+      tcg_gen_st_i64(s->tmp1_i64, cpu_env, offset + offsetof(ZMMReg, ZMM_Q(=
+0)));
+      tcg_gen_addi_tl(s->tmp0, s->A0, 8);
+      tcg_gen_qemu_ld_i64(s->tmp1_i64, s->tmp0, mem_index, MO_LEQ);
+      tcg_gen_st_i64(s->tmp1_i64, cpu_env, offset + offsetof(ZMMReg, ZMM_Q(=
+1)));
+  }
+  ```
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1823790/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1861404/+subscriptions
 
