@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F38DA14EFE6
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 16:41:58 +0100 (CET)
-Received: from localhost ([::1]:54938 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B06414EFCF
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 16:40:15 +0100 (CET)
+Received: from localhost ([::1]:54902 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ixYQg-0008BC-1O
-	for lists+qemu-devel@lfdr.de; Fri, 31 Jan 2020 10:41:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39395)
+	id 1ixYP0-0005Dx-7O
+	for lists+qemu-devel@lfdr.de; Fri, 31 Jan 2020 10:40:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39459)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1ixXyT-0004bb-UD
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 10:12:52 -0500
+ (envelope-from <imammedo@redhat.com>) id 1ixXyW-0004g7-DK
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 10:12:53 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1ixXyR-0004LI-LJ
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 10:12:49 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:44537
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <imammedo@redhat.com>) id 1ixXyV-0004Sd-9K
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 10:12:52 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:59773
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1ixXyR-0004K1-Gg
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 10:12:47 -0500
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1ixXyV-0004S0-5q
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 10:12:51 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580483567;
+ s=mimecast20190719; t=1580483570;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lR7C/r0jf6Tkq1j/PEpNQwhbFnic/ceL5vqEE0Btoxo=;
- b=aYHa728l9Bamg8jzL3Sj7vu231cuUR6sfST33K0K8hZqkuhAPjW0gqWkiQ2S3FYihQxNgq
- XEjZR/GioNWabRTnRQcaJCay/75rXOGFBEi2NplzdmQafyyS/f8rw0SZcwc0FxkqkYRLgu
- /GD9FKmtRPz0P3lkqxrCr4qNKsnLw5A=
+ bh=kw+4DlgM0odpHEZGphhJaCNVvyRS1Ybjd47rhhOmDls=;
+ b=hNFPR3KXZzp2waWVBnMTvs5RYh/z9UrQdKInPk6Ye9xkrBLZUkUawhuhKypc3hzWKua2V6
+ z9vywebs1CXHatd9suf/rUXiCgciRgMPuuV5kiRacCAYUoj9dZQKeuS4wFjgeseWQCk6RS
+ SFS7XmUvLb1OKA8mCViW6T5yXq57OI4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-177-RSezCYp6N2G0m_Nn7wn9ow-1; Fri, 31 Jan 2020 10:12:44 -0500
+ us-mta-426-BiU_0ttzOParRxKAT0GZjw-1; Fri, 31 Jan 2020 10:12:45 -0500
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9CD4E800E21;
- Fri, 31 Jan 2020 15:12:43 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B90508017CC;
+ Fri, 31 Jan 2020 15:12:44 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F0D8586C4B;
- Fri, 31 Jan 2020 15:12:42 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E4E6789E7A;
+ Fri, 31 Jan 2020 15:12:43 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 29/80] arm/sabrelite: use memdev for RAM
-Date: Fri, 31 Jan 2020 16:08:59 +0100
-Message-Id: <1580483390-131164-30-git-send-email-imammedo@redhat.com>
+Subject: [PATCH v4 30/80] arm/sbsa-ref: use memdev for RAM
+Date: Fri, 31 Jan 2020 16:09:00 +0100
+Message-Id: <1580483390-131164-31-git-send-email-imammedo@redhat.com>
 In-Reply-To: <1580483390-131164-1-git-send-email-imammedo@redhat.com>
 References: <1580483390-131164-1-git-send-email-imammedo@redhat.com>
+MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: RSezCYp6N2G0m_Nn7wn9ow-1
+X-MC-Unique: BiU_0ttzOParRxKAT0GZjw-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,7 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jcd@tribudubois.net
+Cc: radoslaw.biernacki@linaro.org, leif.lindholm@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -83,96 +83,49 @@ to memdev scheme by providing
 and using MachineState::ram instead of manually initializing
 RAM memory region.
 
-PS:
- remove no longer needed IMX6Sabrelite
-
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Reviewed-by: Andrew Jones <drjones@redhat.com>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
-CC: jcd@tribudubois.net
+CC: radoslaw.biernacki@linaro.org
+CC: leif.lindholm@linaro.org
 ---
- hw/arm/sabrelite.c | 23 ++++++++---------------
- 1 file changed, 8 insertions(+), 15 deletions(-)
+ hw/arm/sbsa-ref.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/hw/arm/sabrelite.c b/hw/arm/sabrelite.c
-index 96cc455..e31694b 100644
---- a/hw/arm/sabrelite.c
-+++ b/hw/arm/sabrelite.c
-@@ -19,11 +19,6 @@
- #include "qemu/error-report.h"
- #include "sysemu/qtest.h"
-=20
--typedef struct IMX6Sabrelite {
--    FslIMX6State soc;
--    MemoryRegion ram;
--} IMX6Sabrelite;
--
- static struct arm_boot_info sabrelite_binfo =3D {
-     /* DDR memory start */
-     .loader_start =3D FSL_IMX6_MMDC_ADDR,
-@@ -45,7 +40,7 @@ static void sabrelite_reset_secondary(ARMCPU *cpu,
-=20
- static void sabrelite_init(MachineState *machine)
- {
--    IMX6Sabrelite *s =3D g_new0(IMX6Sabrelite, 1);
-+    FslIMX6State *s;
-     Error *err =3D NULL;
-=20
-     /* Check the amount of memory is compatible with the SOC */
-@@ -55,19 +50,16 @@ static void sabrelite_init(MachineState *machine)
-         exit(1);
+diff --git a/hw/arm/sbsa-ref.c b/hw/arm/sbsa-ref.c
+index 9b5bcb5..1cba9fc 100644
+--- a/hw/arm/sbsa-ref.c
++++ b/hw/arm/sbsa-ref.c
+@@ -593,7 +593,6 @@ static void sbsa_ref_init(MachineState *machine)
+     MachineClass *mc =3D MACHINE_GET_CLASS(machine);
+     MemoryRegion *sysmem =3D get_system_memory();
+     MemoryRegion *secure_sysmem =3D g_new(MemoryRegion, 1);
+-    MemoryRegion *ram =3D g_new(MemoryRegion, 1);
+     bool firmware_loaded;
+     const CPUArchIdList *possible_cpus;
+     int n, sbsa_max_cpus;
+@@ -685,9 +684,8 @@ static void sbsa_ref_init(MachineState *machine)
+         object_unref(cpuobj);
      }
 =20
--    object_initialize_child(OBJECT(machine), "soc", &s->soc, sizeof(s->soc=
-),
--                            TYPE_FSL_IMX6, &error_abort, NULL);
--
--    object_property_set_bool(OBJECT(&s->soc), true, "realized", &err);
-+    s =3D FSL_IMX6(object_new(TYPE_FSL_IMX6));
-+    object_property_add_child(OBJECT(machine), "soc", OBJECT(s), &error_fa=
-tal);
-+    object_property_set_bool(OBJECT(s), true, "realized", &err);
-     if (err !=3D NULL) {
-         error_report("%s", error_get_pretty(err));
-         exit(1);
-     }
-=20
--    memory_region_allocate_system_memory(&s->ram, NULL, "sabrelite.ram",
+-    memory_region_allocate_system_memory(ram, NULL, "sbsa-ref.ram",
 -                                         machine->ram_size);
-     memory_region_add_subregion(get_system_memory(), FSL_IMX6_MMDC_ADDR,
--                                &s->ram);
+-    memory_region_add_subregion(sysmem, sbsa_ref_memmap[SBSA_MEM].base, ra=
+m);
++    memory_region_add_subregion(sysmem, sbsa_ref_memmap[SBSA_MEM].base,
 +                                machine->ram);
 =20
-     {
-         /*
-@@ -78,7 +70,7 @@ static void sabrelite_init(MachineState *machine)
-         /* Add the sst25vf016b NOR FLASH memory to first SPI */
-         Object *spi_dev;
+     create_fdt(sms);
 =20
--        spi_dev =3D object_resolve_path_component(OBJECT(&s->soc), "spi1")=
-;
-+        spi_dev =3D object_resolve_path_component(OBJECT(s), "spi1");
-         if (spi_dev) {
-             SSIBus *spi_bus;
-=20
-@@ -109,7 +101,7 @@ static void sabrelite_init(MachineState *machine)
-     sabrelite_binfo.secondary_cpu_reset_hook =3D sabrelite_reset_secondary=
-;
-=20
-     if (!qtest_enabled()) {
--        arm_load_kernel(&s->soc.cpu[0], machine, &sabrelite_binfo);
-+        arm_load_kernel(&s->cpu[0], machine, &sabrelite_binfo);
-     }
- }
-=20
-@@ -119,6 +111,7 @@ static void sabrelite_machine_init(MachineClass *mc)
-     mc->init =3D sabrelite_init;
-     mc->max_cpus =3D FSL_IMX6_NUM_CPUS;
-     mc->ignore_memory_transaction_failures =3D true;
-+    mc->default_ram_id =3D "sabrelite.ram";
- }
-=20
- DEFINE_MACHINE("sabrelite", sabrelite_machine_init)
+@@ -785,6 +783,7 @@ static void sbsa_ref_class_init(ObjectClass *oc, void *=
+data)
+     mc->block_default_type =3D IF_IDE;
+     mc->no_cdrom =3D 1;
+     mc->default_ram_size =3D 1 * GiB;
++    mc->default_ram_id =3D "sbsa-ref.ram";
+     mc->default_cpus =3D 4;
+     mc->possible_cpu_arch_ids =3D sbsa_ref_possible_cpu_arch_ids;
+     mc->cpu_index_to_instance_props =3D sbsa_ref_cpu_index_to_props;
 --=20
 2.7.4
 
