@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9184E14E680
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 01:19:05 +0100 (CET)
-Received: from localhost ([::1]:41458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3B7114E675
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 01:16:13 +0100 (CET)
+Received: from localhost ([::1]:41421 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ixK1Y-0000sJ-LO
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 19:19:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58868)
+	id 1ixJym-0004BP-Qz
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 19:16:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58813)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1ixJnt-0007xk-HH
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 19:04:58 -0500
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1ixJnq-0007uP-L9
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 19:04:57 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1ixJnp-00036x-C2
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 19:04:56 -0500
-Received: from mx2.rt-rk.com ([89.216.37.149]:51412 helo=mail.rt-rk.com)
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1ixJnp-00036b-5t
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 19:04:54 -0500
+Received: from mx2.rt-rk.com ([89.216.37.149]:51417 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
- id 1ixJnp-0002x6-0B
+ id 1ixJno-0002x9-Tw
  for qemu-devel@nongnu.org; Thu, 30 Jan 2020 19:04:53 -0500
 Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id 866131A20F3;
+ by mail.rt-rk.com (Postfix) with ESMTP id 867B01A2105;
  Fri, 31 Jan 2020 01:03:38 +0100 (CET)
 X-Virus-Scanned: amavisd-new at rt-rk.com
 Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
  [10.10.14.106])
- by mail.rt-rk.com (Postfix) with ESMTPSA id 576411A20F1;
+ by mail.rt-rk.com (Postfix) with ESMTPSA id 63E981A210A;
  Fri, 31 Jan 2020 01:03:38 +0100 (CET)
 From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH rc4 28/29] tests/acceptance: Test the Arduino MEGA2560 board
-Date: Fri, 31 Jan 2020 01:03:12 +0100
-Message-Id: <1580428993-4767-29-git-send-email-aleksandar.markovic@rt-rk.com>
+Subject: [PATCH rc4 29/29] .travis.yml: Run the AVR acceptance tests
+Date: Fri, 31 Jan 2020 01:03:13 +0100
+Message-Id: <1580428993-4767-30-git-send-email-aleksandar.markovic@rt-rk.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1580428993-4767-1-git-send-email-aleksandar.markovic@rt-rk.com>
 References: <1580428993-4767-1-git-send-email-aleksandar.markovic@rt-rk.com>
@@ -54,103 +54,49 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Richard Henderson <richard.henderson@linaro.org>,
- Michael Rolnik <mrolnik@gmail.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Aleksandar Markovic <aleksandar.m.mail@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Michael Rolnik <mrolnik@gmail.com>
+From: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
-The test is based on
-https://github.com/seharris/qemu-avr-tests/tree/master/free-rtos/Demo
-demo which. If working correctly, prints 'ABCDEFGHIJKLMNOPQRSTUVWX' out.
-it also demostrates that timer and IRQ are working
+We have one test so far, and it is very fast:
 
-As the path name demonstrates, the FreeRTOS tests target a
-board based on a ATMega2560 MCU. We have one, the Arduino
-MEGA2560.
+  $ avocado --show=3Dapp run -t arch:avr tests/acceptance/
+  (1/1) tests/acceptance/machine_avr6.py:AVR6Machine.test_freertos: PASS =
+(2.13 s)
+  RESULTS    : PASS 1 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0 =
+| CANCEL 0
+  JOB TIME   : 2.30 s
 
-Complementary documentation:
-
-https://feilipu.me/2012/01/15/ethermega-arduino-mega-2560-and-freertos/
-https://feilipu.me/2015/11/24/arduino_freertos/ (see 'Compatibility')
-
-Signed-off-by: Michael Rolnik <mrolnik@gmail.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Acked-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-[rth: Squash multiple avocado fixups from f4bug]
-Tested-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
 ---
- tests/acceptance/machine_avr6.py | 50 ++++++++++++++++++++++++++++++++++=
-++++++
- 1 file changed, 50 insertions(+)
- create mode 100644 tests/acceptance/machine_avr6.py
+ .travis.yml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tests/acceptance/machine_avr6.py b/tests/acceptance/machine_=
-avr6.py
-new file mode 100644
-index 0000000..b644d2a
---- /dev/null
-+++ b/tests/acceptance/machine_avr6.py
-@@ -0,0 +1,50 @@
-+#
-+# QEMU AVR
-+#
-+# Copyright (c) 2019 Michael Rolnik <mrolnik@gmail.com>
-+#
-+# This program is free software: you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation, either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+#
-+
-+import time
-+
-+from avocado_qemu import Test
-+
-+class AVR6Machine(Test):
-+    timeout =3D 5
-+
-+    def test_freertos(self):
-+        """
-+        :avocado: tags=3Darch:avr
-+        :avocado: tags=3Dmachine:arduino-mega-2560-v3
-+        """
-+        """
-+        https://github.com/seharris/qemu-avr-tests/raw/master/free-rtos/=
-Demo/AVR_ATMega2560_GCC/demo.elf
-+        constantly prints out 'ABCDEFGHIJKLMNOPQRSTUVWXABCDEFGHIJKLMNOPQ=
-RSTUVWX'
-+        """
-+        rom_url =3D ('https://github.com/seharris/qemu-avr-tests'
-+                   '/raw/36c3e67b8755dcf/free-rtos/Demo'
-+                   '/AVR_ATMega2560_GCC/demo.elf')
-+        rom_hash =3D '7eb521f511ca8f2622e0a3c5e8dd686efbb911d4'
-+        rom_path =3D self.fetch_asset(rom_url, asset_hash=3Drom_hash)
-+
-+        self.vm.add_args('-bios', rom_path)
-+        self.vm.add_args('-nographic')
-+        self.vm.launch()
-+
-+        time.sleep(2)
-+        self.vm.shutdown()
-+
-+        self.assertIn('ABCDEFGHIJKLMNOPQRSTUVWXABCDEFGHIJKLMNOPQRSTUVWX'=
-,
-+                self.vm.get_log())
+diff --git a/.travis.yml b/.travis.yml
+index 1ae645e..71390e2 100644
+--- a/.travis.yml
++++ b/.travis.yml
+@@ -268,7 +268,7 @@ matrix:
+=20
+     # Acceptance (Functional) tests
+     - env:
+-        - CONFIG=3D"--python=3D/usr/bin/python3 --target-list=3Dx86_64-s=
+oftmmu,mips-softmmu,mips64el-softmmu,aarch64-softmmu,arm-softmmu,s390x-so=
+ftmmu,alpha-softmmu,ppc-softmmu,ppc64-softmmu,m68k-softmmu,sparc-softmmu"
++        - CONFIG=3D"--python=3D/usr/bin/python3 --target-list=3Dx86_64-s=
+oftmmu,mips-softmmu,mips64el-softmmu,aarch64-softmmu,arm-softmmu,s390x-so=
+ftmmu,alpha-softmmu,ppc-softmmu,ppc64-softmmu,m68k-softmmu,sparc-softmmu,=
+avr-softmmu"
+         - TEST_CMD=3D"make check-acceptance"
+       after_script:
+         - python3 -c 'import json; r =3D json.load(open("tests/results/l=
+atest/results.json")); [print(t["logfile"]) for t in r["tests"] if t["sta=
+tus"] not in ("PASS", "SKIP")]' | xargs cat
 --=20
 2.7.4
 
