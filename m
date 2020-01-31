@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5814914F105
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 18:04:26 +0100 (CET)
-Received: from localhost ([::1]:56624 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1ADDD14F12A
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 18:16:45 +0100 (CET)
+Received: from localhost ([::1]:56828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ixZiS-0005Rb-TF
-	for lists+qemu-devel@lfdr.de; Fri, 31 Jan 2020 12:04:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55315)
+	id 1ixZuO-0006MJ-6j
+	for lists+qemu-devel@lfdr.de; Fri, 31 Jan 2020 12:16:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59951)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1ixZhC-0004DR-KR
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 12:03:08 -0500
+ (envelope-from <bounces@canonical.com>) id 1ixZtO-0005vk-7G
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 12:15:43 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1ixZhA-0006J9-CC
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 12:03:06 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:45072
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1ixZh9-0006EY-Th
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 12:03:04 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580490183;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=HvVjaR4hiIqrKejAHJ+Fb1dU6Wg4eHD3W0GTo8C4l7g=;
- b=MX3DXoWByzCKMZok9rix2ETcb405m3yJqmT9YX8TN8w3XxZR70sFr1rELfrn4uVTsJu74E
- EsOCES+kKWVU6q6gfKu1aj/rxIkN4FzIOT2TtXfaBrSi39PQgRcdgcaEni3Zvgi4dOfn/d
- yumFDb3MjREKdzowFaIZt0O7vISJd58=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-202-rtA98fGzNdyDkUqau5jtxQ-1; Fri, 31 Jan 2020 12:02:46 -0500
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D9D83107ACC4;
- Fri, 31 Jan 2020 17:02:43 +0000 (UTC)
-Received: from thuth.com (ovpn-116-176.ams2.redhat.com [10.36.116.176])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 041101036B47;
- Fri, 31 Jan 2020 17:02:36 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] tests/acceptance: Add a test for the integratorcp arm machine
-Date: Fri, 31 Jan 2020 18:02:33 +0100
-Message-Id: <20200131170233.14584-1-thuth@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: rtA98fGzNdyDkUqau5jtxQ-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+ (envelope-from <bounces@canonical.com>) id 1ixZtN-00086l-16
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 12:15:42 -0500
+Received: from indium.canonical.com ([91.189.90.7]:38480)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1ixZtM-0007zn-S5
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 12:15:40 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1ixZtJ-0002gI-RY
+ for <qemu-devel@nongnu.org>; Fri, 31 Jan 2020 17:15:37 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id CBFB42E80C0
+ for <qemu-devel@nongnu.org>; Fri, 31 Jan 2020 17:15:37 +0000 (UTC)
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+Date: Fri, 31 Jan 2020 17:02:46 -0000
+From: =?utf-8?q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: tcg testcase
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: stvlvrn
+X-Launchpad-Bug-Reporter: Stevie Lavern (stvlvrn)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Alex_Benn=C3=A9e_=28ajbennee=29?=
+References: <158038956597.5319.13308249814127344774.malonedeb@chaenomeles.canonical.com>
+Message-Id: <158049016711.20266.13259801440809425215.launchpad@wampee.canonical.com>
+Subject: [Bug 1861404] Re: AVX instruction VMOVDQU implementation error for
+ YMM registers
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="0a62c17273454a1313f81a74a2198ec30b44c7b6";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 6daf66a9be2463601a9f02393ec9492c3e484414
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -66,91 +66,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-arm@nongnu.org,
- Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Reply-To: Bug 1861404 <1861404@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There is a kernel and initrd available on github which we can use
-for testing this machine.
+** Tags added: tcg testcase
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- MAINTAINERS                                  |  1 +
- tests/acceptance/machine_arm_integratorcp.py | 43 ++++++++++++++++++++
- 2 files changed, 44 insertions(+)
- create mode 100644 tests/acceptance/machine_arm_integratorcp.py
+-- =
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 6e4976d366..6a03835037 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -599,6 +599,7 @@ S: Maintained
- F: hw/arm/integratorcp.c
- F: hw/misc/arm_integrator_debug.c
- F: include/hw/misc/arm_integrator_debug.h
-+F: tests/acceptance/machine_arm_integratorcp.py
-=20
- MCIMX6UL EVK / i.MX6ul
- M: Peter Maydell <peter.maydell@linaro.org>
-diff --git a/tests/acceptance/machine_arm_integratorcp.py b/tests/acceptanc=
-e/machine_arm_integratorcp.py
-new file mode 100644
-index 0000000000..4f9ab40f2f
---- /dev/null
-+++ b/tests/acceptance/machine_arm_integratorcp.py
-@@ -0,0 +1,43 @@
-+# Functional test that boots a Linux kernel and checks the console
-+#
-+# Copyright (c) 2020 Red Hat, Inc.
-+#
-+# Author:
-+#  Thomas Huth <thuth@redhat.com>
-+#
-+# This work is licensed under the terms of the GNU GPL, version 2 or
-+# later.  See the COPYING file in the top-level directory.
-+
-+import os
-+
-+from avocado import skipUnless
-+from avocado_qemu import Test
-+from avocado_qemu import wait_for_console_pattern
-+
-+class IntegratorMachine(Test):
-+    """Boots the Linux kernel and checks that the console is operational""=
-"
-+
-+    timeout =3D 90
-+
-+    @skipUnless(os.getenv('AVOCADO_ALLOW_UNTRUSTED_CODE'), 'untrusted code=
-')
-+    def test_integratorcp(self):
-+        """
-+        :avocado: tags=3Darch:arm
-+        :avocado: tags=3Dmachine:integratorcp
-+        """
-+        kernel_url =3D ('https://github.com/zayac/qemu-arm/raw/master/'
-+                      'arm-test/kernel/zImage.integrator')
-+        kernel_hash =3D '0d7adba893c503267c946a3cbdc63b4b54f25468'
-+        kernel_path =3D self.fetch_asset(kernel_url, asset_hash=3Dkernel_h=
-ash)
-+
-+        initrd_url =3D ('https://github.com/zayac/qemu-arm/raw/master/'
-+                      'arm-test/kernel/arm_root.img')
-+        initrd_hash =3D 'b51e4154285bf784e017a37586428332d8c7bd8b'
-+        initrd_path =3D self.fetch_asset(initrd_url, asset_hash=3Dinitrd_h=
-ash)
-+
-+        self.vm.set_console()
-+        self.vm.add_args('-kernel', kernel_path,
-+                         '-initrd', initrd_path,
-+                         '-append', 'printk.time=3D0 console=3DttyAMA0')
-+        self.vm.launch()
-+        wait_for_console_pattern(self, 'Log in as root')
---=20
-2.18.1
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1861404
 
+Title:
+  AVX instruction VMOVDQU implementation error for YMM registers
+
+Status in QEMU:
+  New
+
+Bug description:
+  Hi,
+
+  Tested with Qemu 4.2.0, and with git version
+  bddff6f6787c916b0e9d63ef9e4d442114257739.
+
+  The x86 AVX instruction VMOVDQU doesn't work properly with YMM registers =
+(32 bytes).
+  It works with XMM registers (16 bytes) though.
+
+  See the attached test case `ymm.c`: when copying from memory-to-ymm0
+  and then back from ymm0-to-memory using VMOVDQU, Qemu only copies the
+  first 16 of the total 32 bytes.
+
+  ```
+  user@ubuntu ~/Qemu % gcc -o ymm ymm.c -Wall -Wextra -Werror
+
+  user@ubuntu ~/Qemu % ./ymm
+  00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F 10 11 12 13 14 15 16 17 1=
+8 19 1A 1B 1C 1D 1E 1F
+
+  user@ubuntu ~/Qemu % ./x86_64-linux-user/qemu-x86_64 -cpu max ymm
+  00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F 00 00 00 00 00 00 00 00 0=
+0 00 00 00 00 00 00 00
+  ```
+
+  This seems to be because in `translate.c > gen_sse()`, the case
+  handling the VMOVDQU instruction calls `gen_ldo_env_A0` which always
+  performs a 16 bytes copy using two 8 bytes load and store operations
+  (with `tcg_gen_qemu_ld_i64` and `tcg_gen_st_i64`).
+
+  Instead, the `gen_ldo_env_A0` function should generate a copy with a
+  size corresponding to the used register.
+
+  =
+
+  ```
+  static void gen_sse(CPUX86State *env, DisasContext *s, int b,
+                      target_ulong pc_start, int rex_r)
+  {
+          [...]
+          case 0x26f: /* movdqu xmm, ea */
+              if (mod !=3D 3) {
+                  gen_lea_modrm(env, s, modrm);
+                  gen_ldo_env_A0(s, offsetof(CPUX86State, xmm_regs[reg]));
+              } else { =
+
+          [...]
+  ```
+
+  ```
+  static inline void gen_ldo_env_A0(DisasContext *s, int offset)
+  {
+      int mem_index =3D s->mem_index;
+      tcg_gen_qemu_ld_i64(s->tmp1_i64, s->A0, mem_index, MO_LEQ);
+      tcg_gen_st_i64(s->tmp1_i64, cpu_env, offset + offsetof(ZMMReg, ZMM_Q(=
+0)));
+      tcg_gen_addi_tl(s->tmp0, s->A0, 8);
+      tcg_gen_qemu_ld_i64(s->tmp1_i64, s->tmp0, mem_index, MO_LEQ);
+      tcg_gen_st_i64(s->tmp1_i64, cpu_env, offset + offsetof(ZMMReg, ZMM_Q(=
+1)));
+  }
+  ```
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1861404/+subscriptions
 
