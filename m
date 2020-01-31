@@ -2,80 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD6F914EC96
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 13:40:38 +0100 (CET)
-Received: from localhost ([::1]:52300 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3689A14ECD3
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 14:02:57 +0100 (CET)
+Received: from localhost ([::1]:52750 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ixVbA-0001qA-Dw
-	for lists+qemu-devel@lfdr.de; Fri, 31 Jan 2020 07:40:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38100)
+	id 1ixVwm-0007ap-8X
+	for lists+qemu-devel@lfdr.de; Fri, 31 Jan 2020 08:02:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46255)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pmathieu@redhat.com>) id 1ixVaK-0001Ra-D2
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 07:39:45 -0500
+ (envelope-from <vsementsov@virtuozzo.com>) id 1ixVvQ-0005s0-Oy
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 08:01:34 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pmathieu@redhat.com>) id 1ixVaH-00038y-Qg
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 07:39:42 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:27613
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1ixVvP-0007xw-4a
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 08:01:32 -0500
+Received: from relay.sw.ru ([185.231.240.75]:59636)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pmathieu@redhat.com>) id 1ixVaH-00035I-Dj
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 07:39:41 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580474380;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=T2b+QgEzuVKByGjJjhYypMM6H6XjQsw9xG0hUraATwQ=;
- b=JsRF7h0GMt9jUcoKlOj7QM1joex8coEcnUvRZoZ1dCQqAd1fvzTu5H2UqtjWhk790slOdB
- U/gYORQnJ5HRroQE/hLGNJkpWqSwI1LHphVbJAilxghOH1satsVB4Pp77YUGC7XjXtTGdD
- j+nCrRG85Wq3FFdMP2X8fhUvIIhBwxM=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-40-aGyLamc1PACa1lwZQTRh_Q-1; Fri, 31 Jan 2020 07:39:38 -0500
-Received: by mail-wr1-f72.google.com with SMTP id b13so3261941wrx.22
- for <qemu-devel@nongnu.org>; Fri, 31 Jan 2020 04:39:38 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=T2b+QgEzuVKByGjJjhYypMM6H6XjQsw9xG0hUraATwQ=;
- b=jFFg/aqM8VpYimKEjFwTKQLAv5zP1uvGnz9gMVN4vbOIxLJLNdGN7utCZN+vklbTwJ
- HywFkSGWFaodDdm724Y8Zyz1nHlDDTGsehf9Wm6vCWqq5Yme3ZIdL18SyzksrPobdsyo
- tYX28Wm1QqyEk6TGBsEUN4f4A5Ivg1DoDUfldMczQcVJ5outHvKBok4UuTNtDAT/2ufu
- A8pI+e/U05v+hN6vt26AXuvnRGO3vGzFe/HVfkiH5W7yyFRVFKr7JXCeQHKvXDBZe81q
- Prar/SNhpsUViwqoTvY/GFII3I5QsGPxtdedP3RRd7tR+tlvXjJwdG5iUDqB5PcCAqaE
- Juzg==
-X-Gm-Message-State: APjAAAW3JNY8G7bCM37JKFiNo8/mQwHev+ViSvPUd6Y1Y+IrpGyGB3kA
- kTRqCgzGjMQbedrgc8vgOZou+tSEXU6Rs0Smjdi4HyHHd+TkM5RGMHJigG4EzlfbIMnUZohYK1O
- wU4HGN4XyoGzwbgzvSnRBb5iY52+nJ/E=
-X-Received: by 2002:a05:600c:291d:: with SMTP id
- i29mr12480900wmd.39.1580474377616; 
- Fri, 31 Jan 2020 04:39:37 -0800 (PST)
-X-Google-Smtp-Source: APXvYqwSIH+2vr5NdtYqIZgbb0REIT81SkRGRl/HaNr+3c9fObxbNw8xhLqeDgMhyf4FTVhXSzWZ+1LcPpD4uWrym48=
-X-Received: by 2002:a05:600c:291d:: with SMTP id
- i29mr12480881wmd.39.1580474377355; 
- Fri, 31 Jan 2020 04:39:37 -0800 (PST)
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1ixVvO-0007vZ-Rk; Fri, 31 Jan 2020 08:01:31 -0500
+Received: from vovaso.qa.sw.ru ([10.94.3.0] helo=kvm.qa.sw.ru)
+ by relay.sw.ru with esmtp (Exim 4.92.3)
+ (envelope-from <vsementsov@virtuozzo.com>)
+ id 1ixVvH-0000zU-Fm; Fri, 31 Jan 2020 16:01:23 +0300
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v7 00/11] error: auto propagated local_err part I
+Date: Fri, 31 Jan 2020 16:01:07 +0300
+Message-Id: <20200131130118.1716-1-vsementsov@virtuozzo.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-References: <1580428993-4767-1-git-send-email-aleksandar.markovic@rt-rk.com>
- <20200131010941.10636-1-philmd@redhat.com>
- <20200131010941.10636-2-philmd@redhat.com>
- <87sgjv9883.fsf@linaro.org>
-In-Reply-To: <87sgjv9883.fsf@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Date: Fri, 31 Jan 2020 13:39:26 +0100
-Message-ID: <CAP+75-WkRVeV3B09C7sTkzzH6DSNzO4vitTf7Q4SYBSxL1CgSg@mail.gmail.com>
-Subject: Re: [PATCH 1/2] !fixup "hw/misc: Add limited support for AVR power
- device"
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-X-MC-Unique: aGyLamc1PACa1lwZQTRh_Q-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
+X-Received-From: 185.231.240.75
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,123 +46,160 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Sarah Harris <S.E.Harris@kent.ac.uk>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Aleksandar Markovic <aleksandar.markovic@rt-rk.com>,
- Michael Rolnik <mrolnik@gmail.com>,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Laszlo Ersek <lersek@redhat.com>, qemu-block@nongnu.org,
+ Paul Durrant <paul@xen.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Greg Kurz <groug@kaod.org>, armbru@redhat.com,
+ Stefano Stabellini <sstabellini@kernel.org>, Gerd Hoffmann <kraxel@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
+ Max Reitz <mreitz@redhat.com>, Michael Roth <mdroth@linux.vnet.ibm.com>,
+ Stefan Berger <stefanb@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jan 31, 2020 at 12:27 PM Alex Benn=C3=A9e <alex.bennee@linaro.org> =
-wrote:
-> Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
->
-> > - convert DB_PRINT() to trace-events
-> > - fix style/indentation
-> >
-> > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> > ---
-> >  hw/misc/avr_power.c  | 17 +++++++++--------
-> >  hw/misc/trace-events |  4 ++++
-> >  2 files changed, 13 insertions(+), 8 deletions(-)
-> >
-> > diff --git a/hw/misc/avr_power.c b/hw/misc/avr_power.c
-> > index 598bc7279c..65ff7c4405 100644
-> > --- a/hw/misc/avr_power.c
-> > +++ b/hw/misc/avr_power.c
-> > @@ -27,9 +27,7 @@
-> >  #include "qemu/log.h"
-> >  #include "hw/qdev-properties.h"
-> >  #include "hw/irq.h"
-> > -
-> > -#define DB_PRINT(fmt, args...) /* Nothing */
-> > -/*#define DB_PRINT(fmt, args...) printf("%s: " fmt "\n", __func__, ## =
-args)*/
-> > +#include "trace.h"
-> >
-> >  static void avr_mask_reset(DeviceState *dev)
-> >  {
-> > @@ -48,19 +46,20 @@ static uint64_t avr_mask_read(void *opaque, hwaddr =
-offset, unsigned size)
-> >      assert(offset =3D=3D 0);
-> >      AVRMaskState *s =3D opaque;
-> >
-> > +    trace_avr_power_read(s->val);
-> > +
-> >      return (uint64_t)s->val;
-> >  }
-> >
-> >  static void avr_mask_write(void *opaque, hwaddr offset,
-> > -                              uint64_t val64, unsigned size)
-> > +                           uint64_t val64, unsigned size)
-> >  {
-> >      assert(size =3D=3D 1);
-> >      assert(offset =3D=3D 0);
-> >      AVRMaskState *s =3D opaque;
-> >      uint8_t val8 =3D val64;
-> >
-> > -    DB_PRINT("write %d to offset %d", val8, (uint8_t)offset);
-> > -
-> > +    trace_avr_power_write(val8);
->
-> You've dropped offset in this trace point which is probably worth
-> keeping so you track where is being written to. Same with the read.
+Hi all!
 
-I dropped it because it is always 0x00, the register is 8bit wide. See
-below, memory_region_init_io(...,1).
-I thought about adding a "name" property so each instance can display
-the device it belongs to, but this was too invasive, so I decided to
-keep this change for later.
+v7 is available at
+ https://src.openvz.org/scm/~vsementsov/qemu.git #tag up-auto-local-err-partI-v7
 
-> >      s->val =3D val8;
-> >      for (int i =3D 0; i < 8; i++) {
-> >          qemu_set_irq(s->irq[i], (val8 & (1 << i)) !=3D 0);
-> > @@ -71,7 +70,9 @@ static const MemoryRegionOps avr_mask_ops =3D {
-> >      .read =3D avr_mask_read,
-> >      .write =3D avr_mask_write,
-> >      .endianness =3D DEVICE_NATIVE_ENDIAN,
-> > -    .impl =3D {.max_access_size =3D 1}
-> > +    .impl =3D {
-> > +        .max_access_size =3D 1,
-> > +    },
-> >  };
-> >
-> >  static void avr_mask_init(Object *dev)
-> > @@ -80,7 +81,7 @@ static void avr_mask_init(Object *dev)
-> >      SysBusDevice *busdev =3D SYS_BUS_DEVICE(dev);
-> >
-> >      memory_region_init_io(&s->iomem, dev, &avr_mask_ops, s, TYPE_AVR_M=
-ASK,
-> > -            0x01);
-> > +                          0x01);
+Changes v6->v7:
 
-^ Region has only 1 address: 0x00.
+01: - improve commit message
+    - fix typo in comment [Eric]
+    - add Eric's and Greg's r-b
+02: - grammar/wording [Eric]
+    - add Eric's and Greg's r-b
+03: - improve commit message
+    - grammar [Eric]
+    - improve script to rename unusual (Error **) parameters
+      to errp, and after it switch errp back to be "symbol"
+      instead of "identifier"
+04: - add Eric's r-b
+08: - add Greg's a-b
+11: - add Paul's a-b
 
-> >      sysbus_init_mmio(busdev, &s->iomem);
-> >
-> >      for (int i =3D 0; i < 8; i++) {
-> > diff --git a/hw/misc/trace-events b/hw/misc/trace-events
-> > index 7f0f5dff3a..f716881bb1 100644
-> > --- a/hw/misc/trace-events
-> > +++ b/hw/misc/trace-events
-> > @@ -179,3 +179,7 @@ via1_rtc_cmd_pram_read(int addr, int value) "addr=
-=3D%u value=3D0x%02x"
-> >  via1_rtc_cmd_pram_write(int addr, int value) "addr=3D%u value=3D0x%02x=
-"
-> >  via1_rtc_cmd_pram_sect_read(int sector, int offset, int addr, int valu=
-e) "sector=3D%u offset=3D%u addr=3D%d value=3D0x%02x"
-> >  via1_rtc_cmd_pram_sect_write(int sector, int offset, int addr, int val=
-ue) "sector=3D%u offset=3D%u addr=3D%d value=3D0x%02x"
-> > +
-> > +# avr_power.c
-> > +avr_power_read(uint8_t value) "power_reduc read value:%u"
-> > +avr_power_write(uint8_t value) "power_reduc write value:%u"
->
->
-> --
-> Alex Benn=C3=A9e
->
+
+v6 is available at
+ https://src.openvz.org/scm/~vsementsov/qemu.git #tag up-auto-local-err-partI-v6 
+
+Changes v5->v6:
+01: use errp name for the parameter, add assertion
+02: add a lot of text information, drop Eric's r-b.
+    no semantic changes.
+03: add more comments
+    skip functions with pattern error_append_.*_hint in name
+    make errp identifier, to match any name of Error ** paramter
+    some other improvements
+04: only commit message changed,
+    keep Philippe's r-b
+05: new, manual update for hw/sd/ssi-sd
+06: only commit message changed,
+    keep Philippe's r-b
+07: only commit message changed,
+    keep Philippe's r-b
+08: local_parse_opts() changed, so patch changed in this
+    function, drop a-b mark
+    also, indentation fixed, by improvement in coccinelle script
+09: only commit message changed,
+    keep Stefan's r-b
+10: commit message and a bit of context changed, still seems
+    valid to keep Eric's r-b
+11: add new hunk: hw/pci-host/xen_igd_pt.c, so, drop r-b
+    also, indentation fixed, by improvement in coccinelle script
+
+In these series, there is no commit-per-subsystem script, each generated
+commit is generated in separate.
+
+Still, generating commands are very similar, and looks like
+
+    sed -n '/^<Subsystem name>$/,/^$/{s/^F: //p}' MAINTAINERS | \
+    xargs git ls-files | grep '\.[hc]$' | \
+    xargs spatch \
+        --sp-file scripts/coccinelle/auto-propagated-errp.cocci \
+        --macro-file scripts/cocci-macro-file.h \
+        --in-place --no-show-diff --max-width 80
+
+Note, that in each generated commit, generation command is the only
+text, indented by 8 spaces in 'git log -1' output, so, to regenerate all
+commits (for example, after rebase, or change in coccinelle script), you
+may use the following command:
+
+git rebase -x "sh -c \"git show --pretty= --name-only | xargs git checkout HEAD^ -- ; git reset; git log -1 | grep '^        ' | sh\"" HEAD~7
+
+Which will start automated interactive rebase for generated patches,
+which will stop if generated patch changed
+(you may do git commit --amend to apply updated generated changes).
+
+Note:
+  git show --pretty= --name-only   - lists files, changed in HEAD
+  git log -1 | grep '^        ' | sh   - rerun generation command of HEAD
+
+
+Check for compilation of changed .c files
+git rebase -x "sh -c \"git show --pretty= --name-only | sed -n 's/\.c$/.o/p' | xargs make -j9\"" HEAD~7
+  
+
+Vladimir Sementsov-Ogievskiy (11):
+  qapi/error: add (Error **errp) cleaning APIs
+  error: auto propagated local_err
+  scripts: add coccinelle script to use auto propagated errp
+  hw/sd/ssi-sd: fix error handling in ssi_sd_realize
+  SD (Secure Card): introduce ERRP_AUTO_PROPAGATE
+  pflash: introduce ERRP_AUTO_PROPAGATE
+  fw_cfg: introduce ERRP_AUTO_PROPAGATE
+  virtio-9p: introduce ERRP_AUTO_PROPAGATE
+  TPM: introduce ERRP_AUTO_PROPAGATE
+  nbd: introduce ERRP_AUTO_PROPAGATE
+  xen: introduce ERRP_AUTO_PROPAGATE
+
+ include/block/nbd.h                           |   1 +
+ include/qapi/error.h                          | 112 ++++++++++++-
+ block/nbd.c                                   |  49 +++---
+ hw/9pfs/9p-local.c                            |  12 +-
+ hw/9pfs/9p.c                                  |   1 +
+ hw/block/dataplane/xen-block.c                |  17 +-
+ hw/block/pflash_cfi01.c                       |   7 +-
+ hw/block/pflash_cfi02.c                       |   7 +-
+ hw/block/xen-block.c                          | 125 ++++++--------
+ hw/nvram/fw_cfg.c                             |  14 +-
+ hw/pci-host/xen_igd_pt.c                      |   7 +-
+ hw/sd/sdhci-pci.c                             |   7 +-
+ hw/sd/sdhci.c                                 |  21 +--
+ hw/sd/ssi-sd.c                                |  26 ++-
+ hw/tpm/tpm_util.c                             |   7 +-
+ hw/xen/xen-backend.c                          |   7 +-
+ hw/xen/xen-bus.c                              | 100 +++++------
+ hw/xen/xen-host-pci-device.c                  |  27 ++-
+ hw/xen/xen_pt.c                               |  25 ++-
+ hw/xen/xen_pt_config_init.c                   |  20 +--
+ nbd/client.c                                  |   5 +
+ nbd/server.c                                  |   5 +
+ tpm.c                                         |   7 +-
+ scripts/coccinelle/auto-propagated-errp.cocci | 158 ++++++++++++++++++
+ 24 files changed, 500 insertions(+), 267 deletions(-)
+ create mode 100644 scripts/coccinelle/auto-propagated-errp.cocci
+
+CC: Eric Blake <eblake@redhat.com>
+CC: Kevin Wolf <kwolf@redhat.com>
+CC: Max Reitz <mreitz@redhat.com>
+CC: Greg Kurz <groug@kaod.org>
+CC: Stefano Stabellini <sstabellini@kernel.org>
+CC: Anthony Perard <anthony.perard@citrix.com>
+CC: Paul Durrant <paul@xen.org>
+CC: Stefan Hajnoczi <stefanha@redhat.com>
+CC: "Philippe Mathieu-Daudé" <philmd@redhat.com>
+CC: Laszlo Ersek <lersek@redhat.com>
+CC: Gerd Hoffmann <kraxel@redhat.com>
+CC: Stefan Berger <stefanb@linux.ibm.com>
+CC: Markus Armbruster <armbru@redhat.com>
+CC: Michael Roth <mdroth@linux.vnet.ibm.com>
+CC: qemu-block@nongnu.org
+CC: xen-devel@lists.xenproject.org
+
+-- 
+2.21.0
 
 
