@@ -2,86 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EC1B14E686
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 01:23:00 +0100 (CET)
-Received: from localhost ([::1]:41504 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E137C14E67F
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 01:18:40 +0100 (CET)
+Received: from localhost ([::1]:41456 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ixK5L-0004fx-GK
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 19:22:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59117)
+	id 1ixK1A-000072-08
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 19:18:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60073)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1ixJol-0001SX-R7
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 19:05:52 -0500
+ (envelope-from <philmd@redhat.com>) id 1ixJrW-00082u-8B
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 19:08:43 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1ixJok-00047I-Hj
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 19:05:51 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:59219
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1ixJrV-0006FV-0j
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 19:08:42 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:45808
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1ixJok-00046g-Dc
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 19:05:50 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1ixJrU-0006Ef-TT
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 19:08:40 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580429149;
+ s=mimecast20190719; t=1580429320;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=pgOGkJX0zSSG4g/ToxKO7oKoa4KbniA6jPGu3h9O+hg=;
- b=I88ZsZeQqM13gR19W0Vn81UYYgcXHNGBFqfMuiTTGyhSw6C4kqWeIT1ghiA/WV9OAeUtzm
- KHQ9Ov6hcPHQNmTiuD6Sfb8szEE53dYFPsFOtoKItyb6MpoA0ZA+HTaMuAOr1VpyrnNG84
- rkmbUPBCzEDC3rfwPnQuHlLh47MHdzM=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-393-d9uRV-WyM2eUMt4PKSQmsA-1; Thu, 30 Jan 2020 19:05:48 -0500
-Received: by mail-wr1-f70.google.com with SMTP id j4so2458449wrs.13
- for <qemu-devel@nongnu.org>; Thu, 30 Jan 2020 16:05:47 -0800 (PST)
+ bh=cWFeGbfOde6zsE6AsSexVnApO0+c/p/D0hneNf7rPUY=;
+ b=WIBYS7OTvC5YK2gNw6LcD7R+Y7hD+RdHwnC1TkQhlJZMVgY8NtUno9d7G081NgQij6U6la
+ lN2gtovv+E3KcI4V7/9A+a5TA09Gi1qqRBo4Q0ZkN416mOqr4nVcypPNY+mnlkWDA1eryc
+ 3Y8WAOXnCgiEpAUk/JZcm+yY1jxQo/U=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-357-cEdPEqykN-irivYYJJFfXQ-1; Thu, 30 Jan 2020 19:08:30 -0500
+Received: by mail-wm1-f70.google.com with SMTP id n17so2042396wmk.1
+ for <qemu-devel@nongnu.org>; Thu, 30 Jan 2020 16:08:30 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=1kDPehyb9kTgFeLwdaBNOgodn7vYOuttv9DkYxDkbWs=;
- b=O5JJ2GMEB6X5qFbhZ7tzaZ0fGSeTmCw4qG5ix91tx9KoYwFK1xAvSUAzKmawWMCnQ3
- sJoZzNl7P3NNGWLGS+YK89GOwFC2JfbK4YCXQEXTRNmVL/EnJnX+vFfph5tJwwWusVMW
- eOpvtQ2Ndgk+0X5bk3XisFkhhkAO35DnbjRKye8UT6IglExmFlDARSskEtH/nU0ctO7b
- /hOFOPVjgVpFI4cCNO1DJmMqGpLWLtRiwRAmVdCys+r8nfJh2+jYzqX1wnUwelug8Zf3
- e6e32W2UY7iK1TAUQNifTkONOpGThSQ4eRCYUo//467Vovpez3Ah+R6ANWxR/0BQXjtg
- eN9w==
-X-Gm-Message-State: APjAAAUYlEYCnRAz3kz9dl4NXRbraJrJh0YLdUomT0bC6Arofl4WaNgz
- DyjFJyM1+vHkPDnqFwrPgaKv1lymBGH9C/cjkUpq00Ht/Y+9rp2RFSEMPiyM3R83q14Ip1Oj0P1
- TPlBHaAhyK62foE0=
-X-Received: by 2002:adf:a41c:: with SMTP id d28mr8659436wra.410.1580429147011; 
- Thu, 30 Jan 2020 16:05:47 -0800 (PST)
-X-Google-Smtp-Source: APXvYqydR3lX243XEDooXHLS+JtadhniUD7jjfuSCyYSGWNDFD5qJBS91BHZcGkHaI96/BoKabjKPw==
-X-Received: by 2002:adf:a41c:: with SMTP id d28mr8659421wra.410.1580429146830; 
- Thu, 30 Jan 2020 16:05:46 -0800 (PST)
+ bh=HS/Q2dEgKLk3NCpgo2yx7ccd09VDmjo0oxNkHQsC21Q=;
+ b=plHo3JmdLhLboqHPLNw0DEUmU2AW9QUw2hupVgxfAOXUW5A4VMurISTub4GrZSe5bn
+ yjgPGdDi97dRdi4U3sYCAhMzcrQCNH5whhFmiUeyYnYgiui2rmtFe7v+8OawtxhQjWkv
+ HuwKVQyMBCxHQf1yauKeibgiwHJxNDve0deE5XJO/aqjjevZOqefjmUF094D1Z9PlcTq
+ 9dTrZ3JLnrbAL7yQbAajDPquRBQJUA31MoZyaqIiJLeWel1wlMLLNHLvqNbs0V3Il6ew
+ VLyU/xtFVjZ75VRZHYrApnq6wL/SndZ+pH0p9kuTM7OVA3GALnRW0IPs68e1Bpsn3gXI
+ bTFA==
+X-Gm-Message-State: APjAAAXhRMm5naAnzuGWiHd+JX1CHh9WtTqKCg1kWFVALerBlXKYhsLy
+ VA7bLYfT/XWC4/If3G/eJpw/OK7enJdOYO4GrXYvor2qVYv9RtcrEY211TYzB9n66cFlv0H/mst
+ HidAcPrI1sJ4CdJM=
+X-Received: by 2002:a1c:3906:: with SMTP id g6mr8575673wma.49.1580429309453;
+ Thu, 30 Jan 2020 16:08:29 -0800 (PST)
+X-Google-Smtp-Source: APXvYqzp6Sar7iqM8k5XV4ROJeaESaNrWjle3T74mxNm2YxFMqNqSBjpvMAtKWot/T6kBvXdba/v/g==
+X-Received: by 2002:a1c:3906:: with SMTP id g6mr8575652wma.49.1580429309231;
+ Thu, 30 Jan 2020 16:08:29 -0800 (PST)
 Received: from [192.168.1.35] (113.red-83-57-172.dynamicip.rima-tde.net.
  [83.57.172.113])
- by smtp.gmail.com with ESMTPSA id v8sm9500821wrw.2.2020.01.30.16.05.42
+ by smtp.gmail.com with ESMTPSA id q124sm17485129wme.2.2020.01.30.16.08.28
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 30 Jan 2020 16:05:43 -0800 (PST)
-Subject: Re: [PATCH v2 15/29] tests: rename virtio_seg_max_adjust to
- virtio_check_params
+ Thu, 30 Jan 2020 16:08:28 -0800 (PST)
+Subject: Re: [PATCH v2 18/29] tests/acceptance/virtio_check_params: List
+ machine being tested
 To: Denis Plotnikov <dplotnikov@virtuozzo.com>, qemu-devel@nongnu.org
 References: <20200129212345.20547-1-philmd@redhat.com>
- <20200129212345.20547-16-philmd@redhat.com>
+ <20200129212345.20547-19-philmd@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <72ecf23c-e61e-a03a-d54a-cb30c84b22df@redhat.com>
-Date: Fri, 31 Jan 2020 01:05:42 +0100
+Message-ID: <57f7c506-a6a4-23ec-f8c0-a12363c7526c@redhat.com>
+Date: Fri, 31 Jan 2020 01:08:27 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.2.2
 MIME-Version: 1.0
-In-Reply-To: <20200129212345.20547-16-philmd@redhat.com>
+In-Reply-To: <20200129212345.20547-19-philmd@redhat.com>
 Content-Language: en-US
-X-MC-Unique: d9uRV-WyM2eUMt4PKSQmsA-1
+X-MC-Unique: cEdPEqykN-irivYYJJFfXQ-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -100,26 +100,52 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 1/29/20 10:23 PM, Philippe Mathieu-Daud=C3=A9 wrote:
-> From: Denis Plotnikov <dplotnikov@virtuozzo.com>
+> Add logging for easier debugging of failures:
 >=20
-> Since, virtio_seg_max_adjust checks not only seg_max, but also
-> virtqueue_size parameter, let's make the test more general and
-> add new parameters to be checked there in the future.
+>    $ avocado --show=3Dmachine run tests/acceptance/virtio_check_params.py
+>     (1/1) tests/acceptance/virtio_check_params.py:VirtioMaxSegSettingsChe=
+ck.test_machine_types:
+>    machine: {'name': 'pc-i440fx-2.12', 'seg_max_adjust': 'false', 'device=
+': 'virtio-scsi-pci'}
+>    machine: {'name': 'pc-i440fx-2.0', 'seg_max_adjust': 'false', 'device'=
+: 'virtio-scsi-pci'}
+>    machine: {'name': 'pc-q35-4.2', 'seg_max_adjust': 'false', 'device': '=
+virtio-scsi-pci'}
+>    machine: {'name': 'pc-i440fx-2.5', 'seg_max_adjust': 'false', 'device'=
+: 'virtio-scsi-pci'}
+>    machine: {'name': 'pc-i440fx-4.2', 'seg_max_adjust': 'false', 'device'=
+: 'virtio-scsi-pci'}
+>    ...
 >=20
-> Signed-off-by: Denis Plotnikov <dplotnikov@virtuozzo.com>
-> Message-Id: <20200129140702.5411-5-dplotnikov@virtuozzo.com>
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 > ---
->   .../{virtio_seg_max_adjust.py =3D> virtio_check_params.py}          | 0
->   1 file changed, 0 insertions(+), 0 deletions(-)
->   rename tests/acceptance/{virtio_seg_max_adjust.py =3D> virtio_check_par=
-ams.py} (100%)
+>   tests/acceptance/virtio_check_params.py | 4 ++++
+>   1 file changed, 4 insertions(+)
 >=20
-> diff --git a/tests/acceptance/virtio_seg_max_adjust.py b/tests/acceptance=
-/virtio_check_params.py
-> similarity index 100%
-> rename from tests/acceptance/virtio_seg_max_adjust.py
-> rename to tests/acceptance/virtio_check_params.py
+> diff --git a/tests/acceptance/virtio_check_params.py b/tests/acceptance/v=
+irtio_check_params.py
+> index 51a2dd76e8..f679b0eec7 100755
+> --- a/tests/acceptance/virtio_check_params.py
+> +++ b/tests/acceptance/virtio_check_params.py
+> @@ -21,6 +21,7 @@
+>   import sys
+>   import os
+>   import re
+> +import logging
+>  =20
+>   sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'py=
+thon'))
+>   from qemu.machine import QEMUMachine
+> @@ -73,6 +74,9 @@ class VirtioMaxSegSettingsCheck(Test):
+>           return query_ok, props, error
+>  =20
+>       def check_mt(self, mt, dev_type_name):
+> +        mt['device'] =3D dev_type_name # Only for the debug() call.
+> +        logger =3D logging.getLogger('machine')
+> +        logger.debug(mt)
+>           with QEMUMachine(self.qemu_bin) as vm:
+>               vm.set_machine(mt["name"])
+>               for s in VM_DEV_PARAMS[dev_type_name]:
 >=20
 
 Thanks, applied to my python-next tree:
