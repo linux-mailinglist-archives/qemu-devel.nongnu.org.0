@@ -2,70 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9258E14E66A
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 01:14:28 +0100 (CET)
-Received: from localhost ([::1]:41376 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9434A14E67A
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 01:17:28 +0100 (CET)
+Received: from localhost ([::1]:41436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ixJx5-0000fm-Ih
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 19:14:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33069)
+	id 1ixJzz-00066L-GW
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 19:17:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33949)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1ixJvN-00073e-M6
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 19:12:43 -0500
+ (envelope-from <richardw.yang@linux.intel.com>) id 1ixJyL-0004Qg-MF
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 19:15:47 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1ixJvL-0001kQ-T4
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 19:12:41 -0500
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:45672)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
- id 1ixJvL-0001ek-Ll
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 19:12:39 -0500
-Received: by mail-ot1-x344.google.com with SMTP id 59so4896725otp.12
- for <qemu-devel@nongnu.org>; Thu, 30 Jan 2020 16:12:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=WO+/rxSuvLS9jRhP3Q6B1kM76Uh95qSAdjN054WH6EM=;
- b=WyHNHoRLrTqmuJCafB80fnfhNXuilQtSKrJhSKg24RpHrJ5KsoR5biwOYDh9PTIxMQ
- 2h5nvNhat+wiBL6inLbLBD78Wg+fTFTeq5ZAOoxrqm+sI9t78QJokrwDIG9RnRb2ZFth
- UW+pNa/fd4Kxou6rFWEDUQ8yBl6+6QFJYPUfEHCBTA2XkO+Kc6kBGzwNakWLFcOxy2M+
- a100AcAPrET/MLqSbMKG78WJTeusOJAzk8BM0WrQaI3Lw5qpNhyVoScJbes7IlFpqVLz
- 3Z4ZqyqWaQbALTXuBUEKz8akKSYItZiV007bftK6aJzk/uOzTRBCCQ846Dsh+dkuhoHi
- Tysw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=WO+/rxSuvLS9jRhP3Q6B1kM76Uh95qSAdjN054WH6EM=;
- b=XPdZnAv+2Rg7PW5PdLXw+MIYWC6PxCgMLrxpX+Ynwuq571NeDL6Hw+jeyy4kE472LU
- GyrDBSGUSAQYybHOPs5NiWZ1kVyAZ/uGMbIe1cRDRv9qC4x1Yl1BEiD73kHr/pu/D3ei
- XulM5Ab5llOMHoleOtEk2nTY6Fne3MhKReiV6Ftmm26q8f3aF5NIyZztEQAeqRzdBCLj
- yW9sWfYzPL4AW8zuud4ypo8YPYmFT/L3iW0Lg1qkUIOMz9dpPrj4vPpzuUmfbzOglDZa
- U4tvFDVhGwypX0LFglVNAop4o26aKX0EUOvByhJB31lkiYfuzR2+96puADVtYBGruqrW
- EBEg==
-X-Gm-Message-State: APjAAAUO7sviijl8+6q8wYLNzn0j6bvc4Hy8zRYqd66pAuXTMsFR7M2T
- Y5xGMoq+Blx1eUVUc7ubOE6pCTpOzXkyeOnlePQ=
-X-Google-Smtp-Source: APXvYqyrGpQvSoROlY1eXat5/Bo+8d9kFQKaYf2M1bItoUdnG9FS5vwg9hjqUKdXKZnlbWv7L2jUhh2hBs+4e8irz50=
-X-Received: by 2002:a05:6830:12c3:: with SMTP id
- a3mr5757363otq.341.1580429544339; 
- Thu, 30 Jan 2020 16:12:24 -0800 (PST)
+ (envelope-from <richardw.yang@linux.intel.com>) id 1ixJyK-0004sb-8D
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 19:15:45 -0500
+Received: from mga02.intel.com ([134.134.136.20]:38472)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <richardw.yang@linux.intel.com>)
+ id 1ixJyJ-0004pt-VL
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 19:15:44 -0500
+X-Amp-Result: UNSCANNABLE
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 30 Jan 2020 16:15:37 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,383,1574150400"; d="scan'208";a="247562355"
+Received: from richard.sh.intel.com (HELO localhost) ([10.239.159.54])
+ by orsmga002.jf.intel.com with ESMTP; 30 Jan 2020 16:15:36 -0800
+Date: Fri, 31 Jan 2020 08:15:51 +0800
+From: Wei Yang <richardw.yang@linux.intel.com>
+To: Wei Yang <richardw.yang@linux.intel.com>
+Subject: Re: [PATCH] migration/postcopy: not necessary to discard all RAM at
+ the beginning
+Message-ID: <20200131001551.GA21974@richard>
+References: <20191007091008.9435-1-richardw.yang@linux.intel.com>
 MIME-Version: 1.0
-References: <1580428993-4767-1-git-send-email-aleksandar.markovic@rt-rk.com>
-In-Reply-To: <1580428993-4767-1-git-send-email-aleksandar.markovic@rt-rk.com>
-From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Date: Fri, 31 Jan 2020 01:12:13 +0100
-Message-ID: <CAL1e-=jVVSad52xEe0Fich+iWywmPtmtR2P9KLjeMtYNC1JqwQ@mail.gmail.com>
-Subject: Re: [PATCH rc4 00/29] target/avr merger
-To: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>,
- Michael Rolnik <mrolnik@gmail.com>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191007091008.9435-1-richardw.yang@linux.intel.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::344
+X-Received-From: 134.134.136.20
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,178 +56,183 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- Aleksandar Markovic <amarkovic@wavecomp.com>
+Reply-To: Wei Yang <richardw.yang@linux.intel.com>
+Cc: qemu-devel@nongnu.org, dgilbert@redhat.com, quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Michael, Philippe,
+Hi, David and Juan
 
-Can you guys do a quick checkup of this rc4? rc4, rc3,and rc2 should
-be functionally 100% equivalent.
+Does it look good to you?
 
-Thank you,
-Aleksandar
+On Mon, Oct 07, 2019 at 05:10:08PM +0800, Wei Yang wrote:
+>ram_discard_range() unmap page for specific range. To be specific, this
+>clears related page table entries so that userfault would be triggered.
+>But this step is not necessary at the very beginning.
+>
+>ram_postcopy_incoming_init() is called when destination gets ADVISE
+>command. ADVISE command is sent when migration thread just starts, which
+>implies destination is not running yet. This means no page fault
+>happened and memory region's page tables entries are empty.
+>
+>This patch removes the discard at the beginning.
+>
+>Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
+>---
+> migration/postcopy-ram.c | 46 ----------------------------------------
+> migration/postcopy-ram.h |  7 ------
+> migration/ram.c          | 16 --------------
+> migration/ram.h          |  1 -
+> migration/savevm.c       |  4 ----
+> 5 files changed, 74 deletions(-)
+>
+>diff --git a/migration/postcopy-ram.c b/migration/postcopy-ram.c
+>index 5da6de8c8b..459be8e780 100644
+>--- a/migration/postcopy-ram.c
+>+++ b/migration/postcopy-ram.c
+>@@ -443,32 +443,6 @@ out:
+>     return ret;
+> }
+> 
+>-/*
+>- * Setup an area of RAM so that it *can* be used for postcopy later; this
+>- * must be done right at the start prior to pre-copy.
+>- * opaque should be the MIS.
+>- */
+>-static int init_range(RAMBlock *rb, void *opaque)
+>-{
+>-    const char *block_name = qemu_ram_get_idstr(rb);
+>-    void *host_addr = qemu_ram_get_host_addr(rb);
+>-    ram_addr_t offset = qemu_ram_get_offset(rb);
+>-    ram_addr_t length = qemu_ram_get_used_length(rb);
+>-    trace_postcopy_init_range(block_name, host_addr, offset, length);
+>-
+>-    /*
+>-     * We need the whole of RAM to be truly empty for postcopy, so things
+>-     * like ROMs and any data tables built during init must be zero'd
+>-     * - we're going to get the copy from the source anyway.
+>-     * (Precopy will just overwrite this data, so doesn't need the discard)
+>-     */
+>-    if (ram_discard_range(block_name, 0, length)) {
+>-        return -1;
+>-    }
+>-
+>-    return 0;
+>-}
+>-
+> /*
+>  * At the end of migration, undo the effects of init_range
+>  * opaque should be the MIS.
+>@@ -506,20 +480,6 @@ static int cleanup_range(RAMBlock *rb, void *opaque)
+>     return 0;
+> }
+> 
+>-/*
+>- * Initialise postcopy-ram, setting the RAM to a state where we can go into
+>- * postcopy later; must be called prior to any precopy.
+>- * called from arch_init's similarly named ram_postcopy_incoming_init
+>- */
+>-int postcopy_ram_incoming_init(MigrationIncomingState *mis)
+>-{
+>-    if (foreach_not_ignored_block(init_range, NULL)) {
+>-        return -1;
+>-    }
+>-
+>-    return 0;
+>-}
+>-
+> /*
+>  * Manage a single vote to the QEMU balloon inhibitor for all postcopy usage,
+>  * last caller wins.
+>@@ -1282,12 +1242,6 @@ bool postcopy_ram_supported_by_host(MigrationIncomingState *mis)
+>     return false;
+> }
+> 
+>-int postcopy_ram_incoming_init(MigrationIncomingState *mis)
+>-{
+>-    error_report("postcopy_ram_incoming_init: No OS support");
+>-    return -1;
+>-}
+>-
+> int postcopy_ram_incoming_cleanup(MigrationIncomingState *mis)
+> {
+>     assert(0);
+>diff --git a/migration/postcopy-ram.h b/migration/postcopy-ram.h
+>index c0ccf64a96..1c79c6e51f 100644
+>--- a/migration/postcopy-ram.h
+>+++ b/migration/postcopy-ram.h
+>@@ -22,13 +22,6 @@ bool postcopy_ram_supported_by_host(MigrationIncomingState *mis);
+>  */
+> int postcopy_ram_incoming_setup(MigrationIncomingState *mis);
+> 
+>-/*
+>- * Initialise postcopy-ram, setting the RAM to a state where we can go into
+>- * postcopy later; must be called prior to any precopy.
+>- * called from ram.c's similarly named ram_postcopy_incoming_init
+>- */
+>-int postcopy_ram_incoming_init(MigrationIncomingState *mis);
+>-
+> /*
+>  * At the end of a migration where postcopy_ram_incoming_init was called.
+>  */
+>diff --git a/migration/ram.c b/migration/ram.c
+>index dfc50d57d5..9a853703d8 100644
+>--- a/migration/ram.c
+>+++ b/migration/ram.c
+>@@ -4015,22 +4015,6 @@ static int ram_load_cleanup(void *opaque)
+>     return 0;
+> }
+> 
+>-/**
+>- * ram_postcopy_incoming_init: allocate postcopy data structures
+>- *
+>- * Returns 0 for success and negative if there was one error
+>- *
+>- * @mis: current migration incoming state
+>- *
+>- * Allocate data structures etc needed by incoming migration with
+>- * postcopy-ram. postcopy-ram's similarly names
+>- * postcopy_ram_incoming_init does the work.
+>- */
+>-int ram_postcopy_incoming_init(MigrationIncomingState *mis)
+>-{
+>-    return postcopy_ram_incoming_init(mis);
+>-}
+>-
+> /**
+>  * ram_load_postcopy: load a page in postcopy case
+>  *
+>diff --git a/migration/ram.h b/migration/ram.h
+>index 44fe4753ad..66cbff1d52 100644
+>--- a/migration/ram.h
+>+++ b/migration/ram.h
+>@@ -58,7 +58,6 @@ void ram_postcopy_migrated_memory_release(MigrationState *ms);
+> int ram_postcopy_send_discard_bitmap(MigrationState *ms);
+> /* For incoming postcopy discard */
+> int ram_discard_range(const char *block_name, uint64_t start, size_t length);
+>-int ram_postcopy_incoming_init(MigrationIncomingState *mis);
+> bool postcopy_is_running(void);
+> 
+> void ram_handle_compressed(void *host, uint8_t ch, uint64_t size);
+>diff --git a/migration/savevm.c b/migration/savevm.c
+>index 9dc191e0a0..d2a427a3bf 100644
+>--- a/migration/savevm.c
+>+++ b/migration/savevm.c
+>@@ -1674,10 +1674,6 @@ static int loadvm_postcopy_handle_advise(MigrationIncomingState *mis,
+>         return -1;
+>     }
+> 
+>-    if (ram_postcopy_incoming_init(mis)) {
+>-        return -1;
+>-    }
+>-
+>     return 0;
+> }
+> 
+>-- 
+>2.17.1
 
-On Fri, Jan 31, 2020 at 1:06 AM Aleksandar Markovic
-<aleksandar.markovic@rt-rk.com> wrote:
->
-> From: Aleksandar Markovic <amarkovic@wavecomp.com>
->
-> This is the AVR port from Michael, release (merge) candidate 4.
->
-> The series can be found also in this repository:
->
-> https://github.com/AMarkovic/qemu-avr-merger-rc4
->
-> History:
->
-> Since v3:
->
-> - Removed a patch on load_elf() modification, since it has been merged
-> - Removed references to CONFIG_USER_ONLY and provided a guard against
->   building lunux user mode for AVR
-> - Removed all references to 'Atmel' (including file renames)
-> - Rebased the code (there was common interface change regarding 'props')
-> - Various corrections of commit messages
-> - A bit field for AVRFeatures is nor 64 bit long
-> - Other minor fixes
->
-> Since v2:
->
-> - First patch is split into six smaller logical units (net result
->   remains the same)
-> - Patch "hw/core/loader: Let load_elf populate the processor-specific
->   flags" was redone to reflect the original intent that was lost in
->   transalation between multiple autors
-> - Patch "hw/avr: Add helper to load raw/ELF firmware binaries" was
->   corrected only in one line to rectify type of "e_flags"
-> - Patch "target/avr: Add section about AVR into QEMU documentation"
-> - Spurious <message-Id:> elements were removed
-> - The series was rebased to the latest code
->
-> Since v1:
->
-> - Addressed Thomas comments
-> - Fixed a non-critical bug in ATmega (incorrect SRAM base address)
-> - Added ELF parsing requested by Aleksandar
-> - Dropped default machine (as with the ARM port)
->
-> Michael Rolnik (25):
->   target/avr: Add basic parameters for new AVR platform
->   target/avr: Introduce AVR CPU class object
->   target/avr: Add migration support
->   target/avr: Add GDB support
->   target/avr: Introduce enumeration AVRFeature
->   target/avr: Add defintions of AVR core types
->   target/avr: Add instruction helpers
->   target/avr: Add instruction translation - Register definitions
->   target/avr: Add instruction translation - Arithmetic and Logic
->     Instructions
->   target/avr: Add instruction translation - Branch Instructions
->   target/avr: Add instruction translation - Data Transfer Instructions
->   target/avr: Add instruction translation - Bit and Bit-test
->     Instructions
->   target/avr: Add instruction translation - MCU Control Instructions
->   target/avr: Add instruction translation - CPU main translation
->     function
->   target/avr: Add instruction disassembly function
->   hw/char: Add limited support for AVR USART peripheral
->   hw/timer: Add limited support for AVR 16-bit timer peripheral
->   hw/misc: Add limited support for AVR power device
->   target/avr: Add section about AVR into QEMU documentation
->   target/avr: Register AVR support with the rest of QEMU
->   target/avr: Add machine none test
->   target/avr: Update MAINTAINERS file
->   target/avr: Update build system
->   tests/boot-serial-test: Test some Arduino boards (AVR based)
->   tests/acceptance: Test the Arduino MEGA2560 board
->
-> Philippe Mathieu-Daud=C3=A9 (4):
->   hw/avr: Add helper to load raw/ELF firmware binaries
->   hw/avr: Add some ATmega microcontrollers
->   hw/avr: Add some Arduino boards
->   .travis.yml: Run the AVR acceptance tests
->
->  .travis.yml                      |    2 +-
->  MAINTAINERS                      |   31 +
->  arch_init.c                      |    2 +
->  configure                        |    7 +
->  default-configs/avr-softmmu.mak  |    5 +
->  gdb-xml/avr-cpu.xml              |   49 +
->  hw/avr/Kconfig                   |    9 +
->  hw/avr/Makefile.objs             |    3 +
->  hw/avr/arduino.c                 |  151 ++
->  hw/avr/atmega.c                  |  470 ++++++
->  hw/avr/atmega.h                  |   48 +
->  hw/avr/boot.c                    |   74 +
->  hw/avr/boot.h                    |   33 +
->  hw/char/Kconfig                  |    3 +
->  hw/char/Makefile.objs            |    1 +
->  hw/char/avr_usart.c              |  320 ++++
->  hw/misc/Kconfig                  |    3 +
->  hw/misc/Makefile.objs            |    2 +
->  hw/misc/avr_power.c              |  112 ++
->  hw/timer/Kconfig                 |    3 +
->  hw/timer/Makefile.objs           |    2 +
->  hw/timer/avr_timer16.c           |  604 ++++++++
->  include/disas/dis-asm.h          |   19 +
->  include/elf.h                    |    2 +
->  include/hw/char/avr_usart.h      |   93 ++
->  include/hw/misc/avr_power.h      |   46 +
->  include/hw/timer/avr_timer16.h   |   94 ++
->  include/sysemu/arch_init.h       |    1 +
->  qapi/machine.json                |    3 +-
->  qemu-doc.texi                    |   51 +
->  target/avr/Makefile.objs         |   34 +
->  target/avr/cpu-param.h           |   37 +
->  target/avr/cpu-qom.h             |   54 +
->  target/avr/cpu.c                 |  818 +++++++++++
->  target/avr/cpu.h                 |  259 ++++
->  target/avr/disas.c               |  246 ++++
->  target/avr/gdbstub.c             |   84 ++
->  target/avr/helper.c              |  342 +++++
->  target/avr/helper.h              |   29 +
->  target/avr/insn.decode           |  182 +++
->  target/avr/machine.c             |  121 ++
->  target/avr/translate.c           | 2997 ++++++++++++++++++++++++++++++++=
-++++++
->  tests/acceptance/machine_avr6.py |   50 +
->  tests/qtest/Makefile.include     |    2 +
->  tests/qtest/boot-serial-test.c   |   11 +
->  tests/qtest/machine-none-test.c  |    1 +
->  46 files changed, 7508 insertions(+), 2 deletions(-)
->  create mode 100644 default-configs/avr-softmmu.mak
->  create mode 100644 gdb-xml/avr-cpu.xml
->  create mode 100644 hw/avr/Kconfig
->  create mode 100644 hw/avr/Makefile.objs
->  create mode 100644 hw/avr/arduino.c
->  create mode 100644 hw/avr/atmega.c
->  create mode 100644 hw/avr/atmega.h
->  create mode 100644 hw/avr/boot.c
->  create mode 100644 hw/avr/boot.h
->  create mode 100644 hw/char/avr_usart.c
->  create mode 100644 hw/misc/avr_power.c
->  create mode 100644 hw/timer/avr_timer16.c
->  create mode 100644 include/hw/char/avr_usart.h
->  create mode 100644 include/hw/misc/avr_power.h
->  create mode 100644 include/hw/timer/avr_timer16.h
->  create mode 100644 target/avr/Makefile.objs
->  create mode 100644 target/avr/cpu-param.h
->  create mode 100644 target/avr/cpu-qom.h
->  create mode 100644 target/avr/cpu.c
->  create mode 100644 target/avr/cpu.h
->  create mode 100644 target/avr/disas.c
->  create mode 100644 target/avr/gdbstub.c
->  create mode 100644 target/avr/helper.c
->  create mode 100644 target/avr/helper.h
->  create mode 100644 target/avr/insn.decode
->  create mode 100644 target/avr/machine.c
->  create mode 100644 target/avr/translate.c
->  create mode 100644 tests/acceptance/machine_avr6.py
->
-> --
-> 2.7.4
->
->
+-- 
+Wei Yang
+Help you, Help me
 
