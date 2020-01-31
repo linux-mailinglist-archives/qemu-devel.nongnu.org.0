@@ -2,81 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CAAF14F0BB
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 17:41:16 +0100 (CET)
-Received: from localhost ([::1]:56008 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E91914F0D0
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 17:45:21 +0100 (CET)
+Received: from localhost ([::1]:56084 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ixZM2-0003LU-Fa
-	for lists+qemu-devel@lfdr.de; Fri, 31 Jan 2020 11:41:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48307)
+	id 1ixZQ0-0001Ay-JA
+	for lists+qemu-devel@lfdr.de; Fri, 31 Jan 2020 11:45:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49272)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1ixZKr-0002Py-A5
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 11:40:02 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1ixZNH-00051N-Bh
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 11:42:35 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1ixZKp-0006y2-4v
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 11:40:00 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:57488
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1ixZKp-0006uT-17
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 11:39:59 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580488798;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=YTKCW9A1XjkaJuiQ+b1hP8fO/RMlvJydbbrweXjA77Y=;
- b=BKUoEvHRczwrVWj2A+rHHX1GtM+C0+wKHAKgUkDO34fHUc3gbje15gvK/ZeHw4zxxOc012
- pNlrl0QlIkB2pIfHgkIRDrauqhKuEyx7sbVd+NatHeCHFczPa2m/GI0MSUJgvF2I0Zgc97
- NIWPPENaB2rI9aPeX7oDPvwNk6AQckw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-174-eMe9zTZcPHCTnEYHePv6Ig-1; Fri, 31 Jan 2020 11:39:38 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BE28D1085987;
- Fri, 31 Jan 2020 16:39:37 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-116-131.ams2.redhat.com
- [10.36.116.131])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D557060BE1;
- Fri, 31 Jan 2020 16:39:26 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 51B0E1138404; Fri, 31 Jan 2020 17:39:25 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: Improving QOM documentation [Was: Re: Making QEMU easier for
- management tools and applications]
-References: <20200108104306.GC5057@dhcp-200-226.str.redhat.com>
- <97F153BD-FB8A-46C7-90D0-9E894B9E0292@redhat.com>
- <20200108133842.GE5057@dhcp-200-226.str.redhat.com>
- <87d0bmchq0.fsf@dusky.pond.sub.org>
- <1B253197-5592-472A-AA26-E0614A13C91A@redhat.com>
- <87o8v52hz9.fsf@dusky.pond.sub.org>
- <8CF8359B-1E52-4F7A-944E-C1C14FEC4F92@redhat.com>
- <87r200zzje.fsf@dusky.pond.sub.org>
- <20200115121953.GJ93923@redhat.com>
- <874kwwvmuv.fsf@dusky.pond.sub.org> <20200130210902.GA25927@paraplu>
- <87y2toi29o.fsf@dusky.pond.sub.org>
- <CAFEAcA-545QS9mnM6hwa6TxUpw_pDQ3Pa8tkf4qtzWS1Zi_fxQ@mail.gmail.com>
- <CABgObfaB=wHXyJbQR163bZdFHhWdCc4D8sWRHzte019_hSTuhA@mail.gmail.com>
-Date: Fri, 31 Jan 2020 17:39:25 +0100
-In-Reply-To: <CABgObfaB=wHXyJbQR163bZdFHhWdCc4D8sWRHzte019_hSTuhA@mail.gmail.com>
- (Paolo Bonzini's message of "Fri, 31 Jan 2020 12:02:05 +0100")
-Message-ID: <8736bveg1u.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+ (envelope-from <peter.maydell@linaro.org>) id 1ixZNF-0003L4-UX
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 11:42:31 -0500
+Received: from mail-ot1-x32d.google.com ([2607:f8b0:4864:20::32d]:46060)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1ixZNF-0003HB-Mo
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 11:42:29 -0500
+Received: by mail-ot1-x32d.google.com with SMTP id 59so7114755otp.12
+ for <qemu-devel@nongnu.org>; Fri, 31 Jan 2020 08:42:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=CtE4fn1xpHrepDivz2pi7K8Ll2uTl88nZuBp4R2gwSc=;
+ b=zxi2UaEpzqJIe8dClF3lU7iSK+VAVdqu2IXTQ4h987EvZ6d6fEQoFIHDvm29j8HC+Q
+ yTAXEWhDiuqFl3DZNNJ/UhJsteZB79tMjAo1ED3zfQM3iWEGaeBh2j8UxGvKJ0e78mSI
+ VnHl9Rs6R9jKdjXw7E7PM+i5vMMmXbVZs1439EpDZkg7aqV9uJZVXNB9YnNR+Zw18bQ4
+ Bi9L3EU+a6D2va/fhrLgd8L/dHxWB2Iui0oiY0yWLt7BnYJ/AktEOxvvwVC0ZfJA0bwg
+ afzmz/h+QB7p8+ctLe288K4KZf0KPAg0Z4ZayFy3HyyO1aX79PwUtzrIfsbXHs7ePptw
+ MhbQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=CtE4fn1xpHrepDivz2pi7K8Ll2uTl88nZuBp4R2gwSc=;
+ b=PFAgGbHaaehLbpOfD8YlBfqSTKGlkuYL86r0A0bKmvgWu/TyOQ8M8cfsUWsgV1UTdN
+ 51JVBezAFny40cSAoKwc//akeFZdWmdkNSndG42g78V85G2eQZiEGqOZ3kI8wleGeu3I
+ 5bh2OM51DBsmaUwIBdXtEEvLJ0sIi7nHyWiwa5kbWe8gGWUAkhQ1+J+pc/ji07VxGzJO
+ /dstNH1zSUZ9Ht27z678KXwsBTbbOEXNeguqsmJSHroaFATQvkDcIS9mof9fQVckaM2G
+ KMr2T01LkwW+LwbF98abUMkNQOSIrxcqjY7sTkPF7OGPz5BT39wAGYjNQqupuoRS9VGo
+ JwNQ==
+X-Gm-Message-State: APjAAAXRlXDLihoeJpgZ3ezeCzF106C52bUazv49Eif6LlGvPZAs2f+B
+ U4wFx5lYiWUVKCNZTDFEAfQgKvC84Ir+mDvhD6r4fg==
+X-Google-Smtp-Source: APXvYqwg+7RLW4OnDAm3MzcecOCrA5Pp5Oi9N1HwlYSpzM58WijtsHQWbkFtgDUaQPTIBVbQbIuqea6C/WGKeZpuY98=
+X-Received: by 2002:a05:6830:4a4:: with SMTP id
+ l4mr8264220otd.91.1580488945556; 
+ Fri, 31 Jan 2020 08:42:25 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: eMe9zTZcPHCTnEYHePv6Ig-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+References: <20200131060924.147449-1-david@gibson.dropbear.id.au>
+In-Reply-To: <20200131060924.147449-1-david@gibson.dropbear.id.au>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 31 Jan 2020 16:42:14 +0000
+Message-ID: <CAFEAcA8Uzt79o9509fyZOYgAot5m2mk2wWkQkgETW2gL0XOHWA@mail.gmail.com>
+Subject: Re: [PULL 00/34] ppc-for-5.0 queue 20200131
+To: David Gibson <david@gibson.dropbear.id.au>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::32d
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,58 +72,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
- "Denis V. Lunev" <den@virtuozzo.com>, Kashyap Chamarthy <kchamart@redhat.com>,
- Stefan Hajnoczi <stefanha@gmail.com>, qemu-devel <qemu-devel@nongnu.org>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Christophe de Dinechin <dinechin@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- John Snow <jsnow@redhat.com>, Dominik Csapak <d.csapak@proxmox.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, qemu-ppc <qemu-ppc@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Paolo Bonzini <pbonzini@redhat.com> writes:
-
-> Il ven 31 gen 2020, 11:36 Peter Maydell <peter.maydell@linaro.org> ha
-> scritto:
+On Fri, 31 Jan 2020 at 06:09, David Gibson <david@gibson.dropbear.id.au> wrote:
 >
->> On Fri, 31 Jan 2020 at 06:11, Markus Armbruster <armbru@redhat.com> wrot=
-e:
->> > Beware, personal opinion.
->> >
->> > When you put documentation next to the code it documents (which you
->> > absolutely should, because it's your only realistic chance to keep the
->> > two in sync), then extracting API comments is useful, because it
->> > collects them in one place.
->> >
->> > It's of next to no use to me when the comments are all in the same pla=
-ce
->> > already, namely the header.
->>
+> The following changes since commit 928173659d6e5dc368284f73f90ea1d129e1f57d:
 >
-> The advantage of putting them in the header is that you have them all in
-> one place (inline functions and structs must be in the header). In practi=
-ce
-> that balances for me the disadvantage of having some comments far from th=
-e
-> code they document, which increases the risk of bitrot especially for
-> comments such as "called with lock X held".
-
-With suitable doc generation from source, we can have them next to the
-code *and* all in one place, namely the generated interface docs.
-
->> I definitely agree that the overview/introduction/conventions
->> side of things is where we'd benefit most if somebody wanted
->> to try to tackle that. We could roll
->> https://wiki.qemu.org/Documentation/QOMConventions
->> into that if we had a better place to put that info.
->>
+>   Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20200130' into staging (2020-01-30 16:19:04 +0000)
 >
-> I am travelling this weekend so I might try to do some kind of thread
-> summary and brain dump in the wiki. I'll leave to Kashyap to do the rST
-> conversion and patch submission. ;-)
+> are available in the Git repository at:
+>
+>   git://github.com/dgibson/qemu.git tags/ppc-for-5.0-20200131
+>
+> for you to fetch changes up to 532fe321cf06d39d864de3642b4e1b18cc83c4de:
+>
+>   target/ppc: Use probe_write for DCBZ (2020-01-31 14:54:16 +1100)
+>
+> ----------------------------------------------------------------
+> ppc patch queue 2020-01-31
+>
+> Here's the next batch of patches for ppc and associated machine types.
+> Highlights includes:
+>  * Remove the deprecated "prep" machine type and its OpenHackware
+>    firmware
+>  * Add TCG emulation of the msgsndp etc. supervisor privileged
+>    doorbell instructions
+>  * Allow "pnv" machine type to run Hostboot style firmwares
+>  * Add a virtual TPM device for spapr machines
+>  * Implement devices for POWER8 PHB3 and POWER9 PHB4 host bridges for
+>    the pnv machine type
+>  * Use faster Spectre mitigation by default for POWER9 DD2.3 machines
+>  * Introduce Firmware Assisted NMI dump facility for spapr machines
+>  * Fix a performance regression with load/store multiple instructions
+>    in TCG
+>
+> as well as some other assorted cleanups and fixes.
+>
 
-That would be awesome!
+Hi; this pull req produces a bunch of extra warning messages in
+my log files; is it possible to suppress them ?
 
+
+qemu-system-ppc64: warning: TCG doesn't support requested feature,
+cap-ccf-assist=on
+qemu-system-ppc64: warning: Firmware Assisted Non-Maskable
+Interrupts(FWNMI) not supported in TCG
+qemu-system-ppc64: warning: TCG doesn't support requested feature,
+cap-ccf-assist=on
+qemu-system-ppc64: warning: Firmware Assisted Non-Maskable
+Interrupts(FWNMI) not supported in TCG
+qemu-system-ppc64: warning: TCG doesn't support requested feature,
+cap-ccf-assist=on
+qemu-system-ppc64: warning: Firmware Assisted Non-Maskable
+Interrupts(FWNMI) not supported in TCG
+
+thanks
+-- PMM
 
