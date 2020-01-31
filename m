@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6C2814E8AD
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 07:14:36 +0100 (CET)
-Received: from localhost ([::1]:48752 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4052514E8B0
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 07:17:00 +0100 (CET)
+Received: from localhost ([::1]:48794 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ixPZb-0007G8-S8
-	for lists+qemu-devel@lfdr.de; Fri, 31 Jan 2020 01:14:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59127)
+	id 1ixPbv-00028p-8c
+	for lists+qemu-devel@lfdr.de; Fri, 31 Jan 2020 01:16:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59185)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1ixPUr-0006bA-A2
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 01:09:42 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1ixPUs-0006cJ-CE
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 01:09:44 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1ixPUq-0000PT-3o
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 01:09:41 -0500
-Received: from ozlabs.org ([203.11.71.1]:52511)
+ (envelope-from <dgibson@ozlabs.org>) id 1ixPUq-0000Pr-7e
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 01:09:42 -0500
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:39915 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1ixPUp-0000Kj-Oi; Fri, 31 Jan 2020 01:09:40 -0500
+ id 1ixPUp-0000L8-SJ; Fri, 31 Jan 2020 01:09:40 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4886Hs0wtmz9sRp; Fri, 31 Jan 2020 17:09:29 +1100 (AEDT)
+ id 4886Hs1Rwkz9sRk; Fri, 31 Jan 2020 17:09:29 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1580450969;
- bh=PVwxscjrI7jhsuwlQkAC7qDnh7+BHJbvc7CrDJ8cLlc=;
+ bh=23nUwhCKXFfSFgRCb+ifS6bV8gQlWPVcFG/SnncDUWI=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=JAPs3N/ehNEn3ob3K+o4piuvtfLu7p8V/z5R5x3vWu2pf8N4vbyuD+hnoJIXCatdE
- S6AIAZ77O2px21dTOCWGWhc7h2SdKBKa3I5dWFdRchFDg+GVpikFypUq/2ByjIZPle
- CtXeUEnL0BZPCqq38v9B2HlHSW8zLHl+LPehDs5c=
+ b=BVPPSRayPuaFcnakxZw2+UxQVe4+RtEFOH+6U6CL7h2HdKFcSmMDmbrkR8sI3dJe0
+ hTzegRDV+zC+4VZxoW+2XIt6cNJNd9hcqSQXKP7crYRyBVwxpM4qVwKQHcf0WRUwYA
+ MrjVC1cpWpziPdzhoDuqwQ/QQ6/DDcWpDy+N7v+I=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 06/34] spapr: Fail CAS if option vector table cannot be parsed
-Date: Fri, 31 Jan 2020 17:08:56 +1100
-Message-Id: <20200131060924.147449-7-david@gibson.dropbear.id.au>
+Subject: [PULL 07/34] target/ppc: Add privileged message send facilities
+Date: Fri, 31 Jan 2020 17:08:57 +1100
+Message-Id: <20200131060924.147449-8-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200131060924.147449-1-david@gibson.dropbear.id.au>
 References: <20200131060924.147449-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 203.11.71.1
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2401:3900:2:1::2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,50 +55,319 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: lvivier@redhat.com, qemu-devel@nongnu.org, groug@kaod.org,
- qemu-ppc@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-ppc@nongnu.org, =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ Suraj Jitindar Singh <sjitindarsingh@gmail.com>,
  David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Greg Kurz <groug@kaod.org>
+From: C=C3=A9dric Le Goater <clg@kaod.org>
 
-Most of the option vector helpers have assertions to check their
-arguments aren't null. The guest can provide an arbitrary address
-for the CAS structure that would result in such null arguments.
-Fail CAS with H_PARAMETER and print a warning instead of aborting
-QEMU.
+The Processor Control facility for POWER8 processors and later
+provides a mechanism for the hypervisor to send messages to other
+threads in the system (msgsnd instruction) and cause hypervisor-level
+exceptions. Privileged non-hypervisor programs can also send messages
+(msgsndp instruction) but are restricted to the threads of the same
+subprocessor and cause privileged-level exceptions.
 
-Signed-off-by: Greg Kurz <groug@kaod.org>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Message-Id: <157925255250.397143.10855183619366882459.stgit@bahia.lan>
+The Directed Privileged Doorbell Exception State (DPDES) register
+reflects the state of pending privileged doorbell exceptions and can
+be used to modify that state. The register can be used to read and
+modify the state of privileged doorbell exceptions for all threads of
+a subprocessor and thus is a shared facility for that subprocessor.
+The register can be read/written by the hypervisor and read by the
+supervisor if enabled in the HFSCR, otherwise a hypervisor facility
+unavailable exception is generated.
+
+The privileged message send and clear instructions (msgsndp & msgclrp)
+are used to generate and clear the presence of a directed privileged
+doorbell exception, respectively. The msgsndp instruction can be used
+to target any thread of the current subprocessor, msgclrp acts on the
+thread issuing the instruction. These instructions are privileged, but
+will generate a hypervisor facility unavailable exception if not
+enabled in the HFSCR and executed in privileged non-hypervisor
+state. The HV facility unavailable exception will be addressed in
+other patch.
+
+Add and implement this register and instructions by reading or
+modifying the pending interrupt state of the cpu.
+
+Note that TCG only supports one thread per core and so we only need to
+worry about the cpu making the access.
+
+Signed-off-by: Suraj Jitindar Singh <sjitindarsingh@gmail.com>
+Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+Message-Id: <20200120104935.24449-2-clg@kaod.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/spapr_hcall.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ target/ppc/excp_helper.c        | 66 +++++++++++++++++++++++++--------
+ target/ppc/helper.h             |  4 ++
+ target/ppc/misc_helper.c        | 36 ++++++++++++++++++
+ target/ppc/translate.c          | 26 +++++++++++++
+ target/ppc/translate_init.inc.c | 20 ++++++++--
+ 5 files changed, 132 insertions(+), 20 deletions(-)
 
-diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
-index f1799b1b70..ffb14641f9 100644
---- a/hw/ppc/spapr_hcall.c
-+++ b/hw/ppc/spapr_hcall.c
-@@ -1703,7 +1703,15 @@ static target_ulong h_client_architecture_support(=
-PowerPCCPU *cpu,
-     ov_table =3D addr;
+diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
+index 5752ed4a4d..1b07c3ed56 100644
+--- a/target/ppc/excp_helper.c
++++ b/target/ppc/excp_helper.c
+@@ -900,7 +900,11 @@ static void ppc_hw_interrupt(CPUPPCState *env)
+         }
+         if (env->pending_interrupts & (1 << PPC_INTERRUPT_DOORBELL)) {
+             env->pending_interrupts &=3D ~(1 << PPC_INTERRUPT_DOORBELL);
+-            powerpc_excp(cpu, env->excp_model, POWERPC_EXCP_DOORI);
++            if (is_book3s_arch2x(env)) {
++                powerpc_excp(cpu, env->excp_model, POWERPC_EXCP_SDOOR);
++            } else {
++                powerpc_excp(cpu, env->excp_model, POWERPC_EXCP_DOORI);
++            }
+             return;
+         }
+         if (env->pending_interrupts & (1 << PPC_INTERRUPT_HDOORBELL)) {
+@@ -1221,39 +1225,30 @@ void helper_msgsnd(target_ulong rb)
+ }
 =20
-     ov1_guest =3D spapr_ovec_parse_vector(ov_table, 1);
-+    if (!ov1_guest) {
-+        warn_report("guest didn't provide option vector 1");
-+        return H_PARAMETER;
+ /* Server Processor Control */
+-static int book3s_dbell2irq(target_ulong rb)
+-{
+-    int msg =3D rb & DBELL_TYPE_MASK;
+=20
++static bool dbell_type_server(target_ulong rb)
++{
+     /*
+      * A Directed Hypervisor Doorbell message is sent only if the
+      * message type is 5. All other types are reserved and the
+      * instruction is a no-op
+      */
+-    return msg =3D=3D DBELL_TYPE_DBELL_SERVER ? PPC_INTERRUPT_HDOORBELL =
+: -1;
++    return (rb & DBELL_TYPE_MASK) =3D=3D DBELL_TYPE_DBELL_SERVER;
+ }
+=20
+ void helper_book3s_msgclr(CPUPPCState *env, target_ulong rb)
+ {
+-    int irq =3D book3s_dbell2irq(rb);
+-
+-    if (irq < 0) {
++    if (!dbell_type_server(rb)) {
+         return;
+     }
+=20
+-    env->pending_interrupts &=3D ~(1 << irq);
++    env->pending_interrupts &=3D ~(1 << PPC_INTERRUPT_HDOORBELL);
+ }
+=20
+-void helper_book3s_msgsnd(target_ulong rb)
++static void book3s_msgsnd_common(int pir, int irq)
+ {
+-    int irq =3D book3s_dbell2irq(rb);
+-    int pir =3D rb & DBELL_PROCIDTAG_MASK;
+     CPUState *cs;
+=20
+-    if (irq < 0) {
+-        return;
+-    }
+-
+     qemu_mutex_lock_iothread();
+     CPU_FOREACH(cs) {
+         PowerPCCPU *cpu =3D POWERPC_CPU(cs);
+@@ -1267,6 +1262,45 @@ void helper_book3s_msgsnd(target_ulong rb)
+     }
+     qemu_mutex_unlock_iothread();
+ }
++
++void helper_book3s_msgsnd(target_ulong rb)
++{
++    int pir =3D rb & DBELL_PROCIDTAG_MASK;
++
++    if (!dbell_type_server(rb)) {
++        return;
 +    }
-     ov5_guest =3D spapr_ovec_parse_vector(ov_table, 5);
-+    if (!ov5_guest) {
-+        warn_report("guest didn't provide option vector 5");
-+        return H_PARAMETER;
++
++    book3s_msgsnd_common(pir, PPC_INTERRUPT_HDOORBELL);
++}
++
++#if defined(TARGET_PPC64)
++void helper_book3s_msgclrp(CPUPPCState *env, target_ulong rb)
++{
++    if (!dbell_type_server(rb)) {
++        return;
 +    }
-     if (spapr_ovec_test(ov5_guest, OV5_MMU_BOTH)) {
-         error_report("guest requested hash and radix MMU, which is inval=
-id.");
-         exit(EXIT_FAILURE);
++
++    env->pending_interrupts &=3D ~(1 << PPC_INTERRUPT_DOORBELL);
++}
++
++/*
++ * sends a message to other threads that are on the same
++ * multi-threaded processor
++ */
++void helper_book3s_msgsndp(CPUPPCState *env, target_ulong rb)
++{
++    int pir =3D env->spr_cb[SPR_PIR].default_value;
++
++    if (!dbell_type_server(rb)) {
++        return;
++    }
++
++    /* TODO: TCG supports only one thread */
++
++    book3s_msgsnd_common(pir, PPC_INTERRUPT_DOORBELL);
++}
++#endif
+ #endif
+=20
+ void ppc_cpu_do_unaligned_access(CPUState *cs, vaddr vaddr,
+diff --git a/target/ppc/helper.h b/target/ppc/helper.h
+index cd0dfe383a..cfb4c07085 100644
+--- a/target/ppc/helper.h
++++ b/target/ppc/helper.h
+@@ -657,6 +657,10 @@ DEF_HELPER_FLAGS_1(load_601_rtcu, TCG_CALL_NO_RWG, t=
+l, env)
+ DEF_HELPER_FLAGS_1(load_purr, TCG_CALL_NO_RWG, tl, env)
+ DEF_HELPER_FLAGS_2(store_purr, TCG_CALL_NO_RWG, void, env, tl)
+ DEF_HELPER_2(store_ptcr, void, env, tl)
++DEF_HELPER_FLAGS_1(load_dpdes, TCG_CALL_NO_RWG, tl, env)
++DEF_HELPER_FLAGS_2(store_dpdes, TCG_CALL_NO_RWG, void, env, tl)
++DEF_HELPER_2(book3s_msgsndp, void, env, tl)
++DEF_HELPER_2(book3s_msgclrp, void, env, tl)
+ #endif
+ DEF_HELPER_2(store_sdr1, void, env, tl)
+ DEF_HELPER_2(store_pidr, void, env, tl)
+diff --git a/target/ppc/misc_helper.c b/target/ppc/misc_helper.c
+index 2318f3ab45..0c5919ff08 100644
+--- a/target/ppc/misc_helper.c
++++ b/target/ppc/misc_helper.c
+@@ -105,6 +105,42 @@ void helper_store_pcr(CPUPPCState *env, target_ulong=
+ value)
+=20
+     env->spr[SPR_PCR] =3D value & pcc->pcr_mask;
+ }
++
++/*
++ * DPDES register is shared. Each bit reflects the state of the
++ * doorbell interrupt of a thread of the same core.
++ */
++target_ulong helper_load_dpdes(CPUPPCState *env)
++{
++    target_ulong dpdes =3D 0;
++
++    /* TODO: TCG supports only one thread */
++    if (env->pending_interrupts & (1 << PPC_INTERRUPT_DOORBELL)) {
++        dpdes =3D 1;
++    }
++
++    return dpdes;
++}
++
++void helper_store_dpdes(CPUPPCState *env, target_ulong val)
++{
++    PowerPCCPU *cpu =3D env_archcpu(env);
++    CPUState *cs =3D CPU(cpu);
++
++    /* TODO: TCG supports only one thread */
++    if (val & ~0x1) {
++        qemu_log_mask(LOG_GUEST_ERROR, "Invalid DPDES register value "
++                      TARGET_FMT_lx"\n", val);
++        return;
++    }
++
++    if (val & 0x1) {
++        env->pending_interrupts |=3D 1 << PPC_INTERRUPT_DOORBELL;
++        cpu_interrupt(cs, CPU_INTERRUPT_HARD);
++    } else {
++        env->pending_interrupts &=3D ~(1 << PPC_INTERRUPT_DOORBELL);
++    }
++}
+ #endif /* defined(TARGET_PPC64) */
+=20
+ void helper_store_pidr(CPUPPCState *env, target_ulong val)
+diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+index 9dcf8dc261..36fa27367c 100644
+--- a/target/ppc/translate.c
++++ b/target/ppc/translate.c
+@@ -6645,6 +6645,28 @@ static void gen_msgsnd(DisasContext *ctx)
+ #endif /* defined(CONFIG_USER_ONLY) */
+ }
+=20
++#if defined(TARGET_PPC64)
++static void gen_msgclrp(DisasContext *ctx)
++{
++#if defined(CONFIG_USER_ONLY)
++    GEN_PRIV;
++#else
++    CHK_SV;
++    gen_helper_book3s_msgclrp(cpu_env, cpu_gpr[rB(ctx->opcode)]);
++#endif /* defined(CONFIG_USER_ONLY) */
++}
++
++static void gen_msgsndp(DisasContext *ctx)
++{
++#if defined(CONFIG_USER_ONLY)
++    GEN_PRIV;
++#else
++    CHK_SV;
++    gen_helper_book3s_msgsndp(cpu_env, cpu_gpr[rB(ctx->opcode)]);
++#endif /* defined(CONFIG_USER_ONLY) */
++}
++#endif
++
+ static void gen_msgsync(DisasContext *ctx)
+ {
+ #if defined(CONFIG_USER_ONLY)
+@@ -7187,6 +7209,10 @@ GEN_HANDLER(vmladduhm, 0x04, 0x11, 0xFF, 0x0000000=
+0, PPC_ALTIVEC),
+ GEN_HANDLER_E(maddhd_maddhdu, 0x04, 0x18, 0xFF, 0x00000000, PPC_NONE,
+               PPC2_ISA300),
+ GEN_HANDLER_E(maddld, 0x04, 0x19, 0xFF, 0x00000000, PPC_NONE, PPC2_ISA30=
+0),
++GEN_HANDLER2_E(msgsndp, "msgsndp", 0x1F, 0x0E, 0x04, 0x03ff0001,
++               PPC_NONE, PPC2_ISA207S),
++GEN_HANDLER2_E(msgclrp, "msgclrp", 0x1F, 0x0E, 0x05, 0x03ff0001,
++               PPC_NONE, PPC2_ISA207S),
+ #endif
+=20
+ #undef GEN_INT_ARITH_ADD
+diff --git a/target/ppc/translate_init.inc.c b/target/ppc/translate_init.=
+inc.c
+index 2d3efad233..53995f62ea 100644
+--- a/target/ppc/translate_init.inc.c
++++ b/target/ppc/translate_init.inc.c
+@@ -464,6 +464,17 @@ static void spr_write_pcr(DisasContext *ctx, int spr=
+n, int gprn)
+ {
+     gen_helper_store_pcr(cpu_env, cpu_gpr[gprn]);
+ }
++
++/* DPDES */
++static void spr_read_dpdes(DisasContext *ctx, int gprn, int sprn)
++{
++    gen_helper_load_dpdes(cpu_gpr[gprn], cpu_env);
++}
++
++static void spr_write_dpdes(DisasContext *ctx, int sprn, int gprn)
++{
++    gen_helper_store_dpdes(cpu_env, cpu_gpr[gprn]);
++}
+ #endif
+ #endif
+=20
+@@ -8238,10 +8249,11 @@ static void gen_spr_power8_dpdes(CPUPPCState *env=
+)
+ {
+ #if !defined(CONFIG_USER_ONLY)
+     /* Directed Privileged Door-bell Exception State, used for IPI */
+-    spr_register(env, SPR_DPDES, "DPDES",
+-                 SPR_NOACCESS, SPR_NOACCESS,
+-                 &spr_read_generic, SPR_NOACCESS,
+-                 0x00000000);
++    spr_register_kvm_hv(env, SPR_DPDES, "DPDES",
++                        SPR_NOACCESS, SPR_NOACCESS,
++                        &spr_read_dpdes, SPR_NOACCESS,
++                        &spr_read_dpdes, &spr_write_dpdes,
++                        KVM_REG_PPC_DPDES, 0x00000000);
+ #endif
+ }
+=20
 --=20
 2.24.1
 
