@@ -2,33 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D05BD14ECEE
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 14:06:49 +0100 (CET)
-Received: from localhost ([::1]:52812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9172D14ECF5
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 14:09:54 +0100 (CET)
+Received: from localhost ([::1]:52870 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ixW0W-000539-UI
-	for lists+qemu-devel@lfdr.de; Fri, 31 Jan 2020 08:06:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46248)
+	id 1ixW3V-0000ND-Ls
+	for lists+qemu-devel@lfdr.de; Fri, 31 Jan 2020 08:09:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46449)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1ixVvQ-0005rz-Ms
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 08:01:34 -0500
+ (envelope-from <vsementsov@virtuozzo.com>) id 1ixVvk-0006kH-Uh
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 08:01:54 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1ixVvP-0007xo-3W
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 08:01:32 -0500
-Received: from relay.sw.ru ([185.231.240.75]:59642)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1ixVvj-0008Ol-9g
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 08:01:52 -0500
+Received: from relay.sw.ru ([185.231.240.75]:59648)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1ixVvO-0007vb-SD; Fri, 31 Jan 2020 08:01:31 -0500
+ id 1ixVvj-0007ve-1j; Fri, 31 Jan 2020 08:01:51 -0500
 Received: from vovaso.qa.sw.ru ([10.94.3.0] helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.3)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1ixVvH-0000zU-VQ; Fri, 31 Jan 2020 16:01:24 +0300
+ id 1ixVvI-0000zU-3z; Fri, 31 Jan 2020 16:01:24 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 02/11] error: auto propagated local_err
-Date: Fri, 31 Jan 2020 16:01:09 +0300
-Message-Id: <20200131130118.1716-3-vsementsov@virtuozzo.com>
+Subject: [PATCH v7 03/11] scripts: add coccinelle script to use auto
+ propagated errp
+Date: Fri, 31 Jan 2020 16:01:10 +0300
+Message-Id: <20200131130118.1716-4-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200131130118.1716-1-vsementsov@virtuozzo.com>
 References: <20200131130118.1716-1-vsementsov@virtuozzo.com>
@@ -53,45 +54,25 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
  Laszlo Ersek <lersek@redhat.com>, qemu-block@nongnu.org,
  Paul Durrant <paul@xen.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- armbru@redhat.com, Max Reitz <mreitz@redhat.com>, Greg Kurz <groug@kaod.org>,
+ Greg Kurz <groug@kaod.org>, armbru@redhat.com,
  Stefano Stabellini <sstabellini@kernel.org>, Gerd Hoffmann <kraxel@redhat.com>,
  Stefan Hajnoczi <stefanha@redhat.com>,
  Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
- Michael Roth <mdroth@linux.vnet.ibm.com>,
+ Max Reitz <mreitz@redhat.com>, Michael Roth <mdroth@linux.vnet.ibm.com>,
  Stefan Berger <stefanb@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Here is introduced ERRP_AUTO_PROPAGATE macro, to be used at start of
-functions with an errp OUT parameter.
+Script adds ERRP_AUTO_PROPAGATE macro invocation where appropriate and
+does corresponding changes in code (look for details in
+include/qapi/error.h)
 
-It has three goals:
-
-1. Fix issue with error_fatal and error_prepend/error_append_hint: user
-can't see this additional information, because exit() happens in
-error_setg earlier than information is added. [Reported by Greg Kurz]
-
-2. Fix issue with error_abort and error_propagate: when we wrap
-error_abort by local_err+error_propagate, the resulting coredump will
-refer to error_propagate and not to the place where error happened.
-(the macro itself doesn't fix the issue, but it allows us to [3.] drop
-the local_err+error_propagate pattern, which will definitely fix the
-issue) [Reported by Kevin Wolf]
-
-3. Drop local_err+error_propagate pattern, which is used to workaround
-void functions with errp parameter, when caller wants to know resulting
-status. (Note: actually these functions could be merely updated to
-return int error code).
-
-To achieve these goals, later patches will add invocations
-of this macro at the start of functions with either use
-error_prepend/error_append_hint (solving 1) or which use
-local_err+error_propagate to check errors, switching those
-functions to use *errp instead (solving 2 and 3).
+Usage example:
+spatch --sp-file scripts/coccinelle/auto-propagated-errp.cocci \
+ --macro-file scripts/cocci-macro-file.h --in-place --no-show-diff \
+ blockdev-nbd.c qemu-nbd.c {block/nbd*,nbd/*,include/block/nbd*}.[hc]
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Reviewed-by: Greg Kurz <groug@kaod.org>
-Reviewed-by: Eric Blake <eblake@redhat.com>
 ---
 
 CC: Eric Blake <eblake@redhat.com>
@@ -111,117 +92,189 @@ CC: Michael Roth <mdroth@linux.vnet.ibm.com>
 CC: qemu-block@nongnu.org
 CC: xen-devel@lists.xenproject.org
 
- include/qapi/error.h | 83 +++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 82 insertions(+), 1 deletion(-)
+ include/qapi/error.h                          |   3 +
+ scripts/coccinelle/auto-propagated-errp.cocci | 158 ++++++++++++++++++
+ 2 files changed, 161 insertions(+)
+ create mode 100644 scripts/coccinelle/auto-propagated-errp.cocci
 
 diff --git a/include/qapi/error.h b/include/qapi/error.h
-index d34987148d..b9452d4806 100644
+index b9452d4806..79f8e95214 100644
 --- a/include/qapi/error.h
 +++ b/include/qapi/error.h
-@@ -78,7 +78,7 @@
-  * Call a function treating errors as fatal:
-  *     foo(arg, &error_fatal);
+@@ -141,6 +141,9 @@
+  *         ...
+  *     }
   *
-- * Receive an error and pass it on to the caller:
-+ * Receive an error and pass it on to the caller (DEPRECATED*):
-  *     Error *err = NULL;
-  *     foo(arg, &err);
-  *     if (err) {
-@@ -98,6 +98,50 @@
-  *     foo(arg, errp);
-  * for readability.
++ * For mass conversion use script
++ *   scripts/coccinelle/auto-propagated-errp.cocci
++ *
   *
-+ * DEPRECATED* This pattern is deprecated now, the use ERRP_AUTO_PROPAGATE macro
-+ * instead (defined below).
-+ * It's deprecated because of two things:
-+ *
-+ * 1. Issue with error_abort and error_propagate: when we wrap error_abort by
-+ * local_err+error_propagate, the resulting coredump will refer to
-+ * error_propagate and not to the place where error happened.
-+ *
-+ * 2. A lot of extra code of the same pattern
-+ *
-+ * How to update old code to use ERRP_AUTO_PROPAGATE?
-+ *
-+ * All you need is to add ERRP_AUTO_PROPAGATE() invocation at function start,
-+ * than you may safely dereference errp to check errors and do not need any
-+ * additional local Error variables or calls to error_propagate().
-+ *
-+ * Example:
-+ *
-+ * old code
-+ *
-+ *     void fn(..., Error **errp) {
-+ *         Error *err = NULL;
-+ *         foo(arg, &err);
-+ *         if (err) {
-+ *             handle the error...
-+ *             error_propagate(errp, err);
-+ *             return;
-+ *         }
-+ *         ...
-+ *     }
-+ *
-+ * updated code
-+ *
-+ *     void fn(..., Error **errp) {
-+ *         ERRP_AUTO_PROPAGATE();
-+ *         foo(arg, errp);
-+ *         if (*errp) {
-+ *             handle the error...
-+ *             return;
-+ *         }
-+ *         ...
-+ *     }
-+ *
-+ *
   * Receive and accumulate multiple errors (first one wins):
   *     Error *err = NULL, *local_err = NULL;
-  *     foo(arg, &err);
-@@ -348,6 +392,43 @@ void error_set_internal(Error **errp,
-                         ErrorClass err_class, const char *fmt, ...)
-     GCC_FMT_ATTR(6, 7);
- 
-+typedef struct ErrorPropagator {
-+    Error *local_err;
-+    Error **errp;
-+} ErrorPropagator;
+diff --git a/scripts/coccinelle/auto-propagated-errp.cocci b/scripts/coccinelle/auto-propagated-errp.cocci
+new file mode 100644
+index 0000000000..fb03c871cb
+--- /dev/null
++++ b/scripts/coccinelle/auto-propagated-errp.cocci
+@@ -0,0 +1,158 @@
++// Use ERRP_AUTO_PROPAGATE (see include/qapi/error.h)
++//
++// Copyright (c) 2020 Virtuozzo International GmbH.
++//
++// This program is free software; you can redistribute it and/or modify
++// it under the terms of the GNU General Public License as published by
++// the Free Software Foundation; either version 2 of the License, or
++// (at your option) any later version.
++//
++// This program is distributed in the hope that it will be useful,
++// but WITHOUT ANY WARRANTY; without even the implied warranty of
++// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++// GNU General Public License for more details.
++//
++// You should have received a copy of the GNU General Public License
++// along with this program.  If not, see <http://www.gnu.org/licenses/>.
++//
++// Usage example:
++// spatch --sp-file scripts/coccinelle/auto-propagated-errp.cocci \
++//  --macro-file scripts/cocci-macro-file.h --in-place --no-show-diff \
++//  blockdev-nbd.c qemu-nbd.c {block/nbd*,nbd/*,include/block/nbd*}.[hc]
 +
-+static inline void error_propagator_cleanup(ErrorPropagator *prop)
-+{
-+    error_propagate(prop->errp, prop->local_err);
-+}
++@rule0@
++// Add invocation to errp-functions where necessary
++// We should skip functions with "Error *const *errp"
++// parameter, but how to do it with coccinelle?
++// I don't know, so, I skip them by function name regex.
++// It's safe: if we did not skip some functions with
++// "Error *const *errp", ERRP_AUTO_PROPAGATE invocation
++// will fail to compile, because of const violation.
++identifier fn !~ "error_append_.*_hint";
++identifier local_err, ERRP;
++@@
 +
-+G_DEFINE_AUTO_CLEANUP_CLEAR_FUNC(ErrorPropagator, error_propagator_cleanup);
++ fn(..., Error **ERRP, ...)
++ {
+++   ERRP_AUTO_PROPAGATE();
++    <+...
++        when != ERRP_AUTO_PROPAGATE();
++(
++    error_append_hint(ERRP, ...);
++|
++    error_prepend(ERRP, ...);
++|
++    Error *local_err = NULL;
++)
++    ...+>
++ }
 +
-+/*
-+ * ERRP_AUTO_PROPAGATE
-+ *
-+ * This macro is created to be the first line of a function which use
-+ * Error **errp parameter to report error. It's needed only in cases where we
-+ * want to use error_prepend, error_append_hint or dereference *errp. It's
-+ * still safe (but useless) in other cases.
-+ *
-+ * If errp is NULL or points to error_fatal, it is rewritten to point to a
-+ * local Error object, which will be automatically propagated to the original
-+ * errp on function exit (see error_propagator_cleanup).
-+ *
-+ * After invocation of this macro it is always safe to dereference errp
-+ * (as it's not NULL anymore) and to add information by error_prepend or
-+ * error_append_hint (as, if it was error_fatal, we swapped it with a
-+ * local_error to be propagated on cleanup).
-+ *
-+ * Note: we don't wrap the error_abort case, as we want resulting coredump
-+ * to point to the place where the error happened, not to error_propagate.
-+ */
-+#define ERRP_AUTO_PROPAGATE()                                  \
-+    g_auto(ErrorPropagator) _auto_errp_prop = {.errp = errp};  \
-+    errp = ((errp == NULL || *errp == error_fatal)             \
-+            ? &_auto_errp_prop.local_err : errp)
++@@
++// Switch unusual (Error **) parameter names to errp
++// (this is necessary to use ERRP_AUTO_PROPAGATE).
++identifier rule0.fn;
++identifier rule0.ERRP != errp;
++@@
 +
- /*
-  * Special error destination to abort on error.
-  * See error_setg() and error_propagate() for details.
++ fn(...,
++-   Error **ERRP
+++   Error **errp
++    ,...)
++ {
++     <...
++-    ERRP
+++    errp
++     ...>
++ }
++
++@rule1@
++// We want to patch error propagation in functions regardless of
++// whether the function already uses ERRP_AUTO_PROPAGATE prior to
++// applying rule0, hence this one does not inherit from it.
++identifier fn !~ "error_append_.*_hint";
++identifier local_err;
++symbol errp;
++@@
++
++ fn(..., Error **errp, ...)
++ {
++     <...
++-    Error *local_err = NULL;
++     ...>
++ }
++
++@@
++// Handle pattern with goto, otherwise we'll finish up
++// with labels at function end which will not compile.
++identifier rule1.fn, rule1.local_err;
++identifier OUT;
++@@
++
++ fn(...)
++ {
++     <...
++-    goto OUT;
+++    return;
++     ...>
++- OUT:
++-    error_propagate(errp, local_err);
++ }
++
++@@
++identifier rule1.fn, rule1.local_err;
++expression list args; // to reindent error_propagate_prepend
++@@
++
++ fn(...)
++ {
++     <...
++(
++-    error_free(local_err);
++-    local_err = NULL;
+++    error_free_errp(errp);
++|
++-    error_free(local_err);
+++    error_free_errp(errp);
++|
++-    error_report_err(local_err);
+++    error_report_errp(errp);
++|
++-    warn_report_err(local_err);
+++    warn_report_errp(errp);
++|
++-    error_propagate_prepend(errp, local_err, args);
+++    error_prepend(errp, args);
++|
++-    error_propagate(errp, local_err);
++)
++     ...>
++ }
++
++@@
++identifier rule1.fn, rule1.local_err;
++@@
++
++ fn(...)
++ {
++     <...
++(
++-    &local_err
+++    errp
++|
++-    local_err
+++    *errp
++)
++     ...>
++ }
++
++@@
++identifier rule1.fn;
++@@
++
++ fn(...)
++ {
++     <...
++- *errp != NULL
+++ *errp
++     ...>
++ }
 -- 
 2.21.0
 
