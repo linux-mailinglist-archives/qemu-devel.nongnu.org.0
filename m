@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8190F14F1AE
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 18:53:43 +0100 (CET)
-Received: from localhost ([::1]:57338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DAA214F194
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 18:51:01 +0100 (CET)
+Received: from localhost ([::1]:57270 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ixaUA-0000Sk-Ih
-	for lists+qemu-devel@lfdr.de; Fri, 31 Jan 2020 12:53:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41903)
+	id 1ixaRY-00031Q-8J
+	for lists+qemu-devel@lfdr.de; Fri, 31 Jan 2020 12:51:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41447)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1ixaMT-0004Af-2c
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 12:45:47 -0500
+ (envelope-from <eblake@redhat.com>) id 1ixaLe-0002tg-Pb
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 12:44:56 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1ixaMN-0005nT-DN
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 12:45:44 -0500
-Received: from indium.canonical.com ([91.189.90.7]:41812)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1ixaMN-0005lL-65
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 12:45:39 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1ixaML-0005jg-Cf
- for <qemu-devel@nongnu.org>; Fri, 31 Jan 2020 17:45:37 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 5A1682E80C0
- for <qemu-devel@nongnu.org>; Fri, 31 Jan 2020 17:45:37 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 31 Jan 2020 17:37:19 -0000
-From: Aleksandar Markovic <1861404@bugs.launchpad.net>
+ (envelope-from <eblake@redhat.com>) id 1ixaLd-0004WH-I6
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 12:44:54 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:32497
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1ixaLd-0004Vm-EC
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 12:44:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1580492693;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=OWuBJrCDI7xTRzpXC70WCHo60lyzDCMfSvd7HoDdn5Y=;
+ b=h112lvmArx6QHhPvtmzwwpw7JT+ba4PoRmrkskgi8CpeSky0dEt5C34ccWBJq8FkYeiYtD
+ ebaT8WAcjAIQXzsOP9l8y5ChN7QkWEaHFCCrmJdoHXv7bxQgRafZLfz6blO+3MVqxq11Fi
+ agh9GnE66m8oSYplvxeqrKdKuDVcH0A=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-35-nuISxwZtOB2vcaB8LA3mGQ-1; Fri, 31 Jan 2020 12:44:38 -0500
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0B7DD800D48;
+ Fri, 31 Jan 2020 17:44:37 +0000 (UTC)
+Received: from blue.redhat.com (ovpn-116-181.phx2.redhat.com [10.3.116.181])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9AC347FB60;
+ Fri, 31 Jan 2020 17:44:36 +0000 (UTC)
+From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: tcg testcase
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: amarkovic stvlvrn
-X-Launchpad-Bug-Reporter: Stevie Lavern (stvlvrn)
-X-Launchpad-Bug-Modifier: Aleksandar Markovic (amarkovic)
-References: <158038956597.5319.13308249814127344774.malonedeb@chaenomeles.canonical.com>
- <158049016711.20266.13259801440809425215.launchpad@wampee.canonical.com>
-Message-Id: <CAL1e-=hQ=j2H3XiaJSG4XuutU_owjv1BF_Zhhg7STgLUm0bJdQ@mail.gmail.com>
-Subject: Re: [Bug 1861404] [NEW] AVX instruction VMOVDQU implementation error
- for YMM registers
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="0a62c17273454a1313f81a74a2198ec30b44c7b6";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 5669f5118272b7865f05a8867c9a814d4bf76a7f
+Subject: [PATCH 00/17] Improve qcow2 all-zero detection
+Date: Fri, 31 Jan 2020 11:44:19 -0600
+Message-Id: <20200131174436.2961874-1-eblake@redhat.com>
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: nuISxwZtOB2vcaB8LA3mGQ-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -67,182 +68,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1861404 <1861404@bugs.launchpad.net>
+Cc: david.edmondson@oracle.com, qemu-block@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Friday, January 31, 2020, Alex Benn=C3=A9e <alex.bennee@linaro.org> wrot=
-e:
+Based-on: <20200124103458.1525982-2-david.edmondson@oracle.com>
+([PATCH v2 1/2] qemu-img: Add --target-is-zero to convert)
 
-> ** Tags added: tcg testcase
->
-> --
-> You received this bug notification because you are a member of qemu-
-> devel-ml, which is subscribed to QEMU.
-> https://bugs.launchpad.net/bugs/1861404
->
-> Title:
->   AVX instruction VMOVDQU implementation error for YMM registers
->
->
-If I remember well, there is no support for AVX instructions in linux-user
-mode.
+I'm working on adding an NBD extension that reports whether an image
+is already all zero when the client first connects.  I initially
+thought I could write the NBD code to just call bdrv_has_zero_init(),
+but that turned out to be a bad assumption that instead resulted in
+this patch series.  The NBD patch will come later (and cross-posted to
+the NBD protocol, libnbd, nbdkit, and qemu, as it will affect all four
+repositories).
 
-If that is true, how come handling of unsupported instruction went that
-far?
+I do have an RFC question on patch 13 - as implemented here, I set a
+qcow2 bit if the image has all clusters known zero and no backing
+image.  But it may be more useful to instead report whether all
+clusters _allocated in this layer_ are zero, at which point the
+overall image is all-zero only if the backing file also has that
+property (or even make it two bits).  The tweaks to subsequent patches
+based on what we think makes the most useful semantics shouldn't be
+hard.
 
-Did you try other AVX instructions?
+[repo.or.cz appears to be down as I type this; I'll post a link to a
+repository later when it comes back up]
 
-Aleksandar
+Eric Blake (17):
+  qcow2: Comment typo fixes
+  qcow2: List autoclear bit names in header
+  qcow2: Avoid feature name extension on small cluster size
+  block: Improve documentation of .bdrv_has_zero_init
+  block: Don't advertise zero_init_truncate with encryption
+  block: Improve bdrv_has_zero_init_truncate with backing file
+  gluster: Drop useless has_zero_init callback
+  sheepdog: Consistently set bdrv_has_zero_init_truncate
+  block: Refactor bdrv_has_zero_init{,_truncate}
+  block: Add new BDRV_ZERO_OPEN flag
+  file-posix: Support BDRV_ZERO_OPEN
+  gluster: Support BDRV_ZERO_OPEN
+  qcow2: Add new autoclear feature for all zero image
+  qcow2: Expose all zero bit through .bdrv_known_zeroes
+  qcow2: Implement all-zero autoclear bit
+  iotests: Add new test for qcow2 all-zero bit
+  qcow2: Let qemu-img check cover all-zero bit
 
+ block.c                    |  62 +++++----
+ block/file-posix.c         |  16 ++-
+ block/file-win32.c         |   3 +-
+ block/gluster.c            |  34 +++--
+ block/nfs.c                |   7 +-
+ block/parallels.c          |   4 +-
+ block/qcow.c               |   2 +-
+ block/qcow2-refcount.c     |  60 +++++++-
+ block/qcow2-snapshot.c     |  11 ++
+ block/qcow2.c              | 150 +++++++++++++++++---
+ block/qcow2.h              |   6 +-
+ block/qed.c                |   3 +-
+ block/raw-format.c         |  12 +-
+ block/rbd.c                |   3 +-
+ block/sheepdog.c           |   7 +-
+ block/ssh.c                |   7 +-
+ block/vdi.c                |   8 +-
+ block/vhdx.c               |  16 +--
+ block/vmdk.c               |   9 +-
+ block/vpc.c                |   8 +-
+ blockdev.c                 |   2 +-
+ docs/interop/qcow2.txt     |  15 +-
+ include/block/block.h      |  38 ++++-
+ include/block/block_int.h  |  14 +-
+ qapi/block-core.json       |   4 +
+ qemu-img.c                 |   9 +-
+ tests/qemu-iotests/031.out |  14 +-
+ tests/qemu-iotests/036     |   6 +-
+ tests/qemu-iotests/036.out |  10 +-
+ tests/qemu-iotests/060.out |   6 +-
+ tests/qemu-iotests/061     |   6 +-
+ tests/qemu-iotests/061.out |  26 ++--
+ tests/qemu-iotests/065     |  12 +-
+ tests/qemu-iotests/082.out |   7 +
+ tests/qemu-iotests/122     |   2 +-
+ tests/qemu-iotests/188     |   2 +-
+ tests/qemu-iotests/188.out |   2 +-
+ tests/qemu-iotests/206.out |   4 +
+ tests/qemu-iotests/242.out |   1 +
+ tests/qemu-iotests/285     | 124 +++++++++++++++++
+ tests/qemu-iotests/285.out | 277 +++++++++++++++++++++++++++++++++++++
+ tests/qemu-iotests/group   |   1 +
+ 42 files changed, 832 insertions(+), 178 deletions(-)
+ create mode 100755 tests/qemu-iotests/285
+ create mode 100644 tests/qemu-iotests/285.out
 
+--=20
+2.24.1
 
-> Status in QEMU:
->   New
->
-> Bug description:
->   Hi,
->
->   Tested with Qemu 4.2.0, and with git version
->   bddff6f6787c916b0e9d63ef9e4d442114257739.
->
->   The x86 AVX instruction VMOVDQU doesn't work properly with YMM registers
-> (32 bytes).
->   It works with XMM registers (16 bytes) though.
->
->   See the attached test case `ymm.c`: when copying from memory-to-ymm0
->   and then back from ymm0-to-memory using VMOVDQU, Qemu only copies the
->   first 16 of the total 32 bytes.
->
->   ```
->   user@ubuntu ~/Qemu % gcc -o ymm ymm.c -Wall -Wextra -Werror
->
->   user@ubuntu ~/Qemu % ./ymm
->   00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F 10 11 12 13 14 15 16 17
-> 18 19 1A 1B 1C 1D 1E 1F
->
->   user@ubuntu ~/Qemu % ./x86_64-linux-user/qemu-x86_64 -cpu max ymm
->   00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F 00 00 00 00 00 00 00 00
-> 00 00 00 00 00 00 00 00
->   ```
->
->   This seems to be because in `translate.c > gen_sse()`, the case
->   handling the VMOVDQU instruction calls `gen_ldo_env_A0` which always
->   performs a 16 bytes copy using two 8 bytes load and store operations
->   (with `tcg_gen_qemu_ld_i64` and `tcg_gen_st_i64`).
->
->   Instead, the `gen_ldo_env_A0` function should generate a copy with a
->   size corresponding to the used register.
->
->
->   ```
->   static void gen_sse(CPUX86State *env, DisasContext *s, int b,
->                       target_ulong pc_start, int rex_r)
->   {
->           [...]
->           case 0x26f: /* movdqu xmm, ea */
->               if (mod !=3D 3) {
->                   gen_lea_modrm(env, s, modrm);
->                   gen_ldo_env_A0(s, offsetof(CPUX86State, xmm_regs[reg]));
->               } else {
->           [...]
->   ```
->
->   ```
->   static inline void gen_ldo_env_A0(DisasContext *s, int offset)
->   {
->       int mem_index =3D s->mem_index;
->       tcg_gen_qemu_ld_i64(s->tmp1_i64, s->A0, mem_index, MO_LEQ);
->       tcg_gen_st_i64(s->tmp1_i64, cpu_env, offset + offsetof(ZMMReg,
-> ZMM_Q(0)));
->       tcg_gen_addi_tl(s->tmp0, s->A0, 8);
->       tcg_gen_qemu_ld_i64(s->tmp1_i64, s->tmp0, mem_index, MO_LEQ);
->       tcg_gen_st_i64(s->tmp1_i64, cpu_env, offset + offsetof(ZMMReg,
-> ZMM_Q(1)));
->   }
->   ```
->
-> To manage notifications about this bug go to:
-> https://bugs.launchpad.net/qemu/+bug/1861404/+subscriptions
->
->
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1861404
-
-Title:
-  AVX instruction VMOVDQU implementation error for YMM registers
-
-Status in QEMU:
-  New
-
-Bug description:
-  Hi,
-
-  Tested with Qemu 4.2.0, and with git version
-  bddff6f6787c916b0e9d63ef9e4d442114257739.
-
-  The x86 AVX instruction VMOVDQU doesn't work properly with YMM registers =
-(32 bytes).
-  It works with XMM registers (16 bytes) though.
-
-  See the attached test case `ymm.c`: when copying from memory-to-ymm0
-  and then back from ymm0-to-memory using VMOVDQU, Qemu only copies the
-  first 16 of the total 32 bytes.
-
-  ```
-  user@ubuntu ~/Qemu % gcc -o ymm ymm.c -Wall -Wextra -Werror
-
-  user@ubuntu ~/Qemu % ./ymm
-  00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F 10 11 12 13 14 15 16 17 1=
-8 19 1A 1B 1C 1D 1E 1F
-
-  user@ubuntu ~/Qemu % ./x86_64-linux-user/qemu-x86_64 -cpu max ymm
-  00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F 00 00 00 00 00 00 00 00 0=
-0 00 00 00 00 00 00 00
-  ```
-
-  This seems to be because in `translate.c > gen_sse()`, the case
-  handling the VMOVDQU instruction calls `gen_ldo_env_A0` which always
-  performs a 16 bytes copy using two 8 bytes load and store operations
-  (with `tcg_gen_qemu_ld_i64` and `tcg_gen_st_i64`).
-
-  Instead, the `gen_ldo_env_A0` function should generate a copy with a
-  size corresponding to the used register.
-
-  =
-
-  ```
-  static void gen_sse(CPUX86State *env, DisasContext *s, int b,
-                      target_ulong pc_start, int rex_r)
-  {
-          [...]
-          case 0x26f: /* movdqu xmm, ea */
-              if (mod !=3D 3) {
-                  gen_lea_modrm(env, s, modrm);
-                  gen_ldo_env_A0(s, offsetof(CPUX86State, xmm_regs[reg]));
-              } else { =
-
-          [...]
-  ```
-
-  ```
-  static inline void gen_ldo_env_A0(DisasContext *s, int offset)
-  {
-      int mem_index =3D s->mem_index;
-      tcg_gen_qemu_ld_i64(s->tmp1_i64, s->A0, mem_index, MO_LEQ);
-      tcg_gen_st_i64(s->tmp1_i64, cpu_env, offset + offsetof(ZMMReg, ZMM_Q(=
-0)));
-      tcg_gen_addi_tl(s->tmp0, s->A0, 8);
-      tcg_gen_qemu_ld_i64(s->tmp1_i64, s->tmp0, mem_index, MO_LEQ);
-      tcg_gen_st_i64(s->tmp1_i64, cpu_env, offset + offsetof(ZMMReg, ZMM_Q(=
-1)));
-  }
-  ```
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1861404/+subscriptions
 
