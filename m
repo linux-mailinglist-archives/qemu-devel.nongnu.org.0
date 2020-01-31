@@ -2,71 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5504E14E69D
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 01:31:40 +0100 (CET)
-Received: from localhost ([::1]:41590 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2055C14E6CE
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 02:11:28 +0100 (CET)
+Received: from localhost ([::1]:42544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ixKDj-0001p4-DK
-	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 19:31:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39156)
+	id 1ixKqF-0000Qt-60
+	for lists+qemu-devel@lfdr.de; Thu, 30 Jan 2020 20:11:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58411)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1ixKCZ-0001Dr-Q7
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 19:30:29 -0500
+ (envelope-from <philmd@redhat.com>) id 1ixKov-0007vP-78
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 20:10:06 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1ixKCY-0003YU-BH
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 19:30:27 -0500
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:35864)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
- id 1ixKCY-0003Xk-63
- for qemu-devel@nongnu.org; Thu, 30 Jan 2020 19:30:26 -0500
-Received: by mail-oi1-x243.google.com with SMTP id c16so5597340oic.3
- for <qemu-devel@nongnu.org>; Thu, 30 Jan 2020 16:30:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=7JXvGiTHKSnnK6E/QhWXVRTMPaI7iorbwSxiicTmTBE=;
- b=QPmi8IyMsaSkxqW0PrwebTPa2RZIHHacpcsK6vfCfN1CP+q4tO5vk42zSNvzWDqyKV
- mxWFCgXARzwzjnO5xwjcPJqoccoIb0LAms0pvIiVA8I39pHivbR4c57qWtq4zXhVCmXt
- Xbli0lZY0BOuwyOPfFtJjUrhQK6Vz/eVUx4rZqWgvueJQbglg2VBrDOLwfmSYNDK/8qz
- jWSFzgXtPFBASjA9eBeDaKa+MAuo2vgoKGeJt+rbWA6M9jFDaXF6oKDYvs3sPzlCTzRO
- qLigmKfuNoDMmTMxZPHHs7SnosWzluEXDAigwSzLX7wpe0hflKk2powKvSPyPyu07ov0
- DkGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=7JXvGiTHKSnnK6E/QhWXVRTMPaI7iorbwSxiicTmTBE=;
- b=iiyJ4ih8vnTpPK3YCbQnNLnemrrCAP5Tcn0xaGASoDW+I3dkPKA6KEx6QuWdOhQWc1
- +zQ+N4+DGGz431y6oFOYmPF9/DFDpMbRs2x9uKlrlQcQkshUcxOV/mdSYXMCgEP3Sf60
- RhnMCUvRfISjwju98nY+/+a8orgIrqmQdGqijFT6VmRmVc5dP4lKpk4h4j41O92fuxeb
- aRJVfeE7rIdDJ4MW2CfhOjLNHUMnxf+uCyxtfp+NNmyDDEdk1lbo1sYHoHzJJ9K5EOYZ
- z2KcGmSTiLN+CqR0qRf+7OBCKIdyhZtzQh9Mr3aAEmZZdn5TdKLPl5EjsiUPJZWUHr3l
- x2qg==
-X-Gm-Message-State: APjAAAUbEAvm7lqe4BN0fmfypeWEnT7FPpcBI5A0QaI0O/bzYXgAP/Si
- KvqP0d8m+RhNRE62WEe5CGBRwRslWs73QryBdcM=
-X-Google-Smtp-Source: APXvYqwfwfYYa46SCxKtuplqOatfEGQ46P+XJEaFKnfyDB0PIEl0HgChsY9bCqqIHuTQsSg5JZAY01D/urpybQnECpU=
-X-Received: by 2002:aca:4ece:: with SMTP id c197mr4750846oib.53.1580430625249; 
- Thu, 30 Jan 2020 16:30:25 -0800 (PST)
-MIME-Version: 1.0
+ (envelope-from <philmd@redhat.com>) id 1ixKos-000770-2G
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 20:10:05 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:23311
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1ixKor-00071p-MC
+ for qemu-devel@nongnu.org; Thu, 30 Jan 2020 20:10:02 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1580432994;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=sgzjFCGiqyESzKZe6K3egxpB6SWKcjX7gcf4EqU9NQw=;
+ b=Hrzw2vy0Q7YefUJQ5RTWtMi2kFcbEYb/WpojQau1XCsb1zw5RhZ6qfAoRN8dxp4BMtXnqr
+ Z/iWJz169JY7TBpwMDDtpqcqsclMDRH7w09hvHvyna+aW+j8xgBzf5hfBwWqrDzDxEf1jh
+ d+Z2dmf9G9CMITwbQmwNsWZWq3Qt8zA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-327-rS4_abqsOg-qtrz9kJGk8Q-1; Thu, 30 Jan 2020 20:09:51 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2A8E5182B8E7;
+ Fri, 31 Jan 2020 01:09:49 +0000 (UTC)
+Received: from x1w.redhat.com (ovpn-204-34.brq.redhat.com [10.40.204.34])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3EB675DA75;
+ Fri, 31 Jan 2020 01:09:43 +0000 (UTC)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/2] !fixup target/avr merger-rc4
+Date: Fri, 31 Jan 2020 02:09:39 +0100
+Message-Id: <20200131010941.10636-1-philmd@redhat.com>
+In-Reply-To: <1580428993-4767-1-git-send-email-aleksandar.markovic@rt-rk.com>
 References: <1580428993-4767-1-git-send-email-aleksandar.markovic@rt-rk.com>
- <1580428993-4767-24-git-send-email-aleksandar.markovic@rt-rk.com>
- <7b46b2c2-b6b0-3252-fe18-c9b803823506@redhat.com>
- <CAL1e-=gToiXtXAVxwn-Tf6ON8_87GLw=QTe8HCRhwCSMfmkVLg@mail.gmail.com>
- <0b3665a2-5ef7-ac2d-ff00-60396ff53f73@redhat.com>
-In-Reply-To: <0b3665a2-5ef7-ac2d-ff00-60396ff53f73@redhat.com>
-From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Date: Fri, 31 Jan 2020 01:30:14 +0100
-Message-ID: <CAL1e-=iChNme9Za=qyBfnZJRRS3Xs4QeZOVjH-mzR37690SQWA@mail.gmail.com>
-Subject: Re: [PATCH rc4 23/29] hw/avr: Add helper to load raw/ELF firmware
- binaries
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: rS4_abqsOg-qtrz9kJGk8Q-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::243
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,210 +71,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Cc: Sarah Harris <S.E.Harris@kent.ac.uk>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Aleksandar Markovic <aleksandar.markovic@rt-rk.com>,
+ Michael Rolnik <mrolnik@gmail.com>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Aleksandar Markovic <aleksandar.m.mail@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jan 31, 2020 at 1:28 AM Philippe Mathieu-Daud=C3=A9
-<philmd@redhat.com> wrote:
->
-> On 1/31/20 1:26 AM, Aleksandar Markovic wrote:
-> > On Fri, Jan 31, 2020 at 1:20 AM Philippe Mathieu-Daud=C3=A9
-> > <philmd@redhat.com> wrote:
-> >>
-> >> On 1/31/20 1:03 AM, Aleksandar Markovic wrote:
-> >>> From: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> >>>
-> >>> Add avr_load_firmware() function to load firmware in ELF or
-> >>> raw binary format.
-> >>>
-> >>> [AM: Corrected the type of the variable containing e_flags]
-> >>>
-> >>> Suggested-by: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-> >>> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> >>> Signed-off-by: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-> >>> ---
-> >>>    hw/avr/Makefile.objs |  1 +
-> >>>    hw/avr/boot.c        | 74 ++++++++++++++++++++++++++++++++++++++++=
-++++++++++++
-> >>>    hw/avr/boot.h        | 33 +++++++++++++++++++++++
-> >>>    include/elf.h        |  2 ++
-> >>>    4 files changed, 110 insertions(+)
-> >>>    create mode 100644 hw/avr/Makefile.objs
-> >>>    create mode 100644 hw/avr/boot.c
-> >>>    create mode 100644 hw/avr/boot.h
-> >>>
-> >>> diff --git a/hw/avr/Makefile.objs b/hw/avr/Makefile.objs
-> >>> new file mode 100644
-> >>> index 0000000..123f174
-> >>> --- /dev/null
-> >>> +++ b/hw/avr/Makefile.objs
-> >>> @@ -0,0 +1 @@
-> >>> +obj-y +=3D boot.o
-> >>> diff --git a/hw/avr/boot.c b/hw/avr/boot.c
-> >>> new file mode 100644
-> >>> index 0000000..9ac2c88
-> >>> --- /dev/null
-> >>> +++ b/hw/avr/boot.c
-> >>> @@ -0,0 +1,74 @@
-> >>> +/*
-> >>> + * AVR loader helpers
-> >>> + *
-> >>> + * Copyright (c) 2019 Philippe Mathieu-Daud=C3=A9
-> >>> + *
-> >>> + * This work is licensed under the terms of the GNU GPLv2 or later.
-> >>> + * See the COPYING file in the top-level directory.
-> >>> + * SPDX-License-Identifier: GPL-2.0-or-later
-> >>> + */
-> >>> +
-> >>> +#include "qemu/osdep.h"
-> >>> +#include "qemu-common.h"
-> >>> +#include "hw/loader.h"
-> >>> +#include "elf.h"
-> >>> +#include "boot.h"
-> >>> +#include "qemu/error-report.h"
-> >>> +
-> >>> +bool avr_load_firmware(AVRCPU *cpu, MachineState *ms,
-> >>> +                       MemoryRegion *mr, const char *firmware)
-> >>> +{
-> >>> +    const char *filename;
-> >>> +    int bytes_loaded;
-> >>> +    uint64_t entry;
-> >>> +    uint32_t e_flags;
-> >>> +
-> >>> +    filename =3D qemu_find_file(QEMU_FILE_TYPE_BIOS, firmware);
-> >>> +    if (filename =3D=3D NULL) {
-> >>> +        error_report("Unable to find %s", firmware);
-> >>> +        return false;
-> >>> +    }
-> >>> +
-> >>> +    bytes_loaded =3D load_elf_ram_sym(filename,
-> >>> +                                    NULL, NULL, NULL,
-> >>> +                                    &entry, NULL, NULL,
-> >>> +                                    &e_flags, 0, EM_AVR, 0, 0,
-> >>> +                                    NULL, true, NULL);
-> >>> +    if (bytes_loaded >=3D 0) {
-> >>> +        /* If ELF file is provided, determine CPU type reading ELF e=
-_flags. */
-> >>> +        const char *elf_cpu =3D avr_flags_to_cpu_type(e_flags, NULL)=
-;
-> >>> +        const char *mcu_cpu_type =3D object_get_typename(OBJECT(cpu)=
-);
-> >>> +        int cpu_len =3D strlen(mcu_cpu_type) - strlen(AVR_CPU_TYPE_S=
-UFFIX);
-> >>> +
-> >>> +        if (entry) {
-> >>> +            error_report("BIOS entry_point must be 0x0000 "
-> >>> +                         "(ELF image '%s' has entry_point 0x%04" PRI=
-x64 ")",
-> >>> +                         firmware, entry);
-> >>> +            return false;
-> >>> +        }
-> >>> +        if (!elf_cpu) {
-> >>> +            warn_report("Could not determine CPU type for ELF image =
-'%s', "
-> >>> +                        "assuming '%.*s' CPU",
-> >>> +                         firmware, cpu_len, mcu_cpu_type);
-> >>> +            return true;
-> >>> +        }
-> >>> +        if (strcmp(elf_cpu, mcu_cpu_type)) {
-> >>> +            error_report("Current machine: %s with '%.*s' CPU",
-> >>> +                         MACHINE_GET_CLASS(ms)->desc, cpu_len, mcu_c=
-pu_type);
-> >>> +            error_report("ELF image '%s' is for '%.*s' CPU",
-> >>> +                         firmware,
-> >>> +                         (int)(strlen(elf_cpu) - strlen(AVR_CPU_TYPE=
-_SUFFIX)),
-> >>> +                         elf_cpu);
-> >>> +            return false;
-> >>> +        }
-> >>> +    } else {
-> >>> +        bytes_loaded =3D load_image_targphys(filename, OFFSET_CODE,
-> >>> +                                           memory_region_size(mr));
-> >>> +    }
-> >>> +    if (bytes_loaded < 0) {
-> >>> +        error_report("Unable to load firmware image %s as ELF or raw=
- binary",
-> >>> +                     firmware);
-> >>> +        return false;
-> >>> +    }
-> >>> +    return true;
-> >>> +}
-> >>> diff --git a/hw/avr/boot.h b/hw/avr/boot.h
-> >>> new file mode 100644
-> >>> index 0000000..62bc10c
-> >>> --- /dev/null
-> >>> +++ b/hw/avr/boot.h
-> >>> @@ -0,0 +1,33 @@
-> >>> +/*
-> >>> + * AVR loader helpers
-> >>> + *
-> >>> + * Copyright (c) 2019 Philippe Mathieu-Daud=C3=A9
-> >>> + *
-> >>> + * This work is licensed under the terms of the GNU GPLv2 or later.
-> >>> + * See the COPYING file in the top-level directory.
-> >>> + * SPDX-License-Identifier: GPL-2.0-or-later
-> >>> + */
-> >>> +
-> >>> +#ifndef HW_AVR_BOOT_H
-> >>> +#define HW_AVR_BOOT_H
-> >>> +
-> >>> +#include "hw/boards.h"
-> >>> +#include "cpu.h"
-> >>> +
-> >>> +/**
-> >>> + * avr_load_firmware:   load an image into a memory region
-> >>> + *
-> >>> + * @cpu:        Handle a AVR CPU object
-> >>> + * @ms:         A MachineState
-> >>> + * @mr:         Memory Region to load into
-> >>> + * @firmware:   Path to the firmware file (raw binary or ELF format)
-> >>> + *
-> >>> + * Load a firmware supplied by the machine or by the user  with the
-> >>> + * '-bios' command line option, and put it in target memory.
-> >>> + *
-> >>> + * Returns: true on success, false on error.
-> >>> + */
-> >>> +bool avr_load_firmware(AVRCPU *cpu, MachineState *ms,
-> >>> +                       MemoryRegion *mr, const char *firmware);
-> >>> +
-> >>> +#endif
-> >>> diff --git a/include/elf.h b/include/elf.h
-> >>> index 8fbfe60..3f08f68 100644
-> >>> --- a/include/elf.h
-> >>> +++ b/include/elf.h
-> >>> @@ -202,6 +202,8 @@ typedef struct mips_elf_abiflags_v0 {
-> >>>    #define EM_MOXIE           223     /* Moxie processor family */
-> >>>    #define EM_MOXIE_OLD       0xFEED
-> >>>
-> >>> +#define EM_AVR 83 /* AVR 8-bit microcontroller */
-> >>
-> >> IIRC from previous version you suggested to move this, I suppose betwe=
-en:
-> >>
-> >> #define EM_CRIS         76
-> >>
-> >> #define EM_V850         87
-> >>
-> >
-> > I forgot about that, thinking about other larger changes.
->
-> Anyway looking closer, the definitions are not ordered correctly, so I
-> think we don't care much. Your call :)
->
+Aleksandar, I addressed Alex Benn=C3=A9e comment as fixup, so you
+can squash directly. See:
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg673846.html
 
-Let's not add more mess to the mess. :)
+- convert DB_PRINT() to trace-events
+- fix style/indentation
 
-> >
-> >>> +
-> >>>    /* This is the info that is needed to parse the dynamic section of=
- the file */
-> >>>    #define DT_NULL             0
-> >>>    #define DT_NEEDED   1
-> >>>
-> >>
-> >
->
+Based-on: <1580428993-4767-1-git-send-email-aleksandar.markovic@rt-rk.com>
+
+Philippe Mathieu-Daud=C3=A9 (2):
+  !fixup "hw/misc: Add limited support for AVR power device"
+  !fixup "hw/timer: Add limited support for AVR 16-bit timer peripheral"
+
+ hw/misc/avr_power.c    | 17 +++++++++--------
+ hw/timer/avr_timer16.c | 25 +++++++++++++++----------
+ hw/misc/trace-events   |  4 ++++
+ hw/timer/trace-events  | 12 ++++++++++++
+ 4 files changed, 40 insertions(+), 18 deletions(-)
+
+--=20
+2.21.1
+
 
