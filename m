@@ -2,73 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1098814E8F2
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 07:53:19 +0100 (CET)
-Received: from localhost ([::1]:49216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90A8714E905
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Jan 2020 08:00:21 +0100 (CET)
+Received: from localhost ([::1]:49244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ixQB4-0005Pj-5N
-	for lists+qemu-devel@lfdr.de; Fri, 31 Jan 2020 01:53:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44273)
+	id 1ixQHs-0008TP-L2
+	for lists+qemu-devel@lfdr.de; Fri, 31 Jan 2020 02:00:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46090)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gshan@redhat.com>) id 1ixQ9H-0003eZ-D0
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 01:51:28 -0500
+ (envelope-from <gshan@redhat.com>) id 1ixQH2-0007wA-OD
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 01:59:29 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <gshan@redhat.com>) id 1ixQ9G-00081c-AZ
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 01:51:27 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:41819
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <gshan@redhat.com>) id 1ixQH0-000623-J3
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 01:59:28 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:52911
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <gshan@redhat.com>) id 1ixQ9G-00081B-50
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 01:51:26 -0500
+ (Exim 4.71) (envelope-from <gshan@redhat.com>) id 1ixQH0-000618-G2
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 01:59:26 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580453485;
+ s=mimecast20190719; t=1580453965;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Ktm+s9iOoW5Y07EophjJ1TTSvJylUK4rTzqOdjlKC04=;
- b=G9ArHoVMLl0BYVhiPUwsTzv4NECpmqxaFgOpk/e0aCEX8SatwwQ5A4wGA7l+oYXy6ZziGs
- Wr1h0vvwot/EA2uuuyDBjJuiZDcIdk3g7krvGuitlOv2tyyJEkhI+GM1BIB/X5aY/fpEAO
- hM0GvHXpMK23mcnQBPpqSSunMDsLmOo=
+ bh=KCttjTOypNyQ843GWrpw9fGXjQuWe6vFCW0vJ1KRroo=;
+ b=MHfWYHLOhnAjkwiqYlrRt+uOO8En6GF0AGKVmL1ppJNlwcngK/dDY41ASm/8LewDUppqC1
+ fGulxPw1egGFuKaZnPdLQcBEU33dIboEhavP+NIhsWUWc+AA5qsELW3nR+YxINbfdnYEJJ
+ gb0X0wlgWw8QJgQZ93O2plD5azgqt9I=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-72-bVjwnyfxNzyWyobIqSSqdw-1; Fri, 31 Jan 2020 01:51:21 -0500
+ us-mta-126-NSxVcOdIN4y-afn7I4jV4A-1; Fri, 31 Jan 2020 01:59:20 -0500
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0CF2EA0CC4;
- Fri, 31 Jan 2020 06:51:20 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ED19610054E3;
+ Fri, 31 Jan 2020 06:59:18 +0000 (UTC)
 Received: from localhost.localdomain (vpn2-54-25.bne.redhat.com [10.64.54.25])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3270D8D7A;
- Fri, 31 Jan 2020 06:51:07 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7873219C4F;
+ Fri, 31 Jan 2020 06:59:13 +0000 (UTC)
 Subject: Re: [RFC PATCH] hw/arm/virt: Support NMI injection
-To: Marc Zyngier <maz@kernel.org>
+To: Marc Zyngier <maz@kernel.org>, Alexey Kardashevskiy <aik@ozlabs.ru>
 References: <20191219040612.28431-1-gshan@redhat.com>
  <d972631d-7db7-b6d5-61b8-244ae2c85882@redhat.com>
- <f4699b81-26ac-fcd4-d3fc-f6e055beeb65@redhat.com>
- <9f82206e-0852-ae17-8c77-01d2a5cea97d@redhat.com>
- <51a83889-f2ef-5403-6661-710cfa1ffe01@redhat.com>
- <4a517e53-9a7c-903a-9fbc-e1aab1cccefb@redhat.com>
- <503f32a53fb1a81e2612bcf3eff965da@kernel.org>
+ <7f6e29e6-1df9-4513-79ba-b53873b0735e@ozlabs.ru>
+ <544f261e4b9c97f1d3a5fb64cef42ba5@kernel.org>
 From: Gavin Shan <gshan@redhat.com>
-Message-ID: <d9e98e68-50e0-82fc-6736-8d39aa805e99@redhat.com>
-Date: Fri, 31 Jan 2020 17:51:05 +1100
+Message-ID: <ff584722-1b51-e538-7c45-c71cdc40105f@redhat.com>
+Date: Fri, 31 Jan 2020 17:59:10 +1100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.2.0
 MIME-Version: 1.0
-In-Reply-To: <503f32a53fb1a81e2612bcf3eff965da@kernel.org>
+In-Reply-To: <544f261e4b9c97f1d3a5fb64cef42ba5@kernel.org>
 Content-Language: en-US
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: bVjwnyfxNzyWyobIqSSqdw-1
+X-MC-Unique: NSxVcOdIN4y-afn7I4jV4A-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=WINDOWS-1252; format=flowed
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,64 +78,52 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Reply-To: Gavin Shan <gshan@redhat.com>
-Cc: peter.maydell@linaro.org, drjones@redhat.com,
- Julien Thierry <jthierry@redhat.com>, aik@ozlabs.ru, qemu-devel@nongnu.org,
- eric.auger@redhat.com, qemu-arm@nongnu.org, shan.gavin@gmail.com,
- pbonzini@redhat.com
+Cc: peter.maydell@linaro.org, drjones@redhat.com, jthierry@redhat.com,
+ qemu-devel@nongnu.org, eric.auger@redhat.com, qemu-arm@nongnu.org,
+ shan.gavin@gmail.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/30/20 9:58 PM, Marc Zyngier wrote:
-> On 2020-01-29 21:54, Gavin Shan wrote:
->> On 1/29/20 6:57 PM, Julien Thierry wrote:
->>> On 1/29/20 3:46 AM, Gavin Shan wrote:
->>>> On 1/28/20 7:29 PM, Julien Thierry wrote:
+On 1/29/20 8:04 PM, Marc Zyngier wrote:
+> On 2020-01-29 02:44, Alexey Kardashevskiy wrote:
+>> On 28/01/2020 17:48, Gavin Shan wrote:
+>>> but a NMI is injected
+>>> through LAPIC on x86. So I'm not sure what architect (system reset on
+>>> ppc or injecting NMI on x86) aarch64 should follow.
 >>
->> .../...
->>
->>>>
->>>> Julien, thanks for the explanation. The question we're not sure if NMI=
- should
->>>> be injected on receiving HMP/QMP "nmi" command. It means it's not clea=
-r what
->>>> behavior we should have for this command on ARM. However, I have one m=
-ore
->>>> unrelated question: "pseudo" NMI on ARM64 should be PPI? I mean SPI ca=
-n't
->>>> be "pseudo" NMI.
->>>>
->>>
->>> I'm not sure I understand why you say "SPI can't be "pseudo" NMI". Curr=
-ently both PPI and SPI are supported in the "pseudo" NMI scheme. Do you thi=
-nk that should not be the case? If so, can you elaborate?
->>>
->>> Thanks,
->>>
->>
->> Julien, NMI interrupt is connected to the system by request_nmi() where =
-we have
->> a check as below. -EINVAL will be returned from request_nmi() on those
->> interrupts
->> whose descriptors aren't marked with IRQ_NOAUTOEN. SPI falls into this c=
-ategory.
+>> I'd say whatever triggers in-kernel debugger or kdump but I am not
+>> familiar with ARM at all :)
 >=20
-> The IRQ_NOAUTOEN is set on PPIs because you can't enable them all at once=
-,
-> for obvious reasons.
+> All that is completely OS specific, and has no relation to the architectu=
+re.
+> As I mentioned in another part of the thread, the closest thing to this
+> would be to implement SDEI together with an IMPDEF mechanism to enter it
+> (or even generate a RAS error).
 >=20
-> This doesn't mean you cannot set it on other interrupt classes, including=
- SPIs.
-> It is actually a fairly common thing to do when you want to decouple requ=
-esting
-> the interrupt from the enabling, if you do not want the interrupt to be a=
-ble to
-> fire right away.
+> On the other hand, SDEI is pretty horrible, and means either KVM or QEMU
+> acting like a firmware for the guest. To say that I'm not keen is a massi=
+ve
+> understatement.
 >=20
 >  =A0=A0=A0=A0=A0=A0=A0 M.
 
-Marc, Ok, thanks for the details, which make things clear.
+Marc, could you please explain a bit about "IMPDEF mechanism"? I'm not sure=
+ if
+it means a non-standard SDEI event should be used, corresponding to the HMP=
+/QMP
+"nmi" command.
+
+Also, If I'm correct, you agree that a crash dump should be triggered on ar=
+m64
+guest once HMP/QMP "nmi" command is issued? I also dig into SDEI a bit. It =
+seems
+the SDEI support in QEMU isn't upstream yet:
+
+
+https://patchew.org/QEMU/20191105091056.9541-1-guoheyi@huawei.com/
 
 Thanks,
 Gavin
+
 
 
