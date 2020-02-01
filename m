@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07E9014FA58
-	for <lists+qemu-devel@lfdr.de>; Sat,  1 Feb 2020 20:42:34 +0100 (CET)
-Received: from localhost ([::1]:49626 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E919714FA60
+	for <lists+qemu-devel@lfdr.de>; Sat,  1 Feb 2020 20:46:45 +0100 (CET)
+Received: from localhost ([::1]:50010 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ixyf3-0001IO-1W
-	for lists+qemu-devel@lfdr.de; Sat, 01 Feb 2020 14:42:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58970)
+	id 1ixyj7-0000Np-0d
+	for lists+qemu-devel@lfdr.de; Sat, 01 Feb 2020 14:46:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58967)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1ixySy-0007yv-9G
+ (envelope-from <richard.henderson@linaro.org>) id 1ixySy-0007yh-5e
  for qemu-devel@nongnu.org; Sat, 01 Feb 2020 14:30:05 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1ixySx-00079F-5f
+ (envelope-from <richard.henderson@linaro.org>) id 1ixySx-00079i-7v
  for qemu-devel@nongnu.org; Sat, 01 Feb 2020 14:30:04 -0500
-Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:33892)
+Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:36988)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1ixySw-00075n-Vn
+ id 1ixySx-00076n-1V
  for qemu-devel@nongnu.org; Sat, 01 Feb 2020 14:30:03 -0500
-Received: by mail-pf1-x444.google.com with SMTP id i6so5291093pfc.1
+Received: by mail-pl1-x643.google.com with SMTP id c23so4182155plz.4
  for <qemu-devel@nongnu.org>; Sat, 01 Feb 2020 11:30:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=lOpt+tnic+DBm+8Ls3O8L5tH0MsUO+4UoXmIfqQorxk=;
- b=gIMVNOAMZvAeLm/G/EOxYs7gMFHuN1Gw+JwbNNFAmEQj3/p4zX8CHxgNnxT3jc982g
- BPTp9zeYkqloNH65FimNCBHCEXfwDQu/YJ/CvZWqlBb9QY++Wv3VXt0xOsuq1yAVj6lH
- VX+xPHRlpbgMa3o776H/h5hNkmtccpj5ovIPQ2i8S4/glwRrwYJqm3xVkHXr+tKeb4va
- MiF5uln82JS9hjF3nnOgfu0CIwB72n633qBobqzwz+W40JcRpaWbuwo+PuVokfotYkJG
- /C8YKhxzhBHcHY1oNpT5tGbaI95ZjPJWpW3cXk7wp5Z5ugBGPVgrS4TFtpcz9nlpLdHZ
- Pybg==
+ bh=j8oEYEGJE/U9npgyXl/EoNuorLqJKdNjKvRjstMsLjY=;
+ b=xMOVYksoAtkKs8TNkXMKO9UrZJIDEmUnydwZm8+q06TDK+7Cv5q1AjOlr94vaC/YnG
+ 5UUAGhMTLuFmcWtM7EvyAfIWD1JCDuuwU10Fw6dlEzDLwr75S7udoKD9ruSXqm9ANXKp
+ 8raoHUkK1jAFI6GbJWRT8UDdAYQD1HUYwOF2riA53/KpXiFDt0n7tCtQ1Ir7/d+1YwbJ
+ Nz7O4n2JJLal7TnPmTJLbcXR6QD1kzWLkU5fmyzuX8miYAlYUwwOMLwsq93B2bFQ1dRN
+ xT1HE78e9cUFXpCznEIfjaNdn3QAOPbS7eKS4fOB9N7gghDQWkNFvVxt9zO1xDP7pq2Y
+ oaGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=lOpt+tnic+DBm+8Ls3O8L5tH0MsUO+4UoXmIfqQorxk=;
- b=kpmOal8Pf6/aeXahirdGG6ZHpzOXogBf5p0c4SY7sdZJ0d0f6HPv1jrmGDqsPCDsJz
- XAaQ3ZMsw7dUoaKPdbt3QmiOdkIuZMl6Mdmoc2Z5OAJqDsYbVKVfSqQqWQbJVUqbbfXW
- wYDeG88aUPrCEwEVAG98mwb91z6yhgi90qlyzUk8/gMJXXga+d9N0vOUZJ+EZHY7QlFK
- j2BSV4a81/fy/MiNN6H/GfNQDIWXGyq/rc5WzwGaqaCcnkS7adjGmeC+qHSXNcxYxSCl
- 7u7r/HUoIvUju8qJO2PRwWMV0DQhuf7oVWnljhi5si5CXO2IcbzKOvVD26RAQuDvuXgo
- q0AA==
-X-Gm-Message-State: APjAAAVOKQbb26F2SWKtTg4XE2LWlYvATv8F7O3UvkBgmGkJ3Z3AlotV
- rFlxVSO5Pzz28iR+sId5CyeAkkjhsf0=
-X-Google-Smtp-Source: APXvYqyFUSPZJ5IbI4cU0lt1AVIzys/mQGVk9m5nB44woO3pmQyMEoiuWIxK0UowSvv0MiIbyuiSDg==
-X-Received: by 2002:aa7:820d:: with SMTP id k13mr17393692pfi.10.1580585400429; 
- Sat, 01 Feb 2020 11:30:00 -0800 (PST)
+ bh=j8oEYEGJE/U9npgyXl/EoNuorLqJKdNjKvRjstMsLjY=;
+ b=TedDaicyshz2x8sHvkBUssJex2ri4fwRUlxXQud9noLmIPgAFcg2oTL/22YOOMXY6N
+ yPNon90O8hPr98Y3o8+zZ9TB/kGZIN6pgNlkg6Dgg1OMLD2207jQkC1C+gNB24bkHjiL
+ DAi/nkNyY4pan+jNPzrT5ynJyuBsGagwrVN9HkWQF978/edWaW97HQgw/sw6SyVRayBu
+ CNooPgG0gIixWBsxM+Ce8DvfqkraLaVyYSlGUOyLn+dCVLBD7a6+5iJhqk1tn2wqH324
+ UN/Hi54T6TAHZI7Ic4L/Gbpmla5jh1yZ2Cml8miur+4hwLZWKzcod/xmcFF73xL0iB7m
+ V3og==
+X-Gm-Message-State: APjAAAUEbJoudyBTJ1fX7WVtLRyCwnoxIm1aE/N6QBKbqJgFSQbP2iE3
+ e32d6RY4uqMJoXhRjlbI0VRu8M/grh0=
+X-Google-Smtp-Source: APXvYqzXu2+9x0AB09hItrPSx+76diIz6etxxO9hvlGehjrkvVhnoiXyHJsjJN7aP+Sj0/g5Ofvs+Q==
+X-Received: by 2002:a17:902:6809:: with SMTP id
+ h9mr1780098plk.32.1580585401808; 
+ Sat, 01 Feb 2020 11:30:01 -0800 (PST)
 Received: from localhost.localdomain (97-126-123-70.tukw.qwest.net.
  [97.126.123.70])
- by smtp.gmail.com with ESMTPSA id l7sm3668509pga.27.2020.02.01.11.29.59
+ by smtp.gmail.com with ESMTPSA id l7sm3668509pga.27.2020.02.01.11.30.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 01 Feb 2020 11:29:59 -0800 (PST)
+ Sat, 01 Feb 2020 11:30:01 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 36/41] target/arm: Update arm_cpu_do_interrupt_aarch64 for
- VHE
-Date: Sat,  1 Feb 2020 11:29:11 -0800
-Message-Id: <20200201192916.31796-37-richard.henderson@linaro.org>
+Subject: [PATCH v6 37/41] target/arm: Enable ARMv8.1-VHE in -cpu max
+Date: Sat,  1 Feb 2020 11:29:12 -0800
+Message-Id: <20200201192916.31796-38-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200201192916.31796-1-richard.henderson@linaro.org>
 References: <20200201192916.31796-1-richard.henderson@linaro.org>
@@ -67,7 +67,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::444
+X-Received-From: 2607:f8b0:4864:20::643
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,42 +83,24 @@ Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When VHE is enabled, the exception level below EL2 is not EL1,
-but EL0, and so to identify the entry vector offset for exceptions
-targeting EL2 we need to look at the width of EL0, not of EL1.
-
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/helper.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ target/arm/cpu64.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 576afd9c9e..70b10428c5 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -9026,14 +9026,19 @@ static void arm_cpu_do_interrupt_aarch64(CPUState *cs)
-          * immediately lower than the target level is using AArch32 or AArch64
-          */
-         bool is_aa64;
-+        uint64_t hcr;
+diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
+index 2d97bf45e1..c80fb5fd43 100644
+--- a/target/arm/cpu64.c
++++ b/target/arm/cpu64.c
+@@ -672,6 +672,7 @@ static void aarch64_max_initfn(Object *obj)
+         t = cpu->isar.id_aa64mmfr1;
+         t = FIELD_DP64(t, ID_AA64MMFR1, HPDS, 1); /* HPD */
+         t = FIELD_DP64(t, ID_AA64MMFR1, LO, 1);
++        t = FIELD_DP64(t, ID_AA64MMFR1, VH, 1);
+         cpu->isar.id_aa64mmfr1 = t;
  
-         switch (new_el) {
-         case 3:
-             is_aa64 = (env->cp15.scr_el3 & SCR_RW) != 0;
-             break;
-         case 2:
--            is_aa64 = (env->cp15.hcr_el2 & HCR_RW) != 0;
--            break;
-+            hcr = arm_hcr_el2_eff(env);
-+            if ((hcr & (HCR_E2H | HCR_TGE)) != (HCR_E2H | HCR_TGE)) {
-+                is_aa64 = (hcr & HCR_RW) != 0;
-+                break;
-+            }
-+            /* fall through */
-         case 1:
-             is_aa64 = is_a64(env);
-             break;
+         /* Replicate the same data to the 32-bit id registers.  */
 -- 
 2.20.1
 
