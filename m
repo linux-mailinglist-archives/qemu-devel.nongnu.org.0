@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50DD814F5B1
-	for <lists+qemu-devel@lfdr.de>; Sat,  1 Feb 2020 02:27:58 +0100 (CET)
-Received: from localhost ([::1]:34732 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF02014F5A4
+	for <lists+qemu-devel@lfdr.de>; Sat,  1 Feb 2020 02:19:25 +0100 (CET)
+Received: from localhost ([::1]:34440 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ixhZl-0004Hq-Bq
-	for lists+qemu-devel@lfdr.de; Fri, 31 Jan 2020 20:27:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57455)
+	id 1ixhRU-0000DC-Rm
+	for lists+qemu-devel@lfdr.de; Fri, 31 Jan 2020 20:19:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57403)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <prvs=2939926b3=alistair.francis@wdc.com>)
- id 1ixhJ2-0005JP-Oo
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 20:10:42 -0500
+ id 1ixhIz-0005Bu-Ee
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 20:10:38 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <prvs=2939926b3=alistair.francis@wdc.com>)
- id 1ixhJ1-00075g-OR
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 20:10:40 -0500
-Received: from esa4.hgst.iphmx.com ([216.71.154.42]:17177)
+ id 1ixhIy-00070x-8K
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 20:10:37 -0500
+Received: from esa4.hgst.iphmx.com ([216.71.154.42]:17129)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <prvs=2939926b3=alistair.francis@wdc.com>)
- id 1ixhJ1-0006JU-G8; Fri, 31 Jan 2020 20:10:39 -0500
+ id 1ixhIx-00069K-VZ; Fri, 31 Jan 2020 20:10:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1580519439; x=1612055439;
+ t=1580519436; x=1612055436;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=THmG6Z8Iy0AS7qhVhPSh/tjhQzN/1puYu98Jb+bF4F8=;
- b=ZQIZ0tH/IFLN8uAEeLss94i/Z9TKcnzTOSP452RKe+OY/cMBIFFOxnvt
- XLprp611yoFksH4NkB81TmfvfaG1rum6Jmjn97vtnjRyiK9ukMtT69arV
- YZ0KJKWPf/Gs7FYESQGtlHRlyUWNsAV1KMkjK9+1OPCi7XbXLWh0BH2QI
- 3p6Qukhdam+GRRz/94/PFc0LtuCMWD/w9ICymclC5wop+sTKe/sXPyFje
- L1DyfJEYe04A7rNIrTDhZt50EIAhr5tfotdVGjliwC4cwBvhqhcauXMOl
- RFvwQY2PdtvbZlN2c+eSAk5bpusJup7Y8cm9D6OEtewrs5XJ22pcJV0qK w==;
-IronPort-SDR: XCO6KQl7eP6KjazhChtjjNQf/oiS5wJPu8qErDM2YmmkJ07clX0uPWUXpC6nHpzmPGuoLdlF26
- UO1JYxnrwaO3/n7DZ5tb/1RxTZImcO1Hw4rXkFmXKbJf2nFQ0o9cTgC6Uaa23XmaUDVKLpnPWA
- 1++CQpq2iCGj80601U/wsVXihcS+2NTo5J0GUWApeve9F4wgixLiNgSQ0xoavGpvewxiQ5pQu6
- 3i0Vz/xZvgRmOEklLNqy5LPh87lyZqeBPh96XZWbaYh/8LfaTwK3uygVu8fMh32R/P0cP4XlZE
- pYc=
-X-IronPort-AV: E=Sophos;i="5.70,388,1574092800"; d="scan'208";a="128872496"
+ bh=wLDyHGZ3TFNnbSS5Rlkobce5pf5JfGvgCXYxEnNxaNg=;
+ b=jAs79b4ZHi2Gte3N9hIJ7ylo6Rxa8aA/I63foffeOG1nps2i5tsSm+oW
+ hTSanIISpoH/VD1F8krS40PvZkF5mvgH5mt++B9lpLLsiJWT9eMFLuT30
+ 8VLWwXFLj274ehIGB64qO5+mRqPbEkmpiju0IBim7ENp7r/NvAn9q8Z7g
+ r9prwQ/E+l46m2ljZ++6BC44zURqxGNtG3aWP/L31uzYaPQRvc63TGBZH
+ qMda1QVQMsVBMDHXYD/88kG4SWbUn2ci7gyGibso4Qe+Ea8iYm5gd1JSa
+ Sc7Ctdah3P8k27QbiA/gSxdcNpl69BG7MnEWmF0+NSKpdxc8/ki9BGKk2 A==;
+IronPort-SDR: 5Y/xPeXYo1F/b6hEpA3SNaMAd9t9csQWSkAcDHu7P594WlqJ2rcNBId+NLdxj0084t4g9BA47e
+ XzrqQ6+hi7eT86oYMhFKevOL8ud2MCuOvbQkT9AJa26RfW9cwNRmhzyeZnEwnE/DRAWFpnuku8
+ 8vTOVhYm2hWw9NApUC8Hyy5QeVW1gq6XL2VQp4hBlPUwjCDI/zEjL3jiuJmkWys2fTzUf+Vptt
+ dVEHtDjw1rhTfv2aa5cKylv7varjCRERSJ4DbVMRPt7WYByidbaEGnPw3lrlQEdaK5GR1nJLng
+ ngY=
+X-IronPort-AV: E=Sophos;i="5.70,388,1574092800"; d="scan'208";a="128872499"
 Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 01 Feb 2020 09:09:35 +0800
-IronPort-SDR: 7+zEhE5I2GKWVfw58fdXyolLOEOlJynnolLx74CscgK4Wax1IOtg/LXZILObgsiv/w2wpfi2oX
- OHtKWZJKAv7/CNPKQOotBpdItrfn8htRX6Bl3P0qq0zf8xovuvyt18N99Lx/dNgeobxupeT/oZ
- Xbau8t6Me1TCVmNsyI9sGNhQJwnLeoVB0HAg6I5DF4M/QMuyUIJPiKNr17Qh/Gpwao7k1b/m76
- 5N88AIG/6euawCuAeYSlug3rGRK8WwvfE4gRDbnS1V25jTRwnXGuA3ZMRQhPehpE1pu+64iDRh
- XEe0NhBGtCmecnfsQ4m8oOIJ
-Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
+ by ob1.hgst.iphmx.com with ESMTP; 01 Feb 2020 09:09:38 +0800
+IronPort-SDR: Pt3D6p+GmjM75jQI4ai8l0Z4Gmymc7s1o3XP+OZ4HiBa3Ip7v7PN0MqcdMlEm4MODflYqzMkPu
+ 2SkZpOyxjS6eCy7EnCzBlPFcwSfm80o5qxG3yfS/FefCOcqHq/VmfcfnHoF0Rh4bTIPJYb5Zy0
+ 4f3oeo7gVuzSRaAKocKDev/dt/noZ72dXXUAOqB+K8UbkcDMhIN511hUPdfD+/rTnZPeqFhQoi
+ JbxrmdjCVEAeSqAUJfr1kXSQHGkc+RKcFylTAcvR5uCW4aq0bV7CZcubaYKCX9GsTScBl9GNI7
+ QzN1BWjZZEwW6N5xMNr3pHLc
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Jan 2020 17:02:44 -0800
-IronPort-SDR: feceoVqIxADoaF8zJpF9lyUTvldpwBe8TsrWS78fBT8PPH2DAZg5O7iGgPaxa121bBZMnXt+ia
- Om53I7gnGNSNkDLw/BSwa47BFRaAZ6m/ERH91aPo9PkEsdqO7kolDHDafBXbKsYBMpAiCqWrVf
- rsjcdqsjpgfbBeIQQ/j30r1zTyYqAT5OSVLPtiA05m7THF57UPs0B50GaEyDqKpNz2S4mg/0ux
- HWO56DyZGcB/yzmBBepn+0PWh9Zj1Hh44sz0DAi2g3aYjCL5xccNXs/3b0hux2vvBgcrscGluk
- nIU=
+ 31 Jan 2020 17:02:47 -0800
+IronPort-SDR: imcKPQhyu3eFmCE8fuYvDaaG6ycdkrX3Iq3D7+zlnc+wn3F08PuP5vRpOLCXpA7gYNWvIs66iV
+ q6R6QCEZiqcirDueV4sEyBN4ZlqO2Fwtzrc16ErT3KKcei9jvvQNBZp3AaVbVtiZs/3YD2UcBv
+ IMhEMKKprRdnWSpgSS6tFIKwC3Dy0oUyZcP/T20RUoPYtOV1vCwiFA6n+Rdq3h0QhTAFbQ/RNR
+ 3qS25ZMyZclMc+2NnwywBJZyQi5PMsD+bPBx1xJJZH6VITYEARu9AF0CY6Zhka4uwQcEi5474d
+ cXA=
 WDCIronportException: Internal
 Received: from risc6-mainframe.sdcorp.global.sandisk.com (HELO
  risc6-mainframe.int.fusionio.com) ([10.196.158.235])
- by uls-op-cesaip01.wdc.com with ESMTP; 31 Jan 2020 17:09:35 -0800
+ by uls-op-cesaip02.wdc.com with ESMTP; 31 Jan 2020 17:09:38 -0800
 From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Subject: [PATCH v2 31/35] target/riscv: Raise the new execptions when 2nd
- stage translation fails
-Date: Fri, 31 Jan 2020 17:02:59 -0800
-Message-Id: <b13f9c636f3c9fde604a27140df328ee10305078.1580518859.git.alistair.francis@wdc.com>
+Subject: [PATCH v2 32/35] target/riscv: Set htval and mtval2 on execptions
+Date: Fri, 31 Jan 2020 17:03:02 -0800
+Message-Id: <6b6d0f06b64cc5d0a6ed6fe9357eb8c6d01c5d48.1580518859.git.alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <cover.1580518859.git.alistair.francis@wdc.com>
 References: <cover.1580518859.git.alistair.francis@wdc.com>
@@ -92,48 +91,65 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Palmer Dabbelt <palmerdabbelt@google.com>
 ---
- target/riscv/cpu_helper.c | 24 ++++++++++++++++++------
- 1 file changed, 18 insertions(+), 6 deletions(-)
+ target/riscv/cpu_helper.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
 diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index 5f96631637..da994aba57 100644
+index da994aba57..10786a077b 100644
 --- a/target/riscv/cpu_helper.c
 +++ b/target/riscv/cpu_helper.c
-@@ -585,16 +585,28 @@ static void raise_mmu_exception(CPURISCVState *env, target_ulong address,
-     }
-     switch (access_type) {
-     case MMU_INST_FETCH:
--        cs->exception_index = page_fault_exceptions ?
--            RISCV_EXCP_INST_PAGE_FAULT : RISCV_EXCP_INST_ACCESS_FAULT;
-+        if (riscv_cpu_virt_enabled(env) && !first_stage) {
-+            cs->exception_index = RISCV_EXCP_INST_GUEST_PAGE_FAULT;
-+        } else {
-+            cs->exception_index = page_fault_exceptions ?
-+                RISCV_EXCP_INST_PAGE_FAULT : RISCV_EXCP_INST_ACCESS_FAULT;
-+        }
-         break;
-     case MMU_DATA_LOAD:
--        cs->exception_index = page_fault_exceptions ?
--            RISCV_EXCP_LOAD_PAGE_FAULT : RISCV_EXCP_LOAD_ACCESS_FAULT;
-+        if (riscv_cpu_virt_enabled(env) && !first_stage) {
-+            cs->exception_index = RISCV_EXCP_LOAD_GUEST_ACCESS_FAULT;
-+        } else {
-+            cs->exception_index = page_fault_exceptions ?
-+                RISCV_EXCP_LOAD_PAGE_FAULT : RISCV_EXCP_LOAD_ACCESS_FAULT;
-+        }
-         break;
-     case MMU_DATA_STORE:
--        cs->exception_index = page_fault_exceptions ?
--            RISCV_EXCP_STORE_PAGE_FAULT : RISCV_EXCP_STORE_AMO_ACCESS_FAULT;
-+        if (riscv_cpu_virt_enabled(env) && !first_stage) {
-+            cs->exception_index = RISCV_EXCP_STORE_GUEST_AMO_ACCESS_FAULT;
-+        } else {
-+            cs->exception_index = page_fault_exceptions ?
-+                RISCV_EXCP_STORE_PAGE_FAULT : RISCV_EXCP_STORE_AMO_ACCESS_FAULT;
-+        }
-         break;
-     default:
-         g_assert_not_reached();
+@@ -838,6 +838,8 @@ void riscv_cpu_do_interrupt(CPUState *cs)
+     target_ulong cause = cs->exception_index & RISCV_EXCP_INT_MASK;
+     target_ulong deleg = async ? env->mideleg : env->medeleg;
+     target_ulong tval = 0;
++    target_ulong htval = 0;
++    target_ulong mtval2 = 0;
+ 
+     if (!async) {
+         /* set tval to badaddr for traps with address information */
+@@ -899,6 +901,8 @@ void riscv_cpu_do_interrupt(CPUState *cs)
+                 env->hstatus = set_field(env->hstatus, HSTATUS_SPV,
+                                          riscv_cpu_virt_enabled(env));
+ 
++                htval = env->guest_phys_fault_addr;
++
+                 riscv_cpu_set_virt_enabled(env, 0);
+                 riscv_cpu_set_force_hs_excep(env, 0);
+             } else {
+@@ -909,6 +913,8 @@ void riscv_cpu_do_interrupt(CPUState *cs)
+                                          get_field(env->mstatus, SSTATUS_SPP));
+                 env->hstatus = set_field(env->hstatus, HSTATUS_SPV,
+                                          riscv_cpu_virt_enabled(env));
++
++                htval = env->guest_phys_fault_addr;
+             }
+         }
+ 
+@@ -921,6 +927,7 @@ void riscv_cpu_do_interrupt(CPUState *cs)
+         env->scause = cause | ((target_ulong)async << (TARGET_LONG_BITS - 1));
+         env->sepc = env->pc;
+         env->sbadaddr = tval;
++        env->htval = htval;
+         env->pc = (env->stvec >> 2 << 2) +
+             ((async && (env->stvec & 3) == 1) ? cause * 4 : 0);
+         riscv_cpu_set_mode(env, PRV_S);
+@@ -935,6 +942,8 @@ void riscv_cpu_do_interrupt(CPUState *cs)
+             env->mstatus = set_field(env->mstatus, MSTATUS_MTL,
+                                       riscv_cpu_force_hs_excep_enabled(env));
+ 
++            mtval2 = env->guest_phys_fault_addr;
++
+             /* Trapping to M mode, virt is disabled */
+             riscv_cpu_set_virt_enabled(env, 0);
+             riscv_cpu_set_force_hs_excep(env, 0);
+@@ -949,6 +958,7 @@ void riscv_cpu_do_interrupt(CPUState *cs)
+         env->mcause = cause | ~(((target_ulong)-1) >> async);
+         env->mepc = env->pc;
+         env->mbadaddr = tval;
++        env->mtval2 = mtval2;
+         env->pc = (env->mtvec >> 2 << 2) +
+             ((async && (env->mtvec & 3) == 1) ? cause * 4 : 0);
+         riscv_cpu_set_mode(env, PRV_M);
 -- 
 2.25.0
 
