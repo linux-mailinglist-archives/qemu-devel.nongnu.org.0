@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92B7714FA44
-	for <lists+qemu-devel@lfdr.de>; Sat,  1 Feb 2020 20:36:05 +0100 (CET)
-Received: from localhost ([::1]:49338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF0F414FA40
+	for <lists+qemu-devel@lfdr.de>; Sat,  1 Feb 2020 20:34:09 +0100 (CET)
+Received: from localhost ([::1]:49294 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ixyYm-00074K-JG
-	for lists+qemu-devel@lfdr.de; Sat, 01 Feb 2020 14:36:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58538)
+	id 1ixyWv-0003fd-0H
+	for lists+qemu-devel@lfdr.de; Sat, 01 Feb 2020 14:34:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58550)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1ixySK-0006zq-5N
- for qemu-devel@nongnu.org; Sat, 01 Feb 2020 14:29:25 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1ixySL-00071P-8c
+ for qemu-devel@nongnu.org; Sat, 01 Feb 2020 14:29:26 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1ixySI-0006Q5-TJ
- for qemu-devel@nongnu.org; Sat, 01 Feb 2020 14:29:24 -0500
-Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:32980)
+ (envelope-from <richard.henderson@linaro.org>) id 1ixySK-0006R3-97
+ for qemu-devel@nongnu.org; Sat, 01 Feb 2020 14:29:25 -0500
+Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:43080)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1ixySI-0006Pc-NH
- for qemu-devel@nongnu.org; Sat, 01 Feb 2020 14:29:22 -0500
-Received: by mail-pf1-x443.google.com with SMTP id n7so5290455pfn.0
- for <qemu-devel@nongnu.org>; Sat, 01 Feb 2020 11:29:22 -0800 (PST)
+ id 1ixySK-0006QR-3d
+ for qemu-devel@nongnu.org; Sat, 01 Feb 2020 14:29:24 -0500
+Received: by mail-pf1-x442.google.com with SMTP id s1so5255677pfh.10
+ for <qemu-devel@nongnu.org>; Sat, 01 Feb 2020 11:29:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=QDSFHnHYdNMk1UthAHV8+Um/pzdBXbq/7AhRW+XbQEk=;
- b=nzU9ZySdlneXPb/EmJv24bsdhrNUTdzjUwo8rip9ll4jiAfBrj5Q/hLWEVnrr+4hKd
- 0s+ChScOHBVJH79XlJdCLBr+eVapJE5gsNRxgxbWBvoR7WhK2IHDmZPcFliBgxTZZtoO
- IoR38GUk6nPPwIvABikenaTQvwxWcktqnF1dv0AtKVnO3iWlkIslIIiBvzcu0xhR8fw1
- 8gB6Xsmk+d1K/G/rfcNmCkvnSS89RJ20i+6mLSD43DhmvYhJzoDyPfn0jtK3dxnUoOYc
- I7a+zXQv3J7Ovf1jCVAxAIHq31E892v7crQpkQ8Nden0PxtER95KwX0rlEpumv8SSHBX
- P1yQ==
+ bh=NRIyxc7vWfkpiQTZE4LZxFudoV8Un+UW9c4R2EG99Mo=;
+ b=RdrCtHqhyXLoNV8lhd1fezwRgu+MSYzV606AGW1HhpxIx1kqTBXs+EDCXWc0FnDeFl
+ YdG5cFnjPJnWLpHTQH5Q6BOphZbkWGyv8dJoumgORbRnPSXZkkpnGk3UukiU0asM1NN7
+ OhQZgvytEfu9E+dJ1p3JBlF8vZhQhqOKiQyBCdif7RWe5e5S2yOmW13/MDppNI/YCedP
+ gH/2m5WmtDPjvDlOZnkG7UJ/qfJRtwvNf8rxCBlJ8bTYDNmdZc5yVWwGhJBGjYne59S8
+ 0kcdc4ly2p0Ei3WoFRntc+GwwsXMirMlgTb5TgqNkfaCpftFTWppEsjSY9i4OGlvsvCj
+ vN/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=QDSFHnHYdNMk1UthAHV8+Um/pzdBXbq/7AhRW+XbQEk=;
- b=e3hjpDdL0AJ+xSHbPisMgNgs8pAKh59LKiQurF2JjTFF/dhkfgFzBzKK/BbmUiQlfk
- t+PODMuZ+27xBTAS1jfXGGMBBjVDJhXC4hq8rcmd9uK+efb/RTe6qtcFD9kBVm90mnMe
- xegCdFNIEpLrQbV57UOZ46Gogh0c5NlBKel4PDz4sL9WvaW/ojsB1ag9I8t68/JS7jHr
- TLNGskVu//G4Fp4swz5g+IFhGNzKmAmyDNyClimrrqsNoJxwuBrKorgIPhNS3+qUjNks
- U71yERCdMOpWwlkRRA3E/zFg14MglfqQgHDnpGe4XAtGtYPBAtuQjfqDW5YP/bbzOfOP
- /rXg==
-X-Gm-Message-State: APjAAAUfksc5iyNyzmMyr6DMKwClf5dJgFqb5ulHQU7OMtv7I7Z3FcvS
- w0MaJ6+evlrkK94vpPWswpzJO9/t38Y=
-X-Google-Smtp-Source: APXvYqyA/W15TV1mfgSmkzwep+WA/7d+Ke3faDyoeg2O/erPw5c6hpSxClJ5vBVFB/A1ukzSjz+arw==
-X-Received: by 2002:aa7:9145:: with SMTP id 5mr16861193pfi.74.1580585361384;
- Sat, 01 Feb 2020 11:29:21 -0800 (PST)
+ bh=NRIyxc7vWfkpiQTZE4LZxFudoV8Un+UW9c4R2EG99Mo=;
+ b=Y8wtJH80m6h9oFgX5ZlWUPMQ5Qa0DhSH7lT8CEItscOr+jH9V2VXDavr7S4X7tY27W
+ 0Kc1VWy/hAxYcN7AxZS4mo4gEEc+F34bwN+HaYI1N9NSeEoLdPYf+nN9mbu7DJaO4I9p
+ LLk6HZEWK3MgELN2RgsrLjKaS5qXNcBVF9Wq4ohTswVrzMtqCMBc4Cl1iwsQtyAAaKyk
+ EnSi5D+54FhA2YtZdYConMKAy68EtqsJdWPpaKLrG+an1b/NZsq2O0xTzrJQDWfKfL0y
+ 8luNBifvqWZmVFlQZbfpOrIRdnRKTzQJCFfiy+RR74NUf8Q2/90WTD58hP+sCSKDVS1O
+ ikSw==
+X-Gm-Message-State: APjAAAVmd3lXszAlga5dkSmku9bseL+VpsmtfA1ri5cKeJVJ0UPsKdAE
+ 1mqMvW75J6XLT6/fQDb85Gcm+jISEBY=
+X-Google-Smtp-Source: APXvYqye7hjN7Wf7OPUC93WbL5ZeNC2MSQPvbEd/jWp3CFkyXIfCa6rrwXKejoGsO0ymftPCNRcOyQ==
+X-Received: by 2002:aa7:8502:: with SMTP id v2mr16165481pfn.232.1580585362568; 
+ Sat, 01 Feb 2020 11:29:22 -0800 (PST)
 Received: from localhost.localdomain (97-126-123-70.tukw.qwest.net.
  [97.126.123.70])
- by smtp.gmail.com with ESMTPSA id l7sm3668509pga.27.2020.02.01.11.29.20
+ by smtp.gmail.com with ESMTPSA id l7sm3668509pga.27.2020.02.01.11.29.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 01 Feb 2020 11:29:20 -0800 (PST)
+ Sat, 01 Feb 2020 11:29:21 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 03/41] target/arm: Add CONTEXTIDR_EL2
-Date: Sat,  1 Feb 2020 11:28:38 -0800
-Message-Id: <20200201192916.31796-4-richard.henderson@linaro.org>
+Subject: [PATCH v6 04/41] target/arm: Add TTBR1_EL2
+Date: Sat,  1 Feb 2020 11:28:39 -0800
+Message-Id: <20200201192916.31796-5-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200201192916.31796-1-richard.henderson@linaro.org>
 References: <20200201192916.31796-1-richard.henderson@linaro.org>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::443
+X-Received-From: 2607:f8b0:4864:20::442
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,130 +84,55 @@ Cc: peter.maydell@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Not all of the breakpoint types are supported, but those that
-only examine contextidr are extended to support the new register.
+At the same time, add writefn to TTBR0_EL2 and TCR_EL2.
+A later patch will update any ASID therein.
 
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
-v6: Move reginfo to file scope.
+v5: Do not update TCR_EL2 yet; delay that til we handle ASIDs.
 ---
- target/arm/debug_helper.c | 50 +++++++++++++++++++++++++++++----------
- target/arm/helper.c       | 12 ++++++++++
- 2 files changed, 50 insertions(+), 12 deletions(-)
+ target/arm/helper.c | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
 
-diff --git a/target/arm/debug_helper.c b/target/arm/debug_helper.c
-index dde80273ff..2e3e90c6a5 100644
---- a/target/arm/debug_helper.c
-+++ b/target/arm/debug_helper.c
-@@ -20,6 +20,7 @@ static bool linked_bp_matches(ARMCPU *cpu, int lbn)
-     int ctx_cmps = extract32(cpu->dbgdidr, 20, 4);
-     int bt;
-     uint32_t contextidr;
-+    uint64_t hcr_el2;
- 
-     /*
-      * Links to unimplemented or non-context aware breakpoints are
-@@ -40,24 +41,44 @@ static bool linked_bp_matches(ARMCPU *cpu, int lbn)
-     }
- 
-     bt = extract64(bcr, 20, 4);
--
--    /*
--     * We match the whole register even if this is AArch32 using the
--     * short descriptor format (in which case it holds both PROCID and ASID),
--     * since we don't implement the optional v7 context ID masking.
--     */
--    contextidr = extract64(env->cp15.contextidr_el[1], 0, 32);
-+    hcr_el2 = arm_hcr_el2_eff(env);
- 
-     switch (bt) {
-     case 3: /* linked context ID match */
--        if (arm_current_el(env) > 1) {
--            /* Context matches never fire in EL2 or (AArch64) EL3 */
-+        switch (arm_current_el(env)) {
-+        default:
-+            /* Context matches never fire in AArch64 EL3 */
-             return false;
-+        case 2:
-+            if (!(hcr_el2 & HCR_E2H)) {
-+                /* Context matches never fire in EL2 without E2H enabled. */
-+                return false;
-+            }
-+            contextidr = env->cp15.contextidr_el[2];
-+            break;
-+        case 1:
-+            contextidr = env->cp15.contextidr_el[1];
-+            break;
-+        case 0:
-+            if ((hcr_el2 & (HCR_E2H | HCR_TGE)) == (HCR_E2H | HCR_TGE)) {
-+                contextidr = env->cp15.contextidr_el[2];
-+            } else {
-+                contextidr = env->cp15.contextidr_el[1];
-+            }
-+            break;
-         }
--        return (contextidr == extract64(env->cp15.dbgbvr[lbn], 0, 32));
--    case 5: /* linked address mismatch (reserved in AArch64) */
-+        break;
-+
-+    case 7:  /* linked contextidr_el1 match */
-+        contextidr = env->cp15.contextidr_el[1];
-+        break;
-+    case 13: /* linked contextidr_el2 match */
-+        contextidr = env->cp15.contextidr_el[2];
-+        break;
-+
-     case 9: /* linked VMID match (reserved if no EL2) */
-     case 11: /* linked context ID and VMID match (reserved if no EL2) */
-+    case 15: /* linked full context ID match */
-     default:
-         /*
-          * Links to Unlinked context breakpoints must generate no
-@@ -66,7 +87,12 @@ static bool linked_bp_matches(ARMCPU *cpu, int lbn)
-         return false;
-     }
- 
--    return false;
-+    /*
-+     * We match the whole register even if this is AArch32 using the
-+     * short descriptor format (in which case it holds both PROCID and ASID),
-+     * since we don't implement the optional v7 context ID masking.
-+     */
-+    return contextidr == (uint32_t)env->cp15.dbgbvr[lbn];
- }
- 
- static bool bp_wp_matches(ARMCPU *cpu, int n, bool is_wp)
 diff --git a/target/arm/helper.c b/target/arm/helper.c
-index f5ce05fdf3..fe7991864a 100644
+index fe7991864a..c7ee0d603f 100644
 --- a/target/arm/helper.c
 +++ b/target/arm/helper.c
-@@ -6126,6 +6126,14 @@ static const ARMCPRegInfo jazelle_regs[] = {
+@@ -3533,6 +3533,13 @@ static void vmsa_ttbr_write(CPUARMState *env, const ARMCPRegInfo *ri,
+     raw_write(env, ri, value);
+ }
+ 
++static void vmsa_tcr_ttbr_el2_write(CPUARMState *env, const ARMCPRegInfo *ri,
++                                    uint64_t value)
++{
++    /* TODO: There are ASID fields in here with HCR_EL2.E2H */
++    raw_write(env, ri, value);
++}
++
+ static void vttbr_write(CPUARMState *env, const ARMCPRegInfo *ri,
+                         uint64_t value)
+ {
+@@ -4979,7 +4986,7 @@ static const ARMCPRegInfo el2_cp_reginfo[] = {
+       .fieldoffset = offsetof(CPUARMState, cp15.tpidr_el[2]) },
+     { .name = "TTBR0_EL2", .state = ARM_CP_STATE_AA64,
+       .opc0 = 3, .opc1 = 4, .crn = 2, .crm = 0, .opc2 = 0,
+-      .access = PL2_RW, .resetvalue = 0,
++      .access = PL2_RW, .resetvalue = 0, .writefn = vmsa_tcr_ttbr_el2_write,
+       .fieldoffset = offsetof(CPUARMState, cp15.ttbr0_el[2]) },
+     { .name = "HTTBR", .cp = 15, .opc1 = 4, .crm = 2,
+       .access = PL2_RW, .type = ARM_CP_64BIT | ARM_CP_ALIAS,
+@@ -6131,6 +6138,10 @@ static const ARMCPRegInfo vhe_reginfo[] = {
+       .opc0 = 3, .opc1 = 4, .crn = 13, .crm = 0, .opc2 = 1,
+       .access = PL2_RW,
+       .fieldoffset = offsetof(CPUARMState, cp15.contextidr_el[2]) },
++    { .name = "TTBR1_EL2", .state = ARM_CP_STATE_AA64,
++      .opc0 = 3, .opc1 = 4, .crn = 2, .crm = 0, .opc2 = 1,
++      .access = PL2_RW, .writefn = vmsa_tcr_ttbr_el2_write,
++      .fieldoffset = offsetof(CPUARMState, cp15.ttbr1_el[2]) },
      REGINFO_SENTINEL
  };
  
-+static const ARMCPRegInfo vhe_reginfo[] = {
-+    { .name = "CONTEXTIDR_EL2", .state = ARM_CP_STATE_AA64,
-+      .opc0 = 3, .opc1 = 4, .crn = 13, .crm = 0, .opc2 = 1,
-+      .access = PL2_RW,
-+      .fieldoffset = offsetof(CPUARMState, cp15.contextidr_el[2]) },
-+    REGINFO_SENTINEL
-+};
-+
- void register_cp_regs_for_features(ARMCPU *cpu)
- {
-     /* Register all the coprocessor registers based on feature bits */
-@@ -7089,6 +7097,10 @@ void register_cp_regs_for_features(ARMCPU *cpu)
-         define_arm_cp_regs(cpu, lor_reginfo);
-     }
- 
-+    if (arm_feature(env, ARM_FEATURE_EL2) && cpu_isar_feature(aa64_vh, cpu)) {
-+        define_arm_cp_regs(cpu, vhe_reginfo);
-+    }
-+
-     if (cpu_isar_feature(aa64_sve, cpu)) {
-         define_one_arm_cp_reg(cpu, &zcr_el1_reginfo);
-         if (arm_feature(env, ARM_FEATURE_EL2)) {
 -- 
 2.20.1
 
