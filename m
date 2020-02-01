@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9533114FA64
-	for <lists+qemu-devel@lfdr.de>; Sat,  1 Feb 2020 20:47:44 +0100 (CET)
-Received: from localhost ([::1]:50030 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5D8014FA46
+	for <lists+qemu-devel@lfdr.de>; Sat,  1 Feb 2020 20:36:28 +0100 (CET)
+Received: from localhost ([::1]:49364 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ixyk3-0001gx-L5
-	for lists+qemu-devel@lfdr.de; Sat, 01 Feb 2020 14:47:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58755)
+	id 1ixyZ9-0007zt-Qk
+	for lists+qemu-devel@lfdr.de; Sat, 01 Feb 2020 14:36:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58775)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1ixySf-0007am-GF
- for qemu-devel@nongnu.org; Sat, 01 Feb 2020 14:29:46 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1ixySh-0007dS-71
+ for qemu-devel@nongnu.org; Sat, 01 Feb 2020 14:29:48 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1ixySe-0006rI-Ig
- for qemu-devel@nongnu.org; Sat, 01 Feb 2020 14:29:45 -0500
-Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:41585)
+ (envelope-from <richard.henderson@linaro.org>) id 1ixySf-0006so-Rj
+ for qemu-devel@nongnu.org; Sat, 01 Feb 2020 14:29:47 -0500
+Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:42681)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1ixySe-0006qv-D7
- for qemu-devel@nongnu.org; Sat, 01 Feb 2020 14:29:44 -0500
-Received: by mail-pf1-x443.google.com with SMTP id j9so2187513pfa.8
- for <qemu-devel@nongnu.org>; Sat, 01 Feb 2020 11:29:44 -0800 (PST)
+ id 1ixySf-0006ro-M4
+ for qemu-devel@nongnu.org; Sat, 01 Feb 2020 14:29:45 -0500
+Received: by mail-pg1-x543.google.com with SMTP id s64so5454406pgb.9
+ for <qemu-devel@nongnu.org>; Sat, 01 Feb 2020 11:29:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=OKxQq943wt4uroP1gZYZ49QNE9fpaRpfrXYqhLFIHks=;
- b=T4Glt6esKqFhEf5eWsJCZ/SWx+H8jJOtN0e6mOd5SuC2gObiNffJO+dYha7h6xH+py
- 6vv+4XpIrNwYNS1GSO/AzDDSYQPeMVOjmxY4PmiuQRaNLylcWJOWNLy9SV9cw3iZ5PzD
- ESsLotjjT97BN/u3w1LBfgXjONxqran8dgmwwpgSGBtkHniYLdQMg8SBWgyJw35T8V/a
- 0dxW6kAOIcRoBtcyO+ZUPb3Po/cPbogkPN8No2H0/g2I0FV13SpGry+JIphmBsAlnoRj
- hf31NCxw2Iz1M9aT0apgkMDKi4hLOghL2WI1kW2vjcCjtYHbEC4rberTbmjs7CT8ACFY
- gvAA==
+ bh=juHwnM8Na/3KK56bRpT8cVui++cBSP96GHuLJj2xiMg=;
+ b=xM+07iXq2u1pCuJQLVjYH2LdM7NScv5mVx7IwCuG9cOYZtcurx/GY65jw5+kKzaRGM
+ Go5v69WTfHJi8izaOEBgTLmdiu8cGcvOZUe5m1Sb1KPsfHmUN3sAr4rfMBKiFchVmEtd
+ sXBwv5oXxWg++eWj8O+5J2Oo0ktvmsx0V+6W/aZOYmE0GtziyPamyo7UwkWKw+aSlXtx
+ oaO9W3i7+dny2yv5Nxj5MGEFjPEGONV6UyLSZn0p4AYzlemm3KJSGLY7cHaajOP1EAfI
+ iTeZNP33Hx02yxxd1TinribELY0jVGCxpfi0MpKjaoL1KC5wISQMHhfZCk1X6w/NtwMW
+ WJEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=OKxQq943wt4uroP1gZYZ49QNE9fpaRpfrXYqhLFIHks=;
- b=Gb7/n/khuJ8wxOg2VA1D91h+BLeUHMNz9MTOSX+n3xEja+/KoyFFase1FtFlj7lfPZ
- YondyPcl+5Nm1MOA1Fi85NpzZtDpwcxNqcpWKyivjWybNLvPPuB+1rv8ad6XX+TKcxoG
- 1CMYMZNWJpbmQqyuoSz4zDHExbhBXofzK2ezF9e4t9yUQ9uo16Egyp233G3omgwaYCeY
- z/bIY88rA8JrFHAUtyBjKnFvMWLimLL+Ch2xhvMZ3xGTavouoPK+htJ7ECwvP6vmY8YR
- s9TXieiM7mgOr9oVZIfQLcgxj5//L9VpM0TFmusdrcRsC47Tse/Do3wnZNkclYX3Dnqs
- MN6w==
-X-Gm-Message-State: APjAAAWr5Lads3a2T7R6HD5MD+WxVb9wiDyoyAoGs+gXRjSAHr3zgJLQ
- 8//kfovHzKqTzGcitIlTCepjm3kvkn4=
-X-Google-Smtp-Source: APXvYqyjlACDbkuUhY5ZV0Y+vXweSM48RZP39HKel5NY7Q+2uDQbtRrcP2QFMqcf89mRtbSIaxvqfw==
-X-Received: by 2002:a63:7c4d:: with SMTP id l13mr1701626pgn.275.1580585383218; 
- Sat, 01 Feb 2020 11:29:43 -0800 (PST)
+ bh=juHwnM8Na/3KK56bRpT8cVui++cBSP96GHuLJj2xiMg=;
+ b=G67mB2eNjJFbCoMxvQ0lzlFGGQqVQI4/5vfm7gst/HUBENzL3n7dN6ortzyRhOiEpS
+ TTVWUdBD25ZmWbeEMJtjVDs7xAFQmiZsgcynRLcD66b9xr4dGOrvOzwVEm7ZgSEXvDO+
+ po3vQw/iQf3th6aUqrCoJLPVNM+BZGt9p0WQR36C1S0zCafsbo+BOxH5mlzpuSqy3kFT
+ Njb5Naj4Dctc34+hgH51IaSZJrDTZOQ3V9qOQlhX3op1SLHQ0YrbBxfln6TvHNNYvfHb
+ /G8ZPTf/+bhZHQkPMH8fMOcg7qaJlU6zPn94m6LxKCTo/rZsfkvINER1/Py4sYvzd1u9
+ 1JEw==
+X-Gm-Message-State: APjAAAXFApS1pBrSlHcx7myAehHHHpIZt9/RDmSdHbVCHSOfV3RzcnDU
+ 57yUie22+91/eQ7DsAMeI2PT8JMetoI=
+X-Google-Smtp-Source: APXvYqzg6UXnFuaoJm9RRMxc+WhIQvZBz6jIcXz3Vfad+Qr4JOIkZILmwaPTLaD5Wi5DTlkEu7zYdw==
+X-Received: by 2002:aa7:9a96:: with SMTP id w22mr16506404pfi.210.1580585384416; 
+ Sat, 01 Feb 2020 11:29:44 -0800 (PST)
 Received: from localhost.localdomain (97-126-123-70.tukw.qwest.net.
  [97.126.123.70])
- by smtp.gmail.com with ESMTPSA id l7sm3668509pga.27.2020.02.01.11.29.42
+ by smtp.gmail.com with ESMTPSA id l7sm3668509pga.27.2020.02.01.11.29.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 01 Feb 2020 11:29:42 -0800 (PST)
+ Sat, 01 Feb 2020 11:29:43 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 21/41] target/arm: Update arm_mmu_idx for VHE
-Date: Sat,  1 Feb 2020 11:28:56 -0800
-Message-Id: <20200201192916.31796-22-richard.henderson@linaro.org>
+Subject: [PATCH v6 22/41] target/arm: Update arm_sctlr for VHE
+Date: Sat,  1 Feb 2020 11:28:57 -0800
+Message-Id: <20200201192916.31796-23-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200201192916.31796-1-richard.henderson@linaro.org>
 References: <20200201192916.31796-1-richard.henderson@linaro.org>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::443
+X-Received-From: 2607:f8b0:4864:20::543
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,53 +84,137 @@ Cc: peter.maydell@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Return the indexes for the EL2&0 regime when the appropriate bits
-are set within HCR_EL2.
+Use the correct sctlr for EL2&0 regime.  Due to header ordering,
+and where arm_mmu_idx_el is declared, we need to move the function
+out of line.  Use the function in many more places in order to
+select the correct control.
 
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
-v4: Consistently check E2H & TGE & ELUsingAArch32(EL2).
-    Do not apply TGE at EL2.
+v3: Use arm_mmu_idx() to avoid incorrectly replicating the el2&0
+    condition therein.  Drop the change to cpu_get_dump_info, as
+    that needs a more significant rethink of hard-coded oddness.
+v4: Use arm_mmu_idx_el().
 ---
- target/arm/helper.c | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+ target/arm/cpu.h          | 10 +---------
+ target/arm/helper-a64.c   |  2 +-
+ target/arm/helper.c       | 20 +++++++++++++++-----
+ target/arm/pauth_helper.c |  9 +--------
+ 4 files changed, 18 insertions(+), 23 deletions(-)
 
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index 3fc0e6e746..68e11f0eda 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -3141,15 +3141,7 @@ static inline bool arm_sctlr_b(CPUARMState *env)
+         (env->cp15.sctlr_el[1] & SCTLR_B) != 0;
+ }
+ 
+-static inline uint64_t arm_sctlr(CPUARMState *env, int el)
+-{
+-    if (el == 0) {
+-        /* FIXME: ARMv8.1-VHE S2 translation regime.  */
+-        return env->cp15.sctlr_el[1];
+-    } else {
+-        return env->cp15.sctlr_el[el];
+-    }
+-}
++uint64_t arm_sctlr(CPUARMState *env, int el);
+ 
+ static inline bool arm_cpu_data_is_big_endian_a32(CPUARMState *env,
+                                                   bool sctlr_b)
+diff --git a/target/arm/helper-a64.c b/target/arm/helper-a64.c
+index 36aa6badfd..bf45f8a785 100644
+--- a/target/arm/helper-a64.c
++++ b/target/arm/helper-a64.c
+@@ -70,7 +70,7 @@ static void daif_check(CPUARMState *env, uint32_t op,
+                        uint32_t imm, uintptr_t ra)
+ {
+     /* DAIF update to PSTATE. This is OK from EL0 only if UMA is set.  */
+-    if (arm_current_el(env) == 0 && !(env->cp15.sctlr_el[1] & SCTLR_UMA)) {
++    if (arm_current_el(env) == 0 && !(arm_sctlr(env, 0) & SCTLR_UMA)) {
+         raise_exception_ra(env, EXCP_UDEF,
+                            syn_aa64_sysregtrap(0, extract32(op, 0, 3),
+                                                extract32(op, 3, 3), 4,
 diff --git a/target/arm/helper.c b/target/arm/helper.c
-index f7bc7f1a8d..9f8d7ca1f3 100644
+index 9f8d7ca1f3..e4f368d96b 100644
 --- a/target/arm/helper.c
 +++ b/target/arm/helper.c
-@@ -11318,12 +11318,16 @@ ARMMMUIdx arm_mmu_idx_el(CPUARMState *env, int el)
-         return arm_v7m_mmu_idx_for_secstate(env, env->v7m.secure);
+@@ -3913,7 +3913,7 @@ static void aa64_fpsr_write(CPUARMState *env, const ARMCPRegInfo *ri,
+ static CPAccessResult aa64_daif_access(CPUARMState *env, const ARMCPRegInfo *ri,
+                                        bool isread)
+ {
+-    if (arm_current_el(env) == 0 && !(env->cp15.sctlr_el[1] & SCTLR_UMA)) {
++    if (arm_current_el(env) == 0 && !(arm_sctlr(env, 0) & SCTLR_UMA)) {
+         return CP_ACCESS_TRAP;
+     }
+     return CP_ACCESS_OK;
+@@ -3932,7 +3932,7 @@ static CPAccessResult aa64_cacheop_access(CPUARMState *env,
+     /* Cache invalidate/clean: NOP, but EL0 must UNDEF unless
+      * SCTLR_EL1.UCI is set.
+      */
+-    if (arm_current_el(env) == 0 && !(env->cp15.sctlr_el[1] & SCTLR_UCI)) {
++    if (arm_current_el(env) == 0 && !(arm_sctlr(env, 0) & SCTLR_UCI)) {
+         return CP_ACCESS_TRAP;
+     }
+     return CP_ACCESS_OK;
+@@ -8738,14 +8738,24 @@ static uint32_t regime_el(CPUARMState *env, ARMMMUIdx mmu_idx)
+     }
+ }
+ 
+-#ifndef CONFIG_USER_ONLY
++uint64_t arm_sctlr(CPUARMState *env, int el)
++{
++    /* Only EL0 needs to be adjusted for EL1&0 or EL2&0. */
++    if (el == 0) {
++        ARMMMUIdx mmu_idx = arm_mmu_idx_el(env, 0);
++        el = (mmu_idx == ARMMMUIdx_E20_0 ? 2 : 1);
++    }
++    return env->cp15.sctlr_el[el];
++}
+ 
+ /* Return the SCTLR value which controls this address translation regime */
+-static inline uint32_t regime_sctlr(CPUARMState *env, ARMMMUIdx mmu_idx)
++static inline uint64_t regime_sctlr(CPUARMState *env, ARMMMUIdx mmu_idx)
+ {
+     return env->cp15.sctlr_el[regime_el(env, mmu_idx)];
+ }
+ 
++#ifndef CONFIG_USER_ONLY
++
+ /* Return true if the specified stage of address translation is disabled */
+ static inline bool regime_translation_disabled(CPUARMState *env,
+                                                ARMMMUIdx mmu_idx)
+@@ -11484,7 +11494,7 @@ static uint32_t rebuild_hflags_a64(CPUARMState *env, int el, int fp_el,
+         flags = FIELD_DP32(flags, TBFLAG_A64, ZCR_LEN, zcr_len);
      }
  
-+    /* See ARM pseudo-function ELIsInHost.  */
-     switch (el) {
-     case 0:
--        /* TODO: ARMv8.1-VHE */
-         if (arm_is_secure_below_el3(env)) {
-             return ARMMMUIdx_SE10_0;
-         }
-+        if ((env->cp15.hcr_el2 & (HCR_E2H | HCR_TGE)) == (HCR_E2H | HCR_TGE)
-+            && arm_el_is_aa64(env, 2)) {
-+            return ARMMMUIdx_E20_0;
-+        }
-         return ARMMMUIdx_E10_0;
-     case 1:
-         if (arm_is_secure_below_el3(env)) {
-@@ -11331,8 +11335,11 @@ ARMMMUIdx arm_mmu_idx_el(CPUARMState *env, int el)
-         }
-         return ARMMMUIdx_E10_1;
-     case 2:
--        /* TODO: ARMv8.1-VHE */
-         /* TODO: ARMv8.4-SecEL2 */
-+        /* Note that TGE does not apply at EL2.  */
-+        if ((env->cp15.hcr_el2 & HCR_E2H) && arm_el_is_aa64(env, 2)) {
-+            return ARMMMUIdx_E20_2;
-+        }
-         return ARMMMUIdx_E2;
-     case 3:
-         return ARMMMUIdx_SE3;
+-    sctlr = arm_sctlr(env, el);
++    sctlr = regime_sctlr(env, stage1);
+ 
+     if (arm_cpu_data_is_big_endian_a64(el, sctlr)) {
+         flags = FIELD_DP32(flags, TBFLAG_ANY, BE_DATA, 1);
+diff --git a/target/arm/pauth_helper.c b/target/arm/pauth_helper.c
+index 0a5f41e10c..e0c401c4a9 100644
+--- a/target/arm/pauth_helper.c
++++ b/target/arm/pauth_helper.c
+@@ -386,14 +386,7 @@ static void pauth_check_trap(CPUARMState *env, int el, uintptr_t ra)
+ 
+ static bool pauth_key_enabled(CPUARMState *env, int el, uint32_t bit)
+ {
+-    uint32_t sctlr;
+-    if (el == 0) {
+-        /* FIXME: ARMv8.1-VHE S2 translation regime.  */
+-        sctlr = env->cp15.sctlr_el[1];
+-    } else {
+-        sctlr = env->cp15.sctlr_el[el];
+-    }
+-    return (sctlr & bit) != 0;
++    return (arm_sctlr(env, el) & bit) != 0;
+ }
+ 
+ uint64_t HELPER(pacia)(CPUARMState *env, uint64_t x, uint64_t y)
 -- 
 2.20.1
 
