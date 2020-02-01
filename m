@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDC4D14FA4A
-	for <lists+qemu-devel@lfdr.de>; Sat,  1 Feb 2020 20:38:10 +0100 (CET)
-Received: from localhost ([::1]:49414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B51E14FA5A
+	for <lists+qemu-devel@lfdr.de>; Sat,  1 Feb 2020 20:43:50 +0100 (CET)
+Received: from localhost ([::1]:49834 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ixyao-0002si-0C
-	for lists+qemu-devel@lfdr.de; Sat, 01 Feb 2020 14:38:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58800)
+	id 1ixygH-00045U-3P
+	for lists+qemu-devel@lfdr.de; Sat, 01 Feb 2020 14:43:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58818)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1ixySi-0007g3-QB
- for qemu-devel@nongnu.org; Sat, 01 Feb 2020 14:29:50 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1ixySk-0007hm-Cw
+ for qemu-devel@nongnu.org; Sat, 01 Feb 2020 14:29:51 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1ixySh-0006ub-S0
- for qemu-devel@nongnu.org; Sat, 01 Feb 2020 14:29:48 -0500
-Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:41584)
+ (envelope-from <richard.henderson@linaro.org>) id 1ixySj-0006vd-2T
+ for qemu-devel@nongnu.org; Sat, 01 Feb 2020 14:29:50 -0500
+Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:32834)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1ixySh-0006tu-Lx
- for qemu-devel@nongnu.org; Sat, 01 Feb 2020 14:29:47 -0500
-Received: by mail-pf1-x441.google.com with SMTP id j9so2187558pfa.8
- for <qemu-devel@nongnu.org>; Sat, 01 Feb 2020 11:29:47 -0800 (PST)
+ id 1ixySi-0006v1-SC
+ for qemu-devel@nongnu.org; Sat, 01 Feb 2020 14:29:49 -0500
+Received: by mail-pg1-x541.google.com with SMTP id 6so5497281pgk.0
+ for <qemu-devel@nongnu.org>; Sat, 01 Feb 2020 11:29:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Norg9fPtXVkCxAbFxqHU+mKSGwd6dWrkKXpQEb83JIc=;
- b=o6riD22JdE0vtcQzXipfO5ZeBNdpHJVMwCDEYVec3QkaTID68o6Dd+hfP7sCkGD2Qk
- 8GCnYRBX7O5I/sMQhKzRuvZof7FqB0YVyRko+e5faQQJHG1dwMlbttP7d5p8mkZu0uIY
- 6OygE/TNOq/gOc5fnIE8SbaTtOmAZNavbgtlkM52NJxxG38/y9SSoYQVZD9wQgu+j3Zi
- DCx940eNNB3Fwv+oajNiKpZiAVGLxTw0SP8lmbZhg7s12im8h2Wd+IvPNnFzQVx4BY3t
- kFEIkkCsG+w2a1LYh9JnPsMtL60oXHXEzcUDYi9niIQfXaBCJCSatBkx9Ychw6As4xUt
- DPmA==
+ bh=6fBYDBbBGzGCNAPDa08PxtCmB4d0j+1WV/uHW0dOHhc=;
+ b=QvzshMOjxjCSBWhWmZCUNiXyko1+WoscNQpcmJoGxQ0bpvjlvnDmhhhlJNaUwe5Ywo
+ x0GvCJGamy2EJDMqWfwc7En0eTPlo2w3vzj+GgRrNRK7K/UeHaHleZ/WbQjviis4Zubq
+ DMKqfv133v3FKdENCV/qJtrBnTxEljdT4EsDhyprournUlSCpMjacOUKteYoBhB7HHgt
+ 1V6K1wcWTtVtJis4Tca3OBo9+wpUceim5e6iiEKRKeDL+1KFEcVo22e/vxYuXuRuRTJR
+ FRkxqzC8C6plnXQc//VtO9VFKRzGGtpq4tam4SEj9SI4ttuB60cU8CQ7W0bc1zpHxT3T
+ /ycQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Norg9fPtXVkCxAbFxqHU+mKSGwd6dWrkKXpQEb83JIc=;
- b=Dmm3sgwYQzNlUniuV/FpXaht0zO0G9e9jJhJbCtzSDeEE6mtwW1qucBYKVpaKAUEZ3
- JDQNL3mc/Qayh5RNXRK23FC5mYPM8vRFvN7NM5aALpiThVravy0zNBaNoy6Ab2etiEDr
- FTEbsgnD8H6C0FNwSrD09Rud+IPRoH5Trm5U0eLo9eMt2fLKCSFuU1tTYnZVn7WzUDVb
- dgriljBU1SSpxUk+ajxr57+N+r+EOab4aghBYxDvcCWYLj6XKnPiTn7pIKEQE1vaa0tr
- g+FWs1RHNoHSBSg2NRbUwuRQnAOVN5FY2qO8WXBfrk5h+KLvA7qanNUdxdUC+wt5zCyN
- LeFA==
-X-Gm-Message-State: APjAAAXOE5ikP7XLeNEKLxD8vJAHMxqiXZen4tOActbw+gW/6zc0vXvk
- B2xCqrQW7BVp1hiNzxcscePaPkx/950=
-X-Google-Smtp-Source: APXvYqxPTJkr1P8auMD8FJ7kRayioEO30jRFI9YRcKtOzMxb7DkN9eqZRlKhuaG39G2vakjd2CVpuw==
-X-Received: by 2002:a62:7a8a:: with SMTP id
- v132mr17567217pfc.111.1580585386460; 
- Sat, 01 Feb 2020 11:29:46 -0800 (PST)
+ bh=6fBYDBbBGzGCNAPDa08PxtCmB4d0j+1WV/uHW0dOHhc=;
+ b=fXp+zdhUkM9UIn59RHIW+YJr3+ssBHPltDtnalzSNUBLoD1TwHm+U1+59TzzzJJzcS
+ T60dVVEjWrwyRSpLengLJRSlrzCi+zxm5BUAIP+1bOz6Pz95r04CIZHODc+l1fAymbzQ
+ seO3+INAuTokB+IRaqlc0RSoA3EkkpIb6iz8D50YsgJ17fFGL8JptYtxAaDilUfHNetG
+ XL1TuN80vQcegt7sQO4noe9YEOPyJcLapYVFG5cmirFzrF/1sRHYaBm6oaPQ/HCouk5m
+ KQkwT6j8Us2ydiAV8P6A92ABfyMU4BpHwvIuSB5o4aBpJbzN+6RjcYPw7lf7iKF4lsNy
+ 80aQ==
+X-Gm-Message-State: APjAAAW+yqPi32Oj8bxCrGDI+TPypE4WewSknuw0p1tFyD7pDCP9HwR1
+ 8P2NiW3oaAhKZ/UGLAZI5IS3qYdepkM=
+X-Google-Smtp-Source: APXvYqxArT+X0Y1EpG2gE/X1MOg+TszlqyUGl4+wX2BpdmtSjtMHxAKo0EQMrwINcfR2nDjrOY0kzA==
+X-Received: by 2002:a63:f70e:: with SMTP id x14mr4397266pgh.71.1580585387721; 
+ Sat, 01 Feb 2020 11:29:47 -0800 (PST)
 Received: from localhost.localdomain (97-126-123-70.tukw.qwest.net.
  [97.126.123.70])
- by smtp.gmail.com with ESMTPSA id l7sm3668509pga.27.2020.02.01.11.29.45
+ by smtp.gmail.com with ESMTPSA id l7sm3668509pga.27.2020.02.01.11.29.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 01 Feb 2020 11:29:45 -0800 (PST)
+ Sat, 01 Feb 2020 11:29:47 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 24/41] target/arm: Update ctr_el0_access for EL2
-Date: Sat,  1 Feb 2020 11:28:59 -0800
-Message-Id: <20200201192916.31796-25-richard.henderson@linaro.org>
+Subject: [PATCH v6 25/41] target/arm: Add the hypervisor virtual counter
+Date: Sat,  1 Feb 2020 11:29:00 -0800
+Message-Id: <20200201192916.31796-26-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200201192916.31796-1-richard.henderson@linaro.org>
 References: <20200201192916.31796-1-richard.henderson@linaro.org>
@@ -68,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::441
+X-Received-From: 2607:f8b0:4864:20::541
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,51 +84,165 @@ Cc: peter.maydell@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Update to include checks against HCR_EL2.TID2.
-
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/helper.c | 26 +++++++++++++++++++++-----
- 1 file changed, 21 insertions(+), 5 deletions(-)
+ target/arm/cpu-qom.h |  1 +
+ target/arm/cpu.h     | 11 +++++----
+ target/arm/cpu.c     |  3 ++-
+ target/arm/helper.c  | 56 ++++++++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 65 insertions(+), 6 deletions(-)
 
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index e41bece6b5..72b336e3b5 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -5264,11 +5264,27 @@ static const ARMCPRegInfo el3_cp_reginfo[] = {
- static CPAccessResult ctr_el0_access(CPUARMState *env, const ARMCPRegInfo *ri,
-                                      bool isread)
- {
--    /* Only accessible in EL0 if SCTLR.UCT is set (and only in AArch64,
--     * but the AArch32 CTR has its own reginfo struct)
--     */
--    if (arm_current_el(env) == 0 && !(env->cp15.sctlr_el[1] & SCTLR_UCT)) {
--        return CP_ACCESS_TRAP;
-+    int cur_el = arm_current_el(env);
-+
-+    if (cur_el < 2) {
-+        uint64_t hcr = arm_hcr_el2_eff(env);
-+
-+        if (cur_el == 0) {
-+            if ((hcr & (HCR_E2H | HCR_TGE)) == (HCR_E2H | HCR_TGE)) {
-+                if (!(env->cp15.sctlr_el[2] & SCTLR_UCT)) {
-+                    return CP_ACCESS_TRAP_EL2;
-+                }
-+            } else {
-+                if (!(env->cp15.sctlr_el[1] & SCTLR_UCT)) {
-+                    return CP_ACCESS_TRAP;
-+                }
-+                if (hcr & HCR_TID2) {
-+                    return CP_ACCESS_TRAP_EL2;
-+                }
-+            }
-+        } else if (hcr & HCR_TID2) {
-+            return CP_ACCESS_TRAP_EL2;
-+        }
+diff --git a/target/arm/cpu-qom.h b/target/arm/cpu-qom.h
+index 7f5b244bde..3a9d31ea9d 100644
+--- a/target/arm/cpu-qom.h
++++ b/target/arm/cpu-qom.h
+@@ -76,6 +76,7 @@ void arm_gt_ptimer_cb(void *opaque);
+ void arm_gt_vtimer_cb(void *opaque);
+ void arm_gt_htimer_cb(void *opaque);
+ void arm_gt_stimer_cb(void *opaque);
++void arm_gt_hvtimer_cb(void *opaque);
+ 
+ #define ARM_AFF0_SHIFT 0
+ #define ARM_AFF0_MASK  (0xFFULL << ARM_AFF0_SHIFT)
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index 68e11f0eda..ded1e8e0a8 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -144,11 +144,12 @@ typedef struct ARMGenericTimer {
+     uint64_t ctl; /* Timer Control register */
+ } ARMGenericTimer;
+ 
+-#define GTIMER_PHYS 0
+-#define GTIMER_VIRT 1
+-#define GTIMER_HYP  2
+-#define GTIMER_SEC  3
+-#define NUM_GTIMERS 4
++#define GTIMER_PHYS     0
++#define GTIMER_VIRT     1
++#define GTIMER_HYP      2
++#define GTIMER_SEC      3
++#define GTIMER_HYPVIRT  4
++#define NUM_GTIMERS     5
+ 
+ typedef struct {
+     uint64_t raw_tcr;
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index f86e71a260..1ecf2adb6a 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -1272,7 +1272,6 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
+         }
      }
  
-     if (arm_current_el(env) < 2 && arm_hcr_el2_eff(env) & HCR_TID2) {
+-
+     {
+         uint64_t scale;
+ 
+@@ -1295,6 +1294,8 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
+                                               arm_gt_htimer_cb, cpu);
+         cpu->gt_timer[GTIMER_SEC] = timer_new(QEMU_CLOCK_VIRTUAL, scale,
+                                               arm_gt_stimer_cb, cpu);
++        cpu->gt_timer[GTIMER_HYPVIRT] = timer_new(QEMU_CLOCK_VIRTUAL, scale,
++                                                  arm_gt_hvtimer_cb, cpu);
+     }
+ #endif
+ 
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 72b336e3b5..996865a3a2 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -2556,6 +2556,7 @@ static uint64_t gt_tval_read(CPUARMState *env, const ARMCPRegInfo *ri,
+ 
+     switch (timeridx) {
+     case GTIMER_VIRT:
++    case GTIMER_HYPVIRT:
+         offset = gt_virt_cnt_offset(env);
+         break;
+     }
+@@ -2572,6 +2573,7 @@ static void gt_tval_write(CPUARMState *env, const ARMCPRegInfo *ri,
+ 
+     switch (timeridx) {
+     case GTIMER_VIRT:
++    case GTIMER_HYPVIRT:
+         offset = gt_virt_cnt_offset(env);
+         break;
+     }
+@@ -2727,6 +2729,34 @@ static void gt_sec_ctl_write(CPUARMState *env, const ARMCPRegInfo *ri,
+     gt_ctl_write(env, ri, GTIMER_SEC, value);
+ }
+ 
++static void gt_hv_timer_reset(CPUARMState *env, const ARMCPRegInfo *ri)
++{
++    gt_timer_reset(env, ri, GTIMER_HYPVIRT);
++}
++
++static void gt_hv_cval_write(CPUARMState *env, const ARMCPRegInfo *ri,
++                             uint64_t value)
++{
++    gt_cval_write(env, ri, GTIMER_HYPVIRT, value);
++}
++
++static uint64_t gt_hv_tval_read(CPUARMState *env, const ARMCPRegInfo *ri)
++{
++    return gt_tval_read(env, ri, GTIMER_HYPVIRT);
++}
++
++static void gt_hv_tval_write(CPUARMState *env, const ARMCPRegInfo *ri,
++                             uint64_t value)
++{
++    gt_tval_write(env, ri, GTIMER_HYPVIRT, value);
++}
++
++static void gt_hv_ctl_write(CPUARMState *env, const ARMCPRegInfo *ri,
++                            uint64_t value)
++{
++    gt_ctl_write(env, ri, GTIMER_HYPVIRT, value);
++}
++
+ void arm_gt_ptimer_cb(void *opaque)
+ {
+     ARMCPU *cpu = opaque;
+@@ -2755,6 +2785,13 @@ void arm_gt_stimer_cb(void *opaque)
+     gt_recalc_timer(cpu, GTIMER_SEC);
+ }
+ 
++void arm_gt_hvtimer_cb(void *opaque)
++{
++    ARMCPU *cpu = opaque;
++
++    gt_recalc_timer(cpu, GTIMER_HYPVIRT);
++}
++
+ static void arm_gt_cntfrq_reset(CPUARMState *env, const ARMCPRegInfo *opaque)
+ {
+     ARMCPU *cpu = env_archcpu(env);
+@@ -6164,6 +6201,25 @@ static const ARMCPRegInfo vhe_reginfo[] = {
+       .opc0 = 3, .opc1 = 4, .crn = 2, .crm = 0, .opc2 = 1,
+       .access = PL2_RW, .writefn = vmsa_tcr_ttbr_el2_write,
+       .fieldoffset = offsetof(CPUARMState, cp15.ttbr1_el[2]) },
++#ifndef CONFIG_USER_ONLY
++    { .name = "CNTHV_CVAL_EL2", .state = ARM_CP_STATE_AA64,
++      .opc0 = 3, .opc1 = 4, .crn = 14, .crm = 3, .opc2 = 2,
++      .fieldoffset =
++        offsetof(CPUARMState, cp15.c14_timer[GTIMER_HYPVIRT].cval),
++      .type = ARM_CP_IO, .access = PL2_RW,
++      .writefn = gt_hv_cval_write, .raw_writefn = raw_write },
++    { .name = "CNTHV_TVAL_EL2", .state = ARM_CP_STATE_BOTH,
++      .opc0 = 3, .opc1 = 4, .crn = 14, .crm = 3, .opc2 = 0,
++      .type = ARM_CP_NO_RAW | ARM_CP_IO, .access = PL2_RW,
++      .resetfn = gt_hv_timer_reset,
++      .readfn = gt_hv_tval_read, .writefn = gt_hv_tval_write },
++    { .name = "CNTHV_CTL_EL2", .state = ARM_CP_STATE_BOTH,
++      .type = ARM_CP_IO,
++      .opc0 = 3, .opc1 = 4, .crn = 14, .crm = 3, .opc2 = 1,
++      .access = PL2_RW,
++      .fieldoffset = offsetof(CPUARMState, cp15.c14_timer[GTIMER_HYPVIRT].ctl),
++      .writefn = gt_hv_ctl_write, .raw_writefn = raw_write },
++#endif
+     REGINFO_SENTINEL
+ };
+ 
 -- 
 2.20.1
 
