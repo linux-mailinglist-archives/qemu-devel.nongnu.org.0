@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2FCB14F5AA
-	for <lists+qemu-devel@lfdr.de>; Sat,  1 Feb 2020 02:23:19 +0100 (CET)
-Received: from localhost ([::1]:34622 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F77914F5A6
+	for <lists+qemu-devel@lfdr.de>; Sat,  1 Feb 2020 02:21:50 +0100 (CET)
+Received: from localhost ([::1]:34504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ixhVG-0006Nt-MF
-	for lists+qemu-devel@lfdr.de; Fri, 31 Jan 2020 20:23:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56883)
+	id 1ixhTp-0003fL-2l
+	for lists+qemu-devel@lfdr.de; Fri, 31 Jan 2020 20:21:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56825)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <prvs=2939926b3=alistair.francis@wdc.com>)
- id 1ixhHh-0002Va-8F
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 20:09:19 -0500
+ id 1ixhHd-0002Jd-1v
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 20:09:14 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <prvs=2939926b3=alistair.francis@wdc.com>)
- id 1ixhHg-0006Q0-6a
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 20:09:17 -0500
-Received: from esa4.hgst.iphmx.com ([216.71.154.42]:17180)
+ id 1ixhHb-0006OI-U4
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 20:09:12 -0500
+Received: from esa4.hgst.iphmx.com ([216.71.154.42]:17129)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <prvs=2939926b3=alistair.francis@wdc.com>)
- id 1ixhHf-0006KL-UZ; Fri, 31 Jan 2020 20:09:16 -0500
+ id 1ixhHa-00069K-Lj; Fri, 31 Jan 2020 20:09:11 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1580519355; x=1612055355;
+ t=1580519350; x=1612055350;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=JV9LwbirVJAgAd8SMVcXTJ8ffCWBRCIDZLnAyTyEOMs=;
- b=e2wVNVIuu7W2uVzhSNrPTSDycrbKvC+ybHARQcmdg9nOPqY/PNkjMZpD
- VFdYRnAF/0etOPRQwtIdKRurg7ma7p/NjKSLzwinF697G4w+XU2LGgYK0
- TWLmL1YpBegBXYnBsHUieyVOGsL+ZK/uWL72NJNsq2wwvngbILyf2yYKb
- O8ZFZciMlM4btV1P5eYRUW5HmDOHQ93+cDf7nRqVRw7VX47VOAtEiLjtJ
- ZbfhtY47rNG/5GizcbrTSnLn0Ko2sLi2n9VlGHSioEVsOdtyRHqIuKohR
- lJD/z0kINAHPD0TDU0rcCsil7ApyVRjCdHHep8Iklnbhl6EM2voTJX5Cc Q==;
-IronPort-SDR: ePaoIcrbhwnV/JQ/0pvrORpfRYCXRva4yrj+1OB7uOa1VkMK5Lg3pmV6iD024dzb5FIoKo+nyU
- 5sPF/9PqoE/KDzsLYwkzUAMUfvILa2sVBec2SpZqKlpuwcwXBU//P9GvV7d4uffzed98dcgLAk
- kbkGqBs+HnT80jfOKoIyqdcxXb5MUcrYes6HVOolM8pcLrAA/yc3NRikIV0pn+8gsX9mSfY1rL
- JIjPusV8zKgRhT3gCRh6+hUZJRXuL85wfpluO2v3orUN/fR9WF/z2MFHjpYOFTBCzbewyuuQ9D
- RSE=
-X-IronPort-AV: E=Sophos;i="5.70,388,1574092800"; d="scan'208";a="128872462"
+ bh=Ljs168UZUBbo6dIZ8/dJdfkn8W0XiTlZFPUCVAmDteA=;
+ b=Ci+5HvekCRGb3m5Bo9jKQKtshR4IHHu1wstCYx8iep/euHn5fNkIB2p1
+ bqjxRP2i4Yw5Gg8bHuiOFyheS9BxbvVaxmhQEsWRg3VM3mEo+HkZNsxA0
+ EJUdkJWg06kxigwm0Av9YLcWSQ8WyNE+Nzvjf8Wod+eBMEoQzuvh2SjUb
+ /fmIkjTKaOVEuB5XYS33jJ5E8X549Sa5Alv7mjVQG1doulhCrevxDdMYy
+ YQnjP4w0M2qvc0Z/00X1ySQ4tElxSLp5HRYnHqAlcFZtAI2zlCDRSJL5Y
+ br/za+fgEyzDigJ1jQgn8qnVdyVsOvhm+WTV1i2naOgfJafPcDiPqb7JD g==;
+IronPort-SDR: 3WNXANfKrM+n6JSPvVC2Uq+bddaXQWebHlwi5FkWbux14TWq3UqH1ORuer+GbDcnr+tGeb6Qux
+ wE/K4Rq8LthMb05J/8ffsykmZz407a+Yp4CFzOLYqzgfO1ON1eX912hh/6Joe9M7AkNtzaEFUz
+ RU5+kTT9iSG/Lx0S3IjVn3t+MIKIVm/V2vMj9FiCBbAqSlr+k2ug/JmG/XZjCbuVG+GyNQTyhX
+ NUTpDGk2AoZQ9FbeacpCKgALqcEZG/pcxACQgipzArg7BL/ylD2pccXL2W1kR3bEYZhtfZBiEs
+ WCs=
+X-IronPort-AV: E=Sophos;i="5.70,388,1574092800"; d="scan'208";a="128872467"
 Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 01 Feb 2020 09:08:54 +0800
-IronPort-SDR: nqLmzl9vdmJ6D8KISY3Irma4fOUUfncSqVZeuw8XZgYfCBM6V7KOVSFfgwO7kFziRWCPF3kpch
- cyte7OmaZKxS9K4f4t8PLdwax2iGQH/6e3K4DhISLi4+kWdwMe9nqnzW5Q6AGFMGHjBAZzrwlt
- WAL5zp8g1ClcvsOahDLobHsf/6TPzQEzVXb0sxbxk08emV2DWnrOrjbL1CVtxQuLSSWKWkU1y9
- LwgKe4I3c7t9XcuFik9C6c0G7QME4C6R+cMbJjY2K+3F4CM5fq6fSUQ2wZUeYGFO5uabbaj6uA
- C55btBUpWybr3cBUwp29Ua/F
-Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
+ by ob1.hgst.iphmx.com with ESMTP; 01 Feb 2020 09:08:57 +0800
+IronPort-SDR: L5dOPhmSK2EpcWFqR04x3vBxpo2zJsV5liMMnhwdGlgCeWF8lBl/C8lJwX1p+eZfM1UZemxxJE
+ B6k9H/VVnPYdOb4eYdOFUsPk0rrwA+Tmq4iLCv8wh93S9z1t5fW4EgfE8uMvpvb+yJVqtkJ/zL
+ vISBrqK9NHB4GBzzzns8J7dFnxIiKJ8D/RBNgva/qyDwyGwPIoGnBvDB+wZcjg0O62NP/usmBo
+ 2T6+XAOO3pEZ4+5wFcNdnYgNwTWH791hbLuzX5AvafC9ZZYOrbd0ODFwUT4Fr4th9TcumbOPCt
+ Osn38WZtxa2uDL2cV2POIROQ
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Jan 2020 17:02:03 -0800
-IronPort-SDR: jxC2OjS2FoJegBU5dMO/n8mqIirbEmr9jQXwrs77nMgZrya7tJ2Hugu7KXdyIEmb4mphOuZIGv
- bHgYOGbEeJv0Shtzkd7wGt5VHRIDj4azogv4e+j05i75XJA+zlfmOxVB5aQw8BjWPNuPUpmJh+
- FGUw2Z4Ds1xKti4YOm+UnewRKs7vVI3NF7lLLbdHwa4T0JvtPACHfFPB1qy3iJQoBgQM1HONYR
- koLupTuQdSI5LowBLrJCQnFuPqTVJxSqKWI83l0jXS20dncOGUMHQRgcbT4L2UXbq+S+8wZpru
- I9I=
+ 31 Jan 2020 17:02:05 -0800
+IronPort-SDR: arEM/C97mZQZQWiCh3DZCE9iMG5UO787EIFCJ96BijLGwG4FrEB9vf0mye8+2VejRRbQd4BBbR
+ rfb7nkWVFuaIAorTFCsRtrpsdk+Gqt7suhbYxy6zaaF+bfCl9feNVdyAxC5CFv4zsfDKvz9cvb
+ SvT2S+QjmwTwr8YssnFXRuT5mmTkRk3SjtwgVDY4Lta+qhRWoNYu6x/hyz1apb1P0PhD01TlyS
+ qeGj8EeIgV5ie0zGq0gpjJwOci6CJ7TDAi+IAfNJ9c5kUXz5xmiZiauLzaBpIG+9JVuqyR6BZQ
+ VVA=
 WDCIronportException: Internal
 Received: from risc6-mainframe.sdcorp.global.sandisk.com (HELO
  risc6-mainframe.int.fusionio.com) ([10.196.158.235])
- by uls-op-cesaip01.wdc.com with ESMTP; 31 Jan 2020 17:08:54 -0800
+ by uls-op-cesaip02.wdc.com with ESMTP; 31 Jan 2020 17:08:57 -0800
 From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Subject: [PATCH v2 16/35] target/riscv: Extend the MIE CSR to support
+Subject: [PATCH v2 17/35] target/riscv: Extend the SIP CSR to support
  virtulisation
-Date: Fri, 31 Jan 2020 17:02:17 -0800
-Message-Id: <2c7b5ae2fe313be30565f8370a039595607605cc.1580518859.git.alistair.francis@wdc.com>
+Date: Fri, 31 Jan 2020 17:02:20 -0800
+Message-Id: <39eac165cde84450279a4cbb887437fefe75fa04.1580518859.git.alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <cover.1580518859.git.alistair.francis@wdc.com>
 References: <cover.1580518859.git.alistair.francis@wdc.com>
@@ -92,56 +92,34 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Palmer Dabbelt <palmerdabbelt@google.com>
 ---
- target/riscv/csr.c | 24 ++++++++++++++++++++----
- 1 file changed, 20 insertions(+), 4 deletions(-)
+ target/riscv/csr.c | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
 
 diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index c0e942684d..918678789a 100644
+index 918678789a..2e6700bbeb 100644
 --- a/target/riscv/csr.c
 +++ b/target/riscv/csr.c
-@@ -244,8 +244,10 @@ static int read_timeh(CPURISCVState *env, int csrno, target_ulong *val)
- #define S_MODE_INTERRUPTS  (MIP_SSIP | MIP_STIP | MIP_SEIP)
- #define VS_MODE_INTERRUPTS (MIP_VSSIP | MIP_VSTIP | MIP_VSEIP)
- 
--static const target_ulong delegable_ints = S_MODE_INTERRUPTS;
--static const target_ulong all_ints = M_MODE_INTERRUPTS | S_MODE_INTERRUPTS;
-+static const target_ulong delegable_ints = S_MODE_INTERRUPTS |
-+                                           VS_MODE_INTERRUPTS;
-+static const target_ulong all_ints = M_MODE_INTERRUPTS | S_MODE_INTERRUPTS |
-+                                     VS_MODE_INTERRUPTS;
- static const target_ulong delegable_excps =
-     (1ULL << (RISCV_EXCP_INST_ADDR_MIS)) |
-     (1ULL << (RISCV_EXCP_INST_ACCESS_FAULT)) |
-@@ -630,13 +632,27 @@ static int write_sstatus(CPURISCVState *env, int csrno, target_ulong val)
- 
- static int read_sie(CPURISCVState *env, int csrno, target_ulong *val)
+@@ -743,8 +743,19 @@ static int write_sbadaddr(CPURISCVState *env, int csrno, target_ulong val)
+ static int rmw_sip(CPURISCVState *env, int csrno, target_ulong *ret_value,
+                    target_ulong new_value, target_ulong write_mask)
  {
--    *val = env->mie & env->mideleg;
-+    if (riscv_cpu_virt_enabled(env)) {
-+        /* Tell the guest the VS bits, shifted to the S bit locations */
-+        *val = (env->mie & env->mideleg & VS_MODE_INTERRUPTS) >> 1;
-+    } else {
-+        *val = env->mie & env->mideleg;
-+    }
-     return 0;
- }
- 
- static int write_sie(CPURISCVState *env, int csrno, target_ulong val)
- {
--    target_ulong newval = (env->mie & ~env->mideleg) | (val & env->mideleg);
-+    target_ulong newval;
+-    int ret = rmw_mip(env, CSR_MSTATUS, ret_value, new_value,
++    int ret;
 +
 +    if (riscv_cpu_virt_enabled(env)) {
-+        /* Shift the guests S bits to VS */
-+        newval = (env->mie & ~VS_MODE_INTERRUPTS) |
-+                 ((val << 1) & VS_MODE_INTERRUPTS);
++        /* Shift the new values to line up with the VS bits */
++        ret = rmw_mip(env, CSR_MSTATUS, ret_value, new_value << 1,
++                      (write_mask & sip_writable_mask) << 1 & env->mideleg);
++        ret &= vsip_writable_mask;
++        ret >>= 1;
 +    } else {
-+        newval = (env->mie & ~S_MODE_INTERRUPTS) | (val & S_MODE_INTERRUPTS);
++        ret = rmw_mip(env, CSR_MSTATUS, ret_value, new_value,
+                       write_mask & env->mideleg & sip_writable_mask);
 +    }
 +
-     return write_mie(env, CSR_MIE, newval);
+     *ret_value &= env->mideleg;
+     return ret;
  }
- 
 -- 
 2.25.0
 
