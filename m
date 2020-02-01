@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87F8C14FA50
-	for <lists+qemu-devel@lfdr.de>; Sat,  1 Feb 2020 20:40:02 +0100 (CET)
-Received: from localhost ([::1]:49464 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE0B014FA6C
+	for <lists+qemu-devel@lfdr.de>; Sat,  1 Feb 2020 20:51:47 +0100 (CET)
+Received: from localhost ([::1]:50154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ixycb-0006Cq-JZ
-	for lists+qemu-devel@lfdr.de; Sat, 01 Feb 2020 14:40:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58913)
+	id 1ixyny-0000xM-VW
+	for lists+qemu-devel@lfdr.de; Sat, 01 Feb 2020 14:51:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58924)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1ixySs-0007rC-F4
- for qemu-devel@nongnu.org; Sat, 01 Feb 2020 14:29:59 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1ixySt-0007s1-Oc
+ for qemu-devel@nongnu.org; Sat, 01 Feb 2020 14:30:02 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1ixySr-00073S-GA
- for qemu-devel@nongnu.org; Sat, 01 Feb 2020 14:29:58 -0500
-Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:37843)
+ (envelope-from <richard.henderson@linaro.org>) id 1ixySs-000748-A6
+ for qemu-devel@nongnu.org; Sat, 01 Feb 2020 14:29:59 -0500
+Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:33888)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1ixySq-00072N-Ow
- for qemu-devel@nongnu.org; Sat, 01 Feb 2020 14:29:57 -0500
-Received: by mail-pg1-x544.google.com with SMTP id q127so5484362pga.4
- for <qemu-devel@nongnu.org>; Sat, 01 Feb 2020 11:29:56 -0800 (PST)
+ id 1ixySs-00073g-4S
+ for qemu-devel@nongnu.org; Sat, 01 Feb 2020 14:29:58 -0500
+Received: by mail-pg1-x541.google.com with SMTP id j4so5489935pgi.1
+ for <qemu-devel@nongnu.org>; Sat, 01 Feb 2020 11:29:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=6o/uTqZDgskKImMCIDRtOPtsiJkqQrRQkaycCllMO/w=;
- b=nDYWcW9qbUqnb9DTbtrc4hGb0pgHjRIT6uFUczq6Wcg559NmlA+ARDjPXVy184fIP7
- 7m6Ju7sGc1v1U0rLPtAV4whOQ49SovByILP/agSBY21caYg1uR/ypCvmzsYWNLDROejO
- +nlcWL+XuJY3v3YMLOLneJNqd4HF5dls3sbdbL4DZZZMODX4iZaH1mxb0zlKOu5U5vl2
- iJplUhruQ57voy4Z9c+aLTJObPPi7bV+bwq5h09UdKjDQOPYchffjMkkU6yEQwk0MT2+
- gY9Q+TP8BiVdbIIjwmyF50h2UvMJmfgxB2KYTe6YqTcnmafb5yS7ttCebD+2EfEY/h/t
- 36cw==
+ bh=pksT15NnMmE71deplHUWkkiaf3u2bzdhxWoWyV+vt64=;
+ b=TbUDZ4zYBzixMyqtYQi31CiqcQdjidvoGxIISNrbLAxl0Ey0ZrUi0Hav4FgbUBaAXY
+ Zb6ZrMkjyeIuzq7V1/pufwsk+oJY0undvJVwpoc1nfxoC6bPqxzlFZf/hqA2rmHuU9C5
+ h66f0RCoJKtA9dSsIRZd1Zu2FcZac6iwmerYUIKV5HpT/zC24Ebdx2pgSBjgahGPg0DS
+ h1II7aOlCWnJn7NaJr6en4BbiUauSgoQdc5vol0mGvY6kEiPHwADENBKQVvXuamjs/K3
+ 7ohuA9v1wDv294CqpXri3tBu4tr/Vz0JpOEpsLASW7fnyFQYypV+yhrAfpTuCyK3A0Jx
+ kjNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=6o/uTqZDgskKImMCIDRtOPtsiJkqQrRQkaycCllMO/w=;
- b=fXCSiOd340ZsLHef8brosolaOt6CByLQVbz9f4/hMoXVIIkgNbAkFt9mNApi8p5ams
- d42/Bo0UlDz45aI55/ZcDHkL9JZAUVK2psTxIo51Ikm+8COFh/Ue5REu2fK+BYfxUyxU
- UHE/gt5kseG6+QBNLPp3zyK2HGeXXd0S/Qi1Pa8zliwSXvlIsYS0vmIGAPcNBFv44U6D
- 5br04VTDIfMJemuxUvjzly546iMqBEAtfw8tQxnZxq6yjK+jEEoemE8b5lCn4+tA0ztn
- Izp3s5KLOeSFzWdAPq3he2MvbLLj2mWoFF298vFetdW1G78Q8i4Laea66M6RaKoF8T6m
- nbUw==
-X-Gm-Message-State: APjAAAVwozSz7CFIU01yeH2uJSGQ7mChz2lQMPQJl9JaTUMKFM03kuLm
- Gq4M0TODvIDCu8oia96aOYcR8YspkLM=
-X-Google-Smtp-Source: APXvYqy/1J+wgRC/8xLqd0OH8RbrboBYKxgBxyCL7IG07kEGGUqgCuCwDWbnbu7ggNb2TnfAe24+ew==
-X-Received: by 2002:a63:4b24:: with SMTP id y36mr16677131pga.176.1580585395499; 
- Sat, 01 Feb 2020 11:29:55 -0800 (PST)
+ bh=pksT15NnMmE71deplHUWkkiaf3u2bzdhxWoWyV+vt64=;
+ b=PXnqkjH1yUQH2EyWWg+oWbihbfpJJfjnCxEh5NalaJjcW1+VJKE3NpjB53fMn9yWXJ
+ wa6hAUUvxZYSIF7T+I1qezTLDT7JYGkWwMRTHeTaWQ0zfE2OveZKiI8PK96iAgRn4007
+ FuL8ry8F1H91ZuAUa4AaHhtBxymsnzPnl32lGYQs0NhC20RabBYRuFCra5ehx9pmdcpe
+ PGqmMBK1phXPnvJwSm4f3Lf1YviQ6SReGEpGcD1D57g/Nqv3mnRMfHkftidg69oPXbfX
+ RIgtLdKRtwxsj8AA53Cbof667FMkw3VG/DV7iwX65N8tzKutvmt7+fXsGp37xVvrdF07
+ 6nzg==
+X-Gm-Message-State: APjAAAXf65m93DdaGwoQi9kLsNaqvvpC+JPGzPO1C90qw+sTS551yb3v
+ VQmf4Fokl1C4ALAjSfTTgvrqU3cksY4=
+X-Google-Smtp-Source: APXvYqwE+DIcGUMBFPYg+JEz1gx3SXZ8jZNwjEYBX4pfOKZ7I3CtMqZv2kG6elL5b61qxyLtbrVJiw==
+X-Received: by 2002:a62:e719:: with SMTP id s25mr15339208pfh.40.1580585396929; 
+ Sat, 01 Feb 2020 11:29:56 -0800 (PST)
 Received: from localhost.localdomain (97-126-123-70.tukw.qwest.net.
  [97.126.123.70])
- by smtp.gmail.com with ESMTPSA id l7sm3668509pga.27.2020.02.01.11.29.54
+ by smtp.gmail.com with ESMTPSA id l7sm3668509pga.27.2020.02.01.11.29.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 01 Feb 2020 11:29:54 -0800 (PST)
+ Sat, 01 Feb 2020 11:29:56 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 32/41] target/arm: Update arm_phys_excp_target_el for TGE
-Date: Sat,  1 Feb 2020 11:29:07 -0800
-Message-Id: <20200201192916.31796-33-richard.henderson@linaro.org>
+Subject: [PATCH v6 33/41] target/arm: Update {fp,sve}_exception_el for VHE
+Date: Sat,  1 Feb 2020 11:29:08 -0800
+Message-Id: <20200201192916.31796-34-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200201192916.31796-1-richard.henderson@linaro.org>
 References: <20200201192916.31796-1-richard.henderson@linaro.org>
@@ -66,7 +66,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::544
+X-Received-From: 2607:f8b0:4864:20::541
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,31 +82,103 @@ Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The TGE bit routes all asynchronous exceptions to EL2.
+When TGE+E2H are both set, CPACR_EL1 is ignored.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/helper.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ target/arm/helper.c | 53 ++++++++++++++++++++++++---------------------
+ 1 file changed, 28 insertions(+), 25 deletions(-)
 
 diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 0e2278b5aa..c239711641 100644
+index c239711641..5b4e83adfd 100644
 --- a/target/arm/helper.c
 +++ b/target/arm/helper.c
-@@ -8455,6 +8455,12 @@ uint32_t arm_phys_excp_target_el(CPUState *cs, uint32_t excp_idx,
-         break;
-     };
- 
-+    /*
-+     * For these purposes, TGE and AMO/IMO/FMO both force the
-+     * interrupt to EL2.  Fold TGE into the bit extracted above.
-+     */
-+    hcr |= (hcr_el2 & HCR_TGE) != 0;
+@@ -5800,7 +5800,9 @@ static const ARMCPRegInfo debug_lpae_cp_reginfo[] = {
+ int sve_exception_el(CPUARMState *env, int el)
+ {
+ #ifndef CONFIG_USER_ONLY
+-    if (el <= 1) {
++    uint64_t hcr_el2 = arm_hcr_el2_eff(env);
 +
-     /* Perform a table-lookup for the target EL given the current state */
-     target_el = target_el_table[is64][scr][rw][hcr][secure][cur_el];
++    if (el <= 1 && (hcr_el2 & (HCR_E2H | HCR_TGE)) != (HCR_E2H | HCR_TGE)) {
+         bool disabled = false;
  
+         /* The CPACR.ZEN controls traps to EL1:
+@@ -5815,8 +5817,7 @@ int sve_exception_el(CPUARMState *env, int el)
+         }
+         if (disabled) {
+             /* route_to_el2 */
+-            return (arm_feature(env, ARM_FEATURE_EL2)
+-                    && (arm_hcr_el2_eff(env) & HCR_TGE) ? 2 : 1);
++            return hcr_el2 & HCR_TGE ? 2 : 1;
+         }
+ 
+         /* Check CPACR.FPEN.  */
+@@ -11700,8 +11701,6 @@ uint32_t HELPER(crc32c)(uint32_t acc, uint32_t val, uint32_t bytes)
+ int fp_exception_el(CPUARMState *env, int cur_el)
+ {
+ #ifndef CONFIG_USER_ONLY
+-    int fpen;
+-
+     /* CPACR and the CPTR registers don't exist before v6, so FP is
+      * always accessible
+      */
+@@ -11729,30 +11728,34 @@ int fp_exception_el(CPUARMState *env, int cur_el)
+      * 0, 2 : trap EL0 and EL1/PL1 accesses
+      * 1    : trap only EL0 accesses
+      * 3    : trap no accesses
++     * This register is ignored if E2H+TGE are both set.
+      */
+-    fpen = extract32(env->cp15.cpacr_el1, 20, 2);
+-    switch (fpen) {
+-    case 0:
+-    case 2:
+-        if (cur_el == 0 || cur_el == 1) {
+-            /* Trap to PL1, which might be EL1 or EL3 */
+-            if (arm_is_secure(env) && !arm_el_is_aa64(env, 3)) {
++    if ((arm_hcr_el2_eff(env) & (HCR_E2H | HCR_TGE)) != (HCR_E2H | HCR_TGE)) {
++        int fpen = extract32(env->cp15.cpacr_el1, 20, 2);
++
++        switch (fpen) {
++        case 0:
++        case 2:
++            if (cur_el == 0 || cur_el == 1) {
++                /* Trap to PL1, which might be EL1 or EL3 */
++                if (arm_is_secure(env) && !arm_el_is_aa64(env, 3)) {
++                    return 3;
++                }
++                return 1;
++            }
++            if (cur_el == 3 && !is_a64(env)) {
++                /* Secure PL1 running at EL3 */
+                 return 3;
+             }
+-            return 1;
++            break;
++        case 1:
++            if (cur_el == 0) {
++                return 1;
++            }
++            break;
++        case 3:
++            break;
+         }
+-        if (cur_el == 3 && !is_a64(env)) {
+-            /* Secure PL1 running at EL3 */
+-            return 3;
+-        }
+-        break;
+-    case 1:
+-        if (cur_el == 0) {
+-            return 1;
+-        }
+-        break;
+-    case 3:
+-        break;
+     }
+ 
+     /*
 -- 
 2.20.1
 
