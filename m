@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECB6814FA67
-	for <lists+qemu-devel@lfdr.de>; Sat,  1 Feb 2020 20:49:05 +0100 (CET)
-Received: from localhost ([::1]:50066 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDC4D14FA4A
+	for <lists+qemu-devel@lfdr.de>; Sat,  1 Feb 2020 20:38:10 +0100 (CET)
+Received: from localhost ([::1]:49414 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ixylN-0004FD-1U
-	for lists+qemu-devel@lfdr.de; Sat, 01 Feb 2020 14:49:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58787)
+	id 1ixyao-0002si-0C
+	for lists+qemu-devel@lfdr.de; Sat, 01 Feb 2020 14:38:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58800)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1ixySh-0007es-TO
- for qemu-devel@nongnu.org; Sat, 01 Feb 2020 14:29:48 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1ixySi-0007g3-QB
+ for qemu-devel@nongnu.org; Sat, 01 Feb 2020 14:29:50 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1ixySg-0006tZ-RG
- for qemu-devel@nongnu.org; Sat, 01 Feb 2020 14:29:47 -0500
-Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:46579)
+ (envelope-from <richard.henderson@linaro.org>) id 1ixySh-0006ub-S0
+ for qemu-devel@nongnu.org; Sat, 01 Feb 2020 14:29:48 -0500
+Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:41584)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1ixySg-0006t6-La
- for qemu-devel@nongnu.org; Sat, 01 Feb 2020 14:29:46 -0500
-Received: by mail-pg1-x541.google.com with SMTP id z124so5463965pgb.13
- for <qemu-devel@nongnu.org>; Sat, 01 Feb 2020 11:29:46 -0800 (PST)
+ id 1ixySh-0006tu-Lx
+ for qemu-devel@nongnu.org; Sat, 01 Feb 2020 14:29:47 -0500
+Received: by mail-pf1-x441.google.com with SMTP id j9so2187558pfa.8
+ for <qemu-devel@nongnu.org>; Sat, 01 Feb 2020 11:29:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=jMzpsQB0pS3SDomXtbYrmrRRLdb/Rnlv6gkmO2VOo+M=;
- b=Gla7s8qwMa3uLBHCzJuEPEIDR+33F2tawlP55oVkNWuwqdjEjHuLqEPv1K7u2fjNCe
- dpBcc4Dy2plQ1x++hiAW+g1X004gkWQbNyI3FtGxXOihw9n5Mx1wvGUAwKEQxrdwYh1W
- w9+A9871dDMHJh5g9g8hWQygPA8SIiw5gDtldACT9CM3jySKZcV1fQcs/JsAVkBBQUZO
- 5lYlJiIyML1/SWgjexpd3FkeosveY3i0nMeK/tl9SDlJf1yV2gTXv9yYlGcfOGzh4FjG
- nmGSyTrZJ7/o6i+gJbM8JUtFuCOqUKVaqz/mfj0pZ+E3z5khu4vEPwWiy+bpm9PRoxuX
- CmHQ==
+ bh=Norg9fPtXVkCxAbFxqHU+mKSGwd6dWrkKXpQEb83JIc=;
+ b=o6riD22JdE0vtcQzXipfO5ZeBNdpHJVMwCDEYVec3QkaTID68o6Dd+hfP7sCkGD2Qk
+ 8GCnYRBX7O5I/sMQhKzRuvZof7FqB0YVyRko+e5faQQJHG1dwMlbttP7d5p8mkZu0uIY
+ 6OygE/TNOq/gOc5fnIE8SbaTtOmAZNavbgtlkM52NJxxG38/y9SSoYQVZD9wQgu+j3Zi
+ DCx940eNNB3Fwv+oajNiKpZiAVGLxTw0SP8lmbZhg7s12im8h2Wd+IvPNnFzQVx4BY3t
+ kFEIkkCsG+w2a1LYh9JnPsMtL60oXHXEzcUDYi9niIQfXaBCJCSatBkx9Ychw6As4xUt
+ DPmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=jMzpsQB0pS3SDomXtbYrmrRRLdb/Rnlv6gkmO2VOo+M=;
- b=a+4oSUGFkR8jpNt5SGiKDgSowgB3LWWwfT4pTHuSajie+p2eUBuqGtugq+FWQfwEgl
- haDQjHHSvWU8NmGWW3rgWXF4NlwnuqBHN2VG6lVou1qbXd4iem02mm2TyKwvmNgGVdrW
- Y1Gm6hjbhn5QVIERyGee5D2i1IYYJydjAKNlKNshZQSBqGn9KjH2CON5utizwku15The
- Vd7lSTVmkOLN+aBtCRcvCrpiCJaPSgwntVwaAFH9yPDkvrWRvwWOhbGcbOuvnTAq9rTM
- Ec1eyW/hn7g3d4SrhKljOvrEbQF+L0idaBzI3EH1AYG8FFoMEIpq3+nptUYTu8BzeYrZ
- YSYw==
-X-Gm-Message-State: APjAAAVlDkvazGJxKubglBXnphmAdDGSk0dR1KoF+qoQGp7vyiOmpxkt
- qAkhAJ5z0xKhNlH3AUErhMJ7cac+qf8=
-X-Google-Smtp-Source: APXvYqyV/GD3Htzc0T4c7ZZz+73G+lpKbPnGjqGeddCKtsMKdVpWd/fohy5IeqoikQqgRktxahxZ2w==
-X-Received: by 2002:a63:ce4b:: with SMTP id r11mr17524118pgi.419.1580585385487; 
- Sat, 01 Feb 2020 11:29:45 -0800 (PST)
+ bh=Norg9fPtXVkCxAbFxqHU+mKSGwd6dWrkKXpQEb83JIc=;
+ b=Dmm3sgwYQzNlUniuV/FpXaht0zO0G9e9jJhJbCtzSDeEE6mtwW1qucBYKVpaKAUEZ3
+ JDQNL3mc/Qayh5RNXRK23FC5mYPM8vRFvN7NM5aALpiThVravy0zNBaNoy6Ab2etiEDr
+ FTEbsgnD8H6C0FNwSrD09Rud+IPRoH5Trm5U0eLo9eMt2fLKCSFuU1tTYnZVn7WzUDVb
+ dgriljBU1SSpxUk+ajxr57+N+r+EOab4aghBYxDvcCWYLj6XKnPiTn7pIKEQE1vaa0tr
+ g+FWs1RHNoHSBSg2NRbUwuRQnAOVN5FY2qO8WXBfrk5h+KLvA7qanNUdxdUC+wt5zCyN
+ LeFA==
+X-Gm-Message-State: APjAAAXOE5ikP7XLeNEKLxD8vJAHMxqiXZen4tOActbw+gW/6zc0vXvk
+ B2xCqrQW7BVp1hiNzxcscePaPkx/950=
+X-Google-Smtp-Source: APXvYqxPTJkr1P8auMD8FJ7kRayioEO30jRFI9YRcKtOzMxb7DkN9eqZRlKhuaG39G2vakjd2CVpuw==
+X-Received: by 2002:a62:7a8a:: with SMTP id
+ v132mr17567217pfc.111.1580585386460; 
+ Sat, 01 Feb 2020 11:29:46 -0800 (PST)
 Received: from localhost.localdomain (97-126-123-70.tukw.qwest.net.
  [97.126.123.70])
- by smtp.gmail.com with ESMTPSA id l7sm3668509pga.27.2020.02.01.11.29.44
+ by smtp.gmail.com with ESMTPSA id l7sm3668509pga.27.2020.02.01.11.29.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 01 Feb 2020 11:29:44 -0800 (PST)
+ Sat, 01 Feb 2020 11:29:45 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 23/41] target/arm: Update aa64_zva_access for EL2
-Date: Sat,  1 Feb 2020 11:28:58 -0800
-Message-Id: <20200201192916.31796-24-richard.henderson@linaro.org>
+Subject: [PATCH v6 24/41] target/arm: Update ctr_el0_access for EL2
+Date: Sat,  1 Feb 2020 11:28:59 -0800
+Message-Id: <20200201192916.31796-25-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200201192916.31796-1-richard.henderson@linaro.org>
 References: <20200201192916.31796-1-richard.henderson@linaro.org>
@@ -67,7 +68,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::541
+X-Received-From: 2607:f8b0:4864:20::441
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,8 +85,7 @@ Cc: peter.maydell@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The comment that we don't support EL2 is somewhat out of date.
-Update to include checks against HCR_EL2.TDZ.
+Update to include checks against HCR_EL2.TID2.
 
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
@@ -94,17 +94,17 @@ Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
  1 file changed, 21 insertions(+), 5 deletions(-)
 
 diff --git a/target/arm/helper.c b/target/arm/helper.c
-index e4f368d96b..e41bece6b5 100644
+index e41bece6b5..72b336e3b5 100644
 --- a/target/arm/helper.c
 +++ b/target/arm/helper.c
-@@ -4159,11 +4159,27 @@ static void tlbi_aa64_ipas2e1is_write(CPUARMState *env, const ARMCPRegInfo *ri,
- static CPAccessResult aa64_zva_access(CPUARMState *env, const ARMCPRegInfo *ri,
-                                       bool isread)
+@@ -5264,11 +5264,27 @@ static const ARMCPRegInfo el3_cp_reginfo[] = {
+ static CPAccessResult ctr_el0_access(CPUARMState *env, const ARMCPRegInfo *ri,
+                                      bool isread)
  {
--    /* We don't implement EL2, so the only control on DC ZVA is the
--     * bit in the SCTLR which can prohibit access for EL0.
+-    /* Only accessible in EL0 if SCTLR.UCT is set (and only in AArch64,
+-     * but the AArch32 CTR has its own reginfo struct)
 -     */
--    if (arm_current_el(env) == 0 && !(env->cp15.sctlr_el[1] & SCTLR_DZE)) {
+-    if (arm_current_el(env) == 0 && !(env->cp15.sctlr_el[1] & SCTLR_UCT)) {
 -        return CP_ACCESS_TRAP;
 +    int cur_el = arm_current_el(env);
 +
@@ -113,23 +113,23 @@ index e4f368d96b..e41bece6b5 100644
 +
 +        if (cur_el == 0) {
 +            if ((hcr & (HCR_E2H | HCR_TGE)) == (HCR_E2H | HCR_TGE)) {
-+                if (!(env->cp15.sctlr_el[2] & SCTLR_DZE)) {
++                if (!(env->cp15.sctlr_el[2] & SCTLR_UCT)) {
 +                    return CP_ACCESS_TRAP_EL2;
 +                }
 +            } else {
-+                if (!(env->cp15.sctlr_el[1] & SCTLR_DZE)) {
++                if (!(env->cp15.sctlr_el[1] & SCTLR_UCT)) {
 +                    return CP_ACCESS_TRAP;
 +                }
-+                if (hcr & HCR_TDZ) {
++                if (hcr & HCR_TID2) {
 +                    return CP_ACCESS_TRAP_EL2;
 +                }
 +            }
-+        } else if (hcr & HCR_TDZ) {
++        } else if (hcr & HCR_TID2) {
 +            return CP_ACCESS_TRAP_EL2;
 +        }
      }
-     return CP_ACCESS_OK;
- }
+ 
+     if (arm_current_el(env) < 2 && arm_hcr_el2_eff(env) & HCR_TID2) {
 -- 
 2.20.1
 
