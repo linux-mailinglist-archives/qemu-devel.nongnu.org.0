@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58B9F14F5B0
-	for <lists+qemu-devel@lfdr.de>; Sat,  1 Feb 2020 02:26:31 +0100 (CET)
-Received: from localhost ([::1]:34704 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C41A14F5A9
+	for <lists+qemu-devel@lfdr.de>; Sat,  1 Feb 2020 02:23:17 +0100 (CET)
+Received: from localhost ([::1]:34618 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ixhYM-0002Qb-BC
-	for lists+qemu-devel@lfdr.de; Fri, 31 Jan 2020 20:26:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57197)
+	id 1ixhVE-0006Kz-8B
+	for lists+qemu-devel@lfdr.de; Fri, 31 Jan 2020 20:23:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57139)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <prvs=2939926b3=alistair.francis@wdc.com>)
- id 1ixhIM-00044p-LX
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 20:09:59 -0500
+ id 1ixhIJ-0003uT-4j
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 20:09:56 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <prvs=2939926b3=alistair.francis@wdc.com>)
- id 1ixhIL-0006h8-JR
- for qemu-devel@nongnu.org; Fri, 31 Jan 2020 20:09:58 -0500
-Received: from esa4.hgst.iphmx.com ([216.71.154.42]:17177)
+ id 1ixhII-0006fS-7l
+ for qemu-devel@nongnu.org; Fri, 31 Jan 2020 20:09:55 -0500
+Received: from esa4.hgst.iphmx.com ([216.71.154.42]:17129)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <prvs=2939926b3=alistair.francis@wdc.com>)
- id 1ixhIL-0006JU-AS; Fri, 31 Jan 2020 20:09:57 -0500
+ id 1ixhIH-00069K-VQ; Fri, 31 Jan 2020 20:09:54 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1580519396; x=1612055396;
+ t=1580519393; x=1612055393;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=BKj4+XG8YW0q5cgQbIAIcsOQyLvJBI4Rl5XMrfwJLkE=;
- b=hqdULqlLHlArIwkFYVAk57O6GURLR+4TsbUWpK43CzQk0bvoOlkzKrwT
- o3mVsdIwdZDVPO+URAf9+WOeUY//WyDQ3Rl5KVUIFgBVzdHUXdz9lnOOF
- X0t1UhDULzTaU7qY9rHnKU24LnvKTIWN+otLKagSZmbS/8mH/KTzIbmYI
- N3NdGoi+YxBp7JIXh7kCN09wDRH7lM5v5TrF4WMp3fUmz0lRlilamIaqw
- Gik+ngOoSGEmjc4nQLo9LfA6yI1cgEUFF6GBiprNM3q6yDZ8i0V9l4cNa
- vgfJ6/vjpxxiRDRjstXLQK5bDAM1P3prbthO0kONStAw8Q7C24/b5dMEW w==;
-IronPort-SDR: a/S5ajjofxy+CZ8PZt1cm6SB6I4hXmRPszn3JRGS+iWba8JgzDGa+hS3cSI/RFG8gUcSt/9Fhm
- iHIusxzdB2h2WbfGT/56MNaprhofd7WF+fKpu8T4gv2FLOusjjXMeTR9G7IZBs5gj7cugDdx3Z
- 41qjpIGdYAOD+QumHQ//86bzN4vl/JexGamHEuAXYBalu4NcAd2aFZ5Hl0L5HVdwLB2U+sEy9y
- 6ynfDhDaDlo7uGKXt9hIS2ulMBYPyx2nY9P4u3GZ2lhLf8CHWvOZLHdXg2BQGffZRPfoJCxwT5
- lMU=
-X-IronPort-AV: E=Sophos;i="5.70,388,1574092800"; d="scan'208";a="128872483"
+ bh=IMNpwSVAgvEgNAhMhGCgLlEg4EDzXqZf8Go08P6JEo8=;
+ b=ewcJm9Lr8ZIJrjMJeQLEXbrf0jcJH29jwNCg8KJ7KliSiWj7ToQjbwDR
+ n3+sr+7gZxqO6/FNvcYu3P6GIGQ4HE304SXdTeqnCQyIdpSZX7/bUjAPA
+ DlIxTNW6ck4aWZ4R+9wDUG3t6uI/sBsq7iIYil35A36adR35QrnwlNXnj
+ F69GYddg2tjAyIvkIVT1+cZjyHb2q/IgnSPKjiyiid4kSRnc1HLMGwcn7
+ GpCiGQTQ4muMYDEGsWJRuugRxg/AWlDRmCQf2l9hhnufnnjVPRtxvRtPJ
+ nlmH+S0CMx8DQ9duRMcvhw30rsyQgyrSpleHeUl9y7yg0dROvgvb+rEQ7 g==;
+IronPort-SDR: KsoWscCqzHaM/gw586789UsBy5ThqrZ2VcHICj+g11RJvzrgwCfsw7ot1qjD6IaBl8kgNNM/tJ
+ RWjFf9g01wUpN6PWV3UcRYOXHuqg07MrVgBpq4Eg0lnvEmlE5W4wr+vIpUrgX2EFEjN0KCJU/7
+ Bp7onCDhTbxL/TfBdvHOHqFu1waJpFDTk0oa2RHUL2ewn0O5S9A1YDv9Q49W0CihJb9b1sIA2t
+ cguyI2vqO+kB1Z/MGQ8DgoTHErWAblK+2F0XCw0QhL1InsXjRWOcsk9qqMvNz0uGqozJfPpFtQ
+ DiI=
+X-IronPort-AV: E=Sophos;i="5.70,388,1574092800"; d="scan'208";a="128872484"
 Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 01 Feb 2020 09:09:15 +0800
-IronPort-SDR: 78vd74HWmLlC8o1jerZJhtFBYA2TOA3POhLV3bm4Jr5rnzx+RjRUIxMXMagbPhtOSvoi6SHQ5L
- 9aB1ckefT/sl3qBGwtbVy5zDByodJZWKBzWR60zNxJh49AJyfLgCd0+ALbq2pntQr2sHa/+IQe
- DRYJzTS20ZO0nXm7mmeUuOut5ZXnQLU4QtT1h5HiN0GQLp8uYHCiDxYBh+3UJozH6qe9b/hnUE
- HbFgdn0yyYfAFdkYM6tVLi7gXIv7g42C3A5D23TLzZ44TdBDp0HYUuYuWXwrNoizjtNqbLebjA
- N1LHB9d6dL0ZcMCAKLfF90wG
+ by ob1.hgst.iphmx.com with ESMTP; 01 Feb 2020 09:09:18 +0800
+IronPort-SDR: XiqFQ+Zr723J7EvbfOFqWmf7LN5TCMfrGPyJgIyod72Rkipez5VDGjKGdLAGidGL1NGpr50fbP
+ FDtbunRhBiH/LckTnIxCkdHkJQrzV7TywdoTsfSXdhX7k9FMGzMZIJgkL/lWfb28zRN0z8uY3Z
+ KOhhE7FGDF5GLMBxBoIRK1KaCzYCsZIo9r292lQTEbEYUWxUAyjTrjHSKxf6yD6JSh1FTGi5tM
+ ymfBHOi7DZGgA6IwvotL2QSGNQ/FTGKrH29DocJwlhlgUi+KliPtTDHy0JmA1xPHXVET4FQp4l
+ 9F1tmyrjXGkGcrRcaRGbHxq1
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Jan 2020 17:02:24 -0800
-IronPort-SDR: rUmK1oE+zeiXw6gyVE7UZwWLDTywwi7lC0pm07A78awcq5d+9K8Rykx7uqvY6nKrVwUffzQFU0
- /qLMC+TC6skaAD7+46TJVNsXnqC6Y+pDKk4NgRAI9Hw3CZuFOV7AHT3ovdx02+GrPUWyy7VfJq
- 3AnVu7X4PnLJOlQnWhvOF0S9beHII39Py/HVyiwQahqUNQYURa6FOloMzbQCn5U7ZHft5ZCUPM
- JZx5rDZ54kmd1SegkL/W2taAfEgmuGosecU2Oydr8+PuX9jYSQdD3iLtZoRlN0VgyAsMcmqT/W
- VP0=
+ 31 Jan 2020 17:02:26 -0800
+IronPort-SDR: Od8sdJWYdtDHMvi/yGu2phityyLq9zVU2nbfuQas8DMAzL3MPqGAGQQfTzIMXvY07WncmWzvhy
+ tP8BcJc1AXUb0ckUFwkaxlau6WTGb1U48m+13BTbm6xNaKewRKuFo3mp3R8nGBCGcYDKrAw+19
+ dCm6FkuPvpVDUihjv9VvHjrivTZia2Hjg+a/zCGZnGdce2eabKXvqVViXj8w8Ei+alteeBqw0e
+ 71tj+fMAAKvjXzXP7wfs/gJUL2FIudG5MRFtZA8tRqZWHnY+1D0lFde2R0WcfEgQ2VP5DWLgQx
+ Q8s=
 WDCIronportException: Internal
 Received: from risc6-mainframe.sdcorp.global.sandisk.com (HELO
  risc6-mainframe.int.fusionio.com) ([10.196.158.235])
- by uls-op-cesaip02.wdc.com with ESMTP; 31 Jan 2020 17:09:15 -0800
+ by uls-op-cesaip02.wdc.com with ESMTP; 31 Jan 2020 17:09:18 -0800
 From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Subject: [PATCH v2 24/35] target/riscv: Remove the hret instruction
-Date: Fri, 31 Jan 2020 17:02:38 -0800
-Message-Id: <39083deec532135287402aab20ab370f4cad68e3.1580518859.git.alistair.francis@wdc.com>
+Subject: [PATCH v2 25/35] target/riscv: Only set TB flags with FP status if
+ enabled
+Date: Fri, 31 Jan 2020 17:02:41 -0800
+Message-Id: <e8605241a8acc3ead0177d723f70a44d08234b24.1580518859.git.alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <cover.1580518859.git.alistair.francis@wdc.com>
 References: <cover.1580518859.git.alistair.francis@wdc.com>
@@ -88,44 +89,27 @@ Cc: alistair.francis@wdc.com, palmer@dabbelt.com, alistair23@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The hret instruction does not exist in the new spec versions, so remove
-it from QEMU.
-
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Palmer Dabbelt <palmerdabbelt@google.com>
 ---
- target/riscv/insn32.decode                     | 1 -
- target/riscv/insn_trans/trans_privileged.inc.c | 5 -----
- 2 files changed, 6 deletions(-)
+ target/riscv/cpu.h | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-index cfd9ca6d2b..b883672e63 100644
---- a/target/riscv/insn32.decode
-+++ b/target/riscv/insn32.decode
-@@ -75,7 +75,6 @@ ecall       000000000000     00000 000 00000 1110011
- ebreak      000000000001     00000 000 00000 1110011
- uret        0000000    00010 00000 000 00000 1110011
- sret        0001000    00010 00000 000 00000 1110011
--hret        0010000    00010 00000 000 00000 1110011
- mret        0011000    00010 00000 000 00000 1110011
- wfi         0001000    00101 00000 000 00000 1110011
- hfence_gvma 0110001    ..... ..... 000 00000 1110011 @hfence_gvma
-diff --git a/target/riscv/insn_trans/trans_privileged.inc.c b/target/riscv/insn_trans/trans_privileged.inc.c
-index b9b5a89b52..76c2fad71c 100644
---- a/target/riscv/insn_trans/trans_privileged.inc.c
-+++ b/target/riscv/insn_trans/trans_privileged.inc.c
-@@ -58,11 +58,6 @@ static bool trans_sret(DisasContext *ctx, arg_sret *a)
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index 5b889a0065..aa04e5cca7 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -332,7 +332,10 @@ static inline void cpu_get_tb_cpu_state(CPURISCVState *env, target_ulong *pc,
+ #ifdef CONFIG_USER_ONLY
+     *flags = TB_FLAGS_MSTATUS_FS;
+ #else
+-    *flags = cpu_mmu_index(env, 0) | (env->mstatus & MSTATUS_FS);
++    *flags = cpu_mmu_index(env, 0);
++    if (riscv_cpu_fp_enabled(env)) {
++        *flags |= env->mstatus & MSTATUS_FS;
++    }
  #endif
  }
  
--static bool trans_hret(DisasContext *ctx, arg_hret *a)
--{
--    return false;
--}
--
- static bool trans_mret(DisasContext *ctx, arg_mret *a)
- {
- #ifndef CONFIG_USER_ONLY
 -- 
 2.25.0
 
