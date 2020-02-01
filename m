@@ -2,105 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 582A114F8C0
-	for <lists+qemu-devel@lfdr.de>; Sat,  1 Feb 2020 17:10:05 +0100 (CET)
-Received: from localhost ([::1]:47428 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 460C314F90B
+	for <lists+qemu-devel@lfdr.de>; Sat,  1 Feb 2020 17:51:44 +0100 (CET)
+Received: from localhost ([::1]:47786 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ixvLP-0004wo-RJ
-	for lists+qemu-devel@lfdr.de; Sat, 01 Feb 2020 11:10:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57640)
+	id 1ixvzj-0004jB-Ar
+	for lists+qemu-devel@lfdr.de; Sat, 01 Feb 2020 11:51:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40358)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ixvKc-0004Jh-DO
- for qemu-devel@nongnu.org; Sat, 01 Feb 2020 11:09:15 -0500
+ (envelope-from <bounces@canonical.com>) id 1ixvyi-0003rp-2g
+ for qemu-devel@nongnu.org; Sat, 01 Feb 2020 11:50:43 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ixvKb-0008JX-0T
- for qemu-devel@nongnu.org; Sat, 01 Feb 2020 11:09:14 -0500
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:36066)
+ (envelope-from <bounces@canonical.com>) id 1ixvyf-0001FB-Dw
+ for qemu-devel@nongnu.org; Sat, 01 Feb 2020 11:50:39 -0500
+Received: from indium.canonical.com ([91.189.90.7]:50440)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ixvKY-0008Im-12; Sat, 01 Feb 2020 11:09:10 -0500
-Received: by mail-wr1-x442.google.com with SMTP id z3so12343950wru.3;
- Sat, 01 Feb 2020 08:09:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:autocrypt:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=hf66daEhwSz8unUsUuL5N35gPWbaJ3m2PE7qZzRa32Q=;
- b=ufbrppPIT/N1iECImwNuKKiGAvwEb6PmxmSmUjvd8qptlOmYunbLGotu0ocTNZY5aU
- zSqjarUvZZMJTwjljj8tbDiI8TQ5ahinxWIkcK5WyGMaJXOXmJl+9fV2yXMV6MW6Kv/7
- Sh0LJ/bHAuR37emIMhfcuU1LeNuSVLVjHqdMROahPw8cYLX7vq/OAbUiSDN/f5zdHQRN
- sMv7vJdX97NhLNRm2XDWdVwm2Gf/ifdv7pth+i6Z536mRk6vLbbEW1jQdKWY/TBXmcAs
- 8wxLIah7DNKqVwf8B5FiwmQqBbluGhqC/PBhg4+a9cPXfT9BjaOW9VggASgpcy12s3aE
- /iDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=hf66daEhwSz8unUsUuL5N35gPWbaJ3m2PE7qZzRa32Q=;
- b=elSrQ4bphnyQuop++3cXjQ1vk6JNkf4czDCUFY7K+hQMlL2X1HOOop3KmkQr4oR61e
- aWJRlAzRPjjTYPKdPfnppmmVhGNlPrubxzhah4w+Y+Ghv++TdtU4rPcMKQyE+xwFkv+P
- 1xGTn3W4AMYV+8PGWI1av2lxgV44pGHaWwNsbCbefI1FBx2jnFAX50E5QmzPqlknVqDg
- UxrFfj9QDh47+Wzi2ak8ZZAtWZU0P3v5WLM4HRs1PRGG/2qcGYGM94Gjb8ctmq0MitbG
- WAA9J1zZW+DoXQgFRghsOtwCKCCFLsJp39+0FxlP9dAJmXBCYOxkq1wfKCdcR8KQS3YT
- QRRw==
-X-Gm-Message-State: APjAAAWyajnR7pzmQ5g6huEe5pu3EoCSCiCx2OnX0mEMat8xsPxt2kNK
- rvgXNzT7BNe8+5o3LnJ+2Ak=
-X-Google-Smtp-Source: APXvYqxq361UUjra1v+pRLLMCee0zIWZn/lVLvtnrEjhiFT9B4xW4k1aHecV6/rMqINyF6OJ351FCA==
-X-Received: by 2002:adf:f986:: with SMTP id f6mr798450wrr.182.1580573348145;
- Sat, 01 Feb 2020 08:09:08 -0800 (PST)
-Received: from [192.168.1.35] (162.red-83-52-55.dynamicip.rima-tde.net.
- [83.52.55.162])
- by smtp.gmail.com with ESMTPSA id w8sm15797451wmm.0.2020.02.01.08.09.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 01 Feb 2020 08:09:07 -0800 (PST)
-Subject: Re: [PATCH for-5.0 3/4] Remove the core bluetooth code
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- Peter Maydell <peter.maydell@linaro.org>, Gerd Hoffmann <kraxel@redhat.com>
-References: <20191120091014.16883-1-thuth@redhat.com>
- <20191120091014.16883-4-thuth@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Autocrypt: addr=f4bug@amsat.org; keydata=
- mQINBDU8rLoBEADb5b5dyglKgWF9uDbIjFXU4gDtcwiga9wJ/wX6xdhBqU8tlQ4BroH7AeRl
- u4zXP0QnBDAG7EetxlQzcfYbPmxFISWjckDBFvDbFsojrZmwF2/LkFSzlvKiN5KLghzzJhLO
- HhjGlF8deEZz/d/G8qzO9mIw8GIBS8uuWh6SIcG/qq7+y+2+aifaj92EdwU79apZepT/U3vN
- YrfcAuo1Ycy7/u0hJ7rlaFUn2Fu5KIgV2O++hHYtCCQfdPBg/+ujTL+U+sCDawCyq+9M5+LJ
- ojCzP9rViLZDd/gS6jX8T48hhidtbtsFRj/e9QpdZgDZfowRMVsRx+TB9yzjFdMO0YaYybXp
- dg/wCUepX5xmDBrle6cZ8VEe00+UQCAU1TY5Hs7QFfBbjgR3k9pgJzVXNUKcJ9DYQP0OBH9P
- ZbZvM0Ut2Bk6bLBO5iCVDOco0alrPkX7iJul2QWBy3Iy9j02GnA5jZ1Xtjr9kpCqQT+sRXso
- Vpm5TPGWaWljIeLWy/qL8drX1eyJzwTB3A36Ck4r3YmjMjfmvltSZB1uAdo1elHTlFEULpU/
- HiwvvqXQ9koB15U154VCuguvx/Qnboz8GFb9Uw8VyawzVxYVNME7xw7CQF8FYxzj6eI7rBf2
- Dj/II6wxWPgDEy3oUzuNOxTB7sT3b/Ym76yOJzWX5BylXQIJ5wARAQABtDFQaGlsaXBwZSBN
- YXRoaWV1LURhdWTDqSAoRjRCVUcpIDxmNGJ1Z0BhbXNhdC5vcmc+iQJVBBMBCAA/AhsPBgsJ
- CAcDAgYVCAIJCgsEFgIDAQIeAQIXgBYhBPqr514SkXIh3P1rsuPjLCzercDeBQJd660aBQks
- klzgAAoJEOPjLCzercDe2iMP+gMG2dUf+qHz2uG8nTBGMjgK0aEJrKVPodFA+iedQ5Kp3BMo
- jrTg3/DG1HMYdcvQu/NFLYwamUfUasyor1k+3dB23hY09O4xOsYJBWdilkBGsJTKErUmkUO2
- 3J/kawosvYtJJSHUpw3N6mwz/iWnjkT8BPp7fFXSujV63aZWZINueTbK7Y8skFHI0zpype9s
- loU8xc4JBrieGccy3n4E/kogGrTG5jcMTNHZ106DsQkhFnjhWETp6g9xOKrzZQbETeRBOe4P
- sRsY9YSG2Sj+ZqmZePvO8LyzGRjYU7T6Z80S1xV0lH6KTMvq7vvz5rd92f3pL4YrXq+e//HZ
- JsiLen8LH/FRhTsWRgBtNYkOsd5F9NvfJtSM0qbX32cSXMAStDVnS4U+H2vCVCWnfNug2TdY
- 7v4NtdpaCi4CBBa3ZtqYVOU05IoLnlx0miKTBMqmI05kpgX98pi2QUPJBYi/+yNu3fjjcuS9
- K5WmpNFTNi6yiBbNjJA5E2qUKbIT/RwQFQvhrxBUcRCuK4x/5uOZrysjFvhtR8YGm08h+8vS
- n0JCnJD5aBhiVdkohEFAz7e5YNrAg6kOA5IVRHB44lTBOatLqz7ntwdGD0rteKuHaUuXpTYy
- CRqCVAKqFJtxhvJvaX0vLS1Z2dwtDwhjfIdgPiKEGOgCNGH7R8l+aaM4OPOd
-Message-ID: <7a775153-f18d-e766-1d8f-33607f5fa05b@amsat.org>
-Date: Sat, 1 Feb 2020 17:09:05 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1ixvye-00016C-UB
+ for qemu-devel@nongnu.org; Sat, 01 Feb 2020 11:50:37 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1ixvyd-00053q-Dg
+ for <qemu-devel@nongnu.org>; Sat, 01 Feb 2020 16:50:35 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 63E012E80C0
+ for <qemu-devel@nongnu.org>; Sat,  1 Feb 2020 16:50:35 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20191120091014.16883-4-thuth@redhat.com>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::442
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Sat, 01 Feb 2020 16:43:24 -0000
+From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1861562@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: acpi mips
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: philmd
+X-Launchpad-Bug-Reporter: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+Message-Id: <158057540504.18744.4957564098996075617.malonedeb@gac.canonical.com>
+Subject: [Bug 1861562] [NEW] piix crashes on mips when using multiple cpus
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="0a62c17273454a1313f81a74a2198ec30b44c7b6";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 53cd579ae3084737a94951629258f6e71d4edbe9
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -109,161 +66,318 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: libvir-list@redhat.com, Paolo Bonzini <pbonzini@redhat.com>,
- qemu-arm@nongnu.org,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Reply-To: Bug 1861562 <1861562@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/20/19 10:10 AM, Thomas Huth wrote:
-> It's been deprecated since QEMU v3.1. We've explicitly asked in the
-> deprecation message that people should speak up on qemu-devel in case
-> they are still actively using the bluetooth part of QEMU, but nobody
-> ever replied that they are really still using it.
-> 
-> I've tried it on my own to use this bluetooth subsystem for one of my
-> guests, but I was also not able to get it running anymore: When I was
-> trying to pass-through a real bluetooth device, either the guest did
-> not see the device at all, or the guest crashed.
-> 
-> Even worse for the emulated device: When running
-> 
->  qemu-system-x86_64 -bt device:keyboard
-> 
-> QEMU crashes once you hit a key.
-> 
-> So it seems like the bluetooth stack is not only neglected, it is
-> completely bitrotten, as far as I can tell. The only attention that
-> this code got during the past years were some CVEs that have been
-> spotted there. So this code is a burden for the developers, without
-> any real benefit anymore. Time to remove it.
-> 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->  Makefile.objs        |    2 -
->  bt-host.c            |  198 ----
->  bt-vhci.c            |  167 ----
->  configure            |   31 -
->  hw/Kconfig           |    1 -
->  hw/Makefile.objs     |    1 -
->  hw/bt/Kconfig        |    2 -
->  hw/bt/Makefile.objs  |    3 -
->  hw/bt/core.c         |  143 ---
->  hw/bt/hci-csr.c      |  512 ----------
->  hw/bt/hci.c          | 2263 ------------------------------------------
->  hw/bt/hid.c          |  553 -----------
->  hw/bt/l2cap.c        | 1367 -------------------------
->  hw/bt/sdp.c          |  989 ------------------
->  include/hw/bt.h      | 2177 ----------------------------------------
->  include/sysemu/bt.h  |   20 -
->  qemu-deprecated.texi |    7 -
->  qemu-options.hx      |   79 --
->  vl.c                 |  136 ---
->  19 files changed, 8651 deletions(-)
->  delete mode 100644 bt-host.c
->  delete mode 100644 bt-vhci.c
->  delete mode 100644 hw/bt/Kconfig
->  delete mode 100644 hw/bt/Makefile.objs
->  delete mode 100644 hw/bt/core.c
->  delete mode 100644 hw/bt/hci-csr.c
->  delete mode 100644 hw/bt/hci.c
->  delete mode 100644 hw/bt/hid.c
->  delete mode 100644 hw/bt/l2cap.c
->  delete mode 100644 hw/bt/sdp.c
->  delete mode 100644 include/hw/bt.h
->  delete mode 100644 include/sysemu/bt.h
-> 
-[...]> diff --git a/configure b/configure
-> index 6099be1d84..ecce4ada2d 100755
-> --- a/configure
-> +++ b/configure
-> @@ -349,7 +349,6 @@ unset target_list_exclude
->  # Distributions want to ensure that several features are compiled in, and it
->  # is impossible without a --enable-foo that exits if a feature is not found.
->  
-> -bluez=""
->  brlapi=""
->  curl=""
->  curses=""
-> @@ -1151,10 +1150,6 @@ for opt do
->    ;;
->    --enable-brlapi) brlapi="yes"
->    ;;
-> -  --disable-bluez) bluez="no"
-> -  ;;
-> -  --enable-bluez) bluez="yes"
-> -  ;;
+Public bug reported:
 
-Now than I'm bisecting over this commit, I realize removing this
-option was not a good idea, we should have done like commit
-cb6414dfec8 or 315d3184525:
+Crash occurred while testing commit 330edfcc84a7:
 
-  @@ -886,10 +885,6 @@ for opt do
-  -  --disable-uuid) uuid="no"
-  -  ;;
-  -  --enable-uuid) uuid="yes"
-  -  ;;
+$ qemu-system-mips64el -cpu I6400 -append "clocksource=3DGIC console=3DttyS=
+0" -smp 8 -kernel vmlinux
+Linux version 4.7.0-rc1 (phil@x1) (gcc version 6.3.0 20170516 (Debian 6.3.0=
+-18) ) #1 SMP Sat Feb 1 13:15:19 UTC 2020
+earlycon: uart8250 at I/O port 0x3f8 (options '38400n8')
+bootconsole [uart8250] enabled
+CPU0 revision is: 0001a900 (MIPS I6400)
+FPU revision is: 20f30300
+MSA revision is: 00000300
+MIPS: machine is mti,malta
+Software DMA cache coherency enabled
+Determined physical RAM map:
+ memory: 0000000008000000 @ 0000000000000000 (usable)
+Zone ranges:
+  DMA      [mem 0x0000000000000000-0x0000000000ffffff]
+  DMA32    [mem 0x0000000001000000-0x00000000ffffffff]
+  Normal   empty
+Movable zone start for each node
+Early memory node ranges
+  node   0: [mem 0x0000000000000000-0x0000000007ffffff]
+Initmem setup node 0 [mem 0x0000000000000000-0x0000000007ffffff]
+VP topology {8} total 8
+Primary instruction cache 64kB, VIPT, 4-way, linesize 64 bytes.
+Primary data cache 64kB, 4-way, VIPT, no aliases, linesize 64 bytes
+percpu: Embedded 5 pages/cpu @980000000107c000 s29664 r8192 d44064 u81920
+Built 1 zonelists in Zone order, mobility grouping on.  Total pages: 8163
+Kernel command line: clocksource=3DGIC console=3DttyS0
+log_buf_len individual max cpu contribution: 4096 bytes
+log_buf_len total cpu_extra contributions: 28672 bytes
+log_buf_len min size: 32768 bytes
+log_buf_len: 65536 bytes
+early log buf free: 30432(92%)
+PID hash table entries: 512 (order: -2, 4096 bytes)
+Dentry cache hash table entries: 16384 (order: 3, 131072 bytes)
+Inode-cache hash table entries: 8192 (order: 2, 65536 bytes)
+Writing ErrCtl register=3D00000000
+Readback ErrCtl register=3D00000000
+MAAR configuration:
+  [0]: 0x0000000000010000-0x0000000007ffffff speculate
+  [1]: disabled
+  [2]: disabled
+  [3]: disabled
+  [4]: disabled
+  [5]: disabled
+  [6]: disabled
+  [7]: disabled
+Memory: 121104K/131072K available (5253K kernel code, 380K rwdata, 1276K ro=
+data, 304K init, 278K bss, 9968K reserved, 0K cma-reserved)
+Hierarchical RCU implementation.
+        Build-time adjustment of leaf fanout to 64.
+NR_IRQS:256
+CPU frequency 200.00 MHz
+GIC frequency 100.00 MHz
+clocksource: GIC: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 191=
+12702515 ns
+clocksource: MIPS: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 19=
+112355619 ns
+sched_clock: 32 bits at 100MHz, resolution 9ns, wraps every 21474556923ns
+...
+Primary instruction cache 64kB, VIPT, 4-way, linesize 64 bytes.
+Primary data cache 64kB, 4-way, VIPT, no aliases, linesize 64 bytes
+CPU7 revision is: 0001a900 (MIPS I6400)
+FPU revision is: 20f30300
+MSA revision is: 00000300
+Synchronize counters for CPU 7: done.
+Brought up 8 CPUs
+devtmpfs: initialized
+clocksource: jiffies: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns:=
+ 19112604462750000 ns
+NET: Registered protocol family 16
+pm-cps: CPC does not support clock gating
+vgaarb: loaded
+SCSI subsystem initialized
+PCI host bridge to bus 0000:00
+pci_bus 0000:00: root bus resource [mem 0x10000000-0x17ffffff]
+pci_bus 0000:00: root bus resource [io  0x1000-0x1fffff]
+pci_bus 0000:00: root bus resource [??? 0x00000000 flags 0x0]
+pci_bus 0000:00: No busn resource found for root bus, will use [bus 00-ff]
+pci 0000:00:00.0: [Firmware Bug]: reg 0x14: invalid BAR (can't size)
+pci 0000:00:00.0: [Firmware Bug]: reg 0x18: invalid BAR (can't size)
+pci 0000:00:00.0: [Firmware Bug]: reg 0x1c: invalid BAR (can't size)
+pci 0000:00:00.0: [Firmware Bug]: reg 0x20: invalid BAR (can't size)
+pci 0000:00:00.0: [Firmware Bug]: reg 0x24: invalid BAR (can't size)
+pci 0000:00:0a.1: legacy IDE quirk: reg 0x10: [io  0x01f0-0x01f7]
+pci 0000:00:0a.1: legacy IDE quirk: reg 0x14: [io  0x03f6]
+pci 0000:00:0a.1: legacy IDE quirk: reg 0x18: [io  0x0170-0x0177]
+pci 0000:00:0a.1: legacy IDE quirk: reg 0x1c: [io  0x0376]
+Aborted (core dumped)
+
+(gdb) bt
+#0  0x00007fe1e8d37e35 in raise () at /lib64/libc.so.6
+#1  0x00007fe1e8d22895 in abort () at /lib64/libc.so.6
+#2  0x000055d442b388ba in acpi_gpe_ioport_get_ptr (addr=3Daddr@entry=3D4931=
+2, ar=3Dar@entry=3D0x55d4444212d0) at hw/acpi/core.c:670
+#3  0x000055d442b388ba in acpi_gpe_ioport_writeb (ar=3Dar@entry=3D0x55d4444=
+212d0, addr=3Daddr@entry=3D49312, val=3Dval@entry=3D181) at hw/acpi/core.c:=
+680
+#4  0x000055d442d3f363 in gpe_writeb (opaque=3D0x55d444420800, addr=3D49312=
+, val=3D181, width=3D<optimized out>) at hw/acpi/piix4.c:553
+#5  0x000055d442b9534b in memory_region_write_accessor (mr=3Dmr@entry=3D0x5=
+5d4444211e0, addr=3D49312, value=3Dvalue@entry=3D0x7fe1ddff9ef8, size=3Dsiz=
+e@entry=3D1, shift=3D<optimized out>, mask=3Dmask@entry=3D255, attrs=3D...)
+    at memory.c:483
+#6  0x000055d442b9305e in access_with_adjusted_size (addr=3Daddr@entry=3D49=
+312, value=3Dvalue@entry=3D0x7fe1ddff9ef8, size=3Dsize@entry=3D8, access_si=
+ze_min=3D<optimized out>, access_size_max=3D<optimized out>, access_fn=3Dac=
+cess_fn@entry=3D
+    0x55d442b95220 <memory_region_write_accessor>, mr=3D0x55d4444211e0, att=
+rs=3D...) at memory.c:544
+#7  0x000055d442b976b4 in memory_region_dispatch_write (mr=3Dmr@entry=3D0x5=
+5d4444211e0, addr=3Daddr@entry=3D49312, data=3D<optimized out>, data@entry=
+=3D327163317, op=3Dop@entry=3DMO_64, attrs=3D...) at memory.c:1475
+#8  0x000055d442ba44fd in io_writex
+    (env=3Denv@entry=3D0x55d443ec8f60, mmu_idx=3Dmmu_idx@entry=3D0, val=3Dv=
+al@entry=3D327163317, addr=3Daddr@entry=3D10376293541929074848, retaddr=3D1=
+40608199778784, op=3DMO_64, iotlbentry=3D<optimized out>, iotlbentry=3D<opt=
+imized out>)
+    at accel/tcg/cputlb.c:980
+#9  0x000055d442baa43c in store_helper (op=3DMO_64, retaddr=3D1406081997787=
+84, oi=3D<optimized out>, val=3D<optimized out>, addr=3D1037629354192907484=
+8, env=3D0x55d443ec8f60) at accel/tcg/cputlb.c:1788
+#10 0x000055d442baa43c in helper_le_stq_mmu (env=3D0x55d443ec8f60, addr=3D1=
+0376293541929074848, val=3D327163317, oi=3D<optimized out>, retaddr=3D14060=
+8199778784) at accel/tcg/cputlb.c:1920
+#11 0x00007fe1e5cce1e0 in code_gen_buffer ()
+#12 0x000055d442bbc6d3 in cpu_tb_exec (itb=3D<optimized out>, cpu=3D0x0) at=
+ accel/tcg/cpu-exec.c:172
+#13 0x000055d442bbc6d3 in cpu_loop_exec_tb (tb_exit=3D<synthetic pointer>, =
+last_tb=3D<synthetic pointer>, tb=3D<optimized out>, cpu=3D0x0) at accel/tc=
+g/cpu-exec.c:618
+#14 0x000055d442bbc6d3 in cpu_exec (cpu=3Dcpu@entry=3D0x55d443ec0550) at ac=
+cel/tcg/cpu-exec.c:731
+#15 0x000055d442b88580 in tcg_cpu_exec (cpu=3D0x55d443ec0550) at cpus.c:1405
+#16 0x000055d442b8a6f4 in qemu_tcg_cpu_thread_fn (arg=3Darg@entry=3D0x55d44=
+3ec0550) at cpus.c:1713
+#17 0x000055d442faeb7b in qemu_thread_start (args=3D<optimized out>) at uti=
+l/qemu-thread-posix.c:519
+#18 0x00007fe1e8ece4c0 in start_thread () at /lib64/libpthread.so.0
+#19 0x00007fe1e8dfc163 in clone () at /lib64/libc.so.6
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+
+** Tags: acpi mips
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1861562
+
+Title:
+  piix crashes on mips when using multiple cpus
+
+Status in QEMU:
+  New
+
+Bug description:
+  Crash occurred while testing commit 330edfcc84a7:
+
+  $ qemu-system-mips64el -cpu I6400 -append "clocksource=3DGIC console=3Dtt=
+yS0" -smp 8 -kernel vmlinux
+  Linux version 4.7.0-rc1 (phil@x1) (gcc version 6.3.0 20170516 (Debian 6.3=
+.0-18) ) #1 SMP Sat Feb 1 13:15:19 UTC 2020
+  earlycon: uart8250 at I/O port 0x3f8 (options '38400n8')
+  bootconsole [uart8250] enabled
+  CPU0 revision is: 0001a900 (MIPS I6400)
+  FPU revision is: 20f30300
+  MSA revision is: 00000300
+  MIPS: machine is mti,malta
+  Software DMA cache coherency enabled
+  Determined physical RAM map:
+   memory: 0000000008000000 @ 0000000000000000 (usable)
+  Zone ranges:
+    DMA      [mem 0x0000000000000000-0x0000000000ffffff]
+    DMA32    [mem 0x0000000001000000-0x00000000ffffffff]
+    Normal   empty
+  Movable zone start for each node
+  Early memory node ranges
+    node   0: [mem 0x0000000000000000-0x0000000007ffffff]
+  Initmem setup node 0 [mem 0x0000000000000000-0x0000000007ffffff]
+  VP topology {8} total 8
+  Primary instruction cache 64kB, VIPT, 4-way, linesize 64 bytes.
+  Primary data cache 64kB, 4-way, VIPT, no aliases, linesize 64 bytes
+  percpu: Embedded 5 pages/cpu @980000000107c000 s29664 r8192 d44064 u81920
+  Built 1 zonelists in Zone order, mobility grouping on.  Total pages: 8163
+  Kernel command line: clocksource=3DGIC console=3DttyS0
+  log_buf_len individual max cpu contribution: 4096 bytes
+  log_buf_len total cpu_extra contributions: 28672 bytes
+  log_buf_len min size: 32768 bytes
+  log_buf_len: 65536 bytes
+  early log buf free: 30432(92%)
+  PID hash table entries: 512 (order: -2, 4096 bytes)
+  Dentry cache hash table entries: 16384 (order: 3, 131072 bytes)
+  Inode-cache hash table entries: 8192 (order: 2, 65536 bytes)
+  Writing ErrCtl register=3D00000000
+  Readback ErrCtl register=3D00000000
+  MAAR configuration:
+    [0]: 0x0000000000010000-0x0000000007ffffff speculate
+    [1]: disabled
+    [2]: disabled
+    [3]: disabled
+    [4]: disabled
+    [5]: disabled
+    [6]: disabled
+    [7]: disabled
+  Memory: 121104K/131072K available (5253K kernel code, 380K rwdata, 1276K =
+rodata, 304K init, 278K bss, 9968K reserved, 0K cma-reserved)
+  Hierarchical RCU implementation.
+          Build-time adjustment of leaf fanout to 64.
+  NR_IRQS:256
+  CPU frequency 200.00 MHz
+  GIC frequency 100.00 MHz
+  clocksource: GIC: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 1=
+9112702515 ns
+  clocksource: MIPS: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: =
+19112355619 ns
+  sched_clock: 32 bits at 100MHz, resolution 9ns, wraps every 21474556923ns
   ...
-  +  --enable-uuid|--disable-uuid)
-  +      echo "$0: $opt is obsolete, UUID support is always built" >&2
-  +  ;;
+  Primary instruction cache 64kB, VIPT, 4-way, linesize 64 bytes.
+  Primary data cache 64kB, 4-way, VIPT, no aliases, linesize 64 bytes
+  CPU7 revision is: 0001a900 (MIPS I6400)
+  FPU revision is: 20f30300
+  MSA revision is: 00000300
+  Synchronize counters for CPU 7: done.
+  Brought up 8 CPUs
+  devtmpfs: initialized
+  clocksource: jiffies: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_n=
+s: 19112604462750000 ns
+  NET: Registered protocol family 16
+  pm-cps: CPC does not support clock gating
+  vgaarb: loaded
+  SCSI subsystem initialized
+  PCI host bridge to bus 0000:00
+  pci_bus 0000:00: root bus resource [mem 0x10000000-0x17ffffff]
+  pci_bus 0000:00: root bus resource [io  0x1000-0x1fffff]
+  pci_bus 0000:00: root bus resource [??? 0x00000000 flags 0x0]
+  pci_bus 0000:00: No busn resource found for root bus, will use [bus 00-ff]
+  pci 0000:00:00.0: [Firmware Bug]: reg 0x14: invalid BAR (can't size)
+  pci 0000:00:00.0: [Firmware Bug]: reg 0x18: invalid BAR (can't size)
+  pci 0000:00:00.0: [Firmware Bug]: reg 0x1c: invalid BAR (can't size)
+  pci 0000:00:00.0: [Firmware Bug]: reg 0x20: invalid BAR (can't size)
+  pci 0000:00:00.0: [Firmware Bug]: reg 0x24: invalid BAR (can't size)
+  pci 0000:00:0a.1: legacy IDE quirk: reg 0x10: [io  0x01f0-0x01f7]
+  pci 0000:00:0a.1: legacy IDE quirk: reg 0x14: [io  0x03f6]
+  pci 0000:00:0a.1: legacy IDE quirk: reg 0x18: [io  0x0170-0x0177]
+  pci 0000:00:0a.1: legacy IDE quirk: reg 0x1c: [io  0x0376]
+  Aborted (core dumped)
 
->    --disable-kvm) kvm="no"
->    ;;
->    --enable-kvm) kvm="yes"
-> @@ -1762,7 +1757,6 @@ disabled with --disable-FEATURE, default is enabled if available:
->    curl            curl connectivity
->    membarrier      membarrier system call (for Linux 4.14+ or Windows)
->    fdt             fdt device tree
-> -  bluez           bluez stack connectivity
->    kvm             KVM acceleration support
->    hax             HAX acceleration support
->    hvf             Hypervisor.framework acceleration support
-> @@ -3665,26 +3659,6 @@ EOF
->    fi
->  fi # test "$curl"
->  
-> -##########################################
-> -# bluez support probe
-> -if test "$bluez" != "no" ; then
-> -  cat > $TMPC << EOF
-> -#include <bluetooth/bluetooth.h>
-> -int main(void) { return bt_error(0); }
-> -EOF
-> -  bluez_cflags=$($pkg_config --cflags bluez 2>/dev/null)
-> -  bluez_libs=$($pkg_config --libs bluez 2>/dev/null)
-> -  if compile_prog "$bluez_cflags" "$bluez_libs" ; then
-> -    bluez=yes
-> -    libs_softmmu="$bluez_libs $libs_softmmu"
-> -  else
-> -    if test "$bluez" = "yes" ; then
-> -      feature_not_found "bluez" "Install bluez-libs/libbluetooth devel"
-> -    fi
-> -    bluez="no"
-> -  fi
-> -fi
-> -
->  ##########################################
->  # glib support probe
->  
-> @@ -6509,7 +6483,6 @@ if test "$xen" = "yes" ; then
->    echo "xen ctrl version  $xen_ctrl_version"
->  fi
->  echo "brlapi support    $brlapi"
-> -echo "bluez  support    $bluez"
->  echo "Documentation     $docs"
->  echo "PIE               $pie"
->  echo "vde support       $vde"
-> @@ -6933,10 +6906,6 @@ if test "$brlapi" = "yes" ; then
->    echo "CONFIG_BRLAPI=y" >> $config_host_mak
->    echo "BRLAPI_LIBS=$brlapi_libs" >> $config_host_mak
->  fi
-> -if test "$bluez" = "yes" ; then
-> -  echo "CONFIG_BLUEZ=y" >> $config_host_mak
-> -  echo "BLUEZ_CFLAGS=$bluez_cflags" >> $config_host_mak
-> -fi
->  if test "$gtk" = "yes" ; then
->    echo "CONFIG_GTK=m" >> $config_host_mak
->    echo "GTK_CFLAGS=$gtk_cflags" >> $config_host_mak
-[...]
+  (gdb) bt
+  #0  0x00007fe1e8d37e35 in raise () at /lib64/libc.so.6
+  #1  0x00007fe1e8d22895 in abort () at /lib64/libc.so.6
+  #2  0x000055d442b388ba in acpi_gpe_ioport_get_ptr (addr=3Daddr@entry=3D49=
+312, ar=3Dar@entry=3D0x55d4444212d0) at hw/acpi/core.c:670
+  #3  0x000055d442b388ba in acpi_gpe_ioport_writeb (ar=3Dar@entry=3D0x55d44=
+44212d0, addr=3Daddr@entry=3D49312, val=3Dval@entry=3D181) at hw/acpi/core.=
+c:680
+  #4  0x000055d442d3f363 in gpe_writeb (opaque=3D0x55d444420800, addr=3D493=
+12, val=3D181, width=3D<optimized out>) at hw/acpi/piix4.c:553
+  #5  0x000055d442b9534b in memory_region_write_accessor (mr=3Dmr@entry=3D0=
+x55d4444211e0, addr=3D49312, value=3Dvalue@entry=3D0x7fe1ddff9ef8, size=3Ds=
+ize@entry=3D1, shift=3D<optimized out>, mask=3Dmask@entry=3D255, attrs=3D..=
+.)
+      at memory.c:483
+  #6  0x000055d442b9305e in access_with_adjusted_size (addr=3Daddr@entry=3D=
+49312, value=3Dvalue@entry=3D0x7fe1ddff9ef8, size=3Dsize@entry=3D8, access_=
+size_min=3D<optimized out>, access_size_max=3D<optimized out>, access_fn=3D=
+access_fn@entry=3D
+      0x55d442b95220 <memory_region_write_accessor>, mr=3D0x55d4444211e0, a=
+ttrs=3D...) at memory.c:544
+  #7  0x000055d442b976b4 in memory_region_dispatch_write (mr=3Dmr@entry=3D0=
+x55d4444211e0, addr=3Daddr@entry=3D49312, data=3D<optimized out>, data@entr=
+y=3D327163317, op=3Dop@entry=3DMO_64, attrs=3D...) at memory.c:1475
+  #8  0x000055d442ba44fd in io_writex
+      (env=3Denv@entry=3D0x55d443ec8f60, mmu_idx=3Dmmu_idx@entry=3D0, val=
+=3Dval@entry=3D327163317, addr=3Daddr@entry=3D10376293541929074848, retaddr=
+=3D140608199778784, op=3DMO_64, iotlbentry=3D<optimized out>, iotlbentry=3D=
+<optimized out>)
+      at accel/tcg/cputlb.c:980
+  #9  0x000055d442baa43c in store_helper (op=3DMO_64, retaddr=3D14060819977=
+8784, oi=3D<optimized out>, val=3D<optimized out>, addr=3D10376293541929074=
+848, env=3D0x55d443ec8f60) at accel/tcg/cputlb.c:1788
+  #10 0x000055d442baa43c in helper_le_stq_mmu (env=3D0x55d443ec8f60, addr=
+=3D10376293541929074848, val=3D327163317, oi=3D<optimized out>, retaddr=3D1=
+40608199778784) at accel/tcg/cputlb.c:1920
+  #11 0x00007fe1e5cce1e0 in code_gen_buffer ()
+  #12 0x000055d442bbc6d3 in cpu_tb_exec (itb=3D<optimized out>, cpu=3D0x0) =
+at accel/tcg/cpu-exec.c:172
+  #13 0x000055d442bbc6d3 in cpu_loop_exec_tb (tb_exit=3D<synthetic pointer>=
+, last_tb=3D<synthetic pointer>, tb=3D<optimized out>, cpu=3D0x0) at accel/=
+tcg/cpu-exec.c:618
+  #14 0x000055d442bbc6d3 in cpu_exec (cpu=3Dcpu@entry=3D0x55d443ec0550) at =
+accel/tcg/cpu-exec.c:731
+  #15 0x000055d442b88580 in tcg_cpu_exec (cpu=3D0x55d443ec0550) at cpus.c:1=
+405
+  #16 0x000055d442b8a6f4 in qemu_tcg_cpu_thread_fn (arg=3Darg@entry=3D0x55d=
+443ec0550) at cpus.c:1713
+  #17 0x000055d442faeb7b in qemu_thread_start (args=3D<optimized out>) at u=
+til/qemu-thread-posix.c:519
+  #18 0x00007fe1e8ece4c0 in start_thread () at /lib64/libpthread.so.0
+  #19 0x00007fe1e8dfc163 in clone () at /lib64/libc.so.6
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1861562/+subscriptions
 
