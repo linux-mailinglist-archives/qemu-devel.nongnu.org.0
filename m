@@ -2,61 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A18C614FD5A
-	for <lists+qemu-devel@lfdr.de>; Sun,  2 Feb 2020 14:32:24 +0100 (CET)
-Received: from localhost ([::1]:56112 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EE9714FD59
+	for <lists+qemu-devel@lfdr.de>; Sun,  2 Feb 2020 14:31:29 +0100 (CET)
+Received: from localhost ([::1]:56108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iyFMN-0005hX-Nd
-	for lists+qemu-devel@lfdr.de; Sun, 02 Feb 2020 08:32:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50607)
+	id 1iyFLT-00051Z-Qr
+	for lists+qemu-devel@lfdr.de; Sun, 02 Feb 2020 08:31:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50431)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1iyFKk-0004pr-Dp
- for qemu-devel@nongnu.org; Sun, 02 Feb 2020 08:30:43 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1iyFKK-0004Ri-1x
+ for qemu-devel@nongnu.org; Sun, 02 Feb 2020 08:30:17 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1iyFKj-0001er-79
- for qemu-devel@nongnu.org; Sun, 02 Feb 2020 08:30:42 -0500
-Received: from indium.canonical.com ([91.189.90.7]:55394)
+ (envelope-from <peter.maydell@linaro.org>) id 1iyFKI-0000gh-Qb
+ for qemu-devel@nongnu.org; Sun, 02 Feb 2020 08:30:15 -0500
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:33626)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1iyFKi-0001dk-Vp
- for qemu-devel@nongnu.org; Sun, 02 Feb 2020 08:30:41 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1iyFKh-0007v3-MC
- for <qemu-devel@nongnu.org>; Sun, 02 Feb 2020 13:30:39 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 7BA8B2E80C8
- for <qemu-devel@nongnu.org>; Sun,  2 Feb 2020 13:30:39 +0000 (UTC)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iyFKH-0000YO-GV
+ for qemu-devel@nongnu.org; Sun, 02 Feb 2020 08:30:13 -0500
+Received: by mail-ot1-x344.google.com with SMTP id b18so11132006otp.0
+ for <qemu-devel@nongnu.org>; Sun, 02 Feb 2020 05:30:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=q9y1hOrjhnvikp8id36VWQRu7GzuHCfn7v0dl6m17nc=;
+ b=uznjtrQOnwxhMvJY0yUtdOStCsnHIOqj9ZrG3E7cNAcyOnqjurSFDHgwW+b0f37TZ3
+ NOaRXe7giqzrX3oD8xESkTLJ+iWvo44UVjx7oTb+CCoG+q7uCq2J5LNjHlvHadJ41KkG
+ X0uCaVrrTEpBcKtllC4hPkygDR0C2UAp2nKEFiRRg+l2t59alC6GzlDmgIeWJGeSo88v
+ yjfFrsPCO12AVGHp1LyyLZAiSCam7m3JQJl4Dp9JFYXWbdDPdB5B4jIbr67P073t3aIl
+ oKi1CmIQ55k2CPIdtDO4mjttlxyOna0Vp99vvbkS5p4HCmPqpeVyoIdpbmtYGMbm6l/Y
+ SeKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=q9y1hOrjhnvikp8id36VWQRu7GzuHCfn7v0dl6m17nc=;
+ b=mh5im3TcXhehflZ52F4JZ5Bb9LvHKsQl7jq4Oxh7Syee8FaClbrozxesgUmEyWxCDb
+ pgpavS9b62mu289D9pEZvSzjCzZ3Sv8KNR6kJIPiWrhawAJ/j5eqKHBgcGgSSNkntJ9a
+ 1xn5gcTnRtr3ajp5upsv4ffqVBY3H3tFOsEZzbvPSSXDSDQUHU6o2aZz9w/9Kp0iHbiZ
+ hJbe2g0b+k/tT7oI2suDRLqoxiZtWsF0lJhzoyFsykDtlAEOgOT15VFol1Kt/npktivx
+ 2a9EZTT1cf+6GthWE+O6H4OAGL2x+Fp5xfO6XuYrUZ5iNexIta5nydrghXZI70Fwi3od
+ ojBA==
+X-Gm-Message-State: APjAAAUOFUMZj2pI8DG5SdwYV1LGTtHx3Cy3YmP48NZQ+zGPUO1RH/0E
+ IT10VPhpYFVXhDqow6vI4FStbJjfj4EtU0rEs5vB8g==
+X-Google-Smtp-Source: APXvYqw8ZegrCj1691GwOL4p6tlnFfV+0f4sUK80w7WzeoyRsh0ef+kTWor85PFF/eA5tigiJB2Wm/kmwETNP3MQZ2c=
+X-Received: by 2002:a05:6830:13da:: with SMTP id
+ e26mr13558868otq.97.1580650211070; 
+ Sun, 02 Feb 2020 05:30:11 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Sun, 02 Feb 2020 13:23:56 -0000
-From: Alexander Richardson <1861605@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: arichardson
-X-Launchpad-Bug-Reporter: Alexander Richardson (arichardson)
-X-Launchpad-Bug-Modifier: Alexander Richardson (arichardson)
-References: <158064672776.8396.11527564563260103475.malonedeb@chaenomeles.canonical.com>
-Message-Id: <158064983615.19517.9291620777909773732.malone@wampee.canonical.com>
-Subject: [Bug 1861605] Re: LL/SC broken for MIPS after
- 7dd547e5ab6b31e7a0cfc182d3ad131dd55a948f
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="0a62c17273454a1313f81a74a2198ec30b44c7b6";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 3d59b15426486db9fbeaa58c82c25308d22f285e
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+References: <20191203234244.9124-1-richard.henderson@linaro.org>
+ <20191203234244.9124-3-richard.henderson@linaro.org>
+ <CAFEAcA914CO2vfMAkr4aeEA_FV0Vub6S9eF43qN=14e7nU1uHg@mail.gmail.com>
+ <2871294a-0577-9390-1887-a2e81c1a35e6@linaro.org>
+In-Reply-To: <2871294a-0577-9390-1887-a2e81c1a35e6@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Sun, 2 Feb 2020 13:29:59 +0000
+Message-ID: <CAFEAcA8tkhpHAM2niDmpm=Oi4XQDTNTzKUJ_A-hKFLXsz_rPxw@mail.gmail.com>
+Subject: Re: [PATCH 2/4] target/arm: Update MSR access to UAO
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::344
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -65,106 +75,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1861605 <1861605@bugs.launchpad.net>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-New patch:
-https://github.com/qemu/qemu/commit/6ff8dec97f1a105d0da96c67ee24c75e437df162
+On Sun, 2 Feb 2020 at 01:00, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+> > Does the "on exception entry PSTATE.UAO is zeroed" behaviour
+> > fall out automatically for us?
+>
+> Yes, aarch64_pstate_mode() returns a clean PSTATE.
+>
+> > How about "on exception entry
+> > from aarch32 to aarch64 SPSR_ELx.UAO is set to zero" ?
+>
+> This follows the same path as above, as far as I can see.
 
-** Description changed:
+Yes, but SPSR_ELx isn't started with a clean zero and built up
+the way the new PSTATE is, it gets copied from the AArch32 CPSR
+via cpsr_read(). I forget how carefully we keep the guest from setting
+CPSR bits that aren't really valid for the CPU...
 
-  In that commit the env->llval value is loaded as an unsigned value
-  (instead of sign-extended as before and therefore the CMPXCHG in
-  gen_st_cond() in translate.c fails.
-  =
+> > I think we may also want a minor code change so that an exception
+> > return from aarch64 to aarch32 doesn't copy a bogus SPSR UAO==1
+> > into the pstate/cpsr.
+>
+> Well, there is no CPSR UAO bit, so there's no aarch32 bit to clear.  But I did
+> add a clearing of PSTATE UAO on the exception return to aarch64 path, to
+> prevent the guest from playing games with SPSR.
 
-- I have committed a fix for this issue as https://github.com/CTSRD-
-- CHERI/qemu/commit/a18d80c629989d002794f558968e1561edaf3dfd
-+ I have committed a fix for this issue as
-+ https://github.com/qemu/qemu/commit/6ff8dec97f1a105d0da96c67ee24c75e437df=
-162
-  =
+...for instance on the aarch64->aarch32 exception return path,
+I don't think we sanitize the SPSR bits, so the guest could use
+a 64->32 exception return to set a bogus CPSR.UAO bit and
+then enter from 32 to 64 and see SPSR_ELx.UAO set when
+it should not be, unless we sanitize either in all places where
+we let the guest set CPSR bits (including 64->32 return), or
+we sanitize on 32->64 entry.
 
-  An alternative solution would be to change the cmpxchg line to perform a =
-non-sign-extended compare, i.e. replace
--     tcg_gen_atomic_cmpxchg_tl(t0, addr, cpu_llval, val,
--                               eva ? MIPS_HFLAG_UM : ctx->mem_idx, tcg_mo)=
-; =
-
-+ =C2=A0=C2=A0=C2=A0=C2=A0tcg_gen_atomic_cmpxchg_tl(t0, cpu_lladdr, cpu_llv=
-al, val,
-+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0eva ? MIPS_HFLAG_UM : ctx->mem_idx, tcg_mo=
-);
-  with
--     tcg_gen_atomic_cmpxchg_tl(t0, addr, cpu_llval, val,
--                               eva ? MIPS_HFLAG_UM : ctx->mem_idx, tcg_mo =
-& ~MO_SIGN); =
-
-+ =C2=A0=C2=A0=C2=A0=C2=A0tcg_gen_atomic_cmpxchg_tl(t0, cpu_lladdr, cpu_llv=
-al, val,
-+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0eva ? MIPS_HFLAG_UM : ctx->mem_idx, tcg_mo=
- & ~MO_SIGN);
-  =
-
-+ However, that change does not fix the fact that the result of ll is no
-+ longer sign-extended, therefore I think adding a cast in the helpers is
-+ better.
-  =
-
-  I cannot send this patch to the QEMU mailing list as I am not able to set=
-up git-send-email.
-  Feel free to apply this commit or the alternative solution.
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1861605
-
-Title:
-  LL/SC broken for MIPS after 7dd547e5ab6b31e7a0cfc182d3ad131dd55a948f
-
-Status in QEMU:
-  New
-
-Bug description:
-  In that commit the env->llval value is loaded as an unsigned value
-  (instead of sign-extended as before and therefore the CMPXCHG in
-  gen_st_cond() in translate.c fails.
-
-  I have committed a fix for this issue as
-  https://github.com/qemu/qemu/commit/6ff8dec97f1a105d0da96c67ee24c75e437df=
-162
-
-  An alternative solution would be to change the cmpxchg line to perform a =
-non-sign-extended compare, i.e. replace
-  =C2=A0=C2=A0=C2=A0=C2=A0tcg_gen_atomic_cmpxchg_tl(t0, cpu_lladdr, cpu_llv=
-al, val,
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0eva ? MIPS_HFLAG_UM : ctx->mem_idx, tcg_mo=
-);
-  with
-  =C2=A0=C2=A0=C2=A0=C2=A0tcg_gen_atomic_cmpxchg_tl(t0, cpu_lladdr, cpu_llv=
-al, val,
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0eva ? MIPS_HFLAG_UM : ctx->mem_idx, tcg_mo=
- & ~MO_SIGN);
-
-  However, that change does not fix the fact that the result of ll is no
-  longer sign-extended, therefore I think adding a cast in the helpers
-  is better.
-
-  I cannot send this patch to the QEMU mailing list as I am not able to set=
-up git-send-email.
-  Feel free to apply this commit or the alternative solution.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1861605/+subscriptions
+thanks
+-- PMM
 
