@@ -2,123 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29F3414FD69
-	for <lists+qemu-devel@lfdr.de>; Sun,  2 Feb 2020 14:45:18 +0100 (CET)
-Received: from localhost ([::1]:56266 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E37614FD64
+	for <lists+qemu-devel@lfdr.de>; Sun,  2 Feb 2020 14:43:52 +0100 (CET)
+Received: from localhost ([::1]:56224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iyFYr-0003im-4I
-	for lists+qemu-devel@lfdr.de; Sun, 02 Feb 2020 08:45:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52414)
+	id 1iyFXT-0001Oy-A1
+	for lists+qemu-devel@lfdr.de; Sun, 02 Feb 2020 08:43:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52252)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <prvs=29495a510=Anup.Patel@wdc.com>)
- id 1iyFX1-0001Ik-UW
- for qemu-devel@nongnu.org; Sun, 02 Feb 2020 08:43:25 -0500
+ (envelope-from <gengdongjiu@huawei.com>) id 1iyFWR-0000PT-NZ
+ for qemu-devel@nongnu.org; Sun, 02 Feb 2020 08:42:49 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <prvs=29495a510=Anup.Patel@wdc.com>)
- id 1iyFX0-0004Nt-Kl
- for qemu-devel@nongnu.org; Sun, 02 Feb 2020 08:43:23 -0500
-Received: from esa4.hgst.iphmx.com ([216.71.154.42]:23407)
+ (envelope-from <gengdongjiu@huawei.com>) id 1iyFWP-0003vZ-Li
+ for qemu-devel@nongnu.org; Sun, 02 Feb 2020 08:42:47 -0500
+Received: from szxga06-in.huawei.com ([45.249.212.32]:56718 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <prvs=29495a510=Anup.Patel@wdc.com>)
- id 1iyFWx-0004Lh-Ka; Sun, 02 Feb 2020 08:43:19 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1580650999; x=1612186999;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version;
- bh=+RsXoSggij9UK4OY2xLBNvHTIdzJ4C4zMTlalL9Wk44=;
- b=PZVMkt+y2XOa07/AFXZMVsIhhoUgqCMl4Mj6jcHtk2C8Llmu+ROLRy9X
- psjwbrfrIejk5vfKsCd4LujU1/nZSJwvD4tjN95wucBqRMXh8QIvHb1sQ
- 4Qbg2N/aDSqB543KTUxC8KQar046Wo1h6Psukfn0K81yu/cvd336y44nx
- mEMAHmLk+ao9qk8zt8L+JI84Gk0zDL3mGGvt8am275936WWl0hP5sAze2
- BYl4ZxvrgiDLGIlZ85BDZeS7ShVRieQLSQbYrjD/Vq1YrohTkmIfsplb8
- mqHJGGQ7Iygm+3bU3GI/duyFpD4hNXAfV2/giOTg+oDKNhr1hDLpVnY+L g==;
-IronPort-SDR: pUT0DK1p0vyo7IJQc1awh5D5KCcg0mLfq9oxMSko87qiVdCL21tfoY5PRw/Kpo6SP+YARgFJtb
- dDU6NQrnfir6Az1FD9mMvFdHvoKcbDmfi3YtSDC3f522/GVviioYdxJdeRrGHaAQrkXW1yofc4
- WlRqcvt2UREeOqoJU0a6HAnaXto818Jgf2XhftI6a/2f4dc40qn4nOQSPFrKafDI5abwbwIAoT
- WpZ2Pw5Kvv4MRuLw8BtdxHjyn2ynjqjT1XoqiHKgq9Jg9/wMV0r/L3RRqJbYwb6a/6SLgUwQxA
- 3QA=
-X-IronPort-AV: E=Sophos;i="5.70,394,1574092800"; d="scan'208";a="128929971"
-Received: from mail-bn8nam11lp2172.outbound.protection.outlook.com (HELO
- NAM11-BN8-obe.outbound.protection.outlook.com) ([104.47.58.172])
- by ob1.hgst.iphmx.com with ESMTP; 02 Feb 2020 21:43:17 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ehAozPt+TTTwxoHd2qN1qtOh3SQLDiYXOMG7UTo41xf3HjSzSUOdHwJZz22wcbpfMWyhN85jtrat39lxigtsaA2d1BhsiUcVeFOmLQAyV+sCncNpKyz8OZgCuqynzR3hZ7+q8Lwj+jDvDWZ8PUhr02CKBN1BoSc8UfrIKx7ZpzfKGcnuhGVaDshCgYcAPax5hjW3P7HkeoN855d4Pl9o4FxMblj0im9u/fYCm44ag+yT1FLMDWvHmjECfeEMf2/GZW+b3CQcVgEW0ZQSbUDbsfYJS6qqNUi5i3yCdoGKb5Il2ea6u3K+nqLZKDS5D9ROYPPvDBVw+6CPZqrifKj9tA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GXVWD6kaefkFuq2Xhot7bzYwQH75TZP2Zh89f6rRS5E=;
- b=mhJQEFhW090bnyWJNX6zdKzz54ugcqoGY2DrO3HcpKTUPJhR822+pxZ+tDboeHzfdZ7uVI5cBG297x9j5SNXnUIup1Tjyr/NzqAUFY2QbzMrNoeFJrMpQfZd36j69Nbj2DSghg7VEyoS/BC4RRC53QUBaft+1IPpJXUTLXEY0ibhyYwPK0N1obWqPFvj9siekHI415CmqI8cM4myjowPTgFS+aSzpUu6dhDt9bvJPHSeD4pLo07fSbvQG7+NovN5kKe2pXLYz6uGqGscNqI1qJmreIV4J3qFt/b5rcsR8PYpm6NZdrvQzRtzFWGN+kEqdRSAztsxPCgrUIHxplQojA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GXVWD6kaefkFuq2Xhot7bzYwQH75TZP2Zh89f6rRS5E=;
- b=KVwp6ru4k7C2ta+fwMMLpFXgsVKi1V5hHNF1hjPRxLgfOmqIszVMAELJ/nqjpualVoduQYEO6eza+7VtAgRh+90z8UWcSVpNG1IrdIkR8L1WJ/3J9zb1cZepk2JpUUJYCubgx9B7TzCjbJ6tV+BN69CtJnPynNVexT9bx3H1LZw=
-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=Anup.Patel@wdc.com; 
-Received: from MN2PR04MB6061.namprd04.prod.outlook.com (20.178.246.15) by
- MN2PR04MB7038.namprd04.prod.outlook.com (10.186.146.24) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2686.29; Sun, 2 Feb 2020 13:43:17 +0000
-Received: from MN2PR04MB6061.namprd04.prod.outlook.com
- ([fe80::a9a0:3ffa:371f:ad89]) by MN2PR04MB6061.namprd04.prod.outlook.com
- ([fe80::a9a0:3ffa:371f:ad89%7]) with mapi id 15.20.2686.031; Sun, 2 Feb 2020
- 13:43:17 +0000
-From: Anup Patel <anup.patel@wdc.com>
-To: Peter Maydell <peter.maydell@linaro.org>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>
-Subject: [PATCH v3 2/2] hw/riscv: Provide rdtime callback for TCG in CLINT
- emulation
-Date: Sun,  2 Feb 2020 19:12:17 +0530
-Message-Id: <20200202134217.14264-3-anup.patel@wdc.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200202134217.14264-1-anup.patel@wdc.com>
-References: <20200202134217.14264-1-anup.patel@wdc.com>
-Content-Type: text/plain
-X-ClientProxiedBy: AM0PR02CA0033.eurprd02.prod.outlook.com
- (2603:10a6:208:3e::46) To MN2PR04MB6061.namprd04.prod.outlook.com
- (2603:10b6:208:d8::15)
+ (Exim 4.71) (envelope-from <gengdongjiu@huawei.com>)
+ id 1iyFWJ-0003tI-RA; Sun, 02 Feb 2020 08:42:41 -0500
+Received: from DGGEMS408-HUB.china.huawei.com (unknown [172.30.72.58])
+ by Forcepoint Email with ESMTP id 78765E8A0C0750743925;
+ Sun,  2 Feb 2020 21:42:33 +0800 (CST)
+Received: from [127.0.0.1] (10.142.68.147) by DGGEMS408-HUB.china.huawei.com
+ (10.3.19.208) with Microsoft SMTP Server id 14.3.439.0; Sun, 2 Feb 2020
+ 21:42:24 +0800
+Subject: Re: [PATCH v22 7/9] ACPI: Record Generic Error Status Block(GESB)
+ table
+To: Igor Mammedov <imammedo@redhat.com>
+References: <1578483143-14905-1-git-send-email-gengdongjiu@huawei.com>
+ <1578483143-14905-8-git-send-email-gengdongjiu@huawei.com>
+ <20200128162938.18bd0e95@redhat.com>
+From: gengdongjiu <gengdongjiu@huawei.com>
+Message-ID: <a9f46632-0766-7e82-7dc4-752d00b4a0a1@huawei.com>
+Date: Sun, 2 Feb 2020 21:42:23 +0800
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0) Gecko/20100101
+ Thunderbird/52.3.0
 MIME-Version: 1.0
-Received: from wdc.com (217.111.249.45) by
- AM0PR02CA0033.eurprd02.prod.outlook.com (2603:10a6:208:3e::46) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2686.32 via Frontend Transport; Sun, 2 Feb 2020 13:43:15 +0000
-X-Mailer: git-send-email 2.17.1
-X-Originating-IP: [217.111.249.45]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: b7be8e38-b44f-49db-bed9-08d7a7e5db71
-X-MS-TrafficTypeDiagnostic: MN2PR04MB7038:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <MN2PR04MB7038923CF48310581CFB3FB18D010@MN2PR04MB7038.namprd04.prod.outlook.com>
-WDCIPOUTBOUND: EOP-TRUE
-X-MS-Oob-TLC-OOBClassifiers: OLM:13;
-X-Forefront-PRVS: 0301360BF5
-X-Forefront-Antispam-Report: SFV:NSPM;
- SFS:(10019020)(4636009)(376002)(39850400004)(136003)(366004)(346002)(396003)(189003)(199004)(26005)(5660300002)(186003)(316002)(16526019)(956004)(2616005)(44832011)(36756003)(8936002)(110136005)(4326008)(55016002)(1076003)(54906003)(66476007)(66556008)(2906002)(55236004)(478600001)(66946007)(7696005)(81156014)(81166006)(8676002)(86362001)(52116002)(8886007);
- DIR:OUT; SFP:1102; SCL:1; SRVR:MN2PR04MB7038;
- H:MN2PR04MB6061.namprd04.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: OxzJW7DN6YKr7Jnjoz6zJZB+CO8v9CvqWBFZZSAvLuYwhb87zi/7EbHVercSqhfqE+55EVBRq1TItab4IaLk4HGgmWckKMsksjb/Y6luchnH1Nko/stIGFJJrt+EOJYh165zpcRitRJKQY71iAhHvyZnD2MdFsZpihNeAxtPekep7o3KISwkCOgN1fKfxEYOOf152HjzHAvjDmC0E6+PSFyur5KhHfrFJBf23A6c27ZPR4ehf8/mJfKC1KonDzvUDhnurfvyqYblY5KQawplFpa/CMVEYbid2AALcO+QZNgWV/z1h0T2tGoBSgmdCwIEAF8wH9lxr/AB8UNgxtkIxjjCUCzOYPrCrNk3wk1naY22p/b0RIUMqikwOdQVoMcPkK6y7iH/Ni/v2PBt3zIbgIh7x6FpSnlJCk/EZfUCupuXjkg9SHu1Mdsk14uy3QSa
-X-MS-Exchange-AntiSpam-MessageData: S6DZCKQXSxp133djK41e4Dqij5mDZ1YfQL3ty5kOcyio+NitMvnnN9lydNaZtYUlAjXk3AxZe91v/MEMp+iytLIQw6lVOWZy7yQLL7dludmu9EATexQyqRC1Ltrgl28DCR56geEGS0q561lNZVxjWQ==
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b7be8e38-b44f-49db-bed9-08d7a7e5db71
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Feb 2020 13:43:17.0096 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 21dIIvxeONSkAIb/OVKLlomjrFw0yMDS/vHh+7g0fyqZKKad3KXnyjWTdNkTxKwh1+QKPZtkwIorEODvcvjuWw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR04MB7038
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
-X-Received-From: 216.71.154.42
+In-Reply-To: <20200128162938.18bd0e95@redhat.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.142.68.147]
+X-CFilter-Loop: Reflected
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 45.249.212.32
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -130,138 +58,370 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Atish Patra <atish.patra@wdc.com>, Anup Patel <anup.patel@wdc.com>,
- qemu-riscv@nongnu.org, qemu-devel@nongnu.org, Anup Patel <anup@brainfault.org>
+Cc: fam@euphon.net, peter.maydell@linaro.org, ehabkost@redhat.com,
+ kvm@vger.kernel.org, mst@redhat.com, mtosatti@redhat.com,
+ qemu-devel@nongnu.org, linuxarm@huawei.com, shannon.zhaosl@gmail.com,
+ zhengxiang9@huawei.com, qemu-arm@nongnu.org, james.morse@arm.com,
+ xuwei5@huawei.com, jonathan.cameron@huawei.com, pbonzini@redhat.com,
+ rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch extends CLINT emulation to provide rdtime callback for
-TCG. This rdtime callback will be called wheneven TIME CSRs are
-read in privileged modes.
+On 2020/1/28 23:29, Igor Mammedov wrote:
+> On Wed, 8 Jan 2020 19:32:21 +0800
+> Dongjiu Geng <gengdongjiu@huawei.com> wrote:
+> 
+>> kvm_arch_on_sigbus_vcpu() error injection uses source_id as
+>> index in etc/hardware_errors to find out Error Status Data
+>> Block entry corresponding to error source. So supported source_id
+>> values should be assigned here and not be changed afterwards to
+>> make sure that guest will write error into expected Error Status
+>> Data Block even if guest was migrated to a newer QEMU.
+>>
+>> Before QEMU writes a new error to ACPI table, it will check whether
+>> previous error has been acknowledged. Otherwise it will ignore the new
+>> error. For the errors section type, QEMU simulate it to memory section
+>> error.
+>>
+>> Signed-off-by: Dongjiu Geng <gengdongjiu@huawei.com>
+>> Signed-off-by: Xiang Zheng <zhengxiang9@huawei.com>
+>> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+>> ---
+>>  hw/acpi/ghes.c         | 224 ++++++++++++++++++++++++++++++++++++++++++++++++-
+>>  include/hw/acpi/ghes.h |   3 +
+>>  include/qemu/uuid.h    |   5 ++
+>>  3 files changed, 230 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/hw/acpi/ghes.c b/hw/acpi/ghes.c
+>> index 68f4abf..f2ecffe 100644
+>> --- a/hw/acpi/ghes.c
+>> +++ b/hw/acpi/ghes.c
+>> @@ -28,21 +28,56 @@
+>>  #include "sysemu/sysemu.h"
+>>  #include "qemu/error-report.h"
+>>  
+>> -#include "hw/acpi/bios-linker-loader.h"
+> why it's moved to header?
 
-Signed-off-by: Anup Patel <anup.patel@wdc.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
----
- hw/riscv/sifive_clint.c         | 6 +++++-
- hw/riscv/sifive_e.c             | 2 +-
- hw/riscv/sifive_u.c             | 2 +-
- hw/riscv/spike.c                | 9 ++++++---
- hw/riscv/virt.c                 | 2 +-
- include/hw/riscv/sifive_clint.h | 3 ++-
- 6 files changed, 16 insertions(+), 8 deletions(-)
+Because the function declaration "void acpi_build_hest(GArray *table_data, GArray *hardware_error,
+                          BIOSLinker *linker);" needs it in the header file, Otherwise The compilation will be failed.
 
-diff --git a/hw/riscv/sifive_clint.c b/hw/riscv/sifive_clint.c
-index e2feee871b..e933d35092 100644
---- a/hw/riscv/sifive_clint.c
-+++ b/hw/riscv/sifive_clint.c
-@@ -227,7 +227,8 @@ type_init(sifive_clint_register_types)
-  * Create CLINT device.
-  */
- DeviceState *sifive_clint_create(hwaddr addr, hwaddr size, uint32_t num_harts,
--    uint32_t sip_base, uint32_t timecmp_base, uint32_t time_base)
-+    uint32_t sip_base, uint32_t timecmp_base, uint32_t time_base,
-+    bool provide_rdtime)
- {
-     int i;
-     for (i = 0; i < num_harts; i++) {
-@@ -236,6 +237,9 @@ DeviceState *sifive_clint_create(hwaddr addr, hwaddr size, uint32_t num_harts,
-         if (!env) {
-             continue;
-         }
-+        if (provide_rdtime) {
-+            riscv_cpu_set_rdtime_fn(env, cpu_riscv_read_rtc);
-+        }
-         env->timer = timer_new_ns(QEMU_CLOCK_VIRTUAL,
-                                   &sifive_clint_timer_cb, cpu);
-         env->timecmp = 0;
-diff --git a/hw/riscv/sifive_e.c b/hw/riscv/sifive_e.c
-index 8a6b0348df..a254cad489 100644
---- a/hw/riscv/sifive_e.c
-+++ b/hw/riscv/sifive_e.c
-@@ -164,7 +164,7 @@ static void riscv_sifive_e_soc_realize(DeviceState *dev, Error **errp)
-         memmap[SIFIVE_E_PLIC].size);
-     sifive_clint_create(memmap[SIFIVE_E_CLINT].base,
-         memmap[SIFIVE_E_CLINT].size, ms->smp.cpus,
--        SIFIVE_SIP_BASE, SIFIVE_TIMECMP_BASE, SIFIVE_TIME_BASE);
-+        SIFIVE_SIP_BASE, SIFIVE_TIMECMP_BASE, SIFIVE_TIME_BASE, false);
-     create_unimplemented_device("riscv.sifive.e.aon",
-         memmap[SIFIVE_E_AON].base, memmap[SIFIVE_E_AON].size);
-     sifive_e_prci_create(memmap[SIFIVE_E_PRCI].base);
-diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-index 0e12b3ccef..156a003642 100644
---- a/hw/riscv/sifive_u.c
-+++ b/hw/riscv/sifive_u.c
-@@ -549,7 +549,7 @@ static void riscv_sifive_u_soc_realize(DeviceState *dev, Error **errp)
-         serial_hd(1), qdev_get_gpio_in(DEVICE(s->plic), SIFIVE_U_UART1_IRQ));
-     sifive_clint_create(memmap[SIFIVE_U_CLINT].base,
-         memmap[SIFIVE_U_CLINT].size, ms->smp.cpus,
--        SIFIVE_SIP_BASE, SIFIVE_TIMECMP_BASE, SIFIVE_TIME_BASE);
-+        SIFIVE_SIP_BASE, SIFIVE_TIMECMP_BASE, SIFIVE_TIME_BASE, false);
- 
-     object_property_set_bool(OBJECT(&s->prci), true, "realized", &err);
-     sysbus_mmio_map(SYS_BUS_DEVICE(&s->prci), 0, memmap[SIFIVE_U_PRCI].base);
-diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
-index 8823681783..6e5723a171 100644
---- a/hw/riscv/spike.c
-+++ b/hw/riscv/spike.c
-@@ -227,7 +227,8 @@ static void spike_board_init(MachineState *machine)
- 
-     /* Core Local Interruptor (timer and IPI) */
-     sifive_clint_create(memmap[SPIKE_CLINT].base, memmap[SPIKE_CLINT].size,
--        smp_cpus, SIFIVE_SIP_BASE, SIFIVE_TIMECMP_BASE, SIFIVE_TIME_BASE);
-+        smp_cpus, SIFIVE_SIP_BASE, SIFIVE_TIMECMP_BASE, SIFIVE_TIME_BASE,
-+        false);
- }
- 
- static void spike_v1_10_0_board_init(MachineState *machine)
-@@ -316,7 +317,8 @@ static void spike_v1_10_0_board_init(MachineState *machine)
- 
-     /* Core Local Interruptor (timer and IPI) */
-     sifive_clint_create(memmap[SPIKE_CLINT].base, memmap[SPIKE_CLINT].size,
--        smp_cpus, SIFIVE_SIP_BASE, SIFIVE_TIMECMP_BASE, SIFIVE_TIME_BASE);
-+        smp_cpus, SIFIVE_SIP_BASE, SIFIVE_TIMECMP_BASE, SIFIVE_TIME_BASE,
-+        false);
- }
- 
- static void spike_v1_09_1_board_init(MachineState *machine)
-@@ -424,7 +426,8 @@ static void spike_v1_09_1_board_init(MachineState *machine)
- 
-     /* Core Local Interruptor (timer and IPI) */
-     sifive_clint_create(memmap[SPIKE_CLINT].base, memmap[SPIKE_CLINT].size,
--        smp_cpus, SIFIVE_SIP_BASE, SIFIVE_TIMECMP_BASE, SIFIVE_TIME_BASE);
-+        smp_cpus, SIFIVE_SIP_BASE, SIFIVE_TIMECMP_BASE, SIFIVE_TIME_BASE,
-+        false);
- 
-     g_free(config_string);
- }
-diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-index c44b865959..50838019c8 100644
---- a/hw/riscv/virt.c
-+++ b/hw/riscv/virt.c
-@@ -562,7 +562,7 @@ static void riscv_virt_board_init(MachineState *machine)
-         memmap[VIRT_PLIC].size);
-     sifive_clint_create(memmap[VIRT_CLINT].base,
-         memmap[VIRT_CLINT].size, smp_cpus,
--        SIFIVE_SIP_BASE, SIFIVE_TIMECMP_BASE, SIFIVE_TIME_BASE);
-+        SIFIVE_SIP_BASE, SIFIVE_TIMECMP_BASE, SIFIVE_TIME_BASE, true);
-     sifive_test_create(memmap[VIRT_TEST].base);
- 
-     for (i = 0; i < VIRTIO_COUNT; i++) {
-diff --git a/include/hw/riscv/sifive_clint.h b/include/hw/riscv/sifive_clint.h
-index ae8286c884..4a720bfece 100644
---- a/include/hw/riscv/sifive_clint.h
-+++ b/include/hw/riscv/sifive_clint.h
-@@ -41,7 +41,8 @@ typedef struct SiFiveCLINTState {
- } SiFiveCLINTState;
- 
- DeviceState *sifive_clint_create(hwaddr addr, hwaddr size, uint32_t num_harts,
--    uint32_t sip_base, uint32_t timecmp_base, uint32_t time_base);
-+    uint32_t sip_base, uint32_t timecmp_base, uint32_t time_base,
-+    bool provide_rdtime);
- 
- enum {
-     SIFIVE_SIP_BASE     = 0x0,
--- 
-2.17.1
+
+Anyway I will move this change to patch "[v22,4/9] ACPI: Build Hardware Error Source Table", because that patch needs it .
+
+> 
+>> -
+>>  #define ACPI_GHES_ERRORS_FW_CFG_FILE        "etc/hardware_errors"
+>>  #define ACPI_GHES_DATA_ADDR_FW_CFG_FILE     "etc/hardware_errors_addr"
+>>  
+>>  /* The max size in bytes for one error block */
+>>  #define ACPI_GHES_MAX_RAW_DATA_LENGTH       0x400
+>> +
+>>  /* Now only support ARMv8 SEA notification type error source */
+>>  #define ACPI_GHES_ERROR_SOURCE_COUNT        1
+>> +
+>>  /* Generic Hardware Error Source version 2 */
+>>  #define ACPI_GHES_SOURCE_GENERIC_ERROR_V2   10
+>> +
+>>  /* Address offset in Generic Address Structure(GAS) */
+>>  #define GAS_ADDR_OFFSET 4
+>>  
+>>  /*
+>> + * The total size of Generic Error Data Entry
+>> + * ACPI 6.1/6.2: 18.3.2.7.1 Generic Error Data,
+>> + * Table 18-343 Generic Error Data Entry
+>> + */
+>> +#define ACPI_GHES_DATA_LENGTH               72
+>> +
+>> +/* The memory section CPER size, UEFI 2.6: N.2.5 Memory Error Section */
+>> +#define ACPI_GHES_MEM_CPER_LENGTH           80
+>> +
+>> +/* Masks for block_status flags */
+>> +#define ACPI_GEBS_UNCORRECTABLE         1
+>> +
+>> +#define UEFI_CPER_SEC_PLATFORM_MEM                              \
+>> +    UUID_LE(0xA5BC1114, 0x6F64, 0x4EDE, 0xB8, 0x63, 0x3E, 0x83, \
+>> +            0xED, 0x7C, 0x83, 0xB1)
+>> +
+>> +/*
+>> + * Total size for Generic Error Status Block except Generic Error Data Entries
+>> + * ACPI 6.2: 18.3.2.7.1 Generic Error Data,
+>> + * Table 18-380 Generic Error Status Block
+>> + */
+>> +#define ACPI_GHES_GESB_SIZE                 20
+>> +
+>> +/*
+>> + * Values for error_severity field
+>> + */
+>> +enum AcpiGenericErrorSeverity {
+>> +    ACPI_CPER_SEV_RECOVERABLE = 0,
+>> +    ACPI_CPER_SEV_FATAL = 1,
+>> +    ACPI_CPER_SEV_CORRECTED = 2,
+>> +    ACPI_CPER_SEV_NONE = 3,
+>> +};
+>> +
+>> +/*
+>>   * Hardware Error Notification
+>>   * ACPI 4.0: 17.3.2.7 Hardware Error Notification
+>>   * Composes dummy Hardware Error Notification descriptor of specified type
+>> @@ -73,6 +108,127 @@ static void build_ghes_hw_error_notification(GArray *table, const uint8_t type)
+>>  }
+>>  
+>>  /*
+>> + * Generic Error Data Entry
+>> + * ACPI 6.1: 18.3.2.7.1 Generic Error Data
+>> + */
+>> +static void acpi_ghes_generic_error_data(GArray *table, QemuUUID section_type,
+>> +                uint32_t error_severity, uint8_t validation_bits, uint8_t flags,
+>> +                uint32_t error_data_length, QemuUUID fru_id,
+>> +                uint64_t time_stamp)
+>> +{
+>> +    /* Section Type */
+>> +    g_array_append_vals(table, section_type.data,
+>> +                        ARRAY_SIZE(section_type.data));
+>> +
+>> +    /* Error Severity */
+>> +    build_append_int_noprefix(table, error_severity, 4);
+>> +    /* Revision */
+>> +    build_append_int_noprefix(table, 0x300, 2);
+>> +    /* Validation Bits */
+>> +    build_append_int_noprefix(table, validation_bits, 1);
+>> +    /* Flags */
+>> +    build_append_int_noprefix(table, flags, 1);
+>> +    /* Error Data Length */
+>> +    build_append_int_noprefix(table, error_data_length, 4);
+>> +
+>> +    /* FRU Id */
+>> +    g_array_append_vals(table, fru_id.data, ARRAY_SIZE(fru_id.data));
+>> +
+>> +    /* FRU Text */
+>> +    build_append_int_noprefix(table, 0, 20);
+>> +    /* Timestamp */
+>> +    build_append_int_noprefix(table, time_stamp, 8);
+>> +}
+>> +
+>> +/*
+>> + * Generic Error Status Block
+>> + * ACPI 6.1: 18.3.2.7.1 Generic Error Data
+>> + */
+>> +static void acpi_ghes_generic_error_status(GArray *table, uint32_t block_status,
+>> +                uint32_t raw_data_offset, uint32_t raw_data_length,
+>> +                uint32_t data_length, uint32_t error_severity)
+>> +{
+>> +    /* Block Status */
+>> +    build_append_int_noprefix(table, block_status, 4);
+>> +    /* Raw Data Offset */
+>> +    build_append_int_noprefix(table, raw_data_offset, 4);
+>> +    /* Raw Data Length */
+>> +    build_append_int_noprefix(table, raw_data_length, 4);
+>> +    /* Data Length */
+>> +    build_append_int_noprefix(table, data_length, 4);
+>> +    /* Error Severity */
+>> +    build_append_int_noprefix(table, error_severity, 4);
+>> +}
+>> +
+>> +/* UEFI 2.6: N.2.5 Memory Error Section */
+>> +static void acpi_ghes_build_append_mem_cper(GArray *table,
+>> +                                            uint64_t error_physical_addr)
+>> +{
+>> +    /*
+>> +     * Memory Error Record
+>> +     */
+>> +
+>> +    /* Validation Bits */
+>> +    build_append_int_noprefix(table,
+>> +                              (1ULL << 14) | /* Type Valid */
+>> +                              (1ULL << 1) /* Physical Address Valid */,
+>> +                              8);
+>> +    /* Error Status */
+>> +    build_append_int_noprefix(table, 0, 8);
+>> +    /* Physical Address */
+>> +    build_append_int_noprefix(table, error_physical_addr, 8);
+>> +    /* Skip all the detailed information normally found in such a record */
+>> +    build_append_int_noprefix(table, 0, 48);
+>> +    /* Memory Error Type */
+>> +    build_append_int_noprefix(table, 0 /* Unknown error */, 1);
+>> +    /* Skip all the detailed information normally found in such a record */
+>> +    build_append_int_noprefix(table, 0, 7);
+>> +}
+>> +
+>> +static int acpi_ghes_record_mem_error(uint64_t error_block_address,
+>> +                                      uint64_t error_physical_addr)
+>> +{
+>> +    GArray *block;
+>> +    /* Memory Error Section Type */
+>> +    QemuUUID mem_section_id_le = UEFI_CPER_SEC_PLATFORM_MEM;
+>> +    QemuUUID fru_id = {};
+> add comment /* invalid fru id: UEFI 2.6: ..., table ...
+ok.
+
+> 
+> 
+>> +    uint32_t data_length;
+>> +
+>> +    block = g_array_new(false, true /* clear */, 1);
+>> +
+>> +    /* This is the length if adding a new generic error data entry*/
+>> +    data_length = ACPI_GHES_DATA_LENGTH + ACPI_GHES_MEM_CPER_LENGTH;
+>> +
+>> +    /*
+>> +     * Check whether it will run out of the preallocated memory if adding a new
+>> +     * generic error data entry
+>> +     */
+>> +    if ((data_length + ACPI_GHES_GESB_SIZE) > ACPI_GHES_MAX_RAW_DATA_LENGTH) {
+>> +        error_report("Not enough memory to record new CPER!!!");
+>> +        return -1;
+>> +    }
+>> +
+>> +    /* Build the new generic error status block header */
+>> +    acpi_ghes_generic_error_status(block, ACPI_GEBS_UNCORRECTABLE,
+>> +        0, 0, data_length, ACPI_CPER_SEV_RECOVERABLE);
+>> +
+>> +    /* Build this new generic error data entry header */
+>> +    acpi_ghes_generic_error_data(block, mem_section_id_le,
+>> +        ACPI_CPER_SEV_RECOVERABLE, 0, 0,
+>> +        ACPI_GHES_MEM_CPER_LENGTH, fru_id, 0);
+>> +
+>> +    /* Build the memory section CPER for above new generic error data entry */
+>> +    acpi_ghes_build_append_mem_cper(block, error_physical_addr);
+>> +
+>> +    /* Write back above this new generic error data entry to guest memory */
+> 
+> /* Write the generic error data entry into guest memory */
+>> +    cpu_physical_memory_write(error_block_address, block->data, block->len);
+>> +
+>> +    g_array_free(block, true);
+>> +
+>> +    return 0;
+>> +}
+>> +
+>> +/*
+>>   * Build table for the hardware error fw_cfg blob.
+>>   * Initialize "etc/hardware_errors" and "etc/hardware_errors_addr" fw_cfg blobs.
+>>   * See docs/specs/acpi_hest_ghes.rst for blobs format.
+>> @@ -224,3 +380,67 @@ void acpi_ghes_add_fw_cfg(AcpiGhesState *ags, FWCfgState *s,
+>>      fw_cfg_add_file_callback(s, ACPI_GHES_DATA_ADDR_FW_CFG_FILE, NULL, NULL,
+>>          NULL, &(ags->ghes_addr_le), sizeof(ags->ghes_addr_le), false);
+>>  }
+>> +
+>> +int acpi_ghes_record_errors(uint8_t source_id, uint64_t physical_address)
+>> +{
+>> +    uint64_t error_block_addr, read_ack_register_addr, read_ack_register = 0;
+>> +    int loop = 0;
+>> +    uint64_t start_addr;
+>> +    bool ret = -1;
+>> +    AcpiGedState *acpi_ged_state;
+>> +    AcpiGhesState *ags;
+>> +
+>> +    assert(source_id < ACPI_HEST_SRC_ID_RESERVED);
+>> +
+>> +    acpi_ged_state = ACPI_GED(object_resolve_path_type("", TYPE_ACPI_GED,
+>> +                                                       NULL));
+>> +    if (acpi_ged_state) {
+>> +        ags = &acpi_ged_state->ghes_state;
+>> +    } else {
+>> +        error_report("ACPI GED device not found");
+>> +        return -1;
+>> +    }
+>> +
+>> +    start_addr = le64_to_cpu(ags->ghes_addr_le);
+>> +
+>> +    if (physical_address) {
+>> +
+>> +        if (source_id < ACPI_HEST_SRC_ID_RESERVED) {
+>> +            start_addr += source_id * sizeof(uint64_t);
+>> +        }
+>> +
+>> +        cpu_physical_memory_read(start_addr, &error_block_addr,
+>> +                                 sizeof(error_block_addr));
+>> +
+>> +        read_ack_register_addr = start_addr +
+>> +            ACPI_GHES_ERROR_SOURCE_COUNT * sizeof(uint64_t);
+>> +retry:
+>> +        cpu_physical_memory_read(read_ack_register_addr,
+>> +                                 &read_ack_register, sizeof(read_ack_register));
+>> +
+>> +        /* zero means OSPM does not acknowledge the error */
+>> +        if (!read_ack_register) {
+>> +            if (loop < 3) {
+>> +                usleep(100 * 1000);
+>> +                loop++;
+>> +                goto retry;
+> it's not doing what commit message says
+> 
+> if message is supposed to be dropped, just drop it without any delay loops.
+ok, I will drop it.
+
+> 
+>> +            } else {
+>> +                error_report("OSPM does not acknowledge previous error,"
+>> +                    " so can not record CPER for current error anymore");
+>> +            }
+>> +        } else if (error_block_addr) {
+>> +                read_ack_register = cpu_to_le64(0);
+>                                           ^^^^ pointless "= 0" will do just fine
+> 
+>> +                /*
+>> +                 * Clear the Read Ack Register, OSPM will write it to 1 when
+>> +                 * acknowledge this error.
+> s/acknowledge/it acknowledges/
+Thanks for this pointing out.
+
+> 
+>> +                 */
+>> +                cpu_physical_memory_write(read_ack_register_addr,
+>> +                    &read_ack_register, sizeof(uint64_t));
+>> +
+>> +                ret = acpi_ghes_record_mem_error(error_block_addr,
+>> +                                                 physical_address);
+>> +        }
+>> +    }
+>> +
+>> +    return ret;
+>> +}
+>> diff --git a/include/hw/acpi/ghes.h b/include/hw/acpi/ghes.h
+>> index a6761e6..ab0ae33 100644
+>> --- a/include/hw/acpi/ghes.h
+>> +++ b/include/hw/acpi/ghes.h
+>> @@ -22,6 +22,8 @@
+>>  #ifndef ACPI_GHES_H
+>>  #define ACPI_GHES_H
+>>  
+>> +#include "hw/acpi/bios-linker-loader.h"
+>> +
+>>  /*
+>>   * Values for Hardware Error Notification Type field
+>>   */
+>> @@ -69,4 +71,5 @@ void acpi_build_hest(GArray *table_data, GArray *hardware_error,
+>>                            BIOSLinker *linker);
+>>  void acpi_ghes_add_fw_cfg(AcpiGhesState *vms, FWCfgState *s,
+>>                            GArray *hardware_errors);
+>> +int acpi_ghes_record_errors(uint8_t notify, uint64_t error_physical_addr);
+>>  #endif
+>> diff --git a/include/qemu/uuid.h b/include/qemu/uuid.h
+>> index 129c45f..b35e294 100644
+>> --- a/include/qemu/uuid.h
+>> +++ b/include/qemu/uuid.h
+>> @@ -34,6 +34,11 @@ typedef struct {
+>>      };
+>>  } QemuUUID;
+>>  
+>> +#define UUID_LE(a, b, c, d0, d1, d2, d3, d4, d5, d6, d7)             \
+>> +  {{{ (a) & 0xff, ((a) >> 8) & 0xff, ((a) >> 16) & 0xff, ((a) >> 24) & 0xff, \
+>> +     (b) & 0xff, ((b) >> 8) & 0xff, (c) & 0xff, ((c) >> 8) & 0xff,          \
+>> +     (d0), (d1), (d2), (d3), (d4), (d5), (d6), (d7) } } }
+> 
+> since you are adding generalizing macro, take of NVDIMM_UUID_LE which served as model
+
+do you mean use this generalizing macro to replace NVDIMM_UUID_LE, right?
+
+> 
+> 
+>>  #define UUID_FMT "%02hhx%02hhx%02hhx%02hhx-" \
+>>                   "%02hhx%02hhx-%02hhx%02hhx-" \
+>>                   "%02hhx%02hhx-" \
+> 
+> .
+> 
 
 
