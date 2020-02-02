@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D07414FB19
-	for <lists+qemu-devel@lfdr.de>; Sun,  2 Feb 2020 02:06:18 +0100 (CET)
-Received: from localhost ([::1]:52096 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B2E914FB1D
+	for <lists+qemu-devel@lfdr.de>; Sun,  2 Feb 2020 02:07:38 +0100 (CET)
+Received: from localhost ([::1]:52144 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iy3iL-0005HG-98
-	for lists+qemu-devel@lfdr.de; Sat, 01 Feb 2020 20:06:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45549)
+	id 1iy3jd-00008e-A2
+	for lists+qemu-devel@lfdr.de; Sat, 01 Feb 2020 20:07:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45578)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iy3gt-0003Tr-7Q
- for qemu-devel@nongnu.org; Sat, 01 Feb 2020 20:04:48 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1iy3gu-0003VD-Nm
+ for qemu-devel@nongnu.org; Sat, 01 Feb 2020 20:04:49 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iy3gs-0001uZ-81
- for qemu-devel@nongnu.org; Sat, 01 Feb 2020 20:04:47 -0500
-Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:33031)
+ (envelope-from <richard.henderson@linaro.org>) id 1iy3gt-0001wa-IE
+ for qemu-devel@nongnu.org; Sat, 01 Feb 2020 20:04:48 -0500
+Received: from mail-pj1-x1041.google.com ([2607:f8b0:4864:20::1041]:39811)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iy3gs-0001tQ-2o
- for qemu-devel@nongnu.org; Sat, 01 Feb 2020 20:04:46 -0500
-Received: by mail-pg1-x543.google.com with SMTP id 6so5755974pgk.0
- for <qemu-devel@nongnu.org>; Sat, 01 Feb 2020 17:04:46 -0800 (PST)
+ id 1iy3gt-0001vK-Cc
+ for qemu-devel@nongnu.org; Sat, 01 Feb 2020 20:04:47 -0500
+Received: by mail-pj1-x1041.google.com with SMTP id e9so4737566pjr.4
+ for <qemu-devel@nongnu.org>; Sat, 01 Feb 2020 17:04:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=hPQ0dR0RCVOoDHLNqnKbILWZrurFdQJzDpp0jJ4Jtv4=;
- b=PMDiici73X5qrzNu3CGsv++vvI7YAWVLMsXO2GjxyqJohfoAQj6m9r+CCzGf3voyBY
- IXveZCVic9//JAcYsq0OkKuUnggyDdXm8wKyiSXi6dvhtgytPSzRks7ovC1un0eWB9Z9
- F125KVK8fW1pMOCcTMuP3XmapQ6bUoPfiuY53G8Z0DopQELVMEUD1KfQtBWEx0AXYNLR
- P1moRd5RfJuCPDbHVI44dUhUltYxmdc2X39v5vFh6woP3S7OAmBMbjt9BYZ0TaFvvee1
- HQU6cdoNnqFSnZ3Wn52q8NvocrtZ83Ia4q/8bbunl8y5YJyDxRvZU7T7L+5ng4FuXAXY
- 0NFw==
+ bh=DvbJD7vPe2BsG6TgBfcVzI1uqZumbSEbIYT2NtMlLpk=;
+ b=vvUjZoa+/LL0C/AN/0AGL5eMsk6DVxcaSHoBItCQCW5gHaov7jExUmTE812xO1cHSu
+ 63jS4MAump+2TtJrxusWlT+8gsdJVg1s0Mgq/f0bcPegmF2z46PA6JF67T9dfEzM0p7Q
+ yhX2iMVqjyMatd6teaCrxBkmNF3mwmfYElC6w5uozqmC7hGrZAcT32e0grGcy8B07T2Z
+ imkHvxr+NULmUE4Wvap4WH2bG9ZcEN/Bes7RIY8EhMg4TF5bAuxS17Duil+cnqyyRdDh
+ NXgoiqNdALlB04Ofvin0KEUk4OY5AeooFjMiUvetvheNMpNo4F3+oi/92tXQl97II51w
+ AEIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=hPQ0dR0RCVOoDHLNqnKbILWZrurFdQJzDpp0jJ4Jtv4=;
- b=s+N/NqHsIKx1LdlN1rlcQTvp5wub65secYU7UpCHKy+ZrlYB5YjWAcL3Ou6eJsLmb3
- nilToRPzeNBUPdHFt/V/Y3KeTZtY6QXcxbww625lVNouFy8jYgcQGykHfD0o63Q9QoNi
- z0gIwVT0nC7zbOkxscB6S8oRNNyaevOyr4WsvSJCPCbU1LHSHatSs8ceH9eb756GfBfl
- fsJ+q7+9BrauH0wmpch6T7VxocZ6m2a5bKbipVBGmwSjkycbtIqM7TLTwTKbht9rSUyF
- 5owbIO+uob3EotUel9hAANEGq11pU99CcyquDz2zlHFPQxDia9MgB70UmtVwdaFb1mPR
- kP6Q==
-X-Gm-Message-State: APjAAAXXH2TQAqAwul4PxHcY0Sp6fE1w8lzwllDL4Ag64SdBXk90Yj99
- MpLkJzRLLR4L/ZNmV+vqhtPOgo7lT0A=
-X-Google-Smtp-Source: APXvYqynsExQQSTXqD5AMJW32L5Uu2PO2ieHj1Sc7/yDlGoitZ7+Ns5iyw/5sUXO35VVcB9+WxPHAw==
-X-Received: by 2002:a62:5547:: with SMTP id j68mr18389545pfb.6.1580605484830; 
- Sat, 01 Feb 2020 17:04:44 -0800 (PST)
+ bh=DvbJD7vPe2BsG6TgBfcVzI1uqZumbSEbIYT2NtMlLpk=;
+ b=IOd81TI473HBBhuk/54ehsXuvCmoSGTvQq81B40ndvJ2wp2ohcKMy4ExRs1mnj4sw3
+ zSSU1SkNgg+uZfVjCzetQbKLZ1hO3jIIVCRoKvpyY9v7jVERhSzZEvhIV/yt0oO74X6J
+ Nrw5fyIv8TLLvVDo93bXukc94bKAPVr+QWu4oS8XOKmooTF73zAEagt+KcMBcxV3FDph
+ F0b47SVAEdxjX8rw61/TDjvzC2mzbb3bxwq4HpW4IbcCuwl8xkYsgNt0Z5RDPDds11zR
+ NMekt7w8By7WwqasDdzNGoAOfwJTlUXoTaEcdC15hOcRqav+2d74zf5jwZoedwzQ1tC8
+ Dmwg==
+X-Gm-Message-State: APjAAAUefvmkb0AsAqEcU5xOI7YspH+/qWNuAg8XOQZP/YOlltdf/ETD
+ 5bhLKPbKvCM8YHzP73y9Hps3Q8Oarnc=
+X-Google-Smtp-Source: APXvYqxvmmrktTn4csSReixRmwT3RVqVomIOIz08EHe9EsVyAXTq8UZlaAcNBogtWE/3Gkr4JePYzg==
+X-Received: by 2002:a17:90a:a08e:: with SMTP id
+ r14mr3673544pjp.120.1580605486112; 
+ Sat, 01 Feb 2020 17:04:46 -0800 (PST)
 Received: from cloudburst.WiFi.IPv4InfoBelow
  (h210.212.133.40.static.ip.windstream.net. [40.133.212.210])
- by smtp.gmail.com with ESMTPSA id 13sm14678975pfi.78.2020.02.01.17.04.43
+ by smtp.gmail.com with ESMTPSA id 13sm14678975pfi.78.2020.02.01.17.04.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 01 Feb 2020 17:04:44 -0800 (PST)
+ Sat, 01 Feb 2020 17:04:45 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 03/14] target/arm: Add isar_feature tests for PAN + ATS1E1
-Date: Sat,  1 Feb 2020 17:04:28 -0800
-Message-Id: <20200202010439.6410-4-richard.henderson@linaro.org>
+Subject: [PATCH v2 04/14] target/arm: Move LOR regdefs to file scope
+Date: Sat,  1 Feb 2020 17:04:29 -0800
+Message-Id: <20200202010439.6410-5-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200202010439.6410-1-richard.henderson@linaro.org>
 References: <20200202010439.6410-1-richard.henderson@linaro.org>
@@ -66,7 +67,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::543
+X-Received-From: 2607:f8b0:4864:20::1041
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,69 +83,88 @@ Cc: peter.maydell@linaro.org, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Include definitions for all of the bits in ID_MMFR3.
-We already have a definition for ID_AA64MMFR1.PAN.
+For static const regdefs, file scope is preferred.
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/cpu.h | 29 +++++++++++++++++++++++++++++
- 1 file changed, 29 insertions(+)
+ target/arm/helper.c | 57 +++++++++++++++++++++++----------------------
+ 1 file changed, 29 insertions(+), 28 deletions(-)
 
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index c63bceaaa5..08b2f5d73e 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -1727,6 +1727,15 @@ FIELD(ID_ISAR6, FHM, 8, 4)
- FIELD(ID_ISAR6, SB, 12, 4)
- FIELD(ID_ISAR6, SPECRES, 16, 4)
- 
-+FIELD(ID_MMFR3, CMAINTVA, 0, 4)
-+FIELD(ID_MMFR3, CMAINTSW, 4, 4)
-+FIELD(ID_MMFR3, BPMAINT, 8, 4)
-+FIELD(ID_MMFR3, MAINTBCST, 12, 4)
-+FIELD(ID_MMFR3, PAN, 16, 4)
-+FIELD(ID_MMFR3, COHWALK, 20, 4)
-+FIELD(ID_MMFR3, CMEMSZ, 24, 4)
-+FIELD(ID_MMFR3, SUPERSEC, 28, 4)
-+
- FIELD(ID_MMFR4, SPECSEI, 0, 4)
- FIELD(ID_MMFR4, AC2, 4, 4)
- FIELD(ID_MMFR4, XNX, 8, 4)
-@@ -3443,6 +3452,16 @@ static inline bool isar_feature_aa32_vminmaxnm(const ARMISARegisters *id)
-     return FIELD_EX64(id->mvfr2, MVFR2, FPMISC) >= 4;
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 739d2d4cc5..795ef727d0 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -6343,6 +6343,35 @@ static CPAccessResult access_lor_other(CPUARMState *env,
+     return access_lor_ns(env);
  }
  
-+static inline bool isar_feature_aa32_pan(const ARMISARegisters *id)
-+{
-+    return FIELD_EX64(id->mvfr0, ID_MMFR3, PAN) != 0;
-+}
++/*
++ * A trivial implementation of ARMv8.1-LOR leaves all of these
++ * registers fixed at 0, which indicates that there are zero
++ * supported Limited Ordering regions.
++ */
++static const ARMCPRegInfo lor_reginfo[] = {
++    { .name = "LORSA_EL1", .state = ARM_CP_STATE_AA64,
++      .opc0 = 3, .opc1 = 0, .crn = 10, .crm = 4, .opc2 = 0,
++      .access = PL1_RW, .accessfn = access_lor_other,
++      .type = ARM_CP_CONST, .resetvalue = 0 },
++    { .name = "LOREA_EL1", .state = ARM_CP_STATE_AA64,
++      .opc0 = 3, .opc1 = 0, .crn = 10, .crm = 4, .opc2 = 1,
++      .access = PL1_RW, .accessfn = access_lor_other,
++      .type = ARM_CP_CONST, .resetvalue = 0 },
++    { .name = "LORN_EL1", .state = ARM_CP_STATE_AA64,
++      .opc0 = 3, .opc1 = 0, .crn = 10, .crm = 4, .opc2 = 2,
++      .access = PL1_RW, .accessfn = access_lor_other,
++      .type = ARM_CP_CONST, .resetvalue = 0 },
++    { .name = "LORC_EL1", .state = ARM_CP_STATE_AA64,
++      .opc0 = 3, .opc1 = 0, .crn = 10, .crm = 4, .opc2 = 3,
++      .access = PL1_RW, .accessfn = access_lor_other,
++      .type = ARM_CP_CONST, .resetvalue = 0 },
++    { .name = "LORID_EL1", .state = ARM_CP_STATE_AA64,
++      .opc0 = 3, .opc1 = 0, .crn = 10, .crm = 4, .opc2 = 7,
++      .access = PL1_R, .accessfn = access_lorid,
++      .type = ARM_CP_CONST, .resetvalue = 0 },
++    REGINFO_SENTINEL
++};
 +
-+static inline bool isar_feature_aa32_ats1e1(const ARMISARegisters *id)
-+{
-+    return FIELD_EX64(id->mvfr0, ID_MMFR3, PAN) >= 2;
-+}
-+
- /*
-  * 64-bit feature tests via id registers.
-  */
-@@ -3602,6 +3621,16 @@ static inline bool isar_feature_aa64_lor(const ARMISARegisters *id)
-     return FIELD_EX64(id->id_aa64mmfr1, ID_AA64MMFR1, LO) != 0;
- }
+ #ifdef TARGET_AARCH64
+ static CPAccessResult access_pauth(CPUARMState *env, const ARMCPRegInfo *ri,
+                                    bool isread)
+@@ -7577,34 +7606,6 @@ void register_cp_regs_for_features(ARMCPU *cpu)
+     }
  
-+static inline bool isar_feature_aa64_pan(const ARMISARegisters *id)
-+{
-+    return FIELD_EX64(id->id_aa64mmfr1, ID_AA64MMFR1, PAN) != 0;
-+}
-+
-+static inline bool isar_feature_aa64_ats1e1(const ARMISARegisters *id)
-+{
-+    return FIELD_EX64(id->id_aa64mmfr1, ID_AA64MMFR1, PAN) >= 2;
-+}
-+
- static inline bool isar_feature_aa64_bti(const ARMISARegisters *id)
- {
-     return FIELD_EX64(id->id_aa64pfr1, ID_AA64PFR1, BT) != 0;
+     if (cpu_isar_feature(aa64_lor, cpu)) {
+-        /*
+-         * A trivial implementation of ARMv8.1-LOR leaves all of these
+-         * registers fixed at 0, which indicates that there are zero
+-         * supported Limited Ordering regions.
+-         */
+-        static const ARMCPRegInfo lor_reginfo[] = {
+-            { .name = "LORSA_EL1", .state = ARM_CP_STATE_AA64,
+-              .opc0 = 3, .opc1 = 0, .crn = 10, .crm = 4, .opc2 = 0,
+-              .access = PL1_RW, .accessfn = access_lor_other,
+-              .type = ARM_CP_CONST, .resetvalue = 0 },
+-            { .name = "LOREA_EL1", .state = ARM_CP_STATE_AA64,
+-              .opc0 = 3, .opc1 = 0, .crn = 10, .crm = 4, .opc2 = 1,
+-              .access = PL1_RW, .accessfn = access_lor_other,
+-              .type = ARM_CP_CONST, .resetvalue = 0 },
+-            { .name = "LORN_EL1", .state = ARM_CP_STATE_AA64,
+-              .opc0 = 3, .opc1 = 0, .crn = 10, .crm = 4, .opc2 = 2,
+-              .access = PL1_RW, .accessfn = access_lor_other,
+-              .type = ARM_CP_CONST, .resetvalue = 0 },
+-            { .name = "LORC_EL1", .state = ARM_CP_STATE_AA64,
+-              .opc0 = 3, .opc1 = 0, .crn = 10, .crm = 4, .opc2 = 3,
+-              .access = PL1_RW, .accessfn = access_lor_other,
+-              .type = ARM_CP_CONST, .resetvalue = 0 },
+-            { .name = "LORID_EL1", .state = ARM_CP_STATE_AA64,
+-              .opc0 = 3, .opc1 = 0, .crn = 10, .crm = 4, .opc2 = 7,
+-              .access = PL1_R, .accessfn = access_lorid,
+-              .type = ARM_CP_CONST, .resetvalue = 0 },
+-            REGINFO_SENTINEL
+-        };
+         define_arm_cp_regs(cpu, lor_reginfo);
+     }
+ 
 -- 
 2.20.1
 
