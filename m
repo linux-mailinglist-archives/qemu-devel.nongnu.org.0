@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5D861504F8
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Feb 2020 12:14:52 +0100 (CET)
-Received: from localhost ([::1]:38112 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17A0B1504FE
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Feb 2020 12:16:29 +0100 (CET)
+Received: from localhost ([::1]:38174 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iyZgp-0007WU-Qy
-	for lists+qemu-devel@lfdr.de; Mon, 03 Feb 2020 06:14:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57485)
+	id 1iyZiO-0001ge-5B
+	for lists+qemu-devel@lfdr.de; Mon, 03 Feb 2020 06:16:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57495)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iyZfd-0005W2-Sg
+ (envelope-from <peter.maydell@linaro.org>) id 1iyZfe-0005YI-NF
  for qemu-devel@nongnu.org; Mon, 03 Feb 2020 06:13:40 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iyZfb-0000qL-EC
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 06:13:37 -0500
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:34511)
+ (envelope-from <peter.maydell@linaro.org>) id 1iyZfc-0000qs-Ii
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 06:13:38 -0500
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:38277)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iyZfb-0000on-6U
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 06:13:35 -0500
-Received: by mail-wr1-x441.google.com with SMTP id t2so17507557wrr.1
- for <qemu-devel@nongnu.org>; Mon, 03 Feb 2020 03:13:35 -0800 (PST)
+ id 1iyZfc-0000qS-BH
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 06:13:36 -0500
+Received: by mail-wr1-x42e.google.com with SMTP id y17so17491107wrh.5
+ for <qemu-devel@nongnu.org>; Mon, 03 Feb 2020 03:13:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=AK1hrbi/20FsSg0YgyKpmaye8nJIo7ROe97xRrAgEcI=;
- b=HaT74u3pn1Tk/QczOoYxLJC6z8smZJpEravj1B0zKuE4nTtlf5VU2I2am12I2c12v2
- 8sSR1MR9ZiDaqaHwZhO5n9fOLPErD8FOoTklkgJN6+SnQmeolh4Rag6sY/VjY6H/0jsi
- ojYfOOx1DtXEX8z2CGIa33QDe2xZntE3c6PS4v0H/W0dyQFinM9m+DxUiIQbi4go72vs
- Zi8HFQ/OJ2tcRlVskv/VdNKzesOhtnPTL1qeDHcH1zcVegyVuel5vXvEulm4rIL7b7k1
- 2tAK5IphguT8wtv7V7pr/JYPYZTT5z2K4bjntA4of+UnuFjsOL4mTtP/DqCeS/drVPdP
- VoaQ==
+ bh=FN6IYNmjTWTwD9RZgEK9RNt2Qj2Z8oostqa0BMBlrpo=;
+ b=SIuIsK6zrzjx3vqb6Ui7Lm+IJ3kS/eRuEGWleM5h3Yt0kVeNcwg+JUHpd/1fxOb7rt
+ pUD2cw0TJJOkPL50JRxBjSH9rGcaAGMA/QuqzWrsN1RV4A5SfOwWAglMSwdF4LNzfD98
+ 43KD3/e878182wnia5lLbu2uDQz9c5mGOVqdeCLuyzCTwJ4uC+dWI2CfrVasID+RxcI9
+ GvSDEnOc+8PF/cES9kwsnDC6aHDXjGST8vtDS/qVRyjghUe0MJXsTnOr5iTUbikJGzX8
+ i10Urd/9IF2n+w6ebOb1DFvIbLUpPBkMse59Q3H1NXqTsZyXK40hEEuG9IAPXWMn3/k6
+ rzdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=AK1hrbi/20FsSg0YgyKpmaye8nJIo7ROe97xRrAgEcI=;
- b=L4U2vGELwJ/bc5pW3ovu8f2GFIRJOxHisPBjUjyGnIVFMEKAUPbNejWqKvGUmao8li
- nhDZplxZxTXseIWXm1tcknBcFfUn6lbMCNg7Aac+KZNdtJhtZfS1U0+gclNuUg87eAZx
- qs3qQL8vH2DsuTflqrrritKhVlkLuf/Vxturp9FyjhA7p1YmQrwkDnYTXKA+Gc0Yg7Qq
- nqB6Zhn2UTAQFoVztzbJ9x4lgJ4vT2mOpp1wlBxb5dvcmLXTJMnL4J4puWOixdJB7T+z
- OvsxEazSuPKaakLam7LyjP7R4oxYhNsiFnQiXm5MGr2KGmswRouh9kjuf68tMt/HURld
- 7RnQ==
-X-Gm-Message-State: APjAAAV86e+1GNGAZciBgOB+Ao4n5+t9CpXcsqHxbNfdcFX7wrsFPC3J
- 2xpP9GS2aqsc0o9TimXKT0RnCX7UR3hG9w==
-X-Google-Smtp-Source: APXvYqxHuWAoGm51TiT1RxJ3XiJB3Av65rpJ4LLWt44AZleQJxm+zrADvWASnUpJquncENldP1riIw==
-X-Received: by 2002:a5d:5752:: with SMTP id q18mr15643426wrw.277.1580728413674; 
- Mon, 03 Feb 2020 03:13:33 -0800 (PST)
+ bh=FN6IYNmjTWTwD9RZgEK9RNt2Qj2Z8oostqa0BMBlrpo=;
+ b=bnYHGcZ4MoV54tgKWFPlHlhlMKoNkqbg3oJ0UOe4BLHmPKfY/LSh+HIeG1L0fhAbTy
+ 7fiF9kus8awTbEvZqOBAQVJrO2umpczKbSMNITOXRX8PwtREcd9Au2tSeUtgxLyf++IC
+ mZ99Hn4QljVRqQc8XywNClCl+WQ78xPy7Cl+ogUKpen4DENvnvPBMHqT78MoNKotlYjw
+ e3j7hgvPZUdmmQbRqnH2Z6J2msgp3rMIVUQi6ypKhetZ/o+v5zEDASFXKRhhF8yEo21T
+ WcpgFT6t+6OOFbfbIXRNwczD2V9V75w09TYnJlaXualdvvargZipV2qB+cbzfTwRm/OQ
+ XE8A==
+X-Gm-Message-State: APjAAAWt/nyA8T+NFjRukKGUJ9L6Gbv2xNa7+pvremwSkJrx+6ARLiKR
+ k23IBkjCsQZrVVRFuG8NvOWoCcS1JWA8Tw==
+X-Google-Smtp-Source: APXvYqxY+J/AvJ0bUTaZG6j1ryF52ruSo2Fk1L7gbHWi7r8D5xjgB28T5UT5LaKujOCEPf8Z3HmX/A==
+X-Received: by 2002:adf:b648:: with SMTP id i8mr14801623wre.91.1580728414829; 
+ Mon, 03 Feb 2020 03:13:34 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id s139sm24028917wme.35.2020.02.03.03.13.32
+ by smtp.gmail.com with ESMTPSA id s139sm24028917wme.35.2020.02.03.03.13.33
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 03 Feb 2020 03:13:32 -0800 (PST)
+ Mon, 03 Feb 2020 03:13:34 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 7/8] scripts/qemu-trace-stap: Convert documentation to rST
-Date: Mon,  3 Feb 2020 11:13:17 +0000
-Message-Id: <20200203111318.23378-8-peter.maydell@linaro.org>
+Subject: [PULL 8/8] virtfs-proxy-helper: Convert documentation to rST
+Date: Mon,  3 Feb 2020 11:13:18 +0000
+Message-Id: <20200203111318.23378-9-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200203111318.23378-1-peter.maydell@linaro.org>
 References: <20200203111318.23378-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::441
+X-Received-From: 2a00:1450:4864:20::42e
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,388 +81,256 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The qemu-trace-stap documentation is currently in
-scripts/qemu-trace-stap.texi in Texinfo format, which we
+The virtfs-proxy-helper documentation is currently in
+fsdev/qemu-trace-stap.texi in Texinfo format, which we
 present to the user as:
- * a qemu-trace-stap manpage
+ * a virtfs-proxy-helper manpage
  * but not (unusually for QEMU) part of the HTML docs
 
 Convert the documentation to rST format that lives in
 the docs/ subdirectory, and present it to the user as:
- * a qemu-trace-stap manpage
+ * a virtfs-proxy-helper manpage
  * part of the interop/ Sphinx manual
 
 There are minor formatting changes to suit Sphinx, but no
-content changes.
+content changes. In particular I've split the -u and -g
+options into each having their own description text.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Tested-by: Alex Bennée <alex.bennee@linaro.org>
-Message-id: 20200124162606.8787-8-peter.maydell@linaro.org
+Acked-by: Greg Kurz <groug@kaod.org>
+Message-id: 20200124162606.8787-9-peter.maydell@linaro.org
 ---
- Makefile                         |   9 +-
- MAINTAINERS                      |   1 +
- docs/interop/conf.py             |   4 +-
- docs/interop/index.rst           |   1 +
- docs/interop/qemu-trace-stap.rst | 124 +++++++++++++++++++++++++++
- scripts/qemu-trace-stap.texi     | 140 -------------------------------
- 6 files changed, 134 insertions(+), 145 deletions(-)
- create mode 100644 docs/interop/qemu-trace-stap.rst
- delete mode 100644 scripts/qemu-trace-stap.texi
+ Makefile                             |  7 ++-
+ MAINTAINERS                          |  1 +
+ docs/interop/conf.py                 |  5 +-
+ docs/interop/index.rst               |  1 +
+ docs/interop/virtfs-proxy-helper.rst | 72 ++++++++++++++++++++++++++++
+ fsdev/virtfs-proxy-helper.texi       | 63 ------------------------
+ 6 files changed, 81 insertions(+), 68 deletions(-)
+ create mode 100644 docs/interop/virtfs-proxy-helper.rst
+ delete mode 100644 fsdev/virtfs-proxy-helper.texi
 
 diff --git a/Makefile b/Makefile
-index c9dc4422170..1e0440c3738 100644
+index 1e0440c3738..a6f5d440828 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -357,7 +357,7 @@ ifdef CONFIG_VIRTFS
- DOCS+=fsdev/virtfs-proxy-helper.1
+@@ -354,7 +354,7 @@ DOCS+=docs/interop/qemu-ga-ref.html docs/interop/qemu-ga-ref.txt docs/interop/qe
+ DOCS+=docs/qemu-cpu-models.7
+ DOCS+=$(MANUAL_BUILDDIR)/index.html
+ ifdef CONFIG_VIRTFS
+-DOCS+=fsdev/virtfs-proxy-helper.1
++DOCS+=$(MANUAL_BUILDDIR)/interop/virtfs-proxy-helper.1
  endif
  ifdef CONFIG_TRACE_SYSTEMTAP
--DOCS+=scripts/qemu-trace-stap.1
-+DOCS+=$(MANUAL_BUILDDIR)/interop/qemu-trace-stap.1
+ DOCS+=$(MANUAL_BUILDDIR)/interop/qemu-trace-stap.1
+@@ -859,7 +859,7 @@ endif
  endif
- else
- DOCS=
-@@ -848,7 +848,7 @@ ifeq ($(CONFIG_TOOLS),y)
- 	$(INSTALL_DATA) $(MANUAL_BUILDDIR)/interop/qemu-nbd.8 "$(DESTDIR)$(mandir)/man8"
+ ifdef CONFIG_VIRTFS
+ 	$(INSTALL_DIR) "$(DESTDIR)$(mandir)/man1"
+-	$(INSTALL_DATA) fsdev/virtfs-proxy-helper.1 "$(DESTDIR)$(mandir)/man1"
++	$(INSTALL_DATA) $(MANUAL_BUILDDIR)/interop/virtfs-proxy-helper.1 "$(DESTDIR)$(mandir)/man1"
  endif
- ifdef CONFIG_TRACE_SYSTEMTAP
--	$(INSTALL_DATA) scripts/qemu-trace-stap.1 "$(DESTDIR)$(mandir)/man1"
-+	$(INSTALL_DATA) $(MANUAL_BUILDDIR)/interop/qemu-trace-stap.1 "$(DESTDIR)$(mandir)/man1"
- endif
- ifneq (,$(findstring qemu-ga,$(TOOLS)))
- 	$(INSTALL_DATA) $(MANUAL_BUILDDIR)/interop/qemu-ga.8 "$(DESTDIR)$(mandir)/man8"
-@@ -1050,7 +1050,9 @@ $(MANUAL_BUILDDIR)/specs/index.html: $(call manual-deps,specs)
- $(MANUAL_BUILDDIR)/system/index.html: $(call manual-deps,system)
+ 
+ install-datadir:
+@@ -1051,7 +1051,7 @@ $(MANUAL_BUILDDIR)/system/index.html: $(call manual-deps,system)
  	$(call build-manual,system,html)
  
--$(call define-manpage-rule,interop,qemu-ga.8 qemu-img.1 qemu-nbd.8,$(SRC_PATH/qemu-img-cmds.hx))
-+$(call define-manpage-rule,interop,\
-+       qemu-ga.8 qemu-img.1 qemu-nbd.8 qemu-trace-stap.1,\
-+       $(SRC_PATH/qemu-img-cmds.hx))
+ $(call define-manpage-rule,interop,\
+-       qemu-ga.8 qemu-img.1 qemu-nbd.8 qemu-trace-stap.1,\
++       qemu-ga.8 qemu-img.1 qemu-nbd.8 qemu-trace-stap.1 virtfs-proxy-helper.1,\
+        $(SRC_PATH/qemu-img-cmds.hx))
  
  $(call define-manpage-rule,system,qemu-block-drivers.7)
+@@ -1078,7 +1078,6 @@ docs/interop/qemu-ga-qapi.texi: qga/qapi-generated/qga-qapi-doc.texi
  
-@@ -1078,7 +1080,6 @@ qemu.1: qemu-doc.texi qemu-options.texi qemu-monitor.texi qemu-monitor-info.texi
+ qemu.1: qemu-doc.texi qemu-options.texi qemu-monitor.texi qemu-monitor-info.texi
  qemu.1: qemu-option-trace.texi
- fsdev/virtfs-proxy-helper.1: fsdev/virtfs-proxy-helper.texi
+-fsdev/virtfs-proxy-helper.1: fsdev/virtfs-proxy-helper.texi
  docs/qemu-cpu-models.7: docs/qemu-cpu-models.texi
--scripts/qemu-trace-stap.1: scripts/qemu-trace-stap.texi
  
  html: qemu-doc.html docs/interop/qemu-qmp-ref.html docs/interop/qemu-ga-ref.html sphinxdocs
- info: qemu-doc.info docs/interop/qemu-qmp-ref.info docs/interop/qemu-ga-ref.info
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 80263385190..db3cbc18c92 100644
+index db3cbc18c92..1f0bc72f218 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -2193,6 +2193,7 @@ F: qemu-option-trace.texi
- F: scripts/tracetool.py
- F: scripts/tracetool/
- F: scripts/qemu-trace-stap*
-+F: docs/interop/qemu-trace-stap.rst
- F: docs/devel/tracing.txt
- T: git https://github.com/stefanha/qemu.git tracing
+@@ -1574,6 +1574,7 @@ S: Odd Fixes
+ F: hw/9pfs/
+ X: hw/9pfs/xen-9p*
+ F: fsdev/
++F: docs/interop/virtfs-proxy-helper.rst
+ F: tests/qtest/virtio-9p-test.c
+ T: git https://github.com/gkurz/qemu.git 9p-next
  
 diff --git a/docs/interop/conf.py b/docs/interop/conf.py
-index 0de444a900d..baea7fb50ee 100644
+index baea7fb50ee..b0f322207ca 100644
 --- a/docs/interop/conf.py
 +++ b/docs/interop/conf.py
-@@ -22,5 +22,7 @@ man_pages = [
-     ('qemu-img', 'qemu-img', u'QEMU disk image utility',
-      ['Fabrice Bellard'], 1),
+@@ -24,5 +24,8 @@ man_pages = [
      ('qemu-nbd', 'qemu-nbd', u'QEMU Disk Network Block Device Server',
--     ['Anthony Liguori <anthony@codemonkey.ws>'], 8)
-+     ['Anthony Liguori <anthony@codemonkey.ws>'], 8),
-+    ('qemu-trace-stap', 'qemu-trace-stap', u'QEMU SystemTap trace tool',
-+     [], 1)
+      ['Anthony Liguori <anthony@codemonkey.ws>'], 8),
+     ('qemu-trace-stap', 'qemu-trace-stap', u'QEMU SystemTap trace tool',
+-     [], 1)
++     [], 1),
++    ('virtfs-proxy-helper', 'virtfs-proxy-helper',
++     u'QEMU 9p virtfs proxy filesystem helper',
++     ['M. Mohan Kumar'], 1)
  ]
 diff --git a/docs/interop/index.rst b/docs/interop/index.rst
-index 5e4de07d4cc..d756a826b26 100644
+index d756a826b26..3b763b1eebe 100644
 --- a/docs/interop/index.rst
 +++ b/docs/interop/index.rst
-@@ -20,5 +20,6 @@ Contents:
-    qemu-ga
-    qemu-img
-    qemu-nbd
-+   qemu-trace-stap
+@@ -23,3 +23,4 @@ Contents:
+    qemu-trace-stap
     vhost-user
     vhost-user-gpu
-diff --git a/docs/interop/qemu-trace-stap.rst b/docs/interop/qemu-trace-stap.rst
++   virtfs-proxy-helper
+diff --git a/docs/interop/virtfs-proxy-helper.rst b/docs/interop/virtfs-proxy-helper.rst
 new file mode 100644
-index 00000000000..fb70445c751
+index 00000000000..6cdeedf8e93
 --- /dev/null
-+++ b/docs/interop/qemu-trace-stap.rst
-@@ -0,0 +1,124 @@
-+QEMU SystemTap trace tool
-+=========================
++++ b/docs/interop/virtfs-proxy-helper.rst
+@@ -0,0 +1,72 @@
++QEMU 9p virtfs proxy filesystem helper
++======================================
 +
 +Synopsis
 +--------
 +
-+**qemu-trace-stap** [*GLOBAL-OPTIONS*] *COMMAND* [*COMMAND-OPTIONS*] *ARGS*...
++**virtfs-proxy-helper** [*OPTIONS*]
 +
 +Description
 +-----------
 +
-+The ``qemu-trace-stap`` program facilitates tracing of the execution
-+of QEMU emulators using SystemTap.
++Pass-through security model in QEMU 9p server needs root privilege to do
++few file operations (like chown, chmod to any mode/uid:gid).  There are two
++issues in pass-through security model:
 +
-+It is required to have the SystemTap runtime environment installed to use
-+this program, since it is a wrapper around execution of the ``stap``
-+program.
++- TOCTTOU vulnerability: Following symbolic links in the server could
++  provide access to files beyond 9p export path.
++
++- Running QEMU with root privilege could be a security issue.
++
++To overcome above issues, following approach is used: A new filesystem
++type 'proxy' is introduced. Proxy FS uses chroot + socket combination
++for securing the vulnerability known with following symbolic links.
++Intention of adding a new filesystem type is to allow qemu to run
++in non-root mode, but doing privileged operations using socket IO.
++
++Proxy helper (a stand alone binary part of qemu) is invoked with
++root privileges. Proxy helper chroots into 9p export path and creates
++a socket pair or a named socket based on the command line parameter.
++QEMU and proxy helper communicate using this socket. QEMU proxy fs
++driver sends filesystem request to proxy helper and receives the
++response from it.
++
++The proxy helper is designed so that it can drop root privileges except
++for the capabilities needed for doing filesystem operations.
 +
 +Options
 +-------
 +
-+.. program:: qemu-trace-stap
++The following options are supported:
 +
-+The following global options may be used regardless of which command
-+is executed:
++.. program:: virtfs-proxy-helper
 +
-+.. option:: --verbose, -v
++.. option:: -h
 +
-+  Display verbose information about command execution.
++  Display help and exit
 +
-+The following commands are valid:
++.. option:: -p, --path PATH
 +
-+.. option:: list BINARY PATTERN...
++  Path to export for proxy filesystem driver
 +
-+  List all the probe names provided by *BINARY* that match
-+  *PATTERN*.
++.. option:: -f, --fd SOCKET_ID
 +
-+  If *BINARY* is not an absolute path, it will be located by searching
-+  the directories listed in the ``$PATH`` environment variable.
++  Use given file descriptor as socket descriptor for communicating with
++  qemu proxy fs drier. Usually a helper like libvirt will create
++  socketpair and pass one of the fds as parameter to this option.
 +
-+  *PATTERN* is a plain string that is used to filter the results of
-+  this command. It may optionally contain a ``*`` wildcard to facilitate
-+  matching multiple probes without listing each one explicitly. Multiple
-+  *PATTERN* arguments may be given, causing listing of probes that match
-+  any of the listed names. If no *PATTERN* is given, the all possible
-+  probes will be listed.
++.. option:: -s, --socket SOCKET_FILE
 +
-+  For example, to list all probes available in the ``qemu-system-x86_64``
-+  binary:
++  Creates named socket file for communicating with qemu proxy fs driver
 +
-+  ::
++.. option:: -u, --uid UID
 +
-+    $ qemu-trace-stap list qemu-system-x86_64
++  uid to give access to named socket file; used in combination with -g.
 +
-+  To filter the list to only cover probes related to QEMU's cryptographic
-+  subsystem, in a binary outside ``$PATH``
++.. option:: -g, --gid GID
 +
-+  ::
++  gid to give access to named socket file; used in combination with -u.
 +
-+    $ qemu-trace-stap list /opt/qemu/4.0.0/bin/qemu-system-x86_64 'qcrypto*'
++.. option:: -n, --nodaemon
 +
-+.. option:: run OPTIONS BINARY PATTERN...
-+
-+  Run a trace session, printing formatted output any time a process that is
-+  executing *BINARY* triggers a probe matching *PATTERN*.
-+
-+  If *BINARY* is not an absolute path, it will be located by searching
-+  the directories listed in the ``$PATH`` environment variable.
-+
-+  *PATTERN* is a plain string that matches a probe name shown by the
-+  *LIST* command. It may optionally contain a ``*`` wildcard to
-+  facilitate matching multiple probes without listing each one explicitly.
-+  Multiple *PATTERN* arguments may be given, causing all matching probes
-+  to be monitored. At least one *PATTERN* is required, since stap is not
-+  capable of tracing all known QEMU probes concurrently without overflowing
-+  its trace buffer.
-+
-+  Invocation of this command does not need to be synchronized with
-+  invocation of the QEMU process(es). It will match probes on all
-+  existing running processes and all future launched processes,
-+  unless told to only monitor a specific process.
-+
-+  Valid command specific options are:
-+
-+  .. program:: qemu-trace-stap-run
-+
-+  .. option:: --pid=PID, -p PID
-+
-+    Restrict the tracing session so that it only triggers for the process
-+    identified by *PID*.
-+
-+  For example, to monitor all processes executing ``qemu-system-x86_64``
-+  as found on ``$PATH``, displaying all I/O related probes:
-+
-+  ::
-+
-+    $ qemu-trace-stap run qemu-system-x86_64 'qio*'
-+
-+  To monitor only the QEMU process with PID 1732
-+
-+  ::
-+
-+    $ qemu-trace-stap run --pid=1732 qemu-system-x86_64 'qio*'
-+
-+  To monitor QEMU processes running an alternative binary outside of
-+  ``$PATH``, displaying verbose information about setup of the
-+  tracing environment:
-+
-+  ::
-+
-+    $ qemu-trace-stap -v run /opt/qemu/4.0.0/qemu-system-x86_64 'qio*'
-+
-+See also
-+--------
-+
-+:manpage:`qemu(1)`, :manpage:`stap(1)`
-+
-+..
-+  Copyright (C) 2019 Red Hat, Inc.
-+
-+  This program is free software; you can redistribute it and/or modify
-+  it under the terms of the GNU General Public License as published by
-+  the Free Software Foundation; either version 2 of the License, or
-+  (at your option) any later version.
-diff --git a/scripts/qemu-trace-stap.texi b/scripts/qemu-trace-stap.texi
++  Run as a normal program. By default program will run in daemon mode
+diff --git a/fsdev/virtfs-proxy-helper.texi b/fsdev/virtfs-proxy-helper.texi
 deleted file mode 100644
-index 07bb9eb94e7..00000000000
---- a/scripts/qemu-trace-stap.texi
+index f4cbb60623b..00000000000
+--- a/fsdev/virtfs-proxy-helper.texi
 +++ /dev/null
-@@ -1,140 +0,0 @@
+@@ -1,63 +0,0 @@
 -@example
 -@c man begin SYNOPSIS
--@command{qemu-trace-stap} @var{GLOBAL-OPTIONS} @var{COMMAND} @var{COMMAND-OPTIONS} @var{ARGS...}
+-@command{virtfs-proxy-helper} @var{options}
 -@c man end
 -@end example
 -
 -@c man begin DESCRIPTION
+-@table @description
+-Pass-through security model in QEMU 9p server needs root privilege to do
+-few file operations (like chown, chmod to any mode/uid:gid).  There are two
+-issues in pass-through security model
 -
--The @command{qemu-trace-stap} program facilitates tracing of the execution
--of QEMU emulators using SystemTap.
+-1) TOCTTOU vulnerability: Following symbolic links in the server could
+-provide access to files beyond 9p export path.
 -
--It is required to have the SystemTap runtime environment installed to use
--this program, since it is a wrapper around execution of the @command{stap}
--program.
+-2) Running QEMU with root privilege could be a security issue.
 -
+-To overcome above issues, following approach is used: A new filesystem
+-type 'proxy' is introduced. Proxy FS uses chroot + socket combination
+-for securing the vulnerability known with following symbolic links.
+-Intention of adding a new filesystem type is to allow qemu to run
+-in non-root mode, but doing privileged operations using socket IO.
+-
+-Proxy helper(a stand alone binary part of qemu) is invoked with
+-root privileges. Proxy helper chroots into 9p export path and creates
+-a socket pair or a named socket based on the command line parameter.
+-QEMU and proxy helper communicate using this socket. QEMU proxy fs
+-driver sends filesystem request to proxy helper and receives the
+-response from it.
+-
+-The proxy helper is designed so that it can drop root privileges except
+-for the capabilities needed for doing filesystem operations.
+-
+-@end table
 -@c man end
 -
 -@c man begin OPTIONS
--
--The following global options may be used regardless of which command
--is executed:
--
+-The following options are supported:
 -@table @option
--@item @var{--verbose}, @var{-v}
--
--Display verbose information about command execution.
--
+-@item -h
+-@findex -h
+-Display help and exit
+-@item -p|--path path
+-Path to export for proxy filesystem driver
+-@item -f|--fd socket-id
+-Use given file descriptor as socket descriptor for communicating with
+-qemu proxy fs drier. Usually a helper like libvirt will create
+-socketpair and pass one of the fds as parameter to -f|--fd
+-@item -s|--socket socket-file
+-Creates named socket file for communicating with qemu proxy fs driver
+-@item -u|--uid uid -g|--gid gid
+-uid:gid combination to give access to named socket file
+-@item -n|--nodaemon
+-Run as a normal program. By default program will run in daemon mode
 -@end table
--
--The following commands are valid:
--
--@table @option
--
--@item @var{list} @var{BINARY} @var{PATTERN...}
--
--List all the probe names provided by @var{BINARY} that match
--@var{PATTERN}.
--
--If @var{BINARY} is not an absolute path, it will be located by searching
--the directories listed in the @code{$PATH} environment variable.
--
--@var{PATTERN} is a plain string that is used to filter the results of
--this command. It may optionally contain a @code{*} wildcard to facilitate
--matching multiple probes without listing each one explicitly. Multiple
--@var{PATTERN} arguments may be given, causing listing of probes that match
--any of the listed names. If no @var{PATTERN} is given, the all possible
--probes will be listed.
--
--For example, to list all probes available in the @command{qemu-system-x86_64}
--binary:
--
--@example
--$ qemu-trace-stap list qemu-system-x86_64
--@end example
--
--To filter the list to only cover probes related to QEMU's cryptographic
--subsystem, in a binary outside @code{$PATH}
--
--@example
--$ qemu-trace-stap list /opt/qemu/4.0.0/bin/qemu-system-x86_64 'qcrypto*'
--@end example
--
--
--@item @var{run} @var{OPTIONS} @var{BINARY} @var{PATTERN...}
--
--Run a trace session, printing formatted output any time a process that is
--executing @var{BINARY} triggers a probe matching @var{PATTERN}.
--
--If @var{BINARY} is not an absolute path, it will be located by searching
--the directories listed in the @code{$PATH} environment variable.
--
--@var{PATTERN} is a plain string that matches a probe name shown by the
--@var{list} command. It may optionally contain a @code{*} wildcard to
--facilitate matching multiple probes without listing each one explicitly.
--Multiple @var{PATTERN} arguments may be given, causing all matching probes
--to be monitored. At least one @var{PATTERN} is required, since stap is not
--capable of tracing all known QEMU probes concurrently without overflowing
--its trace buffer.
--
--Invocation of this command does not need to be synchronized with
--invocation of the QEMU process(es). It will match probes on all
--existing running processes and all future launched processes,
--unless told to only monitor a specific process.
--
--Valid command specific options are:
--
--@table @option
--@item @var{--pid=PID}, @var{-p PID}
--
--Restrict the tracing session so that it only triggers for the process
--identified by @code{PID}.
--
--@end table
--
--For example, to monitor all processes executing @command{qemu-system-x86_64}
--as found on $PATH, displaying all I/O related probes:
--
--@example
--$ qemu-trace-stap run qemu-system-x86_64 'qio*'
--@end example
--
--To monitor only the QEMU process with PID 1732
--
--@example
--$ qemu-trace-stap run --pid=1732 qemu-system-x86_64 'qio*'
--@end example
--
--To monitor QEMU processes running an alternative binary outside of
--@code{$PATH}, displaying verbose information about setup of the
--tracing environment:
--
--@example
--$ qemu-trace-stap -v run /opt/qemu/4.0.0/qemu-system-x86_64 'qio*'
--@end example
--
--@end table
--
 -@c man end
 -
--@ignore
+-@setfilename virtfs-proxy-helper
+-@settitle QEMU 9p virtfs proxy filesystem helper
 -
--@setfilename qemu-trace-stap
--@settitle QEMU SystemTap trace tool
--
--@c man begin LICENSE
--
--Copyright (C) 2019 Red Hat, Inc.
--
--This program is free software; you can redistribute it and/or modify
--it under the terms of the GNU General Public License as published by
--the Free Software Foundation; either version 2 of the License, or
--# (at your option) any later version.
--
+-@c man begin AUTHOR
+-M. Mohan Kumar
 -@c man end
--
--@c man begin SEEALSO
--qemu(1), stap(1)
--@c man end
--
--@end ignore
 -- 
 2.20.1
 
