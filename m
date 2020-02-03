@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A55F150A87
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Feb 2020 17:10:27 +0100 (CET)
-Received: from localhost ([::1]:44096 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39A18150A8B
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Feb 2020 17:11:32 +0100 (CET)
+Received: from localhost ([::1]:44136 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iyeIr-0005mv-Tx
-	for lists+qemu-devel@lfdr.de; Mon, 03 Feb 2020 11:10:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41885)
+	id 1iyeJv-0007B9-Am
+	for lists+qemu-devel@lfdr.de; Mon, 03 Feb 2020 11:11:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42327)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1iyeHb-0004ji-Mk
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 11:09:08 -0500
+ (envelope-from <marcandre.lureau@gmail.com>) id 1iyeJ6-0006Z4-G9
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 11:10:41 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1iyeHa-0004Ft-KY
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 11:09:07 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:47198
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iyeHa-0004FJ-Gb
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 11:09:06 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580746146;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:openpgp:openpgp;
- bh=gpQt48KTKp45zBQA3ynT1g4VHoAwiwSyI5/3Mz7O02E=;
- b=J7VW1n5mvPOfVX4xKsq70LnIyDO7IDXQMGiJ/ZexqTKiSR0WOFRonjReC5gqFGmtUm1geq
- i3tHrBq+EB/SPte41rCBulQnCJljTohMzVynNlYpIGmvL+dpLYpTsH7InAUsZVlOiwDOVp
- KUjej4cT7J1Ryz8LbUXPBN/8fq7Tfrk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-404-Cu2KmsTZPk-569MC-oR6jw-1; Mon, 03 Feb 2020 11:09:02 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D56338F2A84;
- Mon,  3 Feb 2020 16:09:00 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-116-129.ams2.redhat.com [10.36.116.129])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C828A60BE0;
- Mon,  3 Feb 2020 16:08:59 +0000 (UTC)
-Subject: Re: [RFC PATCH 1/2] GitLab CI: avoid calling before_scripts on
- unintended jobs
-To: Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org
-References: <20200203032328.12051-1-crosa@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <c1e15e42-a155-6aea-35fc-72bcde0229bd@redhat.com>
-Date: Mon, 3 Feb 2020 17:08:58 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ (envelope-from <marcandre.lureau@gmail.com>) id 1iyeJ5-0007hU-8Y
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 11:10:40 -0500
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:40183)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1iyeJ5-0007Ys-1Z
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 11:10:39 -0500
+Received: by mail-wr1-x444.google.com with SMTP id j104so18947590wrj.7
+ for <qemu-devel@nongnu.org>; Mon, 03 Feb 2020 08:10:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=uhSBnxvR34+LnrY6ui2IlNorZHurJTBtkIke997n9iw=;
+ b=Nl/d6//fl6SYwIV1uBGK8zMQFLMk5LZ6Htyc3Vqb7QwbhCnPIxKY/h2BC61xpNNuAy
+ rwi3K1ccXFIWt++JuO+PLuW2+FBCJtkoLwdQ3TWo8OB/hYl8i2WUnkS6ISZlHYd/oKkR
+ 7pzkGZgQCC7jzMy/aQpaWfGgP9mAOuR79qdyqSIcIlURuITKFyIUyczxRu2YpdHD+HTP
+ YaFcQW8uUulx315SPeH8q0i9E+MUwImytjB7HHE0YhiqxQJr7GsaTCbNFcpT+wra+7q6
+ 6+2yj7HzDalFCAgtqSHbJOSt72btk0caNlL32QP1cHY+d7AB7BOgcxM1cT9cnO9a6PKZ
+ 4jSg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=uhSBnxvR34+LnrY6ui2IlNorZHurJTBtkIke997n9iw=;
+ b=fgnlDeUSKiaGweTqu0rmHRIxAnhPdiMdCYCwNCS9xFTp04mVmhgM5x5pcUoqRfUNY7
+ 5GH1mWFhlUsELW3sCoJWz3N6mwamyViE6nEpIRCw74rWLRbPzF/nIUGQk23XV8ptFWUS
+ CT+2UHnPlQrRwjwB/sVbQpUHm1rxrqzVVRK9x5dsEAVEd2izRWw8GShgyMmKXexDK0iO
+ MwSuI0Z/t1f9hqSsAW+KtzXY/WUEXeob3YNTUbDHO8EeKpZ83wOxGX8oMfQeNtXTgdVz
+ m5t8yVYAwNAXPoP4pnW00AdS2C8vczZ6UjorTQVhFr9nH/X6I9RIKABVK5i20TVNJzln
+ aDgQ==
+X-Gm-Message-State: APjAAAXrD6DVasHj4rR3nI5NIHt+hLYQcI5+gjvGnlVDR33/snK8cnkk
+ qU607lxBBulvhonw32ROcxwdoTVOs/3Z55rOZMCel3KsihM=
+X-Google-Smtp-Source: APXvYqzN/go24Al9jIPNClD1IQB7RPycpUxSE7EHfeL8/sl1b+kzyH07aekjoye2HMStuqsekw2T5hY89j/sWY3h1bQ=
+X-Received: by 2002:a5d:550f:: with SMTP id b15mr16196961wrv.196.1580746236898; 
+ Mon, 03 Feb 2020 08:10:36 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20200203032328.12051-1-crosa@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: Cu2KmsTZPk-569MC-oR6jw-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+References: <20200203155412.7706-1-felipe@nutanix.com>
+ <22DFA157-0F41-4657-A165-D625210B87A7@nutanix.com>
+In-Reply-To: <22DFA157-0F41-4657-A165-D625210B87A7@nutanix.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Mon, 3 Feb 2020 17:10:25 +0100
+Message-ID: <CAJ+F1CL2kTSKTHW5VB=590mh+EJS=iu_at21HtvbbnuvYCBpSw@mail.gmail.com>
+Subject: Re: [PATCH 0/4] Improve default object property_add uint helpers
+To: Felipe Franciosi <felipe@nutanix.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,48 +74,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Alexey Kardashevskiy <aik@ozlabs.ru>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Phillipe Mathieu-Daude <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 03/02/2020 04.23, Cleber Rosa wrote:
-> At this point it seems that all jobs depend on those steps, with
-> maybe the EDK2 jobs as exceptions.
-> 
-> The jobs that will be added will not want those scripts to be
-> run, so let's move these steps to the appropriate jobs, while
-> still trying to avoid repetition.
-> 
-> Signed-off-by: Cleber Rosa <crosa@redhat.com>
-> ---
->  .gitlab-ci.yml | 17 ++++++++++++++---
->  1 file changed, 14 insertions(+), 3 deletions(-)
-> 
-> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-> index 228783993e..d2c7d2198e 100644
-> --- a/.gitlab-ci.yml
-> +++ b/.gitlab-ci.yml
-> @@ -1,11 +1,10 @@
->  include:
->    - local: '/.gitlab-ci-edk2.yml'
->  
-> -before_script:
-> +build-system1:
-> + before_script: &before_scr_apt
->   - apt-get update -qq
->   - apt-get install -y -qq flex bison libglib2.0-dev libpixman-1-dev genisoimage
-> -
-> -build-system1:
->   script:
->   - apt-get install -y -qq libgtk-3-dev libvte-dev nettle-dev libcacard-dev
->        libusb-dev libvde-dev libspice-protocol-dev libgl1-mesa-dev libvdeplug-dev
+Hi
 
-I'm not very familiar with these anchors yet, but would it maybe be
-possible to keep the "template" out of build-system1 ? Something like
-they show on https://docs.gitlab.com/ee/ci/yaml/#anchors ?
+On Mon, Feb 3, 2020 at 5:08 PM Felipe Franciosi <felipe@nutanix.com> wrote:
+>
+> Oops, I completely forgot to add a "v5" on the subject line.
+>
+> (The changelog is there.)
+>
+> Let me know if I should resend.
+>
+> F.
+>
+> > On Feb 3, 2020, at 3:54 PM, Felipe Franciosi <felipe@nutanix.com> wrote=
+:
+> >
+> > This improves the family of object_property_add_uintXX_ptr helpers by e=
+nabling
+> > a default getter/setter only when desired. To prevent an API behavioura=
+l change
+> > (from clients that already used these helpers and did not want a setter=
+), we
+> > add a OBJ_PROP_FLAG_READ flag that allow clients to only have a getter.=
+ Patch 1
+> > enhances the API and modify current users.
+> >
+> > While modifying the clients of the API, a couple of improvement opportu=
+nities
+> > were observed in ich9. These were added in separate patches (2 and 3).
+> >
+> > Patch 4 cleans up a lot of existing code by moving various objects to t=
+he
+> > enhanced API. Previously, those objects had their own getters/setters t=
+hat only
+> > updated the values without further checks. Some of them actually lacked=
+ a check
+> > for setting overflows, which could have resulted in undesired values be=
+ing set.
+> > The new default setters include a check for that, not updating the valu=
+es in
+> > case of errors (and propagating them). If they did not provide an error
+> > pointer, then that behaviour was maintained.
+> >
+> > Felipe Franciosi (4):
+> >  qom/object: enable setter for uint types
+> >  ich9: fix getter type for sci_int property
+> >  ich9: Simplify ich9_lpc_initfn
+> >  qom/object: Use common get/set uint helpers
+> >
+> > hw/acpi/ich9.c       |  99 ++------------------
+> > hw/acpi/pcihp.c      |   7 +-
+> > hw/acpi/piix4.c      |  12 +--
+> > hw/isa/lpc_ich9.c    |  27 ++----
+> > hw/misc/edu.c        |  13 +--
+> > hw/pci-host/q35.c    |  14 +--
+> > hw/ppc/spapr.c       |  18 +---
+> > hw/ppc/spapr_drc.c   |   3 +-
+> > include/qom/object.h |  48 ++++++++--
+> > memory.c             |  15 +--
+> > qom/object.c         | 214 ++++++++++++++++++++++++++++++++++++++-----
+> > target/arm/cpu.c     |  22 +----
+> > target/i386/sev.c    | 106 ++-------------------
+> > ui/console.c         |   4 +-
+> > 14 files changed, 283 insertions(+), 319 deletions(-)
+> >
+> > --
+> > 2.20.1
+> >
+> > Changelog:
+> > v1->v2:
+> > - Update sci_int directly instead of using stack variable
+> > - Defining an enhanced ObjectPropertyFlags instead of just 'readonly'
+> > - Erroring out directly (instead of using gotos) on default setters
+> > - Retaining lack of errp passing when it wasn't there
+> > v2->v3:
+> > - Rename flags _RD to _READ and _WR to _WRITE
+> > - Add a convenience _READWRITE flag
+> > - Drop the usage of UL in the bit flag definitions
+> > v3->v4:
+> > - Drop changes to hw/vfio/pci-quirks.c
+> > v4->v5:
+> > - Rebase on latest master
+> > - Available here: https://github.com/franciozzy/qemu/tree/autosetters
 
-Anyway, patch is also fine for me in its current shape, so FWIW:
+Thanks for the rebase, it looks good overall, but:
 
-Acked-by: Thomas Huth <thuth@redhat.com>
+qom/object.c:2707:1: error: control reaches end of non-void function
+[-Werror=3Dreturn-type]
 
+
+--=20
+Marc-Andr=C3=A9 Lureau
 
