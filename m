@@ -2,57 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC1A515064D
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Feb 2020 13:42:56 +0100 (CET)
-Received: from localhost ([::1]:39392 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7833150647
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Feb 2020 13:41:33 +0100 (CET)
+Received: from localhost ([::1]:39375 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iyb43-00039l-OJ
-	for lists+qemu-devel@lfdr.de; Mon, 03 Feb 2020 07:42:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56448)
+	id 1iyb2j-0000Tw-03
+	for lists+qemu-devel@lfdr.de; Mon, 03 Feb 2020 07:41:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56445)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1iyazm-0004Dr-44
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 07:38:31 -0500
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1iyazl-0005vt-1l
+ (envelope-from <thuth@redhat.com>) id 1iyazl-0004Db-RD
  for qemu-devel@nongnu.org; Mon, 03 Feb 2020 07:38:30 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:24920
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <thuth@redhat.com>) id 1iyazk-0005vd-ON
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 07:38:29 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:30646
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iyazk-0005vX-Ug
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 07:38:29 -0500
+ (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iyazk-0005vM-Kv
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 07:38:28 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1580733508;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=aVKW4uyfDbLew3gzo21eLO4dRKn9CVLGg0EgUodmFGQ=;
- b=AZejhn1swNu0mvhXzfr8sb52X02/hw0ntUWDyKDCKBYQFCl/Kw5hGnCU6LlZvGYZ1Roj4s
- r/U6UgTtAh/AsW3CXeXWWHu0V89bnIxZ14Gh0rcqxS+4rZc4C1RqOluxLp9v8cz0GC1f8m
- 2rsw6euB48PK7l3CozDhnLAeiUkntMQ=
+ bh=jvNIvJNOvgqKCmAOhgSNVoFRz83zRgIq0oQyVrP6NSA=;
+ b=ZvIgMAcn3ZUkTsfZjU/M1VimL6BYJbfa/n4Su5U4vylmEQFiZucmTl5nayDx+/oJ9xkHK+
+ 4bCFfvFDbCYDA5oH+trQ9Y/r29wZRG/8++iNu9JUA+ljINui5vLfx8pCG8o0PAJ/KbfJ+8
+ mkp6z3JGr1bX5TIDhG+H08816iYv/6U=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-422-_GuCSI8_Ote-iVyuvZCW4g-1; Mon, 03 Feb 2020 07:38:24 -0500
+ us-mta-16-LLtTCEODMpmxMqH5OmdkGw-1; Mon, 03 Feb 2020 07:38:25 -0500
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 794CA100550E;
- Mon,  3 Feb 2020 12:38:23 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E47B913E6;
+ Mon,  3 Feb 2020 12:38:24 +0000 (UTC)
 Received: from thuth.com (ovpn-116-129.ams2.redhat.com [10.36.116.129])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6BB32196B1;
- Mon,  3 Feb 2020 12:38:22 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D63C461070;
+ Mon,  3 Feb 2020 12:38:23 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 05/13] boot-order-test: fix memleaks in boot-order-test
-Date: Mon,  3 Feb 2020 13:38:03 +0100
-Message-Id: <20200203123811.8651-6-thuth@redhat.com>
+Subject: [PULL 06/13] tests/qtest: update comments about
+ bios-tables-test-allowed-diff.h
+Date: Mon,  3 Feb 2020 13:38:04 +0100
+Message-Id: <20200203123811.8651-7-thuth@redhat.com>
 In-Reply-To: <20200203123811.8651-1-thuth@redhat.com>
 References: <20200203123811.8651-1-thuth@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: _GuCSI8_Ote-iVyuvZCW4g-1
+X-MC-Unique: LLtTCEODMpmxMqH5OmdkGw-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
@@ -70,88 +71,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Pan Nengyuan <pannengyuan@huawei.com>
+Cc: Heyi Guo <guoheyi@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Pan Nengyuan <pannengyuan@huawei.com>
+From: Heyi Guo <guoheyi@huawei.com>
 
-It's not a big deal, but 'check qtest-ppc/ppc64' runs fail if sanitizers is=
- enabled.
-The memory leak stack is as follow:
+Update comments in tests/qtest/bios-tables-test.c to reflect the
+current path of bios-tables-test-allowed-diff.h, which is now under
+tests/qtest/ as well.
 
-Direct leak of 128 byte(s) in 4 object(s) allocated from:
-    #0 0x7f11756f5970 in __interceptor_calloc (/lib64/libasan.so.5+0xef970)
-    #1 0x7f1174f2549d in g_malloc0 (/lib64/libglib-2.0.so.0+0x5249d)
-    #2 0x556af05aa7da in mm_fw_cfg_init /mnt/sdb/qemu/tests/libqos/fw_cfg.c=
-:119
-    #3 0x556af059f4f5 in read_boot_order_pmac /mnt/sdb/qemu/tests/boot-orde=
-r-test.c:137
-    #4 0x556af059efe2 in test_a_boot_order /mnt/sdb/qemu/tests/boot-order-t=
-est.c:47
-    #5 0x556af059f2c0 in test_boot_orders /mnt/sdb/qemu/tests/boot-order-te=
-st.c:59
-    #6 0x556af059f52d in test_pmac_oldworld_boot_order /mnt/sdb/qemu/tests/=
-boot-order-test.c:152
-    #7 0x7f1174f46cb9  (/lib64/libglib-2.0.so.0+0x73cb9)
-    #8 0x7f1174f46b73  (/lib64/libglib-2.0.so.0+0x73b73)
-    #9 0x7f1174f46b73  (/lib64/libglib-2.0.so.0+0x73b73)
-    #10 0x7f1174f46f71 in g_test_run_suite (/lib64/libglib-2.0.so.0+0x73f71=
-)
-    #11 0x7f1174f46f94 in g_test_run (/lib64/libglib-2.0.so.0+0x73f94)
-
-Reported-by: Euler Robot <euler.robot@huawei.com>
-Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
-Message-Id: <20200203025935.36228-1-pannengyuan@huawei.com>
+Signed-off-by: Heyi Guo <guoheyi@huawei.com>
+Message-Id: <20200202110009.51479-1-guoheyi@huawei.com>
 Reviewed-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/qtest/boot-order-test.c | 6 +++---
- tests/qtest/libqos/fw_cfg.h   | 2 ++
- 2 files changed, 5 insertions(+), 3 deletions(-)
+ tests/qtest/bios-tables-test.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/tests/qtest/boot-order-test.c b/tests/qtest/boot-order-test.c
-index a725bce729..4241304ff5 100644
---- a/tests/qtest/boot-order-test.c
-+++ b/tests/qtest/boot-order-test.c
-@@ -134,7 +134,7 @@ static void test_prep_boot_order(void)
+diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.=
+c
+index 3ab4872bd7..b4752c644c 100644
+--- a/tests/qtest/bios-tables-test.c
++++ b/tests/qtest/bios-tables-test.c
+@@ -14,14 +14,14 @@
+  * How to add or update the tests:
+  * Contributor:
+  * 1. add empty files for new tables, if any, under tests/data/acpi
+- * 2. list any changed files in tests/bios-tables-test-allowed-diff.h
++ * 2. list any changed files in tests/qtest/bios-tables-test-allowed-diff.=
+h
+  * 3. commit the above *before* making changes that affect the tables
+  *
+  * Contributor or ACPI Maintainer (steps 4-7 need to be redone to resolve =
+conflicts
+  * in binary commit created in step 6):
+  *
+  * After 1-3 above tests will pass but ignore differences with the expecte=
+d files.
+- * You will also notice that tests/bios-tables-test-allowed-diff.h lists
++ * You will also notice that tests/qtest/bios-tables-test-allowed-diff.h l=
+ists
+  * a bunch of files. This is your hint that you need to do the below:
+  * 4. Run
+  *      make check V=3D1
+@@ -40,14 +40,14 @@
+  *    in commit log.
+  * 7. Before sending patches to the list (Contributor)
+  *    or before doing a pull request (Maintainer), make sure
+- *    tests/bios-tables-test-allowed-diff.h is empty - this will ensure
++ *    tests/qtest/bios-tables-test-allowed-diff.h is empty - this will ens=
+ure
+  *    following changes to ACPI tables will be noticed.
+  *
+  * The resulting patchset/pull request then looks like this:
+- * - patch 1: list changed files in tests/bios-tables-test-allowed-diff.h.
++ * - patch 1: list changed files in tests/qtest/bios-tables-test-allowed-d=
+iff.h.
+  * - patches 2 - n: real changes, may contain multiple patches.
+  * - patch n + 1: update golden master binaries and empty
+- *   tests/bios-tables-test-allowed-diff.h
++ *   tests/qtest/bios-tables-test-allowed-diff.h
+  */
 =20
- static uint64_t read_boot_order_pmac(QTestState *qts)
- {
--    QFWCFG *fw_cfg =3D mm_fw_cfg_init(qts, 0xf0000510);
-+    g_autoptr(QFWCFG) fw_cfg =3D mm_fw_cfg_init(qts, 0xf0000510);
-=20
-     return qfw_cfg_get_u16(fw_cfg, FW_CFG_BOOT_DEVICE);
- }
-@@ -159,7 +159,7 @@ static void test_pmac_newworld_boot_order(void)
-=20
- static uint64_t read_boot_order_sun4m(QTestState *qts)
- {
--    QFWCFG *fw_cfg =3D mm_fw_cfg_init(qts, 0xd00000510ULL);
-+    g_autoptr(QFWCFG) fw_cfg =3D mm_fw_cfg_init(qts, 0xd00000510ULL);
-=20
-     return qfw_cfg_get_u16(fw_cfg, FW_CFG_BOOT_DEVICE);
- }
-@@ -171,7 +171,7 @@ static void test_sun4m_boot_order(void)
-=20
- static uint64_t read_boot_order_sun4u(QTestState *qts)
- {
--    QFWCFG *fw_cfg =3D io_fw_cfg_init(qts, 0x510);
-+    g_autoptr(QFWCFG) fw_cfg =3D io_fw_cfg_init(qts, 0x510);
-=20
-     return qfw_cfg_get_u16(fw_cfg, FW_CFG_BOOT_DEVICE);
- }
-diff --git a/tests/qtest/libqos/fw_cfg.h b/tests/qtest/libqos/fw_cfg.h
-index 13325cc4ff..c6a7cf8cf0 100644
---- a/tests/qtest/libqos/fw_cfg.h
-+++ b/tests/qtest/libqos/fw_cfg.h
-@@ -49,4 +49,6 @@ static inline void pc_fw_cfg_uninit(QFWCFG *fw_cfg)
-     io_fw_cfg_uninit(fw_cfg);
- }
-=20
-+G_DEFINE_AUTOPTR_CLEANUP_FUNC(QFWCFG, mm_fw_cfg_uninit)
-+
- #endif
+ #include "qemu/osdep.h"
 --=20
 2.18.1
 
