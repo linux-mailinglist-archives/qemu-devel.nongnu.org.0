@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86C10150285
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Feb 2020 09:28:54 +0100 (CET)
-Received: from localhost ([::1]:36038 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E75BC15029A
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Feb 2020 09:30:31 +0100 (CET)
+Received: from localhost ([::1]:36064 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iyX6D-0005Ob-Jt
-	for lists+qemu-devel@lfdr.de; Mon, 03 Feb 2020 03:28:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34804)
+	id 1iyX7n-0007mr-0F
+	for lists+qemu-devel@lfdr.de; Mon, 03 Feb 2020 03:30:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34812)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1iyX41-0002F7-Em
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 03:26:38 -0500
+ id 1iyX41-0002Fs-VZ
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 03:26:39 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1iyX3u-00012C-Pp
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 03:26:32 -0500
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:39476)
+ id 1iyX3u-00012M-Vo
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 03:26:34 -0500
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:39976)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1iyX3t-00011Z-3J; Mon, 03 Feb 2020 03:26:30 -0500
-Received: by mail-wm1-x342.google.com with SMTP id c84so15801329wme.4;
- Mon, 03 Feb 2020 00:26:28 -0800 (PST)
+ id 1iyX3u-00011t-Pg; Mon, 03 Feb 2020 03:26:30 -0500
+Received: by mail-wr1-x434.google.com with SMTP id j104so16723879wrj.7;
+ Mon, 03 Feb 2020 00:26:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=XbrBImsz44K8Xswh3EJyXdM5NyfxQNqxR88yL7gBw4I=;
- b=eV1gR+dJUN4GCsDBV7J3bxGaEGXZetqOEKg6/n3K+6OJxd15KkmosGax+6f9u+Na0a
- j82/3wP43NDosSrB7RYBHIy0ncN7Hlt08QuuL51E8W2jKsQTNUGCAQHMX6Ke8frmLB6B
- qklFQw3GIeSNi3Pk3FYPknKc2QCFuv7bD6xgW6RQiNwZbDXhM+OO1VIf8pxjVabM5GVj
- ietp0Z0jlVv6AEqCzhKiJYG1+Fvrw0w8pWXG3RybYTPblA6mLNHNJmJWI5mXmWpMWi+W
- aG9TnFppm54SEWsJJPBBQn+gm9O8v5n/XIFGgUedroDI819/niBufp0P7TCD0iGblTEV
- di+Q==
+ bh=DFjUzzObXxlhnN9FkJ2W0kMBSKycCnz3WMxnNXs1uCo=;
+ b=lUBsX2iA6rwwz9anYKuoKLRmUhyvGzmAW15ilmBEb6JNn42UCGKG6Wgh32pSu0G+fP
+ PaCxgyxWgKj1umHMcOZi7mMMGDhCZjYm41cRcBl6rnSI84I4P1w04QTQr0B1psx0zpDj
+ TjcMCAijXDKIw1EzEkZwu4lAOISn5pMXLzSujBqqSIY/6KM1vP7QPseMHrVjygHwNXgz
+ vK4QAn6zitvSjr5aizvlGdB6vpq+QLje0vy/mFEVndGrIJ6ycWz++mbT14EnunWS5Ksx
+ 4L4W5hZRp2E8OdjT1GQePjfbLHwBPHyjYeCvQ+KVv0YQFir/ZvQk0OgsOKSCvqfpAPEQ
+ 6piA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=XbrBImsz44K8Xswh3EJyXdM5NyfxQNqxR88yL7gBw4I=;
- b=A4SP4Zjri/tXxeDDmL+ofJ+Goot7Yrq9cATw/zzMCPJeKALAwnsRhxHtU6qk/IQqBt
- QCgnK6lU4BiGVW+Hc3w1JxFM97h3+BLZxrOEndabYjsgnAQTrK3dUVd/78YPzmeNKIif
- qfNqbVpLskIBN7yjEwjP4fHB/xeSoI+K62g/kkMdVVeVl/D4QHfBPNrU308qcrO57R+P
- VMa04UC1n2kThHVel1OKroPUMq6rvFbyKOKvq/V/H8EPkhAByCZAl2zaFtab6yh3gJh4
- eWklQiYRd3U6M+7ITKdP4ctNbtTGk36wMCX32RIOsIIHfljuFSD2Xi++dDWP+bBhxmuq
- JXXQ==
-X-Gm-Message-State: APjAAAWjpnGfFMoSku3wJG9DjZ/trpzl3wjrq+qtt8Dqr3+Bq8N7DBPZ
- UJp1qaOYGmbo6zAzWv4iiJi3NLN+
-X-Google-Smtp-Source: APXvYqzAeylC/Aa3zxzliGKQOvFiWGVoaxqJwM7KLUkLdbIN5rwhWtke/jl675bZ4AFzMYTb8cS9ng==
-X-Received: by 2002:a1c:6246:: with SMTP id w67mr26959693wmb.141.1580718387957; 
- Mon, 03 Feb 2020 00:26:27 -0800 (PST)
+ bh=DFjUzzObXxlhnN9FkJ2W0kMBSKycCnz3WMxnNXs1uCo=;
+ b=fb7Wcrf0T50rmrHSiqbcfHXSH5bxpsrVdLGT0rREiWqgFrWoKxnxki+tFT1l9mJ9eH
+ x2sCRRzKySU3A+8pdtXB6g0Hscj62FFyfZMknVKucK0R1FKYf2ZmXxtR6qpgV8tDj4ls
+ +ocnH+yzLFxSunCIIWIm9W4PecJEJUQptAblSw/O2tmGbR9oosA9L6IBcFoiHVgAQpOx
+ IimF0oY2NKqjzUTEVb7YEngCmKzlrFBQa+0qryhck1BgFfpnEnzbziPjTCgiSuUUgu6+
+ SG6pn33+Ga6l7koC3NpAh/UMFR6c52qtu40LYrODVMHg0590rfFQR86DHuIugIMLUlGe
+ ZpAQ==
+X-Gm-Message-State: APjAAAVn44YMpc+B5rn2qsvgtDcuwcDlkymdfN8enTgq3nqmzDYBJlqe
+ RwqXOHRIE2BMnoUudvH1SOC7c33p
+X-Google-Smtp-Source: APXvYqxgab2z6B/hzt+gZihlZcO6VApOVZ9hDekjyyX8rGF8x5LRiLei19Rv4yShryD+hN8qm0K2GQ==
+X-Received: by 2002:adf:f401:: with SMTP id g1mr13596874wro.129.1580718389336; 
+ Mon, 03 Feb 2020 00:26:29 -0800 (PST)
 Received: from localhost.localdomain (162.red-83-52-55.dynamicip.rima-tde.net.
  [83.52.55.162])
- by smtp.gmail.com with ESMTPSA id w20sm22396778wmk.34.2020.02.03.00.26.26
+ by smtp.gmail.com with ESMTPSA id w20sm22396778wmk.34.2020.02.03.00.26.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 03 Feb 2020 00:26:27 -0800 (PST)
+ Mon, 03 Feb 2020 00:26:28 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 4/6] hw/arm/raspi: Get board RAM size from board revision code
-Date: Mon,  3 Feb 2020 09:26:17 +0100
-Message-Id: <20200203082619.7426-5-f4bug@amsat.org>
+Subject: [PATCH 5/6] hw/arm/raspi: Dynamically create machines based on the
+ board revision
+Date: Mon,  3 Feb 2020 09:26:18 +0100
+Message-Id: <20200203082619.7426-6-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200203082619.7426-1-f4bug@amsat.org>
 References: <20200203082619.7426-1-f4bug@amsat.org>
@@ -69,7 +70,7 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::342
+X-Received-From: 2a00:1450:4864:20::434
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,56 +91,165 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The amount of RAM is encoded in the board revision.
-Add the board_ram_size() helper, it will allow us to quickly
-support new boards.
+We added tiny helpers extracting different values from the board
+revision, we can now create a full board based on its revision.
+The 'raspi-common' type is common to all raspi boards.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/arm/raspi.c | 15 ++++++++++++---
- 1 file changed, 12 insertions(+), 3 deletions(-)
+ hw/arm/raspi.c | 93 +++++++++++++++++++++++++++++++++-----------------
+ 1 file changed, 62 insertions(+), 31 deletions(-)
 
 diff --git a/hw/arm/raspi.c b/hw/arm/raspi.c
-index f5e54fe876..656d834e07 100644
+index 656d834e07..12dc4d1486 100644
 --- a/hw/arm/raspi.c
 +++ b/hw/arm/raspi.c
-@@ -13,6 +13,7 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/units.h"
-+#include "qemu/cutils.h"
- #include "qapi/error.h"
- #include "cpu.h"
- #include "hw/arm/bcm2836.h"
-@@ -71,6 +72,11 @@ static const RaspiBoardInfo raspi_boards[] = {
- #endif
+@@ -44,12 +44,17 @@ static const struct {
+     [C_BCM2837] = {TYPE_BCM2837},
  };
  
-+static uint64_t board_ram_size(const RaspiBoardInfo *config)
-+{
-+    return 1 * MiB << extract32(config->board_rev, 20, 4);
+-typedef struct RasPiState {
++typedef struct RaspiMachineState {
++    /*< private >*/
++    MachineState parent_obj;
++    /*< public >*/
+     BCM283XState soc;
+     MemoryRegion ram;
+-} RasPiState;
++} RaspiMachineState;
+ 
+ typedef struct RaspiBoardInfo {
++    const char *name;
++    const char *desc;
+     /*
+      * Board revision codes:
+      * www.raspberrypi.org/documentation/hardware/raspberrypi/revision-codes/
+@@ -57,16 +62,32 @@ typedef struct RaspiBoardInfo {
+     uint32_t board_rev;
+ } RaspiBoardInfo;
+ 
+-enum { BOARD_PI2, BOARD_PI3 };
++typedef struct RaspiMachineClass {
++    /*< private >*/
++    MachineClass parent_obj;
++    /*< public >*/
++    const RaspiBoardInfo *config;
++} RaspiMachineClass;
++
++#define TYPE_RASPI_MACHINE       MACHINE_TYPE_NAME("raspi-common")
++#define RASPI_MACHINE(obj) \
++    OBJECT_CHECK(RaspiMachineState, (obj), TYPE_RASPI_MACHINE)
++
++#define RASPI_MACHINE_CLASS(klass) \
++     OBJECT_CLASS_CHECK(RaspiMachineClass, (klass), TYPE_RASPI_MACHINE)
++#define RASPI_MACHINE_GET_CLASS(obj) \
++     OBJECT_GET_CLASS(RaspiMachineClass, (obj), TYPE_RASPI_MACHINE)
+ 
+ static const RaspiBoardInfo raspi_boards[] = {
+-    [BOARD_PI2] =
+     {
++        .name = MACHINE_TYPE_NAME("raspi2"),
++        .desc = "Raspberry Pi 2B",
+         .board_rev = 0xa21041,
+     },
+ #ifdef TARGET_AARCH64
+-    [BOARD_PI3] =
+     {
++        .name = MACHINE_TYPE_NAME("raspi3"),
++        .desc = "Raspberry Pi 3B",
+         .board_rev = 0xa02082,
+     },
+ #endif
+@@ -221,7 +242,7 @@ static void setup_boot(MachineState *machine, int version, size_t ram_size)
+ 
+ static void raspi_init(MachineState *machine, const RaspiBoardInfo *config)
+ {
+-    RasPiState *s = g_new0(RasPiState, 1);
++    RaspiMachineState *s = RASPI_MACHINE(machine);
+     int version = board_version(config);
+     uint32_t vcram_size;
+     DriveInfo *di;
+@@ -271,15 +292,22 @@ static void raspi_init(MachineState *machine, const RaspiBoardInfo *config)
+     setup_boot(machine, version, machine->ram_size - vcram_size);
+ }
+ 
+-static void raspi2_init(MachineState *machine)
++static void raspi_machine_init(MachineState *machine)
+ {
+-    raspi_init(machine, &raspi_boards[BOARD_PI2]);
++    RaspiMachineClass *rmc = RASPI_MACHINE_GET_CLASS(machine);
++
++    raspi_init(machine, rmc->config);
+ }
+ 
+-static void raspi2_machine_init(MachineClass *mc)
++static void raspi_machine_class_init(ObjectClass *oc, void *data)
+ {
+-    mc->desc = "Raspberry Pi 2";
+-    mc->init = raspi2_init;
++    MachineClass *mc = MACHINE_CLASS(oc);
++    RaspiMachineClass *rmc = RASPI_MACHINE_CLASS(oc);
++    const RaspiBoardInfo *config = data;
++
++    rmc->config = config;
++    mc->desc = config->desc;
++    mc->init = raspi_machine_init;
+     mc->block_default_type = IF_SD;
+     mc->no_parallel = 1;
+     mc->no_floppy = 1;
+@@ -287,29 +315,32 @@ static void raspi2_machine_init(MachineClass *mc)
+     mc->max_cpus = BCM283X_NCPUS;
+     mc->min_cpus = BCM283X_NCPUS;
+     mc->default_cpus = BCM283X_NCPUS;
+-    mc->default_ram_size = 1 * GiB;
++    mc->default_ram_size = board_ram_size(config);
+     mc->ignore_memory_transaction_failures = true;
 +}
 +
- static int board_chip_id(const RaspiBoardInfo *config)
++static const TypeInfo raspi_machine_type = {
++    .name = TYPE_RASPI_MACHINE,
++    .parent = TYPE_MACHINE,
++    .instance_size = sizeof(RaspiMachineState),
++    .class_size = sizeof(RaspiMachineClass),
++    .abstract = true,
+ };
+-DEFINE_MACHINE("raspi2", raspi2_machine_init)
+ 
+-#ifdef TARGET_AARCH64
+-static void raspi3_init(MachineState *machine)
++static void raspi_machine_types(void)
  {
-     return extract32(config->board_rev, 12, 4);
-@@ -222,10 +228,13 @@ static void raspi_init(MachineState *machine, const RaspiBoardInfo *config)
-     BlockBackend *blk;
-     BusState *bus;
-     DeviceState *carddev;
-+    uint64_t ram_size;
+-    raspi_init(machine, &raspi_boards[BOARD_PI3]);
++    int i;
++
++    type_register_static(&raspi_machine_type);
++    for (i = 0; i < ARRAY_SIZE(raspi_boards); ++i) {
++        TypeInfo ti = {
++            .name       = raspi_boards[i].name,
++            .parent     = TYPE_RASPI_MACHINE,
++            .class_init = raspi_machine_class_init,
++            .class_data = (void *)&raspi_boards[i],
++        };
++        type_register(&ti);
++    }
+ }
  
--    if (machine->ram_size > 1 * GiB) {
--        error_report("Requested ram size is too large for this machine: "
--                     "maximum is 1GB");
-+    ram_size = board_ram_size(config);
-+    if (machine->ram_size != ram_size) {
-+        char *size_str = size_to_str(ram_size);
-+        error_report("This machine can only be used with %s", size_str);
-+        g_free(size_str);
-         exit(1);
-     }
- 
+-static void raspi3_machine_init(MachineClass *mc)
+-{
+-    mc->desc = "Raspberry Pi 3";
+-    mc->init = raspi3_init;
+-    mc->block_default_type = IF_SD;
+-    mc->no_parallel = 1;
+-    mc->no_floppy = 1;
+-    mc->no_cdrom = 1;
+-    mc->max_cpus = BCM283X_NCPUS;
+-    mc->min_cpus = BCM283X_NCPUS;
+-    mc->default_cpus = BCM283X_NCPUS;
+-    mc->default_ram_size = 1 * GiB;
+-}
+-DEFINE_MACHINE("raspi3", raspi3_machine_init)
+-#endif
++type_init(raspi_machine_types)
 -- 
 2.21.1
 
