@@ -2,64 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02FC01508F6
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Feb 2020 16:01:57 +0100 (CET)
-Received: from localhost ([::1]:42792 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E708D1508FF
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Feb 2020 16:04:04 +0100 (CET)
+Received: from localhost ([::1]:42840 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iydEa-0006Nq-0a
-	for lists+qemu-devel@lfdr.de; Mon, 03 Feb 2020 10:01:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48064)
+	id 1iydGd-0001XK-M0
+	for lists+qemu-devel@lfdr.de; Mon, 03 Feb 2020 10:04:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48433)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1iydCO-0004oP-9v
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 09:59:42 -0500
+ (envelope-from <crosa@redhat.com>) id 1iydDX-00066i-QD
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 10:00:57 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1iydCM-0006lK-HO
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 09:59:40 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:22243
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <crosa@redhat.com>) id 1iydDV-0000m7-H9
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 10:00:51 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:49361
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1iydCM-0006kb-Cu
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 09:59:38 -0500
+ (Exim 4.71) (envelope-from <crosa@redhat.com>) id 1iydDV-0000i4-Ad
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 10:00:49 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580741978;
+ s=mimecast20190719; t=1580742046;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FHU73WEspvzsHOoAmpOe2vlVBYcIg9Ps+cOnNPlTQaU=;
- b=F9YizmAIBWiKebU4+6PhaVRDZuX+G235Xh19Uvu8Ey3ZYwuyrt5LYuJm5MhV3JKEzxPZF8
- ngWzhVP0+/e5Gx+gb/km/huCKrDA4UupP06XXHVUxEfDqQ8wp3EQQGUQXaUn0f12fXOrQR
- Otr9jeg2X8w/h0HaXnSR6v8Nx3kVLi4=
+ bh=SQ5LcPlJASuvzWxcMtRugqXwVw5LilPo8GHM6EnXkC8=;
+ b=DAbJ7NZag0KcArbU5FbJorXnblNkhZGHI9Fuok/piGLfw12WoAHi9td8vkPKxbduig2/Js
+ o9+KktT3oDMQk03Z2/SvEGVxGHggqWBh5Zm0PZ1rYA4jPBjNl7o/HxXW+eGcQ4DwfpguLR
+ 4z7Axc6jrRNjZUdjP06raomQT3zRxgQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-357-8WuUtd3sP-Gkry5Y_tuIDw-1; Mon, 03 Feb 2020 09:59:28 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-411-JTYvNnyuOgyf2QlAM9LHGA-1; Mon, 03 Feb 2020 10:00:41 -0500
+X-MC-Unique: JTYvNnyuOgyf2QlAM9LHGA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 459591937FD0;
- Mon,  3 Feb 2020 14:59:27 +0000 (UTC)
-Received: from localhost (unknown [10.43.2.114])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 016E260BE2;
- Mon,  3 Feb 2020 14:59:22 +0000 (UTC)
-Date: Mon, 3 Feb 2020 15:59:21 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Babu Moger <babu.moger@amd.com>
-Subject: Re: [PATCH v3 00/18] APIC ID fixes for AMD EPYC CPU models
-Message-ID: <20200203155921.658d7765@redhat.com>
-In-Reply-To: <157541968844.46157.17994918142533791313.stgit@naples-babu.amd.com>
-References: <157541968844.46157.17994918142533791313.stgit@naples-babu.amd.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DFF641034B23;
+ Mon,  3 Feb 2020 15:00:39 +0000 (UTC)
+Received: from dhcp-17-70.bos.redhat.com (dhcp-17-70.bos.redhat.com
+ [10.18.17.70])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4692C8642F;
+ Mon,  3 Feb 2020 15:00:21 +0000 (UTC)
+Date: Mon, 3 Feb 2020 10:00:19 -0500
+From: Cleber Rosa <crosa@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [RFC] QEMU Gating CI
+Message-ID: <20200203150019.GA28910@dhcp-17-70.bos.redhat.com>
+References: <20191202140552.GA5353@localhost.localdomain>
+ <CAFEAcA--Rag8JzvPP+Pvkebv1ifeZkpcx7zSXdDBkpZWmpZwxQ@mail.gmail.com>
+ <20200203032700.GA12127@localhost.localdomain>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: 8WuUtd3sP-Gkry5Y_tuIDw-1
+In-Reply-To: <20200203032700.GA12127@localhost.localdomain>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="Nq2Wo0NMKNjxTN9z"
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,198 +74,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ehabkost@redhat.com, mst@redhat.com, armbru@redhat.com,
- qemu-devel@nongnu.org, pbonzini@redhat.com, rth@twiddle.net
+Cc: Jeff Nelson <jen@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
+ Ademar Reis <areis@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 03 Dec 2019 18:36:54 -0600
-Babu Moger <babu.moger@amd.com> wrote:
+--Nq2Wo0NMKNjxTN9z
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> This series fixes APIC ID encoding problems on AMD EPYC CPUs.
-> https://bugzilla.redhat.com/show_bug.cgi?id=3D1728166
+On Sun, Feb 02, 2020 at 10:27:12PM -0500, Cleber Rosa wrote:
+>    >>> The set of machine I currently test on are:
+>    >>>
+>    >>>  * an S390x box (this is provided to the project by IBM's Communit=
+y
+>    >>>    Cloud so can be used for the new CI setup)
+>    >>>  * aarch32 (as a chroot on an aarch64 system)
+>    >>>  * aarch64
+>    >>>  * ppc64 (on the GCC compile farm)
 >=20
-> Currently, the APIC ID is decoded based on the sequence
-> sockets->dies->cores->threads. This works for most standard AMD and other
-> vendors' configurations, but this decoding sequence does not follow that =
-of
-> AMD's APIC ID enumeration strictly. In some cases this can cause CPU topo=
-logy
-> inconsistency.  When booting a guest VM, the kernel tries to validate the
-> topology, and finds it inconsistent with the enumeration of EPYC cpu mode=
-ls.
->=20
-> To fix the problem we need to build the topology as per the Processor
-> Programming Reference (PPR) for AMD Family 17h Model 01h, Revision B1
-> Processors. It is available at https://www.amd.com/system/files/TechDocs/=
-55570-B1_PUB.zip
->=20
-> Here is the text from the PPR.
-> Operating systems are expected to use Core::X86::Cpuid::SizeId[ApicIdSize=
-], the
-> number of least significant bits in the Initial APIC ID that indicate cor=
-e ID
-> within a processor, in constructing per-core CPUID masks.
-> Core::X86::Cpuid::SizeId[ApicIdSize] determines the maximum number of cor=
-es
-> (MNC) that the processor could theoretically support, not the actual numb=
-er of
-> cores that are actually implemented or enabled on the processor, as indic=
-ated
-> by Core::X86::Cpuid::SizeId[NC].
-> Each Core::X86::Apic::ApicId[ApicId] register is preset as follows:
-> =E2=80=A2 ApicId[6] =3D Socket ID.
-> =E2=80=A2 ApicId[5:4] =3D Node ID.
-> =E2=80=A2 ApicId[3] =3D Logical CCX L3 complex ID
-> =E2=80=A2 ApicId[2:0]=3D (SMT) ? {LogicalCoreID[1:0],ThreadId} : {1'b0,Lo=
-gicalCoreID[1:0]}
+> I've built an updated gitlab-runner version for s390x, aarch64 and
+> ppc64[2].  I've now tested its behavior with the shell executor
+> (instead of docker) on aarch64 and ppc64.  I did not get a chance yet
+> to test this new version and executor with s390x, but I'm planning
+> to do it soon.
+>
 
+Just a quick update on s390x.  I've run a job and had no issues:
 
-After checking out all patches and some pondering, used here approach
-looks to me too intrusive for the task at hand especially where it
-comes to generic code.
+  https://gitlab.com/cleber.gnu/qemuci/-/jobs/424084346
 
-(Ignore till =3D=3D=3D=3D to see suggestion how to simplify without reading
-reasoning behind it first)
+- Cleber.
 
-Lets look for a way to simplify it a little bit.
+--Nq2Wo0NMKNjxTN9z
+Content-Type: application/pgp-signature; name="signature.asc"
 
-So problem we are trying to solve,
- 1: calculate APIC IDs based on cpu type (to e more specific: for EPYC base=
-d CPUs)
- 2: it depends on knowing total number of numa nodes.
+-----BEGIN PGP SIGNATURE-----
 
-Externally workflow looks like following:
-  1. user provides -smp x,sockets,cores,...,maxcpus
-      that's used by possible_cpu_arch_ids() singleton to build list of
-      possible CPUs (which is available to user via command 'hotpluggable-c=
-pus')
+iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAl44NX4ACgkQZX6NM6Xy
+CfOz7A//UhEBKXbA0es6ntFIspR3CW6r/3qOVgY1xoafmevitJNzOHI7MeeUvKX+
+ajS4zltcOs1G3EN/Ym2rTuJTc7RPOHyMZcLGu9TFLLjAkJzS7VJyx9J0cf8BX3qZ
+qKAcucelTPI0DzFx7G+5/G6f9UYXtyWM7sljXJUhQJJaQPhiOBKpA7UxjArYNXk9
+KIjLJFQV7+AkZw8wzlBCUbWzKo18jsfxLRUKa17PhJo8quMIF5VSqiTir2yJQwvk
+ujHlV/duAILuIfEiGxEtUKFr3FBOPms9ZzLJ1O5Dg9ZJIZZWEpeCtyFxmu7IrkBB
+nk86Y98h8sN+bGUUa9KoVKIVWsTkgVhEsRfO+Q8oQzjjhUFFaLkwXDcc/9wti+LB
+r6Fm5/rQjv1ONcCseuzXAlFBkBYQsV1YXTTKoosSIHVChCmzJY07ABbM0HQTz2c6
+TbFnX604apbzsEDK0KSqpe4VSJwrQu56JHg2rqAeH3NS+MyBdPDMl8vCCqxefPaQ
+vDVBbiKqy49NxzeHAbhZowjamLf3baVbk7MehD8i4Yug697UcfNx+YeSG0VUK9x+
+uANxokFHwjrIUpArlxfQIdPFDUpjwSSSwGyFVrmfz0rAHTr9n7i9zUWCRGXpvSli
+GpFDPdvkVRM6HNt69Py89aGETl0OGx5FXM0SD4cAqBRG7Ka4XrY=
+=3zgd
+-----END PGP SIGNATURE-----
 
-      Hook could be called very early and possible_cpus data might be
-      not complete. It builds a list of possible CPUs which user could
-      modify later.
-
-  2.1 user uses "-numa cpu,node-id=3Dx,..." or legacy "-numa node,node_id=
-=3Dx,cpus=3D"
-      options to assign cpus to nodes, which is one way or another calling
-      machine_set_cpu_numa_node(). The later updates 'possible_cpus' list
-      with node information. It happens early when total number of nodes
-      is not available.
-
-  2.2 user does not provide explicit node mappings for CPUs.
-      QEMU steps in and assigns possible cpus to nodes in machine_numa_fini=
-sh_cpu_init()
-      (using the same machine_set_cpu_numa_node()) right before calling boa=
-rds
-      specific machine init(). At that time total number of nodes is known.
-
-In 1 -- 2.1 cases, 'arch_id' in 'possible_cpus' list doesn't have to be def=
-ined before
-boards init() is run.
-
-In 2.2 case it calls get_default_cpu_node_id() -> x86_get_default_cpu_node_=
-id()
-which uses arch_id calculate numa node.
-But then question is: does it have to use APIC id or could it infer 'pkg_id=
-',
-it's after, from ms->possible_cpus->cpus[i].props data?
- =20
-With that out of the way APIC ID will be used only during board's init(),
-so board could update possible_cpus with valid APIC IDs at the start of
-x86_cpus_init().
-
-=3D=3D=3D=3D
-in nutshell it would be much easier to do following:
-
- 1. make x86_get_default_cpu_node_id() APIC ID in-depended or
-    if impossible as alternative recompute APIC IDs there if cpu
-    type is EPYC based (since number of nodes is already known)
- 2. recompute APIC IDs in x86_cpus_init() if cpu type is EPYC based
-
-this way one doesn't need to touch generic numa code, introduce
-x86 specific init_apicid_fn() hook into generic code and keep
-x86/EPYC nuances contained within x86 code only.
-
-> v3:
->   1. Consolidated the topology information in structure X86CPUTopoInfo.
->   2. Changed the ccx_id to llc_id as commented by upstream.
->   3. Generalized the apic id decoding. It is mostly similar to current ap=
-ic id
->      except that it adds new field llc_id when numa configured. Removes a=
-ll the
->      hardcoded values.
->   4. Removed the earlier parse_numa split. And moved the numa node initia=
-lization
->      inside the numa_complete_configuration. This is bit cleaner as comme=
-nted by=20
->      Eduardo.
->   5. Added new function init_apicid_fn inside machine_class structure. Th=
-is
->      will be used to update the apic id handler specific to cpu model.
->   6. Updated the cpuid unit tests.
->   7. TODO : Need to figure out how to dynamically update the handlers usi=
-ng cpu models.
->      I might some guidance on that.
->=20
-> v2:
->   https://lore.kernel.org/qemu-devel/156779689013.21957.16315515729506762=
-12.stgit@localhost.localdomain/
->   1. Introduced the new property epyc to enable new epyc mode.
->   2. Separated the epyc mode and non epyc mode function.
->   3. Introduced function pointers in PCMachineState to handle the
->      differences.
->   4. Mildly tested different combinations to make things are working as e=
-xpected.
->   5. TODO : Setting the epyc feature bit needs to be worked out. This fea=
-ture is
->      supported only on AMD EPYC models. I may need some guidance on that.
->=20
-> v1:
->   https://lore.kernel.org/qemu-devel/20190731232032.51786-1-babu.moger@am=
-d.com/
->=20
-> ---
->=20
-> Babu Moger (18):
->       hw/i386: Rename X86CPUTopoInfo structure to X86CPUTopoIDs
->       hw/i386: Introduce X86CPUTopoInfo to contain topology info
->       hw/i386: Consolidate topology functions
->       hw/i386: Introduce initialize_topo_info to initialize X86CPUTopoInf=
-o
->       machine: Add SMP Sockets in CpuTopology
->       hw/core: Add core complex id in X86CPU topology
->       machine: Add a new function init_apicid_fn in MachineClass
->       hw/i386: Update structures for nodes_per_pkg
->       i386: Add CPUX86Family type in CPUX86State
->       hw/386: Add EPYC mode topology decoding functions
->       i386: Cleanup and use the EPYC mode topology functions
->       numa: Split the numa initialization
->       hw/i386: Introduce apicid_from_cpu_idx in PCMachineState
->       hw/i386: Introduce topo_ids_from_apicid handler PCMachineState
->       hw/i386: Introduce apic_id_from_topo_ids handler in PCMachineState
->       hw/i386: Introduce EPYC mode function handlers
->       i386: Fix pkg_id offset for epyc mode
->       tests: Update the Unit tests
->=20
->=20
->  hw/core/machine-hmp-cmds.c |    3 +
->  hw/core/machine.c          |   14 +++
->  hw/core/numa.c             |   62 +++++++++----
->  hw/i386/pc.c               |  132 +++++++++++++++++++---------
->  include/hw/boards.h        |    3 +
->  include/hw/i386/pc.h       |    9 ++
->  include/hw/i386/topology.h |  209 +++++++++++++++++++++++++++++++-------=
-------
->  include/sysemu/numa.h      |    5 +
->  qapi/machine.json          |    7 +
->  target/i386/cpu.c          |  196 ++++++++++++--------------------------=
----
->  target/i386/cpu.h          |    9 ++
->  tests/test-x86-cpuid.c     |  115 ++++++++++++++----------
->  vl.c                       |    4 +
->  13 files changed, 455 insertions(+), 313 deletions(-)
->=20
-> --
->=20
+--Nq2Wo0NMKNjxTN9z--
 
 
