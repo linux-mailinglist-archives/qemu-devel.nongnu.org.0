@@ -2,50 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B6CA150049
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Feb 2020 02:32:32 +0100 (CET)
-Received: from localhost ([::1]:32898 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42F5515009C
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Feb 2020 04:01:10 +0100 (CET)
+Received: from localhost ([::1]:33562 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iyQbH-0007cH-L5
-	for lists+qemu-devel@lfdr.de; Sun, 02 Feb 2020 20:32:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50846)
+	id 1iyRz2-0002yq-Rn
+	for lists+qemu-devel@lfdr.de; Sun, 02 Feb 2020 22:01:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43014)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iyQaH-0006mG-Mz
- for qemu-devel@nongnu.org; Sun, 02 Feb 2020 20:31:31 -0500
+ (envelope-from <pannengyuan@huawei.com>) id 1iyRy8-0002Po-2p
+ for qemu-devel@nongnu.org; Sun, 02 Feb 2020 22:00:13 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iyQaG-0001bZ-EB
- for qemu-devel@nongnu.org; Sun, 02 Feb 2020 20:31:29 -0500
-Received: from bilbo.ozlabs.org ([203.11.71.1]:37265 helo=ozlabs.org)
+ (envelope-from <pannengyuan@huawei.com>) id 1iyRy6-00044w-PB
+ for qemu-devel@nongnu.org; Sun, 02 Feb 2020 22:00:11 -0500
+Received: from szxga06-in.huawei.com ([45.249.212.32]:38802 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>) id 1iyQaE-0001Uu-Cc
- for qemu-devel@nongnu.org; Sun, 02 Feb 2020 20:31:28 -0500
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 489qzY52Fkz9sPK; Mon,  3 Feb 2020 12:31:21 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1580693481;
- bh=FTP/akVgiin1BnBxvfvaO8NDaSLqJqZH5lz7E7lRaFs=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=BiGAzkvl9SGXBsK8OCZJKVHD1PiV7pbIXN0c1AvDEa/GgNDzYDgx/DtdHzL6H5cGd
- NuZ8xIUpDMgEm13sl2GdFMwCAGekQuSQDulcNS+I5A57lQajmg2w9sUPgqC568jGCa
- 3/wEviCPC2qoyI9IE+/0g8ecnrsOTE/S5TR+l7lU=
-Date: Mon, 3 Feb 2020 12:31:11 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: VW ELF loader
-Message-ID: <20200203013111.GE52446@umbus.fritz.box>
-References: <f881c2e7-be92-9695-6e19-2dd88cbc63c1@ozlabs.ru>
- <e3ee4b4d-1b24-2900-4304-05fa521a9b47@redhat.com>
- <94828b1d-fa7d-149e-9eb3-d001d6484489@ozlabs.ru>
- <CABgObfaG6th54YJkEPaqq=_UQhvmZiJz6X6Yb_PZJQ15AZvMTA@mail.gmail.com>
+ (Exim 4.71) (envelope-from <pannengyuan@huawei.com>)
+ id 1iyRy6-0003pc-EB
+ for qemu-devel@nongnu.org; Sun, 02 Feb 2020 22:00:10 -0500
+Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.59])
+ by Forcepoint Email with ESMTP id 5649A7C3B5BD4BE6A906;
+ Mon,  3 Feb 2020 11:00:02 +0800 (CST)
+Received: from DESKTOP-9NTIQGG.china.huawei.com (10.173.221.136) by
+ DGGEMS403-HUB.china.huawei.com (10.3.19.203) with Microsoft SMTP Server id
+ 14.3.439.0; Mon, 3 Feb 2020 10:59:54 +0800
+From: <pannengyuan@huawei.com>
+To: <thuth@redhat.com>, <lvivier@redhat.com>, <pbonzini@redhat.com>
+Subject: [PATCH] boot-order-test: fix memleaks in boot-order-test
+Date: Mon, 3 Feb 2020 10:59:35 +0800
+Message-ID: <20200203025935.36228-1-pannengyuan@huawei.com>
+X-Mailer: git-send-email 2.21.0.windows.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="mR8QP4gmHujQHb1c"
-Content-Disposition: inline
-In-Reply-To: <CABgObfaG6th54YJkEPaqq=_UQhvmZiJz6X6Yb_PZJQ15AZvMTA@mail.gmail.com>
+Content-Type: text/plain
+X-Originating-IP: [10.173.221.136]
+X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 203.11.71.1
+X-Received-From: 45.249.212.32
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,106 +52,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Alexey Kardashevskiy <aik@ozlabs.ru>,
- qemu-devel <qemu-devel@nongnu.org>, Cornelia Huck <conny@cornelia-huck.de>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- Stefano Garzarella <sgarzare@redhat.com>
+Cc: Euler Robot <euler.robot@huawei.com>, Pan Nengyuan <pannengyuan@huawei.com>,
+ zhang.zhanghailiang@huawei.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+From: Pan Nengyuan <pannengyuan@huawei.com>
 
---mR8QP4gmHujQHb1c
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+It's not a big deal, but 'check qtest-ppc/ppc64' runs fail if sanitizers =
+is enabled.
+The memory leak stack is as follow:
 
-On Sun, Feb 02, 2020 at 06:38:59PM +0100, Paolo Bonzini wrote:
-> Il dom 2 feb 2020, 12:51 Alexey Kardashevskiy <aik@ozlabs.ru> ha scritto:
->=20
-> > > QEMU must not load GRUB from disk, that's the firmware's task.  If you
-> > > want to kill SLOF, you can rewrite it, but loading the kernel GRUB fr=
-om
-> > > disk within QEMU is a bad idea: the next feature you'll be requested =
-to
-> > > implement will be network boot, and there's no way to do that in QEMU.
-> >
-> > What is exactly the problem with netboot? I can hook up the OF's "net" =
-to
-> > a backend (as I do for serial console and
-> > blockdev, in boot order)
->=20
-> Who provides the OpenFirmware entry point when you remove SLOF and boot
-> directly into grub?
+Direct leak of 128 byte(s) in 4 object(s) allocated from:
+    #0 0x7f11756f5970 in __interceptor_calloc (/lib64/libasan.so.5+0xef97=
+0)
+    #1 0x7f1174f2549d in g_malloc0 (/lib64/libglib-2.0.so.0+0x5249d)
+    #2 0x556af05aa7da in mm_fw_cfg_init /mnt/sdb/qemu/tests/libqos/fw_cfg=
+.c:119
+    #3 0x556af059f4f5 in read_boot_order_pmac /mnt/sdb/qemu/tests/boot-or=
+der-test.c:137
+    #4 0x556af059efe2 in test_a_boot_order /mnt/sdb/qemu/tests/boot-order=
+-test.c:47
+    #5 0x556af059f2c0 in test_boot_orders /mnt/sdb/qemu/tests/boot-order-=
+test.c:59
+    #6 0x556af059f52d in test_pmac_oldworld_boot_order /mnt/sdb/qemu/test=
+s/boot-order-test.c:152
+    #7 0x7f1174f46cb9  (/lib64/libglib-2.0.so.0+0x73cb9)
+    #8 0x7f1174f46b73  (/lib64/libglib-2.0.so.0+0x73b73)
+    #9 0x7f1174f46b73  (/lib64/libglib-2.0.so.0+0x73b73)
+    #10 0x7f1174f46f71 in g_test_run_suite (/lib64/libglib-2.0.so.0+0x73f=
+71)
+    #11 0x7f1174f46f94 in g_test_run (/lib64/libglib-2.0.so.0+0x73f94)
 
-We do the same thing as we do for RTAS.  We have a tiny (20 byte) stub
-for the client interface entry point which forwards client interface
-calls to a hypercall which we implement in qemu.
+Reported-by: Euler Robot <euler.robot@huawei.com>
+Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
+---
+ tests/qtest/boot-order-test.c | 6 +++---
+ tests/qtest/libqos/fw_cfg.h   | 2 ++
+ 2 files changed, 5 insertions(+), 3 deletions(-)
 
-> Or alternatively it is possible with my patchset to load petitboot (kernel
-> > + intramdisk, the default way of booting
-> > POWER8/9 baremetal systems) and that thing can do whole lot of things, =
-we
-> > can consider it as a replacement for ROMs from
-> > devices (or I misunderstood what kind of netboot you meant).
-> >
->=20
-> Why wouldn't that have the same issue as SLOF that you describe below (I
-> honestly don't understand anything of it, but that's not your fault :-)).
-
-Because having it's own full understanding of the hardware (via its
-linux kernel), petitboot doesn't have to shared data with the
-hypervisor to the extent that SLOF needs to.
-
->=20
-> Paolo
->=20
->=20
-> > > You should be able to reuse quite a lot of code from both
-> > > pc-bios/s390-ccw (for virtio drivers) and kvm-unit-tests (for device
-> > > tree parsing).  You'd have to write the glue code for PCI hypercalls,
-> > > and adapt virtio.c for virtio-pci instead of virtio-ccw.
-> >
-> > The reason for killing SLOF is to keep one device tree for the entire b=
-oot
-> > process including
-> > ibm,client-architecture-support with possible (and annoying) configurat=
-ion
-> > reboots. Having another firware won't help
-> > with that.
-> >
-> > Also the OF1275 client interface is the way for the client to get
-> > net/block device without need to have drivers, I'd
-> > like to do just this and skip the middle man (QEMU device and guest dri=
-ver
-> > in firmware/bootloader).
-> >
-> > I'll post another RFC tomorrow to give a better idea.
-
+diff --git a/tests/qtest/boot-order-test.c b/tests/qtest/boot-order-test.=
+c
+index a725bce729..4241304ff5 100644
+--- a/tests/qtest/boot-order-test.c
++++ b/tests/qtest/boot-order-test.c
+@@ -134,7 +134,7 @@ static void test_prep_boot_order(void)
+=20
+ static uint64_t read_boot_order_pmac(QTestState *qts)
+ {
+-    QFWCFG *fw_cfg =3D mm_fw_cfg_init(qts, 0xf0000510);
++    g_autoptr(QFWCFG) fw_cfg =3D mm_fw_cfg_init(qts, 0xf0000510);
+=20
+     return qfw_cfg_get_u16(fw_cfg, FW_CFG_BOOT_DEVICE);
+ }
+@@ -159,7 +159,7 @@ static void test_pmac_newworld_boot_order(void)
+=20
+ static uint64_t read_boot_order_sun4m(QTestState *qts)
+ {
+-    QFWCFG *fw_cfg =3D mm_fw_cfg_init(qts, 0xd00000510ULL);
++    g_autoptr(QFWCFG) fw_cfg =3D mm_fw_cfg_init(qts, 0xd00000510ULL);
+=20
+     return qfw_cfg_get_u16(fw_cfg, FW_CFG_BOOT_DEVICE);
+ }
+@@ -171,7 +171,7 @@ static void test_sun4m_boot_order(void)
+=20
+ static uint64_t read_boot_order_sun4u(QTestState *qts)
+ {
+-    QFWCFG *fw_cfg =3D io_fw_cfg_init(qts, 0x510);
++    g_autoptr(QFWCFG) fw_cfg =3D io_fw_cfg_init(qts, 0x510);
+=20
+     return qfw_cfg_get_u16(fw_cfg, FW_CFG_BOOT_DEVICE);
+ }
+diff --git a/tests/qtest/libqos/fw_cfg.h b/tests/qtest/libqos/fw_cfg.h
+index 13325cc4ff..c6a7cf8cf0 100644
+--- a/tests/qtest/libqos/fw_cfg.h
++++ b/tests/qtest/libqos/fw_cfg.h
+@@ -49,4 +49,6 @@ static inline void pc_fw_cfg_uninit(QFWCFG *fw_cfg)
+     io_fw_cfg_uninit(fw_cfg);
+ }
+=20
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(QFWCFG, mm_fw_cfg_uninit)
++
+ #endif
 --=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+2.21.0.windows.1
 
---mR8QP4gmHujQHb1c
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl43d98ACgkQbDjKyiDZ
-s5IBJxAAn4rC0ZsM1xkzMb6eaOBrOT5GMFjUSBWHVTzR+fyFBya/7Zop/UH+R4sr
-Zlu8ZAt1nfsMQ+c573nA0jSqHwB7/OwoMTHStKf1MAbse59bZ25/OwsJz+i6wTCF
-iGiNkNhbqk9H0KPQuxhQCGu6mjVaDni8GHyG4lgVdnT2pCShKeVxyt3iG9qlJ+dW
-d59ru5LBRyCiLfkSEGOCWnHgNAxkJP4iJij9tsD8eB3Wz8wsZputTn2cnl7goXB4
-N1SSdIo1tJl+UoaaBapryjcUpAwkyUNFI/idVrdQ9DDH0RQ1azvFIBnThHXluayw
-V1OqM07r6ig4jGUUpRn6X8RmvwZ9s/MfyevcC/Pn1eMPpUuqyEQIMn90zTZ3P50K
-pbO/KtwgXK5a2ikXFw1OThY1SeSLe0wbCAxHDgMr58Z4N81RB3IOglImItkObQYg
-v2mkWl/WyTMA7v4rhW91NvTpDqHdzBGK6p3AGCxIJ2NZtWRNSVTNTRPR2GhCkZ2P
-HiFwCnSU/yDGoU6WzSkDOMthfhHX2U1/vKBJ78DZlxXCaYEoFctO7JZ2fuwVGL+1
-/xjVXvdJJwmVQI3OpKX+aX2AZbbLpViShI9bbeCTAvDKv2ww1ee3KAcTopcMcThQ
-H+ylMwbIeq4s9ji1s9yXXwoVOGIlRduf7TZHSD30NZnzpi89EF0=
-=gdTe
------END PGP SIGNATURE-----
-
---mR8QP4gmHujQHb1c--
 
