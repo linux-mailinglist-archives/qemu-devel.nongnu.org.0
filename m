@@ -2,66 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AB1615087A
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Feb 2020 15:35:25 +0100 (CET)
-Received: from localhost ([::1]:42022 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2879D15088B
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Feb 2020 15:38:22 +0100 (CET)
+Received: from localhost ([::1]:42066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iycou-000769-Gj
-	for lists+qemu-devel@lfdr.de; Mon, 03 Feb 2020 09:35:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39481)
+	id 1iycrl-0000V1-7j
+	for lists+qemu-devel@lfdr.de; Mon, 03 Feb 2020 09:38:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40595)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iycnn-0006Gu-WD
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 09:34:16 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1iycqy-0008TW-N7
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 09:37:33 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iycnm-0006gQ-Mg
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 09:34:15 -0500
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:39705)
+ (envelope-from <alex.bennee@linaro.org>) id 1iycqx-0003m0-O4
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 09:37:32 -0500
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:45769)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iycnm-0006eP-HW
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 09:34:14 -0500
-Received: by mail-ot1-x344.google.com with SMTP id 77so13810096oty.6
- for <qemu-devel@nongnu.org>; Mon, 03 Feb 2020 06:34:14 -0800 (PST)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1iycqx-0003lN-I3
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 09:37:31 -0500
+Received: by mail-wr1-x442.google.com with SMTP id a6so18444746wrx.12
+ for <qemu-devel@nongnu.org>; Mon, 03 Feb 2020 06:37:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=HOmYWzYE/qC6q2n+o+sTa2kv2stI9GudmWtRnJ48RsE=;
- b=m6Ebjlx6NQwYJU8XRHZMXjavIGGLb8z+knKf7chv6CS6y2jGc+JYszi8cq9J1eoqaZ
- pS52cuvMGvTf31+qjD/a5y8AoBSaxRWD7HLddAp97VS8h8GdWPPFhQ1O39gQEleWar6z
- g28bzcuQcdED/OuKNjzdp+0rO9BYlqFX/TDmh9xTagli6qESU/Iz1A8qgx1LT41p+Ve/
- fpdIt0iRQkwOeIpk6A+1xHkF28GbIKiiLvG/4V4PRcfOuUDnxHNixDUZUqScnFiAy6cd
- pLdljkHI8UeCTQXSMRsI/YsPkimM9GwFRLxv6yPN7tT5tqD7zZ3NTodQmnDYihvDF0qK
- pjeA==
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=mwIRasez9hCiSvnmviaUwI1WpgIorlmt2wVR/XzX058=;
+ b=JHVRiXIteI2anpwjmdf6RGRgXoptyox9fXhL+pgdHOZ3b98f+Yg76neDZT8mk3vckO
+ w4VVk3Pq6iD77zJgfAmb+khVxJkS7kil1kpf4m5n98AQeh4TNCdfmDWC/wIxW8ghRidU
+ J2FfyIYLexmJuyUZKEiM2rzt3sYuebmCd6JCg/15VPdJ0Q2n2mpms+3c2CTwZf2sBpXz
+ FsInZZ0fAJDpyJHicNCpNHwcTJHhFKEwpMxJitJNvNgIY64aVCNs4Ox2rPmZpy5Qr2x7
+ Is8cHt+hPfzOxqqIiUqP4ens0ksZes3KIEQbwNGhpPwTrd2r3QmyJC+DPlG237O+Yexf
+ x+eQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=HOmYWzYE/qC6q2n+o+sTa2kv2stI9GudmWtRnJ48RsE=;
- b=UzbhvHefS5IIdG+MOKlj6NWWZl90QAz5f4JxMURMAys4D2Tbtxgbi+3pc0Sp1wj2IP
- oShkiLRQ+u0EvO09HtiWNNk04HRyKemLgemunj7I0XswmzQ7Pk8fzTeEsa6qvlL1HqHx
- qcP4nEJPnSLY//13/4OBdqX3pcewhjdY6aW88STqltj8TV6Q6xYIZ23m0iAZJlUgR8MA
- eQ+A8qN0RMPARYlskvYGJ+3awAcaja+X1lk/oz2KlHO6AW8E0wI1AjjiZE2OTrLN0t+I
- Xkd3HGGWtnB8uhUoxFPk+CGUiO4nW+QulxcqDQCChxJ0lRhCFlYTq2nAZLGAaWjDRIxz
- 0aCg==
-X-Gm-Message-State: APjAAAWbcKB7VlW62sFDPpKb6rTdjjp819zQ4Hx/qMU4wZwPdKQlniZP
- dslNoT6xZLTbc9Ge4rTC6dkOJhX63RIaIPChlkYSXg==
-X-Google-Smtp-Source: APXvYqw/J/jdU4FdvmmkqawsqjfeASCI9ifXFW/ybepw4+q4V2PcNeHjjQrL7DQeZ/XoNnhnMFlY9VJIpBGAizFhg+Y=
-X-Received: by 2002:a05:6830:4a4:: with SMTP id
- l4mr18077753otd.91.1580740453297; 
- Mon, 03 Feb 2020 06:34:13 -0800 (PST)
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=mwIRasez9hCiSvnmviaUwI1WpgIorlmt2wVR/XzX058=;
+ b=P0dI8zu2KOYZM6Ajbq/FmzqD482qS/dO7NUTCK3w5OdXF1MBxpUMrpLnDEt0E1VSkN
+ HfxL7ukT9EqpAbK9WiCz1REyz6R0wM0RmCeM6lif9AL4S8FMdgC36/2+7U8FWNSPdWdC
+ 8HAvhZR8kmqf9YOCHumsDTgoC7vDR4CVlYCfDG4sHoUc6dGSLoR1KdoZlmfE9YsGRdmz
+ PC7z4SAzLNmQv6kYRRE8H+05hwExurNOl2ZAGpmcofiLUZ+VYBZK+UN6SUIsgLWmQDyM
+ /Ggt9xGzNoxLqJjcU8hkLO3VSheDnUVMItRulB4Gf/sh0L35Dqa39a1dv1HvtH+8JG3O
+ G02A==
+X-Gm-Message-State: APjAAAV7QKDfsP1RsFVdgfrfbtqFGtMO8+fWmryveKvlrlYvZLfEFrz4
+ iKjPIM6/BXs9iJSWOfEojEaPlQ==
+X-Google-Smtp-Source: APXvYqxIeJMOx1bI9Xac6S960AZWW66SozOIEG6yx7LiGfkhRFsc5WnQORYL13pn9DX07ni7XWhh8A==
+X-Received: by 2002:adf:edd0:: with SMTP id v16mr15667667wro.310.1580740650594; 
+ Mon, 03 Feb 2020 06:37:30 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id y20sm22750133wmi.25.2020.02.03.06.37.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 03 Feb 2020 06:37:29 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 7F68F1FF87;
+ Mon,  3 Feb 2020 14:37:28 +0000 (GMT)
+References: <20200203090932.19147-1-alex.bennee@linaro.org>
+ <20200203090932.19147-18-alex.bennee@linaro.org>
+ <e1f501e7-b3c4-5d88-3f10-cd2c1c7a1cd6@redhat.com>
+ <21b86fba-8f28-736e-89d1-f7548e1f92e2@redhat.com>
+User-agent: mu4e 1.3.7; emacs 27.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH v3 17/17] .travis.yml: single thread build-tcg
+In-reply-to: <21b86fba-8f28-736e-89d1-f7548e1f92e2@redhat.com>
+Date: Mon, 03 Feb 2020 14:37:28 +0000
+Message-ID: <87blqfag9j.fsf@linaro.org>
 MIME-Version: 1.0
-References: <20200203141346.11790-1-thuth@redhat.com>
-In-Reply-To: <20200203141346.11790-1-thuth@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 3 Feb 2020 14:34:02 +0000
-Message-ID: <CAFEAcA9cy=-AMCOXmz1NnkApuGfyo=qPZj726haaO12ERiu_Cw@mail.gmail.com>
-Subject: Re: [qemu-web PATCH v2] Update the documentation links to point to
- our generated docs
-To: Thomas Huth <thuth@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::344
+X-Received-From: 2a00:1450:4864:20::442
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,23 +84,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>
+Cc: fam@euphon.net, Thomas Huth <thuth@redhat.com>, berrange@redhat.com,
+ stefanb@linux.vnet.ibm.com, richard.henderson@linaro.org,
+ qemu-devel@nongnu.org, f4bug@amsat.org, cota@braap.org, stefanha@redhat.com,
+ pbonzini@redhat.com, marcandre.lureau@redhat.com, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 3 Feb 2020 at 14:14, Thomas Huth <thuth@redhat.com> wrote:
->
-> We are now providing the generated QEMU documentation files directly
-> on our www.qemu.org webserver, so we should link to these files now.
->
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->  v2: Do not link to qemu-doc anymore, use the index page instead
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
 
-thanks
--- PMM
+> On 2/3/20 11:01 AM, Thomas Huth wrote:
+>> On 03/02/2020 10.09, Alex Benn=C3=A9e wrote:
+>>> I've theorised that a parallel build-tcg is somehow getting confused
+>>> when two fedora-30 based cross compilers attempt to build at the same
+>>> time. From one data-point so far this may fix the problem although the
+>>> plugins job runs quite close to timeout.
+>>>
+>>> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>>> ---
+>>>   .travis.yml | 4 ++--
+>>>   1 file changed, 2 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/.travis.yml b/.travis.yml
+>>> index c1c6df475a8..3b35b7cf04d 100644
+>>> --- a/.travis.yml
+>>> +++ b/.travis.yml
+>>> @@ -380,7 +380,7 @@ matrix:
+>>>       - name: "GCC check-tcg (user)"
+>>>         env:
+>>>           - CONFIG=3D"--disable-system --enable-debug-tcg"
+>>> -        - TEST_BUILD_CMD=3D"make -j${JOBS} build-tcg"
+>>> +        - TEST_BUILD_CMD=3D"make build-tcg"
+>>>           - TEST_CMD=3D"make check-tcg"
+>>>           - CACHE_NAME=3D"${TRAVIS_BRANCH}-linux-gcc-debug-tcg"
+>>>   @@ -391,7 +391,7 @@ matrix:
+>>>       - name: "GCC plugins check-tcg (user)"
+>>>         env:
+>>>           - CONFIG=3D"--disable-system --enable-plugins --enable-debug-=
+tcg --target-list-exclude=3Dsparc64-linux-user,cris-linux-user"
+>>> -        - TEST_BUILD_CMD=3D"make -j${JOBS} build-tcg"
+>>> +        - TEST_BUILD_CMD=3D"make build-tcg"
+>>>           - TEST_CMD=3D"make check-tcg"
+>>>           - CACHE_NAME=3D"${TRAVIS_BRANCH}-linux-gcc-debug-tcg"
+>> Squash it into patch 14/17 ?
+>
+> I'd rather not, ideally we will revert this patch once the issue is
+> fixed.
+
+Yeah - there should be no reason that we can't build all the tcg tests
+in parallel. For some reason I think the two fedora30 based images have
+an issue, despite there not being a common base.
+
+--=20
+Alex Benn=C3=A9e
 
