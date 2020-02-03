@@ -2,52 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4D4C150756
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Feb 2020 14:34:51 +0100 (CET)
-Received: from localhost ([::1]:40636 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71F7815078F
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Feb 2020 14:41:50 +0100 (CET)
+Received: from localhost ([::1]:40734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iybsI-0005nt-QU
-	for lists+qemu-devel@lfdr.de; Mon, 03 Feb 2020 08:34:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47100)
+	id 1iybz3-0002kP-Ih
+	for lists+qemu-devel@lfdr.de; Mon, 03 Feb 2020 08:41:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50438)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <guoheyi@huawei.com>) id 1iybrP-00059o-Pb
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 08:33:57 -0500
+ (envelope-from <bounces@canonical.com>) id 1iyby3-0001dF-Cf
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 08:40:48 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <guoheyi@huawei.com>) id 1iybrN-0005FA-Rd
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 08:33:55 -0500
-Received: from szxga07-in.huawei.com ([45.249.212.35]:34928 helo=huawei.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <guoheyi@huawei.com>)
- id 1iybrL-00053J-72; Mon, 03 Feb 2020 08:33:51 -0500
-Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.59])
- by Forcepoint Email with ESMTP id CD3CB6D94AD4A54EF829;
- Mon,  3 Feb 2020 21:33:42 +0800 (CST)
-Received: from [127.0.0.1] (10.173.221.228) by DGGEMS405-HUB.china.huawei.com
- (10.3.19.205) with Microsoft SMTP Server id 14.3.439.0;
- Mon, 3 Feb 2020 21:33:35 +0800
-Subject: Re: [PATCH v2 0/7] Some cleanup in arm/virt/acpi
-To: "Michael S. Tsirkin" <mst@redhat.com>, Peter Maydell
- <peter.maydell@linaro.org>
-References: <20200203001505.52573-1-guoheyi@huawei.com>
- <20200203014246-mutt-send-email-mst@kernel.org>
-From: Heyi Guo <guoheyi@huawei.com>
-Message-ID: <455d16a4-e7b6-af9b-0b7e-43be70e22f7b@huawei.com>
-Date: Mon, 3 Feb 2020 21:33:34 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ (envelope-from <bounces@canonical.com>) id 1iyby2-0007kr-7I
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 08:40:47 -0500
+Received: from indium.canonical.com ([91.189.90.7]:36578)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iyby2-0007jj-1o
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 08:40:46 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iyby0-00005h-Tc
+ for <qemu-devel@nongnu.org>; Mon, 03 Feb 2020 13:40:44 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id DE0392E806B
+ for <qemu-devel@nongnu.org>; Mon,  3 Feb 2020 13:40:44 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20200203014246-mutt-send-email-mst@kernel.org>
-Content-Type: text/plain; charset="gbk"; format=flowed
-X-Originating-IP: [10.173.221.228]
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+Date: Mon, 03 Feb 2020 13:34:20 -0000
+From: Teodori Serge <teodori.serge@gmail.com>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: risc-v
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: alistair2323 teodori-serge
+X-Launchpad-Bug-Reporter: Teodori Serge (teodori-serge)
+X-Launchpad-Bug-Modifier: Teodori Serge (teodori-serge)
+References: <157875755996.2711.225801499083245592.malonedeb@soybean.canonical.com>
+Message-Id: <158073686024.26789.14176705750127574999.malone@soybean.canonical.com>
+Subject: [Bug 1859291] Re: RISC-V incorrect exception generated
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="0a62c17273454a1313f81a74a2198ec30b44c7b6";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: ab93892e15de31398ba2d363a2f9e7eb76aaa404
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 45.249.212.35
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -56,69 +65,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: wanghaibin.wang@huawei.com, Shannon Zhao <shannon.zhaosl@gmail.com>,
- qemu-devel@nongnu.org, qemu-arm@nongnu.org,
- Igor Mammedov <imammedo@redhat.com>
+Reply-To: Bug 1859291 <1859291@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+** Attachment added: "qemu log"
+   https://bugs.launchpad.net/qemu/+bug/1859291/+attachment/5324981/+files/=
+monitor.txt
 
-=D4=DA 2020/2/3 14:43, Michael S. Tsirkin =D0=B4=B5=C0:
-> On Mon, Feb 03, 2020 at 08:14:58AM +0800, Heyi Guo wrote:
->> Remove conflict _ADR objects, and fix and refine PCI device definition=
- in
->> ACPI/DSDT.
->>
->> Cc: Peter Maydell <peter.maydell@linaro.org>
->> Cc: "Michael S. Tsirkin" <mst@redhat.com>
->> Cc: Igor Mammedov <imammedo@redhat.com>
->> Cc: Shannon Zhao <shannon.zhaosl@gmail.com>
->> Cc: qemu-arm@nongnu.org
->> Cc: qemu-devel@nongnu.org
->
-> Series
->
-> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
->
-> merge through ARM tree pls.
+-- =
 
-Thanks, Michael :)
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1859291
 
+Title:
+  RISC-V incorrect exception generated
 
-Hi Peter,
+Status in QEMU:
+  New
 
-Do I need to send v3 to update the commit message of patch 4/7 as=20
-Michael suggested?
+Bug description:
+  When using 'ecall' from supervisor mode, user exception is raised
+  instead of supervisor exception. The problem is located under
+  'target/riscv/insn_trans/trans_priviledged.inc.c' in function 'static
+  bool trans_ecall(DisasContext *ctx, arg_ecall *a)'. Best regards,
+  Serge Teodori
 
-Thanks,
-
-Heyi
-
->
->> v1 -> v2:
->> - flow the work flow in tests/qtest/bios-table-test.c to post ACPI rel=
-ated
->>    patches.
->> - update commit messages for removing "RP0" and "_ADR".
->> - add 3 more cleanup patches.
->>
->> Heyi Guo (7):
->>    bios-tables-test: prepare to change ARM virt ACPI DSDT
->>    arm/virt/acpi: remove meaningless sub device "PR0" from PCI0
->>    arm/virt/acpi: remove _ADR from devices identified by _HID
->>    arm/acpi: fix PCI _PRT definition
->>    arm/acpi: fix duplicated _UID of PCI interrupt link devices
->>    arm/acpi: simplify the description of PCI _CRS
->>    virt/acpi: update golden masters for DSDT update
->>
->>   hw/arm/virt-acpi-build.c          |  25 ++++++-------------------
->>   tests/data/acpi/virt/DSDT         | Bin 18462 -> 5307 bytes
->>   tests/data/acpi/virt/DSDT.memhp   | Bin 19799 -> 6644 bytes
->>   tests/data/acpi/virt/DSDT.numamem | Bin 18462 -> 5307 bytes
->>   4 files changed, 6 insertions(+), 19 deletions(-)
->>
->> --=20
->> 2.19.1
->
-
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1859291/+subscriptions
 
