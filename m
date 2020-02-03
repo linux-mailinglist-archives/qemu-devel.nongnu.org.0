@@ -2,33 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8277F1500C0
+	by mail.lfdr.de (Postfix) with ESMTPS id 71D5E1500BF
 	for <lists+qemu-devel@lfdr.de>; Mon,  3 Feb 2020 04:32:10 +0100 (CET)
-Received: from localhost ([::1]:33760 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:33758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iyST3-0004AY-I3
+	id 1iyST3-0004A9-Gs
 	for lists+qemu-devel@lfdr.de; Sun, 02 Feb 2020 22:32:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50038)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50020)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aik@ozlabs.ru>) id 1iySRN-0002iX-Bg
- for qemu-devel@nongnu.org; Sun, 02 Feb 2020 22:30:26 -0500
+ (envelope-from <aik@ozlabs.ru>) id 1iySRM-0002hS-76
+ for qemu-devel@nongnu.org; Sun, 02 Feb 2020 22:30:25 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aik@ozlabs.ru>) id 1iySRL-0006m1-FS
- for qemu-devel@nongnu.org; Sun, 02 Feb 2020 22:30:24 -0500
-Received: from [107.174.27.60] (port=38966 helo=ozlabs.ru)
+ (envelope-from <aik@ozlabs.ru>) id 1iySRJ-0006kL-F1
+ for qemu-devel@nongnu.org; Sun, 02 Feb 2020 22:30:22 -0500
+Received: from [107.174.27.60] (port=38972 helo=ozlabs.ru)
  by eggs.gnu.org with esmtp (Exim 4.71)
  (envelope-from <aik@ozlabs.ru>)
- id 1iySRJ-0006h1-8p; Sun, 02 Feb 2020 22:30:22 -0500
+ id 1iySRJ-0006jf-9a; Sun, 02 Feb 2020 22:30:21 -0500
 Received: from fstn1-p1.ozlabs.ibm.com (localhost [IPv6:::1])
- by ozlabs.ru (Postfix) with ESMTP id 5E102AE8000F;
- Sun,  2 Feb 2020 22:28:22 -0500 (EST)
+ by ozlabs.ru (Postfix) with ESMTP id D59B3AE80046;
+ Sun,  2 Feb 2020 22:28:23 -0500 (EST)
 From: Alexey Kardashevskiy <aik@ozlabs.ru>
 To: qemu-devel@nongnu.org
-Subject: [PATCH qemu v6 0/6] spapr: Kill SLOF
-Date: Mon,  3 Feb 2020 14:29:37 +1100
-Message-Id: <20200203032943.121178-1-aik@ozlabs.ru>
+Subject: [PATCH qemu v6 1/6] ppc: Start CPU in the default mode which is
+ big-endian 32bit
+Date: Mon,  3 Feb 2020 14:29:38 +1100
+Message-Id: <20200203032943.121178-2-aik@ozlabs.ru>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200203032943.121178-1-aik@ozlabs.ru>
+References: <20200203032943.121178-1-aik@ozlabs.ru>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
 X-Received-From: 107.174.27.60
 X-BeenThere: qemu-devel@nongnu.org
@@ -49,44 +52,36 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is v6 of an effort to implement Open Firmware Client Interface
-in QEMU. The feature is described in 6/6, 1/6..5/6 are small
-but necessary preparations.
+At the moment we enforce 64bit mode on a CPU when reset. This does not
+make difference as SLOF or Linux set the desired mode straight away.
+However if we ever boot something other than these two,
+this might not work as, for example, GRUB expects the default MSR state
+and does not work properly.
 
-With this thing, I can boot unmodified Ubuntu 18.04 and Fedora 30
-directly from the disk without SLOF.
+This removes setting MSR_SF from the PPC CPU reset.
 
+Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
+---
+ target/ppc/translate_init.inc.c | 6 ------
+ 1 file changed, 6 deletions(-)
 
-This is based on sha1
-532fe321cf06 Richard Henderson "target/ppc: Use probe_write for DCBZ".
-
-Please comment. Thanks.
-
-
-
-Alexey Kardashevskiy (6):
-  ppc: Start CPU in the default mode which is big-endian 32bit
-  ppc/spapr: Move GPRs setup to one place
-  spapr/spapr: Make vty_getchars public
-  spapr/cas: Separate CAS handling from rebuilding the FDT
-  spapr: Allow changing offset for -kernel image
-  spapr: Implement Open Firmware client interface
-
- hw/ppc/Makefile.objs            |    1 +
- include/hw/ppc/spapr.h          |   29 +-
- include/hw/ppc/spapr_cpu_core.h |    4 +-
- include/hw/ppc/spapr_vio.h      |    1 +
- hw/char/spapr_vty.c             |    2 +-
- hw/ppc/spapr.c                  |  139 ++-
- hw/ppc/spapr_cpu_core.c         |    7 +-
- hw/ppc/spapr_hcall.c            |   73 +-
- hw/ppc/spapr_of_client.c        | 1526 +++++++++++++++++++++++++++++++
- hw/ppc/spapr_rtas.c             |    2 +-
- target/ppc/translate_init.inc.c |    6 -
- hw/ppc/trace-events             |   24 +
- 12 files changed, 1744 insertions(+), 70 deletions(-)
- create mode 100644 hw/ppc/spapr_of_client.c
-
+diff --git a/target/ppc/translate_init.inc.c b/target/ppc/translate_init.inc.c
+index 53995f62eab2..f6a676cf55e8 100644
+--- a/target/ppc/translate_init.inc.c
++++ b/target/ppc/translate_init.inc.c
+@@ -10710,12 +10710,6 @@ static void ppc_cpu_reset(CPUState *s)
+ #endif
+ #endif
+ 
+-#if defined(TARGET_PPC64)
+-    if (env->mmu_model & POWERPC_MMU_64) {
+-        msr |= (1ULL << MSR_SF);
+-    }
+-#endif
+-
+     hreg_store_msr(env, msr, 1);
+ 
+ #if !defined(CONFIG_USER_ONLY)
 -- 
 2.17.1
 
