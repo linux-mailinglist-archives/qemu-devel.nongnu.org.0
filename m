@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D29F150198
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Feb 2020 07:15:32 +0100 (CET)
-Received: from localhost ([::1]:34780 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F37BE1501A4
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Feb 2020 07:20:35 +0100 (CET)
+Received: from localhost ([::1]:34894 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iyV19-0008CO-8y
-	for lists+qemu-devel@lfdr.de; Mon, 03 Feb 2020 01:15:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57263)
+	id 1iyV63-0001wG-24
+	for lists+qemu-devel@lfdr.de; Mon, 03 Feb 2020 01:20:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57280)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iyUxP-0002TG-AP
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 01:11:40 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1iyUxP-0002UJ-No
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 01:11:41 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iyUxN-0002bN-Uw
+ (envelope-from <dgibson@ozlabs.org>) id 1iyUxO-0002bb-2r
  for qemu-devel@nongnu.org; Mon, 03 Feb 2020 01:11:39 -0500
-Received: from ozlabs.org ([203.11.71.1]:53915)
+Received: from ozlabs.org ([203.11.71.1]:33671)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iyUxN-0002Ud-JR; Mon, 03 Feb 2020 01:11:37 -0500
+ id 1iyUxN-0002Uv-MW; Mon, 03 Feb 2020 01:11:38 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 489yBn02v9z9sSQ; Mon,  3 Feb 2020 17:11:28 +1100 (AEDT)
+ id 489yBn57ZKz9sST; Mon,  3 Feb 2020 17:11:29 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1580710289;
- bh=xwNu4FGfWX/egNgtR4ivugsA4AmzcHorSgS/59pdGpI=;
+ bh=0PDGeHNNFly2LX5qs4wnsyQKICr3TyHxGxrkZ3zjoiQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Y06O8cdFbWiDqTL/TX0vvPygHiBkBb6aswuHIU6t0rM1rf6kX7CzL8+RRNS68LTtE
- VY3Xl02jfQFNmptbexEqk2x2oDqNZ0ghw511lHY2yRD546P5kEAXxOMNK6FHHhySqX
- qVzW57PSW3SjQOhy9RclbnsWb6A4HimNZAroBJ+0=
+ b=iUHJwWAplNOHRDyFgaEdUtgWIG6MOeCbIK097pVRNARsxI02MJg9THsLAkKWjkUGh
+ +xgs0V14S9EX9ILaEMde3cgFm9KQXDkEldJjOtnkzraeMju8XbpW1hYlqnpeR4gSba
+ E+vk5rWW5Q1LhLUVZQFRydzBZ1sm8DGPM34ywgJ0=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 10/35] ppc/pnv: Add support for HRMOR on Radix host
-Date: Mon,  3 Feb 2020 17:10:58 +1100
-Message-Id: <20200203061123.59150-11-david@gibson.dropbear.id.au>
+Subject: [PULL 11/35] ppc/pnv: remove useless "core-pir" property alias.
+Date: Mon,  3 Feb 2020 17:10:59 +1100
+Message-Id: <20200203061123.59150-12-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200203061123.59150-1-david@gibson.dropbear.id.au>
 References: <20200203061123.59150-1-david@gibson.dropbear.id.au>
@@ -62,35 +62,141 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: C=C3=A9dric Le Goater <clg@kaod.org>
 
-When in HV mode, if EA[0] is 0, the Hypervisor Offset Real Mode
-Register controls the access.
+Commit 158e17a65e1a ("ppc/pnv: Link "chip" property to PnvCore::chip
+pointer") introduced some cleanups of the PnvCore realize handler.
+Let's continue by reworking a bit the interface of the PnvCore
+handlers for the CPU threads. These changes make the "core-pir"
+property alias unused. Remove it.
 
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
-Message-Id: <20200127144154.10170-2-clg@kaod.org>
+Message-Id: <20200127144154.10170-3-clg@kaod.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- target/ppc/mmu-radix64.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ hw/ppc/pnv_core.c | 28 +++++++++++++---------------
+ 1 file changed, 13 insertions(+), 15 deletions(-)
 
-diff --git a/target/ppc/mmu-radix64.c b/target/ppc/mmu-radix64.c
-index 066e324464..224e646c50 100644
---- a/target/ppc/mmu-radix64.c
-+++ b/target/ppc/mmu-radix64.c
-@@ -235,6 +235,12 @@ int ppc_radix64_handle_mmu_fault(PowerPCCPU *cpu, va=
-ddr eaddr, int rwx,
-         /* In real mode top 4 effective addr bits (mostly) ignored */
-         raddr =3D eaddr & 0x0FFFFFFFFFFFFFFFULL;
+diff --git a/hw/ppc/pnv_core.c b/hw/ppc/pnv_core.c
+index 8ca5fbd1a9..5fe3f21e12 100644
+--- a/hw/ppc/pnv_core.c
++++ b/hw/ppc/pnv_core.c
+@@ -40,11 +40,11 @@ static const char *pnv_core_cpu_typename(PnvCore *pc)
+     return cpu_type;
+ }
 =20
-+        /* In HV mode, add HRMOR if top EA bit is clear */
-+        if (msr_hv || !env->has_hv_mode) {
-+            if (!(eaddr >> 63)) {
-+                raddr |=3D env->spr[SPR_HRMOR];
-+           }
-+        }
-         tlb_set_page(cs, eaddr & TARGET_PAGE_MASK, raddr & TARGET_PAGE_M=
-ASK,
-                      PAGE_READ | PAGE_WRITE | PAGE_EXEC, mmu_idx,
-                      TARGET_PAGE_SIZE);
+-static void pnv_core_cpu_reset(PowerPCCPU *cpu, PnvChip *chip)
++static void pnv_core_cpu_reset(PnvCore *pc, PowerPCCPU *cpu)
+ {
+     CPUState *cs =3D CPU(cpu);
+     CPUPPCState *env =3D &cpu->env;
+-    PnvChipClass *pcc =3D PNV_CHIP_GET_CLASS(chip);
++    PnvChipClass *pcc =3D PNV_CHIP_GET_CLASS(pc->chip);
+=20
+     cpu_reset(cs);
+=20
+@@ -56,7 +56,7 @@ static void pnv_core_cpu_reset(PowerPCCPU *cpu, PnvChip=
+ *chip)
+     env->nip =3D 0x10;
+     env->msr |=3D MSR_HVB; /* Hypervisor mode */
+=20
+-    pcc->intc_reset(chip, cpu);
++    pcc->intc_reset(pc->chip, cpu);
+ }
+=20
+ /*
+@@ -162,14 +162,14 @@ static const MemoryRegionOps pnv_core_power9_xscom_=
+ops =3D {
+     .endianness =3D DEVICE_BIG_ENDIAN,
+ };
+=20
+-static void pnv_core_cpu_realize(PowerPCCPU *cpu, PnvChip *chip, Error *=
+*errp)
++static void pnv_core_cpu_realize(PnvCore *pc, PowerPCCPU *cpu, Error **e=
+rrp)
+ {
+     CPUPPCState *env =3D &cpu->env;
+     int core_pir;
+     int thread_index =3D 0; /* TODO: TCG supports only one thread */
+     ppc_spr_t *pir =3D &env->spr_cb[SPR_PIR];
+     Error *local_err =3D NULL;
+-    PnvChipClass *pcc =3D PNV_CHIP_GET_CLASS(chip);
++    PnvChipClass *pcc =3D PNV_CHIP_GET_CLASS(pc->chip);
+=20
+     object_property_set_bool(OBJECT(cpu), true, "realized", &local_err);
+     if (local_err) {
+@@ -177,13 +177,13 @@ static void pnv_core_cpu_realize(PowerPCCPU *cpu, P=
+nvChip *chip, Error **errp)
+         return;
+     }
+=20
+-    pcc->intc_create(chip, cpu, &local_err);
++    pcc->intc_create(pc->chip, cpu, &local_err);
+     if (local_err) {
+         error_propagate(errp, local_err);
+         return;
+     }
+=20
+-    core_pir =3D object_property_get_uint(OBJECT(cpu), "core-pir", &erro=
+r_abort);
++    core_pir =3D object_property_get_uint(OBJECT(pc), "pir", &error_abor=
+t);
+=20
+     /*
+      * The PIR of a thread is the core PIR + the thread index. We will
+@@ -203,7 +203,7 @@ static void pnv_core_reset(void *dev)
+     int i;
+=20
+     for (i =3D 0; i < cc->nr_threads; i++) {
+-        pnv_core_cpu_reset(pc->threads[i], pc->chip);
++        pnv_core_cpu_reset(pc, pc->threads[i]);
+     }
+ }
+=20
+@@ -231,8 +231,6 @@ static void pnv_core_realize(DeviceState *dev, Error =
+**errp)
+=20
+         snprintf(name, sizeof(name), "thread[%d]", i);
+         object_property_add_child(OBJECT(pc), name, obj, &error_abort);
+-        object_property_add_alias(obj, "core-pir", OBJECT(pc),
+-                                  "pir", &error_abort);
+=20
+         cpu->machine_data =3D g_new0(PnvCPUState, 1);
+=20
+@@ -240,7 +238,7 @@ static void pnv_core_realize(DeviceState *dev, Error =
+**errp)
+     }
+=20
+     for (j =3D 0; j < cc->nr_threads; j++) {
+-        pnv_core_cpu_realize(pc->threads[j], pc->chip, &local_err);
++        pnv_core_cpu_realize(pc, pc->threads[j], &local_err);
+         if (local_err) {
+             goto err;
+         }
+@@ -263,12 +261,12 @@ err:
+     error_propagate(errp, local_err);
+ }
+=20
+-static void pnv_core_cpu_unrealize(PowerPCCPU *cpu, PnvChip *chip)
++static void pnv_core_cpu_unrealize(PnvCore *pc, PowerPCCPU *cpu)
+ {
+     PnvCPUState *pnv_cpu =3D pnv_cpu_state(cpu);
+-    PnvChipClass *pcc =3D PNV_CHIP_GET_CLASS(chip);
++    PnvChipClass *pcc =3D PNV_CHIP_GET_CLASS(pc->chip);
+=20
+-    pcc->intc_destroy(chip, cpu);
++    pcc->intc_destroy(pc->chip, cpu);
+     cpu_remove_sync(CPU(cpu));
+     cpu->machine_data =3D NULL;
+     g_free(pnv_cpu);
+@@ -284,7 +282,7 @@ static void pnv_core_unrealize(DeviceState *dev, Erro=
+r **errp)
+     qemu_unregister_reset(pnv_core_reset, pc);
+=20
+     for (i =3D 0; i < cc->nr_threads; i++) {
+-        pnv_core_cpu_unrealize(pc->threads[i], pc->chip);
++        pnv_core_cpu_unrealize(pc, pc->threads[i]);
+     }
+     g_free(pc->threads);
+ }
 --=20
 2.24.1
 
