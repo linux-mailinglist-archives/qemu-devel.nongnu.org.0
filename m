@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12E88150FB7
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Feb 2020 19:37:41 +0100 (CET)
-Received: from localhost ([::1]:45848 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21B05150FBE
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Feb 2020 19:39:32 +0100 (CET)
+Received: from localhost ([::1]:45874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iygbM-0006gB-4S
-	for lists+qemu-devel@lfdr.de; Mon, 03 Feb 2020 13:37:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59003)
+	id 1iygd9-0000or-77
+	for lists+qemu-devel@lfdr.de; Mon, 03 Feb 2020 13:39:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60167)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1iygW3-0007p7-Fr
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 13:32:12 -0500
+ (envelope-from <david@redhat.com>) id 1iygWS-0008Oa-1T
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 13:32:37 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1iygW1-0001La-DD
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 13:32:10 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:44616
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <david@redhat.com>) id 1iygWQ-0002DI-Pa
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 13:32:35 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:53706
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <david@redhat.com>) id 1iygW0-0001II-19
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 13:32:09 -0500
+ (Exim 4.71) (envelope-from <david@redhat.com>) id 1iygWQ-0002C6-HC
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 13:32:34 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580754723;
+ s=mimecast20190719; t=1580754754;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9L9xxZ9ZeBStGdB1kO0OkTwJU7PxXep2rUjWZkoEjvQ=;
- b=KclWinwTy0eD/2AsouMdXa+ZdeQm3aLKmz9dVD8ePcT96gVBdTx43M4gvcEh/ByGeIaqPb
- 7cZYbtqDpnprzwLhZlKaCYtL2guv63PYBlrZ0BXVnNOneXbIK/jRt98h4gjfRbxpXBv0qI
- mNEs2i4mODgdmWhilkHlScGcji3NpMw=
+ bh=sYsEQi96eGtN1bqf4EOyLA5PXTJXlAtfqWxl3nyMgzY=;
+ b=XkOSZF3xcCRBRvyQWeeBr47x0az4o0441Fflehj3/gni76m1u0NnEXZvMozIuntynBrW72
+ rMYVHWmIG8SDhkay92YAA641B5CH5Yv3OKV1T9uHt1DwUBHxEiLrt9sLkuEREUq6g2VO2B
+ jgjEZYwt8MOlKfVZLD2sxrba3F7ExWo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-95-4ngYOA2oPT-TIHuunSrXgA-1; Mon, 03 Feb 2020 13:32:01 -0500
+ us-mta-167-Qcra12-CNWCRuh0kVxhnbg-1; Mon, 03 Feb 2020 13:32:03 -0500
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5CC33107ACC9;
- Mon,  3 Feb 2020 18:32:00 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 967D5107ACC7;
+ Mon,  3 Feb 2020 18:32:02 +0000 (UTC)
 Received: from t480s.redhat.com (ovpn-117-77.ams2.redhat.com [10.36.117.77])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7C9045D9CA;
- Mon,  3 Feb 2020 18:31:58 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A85225D9CA;
+ Mon,  3 Feb 2020 18:32:00 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 05/13] util/mmap-alloc: Factor out calculation of pagesize
- to mmap_pagesize()
-Date: Mon,  3 Feb 2020 19:31:17 +0100
-Message-Id: <20200203183125.164879-6-david@redhat.com>
+Subject: [PATCH v1 06/13] util/mmap-alloc: Factor out reserving of a memory
+ region to mmap_reserve()
+Date: Mon,  3 Feb 2020 19:31:18 +0100
+Message-Id: <20200203183125.164879-7-david@redhat.com>
 In-Reply-To: <20200203183125.164879-1-david@redhat.com>
 References: <20200203183125.164879-1-david@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: 4ngYOA2oPT-TIHuunSrXgA-1
+X-MC-Unique: Qcra12-CNWCRuh0kVxhnbg-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,84 +80,110 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Factor it out and add a comment.
+We want to reserve a memory region without actually populating memory.
+Let's factor that out.
 
 Cc: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>
 Cc: Greg Kurz <groug@kaod.org>
+Cc: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>
 Cc: Eduardo Habkost <ehabkost@redhat.com>
 Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- util/mmap-alloc.c | 21 ++++++++++++---------
- 1 file changed, 12 insertions(+), 9 deletions(-)
+ util/mmap-alloc.c | 58 +++++++++++++++++++++++++++--------------------
+ 1 file changed, 33 insertions(+), 25 deletions(-)
 
 diff --git a/util/mmap-alloc.c b/util/mmap-alloc.c
-index 27dcccd8ec..82f02a2cec 100644
+index 82f02a2cec..43a26f38a8 100644
 --- a/util/mmap-alloc.c
 +++ b/util/mmap-alloc.c
-@@ -82,17 +82,27 @@ size_t qemu_mempath_getpagesize(const char *mem_path)
+@@ -82,6 +82,38 @@ size_t qemu_mempath_getpagesize(const char *mem_path)
      return qemu_real_host_page_size;
  }
 =20
-+static inline size_t mmap_pagesize(int fd)
++/*
++ * Reserve a new memory region of the requested size to be used for mappin=
+g
++ * from the given fd (if any).
++ */
++static void *mmap_reserve(size_t size, int fd)
 +{
++    int flags =3D MAP_PRIVATE;
++
 +#if defined(__powerpc64__) && defined(__linux__)
-+    /* Mappings in the same segment must share the same page size */
-+    return qemu_fd_getpagesize(fd);
++    /*
++     * On ppc64 mappings in the same segment (aka slice) must share the sa=
+me
++     * page size. Since we will be re-allocating part of this segment
++     * from the supplied fd, we should make sure to use the same page size=
+, to
++     * this end we mmap the supplied fd.  In this case, set MAP_NORESERVE =
+to
++     * avoid allocating backing store memory.
++     * We do this unless we are using the system page size, in which case
++     * anonymous memory is OK.
++     */
++    if (fd =3D=3D -1 || qemu_fd_getpagesize(fd) =3D=3D qemu_real_host_page=
+_size) {
++        fd =3D -1;
++        flags |=3D MAP_ANONYMOUS;
++    } else {
++        flags |=3D MAP_NORESERVE;
++    }
 +#else
-+    return qemu_real_host_page_size;
++    fd =3D -1;
++    flags |=3D MAP_ANONYMOUS;
 +#endif
++
++    return mmap(0, size, PROT_NONE, flags, fd, 0);
 +}
 +
- void *qemu_ram_mmap(int fd,
-                     size_t size,
-                     size_t align,
-                     bool shared,
-                     bool is_pmem)
+ static inline size_t mmap_pagesize(int fd)
  {
-+    const size_t pagesize =3D mmap_pagesize(fd);
+ #if defined(__powerpc64__) && defined(__linux__)
+@@ -101,7 +133,6 @@ void *qemu_ram_mmap(int fd,
+     const size_t pagesize =3D mmap_pagesize(fd);
      int flags;
      int map_sync_flags =3D 0;
-     int guardfd;
+-    int guardfd;
      size_t offset;
--    size_t pagesize;
      size_t total;
      void *guardptr;
-     void *ptr;
-@@ -113,7 +123,6 @@ void *qemu_ram_mmap(int fd,
-      * anonymous memory is OK.
+@@ -113,30 +144,7 @@ void *qemu_ram_mmap(int fd,
       */
-     flags =3D MAP_PRIVATE;
--    pagesize =3D qemu_fd_getpagesize(fd);
-     if (fd =3D=3D -1 || pagesize =3D=3D qemu_real_host_page_size) {
-         guardfd =3D -1;
-         flags |=3D MAP_ANONYMOUS;
-@@ -123,7 +132,6 @@ void *qemu_ram_mmap(int fd,
-     }
- #else
-     guardfd =3D -1;
--    pagesize =3D qemu_real_host_page_size;
-     flags =3D MAP_PRIVATE | MAP_ANONYMOUS;
- #endif
+     total =3D size + align;
 =20
-@@ -198,15 +206,10 @@ void *qemu_ram_mmap(int fd,
-=20
- void qemu_ram_munmap(int fd, void *ptr, size_t size)
- {
--    size_t pagesize;
-+    const size_t pagesize =3D mmap_pagesize(fd);
-=20
-     if (ptr) {
-         /* Unmap both the RAM block and the guard page */
 -#if defined(__powerpc64__) && defined(__linux__)
--        pagesize =3D qemu_fd_getpagesize(fd);
+-    /* On ppc64 mappings in the same segment (aka slice) must share the sa=
+me
+-     * page size. Since we will be re-allocating part of this segment
+-     * from the supplied fd, we should make sure to use the same page size=
+, to
+-     * this end we mmap the supplied fd.  In this case, set MAP_NORESERVE =
+to
+-     * avoid allocating backing store memory.
+-     * We do this unless we are using the system page size, in which case
+-     * anonymous memory is OK.
+-     */
+-    flags =3D MAP_PRIVATE;
+-    if (fd =3D=3D -1 || pagesize =3D=3D qemu_real_host_page_size) {
+-        guardfd =3D -1;
+-        flags |=3D MAP_ANONYMOUS;
+-    } else {
+-        guardfd =3D fd;
+-        flags |=3D MAP_NORESERVE;
+-    }
 -#else
--        pagesize =3D qemu_real_host_page_size;
+-    guardfd =3D -1;
+-    flags =3D MAP_PRIVATE | MAP_ANONYMOUS;
 -#endif
-         munmap(ptr, size + pagesize);
+-
+-    guardptr =3D mmap(0, total, PROT_NONE, flags, guardfd, 0);
+-
++    guardptr =3D mmap_reserve(total, fd);
+     if (guardptr =3D=3D MAP_FAILED) {
+         return MAP_FAILED;
      }
- }
 --=20
 2.24.1
 
