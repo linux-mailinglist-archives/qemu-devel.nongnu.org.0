@@ -2,50 +2,118 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 720FA15039E
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Feb 2020 10:52:18 +0100 (CET)
-Received: from localhost ([::1]:37086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5C331503AD
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Feb 2020 10:56:43 +0100 (CET)
+Received: from localhost ([::1]:37110 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iyYOv-0005xA-H4
-	for lists+qemu-devel@lfdr.de; Mon, 03 Feb 2020 04:52:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59107)
+	id 1iyYTC-0008AN-Sf
+	for lists+qemu-devel@lfdr.de; Mon, 03 Feb 2020 04:56:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59661)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iyYNq-0005Uy-8X
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 04:51:12 -0500
+ (envelope-from <n54@gmx.com>) id 1iyYPb-0006VS-JQ
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 04:53:00 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iyYNo-0002xs-0t
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 04:51:09 -0500
-Received: from bilbo.ozlabs.org ([203.11.71.1]:48965 helo=ozlabs.org)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>) id 1iyYNm-0002fQ-Uy
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 04:51:07 -0500
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 48B33y2198z9sRt; Mon,  3 Feb 2020 20:50:54 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1580723454;
- bh=5W49rq1W0sJNHH+SdisZ44Wbd77zaLtmVhiFkJ48OKo=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Mfkehnl+9hsVCuP4dOE2G41bb2z87WpOkRdqEBLYUN2pZD8AjsyeCeYfJueKfTIa5
- vZXTxVrCRMp2eIGaKn6S0ZdaAN1WKg0LCYKRxTodbQqvCLa0RMazwLgCHzMYG/G0DZ
- G9S7f8b366ir5axoN9zsL7O6WhUAKA/qKJQFpsLM=
-Date: Mon, 3 Feb 2020 20:50:48 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: VW ELF loader
-Message-ID: <20200203095048.GA60221@umbus.fritz.box>
-References: <f881c2e7-be92-9695-6e19-2dd88cbc63c1@ozlabs.ru>
- <e3ee4b4d-1b24-2900-4304-05fa521a9b47@redhat.com>
- <20200203012842.GD52446@umbus.fritz.box>
- <ec81cca1-d5fb-3f1e-b433-3328d81a117e@redhat.com>
+ (envelope-from <n54@gmx.com>) id 1iyYPa-000652-8M
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 04:52:59 -0500
+Received: from mout.gmx.net ([212.227.15.15]:58103)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <n54@gmx.com>) id 1iyYPZ-0005z6-Rs
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 04:52:58 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1580723566;
+ bh=F/C9eH7AtxuT6CIg9lrIsgN4RZ9y7rOdNuCGyLg2oIg=;
+ h=X-UI-Sender-Class:Subject:To:Cc:References:From:Date:In-Reply-To;
+ b=DddGshbQYLHHh750JUZehy8wx73ecRo2U9XCyVdFhC7zdOSlLb7n+mCmSz2YmG3B2
+ HDMXdLB5xYn0SAbMeWSu5lF0GwHVfYe6PdxyFkxuu5mbmuKtOQ/v1UXQr6yfwdTHAm
+ /TiN9PcLexkPcucafbP0PxcdmS1Cy82QoyLCoDSQ=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [192.168.0.241] ([89.71.135.231]) by mail.gmx.com (mrgmx004
+ [212.227.17.184]) with ESMTPSA (Nemesis) id 1Mg6Zw-1jTltQ1H5i-00hbYv; Mon, 03
+ Feb 2020 10:52:46 +0100
+Subject: Re: [PATCH v2 0/4] Implements the NetBSD Virtual Machine Monitor
+ accelerator
+To: rth@twiddle.net, ehabkost@redhat.com, philmd@redhat.com, slp@redhat.com,
+ pbonzini@redhat.com, peter.maydell@linaro.org, max@m00nbsd.net
+References: <20200107124903.16505-1-n54@gmx.com>
+ <20200128140945.929-1-n54@gmx.com>
+From: Kamil Rytarowski <n54@gmx.com>
+Autocrypt: addr=n54@gmx.com; prefer-encrypt=mutual; keydata=
+ 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
+ 4XSbcg==
+Message-ID: <d6f5efb5-78d9-ea70-4861-db5de23cec84@gmx.com>
+Date: Mon, 3 Feb 2020 10:52:02 +0100
+User-Agent: Mozilla/5.0 (X11; NetBSD amd64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="tThc/1wpZn/ma/RB"
-Content-Disposition: inline
-In-Reply-To: <ec81cca1-d5fb-3f1e-b433-3328d81a117e@redhat.com>
+In-Reply-To: <20200128140945.929-1-n54@gmx.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:nfSNAspoVwLhPtiKzhPO2FNbFWUeUIe+qauK+ixl/86h/CeNJGH
+ 00vY/8eJdBoY5eMlfJ/e4rY2Ov8cqKF6PSUX2RAjJXQwkD+87//liymj8PI0tMB1rav8ias
+ 0Ps++Yxjkfmtt7/8ND27v3qVCkM5hkF2/qi00JGcPwfvjh7LEkKe8JpbJGN3szXXt23GQR6
+ m1EqwRB8BSsjcVDUgDk2g==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:7QPKnkED42Q=:mC/W+vw8MCJVkll77aJQ39
+ qXrKekf7t0i6Q4Ts7HTnKVNbp2VlFkmaXFMygua03bOqWcXnvn90QW3WWDvas5s71Lxxer8tR
+ SK99Exc8sjpNF6+4idUMC7Xs9gMQJQoCxHINeNNX68U7LitncSjbCQGbZz9M07pNoADJLYcKq
+ T5+8RG4MPDptkH6lKLih/6DQsXjJq4zWfxuIAW3C0uHPOEtvFywuJeiliW9S9SdzY2MZhLWfF
+ bdpkKQF860Si3gK7/q/7iree3inEpF2O/mih6a2L69E7xqZ5DGKQGauaDOGuwSZPkRscoWkZb
+ 4PJ6LKlo7fyckYRNrq3NmqYSzhNqZG8o6V9B/An2BvbYBP4ZnCkUdkXU7sO7BY6oUxljEQV+m
+ ZvVYvhADLXrr1+qlz9KAteHggu7rnZTH+GtPHY6tD1axvI2VkGL02yqi8iWSYHY+VqbiT7wtP
+ cMDdzJHIadsRA2majkIEF8zJ6TY8/ve5n1XFxpLyDGtGA+MBD0cwP5rjlQ65+Ge+s+Q/PXQ6h
+ hv/5xKNfQVMPhJvGzGIEWrUq/7oKycx/0xEDH4jGnNDsbVww3qM5E5AV+JWEeEF6IGoADx7BP
+ 4KjZQRAwcYLzFPro4+3v2/IykfJbT8jklUrQbTSUesFhwDfVtVpZcen/QXvrlv+jiusabI9cm
+ Uu53ki0pdxGXzNDOhhnCFiFtqZ5uNqMAI+997l0y1vovm1MgXlFCw+ezJo3IRDwi+jO+O7936
+ YU5wVClCNrcJmQqeTTQMprCniUhEMu2zHlJ/C6doymwl0OsDfEEq7ojor8C/yyFzw5myCB05n
+ /gB0PE4UJuc8+Ox1s2vquotroT/QIjP3veFIn2ERAkHBUaURsZzAo8DrGCvr+b9PuWc25UxqS
+ M4Hshqt6DIaWjm0lXXNv1RiTxFoAEjmLXMv/nu9SYSTYUe5bLMeYyKEoDuqBUg0OqfLPJ2u9R
+ 214GJfvrK2zV3lqiHhcWLtYDesNqAO41aQUKm56Sg8ZedjWFBOl5PZdfXGR8seF6jRrq73FXm
+ D85Be7STdzegc+o+xpaWZ1EmeGBit/XYTTzpcQ3nICownmz4Jndhi7EQY+RMeaRVl0jc59c58
+ xwv+U+pz4guSMqu7eTgAzGk3GZAcsW3FUGnwsIXEiV5ab4AMT2aT5ZiawCW0peZvH/RROIOr1
+ FEAZ313O+dZtzgGDpKtbblgI/ovVxSguutL5L0f10mutCrKQ4gfiixZPtcDR2EKotCCMQ=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 203.11.71.1
+X-Received-From: 212.227.15.15
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,105 +125,123 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Alexey Kardashevskiy <aik@ozlabs.ru>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Cornelia Huck <conny@cornelia-huck.de>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- Stefano Garzarella <sgarzare@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Ping?
 
---tThc/1wpZn/ma/RB
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+We plan to release NetBSD 9.0 in two weeks and we would love to have
+this patchset merged.
 
-On Mon, Feb 03, 2020 at 10:12:02AM +0100, Paolo Bonzini wrote:
-> On 03/02/20 02:28, David Gibson wrote:
-> > But "pseries" is different.  We're implementing the PAPR platform,
-> > which describes an OS environment that's presented by a combination of
-> > a hypervisor and firmware.  The features it specifies *require*
-> > collaboration between the firmware and the hypervisor.
->=20
-> Which features are these?
+"A second (and hopefulle final) release candidate for the upcoming
+NetBSD 9.0 release is now available.
+Please help testing it!
 
-Too many to list really.  In the whole of PAPR, there are probably
-dozens of RTAS calls that require hypervisor privilege at some point
-along the way.  We probably don't implement that many of them -
-there's a bunch of stuff we've never bothered with because Linux
-doesn't care.
+Tentative final 9.0 release date: February 14, 2020"
 
-> > So really, the question isn't whether we implement things in firmware
-> > or in qemu.  It's whether we implement the firmware functionality as
-> > guest cpu code, which needs to be coded to work with a limited
-> > environment, built with a special toolchain, then emulated with TCG.
-> > Or, do we just implement it in normal C code, with a full C library,
-> > and existing device and backend abstractions inside qemu.
->=20
-> ... which is adding almost 2000 lines of new code to the host despite
-> the following limitations:
+http://netbsd.org/
 
-Well.. yeah.. it is kinda larger than I hoped.
+On 28.01.2020 15:09, Kamil Rytarowski wrote:
+> Hello QEMU Community!
+>
+> Over the past year the NetBSD team has been working hard on a new user-m=
+ode API
+> for our hypervisor that will be released as part of the upcoming NetBSD =
+9.0.
+> This new API adds user-mode capabilities to create and manage virtual ma=
+chines,
+> configure memory mappings for guest machines, and create and control exe=
+cution
+> of virtual processors.
+>
+> With this new API we are now able to bring our hypervisor to the QEMU
+> community! The following patches implement the NetBSD Virtual Machine Mo=
+nitor
+> accelerator (NVMM) for QEMU on NetBSD 9.0 and newer hosts.
+>
+> When compiling QEMU for x86_64 passing the --enable-nvmm flag will compi=
+le the
+> accelerator for use. At runtime using the '-accel nvmm' should see a
+> significant performance improvement over emulation, much like when using=
+ 'hax'
+> on NetBSD.
+>
+> The documentation for this new API is visible at https://man.netbsd.org =
+under
+> the libnvmm(3) and nvmm(4) pages.
+>
+> NVMM was designed and implemented by Maxime Villard.
+>
+> Thank you for your feedback.
+>
+> Refrences:
+> https://m00nbsd.net/4e0798b7f2620c965d0dd9d6a7a2f296.html
+>
+> Test plan:
+>
+> 1. Download a NetBSD 9.0 pre-release snapshot:
+> http://nycdn.netbsd.org/pub/NetBSD-daily/netbsd-9/latest/images/NetBSD-9=
+.0_RC1-amd64.iso
+>
+> 2. Install it natively on a not too old x86_64 hardware (Intel or AMD).
+>
+> There is no support for nested virtualization in NVMM.
+>
+> 3. Setup the system.
+>
+>  export PKG_PATH=3Dhttp://www.ki.nu/pkgsrc/packages/current/NetBSD-9.0_R=
+C1/All
+>  pkg_add git gmake python37 glib2 bison pkgconf pixman
+>
+> Install mozilla-rootcerts and follow post-install instructions.
+>
+>  pkg_add mozilla-rootcerts
+>
+> More information: https://wiki.qemu.org/Hosts/BSD#NetBSD
+>
+> 4. Build qemu
+>
+>  mkdir build
+>  cd build
+>  ../configure --python=3Dpython3.7
+>  gmake
+>  gmake check
+>
+> 5. Test
+>
+>  qemu -accel nvmm ...
+>
+>
+> History:
+> v1 -> v2:
+>  - Included the testing plan as requested by Philippe Mathieu-Daude
+>  - Formatting nit fix in qemu-options.hx
+>  - Document NVMM in the accel section of qemu-options.hx
+>
+> Maxime Villard (4):
+>   Add the NVMM vcpu API
+>   Add the NetBSD Virtual Machine Monitor accelerator.
+>   Introduce the NVMM impl
+>   Add the NVMM acceleration enlightenments
+>
+>  accel/stubs/Makefile.objs |    1 +
+>  accel/stubs/nvmm-stub.c   |   43 ++
+>  configure                 |   36 ++
+>  cpus.c                    |   58 ++
+>  include/sysemu/hw_accel.h |   14 +
+>  include/sysemu/nvmm.h     |   35 ++
+>  qemu-options.hx           |   16 +-
+>  target/i386/Makefile.objs |    1 +
+>  target/i386/helper.c      |    2 +-
+>  target/i386/nvmm-all.c    | 1222 +++++++++++++++++++++++++++++++++++++
+>  10 files changed, 1419 insertions(+), 9 deletions(-)
+>  create mode 100644 accel/stubs/nvmm-stub.c
+>  create mode 100644 include/sysemu/nvmm.h
+>  create mode 100644 target/i386/nvmm-all.c
+>
+> --
+> 2.24.1
+>
 
-But in comparison *just* the qemu specific parts of SLOF are >4000
-lines of Forth.  Overall there's about 20k lines of Forth and 33k
-lines of C.  And the number of people who both understand Forth and
-have the slightest interest in SLOF is, like.. 2 people?  Maybe 3 if
-you count Segher's occasional drive-by rants.
-
-> > 4. no networking in OF CI at all;
-> > 5. no vga;
-> > 6. no disk partitions in CI, i.e. no commas to select a partition -
-> > this relies on a bootloader accessing the disk as a whole;
->=20
-> and of course:
->=20
-> > 7. "interpret" (executes passed forth expression) does nothing as in th=
-is
-> > environment grub only uses it for switching cursor off and similar task=
-s.
->=20
-> In other words you're not dropping SLOF, you're really dropping
-> OpenFirmware completely.
-
-No argument there.  That is absolutely true, and absolutely
-intentional.  The idea is to maintain just what we need of the
-OS-facing OF interface.
-
-Frankly, while it has some good ideas, I don't think Open Firmware
-wasn't that great a concept overall in the 90s[0] - and it has not really
-improved with age.
-
-[0] Incidentally I also think EFI's a pretty crappy concept for almost
-    exactly the same reasons, but it has the huge advantage of a much
-    more actively developed codebase.
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---tThc/1wpZn/ma/RB
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl437PYACgkQbDjKyiDZ
-s5ICGQ//Yaq7FDbf7soLzmG1XwdolOrdZy42I+451YvmebMs0shs1uUNL5EfTWj9
-H22cYIWeB7/dV5HJT6Jv8NFgqyPVgkfBRiezh3l0WGIGRjPq125GjJ/L2/DIIi7p
-aTyX+1P0VsWK6WKBBhpjfGiowOzMIBXGqKLjx7YYuW137F2FLqrpDX20/qtE5s4I
-9edF/qiwgUQ/3PY/K1qX/CQmviQwCPwFu24Y5Xa0U7q5uXWgx7IV4eN1Li7lwOlb
-FlqsssTngj4gE7ZlIfDYzwEVSx/owvFOIdwwmUYWB+7fkoc5QL+WQIYOn7/q3QGf
-gHXd9t3Gi6XPHLroR4WAmG/thzLJ/4Rn5koCaQX00yeVg5MGLrs+jl7yc/1z/lfb
-q/z4e1z5U9DoOXQ9tl8Vb0LZ2X70DrgO0ALy0jfb6vGGL7ofcI/wumhf5XX3tAM5
-EzsK6Twz4SSTyQUoGudUcJbE62v2URPSWCsuJNCjz4D6nVk48hzi1AHahy5OCRLD
-ev1Tnxhekx6Rw4BWjnZvdKXCBInqx+6oNC+/t16vEZwH+v+T0i9TTTf5Yje+u7K1
-6d2TPmKNrA2qJKxbMWt+QxS+juzE6vmcWXBwWf6tM9h+YODZYqmcpYkLppbOoDIl
-6F1wTpR8RNJipfSwWHEtyuY2p0YpnMajyxHO3g2xa6NltjI7YnI=
-=w+N9
------END PGP SIGNATURE-----
-
---tThc/1wpZn/ma/RB--
 
