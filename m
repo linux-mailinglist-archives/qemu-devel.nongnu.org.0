@@ -2,78 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34ADE150624
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Feb 2020 13:26:19 +0100 (CET)
-Received: from localhost ([::1]:39034 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 926F7150655
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Feb 2020 13:47:45 +0100 (CET)
+Received: from localhost ([::1]:39668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iyany-0001mH-AA
-	for lists+qemu-devel@lfdr.de; Mon, 03 Feb 2020 07:26:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51356)
+	id 1iyb8i-0000TA-Lh
+	for lists+qemu-devel@lfdr.de; Mon, 03 Feb 2020 07:47:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58542)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iyanA-0000xL-2x
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 07:25:29 -0500
+ (envelope-from <bounces@canonical.com>) id 1iyb6g-0007ZN-14
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 07:45:39 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iyan8-0008FQ-PT
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 07:25:28 -0500
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:39332)
+ (envelope-from <bounces@canonical.com>) id 1iyb6d-0000gW-Ql
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 07:45:37 -0500
+Received: from indium.canonical.com ([91.189.90.7]:52872)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iyan8-0008BR-Ik
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 07:25:26 -0500
-Received: by mail-wr1-x442.google.com with SMTP id y11so17810803wrt.6
- for <qemu-devel@nongnu.org>; Mon, 03 Feb 2020 04:25:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=JD1wCwQQ53b8JQmSZgVquo4F+fkKJnJSH6TCD+myXr0=;
- b=qxrGEFkyvpsBXMO+R/SH+rCh2q3TR11nu193Kc1fJ/u+9inmR+6C853Ezrx4RpPyzp
- MmXMgHaJdh2DbOHOsInZVPc0JIva+ez/+7U5deLiGmfDB7mRH+vSbY3pCE+/+xEJJPN7
- UsjMUzbnv9dPxQ1ezlaTIBxe9L8QCfzahBTFxKz/hUGbQddfUkSdRooxZDGbdsH+bXxI
- G1QsaO0cr0rMzK4vJlUMP1cNTreuFehIakEVxHYe7wKdNdBng03tjERopbcv3x6RCI13
- GLMDt6cKJysG86A1z2Uf+eFn0JBd4QT1M3y3pGN/B3Ur/Obu94PG1CG6cHKMQhsik3tg
- ZynQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=JD1wCwQQ53b8JQmSZgVquo4F+fkKJnJSH6TCD+myXr0=;
- b=GEhjc4/o2EvWcpPztLov1Xj1JBQx+E14RkLg2b0hqZJH9LHDNHwz/lMzFOX1ZNLc6y
- OukSUGJ8pNStf1MZi0Zh72alkB/VA2IkS3+Y6Jj9x78pLru/X7ixK3e5tWbui9VyZxhB
- dxNC9o6rSRzBjD8SxaDSpU1pKGZaLj48d72kdBMaXM39vmenNXeW2QYlLeYlzpCIyLNk
- 5obX7vTMDj59Nca3CTvCDPEO9gdWt8nK//1lv+Y+Ykoo+R7tfbkOYqBoNTVw/QPzHZu2
- F+cEgKkMxzeZQC9FptKxduzQar4WuYmkDDenfPM54x6JWvCVk8zOaVl5Fnr6JCv6Yh7C
- eg+g==
-X-Gm-Message-State: APjAAAVcaFDbaCZUAYPAUxVRNbY7B+994iLKmTgMPIUfZl1GaOGOj5KM
- Ngb+vlefOJJrPavTOBQOqK5okA==
-X-Google-Smtp-Source: APXvYqx/D4LmtL0EO3ev1ktmdQlYsR/w0y2tpXjhq70w9jwNPuw5VCNocK+MJ6d2xbpOvkfsErU5RQ==
-X-Received: by 2002:adf:f109:: with SMTP id r9mr14913221wro.406.1580732725500; 
- Mon, 03 Feb 2020 04:25:25 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id f14sm5868566wrt.7.2020.02.03.04.25.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 03 Feb 2020 04:25:24 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id B52291FF87;
- Mon,  3 Feb 2020 12:25:23 +0000 (GMT)
-References: <20200202010439.6410-1-richard.henderson@linaro.org>
- <20200202010439.6410-5-richard.henderson@linaro.org>
-User-agent: mu4e 1.3.7; emacs 27.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v2 04/14] target/arm: Move LOR regdefs to file scope
-In-reply-to: <20200202010439.6410-5-richard.henderson@linaro.org>
-Date: Mon, 03 Feb 2020 12:25:23 +0000
-Message-ID: <87mu9zamdo.fsf@linaro.org>
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iyb6d-0000eh-Jx
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 07:45:35 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iyb6c-0001Qf-6U
+ for <qemu-devel@nongnu.org>; Mon, 03 Feb 2020 12:45:34 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 2E6052E80C0
+ for <qemu-devel@nongnu.org>; Mon,  3 Feb 2020 12:45:34 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::442
+Date: Mon, 03 Feb 2020 12:36:57 -0000
+From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1861677@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: audio
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: philmd
+X-Launchpad-Bug-Reporter: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+Message-Id: <158073341807.19403.15811772889635903332.malonedeb@gac.canonical.com>
+Subject: [Bug 1861677] [NEW] wavcapture crash with pulseaudio
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="0a62c17273454a1313f81a74a2198ec30b44c7b6";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 6672a11dfcd22e15d5cf88d4d18b52938042344b
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -82,106 +66,180 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org
+Reply-To: Bug 1861677 <1861677@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Public bug reported:
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+As of commit 28db64fce55,
+using demo from QEMU advent calendar 2018 day 1:
+https://www.qemu-advent-calendar.org/2018/download/day01.tar.xz
 
-> For static const regdefs, file scope is preferred.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+$ qemu-system-x86_64 -M pc \
+  -net none -soundhw pcspk \
+  -drive file=3Dday01/fbird.img,format=3Draw,if=3Dfloppy \
+  -monitor stdio -S
+(qemu) info qtree =
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+bus: main-system-bus
+  type System
+  dev: i440FX-pcihost, id ""
+    bus: pci.0
+      dev: PIIX3, id ""
+        bus: isa.0
+          dev: isa-pcspk, id ""
+            audiodev =3D "pa"
+            iobase =3D 97 (0x61)
+            migrate =3D true
+(qemu) wavcapture out.wav pa
+(qemu) cont
+(qemu) # Press 'up' key in demo
+Segmentation fault (core dumped)
 
-> ---
->  target/arm/helper.c | 57 +++++++++++++++++++++++----------------------
->  1 file changed, 29 insertions(+), 28 deletions(-)
->
-> diff --git a/target/arm/helper.c b/target/arm/helper.c
-> index 739d2d4cc5..795ef727d0 100644
-> --- a/target/arm/helper.c
-> +++ b/target/arm/helper.c
-> @@ -6343,6 +6343,35 @@ static CPAccessResult access_lor_other(CPUARMState=
- *env,
->      return access_lor_ns(env);
->  }
->=20=20
-> +/*
-> + * A trivial implementation of ARMv8.1-LOR leaves all of these
-> + * registers fixed at 0, which indicates that there are zero
-> + * supported Limited Ordering regions.
-> + */
-> +static const ARMCPRegInfo lor_reginfo[] =3D {
-> +    { .name =3D "LORSA_EL1", .state =3D ARM_CP_STATE_AA64,
-> +      .opc0 =3D 3, .opc1 =3D 0, .crn =3D 10, .crm =3D 4, .opc2 =3D 0,
-> +      .access =3D PL1_RW, .accessfn =3D access_lor_other,
-> +      .type =3D ARM_CP_CONST, .resetvalue =3D 0 },
-> +    { .name =3D "LOREA_EL1", .state =3D ARM_CP_STATE_AA64,
-> +      .opc0 =3D 3, .opc1 =3D 0, .crn =3D 10, .crm =3D 4, .opc2 =3D 1,
-> +      .access =3D PL1_RW, .accessfn =3D access_lor_other,
-> +      .type =3D ARM_CP_CONST, .resetvalue =3D 0 },
-> +    { .name =3D "LORN_EL1", .state =3D ARM_CP_STATE_AA64,
-> +      .opc0 =3D 3, .opc1 =3D 0, .crn =3D 10, .crm =3D 4, .opc2 =3D 2,
-> +      .access =3D PL1_RW, .accessfn =3D access_lor_other,
-> +      .type =3D ARM_CP_CONST, .resetvalue =3D 0 },
-> +    { .name =3D "LORC_EL1", .state =3D ARM_CP_STATE_AA64,
-> +      .opc0 =3D 3, .opc1 =3D 0, .crn =3D 10, .crm =3D 4, .opc2 =3D 3,
-> +      .access =3D PL1_RW, .accessfn =3D access_lor_other,
-> +      .type =3D ARM_CP_CONST, .resetvalue =3D 0 },
-> +    { .name =3D "LORID_EL1", .state =3D ARM_CP_STATE_AA64,
-> +      .opc0 =3D 3, .opc1 =3D 0, .crn =3D 10, .crm =3D 4, .opc2 =3D 7,
-> +      .access =3D PL1_R, .accessfn =3D access_lorid,
-> +      .type =3D ARM_CP_CONST, .resetvalue =3D 0 },
-> +    REGINFO_SENTINEL
-> +};
-> +
->  #ifdef TARGET_AARCH64
->  static CPAccessResult access_pauth(CPUARMState *env, const ARMCPRegInfo =
-*ri,
->                                     bool isread)
-> @@ -7577,34 +7606,6 @@ void register_cp_regs_for_features(ARMCPU *cpu)
->      }
->=20=20
->      if (cpu_isar_feature(aa64_lor, cpu)) {
-> -        /*
-> -         * A trivial implementation of ARMv8.1-LOR leaves all of these
-> -         * registers fixed at 0, which indicates that there are zero
-> -         * supported Limited Ordering regions.
-> -         */
-> -        static const ARMCPRegInfo lor_reginfo[] =3D {
-> -            { .name =3D "LORSA_EL1", .state =3D ARM_CP_STATE_AA64,
-> -              .opc0 =3D 3, .opc1 =3D 0, .crn =3D 10, .crm =3D 4, .opc2 =
-=3D 0,
-> -              .access =3D PL1_RW, .accessfn =3D access_lor_other,
-> -              .type =3D ARM_CP_CONST, .resetvalue =3D 0 },
-> -            { .name =3D "LOREA_EL1", .state =3D ARM_CP_STATE_AA64,
-> -              .opc0 =3D 3, .opc1 =3D 0, .crn =3D 10, .crm =3D 4, .opc2 =
-=3D 1,
-> -              .access =3D PL1_RW, .accessfn =3D access_lor_other,
-> -              .type =3D ARM_CP_CONST, .resetvalue =3D 0 },
-> -            { .name =3D "LORN_EL1", .state =3D ARM_CP_STATE_AA64,
-> -              .opc0 =3D 3, .opc1 =3D 0, .crn =3D 10, .crm =3D 4, .opc2 =
-=3D 2,
-> -              .access =3D PL1_RW, .accessfn =3D access_lor_other,
-> -              .type =3D ARM_CP_CONST, .resetvalue =3D 0 },
-> -            { .name =3D "LORC_EL1", .state =3D ARM_CP_STATE_AA64,
-> -              .opc0 =3D 3, .opc1 =3D 0, .crn =3D 10, .crm =3D 4, .opc2 =
-=3D 3,
-> -              .access =3D PL1_RW, .accessfn =3D access_lor_other,
-> -              .type =3D ARM_CP_CONST, .resetvalue =3D 0 },
-> -            { .name =3D "LORID_EL1", .state =3D ARM_CP_STATE_AA64,
-> -              .opc0 =3D 3, .opc1 =3D 0, .crn =3D 10, .crm =3D 4, .opc2 =
-=3D 7,
-> -              .access =3D PL1_R, .accessfn =3D access_lorid,
-> -              .type =3D ARM_CP_CONST, .resetvalue =3D 0 },
-> -            REGINFO_SENTINEL
-> -        };
->          define_arm_cp_regs(cpu, lor_reginfo);
->      }
+(gdb) bt
+#0  0x0000555bfef0dc51 in audio_pcm_sw_write (sw=3D0x555c01333930, buf=3D0x=
+0, size=3D14728) at audio/audio.c:725
+#1  0x0000555bfef10a49 in audio_capture_mix_and_clear (hw=3D0x555c012379b0,=
+ rpos=3D0, samples=3D3682) at audio/audio.c:1054
+#2  0x0000555bfef11059 in audio_run_out (s=3D0x555c01235550) at audio/audio=
+.c:1186
+#3  0x0000555bfef11894 in audio_run (s=3D0x555c01235550, msg=3D0x555bff3e37=
+e8 "timer") at audio/audio.c:1355
+#4  0x0000555bfef10334 in audio_timer (opaque=3D0x555c01235550) at audio/au=
+dio.c:831
+#5  0x0000555bff33f041 in timerlist_run_timers (timer_list=3D0x555c00377b50=
+) at util/qemu-timer.c:588
+#6  0x0000555bff33f0eb in qemu_clock_run_timers (type=3DQEMU_CLOCK_VIRTUAL)=
+ at util/qemu-timer.c:602
+#7  0x0000555bff33f3b6 in qemu_clock_run_all_timers () at util/qemu-timer.c=
+:688
+#8  0x0000555bff33fb60 in main_loop_wait (nonblocking=3D0) at util/main-loo=
+p.c:525
+#9  0x0000555bfef0187c in main_loop () at vl.c:1683
+#10 0x0000555bfef090ab in main (argc=3D12, argv=3D0x7ffec49184c8, envp=3D0x=
+7ffec4918530) at vl.c:4438
+(gdb) p *sw
+$1 =3D {card =3D 0x0, s =3D 0x0, info =3D {bits =3D 16, sign =3D 1, freq =
+=3D 44100, nchannels =3D 2, bytes_per_frame =3D 4, bytes_per_second =3D 176=
+400, swap_endianness =3D 0}, conv =3D 0x555bfef0ced1 <noop_conv>, ratio =3D=
+ 4294967296, buf =3D 0x555c0123f6f0, =
+
+  rate =3D 0x555c007c0ec0, total_hw_samples_mixed =3D 0, active =3D 1, empt=
+y =3D 1, hw =3D 0x555c014b12a0, name =3D 0x0, vol =3D {mute =3D 0, r =3D 42=
+94967296, l =3D 4294967296}, callback =3D {opaque =3D 0x0, fn =3D 0x0}, ent=
+ries =3D {le_next =3D 0x0, =
+
+    le_prev =3D 0x555c014b1310}}
+(gdb) p *sw->hw
+$2 =3D {s =3D 0x555c01235550, enabled =3D 1, poll_mode =3D 0, pending_disab=
+le =3D 0, info =3D {bits =3D 16, sign =3D 1, freq =3D 44100, nchannels =3D =
+2, bytes_per_frame =3D 4, bytes_per_second =3D 176400, swap_endianness =3D =
+0}, =
+
+  clip =3D 0x555bfef16376 <clip_natural_int16_t_from_stereo>, ts_helper =3D=
+ 0, mix_buf =3D 0x555c0059d680, buf_emul =3D 0x0, pos_emul =3D 0, pending_e=
+mul =3D 0, size_emul =3D 0, samples =3D 16384, sw_head =3D {lh_first =3D 0x=
+555c01333930}, cap_head =3D {
+    lh_first =3D 0x0}, pcm_ops =3D 0x0, entries =3D {le_next =3D 0x0, le_pr=
+ev =3D 0x0}}
+
+sw->hw->pcm_ops is NULL.
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
 
 
---=20
-Alex Benn=C3=A9e
+** Tags: audio
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1861677
+
+Title:
+  wavcapture crash with pulseaudio
+
+Status in QEMU:
+  New
+
+Bug description:
+  As of commit 28db64fce55,
+  using demo from QEMU advent calendar 2018 day 1:
+  https://www.qemu-advent-calendar.org/2018/download/day01.tar.xz
+
+  $ qemu-system-x86_64 -M pc \
+    -net none -soundhw pcspk \
+    -drive file=3Dday01/fbird.img,format=3Draw,if=3Dfloppy \
+    -monitor stdio -S
+  (qemu) info qtree =
+
+  bus: main-system-bus
+    type System
+    dev: i440FX-pcihost, id ""
+      bus: pci.0
+        dev: PIIX3, id ""
+          bus: isa.0
+            dev: isa-pcspk, id ""
+              audiodev =3D "pa"
+              iobase =3D 97 (0x61)
+              migrate =3D true
+  (qemu) wavcapture out.wav pa
+  (qemu) cont
+  (qemu) # Press 'up' key in demo
+  Segmentation fault (core dumped)
+
+  (gdb) bt
+  #0  0x0000555bfef0dc51 in audio_pcm_sw_write (sw=3D0x555c01333930, buf=3D=
+0x0, size=3D14728) at audio/audio.c:725
+  #1  0x0000555bfef10a49 in audio_capture_mix_and_clear (hw=3D0x555c012379b=
+0, rpos=3D0, samples=3D3682) at audio/audio.c:1054
+  #2  0x0000555bfef11059 in audio_run_out (s=3D0x555c01235550) at audio/aud=
+io.c:1186
+  #3  0x0000555bfef11894 in audio_run (s=3D0x555c01235550, msg=3D0x555bff3e=
+37e8 "timer") at audio/audio.c:1355
+  #4  0x0000555bfef10334 in audio_timer (opaque=3D0x555c01235550) at audio/=
+audio.c:831
+  #5  0x0000555bff33f041 in timerlist_run_timers (timer_list=3D0x555c00377b=
+50) at util/qemu-timer.c:588
+  #6  0x0000555bff33f0eb in qemu_clock_run_timers (type=3DQEMU_CLOCK_VIRTUA=
+L) at util/qemu-timer.c:602
+  #7  0x0000555bff33f3b6 in qemu_clock_run_all_timers () at util/qemu-timer=
+.c:688
+  #8  0x0000555bff33fb60 in main_loop_wait (nonblocking=3D0) at util/main-l=
+oop.c:525
+  #9  0x0000555bfef0187c in main_loop () at vl.c:1683
+  #10 0x0000555bfef090ab in main (argc=3D12, argv=3D0x7ffec49184c8, envp=3D=
+0x7ffec4918530) at vl.c:4438
+  (gdb) p *sw
+  $1 =3D {card =3D 0x0, s =3D 0x0, info =3D {bits =3D 16, sign =3D 1, freq =
+=3D 44100, nchannels =3D 2, bytes_per_frame =3D 4, bytes_per_second =3D 176=
+400, swap_endianness =3D 0}, conv =3D 0x555bfef0ced1 <noop_conv>, ratio =3D=
+ 4294967296, buf =3D 0x555c0123f6f0, =
+
+    rate =3D 0x555c007c0ec0, total_hw_samples_mixed =3D 0, active =3D 1, em=
+pty =3D 1, hw =3D 0x555c014b12a0, name =3D 0x0, vol =3D {mute =3D 0, r =3D =
+4294967296, l =3D 4294967296}, callback =3D {opaque =3D 0x0, fn =3D 0x0}, e=
+ntries =3D {le_next =3D 0x0, =
+
+      le_prev =3D 0x555c014b1310}}
+  (gdb) p *sw->hw
+  $2 =3D {s =3D 0x555c01235550, enabled =3D 1, poll_mode =3D 0, pending_dis=
+able =3D 0, info =3D {bits =3D 16, sign =3D 1, freq =3D 44100, nchannels =
+=3D 2, bytes_per_frame =3D 4, bytes_per_second =3D 176400, swap_endianness =
+=3D 0}, =
+
+    clip =3D 0x555bfef16376 <clip_natural_int16_t_from_stereo>, ts_helper =
+=3D 0, mix_buf =3D 0x555c0059d680, buf_emul =3D 0x0, pos_emul =3D 0, pendin=
+g_emul =3D 0, size_emul =3D 0, samples =3D 16384, sw_head =3D {lh_first =3D=
+ 0x555c01333930}, cap_head =3D {
+      lh_first =3D 0x0}, pcm_ops =3D 0x0, entries =3D {le_next =3D 0x0, le_=
+prev =3D 0x0}}
+
+  sw->hw->pcm_ops is NULL.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1861677/+subscriptions
 
