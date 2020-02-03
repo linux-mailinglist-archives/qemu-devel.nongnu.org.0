@@ -2,76 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7D1E150F25
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Feb 2020 19:11:41 +0100 (CET)
-Received: from localhost ([::1]:45504 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A01E150F45
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Feb 2020 19:21:38 +0100 (CET)
+Received: from localhost ([::1]:45622 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iygCC-0003oW-RR
-	for lists+qemu-devel@lfdr.de; Mon, 03 Feb 2020 13:11:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45556)
+	id 1iygLo-0001d2-A4
+	for lists+qemu-devel@lfdr.de; Mon, 03 Feb 2020 13:21:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35700)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iygA6-0001w7-QD
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 13:09:32 -0500
+ (envelope-from <peterx@redhat.com>) id 1iygKM-0000VX-DC
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 13:20:07 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iygA5-00059Q-Gt
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 13:09:30 -0500
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:39297)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iygA5-00053u-91
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 13:09:29 -0500
-Received: by mail-wr1-x441.google.com with SMTP id y11so19483979wrt.6
- for <qemu-devel@nongnu.org>; Mon, 03 Feb 2020 10:09:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=EbpxSrriZA9kNXvoDhil1LWfBx0aG5U90532wLNVC60=;
- b=gxFCP2H/RX+X6FGp3r+32yh/oGOy46zhKEm8oTt7fuvpBIaxgL3KawvcDqEOcSlsLH
- EUqFGuk4af4TmJB7MH6rrWo6YZzDPaFUy9SFbQc0VXimPSqryCUwoJkIPUYyCGZ1DfaN
- i1rQwk9/GhrRVl+eleCuDFPv3K5mdCI6+LCYQWgIgj3G4kwpvdwVxt4qQmxB6M7PKlfp
- QKlU988SIYvZFzI9vedbmAoePduXpxFxQbfaGYgDYY8erfF9dCSKX8qiSqHugwSLdWeN
- mUvDRD57VRQypWGOvMGMg7D5GOI3zzfNZueQyo4HPNKKL31xEgEJCkpXKkdpMt8/xgCE
- o/CA==
+ (envelope-from <peterx@redhat.com>) id 1iygKK-0002Ol-Uk
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 13:20:06 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:26463
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <peterx@redhat.com>) id 1iygKK-0002In-8n
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 13:20:04 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1580754001;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=3X9Ke/6lhCDOgaCdoimSHbklEKDhb4IMe/P+NV5GSW8=;
+ b=cs5l0HJZqwn202mYFkf6YbvMTR7iSl645mXBd3x7Jtl/XT7QRFiOHxQIigXp9585b3z6TV
+ Ch40+XxSrtm/2E/Cqye+Q6vjDFmteddwvuJaA4wY9Fm8y+puCXcQn1azMenhs2gALji1hc
+ ipDLzKI3ZiVs3j7dY8Y+WUjSAaZGunM=
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-398-pCQyiYDVM-qmco2akliv8w-1; Mon, 03 Feb 2020 13:19:43 -0500
+Received: by mail-qt1-f199.google.com with SMTP id a13so10546116qtp.8
+ for <qemu-devel@nongnu.org>; Mon, 03 Feb 2020 10:19:43 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=EbpxSrriZA9kNXvoDhil1LWfBx0aG5U90532wLNVC60=;
- b=f0wT/kEmvI8fV7KQ+O7mfD8pTAyZRoYBuqi/lSM2lykANpERd2vR9JZzky4rJ/UJMS
- hMrXMbEPcH+MyyErAzuQq5RnaDKwLZD4bhOVFnEDPjX2pO7QE7imaDlL2mdPWTQFERLD
- 6UTpNsSxgjOW/eGmxcwqDP+0xYDL/yukNuHvLNl0ZZ+D0olAK7O81yIb/vqZx5i7eNrn
- psVdpJ/vwrxn/OxNnt5xs45ScyJFqzcv9GhCNo2qLs6HKF4FWpP0oUK6iOaUANhqYeDK
- rlW9SKysXjm7IZudDLM/0hfaFmwBnJIMLCotuNaDdaPKuEgbFyUqW53GyDggbLKM9s6n
- uBzg==
-X-Gm-Message-State: APjAAAVETnCnEcvtAiEttLgWkPItj64OQnFYEf/Bqz39fS8+7rS8QGgP
- 8gzwLNjIU8IqfsAtFuCc3lG1CA==
-X-Google-Smtp-Source: APXvYqx2D1VpLs0PEo8hxSF/GWcL2AHDazLsiWSPcEhF7VhvBREeIYv/rugdzbxVXBciVC8mJb2iXg==
-X-Received: by 2002:a05:6000:8c:: with SMTP id
- m12mr17306713wrx.142.1580753367769; 
- Mon, 03 Feb 2020 10:09:27 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id c13sm16939236wrn.46.2020.02.03.10.09.26
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=fIm6vORCNJsGm/WnM7kjpe/TUdEBocbXhFHEzvxfb8c=;
+ b=QP3y61DK+VgWShLvZWEs0vllPVXCgrjC1oAhJNSLpISOtrJDpDfcX/k55j8Vq+jpOM
+ Pt42JYAfZmXjjp8+uHz7BSWp1QVtLGaQRviCSf9IEw8saVdiN0wvAvcaGFaBuWrPxDVw
+ h3Ca/u+/Kg+TEkjF9h+sLW7wWtupOKoHNiUyggIYad36wwZIsU9iweKnhnDw22F20Phu
+ 733vlxTi+E+k5QQlVV1GpJChVAgS7sGmZSCW1genjKiKQy7YqzMo1xR9L7shpSJpb64x
+ TNpkrpLJva6pnij0SqiiPSSn+jlcyQpDb+boJEzwve28aqqXuhPlUPeZ9RLJ8qd+TI6R
+ O53Q==
+X-Gm-Message-State: APjAAAVPqPhV6S5Znw3U2iERHYocKxrf5VcLiRB6oKC9POcpu6c1yAJu
+ XTJjSp9WvRCwN7Xdj5eD/OZiyZw4mleLocO2SgX4tMVG/DQOWl1LB4MFh9GvqU0MnJOyAe2/RR6
+ bKdicO0eZPmFXzEw=
+X-Received: by 2002:a05:620a:14bc:: with SMTP id
+ x28mr24785032qkj.494.1580753982617; 
+ Mon, 03 Feb 2020 10:19:42 -0800 (PST)
+X-Google-Smtp-Source: APXvYqx3pODFz4dIOJ6Yge4TKI0GBhk7YL/bkyfERRLqZTX8O6RkUppTSnw93qQRQCQ6yeumo5clJA==
+X-Received: by 2002:a05:620a:14bc:: with SMTP id
+ x28mr24785011qkj.494.1580753982340; 
+ Mon, 03 Feb 2020 10:19:42 -0800 (PST)
+Received: from xz-x1 ([2607:9880:19c8:32::2])
+ by smtp.gmail.com with ESMTPSA id f11sm9625207qkh.96.2020.02.03.10.19.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 03 Feb 2020 10:09:26 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id F29571FF87;
- Mon,  3 Feb 2020 18:09:25 +0000 (GMT)
-References: <20200203132533.21850-1-peter.maydell@linaro.org>
- <20200203132533.21850-3-peter.maydell@linaro.org>
-User-agent: mu4e 1.3.7; emacs 27.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH 2/2] configure: Check that sphinx-build is using Python 3
-In-reply-to: <20200203132533.21850-3-peter.maydell@linaro.org>
-Date: Mon, 03 Feb 2020 18:09:25 +0000
-Message-ID: <8736bra6ga.fsf@linaro.org>
+ Mon, 03 Feb 2020 10:19:41 -0800 (PST)
+Date: Mon, 3 Feb 2020 13:19:38 -0500
+From: Peter Xu <peterx@redhat.com>
+To: Auger Eric <eric.auger@redhat.com>
+Subject: Re: [PATCH v13 03/10] virtio-iommu: Implement attach/detach command
+Message-ID: <20200203181938.GE155875@xz-x1>
+References: <20200125171955.12825-1-eric.auger@redhat.com>
+ <20200125171955.12825-4-eric.auger@redhat.com>
+ <20200203134915.GA155875@xz-x1>
+ <ce49f691-d944-2e5e-87a3-7e7c9651c2af@redhat.com>
+ <20200203151917.GD155875@xz-x1>
+ <5289913a-43fc-aaae-5b82-151922de93bf@redhat.com>
 MIME-Version: 1.0
+In-Reply-To: <5289913a-43fc-aaae-5b82-151922de93bf@redhat.com>
+X-MC-Unique: pCQyiYDVM-qmco2akliv8w-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::441
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,108 +93,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, kevin.tian@intel.com, tnowicki@marvell.com,
+ quintela@redhat.com, mst@redhat.com, qemu-devel@nongnu.org,
+ dgilbert@redhat.com, bharatb.linux@gmail.com, qemu-arm@nongnu.org,
+ jean-philippe@linaro.org, eric.auger.pro@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Mon, Feb 03, 2020 at 06:46:36PM +0100, Auger Eric wrote:
+> Hi Peter,
+>=20
+> On 2/3/20 4:19 PM, Peter Xu wrote:
+> > On Mon, Feb 03, 2020 at 03:59:00PM +0100, Auger Eric wrote:
+> >=20
+> > [...]
+> >=20
+> >>>> +static void virtio_iommu_detach_endpoint_from_domain(VirtIOIOMMUEnd=
+point *ep)
+> >>>> +{
+> >>>> +    QLIST_REMOVE(ep, next);
+> >>>> +    g_tree_unref(ep->domain->mappings);
+> >>>
+> >>> Here domain->mapping is unreferenced for each endpoint, while at [1]
+> >>> below you only reference the domain->mappings if it's the first
+> >>> endpoint.  Is that problematic?
+> >> in [1] I take a ref to the domain->mappings if it is *not* the 1st
+> >> endpoint. This aims at deleting the mappings gtree when the last EP is
+> >> detached from the domain.
+> >>
+> >> This fixes the issue reported by Jean in:
+> >> https://patchwork.kernel.org/patch/11258267/#23046313
+> >=20
+> > Ah OK. :)
+> >=20
+> > However this is tricky.  How about do explicit g_tree_destroy() in
+> > virtio_iommu_detach() when it's the last endpoint?  I see that you
+> > have:
+> >=20
+> >     /*
+> >      * when the last EP is detached, simply remove the domain for
+> >      * the domain list and destroy it. Note its mappings were already
+> >      * freed by the ref count mechanism. Next operation involving
+> >      * the same domain id will re-create one domain object.
+> >      */
+> >     if (QLIST_EMPTY(&domain->endpoint_list)) {
+> >         g_tree_remove(s->domains, GUINT_TO_POINTER(domain->id));
+> >     }
+> >=20
+> > Then it becomes:
+> >=20
+> >     if (QLIST_EMPTY(&domain->endpoint_list)) {
+> >         g_tree_destroy(domain->mappings);
+> >         g_tree_remove(s->domains, GUINT_TO_POINTER(domain->id));
+> >     }
+> >=20
+> > And also remove the trick in attach() so you take the domain ref
+> > unconditionally.  Would that work?
+> Yes I think so. On the other hand this ref counting mechanism is also
+> made for that purpose of destroying objects without being forced to
+> explicitly call the destroy function.
 
-Peter Maydell <peter.maydell@linaro.org> writes:
+IMHO that's two different things.  g_tree_destroy() should be the same
+as g_tree_unref() here when the tree is empty.  It's really a matter
+of easy reading of code:
 
-> Currently configure's has_sphinx_build() check simply runs a dummy
-> sphinx-build and either passes or fails.  This means that "no
-> sphinx-build at all" and "sphinx-build exists but is too old" are
-> both reported the same way.
->
-> Further, we want to assume that all the Python we write is running
-> with at least Python 3.5; configure checks that for our scripts, but
-> Sphinx extensions run with whatever Python version sphinx-build
-> itself is using.
->
-> Add a check to our conf.py which makes sphinx-build fail if it would
-> be running our extensions with an old Python, and handle this
-> in configure so we can report failure helpfully to the user.
-> This will mean that configure --enable-docs will fail like this
-> if the sphinx-build provided is not suitable:
->
-> Warning: sphinx-build exists but it is either too old or uses too old a P=
-ython version
->
-> ERROR: User requested feature docs
->        configure was not able to find it.
->        Install texinfo, Perl/perl-podlators and a Python 3 version of pyt=
-hon-sphinx
->
-> (As usual, the default is to simply not build the docs, as we would
-> if sphinx-build wasn't present at all.)
->
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+void
+g_tree_destroy (GTree *tree)
+{
+  g_return_if_fail (tree !=3D NULL);
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+  g_tree_remove_all (tree);
+  g_tree_unref (tree);
+}
 
-> ---
-> At the moment our Sphinx extensions all work under Python 2;
-> but the one for handling parsing QAPI docs out of the JSON is going
-> to want to include some of the scripts/qapi Python which is more
-> complicated and definitely now 3-only.  In any case it's nicer to
-> fail cleanly rather than let users stumble into corner cases we don't
-> test and don't want to support even if they happen to work today.
-> ---
->  configure    | 12 ++++++++++--
->  docs/conf.py | 10 ++++++++++
->  2 files changed, 20 insertions(+), 2 deletions(-)
->
-> diff --git a/configure b/configure
-> index 830f325822a..95055f2e9dd 100755
-> --- a/configure
-> +++ b/configure
-> @@ -4808,11 +4808,19 @@ has_sphinx_build() {
->=20=20
->  # Check if tools are available to build documentation.
->  if test "$docs" !=3D "no" ; then
-> -  if has makeinfo && has pod2man && has_sphinx_build; then
-> +  if has_sphinx_build; then
-> +    sphinx_ok=3Dyes
-> +  else
-> +    sphinx_ok=3Dno
-> +  fi
-> +  if has makeinfo && has pod2man && test "$sphinx_ok" =3D "yes"; then
->      docs=3Dyes
->    else
->      if test "$docs" =3D "yes" ; then
-> -      feature_not_found "docs" "Install texinfo, Perl/perl-podlators and=
- python-sphinx"
-> +      if has $sphinx_build && test "$sphinx_ok" !=3D "yes"; then
-> +        echo "Warning: $sphinx_build exists but it is either too old or =
-uses too old a Python version" >&2
-> +      fi
-> +      feature_not_found "docs" "Install texinfo, Perl/perl-podlators and=
- a Python 3 version of python-sphinx"
->      fi
->      docs=3Dno
->    fi
-> diff --git a/docs/conf.py b/docs/conf.py
-> index ee7faa6b4e7..7588bf192ee 100644
-> --- a/docs/conf.py
-> +++ b/docs/conf.py
-> @@ -28,6 +28,16 @@
->=20=20
->  import os
->  import sys
-> +import sphinx
-> +from sphinx.errors import VersionRequirementError
-> +
-> +# Make Sphinx fail cleanly if using an old Python, rather than obscurely
-> +# failing because some code in one of our extensions doesn't work there.
-> +# Unfortunately this doesn't display very neatly (there's an unavoidable
-> +# Python backtrace) but at least the information gets printed...
-> +if sys.version_info < (3,5):
-> +    raise VersionRequirementError(
-> +        "QEMU requires a Sphinx that uses Python 3.5 or better\n")
->=20=20
->  # The per-manual conf.py will set qemu_docdir for a single-manual build;
->  # otherwise set it here if this is an entire-manual-set build.
+What we really changed here is to allow the ref/unref to be clearly
+paired, i.e., for each EP it'll ref once and unref once.  The prvious
+solution has the trick in that the 1st EP don't ref, the latter EPs
+ref, and when the domain quits it doesn't unref to match the first
+ref.  It's error prone to me.  Then, if we can do it in the paired way
+easily, I don't see why not...
 
+Thanks,
 
 --=20
-Alex Benn=C3=A9e
+Peter Xu
+
 
