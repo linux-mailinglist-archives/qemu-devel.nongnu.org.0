@@ -2,67 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23C871508DA
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Feb 2020 15:56:47 +0100 (CET)
-Received: from localhost ([::1]:42630 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AEC21508E9
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Feb 2020 15:59:32 +0100 (CET)
+Received: from localhost ([::1]:42710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iyd9a-0007TJ-5U
-	for lists+qemu-devel@lfdr.de; Mon, 03 Feb 2020 09:56:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45528)
+	id 1iydCF-0003n0-4x
+	for lists+qemu-devel@lfdr.de; Mon, 03 Feb 2020 09:59:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47576)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iyd3N-0003J1-Hf
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 09:50:22 -0500
+ (envelope-from <thuth@redhat.com>) id 1iydAu-0002Sy-A9
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 09:58:09 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iyd3L-0006LR-Vo
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 09:50:21 -0500
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:41934)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iyd3L-0006L0-Pd
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 09:50:19 -0500
-Received: by mail-ot1-x344.google.com with SMTP id r27so13835377otc.8
- for <qemu-devel@nongnu.org>; Mon, 03 Feb 2020 06:50:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=t52a5N3+/XBDoiU/bexptK/ps1HC6ekaFTVDp92o+IY=;
- b=ae+fyIRKnNV7OPLA36I/GnQrfZcx989llTH7VDKFwPYhTHAOeI9o9Rzw4yrFcmjPrL
- GpNeM7CHbqc81r++c/zA40KpU+BUsrwBCr8JGFcGC5Fk607KHTmNsMT4KNXrPTCHVZ0P
- NY0B7LmTVLzZm6J+i50VByy0oVXCWtQWAD09N/L/Z/wBIKgNpRtHRezO38xd/BNSpj/C
- UtQ733kfkdZQIA9CPbdEitD80Mdc2RLaRbWhRMKmWhoI0bwPxxcY5Y2IfPZe62DWKic4
- q1Exe410YjQidsBCiTu2VQp4dX+qZNDB2T78i9vbb2lXakfOHlHEh+TDJ/TllnYC2SZv
- 68uw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=t52a5N3+/XBDoiU/bexptK/ps1HC6ekaFTVDp92o+IY=;
- b=kwOWE5CjB2rHk8RDYTYzP9igFPBKycuYtcd0oksv9kv1uHqMpdEL7Mpo0Rc2LSwfXs
- +YHv8Gj4gJoItTEDSjMfY6XeeVUqenD5R1ZrpqxpAbyDA0Jj89ugcW5qEfq2zoc6nuld
- 2H1r1hw1NsNOf0iPHBhNTG3BTNtjmLZKyQKZKZogua9k3CNf5THiC6LlYShLGt+TlG4R
- 9i+xdeLtEQvbPAEhkNLhsWte775teO0qy6EVUh3J+Hzv9QD1sRK9ethXlCPnEoY6POBY
- gB47Im4hMT3/95Xr//pqNVE43qhiEaJemKudAgP0880z+J8vhuxq5s74LWozgPdt+dcm
- f9Rw==
-X-Gm-Message-State: APjAAAVBLEzdcsfInipXqTFZC288/4TXZID0suUjkB5jwU9RwI9T9jx6
- JdC01UQIOKJ6i7TrPbCimrtW9mZCXy4Goj0yHfGdrg==
-X-Google-Smtp-Source: APXvYqwjwCCE1aCZHNC5zXb4m+fp+FtNSA8WOyTX8UrHrPn+R7RbwxIR6bQzKT9BVjHzv9Iqf2Hh4Phh4KhzYIf0hv4=
-X-Received: by 2002:a05:6830:1184:: with SMTP id
- u4mr17351484otq.221.1580741418713; 
- Mon, 03 Feb 2020 06:50:18 -0800 (PST)
-MIME-Version: 1.0
+ (envelope-from <thuth@redhat.com>) id 1iydAr-0005IZ-R8
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 09:58:07 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:26452
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iydAr-0005H9-JG
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 09:58:05 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1580741884;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:openpgp:openpgp;
+ bh=W+gjqQnI9kUpgMCKGC/8vCxlQu5hdZ3F+y5y9o4LZAs=;
+ b=Tt5ksPk6/NTLnrZw2OpxS2H/c1FgkbYLLWxd8A0QWEg7WlJyaJkLwtRtHqS6RyFeYDT4re
+ nPgMZtt50NTZfGdLQJMuDT9Ug1drOlw+Dj6coH5cBNTx2CJn3VEnP5qIO9QHFezLKTtuTJ
+ Hv9TvMpdujioVIfHplhNN5yV0HDFeQc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-71-juRkoRywPsKYOJ739_Wetw-1; Mon, 03 Feb 2020 09:58:03 -0500
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E7C6C1413;
+ Mon,  3 Feb 2020 14:58:01 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-116-129.ams2.redhat.com [10.36.116.129])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 13D421000322;
+ Mon,  3 Feb 2020 14:58:00 +0000 (UTC)
+Subject: Re: [PULL 00/13] qtests, kconfig and misc patches
+To: Peter Maydell <peter.maydell@linaro.org>
 References: <20200203123811.8651-1-thuth@redhat.com>
  <CAFEAcA_1KYRA=87k34zCRLqCf1tWHrULGZPcHeKwJZhDUx0=kw@mail.gmail.com>
  <2fd63018-b9f9-ab88-2d65-009c54bb6cf2@redhat.com>
-In-Reply-To: <2fd63018-b9f9-ab88-2d65-009c54bb6cf2@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 3 Feb 2020 14:50:07 +0000
-Message-ID: <CAFEAcA_XKAeT10p+XNRjQeOjoGYX1Q-D+kj9E0kFx2AxtktACg@mail.gmail.com>
-Subject: Re: [PULL 00/13] qtests, kconfig and misc patches
-To: Thomas Huth <thuth@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::344
+ <CAFEAcA_XKAeT10p+XNRjQeOjoGYX1Q-D+kj9E0kFx2AxtktACg@mail.gmail.com>
+From: Thomas Huth <thuth@redhat.com>
+Openpgp: preference=signencrypt
+Message-ID: <276a50ab-3e63-1542-5715-d61e238fd2d5@redhat.com>
+Date: Mon, 3 Feb 2020 15:57:59 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
+MIME-Version: 1.0
+In-Reply-To: <CAFEAcA_XKAeT10p+XNRjQeOjoGYX1Q-D+kj9E0kFx2AxtktACg@mail.gmail.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-MC-Unique: juRkoRywPsKYOJ739_Wetw-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,86 +83,70 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 3 Feb 2020 at 14:30, Thomas Huth <thuth@redhat.com> wrote:
->
-> On 03/02/2020 15.04, Peter Maydell wrote:
-> > On Mon, 3 Feb 2020 at 12:38, Thomas Huth <thuth@redhat.com> wrote:
-> >>
-> >>  Hi Peter,
-> >>
-> >> the following changes since commit 28db64fce555a03b4ca256d5b6f4290abdfbd9e8:
-> >>
-> >>   Merge remote-tracking branch 'remotes/stefanha/tags/tracing-pull-request' into staging (2020-01-31 17:37:00 +0000)
-> >>
-> >> are available in the Git repository at:
-> >>
-> >>   https://gitlab.com/huth/qemu.git tags/pull-request-2020-02-03
-> >>
-> >> for you to fetch changes up to 585c138628bbf22ea8e740b2f4f1a3ed0274ebe8:
-> >>
-> >>   trivial: Remove xenfb_enabled from sysemu.h (2020-02-03 10:33:57 +0100)
-> >>
-> >> ----------------------------------------------------------------
-> >> * Current qtests queue
-> >> * Some Kconfig updates
-> >> * Some trivial clean-ups here and there
-> >> ----------------------------------------------------------------
-> >
-> > All the incremental rebuilds failed:
-> >
-> > Linux cam-vm-266 4.15.0-70-generic x86_64
-> > From git://git-us.linaro.org/people/pmaydell/qemu-arm
-> >    f31160c7d1..f9e931a1d9  staging    -> pmaydell/staging
-> > make: Entering directory '/home/petmay01/qemu-for-merges/build/w64'
-> > make[1]: Entering directory '/home/petmay01/qemu-for-merges/slirp'
-> > make[1]: Nothing to be done for 'all'.
-> > make[1]: Leaving directory '/home/petmay01/qemu-for-merges/slirp'
-> >   CC      qga/main.o
-> >   CC      stubs/machine-init-done.o
-> >   CC      stubs/replay-user.o
-> >   CC      stubs/semihost.o
-> >   CC      qemu-img.o
-> >   CC      qemu-io.o
-> >   CC      chardev/char.o
-> > make: *** No rule to make target
-> > '/home/petmay01/qemu-for-merges/hw/bt/Kconfig', needed by
-> > 'aarch64-softmmu/config-devices.mak'.  Stop.
-> > make: *** Waiting for unfinished jobs....
-> >   CC      chardev/char-mux.o
-> > make: Leaving directory '/home/petmay01/qemu-for-merges/build/w64'
->
-> Oh, they are still failing??? Why are there still references to
-> hw/bt/Kconfig in these config-devices.mak files, I'd expect that they
-> would have been regenerated at least once during the past week?
+On 03/02/2020 15.50, Peter Maydell wrote:
+> On Mon, 3 Feb 2020 at 14:30, Thomas Huth <thuth@redhat.com> wrote:
+>>
+>> On 03/02/2020 15.04, Peter Maydell wrote:
+>>> On Mon, 3 Feb 2020 at 12:38, Thomas Huth <thuth@redhat.com> wrote:
+>>>>
+>>>>  Hi Peter,
+>>>>
+>>>> the following changes since commit 28db64fce555a03b4ca256d5b6f4290abdfbd9e8:
+>>>>
+>>>>   Merge remote-tracking branch 'remotes/stefanha/tags/tracing-pull-request' into staging (2020-01-31 17:37:00 +0000)
+>>>>
+>>>> are available in the Git repository at:
+>>>>
+>>>>   https://gitlab.com/huth/qemu.git tags/pull-request-2020-02-03
+>>>>
+>>>> for you to fetch changes up to 585c138628bbf22ea8e740b2f4f1a3ed0274ebe8:
+>>>>
+>>>>   trivial: Remove xenfb_enabled from sysemu.h (2020-02-03 10:33:57 +0100)
+>>>>
+>>>> ----------------------------------------------------------------
+>>>> * Current qtests queue
+>>>> * Some Kconfig updates
+>>>> * Some trivial clean-ups here and there
+>>>> ----------------------------------------------------------------
+>>>
+>>> All the incremental rebuilds failed:
+>>>
+>>> Linux cam-vm-266 4.15.0-70-generic x86_64
+>>> From git://git-us.linaro.org/people/pmaydell/qemu-arm
+>>>    f31160c7d1..f9e931a1d9  staging    -> pmaydell/staging
+>>> make: Entering directory '/home/petmay01/qemu-for-merges/build/w64'
+>>> make[1]: Entering directory '/home/petmay01/qemu-for-merges/slirp'
+>>> make[1]: Nothing to be done for 'all'.
+>>> make[1]: Leaving directory '/home/petmay01/qemu-for-merges/slirp'
+>>>   CC      qga/main.o
+>>>   CC      stubs/machine-init-done.o
+>>>   CC      stubs/replay-user.o
+>>>   CC      stubs/semihost.o
+>>>   CC      qemu-img.o
+>>>   CC      qemu-io.o
+>>>   CC      chardev/char.o
+>>> make: *** No rule to make target
+>>> '/home/petmay01/qemu-for-merges/hw/bt/Kconfig', needed by
+>>> 'aarch64-softmmu/config-devices.mak'.  Stop.
+>>> make: *** Waiting for unfinished jobs....
+>>>   CC      chardev/char-mux.o
+>>> make: Leaving directory '/home/petmay01/qemu-for-merges/build/w64'
+>>
+>> Oh, they are still failing??? Why are there still references to
+>> hw/bt/Kconfig in these config-devices.mak files, I'd expect that they
+>> would have been regenerated at least once during the past week?
+> 
+> build/all/aarch64-softmmu/config-devices.mak.d was most recently
+> touched this morning, and it still includes hw/bt/Kconfig in its
+> dependency list. I think this is because minikconf will still put
+> a Kconfig file into the .d file it generates even if the Kconfig
+> file happens to be empty.
 
-build/all/aarch64-softmmu/config-devices.mak.d was most recently
-touched this morning, and it still includes hw/bt/Kconfig in its
-dependency list. I think this is because minikconf will still put
-a Kconfig file into the .d file it generates even if the Kconfig
-file happens to be empty.
+Oh, that's very weird. minikconf should only do that if the file is
+included somewhere, but the inclusion of hw/bt/Kconfig has been removed
+in 1d4ffe8dc77cbc9aafe8bcf514ca0e43f85aaae3 already, so this really
+should not happen anymore...
 
-And make doesn't have any rules that tell it that config-devices.mak.d
-need to be updated either:
-$ make -C build/all -n aarch64-softmmu/config-devices.mak.d
-make: Entering directory '/home/petmay01/linaro/qemu-for-merges/build/all'
-make[1]: Entering directory '/home/petmay01/linaro/qemu-for-merges/slirp'
-make[1]: Nothing to be done for 'all'.
-make[1]: Leaving directory '/home/petmay01/linaro/qemu-for-merges/slirp'
-make: Nothing to be done for 'aarch64-softmmu/config-devices.mak.d'.
-make: Leaving directory '/home/petmay01/linaro/qemu-for-merges/build/all'
+ Thomas
 
-or that it needs to rerun minikconf, which would update the .mak.d.
-
-An extremely cheesy workaround would be if the commit which
-removes the hw/bt/Kconfig also touches configure; then Make
-will know it needs to rerun configure, which will (among
-other things) blow away all the config-devices.mak.d and
-force rerunning of minikconf.
-
-I don't know what the correct additional makefile magic
-would be that would cause us to automatically get deletion
-of a Kconfig file right; maybe Paolo does?
-
-thanks
--- PMM
 
