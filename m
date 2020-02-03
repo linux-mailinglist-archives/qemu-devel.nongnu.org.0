@@ -2,68 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E95F615023B
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Feb 2020 09:07:43 +0100 (CET)
-Received: from localhost ([::1]:35850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D912315026B
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Feb 2020 09:21:58 +0100 (CET)
+Received: from localhost ([::1]:35972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iyWlj-0003tj-1h
-	for lists+qemu-devel@lfdr.de; Mon, 03 Feb 2020 03:07:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57336)
+	id 1iyWzV-0000AA-Pe
+	for lists+qemu-devel@lfdr.de; Mon, 03 Feb 2020 03:21:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33405)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1iyWkq-0003S6-WA
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 03:06:50 -0500
+ (envelope-from <bounces@canonical.com>) id 1iyWyI-0007qD-01
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 03:20:42 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1iyWkm-0003Fo-Fj
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 03:06:48 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:34113
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1iyWkm-0003DZ-BO
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 03:06:44 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580717203;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=h/x9bb7e/p0UEB2uSqRzz4mVHXl8p3ilmZhZCGS/dE4=;
- b=C0q+yRrHCOsy5q/pYgtyNeH5fbzzqZOQnC+GmdxBmjUyDOOviySdqRLc2g0Mu8XprqFH6n
- m6mkqlRgyBvML8il7cvvCv8/dP/z535rDpeGW0a2bH/q4eTv0RRSje8ERzAnXjMhP2Gqdu
- SE/CAhKyY9yhrSxZwRBbnClGqSugfAs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-1-U3Q-lmAgO1-dcWcbiLFFbw-1; Mon, 03 Feb 2020 03:06:40 -0500
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 22F691005502;
- Mon,  3 Feb 2020 08:06:39 +0000 (UTC)
-Received: from localhost (unknown [10.43.2.114])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 263928CCFC;
- Mon,  3 Feb 2020 08:06:34 +0000 (UTC)
-Date: Mon, 3 Feb 2020 09:06:34 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Heyi Guo <guoheyi@huawei.com>
-Subject: Re: [PATCH] tests/qtest: update comments about
- bios-tables-test-allowed-diff.h
-Message-ID: <20200203090634.3d60201e@redhat.com>
-In-Reply-To: <20200202110009.51479-1-guoheyi@huawei.com>
-References: <20200202110009.51479-1-guoheyi@huawei.com>
+ (envelope-from <bounces@canonical.com>) id 1iyWyG-0004XL-SU
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 03:20:41 -0500
+Received: from indium.canonical.com ([91.189.90.7]:35532)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iyWyG-0004OU-MC
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 03:20:40 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iyWyF-0006o8-7e
+ for <qemu-devel@nongnu.org>; Mon, 03 Feb 2020 08:20:39 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 363A02E80C7
+ for <qemu-devel@nongnu.org>; Mon,  3 Feb 2020 08:20:39 +0000 (UTC)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: U3Q-lmAgO1-dcWcbiLFFbw-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 03 Feb 2020 08:07:26 -0000
+From: Tobias Koch <1823790@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+ assignee=Laurent@vivier.eu; 
+X-Launchpad-Bug-Tags: arm linux-user
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: fritz-the-cat laurent-vivier m-luescher pmaydell
+ tobijk
+X-Launchpad-Bug-Reporter: =?utf-8?q?Matthias_L=C3=BCscher_=28m-luescher=29?=
+X-Launchpad-Bug-Modifier: Tobias Koch (tobijk)
+References: <155475569461.20468.17957138207618410360.malonedeb@chaenomeles.canonical.com>
+Message-Id: <158071724670.8288.13552032758759754299.malone@chaenomeles.canonical.com>
+Subject: [Bug 1823790] Re: QEMU mishandling of SO_PEERSEC forces systemd into
+ tight loop
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="0a62c17273454a1313f81a74a2198ec30b44c7b6";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: a248d19d40eba9cb85e5dc6c73371db5f2411be7
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,73 +68,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- wanghaibin.wang@huawei.com, Paolo Bonzini <pbonzini@redhat.com>
+Reply-To: Bug 1823790 <1823790@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 2 Feb 2020 19:00:09 +0800
-Heyi Guo <guoheyi@huawei.com> wrote:
+Thanks, Laurent! I'll get back to you, asap.
 
-> Update comments in tests/qtest/bios-tables-test.c to reflect the
-> current path of bios-tables-test-allowed-diff.h, which is now under
-> tests/qtest/ as well.
-> 
-> Signed-off-by: Heyi Guo <guoheyi@huawei.com>
+-- =
 
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1823790
 
-> 
-> ---
-> 
-> Cc: "Michael S. Tsirkin" <mst@redhat.com>
-> Cc: Igor Mammedov <imammedo@redhat.com>
-> Cc: Thomas Huth <thuth@redhat.com>
-> Cc: Laurent Vivier <lvivier@redhat.com>
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->  tests/qtest/bios-tables-test.c | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
-> 
-> diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
-> index 3ab4872bd7..b4752c644c 100644
-> --- a/tests/qtest/bios-tables-test.c
-> +++ b/tests/qtest/bios-tables-test.c
-> @@ -14,14 +14,14 @@
->   * How to add or update the tests:
->   * Contributor:
->   * 1. add empty files for new tables, if any, under tests/data/acpi
-> - * 2. list any changed files in tests/bios-tables-test-allowed-diff.h
-> + * 2. list any changed files in tests/qtest/bios-tables-test-allowed-diff.h
->   * 3. commit the above *before* making changes that affect the tables
->   *
->   * Contributor or ACPI Maintainer (steps 4-7 need to be redone to resolve conflicts
->   * in binary commit created in step 6):
->   *
->   * After 1-3 above tests will pass but ignore differences with the expected files.
-> - * You will also notice that tests/bios-tables-test-allowed-diff.h lists
-> + * You will also notice that tests/qtest/bios-tables-test-allowed-diff.h lists
->   * a bunch of files. This is your hint that you need to do the below:
->   * 4. Run
->   *      make check V=1
-> @@ -40,14 +40,14 @@
->   *    in commit log.
->   * 7. Before sending patches to the list (Contributor)
->   *    or before doing a pull request (Maintainer), make sure
-> - *    tests/bios-tables-test-allowed-diff.h is empty - this will ensure
-> + *    tests/qtest/bios-tables-test-allowed-diff.h is empty - this will ensure
->   *    following changes to ACPI tables will be noticed.
->   *
->   * The resulting patchset/pull request then looks like this:
-> - * - patch 1: list changed files in tests/bios-tables-test-allowed-diff.h.
-> + * - patch 1: list changed files in tests/qtest/bios-tables-test-allowed-diff.h.
->   * - patches 2 - n: real changes, may contain multiple patches.
->   * - patch n + 1: update golden master binaries and empty
-> - *   tests/bios-tables-test-allowed-diff.h
-> + *   tests/qtest/bios-tables-test-allowed-diff.h
->   */
->  
->  #include "qemu/osdep.h"
+Title:
+  QEMU mishandling of SO_PEERSEC forces systemd into tight loop
 
+Status in QEMU:
+  Confirmed
+
+Bug description:
+  While building Debian images for embedded ARM target systems I
+  detected that QEMU seems to force newer systemd daemons into a tight
+  loop.
+
+  My setup is the following:
+
+  Host machine: Ubuntu 18.04, amd64
+  LXD container: Debian Buster, arm64, systemd 241
+  QEMU: qemu-aarch64-static, 4.0.0-rc2 (custom build) and 3.1.0 (Debian 1:3=
+.1+dfsg-7)
+
+  To easily reproduce the issue I have created the following repository:
+  https://github.com/lueschem/edi-qemu
+
+  The call where systemd gets looping is the following:
+  2837 getsockopt(3,1,31,274891889456,274887218756,274888927920) =3D -1 err=
+no=3D34 (Numerical result out of range)
+
+  Furthermore I also verified that the issue is not related to LXD.
+  The same behavior can be reproduced using systemd-nspawn.
+
+  This issue reported against systemd seems to be related:
+  https://github.com/systemd/systemd/issues/11557
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1823790/+subscriptions
 
