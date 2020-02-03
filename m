@@ -2,80 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6BA01503AA
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Feb 2020 10:55:46 +0100 (CET)
-Received: from localhost ([::1]:37108 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8F291503B4
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Feb 2020 10:59:15 +0100 (CET)
+Received: from localhost ([::1]:37142 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iyYSH-000813-Vn
-	for lists+qemu-devel@lfdr.de; Mon, 03 Feb 2020 04:55:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59911)
+	id 1iyYVe-0001EP-Ns
+	for lists+qemu-devel@lfdr.de; Mon, 03 Feb 2020 04:59:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32886)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1iyYRF-0007KP-PV
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 04:54:42 -0500
+ (envelope-from <imammedo@redhat.com>) id 1iyYUS-0000jO-6H
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 04:58:01 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1iyYRC-0007Qo-GD
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 04:54:40 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:36543
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <imammedo@redhat.com>) id 1iyYUQ-0002tU-US
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 04:58:00 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:52989
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iyYRC-0007Ph-CV
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 04:54:38 -0500
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1iyYUQ-0002tC-R3
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 04:57:58 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580723677;
+ s=mimecast20190719; t=1580723878;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=oAH/RTgSgPdmG2oXN/9sILCeGVRdYkGqY9YTw9lo8g8=;
- b=R3c2eu1CGc04ojPiO2DxGyPGSx+WJrsb9gdnepypiHAuNwpiXRFR05BWkKgpsHPpZTgFGf
- ywKdyXf1YJWm8enq+V8sUF9KVA54j+vBD/ntmEyYksotr3yAczz03nMff5/mvyTooQ41HR
- 1FxImvPH9YnRpP7WH7GfOrJw0C7H0vk=
+ bh=lydme9jOwB1OFMvTOGgBnuCMfpkt445a2/GNLFZx+2Q=;
+ b=Ab7XdlnOcILaWpLFeSoRCNZxeodfGzM/AFydh4Vvvlh3L+jHDWJLKJc3XAZ13PdIj9GbLw
+ 1kX/sBCD1Y7ovyBnvX4D66jTLI5DHLWX9vzoxpjjftVZaKXPdAK6nRlSrtNd31wOMODrKz
+ Pj6KEVOlMW7QM33Jm/ylddmao8mqQtg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-413-DhwemwaDPC-3fO3i1zw9Ew-1; Mon, 03 Feb 2020 04:54:36 -0500
+ us-mta-230-jf0vkmY9MnS2djWQKWcwMw-1; Mon, 03 Feb 2020 04:57:53 -0500
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A88028010CC;
- Mon,  3 Feb 2020 09:54:34 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-116-131.ams2.redhat.com
- [10.36.116.131])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4931090F51;
- Mon,  3 Feb 2020 09:54:26 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id C5E711138404; Mon,  3 Feb 2020 10:54:24 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: Improving QOM documentation [Was: Re: Making QEMU easier for
- management tools and applications]
-References: <1B253197-5592-472A-AA26-E0614A13C91A@redhat.com>
- <87o8v52hz9.fsf@dusky.pond.sub.org>
- <8CF8359B-1E52-4F7A-944E-C1C14FEC4F92@redhat.com>
- <87r200zzje.fsf@dusky.pond.sub.org>
- <20200115121953.GJ93923@redhat.com>
- <874kwwvmuv.fsf@dusky.pond.sub.org> <20200130210902.GA25927@paraplu>
- <87y2toi29o.fsf@dusky.pond.sub.org>
- <CAFEAcA-545QS9mnM6hwa6TxUpw_pDQ3Pa8tkf4qtzWS1Zi_fxQ@mail.gmail.com>
- <CABgObfaB=wHXyJbQR163bZdFHhWdCc4D8sWRHzte019_hSTuhA@mail.gmail.com>
- <20200131152243.GA24572@paraplu> <87sgjvbkvj.fsf@dusky.pond.sub.org>
- <b2a329bf-4795-14f0-473c-2a7cdfa4d262@redhat.com>
-Date: Mon, 03 Feb 2020 10:54:24 +0100
-In-Reply-To: <b2a329bf-4795-14f0-473c-2a7cdfa4d262@redhat.com> (Paolo
- Bonzini's message of "Mon, 3 Feb 2020 09:56:24 +0100")
-Message-ID: <87mua02dyn.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 90F3C800D41;
+ Mon,  3 Feb 2020 09:57:51 +0000 (UTC)
+Received: from localhost (unknown [10.43.2.114])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B99B690F51;
+ Mon,  3 Feb 2020 09:57:47 +0000 (UTC)
+Date: Mon, 3 Feb 2020 10:57:46 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>
+Subject: Re: [PATCH 2/6] hw/arm/raspi: Get board version from board revision
+ code
+Message-ID: <20200203105746.43cc27a7@redhat.com>
+In-Reply-To: <20200203082619.7426-3-f4bug@amsat.org>
+References: <20200203082619.7426-1-f4bug@amsat.org>
+ <20200203082619.7426-3-f4bug@amsat.org>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: DhwemwaDPC-3fO3i1zw9Ew-1
+X-MC-Unique: jf0vkmY9MnS2djWQKWcwMw-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,129 +72,129 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- "Daniel P. =?utf-8?Q?Berrang?= =?utf-8?Q?=C3=A9?=" <berrange@redhat.com>,
- "Denis V. Lunev" <den@virtuozzo.com>, Kashyap Chamarthy <kchamart@redhat.com>,
- Stefan Hajnoczi <stefanha@gmail.com>, qemu-devel <qemu-devel@nongnu.org>,
- Christophe de Dinechin <dinechin@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Dominik Csapak <d.csapak@proxmox.com>, John Snow <jsnow@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Alistair Francis <alistair@alistair23.me>, qemu-devel@nongnu.org,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>, qemu-arm@nongnu.org,
+ Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Paolo Bonzini <pbonzini@redhat.com> writes:
+On Mon,  3 Feb 2020 09:26:15 +0100
+Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> wrote:
 
-> On 31/01/20 18:23, Markus Armbruster wrote:
->> Kashyap Chamarthy <kchamart@redhat.com> writes:
->> docs/devel/qapi-code-gen.txt has the same problem: it's mostly internal
->> stuff, but there's also introspection, which is an external interface.
->
-> We should move introspection to docs/interop.  Any takers?
->
->>>     Rigorous support for introspection both of runtime objects and type
->>>     capabilities
->>=20
->> For a value of "rigorous".
->>=20
->> Let me propose QAPI's query-qmp-schema as the tin standard[*] of
->> introspection:
->>=20
->> * It's documented
->>=20
->> * It comes with something that can pass as a type system
->>=20
->> * It actually tells you the full truth.
->
-> Well, not all statements age equally well.  But compared to netdev_add=20
-> and device_add, it was still an improvement. :)
+> The chip ID is encoded in the board revision, and the board version
+> is simply 'chip_id + 1'.
+> We want to support more boards which follow the same scheme.
+> Introduce a new RaspiBoardInfo structure which we'll extend in the
+> following commits.
+>=20
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> ---
+>  hw/arm/raspi.c | 45 +++++++++++++++++++++++++++++++++++++++------
+>  1 file changed, 39 insertions(+), 6 deletions(-)
+>=20
+> diff --git a/hw/arm/raspi.c b/hw/arm/raspi.c
+> index ef76a27f33..eaa8c49009 100644
+> --- a/hw/arm/raspi.c
+> +++ b/hw/arm/raspi.c
+> @@ -36,6 +36,39 @@ typedef struct RasPiState {
+>      MemoryRegion ram;
+>  } RasPiState;
+> =20
+> +typedef struct RaspiBoardInfo {
+> +    /*
+> +     * Board revision codes:
+> +     * www.raspberrypi.org/documentation/hardware/raspberrypi/revision-c=
+odes/
+> +     */
+> +    uint32_t board_rev;
+> +} RaspiBoardInfo;
+> +
+> +enum { BOARD_PI2, BOARD_PI3 };
+> +
+> +static const RaspiBoardInfo raspi_boards[] =3D {
+> +    [BOARD_PI2] =3D
+> +    {
+> +        .board_rev =3D 0xa21041,
+> +    },
+> +#ifdef TARGET_AARCH64
+> +    [BOARD_PI3] =3D
+> +    {
+> +        .board_rev =3D 0xa02082,
+> +    },
+> +#endif
+> +};
 
-I think "rigorous" is to be read as ambition, not description.  Sadly,
-QOM stagnated before getting close to realizing its ambitions.
+This patter was(is) used widely by embed boards before QOM
+(I mean introducing various structures to keep boards configs
+and then passing them around). Which I found were cumbersome
+to deal with with working on ram refactoring.
 
-> It's certainly worse than QAPI *now*, but it's not nonexistent:
->
->> * Documentation
->>=20
->>   QAPI: docs/devel/qapi-code-gen.txt section "Client JSON Protocol
->>   introspection"
->>=20
->>   QOM: Nada
->
-> Well, there is qom.json.  So slightly more than nothing, though I have=20
-> already found an off-by-one error and it could definitely be improved:
->
->  @type: the type of the property.  This will typically come in one of fou=
-r
->         forms:
->
->         1) A primitive type such as 'u8', 'u16', 'bool', 'str', or 'doubl=
-e'.
->            These types are mapped to the appropriate JSON type.
->
->         2) A child type in the form 'child<subtype>' where subtype is a q=
-dev
->            device type name.  Child properties create the composition tre=
-e.
->
->         3) A link type in the form 'link<subtype>' where subtype is a qde=
-v
->            device type name.  Link properties form the device model graph=
-.
+But have you considered using machine classes which
+perfectly feet the task, instead of repeating old pattern?
 
-If the off-by-one you found is "four forms" followed by a list of three,
-then the error isn't "four", it's the omitted fourth list item.
 
-Anyway, I grant you "nada" was an exaggeration for effect.
 
-Note that the doc comments are reference documentation.  QAPI got that,
-too.  Reference documentation is useful, but no replacement for an
-explainer like qapi-code-gen.txt.
-
->> * Type system
->>=20
->>   QAPI: A few built-in types specified in the documentation, type
->>   constructors for complex types.
->>=20
->>   QOM: Types are strings, and you just need to know what they mean.
->>   Some string patterns are special: link<STR>, child<STR>, STR[INT], and
->>   you just need to know what that means, too.
->
-> str[int] is not a type as far as I understood it, it's a property name. =
-=20
-
-You're right.
-
-> Types are documented as above; however types other than link<> and=20
-> child<>, which are QAPI types, can be user-defined types (structs,=20
-> enums) and this is not included in (1).
-
-Specifically, three of four kinds of type names are documented:
-primitive, child, scalar.  The fourth kind is not, and it can be
-anything.  It need not be a QAPI type name.  In any case, you just have
-to know what the type name means.
-
-In contrast, QAPI introspection defines all types in terms of type
-constructors and primitive types.  It completely hides user-defined QAPI
-type names, so they don't become ABI.
-
-Do you think we could somehow appropriate QAPI's type system for QOM
-introspection?
-
->> * Full truth
->>=20
->>   QAPI: If you can access it at the interface, you can also see it in
->>   introspection.
->>=20
->>   QOM: Type introspection can show you only the properties of a freshly
->>   created object.  Properties that get created only later are invisible.
->>   Properties that depend on global state are unreliable.  Object
->>   introspection is reliable, but only for that object in its current
->>   state.
->
-> Right, that's array properties and at least theoretically child=20
-> properties (I don't know if there are examples).
->
-> Paolo
+> +static int board_chip_id(const RaspiBoardInfo *config)
+> +{
+> +    return extract32(config->board_rev, 12, 4);
+> +}
+> +
+> +static int board_version(const RaspiBoardInfo *config)
+> +{
+> +    return board_chip_id(config) + 1;
+> +}
+> +
+>  static void write_smpboot(ARMCPU *cpu, const struct arm_boot_info *info)
+>  {
+>      static const uint32_t smpboot[] =3D {
+> @@ -163,9 +196,10 @@ static void setup_boot(MachineState *machine, int ve=
+rsion, size_t ram_size)
+>      arm_load_kernel(ARM_CPU(first_cpu), machine, &binfo);
+>  }
+> =20
+> -static void raspi_init(MachineState *machine, int version)
+> +static void raspi_init(MachineState *machine, const RaspiBoardInfo *conf=
+ig)
+>  {
+>      RasPiState *s =3D g_new0(RasPiState, 1);
+> +    int version =3D board_version(config);
+>      uint32_t vcram_size;
+>      DriveInfo *di;
+>      BlockBackend *blk;
+> @@ -191,9 +225,8 @@ static void raspi_init(MachineState *machine, int ver=
+sion)
+>      /* Setup the SOC */
+>      object_property_add_const_link(OBJECT(&s->soc), "ram", OBJECT(&s->ra=
+m),
+>                                     &error_abort);
+> -    int board_rev =3D version =3D=3D 3 ? 0xa02082 : 0xa21041;
+> -    object_property_set_int(OBJECT(&s->soc), board_rev, "board-rev",
+> -                            &error_abort);
+> +    object_property_set_int(OBJECT(&s->soc), config->board_rev,
+> +                            "board-rev", &error_abort);
+>      object_property_set_bool(OBJECT(&s->soc), true, "realized", &error_a=
+bort);
+> =20
+>      /* Create and plug in the SD cards */
+> @@ -215,7 +248,7 @@ static void raspi_init(MachineState *machine, int ver=
+sion)
+> =20
+>  static void raspi2_init(MachineState *machine)
+>  {
+> -    raspi_init(machine, 2);
+> +    raspi_init(machine, &raspi_boards[BOARD_PI2]);
+>  }
+> =20
+>  static void raspi2_machine_init(MachineClass *mc)
+> @@ -237,7 +270,7 @@ DEFINE_MACHINE("raspi2", raspi2_machine_init)
+>  #ifdef TARGET_AARCH64
+>  static void raspi3_init(MachineState *machine)
+>  {
+> -    raspi_init(machine, 3);
+> +    raspi_init(machine, &raspi_boards[BOARD_PI3]);
+>  }
+> =20
+>  static void raspi3_machine_init(MachineClass *mc)
 
 
