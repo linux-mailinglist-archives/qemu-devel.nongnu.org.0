@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 851B51501C2
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Feb 2020 07:33:16 +0100 (CET)
-Received: from localhost ([::1]:35166 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9523E1501C0
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Feb 2020 07:31:46 +0100 (CET)
+Received: from localhost ([::1]:35144 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iyVIJ-0007j6-JU
-	for lists+qemu-devel@lfdr.de; Mon, 03 Feb 2020 01:33:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57991)
+	id 1iyVGr-00061k-Lq
+	for lists+qemu-devel@lfdr.de; Mon, 03 Feb 2020 01:31:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57989)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iyUyF-0003ue-Fg
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 01:12:33 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1iyUyF-0003ud-Cc
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 01:12:32 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iyUyE-0003t6-6R
+ (envelope-from <dgibson@ozlabs.org>) id 1iyUyE-0003tf-FV
  for qemu-devel@nongnu.org; Mon, 03 Feb 2020 01:12:31 -0500
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:50999 helo=ozlabs.org)
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:40175 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iyUyD-0003R2-Rw; Mon, 03 Feb 2020 01:12:30 -0500
+ id 1iyUyE-0003RP-58; Mon, 03 Feb 2020 01:12:30 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 489yBt1QNVz9sT7; Mon,  3 Feb 2020 17:11:34 +1100 (AEDT)
+ id 489yBt5yFkz9sT8; Mon,  3 Feb 2020 17:11:34 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1580710294;
- bh=3iAC76bwztBry20u5fNvLcGtCULA+alfuoS+B5Ni6nE=;
+ bh=GTRX/VXafls1IkkTyR5sNPeyfSuUBHNUp5JrIKViYwc=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=QCIRfKUNQcaoaM/Y6taYimvUqCWJnheJSUFan5C3jwNFodkifBu4187KwXRozwOB3
- RRMs5KV6K5UtLHIe/rbCiLP6wZFoIi/zzDN8kpfV/OnvIUO/G0ly1It6QIjt40lxZB
- jj6q1Ev+31oSjxDgD3Izm7Io7ITj7AV7+sJ76gzw=
+ b=aTBOB54RU+YdwYgVxOVAiD51JZyY1jt8OGqMBUWUeEBFCTnrXPNdvl6f8FEcqUuB1
+ wB0jpCN3uPCXAs9spTcHTuMIPHugakiitDXqk+e47QKdDq1+tFOK2Fe1iaeGK8kdZR
+ zv9z6aOpgES85LJuXJeWo7x9ouX68W4SKeWI8drQ=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 31/35] target/ppc: Use probe_access for LSW, STSW
-Date: Mon,  3 Feb 2020 17:11:19 +1100
-Message-Id: <20200203061123.59150-32-david@gibson.dropbear.id.au>
+Subject: [PULL 33/35] target/ppc: Remove redundant mask in DCBZ
+Date: Mon,  3 Feb 2020 17:11:21 +1100
+Message-Id: <20200203061123.59150-34-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200203061123.59150-1-david@gibson.dropbear.id.au>
 References: <20200203061123.59150-1-david@gibson.dropbear.id.au>
@@ -62,211 +62,30 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-Use a minimum number of mmu lookups for the contiguous bytes
-that are accessed.  If the lookup succeeds, we can finish the
-operation with host addresses only.
+The value of addr has already been masked, just above.
 
-Reported-by: Howard Spoelstra <hsp.cat7@gmail.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20200129235040.24022-2-richard.henderson@linaro.org>
+Message-Id: <20200129235040.24022-4-richard.henderson@linaro.org>
 Tested-by: Howard Spoelstra <hsp.cat7@gmail.com>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- target/ppc/mem_helper.c | 148 ++++++++++++++++++++++++++++++++++------
- 1 file changed, 128 insertions(+), 20 deletions(-)
+ target/ppc/mem_helper.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/target/ppc/mem_helper.c b/target/ppc/mem_helper.c
-index e8e2a8ac2a..508d472a2f 100644
+index e7d3a79d96..0cb78777e7 100644
 --- a/target/ppc/mem_helper.c
 +++ b/target/ppc/mem_helper.c
-@@ -56,6 +56,32 @@ static inline target_ulong addr_add(CPUPPCState *env, =
-target_ulong addr,
-     }
- }
+@@ -293,7 +293,7 @@ static void dcbz_common(CPUPPCState *env, target_ulon=
+g addr,
+     addr &=3D mask;
 =20
-+static void *probe_contiguous(CPUPPCState *env, target_ulong addr, uint3=
-2_t nb,
-+                              MMUAccessType access_type, int mmu_idx,
-+                              uintptr_t raddr)
-+{
-+    void *host1, *host2;
-+    uint32_t nb_pg1, nb_pg2;
-+
-+    nb_pg1 =3D -(addr | TARGET_PAGE_MASK);
-+    if (likely(nb <=3D nb_pg1)) {
-+        /* The entire operation is on a single page.  */
-+        return probe_access(env, addr, nb, access_type, mmu_idx, raddr);
-+    }
-+
-+    /* The operation spans two pages.  */
-+    nb_pg2 =3D nb - nb_pg1;
-+    host1 =3D probe_access(env, addr, nb_pg1, access_type, mmu_idx, radd=
-r);
-+    addr =3D addr_add(env, addr, nb_pg1);
-+    host2 =3D probe_access(env, addr, nb_pg2, access_type, mmu_idx, radd=
-r);
-+
-+    /* If the two host pages are contiguous, optimize.  */
-+    if (host2 =3D=3D host1 + nb_pg1) {
-+        return host1;
-+    }
-+    return NULL;
-+}
-+
- void helper_lmw(CPUPPCState *env, target_ulong addr, uint32_t reg)
- {
-     for (; reg < 32; reg++) {
-@@ -84,23 +110,65 @@ void helper_stmw(CPUPPCState *env, target_ulong addr=
-, uint32_t reg)
- static void do_lsw(CPUPPCState *env, target_ulong addr, uint32_t nb,
-                    uint32_t reg, uintptr_t raddr)
- {
--    int sh;
-+    int mmu_idx;
-+    void *host;
-+    uint32_t val;
+     /* Check reservation */
+-    if ((env->reserve_addr & mask) =3D=3D (addr & mask))  {
++    if ((env->reserve_addr & mask) =3D=3D addr)  {
+         env->reserve_addr =3D (target_ulong)-1ULL;
+     }
 =20
--    for (; nb > 3; nb -=3D 4) {
--        env->gpr[reg] =3D cpu_ldl_data_ra(env, addr, raddr);
--        reg =3D (reg + 1) % 32;
--        addr =3D addr_add(env, addr, 4);
-+    if (unlikely(nb =3D=3D 0)) {
-+        return;
-     }
--    if (unlikely(nb > 0)) {
--        env->gpr[reg] =3D 0;
--        for (sh =3D 24; nb > 0; nb--, sh -=3D 8) {
--            env->gpr[reg] |=3D cpu_ldub_data_ra(env, addr, raddr) << sh;
--            addr =3D addr_add(env, addr, 1);
-+
-+    mmu_idx =3D cpu_mmu_index(env, false);
-+    host =3D probe_contiguous(env, addr, nb, MMU_DATA_LOAD, mmu_idx, rad=
-dr);
-+
-+    if (likely(host)) {
-+        /* Fast path -- the entire operation is in RAM at host.  */
-+        for (; nb > 3; nb -=3D 4) {
-+            env->gpr[reg] =3D (uint32_t)ldl_be_p(host);
-+            reg =3D (reg + 1) % 32;
-+            host +=3D 4;
-+        }
-+        switch (nb) {
-+        default:
-+            return;
-+        case 1:
-+            val =3D ldub_p(host) << 24;
-+            break;
-+        case 2:
-+            val =3D lduw_be_p(host) << 16;
-+            break;
-+        case 3:
-+            val =3D (lduw_be_p(host) << 16) | (ldub_p(host + 2) << 8);
-+            break;
-+        }
-+    } else {
-+        /* Slow path -- at least some of the operation requires i/o.  */
-+        for (; nb > 3; nb -=3D 4) {
-+            env->gpr[reg] =3D cpu_ldl_mmuidx_ra(env, addr, mmu_idx, radd=
-r);
-+            reg =3D (reg + 1) % 32;
-+            addr =3D addr_add(env, addr, 4);
-+        }
-+        switch (nb) {
-+        default:
-+            return;
-+        case 1:
-+            val =3D cpu_ldub_mmuidx_ra(env, addr, mmu_idx, raddr) << 24;
-+            break;
-+        case 2:
-+            val =3D cpu_lduw_mmuidx_ra(env, addr, mmu_idx, raddr) << 16;
-+            break;
-+        case 3:
-+            val =3D cpu_lduw_mmuidx_ra(env, addr, mmu_idx, raddr) << 16;
-+            addr =3D addr_add(env, addr, 2);
-+            val |=3D cpu_ldub_mmuidx_ra(env, addr, mmu_idx, raddr) << 8;
-+            break;
-         }
-     }
-+    env->gpr[reg] =3D val;
- }
-=20
--void helper_lsw(CPUPPCState *env, target_ulong addr, uint32_t nb, uint32=
-_t reg)
-+void helper_lsw(CPUPPCState *env, target_ulong addr,
-+                uint32_t nb, uint32_t reg)
- {
-     do_lsw(env, addr, nb, reg, GETPC());
- }
-@@ -130,17 +198,57 @@ void helper_lswx(CPUPPCState *env, target_ulong add=
-r, uint32_t reg,
- void helper_stsw(CPUPPCState *env, target_ulong addr, uint32_t nb,
-                  uint32_t reg)
- {
--    int sh;
-+    uintptr_t raddr =3D GETPC();
-+    int mmu_idx;
-+    void *host;
-+    uint32_t val;
-=20
--    for (; nb > 3; nb -=3D 4) {
--        cpu_stl_data_ra(env, addr, env->gpr[reg], GETPC());
--        reg =3D (reg + 1) % 32;
--        addr =3D addr_add(env, addr, 4);
-+    if (unlikely(nb =3D=3D 0)) {
-+        return;
-     }
--    if (unlikely(nb > 0)) {
--        for (sh =3D 24; nb > 0; nb--, sh -=3D 8) {
--            cpu_stb_data_ra(env, addr, (env->gpr[reg] >> sh) & 0xFF, GET=
-PC());
--            addr =3D addr_add(env, addr, 1);
-+
-+    mmu_idx =3D cpu_mmu_index(env, false);
-+    host =3D probe_contiguous(env, addr, nb, MMU_DATA_STORE, mmu_idx, ra=
-ddr);
-+
-+    if (likely(host)) {
-+        /* Fast path -- the entire operation is in RAM at host.  */
-+        for (; nb > 3; nb -=3D 4) {
-+            stl_be_p(host, env->gpr[reg]);
-+            reg =3D (reg + 1) % 32;
-+            host +=3D 4;
-+        }
-+        val =3D env->gpr[reg];
-+        switch (nb) {
-+        case 1:
-+            stb_p(host, val >> 24);
-+            break;
-+        case 2:
-+            stw_be_p(host, val >> 16);
-+            break;
-+        case 3:
-+            stw_be_p(host, val >> 16);
-+            stb_p(host + 2, val >> 8);
-+            break;
-+        }
-+    } else {
-+        for (; nb > 3; nb -=3D 4) {
-+            cpu_stl_mmuidx_ra(env, addr, env->gpr[reg], mmu_idx, raddr);
-+            reg =3D (reg + 1) % 32;
-+            addr =3D addr_add(env, addr, 4);
-+        }
-+        val =3D env->gpr[reg];
-+        switch (nb) {
-+        case 1:
-+            cpu_stb_mmuidx_ra(env, addr, val >> 24, mmu_idx, raddr);
-+            break;
-+        case 2:
-+            cpu_stw_mmuidx_ra(env, addr, val >> 16, mmu_idx, raddr);
-+            break;
-+        case 3:
-+            cpu_stw_mmuidx_ra(env, addr, val >> 16, mmu_idx, raddr);
-+            addr =3D addr_add(env, addr, 2);
-+            cpu_stb_mmuidx_ra(env, addr, val >> 8, mmu_idx, raddr);
-+            break;
-         }
-     }
- }
 --=20
 2.24.1
 
