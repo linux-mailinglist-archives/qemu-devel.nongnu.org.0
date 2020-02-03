@@ -2,92 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68345150933
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Feb 2020 16:10:29 +0100 (CET)
-Received: from localhost ([::1]:42945 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D0861509A8
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Feb 2020 16:21:02 +0100 (CET)
+Received: from localhost ([::1]:43218 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iydMq-00067L-GA
-	for lists+qemu-devel@lfdr.de; Mon, 03 Feb 2020 10:10:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51697)
+	id 1iydX3-0003rP-9K
+	for lists+qemu-devel@lfdr.de; Mon, 03 Feb 2020 10:21:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55698)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1iydLT-0004nR-89
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 10:09:04 -0500
+ (envelope-from <bounces@canonical.com>) id 1iydVh-0002hD-C6
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 10:19:38 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1iydLR-0002Hj-VR
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 10:09:03 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:49641
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iydLR-0002Gg-Qb
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 10:09:01 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580742541;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=JAHMeQY5869MOBvRSAZCTMuilEc5hkmSKggijx0mJxQ=;
- b=HV88ZeNiyBlbSmqElUWJq6CC0HvhPVke2WnzN82I3IydK5myfp9gJTuSR4E/hRxPgvmG92
- vfZNn+TILAARkkPvQnCxvqDa3BlOFw2TWF1OHrX5TjiUB3VCfqvhbncYIf904nToIo6+Ko
- ALZCx3UDS480WGxYV2OX9mvHuXCUT2k=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-45--PDIcJJYPca2w0mtCfpDzg-1; Mon, 03 Feb 2020 10:08:56 -0500
-Received: by mail-wr1-f71.google.com with SMTP id o6so8366391wrp.8
- for <qemu-devel@nongnu.org>; Mon, 03 Feb 2020 07:08:56 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=JAHMeQY5869MOBvRSAZCTMuilEc5hkmSKggijx0mJxQ=;
- b=rAjVxEB09G+Ct1Y02HSO8oYjV/en//XCxMim7OClZ/7Oj3xx4aL8v+nfYcfqbcjifN
- okmyU0ZfA92sbzedvqpGkKb6WXPLyI02241TTUVsMsKgkhIB4pRfVs5DSACCZhfH1gPM
- s77cJnzNSvhsOm3hPcx3qv+hKO0Brz7xBsFz5RbaLp77TV1De+gJGnixDA6SEp0q0juh
- TQUL+Xz6JhRwtw1ZIt+g6XZfQdkoUm6SVmmEmqCq22dGmPdo1xJGrfe6ILHYDNLlwIl4
- SzYmpl4L6SFNpMelNP4TKJNUBrAwHOnL0qShzd8kKz260kMrMzlylubhk5TGzADlb1XZ
- hSDA==
-X-Gm-Message-State: APjAAAUY8wcZIDRlmVm1yyyDnmoW9zmZC8Czc4J9PduDDlV7LJ2WLDZe
- z1cvNCZ1my4zqTRvzniBKWtNLgxuzPxaBeGqMussvO+ozH+1Qoi8pEgcpniX1/iqslaDUjiUORY
- NxJDWDL8WssdMLoo=
-X-Received: by 2002:a7b:cf2d:: with SMTP id m13mr31301824wmg.163.1580742535619; 
- Mon, 03 Feb 2020 07:08:55 -0800 (PST)
-X-Google-Smtp-Source: APXvYqyActWJGDOU7SOwKVmrT9c/0iXbvOxAbblOzwN+f+C0OtoeE7MP9cnbh5gZyB5uW3ttMVPQ3A==
-X-Received: by 2002:a7b:cf2d:: with SMTP id m13mr31301798wmg.163.1580742535330; 
- Mon, 03 Feb 2020 07:08:55 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:a9f0:cbc3:a8a6:fc56?
- ([2001:b07:6468:f312:a9f0:cbc3:a8a6:fc56])
- by smtp.gmail.com with ESMTPSA id 16sm24116050wmi.0.2020.02.03.07.08.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 03 Feb 2020 07:08:54 -0800 (PST)
-Subject: Re: VW ELF loader
-To: Alexey Kardashevskiy <aik@ozlabs.ru>,
- David Gibson <david@gibson.dropbear.id.au>
-References: <f881c2e7-be92-9695-6e19-2dd88cbc63c1@ozlabs.ru>
- <e3ee4b4d-1b24-2900-4304-05fa521a9b47@redhat.com>
- <20200203012842.GD52446@umbus.fritz.box>
- <ec81cca1-d5fb-3f1e-b433-3328d81a117e@redhat.com>
- <de7e4d34-eb63-904c-3475-7feee154c72c@ozlabs.ru>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <8420784f-b4c7-9864-8534-b94dbc5f74ff@redhat.com>
-Date: Mon, 3 Feb 2020 16:08:54 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+ (envelope-from <bounces@canonical.com>) id 1iydVf-0001e6-SK
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 10:19:37 -0500
+Received: from indium.canonical.com ([91.189.90.7]:57650)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iydVf-0001bR-MK
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 10:19:35 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iydVe-00043g-34
+ for <qemu-devel@nongnu.org>; Mon, 03 Feb 2020 15:19:34 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 1032F2E80C0
+ for <qemu-devel@nongnu.org>; Mon,  3 Feb 2020 15:19:34 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <de7e4d34-eb63-904c-3475-7feee154c72c@ozlabs.ru>
-Content-Language: en-US
-X-MC-Unique: -PDIcJJYPca2w0mtCfpDzg-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 03 Feb 2020 15:09:42 -0000
+From: Daniel Berrange <823733@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Triaged; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: happykvm michal-nowak-b podlipnik sledge-sulaweyo
+ th-huth
+X-Launchpad-Bug-Reporter: showrun (happykvm)
+X-Launchpad-Bug-Modifier: Daniel Berrange (berrange)
+References: <20110810053253.11269.76752.malonedeb@gac.canonical.com>
+Message-Id: <158074258355.26789.4678500421306309201.launchpad@soybean.canonical.com>
+Subject: [Bug 823733] Re: Solaris can't be powered off with ACPI
+ shutdown/poweroff
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="0a62c17273454a1313f81a74a2198ec30b44c7b6";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 463e0dfd9ff9d100291d85a751459ff570dd4fc0
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -96,69 +67,154 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Christian Borntraeger <borntraeger@de.ibm.com>,
- Thomas Huth <thuth@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Cornelia Huck <conny@cornelia-huck.de>,
- Stefano Garzarella <sgarzare@redhat.com>
+Reply-To: Bug 823733 <823733@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 03/02/20 11:58, Alexey Kardashevskiy wrote:
->>> So really, the question isn't whether we implement things in firmware
->>> or in qemu.  It's whether we implement the firmware functionality as
->>> guest cpu code, which needs to be coded to work with a limited
->>> environment, built with a special toolchain, then emulated with TCG.
->>> Or, do we just implement it in normal C code, with a full C library,
->>> and existing device and backend abstractions inside qemu.
->>
->> ... which is adding almost 2000 lines of new code to the host despite
->> the following limitations:
->>
->>> 4. no networking in OF CI at all;
->>> 5. no vga;
->>> 6. no disk partitions in CI, i.e. no commas to select a partition -
->>> this relies on a bootloader accessing the disk as a whole;
-> 
-> This is not going to be a lot really, especially supporting partitions -
-> the code is practically there already as I needed it to find GRUB, and
-> GRUB does the rest asking very little from the firmware to work.
+** Summary changed:
 
-What partition formats would have to be supported?  But honestly I'm
-more worried about the networking part.
+- Soloaris can't be poweroff
++ Solaris can't be powered off with ACPI shutdown/poweroff
 
-> btw what is the common way of netbooting in x86? NIC ROM or GRUB (but
-> this would be a disk anyway)? Can we consider having a precompiled GRUB
-> image somewhere in pc-bios/ to use for netboot? Or Uboot would do (it is
-> already in pc-bios/, no?), I suppose?
+-- =
 
-GRUB netboot support is almost never used.  There are three cases:
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/823733
 
-- QEMU BIOS: the NIC ROM contain iPXE, which is both the driver code and
-the boot loader (which chains into GRUB).
+Title:
+  Solaris can't be powered off with ACPI shutdown/poweroff
 
-- Bare metal BIOS: same, but the boot loader is minimal so most of the
-time iPXE is loaded via TFTP and reuses the NIC ROM's driver code.
+Status in QEMU:
+  Triaged
 
-- UEFI: the NIC ROM contains driver code only and the firmware does the
-rest.
+Bug description:
+  Thank you forgive my poor English.
 
->> In other words you're not dropping SLOF, you're really dropping
->> OpenFirmware completely.
-> 
-> What is the exact benefit of having OpenFirmware's "interpret"?
+  It seems KVM can=E2=80=99t poweroff solairs 10 or sloalrs 11 VM.
+  I have created solaris 10 and 11 as usual. Everything in VM is running OK=
+, but finally I use shell command =E2=80=98poweroff=E2=80=99 or =E2=80=98in=
+it 5=E2=80=99, the solaris VM (both 10 & 11) system could=E2=80=99t be powe=
+roff but with promoting me the message: perss any key to reboot =E2=80=A6..=
+  ,I pressed any key in vnc client, solaris VM reboot immediately. Endless =
+reboot loop above.
 
-None, besides being able to play space invaders written in Forth.  I'm
-not against dropping most OpenFirmware capabilities, I'm against adding
-a limited (or broken depending on what you're trying to do) version that
-runs in the host.
+  the solaris 10 & 11 from oracle iso file name :
+  sol-10-u9-ga-x86-dvd.iso
+  sol-11-exp-201011-text-x86.iso
 
-Yes, SLOF is big and slow.  petitboot is not petit at all either, and
-has the disadvantage that you have to find a way to run GRUB afterwards.
- But would a similarly minimal OF implementation (no network, almost no
-interpret so no Forth, device tree built entirely in the host, etc.) be
-just as big and slow?
+  the solaris 10 & 11 from oracle iso file name :
+  sol-10-u9-ga-x86-dvd.iso
+  sol-11-exp-201011-text-x86.iso
 
-Paolo
+  1. On my real physical machine,the solaris can be poweroff
+  2. On vmware ,the solaris can be poweroff
+  3. On my real physical machine,I have try to disbale the ACPI opiton in B=
+OIS, then the solaris can't be poweroff,Like the problem I have described a=
+bove
+  so ,I doubt the KVM has a little problem in ACPI =
 
+
+  I have try the suggestion as follows, but I can=E2=80=99t solve the probl=
+em.
+  7.2 Solaris reboot all the time on grub menu
+  =E2=80=A2	Run through the installer as usual =
+
+  =E2=80=A2	On completion and reboot, the VM will perpetually reboot. "Stop=
+" the VM. =
+
+  =E2=80=A2	Start it up again, and immediately open a vnc console and selec=
+t the Safe Boot from the options screen =
+
+  =E2=80=A2	When prompted if you want to try and recover the boot block, sa=
+y yes =
+
+  =E2=80=A2	You should now have a Bourne terminal with your existing filesy=
+stem mounted on /a =
+
+  =E2=80=A2	Run /a/usr/bin/bash (my preferred shell) =
+
+  =E2=80=A2	export TERM=3Dxterm =
+
+  =E2=80=A2	vi /a/boot/grub/menu.1st (editing the bootloader on your mounte=
+d filesystem), to add "kernel/unix" to the kernel options for the non-safe-=
+mode boot. Ex : =
+
+  Config File : /a/boot/grub/menu.lst =
+
+  kernel$ /platform/i86pc/multiboot -B $ZFS-BOOTFS kernel/unix
+
+  According to KVM requirements, I collected the following information:
+  CPU model name
+  model name      : Intel(R) Xeon(R) CPU           X3450  @ 2.67GHz
+
+  kvm -version
+  QEMU PC emulator version 0.12.3 (qemu-kvm-0.12.3), Copyright (c) 2003-200=
+8 Fabrice Bellard
+
+  Host kernel version
+  Ubuntu 10.04.1 LTS   2.6.32-25-server =
+
+
+  What host kernel arch you are using (i386 or x86_64)
+  X86_64
+
+  Guest OS
+  Solaris 10 and Solaris 11=EF=BC=8Cboth can not shutdown
+
+  The qemu command line you are using to start the guest
+
+  First, I used the command line as follows:
+  kvm -m 1024 -drive file=3Dsolaris10.img,cache=3Dwriteback -net nic -net u=
+ser -nographic -vnc :1
+  then I try to use -no-kvm-irqchip or -no-kvm ,but the problem also appear=
+s!
+
+  Secondly, have created and run solaris 10&11 by using Virsh, still solari=
+s can't be poweroff, the XML file content is :
+  <domain type=3D'kvm'>
+      <name>solairs</name>
+      <uuid>85badf15-244d-4719-a2da-8c3de064137d</uuid>
+      <memory>1677721</memory>
+      <currentMemory>1677721</currentMemory>
+      <vcpu>1</vcpu>
+      <os>
+      <type arch=3D'i686' machine=3D'pc-0.12'>hvm</type>
+        <boot dev=3D'hd'/>
+     </os>
+     <features>
+      <acpi/>
+      <apic/>
+     </features>
+    <clock offset=3D'utc'/>
+     <on_poweroff>destroy</on_poweroff>
+    <on_reboot>restart</on_reboot>
+     <on_crash>destroy</on_crash>
+     <devices>
+       <emulator>/usr/bin/kvm</emulator>
+       <disk type=3D'file' device=3D'disk'>
+        <driver name=3D'qemu' type=3D'qcow2' cache=3D'writeback'/>
+         <source file=3D'/opt/GuestOS/solaris10.img'/>
+         <target dev=3D'hda' bus=3D'ide'/>
+       </disk>
+      <interface type=3D'bridge'>
+        <mac address=3D'00:0c:29:d0:36:c3'/>
+        <source bridge=3D'br1'/>
+        <target dev=3D'vnet0'/>
+       </interface>
+       <input type=3D'mouse' bus=3D'ps2'/>
+       <graphics type=3D'vnc' port=3D'5901' autoport=3D'no' keymap=3D'en-us=
+'/>
+      <video>
+        <model type=3D'vga' vram=3D'65536' heads=3D'1'/>
+      </video>
+    </devices>
+    <seclabel type=3D'dynamic' model=3D'apparmor'>
+      <label>libvirt-f36f5289-692e-6f1c-fe71-c6ed19453e2f</label>
+      <imagelabel>libvirt-f36f5289-692e-6f1c-fe71-c6ed19453e2f</imagelabel>
+    </seclabel>
+   </domain>
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/823733/+subscriptions
 
