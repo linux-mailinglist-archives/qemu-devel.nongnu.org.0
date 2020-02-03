@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88B8E1501B5
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Feb 2020 07:25:49 +0100 (CET)
-Received: from localhost ([::1]:35034 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D421B1501BD
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Feb 2020 07:29:59 +0100 (CET)
+Received: from localhost ([::1]:35096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iyVB6-0004dC-Ic
-	for lists+qemu-devel@lfdr.de; Mon, 03 Feb 2020 01:25:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57766)
+	id 1iyVF8-0003Ti-Un
+	for lists+qemu-devel@lfdr.de; Mon, 03 Feb 2020 01:29:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57822)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iyUxr-0003fz-1M
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 01:12:13 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1iyUy2-0003ie-2i
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 01:12:21 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iyUxp-0003Uc-Ib
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 01:12:06 -0500
-Received: from ozlabs.org ([203.11.71.1]:33413)
+ (envelope-from <dgibson@ozlabs.org>) id 1iyUxr-0003Xu-2D
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 01:12:12 -0500
+Received: from ozlabs.org ([203.11.71.1]:42153)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iyUxp-0003RR-6c; Mon, 03 Feb 2020 01:12:05 -0500
+ id 1iyUxq-0003Tc-Kw; Mon, 03 Feb 2020 01:12:06 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 489yBt4Gpfz9sT9; Mon,  3 Feb 2020 17:11:34 +1100 (AEDT)
+ id 489yBv14Ssz9sTB; Mon,  3 Feb 2020 17:11:35 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1580710294;
- bh=1yWoeBrTfY8fxl3oZ9HWzpgPtT2+m2k9YK8vcQscFig=;
+ d=gibson.dropbear.id.au; s=201602; t=1580710295;
+ bh=5sM9Lz2RmC8JDBadeQkrCEvJ50g3Y0oRMAd6UT8RVTA=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=P2BE1xTol8CkmTM1Lxy5VPkM/ZU4KqUo2XFTKYHDCj+9tHjHSwZJwU2g7OASkBqqQ
- X7vhg3r58m8ppAKmeI3VaTcaVIs4tvlK9O2KL6X/t0tmZ+Y8VIE8l1kDZhxPk2eFin
- Ae44azfB5GDWdwCSxGzr1p7QnUryX5qtIuWfZz6k=
+ b=Ec0b6pyvH4a9697DR7i0cUUZ4UHB6YR/1ljm/78ApANeS1oxKvgj/IRT5Df14bUn2
+ Hv2kEjdAtKqsrKgNWDoCmNaDGSzIYXGBXv8S/4exmWidyTaLsCG8a3/89cYe3pTNJG
+ Sx8W6i95x69oK142c3Zf1U8gcSGoujUrpf3mVGWA=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 32/35] target/ppc: Use probe_access for LMW, STMW
-Date: Mon,  3 Feb 2020 17:11:20 +1100
-Message-Id: <20200203061123.59150-33-david@gibson.dropbear.id.au>
+Subject: [PULL 34/35] target/ppc: Use probe_write for DCBZ
+Date: Mon,  3 Feb 2020 17:11:22 +1100
+Message-Id: <20200203061123.59150-35-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200203061123.59150-1-david@gibson.dropbear.id.au>
 References: <20200203061123.59150-1-david@gibson.dropbear.id.au>
@@ -62,86 +62,31 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-Use a minimum number of mmu lookups for the contiguous bytes
-that are accessed.  If the lookup succeeds, we can finish the
-operation with host addresses only.
+Using probe_write instead of tlb_vaddr_to_host means that we
+process watchpoints and notdirty pages more efficiently.
 
-Reported-by: Howard Spoelstra <hsp.cat7@gmail.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20200129235040.24022-3-richard.henderson@linaro.org>
+Message-Id: <20200129235040.24022-5-richard.henderson@linaro.org>
 Tested-by: Howard Spoelstra <hsp.cat7@gmail.com>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- target/ppc/mem_helper.c | 45 +++++++++++++++++++++++++++++------------
- 1 file changed, 32 insertions(+), 13 deletions(-)
+ target/ppc/mem_helper.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/target/ppc/mem_helper.c b/target/ppc/mem_helper.c
-index 508d472a2f..e7d3a79d96 100644
+index 0cb78777e7..98f589552b 100644
 --- a/target/ppc/mem_helper.c
 +++ b/target/ppc/mem_helper.c
-@@ -84,26 +84,45 @@ static void *probe_contiguous(CPUPPCState *env, targe=
-t_ulong addr, uint32_t nb,
-=20
- void helper_lmw(CPUPPCState *env, target_ulong addr, uint32_t reg)
- {
--    for (; reg < 32; reg++) {
--        if (needs_byteswap(env)) {
--            env->gpr[reg] =3D bswap32(cpu_ldl_data_ra(env, addr, GETPC()=
-));
--        } else {
--            env->gpr[reg] =3D cpu_ldl_data_ra(env, addr, GETPC());
-+    uintptr_t raddr =3D GETPC();
-+    int mmu_idx =3D cpu_mmu_index(env, false);
-+    void *host =3D probe_contiguous(env, addr, (32 - reg) * 4,
-+                                  MMU_DATA_LOAD, mmu_idx, raddr);
-+
-+    if (likely(host)) {
-+        /* Fast path -- the entire operation is in RAM at host.  */
-+        for (; reg < 32; reg++) {
-+            env->gpr[reg] =3D (uint32_t)ldl_be_p(host);
-+            host +=3D 4;
-+        }
-+    } else {
-+        /* Slow path -- at least some of the operation requires i/o.  */
-+        for (; reg < 32; reg++) {
-+            env->gpr[reg] =3D cpu_ldl_mmuidx_ra(env, addr, mmu_idx, radd=
-r);
-+            addr =3D addr_add(env, addr, 4);
-         }
--        addr =3D addr_add(env, addr, 4);
+@@ -298,7 +298,7 @@ static void dcbz_common(CPUPPCState *env, target_ulon=
+g addr,
      }
- }
 =20
- void helper_stmw(CPUPPCState *env, target_ulong addr, uint32_t reg)
- {
--    for (; reg < 32; reg++) {
--        if (needs_byteswap(env)) {
--            cpu_stl_data_ra(env, addr, bswap32((uint32_t)env->gpr[reg]),
--                                                   GETPC());
--        } else {
--            cpu_stl_data_ra(env, addr, (uint32_t)env->gpr[reg], GETPC())=
-;
-+    uintptr_t raddr =3D GETPC();
-+    int mmu_idx =3D cpu_mmu_index(env, false);
-+    void *host =3D probe_contiguous(env, addr, (32 - reg) * 4,
-+                                  MMU_DATA_STORE, mmu_idx, raddr);
-+
-+    if (likely(host)) {
-+        /* Fast path -- the entire operation is in RAM at host.  */
-+        for (; reg < 32; reg++) {
-+            stl_be_p(host, env->gpr[reg]);
-+            host +=3D 4;
-+        }
-+    } else {
-+        /* Slow path -- at least some of the operation requires i/o.  */
-+        for (; reg < 32; reg++) {
-+            cpu_stl_mmuidx_ra(env, addr, env->gpr[reg], mmu_idx, raddr);
-+            addr =3D addr_add(env, addr, 4);
-         }
--        addr =3D addr_add(env, addr, 4);
-     }
- }
-=20
+     /* Try fast path translate */
+-    haddr =3D tlb_vaddr_to_host(env, addr, MMU_DATA_STORE, mmu_idx);
++    haddr =3D probe_write(env, addr, dcbz_size, mmu_idx, retaddr);
+     if (haddr) {
+         memset(haddr, 0, dcbz_size);
+     } else {
 --=20
 2.24.1
 
