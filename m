@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB50D1508DC
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Feb 2020 15:57:51 +0100 (CET)
-Received: from localhost ([::1]:42666 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45BA11508D6
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Feb 2020 15:55:47 +0100 (CET)
+Received: from localhost ([::1]:42584 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iydAb-0001pK-RU
-	for lists+qemu-devel@lfdr.de; Mon, 03 Feb 2020 09:57:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44755)
+	id 1iyd8c-0005Wa-9M
+	for lists+qemu-devel@lfdr.de; Mon, 03 Feb 2020 09:55:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44771)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iyd0i-000761-AA
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 09:47:37 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1iyd0j-00079n-KQ
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 09:47:38 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iyd0h-0003Lj-9i
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 09:47:36 -0500
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:37182)
+ (envelope-from <richard.henderson@linaro.org>) id 1iyd0i-0003NN-FM
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 09:47:37 -0500
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:55601)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iyd0g-0003L8-Jp
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 09:47:35 -0500
-Received: by mail-wr1-x444.google.com with SMTP id w15so18557027wru.4
- for <qemu-devel@nongnu.org>; Mon, 03 Feb 2020 06:47:34 -0800 (PST)
+ id 1iyd0i-0003Lr-7z
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 09:47:36 -0500
+Received: by mail-wm1-x341.google.com with SMTP id q9so16197249wmj.5
+ for <qemu-devel@nongnu.org>; Mon, 03 Feb 2020 06:47:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=pbTFZCO7ADOXNmgFtzr7ygDnLBWMHSNndfGhWIzZQwI=;
- b=RzAX5rZP5/FBD+yNLHkwMSd679Kwq78O9fLcdmxWoX84EZT6LgKiqA+BqzMJ4v6yXv
- b4n7SPSFpeFUXYIF9Bn1Yxb7oL7FcNWfXgA39wPGPyhp2MR3nOcAc8HX0tkoMcGKy7d3
- Jw+/0xkPHTvbACleBLlk0m/dbNBC64+RBuwlYm6cAnPpR6eeKNp4d6axI9dSb5ramOf0
- bLRZUnUMJEZDF/GWGFH1iCDLsWILjHramcxVCvnE40vtrMI3N1poh3Tu4YmKWtFbX+53
- LycjB8ux8nVQO4zT7AHgzeLhlafnIgKW0A+SMqqLx0bCXrnBndbDHoEhyrEnuztORM4M
- OuHw==
+ bh=wrkzS6FRdoEngMPC4+Uz0wTjeXPKrRoSSZpCbAQkd2I=;
+ b=jgremrvH46XWHnkFF9TFiUtcMcONvE0F2XV8SUqEwKWzcDDgPWD7Z3duoxnST+vaJk
+ bbFmpaCrdtikrFMCnJItFCFU2ES3CVOgivs/kRm4tP+bQM6V/OhxXlkte9W4gOfd01lU
+ XgiMZ2JsnDlvFUP56atlBqjzrvjFPNgErOyycgIF9olKsNI2jYLyV/0s23BuL8oy8/uY
+ KBNdKWrYIQNluk9OQSlo/EmNUD7hZZvxRtQ7uju4jbJwpWyTlKwW6EX8RRoErCLuULb5
+ KFzQcWJurO0SZXQ8YveWRbmZCITjuTl3x6VUOx4/V8jtIxlXBcKykryEekOuUKnVUI8O
+ 0+Zw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=pbTFZCO7ADOXNmgFtzr7ygDnLBWMHSNndfGhWIzZQwI=;
- b=qCL63cgrNdhHl3bx18dTXeqMeXUY1dvOZMRQoFqv3bYCafzl+aRA6eyqZVclJQKEpA
- MOnkE4+td50geh2CTu7ZU8ZB4IHxCMKisti9wqoO8X1CkX73r/+yfq/D+OYqVMey8TNF
- f9gCbApxBQbOo7JTegAD7mmrnwpyjQY6ig7a2RioPQ9wZZME8sg3zsvfkXK//5y85gOl
- qEIQttWCRfRplTv7Mwt7PBFlLY6ol0EmUHZ/RdnWpuF6JdI09qPjTI7Ss/qb120JqBYq
- cpsVO9B33V1M6EX5FILzcDorLNfW5n8/ZpWdgzil6kgtusgOnWASt1oUjIGlEBqJ4Lm5
- 6OKg==
-X-Gm-Message-State: APjAAAVmYc2dmrfKIBJZ2BjwuLh6VXhFu3jfpUW2lNcnszn0ySrolq1r
- 5WL3mW//mDtAFTloe7MIfY2/K4vljZUQ5g==
-X-Google-Smtp-Source: APXvYqzG+CCELV5hLIIj8g4ne/4b7VD24A+RUsT87T/yAId+tY2iBh/KHpmO3qCjbX+Q9CX/TUHTaw==
-X-Received: by 2002:adf:de0b:: with SMTP id b11mr13585826wrm.89.1580741253484; 
- Mon, 03 Feb 2020 06:47:33 -0800 (PST)
+ bh=wrkzS6FRdoEngMPC4+Uz0wTjeXPKrRoSSZpCbAQkd2I=;
+ b=FR4waD/ZDEKqnnKaOG5kZJz7WpSOBfTuqYu9KJSJJL4CzF7CvqRS5e00UX7NaA19v+
+ zwOdoOG/f9ovHMd11phTDc+ZZpeN5jEDQOA88z+hE2dXoISENX9z0hbs5x6trNrRAQGv
+ RpfVsYfFajE/Q8CEtHNJzK1LEhdkmFrFKlQmag8NMHMgBHgK/jIwVKyiOo2p9ErX4RJw
+ tRyNeYq8CxolJDx0d6Bqq0EXt2K4iAhIuMj+MXNTd4Z3RwyxFUTjNLh5ai1MjvY0LQ2q
+ xFpwLMJnG3J0JtnuMbFRuqLAOvRv/MNbgNB7WZJ9xeGZIMiRwtFi6Zn7HS5ICf5MYQVM
+ 2Mhw==
+X-Gm-Message-State: APjAAAUlGjogU3rG2BI40j5gKtOvl6/4vOItliRVjL5VYgw/qWwOvqzD
+ 8lXcxcgpxbds+lPeJhvTP2D6bY5v45OjGQ==
+X-Google-Smtp-Source: APXvYqxQfdoq4ol+peGQwPnJ0QtyheU7OJgee53HQrJ7Z4Vr+7MSEpG2gg3WVyu6qS5awcSv93qs8A==
+X-Received: by 2002:a05:600c:2c13:: with SMTP id
+ q19mr30318792wmg.144.1580741255001; 
+ Mon, 03 Feb 2020 06:47:35 -0800 (PST)
 Received: from cloudburst.c.hoisthospitality.com ([135.196.99.211])
- by smtp.gmail.com with ESMTPSA id h2sm26429739wrt.45.2020.02.03.06.47.32
+ by smtp.gmail.com with ESMTPSA id h2sm26429739wrt.45.2020.02.03.06.47.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 03 Feb 2020 06:47:32 -0800 (PST)
+ Mon, 03 Feb 2020 06:47:33 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 16/20] target/arm: Enable ARMv8.2-ATS1E1 in -cpu max
-Date: Mon,  3 Feb 2020 14:47:12 +0000
-Message-Id: <20200203144716.32204-17-richard.henderson@linaro.org>
+Subject: [PATCH v3 17/20] target/arm: Add ID_AA64MMFR2_EL1
+Date: Mon,  3 Feb 2020 14:47:13 +0000
+Message-Id: <20200203144716.32204-18-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200203144716.32204-1-richard.henderson@linaro.org>
 References: <20200203144716.32204-1-richard.henderson@linaro.org>
@@ -65,7 +66,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::444
+X-Received-From: 2a00:1450:4864:20::341
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,53 +82,84 @@ Cc: peter.maydell@linaro.org, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This includes enablement of ARMv8.1-PAN.
+Add definitions for all of the fields, up to ARMv8.5.
+Convert the existing RESERVED register to a full register.
+Query KVM for the value of the register for the host.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/cpu.c   | 4 ++++
- target/arm/cpu64.c | 5 +++++
- 2 files changed, 9 insertions(+)
+ target/arm/cpu.h    | 17 +++++++++++++++++
+ target/arm/helper.c |  4 ++--
+ target/arm/kvm64.c  |  2 ++
+ 3 files changed, 21 insertions(+), 2 deletions(-)
 
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index b0762a76c4..de733aceeb 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -2709,6 +2709,10 @@ static void arm_max_initfn(Object *obj)
-             t = FIELD_DP32(t, MVFR2, FPMISC, 4);   /* FP MaxNum */
-             cpu->isar.mvfr2 = t;
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index 65a0ef8cd6..71879393c2 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -871,6 +871,7 @@ struct ARMCPU {
+         uint64_t id_aa64pfr1;
+         uint64_t id_aa64mmfr0;
+         uint64_t id_aa64mmfr1;
++        uint64_t id_aa64mmfr2;
+     } isar;
+     uint32_t midr;
+     uint32_t revidr;
+@@ -1803,6 +1804,22 @@ FIELD(ID_AA64MMFR1, PAN, 20, 4)
+ FIELD(ID_AA64MMFR1, SPECSEI, 24, 4)
+ FIELD(ID_AA64MMFR1, XNX, 28, 4)
  
-+            t = cpu->id_mmfr3;
-+            t = FIELD_DP32(t, ID_MMFR3, PAN, 2); /* ATS1E1 */
-+            cpu->id_mmfr3 = t;
++FIELD(ID_AA64MMFR2, CNP, 0, 4)
++FIELD(ID_AA64MMFR2, UAO, 4, 4)
++FIELD(ID_AA64MMFR2, LSM, 8, 4)
++FIELD(ID_AA64MMFR2, IESB, 12, 4)
++FIELD(ID_AA64MMFR2, VARANGE, 16, 4)
++FIELD(ID_AA64MMFR2, CCIDX, 20, 4)
++FIELD(ID_AA64MMFR2, NV, 24, 4)
++FIELD(ID_AA64MMFR2, ST, 28, 4)
++FIELD(ID_AA64MMFR2, AT, 32, 4)
++FIELD(ID_AA64MMFR2, IDS, 36, 4)
++FIELD(ID_AA64MMFR2, FWB, 40, 4)
++FIELD(ID_AA64MMFR2, TTL, 48, 4)
++FIELD(ID_AA64MMFR2, BBM, 52, 4)
++FIELD(ID_AA64MMFR2, EVT, 56, 4)
++FIELD(ID_AA64MMFR2, E0PD, 60, 4)
 +
-             t = cpu->id_mmfr4;
-             t = FIELD_DP32(t, ID_MMFR4, HPDS, 1); /* AA32HPD */
-             cpu->id_mmfr4 = t;
-diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-index c80fb5fd43..57fbc5eade 100644
---- a/target/arm/cpu64.c
-+++ b/target/arm/cpu64.c
-@@ -673,6 +673,7 @@ static void aarch64_max_initfn(Object *obj)
-         t = FIELD_DP64(t, ID_AA64MMFR1, HPDS, 1); /* HPD */
-         t = FIELD_DP64(t, ID_AA64MMFR1, LO, 1);
-         t = FIELD_DP64(t, ID_AA64MMFR1, VH, 1);
-+        t = FIELD_DP64(t, ID_AA64MMFR1, PAN, 2); /* ATS1E1 */
-         cpu->isar.id_aa64mmfr1 = t;
+ FIELD(ID_DFR0, COPDBG, 0, 4)
+ FIELD(ID_DFR0, COPSDBG, 4, 4)
+ FIELD(ID_DFR0, MMAPDBG, 8, 4)
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index e69cde801f..a48f37dc05 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -7082,11 +7082,11 @@ void register_cp_regs_for_features(ARMCPU *cpu)
+               .access = PL1_R, .type = ARM_CP_CONST,
+               .accessfn = access_aa64_tid3,
+               .resetvalue = cpu->isar.id_aa64mmfr1 },
+-            { .name = "ID_AA64MMFR2_EL1_RESERVED", .state = ARM_CP_STATE_AA64,
++            { .name = "ID_AA64MMFR2_EL1", .state = ARM_CP_STATE_AA64,
+               .opc0 = 3, .opc1 = 0, .crn = 0, .crm = 7, .opc2 = 2,
+               .access = PL1_R, .type = ARM_CP_CONST,
+               .accessfn = access_aa64_tid3,
+-              .resetvalue = 0 },
++              .resetvalue = cpu->isar.id_aa64mmfr2 },
+             { .name = "ID_AA64MMFR3_EL1_RESERVED", .state = ARM_CP_STATE_AA64,
+               .opc0 = 3, .opc1 = 0, .crn = 0, .crm = 7, .opc2 = 3,
+               .access = PL1_R, .type = ARM_CP_CONST,
+diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
+index fb21ab9e73..3bae9e4a66 100644
+--- a/target/arm/kvm64.c
++++ b/target/arm/kvm64.c
+@@ -549,6 +549,8 @@ bool kvm_arm_get_host_cpu_features(ARMHostCPUFeatures *ahcf)
+                               ARM64_SYS_REG(3, 0, 0, 7, 0));
+         err |= read_sys_reg64(fdarray[2], &ahcf->isar.id_aa64mmfr1,
+                               ARM64_SYS_REG(3, 0, 0, 7, 1));
++        err |= read_sys_reg64(fdarray[2], &ahcf->isar.id_aa64mmfr2,
++                              ARM64_SYS_REG(3, 0, 0, 7, 2));
  
-         /* Replicate the same data to the 32-bit id registers.  */
-@@ -693,6 +694,10 @@ static void aarch64_max_initfn(Object *obj)
-         u = FIELD_DP32(u, ID_ISAR6, SPECRES, 1);
-         cpu->isar.id_isar6 = u;
- 
-+        u = cpu->id_mmfr3;
-+        u = FIELD_DP32(u, ID_MMFR3, PAN, 2); /* ATS1E1 */
-+        cpu->id_mmfr3 = u;
-+
          /*
-          * FIXME: We do not yet support ARMv8.2-fp16 for AArch32 yet,
-          * so do not set MVFR1.FPHP.  Strictly speaking this is not legal,
+          * Note that if AArch32 support is not present in the host,
 -- 
 2.20.1
 
