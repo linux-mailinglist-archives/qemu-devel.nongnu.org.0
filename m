@@ -2,62 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F24E4150A08
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Feb 2020 16:42:39 +0100 (CET)
-Received: from localhost ([::1]:43558 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95965150A11
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Feb 2020 16:43:52 +0100 (CET)
+Received: from localhost ([::1]:43598 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iydrz-0002yg-29
-	for lists+qemu-devel@lfdr.de; Mon, 03 Feb 2020 10:42:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33861)
+	id 1iydt9-0005lT-M5
+	for lists+qemu-devel@lfdr.de; Mon, 03 Feb 2020 10:43:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34067)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <rsta2@o2online.de>) id 1iydr2-0001uX-FM
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 10:41:41 -0500
+ (envelope-from <eblake@redhat.com>) id 1iydrh-0003DG-82
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 10:42:22 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <rsta2@o2online.de>) id 1iydr1-000215-E3
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 10:41:40 -0500
-Received: from mail1435c50.megamailservers.eu ([91.136.14.35]:41358
- helo=mail263c50.megamailservers.eu)
+ (envelope-from <eblake@redhat.com>) id 1iydrg-0003AG-9z
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 10:42:21 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:49107
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <rsta2@o2online.de>)
- id 1iydqy-0001tq-Oo; Mon, 03 Feb 2020 10:41:37 -0500
-X-Authenticated-User: 017626146082@o2online.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=megamailservers.eu;
- s=maildub; t=1580744486;
- bh=QTJef+DzqUhDQ+nd29Yk4LBl/lJkvW8jGVKtJ4KgJw8=;
- h=From:To:Cc:Subject:Date:From;
- b=UoCSsSyKTUZ69FPe+l4xzJJro60ZphU1YdcJn/kh8lAts3iwLqazwT/DdFOY3bE8U
- 1tY83Zc/b07BEQUfZtE1aHsD5PILcE7ncDHQu0cJ22LQaMW9L5Dll9R9YnWOq43m/A
- hkbeT4+f7a1scNcKKBJ+BR2OfZfNINnJoNMNtWMs=
-Feedback-ID: rsta2@o2online.
-Received: from desktop2.localnet (178-21-1-177.ilmprovider.net [178.21.1.177])
- (authenticated bits=0)
- by mail263c50.megamailservers.eu (8.14.9/8.13.1) with ESMTP id 013FfOWF024492
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
- Mon, 3 Feb 2020 15:41:25 +0000
-From: Rene Stange <rsta2@o2online.de>
-To: Philippe =?ISO-8859-1?Q?Mathieu=2DDaud=E9?= <philmd@redhat.com>
-Subject: [PATCH v2 1/2] bcm2835_dma: Fix the ylen loop in TD mode
-Date: Mon, 03 Feb 2020 16:40:29 +0100
-Message-ID: <11456775.FKKu9GnblS@desktop2>
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1iydrg-00038w-5s
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 10:42:20 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1580744539;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=p+Cn5oG+xWZibEU04owE46pVxJEhd9qc+G+O42uF4sM=;
+ b=NK+1cT7nd/J/UPcxFnH9aMvN9f7iTV50U7r/Zg2bj4O59zKy2RFcufU47HeSnRFJSmuGVP
+ 5pk/6/xl3w5qUgDPDuY8NriRZnUiIRegSNgbmEz/BV2IOXs+3CBkqySPhgvRo9BRiR8g7j
+ +/B0yTNmuyr9GMgH+1oeg/wIhFGuMqA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-139-8RW5sF5GMjeirqgPQOkqwg-1; Mon, 03 Feb 2020 10:42:12 -0500
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6CAAB10CE792;
+ Mon,  3 Feb 2020 15:42:11 +0000 (UTC)
+Received: from [10.3.116.181] (ovpn-116-181.phx2.redhat.com [10.3.116.181])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 08F3D1BC6D;
+ Mon,  3 Feb 2020 15:42:10 +0000 (UTC)
+Subject: Re: [PATCH v2] block/backup-top: fix flags handling
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20200203134213.2173-1-vsementsov@virtuozzo.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <e93d8452-cb06-0342-be9f-176e2b50e24f@redhat.com>
+Date: Mon, 3 Feb 2020 09:42:10 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-CTCH-RefID: str=0001.0A0B020F.5E383F26.0008, ss=1, re=0.000, recu=0.000,
- reip=0.000, cl=1, cld=1, fgs=0
-X-CTCH-VOD: Unknown
-X-CTCH-Spam: Unknown
-X-CTCH-Score: 0.000
-X-CTCH-Rules: 
-X-CTCH-Flags: 0
-X-CTCH-ScoreCust: 0.000
-X-CSC: 0
-X-CHA: v=2.3 cv=II989TnG c=1 sm=1 tr=0 a=oFQkuSNlBNCQRuITVo1IXg==:117
- a=oFQkuSNlBNCQRuITVo1IXg==:17 a=kj9zAlcOel0A:10 a=SOEOR7H8F5O26m7KmmIA:9
- a=CjuIK1q_8ugA:10
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x (no
- timestamps) [generic]
-X-Received-From: 91.136.14.35
+In-Reply-To: <20200203134213.2173-1-vsementsov@virtuozzo.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-MC-Unique: 8RW5sF5GMjeirqgPQOkqwg-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -69,48 +76,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm <qemu-arm@nongnu.org>,
- qemu-devel <qemu-devel@nongnu.org>,
- Andrew Baumann <andrew.baumann@microsoft.com>
+Cc: kwolf@redhat.com, qemu-devel@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In TD (two dimensions) DMA mode ylen has to be increased by one after
-reading it from the TXFR_LEN register, because a value of zero has to
-result in one run through of the ylen loop. This has been tested on a
-real Raspberry Pi 3 Model B+. In the previous implementation the ylen
-loop was not passed at all for a value of zero.
+On 2/3/20 7:42 AM, Vladimir Sementsov-Ogievskiy wrote:
+> backup-top "supports" write-unchanged, by skipping CBW operation in
+> backup_top_co_pwritev. But it forgets to do the same in
+> backup_top_co_pwrite_zeroes, as well as declare support for
+> BDRV_REQ_WRITE_UNCHANGED.
+> 
+> Fix this, and, while being here, declare also support for flags
+> supported by source child.
+> 
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
 
-Signed-off-by: Rene Stange <rsta2@o2online.de>
----
- hw/dma/bcm2835_dma.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
-diff --git a/hw/dma/bcm2835_dma.c b/hw/dma/bcm2835_dma.c
-index 1e458d7fba..667d951a6f 100644
---- a/hw/dma/bcm2835_dma.c
-+++ b/hw/dma/bcm2835_dma.c
-@@ -70,14 +70,14 @@ static void bcm2835_dma_update(BCM2835DMAState *s, unsigned c)
-         ch->stride = ldl_le_phys(&s->dma_as, ch->conblk_ad + 16);
-         ch->nextconbk = ldl_le_phys(&s->dma_as, ch->conblk_ad + 20);
- 
-+        ylen = 1;
-         if (ch->ti & BCM2708_DMA_TDMODE) {
-             /* 2D transfer mode */
--            ylen = (ch->txfr_len >> 16) & 0x3fff;
-+            ylen += (ch->txfr_len >> 16) & 0x3fff;
-             xlen = ch->txfr_len & 0xffff;
-             dst_stride = ch->stride >> 16;
-             src_stride = ch->stride & 0xffff;
-         } else {
--            ylen = 1;
-             xlen = ch->txfr_len;
-             dst_stride = 0;
-             src_stride = 0;
 -- 
-2.16.4
-
-
-
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
