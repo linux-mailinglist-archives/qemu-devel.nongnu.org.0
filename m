@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28544150643
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Feb 2020 13:39:39 +0100 (CET)
-Received: from localhost ([::1]:39270 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DACD150644
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Feb 2020 13:39:40 +0100 (CET)
+Received: from localhost ([::1]:39272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iyb0s-0005md-03
-	for lists+qemu-devel@lfdr.de; Mon, 03 Feb 2020 07:39:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56395)
+	id 1iyb0t-0005nl-7D
+	for lists+qemu-devel@lfdr.de; Mon, 03 Feb 2020 07:39:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56390)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1iyazh-0004Ad-DZ
+ (envelope-from <thuth@redhat.com>) id 1iyazh-0004AZ-DQ
  for qemu-devel@nongnu.org; Mon, 03 Feb 2020 07:38:27 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1iyazf-0005tC-Pj
+ (envelope-from <thuth@redhat.com>) id 1iyazf-0005so-CU
  for qemu-devel@nongnu.org; Mon, 03 Feb 2020 07:38:24 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:20748
- helo=us-smtp-1.mimecast.com)
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:36833
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iyazf-0005se-MF
+ (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iyazf-0005sN-4n
  for qemu-devel@nongnu.org; Mon, 03 Feb 2020 07:38:23 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580733503;
+ s=mimecast20190719; t=1580733502;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=k6/LVvVdvTBXToTqtH5+/eNKJXXvrIEAC/8NKwBkjNk=;
- b=bT3OVhiRNr3ePv6+jyXDId6VTKDsyiIC8O6fomW3J2QmTbjdyJKv46TqblXYnrpq4PRmhl
- EJ2bK62wZ+EAZccV33DdNKQVP1x89Et59+GxGZ1QHU/T5dkmZmId3ZyoJ5WnJA7oHSh8sF
- 2HIoxHLaa029kMGm3XmQj1nZeMro7eg=
+ bh=LJilRfYtd3vzWt3fBnOtG6fsCC0tEIP3/zOTdycco0k=;
+ b=WHI89j9+ewVzrVNGoWDUtUYuHnM5/nii1TU1wsMLWVDRh5ZdhGzDoy+2IX1TZ5TbQlGhOz
+ YhtCYB7BI6CauNuE9f9fvNfao5RqzCFMCzHrygod/cXbL67ChqOqqJFqbKhPsWwalSM6VT
+ WijQaze2VsmaOuBUN5eLXuo/mAonVwA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-324-TmwnHpnqM92Rha7sSYz3_g-1; Mon, 03 Feb 2020 07:38:18 -0500
+ us-mta-322-n4YD75-JNpGM16zN78PqIw-1; Mon, 03 Feb 2020 07:38:20 -0500
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DC462100550E;
- Mon,  3 Feb 2020 12:38:17 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 615A4107ACC7;
+ Mon,  3 Feb 2020 12:38:19 +0000 (UTC)
 Received: from thuth.com (ovpn-116-129.ams2.redhat.com [10.36.116.129])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C8565196BD;
- Mon,  3 Feb 2020 12:38:16 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5542561070;
+ Mon,  3 Feb 2020 12:38:18 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 01/13] test-logging: Fix -Werror=maybe-uninitialized warning
-Date: Mon,  3 Feb 2020 13:37:59 +0100
-Message-Id: <20200203123811.8651-2-thuth@redhat.com>
+Subject: [PULL 02/13] tests/vhost-user-bridge: Fix build
+Date: Mon,  3 Feb 2020 13:38:00 +0100
+Message-Id: <20200203123811.8651-3-thuth@redhat.com>
 In-Reply-To: <20200203123811.8651-1-thuth@redhat.com>
 References: <20200203123811.8651-1-thuth@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: TmwnHpnqM92Rha7sSYz3_g-1
+X-MC-Unique: n4YD75-JNpGM16zN78PqIw-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,53 +70,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Miroslav Rezanina <mrezanin@redhat.com>
+Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Miroslav Rezanina <mrezanin@redhat.com>
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-Checking for uninitialized variables raises warning for file path
-variables in test_logfile_write and test_logfile_lock functions.
+vhost-user-bridge isn't actually a test, it's just a helper
+(that should probably move somewhere else) - but the build was
+broken in the qtest move.
 
-To suppress this warning, initialize varibles to NULL. This is safe
-change as result of g_build_filename is stored to them before any usage.
-
-Signed-off-by: Miroslav Rezanina <mrezanin@redhat.com>
-Message-Id: <63b0fcedf7dfe799c8210b113e5dccf32414a89d.1579598240.git.mrezan=
-in@redhat.com>
+Fixes: 833884f37adc9f125fa2
+Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Message-Id: <20200117122648.137862-1-dgilbert@redhat.com>
 Reviewed-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Robert Foley <robert.foley@linaro.org>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/test-logging.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ tests/Makefile.include       | 1 +
+ tests/qtest/Makefile.include | 1 -
+ 2 files changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tests/test-logging.c b/tests/test-logging.c
-index 1e646f045d..6387e4933f 100644
---- a/tests/test-logging.c
-+++ b/tests/test-logging.c
-@@ -114,8 +114,8 @@ static void test_logfile_write(gconstpointer data)
-     QemuLogFile *logfile2;
-     gchar const *dir =3D data;
-     Error *err =3D NULL;
--    g_autofree gchar *file_path;
--    g_autofree gchar *file_path1;
-+    g_autofree gchar *file_path =3D NULL;
-+    g_autofree gchar *file_path1 =3D NULL;
-     FILE *orig_fd;
+diff --git a/tests/Makefile.include b/tests/Makefile.include
+index a1bff5dcce..fe63fec5f1 100644
+--- a/tests/Makefile.include
++++ b/tests/Makefile.include
+@@ -586,6 +586,7 @@ include $(SRC_PATH)/tests/qtest/Makefile.include
 =20
-     /*
-@@ -157,7 +157,7 @@ static void test_logfile_lock(gconstpointer data)
-     FILE *logfile;
-     gchar const *dir =3D data;
-     Error *err =3D NULL;
--    g_autofree gchar *file_path;
-+    g_autofree gchar *file_path =3D NULL;
+ tests/test-qga$(EXESUF): qemu-ga$(EXESUF)
+ tests/test-qga$(EXESUF): tests/test-qga.o $(qtest-obj-y)
++tests/vhost-user-bridge$(EXESUF): tests/vhost-user-bridge.o $(test-util-ob=
+j-y) libvhost-user.a
 =20
-     file_path =3D g_build_filename(dir, "qemu_test_logfile_lock0.log", NUL=
-L);
+ SPEED =3D quick
 =20
+diff --git a/tests/qtest/Makefile.include b/tests/qtest/Makefile.include
+index e6bb4ab28c..eb0f23b108 100644
+--- a/tests/qtest/Makefile.include
++++ b/tests/qtest/Makefile.include
+@@ -290,7 +290,6 @@ tests/qtest/test-filter-redirector$(EXESUF): tests/qtes=
+t/test-filter-redirector.
+ tests/qtest/test-x86-cpuid-compat$(EXESUF): tests/qtest/test-x86-cpuid-com=
+pat.o $(qtest-obj-y)
+ tests/qtest/ivshmem-test$(EXESUF): tests/qtest/ivshmem-test.o contrib/ivsh=
+mem-server/ivshmem-server.o $(libqos-pc-obj-y) $(libqos-spapr-obj-y)
+ tests/qtest/dbus-vmstate-test$(EXESUF): tests/qtest/dbus-vmstate-test.o te=
+sts/qtest/migration-helpers.o tests/qtest/dbus-vmstate1.o $(libqos-pc-obj-y=
+) $(libqos-spapr-obj-y)
+-tests/qtest/vhost-user-bridge$(EXESUF): tests/qtest/vhost-user-bridge.o $(=
+test-util-obj-y) libvhost-user.a
+ tests/qtest/test-arm-mptimer$(EXESUF): tests/qtest/test-arm-mptimer.o
+ tests/qtest/numa-test$(EXESUF): tests/qtest/numa-test.o
+ tests/qtest/vmgenid-test$(EXESUF): tests/qtest/vmgenid-test.o tests/qtest/=
+boot-sector.o tests/qtest/acpi-utils.o
 --=20
 2.18.1
 
