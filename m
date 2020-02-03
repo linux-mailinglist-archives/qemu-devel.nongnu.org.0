@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 874161508CA
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Feb 2020 15:52:38 +0100 (CET)
-Received: from localhost ([::1]:42486 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D4851508C5
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Feb 2020 15:51:19 +0100 (CET)
+Received: from localhost ([::1]:42410 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iyd5Z-0006uA-JR
-	for lists+qemu-devel@lfdr.de; Mon, 03 Feb 2020 09:52:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44619)
+	id 1iyd4I-0003OY-JH
+	for lists+qemu-devel@lfdr.de; Mon, 03 Feb 2020 09:51:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44641)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1iyd0a-0006me-3q
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 09:47:29 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1iyd0b-0006qP-6f
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 09:47:30 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1iyd0Z-0003De-1M
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 09:47:27 -0500
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:37780)
+ (envelope-from <richard.henderson@linaro.org>) id 1iyd0a-0003Fb-56
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 09:47:29 -0500
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:52393)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1iyd0Y-0003CI-RT
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 09:47:26 -0500
-Received: by mail-wm1-x343.google.com with SMTP id f129so17476863wmf.2
- for <qemu-devel@nongnu.org>; Mon, 03 Feb 2020 06:47:26 -0800 (PST)
+ id 1iyd0Z-0003EX-VJ
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 09:47:28 -0500
+Received: by mail-wm1-x342.google.com with SMTP id p9so16235633wmc.2
+ for <qemu-devel@nongnu.org>; Mon, 03 Feb 2020 06:47:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Ovq6zgHOTulKMgq/xQFAYxCo50RIglYC4qMYC5kDj6w=;
- b=auU1JfQwFWFbSUdQSiEFjkA4aOa1gGSpGsPZWvy7UkWbApt8hct8aS0C2/+Ue5mRdn
- gpRNX9L/4dTUTUGP3ry3vGw/j9pC5U6cgamZMaN7nmcZJgnYS0ZStyz8vMqNgW+dQkIm
- dZ0EfrYf8R/EC+7xxFjiIr6x4iW26SEdp/mM5UxaLEu8H9763pYJu3YcxxQ6H57hrIey
- uRSKax1b+ci9FL78j5xjON8ctRT0v2B40+QIXhYpXqNmHS7Wf4tBT8T/pJ7p956nbNKD
- OZW6QnNHg8Mh+o+UCWgOeG9b7sf07qGFdv7UnBQk8OaFjDFSchkxqfNmqqqmHhoQ/EOv
- vw8g==
+ bh=C0PdOrMCFpbNK82WNUW0H1iqrpAaqeLX3nijX9wXiI0=;
+ b=blArgvmAvO/Dvnfmg9Ej5qvcGd3b2fg7n3cAkZ4oJnEwjP4QPH3YqLR2xALFzwFjy4
+ OcA3FFA9loP5rTfVlmEDT5fzwjr2xw62EvWCpDEYuwKOZMjuXnp08ETJOuznLQF7VZbg
+ Fjwvn8ALcoDzURyxaxvt5qgixkrl66lTjhRuspLoBW+ry5OtrtdjbZ5h12aovHtHZ3eR
+ MVEqo6TH5uIwtHSSalzIcNH4uJ4jSPtngLPo1GWcjEHeyoY7NSgE9KV3LQgUwtYV5E24
+ vt5r2pMibeF7AnabDE23vpV5sNv027GwkrvtlAMeC0ToCbPK6NtafWGb4ACKGICLaC9Z
+ PJ+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Ovq6zgHOTulKMgq/xQFAYxCo50RIglYC4qMYC5kDj6w=;
- b=aJzmady6C4X00TFEz6MeH9/+tnCJgmz9LTzZb8KlOs6WbMuaxova+uicXwA7OeeARW
- t/vRYX82ezzUxcHItZxOxlpCYgzvQn2NmdpIlz3rXM8nEH9qFs0vfbM2z7yRJBtK9aQj
- FUp5G9tVrV2dBWCFbk5iKBpRQIvwmpNvZL9HBO57ujHqRBAkBnqJKEKukWcdrumZEmXu
- CtDHxl7nEsAmTxTut3ykCv5E1fW9Hhcn5fg4qC6xldWOSQLoklV8NQ7VIFQrFpPYTAK2
- Hp8GXJiqDHCxkWM/0tslAUuj+8zATKmEHlSdelAEBHFu231R4MMdwsE1g/Rdr5XadLvS
- AjsA==
-X-Gm-Message-State: APjAAAUvrPUpL6q0MX+8/EjsKh0ko59FY99/q6n0skGdspKsmX3nHB49
- 4sVtsrwNi7tIKBTzZM862lM8jdkbzAQexg==
-X-Google-Smtp-Source: APXvYqzjqwFe5eY4Kok2wFA0JxeiBF6n9T4/gvVZTnLA3zJ0g8EazZI3ThJT0mtBcSsPoANNNKuXXg==
-X-Received: by 2002:a7b:cbc9:: with SMTP id n9mr30109328wmi.89.1580741245709; 
- Mon, 03 Feb 2020 06:47:25 -0800 (PST)
+ bh=C0PdOrMCFpbNK82WNUW0H1iqrpAaqeLX3nijX9wXiI0=;
+ b=YM41hE5v7xekaCyTi6nJ9bSPAJOjDaHXKmr8pOIBo9ZWfCMm1SU2IjNyr18wx71Vl+
+ PBqbyu+V+phFV3t6s0GgfRQMlPVcwmV9qSke0byxNZhf2n2TP2qbVXTtJVSNulA7MR9i
+ rdSDV2chJj9hZYo27FCzlBTcLZzMFG319rAfpbIydliuPe9H+sEoouS8Vz8arJJ/YBAY
+ l+vwLECnzkM+2KHLKhgDBreD83yOH/oiK4+yKfmnVww6gyRa88QfPc/mahdqLqQC+e2Z
+ TUVs4pOCXSmY5nsXFHyF8Vq2u58y3vWlsPDzx5weGG30UIXy0tEcqeR6ZkZIW/oSSl7F
+ Xsag==
+X-Gm-Message-State: APjAAAU/fgYf90qyIfO1bPCh/sXpR1zoYWe6kaYMGqttQfg2RfJ7OMAm
+ mjFw4Tn0jyTneRvt1jT85hMUg+PSRzppKw==
+X-Google-Smtp-Source: APXvYqyg2ir4YWeay+SJ3FKeZ0G7iqSvMf15ajkdR43gn8G1uNLYc8QPYJVyvGxK7mxIzCyyX4gHSA==
+X-Received: by 2002:a05:600c:2150:: with SMTP id
+ v16mr29005049wml.156.1580741246586; 
+ Mon, 03 Feb 2020 06:47:26 -0800 (PST)
 Received: from cloudburst.c.hoisthospitality.com ([135.196.99.211])
- by smtp.gmail.com with ESMTPSA id h2sm26429739wrt.45.2020.02.03.06.47.24
+ by smtp.gmail.com with ESMTPSA id h2sm26429739wrt.45.2020.02.03.06.47.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 03 Feb 2020 06:47:25 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 08/20] target/arm: Remove CPSR_RESERVED
-Date: Mon,  3 Feb 2020 14:47:04 +0000
-Message-Id: <20200203144716.32204-9-richard.henderson@linaro.org>
+Subject: [PATCH v3 09/20] target/arm: Tidy msr_mask
+Date: Mon,  3 Feb 2020 14:47:05 +0000
+Message-Id: <20200203144716.32204-10-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200203144716.32204-1-richard.henderson@linaro.org>
 References: <20200203144716.32204-1-richard.henderson@linaro.org>
@@ -65,7 +66,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::343
+X-Received-From: 2a00:1450:4864:20::342
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,53 +82,71 @@ Cc: peter.maydell@linaro.org, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The only remaining use was in op_helper.c.  Use PSTATE_SS
-directly, and move the commentary so that it is more obvious
-what is going on.
+The CPSR_USER mask for IS_USER already avoids all of the RES0
+bits as per aarch32_cpsr_valid_mask.  Fix up the formatting.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/cpu.h       | 6 ------
- target/arm/op_helper.c | 9 ++++++++-
- 2 files changed, 8 insertions(+), 7 deletions(-)
+ target/arm/translate.c | 42 ++++++++++++++++++++++++------------------
+ 1 file changed, 24 insertions(+), 18 deletions(-)
 
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index 694b074298..c6dff1d55b 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -1186,12 +1186,6 @@ void pmu_init(ARMCPU *cpu);
- #define CPSR_IT_2_7 (0xfc00U)
- #define CPSR_GE (0xfU << 16)
- #define CPSR_IL (1U << 20)
--/* Note that the RESERVED bits include bit 21, which is PSTATE_SS in
-- * an AArch64 SPSR but RES0 in AArch32 SPSR and CPSR. In QEMU we use
-- * env->uncached_cpsr bit 21 to store PSTATE.SS when executing in AArch32,
-- * where it is live state but not accessible to the AArch32 code.
-- */
--#define CPSR_RESERVED (0x7U << 21)
- #define CPSR_J (1U << 24)
- #define CPSR_IT_0_1 (3U << 25)
- #define CPSR_Q (1U << 27)
-diff --git a/target/arm/op_helper.c b/target/arm/op_helper.c
-index acf1815ea3..af3020b78f 100644
---- a/target/arm/op_helper.c
-+++ b/target/arm/op_helper.c
-@@ -387,7 +387,14 @@ void HELPER(exception_bkpt_insn)(CPUARMState *env, uint32_t syndrome)
- 
- uint32_t HELPER(cpsr_read)(CPUARMState *env)
+diff --git a/target/arm/translate.c b/target/arm/translate.c
+index 032f7074cb..2b3bfcf7ca 100644
+--- a/target/arm/translate.c
++++ b/target/arm/translate.c
+@@ -2734,28 +2734,34 @@ static inline void gen_mulxy(TCGv_i32 t0, TCGv_i32 t1, int x, int y)
+ /* Return the mask of PSR bits set by a MSR instruction.  */
+ static uint32_t msr_mask(DisasContext *s, int flags, int spsr)
  {
--    return cpsr_read(env) & ~(CPSR_EXEC | CPSR_RESERVED);
-+    /*
-+     * We store the ARMv8 PSTATE.SS bit in env->uncached_cpsr.
-+     * This is convenient for populating SPSR_ELx, but must be
-+     * hidden from aarch32 mode, where it is not visible.
-+     *
-+     * TODO: ARMv8.4-DIT -- need to move SS somewhere else.
-+     */
-+    return cpsr_read(env) & ~(CPSR_EXEC | PSTATE_SS);
+-    uint32_t mask;
++    uint32_t mask = 0;
+ 
+-    mask = 0;
+-    if (flags & (1 << 0))
++    if (flags & (1 << 0)) {
+         mask |= 0xff;
+-    if (flags & (1 << 1))
+-        mask |= 0xff00;
+-    if (flags & (1 << 2))
+-        mask |= 0xff0000;
+-    if (flags & (1 << 3))
+-        mask |= 0xff000000;
+-
+-    /* Mask out undefined bits.  */
+-    mask &= aarch32_cpsr_valid_mask(s->features, s->isar);
+-
+-    /* Mask out execution state and reserved bits.  */
+-    if (!spsr) {
+-        mask &= ~CPSR_EXEC;
+     }
+-    /* Mask out privileged bits.  */
+-    if (IS_USER(s))
++    if (flags & (1 << 1)) {
++        mask |= 0xff00;
++    }
++    if (flags & (1 << 2)) {
++        mask |= 0xff0000;
++    }
++    if (flags & (1 << 3)) {
++        mask |= 0xff000000;
++    }
++
++    if (IS_USER(s)) {
++        /* Mask out privileged bits.  */
+         mask &= CPSR_USER;
++    } else {
++        /* Mask out undefined bits.  */
++        mask &= aarch32_cpsr_valid_mask(s->features, s->isar);
++
++        /* Mask out execution state and reserved bits.  */
++        if (!spsr) {
++            mask &= ~CPSR_EXEC;
++        }
++    }
++
+     return mask;
  }
  
- void HELPER(cpsr_write)(CPUARMState *env, uint32_t val, uint32_t mask)
 -- 
 2.20.1
 
