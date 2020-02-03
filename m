@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D45E150508
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Feb 2020 12:18:38 +0100 (CET)
-Received: from localhost ([::1]:38226 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EAB215054D
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Feb 2020 12:31:39 +0100 (CET)
+Received: from localhost ([::1]:38418 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iyZkT-0004vT-Kx
-	for lists+qemu-devel@lfdr.de; Mon, 03 Feb 2020 06:18:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58910)
+	id 1iyZx3-0005J8-Ko
+	for lists+qemu-devel@lfdr.de; Mon, 03 Feb 2020 06:31:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34931)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <fflorensa@online.net>) id 1iyZjI-0003gj-5k
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 06:17:26 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1iyZvu-0004mU-9P
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 06:30:27 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <fflorensa@online.net>) id 1iyZjE-00016v-PS
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 06:17:22 -0500
-Received: from mail.online.net ([62.210.16.11]:40848)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <fflorensa@online.net>)
- id 1iyZjC-00010A-VR
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 06:17:19 -0500
-Received: from localhost (localhost [127.0.0.1])
- by mail.online.net (Postfix) with ESMTP id 9A1B3F2BA00F;
- Mon,  3 Feb 2020 12:17:10 +0100 (CET)
-Received: from mail.online.net ([127.0.0.1])
- by localhost (mail.online.net [127.0.0.1]) (amavisd-new, port 10032)
- with ESMTP id nTdiPDh5CnEh; Mon,  3 Feb 2020 12:17:10 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by mail.online.net (Postfix) with ESMTP id 74BA9F2BA12A;
- Mon,  3 Feb 2020 12:17:10 +0100 (CET)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.online.net 74BA9F2BA12A
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=online.net;
- s=4EC61654-9574-11E8-870F-3D38CA7095BF; t=1580728630;
- bh=TSsqTU3GcWGH2C6DXA45GerCMmrvlScbBNj9xSGjfW4=;
- h=Date:From:To:Message-ID:MIME-Version;
- b=udhBsChZZHfA1+9xjEM086XCalH7mOp2j1kJXy5vGRj5kexWVoneYen7SxmaQoZXJ
- dVErbksurXGq3GtkyGjk089u5DQn4J5J8PTTuy9bV0c9+4CqbVmArX+DsKeT65OwY+
- vQk2G/CIE7xzd2+UBuR/n1xD1/BHvtpSnrJHjs0nT1AoZZTiHLfa5MKT/iMar+63Xv
- wnTeQGQnj0bme130bq2fK6WSM5GRjl/6lBqG5OZb5W2zPw9iT9ase496G/KF7yr2Dc
- XYlqdrURNMZ202Q/Rh+XePCFPEKxx+YUAyS4sXWI8iBk6+EQKidNJhWSSkzh3lgy9L
- IQakEtEvzsQ0w==
-X-Virus-Scanned: amavisd-new at mail.online.net
-Received: from mail.online.net ([127.0.0.1])
- by localhost (mail.online.net [127.0.0.1]) (amavisd-new, port 10026)
- with ESMTP id OY7tWw5mVGb9; Mon,  3 Feb 2020 12:17:10 +0100 (CET)
-Received: from localhost (unknown [195.154.229.35])
- by mail.online.net (Postfix) with ESMTPSA id 4DDB8F2BA00F;
- Mon,  3 Feb 2020 12:17:10 +0100 (CET)
-Date: Mon, 3 Feb 2020 12:17:10 +0100
-From: Florian Florensa <fflorensa@online.net>
-To: Kevin Wolf <kwolf@redhat.com>
-Subject: Re: [PATCH v3 1/1] block/rbd: Add support for ceph namespaces
-Message-ID: <20200203111625.umggvu4w7qylwrc5@flash.localdomain>
-References: <20200110111513.321728-1-fflorensa@online.net>
- <20200110111513.321728-2-fflorensa@online.net>
- <CA+aFP1A-C-7FYMtCQkK4XHwON5E6ZZ=Qu5N3Tf2-bhcTkEH=zQ@mail.gmail.com>
+ (envelope-from <peter.maydell@linaro.org>) id 1iyZvs-0007k6-Tz
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 06:30:25 -0500
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:38212)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1iyZvs-0007jY-Ny
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 06:30:24 -0500
+Received: by mail-ot1-x344.google.com with SMTP id z9so13274578oth.5
+ for <qemu-devel@nongnu.org>; Mon, 03 Feb 2020 03:30:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Ya2Txc2fZpWJo/ltEVgHiqiQwQl9L3M3tlxjIT8M85o=;
+ b=m2Q3hoykxXD5c6TcJperfJ548DQdPZRfr/cbAsfHS+LzSynVT7GdxpgkSrMoJM1+Io
+ b2DKBw6JZxK08Lc+c5AJHB335WST+D/qGK8WtmO6cOuNYj3mT2L5IdKSViJEvhTBp+kB
+ 5PlZaixScqk/aWWxvEf49teKYhKM97yZdbcWIElcvXxMTdAUhVa5QvqBlmSVazxbAaNG
+ cczWVr0yQyxTAyYthTlqF9h36V0Gpkds1xj2Q/V5yVO/148FXwFYjQIRKOkJlgIrbvbT
+ I8riLrrQAO+qJYel7BUjRpcASzbcCCeOfx2DYJM2LtlREX3RksdooUIcJuvULy7sSSUP
+ BhnA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Ya2Txc2fZpWJo/ltEVgHiqiQwQl9L3M3tlxjIT8M85o=;
+ b=dUm4VXjsjduRnn2FROKwuzbNVjNF7BwvzipQBiOhdiV6thkFTewj32FdJOB6EiRhDM
+ uL70nm4awSX4NXUfu5ff+H8Fr6NDt4a3nN/cE9rUsWzZn8kjEVogph9Fy3lp4UrBgUYC
+ UTBZXQJHHNrrGMurlCUCbFTVyc/YCffkSvumcktC7WruzQ5wr1oa2DdG1BF9Tt4wa8kP
+ 0EXrxvCf/8HgIpN262ZPNklp05XMrqRyBP9FttbRcs65t8V7DRDi/wUvKlub9+YpiL1G
+ aC8GH+Xf7o/C4eOl7nB5V9OsnSs7sFPE0TthI4gUMTjp+kKVyMYIo6LYy4zjGdYIHm4x
+ m9dg==
+X-Gm-Message-State: APjAAAV9HaFi7S1EDqgKzJPVFNztHblJ8U3y9MZDp2g66RMLFjeq2v8a
+ EWebg2ZK6FZtpInAHQIUwEdObRVOXL0jvLCMUkxopw==
+X-Google-Smtp-Source: APXvYqwM37BCGtd/KUAAfDzU0+MRSLRTuT4iKIrqerRdbErD0wyWFNPEbnPpEf/kV3rvHXZ7z+oUBnzPM2OiacQZcbE=
+X-Received: by 2002:a05:6830:1184:: with SMTP id
+ u4mr16763047otq.221.1580729423687; 
+ Mon, 03 Feb 2020 03:30:23 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="7rc56gz5nn7fwg6x"
-Content-Disposition: inline
-In-Reply-To: <CA+aFP1A-C-7FYMtCQkK4XHwON5E6ZZ=Qu5N3Tf2-bhcTkEH=zQ@mail.gmail.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 62.210.16.11
+References: <20200201192916.31796-1-richard.henderson@linaro.org>
+ <20200201192916.31796-32-richard.henderson@linaro.org>
+In-Reply-To: <20200201192916.31796-32-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 3 Feb 2020 11:30:12 +0000
+Message-ID: <CAFEAcA-DCwZ51iUgd3BXxLyLZzS5QMvK1n=s1VjiXEeqrGu=Jg@mail.gmail.com>
+Subject: Re: [PATCH v6 31/41] target/arm: Flush tlbs for E2&0 translation
+ regime
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::344
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,214 +74,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, dillaman <dillaman@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
- Max Reitz <mreitz@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Sat, 1 Feb 2020 at 19:29, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+> v5: Flush all EL2 regimes with TLBI ALLE2 (pmm).
+> ---
+>  target/arm/helper.c | 34 +++++++++++++++++++++++++++-------
+>  1 file changed, 27 insertions(+), 7 deletions(-)
 
---7rc56gz5nn7fwg6x
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> +static int vae2_tlbmask(CPUARMState *env)
+> +{
+> +    if (arm_hcr_el2_eff(env) & HCR_E2H) {
+> +        return ARMMMUIdxBit_E20_0 | ARMMMUIdxBit_E20_2;
+> +    } else {
+> +        return ARMMMUIdxBit_E2;
+> +    }
+> +}
 
-Hello Kevin,
+The TLBI VAE2 docs say the TLB entry has to be invalidated if:
+ * The entry would be required to translate the specified VA using
+   the EL2 or the EL2&0 translation regime.
 
-Just checking in to see if any more work needs to be done on this for a
-possible merge.
+and this isn't conditional on whether HCR_EL2.E2H is 0 or 1.
+So given that we don't flush all TLBs when E2H is changed,
+I think we need to always flush all of
+ ARMMMUIdxBit_E20_0 | ARMMMUIdxBit_E20_2 | ARMMMUIdxBit_E2
+here.
 
-Regards,
+That would make this the same as alle2_tlbmask, which
+seems logically correct, since the difference between
+TLBI VAE2 and TLBI_ALLE2 is that the former specifies
+a VA+ASID (and the ASID should matter if E2H==1 and
+be ignored if E2H==0), not which translation regimes
+they affect. e2_tlbmask() is probably a better name than
+alle2_tlbmask(), in that case.
 
-Florian
-On Fri, Jan 10, 2020 at 09:13:12AM -0500, Jason Dillaman wrote:
-> On Fri, Jan 10, 2020 at 6:15 AM Florian Florensa <fflorensa@online.net> w=
-rote:
-> >
-> > Starting from ceph Nautilus, RBD has support for namespaces, allowing
-> > for finer grain ACLs on images inside a pool, and tenant isolation.
-> >
-> > In the rbd cli tool documentation, the new image-spec and snap-spec are=
- :
-> >  - [pool-name/[namespace-name/]]image-name
-> >  - [pool-name/[namespace-name/]]image-name@snap-name
-> >
-> > When using an non namespace's enabled qemu, it complains about not
-> > finding the image called namespace-name/image-name, thus we only need to
-> > parse the image once again to find if there is a '/' in its name, and if
-> > there is, use what is before it as the name of the namespace to later
-> > pass it to rados_ioctx_set_namespace.
-> > rados_ioctx_set_namespace if called with en empty string or a null
-> > pointer as the namespace parameters pretty much does nothing, as it then
-> > defaults to the default namespace.
-> >
-> > The namespace is extracted inside qemu_rbd_parse_filename, stored in the
-> > qdict, and used in qemu_rbd_connect to make it work with both qemu-img,
-> > and qemu itself.
-> >
-> > Signed-off-by: Florian Florensa <fflorensa@online.net>
-> > ---
-> >  block/rbd.c          | 44 +++++++++++++++++++++++++++++++-------------
-> >  qapi/block-core.json |  4 ++++
-> >  2 files changed, 35 insertions(+), 13 deletions(-)
-> >
-> > diff --git a/block/rbd.c b/block/rbd.c
-> > index 027cbcc695..84115d34b4 100644
-> > --- a/block/rbd.c
-> > +++ b/block/rbd.c
-> > @@ -104,6 +104,7 @@ typedef struct BDRVRBDState {
-> >      rbd_image_t image;
-> >      char *image_name;
-> >      char *snap;
-> > +    char *namespace;
-> >      uint64_t image_size;
-> >  } BDRVRBDState;
-> >
-> > @@ -152,7 +153,7 @@ static void qemu_rbd_parse_filename(const char *fil=
-ename, QDict *options,
-> >      const char *start;
-> >      char *p, *buf;
-> >      QList *keypairs =3D NULL;
-> > -    char *found_str;
-> > +    char *found_str, *image_name;
-> >
-> >      if (!strstart(filename, "rbd:", &start)) {
-> >          error_setg(errp, "File name must start with 'rbd:'");
-> > @@ -171,18 +172,24 @@ static void qemu_rbd_parse_filename(const char *f=
-ilename, QDict *options,
-> >      qdict_put_str(options, "pool", found_str);
-> >
-> >      if (strchr(p, '@')) {
-> > -        found_str =3D qemu_rbd_next_tok(p, '@', &p);
-> > -        qemu_rbd_unescape(found_str);
-> > -        qdict_put_str(options, "image", found_str);
-> > +        image_name =3D qemu_rbd_next_tok(p, '@', &p);
-> >
-> >          found_str =3D qemu_rbd_next_tok(p, ':', &p);
-> >          qemu_rbd_unescape(found_str);
-> >          qdict_put_str(options, "snapshot", found_str);
-> >      } else {
-> > -        found_str =3D qemu_rbd_next_tok(p, ':', &p);
-> > +        image_name =3D qemu_rbd_next_tok(p, ':', &p);
-> > +    }
-> > +    /* Check for namespace in the image_name */
-> > +    if (strchr(image_name, '/')) {
-> > +        found_str =3D qemu_rbd_next_tok(image_name, '/', &image_name);
-> >          qemu_rbd_unescape(found_str);
-> > -        qdict_put_str(options, "image", found_str);
-> > +        qdict_put_str(options, "namespace", found_str);
-> > +    } else {
-> > +        qdict_put_str(options, "namespace", "");
-> >      }
-> > +    qemu_rbd_unescape(image_name);
-> > +    qdict_put_str(options, "image", image_name);
-> >      if (!p) {
-> >          goto done;
-> >      }
-> > @@ -343,6 +350,11 @@ static QemuOptsList runtime_opts =3D {
-> >              .type =3D QEMU_OPT_STRING,
-> >              .help =3D "Rados pool name",
-> >          },
-> > +        {
-> > +            .name =3D "namespace",
-> > +            .type =3D QEMU_OPT_STRING,
-> > +            .help =3D "Rados namespace name in the pool",
-> > +        },
-> >          {
-> >              .name =3D "image",
-> >              .type =3D QEMU_OPT_STRING,
-> > @@ -467,13 +479,14 @@ static int coroutine_fn qemu_rbd_co_create_opts(c=
-onst char *filename,
-> >       * schema, but when they come from -drive, they're all QString.
-> >       */
-> >      loc =3D rbd_opts->location;
-> > -    loc->pool     =3D g_strdup(qdict_get_try_str(options, "pool"));
-> > -    loc->conf     =3D g_strdup(qdict_get_try_str(options, "conf"));
-> > -    loc->has_conf =3D !!loc->conf;
-> > -    loc->user     =3D g_strdup(qdict_get_try_str(options, "user"));
-> > -    loc->has_user =3D !!loc->user;
-> > -    loc->image    =3D g_strdup(qdict_get_try_str(options, "image"));
-> > -    keypairs      =3D qdict_get_try_str(options, "=3Dkeyvalue-pairs");
-> > +    loc->pool        =3D g_strdup(qdict_get_try_str(options, "pool"));
-> > +    loc->conf        =3D g_strdup(qdict_get_try_str(options, "conf"));
-> > +    loc->has_conf    =3D !!loc->conf;
-> > +    loc->user        =3D g_strdup(qdict_get_try_str(options, "user"));
-> > +    loc->has_user    =3D !!loc->user;
-> > +    loc->q_namespace =3D g_strdup(qdict_get_try_str(options, "namespac=
-e"));
-> > +    loc->image       =3D g_strdup(qdict_get_try_str(options, "image"));
-> > +    keypairs         =3D qdict_get_try_str(options, "=3Dkeyvalue-pairs=
-");
-> >
-> >      ret =3D qemu_rbd_do_create(create_options, keypairs, password_secr=
-et, errp);
-> >      if (ret < 0) {
-> > @@ -648,6 +661,11 @@ static int qemu_rbd_connect(rados_t *cluster, rado=
-s_ioctx_t *io_ctx,
-> >          error_setg_errno(errp, -r, "error opening pool %s", opts->pool=
-);
-> >          goto failed_shutdown;
-> >      }
-> > +    /*
-> > +     * Set the namespace after opening the io context on the pool,
-> > +     * if nspace =3D=3D NULL or if nspace =3D=3D "", it is just as we =
-did nothing
-> > +     */
-> > +    rados_ioctx_set_namespace(*io_ctx, opts->q_namespace);
-> >
-> >      return 0;
-> >
-> > diff --git a/qapi/block-core.json b/qapi/block-core.json
-> > index fcb52ec24f..c6f187ec9b 100644
-> > --- a/qapi/block-core.json
-> > +++ b/qapi/block-core.json
-> > @@ -3661,6 +3661,9 @@
-> >  #
-> >  # @pool:               Ceph pool name.
-> >  #
-> > +# @namespace:          Rados namespace name in the Ceph pool.
-> > +#                      (Since 5.0)
-> > +#
-> >  # @image:              Image name in the Ceph pool.
-> >  #
-> >  # @conf:               path to Ceph configuration file.  Values
-> > @@ -3687,6 +3690,7 @@
-> >  ##
-> >  { 'struct': 'BlockdevOptionsRbd',
-> >    'data': { 'pool': 'str',
-> > +            '*namespace': 'str',
-> >              'image': 'str',
-> >              '*conf': 'str',
-> >              '*snapshot': 'str',
-> > --
-> > 2.24.1
-> >
->=20
-> Reviewed-by: Jason Dillaman <dillaman@redhat.com>
->=20
-> --=20
-> Jason
->=20
-
---7rc56gz5nn7fwg6x
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEENMOcO22p59MYDr5mpFTgAOO+N4gFAl44ATYACgkQpFTgAOO+
-N4jYsQ/7BQ9X2EJ3YuLg1lJ37qbia3CM1OcYpY0J5SgVFXJoybVtsLfkUErwLVLe
-QXa7sYpe5wx19/p0VB2bvs2VNwCDEsYDirPLkwwCLH9CnnNn0J9D9nMQcYcqfk+i
-TK1K8VXUWyxY9WcH08QF34Eeq07nuB328XyUqvZl/EXEWys9LdoPKF38Oha4A0QJ
-lhjrqFmtHGhGOWPnXfx2bc2WLQTawP2WXwsi2TtmfO4gYQjC8fNJl8z51xYbHqcB
-moxfkSWOmFS7qSrpWbPuCRD8o3FBBSkmfy8NdsNzPAwrZSkzuxi9N38eUU2Y4bH5
-FzJ1naFXO33pQgsnVhISRHF1gSMfyINpURfNbX5z/uxEj1UgV80hJl2hu+03PYC2
-AqxBtJJ/VOZF9+qmu3aSIe9IA13X2vbHkDShc0wP6MP899NX8zV6IhlpA+Zq6Jav
-Z9hSjjeocW+PMjjwIFhCC1waUafimOKSypA7d1Goiubq0UQdZdusW7QXJXQbIwb+
-AHfg6EEIj72mWFuAL755M3JnWdQhOWXMvveueg+c6TMjf5m6fOCNvXoVfkYTUJb6
-BeuQphH+Dt0ONugZRJkIdWCXTMTGACWd5ygvuEl5gGPC1t5dsHPc/OT9/gm0Qdtm
-GCGeSPXQXQxnA4saJOipMRPRuV3a2E2sOJF5brSZbDVL04Po/vs=
-=KABO
------END PGP SIGNATURE-----
-
---7rc56gz5nn7fwg6x--
+thanks
+-- PMM
 
