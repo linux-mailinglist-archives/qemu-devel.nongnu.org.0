@@ -2,105 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90B93150851
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Feb 2020 15:25:45 +0100 (CET)
-Received: from localhost ([::1]:41800 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1948F150885
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Feb 2020 15:37:12 +0100 (CET)
+Received: from localhost ([::1]:42042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iycfY-0001TC-M6
-	for lists+qemu-devel@lfdr.de; Mon, 03 Feb 2020 09:25:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36589)
+	id 1iycqd-00080Q-3u
+	for lists+qemu-devel@lfdr.de; Mon, 03 Feb 2020 09:37:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60772)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <amarkovic@wavecomp.com>) id 1iyceV-0000p2-Nr
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 09:24:41 -0500
+ (envelope-from <bounces@canonical.com>) id 1iycQD-0002Ad-W1
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 09:09:55 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <amarkovic@wavecomp.com>) id 1iyceT-0006Bj-3j
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 09:24:39 -0500
-Received: from mail-eopbgr700090.outbound.protection.outlook.com
- ([40.107.70.90]:49583 helo=NAM04-SN1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <amarkovic@wavecomp.com>)
- id 1iyceS-0006A0-Qu
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 09:24:37 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=T27VXXxyRgg3iLqEmBt5HF/Pz/2G6ynX3jUlNRRpLip5pzbb88yOCTlrnf+bkWu608p38RccPxm7UcvzPnrpWBRabux/hCaaS4yAoOl8mBmltfBr0vkCLWGa+yGDhGmh8ZORG2u6QQZoAOm+EdmPbe1kz+AmbwYyBvMYKbSdSehOzXAL+e6CurE9bnmjh+eqCOkLkQ7wQaSHMQZw+iluyX6HwWmzTXxBCcxxd0UuqQkOqZAOAoBNRZxIzHEzNma5ksDSDjpi/ci4L0OIsYKKFJJ4d4Cj98mJ2P9Sdma7fG+cXkalzVOiauuplc16RY8LYe7k2JxnU44G2wig2nOyng==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Rm5mgeI0hnQp/EOFQuHx/YKEork2ldF1NctVrxnK2UM=;
- b=kiysw9sxRU5jsJTo7fnvAdjJK9Ctmy3V4zV5fbY5lz8RliVM9VMGsGyrrJrywQIKGML02/E7nNdwSKfxd4f/y+S4i9fsjO7v9J3NBurmFy4g4b+lmqMegWZsiX+HiuusZgKk7PP+Vik//NlL3z4DdWMAKCURAEomV3/tOqOtk2a4elrtfniwHivDB6a/E375ueDnyTeO8WyRebQ/twJXVu9hQdKrXDRYeVMjrpvBOAXydU+tq+yxi48Q+O2sHdtV7Fk9yAdh7pzwEgyLgB4p9hmUbjyNVonTvL+0DWZrd8a+trXlIKgsQ7riHu4S6HY59pQCmEQ4cSTnbccG3fbBCw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wavecomp.com; dmarc=pass action=none header.from=wavecomp.com;
- dkim=pass header.d=wavecomp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wavecomp.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Rm5mgeI0hnQp/EOFQuHx/YKEork2ldF1NctVrxnK2UM=;
- b=mftFgKFKVPUlwVVPkQzBkUWY1qcalJVtqG9c6VEeH4lMzcjzfIqMG8uEaHNN1lauHKqaB2iIzCCy2/Pao/s7kuRZvJZ9ynPGaHGYdJkNND7ptaaQFituS//x7EJ9cBuBovB4VbjEmIRBrM2RWDxFWQtHtmrAPmWrivAlQOQ6imI=
-Received: from BN6PR2201MB1251.namprd22.prod.outlook.com (10.174.81.139) by
- BN6PR2201MB1522.namprd22.prod.outlook.com (10.174.90.29) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2686.34; Mon, 3 Feb 2020 14:24:32 +0000
-Received: from BN6PR2201MB1251.namprd22.prod.outlook.com
- ([fe80::c804:a036:269:9290]) by BN6PR2201MB1251.namprd22.prod.outlook.com
- ([fe80::c804:a036:269:9290%4]) with mapi id 15.20.2686.030; Mon, 3 Feb 2020
- 14:24:32 +0000
-From: Aleksandar Markovic <amarkovic@wavecomp.com>
-To: Richard Henderson <richard.henderson@linaro.org>, James Clarke
- <jrtc27@jrtc27.com>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- =?iso-8859-1?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>, Thomas Huth
- <thuth@redhat.com>
-Subject: Re: [EXTERNAL]Re: [PATCH] target/mips: Fix ll/sc after
- 7dd547e5ab6b31e7a0cfc182d3ad131dd55a948f
-Thread-Topic: [EXTERNAL]Re: [PATCH] target/mips: Fix ll/sc after
- 7dd547e5ab6b31e7a0cfc182d3ad131dd55a948f
-Thread-Index: AQHV2mbY4J7aXy2RR0GQyuxjE3PI1KgJhdki
-Date: Mon, 3 Feb 2020 14:24:32 +0000
-Message-ID: <BN6PR2201MB1251B0561D85C7C68BF90C8EC6000@BN6PR2201MB1251.namprd22.prod.outlook.com>
-References: <20200202153409.28534-1-jrtc27@jrtc27.com>,
- <75960e9f-3d28-4db6-ba9a-098b576c6d9d@linaro.org>
-In-Reply-To: <75960e9f-3d28-4db6-ba9a-098b576c6d9d@linaro.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=amarkovic@wavecomp.com; 
-x-originating-ip: [82.117.201.26]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: ef0a937e-2086-4ba1-04e1-08d7a8b4c976
-x-ms-traffictypediagnostic: BN6PR2201MB1522:
-x-microsoft-antispam-prvs: <BN6PR2201MB15221E0368E7FC5D1C6E02E5C6000@BN6PR2201MB1522.namprd22.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:5797;
-x-forefront-prvs: 0302D4F392
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(39830400003)(346002)(396003)(366004)(376002)(136003)(199004)(189003)(81156014)(81166006)(8936002)(86362001)(71200400001)(8676002)(186003)(2906002)(76116006)(52536014)(91956017)(4326008)(9686003)(66556008)(316002)(33656002)(64756008)(66446008)(66476007)(66946007)(55016002)(54906003)(110136005)(53546011)(55236004)(26005)(508600001)(6506007)(7696005)(966005)(5660300002)(98903001);
- DIR:OUT; SFP:1102; SCL:1; SRVR:BN6PR2201MB1522;
- H:BN6PR2201MB1251.namprd22.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: wavecomp.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: I+XxmewO+nX0yphpptRDZ9CEjltyyoF0+RtE7bir8yCJOi+pNQ+7W5gWtXB8KLVtJhjabLkt8V+EUcF4gYhrphSQEWu99EdNMAwETJmmvekcWR/iDthzbyEQif3OMADSBfGRnK96nZ9/9VvzDT3eo/RaKzVSssbnNMOht+X1MHQSkoUrwYX7mVaQr5QLR/rbSKvqn/kNd6OZZjFHwLQULirAhEJrshlT/CHPqyz3hIk/ifwWd7do8dEDS7GwDPmBBh6hoLPY+3JkC9AKOk9dOeK5nkZvxrU0/NaD4b4g+K5JlCln2DxwtO37p5iH2tiY+vy8RTdu/qfoo7+S6rm/Gj1bdGgdr1gcE0rXQ44a8ycsXAFXSWg82KvAfPOs6xtRf09z0KzfyZ2yrO0Ye/Dd4G0xvn2X7exufJu+aHQnzGuketfYO04DU8qnjekaNOwG+ugXG8k7bd/6bdnQStTkef99lIB6CCIlhruquq/eO/KMOQSH7eExxpby4owdLF2t7CMZZQ+3LkZMe6fJQta6OvSJtlEAcK0IazoFvhSXRxObVpQffX6VNjN63/2PaS6L
-x-ms-exchange-antispam-messagedata: 3tBpGeMmkvDfCNmbDZWh1/c8KgNdaQtkmjm4WTY13ZYQa4GxgkBFGiwWcqtMs4gtomq80vg4EGIhO/HS90mLwKaXIibNqivxuWqfNR8XqPykS3QooWreH6oYhH0dON/z3om7Q76TACYavwedNiuPAg==
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+ (envelope-from <bounces@canonical.com>) id 1iycQC-0002b2-CB
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 09:09:53 -0500
+Received: from indium.canonical.com ([91.189.90.7]:42312)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iycQC-0002T8-5e
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 09:09:52 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iycQA-0003mh-Id
+ for <qemu-devel@nongnu.org>; Mon, 03 Feb 2020 14:09:50 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 7928B2E80CC
+ for <qemu-devel@nongnu.org>; Mon,  3 Feb 2020 14:09:50 +0000 (UTC)
 MIME-Version: 1.0
-X-OriginatorOrg: wavecomp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ef0a937e-2086-4ba1-04e1-08d7a8b4c976
-X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Feb 2020 14:24:32.0520 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 463607d3-1db3-40a0-8a29-970c56230104
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: j1TIYn4Fcot6MI58FH/C/yUn/J1D+SPQ30PYS0tfTCEKxrhhAiSPB7WcoX5oApm2dkqhAI9CGXrwvX8YmooSeg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR2201MB1522
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.70.90
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 03 Feb 2020 13:56:38 -0000
+From: Borut Podlipnik <podlipnik@mps.mpg.de>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Triaged; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: happykvm michal-nowak-b podlipnik sledge-sulaweyo
+ th-huth
+X-Launchpad-Bug-Reporter: showrun (happykvm)
+X-Launchpad-Bug-Modifier: Borut Podlipnik (podlipnik)
+References: <20110810053253.11269.76752.malonedeb@gac.canonical.com>
+Message-Id: <158073819884.8645.10605539593864941827.malone@chaenomeles.canonical.com>
+Subject: [Bug 823733] Re: Soloaris can't be poweroff
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="0a62c17273454a1313f81a74a2198ec30b44c7b6";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: d149054756ccb13ae4e60ff37267f98f18dbff33
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
+X-Mailman-Approved-At: Mon, 03 Feb 2020 09:34:40 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -109,59 +67,178 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- Aurelien Jarno <aurelien@aurel32.net>,
- Alex Richardson <Alexander.Richardson@cl.cam.ac.uk>
+Reply-To: Bug 823733 <823733@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> From: Richard Henderson <richard.henderson@linaro.org>=0A=
-> Sent: Monday, February 3, 2020 8:52 AM=0A=
-> To: James Clarke; qemu-devel@nongnu.org=0A=
-> Cc: Alex Richardson; Aurelien Jarno; Aleksandar Markovic; Aleksandar Rika=
-lo=0A=
-> Subject: [EXTERNAL]Re: [PATCH] target/mips: Fix ll/sc after > 7dd547e5ab6=
-b31e7a0cfc182d3ad131dd55a948f=0A=
-> =0A=
-> On 2/2/20 3:34 PM, James Clarke wrote:=0A=
-> > From: Alex Richardson <Alexander.Richardson@cl.cam.ac.uk>=0A=
-> >=0A=
-> > After 7dd547e5ab6b31e7a0cfc182d3ad131dd55a948f the env->llval value is=
-=0A=
-> > loaded as an unsigned value (instead of sign-extended as before).=0A=
-> > Therefore, the CMPXCHG in gen_st_cond() in translate.c fails if the sig=
-n=0A=
-> > bit is set in the loaded value.=0A=
-> > Fix this by sign-extending the llval value for the 32-bit case.=0A=
-> >=0A=
-> > I discovered this issue because FreeBSD MIPS64 was looping forever in a=
-n=0A=
-> > atomic helper function when trying to start /sbin/init.=0A=
-> >=0A=
-> > Signed-off-by: Alex Richardson <Alexander.Richardson@cl.cam.ac.uk>=0A=
-> > Fixes: 7dd547e5ab6b ("target/mips: Use cpu_*_mmuidx_ra instead of MMU_M=
-ODE*_SUFFIX")=0A=
-> > Buglink: https://bugs.launchpad.net/qemu/+bug/1861605=0A=
-> > Cc: Aurelien Jarno <aurelien@aurel32.net>=0A=
-> > Cc: Aleksandar Markovic <amarkovic@wavecomp.com>=0A=
-> > Cc: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>=0A=
-> > Cc: Richard Henderson <richard.henderson@linaro.org>=0A=
-> > Signed-off-by: James Clarke <jrtc27@jrtc27.com>=0A=
-> > ---=0A=
-> >  target/mips/op_helper.c | 8 ++++----=0A=
-> >  1 file changed, 4 insertions(+), 4 deletions(-)=0A=
-> =0A=
-> My fault.  Sorry about that.=0A=
-> =0A=
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>=0A=
-> =0A=
-=0A=
-Applied to the next mips queue.=0A=
-=0A=
-Thanks to everyone involved!!=0A=
-=0A=
-Aleksandar=0A=
-=0A=
-> =0A=
-r~=0A=
+This bug was reported almost 9 years ago and still nobody take care
+about it...
+
+# kvm -version
+QEMU emulator version 4.1.1 (pve-qemu-kvm_4.1.1)
+Copyright (c) 2003-2019 Fabrice Bellard and the QEMU Project developers
+
+# more /etc/os-release =
+
+PRETTY_NAME=3D"Debian GNU/Linux 10 (buster)"
+NAME=3D"Debian GNU/Linux"
+VERSION_ID=3D"10"
+VERSION=3D"10 (buster)"
+VERSION_CODENAME=3Dbuster
+ID=3Ddebian
+HOME_URL=3D"https://www.debian.org/"
+SUPPORT_URL=3D"https://www.debian.org/support"
+BUG_REPORT_URL=3D"https://bugs.debian.org/"
+
+Guest OS: Solaris 11.4
+
+# /usr/sbin/qm shutdown 101
+VM quit/powerdown failed - got timeout
+
+# /usr/sbin/qm reboot 101
+VM quit/powerdown failed - got timeout
+
+Not able to shutdown/reboot Solaris 11
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/823733
+
+Title:
+  Soloaris can't be poweroff
+
+Status in QEMU:
+  Triaged
+
+Bug description:
+  Thank you forgive my poor English.
+
+  It seems KVM can=E2=80=99t poweroff solairs 10 or sloalrs 11 VM.
+  I have created solaris 10 and 11 as usual. Everything in VM is running OK=
+, but finally I use shell command =E2=80=98poweroff=E2=80=99 or =E2=80=98in=
+it 5=E2=80=99, the solaris VM (both 10 & 11) system could=E2=80=99t be powe=
+roff but with promoting me the message: perss any key to reboot =E2=80=A6..=
+  ,I pressed any key in vnc client, solaris VM reboot immediately. Endless =
+reboot loop above.
+
+  the solaris 10 & 11 from oracle iso file name :
+  sol-10-u9-ga-x86-dvd.iso
+  sol-11-exp-201011-text-x86.iso
+
+  the solaris 10 & 11 from oracle iso file name :
+  sol-10-u9-ga-x86-dvd.iso
+  sol-11-exp-201011-text-x86.iso
+
+  1. On my real physical machine,the solaris can be poweroff
+  2. On vmware ,the solaris can be poweroff
+  3. On my real physical machine,I have try to disbale the ACPI opiton in B=
+OIS, then the solaris can't be poweroff,Like the problem I have described a=
+bove
+  so ,I doubt the KVM has a little problem in ACPI =
+
+
+  I have try the suggestion as follows, but I can=E2=80=99t solve the probl=
+em.
+  7.2 Solaris reboot all the time on grub menu
+  =E2=80=A2	Run through the installer as usual =
+
+  =E2=80=A2	On completion and reboot, the VM will perpetually reboot. "Stop=
+" the VM. =
+
+  =E2=80=A2	Start it up again, and immediately open a vnc console and selec=
+t the Safe Boot from the options screen =
+
+  =E2=80=A2	When prompted if you want to try and recover the boot block, sa=
+y yes =
+
+  =E2=80=A2	You should now have a Bourne terminal with your existing filesy=
+stem mounted on /a =
+
+  =E2=80=A2	Run /a/usr/bin/bash (my preferred shell) =
+
+  =E2=80=A2	export TERM=3Dxterm =
+
+  =E2=80=A2	vi /a/boot/grub/menu.1st (editing the bootloader on your mounte=
+d filesystem), to add "kernel/unix" to the kernel options for the non-safe-=
+mode boot. Ex : =
+
+  Config File : /a/boot/grub/menu.lst =
+
+  kernel$ /platform/i86pc/multiboot -B $ZFS-BOOTFS kernel/unix
+
+  According to KVM requirements, I collected the following information:
+  CPU model name
+  model name      : Intel(R) Xeon(R) CPU           X3450  @ 2.67GHz
+
+  kvm -version
+  QEMU PC emulator version 0.12.3 (qemu-kvm-0.12.3), Copyright (c) 2003-200=
+8 Fabrice Bellard
+
+  Host kernel version
+  Ubuntu 10.04.1 LTS   2.6.32-25-server =
+
+
+  What host kernel arch you are using (i386 or x86_64)
+  X86_64
+
+  Guest OS
+  Solaris 10 and Solaris 11=EF=BC=8Cboth can not shutdown
+
+  The qemu command line you are using to start the guest
+
+  First, I used the command line as follows:
+  kvm -m 1024 -drive file=3Dsolaris10.img,cache=3Dwriteback -net nic -net u=
+ser -nographic -vnc :1
+  then I try to use -no-kvm-irqchip or -no-kvm ,but the problem also appear=
+s!
+
+  Secondly, have created and run solaris 10&11 by using Virsh, still solari=
+s can't be poweroff, the XML file content is :
+  <domain type=3D'kvm'>
+      <name>solairs</name>
+      <uuid>85badf15-244d-4719-a2da-8c3de064137d</uuid>
+      <memory>1677721</memory>
+      <currentMemory>1677721</currentMemory>
+      <vcpu>1</vcpu>
+      <os>
+      <type arch=3D'i686' machine=3D'pc-0.12'>hvm</type>
+        <boot dev=3D'hd'/>
+     </os>
+     <features>
+      <acpi/>
+      <apic/>
+     </features>
+    <clock offset=3D'utc'/>
+     <on_poweroff>destroy</on_poweroff>
+    <on_reboot>restart</on_reboot>
+     <on_crash>destroy</on_crash>
+     <devices>
+       <emulator>/usr/bin/kvm</emulator>
+       <disk type=3D'file' device=3D'disk'>
+        <driver name=3D'qemu' type=3D'qcow2' cache=3D'writeback'/>
+         <source file=3D'/opt/GuestOS/solaris10.img'/>
+         <target dev=3D'hda' bus=3D'ide'/>
+       </disk>
+      <interface type=3D'bridge'>
+        <mac address=3D'00:0c:29:d0:36:c3'/>
+        <source bridge=3D'br1'/>
+        <target dev=3D'vnet0'/>
+       </interface>
+       <input type=3D'mouse' bus=3D'ps2'/>
+       <graphics type=3D'vnc' port=3D'5901' autoport=3D'no' keymap=3D'en-us=
+'/>
+      <video>
+        <model type=3D'vga' vram=3D'65536' heads=3D'1'/>
+      </video>
+    </devices>
+    <seclabel type=3D'dynamic' model=3D'apparmor'>
+      <label>libvirt-f36f5289-692e-6f1c-fe71-c6ed19453e2f</label>
+      <imagelabel>libvirt-f36f5289-692e-6f1c-fe71-c6ed19453e2f</imagelabel>
+    </seclabel>
+   </domain>
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/823733/+subscriptions
 
