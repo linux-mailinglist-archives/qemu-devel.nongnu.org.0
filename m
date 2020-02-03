@@ -2,65 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4DC11507E2
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Feb 2020 15:02:19 +0100 (CET)
-Received: from localhost ([::1]:41280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 978DF150803
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Feb 2020 15:06:15 +0100 (CET)
+Received: from localhost ([::1]:41428 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iycIs-0001bC-CJ
-	for lists+qemu-devel@lfdr.de; Mon, 03 Feb 2020 09:02:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57491)
+	id 1iycMg-0007Az-LM
+	for lists+qemu-devel@lfdr.de; Mon, 03 Feb 2020 09:06:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58665)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1iycHd-00010U-W9
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 09:01:07 -0500
+ (envelope-from <yang.zhong@intel.com>) id 1iycKS-0004UX-Tj
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 09:03:58 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1iycHW-0004Pe-SF
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 09:00:59 -0500
-Received: from indium.canonical.com ([91.189.90.7]:40072)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1iycHW-0004Nh-Mn
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 09:00:54 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1iycHV-0002Hl-8a
- for <qemu-devel@nongnu.org>; Mon, 03 Feb 2020 14:00:53 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 39EEA2E8048
- for <qemu-devel@nongnu.org>; Mon,  3 Feb 2020 14:00:53 +0000 (UTC)
+ (envelope-from <yang.zhong@intel.com>) id 1iycKQ-00084P-Pi
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 09:03:56 -0500
+Received: from mga12.intel.com ([192.55.52.136]:28208)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <yang.zhong@intel.com>)
+ id 1iycKQ-0007kK-FC
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 09:03:54 -0500
+X-Amp-Result: UNSCANNABLE
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 03 Feb 2020 06:03:45 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,398,1574150400"; d="scan'208";a="403449950"
+Received: from yangzhon-virtual.bj.intel.com (HELO localhost) ([10.238.145.50])
+ by orsmga005.jf.intel.com with ESMTP; 03 Feb 2020 06:03:43 -0800
+Date: Mon, 3 Feb 2020 21:56:47 +0800
+From: Yang Zhong <yang.zhong@intel.com>
+To: Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [PATCH] virtio: add the queue number check
+Message-ID: <20200203135647.GA1263@yangzhon-Virtual>
+References: <20191223082813.28930-1-yang.zhong@intel.com>
+ <5cb6ace0-dd8e-aa22-e280-1e697c2c4156@redhat.com>
+ <20191223091856.GA8433@yangzhon-Virtual>
+ <e13a5fcc-b861-1847-58a8-e3d6445f84b0@redhat.com>
+ <20191223092508-mutt-send-email-mst@kernel.org>
+ <187f02d9-1677-d232-a44a-ed7b1e5f6ee5@redhat.com>
+ <20200103150145.GA24552@yangzhon-Virtual>
+ <CABgObfZWq_d-R_j456yxipPnbcLzCOJwd=9mCBMiwHDOckaXYg@mail.gmail.com>
+ <20200110061051.GA1626@yangzhon-Virtual>
+ <be72c787-50f8-4b63-59bc-d9ac802541b6@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 03 Feb 2020 13:54:03 -0000
-From: =?utf-8?q?Matthias_L=C3=BCscher?= <1823790@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
- assignee=Laurent@vivier.eu; 
-X-Launchpad-Bug-Tags: arm linux-user
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: fritz-the-cat laurent-vivier m-luescher pmaydell
- tobijk
-X-Launchpad-Bug-Reporter: =?utf-8?q?Matthias_L=C3=BCscher_=28m-luescher=29?=
-X-Launchpad-Bug-Modifier: =?utf-8?q?Matthias_L=C3=BCscher_=28m-luescher=29?=
-References: <155475569461.20468.17957138207618410360.malonedeb@chaenomeles.canonical.com>
- <158050391153.19408.2270800998696422828.malone@wampee.canonical.com>
-Message-Id: <CAMhkXVMDhfiOqqD9JKWvbkFtayC2YrQNoXMdi5BRp6q-F4ZGGw@mail.gmail.com>
-Subject: Re: [Bug 1823790] Re: QEMU mishandling of SO_PEERSEC forces systemd
- into tight loop
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="0a62c17273454a1313f81a74a2198ec30b44c7b6";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: d47a9023c5a85cf6cf82a0e304dccba8e509bcb3
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <be72c787-50f8-4b63-59bc-d9ac802541b6@redhat.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 192.55.52.136
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -69,62 +65,144 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1823790 <1823790@bugs.launchpad.net>
+Cc: Yang Zhong <yang.zhong@intel.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> Could you test the attached patch?
->
+On Fri, Jan 31, 2020 at 05:22:47PM +0100, Paolo Bonzini wrote:
+> I have just found this email... sorry for the delay.
+> 
+> On 10/01/20 07:10, Yang Zhong wrote:
+> >> No. If virtio-blk works, the bug is in vhost-user-blk; if virtio-blk needs
+> >> no check in cpu count, vhost-user-blk also doesn't.
+> >>
+> >> You need to check first if the bug is in QEMU or the vhost-user-blk server.
+> >
+> >   (1). Seabios issue
+> >   In init_virtio_blk() function, which set VIRTIO_CONFIG_S_DRIVER_OK
+> >   status to qemu vhost-user-blk device.
+> > 
+> >   // the related code
+> >   ......
+> >   status |= VIRTIO_CONFIG_S_DRIVER_OK;
+> >   vp_set_status(&vdrive->vp, status);
+> >   ......
+> > 
+> >   I think there is no need for seabios to set VIRTIO_CONFIG_S_DRIVER_OK
+> >   status to qemu vhost-user-blk device.
+> 
+> It does so because it cannot know how it will be used.  It could be used
+> by the guest boot loader to load a kernel, for example.  SeaBIOS sets
+> DRIVER_OK because it has loaded a driver for the disk; that's exactly
+> what DRIVER_OK signals.
+> 
+  Yes, the virtio_blk driver in seabios is mainly for virtio format
+  images. I did not consider this. Thanks Paolo!
+  
+  Yang
+> 
+> >     In fact, this time vhost_user_blk_start almost do nothing because
+> >     the real guest virtio-blk driver still not started yet. This time,
+> >     there is only one vq can be used(this vq should be inited in seabios).
+> > 
+> >     When the guest virtio-blk driver really start and complet the
+> >     probe(), the guest virtio-blk driver will set
+> >     VIRTIO_CONFIG_S_DRIVER_OK to vhost-user-blk device again. This
+> >     time, this driver will allocate RIGHT queue num according to
+> >     MIN(vcpu, num_vqs).
+> 
+> Doesn't it first reset the status to 0?
+> 
+  I checked the virtio_blk drivers in seabios and guest kernel, all do
+  the reset before driver probe(). thanks!
 
-Works great!
+  Yang
 
-This is my test setup:
+> >     (2). DPDK issue
+> >      DPDK does not know the real queue number used by guest virtio-blk
+> >      driver and it only know the queue number from vhost-user-blk
+> >      commond line. Once the guest virtio-blk driver change the queue
+> >      number according to MIN(vcpu, num_vqs), DPDK still use previous
+> >      queue number and it think virtio is never ready by
+> >      virtio_is_ready() function.
+> 
+> What is virtio_is_ready()?  The virtio device should not wait for all
+> the queues to be set.  A device is ready when it sets DRIVER_OK, and
+> that's it.
+> 
+  In spdk/dpdk/lib/librte_vhost/vhost_user.c
+  static int
+  virtio_is_ready(struct virtio_net *dev)
+  {
+      struct vhost_virtqueue *vq;
+      uint32_t i;
 
-Host machine: Ubuntu 18.04, amd64
-LXD container: Debian Buster, arm64, systemd 241
-QEMU: qemu-aarch64(-static), compiled from source (4.2.0), patched with
-your patch.
+      if (dev->nr_vring == 0)
+          return 0;
 
-Many thanks!
-Matthias
+      for (i = 0; i < dev->nr_vring; i++) {
+          vq = dev->virtqueue[i];
 
--- =
+          if (!vq_is_ready(dev, vq))
+              return 0;
+      }
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1823790
+      RTE_LOG(INFO, VHOST_CONFIG,
+          "virtio is now ready for processing.\n");
+      return 1;
+  }
 
-Title:
-  QEMU mishandling of SO_PEERSEC forces systemd into tight loop
+  static bool
+  vq_is_ready(struct virtio_net *dev, struct vhost_virtqueue *vq)
+  {
+      bool rings_ok;
 
-Status in QEMU:
-  Confirmed
+      if (!vq)
+          return false;
 
-Bug description:
-  While building Debian images for embedded ARM target systems I
-  detected that QEMU seems to force newer systemd daemons into a tight
-  loop.
+      if (vq_is_packed(dev))
+          rings_ok = !!vq->desc_packed;
+      else
+          rings_ok = vq->desc && vq->avail && vq->used;
 
-  My setup is the following:
+      return rings_ok &&
+             vq->kickfd != VIRTIO_UNINITIALIZED_EVENTFD &&
+             vq->callfd != VIRTIO_UNINITIALIZED_EVENTFD;
+  }
 
-  Host machine: Ubuntu 18.04, amd64
-  LXD container: Debian Buster, arm64, systemd 241
-  QEMU: qemu-aarch64-static, 4.0.0-rc2 (custom build) and 3.1.0 (Debian 1:3=
-.1+dfsg-7)
+  The dev->nr_vring is equal to the queue number set in qemu cmdline, 
+  which maybe different with guest virtio_blk driver by MIN(vcpu, num_vqs).
+  If like this scenario, the virtio is NEVER ready from
+  virtio_is_ready() because DPDK still check the left
+  queues(i.e num_vqs-vcpu), which are not initialized by the guest
+  driver.
+  
+  Yang
+  
+> >      or DPDK can get the real queue number by checking if the vring.desc
+> >      is NON-NULL.
+> 
+> Note that there is no requirement that the driver initializes a
+> consecutive number of virtqueues.  It is acceptable for it to initialize
+> virtqueues 0, 1 and 57.  It seems like the bug is in DPDK, possibly more
+> than one...
+> 
+  Yes, it seems the bug is in DPDK side. But one strange issue here, the
+  virtio_net driver do the same thing to get real num_vqs by MIN(..),
+  the DPDK with virtio_net can avoid this kind of issue(Sorry, i did not
+  fully dig out the virtio_net and DPDK code and only hope to get the
+  best solution to fix this issue). Anyway, i will firstly check this from 
+  DPDK side. Thanks for your great help!
 
-  To easily reproduce the issue I have created the following repository:
-  https://github.com/lueschem/edi-qemu
+  Yang
 
-  The call where systemd gets looping is the following:
-  2837 getsockopt(3,1,31,274891889456,274887218756,274888927920) =3D -1 err=
-no=3D34 (Numerical result out of range)
-
-  Furthermore I also verified that the issue is not related to LXD.
-  The same behavior can be reproduced using systemd-nspawn.
-
-  This issue reported against systemd seems to be related:
-  https://github.com/systemd/systemd/issues/11557
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1823790/+subscriptions
+> Paolo
+> 
+> >      By the way, vhost SCSI device has the same issue with
+> >      vhost-user-blk device. 
+> > 
+> >      Yang
+> > 
+> >> Paolo
+> > 
 
