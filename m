@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C639150F23
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Feb 2020 19:11:26 +0100 (CET)
-Received: from localhost ([::1]:45495 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1812E150F29
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Feb 2020 19:12:30 +0100 (CET)
+Received: from localhost ([::1]:45510 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iygBx-00038r-9Q
-	for lists+qemu-devel@lfdr.de; Mon, 03 Feb 2020 13:11:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44948)
+	id 1iygCz-00053V-5e
+	for lists+qemu-devel@lfdr.de; Mon, 03 Feb 2020 13:12:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44947)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groeck7@gmail.com>) id 1iyg9s-0001QX-Rb
+ (envelope-from <groeck7@gmail.com>) id 1iyg9s-0001QU-Qk
  for qemu-devel@nongnu.org; Mon, 03 Feb 2020 13:09:17 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groeck7@gmail.com>) id 1iyg9r-0004Jc-QX
+ (envelope-from <groeck7@gmail.com>) id 1iyg9r-0004K1-TN
  for qemu-devel@nongnu.org; Mon, 03 Feb 2020 13:09:16 -0500
-Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:41725)
+Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:33026)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <groeck7@gmail.com>)
- id 1iyg9m-0003zp-SB; Mon, 03 Feb 2020 13:09:12 -0500
-Received: by mail-pl1-x641.google.com with SMTP id t14so6155666plr.8;
- Mon, 03 Feb 2020 10:09:08 -0800 (PST)
+ id 1iyg9p-00042J-LZ; Mon, 03 Feb 2020 13:09:13 -0500
+Received: by mail-pg1-x541.google.com with SMTP id 6so8246560pgk.0;
+ Mon, 03 Feb 2020 10:09:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=yq6eFFb6QlatLCP1XykFR99zBztSE9O3BlU2GJ/1iI0=;
- b=YIoNpmYcwsYHxKOK/UlD0vU6PTWdFWExXlL2JmdbzLh3oQk8fK66V6QL10L6w0ibtT
- A0wCYQI+1/Ah68mpRTr2DA/2BgTn8wWm4b0oY4Lw3CF/T0DDwhBI5r8aTjlMAaYbDXjH
- FXcIsD5GCXw9oG7uZcu1TY96k0BVyNpm27i412bAZv9GQFgyAzYlUWTyzBn5einmf3vB
- jMM3SQFiy5cUUW1A0oCUzOyqCrB2NZHdNr2ldXh97NTRavO36uH+j6A0u7ybqy5zjfJv
- ieor9NEYnd1bfnLqACFid750QI7pTfpUlFp/dJYM//RYEyiUi6DzEXvx6Re02X/0Pyxj
- cPcg==
+ bh=etoHwdNyoSRutm5MdnEpD2P8ySOBKOPV8Ax17Ri7UPA=;
+ b=rIzUlwSx2cU9kTKSnSzkf/21PjTuERz6i0hT7ZLCiLODznauFpKYy8BXOCofpfctH/
+ 1D5aM91f+pt6xWAwHzqVckWSU+EypB9pqUAfRzLFXUX7Bcct44ym1CPqMuqS52BHtMym
+ EF8YDBclpRtYKLtK+hkjwRxEYDMZ/kytOIDx5FSwoOlWZpT/mxh4trjf5lthlagS9xVi
+ yWNA/roMAU8ZC3CKTTZ9YeRsCxnb8xYoC216ATprYQxVqZQkLecNKzCiPNutmP2nHZXV
+ QfVoJvq1ftfRQFlCu3zG5e+MpfO3CTR2yq2VMF05m6x2z8WgZWnq6tnJ8suEgIgTKjlI
+ 4/Dg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=yq6eFFb6QlatLCP1XykFR99zBztSE9O3BlU2GJ/1iI0=;
- b=mp0g83B+CjFejlYU41TkxtEN3bQrIj6B0G/E2ZPtbbS6VZutnxjT6hEt5iSUkbDXxN
- iGyATluFYkSac8JbDPRL62N7nXys7JUpjgsLF89125fWl8ZdH1MH7V4ppNjyBiZpN+t6
- FsyGthWbsU63NF3gTxueh2XWi+bb34G/4cCLy2usnA2JUZb9n2dl0+FXVuYYAdJNafR9
- WKlAVgV+WvGOoc++kSYzRerBNcZ43Ku9rQM9w+9CGiHLwaa5wF8vAyEF5V5GY2X5LFlV
- KJK3v8tlYU9Ucii4g97zW6OEnBCjRqZlj8zhcRfyc1Iiaoo0hOdUO38m8oZXPcB8JyDl
- duLA==
-X-Gm-Message-State: APjAAAVXOF1UBc2FIoDoOGtXwMooDHnZ17vXH18FXWiLqQP3ykjhABPL
- sU8/tSw8smtN0lhu03ShP+Q=
-X-Google-Smtp-Source: APXvYqxNcoSiAvTbvVAXBjor2xFhCeHSF05GHapaTJvEuLnCDZn/C69tle6tRbIwACZlY1B0RqQNjw==
-X-Received: by 2002:a17:902:a616:: with SMTP id
- u22mr24614170plq.173.1580753348008; 
- Mon, 03 Feb 2020 10:09:08 -0800 (PST)
+ bh=etoHwdNyoSRutm5MdnEpD2P8ySOBKOPV8Ax17Ri7UPA=;
+ b=gytas3wdBMtMYxYp2s4PqlZyoH44rFZzkY0fanEP36EY9a3kCgQNAgOZRSh1g0dJHU
+ x/XRzb7vUh7coQyQ/s34xuPLIXyG8nysfbkfweZs4XTmD01rfQXLjCRinrVbBHLCub/S
+ pbQI+EuCmqo/eOt5skkWAMyD2SU4imEfarl6eeAVQXN5HbJEIqwmAFgDhExvGp/hCYYz
+ 8j2jaRl0OEw79T0C0LAax4qogAHwT47owevKLNV2hUWKyFK/yB/uYnxcKSIXxVYxqngG
+ 49fHjKbpD0FGC5+ECLvJrE884ma4BXod5YS2twqCBkne3V0DFQe1O6VfOmMZtlJJTuYO
+ Y5VQ==
+X-Gm-Message-State: APjAAAXm+ilX2O5K78KVAp2w+oRFWv3UQdopFWwwVqRFOFT1uH4bCQpp
+ b2zsT1trOrpKDkyXOHHbyag=
+X-Google-Smtp-Source: APXvYqw1z9IvsrNpF/Ovy/W2pLZpyTZAyBf0dUVByblVqFbrME4fkfrMfzf5xGqwxK08fWcqmEQQAw==
+X-Received: by 2002:a62:4d87:: with SMTP id
+ a129mr25624154pfb.116.1580753349506; 
+ Mon, 03 Feb 2020 10:09:09 -0800 (PST)
 Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id w128sm20324023pgb.53.2020.02.03.10.09.07
+ by smtp.gmail.com with ESMTPSA id 10sm21451759pfu.132.2020.02.03.10.09.08
  (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Mon, 03 Feb 2020 10:09:07 -0800 (PST)
+ Mon, 03 Feb 2020 10:09:08 -0800 (PST)
 From: Guenter Roeck <linux@roeck-us.net>
 To: Alistair Francis <alistair@alistair23.me>
-Subject: [PATCH 2/3] m25p80: Improve command handling for Jedec and
- unsupported commands
-Date: Mon,  3 Feb 2020 10:09:03 -0800
-Message-Id: <20200203180904.2727-2-linux@roeck-us.net>
+Subject: [PATCH 3/3] aspeed/smc: Fix number of dummy cycles for FAST_READ_4
+ command
+Date: Mon,  3 Feb 2020 10:09:04 -0800
+Message-Id: <20200203180904.2727-3-linux@roeck-us.net>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200203180904.2727-1-linux@roeck-us.net>
 References: <20200203180904.2727-1-linux@roeck-us.net>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::641
+X-Received-From: 2607:f8b0:4864:20::541
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,49 +83,33 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Always report 6 bytes of JEDEC data. Fill remaining data with 0.
-
-For unsupported commands, keep sending a value of 0 until the chip
-is deselected.
-
-Both changes avoid attempts to decode random commands. Up to now this
-happened if the reported Jedec data was shorter than 6 bytes but the
-host read 6 bytes, and with all unsupported commands.
+The Linux kernel recently started using FAST_READ_4 commands.
+This results in flash read failures. At the same time, the m25p80
+emulation is seen to read 8 more bytes than expected. Adjusting the
+expected number of dummy cycles to match FAST_READ fixes the problem.
 
 Signed-off-by: Guenter Roeck <linux@roeck-us.net>
 ---
- hw/block/m25p80.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+ hw/ssi/aspeed_smc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
-index 63e050d7d3..aca75edcc1 100644
---- a/hw/block/m25p80.c
-+++ b/hw/block/m25p80.c
-@@ -1040,8 +1040,11 @@ static void decode_new_cmd(Flash *s, uint32_t value)
-         for (i = 0; i < s->pi->id_len; i++) {
-             s->data[i] = s->pi->id[i];
-         }
-+        for (; i < SPI_NOR_MAX_ID_LEN; i++) {
-+            s->data[i] = 0;
-+        }
- 
--        s->len = s->pi->id_len;
-+        s->len = SPI_NOR_MAX_ID_LEN;
-         s->pos = 0;
-         s->state = STATE_READING_DATA;
-         break;
-@@ -1158,6 +1161,11 @@ static void decode_new_cmd(Flash *s, uint32_t value)
-         s->quad_enable = false;
-         break;
-     default:
-+        s->pos = 0;
-+        s->len = 1;
-+        s->state = STATE_READING_DATA;
-+        s->data_read_loop = true;
-+        s->data[0] = 0;
-         qemu_log_mask(LOG_GUEST_ERROR, "M25P80: Unknown cmd %x\n", value);
-         break;
-     }
+diff --git a/hw/ssi/aspeed_smc.c b/hw/ssi/aspeed_smc.c
+index f0c7bbbad3..61e8fa57d3 100644
+--- a/hw/ssi/aspeed_smc.c
++++ b/hw/ssi/aspeed_smc.c
+@@ -762,11 +762,11 @@ static int aspeed_smc_num_dummies(uint8_t command)
+     case FAST_READ:
+     case DOR:
+     case QOR:
++    case FAST_READ_4:
+     case DOR_4:
+     case QOR_4:
+         return 1;
+     case DIOR:
+-    case FAST_READ_4:
+     case DIOR_4:
+         return 2;
+     case QIOR:
 -- 
 2.17.1
 
