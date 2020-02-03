@@ -2,62 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3AFB150ED2
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Feb 2020 18:43:00 +0100 (CET)
-Received: from localhost ([::1]:45274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E7E2150EB9
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Feb 2020 18:38:01 +0100 (CET)
+Received: from localhost ([::1]:45232 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iyfkR-0002qj-OA
-	for lists+qemu-devel@lfdr.de; Mon, 03 Feb 2020 12:42:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42405)
+	id 1iyffc-0000GG-6Z
+	for lists+qemu-devel@lfdr.de; Mon, 03 Feb 2020 12:38:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33992)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <rsta2@o2online.de>) id 1iyfj3-0002Jc-Cp
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 12:41:34 -0500
+ (envelope-from <wainersm@redhat.com>) id 1iyfeZ-0007zx-Bd
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 12:36:57 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <rsta2@o2online.de>) id 1iyfj2-0003KH-E9
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 12:41:33 -0500
-Received: from mail1454c50.megamailservers.eu ([91.136.14.54]:52974
- helo=mail266c50.megamailservers.eu)
+ (envelope-from <wainersm@redhat.com>) id 1iyfeV-000053-Vp
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 12:36:54 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:31521
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <rsta2@o2online.de>)
- id 1iyfiz-0002vb-Cm; Mon, 03 Feb 2020 12:41:30 -0500
-X-Authenticated-User: 017626146082@o2online.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=megamailservers.eu;
- s=maildub; t=1580744483;
- bh=UEdoKkBekSSPy6Qva+zTYSGw/Rf/PxDmGz4nNClJIFw=;
- h=From:To:Cc:Subject:Date:From;
- b=g+vyjUW3mtpmUo7qWoMTJkoXtilP06Y4BQASpVpatLAQRs/rwHKcr+BITr4d4Vqxg
- pVSZBhaU7EgQwvWvtI2Smg4p1pZuXOR3LtWBODobZ+zbFu3hWOe88/LLOgNqWyZMrJ
- s7MjQusGqd/zgbsCYqzZMF+hxoPxZUClHLwHNO5A=
-Feedback-ID: rsta2@o2online.
-Received: from desktop2.localnet (178-21-1-177.ilmprovider.net [178.21.1.177])
- (authenticated bits=0)
- by mail266c50.megamailservers.eu (8.14.9/8.13.1) with ESMTP id 013FfLPU022990
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
- Mon, 3 Feb 2020 15:41:23 +0000
-From: Rene Stange <rsta2@o2online.de>
-To: Philippe =?ISO-8859-1?Q?Mathieu=2DDaud=E9?= <philmd@redhat.com>
-Subject: [PATCH v2 2/2] bcm2835_dma: Re-initialize xlen in TD mode
-Date: Mon, 03 Feb 2020 16:40:51 +0100
-Message-ID: <5397138.k0qeMALlIp@desktop2>
+ (Exim 4.71) (envelope-from <wainersm@redhat.com>) id 1iyfeV-0008TE-5V
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 12:36:51 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1580751410;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=RoxYHzF0ZBAWHf4/gqmbihRKf3xoux1ACQnLuCVihGM=;
+ b=KKhqFsxpamISxnw9qweoe6Ql8nImixdf1A9MUl9myBl2LnGLDyxQhLurv1lOJ5dna5eOCJ
+ mgGo6SGwfffXSCisp2pEWMjkdLLYFDVfiv9fI0WyDnRrFjaqET6CTSdZke+sE3tyW32/Pl
+ HgCrpenIyjYq8aldxNpQ2ZCoIVYYOZE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-229-dMf42tCGObuh8ottucy8Jw-1; Mon, 03 Feb 2020 12:36:33 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 94628190D340;
+ Mon,  3 Feb 2020 17:36:32 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-116-90.gru2.redhat.com
+ [10.97.116.90])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 691F187B1C;
+ Mon,  3 Feb 2020 17:36:30 +0000 (UTC)
+Subject: Re: [RFC PATCH 2/2] GitLab CI: crude mapping of PMM's scripts to jobs
+To: Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org
+References: <20200203032328.12051-1-crosa@redhat.com>
+ <20200203032328.12051-2-crosa@redhat.com>
+From: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Message-ID: <a87e5634-903d-2ad5-4f33-b65f77703302@redhat.com>
+Date: Mon, 3 Feb 2020 15:36:28 -0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.4.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-CTCH-RefID: str=0001.0A0B0201.5E383F23.0053, ss=1, re=0.000, recu=0.000,
- reip=0.000, cl=1, cld=1, fgs=0
-X-CTCH-VOD: Unknown
-X-CTCH-Spam: Unknown
-X-CTCH-Score: 0.000
-X-CTCH-Rules: 
-X-CTCH-Flags: 0
-X-CTCH-ScoreCust: 0.000
-X-CSC: 0
-X-CHA: v=2.3 cv=PNJxBsiC c=1 sm=1 tr=0 a=oFQkuSNlBNCQRuITVo1IXg==:117
- a=oFQkuSNlBNCQRuITVo1IXg==:17 a=kj9zAlcOel0A:10 a=SvY40l2xVmRt99U1V6QA:9
- a=CjuIK1q_8ugA:10
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x (no
- timestamps) [generic]
-X-Received-From: 91.136.14.54
+In-Reply-To: <20200203032328.12051-2-crosa@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: dMf42tCGObuh8ottucy8Jw-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/alternative;
+ boundary="------------73494C4FC0442136A03FA905"
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -69,54 +75,601 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm <qemu-arm@nongnu.org>,
- qemu-devel <qemu-devel@nongnu.org>,
- Andrew Baumann <andrew.baumann@microsoft.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-TD (two dimensions) DMA mode did not work, because the xlen variable
-has not been re-initialized before each additional ylen run through
-in bcm2835_dma_update(), which has been fixed.
+This is a multi-part message in MIME format.
+--------------73494C4FC0442136A03FA905
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Rene Stange <rsta2@o2online.de>
+Hi Cleber,
+
+On 2/3/20 1:23 AM, Cleber Rosa wrote:
+> This is a crude and straightforward mapping of Peter's
+> "remake-merge-builds" and "pull-buildtest" scripts.
+>
+> Some characteristics were removed for simplicity sake (but eventually
+> will), including:
+>   * number of simultaneous make jobs
+>   * make's synchronous output, not needed because of previous point
+>   * out-of-tree builds
+>
+> This covers the "x86-64 Linux with a variety of different build
+> configs"[1].  I've personally tested all of them, and only had
+> issues with the "notcg" job[2], but it seems to be a test specific
+> issue with the nested KVM I was using.
+
+
+Could you put a comment in the commit text or in-code explaining why it=20
+builds QEMU with=C2=A0 --disable-libssh on all the jobs?
+
+>
+> [1] - https://wiki.qemu.org/Requirements/GatingCI#Current_Tests
+> [2] - https://paste.centos.org/view/1dd43a1c
+>
+> Signed-off-by: Cleber Rosa <crosa@redhat.com>
+> ---
+>   .gitlab-ci.yml | 116 +++++++++++++++++++++++++++++++++++++++++++++++++
+>   1 file changed, 116 insertions(+)
+>
+> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+> index d2c7d2198e..eb4077e2ab 100644
+> --- a/.gitlab-ci.yml
+> +++ b/.gitlab-ci.yml
+> @@ -2,6 +2,8 @@ include:
+>     - local: '/.gitlab-ci-edk2.yml'
+>  =20
+>   build-system1:
+> + rules:
+> + - if: '$CI_COMMIT_REF_NAME !=3D "staging"'
+>    before_script: &before_scr_apt
+>    - apt-get update -qq
+>    - apt-get install -y -qq flex bison libglib2.0-dev libpixman-1-dev gen=
+isoimage
+> @@ -17,6 +19,8 @@ build-system1:
+>    - make -j2 check
+>  =20
+>   build-system2:
+> + rules:
+> + - if: '$CI_COMMIT_REF_NAME !=3D "staging"'
+>    before_script:
+>     *before_scr_apt
+>    script:
+> @@ -31,6 +35,8 @@ build-system2:
+>    - make -j2 check
+>  =20
+>   build-disabled:
+> + rules:
+> + - if: '$CI_COMMIT_REF_NAME !=3D "staging"'
+>    before_script:
+>     *before_scr_apt
+>    script:
+> @@ -47,6 +53,8 @@ build-disabled:
+>    - make -j2 check-qtest SPEED=3Dslow
+>  =20
+>   build-tcg-disabled:
+> + rules:
+> + - if: '$CI_COMMIT_REF_NAME !=3D "staging"'
+>    before_script:
+>     *before_scr_apt
+>    script:
+> @@ -67,6 +75,8 @@ build-tcg-disabled:
+>               248 250 254 255 256
+>  =20
+>   build-user:
+> + rules:
+> + - if: '$CI_COMMIT_REF_NAME !=3D "staging"'
+>    before_script:
+>     *before_scr_apt
+>    script:
+> @@ -78,6 +88,8 @@ build-user:
+>    - make run-tcg-tests-i386-linux-user run-tcg-tests-x86_64-linux-user
+>  =20
+>   build-clang:
+> + rules:
+> + - if: '$CI_COMMIT_REF_NAME !=3D "staging"'
+>    before_script:
+>     *before_scr_apt
+>    script:
+> @@ -92,6 +104,8 @@ build-clang:
+>    - make -j2 check
+>  =20
+>   build-tci:
+> + rules:
+> + - if: '$CI_COMMIT_REF_NAME !=3D "staging"'
+>    before_script:
+>     *before_scr_apt
+>    script:
+> @@ -111,3 +125,105 @@ build-tci:
+>    - QTEST_QEMU_BINARY=3D"x86_64-softmmu/qemu-system-x86_64" ./tests/qtes=
+t/pxe-test
+>    - QTEST_QEMU_BINARY=3D"s390x-softmmu/qemu-system-s390x"
+>      ./tests/qtest/pxe-test -m slow
+> +
+> +ubuntu-18.04.3-x86_64-notools:
+> + tags:
+> + - ubuntu_18.04.3
+> + - x86_64
+> + rules:
+> + - if: '$CI_COMMIT_REF_NAME =3D=3D "staging"'
+> + script:
+> + # https://git.linaro.org/people/peter.maydell/misc-scripts.git/tree/rem=
+ake-merge-builds#n22
+> + - ./configure --target-list=3Darm-softmmu --disable-tools --disable-lib=
+ssh
+> + # There is no make / make check in the "pull-buildtest" script for this=
+.
+> + # Question: should it at least be built? Or dropped?
+> + - make
+> +
+> +ubuntu-18.04.3-x86_64-all-linux-static:
+
+Doesn't it need to LD_PRELOAD on this runner too? ->
+
+|https://git.linaro.org/people/peter.maydell/misc-scripts.git/tree/pull-bui=
+ldtest#n24=20
+|
+
+> + tags:
+> + - ubuntu_18.04.3
+> + - x86_64
+> + rules:
+> + - if: '$CI_COMMIT_REF_NAME =3D=3D "staging"'
+> + script:
+> + # https://git.linaro.org/people/peter.maydell/misc-scripts.git/tree/rem=
+ake-merge-builds#n25
+> + - ./configure --enable-debug --static --disable-system --disable-gluste=
+rfs --disable-libssh
+
+Shouldn't it --disable-gnutls instead of --disable-glusterfs?
+
+> + # https://git.linaro.org/people/peter.maydell/misc-scripts.git/tree/pul=
+l-buildtest#n36
+> + - make
+> + # https://git.linaro.org/people/peter.maydell/misc-scripts.git/tree/pul=
+l-buildtest#n45
+> + - make check V=3D1
+> + # https://git.linaro.org/people/peter.maydell/misc-scripts.git/tree/pul=
+l-buildtest#n48
+> + - make check-tcg V=3D1
+
+
+Any special reason to split it in 3 steps instead of a single `make=20
+check check-tcg`?
+
+That pattern continues on next jobs...
+
+
+> +
+> +ubuntu-18.04.3-x86_64-all:
+> + tags:
+> + - ubuntu_18.04.3
+> + - x86_64
+> + rules:
+> + - if: '$CI_COMMIT_REF_NAME =3D=3D "staging"'
+> + script:
+> + # https://git.linaro.org/people/peter.maydell/misc-scripts.git/tree/rem=
+ake-merge-builds#n26
+> + - ./configure --disable-libssh
+> + # https://git.linaro.org/people/peter.maydell/misc-scripts.git/tree/pul=
+l-buildtest#n28
+> + - make
+> + # https://git.linaro.org/people/peter.maydell/misc-scripts.git/tree/pul=
+l-buildtest#n37
+> + - make check V=3D1
+> +
+> +ubuntu-18.04.3-x86_64-alldbg:
+> + tags:
+> + - ubuntu_18.04.3
+> + - x86_64
+> + rules:
+> + - if: '$CI_COMMIT_REF_NAME =3D=3D "staging"'
+> + script:
+> + # https://git.linaro.org/people/peter.maydell/misc-scripts.git/tree/rem=
+ake-merge-builds#n27
+> + - ./configure --disable-libssh
+Missing --enable-debug, right?
+> + # https://git.linaro.org/people/peter.maydell/misc-scripts.git/tree/pul=
+l-buildtest#n27
+> + - make clean
+> + # https://git.linaro.org/people/peter.maydell/misc-scripts.git/tree/pul=
+l-buildtest#n29
+> + - make
+> + # https://git.linaro.org/people/peter.maydell/misc-scripts.git/tree/pul=
+l-buildtest#n37
+> + - make check V=3D1
+> +
+> +ubuntu-18.04.3-x86_64-clang:
+> + tags:
+> + - ubuntu_18.04.3
+> + - x86_64
+> + rules:
+> + - if: '$CI_COMMIT_REF_NAME =3D=3D "staging"'
+> + script:
+> + # https://git.linaro.org/people/peter.maydell/misc-scripts.git/tree/rem=
+ake-merge-builds#n31
+> + - ./configure --disable-libssh --cc=3Dclang --cxx=3Dclang++ --enable-gt=
+k --extra-cflags=3D'-fsanitize=3Dundefined -fno-sanitize=3Dshift-base -Werr=
+or'
+> + # https://git.linaro.org/people/peter.maydell/misc-scripts.git/tree/pul=
+l-buildtest#n33
+> + - make
+> + # https://git.linaro.org/people/peter.maydell/misc-scripts.git/tree/pul=
+l-buildtest#n39
+> + - make check V=3D1
+> +
+> +ubuntu-18.04.3-x86_64-tci:
+> + tags:
+> + - ubuntu_18.04.3
+> + - x86_64
+> + rules:
+> + - if: '$CI_COMMIT_REF_NAME =3D=3D "staging"'
+> + script:
+> + # https://git.linaro.org/people/peter.maydell/misc-scripts.git/tree/rem=
+ake-merge-builds#n33
+> + - ./configure --disable-libssh --enable-debug --enable-tcg-interpreter
+> + # https://git.linaro.org/people/peter.maydell/misc-scripts.git/tree/pul=
+l-buildtest#n34
+> + - make
+
+Would make sense to add a commented `make check` entry as well?
+
+https://git.linaro.org/people/peter.maydell/misc-scripts.git/tree/pull-buil=
+dtest#n40
+
+> +
+> +ubuntu-18.04.3-x86_64-notcg:
+> + tags:
+> + - ubuntu_18.04.3
+> + - x86_64
+> + rules:
+> + - if: '$CI_COMMIT_REF_NAME =3D=3D "staging"'
+> + script:
+> + # https://git.linaro.org/people/peter.maydell/misc-scripts.git/tree/rem=
+ake-merge-builds#n35
+> + - ./configure --disable-libssh --enable-debug --disable-tcg
+> + # https://git.linaro.org/people/peter.maydell/misc-scripts.git/tree/pul=
+l-buildtest#n35
+> + - make
+> + # https://git.linaro.org/people/peter.maydell/misc-scripts.git/tree/pul=
+l-buildtest#n39
+> + # Question: check is disabled on the original script, because the machi=
+ne
+> + # is said to be running VirtualBox.  Should this be dropped or should t=
+he
+> + # machine be tweaked or substituted?
+> + - make check V=3D1
+
+--------------73494C4FC0442136A03FA905
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+  <head>
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DUTF-8=
+">
+  </head>
+  <body text=3D"#000000" bgcolor=3D"#FFFFFF">
+    <p>Hi Cleber,<br>
+    </p>
+    <div class=3D"moz-cite-prefix">On 2/3/20 1:23 AM, Cleber Rosa wrote:<br=
+>
+    </div>
+    <blockquote type=3D"cite"
+      cite=3D"mid:20200203032328.12051-2-crosa@redhat.com">
+      <pre class=3D"moz-quote-pre" wrap=3D"">This is a crude and straightfo=
+rward mapping of Peter's
+"remake-merge-builds" and "pull-buildtest" scripts.
+
+Some characteristics were removed for simplicity sake (but eventually
+will), including:
+ * number of simultaneous make jobs
+ * make's synchronous output, not needed because of previous point
+ * out-of-tree builds
+
+This covers the "x86-64 Linux with a variety of different build
+configs"[1].  I've personally tested all of them, and only had
+issues with the "notcg" job[2], but it seems to be a test specific
+issue with the nested KVM I was using.</pre>
+    </blockquote>
+    <p><br>
+    </p>
+    <p>Could you put a comment in the commit text or in-code explaining
+      why it builds QEMU with=C2=A0 --disable-libssh on all the jobs?<br>
+    </p>
+    <blockquote type=3D"cite"
+      cite=3D"mid:20200203032328.12051-2-crosa@redhat.com">
+      <pre class=3D"moz-quote-pre" wrap=3D"">
+
+[1] - <a class=3D"moz-txt-link-freetext" href=3D"https://wiki.qemu.org/Requ=
+irements/GatingCI#Current_Tests">https://wiki.qemu.org/Requirements/GatingC=
+I#Current_Tests</a>
+[2] - <a class=3D"moz-txt-link-freetext" href=3D"https://paste.centos.org/v=
+iew/1dd43a1c">https://paste.centos.org/view/1dd43a1c</a>
+
+Signed-off-by: Cleber Rosa <a class=3D"moz-txt-link-rfc2396E" href=3D"mailt=
+o:crosa@redhat.com">&lt;crosa@redhat.com&gt;</a>
 ---
- hw/dma/bcm2835_dma.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ .gitlab-ci.yml | 116 +++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 116 insertions(+)
 
-diff --git a/hw/dma/bcm2835_dma.c b/hw/dma/bcm2835_dma.c
-index 667d951a6f..ccff5ed55b 100644
---- a/hw/dma/bcm2835_dma.c
-+++ b/hw/dma/bcm2835_dma.c
-@@ -54,7 +54,7 @@
- static void bcm2835_dma_update(BCM2835DMAState *s, unsigned c)
- {
-     BCM2835DMAChan *ch = &s->chan[c];
--    uint32_t data, xlen, ylen;
-+    uint32_t data, xlen, xlen_td, ylen;
-     int16_t dst_stride, src_stride;
- 
-     if (!(s->enable & (1 << c))) {
-@@ -82,6 +82,7 @@ static void bcm2835_dma_update(BCM2835DMAState *s, unsigned c)
-             dst_stride = 0;
-             src_stride = 0;
-         }
-+        xlen_td = xlen;
- 
-         while (ylen != 0) {
-             /* Normal transfer mode */
-@@ -117,6 +118,7 @@ static void bcm2835_dma_update(BCM2835DMAState *s, unsigned c)
-             if (--ylen != 0) {
-                 ch->source_ad += src_stride;
-                 ch->dest_ad += dst_stride;
-+                xlen = xlen_td;
-             }
-         }
-         ch->cs |= BCM2708_DMA_END;
--- 
-2.16.4
+diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+index d2c7d2198e..eb4077e2ab 100644
+--- a/.gitlab-ci.yml
++++ b/.gitlab-ci.yml
+@@ -2,6 +2,8 @@ include:
+   - local: '/.gitlab-ci-edk2.yml'
+=20
+ build-system1:
++ rules:
++ - if: '$CI_COMMIT_REF_NAME !=3D "staging"'
+  before_script: &amp;before_scr_apt
+  - apt-get update -qq
+  - apt-get install -y -qq flex bison libglib2.0-dev libpixman-1-dev geniso=
+image
+@@ -17,6 +19,8 @@ build-system1:
+  - make -j2 check
+=20
+ build-system2:
++ rules:
++ - if: '$CI_COMMIT_REF_NAME !=3D "staging"'
+  before_script:
+   *before_scr_apt
+  script:
+@@ -31,6 +35,8 @@ build-system2:
+  - make -j2 check
+=20
+ build-disabled:
++ rules:
++ - if: '$CI_COMMIT_REF_NAME !=3D "staging"'
+  before_script:
+   *before_scr_apt
+  script:
+@@ -47,6 +53,8 @@ build-disabled:
+  - make -j2 check-qtest SPEED=3Dslow
+=20
+ build-tcg-disabled:
++ rules:
++ - if: '$CI_COMMIT_REF_NAME !=3D "staging"'
+  before_script:
+   *before_scr_apt
+  script:
+@@ -67,6 +75,8 @@ build-tcg-disabled:
+             248 250 254 255 256
+=20
+ build-user:
++ rules:
++ - if: '$CI_COMMIT_REF_NAME !=3D "staging"'
+  before_script:
+   *before_scr_apt
+  script:
+@@ -78,6 +88,8 @@ build-user:
+  - make run-tcg-tests-i386-linux-user run-tcg-tests-x86_64-linux-user
+=20
+ build-clang:
++ rules:
++ - if: '$CI_COMMIT_REF_NAME !=3D "staging"'
+  before_script:
+   *before_scr_apt
+  script:
+@@ -92,6 +104,8 @@ build-clang:
+  - make -j2 check
+=20
+ build-tci:
++ rules:
++ - if: '$CI_COMMIT_REF_NAME !=3D "staging"'
+  before_script:
+   *before_scr_apt
+  script:
+@@ -111,3 +125,105 @@ build-tci:
+  - QTEST_QEMU_BINARY=3D"x86_64-softmmu/qemu-system-x86_64" ./tests/qtest/p=
+xe-test
+  - QTEST_QEMU_BINARY=3D"s390x-softmmu/qemu-system-s390x"
+    ./tests/qtest/pxe-test -m slow
++
++ubuntu-18.04.3-x86_64-notools:
++ tags:
++ - ubuntu_18.04.3
++ - x86_64
++ rules:
++ - if: '$CI_COMMIT_REF_NAME =3D=3D "staging"'
++ script:
++ # <a class=3D"moz-txt-link-freetext" href=3D"https://git.linaro.org/peopl=
+e/peter.maydell/misc-scripts.git/tree/remake-merge-builds#n22">https://git.=
+linaro.org/people/peter.maydell/misc-scripts.git/tree/remake-merge-builds#n=
+22</a>
++ - ./configure --target-list=3Darm-softmmu --disable-tools --disable-libss=
+h
++ # There is no make / make check in the "pull-buildtest" script for this.
++ # Question: should it at least be built? Or dropped?
++ - make
++
++ubuntu-18.04.3-x86_64-all-linux-static:</pre>
+    </blockquote>
+    <p>Doesn't it need to LD_PRELOAD on this runner too? -&gt;<br>
+    </p>
+    <pre><code><a class=3D"moz-txt-link-freetext" href=3D"https://git.linar=
+o.org/people/peter.maydell/misc-scripts.git/tree/pull-buildtest#n24">https:=
+//git.linaro.org/people/peter.maydell/misc-scripts.git/tree/pull-buildtest#=
+n24</a>
+</code></pre>
+    <blockquote type=3D"cite"
+      cite=3D"mid:20200203032328.12051-2-crosa@redhat.com">
+      <pre class=3D"moz-quote-pre" wrap=3D"">
++ tags:
++ - ubuntu_18.04.3
++ - x86_64
++ rules:
++ - if: '$CI_COMMIT_REF_NAME =3D=3D "staging"'
++ script:
++ # <a class=3D"moz-txt-link-freetext" href=3D"https://git.linaro.org/peopl=
+e/peter.maydell/misc-scripts.git/tree/remake-merge-builds#n25">https://git.=
+linaro.org/people/peter.maydell/misc-scripts.git/tree/remake-merge-builds#n=
+25</a>
++ - ./configure --enable-debug --static --disable-system --disable-glusterf=
+s --disable-libssh</pre>
+    </blockquote>
+    <p>Shouldn't it --disable-gnutls instead of --disable-glusterfs?<br>
+    </p>
+    <blockquote type=3D"cite"
+      cite=3D"mid:20200203032328.12051-2-crosa@redhat.com">
+      <pre class=3D"moz-quote-pre" wrap=3D"">
++ # <a class=3D"moz-txt-link-freetext" href=3D"https://git.linaro.org/peopl=
+e/peter.maydell/misc-scripts.git/tree/pull-buildtest#n36">https://git.linar=
+o.org/people/peter.maydell/misc-scripts.git/tree/pull-buildtest#n36</a>
++ - make
++ # <a class=3D"moz-txt-link-freetext" href=3D"https://git.linaro.org/peopl=
+e/peter.maydell/misc-scripts.git/tree/pull-buildtest#n45">https://git.linar=
+o.org/people/peter.maydell/misc-scripts.git/tree/pull-buildtest#n45</a>
++ - make check V=3D1
++ # <a class=3D"moz-txt-link-freetext" href=3D"https://git.linaro.org/peopl=
+e/peter.maydell/misc-scripts.git/tree/pull-buildtest#n48">https://git.linar=
+o.org/people/peter.maydell/misc-scripts.git/tree/pull-buildtest#n48</a>
++ - make check-tcg V=3D1</pre>
+    </blockquote>
+    <p><br>
+    </p>
+    <p>Any special reason to split it in 3 steps instead of a single
+      `make check check-tcg`?</p>
+    <p>That pattern continues on next jobs...</p>
+    <p><br>
+    </p>
+    <blockquote type=3D"cite"
+      cite=3D"mid:20200203032328.12051-2-crosa@redhat.com">
+      <pre class=3D"moz-quote-pre" wrap=3D"">
++
++ubuntu-18.04.3-x86_64-all:
++ tags:
++ - ubuntu_18.04.3
++ - x86_64
++ rules:
++ - if: '$CI_COMMIT_REF_NAME =3D=3D "staging"'
++ script:
++ # <a class=3D"moz-txt-link-freetext" href=3D"https://git.linaro.org/peopl=
+e/peter.maydell/misc-scripts.git/tree/remake-merge-builds#n26">https://git.=
+linaro.org/people/peter.maydell/misc-scripts.git/tree/remake-merge-builds#n=
+26</a>
++ - ./configure --disable-libssh
++ # <a class=3D"moz-txt-link-freetext" href=3D"https://git.linaro.org/peopl=
+e/peter.maydell/misc-scripts.git/tree/pull-buildtest#n28">https://git.linar=
+o.org/people/peter.maydell/misc-scripts.git/tree/pull-buildtest#n28</a>
++ - make
++ # <a class=3D"moz-txt-link-freetext" href=3D"https://git.linaro.org/peopl=
+e/peter.maydell/misc-scripts.git/tree/pull-buildtest#n37">https://git.linar=
+o.org/people/peter.maydell/misc-scripts.git/tree/pull-buildtest#n37</a>
++ - make check V=3D1
++
++ubuntu-18.04.3-x86_64-alldbg:
++ tags:
++ - ubuntu_18.04.3
++ - x86_64
++ rules:
++ - if: '$CI_COMMIT_REF_NAME =3D=3D "staging"'
++ script:
++ # <a class=3D"moz-txt-link-freetext" href=3D"https://git.linaro.org/peopl=
+e/peter.maydell/misc-scripts.git/tree/remake-merge-builds#n27">https://git.=
+linaro.org/people/peter.maydell/misc-scripts.git/tree/remake-merge-builds#n=
+27</a>
++ - ./configure --disable-libssh</pre>
+    </blockquote>
+    Missing --enable-debug, right? <br>
+    <blockquote type=3D"cite"
+      cite=3D"mid:20200203032328.12051-2-crosa@redhat.com">
+      <pre class=3D"moz-quote-pre" wrap=3D"">
++ # <a class=3D"moz-txt-link-freetext" href=3D"https://git.linaro.org/peopl=
+e/peter.maydell/misc-scripts.git/tree/pull-buildtest#n27">https://git.linar=
+o.org/people/peter.maydell/misc-scripts.git/tree/pull-buildtest#n27</a>
++ - make clean
++ # <a class=3D"moz-txt-link-freetext" href=3D"https://git.linaro.org/peopl=
+e/peter.maydell/misc-scripts.git/tree/pull-buildtest#n29">https://git.linar=
+o.org/people/peter.maydell/misc-scripts.git/tree/pull-buildtest#n29</a>
++ - make
++ # <a class=3D"moz-txt-link-freetext" href=3D"https://git.linaro.org/peopl=
+e/peter.maydell/misc-scripts.git/tree/pull-buildtest#n37">https://git.linar=
+o.org/people/peter.maydell/misc-scripts.git/tree/pull-buildtest#n37</a>
++ - make check V=3D1
++
++ubuntu-18.04.3-x86_64-clang:
++ tags:
++ - ubuntu_18.04.3
++ - x86_64
++ rules:
++ - if: '$CI_COMMIT_REF_NAME =3D=3D "staging"'
++ script:
++ # <a class=3D"moz-txt-link-freetext" href=3D"https://git.linaro.org/peopl=
+e/peter.maydell/misc-scripts.git/tree/remake-merge-builds#n31">https://git.=
+linaro.org/people/peter.maydell/misc-scripts.git/tree/remake-merge-builds#n=
+31</a>
++ - ./configure --disable-libssh --cc=3Dclang --cxx=3Dclang++ --enable-gtk =
+--extra-cflags=3D'-fsanitize=3Dundefined -fno-sanitize=3Dshift-base -Werror=
+'
++ # <a class=3D"moz-txt-link-freetext" href=3D"https://git.linaro.org/peopl=
+e/peter.maydell/misc-scripts.git/tree/pull-buildtest#n33">https://git.linar=
+o.org/people/peter.maydell/misc-scripts.git/tree/pull-buildtest#n33</a>
++ - make
++ # <a class=3D"moz-txt-link-freetext" href=3D"https://git.linaro.org/peopl=
+e/peter.maydell/misc-scripts.git/tree/pull-buildtest#n39">https://git.linar=
+o.org/people/peter.maydell/misc-scripts.git/tree/pull-buildtest#n39</a>
++ - make check V=3D1
++
++ubuntu-18.04.3-x86_64-tci:
++ tags:
++ - ubuntu_18.04.3
++ - x86_64
++ rules:
++ - if: '$CI_COMMIT_REF_NAME =3D=3D "staging"'
++ script:
++ # <a class=3D"moz-txt-link-freetext" href=3D"https://git.linaro.org/peopl=
+e/peter.maydell/misc-scripts.git/tree/remake-merge-builds#n33">https://git.=
+linaro.org/people/peter.maydell/misc-scripts.git/tree/remake-merge-builds#n=
+33</a>
++ - ./configure --disable-libssh --enable-debug --enable-tcg-interpreter
++ # <a class=3D"moz-txt-link-freetext" href=3D"https://git.linaro.org/peopl=
+e/peter.maydell/misc-scripts.git/tree/pull-buildtest#n34">https://git.linar=
+o.org/people/peter.maydell/misc-scripts.git/tree/pull-buildtest#n34</a>
++ - make</pre>
+    </blockquote>
+    <p>Would make sense to add a commented `make check` entry as well?<br>
+    </p>
+    <p><a class=3D"moz-txt-link-freetext" href=3D"https://git.linaro.org/pe=
+ople/peter.maydell/misc-scripts.git/tree/pull-buildtest#n40">https://git.li=
+naro.org/people/peter.maydell/misc-scripts.git/tree/pull-buildtest#n40</a><=
+br>
+    </p>
+    <blockquote type=3D"cite"
+      cite=3D"mid:20200203032328.12051-2-crosa@redhat.com">
+      <pre class=3D"moz-quote-pre" wrap=3D"">
++
++ubuntu-18.04.3-x86_64-notcg:
++ tags:
++ - ubuntu_18.04.3
++ - x86_64
++ rules:
++ - if: '$CI_COMMIT_REF_NAME =3D=3D "staging"'
++ script:
++ # <a class=3D"moz-txt-link-freetext" href=3D"https://git.linaro.org/peopl=
+e/peter.maydell/misc-scripts.git/tree/remake-merge-builds#n35">https://git.=
+linaro.org/people/peter.maydell/misc-scripts.git/tree/remake-merge-builds#n=
+35</a>
++ - ./configure --disable-libssh --enable-debug --disable-tcg
++ # <a class=3D"moz-txt-link-freetext" href=3D"https://git.linaro.org/peopl=
+e/peter.maydell/misc-scripts.git/tree/pull-buildtest#n35">https://git.linar=
+o.org/people/peter.maydell/misc-scripts.git/tree/pull-buildtest#n35</a>
++ - make
++ # <a class=3D"moz-txt-link-freetext" href=3D"https://git.linaro.org/peopl=
+e/peter.maydell/misc-scripts.git/tree/pull-buildtest#n39">https://git.linar=
+o.org/people/peter.maydell/misc-scripts.git/tree/pull-buildtest#n39</a>
++ # Question: check is disabled on the original script, because the machine
++ # is said to be running VirtualBox.  Should this be dropped or should the
++ # machine be tweaked or substituted?
++ - make check V=3D1
+</pre>
+    </blockquote>
+  </body>
+</html>
 
-
-
+--------------73494C4FC0442136A03FA905--
 
 
