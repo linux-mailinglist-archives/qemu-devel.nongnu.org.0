@@ -2,68 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23E2F15018E
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Feb 2020 07:09:19 +0100 (CET)
-Received: from localhost ([::1]:34698 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54BF3150195
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Feb 2020 07:14:44 +0100 (CET)
+Received: from localhost ([::1]:34766 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iyUv8-0001E5-6T
-	for lists+qemu-devel@lfdr.de; Mon, 03 Feb 2020 01:09:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56446)
+	id 1iyV0N-0006TB-Bz
+	for lists+qemu-devel@lfdr.de; Mon, 03 Feb 2020 01:14:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57106)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1iyUuJ-0000fr-0v
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 01:08:27 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1iyUxL-0002Kn-6d
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 01:11:37 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1iyUuH-0005ti-WB
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 01:08:26 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:42089
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <dgibson@ozlabs.org>) id 1iyUxI-0002TD-F2
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 01:11:35 -0500
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:51035 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iyUuH-0005sm-SL
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 01:08:25 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580710104;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:openpgp:openpgp;
- bh=oRF6kiqvrzygK+e1Yrr4QnwUbj4owRwSeJWOMnoz7kM=;
- b=CFSlinOWcmcxCJscA6hVnnrYXZjwMQNiTgVLxSFbJCGzfNJi6n8bCdRXtBPeYLzrxHDR6C
- 2YxfBaGhTOJmMGOiYC/dQz59WqN7hogCQlQh1m5fe802ZZrB16V4OWV2bZIGN3N400a+Bj
- uh5YWAQXMJnrqA0UYQCRckJashr7lBg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-350-ZN1GWPRtNh2bxhAFmYUiNw-1; Mon, 03 Feb 2020 01:08:23 -0500
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 555838017CC;
- Mon,  3 Feb 2020 06:08:22 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-116-129.ams2.redhat.com [10.36.116.129])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C969E1BC6D;
- Mon,  3 Feb 2020 06:08:17 +0000 (UTC)
-Subject: Re: [PATCH] tests/qtest: update comments about
- bios-tables-test-allowed-diff.h
-To: Heyi Guo <guoheyi@huawei.com>, qemu-devel@nongnu.org
-References: <20200202110009.51479-1-guoheyi@huawei.com>
-From: Thomas Huth <thuth@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <8efa38bc-48dc-c43e-0a34-062d5ae9e9d5@redhat.com>
-Date: Mon, 3 Feb 2020 07:08:15 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1iyUxH-0002Nt-LA; Mon, 03 Feb 2020 01:11:32 -0500
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 489yBl5S55z9sRh; Mon,  3 Feb 2020 17:11:27 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1580710287;
+ bh=6azcQBuOKskA6ccJ4NGfaKl0AO+DNig5GfNFWZb77g0=;
+ h=From:To:Cc:Subject:Date:From;
+ b=Yg5ajBTpUgsVeUFpZh9PIBAMri7J7cvBePPoF0Gan1ndHIs+0lfr3mLOXTQuRw067
+ JoTbKX3rSaAJweJRBCC4VxNej6K6MaqZhvnE7FmsiOeesiHMX9nIBuvFgGXT8oqePL
+ +sGW+VrbmyGEvX6JMK7m9CBvBPjyld6iJr4bVmys=
+From: David Gibson <david@gibson.dropbear.id.au>
+To: peter.maydell@linaro.org
+Subject: [PULL 00/35] ppc-for-5.0 queue 20200203
+Date: Mon,  3 Feb 2020 17:10:48 +1100
+Message-Id: <20200203061123.59150-1-david@gibson.dropbear.id.au>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-In-Reply-To: <20200202110009.51479-1-guoheyi@huawei.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: ZN1GWPRtNh2bxhAFmYUiNw-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2401:3900:2:1::2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,71 +52,206 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, wanghaibin.wang@huawei.com,
- Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: lvivier@redhat.com, David Gibson <david@gibson.dropbear.id.au>,
+ qemu-ppc@nongnu.org, qemu-devel@nongnu.org, groug@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 02/02/2020 12.00, Heyi Guo wrote:
-> Update comments in tests/qtest/bios-tables-test.c to reflect the
-> current path of bios-tables-test-allowed-diff.h, which is now under
-> tests/qtest/ as well.
-> 
-> Signed-off-by: Heyi Guo <guoheyi@huawei.com>
-> 
-> ---
-> 
-> Cc: "Michael S. Tsirkin" <mst@redhat.com>
-> Cc: Igor Mammedov <imammedo@redhat.com>
-> Cc: Thomas Huth <thuth@redhat.com>
-> Cc: Laurent Vivier <lvivier@redhat.com>
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->  tests/qtest/bios-tables-test.c | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
-> 
-> diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
-> index 3ab4872bd7..b4752c644c 100644
-> --- a/tests/qtest/bios-tables-test.c
-> +++ b/tests/qtest/bios-tables-test.c
-> @@ -14,14 +14,14 @@
->   * How to add or update the tests:
->   * Contributor:
->   * 1. add empty files for new tables, if any, under tests/data/acpi
-> - * 2. list any changed files in tests/bios-tables-test-allowed-diff.h
-> + * 2. list any changed files in tests/qtest/bios-tables-test-allowed-diff.h
->   * 3. commit the above *before* making changes that affect the tables
->   *
->   * Contributor or ACPI Maintainer (steps 4-7 need to be redone to resolve conflicts
->   * in binary commit created in step 6):
->   *
->   * After 1-3 above tests will pass but ignore differences with the expected files.
-> - * You will also notice that tests/bios-tables-test-allowed-diff.h lists
-> + * You will also notice that tests/qtest/bios-tables-test-allowed-diff.h lists
->   * a bunch of files. This is your hint that you need to do the below:
->   * 4. Run
->   *      make check V=1
-> @@ -40,14 +40,14 @@
->   *    in commit log.
->   * 7. Before sending patches to the list (Contributor)
->   *    or before doing a pull request (Maintainer), make sure
-> - *    tests/bios-tables-test-allowed-diff.h is empty - this will ensure
-> + *    tests/qtest/bios-tables-test-allowed-diff.h is empty - this will ensure
->   *    following changes to ACPI tables will be noticed.
->   *
->   * The resulting patchset/pull request then looks like this:
-> - * - patch 1: list changed files in tests/bios-tables-test-allowed-diff.h.
-> + * - patch 1: list changed files in tests/qtest/bios-tables-test-allowed-diff.h.
->   * - patches 2 - n: real changes, may contain multiple patches.
->   * - patch n + 1: update golden master binaries and empty
-> - *   tests/bios-tables-test-allowed-diff.h
-> + *   tests/qtest/bios-tables-test-allowed-diff.h
->   */
->  
->  #include "qemu/osdep.h"
-> 
+The following changes since commit 28db64fce555a03b4ca256d5b6f4290abdfbd9=
+e8:
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+  Merge remote-tracking branch 'remotes/stefanha/tags/tracing-pull-reques=
+t' into staging (2020-01-31 17:37:00 +0000)
 
+are available in the Git repository at:
+
+  git://github.com/dgibson/qemu.git tags/ppc-for-5.0-20200203
+
+for you to fetch changes up to 63d57c8f91d0d0e62fc4d91db6340a662b36a3c0:
+
+  tests: Silence various warnings with pseries (2020-02-03 11:33:11 +1100=
+)
+
+----------------------------------------------------------------
+ppc patch queue 2020-02093
+
+This pull request supersedes ppc-for-5.0-20200131.  The only changes
+are one extra patch to suppress some irritating warnings during tests
+under TCG, and an extra Tested-by in one of the other patches.
+
+Here's the next batch of patches for ppc and associated machine types.
+Highlights includes:
+ * Remove the deprecated "prep" machine type and its OpenHackware
+   firmware
+ * Add TCG emulation of the msgsndp etc. supervisor privileged
+   doorbell instructions
+ * Allow "pnv" machine type to run Hostboot style firmwares
+ * Add a virtual TPM device for spapr machines
+ * Implement devices for POWER8 PHB3 and POWER9 PHB4 host bridges for
+   the pnv machine type
+ * Use faster Spectre mitigation by default for POWER9 DD2.3 machines
+ * Introduce Firmware Assisted NMI dump facility for spapr machines
+ * Fix a performance regression with load/store multiple instructions
+   in TCG
+
+as well as some other assorted cleanups and fixes.
+
+----------------------------------------------------------------
+Aravinda Prasad (7):
+      Wrapper function to wait on condition for the main loop mutex
+      ppc: spapr: Introduce FWNMI capability
+      target/ppc: Handle NMI guest exit
+      target/ppc: Build rtas error log upon an MCE
+      ppc: spapr: Handle "ibm,nmi-register" and "ibm,nmi-interlock" RTAS =
+calls
+      migration: Include migration support for machine check handling
+      ppc: spapr: Activate the FWNMI functionality
+
+BALATON Zoltan (1):
+      target/ppc/cpu.h: Put macro parameter in parentheses
+
+Benjamin Herrenschmidt (1):
+      ppc/pnv: Add models for POWER9 PHB4 PCIe Host bridge
+
+C=C3=A9dric Le Goater (9):
+      ppc/pnv: use QEMU unit definition MiB
+      ppc/pnv: improve error logging when a PNOR update fails
+      target/ppc: Add privileged message send facilities
+      target/ppc: add support for Hypervisor Facility Unavailable Excepti=
+on
+      ppc/pnv: Add support for HRMOR on Radix host
+      ppc/pnv: remove useless "core-pir" property alias.
+      ppc/pnv: Add support for "hostboot" mode
+      ppc/pnv: Add models for POWER8 PHB3 PCIe Host bridge
+      ppc/pnv: change the PowerNV machine devices to be non user creatabl=
+e
+
+David Gibson (1):
+      spapr: Enable DD2.3 accelerated count cache flush in pseries-5.0 ma=
+chine
+
+Fabiano Rosas (1):
+      target/ppc: Clarify the meaning of return values in kvm_handle_debu=
+g
+
+Greg Kurz (3):
+      spapr: Fail CAS if option vector table cannot be parsed
+      spapr: Don't allow multiple active vCPUs at CAS
+      tests: Silence various warnings with pseries
+
+Igor Mammedov (1):
+      ppc:virtex_ml507: remove unused arguments
+
+Marc-Andr=C3=A9 Lureau (1):
+      docs/specs/tpm: reST-ify TPM documentation
+
+Richard Henderson (4):
+      target/ppc: Use probe_access for LSW, STSW
+      target/ppc: Use probe_access for LMW, STMW
+      target/ppc: Remove redundant mask in DCBZ
+      target/ppc: Use probe_write for DCBZ
+
+Stefan Berger (5):
+      tpm: Move tpm_tis_show_buffer to tpm_util.c
+      spapr: Implement get_dt_compatible() callback
+      tpm_spapr: Support TPM for ppc64 using CRQ based interface
+      tpm_spapr: Support suspend and resume
+      hw/ppc/Kconfig: Enable TPM_SPAPR as part of PSERIES config
+
+Thomas Huth (1):
+      hw/ppc/prep: Remove the deprecated "prep" machine and the OpenHackw=
+are BIOS
+
+ .gitmodules                         |    3 -
+ MAINTAINERS                         |    1 -
+ Makefile                            |    2 +-
+ cpus.c                              |    5 +
+ docs/interop/firmware.json          |    3 +-
+ docs/specs/index.rst                |    1 +
+ docs/specs/tpm.rst                  |  503 ++++++++++++
+ docs/specs/tpm.txt                  |  427 -----------
+ hw/intc/xics.c                      |   14 +-
+ hw/pci-host/Makefile.objs           |    2 +
+ hw/pci-host/pnv_phb3.c              | 1197 +++++++++++++++++++++++++++++
+ hw/pci-host/pnv_phb3_msi.c          |  349 +++++++++
+ hw/pci-host/pnv_phb3_pbcq.c         |  358 +++++++++
+ hw/pci-host/pnv_phb4.c              | 1439 +++++++++++++++++++++++++++++=
+++++++
+ hw/pci-host/pnv_phb4_pec.c          |  595 +++++++++++++++
+ hw/ppc/Kconfig                      |    2 +
+ hw/ppc/pnv.c                        |  204 ++++-
+ hw/ppc/pnv_core.c                   |   33 +-
+ hw/ppc/pnv_homer.c                  |    1 +
+ hw/ppc/pnv_lpc.c                    |    6 +-
+ hw/ppc/pnv_occ.c                    |    1 +
+ hw/ppc/pnv_pnor.c                   |    6 +-
+ hw/ppc/ppc.c                        |   18 -
+ hw/ppc/prep.c                       |  384 +---------
+ hw/ppc/spapr.c                      |   63 +-
+ hw/ppc/spapr_caps.c                 |   49 +-
+ hw/ppc/spapr_events.c               |  269 +++++++
+ hw/ppc/spapr_hcall.c                |   20 +
+ hw/ppc/spapr_rtas.c                 |   87 +++
+ hw/ppc/spapr_vio.c                  |   11 +-
+ hw/ppc/virtex_ml507.c               |    7 +-
+ hw/tpm/Kconfig                      |    6 +
+ hw/tpm/Makefile.objs                |    1 +
+ hw/tpm/tpm_spapr.c                  |  429 +++++++++++
+ hw/tpm/tpm_tis.c                    |   32 +-
+ hw/tpm/tpm_util.c                   |   25 +
+ hw/tpm/tpm_util.h                   |    3 +
+ hw/tpm/trace-events                 |   16 +-
+ include/hw/pci-host/pnv_phb3.h      |  164 ++++
+ include/hw/pci-host/pnv_phb3_regs.h |  450 +++++++++++
+ include/hw/pci-host/pnv_phb4.h      |  230 ++++++
+ include/hw/pci-host/pnv_phb4_regs.h |  553 ++++++++++++++
+ include/hw/pci/pcie_port.h          |    1 +
+ include/hw/ppc/pnv.h                |   13 +
+ include/hw/ppc/pnv_core.h           |    1 +
+ include/hw/ppc/pnv_xscom.h          |   20 +
+ include/hw/ppc/ppc.h                |    1 -
+ include/hw/ppc/spapr.h              |   25 +-
+ include/hw/ppc/spapr_vio.h          |    1 +
+ include/hw/ppc/xics.h               |    5 +
+ include/qemu/main-loop.h            |    8 +
+ include/sysemu/tpm.h                |    3 +
+ pc-bios/README                      |    3 -
+ pc-bios/ppc_rom.bin                 |  Bin 1048576 -> 0 bytes
+ qapi/tpm.json                       |    6 +-
+ qemu-deprecated.texi                |    6 -
+ qemu-doc.texi                       |   15 +-
+ roms/openhackware                   |    1 -
+ target/ppc/cpu.h                    |    8 +-
+ target/ppc/excp_helper.c            |   79 +-
+ target/ppc/helper.h                 |    4 +
+ target/ppc/kvm.c                    |   43 +-
+ target/ppc/kvm_ppc.h                |    8 +
+ target/ppc/mem_helper.c             |  197 ++++-
+ target/ppc/misc_helper.c            |   63 ++
+ target/ppc/mmu-radix64.c            |    6 +
+ target/ppc/trace-events             |    1 +
+ target/ppc/translate.c              |   26 +
+ target/ppc/translate_init.inc.c     |   20 +-
+ tests/qtest/boot-order-test.c       |   25 -
+ tests/qtest/boot-serial-test.c      |    3 +-
+ tests/qtest/cdrom-test.c            |    2 +-
+ tests/qtest/endianness-test.c       |    2 +-
+ tests/qtest/libqos/libqos-spapr.h   |    8 +
+ tests/qtest/prom-env-test.c         |    3 +-
+ tests/qtest/pxe-test.c              |    7 +-
+ 76 files changed, 7565 insertions(+), 1018 deletions(-)
+ create mode 100644 docs/specs/tpm.rst
+ delete mode 100644 docs/specs/tpm.txt
+ create mode 100644 hw/pci-host/pnv_phb3.c
+ create mode 100644 hw/pci-host/pnv_phb3_msi.c
+ create mode 100644 hw/pci-host/pnv_phb3_pbcq.c
+ create mode 100644 hw/pci-host/pnv_phb4.c
+ create mode 100644 hw/pci-host/pnv_phb4_pec.c
+ create mode 100644 hw/tpm/tpm_spapr.c
+ create mode 100644 include/hw/pci-host/pnv_phb3.h
+ create mode 100644 include/hw/pci-host/pnv_phb3_regs.h
+ create mode 100644 include/hw/pci-host/pnv_phb4.h
+ create mode 100644 include/hw/pci-host/pnv_phb4_regs.h
+ delete mode 100644 pc-bios/ppc_rom.bin
+ delete mode 160000 roms/openhackware
 
