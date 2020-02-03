@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 548B615127B
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Feb 2020 23:40:15 +0100 (CET)
-Received: from localhost ([::1]:48006 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AA40151276
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Feb 2020 23:38:25 +0100 (CET)
+Received: from localhost ([::1]:47986 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iykO6-0004hn-8g
-	for lists+qemu-devel@lfdr.de; Mon, 03 Feb 2020 17:40:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36676)
+	id 1iykMK-0002JF-1e
+	for lists+qemu-devel@lfdr.de; Mon, 03 Feb 2020 17:38:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57650)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groug@kaod.org>) id 1iykMf-0003t6-4b
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 17:38:46 -0500
+ (envelope-from <groug@kaod.org>) id 1iykKS-0000WV-Ns
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 17:36:29 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1iykMc-0007hI-Qh
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 17:38:44 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:26572
- helo=mx0a-001b2d01.pphosted.com)
+ (envelope-from <groug@kaod.org>) id 1iykKQ-00005Y-Kv
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 17:36:27 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:13766)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iykMc-0007br-Ju
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 17:38:42 -0500
-Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 013MccUS003249
- for <qemu-devel@nongnu.org>; Mon, 3 Feb 2020 17:38:41 -0500
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iykKQ-0008S0-Be
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 17:36:26 -0500
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 013MZBj1057387
+ for <qemu-devel@nongnu.org>; Mon, 3 Feb 2020 17:36:25 -0500
 Received: from e06smtp02.uk.ibm.com (e06smtp02.uk.ibm.com [195.75.94.98])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2xxfrvanvd-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2xxtbhuvu8-1
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Mon, 03 Feb 2020 17:38:40 -0500
+ for <qemu-devel@nongnu.org>; Mon, 03 Feb 2020 17:36:23 -0500
 Received: from localhost
  by e06smtp02.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
  Violators will be prosecuted
  for <qemu-devel@nongnu.org> from <groug@kaod.org>;
- Mon, 3 Feb 2020 22:36:14 -0000
+ Mon, 3 Feb 2020 22:36:21 -0000
 Received: from b06cxnps4075.portsmouth.uk.ibm.com (9.149.109.197)
  by e06smtp02.uk.ibm.com (192.168.101.132) with IBM ESMTP SMTP Gateway:
  Authorized Use Only! Violators will be prosecuted; 
  (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Mon, 3 Feb 2020 22:36:12 -0000
-Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
+ Mon, 3 Feb 2020 22:36:18 -0000
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
+ [9.149.105.61])
  by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 013MaB6D37421288
+ 013MaHjP28573842
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 3 Feb 2020 22:36:11 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 3D8A44205C;
- Mon,  3 Feb 2020 22:36:11 +0000 (GMT)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 01EA442068;
- Mon,  3 Feb 2020 22:36:11 +0000 (GMT)
+ Mon, 3 Feb 2020 22:36:17 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 37C0611C092;
+ Mon,  3 Feb 2020 22:36:17 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 0024A11C08C;
+ Mon,  3 Feb 2020 22:36:16 +0000 (GMT)
 Received: from bahia.lan (unknown [9.145.55.193])
- by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Mon,  3 Feb 2020 22:36:10 +0000 (GMT)
-Subject: [PATCH 1/3] spapr: Don't use spapr_drc_needed() in CAS code
+ by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Mon,  3 Feb 2020 22:36:16 +0000 (GMT)
+Subject: [PATCH 2/3] spapr: Detect hot unplugged devices during CAS
 From: Greg Kurz <groug@kaod.org>
 To: David Gibson <david@gibson.dropbear.id.au>
-Date: Mon, 03 Feb 2020 23:36:10 +0100
+Date: Mon, 03 Feb 2020 23:36:16 +0100
 In-Reply-To: <158076936422.2118610.5626450767672103134.stgit@bahia.lan>
 References: <158076936422.2118610.5626450767672103134.stgit@bahia.lan>
 User-Agent: StGit/unknown-version
@@ -64,21 +64,21 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-TM-AS-GCONF: 00
-x-cbid: 20020322-0008-0000-0000-0000034F696A
+x-cbid: 20020322-0008-0000-0000-0000034F696C
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 20020322-0009-0000-0000-00004A6FF450
-Message-Id: <158076937025.2118610.529669524688469462.stgit@bahia.lan>
+x-cbparentid: 20020322-0009-0000-0000-00004A6FF452
+Message-Id: <158076937624.2118610.5063572290769102838.stgit@bahia.lan>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
  definitions=2020-02-03_08:2020-02-02,
  2020-02-03 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 spamscore=0
- bulkscore=0 suspectscore=0 clxscore=1034 priorityscore=1501
- lowpriorityscore=0 impostorscore=0 malwarescore=0 phishscore=0 mlxscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ lowpriorityscore=0
+ malwarescore=0 adultscore=0 priorityscore=1501 bulkscore=0 suspectscore=0
+ spamscore=0 phishscore=0 clxscore=1034 mlxscore=0 mlxlogscore=808
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-1911200001 definitions=main-2002030163
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.158.5
+X-Received-From: 148.163.156.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -95,100 +95,41 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Alexey Kardashevskiy <aik@ozlabs.ru>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We currently don't support hotplug of devices between boot and CAS. If
-this happens a CAS reboot is triggered. We detect this during CAS using
-the spapr_drc_needed() function which is essentially a VMStateDescription
-.needed callback. Even if the condition for CAS reboot happens to be the
-same as for DRC migration, it looks wrong to use a migration related helper
-for this.
+We can't properly handle hotplug of a device as long the guest kernel isn't
+fully booted. We detect this at CAS and potentially trigger a CAS reboot to
+complete the hotplug sequence.
 
-Introduce a helper with more explicit semantics (ie. the device attached
-to this DRC is ready or not) and use it in both CAS and DRC migration code.
+The same goes actually with hot unplug but we currently don't detect it.
+Doing device_del before CAS hence seems to be ignored: when the guest
+is booted, it still sees the _unplugged_ device in the DT and configures
+it. But if some other hotplug event happens later, then the unplug request
+is finally processed by the guest and the device goes away.
 
-This doesn't change any behaviour.
+This doesn't seem to cause any crash but it is still very confusing. Detect
+device unplug at CAS and request a CAS reboot.
+
+Hopefully, when SLOF will know how to handle device addition and deletion
+in its DT according to the FDT provided by QEMU at CAS, we'll be able to
+address this differently (ie, coldplugging the new devices and removing the
+ones with a pending unplug request).
 
 Signed-off-by: Greg Kurz <groug@kaod.org>
 ---
- hw/ppc/spapr_drc.c         |    5 ++---
- hw/ppc/spapr_hcall.c       |   12 +++++++++---
- include/hw/ppc/spapr_drc.h |    8 +++++++-
- 3 files changed, 18 insertions(+), 7 deletions(-)
+ hw/ppc/spapr_hcall.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/ppc/spapr_drc.c b/hw/ppc/spapr_drc.c
-index 17aeac38016d..d512ac6e1e7f 100644
---- a/hw/ppc/spapr_drc.c
-+++ b/hw/ppc/spapr_drc.c
-@@ -455,10 +455,9 @@ void spapr_drc_reset(SpaprDrc *drc)
-     }
- }
- 
--bool spapr_drc_needed(void *opaque)
-+static bool spapr_drc_needed(void *opaque)
- {
-     SpaprDrc *drc = (SpaprDrc *)opaque;
--    SpaprDrcClass *drck = SPAPR_DR_CONNECTOR_GET_CLASS(drc);
- 
-     /* If no dev is plugged in there is no need to migrate the DRC state */
-     if (!drc->dev) {
-@@ -469,7 +468,7 @@ bool spapr_drc_needed(void *opaque)
-      * We need to migrate the state if it's not equal to the expected
-      * long-term state, which is the same as the coldplugged initial
-      * state */
--    return (drc->state != drck->ready_state);
-+    return !spapr_drc_device_ready(drc);
- }
- 
- static const VMStateDescription vmstate_spapr_drc = {
 diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
-index b8bb66b5c0d4..7a33d79bbae9 100644
+index 7a33d79bbae9..84690cc2c1ce 100644
 --- a/hw/ppc/spapr_hcall.c
 +++ b/hw/ppc/spapr_hcall.c
-@@ -1642,18 +1642,24 @@ static uint32_t cas_check_pvr(SpaprMachineState *spapr, PowerPCCPU *cpu,
- 
- static bool spapr_hotplugged_dev_before_cas(void)
- {
--    Object *drc_container, *obj;
-+    Object *drc_container;
-     ObjectProperty *prop;
-     ObjectPropertyIterator iter;
- 
-     drc_container = container_get(object_get_root(), "/dr-connector");
-     object_property_iter_init(&iter, drc_container);
-     while ((prop = object_property_iter_next(&iter))) {
-+        SpaprDrc *drc;
-+
-         if (!strstart(prop->type, "link<", NULL)) {
+@@ -1659,7 +1659,7 @@ static bool spapr_hotplugged_dev_before_cas(void)
+         if (!drc->dev) {
              continue;
          }
--        obj = object_property_get_link(drc_container, prop->name, NULL);
--        if (spapr_drc_needed(obj)) {
-+        drc = SPAPR_DR_CONNECTOR(object_property_get_link(drc_container,
-+                                                          prop->name, NULL));
-+        if (!drc->dev) {
-+            continue;
-+        }
-+        if (!spapr_drc_device_ready(drc)) {
+-        if (!spapr_drc_device_ready(drc)) {
++        if (spapr_drc_unplug_requested(drc) || !spapr_drc_device_ready(drc)) {
              return true;
          }
      }
-diff --git a/include/hw/ppc/spapr_drc.h b/include/hw/ppc/spapr_drc.h
-index 83f03cc5773c..8e8bbedb21b7 100644
---- a/include/hw/ppc/spapr_drc.h
-+++ b/include/hw/ppc/spapr_drc.h
-@@ -269,7 +269,13 @@ int spapr_dt_drc(void *fdt, int offset, Object *owner, uint32_t drc_type_mask);
- 
- void spapr_drc_attach(SpaprDrc *drc, DeviceState *d, Error **errp);
- void spapr_drc_detach(SpaprDrc *drc);
--bool spapr_drc_needed(void *opaque);
-+
-+static inline bool spapr_drc_device_ready(SpaprDrc *drc)
-+{
-+    SpaprDrcClass *drck = SPAPR_DR_CONNECTOR_GET_CLASS(drc);
-+
-+    return drc->state == drck->ready_state;
-+}
- 
- static inline bool spapr_drc_unplug_requested(SpaprDrc *drc)
- {
 
 
