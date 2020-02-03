@@ -2,46 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2ECBA1501BB
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Feb 2020 07:28:49 +0100 (CET)
-Received: from localhost ([::1]:35066 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75F901501B7
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Feb 2020 07:26:10 +0100 (CET)
+Received: from localhost ([::1]:35038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iyVE0-00014k-9J
-	for lists+qemu-devel@lfdr.de; Mon, 03 Feb 2020 01:28:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57874)
+	id 1iyVBR-00053Z-6S
+	for lists+qemu-devel@lfdr.de; Mon, 03 Feb 2020 01:26:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59875)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iyUy4-0003ka-JT
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 01:12:21 -0500
+ (envelope-from <armbru@redhat.com>) id 1iyV7W-0006Fp-Hp
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 01:22:07 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iyUy3-0003bF-1W
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 01:12:20 -0500
-Received: from ozlabs.org ([203.11.71.1]:33999)
+ (envelope-from <armbru@redhat.com>) id 1iyV7T-0006mF-CI
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 01:22:05 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:41568
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iyUy1-0003V1-Hx; Mon, 03 Feb 2020 01:12:18 -0500
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 489yBv4Lnqz9sTD; Mon,  3 Feb 2020 17:11:35 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1580710295;
- bh=oqZJddFUnwsLfIFIVQRKiSeYF6bqaQRx08wy+81lhP8=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=nTWvCc6OwXdiy8Pu7lTzmyRgB8pvY3P4SZk9II608Qb9tkqlHSVIUK8lTLasRmxGT
- FCGX95gyo0NPtsnKNRlfOX4IZkbYIQXwCXx5ex6YwZ8ej6GAU4+4e730X3HOMlu6I1
- 9Tz2jT5FbZkWpKtUCFSUWSswxrTS8h6AYb8ql2l4=
-From: David Gibson <david@gibson.dropbear.id.au>
-To: peter.maydell@linaro.org
-Subject: [PULL 35/35] tests: Silence various warnings with pseries
-Date: Mon,  3 Feb 2020 17:11:23 +1100
-Message-Id: <20200203061123.59150-36-david@gibson.dropbear.id.au>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20200203061123.59150-1-david@gibson.dropbear.id.au>
-References: <20200203061123.59150-1-david@gibson.dropbear.id.au>
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iyV7T-0006ls-7v
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 01:22:03 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1580710922;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=VkbQrF2WfUpy8+yqOcKpvTOCPv4IYCyKT4/TcAlEJP8=;
+ b=HW5gv/t1dcZFtolKSWTcAXls1xLnoGKC82Ct6RlSdoxH0bjkO+inn5AIHuogFDmb2tn4K6
+ TFnwkUSgqhU4Qqxg1J/hKhdOvyObBJ4nc+oDTrbhonx/D5jkqIL6U34o22ejDh2jVCqHOF
+ CuQBmJDtMFXQSTK+qzNfTnS/6oqRW9A=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-276-bjF-ddPRNkik0WEqMw0v6Q-1; Mon, 03 Feb 2020 01:21:59 -0500
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2065D1800D41;
+ Mon,  3 Feb 2020 06:21:58 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-116-131.ams2.redhat.com
+ [10.36.116.131])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2B9B990F47;
+ Mon,  3 Feb 2020 06:21:54 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id F3F591138404; Mon,  3 Feb 2020 07:21:52 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: =?utf-8?B?S8WRdsOhZ8OzLCBab2x0w6Fu?= <dirty.ice.hu@gmail.com>
+Subject: Re: [RFC PATCH] audio: proper support for float samples in mixeng
+References: <8a8b0b5698401b78d3c4c8ec90aef83b95babb06.1580672076.git.DirtY.iCE.hu@gmail.com>
+Date: Mon, 03 Feb 2020 07:21:52 +0100
+In-Reply-To: <8a8b0b5698401b78d3c4c8ec90aef83b95babb06.1580672076.git.DirtY.iCE.hu@gmail.com>
+ (=?utf-8?B?IkvFkXbDoWfDsywgWm9sdMOhbiIncw==?= message of "Sun, 2 Feb 2020
+ 20:38:07 +0100")
+Message-ID: <87h8086vi7.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-MC-Unique: bjF-ddPRNkik0WEqMw0v6Q-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 203.11.71.1
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,150 +76,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- groug@kaod.org, qemu-ppc@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Greg Kurz <groug@kaod.org>
+"K=C5=91v=C3=A1g=C3=B3, Zolt=C3=A1n" <dirty.ice.hu@gmail.com> writes:
 
-Some default features of the pseries machine are only available with
-KVM. Warnings are printed when the pseries machine is used with another
-accelerator:
+> This adds proper support for float samples in mixeng by adding a new
+> audio format for it.
+>
+> Limitations: only native endianness is supported.
+>
+> Signed-off-by: K=C5=91v=C3=A1g=C3=B3, Zolt=C3=A1n <DirtY.iCE.hu@gmail.com=
+>
+> ---
+>
+> This patch is meant to be applied on top of "[PATCH] coreaudio: fix corea=
+udio
+> playback" by Volker R=C3=BCmelin, available at:
+> https://lists.nongnu.org/archive/html/qemu-devel/2020-02/msg00114.html
+>
+> For more information, please refer to that thread.
+>
+> ---
+>  qapi/audio.json        |  2 +-
+>  audio/audio_int.h      |  3 +-
+>  audio/audio_template.h | 41 ++++++++++++--------
+>  audio/mixeng.h         |  8 ++--
+>  audio/alsaaudio.c      | 17 ++++++++
+>  audio/audio.c          | 56 ++++++++++++++++++---------
+>  audio/coreaudio.c      |  7 +---
+>  audio/mixeng.c         | 88 ++++++++++++++++++++++++++----------------
+>  audio/paaudio.c        |  9 +++++
+>  audio/sdlaudio.c       | 28 ++++++++++++++
+>  10 files changed, 180 insertions(+), 79 deletions(-)
+>
+> diff --git a/qapi/audio.json b/qapi/audio.json
+> index 83312b2339..d8c507cced 100644
+> --- a/qapi/audio.json
+> +++ b/qapi/audio.json
+> @@ -276,7 +276,7 @@
+>  # Since: 4.0
+>  ##
+>  { 'enum': 'AudioFormat',
+> -  'data': [ 'u8', 's8', 'u16', 's16', 'u32', 's32' ] }
+> +  'data': [ 'u8', 's8', 'u16', 's16', 'u32', 's32', 'f32' ] }
+> =20
+>  ##
+>  # @AudiodevDriver:
 
-qemu-system-ppc64: warning: TCG doesn't support requested feature,
-cap-ccf-assist=3Don
-qemu-system-ppc64: warning: Firmware Assisted Non-Maskable
-Interrupts(FWNMI) not supported in TCG
-qemu-system-ppc64: warning: TCG doesn't support requested feature,
-cap-ccf-assist=3Don
-qemu-system-ppc64: warning: Firmware Assisted Non-Maskable
-Interrupts(FWNMI) not supported in TCG
-qemu-system-ppc64: warning: TCG doesn't support requested feature,
-cap-ccf-assist=3Don
-qemu-system-ppc64: warning: Firmware Assisted Non-Maskable
-Interrupts(FWNMI) not supported in TCG
-
-This is annoying for CI since it usually runs without KVM. We already
-disable features that emit similar warnings thanks to properties of
-the pseries machine, but this is open-coded in various
-places. Consolidate the set of properties in a single place. Extend it
-to silence the above warnings. And use it in the various tests that
-start pseries machines.
-
-Reported-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Greg Kurz <groug@kaod.org>
-Message-Id: <158059697130.1820292.7823434132030453110.stgit@bahia.lan>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-[dwg: Correct minor grammatical error]
-Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
----
- tests/qtest/boot-serial-test.c    | 3 ++-
- tests/qtest/libqos/libqos-spapr.h | 8 ++++++++
- tests/qtest/prom-env-test.c       | 3 ++-
- tests/qtest/pxe-test.c            | 7 ++++---
- 4 files changed, 16 insertions(+), 5 deletions(-)
-
-diff --git a/tests/qtest/boot-serial-test.c b/tests/qtest/boot-serial-tes=
-t.c
-index 8e8c5b0a0f..85a3614286 100644
---- a/tests/qtest/boot-serial-test.c
-+++ b/tests/qtest/boot-serial-test.c
-@@ -15,6 +15,7 @@
-=20
- #include "qemu/osdep.h"
- #include "libqtest.h"
-+#include "libqos/libqos-spapr.h"
-=20
- static const uint8_t kernel_mcf5208[] =3D {
-     0x41, 0xf9, 0xfc, 0x06, 0x00, 0x00,     /* lea 0xfc060000,%a0 */
-@@ -112,7 +113,7 @@ static testdef_t tests[] =3D {
-     { "ppc64", "40p", "-m 192", "Memory: 192M" },
-     { "ppc64", "mac99", "", "PowerPC,970FX" },
-     { "ppc64", "pseries",
--      "-machine cap-cfpc=3Dbroken,cap-sbbc=3Dbroken,cap-ibs=3Dbroken",
-+      "-machine " PSERIES_DEFAULT_CAPABILITIES,
-       "Open Firmware" },
-     { "ppc64", "powernv8", "", "OPAL" },
-     { "ppc64", "powernv9", "", "OPAL" },
-diff --git a/tests/qtest/libqos/libqos-spapr.h b/tests/qtest/libqos/libqo=
-s-spapr.h
-index dcb5c43ad3..d9c4c22343 100644
---- a/tests/qtest/libqos/libqos-spapr.h
-+++ b/tests/qtest/libqos/libqos-spapr.h
-@@ -7,4 +7,12 @@ QOSState *qtest_spapr_vboot(const char *cmdline_fmt, va_=
-list ap);
- QOSState *qtest_spapr_boot(const char *cmdline_fmt, ...);
- void qtest_spapr_shutdown(QOSState *qs);
-=20
-+/* List of capabilities needed to silence warnings with TCG */
-+#define PSERIES_DEFAULT_CAPABILITIES             \
-+    "cap-cfpc=3Dbroken,"                           \
-+    "cap-sbbc=3Dbroken,"                           \
-+    "cap-ibs=3Dbroken,"                            \
-+    "cap-ccf-assist=3Doff,"                        \
-+    "cap-fwnmi-mce=3Doff"
-+
- #endif
-diff --git a/tests/qtest/prom-env-test.c b/tests/qtest/prom-env-test.c
-index 9be52c766f..60e6ec3153 100644
---- a/tests/qtest/prom-env-test.c
-+++ b/tests/qtest/prom-env-test.c
-@@ -21,6 +21,7 @@
-=20
- #include "qemu/osdep.h"
- #include "libqtest.h"
-+#include "libqos/libqos-spapr.h"
-=20
- #define MAGIC   0xcafec0de
- #define ADDRESS 0x4000
-@@ -54,7 +55,7 @@ static void test_machine(const void *machine)
-      */
-     if (strcmp(machine, "pseries") =3D=3D 0) {
-         extra_args =3D "-nodefaults"
--            " -machine cap-cfpc=3Dbroken,cap-sbbc=3Dbroken,cap-ibs=3Dbro=
-ken";
-+            " -machine " PSERIES_DEFAULT_CAPABILITIES;
-     }
-=20
-     qts =3D qtest_initf("-M %s -accel tcg %s -prom-env 'use-nvramrc?=3Dt=
-rue' "
-diff --git a/tests/qtest/pxe-test.c b/tests/qtest/pxe-test.c
-index f68d0aadbb..1161a773a4 100644
---- a/tests/qtest/pxe-test.c
-+++ b/tests/qtest/pxe-test.c
-@@ -17,6 +17,7 @@
- #include "qemu-common.h"
- #include "libqtest.h"
- #include "boot-sector.h"
-+#include "libqos/libqos-spapr.h"
-=20
- #define NETNAME "net0"
-=20
-@@ -46,15 +47,15 @@ static testdef_t x86_tests_slow[] =3D {
-=20
- static testdef_t ppc64_tests[] =3D {
-     { "pseries", "spapr-vlan",
--      "-machine cap-cfpc=3Dbroken,cap-sbbc=3Dbroken,cap-ibs=3Dbroken,vsm=
-t=3D8" },
-+      "-machine vsmt=3D8," PSERIES_DEFAULT_CAPABILITIES },
-     { "pseries", "virtio-net-pci",
--      "-machine cap-cfpc=3Dbroken,cap-sbbc=3Dbroken,cap-ibs=3Dbroken,vsm=
-t=3D8" },
-+      "-machine vsmt=3D8," PSERIES_DEFAULT_CAPABILITIES },
-     { NULL },
- };
-=20
- static testdef_t ppc64_tests_slow[] =3D {
-     { "pseries", "e1000",
--      "-machine cap-cfpc=3Dbroken,cap-sbbc=3Dbroken,cap-ibs=3Dbroken,vsm=
-t=3D8" },
-+      "-machine vsmt=3D8," PSERIES_DEFAULT_CAPABILITIES },
-     { NULL },
- };
-=20
---=20
-2.24.1
+For QAPI:
+Acked-by: Markus Armbruster <armbru@redhat.com>
 
 
