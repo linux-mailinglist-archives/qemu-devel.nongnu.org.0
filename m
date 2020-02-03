@@ -2,64 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59549150FC9
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Feb 2020 19:41:35 +0100 (CET)
-Received: from localhost ([::1]:45910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82F85150FE4
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Feb 2020 19:46:42 +0100 (CET)
+Received: from localhost ([::1]:45992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iygf8-0003At-Cn
-	for lists+qemu-devel@lfdr.de; Mon, 03 Feb 2020 13:41:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60541)
+	id 1iygk5-0007Zg-9m
+	for lists+qemu-devel@lfdr.de; Mon, 03 Feb 2020 13:46:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55620)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1iygWd-0000HT-DU
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 13:32:49 -0500
+ (envelope-from <alistair23@gmail.com>) id 1iygj2-000787-1B
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 13:45:37 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1iygWb-0002Wf-Ki
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 13:32:47 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:28195
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <david@redhat.com>) id 1iygWb-0002Vs-Eh
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 13:32:45 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580754765;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=KBM8jyQDagczZDqEQCbJ/V7WjaqPEAqfu2ia6ljBAj4=;
- b=W+v49/QMcJm5iA/QhcbymQm0FAawFeceLjAoD+t9QMuaf+/4Xrun8hi63sVol+XjKnLc61
- K9PFL18ko8paoWaD3Ep8Xa6jIWg+YMts3nD1G4ggAyxJVaKBNwVUY5YfkmepGg30duZbRQ
- 0FkuDNdga7GsMpI82fuMmdr4Na2OZeg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-306-nRMtSB4_O56jRFtQH_uOFQ-1; Mon, 03 Feb 2020 13:32:38 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8F15618B9FC3;
- Mon,  3 Feb 2020 18:32:37 +0000 (UTC)
-Received: from t480s.redhat.com (ovpn-117-77.ams2.redhat.com [10.36.117.77])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3D01B5DA83;
- Mon,  3 Feb 2020 18:32:28 +0000 (UTC)
-From: David Hildenbrand <david@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v1 13/13] exec: Ram blocks with resizable anonymous
- allocations under POSIX
-Date: Mon,  3 Feb 2020 19:31:25 +0100
-Message-Id: <20200203183125.164879-14-david@redhat.com>
-In-Reply-To: <20200203183125.164879-1-david@redhat.com>
-References: <20200203183125.164879-1-david@redhat.com>
+ (envelope-from <alistair23@gmail.com>) id 1iygj0-0007uF-CV
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 13:45:35 -0500
+Received: from mail-lf1-x144.google.com ([2a00:1450:4864:20::144]:42405)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alistair23@gmail.com>)
+ id 1iygj0-0007qB-3q; Mon, 03 Feb 2020 13:45:34 -0500
+Received: by mail-lf1-x144.google.com with SMTP id y19so10426514lfl.9;
+ Mon, 03 Feb 2020 10:45:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=z5jVWNOHWCY+eraD2JJMk+Tdfe0AGEFHy4MnViFqQTA=;
+ b=Df9UW8xsa9AhH+7W9Id+Znk+jTS8It66gEvrKoumePSsBYA7W03vpvypAXeVUQac04
+ MhlAsilBa8Z6C056z1ZHlj15pwFq8ylpLD1FtviR2ioStNAZtCx1UB1YJrY6JMK9gcor
+ aB9nIuxzHFHwRSBJ2Ax+uruzWZ3mk8XluLuGZX6RhDhhKptC5vwExidGkGfBhbI3V4gT
+ +Whauf7zu3+ysMyqmgIWCm5hKXURx2xkUP2fUUTODoerZ4AghzHBWKnDpA14PYl9tuc7
+ wBq7ZdNcVvcx3MQMMCsH2ITip0d4esY4LZiFTmDplMe89gCUTEf0W5uGFpgdhGj0k1Xk
+ aiqg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=z5jVWNOHWCY+eraD2JJMk+Tdfe0AGEFHy4MnViFqQTA=;
+ b=KfcJ3Loblfqfo8k6eE+cTrE1vodGjABk4ZE6ncPVjtg+5BetGZtuY5/3jwr2mgDJvO
+ tMc3ULDVidhEl6PStX45FEAcbyvwVC0Vr2g/YRFVUkryg8B7nrsDed2xHKppalq2lTE0
+ GFpw6/kRp8Macv6GkAtMsv5Rq6rc2YUT8RqMjkRi5ORnBH3MrC0dBPSh0Bh23gvCRvhF
+ ByO47Hw391Qlhs+XQxRBrW9W1jWfa7ax+fTcIRn9zCe1vdnRgSUCPvb4N8KoeJL/UUGo
+ 8sMx9+dHzqvvEfF7RKodRrisJ8IODTpI1mj3XODJVsRC81EHaRveXN6IUtea8mG+oyF5
+ ReBQ==
+X-Gm-Message-State: APjAAAU73aLTf4TqFs+jlrx0oNLwWbKr3YKwLvwoFFaVv3rdg0Eh+k5A
+ 5SSHvzqo+OvtJawiDP/QDb8Y9ojg/jW/wjfGZz8=
+X-Google-Smtp-Source: APXvYqy20E6X4qmg1Cc44/pkod2oJb51kzDXy8nL6hLEUDG7mXPDFbZiYHysHlsX8rVd1hpL8z3pptr7HI5AWYzF0Cw=
+X-Received: by 2002:a05:6512:15d:: with SMTP id
+ m29mr12963561lfo.51.1580755531549; 
+ Mon, 03 Feb 2020 10:45:31 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: nRMtSB4_O56jRFtQH_uOFQ-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+References: <20200203082619.7426-1-f4bug@amsat.org>
+ <20200203082619.7426-2-f4bug@amsat.org>
+In-Reply-To: <20200203082619.7426-2-f4bug@amsat.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 3 Feb 2020 10:38:24 -0800
+Message-ID: <CAKmqyKN_y660pVMWexeALGJx9KgaR=623Tex+15sq-_6GozhVQ@mail.gmail.com>
+Subject: Re: [PATCH 1/6] hw/arm/raspi: Use BCM2708 machine type with pre
+ Device Tree kernels
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::144
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,253 +75,141 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>, Stefan Weil <sw@weilnetz.de>,
- David Hildenbrand <david@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Stephen Warren <swarren@nvidia.com>,
+ =?UTF-8?Q?Zolt=C3=A1n_Baldaszti?= <bztemail@gmail.com>,
+ Alistair Francis <alistair@alistair23.me>,
+ Jeremy Linton <lintonrjeremy@gmail.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Pete Batard <pete@akeo.ie>, Igor Mammedov <imammedo@redhat.com>,
+ Michael Chan <michael.chan@broadcom.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ Pekka Enberg <penberg@iki.fi>, Kshitij Soni <kshitij.soni@broadcom.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We can now make use of resizable anonymous allocations to implement
-actually resizable ram blocks. Resizable anonymous allocations are
-not implemented under WIN32 yet and are not available when using
-alternative allocators. Fall back to the existing handling.
+On Mon, Feb 3, 2020 at 12:28 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
+g> wrote:
+>
+> When booting without device tree, the Linux kernels uses the $R1
+> register to determine the machine type. The list of values is
+> registered at [1].
+>
+> There are two entries for the Raspberry Pi:
+>
+> - https://www.arm.linux.org.uk/developer/machines/list.php?mid=3D3138
+>   name: MACH_TYPE_BCM2708
+>   value: 0xc42 (3138)
+>   status: Active, not mainlined
+>   date: 15 Oct 2010
+>
+> - https://www.arm.linux.org.uk/developer/machines/list.php?mid=3D4828
+>   name: MACH_TYPE_BCM2835
+>   value: 4828
+>   status: Active, mainlined
+>   date: 6 Dec 2013
+>
+> QEMU always used the non-mainlined type MACH_TYPE_BCM2708.
+> The value 0xc43 is registered to 'MX51_GGC' (processor i.MX51), and
+> 0xc44 to 'Western Digital Sharespace NAS' (processor Marvell 88F5182).
+>
+> The Raspberry Pi foundation bootloader only sets the BCM2708 machine
+> type, see [2] or [3]:
+>
+>  133 9:
+>  134     mov r0, #0
+>  135     ldr r1, =3D3138       @ BCM2708 machine id
+>  136     ldr r2, atags       @ ATAGS
+>  137     bx  r4
+>
+> U-Boot only uses MACH_TYPE_BCM2708 (see [4]):
+>
+>  25 /*
+>  26  * 2835 is a SKU in a series for which the 2708 is the first or prima=
+ry SoC,
+>  27  * so 2708 has historically been used rather than a dedicated 2835 ID=
+.
+>  28  *
+>  29  * We don't define a machine type for bcm2709/bcm2836 since the RPi F=
+oundation
+>  30  * chose to use someone else's previously registered machine ID (3139=
+, MX51_GGC)
+>  31  * rather than obtaining a valid ID:-/
+>  32  *
+>  33  * For the bcm2837, hopefully a machine type is not needed, since eve=
+rything
+>  34  * is DT.
+>  35  */
+>
+> While the definition MACH_BCM2709 with value 0xc43 was introduced in
+> a commit described "Add 2709 platform for Raspberry Pi 2" out of the
+> mainline Linux kernel, it does not seem used, and the platform is
+> introduced with Device Tree support anyway (see [5] and [6]).
+>
+> Remove the unused values (0xc43 introduced in commit 1df7d1f9303aef
+> "raspi: add raspberry pi 2 machine" and 0xc44 in commit bade58166f4
+> "raspi: Raspberry Pi 3 support"), keeping only MACH_TYPE_BCM2708.
+>
+> [1] https://www.arm.linux.org.uk/developer/machines/
+> [2] https://github.com/raspberrypi/tools/blob/920c7ed2e/armstubs/armstub7=
+.S#L135
+> [3] https://github.com/raspberrypi/tools/blob/49719d554/armstubs/armstub7=
+.S#L64
+> [4] https://gitlab.denx.de/u-boot/u-boot/blob/v2015.04/include/configs/rp=
+i-common.h#L18
+> [5] https://github.com/raspberrypi/linux/commit/d9fac63adac#diff-6722037d=
+79570df5b392a49e0e006573R526
+> [6] http://lists.infradead.org/pipermail/linux-rpi-kernel/2015-February/0=
+01268.html
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
-We also have to fallback to the existing handling in case any ram block
-notifier does not support resizing (esp., AMD SEV, HAX) yet. Remember
-in RAM_RESIZEABLE_ALLOC if we are using resizable anonymous allocations.
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-As the mmap()-hackery will invalidate some madvise settings, we have to
-re-apply them after resizing. After resizing, notify the ram block
-notifiers.
+Alistair
 
-The benefit of actually resizable ram blocks is that e.g., under Linux,
-only the actual size will be reserved (even if
-"/proc/sys/vm/overcommit_memory" is set to "never"). Additional memory will
-be reserved when trying to resize, which allows to have ram blocks that
-start small but can theoretically grow very large.
-
-Cc: Richard Henderson <rth@twiddle.net>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Cc: Eduardo Habkost <ehabkost@redhat.com>
-Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Cc: Stefan Weil <sw@weilnetz.de>
-Signed-off-by: David Hildenbrand <david@redhat.com>
----
- exec.c                    | 68 +++++++++++++++++++++++++++++++++++----
- hw/core/numa.c            | 10 ++++--
- include/exec/cpu-common.h |  2 ++
- include/exec/memory.h     |  8 +++++
- 4 files changed, 79 insertions(+), 9 deletions(-)
-
-diff --git a/exec.c b/exec.c
-index fc65c4f7ca..a59d1efde3 100644
---- a/exec.c
-+++ b/exec.c
-@@ -2053,6 +2053,16 @@ void qemu_ram_unset_migratable(RAMBlock *rb)
-     rb->flags &=3D ~RAM_MIGRATABLE;
- }
-=20
-+bool qemu_ram_is_resizable(RAMBlock *rb)
-+{
-+    return rb->flags & RAM_RESIZEABLE;
-+}
-+
-+bool qemu_ram_is_resizable_alloc(RAMBlock *rb)
-+{
-+    return rb->flags & RAM_RESIZEABLE_ALLOC;
-+}
-+
- /* Called with iothread lock held.  */
- void qemu_ram_set_idstr(RAMBlock *new_block, const char *name, DeviceState=
- *dev)
- {
-@@ -2139,6 +2149,8 @@ static void qemu_ram_apply_settings(void *host, size_=
-t length)
-  */
- int qemu_ram_resize(RAMBlock *block, ram_addr_t newsize, Error **errp)
- {
-+    const uint64_t oldsize =3D block->used_length;
-+
-     assert(block);
-=20
-     newsize =3D HOST_PAGE_ALIGN(newsize);
-@@ -2147,7 +2159,7 @@ int qemu_ram_resize(RAMBlock *block, ram_addr_t newsi=
-ze, Error **errp)
-         return 0;
-     }
-=20
--    if (!(block->flags & RAM_RESIZEABLE)) {
-+    if (!qemu_ram_is_resizable(block)) {
-         error_setg_errno(errp, EINVAL,
-                          "Length mismatch: %s: 0x" RAM_ADDR_FMT
-                          " in !=3D 0x" RAM_ADDR_FMT, block->idstr,
-@@ -2163,10 +2175,26 @@ int qemu_ram_resize(RAMBlock *block, ram_addr_t new=
-size, Error **errp)
-         return -EINVAL;
-     }
-=20
-+    if (qemu_ram_is_resizable_alloc(block)) {
-+        g_assert(ram_block_notifiers_support_resize());
-+        if (qemu_anon_ram_resize(block->host, block->used_length,
-+                                 newsize, block->flags & RAM_SHARED) =3D=
-=3D NULL) {
-+            error_setg_errno(errp, -ENOMEM,
-+                             "Could not allocate enough memory.");
-+            return -ENOMEM;
-+        }
-+    }
-+
-     cpu_physical_memory_clear_dirty_range(block->offset, block->used_lengt=
-h);
-     block->used_length =3D newsize;
-     cpu_physical_memory_set_dirty_range(block->offset, block->used_length,
-                                         DIRTY_CLIENTS_ALL);
-+    if (block->host && qemu_ram_is_resizable_alloc(block)) {
-+        /* re-apply settings that might have been overriden by the resize =
-*/
-+        qemu_ram_apply_settings(block->host, block->max_length);
-+        ram_block_notify_resized(block->host, oldsize, block->used_length)=
-;
-+    }
-+
-     memory_region_set_size(block->mr, newsize);
-     if (block->resized) {
-         block->resized(block->idstr, newsize, block->host);
-@@ -2249,6 +2277,28 @@ static void dirty_memory_extend(ram_addr_t old_ram_s=
-ize,
-     }
- }
-=20
-+static void ram_block_alloc_ram(RAMBlock *rb)
-+{
-+    const bool shared =3D qemu_ram_is_shared(rb);
-+
-+    /*
-+     * If we can, try to allocate actually resizable ram. Will also fail
-+     * if qemu_anon_ram_alloc_resizable() is not implemented.
-+     */
-+    if (phys_mem_alloc =3D=3D qemu_anon_ram_alloc &&
-+        qemu_ram_is_resizable(rb) &&
-+        ram_block_notifiers_support_resize()) {
-+        rb->host =3D qemu_anon_ram_alloc_resizable(rb->used_length,
-+                                                 rb->max_length, &rb->mr->=
-align,
-+                                                 shared);
-+        if (rb->host) {
-+            rb->flags |=3D RAM_RESIZEABLE_ALLOC;
-+            return;
-+        }
-+    }
-+    rb->host =3D phys_mem_alloc(rb->max_length, &rb->mr->align, shared);
-+}
-+
- static void ram_block_add(RAMBlock *new_block, Error **errp)
- {
-     RAMBlock *block;
-@@ -2271,9 +2321,7 @@ static void ram_block_add(RAMBlock *new_block, Error =
-**errp)
-                 return;
-             }
-         } else {
--            new_block->host =3D phys_mem_alloc(new_block->max_length,
--                                             &new_block->mr->align,
--                                             qemu_ram_is_shared(new_block)=
-);
-+            ram_block_alloc_ram(new_block);
-             if (!new_block->host) {
-                 error_setg_errno(errp, errno,
-                                  "cannot set up guest memory '%s'",
-@@ -2319,7 +2367,11 @@ static void ram_block_add(RAMBlock *new_block, Error=
- **errp)
-=20
-     if (new_block->host) {
-         qemu_ram_apply_settings(new_block->host, new_block->max_length);
--        ram_block_notify_add(new_block->host, new_block->max_length);
-+        if (qemu_ram_is_resizable_alloc(new_block)) {
-+            ram_block_notify_add(new_block->host, new_block->used_length);
-+        } else {
-+            ram_block_notify_add(new_block->host, new_block->max_length);
-+        }
-     }
- }
-=20
-@@ -2502,7 +2554,11 @@ void qemu_ram_free(RAMBlock *block)
-     }
-=20
-     if (block->host) {
--        ram_block_notify_remove(block->host, block->max_length);
-+        if (qemu_ram_is_resizable_alloc(block)) {
-+            ram_block_notify_remove(block->host, block->used_length);
-+        } else {
-+            ram_block_notify_remove(block->host, block->max_length);
-+        }
-     }
-=20
-     qemu_mutex_lock_ramlist();
-diff --git a/hw/core/numa.c b/hw/core/numa.c
-index 5ccfcbcd41..cb75097b26 100644
---- a/hw/core/numa.c
-+++ b/hw/core/numa.c
-@@ -901,12 +901,16 @@ void query_numa_node_mem(NumaNodeMem node_mem[], Mach=
-ineState *ms)
-=20
- static int ram_block_notify_add_single(RAMBlock *rb, void *opaque)
- {
--    ram_addr_t size =3D qemu_ram_get_max_length(rb);
-     void *host =3D qemu_ram_get_host_addr(rb);
-     RAMBlockNotifier *notifier =3D opaque;
-=20
--    if (host) {
--        notifier->ram_block_added(notifier, host, size);
-+    if (!host) {
-+        return 0;
-+    }
-+    if (qemu_ram_is_resizable_alloc(rb)) {
-+        notifier->ram_block_added(notifier, host, qemu_ram_get_used_length=
-(rb));
-+    } else {
-+        notifier->ram_block_added(notifier, host, qemu_ram_get_max_length(=
-rb));
-     }
-     return 0;
- }
-diff --git a/include/exec/cpu-common.h b/include/exec/cpu-common.h
-index 9760ac9068..a9c76bd5ef 100644
---- a/include/exec/cpu-common.h
-+++ b/include/exec/cpu-common.h
-@@ -66,6 +66,8 @@ void qemu_ram_set_uf_zeroable(RAMBlock *rb);
- bool qemu_ram_is_migratable(RAMBlock *rb);
- void qemu_ram_set_migratable(RAMBlock *rb);
- void qemu_ram_unset_migratable(RAMBlock *rb);
-+bool qemu_ram_is_resizable(RAMBlock *rb);
-+bool qemu_ram_is_resizable_alloc(RAMBlock *rb);
-=20
- size_t qemu_ram_pagesize(RAMBlock *block);
- size_t qemu_ram_pagesize_largest(void);
-diff --git a/include/exec/memory.h b/include/exec/memory.h
-index e85b7de99a..19417943a2 100644
---- a/include/exec/memory.h
-+++ b/include/exec/memory.h
-@@ -129,6 +129,14 @@ typedef struct IOMMUNotifier IOMMUNotifier;
- /* RAM is a persistent kind memory */
- #define RAM_PMEM (1 << 5)
-=20
-+/*
-+ * Implies RAM_RESIZEABLE. Memory beyond the used_length is inaccessible
-+ * (esp. initially and after resizing). For such memory blocks, only the
-+ * used_length is reserved in the OS - resizing might fail. Will only be
-+ * used with host OS support and if all ram block notifiers support resizi=
-ng.
-+ */
-+#define RAM_RESIZEABLE_ALLOC (1 << 6)
-+
- static inline void iommu_notifier_init(IOMMUNotifier *n, IOMMUNotify fn,
-                                        IOMMUNotifierFlag flags,
-                                        hwaddr start, hwaddr end,
---=20
-2.24.1
-
+> ---
+> Cc: Zolt=C3=A1n Baldaszti <bztemail@gmail.com>
+> Cc: Pekka Enberg <penberg@iki.fi>
+> Cc: Stephen Warren <swarren@nvidia.com>
+> Cc: Kshitij Soni <kshitij.soni@broadcom.com>
+> Cc: Michael Chan <michael.chan@broadcom.com>
+> Cc: Andrew Baumann <Andrew.Baumann@microsoft.com>
+> Cc: Jeremy Linton <lintonrjeremy@gmail.com>
+> Cc: Pete Batard <pete@akeo.ie>
+> ---
+>  hw/arm/raspi.c | 5 ++---
+>  1 file changed, 2 insertions(+), 3 deletions(-)
+>
+> diff --git a/hw/arm/raspi.c b/hw/arm/raspi.c
+> index 3996f6c63a..ef76a27f33 100644
+> --- a/hw/arm/raspi.c
+> +++ b/hw/arm/raspi.c
+> @@ -29,8 +29,7 @@
+>  #define FIRMWARE_ADDR_3 0x80000 /* Pi 3 loads kernel.img here by default=
+ */
+>  #define SPINTABLE_ADDR  0xd8 /* Pi 3 bootloader spintable */
+>
+> -/* Table of Linux board IDs for different Pi versions */
+> -static const int raspi_boardid[] =3D {[1] =3D 0xc42, [2] =3D 0xc43, [3] =
+=3D 0xc44};
+> +#define MACH_TYPE_BCM2708   3138 /* Linux board IDs */
+>
+>  typedef struct RasPiState {
+>      BCM283XState soc;
+> @@ -116,7 +115,7 @@ static void setup_boot(MachineState *machine, int ver=
+sion, size_t ram_size)
+>      static struct arm_boot_info binfo;
+>      int r;
+>
+> -    binfo.board_id =3D raspi_boardid[version];
+> +    binfo.board_id =3D MACH_TYPE_BCM2708;
+>      binfo.ram_size =3D ram_size;
+>      binfo.nb_cpus =3D machine->smp.cpus;
+>
+> --
+> 2.21.1
+>
+>
 
