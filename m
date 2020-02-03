@@ -2,83 +2,114 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8520A151277
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Feb 2020 23:38:48 +0100 (CET)
-Received: from localhost ([::1]:47988 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 080A1151295
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Feb 2020 23:52:00 +0100 (CET)
+Received: from localhost ([::1]:48100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iykMh-0002pQ-ID
-	for lists+qemu-devel@lfdr.de; Mon, 03 Feb 2020 17:38:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57908)
+	id 1iykZS-000056-Ke
+	for lists+qemu-devel@lfdr.de; Mon, 03 Feb 2020 17:51:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45468)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groug@kaod.org>) id 1iykKV-0000c6-EF
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 17:36:32 -0500
+ (envelope-from <tsimpson@quicinc.com>) id 1iykYR-00087q-Jx
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 17:50:56 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1iykKU-0000Qn-81
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 17:36:31 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:30626)
+ (envelope-from <tsimpson@quicinc.com>) id 1iykYL-00048r-8O
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 17:50:53 -0500
+Received: from alexa-out-sd-02.qualcomm.com ([199.106.114.39]:63691)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1iykKT-0000KF-V1
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 17:36:30 -0500
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 013MYrv1044404
- for <qemu-devel@nongnu.org>; Mon, 3 Feb 2020 17:36:29 -0500
-Received: from e06smtp02.uk.ibm.com (e06smtp02.uk.ibm.com [195.75.94.98])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2xxmkm0pn1-1
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Mon, 03 Feb 2020 17:36:28 -0500
-Received: from localhost
- by e06smtp02.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
- Violators will be prosecuted
- for <qemu-devel@nongnu.org> from <groug@kaod.org>;
- Mon, 3 Feb 2020 22:36:26 -0000
-Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
- by e06smtp02.uk.ibm.com (192.168.101.132) with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted; 
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Mon, 3 Feb 2020 22:36:24 -0000
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
- [9.149.105.62])
- by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 013MaN7p50200592
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 3 Feb 2020 22:36:23 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 27836AE090;
- Mon,  3 Feb 2020 22:36:23 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id EEF94AE095;
- Mon,  3 Feb 2020 22:36:22 +0000 (GMT)
-Received: from bahia.lan (unknown [9.145.55.193])
- by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Mon,  3 Feb 2020 22:36:22 +0000 (GMT)
-Subject: [PATCH 3/3] spapr: Migrate SpaprDrc::unplug_requested
-From: Greg Kurz <groug@kaod.org>
-To: David Gibson <david@gibson.dropbear.id.au>
-Date: Mon, 03 Feb 2020 23:36:22 +0100
-In-Reply-To: <158076936422.2118610.5626450767672103134.stgit@bahia.lan>
-References: <158076936422.2118610.5626450767672103134.stgit@bahia.lan>
-User-Agent: StGit/unknown-version
+ (Exim 4.71) (envelope-from <tsimpson@quicinc.com>)
+ id 1iykYK-0003yX-Cd
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 17:50:48 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1580770248; x=1612306248;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=AxxBSsF92jj+Bwas0tBW3Y+OKmmz+fllyByNhC85/Tc=;
+ b=aS8KobTuXrAhdq3541KmwvM4g4/kOX0GQM761hSxauLBOc/SjQrxSCb7
+ 5w5ntVEK+AMQfJC9co08McJW1VHWw9F/16QpbCFAGYW5H0WYsfFj8r5s1
+ bbcIL/R0V1LAPVknkWSHU73KEQw9LxfZ49AiMcs05IVgpyDAfUuTNfA59 E=;
+Received: from unknown (HELO ironmsg05-sd.qualcomm.com) ([10.53.140.145])
+ by alexa-out-sd-02.qualcomm.com with ESMTP; 03 Feb 2020 14:50:44 -0800
+Received: from nasanexm01h.na.qualcomm.com ([10.85.0.34])
+ by ironmsg05-sd.qualcomm.com with ESMTP/TLS/AES256-SHA;
+ 03 Feb 2020 14:50:44 -0800
+Received: from nasanexm03g.na.qualcomm.com (10.85.0.49) by
+ NASANEXM01H.na.qualcomm.com (10.85.0.34) with Microsoft SMTP Server (TLS) id
+ 15.0.1473.3; Mon, 3 Feb 2020 14:50:43 -0800
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (199.106.107.6)
+ by nasanexm03g.na.qualcomm.com (10.85.0.49) with Microsoft SMTP Server (TLS)
+ id 15.0.1473.3 via Frontend Transport; Mon, 3 Feb 2020 14:50:43 -0800
+Received: from BYAPR02MB4886.namprd02.prod.outlook.com (52.135.234.160) by
+ BYAPR02MB4326.namprd02.prod.outlook.com (52.135.237.27) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2686.32; Mon, 3 Feb 2020 22:50:42 +0000
+Received: from BYAPR02MB4886.namprd02.prod.outlook.com
+ ([fe80::bde4:83e4:96ad:fe62]) by BYAPR02MB4886.namprd02.prod.outlook.com
+ ([fe80::bde4:83e4:96ad:fe62%6]) with mapi id 15.20.2686.030; Mon, 3 Feb 2020
+ 22:50:42 +0000
+From: Taylor Simpson <tsimpson@quicinc.com>
+To: Laurent Vivier <laurent@vivier.eu>, "qemu-devel@nongnu.org"
+ <qemu-devel@nongnu.org>
+Subject: RE: [PATCH 0/4] linux-user: fix use of SIGRTMIN
+Thread-Topic: [PATCH 0/4] linux-user: fix use of SIGRTMIN
+Thread-Index: AQHV2PsOQ5OGpSzrB0qHpMHFVDfcjagKFgww
+Date: Mon, 3 Feb 2020 22:50:42 +0000
+Message-ID: <BYAPR02MB48864D9855037D87FF647E00DE000@BYAPR02MB4886.namprd02.prod.outlook.com>
+References: <20200201122746.1478003-1-laurent@vivier.eu>
+In-Reply-To: <20200201122746.1478003-1-laurent@vivier.eu>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=tsimpson@quicinc.com; 
+x-originating-ip: [199.106.103.59]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: f19174ce-fd66-4634-2d16-08d7a8fb7f75
+x-ms-traffictypediagnostic: BYAPR02MB4326:
+x-microsoft-antispam-prvs: <BYAPR02MB43269EC5824F47A1FD678A05DE000@BYAPR02MB4326.namprd02.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:7691;
+x-forefront-prvs: 0302D4F392
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(136003)(376002)(39860400002)(366004)(346002)(396003)(189003)(199004)(6506007)(53546011)(55016002)(9686003)(316002)(8676002)(26005)(186003)(4326008)(478600001)(7696005)(33656002)(2906002)(8936002)(81156014)(52536014)(110136005)(54906003)(86362001)(66946007)(76116006)(71200400001)(66556008)(66476007)(66446008)(64756008)(5660300002)(81166006);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:BYAPR02MB4326;
+ H:BYAPR02MB4886.namprd02.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: mO62GnJ9PtpoO4zptVLsCyQfKpc/k9E7aoxi1a1P52fBNMfl0RLLnaMBrQNXACTgfk00UnHLk8a2rXiYfInHIVzv8Eqs+3moYDPuBA/iuYBTZpPZ6yST1xbsNygxC2X8KmJUV9iB5R+qRUo0L/cPvBuuVXiTm33i10nnaINnMFxhHnBUNXLGexb00Xqajf4SnABmId7Z9Kb5qvN4HxXX7GBjMq6dWU7wOMDRIhtVICLLDFAQdzax6TX/WfJ271xH4aiSK9VSmIzaVuP7MAMKR4+slv4CBZHo4GlifwFeGg80e2s1ckPqVP92jwRIlkMnhBL4uBYqtsJl6+aXd2GUc58llm3h3uNdLhS8y0Nl2abGT4dCRBMO6I+b2FrpVyt3AHp/Gx7hFV3ipS41qaw8KNY9965BvidtFqA6rbqR6LpCIPbfO4PpGmkw3GlV4/qM
+x-ms-exchange-antispam-messagedata: /VIXPCOmxy0U6JlOimd+PR+PqgjfwuX5lV43cvFQvplKbnN0UO0CegGvtQEGOeDjwXzxBZv0dV8WhSNKIPQHaLe6JRXWKwwXTz8I0vl0wwFMhn27jR3xvxOOuQMS9H63HJsBqH5KkhnzWyC759oBPg==
+x-ms-exchange-transport-forked: True
+arc-seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Vv4hsdhS0d4LoQ+CyNQ04W1MUFRRrJjylJcRNU+q8eWJ31SnZU8rXsCV9u25pr9+jWNp1Jicgyhy/ftjctc+N5UcC/Kt8ZaWSCU2vl+cFAFNrRl68bqhvJf1vZ08QhZIc1eQ4HQEjdlWU/+bsk1K8Hwg/ep+5IITMX4Hej58D/Mkj0FmWvrkO2tTSt7N6ZEbP//wElkM3KzpdrpVwJCS9RPcVVSI///ZNohs2vWdM7sxyXcJ1v7GKoRUvcLMJL7mbg6TgG2ht26912M8hkdUOThJl100CjrhRP6MB5MVGtbMU1QG4l/+arRmqORzU6JGJOfkYP6NojP2cYn/p6d9Nw==
+arc-message-signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=15TSrGMm6yEP4SCsj0uL01GrZOWoaFqGUX8mjAE5CKI=;
+ b=mFU67xi512dHJ1TwazJzNFSO11PSoj1c3XNAnoHADOdCVdXEuhvamO7RE7zq+AA9wtV+mWRCXklvq8fK0ADGdWW7d9GPKOUBHZI4zlVbfITG+e79Z5Grtw+m7PPopAVvx1dYzP9OYBg87Y8h3XnDtJtt0gwn8YWjUp8tdSsG+ZWSAI0LwUtunT1Z39NMuQxYQuqg86MDfaFQGF5LfQp+p6/XLJb+rOvgG8d+Yl8Z6N7+WdlAdJHbnIeKl8xCdaSKtXk0yMDj63JgDDwE00605aqU9C7XMJ0nzZU2Lt3pL+vHYzjT1XPqRI5fcWHrXqsLN6My2bKagnlIvERNmkWthQ==
+arc-authentication-results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=quicinc.com; dmarc=pass action=none header.from=quicinc.com;
+ dkim=pass header.d=quicinc.com; arc=none
+dkim-signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=qualcomm.onmicrosoft.com; s=selector1-qualcomm-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=15TSrGMm6yEP4SCsj0uL01GrZOWoaFqGUX8mjAE5CKI=;
+ b=ZCeVdx/Bhu7uzH9k7lXVEEx2V/r6fEJbil4/CmkZN+avNkkmiv3quLMyUwqUjbS6L7HBgt6rkX2aP/YA5bEH84MLJ+Q/berZoXXMAiRWXIcl9gueStAiSIu5pmAwoKu74KVAYWe7Jk5ptOx2+kZxmpSsIyqBX8CjRf5iesViDOw=
+x-ms-exchange-crosstenant-network-message-id: f19174ce-fd66-4634-2d16-08d7a8fb7f75
+x-ms-exchange-crosstenant-originalarrivaltime: 03 Feb 2020 22:50:42.2928 (UTC)
+x-ms-exchange-crosstenant-fromentityheader: Hosted
+x-ms-exchange-crosstenant-id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
+x-ms-exchange-crosstenant-mailboxtype: HOSTED
+x-ms-exchange-crosstenant-userprincipalname: 0vzMN/NBNsllNxS/ftv1WT9ucyXxn+RACsLgp6tinzGLQLv7ZZprx7KCUqWbarSdscMux20lgU8fTSsbZ4Gzhg==
+x-ms-exchange-transport-crosstenantheadersstamped: BYAPR02MB4326
+x-originatororg: quicinc.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-x-cbid: 20020322-0008-0000-0000-0000034F696D
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 20020322-0009-0000-0000-00004A6FF453
-Message-Id: <158076938222.2118610.14456984179352959929.stgit@bahia.lan>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
- definitions=2020-02-03_08:2020-02-02,
- 2020-02-03 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0
- lowpriorityscore=0 bulkscore=0 mlxlogscore=999 clxscore=1034
- malwarescore=0 mlxscore=0 adultscore=0 impostorscore=0 spamscore=0
- suspectscore=0 priorityscore=1501 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-1911200001 definitions=main-2002030163
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.156.1
+X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
+X-Received-From: 199.106.114.39
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,80 +121,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Alexey Kardashevskiy <aik@ozlabs.ru>,
- qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Marlies Ruck <marlies.ruck@gmail.com>, Riku
+ Voipio <riku.voipio@iki.fi>, Aleksandar
+ Markovic <aleksandar.markovic@rt-rk.com>, Josh Kunz <jkz@google.com>,
+ Matus Kysel <mkysel@tachyum.com>,
+ "milos.stojanovic@rt-rk.com" <milos.stojanovic@rt-rk.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hot unplugging a device is an asynchronous operation. If the guest is
-migrated after the event was sent but before it could release the
-device with RTAS, the destination QEMU doesn't know about the pending
-unplug operation and doesn't actually remove the device when the guest
-finally releases it. The device
+FWIW, this removes the need for the target-specific code for Hexagon in sig=
+nal.c.
 
-Migrate SpaprDrc::unplug_requested to fix the inconsistency. This is
-done with a subsection that is only sent if an unplug request is
-pending. This allows to preserve migration with older guests in the
-case of a pending hotplug request. This will cause migration to fail
-if the destination can't handle the subsection, but this is better
-than ending with an inconsistency.
+Thanks,
+Taylor
 
-Signed-off-by: Greg Kurz <groug@kaod.org>
----
- hw/ppc/spapr_drc.c |   27 +++++++++++++++++++++++++--
- 1 file changed, 25 insertions(+), 2 deletions(-)
+PS  Stay tuned for a Hexagon target patch series once this is merged.
 
-diff --git a/hw/ppc/spapr_drc.c b/hw/ppc/spapr_drc.c
-index d512ac6e1e7f..6f5cab70fc6b 100644
---- a/hw/ppc/spapr_drc.c
-+++ b/hw/ppc/spapr_drc.c
-@@ -455,6 +455,22 @@ void spapr_drc_reset(SpaprDrc *drc)
-     }
- }
- 
-+static bool spapr_drc_unplug_requested_needed(void *opaque)
-+{
-+    return spapr_drc_unplug_requested(opaque);
-+}
-+
-+static const VMStateDescription vmstate_spapr_drc_unplug_requested = {
-+    .name = "spapr_drc/unplug_requested",
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .needed = spapr_drc_unplug_requested_needed,
-+    .fields  = (VMStateField []) {
-+        VMSTATE_BOOL(unplug_requested, SpaprDrc),
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
-+
- static bool spapr_drc_needed(void *opaque)
- {
-     SpaprDrc *drc = (SpaprDrc *)opaque;
-@@ -467,8 +483,11 @@ static bool spapr_drc_needed(void *opaque)
-     /*
-      * We need to migrate the state if it's not equal to the expected
-      * long-term state, which is the same as the coldplugged initial
--     * state */
--    return !spapr_drc_device_ready(drc);
-+     * state, or if an unplug request is pending.
-+     */
-+    return
-+        spapr_drc_unplug_requested_needed(drc) ||
-+        !spapr_drc_device_ready(drc);
- }
- 
- static const VMStateDescription vmstate_spapr_drc = {
-@@ -479,6 +498,10 @@ static const VMStateDescription vmstate_spapr_drc = {
-     .fields  = (VMStateField []) {
-         VMSTATE_UINT32(state, SpaprDrc),
-         VMSTATE_END_OF_LIST()
-+    },
-+    .subsections = (const VMStateDescription * []) {
-+        &vmstate_spapr_drc_unplug_requested,
-+        NULL
-     }
- };
- 
+> -----Original Message-----
+> From: Laurent Vivier <laurent@vivier.eu>
+> Sent: Saturday, February 1, 2020 6:28 AM
+> To: qemu-devel@nongnu.org
+> Cc: Josh Kunz <jkz@google.com>; milos.stojanovic@rt-rk.com; Matus Kysel
+> <mkysel@tachyum.com>; Aleksandar Markovic <aleksandar.markovic@rt-
+> rk.com>; Marlies Ruck <marlies.ruck@gmail.com>; Laurent Vivier
+> <laurent@vivier.eu>; Peter Maydell <peter.maydell@linaro.org>; Taylor
+> Simpson <tsimpson@quicinc.com>; Riku Voipio <riku.voipio@iki.fi>
+> Subject: [PATCH 0/4] linux-user: fix use of SIGRTMIN
+>
+> This series fixes the problem of the first real-time signals already in u=
+se by
+> the glibc that are not available for the target glibc.
+>
+> Instead of reverting the first and last real-time signals we rely on the =
+value
+> provided by the glibc (SIGRTMIN) to know the first available signal and w=
+e
+> map all the signals from this value to SIGRTMAX on top of
+> TARGET_SIGRTMIN. So the consequence is we have less available signals in
+> the target (generally 2) but all seems fine as at least 30 signals are st=
+ill
+> available.
+>
+> This has been tested with Go (golang 1.10.1 linux/arm64, bionic) on x86_6=
+4
+> fedora 31. We can avoid the failure in this case allowing the unsupported
+> signals when we don't provide the "act" parameters to sigaction, only the
+> "oldact" one. I have also run the LTP suite with several target and debia=
+n
+> based distros.
+>
+> Laurent Vivier (4):
+>   linux-user: add missing TARGET_SIGRTMIN for hppa
+>   linux-user: cleanup signal.c
+>   linux-user: fix TARGET_NSIG and _NSIG uses
+>   linux-user: fix use of SIGRTMIN
+>
+>  linux-user/hppa/target_signal.h |   1 +
+>  linux-user/signal.c             | 110 +++++++++++++++++++++++---------
+>  linux-user/trace-events         |   3 +
+>  3 files changed, 85 insertions(+), 29 deletions(-)
+>
+> --
+> 2.24.1
+>
 
 
