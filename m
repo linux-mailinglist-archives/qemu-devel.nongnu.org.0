@@ -2,64 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A487F1507FF
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Feb 2020 15:06:08 +0100 (CET)
-Received: from localhost ([::1]:41424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C081150809
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Feb 2020 15:07:25 +0100 (CET)
+Received: from localhost ([::1]:41466 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iycMZ-0006wL-NX
-	for lists+qemu-devel@lfdr.de; Mon, 03 Feb 2020 09:06:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58967)
+	id 1iycNo-0000v2-9p
+	for lists+qemu-devel@lfdr.de; Mon, 03 Feb 2020 09:07:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59489)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iycLY-0005oy-SA
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 09:05:05 -0500
+ (envelope-from <wainersm@redhat.com>) id 1iycMo-00082T-Pi
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 09:06:24 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iycLX-00011x-9g
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 09:05:04 -0500
-Received: from mail-oi1-x230.google.com ([2607:f8b0:4864:20::230]:45607)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iycLX-000112-56
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 09:05:03 -0500
-Received: by mail-oi1-x230.google.com with SMTP id v19so14787745oic.12
- for <qemu-devel@nongnu.org>; Mon, 03 Feb 2020 06:05:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=eNIRnxAsC+QgJgvB0Ex1LkJvK8YiwT+xCiZTgixSJjc=;
- b=YmparMjjaNcdfRsnXheQBLnID7tR54ouCOCo+YtHs1RMy+TrxXtT3eWF92ZZ01h9sr
- tmRGyVmIIMKgtPyglRAe0Hv0wvMYy6bxiDq3nW5h15jAs23rRtA36+lyDs646C3Ja1JS
- uP9K/JEihtGcso67kvHyumqg2TfAl766tAAmS55/9N7dCEV+Qrt6JoIYY1SNwltJrFe+
- L0m5p+TZ8SfSRGHHa+31EbvjtG7I6h0f+UtuMZ3HLU1xbSHaAX6atE9TT1NxMJUXK0O7
- Z7PmugX2Lat4Fd7q9+6gogZ0O0Zw/lAs9GtcfSmhbN0kgKAoB5nMY5pdw4To6oB6MKkS
- bOWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=eNIRnxAsC+QgJgvB0Ex1LkJvK8YiwT+xCiZTgixSJjc=;
- b=Jzo2GtnT0lpLiK5AM82zNuY+jeLaJFpYxDvJanf/YSaOrGIT2RMAjWGAjxwQBVTOS6
- PmshBEjKr2y+IndM/ZMUm7o01fwTJbA5Yxqec5m0Yx+XnNC99+3ZbplxfjwswpXvrcqU
- 1yzbGFQadDPA3SNnaaxjzO8DWrxdhoMqNWC9SCEW219yySFKeUqFuAr6nwE/r6K4BiyM
- TtCK6qzICK3YlR5QDCWt298RPQjkp1q+hYa/PLKl4xa9mjF4rkVsVfjSKnWKCyAZKTlh
- R7Mwb+vy+u/iNmSIXYES97edJZBXYRUgyeNOHXA6Uy4OSqTiYnjGo6Tc4GJKTCbp3QVV
- 3jng==
-X-Gm-Message-State: APjAAAV1S5ZPVqmphY0gnwtX0TSATcXVnuxwexM7BB/bWcvDmQQm4Bcy
- 20ViOkbyAOq81jjiA19fM8HcmOb/gTcZtMs1J7v4uw==
-X-Google-Smtp-Source: APXvYqwa9L+ZMcn83J7IUgI8hJXlzQ9O7n0XMoFlbpBIMWB85rchoNFRUqIk1IdCDXr4ntIZP8qLXfwS00uH6IlR2GU=
-X-Received: by 2002:a54:4f16:: with SMTP id e22mr6728332oiy.170.1580738702274; 
- Mon, 03 Feb 2020 06:05:02 -0800 (PST)
+ (envelope-from <wainersm@redhat.com>) id 1iycMm-0003Q6-36
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 09:06:21 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:24042
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <wainersm@redhat.com>) id 1iycMl-0003MO-TN
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 09:06:20 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1580738778;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=WBWUqVjVBu0s5c3cxxDUBRgI2KUhjLKiEkVMNBMsQso=;
+ b=FdulbbONaqgEgwIGAiQ4lKhBQya9Iv9Jwv8tMxx7XoF5067A5AmDx7TZ/y9+O/pC07SSfN
+ tZbVncAHRLiIuANRVgYt0NTnDNPcOMqwuEmUvq7MqX+BMRIlljRoIC3TEHGLbmvp5wWvY7
+ 96RpDQUqMu0WR/vVhyKnxSTF11bnWP8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-49-kpf0-1swMdSupsV909b-BA-1; Mon, 03 Feb 2020 09:06:00 -0500
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5C7E7CF9BF;
+ Mon,  3 Feb 2020 14:05:59 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-116-90.gru2.redhat.com
+ [10.97.116.90])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 701EA84BCD;
+ Mon,  3 Feb 2020 14:05:51 +0000 (UTC)
+Subject: Re: [PATCH 2/2] tests/acceptance/integratorcp: Verify Tux is
+ displayed on framebuffer
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20200131211102.29612-1-f4bug@amsat.org>
+ <20200131211102.29612-3-f4bug@amsat.org>
+From: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Message-ID: <62387425-5fc2-8607-3b78-6878b7611651@redhat.com>
+Date: Mon, 3 Feb 2020 12:05:49 -0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.4.0
 MIME-Version: 1.0
-References: <20200203123811.8651-1-thuth@redhat.com>
-In-Reply-To: <20200203123811.8651-1-thuth@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 3 Feb 2020 14:04:51 +0000
-Message-ID: <CAFEAcA_1KYRA=87k34zCRLqCf1tWHrULGZPcHeKwJZhDUx0=kw@mail.gmail.com>
-Subject: Re: [PULL 00/13] qtests, kconfig and misc patches
-To: Thomas Huth <thuth@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::230
+In-Reply-To: <20200131211102.29612-3-f4bug@amsat.org>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: kpf0-1swMdSupsV909b-BA-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,55 +78,134 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>, qemu-arm@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 3 Feb 2020 at 12:38, Thomas Huth <thuth@redhat.com> wrote:
->
->  Hi Peter,
->
-> the following changes since commit 28db64fce555a03b4ca256d5b6f4290abdfbd9e8:
->
->   Merge remote-tracking branch 'remotes/stefanha/tags/tracing-pull-request' into staging (2020-01-31 17:37:00 +0000)
->
-> are available in the Git repository at:
->
->   https://gitlab.com/huth/qemu.git tags/pull-request-2020-02-03
->
-> for you to fetch changes up to 585c138628bbf22ea8e740b2f4f1a3ed0274ebe8:
->
->   trivial: Remove xenfb_enabled from sysemu.h (2020-02-03 10:33:57 +0100)
->
-> ----------------------------------------------------------------
-> * Current qtests queue
-> * Some Kconfig updates
-> * Some trivial clean-ups here and there
-> ----------------------------------------------------------------
 
-All the incremental rebuilds failed:
+On 1/31/20 7:11 PM, Philippe Mathieu-Daud=C3=A9 wrote:
+> Add a test that verifies the Tux logo is displayed on the framebuffer.
+>
+> We simply follow the OpenCV "Template Matching with Multiple Objects"
+> tutorial, replacing Lionel Messi by Tux:
 
-Linux cam-vm-266 4.15.0-70-generic x86_64
-From git://git-us.linaro.org/people/pmaydell/qemu-arm
-   f31160c7d1..f9e931a1d9  staging    -> pmaydell/staging
-make: Entering directory '/home/petmay01/qemu-for-merges/build/w64'
-make[1]: Entering directory '/home/petmay01/qemu-for-merges/slirp'
-make[1]: Nothing to be done for 'all'.
-make[1]: Leaving directory '/home/petmay01/qemu-for-merges/slirp'
-  CC      qga/main.o
-  CC      stubs/machine-init-done.o
-  CC      stubs/replay-user.o
-  CC      stubs/semihost.o
-  CC      qemu-img.o
-  CC      qemu-io.o
-  CC      chardev/char.o
-make: *** No rule to make target
-'/home/petmay01/qemu-for-merges/hw/bt/Kconfig', needed by
-'aarch64-softmmu/config-devices.mak'.  Stop.
-make: *** Waiting for unfinished jobs....
-  CC      chardev/char-mux.o
-make: Leaving directory '/home/petmay01/qemu-for-merges/build/w64'
+So Tux > Messi??!! I knew that!
 
-thanks
--- PMM
+> https://docs.opencv.org/4.2.0/d4/dc6/tutorial_py_template_matching.html
+>
+> When OpenCV and NumPy are installed, this test can be run using:
+>
+>    $ AVOCADO_ALLOW_UNTRUSTED_CODE=3Dhmmm \
+>      avocado --show=3Dapp,framebuffer run -t device:framebuffer \
+>        tests/acceptance/machine_arm_integratorcp.py
+>    JOB ID     : 8c46b0f8269242e87d738247883ea2a470df949e
+>    JOB LOG    : avocado/job-results/job-2020-01-31T21.38-8c46b0f/job.log
+>     (1/1) tests/acceptance/machine_arm_integratorcp.py:IntegratorMachine.=
+test_framebuffer_tux_logo:
+>    framebuffer: found Tux at position [x, y] =3D (0, 0)
+>    PASS (3.96 s)
+>    RESULTS    : PASS 1 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0=
+ | CANCEL 0
+>    JOB TIME   : 4.23 s
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> ---
+> The resulting match is https://pasteboard.co/ISz7kr8.png
+>
+> For matching SMP machines, these suggestion might work:
+> https://stackoverflow.com/questions/50579050/template-matching-with-multi=
+ple-objects-in-opencv-python
+> ---
+>   tests/acceptance/machine_arm_integratorcp.py | 51 ++++++++++++++++++++
+>   1 file changed, 51 insertions(+)
+
+
+Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+
+
+>
+> diff --git a/tests/acceptance/machine_arm_integratorcp.py b/tests/accepta=
+nce/machine_arm_integratorcp.py
+> index 748819916d..a706fe1b44 100644
+> --- a/tests/acceptance/machine_arm_integratorcp.py
+> +++ b/tests/acceptance/machine_arm_integratorcp.py
+> @@ -9,11 +9,26 @@
+>   # later.  See the COPYING file in the top-level directory.
+>  =20
+>   import os
+> +import logging
+>  =20
+>   from avocado import skipUnless
+>   from avocado_qemu import Test
+>   from avocado_qemu import wait_for_console_pattern
+>  =20
+> +
+> +NUMPY_AVAILABLE =3D True
+> +try:
+> +    import numpy as np
+> +except ImportError:
+> +    NUMPY_AVAILABLE =3D False
+> +
+> +CV2_AVAILABLE =3D True
+> +try:
+> +    import cv2
+> +except ImportError:
+> +    CV2_AVAILABLE =3D False
+> +
+> +
+>   class IntegratorMachine(Test):
+>       """Boots the Linux kernel and checks that the console is operationa=
+l"""
+>  =20
+> @@ -45,3 +60,39 @@ class IntegratorMachine(Test):
+>           """
+>           self.boot_integratorcp()
+>           wait_for_console_pattern(self, 'Log in as root')
+> +
+> +    @skipUnless(NUMPY_AVAILABLE, 'Python NumPy not installed')
+> +    @skipUnless(CV2_AVAILABLE, 'Python OpenCV not installed')
+> +    @skipUnless(os.getenv('AVOCADO_ALLOW_UNTRUSTED_CODE'), 'untrusted co=
+de')
+> +    def test_framebuffer_tux_logo(self):
+> +        """
+> +        :avocado: tags=3Darch:arm
+> +        :avocado: tags=3Dmachine:integratorcp
+> +        :avocado: tags=3Ddevice:pl110
+> +        :avocado: tags=3Ddevice:framebuffer
+> +        """
+> +        screendump_path =3D os.path.join(self.workdir, "screendump.pbm")
+> +        tuxlogo_url =3D ('https://github.com/torvalds/linux/raw/v2.6.12/=
+'
+> +                       'drivers/video/logo/logo_linux_vga16.ppm')
+> +        tuxlogo_hash =3D '3991c2ddbd1ddaecda7601f8aafbcf5b02dc86af'
+> +        tuxlogo_path =3D self.fetch_asset(tuxlogo_url, asset_hash=3Dtuxl=
+ogo_hash)
+> +
+> +        self.boot_integratorcp()
+> +        framebuffer_ready =3D 'Console: switching to colour frame buffer=
+ device'
+> +        wait_for_console_pattern(self, framebuffer_ready)
+> +        self.vm.command('human-monitor-command', command_line=3D'stop')
+> +        self.vm.command('human-monitor-command',
+> +                        command_line=3D'screendump %s' % screendump_path=
+)
+> +        logger =3D logging.getLogger('framebuffer')
+> +
+> +        cpu_count =3D 1
+> +        match_threshold =3D 0.92
+> +        screendump_bgr =3D cv2.imread(screendump_path)
+> +        screendump_gray =3D cv2.cvtColor(screendump_bgr, cv2.COLOR_BGR2G=
+RAY)
+> +        result =3D cv2.matchTemplate(screendump_gray, cv2.imread(tuxlogo=
+_path, 0),
+> +                                   cv2.TM_CCOEFF_NORMED)
+> +        loc =3D np.where(result >=3D match_threshold)
+> +        tux_count =3D 0
+> +        for tux_count, pt in enumerate(zip(*loc[::-1]), start=3D1):
+> +            logger.debug('found Tux at position [x, y] =3D %s', pt)
+> +        self.assertGreaterEqual(tux_count, cpu_count)
+
 
