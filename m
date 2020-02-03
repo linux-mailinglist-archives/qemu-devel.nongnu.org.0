@@ -2,46 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4FA915019C
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Feb 2020 07:17:34 +0100 (CET)
-Received: from localhost ([::1]:34836 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEBD3150190
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Feb 2020 07:12:38 +0100 (CET)
+Received: from localhost ([::1]:34742 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iyV37-0003g2-RW
-	for lists+qemu-devel@lfdr.de; Mon, 03 Feb 2020 01:17:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57216)
+	id 1iyUyL-0002fZ-UM
+	for lists+qemu-devel@lfdr.de; Mon, 03 Feb 2020 01:12:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56971)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1iyUxO-0002Q2-65
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 01:11:39 -0500
+ (envelope-from <mst@redhat.com>) id 1iyUwx-0001ug-0Y
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 01:11:11 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1iyUxN-0002a5-4o
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 01:11:38 -0500
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:47861 helo=ozlabs.org)
+ (envelope-from <mst@redhat.com>) id 1iyUwv-0001iG-PH
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 01:11:10 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:35772
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1iyUxM-0002UZ-PV; Mon, 03 Feb 2020 01:11:37 -0500
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 489yBm6YgCz9sSL; Mon,  3 Feb 2020 17:11:28 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1580710288;
- bh=2jmkwg3BUMMJqmimdvGd8n4T5fRDXI2SsSNGCZE1miI=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=pvOIeJ19AGrkYSYMXUmehRLeWeTDizlEzExZ7w8JhEIu4K5oGRlN21QJ0vehloSlo
- cscTyyMOSTRp/J07PIY9UrvCXfohesu8aWRoVKgGbF/joadmlUmp/6AaqqR7yuNuI9
- dWjUfFF/zA0aSpEXVRpxR5Q/ADR8RYhvmnWgp2wU=
-From: David Gibson <david@gibson.dropbear.id.au>
-To: peter.maydell@linaro.org
-Subject: [PULL 09/35] spapr: Don't allow multiple active vCPUs at CAS
-Date: Mon,  3 Feb 2020 17:10:57 +1100
-Message-Id: <20200203061123.59150-10-david@gibson.dropbear.id.au>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20200203061123.59150-1-david@gibson.dropbear.id.au>
-References: <20200203061123.59150-1-david@gibson.dropbear.id.au>
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iyUwv-0001he-Kd
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 01:11:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1580710269;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=TGYi4iQGyypKkwl5HdBcxH1o1c16rSX8imA3vtobyKo=;
+ b=EvBhdt1ljxdsFM5oLwKLVIxZD3Lqnjyz6LVL5mEuLlTZbkprpRwFpp4tzEOZCX4PWoHTuU
+ fhoQ4fb1bvkxZ8ZSp4PFQXhV7I4FHtF5bODl5lHdaHr8h4RC5pm+cC9aNZifD73PTC5ybJ
+ PNS6P+25CuBuYoErtNuaSTRjpGL+go0=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-162-Gk9qmG4bMSGuw4WnfbdgNg-1; Mon, 03 Feb 2020 01:11:07 -0500
+Received: by mail-wr1-f72.google.com with SMTP id u18so7645911wrn.11
+ for <qemu-devel@nongnu.org>; Sun, 02 Feb 2020 22:11:07 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=Lw8zZl6P+1/bHZa82Tc/oS8E16nZxIUU26KAs8LQ3vc=;
+ b=cv5vgoKQ45WOmmkXIfqzFiZ3s8LcII+ZL8M7ojrbkfp10h8RJG1fd/BbjTnNVzcfVk
+ 8BSWA5vHs2cf0IKWKXMlonxvFZHtI58VEoPB51uCDyrZbk/JxjCO7lvcDudGVJXHxlt0
+ fxGuyM//dPeh7x8kvRiiqbAScv0d0qoECl6qLOWJrIPDGO0bzffNB7emodOShKR/MgCu
+ mo84Q6BYdBaicGd/9jReH/QeGhDKE5VAbEMXrPdlW9LBEuZ/SSMeqHquawO8fmFEzQHA
+ GiqAjCKa8fke+HVcdn3VasKGNhjYGP43Z+GrL5TaP5lMZJS5kqlJ0RlacGGlNq4UGe/e
+ 8zaw==
+X-Gm-Message-State: APjAAAUY/RvAV/D6RjPl37gNA3jNueeBNQczVlKcvL9TVgiyQGPILCJz
+ wF8vrHfs4ggzt6eZ3cZRE9cmcCEGcpgRnM5ng88b/mzKHIISTh3WMGL1Cq2j7cmfCm8vusrbMaW
+ zTmWJMnyb8Sqmj/g=
+X-Received: by 2002:a1c:b4d7:: with SMTP id
+ d206mr26783659wmf.188.1580710266013; 
+ Sun, 02 Feb 2020 22:11:06 -0800 (PST)
+X-Google-Smtp-Source: APXvYqxoavUdIsjoJxHLOKN2LSRgpJsKfVDj8+VQZ8fNkw+Wk7qE71b7aG56WkS+8q3rvZSrT7/NTg==
+X-Received: by 2002:a1c:b4d7:: with SMTP id
+ d206mr26783634wmf.188.1580710265780; 
+ Sun, 02 Feb 2020 22:11:05 -0800 (PST)
+Received: from redhat.com (ip-82-36-244-173.west.us.northamericancoax.com.
+ [173.244.36.82])
+ by smtp.gmail.com with ESMTPSA id o4sm9112696wrw.15.2020.02.02.22.11.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 02 Feb 2020 22:11:05 -0800 (PST)
+Date: Mon, 3 Feb 2020 01:10:57 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Heyi Guo <guoheyi@huawei.com>
+Subject: Re: [PATCH v2 4/7] arm/acpi: fix PCI _PRT definition
+Message-ID: <20200203010249-mutt-send-email-mst@kernel.org>
+References: <20200203001505.52573-1-guoheyi@huawei.com>
+ <20200203001505.52573-5-guoheyi@huawei.com>
 MIME-Version: 1.0
+In-Reply-To: <20200203001505.52573-5-guoheyi@huawei.com>
+X-MC-Unique: Gk9qmG4bMSGuw4WnfbdgNg-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2401:3900:2:1::2
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,61 +90,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, David Gibson <david@gibson.dropbear.id.au>,
- qemu-ppc@nongnu.org, qemu-devel@nongnu.org, groug@kaod.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
+ Shannon Zhao <shannon.zhaosl@gmail.com>, qemu-arm@nongnu.org,
+ Igor Mammedov <imammedo@redhat.com>, wanghaibin.wang@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Greg Kurz <groug@kaod.org>
+On Mon, Feb 03, 2020 at 08:15:02AM +0800, Heyi Guo wrote:
+> The address field in each _PRT mapping package should be constructed
+> with high word for device# and low word for function#, so it is wrong
+> to use bus_no as the high word. Enumerate all possible slots
+> (i.e. PCI_SLOT_MAX) instead.
+>=20
+> Signed-off-by: Heyi Guo <guoheyi@huawei.com>
 
-According to the description of "ibm,client-architecture-support" that
-can found in LoPAPR "B.6.2.3 Root Node Methods":
 
-If multiple partition processors or threads are active at the time of
-the ibm,client-architecture-support method call, or an error is detected
-in the format of the ibm,architecture.vec structure, the err? boolean
-shall be TRUE; else FALSE.
+Absolutely matches the spec so
 
-We certainly don't want to temper with the platform or with the PCR of
-the other vCPUs if they happen to be active. Ensure we have only one
-active vCPU and fail CAS otherwise. This is just for conformance and
-robustness, it doesn't fix any known bugs.
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 
-Signed-off-by: Greg Kurz <groug@kaod.org>
-Message-Id: <157969867170.571404.12117797348882189656.stgit@bahia.lan>
-Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
----
- hw/ppc/spapr_hcall.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+To add to the commit message:
+The existing code adds a bunch useless entries with device #s above 31.
 
-diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
-index ffb14641f9..b8bb66b5c0 100644
---- a/hw/ppc/spapr_hcall.c
-+++ b/hw/ppc/spapr_hcall.c
-@@ -1676,6 +1676,18 @@ static target_ulong h_client_architecture_support(=
-PowerPCCPU *cpu,
-     Error *local_err =3D NULL;
-     bool raw_mode_supported =3D false;
-     bool guest_xive;
-+    CPUState *cs;
-+
-+    /* CAS is supposed to be called early when only the boot vCPU is act=
-ive. */
-+    CPU_FOREACH(cs) {
-+        if (cs =3D=3D CPU(cpu)) {
-+            continue;
-+        }
-+        if (!cs->halted) {
-+            warn_report("guest has multiple active vCPUs at CAS, which i=
-s not allowed");
-+            return H_MULTI_THREADS_ACTIVE;
-+        }
-+    }
-=20
-     cas_pvr =3D cas_check_pvr(spapr, cpu, &addr, &raw_mode_supported, &l=
-ocal_err);
-     if (local_err) {
---=20
-2.24.1
+
+> ---
+> Cc: Peter Maydell <peter.maydell@linaro.org>
+> Cc: "Michael S. Tsirkin" <mst@redhat.com>
+> Cc: Igor Mammedov <imammedo@redhat.com>
+> Cc: Shannon Zhao <shannon.zhaosl@gmail.com>
+> Cc: qemu-arm@nongnu.org
+> Cc: qemu-devel@nongnu.org
+> ---
+>  hw/arm/virt-acpi-build.c | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
+>=20
+> diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
+> index be752c0ad8..5d157a9dd5 100644
+> --- a/hw/arm/virt-acpi-build.c
+> +++ b/hw/arm/virt-acpi-build.c
+> @@ -151,7 +151,7 @@ static void acpi_dsdt_add_pci(Aml *scope, const MemMa=
+pEntry *memmap,
+>  {
+>      int ecam_id =3D VIRT_ECAM_ID(highmem_ecam);
+>      Aml *method, *crs, *ifctx, *UUID, *ifctx1, *elsectx, *buf;
+> -    int i, bus_no;
+> +    int i, slot_no;
+>      hwaddr base_mmio =3D memmap[VIRT_PCIE_MMIO].base;
+>      hwaddr size_mmio =3D memmap[VIRT_PCIE_MMIO].size;
+>      hwaddr base_pio =3D memmap[VIRT_PCIE_PIO].base;
+> @@ -170,12 +170,12 @@ static void acpi_dsdt_add_pci(Aml *scope, const Mem=
+MapEntry *memmap,
+>      aml_append(dev, aml_name_decl("_CCA", aml_int(1)));
+> =20
+>      /* Declare the PCI Routing Table. */
+> -    Aml *rt_pkg =3D aml_varpackage(nr_pcie_buses * PCI_NUM_PINS);
+> -    for (bus_no =3D 0; bus_no < nr_pcie_buses; bus_no++) {
+> +    Aml *rt_pkg =3D aml_varpackage(PCI_SLOT_MAX * PCI_NUM_PINS);
+> +    for (slot_no =3D 0; slot_no < PCI_SLOT_MAX; slot_no++) {
+>          for (i =3D 0; i < PCI_NUM_PINS; i++) {
+> -            int gsi =3D (i + bus_no) % PCI_NUM_PINS;
+> +            int gsi =3D (i + slot_no) % PCI_NUM_PINS;
+>              Aml *pkg =3D aml_package(4);
+> -            aml_append(pkg, aml_int((bus_no << 16) | 0xFFFF));
+> +            aml_append(pkg, aml_int((slot_no << 16) | 0xFFFF));
+>              aml_append(pkg, aml_int(i));
+>              aml_append(pkg, aml_name("GSI%d", gsi));
+>              aml_append(pkg, aml_int(0));
+> --=20
+> 2.19.1
 
 
