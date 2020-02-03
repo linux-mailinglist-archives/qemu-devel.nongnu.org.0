@@ -2,59 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC1A61501C1
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Feb 2020 07:32:20 +0100 (CET)
-Received: from localhost ([::1]:35156 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD47A1501C3
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Feb 2020 07:33:51 +0100 (CET)
+Received: from localhost ([::1]:35172 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iyVHP-0006tz-Sf
-	for lists+qemu-devel@lfdr.de; Mon, 03 Feb 2020 01:32:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59401)
+	id 1iyVIs-00008e-Tj
+	for lists+qemu-devel@lfdr.de; Mon, 03 Feb 2020 01:33:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59574)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1iyV6A-0003Q7-O5
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 01:20:44 -0500
+ (envelope-from <armbru@redhat.com>) id 1iyV6b-0004QA-AD
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 01:21:11 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1iyV69-0005a6-47
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 01:20:42 -0500
-Received: from indium.canonical.com ([91.189.90.7]:53952)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1iyV68-0005WA-Ub
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 01:20:41 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1iyV67-0007Ne-E8
- for <qemu-devel@nongnu.org>; Mon, 03 Feb 2020 06:20:39 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 69B2D2E80C3
- for <qemu-devel@nongnu.org>; Mon,  3 Feb 2020 06:20:39 +0000 (UTC)
+ (envelope-from <armbru@redhat.com>) id 1iyV6a-00064x-5o
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 01:21:09 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:47929
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1iyV6a-00063t-22
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 01:21:08 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1580710865;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=An5cqHBWwGqGGUU8PYbKVTuwAqN/87rzwuOzlBQQ8Q8=;
+ b=Vwu7oO+6JnlTGwD1JM/YU6U3rq8Ka1pMMBPFF1CPG8iPT4hqhyZNU1eJaa8f75RmA8ScsO
+ GYQ8MKhBflAbAFfkIhIpoMxLLBA9yodRptj/Q6GwKXdPVbOIEeny18T6x6RKIeCERUZp2R
+ iEw5gyJUxlT7daddx5rv+qgF1RRg/mc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-118-HsifY2vMNs2yhdnAUWz_YQ-1; Mon, 03 Feb 2020 01:21:02 -0500
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5AE58800D41;
+ Mon,  3 Feb 2020 06:21:01 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-116-131.ams2.redhat.com
+ [10.36.116.131])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C990A90F47;
+ Mon,  3 Feb 2020 06:20:52 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 5B9FE1138404; Mon,  3 Feb 2020 07:20:51 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: Making QEMU easier for management tools and applications
+References: <871rrp474i.fsf@dusky.pond.sub.org>
+ <20200124102743.GB824327@redhat.com>
+ <20200124143841.GG4732@dhcp-200-226.str.redhat.com>
+ <87sgk3x2im.fsf@dusky.pond.sub.org>
+ <20200127115606.GA5669@linux.fritz.box>
+ <1c65b678-7bb4-a4cc-5fa6-03d6d27cf381@redhat.com>
+ <20200128102855.GA6431@linux.fritz.box>
+ <87mua7bvwf.fsf@dusky.pond.sub.org>
+ <20200128125409.GF6431@linux.fritz.box>
+ <4cf1864c-3527-b015-0691-1788a37f4f7e@redhat.com>
+ <20200202092152.GA3456@localhost.localdomain>
+ <CABgObfaLetjGmv=21gCQWruvXNkrMBUVCjQaKrTjppZrL=MW-A@mail.gmail.com>
+Date: Mon, 03 Feb 2020 07:20:51 +0100
+In-Reply-To: <CABgObfaLetjGmv=21gCQWruvXNkrMBUVCjQaKrTjppZrL=MW-A@mail.gmail.com>
+ (Paolo Bonzini's message of "Sun, 2 Feb 2020 11:44:37 +0100")
+Message-ID: <87lfpk6vjw.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-MC-Unique: HsifY2vMNs2yhdnAUWz_YQ-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 03 Feb 2020 06:13:39 -0000
-From: zwq <1861653@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: awdrg901
-X-Launchpad-Bug-Reporter: zwq (awdrg901)
-X-Launchpad-Bug-Modifier: zwq (awdrg901)
-Message-Id: <158071042004.19865.7386710530747108432.malonedeb@wampee.canonical.com>
-Subject: [Bug 1861653] [NEW] CPU of qemu-system-aarch64 always stuck
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="0a62c17273454a1313f81a74a2198ec30b44c7b6";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 24e44a63cc61a3296c062f13f29e15df5f59ac6e
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -63,146 +86,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1861653 <1861653@bugs.launchpad.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
+ "Denis V. Lunev" <den@virtuozzo.com>, Cleber Rosa <cleber@redhat.com>,
+ Stefan Hajnoczi <stefanha@gmail.com>, qemu-devel <qemu-devel@nongnu.org>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Dominik Csapak <d.csapak@proxmox.com>, John Snow <jsnow@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+Paolo Bonzini <pbonzini@redhat.com> writes:
 
-I started qemu with these arguments:
- qemu-system-aarch64 -M virt-2.9 -cpu cortex-a72 -smp cores=3D8,threads=3D1=
-,sockets=3D1 -m 2G -device nec-usb-xhci -device usb-kbd -device usb-tablet =
--pflash /sdcard/QEMU_EFI.img -pflash /sdcard/QEMU_VARS.img -device virtio-b=
-lk-device,drive=3DUbuntu -drive if=3Dnone,id=3DUbuntu,file=3DUbuntu.vhd -no=
-graphic -net user -net nic,model=3Drtl8139 -kernel linux -initrd initrd.gz
-The setup program of Ubuntu devel aarch64 ran normally.But after several ho=
-urs,the CPUs emulated by qemu-system-aarch64 went wrong.
-Here are the messages displayed on the tty
-[15842.164745] watchdog: BUG: soft lockup - CPU#0 stuck for 23s! [ksoftirqd=
-/0:9]                                                                      =
-   [15930.163589] watchdog: BUG: soft lockup - CPU#0 stuck for 23s! [ksofti=
-rqd/0:9]
-[16110.163540] watchdog: BUG: soft lockup - CPU#0 stuck for 22s! [ksoftirqd=
-/0:9] =
+> Il dom 2 feb 2020, 10:22 Kevin Wolf <kwolf@redhat.com> ha scritto:
+>
+>> Am 31.01.2020 um 13:27 hat Eric Blake geschrieben:
+>> > On 1/28/20 6:54 AM, Kevin Wolf wrote:
+>> >
+>> > > >
+>> > > > The arguments as dotted keys:
+>> > > >
+>> > > >      id=3Dbar,backend.type=3Dfile,backend.data.out=3D/tmp/bar.log
+>> > > >
+>> > > > Observe there's quite some of nesting.  While that's somewhat
+>> cumbersome
+>> > > > in JSON, it's a lot worse with dotted keys, because there nesting
+>> means
+>> > > > repeated key prefixes.  I could give much worse examples, actually=
+.
+>> > >
+>> > > This is true, but even without the repeated keys (e.g. in a syntax t=
+hat
+>> > > would use brackets), it would still be unnecessarily verbose and
+>> > > probably hard to remember:
+>> > >
+>> > >      id=3Dbar,backend=3D{type=3Dfile,data=3D{out=3D/tmp/bar.log}}
+>>
+>> [...] I actually think that a syntax like this might make sense for
+>> something like qmp-shell. It might even be more convenient on the
+>> command line than dotted keys if you get a lot of repetition (despite
+>> the required quoting), but it's strictly speaking incompatible because
+>> you could use {} in strings today.
+>>
+>
+> If you are willing to feed schema info to the parser, in principle you
+> could keep backwards compatibility. There would be limitations such as
+> putting the discriminator before the fields, so I am not sure it's a good
+> idea.
 
-[16290.162801] watchdog: BUG: soft lockup - CPU#0 stuck for 22s! [ksoftirqd=
-/0:9]
-[16470.163927] watchdog: BUG: soft lockup - CPU#0 stuck for 23s! [ksoftirqd=
-/0:9] =
+Problem: the 'any' type, where the schema doesn't provide the necessary
+information.
 
-[16650.163246] watchdog: BUG: soft lockup - CPU#0 stuck for 22s! [ksoftirqd=
-/0:9] =
+Problem: 'gen': false, where we pass the arguments raw, ignoring the
+schema.
 
-[16830.163216] watchdog: BUG: soft lockup - CPU#0 stuck for 23s! [ksoftirqd=
-/0:9] =
+If we didn't restrict alternate types so severly, it would also be a
+problem.  For instance, with
 
-[17010.164504] watchdog: BUG: soft lockup - CPU#0 stuck for 22s! [ksoftirqd=
-/0:9]
+    { 'alternate': 'Alt',
+      'data': { 'one': 'number',
+                'two': 'str' } }
 
-Then I tried CentOS 7.1908 aarch64 with almost the same arguments.
-After several hours,it went wrong too.
-[17480 . 201 1 58] rcu : (3 ticks this GP) idle=3D362/0/0x3 softirq=3D61631=
- /61 631 fqs=3D10077
-[17480 . 204889] (detected by 3 , t=3D24007 jiffies , g=3D218453 , q=3D5285=
-) [1 7480 . 21 7986] Task dump for CPU 7 :
-[17480.222379] swapper/7R running task	0 =
+we don't know what to do for value "on" branch to take for value 42.
+Not a problem because we reject this alternate.  See
+tests/qapi-schema/alternate-conflict-*json for more examples.
 
-0  0x0000002a [17480.229073] Call trace :
-[1 7480.241518]	switch t0+0x104/0x1 f8
-[17480.249839]	Ox7fffffffffffffff
-[17660.232314] rcu : INFO: rcu sched detected stalls on CPUs/ tasks :
-[17660.233580] rcu : (3 ticks this GP) idle=3D362/0/0x3 softirq=3D61631 /61=
- 631 fqs=3D17770
-[17660.235837] (detected by 3,t=3D42012 jiffies , g=3D218453 , q=3D7039) =
+> Better QOM introspection would be a requirement, too.
 
-[17660 . 237955] Task dump for CPU 7 :
-[17660.238900] swapper/ 7  R running task  0   0
-[17660.242967] Call trace :
-[17660.246192]	switch t0+0x104/0x1 f8
-[17660.253215]	Ox7fffffffffffffff
+I guess this is what you believe is needed to solve these problems.
 
-Obviously qemu-system-aarch64 caused these bugs.
-
-qemu version: 4.x(I have tested version 4.0 & 4.1.0 & 4.2.0)
-host architecture: aarch64(Qualcomm Snapdragon series)
-host system:Ubuntu devel 20.04& Debian 10(I have tested on many devices)
-
-** Affects: qemu
-     Importance: Undecided
-         Status: New
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1861653
-
-Title:
-  CPU of qemu-system-aarch64 always stuck
-
-Status in QEMU:
-  New
-
-Bug description:
-  I started qemu with these arguments:
-   qemu-system-aarch64 -M virt-2.9 -cpu cortex-a72 -smp cores=3D8,threads=
-=3D1,sockets=3D1 -m 2G -device nec-usb-xhci -device usb-kbd -device usb-tab=
-let -pflash /sdcard/QEMU_EFI.img -pflash /sdcard/QEMU_VARS.img -device virt=
-io-blk-device,drive=3DUbuntu -drive if=3Dnone,id=3DUbuntu,file=3DUbuntu.vhd=
- -nographic -net user -net nic,model=3Drtl8139 -kernel linux -initrd initrd=
-.gz
-  The setup program of Ubuntu devel aarch64 ran normally.But after several =
-hours,the CPUs emulated by qemu-system-aarch64 went wrong.
-  Here are the messages displayed on the tty
-  [15842.164745] watchdog: BUG: soft lockup - CPU#0 stuck for 23s! [ksoftir=
-qd/0:9]                                                                    =
-     [15930.163589] watchdog: BUG: soft lockup - CPU#0 stuck for 23s! [ksof=
-tirqd/0:9]
-  [16110.163540] watchdog: BUG: soft lockup - CPU#0 stuck for 22s! [ksoftir=
-qd/0:9] =
-
-  [16290.162801] watchdog: BUG: soft lockup - CPU#0 stuck for 22s! [ksoftir=
-qd/0:9]
-  [16470.163927] watchdog: BUG: soft lockup - CPU#0 stuck for 23s! [ksoftir=
-qd/0:9] =
-
-  [16650.163246] watchdog: BUG: soft lockup - CPU#0 stuck for 22s! [ksoftir=
-qd/0:9] =
-
-  [16830.163216] watchdog: BUG: soft lockup - CPU#0 stuck for 23s! [ksoftir=
-qd/0:9] =
-
-  [17010.164504] watchdog: BUG: soft lockup - CPU#0 stuck for 22s! [ksoftir=
-qd/0:9]
-
-  Then I tried CentOS 7.1908 aarch64 with almost the same arguments.
-  After several hours,it went wrong too.
-  [17480 . 201 1 58] rcu : (3 ticks this GP) idle=3D362/0/0x3 softirq=3D616=
-31 /61 631 fqs=3D10077
-  [17480 . 204889] (detected by 3 , t=3D24007 jiffies , g=3D218453 , q=3D52=
-85) [1 7480 . 21 7986] Task dump for CPU 7 :
-  [17480.222379] swapper/7R running task	0 =
-
-  0  0x0000002a [17480.229073] Call trace :
-  [1 7480.241518]	switch t0+0x104/0x1 f8
-  [17480.249839]	Ox7fffffffffffffff
-  [17660.232314] rcu : INFO: rcu sched detected stalls on CPUs/ tasks :
-  [17660.233580] rcu : (3 ticks this GP) idle=3D362/0/0x3 softirq=3D61631 /=
-61 631 fqs=3D17770
-  [17660.235837] (detected by 3,t=3D42012 jiffies , g=3D218453 , q=3D7039) =
-
-  [17660 . 237955] Task dump for CPU 7 :
-  [17660.238900] swapper/ 7  R running task  0   0
-  [17660.242967] Call trace :
-  [17660.246192]	switch t0+0x104/0x1 f8
-  [17660.253215]	Ox7fffffffffffffff
-
-  Obviously qemu-system-aarch64 caused these bugs.
-
-  qemu version: 4.x(I have tested version 4.0 & 4.1.0 & 4.2.0)
-  host architecture: aarch64(Qualcomm Snapdragon series)
-  host system:Ubuntu devel 20.04& Debian 10(I have tested on many devices)
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1861653/+subscriptions
 
