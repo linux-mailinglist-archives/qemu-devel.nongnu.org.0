@@ -2,36 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70063150022
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Feb 2020 01:19:48 +0100 (CET)
-Received: from localhost ([::1]:60768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52531150020
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Feb 2020 01:18:44 +0100 (CET)
+Received: from localhost ([::1]:60740 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iyPSt-0003N1-Gv
-	for lists+qemu-devel@lfdr.de; Sun, 02 Feb 2020 19:19:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33129)
+	id 1iyPRr-0000sa-D9
+	for lists+qemu-devel@lfdr.de; Sun, 02 Feb 2020 19:18:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33128)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <guoheyi@huawei.com>) id 1iyPQX-00071O-V2
- for qemu-devel@nongnu.org; Sun, 02 Feb 2020 19:17:22 -0500
+ (envelope-from <guoheyi@huawei.com>) id 1iyPQX-00071N-Ve
+ for qemu-devel@nongnu.org; Sun, 02 Feb 2020 19:17:23 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <guoheyi@huawei.com>) id 1iyPQW-0004Dx-TI
+ (envelope-from <guoheyi@huawei.com>) id 1iyPQW-0004Dj-PY
  for qemu-devel@nongnu.org; Sun, 02 Feb 2020 19:17:21 -0500
-Received: from szxga07-in.huawei.com ([45.249.212.35]:38210 helo=huawei.com)
+Received: from szxga07-in.huawei.com ([45.249.212.35]:38208 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <guoheyi@huawei.com>)
- id 1iyPQU-00048B-Ey; Sun, 02 Feb 2020 19:17:18 -0500
+ id 1iyPQU-00048G-9a; Sun, 02 Feb 2020 19:17:18 -0500
 Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id 626D8FD170912DF4A5B2;
+ by Forcepoint Email with ESMTP id 67CB4D6B5B1CFFB84D44;
  Mon,  3 Feb 2020 08:17:14 +0800 (CST)
 Received: from linux-TFkxOR.huawei.com (10.175.104.212) by
  DGGEMS413-HUB.china.huawei.com (10.3.19.213) with Microsoft SMTP Server id
- 14.3.439.0; Mon, 3 Feb 2020 08:17:03 +0800
+ 14.3.439.0; Mon, 3 Feb 2020 08:17:04 +0800
 From: Heyi Guo <guoheyi@huawei.com>
 To: <qemu-devel@nongnu.org>
-Subject: [PATCH v2 5/7] arm/acpi: fix duplicated _UID of PCI interrupt link
- devices
-Date: Mon, 3 Feb 2020 08:15:03 +0800
-Message-ID: <20200203001505.52573-6-guoheyi@huawei.com>
+Subject: [PATCH v2 6/7] arm/acpi: simplify the description of PCI _CRS
+Date: Mon, 3 Feb 2020 08:15:04 +0800
+Message-ID: <20200203001505.52573-7-guoheyi@huawei.com>
 X-Mailer: git-send-email 2.19.1
 In-Reply-To: <20200203001505.52573-1-guoheyi@huawei.com>
 References: <20200203001505.52573-1-guoheyi@huawei.com>
@@ -62,8 +61,40 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Using _UID of 0 for all PCI interrupt link devices absolutely violates
-the spec. Simply increase one by one.
+The original code defines a named object for the resource template but
+then returns the resource template object itself; the resulted output
+is like below:
+
+Method (_CRS, 0, NotSerialized)  // _CRS: Current Resource Settings
+{
+    Name (RBUF, ResourceTemplate ()
+    {
+        WordBusNumber (ResourceProducer, MinFixed, MaxFixed, PosDecode,
+            0x0000,             // Granularity
+            0x0000,             // Range Minimum
+            0x00FF,             // Range Maximum
+            0x0000,             // Translation Offset
+            0x0100,             // Length
+            ,, )
+        ......
+    })
+    Return (ResourceTemplate ()
+    {
+        WordBusNumber (ResourceProducer, MinFixed, MaxFixed, PosDecode,
+            0x0000,             // Granularity
+            0x0000,             // Range Minimum
+            0x00FF,             // Range Maximum
+            0x0000,             // Translation Offset
+            0x0100,             // Length
+            ,, )
+        ......
+    })
+}
+
+So the named object "RBUF" is actually useless. The more natural way
+is to return RBUF instead, or simply drop RBUF definition.
+
+Choose the latter one to simplify the code.
 
 Signed-off-by: Heyi Guo <guoheyi@huawei.com>
 
@@ -75,25 +106,22 @@ Cc: Shannon Zhao <shannon.zhaosl@gmail.com>
 Cc: qemu-arm@nongnu.org
 Cc: qemu-devel@nongnu.org
 ---
- hw/arm/virt-acpi-build.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/arm/virt-acpi-build.c | 1 -
+ 1 file changed, 1 deletion(-)
 
 diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
-index 5d157a9dd5..f3e340b172 100644
+index f3e340b172..fb4b166f82 100644
 --- a/hw/arm/virt-acpi-build.c
 +++ b/hw/arm/virt-acpi-build.c
-@@ -189,7 +189,7 @@ static void acpi_dsdt_add_pci(Aml *scope, const MemMa=
+@@ -236,7 +236,6 @@ static void acpi_dsdt_add_pci(Aml *scope, const MemMa=
 pEntry *memmap,
-         uint32_t irqs =3D  irq + i;
-         Aml *dev_gsi =3D aml_device("GSI%d", i);
-         aml_append(dev_gsi, aml_name_decl("_HID", aml_string("PNP0C0F"))=
-);
--        aml_append(dev_gsi, aml_name_decl("_UID", aml_int(0)));
-+        aml_append(dev_gsi, aml_name_decl("_UID", aml_int(i)));
-         crs =3D aml_resource_template();
-         aml_append(crs,
-                    aml_interrupt(AML_CONSUMER, AML_LEVEL, AML_ACTIVE_HIG=
-H,
+                              size_mmio_high));
+     }
+=20
+-    aml_append(method, aml_name_decl("RBUF", rbuf));
+     aml_append(method, aml_return(rbuf));
+     aml_append(dev, method);
+=20
 --=20
 2.19.1
 
