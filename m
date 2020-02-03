@@ -2,62 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 926F7150655
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Feb 2020 13:47:45 +0100 (CET)
-Received: from localhost ([::1]:39668 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DCC0150642
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Feb 2020 13:39:39 +0100 (CET)
+Received: from localhost ([::1]:39268 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iyb8i-0000TA-Lh
-	for lists+qemu-devel@lfdr.de; Mon, 03 Feb 2020 07:47:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58542)
+	id 1iyb0r-0005lv-Mk
+	for lists+qemu-devel@lfdr.de; Mon, 03 Feb 2020 07:39:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56392)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1iyb6g-0007ZN-14
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 07:45:39 -0500
+ (envelope-from <thuth@redhat.com>) id 1iyazh-0004Aa-D0
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 07:38:27 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1iyb6d-0000gW-Ql
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 07:45:37 -0500
-Received: from indium.canonical.com ([91.189.90.7]:52872)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1iyb6d-0000eh-Jx
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 07:45:35 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1iyb6c-0001Qf-6U
- for <qemu-devel@nongnu.org>; Mon, 03 Feb 2020 12:45:34 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 2E6052E80C0
- for <qemu-devel@nongnu.org>; Mon,  3 Feb 2020 12:45:34 +0000 (UTC)
+ (envelope-from <thuth@redhat.com>) id 1iyazf-0005ss-CZ
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 07:38:24 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:36931
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iyazf-0005sO-3v
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 07:38:23 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1580733502;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=oH65uqXcaiNOfOxPQVnbm5s5rgUPvhzNSRSIeIA6sRo=;
+ b=LqHL/L/v/rJcQw7WM195TWwpVtMH5DZiZonH/vTv+2qxZNMxaPRP5eaVlVhy1tCi4jUsHu
+ zfN3fhhtbqXgnLvBgD5vl4ClVOBuoGwIGVyXb0KTRU+/GQJM20eFOOPWkbp0fCUyzKVxRd
+ sy4qGcVXnjMBtJhcj6oI4OwDtkTWxGU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-432-a3TeloO7N-GA1lGfVTAIcA-1; Mon, 03 Feb 2020 07:38:18 -0500
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 69C77800D41;
+ Mon,  3 Feb 2020 12:38:16 +0000 (UTC)
+Received: from thuth.com (ovpn-116-129.ams2.redhat.com [10.36.116.129])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8C284196B1;
+ Mon,  3 Feb 2020 12:38:15 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org,
+	Peter Maydell <peter.maydell@linaro.org>
+Subject: [PULL 00/13] qtests, kconfig and misc patches
+Date: Mon,  3 Feb 2020 13:37:58 +0100
+Message-Id: <20200203123811.8651-1-thuth@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: a3TeloO7N-GA1lGfVTAIcA-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 03 Feb 2020 12:36:57 -0000
-From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1861677@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: audio
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: philmd
-X-Launchpad-Bug-Reporter: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
- =?utf-8?q?=29?=
-X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
- =?utf-8?q?=29?=
-Message-Id: <158073341807.19403.15811772889635903332.malonedeb@gac.canonical.com>
-Subject: [Bug 1861677] [NEW] wavcapture crash with pulseaudio
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="0a62c17273454a1313f81a74a2198ec30b44c7b6";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 6672a11dfcd22e15d5cf88d4d18b52938042344b
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -66,180 +68,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1861677 <1861677@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+ Hi Peter,
 
-As of commit 28db64fce55,
-using demo from QEMU advent calendar 2018 day 1:
-https://www.qemu-advent-calendar.org/2018/download/day01.tar.xz
+the following changes since commit 28db64fce555a03b4ca256d5b6f4290abdfbd9e8=
+:
 
-$ qemu-system-x86_64 -M pc \
-  -net none -soundhw pcspk \
-  -drive file=3Dday01/fbird.img,format=3Draw,if=3Dfloppy \
-  -monitor stdio -S
-(qemu) info qtree =
+  Merge remote-tracking branch 'remotes/stefanha/tags/tracing-pull-request'=
+ into staging (2020-01-31 17:37:00 +0000)
 
-bus: main-system-bus
-  type System
-  dev: i440FX-pcihost, id ""
-    bus: pci.0
-      dev: PIIX3, id ""
-        bus: isa.0
-          dev: isa-pcspk, id ""
-            audiodev =3D "pa"
-            iobase =3D 97 (0x61)
-            migrate =3D true
-(qemu) wavcapture out.wav pa
-(qemu) cont
-(qemu) # Press 'up' key in demo
-Segmentation fault (core dumped)
+are available in the Git repository at:
 
-(gdb) bt
-#0  0x0000555bfef0dc51 in audio_pcm_sw_write (sw=3D0x555c01333930, buf=3D0x=
-0, size=3D14728) at audio/audio.c:725
-#1  0x0000555bfef10a49 in audio_capture_mix_and_clear (hw=3D0x555c012379b0,=
- rpos=3D0, samples=3D3682) at audio/audio.c:1054
-#2  0x0000555bfef11059 in audio_run_out (s=3D0x555c01235550) at audio/audio=
-.c:1186
-#3  0x0000555bfef11894 in audio_run (s=3D0x555c01235550, msg=3D0x555bff3e37=
-e8 "timer") at audio/audio.c:1355
-#4  0x0000555bfef10334 in audio_timer (opaque=3D0x555c01235550) at audio/au=
-dio.c:831
-#5  0x0000555bff33f041 in timerlist_run_timers (timer_list=3D0x555c00377b50=
-) at util/qemu-timer.c:588
-#6  0x0000555bff33f0eb in qemu_clock_run_timers (type=3DQEMU_CLOCK_VIRTUAL)=
- at util/qemu-timer.c:602
-#7  0x0000555bff33f3b6 in qemu_clock_run_all_timers () at util/qemu-timer.c=
-:688
-#8  0x0000555bff33fb60 in main_loop_wait (nonblocking=3D0) at util/main-loo=
-p.c:525
-#9  0x0000555bfef0187c in main_loop () at vl.c:1683
-#10 0x0000555bfef090ab in main (argc=3D12, argv=3D0x7ffec49184c8, envp=3D0x=
-7ffec4918530) at vl.c:4438
-(gdb) p *sw
-$1 =3D {card =3D 0x0, s =3D 0x0, info =3D {bits =3D 16, sign =3D 1, freq =
-=3D 44100, nchannels =3D 2, bytes_per_frame =3D 4, bytes_per_second =3D 176=
-400, swap_endianness =3D 0}, conv =3D 0x555bfef0ced1 <noop_conv>, ratio =3D=
- 4294967296, buf =3D 0x555c0123f6f0, =
+  https://gitlab.com/huth/qemu.git tags/pull-request-2020-02-03
 
-  rate =3D 0x555c007c0ec0, total_hw_samples_mixed =3D 0, active =3D 1, empt=
-y =3D 1, hw =3D 0x555c014b12a0, name =3D 0x0, vol =3D {mute =3D 0, r =3D 42=
-94967296, l =3D 4294967296}, callback =3D {opaque =3D 0x0, fn =3D 0x0}, ent=
-ries =3D {le_next =3D 0x0, =
+for you to fetch changes up to 585c138628bbf22ea8e740b2f4f1a3ed0274ebe8:
 
-    le_prev =3D 0x555c014b1310}}
-(gdb) p *sw->hw
-$2 =3D {s =3D 0x555c01235550, enabled =3D 1, poll_mode =3D 0, pending_disab=
-le =3D 0, info =3D {bits =3D 16, sign =3D 1, freq =3D 44100, nchannels =3D =
-2, bytes_per_frame =3D 4, bytes_per_second =3D 176400, swap_endianness =3D =
-0}, =
+  trivial: Remove xenfb_enabled from sysemu.h (2020-02-03 10:33:57 +0100)
 
-  clip =3D 0x555bfef16376 <clip_natural_int16_t_from_stereo>, ts_helper =3D=
- 0, mix_buf =3D 0x555c0059d680, buf_emul =3D 0x0, pos_emul =3D 0, pending_e=
-mul =3D 0, size_emul =3D 0, samples =3D 16384, sw_head =3D {lh_first =3D 0x=
-555c01333930}, cap_head =3D {
-    lh_first =3D 0x0}, pcm_ops =3D 0x0, entries =3D {le_next =3D 0x0, le_pr=
-ev =3D 0x0}}
+----------------------------------------------------------------
+* Current qtests queue
+* Some Kconfig updates
+* Some trivial clean-ups here and there
+----------------------------------------------------------------
 
-sw->hw->pcm_ops is NULL.
+Dr. David Alan Gilbert (1):
+      tests/vhost-user-bridge: Fix build
 
-** Affects: qemu
-     Importance: Undecided
-         Status: New
+Heyi Guo (1):
+      tests/qtest: update comments about bios-tables-test-allowed-diff.h
 
+Miroslav Rezanina (1):
+      test-logging: Fix -Werror=3Dmaybe-uninitialized warning
 
-** Tags: audio
+Pan Nengyuan (1):
+      boot-order-test: fix memleaks in boot-order-test
 
--- =
+Philippe Mathieu-Daud=C3=A9 (1):
+      hw/hppa/Kconfig: LASI chipset requires PARALLEL port
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1861677
+Thomas Huth (8):
+      docs/devel: Fix qtest paths and info about check-block in testing.rst
+      tests/Makefile: Fix inclusion of the qos dependency files
+      gitlab-ci: Refresh the list of iotests
+      hw/bt: Remove empty Kconfig file
+      hw/input: Do not enable CONFIG_PCKBD by default
+      hw/*/Makefile.objs: Move many .o files to common-objs
+      include/sysemu/sysemu.h: Remove usused variable no_quit
+      trivial: Remove xenfb_enabled from sysemu.h
 
-Title:
-  wavcapture crash with pulseaudio
+ .gitlab-ci.yml                 | 12 ++++++------
+ docs/devel/testing.rst         | 23 ++++++++++++-----------
+ hw/adc/Makefile.objs           |  2 +-
+ hw/block/Makefile.objs         |  2 +-
+ hw/bt/Kconfig                  |  0
+ hw/char/Makefile.objs          | 16 ++++++++--------
+ hw/core/Makefile.objs          |  2 +-
+ hw/display/Makefile.objs       |  2 +-
+ hw/dma/Makefile.objs           |  6 +++---
+ hw/gpio/Makefile.objs          | 10 +++++-----
+ hw/hppa/Kconfig                |  1 +
+ hw/i2c/Makefile.objs           |  4 ++--
+ hw/i2c/ppc4xx_i2c.c            |  1 -
+ hw/input/Kconfig               |  1 -
+ hw/input/Makefile.objs         |  8 ++++----
+ hw/isa/Kconfig                 |  1 +
+ hw/net/Makefile.objs           |  6 +++---
+ hw/nvram/Makefile.objs         |  2 +-
+ hw/pcmcia/Makefile.objs        |  2 +-
+ hw/sd/Makefile.objs            | 10 +++++-----
+ hw/ssi/Makefile.objs           |  4 ++--
+ hw/usb/Makefile.objs           |  4 ++--
+ hw/xenpv/xen_machine_pv.c      |  2 +-
+ include/sysemu/sysemu.h        |  2 --
+ tests/Makefile.include         |  3 ++-
+ tests/qtest/Makefile.include   |  1 -
+ tests/qtest/bios-tables-test.c | 10 +++++-----
+ tests/qtest/boot-order-test.c  |  6 +++---
+ tests/qtest/libqos/fw_cfg.h    |  2 ++
+ tests/test-logging.c           |  6 +++---
+ 30 files changed, 76 insertions(+), 75 deletions(-)
+ delete mode 100644 hw/bt/Kconfig
 
-Status in QEMU:
-  New
-
-Bug description:
-  As of commit 28db64fce55,
-  using demo from QEMU advent calendar 2018 day 1:
-  https://www.qemu-advent-calendar.org/2018/download/day01.tar.xz
-
-  $ qemu-system-x86_64 -M pc \
-    -net none -soundhw pcspk \
-    -drive file=3Dday01/fbird.img,format=3Draw,if=3Dfloppy \
-    -monitor stdio -S
-  (qemu) info qtree =
-
-  bus: main-system-bus
-    type System
-    dev: i440FX-pcihost, id ""
-      bus: pci.0
-        dev: PIIX3, id ""
-          bus: isa.0
-            dev: isa-pcspk, id ""
-              audiodev =3D "pa"
-              iobase =3D 97 (0x61)
-              migrate =3D true
-  (qemu) wavcapture out.wav pa
-  (qemu) cont
-  (qemu) # Press 'up' key in demo
-  Segmentation fault (core dumped)
-
-  (gdb) bt
-  #0  0x0000555bfef0dc51 in audio_pcm_sw_write (sw=3D0x555c01333930, buf=3D=
-0x0, size=3D14728) at audio/audio.c:725
-  #1  0x0000555bfef10a49 in audio_capture_mix_and_clear (hw=3D0x555c012379b=
-0, rpos=3D0, samples=3D3682) at audio/audio.c:1054
-  #2  0x0000555bfef11059 in audio_run_out (s=3D0x555c01235550) at audio/aud=
-io.c:1186
-  #3  0x0000555bfef11894 in audio_run (s=3D0x555c01235550, msg=3D0x555bff3e=
-37e8 "timer") at audio/audio.c:1355
-  #4  0x0000555bfef10334 in audio_timer (opaque=3D0x555c01235550) at audio/=
-audio.c:831
-  #5  0x0000555bff33f041 in timerlist_run_timers (timer_list=3D0x555c00377b=
-50) at util/qemu-timer.c:588
-  #6  0x0000555bff33f0eb in qemu_clock_run_timers (type=3DQEMU_CLOCK_VIRTUA=
-L) at util/qemu-timer.c:602
-  #7  0x0000555bff33f3b6 in qemu_clock_run_all_timers () at util/qemu-timer=
-.c:688
-  #8  0x0000555bff33fb60 in main_loop_wait (nonblocking=3D0) at util/main-l=
-oop.c:525
-  #9  0x0000555bfef0187c in main_loop () at vl.c:1683
-  #10 0x0000555bfef090ab in main (argc=3D12, argv=3D0x7ffec49184c8, envp=3D=
-0x7ffec4918530) at vl.c:4438
-  (gdb) p *sw
-  $1 =3D {card =3D 0x0, s =3D 0x0, info =3D {bits =3D 16, sign =3D 1, freq =
-=3D 44100, nchannels =3D 2, bytes_per_frame =3D 4, bytes_per_second =3D 176=
-400, swap_endianness =3D 0}, conv =3D 0x555bfef0ced1 <noop_conv>, ratio =3D=
- 4294967296, buf =3D 0x555c0123f6f0, =
-
-    rate =3D 0x555c007c0ec0, total_hw_samples_mixed =3D 0, active =3D 1, em=
-pty =3D 1, hw =3D 0x555c014b12a0, name =3D 0x0, vol =3D {mute =3D 0, r =3D =
-4294967296, l =3D 4294967296}, callback =3D {opaque =3D 0x0, fn =3D 0x0}, e=
-ntries =3D {le_next =3D 0x0, =
-
-      le_prev =3D 0x555c014b1310}}
-  (gdb) p *sw->hw
-  $2 =3D {s =3D 0x555c01235550, enabled =3D 1, poll_mode =3D 0, pending_dis=
-able =3D 0, info =3D {bits =3D 16, sign =3D 1, freq =3D 44100, nchannels =
-=3D 2, bytes_per_frame =3D 4, bytes_per_second =3D 176400, swap_endianness =
-=3D 0}, =
-
-    clip =3D 0x555bfef16376 <clip_natural_int16_t_from_stereo>, ts_helper =
-=3D 0, mix_buf =3D 0x555c0059d680, buf_emul =3D 0x0, pos_emul =3D 0, pendin=
-g_emul =3D 0, size_emul =3D 0, samples =3D 16384, sw_head =3D {lh_first =3D=
- 0x555c01333930}, cap_head =3D {
-      lh_first =3D 0x0}, pcm_ops =3D 0x0, entries =3D {le_next =3D 0x0, le_=
-prev =3D 0x0}}
-
-  sw->hw->pcm_ops is NULL.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1861677/+subscriptions
 
