@@ -2,83 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9C73150B82
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Feb 2020 17:28:13 +0100 (CET)
-Received: from localhost ([::1]:44358 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62818150BA6
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Feb 2020 17:30:00 +0100 (CET)
+Received: from localhost ([::1]:44390 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iyea4-0006oC-Ml
-	for lists+qemu-devel@lfdr.de; Mon, 03 Feb 2020 11:28:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47180)
+	id 1iyebn-0000IB-DS
+	for lists+qemu-devel@lfdr.de; Mon, 03 Feb 2020 11:29:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47691)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iyeZ9-0006Fd-Se
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 11:27:16 -0500
+ (envelope-from <eblake@redhat.com>) id 1iyea0-00075b-Cc
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 11:28:10 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iyeZ8-0003I4-1V
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 11:27:15 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:38898
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <eblake@redhat.com>) id 1iyeZy-000680-1y
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 11:28:08 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:29856
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iyeZ7-0003B3-Tn
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 11:27:13 -0500
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1iyeZx-00066v-UB
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 11:28:06 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580747232;
+ s=mimecast20190719; t=1580747285;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=QeCBVp1KPvqehrC6OiB2uJKqww75jQAealCEUARBU5U=;
- b=AH95zfq1UbY8wWWL2m2AvNrrO4G3+HgzZSeW3bfx5NP8ccZCnm8r/Fi58O5BuwW/YWeesn
- 1VXiXMZn1t3ETo1GFtTKNQCf3oVgjZi+O/6k9zqt/VGI+9UW5nV0JnASDqryNjK0oEek3j
- y7i/do3Wop3xlzTkkyo+Ryla3Z9D/qE=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-206-wswZNTZxO0mVXELnzKBvwQ-1; Mon, 03 Feb 2020 11:27:11 -0500
-Received: by mail-wm1-f71.google.com with SMTP id s25so5040306wmj.3
- for <qemu-devel@nongnu.org>; Mon, 03 Feb 2020 08:27:10 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=V9ZnIYefrPXQs+RPAOIp4pYvstrzQL+oKuT6OoiNitI=;
- b=gQxL3Lyhii7JHIDjuDU+yAkvYeCnYI4DgjSa7gVhppq8z/t8zUo12SHZDyrlQ/m14L
- Tvd5Jn8qUavM/5ND94Zlizugy0yQjuODZgzkSLog6ck5vspKjlZFBoeucF4XL0rqBzDl
- OmxW9WX4+v3UY3M0OKS2DI5W4KlGmVMq6XNm6ee/f6jsIlQc+YsQp0RWBLiDPMNQFPc/
- XDrwCXqAN3DVO30efCehkwLBLn6+ya7HW96b+x6DkaVu0QG6iNDGzig6eUJAPwEyxx/i
- ILLUcjO+e1Xv1OYNt6YEoiJnGp42b+88VcdL+wO+rpedxgeY2KuWPMelZohzkjN6Ibfw
- D8bg==
-X-Gm-Message-State: APjAAAXOUJxAVf2meLCfho6pfYvVgUEVTuWJJk9b+/olwP+bO5/+OO8F
- n8XqHhP2XBYtwfVLjdN6LdUjNyHfap9LLzPYJKhD/hvuZzVZO/cj7JP3cPejNONnuPbnUejcY0o
- v48L9R7KoHCm0sCs=
-X-Received: by 2002:a5d:6a83:: with SMTP id s3mr15471380wru.99.1580747229980; 
- Mon, 03 Feb 2020 08:27:09 -0800 (PST)
-X-Google-Smtp-Source: APXvYqxhWHVzgTNBLX4cg3QI1NBiuM24400sOv0IEQ3i9nR/19BV6mNRxUjoGn/db5isItTvrrcNaA==
-X-Received: by 2002:a5d:6a83:: with SMTP id s3mr15471366wru.99.1580747229803; 
- Mon, 03 Feb 2020 08:27:09 -0800 (PST)
-Received: from [192.168.1.35] (162.red-83-52-55.dynamicip.rima-tde.net.
- [83.52.55.162])
- by smtp.gmail.com with ESMTPSA id a62sm24771220wmh.33.2020.02.03.08.27.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 03 Feb 2020 08:27:09 -0800 (PST)
-Subject: Re: [PATCH v2 2/2] bcm2835_dma: Re-initialize xlen in TD mode
-To: Rene Stange <rsta2@o2online.de>
-References: <5397138.k0qeMALlIp@desktop2>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <80ae5ce3-c58d-800c-4748-ea4842a6ff84@redhat.com>
-Date: Mon, 3 Feb 2020 17:27:08 +0100
+ bh=GA55x0fjvV7vPI718+tO3D63guIP7Bk72KBM8Xtjy0M=;
+ b=WEjI5E+RRL9Fb2pVU19uaSVgWpClIjlkO94b1/HEEhcAHo3R8XzVknwWDlOHDFRvBjXxDl
+ ejp4SQXBNoKFDvE2xnl5rr/xJ7ItKYFtW5kX+x+OdLej5PWlGjhSFLIJS7OBQDAQCfA8XG
+ OQTC3aSYpIEj07iux0GWCiR1h0WPYc4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-37-kx51HDpkM4ubBk-paBs2AA-1; Mon, 03 Feb 2020 11:27:45 -0500
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D75CE800D41;
+ Mon,  3 Feb 2020 16:27:43 +0000 (UTC)
+Received: from [10.3.116.181] (ovpn-116-181.phx2.redhat.com [10.3.116.181])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A3A2B811F8;
+ Mon,  3 Feb 2020 16:27:40 +0000 (UTC)
+Subject: Re: Does Libvirt's json parser support single quoted string in qmp
+ json string?
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <ADDDD4B8-45AD-4D79-9332-06F2A50B26CE@sina.com>
+ <9bac386b-5a90-3c10-b63b-d45a2e8c2d58@redhat.com>
+ <20200203101352.GB1922177@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <1f285f58-7a8f-0656-4f0a-8acfe56bad43@redhat.com>
+Date: Mon, 3 Feb 2020 10:27:40 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <5397138.k0qeMALlIp@desktop2>
+In-Reply-To: <20200203101352.GB1922177@redhat.com>
 Content-Language: en-US
-X-MC-Unique: wswZNTZxO0mVXELnzKBvwQ-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: kx51HDpkM4ubBk-paBs2AA-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=WINDOWS-1252; format=flowed
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,67 +78,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm <qemu-arm@nongnu.org>,
- qemu-devel <qemu-devel@nongnu.org>,
- Andrew Baumann <andrew.baumann@microsoft.com>
+Cc: libvirt-users@redhat.com, Peter Luo <d8514@sina.com>,
+ Markus Armbruster <armbru@redhat.com>, QEMU <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/3/20 4:40 PM, Rene Stange wrote:
-> TD (two dimensions) DMA mode did not work, because the xlen variable
-> has not been re-initialized before each additional ylen run through
-> in bcm2835_dma_update(), which has been fixed.
+[adding Markus]
 
-"which has been fixed" confused me, because this current patch is fixing=20
-it. Using present tense makes it easier to understand for non-native=20
-English speakers IMHO:
+On 2/3/20 4:13 AM, Daniel P. Berrang=C3=A9 wrote:
+> On Fri, Jan 31, 2020 at 06:44:42AM -0600, Eric Blake wrote:
+>> On 1/31/20 4:38 AM, Peter Luo wrote:
+>>
+>>> error: internal error: cannot parse json {"execute": "block-commit", "a=
+rguments": { "device": "drive-virtio-disk2", "job-id": "job100", "base":'js=
+on:{"encrypt.key-secret":"vol-38973xjl.secret","driver":"qcow2","file":{"dr=
+iver":"file","filename":"/pitrix/data/container/vol-38973xjl.img"}}', "top"=
+: "/pitrix/data/container/vol-38973xjl_ss-2tw7v0mm.img"}}: lexical error: i=
+nvalid char in json text.
+>>>
+>>>   =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 , "job-id": "j=
+ob100", "base":'json:{"encrypt.key-secret":"vo
+>>>
+>>>   =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (right here) ------^
+>>>
+>>
+>> qemu's QMP language has an extension where it accepts 'string' in additi=
+on
+>> to the JSON "string".  But it uses a hand-rolled parser, so it can do
+>> whatever it wants.
+>=20
+> Can we deprecate & remove this extension in QEMU ?
 
-   TD (two dimensions) DMA mode does not work, because the xlen
-   variable is not re-initialized before each additional ylen
-   run through in bcm2835_dma_update(). Fix it.
+We could start a deprecation clock, if desired, but I don't know how=20
+many external users would be impacted (at least qemu's testsuite heavily=20
+relies on the extension of single quotes).
 
-If you agree, maybe Peter (the maintainer who will take your patch) can=20
-make the change for you.
-
-Reviewed-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
+Are there any third-party libraries that parse JSON5?=20
+https://json5.org/ documents that one of the nice features of JSON5 is=20
+that single quotes work out of the box.  Right now, even though qemu=20
+does NOT parse the same thing as pure JSON (which is=20
+https://datatracker.ietf.org/doc/rfc8259/), it does appear to parse a=20
+subset of JSON5, where the additional features of JSON5 (such as=20
+allowing a trailing comma, escaped newlines within strings, allowing=20
+bareword key:"value" syntax, a larger set of accepted numeric values,=20
+allowing comments) don't seem that onerous.
 
 >=20
-> Signed-off-by: Rene Stange <rsta2@o2online.de>
-> ---
->   hw/dma/bcm2835_dma.c | 4 +++-
->   1 file changed, 3 insertions(+), 1 deletion(-)
+> If we're going to call QMP protocol JSON, then IMHO QEMU should follow
+> the JSON spec as closely as possible, without extensions.
+
+As it is, qemu explicitly does NOT parse all valid JSON - it rejects=20
+non-ASCII bytes (whether as UTF-8 or as \u escape sequences) in strings.=20
+  So the fact that it already extensions in some places and limitations=20
+in others is a burden for clients to be aware of.
+
 >=20
-> diff --git a/hw/dma/bcm2835_dma.c b/hw/dma/bcm2835_dma.c
-> index 667d951a6f..ccff5ed55b 100644
-> --- a/hw/dma/bcm2835_dma.c
-> +++ b/hw/dma/bcm2835_dma.c
-> @@ -54,7 +54,7 @@
->   static void bcm2835_dma_update(BCM2835DMAState *s, unsigned c)
->   {
->       BCM2835DMAChan *ch =3D &s->chan[c];
-> -    uint32_t data, xlen, ylen;
-> +    uint32_t data, xlen, xlen_td, ylen;
->       int16_t dst_stride, src_stride;
->  =20
->       if (!(s->enable & (1 << c))) {
-> @@ -82,6 +82,7 @@ static void bcm2835_dma_update(BCM2835DMAState *s, unsi=
-gned c)
->               dst_stride =3D 0;
->               src_stride =3D 0;
->           }
-> +        xlen_td =3D xlen;
->  =20
->           while (ylen !=3D 0) {
->               /* Normal transfer mode */
-> @@ -117,6 +118,7 @@ static void bcm2835_dma_update(BCM2835DMAState *s, un=
-signed c)
->               if (--ylen !=3D 0) {
->                   ch->source_ad +=3D src_stride;
->                   ch->dest_ad +=3D dst_stride;
-> +                xlen =3D xlen_td;
->               }
->           }
->           ch->cs |=3D BCM2708_DMA_END;
+> On the flip side, if we're going to support extensions like single quotin=
+g,
+> then we should make it clear to applications that this is not really JSON
+> and that they need to provide an impl that is 100% matching QEMU's dialec=
+t.
+> This effectively means they need just import a copy of QEMU's code.
 >=20
+> Regards,
+> Daniel
+>=20
+
+--=20
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
