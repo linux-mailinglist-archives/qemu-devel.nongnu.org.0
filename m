@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C4F91504FD
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Feb 2020 12:16:27 +0100 (CET)
-Received: from localhost ([::1]:38170 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8B561504FF
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Feb 2020 12:16:52 +0100 (CET)
+Received: from localhost ([::1]:38178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iyZiM-0001bm-Kg
-	for lists+qemu-devel@lfdr.de; Mon, 03 Feb 2020 06:16:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57411)
+	id 1iyZil-0002fM-Nq
+	for lists+qemu-devel@lfdr.de; Mon, 03 Feb 2020 06:16:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57432)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iyZfW-0005B0-Gm
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 06:13:32 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1iyZfY-0005Fq-55
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 06:13:33 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iyZfU-0000hX-HF
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 06:13:30 -0500
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:44694)
+ (envelope-from <peter.maydell@linaro.org>) id 1iyZfW-0000kG-H8
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 06:13:32 -0500
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:38935)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iyZfU-0000fq-AB
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 06:13:28 -0500
-Received: by mail-wr1-x433.google.com with SMTP id m16so17446626wrx.11
- for <qemu-devel@nongnu.org>; Mon, 03 Feb 2020 03:13:28 -0800 (PST)
+ id 1iyZfW-0000im-Aa
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 06:13:30 -0500
+Received: by mail-wm1-x32b.google.com with SMTP id c84so16450365wme.4
+ for <qemu-devel@nongnu.org>; Mon, 03 Feb 2020 03:13:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=A2PvC/kAxIK7nZ4Xa63lRXD3s09Rrr9teNP3b5zDNc8=;
- b=WWxdBbOchZwKIMT9ti0VvH3qpQqdUU2S00PiEG13sBT8cTtiE3ahfOynPTTZPND7EC
- sW+3+MszCMlhc8KNPl6lIyn+MdI3vfWkj3pgCkVqTq+tFabp3xHo7/DPS5gt58nq4SE/
- NqCVpfpMqfflnm14O1Uh0wyD5V/hbTU+hps7IHrUBAz+J5tDxpRibj4/Om07k0hNE+qk
- sbaJTVIg5R+4klK3zjI4k5GtB3Xht8wToBXJxy/6kaOBvY0WXMaUt9rLkxNgXt9zhF+3
- P/BrB4xs/E6zxH4eSD21B7PmMVYpqZZAbJKhagJCgc7etR78zA/3PuVgwXBSlpYNzmh9
- fmwQ==
+ bh=byyo0i4MTXILv2QCvRwLsCxAFUJQBD5Tl5kOrKMI8mM=;
+ b=KHT98PYMI/+pxZZAgmNF4wTXquJZVgNqNUOgP9eYzGoj3WaITqMUZzx149jq0iZ3IE
+ zhkDSAOOZIJBH3D8uG/aqBU2AedSbQB+anBMtclIgpyqYSzBmlntOHXoiVyG2jyhIla1
+ lhOvyjekb76f851mp8f/rz81rRk/PCxsAzLUMjCIf/FwglZ/JI5pXjs+ByXmSb5s0bN9
+ eu90FanOCII0WY5athB1d7rjRfnMkmkMi7OxrjiU3XcYcTO5644S2ZJjJMdpgy6AzPV1
+ /8nE3xbPP1QpuYu1PwKGnzjwehOJvvZwu/++JLg7YxxggvH7wPLYOy4qeKoDxLXDaKVK
+ 2QOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=A2PvC/kAxIK7nZ4Xa63lRXD3s09Rrr9teNP3b5zDNc8=;
- b=XsgnUIb4A/9lo5PRvx11Hl8ogVOp94U92D6BJ26PjlyECYrvHN3j0bzxOC/lOxPbyF
- zTZnNGC9idFM9VLFxh+FR9qPLtb8rB0GDK7r4nCFaV6h22iK0QcJt9vpvA7MqW3QMBs5
- AF8FLQ4Oe4vtoo3VqhrR+BFsagERF97EvOJUsVlqzxCUNM2DzfX10ykTbaG9XQ3LmPz+
- y5RRTqV3SKWhcgNh/kwActFLgES5NPlygvImyMqi/DZnE/I9cYQQcyJ7PVF33GSAoax2
- I6hyxSiWSZoiCU+02YTKb0VKdUhgIFgR9yaYRsdZZw4cROA3GWfzI2zYp50dAXv5tBlG
- kM/g==
-X-Gm-Message-State: APjAAAVcVVy1lD1CMb1InSuCNpgZ7OKharbM9EUVJD3UedT80zGtq0dX
- GqxxVBPqZz75pbSa0a/vKjgnqY8nxMJDLA==
-X-Google-Smtp-Source: APXvYqwjwdlGrw0FHOqtTMMH8dXPUEUSbo5u2K9Kws52WTscrLjJD9CEVfzj4OrQkPpBKbsVznY0lA==
-X-Received: by 2002:a5d:4702:: with SMTP id y2mr6942835wrq.37.1580728405846;
- Mon, 03 Feb 2020 03:13:25 -0800 (PST)
+ bh=byyo0i4MTXILv2QCvRwLsCxAFUJQBD5Tl5kOrKMI8mM=;
+ b=dwV55YXXhXV2/2x4ha+gRWPIJcCLJeD1tizXqo2raE79P08taKS3Z3x3obFnbQ+9Fc
+ 67p+IaeIAaHxwZOK4AGosWCG07s/2FCAwezDnXBkkoPWEljgdDzgEptHYlHDUvIxaSbj
+ IZq+72SFoZdCUacar1lZ7YZj4SP3RtytMQaDfFoAQF0ALl0gJzdSZzEaq0z5qb7p0ogz
+ tJHKrb/KRYolJ+9WfH+8DHl2B7QYDHPg8gkYQLXt8ibEx9efPcZ2VHQGBDEwh9TmJJJa
+ F9qDc7/GOOeJzs1O/DhLF7ffg8w6JFe+C3hrB9lrrAL2enU14ERHTTqsSVROuWL3/DiC
+ sNBg==
+X-Gm-Message-State: APjAAAWiO5GzwLpVU4Sqb2jQffzMHN0pImWN43rNBy3moduzQYZcPJrm
+ b4b4rEZHmPTWpLxBc/hxIj/JnwIjHC/X4g==
+X-Google-Smtp-Source: APXvYqycxoCjK/WsstsQzZ9GB/KwNqD+2zC83INZwDE/2HkDn3jAXPeoOGdCYcd+32LiNROgtWki7A==
+X-Received: by 2002:a7b:c147:: with SMTP id z7mr28215804wmi.168.1580728408866; 
+ Mon, 03 Feb 2020 03:13:28 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id s139sm24028917wme.35.2020.02.03.03.13.23
+ by smtp.gmail.com with ESMTPSA id s139sm24028917wme.35.2020.02.03.03.13.25
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 03 Feb 2020 03:13:23 -0800 (PST)
+ Mon, 03 Feb 2020 03:13:26 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 3/8] docs/sphinx: Add new hxtool Sphinx extension
-Date: Mon,  3 Feb 2020 11:13:13 +0000
-Message-Id: <20200203111318.23378-4-peter.maydell@linaro.org>
+Subject: [PULL 4/8] qemu-img-cmds.hx: Add rST documentation fragments
+Date: Mon,  3 Feb 2020 11:13:14 +0000
+Message-Id: <20200203111318.23378-5-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200203111318.23378-1-peter.maydell@linaro.org>
 References: <20200203111318.23378-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::433
+X-Received-From: 2a00:1450:4864:20::32b
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,277 +81,151 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Some of our documentation includes sections which are created
-by assembling fragments of texinfo from a .hx source file into
-a .texi file, which is then included from qemu-doc.texi or
-qemu-img.texi.
+Add the rST versions of the documentation fragments.
+Once we've converted qemu-img.texi to rST we can delete
+the texi fragments; for the moment we leave them in place.
 
-For Sphinx, rather than creating a file to include, the most natural
-way to handle this is to have a small custom Sphinx extension which
-reads the .hx file and process it.  So instead of:
- * makefile produces foo.texi from foo.hx
- * qemu-doc.texi says '@include foo.texi'
-we have:
- * qemu-doc.rst says 'hxtool-doc:: foo.hx'
- * the Sphinx extension for hxtool has code that runs to handle that
-   Sphinx directive which reads the .hx file and emits the appropriate
-   documentation contents
-
-This is pretty much the same way the kerneldoc extension works right
-now. It also has the advantage that it should work for third-party
-services like readthedocs that expect to build the docs directly with
-sphinx rather than by invoking our makefiles.
-
-In this commit we implement the hxtool extension.
-
-Note that syntax errors in the rST fragments will be correctly
-reported to the user with the filename and line number within the
-hx file.
+(Commit created with the aid of emacs query-replace-regexp
+from "@var{\([^}]*\)}" to "\,(upcase \1))".)
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Tested-by: Alex Bennée <alex.bennee@linaro.org>
-Message-id: 20200124162606.8787-4-peter.maydell@linaro.org
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20200124162606.8787-5-peter.maydell@linaro.org
 ---
- docs/conf.py          |   3 +-
- docs/sphinx/hxtool.py | 210 ++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 212 insertions(+), 1 deletion(-)
- create mode 100644 docs/sphinx/hxtool.py
+ qemu-img-cmds.hx | 43 ++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 42 insertions(+), 1 deletion(-)
 
-diff --git a/docs/conf.py b/docs/conf.py
-index 259c6049da7..ee7faa6b4e7 100644
---- a/docs/conf.py
-+++ b/docs/conf.py
-@@ -54,7 +54,7 @@ needs_sphinx = '1.3'
- # Add any Sphinx extension module names here, as strings. They can be
- # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
- # ones.
--extensions = ['kerneldoc', 'qmp_lexer']
-+extensions = ['kerneldoc', 'qmp_lexer', 'hxtool']
+diff --git a/qemu-img-cmds.hx b/qemu-img-cmds.hx
+index 77b5a8dda8a..850fd9d4fe7 100644
+--- a/qemu-img-cmds.hx
++++ b/qemu-img-cmds.hx
+@@ -18,84 +18,125 @@ DEF("amend", img_amend,
+ STEXI
+ @item amend [--object @var{objectdef}] [--image-opts] [-p] [-q] [-f @var{fmt}] [-t @var{cache}] -o @var{options} @var{filename}
+ ETEXI
++SRST
++.. option:: amend [--object OBJECTDEF] [--image-opts] [-p] [-q] [-f FMT] [-t CACHE] -o OPTIONS FILENAME
++ERST
  
- # Add any paths that contain templates here, relative to this directory.
- templates_path = ['_templates']
-@@ -221,3 +221,4 @@ texinfo_documents = [
- # find everything.
- kerneldoc_bin = os.path.join(qemu_docdir, '../scripts/kernel-doc')
- kerneldoc_srctree = os.path.join(qemu_docdir, '..')
-+hxtool_srctree = os.path.join(qemu_docdir, '..')
-diff --git a/docs/sphinx/hxtool.py b/docs/sphinx/hxtool.py
-new file mode 100644
-index 00000000000..5d6736f3002
---- /dev/null
-+++ b/docs/sphinx/hxtool.py
-@@ -0,0 +1,210 @@
-+# coding=utf-8
-+#
-+# QEMU hxtool .hx file parsing extension
-+#
-+# Copyright (c) 2020 Linaro
-+#
-+# This work is licensed under the terms of the GNU GPLv2 or later.
-+# See the COPYING file in the top-level directory.
-+"""hxtool is a Sphinx extension that implements the hxtool-doc directive"""
-+
-+# The purpose of this extension is to read fragments of rST
-+# from .hx files, and insert them all into the current document.
-+# The rST fragments are delimited by SRST/ERST lines.
-+# The conf.py file must set the hxtool_srctree config value to
-+# the root of the QEMU source tree.
-+# Each hxtool-doc:: directive takes one argument which is the
-+# path of the .hx file to process, relative to the source tree.
-+
-+import os
-+import re
-+from enum import Enum
-+
-+from docutils import nodes
-+from docutils.statemachine import ViewList
-+from docutils.parsers.rst import directives, Directive
-+from sphinx.errors import ExtensionError
-+from sphinx.util.nodes import nested_parse_with_titles
-+import sphinx
-+
-+# Sphinx up to 1.6 uses AutodocReporter; 1.7 and later
-+# use switch_source_input. Check borrowed from kerneldoc.py.
-+Use_SSI = sphinx.__version__[:3] >= '1.7'
-+if Use_SSI:
-+    from sphinx.util.docutils import switch_source_input
-+else:
-+    from sphinx.ext.autodoc import AutodocReporter
-+
-+__version__ = '1.0'
-+
-+# We parse hx files with a state machine which may be in one of three
-+# states: reading the C code fragment, inside a texi fragment,
-+# or inside a rST fragment.
-+class HxState(Enum):
-+    CTEXT = 1
-+    TEXI = 2
-+    RST = 3
-+
-+def serror(file, lnum, errtext):
-+    """Raise an exception giving a user-friendly syntax error message"""
-+    raise ExtensionError('%s line %d: syntax error: %s' % (file, lnum, errtext))
-+
-+def parse_directive(line):
-+    """Return first word of line, if any"""
-+    return re.split('\W', line)[0]
-+
-+def parse_defheading(file, lnum, line):
-+    """Handle a DEFHEADING directive"""
-+    # The input should be "DEFHEADING(some string)", though note that
-+    # the 'some string' could be the empty string. If the string is
-+    # empty we ignore the directive -- these are used only to add
-+    # blank lines in the plain-text content of the --help output.
-+    #
-+    # Return the heading text
-+    match = re.match(r'DEFHEADING\((.*)\)', line)
-+    if match is None:
-+        serror(file, lnum, "Invalid DEFHEADING line")
-+    return match.group(1)
-+
-+def parse_archheading(file, lnum, line):
-+    """Handle an ARCHHEADING directive"""
-+    # The input should be "ARCHHEADING(some string, other arg)",
-+    # though note that the 'some string' could be the empty string.
-+    # As with DEFHEADING, empty string ARCHHEADINGs will be ignored.
-+    #
-+    # Return the heading text
-+    match = re.match(r'ARCHHEADING\((.*),.*\)', line)
-+    if match is None:
-+        serror(file, lnum, "Invalid ARCHHEADING line")
-+    return match.group(1)
-+
-+class HxtoolDocDirective(Directive):
-+    """Extract rST fragments from the specified .hx file"""
-+    required_argument = 1
-+    optional_arguments = 1
-+    option_spec = {
-+        'hxfile': directives.unchanged_required
-+    }
-+    has_content = False
-+
-+    def run(self):
-+        env = self.state.document.settings.env
-+        hxfile = env.config.hxtool_srctree + '/' + self.arguments[0]
-+
-+        # Tell sphinx of the dependency
-+        env.note_dependency(os.path.abspath(hxfile))
-+
-+        state = HxState.CTEXT
-+        # We build up lines of rST in this ViewList, which we will
-+        # later put into a 'section' node.
-+        rstlist = ViewList()
-+        current_node = None
-+        node_list = []
-+
-+        with open(hxfile) as f:
-+            lines = (l.rstrip() for l in f)
-+            for lnum, line in enumerate(lines, 1):
-+                directive = parse_directive(line)
-+
-+                if directive == 'HXCOMM':
-+                    pass
-+                elif directive == 'STEXI':
-+                    if state == HxState.RST:
-+                        serror(hxfile, lnum, 'expected ERST, found STEXI')
-+                    elif state == HxState.TEXI:
-+                        serror(hxfile, lnum, 'expected ETEXI, found STEXI')
-+                    else:
-+                        state = HxState.TEXI
-+                elif directive == 'ETEXI':
-+                    if state == HxState.RST:
-+                        serror(hxfile, lnum, 'expected ERST, found ETEXI')
-+                    elif state == HxState.CTEXT:
-+                        serror(hxfile, lnum, 'expected STEXI, found ETEXI')
-+                    else:
-+                        state = HxState.CTEXT
-+                elif directive == 'SRST':
-+                    if state == HxState.RST:
-+                        serror(hxfile, lnum, 'expected ERST, found SRST')
-+                    elif state == HxState.TEXI:
-+                        serror(hxfile, lnum, 'expected ETEXI, found SRST')
-+                    else:
-+                        state = HxState.RST
-+                elif directive == 'ERST':
-+                    if state == HxState.TEXI:
-+                        serror(hxfile, lnum, 'expected ETEXI, found ERST')
-+                    elif state == HxState.CTEXT:
-+                        serror(hxfile, lnum, 'expected SRST, found ERST')
-+                    else:
-+                        state = HxState.CTEXT
-+                elif directive == 'DEFHEADING' or directive == 'ARCHHEADING':
-+                    if directive == 'DEFHEADING':
-+                        heading = parse_defheading(hxfile, lnum, line)
-+                    else:
-+                        heading = parse_archheading(hxfile, lnum, line)
-+                    if heading == "":
-+                        continue
-+                    # Put the accumulated rST into the previous node,
-+                    # and then start a fresh section with this heading.
-+                    if len(rstlist) > 0:
-+                        if current_node is None:
-+                            # We had some rST fragments before the first
-+                            # DEFHEADING. We don't have a section to put
-+                            # these in, so rather than magicing up a section,
-+                            # make it a syntax error.
-+                            serror(hxfile, lnum,
-+                                   'first DEFHEADING must precede all rST text')
-+                        self.do_parse(rstlist, current_node)
-+                        rstlist = ViewList()
-+                    if current_node is not None:
-+                        node_list.append(current_node)
-+                    section_id = 'hxtool-%d' % env.new_serialno('hxtool')
-+                    current_node = nodes.section(ids=[section_id])
-+                    current_node += nodes.title(heading, heading)
-+                else:
-+                    # Not a directive: put in output if we are in rST fragment
-+                    if state == HxState.RST:
-+                        # Sphinx counts its lines from 0
-+                        rstlist.append(line, hxfile, lnum - 1)
-+
-+        if current_node is None:
-+            # We don't have multiple sections, so just parse the rst
-+            # fragments into a dummy node so we can return the children.
-+            current_node = nodes.section()
-+            self.do_parse(rstlist, current_node)
-+            return current_node.children
-+        else:
-+            # Put the remaining accumulated rST into the last section, and
-+            # return all the sections.
-+            if len(rstlist) > 0:
-+                self.do_parse(rstlist, current_node)
-+            node_list.append(current_node)
-+            return node_list
-+
-+    # This is from kerneldoc.py -- it works around an API change in
-+    # Sphinx between 1.6 and 1.7. Unlike kerneldoc.py, we use
-+    # sphinx.util.nodes.nested_parse_with_titles() rather than the
-+    # plain self.state.nested_parse(), and so we can drop the saving
-+    # of title_styles and section_level that kerneldoc.py does,
-+    # because nested_parse_with_titles() does that for us.
-+    def do_parse(self, result, node):
-+        if Use_SSI:
-+            with switch_source_input(self.state, result):
-+                nested_parse_with_titles(self.state, result, node)
-+        else:
-+            save = self.state.memo.reporter
-+            self.state.memo.reporter = AutodocReporter(result, self.state.memo.reporter)
-+            try:
-+                nested_parse_with_titles(self.state, result, node)
-+            finally:
-+                self.state.memo.reporter = save
-+
-+def setup(app):
-+    """ Register hxtool-doc directive with Sphinx"""
-+    app.add_config_value('hxtool_srctree', None, 'env')
-+    app.add_directive('hxtool-doc', HxtoolDocDirective)
-+
-+    return dict(
-+        version = __version__,
-+        parallel_read_safe = True,
-+        parallel_write_safe = True
-+    )
+ DEF("bench", img_bench,
+     "bench [-c count] [-d depth] [-f fmt] [--flush-interval=flush_interval] [-n] [--no-drain] [-o offset] [--pattern=pattern] [-q] [-s buffer_size] [-S step_size] [-t cache] [-i aio] [-w] [-U] filename")
+ STEXI
+ @item bench [-c @var{count}] [-d @var{depth}] [-f @var{fmt}] [--flush-interval=@var{flush_interval}] [-n] [--no-drain] [-o @var{offset}] [--pattern=@var{pattern}] [-q] [-s @var{buffer_size}] [-S @var{step_size}] [-t @var{cache}] [-i @var{aio}] [-w] [-U] @var{filename}
+ ETEXI
+-
++SRST
++.. option:: bench [-c COUNT] [-d DEPTH] [-f FMT] [--flush-interval=FLUSH_INTERVAL] [-n] [--no-drain] [-o OFFSET] [--pattern=PATTERN] [-q] [-s BUFFER_SIZE] [-S STEP_SIZE] [-t CACHE] [-i AIO] [-w] [-U] FILENAME
++ERST
+ DEF("check", img_check,
+     "check [--object objectdef] [--image-opts] [-q] [-f fmt] [--output=ofmt] [-r [leaks | all]] [-T src_cache] [-U] filename")
+ STEXI
+ @item check [--object @var{objectdef}] [--image-opts] [-q] [-f @var{fmt}] [--output=@var{ofmt}] [-r [leaks | all]] [-T @var{src_cache}] [-U] @var{filename}
+ ETEXI
++SRST
++.. option:: check [--object OBJECTDEF] [--image-opts] [-q] [-f FMT] [--output=OFMT] [-r [leaks | all]] [-T SRC_CACHE] [-U] FILENAME
++ERST
+ 
+ DEF("commit", img_commit,
+     "commit [--object objectdef] [--image-opts] [-q] [-f fmt] [-t cache] [-b base] [-d] [-p] filename")
+ STEXI
+ @item commit [--object @var{objectdef}] [--image-opts] [-q] [-f @var{fmt}] [-t @var{cache}] [-b @var{base}] [-d] [-p] @var{filename}
+ ETEXI
++SRST
++.. option:: commit [--object OBJECTDEF] [--image-opts] [-q] [-f FMT] [-t CACHE] [-b BASE] [-d] [-p] FILENAME
++ERST
+ 
+ DEF("compare", img_compare,
+     "compare [--object objectdef] [--image-opts] [-f fmt] [-F fmt] [-T src_cache] [-p] [-q] [-s] [-U] filename1 filename2")
+ STEXI
+ @item compare [--object @var{objectdef}] [--image-opts] [-f @var{fmt}] [-F @var{fmt}] [-T @var{src_cache}] [-p] [-q] [-s] [-U] @var{filename1} @var{filename2}
+ ETEXI
++SRST
++.. option:: compare [--object OBJECTDEF] [--image-opts] [-f FMT] [-F FMT] [-T SRC_CACHE] [-p] [-q] [-s] [-U] FILENAME1 FILENAME2
++ERST
+ 
+ DEF("convert", img_convert,
+     "convert [--object objectdef] [--image-opts] [--target-image-opts] [-U] [-C] [-c] [-p] [-q] [-n] [-f fmt] [-t cache] [-T src_cache] [-O output_fmt] [-B backing_file] [-o options] [-l snapshot_param] [-S sparse_size] [-m num_coroutines] [-W] [--salvage] filename [filename2 [...]] output_filename")
+ STEXI
+ @item convert [--object @var{objectdef}] [--image-opts] [--target-image-opts] [-U] [-C] [-c] [-p] [-q] [-n] [-f @var{fmt}] [-t @var{cache}] [-T @var{src_cache}] [-O @var{output_fmt}] [-B @var{backing_file}] [-o @var{options}] [-l @var{snapshot_param}] [-S @var{sparse_size}] [-m @var{num_coroutines}] [-W] [--salvage] @var{filename} [@var{filename2} [...]] @var{output_filename}
+ ETEXI
++SRST
++.. option:: convert [--object OBJECTDEF] [--image-opts] [--target-image-opts] [-U] [-C] [-c] [-p] [-q] [-n] [-f FMT] [-t CACHE] [-T SRC_CACHE] [-O OUTPUT_FMT] [-B BACKING_FILE] [-o OPTIONS] [-l SNAPSHOT_PARAM] [-S SPARSE_SIZE] [-m NUM_COROUTINES] [-W] [--salvage] FILENAME [FILENAME2 [...]] OUTPUT_FILENAME
++ERST
+ 
+ DEF("create", img_create,
+     "create [--object objectdef] [-q] [-f fmt] [-b backing_file] [-F backing_fmt] [-u] [-o options] filename [size]")
+ STEXI
+ @item create [--object @var{objectdef}] [-q] [-f @var{fmt}] [-b @var{backing_file}] [-F @var{backing_fmt}] [-u] [-o @var{options}] @var{filename} [@var{size}]
+ ETEXI
++SRST
++.. option:: create [--object OBJECTDEF] [-q] [-f FMT] [-b BACKING_FILE] [-F BACKING_FMT] [-u] [-o OPTIONS] FILENAME [SIZE]
++ERST
+ 
+ DEF("dd", img_dd,
+     "dd [--image-opts] [-U] [-f fmt] [-O output_fmt] [bs=block_size] [count=blocks] [skip=blocks] if=input of=output")
+ STEXI
+ @item dd [--image-opts] [-U] [-f @var{fmt}] [-O @var{output_fmt}] [bs=@var{block_size}] [count=@var{blocks}] [skip=@var{blocks}] if=@var{input} of=@var{output}
+ ETEXI
++SRST
++.. option:: dd [--image-opts] [-U] [-f FMT] [-O OUTPUT_FMT] [bs=BLOCK_SIZE] [count=BLOCKS] [skip=BLOCKS] if=INPUT of=OUTPUT
++ERST
+ 
+ DEF("info", img_info,
+     "info [--object objectdef] [--image-opts] [-f fmt] [--output=ofmt] [--backing-chain] [-U] filename")
+ STEXI
+ @item info [--object @var{objectdef}] [--image-opts] [-f @var{fmt}] [--output=@var{ofmt}] [--backing-chain] [-U] @var{filename}
+ ETEXI
++SRST
++.. option:: info [--object OBJECTDEF] [--image-opts] [-f FMT] [--output=OFMT] [--backing-chain] [-U] FILENAME
++ERST
+ 
+ DEF("map", img_map,
+     "map [--object objectdef] [--image-opts] [-f fmt] [--output=ofmt] [-U] filename")
+ STEXI
+ @item map [--object @var{objectdef}] [--image-opts] [-f @var{fmt}] [--output=@var{ofmt}] [-U] @var{filename}
+ ETEXI
++SRST
++.. option:: map [--object OBJECTDEF] [--image-opts] [-f FMT] [--output=OFMT] [-U] FILENAME
++ERST
+ 
+ DEF("measure", img_measure,
+ "measure [--output=ofmt] [-O output_fmt] [-o options] [--size N | [--object objectdef] [--image-opts] [-f fmt] [-l snapshot_param] filename]")
+ STEXI
+ @item measure [--output=@var{ofmt}] [-O @var{output_fmt}] [-o @var{options}] [--size @var{N} | [--object @var{objectdef}] [--image-opts] [-f @var{fmt}] [-l @var{snapshot_param}] @var{filename}]
+ ETEXI
++SRST
++.. option:: measure [--output=OFMT] [-O OUTPUT_FMT] [-o OPTIONS] [--size N | [--object OBJECTDEF] [--image-opts] [-f FMT] [-l SNAPSHOT_PARAM] FILENAME]
++ERST
+ 
+ DEF("snapshot", img_snapshot,
+     "snapshot [--object objectdef] [--image-opts] [-U] [-q] [-l | -a snapshot | -c snapshot | -d snapshot] filename")
+ STEXI
+ @item snapshot [--object @var{objectdef}] [--image-opts] [-U] [-q] [-l | -a @var{snapshot} | -c @var{snapshot} | -d @var{snapshot}] @var{filename}
+ ETEXI
++SRST
++.. option:: snapshot [--object OBJECTDEF] [--image-opts] [-U] [-q] [-l | -a SNAPSHOT | -c SNAPSHOT | -d SNAPSHOT] FILENAME
++ERST
+ 
+ DEF("rebase", img_rebase,
+     "rebase [--object objectdef] [--image-opts] [-U] [-q] [-f fmt] [-t cache] [-T src_cache] [-p] [-u] -b backing_file [-F backing_fmt] filename")
+ STEXI
+ @item rebase [--object @var{objectdef}] [--image-opts] [-U] [-q] [-f @var{fmt}] [-t @var{cache}] [-T @var{src_cache}] [-p] [-u] -b @var{backing_file} [-F @var{backing_fmt}] @var{filename}
+ ETEXI
++SRST
++.. option:: rebase [--object OBJECTDEF] [--image-opts] [-U] [-q] [-f FMT] [-t CACHE] [-T SRC_CACHE] [-p] [-u] -b BACKING_FILE [-F BACKING_FMT] FILENAME
++ERST
+ 
+ DEF("resize", img_resize,
+     "resize [--object objectdef] [--image-opts] [-f fmt] [--preallocation=prealloc] [-q] [--shrink] filename [+ | -]size")
+ STEXI
+ @item resize [--object @var{objectdef}] [--image-opts] [-f @var{fmt}] [--preallocation=@var{prealloc}] [-q] [--shrink] @var{filename} [+ | -]@var{size}
+ ETEXI
++SRST
++.. option:: resize [--object OBJECTDEF] [--image-opts] [-f FMT] [--preallocation=PREALLOC] [-q] [--shrink] FILENAME [+ | -]SIZE
++ERST
+ 
+ STEXI
+ @end table
 -- 
 2.20.1
 
