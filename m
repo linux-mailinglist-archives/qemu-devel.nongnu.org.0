@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9933E150333
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Feb 2020 10:18:26 +0100 (CET)
-Received: from localhost ([::1]:36754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 521BF150322
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Feb 2020 10:17:01 +0100 (CET)
+Received: from localhost ([::1]:36706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iyXs9-0004FS-Ki
-	for lists+qemu-devel@lfdr.de; Mon, 03 Feb 2020 04:18:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47802)
+	id 1iyXqm-0001ej-BQ
+	for lists+qemu-devel@lfdr.de; Mon, 03 Feb 2020 04:17:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47789)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iyXju-000768-Ax
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 04:09:55 -0500
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iyXjt-0001IJ-1Z
+ (envelope-from <alex.bennee@linaro.org>) id 1iyXjt-00072h-4m
  for qemu-devel@nongnu.org; Mon, 03 Feb 2020 04:09:54 -0500
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:46532)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <alex.bennee@linaro.org>) id 1iyXjs-0001FK-1V
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 04:09:53 -0500
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:37117)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iyXjs-0001FW-Qs
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 04:09:52 -0500
-Received: by mail-wr1-x444.google.com with SMTP id z7so16826504wrl.13
- for <qemu-devel@nongnu.org>; Mon, 03 Feb 2020 01:09:52 -0800 (PST)
+ id 1iyXjr-0001El-Ro
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 04:09:51 -0500
+Received: by mail-wm1-x341.google.com with SMTP id f129so15978635wmf.2
+ for <qemu-devel@nongnu.org>; Mon, 03 Feb 2020 01:09:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ffTzUEg2gfAFZMr201nr055ZrQ7kseNndMOMdQkKexc=;
- b=fTPYY2jYvWybu0oBI+2wp06FHGLM036Hhzf1H67lbzCKvRPg0XJ8LIFX9XHpyXP8m6
- abB4+y4vXXyY9iLDH3pQ/dy9aDl7FOgyrXjfUUxLUC4cYfEsfQYF4R039p8Wcd0NKCMd
- nKsGC6Ud7FosuwSTJzyIzSAl8dipi+ofvFWDnusEexWhIbPme1/w5d6YrQ2v3nMoPyKH
- Y6w3Sn9fVrD24BA5NQ9bw/ZMLpHhnc6bqzSNWxRuKrnnU/mxcjx/5kKVyPzjmYcvUtsf
- UZggkmw8SNvqMqhnFQiZ3sSsKQDNCsMHJyZElhSHE9sYzas9QEBNQR4sEaCyu+IRaxuW
- EwsQ==
+ bh=2Ucn3/AM0D3+nUeurTNibmdkWf/khIKHvnRzsWso6SI=;
+ b=MwSofj/NWTgnl2G7GnohKZgt4n27UfO6ovBcR4leZlYdJjp3DYxhNqnpIkZ3M3iwni
+ BzGv0AgXrcH1oTru9VfTH0nRMp+ajYQLzeYWMDz/WjxbQXQeuKK3zkuQ7rFdK+XexPWu
+ BRsKw99gPcK/5tSweMFJc69QQ5byqtK1SN7EzkraFY2ohEWf8+DDSCpJG4PPFATw0vR4
+ XY3RZGJ6rvoYwjno0yXrcNAaIgDycgNJtMpA3gBYmhBsW77GtJNueSQN1zN0NiSuzrsM
+ FAgSpFcK+ewC2e4sJkwQAmMs/dvqW5ANam0fdLIxOo4dZlhKqfQqn9NVLeMSQIj4G4PC
+ DGCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ffTzUEg2gfAFZMr201nr055ZrQ7kseNndMOMdQkKexc=;
- b=negMwah7RTrsFcsFv7/fUYDDEiAx/NuvZ/OJ4aawqgpfF9tmU8Ir+vhqk0fi3wY1F1
- mLk01apalLDcFjXgVkxulCtf+TbMJUvG8vslwzSRHzNP8AKr0xclFRgM5szMGwhsQ6kI
- rNj1riSDByA8+VYH0YM4sYJOWUuE/FAJaJzfMvE1iFAnbls1ain28E1T1BEg0nm/pZzl
- 5iYSFH8ouinx9rt/G7INm5v10tG+REfQ3BUxOdFZvaculWnMv3Oh86hRE5KVDkQhI8sf
- f3EmJDIAAJwsflp1uj4Ph+0X9QTP1bUTkYnj91Xhra2DjUiK9Y0Wwh/a4OUOmliGFyZ4
- ST4w==
-X-Gm-Message-State: APjAAAUmFdH7vshNo2GxlbKWj3+jm8L8OZgypaauc5DZgfuGA/TTIMiy
- iOwviFSLsYQHfuYpCsevf4LEPg==
-X-Google-Smtp-Source: APXvYqyigEzgjajbsrLCdNdk9/2mAXn2JPr/CrgIjnKdfgzMmljjyaSX1+5xo9dX+6+059Gv8F6WIQ==
-X-Received: by 2002:adf:f0ca:: with SMTP id x10mr12145393wro.423.1580720991794; 
- Mon, 03 Feb 2020 01:09:51 -0800 (PST)
+ bh=2Ucn3/AM0D3+nUeurTNibmdkWf/khIKHvnRzsWso6SI=;
+ b=Yf7ye7xEcJk3n160dF6dvSCOXnS4R8dQQG7yUjSuUy3zim1OToBQC74XqLGgxfDDKv
+ qGvqUei0TVzNtbFmFFeTHYF65GgKohM+NXnUGM0W+sLzAp1k3QC4IFzLIniCLbEF3wFG
+ MIZYT435t/IUACYHWOQeTBHQbaPj50MvbPIQzF6mDgDhg9KSpwt29F0IERh7WF/NPdrP
+ KHBQzUarxOcCU2RzUHpr1GgDoRndN51z3ZEKHnhB/NBhHVNklXwOF9Tm2wVk5pZv9lHl
+ o9ni/VhNa6/E1uLR+ZDjGaqYJIF1iRvoHAmY319Gh9IdEthLyITNwdsKio948kkozSxM
+ pzwg==
+X-Gm-Message-State: APjAAAVzaxUJbPJPSkrMYWCd2NPIEMytHJKYyIrAybsJzOCbUwJ3k4Gp
+ HOXxmB5A644PpRaNQR/Mj3BVWQ==
+X-Google-Smtp-Source: APXvYqwds1zh/1VzMXz7j7wEa1rs1L9T7+uRDwjsh1apUXIEUQaMnEmCYz0vz8fD2SzXzIwaJuKa+w==
+X-Received: by 2002:a1c:9e13:: with SMTP id h19mr28645536wme.21.1580720990848; 
+ Mon, 03 Feb 2020 01:09:50 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id y20sm23216542wmj.23.2020.02.03.01.09.39
+ by smtp.gmail.com with ESMTPSA id t9sm14278506wrv.63.2020.02.03.01.09.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 03 Feb 2020 01:09:42 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 50F1F1FF9B;
+ by zen.linaroharston (Postfix) with ESMTP id 658A11FF9C;
  Mon,  3 Feb 2020 09:09:33 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 11/17] .travis.yml: probe for number of available processors
-Date: Mon,  3 Feb 2020 09:09:26 +0000
-Message-Id: <20200203090932.19147-12-alex.bennee@linaro.org>
+Subject: [PATCH v3 12/17] tests/tcg: add a configure compiler check for
+ ARMv8.1 and SVE
+Date: Mon,  3 Feb 2020 09:09:27 +0000
+Message-Id: <20200203090932.19147-13-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200203090932.19147-1-alex.bennee@linaro.org>
 References: <20200203090932.19147-1-alex.bennee@linaro.org>
@@ -69,7 +70,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::444
+X-Received-From: 2a00:1450:4864:20::341
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,121 +82,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, Thomas Huth <thuth@redhat.com>, berrange@redhat.com,
- stefanb@linux.vnet.ibm.com,
+Cc: fam@euphon.net, berrange@redhat.com, stefanb@linux.vnet.ibm.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- richard.henderson@linaro.org, f4bug@amsat.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>, cota@braap.org,
+ richard.henderson@linaro.org, f4bug@amsat.org, cota@braap.org,
  stefanha@redhat.com, marcandre.lureau@redhat.com, pbonzini@redhat.com,
  aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The arm64 hardware was especially hit by only building on 3 of the 32
-available cores. Introduce a JOBS environment variable which we use
-for all parallel builds. We still run the main checks single threaded
-though so to make it easier to spot hangs.
+We will need this for some tests later. The docker images already
+support it by default.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- .travis.yml | 20 +++++++++++---------
- 1 file changed, 11 insertions(+), 9 deletions(-)
+ tests/tcg/configure.sh | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-diff --git a/.travis.yml b/.travis.yml
-index 1b92f40eab2..a600f508b0a 100644
---- a/.travis.yml
-+++ b/.travis.yml
-@@ -85,6 +85,8 @@ git:
- # Common first phase for all steps
- before_install:
-   - if command -v ccache ; then ccache --zero-stats ; fi
-+  - export JOBS=$(($(getconf _NPROCESSORS_ONLN) + 1))
-+  - echo "=== Using ${JOBS} simultaneous jobs ==="
- 
- # Configure step - may be overridden
- before_script:
-@@ -93,7 +95,7 @@ before_script:
- 
- # Main build & test - rarely overridden - controlled by TEST_CMD
- script:
--  - BUILD_RC=0 && make -j3 || BUILD_RC=$?
-+  - BUILD_RC=0 && make -j${JOBS} || BUILD_RC=$?
-   - if [ "$BUILD_RC" -eq 0 ] ; then travis_retry ${TEST_CMD} ; else $(exit $BUILD_RC); fi
- after_script:
-   - if command -v ccache ; then ccache --show-stats ; fi
-@@ -125,7 +127,7 @@ matrix:
-       env:
-         - BASE_CONFIG="--enable-tools"
-         - CONFIG="--disable-user --disable-system"
--        - TEST_CMD="make check-unit check-softfloat -j3"
-+        - TEST_CMD="make check-unit check-softfloat -j${JOBS}"
-         - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-default"
- 
- 
-@@ -160,13 +162,13 @@ matrix:
-     - name: "check-unit coroutine=ucontext"
-       env:
-         - CONFIG="--with-coroutine=ucontext --disable-tcg"
--        - TEST_CMD="make check-unit -j3 V=1"
-+        - TEST_CMD="make check-unit -j${JOBS} V=1"
- 
- 
-     - name: "check-unit coroutine=sigaltstack"
-       env:
-         - CONFIG="--with-coroutine=sigaltstack --disable-tcg"
--        - TEST_CMD="make check-unit -j3 V=1"
-+        - TEST_CMD="make check-unit -j${JOBS} V=1"
- 
- 
-     # Check we can build docs and tools (out of tree)
-@@ -366,7 +368,7 @@ matrix:
-     - name: "GCC check-tcg (user)"
-       env:
-         - CONFIG="--disable-system --enable-debug-tcg"
--        - TEST_CMD="make -j3 check-tcg V=1"
-+        - TEST_CMD="make -j${JOBS} check-tcg V=1"
-         - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-debug-tcg"
- 
- 
-@@ -375,7 +377,7 @@ matrix:
-     - name: "GCC plugins check-tcg (user)"
-       env:
-         - CONFIG="--disable-system --enable-plugins --enable-debug-tcg --target-list-exclude=sparc64-linux-user"
--        - TEST_CMD="make -j3 check-tcg V=1"
-+        - TEST_CMD="make -j${JOBS} check-tcg V=1"
-         - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-debug-tcg"
- 
- 
-@@ -383,7 +385,7 @@ matrix:
-     - name: "GCC check-tcg (some-softmmu)"
-       env:
-         - CONFIG="--enable-debug-tcg --target-list=xtensa-softmmu,arm-softmmu,aarch64-softmmu,alpha-softmmu"
--        - TEST_CMD="make -j3 check-tcg V=1"
-+        - TEST_CMD="make -j${JOBS} check-tcg V=1"
-         - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-debug-tcg"
- 
- 
-@@ -391,7 +393,7 @@ matrix:
-     - name: "GCC plugins check-tcg (some-softmmu)"
-       env:
-         - CONFIG="--enable-plugins --enable-debug-tcg --target-list=xtensa-softmmu,arm-softmmu,aarch64-softmmu,alpha-softmmu"
--        - TEST_CMD="make -j3 check-tcg V=1"
-+        - TEST_CMD="make -j${JOBS} check-tcg V=1"
-         - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-debug-tcg"
- 
-     - name: "[aarch64] GCC check-tcg"
-@@ -500,7 +502,7 @@ matrix:
-         - BUILD_DIR="release/build/dir" SRC_DIR="../../.."
-         - BASE_CONFIG="--prefix=$PWD/dist"
-         - CONFIG="--target-list=x86_64-softmmu,aarch64-softmmu,armeb-linux-user,ppc-linux-user"
--        - TEST_CMD="make install -j3"
-+        - TEST_CMD="make install -j${JOBS}"
-         - QEMU_VERSION="${TRAVIS_TAG:1}"
-         - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-default"
-       script:
+diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
+index 210e68396f2..e0d1fbb182f 100755
+--- a/tests/tcg/configure.sh
++++ b/tests/tcg/configure.sh
+@@ -216,6 +216,20 @@ for target in $target_list; do
+       echo "CROSS_CC_GUEST_STATIC=y" >> $config_target_mak
+     fi
+     echo "CROSS_CC_GUEST=$target_compiler" >> $config_target_mak
++
++    # Test for compiler features for optional tests. We only do this
++    # for cross compilers because ensuring the docker containers based
++    # compilers is a requirememt for adding a new test that needs a
++    # compiler feature.
++    case $target in
++        aarch64-*)
++            if do_compiler "$target_compiler" $target_compiler_cflags \
++               -march=armv8.1-a+sve -o $TMPE $TMPC; then
++                echo "CROSS_CC_HAS_SVE=y" >> $config_target_mak
++            fi
++        ;;
++    esac
++
+     enabled_cross_compilers="$enabled_cross_compilers $target_compiler"
+     got_cross_cc=yes
+     break
 -- 
 2.20.1
 
