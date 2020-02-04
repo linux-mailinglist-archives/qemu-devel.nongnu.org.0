@@ -2,59 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D42B3151DA7
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Feb 2020 16:51:58 +0100 (CET)
-Received: from localhost ([::1]:60650 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6067D151D91
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Feb 2020 16:45:03 +0100 (CET)
+Received: from localhost ([::1]:60552 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iz0UX-0005iC-T2
-	for lists+qemu-devel@lfdr.de; Tue, 04 Feb 2020 10:51:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57523)
+	id 1iz0Nq-0003VH-5N
+	for lists+qemu-devel@lfdr.de; Tue, 04 Feb 2020 10:45:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53738)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1iz0TD-0004r4-Dc
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 10:50:36 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1iz0N7-00035u-Cy
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 10:44:18 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1iz0TB-00023W-Tb
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 10:50:35 -0500
-Received: from indium.canonical.com ([91.189.90.7]:52062)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1iz0TB-0001vt-Nj
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 10:50:33 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1iz0TA-0002Ip-7W
- for <qemu-devel@nongnu.org>; Tue, 04 Feb 2020 15:50:32 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 1ABC32E8082
- for <qemu-devel@nongnu.org>; Tue,  4 Feb 2020 15:50:32 +0000 (UTC)
+ (envelope-from <dgilbert@redhat.com>) id 1iz0N5-00015w-Uf
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 10:44:16 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:33501
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iz0N5-00011Q-Qn
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 10:44:15 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1580831055;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=SJu3PyKY8DxBz0b776osPvXBStS3drWEmVXJwiRiFfE=;
+ b=TLqTraC9YYD59oEhSDFlJedS5RhsBKMv3MEVfjPhD/wxjT3MjSt00YfBSlW5IFnc1/8Xk2
+ m6tvCpCfb9vmXRY8Pc7tS0/iHH/VbIrJIYre0IG9UezRrD6KIDgPzsB3D2SQq8dEpxWse2
+ +RjtZlCUmipCnRS3kGdoYmlN6v17Fzg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-150-gHFqUkPKOeeczDSm6bNQrQ-1; Tue, 04 Feb 2020 10:44:13 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7942910AFBC5
+ for <qemu-devel@nongnu.org>; Tue,  4 Feb 2020 15:44:12 +0000 (UTC)
+Received: from work-vm (unknown [10.36.118.30])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 12CD15D9C5;
+ Tue,  4 Feb 2020 15:44:06 +0000 (UTC)
+Date: Tue, 4 Feb 2020 15:44:04 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Subject: Re: [PATCH 3/4] virtiofsd: load_capng missing unlock
+Message-ID: <20200204154404.GE3504@work-vm>
+References: <20200204110501.10731-1-dgilbert@redhat.com>
+ <20200204110501.10731-4-dgilbert@redhat.com>
+ <fd996682-b280-c872-93cf-5147b52ab097@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <fd996682-b280-c872-93cf-5147b52ab097@redhat.com>
+User-Agent: Mutt/1.13.3 (2020-01-12)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: gHFqUkPKOeeczDSm6bNQrQ-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 04 Feb 2020 15:43:11 -0000
-From: Maarten <1861884@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: mvgijssel
-X-Launchpad-Bug-Reporter: Maarten (mvgijssel)
-X-Launchpad-Bug-Modifier: Maarten (mvgijssel)
-Message-Id: <158083099190.20144.2427615447806299744.malonedeb@wampee.canonical.com>
-Subject: [Bug 1861884] [NEW] qemu socket multicast not working
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="0a62c17273454a1313f81a74a2198ec30b44c7b6";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 20b4cef65a90f2c3fea377e05ba8e42b3d979136
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -63,133 +74,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1861884 <1861884@bugs.launchpad.net>
+Cc: qemu-devel@nongnu.org, stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+* Philippe Mathieu-Daud=E9 (philmd@redhat.com) wrote:
+> Hi David,
+>=20
+> On 2/4/20 12:05 PM, Dr. David Alan Gilbert (git) wrote:
+> > From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+> >=20
+> > Missing unlock in error path.
+> >=20
+> > Fixes: Covertiy CID 1413123
+> > Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> > ---
+> >   tools/virtiofsd/passthrough_ll.c | 1 +
+> >   1 file changed, 1 insertion(+)
+> >=20
+> > diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthr=
+ough_ll.c
+> > index e6f2399efc..c635fc8820 100644
+> > --- a/tools/virtiofsd/passthrough_ll.c
+> > +++ b/tools/virtiofsd/passthrough_ll.c
+> > @@ -232,6 +232,7 @@ static int load_capng(void)
+> >            */
+> >           cap.saved =3D capng_save_state();
+> >           if (!cap.saved) {
+> > +            pthread_mutex_unlock(&cap.mutex);
+> >               fuse_log(FUSE_LOG_ERR, "capng_save_state (thread)\n");
+> >               return -EINVAL;
+> >           }
+> >=20
+>=20
+> What about moving the unlock call?
+>=20
+> -- >8 --
+> --- a/tools/virtiofsd/passthrough_ll.c
+> +++ b/tools/virtiofsd/passthrough_ll.c
+> @@ -231,11 +231,11 @@ static int load_capng(void)
+>           * so make another.
+>           */
+>          cap.saved =3D capng_save_state();
+> +        pthread_mutex_unlock(&cap.mutex);
+>          if (!cap.saved) {
 
-Running two qemu vms on the same socket multicast address:
+I don't think I can legally check cap.saved there if I've already
+unlocked
 
-=C2=A0=C2=A0qemu-system-x86_64 -m 2048 -smp 2 -serial mon:stdio
-=C2=A0=C2=A0=C2=A0=C2=A0-display none -vga none
-=C2=A0=C2=A0=C2=A0=C2=A0-nodefaults -accel hax
-=C2=A0=C2=A0=C2=A0=C2=A0-netdev user,id=3Dmynet0
-=C2=A0=C2=A0=C2=A0=C2=A0-device virtio-net-pci,netdev=3Dmynet0
-=C2=A0=C2=A0=C2=A0=C2=A0-netdev socket,id=3Dvlan,mcast=3D239.192.0.1:1235
-=C2=A0=C2=A0=C2=A0=C2=A0-device virtio-net-pci,netdev=3Dvlan
-=C2=A0=C2=A0=C2=A0=C2=A0-device virtio-rng-pci
-=C2=A0=C2=A0=C2=A0=C2=A0-drive file=3Dworker.qcow2,if=3Dvirtio
-=C2=A0=C2=A0=C2=A0=C2=A0-drive file=3Dcloud-init.iso,format=3Draw,if=3Dvirt=
-io
+>              fuse_log(FUSE_LOG_ERR, "capng_save_state (thread)\n");
+>              return -EINVAL;
+>          }
+> -        pthread_mutex_unlock(&cap.mutex);
+>=20
+>          /*
+>           * We want to use the loaded state for our pid,
+> ---
+>=20
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
-The two machines have a static ip on the socket network interface,
-192.168.100.11 and 192.168.100.12, but are unable to reach each other.
-
-Result when using ping command
-
-  PING 192.168.100.11 (192.168.100.11) 56(84) bytes of data.
-  From 192.168.100.12 icmp_seq=3D1 Destination Host Unreachable
-  From 192.168.100.12 icmp_seq=3D2 Destination Host Unreachable
-  From 192.168.100.12 icmp_seq=3D3 Destination Host Unreachable
-
-Is there additional configuration necessary on macos? Does this only
-work on Linux? Is there additional configuration required inside of the
-guest OS?
-
-guest OS: Debian 10 (Buster)
-host OS: macOS 10.15.2
-qemu: 4.2.0
-
-** Affects: qemu
-     Importance: Undecided
-         Status: New
-
-** Description changed:
-
-  Running two qemu vms on the same socket multicast address:
-  =
-
--   qemu-system-x86_64 -m 2048 -smp 2 -serial mon:stdio -display none -vga =
-none
--     -nodefaults -accel hax
--     -netdev user,id=3Dmynet0
--     -device virtio-net-pci,netdev=3Dmynet0
--     -netdev socket,id=3Dvlan,mcast=3D239.192.0.1:1235
--     -device virtio-net-pci,netdev=3Dvlan
--     -device virtio-rng-pci
--     -drive file=3Dworker.qcow2,if=3Dvirtio
--     -drive file=3Dcloud-init.iso,format=3Draw,if=3Dvirtio
-+ =C2=A0=C2=A0qemu-system-x86_64 -m 2048 -smp 2 -serial mon:stdio
-+     -display none -vga none
-+ =C2=A0=C2=A0=C2=A0=C2=A0-nodefaults -accel hax
-+ =C2=A0=C2=A0=C2=A0=C2=A0-netdev user,id=3Dmynet0
-+ =C2=A0=C2=A0=C2=A0=C2=A0-device virtio-net-pci,netdev=3Dmynet0
-+ =C2=A0=C2=A0=C2=A0=C2=A0-netdev socket,id=3Dvlan,mcast=3D239.192.0.1:1235
-+ =C2=A0=C2=A0=C2=A0=C2=A0-device virtio-net-pci,netdev=3Dvlan
-+ =C2=A0=C2=A0=C2=A0=C2=A0-device virtio-rng-pci
-+ =C2=A0=C2=A0=C2=A0=C2=A0-drive file=3Dworker.qcow2,if=3Dvirtio
-+ =C2=A0=C2=A0=C2=A0=C2=A0-drive file=3Dcloud-init.iso,format=3Draw,if=3Dvi=
-rtio
-  =
-
-  The two machines have a static ip on the socket network interface,
-  192.168.100.11 and 192.168.100.12, but are unable to reach each other.
-  =
-
-  Is there additional configuration necessary on macos? Does this only
-  work on Linux?
-  =
-
-  guest OS: Debian 10 (Buster)
-  host OS: macOS 10.15.2
-  qemu: 4.2.0
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1861884
-
-Title:
-  qemu socket multicast not working
-
-Status in QEMU:
-  New
-
-Bug description:
-  Running two qemu vms on the same socket multicast address:
-
-  =C2=A0=C2=A0qemu-system-x86_64 -m 2048 -smp 2 -serial mon:stdio
-  =C2=A0=C2=A0=C2=A0=C2=A0-display none -vga none
-  =C2=A0=C2=A0=C2=A0=C2=A0-nodefaults -accel hax
-  =C2=A0=C2=A0=C2=A0=C2=A0-netdev user,id=3Dmynet0
-  =C2=A0=C2=A0=C2=A0=C2=A0-device virtio-net-pci,netdev=3Dmynet0
-  =C2=A0=C2=A0=C2=A0=C2=A0-netdev socket,id=3Dvlan,mcast=3D239.192.0.1:1235
-  =C2=A0=C2=A0=C2=A0=C2=A0-device virtio-net-pci,netdev=3Dvlan
-  =C2=A0=C2=A0=C2=A0=C2=A0-device virtio-rng-pci
-  =C2=A0=C2=A0=C2=A0=C2=A0-drive file=3Dworker.qcow2,if=3Dvirtio
-  =C2=A0=C2=A0=C2=A0=C2=A0-drive file=3Dcloud-init.iso,format=3Draw,if=3Dvi=
-rtio
-
-  The two machines have a static ip on the socket network interface,
-  192.168.100.11 and 192.168.100.12, but are unable to reach each other.
-
-  Result when using ping command
-
-    PING 192.168.100.11 (192.168.100.11) 56(84) bytes of data.
-    From 192.168.100.12 icmp_seq=3D1 Destination Host Unreachable
-    From 192.168.100.12 icmp_seq=3D2 Destination Host Unreachable
-    From 192.168.100.12 icmp_seq=3D3 Destination Host Unreachable
-
-  Is there additional configuration necessary on macos? Does this only
-  work on Linux? Is there additional configuration required inside of
-  the guest OS?
-
-  guest OS: Debian 10 (Buster)
-  host OS: macOS 10.15.2
-  qemu: 4.2.0
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1861884/+subscriptions
 
