@@ -2,83 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CE6F151DD8
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Feb 2020 17:08:32 +0100 (CET)
-Received: from localhost ([::1]:60936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 084EC151DD5
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Feb 2020 17:08:12 +0100 (CET)
+Received: from localhost ([::1]:60922 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iz0kZ-0004qT-Jq
-	for lists+qemu-devel@lfdr.de; Tue, 04 Feb 2020 11:08:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37414)
+	id 1iz0kE-0003zn-R8
+	for lists+qemu-devel@lfdr.de; Tue, 04 Feb 2020 11:08:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37389)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iz0j8-0002HY-NW
+ (envelope-from <pbonzini@redhat.com>) id 1iz0j8-0002DA-AR
  for qemu-devel@nongnu.org; Tue, 04 Feb 2020 11:07:03 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iz0j7-0004xU-IW
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 11:07:02 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:23995
+ (envelope-from <pbonzini@redhat.com>) id 1iz0j4-0004nv-Uz
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 11:07:00 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:47349
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iz0j7-0004wh-Ea
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 11:07:01 -0500
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iz0j4-0004lL-Qm
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 11:06:58 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580832421;
+ s=mimecast20190719; t=1580832418;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Y1rbepfpnFB843MKMZeXQJRPvzEKlKilYngw69oOnow=;
- b=U8Wurt/fKhwXnRwfOB0LUV94wRjAImDY5q1hSTFtNvUn2qgf18apnZJ8AuSgR1DEvA3Beu
- bQUg/RGgxT1zNa2Xaht2xlNBLtrZQGRu+cpLJguvj2TNfE72vClInwWZZ4E5BkeFOqa5oO
- LA2JEmqw3exWT8PTGlqHPkNr+7K+lLw=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-130-P6wb8lbTO5aybSIOD0c5-A-1; Tue, 04 Feb 2020 11:06:33 -0500
-Received: by mail-wm1-f70.google.com with SMTP id y125so1147935wmg.1
- for <qemu-devel@nongnu.org>; Tue, 04 Feb 2020 08:06:32 -0800 (PST)
+ bh=uePp18mCw53bhnoaLgkz1zDxvQx0lc9VQi3iSaCavrM=;
+ b=SpKM/T4fku6ykoLWN4lnfOt/hp1VA90axLmgBH8EuBRR5/e/HMX3cERjtL8loqUUVYmQ0F
+ baVm8eATF8MPFhvKkhTVPa45LA8OGP8i9+9Qfm3wSGmzQC177YK1SEphX4qEH2MewpvlJp
+ XEItuV45C+8C1Z8uN7MwOhH24Wigv0M=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-36-_hf5l7HpMpSxetu6ZaeJ3g-1; Tue, 04 Feb 2020 11:06:42 -0500
+Received: by mail-wr1-f72.google.com with SMTP id f10so10563595wro.14
+ for <qemu-devel@nongnu.org>; Tue, 04 Feb 2020 08:06:41 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=LuHgfT7pF5Q4s3wHukhp5mOxAHRUKDKVtayFvCEnWhs=;
- b=sxNNyDA3hPILPSjAqoFz+btFIKiv5XeFgIsvGSb1Om9Lk7eVZZd3waAsfeEDPHzBN3
- iLl1i8nzHxI8hpKImKSMW/6pdAYHlrop8OZcDiETCzm1sWJeJPySR55l4m0AukzPjOfG
- LB8LyuJ/YGggXpnWU0gYiCNz+aFkR38/+Eol6RV5GeTQF5E4ScTJUUsINaMvt4AqYIuz
- Q1uJD0gw4iXY/DR6YpA98+dFwWwoawnVhmoQwa2Q8pxUaDTZinHpzRlRpvsmCuAHbR/p
- 5kvAKrBG8n9qnEGVzo2yY5PQARwfeyCJ2LtNeFO+4vfPW45scm8Oh0ktB1ERPfbgijll
- XMUQ==
-X-Gm-Message-State: APjAAAX/DbIrqES5T9aoIWec9xgeVv+tury0TnUhwxfCt3e0sWmY2So5
- oWbcNLvO6JHSzuHU2+91Xv0Wog+Mepv63SVIADrcJOd7aC0//JTbxXZw1sPAxGTkTRex3CelwHE
- sZcNJg58ys42J84c=
-X-Received: by 2002:a5d:42c5:: with SMTP id t5mr24200100wrr.73.1580832392073; 
- Tue, 04 Feb 2020 08:06:32 -0800 (PST)
-X-Google-Smtp-Source: APXvYqwMQ6iG98fAI5tqwmXPB9ZL6KhisdSA5yoB0gpw5EARPe6/i9YK7z5Q+c4ZdDnnD/ftqDsiDQ==
-X-Received: by 2002:a5d:42c5:: with SMTP id t5mr24200083wrr.73.1580832391884; 
- Tue, 04 Feb 2020 08:06:31 -0800 (PST)
-Received: from [192.168.1.35] (162.red-83-52-55.dynamicip.rima-tde.net.
- [83.52.55.162])
- by smtp.gmail.com with ESMTPSA id x11sm4301863wmg.46.2020.02.04.08.06.31
+ bh=uO2tNLNQjvNTQibFbidqKHre5h6Xo6FO5reYTPg4ja0=;
+ b=bcxRmvv9PQEOoozWjJEseRK54QP012BUjwpiYbpMzgFItPJVJfhW4q1cRfesVXdx/7
+ PXsYmUA/BHr9uXIdtfBknYwZD7wpLRPw4WL22Dx0+DIi1xFipGKUquvQ5uz4+StvGrJB
+ uE388MmQyIsYikwiX2NOkCKidHf5ogp+m664UzhQpRA9dLVMsxL3SucRm3ntkGs29tot
+ fTZt6+V/Bjp3gcNnsLYTG61ol+IktWEfGQPkdlbc7W33KMhuwuWu7Hkw1Qvzo7+OwHTg
+ LVayZATDydgODQTHUBnTRNvR5KUUA5uQoi12Lug9CZH3o7yTlBmJwn0gC/NpLFjAJOQt
+ Rd2w==
+X-Gm-Message-State: APjAAAXKpG1qZa1Y4fn4wt3PSbuFW7aVCZ/HSnoASGlYHgK+Nwr3S7Qh
+ GccxalEWPSo7FW1dZ3B2kuf2s6K16pwdi916vV3cHcfXbuccGuilp/YnnBXXalX+HoMsCtusKY9
+ yBnpr89awuwtN8xk=
+X-Received: by 2002:a5d:4f89:: with SMTP id d9mr12124642wru.391.1580832400684; 
+ Tue, 04 Feb 2020 08:06:40 -0800 (PST)
+X-Google-Smtp-Source: APXvYqwsqxSqJ5f4FP8ZEGpsr6vbdyW/x58Gmx4gi3aOH8PTYDIlX3/+a6xhr+yAIln1S5k24i73Mg==
+X-Received: by 2002:a5d:4f89:: with SMTP id d9mr12124615wru.391.1580832400442; 
+ Tue, 04 Feb 2020 08:06:40 -0800 (PST)
+Received: from [192.168.178.40] ([151.20.243.54])
+ by smtp.gmail.com with ESMTPSA id x7sm30660688wrq.41.2020.02.04.08.06.37
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 04 Feb 2020 08:06:31 -0800 (PST)
-Subject: Re: [PATCH 3/4] virtiofsd: load_capng missing unlock
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-References: <20200204110501.10731-1-dgilbert@redhat.com>
- <20200204110501.10731-4-dgilbert@redhat.com>
- <fd996682-b280-c872-93cf-5147b52ab097@redhat.com>
- <20200204154404.GE3504@work-vm>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <45f090c8-2ffc-6a47-39d6-54df6672b9f3@redhat.com>
-Date: Tue, 4 Feb 2020 17:06:30 +0100
+ Tue, 04 Feb 2020 08:06:38 -0800 (PST)
+Subject: Re: [PATCH v2 00/12] python: Explicit usage of Python 3
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20200130163232.10446-1-philmd@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <20cac786-0985-2b20-fe97-a99d9f1d2401@redhat.com>
+Date: Tue, 4 Feb 2020 17:06:36 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <20200204154404.GE3504@work-vm>
+In-Reply-To: <20200130163232.10446-1-philmd@redhat.com>
 Content-Language: en-US
-X-MC-Unique: P6wb8lbTO5aybSIOD0c5-A-1
+X-MC-Unique: _hf5l7HpMpSxetu6ZaeJ3g-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 205.139.110.120
@@ -93,73 +90,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, stefanha@redhat.com
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ Juan Quintela <quintela@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>, kvm@vger.kernel.org,
+ Stefan Hajnoczi <stefanha@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ Max Reitz <mreitz@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/4/20 4:44 PM, Dr. David Alan Gilbert wrote:
-> * Philippe Mathieu-Daud=C3=A9 (philmd@redhat.com) wrote:
->> Hi David,
->>
->> On 2/4/20 12:05 PM, Dr. David Alan Gilbert (git) wrote:
->>> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
->>>
->>> Missing unlock in error path.
->>>
->>> Fixes: Covertiy CID 1413123
->>> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
->>> ---
->>>    tools/virtiofsd/passthrough_ll.c | 1 +
->>>    1 file changed, 1 insertion(+)
->>>
->>> diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthr=
-ough_ll.c
->>> index e6f2399efc..c635fc8820 100644
->>> --- a/tools/virtiofsd/passthrough_ll.c
->>> +++ b/tools/virtiofsd/passthrough_ll.c
->>> @@ -232,6 +232,7 @@ static int load_capng(void)
->>>             */
->>>            cap.saved =3D capng_save_state();
->>>            if (!cap.saved) {
->>> +            pthread_mutex_unlock(&cap.mutex);
->>>                fuse_log(FUSE_LOG_ERR, "capng_save_state (thread)\n");
->>>                return -EINVAL;
->>>            }
->>>
->>
->> What about moving the unlock call?
->>
->> -- >8 --
->> --- a/tools/virtiofsd/passthrough_ll.c
->> +++ b/tools/virtiofsd/passthrough_ll.c
->> @@ -231,11 +231,11 @@ static int load_capng(void)
->>            * so make another.
->>            */
->>           cap.saved =3D capng_save_state();
->> +        pthread_mutex_unlock(&cap.mutex);
->>           if (!cap.saved) {
+On 30/01/20 17:32, Philippe Mathieu-Daud=C3=A9 wrote:
+> Hello,
 >=20
-> I don't think I can legally check cap.saved there if I've already
-> unlocked
+> These are mechanical sed patches used to convert the
+> code base to Python 3, as suggested on this thread:
+> https://www.mail-archive.com/qemu-devel@nongnu.org/msg675024.html
+>=20
+> Since v1:
+> - new checkpatch.pl patch
+> - addressed Kevin and Vladimir review comments
+> - added R-b/A-b tags
 
-Sorry I was with low sugar... I read it as a copy.
+Queued, thanks.
 
-The patch is fine:
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-
->=20
->>               fuse_log(FUSE_LOG_ERR, "capng_save_state (thread)\n");
->>               return -EINVAL;
->>           }
->> -        pthread_mutex_unlock(&cap.mutex);
->>
->>           /*
->>            * We want to use the loaded state for our pid,
->> ---
->>
-> --
-> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
->=20
->=20
+Paolo
 
 
