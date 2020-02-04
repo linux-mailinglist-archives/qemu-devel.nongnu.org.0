@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEB69151F62
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Feb 2020 18:25:38 +0100 (CET)
-Received: from localhost ([::1]:34996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D627151F54
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Feb 2020 18:23:20 +0100 (CET)
+Received: from localhost ([::1]:34946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iz1xB-0007lt-Pb
-	for lists+qemu-devel@lfdr.de; Tue, 04 Feb 2020 12:25:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54105)
+	id 1iz1ux-00034f-LJ
+	for lists+qemu-devel@lfdr.de; Tue, 04 Feb 2020 12:23:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54140)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iz1iW-00050W-SL
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 12:10:30 -0500
+ (envelope-from <mreitz@redhat.com>) id 1iz1iY-00054K-L1
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 12:10:31 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iz1iV-0005lO-OE
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 12:10:28 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:58289
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <mreitz@redhat.com>) id 1iz1iX-0005pU-DL
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 12:10:30 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:25566
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iz1iV-0005jq-KS
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 12:10:27 -0500
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iz1iX-0005ob-9s
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 12:10:29 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580836227;
+ s=mimecast20190719; t=1580836228;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HmJmBzyST/rFUTDvuGsRSszqhuml9WXeLVaKDtt7aI0=;
- b=Kw2E3gSCQ633FJ7TYozs0gZFbQvaCGfPnlL+JaC4eVwBHndAmrm3ckAfhDFdyDU0p4GM+K
- Bhfx2HGjIqA8hRWWD5U+GioWQOw84HxXI+lMkXg/umdZVdO+h8oCw7UAYgQy6nRVMfX4fd
- 2/ollssQ6COpu4X3hHOYhX4QBsHE0Og=
+ bh=mA1Lip1HuiJdwwF0fQPvIN8/RjL3mPdwu6rnUzEz2mE=;
+ b=Md1k9N4HMCqE/25TBJ/G0HwQzFKLqoVIP/5Rb/63N3O3bM6JaXsSX1pezsO2CBTyjO9D+w
+ aciuKGdqta5rgM2cJvUgS/NKBSB2md4uWyPZVspHVjYbjG/FrhLhEioWEr3RFd5/MX4N1X
+ 3mG9Loerb+PC8nYq4iCjK/geFKLDQQY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-21-Fm87mPe9O423ognMMczJ_Q-1; Tue, 04 Feb 2020 12:10:22 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-109-uhq8uaEUNQO6eox9aJzuHw-1; Tue, 04 Feb 2020 12:10:24 -0500
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E1A421085925;
- Tue,  4 Feb 2020 17:10:20 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8C3101336560;
+ Tue,  4 Feb 2020 17:10:23 +0000 (UTC)
 Received: from localhost (ovpn-117-98.ams2.redhat.com [10.36.117.98])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 764985D9E2;
- Tue,  4 Feb 2020 17:10:20 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 087495C1D4;
+ Tue,  4 Feb 2020 17:10:22 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v2 30/33] block: Drop bdrv_format_default_perms()
-Date: Tue,  4 Feb 2020 18:08:45 +0100
-Message-Id: <20200204170848.614480-31-mreitz@redhat.com>
+Subject: [PATCH v2 31/33] block: Drop child_file
+Date: Tue,  4 Feb 2020 18:08:46 +0100
+Message-Id: <20200204170848.614480-32-mreitz@redhat.com>
 In-Reply-To: <20200204170848.614480-1-mreitz@redhat.com>
 References: <20200204170848.614480-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: Fm87mPe9O423ognMMczJ_Q-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-MC-Unique: uhq8uaEUNQO6eox9aJzuHw-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
@@ -79,69 +79,97 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block.c                   | 19 -------------------
- include/block/block_int.h | 11 -----------
- 2 files changed, 30 deletions(-)
+ block.c                   | 30 +-----------------------------
+ include/block/block_int.h |  1 -
+ tests/test-bdrv-drain.c   |  8 +++-----
+ 3 files changed, 4 insertions(+), 35 deletions(-)
 
 diff --git a/block.c b/block.c
-index 091e9cc16a..b6e35ed552 100644
+index b6e35ed552..e3390e8d41 100644
 --- a/block.c
 +++ b/block.c
-@@ -2317,25 +2317,6 @@ static void bdrv_default_perms_for_data(BlockDriverS=
-tate *bs, BdrvChild *c,
-     *nshared =3D shared;
- }
+@@ -1099,33 +1099,6 @@ const BdrvChildClass child_of_bds =3D {
+     .update_filename =3D bdrv_child_cb_update_filename,
+ };
 =20
--void bdrv_format_default_perms(BlockDriverState *bs, BdrvChild *c,
--                               const BdrvChildClass *child_class,
--                               BdrvChildRole role,
--                               BlockReopenQueue *reopen_queue,
--                               uint64_t perm, uint64_t shared,
--                               uint64_t *nperm, uint64_t *nshared)
+-/*
+- * Returns the options and flags that bs->file should get if a protocol dr=
+iver
+- * is expected, based on the given options and flags for the parent BDS
+- */
+-static void bdrv_protocol_options(BdrvChildRole role, bool parent_is_forma=
+t,
+-                                  int *child_flags, QDict *child_options,
+-                                  int parent_flags, QDict *parent_options)
 -{
--    if (child_class =3D=3D &child_of_bds) {
--        bdrv_default_perms(bs, c, child_class, role, reopen_queue,
--                           perm, shared, nperm, nshared);
--        return;
--    }
--
--    assert(child_class =3D=3D &child_file);
--
--    bdrv_default_perms_for_metadata(bs, c, child_class, role, reopen_queue=
-,
--                                    perm, shared, nperm, nshared);
+-    bdrv_inherited_options(BDRV_CHILD_IMAGE, true,
+-                           child_flags, child_options,
+-                           parent_flags, parent_options);
 -}
 -
- void bdrv_default_perms(BlockDriverState *bs, BdrvChild *c,
-                         const BdrvChildClass *child_class, BdrvChildRole r=
-ole,
-                         BlockReopenQueue *reopen_queue,
+-const BdrvChildClass child_file =3D {
+-    .parent_is_bds   =3D true,
+-    .get_parent_desc =3D bdrv_child_get_parent_desc,
+-    .inherit_options =3D bdrv_protocol_options,
+-    .drained_begin   =3D bdrv_child_cb_drained_begin,
+-    .drained_poll    =3D bdrv_child_cb_drained_poll,
+-    .drained_end     =3D bdrv_child_cb_drained_end,
+-    .attach          =3D bdrv_child_cb_attach,
+-    .detach          =3D bdrv_child_cb_detach,
+-    .inactivate      =3D bdrv_child_cb_inactivate,
+-    .can_set_aio_ctx =3D bdrv_child_cb_can_set_aio_ctx,
+-    .set_aio_ctx     =3D bdrv_child_cb_set_aio_ctx,
+-};
+-
+ static void bdrv_backing_attach(BdrvChild *c)
+ {
+     BlockDriverState *parent =3D c->opaque;
+@@ -2251,8 +2224,7 @@ static void bdrv_default_perms_for_metadata(BlockDriv=
+erState *bs, BdrvChild *c,
+ {
+     int flags;
+=20
+-    assert(child_class =3D=3D &child_file ||
+-           (child_class =3D=3D &child_of_bds && (role & BDRV_CHILD_METADAT=
+A)));
++    assert(child_class =3D=3D &child_of_bds && (role & BDRV_CHILD_METADATA=
+));
+=20
+     flags =3D bdrv_reopen_get_flags(reopen_queue, bs);
+=20
 diff --git a/include/block/block_int.h b/include/block/block_int.h
-index 5e3f512ae8..a20891e067 100644
+index a20891e067..7ceda62d91 100644
 --- a/include/block/block_int.h
 +++ b/include/block/block_int.h
-@@ -1254,17 +1254,6 @@ int bdrv_child_try_set_perm(BdrvChild *c, uint64_t p=
-erm, uint64_t shared,
-  */
- int bdrv_child_refresh_perms(BlockDriverState *bs, BdrvChild *c, Error **e=
-rrp);
+@@ -741,7 +741,6 @@ struct BdrvChildClass {
+ };
 =20
--/* Default implementation for BlockDriver.bdrv_child_perm() that can be us=
-ed by
-- * (non-raw) image formats: Like above for bs->backing, but for bs->file i=
-t
-- * requires WRITE | RESIZE for read-write images, always requires
-- * CONSISTENT_READ and doesn't share WRITE. */
--void bdrv_format_default_perms(BlockDriverState *bs, BdrvChild *c,
--                               const BdrvChildClass *child_class,
--                               BdrvChildRole child_role,
--                               BlockReopenQueue *reopen_queue,
--                               uint64_t perm, uint64_t shared,
--                               uint64_t *nperm, uint64_t *nshared);
--
- bool bdrv_recurse_can_replace(BlockDriverState *bs,
-                               BlockDriverState *to_replace);
+ extern const BdrvChildClass child_of_bds;
+-extern const BdrvChildClass child_file;
 =20
+ struct BdrvChild {
+     BlockDriverState *bs;
+diff --git a/tests/test-bdrv-drain.c b/tests/test-bdrv-drain.c
+index 0da5a3a6a1..655fd0d085 100644
+--- a/tests/test-bdrv-drain.c
++++ b/tests/test-bdrv-drain.c
+@@ -93,12 +93,10 @@ static void bdrv_test_child_perm(BlockDriverState *bs, =
+BdrvChild *c,
+                                  uint64_t *nperm, uint64_t *nshared)
+ {
+     /*
+-     * bdrv_default_perms() accepts only these two, so disguise
+-     * detach_by_driver_cb_parent as one of them.
++     * bdrv_default_perms() accepts nothing else, so disguise
++     * detach_by_driver_cb_parent.
+      */
+-    if (child_class !=3D &child_file && child_class !=3D &child_of_bds) {
+-        child_class =3D &child_of_bds;
+-    }
++    child_class =3D &child_of_bds;
+=20
+     bdrv_default_perms(bs, c, child_class, role, reopen_queue,
+                        perm, shared, nperm, nshared);
 --=20
 2.24.1
 
