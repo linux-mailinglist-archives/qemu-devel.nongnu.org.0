@@ -2,68 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08C44151B2D
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Feb 2020 14:24:02 +0100 (CET)
-Received: from localhost ([::1]:58368 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02FAB151AE6
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Feb 2020 14:02:20 +0100 (CET)
+Received: from localhost ([::1]:57996 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iyyBN-0006HK-15
-	for lists+qemu-devel@lfdr.de; Tue, 04 Feb 2020 08:24:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38937)
+	id 1iyxqN-00016t-JY
+	for lists+qemu-devel@lfdr.de; Tue, 04 Feb 2020 08:02:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33414)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <conny@cornelia-huck.de>) id 1iyu17-0002zQ-6z
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 03:57:10 -0500
+ (envelope-from <bounces@canonical.com>) id 1iyxpC-0000er-7v
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 08:01:07 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <conny@cornelia-huck.de>) id 1iyu16-0004ZN-2b
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 03:57:09 -0500
-Received: from mout2.freenet.de ([2001:748:100:40::2:4]:39204)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <conny@cornelia-huck.de>)
- id 1iyu15-0004Gx-T2
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 03:57:08 -0500
-Received: from [195.4.92.165] (helo=mjail2.freenet.de)
- by mout2.freenet.de with esmtpa (ID conny@cornelia-huck.de) (port 25) (Exim
- 4.92 #3) id 1iyu10-0006eI-FY; Tue, 04 Feb 2020 09:57:02 +0100
-Received: from [::1] (port=43918 helo=mjail2.freenet.de)
- by mjail2.freenet.de with esmtpa (ID conny@cornelia-huck.de) (Exim 4.92 #3)
- id 1iyu10-0002R1-Ec; Tue, 04 Feb 2020 09:57:02 +0100
-Received: from sub4.freenet.de ([195.4.92.123]:35552)
- by mjail2.freenet.de with esmtpa (ID conny@cornelia-huck.de) (Exim 4.92 #3)
- id 1iytyB-0001In-79; Tue, 04 Feb 2020 09:54:07 +0100
-Received: from pd9f5ffa0.dip0.t-ipconnect.de ([217.245.255.160]:47350
- helo=gondolin)
- by sub4.freenet.de with esmtpsa (ID conny@cornelia-huck.de)
- (TLSv1.2:ECDHE-RSA-CHACHA20-POLY1305:256) (port 465) (Exim 4.92 #3)
- id 1iytyB-00005d-3Q; Tue, 04 Feb 2020 09:54:07 +0100
-Date: Tue, 4 Feb 2020 09:54:03 +0100
-From: Cornelia Huck <conny@cornelia-huck.de>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: VW ELF loader
-Message-ID: <20200204095403.04d9dd29.conny@cornelia-huck.de>
-In-Reply-To: <d13eea1d-7942-47e0-6189-a66ce9639db4@redhat.com>
-References: <f881c2e7-be92-9695-6e19-2dd88cbc63c1@ozlabs.ru>
- <e3ee4b4d-1b24-2900-4304-05fa521a9b47@redhat.com>
- <20200203012842.GD52446@umbus.fritz.box>
- <ec81cca1-d5fb-3f1e-b433-3328d81a117e@redhat.com>
- <de7e4d34-eb63-904c-3475-7feee154c72c@ozlabs.ru>
- <8420784f-b4c7-9864-8534-b94dbc5f74ff@redhat.com>
- <d63ba962-ffbb-9f27-34fb-657188e90194@ozlabs.ru>
- <CABgObfYwtrh_uy8zFmg2qDjK6iynniN6=jJ9_MKfNxXUaOkPKw@mail.gmail.com>
- <71d1cc16-f07d-481d-096b-17ee326157bb@ozlabs.ru>
- <CABgObfa4tUVBbpBtoY3JFSF8-0mRVxgGbzQokc+JrJGPagwPaQ@mail.gmail.com>
- <d13eea1d-7942-47e0-6189-a66ce9639db4@redhat.com>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (envelope-from <bounces@canonical.com>) id 1iyxpA-0004Tl-RA
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 08:01:06 -0500
+Received: from indium.canonical.com ([91.189.90.7]:50342)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iyxpA-0004Lx-LQ
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 08:01:04 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iyxp8-0004cZ-8v
+ for <qemu-devel@nongnu.org>; Tue, 04 Feb 2020 13:01:02 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id D388B2E808B
+ for <qemu-devel@nongnu.org>; Tue,  4 Feb 2020 13:01:01 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Originated-At: 217.245.255.160!47350
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2001:748:100:40::2:4
-X-Mailman-Approved-At: Tue, 04 Feb 2020 08:22:47 -0500
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 04 Feb 2020 12:51:07 -0000
+From: Tobias Koch <1823790@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+ assignee=Laurent@vivier.eu; 
+X-Launchpad-Bug-Tags: arm linux-user
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: fritz-the-cat laurent-vivier m-luescher pmaydell
+ tobijk
+X-Launchpad-Bug-Reporter: =?utf-8?q?Matthias_L=C3=BCscher_=28m-luescher=29?=
+X-Launchpad-Bug-Modifier: Tobias Koch (tobijk)
+References: <155475569461.20468.17957138207618410360.malonedeb@chaenomeles.canonical.com>
+Message-Id: <158082066725.19517.15681812128123723706.malone@gac.canonical.com>
+Subject: [Bug 1823790] Re: QEMU mishandling of SO_PEERSEC forces systemd into
+ tight loop
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="0a62c17273454a1313f81a74a2198ec30b44c7b6";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 70e9cba8b26c3df513a6388fd8ee64d27c4c37ca
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,44 +68,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexey Kardashevskiy <aik@ozlabs.ru>, qemu-devel <qemu-devel@nongnu.org>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Reply-To: Bug 1823790 <1823790@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 4 Feb 2020 07:16:46 +0100
-Thomas Huth <thuth@redhat.com> wrote:
+I carried out the following test:
 
-> On 04/02/2020 00.26, Paolo Bonzini wrote:
-> > 
-> > 
-> > Il mar 4 feb 2020, 00:20 Alexey Kardashevskiy <aik@ozlabs.ru
-> > <mailto:aik@ozlabs.ru>> ha scritto:
-> > 
-> >     Speaking seriously, what would I put into the guest?
-> > 
-> > Only things that would be considered drivers. Ignore the partitions
-> > issue for now so that you can just pass the device tree services to QEMU
-> > with hypercalls.
-> > 
-> >     Netboot's dhcp/tftp/ip/ipv6 client? It is going to be another SLOF,
-> >     smaller but adhoc with only a couple of people knowing it.
-> > 
-> > 
-> > You can generalize and reuse the s390 code. All you have to write is the
-> > PCI scan and virtio-pci setup.  
-> 
-> Well, for netbooting, the s390-ccw bios uses the libnet code from SLOF,
-> so re-using this for a slim netboot client on ppc64 would certainly be
-> feasible (especially since there are also already virtio drivers in SLOF
-> that are written in C), but I think it is not very future proof. The
-> libnet from SLOF only supports UDP, and no TCP. So for advanced boot
-> scenarios like booting from HTTP or even HTTPS, you need something else
-> (i.e. maybe grub is the better option, indeed).
+* fetched the QEMU coming with 18.04,
+* added this patch,
+* built an LXD container with arch arm64 and the patched qemu-aarch64-stati=
+c inside,
+* launched it on amd64
 
-That makes me wonder what that means for s390: We're inheriting
-libnet's limitations, but we don't have grub -- do we need to come up
-with something different? Or improve libnet?
+Previously various systemd services would not come up properly, now they
+are running like a charm. The only grief I have is that network
+configuration does not work, but that is due to
+
+    # ip addr
+    Unsupported setsockopt level=3D270 optname=3D11
+
+which is a different story.
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1823790
+
+Title:
+  QEMU mishandling of SO_PEERSEC forces systemd into tight loop
+
+Status in QEMU:
+  Confirmed
+
+Bug description:
+  While building Debian images for embedded ARM target systems I
+  detected that QEMU seems to force newer systemd daemons into a tight
+  loop.
+
+  My setup is the following:
+
+  Host machine: Ubuntu 18.04, amd64
+  LXD container: Debian Buster, arm64, systemd 241
+  QEMU: qemu-aarch64-static, 4.0.0-rc2 (custom build) and 3.1.0 (Debian 1:3=
+.1+dfsg-7)
+
+  To easily reproduce the issue I have created the following repository:
+  https://github.com/lueschem/edi-qemu
+
+  The call where systemd gets looping is the following:
+  2837 getsockopt(3,1,31,274891889456,274887218756,274888927920) =3D -1 err=
+no=3D34 (Numerical result out of range)
+
+  Furthermore I also verified that the issue is not related to LXD.
+  The same behavior can be reproduced using systemd-nspawn.
+
+  This issue reported against systemd seems to be related:
+  https://github.com/systemd/systemd/issues/11557
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1823790/+subscriptions
 
