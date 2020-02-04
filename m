@@ -2,46 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B17C51516C6
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Feb 2020 09:08:49 +0100 (CET)
-Received: from localhost ([::1]:54274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1BB51516D5
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Feb 2020 09:12:32 +0100 (CET)
+Received: from localhost ([::1]:54322 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iytGK-0000Cz-Pp
-	for lists+qemu-devel@lfdr.de; Tue, 04 Feb 2020 03:08:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44687)
+	id 1iytJv-0003ti-V5
+	for lists+qemu-devel@lfdr.de; Tue, 04 Feb 2020 03:12:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47213)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <Aleksandar.Markovic@rt-rk.com>) id 1iytEx-0007sE-Jg
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 03:07:24 -0500
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1iytH4-0001L0-BT
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 03:09:35 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <Aleksandar.Markovic@rt-rk.com>) id 1iytEw-0007zW-9Q
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 03:07:23 -0500
-Received: from mx2.rt-rk.com ([89.216.37.149]:45538 helo=mail.rt-rk.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <Aleksandar.Markovic@rt-rk.com>)
- id 1iytEv-0003c8-Uf
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 03:07:22 -0500
-Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id 2A76B1A1D7E;
- Tue,  4 Feb 2020 09:06:18 +0100 (CET)
-X-Virus-Scanned: amavisd-new at rt-rk.com
-Received: by mail.rt-rk.com (Postfix, from userid 492)
- id 2C48A1A1D87; Tue,  4 Feb 2020 09:06:16 +0100 (CET)
-in-reply-to: <217483d9-14ad-25f0-e28d-791bd76ab00f@redhat.com>
-to: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-from: "Aleksandar Markovic" <Aleksandar.Markovic@rt-rk.com>
-message-id: <764d-5e392600-1-7d355c00@99977617>
-subject: =?utf-8?q?Re=3A?==?utf-8?q?_=5BPULL?==?utf-8?q?_3=2F3=5D?=
- =?utf-8?q?_target=2Fmips=3A?= Separate FPU-related helpers into their own 
- file
-X-Forward: 127.0.0.1
-date: Tue, 04 Feb 2020 09:06:16 +0100
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1iytH2-00085g-VG
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 03:09:33 -0500
+Received: from mail-oi1-x230.google.com ([2607:f8b0:4864:20::230]:46466)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
+ id 1iytH2-0007xg-QM
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 03:09:32 -0500
+Received: by mail-oi1-x230.google.com with SMTP id a22so17522770oid.13
+ for <qemu-devel@nongnu.org>; Tue, 04 Feb 2020 00:09:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=y/hic+1/P7Wf9mIgio8dFV0elgsobIybXOU4vvDyYLU=;
+ b=aJRsniL3K3INMPvbrBfSCv1RwYDmrtF9RQRA4wQ8Gw4O++4ugKzpo9E0cYeqr5eaBR
+ +2JV7fhQ+DF5oqfqMsfM0lwLoW1eNRlSSf6y76OoKj5QTA5Hb0aZYBKjFKAJsKyasTOF
+ G9JqDlnLj2eQPB6gsq8yTx/J+MTk+dfEihYtcmWtntc8cTlGBhfK8zmZWQRCFf0mmItQ
+ /K6P1DzWkNMd6v1IC8Pz3kmWOYeI2EPR2UlD5PhV/H1Osv4lSOZjyPv+Iwz6vvWFSj37
+ FK5YXafhCJZp2fm9smP2sebMFNwOoohs3HOIvMBxirprEtVJGGKQpSteHV9NyNigr9yi
+ +HZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=y/hic+1/P7Wf9mIgio8dFV0elgsobIybXOU4vvDyYLU=;
+ b=Kt6s6ABp0X9nmLvYNWECBdmkW+Q4xW4kvD4IZ1d0IgF8qrEsIdlW7fvsdOdIQsDF0d
+ cm0XtHqb6D6jI7tH4ZTnZe26UoOkikAY0xMYy4D9hMA/xwIA8eVmr94nVko1ySqdj6ax
+ to0brP+P6KjF+qL7hkl/kYSbAMO+AzuAPqayR4yV4pAdaH0lCgyzz8VJMwFqT36ItrVB
+ qlrU16f1ece8FH66mrFXFz5Xc2zATuTg8X03x+2+C5uKIasS/HLXPzvTpy/o3H+4G4RE
+ FirFFaIoQ9CMvAv2VzzBt3yHOsHdOX02UYf9zDm5XUzUTRmjXlYd1akMplTW4ebTUhdF
+ xLcA==
+X-Gm-Message-State: APjAAAXb0eIV1puY4WWgGa2Kuv9R32sZnAC9kFVBSf1AxEwObyhYhXMZ
+ N6l8aVf6duqP2bkU6PnOkcLQt6r7ynyZ5v1X4Sk4yV0K
+X-Google-Smtp-Source: APXvYqwwH1hO/fqb10D2ksUIvc7bNsesKKjY+xwC5A/I/uez9MQ+NJQK9HdfTCd+dpMD7sdKfpt/5zOQYnyx1pB+zSc=
+X-Received: by 2002:a05:6808:64e:: with SMTP id
+ z14mr2500749oih.79.1580803771688; 
+ Tue, 04 Feb 2020 00:09:31 -0800 (PST)
 MIME-Version: 1.0
-content-type: multipart/alternative;
- boundary="----=_=-_OpenGroupware_org_NGMime-30285-1580803576.141333-0------"
-User-Agent: SOGoMail 2.3.10
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
-X-Received-From: 89.216.37.149
+References: <1580798552-703-1-git-send-email-aleksandar.markovic@rt-rk.com>
+In-Reply-To: <1580798552-703-1-git-send-email-aleksandar.markovic@rt-rk.com>
+From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Date: Tue, 4 Feb 2020 09:09:20 +0100
+Message-ID: <CAL1e-=g+_3MeZfA5Hj2exBB2SZfFDuuC9UAOATuL79Yaakpiig@mail.gmail.com>
+Subject: Re: [PULL 0/3] MIPS queue for February 4th, 2020
+To: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::230
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,105 +72,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org, amarkovic@wavecomp.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-------=_=-_OpenGroupware_org_NGMime-30285-1580803576.141333-0------
-content-type: text/plain; charset=utf-8
-content-length: 1703
-content-transfer-encoding: quoted-printable
-
-
-> >
-> > For clarity and easier maintenence, create target/mips/fpu=5Fhelper=
-.c, and
-> > move all FPU-related content form target/mips/op=5Fhelper.c to that=
- file.
-> >
-> > Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
-> > Reviewed-by: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>
-> > Message-Id: <1580745443-24650-3-git-send-email-aleksandar.markovic@=
-rt-rk.com>
-> > ---
-> > target/mips/Makefile.objs | 2 +-
-> > target/mips/fpu=5Fhelper.c | 1911 +++++++++++++++++++++++++++++++++=
-++++++++++++
-> > target/mips/op=5Fhelper.c | 1877 ----------------------------------=
-----------
-> > 3 files changed, 1912 insertions(+), 1878 deletions(-)
-> > create mode 100644 target/mips/fpu=5Fhelper.c
-> >
-> > diff --git a/target/mips/Makefile.objs b/target/mips/Makefile.objs
-> > index 3ca2bde..91eb691 100644
-> > --- a/target/mips/Makefile.objs
-> > +++ b/target/mips/Makefile.objs
-> > @@ -1,5 +1,5 @@
-> > obj-y +=3D translate.o cpu.o gdbstub.o helper.o
-> > -obj-y +=3D op=5Fhelper.o cp0=5Fhelper.o
-> > +obj-y +=3D op=5Fhelper.o cp0=5Fhelper.o fpu=5Fhelper.o
-> > obj-y +=3D dsp=5Fhelper.o lmi=5Fhelper.o msa=5Fhelper.o
-> > obj-$(CONFIG=5FSOFTMMU) +=3D mips-semi.o
-> > obj-$(CONFIG=5FSOFTMMU) +=3D machine.o cp0=5Ftimer.o
-> > diff --git a/target/mips/fpu=5Fhelper.c b/target/mips/fpu=5Fhelper.=
-c
-> > new file mode 100644
-> > index 0000000..0d5769e
-> > --- /dev/null
-> > +++ b/target/mips/fpu=5Fhelper.c
-> > @@ -0,0 +1,1911 @@
-> > +/*
-> > + * Helpers for emulation of CP0-related MIPS instructions.
+On Tue, Feb 4, 2020 at 7:43 AM Aleksandar Markovic
+<aleksandar.markovic@rt-rk.com> wrote:
 >
-> Isn't it "FPU"?
+> From: Aleksandar Markovic <amarkovic@wavecomp.com>
 >
+> The following changes since commit f31160c7d1b89cfb4dd4001a23575b42141cb0ec:
+>
+>   Merge remote-tracking branch 'remotes/pmaydell/tags/pull-docs-20200203' into staging (2020-02-03 11:14:24 +0000)
+>
+> are available in the git repository at:
+>
+>   https://github.com/AMarkovic/qemu tags/mips-queue-feb-04-2020
+>
+> for you to fetch changes up to 78e91b612eb746c7916cce3ea91f709b916b007c:
+>
+>   target/mips: Separate FPU-related helpers into their own file (2020-02-03 23:55:53 +0100)
+>
+> ----------------------------------------------------------------
+>
+> MIPS queue for February 4th, 2020
 
-Damn, I did the change, but forgot to do "commit --amend", and that pas=
-sed unnoticed during the rest of procedure.
+Peter, please discard this pull request.
 
-I just sent PULL v2.
+I just sent PULL v2 that corrects a mistake in a comment and improves
+a commit message.
 
-Thanks, Philippe.
+Sorry about this.
 
 Aleksandar
 
-------=_=-_OpenGroupware_org_NGMime-30285-1580803576.141333-0------
-content-type: text/html; charset=utf-8
-content-length: 2254
-content-transfer-encoding: quoted-printable
-
-<html><br />&gt; &gt;<br />&gt; &gt; For clarity and easier maintenence=
-, create target/mips/fpu=5Fhelper.c, and<br />&gt; &gt; move all FPU-re=
-lated content form target/mips/op=5Fhelper.c to that file.<br />&gt; &g=
-t;<br />&gt; &gt; Signed-off-by: Aleksandar Markovic &lt;amarkovic@wave=
-comp.com&gt;<br />&gt; &gt; Reviewed-by: Aleksandar Rikalo &lt;aleksand=
-ar.rikalo@rt-rk.com&gt;<br />&gt; &gt; Message-Id: &lt;1580745443-24650=
--3-git-send-email-aleksandar.markovic@rt-rk.com&gt;<br />&gt; &gt; ---<=
-br />&gt; &gt; target/mips/Makefile.objs | 2 +-<br />&gt; &gt; target/m=
-ips/fpu=5Fhelper.c | 1911 +++++++++++++++++++++++++++++++++++++++++++++=
-<br />&gt; &gt; target/mips/op=5Fhelper.c | 1877 ----------------------=
-----------------------<br />&gt; &gt; 3 files changed, 1912 insertions(=
-+), 1878 deletions(-)<br />&gt; &gt; create mode 100644 target/mips/fpu=
-=5Fhelper.c<br />&gt; &gt;<br />&gt; &gt; diff --git a/target/mips/Make=
-file.objs b/target/mips/Makefile.objs<br />&gt; &gt; index 3ca2bde..91e=
-b691 100644<br />&gt; &gt; --- a/target/mips/Makefile.objs<br />&gt; &g=
-t; +++ b/target/mips/Makefile.objs<br />&gt; &gt; @@ -1,5 +1,5 @@<br />=
-&gt; &gt; obj-y +=3D translate.o cpu.o gdbstub.o helper.o<br />&gt; &gt=
-; -obj-y +=3D op=5Fhelper.o cp0=5Fhelper.o<br />&gt; &gt; +obj-y +=3D o=
-p=5Fhelper.o cp0=5Fhelper.o fpu=5Fhelper.o<br />&gt; &gt; obj-y +=3D ds=
-p=5Fhelper.o lmi=5Fhelper.o msa=5Fhelper.o<br />&gt; &gt; obj-$(CONFIG=5F=
-SOFTMMU) +=3D mips-semi.o<br />&gt; &gt; obj-$(CONFIG=5FSOFTMMU) +=3D m=
-achine.o cp0=5Ftimer.o<br />&gt; &gt; diff --git a/target/mips/fpu=5Fhe=
-lper.c b/target/mips/fpu=5Fhelper.c<br />&gt; &gt; new file mode 100644=
-<br />&gt; &gt; index 0000000..0d5769e<br />&gt; &gt; --- /dev/null<br =
-/>&gt; &gt; +++ b/target/mips/fpu=5Fhelper.c<br />&gt; &gt; @@ -0,0 +1,=
-1911 @@<br />&gt; &gt; +/*<br />&gt; &gt; + * Helpers for emulation of =
-CP0-related MIPS instructions.<br />&gt;<br />&gt; Isn&#39;t it &quot;F=
-PU&quot;?<br />&gt;<br /><br />Damn, I did the change, but forgot to do=
- &quot;commit --amend&quot;, and that passed unnoticed during the rest =
-of procedure.<br /><br />I just sent PULL v2.<br /><br />Thanks, Philip=
-pe.<br /><br />Aleksandar</html>
-
-------=_=-_OpenGroupware_org_NGMime-30285-1580803576.141333-0--------
-
+>
+>   Content:
+>
+>     - fix for a recent regression in LL/SC
+>     - mechanical reorganization of files containing helpers
+>
+>   Note:
+>
+>     - six checkpatch errors and two warnings are benign and should be
+>       ignored
+>
+> ----------------------------------------------------------------
+>
+> Aleksandar Markovic (2):
+>   target/mips: Separate CP0-related helpers into their own file
+>   target/mips: Separate FPU-related helpers into their own file
+>
+> Alex Richardson (1):
+>   target/mips: Fix ll/sc after 7dd547e5ab6b31e7a0cfc182d3ad131dd55a948f
+>
+>  target/mips/Makefile.objs |    5 +-
+>  target/mips/cp0_helper.c  | 1678 +++++++++++++++++
+>  target/mips/fpu_helper.c  | 1911 ++++++++++++++++++++
+>  target/mips/op_helper.c   | 4422 +++++----------------------------------------
+>  4 files changed, 4044 insertions(+), 3972 deletions(-)
+>  create mode 100644 target/mips/cp0_helper.c
+>  create mode 100644 target/mips/fpu_helper.c
+>
+> --
+> 2.7.4
+>
+>
 
