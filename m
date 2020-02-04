@@ -2,50 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4ED17151404
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Feb 2020 02:44:27 +0100 (CET)
-Received: from localhost ([::1]:49138 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 166B7151410
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Feb 2020 02:52:33 +0100 (CET)
+Received: from localhost ([::1]:50314 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iynGL-0006Sc-Us
-	for lists+qemu-devel@lfdr.de; Mon, 03 Feb 2020 20:44:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45419)
+	id 1iynOC-0006Cu-5W
+	for lists+qemu-devel@lfdr.de; Mon, 03 Feb 2020 20:52:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48034)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <guoheyi@huawei.com>) id 1iynFZ-0005v6-RW
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 20:43:38 -0500
+ (envelope-from <guoheyi@huawei.com>) id 1iynIY-0007lc-MN
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 20:46:44 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <guoheyi@huawei.com>) id 1iynFY-0003SO-KS
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 20:43:37 -0500
-Received: from szxga05-in.huawei.com ([45.249.212.191]:2749 helo=huawei.com)
+ (envelope-from <guoheyi@huawei.com>) id 1iynIW-0008MT-IS
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 20:46:41 -0500
+Received: from szxga07-in.huawei.com ([45.249.212.35]:56540 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <guoheyi@huawei.com>)
- id 1iynFV-00035X-5N; Mon, 03 Feb 2020 20:43:33 -0500
-Received: from DGGEMS401-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id 7104A1C2F3DB9C057A7D;
- Tue,  4 Feb 2020 09:43:27 +0800 (CST)
-Received: from [127.0.0.1] (10.173.221.228) by DGGEMS401-HUB.china.huawei.com
- (10.3.19.201) with Microsoft SMTP Server id 14.3.439.0;
- Tue, 4 Feb 2020 09:43:20 +0800
-Subject: Re: [PATCH v2 0/7] Some cleanup in arm/virt/acpi
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20200203001505.52573-1-guoheyi@huawei.com>
- <20200203014246-mutt-send-email-mst@kernel.org>
- <455d16a4-e7b6-af9b-0b7e-43be70e22f7b@huawei.com>
- <CAFEAcA_g3XXnxiV2O37zpj7gw8For042hg0Vau44qm=ByOuXdw@mail.gmail.com>
+ id 1iynIK-0008BL-41; Mon, 03 Feb 2020 20:46:28 -0500
+Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.60])
+ by Forcepoint Email with ESMTP id 75492DA1B537395610A4;
+ Tue,  4 Feb 2020 09:46:25 +0800 (CST)
+Received: from linux-TFkxOR.huawei.com (10.175.104.212) by
+ DGGEMS412-HUB.china.huawei.com (10.3.19.212) with Microsoft SMTP Server id
+ 14.3.439.0; Tue, 4 Feb 2020 09:46:15 +0800
 From: Heyi Guo <guoheyi@huawei.com>
-Message-ID: <32e63add-da4b-ed26-98dc-2ab69f3ab007@huawei.com>
+To: <qemu-devel@nongnu.org>
+Subject: [PATCH v3 1/7] bios-tables-test: prepare to change ARM virt ACPI DSDT
 Date: Tue, 4 Feb 2020 09:43:19 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+Message-ID: <20200204014325.16279-2-guoheyi@huawei.com>
+X-Mailer: git-send-email 2.19.1
+In-Reply-To: <20200204014325.16279-1-guoheyi@huawei.com>
+References: <20200204014325.16279-1-guoheyi@huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA_g3XXnxiV2O37zpj7gw8For042hg0Vau44qm=ByOuXdw@mail.gmail.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-X-Originating-IP: [10.173.221.228]
+Content-Type: text/plain
+X-Originating-IP: [10.175.104.212]
 X-CFilter-Loop: Reflected
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 45.249.212.191
+X-Received-From: 45.249.212.35
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,90 +53,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Shannon Zhao <shannon.zhaosl@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
- Igor Mammedov <imammedo@redhat.com>, wanghaibin.wang@huawei.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Shannon Zhao <shannon.zhaosl@gmail.com>,
+ qemu-arm@nongnu.org, Igor
+ Mammedov <imammedo@redhat.com>, Heyi Guo <guoheyi@huawei.com>,
+ wanghaibin.wang@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+We are going to change ARM virt ACPI DSDT table, which will cause make
+check to fail, so temporarily add related golden masters to ignore
+list.
 
-=E5=9C=A8 2020/2/3 22:03, Peter Maydell =E5=86=99=E9=81=93:
-> On Mon, 3 Feb 2020 at 13:33, Heyi Guo <guoheyi@huawei.com> wrote:
->>
->> =E5=9C=A8 2020/2/3 14:43, Michael S. Tsirkin =E5=86=99=E9=81=93:
->>> On Mon, Feb 03, 2020 at 08:14:58AM +0800, Heyi Guo wrote:
->>>> Remove conflict _ADR objects, and fix and refine PCI device definiti=
-on in
->>>> ACPI/DSDT.
->>>>
->>>> Cc: Peter Maydell <peter.maydell@linaro.org>
->>>> Cc: "Michael S. Tsirkin" <mst@redhat.com>
->>>> Cc: Igor Mammedov <imammedo@redhat.com>
->>>> Cc: Shannon Zhao <shannon.zhaosl@gmail.com>
->>>> Cc: qemu-arm@nongnu.org
->>>> Cc: qemu-devel@nongnu.org
->>> Series
->>>
->>> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
->>>
->>> merge through ARM tree pls.
->> Thanks, Michael :)
->>
->>
->> Hi Peter,
->>
->> Do I need to send v3 to update the commit message of patch 4/7 as
->> Michael suggested?
-> This patchset seems to be corrupt somehow:
->
-> e104462:bionic:qemu$ patches apply -s
-> id:20200203001505.52573-1-guoheyi@huawei.com
-> Applying: bios-tables-test: prepare to change ARM virt ACPI DSDT
-> Applying: arm/virt/acpi: remove meaningless sub device "RP0" from PCI0
-> Applying: arm/virt/acpi: remove _ADR from devices identified by _HID
-> Applying: arm/acpi: fix PCI _PRT definition
-> Applying: arm/acpi: fix duplicated _UID of PCI interrupt link devices
-> Applying: arm/acpi: simplify the description of PCI _CRS
-> Applying: virt/acpi: update golden masters for DSDT update
-> error: corrupt patch at line 68
-> error: could not build fake ancestor
-> hint: Use 'git am --show-current-patch' to see the failed patch
-> Patch failed at 0007 virt/acpi: update golden masters for DSDT update
-> When you have resolved this problem, run "git am --continue".
-> If you prefer to skip this patch, run "git am --skip" instead.
-> To restore the original branch and stop patching, run "git am --abort".
->
-> Patchew didn't like it either:
-> https://patchew.org/QEMU/20200203001505.52573-1-guoheyi@huawei.com/
->
-> I think the problem here is the quoting of the diff in
-> the commit message of patch 7: git am and friends think
-> that is part of the actual patch body and get confused.
-> You might be able to avoid that by not putting the
->    diff --git a/DSDT.dsl.orig b/DSDT.dsl
->    index ed3e5f0fa9..10cf70c886 100644
->    --- a/DSDT.dsl.orig
->    +++ b/DSDT.dsl
->
-> part in the commit message, but I haven't tested that.
->
-> So resending a v4 would probably be a good idea anyway.
+Signed-off-by: Heyi Guo <guoheyi@huawei.com>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 
-Sorry for trouble. I should have tried locally before sending the patch.
+---
+Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Igor Mammedov <imammedo@redhat.com>
+Cc: Shannon Zhao <shannon.zhaosl@gmail.com>
+Cc: qemu-arm@nongnu.org
+Cc: qemu-devel@nongnu.org
+---
+ tests/qtest/bios-tables-test-allowed-diff.h | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Yes, removing the above 4 lines help git am success.
-
-I'll send a v3.
-
-Thanks,
-
-Heyi
-
->
-> thanks
-> -- PMM
->
-> .
+diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bi=
+os-tables-test-allowed-diff.h
+index dfb8523c8b..32a401ae35 100644
+--- a/tests/qtest/bios-tables-test-allowed-diff.h
++++ b/tests/qtest/bios-tables-test-allowed-diff.h
+@@ -1 +1,4 @@
+ /* List of comma-separated changed AML files to ignore */
++"tests/data/acpi/virt/DSDT",
++"tests/data/acpi/virt/DSDT.memhp",
++"tests/data/acpi/virt/DSDT.numamem",
+--=20
+2.19.1
 
 
