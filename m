@@ -2,57 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93DBF151BEC
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Feb 2020 15:14:39 +0100 (CET)
-Received: from localhost ([::1]:59334 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22F22151BE8
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Feb 2020 15:12:58 +0100 (CET)
+Received: from localhost ([::1]:59304 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iyyyM-0008VI-C1
-	for lists+qemu-devel@lfdr.de; Tue, 04 Feb 2020 09:14:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44559)
+	id 1iyywj-0005Dn-6K
+	for lists+qemu-devel@lfdr.de; Tue, 04 Feb 2020 09:12:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44374)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <wainersm@redhat.com>) id 1iyyvW-00043I-ET
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 09:11:43 -0500
+ (envelope-from <wainersm@redhat.com>) id 1iyyvP-0003tt-U7
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 09:11:37 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <wainersm@redhat.com>) id 1iyyvV-0001zJ-7r
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 09:11:42 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:46456
+ (envelope-from <wainersm@redhat.com>) id 1iyyvO-0001G7-Q9
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 09:11:35 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:30649
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <wainersm@redhat.com>) id 1iyyvV-0001wG-2t
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 09:11:41 -0500
+ (Exim 4.71) (envelope-from <wainersm@redhat.com>) id 1iyyvO-0001AN-Lj
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 09:11:34 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580825500;
+ s=mimecast20190719; t=1580825493;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=AjyNbxSBpGsTz/kjzywnCOtECablM3ZAABUPyUM8ibY=;
- b=PMKpM3sVczWXyVlRZIErr3R/wa6bEu/C31GigjauaYWcw90oyQmgUSIMviJgJsEd5UUw10
- P4QpwoTbjWOatdNkY3oE/smkAyhxYe95XsrR+aSy4cov+xM1u+W5LyI+1JrWxxDyNtXwMD
- o8JCkqXACBzugmLS9BUAoXP0RkKHi7E=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ycinBl/JjBnbdyOHEMoiuJ5oJmXCzRVWDSK/n39niuE=;
+ b=eWs2ixQN7GL82q4ZSkpM1mgRbhJ5jUztBM/GpF5OADUTZxR3uYaxQhGLz/0Bb6ghZ/X7Hu
+ nVbUzplT9Kc63Fj/9+j7HFyq9T1quBbWCkbK1J11QiJ+FI3RIAZ8NVCtLJnQgUVp/Nscdg
+ Ic+1ZBri6lud4B7tOiMMHM6sWKwrsnY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-317-QCVJNYHCPcqEwMEoJ-nPPg-1; Tue, 04 Feb 2020 09:11:25 -0500
+ us-mta-129-4KwxMjsEMyqVegknD60w2A-1; Tue, 04 Feb 2020 09:11:30 -0500
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0E8B380573D
- for <qemu-devel@nongnu.org>; Tue,  4 Feb 2020 14:11:24 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E20C910CE786
+ for <qemu-devel@nongnu.org>; Tue,  4 Feb 2020 14:11:29 +0000 (UTC)
 Received: from localhost.localdomain (ovpn-116-4.gru2.redhat.com [10.97.116.4])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 353137792B;
- Tue,  4 Feb 2020 14:11:14 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E70287792B;
+ Tue,  4 Feb 2020 14:11:24 +0000 (UTC)
 From: Wainer dos Santos Moschetta <wainersm@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/5] python/qemu: qmp: Fix, delint and improvements
-Date: Tue,  4 Feb 2020 11:11:06 -0300
-Message-Id: <20200204141111.3207-1-wainersm@redhat.com>
+Subject: [PATCH v2 1/5] python/qemu: qmp: Replace socket.error with OSError
+Date: Tue,  4 Feb 2020 11:11:07 -0300
+Message-Id: <20200204141111.3207-2-wainersm@redhat.com>
+In-Reply-To: <20200204141111.3207-1-wainersm@redhat.com>
+References: <20200204141111.3207-1-wainersm@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: QCVJNYHCPcqEwMEoJ-nPPg-1
+X-MC-Unique: 4KwxMjsEMyqVegknD60w2A-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -72,37 +75,74 @@ Cc: jsnow@redhat.com, philmd@redhat.com, ehabkost@redhat.com, crosa@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I started fixing an issue on exception handling which in some places
-currently use the deprecated (in Python 3.3) `socket.error`. Then I
-ended up delinting the module code and making some improvements.
+The socket.error is deprecated from Python 3.3, instead it is
+made a link to OSError. This change replaces the occurences
+of socket.error with OSError.
 
-Changes in v2:
-- Rebased to master. No conflicts.
-- Added docstring describing the allowed value of the new `timeout`
-  option in accept() (patch 03) [jsnow]
-- Set the new `timeout` option to 15.0 by default [philmd]
+Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Reviewed-by: John Snow <jsnow@redhat.com>
+---
+ python/qemu/qmp.py | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-v1: https://www.mail-archive.com/qemu-devel@nongnu.org/msg667479.html
-
-Git:
-- Tree: https://github.com/wainersm/qemu
-- Branch: python_qmp_sockets_error-v2
-
-CI:
-- Travis (FAIL): https://travis-ci.org/wainersm/qemu/builds/645583812
-  Jobs failures aren't related with these changes
-
-
-Wainer dos Santos Moschetta (5):
-  python/qemu: qmp: Replace socket.error with OSError
-  python/qemu: Delint the qmp module
-  python/qemu: qmp: Make accept()'s timeout configurable
-  python/qemu: qmp: Make QEMUMonitorProtocol a context manager
-  python/qemu: qmp: Remove unnused attributes
-
- python/qemu/qmp.py | 97 +++++++++++++++++++++++++++++++++-------------
- 1 file changed, 71 insertions(+), 26 deletions(-)
-
+diff --git a/python/qemu/qmp.py b/python/qemu/qmp.py
+index 5c8cf6a056..8c6c9847d0 100644
+--- a/python/qemu/qmp.py
++++ b/python/qemu/qmp.py
+@@ -47,7 +47,7 @@ class QEMUMonitorProtocol(object):
+                         or a tuple in the form ( address, port ) for a TCP
+                         connection
+         @param server: server mode listens on the socket (bool)
+-        @raise socket.error on socket connection errors
++        @raise OSError on socket connection errors
+         @note No connection is established, this is done by the connect() =
+or
+               accept() methods
+         """
+@@ -107,8 +107,8 @@ class QEMUMonitorProtocol(object):
+         self.__sock.setblocking(0)
+         try:
+             self.__json_read()
+-        except socket.error as err:
+-            if err[0] =3D=3D errno.EAGAIN:
++        except OSError as err:
++            if err.errno =3D=3D errno.EAGAIN:
+                 # No data available
+                 pass
+         self.__sock.setblocking(1)
+@@ -133,7 +133,7 @@ class QEMUMonitorProtocol(object):
+         Connect to the QMP Monitor and perform capabilities negotiation.
+=20
+         @return QMP greeting dict
+-        @raise socket.error on socket connection errors
++        @raise OSError on socket connection errors
+         @raise QMPConnectError if the greeting is not received
+         @raise QMPCapabilitiesError if fails to negotiate capabilities
+         """
+@@ -147,7 +147,7 @@ class QEMUMonitorProtocol(object):
+         Await connection from QMP Monitor and perform capabilities negotia=
+tion.
+=20
+         @return QMP greeting dict
+-        @raise socket.error on socket connection errors
++        @raise OSError on socket connection errors
+         @raise QMPConnectError if the greeting is not received
+         @raise QMPCapabilitiesError if fails to negotiate capabilities
+         """
+@@ -167,10 +167,10 @@ class QEMUMonitorProtocol(object):
+         self.logger.debug(">>> %s", qmp_cmd)
+         try:
+             self.__sock.sendall(json.dumps(qmp_cmd).encode('utf-8'))
+-        except socket.error as err:
+-            if err[0] =3D=3D errno.EPIPE:
++        except OSError as err:
++            if err.errno =3D=3D errno.EPIPE:
+                 return
+-            raise socket.error(err)
++            raise err
+         resp =3D self.__json_read()
+         self.logger.debug("<<< %s", resp)
+         return resp
 --=20
 2.23.0
 
