@@ -2,64 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E3CE151DCD
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Feb 2020 17:05:56 +0100 (CET)
-Received: from localhost ([::1]:60876 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD56B151DD6
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Feb 2020 17:08:17 +0100 (CET)
+Received: from localhost ([::1]:60930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iz0i3-0008NI-Cl
-	for lists+qemu-devel@lfdr.de; Tue, 04 Feb 2020 11:05:55 -0500
-Received: from [2001:470:142:3::10] (port=35660 helo=eggs.gnu.org)
+	id 1iz0kK-0004Kf-T1
+	for lists+qemu-devel@lfdr.de; Tue, 04 Feb 2020 11:08:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36948)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <cohuck@redhat.com>) id 1iz0fM-0005UJ-Fl
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 11:03:09 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iz0iI-0000hA-Jt
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 11:06:13 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cohuck@redhat.com>) id 1iz0fH-0002lF-HG
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 11:03:08 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:51437
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1iz0fH-0002gs-Bz
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 11:03:03 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580832180;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=8yFkhfzESVTTuJzAgAmxEzcx/Fa2CyHOyWD736BEROw=;
- b=QZ+jUNutn3Qts47AJxZXLFM6Yw3GcStOz7XU3/ue2z9xmBIZ6tHkwx/Bp7cRvTi5bRzSW2
- COIF/KS/XVobAY8BIOPa/RaM6+3NIS9UlbtspVtUCkgKfH7ppBOAPczdifVyZiaFYOqVjb
- iguoFH4pwav895ws7Jl0Li+T4w4+Yp8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-272-f2rCEVfQPWiWkogDmwRHXw-1; Tue, 04 Feb 2020 11:02:49 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 94C268010F1;
- Tue,  4 Feb 2020 16:02:48 +0000 (UTC)
-Received: from gondolin (ovpn-117-199.ams2.redhat.com [10.36.117.199])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BF5ED19486;
- Tue,  4 Feb 2020 16:02:41 +0000 (UTC)
-Date: Tue, 4 Feb 2020 17:02:39 +0100
-From: Cornelia Huck <cohuck@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [PATCH] virtio: clean up when virtio_queue_set_rings() fails
-Message-ID: <20200204170239.49deb13a.cohuck@redhat.com>
-In-Reply-To: <20200204151618.39296-1-stefanha@redhat.com>
-References: <20200204151618.39296-1-stefanha@redhat.com>
-Organization: Red Hat GmbH
+ (envelope-from <paolo.bonzini@gmail.com>) id 1iz0iG-0002Xt-6H
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 11:06:10 -0500
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:39475)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1iz0iF-0002Wg-UH
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 11:06:08 -0500
+Received: by mail-wm1-x343.google.com with SMTP id c84so4340672wme.4
+ for <qemu-devel@nongnu.org>; Tue, 04 Feb 2020 08:06:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=brxXA/fLjDMFG6AvIh2QuMAGE/X3Fj5MjQsj9/tlzro=;
+ b=Ajk5fdTQsvNmhOvYRYVRgX6cFrYbHXZk3mppSHYIzxlDGDYbkSQs+Qwnc1QycCLk2S
+ A+jvbwpv9++KsO4jgi+AprgZ3UIe3zFcBly+eQ6OBOL2Ghctoc6zDRvr1R6GRDUhdfRD
+ VfZA0t/JAl35Nh438hdlvoIdhADULK8DeBeu2FkwnKuBiDlWFOjfQrcxrgniAxXPVsc8
+ UiGsgyfs7M9Ch1L/b2J9k43tnE1pPufXf1hZoxWOZ9vY7DFcvuE/g8BsZQ0LYRooENUf
+ p8gUpIASIjlczlUjsQcnfoJyRVAbbrD7jE3K6dvX4vCXVGeIxyT9YlUuKI20vwLQkcER
+ ZaZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=brxXA/fLjDMFG6AvIh2QuMAGE/X3Fj5MjQsj9/tlzro=;
+ b=lxqYTTfFnBleX3Fcu4KEYze5ZdA0+XHj6SGmvLNNAk1kccwmbFVszQmKxW/91aWJY+
+ 8ALqkODOEaqzxtCJIG19NeDCGS11mAMcAPcg1xyqptkqMAcuHl6P9vUIuOR5J1cFPP8X
+ 88KWRTek2fdrzzD8VnkwUR3oZkB5THQ6MdcmiGS1+IUR8Wu2a1UUsIJrVEfTCoQmzqNW
+ DRg+jQE9OBNzbFsoC4wk5LGVRgF6T+8kK7g5C1N0gTAYtg7okb3Ppep0ehcoml2xrOhC
+ nLMwqURhZZFgvWYbovfT552Shn9+AW1O0v+XYJhlu3xYDVvlBquFpb4l8hoduj4t8vwL
+ pNvQ==
+X-Gm-Message-State: APjAAAV0VxfC8NAnfjFQt9uqpJpAYh60NqJU9rXBG34i4OyrpFdxRJPI
+ 0zq95scKHXPLPpOu8gpq/W/Fs2se
+X-Google-Smtp-Source: APXvYqyJdpsaeluD9R+RXwea0G57O+fc+KPqrhSDubWlnOhqWpIff0Zf5E+i4K8gLKovGFkJDUafLA==
+X-Received: by 2002:a7b:cd8e:: with SMTP id y14mr6548840wmj.150.1580832366274; 
+ Tue, 04 Feb 2020 08:06:06 -0800 (PST)
+Received: from donizetti.redhat.com ([151.20.243.54])
+ by smtp.gmail.com with ESMTPSA id l17sm29768779wro.77.2020.02.04.08.06.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 04 Feb 2020 08:06:05 -0800 (PST)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] drop "from __future__ import print_function"
+Date: Tue,  4 Feb 2020 17:06:04 +0100
+Message-Id: <20200204160604.19883-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: f2rCEVfQPWiWkogDmwRHXw-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,90 +76,444 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexander Bulekov <alxndr@bu.edu>, qemu-devel@nongnu.org, "Michael S.
- Tsirkin" <mst@redhat.com>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue,  4 Feb 2020 15:16:18 +0000
-Stefan Hajnoczi <stefanha@redhat.com> wrote:
+This is only needed for Python 2, which we do not support anymore.
 
-> hw/virtio.c checks vq->vring.desc != NULL to see if the vring has been
-> set up successfully.
-> 
-> When virtio_queue_set_rings() fails due to an invalid vring memory
-> address it must clear vq->vring.desc (and related fields) so we don't
-> treat this virtqueue as successfully initialized later on.
-> 
-> This bug was found by device fuzzing and can be triggered as follows:
-> 
->   $ qemu -M pc -device virtio-blk-pci,id=drv0,drive=drive0,addr=4.0 \
->          -drive if=none,id=drive0,file=null-co://,format=raw,auto-read-only=off \
->          -drive if=none,id=drive1,file=null-co://,file.read-zeroes=on,format=raw \
->          -display none \
->          -qtest stdio
->   endianness
->   outl 0xcf8 0x80002020
->   outl 0xcfc 0xe0000000
->   outl 0xcf8 0x80002004
->   outw 0xcfc 0x7
->   write 0xe0000000 0x24 0x00ffffffabffffffabffffffabffffffabffffffabffffffabffffffabffffffabffffffabffffffabffffffabffffffabffffffabffffffab5cffffffabffffffabffffffabffffffabffffffabffffffabffffffabffffffabffffffabffffffabffffffabffffffabffffffabffffffabffffffab0000000001
->   inb 0x4
->   writew 0xe000001c 0x1
->   write 0xe0000014 0x1 0x0d
-> 
-> The following error message is produced:
-> 
->   qemu-system-x86_64: /home/stefanha/qemu/hw/virtio/virtio.c:286: vring_get_region_caches: Assertion `caches != NULL' failed.
-> 
-> The backtrace looks like this:
-> 
->   #0  0x00007ffff5520625 in raise () at /lib64/libc.so.6
->   #1  0x00007ffff55098d9 in abort () at /lib64/libc.so.6
->   #2  0x00007ffff55097a9 in _nl_load_domain.cold () at /lib64/libc.so.6
->   #3  0x00007ffff5518a66 in annobin_assert.c_end () at /lib64/libc.so.6
->   #4  0x00005555559073da in vring_get_region_caches (vq=<optimized out>) at qemu/hw/virtio/virtio.c:286
->   #5  vring_get_region_caches (vq=<optimized out>) at qemu/hw/virtio/virtio.c:283
->   #6  0x000055555590818d in vring_used_flags_set_bit (mask=1, vq=0x5555575ceea0) at qemu/hw/virtio/virtio.c:398
->   #7  virtio_queue_split_set_notification (enable=0, vq=0x5555575ceea0) at qemu/hw/virtio/virtio.c:398
->   #8  virtio_queue_set_notification (vq=vq@entry=0x5555575ceea0, enable=enable@entry=0) at qemu/hw/virtio/virtio.c:451
->   #9  0x0000555555908512 in virtio_queue_set_notification (vq=vq@entry=0x5555575ceea0, enable=enable@entry=0) at qemu/hw/virtio/virtio.c:444
->   #10 0x00005555558c697a in virtio_blk_handle_vq (s=0x5555575c57e0, vq=0x5555575ceea0) at qemu/hw/block/virtio-blk.c:775
->   #11 0x0000555555907836 in virtio_queue_notify_aio_vq (vq=0x5555575ceea0) at qemu/hw/virtio/virtio.c:2244
->   #12 0x0000555555cb5dd7 in aio_dispatch_handlers (ctx=ctx@entry=0x55555671a420) at util/aio-posix.c:429
->   #13 0x0000555555cb67a8 in aio_dispatch (ctx=0x55555671a420) at util/aio-posix.c:460
->   #14 0x0000555555cb307e in aio_ctx_dispatch (source=<optimized out>, callback=<optimized out>, user_data=<optimized out>) at util/async.c:260
->   #15 0x00007ffff7bbc510 in g_main_context_dispatch () at /lib64/libglib-2.0.so.0
->   #16 0x0000555555cb5848 in glib_pollfds_poll () at util/main-loop.c:219
->   #17 os_host_main_loop_wait (timeout=<optimized out>) at util/main-loop.c:242
->   #18 main_loop_wait (nonblocking=<optimized out>) at util/main-loop.c:518
->   #19 0x00005555559b20c9 in main_loop () at vl.c:1683
->   #20 0x0000555555838115 in main (argc=<optimized out>, argv=<optimized out>, envp=<optimized out>) at vl.c:4441
-> 
-> Reported-by: Alexander Bulekov <alxndr@bu.edu>
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> ---
->  hw/virtio/virtio.c | 5 +++++
->  1 file changed, 5 insertions(+)
-> 
-> diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-> index 2c5410e981..5d7f619a1e 100644
-> --- a/hw/virtio/virtio.c
-> +++ b/hw/virtio/virtio.c
-> @@ -2163,6 +2163,11 @@ void virtio_queue_set_rings(VirtIODevice *vdev, int n, hwaddr desc,
->      vdev->vq[n].vring.avail = avail;
->      vdev->vq[n].vring.used = used;
->      virtio_init_region_cache(vdev, n);
-> +    if (vdev->broken) {
-> +        vdev->vq[n].vring.desc = 0;
-> +        vdev->vq[n].vring.avail = 0;
-> +        vdev->vq[n].vring.used = 0;
-> +    }
->  }
->  
->  void virtio_queue_set_num(VirtIODevice *vdev, int n, int num)
+Based-on: <20200204160028.16211-1-pbonzini@redhat.com>
+Cc: Philippe Mathieu-Daudé <philmd@redhat.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ scripts/analyse-9p-simpletrace.py        | 1 -
+ scripts/analyse-locks-simpletrace.py     | 1 -
+ scripts/device-crash-test                | 1 -
+ scripts/dump-guest-memory.py             | 1 -
+ scripts/kvm/kvm_flightrecorder           | 1 -
+ scripts/kvm/vmxcap                       | 1 -
+ scripts/minikconf.py                     | 1 -
+ scripts/modules/module_block.py          | 1 -
+ scripts/qapi-gen.py                      | 1 -
+ scripts/qapi/doc.py                      | 1 -
+ scripts/qmp/qemu-ga-client               | 1 -
+ scripts/qmp/qmp                          | 1 -
+ scripts/qmp/qmp-shell                    | 1 -
+ scripts/qmp/qom-get                      | 1 -
+ scripts/qmp/qom-list                     | 1 -
+ scripts/qmp/qom-set                      | 1 -
+ scripts/qmp/qom-tree                     | 1 -
+ scripts/replay-dump.py                   | 1 -
+ scripts/signrom.py                       | 1 -
+ scripts/simpletrace.py                   | 1 -
+ scripts/vmstate-static-checker.py        | 1 -
+ tests/docker/travis.py                   | 1 -
+ tests/guest-debug/test-gdbstub.py        | 1 -
+ tests/migration/guestperf/engine.py      | 1 -
+ tests/migration/guestperf/plot.py        | 1 -
+ tests/migration/guestperf/shell.py       | 1 -
+ tests/qapi-schema/test-qapi.py           | 1 -
+ tests/qemu-iotests/149                   | 1 -
+ tests/qemu-iotests/165                   | 1 -
+ tests/qemu-iotests/iotests.py            | 1 -
+ tests/qemu-iotests/nbd-fault-injector.py | 1 -
+ tests/qemu-iotests/qcow2.py              | 1 -
+ tests/qemu-iotests/qed.py                | 1 -
+ tests/vm/basevm.py                       | 1 -
+ 34 files changed, 34 deletions(-)
 
-This looks correct; but shouldn't virtio_queue_set_addr() also set
-.desc to 0 on failure?
+diff --git a/scripts/analyse-9p-simpletrace.py b/scripts/analyse-9p-simpletrace.py
+index f20050fddd..7dfcb6ba2f 100755
+--- a/scripts/analyse-9p-simpletrace.py
++++ b/scripts/analyse-9p-simpletrace.py
+@@ -3,7 +3,6 @@
+ # Usage: ./analyse-9p-simpletrace <trace-events> <trace-pid>
+ #
+ # Author: Harsh Prateek Bora
+-from __future__ import print_function
+ import os
+ import simpletrace
+ 
+diff --git a/scripts/analyse-locks-simpletrace.py b/scripts/analyse-locks-simpletrace.py
+index 9c263d6e79..63c11f4fce 100755
+--- a/scripts/analyse-locks-simpletrace.py
++++ b/scripts/analyse-locks-simpletrace.py
+@@ -6,7 +6,6 @@
+ # Author: Alex Bennée <alex.bennee@linaro.org>
+ #
+ 
+-from __future__ import print_function
+ import simpletrace
+ import argparse
+ import numpy as np
+diff --git a/scripts/device-crash-test b/scripts/device-crash-test
+index 25ee968b66..305d0427af 100755
+--- a/scripts/device-crash-test
++++ b/scripts/device-crash-test
+@@ -23,7 +23,6 @@
+ Run QEMU with all combinations of -machine and -device types,
+ check for crashes and unexpected errors.
+ """
+-from __future__ import print_function
+ 
+ import os
+ import sys
+diff --git a/scripts/dump-guest-memory.py b/scripts/dump-guest-memory.py
+index 9371e45813..4177261d33 100644
+--- a/scripts/dump-guest-memory.py
++++ b/scripts/dump-guest-memory.py
+@@ -12,7 +12,6 @@ Authors:
+ This work is licensed under the terms of the GNU GPL, version 2 or later. See
+ the COPYING file in the top-level directory.
+ """
+-from __future__ import print_function
+ 
+ import ctypes
+ import struct
+diff --git a/scripts/kvm/kvm_flightrecorder b/scripts/kvm/kvm_flightrecorder
+index 1391a84409..78ca3af9c4 100755
+--- a/scripts/kvm/kvm_flightrecorder
++++ b/scripts/kvm/kvm_flightrecorder
+@@ -32,7 +32,6 @@
+ # consuming CPU cycles.  No disk I/O is performed since the ring buffer holds a
+ # fixed-size in-memory trace.
+ 
+-from __future__ import print_function
+ import sys
+ import os
+ 
+diff --git a/scripts/kvm/vmxcap b/scripts/kvm/vmxcap
+index 5dfeb2e03a..971ed0e721 100755
+--- a/scripts/kvm/vmxcap
++++ b/scripts/kvm/vmxcap
+@@ -10,7 +10,6 @@
+ # This work is licensed under the terms of the GNU GPL, version 2.  See
+ # the COPYING file in the top-level directory.
+ 
+-from __future__ import print_function
+ MSR_IA32_VMX_BASIC = 0x480
+ MSR_IA32_VMX_PINBASED_CTLS = 0x481
+ MSR_IA32_VMX_PROCBASED_CTLS = 0x482
+diff --git a/scripts/minikconf.py b/scripts/minikconf.py
+index 377d6228b9..2f9647d0fa 100755
+--- a/scripts/minikconf.py
++++ b/scripts/minikconf.py
+@@ -11,7 +11,6 @@
+ # or, at your option, any later version.  See the COPYING file in
+ # the top-level directory.
+ 
+-from __future__ import print_function
+ import os
+ import sys
+ import re
+diff --git a/scripts/modules/module_block.py b/scripts/modules/module_block.py
+index 08646af92c..f23191fac1 100644
+--- a/scripts/modules/module_block.py
++++ b/scripts/modules/module_block.py
+@@ -10,7 +10,6 @@
+ # This work is licensed under the terms of the GNU GPL, version 2.
+ # See the COPYING file in the top-level directory.
+ 
+-from __future__ import print_function
+ import sys
+ import os
+ 
+diff --git a/scripts/qapi-gen.py b/scripts/qapi-gen.py
+index c7b0070db2..4b03f7d53b 100755
+--- a/scripts/qapi-gen.py
++++ b/scripts/qapi-gen.py
+@@ -4,7 +4,6 @@
+ # This work is licensed under the terms of the GNU GPL, version 2 or later.
+ # See the COPYING file in the top-level directory.
+ 
+-from __future__ import print_function
+ 
+ import argparse
+ import re
+diff --git a/scripts/qapi/doc.py b/scripts/qapi/doc.py
+index 6f1c17f71f..1787a53d91 100644
+--- a/scripts/qapi/doc.py
++++ b/scripts/qapi/doc.py
+@@ -4,7 +4,6 @@
+ # See the COPYING file in the top-level directory.
+ """This script produces the documentation of a qapi schema in texinfo format"""
+ 
+-from __future__ import print_function
+ import re
+ from qapi.gen import QAPIGenDoc, QAPISchemaVisitor
+ 
+diff --git a/scripts/qmp/qemu-ga-client b/scripts/qmp/qemu-ga-client
+index e4568aff68..ce122984a9 100755
+--- a/scripts/qmp/qemu-ga-client
++++ b/scripts/qmp/qemu-ga-client
+@@ -36,7 +36,6 @@
+ # See also: https://wiki.qemu.org/Features/QAPI/GuestAgent
+ #
+ 
+-from __future__ import print_function
+ import os
+ import sys
+ import base64
+diff --git a/scripts/qmp/qmp b/scripts/qmp/qmp
+index f85a14a627..0625fc2aba 100755
+--- a/scripts/qmp/qmp
++++ b/scripts/qmp/qmp
+@@ -10,7 +10,6 @@
+ # This work is licensed under the terms of the GNU GPLv2 or later.
+ # See the COPYING file in the top-level directory.
+ 
+-from __future__ import print_function
+ import sys, os
+ from qmp import QEMUMonitorProtocol
+ 
+diff --git a/scripts/qmp/qmp-shell b/scripts/qmp/qmp-shell
+index 9e122ad0c6..a01d31de1e 100755
+--- a/scripts/qmp/qmp-shell
++++ b/scripts/qmp/qmp-shell
+@@ -65,7 +65,6 @@
+ # which will echo back the properly formatted JSON-compliant QMP that is being
+ # sent to QEMU, which is useful for debugging and documentation generation.
+ 
+-from __future__ import print_function
+ import json
+ import ast
+ import readline
+diff --git a/scripts/qmp/qom-get b/scripts/qmp/qom-get
+index ec5275d53a..007b4cd442 100755
+--- a/scripts/qmp/qom-get
++++ b/scripts/qmp/qom-get
+@@ -11,7 +11,6 @@
+ # the COPYING file in the top-level directory.
+ ##
+ 
+-from __future__ import print_function
+ import sys
+ import os
+ from qmp import QEMUMonitorProtocol
+diff --git a/scripts/qmp/qom-list b/scripts/qmp/qom-list
+index 0f97440973..03bda3446b 100755
+--- a/scripts/qmp/qom-list
++++ b/scripts/qmp/qom-list
+@@ -11,7 +11,6 @@
+ # the COPYING file in the top-level directory.
+ ##
+ 
+-from __future__ import print_function
+ import sys
+ import os
+ from qmp import QEMUMonitorProtocol
+diff --git a/scripts/qmp/qom-set b/scripts/qmp/qom-set
+index 26ed9e3263..c37fe78b00 100755
+--- a/scripts/qmp/qom-set
++++ b/scripts/qmp/qom-set
+@@ -11,7 +11,6 @@
+ # the COPYING file in the top-level directory.
+ ##
+ 
+-from __future__ import print_function
+ import sys
+ import os
+ from qmp import QEMUMonitorProtocol
+diff --git a/scripts/qmp/qom-tree b/scripts/qmp/qom-tree
+index 31603c681f..1c8acf61e7 100755
+--- a/scripts/qmp/qom-tree
++++ b/scripts/qmp/qom-tree
+@@ -13,7 +13,6 @@
+ # the COPYING file in the top-level directory.
+ ##
+ 
+-from __future__ import print_function
+ import sys
+ import os
+ from qmp import QEMUMonitorProtocol
+diff --git a/scripts/replay-dump.py b/scripts/replay-dump.py
+index 0cdae879b7..4cbc1e47c6 100755
+--- a/scripts/replay-dump.py
++++ b/scripts/replay-dump.py
+@@ -18,7 +18,6 @@
+ # You should have received a copy of the GNU Lesser General Public
+ # License along with this library; if not, see <http://www.gnu.org/licenses/>.
+ 
+-from __future__ import print_function
+ import argparse
+ import struct
+ from collections import namedtuple
+diff --git a/scripts/signrom.py b/scripts/signrom.py
+index 9be5dab1cf..43693dba56 100755
+--- a/scripts/signrom.py
++++ b/scripts/signrom.py
+@@ -1,6 +1,5 @@
+ #!/usr/bin/env python3
+ 
+-from __future__ import print_function
+ #
+ # Option ROM signing utility
+ #
+diff --git a/scripts/simpletrace.py b/scripts/simpletrace.py
+index 2bc043112a..20f0026066 100755
+--- a/scripts/simpletrace.py
++++ b/scripts/simpletrace.py
+@@ -9,7 +9,6 @@
+ #
+ # For help see docs/devel/tracing.txt
+ 
+-from __future__ import print_function
+ import struct
+ import inspect
+ from tracetool import read_events, Event
+diff --git a/scripts/vmstate-static-checker.py b/scripts/vmstate-static-checker.py
+index d44dedd9e9..539ead62b4 100755
+--- a/scripts/vmstate-static-checker.py
++++ b/scripts/vmstate-static-checker.py
+@@ -19,7 +19,6 @@
+ # You should have received a copy of the GNU General Public License along
+ # with this program; if not, see <http://www.gnu.org/licenses/>.
+ 
+-from __future__ import print_function
+ import argparse
+ import json
+ import sys
+diff --git a/tests/docker/travis.py b/tests/docker/travis.py
+index 62fccc5ebb..37307ac366 100755
+--- a/tests/docker/travis.py
++++ b/tests/docker/travis.py
+@@ -11,7 +11,6 @@
+ # or (at your option) any later version. See the COPYING file in
+ # the top-level directory.
+ 
+-from __future__ import print_function
+ import sys
+ import yaml
+ import itertools
+diff --git a/tests/guest-debug/test-gdbstub.py b/tests/guest-debug/test-gdbstub.py
+index c7e3986a24..98a5df4d42 100644
+--- a/tests/guest-debug/test-gdbstub.py
++++ b/tests/guest-debug/test-gdbstub.py
+@@ -1,4 +1,3 @@
+-from __future__ import print_function
+ #
+ # This script needs to be run on startup
+ # qemu -kernel ${KERNEL} -s -S
+diff --git a/tests/migration/guestperf/engine.py b/tests/migration/guestperf/engine.py
+index 1dd04ce33b..fd63c66601 100644
+--- a/tests/migration/guestperf/engine.py
++++ b/tests/migration/guestperf/engine.py
+@@ -1,4 +1,3 @@
+-from __future__ import print_function
+ #
+ # Migration test main engine
+ #
+diff --git a/tests/migration/guestperf/plot.py b/tests/migration/guestperf/plot.py
+index aa98912a82..34cebd54ba 100644
+--- a/tests/migration/guestperf/plot.py
++++ b/tests/migration/guestperf/plot.py
+@@ -1,4 +1,3 @@
+-from __future__ import print_function
+ #
+ # Migration test graph plotting
+ #
+diff --git a/tests/migration/guestperf/shell.py b/tests/migration/guestperf/shell.py
+index 61d2abbaad..5bcc066bb9 100644
+--- a/tests/migration/guestperf/shell.py
++++ b/tests/migration/guestperf/shell.py
+@@ -1,4 +1,3 @@
+-from __future__ import print_function
+ #
+ # Migration test command line shell integration
+ #
+diff --git a/tests/qapi-schema/test-qapi.py b/tests/qapi-schema/test-qapi.py
+index 503fb8ad25..41232c11a3 100755
+--- a/tests/qapi-schema/test-qapi.py
++++ b/tests/qapi-schema/test-qapi.py
+@@ -11,7 +11,6 @@
+ # See the COPYING file in the top-level directory.
+ #
+ 
+-from __future__ import print_function
+ 
+ import argparse
+ import difflib
+diff --git a/tests/qemu-iotests/149 b/tests/qemu-iotests/149
+index 0a7b765d07..b4a21bf7b7 100755
+--- a/tests/qemu-iotests/149
++++ b/tests/qemu-iotests/149
+@@ -20,7 +20,6 @@
+ # Exercise the QEMU 'luks' block driver to validate interoperability
+ # with the Linux dm-crypt + cryptsetup implementation
+ 
+-from __future__ import print_function
+ import subprocess
+ import os
+ import os.path
+diff --git a/tests/qemu-iotests/165 b/tests/qemu-iotests/165
+index b60a803dae..fb56a769b4 100755
+--- a/tests/qemu-iotests/165
++++ b/tests/qemu-iotests/165
+@@ -18,7 +18,6 @@
+ # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ #
+ 
+-from __future__ import print_function
+ import os
+ import re
+ import iotests
+diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
+index 0b62c42851..1689b25bdc 100644
+--- a/tests/qemu-iotests/iotests.py
++++ b/tests/qemu-iotests/iotests.py
+@@ -1,4 +1,3 @@
+-from __future__ import print_function
+ # Common utilities and Python wrappers for qemu-iotests
+ #
+ # Copyright (C) 2012 IBM Corp.
+diff --git a/tests/qemu-iotests/nbd-fault-injector.py b/tests/qemu-iotests/nbd-fault-injector.py
+index b158dd65a2..588d62aebf 100755
+--- a/tests/qemu-iotests/nbd-fault-injector.py
++++ b/tests/qemu-iotests/nbd-fault-injector.py
+@@ -43,7 +43,6 @@
+ # This work is licensed under the terms of the GNU GPL, version 2 or later.
+ # See the COPYING file in the top-level directory.
+ 
+-from __future__ import print_function
+ import sys
+ import socket
+ import struct
+diff --git a/tests/qemu-iotests/qcow2.py b/tests/qemu-iotests/qcow2.py
+index 1c4fa2b09f..94a07b2f6f 100755
+--- a/tests/qemu-iotests/qcow2.py
++++ b/tests/qemu-iotests/qcow2.py
+@@ -1,6 +1,5 @@
+ #!/usr/bin/env python3
+ 
+-from __future__ import print_function
+ import sys
+ import struct
+ import string
+diff --git a/tests/qemu-iotests/qed.py b/tests/qemu-iotests/qed.py
+index 36bca1de23..d6bec96069 100755
+--- a/tests/qemu-iotests/qed.py
++++ b/tests/qemu-iotests/qed.py
+@@ -10,7 +10,6 @@
+ # This work is licensed under the terms of the GNU GPL, version 2 or later.
+ # See the COPYING file in the top-level directory.
+ 
+-from __future__ import print_function
+ import sys
+ import struct
+ import random
+diff --git a/tests/vm/basevm.py b/tests/vm/basevm.py
+index 30714fa1a8..4dee6647e6 100644
+--- a/tests/vm/basevm.py
++++ b/tests/vm/basevm.py
+@@ -11,7 +11,6 @@
+ # the COPYING file in the top-level directory.
+ #
+ 
+-from __future__ import print_function
+ import os
+ import re
+ import sys
+-- 
+2.21.0
 
 
