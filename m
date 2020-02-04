@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EDEC152081
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Feb 2020 19:42:03 +0100 (CET)
-Received: from localhost ([::1]:36083 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B53215207F
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Feb 2020 19:41:55 +0100 (CET)
+Received: from localhost ([::1]:36074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iz398-00044B-Co
-	for lists+qemu-devel@lfdr.de; Tue, 04 Feb 2020 13:42:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49540)
+	id 1iz390-0003lD-4R
+	for lists+qemu-devel@lfdr.de; Tue, 04 Feb 2020 13:41:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49504)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iz37l-000280-Fp
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 13:40:38 -0500
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iz37k-0002lS-DN
+ (envelope-from <alex.bennee@linaro.org>) id 1iz37k-00026O-7q
  for qemu-devel@nongnu.org; Tue, 04 Feb 2020 13:40:37 -0500
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:38575)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <alex.bennee@linaro.org>) id 1iz37j-0002hK-8p
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 13:40:36 -0500
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:39824)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iz37k-0002hz-5q
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 13:40:36 -0500
-Received: by mail-wr1-x42a.google.com with SMTP id y17so24423967wrh.5
- for <qemu-devel@nongnu.org>; Tue, 04 Feb 2020 10:40:36 -0800 (PST)
+ id 1iz37j-0002dh-1z
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 13:40:35 -0500
+Received: by mail-wr1-x430.google.com with SMTP id y11so24406994wrt.6
+ for <qemu-devel@nongnu.org>; Tue, 04 Feb 2020 10:40:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=estnIhq8TRY8F3NiEtejikn6q73HGRAUwgi56gyOW/4=;
- b=rlqRYHxScAGaIcbp/SXoGD7e3FboDOgJkuX8+yXDIm/4mXgVIpL3ibK4ezsuCOT997
- lWlYNeQNTyIuBK9fnx3mp8cwrHPAqWOpEz109STjxEr1X6cv980kcV3ZPvDCL/WuFd9e
- ZOEShVvqWw3x/1PDyqEtAWQN7qnCoUZpkUAWiKt2kwERveX35Rr2QGXpccWiujeUlL1h
- MGn/zWwAntbiSOJCnWtDAE5v6yjQlwTZq5lMSq0iVuquSqCxl2yI7Zm/haSLec0ygoAS
- QoaoW+IXoep/lmy53kljxZ8cFonqwikWhb8Uk7XBtER6fgTUR9KBiLiuV63Q7xPZdAdB
- 9ZxA==
+ bh=X/6RO0ey6PmRf1muRhvDBqcqrauxivbgrnnnZr0f7Aw=;
+ b=H5AVIYE4YvEbYA/rwUakt3sK0btGZJPqsGuh4mJAaxfWIyFU0yKJSRiQs/dBayjQt/
+ M2D5AF9fQKfgZ1rfmznGM5WxZvBWC6nu4qO3wWTylc9jjmCcoYeuW9SO7/7nNWCU2yWV
+ JHJ+TJZaGUiNKZnx7RypuqE52gYkl+hDzEIWvsH/iUtnaWjikWRTJU5H6Nwbns/VrnWu
+ 016AfBESZcjv7IYMLMzu49qTJOMjvFZaTK3XfZaT4hKh/eqsYiPJAGJXO4Gu13ZHxMU5
+ 7lA/OfPo8lL6ATq10LJTK4yFQB0ZRvkNkYaoKVwOqXbwuy2aYGCmL0MmZIT8X5F4MZnC
+ kDAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=estnIhq8TRY8F3NiEtejikn6q73HGRAUwgi56gyOW/4=;
- b=VuCLtypX0P2xbPMITqSTohTteZoH3p9X3oBjcNTcAbwt3k8Eg5V9amJbN2fNEqFo5K
- cYkUPgWjaL5/1U3L53W9v5xhG8hwrPwrTYnMR+rDn69L4Q56ASPQMlyvpCxUWWpKp+aV
- T/uE0KZ9hk79aNUmSK8N4V25Ri21CC+S8J5RjSTQRGAHHZBPHm4wPntJK6UwsqHAJBKw
- VhCwCDraqj0/NoTjycByyouK6WtMCBSD5KUZqW1q83jbEcHddCZXcCeClGNUV5FpGFzC
- E9QgESQgjR7Oi4E9W9RiTr7WqZQNVGY+2UCmeYcBT6kq194rEPNnyLWfSMS8GVcpHhCj
- osrg==
-X-Gm-Message-State: APjAAAWtbgdZ1bqjjlK+wuUN/yr7WLNhFsOYzVWZaIeccaAA/FaSGrS+
- 2sLgNgSccc2Z4aoppZ5K+RMdzg==
-X-Google-Smtp-Source: APXvYqzz63TOAgei7hj3xt/wj2WQafpRXy5lXnWfKHpppjgj6qqFLEEXTGoOq0zpXoA9UNvShHCf9A==
-X-Received: by 2002:a05:6000:10d1:: with SMTP id
- b17mr20774408wrx.298.1580841635181; 
- Tue, 04 Feb 2020 10:40:35 -0800 (PST)
+ bh=X/6RO0ey6PmRf1muRhvDBqcqrauxivbgrnnnZr0f7Aw=;
+ b=XvQ9nMiAttWVF0pAJX8AFLZlmchrPAYALBGGmqRR9WFQ8pOeLPn24r3eqbKrd2sG4u
+ +0bW5jUVCTAXCB0UZI4e869PKlMSRcdR/sMxm0XFmLdme1/f+cZPjtYDCM6e+37C+Oq1
+ 3E8sYFNh8VypgPCSQiRia9ng1VmF706rlMQ4vo81rIJPCDyZWpQtoh02qSbAVZycqLew
+ R3S0v0tWcf1cUVIlJ0B+m3si1KB8QkbQ8G7CD+DABBhtDBf1HvQIJf+b7aDc/rg1B2N/
+ 5KJFxhModo0oAjvn94kC/1k9WMEamGm4FklwBta/DRq1fa1FFVsKQTXQDnQ5ABHE3Vxn
+ qmRw==
+X-Gm-Message-State: APjAAAXPoCE87/2n/dU6F5Rdh4bOyHC/7gttYVXkCJRENFoqlO9tuE4z
+ 6bY9FxZfHr/de4FkRySzFfDxNA==
+X-Google-Smtp-Source: APXvYqxXrDRXEbBNPL5A8YT53rf+apAqICzQnR9K7Rm/a2J5W84LNLbwlD/Z5mvX7YnErPfLcZPMzg==
+X-Received: by 2002:adf:dd4d:: with SMTP id u13mr25178720wrm.394.1580841634080; 
+ Tue, 04 Feb 2020 10:40:34 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id v22sm4698930wml.11.2020.02.04.10.40.29
+ by smtp.gmail.com with ESMTPSA id y185sm5051757wmg.2.2020.02.04.10.40.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 04 Feb 2020 10:40:31 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id ADE961FF90;
+ by zen.linaroharston (Postfix) with ESMTP id C28D61FF91;
  Tue,  4 Feb 2020 18:40:28 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 03/16] travis.yml: Install genisoimage package
-Date: Tue,  4 Feb 2020 18:40:15 +0000
-Message-Id: <20200204184028.13708-4-alex.bennee@linaro.org>
+Subject: [PULL 04/16] .shippable: --disable-docs for cross-compile tests
+Date: Tue,  4 Feb 2020 18:40:16 +0000
+Message-Id: <20200204184028.13708-5-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200204184028.13708-1-alex.bennee@linaro.org>
 References: <20200204184028.13708-1-alex.bennee@linaro.org>
@@ -70,7 +69,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42a
+X-Received-From: 2a00:1450:4864:20::430
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,68 +81,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
+Cc: Fam Zheng <fam@euphon.net>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Wainer dos Santos Moschetta <wainersm@redhat.com>
+The sphinx support is fairly new and we don't seem to have all the
+bugs worked out for cross development environments right now.
 
-The genisoimage program is required for tests/cdrom-test
-tests, otherwise they are skipped. The current Travis
-environments do not provide it by default, so let's
-explicitly require the genisoimage package.
-
-Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20200110191254.11303-2-wainersm@redhat.com>
-Message-Id: <20200203090932.19147-5-alex.bennee@linaro.org>
+Message-Id: <20200203090932.19147-6-alex.bennee@linaro.org>
 
-diff --git a/.travis.yml b/.travis.yml
-index 1ae645e9fce..e75c979b6c5 100644
---- a/.travis.yml
-+++ b/.travis.yml
-@@ -51,6 +51,8 @@ addons:
-       - sparse
-       - uuid-dev
-       - gcovr
-+      # Tests dependencies
-+      - genisoimage
- 
- 
- # The channel name "irc.oftc.net#qemu" is encrypted against qemu/qemu
-@@ -383,6 +385,8 @@ matrix:
-           - libusb-1.0-0-dev
-           - libvdeplug-dev
-           - libvte-2.91-dev
-+          # Tests dependencies
-+          - genisoimage
-       env:
-         - TEST_CMD="make check check-tcg V=1"
-         - CONFIG="--disable-containers --target-list=${MAIN_SOFTMMU_TARGETS}"
-@@ -412,6 +416,8 @@ matrix:
-           - libusb-1.0-0-dev
-           - libvdeplug-dev
-           - libvte-2.91-dev
-+          # Tests dependencies
-+          - genisoimage
-       env:
-         - TEST_CMD="make check check-tcg V=1"
-         - CONFIG="--disable-containers --target-list=${MAIN_SOFTMMU_TARGETS},ppc64le-linux-user"
-@@ -441,6 +447,8 @@ matrix:
-           - libusb-1.0-0-dev
-           - libvdeplug-dev
-           - libvte-2.91-dev
-+          # Tests dependencies
-+          - genisoimage
-       env:
-         - TEST_CMD="make check check-tcg V=1"
-         - CONFIG="--disable-containers --target-list=${MAIN_SOFTMMU_TARGETS},s390x-linux-user"
+diff --git a/.shippable.yml b/.shippable.yml
+index 83aae08bb4c..2cce7b56890 100644
+--- a/.shippable.yml
++++ b/.shippable.yml
+@@ -37,5 +37,5 @@ build:
+     - unset CC
+     - mkdir build
+     - cd build
+-    - ../configure ${QEMU_CONFIGURE_OPTS} --target-list=${TARGET_LIST}
++    - ../configure --disable-docs ${QEMU_CONFIGURE_OPTS} --target-list=${TARGET_LIST}
+     - make -j$(($(getconf _NPROCESSORS_ONLN) + 1))
 -- 
 2.20.1
 
