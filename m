@@ -2,78 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C52701517B5
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Feb 2020 10:21:34 +0100 (CET)
-Received: from localhost ([::1]:54900 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1068A1517B9
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Feb 2020 10:22:47 +0100 (CET)
+Received: from localhost ([::1]:54912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iyuOj-0000wL-KI
-	for lists+qemu-devel@lfdr.de; Tue, 04 Feb 2020 04:21:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58505)
+	id 1iyuPu-0002UT-5P
+	for lists+qemu-devel@lfdr.de; Tue, 04 Feb 2020 04:22:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60480)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1iyuNg-0000DI-0y
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 04:20:29 -0500
+ (envelope-from <berrange@redhat.com>) id 1iyuOz-0001sk-VR
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 04:21:51 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1iyuNe-0001YK-Jn
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 04:20:27 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:23508
+ (envelope-from <berrange@redhat.com>) id 1iyuOv-0001rm-HB
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 04:21:47 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:52283
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iyuNe-0001SY-F1
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 04:20:26 -0500
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1iyuOv-0001lE-CK
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 04:21:45 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580808024;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1580808104;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:openpgp:openpgp;
- bh=CHwkULKPnp/HcJlHfyoNgZnIChVCv+ljtStMlOQqL08=;
- b=Q0jD673gKLzbJ7GU+bMM6SalB60NZfLfuR2HPYtbZSsZkX20zj0eHScomZPwTujH/bpFX9
- Mz6/y3r3lfZHMDq0aFm8L+DU4AOPDIeQIDter6O/VCFYqmFSIEBADQXzIWShTutTz00+W+
- 0Qo5gz8t/qVCdoHfhhExBojBAGUrBRM=
+ in-reply-to:in-reply-to:references:references;
+ bh=mXl9bfRqPxyrnUbZc9elsHQCaQNqyZrAVF5dEXo77I8=;
+ b=AmrpkMeq1Wa8djdKpjqSWzQ0aryIZA/BWgvnwEGyL6eYXnO9a1oyM703EsFbG8nox1Rjv+
+ dPHgJ2wU2+nqBoecJTO8w1pYBc/HEM3ZXG5aZsZZApWLXQIW0uOis7znZgPNsfH7hZPaUl
+ 3yVdvG0O8LaOBGaB1am7Cseel1S9Qn0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-288-W7KaUJD5P1i7nwyHwqiCMA-1; Tue, 04 Feb 2020 04:20:20 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-409-gx1b7kLrOzOkEpq6A951Fw-1; Tue, 04 Feb 2020 04:21:40 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1483B1084430;
- Tue,  4 Feb 2020 09:20:19 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-116-39.ams2.redhat.com [10.36.116.39])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5B67E60BF4;
- Tue,  4 Feb 2020 09:20:16 +0000 (UTC)
-Subject: Restrictions of libnet (was: Re: VW ELF loader)
-To: Cornelia Huck <conny@cornelia-huck.de>
-References: <f881c2e7-be92-9695-6e19-2dd88cbc63c1@ozlabs.ru>
- <e3ee4b4d-1b24-2900-4304-05fa521a9b47@redhat.com>
- <20200203012842.GD52446@umbus.fritz.box>
- <ec81cca1-d5fb-3f1e-b433-3328d81a117e@redhat.com>
- <de7e4d34-eb63-904c-3475-7feee154c72c@ozlabs.ru>
- <8420784f-b4c7-9864-8534-b94dbc5f74ff@redhat.com>
- <d63ba962-ffbb-9f27-34fb-657188e90194@ozlabs.ru>
- <CABgObfYwtrh_uy8zFmg2qDjK6iynniN6=jJ9_MKfNxXUaOkPKw@mail.gmail.com>
- <71d1cc16-f07d-481d-096b-17ee326157bb@ozlabs.ru>
- <CABgObfa4tUVBbpBtoY3JFSF8-0mRVxgGbzQokc+JrJGPagwPaQ@mail.gmail.com>
- <d13eea1d-7942-47e0-6189-a66ce9639db4@redhat.com>
- <20200204095403.04d9dd29.conny@cornelia-huck.de>
-From: Thomas Huth <thuth@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <4794cf7a-7b53-5fea-c89d-baa01d3ed0ce@redhat.com>
-Date: Tue, 4 Feb 2020 10:20:14 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0D00A18A6EC2;
+ Tue,  4 Feb 2020 09:21:38 +0000 (UTC)
+Received: from redhat.com (ovpn-112-55.ams2.redhat.com [10.36.112.55])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A84B387B1A;
+ Tue,  4 Feb 2020 09:21:33 +0000 (UTC)
+Date: Tue, 4 Feb 2020 09:21:30 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: Does Libvirt's json parser support single quoted string in qmp
+ json string?
+Message-ID: <20200204092130.GA2205287@redhat.com>
+References: <ADDDD4B8-45AD-4D79-9332-06F2A50B26CE@sina.com>
+ <9bac386b-5a90-3c10-b63b-d45a2e8c2d58@redhat.com>
+ <20200203101352.GB1922177@redhat.com>
+ <1f285f58-7a8f-0656-4f0a-8acfe56bad43@redhat.com>
+ <87eevabwls.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
-In-Reply-To: <20200204095403.04d9dd29.conny@cornelia-huck.de>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: W7KaUJD5P1i7nwyHwqiCMA-1
+In-Reply-To: <87eevabwls.fsf@dusky.pond.sub.org>
+User-Agent: Mutt/1.13.3 (2020-01-12)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: gx1b7kLrOzOkEpq6A951Fw-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,71 +79,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexey Kardashevskiy <aik@ozlabs.ru>, qemu-devel <qemu-devel@nongnu.org>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: libvirt-users@redhat.com, Peter Luo <d8514@sina.com>,
+ QEMU <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 04/02/2020 09.54, Cornelia Huck wrote:
-> On Tue, 4 Feb 2020 07:16:46 +0100
-> Thomas Huth <thuth@redhat.com> wrote:
+On Tue, Feb 04, 2020 at 09:11:27AM +0100, Markus Armbruster wrote:
+> Eric Blake <eblake@redhat.com> writes:
 >=20
->> On 04/02/2020 00.26, Paolo Bonzini wrote:
->>>
->>>
->>> Il mar 4 feb 2020, 00:20 Alexey Kardashevskiy <aik@ozlabs.ru
->>> <mailto:aik@ozlabs.ru>> ha scritto:
->>>
->>>     Speaking seriously, what would I put into the guest?
->>>
->>> Only things that would be considered drivers. Ignore the partitions
->>> issue for now so that you can just pass the device tree services to QEM=
-U
->>> with hypercalls.
->>>
->>>     Netboot's dhcp/tftp/ip/ipv6 client? It is going to be another SLOF,
->>>     smaller but adhoc with only a couple of people knowing it.
->>>
->>>
->>> You can generalize and reuse the s390 code. All you have to write is th=
-e
->>> PCI scan and virtio-pci setup. =20
->>
->> Well, for netbooting, the s390-ccw bios uses the libnet code from SLOF,
->> so re-using this for a slim netboot client on ppc64 would certainly be
->> feasible (especially since there are also already virtio drivers in SLOF
->> that are written in C), but I think it is not very future proof. The
->> libnet from SLOF only supports UDP, and no TCP. So for advanced boot
->> scenarios like booting from HTTP or even HTTPS, you need something else
->> (i.e. maybe grub is the better option, indeed).
+> > [adding Markus]
+> >
+> > On 2/3/20 4:13 AM, Daniel P. Berrang=C3=A9 wrote:
+> >> On Fri, Jan 31, 2020 at 06:44:42AM -0600, Eric Blake wrote:
+> >>> On 1/31/20 4:38 AM, Peter Luo wrote:
+> >>>
+> >>>> error: internal error: cannot parse json {"execute": "block-commit",=
+ "arguments": { "device": "drive-virtio-disk2", "job-id": "job100", "base":=
+'json:{"encrypt.key-secret":"vol-38973xjl.secret","driver":"qcow2","file":{=
+"driver":"file","filename":"/pitrix/data/container/vol-38973xjl.img"}}', "t=
+op": "/pitrix/data/container/vol-38973xjl_ss-2tw7v0mm.img"}}: lexical error=
+: invalid char in json text.
+> >>>>
+> >>>>   =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 , "job-id":=
+ "job100", "base":'json:{"encrypt.key-secret":"vo
+> >>>>
+> >>>>   =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (right here) ------^
+> >>>>
+> >>>
+> >>> qemu's QMP language has an extension where it accepts 'string' in add=
+ition
+> >>> to the JSON "string".  But it uses a hand-rolled parser, so it can do
+> >>> whatever it wants.
+> >>
+> >> Can we deprecate & remove this extension in QEMU ?
+
+[snip]
+
+> >> On the flip side, if we're going to support extensions like single quo=
+ting,
+> >> then we should make it clear to applications that this is not really J=
+SON
+> >> and that they need to provide an impl that is 100% matching QEMU's dia=
+lect.
+> >> This effectively means they need just import a copy of QEMU's code.
 >=20
-> That makes me wonder what that means for s390: We're inheriting
-> libnet's limitations, but we don't have grub -- do we need to come up
-> with something different? Or improve libnet?
+> To the best of my knowledge, the JSON parser interprets any valid strict
+> JSON input in accordance to RFC 8259.  In other words, you don't notice
+> the extensions unless you use them, or rely on invalid strict JSON to be
+> rejected.
+>=20
+> Peter Luo's input uses one of QEMU's JSON parser's extensions like this:
+>=20
+>     "base":'json:{...}'
+>=20
+> This is not valid strict JSON.  Libvirt's JSON parser doesn't accept it.
+>=20
+> The problem is not presence of extensions in QEMU, it's the use of these
+> extensions in input for libvirt.  Removing the extensions from QEMU will
+> not affect the error.  Removing their use from the input will.
 
-I don't think that it makes sense to re-invent the wheel yet another
-time and write yet another TCP implementation (which is likely quite a
-bit of work, too, especially if you also want to do secure HTTPS in the
-end). So yes, in the long run (as soon as somebody seriously asks for
-HTTP booting on s390x) we need something different here.
+The issue that I see is that QEMU accepts this input string when it
+parsers JSON provided by the user.  This in turn means the user has
+an expectation that other tools based on QEMU will accept this exact
+same document. This is not the case because the other tools are
+using a stricter impl of JSON.=20
 
-Now looking at our standard s390x bootloader zipl - this has been giving
-us a headache a couple of times in the past, too (from a distro point of
-view since s390x is the only major platform left that does not use grub,
-but also from a s390-ccw bios point of view, see e.g.
-https://lists.gnu.org/archive/html/qemu-devel/2019-12/msg03046.html and
-related discussions).
+IOW QEMU's extensions have mislead the users into believing their=20
+JSON input is valid for any tool based on QEMU.=20
 
-So IMHO the s390x world should move towards grub2, too. We could e.g.
-link it initially into the s390-ccw bios bios ... and if that works out
-well, later also use it as normal bootloader instead of zipl (not sure
-if that works in all cases, though, IIRC there were some size
-constraints and stuff like that).
+Thus overall I think it would be beneficial for any places where
+QEMU accepts JSON from external users or apps, to be restricted to
+common JSON syntax only, without any QEMU specific extensions.
 
-Just my 0.02 =E2=82=AC of course, though.
-
- Thomas
+Regards,
+Daniel
+--=20
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
+ :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com=
+ :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
+ :|
 
 
