@@ -2,70 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CE991521F3
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Feb 2020 22:27:40 +0100 (CET)
-Received: from localhost ([::1]:38434 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0678E15221B
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Feb 2020 22:53:11 +0100 (CET)
+Received: from localhost ([::1]:38782 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iz5jO-00023S-Qw
-	for lists+qemu-devel@lfdr.de; Tue, 04 Feb 2020 16:27:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55675)
+	id 1iz685-0000c6-Qp
+	for lists+qemu-devel@lfdr.de; Tue, 04 Feb 2020 16:53:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45558)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <wainersm@redhat.com>) id 1iz5i1-0001WS-Hd
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 16:26:14 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1iz675-0008Ur-K5
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 16:52:09 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <wainersm@redhat.com>) id 1iz5hy-00062x-Jv
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 16:26:12 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:41431
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <dgibson@ozlabs.org>) id 1iz674-0002T9-1h
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 16:52:07 -0500
+Received: from bilbo.ozlabs.org ([203.11.71.1]:46783 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <wainersm@redhat.com>) id 1iz5hy-0005yc-DB
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 16:26:10 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580851565;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Ugf0hOAug47Ysq+4N/ZhBMMeO5GcATezY+KP9ir+g9A=;
- b=OxrI2n5MGq449CBj6QdAbgm+iFtY8rR2Pv++BJOoX9MaA1Blx8xK4WUDJGLUB9Nze5r7o/
- WJWQ/vQffwi1MFnjljMYCL7jRG/FQsIxIvxTr9qSty9sWwjmLA4BQjNbP+FNEjjjFj4BqV
- 82YuV5g4xiWeRdAyRzZWUSICmtSqyms=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-226-QnB8me10Neuxnaq54fn4Vg-1; Tue, 04 Feb 2020 16:25:58 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B75C4107B7D5;
- Tue,  4 Feb 2020 21:25:57 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-116-4.gru2.redhat.com [10.97.116.4])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A3F3C857A8;
- Tue,  4 Feb 2020 21:25:50 +0000 (UTC)
-Subject: Re: [PATCH v3 2/4] tests/acceptance: boot_linux_console: Add boot
- Linux with kvm tests
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, crosa@redhat.com
-References: <20200122012753.9846-1-wainersm@redhat.com>
- <20200122012753.9846-3-wainersm@redhat.com>
- <75a9cd31-a978-0b31-1d6d-1b34800e13a6@redhat.com>
-From: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-ID: <10433721-2784-b88a-2ee0-c4600b52503d@redhat.com>
-Date: Tue, 4 Feb 2020 19:25:47 -0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.4.0
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1iz673-000221-98; Tue, 04 Feb 2020 16:52:05 -0500
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 48Bz1V2NYbz9sRY; Wed,  5 Feb 2020 08:51:58 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1580853118;
+ bh=YsDa2RIEApyly1mTiKHUZq5vgo/hArd40q56HjR/Jj4=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=FWQkbb5hzLd4mtuIzxVemGH4kbJBVpNH2otTpmL/JT7MiTAacMe/K2/6TLBRR3h4+
+ VcDel/O5rNMuYs7HeXjsQ2s0p+eJvpxTf2dYLS914PSVKUcnGdtzsXR2Z7fZbWzmV9
+ H0NPSRheEAdXBEiSKyBsSb8Biys40nN47VmhAI8U=
+Date: Tue, 4 Feb 2020 16:58:10 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Alexey Kardashevskiy <aik@ozlabs.ru>
+Subject: Re: [PATCH qemu] spapr/rtas: Print message from "ibm,os-term"
+Message-ID: <20200204055810.GD60221@umbus.fritz.box>
+References: <20200203032044.118585-1-aik@ozlabs.ru>
 MIME-Version: 1.0
-In-Reply-To: <75a9cd31-a978-0b31-1d6d-1b34800e13a6@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: QnB8me10Neuxnaq54fn4Vg-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="a2FkP9tdjPU2nyhF"
+Content-Disposition: inline
+In-Reply-To: <20200203032044.118585-1-aik@ozlabs.ru>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+ [fuzzy]
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,131 +54,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, thuth@redhat.com,
- alex.bennee@linaro.org, ehabkost@redhat.com
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-On 1/24/20 1:45 PM, Philippe Mathieu-Daud=C3=A9 wrote:
-> On 1/22/20 2:27 AM, Wainer dos Santos Moschetta wrote:
->> Added boot Linux test cases that launch QEMU with kvm
->> enabled. Likewise it was added tests for tcg.
->>
->> Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
->> ---
->> =C2=A0 tests/acceptance/boot_linux_console.py | 88 ++++++++++++++++++++-=
------
->> =C2=A0 1 file changed, 68 insertions(+), 20 deletions(-)
->>
->> diff --git a/tests/acceptance/boot_linux_console.py=20
->> b/tests/acceptance/boot_linux_console.py
->> index e40b84651b..a36eae630c 100644
->> --- a/tests/acceptance/boot_linux_console.py
->> +++ b/tests/acceptance/boot_linux_console.py
->> @@ -51,11 +51,7 @@ class BootLinuxConsole(Test):
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 os.chdir(cwd)
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return self.workd=
-ir + path
->> =C2=A0 -=C2=A0=C2=A0=C2=A0 def test_x86_64_pc(self):
->> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 """
->> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 :avocado: tags=3Darch:x86_64
->> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 :avocado: tags=3Dmachine:pc
->> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 """
->> +=C2=A0=C2=A0=C2=A0 def do_test_x86_64_pc(self):
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 kernel_url =3D=20
->> ('https://archives.fedoraproject.org/pub/archive/fedora'
->> '/linux/releases/29/Everything/x86_64/os/images/pxeboot'
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 '/vmlinu=
-z')
->> @@ -70,6 +66,22 @@ class BootLinuxConsole(Test):
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 console_pattern =
-=3D 'Kernel command line: %s' %=20
->> kernel_command_line
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 self.wait_for_con=
-sole_pattern(console_pattern)
->> =C2=A0 +=C2=A0=C2=A0=C2=A0 def test_x86_64_pc_kvm(self):
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 """
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 :avocado: tags=3Darch:x86_64
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 :avocado: tags=3Dmachine:pc
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 :avocado: tags=3Daccel:kvm
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 """
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 self.do_test_x86_64_pc()
->> +
->> +=C2=A0=C2=A0=C2=A0 def test_x86_64_pc_tcg(self):
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 """
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 :avocado: tags=3Darch:x86_64
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 :avocado: tags=3Dmachine:pc
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 :avocado: tags=3Daccel:tcg
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 """
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 self.do_test_x86_64_pc()
-> [...]
-> So you want to test a binary linked with multiple accelerators.
->
-> Isn't it possible to have something clever/simpler?
+--a2FkP9tdjPU2nyhF
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Mon, Feb 03, 2020 at 02:20:44PM +1100, Alexey Kardashevskiy wrote:
+> The "ibm,os-term" RTAS call has a single parameter which is a pointer to
+> a message from the guest kernel about the termination cause; this prints
+> it.
+>=20
+> Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
 
-It is feasible using Avocado's CIT [1] or PICT [2] plug-ins. This work=20
-is suggested by Cleber in [3] and I've it on my radar for future work.
+Applied to ppc-for-5.0, thanks.
 
-But, for the moment, I would like to have those simple boot with KVM=20
-tests merged so that they are executed in our Travis CI.
+> ---
+>  hw/ppc/spapr_rtas.c | 7 +++++++
+>  1 file changed, 7 insertions(+)
+>=20
+> diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
+> index 883fe28465e6..656fdd221665 100644
+> --- a/hw/ppc/spapr_rtas.c
+> +++ b/hw/ppc/spapr_rtas.c
+> @@ -345,6 +345,13 @@ static void rtas_ibm_os_term(PowerPCCPU *cpu,
+>                              target_ulong args,
+>                              uint32_t nret, target_ulong rets)
+>  {
+> +    target_ulong msgaddr =3D rtas_ld(args, 0);
+> +    char msg[512];
+> +
+> +    cpu_physical_memory_read(msgaddr, msg, sizeof(msg) - 1);
+> +    msg[sizeof(msg) - 1] =3D 0;
+> +
+> +    error_report("OS terminated: %s", msg);
+>      qemu_system_guest_panicked(NULL);
+> =20
+>      rtas_st(rets, 0, RTAS_OUT_SUCCESS);
 
-[1]=20
-https://avocado-framework.readthedocs.io/en/75.1/plugins/optional/varianter=
-_cit.html
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
-[2]=20
-https://avocado-framework.readthedocs.io/en/75.1/plugins/optional/varianter=
-_pict.html
+--a2FkP9tdjPU2nyhF
+Content-Type: application/pgp-signature; name="signature.asc"
 
-[3]=20
-https://trello.com/c/1wvzcxHY/105-create-cit-parameter-for-acceptance-tests
+-----BEGIN PGP SIGNATURE-----
 
->
->
-> =C2=A0=C2=A0 def test_x86_64_pc(self):
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 """
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 :avocado: tags=3Darch:x86_64
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 :avocado: tags=3Dmachine:pc
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 :avocado: tags=3Daccel:kvm
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 :avocado: tags=3Daccel:tcg
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 """
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 self.do_test_x86_64_pc()
->
-> And use a mux config?
->
-> Because else we are duplicating a lot of code, and there are various=20
-> accelerators available:
->
-> $ git grep ACCEL_CLASS_NAME
-> accel/qtest.c:41:#define TYPE_QTEST_ACCEL ACCEL_CLASS_NAME("qtest")
-> accel/tcg/tcg-all.c:46:#define TYPE_TCG_ACCEL ACCEL_CLASS_NAME("tcg")
-> hw/xen/xen-common.c:200:#define TYPE_XEN_ACCEL ACCEL_CLASS_NAME("xen")
-> include/sysemu/hvf.h:100:#define TYPE_HVF_ACCEL ACCEL_CLASS_NAME("hvf")
-> include/sysemu/kvm_int.h:36:#define TYPE_KVM_ACCEL=20
-> ACCEL_CLASS_NAME("kvm")
-> target/i386/hax-all.c:1127:=C2=A0=C2=A0=C2=A0 .name =3D ACCEL_CLASS_NAME(=
-"hax"),
-> target/i386/whpx-all.c:1533:=C2=A0=C2=A0=C2=A0 .name =3D ACCEL_CLASS_NAME=
-("whpx"),
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl45B+4ACgkQbDjKyiDZ
+s5JWVQ/9GChjxrGU9E6npTsmwM/3j2HOUU8OrCY+CSeqg7G4YZNjwbVnmxoaTEDM
+V3lu72BwqyCnUXTMzs4s0RgpFuKb/rKx/SK/vMJe1CJSuk3z7eLE8Yij3DCSXFPW
+u1nB/Vd3u52nAd/xsajGb7RQ+kE8h8BYZE18LvddfHa7+yF0fe2rLQQgcZrc4fcI
+1Q7Mc8p0GyBfi1YfpLA5cgNxwynIk5PSm3xnoYsXCvnJWz/pxir4hNwP8oeMrxxH
+WPb3rgkfBN5/jnhlR2A+8WWeuVo5hUuji+M8D41jkbWiqzF46hpCGDSOAHqOxx3V
+eYLpwJ1iNtEuu02XvcxNoZPz8Jz/oNUPVDqnhTAUT8WgNR4RkzZI/v5ooRaGi0aP
+nkyKvc8WKyFMkQrZxuGO5WAnp7YocdjBniN+xe2QBsYKZSExOS4Gyk93ozY+/8eG
+T+f5jnHXYvejReAUibanyXUmRTOUyl+GGfPRgSAkqR9p0NY/zZDB3CI2DI9s6k3h
+a0wOACdDyG4ql3hQc1UGurgb/NSYovsslwT9sAVoXv5OEa9/qjB0FeaHvaACLaiF
+W5N02QWvd2brR2yDJ8JgX99vNAqkWexImH+W3gvRb8+HPcNtL+hLuwC65p/+o/m9
+EZFMOlT062393XyvfkO9qd7z0NrqYVifc3UqJctIs1auItuEB5g=
+=C0gK
+-----END PGP SIGNATURE-----
 
-Unfortunately I don't have enough time, resources and knowledge to work=20
-on accelerators other than kvm and tcg. I appreciate if others could=20
-contribute here, and I'm happy to review the patches.
-
-Another point is how those tests could be ran on our CI.
-
-Thanks for bringing those points!
-
-- Wainer
-
->
->
-> And also pending:
-> target/i386/nvmm-all.c:=C2=A0=C2=A0 .name =3D ACCEL_CLASS_NAME("nvmm"),
-> https://www.mail-archive.com/qemu-devel@nongnu.org/msg668697.html
->
-
+--a2FkP9tdjPU2nyhF--
 
