@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F244215220E
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Feb 2020 22:46:29 +0100 (CET)
-Received: from localhost ([::1]:38694 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 027E115223A
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Feb 2020 23:07:16 +0100 (CET)
+Received: from localhost ([::1]:38928 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iz61c-0007Eo-IW
-	for lists+qemu-devel@lfdr.de; Tue, 04 Feb 2020 16:46:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40230)
+	id 1iz6Li-0005QJ-I6
+	for lists+qemu-devel@lfdr.de; Tue, 04 Feb 2020 17:07:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52850)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iz60U-0006an-KW
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 16:45:19 -0500
+ (envelope-from <pbonzini@redhat.com>) id 1iz6Kn-0004he-Sh
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 17:06:19 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iz60T-0001Bi-8m
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 16:45:18 -0500
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:33708)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iz60T-0000tF-05
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 16:45:17 -0500
-Received: by mail-wr1-x442.google.com with SMTP id u6so11761463wrt.0
- for <qemu-devel@nongnu.org>; Tue, 04 Feb 2020 13:45:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=QgF6x2eLBCriN95Jy183TXuSSqrsJ1AoMe3IBewr8Zg=;
- b=EJ8Tc7aMAwYYrBGejtzNXRrGto/KNlW+yARiAaxjPvocq2nRQSrWXzED+0aZWOJlR/
- qWnvsOCjtZNY3G01Sc+DwVPnQV7DoJ09rCOS1yN3Zb3NR85TdHxe5ZBKsv4k92+g8sQ1
- Q2dZfGFSSKC12X/UYZwuowezjnOXsilHdTMJ7ifUIAQjeL25aPGyR39afm8PXguMtxaz
- GXEXbII8CoPxI1yfiWZKWVuhFqEu2YZ1QuR9IxvN+T24xILdLRMNTlVielIPQY9FnJI/
- tJgWYXY/8kJk3Eio8KxakU6gFdomUQ5PGP+hEyGdsOuHnptlzJv49qrigSS7m3epptBB
- ofjg==
+ (envelope-from <pbonzini@redhat.com>) id 1iz6Kk-0006eE-It
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 17:06:15 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:21281
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iz6Kj-0006c0-H4
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 17:06:13 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1580853972;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=0YiEa8m8vIastrQuCMZZMuhVlMlLXqmhdpwlLbNjUFo=;
+ b=CDz3Jz8sUwo1eoKmXoIwlRPJbSF+7mID7OaFvwH9gf02khBIrXySdH3ghm/zxdRF2iJEj6
+ B6fiSbzNJYl7zUGSGCzb6Bf4b0CLNAboyFnLu5ydF8G0cPgNUwNSe5mSPX/LyzYaF1IhZA
+ rqyYMsutERBGWFdLW/xfFHJmvKcZBcw=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-289-DHiXtlK4MVuHwdafm2Z4Ig-1; Tue, 04 Feb 2020 17:06:09 -0500
+Received: by mail-ed1-f69.google.com with SMTP id s20so94516edy.23
+ for <qemu-devel@nongnu.org>; Tue, 04 Feb 2020 14:06:09 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=QgF6x2eLBCriN95Jy183TXuSSqrsJ1AoMe3IBewr8Zg=;
- b=jCV4aSt7LS9dHelpKd/qAuW4rSwEHtXyeE9XPqKC2DHA5m0p99mrewJtdGl2SkejVL
- d7MQP2sZYB+SJ4uDXApiGXYoL1j+DBYkl8VeOB0vXeSJY+7vP/7ywMAyr2sbcdAJT2fI
- 3JfZEp52rWE1cscUKKsfN8WtacQTW+h6sCHsTjxscB+OyolUQJTlMe0MZYZLe8ciybOK
- igZ/JFoYe25juIP0P3cc+U0eHecLefUy4ipU+0JizSDbbFxTM6gSKbhppN5utk7LCR5S
- 2EWZaKQ7PWuQSUszvTZxJzb1JQk5jGfZV+gHHMj2mmHLfGUqObKisKfPGrZOfoZUQDYz
- S0Qg==
-X-Gm-Message-State: APjAAAXauGY973U4GsyRgjA2zOSIIr7abFkuSaUl+kZigwZLtFLp0FRA
- hIANRFGvY5tOxt6/hldr3z7/eg==
-X-Google-Smtp-Source: APXvYqylcfgoumnviMRS2uW+vfP9CZld+Jn+BQ0vubJWomXSUWT6G8gFR8e3LDmV16dXtJaa5ulf2w==
-X-Received: by 2002:adf:a35e:: with SMTP id d30mr17067877wrb.33.1580852715046; 
- Tue, 04 Feb 2020 13:45:15 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id u8sm5443862wmm.15.2020.02.04.13.45.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Feb 2020 13:45:14 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 146C91FF87;
- Tue,  4 Feb 2020 21:45:12 +0000 (GMT)
-References: <20200114150953.27659-1-alex.bennee@linaro.org>
- <20200114150953.27659-21-alex.bennee@linaro.org>
- <2731815f-9a72-390b-0a8e-73b77c4b62b6@linaro.org>
-User-agent: mu4e 1.3.7; emacs 27.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v5 20/22] tests/tcg/aarch64: add test-sve-ioctl
- guest-debug test
-In-reply-to: <2731815f-9a72-390b-0a8e-73b77c4b62b6@linaro.org>
-Date: Tue, 04 Feb 2020 21:45:12 +0000
-Message-ID: <87lfpi81sn.fsf@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=eZ2OpUPvQbrMmxk0kcqH4ilF5rZbGntGN+8c58EGjVo=;
+ b=tYoPXePM8sjxZOSdf6lowAc4YmEQCsb4Smg0i7rBChawfbl2tjBduTbTnVQh8g948L
+ PvNdDSnYYbuklplMNrTIBg/tXH9bqMv1XaHc8Shf5zkGNClbYgOYpcEXhOlY95+zK/tm
+ VZYdN346hzCq2zLJKTedGdbp8IMslMj21dZ9uiwIuJQq487RN7wzJHcM1YPDzwk0uvYP
+ H0kI2lC4ig3nZC+WqmBimAvlmuv0aJMww325a8+jWjfNh7ZrgXINPr6+2e4JKLEWT7I/
+ CGyr8Y6DAR4wev9EkG4rrLlWgM5kO6tuW6jPvXa7ZNFmeOYLhVeu4LvK4L+XZHtEMgKx
+ d2Qw==
+X-Gm-Message-State: APjAAAXx2RW7gwNIDz5XTJ9Nb+0Gg6SeeDcJv4ENTpmsdHgt1gHfMnNs
+ G/+PWdM4yAY/gYEnhZej78rhD+Bwk8YPvcU/TxXGAKmeyUx8vpjfipoEUn8cwhdJ0uVTIqTVyYx
+ bVrYL0/BkA07X0QDOgPOWmZw6u4Oni78=
+X-Received: by 2002:a17:906:82cb:: with SMTP id
+ a11mr28652346ejy.206.1580853968664; 
+ Tue, 04 Feb 2020 14:06:08 -0800 (PST)
+X-Google-Smtp-Source: APXvYqzb880SL0fXL/TQvatrobeGtOcdggFoTXsskHUAI40BHFQAb/DapqP00xcODZCP/mgOiBCZfMjbXzS5m1mvtRQ=
+X-Received: by 2002:a17:906:82cb:: with SMTP id
+ a11mr28652325ejy.206.1580853968353; 
+ Tue, 04 Feb 2020 14:06:08 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::442
+References: <1580483390-131164-1-git-send-email-imammedo@redhat.com>
+ <20200204160830.02afbd2e@redhat.com> <20200204163909.5ce2cb2a@redhat.com>
+In-Reply-To: <20200204163909.5ce2cb2a@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Date: Tue, 4 Feb 2020 23:05:55 +0100
+Message-ID: <CABgObfZuzA7qNxp4KbaGJ4oVT1YX+1KLL=cZgCKa9sWSV2tFeQ@mail.gmail.com>
+Subject: Re: [PATCH v4 00/80] refactor main RAM allocation to use hostmem
+ backend
+To: Igor Mammedov <imammedo@redhat.com>
+X-MC-Unique: DHiXtlK4MVuHwdafm2Z4Ig-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/alternative; boundary="00000000000039d73e059dc73f7e"
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,55 +84,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
+Cc: qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+--00000000000039d73e059dc73f7e
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+Sure! I probably won't send a pull request for a week or so though.
 
-> On 1/14/20 5:09 AM, Alex Benn=C3=A9e wrote:
->> This test exercises the gdbstub while runing the sve-iotcl test. I
->> haven't plubmed it into make system as we need a way of verifying if
->> gdb has the right support for SVE.
->>=20
->> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->>=20
->> ---
->> v4
->>   - interrogate ZCR_EL1 directly as no longer have vg
+Paolo
+
+Il mar 4 feb 2020, 16:39 Igor Mammedov <imammedo@redhat.com> ha scritto:
+
+> On Tue, 4 Feb 2020 16:08:30 +0100
+> Igor Mammedov <imammedo@redhat.com> wrote:
 >
-> Note that ZCR_EL1 does not give you the correct answer if the hypervisor =
-has
-> set ZCR_EL2 to something lower.
-
-Sure - although this is only a user space test so we are not expecting
-shenanigans.
-
-
-> Also, ZCR_EL1 it itself not correct if the
-> hardware does not support all vector sizes.
+> > On Fri, 31 Jan 2020 16:08:30 +0100
+> > Igor Mammedov <imammedo@redhat.com> wrote:
+> >
+> > Paolo,
 >
-> See some of Andrew Jones' qemu command-line work.  Try -cpu max,sve512=3D=
-on and
-> then use the ioctl to set vq to 3 (sve384).  The result will be an effect=
-ive vq
-> of 2 (sve256).
+> forgot to add address to CC
 >
-> We *really* need vg, as computed from sve_zcr_len_for_el().
-
-How come TARGET_PR_SVE_GET_VL is happy to compute directly from ZCR
-then?
-
-I'll put the vg back in but it seemed a little pointless given the
-gdbstub ignores it.
-
+> >
+> > could you take a look at patches 1-7, 73,75-78 and
+> > if series looks to be in acceptable shape, merge it via your tree
+> >
+> > > v4:
+> [...]
 >
 >
-> r~
 
+--00000000000039d73e059dc73f7e
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
---=20
-Alex Benn=C3=A9e
+<div dir=3D"auto">Sure! I probably won&#39;t send a pull request for a week=
+ or so though.<div dir=3D"auto"><br></div><div dir=3D"auto">Paolo</div></di=
+v><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">Il m=
+ar 4 feb 2020, 16:39 Igor Mammedov &lt;<a href=3D"mailto:imammedo@redhat.co=
+m">imammedo@redhat.com</a>&gt; ha scritto:<br></div><blockquote class=3D"gm=
+ail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-le=
+ft:1ex">On Tue, 4 Feb 2020 16:08:30 +0100<br>
+Igor Mammedov &lt;<a href=3D"mailto:imammedo@redhat.com" target=3D"_blank" =
+rel=3D"noreferrer">imammedo@redhat.com</a>&gt; wrote:<br>
+<br>
+&gt; On Fri, 31 Jan 2020 16:08:30 +0100<br>
+&gt; Igor Mammedov &lt;<a href=3D"mailto:imammedo@redhat.com" target=3D"_bl=
+ank" rel=3D"noreferrer">imammedo@redhat.com</a>&gt; wrote:<br>
+&gt; <br>
+&gt; Paolo,<br>
+<br>
+forgot to add address to CC<br>
+<br>
+&gt; <br>
+&gt; could you take a look at patches 1-7, 73,75-78 and<br>
+&gt; if series looks to be in acceptable shape, merge it via your tree<br>
+&gt; <br>
+&gt; &gt; v4:<br>
+[...]<br>
+<br>
+</blockquote></div>
+
+--00000000000039d73e059dc73f7e--
+
 
