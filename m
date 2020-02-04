@@ -2,46 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93722151DB4
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Feb 2020 16:55:44 +0100 (CET)
-Received: from localhost ([::1]:60706 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3729B151DB8
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Feb 2020 16:57:22 +0100 (CET)
+Received: from localhost ([::1]:60734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iz0YB-0007BL-LL
-	for lists+qemu-devel@lfdr.de; Tue, 04 Feb 2020 10:55:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59306)
+	id 1iz0Zl-0000WY-8c
+	for lists+qemu-devel@lfdr.de; Tue, 04 Feb 2020 10:57:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60241)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@pond.sub.org>) id 1iz0XQ-0006hB-C3
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 10:54:57 -0500
+ (envelope-from <qemu_oss@crudebyte.com>) id 1iz0Yz-0008Pq-UI
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 10:56:35 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@pond.sub.org>) id 1iz0XO-0003dp-OU
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 10:54:56 -0500
-Received: from oxygen.pond.sub.org ([2a01:4f8:13b:3ad0:1::3]:39262)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@pond.sub.org>) id 1iz0XO-0003PU-Em
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 10:54:54 -0500
-Received: from blackfin.pond.sub.org (p4FD0571C.dip0.t-ipconnect.de
- [79.208.87.28])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (Client did not present a certificate)
- by oxygen.pond.sub.org (Postfix) with ESMTPSA id 50156715C3;
- Tue,  4 Feb 2020 16:54:51 +0100 (CET)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id BDA4A11386A7; Tue,  4 Feb 2020 16:54:48 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Stefan Hajnoczi <stefanha@gmail.com>
-Subject: Summary of Re: Making QEMU easier for management tools and
- applications
-References: <CAJSP0QUk=4co-nqk8fv2n-T2_W40rE3r_5OMoxD7otAV993mCA@mail.gmail.com>
-Date: Tue, 04 Feb 2020 16:54:48 +0100
-Message-ID: <875zgm2vqv.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+ (envelope-from <qemu_oss@crudebyte.com>) id 1iz0Yy-00020k-Kj
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 10:56:33 -0500
+Received: from kylie.crudebyte.com ([5.189.157.229]:44285)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1iz0Yy-0001qh-6t
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 10:56:32 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=6J4HlvfNANCKQEl12O3+OiZsR6J8IwPgP8WjQbMTSkE=; b=ALI/G32Ffhppx8GrEdM/g62VAw
+ 5/Trxn0l7fkQG9arK5iCrXON4iIX857TonRrLP+rQRq3nL42ozsYjzc2zBzwbiVREBOZ7RYrnsnB7
+ lwD0jEUjoxSzXPZ4w+5Ab3KrMkJsO7zhZ5dXpmgRIexrzDujquAr43HbhkQrFJAaToU3lgb2RnCTt
+ sOTBZaBjXSdeOICEt1ul4M2dRHo7dZ5CZ1DcJK37LLGXKYr9lk1KRXC3GeevorRiD0DzmCYu7qNtE
+ aipuM+SfcLTPpPc7GtO3XXXkGUOxk9EdSuivVfSQW51eURSefCj0Mn+m4BG5ageAXsJAyNnoq4Tt9
+ 1NqhZ5GOa0g6Uj39y9474oz46dbDQVxfPG0nq10Nn0GxE332PQ3CM/uL7ZNc/71DFxFQHRhPcCRuA
+ vn6IAD9o9e+vAqD+1pnUHjYTEhK3jYPpiR115lmv+K2BuqrdGXGfue/h48CXN24BPFGUROHfssqpn
+ +jzG3WRAgs0w3MPfkX1iju9KiJfgk+UlwyOOSR5HntASriz4mva42IwBE5OMaaAeZQhet5Ct5xUsg
+ Hqb7e4o2zFpPcFdr3kQ1MCj19rF5RxAUnjmiS4nAQGwddqzT9981hDZ03y5XQH7nvYbn5qpxEAo3B
+ iGArVKRIVD8zJsFbu17r1dFXNVfg8GEyFfDi2JSo8=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, G 3 <programmingkidx@gmail.com>
+Subject: Re: [PATCH] ui/cocoa: Drop workarounds for pre-10.12 OSX
+Date: Tue, 04 Feb 2020 16:56:29 +0100
+Message-ID: <4895939.vUebzJK3Km@silver>
+In-Reply-To: <CAFEAcA9VnQCG3r28BOLr_qXLRM2V68r3oK4ZfY9+bVz2j1oSyA@mail.gmail.com>
+References: <mailman.343.1580584897.2411.qemu-devel@nongnu.org>
+ <15653420.4VsaQd57cB@silver>
+ <CAFEAcA9VnQCG3r28BOLr_qXLRM2V68r3oK4ZfY9+bVz2j1oSyA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a01:4f8:13b:3ad0:1::3
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 5.189.157.229
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,125 +61,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- "Daniel P. Berrange" <berrange@redhat.com>,
- "Denis V. Lunev" <den@virtuozzo.com>, qemu-devel <qemu-devel@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- John Snow <jsnow@redhat.com>, Dominik Csapak <d.csapak@proxmox.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This thread has accumulated more than a hundred messages over seven
-weeks.  We need a summary.
+On Dienstag, 4. Februar 2020 14:13:35 CET Peter Maydell wrote:
+> > How about handling this with an error message at configure stage instead?
+> > Removing this code does not increase the chance for somebody going to fix
+> > pre-10.12 support.
+> 
+> But is anybody actually going to fix pre-10.12 support? They've
+> had six months so far... If we had a good sized body of developers
+> taking active care of how well QEMU on OSX works, I would be
+> entirely happy for them to decide amongst themselves what they
+> thought was a reasonable version support policy for OSX. But
+> we just don't.
 
-The conversation has gone in several directions.  In this message, I'll
-cover just the one I consider most important: machine-friendly initial
-configuration.  I'll do the rest later, if I have stamina left.
+No idea of course whether somebody will fix it. It's just that young people 
+tend to have fairly old Macbooks (i.e. >= 10 years) since younger models in 
+that universe are often outside of their budget.
 
-= QMP is fine for machines, CLI is not =
+> I wouldn't object to a configure check if anybody wanted to write
+> a patch to add one.
 
-We have two major external host interfaces: the CLI and QMP.  Compare:
+Like I said, I don't care much, but if you want I can send a small configure 
+script patch of course. That's not a big deal. So roughly you want a warning 
+for pre-10.14 and error out on pre-10.12, right?
 
-QMP
-* Purpose: control at run-time
-* Commands with argument and return value
-* Events with argument value
-* Simple type system
-* Based on QAPI
-* Regular, well-defined syntax: QAPI schema on top of JSON
-* Documentation is required; actual documentation is of mixed quality
-* Introspectable, except for a few mostly QOM-related holes where we
-  bypass QAPI
-* Machine-friendly, complemented by human-only HMP
+G3, if you want to take care about sending this patch instead, very much 
+appreciated of course. :)
 
-CLI
-* Purpose: initial configuration
-* Options with argument
-* Based on a crazy zoo of QemuOpts (with and without dotted keys), QAPI
-  (only a few recent options), ad hoc parsers
-* Option argument syntax is mostly (variations of) key=value,...
-* QemuOpts' "type system" is "list of key-value pairs, where value can
-  be string, bool, (unsigned) integer, or size", optionally restricted
-  to known keys with known value types.
-* QAPI type system is the same as in QMP
-* Introspection is completely inadequate: misses options, incorrect
-  option names, misses option arguments partly or completely
-* Configuration files with INI-like syntax, completely inadequate: can't
-  do most options
-* Not machine-friendly
-* Maintaining it is a pain, evolving it is worse
+> > > "Last two versions only" is our support policy for OSX for a reason,
+> > > and the reason is that there just aren't very many people running
+> > > OSX and actively working on QEMU. Of those, even fewer will
+> > > be still running OSX versions that are no longer being supported
+> > > for security fixes by Apple.
+> > 
+> > Apple currently seems to maintain 4 macOS release branches with security
+> > fixes (10.15.x, 10.14.x, 10.13.x, 10.12.x):
+> > https://en.wikipedia.org/wiki/MacOS_Sierra#Release_history
+> 
+> Indeed, and none of those is the 10.11-and-earlier that this patch
+> drops attempts to cater for. The patch does still keep 10.12 and
+> 10.13 support alive, even though it's not strictly required by
+> our support policy, because building for those host versions does
+> in practice still work.
 
-The inadequacy of the CLI has become a serious issue.
+Sure, I just wanted to bring that to your attention. In fact security support 
+policy by Apple is somewhat unpredictable. There is no official statement 
+which branches are covered by security fixes. They simply decide on a case-to-
+case basis whether or not to release updates for certain old release branches.
 
-= Ways to provide machine-friendly initial configuration =
+Best regards,
+Christian Schoenebeck
 
-Two ways to provide machine-friendly initial configuration on par with
-QMP have been proposed:
 
-1. Extend QMP
-
-   Machines use the CLI only to configure a QMP socket.  The remainder
-   of the CLI becomes human-only, with much relaxed compatibility rules.
-
-2. QAPIfy the CLI
-
-   Provide a machine-friendly CLI based on QAPI and JSON.  The current
-   CLI becomes human-only, with much relaxed compatibility rules.
-
-   Aside: I looked into cleaning up the human-only CLI at the same time,
-   but the need to maintain compatibility until the transition to the
-   machine-friendly CLI is complete makes this hard.  It needs to be
-   cleaned up, though.  More on that below.
-
-To extend QMP, we wrap QMP commands around the internal initial
-configuration interfaces.  These QMP commands take arguments, but don't
-return anything.  Many of them will only make sense during initial
-configuration.  We'll want to express that in the schema, and enforce it
-in the QMP core.  Others will behave differently, e.g. cold plug during
-initial configuration, hot plug once the guest runs.
-
-Configuration files are just QMP commands from the initial configuration
-subset read from a file instead of a chardev.  JSON is a poor choice for
-configuration files, and QMP's verbosity makes it poorer.  We'll want
-more suitable concrete syntax for configuration files.
-
-To improve the CLI, we wrap QAPI-based CLI options around the internal
-initial configuration interfaces.  We'll want some infrastructure to
-generate CLI option boilerplate, just like we generate QMP command
-boilerplate.
-
-Configuration files are just CLI options read from a file instead of
-argv[].  Again, we'll want a more suitable concrete syntax there.
-
-With an improved CLI, I'd expect machines to use configuration files so
-they don't have to mess with shell quoting.  With extended QMP, they'd
-perhaps rather reuse their existing QMP code to send the configuration
-down a socket.  Less efficient, but I doubt it'll matter.
-
-In both cases, the internal configuration interfaces need to be
-converted from QemuOpts to QAPI types.
-
-The one clear advantage of extending QMP is the ability to mix query
-commands with initial configuration.
-
-This is also a clear disadvantage: we need to make it work.  Existing
-QMP commands may rely on initial configuration to be complete.  We may
-have to allow only QMP commands we carefully checked.
-
-How important is the advantage?
-
-= Cleaning up the human-only CLI =
-
-In both cases, the existing CLI remains in a human-only role.  That's a
-truckload of messy code to maintain.  Not good.  Can we replace it by
-thin wrappers around the machine-friendly alternative, ideally
-incrementally?  Can we generate a useful part of these wrappers?
-
-If we QAPIfy the CLI, the QAPI generator already knows the CLI, and only
-has to be taught the general human-friendly key=value,... syntax, plus a
-way to specify exceptions.
-
-If we extend QMP, we'll additionally need some of the CLI QAPIfication
-infrastructure for this.  Hmm.
 
