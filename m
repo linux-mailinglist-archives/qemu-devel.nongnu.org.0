@@ -2,44 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA6FD151408
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Feb 2020 02:47:21 +0100 (CET)
-Received: from localhost ([::1]:49178 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4ED17151404
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Feb 2020 02:44:27 +0100 (CET)
+Received: from localhost ([::1]:49138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iynJA-0007ge-P3
-	for lists+qemu-devel@lfdr.de; Mon, 03 Feb 2020 20:47:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47064)
+	id 1iynGL-0006Sc-Us
+	for lists+qemu-devel@lfdr.de; Mon, 03 Feb 2020 20:44:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45419)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <guoheyi@huawei.com>) id 1iynHW-00070T-Ul
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 20:45:40 -0500
+ (envelope-from <guoheyi@huawei.com>) id 1iynFZ-0005v6-RW
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 20:43:38 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <guoheyi@huawei.com>) id 1iynHU-000718-RJ
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 20:45:38 -0500
-Received: from szxga06-in.huawei.com ([45.249.212.32]:50634 helo=huawei.com)
+ (envelope-from <guoheyi@huawei.com>) id 1iynFY-0003SO-KS
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 20:43:37 -0500
+Received: from szxga05-in.huawei.com ([45.249.212.191]:2749 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <guoheyi@huawei.com>)
- id 1iynHN-0006rV-5L; Mon, 03 Feb 2020 20:45:30 -0500
-Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.59])
- by Forcepoint Email with ESMTP id 4631BB1E560719FDA459;
- Tue,  4 Feb 2020 09:45:24 +0800 (CST)
-Received: from linux-TFkxOR.huawei.com (10.175.104.212) by
- DGGEMS412-HUB.china.huawei.com (10.3.19.212) with Microsoft SMTP Server id
- 14.3.439.0; Tue, 4 Feb 2020 09:45:16 +0800
+ id 1iynFV-00035X-5N; Mon, 03 Feb 2020 20:43:33 -0500
+Received: from DGGEMS401-HUB.china.huawei.com (unknown [172.30.72.60])
+ by Forcepoint Email with ESMTP id 7104A1C2F3DB9C057A7D;
+ Tue,  4 Feb 2020 09:43:27 +0800 (CST)
+Received: from [127.0.0.1] (10.173.221.228) by DGGEMS401-HUB.china.huawei.com
+ (10.3.19.201) with Microsoft SMTP Server id 14.3.439.0;
+ Tue, 4 Feb 2020 09:43:20 +0800
+Subject: Re: [PATCH v2 0/7] Some cleanup in arm/virt/acpi
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20200203001505.52573-1-guoheyi@huawei.com>
+ <20200203014246-mutt-send-email-mst@kernel.org>
+ <455d16a4-e7b6-af9b-0b7e-43be70e22f7b@huawei.com>
+ <CAFEAcA_g3XXnxiV2O37zpj7gw8For042hg0Vau44qm=ByOuXdw@mail.gmail.com>
 From: Heyi Guo <guoheyi@huawei.com>
-To: <qemu-devel@nongnu.org>
-Subject: [PATCH v3 0/7] Some cleanup in arm/virt/acpi
-Date: Tue, 4 Feb 2020 09:43:18 +0800
-Message-ID: <20200204014325.16279-1-guoheyi@huawei.com>
-X-Mailer: git-send-email 2.19.1
+Message-ID: <32e63add-da4b-ed26-98dc-2ab69f3ab007@huawei.com>
+Date: Tue, 4 Feb 2020 09:43:19 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.175.104.212]
+In-Reply-To: <CAFEAcA_g3XXnxiV2O37zpj7gw8For042hg0Vau44qm=ByOuXdw@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+X-Originating-IP: [10.173.221.228]
 X-CFilter-Loop: Reflected
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 45.249.212.32
+X-Received-From: 45.249.212.191
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -51,55 +57,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Shannon Zhao <shannon.zhaosl@gmail.com>,
- qemu-arm@nongnu.org, Igor
- Mammedov <imammedo@redhat.com>, Heyi Guo <guoheyi@huawei.com>,
- wanghaibin.wang@huawei.com
+Cc: "Michael S. Tsirkin" <mst@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Shannon Zhao <shannon.zhaosl@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Igor Mammedov <imammedo@redhat.com>, wanghaibin.wang@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Remove conflict _ADR objects, and fix and refine PCI device definition in
-ACPI/DSDT.
 
-History:
+=E5=9C=A8 2020/2/3 22:03, Peter Maydell =E5=86=99=E9=81=93:
+> On Mon, 3 Feb 2020 at 13:33, Heyi Guo <guoheyi@huawei.com> wrote:
+>>
+>> =E5=9C=A8 2020/2/3 14:43, Michael S. Tsirkin =E5=86=99=E9=81=93:
+>>> On Mon, Feb 03, 2020 at 08:14:58AM +0800, Heyi Guo wrote:
+>>>> Remove conflict _ADR objects, and fix and refine PCI device definiti=
+on in
+>>>> ACPI/DSDT.
+>>>>
+>>>> Cc: Peter Maydell <peter.maydell@linaro.org>
+>>>> Cc: "Michael S. Tsirkin" <mst@redhat.com>
+>>>> Cc: Igor Mammedov <imammedo@redhat.com>
+>>>> Cc: Shannon Zhao <shannon.zhaosl@gmail.com>
+>>>> Cc: qemu-arm@nongnu.org
+>>>> Cc: qemu-devel@nongnu.org
+>>> Series
+>>>
+>>> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+>>>
+>>> merge through ARM tree pls.
+>> Thanks, Michael :)
+>>
+>>
+>> Hi Peter,
+>>
+>> Do I need to send v3 to update the commit message of patch 4/7 as
+>> Michael suggested?
+> This patchset seems to be corrupt somehow:
+>
+> e104462:bionic:qemu$ patches apply -s
+> id:20200203001505.52573-1-guoheyi@huawei.com
+> Applying: bios-tables-test: prepare to change ARM virt ACPI DSDT
+> Applying: arm/virt/acpi: remove meaningless sub device "RP0" from PCI0
+> Applying: arm/virt/acpi: remove _ADR from devices identified by _HID
+> Applying: arm/acpi: fix PCI _PRT definition
+> Applying: arm/acpi: fix duplicated _UID of PCI interrupt link devices
+> Applying: arm/acpi: simplify the description of PCI _CRS
+> Applying: virt/acpi: update golden masters for DSDT update
+> error: corrupt patch at line 68
+> error: could not build fake ancestor
+> hint: Use 'git am --show-current-patch' to see the failed patch
+> Patch failed at 0007 virt/acpi: update golden masters for DSDT update
+> When you have resolved this problem, run "git am --continue".
+> If you prefer to skip this patch, run "git am --skip" instead.
+> To restore the original branch and stop patching, run "git am --abort".
+>
+> Patchew didn't like it either:
+> https://patchew.org/QEMU/20200203001505.52573-1-guoheyi@huawei.com/
+>
+> I think the problem here is the quoting of the diff in
+> the commit message of patch 7: git am and friends think
+> that is part of the actual patch body and get confused.
+> You might be able to avoid that by not putting the
+>    diff --git a/DSDT.dsl.orig b/DSDT.dsl
+>    index ed3e5f0fa9..10cf70c886 100644
+>    --- a/DSDT.dsl.orig
+>    +++ b/DSDT.dsl
+>
+> part in the commit message, but I haven't tested that.
+>
+> So resending a v4 would probably be a good idea anyway.
 
-v3 -> v2:
-- update commit message for patch 4/7.
-- remove diff keywords in commit message of patch 7/7 to avoid applying p=
-atch
-  failure.
+Sorry for trouble. I should have tried locally before sending the patch.
 
-v1 -> v2:
-- flow the work flow in tests/qtest/bios-table-test.c to post ACPI relate=
-d
-  patches.
-- update commit messages for removing "RP0" and "_ADR".
-- add 3 more cleanup patches.
+Yes, removing the above 4 lines help git am success.
 
-Cc: Peter Maydell <peter.maydell@linaro.org>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Igor Mammedov <imammedo@redhat.com>
-Cc: Shannon Zhao <shannon.zhaosl@gmail.com>
-Cc: qemu-arm@nongnu.org
-Cc: qemu-devel@nongnu.org
+I'll send a v3.
 
-Heyi Guo (7):
-  bios-tables-test: prepare to change ARM virt ACPI DSDT
-  arm/virt/acpi: remove meaningless sub device "RP0" from PCI0
-  arm/virt/acpi: remove _ADR from devices identified by _HID
-  arm/acpi: fix PCI _PRT definition
-  arm/acpi: fix duplicated _UID of PCI interrupt link devices
-  arm/acpi: simplify the description of PCI _CRS
-  virt/acpi: update golden masters for DSDT update
+Thanks,
 
- hw/arm/virt-acpi-build.c          |  25 ++++++-------------------
- tests/data/acpi/virt/DSDT         | Bin 18462 -> 5307 bytes
- tests/data/acpi/virt/DSDT.memhp   | Bin 19799 -> 6644 bytes
- tests/data/acpi/virt/DSDT.numamem | Bin 18462 -> 5307 bytes
- 4 files changed, 6 insertions(+), 19 deletions(-)
+Heyi
 
---=20
-2.19.1
+>
+> thanks
+> -- PMM
+>
+> .
 
 
