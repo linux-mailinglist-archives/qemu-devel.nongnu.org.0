@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF04C1520A6
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Feb 2020 19:51:38 +0100 (CET)
-Received: from localhost ([::1]:36376 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CDBF15209B
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Feb 2020 19:47:38 +0100 (CET)
+Received: from localhost ([::1]:36252 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iz3IP-0004LG-Om
-	for lists+qemu-devel@lfdr.de; Tue, 04 Feb 2020 13:51:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54428)
+	id 1iz3EX-0006ie-7I
+	for lists+qemu-devel@lfdr.de; Tue, 04 Feb 2020 13:47:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49795)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iz3Dy-0006vm-U3
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 13:47:05 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1iz37x-0002bL-1h
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 13:40:49 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iz3Dx-0003Y2-Ib
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 13:47:02 -0500
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:41642)
+ (envelope-from <alex.bennee@linaro.org>) id 1iz37w-0003cx-1e
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 13:40:48 -0500
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:36592)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iz3Dx-0003Of-Bg
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 13:47:01 -0500
-Received: by mail-wr1-x433.google.com with SMTP id c9so24429796wrw.8
- for <qemu-devel@nongnu.org>; Tue, 04 Feb 2020 10:47:01 -0800 (PST)
+ id 1iz37v-0003Yh-Qa
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 13:40:47 -0500
+Received: by mail-wr1-x435.google.com with SMTP id z3so24457865wru.3
+ for <qemu-devel@nongnu.org>; Tue, 04 Feb 2020 10:40:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=rIHuVIbSJsbfCEGZb34sLirpxbWRjaj8BKp12hdsmGc=;
- b=pd7hDJjFR0meZ8D0HhLfyIlEREBdm5O3tF2Ab6ls+HQANbi0wghU8j1LfHEPzn9G6i
- EKwqFAxBqdeIIVSggqE/dXXETD1RzyonqwKornveiK3xTkd307fUrQs+hEdDHlnON2BU
- dsx6/lR4uHG3yKqSA+cts7cEhi4c+GeMtVL4n2wrZHx40P+ozYbbGMgAlRZxrroyeZz/
- dr3hTPJjka1HdQ4qt4g5JAczOTVhf3TTWAS551QDP6WeTJ3ZczFXncxJL4Wy/Dwx6QCC
- 1Wi76FtcsCo1Bk3sCBudVn0Em4CY9D25INBGWq3d1mBw/KOCKDZqS/2uDMSjvzSR0Wmp
- njgw==
+ bh=/TV/N7OzCTJ9WVazwWcBCI64243f6rpQOW3yZSm6a4c=;
+ b=r5GD4P0DimIAbKmKtJHnjxWYHjc3/0pdCnHHcYW38Ivre1MRjEn0u33XOgvQkZrXMI
+ 8WxWAQh9MmYolKLW4149IXnjeguwYgLmi9iEdRem86fjV9a8sJB0hZU4LsmNo+P96j+J
+ BmkvIiPrH6Z1iug68xICqfAuPYdJxgOGrX6iomOAzU+X8OsE188gTSKIl2C+agJJxAtQ
+ 7H7HnAlbCfitOxhf+33YiF8Pa0BRBxs0/v4/7ki6Vub8DxW4hPtfjIZQ4PkkCbo213TO
+ Pik2/qRe+ELftjqDKwOYhALlvGWTp+zlf2xaNQNGSP7Rhia5WO5uycrmqftF4h1zYh35
+ MCxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=rIHuVIbSJsbfCEGZb34sLirpxbWRjaj8BKp12hdsmGc=;
- b=dJgCaZ0LVwcsvixgQUE5fXSp3yNlBt6DErjJz6n1zbvfk/hL8a9xZwaG306+aVLplY
- OEyk3I538VcCsX7KpANNP8hgPGH83xu58cHPRvrlZgdKUL1W50xd12sfNuXkrml8hAKR
- PeXFkoMRlT9phUypggFUXmjX2tF6vw3IlZfgs4ioFRHmILCOUcYOwEqAQTFKwaTIt1iL
- d6rOZ2usP4RasaG6pA5LGRnJMNHq25bIO5WfMWEMANQiiIU4c5DFU1VE/vssKeck/MJC
- fsmd4CkScxMxA3DkZb4gyA1Hkzyh5Z6o143E75Oxt49e01+/YSr/1XhSDd1uiaCHDUPf
- 4Zrw==
-X-Gm-Message-State: APjAAAXVaeRUO5TDRErYcWDWrMIjcZ2sJIy75UcXwEnDwUyyVP1Tb4Ek
- JKF9E36Of1gyl1Y356ktYITpog==
-X-Google-Smtp-Source: APXvYqxBNvwom6imZN1UORlEl8NTVP5gBAvjj36SWf+DJ/zkm01MiDprUO6AcjOYm2JrxMxbYhcWcQ==
-X-Received: by 2002:adf:df83:: with SMTP id z3mr23282447wrl.389.1580842018663; 
- Tue, 04 Feb 2020 10:46:58 -0800 (PST)
+ bh=/TV/N7OzCTJ9WVazwWcBCI64243f6rpQOW3yZSm6a4c=;
+ b=tW2wBeeqB8fwn4SHEpuGumjhC5ltaQP/VqXX/7g18LmMkQthmOtf9kjy1GgS+cYrKx
+ 1EFzLKNtA2rX/r5fLPGdotyQIMHVo+WPrmB3zppw4K4alcyl1c1XvBMtOIueIiCmlyZz
+ ifI4lbcyA6gOUwnTy3xfbBwZDJdYJxajkVoRsTpjXRCFPJhbpkO0W3AEBx7cxonk0ySi
+ +QkYIu73ghoJCJIdgq8p5RNpL3SB+4Rkc7fi5DJlsc0hyQ0WHerplmLTd9QbGyeZllvC
+ gTXzLW/OIGCBAb9t7WaR1EXh9kBFbaB8hzZiElHC9ltbwDGvr4PXfSQW5BES+Db4GoGx
+ ntRA==
+X-Gm-Message-State: APjAAAVaN8X8/ZLC4igCkSE16mHnR9yoQzH+ctJOpQsbGcYjMndjhsJF
+ Wd3fGdxfE3slFRX8r+5QB2hulg==
+X-Google-Smtp-Source: APXvYqwQvbDu3sBB6UDDiGh9g8TYm/FC8A1rJvFGgej7QShw+pgeVugMAj3TVf0YDtoCmWjtA9Mgpg==
+X-Received: by 2002:adf:fa50:: with SMTP id y16mr25096356wrr.204.1580841646771; 
+ Tue, 04 Feb 2020 10:40:46 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id t5sm30813085wrr.35.2020.02.04.10.46.57
+ by smtp.gmail.com with ESMTPSA id k13sm30410947wrx.59.2020.02.04.10.40.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Feb 2020 10:46:57 -0800 (PST)
+ Tue, 04 Feb 2020 10:40:37 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 8B9231FF9D;
+ by zen.linaroharston (Postfix) with ESMTP id A04BA1FF9E;
  Tue,  4 Feb 2020 18:40:29 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 13/16] .travis.yml: drop the travis_retry from tests
-Date: Tue,  4 Feb 2020 18:40:25 +0000
-Message-Id: <20200204184028.13708-14-alex.bennee@linaro.org>
+Subject: [PULL 14/16] .travis.yml: drop cris-linux-user from the plugins test
+Date: Tue,  4 Feb 2020 18:40:26 +0000
+Message-Id: <20200204184028.13708-15-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200204184028.13708-1-alex.bennee@linaro.org>
 References: <20200204184028.13708-1-alex.bennee@linaro.org>
@@ -69,7 +69,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::433
+X-Received-From: 2a00:1450:4864:20::435
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,33 +87,30 @@ Cc: Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This was a crutch when we introduced it - however it does have the
-disadvantage of causing tests to timeout with large amounts of logs.
-Lets drop it and see if the stability has improved since.
+While it shouldn't cause problems we will never get useful information
+from cris as it has yet to be converted to the common translator loop.
+It also causes the Travis CI to fail for weird reasons which I have so
+far been unable to replicate on a normal Xenial system.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200203090932.19147-16-alex.bennee@linaro.org>
+Message-Id: <20200203090932.19147-17-alex.bennee@linaro.org>
 
 diff --git a/.travis.yml b/.travis.yml
-index 022462f6981..875671325c8 100644
+index 875671325c8..c1c6df475a8 100644
 --- a/.travis.yml
 +++ b/.travis.yml
-@@ -103,7 +103,12 @@ script:
-     else
-         $(exit $BUILD_RC);
-     fi
--  - if [ "$BUILD_RC" -eq 0 ] ; then travis_retry ${TEST_CMD} ; else $(exit $BUILD_RC); fi
-+  - |
-+    if [ "$BUILD_RC" -eq 0 ] ; then
-+        ${TEST_CMD} ;
-+    else
-+        $(exit $BUILD_RC);
-+    fi
- after_script:
-   - if command -v ccache ; then ccache --show-stats ; fi
+@@ -387,9 +387,10 @@ matrix:
  
+     # Run check-tcg against linux-user (with plugins)
+     # we skip sparc64-linux-user until it has been fixed somewhat
++    # we skip cris-linux-user as it doesn't use the common run loop
+     - name: "GCC plugins check-tcg (user)"
+       env:
+-        - CONFIG="--disable-system --enable-plugins --enable-debug-tcg --target-list-exclude=sparc64-linux-user"
++        - CONFIG="--disable-system --enable-plugins --enable-debug-tcg --target-list-exclude=sparc64-linux-user,cris-linux-user"
+         - TEST_BUILD_CMD="make -j${JOBS} build-tcg"
+         - TEST_CMD="make check-tcg"
+         - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-debug-tcg"
 -- 
 2.20.1
 
