@@ -2,62 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3A67151E5C
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Feb 2020 17:35:23 +0100 (CET)
-Received: from localhost ([::1]:33132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59531151E67
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Feb 2020 17:38:21 +0100 (CET)
+Received: from localhost ([::1]:33202 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iz1AY-00040e-EE
-	for lists+qemu-devel@lfdr.de; Tue, 04 Feb 2020 11:35:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55381)
+	id 1iz1DQ-00075N-DL
+	for lists+qemu-devel@lfdr.de; Tue, 04 Feb 2020 11:38:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56941)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iz18n-0002Te-F5
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 11:33:34 -0500
+ (envelope-from <mst@redhat.com>) id 1iz1Ax-0004lr-Vb
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 11:35:48 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iz18l-0003SK-68
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 11:33:32 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:20147
+ (envelope-from <mst@redhat.com>) id 1iz1Aw-0000no-J3
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 11:35:47 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:40987
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iz18k-0003JK-QE
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 11:33:31 -0500
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iz1Aw-0000jm-Ec
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 11:35:46 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580834009;
+ s=mimecast20190719; t=1580834144;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=oJswGVqRYMwRbH/XCx1YLK78Ml072Qtmy9FeAa7fA4o=;
- b=HF+UPwe+kZbnSE7B41v8JAL5muvfw3JA2oTKYm6qusW6e9LndJGa21ZodnCKYkRCfH/Kc+
- FENqJ4HDj4pYRS6GVITX44n+EK4w5Gc0AbLnMff+mdZfkzEpsu594ZPJ4dt0McIQjnCewH
- tCxmtUZDry8XCZ3qF5+BjQKW2oV3t9Q=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-263-HQumBBFENUCOrE1GUDM39w-1; Tue, 04 Feb 2020 11:33:14 -0500
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7D49B1137841
- for <qemu-devel@nongnu.org>; Tue,  4 Feb 2020 16:33:13 +0000 (UTC)
-Received: from x1w.redhat.com (ovpn-204-152.brq.redhat.com [10.40.204.152])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AD1CE10018FF;
- Tue,  4 Feb 2020 16:33:06 +0000 (UTC)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org,
-	Oksana Vohchana <ovoshcha@redhat.com>
-Subject: [PATCH] tests/acceptance/migration: Add the 'migration' tag
-Date: Tue,  4 Feb 2020 17:33:04 +0100
-Message-Id: <20200204163304.14616-1-philmd@redhat.com>
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=XSgC84icQ/wBgmcf5haCbJpws9LSYyLFwtxis8QR+oM=;
+ b=OILfGDNgaWcWoXWWZ+up1HJNczIdT9DGc7zYBfsPLw8eId2IU20ZBcGeaGPRl8eJAodSda
+ FVMX0SdKwk/flZvlCv2Yy6aqF6B7De8fcLyXMtERAFVFSJGeeuuTBWb7GJXo3gt8B9yVcH
+ NI8ewM3mWIIk3AVP80WgCfJbsIDcMOE=
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-10-YsJcqXvEO4uyt6lh6vRmSQ-1; Tue, 04 Feb 2020 11:35:42 -0500
+Received: by mail-qv1-f71.google.com with SMTP id p3so12036802qvt.9
+ for <qemu-devel@nongnu.org>; Tue, 04 Feb 2020 08:35:42 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=cKlaznnxeyTZ2PrUbRVAnKf+C27TZOwI8FwyQQsX3Zc=;
+ b=MILq7kjmaJxVLas1esnA2hidS16wJWu4vLWfMQ6zaSX31WH5Kg/Hj1fHTvOZOjs7rM
+ Og1T18Q75o+oNj516nGsHCj8/SX0QihGEOGgRrGt1Qj7+N3bE6dMrs3vJ6naQQ7nkEhf
+ ssINc7prZOuCr59oaXqybIsrg08mPxc+Ro7jNw9DEZg2GLKsyL1dQRU59Pe2GdOGqX2d
+ ghbZhMGMZx+lxiL7sfRIhSSgjUd1hzkkCL+mnz98lwDVatLz1hKElCZaV8uISAYFTQ2M
+ NK5uFw3Hmay2cdtxiTUTVjBdv5jBOzNXkyPHKdLX/sdGY/tRe5N2lxTKCTaT7xi+F2VL
+ v6Fg==
+X-Gm-Message-State: APjAAAUZ/oA4oBQ/dX6c0A+Ig1FUlb6O8xsRNTTK/tOsjvJ5nw/u/j9x
+ Z0iQc2ecUvaHScBvfNauluwKHcv6qDc7JHOMBioEtFVQI8BUoGxYea2XHTHS4j59hJbbHdCZMOk
+ oXtqPsySlsS/Mnp4=
+X-Received: by 2002:ac8:6b4f:: with SMTP id x15mr29060173qts.152.1580834142492; 
+ Tue, 04 Feb 2020 08:35:42 -0800 (PST)
+X-Google-Smtp-Source: APXvYqwUoldSuV5+ufVddMYHwlWVYp43Q8ARL4moShoY6KScPHHk4wcnsFacAuO4Qfo2W5sK3VkfPg==
+X-Received: by 2002:ac8:6b4f:: with SMTP id x15mr29060165qts.152.1580834142248; 
+ Tue, 04 Feb 2020 08:35:42 -0800 (PST)
+Received: from redhat.com (bzq-79-176-41-183.red.bezeqint.net. [79.176.41.183])
+ by smtp.gmail.com with ESMTPSA id f11sm11260658qkh.96.2020.02.04.08.35.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 04 Feb 2020 08:35:41 -0800 (PST)
+Date: Tue, 4 Feb 2020 11:35:37 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Julia Suvorova <jusual@redhat.com>
+Subject: Re: Disabling PCI "hot-unplug" for a guest (and/or a single PCI
+ device)
+Message-ID: <20200204113457-mutt-send-email-mst@kernel.org>
+References: <16db1dcd-d1a3-5bd9-2daa-d16a0f2d168e@redhat.com>
+ <20200204013947-mutt-send-email-mst@kernel.org>
+ <CAMDeoFVkoTZSQ=PV=mc_AGoZ445Wug4F+RV5utaYb+jhPEtkJg@mail.gmail.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: HQumBBFENUCOrE1GUDM39w-1
+In-Reply-To: <CAMDeoFVkoTZSQ=PV=mc_AGoZ445Wug4F+RV5utaYb+jhPEtkJg@mail.gmail.com>
+X-MC-Unique: YsJcqXvEO4uyt6lh6vRmSQ-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -69,52 +89,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: libvir-list@redhat.com, qemu-devel@nongnu.org,
+ Laine Stump <laine@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-By using an Avocado tag, we can run all tests described by that
-tag as once:
+On Tue, Feb 04, 2020 at 05:13:54PM +0100, Julia Suvorova wrote:
+> On Tue, Feb 4, 2020 at 11:26 AM Michael S. Tsirkin <mst@redhat.com> wrote=
+:
+> >
+> > On Mon, Feb 03, 2020 at 05:19:51PM -0500, Laine Stump wrote:
+> > > 3) qemu could add a "hotpluggable=3Dno" commandline option to all PCI=
+ devices
+> > > (including vfio-pci) and then do whatever is necessary to make sure t=
+his is
+> > > honored in the emulated hardware (is it possible to set this on a per=
+-slot
+> > > basis in a PCI controller? Or must it be done for an entire controlle=
+r?
+> >
+> > I think it's possible on a per-slot basis, yes.
+>=20
+> There's a "Hot-Plug Capable" option in Slot Capability register, so we
+> can switch it off. But it's only for pcie devices, can't say anything
+> about conventional pci.
+>=20
+> Best regards, Julia Suvorova.
 
-  $ avocado --show=3Dapp run -t migration tests/acceptance/
-  JOB ID     : 165477737509503fcfa6d7108057a0a18f2a6559
-  JOB LOG    : avocado/job-results/job-2020-02-04T17.29-1654777/job.log
-   (1/3) tests/acceptance/migration.py:Migration.test_migration_with_tcp_lo=
-calhost: PASS (0.38 s)
-   (2/3) tests/acceptance/migration.py:Migration.test_migration_with_unix: =
-PASS (0.33 s)
-   (3/3) tests/acceptance/migration.py:Migration.test_migration_with_exec: =
-PASS (0.07 s)
-  RESULTS    : PASS 3 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0 | =
-CANCEL 0
-
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
-Based-on: <20200203111631.18796-1-ovoshcha@redhat.com>
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg676230.html
----
- tests/acceptance/migration.py | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/tests/acceptance/migration.py b/tests/acceptance/migration.py
-index 41b13b9e0d..b342cabe07 100644
---- a/tests/acceptance/migration.py
-+++ b/tests/acceptance/migration.py
-@@ -20,6 +20,9 @@ from avocado.utils.path import find_command
-=20
-=20
- class Migration(Test):
-+    """
-+    :avocado: tags=3Dmigration
-+    """
-=20
-     timeout =3D 10
-=20
---=20
-2.21.1
+For conventional PCI, we can drop SHPC capability and remove
+the eject method from ACPI.
 
 
