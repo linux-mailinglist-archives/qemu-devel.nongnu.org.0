@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2DF8151F0A
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Feb 2020 18:15:03 +0100 (CET)
-Received: from localhost ([::1]:34778 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54EF9151F03
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Feb 2020 18:13:18 +0100 (CET)
+Received: from localhost ([::1]:34726 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iz1mw-0004Gv-OH
-	for lists+qemu-devel@lfdr.de; Tue, 04 Feb 2020 12:15:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53097)
+	id 1iz1lF-00006P-A7
+	for lists+qemu-devel@lfdr.de; Tue, 04 Feb 2020 12:13:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53020)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iz1hV-00033s-II
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 12:09:26 -0500
+ (envelope-from <mreitz@redhat.com>) id 1iz1hS-0002zT-Ld
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 12:09:23 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iz1hU-0002cI-FK
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 12:09:25 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:36531
+ (envelope-from <mreitz@redhat.com>) id 1iz1hR-0002VT-Dq
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 12:09:22 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:31882
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iz1hU-0002bZ-BP
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 12:09:24 -0500
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iz1hR-0002Th-9b
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 12:09:21 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580836164;
+ s=mimecast20190719; t=1580836160;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=t4lSQL75KhpaUT2QtkFpMHgVgnap60JpRReHmeNq7zE=;
- b=IBfr4CGbOxJWrxpe0/4lrv9b4YlN/PSCeHy7g9OIU+ErFu7R4QNsJ8rzxZBN0I2k40H8pK
- XwoPDPB5tAuyu4tmQLJxfKkJCVgGcgXfKs1DIl4a5i2OF21nf/tayInEzg7r/jxgrBucKA
- AsiDdsgzoELgsZXA36vVS1NaeTwrrSc=
+ bh=J2l/QtADm9xJSUp/EDvPXwh4NPTqn435JKN5O21Opy8=;
+ b=IB4mIe1Rh9iSSvJQO5cagjHDEMlcURx/Qc+B+NyNfAwxdIqG2Zh8f6K3CAd36ySZs/cNb1
+ jCpIPNWWCeeX9/uhWIGbAEHW2SLMcSQn3zlacOOFXUU5uBoDaYkKqc7rTdRqUGoQI2HIoS
+ qxt1phTppQU+4hlczxVx3z4GQGudevw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-404-A8LMVvsUNJCvD6-oFJGr-w-1; Tue, 04 Feb 2020 12:09:16 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-250-bf9Oc6--PvWXDFgGQShS7A-1; Tue, 04 Feb 2020 12:09:19 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 48825801F74;
- Tue,  4 Feb 2020 17:09:15 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E4155133656B;
+ Tue,  4 Feb 2020 17:09:17 +0000 (UTC)
 Received: from localhost (ovpn-117-98.ams2.redhat.com [10.36.117.98])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B38DF194BB;
- Tue,  4 Feb 2020 17:09:14 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5FECE86C4A;
+ Tue,  4 Feb 2020 17:09:17 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v2 08/33] block: Rename bdrv_inherited_options()
-Date: Tue,  4 Feb 2020 18:08:23 +0100
-Message-Id: <20200204170848.614480-9-mreitz@redhat.com>
+Subject: [PATCH v2 09/33] block: Add generic bdrv_inherited_options()
+Date: Tue,  4 Feb 2020 18:08:24 +0100
+Message-Id: <20200204170848.614480-10-mreitz@redhat.com>
 In-Reply-To: <20200204170848.614480-1-mreitz@redhat.com>
 References: <20200204170848.614480-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: A8LMVvsUNJCvD6-oFJGr-w-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: bf9Oc6--PvWXDFgGQShS7A-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
@@ -76,49 +76,124 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The other two .inherit_options implementations specify exactly for what
-case they are used in their name, so do it for this one as well.
+After the series this patch belongs to, we want to have a common
+BdrvChildClass that encompasses all of child_file, child_format, and
+child_backing.  Such a single class needs a single .inherit_options()
+implementation, and this patch introduces it.
 
-(The actual intention behind this patch is to follow it up with a
-generic bdrv_inherited_options() that works for all three cases.)
+The next patch will show how the existing implementations can fall back
+to it just by passing appropriate BdrvChildRole and parent_is_format
+values.
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ block.c | 84 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 84 insertions(+)
 
 diff --git a/block.c b/block.c
-index 6091b3c374..5b85520515 100644
+index 5b85520515..ab14d52a91 100644
 --- a/block.c
 +++ b/block.c
-@@ -980,9 +980,9 @@ static void bdrv_temp_snapshot_options(int *child_flags=
-, QDict *child_options,
+@@ -976,6 +976,90 @@ static void bdrv_temp_snapshot_options(int *child_flag=
+s, QDict *child_options,
+     *child_flags &=3D ~BDRV_O_NATIVE_AIO;
+ }
+=20
++/*
++ * Returns the options and flags that a generic child of a BDS should
++ * get, based on the given options and flags for the parent BDS.
++ */
++static void __attribute__((unused))
++    bdrv_inherited_options(BdrvChildRole role, bool parent_is_format,
++                           int *child_flags, QDict *child_options,
++                           int parent_flags, QDict *parent_options)
++{
++    int flags =3D parent_flags;
++
++    /*
++     * First, decide whether to set, clear, or leave BDRV_O_PROTOCOL.
++     * Generally, the question to answer is: Should this child be
++     * format-probed by default?
++     */
++
++    /*
++     * Pure and non-filtered data children of non-format nodes should
++     * be probed by default (even when the node itself has BDRV_O_PROTOCOL
++     * set).  This only affects a very limited set of drivers (namely
++     * quorum and blkverify when this comment was written).
++     * Force-clear BDRV_O_PROTOCOL then.
++     */
++    if (!parent_is_format &&
++        (role & (BDRV_CHILD_DATA | BDRV_CHILD_METADATA |
++                 BDRV_CHILD_FILTERED)) =3D=3D
++            BDRV_CHILD_DATA)
++    {
++        flags &=3D ~BDRV_O_PROTOCOL;
++    }
++
++    /*
++     * All children of format nodes (except for COW children) and all
++     * metadata children in general should never be format-probed.
++     * Force-set BDRV_O_PROTOCOL then.
++     */
++    if ((parent_is_format && !(role & BDRV_CHILD_COW)) ||
++        (role & BDRV_CHILD_METADATA))
++    {
++        flags |=3D BDRV_O_PROTOCOL;
++    }
++
++    /*
++     * If the cache mode isn't explicitly set, inherit direct and no-flush=
+ from
++     * the parent.
++     */
++    qdict_copy_default(child_options, parent_options, BDRV_OPT_CACHE_DIREC=
+T);
++    qdict_copy_default(child_options, parent_options, BDRV_OPT_CACHE_NO_FL=
+USH);
++    qdict_copy_default(child_options, parent_options, BDRV_OPT_FORCE_SHARE=
+);
++
++    if (role & BDRV_CHILD_COW) {
++        /* backing files are always opened read-only */
++        qdict_set_default_str(child_options, BDRV_OPT_READ_ONLY, "on");
++        qdict_set_default_str(child_options, BDRV_OPT_AUTO_READ_ONLY, "off=
+");
++    } else {
++        /* Inherit the read-only option from the parent if it's not set */
++        qdict_copy_default(child_options, parent_options, BDRV_OPT_READ_ON=
+LY);
++        qdict_copy_default(child_options, parent_options,
++                           BDRV_OPT_AUTO_READ_ONLY);
++    }
++
++    if (parent_is_format && !(role & BDRV_CHILD_COW)) {
++        /*
++         * Our format drivers take care to send flushes and respect
++         * unmap policy, so we can default to enable both on lower
++         * layers regardless of the corresponding parent options.
++         */
++        qdict_set_default_str(child_options, BDRV_OPT_DISCARD, "unmap");
++    }
++
++    /* Clear flags that only apply to the top layer */
++    flags &=3D ~(BDRV_O_SNAPSHOT | BDRV_O_NO_BACKING | BDRV_O_COPY_ON_READ=
+);
++
++    if (role & BDRV_CHILD_METADATA) {
++        flags &=3D ~BDRV_O_NO_IO;
++    }
++    if (role & BDRV_CHILD_COW) {
++        flags &=3D ~BDRV_O_TEMPORARY;
++    }
++
++    *child_flags =3D flags;
++}
++
+ /*
   * Returns the options and flags that bs->file should get if a protocol dr=
 iver
   * is expected, based on the given options and flags for the parent BDS
-  */
--static void bdrv_inherited_options(BdrvChildRole role, bool parent_is_form=
-at,
--                                   int *child_flags, QDict *child_options,
--                                   int parent_flags, QDict *parent_options=
-)
-+static void bdrv_protocol_options(BdrvChildRole role, bool parent_is_forma=
-t,
-+                                  int *child_flags, QDict *child_options,
-+                                  int parent_flags, QDict *parent_options)
- {
-     int flags =3D parent_flags;
-=20
-@@ -1014,7 +1014,7 @@ static void bdrv_inherited_options(BdrvChildRole role=
-, bool parent_is_format,
- const BdrvChildClass child_file =3D {
-     .parent_is_bds   =3D true,
-     .get_parent_desc =3D bdrv_child_get_parent_desc,
--    .inherit_options =3D bdrv_inherited_options,
-+    .inherit_options =3D bdrv_protocol_options,
-     .drained_begin   =3D bdrv_child_cb_drained_begin,
-     .drained_poll    =3D bdrv_child_cb_drained_poll,
-     .drained_end     =3D bdrv_child_cb_drained_end,
 --=20
 2.24.1
 
