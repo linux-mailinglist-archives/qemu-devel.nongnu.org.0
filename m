@@ -2,70 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0292151DA5
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Feb 2020 16:51:47 +0100 (CET)
-Received: from localhost ([::1]:60648 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93722151DB4
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Feb 2020 16:55:44 +0100 (CET)
+Received: from localhost ([::1]:60706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iz0UM-0005SZ-VL
-	for lists+qemu-devel@lfdr.de; Tue, 04 Feb 2020 10:51:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57422)
+	id 1iz0YB-0007BL-LL
+	for lists+qemu-devel@lfdr.de; Tue, 04 Feb 2020 10:55:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59306)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1iz0T2-0004b7-Ox
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 10:50:25 -0500
+ (envelope-from <armbru@pond.sub.org>) id 1iz0XQ-0006hB-C3
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 10:54:57 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1iz0T1-0001Ib-2x
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 10:50:24 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:29295
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <armbru@pond.sub.org>) id 1iz0XO-0003dp-OU
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 10:54:56 -0500
+Received: from oxygen.pond.sub.org ([2a01:4f8:13b:3ad0:1::3]:39262)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1iz0T0-0001Fz-Vb
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 10:50:23 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580831422;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=liY4SNYj3wL+XINu7s++zPKr0d1WygNffrkeTOZ87a4=;
- b=VVFPEoqRG3pN7nXzMXPD6AWwYQCQCSMae5zj6gE9Bo20K0JSW2ShK3+RG+Cfbvm6HhcUo9
- BgjAWPdP4Y5xBubN7Cu5V9MZo08ScDcDh1P7RNvHOdH1RzOlG0nToFYhlhyczwYNMplIyY
- d0n4ASdMRDgSfi3Awpmvs4DVVZFsAvc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-78-f8LnB7lbMUiHLOyc7AclIw-1; Tue, 04 Feb 2020 10:49:57 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DE41818B635A;
- Tue,  4 Feb 2020 15:49:54 +0000 (UTC)
-Received: from [10.3.116.181] (ovpn-116-181.phx2.redhat.com [10.3.116.181])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EADBA90A6;
- Tue,  4 Feb 2020 15:49:46 +0000 (UTC)
-Subject: Re: [PATCH 09/17] block: Refactor bdrv_has_zero_init{,_truncate}
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-devel@nongnu.org
-References: <20200131174436.2961874-1-eblake@redhat.com>
- <20200131174436.2961874-10-eblake@redhat.com>
- <339f0a60-1e4f-286c-6594-1153bf284082@virtuozzo.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <6247aca7-4a2e-ffa9-6336-4c1e71f63d96@redhat.com>
-Date: Tue, 4 Feb 2020 09:49:46 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ (Exim 4.71) (envelope-from <armbru@pond.sub.org>) id 1iz0XO-0003PU-Em
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 10:54:54 -0500
+Received: from blackfin.pond.sub.org (p4FD0571C.dip0.t-ipconnect.de
+ [79.208.87.28])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (Client did not present a certificate)
+ by oxygen.pond.sub.org (Postfix) with ESMTPSA id 50156715C3;
+ Tue,  4 Feb 2020 16:54:51 +0100 (CET)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id BDA4A11386A7; Tue,  4 Feb 2020 16:54:48 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Stefan Hajnoczi <stefanha@gmail.com>
+Subject: Summary of Re: Making QEMU easier for management tools and
+ applications
+References: <CAJSP0QUk=4co-nqk8fv2n-T2_W40rE3r_5OMoxD7otAV993mCA@mail.gmail.com>
+Date: Tue, 04 Feb 2020 16:54:48 +0100
+Message-ID: <875zgm2vqv.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <339f0a60-1e4f-286c-6594-1153bf284082@virtuozzo.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: f8LnB7lbMUiHLOyc7AclIw-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+Content-Type: text/plain
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a01:4f8:13b:3ad0:1::3
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,133 +53,125 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- "open list:Sheepdog" <sheepdog@lists.wpkg.org>, qemu-block@nongnu.org,
- Jeff Cody <codyprime@gmail.com>, Stefan Weil <sw@weilnetz.de>,
- Peter Lieven <pl@kamp.de>, "Richard W.M. Jones" <rjones@redhat.com>,
- mreitz@redhat.com, david.edmondson@oracle.com,
- Stefan Hajnoczi <stefanha@redhat.com>, "Denis V. Lunev" <den@openvz.org>,
- Liu Yuan <namei.unix@gmail.com>, Jason Dillaman <dillaman@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ "Daniel P. Berrange" <berrange@redhat.com>,
+ "Denis V. Lunev" <den@virtuozzo.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ John Snow <jsnow@redhat.com>, Dominik Csapak <d.csapak@proxmox.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/4/20 9:35 AM, Vladimir Sementsov-Ogievskiy wrote:
-> 31.01.2020 20:44, Eric Blake wrote:
->> Having two slightly-different function names for related purposes is
->> unwieldy, especially since I envision adding yet another notion of
->> zero support in an upcoming patch.=C2=A0 It doesn't help that
->> bdrv_has_zero_init() is a misleading name (I originally thought that a
->> driver could only return 1 when opening an already-existing image
->> known to be all zeroes; but in reality many drivers always return 1
->> because it only applies to a just-created image).=C2=A0 Refactor all use=
-s
->> to instead have a single function that returns multiple bits of
->> information, with better naming and documentation.
->=20
-> Sounds good
->=20
->>
->> No semantic change, although some of the changes (such as to qcow2.c)
->> require a careful reading to see how it remains the same.
->>
->=20
-> ...
->=20
->> diff --git a/include/block/block.h b/include/block/block.h
->> index 6cd566324d95..a6a227f50678 100644
->> --- a/include/block/block.h
->> +++ b/include/block/block.h
->=20
-> Hmm, header file in the middle of the patch, possibly you don't use
-> [diff]
->  =C2=A0=C2=A0=C2=A0 orderFile =3D scripts/git.orderfile
->=20
-> in git config.. Or it is broken.
+This thread has accumulated more than a hundred messages over seven
+weeks.  We need a summary.
 
-I do have it set up, so I'm not sure why it didn't work as planned.=20
-I'll make sure v2 follows the order I intended.
+The conversation has gone in several directions.  In this message, I'll
+cover just the one I consider most important: machine-friendly initial
+configuration.  I'll do the rest later, if I have stamina left.
 
->=20
->> @@ -85,6 +85,28 @@ typedef enum {
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 BDRV_REQ_MASK=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D 0x3ff,
->> =C2=A0 } BdrvRequestFlags;
->>
->> +typedef enum {
->> +=C2=A0=C2=A0=C2=A0 /*
->> +=C2=A0=C2=A0=C2=A0=C2=A0 * bdrv_known_zeroes() should include this bit =
-if the contents of
->> +=C2=A0=C2=A0=C2=A0=C2=A0 * a freshly-created image with no backing file=
- reads as all
->> +=C2=A0=C2=A0=C2=A0=C2=A0 * zeroes without any additional effort.=C2=A0 =
-If .bdrv_co_truncate is
->> +=C2=A0=C2=A0=C2=A0=C2=A0 * set, then this must be clear if BDRV_ZERO_TR=
-UNCATE is clear.
->=20
-> I understand that this is preexisting logic, but could I ask: why?=20
-> What's wrong
-> if driver can guarantee that created file is all-zero, but is not sure=20
-> about
-> file resizing? I agree that it's normal for these flags to have the same=
-=20
-> value,
-> but what is the reason for this restriction?..
+= QMP is fine for machines, CLI is not =
 
-For _this_ patch, my goal is to preserve pre-existing practice. Where we=20
-think pre-existing practice is wrong, we can then improve it in other=20
-patches (see patch 6, for example).
+We have two major external host interfaces: the CLI and QMP.  Compare:
 
-I _think_ the reason for this original limitation is as follows: If an=20
-image can be resized, we could choose to perform 'create(size=3D0),=20
-truncate(size=3Dfinal)' instead of 'create(size=3Dfinal)', and we want to=
-=20
-guarantee the same behavior. If truncation can't guarantee a zero read,=20
-then why is creation doing so?
+QMP
+* Purpose: control at run-time
+* Commands with argument and return value
+* Events with argument value
+* Simple type system
+* Based on QAPI
+* Regular, well-defined syntax: QAPI schema on top of JSON
+* Documentation is required; actual documentation is of mixed quality
+* Introspectable, except for a few mostly QOM-related holes where we
+  bypass QAPI
+* Machine-friendly, complemented by human-only HMP
 
-But as I did not write the original patch, I would welcome Max's input=20
-with regards to the thought behind commit ceaca56f.
+CLI
+* Purpose: initial configuration
+* Options with argument
+* Based on a crazy zoo of QemuOpts (with and without dotted keys), QAPI
+  (only a few recent options), ad hoc parsers
+* Option argument syntax is mostly (variations of) key=value,...
+* QemuOpts' "type system" is "list of key-value pairs, where value can
+  be string, bool, (unsigned) integer, or size", optionally restricted
+  to known keys with known value types.
+* QAPI type system is the same as in QMP
+* Introspection is completely inadequate: misses options, incorrect
+  option names, misses option arguments partly or completely
+* Configuration files with INI-like syntax, completely inadequate: can't
+  do most options
+* Not machine-friendly
+* Maintaining it is a pain, evolving it is worse
 
->=20
-> So, the only possible combination of flags, when they differs, is=20
-> create=3D0 and
-> truncate=3D1.. How is it possible?
+The inadequacy of the CLI has become a serious issue.
 
-qcow2 had that mode, at least before patch 5.
+= Ways to provide machine-friendly initial configuration =
 
->=20
->> +=C2=A0=C2=A0=C2=A0=C2=A0 * Since this bit is only reliable at image cre=
-ation, a driver may
->> +=C2=A0=C2=A0=C2=A0=C2=A0 * return this bit even for existing images tha=
-t do not currently
->> +=C2=A0=C2=A0=C2=A0=C2=A0 * read as zero.
->> +=C2=A0=C2=A0=C2=A0=C2=A0 */
->> +=C2=A0=C2=A0=C2=A0 BDRV_ZERO_CREATE=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 =3D 0x1,
->> +
->> +=C2=A0=C2=A0=C2=A0 /*
->> +=C2=A0=C2=A0=C2=A0=C2=A0 * bdrv_known_zeroes() should include this bit =
-if growing an image
->> +=C2=A0=C2=A0=C2=A0=C2=A0 * with PREALLOC_MODE_OFF (either with no backi=
-ng file, or beyond
->> +=C2=A0=C2=A0=C2=A0=C2=A0 * the size of the backing file) will read the =
-new data as all
->> +=C2=A0=C2=A0=C2=A0=C2=A0 * zeroes without any additional effort.=C2=A0 =
-This bit only matters
->> +=C2=A0=C2=A0=C2=A0=C2=A0 * for drivers that set .bdrv_co_truncate.
->> +=C2=A0=C2=A0=C2=A0=C2=A0 */
->> +=C2=A0=C2=A0=C2=A0 BDRV_ZERO_TRUNCATE=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D=
- 0x2,
->> +} BdrvZeroFlags;
->> +
->=20
-> ...
->=20
->=20
+Two ways to provide machine-friendly initial configuration on par with
+QMP have been proposed:
 
---=20
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+1. Extend QMP
 
+   Machines use the CLI only to configure a QMP socket.  The remainder
+   of the CLI becomes human-only, with much relaxed compatibility rules.
+
+2. QAPIfy the CLI
+
+   Provide a machine-friendly CLI based on QAPI and JSON.  The current
+   CLI becomes human-only, with much relaxed compatibility rules.
+
+   Aside: I looked into cleaning up the human-only CLI at the same time,
+   but the need to maintain compatibility until the transition to the
+   machine-friendly CLI is complete makes this hard.  It needs to be
+   cleaned up, though.  More on that below.
+
+To extend QMP, we wrap QMP commands around the internal initial
+configuration interfaces.  These QMP commands take arguments, but don't
+return anything.  Many of them will only make sense during initial
+configuration.  We'll want to express that in the schema, and enforce it
+in the QMP core.  Others will behave differently, e.g. cold plug during
+initial configuration, hot plug once the guest runs.
+
+Configuration files are just QMP commands from the initial configuration
+subset read from a file instead of a chardev.  JSON is a poor choice for
+configuration files, and QMP's verbosity makes it poorer.  We'll want
+more suitable concrete syntax for configuration files.
+
+To improve the CLI, we wrap QAPI-based CLI options around the internal
+initial configuration interfaces.  We'll want some infrastructure to
+generate CLI option boilerplate, just like we generate QMP command
+boilerplate.
+
+Configuration files are just CLI options read from a file instead of
+argv[].  Again, we'll want a more suitable concrete syntax there.
+
+With an improved CLI, I'd expect machines to use configuration files so
+they don't have to mess with shell quoting.  With extended QMP, they'd
+perhaps rather reuse their existing QMP code to send the configuration
+down a socket.  Less efficient, but I doubt it'll matter.
+
+In both cases, the internal configuration interfaces need to be
+converted from QemuOpts to QAPI types.
+
+The one clear advantage of extending QMP is the ability to mix query
+commands with initial configuration.
+
+This is also a clear disadvantage: we need to make it work.  Existing
+QMP commands may rely on initial configuration to be complete.  We may
+have to allow only QMP commands we carefully checked.
+
+How important is the advantage?
+
+= Cleaning up the human-only CLI =
+
+In both cases, the existing CLI remains in a human-only role.  That's a
+truckload of messy code to maintain.  Not good.  Can we replace it by
+thin wrappers around the machine-friendly alternative, ideally
+incrementally?  Can we generate a useful part of these wrappers?
+
+If we QAPIfy the CLI, the QAPI generator already knows the CLI, and only
+has to be taught the general human-friendly key=value,... syntax, plus a
+way to specify exceptions.
+
+If we extend QMP, we'll additionally need some of the CLI QAPIfication
+infrastructure for this.  Hmm.
 
