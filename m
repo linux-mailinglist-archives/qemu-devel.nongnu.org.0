@@ -2,65 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FE3A151943
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Feb 2020 12:08:27 +0100 (CET)
-Received: from localhost ([::1]:56364 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDC441519EA
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Feb 2020 12:34:25 +0100 (CET)
+Received: from localhost ([::1]:56712 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iyw4A-00012F-Om
-	for lists+qemu-devel@lfdr.de; Tue, 04 Feb 2020 06:08:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34117)
+	id 1iywTI-0004bN-Ow
+	for lists+qemu-devel@lfdr.de; Tue, 04 Feb 2020 06:34:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53812)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1iyw15-0005Pe-HC
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 06:05:16 -0500
+ (envelope-from <i.kotrasinsk@partner.samsung.com>)
+ id 1iywQH-0008KR-MZ
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 06:31:19 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1iyw14-0008Hn-Ke
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 06:05:15 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:36442
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <i.kotrasinsk@partner.samsung.com>)
+ id 1iywQA-0008W5-OD
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 06:31:17 -0500
+Received: from mailout1.w1.samsung.com ([210.118.77.11]:47524)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1iyw14-0008Gy-GI
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 06:05:14 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580814314;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=b99PsUtLC8Qy49cqjmWGtvS2/yIOiWGXjqbKMb5lPmM=;
- b=StaXH8GErStHmdCKdSBi9xqdiAJM1sjtPpkJ1MAhtS+OZwJR/nPzd8jbTSQMMgR5u9wQZt
- dkrDqv27nPtwa4R+UC4jyJb8bRddvSejsTlY9hkk379xm+sdelUO76wmIKVOQ4IbLBCZ/Y
- tB1ebkYaK2vOq69pa4JBNwYQGd07+rY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-215-8pZDAYSjO6mxQ6w0SwE_Dw-1; Tue, 04 Feb 2020 06:05:12 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 665BBDBA9
- for <qemu-devel@nongnu.org>; Tue,  4 Feb 2020 11:05:11 +0000 (UTC)
-Received: from dgilbert-t580.localhost (unknown [10.36.118.30])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AE6CC196AE;
- Tue,  4 Feb 2020 11:05:10 +0000 (UTC)
-From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-To: qemu-devel@nongnu.org,
-	stefanha@redhat.com
-Subject: [PATCH 4/4] virtiofsd: do_read missing NULL check
-Date: Tue,  4 Feb 2020 11:05:01 +0000
-Message-Id: <20200204110501.10731-5-dgilbert@redhat.com>
-In-Reply-To: <20200204110501.10731-1-dgilbert@redhat.com>
-References: <20200204110501.10731-1-dgilbert@redhat.com>
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: 8pZDAYSjO6mxQ6w0SwE_Dw-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+ (Exim 4.71) (envelope-from <i.kotrasinsk@partner.samsung.com>)
+ id 1iywQ8-0008Hz-U3
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 06:31:09 -0500
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+ by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20200204113103euoutp01c861955742a832b66d75d852a2439a4c~wL6btPQxh1728417284euoutp01S
+ for <qemu-devel@nongnu.org>; Tue,  4 Feb 2020 11:31:03 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
+ 20200204113103euoutp01c861955742a832b66d75d852a2439a4c~wL6btPQxh1728417284euoutp01S
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1580815863;
+ bh=hTzS/RN98i5l6EEVjpih9xHmPAfJ8QHKT3vnAoLR594=;
+ h=From:To:Cc:Subject:Date:References:From;
+ b=VzAumLsUQcEDkkWigOj2ma1sWzF63qTZuUgOGMCUumz5qao4SUbeqqgYyOOCJEaVz
+ D8YAGzFush/95fMeyFBxL4a+5Ou2fP8kOGxI3iNcLKKceVFkBipBt3DXBo0FAWZpa3
+ avGkO+qzTeLoDD6ioNn8aKqWr4QFljq3iDuE72uw=
+Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+ 20200204113102eucas1p1fe984246d84c9358c4c7e6d8abfd5dfb~wL6bUAA8b1663216632eucas1p1I;
+ Tue,  4 Feb 2020 11:31:02 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+ eusmges1new.samsung.com (EUCPMTA) with SMTP id BB.FE.61286.6F5593E5; Tue,  4
+ Feb 2020 11:31:02 +0000 (GMT)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+ 20200204113102eucas1p172cfb883c70cfc8d7c2832682df3df2a~wL6a4w4j91661016610eucas1p1F;
+ Tue,  4 Feb 2020 11:31:02 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+ eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20200204113102eusmtrp17ddf958e8176f3a65388f310efcf7ae1~wL6a4IXVh2102721027eusmtrp1o;
+ Tue,  4 Feb 2020 11:31:02 +0000 (GMT)
+X-AuditID: cbfec7f2-ef1ff7000001ef66-7a-5e3955f61ccd
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+ eusmgms1.samsung.com (EUCPMTA) with SMTP id 84.AC.08375.6F5593E5; Tue,  4
+ Feb 2020 11:31:02 +0000 (GMT)
+Received: from AMDC3304.digital.local (unknown [106.120.51.21]) by
+ eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+ 20200204113101eusmtip2eebe236dfe355e56454d9b50613d0a24~wL6aikNZT1903619036eusmtip2O;
+ Tue,  4 Feb 2020 11:31:01 +0000 (GMT)
+From: i.kotrasinsk@partner.samsung.com
+To: qemu-devel@nongnu.org
+Subject: [RFC 0/9] Add an interVM memory sharing device
+Date: Tue,  4 Feb 2020 12:30:42 +0100
+Message-Id: <1580815851-28887-1-git-send-email-i.kotrasinsk@partner.samsung.com>
+X-Mailer: git-send-email 2.7.4
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrDIsWRmVeSWpSXmKPExsWy7djPc7rfQi3jDE4u1LXYc+Exm8X+bf9Y
+ LeacecBicbx3B4sDi8eda3vYPJ5c28zkcfDdHiaP9/uusgWwRHHZpKTmZJalFunbJXBlbJ+8
+ kaXgnXzF7YWL2RoYm8S7GDk5JARMJLbu2M7SxcjFISSwglFiycP7rBDOF0aJ/ce+Q2U+M0rc
+ 3XuBEabl2/X1UFXLGSX+nl7ABNfyeNZmJpAqNgE1iZ1HPoN1iAhISvzuOs0MYjMLZEg8n9UN
+ ZgsLmEusWNPFBmKzCKhKdL6Zzwpi8woESFy4fZkVYpucxM1zncwgCyQEdrBJ3Hi6CCrhIvF1
+ 2UN2CFtY4tXxLVC2jMTpyT0sEHa9RMudHUwQzR2MEn0rp7NBJKwlvmxYClTEAXSRpsT6XfoQ
+ YUeJK3eamEHCEgJ8EjfeCkLczCcxadt0qDCvREebEES1nkT3k5tMMFuXNT6C2uoh0T5hI9iV
+ QgKxEl3PLjNNYJSbhbBrASPjKkbx1NLi3PTUYsO81HK94sTc4tK8dL3k/NxNjMA4P/3v+Kcd
+ jF8vJR1iFOBgVOLhvWBnESfEmlhWXJl7iFGCg1lJhPe8vmWcEG9KYmVValF+fFFpTmrxIUZp
+ DhYlcV7jRS9jhQTSE0tSs1NTC1KLYLJMHJxSDYwmsvX71M6xS/9Z0raWIcZ2V7n+M+cHMyW3
+ 7GZ0lP6y5HHqNPM9k6ey/ap9cGUzX13d3kDWI52LbhuxiM5/ueCxQfqtKW8mmX41uj2f+bj+
+ S1X/XqkF81zffgiVDJ5ucubc/nNGG19mfnA1uflq2dPebaYLTLWObpp1bv+O9sQ9IstfHTt2
+ IpM3SImlOCPRUIu5qDgRAL/mJt3vAgAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrELMWRmVeSWpSXmKPExsVy+t/xe7rfQi3jDKYs5rPYc+Exm8X+bf9Y
+ LeacecBicbx3B4sDi8eda3vYPJ5c28zkcfDdHiaP9/uusgWwROnZFOWXlqQqZOQXl9gqRRta
+ GOkZWlroGZlY6hkam8daGZkq6dvZpKTmZJalFunbJehlbJ+8kaXgnXzF7YWL2RoYm8S7GDk5
+ JARMJL5dX8/axcjFISSwlFHi5a/dTBAJGYkfp9ewQdjCEn+udbFBFH1ilHj3+QwzSIJNQE1i
+ 55HPjCC2iICkxO+u02BxZoEsiZ2z74MNEhYwl1ixpgtsEIuAqkTnm/msIDavQIDEhduXWSEW
+ yEncPNfJPIGRZwEjwypGkdTS4tz03GJDveLE3OLSvHS95PzcTYzA8Np27OfmHYyXNgYfYhTg
+ YFTi4b1gZxEnxJpYVlyZe4hRgoNZSYT3vL5lnBBvSmJlVWpRfnxRaU5q8SFGU6DlE5mlRJPz
+ gaGfVxJvaGpobmFpaG5sbmxmoSTO2yFwMEZIID2xJDU7NbUgtQimj4mDU6qBkSdokjPrer8n
+ G7Jz7Kxd7RZt2mazxyDCO7swrmHrywVy22fOirJ5uEZBWprNtCihvlyaof+aafXm3ZsOrMv6
+ 2vJ1+Zl9caGZ6/ZvWXhQ3+2QcpjZumS+X38lY055z/gQq3Cl+Ebz4vik7K3TEu/MdHV69yv4
+ YI39kQMPGPJ7Ita8yuoOlftWp8RSnJFoqMVcVJwIAPenfE1FAgAA
+X-CMS-MailID: 20200204113102eucas1p172cfb883c70cfc8d7c2832682df3df2a
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20200204113102eucas1p172cfb883c70cfc8d7c2832682df3df2a
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20200204113102eucas1p172cfb883c70cfc8d7c2832682df3df2a
+References: <CGME20200204113102eucas1p172cfb883c70cfc8d7c2832682df3df2a@eucas1p1.samsung.com>
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 210.118.77.11
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,37 +110,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: peter.maydell@linaro.org,
+ Igor Kotrasinski <i.kotrasinsk@partner.samsung.com>, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+From: Igor Kotrasinski <i.kotrasinsk@partner.samsung.com>
 
-Missing a NULL check if the argument fetch fails.
+This patchset adds a "memory exposing" device that allows two QEMU
+instances to share arbitrary memory regions. Unlike ivshmem, it does not
+create a new region of memory that's shared between VMs, but instead
+allows one VM to access any memory region of the other VM we choose to
+share.
 
-Fixes: Coverity CID 1413119
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
----
- tools/virtiofsd/fuse_lowlevel.c | 4 ++++
- 1 file changed, 4 insertions(+)
+The motivation for this device is a sort of ARM Trustzone "emulation",
+where a rich system running on one machine (e.g. x86_64 linux) is able
+to perform SMCs to a trusted system running on another (e.g. OpTEE on
+ARM). With a device that allows sharing arbitrary memory between VMs,
+this can be achieved with minimal changes to the trusted system and its
+linux driver while allowing the rich system to run on a speedier x86
+emulator. I prepared additional patches for linux, OpTEE OS and OpTEE
+build system as a PoC that such emulation works and passes OpTEE tests;
+I'm not sure what would be the best way to share them.
 
-diff --git a/tools/virtiofsd/fuse_lowlevel.c b/tools/virtiofsd/fuse_lowleve=
-l.c
-index 01c418aade..704c0369b2 100644
---- a/tools/virtiofsd/fuse_lowlevel.c
-+++ b/tools/virtiofsd/fuse_lowlevel.c
-@@ -1116,6 +1116,10 @@ static void do_read(fuse_req_t req, fuse_ino_t nodei=
-d,
-         struct fuse_file_info fi;
-=20
-         arg =3D fuse_mbuf_iter_advance(iter, sizeof(*arg));
-+        if (!arg) {
-+            fuse_reply_err(req, EINVAL);
-+            return;
-+        }
-=20
-         memset(&fi, 0, sizeof(fi));
-         fi.fh =3D arg->fh;
---=20
-2.24.1
+This patchset is my first foray into QEMU source code and I'm certain
+it's not yet ready to be merged in. I'm not sure whether memory sharing
+code has any race conditions or breaks rules of working with memory
+regions, or if having VMs communicate synchronously via chardevs is the
+right way to do it. I do believe the basic idea for sharing memory
+regions is sound and that it could be useful for inter-VM communication.
+
+Igor Kotrasinski (9):
+  memory: Add function for finding flat memory ranges
+  memory: Support mmap offset for fd-backed memory regions
+  memory: Hack - use shared memory when possible
+  hw/misc/memexpose: Add documentation
+  hw/misc/memexpose: Add core memexpose files
+  hw/misc/memexpose: Add memexpose pci device
+  hw/misc/memexpose: Add memexpose memory region device
+  hw/misc/memexpose: Add simple tests
+  hw/arm/virt: Hack in support for memexpose device
+
+ Kconfig.host                            |   3 +
+ MAINTAINERS                             |  12 +
+ Makefile                                |   1 +
+ backends/hostmem-memfd.c                |   2 +-
+ configure                               |   8 +
+ docs/specs/memexpose-spec.txt           | 168 +++++++++
+ exec.c                                  |  10 +-
+ hw/arm/virt.c                           | 110 +++++-
+ hw/core/numa.c                          |   4 +-
+ hw/mem/Kconfig                          |   3 +
+ hw/misc/Makefile.objs                   |   1 +
+ hw/misc/ivshmem.c                       |   3 +-
+ hw/misc/memexpose/Makefile.objs         |   4 +
+ hw/misc/memexpose/memexpose-core.c      | 630 ++++++++++++++++++++++++++++++++
+ hw/misc/memexpose/memexpose-core.h      | 109 ++++++
+ hw/misc/memexpose/memexpose-memregion.c | 142 +++++++
+ hw/misc/memexpose/memexpose-memregion.h |  41 +++
+ hw/misc/memexpose/memexpose-msg.c       | 261 +++++++++++++
+ hw/misc/memexpose/memexpose-msg.h       | 161 ++++++++
+ hw/misc/memexpose/memexpose-pci.c       | 218 +++++++++++
+ include/exec/memory.h                   |  20 +
+ include/exec/ram_addr.h                 |   2 +-
+ include/hw/arm/virt.h                   |   5 +
+ include/qemu/mmap-alloc.h               |   1 +
+ memory.c                                |  82 ++++-
+ tests/qtest/Makefile.include            |   2 +
+ tests/qtest/memexpose-test.c            | 364 ++++++++++++++++++
+ util/mmap-alloc.c                       |   7 +-
+ util/oslib-posix.c                      |   2 +-
+ 29 files changed, 2360 insertions(+), 16 deletions(-)
+ create mode 100644 docs/specs/memexpose-spec.txt
+ create mode 100644 hw/misc/memexpose/Makefile.objs
+ create mode 100644 hw/misc/memexpose/memexpose-core.c
+ create mode 100644 hw/misc/memexpose/memexpose-core.h
+ create mode 100644 hw/misc/memexpose/memexpose-memregion.c
+ create mode 100644 hw/misc/memexpose/memexpose-memregion.h
+ create mode 100644 hw/misc/memexpose/memexpose-msg.c
+ create mode 100644 hw/misc/memexpose/memexpose-msg.h
+ create mode 100644 hw/misc/memexpose/memexpose-pci.c
+ create mode 100644 tests/qtest/memexpose-test.c
+
+-- 
+2.7.4
 
 
