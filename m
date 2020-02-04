@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF72315209A
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Feb 2020 19:47:27 +0100 (CET)
-Received: from localhost ([::1]:36248 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBBD2152095
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Feb 2020 19:45:39 +0100 (CET)
+Received: from localhost ([::1]:36186 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iz3EM-0006Of-T4
-	for lists+qemu-devel@lfdr.de; Tue, 04 Feb 2020 13:47:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49675)
+	id 1iz3Cc-0002mI-JZ
+	for lists+qemu-devel@lfdr.de; Tue, 04 Feb 2020 13:45:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49771)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iz37s-0002N1-CQ
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 13:40:45 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1iz37w-0002Yp-0f
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 13:40:49 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iz37q-0003Go-Qe
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 13:40:44 -0500
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:45913)
+ (envelope-from <alex.bennee@linaro.org>) id 1iz37u-0003Wl-MQ
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 13:40:47 -0500
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:38579)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iz37q-0003EC-Jm
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 13:40:42 -0500
-Received: by mail-wr1-x430.google.com with SMTP id a6so24376103wrx.12
- for <qemu-devel@nongnu.org>; Tue, 04 Feb 2020 10:40:42 -0800 (PST)
+ id 1iz37u-0003SR-Ek
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 13:40:46 -0500
+Received: by mail-wr1-x42d.google.com with SMTP id y17so24424550wrh.5
+ for <qemu-devel@nongnu.org>; Tue, 04 Feb 2020 10:40:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=YbdnoWYrcrFJCkRmA0BnB9+YlHXUY82nQYA3dnh99Us=;
- b=WsgQtKZOciuja1Lc87Hw+DFr+OrESuvVO4pv13Qd8Oouo0nGJ13JQsWj4+77CTezMw
- FbYA6RRZiktMGWiwkHYjkdBzzFElkG02hMnzBBm249DzZI3+wQt5akCmIdU0cnJf4Am3
- TimutzkTirxBInV4VKyCqXgNzRt/I3UfXcsz5UPWWPMFkbQ/M6SsFzrg4gCu/ZOqBwvP
- 0qNaAho0leRWkc5IHDx1P2bB5+yK2M9qte53xbBIyGGr7nSf5iMYMCJIX1216UFu+gzB
- 4DduT66TEPbXlmHzDbF2na7HIAuV4xhhYq+Xwktv46sPzT7RQZkkiKz8dLnjuZVAE+M3
- 1JyQ==
+ bh=0aVFKZb4dTY13AjtnctAI9fn5KF4XqDrO8C2sbD1mzs=;
+ b=eLqf5VbWkA1vRchZe1PWt9FbID6f0n3cqK/h2QQA9P22kLnDfP7sLOpsPhf0aNUsHy
+ dmZPf9kOjlOjBoYTDKBy64fs8f+xofmZ+r4vvl6bZ8VKqq0M8K9iJLb7P+YQ/EPZ1nys
+ mmHcZigyoo/Hy5pfttN8Rs7bBw3fOPfmd5wcWEuZWtoIt29nUzRGXS1vjh+C6GI76O47
+ H7wT7leOucnOfl4X1rV3xa4+aQTkYhJn3iuopMIQoRv3vtkdNpk6DKQfry61GB6yMqYM
+ G+ggfrngzo2SNzzbpjdGQehp04UU4Lu4PpH57CyLMJ2TwIe/3U0TJazlRF+Jg8sTVP0K
+ HIjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=YbdnoWYrcrFJCkRmA0BnB9+YlHXUY82nQYA3dnh99Us=;
- b=GXt1sJU0SwrIF9Ft/JsYT8Yjiz7uVpiMffz5M/jHS9xunPLLvMIHmW7lf2FOUSL+nU
- nQYHmoV7VbfjfKSNpgEFogn/hX9nFW5kk22H2gBy5yl3W4JlBwhyRnfeZ98mz4IOQmmI
- Fd1+Y3oCVkqMqKxQajoNLvhMI7RT+est4QtSvdO6Ur/VvasfpLqTUdPCaNgcvre41Gk0
- tjrdMsNhevuNnpXbPlEiHwr+QWYndl7/XJI42zg3sFgTGmo0/vhm8nCxbGLIu+QWhddc
- BajlIloxbMjHPL3E8d8rCTaK4tSKHTEPJLdbWgSOjFwRSIWkpL9oYTDflyCzISnMacbh
- YXeA==
-X-Gm-Message-State: APjAAAUpK7OtK2HeEp7K/LFvRAZjJ7+lfiaqH2MVe7SXFYAQcPAC1w+x
- OYtcXdMIEmQy2drOIxWphkvQmg==
-X-Google-Smtp-Source: APXvYqwc22RxrykAtdFidxnAkp88lzmYkvIU8u7oKlc5iCUIwWJ7bqz0FB83XdlN+o/Tm+kmOXPkcQ==
-X-Received: by 2002:adf:f244:: with SMTP id b4mr22297562wrp.88.1580841641708; 
- Tue, 04 Feb 2020 10:40:41 -0800 (PST)
+ bh=0aVFKZb4dTY13AjtnctAI9fn5KF4XqDrO8C2sbD1mzs=;
+ b=cwvxclfkE07bPuYunpuojRicueJhBfaRoAnb+mwqZEt2ZYPLNdZ/pRK68oXfi94sZV
+ J8foB09CCVSesUwV+m7o0iBUnLOK8S7r6zJ6NC4R5Q0s7Sq/Bk3rfB7fu9pytsUqywYt
+ 1k1slrOrhTWFWSO+e8aljv+DqB6F8hsjhxv9BBhWw3AaX0Vx5LRjYf4Poj6UJpwb4A1r
+ j8fLCVJmqJIfWOdJhCAtdMZ8KaVsw87QjrZVb9E1CFAnoqLYiSvMWxujasfNBX0mMxZ1
+ gGb528EUOjMcu14qxJdiQcoPlidj7uSLVbCQrwNuCchW689pZzIYg6ygRg7lxE7B1K7Y
+ 9TmA==
+X-Gm-Message-State: APjAAAVZERj/h/HaW6m/KEzezKnXHyX4La8FsI8+jhER5wdxJRHB7jlt
+ b+suL/I036IIv2HQhKE/Qwiu0w==
+X-Google-Smtp-Source: APXvYqz33Ez1IH+/xwKiGltJasBmxBIGidss+0yJV21cBunuAM8WXjgW/tBs7UV8FJ/bcOobQkNnEw==
+X-Received: by 2002:a05:6000:1187:: with SMTP id
+ g7mr23674290wrx.109.1580841645456; 
+ Tue, 04 Feb 2020 10:40:45 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id b18sm31284711wru.50.2020.02.04.10.40.32
+ by smtp.gmail.com with ESMTPSA id x7sm31198259wrq.41.2020.02.04.10.40.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 04 Feb 2020 10:40:37 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 2085E1FF98;
+ by zen.linaroharston (Postfix) with ESMTP id 34C611FF99;
  Tue,  4 Feb 2020 18:40:29 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 08/16] .travis.yml: move cache flushing to early common phase
-Date: Tue,  4 Feb 2020 18:40:20 +0000
-Message-Id: <20200204184028.13708-9-alex.bennee@linaro.org>
+Subject: [PULL 09/16] .travis.yml: probe for number of available processors
+Date: Tue,  4 Feb 2020 18:40:21 +0000
+Message-Id: <20200204184028.13708-10-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200204184028.13708-1-alex.bennee@linaro.org>
 References: <20200204184028.13708-1-alex.bennee@linaro.org>
@@ -69,7 +70,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::430
+X-Received-From: 2a00:1450:4864:20::42d
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,57 +84,114 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Fam Zheng <fam@euphon.net>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Thomas Huth <thuth@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We shall be adding more common early setup in a future commit.
+The arm64 hardware was especially hit by only building on 3 of the 32
+available cores. Introduce a JOBS environment variable which we use
+for all parallel builds. We still run the main checks single threaded
+though so to make it easier to spot hangs.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200203090932.19147-11-alex.bennee@linaro.org>
+Message-Id: <20200203090932.19147-12-alex.bennee@linaro.org>
 
 diff --git a/.travis.yml b/.travis.yml
-index f245765cfed..1b92f40eab2 100644
+index 1b92f40eab2..a600f508b0a 100644
 --- a/.travis.yml
 +++ b/.travis.yml
-@@ -82,11 +82,16 @@ git:
-   # we want to do this ourselves
-   submodules: false
+@@ -85,6 +85,8 @@ git:
+ # Common first phase for all steps
+ before_install:
+   - if command -v ccache ; then ccache --zero-stats ; fi
++  - export JOBS=$(($(getconf _NPROCESSORS_ONLN) + 1))
++  - echo "=== Using ${JOBS} simultaneous jobs ==="
  
-+# Common first phase for all steps
-+before_install:
-+  - if command -v ccache ; then ccache --zero-stats ; fi
- 
-+# Configure step - may be overridden
+ # Configure step - may be overridden
  before_script:
--  - if command -v ccache ; then ccache --zero-stats ; fi
-   - mkdir -p ${BUILD_DIR} && cd ${BUILD_DIR}
-   - ${SRC_DIR}/configure ${BASE_CONFIG} ${CONFIG} || { cat config.log && exit 1; }
-+
-+# Main build & test - rarely overridden - controlled by TEST_CMD
- script:
-   - BUILD_RC=0 && make -j3 || BUILD_RC=$?
-   - if [ "$BUILD_RC" -eq 0 ] ; then travis_retry ${TEST_CMD} ; else $(exit $BUILD_RC); fi
-@@ -268,7 +273,6 @@ matrix:
-       before_script:
-         - brew link --overwrite python
-         - export PATH="/usr/local/opt/ccache/libexec:$PATH"
--        - if command -v ccache ; then ccache --zero-stats ; fi
-         - mkdir -p ${BUILD_DIR} && cd ${BUILD_DIR}
-         - ${SRC_DIR}/configure ${BASE_CONFIG} ${CONFIG} || { cat config.log && exit 1; }
+@@ -93,7 +95,7 @@ before_script:
  
-@@ -499,9 +503,6 @@ matrix:
-         - TEST_CMD="make install -j3"
+ # Main build & test - rarely overridden - controlled by TEST_CMD
+ script:
+-  - BUILD_RC=0 && make -j3 || BUILD_RC=$?
++  - BUILD_RC=0 && make -j${JOBS} || BUILD_RC=$?
+   - if [ "$BUILD_RC" -eq 0 ] ; then travis_retry ${TEST_CMD} ; else $(exit $BUILD_RC); fi
+ after_script:
+   - if command -v ccache ; then ccache --show-stats ; fi
+@@ -125,7 +127,7 @@ matrix:
+       env:
+         - BASE_CONFIG="--enable-tools"
+         - CONFIG="--disable-user --disable-system"
+-        - TEST_CMD="make check-unit check-softfloat -j3"
++        - TEST_CMD="make check-unit check-softfloat -j${JOBS}"
+         - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-default"
+ 
+ 
+@@ -160,13 +162,13 @@ matrix:
+     - name: "check-unit coroutine=ucontext"
+       env:
+         - CONFIG="--with-coroutine=ucontext --disable-tcg"
+-        - TEST_CMD="make check-unit -j3 V=1"
++        - TEST_CMD="make check-unit -j${JOBS} V=1"
+ 
+ 
+     - name: "check-unit coroutine=sigaltstack"
+       env:
+         - CONFIG="--with-coroutine=sigaltstack --disable-tcg"
+-        - TEST_CMD="make check-unit -j3 V=1"
++        - TEST_CMD="make check-unit -j${JOBS} V=1"
+ 
+ 
+     # Check we can build docs and tools (out of tree)
+@@ -366,7 +368,7 @@ matrix:
+     - name: "GCC check-tcg (user)"
+       env:
+         - CONFIG="--disable-system --enable-debug-tcg"
+-        - TEST_CMD="make -j3 check-tcg V=1"
++        - TEST_CMD="make -j${JOBS} check-tcg V=1"
+         - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-debug-tcg"
+ 
+ 
+@@ -375,7 +377,7 @@ matrix:
+     - name: "GCC plugins check-tcg (user)"
+       env:
+         - CONFIG="--disable-system --enable-plugins --enable-debug-tcg --target-list-exclude=sparc64-linux-user"
+-        - TEST_CMD="make -j3 check-tcg V=1"
++        - TEST_CMD="make -j${JOBS} check-tcg V=1"
+         - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-debug-tcg"
+ 
+ 
+@@ -383,7 +385,7 @@ matrix:
+     - name: "GCC check-tcg (some-softmmu)"
+       env:
+         - CONFIG="--enable-debug-tcg --target-list=xtensa-softmmu,arm-softmmu,aarch64-softmmu,alpha-softmmu"
+-        - TEST_CMD="make -j3 check-tcg V=1"
++        - TEST_CMD="make -j${JOBS} check-tcg V=1"
+         - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-debug-tcg"
+ 
+ 
+@@ -391,7 +393,7 @@ matrix:
+     - name: "GCC plugins check-tcg (some-softmmu)"
+       env:
+         - CONFIG="--enable-plugins --enable-debug-tcg --target-list=xtensa-softmmu,arm-softmmu,aarch64-softmmu,alpha-softmmu"
+-        - TEST_CMD="make -j3 check-tcg V=1"
++        - TEST_CMD="make -j${JOBS} check-tcg V=1"
+         - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-debug-tcg"
+ 
+     - name: "[aarch64] GCC check-tcg"
+@@ -500,7 +502,7 @@ matrix:
+         - BUILD_DIR="release/build/dir" SRC_DIR="../../.."
+         - BASE_CONFIG="--prefix=$PWD/dist"
+         - CONFIG="--target-list=x86_64-softmmu,aarch64-softmmu,armeb-linux-user,ppc-linux-user"
+-        - TEST_CMD="make install -j3"
++        - TEST_CMD="make install -j${JOBS}"
          - QEMU_VERSION="${TRAVIS_TAG:1}"
          - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-default"
--      before_script:
--        - command -v ccache && ccache --zero-stats
--        - mkdir -p ${BUILD_DIR} && cd ${BUILD_DIR}
        script:
-         - make -C ${SRC_DIR} qemu-${QEMU_VERSION}.tar.bz2
-         - ls -l ${SRC_DIR}/qemu-${QEMU_VERSION}.tar.bz2
 -- 
 2.20.1
 
