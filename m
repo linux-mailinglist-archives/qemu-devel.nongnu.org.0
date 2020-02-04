@@ -2,52 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69F5C151F73
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Feb 2020 18:29:18 +0100 (CET)
-Received: from localhost ([::1]:35092 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D37D4151F6A
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Feb 2020 18:27:43 +0100 (CET)
+Received: from localhost ([::1]:35045 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iz20j-00083E-F4
-	for lists+qemu-devel@lfdr.de; Tue, 04 Feb 2020 12:29:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54903)
+	id 1iz1zC-0002o5-Ri
+	for lists+qemu-devel@lfdr.de; Tue, 04 Feb 2020 12:27:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54881)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1iz1jg-00079v-0v
+ (envelope-from <laurent@vivier.eu>) id 1iz1jf-00077o-70
  for qemu-devel@nongnu.org; Tue, 04 Feb 2020 12:11:40 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1iz1jf-0001cp-2c
+ (envelope-from <laurent@vivier.eu>) id 1iz1je-0001aE-8s
  for qemu-devel@nongnu.org; Tue, 04 Feb 2020 12:11:39 -0500
-Received: from mout.kundenserver.de ([212.227.126.187]:39661)
+Received: from mout.kundenserver.de ([212.227.126.187]:44553)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1iz1je-0001Z9-P7
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 12:11:39 -0500
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1iz1jd-0001Vn-VR
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 12:11:38 -0500
 Received: from localhost.localdomain ([78.238.229.36]) by
  mrelayeu.kundenserver.de (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MiagR-1jV4l60rFX-00fn5a; Tue, 04 Feb 2020 18:11:03 +0100
+ id 1N7Qp3-1jbANI0sk1-017j0m; Tue, 04 Feb 2020 18:11:05 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/4] linux-user: fix use of SIGRTMIN
-Date: Tue,  4 Feb 2020 18:10:49 +0100
-Message-Id: <20200204171053.1718013-1-laurent@vivier.eu>
+Subject: [PATCH v2 1/4] linux-user: add missing TARGET_SIGRTMIN for hppa
+Date: Tue,  4 Feb 2020 18:10:50 +0100
+Message-Id: <20200204171053.1718013-2-laurent@vivier.eu>
 X-Mailer: git-send-email 2.24.1
+In-Reply-To: <20200204171053.1718013-1-laurent@vivier.eu>
+References: <20200204171053.1718013-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:2AP/VXVBkj8KSjvdMDyrwKgnbjcgoFgEnqw55K8Es85HLJsNvbn
- dHemIMPhMN85Rteoocq7LVAs4CAroyEYmlFBzeqUNdC1CpnVYei0O2+oTskFx9RMUx/rnkL
- BArbxyy6aLbD9Y79m8N3ag83HoBVAhDtI7A2wbOP/3099PCqpbdN/IithtLTxbczWSNhAaZ
- Ia0zbwbjxYqRhFRoqDUpQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:O31ic8eqpGo=:sbXwFnsp0ejto39xEMpJCl
- ZcgOxAWzumwtdCj6eBDHcKRLto66gFWbJDduFrCEmgpY0/p3I1X2rv53zoWkZoSlAewsHSP8J
- 4nafgl5jeIPRJvguWglzNsviaIsRnioxOT8HgLc4vltge5DPP9rzdlSjNArK/GF95j7ERdlN8
- hSmNbJSOMzOikRI35yt5MEx578Fio4Iv7dJdQqif86kACxCVWrP4F4Z8DAjXE9y11C3Z1k6fV
- EC/8+Ne8ceLDxf0VzJxOxN44S5pdBt5g4jcSTwttn4fZmy59gE0Q1Jdeazq0gwfl1OcnQyFhz
- C9AS5ddI6glFzAvBG3zMuuD9iFtE3VHWqIFUPyRCzwfkXPC5CqujnrINBZj+RpqaAfEyX6E6l
- Vd6IbUlhmp/z+nDeIUn07+TbMNIeQHLx7EaigqdIEnzSz6X3BEhbfUgsyGWIZa2x9N+DHLpaO
- wc7JW8sdm5hP4zjxsoYvQMZnKDK7FtGSv0Cfw133MJFnSt9NPaQ39VQXnOD2HsD/3E7dUbMfW
- NuW0/IybFN1lki2Wl9ua7FkbAPUmJUFWRLl1MmeiNLk/tbrjsO+0Nj+41YhVObTTuphxqLX14
- Ms+W5PTMkUokRwgcqR40EdS4np4HGqnqY/n6t7HQ0wsY7u8q7tcFlL5bMagUv03c5Ecd+0xue
- dn95ma//K0PgcLvC0ESkw+9xLumTY7pVXfUsmQLmekTXeqi7fqTGkmSK3rmDOFEKzyvdgDDsq
- 0dMRWQlknCPSweq5HybypjpWFnG1saLn0L/7It7pAoX2BU/AMZfgWcvG6bcYJBhfcF3AAaU8F
- rL2pswyQeqVZf1BY7/He/DGvV9VW29ZpXJff33AWMd/4PpqsP1nlROL2lOj40cWbR/PyxKa
+X-Provags-ID: V03:K1:Hez+TaxwiZ2OgXOrVQURJqgTRNhu9vhh7IwL997qbImZdCkSOCO
+ iL6DaVN84nP1Qf3a/Ly0FdaMtAmx50E/b88LiKp/wCw/nLFKXGYKTDnioS+NwI1Qj44HKkJ
+ 8T6POmK3KbeWyZqb+ZUdGKHeo2IdrZx9krBPtu1ckb56eO6RShIw/CUvmwNNJKyeT9fIlEN
+ FjE6DeankRszdfUuKfeRA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:5iRV4ZfC85o=:knBopFuukOzK23u//SFYxe
+ UO1M8apNQ3nDB/f0AiaFJmKGpdB7U9xtzw65maA4UqqyVYgzwpSAd9TolSYkOUg+RD3NrrnCC
+ i/2kpaWdoacdheYHq/powQ0rha8ZDauA6RNrUw4tcMuH1ZnBml98cp8stcdMhX1KYnq6mgpDs
+ tHqTdOY0kWLafPKHMo2tZnxuSj2ZNx6hJjy9Jvsv0diE70PUPoS2xcWkGZD2jOIoiNjccFWYv
+ YxskVKZ/mAADfEJlQkE/z2mWf6v7fv65ZJh4Xyhno7YbF/8uwdFTur4WynXgU7Mfbbit2TEoe
+ JzeR2bNDcobCdzAr+0hiinFK38H+SHAZLTxLRns08L8pzhg7cZJRHq5BJvohTMYMoOEnXAZoX
+ DdPBcZArNQb5ezCPa7tO7FRQSgwSJL3nCTZ+kWy55MC3qnpB3vSEGUp09s9OW6hMcs7vONPFl
+ 3zN2gDDUVQcSnIpSHrKQDwbN9ZbJpjNlwv1j/iHXkd9dpfnhewpY6UTxTfWhSPYwNXdZG1Zev
+ 33hl2Q5ixGtyN1mWK9v+zfNxBZusZvzk4Hi2iuGM5M2Di2pqNvfCMtojdVCHahfzG+7kp2xcg
+ EkVYH93FFRGpNsjGiBTxKhpYrf0NZmjkxyThU91Mg2/ROuxU2HbbmSZAZkZmyhvllp+oNan4d
+ 5vhKQ+ORQKJHRtcrGDa4tHH5HGbkNPseHA+kP1YHwEboHtSVl0v3uIVsK12dd6riPMzS3fjpH
+ bofM5+5L0EfhWVWZTa/FYcws8nma+X0rv4hBMLlDDd2iXYMHgnVtq1SVYkq0zJsGb7uGu9FAp
+ AFVd3KMxTGgBqtNPefB0V+Fh3Cbf3/XMkMtNTgVZTsIVzzfIQhaHB7wFUEV9VaUOIwFRElp
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 212.227.126.187
 X-BeenThere: qemu-devel@nongnu.org
@@ -70,37 +72,25 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This series fixes the problem of the first real-time signals already
-in use by the glibc that are not available for the target glibc.
+This signal is defined for all other targets and we will need it later
 
-Instead of reverting the first and last real-time signals we rely on
-the value provided by the glibc (SIGRTMIN) to know the first available
-signal and we map all the signals from this value to SIGRTMAX on top
-of TARGET_SIGRTMIN. So the consequence is we have less available signals
-in the target (generally 2) but all seems fine as at least 30 signals are
-still available.
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+---
+ linux-user/hppa/target_signal.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-This has been tested with Go (golang 1.10.1 linux/arm64, bionic) on x86_64
-fedora 31. We can avoid the failure in this case allowing the unsupported
-signals when we don't provide the "act" parameters to sigaction, only the
-"oldact" one. I have also run the LTP suite with several target and debian
-based distros.
-
-v2: tested with golang 1.12.10 linux/arm64, eoan)
-    Ignore unsupported signals rather than returning an error
-    replace i, j by target_sig, host_sig
-
-Laurent Vivier (4):
-  linux-user: add missing TARGET_SIGRTMIN for hppa
-  linux-user: cleanup signal.c
-  linux-user: fix TARGET_NSIG and _NSIG uses
-  linux-user: fix use of SIGRTMIN
-
- linux-user/hppa/target_signal.h |   1 +
- linux-user/signal.c             | 117 +++++++++++++++++++++++---------
- linux-user/trace-events         |   3 +
- 3 files changed, 89 insertions(+), 32 deletions(-)
-
+diff --git a/linux-user/hppa/target_signal.h b/linux-user/hppa/target_signal.h
+index ba159ff8d006..c2a0102ed73d 100644
+--- a/linux-user/hppa/target_signal.h
++++ b/linux-user/hppa/target_signal.h
+@@ -34,6 +34,7 @@
+ #define TARGET_SIGURG          29
+ #define TARGET_SIGXFSZ         30
+ #define TARGET_SIGSYS          31
++#define TARGET_SIGRTMIN        32
+ 
+ #define TARGET_SIG_BLOCK       0
+ #define TARGET_SIG_UNBLOCK     1
 -- 
 2.24.1
 
