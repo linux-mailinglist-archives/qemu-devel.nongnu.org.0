@@ -2,74 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F96B1515D1
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Feb 2020 07:18:12 +0100 (CET)
-Received: from localhost ([::1]:53376 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6858151606
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Feb 2020 07:37:43 +0100 (CET)
+Received: from localhost ([::1]:53570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iyrXG-0005pE-Ua
-	for lists+qemu-devel@lfdr.de; Tue, 04 Feb 2020 01:18:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43455)
+	id 1iyrqA-0003Fk-P5
+	for lists+qemu-devel@lfdr.de; Tue, 04 Feb 2020 01:37:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60311)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1iyrW5-0005QR-Sr
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 01:16:58 -0500
+ (envelope-from <mst@redhat.com>) id 1iyro9-0000ml-TF
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 01:35:39 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1iyrW3-0001ub-Te
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 01:16:56 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:45015
+ (envelope-from <mst@redhat.com>) id 1iyro8-0005p0-Iq
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 01:35:37 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:39322
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iyrW3-0001pv-HY
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 01:16:55 -0500
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1iyro7-0005lU-R8
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 01:35:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580797014;
+ s=mimecast20190719; t=1580798135;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:openpgp:openpgp;
- bh=nPNphcsFfpOPkbjI7mRdEurkvu2+BLbpS3usTYZoYY0=;
- b=i1KOgJvjPoS4eEuzBhLcAoxEHPkbYMX9kbB2V0LamVb9WqW9bIxOFuoqU2whN41erof0zj
- Vo58nubV3Pp1LasTU0kBJ8hIhSYu0O3kk1al+sHMgmXdvTHIYni7hZOjwnwO1Hr2eoUcBm
- QKJLPSfbwIhh5ut7dgvzd8E/Z+sH9o0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-135-eNzkYEBxMfuuoghCUs3Ifw-1; Tue, 04 Feb 2020 01:16:53 -0500
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DFD91DB23;
- Tue,  4 Feb 2020 06:16:50 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-116-39.ams2.redhat.com [10.36.116.39])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 01E9A90F4D;
- Tue,  4 Feb 2020 06:16:47 +0000 (UTC)
-Subject: Re: VW ELF loader
-To: Paolo Bonzini <pbonzini@redhat.com>, Alexey Kardashevskiy <aik@ozlabs.ru>
-References: <f881c2e7-be92-9695-6e19-2dd88cbc63c1@ozlabs.ru>
- <e3ee4b4d-1b24-2900-4304-05fa521a9b47@redhat.com>
- <20200203012842.GD52446@umbus.fritz.box>
- <ec81cca1-d5fb-3f1e-b433-3328d81a117e@redhat.com>
- <de7e4d34-eb63-904c-3475-7feee154c72c@ozlabs.ru>
- <8420784f-b4c7-9864-8534-b94dbc5f74ff@redhat.com>
- <d63ba962-ffbb-9f27-34fb-657188e90194@ozlabs.ru>
- <CABgObfYwtrh_uy8zFmg2qDjK6iynniN6=jJ9_MKfNxXUaOkPKw@mail.gmail.com>
- <71d1cc16-f07d-481d-096b-17ee326157bb@ozlabs.ru>
- <CABgObfa4tUVBbpBtoY3JFSF8-0mRVxgGbzQokc+JrJGPagwPaQ@mail.gmail.com>
-From: Thomas Huth <thuth@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <d13eea1d-7942-47e0-6189-a66ce9639db4@redhat.com>
-Date: Tue, 4 Feb 2020 07:16:46 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ in-reply-to:in-reply-to:references:references;
+ bh=XHFBdP4vsGft36CQ0GuQBDcAbUK0/4qbdY8aCuH2oHA=;
+ b=fSGE2wizWAm63iSBjw5ENBS4zU1veclLl7IRSBWYQryCLOeyAmE7YSbFIToKO1vfN1LQVu
+ phHwpynbt8JjaiTrwfM+o4B7Zj4GYGeRVu/gv02aEvtYOR1+uQtKhi64XPxTsenX0p2Yvk
+ BgUOuz/RiCV0nzlPb11X/OXiak7wUPE=
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-301-C39VfoO7MV-yeYpZ4NCRHQ-1; Tue, 04 Feb 2020 01:35:21 -0500
+Received: by mail-qk1-f199.google.com with SMTP id b23so3089875qkg.17
+ for <qemu-devel@nongnu.org>; Mon, 03 Feb 2020 22:35:21 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=kN9e3boAdrYe1NQoFTzohP/11uCgTvpjemqgsNre2A8=;
+ b=RW+3jIojcv6QFZfDB/YpdwjOaVelQGBl3y6nGdT97p3b4A09tXdOiyjhypzPtUKwp6
+ O6XXLgTz+3/xB2mf5c7kYRGpQ2yNai5ri6LuzxawXyQshEd/tfelhnAfquZgLzpwGgMV
+ K7+NDdDgoKwslkAQbNcd6TOWvvBVT4qVfHT2pjG7ZS4pzj9jVvIB1hRp7ZNS400qoH3e
+ o7W5kx1pgqiB8CAoM+Vi5CtQ6uvtY9dzLpYGSECXy1AQ+GurrTnSZ0tf7roTsdQcnAvG
+ EOSUvidI0VJk0TT/Sf4yxgjKDcl5VhANL/jgVHwtzqP8J7hRsBo7/yWH21NJUdOtctuP
+ DpRA==
+X-Gm-Message-State: APjAAAU2wd0H6FNqbiDSwvY3LnBVej09nUtNkPv35yvHAb84xtD5dqxI
+ +CNz0/c2Smd1XqWmV67+61LyWejLKvjDJnFeXIeMoPrAwj+cLCyjSju3KDqKGfHGXoQTStgVueg
+ tmF9jJJ16tr/JvpQ=
+X-Received: by 2002:ac8:3fd7:: with SMTP id v23mr26851887qtk.293.1580798120915; 
+ Mon, 03 Feb 2020 22:35:20 -0800 (PST)
+X-Google-Smtp-Source: APXvYqwD2r+9lpz6KZLW6NEVuUB1Iq0iLhKyNHZiqkk5l2yO1KWatevDbfAcEJFBDtHNulGA2UO1RQ==
+X-Received: by 2002:ac8:3fd7:: with SMTP id v23mr26851877qtk.293.1580798120676; 
+ Mon, 03 Feb 2020 22:35:20 -0800 (PST)
+Received: from redhat.com (bzq-109-64-11-187.red.bezeqint.net. [109.64.11.187])
+ by smtp.gmail.com with ESMTPSA id c79sm4687636qkg.12.2020.02.03.22.35.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 03 Feb 2020 22:35:19 -0800 (PST)
+Date: Tue, 4 Feb 2020 01:35:15 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Heyi Guo <guoheyi@huawei.com>
+Subject: Re: [PATCH v3 3/7] arm/virt/acpi: remove _ADR from devices
+ identified by _HID
+Message-ID: <20200204013508-mutt-send-email-mst@kernel.org>
+References: <20200204014325.16279-1-guoheyi@huawei.com>
+ <20200204014325.16279-4-guoheyi@huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <CABgObfa4tUVBbpBtoY3JFSF8-0mRVxgGbzQokc+JrJGPagwPaQ@mail.gmail.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: eNzkYEBxMfuuoghCUs3Ifw-1
+In-Reply-To: <20200204014325.16279-4-guoheyi@huawei.com>
+X-MC-Unique: C39VfoO7MV-yeYpZ4NCRHQ-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 207.211.31.120
@@ -84,40 +89,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefano Garzarella <sgarzare@redhat.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- David Gibson <david@gibson.dropbear.id.au>, qemu-devel <qemu-devel@nongnu.org>,
- Cornelia Huck <conny@cornelia-huck.de>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
+ Shannon Zhao <shannon.zhaosl@gmail.com>, qemu-arm@nongnu.org,
+ Igor Mammedov <imammedo@redhat.com>, wanghaibin.wang@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 04/02/2020 00.26, Paolo Bonzini wrote:
+On Tue, Feb 04, 2020 at 09:43:21AM +0800, Heyi Guo wrote:
+> According to ACPI spec, _ADR should be used for device on a bus that
+> has a standard enumeration algorithm, but not for device which is on
+> system bus and must be enumerated by OSPM. And it is not recommended
+> to contain both _HID and _ADR in a single device.
 >=20
+> See ACPI 6.3, section 6.1, top of page 343:
 >=20
-> Il mar 4 feb 2020, 00:20 Alexey Kardashevskiy <aik@ozlabs.ru
-> <mailto:aik@ozlabs.ru>> ha scritto:
+> A device object must contain either an _HID object or an _ADR object,
+> but should not contain both.
 >=20
->     Speaking seriously, what would I put into the guest?
+> (https://uefi.org/sites/default/files/resources/ACPI_6_3_May16.pdf)
 >=20
-> Only things that would be considered drivers. Ignore the partitions
-> issue for now so that you can just pass the device tree services to QEMU
-> with hypercalls.
->=20
->     Netboot's dhcp/tftp/ip/ipv6 client? It is going to be another SLOF,
->     smaller but adhoc with only a couple of people knowing it.
->=20
->=20
-> You can generalize and reuse the s390 code. All you have to write is the
-> PCI scan and virtio-pci setup.
+> Signed-off-by: Heyi Guo <guoheyi@huawei.com>
+> Acked-by: Igor Mammedov <imammedo@redhat.com>
+> Acked-by: Michael S. Tsirkin <mst@redhat.com>
 
-Well, for netbooting, the s390-ccw bios uses the libnet code from SLOF,
-so re-using this for a slim netboot client on ppc64 would certainly be
-feasible (especially since there are also already virtio drivers in SLOF
-that are written in C), but I think it is not very future proof. The
-libnet from SLOF only supports UDP, and no TCP. So for advanced boot
-scenarios like booting from HTTP or even HTTPS, you need something else
-(i.e. maybe grub is the better option, indeed).
 
- Thomas
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+
+> ---
+> Cc: Shannon Zhao <shannon.zhaosl@gmail.com>
+> Cc: Peter Maydell <peter.maydell@linaro.org>
+> Cc: "Michael S. Tsirkin" <mst@redhat.com>
+> Cc: Igor Mammedov <imammedo@redhat.com>
+> Cc: qemu-arm@nongnu.org
+> Cc: qemu-devel@nongnu.org
+> ---
+>  hw/arm/virt-acpi-build.c | 8 --------
+>  1 file changed, 8 deletions(-)
+>=20
+> diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
+> index 9f4c7d1889..be752c0ad8 100644
+> --- a/hw/arm/virt-acpi-build.c
+> +++ b/hw/arm/virt-acpi-build.c
+> @@ -78,11 +78,6 @@ static void acpi_dsdt_add_uart(Aml *scope, const MemMa=
+pEntry *uart_memmap,
+>                               AML_EXCLUSIVE, &uart_irq, 1));
+>      aml_append(dev, aml_name_decl("_CRS", crs));
+> =20
+> -    /* The _ADR entry is used to link this device to the UART described
+> -     * in the SPCR table, i.e. SPCR.base_address.address =3D=3D _ADR.
+> -     */
+> -    aml_append(dev, aml_name_decl("_ADR", aml_int(uart_memmap->base)));
+> -
+>      aml_append(scope, dev);
+>  }
+> =20
+> @@ -170,7 +165,6 @@ static void acpi_dsdt_add_pci(Aml *scope, const MemMa=
+pEntry *memmap,
+>      aml_append(dev, aml_name_decl("_CID", aml_string("PNP0A03")));
+>      aml_append(dev, aml_name_decl("_SEG", aml_int(0)));
+>      aml_append(dev, aml_name_decl("_BBN", aml_int(0)));
+> -    aml_append(dev, aml_name_decl("_ADR", aml_int(0)));
+>      aml_append(dev, aml_name_decl("_UID", aml_string("PCI0")));
+>      aml_append(dev, aml_name_decl("_STR", aml_unicode("PCIe 0 Device")))=
+;
+>      aml_append(dev, aml_name_decl("_CCA", aml_int(1)));
+> @@ -334,7 +328,6 @@ static void acpi_dsdt_add_gpio(Aml *scope, const MemM=
+apEntry *gpio_memmap,
+>  {
+>      Aml *dev =3D aml_device("GPO0");
+>      aml_append(dev, aml_name_decl("_HID", aml_string("ARMH0061")));
+> -    aml_append(dev, aml_name_decl("_ADR", aml_int(0)));
+>      aml_append(dev, aml_name_decl("_UID", aml_int(0)));
+> =20
+>      Aml *crs =3D aml_resource_template();
+> @@ -364,7 +357,6 @@ static void acpi_dsdt_add_power_button(Aml *scope)
+>  {
+>      Aml *dev =3D aml_device(ACPI_POWER_BUTTON_DEVICE);
+>      aml_append(dev, aml_name_decl("_HID", aml_string("PNP0C0C")));
+> -    aml_append(dev, aml_name_decl("_ADR", aml_int(0)));
+>      aml_append(dev, aml_name_decl("_UID", aml_int(0)));
+>      aml_append(scope, dev);
+>  }
+> --=20
+> 2.19.1
 
 
