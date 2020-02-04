@@ -2,69 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25B7B151DF2
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Feb 2020 17:12:41 +0100 (CET)
-Received: from localhost ([::1]:32808 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BF42151DF6
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Feb 2020 17:14:22 +0100 (CET)
+Received: from localhost ([::1]:32844 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iz0oa-0002XK-57
-	for lists+qemu-devel@lfdr.de; Tue, 04 Feb 2020 11:12:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39043)
+	id 1iz0qD-0004vT-N1
+	for lists+qemu-devel@lfdr.de; Tue, 04 Feb 2020 11:14:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39130)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iz0n6-0001Av-S4
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 11:11:09 -0500
+ (envelope-from <philmd@redhat.com>) id 1iz0nU-0001as-8i
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 11:11:33 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1iz0n5-0006qj-Cz
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 11:11:08 -0500
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:54645)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1iz0n5-0006q6-6Z
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 11:11:07 -0500
-Received: by mail-wm1-x342.google.com with SMTP id g1so3911382wmh.4
- for <qemu-devel@nongnu.org>; Tue, 04 Feb 2020 08:11:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=WXHuWTqPCctY5SsX5s98ozqJxeYA3dnOEm0Mn9wPeV0=;
- b=qssiGh92UxIB4BSRpcbIl8FvUxP1OeQ1uVu6IFjvTpCW9dMUa9voQLug+/vBT+7+Ze
- awBE+9JvIGl05P8yIpPSlgUDBJR/S2l7p/hPFH4B1L3bf68gqkefo7VHf65jyflHnn00
- OiXiAohWqN0wD8Lj15FTq3T1wNAIx+QQk8X3/ZtNbp7eZWKsB7pjA4k0sj4dpOhGcZJH
- FXA7HetBFwuUpFsd5ZCVhhTNVJEbXzE0hYvsTOYeo271DDqYHbsUyM/0OU495pCUCWbr
- X+KIWK5HoDs/thMoKdpR5O4YmyQBqBDD27Wc+Enhm4F8bdYXYJipA9iob+IHPT/YkWaJ
- yYrw==
+ (envelope-from <philmd@redhat.com>) id 1iz0nS-0007Dm-Gi
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 11:11:31 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:22935
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iz0nS-0007Ci-Cr
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 11:11:30 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1580832689;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=vDpB2ppW+BBB0Ii7NtkXQbKKpMQyhNIz+1zyHoo8rRc=;
+ b=h4uyG8N47wz1RuMMWYt0n0cLUjIei9UVHsj0WWM6Z9rcmE8rkaYEEwfFTAEiEnjw44ggOI
+ 5u0Qdg03yxHm/rmJ8UaRqAsqsQMyNAqQRH7GCktCEOdt5dKBFmfgQuk9QV9IlWfNjJYI6j
+ yy3gyAMMJR89pv5gF0nrW/G/AioX6MU=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-359-LDapZWXtOF6bxJdgD-RxHw-1; Tue, 04 Feb 2020 11:11:14 -0500
+Received: by mail-wm1-f71.google.com with SMTP id y24so1466432wmj.8
+ for <qemu-devel@nongnu.org>; Tue, 04 Feb 2020 08:11:14 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=WXHuWTqPCctY5SsX5s98ozqJxeYA3dnOEm0Mn9wPeV0=;
- b=WUGd4iZV5HoOwl4SkrDalf9/6TqubrB9qG4T5uLVZ37dLCMVTWe5WcFdZFhXW+ZhRy
- Tg9Z6vqmyfu64VMIdZ42lVs/MA+hlOxnwczEeTJV/Do5c2x1n6oRwDqOQAY3INHwTJcI
- Rr0jwXjJbpL3Hx6/WWjNv1dzYOPmJXxUVhzCoVMkNCwB/HxwQHOnMVtkWmnTDcmReNwG
- O3AoCuzeb9X0HLVybu63zS+0ur1uJEyRWxHLcoLVc1FjIiKfquhnn8RO3Df3QjWmku3Z
- uCUSapGB0Q9fJcuS8efnzBrF09hwwW4ivs+OzZ08nZcL4nVxV7WLUPN3+/qWj7p2/wO6
- /AQQ==
-X-Gm-Message-State: APjAAAUsJkXteUDvi77WVfdKM4I6W1TgvEp0SAowDwPmXQEF0g1wK1jq
- RKXx4ydhNCmmqi1EjZmMcSzi+Rcj
-X-Google-Smtp-Source: APXvYqxBxSYHd60/vUEulRD2O03L9YpcEc7U+FfpLejmSc01K7UzANHY3Rc4rFIZ1049zoBImyBi5A==
-X-Received: by 2002:a1c:3b0a:: with SMTP id i10mr7000396wma.177.1580832665849; 
- Tue, 04 Feb 2020 08:11:05 -0800 (PST)
-Received: from donizetti.redhat.com ([151.20.243.54])
- by smtp.gmail.com with ESMTPSA id w8sm4463708wmm.0.2020.02.04.08.11.05
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Feb 2020 08:11:05 -0800 (PST)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] build: move TARGET_GPROF to config-host.mak
-Date: Tue,  4 Feb 2020 17:11:04 +0100
-Message-Id: <20200204161104.21077-1-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.21.0
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=fnIQPhTliso0rVmx+j5E8JyYeUSU4Es5zn7Q//Mu880=;
+ b=p6/BImgtKseFKTUtW7tA9Go5aKP1fxnbuugJxG4hy13eNtQI7dNhMBC8qGacUgQttO
+ F/IwuCiK7H4M3dT97TsAv+TmuTVe/TRNo7Ht58aKyjfGI0sLdH253to+iTHpvwX3cgx7
+ 2eDab2Xv9Ojr7p5jppoNFY4t297RbVxqx9Nr6uizIP/1RwAXf7jepSGBLtLKSsR5cwdt
+ CUrDh3L/CyKg/XnnT2DRCLix17SRSjzkwt6mvfVhkjSkXaV/71E/y4EkI0ouk1PYcdoe
+ d/7vWsTCwotMFTyg5vtfLOdjnldLLl498sTTB8FMkVF1gqKOMXc/Ukpn6pbhUadSAEjB
+ 9Xlw==
+X-Gm-Message-State: APjAAAVtHPTy5pF9Nq/toVVm5OdglQ5YCJclqYnnLCiEoNrOyBbfnMVI
+ ilXXwOaPG87uFs0i3E0K8FcutywhKUrW0LIEYnjzRydPZAHrXy3NOyB2bMiDd2swk4gWSfEUpkR
+ EG45GcsiG0LQyvCs=
+X-Received: by 2002:adf:a746:: with SMTP id e6mr22841253wrd.329.1580832673189; 
+ Tue, 04 Feb 2020 08:11:13 -0800 (PST)
+X-Google-Smtp-Source: APXvYqwWB1anHXSyvamZx01dtS5aA8aRBQu6eINnrioed+BiIEx/ue+gmuzWnHubohXGi3zpFRdOEg==
+X-Received: by 2002:adf:a746:: with SMTP id e6mr22841241wrd.329.1580832672965; 
+ Tue, 04 Feb 2020 08:11:12 -0800 (PST)
+Received: from [192.168.1.35] (162.red-83-52-55.dynamicip.rima-tde.net.
+ [83.52.55.162])
+ by smtp.gmail.com with ESMTPSA id 133sm5130187wmd.5.2020.02.04.08.11.12
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 04 Feb 2020 08:11:12 -0800 (PST)
+Subject: Re: [PATCH] scripts/signrom: remove Python 2 support, add shebang
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <20200204160028.16211-1-pbonzini@redhat.com>
+ <a1940860-ff53-ee17-bb28-bfae85bc4b98@redhat.com>
+ <ca7a1e44-8a8f-2e45-e6c3-37541648231d@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <8d18ae5a-031e-0ffc-01eb-befe0926e216@redhat.com>
+Date: Tue, 4 Feb 2020 17:11:11 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::342
+In-Reply-To: <ca7a1e44-8a8f-2e45-e6c3-37541648231d@redhat.com>
+Content-Language: en-US
+X-MC-Unique: LDapZWXtOF6bxJdgD-RxHw-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,120 +96,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-TARGET_GPROF is the same for all targets, write it to
-config-host.mak instead.
+On 2/4/20 5:07 PM, Paolo Bonzini wrote:
+> On 04/02/20 17:02, Philippe Mathieu-Daud=C3=A9 wrote:
+>> On 2/4/20 5:00 PM, Paolo Bonzini wrote:
+>>> Based-on: <20200130163232.10446-1-philmd@redhat.com>
+>>> Cc: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+>>> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+>>> ---
+>>>  =C2=A0 scripts/signrom.py | 12 ++++--------
+>>>  =C2=A0 1 file changed, 4 insertions(+), 8 deletions(-)
+>>>
+>>> diff --git a/scripts/signrom.py b/scripts/signrom.py
+>>> index 313ee28a17..9be5dab1cf 100644
+>>> --- a/scripts/signrom.py
+>>> +++ b/scripts/signrom.py
+>>> @@ -1,3 +1,5 @@
+>>> +#!/usr/bin/env python3
+>>> +
+>>>  =C2=A0 from __future__ import print_function
+>>>  =C2=A0 #
+>>>  =C2=A0 # Option ROM signing utility
+>>> @@ -44,14 +46,8 @@ fout.write(data)
+>>>  =C2=A0 =C2=A0 checksum =3D 0
+>>>  =C2=A0 for b in data:
+>>> -=C2=A0=C2=A0=C2=A0 # catch Python 2 vs. 3 differences
+>>> -=C2=A0=C2=A0=C2=A0 if isinstance(b, int):
+>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 checksum +=3D b
+>>> -=C2=A0=C2=A0=C2=A0 else:
+>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 checksum +=3D ord(b)
+>>> -checksum =3D (256 - checksum) % 256
+>>> -
+>>> -# Python 3 no longer allows chr(checksum)
+>>> +=C2=A0=C2=A0=C2=A0 checksum =3D (checksum - b) & 255
+>>> +
+>>>  =C2=A0 fout.write(struct.pack('B', checksum))
+>>>  =C2=A0 =C2=A0 fin.close()
+>>>
+>>
+>> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+>>
+>> Also, applied to my python-next tree:
+>> https://gitlab.com/philmd/qemu/commits/python-next
+>=20
+> Oh, good.  So I've unqueued your series on which this is based.
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- bsd-user/syscall.c   | 6 +++---
- configure            | 4 +++-
- linux-user/exit.c    | 4 ++--
- linux-user/signal.c  | 2 +-
- tests/check-block.sh | 2 +-
- 5 files changed, 10 insertions(+), 8 deletions(-)
+Aargh I received your "series queued" mail _after_ this patch.
 
-diff --git a/bsd-user/syscall.c b/bsd-user/syscall.c
-index 0d45b654bb..d38ec7a162 100644
---- a/bsd-user/syscall.c
-+++ b/bsd-user/syscall.c
-@@ -330,7 +330,7 @@ abi_long do_freebsd_syscall(void *cpu_env, int num, abi_long arg1,
- 
-     switch(num) {
-     case TARGET_FREEBSD_NR_exit:
--#ifdef TARGET_GPROF
-+#ifdef CONFIG_GPROF
-         _mcleanup();
- #endif
-         gdb_exit(cpu_env, arg1);
-@@ -432,7 +432,7 @@ abi_long do_netbsd_syscall(void *cpu_env, int num, abi_long arg1,
- 
-     switch(num) {
-     case TARGET_NETBSD_NR_exit:
--#ifdef TARGET_GPROF
-+#ifdef CONFIG_GPROF
-         _mcleanup();
- #endif
-         gdb_exit(cpu_env, arg1);
-@@ -511,7 +511,7 @@ abi_long do_openbsd_syscall(void *cpu_env, int num, abi_long arg1,
- 
-     switch(num) {
-     case TARGET_OPENBSD_NR_exit:
--#ifdef TARGET_GPROF
-+#ifdef CONFIG_GPROF
-         _mcleanup();
- #endif
-         gdb_exit(cpu_env, arg1);
-diff --git a/configure b/configure
-index 5095f01728..08c28e73db 100755
---- a/configure
-+++ b/configure
-@@ -6771,6 +6771,9 @@ fi
- if test "$l2tpv3" = "yes" ; then
-   echo "CONFIG_L2TPV3=y" >> $config_host_mak
- fi
-+if test "$gprof" = "yes" ; then
-+  echo "CONFIG_GPROF=y" >> $config_host_mak
-+fi
- if test "$cap_ng" = "yes" ; then
-   echo "CONFIG_LIBCAP_NG=y" >> $config_host_mak
- fi
-@@ -7951,7 +7954,6 @@ alpha)
- esac
- 
- if test "$gprof" = "yes" ; then
--  echo "TARGET_GPROF=y" >> $config_target_mak
-   if test "$target_linux_user" = "yes" ; then
-     cflags="-p $cflags"
-     ldflags="-p $ldflags"
-diff --git a/linux-user/exit.c b/linux-user/exit.c
-index a362ef67d2..1594015444 100644
---- a/linux-user/exit.c
-+++ b/linux-user/exit.c
-@@ -18,7 +18,7 @@
-  */
- #include "qemu/osdep.h"
- #include "qemu.h"
--#ifdef TARGET_GPROF
-+#ifdef CONFIG_GPROF
- #include <sys/gmon.h>
- #endif
- 
-@@ -28,7 +28,7 @@ extern void __gcov_dump(void);
- 
- void preexit_cleanup(CPUArchState *env, int code)
- {
--#ifdef TARGET_GPROF
-+#ifdef CONFIG_GPROF
-         _mcleanup();
- #endif
- #ifdef CONFIG_GCOV
-diff --git a/linux-user/signal.c b/linux-user/signal.c
-index 5ca6d62b15..02f860ecb9 100644
---- a/linux-user/signal.c
-+++ b/linux-user/signal.c
-@@ -509,7 +509,7 @@ void signal_init(void)
-     act.sa_flags = SA_SIGINFO;
-     act.sa_sigaction = host_signal_handler;
-     for(i = 1; i <= TARGET_NSIG; i++) {
--#ifdef TARGET_GPROF
-+#ifdef CONFIG_GPROF
-         if (i == SIGPROF) {
-             continue;
-         }
-diff --git a/tests/check-block.sh b/tests/check-block.sh
-index 679aedec50..ad320c21ba 100755
---- a/tests/check-block.sh
-+++ b/tests/check-block.sh
-@@ -16,7 +16,7 @@ if [ "$#" -ne 0 ]; then
-     format_list="$@"
- fi
- 
--if grep -q "TARGET_GPROF=y" *-softmmu/config-target.mak 2>/dev/null ; then
-+if grep -q "CONFIG_GPROF=y" config-host.mak 2>/dev/null ; then
-     echo "GPROF is enabled ==> Not running the qemu-iotests."
-     exit 0
- fi
--- 
-2.21.0
+As you prefer, but I have various python patches pending already.
+If I keep "Explicit usage of Python 3" do you mind Acking it?
+
+Thanks!
+
+Phil.
 
 
