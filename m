@@ -2,85 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00307151BE7
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Feb 2020 15:12:28 +0100 (CET)
-Received: from localhost ([::1]:59292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93DBF151BEC
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Feb 2020 15:14:39 +0100 (CET)
+Received: from localhost ([::1]:59334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iyywG-0004MX-2j
-	for lists+qemu-devel@lfdr.de; Tue, 04 Feb 2020 09:12:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42593)
+	id 1iyyyM-0008VI-C1
+	for lists+qemu-devel@lfdr.de; Tue, 04 Feb 2020 09:14:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44559)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iyytu-0002fM-Q2
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 09:10:03 -0500
+ (envelope-from <wainersm@redhat.com>) id 1iyyvW-00043I-ET
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 09:11:43 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iyyts-0005jR-Le
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 09:10:01 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:26065
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <wainersm@redhat.com>) id 1iyyvV-0001zJ-7r
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 09:11:42 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:46456
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iyyts-0005WI-FQ
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 09:10:00 -0500
+ (Exim 4.71) (envelope-from <wainersm@redhat.com>) id 1iyyvV-0001wG-2t
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 09:11:41 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580825399;
+ s=mimecast20190719; t=1580825500;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=XhFvY/d9RGzMkCS1ZnjSvRY/TsulWyn0WzMNun3rIQk=;
- b=cd+6OBNNqV/57CtKnBWkxKB8jcR01+zSm5ZrfB0aXVAJcoY6r85d/OmMvhjbtVk3DZmszl
- GgTlRwlhGpG6chcvhILUU1x27DJgE/TnGs5yXLY9hqE58IKPju0ogK5+fnTTU86P01rj9B
- 9n5UhbtPbm/fYAIqB45Z+BPIeJGsrVA=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-204-V7NmI2v3PyCq0QEwfBqGzQ-1; Tue, 04 Feb 2020 09:09:57 -0500
-Received: by mail-wm1-f69.google.com with SMTP id o193so1390466wme.8
- for <qemu-devel@nongnu.org>; Tue, 04 Feb 2020 06:09:57 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=oMHhLntIOzNpL++qY18PVuef0q6WtaIdCfxJHESAXHk=;
- b=PJfYf/o44ShWEmOvKufq5E0j6t8kFy9gmLyIp5jRdprgxNHTFkTWwqR0XWDmW35DC9
- hlUqfzeKeXbLU4njsnh4M4i5h8vueUXbDhMOqUOtS+T50F/aCoT6OzIbbuqgkv6dJHy6
- 5HXcz+QrnRnQXNDHZgrRSB4wn2qsB6lWnY4GPYar/w0kikr89jzUY2mP8J1cpwzz7Idt
- /M+Io2WDkenQrvNcuaCQ4NjhdWmbGP9WOl8ni/V1MSBqLpa6rx5AeBvjiZr9xbpOw1iN
- 9ygugFiOdWAE9Vjp/+lw0pEbjeHSpitZYopYjx9yFedCCFHO3l87VSHmRhOUWGaev5eg
- 8A6Q==
-X-Gm-Message-State: APjAAAWxJ1BLD4O18WP03w1uYIPqPXZFHg3HATE4tamnnQuQYPXGYTwT
- F0nfj9NvsygRjyHuivXQ/6Be/RCePrLNE81B4BK4eU6ppglsCmQqi7JWgzJ9cMwlTz/HgD1SLIQ
- MIunzSGuUfzLqDVg=
-X-Received: by 2002:a5d:640d:: with SMTP id z13mr21366011wru.181.1580825396441; 
- Tue, 04 Feb 2020 06:09:56 -0800 (PST)
-X-Google-Smtp-Source: APXvYqwE8SNBK5thyDhuugHReQ/uk///q8wzXzigRrRNOW5M8dgtzQrWDJPMGVmYkpqUoeGKWQVWhw==
-X-Received: by 2002:a5d:640d:: with SMTP id z13mr21365985wru.181.1580825396221; 
- Tue, 04 Feb 2020 06:09:56 -0800 (PST)
-Received: from [192.168.1.35] (162.red-83-52-55.dynamicip.rima-tde.net.
- [83.52.55.162])
- by smtp.gmail.com with ESMTPSA id f14sm10943766wrt.7.2020.02.04.06.09.55
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 04 Feb 2020 06:09:55 -0800 (PST)
-Subject: Re: [PATCH v3 1/2] Acceptance test: provides to use different
- transport for migration
-To: Oksana Vohchana <ovoshcha@redhat.com>, qemu-devel@nongnu.org
-References: <20200203111631.18796-1-ovoshcha@redhat.com>
- <20200203111631.18796-2-ovoshcha@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <de189681-bf7b-be83-ee0a-1a0bb0302a3f@redhat.com>
-Date: Tue, 4 Feb 2020 15:09:54 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ content-transfer-encoding:content-transfer-encoding;
+ bh=AjyNbxSBpGsTz/kjzywnCOtECablM3ZAABUPyUM8ibY=;
+ b=PMKpM3sVczWXyVlRZIErr3R/wa6bEu/C31GigjauaYWcw90oyQmgUSIMviJgJsEd5UUw10
+ P4QpwoTbjWOatdNkY3oE/smkAyhxYe95XsrR+aSy4cov+xM1u+W5LyI+1JrWxxDyNtXwMD
+ o8JCkqXACBzugmLS9BUAoXP0RkKHi7E=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-317-QCVJNYHCPcqEwMEoJ-nPPg-1; Tue, 04 Feb 2020 09:11:25 -0500
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0E8B380573D
+ for <qemu-devel@nongnu.org>; Tue,  4 Feb 2020 14:11:24 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-116-4.gru2.redhat.com [10.97.116.4])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 353137792B;
+ Tue,  4 Feb 2020 14:11:14 +0000 (UTC)
+From: Wainer dos Santos Moschetta <wainersm@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/5] python/qemu: qmp: Fix, delint and improvements
+Date: Tue,  4 Feb 2020 11:11:06 -0300
+Message-Id: <20200204141111.3207-1-wainersm@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200203111631.18796-2-ovoshcha@redhat.com>
-Content-Language: en-US
-X-MC-Unique: V7NmI2v3PyCq0QEwfBqGzQ-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-MC-Unique: QCVJNYHCPcqEwMEoJ-nPPg-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,99 +68,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: wainersm@redhat.com, crosa@redhat.com
+Cc: jsnow@redhat.com, philmd@redhat.com, ehabkost@redhat.com, crosa@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Oksana,
+I started fixing an issue on exception handling which in some places
+currently use the deprecated (in Python 3.3) `socket.error`. Then I
+ended up delinting the module code and making some improvements.
 
-On 2/3/20 12:16 PM, Oksana Vohchana wrote:
-> Along with VM migration via TCP, we can use migration through EXEC
-> and UNIX transport protocol
->=20
-> Signed-off-by: Oksana Vohchana <ovoshcha@redhat.com>
->=20
-> ---
-> v2:
->    - Removes unnecessary symbols and unused method
->=20
-> v3:
->   - Makes refactoring and split into 2 patches
-> Signed-off-by: Oksana Vohchana <ovoshcha@redhat.com>
-> ---
->   tests/acceptance/migration.py | 36 ++++++++++++++++++++---------------
->   1 file changed, 21 insertions(+), 15 deletions(-)
->=20
-> diff --git a/tests/acceptance/migration.py b/tests/acceptance/migration.p=
-y
-> index a44c1ae58f..34263d8eeb 100644
-> --- a/tests/acceptance/migration.py
-> +++ b/tests/acceptance/migration.py
-> @@ -24,6 +24,26 @@ class Migration(Test):
->       def migration_finished(vm):
->           return vm.command('query-migrate')['status'] in ('completed', '=
-failed')
->  =20
-> +    def assert_migration(self, source_vm, dest_vm):
-> +        wait.wait_for(self.migration_finished,
-> +                      timeout=3Dself.timeout,
-> +                      step=3D0.1,
-> +                      args=3D(source_vm,))
-> +        self.assertEqual(source_vm.command('query-migrate')['status'], '=
-completed')
-> +        self.assertEqual(dest_vm.command('query-migrate')['status'], 'co=
-mpleted')
-> +        self.assertEqual(dest_vm.command('query-status')['status'], 'run=
-ning')
-> +        self.assertEqual(source_vm.command('query-status')['status'], 'p=
-ostmigrate')
-> +
-> +    def do_migrate(self, dest_uri, src_uri=3DNone):
-> +        source_vm =3D self.get_vm()
-> +        dest_vm =3D self.get_vm('-incoming', dest_uri)
-> +        dest_vm.launch()
-> +        if src_uri is None:
-> +            src_uri =3D dest_uri
-> +        source_vm.launch()
-> +        source_vm.qmp('migrate', uri=3Dsrc_uri)
-> +        self.assert_migration(source_vm, dest_vm)
-> +
+Changes in v2:
+- Rebased to master. No conflicts.
+- Added docstring describing the allowed value of the new `timeout`
+  option in accept() (patch 03) [jsnow]
+- Set the new `timeout` option to 15.0 by default [philmd]
 
-Do you mind if I split this patch in 2 when applying to python-next, and=20
-change the subjects as "Extract Migration::assert_migration" and=20
-"Extract Migration::do_migrate"?
+v1: https://www.mail-archive.com/qemu-devel@nongnu.org/msg667479.html
 
-Meanwhile:
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Git:
+- Tree: https://github.com/wainersm/qemu
+- Branch: python_qmp_sockets_error-v2
 
->       def _get_free_port(self):
->           port =3D network.find_free_port()
->           if port is None:
-> @@ -32,19 +52,5 @@ class Migration(Test):
->  =20
->  =20
->       def test_migration_with_tcp_localhost(self):
-> -        source_vm =3D self.get_vm()
->           dest_uri =3D 'tcp:localhost:%u' % self._get_free_port()
-> -        dest_vm =3D self.get_vm('-incoming', dest_uri)
-> -        dest_vm.launch()
-> -        source_vm.launch()
-> -        source_vm.qmp('migrate', uri=3Ddest_uri)
-> -        wait.wait_for(
-> -            self.migration_finished,
-> -            timeout=3Dself.timeout,
-> -            step=3D0.1,
-> -            args=3D(source_vm,)
-> -        )
-> -        self.assertEqual(dest_vm.command('query-migrate')['status'], 'co=
-mpleted')
-> -        self.assertEqual(source_vm.command('query-migrate')['status'], '=
-completed')
-> -        self.assertEqual(dest_vm.command('query-status')['status'], 'run=
-ning')
-> -        self.assertEqual(source_vm.command('query-status')['status'], 'p=
-ostmigrate')
-> +        self.do_migrate(dest_uri)
->=20
+CI:
+- Travis (FAIL): https://travis-ci.org/wainersm/qemu/builds/645583812
+  Jobs failures aren't related with these changes
+
+
+Wainer dos Santos Moschetta (5):
+  python/qemu: qmp: Replace socket.error with OSError
+  python/qemu: Delint the qmp module
+  python/qemu: qmp: Make accept()'s timeout configurable
+  python/qemu: qmp: Make QEMUMonitorProtocol a context manager
+  python/qemu: qmp: Remove unnused attributes
+
+ python/qemu/qmp.py | 97 +++++++++++++++++++++++++++++++++-------------
+ 1 file changed, 71 insertions(+), 26 deletions(-)
+
+--=20
+2.23.0
 
 
