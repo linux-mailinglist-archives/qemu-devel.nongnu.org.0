@@ -2,74 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC52A1520A7
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Feb 2020 19:52:12 +0100 (CET)
-Received: from localhost ([::1]:36394 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 763D51520A4
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Feb 2020 19:50:55 +0100 (CET)
+Received: from localhost ([::1]:36362 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iz3Iy-0005Jl-1x
-	for lists+qemu-devel@lfdr.de; Tue, 04 Feb 2020 13:52:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54435)
+	id 1iz3Hi-0003T3-I0
+	for lists+qemu-devel@lfdr.de; Tue, 04 Feb 2020 13:50:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52094)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iz3Dz-0006wM-1O
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 13:47:05 -0500
+ (envelope-from <berrange@redhat.com>) id 1iz3B2-0000qI-Ic
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 13:44:02 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iz3Dx-0003ZU-W8
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 13:47:02 -0500
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:41636)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iz3Dx-0003XA-Ps
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 13:47:01 -0500
-Received: by mail-wr1-x42c.google.com with SMTP id c9so24429905wrw.8
- for <qemu-devel@nongnu.org>; Tue, 04 Feb 2020 10:47:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=PRUtPn265vexHf4VVNiwt/Msvkmc1PvT0xeNxB5F/RM=;
- b=FTv6Lby9v2XCBqEpuSrxPvB7zU7rQP/Rbwu4qj0q0dChRbGF4+cGRYdGNnZdPKWhi0
- oPKDtIav7BnzL8L9mI2YiltweU770REkxph3KatiBtJuyNbucYZk2lqowNaQ8xMVyVbE
- gRFhXdRW0bnsumFz2c2+KLNVqN0ia56VhQD2Fb/G8xp1PuDMBT4oIE+lJB0v5tqrecdb
- lPIS2n4pvkGeLaVyCAE/zkQxT9PwTL36nNho9fCEaX5JteDgMB7RMInxuEzScpavTUHq
- mlB2WE2Z0CiS8JDustJpHf9mLpB85iuwSYzMk3vYgoMBqWeYO0Ul+Sc/+jFaAz26AP3d
- 2MyA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=PRUtPn265vexHf4VVNiwt/Msvkmc1PvT0xeNxB5F/RM=;
- b=ZDVzzqEmH8mZ8XpqVvyPQWSWmNe9iCjvXNxeZLS43NEZ0LH1ufvMlGt4bA/awRuh3C
- f5LbbJ6n/PW+v5f2VbFMdooWXtyWNUxQ3Yx1wT8bDJUfqKgOOzIWunX4AuqP4r+G0UYs
- S4DRey3HojdGJxFFV61PZgWufqcPJEENdNKN7I7QpziFiekHWMn0BbgCMrYfPY3aBfS1
- 4y9HnX36MRVEHQjs1lA/tLZhGVuzY3jSKFL5nVNzDrAPQWl1npsCy6lOze/5dhob+ilX
- d+Xlvaz32qWwCZx7kFcCZ8CybTxW1v7imrpkMGr/0jxS5jHZymtlv2d3cHLN+f8PXAV1
- U/mg==
-X-Gm-Message-State: APjAAAVQSv0iNpnViDjq3RmY9UBbo2VcXs45VA+uZ1Na0fpJmBjkasOH
- zlA249mG0ishLEC9lmlzNW2LAw==
-X-Google-Smtp-Source: APXvYqxlqp03gkY5bdBv+E70VxnfThBCkGoUoM9CgdkKMi8LRmUgzrXhHaMzkbFh9pZWVJzgJDGpDw==
-X-Received: by 2002:a5d:4ec2:: with SMTP id s2mr21986011wrv.291.1580842020818; 
- Tue, 04 Feb 2020 10:47:00 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id o4sm15929797wrw.15.2020.02.04.10.46.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Feb 2020 10:46:57 -0800 (PST)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id CA4221FFA5;
- Tue,  4 Feb 2020 18:40:29 +0000 (GMT)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: peter.maydell@linaro.org
-Subject: [PULL 16/16] .travis.yml: ensure python3-sphinx installed for docs
-Date: Tue,  4 Feb 2020 18:40:28 +0000
-Message-Id: <20200204184028.13708-17-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200204184028.13708-1-alex.bennee@linaro.org>
-References: <20200204184028.13708-1-alex.bennee@linaro.org>
+ (envelope-from <berrange@redhat.com>) id 1iz3Az-0000rr-Dc
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 13:43:59 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:30955
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1iz3Az-0000ea-06
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 13:43:57 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1580841834;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=dXGiDt59cJ2kbq+0F66RfMVXNmw/WMtVS+HyPuMofzk=;
+ b=KvnsLc0W40JT0qomDlAOCwsQnM0Uk/X3UlqnuAbMk4ZNIrXqotCxWtf5RmEnTZqYHsW202
+ +Y6obIN0L3EBZfZUUhAOlpdIz4rsNEKXuyVexCSQYFwYhAVvJ4uG5BSK2qcsf8c2g2WcZZ
+ 6t9nM09xtc9H2oZXaw/WXHDbDrqMTLQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-157-Q5oGmxmcOgGeZhKAJmgnSw-1; Tue, 04 Feb 2020 13:43:46 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6827F1137849
+ for <qemu-devel@nongnu.org>; Tue,  4 Feb 2020 18:43:45 +0000 (UTC)
+Received: from redhat.com (ovpn-112-55.ams2.redhat.com [10.36.112.55])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8F4B186C4A;
+ Tue,  4 Feb 2020 18:43:38 +0000 (UTC)
+Date: Tue, 4 Feb 2020 18:43:36 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Laine Stump <laine@redhat.com>
+Subject: Re: Disabling PCI "hot-unplug" for a guest (and/or a single PCI
+ device)
+Message-ID: <20200204184336.GG2205287@redhat.com>
+References: <16db1dcd-d1a3-5bd9-2daa-d16a0f2d168e@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::42c
+In-Reply-To: <16db1dcd-d1a3-5bd9-2daa-d16a0f2d168e@redhat.com>
+User-Agent: Mutt/1.13.3 (2020-01-12)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: Q5oGmxmcOgGeZhKAJmgnSw-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,30 +75,206 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: libvir-list@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200204105142.21845-1-alex.bennee@linaro.org>
+On Mon, Feb 03, 2020 at 05:19:51PM -0500, Laine Stump wrote:
+> Although I've never experienced it, due to not running Windows guests, I'=
+ve
+> recently learned that a Windows guest permits a user (hopefully only one
+> with local admin privileges??!) to "hot-unplug" any PCI device. I've also
+> learned that some hypervisor admins don't want to permit admins of the
+> virtual machines they're managing to unplug PCI devices. I believe this i=
+s
+> impossible to prevent on an i440fx-based machinetype, and can only be don=
+e
+> on a q35-based machinetype by assigning the devices to the root bus (so t=
+hat
+> they are seen as integrated devices) rather than to a pcie-root-port. But
+> when libvirt is assigning PCI addresses to devices in a q35-base guest, i=
+t
+> will *always* assign a PCIe device to a pcie-root-port specifically so th=
+at
+> hotplug is possible (this was done to maintain functional parity with i44=
+0fx
+> guests, where all PCI slots support hotplug).
 
-diff --git a/.travis.yml b/.travis.yml
-index 3b35b7cf04d..6c0ec6cf69f 100644
---- a/.travis.yml
-+++ b/.travis.yml
-@@ -194,7 +194,7 @@ matrix:
-       addons:
-         apt:
-           packages:
--            - python-sphinx
-+            - python3-sphinx
-             - texinfo
-             - perl
- 
--- 
-2.20.1
+After speaking with Alex & Laine on IRC, I learnt some further relevant
+points
+
+ - In a "typical" physical machine PCI slots will not be marked
+   as hotpluggable - /sys/bus/pci/slots only has 2 entries on
+   my HP DL180, corresponding to unused physical PCI slots
+  =20
+ - QEMU is hardcoded to report all pci & pcie-root-ports as hotpluggable.
+   So /sys/bus/pci/slots on i440fx has 31 entries, one for every
+   device, while on q35 it has one entry for every pcie-root-port
+   IIUC.
+
+ - It is conceptually possible to enhance pcie-root-port device
+   to allow its hotplug capability to be toggled. Alternatively
+   a parallel  pcie-root-port-nohotplug device could be created.
+   The end result would be the same from guest POV
+
+ - The vfio-pci device has a companion vfio-pci-nohotplug
+   device. The difference is simply whether the QEMU DEviceClass
+   has the "hotpluggable" attribute set, and is separate from
+   whether the PCI(e) root port has hotplug enabled
+
+
+The last point here about vfio-pci si particularly important,
+as it shows libvirt needs to be capable of tracking hotpluggability
+independantly on the PCI port and the PCI device attached to the
+port.
+
+
+> 1) Rather than leaving the task of assignung the PCI addresses of devices=
+ to
+> libvirt (which is what essentially *all* management apps that use libvirt
+> currently do), the management application could itself directly assign th=
+e
+> PCI addressed of all devices to be slots on pcie.0.
+
+[snip]
+
+This is essentially a hack to work around the fact the the pcie-root-port
+is hardcoded to report itself as hotpluggable.
+
+As such I don't consider this is serious long term solution. If you
+absolutely cannot wait for a newer libvirt/QEMU, this solution could
+be used as a quick hack for mgmt apps, but long term we need todo
+better.
+
+> 2) libvirt could gain a knob "somewhere" in the domain XML to force a sin=
+gle
+> device, or all devices, to be assigned to a PCI address on pcie.0 rather
+> than on a pcie-root-port. This could be thought of as a "hint" about devi=
+ce
+> placement, as well as extra validation in the case that a PCI address has
+> been manually assigned. So, for example, let's say a "hotplug=3D'disable'=
+"
+> option is added somewhere at the top level of the domain (maybe "<hotplug
+> enable=3D'no'/>" inside <features> or something like that); when PCI addr=
+esses
+> are assigned by libvirt, it would attempt to find a slot on a controller
+> that didn't support hotplug. And/or a similar knob could be added to each
+> device. In both cases, the setting would be used both when assigning PCI
+> addresses and also to validate user-provided PCI addresses to assure that
+> the desired criterion was met (otherwise someone would manually select a =
+PCI
+> address on a controller that supported hotplug, but then set
+> "hotplug=3D'disabled'" and expect hotplug to be magically disabled on the
+> slot).
+
+Essentially this is the using "hotpluggable=3Dyes|no" on the device as
+a policy knob to control device placement, to again workaround the
+fact that pcie-root-port are hardcoded to always report themselves
+as hotpluggable.
+
+So I'd think this should be ruled out for the same reason as
+option 1.
+
+It has a second downside though. As we see from vfio-pci-nohotplug,
+there is a valid use case for a "hotpluggable=3Dyes|no" attribute on
+a device for controlling a specific hardware config choice in QEMU.
+
+We don't want to overload this attribute to both control use of
+vfio-pci-nohotplug, and also be a policy knob for device placement.
+
+
+> 3) qemu could add a "hotpluggable=3Dno" commandline option to all PCI dev=
+ices
+> (including vfio-pci) and then do whatever is necessary to make sure this =
+is
+> honored in the emulated hardware (is it possible to set this on a per-slo=
+t
+> basis in a PCI controller? Or must it be done for an entire controller? I
+> suppose it's not as much of an issue for pcie-root-port, as long as you'r=
+e
+> not using multiple functions). libvirt would then need to add this option=
+ to
+> the XML for each device, and management applications would need to set it=
+ -
+> it would essentially look the same to the management application, but it
+> would be implemented differently - instead of libvirt using that flag to
+> make a choice about which slot to assign, it would assign PCI addresses i=
+n
+> the same manner as before, and use the libvirt XML flag to set a QEMU
+> commandline flag for the device.
+
+I think this, or something close to it is the desirable way forward
+here, as it gives us more explicit control over what the emulated
+hardware actually advertizes. So instead of trying to workaround
+limitations of QEMU, we'd be working /with/ QEMU to improve its
+feature offerings.
+
+In QEMU pcie-root-port either needs to gain a hotpluggable=3Dyes|no
+attribute, or a second pcie-root-port-nohotplug needs adding.
+
+Withever of these two approaches are taken in QEMU, this can be
+controlled from libvirt via an attribute on the controller.eg
+
+   <controller type=3D'pci' model=3D'pcie-root-port' hotpluggable=3D"no|yes=
+"/>
+
+This hotpluggable attribute can be mapped to whichever CLI syntax
+QEMU wants to support.
+
+This alone is probably sufficient for the Windows problem motivating
+this thread.
+
+There already exists the vfio-pci-nohotplug device, but this is not
+exposed by libvirt. So we can add an attribute to <hostdev> to
+control its use.
+
+The remaining question is whether there's any compelling reason to
+add non-hotpluggable variants of other devices, virtio-net-pci-nohotplug ?
+
+I'd probably /not/ do this, unless there's a clear compelling benefit
+it gives which can't be achieved already via the pcie-root-port
+hotpluggability controls.
+
+
+For management applications, with Q35 we already recommend that they
+explicitly add *many*
+
+   <controller type=3D'pci' model=3D'pcie-root-port'/>
+
+to new guests. Enough to cover all the initial cold-plugged devices,
+and enough spare ports to enable future hotplug of extra devices.
+OpenStack for example will add 32 pcie-root-ports, so that Q35 has
+approximately the same hotplug capacity as i440fx would have offered.
+
+To control hotplug, management apps simply need tweak what they're
+doing with pcie-root-ports with an extra attribute
+
+eg, consider there were 4 devices on the initially booted VM which
+need hotplug disabled, and we still want freedom to hotplug 2
+extra devices at runtime.
+
+   <controller type=3D'pci' model=3D'pcie-root-port' hotplug=3D"no"/>
+   <controller type=3D'pci' model=3D'pcie-root-port' hotplug=3D"no"/>
+   <controller type=3D'pci' model=3D'pcie-root-port' hotplug=3D"no"/>
+   <controller type=3D'pci' model=3D'pcie-root-port' hotplug=3D"no"/>
+   <controller type=3D'pci' model=3D'pcie-root-port' hotplug=3D"yes"/>
+   <controller type=3D'pci' model=3D'pcie-root-port' hotplug=3D"yes"/>
+
+This is quite easy, as applications still do *not* have to taken on
+responsibility for full PCI device addressing. They merely need to
+be able to count how many PCI devices they're using. The only "gotcha"
+is if they forget about the auto-added USB, VGA and Balloon devices,
+but that's not a big deal.
+
+Regards,
+Daniel
+--=20
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
+ :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com=
+ :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
+ :|
 
 
