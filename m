@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1D2C1518B5
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Feb 2020 11:20:17 +0100 (CET)
-Received: from localhost ([::1]:55756 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D74C1518BF
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Feb 2020 11:23:34 +0100 (CET)
+Received: from localhost ([::1]:55826 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iyvJZ-0002ij-1q
-	for lists+qemu-devel@lfdr.de; Tue, 04 Feb 2020 05:20:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47023)
+	id 1iyvMj-0004hl-H7
+	for lists+qemu-devel@lfdr.de; Tue, 04 Feb 2020 05:23:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49336)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1iyvIm-0002Ai-CV
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 05:19:29 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1iyvLy-0004Cf-Nn
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 05:22:47 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1iyvIj-0006dy-U2
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 05:19:28 -0500
-Received: from mail-ot1-x32f.google.com ([2607:f8b0:4864:20::32f]:35206)
+ (envelope-from <peter.maydell@linaro.org>) id 1iyvLx-0005vt-Oc
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 05:22:46 -0500
+Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:43305)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1iyvIj-0006ax-Oh
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 05:19:25 -0500
-Received: by mail-ot1-x32f.google.com with SMTP id r16so16625051otd.2
- for <qemu-devel@nongnu.org>; Tue, 04 Feb 2020 02:19:25 -0800 (PST)
+ id 1iyvLx-0005uL-IW
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 05:22:45 -0500
+Received: by mail-oi1-x244.google.com with SMTP id p125so17883329oif.10
+ for <qemu-devel@nongnu.org>; Tue, 04 Feb 2020 02:22:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=173IdKyuuI89MlenTQig4Cm50YKLpdBC0Tfd6V3LhG4=;
- b=ldRQG9DWno3iJVniCk4hzZsvZzno4i9D04ExMqxJdNGHRvAruSm9SBqrgbViUQxDyu
- L22x6jhRh2nRYntDPUknzpUR3j6fqKa5NFpk8WikCovYy2fXTpMMMqVgH2uH6UXBxodv
- NlmzUhGbWLsX3mAVmpD04Skqi+ah7Zfvau+XLDNE5hDmj9tBFonT9yecArwrJYPJReNH
- o1MJQsL2eolBIoRmtYxT1Sxx7fAy3MX83gWaDxnTOt11pZusmZYMaP1FRGYey9Wm7iBZ
- v3wTRb+GCtEpZW1WaNmQP9Eybw7kzFdEKC618gLdnkBmRfQY5Gk+yfeoZcc4Hj6i3pYA
- 26Dw==
+ :cc; bh=Vib72RK1mz4kVITADDK2FtUXi807Li9E+4tBGQjWb7A=;
+ b=DNefLlAWwhN19RdzfL8iKSltIh/MPRMexpZtus9Eh2id9neJUq97bZHGBEvIYDrMxU
+ 2F0dPW8LGEyFPmzlsnPgWjtZ00JVgGB2gOfslw3JmOH3zZlw9w4xcgwfd8HAKo8oMGKR
+ de46S2gvKHljzqLpsMrVahaZhAwpZO7jn+ZMEhFpkCKGK+DTh2W8/QuRfcVqTHJbqiX3
+ w5yUrsrWd3EmWNtocXaHhv91AcsrK7wXqmtY5gA+Ae8Y/v08XyIPBMigUBC6ek1zDC8Q
+ 3Z5/vmYk4nhJSDdUDPmOczUbd/Km20zcOYvumsmX8jgH6JtJO3nREXvg6+0wXFJzk3wC
+ p2gw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=173IdKyuuI89MlenTQig4Cm50YKLpdBC0Tfd6V3LhG4=;
- b=qlyzOnv0IHQZwWUr6SLHgZMx0uE1VZbHIaEZyumVZBxJHm7og5pPk4IMTYqHFu3eR+
- /T01KU7eeGBDs92UBqRkTB2g0Q1noRg7eL6BGRAHVU8GOxEizYS9FAtTM/2zW8ye3EFU
- qfS/bB1air4w2o3CDw12nf0vNjRK3ZPNGn98knypm82Z2o9sQD71VKYYpH0udPy4bxdC
- EGFZkU31cVgEGyF4vFiwzPIdBMooNHdVBKJeipG1hLavieRTJtL9liIlEg2j5aZ9nxzx
- ir3enrui1L+V8MQZg/DRAvoyijXYC1FoBwFBASOe27SokXeF/dEjf1OGkhFDRUck1sSQ
- foiw==
-X-Gm-Message-State: APjAAAU/gTt+bCfLp/SnVheLedO4+XNSCWaoaSzHR8VFBRpW7tf9Idjd
- o5pZjAKeOCorbxhrVsJ6bBcAY80Op040e1AkcVoF/1WP
-X-Google-Smtp-Source: APXvYqyClzNX/MX9KEjDwPEUlRnOpvUDxkNS4nXZtDZ7MPgSW2fPHQcOqwr8CmAh/zZe8Skt+0aPivQ2kNdApvrs7Gc=
-X-Received: by 2002:a05:6830:4a4:: with SMTP id
- l4mr21777299otd.91.1580811564678; 
- Tue, 04 Feb 2020 02:19:24 -0800 (PST)
+ :message-id:subject:to:cc;
+ bh=Vib72RK1mz4kVITADDK2FtUXi807Li9E+4tBGQjWb7A=;
+ b=tqrnsFtMl3ysFKg/29TU015yP7oyqz/LAxoSf7AMCicd0UbO/nGrXWeM4NlrGnxKQh
+ JK/pnzlqtIflTcngnoSfCorj3nwQtcYZrKedefPiLl2RvP7Q6T5wYoDzFpDodT2OuelN
+ 5DrpCVtxXG6QuSzg5dlaOFcdNFYQ92y/ESADfEvhKd0TKo1ksJVwXl71ZoiL0pA8PyiX
+ yFW1/+PHZRKcPvHcI10GRDsM/32xqD+yE14Uu35LlO5ban+vdhXgoSBePbKIix9Gly/A
+ o3UFAfJ0w0F2S5qFrcRyczCkG+EL9Pu4UerXzMuAbdsF8rHYbJ4xnCQcrDmAqmy48C+6
+ 7sOQ==
+X-Gm-Message-State: APjAAAX4dRSW9uYbHjsAxm23XuL504MD8zmpmrDDoP5tJqKlBtG7rQI/
+ tz87fzAa1RfO85uARKZCiPu++J69J5uxdRGHm9Z9Ag==
+X-Google-Smtp-Source: APXvYqzjv3HIsJgJj3po0pnc3SJV9O/chPGgbQxs/F6ts+DcocB6d9dQt3PynhmErONMxZ8sDpd5o8jTwSdN9Y/SAqo=
+X-Received: by 2002:aca:b2c5:: with SMTP id b188mr2989706oif.163.1580811764753; 
+ Tue, 04 Feb 2020 02:22:44 -0800 (PST)
 MIME-Version: 1.0
-References: <CAM2K0nr7+6NRW6CRYRdejS_BPjizV5yX7ykfctEFTyPzh=kSVA@mail.gmail.com>
- <CAFEAcA_0RxRUkmU3YGCF2RXmJu=vP1D8SQunhdPdwW88oreCvQ@mail.gmail.com>
- <CAM2K0nq1xw9XnJuCJD83vWx1DXi3DrHh8ku0d=0Ny6E6WNqJNA@mail.gmail.com>
-In-Reply-To: <CAM2K0nq1xw9XnJuCJD83vWx1DXi3DrHh8ku0d=0Ny6E6WNqJNA@mail.gmail.com>
+References: <20191219040612.28431-1-gshan@redhat.com>
+ <d972631d-7db7-b6d5-61b8-244ae2c85882@redhat.com>
+ <7f6e29e6-1df9-4513-79ba-b53873b0735e@ozlabs.ru>
+ <544f261e4b9c97f1d3a5fb64cef42ba5@kernel.org>
+ <ff584722-1b51-e538-7c45-c71cdc40105f@redhat.com>
+ <c61c95c434dbcf97a0c946f0993d4843@kernel.org>
+ <8a286e1c-c3f3-3052-e497-d44a90667451@redhat.com>
+In-Reply-To: <8a286e1c-c3f3-3052-e497-d44a90667451@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 4 Feb 2020 10:19:13 +0000
-Message-ID: <CAFEAcA_D-L6cshvr=VuSsvwAkW6hQpNVKVv7e32c1NE7sTkHzQ@mail.gmail.com>
-Subject: Re: Need help understanding assertion fail.
-To: Wayne Li <waynli329@gmail.com>
+Date: Tue, 4 Feb 2020 10:22:33 +0000
+Message-ID: <CAFEAcA-wKbF7mYToaAsxDxahuJ_X3_i3Z+8DqXmj8mKySmTW7Q@mail.gmail.com>
+Subject: Re: [RFC PATCH] hw/arm/virt: Support NMI injection
+To: Gavin Shan <gshan@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::32f
+X-Received-From: 2607:f8b0:4864:20::244
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,41 +77,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Andrew Jones <drjones@redhat.com>, jthierry@redhat.com,
+ Alexey Kardashevskiy <aik@ozlabs.ru>, Marc Zyngier <maz@kernel.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Eric Auger <eric.auger@redhat.com>,
+ qemu-arm <qemu-arm@nongnu.org>, Shan Gavin <shan.gavin@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 3 Feb 2020 at 21:32, Wayne Li <waynli329@gmail.com> wrote:
->
-> I see.  So you're saying that it might be possible that my guest could be=
- generating TCG ops that can't be translated into PPC instructions because =
-the displacement value is to big.  While the same TCG ops can be translated=
- into x86 instructions because x86 allows for a bigger displacement value. =
- But on the other hand it could be some other problem causing me to have a =
-large displacement value.
->
-> In that case, I think it'd be super helpful if I print out this displacem=
-ent value in the TCG ops when running on PPC versus x86 because they should=
- be the same right?  What option in QEMU -d allows me to see generated TCG =
-ops?  Doing a -d --help shows the following options:
+On Tue, 4 Feb 2020 at 03:51, Gavin Shan <gshan@redhat.com> wrote:
+> Note: I'm still investigating the code to see how SError can be injected when TCG
+> is used. I think we need same function when TCG is enabled, or it's something for
+> future.
 
-> There doesn't seem to be any option to print out the TCG ops specifically=
-?  Maybe I'll have to go into the code to add print statements that print o=
-ut the TCG ops?
-
-'op' prints out the ops...
-
-Note that in the TCG ops output there won't be a displacement value, becaus=
-e
-that is calculated in the TCG backend. At the ops level, the branches are t=
-o
-labels. But you'll be able to see if you're generating a super-enormous blo=
-ck
-really easily, because it'll have lots of ops in it. (See also the advice i=
-n
-tcg/README about generally preferring to use calls to helper functions
-rather than directly generating more than about 20 TCG ops
-for any one guest insn, and the overall MAX_OP_PER_INSTR limit).
+TCG doesn't currently implement SError -- it could be added, but
+there's a bit of plumbing you'd need to do to get it to work and to
+ensure the exception is taken, routed and masked correctly.
 
 thanks
 -- PMM
