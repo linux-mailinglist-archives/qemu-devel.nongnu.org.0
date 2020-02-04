@@ -2,56 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 454AA151F7F
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Feb 2020 18:31:37 +0100 (CET)
-Received: from localhost ([::1]:35150 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65A9A151F82
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Feb 2020 18:33:36 +0100 (CET)
+Received: from localhost ([::1]:35250 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iz22y-000471-BB
-	for lists+qemu-devel@lfdr.de; Tue, 04 Feb 2020 12:31:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54959)
+	id 1iz24t-0007JS-FX
+	for lists+qemu-devel@lfdr.de; Tue, 04 Feb 2020 12:33:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60001)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1iz1jl-0007OS-Ds
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 12:11:46 -0500
+ (envelope-from <philmd@redhat.com>) id 1iz1sE-0006H2-5x
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 12:20:31 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1iz1jk-0001pY-5R
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 12:11:45 -0500
-Received: from mout.kundenserver.de ([212.227.126.134]:36621)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1iz1jj-0001ma-SJ
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 12:11:44 -0500
-Received: from localhost.localdomain ([78.238.229.36]) by
- mrelayeu.kundenserver.de (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MStKw-1j7JjN2GLe-00UFah; Tue, 04 Feb 2020 18:11:12 +0100
-From: Laurent Vivier <laurent@vivier.eu>
+ (envelope-from <philmd@redhat.com>) id 1iz1sD-0002Oh-0n
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 12:20:30 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:32349
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iz1sC-0002Lm-SS
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 12:20:28 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1580836828;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Uay9vOc45R64OG+s9E9RNNcWolH4KZJ+MaCE0Bf6LpQ=;
+ b=Wq4armG5qlJnY1IdNB1ylZP3Id78lsJpLfokpoFV9TzchJwXJ2Qf2W59G4kkvXg2O1bxPb
+ smNZjCJGVEpp0ThfY4BG4K6uuC0va0aYDi6gGM5aX5/BAs9k+/lW8lIpa5XMiYtgZanohi
+ 7VvE0ZbSMlnbmFQk04sjB2WOQmKnmPc=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-106-gszQtiHoOni6UNNu615zGA-1; Tue, 04 Feb 2020 12:20:11 -0500
+Received: by mail-wm1-f69.google.com with SMTP id u11so1607458wmb.4
+ for <qemu-devel@nongnu.org>; Tue, 04 Feb 2020 09:20:11 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=hw6+Wu4uyD789kyPxb+U85AivhJLuap+29+WsIGmLOk=;
+ b=TABpTfA0a1Ll6iLESL9WEXN9OxNxhpP6Xsdfp1DQK+poIJU2eGNSJkb4Cn8OdzW4hU
+ +0jwcqzsq9TuNobps3r+wvz1st6o47zf1a8hvDJXWtVjpi/FyvEJuOnv1b9zunn/b5c6
+ EMsbOGqOpXx0ETYIsY+y/N3xbvBk+FCFxzk6VUiNMvg8C+jyRcl9oNADp05bifZGWicy
+ CJWkIT9xzGMjUg4kEA9UcP/YfzbVj+jgkzfob2kbif1SWveRi3CD6wwAVT7L8a3H+/Y0
+ 1oAe8cR71UYYJdfrgsRGkj00EREiI0GcziuhIiZoCYWvKHnt0uTa03D7d03dr1aaEJ1m
+ 2tNg==
+X-Gm-Message-State: APjAAAUC7j0Oj2UV07OPNOKyDKnoSyyoe7WPeCWhZyd0QwG3H5qmaLrq
+ b4wB9suL8+CXPamVnl3YQfhTL7DH1bByPu5dq9ft8HzTlbx9Kk7R2L/7FQxN10zlDpbSPAOri9Z
+ dUBhu8N58jxGQAKE=
+X-Received: by 2002:a7b:c4c3:: with SMTP id g3mr28205wmk.131.1580836810502;
+ Tue, 04 Feb 2020 09:20:10 -0800 (PST)
+X-Google-Smtp-Source: APXvYqxbro2tqGgYpNhs3142offvNXpPRxeBmpIjZwerMVMvgRuzLuB19WVpuA2rEayfC7paM+nNVQ==
+X-Received: by 2002:a7b:c4c3:: with SMTP id g3mr28168wmk.131.1580836810223;
+ Tue, 04 Feb 2020 09:20:10 -0800 (PST)
+Received: from [192.168.1.35] (162.red-83-52-55.dynamicip.rima-tde.net.
+ [83.52.55.162])
+ by smtp.gmail.com with ESMTPSA id h13sm19865065wrw.54.2020.02.04.09.20.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 04 Feb 2020 09:20:09 -0800 (PST)
+Subject: Re: [PATCH v2 00/12] python: Explicit usage of Python 3
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 4/4] linux-user: fix use of SIGRTMIN
-Date: Tue,  4 Feb 2020 18:10:53 +0100
-Message-Id: <20200204171053.1718013-5-laurent@vivier.eu>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20200204171053.1718013-1-laurent@vivier.eu>
-References: <20200204171053.1718013-1-laurent@vivier.eu>
+References: <20200130163232.10446-1-philmd@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <36f9ee1f-03e1-beb5-6f2f-80b17a30ef79@redhat.com>
+Date: Tue, 4 Feb 2020 18:20:08 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:VGnP/pTFnc8m9VvJBOJmv749YqgIDfWpmBAn8fYK+N/GwdhnQ9H
- ubNYF8APtbkxvfTv17RJmmLrKAQ+bPUAL68NB1b7PiQIVxsT+kjgS0Op7Dl/4J14sS0vqFX
- 8fu59HBOe3Op8gZBAkNlUOxu1unrp3xvWQxG5NMkTMnhyT0qYvYXDKaVM+FFjMj15fEu8qx
- EESvlw3afQYWUuOE7pDlg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:Tm4l63WDylA=:9QvhemgoUWUkKSYE7PUrB9
- xKpF+N2QBwGsL4+8PAE/XVqeLb33nHkSoSBlBBJ/YZC2ie2zxCI731bVS8cKKdYZdrirJVLyd
- DJYeWSOduBD481PSrdfYObzn5Nn1DemF9kSgdk7nFNqRCmjrxFw/RCKp3DnQY9xMU6MJU49WM
- DgMQqq5AHMbld41/8hyQaG4l5y5wx2RR994Pga4WJulg5Qm5+DxZsqSFmt3g6SL51Zkj4TbrP
- fg5neaGjpHzXrFI9N5VDleZCX/OoRk5lz1GGqt1wW6YewpX5wkXWa2DX7Bk7SP4hZhgsGUqi7
- WhaEw05Y/GXuV/1SnE+NtT9ZkOmE1WiEI0XV9Ojkv44ZZf/2ielRVMvN+qathamTL6nMySHCO
- J5Xzoknxs98kYVk3nXMuxnnWfiJHPO4fkq+jDAiZHnLEnhT1pgy6mDQwo0jT5/0BbjEZu8QKE
- PQeY2okPDpfK6FXwviJU1ZMvoogOg/oc9vKnzcw+onMz933ePOzQj6QyvmCsLT5bFiyamuUnJ
- qz65g2CA48PqOMRnLeKVOrqf7YtSvpPbFwdnWnLRAx+flvVPFlTGhJlfjIwA3kG032NSGw1MR
- 7h1T1Pk1EtRT5Bh9TtX0e5geo+qC2ROdGs06Pkwc8O1jlQBYlLTG30EkdCDitzQLSBf5OC851
- Byqxd4eiO2PumNzBHzK3Rb5KY0diqq2fGKdNnejgKQ9em5YmSQNPRGiQuIZ2y2uqoJEN9FSpb
- eMcVB2ldfTzHva+7rabLqJB81GSOaUHX6ZtB8Gd4Fsg9ooW/7SEG5WcXhFZK3cmv4bbEWl7nM
- 7u/L88QTIAWLcxW3gAhWyeQPFsgL72NkT78ksV1I1KCePurcRcjtCnw3XQfYlEydxPGJKCX
+In-Reply-To: <20200130163232.10446-1-philmd@redhat.com>
+Content-Language: en-US
+X-MC-Unique: gszQtiHoOni6UNNu615zGA-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.126.134
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,126 +90,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Marlies Ruck <marlies.ruck@gmail.com>, Riku Voipio <riku.voipio@iki.fi>,
- Laurent Vivier <laurent@vivier.eu>,
- Aleksandar Markovic <aleksandar.markovic@rt-rk.com>,
- Josh Kunz <jkz@google.com>, Taylor Simpson <tsimpson@quicinc.com>,
- Matus Kysel <mkysel@tachyum.com>, milos.stojanovic@rt-rk.com
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ Juan Quintela <quintela@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>, kvm@vger.kernel.org,
+ Stefan Hajnoczi <stefanha@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Some RT signals can be in use by glibc,
-it's why SIGRTMIN (34) is generally greater than __SIGRTMIN (32).
+On 1/30/20 5:32 PM, Philippe Mathieu-Daud=C3=A9 wrote:
+> Hello,
+>=20
+> These are mechanical sed patches used to convert the
+> code base to Python 3, as suggested on this thread:
+> https://www.mail-archive.com/qemu-devel@nongnu.org/msg675024.html
+>=20
+> Since v1:
+> - new checkpatch.pl patch
+> - addressed Kevin and Vladimir review comments
+> - added R-b/A-b tags
+>=20
+> Regards,
+>=20
+> Phil.
+>=20
+> Philippe Mathieu-Daud=C3=A9 (12):
+>    scripts/checkpatch.pl: Only allow Python 3 interpreter
+>    tests/qemu-iotests/check: Allow use of python3 interpreter
+>    tests/qemu-iotests: Explicit usage of Python 3 (scripts with __main__)
+>    tests: Explicit usage of Python 3
+>    scripts: Explicit usage of Python 3 (scripts with __main__)
+>    scripts/minikconf: Explicit usage of Python 3
+>    tests/acceptance: Remove shebang header
+>    scripts/tracetool: Remove shebang header
+>    tests/vm: Remove shebang header
+>    tests/qemu-iotests: Explicit usage of Python3 (scripts without
+>      __main__)
+>    scripts: Explicit usage of Python 3 (scripts without __main__)
+>    tests/qemu-iotests/check: Only check for Python 3 interpreter
 
-So SIGRTMIN cannot be mapped to TARGET_SIGRTMIN.
-
-Instead of swapping only SIGRTMIN and SIGRTMAX, map all the
-range [TARGET_SIGRTMIN ... TARGET_SIGRTMAX - X] to
-      [__SIGRTMIN + X ... SIGRTMAX ]
-(SIGRTMIN is __SIGRTMIN + X).
-
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
----
-
-Notes:
-    v2: ignore error when target sig <= TARGET_NSIG but host sig > SIGRTMAX
-        replace i, j by target_sig, host_sig
-        update signal_table_init() trace message
-
- linux-user/signal.c     | 37 ++++++++++++++++++++++++++++++-------
- linux-user/trace-events |  3 +++
- 2 files changed, 33 insertions(+), 7 deletions(-)
-
-diff --git a/linux-user/signal.c b/linux-user/signal.c
-index c1e664f97a7c..e7e5581a016f 100644
---- a/linux-user/signal.c
-+++ b/linux-user/signal.c
-@@ -498,18 +498,23 @@ static int core_dump_signal(int sig)
- 
- static void signal_table_init(void)
- {
--    int host_sig, target_sig;
-+    int host_sig, target_sig, count;
- 
-     /*
--     * Nasty hack: Reverse SIGRTMIN and SIGRTMAX to avoid overlap with
--     * host libpthread signals.  This assumes no one actually uses SIGRTMAX :-/
--     * To fix this properly we need to do manual signal delivery multiplexed
--     * over a single host signal.
-+     * some RT signals can be in use by glibc,
-+     * it's why SIGRTMIN (34) is generally greater than __SIGRTMIN (32)
-      */
--    host_to_target_signal_table[__SIGRTMIN] = __SIGRTMAX;
--    host_to_target_signal_table[__SIGRTMAX] = __SIGRTMIN;
-+    for (host_sig = SIGRTMIN; host_sig <= SIGRTMAX; host_sig++) {
-+        target_sig = host_sig - SIGRTMIN + TARGET_SIGRTMIN;
-+        if (target_sig <= TARGET_NSIG) {
-+            host_to_target_signal_table[host_sig] = target_sig;
-+        }
-+    }
- 
-     /* generate signal conversion tables */
-+    for (target_sig = 1; target_sig <= TARGET_NSIG; target_sig++) {
-+        target_to_host_signal_table[target_sig] = _NSIG; /* poison */
-+    }
-     for (host_sig = 1; host_sig < _NSIG; host_sig++) {
-         if (host_to_target_signal_table[host_sig] == 0) {
-             host_to_target_signal_table[host_sig] = host_sig;
-@@ -519,6 +524,15 @@ static void signal_table_init(void)
-             target_to_host_signal_table[target_sig] = host_sig;
-         }
-     }
-+
-+    if (TRACE_SIGNAL_TABLE_INIT_BACKEND_DSTATE()) {
-+        for (target_sig = 1, count = 0; target_sig <= TARGET_NSIG; target_sig++) {
-+            if (target_to_host_signal_table[target_sig] == _NSIG) {
-+                count++;
-+            }
-+        }
-+        trace_signal_table_init(count);
-+    }
- }
- 
- void signal_init(void)
-@@ -817,6 +831,8 @@ int do_sigaction(int sig, const struct target_sigaction *act,
-     int host_sig;
-     int ret = 0;
- 
-+    trace_signal_do_sigaction_guest(sig, TARGET_NSIG);
-+
-     if (sig < 1 || sig > TARGET_NSIG || sig == TARGET_SIGKILL || sig == TARGET_SIGSTOP) {
-         return -TARGET_EINVAL;
-     }
-@@ -847,6 +863,13 @@ int do_sigaction(int sig, const struct target_sigaction *act,
- 
-         /* we update the host linux signal state */
-         host_sig = target_to_host_signal(sig);
-+        trace_signal_do_sigaction_host(host_sig, TARGET_NSIG);
-+        if (host_sig > SIGRTMAX) {
-+            /* we don't have enough host signals to map all target signals */
-+            qemu_log_mask(LOG_UNIMP, "Unsupported target signal #%d, ignored\n",
-+                          sig);
-+            return 0;
-+        }
-         if (host_sig != SIGSEGV && host_sig != SIGBUS) {
-             sigfillset(&act1.sa_mask);
-             act1.sa_flags = SA_SIGINFO;
-diff --git a/linux-user/trace-events b/linux-user/trace-events
-index f6de1b8befc0..0296133daeb6 100644
---- a/linux-user/trace-events
-+++ b/linux-user/trace-events
-@@ -1,6 +1,9 @@
- # See docs/devel/tracing.txt for syntax documentation.
- 
- # signal.c
-+signal_table_init(int i) "number of unavailable signals: %d"
-+signal_do_sigaction_guest(int sig, int max) "target signal %d (MAX %d)"
-+signal_do_sigaction_host(int sig, int max) "host signal %d (MAX %d)"
- # */signal.c
- user_setup_frame(void *env, uint64_t frame_addr) "env=%p frame_addr=0x%"PRIx64
- user_setup_rt_frame(void *env, uint64_t frame_addr) "env=%p frame_addr=0x%"PRIx64
--- 
-2.24.1
+Series applied to my python-next tree:
+https://gitlab.com/philmd/qemu/commits/python-next
 
 
