@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54AA5151F0E
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Feb 2020 18:15:30 +0100 (CET)
-Received: from localhost ([::1]:34780 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B74D151F1F
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Feb 2020 18:18:17 +0100 (CET)
+Received: from localhost ([::1]:34840 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iz1nN-0004sN-Ab
-	for lists+qemu-devel@lfdr.de; Tue, 04 Feb 2020 12:15:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53445)
+	id 1iz1q4-0000ZW-2A
+	for lists+qemu-devel@lfdr.de; Tue, 04 Feb 2020 12:18:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53494)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iz1ht-0003jQ-1G
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 12:09:50 -0500
+ (envelope-from <mreitz@redhat.com>) id 1iz1hx-0003tg-5E
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 12:09:54 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iz1hr-0003Pk-MU
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 12:09:48 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:43958
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <mreitz@redhat.com>) id 1iz1hu-0003c2-OA
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 12:09:53 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:47718
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iz1hr-0003Nd-HZ
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 12:09:47 -0500
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iz1hu-0003aQ-JW
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 12:09:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580836187;
+ s=mimecast20190719; t=1580836190;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tRfIJxI6sQJgJl7Y0+x7abHTYaU/3mZTzm55fyAlmUg=;
- b=LFLGX52MpoGbSb00Zm9zH3KkMU9KBr14fncocU8XhnZi4e+Nu1KUgW/YHroRIkWAyA5okV
- pfM4rnfcly9KRMjuRfR9aJBbvZx3s+y6vB1bMTNT84vS9VZNahLqDHE77VTywFhLZyxlC6
- +21uAZ09IrAQ9trxlW5Gg3HR2rWU830=
+ bh=qaEPxWNxtU1KEIjIKSkF5qzZBgYbwfHjpAO6kD0iiJg=;
+ b=WJMi4oQ/D/y5FsiBjD7qVlwGFmoAHVF39i9oiTowDK8cqZiPqou9hMxv4yZHJlOYmmNtQd
+ 3JDHdndsNe+SLyu2FkNAdNhbhE0vKNXHj9dU2F1wSY23LS4/XJh65+5n2K5DueREdfYjeC
+ 7oOLF5UW5OahWTFT0LrPjw7WTTozefI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-269-q6AmxsBpMu2ykqIbxJHASA-1; Tue, 04 Feb 2020 12:09:45 -0500
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-148-MMnxtvlTP3y-YXmrTcIzcA-1; Tue, 04 Feb 2020 12:09:48 -0500
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 23CD7800D5C;
- Tue,  4 Feb 2020 17:09:44 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 35B2C8010F2;
+ Tue,  4 Feb 2020 17:09:47 +0000 (UTC)
 Received: from localhost (ovpn-117-98.ams2.redhat.com [10.36.117.98])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AEFBA86C4A;
- Tue,  4 Feb 2020 17:09:43 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9BDF45C1D8;
+ Tue,  4 Feb 2020 17:09:46 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v2 18/33] block: Add bdrv_default_perms()
-Date: Tue,  4 Feb 2020 18:08:33 +0100
-Message-Id: <20200204170848.614480-19-mreitz@redhat.com>
+Subject: [PATCH v2 19/33] raw-format: Split raw_read_options()
+Date: Tue,  4 Feb 2020 18:08:34 +0100
+Message-Id: <20200204170848.614480-20-mreitz@redhat.com>
 In-Reply-To: <20200204170848.614480-1-mreitz@redhat.com>
 References: <20200204170848.614480-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: q6AmxsBpMu2ykqIbxJHASA-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-MC-Unique: MMnxtvlTP3y-YXmrTcIzcA-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,124 +76,195 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This callback can be used by BDSs that use child_of_bds with the
-appropriate BdrvChildRole for their children.
-
-Also, make bdrv_format_default_perms() use it for child_of_bds children
-(just a temporary solution until we can drop bdrv_format_default_perms()
-altogether).
+Split raw_read_options() into one function that actually just reads the
+options, and another that applies them.  This will allow us to detect
+whether the user has specified any options before attaching the file
+child (so we can decide on its role based on the options).
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block.c                   | 46 ++++++++++++++++++++++++++++++++-------
- include/block/block_int.h | 11 ++++++++++
- 2 files changed, 49 insertions(+), 8 deletions(-)
+ block/raw-format.c | 110 ++++++++++++++++++++++++++-------------------
+ 1 file changed, 65 insertions(+), 45 deletions(-)
 
-diff --git a/block.c b/block.c
-index 3619756175..994a037730 100644
---- a/block.c
-+++ b/block.c
-@@ -2361,14 +2361,12 @@ static void bdrv_default_perms_for_metadata(BlockDr=
-iverState *bs, BdrvChild *c,
-     *nshared =3D shared;
- }
-=20
--/* TODO: Use */
--static void __attribute__((unused))
--bdrv_default_perms_for_data(BlockDriverState *bs, BdrvChild *c,
--                            const BdrvChildClass *child_class,
--                            BdrvChildRole role,
--                            BlockReopenQueue *reopen_queue,
--                            uint64_t perm, uint64_t shared,
--                            uint64_t *nperm, uint64_t *nshared)
-+static void bdrv_default_perms_for_data(BlockDriverState *bs, BdrvChild *c=
-,
-+                                        const BdrvChildClass *child_class,
-+                                        BdrvChildRole role,
-+                                        BlockReopenQueue *reopen_queue,
-+                                        uint64_t perm, uint64_t shared,
-+                                        uint64_t *nperm, uint64_t *nshared=
-)
- {
-     assert(child_class =3D=3D &child_of_bds && (role & BDRV_CHILD_DATA));
-=20
-@@ -2403,6 +2401,13 @@ void bdrv_format_default_perms(BlockDriverState *bs,=
- BdrvChild *c,
-                                uint64_t *nperm, uint64_t *nshared)
- {
-     bool backing =3D (child_class =3D=3D &child_backing);
-+
-+    if (child_class =3D=3D &child_of_bds) {
-+        bdrv_default_perms(bs, c, child_class, role, reopen_queue,
-+                           perm, shared, nperm, nshared);
-+        return;
-+    }
-+
-     assert(child_class =3D=3D &child_backing || child_class =3D=3D &child_=
-file);
-=20
-     if (!backing) {
-@@ -2414,6 +2419,31 @@ void bdrv_format_default_perms(BlockDriverState *bs,=
- BdrvChild *c,
+diff --git a/block/raw-format.c b/block/raw-format.c
+index b600dae209..33f5942474 100644
+--- a/block/raw-format.c
++++ b/block/raw-format.c
+@@ -71,20 +71,13 @@ static QemuOptsList raw_create_opts =3D {
      }
- }
+ };
 =20
-+void bdrv_default_perms(BlockDriverState *bs, BdrvChild *c,
-+                        const BdrvChildClass *child_class, BdrvChildRole r=
-ole,
-+                        BlockReopenQueue *reopen_queue,
-+                        uint64_t perm, uint64_t shared,
-+                        uint64_t *nperm, uint64_t *nshared)
-+{
-+    assert(child_class =3D=3D &child_of_bds);
-+
-+    if (role & BDRV_CHILD_FILTERED) {
-+        bdrv_filter_default_perms(bs, c, child_class, role, reopen_queue,
-+                                  perm, shared, nperm, nshared);
-+    } else if (role & BDRV_CHILD_COW) {
-+        bdrv_default_perms_for_backing(bs, c, child_class, role, reopen_qu=
-eue,
-+                                       perm, shared, nperm, nshared);
-+    } else if (role & BDRV_CHILD_METADATA) {
-+        bdrv_default_perms_for_metadata(bs, c, child_class, role, reopen_q=
-ueue,
-+                                        perm, shared, nperm, nshared);
-+    } else if (role & BDRV_CHILD_DATA) {
-+        bdrv_default_perms_for_data(bs, c, child_class, role, reopen_queue=
-,
-+                                    perm, shared, nperm, nshared);
-+    } else {
-+        g_assert_not_reached();
-+    }
+-static int raw_read_options(QDict *options, BlockDriverState *bs,
+-    BDRVRawState *s, Error **errp)
++static int raw_read_options(QDict *options, uint64_t *offset, bool *has_si=
+ze,
++                            uint64_t *size, Error **errp)
+ {
+     Error *local_err =3D NULL;
+     QemuOpts *opts =3D NULL;
+-    int64_t real_size =3D 0;
+     int ret;
+=20
+-    real_size =3D bdrv_getlength(bs->file->bs);
+-    if (real_size < 0) {
+-        error_setg_errno(errp, -real_size, "Could not get image size");
+-        return real_size;
+-    }
+-
+     opts =3D qemu_opts_create(&raw_runtime_opts, NULL, 0, &error_abort);
+     qemu_opts_absorb_qdict(opts, options, &local_err);
+     if (local_err) {
+@@ -93,64 +86,84 @@ static int raw_read_options(QDict *options, BlockDriver=
+State *bs,
+         goto end;
+     }
+=20
+-    s->offset =3D qemu_opt_get_size(opts, "offset", 0);
+-    if (s->offset > real_size) {
+-        error_setg(errp, "Offset (%" PRIu64 ") cannot be greater than "
+-            "size of the containing file (%" PRId64 ")",
+-            s->offset, real_size);
+-        ret =3D -EINVAL;
+-        goto end;
+-    }
++    *offset =3D qemu_opt_get_size(opts, "offset", 0);
++    *has_size =3D qemu_opt_find(opts, "size");
++    *size =3D qemu_opt_get_size(opts, "size", 0);
+=20
+-    if (qemu_opt_find(opts, "size") !=3D NULL) {
+-        s->size =3D qemu_opt_get_size(opts, "size", 0);
+-        s->has_size =3D true;
+-    } else {
+-        s->has_size =3D false;
+-        s->size =3D real_size - s->offset;
++    ret =3D 0;
++end:
++    qemu_opts_del(opts);
++    return ret;
 +}
 +
- uint64_t bdrv_qapi_perm_to_blk_perm(BlockPermission qapi_perm)
- {
-     static const uint64_t permissions[] =3D {
-diff --git a/include/block/block_int.h b/include/block/block_int.h
-index 91883c1e80..35113ab878 100644
---- a/include/block/block_int.h
-+++ b/include/block/block_int.h
-@@ -1280,6 +1280,17 @@ void bdrv_format_default_perms(BlockDriverState *bs,=
- BdrvChild *c,
- bool bdrv_recurse_can_replace(BlockDriverState *bs,
-                               BlockDriverState *to_replace);
-=20
-+/*
-+ * Default implementation for BlockDriver.bdrv_child_perm() that can
-+ * be used by block filters and image formats, as long as they use the
-+ * child_of_bds child class and set an appropriate BdrvChildRole.
-+ */
-+void bdrv_default_perms(BlockDriverState *bs, BdrvChild *c,
-+                        const BdrvChildClass *child_class, BdrvChildRole r=
-ole,
-+                        BlockReopenQueue *reopen_queue,
-+                        uint64_t perm, uint64_t shared,
-+                        uint64_t *nperm, uint64_t *nshared);
++static int raw_apply_options(BlockDriverState *bs, BDRVRawState *s,
++                             uint64_t offset, bool has_size, uint64_t size=
+,
++                             Error **errp)
++{
++    int64_t real_size =3D 0;
 +
- /*
-  * Default implementation for drivers to pass bdrv_co_block_status() to
-  * their file.
++    real_size =3D bdrv_getlength(bs->file->bs);
++    if (real_size < 0) {
++        error_setg_errno(errp, -real_size, "Could not get image size");
++        return real_size;
+     }
+=20
+     /* Check size and offset */
+-    if ((real_size - s->offset) < s->size) {
++    if (offset > real_size) {
++        error_setg(errp, "Offset (%" PRIu64 ") cannot be greater than "
++                   "size of the containing file (%" PRId64 ")",
++                   s->offset, real_size);
++        return -EINVAL;
++    }
++
++    if (has_size && (real_size - offset) < size) {
+         error_setg(errp, "The sum of offset (%" PRIu64 ") and size "
+-            "(%" PRIu64 ") has to be smaller or equal to the "
+-            " actual size of the containing file (%" PRId64 ")",
+-            s->offset, s->size, real_size);
+-        ret =3D -EINVAL;
+-        goto end;
++                   "(%" PRIu64 ") has to be smaller or equal to the "
++                   " actual size of the containing file (%" PRId64 ")",
++                   s->offset, s->size, real_size);
++        return -EINVAL;
+     }
+=20
+     /* Make sure size is multiple of BDRV_SECTOR_SIZE to prevent rounding
+      * up and leaking out of the specified area. */
+-    if (s->has_size && !QEMU_IS_ALIGNED(s->size, BDRV_SECTOR_SIZE)) {
++    if (has_size && !QEMU_IS_ALIGNED(size, BDRV_SECTOR_SIZE)) {
+         error_setg(errp, "Specified size is not multiple of %llu",
+-            BDRV_SECTOR_SIZE);
+-        ret =3D -EINVAL;
+-        goto end;
++                   BDRV_SECTOR_SIZE);
++        return -EINVAL;
+     }
+=20
+-    ret =3D 0;
+-
+-end:
++    s->offset =3D offset;
++    s->has_size =3D has_size;
++    s->size =3D has_size ? size : real_size - offset;
+=20
+-    qemu_opts_del(opts);
+-
+-    return ret;
++    return 0;
+ }
+=20
+ static int raw_reopen_prepare(BDRVReopenState *reopen_state,
+                               BlockReopenQueue *queue, Error **errp)
+ {
++    bool has_size;
++    uint64_t offset, size;
++    int ret;
++
+     assert(reopen_state !=3D NULL);
+     assert(reopen_state->bs !=3D NULL);
+=20
+     reopen_state->opaque =3D g_new0(BDRVRawState, 1);
+=20
+-    return raw_read_options(
+-        reopen_state->options,
+-        reopen_state->bs,
+-        reopen_state->opaque,
+-        errp);
++    ret =3D raw_read_options(reopen_state->options, &offset, &has_size, &s=
+ize,
++                           errp);
++    if (ret < 0) {
++        return ret;
++    }
++
++    ret =3D raw_apply_options(reopen_state->bs, reopen_state->opaque,
++                            offset, has_size, size, errp);
++    if (ret < 0) {
++        return ret;
++    }
++
++    return 0;
+ }
+=20
+ static void raw_reopen_commit(BDRVReopenState *state)
+@@ -429,8 +442,15 @@ static int raw_open(BlockDriverState *bs, QDict *optio=
+ns, int flags,
+                     Error **errp)
+ {
+     BDRVRawState *s =3D bs->opaque;
++    bool has_size;
++    uint64_t offset, size;
+     int ret;
+=20
++    ret =3D raw_read_options(options, &offset, &has_size, &size, errp);
++    if (ret < 0) {
++        return ret;
++    }
++
+     bs->file =3D bdrv_open_child(NULL, options, "file", bs, &child_file, 0=
+,
+                                false, errp);
+     if (!bs->file) {
+@@ -456,7 +476,7 @@ static int raw_open(BlockDriverState *bs, QDict *option=
+s, int flags,
+                 bs->file->bs->filename);
+     }
+=20
+-    ret =3D raw_read_options(options, bs, s, errp);
++    ret =3D raw_apply_options(bs, s, offset, has_size, size, errp);
+     if (ret < 0) {
+         return ret;
+     }
 --=20
 2.24.1
 
