@@ -2,67 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90BD8151744
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Feb 2020 09:56:05 +0100 (CET)
-Received: from localhost ([::1]:54734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD0B21517B6
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Feb 2020 10:21:55 +0100 (CET)
+Received: from localhost ([::1]:54902 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iyu04-0001Ua-Km
-	for lists+qemu-devel@lfdr.de; Tue, 04 Feb 2020 03:56:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36546)
+	id 1iyuP4-0001QB-Rf
+	for lists+qemu-devel@lfdr.de; Tue, 04 Feb 2020 04:21:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58955)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1iytyE-0007jB-Eq
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 03:54:11 -0500
+ (envelope-from <bounces@canonical.com>) id 1iyuNw-0000Y2-JO
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 04:20:45 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1iytyD-0002ep-Fn
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 03:54:10 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:29638
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1iytyD-0002dv-CD
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 03:54:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580806448;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=z6tQJYyYoXBbbTDwzrxl2/u15ybGKaHn5/Slk+lukc8=;
- b=enjAm0mFccsrSkmlQqmfpeW0uCM+0fhkVFzBY4Ej4Dvenr5rllIdAELAQ1WbEFgorWRoQl
- quD9jgGJI4HVc98e9HHlQDqjGe3odvixQnqP1H/dfVBxADh2nU6apog/C//CTI+6Zxc+iO
- A6fgiK1/Mr0+4PlBi1Pwvwuh9O0Bgqk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-92-jW-6l_Z-P2KqMk1pUimDfA-1; Tue, 04 Feb 2020 03:54:06 -0500
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2C2DF1401;
- Tue,  4 Feb 2020 08:54:05 +0000 (UTC)
-Received: from thuth.com (ovpn-116-39.ams2.redhat.com [10.36.116.39])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 51AE98ECE2;
- Tue,  4 Feb 2020 08:54:04 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org,
-	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL v2 14/14] configure: Fix typo of the have_afalg variable
-Date: Tue,  4 Feb 2020 09:53:58 +0100
-Message-Id: <20200204085358.17191-3-thuth@redhat.com>
-In-Reply-To: <20200204085358.17191-1-thuth@redhat.com>
-References: <20200204085358.17191-1-thuth@redhat.com>
+ (envelope-from <bounces@canonical.com>) id 1iyuNv-00034g-3i
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 04:20:44 -0500
+Received: from indium.canonical.com ([91.189.90.7]:54150)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1iyuNu-0002sG-Tz
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 04:20:43 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1iyuNs-0007oW-L1
+ for <qemu-devel@nongnu.org>; Tue, 04 Feb 2020 09:20:40 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 9D4032E8075
+ for <qemu-devel@nongnu.org>; Tue,  4 Feb 2020 09:20:40 +0000 (UTC)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: jW-6l_Z-P2KqMk1pUimDfA-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+Date: Tue, 04 Feb 2020 09:12:01 -0000
+From: Stevie Lavern <1861404@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: tcg testcase
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: amarkovic rth stvlvrn
+X-Launchpad-Bug-Reporter: Stevie Lavern (stvlvrn)
+X-Launchpad-Bug-Modifier: Stevie Lavern (stvlvrn)
+References: <158038956597.5319.13308249814127344774.malonedeb@chaenomeles.canonical.com>
+Message-Id: <158080752143.8324.8914639694228192071.malone@chaenomeles.canonical.com>
+Subject: [Bug 1861404] Re: AVX instruction VMOVDQU implementation error for
+ YMM registers
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="0a62c17273454a1313f81a74a2198ec30b44c7b6";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: d3ee0036505e24a1f85be17abe475040bedd7fe5
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,35 +66,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Bug 1861404 <1861404@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The variable is called 'have_afalg' and not 'hava_afalg'.
+Thanks for your answers.
 
-Fixes: f0d92b56d88 ('introduce some common functions for af_alg backend')
-Message-Id: <20200203160046.23194-1-thuth@redhat.com>
-Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Reviewed-by: Longpeng(Mike) <longpeng2@huawei.com>
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- configure | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I thought the fact that there was not any warning/exception meant that
+VMOVDQU was supported, but if it's mistakenly interpreted as MOVDQU then
+I understand.
 
-diff --git a/configure b/configure
-index 5095f01728..115dc38085 100755
---- a/configure
-+++ b/configure
-@@ -5843,7 +5843,7 @@ fi
-=20
- ##########################################
- # check for usable AF_ALG environment
--hava_afalg=3Dno
-+have_afalg=3Dno
- cat > $TMPC << EOF
- #include <errno.h>
- #include <sys/types.h>
---=20
-2.18.1
+I read the mailing list messages on the AVX GSoC you point out, but
+couldn't find any branch where this work is located. Is there a non-
+released version of this that can be tested?
 
+If I understand correctly, Qemu (or more precisely TCG) supports x86
+SIMD instructions up to SSE4.1, but not AVX/AVX2/AVX-512?
+
+Thanks.
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1861404
+
+Title:
+  AVX instruction VMOVDQU implementation error for YMM registers
+
+Status in QEMU:
+  New
+
+Bug description:
+  Hi,
+
+  Tested with Qemu 4.2.0, and with git version
+  bddff6f6787c916b0e9d63ef9e4d442114257739.
+
+  The x86 AVX instruction VMOVDQU doesn't work properly with YMM registers =
+(32 bytes).
+  It works with XMM registers (16 bytes) though.
+
+  See the attached test case `ymm.c`: when copying from memory-to-ymm0
+  and then back from ymm0-to-memory using VMOVDQU, Qemu only copies the
+  first 16 of the total 32 bytes.
+
+  ```
+  user@ubuntu ~/Qemu % gcc -o ymm ymm.c -Wall -Wextra -Werror
+
+  user@ubuntu ~/Qemu % ./ymm
+  00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F 10 11 12 13 14 15 16 17 1=
+8 19 1A 1B 1C 1D 1E 1F
+
+  user@ubuntu ~/Qemu % ./x86_64-linux-user/qemu-x86_64 -cpu max ymm
+  00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F 00 00 00 00 00 00 00 00 0=
+0 00 00 00 00 00 00 00
+  ```
+
+  This seems to be because in `translate.c > gen_sse()`, the case
+  handling the VMOVDQU instruction calls `gen_ldo_env_A0` which always
+  performs a 16 bytes copy using two 8 bytes load and store operations
+  (with `tcg_gen_qemu_ld_i64` and `tcg_gen_st_i64`).
+
+  Instead, the `gen_ldo_env_A0` function should generate a copy with a
+  size corresponding to the used register.
+
+  =
+
+  ```
+  static void gen_sse(CPUX86State *env, DisasContext *s, int b,
+                      target_ulong pc_start, int rex_r)
+  {
+          [...]
+          case 0x26f: /* movdqu xmm, ea */
+              if (mod !=3D 3) {
+                  gen_lea_modrm(env, s, modrm);
+                  gen_ldo_env_A0(s, offsetof(CPUX86State, xmm_regs[reg]));
+              } else { =
+
+          [...]
+  ```
+
+  ```
+  static inline void gen_ldo_env_A0(DisasContext *s, int offset)
+  {
+      int mem_index =3D s->mem_index;
+      tcg_gen_qemu_ld_i64(s->tmp1_i64, s->A0, mem_index, MO_LEQ);
+      tcg_gen_st_i64(s->tmp1_i64, cpu_env, offset + offsetof(ZMMReg, ZMM_Q(=
+0)));
+      tcg_gen_addi_tl(s->tmp0, s->A0, 8);
+      tcg_gen_qemu_ld_i64(s->tmp1_i64, s->tmp0, mem_index, MO_LEQ);
+      tcg_gen_st_i64(s->tmp1_i64, cpu_env, offset + offsetof(ZMMReg, ZMM_Q(=
+1)));
+  }
+  ```
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1861404/+subscriptions
 
