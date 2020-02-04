@@ -2,85 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91B24151A4D
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Feb 2020 13:06:19 +0100 (CET)
-Received: from localhost ([::1]:57082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F4134151A56
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Feb 2020 13:09:24 +0100 (CET)
+Received: from localhost ([::1]:57108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iywyA-0006EJ-MP
-	for lists+qemu-devel@lfdr.de; Tue, 04 Feb 2020 07:06:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48704)
+	id 1iyx1A-0008W6-0o
+	for lists+qemu-devel@lfdr.de; Tue, 04 Feb 2020 07:09:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51227)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1iywxN-0005mE-DS
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 07:05:30 -0500
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1iywzl-0006k0-9x
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 07:07:59 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1iywxM-00043x-Ch
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 07:05:29 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:28693
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1iywzj-0007wW-7m
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 07:07:56 -0500
+Received: from mx2.rt-rk.com ([89.216.37.149]:36622 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iywxM-00040N-6s
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 07:05:28 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580817927;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=zGXn10qIZqkk8jfo0FgYf8TrbeuaN5LTU0tIg/ZieNg=;
- b=UtHlUt7kC0C07sExebcFfkSGPt6FGqELgY/2bi9Y8DnDi7OjNI8VlNtH5wI6UULOAPMFHf
- mpTGZRSkP/m3GqkCQYrcHNfJYR94AZBJd0WZSJtqgnfwds4GyJLdKGMyWnGOD4HmrfsUvW
- oOQaj1C52S/qp2GvWmgrz83SdtPTPFo=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-412-TdcK3JwmNpm6kQCDlplQkA-1; Tue, 04 Feb 2020 07:05:25 -0500
-Received: by mail-wr1-f71.google.com with SMTP id t6so6974952wru.3
- for <qemu-devel@nongnu.org>; Tue, 04 Feb 2020 04:05:25 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=zGXn10qIZqkk8jfo0FgYf8TrbeuaN5LTU0tIg/ZieNg=;
- b=bmAO+N0MNmB8i7i15KrZjIP30l4YRHQt8DutR8d5faZ2W0yRVs08X7N2bON5bGzRcF
- 3rJmQDi39NCV0Fy5napFipLcTc2Uy6w4dc7f29BzkZFw7MMwNBu59sXsXdHdzeKtcwHu
- t9dzGubb+AZeIuDKW7w6BuQW6fAvcnpTHXxGbF6hVMfACj7DRPfnCGePflUV9IupAS1P
- na7TV14QzcXedHAnYPMP0HQCSOodRuy7B0tk92f2f71p494u0FIhlQpQTwuz2w04U9Zc
- Uksw5B2lkKDo6YiSxsMtz12RNG/6xsZ4ZL0IxpDIHhc1oH0XDkmJ1unmwKo/sFC7mGNN
- 2osg==
-X-Gm-Message-State: APjAAAVnOPCRecxF7myGBIxfi++Eip8UVdQBjh7DzkrlQ/UxpG7Zf2LI
- mod7RWZ7g47OryM/FBZk2Mk2pWdEBNEJ+r0MqdpKgowIDu6jMM9sGbPtRCfuuXfF5kHvFPI+2jr
- MrMA3GN/jaQcG1kg=
-X-Received: by 2002:adf:e686:: with SMTP id r6mr22005566wrm.177.1580817924720; 
- Tue, 04 Feb 2020 04:05:24 -0800 (PST)
-X-Google-Smtp-Source: APXvYqyBWv8cIlVezU5IR0mukN8obfURtKZS2dod1YcNCvNoLjPq7IgQmZpwAt3F4yG7Y9A9q9Qkgg==
-X-Received: by 2002:adf:e686:: with SMTP id r6mr22005554wrm.177.1580817924509; 
- Tue, 04 Feb 2020 04:05:24 -0800 (PST)
-Received: from [192.168.1.35] (162.red-83-52-55.dynamicip.rima-tde.net.
- [83.52.55.162])
- by smtp.gmail.com with ESMTPSA id s15sm29199738wrp.4.2020.02.04.04.05.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 04 Feb 2020 04:05:23 -0800 (PST)
-Subject: Re: [PATCH 3/4] virtiofsd: load_capng missing unlock
-To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>,
- qemu-devel@nongnu.org, stefanha@redhat.com
-References: <20200204110501.10731-1-dgilbert@redhat.com>
- <20200204110501.10731-4-dgilbert@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <fd996682-b280-c872-93cf-5147b52ab097@redhat.com>
-Date: Tue, 4 Feb 2020 13:05:22 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
-MIME-Version: 1.0
-In-Reply-To: <20200204110501.10731-4-dgilbert@redhat.com>
-Content-Language: en-US
-X-MC-Unique: TdcK3JwmNpm6kQCDlplQkA-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+ (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
+ id 1iywzi-0007qc-Sc
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 07:07:55 -0500
+Received: from localhost (localhost [127.0.0.1])
+ by mail.rt-rk.com (Postfix) with ESMTP id 143F81A1E70;
+ Tue,  4 Feb 2020 13:07:50 +0100 (CET)
+X-Virus-Scanned: amavisd-new at rt-rk.com
+Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
+ [10.10.14.106])
+ by mail.rt-rk.com (Postfix) with ESMTPSA id CF1241A2085;
+ Tue,  4 Feb 2020 13:07:49 +0100 (CET)
+From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/9] linux-user: Update syscall numbers to kernel 5.5 level
+Date: Tue,  4 Feb 2020 13:07:29 +0100
+Message-Id: <1580818058-16159-1-git-send-email-aleksandar.markovic@rt-rk.com>
+X-Mailer: git-send-email 2.7.4
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
+X-Received-From: 89.216.37.149
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,54 +48,155 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Marek Vasut <marex@denx.de>, Peter Maydell <peter.maydell@linaro.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ David Hildenbrand <david@redhat.com>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Chris Wulff <crwulff@gmail.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, laurent@vivier.eu,
+ Palmer Dabbelt <palmer@dabbelt.com>, amarkovic@wavecomp.com,
+ "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Stafford Horne <shorne@gmail.com>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi David,
+From: Aleksandar Markovic <amarkovic@wavecomp.com>
 
-On 2/4/20 12:05 PM, Dr. David Alan Gilbert (git) wrote:
-> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-> 
-> Missing unlock in error path.
-> 
-> Fixes: Covertiy CID 1413123
-> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> ---
->   tools/virtiofsd/passthrough_ll.c | 1 +
->   1 file changed, 1 insertion(+)
-> 
-> diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
-> index e6f2399efc..c635fc8820 100644
-> --- a/tools/virtiofsd/passthrough_ll.c
-> +++ b/tools/virtiofsd/passthrough_ll.c
-> @@ -232,6 +232,7 @@ static int load_capng(void)
->            */
->           cap.saved = capng_save_state();
->           if (!cap.saved) {
-> +            pthread_mutex_unlock(&cap.mutex);
->               fuse_log(FUSE_LOG_ERR, "capng_save_state (thread)\n");
->               return -EINVAL;
->           }
-> 
+Hello, folks!
 
-What about moving the unlock call?
+This series is a spin-off of another larger linux-user series
+that become too large to handle, hence these patches related to
+syscall numbers are now in this, separate, series.
 
--- >8 --
---- a/tools/virtiofsd/passthrough_ll.c
-+++ b/tools/virtiofsd/passthrough_ll.c
-@@ -231,11 +231,11 @@ static int load_capng(void)
-           * so make another.
-           */
-          cap.saved = capng_save_state();
-+        pthread_mutex_unlock(&cap.mutex);
-          if (!cap.saved) {
-              fuse_log(FUSE_LOG_ERR, "capng_save_state (thread)\n");
-              return -EINVAL;
-          }
--        pthread_mutex_unlock(&cap.mutex);
+Now that kernel 5.5 is released few days ago, it is time to
+reflect what can be updated in linux-user for upcomming QEMU 5.0.
 
-          /*
-           * We want to use the loaded state for our pid,
----
+An obvoius kernel change we should take into account are new
+system calls, and the foirst step is updating syscall numbers
+mainteined within QEMU linux-user.
+
+Regarding kernel syscal numbers there is good news and bad news.
+
+The good news is that kernel developers decided to make future
+syscall numbers much more synchonized accross architectures than
+before. They already reached that state.
+
+The bad news is that we in QEMU did not reach that state yet, since
+we lag after kernel significantly.
+
+The good news again is that we will reach that state if we update
+syscall numbers accross the board now. This is the main intention
+and motivation of this series.
+
+The bad news again is that in order to update syscall numebrs we
+need to be very careful at this moment. There are a number of new
+syscalls added to the kernel recently that QEMU doesn't know about
+at all. Significant number of new syscalls deal with 32/64-bit
+compatibility, traditionally a problematic area in kernel, and in
+QEMU as well. Moreover, some of the new syscalls are applicable to
+32-bit architectures only.
+
+This series covers updating syscall numbers defined in the following
+files:
+
+  - linux-user/alpha/syscall_nr.h
+  - linux-user/arm/syscall_nr.h
+  - linux-user/m68k/syscall_nr.h
+  - linux-user/microblaze/syscall_nr.h
+  - linux-user/mips/cpu_loop.c
+  - linux-user/mips/syscall_nr.h
+  - linux-user/mips64/syscall_nr.h
+  - linux-user/sh4/syscall_nr.h
+  - linux-user/x86_64/syscall_nr.h
+  - linux-user/xtensa/syscall_nr.h
+
+This series doesn't cover following files (since they use certain
+proprietary rules for mapping between kernel source and qemu source,
+I don't feel quite comfortable changing them - therefore I am asking
+corresponding target maintainers or Lauren to update them, if
+possible, before our 5.0 release):
+
+  - linux-user/aarch64/syscall_nr.h
+  - linux-user/i386/syscall_nr.h
+  - linux-user/nios2/syscall_nr.h
+  - linux-user/ppc/syscall_nr.h
+  - linux-user/riscv/syscall_nr.h
+  - linux-user/s390x/syscall_nr.h
+  - linux-user/sparc/syscall_nr.h
+  - linux-user/sparc64/syscall_nr.h
+
+CC: Peter Maydell <peter.maydell@linaro.org>
+CC: Paolo Bonzini <pbonzini@redhat.com>
+CC: Richard Henderson <rth@twiddle.net>
+CC: Eduardo Habkost <ehabkost@redhat.com>
+CC: Chris Wulff <crwulff@gmail.com>
+CC: Marek Vasut <marex@denx.de>
+CC: David Gibson <david@gibson.dropbear.id.au>
+CC: Palmer Dabbelt <palmer@dabbelt.com>
+CC: Alistair Francis <Alistair.Francis@wdc.com>
+CC: Sagar Karandikar <sagark@eecs.berkeley.edu>
+CC: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
+CC: David Hildenbrand <david@redhat.com>
+CC: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+CC: Artyom Tarasenko <atar4qemu@gmail.com>
+
+This series also doesn't cover following files (since I can't find
+corresponding kernel code - and I am also asking corresponding
+target maintainers or Lauren to update them, if possible, before
+our 5.0 release):
+
+  - linux-user/cris/cpu_loop.c
+  - linux-user/hppa/syscall_nr.h
+  - linux-user/openrisc/syscall_nr.h
+  - linux-user/tilegx/syscall_nr.h
+
+CC: Edgar E. Iglesias <edgar.iglesias@gmail.com>
+CC: Richard Henderson <rth@twiddle.net>
+CC: Stafford Horne <shorne@gmail.com>
+
+Again, I don't plan (I am really running out of time resources) to
+work in a significant way on this issue any more, and I am asking
+you guys other maintainers to help finish updating syscall numbers
+before QEMU 5.0 release.
+
+Once we do that, updating syscall numbers in QEMU should and will
+be significantly easier.
+
+Thanks in advance!
+
+Truly yours,
+Aleksandar
+
+-----------------------------------------------------------------------
+
+Aleksandar Markovic (9):
+  linux-user: alpha: Update syscall numbers to kernel 5.5 level
+  linux-user: arm: Update syscall numbers to kernel 5.5 level
+  linux-user: m68k: Update syscall numbers to kernel 5.5 level
+  linux-user: microblaze: Update syscall numbers to kernel 5.5 level
+  linux-user: mips: Update syscall numbers to kernel 5.5 level
+  linux-user: sh4: Update syscall numbers to kernel 5.5 level
+  linux-user: x86_64: Update syscall numbers to kernel 5.5 level
+  linux-user: xtensa: Update syscall numbers to kernel 5.5 level
+  linux-user: xtensa: Remove unused constant TARGET_NR_syscall_count
+
+ linux-user/alpha/syscall_nr.h      | 35 +++++++++++++++++
+ linux-user/arm/syscall_nr.h        | 44 +++++++++++++++++++++
+ linux-user/m68k/syscall_nr.h       | 50 +++++++++++++++++++++++-
+ linux-user/microblaze/syscall_nr.h | 45 ++++++++++++++++++++++
+ linux-user/mips/cpu_loop.c         | 78 +++++++++++++++++++++++++++++++++++++-
+ linux-user/mips/syscall_nr.h       | 45 ++++++++++++++++++++++
+ linux-user/mips64/syscall_nr.h     | 13 +++++++
+ linux-user/sh4/syscall_nr.h        | 48 +++++++++++++++++++++++
+ linux-user/x86_64/syscall_nr.h     | 24 ++++++++++++
+ linux-user/xtensa/syscall_nr.h     | 36 +++++++++++++++++-
+ 10 files changed, 414 insertions(+), 4 deletions(-)
+
+-- 
+2.7.4
 
 
