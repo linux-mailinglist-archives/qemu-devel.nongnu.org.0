@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF9FE151A55
+	by mail.lfdr.de (Postfix) with ESMTPS id 34F02151A54
 	for <lists+qemu-devel@lfdr.de>; Tue,  4 Feb 2020 13:09:23 +0100 (CET)
-Received: from localhost ([::1]:57102 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:57106 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iyx18-0008Q2-OH
+	id 1iyx18-0008U1-8x
 	for lists+qemu-devel@lfdr.de; Tue, 04 Feb 2020 07:09:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51239)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51261)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1iywzl-0006k4-9v
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 07:07:58 -0500
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1iywzl-0006k7-M2
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 07:07:59 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1iywzj-0007yO-S1
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1iywzk-0007zJ-6i
  for qemu-devel@nongnu.org; Tue, 04 Feb 2020 07:07:57 -0500
-Received: from mx2.rt-rk.com ([89.216.37.149]:37106 helo=mail.rt-rk.com)
+Received: from mx2.rt-rk.com ([89.216.37.149]:37141 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
- id 1iywzj-0007vS-Kx
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 07:07:55 -0500
+ id 1iywzj-0007wP-Uk
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 07:07:56 -0500
 Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id 674F11A20F8;
+ by mail.rt-rk.com (Postfix) with ESMTP id 6E1AC1A20FE;
  Tue,  4 Feb 2020 13:07:53 +0100 (CET)
 X-Virus-Scanned: amavisd-new at rt-rk.com
 Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
  [10.10.14.106])
- by mail.rt-rk.com (Postfix) with ESMTPSA id 39D911A1FF7;
+ by mail.rt-rk.com (Postfix) with ESMTPSA id 40F5A1A1FEC;
  Tue,  4 Feb 2020 13:07:53 +0100 (CET)
 From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/9] linux-user: arm: Update syscall numbers to kernel 5.5
+Subject: [PATCH 3/9] linux-user: m68k: Update syscall numbers to kernel 5.5
  level
-Date: Tue,  4 Feb 2020 13:07:31 +0100
-Message-Id: <1580818058-16159-3-git-send-email-aleksandar.markovic@rt-rk.com>
+Date: Tue,  4 Feb 2020 13:07:32 +0100
+Message-Id: <1580818058-16159-4-git-send-email-aleksandar.markovic@rt-rk.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1580818058-16159-1-git-send-email-aleksandar.markovic@rt-rk.com>
 References: <1580818058-16159-1-git-send-email-aleksandar.markovic@rt-rk.com>
@@ -51,74 +51,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, laurent@vivier.eu,
- amarkovic@wavecomp.com
+Cc: laurent@vivier.eu, amarkovic@wavecomp.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Aleksandar Markovic <amarkovic@wavecomp.com>
 
-Update arm syscall numbers based on Linux kernel v5.5.
+Update m68k syscall numbers based on Linux kernel v5.5.
 
-CC: Peter Maydell <peter.maydell@linaro.org>
+CC: Laurent Vivier <laurent@vivier.eu>
 Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/arm/syscall_nr.h | 44 ++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 44 insertions(+)
+ linux-user/m68k/syscall_nr.h | 50 +++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 49 insertions(+), 1 deletion(-)
 
-diff --git a/linux-user/arm/syscall_nr.h b/linux-user/arm/syscall_nr.h
-index e7eda0d..6db9235 100644
---- a/linux-user/arm/syscall_nr.h
-+++ b/linux-user/arm/syscall_nr.h
-@@ -399,5 +399,49 @@
- #define TARGET_NR_userfaultfd                  (388)
- #define TARGET_NR_membarrier                   (389)
- #define TARGET_NR_mlock2                       (390)
-+#define TARGET_NR_copy_file_range              (391)
-+#define TARGET_NR_preadv2                      (392)
-+#define TARGET_NR_pwritev2                     (393)
-+#define TARGET_NR_pkey_mprotect                (394)
-+#define TARGET_NR_pkey_alloc                   (395)
-+#define TARGET_NR_pkey_free                    (396)
-+#define TARGET_NR_statx                        (397)
-+#define TARGET_NR_rseq                         (398)
-+#define TARGET_NR_io_pgetevents                (399)
-+#define TARGET_NR_migrate_pages                (400)
-+#define TARGET_NR_kexec_file_load              (401)
-+/* 402 is unused */
-+#define TARGET_NR_clock_gettime64              (403)
-+#define TARGET_NR_clock_settime64              (404)
-+#define TARGET_NR_clock_adjtime64              (405)
-+#define TARGET_NR_clock_getres_time64          (406)
-+#define TARGET_NR_clock_nanosleep_time64       (407)
-+#define TARGET_NR_timer_gettime64              (408)
-+#define TARGET_NR_timer_settime64              (409)
-+#define TARGET_NR_timerfd_gettime64            (410)
-+#define TARGET_NR_timerfd_settime64            (411)
-+#define TARGET_NR_utimensat_time64             (412)
-+#define TARGET_NR_pselect6_time64              (413)
-+#define TARGET_NR_ppoll_time64                 (414)
-+#define TARGET_NR_io_pgetevents_time64         (416)
-+#define TARGET_NR_recvmmsg_time64              (417)
-+#define TARGET_NR_mq_timedsend_time64          (418)
-+#define TARGET_NR_mq_timedreceive_time64       (419)
-+#define TARGET_NR_semtimedop_time64            (420)
-+#define TARGET_NR_rt_sigtimedwait_time64       (421)
-+#define TARGET_NR_futex_time64                 (422)
-+#define TARGET_NR_sched_rr_get_interval_time64 (423)
-+#define TARGET_NR_pidfd_send_signal            (424)
-+#define TARGET_NR_io_uring_setup               (425)
-+#define TARGET_NR_io_uring_enter               (426)
-+#define TARGET_NR_io_uring_register            (427)
-+#define TARGET_NR_open_tree                    (428)
-+#define TARGET_NR_move_mount                   (429)
-+#define TARGET_NR_fsopen                       (430)
-+#define TARGET_NR_fsconfig                     (431)
-+#define TARGET_NR_fsmount                      (432)
-+#define TARGET_NR_fspick                       (433)
-+#define TARGET_NR_pidfd_open                   (434)
-+#define TARGET_NR_clone3                       (435)
- 
+diff --git a/linux-user/m68k/syscall_nr.h b/linux-user/m68k/syscall_nr.h
+index d33d8e9..01aee34 100644
+--- a/linux-user/m68k/syscall_nr.h
++++ b/linux-user/m68k/syscall_nr.h
+@@ -382,5 +382,53 @@
+ #define TARGET_NR_copy_file_range       376
+ #define TARGET_NR_preadv2               377
+ #define TARGET_NR_pwritev2              378
+-
++#define TARGET_NR_statx                 379
++#define TARGET_NR_seccomp               380
++#define TARGET_NR_pkey_mprotect         381
++#define TARGET_NR_pkey_alloc            382
++#define TARGET_NR_pkey_free             383
++#define TARGET_NR_rseq                  384
++/* room for arch specific calls */
++#define TARGET_NR_semget                393
++#define TARGET_NR_semctl                394
++#define TARGET_NR_shmget                395
++#define TARGET_NR_shmctl                396
++#define TARGET_NR_shmat                 397
++#define TARGET_NR_shmdt                 398
++#define TARGET_NR_msgget                399
++#define TARGET_NR_msgsnd                400
++#define TARGET_NR_msgrcv                401
++#define TARGET_NR_msgctl                402
++#define TARGET_NR_clock_gettime64       403
++#define TARGET_NR_clock_settime64       404
++#define TARGET_NR_clock_adjtime64       405
++#define TARGET_NR_clock_getres_time64   406
++#define TARGET_NR_clock_nanosleep_time64 407
++#define TARGET_NR_timer_gettime64       408
++#define TARGET_NR_timer_settime64       409
++#define TARGET_NR_timerfd_gettime64     410
++#define TARGET_NR_timerfd_settime64     411
++#define TARGET_NR_utimensat_time64      412
++#define TARGET_NR_pselect6_time64       413
++#define TARGET_NR_ppoll_time64          414
++#define TARGET_NR_io_pgetevents_time64  416
++#define TARGET_NR_recvmmsg_time64       417
++#define TARGET_NR_mq_timedsend_time64   418
++#define TARGET_NR_mq_timedreceive_time64 419
++#define TARGET_NR_semtimedop_time64     420
++#define TARGET_NR_rt_sigtimedwait_time64 421
++#define TARGET_NR_futex_time64          422
++#define TARGET_NR_sched_rr_get_interval_time64 423
++#define TARGET_NR_pidfd_send_signal     424
++#define TARGET_NR_io_uring_setup        425
++#define TARGET_NR_io_uring_enter        426
++#define TARGET_NR_io_uring_register     427
++#define TARGET_NR_open_tree             428
++#define TARGET_NR_move_mount            429
++#define TARGET_NR_fsopen                430
++#define TARGET_NR_fsconfig              431
++#define TARGET_NR_fsmount               432
++#define TARGET_NR_fspick                433
++#define TARGET_NR_pidfd_open            434
++/* 435 reserved for clone3 */
  #endif
 -- 
 2.7.4
