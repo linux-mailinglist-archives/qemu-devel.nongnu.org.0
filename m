@@ -2,83 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 084EC151DD5
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Feb 2020 17:08:12 +0100 (CET)
-Received: from localhost ([::1]:60922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29B62151DDE
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Feb 2020 17:09:49 +0100 (CET)
+Received: from localhost ([::1]:60982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iz0kE-0003zn-R8
-	for lists+qemu-devel@lfdr.de; Tue, 04 Feb 2020 11:08:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37389)
+	id 1iz0lo-00073D-6q
+	for lists+qemu-devel@lfdr.de; Tue, 04 Feb 2020 11:09:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37583)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1iz0j8-0002DA-AR
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 11:07:03 -0500
+ (envelope-from <pbonzini@redhat.com>) id 1iz0jW-0003JZ-IS
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 11:07:27 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1iz0j4-0004nv-Uz
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 11:07:00 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:47349
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <pbonzini@redhat.com>) id 1iz0jV-0005j8-92
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 11:07:26 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:46217
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iz0j4-0004lL-Qm
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 11:06:58 -0500
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1iz0jV-0005hi-5Q
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 11:07:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580832418;
+ s=mimecast20190719; t=1580832444;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=uePp18mCw53bhnoaLgkz1zDxvQx0lc9VQi3iSaCavrM=;
- b=SpKM/T4fku6ykoLWN4lnfOt/hp1VA90axLmgBH8EuBRR5/e/HMX3cERjtL8loqUUVYmQ0F
- baVm8eATF8MPFhvKkhTVPa45LA8OGP8i9+9Qfm3wSGmzQC177YK1SEphX4qEH2MewpvlJp
- XEItuV45C+8C1Z8uN7MwOhH24Wigv0M=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-36-_hf5l7HpMpSxetu6ZaeJ3g-1; Tue, 04 Feb 2020 11:06:42 -0500
-Received: by mail-wr1-f72.google.com with SMTP id f10so10563595wro.14
- for <qemu-devel@nongnu.org>; Tue, 04 Feb 2020 08:06:41 -0800 (PST)
+ bh=3JL0tyFt4JXlZu1RoZGON/MdNKF7juj8keEP/I/M62U=;
+ b=A5ijIHoiYAzaS6+sQ9P3JJ8NgSMUY75NGWpSDUfeGY043uQpYEmJhL2R7MlP0vzpFZOK4c
+ PwyZ/CvM9DWqdjNWTQYtFUQnT9QGwsKP4jMTlVNFf2BL4d/x9wmeV3n6lmrb/QZ8woWiWk
+ iDIY5B9OyjCy6qYU5pMHyaL3MsHpX8o=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-169-SxJ2dYB6MVqIVKk4sXME6g-1; Tue, 04 Feb 2020 11:07:08 -0500
+Received: by mail-wr1-f69.google.com with SMTP id 50so9673073wrc.2
+ for <qemu-devel@nongnu.org>; Tue, 04 Feb 2020 08:07:08 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ h=x-gm-message-state:subject:to:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=uO2tNLNQjvNTQibFbidqKHre5h6Xo6FO5reYTPg4ja0=;
- b=bcxRmvv9PQEOoozWjJEseRK54QP012BUjwpiYbpMzgFItPJVJfhW4q1cRfesVXdx/7
- PXsYmUA/BHr9uXIdtfBknYwZD7wpLRPw4WL22Dx0+DIi1xFipGKUquvQ5uz4+StvGrJB
- uE388MmQyIsYikwiX2NOkCKidHf5ogp+m664UzhQpRA9dLVMsxL3SucRm3ntkGs29tot
- fTZt6+V/Bjp3gcNnsLYTG61ol+IktWEfGQPkdlbc7W33KMhuwuWu7Hkw1Qvzo7+OwHTg
- LVayZATDydgODQTHUBnTRNvR5KUUA5uQoi12Lug9CZH3o7yTlBmJwn0gC/NpLFjAJOQt
- Rd2w==
-X-Gm-Message-State: APjAAAXKpG1qZa1Y4fn4wt3PSbuFW7aVCZ/HSnoASGlYHgK+Nwr3S7Qh
- GccxalEWPSo7FW1dZ3B2kuf2s6K16pwdi916vV3cHcfXbuccGuilp/YnnBXXalX+HoMsCtusKY9
- yBnpr89awuwtN8xk=
-X-Received: by 2002:a5d:4f89:: with SMTP id d9mr12124642wru.391.1580832400684; 
- Tue, 04 Feb 2020 08:06:40 -0800 (PST)
-X-Google-Smtp-Source: APXvYqwsqxSqJ5f4FP8ZEGpsr6vbdyW/x58Gmx4gi3aOH8PTYDIlX3/+a6xhr+yAIln1S5k24i73Mg==
-X-Received: by 2002:a5d:4f89:: with SMTP id d9mr12124615wru.391.1580832400442; 
- Tue, 04 Feb 2020 08:06:40 -0800 (PST)
+ bh=YT1Yg69Hs7fpMDkHDugwzot+L+qcfOSDB59XGsXgja4=;
+ b=rgTj7VOfTAVOrZLHZGMpDPPaX9HcD9SreduOC77L665DXyp6ZfjidZGhmhAL43wnb5
+ 5PjOmlB0bImGuRukrpEF1Cf6AiOvs/Bfy92wBW5T8dEvwqioXFOmR56NYDCyoPQDuiCJ
+ XCAQi9F3lQS/NleL+ZQnxrLHktTztkTbbuTUKrrDPP6TTnlbu91pHI5MdVm8kVLdT01O
+ z1No8mu3gfZ8niS1Y8KneA3T98OhRrD1pcH2CJyODGf44k7pQMCAXxVJoWpvvvuuflc1
+ vgXhtN+SSNMQtzipPn/F0VxqVqw33WADy6DmT5jHG6ra/Zw5ytdKxmRx5YCSLWLpNly/
+ Uigw==
+X-Gm-Message-State: APjAAAWGf6PtmY2OD0J8gounfG4TgSk7lL21QBDPY/H5wSlrBhoycnCx
+ ZaexYcVwlH1klSggzYMhemeFjBdWo/otCqMBuBspwxmGCPaeg6F+QQ6KYEVKZmP/JyRnUzSw4sh
+ 2Hg2rEUVKTxGvOwU=
+X-Received: by 2002:a5d:4446:: with SMTP id x6mr22432815wrr.312.1580832427125; 
+ Tue, 04 Feb 2020 08:07:07 -0800 (PST)
+X-Google-Smtp-Source: APXvYqzg64relmWw0hdzTYxsG+uX2Pl8hemkFCwrU18P0xjznjO+m47rhJGKaI10qzZucz929Wvbxw==
+X-Received: by 2002:a5d:4446:: with SMTP id x6mr22432792wrr.312.1580832426867; 
+ Tue, 04 Feb 2020 08:07:06 -0800 (PST)
 Received: from [192.168.178.40] ([151.20.243.54])
- by smtp.gmail.com with ESMTPSA id x7sm30660688wrq.41.2020.02.04.08.06.37
+ by smtp.gmail.com with ESMTPSA id l29sm7205430wrb.64.2020.02.04.08.07.05
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 04 Feb 2020 08:06:38 -0800 (PST)
-Subject: Re: [PATCH v2 00/12] python: Explicit usage of Python 3
+ Tue, 04 Feb 2020 08:07:06 -0800 (PST)
+Subject: Re: [PATCH] scripts/signrom: remove Python 2 support, add shebang
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  qemu-devel@nongnu.org
-References: <20200130163232.10446-1-philmd@redhat.com>
+References: <20200204160028.16211-1-pbonzini@redhat.com>
+ <a1940860-ff53-ee17-bb28-bfae85bc4b98@redhat.com>
 From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <20cac786-0985-2b20-fe97-a99d9f1d2401@redhat.com>
-Date: Tue, 4 Feb 2020 17:06:36 +0100
+Message-ID: <ca7a1e44-8a8f-2e45-e6c3-37541648231d@redhat.com>
+Date: Tue, 4 Feb 2020 17:07:05 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <20200130163232.10446-1-philmd@redhat.com>
+In-Reply-To: <a1940860-ff53-ee17-bb28-bfae85bc4b98@redhat.com>
 Content-Language: en-US
-X-MC-Unique: _hf5l7HpMpSxetu6ZaeJ3g-1
+X-MC-Unique: SxJ2dYB6MVqIVKk4sXME6g-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,34 +92,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- Juan Quintela <quintela@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Michael Roth <mdroth@linux.vnet.ibm.com>, kvm@vger.kernel.org,
- Stefan Hajnoczi <stefanha@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Max Reitz <mreitz@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 30/01/20 17:32, Philippe Mathieu-Daud=C3=A9 wrote:
-> Hello,
+On 04/02/20 17:02, Philippe Mathieu-Daud=C3=A9 wrote:
+> On 2/4/20 5:00 PM, Paolo Bonzini wrote:
+>> Based-on: <20200130163232.10446-1-philmd@redhat.com>
+>> Cc: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+>> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+>> ---
+>> =C2=A0 scripts/signrom.py | 12 ++++--------
+>> =C2=A0 1 file changed, 4 insertions(+), 8 deletions(-)
+>>
+>> diff --git a/scripts/signrom.py b/scripts/signrom.py
+>> index 313ee28a17..9be5dab1cf 100644
+>> --- a/scripts/signrom.py
+>> +++ b/scripts/signrom.py
+>> @@ -1,3 +1,5 @@
+>> +#!/usr/bin/env python3
+>> +
+>> =C2=A0 from __future__ import print_function
+>> =C2=A0 #
+>> =C2=A0 # Option ROM signing utility
+>> @@ -44,14 +46,8 @@ fout.write(data)
+>> =C2=A0 =C2=A0 checksum =3D 0
+>> =C2=A0 for b in data:
+>> -=C2=A0=C2=A0=C2=A0 # catch Python 2 vs. 3 differences
+>> -=C2=A0=C2=A0=C2=A0 if isinstance(b, int):
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 checksum +=3D b
+>> -=C2=A0=C2=A0=C2=A0 else:
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 checksum +=3D ord(b)
+>> -checksum =3D (256 - checksum) % 256
+>> -
+>> -# Python 3 no longer allows chr(checksum)
+>> +=C2=A0=C2=A0=C2=A0 checksum =3D (checksum - b) & 255
+>> +
+>> =C2=A0 fout.write(struct.pack('B', checksum))
+>> =C2=A0 =C2=A0 fin.close()
+>>
 >=20
-> These are mechanical sed patches used to convert the
-> code base to Python 3, as suggested on this thread:
-> https://www.mail-archive.com/qemu-devel@nongnu.org/msg675024.html
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 >=20
-> Since v1:
-> - new checkpatch.pl patch
-> - addressed Kevin and Vladimir review comments
-> - added R-b/A-b tags
+> Also, applied to my python-next tree:
+> https://gitlab.com/philmd/qemu/commits/python-next
 
-Queued, thanks.
+Oh, good.  So I've unqueued your series on which this is based.
 
 Paolo
 
