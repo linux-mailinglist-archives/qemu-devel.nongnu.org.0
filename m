@@ -2,111 +2,111 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADDEE15184F
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Feb 2020 11:00:00 +0100 (CET)
-Received: from localhost ([::1]:55374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 996E015184A
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Feb 2020 10:59:08 +0100 (CET)
+Received: from localhost ([::1]:55364 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iyuzv-0001i3-N6
-	for lists+qemu-devel@lfdr.de; Tue, 04 Feb 2020 04:59:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56093)
+	id 1iyuz5-00008o-Kd
+	for lists+qemu-devel@lfdr.de; Tue, 04 Feb 2020 04:59:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56095)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <k.jensen@samsung.com>) id 1iyusw-0004sC-Kq
+ (envelope-from <k.jensen@samsung.com>) id 1iyusw-0004sM-L6
  for qemu-devel@nongnu.org; Tue, 04 Feb 2020 04:52:48 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <k.jensen@samsung.com>) id 1iyusv-0007va-2P
+ (envelope-from <k.jensen@samsung.com>) id 1iyusv-0007vi-5r
  for qemu-devel@nongnu.org; Tue, 04 Feb 2020 04:52:46 -0500
-Received: from mailout1.w1.samsung.com ([210.118.77.11]:35454)
+Received: from mailout1.w1.samsung.com ([210.118.77.11]:35456)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <k.jensen@samsung.com>)
- id 1iyusu-0007WW-S2
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 04:52:44 -0500
+ id 1iyusu-0007Wl-Sx
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 04:52:45 -0500
 Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
  by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20200204095231euoutp01fd9594ef41a946a3fd43f596d66a3293~wKkZnG6SR3058130581euoutp01-
+ 20200204095231euoutp0101ecc97e8d8489b6942dd90e99f2bb90~wKkaTU5d73058130581euoutp01C
  for <qemu-devel@nongnu.org>; Tue,  4 Feb 2020 09:52:31 +0000 (GMT)
 DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20200204095231euoutp01fd9594ef41a946a3fd43f596d66a3293~wKkZnG6SR3058130581euoutp01-
+ 20200204095231euoutp0101ecc97e8d8489b6942dd90e99f2bb90~wKkaTU5d73058130581euoutp01C
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
  s=mail20170921; t=1580809951;
- bh=oTg2jFY4w+QtsoZIr5cs9blt/JLIIZ6dyCWP0BEZoso=;
+ bh=rvrSEQseKfeNqqw5XDKS3yK2e1y5M30V2O/ktHSEgKI=;
  h=From:To:CC:Subject:Date:In-Reply-To:References:From;
- b=FxPbV3PPzRNMexsmCUgEdTU0W0T0jS0lUUGXEXdkVf4FtLDZ790tBNU2xLUhRXb5l
- NYyPCc/v7kujruhSn16p0OEb8ck+FbMFfyNEAXi1ojFjVJjmI2YuB5d/TJQoydYeB9
- Z0JuUQVU8LQf/MsxVF55/M94ttnItYUajQ6Fcd9k=
+ b=M6mGAdi6V5lc97s62VIdYNNI7ayeBjmVG84IqGtLHW5yesDLA+504HBNHPeP/AqlT
+ 5i9idWNT/ihoEGSsEg9vRF/YTP/5mODb57Wid8zKZyxjPIaKgdGruz5/h2A0kIeURj
+ Bc6Yj5xieE0YYJUOoMWN6sddCIzlenhunf3UbgAI=
 Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
  eucas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20200204095230eucas1p256714c09b5e6bf590dd5435c493e63f1~wKkZZCqfl0717507175eucas1p2R;
- Tue,  4 Feb 2020 09:52:30 +0000 (GMT)
-Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
- eusmges2new.samsung.com (EUCPMTA) with SMTP id B1.FB.60679.EDE393E5; Tue,  4
- Feb 2020 09:52:30 +0000 (GMT)
+ 20200204095231eucas1p20a2b156844cd09db5928aa654af13a0e~wKkaCUvsf2198521985eucas1p2G;
+ Tue,  4 Feb 2020 09:52:31 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+ eusmges2new.samsung.com (EUCPMTA) with SMTP id A2.FB.60679.FDE393E5; Tue,  4
+ Feb 2020 09:52:31 +0000 (GMT)
 Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
  eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
- 20200204095230eucas1p23f3105c4cab4aaec77a3dd42b8158c10~wKkZFLsRD2189621896eucas1p2R;
- Tue,  4 Feb 2020 09:52:30 +0000 (GMT)
+ 20200204095231eucas1p21019b1d857fcda9d67950e7d01de6b6a~wKkZuqSQd2198521985eucas1p2F;
+ Tue,  4 Feb 2020 09:52:31 +0000 (GMT)
 Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
  eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20200204095230eusmtrp24474c35a52db18d5485a14c8ea393505~wKkZEk9_50487104871eusmtrp20;
- Tue,  4 Feb 2020 09:52:30 +0000 (GMT)
-X-AuditID: cbfec7f4-0e5ff7000001ed07-49-5e393edeb14a
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
- eusmgms1.samsung.com (EUCPMTA) with SMTP id BC.CC.08375.EDE393E5; Tue,  4
- Feb 2020 09:52:30 +0000 (GMT)
-Received: from CAMSVWEXC02.scsc.local (unknown [106.1.227.72]) by
- eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20200204095230eusmtip25f37bc7f5dffbe320f3c36da82e6075d~wKkY9UfKK2738327383eusmtip2W;
- Tue,  4 Feb 2020 09:52:30 +0000 (GMT)
+ 20200204095231eusmtrp2f6b5bebc7a15752c75a4f9e5c72aaa2a~wKkZuFlUv0485704857eusmtrp2-;
+ Tue,  4 Feb 2020 09:52:31 +0000 (GMT)
+X-AuditID: cbfec7f4-0cbff7000001ed07-4c-5e393edf5d9b
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+ eusmgms1.samsung.com (EUCPMTA) with SMTP id 5D.CC.08375.FDE393E5; Tue,  4
+ Feb 2020 09:52:31 +0000 (GMT)
+Received: from CAMSVWEXC01.scsc.local (unknown [106.1.227.71]) by
+ eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+ 20200204095231eusmtip18b084b1ea7853cf954ec43084d1859a0~wKkZm82Km3064230642eusmtip13;
+ Tue,  4 Feb 2020 09:52:31 +0000 (GMT)
 Received: from CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347) by
- CAMSVWEXC02.scsc.local (2002:6a01:e348::6a01:e348) with Microsoft SMTP
+ CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347) with Microsoft SMTP
  Server (TLS) id 15.0.1320.4; Tue, 4 Feb 2020 09:52:30 +0000
 Received: from apples.local (106.110.32.41) by CAMSVWEXC01.scsc.local
  (106.1.227.71) with Microsoft SMTP Server id 15.0.1320.4 via Frontend
- Transport; Tue, 4 Feb 2020 09:52:29 +0000
+ Transport; Tue, 4 Feb 2020 09:52:30 +0000
 From: Klaus Jensen <k.jensen@samsung.com>
 To: <qemu-block@nongnu.org>
-Subject: [PATCH v5 23/26] pci: allocate pci id for nvme
-Date: Tue, 4 Feb 2020 10:52:05 +0100
-Message-ID: <20200204095208.269131-24-k.jensen@samsung.com>
+Subject: [PATCH v5 24/26] nvme: change controller pci id
+Date: Tue, 4 Feb 2020 10:52:06 +0100
+Message-ID: <20200204095208.269131-25-k.jensen@samsung.com>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <20200204095208.269131-1-k.jensen@samsung.com>
 MIME-Version: 1.0
 Content-Type: text/plain
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprPKsWRmVeSWpSXmKPExsWy7djP87r37CzjDJrvG1ps7m9ntNh/8Bur
- xaRD1xgtllxMtZh3S9li1rt2NovjvTtYHNg9zu04z+6xaVUnm8eda3vYPJ5c28zk8X7fVbYA
- 1igum5TUnMyy1CJ9uwSujLV77zMWNAlWnHrt1sD4lbeLkYNDQsBEYt5r9S5GTg4hgRWMEttP
- OHQxcgHZXxglFrXcZoRwPjNKnDl2hxWkCqTh/rZ3UInljBKzZl5khav6veodG4RzmlFi+e+D
- LBCDdzJK7HrLBmKzCWhKbP/zHywuIiAt0X51Elg3s8BvRom5jRPBioQFzCUOPV0LVsQioCLx
- eM5WRhCbV8BaYkfTF0aIO+QlZjeeBqvnBIrvX3WCCaJGUOLkzCdgvcxANc1bZzND2BISB1+8
- YAZZJiGwjV1ix+brUINcJM7+2M4MYQtLvDq+hR3ClpH4v3M+E0RDN6NE34evUN0zGCWmL/vO
- Bgk/a4m+MzkQDY4Sk64+Y4QI80nceCsIsZhPYtK26cwQYV6JjjYhiGo1oF+2Mk5gVJ6F5OxZ
- SM6eheTsBYzMqxjFU0uLc9NTi43yUsv1ihNzi0vz0vWS83M3MQKTzel/x7/sYNz1J+kQowAH
- oxIP78mzFnFCrIllxZW5hxglOJiVRHjP61vGCfGmJFZWpRblxxeV5qQWH2KU5mBREuc1XvQy
- VkggPbEkNTs1tSC1CCbLxMEp1cDILKYwL75Wi3dj80fGw0ujuledNAuyndsf93JJWl2rhMVV
- xi3NL55s6H7xbtfy/7OylbctuVOw+c/D/l2Reo+dqhULJ3S9u9mUZXFf5nfaax9D1s1qLYIc
- K3/ZnLBrt8zham6tXfS7kesGm986Nu+3hikZwnsOOV1X9raMyy+93XX07sLbN9crsRRnJBpq
- MRcVJwIAl9dY8DIDAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrNIsWRmVeSWpSXmKPExsVy+t/xe7r37CzjDCYfl7bY3N/OaLH/4DdW
+X-Brightmail-Tracker: H4sIAAAAAAAAA01Sa0hTYRjm29nOzlaTs6n4pUU5RchKu9IRTRP8MfoR9S+EzJN+qLSL7ajN
+ QJoJ3krThVM3VhaRlz/lnDozGy502tKl4EiTFJtkkhdQu0rmdlb473mfy/c+vHwEJnnECyVy
+ lHlIraTlUlzI7Rr8OXpkJjEu7eiv1j1Ux70yQNn6v/Eond0NqCdjiHowFUEZlstwylFl5Z7l
+ y0atLr7M3FaBy6bdL3GZx93Bka28msAv8FKFCZlInlOA1LGJ6cLsZ0MWTm57qGZsXKgFDcGV
+ gCAgeRJaRs5VAiEhIVsANEx2YOywDuC0Vucf1gDc8vRyKoHAl9DPL/mFZgBbZp/z/7umxks4
+ 7OAE8HXdoF/pAfBNYznmzePkQdi9ucX14iAyDJZN6HheE0b+BtBUXIt7hUCSgubaTr4Xc8lI
+ OP+5yceLyHhotHXjbJH90Fjs9GHBNm9rG+KwHjEcbvT4FmDbnpJOI8ZiCPsXFnzFIdnFh83r
+ Vf6HUuC7qUE/DoSLDgufxXvhVs9DDhu4A2D16oY/3QBg/dPvOHvBeFj9Vs4GkmHt0CqfpQPg
+ +yUxuzgA6rrqMZYWwfJSCeuOgtbbnaAGRBh21DbsqG3YUbsJYG0gBOUziizEHFeiGzEMrWDy
+ lVkxGSqFGWx/HOcfx7oVvNi8agckAaS7RcMjVJqERxcwhQo7gAQmDRK5YuPSJKJMuvAmUquu
+ qPPliLGDMIIrDRGdePzlsoTMovPQNYRykfqfyiEEoVqwryJ7URw1fsaud6QURM79wExJhRkK
+ tam3JkAjQNfDU4OT10pnJl1R8yKX5iutSjqv1y4vpyir5nataD60RA4cCtPPJguRW7F4WvWx
+ P72I0RwwJ4rD8y6agse6nR6UsHHf3kQ0m0/1PZ43tlvslwb6WuuiDxcZPrXa7t5SSLlMNn0s
+ GlMz9F8JSwF2NAMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrDIsWRmVeSWpSXmKPExsVy+t/xu7r37SzjDI5N5bTY3N/OaLH/4DdW
  i0mHrjFaLLmYajHvlrLFrHftbBbHe3ewOLB7nNtxnt1j06pONo871/aweTy5tpnJ4/2+q2wB
- rFF6NkX5pSWpChn5xSW2StGGFkZ6hpYWekYmlnqGxuaxVkamSvp2NimpOZllqUX6dgl6GWv3
- 3mcsaBKsOPXarYHxK28XIyeHhICJxP1t7xhBbCGBpYwS01epQsRlJD5d+cgOYQtL/LnWxdbF
- yAVU85FR4u+fj0wQzmlGidmHJ7FCODsZJb4sPsgM0sImoCmx/c9/FhBbREBaov0qSBEnB7PA
- b0aJP32BILawgLnEoadrwWpYBFQkHs/ZCnYGr4C1xI6mL4wQq+UlZjeeZgOxOYHi+1edANrM
- AbTMSqL1KDdEuaDEyZlPWCDGy0s0b53NDGFLSBx88YJ5AqPwLCRls5CUzUJStoCReRWjSGpp
- cW56brGhXnFibnFpXrpecn7uJkZgxG079nPzDsZLG4MPMQpwMCrx8F6ws4gTYk0sK67MPcQo
- wcGsJMJ7Xt8yTog3JbGyKrUoP76oNCe1+BCjKdBvE5mlRJPzgckgryTe0NTQ3MLS0NzY3NjM
- Qkmct0PgYIyQQHpiSWp2ampBahFMHxMHp1QDYzurBF80R3S7/YuMPYbHCxZcfMet6xZm1cDF
- 7bJNQv2apuM1PVMeB3n7Qrfd/1u216rkqXFJFKZYVfzfIm347GDVrXcHlm8JKZ/Ir2kmbLKk
- +BKD3ea03ZLMzGKTprqs3TL1SsutV7HXD5WUuLXxvn1jEXD1/5lcQ9n4+VO/yun+3nm7cG6u
- EktxRqKhFnNRcSIAVnfhSc4CAAA=
-X-CMS-MailID: 20200204095230eucas1p23f3105c4cab4aaec77a3dd42b8158c10
+ rFF6NkX5pSWpChn5xSW2StGGFkZ6hpYWekYmlnqGxuaxVkamSvp2NimpOZllqUX6dgl6GetP
+ bGEq2ChVcfESVwPjDNEuRk4OCQETiWlP3zJ3MXJxCAksZZSYe/AwI0RCRuLTlY/sELawxJ9r
+ XWwQRR8ZJe4c+sIC4ZxmlNh06jEjhLOTUaJx02+wFjYBTYntf/6zgNgiAtIS7VcnsYLYzAK/
+ GSX+9AWC2MICFhKbJm4Fq2cRUJF4+nwBG4jNK2AtMXv/djaI1fISsxtPg9mcQPH9q04wdTFy
+ AC2zkmg9yg1RLihxcuYTFojx8hLNW2czQ9gSEgdfvGCewCg8C0nZLCRls5CULWBkXsUoklpa
+ nJueW2yoV5yYW1yal66XnJ+7iREYc9uO/dy8g/HSxuBDjAIcjEo8vBfsLOKEWBPLiitzDzFK
+ cDArifCe17eME+JNSaysSi3Kjy8qzUktPsRoCvTbRGYp0eR8YDrIK4k3NDU0t7A0NDc2Nzaz
+ UBLn7RA4GCMkkJ5YkpqdmlqQWgTTx8TBKdXA2FbKKXe6IuSSSLe30Y8u/U+/S2Q3L7MSLir/
+ rj6d0fCscFTDsR+af883Gcakv732Tabwmvd9EfH4fS8yvv5LLwlJKvALVNCtubJuwnexy19z
+ jB7f+pJ+9kqxsKfPJdEdry1k5U+xL6x0eOLwePcHZqs1ETXnMz2KNU7+/yRxT/Omg8jHoMNq
+ SizFGYmGWsxFxYkA1uu1Xs8CAAA=
+X-CMS-MailID: 20200204095231eucas1p21019b1d857fcda9d67950e7d01de6b6a
 X-Msg-Generator: CA
-X-RootMTR: 20200204095230eucas1p23f3105c4cab4aaec77a3dd42b8158c10
+X-RootMTR: 20200204095231eucas1p21019b1d857fcda9d67950e7d01de6b6a
 X-EPHeader: CA
 CMS-TYPE: 201P
-X-CMS-RootMailID: 20200204095230eucas1p23f3105c4cab4aaec77a3dd42b8158c10
+X-CMS-RootMailID: 20200204095231eucas1p21019b1d857fcda9d67950e7d01de6b6a
 References: <20200204095208.269131-1-k.jensen@samsung.com>
- <CGME20200204095230eucas1p23f3105c4cab4aaec77a3dd42b8158c10@eucas1p2.samsung.com>
+ <CGME20200204095231eucas1p21019b1d857fcda9d67950e7d01de6b6a@eucas1p2.samsung.com>
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
 X-Received-From: 210.118.77.11
@@ -128,73 +128,98 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Beata Michalska <beata.michalska@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The emulated nvme device (hw/block/nvme.c) is currently using an
-internal Intel device id.
+There are two reasons for changing this:
 
-Prepare to change that by allocating a device id under the 1b36 (Red
-Hat, Inc.) vendor id.
+  1. The nvme device currently uses an internal Intel device id.
+
+  2. Since commits "nvme: fix write zeroes offset and count" and "nvme:
+     support multiple namespaces" the controller device no longer has
+     the quirks that the Linux kernel think it has.
+
+     As the quirks are applied based on pci vendor and device id, change
+     them to get rid of the quirks.
+
+To keep backward compatibility, add a new 'x-use-intel-id' parameter to
+the nvme device to force use of the Intel vendor and device id. This is
+off by default but add a compat property to set this for machines 4.2
+and older.
 
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- MAINTAINERS            |  1 +
- docs/specs/nvme.txt    | 10 ++++++++++
- docs/specs/pci-ids.txt |  1 +
- include/hw/pci/pci.h   |  1 +
- 4 files changed, 13 insertions(+)
- create mode 100644 docs/specs/nvme.txt
+ hw/block/nvme.c   | 13 +++++++++----
+ hw/block/nvme.h   |  4 +++-
+ hw/core/machine.c |  1 +
+ 3 files changed, 13 insertions(+), 5 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 1f0bc72f2189..14a018e9c0ae 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1645,6 +1645,7 @@ L: qemu-block@nongnu.org
- S: Supported
- F: hw/block/nvme*
- F: tests/qtest/nvme-test.c
-+F: docs/specs/nvme.txt
+diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+index 3a377bc56734..bdef53a590b0 100644
+--- a/hw/block/nvme.c
++++ b/hw/block/nvme.c
+@@ -2467,8 +2467,15 @@ static void nvme_init_pci(NvmeCtrl *n, PCIDevice *=
+pci_dev)
 =20
- megasas
- M: Hannes Reinecke <hare@suse.com>
-diff --git a/docs/specs/nvme.txt b/docs/specs/nvme.txt
-new file mode 100644
-index 000000000000..6ec7ddbc7ee0
---- /dev/null
-+++ b/docs/specs/nvme.txt
-@@ -0,0 +1,10 @@
-+NVM Express Controller
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+     pci_conf[PCI_INTERRUPT_PIN] =3D 1;
+     pci_config_set_prog_interface(pci_conf, 0x2);
+-    pci_config_set_vendor_id(pci_conf, PCI_VENDOR_ID_INTEL);
+-    pci_config_set_device_id(pci_conf, 0x5845);
 +
-+The nvme device (-device nvme) emulates an NVM Express Controller.
++    if (n->params.use_intel_id) {
++        pci_config_set_vendor_id(pci_conf, PCI_VENDOR_ID_INTEL);
++        pci_config_set_device_id(pci_conf, 0x5846);
++    } else {
++        pci_config_set_vendor_id(pci_conf, PCI_VENDOR_ID_REDHAT);
++        pci_config_set_device_id(pci_conf, PCI_DEVICE_ID_REDHAT_NVME);
++    }
 +
-+
-+Reference Specifications
-+------------------------
-+
-+  https://nvmexpress.org/resources/specifications/
-diff --git a/docs/specs/pci-ids.txt b/docs/specs/pci-ids.txt
-index 4d53e5c7d9d5..abbdbca6be38 100644
---- a/docs/specs/pci-ids.txt
-+++ b/docs/specs/pci-ids.txt
-@@ -63,6 +63,7 @@ PCI devices (other than virtio):
- 1b36:000b  PCIe Expander Bridge (-device pxb-pcie)
- 1b36:000d  PCI xhci usb host adapter
- 1b36:000f  mdpy (mdev sample device), linux/samples/vfio-mdev/mdpy.c
-+1b36:0010  PCIe NVMe device (-device nvme)
+     pci_config_set_class(pci_conf, PCI_CLASS_STORAGE_EXPRESS);
+     pcie_endpoint_cap_init(pci_dev, 0x80);
 =20
- All these devices are documented in docs/specs.
+@@ -2638,8 +2645,6 @@ static void nvme_class_init(ObjectClass *oc, void *=
+data)
+     pc->realize =3D nvme_realize;
+     pc->exit =3D nvme_exit;
+     pc->class_id =3D PCI_CLASS_STORAGE_EXPRESS;
+-    pc->vendor_id =3D PCI_VENDOR_ID_INTEL;
+-    pc->device_id =3D 0x5845;
+     pc->revision =3D 2;
 =20
-diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
-index b5013b834b20..9a20c309d0f2 100644
---- a/include/hw/pci/pci.h
-+++ b/include/hw/pci/pci.h
-@@ -103,6 +103,7 @@ extern bool pci_available;
- #define PCI_DEVICE_ID_REDHAT_XHCI        0x000d
- #define PCI_DEVICE_ID_REDHAT_PCIE_BRIDGE 0x000e
- #define PCI_DEVICE_ID_REDHAT_MDPY        0x000f
-+#define PCI_DEVICE_ID_REDHAT_NVME        0x0010
- #define PCI_DEVICE_ID_REDHAT_QXL         0x0100
+     set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
+diff --git a/hw/block/nvme.h b/hw/block/nvme.h
+index c3cef0f024da..6b584f53ed64 100644
+--- a/hw/block/nvme.h
++++ b/hw/block/nvme.h
+@@ -12,7 +12,8 @@
+     DEFINE_PROP_UINT32("num_queues", _state, _props.num_queues, 64), \
+     DEFINE_PROP_UINT8("aerl", _state, _props.aerl, 3), \
+     DEFINE_PROP_UINT32("aer_max_queued", _state, _props.aer_max_queued, =
+64), \
+-    DEFINE_PROP_UINT8("mdts", _state, _props.mdts, 7)
++    DEFINE_PROP_UINT8("mdts", _state, _props.mdts, 7), \
++    DEFINE_PROP_BOOL("x-use-intel-id", _state, _props.use_intel_id, fals=
+e)
 =20
- #define FMT_PCIBUS                      PRIx64
+ typedef struct NvmeParams {
+     char     *serial;
+@@ -21,6 +22,7 @@ typedef struct NvmeParams {
+     uint8_t  aerl;
+     uint32_t aer_max_queued;
+     uint8_t  mdts;
++    bool     use_intel_id;
+ } NvmeParams;
+=20
+ typedef struct NvmeAsyncEvent {
+diff --git a/hw/core/machine.c b/hw/core/machine.c
+index 3e288bfceb7f..984412d98c9d 100644
+--- a/hw/core/machine.c
++++ b/hw/core/machine.c
+@@ -34,6 +34,7 @@ GlobalProperty hw_compat_4_2[] =3D {
+     { "vhost-blk-device", "seg_max_adjust", "off"},
+     { "usb-host", "suppress-remote-wake", "off" },
+     { "usb-redir", "suppress-remote-wake", "off" },
++    { "nvme", "x-use-intel-id", "on"},
+ };
+ const size_t hw_compat_4_2_len =3D G_N_ELEMENTS(hw_compat_4_2);
+=20
 --=20
 2.25.0
 
