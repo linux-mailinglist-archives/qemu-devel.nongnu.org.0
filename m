@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 607E7152096
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Feb 2020 19:45:41 +0100 (CET)
-Received: from localhost ([::1]:36183 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF04C1520A6
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Feb 2020 19:51:38 +0100 (CET)
+Received: from localhost ([::1]:36376 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iz3Ce-0002ld-BN
-	for lists+qemu-devel@lfdr.de; Tue, 04 Feb 2020 13:45:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49731)
+	id 1iz3IP-0004LG-Om
+	for lists+qemu-devel@lfdr.de; Tue, 04 Feb 2020 13:51:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54428)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iz37u-0002Rd-5S
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 13:40:47 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1iz3Dy-0006vm-U3
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 13:47:05 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iz37s-0003PI-V5
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 13:40:46 -0500
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:41575)
+ (envelope-from <alex.bennee@linaro.org>) id 1iz3Dx-0003Y2-Ib
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 13:47:02 -0500
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:41642)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iz37s-0003Mk-Ow
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 13:40:44 -0500
-Received: by mail-wr1-x42c.google.com with SMTP id c9so24407709wrw.8
- for <qemu-devel@nongnu.org>; Tue, 04 Feb 2020 10:40:44 -0800 (PST)
+ id 1iz3Dx-0003Of-Bg
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 13:47:01 -0500
+Received: by mail-wr1-x433.google.com with SMTP id c9so24429796wrw.8
+ for <qemu-devel@nongnu.org>; Tue, 04 Feb 2020 10:47:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=8PJB/3wNiT3SG8Z/wz8oud6QTSe7SXUwd1RNLp8LyOI=;
- b=ZUFJ5IWBwpr4swokfP7og0e2ekmoZiT4tvyMFNMNT8LcKbg8CF5ZokUIXCp69Y7Z/T
- 3DcENDnmbeYd49l4p6Q8ihXKtT8qIwTQWDoKRIPeCg7jJwDt67LhhivitoVAQqmJMoT+
- 1ZGgQyys6n1Ogx6H2iRlJExlbCo3CY0svXwcI4lm27W8erozrj2alpus1DUEhPxaPkWs
- vZSQgcJw9e+XWDhy6bhaTxcIaZ3C6F3Uaajb2Hz1BSnyoitafnB4O4WrHluAjee3Ju70
- 7NrGruE54XAcfhbWWsZqlaz3+sG9UpYISo84NxMt4DsnhFI1wKrgqKp1FKwqbuYnr7Ak
- UvRQ==
+ bh=rIHuVIbSJsbfCEGZb34sLirpxbWRjaj8BKp12hdsmGc=;
+ b=pd7hDJjFR0meZ8D0HhLfyIlEREBdm5O3tF2Ab6ls+HQANbi0wghU8j1LfHEPzn9G6i
+ EKwqFAxBqdeIIVSggqE/dXXETD1RzyonqwKornveiK3xTkd307fUrQs+hEdDHlnON2BU
+ dsx6/lR4uHG3yKqSA+cts7cEhi4c+GeMtVL4n2wrZHx40P+ozYbbGMgAlRZxrroyeZz/
+ dr3hTPJjka1HdQ4qt4g5JAczOTVhf3TTWAS551QDP6WeTJ3ZczFXncxJL4Wy/Dwx6QCC
+ 1Wi76FtcsCo1Bk3sCBudVn0Em4CY9D25INBGWq3d1mBw/KOCKDZqS/2uDMSjvzSR0Wmp
+ njgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=8PJB/3wNiT3SG8Z/wz8oud6QTSe7SXUwd1RNLp8LyOI=;
- b=At9S/DGxGxsSWso5LxavMsTFqUr6oFCNE+S7SJWA+qwlSwt5EqLCOzZR+hcPSLHUT8
- E3hEL1C3FDVFapqXOc10vEmW6dymhqAA/O8loRpVPEfTIAAlG6WS9N5HwZwisbHdLNha
- drzuonhSzdF8E5bfs6l2Ai9EXcfPcrF3aozUqrTqVVuT44ULh4qoJtcBrm+zUWjSrPTY
- WDncPd9qdnOTmwt5+OOpt+DCoiosIit+4qHxvWvYnie9etCR+cVVLefLnPuLUW2YcS5r
- VFc/Pzc9486qRvDl29kUJFkYi8J2eRVXf/AFegK9VsHbTN4/EyFMrwO9ivnN2sVkKnxc
- ARjw==
-X-Gm-Message-State: APjAAAX06MYobug1xXBK0h3wKdUJzS5nDFDSfB/1zHKSFyQZoDP2qzd9
- ZcG9kny8n/jKTXKz0KzXxmSf7w==
-X-Google-Smtp-Source: APXvYqxzGh87LgRg6vASv/z3e6MEVcTmXv/rRRK8A8TGtdoi06l4V/SSHI+Nqo+TVeOljQaSRny7Cg==
-X-Received: by 2002:a5d:6a83:: with SMTP id s3mr21950701wru.99.1580841643748; 
- Tue, 04 Feb 2020 10:40:43 -0800 (PST)
+ bh=rIHuVIbSJsbfCEGZb34sLirpxbWRjaj8BKp12hdsmGc=;
+ b=dJgCaZ0LVwcsvixgQUE5fXSp3yNlBt6DErjJz6n1zbvfk/hL8a9xZwaG306+aVLplY
+ OEyk3I538VcCsX7KpANNP8hgPGH83xu58cHPRvrlZgdKUL1W50xd12sfNuXkrml8hAKR
+ PeXFkoMRlT9phUypggFUXmjX2tF6vw3IlZfgs4ioFRHmILCOUcYOwEqAQTFKwaTIt1iL
+ d6rOZ2usP4RasaG6pA5LGRnJMNHq25bIO5WfMWEMANQiiIU4c5DFU1VE/vssKeck/MJC
+ fsmd4CkScxMxA3DkZb4gyA1Hkzyh5Z6o143E75Oxt49e01+/YSr/1XhSDd1uiaCHDUPf
+ 4Zrw==
+X-Gm-Message-State: APjAAAXVaeRUO5TDRErYcWDWrMIjcZ2sJIy75UcXwEnDwUyyVP1Tb4Ek
+ JKF9E36Of1gyl1Y356ktYITpog==
+X-Google-Smtp-Source: APXvYqxBNvwom6imZN1UORlEl8NTVP5gBAvjj36SWf+DJ/zkm01MiDprUO6AcjOYm2JrxMxbYhcWcQ==
+X-Received: by 2002:adf:df83:: with SMTP id z3mr23282447wrl.389.1580842018663; 
+ Tue, 04 Feb 2020 10:46:58 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id b18sm31284817wru.50.2020.02.04.10.40.34
+ by smtp.gmail.com with ESMTPSA id t5sm30813085wrr.35.2020.02.04.10.46.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Feb 2020 10:40:37 -0800 (PST)
+ Tue, 04 Feb 2020 10:46:57 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 7585A1FF9C;
+ by zen.linaroharston (Postfix) with ESMTP id 8B9231FF9D;
  Tue,  4 Feb 2020 18:40:29 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 12/16] .travis.yml: introduce TEST_BUILD_CMD and use it for
- check-tcg
-Date: Tue,  4 Feb 2020 18:40:24 +0000
-Message-Id: <20200204184028.13708-13-alex.bennee@linaro.org>
+Subject: [PULL 13/16] .travis.yml: drop the travis_retry from tests
+Date: Tue,  4 Feb 2020 18:40:25 +0000
+Message-Id: <20200204184028.13708-14-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200204184028.13708-1-alex.bennee@linaro.org>
 References: <20200204184028.13708-1-alex.bennee@linaro.org>
@@ -70,7 +69,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42c
+X-Received-From: 2a00:1450:4864:20::433
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,81 +87,33 @@ Cc: Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-At least for check-tcg we can split the build phase from the test
-phase and do the former in parallel. While we are at it drop the V=1
-for the check-tcg part as it just generates a lot more noise in the
-logs.
+This was a crutch when we introduced it - however it does have the
+disadvantage of causing tests to timeout with large amounts of logs.
+Lets drop it and see if the stability has improved since.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200203090932.19147-15-alex.bennee@linaro.org>
+Message-Id: <20200203090932.19147-16-alex.bennee@linaro.org>
 
 diff --git a/.travis.yml b/.travis.yml
-index a600f508b0a..022462f6981 100644
+index 022462f6981..875671325c8 100644
 --- a/.travis.yml
 +++ b/.travis.yml
-@@ -71,6 +71,7 @@ env:
-     - SRC_DIR=".."
-     - BUILD_DIR="build"
-     - BASE_CONFIG="--disable-docs --disable-tools"
-+    - TEST_BUILD_CMD=""
-     - TEST_CMD="make check V=1"
-     # This is broadly a list of "mainline" softmmu targets which have support across the major distros
-     - MAIN_SOFTMMU_TARGETS="aarch64-softmmu,mips64-softmmu,ppc64-softmmu,riscv64-softmmu,s390x-softmmu,x86_64-softmmu"
-@@ -96,6 +97,12 @@ before_script:
- # Main build & test - rarely overridden - controlled by TEST_CMD
- script:
-   - BUILD_RC=0 && make -j${JOBS} || BUILD_RC=$?
+@@ -103,7 +103,12 @@ script:
+     else
+         $(exit $BUILD_RC);
+     fi
+-  - if [ "$BUILD_RC" -eq 0 ] ; then travis_retry ${TEST_CMD} ; else $(exit $BUILD_RC); fi
 +  - |
-+    if [ "$BUILD_RC" -eq 0 ] && [ -n "$TEST_BUILD_CMD" ]; then
-+        ${TEST_BUILD_CMD} || BUILD_RC=$?
++    if [ "$BUILD_RC" -eq 0 ] ; then
++        ${TEST_CMD} ;
 +    else
 +        $(exit $BUILD_RC);
 +    fi
-   - if [ "$BUILD_RC" -eq 0 ] ; then travis_retry ${TEST_CMD} ; else $(exit $BUILD_RC); fi
  after_script:
    - if command -v ccache ; then ccache --show-stats ; fi
-@@ -368,7 +375,8 @@ matrix:
-     - name: "GCC check-tcg (user)"
-       env:
-         - CONFIG="--disable-system --enable-debug-tcg"
--        - TEST_CMD="make -j${JOBS} check-tcg V=1"
-+        - TEST_BUILD_CMD="make -j${JOBS} build-tcg"
-+        - TEST_CMD="make check-tcg"
-         - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-debug-tcg"
  
- 
-@@ -377,7 +385,8 @@ matrix:
-     - name: "GCC plugins check-tcg (user)"
-       env:
-         - CONFIG="--disable-system --enable-plugins --enable-debug-tcg --target-list-exclude=sparc64-linux-user"
--        - TEST_CMD="make -j${JOBS} check-tcg V=1"
-+        - TEST_BUILD_CMD="make -j${JOBS} build-tcg"
-+        - TEST_CMD="make check-tcg"
-         - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-debug-tcg"
- 
- 
-@@ -385,7 +394,8 @@ matrix:
-     - name: "GCC check-tcg (some-softmmu)"
-       env:
-         - CONFIG="--enable-debug-tcg --target-list=xtensa-softmmu,arm-softmmu,aarch64-softmmu,alpha-softmmu"
--        - TEST_CMD="make -j${JOBS} check-tcg V=1"
-+        - TEST_BUILD_CMD="make -j${JOBS} build-tcg"
-+        - TEST_CMD="make check-tcg"
-         - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-debug-tcg"
- 
- 
-@@ -393,7 +403,8 @@ matrix:
-     - name: "GCC plugins check-tcg (some-softmmu)"
-       env:
-         - CONFIG="--enable-plugins --enable-debug-tcg --target-list=xtensa-softmmu,arm-softmmu,aarch64-softmmu,alpha-softmmu"
--        - TEST_CMD="make -j${JOBS} check-tcg V=1"
-+        - TEST_BUILD_CMD="make -j${JOBS} build-tcg"
-+        - TEST_CMD="make check-tcg"
-         - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-debug-tcg"
- 
-     - name: "[aarch64] GCC check-tcg"
 -- 
 2.20.1
 
