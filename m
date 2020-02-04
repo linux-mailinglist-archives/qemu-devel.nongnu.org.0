@@ -2,45 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85C551513CC
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Feb 2020 01:50:37 +0100 (CET)
-Received: from localhost ([::1]:48840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA6FD151408
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Feb 2020 02:47:21 +0100 (CET)
+Received: from localhost ([::1]:49178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iymQG-0007Jy-3d
-	for lists+qemu-devel@lfdr.de; Mon, 03 Feb 2020 19:50:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44487)
+	id 1iynJA-0007ge-P3
+	for lists+qemu-devel@lfdr.de; Mon, 03 Feb 2020 20:47:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47064)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pannengyuan@huawei.com>) id 1iymPQ-0006kx-2l
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 19:49:45 -0500
+ (envelope-from <guoheyi@huawei.com>) id 1iynHW-00070T-Ul
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 20:45:40 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pannengyuan@huawei.com>) id 1iymPO-00009w-Uj
- for qemu-devel@nongnu.org; Mon, 03 Feb 2020 19:49:44 -0500
-Received: from szxga06-in.huawei.com ([45.249.212.32]:59576 helo=huawei.com)
+ (envelope-from <guoheyi@huawei.com>) id 1iynHU-000718-RJ
+ for qemu-devel@nongnu.org; Mon, 03 Feb 2020 20:45:38 -0500
+Received: from szxga06-in.huawei.com ([45.249.212.32]:50634 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pannengyuan@huawei.com>)
- id 1iymPM-00084Y-6g; Mon, 03 Feb 2020 19:49:40 -0500
-Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id BB60B54E231082D8A21F;
- Tue,  4 Feb 2020 08:49:33 +0800 (CST)
-Received: from [10.184.39.213] (10.184.39.213) by smtp.huawei.com
- (10.3.19.204) with Microsoft SMTP Server (TLS) id 14.3.439.0; Tue, 4 Feb 2020
- 08:49:23 +0800
-Subject: Re: [PATCH] pl031: add finalize function to avoid memleaks
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20200203074718.37252-1-pannengyuan@huawei.com>
- <CAFEAcA_2XthfkcyNgQqoxo+Zt66pf7Te56nB8ZAQL948D=kqVw@mail.gmail.com>
-From: Pan Nengyuan <pannengyuan@huawei.com>
-Message-ID: <242974c9-9804-9080-0c5e-2bb4ab39fed7@huawei.com>
-Date: Tue, 4 Feb 2020 08:49:13 +0800
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ (Exim 4.71) (envelope-from <guoheyi@huawei.com>)
+ id 1iynHN-0006rV-5L; Mon, 03 Feb 2020 20:45:30 -0500
+Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.59])
+ by Forcepoint Email with ESMTP id 4631BB1E560719FDA459;
+ Tue,  4 Feb 2020 09:45:24 +0800 (CST)
+Received: from linux-TFkxOR.huawei.com (10.175.104.212) by
+ DGGEMS412-HUB.china.huawei.com (10.3.19.212) with Microsoft SMTP Server id
+ 14.3.439.0; Tue, 4 Feb 2020 09:45:16 +0800
+From: Heyi Guo <guoheyi@huawei.com>
+To: <qemu-devel@nongnu.org>
+Subject: [PATCH v3 0/7] Some cleanup in arm/virt/acpi
+Date: Tue, 4 Feb 2020 09:43:18 +0800
+Message-ID: <20200204014325.16279-1-guoheyi@huawei.com>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA_2XthfkcyNgQqoxo+Zt66pf7Te56nB8ZAQL948D=kqVw@mail.gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.184.39.213]
+Content-Type: text/plain
+X-Originating-IP: [10.175.104.212]
 X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 45.249.212.32
@@ -55,85 +51,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: xuding42@huawei.com, Euler Robot <euler.robot@huawei.com>,
- qemu-arm <qemu-arm@nongnu.org>, zhanghailiang <zhang.zhanghailiang@huawei.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Shannon Zhao <shannon.zhaosl@gmail.com>,
+ qemu-arm@nongnu.org, Igor
+ Mammedov <imammedo@redhat.com>, Heyi Guo <guoheyi@huawei.com>,
+ wanghaibin.wang@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Remove conflict _ADR objects, and fix and refine PCI device definition in
+ACPI/DSDT.
 
+History:
 
-On 2/3/2020 5:58 PM, Peter Maydell wrote:
-> On Mon, 3 Feb 2020 at 07:47, <pannengyuan@huawei.com> wrote:
->>
->> From: Pan Nengyuan <pannengyuan@huawei.com>
->>
->> There is a memory leak when we call 'device_list_properties' with
->> typename = pl031. It's easy to reproduce as follow:
->>
->>   virsh qemu-monitor-command vm1 --pretty '{"execute": "device-list-properties", "arguments": {"typename": "pl031"}}'
->>
->> The memory leak stack:
->>   Direct leak of 48 byte(s) in 1 object(s) allocated from:
->>     #0 0x7f6e0925a970 in __interceptor_calloc (/lib64/libasan.so.5+0xef970)
->>     #1 0x7f6e06f4d49d in g_malloc0 (/lib64/libglib-2.0.so.0+0x5249d)
->>     #2 0x564a0f7654ea in timer_new_full /mnt/sdb/qemu/include/qemu/timer.h:530
->>     #3 0x564a0f76555d in timer_new /mnt/sdb/qemu/include/qemu/timer.h:551
->>     #4 0x564a0f765589 in timer_new_ns /mnt/sdb/qemu/include/qemu/timer.h:569
->>     #5 0x564a0f76747d in pl031_init /mnt/sdb/qemu/hw/rtc/pl031.c:198
->>     #6 0x564a0fd4a19d in object_init_with_type /mnt/sdb/qemu/qom/object.c:360
->>     #7 0x564a0fd4b166 in object_initialize_with_type /mnt/sdb/qemu/qom/object.c:467
->>     #8 0x564a0fd4c8e6 in object_new_with_type /mnt/sdb/qemu/qom/object.c:636
->>     #9 0x564a0fd4c98e in object_new /mnt/sdb/qemu/qom/object.c:646
->>     #10 0x564a0fc69d43 in qmp_device_list_properties /mnt/sdb/qemu/qom/qom-qmp-cmds.c:204
->>     #11 0x564a0ef18e64 in qdev_device_help /mnt/sdb/qemu/qdev-monitor.c:278
->>
->> Reported-by: Euler Robot <euler.robot@huawei.com>
->> Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
->> ---
->>  hw/rtc/pl031.c | 10 ++++++++++
->>  1 file changed, 10 insertions(+)
->>
->> diff --git a/hw/rtc/pl031.c b/hw/rtc/pl031.c
->> index ae47f09635..50664ca000 100644
->> --- a/hw/rtc/pl031.c
->> +++ b/hw/rtc/pl031.c
->> @@ -194,6 +194,15 @@ static void pl031_init(Object *obj)
->>      s->timer = timer_new_ns(rtc_clock, pl031_interrupt, s);
->>  }
->>
->> +static void pl031_finalize(Object *obj)
->> +{
->> +    PL031State *s = PL031(obj);
->> +    if (s->timer) {
->> +        timer_del(s->timer);
->> +        timer_free(s->timer);
->> +    }
->> +}
->> +
->>  static int pl031_pre_save(void *opaque)
->>  {
->>      PL031State *s = opaque;
->> @@ -329,6 +338,7 @@ static const TypeInfo pl031_info = {
->>      .parent        = TYPE_SYS_BUS_DEVICE,
->>      .instance_size = sizeof(PL031State),
->>      .instance_init = pl031_init,
->> +    .instance_finalize = pl031_finalize,
->>      .class_init    = pl031_class_init,
->>  };
-> 
-> The more usual way to fix this I think is to delay
-> the timer_new until realize rather than putting it
-> into instance_init, since the pl031 can't be
-> hotplugged.
+v3 -> v2:
+- update commit message for patch 4/7.
+- remove diff keywords in commit message of patch 7/7 to avoid applying p=
+atch
+  failure.
 
-Hmm, you are right, I will change it in next version.
+v1 -> v2:
+- flow the work flow in tests/qtest/bios-table-test.c to post ACPI relate=
+d
+  patches.
+- update commit messages for removing "RP0" and "_ADR".
+- add 3 more cleanup patches.
 
-Thanks.
+Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Igor Mammedov <imammedo@redhat.com>
+Cc: Shannon Zhao <shannon.zhaosl@gmail.com>
+Cc: qemu-arm@nongnu.org
+Cc: qemu-devel@nongnu.org
 
-> 
-> thanks
-> -- PMM
-> .
-> 
+Heyi Guo (7):
+  bios-tables-test: prepare to change ARM virt ACPI DSDT
+  arm/virt/acpi: remove meaningless sub device "RP0" from PCI0
+  arm/virt/acpi: remove _ADR from devices identified by _HID
+  arm/acpi: fix PCI _PRT definition
+  arm/acpi: fix duplicated _UID of PCI interrupt link devices
+  arm/acpi: simplify the description of PCI _CRS
+  virt/acpi: update golden masters for DSDT update
+
+ hw/arm/virt-acpi-build.c          |  25 ++++++-------------------
+ tests/data/acpi/virt/DSDT         | Bin 18462 -> 5307 bytes
+ tests/data/acpi/virt/DSDT.memhp   | Bin 19799 -> 6644 bytes
+ tests/data/acpi/virt/DSDT.numamem | Bin 18462 -> 5307 bytes
+ 4 files changed, 6 insertions(+), 19 deletions(-)
+
+--=20
+2.19.1
+
 
