@@ -2,64 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3AF6151F76
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Feb 2020 18:30:34 +0100 (CET)
-Received: from localhost ([::1]:35118 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED4A9151F81
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Feb 2020 18:32:19 +0100 (CET)
+Received: from localhost ([::1]:35186 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iz21x-0002LC-Nu
-	for lists+qemu-devel@lfdr.de; Tue, 04 Feb 2020 12:30:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54503)
+	id 1iz23f-0005ns-0p
+	for lists+qemu-devel@lfdr.de; Tue, 04 Feb 2020 12:32:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54928)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1iz1jC-0006BF-UC
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 12:11:11 -0500
+ (envelope-from <laurent@vivier.eu>) id 1iz1jh-0007ET-OJ
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 12:11:42 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1iz1jB-000842-4X
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 12:11:10 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:21288
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iz1jB-00080o-0S
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 12:11:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580836268;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qoGeCQ2KSovzZIUqYxFZh5chDsMJdaoqhoLDij2PHrM=;
- b=blRKSxjRZ6i+qy381okwCsUv2nqsa7fcHrq9f32chPpw6iuzd3XaVej0Go5azljjdaXePK
- uSBsL8AmIuqFT6kZCO4qpnxdl+hU3YOXgvQabg3pNAfrI4dr42bE4OYqznZRMgacoZH/Uj
- CnLXPLIXmry0ilEW4guP4byOCQJrDeQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-426-w6D8pG6lMhCEaazN7nXOtw-1; Tue, 04 Feb 2020 12:09:24 -0500
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A0CAF8010E6;
- Tue,  4 Feb 2020 17:09:23 +0000 (UTC)
-Received: from localhost (ovpn-117-98.ams2.redhat.com [10.36.117.98])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 38FFA5C54A;
- Tue,  4 Feb 2020 17:09:23 +0000 (UTC)
-From: Max Reitz <mreitz@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH v2 11/33] block: Unify bdrv_child_cb_attach()
-Date: Tue,  4 Feb 2020 18:08:26 +0100
-Message-Id: <20200204170848.614480-12-mreitz@redhat.com>
-In-Reply-To: <20200204170848.614480-1-mreitz@redhat.com>
-References: <20200204170848.614480-1-mreitz@redhat.com>
+ (envelope-from <laurent@vivier.eu>) id 1iz1jg-0001g9-I7
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 12:11:41 -0500
+Received: from mout.kundenserver.de ([212.227.126.135]:52539)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1iz1jg-0001dh-8l
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 12:11:40 -0500
+Received: from localhost.localdomain ([78.238.229.36]) by
+ mrelayeu.kundenserver.de (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis)
+ id 1MWzXd-1j10k811lR-00XIGO; Tue, 04 Feb 2020 18:11:09 +0100
+From: Laurent Vivier <laurent@vivier.eu>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 3/4] linux-user: fix TARGET_NSIG and _NSIG uses
+Date: Tue,  4 Feb 2020 18:10:52 +0100
+Message-Id: <20200204171053.1718013-4-laurent@vivier.eu>
+X-Mailer: git-send-email 2.24.1
+In-Reply-To: <20200204171053.1718013-1-laurent@vivier.eu>
+References: <20200204171053.1718013-1-laurent@vivier.eu>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: w6D8pG6lMhCEaazN7nXOtw-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:89wBAKLTrp+zE9n8im8ri/9yJNtqGZYzXt8qUsE6KXQlMfNu2oh
+ UuwYixD6UQ3NIQ99Eam1WxfBV5mqRrfVSdaimdgs4WEnZkfW2XXwU/H45Jbq25r3Wn8s1Vo
+ QwKi4TokRVvuJClEIVg39AN2LL2FVzOeFA13rj7+hK60bT5wPC4o0XAYnBvWyCgS8OMxL0D
+ uY/QiR4qySyXW9QpABBPg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:d4XJ6fcvKvY=:Wx0oyMpPw3fsH+LhQhwbnb
+ SH8UrckX18+W0/t0cShLetRBA0/K5kqHkuRDZb2a6rkPkIzcu01zaj0eiC8bZ5XeyKKxnVYnR
+ 5OkbZ/jUvvA4S9OWa3Ded8PmJ7nTLL+nMWbD+63omzG+svXGEJlri8lkaYx68wAGMpfGIH7Kg
+ 60w0dkymF4crKCGa6RSm1riI48UiqlrSWR7PFe8huFB+qfurCGJVf2rzG3RcW9WsBlyCu6HUx
+ BhpXkl91orLf26hzjfVpXICuThD2Tl9Nzsxq3JjHxvtoa5Nq2HjOufte/xJv8QJVFh3O/UgmY
+ jRbRGI9Ckq578t6BwRTPNR4n5JWrKstyXCEqMFB07S41X2MLUKL/+rpjnlDceNv6RjyuwOrfL
+ OW6d84KPpFxaNYpJwtr5RRDMlEVkCDFX3kwZCyihwcYWIpZqnceU2lx38DaVn6TJ+30XLaTJu
+ eNGuCynNMiYnBcG1K4OyzAiougEn4iAwLhgMCAhu/b5pE1zZB2+mcLChqFD8hLBx7B+/I932q
+ mSTNLqllsNBU9NNxDo9W877YKN2i3kvrkzpQqXdHpEOwOmCC3JhDbI+rhv+hggviB4iwuD3af
+ d0ONxWizbEFaW4jdaAb20koqKTQkrqIs0vMoObAiK0w2lFP0O/SOMtqtGDQdYUNVOTpxAwXtU
+ YsPo7feAhPaxy5uja7TNEow3mnxTYJJYmzeaWWWzhBqjQUiyrlBcFwqhHcnhI5aq+qtaKaHM9
+ 0C9R8LsTrKIXYfWjNozusLIDwjOzU2dg/Ex+rMpW8esxCRhPSDSNseMu3qv4FW8y/v8skw3jn
+ KXvuaDt0Qo9T65dZaSE1EP2HqeSfqPjuFhSYrDa3/DlFR0i2O/jfM0LfrcyY53FbUQPCkUw
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 212.227.126.135
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,73 +63,143 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Marlies Ruck <marlies.ruck@gmail.com>, Riku Voipio <riku.voipio@iki.fi>,
+ Laurent Vivier <laurent@vivier.eu>,
+ Aleksandar Markovic <aleksandar.markovic@rt-rk.com>,
+ Josh Kunz <jkz@google.com>, Taylor Simpson <tsimpson@quicinc.com>,
+ Matus Kysel <mkysel@tachyum.com>, milos.stojanovic@rt-rk.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Make bdrv_child_cb_attach() call bdrv_backing_attach() for children with
-a COW role (and drop the reverse call from bdrv_backing_attach()), so it
-can be used for any child (with a proper role set).
+Valid signal numbers are between 1 (SIGHUP) and SIGRTMAX.
 
-Because so far no child has a proper role set, we need a temporary new
-callback for child_backing.attach that ensures bdrv_backing_attach() is
-called for all COW children that do not have their role set yet.
+System includes define _NSIG to SIGRTMAX + 1, but
+QEMU (like kernel) defines TARGET_NSIG to TARGET_SIGRTMAX.
 
-Signed-off-by: Max Reitz <mreitz@redhat.com>
+Fix all the checks involving the signal range.
+
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- block.c | 16 +++++++++++++++-
- 1 file changed, 15 insertions(+), 1 deletion(-)
 
-diff --git a/block.c b/block.c
-index 74abdd9a5d..4af81547f3 100644
---- a/block.c
-+++ b/block.c
-@@ -920,9 +920,16 @@ static void bdrv_child_cb_drained_end(BdrvChild *child=
-,
-     bdrv_drained_end_no_poll(bs, drained_end_counter);
- }
-=20
-+static void bdrv_backing_attach(BdrvChild *c);
+Notes:
+    v2: replace i, j by target_sig, host_sig
+
+ linux-user/signal.c | 52 ++++++++++++++++++++++++++++++++-------------
+ 1 file changed, 37 insertions(+), 15 deletions(-)
+
+diff --git a/linux-user/signal.c b/linux-user/signal.c
+index 246315571c09..c1e664f97a7c 100644
+--- a/linux-user/signal.c
++++ b/linux-user/signal.c
+@@ -30,6 +30,15 @@ static struct target_sigaction sigact_table[TARGET_NSIG];
+ static void host_signal_handler(int host_signum, siginfo_t *info,
+                                 void *puc);
+ 
 +
- static void bdrv_child_cb_attach(BdrvChild *child)
++/*
++ * System includes define _NSIG as SIGRTMAX + 1,
++ * but qemu (like the kernel) defines TARGET_NSIG as TARGET_SIGRTMAX
++ * and the first signal is SIGHUP defined as 1
++ * Signal number 0 is reserved for use as kill(pid, 0), to test whether
++ * a process exists without sending it a signal.
++ */
++QEMU_BUILD_BUG_ON(__SIGRTMAX + 1 != _NSIG);
+ static uint8_t host_to_target_signal_table[_NSIG] = {
+     [SIGHUP] = TARGET_SIGHUP,
+     [SIGINT] = TARGET_SIGINT,
+@@ -67,19 +76,24 @@ static uint8_t host_to_target_signal_table[_NSIG] = {
+     [SIGSYS] = TARGET_SIGSYS,
+     /* next signals stay the same */
+ };
+-static uint8_t target_to_host_signal_table[_NSIG];
+ 
++static uint8_t target_to_host_signal_table[TARGET_NSIG + 1];
++
++/* valid sig is between 1 and _NSIG - 1 */
+ int host_to_target_signal(int sig)
  {
-     BlockDriverState *bs =3D child->opaque;
-+
-+    if (child->role & BDRV_CHILD_COW) {
-+        bdrv_backing_attach(child);
+-    if (sig < 0 || sig >= _NSIG)
++    if (sig < 1 || sig >= _NSIG) {
+         return sig;
 +    }
-+
-     bdrv_apply_subtree_drain(child, bs);
+     return host_to_target_signal_table[sig];
  }
-=20
-@@ -1156,7 +1163,14 @@ static void bdrv_backing_attach(BdrvChild *c)
-                     parent->backing_blocker);
-     bdrv_op_unblock(backing_hd, BLOCK_OP_TYPE_BACKUP_TARGET,
-                     parent->backing_blocker);
-+}
-=20
-+/* XXX: Will be removed along with child_backing */
-+static void bdrv_child_cb_attach_backing(BdrvChild *c)
-+{
-+    if (!(c->role & BDRV_CHILD_COW)) {
-+        bdrv_backing_attach(c);
+ 
++/* valid sig is between 1 and TARGET_NSIG */
+ int target_to_host_signal(int sig)
+ {
+-    if (sig < 0 || sig >= _NSIG)
++    if (sig < 1 || sig > TARGET_NSIG) {
+         return sig;
 +    }
-     bdrv_child_cb_attach(c);
+     return target_to_host_signal_table[sig];
  }
-=20
-@@ -1215,7 +1229,7 @@ static int bdrv_backing_update_filename(BdrvChild *c,=
- BlockDriverState *base,
- const BdrvChildClass child_backing =3D {
-     .parent_is_bds   =3D true,
-     .get_parent_desc =3D bdrv_child_get_parent_desc,
--    .attach          =3D bdrv_backing_attach,
-+    .attach          =3D bdrv_child_cb_attach_backing,
-     .detach          =3D bdrv_backing_detach,
-     .inherit_options =3D bdrv_backing_options,
-     .drained_begin   =3D bdrv_child_cb_drained_begin,
---=20
+ 
+@@ -100,11 +114,15 @@ static inline int target_sigismember(const target_sigset_t *set, int signum)
+ void host_to_target_sigset_internal(target_sigset_t *d,
+                                     const sigset_t *s)
+ {
+-    int i;
++    int host_sig, target_sig;
+     target_sigemptyset(d);
+-    for (i = 1; i <= TARGET_NSIG; i++) {
+-        if (sigismember(s, i)) {
+-            target_sigaddset(d, host_to_target_signal(i));
++    for (host_sig = 1; host_sig < _NSIG; host_sig++) {
++        target_sig = host_to_target_signal(host_sig);
++        if (target_sig < 1 || target_sig > TARGET_NSIG) {
++            continue;
++        }
++        if (sigismember(s, host_sig)) {
++            target_sigaddset(d, target_sig);
+         }
+     }
+ }
+@@ -122,11 +140,15 @@ void host_to_target_sigset(target_sigset_t *d, const sigset_t *s)
+ void target_to_host_sigset_internal(sigset_t *d,
+                                     const target_sigset_t *s)
+ {
+-    int i;
++    int host_sig, target_sig;
+     sigemptyset(d);
+-    for (i = 1; i <= TARGET_NSIG; i++) {
+-        if (target_sigismember(s, i)) {
+-            sigaddset(d, target_to_host_signal(i));
++    for (target_sig = 1; target_sig <= TARGET_NSIG; target_sig++) {
++        host_sig = target_to_host_signal(target_sig);
++        if (host_sig < 1 || host_sig >= _NSIG) {
++            continue;
++        }
++        if (target_sigismember(s, target_sig)) {
++            sigaddset(d, host_sig);
+         }
+     }
+ }
+@@ -492,10 +514,10 @@ static void signal_table_init(void)
+         if (host_to_target_signal_table[host_sig] == 0) {
+             host_to_target_signal_table[host_sig] = host_sig;
+         }
+-    }
+-    for (host_sig = 1; host_sig < _NSIG; host_sig++) {
+         target_sig = host_to_target_signal_table[host_sig];
+-        target_to_host_signal_table[target_sig] = host_sig;
++        if (target_sig <= TARGET_NSIG) {
++            target_to_host_signal_table[target_sig] = host_sig;
++        }
+     }
+ }
+ 
+@@ -518,7 +540,7 @@ void signal_init(void)
+     act.sa_sigaction = host_signal_handler;
+     for(i = 1; i <= TARGET_NSIG; i++) {
+ #ifdef TARGET_GPROF
+-        if (i == SIGPROF) {
++        if (i == TARGET_SIGPROF) {
+             continue;
+         }
+ #endif
+-- 
 2.24.1
 
 
