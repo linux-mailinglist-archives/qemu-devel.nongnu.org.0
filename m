@@ -2,74 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CB64151F88
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Feb 2020 18:36:42 +0100 (CET)
-Received: from localhost ([::1]:35312 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D4BA151F84
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Feb 2020 18:33:59 +0100 (CET)
+Received: from localhost ([::1]:35252 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iz27t-0003Aq-45
-	for lists+qemu-devel@lfdr.de; Tue, 04 Feb 2020 12:36:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39444)
+	id 1iz25G-00086L-5P
+	for lists+qemu-devel@lfdr.de; Tue, 04 Feb 2020 12:33:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39926)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1iz23S-00069K-NH
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 12:32:09 -0500
+ (envelope-from <mreitz@redhat.com>) id 1iz24D-0006uJ-Vt
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 12:32:55 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1iz23P-0001SJ-RS
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 12:32:06 -0500
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:37768)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1iz23P-0001Jz-En
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 12:32:03 -0500
-Received: by mail-wm1-x344.google.com with SMTP id f129so4711330wmf.2
- for <qemu-devel@nongnu.org>; Tue, 04 Feb 2020 09:32:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=RXy1rGdfF/FS5oikRVKAtOv4DLvjI717xSmpci11YDo=;
- b=rZo+Y4WkLKPa3odQgh9MZfG+vJ0ZZry9hsZs8hPMPlvMZ7tJi0efPgzq/ZqcNpd5/N
- jtKZMGBAMUEaQJnfo8APHBI1iMPsJCJQ7y9In183BKzmwwLUzPdtk6+0/SIcw2Nhhcui
- TLwCTFr3D+3czgdQMhU/NqBeoE9tjm2jPN+LB2HRvU1iblWo4gdfokCxp2SgWBsNwxSS
- 3Y6iA01o2oJwIReczGU68jy4Vp+BkpjXnrgt2wiGmDOm+qvgTTcprKqSiocySXmevXFr
- kfKlhc8vdb7AgXQif/fdi5s7IrOknLHcQtYpB/VLmulLEvD8Qq8E51Ah8g6oDOF+P+QT
- 2AGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=RXy1rGdfF/FS5oikRVKAtOv4DLvjI717xSmpci11YDo=;
- b=i/HUF7RtAtHaFoe7Ml6eLTEzPmRn0Nm437U7grzIrdUtasuKgXZcAfoj/nE6kCyTY3
- O2x//5l+HHQz4js7s3DCJqQ68Im9hIycWvwJiBr1Dwj/7FKUf4GNg6/D/E0S3YhxsxVM
- 1UnvRnMVOC3h3kWTyZYKcuSulUkljHuFLTe8CvFq/GMD7abGO8ndORuPAjxMsFrtMFD7
- 0pYOjxW3YAxwduihDyPQSFsZ6ozePOdGKOkH74w6/JSx5Kz0SQwByGqlv1iUrK3/5vXD
- y2R2RrBCTV8oLEdgdMalQj16X01puOc2lavVKwzhJ9yCM+nOf4jA/1n4Hzmcc/eEH53N
- ftaw==
-X-Gm-Message-State: APjAAAVhuJ8U5YjMxSjV8eXREaDalxyUdFzYkIOvoOCZKvwsliShiy1N
- WLQo9e3ywgqVz30UjI1E6tcLdHtVZI0=
-X-Google-Smtp-Source: APXvYqy9slbhF9Ufa9l5F2Sdo7DRweEQKM2yAB6RHZA2z43p/bGNRs5j/YqoZFRvzLwbH4bMnGDt0Q==
-X-Received: by 2002:a7b:c318:: with SMTP id k24mr142835wmj.54.1580837521056;
- Tue, 04 Feb 2020 09:32:01 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id a198sm4468484wme.12.2020.02.04.09.31.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Feb 2020 09:32:00 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 563FF1FF87;
- Tue,  4 Feb 2020 17:31:59 +0000 (GMT)
-References: <20200204160604.19883-1-pbonzini@redhat.com>
-User-agent: mu4e 1.3.7; emacs 27.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH] drop "from __future__ import print_function"
-In-reply-to: <20200204160604.19883-1-pbonzini@redhat.com>
-Date: Tue, 04 Feb 2020 17:31:59 +0000
-Message-ID: <87wo928dio.fsf@linaro.org>
+ (envelope-from <mreitz@redhat.com>) id 1iz24C-0004Gu-Cg
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 12:32:53 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:50011
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1iz24C-0004Dv-89
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 12:32:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1580837571;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=fGBjDpLS3D3daZ5VAzymXuI4Z0E5n0wOwKq3gjnfXjg=;
+ b=Qsxx48oeDp+xhtRoA5Wj+ITxNLnr82rw+lFKExv3Y8y77ulLnJ9E6o/+L+dnzFqVNxpVFy
+ nYaSmDNpRLheKeByxJ4p8QGQ+05sddN3TeUvnicycgc2nvnyaBSRbvsoG5JkeMHKsAn2RN
+ JhVymM3CqTPy6yHqVvH+zm1duMDwvMs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-155-YQIOJyiZMMGTCoFA5mRWjA-1; Tue, 04 Feb 2020 12:32:47 -0500
+X-MC-Unique: YQIOJyiZMMGTCoFA5mRWjA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5DFB78C0361;
+ Tue,  4 Feb 2020 17:32:46 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-117-98.ams2.redhat.com
+ [10.36.117.98])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AAAC45D9C5;
+ Tue,  4 Feb 2020 17:32:44 +0000 (UTC)
+Subject: Re: [PATCH 00/17] Improve qcow2 all-zero detection
+To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
+References: <20200131174436.2961874-1-eblake@redhat.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <d5340381-8d5e-e8f9-2eb1-60bcfbb28186@redhat.com>
+Date: Tue, 4 Feb 2020 18:32:42 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::344
+In-Reply-To: <20200131174436.2961874-1-eblake@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="oLwNroRkPMMIbwqmQMyjWISP5QBa41am6"
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,474 +98,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
+Cc: david.edmondson@oracle.com, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--oLwNroRkPMMIbwqmQMyjWISP5QBa41am6
+Content-Type: multipart/mixed; boundary="bIKhK8YLNHAK6rSaWbMR3oiJme3gri01J"
 
-Paolo Bonzini <pbonzini@redhat.com> writes:
+--bIKhK8YLNHAK6rSaWbMR3oiJme3gri01J
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-> This is only needed for Python 2, which we do not support anymore.
->
-> Based-on: <20200204160028.16211-1-pbonzini@redhat.com>
-> Cc: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+On 31.01.20 18:44, Eric Blake wrote:
+> Based-on: <20200124103458.1525982-2-david.edmondson@oracle.com>
+> ([PATCH v2 1/2] qemu-img: Add --target-is-zero to convert)
+>=20
+> I'm working on adding an NBD extension that reports whether an image
+> is already all zero when the client first connects.  I initially
+> thought I could write the NBD code to just call bdrv_has_zero_init(),
+> but that turned out to be a bad assumption that instead resulted in
+> this patch series.  The NBD patch will come later (and cross-posted to
+> the NBD protocol, libnbd, nbdkit, and qemu, as it will affect all four
+> repositories).
 
-testing bits
+We had a discussion about this on IRC, and as far as I remember I wasn=E2=
+=80=99t
+quite sold on the =E2=80=9Cwhy=E2=80=9D.  So, again, I wonder why this is n=
+eeded.
 
-Acked-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+I mean, it does make intuitive sense to want to know whether an image is
+fully zero, but if I continue thinking about it I don=E2=80=99t know any ca=
+se
+where we would need to figure it out and where we could accept =E2=80=9CWe =
+don=E2=80=99t
+know=E2=80=9D as an answer.  So I=E2=80=99m looking for use cases, but this=
+ cover letter
+doesn=E2=80=99t mention any.  (And from a quick glance I don=E2=80=99t see =
+this series
+using the flag, actually.)
 
-> ---
->  scripts/analyse-9p-simpletrace.py        | 1 -
->  scripts/analyse-locks-simpletrace.py     | 1 -
->  scripts/device-crash-test                | 1 -
->  scripts/dump-guest-memory.py             | 1 -
->  scripts/kvm/kvm_flightrecorder           | 1 -
->  scripts/kvm/vmxcap                       | 1 -
->  scripts/minikconf.py                     | 1 -
->  scripts/modules/module_block.py          | 1 -
->  scripts/qapi-gen.py                      | 1 -
->  scripts/qapi/doc.py                      | 1 -
->  scripts/qmp/qemu-ga-client               | 1 -
->  scripts/qmp/qmp                          | 1 -
->  scripts/qmp/qmp-shell                    | 1 -
->  scripts/qmp/qom-get                      | 1 -
->  scripts/qmp/qom-list                     | 1 -
->  scripts/qmp/qom-set                      | 1 -
->  scripts/qmp/qom-tree                     | 1 -
->  scripts/replay-dump.py                   | 1 -
->  scripts/signrom.py                       | 1 -
->  scripts/simpletrace.py                   | 1 -
->  scripts/vmstate-static-checker.py        | 1 -
->  tests/docker/travis.py                   | 1 -
->  tests/guest-debug/test-gdbstub.py        | 1 -
->  tests/migration/guestperf/engine.py      | 1 -
->  tests/migration/guestperf/plot.py        | 1 -
->  tests/migration/guestperf/shell.py       | 1 -
->  tests/qapi-schema/test-qapi.py           | 1 -
->  tests/qemu-iotests/149                   | 1 -
->  tests/qemu-iotests/165                   | 1 -
->  tests/qemu-iotests/iotests.py            | 1 -
->  tests/qemu-iotests/nbd-fault-injector.py | 1 -
->  tests/qemu-iotests/qcow2.py              | 1 -
->  tests/qemu-iotests/qed.py                | 1 -
->  tests/vm/basevm.py                       | 1 -
->  34 files changed, 34 deletions(-)
->
-> diff --git a/scripts/analyse-9p-simpletrace.py b/scripts/analyse-9p-simpl=
-etrace.py
-> index f20050fddd..7dfcb6ba2f 100755
-> --- a/scripts/analyse-9p-simpletrace.py
-> +++ b/scripts/analyse-9p-simpletrace.py
-> @@ -3,7 +3,6 @@
->  # Usage: ./analyse-9p-simpletrace <trace-events> <trace-pid>
->  #
->  # Author: Harsh Prateek Bora
-> -from __future__ import print_function
->  import os
->  import simpletrace
->=20=20
-> diff --git a/scripts/analyse-locks-simpletrace.py b/scripts/analyse-locks=
--simpletrace.py
-> index 9c263d6e79..63c11f4fce 100755
-> --- a/scripts/analyse-locks-simpletrace.py
-> +++ b/scripts/analyse-locks-simpletrace.py
-> @@ -6,7 +6,6 @@
->  # Author: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->  #
->=20=20
-> -from __future__ import print_function
->  import simpletrace
->  import argparse
->  import numpy as np
-> diff --git a/scripts/device-crash-test b/scripts/device-crash-test
-> index 25ee968b66..305d0427af 100755
-> --- a/scripts/device-crash-test
-> +++ b/scripts/device-crash-test
-> @@ -23,7 +23,6 @@
->  Run QEMU with all combinations of -machine and -device types,
->  check for crashes and unexpected errors.
->  """
-> -from __future__ import print_function
->=20=20
->  import os
->  import sys
-> diff --git a/scripts/dump-guest-memory.py b/scripts/dump-guest-memory.py
-> index 9371e45813..4177261d33 100644
-> --- a/scripts/dump-guest-memory.py
-> +++ b/scripts/dump-guest-memory.py
-> @@ -12,7 +12,6 @@ Authors:
->  This work is licensed under the terms of the GNU GPL, version 2 or later=
-. See
->  the COPYING file in the top-level directory.
->  """
-> -from __future__ import print_function
->=20=20
->  import ctypes
->  import struct
-> diff --git a/scripts/kvm/kvm_flightrecorder b/scripts/kvm/kvm_flightrecor=
-der
-> index 1391a84409..78ca3af9c4 100755
-> --- a/scripts/kvm/kvm_flightrecorder
-> +++ b/scripts/kvm/kvm_flightrecorder
-> @@ -32,7 +32,6 @@
->  # consuming CPU cycles.  No disk I/O is performed since the ring buffer =
-holds a
->  # fixed-size in-memory trace.
->=20=20
-> -from __future__ import print_function
->  import sys
->  import os
->=20=20
-> diff --git a/scripts/kvm/vmxcap b/scripts/kvm/vmxcap
-> index 5dfeb2e03a..971ed0e721 100755
-> --- a/scripts/kvm/vmxcap
-> +++ b/scripts/kvm/vmxcap
-> @@ -10,7 +10,6 @@
->  # This work is licensed under the terms of the GNU GPL, version 2.  See
->  # the COPYING file in the top-level directory.
->=20=20
-> -from __future__ import print_function
->  MSR_IA32_VMX_BASIC =3D 0x480
->  MSR_IA32_VMX_PINBASED_CTLS =3D 0x481
->  MSR_IA32_VMX_PROCBASED_CTLS =3D 0x482
-> diff --git a/scripts/minikconf.py b/scripts/minikconf.py
-> index 377d6228b9..2f9647d0fa 100755
-> --- a/scripts/minikconf.py
-> +++ b/scripts/minikconf.py
-> @@ -11,7 +11,6 @@
->  # or, at your option, any later version.  See the COPYING file in
->  # the top-level directory.
->=20=20
-> -from __future__ import print_function
->  import os
->  import sys
->  import re
-> diff --git a/scripts/modules/module_block.py b/scripts/modules/module_blo=
-ck.py
-> index 08646af92c..f23191fac1 100644
-> --- a/scripts/modules/module_block.py
-> +++ b/scripts/modules/module_block.py
-> @@ -10,7 +10,6 @@
->  # This work is licensed under the terms of the GNU GPL, version 2.
->  # See the COPYING file in the top-level directory.
->=20=20
-> -from __future__ import print_function
->  import sys
->  import os
->=20=20
-> diff --git a/scripts/qapi-gen.py b/scripts/qapi-gen.py
-> index c7b0070db2..4b03f7d53b 100755
-> --- a/scripts/qapi-gen.py
-> +++ b/scripts/qapi-gen.py
-> @@ -4,7 +4,6 @@
->  # This work is licensed under the terms of the GNU GPL, version 2 or lat=
-er.
->  # See the COPYING file in the top-level directory.
->=20=20
-> -from __future__ import print_function
->=20=20
->  import argparse
->  import re
-> diff --git a/scripts/qapi/doc.py b/scripts/qapi/doc.py
-> index 6f1c17f71f..1787a53d91 100644
-> --- a/scripts/qapi/doc.py
-> +++ b/scripts/qapi/doc.py
-> @@ -4,7 +4,6 @@
->  # See the COPYING file in the top-level directory.
->  """This script produces the documentation of a qapi schema in texinfo fo=
-rmat"""
->=20=20
-> -from __future__ import print_function
->  import re
->  from qapi.gen import QAPIGenDoc, QAPISchemaVisitor
->=20=20
-> diff --git a/scripts/qmp/qemu-ga-client b/scripts/qmp/qemu-ga-client
-> index e4568aff68..ce122984a9 100755
-> --- a/scripts/qmp/qemu-ga-client
-> +++ b/scripts/qmp/qemu-ga-client
-> @@ -36,7 +36,6 @@
->  # See also: https://wiki.qemu.org/Features/QAPI/GuestAgent
->  #
->=20=20
-> -from __future__ import print_function
->  import os
->  import sys
->  import base64
-> diff --git a/scripts/qmp/qmp b/scripts/qmp/qmp
-> index f85a14a627..0625fc2aba 100755
-> --- a/scripts/qmp/qmp
-> +++ b/scripts/qmp/qmp
-> @@ -10,7 +10,6 @@
->  # This work is licensed under the terms of the GNU GPLv2 or later.
->  # See the COPYING file in the top-level directory.
->=20=20
-> -from __future__ import print_function
->  import sys, os
->  from qmp import QEMUMonitorProtocol
->=20=20
-> diff --git a/scripts/qmp/qmp-shell b/scripts/qmp/qmp-shell
-> index 9e122ad0c6..a01d31de1e 100755
-> --- a/scripts/qmp/qmp-shell
-> +++ b/scripts/qmp/qmp-shell
-> @@ -65,7 +65,6 @@
->  # which will echo back the properly formatted JSON-compliant QMP that is=
- being
->  # sent to QEMU, which is useful for debugging and documentation generati=
-on.
->=20=20
-> -from __future__ import print_function
->  import json
->  import ast
->  import readline
-> diff --git a/scripts/qmp/qom-get b/scripts/qmp/qom-get
-> index ec5275d53a..007b4cd442 100755
-> --- a/scripts/qmp/qom-get
-> +++ b/scripts/qmp/qom-get
-> @@ -11,7 +11,6 @@
->  # the COPYING file in the top-level directory.
->  ##
->=20=20
-> -from __future__ import print_function
->  import sys
->  import os
->  from qmp import QEMUMonitorProtocol
-> diff --git a/scripts/qmp/qom-list b/scripts/qmp/qom-list
-> index 0f97440973..03bda3446b 100755
-> --- a/scripts/qmp/qom-list
-> +++ b/scripts/qmp/qom-list
-> @@ -11,7 +11,6 @@
->  # the COPYING file in the top-level directory.
->  ##
->=20=20
-> -from __future__ import print_function
->  import sys
->  import os
->  from qmp import QEMUMonitorProtocol
-> diff --git a/scripts/qmp/qom-set b/scripts/qmp/qom-set
-> index 26ed9e3263..c37fe78b00 100755
-> --- a/scripts/qmp/qom-set
-> +++ b/scripts/qmp/qom-set
-> @@ -11,7 +11,6 @@
->  # the COPYING file in the top-level directory.
->  ##
->=20=20
-> -from __future__ import print_function
->  import sys
->  import os
->  from qmp import QEMUMonitorProtocol
-> diff --git a/scripts/qmp/qom-tree b/scripts/qmp/qom-tree
-> index 31603c681f..1c8acf61e7 100755
-> --- a/scripts/qmp/qom-tree
-> +++ b/scripts/qmp/qom-tree
-> @@ -13,7 +13,6 @@
->  # the COPYING file in the top-level directory.
->  ##
->=20=20
-> -from __future__ import print_function
->  import sys
->  import os
->  from qmp import QEMUMonitorProtocol
-> diff --git a/scripts/replay-dump.py b/scripts/replay-dump.py
-> index 0cdae879b7..4cbc1e47c6 100755
-> --- a/scripts/replay-dump.py
-> +++ b/scripts/replay-dump.py
-> @@ -18,7 +18,6 @@
->  # You should have received a copy of the GNU Lesser General Public
->  # License along with this library; if not, see <http://www.gnu.org/licen=
-ses/>.
->=20=20
-> -from __future__ import print_function
->  import argparse
->  import struct
->  from collections import namedtuple
-> diff --git a/scripts/signrom.py b/scripts/signrom.py
-> index 9be5dab1cf..43693dba56 100755
-> --- a/scripts/signrom.py
-> +++ b/scripts/signrom.py
-> @@ -1,6 +1,5 @@
->  #!/usr/bin/env python3
->=20=20
-> -from __future__ import print_function
->  #
->  # Option ROM signing utility
->  #
-> diff --git a/scripts/simpletrace.py b/scripts/simpletrace.py
-> index 2bc043112a..20f0026066 100755
-> --- a/scripts/simpletrace.py
-> +++ b/scripts/simpletrace.py
-> @@ -9,7 +9,6 @@
->  #
->  # For help see docs/devel/tracing.txt
->=20=20
-> -from __future__ import print_function
->  import struct
->  import inspect
->  from tracetool import read_events, Event
-> diff --git a/scripts/vmstate-static-checker.py b/scripts/vmstate-static-c=
-hecker.py
-> index d44dedd9e9..539ead62b4 100755
-> --- a/scripts/vmstate-static-checker.py
-> +++ b/scripts/vmstate-static-checker.py
-> @@ -19,7 +19,6 @@
->  # You should have received a copy of the GNU General Public License along
->  # with this program; if not, see <http://www.gnu.org/licenses/>.
->=20=20
-> -from __future__ import print_function
->  import argparse
->  import json
->  import sys
-> diff --git a/tests/docker/travis.py b/tests/docker/travis.py
-> index 62fccc5ebb..37307ac366 100755
-> --- a/tests/docker/travis.py
-> +++ b/tests/docker/travis.py
-> @@ -11,7 +11,6 @@
->  # or (at your option) any later version. See the COPYING file in
->  # the top-level directory.
->=20=20
-> -from __future__ import print_function
->  import sys
->  import yaml
->  import itertools
-> diff --git a/tests/guest-debug/test-gdbstub.py b/tests/guest-debug/test-g=
-dbstub.py
-> index c7e3986a24..98a5df4d42 100644
-> --- a/tests/guest-debug/test-gdbstub.py
-> +++ b/tests/guest-debug/test-gdbstub.py
-> @@ -1,4 +1,3 @@
-> -from __future__ import print_function
->  #
->  # This script needs to be run on startup
->  # qemu -kernel ${KERNEL} -s -S
-> diff --git a/tests/migration/guestperf/engine.py b/tests/migration/guestp=
-erf/engine.py
-> index 1dd04ce33b..fd63c66601 100644
-> --- a/tests/migration/guestperf/engine.py
-> +++ b/tests/migration/guestperf/engine.py
-> @@ -1,4 +1,3 @@
-> -from __future__ import print_function
->  #
->  # Migration test main engine
->  #
-> diff --git a/tests/migration/guestperf/plot.py b/tests/migration/guestper=
-f/plot.py
-> index aa98912a82..34cebd54ba 100644
-> --- a/tests/migration/guestperf/plot.py
-> +++ b/tests/migration/guestperf/plot.py
-> @@ -1,4 +1,3 @@
-> -from __future__ import print_function
->  #
->  # Migration test graph plotting
->  #
-> diff --git a/tests/migration/guestperf/shell.py b/tests/migration/guestpe=
-rf/shell.py
-> index 61d2abbaad..5bcc066bb9 100644
-> --- a/tests/migration/guestperf/shell.py
-> +++ b/tests/migration/guestperf/shell.py
-> @@ -1,4 +1,3 @@
-> -from __future__ import print_function
->  #
->  # Migration test command line shell integration
->  #
-> diff --git a/tests/qapi-schema/test-qapi.py b/tests/qapi-schema/test-qapi=
-.py
-> index 503fb8ad25..41232c11a3 100755
-> --- a/tests/qapi-schema/test-qapi.py
-> +++ b/tests/qapi-schema/test-qapi.py
-> @@ -11,7 +11,6 @@
->  # See the COPYING file in the top-level directory.
->  #
->=20=20
-> -from __future__ import print_function
->=20=20
->  import argparse
->  import difflib
-> diff --git a/tests/qemu-iotests/149 b/tests/qemu-iotests/149
-> index 0a7b765d07..b4a21bf7b7 100755
-> --- a/tests/qemu-iotests/149
-> +++ b/tests/qemu-iotests/149
-> @@ -20,7 +20,6 @@
->  # Exercise the QEMU 'luks' block driver to validate interoperability
->  # with the Linux dm-crypt + cryptsetup implementation
->=20=20
-> -from __future__ import print_function
->  import subprocess
->  import os
->  import os.path
-> diff --git a/tests/qemu-iotests/165 b/tests/qemu-iotests/165
-> index b60a803dae..fb56a769b4 100755
-> --- a/tests/qemu-iotests/165
-> +++ b/tests/qemu-iotests/165
-> @@ -18,7 +18,6 @@
->  # along with this program.  If not, see <http://www.gnu.org/licenses/>.
->  #
->=20=20
-> -from __future__ import print_function
->  import os
->  import re
->  import iotests
-> diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
-> index 0b62c42851..1689b25bdc 100644
-> --- a/tests/qemu-iotests/iotests.py
-> +++ b/tests/qemu-iotests/iotests.py
-> @@ -1,4 +1,3 @@
-> -from __future__ import print_function
->  # Common utilities and Python wrappers for qemu-iotests
->  #
->  # Copyright (C) 2012 IBM Corp.
-> diff --git a/tests/qemu-iotests/nbd-fault-injector.py b/tests/qemu-iotest=
-s/nbd-fault-injector.py
-> index b158dd65a2..588d62aebf 100755
-> --- a/tests/qemu-iotests/nbd-fault-injector.py
-> +++ b/tests/qemu-iotests/nbd-fault-injector.py
-> @@ -43,7 +43,6 @@
->  # This work is licensed under the terms of the GNU GPL, version 2 or lat=
-er.
->  # See the COPYING file in the top-level directory.
->=20=20
-> -from __future__ import print_function
->  import sys
->  import socket
->  import struct
-> diff --git a/tests/qemu-iotests/qcow2.py b/tests/qemu-iotests/qcow2.py
-> index 1c4fa2b09f..94a07b2f6f 100755
-> --- a/tests/qemu-iotests/qcow2.py
-> +++ b/tests/qemu-iotests/qcow2.py
-> @@ -1,6 +1,5 @@
->  #!/usr/bin/env python3
->=20=20
-> -from __future__ import print_function
->  import sys
->  import struct
->  import string
-> diff --git a/tests/qemu-iotests/qed.py b/tests/qemu-iotests/qed.py
-> index 36bca1de23..d6bec96069 100755
-> --- a/tests/qemu-iotests/qed.py
-> +++ b/tests/qemu-iotests/qed.py
-> @@ -10,7 +10,6 @@
->  # This work is licensed under the terms of the GNU GPL, version 2 or lat=
-er.
->  # See the COPYING file in the top-level directory.
->=20=20
-> -from __future__ import print_function
->  import sys
->  import struct
->  import random
-> diff --git a/tests/vm/basevm.py b/tests/vm/basevm.py
-> index 30714fa1a8..4dee6647e6 100644
-> --- a/tests/vm/basevm.py
-> +++ b/tests/vm/basevm.py
-> @@ -11,7 +11,6 @@
->  # the COPYING file in the top-level directory.
->  #
->=20=20
-> -from __future__ import print_function
->  import os
->  import re
->  import sys
+(We have a use case with convert -n to freshly created image files, but
+my position on this on IRC was that we want the --target-is-zero flag
+for that anyway: Auto-detection may always break, our preferred default
+behavior may always change, so if you want convert -n not to touch the
+target image except to write non-zero data from the source, we need a
+--target-is-zero flag and users need to use it.  Well, management
+layers, because I don=E2=80=99t think users would use convert -n anyway.
+
+And with --target-is-zero and users effectively having to use it, I
+don=E2=80=99t think that=E2=80=99s a good example of a use case.)
+
+I suppose there is the point of blockdev-create + blockdev-mirror: This
+has exactly the same problem as convert -n.  But again, if you really
+want blockdev-mirror not just to force-zero the image, you probably need
+to tell it so explicitly (i.e., with a --target-is-zero flag for
+blockdev-mirror).
+
+(Well, I suppose we could save us a target-is-zero for mirror if we took
+this series and had a filter driver that force-reports BDRV_ZERO_OPEN.
+But, well, please no.)
+
+But maybe I=E2=80=99m just an idiot and there is no reason not to take this
+series and make blockdev-create + blockdev-mirror do the sensible thing
+by default in most cases. *shrug*
+
+Max
 
 
---=20
-Alex Benn=C3=A9e
+--bIKhK8YLNHAK6rSaWbMR3oiJme3gri01J--
+
+--oLwNroRkPMMIbwqmQMyjWISP5QBa41am6
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl45qroACgkQ9AfbAGHV
+z0BrsQf/c09Rqmm+qoVxM3crwz3Lrt04bIqU4636RaZmN7tX5gquAAvJ0m6V4J18
+94xwEbYWVEvVCbc3ffVbIB7r/KZ0pzEhTlBGY95U5yKyOhEAaJmftqtVOqzSy9wd
+k+B1EHVFmxadJMSJNStddFxx8Ze1IDeq1JUFVZYdezf4jfb7MGe1VYpPQoFwT4a0
+zK7lB+6h+9h43h/jaUxy6Z2lkbt63NWHHKRClhrfZrrw0e93j8SJnaLV9LE+z99w
+1yauq9zTzEC+bVzUXQxXGZ0ayh/nXF3lIVrkCAy54gdR6AxBu7PgbwwOwx4YugQH
+4qOUHxszbik+37GgK08Yqm5nBXJN2g==
+=jL/p
+-----END PGP SIGNATURE-----
+
+--oLwNroRkPMMIbwqmQMyjWISP5QBa41am6--
+
 
