@@ -2,56 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B9E4151F70
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Feb 2020 18:28:26 +0100 (CET)
-Received: from localhost ([::1]:35064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22F58151F74
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Feb 2020 18:29:37 +0100 (CET)
+Received: from localhost ([::1]:35094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iz1zt-0005kJ-4b
-	for lists+qemu-devel@lfdr.de; Tue, 04 Feb 2020 12:28:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54888)
+	id 1iz212-0000Py-5P
+	for lists+qemu-devel@lfdr.de; Tue, 04 Feb 2020 12:29:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33831)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1iz1jf-00078Y-FR
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 12:11:40 -0500
+ (envelope-from <philmd@redhat.com>) id 1iz1vU-0005Ly-SD
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 12:23:55 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1iz1je-0001aL-9J
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 12:11:39 -0500
-Received: from mout.kundenserver.de ([212.227.126.130]:37669)
+ (envelope-from <philmd@redhat.com>) id 1iz1vS-0005m1-5L
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 12:23:52 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:55527
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1iz1jd-0001VE-Vp
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 12:11:38 -0500
-Received: from localhost.localdomain ([78.238.229.36]) by
- mrelayeu.kundenserver.de (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MbAYi-1jVtZL1IHg-00bdxB; Tue, 04 Feb 2020 18:11:07 +0100
-From: Laurent Vivier <laurent@vivier.eu>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 2/4] linux-user: cleanup signal.c
-Date: Tue,  4 Feb 2020 18:10:51 +0100
-Message-Id: <20200204171053.1718013-3-laurent@vivier.eu>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20200204171053.1718013-1-laurent@vivier.eu>
-References: <20200204171053.1718013-1-laurent@vivier.eu>
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1iz1vS-0005lf-1E
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 12:23:50 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1580837029;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=VXAyBvcJgY7G+8cnfkjn0VaQ7IOPoDQR9hAT1163B3E=;
+ b=VA/Ke9cOJA466kLylooWSTftLp5xgKdsjs8aJuU7RvvUFEU+duoUY1bAMSQ5IeWYbaNHPi
+ ZfgJ3XScJFfuexy5u07cdlq94XsoSdTjRM0lztrCrh+Py4BfP3qL3H4v3xLMyTDtG4CQUL
+ yt6pmEKsniy9c0XGBMdF0P3mMM7TqNg=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-27-ibRTXJAbPuG8dXd4qsNyXQ-1; Tue, 04 Feb 2020 12:23:46 -0500
+Received: by mail-wr1-f69.google.com with SMTP id v17so10561712wrm.17
+ for <qemu-devel@nongnu.org>; Tue, 04 Feb 2020 09:23:46 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=1Bay0K7XxOF53TvnYZKjIHHIcqgGt0iI0P5dIAbiOQ0=;
+ b=VINjTZF1GhF2ov7ZMjXgqzcRNMfcK/RRv9SGgdC6F1cq/3x0OaDJljwP/stnXO6C5X
+ LtiePdczWL4Ge01L1GH/mcY7T+W1aqeiFyISvrdqEEWkwpVfDL2tOiBsm5GT0hhziYdR
+ 4FTkHH0Ec0W13a5SpQ2bZ4eF6jUQSXHcJH/eY8sqqRlCmbOfRgFFTWYe21Wf1kdlalng
+ 3cOYMhfScmuqSNWugk40CEXFjry6RSmo/DFNwLL+yKUDF3aU86PAhjSi5bki00cRwt+U
+ 401Uc9/TLIfle7co1FpvmrrnHafRuWqYh6TVjAO85l3lAubEhY29z9b5c1oKMKeDNwYG
+ xaHQ==
+X-Gm-Message-State: APjAAAVAOYcDby+qo/a5mli72eI0KrpKJKFEViXqlPdYYpJgGiFu6YsI
+ z+myE8HmAAolb/0GQvpFLu7OunpUKq+pVNuKfkhnNoYMMZPyref1l61d8ua/KHmT5wevhWP236q
+ csQU3i/9t6/YW45I=
+X-Received: by 2002:adf:8150:: with SMTP id 74mr24023759wrm.114.1580837025251; 
+ Tue, 04 Feb 2020 09:23:45 -0800 (PST)
+X-Google-Smtp-Source: APXvYqzzyMt/isbL01MnkX/hCoGdm0DYTQZd5mRzYD6YQB25LxNFDapFHKuJ8PQ9+fGcZ4zj5n6Ytg==
+X-Received: by 2002:adf:8150:: with SMTP id 74mr24023748wrm.114.1580837025090; 
+ Tue, 04 Feb 2020 09:23:45 -0800 (PST)
+Received: from [192.168.1.35] (162.red-83-52-55.dynamicip.rima-tde.net.
+ [83.52.55.162])
+ by smtp.gmail.com with ESMTPSA id d13sm2058036wrc.3.2020.02.04.09.23.44
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 04 Feb 2020 09:23:44 -0800 (PST)
+Subject: Re: [PATCH] drop "from __future__ import print_function"
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
+References: <20200204160604.19883-1-pbonzini@redhat.com>
+ <86185404-c4bc-b35d-eedc-9d95d1698379@redhat.com>
+ <82c6a3aa-8143-7510-4369-c70c785b302b@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <0aa928f5-c975-2f13-6b0b-dc723a4f9e8f@redhat.com>
+Date: Tue, 4 Feb 2020 18:23:44 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:EIm9a7+YzWA3RVuwlOMtseaQqYUyH2rlaronjAq9JvijJ1zS0yS
- 8kHGZY0eectH8FzOeo0O4if6eeeY8cXebK4aJQ8yx6LXnBGIk8xgJ2J4fkb+Zz4KBM4+H4+
- KVsdYdlciyJhWRVZR1VM3jOAC6ZvzvRoSOn4fc5kiyqif+v6Q3CGGPlrGFT63jTUrMNge7P
- zlg7IkIchuu3l0vkxYJ4w==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:LzrnhUWiL+k=:dAjJzbjW3JWg0JyGqsCeBN
- 3NIMm08WHB9KoJL/DcsWZltc6A5bmTOqt+ttgr2rosYEu2kKA5uH4vbirRMmmCT0TNdu3ec18
- zUAy0W2+OPg+QWprGmVrb3kCi6XWT35SNJAsVKzeFDG0shD4d+qsouFg6E9uXGn3joA7nTSGq
- IalWl8XmTj0NrmTTJGviz4b4U9Rw52zeSrQ3vZS1/9/+RdBpMxNyg2i4JQBPkQhBrGSCojA8y
- VBUcahRDMDryTdXIrCd7LWxsjSTs9rwRLXmvEmDCndlzx9stImIdST5fe2dlnuGI74t4rCsaV
- mT1Day3DAgyHF92d3k904uyM6QXAjtvpoI4KprKNBp+6ASwJQ+FlW6b33S5Li6LG/XuTuxmMs
- 6T4+jCVL2wexGoWRZH+WZDbhD/A3MOq5xDwSnM+qhUtcAHbmjEA8BFPc3xv2AtI5BOO1CJ3+r
- 3hLYKgrmdURfKt72SDUHcgm2lVtYE0yFSjpPIKeLcy+3RB+7HFg74sc+/yH4oyQGhQfYeYrAx
- qxRpxJXqorHQMA2oe9n/61pqcY9asNgnFxw6h9z8i6pML14oQsxd54CuG1iCxCSRfz6LmgzTD
- GdVFRZ48032kWrMc4ThhMsR63Uk2rO7Pxn66OLQtB5D1TiKezJIQ6c4P4iyHYwTG+/kQG9m9S
- YMPXh0+EcHyYoTxtkFprRQvnZV6Us0bfQ3kf3DdujtV4pnKwxXHMFv+kpEfyRmRwZbIUn/UTQ
- BIV4/ja2ZSn2TpHQUmzuF82nnMu3rQa8tQBasJGWJomyfifGxWvptExNFLGT+MlQZsMCYPIhz
- Aqyulin0zsdGMElBc2RQShyIgxt7pMlkwEWKirT0GvxbqmLXx8dAidXy2ZRH12xfE1N23kg
+In-Reply-To: <82c6a3aa-8143-7510-4369-c70c785b302b@redhat.com>
+Content-Language: en-US
+X-MC-Unique: ibRTXJAbPuG8dXd4qsNyXQ-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.126.130
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,106 +93,118 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Marlies Ruck <marlies.ruck@gmail.com>, Riku Voipio <riku.voipio@iki.fi>,
- Laurent Vivier <laurent@vivier.eu>,
- Aleksandar Markovic <aleksandar.markovic@rt-rk.com>,
- Josh Kunz <jkz@google.com>, Taylor Simpson <tsimpson@quicinc.com>,
- Matus Kysel <mkysel@tachyum.com>, milos.stojanovic@rt-rk.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-No functional changes. Prepare the field for future fixes.
+On 2/4/20 6:10 PM, Paolo Bonzini wrote:
+> On 04/02/20 17:07, Philippe Mathieu-Daud=C3=A9 wrote:
+>> On 2/4/20 5:06 PM, Paolo Bonzini wrote:
+>>> This is only needed for Python 2, which we do not support anymore.
+>>>
+>>> Based-on: <20200204160028.16211-1-pbonzini@redhat.com>
+>>> Cc: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+>>> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+>>> ---
+>>>  =C2=A0 scripts/analyse-9p-simpletrace.py=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 | 1 -
+>>>  =C2=A0 scripts/analyse-locks-simpletrace.py=C2=A0=C2=A0=C2=A0=C2=A0 | =
+1 -
+>>>  =C2=A0 scripts/device-crash-test=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 1 -
+>>>  =C2=A0 scripts/dump-guest-memory.py=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 1 -
+>>>  =C2=A0 scripts/kvm/kvm_flightrecorder=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 1 -
+>>>  =C2=A0 scripts/kvm/vmxcap=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 | 1 -
+>>>  =C2=A0 scripts/minikconf.py=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 | 1 -
+>>>  =C2=A0 scripts/modules/module_block.py=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 | 1 -
+>>>  =C2=A0 scripts/qapi-gen.py=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 | 1 -
+>>>  =C2=A0 scripts/qapi/doc.py=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 | 1 -
+>>>  =C2=A0 scripts/qmp/qemu-ga-client=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 1 -
+>>>  =C2=A0 scripts/qmp/qmp=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 1 -
+>>>  =C2=A0 scripts/qmp/qmp-shell=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | =
+1 -
+>>>  =C2=A0 scripts/qmp/qom-get=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 | 1 -
+>>>  =C2=A0 scripts/qmp/qom-list=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 | 1 -
+>>>  =C2=A0 scripts/qmp/qom-set=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 | 1 -
+>>>  =C2=A0 scripts/qmp/qom-tree=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 | 1 -
+>>>  =C2=A0 scripts/replay-dump.py=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 1 -
+>>>  =C2=A0 scripts/signrom.py=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 | 1 -
+>>>  =C2=A0 scripts/simpletrace.py=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 1 -
+>>>  =C2=A0 scripts/vmstate-static-checker.py=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 | 1 -
+>>>  =C2=A0 tests/docker/travis.py=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 1 -
+>>>  =C2=A0 tests/guest-debug/test-gdbstub.py=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 | 1 -
+>>>  =C2=A0 tests/migration/guestperf/engine.py=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 | 1 -
+>>>  =C2=A0 tests/migration/guestperf/plot.py=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 | 1 -
+>>>  =C2=A0 tests/migration/guestperf/shell.py=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 | 1 -
+>>>  =C2=A0 tests/qapi-schema/test-qapi.py=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 1 -
+>>>  =C2=A0 tests/qemu-iotests/149=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 1 -
+>>>  =C2=A0 tests/qemu-iotests/165=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 1 -
+>>>  =C2=A0 tests/qemu-iotests/iotests.py=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 1 -
+>>>  =C2=A0 tests/qemu-iotests/nbd-fault-injector.py | 1 -
+>>>  =C2=A0 tests/qemu-iotests/qcow2.py=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 1 -
+>>>  =C2=A0 tests/qemu-iotests/qed.py=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 1 -
+>>>  =C2=A0 tests/vm/basevm.py=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 | 1 -
+>>>  =C2=A0 34 files changed, 34 deletions(-)
+>>>
+>>> diff --git a/scripts/analyse-9p-simpletrace.py
+>>> b/scripts/analyse-9p-simpletrace.py
+>>> index f20050fddd..7dfcb6ba2f 100755
+>>> --- a/scripts/analyse-9p-simpletrace.py
+>>> +++ b/scripts/analyse-9p-simpletrace.py
+>>> @@ -3,7 +3,6 @@
+>>>  =C2=A0 # Usage: ./analyse-9p-simpletrace <trace-events> <trace-pid>
+>>>  =C2=A0 #
+>>>  =C2=A0 # Author: Harsh Prateek Bora
+>>> -from __future__ import print_function
+>>>  =C2=A0 import os
+>>>  =C2=A0 import simpletrace
+>>
+>> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+>>
+>=20
+> Are you queueing this too?
 
-Remove memset(.., 0, ...) that is useless on a static array
-
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
----
-
-Notes:
-    v2: replace i, j by target_sig, host_sig
-
- linux-user/signal.c | 48 ++++++++++++++++++++++++++-------------------
- 1 file changed, 28 insertions(+), 20 deletions(-)
-
-diff --git a/linux-user/signal.c b/linux-user/signal.c
-index 5ca6d62b15d3..246315571c09 100644
---- a/linux-user/signal.c
-+++ b/linux-user/signal.c
-@@ -66,12 +66,6 @@ static uint8_t host_to_target_signal_table[_NSIG] = {
-     [SIGPWR] = TARGET_SIGPWR,
-     [SIGSYS] = TARGET_SIGSYS,
-     /* next signals stay the same */
--    /* Nasty hack: Reverse SIGRTMIN and SIGRTMAX to avoid overlap with
--       host libpthread signals.  This assumes no one actually uses SIGRTMAX :-/
--       To fix this properly we need to do manual signal delivery multiplexed
--       over a single host signal.  */
--    [__SIGRTMIN] = __SIGRTMAX,
--    [__SIGRTMAX] = __SIGRTMIN,
- };
- static uint8_t target_to_host_signal_table[_NSIG];
- 
-@@ -480,31 +474,45 @@ static int core_dump_signal(int sig)
-     }
- }
- 
-+static void signal_table_init(void)
-+{
-+    int host_sig, target_sig;
-+
-+    /*
-+     * Nasty hack: Reverse SIGRTMIN and SIGRTMAX to avoid overlap with
-+     * host libpthread signals.  This assumes no one actually uses SIGRTMAX :-/
-+     * To fix this properly we need to do manual signal delivery multiplexed
-+     * over a single host signal.
-+     */
-+    host_to_target_signal_table[__SIGRTMIN] = __SIGRTMAX;
-+    host_to_target_signal_table[__SIGRTMAX] = __SIGRTMIN;
-+
-+    /* generate signal conversion tables */
-+    for (host_sig = 1; host_sig < _NSIG; host_sig++) {
-+        if (host_to_target_signal_table[host_sig] == 0) {
-+            host_to_target_signal_table[host_sig] = host_sig;
-+        }
-+    }
-+    for (host_sig = 1; host_sig < _NSIG; host_sig++) {
-+        target_sig = host_to_target_signal_table[host_sig];
-+        target_to_host_signal_table[target_sig] = host_sig;
-+    }
-+}
-+
- void signal_init(void)
- {
-     TaskState *ts = (TaskState *)thread_cpu->opaque;
-     struct sigaction act;
-     struct sigaction oact;
--    int i, j;
-+    int i;
-     int host_sig;
- 
--    /* generate signal conversion tables */
--    for(i = 1; i < _NSIG; i++) {
--        if (host_to_target_signal_table[i] == 0)
--            host_to_target_signal_table[i] = i;
--    }
--    for(i = 1; i < _NSIG; i++) {
--        j = host_to_target_signal_table[i];
--        target_to_host_signal_table[j] = i;
--    }
-+    /* initialize signal conversion tables */
-+    signal_table_init();
- 
-     /* Set the signal mask from the host mask. */
-     sigprocmask(0, 0, &ts->signal_mask);
- 
--    /* set all host signal handlers. ALL signals are blocked during
--       the handlers to serialize them. */
--    memset(sigact_table, 0, sizeof(sigact_table));
--
-     sigfillset(&act.sa_mask);
-     act.sa_flags = SA_SIGINFO;
-     act.sa_sigaction = host_signal_handler;
--- 
-2.24.1
+Yes, patch applied to my python-next tree:
+https://gitlab.com/philmd/qemu/commits/python-next
 
 
