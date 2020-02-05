@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02A27153611
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 18:14:03 +0100 (CET)
-Received: from localhost ([::1]:53728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DE31153627
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 18:16:57 +0100 (CET)
+Received: from localhost ([::1]:53812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izOFV-0001r5-V9
-	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 12:14:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34899)
+	id 1izOIK-0005nH-Dz
+	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 12:16:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35009)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1izOCI-0004qP-W7
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 12:10:43 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1izOCN-00051e-GS
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 12:10:48 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1izOCH-00050r-RU
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 12:10:42 -0500
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:55241)
+ (envelope-from <alex.bennee@linaro.org>) id 1izOCM-0005VF-9z
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 12:10:47 -0500
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:37163)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1izOCH-0004wj-L8
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 12:10:41 -0500
-Received: by mail-wm1-x341.google.com with SMTP id g1so3304735wmh.4
- for <qemu-devel@nongnu.org>; Wed, 05 Feb 2020 09:10:41 -0800 (PST)
+ id 1izOCM-0005Op-1f
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 12:10:46 -0500
+Received: by mail-wr1-x441.google.com with SMTP id w15so3688430wru.4
+ for <qemu-devel@nongnu.org>; Wed, 05 Feb 2020 09:10:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=KcowZQvidWsL6K9vNr5PA0mK1ZdxCgzSQNRXFm9TCF8=;
- b=grA72OqPGdCWZW1QEGhC+Nb8S3Niuc1geHth+N1LGYbNe5A5lZAlHORAozYIuLoHYx
- 0B/d+umP3NZ5Gxz60d/REI/9ypRMLjyNxA9cRkaM/cQ7MXchTxD+WB8797j7lZm8hN1s
- OkD5JXxXXsc3hhhecSlWm+6DtoS0QN8DZZKPaDs8Qql6ZGU/JHRxbFmYzvGfbrKoDy59
- NApDiDWE5r3o2i0SslKFVJbgC4FUL71AIwIXGHJe8e3P+Qeh4C6+rK81aDxbzlh/KKaN
- Rq3emWRQNRbUucozgy1M7RZ5+DYcmZFra4vb/4O+ROohsnYNKRVljJ6AQzIC3r6YH4sX
- ibPQ==
+ bh=0OcAvc3GvfdCHlZAucKBYIBgCK/jRDOs/AGpSmh+Usw=;
+ b=Jasg9k4PLLluLIv6nW9cQIOdxk+LdeIlAm2pv2dsE7iGL5hXiMGr4X8J8rbQ3BndqF
+ brGeITksOO7Bpb4ns3JBUpEv3TltnhUoMGf70KhBBv/nGacv4PhqSaZxQbASnAlJR2ic
+ Q0erVxP9kutrPH/XsgOobV2FyMWLrS9r3pi+HLGAkejIOhprTc0qyi92OpN2qHnUd1oq
+ bkgZ0bZawxj9pIWhj5Trm1wfXLecbZMGhb/N6/wT963C6F1ee7hYRgU+gjMFImTudtw7
+ l2vOoTA7wVHvU/l+JRHBlueVuruR/TC0+MjTci40yIpFqoUmvDKWpvjGZ1N/pGzLsb9i
+ JSIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=KcowZQvidWsL6K9vNr5PA0mK1ZdxCgzSQNRXFm9TCF8=;
- b=Fb70R1nMRXwKudbETaH8nMgEbUvjACH/CxJYTSHNavea+fjLESkXT2OsFAPnUzTlKZ
- BDmWyU9VV2SfuMtM1S9ccCQwuFDHoggMTZEW2pZSNZjX+wAP7jZW6hMFJvV7i7cIu8IA
- POPjYOPld51NJMNSt8AGZag4HTFnuln9CP4CWbqoB4fX+z/DzuJCPO+26bg9hdjxHuPK
- M3dH2zZdclu6ED0d5230IKsqTbI3bcMmbIYe7pfGZo0B+dI5BgFt+4U7ksubbHUfM2Pz
- OuB61pkimBJ+Twv+z0wKJM2VkZ2jY4IfTX6V9QjJ4RlXJLC4uiwY4a4Ha1x1jM82y4OB
- V/Tg==
-X-Gm-Message-State: APjAAAV0qs7AHZxX50rYbbqBlaW+v0QFerMco4zlC48EzchjpscdCcGW
- yqLj9zwzWKSTGmXNdCeisV2hWQ==
-X-Google-Smtp-Source: APXvYqx6XlqQuBT/IhB4OsLUlfIV/1O6LxCulL311VTTHljUPGgh65k9ApWdaM/8RLbjtEoP2LizXg==
-X-Received: by 2002:a1c:610a:: with SMTP id v10mr6521729wmb.44.1580922640609; 
- Wed, 05 Feb 2020 09:10:40 -0800 (PST)
+ bh=0OcAvc3GvfdCHlZAucKBYIBgCK/jRDOs/AGpSmh+Usw=;
+ b=irRPmfpSp/IBRT4i/TnVoy7yV9F68AAvZ5OWUtHsWk7vQ1ye5wfzDVduiiB+EBHVZr
+ ZzuXdUsk/m52fso3wKZBQGutuhLhuWqvKVB1SWlPIQhPI3ilDvb8er+GPv2E76fFnmoA
+ 8mtF8t7RWW8xD2mfqegBoRYX4jeD4zhHPFL90SOWzF+KlXP1GZBHQUKPOAPbUrbvfoXQ
+ LsavCCdT4PUYGaoCNgM2teFs4I98a+PPtktURpPnu8mNWNRcgg8IXnGOFnQmXGdAhZ4P
+ VVhA4CY4+Is62ruscgKCXpEAH/lBJvKiEPV7z5rDezCRs/VPogyVcgC6umh8/wH6+6Ks
+ jjIA==
+X-Gm-Message-State: APjAAAUqF1pIyrKfuavB1XjqB1627rpIysZf9RCkLCj52WaejcDw8vDF
+ 8XdAWiZdmASzyh4gr5wpI76t2Q==
+X-Google-Smtp-Source: APXvYqz6P0CgL2+yeAGkSzfIj2MLgjYkfepNzRUeLl+t7NvmhcvFyn2kDe1FH5qw6x0BsStJjKAKig==
+X-Received: by 2002:adf:bbcf:: with SMTP id z15mr25431997wrg.266.1580922645079; 
+ Wed, 05 Feb 2020 09:10:45 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id 133sm238654wme.32.2020.02.05.09.10.34
+ by smtp.gmail.com with ESMTPSA id o4sm541865wrx.25.2020.02.05.09.10.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 05 Feb 2020 09:10:38 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 08F121FF92;
+ by zen.linaroharston (Postfix) with ESMTP id 1D1C61FF93;
  Wed,  5 Feb 2020 17:10:32 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v6 05/22] gdbstub: add helper for 128 bit registers
-Date: Wed,  5 Feb 2020 17:10:14 +0000
-Message-Id: <20200205171031.22582-6-alex.bennee@linaro.org>
+Subject: [PATCH  v6 06/22] target/arm: use gdb_get_reg helpers
+Date: Wed,  5 Feb 2020 17:10:15 +0000
+Message-Id: <20200205171031.22582-7-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200205171031.22582-1-alex.bennee@linaro.org>
 References: <20200205171031.22582-1-alex.bennee@linaro.org>
@@ -69,7 +69,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::341
+X-Received-From: 2a00:1450:4864:20::441
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,47 +81,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: damien.hedde@greensocs.com, luis.machado@linaro.org,
+Cc: damien.hedde@greensocs.com, Peter Maydell <peter.maydell@linaro.org>,
+ luis.machado@linaro.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- richard.henderson@linaro.org, alan.hayward@arm.com,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+ richard.henderson@linaro.org, "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>,
+ alan.hayward@arm.com, =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+
+This is cleaner than poking memory directly and will make later
+clean-ups easier.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
 ---
 v2
-  - take care of endianess of the whole 128 bit word
+  - make sure we pass hi/lo correctly as quads are stored in LE order
 ---
- include/exec/gdbstub.h | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ target/arm/helper.c | 18 +++++++-----------
+ 1 file changed, 7 insertions(+), 11 deletions(-)
 
-diff --git a/include/exec/gdbstub.h b/include/exec/gdbstub.h
-index 08363969c14..59e366ba3af 100644
---- a/include/exec/gdbstub.h
-+++ b/include/exec/gdbstub.h
-@@ -102,6 +102,19 @@ static inline int gdb_get_reg64(uint8_t *mem_buf, uint64_t val)
-     return 8;
- }
- 
-+static inline int gdb_get_reg128(uint8_t *mem_buf, uint64_t val_hi,
-+                                 uint64_t val_lo)
-+{
-+#ifdef TARGET_WORDS_BIGENDIAN
-+    stq_p(mem_buf, val_hi);
-+    stq_p(mem_buf + 8, val_lo);
-+#else
-+    stq_p(mem_buf, val_lo);
-+    stq_p(mem_buf + 8, val_hi);
-+#endif
-+    return 16;
-+}
-+
- #if TARGET_LONG_BITS == 64
- #define gdb_get_regl(buf, val) gdb_get_reg64(buf, val)
- #define ldtul_p(addr) ldq_p(addr)
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 19a57a17da5..b417b33cd3b 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -105,21 +105,17 @@ static int aarch64_fpu_gdb_get_reg(CPUARMState *env, uint8_t *buf, int reg)
+ {
+     switch (reg) {
+     case 0 ... 31:
+-        /* 128 bit FP register */
+-        {
+-            uint64_t *q = aa64_vfp_qreg(env, reg);
+-            stq_le_p(buf, q[0]);
+-            stq_le_p(buf + 8, q[1]);
+-            return 16;
+-        }
++    {
++        /* 128 bit FP register - quads are in LE order */
++        uint64_t *q = aa64_vfp_qreg(env, reg);
++        return gdb_get_reg128(buf, q[1], q[0]);
++    }
+     case 32:
+         /* FPSR */
+-        stl_p(buf, vfp_get_fpsr(env));
+-        return 4;
++        return gdb_get_reg32(buf, vfp_get_fpsr(env));
+     case 33:
+         /* FPCR */
+-        stl_p(buf, vfp_get_fpcr(env));
+-        return 4;
++        return gdb_get_reg32(buf,vfp_get_fpcr(env));
+     default:
+         return 0;
+     }
 -- 
 2.20.1
 
