@@ -2,54 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3692153580
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 17:45:01 +0100 (CET)
-Received: from localhost ([::1]:52606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E79FC153592
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 17:49:30 +0100 (CET)
+Received: from localhost ([::1]:52694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izNnQ-0003Yr-Pb
-	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 11:45:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46599)
+	id 1izNrl-0006jc-Oo
+	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 11:49:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49363)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jonathan.cameron@huawei.com>) id 1izNmE-0002Qa-6E
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 11:43:47 -0500
+ (envelope-from <eblake@redhat.com>) id 1izNqw-0006Fa-Fi
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 11:48:39 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jonathan.cameron@huawei.com>) id 1izNmC-0003gz-FI
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 11:43:46 -0500
-Received: from lhrrgout.huawei.com ([185.176.76.210]:2071 helo=huawei.com)
+ (envelope-from <eblake@redhat.com>) id 1izNqt-0007gr-S8
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 11:48:37 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:35042
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jonathan.cameron@huawei.com>)
- id 1izNm9-0002N8-3b; Wed, 05 Feb 2020 11:43:41 -0500
-Received: from lhreml703-cah.china.huawei.com (unknown [172.18.7.106])
- by Forcepoint Email with ESMTP id 2BCBD87DFEB78505D9D6;
- Wed,  5 Feb 2020 16:43:30 +0000 (GMT)
-Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- lhreml703-cah.china.huawei.com (10.201.108.44) with Microsoft SMTP Server
- (TLS) id 14.3.408.0; Wed, 5 Feb 2020 16:43:29 +0000
-Received: from localhost (10.202.226.57) by lhreml710-chm.china.huawei.com
- (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5; Wed, 5 Feb 2020
- 16:43:29 +0000
-Date: Wed, 5 Feb 2020 16:43:28 +0000
-From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To: Dongjiu Geng <gengdongjiu@huawei.com>
-Subject: Re: [PATCH v22 4/9] ACPI: Build Hardware Error Source Table
-Message-ID: <20200205164328.00006f1e@Huawei.com>
-In-Reply-To: <1578483143-14905-5-git-send-email-gengdongjiu@huawei.com>
-References: <1578483143-14905-1-git-send-email-gengdongjiu@huawei.com>
- <1578483143-14905-5-git-send-email-gengdongjiu@huawei.com>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; i686-w64-mingw32)
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1izNqt-0007cz-Mn
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 11:48:35 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1580921314;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=yK0HSOecBk6WK2sRkPWimI+Z9fOMB71Ut7lTViBjgYI=;
+ b=UCHdwTW2UpD3Acb/l5+nM1b6BHcnA6QeaOGV5Jvs3um65cWL2jCgrTs/I5F6iuvQ1TIkPg
+ 8skBjIs27Bmk/DqzpycD2K+PCs94RS1U7ajD7yv+V/W6jlgXgOdzI1C75f85y4HkMj7ro0
+ ycHkvPh+cXbaDqu82s7yWdqOUgEynHk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-208-KiX8QpoCPAeAEK3b1VE3dw-1; Wed, 05 Feb 2020 11:48:29 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CE1F48010E6;
+ Wed,  5 Feb 2020 16:48:28 +0000 (UTC)
+Received: from [10.3.116.181] (ovpn-116-181.phx2.redhat.com [10.3.116.181])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 24E9486C4A;
+ Wed,  5 Feb 2020 16:48:27 +0000 (UTC)
+Subject: Re: [PATCH v2 09/33] block: Add generic bdrv_inherited_options()
+To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
+References: <20200204170848.614480-1-mreitz@redhat.com>
+ <20200204170848.614480-10-mreitz@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <87197a53-64e5-ec56-acff-13288256dee0@redhat.com>
+Date: Wed, 5 Feb 2020 10:48:27 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
+In-Reply-To: <20200204170848.614480-10-mreitz@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: KiX8QpoCPAeAEK3b1VE3dw-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.202.226.57]
-X-ClientProxiedBy: lhreml712-chm.china.huawei.com (10.201.108.63) To
- lhreml710-chm.china.huawei.com (10.201.108.61)
-X-CFilter-Loop: Reflected
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 185.176.76.210
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,153 +75,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, peter.maydell@linaro.org, ehabkost@redhat.com,
- kvm@vger.kernel.org, mst@redhat.com, mtosatti@redhat.com,
- qemu-devel@nongnu.org, linuxarm@huawei.com, shannon.zhaosl@gmail.com,
- zhengxiang9@huawei.com, qemu-arm@nongnu.org, james.morse@arm.com,
- xuwei5@huawei.com, imammedo@redhat.com, pbonzini@redhat.com, rth@twiddle.net
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 8 Jan 2020 19:32:18 +0800
-Dongjiu Geng <gengdongjiu@huawei.com> wrote:
-
-> This patch builds Hardware Error Source Table(HEST) via fw_cfg blobs.
-> Now it only supports ARMv8 SEA, a type of Generic Hardware Error
-> Source version 2(GHESv2) error source. Afterwards, we can extend
-> the supported types if needed. For the CPER section, currently it
-> is memory section because kernel mainly wants userspace to handle
-> the memory errors.
+On 2/4/20 11:08 AM, Max Reitz wrote:
+> After the series this patch belongs to, we want to have a common
+> BdrvChildClass that encompasses all of child_file, child_format, and
+> child_backing.  Such a single class needs a single .inherit_options()
+> implementation, and this patch introduces it.
 > 
-> This patch follows the spec ACPI 6.2 to build the Hardware Error
-> Source table. For more detailed information, please refer to
-> document: docs/specs/acpi_hest_ghes.rst
+> The next patch will show how the existing implementations can fall back
+> to it just by passing appropriate BdrvChildRole and parent_is_format
+> values.
 > 
-> build_append_ghes_notify() will help to add Hardware Error Notification
-> to ACPI tables without using packed C structures and avoid endianness
-> issues as API doesn't need explicit conversion.
-> 
-> Signed-off-by: Dongjiu Geng <gengdongjiu@huawei.com>
-> Signed-off-by: Xiang Zheng <zhengxiang9@huawei.com>
-> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-> Acked-by: Xiang Zheng <zhengxiang9@huawei.com>
-
-Hi. 
-
-I was forwards porting my old series adding CCIX error injection support
-and came across a place this could 'possibly' be improved.
-
-I say possibly because it's really about enabling more flexibility
-in how this code is reused than actually 'fixing' anything here.
-
-If you don't make the change here, I'll just add a precursor patch to my
-series.  Just seems nice to tidy it up at source.
-
-The rest of the parts of this series I am using seems to work great.
-
-Thanks!
-
-Jonathan
-
+> Signed-off-by: Max Reitz <mreitz@redhat.com>
 > ---
->  hw/acpi/ghes.c           | 118 ++++++++++++++++++++++++++++++++++++++++++++++-
->  hw/arm/virt-acpi-build.c |   2 +
->  include/hw/acpi/ghes.h   |  40 ++++++++++++++++
->  3 files changed, 159 insertions(+), 1 deletion(-)
+>   block.c | 84 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+>   1 file changed, 84 insertions(+)
 > 
-> diff --git a/hw/acpi/ghes.c b/hw/acpi/ghes.c
-> index b7fdbbb..9d37798 100644
-> --- a/hw/acpi/ghes.c
-> +++ b/hw/acpi/ghes.c
-> @@ -34,9 +34,42 @@
-> +
-...
-> +/* Build Generic Hardware Error Source version 2 (GHESv2) */
-> +static void build_ghes_v2(GArray *table_data, int source_id, BIOSLinker *linker)
-This function takes source ID, which uses the enum of all sources registered.
-However, it doesn't use it to locate the actual physical addresses.
 
-Currently the code effectively assumes the value is 0.
+No impact until the next patch, but the division of patches was wise.
 
-> +{
-> +    uint64_t address_offset;
+
 > +    /*
-> +     * Type:
-> +     * Generic Hardware Error Source version 2(GHESv2 - Type 10)
+> +     * First, decide whether to set, clear, or leave BDRV_O_PROTOCOL.
+> +     * Generally, the question to answer is: Should this child be
+> +     * format-probed by default?
 > +     */
-> +    build_append_int_noprefix(table_data, ACPI_GHES_SOURCE_GENERIC_ERROR_V2, 2);
-> +    /* Source Id */
-> +    build_append_int_noprefix(table_data, source_id, 2);
-> +    /* Related Source Id */
-> +    build_append_int_noprefix(table_data, 0xffff, 2);
-> +    /* Flags */
-> +    build_append_int_noprefix(table_data, 0, 1);
-> +    /* Enabled */
-> +    build_append_int_noprefix(table_data, 1, 1);
-> +
-> +    /* Number of Records To Pre-allocate */
-> +    build_append_int_noprefix(table_data, 1, 4);
-> +    /* Max Sections Per Record */
-> +    build_append_int_noprefix(table_data, 1, 4);
-> +    /* Max Raw Data Length */
-> +    build_append_int_noprefix(table_data, ACPI_GHES_MAX_RAW_DATA_LENGTH, 4);
-> +
-> +    address_offset = table_data->len;
-> +    /* Error Status Address */
-> +    build_append_gas(table_data, AML_AS_SYSTEM_MEMORY, 0x40, 0,
-> +                     4 /* QWord access */, 0);
-> +    bios_linker_loader_add_pointer(linker, ACPI_BUILD_TABLE_FILE,
-> +        address_offset + GAS_ADDR_OFFSET,
-> +        sizeof(uint64_t), ACPI_GHES_ERRORS_FW_CFG_FILE, 0);
-
-The offset here would need to be source_id * sizeof(uint64_t) I think
-
 > +
 > +    /*
-> +     * Notification Structure
-> +     * Now only enable ARMv8 SEA notification type
+> +     * Pure and non-filtered data children of non-format nodes should
+> +     * be probed by default (even when the node itself has BDRV_O_PROTOCOL
+> +     * set).  This only affects a very limited set of drivers (namely
+> +     * quorum and blkverify when this comment was written).
+> +     * Force-clear BDRV_O_PROTOCOL then.
 > +     */
-> +    build_ghes_hw_error_notification(table_data, ACPI_GHES_NOTIFY_SEA);
-Perhaps a switch for this to allow for other options later.
-
-	switch (source_id) {
-	case ACPI_HEST_SRC_ID_SEA:
-		...
-		break;
-	default:
-	//print some error message.
-
-	}
-> +
-> +    /* Error Status Block Length */
-> +    build_append_int_noprefix(table_data, ACPI_GHES_MAX_RAW_DATA_LENGTH, 4);
+> +    if (!parent_is_format &&
+> +        (role & (BDRV_CHILD_DATA | BDRV_CHILD_METADATA |
+> +                 BDRV_CHILD_FILTERED)) ==
+> +            BDRV_CHILD_DATA)
+> +    {
+> +        flags &= ~BDRV_O_PROTOCOL;
+> +    }
 > +
 > +    /*
-> +     * Read Ack Register
-> +     * ACPI 6.1: 18.3.2.8 Generic Hardware Error Source
-> +     * version 2 (GHESv2 - Type 10)
+> +     * All children of format nodes (except for COW children) and all
+> +     * metadata children in general should never be format-probed.
+> +     * Force-set BDRV_O_PROTOCOL then.
 > +     */
-> +    address_offset = table_data->len;
-> +    build_append_gas(table_data, AML_AS_SYSTEM_MEMORY, 0x40, 0,
-> +                     4 /* QWord access */, 0);
-> +    bios_linker_loader_add_pointer(linker, ACPI_BUILD_TABLE_FILE,
-> +        address_offset + GAS_ADDR_OFFSET,
-> +        sizeof(uint64_t), ACPI_GHES_ERRORS_FW_CFG_FILE,
-> +        ACPI_GHES_ERROR_SOURCE_COUNT * sizeof(uint64_t));
+> +    if ((parent_is_format && !(role & BDRV_CHILD_COW)) ||
+> +        (role & BDRV_CHILD_METADATA))
 
-Offset of (ACPI_GHES_ERROR_SOURCE_COUNT + source_id) * sizeof(uint64_t)
+Should this use 'else if', to make it obvious that we never have a path 
+that both force-clears and force-sets BDRV_O_PROTOCOL?  But a careful 
+reading shows that the two 'if' are mutually exclusive, even without the 
+second using 'else if'.
 
+> +    {
+> +        flags |= BDRV_O_PROTOCOL;
+> +    }
 > +
-> +    /*
-> +     * Read Ack Preserve
-> +     * We only provide the first bit in Read Ack Register to OSPM to write
-> +     * while the other bits are preserved.
-> +     */
-> +    build_append_int_noprefix(table_data, ~0x1ULL, 8);
-> +    /* Read Ack Write */
-> +    build_append_int_noprefix(table_data, 0x1, 8);
-> +}
 
+Looks good!  Lots of decision trees, but also lots of good comments 
+backing up that complexity.
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
