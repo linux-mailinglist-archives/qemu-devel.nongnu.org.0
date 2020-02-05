@@ -2,65 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB426153991
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 21:34:30 +0100 (CET)
-Received: from localhost ([::1]:56060 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CD37153997
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 21:37:17 +0100 (CET)
+Received: from localhost ([::1]:56118 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izRNV-000075-UY
-	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 15:34:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34785)
+	id 1izRQC-0004lA-HB
+	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 15:37:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35625)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <wainersm@redhat.com>) id 1izRM9-0006iX-K2
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 15:33:06 -0500
+ (envelope-from <eblake@redhat.com>) id 1izRNB-0000YT-E3
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 15:34:11 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <wainersm@redhat.com>) id 1izRM8-0004KG-I9
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 15:33:05 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:40321
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <eblake@redhat.com>) id 1izRNA-0000J7-Eo
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 15:34:09 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:28228
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <wainersm@redhat.com>) id 1izRM8-0004IC-E4
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 15:33:04 -0500
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1izRNA-0000H9-9q
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 15:34:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580934784;
+ s=mimecast20190719; t=1580934848;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=CGSpo52D3fZW4+N8anSSrynW9tfxc5ispo3LN8n7cwk=;
- b=dEA6oKY/IFVTys2pOP+lgTs37lOLBxVOJLOyuBylBX1K8M1qBN8MSe3FuaQrikzyUvyThg
- UM/s49PiPUj24RkF8AUVS6j+wsUbpKA+10j1C0DdlKq+L55DLdlQYUyeblHdk88+1BYIsN
- JA1ax8MlaSG+kf2qIZi4m6bhR9KI+bE=
+ bh=7JN2k2cLKwotHm2lULx+byWeE7lu315FR7xFVDciwWU=;
+ b=aZ0rD8KTBizEw4XAty7Kj9ONnkNOz31V6TvD1N3P8mAAeOcaZjnjIuecUh0HZ3GV0vmAcR
+ XEAYRe/rDE/1XRYKl7EEQQMzi7Hqur4tT0JAG38+4bPPpx1P8b3K20UlPcQqs8qkg8GoI0
+ YoUeLiK9YynW9aLlO+wE9iN0LMi2jMM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-331-N1omvasKNKejBFW67Drqiw-1; Wed, 05 Feb 2020 15:33:02 -0500
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-49-j6eu7z8NOFKjkqfcRRhW1Q-1; Wed, 05 Feb 2020 15:33:45 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 314CE8010F9;
- Wed,  5 Feb 2020 20:33:01 +0000 (UTC)
-Received: from virtlab501.virt.lab.eng.bos.redhat.com
- (virtlab501.virt.lab.eng.bos.redhat.com [10.19.152.162])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 67C47100164D;
- Wed,  5 Feb 2020 20:33:00 +0000 (UTC)
-From: Wainer dos Santos Moschetta <wainersm@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v4 8/8] travis.yml: Enable acceptance KVM tests
-Date: Wed,  5 Feb 2020 15:32:50 -0500
-Message-Id: <20200205203250.30526-9-wainersm@redhat.com>
-In-Reply-To: <20200205203250.30526-1-wainersm@redhat.com>
-References: <20200205203250.30526-1-wainersm@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 78BDC8010FB;
+ Wed,  5 Feb 2020 20:33:43 +0000 (UTC)
+Received: from [10.3.116.181] (ovpn-116-181.phx2.redhat.com [10.3.116.181])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 04D5589E81;
+ Wed,  5 Feb 2020 20:33:42 +0000 (UTC)
+Subject: Re: [PATCH v2 13/33] block: Add child_of_bds
+To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
+References: <20200204170848.614480-1-mreitz@redhat.com>
+ <20200204170848.614480-14-mreitz@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <04d25165-4152-0696-4c09-b7e6109c945e@redhat.com>
+Date: Wed, 5 Feb 2020 14:33:42 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: N1omvasKNKejBFW67Drqiw-1
+In-Reply-To: <20200204170848.614480-14-mreitz@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: j6eu7z8NOFKjkqfcRRhW1Q-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,67 +76,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: drjones@redhat.com, ehabkost@redhat.com, philmd@redhat.com,
- thuth@redhat.com, crosa@redhat.com, alex.bennee@linaro.org
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Some acceptance tests require KVM or they are skipped. Travis
-enables nested virtualization by default with Ubuntu
-18.04 (Bionic) on x86_64. So in order to run the kvm tests, this
-changed the acceptance builder to run in a Bionic VM. Also
-it was needed to ensure the current user has rw permission
-to /dev/kvm.
+On 2/4/20 11:08 AM, Max Reitz wrote:
+> Any current user of child_file, child_format, and child_backing can and
+> should use this generic BdrvChildClass instead, as it can handle all of
+> these cases.  However, to be able to do so, the users must pass the
+> appropriate BdrvChildRole when the child is created/attached.  (The
+> following commits will take care of that.)
+> 
+> Signed-off-by: Max Reitz <mreitz@redhat.com>
+> ---
+>   block.c                   | 27 +++++++++++++++++++++++++++
+>   include/block/block_int.h |  1 +
+>   2 files changed, 28 insertions(+)
+> 
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
-python3.5-venv is not packaged on Bionic. So it was replaced
-with python3.6-venv.
-
-Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
----
- .travis.yml | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
-
-diff --git a/.travis.yml b/.travis.yml
-index 1ae645e9fc..76fc828887 100644
---- a/.travis.yml
-+++ b/.travis.yml
-@@ -2,6 +2,7 @@
- # Additional builds with specific requirements for a full VM need to
- # be added as additional matrix: entries later on
- dist: xenial
-+sudo: true
- language: c
- compiler:
-   - gcc
-@@ -83,6 +84,9 @@ git:
-=20
- before_script:
-   - if command -v ccache ; then ccache --zero-stats ; fi
-+  - if [[ -c /dev/kvm ]] && ! [[ -r /dev/kvm && -w /dev/kvm ]]; then
-+        sudo chmod o+rw /dev/kvm ;
-+    fi
-   - mkdir -p ${BUILD_DIR} && cd ${BUILD_DIR}
-   - ${SRC_DIR}/configure ${BASE_CONFIG} ${CONFIG} || { cat config.log && e=
-xit 1; }
- script:
-@@ -272,12 +276,13 @@ matrix:
-         - TEST_CMD=3D"make check-acceptance"
-       after_script:
-         - python3 -c 'import json; r =3D json.load(open("tests/results/lat=
-est/results.json")); [print(t["logfile"]) for t in r["tests"] if t["status"=
-] not in ("PASS", "SKIP")]' | xargs cat
-+      dist: bionic
-       addons:
-         apt:
-           packages:
-             - python3-pil
-             - python3-pip
--            - python3.5-venv
-+            - python3.6-venv
-             - tesseract-ocr
-             - tesseract-ocr-eng
-=20
---=20
-2.24.1
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
