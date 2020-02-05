@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9141715249F
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 03:02:14 +0100 (CET)
-Received: from localhost ([::1]:40486 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DDA3152520
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 04:10:32 +0100 (CET)
+Received: from localhost ([::1]:40834 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izA17-0000fS-60
-	for lists+qemu-devel@lfdr.de; Tue, 04 Feb 2020 21:02:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51521)
+	id 1izB5C-0004a5-Cu
+	for lists+qemu-devel@lfdr.de; Tue, 04 Feb 2020 22:10:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44002)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jkz@google.com>) id 1izA08-0000Da-4i
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 21:01:14 -0500
+ (envelope-from <shan.gavin@gmail.com>) id 1izB4J-00048t-Ez
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 22:09:36 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jkz@google.com>) id 1izA06-00037o-TX
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 21:01:12 -0500
-Received: from mail-vk1-xa41.google.com ([2607:f8b0:4864:20::a41]:43821)
+ (envelope-from <shan.gavin@gmail.com>) id 1izB4H-0006nH-DE
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 22:09:35 -0500
+Received: from mail-qv1-xf42.google.com ([2607:f8b0:4864:20::f42]:44683)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <jkz@google.com>) id 1izA06-00030s-Mq
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 21:01:10 -0500
-Received: by mail-vk1-xa41.google.com with SMTP id m195so97085vkh.10
- for <qemu-devel@nongnu.org>; Tue, 04 Feb 2020 18:01:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ (Exim 4.71) (envelope-from <shan.gavin@gmail.com>)
+ id 1izB4F-0006g0-7k; Tue, 04 Feb 2020 22:09:31 -0500
+Received: by mail-qv1-xf42.google.com with SMTP id n8so442188qvg.11;
+ Tue, 04 Feb 2020 19:09:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=7iyqtiN5AJMc1B2QIPW9fX/vljNiQQ+Ocu7OCIiew60=;
- b=VhriZoZOalRWMr+AKaH4AUzRKPZt9i0zLJ9OAmDFtX2GCciDT8NMcxXesntwRuPiOD
- /C/oWJMpJTxD/yPPd2/AvHnpDusjD991n/Y3E9gVKXfLfcanuk3jK9/dyYqSDZeSQCh9
- azjQM9BE0xn8AiYXzNoZqCB0qpiNnUupPCZN3v5uPLe9XvsxwFo56dnsXkOcuKZ9z7jA
- jQ0D2tOMlcxH04K4aXboVY7lYV+kBnXrrFvE2NYJVrh4PAxbLyKgLwpZB5SsmEIyURVT
- VSc0tUljUKXT8+5KDgR2JP+ncScE3/j79XEsZxSTyGHxWdlH8fxiLznwF4XpW9+9Pap/
- 1u+Q==
+ :cc; bh=0PE2uu4ZBM2cwypMrN5QyWKooyeC7GQaJC62Y5Zgbc4=;
+ b=OoSnevlRXNwVaZtJd/vmiaRJFn/Pt6OxAKuN+IWYTuMyPyB2rxjfSFamFs5qbci0Xb
+ 6PuWQDoY4ZTpOMFCmZ+Yw5Li7Bl6AGVwlUjx56QoXzUYI28nGEl8XLPc5TntrbyFNRGx
+ YqCfJB7oPjv6OoXzRpNGxiZz96ojQfeT/CZGwSx331WGF/AtosuqTFh2MjyqB+8x3TZh
+ pSJhaxrSuWX/TQpxmxUorqMqLtJvaaVwSQQIQ2i3NPNSXgsGyGm0OZZ51HjIZY1aGJrc
+ k2D3qFb6lPdWw/Y96oFCR6DS2rVQbDme0lmWDaxh8/BtEDwNF/K6qaSDicIwedvrErZu
+ h1pQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=7iyqtiN5AJMc1B2QIPW9fX/vljNiQQ+Ocu7OCIiew60=;
- b=o2fFKPJTCQZsE2MK/vcust01vof6teDNZAGe/2TCUpWDsp8YD6O++axPSTCphcUbN8
- +31G/qy0ZMgQ0/2EUp7rB0J4AabH0TpIH6L/QqLNp3FbACwLIdVOLbkGGoFplPfQA90F
- puvJ4ObfoBGkzhItWVnNUh56WsJXZRQBvbY/6Pttt/ou9DK1Urf8QKbE9HqcetEaORe0
- gjPSXJ8yZtaVHjsjy6zV0JBFaEhLttd67fJMJ2JTSMjw2wGcxvAIwEnBo8OtQU5N1SLH
- Cf+4xxGYgEJqaT4WumugYlI1pJx7+joB+v3b3ft8p5jdAuXMx/uudLm1pDFHlhoAOCO1
- VgmA==
-X-Gm-Message-State: APjAAAWln2jCaMe6XjN0Kfls84XrHjqNOOnSZmCwM8gt1I8gUDvQSiCn
- 71m59ub1yBDeZnpZ8nHbbQj1ti3bF/sR03JdfJ9Ywg==
-X-Google-Smtp-Source: APXvYqwjvtI2wfbKrTp+miy7l2dIOu14kcIANTJSnTXXZmsfYtTkVft9RFU1dTEpagqy48IEk36FyqNRV2riGI4Y2AY=
-X-Received: by 2002:ac5:c9a6:: with SMTP id f6mr299726vkm.54.1580868069005;
- Tue, 04 Feb 2020 18:01:09 -0800 (PST)
+ bh=0PE2uu4ZBM2cwypMrN5QyWKooyeC7GQaJC62Y5Zgbc4=;
+ b=mMrHiDDew1dXq7syGIwTEVEeIJNjeJhYrqJxEWC+/w4BhMx/15svOSdhhAuE5XoGSH
+ BeEABlsT3ZNxW36EtshIB/3ohAovcwpyjtQyW6fkStEYvLd6fzjFXW2xLViCGgXco9ac
+ 1xd/7hundoMAkyRK/64jGcAvyoHtlySAk0bPv1L6qGhPd6NJ8GyGQQllHHcONN5rshoH
+ fpHu6NZ5EpbaxymVlnPX4gG9WcgWAvmfvQqrUAK8FruP482gT36fzxKHUaghYl0IbCVv
+ 4gxDp0bf8hC9uURIydapEazlasKeFTF91rMa9uTYEset1u+2CG9gKWOqQISyImY73fCR
+ PCwA==
+X-Gm-Message-State: APjAAAXARnpgzqHfkOjcTBeFes2MboYHhy3bhRDmq2AipBmsXSw0GOr1
+ Q2r69BSh2PS68yWuP2VQzfqp4OuVJhB65rvS0zA=
+X-Google-Smtp-Source: APXvYqzuvjw6pkrNp/xOeiEVRMBLTzHpcihuy+LVoldUqAJDx3fw42vPX6H/WcNGE/EYTnhCc/BHgGGjbbli7IfhBBU=
+X-Received: by 2002:a0c:fe10:: with SMTP id x16mr30285840qvr.188.1580872170282; 
+ Tue, 04 Feb 2020 19:09:30 -0800 (PST)
 MIME-Version: 1.0
-References: <20200201122746.1478003-1-laurent@vivier.eu>
- <CADgy-2uVp2hyqFncFa2T7m8W5vPt=kigdiqosLQFgdB8Df81Gw@mail.gmail.com>
- <187a66d8-5afd-b3d6-81df-6b99468bff19@vivier.eu>
-In-Reply-To: <187a66d8-5afd-b3d6-81df-6b99468bff19@vivier.eu>
-From: Josh Kunz <jkz@google.com>
-Date: Tue, 4 Feb 2020 18:00:57 -0800
-Message-ID: <CADgy-2uwAjkLaeTjAuWMgM1inmEGyN4jseZr+eqHbZDvU3XfNw@mail.gmail.com>
-Subject: Re: [PATCH 0/4] linux-user: fix use of SIGRTMIN
-To: Laurent Vivier <laurent@vivier.eu>
-Cc: QEMU Developers <qemu-devel@nongnu.org>, milos.stojanovic@rt-rk.com, 
- Matus Kysel <mkysel@tachyum.com>,
- Aleksandar Markovic <aleksandar.markovic@rt-rk.com>, 
- Marlies Ruck <marlies.ruck@gmail.com>, Peter Maydell <peter.maydell@linaro.org>,
- Taylor Simpson <tsimpson@quicinc.com>, Riku Voipio <riku.voipio@iki.fi>
-Content-Type: text/plain; charset="UTF-8"
+References: <20191219040612.28431-1-gshan@redhat.com>
+ <d972631d-7db7-b6d5-61b8-244ae2c85882@redhat.com>
+ <7f6e29e6-1df9-4513-79ba-b53873b0735e@ozlabs.ru>
+ <544f261e4b9c97f1d3a5fb64cef42ba5@kernel.org>
+ <ff584722-1b51-e538-7c45-c71cdc40105f@redhat.com>
+ <c61c95c434dbcf97a0c946f0993d4843@kernel.org>
+ <8a286e1c-c3f3-3052-e497-d44a90667451@redhat.com>
+ <CAFEAcA-wKbF7mYToaAsxDxahuJ_X3_i3Z+8DqXmj8mKySmTW7Q@mail.gmail.com>
+In-Reply-To: <CAFEAcA-wKbF7mYToaAsxDxahuJ_X3_i3Z+8DqXmj8mKySmTW7Q@mail.gmail.com>
+From: Shan Gavin <shan.gavin@gmail.com>
+Date: Wed, 5 Feb 2020 14:09:19 +1100
+Message-ID: <CAOL5Tw=CQ-oWd1=+xtFHyLEieAENt83d27iK11SwtsF7qhOy9Q@mail.gmail.com>
+Subject: Re: [RFC PATCH] hw/arm/virt: Support NMI injection
+To: Peter Maydell <peter.maydell@linaro.org>
+Content-Type: multipart/alternative; boundary="000000000000252431059dcb7c4a"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::a41
+X-Received-From: 2607:f8b0:4864:20::f42
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,27 +77,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Andrew Jones <drjones@redhat.com>, Gavin Shan <gshan@redhat.com>,
+ jthierry@redhat.com, Alexey Kardashevskiy <aik@ozlabs.ru>,
+ Marc Zyngier <maz@kernel.org>, QEMU Developers <qemu-devel@nongnu.org>,
+ Eric Auger <eric.auger@redhat.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Feb 4, 2020 at 3:55 AM Laurent Vivier <laurent@vivier.eu> wrote:
-> We should add signal 63 here, but it's becoming not very clean.
+--000000000000252431059dcb7c4a
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-https://golang.org/issue/33746 has some discussion of the issue. The
-Go maintainers wanted to clean this up rather than just adding 63. The
-patch is on ice right now because it was unclear if QEMU was going to
-add a breaking patch. Now that QEMU has this behavior, I think they
-would be willing to accept it, or something similar.
+Peter Maydell <peter.maydell@linaro.org> =E4=BA=8E2020=E5=B9=B42=E6=9C=884=
+=E6=97=A5=E5=91=A8=E4=BA=8C =E4=B8=8B=E5=8D=889:22=E5=86=99=E9=81=93=EF=BC=
+=9A
 
-> I think we could also simply ignore the error. As returning an error is
-> generally an abort condition even if the signal is never used, and it's
-> what we would do in go to avoid the problem. We will have problem later
-> with programs that really want to use the signal but I don't think we
-> can do better (do we know programs using 31 RT signals? or starting by
-> the end of the list?).
+> On Tue, 4 Feb 2020 at 03:51, Gavin Shan <gshan@redhat.com> wrote:
+> > Note: I'm still investigating the code to see how SError can be injecte=
+d
+> when TCG
+> > is used. I think we need same function when TCG is enabled, or it's
+> something for
+> > future.
+>
+> TCG doesn't currently implement SError -- it could be added, but
+> there's a bit of plumbing you'd need to do to get it to work and to
+> ensure the exception is taken, routed and masked correctly.
+>
+>
+Thanks, Peter. Yeah, I will post v2 RFC patch shortly. Please let me
+know if there are anything wrong :)
 
-My general sense is that RT signals are very rarely used, and the only
-uses I can find are based off SIGRTMIN. This sounds reasonable to me.
+Thanks,
+Gavin
 
-Josh
+
+> thanks
+> -- PMM
+>
+
+--000000000000252431059dcb7c4a
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">Peter Maydell &lt;<a href=3D"mailto:peter=
+.maydell@linaro.org">peter.maydell@linaro.org</a>&gt; =E4=BA=8E2020=E5=B9=
+=B42=E6=9C=884=E6=97=A5=E5=91=A8=E4=BA=8C =E4=B8=8B=E5=8D=889:22=E5=86=99=
+=E9=81=93=EF=BC=9A<br></div><div class=3D"gmail_quote"><blockquote class=3D=
+"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(2=
+04,204,204);padding-left:1ex">On Tue, 4 Feb 2020 at 03:51, Gavin Shan &lt;<=
+a href=3D"mailto:gshan@redhat.com" target=3D"_blank">gshan@redhat.com</a>&g=
+t; wrote:<br>
+&gt; Note: I&#39;m still investigating the code to see how SError can be in=
+jected when TCG<br>
+&gt; is used. I think we need same function when TCG is enabled, or it&#39;=
+s something for<br>
+&gt; future.<br>
+<br>
+TCG doesn&#39;t currently implement SError -- it could be added, but<br>
+there&#39;s a bit of plumbing you&#39;d need to do to get it to work and to=
+<br>
+ensure the exception is taken, routed and masked correctly.<br>
+<br></blockquote><div><br></div><div>Thanks, Peter. Yeah, I will post v2 RF=
+C patch shortly. Please let me</div><div>know if there are anything wrong :=
+)</div><div><br>Thanks,<br>Gavin</div><div>=C2=A0</div><blockquote class=3D=
+"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(2=
+04,204,204);padding-left:1ex">
+thanks<br>
+-- PMM<br>
+</blockquote></div></div>
+
+--000000000000252431059dcb7c4a--
 
