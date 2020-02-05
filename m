@@ -2,84 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0F4215299D
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 12:05:19 +0100 (CET)
-Received: from localhost ([::1]:44936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D25115299A
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 12:04:55 +0100 (CET)
+Received: from localhost ([::1]:44926 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izIUg-0005pB-J4
-	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 06:05:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45229)
+	id 1izIUI-0005Jj-8t
+	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 06:04:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44945)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david.edmondson@oracle.com>) id 1izISs-0003wz-9A
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 06:03:27 -0500
+ (envelope-from <kwolf@redhat.com>) id 1izISV-0003eQ-5Z
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 06:03:04 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david.edmondson@oracle.com>) id 1izISq-0002Dc-NN
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 06:03:26 -0500
-Received: from userp2130.oracle.com ([156.151.31.86]:45610)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <david.edmondson@oracle.com>)
- id 1izISm-0001L6-LY; Wed, 05 Feb 2020 06:03:21 -0500
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 015AwJPG185815;
- Wed, 5 Feb 2020 11:03:17 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=corp-2019-08-05;
- bh=X1fBIJsTAVtqLAS8MxRAC49vOAJ08A6yXbAdQ+Olk/8=;
- b=hxQ1Hzj68Q7/mpXhuG2QOhCHAOAkm+IT7HUtz9wzVqZQzk5oDxLNw+qXXCnXp4St8NSQ
- KXVIxGF1hPyJvKorQlsusX1zjywJkXyFXjaPPyWNOeoNW8g0zcQlbLsVjtVWyBegmyCM
- SoH8EaqhgzxRFBJaclKGPBiH/8VhUVirV03ejvqh2KfYH022qJalPbus01yerEgjGpwk
- aaEZYdK1DSpi3YaYXPmLpRZWdPSw/Bd9gH34krk3od9MIHj3xBY3KgNBhmnWyOkY74pY
- Qqz+zKTzzI2yrm7mY74SIStFSjbZPJMBxdPelEomUgW2JvcMqxWUBC7GDa2c6TvGVDFy Cw== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
- by userp2130.oracle.com with ESMTP id 2xykbp29b3-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 05 Feb 2020 11:03:17 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
- by aserp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 015Awcfi123973;
- Wed, 5 Feb 2020 11:03:16 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
- by aserp3030.oracle.com with ESMTP id 2xykbrk3b2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 05 Feb 2020 11:03:16 +0000
-Received: from abhmp0018.oracle.com (abhmp0018.oracle.com [141.146.116.24])
- by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 015B3GAl030526;
- Wed, 5 Feb 2020 11:03:16 GMT
-Received: from disaster-area.hh.sledj.net (/81.149.164.25)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Wed, 05 Feb 2020 03:03:15 -0800
-Received: from localhost (disaster-area.hh.sledj.net [local])
- by disaster-area.hh.sledj.net (OpenSMTPD) with ESMTPA id e1918ac3;
- Wed, 5 Feb 2020 11:03:13 +0000 (UTC)
-From: David Edmondson <david.edmondson@oracle.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v4 1/1] qemu-img: Add --target-is-zero to convert
-Date: Wed,  5 Feb 2020 11:02:48 +0000
-Message-Id: <20200205110248.2009589-2-david.edmondson@oracle.com>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20200205110248.2009589-1-david.edmondson@oracle.com>
-References: <20200205110248.2009589-1-david.edmondson@oracle.com>
+ (envelope-from <kwolf@redhat.com>) id 1izIST-0000D1-BU
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 06:03:03 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:58180
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1izIST-00009a-5R
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 06:03:01 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1580900580;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=OVuAzJAhuAFKivRROuy2Tyt9JRqx9UEUFCROLUmtXkM=;
+ b=Xn0nXOz/Do2cq9J//vr+cf9+b0EUY6N8verHWWxu/Xir2/LYXAyAi7IQFgXn7rfx5icxNj
+ YMUSETKe86HvOuMY22hyBQ2R5MOjCUbnE8ZKz79sEKMPBT4yEbQmvuWjicUaeFgIksa3D2
+ ebu6nl+VLg1LEeMRxiGk3NOPfIuus4s=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-270-_oKoZvf6OUiKKrradIwmWg-1; Wed, 05 Feb 2020 06:02:57 -0500
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 374768C86D0;
+ Wed,  5 Feb 2020 11:02:56 +0000 (UTC)
+Received: from dhcp-200-226.str.redhat.com (dhcp-200-226.str.redhat.com
+ [10.33.200.226])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2D23D857BA;
+ Wed,  5 Feb 2020 11:02:52 +0000 (UTC)
+Date: Wed, 5 Feb 2020 12:02:50 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH 02/13] qcrypto-luks: implement encryption key management
+Message-ID: <20200205110250.GB5768@dhcp-200-226.str.redhat.com>
+References: <20200128171116.GU1446339@redhat.com>
+ <20200128173251.GZ1446339@redhat.com>
+ <20200130123847.GE6438@linux.fritz.box>
+ <20200130125319.GD1891831@redhat.com>
+ <87zhe5ovbv.fsf@dusky.pond.sub.org>
+ <20200130150108.GM1891831@redhat.com>
+ <877e18oq76.fsf@dusky.pond.sub.org>
+ <87mu9xxwzv.fsf@dusky.pond.sub.org>
+ <20200205093011.GA5768@dhcp-200-226.str.redhat.com>
+ <87tv45wdui.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9521
- signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=1
- malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1911140001 definitions=main-2002050089
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9521
- signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
- priorityscore=1501 malwarescore=0
- suspectscore=1 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1911140001
- definitions=main-2002050089
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 156.151.31.86
+In-Reply-To: <87tv45wdui.fsf@dusky.pond.sub.org>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: _oKoZvf6OUiKKrradIwmWg-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,142 +82,119 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Edmondson <david.edmondson@oracle.com>, qemu-block@nongnu.org
+Cc: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Maxim Levitsky <mlevitsk@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In many cases the target of a convert operation is a newly provisioned
-target that the user knows is blank (reads as zero). In this situation
-there is no requirement for qemu-img to wastefully zero out the entire
-device.
+Am 05.02.2020 um 11:03 hat Markus Armbruster geschrieben:
+> Kevin Wolf <kwolf@redhat.com> writes:
+>=20
+> > Am 05.02.2020 um 09:24 hat Markus Armbruster geschrieben:
+> >> Daniel, Kevin, any comments or objections to the QAPI schema design
+> >> sketch developed below?
+> >>=20
+> >> For your convenience, here's the result again:
+> >>=20
+> >>     { 'enum': 'LUKSKeyslotState',
+> >>       'data': [ 'active', 'inactive' ] }
+> >>     { 'struct': 'LUKSKeyslotActive',
+> >>       'data': { 'secret': 'str',
+> >>                 '*iter-time': 'int } }
+> >>     { 'union': 'LUKSKeyslotAmend',
+> >>       'base': { '*keyslot': 'int',
+> >>                 'state': 'LUKSKeyslotState' }
+> >>       'discriminator': 'state',
+> >>       'data': { 'active': 'LUKSKeyslotActive' } }
+> >
+> > I think one of the requirements was that you can specify the keyslot no=
+t
+> > only by using its number, but also by specifying the old secret.
+>=20
+> Quoting myself:
+>=20
+>   When we don't specify the slot#, then "new state active" selects an
+>   inactive slot (chosen by the system, and "new state inactive selects
+>   slots by secret (commonly just one slot).
+>=20
+> This takes care of selecting (active) slots by old secret with "new
+> state inactive".
 
-Add a new option, --target-is-zero, allowing the user to indicate that
-an existing target device will return zeros for all reads.
+"new secret inactive" can't select a slot by secret because 'secret'
+doesn't even exist for inactive.
 
-Signed-off-by: David Edmondson <david.edmondson@oracle.com>
----
- docs/interop/qemu-img.rst |  9 ++++++++-
- qemu-img-cmds.hx          |  4 ++--
- qemu-img.c                | 26 +++++++++++++++++++++++---
- 3 files changed, 33 insertions(+), 6 deletions(-)
+> I intentionally did not provide for selecting (active) slots by old
+> secret with "new state active", because that's unsafe update in place.
+>=20
+> We want to update secrets, of course.  But the safe way to do that is to
+> put the new secret into a free slot, and if that succeeds, deactivate
+> the old secret.  If deactivation fails, you're left with both old and
+> new secret, which beats being left with no secret when update in place
+> fails.
 
-diff --git a/docs/interop/qemu-img.rst b/docs/interop/qemu-img.rst
-index fa27e5c7b453..763036857451 100644
---- a/docs/interop/qemu-img.rst
-+++ b/docs/interop/qemu-img.rst
-@@ -214,6 +214,13 @@ Parameters to convert subcommand:
-   will still be printed.  Areas that cannot be read from the source will be
-   treated as containing only zeroes.
- 
-+.. option:: --target-is-zero
-+
-+  Assume that reading the destination image will always return
-+  zeros. This parameter is mutually exclusive with a destination image
-+  that has a backing file. It is required to also use the ``-n``
-+  parameter to skip image creation.
-+
- Parameters to dd subcommand:
- 
- .. program:: qemu-img-dd
-@@ -366,7 +373,7 @@ Command description:
-   4
-     Error on reading data
- 
--.. option:: convert [--object OBJECTDEF] [--image-opts] [--target-image-opts] [-U] [-C] [-c] [-p] [-q] [-n] [-f FMT] [-t CACHE] [-T SRC_CACHE] [-O OUTPUT_FMT] [-B BACKING_FILE] [-o OPTIONS] [-l SNAPSHOT_PARAM] [-S SPARSE_SIZE] [-m NUM_COROUTINES] [-W] FILENAME [FILENAME2 [...]] OUTPUT_FILENAME
-+.. option:: convert [--object OBJECTDEF] [--image-opts] [--target-image-opts] [--target-is-zero] [-U] [-C] [-c] [-p] [-q] [-n] [-f FMT] [-t CACHE] [-T SRC_CACHE] [-O OUTPUT_FMT] [-B BACKING_FILE] [-o OPTIONS] [-l SNAPSHOT_PARAM] [-S SPARSE_SIZE] [-m NUM_COROUTINES] [-W] FILENAME [FILENAME2 [...]] OUTPUT_FILENAME
- 
-   Convert the disk image *FILENAME* or a snapshot *SNAPSHOT_PARAM*
-   to disk image *OUTPUT_FILENAME* using format *OUTPUT_FMT*. It can
-diff --git a/qemu-img-cmds.hx b/qemu-img-cmds.hx
-index 3fd836ca9090..e6f98b75473f 100644
---- a/qemu-img-cmds.hx
-+++ b/qemu-img-cmds.hx
-@@ -39,9 +39,9 @@ SRST
- ERST
- 
- DEF("convert", img_convert,
--    "convert [--object objectdef] [--image-opts] [--target-image-opts] [-U] [-C] [-c] [-p] [-q] [-n] [-f fmt] [-t cache] [-T src_cache] [-O output_fmt] [-B backing_file] [-o options] [-l snapshot_param] [-S sparse_size] [-m num_coroutines] [-W] [--salvage] filename [filename2 [...]] output_filename")
-+    "convert [--object objectdef] [--image-opts] [--target-image-opts] [--target-is-zero] [-U] [-C] [-c] [-p] [-q] [-n] [-f fmt] [-t cache] [-T src_cache] [-O output_fmt] [-B backing_file] [-o options] [-l snapshot_param] [-S sparse_size] [-m num_coroutines] [-W] [--salvage] filename [filename2 [...]] output_filename")
- SRST
--.. option:: convert [--object OBJECTDEF] [--image-opts] [--target-image-opts] [-U] [-C] [-c] [-p] [-q] [-n] [-f FMT] [-t CACHE] [-T SRC_CACHE] [-O OUTPUT_FMT] [-B BACKING_FILE] [-o OPTIONS] [-l SNAPSHOT_PARAM] [-S SPARSE_SIZE] [-m NUM_COROUTINES] [-W] [--salvage] FILENAME [FILENAME2 [...]] OUTPUT_FILENAME
-+.. option:: convert [--object OBJECTDEF] [--image-opts] [--target-image-opts] [--target-is-zero] [-U] [-C] [-c] [-p] [-q] [-n] [-f FMT] [-t CACHE] [-T SRC_CACHE] [-O OUTPUT_FMT] [-B BACKING_FILE] [-o OPTIONS] [-l SNAPSHOT_PARAM] [-S SPARSE_SIZE] [-m NUM_COROUTINES] [-W] [--salvage] FILENAME [FILENAME2 [...]] OUTPUT_FILENAME
- ERST
- 
- DEF("create", img_create,
-diff --git a/qemu-img.c b/qemu-img.c
-index 2b4562b9d9f2..0faf2cd2f530 100644
---- a/qemu-img.c
-+++ b/qemu-img.c
-@@ -70,6 +70,7 @@ enum {
-     OPTION_PREALLOCATION = 265,
-     OPTION_SHRINK = 266,
-     OPTION_SALVAGE = 267,
-+    OPTION_TARGET_IS_ZERO = 268,
- };
- 
- typedef enum OutputFormat {
-@@ -1984,10 +1985,9 @@ static int convert_do_copy(ImgConvertState *s)
-     int64_t sector_num = 0;
- 
-     /* Check whether we have zero initialisation or can get it efficiently */
--    if (s->target_is_new && s->min_sparse && !s->target_has_backing) {
-+    if (!s->has_zero_init && s->target_is_new && s->min_sparse &&
-+        !s->target_has_backing) {
-         s->has_zero_init = bdrv_has_zero_init(blk_bs(s->target));
--    } else {
--        s->has_zero_init = false;
-     }
- 
-     if (!s->has_zero_init && !s->target_has_backing &&
-@@ -2086,6 +2086,7 @@ static int img_convert(int argc, char **argv)
-             {"force-share", no_argument, 0, 'U'},
-             {"target-image-opts", no_argument, 0, OPTION_TARGET_IMAGE_OPTS},
-             {"salvage", no_argument, 0, OPTION_SALVAGE},
-+            {"target-is-zero", no_argument, 0, OPTION_TARGET_IS_ZERO},
-             {0, 0, 0, 0}
-         };
-         c = getopt_long(argc, argv, ":hf:O:B:Cco:l:S:pt:T:qnm:WU",
-@@ -2209,6 +2210,14 @@ static int img_convert(int argc, char **argv)
-         case OPTION_TARGET_IMAGE_OPTS:
-             tgt_image_opts = true;
-             break;
-+        case OPTION_TARGET_IS_ZERO:
-+            /*
-+             * The user asserting that the target is blank has the
-+             * same effect as the target driver supporting zero
-+             * initialisation.
-+             */
-+            s.has_zero_init = true;
-+            break;
-         }
-     }
- 
-@@ -2247,6 +2256,11 @@ static int img_convert(int argc, char **argv)
-         warn_report("This will become an error in future QEMU versions.");
-     }
- 
-+    if (s.has_zero_init && !skip_create) {
-+        error_report("--target-is-zero requires use of -n flag");
-+        goto fail_getopt;
-+    }
-+
-     s.src_num = argc - optind - 1;
-     out_filename = s.src_num >= 1 ? argv[argc - 1] : NULL;
- 
-@@ -2380,6 +2394,12 @@ static int img_convert(int argc, char **argv)
-     }
-     s.target_has_backing = (bool) out_baseimg;
- 
-+    if (s.has_zero_init && s.target_has_backing) {
-+        error_report("Cannot use --target-is-zero when the destination "
-+                     "image has a backing file");
-+        goto out;
-+    }
-+
-     if (s.src_num > 1 && out_baseimg) {
-         error_report("Having a backing file for the target makes no sense when "
-                      "concatenating multiple input images");
--- 
-2.24.1
+Right. I wonder if qemu-img wants support for that specifically
+(possibly with allowing to enter the key interactively) rather than
+requiring the user to call qemu-img amend twice.
+
+> >                                                                  Trivia=
+l
+> > extension, you just get another optional field that can be specified
+> > instead of 'keyslot'.
+> >
+> > Resulting commands:
+> >
+> >     Adding a key:
+> >     qemu-img amend -o encrypt.keys.0.state=3Dactive,encrypt.keys.0.secr=
+et=3Dsec0 test.qcow2
+>=20
+> This activates an inactive slot chosen by the sysem.
+>=20
+> You can activate a specific keyslot N by throwing in
+> encrypt.keys.0.keyslot=3DN.
+
+Yes. The usual case is that you just want to add a new key somwhere.
+
+> >     Deleting a key:
+> >     qemu-img amend -o encrypt.keys.0.state=3Dinactive,encrypt.keys.0.ke=
+yslot=3D2 test.qcow2
+>=20
+> This deactivates keyslot#2.
+>=20
+> You can deactivate slots holding a specific secret S by replacing
+> encrypt.keys.0.keyslot=3D2 by encrypt.keys.0.secret=3DS.
+
+Not with your definition above, but with the appropriate changes, this
+makes sense.
+
+> > Previous version (if this series is applied unchanged):
+> >
+> >     Adding a key:
+> >     qemu-img amend -o encrypt.keys.0.new-secret=3Dsec0 test.qcow2
+> >
+> >     Deleting a key:
+> >     qemu-img amend -o encrypt.keys.0.new-secret=3D,encrypt.keys.0.keysl=
+ot=3D2 test.qcow2
+> >
+> > Adding a key gets more complicated with your proposed interface because
+> > state must be set explicitly now whereas before it was derived
+> > automatically from the fact that if you give a key, only active makes
+> > sense.
+>=20
+> The explicitness could be viewed as an improvement :)
+
+Not really. I mean, I really know to appreciate the advantages of
+-blockdev where needed, but usually I don't want to type all that stuff
+for the most common tasks. qemu-img amend is similar.
+
+For deleting, I might actually agree that explicitness is an
+improvement, but for creating it's just unnecessary verbosity.
+
+> If you'd prefer implicit here: Max has patches for making union tags
+> optional with a default.  They'd let you default active to true.
+
+I guess this would improve the usability in this case.
+
+Kevin
 
 
