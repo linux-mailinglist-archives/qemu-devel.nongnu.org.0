@@ -2,81 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDE0F1532AE
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 15:19:35 +0100 (CET)
-Received: from localhost ([::1]:47906 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 893CB1532B1
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 15:19:47 +0100 (CET)
+Received: from localhost ([::1]:47912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izLWg-0002rD-W1
-	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 09:19:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46229)
+	id 1izLWs-0003NA-Hd
+	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 09:19:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46294)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peterx@redhat.com>) id 1izLV9-0001HQ-IE
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 09:18:00 -0500
+ (envelope-from <peterx@redhat.com>) id 1izLVB-0001Jv-Oi
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 09:18:06 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peterx@redhat.com>) id 1izLV8-0003kA-JP
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 09:17:59 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:20491
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <peterx@redhat.com>) id 1izLVA-0003zP-MF
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 09:18:01 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:57376
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <peterx@redhat.com>) id 1izLV8-0003iH-FF
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 09:17:58 -0500
+ (Exim 4.71) (envelope-from <peterx@redhat.com>) id 1izLVA-0003v5-HD
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 09:18:00 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580912278;
+ s=mimecast20190719; t=1580912279;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gwnOjzlxPiLrUtXS9/Js+Kwd14a7kfPZ/UhB56CISFs=;
- b=HoHelwjghXicfJkw8nVdth8YmzH0952GVIDH6q+rIjz+D4N4ChyHbs1Fib41w99w78/cE7
- SxCiHTGhgIPKfvUWmkJT3uUaEJTat3ebTjdx8fhorXmQkQlxyiiogi/yg7NgbQgfC873WH
- 8PcqYleCDxWqeGwyXPt2aTQxCbE/Va0=
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-298-IZdwwqIkNUaD9xpu-mq9KA-1; Wed, 05 Feb 2020 09:17:56 -0500
-Received: by mail-qt1-f199.google.com with SMTP id a13so1419635qtp.8
- for <qemu-devel@nongnu.org>; Wed, 05 Feb 2020 06:17:56 -0800 (PST)
+ bh=W5N3viiIpDvgmz5NQ3C0n0h5DAYjZJzdSGyqyhpF2Hg=;
+ b=TPVjmunvALcso55hbhl5ErXYhLlXdXXMxFdjHE93T120q7FA4YepyJRnLaxr+HxxMZBD2O
+ XGURr+aKcTOZVjHtDfz6kG2cD+6pdV9PMtIbwW1sUG124RS8b72GcEPyIzlnKjzVVft/0o
+ WnhMTBCTAawelKc/OU7JgVYK1VEATtc=
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-112-48hf_5G-Otm8bQCOPFgzCg-1; Wed, 05 Feb 2020 09:17:58 -0500
+Received: by mail-qv1-f70.google.com with SMTP id cn2so1577977qvb.1
+ for <qemu-devel@nongnu.org>; Wed, 05 Feb 2020 06:17:58 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=vPwF7koEOtFK/v1GMHKbe9mr0XFSrZCmlysXssYQcTU=;
- b=uEieijiNqNzvwnhkV57EhPPceZYShI/WwYKNFb3FsmqsSz14ZGWFWkLUjEI43nI60k
- TlixF93JwUfSLU7MtRMv3KWWu6bl8Cvg1GviMpZslJAZi3G5Pj/hw/tsbmamOjguhDND
- pIVlhjsY696jOwRP2+12g21HIjnqQNMl9y2Y/nZHUmQVJq6mSwwzVxiBq5aYZycEoXtX
- EcrSNhhWUR10tJ5Ra6St1w4oF+lhGRHfneBXvIfm6zZTpbhTLYuEfeJtp8quPDnVwZEq
- H5qG5y3OqnlL8TeF/bEuVRcDtjibusEVvw5+kbfoX/A9kMb0FHbUVeVcZqCwEusVZ7jz
- 3GMQ==
-X-Gm-Message-State: APjAAAWzqjSYftJZrHU76C61/5lO3JDEfJu8PkfIHsTfEmexszhfKvT4
- pZPWEdh6jS6wF4wpuLP3ZrUb7VogCCMBoa4iHsR0OwPRMn0acvjhxzH4dW+KlezEFqVl882Erkc
- OwdCemSwosKgbOis=
-X-Received: by 2002:a37:bfc5:: with SMTP id
- p188mr30637316qkf.283.1580912275968; 
- Wed, 05 Feb 2020 06:17:55 -0800 (PST)
-X-Google-Smtp-Source: APXvYqyd9oiXw+azTzKyugkFI9dxzMAUXdBlv4TSa5kfh+LkumO2XqNNYevrYWNKCPVxWMhOJJKjHg==
-X-Received: by 2002:a37:bfc5:: with SMTP id
- p188mr30637294qkf.283.1580912275744; 
- Wed, 05 Feb 2020 06:17:55 -0800 (PST)
+ bh=gXkPt6N6Af8+FqxhOe2WmGrZCOt+N/6RyewFCHsP9v8=;
+ b=oGEY15sAswAnQ+q3ChZwjLwGPhAvbOFjAGMOcDqk7MfWZ4UgmjieloDvlNmEHxTLl5
+ lTfYdCl77JAGkS/vZ4G4beNdG8DtxB5+Q4Q+7r1I46mol/kvKmaXNOnHXNFYdM4g3boZ
+ BLQ6X6dss1vvQhpiUQeH3MbygDcEFqe2LR4fc5swDJIGDzMvv1IJ/z05SOysOVRu7/xp
+ PvHD4+QOo/KeJ234QUP3vPYSSHCki1dEDIVK0RYpE4FzYvc6Wp0FNDcvcUC1+5JTbAgK
+ NfMpCcrAHyBx2HaK3Y8MFpDLQ+4efLmPnCoCfHtNDyF4ucjZZEqcaw/3ZmLK4ay5Va+a
+ tnlA==
+X-Gm-Message-State: APjAAAV5i8uHMwhmFUDbva2ob58lGQdJ+seMy6Os5FbT3tG0m7/j5Qjt
+ kajE+rdFIQP6gdXVJdeGbNVx0Lzf7v6/uKAlucrtXLkAfvca5U0bLreMjp4d4wIo1WD+sUANWWv
+ MQ0iffdxjTmG/u3A=
+X-Received: by 2002:a37:9e09:: with SMTP id h9mr32940195qke.289.1580912277657; 
+ Wed, 05 Feb 2020 06:17:57 -0800 (PST)
+X-Google-Smtp-Source: APXvYqzTV29qcKFHl49Yf2MzK5ByW+swLFvny2QzaMu3Ejx6PF1SvGk1dyxb616O8LbulOY3tjzWCw==
+X-Received: by 2002:a37:9e09:: with SMTP id h9mr32940177qke.289.1580912277419; 
+ Wed, 05 Feb 2020 06:17:57 -0800 (PST)
 Received: from xz-x1.redhat.com ([2607:9880:19c8:32::2])
- by smtp.gmail.com with ESMTPSA id q5sm12833489qkf.14.2020.02.05.06.17.54
+ by smtp.gmail.com with ESMTPSA id q5sm12833489qkf.14.2020.02.05.06.17.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Feb 2020 06:17:54 -0800 (PST)
+ Wed, 05 Feb 2020 06:17:56 -0800 (PST)
 From: Peter Xu <peterx@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH RFC 1/9] KVM: Fixup kvm_log_clear_one_slot() ioctl return check
-Date: Wed,  5 Feb 2020 09:17:41 -0500
-Message-Id: <20200205141749.378044-2-peterx@redhat.com>
+Subject: [PATCH RFC 2/9] linux-headers: Update
+Date: Wed,  5 Feb 2020 09:17:42 -0500
+Message-Id: <20200205141749.378044-3-peterx@redhat.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200205141749.378044-1-peterx@redhat.com>
 References: <20200205141749.378044-1-peterx@redhat.com>
 MIME-Version: 1.0
-X-MC-Unique: IZdwwqIkNUaD9xpu-mq9KA-1
+X-MC-Unique: 48hf_5G-Otm8bQCOPFgzCg-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -94,37 +92,98 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-kvm_vm_ioctl() handles the errno trick already for ioctl() on
-returning -1 for errors.  Fix this.
-
 Signed-off-by: Peter Xu <peterx@redhat.com>
 ---
- accel/kvm/kvm-all.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ linux-headers/asm-x86/kvm.h |  1 +
+ linux-headers/linux/kvm.h   | 44 +++++++++++++++++++++++++++++++++++++
+ 2 files changed, 45 insertions(+)
 
-diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-index c111312dfd..4be3cd2352 100644
---- a/accel/kvm/kvm-all.c
-+++ b/accel/kvm/kvm-all.c
-@@ -688,14 +688,13 @@ static int kvm_log_clear_one_slot(KVMSlot *mem, int a=
-s_id, uint64_t start,
-     d.num_pages =3D bmap_npages;
-     d.slot =3D mem->slot | (as_id << 16);
+diff --git a/linux-headers/asm-x86/kvm.h b/linux-headers/asm-x86/kvm.h
+index 503d3f42da..b59bf356c4 100644
+--- a/linux-headers/asm-x86/kvm.h
++++ b/linux-headers/asm-x86/kvm.h
+@@ -12,6 +12,7 @@
 =20
--    if (kvm_vm_ioctl(s, KVM_CLEAR_DIRTY_LOG, &d) =3D=3D -1) {
--        ret =3D -errno;
-+    ret =3D kvm_vm_ioctl(s, KVM_CLEAR_DIRTY_LOG, &d);
-+    if (ret) {
-         error_report("%s: KVM_CLEAR_DIRTY_LOG failed, slot=3D%d, "
-                      "start=3D0x%"PRIx64", size=3D0x%"PRIx32", errno=3D%d"=
-,
-                      __func__, d.slot, (uint64_t)d.first_page,
-                      (uint32_t)d.num_pages, ret);
-     } else {
--        ret =3D 0;
-         trace_kvm_clear_dirty_log(d.slot, d.first_page, d.num_pages);
-     }
+ #define KVM_PIO_PAGE_OFFSET 1
+ #define KVM_COALESCED_MMIO_PAGE_OFFSET 2
++#define KVM_DIRTY_LOG_PAGE_OFFSET 64
 =20
+ #define DE_VECTOR 0
+ #define DB_VECTOR 1
+diff --git a/linux-headers/linux/kvm.h b/linux-headers/linux/kvm.h
+index 9d647fad76..c5a6c6e0a6 100644
+--- a/linux-headers/linux/kvm.h
++++ b/linux-headers/linux/kvm.h
+@@ -236,6 +236,7 @@ struct kvm_hyperv_exit {
+ #define KVM_EXIT_IOAPIC_EOI       26
+ #define KVM_EXIT_HYPERV           27
+ #define KVM_EXIT_ARM_NISV         28
++#define KVM_EXIT_DIRTY_RING_FULL  29
+=20
+ /* For KVM_EXIT_INTERNAL_ERROR */
+ /* Emulate instruction failed. */
+@@ -1009,6 +1010,7 @@ struct kvm_ppc_resize_hpt {
+ #define KVM_CAP_PPC_GUEST_DEBUG_SSTEP 176
+ #define KVM_CAP_ARM_NISV_TO_USER 177
+ #define KVM_CAP_ARM_INJECT_EXT_DABT 178
++#define KVM_CAP_DIRTY_LOG_RING 179
+=20
+ #ifdef KVM_CAP_IRQ_ROUTING
+=20
+@@ -1473,6 +1475,9 @@ struct kvm_enc_region {
+ /* Available with KVM_CAP_ARM_SVE */
+ #define KVM_ARM_VCPU_FINALIZE=09  _IOW(KVMIO,  0xc2, int)
+=20
++/* Available with KVM_CAP_DIRTY_LOG_RING */
++#define KVM_RESET_DIRTY_RINGS     _IO(KVMIO, 0xc3)
++
+ /* Secure Encrypted Virtualization command */
+ enum sev_cmd_id {
+ =09/* Guest initialization commands */
+@@ -1623,4 +1628,43 @@ struct kvm_hyperv_eventfd {
+ #define KVM_HYPERV_CONN_ID_MASK=09=090x00ffffff
+ #define KVM_HYPERV_EVENTFD_DEASSIGN=09(1 << 0)
+=20
++/*
++ * KVM dirty GFN flags, defined as:
++ *
++ * |---------------+---------------+--------------|
++ * | bit 1 (reset) | bit 0 (dirty) | Status       |
++ * |---------------+---------------+--------------|
++ * |             0 |             0 | Invalid GFN  |
++ * |             0 |             1 | Dirty GFN    |
++ * |             1 |             X | GFN to reset |
++ * |---------------+---------------+--------------|
++ *
++ * Lifecycle of a dirty GFN goes like:
++ *
++ *      dirtied         collected        reset
++ * 00 -----------> 01 -------------> 1X -------+
++ *  ^                                          |
++ *  |                                          |
++ *  +------------------------------------------+
++ *
++ * The userspace program is only responsible for the 01->1X state
++ * conversion (to collect dirty bits).  Also, it must not skip any
++ * dirty bits so that dirty bits are always collected in sequence.
++ */
++#define KVM_DIRTY_GFN_F_DIRTY           BIT(0)
++#define KVM_DIRTY_GFN_F_RESET           BIT(1)
++#define KVM_DIRTY_GFN_F_MASK            0x3
++
++/*
++ * KVM dirty rings should be mapped at KVM_DIRTY_LOG_PAGE_OFFSET of
++ * per-vcpu mmaped regions as an array of struct kvm_dirty_gfn.  The
++ * size of the gfn buffer is decided by the first argument when
++ * enabling KVM_CAP_DIRTY_LOG_RING.
++ */
++struct kvm_dirty_gfn {
++=09__u32 flags;
++=09__u32 slot;
++=09__u64 offset;
++};
++
+ #endif /* __LINUX_KVM_H */
 --=20
 2.24.1
 
