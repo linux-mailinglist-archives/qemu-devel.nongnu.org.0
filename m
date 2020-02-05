@@ -2,40 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96F3B1529CF
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 12:22:59 +0100 (CET)
-Received: from localhost ([::1]:45260 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EE0F1529E5
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 12:27:55 +0100 (CET)
+Received: from localhost ([::1]:45360 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izIlm-0007vV-Ji
-	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 06:22:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52966)
+	id 1izIqY-00075W-DZ
+	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 06:27:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55450)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1izIjw-0005GE-UX
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 06:21:06 -0500
+ (envelope-from <vsementsov@virtuozzo.com>) id 1izIoW-0005iK-S3
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 06:25:49 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1izIjv-0001No-O1
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 06:21:04 -0500
-Received: from relay.sw.ru ([185.231.240.75]:41398)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1izIoV-0004LU-Se
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 06:25:48 -0500
+Received: from mail-eopbgr130094.outbound.protection.outlook.com
+ ([40.107.13.94]:44609 helo=EUR01-HE1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1izIjs-00015V-KA; Wed, 05 Feb 2020 06:21:00 -0500
-Received: from vovaso.qa.sw.ru ([10.94.3.0] helo=kvm.qa.sw.ru)
- by relay.sw.ru with esmtp (Exim 4.92.3)
- (envelope-from <vsementsov@virtuozzo.com>)
- id 1izIjl-0006Jd-9v; Wed, 05 Feb 2020 14:20:53 +0300
+ id 1izIoP-0003y8-JJ; Wed, 05 Feb 2020 06:25:42 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=lkKawVIOq5ftIXtclLHD+wWhPcXLegIYPX+uPvVxe/OHKAyFfit/PWdSUjARUjzw1pnI1MJkjKIJ7zPBTtHjfQnmNiRxgzWfOI0P7BnMJPEWwut/Lrmk96WNToIijUcaxDl8YCXMOGsS3ynBikL6i7IUzS+ueYCOschUs1mr9xoegNlvXGTSxSoh6ibcw6it7O1nnCfrM2nh5ak+wE81vBflJ0FijTNRpF5rRU5wP5QB0H03PN261wduOEVZLRjJWp8fZateWX6bzJIklr7Bad+7GR+Ktsd+x8V+EVq5Iq8WROFOD1EVzYOFnnI2rTKqabDyomYDyqY+wIxUHKt9Yw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=IlPDWfJmZKmoRp+Zdcde9P5EeRQ0yveiv//e2VSHpAQ=;
+ b=NaQrltYDmlNh2EbC1IpswamC+WTBaUrCKoC9sCIm8dzFgtD6QlbhtSWskHi+43/UN6Asj+UnWTEhlwkjBh1YAlZkYjEHbqfoz43HE6L9P2WrwXmUJGRlPhNdVGrNo0XIOU7DLcVw2EeUgKqPY/S4Lo1sBq+Ae9WoVSk23T0SOVsKC1z9eJrcBWFWUMMs+lT4HoHih5S/vLS9z/C4U1zcyj5+5uyTwUdVO4vcpGrs1n6KqtRqBib2kdJspgHnyV1JrihnooYvfixv1dZcMtTQHsWdLL7U5bNrDvmimV4PX1Uu03x/MXteF09gBzhcI3gYjthYHpp2g8sxHD6QBogMcg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=IlPDWfJmZKmoRp+Zdcde9P5EeRQ0yveiv//e2VSHpAQ=;
+ b=P9xI7qG5ITBdcNv/KzAkCqV22vG+eKLvuPsfXr+KQlzsEKTsRv6820mDzhz47D6+dgP3Kp6SYHhNcXCxIy8jxHtlI2WI7hnZ/afVFWEjVheaLsgXIt85hSh0WIFxEi8MR4mpJZdkGwbFV49CgxMZrfHAi0DuYpnR0gzkCT8NnWo=
+Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=vsementsov@virtuozzo.com; 
+Received: from VI1PR08MB4432.eurprd08.prod.outlook.com (20.179.28.138) by
+ VI1PR08MB3904.eurprd08.prod.outlook.com (20.178.80.33) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2686.29; Wed, 5 Feb 2020 11:25:38 +0000
+Received: from VI1PR08MB4432.eurprd08.prod.outlook.com
+ ([fe80::9c56:6d95:76d1:d0]) by VI1PR08MB4432.eurprd08.prod.outlook.com
+ ([fe80::9c56:6d95:76d1:d0%2]) with mapi id 15.20.2686.034; Wed, 5 Feb 2020
+ 11:25:38 +0000
+Subject: Re: [PATCH v4 1/1] qemu-img: Add --target-is-zero to convert
+To: David Edmondson <david.edmondson@oracle.com>, qemu-devel@nongnu.org
+References: <20200205110248.2009589-1-david.edmondson@oracle.com>
+ <20200205110248.2009589-2-david.edmondson@oracle.com>
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH v4 10/10] block/qcow2-bitmap: use bdrv_dirty_bitmap_next_dirty
-Date: Wed,  5 Feb 2020 14:20:41 +0300
-Message-Id: <20200205112041.6003-11-vsementsov@virtuozzo.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20200205112041.6003-1-vsementsov@virtuozzo.com>
-References: <20200205112041.6003-1-vsementsov@virtuozzo.com>
+X-Tagtoolbar-Keys: D20200205142536140
+Message-ID: <52ad573b-01a7-eaa9-de2d-8f76e77c3a66@virtuozzo.com>
+Date: Wed, 5 Feb 2020 14:25:36 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.2.1
+In-Reply-To: <20200205110248.2009589-2-david.edmondson@oracle.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: HE1PR05CA0175.eurprd05.prod.outlook.com
+ (2603:10a6:3:f8::23) To VI1PR08MB4432.eurprd08.prod.outlook.com
+ (2603:10a6:803:102::10)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
-X-Received-From: 185.231.240.75
+Received: from [172.16.24.200] (185.231.240.5) by
+ HE1PR05CA0175.eurprd05.prod.outlook.com (2603:10a6:3:f8::23) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2707.21 via Frontend Transport; Wed, 5 Feb 2020 11:25:37 +0000
+X-Tagtoolbar-Keys: D20200205142536140
+X-Originating-IP: [185.231.240.5]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: caee6dcc-001a-4b0c-de5c-08d7aa2e204c
+X-MS-TrafficTypeDiagnostic: VI1PR08MB3904:
+X-Microsoft-Antispam-PRVS: <VI1PR08MB3904B6F63D7FD5A5010EE204C1020@VI1PR08MB3904.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
+X-Forefront-PRVS: 0304E36CA3
+X-Forefront-Antispam-Report: SFV:NSPM;
+ SFS:(10019020)(136003)(366004)(39850400004)(376002)(346002)(396003)(199004)(189003)(478600001)(16576012)(316002)(86362001)(31686004)(8936002)(81156014)(8676002)(81166006)(4326008)(31696002)(16526019)(186003)(2616005)(956004)(2906002)(52116002)(26005)(66476007)(66556008)(4744005)(66946007)(6486002)(5660300002)(36756003);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:VI1PR08MB3904;
+ H:VI1PR08MB4432.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; MX:1; 
+Received-SPF: None (protection.outlook.com: virtuozzo.com does not designate
+ permitted sender hosts)
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: TJfhqPt3vWeIHfl7UdbgrWyI8U/bfLru8LGmeEwEXv3Rz0Y90ZoR1Thc1At4z5hU4BWt70/xYyKIuck7lDYEDtoe0hmtIzJLJgmHZa0sqh+Zr6hKSgIxtDQ/Ky3VIclruVb+4ZCQe4CssuKCKpgM+3suUE20IiGqbBP6UzxCbZH/wCHnypa2JT05TQW9HMRskU84m4SnEQDgCiDgOZpGCqqu4Cp66i4aGvS6RkvEQ7707Nj4bxjjK4wORrMx0U1/6Lq/tMuvEANG61cbAMhqkNod8n2lnvfhFy0c6qM2mFQ6DTEmRS94MCOa3e6ZI+96kHlgKIRQrbpPqB9cEoBOuqvOYwymQ0WNr7Jct/2uGoSp4nAWIvegZP0OPhEu0LdCzwmrQ9dLq0eow29o7DJlaIowkQGU7R0lFDw2u3ym498jR8pgdfCk1oGizjmF212j
+X-MS-Exchange-AntiSpam-MessageData: yQOD2AvmMPgLyWMFC5hNPnKPfoemtLee3nsqY+RmSbIzoIQbjCPgI/NXCkbSKOe43KvVeeu8W46udLE8ohgV3xsf26OBnp/+DycfeVory8msef5LuunmYvPrbKdwvJArwLqUUfRdlRWPXoTQugpu9g==
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: caee6dcc-001a-4b0c-de5c-08d7aa2e204c
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Feb 2020 11:25:38.4839 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: kSjYEHeB/iQRlxZe1w3bvJ7fZcbRDqbeaRJ/VskDscS+sDHNTV6LDBFEL6Y9Qtxvv7QOhUyw+r2SxrD0fP9yYQcwQly+dxu0cX0yezVSYGs=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR08MB3904
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 40.107.13.94
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -47,76 +108,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, qemu-devel@nongnu.org,
- mreitz@redhat.com, jsnow@redhat.com
+Cc: qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-store_bitmap_data() loop does bdrv_set_dirty_iter() on each iteration,
-which means that we actually don't need iterator itself and we can use
-simpler bitmap API.
+05.02.2020 14:02, David Edmondson wrote:
+> In many cases the target of a convert operation is a newly provisioned
+> target that the user knows is blank (reads as zero). In this situation
+> there is no requirement for qemu-img to wastefully zero out the entire
+> device.
+> 
+> Add a new option, --target-is-zero, allowing the user to indicate that
+> an existing target device will return zeros for all reads.
+> 
+> Signed-off-by: David Edmondson<david.edmondson@oracle.com>
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Reviewed-by: Max Reitz <mreitz@redhat.com>
----
- block/qcow2-bitmap.c | 15 +++++----------
- 1 file changed, 5 insertions(+), 10 deletions(-)
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-diff --git a/block/qcow2-bitmap.c b/block/qcow2-bitmap.c
-index d41f5d049b..82646c53bd 100644
---- a/block/qcow2-bitmap.c
-+++ b/block/qcow2-bitmap.c
-@@ -1289,7 +1289,6 @@ static uint64_t *store_bitmap_data(BlockDriverState *bs,
-     uint64_t bm_size = bdrv_dirty_bitmap_size(bitmap);
-     const char *bm_name = bdrv_dirty_bitmap_name(bitmap);
-     uint8_t *buf = NULL;
--    BdrvDirtyBitmapIter *dbi;
-     uint64_t *tb;
-     uint64_t tb_size =
-             size_to_clusters(s,
-@@ -1308,12 +1307,14 @@ static uint64_t *store_bitmap_data(BlockDriverState *bs,
-         return NULL;
-     }
- 
--    dbi = bdrv_dirty_iter_new(bitmap);
-     buf = g_malloc(s->cluster_size);
-     limit = bytes_covered_by_bitmap_cluster(s, bitmap);
-     assert(DIV_ROUND_UP(bm_size, limit) == tb_size);
- 
--    while ((offset = bdrv_dirty_iter_next(dbi)) >= 0) {
-+    offset = 0;
-+    while ((offset = bdrv_dirty_bitmap_next_dirty(bitmap, offset, INT64_MAX))
-+           >= 0)
-+    {
-         uint64_t cluster = offset / limit;
-         uint64_t end, write_size;
-         int64_t off;
-@@ -1356,23 +1357,17 @@ static uint64_t *store_bitmap_data(BlockDriverState *bs,
-             goto fail;
-         }
- 
--        if (end >= bm_size) {
--            break;
--        }
--
--        bdrv_set_dirty_iter(dbi, end);
-+        offset = end;
-     }
- 
-     *bitmap_table_size = tb_size;
-     g_free(buf);
--    bdrv_dirty_iter_free(dbi);
- 
-     return tb;
- 
- fail:
-     clear_bitmap_table(bs, tb, tb_size);
-     g_free(buf);
--    bdrv_dirty_iter_free(dbi);
-     g_free(tb);
- 
-     return NULL;
 -- 
-2.21.0
-
+Best regards,
+Vladimir
 
