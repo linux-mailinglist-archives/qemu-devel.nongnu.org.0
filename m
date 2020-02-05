@@ -2,71 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5193153666
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 18:26:12 +0100 (CET)
-Received: from localhost ([::1]:54178 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA1D015367D
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 18:30:36 +0100 (CET)
+Received: from localhost ([::1]:54282 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izORH-0004RP-VQ
-	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 12:26:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41792)
+	id 1izOVX-0002A8-QH
+	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 12:30:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39618)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1izOPN-0002gm-6R
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 12:24:14 -0500
+ (envelope-from <bounces@canonical.com>) id 1izOM0-000502-LS
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 12:20:45 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1izOPM-0004x3-2z
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 12:24:13 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:56162)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1izOPL-0004uH-Uh
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 12:24:12 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580923451;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Py0r0ZEM1kEV3z6f/8ruyMJDdagHM7u0RKM67T+Wqd8=;
- b=HZKQbxtslDL62G/DCFyraJ/r9tjM8kb481/MJNFAkoiy7OfsigJcmwu9hb8UHAjP8DTqKD
- e3HlxrjHz2hhWpdOi2VnWP78R5IMC2bFd+WqWoPKnbL+Ck2cuMVT70dN/cm15EQokiZQyt
- dIRDTr3UnaYXZxALsBO9hpLub+St3II=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-15-R1WrQRrKM-ewJ9AwmnYzOQ-1; Wed, 05 Feb 2020 12:24:06 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 61A8918A7DC4;
- Wed,  5 Feb 2020 17:24:05 +0000 (UTC)
-Received: from [10.3.116.181] (ovpn-116-181.phx2.redhat.com [10.3.116.181])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id F22055D9E2;
- Wed,  5 Feb 2020 17:24:04 +0000 (UTC)
-Subject: Re: [PATCH v2 11/33] block: Unify bdrv_child_cb_attach()
-To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
-References: <20200204170848.614480-1-mreitz@redhat.com>
- <20200204170848.614480-12-mreitz@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <f6e6764b-1727-f166-55c5-605f8b1be2b7@redhat.com>
-Date: Wed, 5 Feb 2020 11:24:04 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ (envelope-from <bounces@canonical.com>) id 1izOLz-0000FC-Co
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 12:20:44 -0500
+Received: from indium.canonical.com ([91.189.90.7]:45374)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1izOLz-000076-5U
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 12:20:43 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1izOLx-0005aT-2i
+ for <qemu-devel@nongnu.org>; Wed, 05 Feb 2020 17:20:41 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 137A92E80C7
+ for <qemu-devel@nongnu.org>; Wed,  5 Feb 2020 17:20:41 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20200204170848.614480-12-mreitz@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: R1WrQRrKM-ewJ9AwmnYzOQ-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 05 Feb 2020 17:15:14 -0000
+From: Thomas Huth <1861605@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: arichardson th-huth
+X-Launchpad-Bug-Reporter: Alexander Richardson (arichardson)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <158064672776.8396.11527564563260103475.malonedeb@chaenomeles.canonical.com>
+Message-Id: <158092291417.20106.17071061912772608922.malone@wampee.canonical.com>
+Subject: [Bug 1861605] Re: LL/SC broken for MIPS after
+ 7dd547e5ab6b31e7a0cfc182d3ad131dd55a948f
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="0a62c17273454a1313f81a74a2198ec30b44c7b6";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: ef348f676c40a7160749fd00ec519fce65136d68
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -75,31 +66,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org
+Reply-To: Bug 1861605 <1861605@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/4/20 11:08 AM, Max Reitz wrote:
-> Make bdrv_child_cb_attach() call bdrv_backing_attach() for children with
-> a COW role (and drop the reverse call from bdrv_backing_attach()), so it
-> can be used for any child (with a proper role set).
-> 
-> Because so far no child has a proper role set, we need a temporary new
-> callback for child_backing.attach that ensures bdrv_backing_attach() is
-> called for all COW children that do not have their role set yet.
-> 
-> Signed-off-by: Max Reitz <mreitz@redhat.com>
-> ---
->   block.c | 16 +++++++++++++++-
->   1 file changed, 15 insertions(+), 1 deletion(-)
-> 
+Patch has been merged here:
+https://git.qemu.org/?p=3Dqemu.git;a=3Dcommitdiff;h=3Dec860426dfbebe0c
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
+** Changed in: qemu
+       Status: New =3D> Fix Committed
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+-- =
 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1861605
+
+Title:
+  LL/SC broken for MIPS after 7dd547e5ab6b31e7a0cfc182d3ad131dd55a948f
+
+Status in QEMU:
+  Fix Committed
+
+Bug description:
+  In that commit the env->llval value is loaded as an unsigned value
+  (instead of sign-extended as before and therefore the CMPXCHG in
+  gen_st_cond() in translate.c fails.
+
+  I have committed a fix for this issue as
+  https://github.com/qemu/qemu/commit/6ff8dec97f1a105d0da96c67ee24c75e437df=
+162
+
+  An alternative solution would be to change the cmpxchg line to perform a =
+non-sign-extended compare, i.e. replace
+  =C2=A0=C2=A0=C2=A0=C2=A0tcg_gen_atomic_cmpxchg_tl(t0, cpu_lladdr, cpu_llv=
+al, val,
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0eva ? MIPS_HFLAG_UM : ctx->mem_idx, tcg_mo=
+);
+  with
+  =C2=A0=C2=A0=C2=A0=C2=A0tcg_gen_atomic_cmpxchg_tl(t0, cpu_lladdr, cpu_llv=
+al, val,
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0eva ? MIPS_HFLAG_UM : ctx->mem_idx, tcg_mo=
+ & ~MO_SIGN);
+
+  However, that change does not fix the fact that the result of ll is no
+  longer sign-extended, therefore I think adding a cast in the helpers
+  is better.
+
+  I cannot send this patch to the QEMU mailing list as I am not able to set=
+up git-send-email.
+  Feel free to apply this commit or the alternative solution.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1861605/+subscriptions
 
