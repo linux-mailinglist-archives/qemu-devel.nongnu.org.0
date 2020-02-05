@@ -2,106 +2,106 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC0B71531EB
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 14:34:55 +0100 (CET)
-Received: from localhost ([::1]:47100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 531A51531DE
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 14:30:42 +0100 (CET)
+Received: from localhost ([::1]:46996 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izKpS-0006tN-Q5
-	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 08:34:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36871)
+	id 1izKlN-00015u-C8
+	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 08:30:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36809)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <i.kotrasinsk@partner.samsung.com>)
- id 1izKjc-0007ld-Cv
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 08:28:57 -0500
+ id 1izKjZ-0007kQ-Sc
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 08:28:52 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <i.kotrasinsk@partner.samsung.com>)
- id 1izKjY-0004uZ-2k
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 08:28:52 -0500
-Received: from mailout2.w1.samsung.com ([210.118.77.12]:50250)
+ id 1izKjX-0004qC-3F
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 08:28:49 -0500
+Received: from mailout1.w1.samsung.com ([210.118.77.11]:46819)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <i.kotrasinsk@partner.samsung.com>)
- id 1izKjX-0004kq-L6
+ id 1izKjW-0004mb-TD
  for qemu-devel@nongnu.org; Wed, 05 Feb 2020 08:28:47 -0500
 Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
- by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
- 20200205132845euoutp02d324d9148f2482ac6ffb776e494a44dc~whKfOQld60765407654euoutp02g
- for <qemu-devel@nongnu.org>; Wed,  5 Feb 2020 13:28:45 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
- 20200205132845euoutp02d324d9148f2482ac6ffb776e494a44dc~whKfOQld60765407654euoutp02g
+ by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20200205132846euoutp01e9433e61731075f518fcda3ca88b7d1a~whKfvnxPN2833328333euoutp01Q
+ for <qemu-devel@nongnu.org>; Wed,  5 Feb 2020 13:28:46 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
+ 20200205132846euoutp01e9433e61731075f518fcda3ca88b7d1a~whKfvnxPN2833328333euoutp01Q
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1580909325;
- bh=eA2VRTKHri+EcLrE9E0xX8BQK07jxM4QOEd083wQnCQ=;
+ s=mail20170921; t=1580909326;
+ bh=2F49GVD50FFc7SohifeVm5zou/I4maN8aL4yyICPULM=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=I9gZTgFqjuEvAPfx4rUbltG8BNrha4GpY3XCLYxCbxRC0Ksj7X7/pB/w3xb6ufdGl
- PdRWUitZ38Iz4zr5XWfnBfiBj36d3grTo2fwsA7Hn9GkVveFOS2N2DCeCgO2HCGn0b
- 1EJwSlJpFKnhxmacnuNgXn77d1ttPOsigd8zdNcc=
-Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20200205132845eucas1p15adb929e0636020b2dfd16d16e84a657~whKfDPFSA0238002380eucas1p1w;
+ b=eifd8BScW9EcdIO8+4a3OTXN+T77aTcRUO0ICfIbg3F0r3mEzRzkr3lwMXgJP7PIA
+ 5ptUS9qkaeWk8QWB74I8un/3WzAEiqrkp7rPqtpMzorfdJJVX8c/RKosvLReCdC3n/
+ 41JvrzhT1GE0eiysx9VQEN9Y/9ICQ6s75MW47Mvc=
+Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+ 20200205132845eucas1p203c5e2013665e3ef26ac8d1094b6318e~whKfSh4mI0492104921eucas1p2E;
  Wed,  5 Feb 2020 13:28:45 +0000 (GMT)
 Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
- eusmges3new.samsung.com (EUCPMTA) with SMTP id AB.9F.60698.D03CA3E5; Wed,  5
+ eusmges1new.samsung.com (EUCPMTA) with SMTP id E7.1E.61286.D03CA3E5; Wed,  5
  Feb 2020 13:28:45 +0000 (GMT)
 Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20200205132844eucas1p1bee15f0215fc22b028a4afbf54885b56~whKesFMJj2964829648eucas1p1X;
- Wed,  5 Feb 2020 13:28:44 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20200205132845eucas1p2940f5b7b185369ce73511e613aa575cc~whKfDHwdz0081500815eucas1p2Y;
+ Wed,  5 Feb 2020 13:28:45 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
  eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20200205132844eusmtrp2e5f978b87e5460aa9429072034e3f7cc~whKerbAtm3037330373eusmtrp2Z;
- Wed,  5 Feb 2020 13:28:44 +0000 (GMT)
-X-AuditID: cbfec7f5-a0fff7000001ed1a-28-5e3ac30d05fb
+ 20200205132845eusmtrp270f9778a79018f4e78f14e603bb0399b~whKfCitR_3040630406eusmtrp2E;
+ Wed,  5 Feb 2020 13:28:45 +0000 (GMT)
+X-AuditID: cbfec7f2-f0bff7000001ef66-a5-5e3ac30dc818
 Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
- eusmgms2.samsung.com (EUCPMTA) with SMTP id 5A.FC.07950.C03CA3E5; Wed,  5
- Feb 2020 13:28:44 +0000 (GMT)
+ eusmgms1.samsung.com (EUCPMTA) with SMTP id 33.00.08375.D03CA3E5; Wed,  5
+ Feb 2020 13:28:45 +0000 (GMT)
 Received: from AMDC3304.digital.local (unknown [106.120.51.21]) by
  eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20200205132844eusmtip20578fba585cb7f6f253e3cbdb86fbf23~whKeQHDyo3135731357eusmtip2Y;
+ 20200205132844eusmtip2101e5d1d53218f847bd59e0e878de78f~whKerVnwz0172901729eusmtip2b;
  Wed,  5 Feb 2020 13:28:44 +0000 (GMT)
 From: i.kotrasinsk@partner.samsung.com
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v3 5/9] hw/misc/memexpose: Add core memexpose files
-Date: Wed,  5 Feb 2020 14:28:33 +0100
-Message-Id: <1580909317-23884-6-git-send-email-i.kotrasinsk@partner.samsung.com>
+Subject: [RFC PATCH v3 6/9] hw/misc/memexpose: Add memexpose pci device
+Date: Wed,  5 Feb 2020 14:28:34 +0100
+Message-Id: <1580909317-23884-7-git-send-email-i.kotrasinsk@partner.samsung.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1580909317-23884-1-git-send-email-i.kotrasinsk@partner.samsung.com>
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrCIsWRmVeSWpSXmKPExsWy7djP87q8h63iDO5e47HYc+Exm8W9mzeZ
- LfZv+8dqMefMAxaL4707WBxYPe5c28Pm8eTaZiaPg+/2MHm833eVzWP7yUlMAaxRXDYpqTmZ
- ZalF+nYJXBmbD5xlKWg9xVTx7uonxgbG1k+MXYycHBICJhLLNk9h72Lk4hASWMEo8fBFDxuE
- 84VR4u3d3UwQzmdGif/73sG1rHozhRnEFhJYziixa7EuXMf9ay/AEmwCahI7j3wGaxARkJT4
- 3XWaGaSIWaCBUeLR9bNACQ4OYQF3idln+UFqWARUJV6+Ww1WzysQIHFg9jkWiGVyEjfPdYLN
- 5BQIlLj8bAoryBwJgedsElOWXmaHKHKReHT4MTOELSzx6vgWqLiMxP+d85kg7HqJljs7mCCa
- Oxgl+lZOZ4NIWEt82bCUBeQgZgFNifW79CHCjhKP1mxkBQlLCPBJ3HgrCBJmBjInbZvODBHm
- lehoE4Ko1pPofnKTCWbrssZHUOd7SOyZehYavEsYJaYuOMUygVF+FsKyBYyMqxjFU0uLc9NT
- i43zUsv1ihNzi0vz0vWS83M3MQLTwul/x7/uYNz3J+kQowAHoxIPb8AEyzgh1sSy4srcQ4wS
- HMxKIrzn9YFCvCmJlVWpRfnxRaU5qcWHGKU5WJTEeY0XvYwVEkhPLEnNTk0tSC2CyTJxcEo1
- ME7auF/Q/pvZgWjvTY+0bLItCh4du3Kr/GbQa98vU0S+Pi0y/XTu6WqTTew/18WaP+tk1js9
- c+bNhfMuKDkcW6WvlxHIX8q9NKN+4l1j2387f/vkPtVmn18tJZnUwdnTvUvuhvodDp3N++76
- LTiUZXA73eqt5qRP8RcCjbY/nFK2Zlr4BrFFdreUWIozEg21mIuKEwFJyzhmBwMAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrGLMWRmVeSWpSXmKPExsVy+t/xe7o8h63iDFY1G1vsufCYzeLezZvM
- Fvu3/WO1mHPmAYvF8d4dLA6sHneu7WHzeHJtM5PHwXd7mDze77vK5rH95CSmANYoPZui/NKS
- VIWM/OISW6VoQwsjPUNLCz0jE0s9Q2PzWCsjUyV9O5uU1JzMstQifbsEvYzNB86yFLSeYqp4
- d/UTYwNj6yfGLkZODgkBE4lVb6YwdzFycQgJLGWUuHR+HgtEQkbix+k1bBC2sMSfa11sEEWf
- GCVmdZ9mBkmwCahJ7DzyGWySiICkxO+u02CTmAVaGCWePWln6mLk4BAWcJeYfZYfpIZFQFXi
- 5bvVYPW8AgESB2afg1omJ3HzXCfYTE6BQInLz6awgthCQDWvJ15hnsDIt4CRYRWjSGppcW56
- brGRXnFibnFpXrpecn7uJkZgmG479nPLDsaud8GHGAU4GJV4eAMmWMYJsSaWFVfmHmKU4GBW
- EuE9rw8U4k1JrKxKLcqPLyrNSS0+xGgKdNREZinR5HxgDOWVxBuaGppbWBqaG5sbm1koifN2
- CByMERJITyxJzU5NLUgtgulj4uCUamC84FbD1vde/HjHzRmOqRv+/RJj6HS9cfrHrJtPBc1O
- KxzJ1Tz9jvke/69XkckHd340cnMy2bquMufJolvKkhslpq8uVImYI//hoNz8imh2H65Tnp4r
- 5fJM9npxWhlrp17jP1uxU7SqOfTgeYlVEb22rc6PTD70h/9Tf+5m+G5a/Oe/12IPn7BRYinO
- SDTUYi4qTgQAdjRp12kCAAA=
-X-CMS-MailID: 20200205132844eucas1p1bee15f0215fc22b028a4afbf54885b56
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrEIsWRmVeSWpSXmKPExsWy7djP87q8h63iDFr75Cz2XHjMZnHv5k1m
+ i/3b/rFazDnzgMXieO8OFgdWjzvX9rB5PLm2mcnj4Ls9TB7v911l89h+chJTAGsUl01Kak5m
+ WWqRvl0CV8abQxdZC15aVzz7eIOxgfGoXhcjJ4eEgInE/8PdbF2MXBxCAisYJeZdfMkK4Xxh
+ lJi1+yQjhPOZUWLp0TfMMC1zfx1jh0gsZ5RoOfGGBa7l0ZJ+JpAqNgE1iZ1HPjOC2CICkhK/
+ u04zgxQxCzQAFV0/C5Tg4BAWcJfY8c0NpIZFQFXiV+ceFpAwr0CAxKWHFRDL5CRunusEW8wp
+ EChx+dkUsPMkBJ6zSfTdOMMEUeQi0de4hxXCFpZ4dXwLO4QtI/F/53yomnqJljs7mCCaOxgl
+ +lZOZ4NIWEt82bAUbDGzgKbE+l36EGFHiW2rNrGBhCUE+CRuvBUECTMDmZO2TWeGCPNKdLQJ
+ QVTrSXQ/uckEs3VZ4yMWCNtD4sf3qcyQ4FnCKHFu32e2CYzysxCWLWBkXMUonlpanJueWmyY
+ l1quV5yYW1yal66XnJ+7iRGYEk7/O/5pB+PXS0mHGAU4GJV4eFdMsowTYk0sK67MPcQowcGs
+ JMJ7Xh8oxJuSWFmVWpQfX1Sak1p8iFGag0VJnNd40ctYIYH0xJLU7NTUgtQimCwTB6dUA6Oa
+ CptkWmPP7vaseS5L0mJbF39bJSX/jVlG0+vnS8283oXrSq8EiLnucQ0V5XuzwHXHcRmuTTbC
+ m2y4Jh+y75PVcxaUnXdU5K0qk97lr5XXPeN0p3jG7Irc/3vFxy8HNNQ9Z9ho1b6bt6PBntuq
+ UZkp4vqt4xFfhLayhcVNu37EkrHdUkmhXImlOCPRUIu5qDgRANmdSoUFAwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrMLMWRmVeSWpSXmKPExsVy+t/xe7q8h63iDM5e5rPYc+Exm8W9mzeZ
+ LfZv+8dqMefMAxaL4707WBxYPe5c28Pm8eTaZiaPg+/2MHm833eVzWP7yUlMAaxRejZF+aUl
+ qQoZ+cUltkrRhhZGeoaWFnpGJpZ6hsbmsVZGpkr6djYpqTmZZalF+nYJehlvDl1kLXhpXfHs
+ 4w3GBsajel2MnBwSAiYSc38dY+9i5OIQEljKKPH38XpmiISMxI/Ta9ggbGGJP9e62CCKPjFK
+ XD/3mhUkwSagJrHzyGdGEFtEQFLid9dpZpAiZoEWRolnT9qZuhg5OIQF3CV2fHMDqWERUJX4
+ 1bmHBSTMKxAgcelhBcR8OYmb5zrB9nIKBEpcfjYFbLwQUMnriVeYJzDyLWBkWMUoklpanJue
+ W2yoV5yYW1yal66XnJ+7iREYoNuO/dy8g/HSxuBDjAIcjEo8vCsmWcYJsSaWFVfmHmKU4GBW
+ EuE9rw8U4k1JrKxKLcqPLyrNSS0+xGgKdNNEZinR5Hxg9OSVxBuaGppbWBqaG5sbm1koifN2
+ CByMERJITyxJzU5NLUgtgulj4uCUamAUmjx9wem9KlEiqiX/05ve2Jp/vb6rY+1B9f6b9WZb
+ VzurTu+ft1F7xs0Yn5D2V+I2k4UD98z9l/Ob4ZFflBOL17yUQ8GNgb+PtKpulpAMuPrgvYa3
+ HNNvm+uuRbWG+87zXpFVeWPXtZNFKHzG4+B9P9lOhq3LPONkXX4xw/9xdcGZ8vh6VXslluKM
+ REMt5qLiRAAnLFUtZgIAAA==
+X-CMS-MailID: 20200205132845eucas1p2940f5b7b185369ce73511e613aa575cc
 X-Msg-Generator: CA
 Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20200205132844eucas1p1bee15f0215fc22b028a4afbf54885b56
+X-RootMTR: 20200205132845eucas1p2940f5b7b185369ce73511e613aa575cc
 X-EPHeader: CA
 CMS-TYPE: 201P
-X-CMS-RootMailID: 20200205132844eucas1p1bee15f0215fc22b028a4afbf54885b56
+X-CMS-RootMailID: 20200205132845eucas1p2940f5b7b185369ce73511e613aa575cc
 References: <1580909317-23884-1-git-send-email-i.kotrasinsk@partner.samsung.com>
- <CGME20200205132844eucas1p1bee15f0215fc22b028a4afbf54885b56@eucas1p1.samsung.com>
+ <CGME20200205132845eucas1p2940f5b7b185369ce73511e613aa575cc@eucas1p2.samsung.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 210.118.77.12
+X-Received-From: 210.118.77.11
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -123,140 +123,40 @@ From: Igor Kotrasinski <i.kotrasinsk@partner.samsung.com>
 
 Signed-off-by: Igor Kotrasinski <i.kotrasinsk@partner.samsung.com>
 ---
- Kconfig.host                       |   3 +
- MAINTAINERS                        |   4 +
- Makefile                           |   1 +
- configure                          |   8 +
- hw/mem/Kconfig                     |   3 +
- hw/misc/Makefile.objs              |   1 +
- hw/misc/memexpose/Makefile.objs    |   2 +
- hw/misc/memexpose/memexpose-core.c | 630 +++++++++++++++++++++++++++++++++++++
- hw/misc/memexpose/memexpose-core.h | 109 +++++++
- hw/misc/memexpose/memexpose-msg.c  | 261 +++++++++++++++
- hw/misc/memexpose/memexpose-msg.h  | 161 ++++++++++
- 11 files changed, 1183 insertions(+)
- create mode 100644 hw/misc/memexpose/Makefile.objs
- create mode 100644 hw/misc/memexpose/memexpose-core.c
- create mode 100644 hw/misc/memexpose/memexpose-core.h
- create mode 100644 hw/misc/memexpose/memexpose-msg.c
- create mode 100644 hw/misc/memexpose/memexpose-msg.h
+ MAINTAINERS                       |   1 +
+ hw/misc/memexpose/Makefile.objs   |   1 +
+ hw/misc/memexpose/memexpose-pci.c | 218 ++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 220 insertions(+)
+ create mode 100644 hw/misc/memexpose/memexpose-pci.c
 
-diff --git a/Kconfig.host b/Kconfig.host
-index 55136e0..7470210 100644
---- a/Kconfig.host
-+++ b/Kconfig.host
-@@ -20,6 +20,9 @@ config SPICE
- config IVSHMEM
-     bool
- 
-+config MEMEXPOSE
-+    bool
-+
- config TPM
-     bool
- 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 73dd571..7c98fef 100644
+index 7c98fef..0517556 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -1643,6 +1643,10 @@ memexpose
- M: Igor Kotrasinski <i.kotrasinsk@partner.samsung.com>
- S: Maintained
- F: docs/specs/memexpose-spec.txt
-+F: hw/misc/memexpose/memexpose-core.h
-+F: hw/misc/memexpose/memexpose-core.c
-+F: hw/misc/memexpose/memexpose-msg.h
-+F: hw/misc/memexpose/memexpose-msg.c
+@@ -1647,6 +1647,7 @@ F: hw/misc/memexpose/memexpose-core.h
+ F: hw/misc/memexpose/memexpose-core.c
+ F: hw/misc/memexpose/memexpose-msg.h
+ F: hw/misc/memexpose/memexpose-msg.c
++F: hw/misc/memexpose/memexpose-pci.c
  
  nvme
  M: Keith Busch <keith.busch@intel.com>
-diff --git a/Makefile b/Makefile
-index 461d40b..82e7259 100644
---- a/Makefile
-+++ b/Makefile
-@@ -387,6 +387,7 @@ MINIKCONF_ARGS = \
-     CONFIG_KVM=$(CONFIG_KVM) \
-     CONFIG_SPICE=$(CONFIG_SPICE) \
-     CONFIG_IVSHMEM=$(CONFIG_IVSHMEM) \
-+    CONFIG_MEMEXPOSE=$(CONFIG_MEMEXPOSE) \
-     CONFIG_TPM=$(CONFIG_TPM) \
-     CONFIG_XEN=$(CONFIG_XEN) \
-     CONFIG_OPENGL=$(CONFIG_OPENGL) \
-diff --git a/configure b/configure
-index 115dc38..9c63c21 100755
---- a/configure
-+++ b/configure
-@@ -505,6 +505,7 @@ debug_mutex="no"
- libpmem=""
- default_devices="yes"
- plugins="no"
-+memexpose="no"
- 
- supported_cpu="no"
- supported_os="no"
-@@ -1020,6 +1021,10 @@ for opt do
-   ;;
-   --without-default-devices) default_devices="no"
-   ;;
-+  --enable-memexpose) memexpose="yes"
-+  ;;
-+  --disable-memexpose) memexpose="no"
-+  ;;
-   --enable-gprof) gprof="yes"
-   ;;
-   --enable-gcov) gcov="yes"
-@@ -7400,6 +7405,9 @@ fi
- if test "$ivshmem" = "yes" ; then
-   echo "CONFIG_IVSHMEM=y" >> $config_host_mak
- fi
-+if test "$memexpose" = "yes" ; then
-+  echo "CONFIG_MEMEXPOSE=y" >> $config_host_mak
-+fi
- if test "$capstone" != "no" ; then
-   echo "CONFIG_CAPSTONE=y" >> $config_host_mak
- fi
-diff --git a/hw/mem/Kconfig b/hw/mem/Kconfig
-index 620fd4c..e377b05 100644
---- a/hw/mem/Kconfig
-+++ b/hw/mem/Kconfig
-@@ -5,6 +5,9 @@ config DIMM
- config MEM_DEVICE
-     bool
- 
-+config MEM_EXPOSE
-+    bool
-+
- config NVDIMM
-     bool
-     default y
-diff --git a/hw/misc/Makefile.objs b/hw/misc/Makefile.objs
-index da993f4..7e9a692 100644
---- a/hw/misc/Makefile.objs
-+++ b/hw/misc/Makefile.objs
-@@ -27,6 +27,7 @@ common-obj-$(CONFIG_PUV3) += puv3_pm.o
- common-obj-$(CONFIG_MACIO) += macio/
- 
- common-obj-$(CONFIG_IVSHMEM_DEVICE) += ivshmem.o
-+common-obj-$(CONFIG_MEMEXPOSE) += memexpose/
- 
- common-obj-$(CONFIG_REALVIEW) += arm_sysctl.o
- common-obj-$(CONFIG_NSERIES) += cbus.o
 diff --git a/hw/misc/memexpose/Makefile.objs b/hw/misc/memexpose/Makefile.objs
-new file mode 100644
-index 0000000..f405fe7
---- /dev/null
+index f405fe7..05a2395 100644
+--- a/hw/misc/memexpose/Makefile.objs
 +++ b/hw/misc/memexpose/Makefile.objs
-@@ -0,0 +1,2 @@
-+common-obj-y += memexpose-msg.o
-+common-obj-y += memexpose-core.o
-diff --git a/hw/misc/memexpose/memexpose-core.c b/hw/misc/memexpose/memexpose-core.c
+@@ -1,2 +1,3 @@
+ common-obj-y += memexpose-msg.o
+ common-obj-y += memexpose-core.o
++common-obj-$(CONFIG_PCI) += memexpose-pci.o
+diff --git a/hw/misc/memexpose/memexpose-pci.c b/hw/misc/memexpose/memexpose-pci.c
 new file mode 100644
-index 0000000..3b6ef3c
+index 0000000..7372651
 --- /dev/null
-+++ b/hw/misc/memexpose/memexpose-core.c
-@@ -0,0 +1,630 @@
++++ b/hw/misc/memexpose/memexpose-pci.c
+@@ -0,0 +1,218 @@
 +/*
-+ *  Memexpose core
++ *  Memexpose PCI device
 + *
 + *  Copyright (C) 2020 Samsung Electronics Co Ltd.
 + *    Igor Kotrasinski, <i.kotrasinsk@partner.samsung.com>
@@ -277,1163 +177,202 @@ index 0000000..3b6ef3c
 + */
 +
 +#include "qemu/osdep.h"
++#include "qemu/units.h"
 +#include "qapi/error.h"
-+#include "memexpose-core.h"
-+#include "exec/address-spaces.h"
-+#include "exec/cpu-common.h"
-+
-+static int memexpose_pop_intr(MemexposeIntr *s)
-+{
-+    if (s->queue_count == 0) {
-+        MEMEXPOSE_DPRINTF("No queued interrupts\n");
-+        return 0;
-+    }
-+    struct memexpose_op_intr *head = &s->intr_queue[s->queue_start];
-+    s->intr_rx = *head;
-+    s->queue_start = (s->queue_start + 1) % MEMEXPOSE_INTR_QUEUE_SIZE;
-+    s->queue_count--;
-+
-+    if (!s->queue_count) {
-+        s->ops.intr(s->ops.parent, 0);
-+    }
-+    MEMEXPOSE_DPRINTF("Popped interrupt %lx\n", s->intr_rx.type);
-+    return 1;
-+}
-+
-+static void memexpose_push_intr(MemexposeIntr *s, struct memexpose_op_intr *msg)
-+{
-+    int signal = 0, free_slot;
-+
-+    if (s->queue_count == MEMEXPOSE_INTR_QUEUE_SIZE) {
-+        MEMEXPOSE_DPRINTF("Interrupt queue is already full!\n");
-+        return;
-+    }
-+    free_slot = (s->queue_start + s->queue_count) % MEMEXPOSE_INTR_QUEUE_SIZE;
-+    s->intr_queue[free_slot] = *msg;
-+    if (!s->queue_count) {
-+        signal = 1;
-+    }
-+    s->queue_count++;
-+
-+    if (signal) {
-+        s->ops.intr(s->ops.parent, 1);
-+    }
-+}
-+
-+static void process_intr(void *opaque, struct memexpose_op *op, Error **err)
-+{
-+    MemexposeIntr *s = opaque;
-+    switch (op->head.ot) {
-+    case MOP_INTR:
-+        memexpose_push_intr(s, &op->body.intr);
-+        break;
-+    default:
-+        error_setg(err, "Unknown memexpose intr command %u", op->head.ot);
-+    }
-+}
-+
-+static void memexpose_send_intr(MemexposeIntr *s)
-+{
-+    struct memexpose_op msg;
-+
-+    msg.head.ot = MOP_INTR;
-+    msg.head.size = sizeof(msg.head) + sizeof(msg.body.intr);
-+    msg.head.prio = 0;
-+    msg.body.intr = s->intr_tx;
-+    memexpose_ep_write_async(&s->ep, &msg);
-+    MEMEXPOSE_DPRINTF("Sending interrupt %lx\n", msg.body.intr.type);
-+}
-+
-+#define IN_INTR_DATA_RANGE(a, s, r) \
-+    (a >= r && \
-+     a < r + MEMEXPOSE_MAX_INTR_DATA_SIZE && \
-+     (s = MIN(s, r + MEMEXPOSE_MAX_INTR_DATA_SIZE - a), 1))
-+
-+static uint64_t memexpose_intr_read(void *opaque, hwaddr addr,
-+                                    unsigned size)
-+{
-+    MemexposeIntr *s = opaque;
-+    uint64_t ret = 0;
-+    unsigned int boff = 8 * (addr & 0x7);
-+
-+    switch (addr & (~0x7)) {
-+    case MEMEXPOSE_INTR_RX_TYPE_ADDR:
-+        ret = s->intr_rx.type;
-+        ret >>= boff;
-+        return ret;
-+    case MEMEXPOSE_INTR_TX_TYPE_ADDR:
-+        ret = s->intr_tx.type;
-+        ret >>= boff;
-+        return ret;
-+    case MEMEXPOSE_INTR_RECV_ADDR:
-+        /* Make multiple read calls in readq and such behave as expected */
-+        if (addr & 0x7) {
-+            return 0;
-+        }
-+
-+        ret = memexpose_pop_intr(s);
-+        return ret;
-+    case MEMEXPOSE_INTR_ENABLE_ADDR:
-+        if (addr & 0x7) {
-+            return 0;
-+        }
-+        return s->enabled;
-+    default:
-+        break;
-+    }
-+
-+    if (IN_INTR_DATA_RANGE(addr, size, MEMEXPOSE_INTR_RX_DATA_ADDR)) {
-+        uint64_t off = addr - MEMEXPOSE_INTR_RX_DATA_ADDR;
-+        memcpy(&ret, s->intr_rx.data + off, size);
-+        return ret;
-+    } else if (IN_INTR_DATA_RANGE(addr, size, MEMEXPOSE_INTR_TX_DATA_ADDR)) {
-+        uint64_t off = addr - MEMEXPOSE_INTR_TX_DATA_ADDR;
-+        memcpy(&ret, s->intr_tx.data + off, size);
-+        return ret;
-+    } else {
-+        MEMEXPOSE_DPRINTF("Invalid mmio read at " TARGET_FMT_plx "\n", addr);
-+        ret = 0;
-+        return ret;
-+    }
-+}
-+
-+static void memexpose_intr_write(void *opaque, hwaddr addr,
-+                                 uint64_t val, unsigned size)
-+{
-+    MemexposeIntr *s = opaque;
-+    unsigned int boff = 8 * (addr & 0x7);
-+    uint64_t mask = ((1LL << (size * 8)) - 1) << boff;
-+
-+    switch (addr & (~0x7)) {
-+    case MEMEXPOSE_INTR_RX_TYPE_ADDR:
-+        s->intr_rx.type &= ~mask;
-+        s->intr_rx.type |= (val << boff);
-+        return;
-+    case MEMEXPOSE_INTR_TX_TYPE_ADDR:
-+        s->intr_tx.type &= ~mask;
-+        s->intr_tx.type |= (val << boff);
-+        return;
-+    case MEMEXPOSE_INTR_SEND_ADDR:
-+        /* Make multiple write calls in writeq and such behave as expected */
-+        if (addr & 0x7) {
-+            return;
-+        }
-+        memexpose_send_intr(s);
-+        return;
-+    case MEMEXPOSE_INTR_ENABLE_ADDR:
-+        if (addr & 0x7) {
-+            return;
-+        }
-+        if (val) {
-+            if (s->ops.enable) {
-+                s->enabled = s->ops.enable(s->ops.parent) ? 0 : 1;
-+            } else {
-+                s->enabled = 1;
-+            }
-+        } else {
-+            if (s->ops.disable) {
-+                s->ops.disable(s->ops.parent);
-+            }
-+            s->enabled = 0;
-+        }
-+        return;
-+    }
-+
-+    if (IN_INTR_DATA_RANGE(addr, size, MEMEXPOSE_INTR_RX_DATA_ADDR)) {
-+        uint64_t off = addr - MEMEXPOSE_INTR_RX_DATA_ADDR;
-+        memcpy(s->intr_rx.data + off, &val, size);
-+    } else if (IN_INTR_DATA_RANGE(addr, size, MEMEXPOSE_INTR_TX_DATA_ADDR)) {
-+        uint64_t off = addr - MEMEXPOSE_INTR_TX_DATA_ADDR;
-+        memcpy(s->intr_tx.data + off, &val, size);
-+    } else {
-+        MEMEXPOSE_DPRINTF("Invalid mmio write at " TARGET_FMT_plx "\n", addr);
-+    }
-+}
-+
-+static const MemoryRegionOps memexpose_intr_ops = {
-+    .read = memexpose_intr_read,
-+    .write = memexpose_intr_write,
-+    .endianness = DEVICE_NATIVE_ENDIAN,
-+    .impl = {
-+        .min_access_size = 4,
-+        .max_access_size = 4,
-+    },
-+};
-+
-+void memexpose_intr_init(MemexposeIntr *s, struct memexpose_intr_ops *ops,
-+                         Object *parent, CharBackend *chr, Error **errp)
-+{
-+    if (!qemu_chr_fe_backend_connected(chr)) {
-+        error_setg(errp, "You must specify a 'intr_chardev'");
-+        return;
-+    }
-+
-+    s->parent = parent;
-+    s->ops = *ops;
-+    s->enabled = 0;
-+    s->queue_start = 0;
-+    s->queue_count = 0;
-+    memexpose_ep_init(&s->ep, chr, s, 0, process_intr);
-+    s->ep.is_async = true;
-+    memory_region_init_io(&s->shmem, parent, &memexpose_intr_ops, s,
-+                          "memexpose-intr", MEMEXPOSE_INTR_MEM_SIZE);
-+}
-+
-+int memexpose_intr_enable(MemexposeIntr *s)
-+{
-+    return memexpose_ep_connect(&s->ep);
-+}
-+
-+void memexpose_intr_disable(MemexposeIntr *s)
-+{
-+    memexpose_ep_disconnect(&s->ep);
-+}
-+
-+void memexpose_intr_destroy(MemexposeIntr *s)
-+{
-+    memexpose_intr_disable(s);
-+    /* Region will be collected with its parent */
-+    memexpose_ep_destroy(&s->ep);
-+}
-+
-+static bool memshare_region_overlaps(MemexposeMem *s,
-+                                     struct memexpose_memshare_info_fd *share)
-+{
-+    MemexposeRemoteMemory *mem;
-+    QLIST_FOREACH(mem, &s->remote_regions, list) {
-+        uint64_t start = memory_region_get_ram_addr(&mem->region);
-+        uint64_t size = memory_region_size(&mem->region);
-+        MEMEXPOSE_DPRINTF("Comparing regions: received %"PRIx64"-%"PRIx64", "\
-+                          "current mapped %"PRIx64"-%"PRIx64"\n",
-+                          share->start, share->start + share->size,
-+                          start, start + size);
-+        if (start < share->start + share->size ||
-+            share->start < start + size)
-+            return true;
-+    }
-+    return false;
-+}
-+
-+static void memshare_add_region(MemexposeMem *s, int fd,
-+                                struct memexpose_memshare_info_fd *share,
-+                                Error **errp)
-+{
-+    if (share->start >= s->shmem_size) {
-+        /* TODO - error out */
-+        MEMEXPOSE_DPRINTF("Shared memory start too high: "
-+                          "%" PRIx64 " >= %" PRIx64,
-+                          share->start, s->shmem_size);
-+        close(fd);
-+        return;
-+    }
-+
-+    if (memshare_region_overlaps(s, share)) {
-+        /* TODO - error out */
-+        MEMEXPOSE_DPRINTF("Shared memory %" PRIx64 "-%" PRIx64
-+                          " overlaps with existing region",
-+                          share->start, share->start + share->size);
-+        close(fd);
-+        return;
-+    }
-+
-+    uint64_t clamped_size = s->shmem_size - share->start;
-+    share->size = MIN(share->size, clamped_size);
-+
-+    MemexposeRemoteMemory *mem = g_malloc(sizeof(*mem));
-+    char *rname = g_strdup_printf("Memexpose shmem "
-+                                  "%" PRIx64 "-%" PRIx64" -> %" PRIx64,
-+                                  share->start, share->start + share->size,
-+                                  share->mmap_start);
-+
-+    MEMEXPOSE_DPRINTF("Mapping remote memory: %" PRIx64 \
-+                      "-%" PRIx64 ", fd offset %" PRIx64 "\n",
-+                      share->start, share->size, share->mmap_start);
-+
-+    memory_region_init_ram_from_fd(&mem->region, s->parent, rname,
-+                                   share->size, share->mmap_start,
-+                                   true, fd, errp);
-+    if (*errp) {
-+        error_report_err(*errp);
-+        close(fd);
-+        return;
-+    }
-+
-+    memory_region_set_nonvolatile(&mem->region, share->nonvolatile);
-+    memory_region_set_readonly(&mem->region, share->readonly);
-+    g_free(rname);
-+    memory_region_add_subregion_overlap(&s->shmem, share->start,
-+                                        &mem->region, 1);
-+    QLIST_INSERT_HEAD(&s->remote_regions, mem, list);
-+}
-+
-+static void memshare_remove_region(MemexposeMem *s, MemexposeRemoteMemory *reg)
-+{
-+    /* TODO is this correct? Docs warn about leaked refcounts */
-+    QLIST_REMOVE(reg, list);
-+    memory_region_del_subregion(&s->shmem, &reg->region);
-+    object_unparent(OBJECT(&reg->region));
-+}
-+
-+static void memshare_handle(MemexposeMem *s,
-+                            struct memexpose_memshare_info *share)
-+{
-+    int fd;
-+    switch (share->type) {
-+    case MEMSHARE_NONE:
-+        return;
-+    case MEMSHARE_FD:
-+        fd = memexpose_ep_recv_fd(&s->ep);
-+        MEMEXPOSE_DPRINTF("Received memshare fd: %d\n", fd);
-+        if (s->pending_invalidation) {
-+            close(fd);
-+            return;
-+        }
-+        Error *err = NULL;
-+        memshare_add_region(s, fd, &share->fd, &err); /* TODO - handle errors */
-+        return;
-+    default:
-+        MEMEXPOSE_DPRINTF("Invalid memshare type: %u\n", share->type);
-+        return;
-+    }
-+}
-+
-+static MemTxResult memexpose_read_slow(void *opaque, hwaddr addr,
-+                                       uint64_t *data, unsigned size,
-+                                       MemTxAttrs attrs)
-+{
-+    MemexposeMem *s = opaque;
-+
-+    struct memexpose_op msg;
-+    msg.head.size = sizeof(msg.head) + sizeof(msg.body.read);
-+    msg.head.ot = MOP_READ;
-+    msg.head.prio = memexpose_ep_msg_prio(&s->ep, msg.head.ot);
-+    msg.body.read.offset = addr;
-+    msg.body.read.size = size;
-+    memexpose_ep_write_sync(&s->ep, &msg);
-+
-+    MemTxResult res = msg.body.read_ret.ret;
-+    if (res == MEMTX_OK) {
-+        memshare_handle(s, &msg.body.read_ret.share);
-+    }
-+    memcpy(data, &msg.body.read_ret.value, size);
-+    return res;
-+}
-+
-+static MemTxResult memexpose_write_slow(void *opaque, hwaddr addr,
-+                                        uint64_t val, unsigned size,
-+                                        MemTxAttrs attrs)
-+{
-+    MemexposeMem *s = opaque;
-+    struct memexpose_op msg;
-+    msg.head.size = sizeof(msg.head) + sizeof(msg.body.write);
-+    msg.head.ot = MOP_WRITE;
-+    msg.head.prio = memexpose_ep_msg_prio(&s->ep, msg.head.ot);
-+    msg.body.write.offset = addr;
-+    msg.body.write.size = size;
-+    msg.body.write.value = val;
-+    memexpose_ep_write_sync(&s->ep, &msg);
-+
-+    MemTxResult res = msg.body.write_ret.ret;
-+    if (res == MEMTX_OK) {
-+        memshare_handle(s, &msg.body.write_ret.share);
-+    }
-+    return res;
-+}
-+
-+static const MemoryRegionOps memexpose_region_ops = {
-+    .read_with_attrs = memexpose_read_slow,
-+    .write_with_attrs = memexpose_write_slow,
-+    .endianness = DEVICE_NATIVE_ENDIAN,
-+    .impl = {
-+        .min_access_size = 1,
-+        .max_access_size = 8,
-+    },
-+};
-+
-+static void prepare_memshare(MemexposeMem *s,
-+                             uint64_t size, uint64_t offset,
-+                             struct memexpose_memshare_info *info) {
-+    MemoryRegionSection section = memory_region_find_flat_range(
-+            s->as.root, offset, size);
-+    if (!section.mr) {
-+        MEMEXPOSE_DPRINTF("No memory region under %lu!\n", offset);
-+        goto unref;
-+    }
-+
-+    int fd = memory_region_get_fd(section.mr);
-+    if (fd != -1 && qemu_ram_is_shared(section.mr->ram_block)) {
-+        info->type = MEMSHARE_FD;
-+        info->fd.mmap_start = section.offset_within_region;
-+        info->fd.start = section.offset_within_address_space;
-+        info->fd.size = section.size;
-+        info->fd.readonly = memory_region_is_rom(section.mr);
-+        info->fd.nonvolatile = memory_region_is_nonvolatile(section.mr);
-+
-+        MEMEXPOSE_DPRINTF("Prepared a memshare fd: %" PRIx64 \
-+                          "-%" PRIx64 ", fd offset %" PRIx64 "\n",
-+                          info->fd.start, info->fd.size, info->fd.mmap_start);
-+        memexpose_ep_send_fd(&s->ep, fd);
-+        s->nothing_shared = false;
-+    } else {
-+        info->type = MEMSHARE_NONE;
-+    }
-+unref:
-+    memory_region_unref(section.mr);
-+}
-+
-+static void memexpose_perform_read_request(
-+        MemexposeMem *s, struct memexpose_op_read *in,
-+        struct memexpose_op *out)
-+{
-+    out->head.ot = MOP_READ_RET;
-+    out->head.size = sizeof(out->head) + sizeof(out->body.read_ret);
-+    out->body.read_ret.ret = 0;
-+    out->body.read_ret.share.type = MEMSHARE_NONE;
-+
-+    MEMEXPOSE_DPRINTF("Reading %u from %lx\n", in->size, in->offset);
-+    MemTxResult r = address_space_read(&s->as, in->offset,
-+                                       MEMTXATTRS_UNSPECIFIED,
-+                                       (uint8_t *) &out->body.read_ret.value,
-+                                       in->size);
-+    out->body.read_ret.ret = r;
-+    if (r != MEMTX_OK) {
-+        MEMEXPOSE_DPRINTF("Failed to read\n");
-+    } else {
-+        prepare_memshare(s, in->size, in->offset, &out->body.read_ret.share);
-+    }
-+}
-+
-+static void memexpose_perform_write_request(
-+        MemexposeMem *s, struct memexpose_op_write *in,
-+        struct memexpose_op *out)
-+{
-+    out->head.ot = MOP_WRITE_RET;
-+    out->head.size = sizeof(out->head) + sizeof(out->body.write_ret);
-+    out->body.write_ret.ret = 0;
-+    out->body.write_ret.share.type = MEMSHARE_NONE;
-+
-+    MEMEXPOSE_DPRINTF("Writing %u to %lx\n", in->size, in->offset);
-+    MemTxResult r = address_space_write(&s->as, in->offset,
-+                                        MEMTXATTRS_UNSPECIFIED,
-+                                        (uint8_t *) &in->value,
-+                                        in->size);
-+    if (r != MEMTX_OK) {
-+        out->body.write_ret.ret = -EIO;
-+        MEMEXPOSE_DPRINTF("Failed to write\n");
-+        return;
-+    }
-+
-+    out->body.write_ret.ret = r;
-+    if (r != MEMTX_OK) {
-+        MEMEXPOSE_DPRINTF("Failed to read\n");
-+    } else {
-+        prepare_memshare(s, in->size, in->offset, &out->body.write_ret.share);
-+    }
-+}
-+
-+static bool region_is_ours(MemexposeMem *s, MemoryRegion *mr)
-+{
-+    if (mr == &s->shmem) {
-+        return true;
-+    }
-+
-+    MemexposeRemoteMemory *mem;
-+    QLIST_FOREACH(mem, &s->remote_regions, list) {
-+        if (mr == &mem->region) {
-+            return true;
-+        }
-+    }
-+    return false;
-+}
-+
-+static void memexpose_remote_invalidate(MemoryListener *inv,
-+                                        MemoryRegionSection *sect)
-+{
-+    MemexposeMem *s = container_of(inv, MemexposeMem, remote_invalidator);
-+    struct memexpose_op msg;
-+    struct memexpose_op_reg_inv *ri = &msg.body.reg_inv;
-+
-+    if (!sect->mr || region_is_ours(s, sect->mr)) {
-+        return;
-+    }
-+    if (s->nothing_shared) {
-+        return;
-+    }
-+
-+    msg.head.size = sizeof(msg.head) + sizeof(msg.body.reg_inv);
-+    msg.head.ot = MOP_REG_INV;
-+    msg.head.prio = memexpose_ep_msg_prio(&s->ep, msg.head.ot);
-+
-+    ri->start = sect->offset_within_address_space;
-+    ri->size = int128_get64(sect->size);
-+    MEMEXPOSE_DPRINTF("Region %"PRIx64"-%"PRIx64" changed, "
-+                      "sending invalidation request\n",
-+                      ri->start, ri->start + ri->size);
-+    memexpose_ep_write_sync(&s->ep, &msg);
-+}
-+
-+static void memexpose_invalidate_region(MemexposeMem *s,
-+                                        struct memexpose_op_reg_inv *ri,
-+                                        struct memexpose_op *out)
-+{
-+    MemexposeRemoteMemory *mem;
-+
-+    QLIST_FOREACH(mem, &s->remote_regions, list) {
-+        uint64_t start = memory_region_get_ram_addr(&mem->region);
-+        uint64_t size = memory_region_size(&mem->region);
-+        if (start < ri->start + ri->size ||
-+            start + size > ri->start) {
-+            mem->should_invalidate = true;
-+            s->pending_invalidation = true;
-+        }
-+    }
-+
-+    if (s->pending_invalidation) {
-+        qemu_bh_schedule(s->reg_inv_bh);
-+    }
-+
-+    out->head.ot = MOP_REG_INV_RET;
-+    out->head.size = sizeof(out->head);
-+}
-+
-+static void memexpose_do_reg_inv_bh(void *opaque)
-+{
-+    MemexposeMem *s = opaque;
-+
-+    MemexposeRemoteMemory *mem, *tmp;
-+    QLIST_FOREACH_SAFE(mem, &s->remote_regions, list, tmp) {
-+        if (mem->should_invalidate) {
-+            memshare_remove_region(s, mem);
-+        }
-+    }
-+    s->pending_invalidation = false;
-+}
-+
-+static void process_mem(void *opaque, struct memexpose_op *op, Error **err)
-+{
-+    MemexposeMem *s = opaque;
-+    struct memexpose_op resp;
-+    resp.head.prio = op->head.prio;
-+    switch (op->head.ot) {
-+    case MOP_READ:
-+        memexpose_perform_read_request(s, &op->body.read, &resp);
-+        break;
-+    case MOP_WRITE:
-+        memexpose_perform_write_request(s, &op->body.write, &resp);
-+        break;
-+    case MOP_REG_INV:
-+        memexpose_invalidate_region(s, &op->body.reg_inv, &resp);
-+        break;
-+    default:
-+        error_setg(err, "Unknown memexpose command %u", op->head.ot);
-+        return;
-+    }
-+    memexpose_ep_write_async(&s->ep, &resp);
-+}
-+
-+void memexpose_mem_init(MemexposeMem *s, Object *parent,
-+                        MemoryRegion *as_root,
-+                        CharBackend *chr, int prio, Error **errp)
-+{
-+    if (!qemu_chr_fe_backend_connected(chr)) {
-+        error_setg(errp, "You must specify a 'mem_chardev'");
-+        return;
-+    }
-+
-+    QLIST_INIT(&s->remote_regions);
-+    s->parent = parent;
-+    address_space_init(&s->as, as_root, "Memexpose");
-+
-+    memexpose_ep_init(&s->ep, chr, s, prio, process_mem);
-+    s->ep.is_async = false;
-+    memory_region_init_io(&s->shmem, parent, &memexpose_region_ops, s,
-+                          "memexpose-shmem", s->shmem_size);
-+    MEMEXPOSE_DPRINTF("Shmem size %lx\n", memory_region_size(&s->shmem));
-+
-+    s->nothing_shared = true;
-+    s->remote_invalidator = (MemoryListener) {
-+        .region_add = memexpose_remote_invalidate,
-+            .region_del = memexpose_remote_invalidate,
-+    };
-+    s->reg_inv_bh = qemu_bh_new(memexpose_do_reg_inv_bh, s);
-+    memory_listener_register(&s->remote_invalidator, &s->as);
-+}
-+
-+int memexpose_mem_enable(MemexposeMem *s)
-+{
-+    return memexpose_ep_connect(&s->ep);
-+}
-+
-+void memexpose_mem_disable(MemexposeMem *s)
-+{
-+    memexpose_ep_disconnect(&s->ep);
-+
-+    MemexposeRemoteMemory *mem, *tmp;
-+    QLIST_FOREACH_SAFE(mem, &s->remote_regions, list, tmp) {
-+        memshare_remove_region(s, mem);
-+    }
-+    qemu_bh_cancel(s->reg_inv_bh);
-+    s->pending_invalidation = false;
-+}
-+
-+void memexpose_mem_destroy(MemexposeMem *s)
-+{
-+    memexpose_mem_disable(s);
-+    /* Region will be collected with its parent */
-+    memory_listener_unregister(&s->remote_invalidator);
-+    memexpose_ep_destroy(&s->ep);
-+    qemu_bh_delete(s->reg_inv_bh);
-+    address_space_destroy(&s->as);
-+}
-diff --git a/hw/misc/memexpose/memexpose-core.h b/hw/misc/memexpose/memexpose-core.h
-new file mode 100644
-index 0000000..fd0ac60
---- /dev/null
-+++ b/hw/misc/memexpose/memexpose-core.h
-@@ -0,0 +1,109 @@
-+/*
-+ *  Memexpose core
-+ *
-+ *  Copyright (C) 2020 Samsung Electronics Co Ltd.
-+ *    Igor Kotrasinski, <i.kotrasinsk@partner.samsung.com>
-+ *
-+ *  This program is free software; you can redistribute it and/or modify it
-+ *  under the terms of the GNU General Public License as published by the
-+ *  Free Software Foundation; either version 2 of the License, or
-+ *  (at your option) any later version.
-+ *
-+ *  This program is distributed in the hope that it will be useful, but WITHOUT
-+ *  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-+ *  FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-+ *  for more details.
-+ *
-+ *  You should have received a copy of the GNU General Public License along
-+ *  with this program; if not, see <http://www.gnu.org/licenses/>.
-+ *
-+ */
-+
-+#ifndef _MEMEXPOSE_CORE_H_
-+#define _MEMEXPOSE_CORE_H_
-+#include "qemu/osdep.h"
-+
-+#include <inttypes.h>
-+#include "chardev/char-fe.h"
++#include "qemu/cutils.h"
 +#include "hw/hw.h"
++#include "hw/pci/pci.h"
++#include "hw/pci/msi.h"
++#include "hw/pci/msix.h"
++#include "hw/qdev-properties.h"
 +#include "exec/memory.h"
-+#include "memexpose-msg.h"
-+
-+#define MEMEXPOSE_INTR_QUEUE_SIZE 16
-+
-+#define MEMEXPOSE_DEBUG 1
-+#define MEMEXPOSE_DPRINTF(fmt, ...)                       \
-+    do {                                                \
-+        if (MEMEXPOSE_DEBUG) {                            \
-+            printf("MEMEXPOSE: " fmt, ## __VA_ARGS__);    \
-+        }                                               \
-+    } while (0)
-+
-+#define MEMEXPOSE_INTR_MEM_SIZE 0x1000
-+
-+
-+#define MEMEXPOSE_INTR_ENABLE_ADDR  0x0
-+#define MEMEXPOSE_INTR_RECV_ADDR    0x400
-+#define MEMEXPOSE_INTR_RX_TYPE_ADDR 0x408
-+#define MEMEXPOSE_INTR_RX_DATA_ADDR 0x410
-+#define MEMEXPOSE_INTR_SEND_ADDR    0x800
-+#define MEMEXPOSE_INTR_TX_TYPE_ADDR 0x808
-+#define MEMEXPOSE_INTR_TX_DATA_ADDR 0x810
-+
-+struct memexpose_intr_ops {
-+    void *parent;
-+    void (*intr) (void *opaque, int dir);
-+    int (*enable) (void *opaque);
-+    void (*disable) (void *opaque);
-+};
-+
-+typedef struct MemexposeIntr {
-+    Object *parent;
-+    struct memexpose_intr_ops ops;
-+    int enabled;
-+
-+    MemexposeEp ep;
-+    MemoryRegion shmem;
-+
-+    struct memexpose_op_intr intr_queue[MEMEXPOSE_INTR_QUEUE_SIZE];
-+    int queue_start;
-+    int queue_count;
-+    struct memexpose_op_intr intr_tx;
-+    struct memexpose_op_intr intr_rx;
-+} MemexposeIntr;
-+
-+typedef struct MemexposeMem {
-+    Object *parent;
-+    MemexposeEp ep;
-+
-+    AddressSpace as;
-+    MemoryRegion shmem;
-+    uint64_t shmem_size;
-+    QLIST_HEAD(, MemexposeRemoteMemory) remote_regions;
-+
-+    MemoryListener remote_invalidator;
-+    QEMUBH *reg_inv_bh;
-+    bool pending_invalidation;
-+    bool nothing_shared;
-+} MemexposeMem;
-+
-+typedef struct MemexposeRemoteMemory {
-+    MemoryRegion region;
-+    bool should_invalidate;
-+    QLIST_ENTRY(MemexposeRemoteMemory) list;
-+} MemexposeRemoteMemory;
-+
-+void memexpose_intr_init(MemexposeIntr *s, struct memexpose_intr_ops *ops,
-+                         Object *parent, CharBackend *chr, Error **errp);
-+void memexpose_intr_destroy(MemexposeIntr *s);
-+int memexpose_intr_enable(MemexposeIntr *s);
-+void memexpose_intr_disable(MemexposeIntr *s);
-+
-+void memexpose_mem_init(MemexposeMem *s, Object *parent,
-+                        MemoryRegion *as_root,
-+                        CharBackend *chr, int prio, Error **errp);
-+void memexpose_mem_destroy(MemexposeMem *s);
-+int memexpose_mem_enable(MemexposeMem *s);
-+void memexpose_mem_disable(MemexposeMem *s);
-+
-+#endif /* _MEMEXPOSE_CORE_H_ */
-diff --git a/hw/misc/memexpose/memexpose-msg.c b/hw/misc/memexpose/memexpose-msg.c
-new file mode 100644
-index 0000000..7205dd0
---- /dev/null
-+++ b/hw/misc/memexpose/memexpose-msg.c
-@@ -0,0 +1,261 @@
-+/*
-+ *  Memexpose core
-+ *
-+ *  Copyright (C) 2020 Samsung Electronics Co Ltd.
-+ *    Igor Kotrasinski, <i.kotrasinsk@partner.samsung.com>
-+ *
-+ *  This program is free software; you can redistribute it and/or modify it
-+ *  under the terms of the GNU General Public License as published by the
-+ *  Free Software Foundation; either version 2 of the License, or
-+ *  (at your option) any later version.
-+ *
-+ *  This program is distributed in the hope that it will be useful, but WITHOUT
-+ *  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-+ *  FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-+ *  for more details.
-+ *
-+ *  You should have received a copy of the GNU General Public License along
-+ *  with this program; if not, see <http://www.gnu.org/licenses/>.
-+ *
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qapi/error.h"
-+#include "memexpose-msg.h"
++#include "exec/address-spaces.h"
 +#include "memexpose-core.h"
 +
-+#define MIN_MSG_SIZE (sizeof(struct memexpose_op_head))
-+#define MAX_MSG_SIZE (sizeof(struct memexpose_op))
++#define PCI_VENDOR_ID_MEMEXPOSE            PCI_VENDOR_ID_REDHAT_QUMRANET
++#define TYPE_MEMEXPOSE_PCI "memexpose-pci"
++#define PCI_DEVICE_ID_MEMEXPOSE     0x1111
++#define MEMEXPOSE_PCI(obj) \
++    OBJECT_CHECK(MemexposePCIState, (obj), TYPE_MEMEXPOSE_PCI)
 +
-+int memexpose_ep_msg_prio(MemexposeEp *ep, enum memexpose_op_type ot)
++typedef struct MemexposePCIState {
++    PCIDevice parent_obj;
++
++    CharBackend intr_chr;
++    CharBackend mem_chr;
++
++    MemexposeIntr intr;
++    uint32_t intr_status;
++    MemexposeMem mem;
++} MemexposePCIState;
++
++static void raise_irq(MemexposePCIState *s)
 +{
-+    int ot_prio;
-+    switch (ot) {
-+    case MOP_READ:
-+    case MOP_READ_RET:
-+    case MOP_WRITE:
-+    case MOP_WRITE_RET:
-+        ot_prio = 2;
-+        break;
-+    default:
-+        ot_prio = 0;
-+    }
-+    return ot_prio + ep->prio;
-+}
-+
-+static int mep_can_receive(void *opaque)
-+{
-+    int sz;
-+    MemexposeEp *ep = opaque;
-+    MemexposeMsg *msg = &ep->msg;
-+
-+    switch (msg->read_state) {
-+    case MEMEXPOSE_MSG_BROKEN:
-+        return 0;
-+    case MEMEXPOSE_MSG_READ_SIZE:
-+        return sizeof(msg->buf.head.size) - msg->bytes;
-+    case MEMEXPOSE_MSG_READ_BODY:
-+        sz = msg->buf.head.size - msg->bytes;
-+        if (sz > MAX_MSG_SIZE) {
-+            return MAX_MSG_SIZE;  /* We'll handle this as an error later */
-+        }
-+        return sz;
-+    default:
-+        MEMEXPOSE_DPRINTF("Invalid read state %d\n", msg->read_state);
-+        return 0;
++    s->intr_status |= 1;
++    if (msi_enabled(&s->parent_obj)) {
++        msi_notify(&s->parent_obj, 0);
++    } else {
++        pci_set_irq(&s->parent_obj, 1);
 +    }
 +}
 +
-+static int mep_do_receive(MemexposeMsg *msg,
-+                          const uint8_t *buf, int size)
++static void lower_irq(MemexposePCIState *s)
 +{
-+    switch (msg->read_state) {
-+    case MEMEXPOSE_MSG_BROKEN:
-+        return -1;
-+    case MEMEXPOSE_MSG_READ_SIZE:
-+        memcpy((unsigned char *)&msg->buf + msg->bytes, buf, size);
-+        msg->bytes += size;
-+        if (msg->bytes == sizeof(msg->buf.head.size)) {
-+            msg->read_state = MEMEXPOSE_MSG_READ_BODY;
-+        }
-+        return 0;
-+    case MEMEXPOSE_MSG_READ_BODY:
-+        if (msg->buf.head.size < MIN_MSG_SIZE ||
-+            msg->buf.head.size > MAX_MSG_SIZE) {
-+            MEMEXPOSE_DPRINTF("Invalid message size %d, protocol broken!\n",
-+                              msg->buf.head.size);
-+            msg->read_state = MEMEXPOSE_MSG_BROKEN;
-+            return -1;
-+        }
-+        memcpy((unsigned char *)&msg->buf + msg->bytes, buf, size);
-+        msg->bytes += size;
-+        if (msg->bytes < msg->buf.head.size) {
-+            return 0;
-+        }
-+        msg->bytes = 0;
-+        msg->read_state = MEMEXPOSE_MSG_READ_SIZE;
-+        return 1;
-+    default:
-+        MEMEXPOSE_DPRINTF("Invalid read state %d\n", msg->read_state);
-+        return -1;
++    s->intr_status &= (~1);
++    if (!s->intr_status && !msi_enabled(&s->parent_obj)) {
++        pci_set_irq(&s->parent_obj, 0);
 +    }
 +}
 +
-+static void mep_receive(void *opaque, const uint8_t *buf, int size)
++static void handle_irq(void *opaque, int dir)
 +{
-+    MemexposeEp *ep = opaque;
-+    Error *err = NULL;
-+    int new_msg = mep_do_receive(&ep->msg, buf, size);
-+    if (new_msg) {
-+        ep->handle_msg(ep->data, &ep->msg.buf, &err);
-+        if (err) {
-+            error_report_err(err);
-+        }
-+    } else if (new_msg < 0) {
-+        error_setg(&err, "Failed to receive memexpose message"); /* FIXME */
-+        error_report_err(err);
++    MemexposePCIState *s = opaque;
++    if (dir) {
++        raise_irq(s);
++    } else {
++        lower_irq(s);
 +    }
 +}
 +
-+static int mep_receive_sync(MemexposeEp *ep, struct memexpose_op *op)
++static int memexpose_enable(void *opaque)
 +{
-+    int ret = 0;
-+    MemexposeMsg *msg = &ep->msg;
-+    assert(!ep->is_async);
++    int ret;
++    MemexposePCIState *s = opaque;
 +
-+    while (!ret) {
-+        int can_receive = mep_can_receive(ep);
-+        unsigned char *msgbuf = (unsigned char *)&msg->buf + msg->bytes;
-+        qemu_chr_fe_read_all(ep->chr, msgbuf, can_receive);
-+        ret = mep_do_receive(msg, msgbuf, can_receive);
-+        if (ret == -1) {
-+            return -1;
-+        }
-+    }
-+    *op = msg->buf;
-+    return 0;
-+}
-+
-+void memexpose_ep_write_async(MemexposeEp *ep, struct memexpose_op *op)
-+{
-+    qemu_chr_fe_write_all(ep->chr, (unsigned char *) op, op->head.size);
-+}
-+
-+static void mep_queue_msg(MemexposeEp *ep, struct memexpose_op *op)
-+{
-+    ep->queued_op = *op;
-+    qemu_bh_schedule(ep->queue_msg_bh);
-+}
-+
-+static void mep_queue_msg_bh(void *epp)
-+{
-+    Error *err = NULL;
-+    MemexposeEp *ep = epp;
-+    if (!ep->queued_op.head.size) {
-+        return;
-+    }
-+    ep->handle_msg(ep->data, &ep->queued_op, &err); /* FIXME - handle */
-+    ep->queued_op.head.size = 0;
-+}
-+
-+/*
-+ * Synchronously write a message to another QEMU and receive a response.
-+ * To avoid deadlocks, each message type has its priority and no more than one
-+ * message of each priority is in flight.
-+ *
-+ * After we send a message, we await a response while handling all messages of
-+ * higher priority and deferring messages of lower priority. This way each side
-+ * will have its requests handled until they have time to handle ours.
-+ *
-+ * The above means that a handler for a message must be able to run while an
-+ * operation that sends any other lower priority message is in progress. Make
-+ * sure to order operations in an order that does not upset QEMU!
-+ */
-+void memexpose_ep_write_sync(MemexposeEp *ep, struct memexpose_op *op)
-+{
-+    assert(!ep->is_async);
-+    qemu_chr_fe_write_all(ep->chr, (unsigned char *) op, op->head.size);
-+
-+    struct memexpose_op resp;
-+    int prio = op->head.prio;
-+
-+    /* FIXME - handle errors */
-+    while (true) {
-+        Error *err = NULL;
-+        mep_receive_sync(ep, &resp);
-+        int resp_prio = resp.head.prio;
-+        if (resp_prio > prio) {
-+            ep->handle_msg(ep->data, &resp, &err);
-+        } else if (resp_prio < prio) {
-+            mep_queue_msg(ep, &resp);
-+        } else {
-+            *op = resp;
-+            return;
-+        }
-+    }
-+}
-+
-+void memexpose_ep_init(MemexposeEp *ep, CharBackend *chr, void *data, int prio,
-+                       void (*handle_msg)(void *data, struct memexpose_op *op,
-+                                          Error **errp))
-+{
-+    ep->queue_msg_bh = qemu_bh_new(mep_queue_msg_bh, ep);
-+    ep->queued_op.head.size = 0;
-+    ep->handle_msg = handle_msg;
-+    ep->msg.bytes = 0;
-+    ep->msg.read_state = MEMEXPOSE_MSG_READ_SIZE;
-+    ep->chr = chr;
-+    ep->data = data;
-+    ep->prio = prio;
-+    ep->connected = 0;
-+
-+    if (handle_msg)
-+        qemu_chr_fe_set_handlers(ep->chr, mep_can_receive,
-+                                 mep_receive, NULL, NULL, ep, NULL, true);
-+    Chardev *chrd = qemu_chr_fe_get_driver(ep->chr);
-+    assert(chrd);
-+    MEMEXPOSE_DPRINTF("Memexpose endpoint at %s\n",
-+                      chrd->filename);
-+
-+}
-+
-+/* TODO - protocol for synchronously ending connection */
-+void memexpose_ep_destroy(MemexposeEp *ep)
-+{
-+    qemu_chr_fe_set_handlers(ep->chr, NULL, NULL, NULL, NULL, NULL, NULL, true);
-+}
-+
-+void memexpose_ep_send_fd(MemexposeEp *ep, int fd)
-+{
-+    qemu_chr_fe_set_msgfds(ep->chr, &fd, 1);
-+}
-+
-+int memexpose_ep_recv_fd(MemexposeEp *ep)
-+{
-+    return qemu_chr_fe_get_msgfd(ep->chr);
-+}
-+
-+int memexpose_ep_connect(MemexposeEp *ep)
-+{
-+    /* FIXME - report errors */
-+    Error *err = NULL;
-+    if (ep->connected) {
-+        return 0;
-+    }
-+
-+    int ret = qemu_chr_fe_wait_connected(ep->chr, &err);
++    ret = memexpose_intr_enable(&s->intr);
 +    if (ret) {
 +        return ret;
 +    }
 +
-+    ep->connected = 1;
++    ret = memexpose_mem_enable(&s->mem);
++    if (ret) {
++        memexpose_intr_disable(&s->intr);
++        return ret;
++    }
++
 +    return 0;
 +}
 +
-+void memexpose_ep_disconnect(MemexposeEp *ep)
++static void memexpose_disable(void *opaque)
 +{
-+    if (ep->connected) {
-+        qemu_chr_fe_disconnect(ep->chr);
-+    }
-+    ep->connected = 0;
++    MemexposePCIState *s = opaque;
++
++    memexpose_intr_disable(&s->intr);
++    memexpose_mem_disable(&s->mem);
 +}
-diff --git a/hw/misc/memexpose/memexpose-msg.h b/hw/misc/memexpose/memexpose-msg.h
-new file mode 100644
-index 0000000..5543cd4
---- /dev/null
-+++ b/hw/misc/memexpose/memexpose-msg.h
-@@ -0,0 +1,161 @@
-+/*
-+ *  Memexpose core
-+ *
-+ *  Copyright (C) 2020 Samsung Electronics Co Ltd.
-+ *    Igor Kotrasinski, <i.kotrasinsk@partner.samsung.com>
-+ *
-+ *  This program is free software; you can redistribute it and/or modify it
-+ *  under the terms of the GNU General Public License as published by the
-+ *  Free Software Foundation; either version 2 of the License, or
-+ *  (at your option) any later version.
-+ *
-+ *  This program is distributed in the hope that it will be useful, but WITHOUT
-+ *  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-+ *  FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-+ *  for more details.
-+ *
-+ *  You should have received a copy of the GNU General Public License along
-+ *  with this program; if not, see <http://www.gnu.org/licenses/>.
-+ *
-+ */
 +
-+#ifndef _MEMEXPOSE_MSG_H_
-+#define _MEMEXPOSE_MSG_H_
++static void memexpose_pci_intr_init(PCIDevice *dev, Error **errp)
++{
++    MemexposePCIState *s = MEMEXPOSE_PCI(dev);
++    struct memexpose_intr_ops ops;
++    ops.intr = handle_irq;
++    ops.enable = memexpose_enable;
++    ops.disable = memexpose_disable;
++    ops.parent = s;
 +
-+#include "qemu/osdep.h"
-+#include "qemu/typedefs.h"
-+#include "chardev/char-fe.h"
-+#include "exec/memattrs.h"
-+#include <inttypes.h>
++    memexpose_intr_init(&s->intr, &ops, OBJECT(dev), &s->intr_chr, errp);
++    if (*errp) {
++        return;
++    }
 +
-+#define MEMEXPOSE_MAX_INTR_DATA_SIZE 128
++    s->intr_status = 0;
++    uint8_t *pci_conf;
++    pci_conf = dev->config;
++    pci_conf[PCI_COMMAND] = PCI_COMMAND_IO | PCI_COMMAND_MEMORY;
++    pci_config_set_interrupt_pin(pci_conf, 1);
++    if (msi_init(dev, 0, 1, true, false, errp)) {
++        error_setg(errp, "Failed to initialize memexpose PCI interrupts");
++        memexpose_intr_destroy(&s->intr);
++        return;
++    }
 +
-+enum memexpose_op_type {
-+    MOP_READ,
-+    MOP_READ_RET,
-+    MOP_WRITE,
-+    MOP_WRITE_RET,
-+    MOP_REG_INV,
-+    MOP_REG_INV_RET,
-+    MOP_INTR,
++    /* region for registers*/
++    pci_register_bar(dev, 0,
++                     PCI_BASE_ADDRESS_SPACE_MEMORY,
++                     &s->intr.shmem);
++    MEMEXPOSE_DPRINTF("Initialized bar.\n");
++}
++
++static void memexpose_pci_intr_exit(PCIDevice *dev)
++{
++    MemexposePCIState *s = MEMEXPOSE_PCI(dev);
++    msi_uninit(dev);
++    memexpose_intr_destroy(&s->intr);
++}
++
++static void memexpose_pci_realize(PCIDevice *dev, Error **errp)
++{
++    MemexposePCIState *s = MEMEXPOSE_PCI(dev);
++    memexpose_pci_intr_init(dev, errp);
++    if (*errp) {
++        return;
++    }
++
++    Chardev *chrd = qemu_chr_fe_get_driver(&s->mem_chr);
++    assert(chrd);
++    MEMEXPOSE_DPRINTF("Memexpose endpoint at %s!\n",
++                      chrd->filename);
++    memexpose_mem_init(&s->mem, OBJECT(dev),
++                       get_system_memory(),
++                       &s->mem_chr, 0, errp);
++    if (*errp) {
++        memexpose_pci_intr_exit(dev);
++        return;
++    }
++
++    pci_register_bar(dev, 1,
++                     PCI_BASE_ADDRESS_SPACE_MEMORY |
++                     PCI_BASE_ADDRESS_MEM_TYPE_64,
++                     &s->mem.shmem);
++    MEMEXPOSE_DPRINTF("Initialized second bar.\n");
++}
++
++static void memexpose_pci_exit(PCIDevice *dev)
++{
++    MemexposePCIState *s = MEMEXPOSE_PCI(dev);
++    memexpose_mem_destroy(&s->mem);
++    memexpose_pci_intr_exit(dev);
++}
++
++static Property memexpose_pci_properties[] = {
++    DEFINE_PROP_CHR("mem_chardev", MemexposePCIState, mem_chr),
++    DEFINE_PROP_CHR("intr_chardev", MemexposePCIState, intr_chr),
++    DEFINE_PROP_UINT64("shm_size", MemexposePCIState, mem.shmem_size, 4096),
++    DEFINE_PROP_END_OF_LIST(),
 +};
 +
-+enum memexpose_memshare_type {
-+    MEMSHARE_NONE,
-+    MEMSHARE_FD,
++static void memexpose_pci_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++    PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
++
++    k->realize = memexpose_pci_realize;
++    k->exit = memexpose_pci_exit;
++    k->vendor_id = PCI_VENDOR_ID_MEMEXPOSE;
++    k->device_id = PCI_DEVICE_ID_MEMEXPOSE;
++    k->class_id = PCI_CLASS_MEMORY_RAM;
++    k->revision = 1;
++    device_class_set_props(dc, memexpose_pci_properties);
++}
++
++static const TypeInfo memexpose_pci_info = {
++    .name          = TYPE_MEMEXPOSE_PCI,
++    .parent        = TYPE_PCI_DEVICE,
++    .instance_size = sizeof(MemexposePCIState),
++    .class_init    = memexpose_pci_class_init,
++    .interfaces    = (InterfaceInfo[]) {
++        { INTERFACE_CONVENTIONAL_PCI_DEVICE },
++        { },
++    },
 +};
 +
-+/*
-+ * TODO - we'll need to share more info here, like access permissions for
-+ * example
-+ */
-+struct memexpose_memshare_info_fd {
-+    uint64_t start;
-+    uint64_t mmap_start;
-+    uint64_t size;
-+    uint8_t readonly;
-+    uint8_t nonvolatile;
-+} __attribute__((packed));
 +
-+/* TODO - this might have variable size in the future */
-+struct memexpose_memshare_info {
-+    uint8_t type;
-+    union {
-+        struct memexpose_memshare_info_fd fd;
-+    };
-+} __attribute__((packed));
++static void memexpose_pci_register_types(void)
++{
++    type_register_static(&memexpose_pci_info);
++}
 +
-+/* TODO - endianness */
-+struct memexpose_op_head {
-+    uint32_t size;
-+    uint8_t ot;
-+    uint8_t prio;
-+} __attribute__((packed));
-+
-+struct memexpose_op_read {
-+    uint64_t offset;
-+    uint8_t size;
-+} __attribute__((packed));
-+
-+struct memexpose_op_write {
-+    uint64_t offset;
-+    uint64_t value;
-+    uint8_t size;
-+} __attribute__((packed));
-+
-+struct memexpose_op_read_ret {
-+    MemTxResult ret;
-+    uint64_t value;
-+    struct memexpose_memshare_info share;
-+} __attribute__((packed));
-+
-+struct memexpose_op_write_ret {
-+    MemTxResult ret;
-+    struct memexpose_memshare_info share;
-+} __attribute__((packed));
-+
-+struct memexpose_op_intr {
-+    uint64_t type;
-+    uint8_t data[MEMEXPOSE_MAX_INTR_DATA_SIZE];
-+} __attribute__((packed));
-+
-+struct memexpose_op_reg_inv {
-+    uint64_t start;
-+    uint64_t size;
-+} __attribute__((packed));
-+
-+union memexpose_op_all {
-+    struct memexpose_op_read read;
-+    struct memexpose_op_write write;
-+    struct memexpose_op_read_ret read_ret;
-+    struct memexpose_op_write_ret write_ret;
-+    struct memexpose_op_intr intr;
-+    struct memexpose_op_reg_inv reg_inv;
-+} __attribute__((packed));
-+
-+struct memexpose_op {
-+    struct memexpose_op_head head;
-+    union memexpose_op_all body;
-+} __attribute__((packed));
-+
-+enum MemexposeMsgState {
-+    MEMEXPOSE_MSG_READ_SIZE,
-+    MEMEXPOSE_MSG_READ_BODY,
-+    MEMEXPOSE_MSG_BROKEN,
-+};
-+
-+typedef struct MemexposeMsg {
-+    int read_state;
-+    int bytes;
-+    struct memexpose_op buf;
-+} MemexposeMsg;
-+
-+typedef struct MemexposeEp {
-+    CharBackend *chr;
-+    MemexposeMsg msg;
-+    bool is_async;
-+    int prio;
-+    void *data;
-+    void (*handle_msg)(void *data, struct memexpose_op *op, Error **err);
-+
-+    int connected;
-+    struct memexpose_op queued_op;
-+    QEMUBH *queue_msg_bh;
-+} MemexposeEp;
-+
-+void memexpose_ep_init(MemexposeEp *ep, CharBackend *chr, void *data, int prio,
-+                       void (*handle_msg)(void *data, struct memexpose_op *op,
-+                                          Error **errp));
-+void memexpose_ep_destroy(MemexposeEp *ep);
-+
-+int memexpose_ep_connect(MemexposeEp *ep);
-+void memexpose_ep_disconnect(MemexposeEp *ep);
-+
-+/* TODO - functions for header boilerplate */
-+void memexpose_ep_write_sync(MemexposeEp *ep, struct memexpose_op *op);
-+void memexpose_ep_write_async(MemexposeEp *ep, struct memexpose_op *op);
-+void memexpose_ep_send_fd(MemexposeEp *ep, int fd);
-+int memexpose_ep_recv_fd(MemexposeEp *ep);
-+int memexpose_ep_msg_prio(MemexposeEp *ep, enum memexpose_op_type);
-+
-+#endif /* _MEMEXPOSE_MSG_H_ */
++type_init(memexpose_pci_register_types)
 -- 
 2.7.4
 
