@@ -2,74 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97696153553
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 17:37:05 +0100 (CET)
-Received: from localhost ([::1]:52474 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CA2F153555
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 17:38:13 +0100 (CET)
+Received: from localhost ([::1]:52504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izNfk-0004vf-E6
-	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 11:37:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40375)
+	id 1izNgq-0006Cu-5d
+	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 11:38:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41265)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groeck7@gmail.com>) id 1izNeB-0003cC-Fr
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 11:35:28 -0500
+ (envelope-from <eblake@redhat.com>) id 1izNfM-00051s-7c
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 11:36:41 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groeck7@gmail.com>) id 1izNeA-00013H-Gc
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 11:35:27 -0500
-Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:46908)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <groeck7@gmail.com>)
- id 1izNe7-0000cz-Pc; Wed, 05 Feb 2020 11:35:23 -0500
-Received: by mail-pl1-x641.google.com with SMTP id y8so1075684pll.13;
- Wed, 05 Feb 2020 08:35:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to
- :user-agent; bh=jRh4q/Ba/QCpeEew0nFMRFuVZIQDzbCuo4yMPgsxAs8=;
- b=BVjj2fmG9K7mqNhdRARDagKjmwv0HxecaX1LU34Q/haT+XFckst2IsxyxhzEZ9XqQF
- gltlDQJODgho2hCbv0rtkEmYrWVXK2KRAW5Rei6kadiwFQT5FtjPAf1tJHrGpnBGCYv3
- YZRLyFcvHqM7ov1pddcbf42j7MCP/Gx5D7d515GtRVv55R8DpxSW4ah9dbonpyMeDT06
- Do0tBaGa1E41mbyQUrHhEgZEI3r0/YVGBAZZrKSTOYxefotbudWrE1o0o6I712ZNlKRn
- ElnYTiy59wCRXVBBG2BsdLAZJMvogEqVioWup8NLv+mA0+axmlI9FFJjHIHb2+v9jF44
- biSg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
- :references:mime-version:content-disposition
- :content-transfer-encoding:in-reply-to:user-agent;
- bh=jRh4q/Ba/QCpeEew0nFMRFuVZIQDzbCuo4yMPgsxAs8=;
- b=nfz3MV76pkPoqype5YmLz79xqYOXA5bCidZExd4VPqLKafHFUMVmCh73BEx8nW6rpq
- kZulhgC7D2edOWAkaD5ICgV7EzkNhg9pMHD/yzEztg+88HqDh9cJ9tgnTORX61E/0Zik
- 8FmwqKbFIyv+B6VzLaeheA492vfw47jr3ta3w6Y2zEAYmbN4VQUmcm+5fSU+Fl0llnwN
- +MwV6/dc4DAudSU/BHMW3HWHTxIhWT5ji/M3+BisDvxBI47zVb1UIn0tIrGdYP2pkGAb
- JcQ9ArsBAUIZ9Ewca72RPnZ9EmaS3+qt5Y5zJloHbxREg53lKjr+t3D1NVJGV8ZhgmdU
- U5sQ==
-X-Gm-Message-State: APjAAAVQDOi2NI/ixP7Xj9pZb4wOQpwjJCaf8g1BYVeFratt17kkWv1D
- qlxRRRjuHxty8y7Zn0GJGRQ=
-X-Google-Smtp-Source: APXvYqwZkAfh0Wx6tS554LxMvEvz1GdJTay6ABW18vlOk2c1/6fwGc2zbhSJHWuqDqxhNboILsUKKQ==
-X-Received: by 2002:a17:902:6bc3:: with SMTP id
- m3mr18082067plt.27.1580920522546; 
- Wed, 05 Feb 2020 08:35:22 -0800 (PST)
-Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id 28sm306578pgl.42.2020.02.05.08.35.21
- (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Wed, 05 Feb 2020 08:35:21 -0800 (PST)
-Date: Wed, 5 Feb 2020 08:35:20 -0800
-From: Guenter Roeck <linux@roeck-us.net>
-To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
-Subject: Re: [PATCH 1/3] m25p80: Convert to support tracing
-Message-ID: <20200205163520.GE25403@roeck-us.net>
-References: <20200203180904.2727-1-linux@roeck-us.net>
- <615518c7-f4c8-7c08-9096-bcf5f583eeb1@kaod.org>
+ (envelope-from <eblake@redhat.com>) id 1izNfH-0008OU-DR
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 11:36:40 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:53924
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1izNfH-0008H6-7m
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 11:36:35 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1580920594;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=FJnqENSwRlv6j9vMPvbmiTnpUS5/DH4CSGjD9A83d4g=;
+ b=R44UeW68F9pAerICZB+pDX5cpM92lINuhFhuwIs+/sdIydIjOi1kMLbxUsp3VZL309fIQ5
+ mcDaq4E3tQTJsUZwPMcXoQolB6NhofE8IwNUaSvxFCcvfwJ+s+8WPiupgbl9e9sjkmvho5
+ Xp2lT2LngicAypsQSE5FnuifH/h5bnQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-299--xV6CTHlOeqzVEZ3RUkYaA-1; Wed, 05 Feb 2020 11:36:26 -0500
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 35F7810CE791;
+ Wed,  5 Feb 2020 16:36:25 +0000 (UTC)
+Received: from [10.3.116.181] (ovpn-116-181.phx2.redhat.com [10.3.116.181])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8A505859BF;
+ Wed,  5 Feb 2020 16:36:24 +0000 (UTC)
+Subject: Re: [PATCH v2 08/33] block: Rename bdrv_inherited_options()
+To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
+References: <20200204170848.614480-1-mreitz@redhat.com>
+ <20200204170848.614480-9-mreitz@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <9357ebd4-42c6-bcda-ee69-1489f30a73d5@redhat.com>
+Date: Wed, 5 Feb 2020 10:36:23 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <615518c7-f4c8-7c08-9096-bcf5f583eeb1@kaod.org>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::641
+In-Reply-To: <20200204170848.614480-9-mreitz@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: -xV6CTHlOeqzVEZ3RUkYaA-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,29 +76,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- qemu-block@nongnu.org, Andrew Jeffery <andrew@aj.id.au>,
- Alistair Francis <alistair@alistair23.me>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, qemu-arm@nongnu.org,
- Joel Stanley <joel@jms.id.au>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Feb 05, 2020 at 11:05:04AM +0100, Cédric Le Goater wrote:
-> On 2/3/20 7:09 PM, Guenter Roeck wrote:
-> > While at it, add some trace messages to help debug problems
-> > seen when running the latest Linux kernel.
+On 2/4/20 11:08 AM, Max Reitz wrote:
+> The other two .inherit_options implementations specify exactly for what
+> case they are used in their name, so do it for this one as well.
 > 
-> In case you resend, It would be nice to printout a flash id in the tracing
-> else I have a patch for it on top of yours. It helped me track a squashfs
-> corruption on the Aspeed witherspoon-bmc machine which we were after since
-> 2017 or so. It seems to be a kernel bug.
+> (The actual intention behind this patch is to follow it up with a
+> generic bdrv_inherited_options() that works for all three cases.)
 > 
+> Signed-off-by: Max Reitz <mreitz@redhat.com>
+> ---
+>   block.c | 8 ++++----
+>   1 file changed, 4 insertions(+), 4 deletions(-)
 
-I'll send a new version to split patch 2. Not sure I understand what you mean
-with the above. If you send me your patch I'll be happy to merge it into mine,
-otherwise we can just keep it as follow-ip patch.
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
-Thanks,
-Guenter
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
+
 
