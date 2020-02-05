@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54CB4153A51
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 22:35:54 +0100 (CET)
-Received: from localhost ([::1]:57171 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5C24153A59
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 22:38:03 +0100 (CET)
+Received: from localhost ([::1]:57258 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izSKv-0008QM-Bg
-	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 16:35:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47345)
+	id 1izSN0-0004FG-Mk
+	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 16:38:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47367)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <robert.foley@linaro.org>) id 1izSJ3-0005ME-RE
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 16:33:59 -0500
+ (envelope-from <robert.foley@linaro.org>) id 1izSJ5-0005SE-FA
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 16:34:01 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <robert.foley@linaro.org>) id 1izSJ1-0006DQ-T4
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 16:33:57 -0500
-Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c]:33431)
+ (envelope-from <robert.foley@linaro.org>) id 1izSJ3-0006FP-OU
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 16:33:59 -0500
+Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e]:43806)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <robert.foley@linaro.org>)
- id 1izSJ1-0006Bf-Kc
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 16:33:55 -0500
-Received: by mail-pg1-x52c.google.com with SMTP id 6so1612549pgk.0
- for <qemu-devel@nongnu.org>; Wed, 05 Feb 2020 13:33:55 -0800 (PST)
+ id 1izSJ3-0006Eu-GP
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 16:33:57 -0500
+Received: by mail-pf1-x42e.google.com with SMTP id s1so1868564pfh.10
+ for <qemu-devel@nongnu.org>; Wed, 05 Feb 2020 13:33:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=7GIcztAphvqkD0Pp3nbluYcOKPaeZeGBEwgC+UA1pto=;
- b=oHAfiQMS/aUfXYO1/tfz0x82ixNOz1AjJG7n44/gruVebwTzleAc75R+5ij6dU5N4y
- TMAS0dPvSoWlEc+e7v5TcxbMeWEgCnaDUQhX9b5wwDgt7J4zqk8fOMB9S/DklPgDxs6S
- XbrFTFOk3E38v5syiVbaPfyRWrrP2Ji9V1/ejGw+sRstZghGE2YQObMt8UBFnhPRrpNl
- htZPwtIo2a0KtjJbsnFPYEc8gT6TM4c7wkrj5Ut/ruFEk2OqnmARqUZv0HTEgAzAeoTH
- WGHd+U9GuBz6DP/nuG4MRLZXIxh+ArfONG8c/WG/8fRWo/9M2zmRPzydE01/ZQ0xnZLF
- fiAg==
+ bh=He5LBREQA24cBQ1DXRllAwt0MoWNHv1kGRWxO6ZPqnI=;
+ b=SR43YNNMGbxY1vTaR4RDW89Uh8L6D+IpXlVAFCbJDS/1nXWa8NLCrXjZbGbeSc080R
+ j+6f6tnCf3Dv519lByoIYvmlVa8YcY/SLAtnQiNd/HSyheGt6s5WrAU4DTsnau4k378a
+ VmD8e01CAHBBrkzhFWixpMT1nOU679Xhess5UtY99ZXvH33+rRikkSD+qW/WIICaRg6r
+ wumVk5KDMMXUq8FKFFIOP0ZGXk9ciKTrxIST++Rkvi3HYtROSkPTA9KZgixusfTsI4tG
+ CyMQd8Sp6+I97WwgkRPusKTzdrN9g/WLhDpQXLdLoxwFh8ehQGjJYz0Na5gGp1eG0hCP
+ +vtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=7GIcztAphvqkD0Pp3nbluYcOKPaeZeGBEwgC+UA1pto=;
- b=D+8nTx50viYGT8+xyhSFo29tjr8w4ANdteNA5tkYqGTzLQunxT4n97N79eSwaCvvLd
- sVn2aAkbtIaVjl/f59pmz5GdUJzXDHPsFeHn2sWlgDwRVqQaa2PYd1+JCkvNxo/Yh2at
- V5xQndUnVRTVOZ3rdxlvFf/X526m5JngX9XCezLjUybSfhOrutE8oHQ/TuYhfgjSigpa
- uCKm5F6C5vNMbtxZJHjFAR3nRBgR6AYXyKhdt9Fo33ZyZXWSB0rI9r1CDtNpu1zlX0Ax
- XWe8NDQ7d/rBSjZtWl8x6UhYlZqiH98IzHNogg5twninWsyQCOZ55Krqw4TTTiLPLxo1
- aSPA==
-X-Gm-Message-State: APjAAAUv97uwLt3bGhAE/iGsgzo95yReViFeAB03qWc40teJoe2Yz3wD
- WuZ3PbUZEMFGiDwfITlC3KVBxoY725M=
-X-Google-Smtp-Source: APXvYqxEitoFpDNd8Z+AVaagrmH1hy47EGUYSRCMRI80u8BA9jaqOeaui/T8Dsh0tEQSfbIRnrdERQ==
-X-Received: by 2002:a63:dc4f:: with SMTP id f15mr35580980pgj.300.1580938434121; 
- Wed, 05 Feb 2020 13:33:54 -0800 (PST)
+ bh=He5LBREQA24cBQ1DXRllAwt0MoWNHv1kGRWxO6ZPqnI=;
+ b=QUwM9fdJ/Z+rgldTEHNGE/gHRsVcGviGsKUYpbNcDK9MmJcxj7pq9Wu3iOzdOfQewF
+ l0Gj8s7q2LiWEBLeV4/HDQNM4O6xEXTvZ2pvQVd4zn4fwSn31WlSMZHEPf6kW3j3PlE9
+ 0bceeM6j/z372F0BqvekaM0FXq8/L52+sI7zxGSFfHNzVIedx1/wnlgbe33J/Df3vRfv
+ +VbRxeuD+d+BBDNDrEpRux7e2MBgtEmPKbVLSj3PfmBdwlGT8qNqfkZGB0j+L0NMvUQB
+ kxszTzaatiVRY5IgGdNkLvsOjs7GXY75OrivyDkSvF8fKhcjm1uOQP4mF+vinQYSpvz+
+ UC8g==
+X-Gm-Message-State: APjAAAW/ArtQ5NgHQ/fUXxmmtdxvZ7zqe+4DpWUKGNBvRxuErrlmrdbF
+ epYmRYdakeySjcwkDx2Y0LxAf2kqOjA=
+X-Google-Smtp-Source: APXvYqymcO9f3yF2kK+paOlUyHAIM++uhZEqN6HEHZsejLmupi5EsbRMZmZdu9ATpxdFDGfvGrlaZA==
+X-Received: by 2002:a62:342:: with SMTP id 63mr38753663pfd.19.1580938436042;
+ Wed, 05 Feb 2020 13:33:56 -0800 (PST)
 Received: from Rfoley-MA01.usrd.futurewei.com ([12.111.81.71])
- by smtp.gmail.com with ESMTPSA id p4sm724576pgh.14.2020.02.05.13.33.52
+ by smtp.gmail.com with ESMTPSA id p4sm724576pgh.14.2020.02.05.13.33.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Feb 2020 13:33:53 -0800 (PST)
+ Wed, 05 Feb 2020 13:33:55 -0800 (PST)
 From: Robert Foley <robert.foley@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 05/14] tests/vm: Added gen_cloud_init_iso() to basevm.py
-Date: Wed,  5 Feb 2020 16:29:11 -0500
-Message-Id: <20200205212920.467-6-robert.foley@linaro.org>
+Subject: [PATCH v1 06/14] tests/vm: Add logging of console to file.
+Date: Wed,  5 Feb 2020 16:29:12 -0500
+Message-Id: <20200205212920.467-7-robert.foley@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200205212920.467-1-robert.foley@linaro.org>
 References: <20200205212920.467-1-robert.foley@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::52c
+X-Received-From: 2607:f8b0:4864:20::42e
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,172 +79,218 @@ Cc: fam@euphon.net, philmd@redhat.com, alex.bennee@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This method was located in both centos and ubuntu.i386.
+This adds logging of the char device used by the console
+to a file.  The basevm.py then uses this file to read
+chars from the console.
+One reason to add this is to aid with debugging.
+But another is because there is an issue where the QEMU
+might hang if the characters from the character device
+are not consumed by the script.
 
 Signed-off-by: Robert Foley <robert.foley@linaro.org>
 ---
- tests/vm/basevm.py   | 40 ++++++++++++++++++++++++++++++++++++++++
- tests/vm/centos      | 33 +--------------------------------
- tests/vm/ubuntu.i386 | 37 +------------------------------------
- 3 files changed, 42 insertions(+), 68 deletions(-)
+ tests/vm/basevm.py        | 48 ++++++++++++++++++++++---
+ tests/vm/socket_thread.py | 73 +++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 116 insertions(+), 5 deletions(-)
+ create mode 100644 tests/vm/socket_thread.py
 
 diff --git a/tests/vm/basevm.py b/tests/vm/basevm.py
-index a29099f6f1..a926211da8 100755
+index a926211da8..87a484c55c 100755
 --- a/tests/vm/basevm.py
 +++ b/tests/vm/basevm.py
-@@ -346,6 +346,46 @@ class BaseVM(object):
-     def qmp(self, *args, **kwargs):
-         return self._guest.qmp(*args, **kwargs)
+@@ -31,12 +31,17 @@ import tempfile
+ import shutil
+ import multiprocessing
+ import traceback
++from socket_thread import SocketThread
  
-+    def gen_cloud_init_iso(self):
-+        cidir = self._tmpdir
-+        mdata = open(os.path.join(cidir, "meta-data"), "w")
-+        name = self.name.replace(".","-")
-+        mdata.writelines(["instance-id: {}-vm-0\n".format(name),
-+                          "local-hostname: {}-guest\n".format(name)])
-+        mdata.close()
-+        udata = open(os.path.join(cidir, "user-data"), "w")
-+        print("guest user:pw {}:{}".format(self._config['guest_user'],
-+                                           self._config['guest_pass']))
-+        udata.writelines(["#cloud-config\n",
-+                          "chpasswd:\n",
-+                          "  list: |\n",
-+                          "    root:%s\n" % self._config['root_pass'],
-+                          "    %s:%s\n" % (self._config['guest_user'],
-+                                           self._config['guest_pass']),
-+                          "  expire: False\n",
-+                          "users:\n",
-+                          "  - name: %s\n" % self._config['guest_user'],
-+                          "    sudo: ALL=(ALL) NOPASSWD:ALL\n",
-+                          "    ssh-authorized-keys:\n",
-+                          "    - %s\n" % self._config['ssh_pub_key'],
-+                          "  - name: root\n",
-+                          "    ssh-authorized-keys:\n",
-+                          "    - %s\n" % self._config['ssh_pub_key'],
-+                          "locale: en_US.UTF-8\n"])
-+        proxy = os.environ.get("http_proxy")
-+        if not proxy is None:
-+            udata.writelines(["apt:\n",
-+                              "  proxy: %s" % proxy])
-+        udata.close()
-+        subprocess.check_call(["genisoimage", "-output", "cloud-init.iso",
-+                               "-volid", "cidata", "-joliet", "-rock",
-+                               "user-data", "meta-data"],
-+                               cwd=cidir,
-+                               stdin=self._devnull, stdout=self._stdout,
-+                               stderr=self._stdout)
+ SSH_KEY = open(os.path.join(os.path.dirname(__file__),
+                "..", "keys", "id_rsa")).read()
+ SSH_PUB_KEY = open(os.path.join(os.path.dirname(__file__),
+                    "..", "keys", "id_rsa.pub")).read()
+ 
++class ConsoleTimeoutException(Exception):
++    """Raise this exception when read from console times out."""
++    pass
 +
-+        return os.path.join(cidir, "cloud-init.iso")
+ class BaseVM(object):
+     GUEST_USER = "qemu"
+     GUEST_PASS = "qemupass"
+@@ -59,12 +64,18 @@ class BaseVM(object):
+     poweroff = "poweroff"
+     # enable IPv6 networking
+     ipv6 = True
++    # This is the timeout on the wait for console bytes.
++    socket_timeout = 120
+     # Scale up some timeouts under TCG.
+     # 4 is arbitrary, but greater than 2,
+     # since we found we need to wait more than twice as long.
+     tcg_ssh_timeout_multiplier = 4
++    console_logfile = "console.log"
+     def __init__(self, debug=False, vcpus=None):
+         self._guest = None
++        self._console_fd = None
++        self._socket_thread = None
++        self._console_timeout_sec = self.socket_timeout
+         self._tmpdir = os.path.realpath(tempfile.mkdtemp(prefix="vm-test-",
+                                                          suffix=".tmp",
+                                                          dir="."))
+@@ -179,6 +190,15 @@ class BaseVM(object):
+                             "-device",
+                             "virtio-blk,drive=%s,serial=%s,bootindex=1" % (name, name)]
+ 
++    def init_console(self, socket):
++        """Init the thread to dump console to a file.
++           Also open the file descriptor we will use to
++           read from the console."""
++        self._socket_thread = SocketThread(socket, self.console_logfile)
++        self._console_fd = open(self.console_logfile, "r")
++        self._socket_thread.start()
++        print("console logfile is: {}".format(self.console_logfile))
 +
- def parse_args(vmcls):
+     def boot(self, img, extra_args=[]):
+         args = self._args + [
+             "-device", "VGA",
+@@ -201,6 +221,7 @@ class BaseVM(object):
+             raise
+         atexit.register(self.shutdown)
+         self._guest = guest
++        self.init_console(guest.console_socket)
+         usernet_info = guest.qmp("human-monitor-command",
+                                  command_line="info usernet")
+         self.ssh_port = None
+@@ -212,9 +233,10 @@ class BaseVM(object):
+             raise Exception("Cannot find ssh port from 'info usernet':\n%s" % \
+                             usernet_info)
  
-     def get_default_jobs():
-diff --git a/tests/vm/centos b/tests/vm/centos
-index f2f0befd84..c108bd6799 100755
---- a/tests/vm/centos
-+++ b/tests/vm/centos
-@@ -31,37 +31,6 @@ class CentosVM(basevm.BaseVM):
-         make docker-test-mingw@fedora  {verbose} J={jobs} NETWORK=1;
-     """
+-    def console_init(self, timeout = 120):
+-        vm = self._guest
+-        vm.console_socket.settimeout(timeout)
++    def console_init(self, timeout = None):
++        if timeout == None:
++            timeout = self.socket_timeout
++        self._console_timeout_sec = timeout
  
--    def _gen_cloud_init_iso(self):
--        cidir = self._tmpdir
--        mdata = open(os.path.join(cidir, "meta-data"), "w")
--        mdata.writelines(["instance-id: centos-vm-0\n",
--                          "local-hostname: centos-guest\n"])
--        mdata.close()
--        udata = open(os.path.join(cidir, "user-data"), "w")
--        udata.writelines(["#cloud-config\n",
--                          "chpasswd:\n",
--                          "  list: |\n",
--                          "    root:%s\n" % self.ROOT_PASS,
--                          "    %s:%s\n" % (self.GUEST_USER, self.GUEST_PASS),
--                          "  expire: False\n",
--                          "users:\n",
--                          "  - name: %s\n" % self.GUEST_USER,
--                          "    sudo: ALL=(ALL) NOPASSWD:ALL\n",
--                          "    ssh-authorized-keys:\n",
--                          "    - %s\n" % basevm.SSH_PUB_KEY,
--                          "  - name: root\n",
--                          "    ssh-authorized-keys:\n",
--                          "    - %s\n" % basevm.SSH_PUB_KEY,
--                          "locale: en_US.UTF-8\n"])
--        udata.close()
--        subprocess.check_call(["genisoimage", "-output", "cloud-init.iso",
--                               "-volid", "cidata", "-joliet", "-rock",
--                               "user-data", "meta-data"],
--                               cwd=cidir,
--                               stdin=self._devnull, stdout=self._stdout,
--                               stderr=self._stdout)
--        return os.path.join(cidir, "cloud-init.iso")
--
-     def build_image(self, img):
-         cimg = self._download_with_cache("https://cloud.centos.org/centos/7/images/CentOS-7-x86_64-GenericCloud-1802.qcow2.xz")
-         img_tmp = img + ".tmp"
-@@ -69,7 +38,7 @@ class CentosVM(basevm.BaseVM):
-         subprocess.check_call(["ln", "-f", cimg, img_tmp + ".xz"])
-         subprocess.check_call(["xz", "--keep", "-dvf", img_tmp + ".xz"])
-         self.exec_qemu_img("resize", img_tmp, "50G")
--        self.boot(img_tmp, extra_args = ["-cdrom", self._gen_cloud_init_iso()])
-+        self.boot(img_tmp, extra_args = ["-cdrom", self.gen_cloud_init_iso()])
-         self.wait_ssh()
-         self.ssh_root_check("touch /etc/cloud/cloud-init.disabled")
-         self.ssh_root_check("yum update -y")
-diff --git a/tests/vm/ubuntu.i386 b/tests/vm/ubuntu.i386
-index 3834cd7a8d..7df54ae094 100755
---- a/tests/vm/ubuntu.i386
-+++ b/tests/vm/ubuntu.i386
-@@ -29,41 +29,6 @@ class UbuntuX86VM(basevm.BaseVM):
-         make --output-sync {target} -j{jobs} {verbose};
-     """
+     def console_log(self, text):
+         for line in re.split("[\r\n]", text):
+@@ -230,13 +252,27 @@ class BaseVM(object):
+             # log console line
+             sys.stderr.write("con recv: %s\n" % line)
  
--    def _gen_cloud_init_iso(self):
--        cidir = self._tmpdir
--        mdata = open(os.path.join(cidir, "meta-data"), "w")
--        mdata.writelines(["instance-id: ubuntu-vm-0\n",
--                          "local-hostname: ubuntu-guest\n"])
--        mdata.close()
--        udata = open(os.path.join(cidir, "user-data"), "w")
--        udata.writelines(["#cloud-config\n",
--                          "chpasswd:\n",
--                          "  list: |\n",
--                          "    root:%s\n" % self.ROOT_PASS,
--                          "    %s:%s\n" % (self.GUEST_USER, self.GUEST_PASS),
--                          "  expire: False\n",
--                          "users:\n",
--                          "  - name: %s\n" % self.GUEST_USER,
--                          "    sudo: ALL=(ALL) NOPASSWD:ALL\n",
--                          "    ssh-authorized-keys:\n",
--                          "    - %s\n" % basevm.SSH_PUB_KEY,
--                          "  - name: root\n",
--                          "    ssh-authorized-keys:\n",
--                          "    - %s\n" % basevm.SSH_PUB_KEY,
--                          "locale: en_US.UTF-8\n"])
--        proxy = os.environ.get("http_proxy")
--        if not proxy is None:
--            udata.writelines(["apt:\n",
--                              "  proxy: %s" % proxy])
--        udata.close()
--        subprocess.check_call(["genisoimage", "-output", "cloud-init.iso",
--                               "-volid", "cidata", "-joliet", "-rock",
--                               "user-data", "meta-data"],
--                               cwd=cidir,
--                               stdin=self._devnull, stdout=self._stdout,
--                               stderr=self._stdout)
--        return os.path.join(cidir, "cloud-init.iso")
--
-     def build_image(self, img):
-         cimg = self._download_with_cache(
-             "https://cloud-images.ubuntu.com/releases/bionic/release-20191114/ubuntu-18.04-server-cloudimg-i386.img",
-@@ -71,7 +36,7 @@ class UbuntuX86VM(basevm.BaseVM):
-         img_tmp = img + ".tmp"
-         subprocess.check_call(["cp", "-f", cimg, img_tmp])
-         self.exec_qemu_img("resize", img_tmp, "50G")
--        self.boot(img_tmp, extra_args = ["-cdrom", self._gen_cloud_init_iso()])
-+        self.boot(img_tmp, extra_args = ["-cdrom", self.gen_cloud_init_iso()])
-         self.wait_ssh()
-         self.ssh_root_check("touch /etc/cloud/cloud-init.disabled")
-         self.ssh_root_check("apt-get update")
++    def console_recv(self, n):
++        """Read n chars from the console_logfile being dumped to
++           by the socket thread we created earlier."""
++        start_time = time.time()
++        while True:
++            data = self._console_fd.read(1)
++            if data != "":
++                break
++            time.sleep(0.1)
++            elapsed_sec = time.time() - start_time
++            if elapsed_sec > self._console_timeout_sec:
++                raise ConsoleTimeoutException
++        return data.encode('latin1')
++
+     def console_wait(self, expect, expectalt = None):
+         vm = self._guest
+         output = ""
+         while True:
+             try:
+-                chars = vm.console_socket.recv(1)
+-            except socket.timeout:
++                chars = self.console_recv(1)
++            except ConsoleTimeoutException:
+                 sys.stderr.write("console: *** read timeout ***\n")
+                 sys.stderr.write("console: waiting for: '%s'\n" % expect)
+                 if not expectalt is None:
+@@ -335,6 +371,8 @@ class BaseVM(object):
+             raise Exception("Timeout while waiting for guest ssh")
+ 
+     def shutdown(self):
++        self._socket_thread.join()
++        self._console_fd.close()
+         self._guest.shutdown()
+     def wait(self):
+         self._guest.wait()
+diff --git a/tests/vm/socket_thread.py b/tests/vm/socket_thread.py
+new file mode 100644
+index 0000000000..6160e9163d
+--- /dev/null
++++ b/tests/vm/socket_thread.py
+@@ -0,0 +1,73 @@
++#!/usr/bin/env python
++#
++# This python module defines a thread object which
++# reads from a socket and dumps it to a file.
++#
++# The main use case is for reading QEMU console char dev and
++# dumping them to a file either for debugging or for
++# parsing by QEMU itself.
++#
++# Copyright 2020 Linaro
++#
++# Authors:
++#  Robert Foley <robert.foley@linaro.org>
++#
++# This code is licensed under the GPL version 2 or later.  See
++# the COPYING file in the top-level directory.
++#
++import sys
++import re
++import threading
++import time
++import traceback
++import gettext
++
++class SocketThread(threading.Thread):
++    """ Implements the standard threading.Thread API.(start, join, etc.).
++        dumps all characters received on socket into a file.
++    """
++    def __init__(self, socket, filename):
++        super(SocketThread, self).__init__()
++        self.alive = threading.Event()
++        self.alive.set()
++        self.socket = socket
++        self.log_file = open(filename, "w")
++        self.debug = True
++
++    def receive(self):
++        """Until the user calls join, we will read chars from
++           the socket and dump them as is to the file."""
++        self.socket.setblocking(0)
++        self.socket.settimeout(1.0)
++        while self.alive.isSet():
++            try:
++                chars = self.socket.recv(1)
++            except:
++                continue
++            output = chars.decode("latin1")
++            self.log_file.write("{}".format(output))
++            # Flush the file since we need the characters to be
++            # always up to date in case someone is reading the file
++            # waiting for some characters to show up.
++            self.log_file.flush()
++        self.socket.setblocking(1)
++
++    def run(self):
++        """This is the main loop of the socket thread.
++           Simply receive from the file until the user
++           calls join."""
++        while self.alive.isSet():
++            try:
++                self.receive()
++            except Exception as e:
++                sys.stderr.write("Exception encountered\n")
++                traceback.print_exc()
++                continue
++
++    def join(self, timeout=None):
++        """Time to destroy the thread.
++           Clear the event to stop the thread, and wait for
++           it to complete."""
++        self.alive.clear()
++        threading.Thread.join(self, timeout)
++        self.log_file.close()
 -- 
 2.17.1
 
