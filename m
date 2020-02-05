@@ -2,66 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70A4B152534
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 04:18:21 +0100 (CET)
-Received: from localhost ([::1]:40892 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7736A152597
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 05:25:52 +0100 (CET)
+Received: from localhost ([::1]:41270 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izBCm-0006VT-C4
-	for lists+qemu-devel@lfdr.de; Tue, 04 Feb 2020 22:18:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48997)
+	id 1izCG7-000217-Hp
+	for lists+qemu-devel@lfdr.de; Tue, 04 Feb 2020 23:25:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53724)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jasowang@redhat.com>) id 1izBBu-00064S-3Q
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 22:17:26 -0500
+ (envelope-from <fnuv@xilinx.com>) id 1izBHO-0007IY-Q5
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 22:23:07 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jasowang@redhat.com>) id 1izBBt-0008JY-40
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 22:17:25 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:43944
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jasowang@redhat.com>) id 1izBBs-0008GJ-VF
- for qemu-devel@nongnu.org; Tue, 04 Feb 2020 22:17:25 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580872644;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=wbC/LMn3Wj0dR1qUDFO9RwHNtoXTF47kIvsebIzMQq4=;
- b=C3Z/hI11WiKEimUu7mtj2qhnej5Xe4rIJFl9JRkKcFR35LrNEdEn4nn4a/pS955HsK17jw
- Mau6klIjgyYYWB8NFBs2s0GzKwLFCTGGjc1bFUsY3TK7g11/Qgli1zLJcKCZEm/Woh4RVx
- wcNW4wJoPH6qlCpf7NW764yjlUBqKmE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-48-7t3YOPjyPyuHWFT-AGbipw-1; Tue, 04 Feb 2020 22:17:20 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 78627800D55;
- Wed,  5 Feb 2020 03:17:19 +0000 (UTC)
-Received: from [10.72.13.188] (ovpn-13-188.pek2.redhat.com [10.72.13.188])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7DCD785732;
- Wed,  5 Feb 2020 03:17:17 +0000 (UTC)
-Subject: Re: [PATCH 0/1] Introduce Xlnx ZynqMP CAN controller for QEMU
-To: Vikram Garhwal <fnu.vikram@xilinx.com>, qemu-devel@nongnu.org
+ (envelope-from <fnuv@xilinx.com>) id 1izBHN-0001so-4m
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 22:23:06 -0500
+Received: from mail-dm6nam12on2041.outbound.protection.outlook.com
+ ([40.107.243.41]:13129 helo=NAM12-DM6-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <fnuv@xilinx.com>) id 1izBHM-0001g6-R0
+ for qemu-devel@nongnu.org; Tue, 04 Feb 2020 22:23:05 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=i28xelKDzPsEiEXRJeBLBRx5ubprYVc55Um9tRo2fgntvhkzK4A2CG54ckqNbwLLYMcPN9pJVThqlEmdSZujW7ot7GelF652DveWGwEc7h4F5ndIhxonqPkTqG3aU/UELpss6Y0ufS1dnk54zCq6XvZ+r9qZYQDKQTHy2EK9Mb1fl6lunYsW6Frc43sRvf8LoNjm0DIpeKI5qh8BrSWp12NTRSXCMiU0BHFpAPF6qESmEkJxb0ospO7EtHKTryUOXs+8L7PqRuMt2GJgtjaCNh4TExA63UWzGXk5erSxeZ/0y1GQn+UxDX36DdDgngQgd0eiBT4Op6IRumVkKE9DIw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=37g6TzxbjeqJrO/0hxGaZC9RNgCsuCCN1TVy5DIztGU=;
+ b=Wk8MFtECpTgp089MM8qbrKTweqQ88IhOwDoSWJBn4ieQiIprO0w+hNVwCyU3K1tGt/NEAHqdU7H5HmoQWjoy2y3s/zJkfu+J8p10PaHrVl4PAK9yfiKsPpkj5JjtiiHMskeJxJt2muWxHRxLp6ZAADW0CIHh2xc85wTWbq0pxDubasHK8r/hPePQHxksT3Hn78KG+JulvgZ2/n9PVtsvRDAfoy9tPh9t+K0WayIiLFJdoXdNI6CBNR+fSLi3XlwhS5PPPrzbPrYw37+zL7pVy4wC0EschBJDCRuYHV/4/YuFSj7oC8U5pQu3GgtfThWKMOwnrYWY+1eCkrOiQEUcZw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=xilinx.com; dmarc=pass action=none header.from=xilinx.com;
+ dkim=pass header.d=xilinx.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=37g6TzxbjeqJrO/0hxGaZC9RNgCsuCCN1TVy5DIztGU=;
+ b=PQTlah7ou2eubaCjrM8oQ6m7QDok5FO5KJ0nl1OfDnschpFMGCCb5z5/QoEp0fh1E1zx9JQGXrSnQaY6W83suWY4UE4RMTfAyG3iUGujpHJdL6ERdkSXn3fZrS/4hCSk6rFsSMWrybNBKo0n8EELykA7W3totDmaL3iaeokDAyc=
+Received: from BYAPR02MB5638.namprd02.prod.outlook.com (20.177.231.82) by
+ BYAPR02MB4472.namprd02.prod.outlook.com (52.135.240.206) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2686.27; Wed, 5 Feb 2020 03:23:02 +0000
+Received: from BYAPR02MB5638.namprd02.prod.outlook.com
+ ([fe80::a0f2:bc3:62bd:e68]) by BYAPR02MB5638.namprd02.prod.outlook.com
+ ([fe80::a0f2:bc3:62bd:e68%5]) with mapi id 15.20.2686.034; Wed, 5 Feb 2020
+ 03:23:01 +0000
+From: Vikram Garhwal <fnuv@xilinx.com>
+To: Jason Wang <jasowang@redhat.com>, "qemu-devel@nongnu.org"
+ <qemu-devel@nongnu.org>
+Subject: RE: [PATCH 0/1] Introduce Xlnx ZynqMP CAN controller for QEMU
+Thread-Topic: [PATCH 0/1] Introduce Xlnx ZynqMP CAN controller for QEMU
+Thread-Index: AQHV29LKQrH6zosqcEWee3yzUsDYa6gL7uPg
+Date: Wed, 5 Feb 2020 03:23:01 +0000
+Message-ID: <BYAPR02MB563811B646F102BB37293F9FBC020@BYAPR02MB5638.namprd02.prod.outlook.com>
 References: <1580764010-310744-1-git-send-email-fnu.vikram@xilinx.com>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <9782ee22-c004-b569-66e8-071e8447e44e@redhat.com>
-Date: Wed, 5 Feb 2020 11:17:15 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
-MIME-Version: 1.0
-In-Reply-To: <1580764010-310744-1-git-send-email-fnu.vikram@xilinx.com>
+ <9782ee22-c004-b569-66e8-071e8447e44e@redhat.com>
+In-Reply-To: <9782ee22-c004-b569-66e8-071e8447e44e@redhat.com>
+Accept-Language: en-US
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: 7t3YOPjyPyuHWFT-AGbipw-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-MS-Has-Attach: 
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=fnuv@xilinx.com; 
+x-originating-ip: [73.202.69.7]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 23e7fb8b-3bb9-4e8c-e10d-08d7a9eab4d5
+x-ms-traffictypediagnostic: BYAPR02MB4472:
+x-microsoft-antispam-prvs: <BYAPR02MB44728BE2C87C8829012BA50ABC020@BYAPR02MB4472.namprd02.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8273;
+x-forefront-prvs: 0304E36CA3
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10009020)(4636009)(346002)(366004)(376002)(136003)(396003)(39860400002)(189003)(199004)(81156014)(81166006)(8676002)(8936002)(316002)(110136005)(7696005)(478600001)(2906002)(26005)(186003)(6506007)(66556008)(53546011)(66446008)(86362001)(64756008)(66946007)(55016002)(9686003)(66476007)(71200400001)(5660300002)(76116006)(52536014)(33656002);
+ DIR:OUT; SFP:1101; SCL:1; SRVR:BYAPR02MB4472;
+ H:BYAPR02MB5638.namprd02.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: xilinx.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: NP7kCuSDZ9xEGCgNvmdwv+23Zj7EDcSg/WBolNxZ+zEw5dW0OcWseq9+8s7t71dTfjn0DPVly9I8ZZcY8BWsrsKKxc1n9KaS0yWsmI7Pd37m0gp/EMxmOn8Qaqn/IOZQQvDvubRHLhnwERj9P8tYSRUT1UhrLkS3jpVcg9b+hYUwjyvtviNCjy+MDTGPbOWvYGKyQGtfrgXqD/rP2O6MTq4lItYPXnKYNGQaVdI9kzwQHshbJ9PnnqpdCejkjBcdQHagjMdG5hvefmXXw/L2iXEGPw6W8LVaqTaFfUPNQh+WPrr5Tpe4C/8kvjeRl56fQIbvsbsB8iVBleHx+D3NJbv9Z0xdtHyQBMVPVoQhS2sP5kBF1aEEXjkfoVGCo+oBh1Nry1ga+3EJcxuwKfRD6YQDcfvfB6c6LQuEC97fSUDuk83yMYAtTYfDHFPy9Kkv
+x-ms-exchange-antispam-messagedata: XDH1VeW4O/9XjGWijvJQyjMC6xkABfJ0SA33KzYbddGENgsRcVW4EXVeMpOxZdwYUf3OQ4aZemULO/toKqhcCvqcg71x3NeDBGrm+xNfUDx6u6pRYoVGoRCs3Mjjtwrl1iwdHel5y8jfLgixeTwD+A==
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 23e7fb8b-3bb9-4e8c-e10d-08d7a9eab4d5
+X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Feb 2020 03:23:01.5043 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Y1Ug7ge+0EFJ5AowGZXrAjHHI3Bgiu3Q8muO2xbE7ZeO1n5QAETma4DFUFB8TXQx
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR02MB4472
+X-detected-operating-system: by eggs.gnu.org: Windows NT kernel [generic]
+ [fuzzy]
+X-Received-From: 40.107.243.41
+X-Mailman-Approved-At: Tue, 04 Feb 2020 23:24:39 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,44 +111,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-On 2020/2/4 =E4=B8=8A=E5=8D=885:06, Vikram Garhwal wrote:
-> Example for single CAN:
->      -object can-bus,id=3Dcanbus0 \
->      -global driver=3Dxlnx.zynqmp-can,property=3Dcanbus0,value=3Dcanbus0 =
-\
->      -object can-host-socketcan,id=3Dsocketcan0,if=3Dvcan0,canbus=3Dcanbu=
-s0
->
-> Example for connecting both CAN:
->      -object can-bus,id=3Dcanbus0 -object can-bus,id=3Dcanbus1 \
->      -global driver=3Dxlnx.zynqmp-can,property=3Dcanbus0,value=3Dcanbus0 =
-\
->      -global driver=3Dxlnx.zynqmp-can,property=3Dcanbus1,value=3Dcanbus1 =
-\
->      -object can-host-socketcan,id=3Dsocketcan0,if=3Dvcan0,canbus=3Dcanbu=
-s0 \
->      -object can-host-socketcan,id=3Dsocketcan1,if=3Dvcan0,canbus=3Dcanbu=
-s1
->
-> Vikram Garhwal (1):
->    hw/net/can: Introduce Xlnx ZynqMP CAN controller for QEMU
->
->   hw/net/can/Makefile.objs         |    1 +
->   hw/net/can/xlnx-zynqmp-can.c     | 1106 +++++++++++++++++++++++++++++++=
-+++++++
->   include/hw/net/xlnx-zynqmp-can.h |   77 +++
->   3 files changed, 1184 insertions(+)
->   create mode 100644 hw/net/can/xlnx-zynqmp-can.c
->   create mode 100644 include/hw/net/xlnx-zynqmp-can.h
->
-
-Hi Vikram:
-
-I would like to confirm that whether or not you would maintain this NIC.=20
-(I think the answer is yes). I tend not to merge a NIC model without a=20
-maintainer.
-
-Thanks
-
+SGkgSmFzb24sDQpZZXMsIEkgd2lsbCBtYWludGFpbiB0aGlzIE5JQy4gVGhhbmtzIGZvciB0aGUg
+aGVscC4NCg0KUmVnYXJkcywNClZpa3JhbQ0KDQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0t
+DQo+IEZyb206IEphc29uIFdhbmcgPGphc293YW5nQHJlZGhhdC5jb20+DQo+IFNlbnQ6IFR1ZXNk
+YXksIEZlYnJ1YXJ5IDQsIDIwMjAgNzoxNyBQTQ0KPiBUbzogVmlrcmFtIEdhcmh3YWwgPGZudXZA
+eGlsaW54LmNvbT47IHFlbXUtZGV2ZWxAbm9uZ251Lm9yZw0KPiBTdWJqZWN0OiBSZTogW1BBVENI
+IDAvMV0gSW50cm9kdWNlIFhsbnggWnlucU1QIENBTiBjb250cm9sbGVyIGZvciBRRU1VDQo+IA0K
+PiANCj4gT24gMjAyMC8yLzQg5LiK5Y2INTowNiwgVmlrcmFtIEdhcmh3YWwgd3JvdGU6DQo+ID4g
+RXhhbXBsZSBmb3Igc2luZ2xlIENBTjoNCj4gPiAgICAgIC1vYmplY3QgY2FuLWJ1cyxpZD1jYW5i
+dXMwIFwNCj4gPiAgICAgIC1nbG9iYWwgZHJpdmVyPXhsbnguenlucW1wLWNhbixwcm9wZXJ0eT1j
+YW5idXMwLHZhbHVlPWNhbmJ1czAgXA0KPiA+ICAgICAgLW9iamVjdCBjYW4taG9zdC1zb2NrZXRj
+YW4saWQ9c29ja2V0Y2FuMCxpZj12Y2FuMCxjYW5idXM9Y2FuYnVzMA0KPiA+DQo+ID4gRXhhbXBs
+ZSBmb3IgY29ubmVjdGluZyBib3RoIENBTjoNCj4gPiAgICAgIC1vYmplY3QgY2FuLWJ1cyxpZD1j
+YW5idXMwIC1vYmplY3QgY2FuLWJ1cyxpZD1jYW5idXMxIFwNCj4gPiAgICAgIC1nbG9iYWwgZHJp
+dmVyPXhsbnguenlucW1wLWNhbixwcm9wZXJ0eT1jYW5idXMwLHZhbHVlPWNhbmJ1czAgXA0KPiA+
+ICAgICAgLWdsb2JhbCBkcml2ZXI9eGxueC56eW5xbXAtY2FuLHByb3BlcnR5PWNhbmJ1czEsdmFs
+dWU9Y2FuYnVzMSBcDQo+ID4gICAgICAtb2JqZWN0IGNhbi1ob3N0LXNvY2tldGNhbixpZD1zb2Nr
+ZXRjYW4wLGlmPXZjYW4wLGNhbmJ1cz1jYW5idXMwIFwNCj4gPiAgICAgIC1vYmplY3QgY2FuLWhv
+c3Qtc29ja2V0Y2FuLGlkPXNvY2tldGNhbjEsaWY9dmNhbjAsY2FuYnVzPWNhbmJ1czENCj4gPg0K
+PiA+IFZpa3JhbSBHYXJod2FsICgxKToNCj4gPiAgICBody9uZXQvY2FuOiBJbnRyb2R1Y2UgWGxu
+eCBaeW5xTVAgQ0FOIGNvbnRyb2xsZXIgZm9yIFFFTVUNCj4gPg0KPiA+ICAgaHcvbmV0L2Nhbi9N
+YWtlZmlsZS5vYmpzICAgICAgICAgfCAgICAxICsNCj4gPiAgIGh3L25ldC9jYW4veGxueC16eW5x
+bXAtY2FuLmMgICAgIHwgMTEwNg0KPiArKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysr
+KysrKw0KPiA+ICAgaW5jbHVkZS9ody9uZXQveGxueC16eW5xbXAtY2FuLmggfCAgIDc3ICsrKw0K
+PiA+ICAgMyBmaWxlcyBjaGFuZ2VkLCAxMTg0IGluc2VydGlvbnMoKykNCj4gPiAgIGNyZWF0ZSBt
+b2RlIDEwMDY0NCBody9uZXQvY2FuL3hsbngtenlucW1wLWNhbi5jDQo+ID4gICBjcmVhdGUgbW9k
+ZSAxMDA2NDQgaW5jbHVkZS9ody9uZXQveGxueC16eW5xbXAtY2FuLmgNCj4gPg0KPiANCj4gSGkg
+VmlrcmFtOg0KPiANCj4gSSB3b3VsZCBsaWtlIHRvIGNvbmZpcm0gdGhhdCB3aGV0aGVyIG9yIG5v
+dCB5b3Ugd291bGQgbWFpbnRhaW4gdGhpcyBOSUMuDQo+IChJIHRoaW5rIHRoZSBhbnN3ZXIgaXMg
+eWVzKS4gSSB0ZW5kIG5vdCB0byBtZXJnZSBhIE5JQyBtb2RlbCB3aXRob3V0IGENCj4gbWFpbnRh
+aW5lci4NCj4gDQo+IFRoYW5rcw0KDQo=
 
