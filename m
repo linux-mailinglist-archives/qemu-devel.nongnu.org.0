@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14EF21539E1
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 22:04:52 +0100 (CET)
-Received: from localhost ([::1]:56656 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C75311539DC
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 22:03:36 +0100 (CET)
+Received: from localhost ([::1]:56632 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izRqt-0007qM-5G
-	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 16:04:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60175)
+	id 1izRpf-0005by-CD
+	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 16:03:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40978)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <muriloo@linux.ibm.com>) id 1izQXj-0002vA-4N
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 14:41:00 -0500
+ (envelope-from <muriloo@linux.ibm.com>) id 1izQmp-00086Y-Mi
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 14:56:36 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <muriloo@linux.ibm.com>) id 1izQXh-0005sh-Uo
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 14:40:59 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:20278)
+ (envelope-from <muriloo@linux.ibm.com>) id 1izQml-0000bG-O7
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 14:56:35 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:33646)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <muriloo@linux.ibm.com>)
- id 1izQXh-0005rZ-Oe
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 14:40:57 -0500
-Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
+ id 1izQmj-0000XT-UD
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 14:56:30 -0500
+Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 015JcPbw163560; Wed, 5 Feb 2020 14:40:50 -0500
+ 015Jtktn144982; Wed, 5 Feb 2020 14:56:21 -0500
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2xyhnrrjx4-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2xyhmy1dwx-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 05 Feb 2020 14:40:50 -0500
-Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 015JclWB164654;
- Wed, 5 Feb 2020 14:40:50 -0500
-Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.10])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2xyhnrrjwr-1
+ Wed, 05 Feb 2020 14:56:20 -0500
+Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 015Jtk6e145022;
+ Wed, 5 Feb 2020 14:56:20 -0500
+Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.11])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2xyhmy1dwk-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 05 Feb 2020 14:40:50 -0500
-Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
- by ppma02dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 015JZ9IX024682;
- Wed, 5 Feb 2020 19:40:49 GMT
-Received: from b03cxnp07028.gho.boulder.ibm.com
- (b03cxnp07028.gho.boulder.ibm.com [9.17.130.15])
- by ppma02dal.us.ibm.com with ESMTP id 2xykc9gy25-1
+ Wed, 05 Feb 2020 14:56:20 -0500
+Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
+ by ppma03dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 015JntR0004368;
+ Wed, 5 Feb 2020 19:56:19 GMT
+Received: from b03cxnp07029.gho.boulder.ibm.com
+ (b03cxnp07029.gho.boulder.ibm.com [9.17.130.16])
+ by ppma03dal.us.ibm.com with ESMTP id 2xykc9h239-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 05 Feb 2020 19:40:49 +0000
+ Wed, 05 Feb 2020 19:56:19 +0000
 Received: from b03ledav006.gho.boulder.ibm.com
  (b03ledav006.gho.boulder.ibm.com [9.17.130.237])
- by b03cxnp07028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 015Jelk048693542
+ by b03cxnp07029.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 015JuISA46203296
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 5 Feb 2020 19:40:47 GMT
+ Wed, 5 Feb 2020 19:56:18 GMT
 Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D5F14C6057;
- Wed,  5 Feb 2020 19:40:47 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 4C0B8C6057;
+ Wed,  5 Feb 2020 19:56:18 +0000 (GMT)
 Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id BB56CC6055;
- Wed,  5 Feb 2020 19:40:45 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 2BBC2C6055;
+ Wed,  5 Feb 2020 19:56:16 +0000 (GMT)
 Received: from kermit.br.ibm.com (unknown [9.85.196.245])
  by b03ledav006.gho.boulder.ibm.com (Postfix) with ESMTPS;
- Wed,  5 Feb 2020 19:40:45 +0000 (GMT)
-Subject: Re: [PATCH v1 06/13] util/mmap-alloc: Factor out reserving of a
- memory region to mmap_reserve()
+ Wed,  5 Feb 2020 19:56:15 +0000 (GMT)
+Subject: Re: [PATCH v1 07/13] util/mmap-alloc: Factor out populating of memory
+ to mmap_populate()
 To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
 References: <20200203183125.164879-1-david@redhat.com>
- <20200203183125.164879-7-david@redhat.com>
+ <20200203183125.164879-8-david@redhat.com>
 From: =?UTF-8?Q?Murilo_Opsfelder_Ara=c3=bajo?= <muriloo@linux.ibm.com>
 Organization: IBM
-Message-ID: <087216e9-103f-a47d-3c99-c1031859d24b@linux.ibm.com>
-Date: Wed, 5 Feb 2020 16:40:43 -0300
+Message-ID: <b387180c-762e-8bd5-a466-342e3451f574@linux.ibm.com>
+Date: Wed, 5 Feb 2020 16:56:13 -0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200203183125.164879-7-david@redhat.com>
+In-Reply-To: <20200203183125.164879-8-david@redhat.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -80,13 +80,13 @@ X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
  definitions=2020-02-05_06:2020-02-04,
  2020-02-05 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 malwarescore=0
- mlxlogscore=999 bulkscore=0 priorityscore=1501 adultscore=0 suspectscore=0
- lowpriorityscore=0 clxscore=1015 impostorscore=0 spamscore=0 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2001150001
- definitions=main-2002050149
+ bulkscore=0 mlxscore=0
+ spamscore=0 priorityscore=1501 mlxlogscore=999 phishscore=0
+ impostorscore=0 malwarescore=0 suspectscore=2 adultscore=0
+ lowpriorityscore=0 clxscore=1015 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2001150001 definitions=main-2002050151
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.158.5
+X-Received-From: 148.163.156.1
 X-Mailman-Approved-At: Wed, 05 Feb 2020 16:02:17 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -110,107 +110,145 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Hello, David.
 
 On 2/3/20 3:31 PM, David Hildenbrand wrote:
-> We want to reserve a memory region without actually populating memory.
-> Let's factor that out.
-> 
+> We want to populate memory within a reserved memory region. Let's factor
+> that out.
+>
 > Cc: "Michael S. Tsirkin" <mst@redhat.com>
 > Cc: Greg Kurz <groug@kaod.org>
 > Cc: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>
 > Cc: Eduardo Habkost <ehabkost@redhat.com>
 > Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 > Signed-off-by: David Hildenbrand <david@redhat.com>
+> ---
 
 Acked-by: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>
 
-> ---
->   util/mmap-alloc.c | 58 +++++++++++++++++++++++++++--------------------
->   1 file changed, 33 insertions(+), 25 deletions(-)
-> 
+A minor comment below.
+
+>   util/mmap-alloc.c | 89 +++++++++++++++++++++++++----------------------
+>   1 file changed, 47 insertions(+), 42 deletions(-)
+>
 > diff --git a/util/mmap-alloc.c b/util/mmap-alloc.c
-> index 82f02a2cec..43a26f38a8 100644
+> index 43a26f38a8..f043ccb0ab 100644
 > --- a/util/mmap-alloc.c
 > +++ b/util/mmap-alloc.c
-> @@ -82,6 +82,38 @@ size_t qemu_mempath_getpagesize(const char *mem_path)
->       return qemu_real_host_page_size;
+> @@ -114,6 +114,50 @@ static void *mmap_reserve(size_t size, int fd)
+>       return mmap(0, size, PROT_NONE, flags, fd, 0);
 >   }
->   
+>
 > +/*
-> + * Reserve a new memory region of the requested size to be used for mapping
-> + * from the given fd (if any).
+> + * Populate memory in a reserved region from the given fd (if any).
 > + */
-> +static void *mmap_reserve(size_t size, int fd)
+> +static void *mmap_populate(void *ptr, size_t size, int fd, bool shared,
+> +                           bool is_pmem)
 > +{
-> +    int flags = MAP_PRIVATE;
+> +    int map_sync_flags = 0;
+> +    int flags = MAP_FIXED;
+> +    void *new_ptr;
+
+Do you think another name would be welcome here, e.g.: "populated_ptr" or
+"populated_memptr" or just "populated"?
+
 > +
-> +#if defined(__powerpc64__) && defined(__linux__)
-> +    /*
-> +     * On ppc64 mappings in the same segment (aka slice) must share the same
-> +     * page size. Since we will be re-allocating part of this segment
-> +     * from the supplied fd, we should make sure to use the same page size, to
-> +     * this end we mmap the supplied fd.  In this case, set MAP_NORESERVE to
-> +     * avoid allocating backing store memory.
-> +     * We do this unless we are using the system page size, in which case
-> +     * anonymous memory is OK.
-> +     */
-> +    if (fd == -1 || qemu_fd_getpagesize(fd) == qemu_real_host_page_size) {
-> +        fd = -1;
-> +        flags |= MAP_ANONYMOUS;
-> +    } else {
-> +        flags |= MAP_NORESERVE;
+> +    flags |= fd == -1 ? MAP_ANONYMOUS : 0;
+> +    flags |= shared ? MAP_SHARED : MAP_PRIVATE;
+> +    if (shared && is_pmem) {
+> +        map_sync_flags = MAP_SYNC | MAP_SHARED_VALIDATE;
 > +    }
-> +#else
-> +    fd = -1;
-> +    flags |= MAP_ANONYMOUS;
-> +#endif
 > +
-> +    return mmap(0, size, PROT_NONE, flags, fd, 0);
+> +    new_ptr = mmap(ptr, size, PROT_READ | PROT_WRITE, flags | map_sync_flags,
+> +                   fd, 0);
+> +    if (new_ptr == MAP_FAILED && map_sync_flags) {
+> +        if (errno == ENOTSUP) {
+> +            char *proc_link = g_strdup_printf("/proc/self/fd/%d", fd);
+> +            char *file_name = g_malloc0(PATH_MAX);
+> +            int len = readlink(proc_link, file_name, PATH_MAX - 1);
+> +
+> +            if (len < 0) {
+> +                len = 0;
+> +            }
+> +            file_name[len] = '\0';
+> +            fprintf(stderr, "Warning: requesting persistence across crashes "
+> +                    "for backend file %s failed. Proceeding without "
+> +                    "persistence, data might become corrupted in case of host "
+> +                    "crash.\n", file_name);
+> +            g_free(proc_link);
+> +            g_free(file_name);
+> +        }
+> +        /*
+> +         * If mmap failed with MAP_SHARED_VALIDATE | MAP_SYNC, we will try
+> +         * again without these flags to handle backwards compatibility.
+> +         */
+> +        new_ptr = mmap(ptr, size, PROT_READ | PROT_WRITE, flags, fd, 0);
+> +    }
+> +    return new_ptr;
 > +}
 > +
 >   static inline size_t mmap_pagesize(int fd)
 >   {
 >   #if defined(__powerpc64__) && defined(__linux__)
-> @@ -101,7 +133,6 @@ void *qemu_ram_mmap(int fd,
+> @@ -131,12 +175,8 @@ void *qemu_ram_mmap(int fd,
+>                       bool is_pmem)
+>   {
 >       const size_t pagesize = mmap_pagesize(fd);
->       int flags;
->       int map_sync_flags = 0;
-> -    int guardfd;
->       size_t offset;
->       size_t total;
->       void *guardptr;
-> @@ -113,30 +144,7 @@ void *qemu_ram_mmap(int fd,
->        */
->       total = size + align;
->   
-> -#if defined(__powerpc64__) && defined(__linux__)
-> -    /* On ppc64 mappings in the same segment (aka slice) must share the same
-> -     * page size. Since we will be re-allocating part of this segment
-> -     * from the supplied fd, we should make sure to use the same page size, to
-> -     * this end we mmap the supplied fd.  In this case, set MAP_NORESERVE to
-> -     * avoid allocating backing store memory.
-> -     * We do this unless we are using the system page size, in which case
-> -     * anonymous memory is OK.
-> -     */
-> -    flags = MAP_PRIVATE;
-> -    if (fd == -1 || pagesize == qemu_real_host_page_size) {
-> -        guardfd = -1;
-> -        flags |= MAP_ANONYMOUS;
-> -    } else {
-> -        guardfd = fd;
-> -        flags |= MAP_NORESERVE;
+> -    int flags;
+> -    int map_sync_flags = 0;
+> -    size_t offset;
+> -    size_t total;
+> -    void *guardptr;
+> -    void *ptr;
+> +    size_t offset, total;
+> +    void *ptr, *guardptr;
+>
+>       /*
+>        * Note: this always allocates at least one extra page of virtual address
+> @@ -153,44 +193,9 @@ void *qemu_ram_mmap(int fd,
+>       /* Always align to host page size */
+>       assert(align >= pagesize);
+>
+> -    flags = MAP_FIXED;
+> -    flags |= fd == -1 ? MAP_ANONYMOUS : 0;
+> -    flags |= shared ? MAP_SHARED : MAP_PRIVATE;
+> -    if (shared && is_pmem) {
+> -        map_sync_flags = MAP_SYNC | MAP_SHARED_VALIDATE;
 > -    }
-> -#else
-> -    guardfd = -1;
-> -    flags = MAP_PRIVATE | MAP_ANONYMOUS;
-> -#endif
 > -
-> -    guardptr = mmap(0, total, PROT_NONE, flags, guardfd, 0);
+>       offset = QEMU_ALIGN_UP((uintptr_t)guardptr, align) - (uintptr_t)guardptr;
+>
+> -    ptr = mmap(guardptr + offset, size, PROT_READ | PROT_WRITE,
+> -               flags | map_sync_flags, fd, 0);
 > -
-> +    guardptr = mmap_reserve(total, fd);
->       if (guardptr == MAP_FAILED) {
+> -    if (ptr == MAP_FAILED && map_sync_flags) {
+> -        if (errno == ENOTSUP) {
+> -            char *proc_link, *file_name;
+> -            int len;
+> -            proc_link = g_strdup_printf("/proc/self/fd/%d", fd);
+> -            file_name = g_malloc0(PATH_MAX);
+> -            len = readlink(proc_link, file_name, PATH_MAX - 1);
+> -            if (len < 0) {
+> -                len = 0;
+> -            }
+> -            file_name[len] = '\0';
+> -            fprintf(stderr, "Warning: requesting persistence across crashes "
+> -                    "for backend file %s failed. Proceeding without "
+> -                    "persistence, data might become corrupted in case of host "
+> -                    "crash.\n", file_name);
+> -            g_free(proc_link);
+> -            g_free(file_name);
+> -        }
+> -        /*
+> -         * if map failed with MAP_SHARED_VALIDATE | MAP_SYNC,
+> -         * we will remove these flags to handle compatibility.
+> -         */
+> -        ptr = mmap(guardptr + offset, size, PROT_READ | PROT_WRITE,
+> -                   flags, fd, 0);
+> -    }
+> -
+> +    ptr = mmap_populate(guardptr + offset, size, fd, shared, is_pmem);
+>       if (ptr == MAP_FAILED) {
+>           munmap(guardptr, total);
 >           return MAP_FAILED;
->       }
-> 
-
--- 
+>
+--
 Murilo
 
