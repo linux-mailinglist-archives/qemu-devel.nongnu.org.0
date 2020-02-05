@@ -2,52 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A715415363D
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 18:19:49 +0100 (CET)
-Received: from localhost ([::1]:53972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1133153637
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 18:18:14 +0100 (CET)
+Received: from localhost ([::1]:53936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izOL6-0002G7-Ka
-	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 12:19:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35276)
+	id 1izOJa-00084T-1c
+	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 12:18:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36347)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1izOCb-0005V8-BX
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 12:11:02 -0500
+ (envelope-from <eblake@redhat.com>) id 1izOFy-00041N-UD
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 12:14:32 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1izOCZ-0006e6-J7
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 12:11:01 -0500
-Received: from 12.mo5.mail-out.ovh.net ([46.105.39.65]:36358)
+ (envelope-from <eblake@redhat.com>) id 1izOFw-0005Cn-PH
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 12:14:30 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:42527
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1izOCZ-0006Ts-7P
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 12:10:59 -0500
-Received: from player760.ha.ovh.net (unknown [10.110.103.226])
- by mo5.mail-out.ovh.net (Postfix) with ESMTP id 05BB826B575
- for <qemu-devel@nongnu.org>; Wed,  5 Feb 2020 18:10:56 +0100 (CET)
-Received: from kaod.org (82-64-250-170.subs.proxad.net [82.64.250.170])
- (Authenticated sender: clg@kaod.org)
- by player760.ha.ovh.net (Postfix) with ESMTPSA id 2F66AF0CAE0D;
- Wed,  5 Feb 2020 17:10:45 +0000 (UTC)
-Subject: Re: [PATCH 1/3] m25p80: Convert to support tracing
-To: Guenter Roeck <linux@roeck-us.net>
-References: <20200203180904.2727-1-linux@roeck-us.net>
- <615518c7-f4c8-7c08-9096-bcf5f583eeb1@kaod.org>
- <20200205163520.GE25403@roeck-us.net>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <a4ee58d2-0642-b4f4-2756-84d9f08b08a9@kaod.org>
-Date: Wed, 5 Feb 2020 18:10:44 +0100
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1izOFw-00058r-HD
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 12:14:28 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1580922866;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=/nuauJBDGKPZGZiSEz5rZKsAlRwvYx8N1fUspHI2QmE=;
+ b=A28OZKWVLW/HQFNWOZQwrnQu5y10bJlc4z8JAjjcCCTBz9Y7hu2JYLWvlBoz0ep0S86Jyk
+ 2jvwIWqvzzfadB2NLrsm9/GjB0LZVnr+iMKIxzfZosRW/jLkcPqcOxg17u2uQZbVaq5bm+
+ 0nEeoicyWZZLy0pqBKzpT6gFKP1EKJk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-384-5t5H9mJJPA2wto0SeP0FTw-1; Wed, 05 Feb 2020 12:14:10 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4CC46189F763;
+ Wed,  5 Feb 2020 17:14:09 +0000 (UTC)
+Received: from [10.3.116.181] (ovpn-116-181.phx2.redhat.com [10.3.116.181])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CE53D89E81;
+ Wed,  5 Feb 2020 17:14:08 +0000 (UTC)
+Subject: Re: [PATCH v2 10/33] block: Use bdrv_inherited_options()
+To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
+References: <20200204170848.614480-1-mreitz@redhat.com>
+ <20200204170848.614480-11-mreitz@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <61a0a25c-f726-c410-eddf-d47f9a93f7a3@redhat.com>
+Date: Wed, 5 Feb 2020 11:14:08 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200205163520.GE25403@roeck-us.net>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20200204170848.614480-11-mreitz@redhat.com>
 Content-Language: en-US
-X-Ovh-Tracer-Id: 17807232929370049504
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedugedrhedugdelfecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefuvfhfhffkffgfgggjtgfgsehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuffhomhgrihhnpehgihhthhhusgdrtghomhenucfkpheptddrtddrtddrtddpkedvrdeigedrvdehtddrudejtdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejiedtrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
-Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: 5t5H9mJJPA2wto0SeP0FTw-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 46.105.39.65
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,47 +75,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- qemu-block@nongnu.org, Andrew Jeffery <andrew@aj.id.au>,
- Alistair Francis <alistair@alistair23.me>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, qemu-arm@nongnu.org,
- Joel Stanley <joel@jms.id.au>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/5/20 5:35 PM, Guenter Roeck wrote:
-> On Wed, Feb 05, 2020 at 11:05:04AM +0100, C=C3=A9dric Le Goater wrote:
->> On 2/3/20 7:09 PM, Guenter Roeck wrote:
->>> While at it, add some trace messages to help debug problems
->>> seen when running the latest Linux kernel.
->>
->> In case you resend, It would be nice to printout a flash id in the tra=
-cing
->> else I have a patch for it on top of yours. It helped me track a squas=
-hfs
->> corruption on the Aspeed witherspoon-bmc machine which we were after s=
-ince
->> 2017 or so. It seems to be a kernel bug.
->>
->=20
-> I'll send a new version to split patch 2. Not sure I understand what yo=
-u mean
-> with the above. If you send me your patch I'll be happy to merge it int=
-o mine,
-> otherwise we can just keep it as follow-ip patch.
+On 2/4/20 11:08 AM, Max Reitz wrote:
+> Let child_file's, child_format's, and child_backing's .inherit_options()
+> implementations fall back to bdrv_inherited_options() to show that it
+> would really work for all of these cases, if only the parents passed the
+> appropriate BdrvChildRole and parent_is_format values.
+> 
+> (Also, make bdrv_open_inherit(), the only place to explicitly call
+> bdrv_backing_options(), call bdrv_inherited_options() instead.)
+> 
+> This patch should incur only two visible changes, both for child_format
+> children, both of which are effectively bug fixes:
+> 
+> First, they no longer have discard=unmap set by default.  This reason it
+> was set is because bdrv_inherited_fmt_options() fell through to
+> bdrv_protocol_options(), and that set it because "format drivers take
+> care to send flushes and respect unmap policy".  None of the drivers
+> that use child_format for their children (quorum and blkverify) are
+> format drivers, though, so this reasoning does not apply here.
+> 
+> Second, they no longer have BDRV_O_NO_IO force-cleared.  child_format
+> was used solely for children that do not store any metadata and as such
+> will not be accessed by their parents as long as those parents do not
+> receive I/O themselves.  Thus, such children should inherit
+> BDRV_O_NO_IO.
+> 
+> Signed-off-by: Max Reitz <mreitz@redhat.com>
+> ---
+>   block.c | 66 ++++++++++++---------------------------------------------
+>   1 file changed, 14 insertions(+), 52 deletions(-)
+> 
 
-Here is the idea :=20
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
-  https://github.com/legoater/qemu/commit/a07727e9cfc8447ea18249ff68a561f=
-7e8883584
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
-You can merge and maybe extend to all traces.
-
-
-In the issue we had, two CS could be selected at the same time=20
-and the SPI transfers were getting mixed. Printing out which
-CS is doing what is interesting for debug.=20
-
-Thanks,
-C.
 
