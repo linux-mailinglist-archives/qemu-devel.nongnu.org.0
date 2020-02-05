@@ -2,68 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FA961539CB
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 21:57:48 +0100 (CET)
-Received: from localhost ([::1]:56502 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E85F1539DD
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 22:03:37 +0100 (CET)
+Received: from localhost ([::1]:56634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izRk2-0002yV-SX
-	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 15:57:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47677)
+	id 1izRpg-0005h9-LM
+	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 16:03:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58691)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1izRj5-00021T-5g
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 15:56:48 -0500
+ (envelope-from <muriloo@linux.ibm.com>) id 1izQUG-0002GJ-0a
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 14:37:25 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1izRj3-0004rJ-9R
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 15:56:46 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:55608
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1izRj3-0004mC-42
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 15:56:45 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580936204;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=bTuDd0iKgAWaDf2G3OWT1rnvPLlnybWfb8HhwivPQCE=;
- b=P3Oj+EyMYKpETJnNYH4v/EilLiUbQQCVnS3qNxLRPUH6xhMide3s9XFC0WzeWzmyQzkhE1
- sPO117ZHPuS2Aveof6O6efUHx0C0g9jSR5T3GxG4ZFlJUXyyyld4En/DVWyzTzB2mF/muI
- 9xSvf39GMr4gnbBqBHAbwk47jReOLuk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-434-IeMfFclvOOeIuDdDTEU4Fg-1; Wed, 05 Feb 2020 15:56:42 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 84B611085927;
- Wed,  5 Feb 2020 20:56:41 +0000 (UTC)
-Received: from [10.3.116.181] (ovpn-116-181.phx2.redhat.com [10.3.116.181])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 11F1EF6E8;
- Wed,  5 Feb 2020 20:56:41 +0000 (UTC)
-Subject: Re: [PATCH v2 15/33] block: Pull out bdrv_default_perms_for_backing()
-To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
-References: <20200204170848.614480-1-mreitz@redhat.com>
- <20200204170848.614480-16-mreitz@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <b6369806-c265-661c-cd51-6a3808eb4816@redhat.com>
-Date: Wed, 5 Feb 2020 14:56:40 -0600
+ (envelope-from <muriloo@linux.ibm.com>) id 1izQUE-00086u-P6
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 14:37:23 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:3606
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <muriloo@linux.ibm.com>)
+ id 1izQUE-000845-Ja
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 14:37:22 -0500
+Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 015JTw2q089348; Wed, 5 Feb 2020 14:37:19 -0500
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2xyhmh2v8j-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 05 Feb 2020 14:37:19 -0500
+Received: from m0098414.ppops.net (m0098414.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 015JU1Tf089982;
+ Wed, 5 Feb 2020 14:37:18 -0500
+Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
+ [169.55.91.170])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2xyhmh2v7v-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 05 Feb 2020 14:37:18 -0500
+Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
+ by ppma02wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 015JPHrV009351;
+ Wed, 5 Feb 2020 19:37:18 GMT
+Received: from b03cxnp07028.gho.boulder.ibm.com
+ (b03cxnp07028.gho.boulder.ibm.com [9.17.130.15])
+ by ppma02wdc.us.ibm.com with ESMTP id 2xykc9f5ff-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 05 Feb 2020 19:37:18 +0000
+Received: from b03ledav006.gho.boulder.ibm.com
+ (b03ledav006.gho.boulder.ibm.com [9.17.130.237])
+ by b03cxnp07028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 015JbHwU50921802
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 5 Feb 2020 19:37:17 GMT
+Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 4F45BC605A;
+ Wed,  5 Feb 2020 19:37:17 +0000 (GMT)
+Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 33F38C6055;
+ Wed,  5 Feb 2020 19:37:15 +0000 (GMT)
+Received: from kermit.br.ibm.com (unknown [9.85.196.245])
+ by b03ledav006.gho.boulder.ibm.com (Postfix) with ESMTPS;
+ Wed,  5 Feb 2020 19:37:14 +0000 (GMT)
+Subject: Re: [PATCH v1 05/13] util/mmap-alloc: Factor out calculation of
+ pagesize to mmap_pagesize()
+To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
+References: <20200203183125.164879-1-david@redhat.com>
+ <20200203183125.164879-6-david@redhat.com>
+From: =?UTF-8?Q?Murilo_Opsfelder_Ara=c3=bajo?= <muriloo@linux.ibm.com>
+Organization: IBM
+Message-ID: <fb151947-c50b-0000-1b9c-a503ee0b9aee@linux.ibm.com>
+Date: Wed, 5 Feb 2020 16:37:13 -0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200204170848.614480-16-mreitz@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: IeMfFclvOOeIuDdDTEU4Fg-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20200203183125.164879-6-david@redhat.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
+ definitions=2020-02-05_06:2020-02-04,
+ 2020-02-05 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 suspectscore=0
+ spamscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ lowpriorityscore=0 priorityscore=1501 phishscore=0 mlxscore=0
+ clxscore=1011 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2001150001 definitions=main-2002050149
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 148.163.158.5
+X-Mailman-Approved-At: Wed, 05 Feb 2020 16:02:17 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,27 +100,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org
+Reply-To: muriloo@linux.ibm.com
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>, Greg Kurz <groug@kaod.org>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/4/20 11:08 AM, Max Reitz wrote:
-> Signed-off-by: Max Reitz <mreitz@redhat.com>
+Hello, David.
 
-Rather light on the commit message. But looks like straightforward 
-refactoring (with the previous patch making it easier to follow).
+On 2/3/20 3:31 PM, David Hildenbrand wrote:
+> Factor it out and add a comment.
+> 
+> Cc: "Michael S. Tsirkin" <mst@redhat.com>
+> Cc: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>
+> Cc: Greg Kurz <groug@kaod.org>
+> Cc: Eduardo Habkost <ehabkost@redhat.com>
+> Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+> Signed-off-by: David Hildenbrand <david@redhat.com>
+
+Acked-by: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>
 
 > ---
->   block.c | 62 +++++++++++++++++++++++++++++++++++++--------------------
->   1 file changed, 40 insertions(+), 22 deletions(-)
+>   util/mmap-alloc.c | 21 ++++++++++++---------
+>   1 file changed, 12 insertions(+), 9 deletions(-)
+> 
+> diff --git a/util/mmap-alloc.c b/util/mmap-alloc.c
+> index 27dcccd8ec..82f02a2cec 100644
+> --- a/util/mmap-alloc.c
+> +++ b/util/mmap-alloc.c
+> @@ -82,17 +82,27 @@ size_t qemu_mempath_getpagesize(const char *mem_path)
+>       return qemu_real_host_page_size;
+>   }
+>   
+> +static inline size_t mmap_pagesize(int fd)
+> +{
+> +#if defined(__powerpc64__) && defined(__linux__)
+> +    /* Mappings in the same segment must share the same page size */
+> +    return qemu_fd_getpagesize(fd);
+> +#else
+> +    return qemu_real_host_page_size;
+> +#endif
+> +}
+> +
+>   void *qemu_ram_mmap(int fd,
+>                       size_t size,
+>                       size_t align,
+>                       bool shared,
+>                       bool is_pmem)
+>   {
+> +    const size_t pagesize = mmap_pagesize(fd);
+>       int flags;
+>       int map_sync_flags = 0;
+>       int guardfd;
+>       size_t offset;
+> -    size_t pagesize;
+>       size_t total;
+>       void *guardptr;
+>       void *ptr;
+> @@ -113,7 +123,6 @@ void *qemu_ram_mmap(int fd,
+>        * anonymous memory is OK.
+>        */
+>       flags = MAP_PRIVATE;
+> -    pagesize = qemu_fd_getpagesize(fd);
+>       if (fd == -1 || pagesize == qemu_real_host_page_size) {
+>           guardfd = -1;
+>           flags |= MAP_ANONYMOUS;
+> @@ -123,7 +132,6 @@ void *qemu_ram_mmap(int fd,
+>       }
+>   #else
+>       guardfd = -1;
+> -    pagesize = qemu_real_host_page_size;
+>       flags = MAP_PRIVATE | MAP_ANONYMOUS;
+>   #endif
+>   
+> @@ -198,15 +206,10 @@ void *qemu_ram_mmap(int fd,
+>   
+>   void qemu_ram_munmap(int fd, void *ptr, size_t size)
+>   {
+> -    size_t pagesize;
+> +    const size_t pagesize = mmap_pagesize(fd);
+>   
+>       if (ptr) {
+>           /* Unmap both the RAM block and the guard page */
+> -#if defined(__powerpc64__) && defined(__linux__)
+> -        pagesize = qemu_fd_getpagesize(fd);
+> -#else
+> -        pagesize = qemu_real_host_page_size;
+> -#endif
+>           munmap(ptr, size + pagesize);
+>       }
+>   }
 > 
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
-
 -- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
-
+Murilo
 
