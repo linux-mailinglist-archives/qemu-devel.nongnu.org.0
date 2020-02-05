@@ -2,119 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3FEB1536A9
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 18:34:07 +0100 (CET)
-Received: from localhost ([::1]:54344 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 458B91536C7
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 18:37:09 +0100 (CET)
+Received: from localhost ([::1]:54382 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izOYw-0003uC-Pv
-	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 12:34:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41188)
+	id 1izObs-0006Wx-At
+	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 12:37:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43013)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <n54@gmx.com>) id 1izOOV-0000rS-2F
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 12:23:19 -0500
+ (envelope-from <mreitz@redhat.com>) id 1izORH-0005l6-SY
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 12:26:13 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <n54@gmx.com>) id 1izOOT-0000hb-KA
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 12:23:18 -0500
-Received: from mout.gmx.net ([212.227.15.19]:44743)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <n54@gmx.com>) id 1izOOS-0000ZL-5m
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 12:23:17 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1580923376;
- bh=kwXrSrjtmOXZfIFLTCEDzTYTHCEV3f0tki+t0S5sDDE=;
- h=X-UI-Sender-Class:Subject:To:Cc:References:From:Date:In-Reply-To;
- b=M7+T7K3zpLNY/aRUvc7gpc9TAXW48lsyq9jVx8aY+erbKIiFCE6o4jgSoTux452VT
- qnZH2/iMjTrvOkcICcshcxB35ukRy58I1nFzqVCdF8R0lw4blKsaK7XPrrU/KV52rK
- JtZnHtHONOxVCpEtMzzzGp9t2ExMrMCJRjEt1b6E=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [192.168.0.241] ([89.71.135.231]) by mail.gmx.com (mrgmx005
- [212.227.17.184]) with ESMTPSA (Nemesis) id 1MOzT4-1jBOvj3ITc-00PKXA; Wed, 05
- Feb 2020 18:22:55 +0100
-Subject: Re: [PATCH v2 3/4] Introduce the NVMM impl
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- rth@twiddle.net, ehabkost@redhat.com, slp@redhat.com, pbonzini@redhat.com,
- peter.maydell@linaro.org, max@m00nbsd.net
-References: <20200107124903.16505-1-n54@gmx.com>
- <20200128140945.929-1-n54@gmx.com> <20200128140945.929-4-n54@gmx.com>
- <c0b0fcb2-c370-52f9-b3ee-adc15455b902@redhat.com>
-From: Kamil Rytarowski <n54@gmx.com>
-Autocrypt: addr=n54@gmx.com; prefer-encrypt=mutual; keydata=
- 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
- 4XSbcg==
-Message-ID: <8b3d2067-fba2-45e1-da11-4ca49ed7f2d5@gmx.com>
-Date: Wed, 5 Feb 2020 18:22:08 +0100
-User-Agent: Mozilla/5.0 (X11; NetBSD amd64; rv:68.0) Gecko/20100101
+ (envelope-from <mreitz@redhat.com>) id 1izORG-0006rR-BT
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 12:26:11 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:45792
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1izORG-0006m0-5J
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 12:26:10 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1580923569;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=TYIzQ9Aj6/qF/WGK60pQDS0noYeAphdljgBoVwnEAHw=;
+ b=H/NQPI73qfrW8hAvYaekPnhlSTMy7v2LY9HCPylkZuPvRR3838MqSadHobUHhxBy0QCwEf
+ 4e0lD6ZPF9bm6z6tkS5Pkv+ZQoVWx3vaDCqhvcAzbCy8rN6P29msxB2e2DRgdvynBrl//q
+ 5C0kbHSGW7otWdCyQRbd0OyNQn3+L8o=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-196--C2XXknhPYKAJK54Up_QDQ-1; Wed, 05 Feb 2020 12:26:05 -0500
+X-MC-Unique: -C2XXknhPYKAJK54Up_QDQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4F69BA0CC0;
+ Wed,  5 Feb 2020 17:26:04 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-117-184.ams2.redhat.com
+ [10.36.117.184])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 80AC15C1B5;
+ Wed,  5 Feb 2020 17:26:02 +0000 (UTC)
+Subject: Re: [PATCH 10/17] block: Add new BDRV_ZERO_OPEN flag
+To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
+References: <20200131174436.2961874-1-eblake@redhat.com>
+ <20200131174436.2961874-11-eblake@redhat.com>
+ <d4df9a48-6fb6-3432-3189-54bb7c7bb20c@redhat.com>
+ <5c19c0fe-f8d0-5011-7cc6-4bb46a46cedf@redhat.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <d7fec044-95eb-03f5-1115-ac015cd0776c@redhat.com>
+Date: Wed, 5 Feb 2020 18:26:00 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <c0b0fcb2-c370-52f9-b3ee-adc15455b902@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:YIfaQLMFnx3E7uwgE1UnUQqMiyeq5crzzodFrVNr7BcIiL2m2Jk
- 5TA3+4EHtMuKaVYP0M5Ynrql0deRYFb2v8oZyxysk1N6/bI7ixsY1JdhXuBQ79UzWPCT5Ky
- f376osHVsJJ/tkP+YIuZFrv3QZ3fDYpD4Qz19GVlM3lOvQvfg0h2p1m+uA1lcKyu2OBBFrF
- PvYTSY9AKObPJCFThmBag==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:bBEPWRTLUz0=:DKc7kjMiwv6mkhwKoHad4J
- E7ZArH19empvPM/1ickyigB1eb9Y5HW/6hJ9XSuiRDTWJM9CE0mgGZzBYucbslYDI+P6mWo7e
- 6UdMWHL9J5IXNFozmuj3tsbIvv87XgkUz5ov4gscz4fX2VnwFGg6OhK/W/jfJK7L6C5HU7cST
- 1oOun4lPHDbiyaTW8I7OLYlxloPx7kfcQKSsoAmnagV8+RUMxTANpXgT6GrwmFg7uKmA7Xi/i
- gfIhdUDWWXJRRd4sRDz5jE6+mFOM7kCA8I/5RwtuJJWez/rYNXoiY3sOf8aAnG6rWRUMrG4dA
- 85fHNuV2EpDzPK1bCiPSxHhDYj3A8dE5mh26IP3+LYV7x1dh1yObpg1AGqDsVBLhSNbVIB/JD
- jyzmfbpZ+fZh7eR893Jwx3+03BW9itlSOLOypT5avXZNfnpTKHuqbbIHKPWBawchky9W/Wk3I
- Kv4QNpmLcRx90bjiMxwuPij3esTRb6Y8IrZ1kHit37OzNV8OBmxl81OlHvg1ZPblRia/NV2wu
- ur2qKyH0ChERKwNm+RgVXLqGcXbWYdoQq5Wp7oOahGagavXABYhvLGyBMSXjCfSXoHKsw7QBR
- YRiaWOiYLG7qCKXndfUyouVpeOeeOcRMyoCLuRYE6IniSSI131wLODXpToWJWI0OSXv3XZPI4
- M/T8Gk7f8DiqCKY/2HffAC5Hj/9nK5iTyxw9WgOPqRteJBRnMRRGjyIVSZBVSH2htPTSovqop
- g76Y6c8JxZYN5Gijd4fNH9bRVexrsBXy02c/pcFG+kJcoeldL/0NBODoAE0OVHVrA2RX9DSh2
- Vwh5EfgnYqT6zuR8wbf+kaSDR1FREQf/8pXEVwijg7IKq7QAkBmwIQK1BfJkmdAT2qKl2Kw02
- Js3gBlsmiVuO9LqpSEesNe46RVrUZIPRDiqNKUql6fB27wbgMCLbTr78Gm+FEJTGGR8Av55HT
- O3OnJJMDSQGU/x9nz/NSVN29NHQEvadqu/kiqcGDsE6Crix2xajD9CemnK4ezoaz5HjQu9od/
- OwlYnQgtAO34h7kMnkFuXXiMBzY8sT4rWM0PoroAi821uSsSGpPSI2JWtnQ0jvuHtc9mvO26N
- qeOnqkjaJt2r3jOEbu+pEcosJiIRP8UVxup/pTT8ll5lqJhZDWm+piwTRB3/sCzNlf1Yw7v8k
- e/zhRR+r5iyYo1/4JYeIxzEdozOwx52538fYYlMIQ7mnWmUbqDp0lsOjqD8k4MKkB3SfA=
+In-Reply-To: <5c19c0fe-f8d0-5011-7cc6-4bb46a46cedf@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="S3hRi2cz3HpiucKEEaNXqe1y2yHy1i0KZ"
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.15.19
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -126,14 +100,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: david.edmondson@oracle.com, Kevin Wolf <kwolf@redhat.com>,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 03.02.2020 12:51, Philippe Mathieu-Daud=C3=A9 wrote:
-> Except the XXX comments, LGTM but I'm not a X86 guy.
->
->
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--S3hRi2cz3HpiucKEEaNXqe1y2yHy1i0KZ
+Content-Type: multipart/mixed; boundary="PjBg2Jdjo2Fd3gRvXxxpjulj5h7XmJ3rO"
 
-These comments were old and I will drop them and resubmit.
+--PjBg2Jdjo2Fd3gRvXxxpjulj5h7XmJ3rO
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+On 04.02.20 18:50, Eric Blake wrote:
+> On 2/4/20 11:34 AM, Max Reitz wrote:
+>=20
+>>> +++ b/include/block/block.h
+>>> @@ -105,6 +105,16 @@ typedef enum {
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * for drivers that set .bdrv_co_tr=
+uncate.
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 BDRV_ZERO_TRUNCATE=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 =3D 0x2,
+>>> +
+>>> +=C2=A0=C2=A0=C2=A0 /*
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0 * bdrv_known_zeroes() should include this bit=
+ if an image is
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0 * known to read as all zeroes when first open=
+ed; this bit should
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0 * not be relied on after any writes to the im=
+age.
+>>
+>> Is there a good reason for this?=C2=A0 Because to me this screams like w=
+e are
+>> going to check this flag without ensuring that the image has actually
+>> not been written to yet.=C2=A0 So if it=E2=80=99s generally easy for dri=
+vers to stop
+>> reporting this flag after a write, then maybe we should do so.
+>=20
+> In patch 15 (implementing things in qcow2), I actually wrote the driver
+> to return live results, rather than just open-time results, in part
+> because writing the bit to persistent storage in qcow2 means that the
+> bit must be accurate, without relying on the block layer's help.
+>=20
+> But my pending NBD patch (not posted yet, but will be soon), the
+> proposal I'm making for the NBD protocol itself is just open-time, not
+> live, and so it would be more work than necessary to make the NBD driver
+> report live results.
+>=20
+> But it seems like it should be easy enough to also patch the block layer
+> itself to guarantee that callers of bdrv_known_zeroes() cannot see this
+> bit set if the block layer has been used in any non-zero transaction, by
+> repeating the same logic as used in qcow2 to kill the bit (any
+> write/write_compressed/bdrv_copy clear the bit, any trim clears the bit
+> if the driver does not guarantee trim reads as zero, any truncate clears
+> the bit if the driver does not guarantee truncate reads as zero, etc).
+> Basically, the block layer would cache the results of .bdrv_known_zeroes
+> during .bdrv_co_open, bdrv_co_pwrite() and friends would update that
+> cache, and and bdrv_known_zeroes() would report the cached value rather
+> than a fresh call to .bdrv_known_zeroes.
+
+Sounds reasonable to me in generaly, but I=E2=80=99d prefer it to be fetche=
+d
+on-demand rather than unconditionally in bdrv_open().
+
+(I realize that this means a tri-state of =E2=80=9Cknown false=E2=80=9D, =
+=E2=80=9Cknown true=E2=80=9D,
+and =E2=80=9Cnot yet queried=E2=80=9D.)
+
+> Are we worried enough about clients of this interface to make the block
+> layer more robust?=C2=A0 (From the maintenance standpoint, the more the b=
+lock
+> layer guarantees, the easier it is to write code that uses the block
+> layer; but there is the counter-argument that making the block layer
+> track whether an image has been modified means a [slight] penalty to
+> every write request to update the boolean.)
+
+Just like Vladimir, I=E2=80=99m worried about repeating the same mistakes w=
+e
+have before: That is, most places that called bdrv_has_zero_init() just
+did so out of wishful thinking, hoping that it would do what they need
+it to.  It didn=E2=80=99t.
+
+Max
+
+
+--PjBg2Jdjo2Fd3gRvXxxpjulj5h7XmJ3rO--
+
+--S3hRi2cz3HpiucKEEaNXqe1y2yHy1i0KZ
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl46+qgACgkQ9AfbAGHV
+z0BAJgf8DWqwE9Ft51SdRC4ttZfHolMwqwLQ11CMIT2GaejyMWdf7yrdUdkWHLfs
+yTGBLVXHjvWjUHDouu3XFhbBx4C56AzVOT122PkA+8WUWRBZmhwVhaN+2kE7Sgfn
+nB2OIVsyDtpKk5GgberVxW3Jt8Fxw4jnr9RKXxZBeqqgKL+H3HxEzKk5nNBuyBz1
+VTU868pqAbB4PS9SjElfYelKwkwyb8Z69eJRTan3MXkE0KJMOUyJiQkq4sEq/ifT
+Witp+ZCSG6YZEMyGMemQiw1suTzVX9Oo9gnvnLBFSchL7Gl2y5XpfM4Wj1waqJgw
+ADByaZKiDKX3q7sMPj+iA+/3dub1Rg==
+=EOyf
+-----END PGP SIGNATURE-----
+
+--S3hRi2cz3HpiucKEEaNXqe1y2yHy1i0KZ--
+
 
