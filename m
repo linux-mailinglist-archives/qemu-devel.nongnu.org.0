@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85E4E153A60
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 22:40:08 +0100 (CET)
-Received: from localhost ([::1]:57314 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4150153A81
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 22:54:12 +0100 (CET)
+Received: from localhost ([::1]:57488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izSP1-0007Ur-JW
-	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 16:40:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47594)
+	id 1izScd-0005IV-8I
+	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 16:54:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58748)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <robert.foley@linaro.org>) id 1izSJL-00066g-R6
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 16:34:17 -0500
+ (envelope-from <eblake@redhat.com>) id 1izSbr-0004pm-JC
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 16:53:24 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <robert.foley@linaro.org>) id 1izSJJ-0006p8-Qj
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 16:34:15 -0500
-Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:40772)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <robert.foley@linaro.org>)
- id 1izSJJ-0006oi-Im
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 16:34:13 -0500
-Received: by mail-pf1-x441.google.com with SMTP id q8so1872518pfh.7
- for <qemu-devel@nongnu.org>; Wed, 05 Feb 2020 13:34:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=QXi83h34VPpMPcld87083LVrMKk6MFlcpiSR8RVBVg4=;
- b=tULfasvGDoFi0UqgOQyCCw58OZ7M9+quY2dpt7bcoLltxQD/XiANcTaSmqO0LTvcbZ
- v+Pr2o5zzhXuYlJJJ0XtuJK+ZNaHQFaRcGsEM+kGVMcAbdd+rWI4Eks3PMJfQeLhwUhx
- o3hIf5wre8uedEhwwYRVjWxbntoiqCGzp8H3FmcjHrwHp0xW7PCXLm4NezvSq4WSrWoN
- W4NXifJSqY//KxErEMVkSNIOQ31ErqWRhyv2ek28vYq/2r3xBuLgGA5tb+7J0wS9Ozvf
- qfT75fsB1pGtFGsFYz/P+fwiyAxjsYzFw4qcmQ8RaSqaHk8VXqXKyz/dgeNGwYt746iq
- GuSQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=QXi83h34VPpMPcld87083LVrMKk6MFlcpiSR8RVBVg4=;
- b=A1ajajJFRYKXmq5UsaGVjwtEh11FYlzP4fLZt9rb3E80zyhjmlxMhxmWDGHxZ5ua+K
- LT/ozH91Dr2T0HqYC1nxI8dKowVO8vV9CtH9Bilp8dQF8l8Ppvezz23PRPT6eS+XTbSV
- SZx0o+MMNzu86Z4H1jccpWcpAJKIrJsX988AxecQyTWwlqTeV/y1pDfLjdbs1O3KluF9
- LasnqXCtC8B2FoqUAVSR0lBosJ3khsgADz9fltDNvX1h3IJgCmCaW/HLrPdOmAXPVPsT
- ErNU7aDYiAoBdrSeRcY6C17ZZKpN5lSgJPjMXTfY7LVD1a50jZrOicBeOXHLl0g5+Pwn
- qSGQ==
-X-Gm-Message-State: APjAAAU2XHt//7Y/cemu6/4ofZdHWFIzgv2Hzi7l/iUxr0TzIvZku5qM
- mqi9nQEYd21XvCDcHL4BV/D4A3esoEg=
-X-Google-Smtp-Source: APXvYqxhYXi7fqat3wySGt1AZ9ccnwC6uM2tS+2+IsMS0HpgmyBoHG0IqBDPw/8pSxRCfaSGzdXsSQ==
-X-Received: by 2002:aa7:9633:: with SMTP id r19mr10945pfg.90.1580938452190;
- Wed, 05 Feb 2020 13:34:12 -0800 (PST)
-Received: from Rfoley-MA01.usrd.futurewei.com ([12.111.81.71])
- by smtp.gmail.com with ESMTPSA id p4sm724576pgh.14.2020.02.05.13.34.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Feb 2020 13:34:11 -0800 (PST)
-From: Robert Foley <robert.foley@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v1 14/14] tests/vm: change scripts to use self._config
-Date: Wed,  5 Feb 2020 16:29:20 -0500
-Message-Id: <20200205212920.467-15-robert.foley@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200205212920.467-1-robert.foley@linaro.org>
-References: <20200205212920.467-1-robert.foley@linaro.org>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::441
+ (envelope-from <eblake@redhat.com>) id 1izSbp-0002Qs-IV
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 16:53:22 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:43767
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1izSbp-0002Jk-7R
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 16:53:21 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1580939600;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=f7p+i6f7hggAp68rqWUuRHMk8kbOwfVv1vezNSFmpn8=;
+ b=EHqdz4wo5lipwgFPQ+vDGql+1Ji1PoGMR2NfI4gM1jAm8wYHL6d+zWfLqzAGsDgSm5sXDd
+ 1VeXuzZE0mKPELbgFrU+teyUcP3HJRn4oHrTDwAjv6I5wbi6PMP42Xm1aAO52wPbp4cXgW
+ KfjZ7T8D2YMxIppQ46bx+6vethIGt08=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-197-Ec8BLGi4OaiQOCYw6kcSBQ-1; Wed, 05 Feb 2020 16:53:18 -0500
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 375581081FA1;
+ Wed,  5 Feb 2020 21:53:17 +0000 (UTC)
+Received: from [10.3.116.181] (ovpn-116-181.phx2.redhat.com [10.3.116.181])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C6B955C541;
+ Wed,  5 Feb 2020 21:53:16 +0000 (UTC)
+Subject: Re: [PATCH v2 18/33] block: Add bdrv_default_perms()
+To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
+References: <20200204170848.614480-1-mreitz@redhat.com>
+ <20200204170848.614480-19-mreitz@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <3bd21d4c-f3a1-1b23-350e-bcab7f7e36a0@redhat.com>
+Date: Wed, 5 Feb 2020 15:53:16 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
+MIME-Version: 1.0
+In-Reply-To: <20200204170848.614480-19-mreitz@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-MC-Unique: Ec8BLGi4OaiQOCYw6kcSBQ-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,273 +76,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, philmd@redhat.com, alex.bennee@linaro.org,
- robert.foley@linaro.org, peter.puhov@linaro.org
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This change converts existing scripts to using for example self.ROOT_PASS,
-to self._config['root_pass'].
-We made similar changes for GUEST_USER, and GUEST_PASS.
-This allows us also to remove the change in basevm.py,
-which adds __getattr__ for backwards compatibility.
+On 2/4/20 11:08 AM, Max Reitz wrote:
+> This callback can be used by BDSs that use child_of_bds with the
+> appropriate BdrvChildRole for their children.
+> 
+> Also, make bdrv_format_default_perms() use it for child_of_bds children
+> (just a temporary solution until we can drop bdrv_format_default_perms()
+> altogether).
+> 
+> Signed-off-by: Max Reitz <mreitz@redhat.com>
+> ---
+>   block.c                   | 46 ++++++++++++++++++++++++++++++++-------
+>   include/block/block_int.h | 11 ++++++++++
+>   2 files changed, 49 insertions(+), 8 deletions(-)
+> 
 
-Signed-off-by: Robert Foley <robert.foley@linaro.org>
----
- tests/vm/basevm.py | 11 ++---------
- tests/vm/fedora    | 17 +++++++++--------
- tests/vm/freebsd   | 16 ++++++++--------
- tests/vm/netbsd    | 19 ++++++++++---------
- tests/vm/openbsd   | 17 +++++++++--------
- 5 files changed, 38 insertions(+), 42 deletions(-)
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
-diff --git a/tests/vm/basevm.py b/tests/vm/basevm.py
-index dc975d92c7..d2c5d32f34 100755
---- a/tests/vm/basevm.py
-+++ b/tests/vm/basevm.py
-@@ -184,13 +184,6 @@ class BaseVM(object):
-         self.console_init(timeout=timeout)
-         self.console_wait(wait_string)
- 
--    def __getattr__(self, name):
--        # Support direct access to config by key.
--        # for example, access self._config['cpu'] by self.cpu
--        if name.lower() in self._config.keys():
--            return self._config[name.lower()]
--        return object.__getattribute__(self, name)
--
-     def _download_with_cache(self, url, sha256sum=None, sha512sum=None):
-         def check_sha256sum(fname):
-             if not sha256sum:
-@@ -240,13 +233,13 @@ class BaseVM(object):
-         return r
- 
-     def ssh(self, *cmd):
--        return self._ssh_do(self.GUEST_USER, cmd, False)
-+        return self._ssh_do(self._config["guest_user"], cmd, False)
- 
-     def ssh_root(self, *cmd):
-         return self._ssh_do("root", cmd, False)
- 
-     def ssh_check(self, *cmd):
--        self._ssh_do(self.GUEST_USER, cmd, True)
-+        self._ssh_do(self._config["guest_user"], cmd, True)
- 
-     def ssh_root_check(self, *cmd):
-         self._ssh_do("root", cmd, True)
-diff --git a/tests/vm/fedora b/tests/vm/fedora
-index 8e270fc0f0..4616d16740 100755
---- a/tests/vm/fedora
-+++ b/tests/vm/fedora
-@@ -105,20 +105,20 @@ class FedoraVM(basevm.BaseVM):
- 
-         self.console_wait_send("7) [!] Root password",     "7\n")
-         self.console_wait("Password:")
--        self.console_send("%s\n" % self.ROOT_PASS)
-+        self.console_send("%s\n" % self._config["root_pass"])
-         self.console_wait("Password (confirm):")
--        self.console_send("%s\n" % self.ROOT_PASS)
-+        self.console_send("%s\n" % self._config["root_pass"])
- 
-         self.console_wait_send("8) [ ] User creation",     "8\n")
-         self.console_wait_send("1) [ ] Create user",       "1\n")
-         self.console_wait_send("3) User name",             "3\n")
--        self.console_wait_send("ENTER:", "%s\n" % self.GUEST_USER)
-+        self.console_wait_send("ENTER:", "%s\n" % self._config["guest_user"])
-         self.console_wait_send("4) [ ] Use password",      "4\n")
-         self.console_wait_send("5) Password",              "5\n")
-         self.console_wait("Password:")
--        self.console_send("%s\n" % self.GUEST_PASS)
-+        self.console_send("%s\n" % self._config["guest_pass"])
-         self.console_wait("Password (confirm):")
--        self.console_send("%s\n" % self.GUEST_PASS)
-+        self.console_send("%s\n" % self._config["guest_pass"])
-         self.console_wait_send("7) Groups",                "c\n")
- 
-         while True:
-@@ -136,7 +136,7 @@ class FedoraVM(basevm.BaseVM):
-             if good:
-                 break
-             time.sleep(10)
--            self.console_send("r\n" % self.GUEST_PASS)
-+            self.console_send("r\n" % self._config["guest_pass"])
- 
-         self.console_wait_send("'b' to begin install",     "b\n")
- 
-@@ -147,12 +147,13 @@ class FedoraVM(basevm.BaseVM):
- 
-         # setup qemu user
-         prompt = " ~]$"
--        self.console_ssh_init(prompt, self.GUEST_USER, self.GUEST_PASS)
-+        self.console_ssh_init(prompt, self._config["guest_user"],
-+                                      self._config["guest_pass"])
-         self.console_wait_send(prompt, "exit\n")
- 
-         # setup root user
-         prompt = " ~]#"
--        self.console_ssh_init(prompt, "root", self.ROOT_PASS)
-+        self.console_ssh_init(prompt, "root", self._config["root_pass"])
-         self.console_sshd_config(prompt)
- 
-         # setup virtio-blk #1 (tarfile)
-diff --git a/tests/vm/freebsd b/tests/vm/freebsd
-index 33a736298a..fd1f595aa9 100755
---- a/tests/vm/freebsd
-+++ b/tests/vm/freebsd
-@@ -110,9 +110,9 @@ class FreeBSDVM(basevm.BaseVM):
- 
-         # post-install configuration
-         self.console_wait("New Password:")
--        self.console_send("%s\n" % self.ROOT_PASS)
-+        self.console_send("%s\n" % self._config["root_pass"])
-         self.console_wait("Retype New Password:")
--        self.console_send("%s\n" % self.ROOT_PASS)
-+        self.console_send("%s\n" % self._config["root_pass"])
- 
-         self.console_wait_send("Network Configuration", "\n")
-         self.console_wait_send("IPv4",                  "y")
-@@ -131,9 +131,9 @@ class FreeBSDVM(basevm.BaseVM):
-         # qemu user
-         self.console_wait_send("Add User Accounts", "y")
-         self.console_wait("Username")
--        self.console_send("%s\n" % self.GUEST_USER)
-+        self.console_send("%s\n" % self._config["guest_user"])
-         self.console_wait("Full name")
--        self.console_send("%s\n" % self.GUEST_USER)
-+        self.console_send("%s\n" % self._config["guest_user"])
-         self.console_wait_send("Uid",                   "\n")
-         self.console_wait_send("Login group",           "\n")
-         self.console_wait_send("Login group",           "\n")
-@@ -145,9 +145,9 @@ class FreeBSDVM(basevm.BaseVM):
-         self.console_wait_send("Use an empty password", "\n")
-         self.console_wait_send("Use a random password", "\n")
-         self.console_wait("Enter password:")
--        self.console_send("%s\n" % self.GUEST_PASS)
-+        self.console_send("%s\n" % self._config["guest_pass"])
-         self.console_wait("Enter password again:")
--        self.console_send("%s\n" % self.GUEST_PASS)
-+        self.console_send("%s\n" % self._config["guest_pass"])
-         self.console_wait_send("Lock out",              "\n")
-         self.console_wait_send("OK",                    "yes\n")
-         self.console_wait_send("Add another user",      "no\n")
-@@ -161,12 +161,12 @@ class FreeBSDVM(basevm.BaseVM):
- 
-         # setup qemu user
-         prompt = "$"
--        self.console_ssh_init(prompt, self.GUEST_USER, self.GUEST_PASS)
-+        self.console_ssh_init(prompt, self._config["guest_user"], self._config["guest_pass"])
-         self.console_wait_send(prompt, "exit\n")
- 
-         # setup root user
-         prompt = "root@freebsd:~ #"
--        self.console_ssh_init(prompt, "root", self.ROOT_PASS)
-+        self.console_ssh_init(prompt, "root", self._config["root_pass"])
-         self.console_sshd_config(prompt)
- 
-         # setup serial console
-diff --git a/tests/vm/netbsd b/tests/vm/netbsd
-index ec6f3563b2..5eaafc27e0 100755
---- a/tests/vm/netbsd
-+++ b/tests/vm/netbsd
-@@ -128,24 +128,24 @@ class NetBSDVM(basevm.BaseVM):
-         self.console_wait_send("d: Change root password",  "d\n")
-         self.console_wait_send("a: Yes",                   "a\n")
-         self.console_wait("New password:")
--        self.console_send("%s\n" % self.ROOT_PASS)
-+        self.console_send("%s\n" % self._config["root_pass"])
-         self.console_wait("New password:")
--        self.console_send("%s\n" % self.ROOT_PASS)
-+        self.console_send("%s\n" % self._config["root_pass"])
-         self.console_wait("Retype new password:")
--        self.console_send("%s\n" % self.ROOT_PASS)
-+        self.console_send("%s\n" % self._config["root_pass"])
- 
-         self.console_wait_send("o: Add a user",            "o\n")
-         self.console_wait("username")
--        self.console_send("%s\n" % self.GUEST_USER)
-+        self.console_send("%s\n" % self._config["guest_pass"])
-         self.console_wait("to group wheel")
-         self.console_wait_send("a: Yes",                   "a\n")
-         self.console_wait_send("a: /bin/sh",               "a\n")
-         self.console_wait("New password:")
--        self.console_send("%s\n" % self.GUEST_PASS)
-+        self.console_send("%s\n" % self._config["guest_pass"])
-         self.console_wait("New password:")
--        self.console_send("%s\n" % self.GUEST_PASS)
-+        self.console_send("%s\n" % self._config["guest_pass"])
-         self.console_wait("Retype new password:")
--        self.console_send("%s\n" % self.GUEST_PASS)
-+        self.console_send("%s\n" % self._config["guest_pass"])
- 
-         self.console_wait_send("a: Configure network",     "a\n")
-         self.console_wait_send("a: vioif0",                "a\n")
-@@ -178,12 +178,13 @@ class NetBSDVM(basevm.BaseVM):
- 
-         # setup qemu user
-         prompt = "localhost$"
--        self.console_ssh_init(prompt, self.GUEST_USER, self.GUEST_PASS)
-+        self.console_ssh_init(prompt, self._config["guest_user"],
-+                                      self._config["guest_pass"])
-         self.console_wait_send(prompt, "exit\n")
- 
-         # setup root user
-         prompt = "localhost#"
--        self.console_ssh_init(prompt, "root", self.ROOT_PASS)
-+        self.console_ssh_init(prompt, "root", self._config["root_pass"])
-         self.console_sshd_config(prompt)
- 
-         # setup virtio-blk #1 (tarfile)
-diff --git a/tests/vm/openbsd b/tests/vm/openbsd
-index d6173506f7..57f1d90bd6 100755
---- a/tests/vm/openbsd
-+++ b/tests/vm/openbsd
-@@ -95,9 +95,9 @@ class OpenBSDVM(basevm.BaseVM):
-         self.console_wait_send("Which network interface", "done\n")
-         self.console_wait_send("DNS domain name",         "localnet\n")
-         self.console_wait("Password for root account")
--        self.console_send("%s\n" % self.ROOT_PASS)
-+        self.console_send("%s\n" % self._config["root_pass"])
-         self.console_wait("Password for root account")
--        self.console_send("%s\n" % self.ROOT_PASS)
-+        self.console_send("%s\n" % self._config["root_pass"])
-         self.console_wait_send("Start sshd(8)",           "yes\n")
-         self.console_wait_send("X Window System",         "\n")
-         self.console_wait_send("xenodm",                  "\n")
-@@ -105,13 +105,13 @@ class OpenBSDVM(basevm.BaseVM):
-         self.console_wait_send("Which speed",             "\n")
- 
-         self.console_wait("Setup a user")
--        self.console_send("%s\n" % self.GUEST_USER)
-+        self.console_send("%s\n" % self._config["guest_user"])
-         self.console_wait("Full name")
--        self.console_send("%s\n" % self.GUEST_USER)
-+        self.console_send("%s\n" % self._config["guest_user"])
-         self.console_wait("Password")
--        self.console_send("%s\n" % self.GUEST_PASS)
-+        self.console_send("%s\n" % self._config["guest_pass"])
-         self.console_wait("Password")
--        self.console_send("%s\n" % self.GUEST_PASS)
-+        self.console_send("%s\n" % self._config["guest_pass"])
- 
-         self.console_wait_send("Allow root ssh login",    "yes\n")
-         self.console_wait_send("timezone",                "UTC\n")
-@@ -132,12 +132,13 @@ class OpenBSDVM(basevm.BaseVM):
- 
-         # setup qemu user
-         prompt = "$"
--        self.console_ssh_init(prompt, self.GUEST_USER, self.GUEST_PASS)
-+        self.console_ssh_init(prompt, self._config["guest_user"],
-+                                      self._config["guest_pass"])
-         self.console_wait_send(prompt, "exit\n")
- 
-         # setup root user
-         prompt = "openbsd#"
--        self.console_ssh_init(prompt, "root", self.ROOT_PASS)
-+        self.console_ssh_init(prompt, "root", self._config["root_pass"])
-         self.console_sshd_config(prompt)
- 
-         # setup virtio-blk #1 (tarfile)
 -- 
-2.17.1
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
