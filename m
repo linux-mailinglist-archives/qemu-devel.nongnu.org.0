@@ -2,64 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A808153B44
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 23:47:06 +0100 (CET)
-Received: from localhost ([::1]:57932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2B0B153B5F
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 23:49:54 +0100 (CET)
+Received: from localhost ([::1]:57958 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izTRp-0003BD-AZ
-	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 17:47:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58139)
+	id 1izTUX-0006Da-Ul
+	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 17:49:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59426)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jtomko@redhat.com>) id 1izTQH-0001cF-Dt
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 17:45:30 -0500
+ (envelope-from <eblake@redhat.com>) id 1izTT9-0005I3-PI
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 17:48:28 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jtomko@redhat.com>) id 1izTQG-0002Ud-Dw
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 17:45:29 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:32547
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <eblake@redhat.com>) id 1izTT8-0003Jb-Og
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 17:48:27 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:50073
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jtomko@redhat.com>) id 1izTQE-0002Rl-2W
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 17:45:27 -0500
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1izTT8-0003J4-Kn
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 17:48:26 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580942725;
+ s=mimecast20190719; t=1580942906;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=T9yosY6UeqpiFEy8Ek2MJ/xWgBGS43g2n3fE9CvX818=;
- b=PrUz9Ebv3CqUYaqhYGP7xxiodq3MXOop3d8BZZamYBpikxbtJUVwwArx6h9TLmCnjZi1O5
- KczCd/nIA7XXL3aem6+XOa7qmUvmZixzXPuuFNyoC+yGwVxw3Zzmil63x6S3fOBg73ZNQa
- Y4guIGGqqSp725AF868Tc452UejqkEQ=
+ bh=oaBwiqE0jYhx9ejXvAYgRVxpl96GJsqL3/ZZudtTqFc=;
+ b=bWG2Inw2BtWPFhDdcMff85klgLH7RsD8Ta1s42aEaCjXZ6YET2ub7lZpsg9lO88Nsn2srn
+ sj+w1w80LJ0oVGXuR9Rzns+bvNJ8qT4h0fMIO/4hAKY8ovq6QxJChhnpyqE1lZ2cxDyuo8
+ UmlCzQdQ8ass8s69IwYDWf9UYOMs3T0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-258-fZOg21tyPc2zJ00_TqCtuw-1; Wed, 05 Feb 2020 17:45:23 -0500
-X-MC-Unique: fZOg21tyPc2zJ00_TqCtuw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-375-hSs_hcOINeicPKe6N6lT8A-1; Wed, 05 Feb 2020 17:48:22 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 75AA5190D340;
- Wed,  5 Feb 2020 22:45:22 +0000 (UTC)
-Received: from lpt (ovpn-200-44.brq.redhat.com [10.40.200.44])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2543410013A1;
- Wed,  5 Feb 2020 22:45:15 +0000 (UTC)
-Date: Wed, 5 Feb 2020 23:45:12 +0100
-From: =?iso-8859-1?B?SuFu?= Tomko <jtomko@redhat.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH 3/5] ui/sdl: implement show-cursor option
-Message-ID: <20200205224512.GH31521@lpt>
-References: <20200205110356.3491-1-kraxel@redhat.com>
- <20200205110356.3491-4-kraxel@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 625C4DB22;
+ Wed,  5 Feb 2020 22:48:21 +0000 (UTC)
+Received: from [10.3.116.181] (ovpn-116-181.phx2.redhat.com [10.3.116.181])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id F0FAA5D9E2;
+ Wed,  5 Feb 2020 22:48:20 +0000 (UTC)
+Subject: Re: [PATCH v2 23/33] block: Drop child_backing
+To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
+References: <20200204170848.614480-1-mreitz@redhat.com>
+ <20200204170848.614480-24-mreitz@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <d09847f7-f2c1-43c8-8fe9-ee5c75bb0550@redhat.com>
+Date: Wed, 5 Feb 2020 16:48:20 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200205110356.3491-4-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <20200204170848.614480-24-mreitz@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: hSs_hcOINeicPKe6N6lT8A-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="uJrvpPjGB3z5kYrA"
-Content-Disposition: inline
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,43 +76,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: libvir-list@redhat.com, Paolo Bonzini <pbonzini@redhat.com>,
- jpewhacker@gmail.com, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---uJrvpPjGB3z5kYrA
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 2/4/20 11:08 AM, Max Reitz wrote:
+> Signed-off-by: Max Reitz <mreitz@redhat.com>
+> ---
+>   block.c                   | 62 +++------------------------------------
+>   include/block/block_int.h |  1 -
+>   2 files changed, 4 insertions(+), 59 deletions(-)
 
-On Wed, Feb 05, 2020 at 12:03:54PM +0100, Gerd Hoffmann wrote:
->Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
->---
-> ui/sdl2.c | 28 ++++++++++++++++++++--------
-> 1 file changed, 20 insertions(+), 8 deletions(-)
->
+More code deletion.
 
-Reviewed-by: J=E1n Tomko <jtomko@redhat.com>
+> 
+> diff --git a/block.c b/block.c
+> index 6b705ee23a..e245b5d8d9 100644
+> --- a/block.c
+> +++ b/block.c
+> @@ -1169,15 +1169,6 @@ static void bdrv_backing_attach(BdrvChild *c)
+>                       parent->backing_blocker);
+>   }
+>   
+> -/* XXX: Will be removed along with child_backing */
+> -static void bdrv_child_cb_attach_backing(BdrvChild *c)
 
-Jano
+In fact, more promised code deletion :)
 
---uJrvpPjGB3z5kYrA
-Content-Type: application/pgp-signature; name="signature.asc"
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEQeJGMrnL0ADuclbP+YPwO/Mat50FAl47RXgACgkQ+YPwO/Ma
-t50LAQf+OGv9cW4901yB20F4YIFkanpQ2Bp0kYF7sIQOSGmGQ9vC3WharUPCmep7
-b4AugDNBNQmZX8V1I2lDjkpY37U4GczVJZA6dSvo/4oT42MZhM8bhIrY0DvVtNJx
-3xnXLbauTYwN51xvZOkuGBruvCQpd3v7xjSjmhLWIPT5W0wqlWWSA4F6Owfxzkmx
-x/0OSxjTuruETQW6pmxJbF9rI5LY493zNNVvVWegmJUDV+uGfoKhU8uNxVZ50XQu
-7QdcQTKUkCxEuygoILzBMY1Ybn/Nya3Vx9REV9XFGPd+rbAySzdT2O/IH/MQkGA1
-9deZEJ3/rvRcLopc5/lKN6DW8cpiGw==
-=6ATx
------END PGP SIGNATURE-----
-
---uJrvpPjGB3z5kYrA--
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
