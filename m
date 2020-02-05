@@ -2,83 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 782D8153668
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 18:26:53 +0100 (CET)
-Received: from localhost ([::1]:54196 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EE6D15366F
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 18:28:10 +0100 (CET)
+Received: from localhost ([::1]:54240 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izORw-0005VI-ID
-	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 12:26:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38285)
+	id 1izOTB-0007t3-Ju
+	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 12:28:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40755)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1izOIy-0008CQ-DZ
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 12:17:37 -0500
+ (envelope-from <mreitz@redhat.com>) id 1izONx-00087o-1m
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 12:22:46 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1izOIt-00089j-87
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 12:17:32 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:22975
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <mreitz@redhat.com>) id 1izONv-0006uk-CE
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 12:22:44 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:55611
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1izOIp-0007vH-3i
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 12:17:28 -0500
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1izONv-0006t3-8B
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 12:22:43 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580923042;
+ s=mimecast20190719; t=1580923362;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+06cuhwJOrpPs/nqvWdogUh1JSYOZf7QdiLQOC+EmWQ=;
- b=JfRhoTWT182hCBuw+KmsmdhqBCNfxCobZk6dr9q9bRZ+dvTLKko3HrYb8F0DDkLCBae0Fj
- gnRYtTUj5/MHfneylXzm6QwzNO6T1jEg/od9uJ+XOH3cxE3NnY90n7Yv3HQ5vAZnmA7iDx
- TDYB+dajmfLR89ICQc2ChjXAGOu3y9E=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-60-Tr0ZtjB4NcWLHEDh1974kw-1; Wed, 05 Feb 2020 12:17:16 -0500
-Received: by mail-wr1-f70.google.com with SMTP id u8so1495013wrp.10
- for <qemu-devel@nongnu.org>; Wed, 05 Feb 2020 09:17:16 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=d1UTZ/afbxDcXrZJKo4vdbH5W01BYA3S7srPmxreZ+4=;
- b=aAdpkUiCfyIb1SCzStlhYxqViPoi3pg8+IWCM0mfbeHbb2cm38gt7nMVncMOH2/hCY
- kqhy42dZTwTAdQULWbpTnKgIBTs1jEfoc7hEOhn4Ng4jJZubk/qU0TptX3hWtyQdqCwf
- unXWZ/VviFcOp198mdMuUltmA5v1mI43vpDOSO84dSNt9OReL6u+X8vrD11NpanmgebJ
- maSE832zYYgDpYlN8bJZck4/Jdz/kPDIqdmY8acBZL8jN07mA7t0jbcyAtkTkCbZQocC
- B2TbZ3ESDqIRWB0rUkWiWZkjq9un/ijkpUOIXDGaZ9rQC0g/AcPKAuM1YIrPwBtZF7fa
- lVoA==
-X-Gm-Message-State: APjAAAUfcj/w2ycjzsMQlDlWNytE3bfQgKLQWM/cvKnSgDHNvdMLpUGw
- 9mOvCq5nJN0KTohZdU5fLGkxkV+86WenWkms8PKM2hFWUZkch3eHadGXun0a9CvrBTfwWguXKGE
- MKVVX0sV6fYU16Zw=
-X-Received: by 2002:adf:f6c8:: with SMTP id y8mr28813901wrp.167.1580923035540; 
- Wed, 05 Feb 2020 09:17:15 -0800 (PST)
-X-Google-Smtp-Source: APXvYqymKRtkmkudc/Bjf1E9whFAMRbVqBa0mk0tDWxEZdl+vIl0aJZZbRCtFmjQzWsoiZtVMFZ64w==
-X-Received: by 2002:adf:f6c8:: with SMTP id y8mr28813881wrp.167.1580923035341; 
- Wed, 05 Feb 2020 09:17:15 -0800 (PST)
-Received: from [192.168.1.35] (162.red-83-52-55.dynamicip.rima-tde.net.
- [83.52.55.162])
- by smtp.gmail.com with ESMTPSA id s65sm235454wmf.48.2020.02.05.09.17.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 05 Feb 2020 09:17:14 -0800 (PST)
-Subject: Re: [PATCH] qemu-img: Place the '-i aio' option in alphabetical order
-To: Julia Suvorova <jusual@redhat.com>, qemu-devel@nongnu.org
-References: <20200205163008.204493-1-jusual@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <d97e763f-b987-06b7-a7e3-d243b6790f31@redhat.com>
-Date: Wed, 5 Feb 2020 18:17:12 +0100
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=E2/KHHXLM65LNX8XTivLlZcJ88qx4yKZA9+WY5Qu8Rc=;
+ b=dmZhY1A6fAO+p3oINkAG8eiCFg+bDO8toSdyC4Gj8eI1tQzwdNHEoLVAd+GuTU0I2iD9l/
+ 7sVQpebuXTACusXgpp+vhovbdoX/9WCCRJXWIEGf2Xd1m/W8mjYJdT0XsFvkkWKS3FYNDw
+ qVg/zXrvrJSCmAVvIA6LlUWclSppDkc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-355-kn3jzlxBNWWCOGT7rr9MzA-1; Wed, 05 Feb 2020 12:22:37 -0500
+X-MC-Unique: kn3jzlxBNWWCOGT7rr9MzA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2FC308010C4;
+ Wed,  5 Feb 2020 17:22:35 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-117-184.ams2.redhat.com
+ [10.36.117.184])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EC76B1C94B;
+ Wed,  5 Feb 2020 17:22:25 +0000 (UTC)
+Subject: Re: [PATCH 09/17] block: Refactor bdrv_has_zero_init{,_truncate}
+To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
+References: <20200131174436.2961874-1-eblake@redhat.com>
+ <20200131174436.2961874-10-eblake@redhat.com>
+ <a857dce1-ef71-d62b-016e-ff9486af361b@redhat.com>
+ <ab03b053-5caa-7316-25ed-d6103889d06e@redhat.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <6b081138-5ee5-f5d6-352d-ec2deff0de73@redhat.com>
+Date: Wed, 5 Feb 2020 18:22:23 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200205163008.204493-1-jusual@redhat.com>
-Content-Language: en-US
-X-MC-Unique: Tr0ZtjB4NcWLHEDh1974kw-1
+In-Reply-To: <ab03b053-5caa-7316-25ed-d6103889d06e@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="QmSuvCfqJGT30JUmf36qMLZS2ihWLGrHe"
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,90 +101,220 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>,
- Peter Maydell <peter.maydell@linaro.org>,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ "open list:Sheepdog" <sheepdog@lists.wpkg.org>, qemu-block@nongnu.org,
+ Jeff Cody <codyprime@gmail.com>, Stefan Weil <sw@weilnetz.de>,
+ Peter Lieven <pl@kamp.de>, "Richard W.M. Jones" <rjones@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, david.edmondson@oracle.com,
+ Stefan Hajnoczi <stefanha@redhat.com>, Liu Yuan <namei.unix@gmail.com>,
+ "Denis V. Lunev" <den@openvz.org>, Jason Dillaman <dillaman@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cc'ing qemu-trivial@
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--QmSuvCfqJGT30JUmf36qMLZS2ihWLGrHe
+Content-Type: multipart/mixed; boundary="B11gEeyxXHx7HsOe7g4REGq2lCWI5hRoJ"
 
-On 2/5/20 5:30 PM, Julia Suvorova wrote:
-> The '-i AIO' option was accidentally placed after '-n' and '-t'. Move it
-> after '--flush-interval'.
+--B11gEeyxXHx7HsOe7g4REGq2lCWI5hRoJ
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+On 04.02.20 20:03, Eric Blake wrote:
+> On 2/4/20 11:53 AM, Max Reitz wrote:
+>> On 31.01.20 18:44, Eric Blake wrote:
+>>> Having two slightly-different function names for related purposes is
+>>> unwieldy, especially since I envision adding yet another notion of
+>>> zero support in an upcoming patch.=C2=A0 It doesn't help that
+>>> bdrv_has_zero_init() is a misleading name (I originally thought that a
+>>> driver could only return 1 when opening an already-existing image
+>>> known to be all zeroes; but in reality many drivers always return 1
+>>> because it only applies to a just-created image).
+>>
+>> I don=E2=80=99t find it misleading, I just find it meaningless, which th=
+en makes
+>> it open to interpretation (or maybe rather s/interpretation/wishful
+>> thinking/).
+>>
+>>> Refactor all uses
+>>> to instead have a single function that returns multiple bits of
+>>> information, with better naming and documentation.
+>>
+>> It doesn=E2=80=99t make sense to me.=C2=A0 How exactly is it unwieldy?=
+=C2=A0 In the sense
+>> that we have to deal with multiple rather small implementation functions
+>> rather than a big one per driver?=C2=A0 Actually, multiple small functio=
+ns
+>> sounds better to me =E2=80=93 unless the three implementations share com=
+mon code.
 >=20
-> Signed-off-by: Julia Suvorova <jusual@redhat.com>
-> ---
->   docs/interop/qemu-img.rst | 8 ++++----
->   qemu-img-cmds.hx          | 4 ++--
->   2 files changed, 6 insertions(+), 6 deletions(-)
+> Common code for dealing with encryption, backing files, and so on.=C2=A0 =
+It
+> felt like I had a lot of code repetition when keeping functions separate.
+
+Well, I suppose =E2=80=9Cdealing with=E2=80=9D means =E2=80=9Cif (encrypted=
+ || has_backing)=E2=80=9D, so
+duplicating that doesn=E2=80=99t seem too bad.
+
+>> As for the callers, they only want a single flag out of the three, don=
+=E2=80=99t
+>> they?=C2=A0 If so, it doesn=E2=80=99t really matter for them.
 >=20
-> diff --git a/docs/interop/qemu-img.rst b/docs/interop/qemu-img.rst
-> index fa27e5c7b4..42e4451db4 100644
-> --- a/docs/interop/qemu-img.rst
-> +++ b/docs/interop/qemu-img.rst
-> @@ -247,7 +247,7 @@ Command description:
->     Amends the image format specific *OPTIONS* for the image file
->     *FILENAME*. Not all file formats support this operation.
->  =20
-> -.. option:: bench [-c COUNT] [-d DEPTH] [-f FMT] [--flush-interval=3DFLU=
-SH_INTERVAL] [-n] [-i AIO] [--no-drain] [-o OFFSET] [--pattern=3DPATTERN] [=
--q] [-s BUFFER_SIZE] [-S STEP_SIZE] [-t CACHE] [-w] [-U] FILENAME
-> +.. option:: bench [-c COUNT] [-d DEPTH] [-f FMT] [--flush-interval=3DFLU=
-SH_INTERVAL] [-i AIO] [-n] [--no-drain] [-o OFFSET] [--pattern=3DPATTERN] [=
--q] [-s BUFFER_SIZE] [-S STEP_SIZE] [-t CACHE] [-w] [-U] FILENAME
->  =20
->     Run a simple sequential I/O benchmark on the specified image. If ``-w=
-`` is
->     specified, a write test is performed, otherwise a read test is perfor=
-med.
-> @@ -264,13 +264,13 @@ Command description:
->     ``--no-drain`` is specified, a flush is issued without draining the r=
-equest
->     queue first.
->  =20
-> +  if ``-i`` is specified, *AIO* option can be used to specify different
-> +  AIO backends: ``threads``, ``native`` or ``io_uring``.
-> +
->     If ``-n`` is specified, the native AIO backend is used if possible. O=
+> The qemu-img.c caller in patch 10 checks ZERO_CREATE | ZERO_OPEN, so we
+> DO have situations of checking more than one bit, vs. needing two
+> function calls.
+
+Hm, OK.  Not sure if that place would look worse with two function
+calls, but, well.
+
+>> In fact, I can imagine that drivers can trivially return
+>> BDRV_ZERO_TRUNCATE information (because the preallocation mode is
+>> fixed), whereas BDRV_ZERO_CREATE can be a bit more involved, and
+>> BDRV_ZERO_OPEN could take even more time because some (constant-time)
+>> inquiries have to be done.
+>=20
+> In looking at the rest of the series, drivers were either completely
+> trivial (in which case, declaring:
+>=20
+> .bdrv_has_zero_init =3D bdrv_has_zero_init_1,
+> .bdrv_has_zero_init_truncate =3D bdrv_has_zero_init_1,
+>=20
+> was a lot wordier than the new:
+>=20
+> .bdrv_known_zeroes =3D bdrv_known_zeroes_truncate,
+
+Not sure if that=E2=80=99s bad, though.
+
+> ), or completely spelled out but where both creation and truncation were
+> determined in the same amount of effort.
+
+Well, usually, the effort is minimal, but OK.
+
+>> And thus callers which just want the trivially obtainable
+>> BDRV_ZERO_TRUNCATE info have to wait for the BDRV_ZERO_OPEN inquiry,
+>> even though they don=E2=80=99t care about that flag.
+>=20
+> True, but only to a minor extent; and the documentation mentions that
+> the BDRV_ZERO_OPEN calculation MUST NOT be as expensive as a blind
+> block_status loop.
+
+So it must be less expensive than an arbitrarily complex loop.  I think
+a single SEEK_DATA/HOLE call was something like O(n) on tmpfs?
+
+What I=E2=80=99m trying to say is that this is not a good limit and can mea=
 n
->     Linux, this option only works if ``-t none`` or ``-t directsync`` is
->     specified as well.
->  =20
-> -  if ``-i`` is specified, *AIO* option can be used to specify different
-> -  AIO backends: ``threads``, ``native`` or ``io_uring``.
-> -
->     For write tests, by default a buffer filled with zeros is written. Th=
-is can be
->     overridden with a pattern byte specified by *PATTERN*.
->  =20
-> diff --git a/qemu-img-cmds.hx b/qemu-img-cmds.hx
-> index 3fd836ca90..d7fbc6b1f4 100644
-> --- a/qemu-img-cmds.hx
-> +++ b/qemu-img-cmds.hx
-> @@ -16,9 +16,9 @@ SRST
->   ERST
->  =20
->   DEF("bench", img_bench,
-> -    "bench [-c count] [-d depth] [-f fmt] [--flush-interval=3Dflush_inte=
-rval] [-n] [--no-drain] [-o offset] [--pattern=3Dpattern] [-q] [-s buffer_s=
-ize] [-S step_size] [-t cache] [-i aio] [-w] [-U] filename")
-> +    "bench [-c count] [-d depth] [-f fmt] [--flush-interval=3Dflush_inte=
-rval] [-i aio] [-n] [--no-drain] [-o offset] [--pattern=3Dpattern] [-q] [-s=
- buffer_size] [-S step_size] [-t cache] [-w] [-U] filename")
->   SRST
-> -.. option:: bench [-c COUNT] [-d DEPTH] [-f FMT] [--flush-interval=3DFLU=
-SH_INTERVAL] [-n] [--no-drain] [-o OFFSET] [--pattern=3DPATTERN] [-q] [-s B=
-UFFER_SIZE] [-S STEP_SIZE] [-t CACHE] [-i AIO] [-w] [-U] FILENAME
-> +.. option:: bench [-c COUNT] [-d DEPTH] [-f FMT] [--flush-interval=3DFLU=
-SH_INTERVAL] [-i AIO] [-n] [--no-drain] [-o OFFSET] [--pattern=3DPATTERN] [=
--q] [-s BUFFER_SIZE] [-S STEP_SIZE] [-t CACHE] [-w] [-U] FILENAME
->   ERST
->   DEF("check", img_check,
->       "check [--object objectdef] [--image-opts] [-q] [-f fmt] [--output=
-=3Dofmt] [-r [leaks | all]] [-T src_cache] [-U] filename")
->=20
+anything.
 
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+I do think this limit definition makes sense for callers that want to
+know about ZERO_OPEN.  But I don=E2=80=99t know why we would have to let ot=
+her
+callers wait, too.
+
+> Meanwhile, callers tend to only care about
+> bdrv_known_zeroes() right after opening an image or right before
+> resizing (not repeatedly during runtime);
+
+Hm, yes.  I was thinking of parallels, but that only checks once in
+parallels_open(), so it=E2=80=99s OK.
+
+> and you also argued elsewhere
+> in this thread that it may be worth having the block layer cache
+> BDRV_ZERO_OPEN and update the cache on any write,
+
+I didn=E2=80=99t say the block layer, but it if makes sense.
+
+> at which point, the
+> expense in the driver callback really is a one-time call during
+> bdrv_co_open().
+
+It definitely doesn=E2=80=99t make sense to me to do that call unconditiona=
+lly
+in bdrv_co_open().
+
+> And in that case, whether the one-time expense is done
+> via a single function call or via three driver callbacks, the amount of
+> work is the same; but the driver callback interface is easier if there
+> is only one callback (similar to how bdrv_unallocated_blocks_are_zero()
+> calls bdrv_get_info() only for bdi.unallocated_blocks_are_zero, even
+> though BlockDriverInfo tracks much more than that boolean).
+>=20
+> In fact, it may be worth consolidating known zeroes support into
+> BlockDriverInfo.
+
+I=E2=80=99m very skeptical of that.  BDI already has the problem that it do=
+esn=E2=80=99t
+know which of the information the caller actually wants and that it is
+sometimes used in a quasi-hot path.
+
+Maybe that means it is indeed time to incorporate it into BDI, but the
+caller should have a way of specifying what parts of BDI it actually
+needs and then drivers can skip anything that isn=E2=80=99t trivially obtai=
+nable
+that the caller doesn=E2=80=99t need.
+
+>> So I=E2=80=99d leave it as separate functions so drivers can feel free t=
+o have
+>> implementations for BDRV_ZERO_OPEN that take more than mere microseconds
+>> but that are more accurate.
+>>
+>> (Or maybe if you really want it to be a single functions, callers could
+>> pass the mask of flags they care about.=C2=A0 If all flags are trivially
+>> obtainable, the implementations would then simply create their result
+>> mask and & it with the caller-given mask.=C2=A0 For implementations wher=
+e
+>> some branches could take a bit more time, those branches are only taken
+>> when the caller cares about the given flag.=C2=A0 But again, I don=E2=80=
+=99t
+>> necessarily think having a single function is more easily handleable
+>> than three smaller ones.)
+>=20
+> Those are still viable options, but before I repaint the bikeshed along
+> those lines, I'd at least like a review of whether the overall idea of
+> having a notion of 'reads-all-zeroes' is indeed useful enough,
+> regardless of how we implement it as one vs. three driver callbacks.
+
+I=E2=80=99m as hesitant as ever to give a review that this notion is useful=
+,
+because I haven=E2=80=99t seen a practical example yet where the problem is=
+n=E2=80=99t
+the fact that NBD doesn=E2=80=99t have 64-bit write_zeroes support.
+
+So far, it looks to me like this notion is only really useful for cases
+where we expect a management layer on top of qemu anyway.  And then I=E2=80=
+=99m
+not sure that this new feature works reliably enough for such a
+management layer.
+
+(I=E2=80=99m not saying it isn=E2=80=99t useful.  Again, intuitively it doe=
+s seem
+useful.  Intuition can be enough to merge a sufficiently simple series
+that doesn=E2=80=99t increase code complexity too much.  But I=E2=80=99m st=
+ill asking
+for actual practical examples, because that would make a better
+argument, of course.)
+
+Max
+
+
+--B11gEeyxXHx7HsOe7g4REGq2lCWI5hRoJ--
+
+--QmSuvCfqJGT30JUmf36qMLZS2ihWLGrHe
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl46+c8ACgkQ9AfbAGHV
+z0DlKgf+NOTmXCs1gay/aSA5SWDGO2Xcutw0rfml9U9FxgGEbcM9DX+eMXdsFoKP
+MNP+q44QiCIuUX7512g0X/DSp+MZlFmkzGYeoQKXP+mFT1/39GeEW+PSJBsmDYHZ
+mze37F0N4WkcRgLRKiFxDYadOQsvqQItMhd/mwSc/dCpJ/FYPmmZYgiP0WQv2mxS
+Ti5lXoXnM7K7M7MQrW41e0fWpCammObqilIUeqpEnPfBshBEuppmeSSCKRmFuc4z
+Wd0UVGXqYlKXBVyOlqjwlX6KxQwRZ5yHG4/Nw4ebXUNAeycU3bHuciBAURlanHEC
+I4QdYiCaDtnZNECaQ23PfGfs6hYopA==
+=DZzR
+-----END PGP SIGNATURE-----
+
+--QmSuvCfqJGT30JUmf36qMLZS2ihWLGrHe--
 
 
