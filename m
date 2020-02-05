@@ -2,74 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F918153672
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 18:28:33 +0100 (CET)
-Received: from localhost ([::1]:54242 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5193153666
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 18:26:12 +0100 (CET)
+Received: from localhost ([::1]:54178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izOTY-0008Vw-6h
-	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 12:28:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40912)
+	id 1izORH-0004RP-VQ
+	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 12:26:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41792)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1izOO5-0008UN-Tm
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 12:22:54 -0500
+ (envelope-from <eblake@redhat.com>) id 1izOPN-0002gm-6R
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 12:24:14 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1izOO4-0007ca-NG
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 12:22:53 -0500
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:52007)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1izOO4-0007Wb-Fq
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 12:22:52 -0500
-Received: by mail-wm1-x342.google.com with SMTP id t23so3371312wmi.1
- for <qemu-devel@nongnu.org>; Wed, 05 Feb 2020 09:22:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=T23HdL0WlsWw0qfUVF3B5ASwCW8vMvp+kxrfLt6J5s4=;
- b=GWcizOOaFiASf525ShRf2qECNCI5GndS8n2OfBiLEyc7nfOP2pvwcdEQjzLBu4VQq4
- 66YfQno+tYzXHm0uQTt8kd1Cf+eKEeh9bsUptdodRFCHJzoCnlE+QO2zk9fl7EV13xjJ
- ZDpNNFPI+9+ScOXCG//+iw6UUkwFLuJUX4ltfoqJkUD9tw4EA2MJQWVA09UO01Fcg3KL
- V6QOScflmWUc5l6MtKa4Vi6sol7+gZy6gprCoSs2sXjq5FWJTYXVHsbqOAq92W/biHuF
- B8NvQ86qD9T8hKq4BTzdcSSFs+KKVEO/F5Va2K8qGYqN0sJB58Wf/22T+tWOczDA2TSA
- AH5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=T23HdL0WlsWw0qfUVF3B5ASwCW8vMvp+kxrfLt6J5s4=;
- b=YbX3RrJaZQBcXt8Sx3eWEApb9rDkhYXDC6cY86zwitVwiUiUHyT5MHtEi2CNlgMZj1
- cB+RFP3KQYyIodABictLqcl1aqgimyOQ86RWy9ogfY7MskLbpvD/4QqCDJfNxNMQzwKA
- 93jWGQXZsPFk91IUYTTmX58F1UIRE5znZxWE2oZmWsInJoTBT6CvyUnCyEqQfopCkdj+
- 5aMa4xI6EoFI53/2lcqO+EXXKwCcpTRlHH8ZFMtnt8JKq6IzrF7pZfC3n/R+0B9eBFS0
- j9Qz0/nKOsYhanEeiqpkX//nPmzwVxQ+/foU2LILk/qL4j3iYkSlLsDkadR8hB+gTVg+
- j35A==
-X-Gm-Message-State: APjAAAWvImq0+hN0OcB4knBuK4lso08KC5tKF2qYBFKvp+z5dv7mJ7Gx
- YuKYRUhSP3MHHxOYXKIOvqC8FA==
-X-Google-Smtp-Source: APXvYqxdsJFRFVlOUxHsFMAi1XmW2BZnhHMOOWxby+uMCsQVMSOCBxOanXbOGm/bxbbggmsIaTt7ng==
-X-Received: by 2002:a1c:1d02:: with SMTP id d2mr7145021wmd.185.1580923371026; 
- Wed, 05 Feb 2020 09:22:51 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id x6sm239332wmi.44.2020.02.05.09.22.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Feb 2020 09:22:49 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id CEF2F1FF87;
- Wed,  5 Feb 2020 17:22:48 +0000 (GMT)
-References: <20200105072940.32204-1-cota@braap.org>
-User-agent: mu4e 1.3.7; emacs 27.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: "Emilio G. Cota" <cota@braap.org>
-Subject: Re: [PATCH] plugins/core: add missing break in cb_to_tcg_flags
-In-reply-to: <20200105072940.32204-1-cota@braap.org>
-Date: Wed, 05 Feb 2020 17:22:48 +0000
-Message-ID: <87imkl7xuf.fsf@linaro.org>
+ (envelope-from <eblake@redhat.com>) id 1izOPM-0004x3-2z
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 12:24:13 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:56162)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1izOPL-0004uH-Uh
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 12:24:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1580923451;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Py0r0ZEM1kEV3z6f/8ruyMJDdagHM7u0RKM67T+Wqd8=;
+ b=HZKQbxtslDL62G/DCFyraJ/r9tjM8kb481/MJNFAkoiy7OfsigJcmwu9hb8UHAjP8DTqKD
+ e3HlxrjHz2hhWpdOi2VnWP78R5IMC2bFd+WqWoPKnbL+Ck2cuMVT70dN/cm15EQokiZQyt
+ dIRDTr3UnaYXZxALsBO9hpLub+St3II=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-15-R1WrQRrKM-ewJ9AwmnYzOQ-1; Wed, 05 Feb 2020 12:24:06 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 61A8918A7DC4;
+ Wed,  5 Feb 2020 17:24:05 +0000 (UTC)
+Received: from [10.3.116.181] (ovpn-116-181.phx2.redhat.com [10.3.116.181])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id F22055D9E2;
+ Wed,  5 Feb 2020 17:24:04 +0000 (UTC)
+Subject: Re: [PATCH v2 11/33] block: Unify bdrv_child_cb_attach()
+To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
+References: <20200204170848.614480-1-mreitz@redhat.com>
+ <20200204170848.614480-12-mreitz@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <f6e6764b-1727-f166-55c5-605f8b1be2b7@redhat.com>
+Date: Wed, 5 Feb 2020 11:24:04 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::342
+In-Reply-To: <20200204170848.614480-12-mreitz@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: R1WrQRrKM-ewJ9AwmnYzOQ-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,38 +75,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Robert Henry <robhenry@microsoft.com>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Emilio G. Cota <cota@braap.org> writes:
-
-> Reported-by: Robert Henry <robhenry@microsoft.com>
-> Signed-off-by: Emilio G. Cota <cota@braap.org>
-
-
-Queued to plugins/next, thanks.
-
+On 2/4/20 11:08 AM, Max Reitz wrote:
+> Make bdrv_child_cb_attach() call bdrv_backing_attach() for children with
+> a COW role (and drop the reverse call from bdrv_backing_attach()), so it
+> can be used for any child (with a proper role set).
+> 
+> Because so far no child has a proper role set, we need a temporary new
+> callback for child_backing.attach that ensures bdrv_backing_attach() is
+> called for all COW children that do not have their role set yet.
+> 
+> Signed-off-by: Max Reitz <mreitz@redhat.com>
 > ---
->  plugins/core.c | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/plugins/core.c b/plugins/core.c
-> index 9e1b9e7a91..ed863011ba 100644
-> --- a/plugins/core.c
-> +++ b/plugins/core.c
-> @@ -286,6 +286,7 @@ static inline uint32_t cb_to_tcg_flags(enum qemu_plug=
-in_cb_flags flags)
->      switch (flags) {
->      case QEMU_PLUGIN_CB_RW_REGS:
->          ret =3D 0;
-> +        break;
->      case QEMU_PLUGIN_CB_R_REGS:
->          ret =3D TCG_CALL_NO_WG;
->          break;
+>   block.c | 16 +++++++++++++++-
+>   1 file changed, 15 insertions(+), 1 deletion(-)
+> 
 
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
---=20
-Alex Benn=C3=A9e
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
+
 
