@@ -2,66 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CD37153997
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 21:37:17 +0100 (CET)
-Received: from localhost ([::1]:56118 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CF1B1539AE
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 21:42:53 +0100 (CET)
+Received: from localhost ([::1]:56222 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izRQC-0004lA-HB
-	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 15:37:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35625)
+	id 1izRVc-0001Cz-7I
+	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 15:42:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39271)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1izRNB-0000YT-E3
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 15:34:11 -0500
+ (envelope-from <lvivier@redhat.com>) id 1izRUF-0008AX-CW
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 15:41:28 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1izRNA-0000J7-Eo
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 15:34:09 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:28228
+ (envelope-from <lvivier@redhat.com>) id 1izRUE-00054w-48
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 15:41:27 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:32678
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1izRNA-0000H9-9q
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 15:34:08 -0500
+ (Exim 4.71) (envelope-from <lvivier@redhat.com>) id 1izRUE-00053E-0l
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 15:41:26 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580934848;
+ s=mimecast20190719; t=1580935284;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=7JN2k2cLKwotHm2lULx+byWeE7lu315FR7xFVDciwWU=;
- b=aZ0rD8KTBizEw4XAty7Kj9ONnkNOz31V6TvD1N3P8mAAeOcaZjnjIuecUh0HZ3GV0vmAcR
- XEAYRe/rDE/1XRYKl7EEQQMzi7Hqur4tT0JAG38+4bPPpx1P8b3K20UlPcQqs8qkg8GoI0
- YoUeLiK9YynW9aLlO+wE9iN0LMi2jMM=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=6/WDfE1o/i7lrSQ4UcHEsx/XDtZKIsCkP6QXz1byKcs=;
+ b=RViwSSYHli82E+THhvS/8zCaW0YhUl/ooi/Py4TAY0pIkxkuwmCpqfQk2jb5BsgoDgNgH5
+ EoexyOPC8ISLajVI+alC1OjfkSZQfz+iFiIUON623OfPmaTOIpRrfGSL9j1slRgkPVUdaB
+ q/aKkf+cN5mlwVgEFTieXB1xePFI4DY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-49-j6eu7z8NOFKjkqfcRRhW1Q-1; Wed, 05 Feb 2020 15:33:45 -0500
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-85-XnTfPSZ-Mem6SUh05jbYmQ-1; Wed, 05 Feb 2020 15:41:20 -0500
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 78BDC8010FB;
- Wed,  5 Feb 2020 20:33:43 +0000 (UTC)
-Received: from [10.3.116.181] (ovpn-116-181.phx2.redhat.com [10.3.116.181])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 04D5589E81;
- Wed,  5 Feb 2020 20:33:42 +0000 (UTC)
-Subject: Re: [PATCH v2 13/33] block: Add child_of_bds
-To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
-References: <20200204170848.614480-1-mreitz@redhat.com>
- <20200204170848.614480-14-mreitz@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <04d25165-4152-0696-4c09-b7e6109c945e@redhat.com>
-Date: Wed, 5 Feb 2020 14:33:42 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 267918010EF;
+ Wed,  5 Feb 2020 20:41:19 +0000 (UTC)
+Received: from thinkpad.redhat.com (ovpn-116-229.ams2.redhat.com
+ [10.36.116.229])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 032C610013A1;
+ Wed,  5 Feb 2020 20:41:16 +0000 (UTC)
+From: Laurent Vivier <lvivier@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/2] ppc/pnv: fix build dependencies
+Date: Wed,  5 Feb 2020 21:41:13 +0100
+Message-Id: <20200205204115.555212-1-lvivier@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200204170848.614480-14-mreitz@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: j6eu7z8NOFKjkqfcRRhW1Q-1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-MC-Unique: XnTfPSZ-Mem6SUh05jbYmQ-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 207.211.31.120
@@ -76,29 +69,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Greg Kurz <groug@kaod.org>, qemu-ppc@nongnu.org,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/4/20 11:08 AM, Max Reitz wrote:
-> Any current user of child_file, child_format, and child_backing can and
-> should use this generic BdrvChildClass instead, as it can handle all of
-> these cases.  However, to be able to do so, the users must pass the
-> appropriate BdrvChildRole when the child is created/attached.  (The
-> following commits will take care of that.)
-> 
-> Signed-off-by: Max Reitz <mreitz@redhat.com>
-> ---
->   block.c                   | 27 +++++++++++++++++++++++++++
->   include/block/block_int.h |  1 +
->   2 files changed, 28 insertions(+)
-> 
-Reviewed-by: Eric Blake <eblake@redhat.com>
+Building only POWERNV machine without PSERIES machine
+fails because of a couple of reasons:
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+- qtest uses rtas function only provided by PSERIES,
+- the dependency to PCI Express has been added to XIVE_SPAPR
+  rather than to POWERNV
+
+Laurent Vivier (2):
+  qtest: Fix rtas dependencies
+  ppc/pnv: Fix PCI_EXPRESS dependency
+
+ hw/ppc/Kconfig | 6 ++++--
+ qtest.c        | 5 +++--
+ 2 files changed, 7 insertions(+), 4 deletions(-)
+
+--=20
+2.24.1
 
 
