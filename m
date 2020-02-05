@@ -2,68 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FCA6153406
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 16:40:01 +0100 (CET)
-Received: from localhost ([::1]:51244 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56A761534C9
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 16:57:42 +0100 (CET)
+Received: from localhost ([::1]:51460 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izMmV-0000D5-Lm
-	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 10:39:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34412)
+	id 1izN3d-0001Gx-Df
+	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 10:57:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42276)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1izMli-00084F-Kl
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 10:39:12 -0500
+ (envelope-from <cohuck@redhat.com>) id 1izN1c-0007Fb-V4
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 10:55:37 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1izMlg-0006C6-OO
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 10:39:09 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:33352
+ (envelope-from <cohuck@redhat.com>) id 1izN1b-0006s2-Qt
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 10:55:36 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:41310
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1izMlg-0005zj-GE
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 10:39:08 -0500
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1izN1b-0006pO-M8
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 10:55:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580917147;
+ s=mimecast20190719; t=1580918135;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2OL6O1YdpQB8bkIPY414fF3F9yVByHiJv3Yz0944MGM=;
- b=SfqXo0JEXOKfiocavGOQBqzQO63lZGZW4qstLZYdCo0MxxOax1RV6zTrrBFB+KK8M6BbDH
- aywUwGU3uH3kpy2mXSDX1pxRg9/TIsDJ6HyJohYFjKQlYwlfPGJae/plbAdlPa86wZGlaD
- tfw8PTeHxOc3MVLx8BfP3GJsuetdttI=
+ bh=ed6rt3LmBRoRLzeBBdAr7ZLFxbBoTVzEAqMQlXyxF30=;
+ b=Z1GlGOhtmcbRgruYClCbYEk8d+YyFXGCDp7brpVEmP/PCfsXpsj1J/fywOWQ3a+ULb072Y
+ ZOde6gsyCoaoLJBU4JKtzgkv7U08Y8QphBkhyT80fTmiWVplbRKHoib2Q9Xq+NaAJQkGlY
+ 8nSYQ+BcO72kIQQcLefyK5MI/gX67LE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-85-d6WxjyM2MBm4RGBDzo7iwA-1; Wed, 05 Feb 2020 10:39:03 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-398-60IQ-JFrNFagBxo26beHsA-1; Wed, 05 Feb 2020 10:55:30 -0500
+X-MC-Unique: 60IQ-JFrNFagBxo26beHsA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0A51D1005513;
- Wed,  5 Feb 2020 15:39:02 +0000 (UTC)
-Received: from dhcp-200-226.str.redhat.com (dhcp-200-226.str.redhat.com
- [10.33.200.226])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DEA395DA7B;
- Wed,  5 Feb 2020 15:39:00 +0000 (UTC)
-Date: Wed, 5 Feb 2020 16:38:59 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Max Reitz <mreitz@redhat.com>
-Subject: Re: [PATCH v3 09/21] quorum: Add QuorumChild.to_be_replaced
-Message-ID: <20200205153859.GE5768@dhcp-200-226.str.redhat.com>
-References: <20200130214431.333510-1-mreitz@redhat.com>
- <20200130214431.333510-10-mreitz@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4AB831800D42;
+ Wed,  5 Feb 2020 15:55:29 +0000 (UTC)
+Received: from gondolin (dhcp-192-195.str.redhat.com [10.33.192.195])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 584375C28C;
+ Wed,  5 Feb 2020 15:55:23 +0000 (UTC)
+Date: Wed, 5 Feb 2020 16:55:11 +0100
+From: Cornelia Huck <cohuck@redhat.com>
+To: Stefan Hajnoczi <stefanha@gmail.com>
+Subject: Re: [PATCH] virtio: clean up when virtio_queue_set_rings() fails
+Message-ID: <20200205165511.108326a5.cohuck@redhat.com>
+In-Reply-To: <20200205144946.GH58062@stefanha-x1.localdomain>
+References: <20200204151618.39296-1-stefanha@redhat.com>
+ <20200204170239.49deb13a.cohuck@redhat.com>
+ <20200205144946.GH58062@stefanha-x1.localdomain>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-In-Reply-To: <20200130214431.333510-10-mreitz@redhat.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: d6WxjyM2MBm4RGBDzo7iwA-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+Content-Type: multipart/signed; boundary="Sig_/L7b.n+=8KvDdbmSISDwWlP+";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,45 +72,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: Alexander Bulekov <alxndr@bu.edu>, qemu-devel@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 30.01.2020 um 22:44 hat Max Reitz geschrieben:
-> We will need this to verify that Quorum can let one of its children be
-> replaced without breaking anything else.
+--Sig_/L7b.n+=8KvDdbmSISDwWlP+
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, 5 Feb 2020 14:49:46 +0000
+Stefan Hajnoczi <stefanha@gmail.com> wrote:
+
+> On Tue, Feb 04, 2020 at 05:02:39PM +0100, Cornelia Huck wrote:
+> > On Tue,  4 Feb 2020 15:16:18 +0000
+> > Stefan Hajnoczi <stefanha@redhat.com> wrote:
+
+> > > diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+> > > index 2c5410e981..5d7f619a1e 100644
+> > > --- a/hw/virtio/virtio.c
+> > > +++ b/hw/virtio/virtio.c
+> > > @@ -2163,6 +2163,11 @@ void virtio_queue_set_rings(VirtIODevice *vdev=
+, int n, hwaddr desc,
+> > >      vdev->vq[n].vring.avail =3D avail;
+> > >      vdev->vq[n].vring.used =3D used;
+> > >      virtio_init_region_cache(vdev, n);
+> > > +    if (vdev->broken) {
+> > > +        vdev->vq[n].vring.desc =3D 0;
+> > > +        vdev->vq[n].vring.avail =3D 0;
+> > > +        vdev->vq[n].vring.used =3D 0;
+> > > +    }
+> > >  }
+> > > =20
+> > >  void virtio_queue_set_num(VirtIODevice *vdev, int n, int num) =20
+> >=20
+> > This looks correct; but shouldn't virtio_queue_set_addr() also set
+> > .desc to 0 on failure? =20
 >=20
-> Signed-off-by: Max Reitz <mreitz@redhat.com>
-> ---
->  block/quorum.c | 25 +++++++++++++++++++++++++
->  1 file changed, 25 insertions(+)
+> Now that you mention it, there are a number of other
+> virtio_init_region_cache() callers that could be affected.
 >=20
-> diff --git a/block/quorum.c b/block/quorum.c
-> index 59cd524502..6a7224c9e4 100644
-> --- a/block/quorum.c
-> +++ b/block/quorum.c
-> @@ -67,6 +67,13 @@ typedef struct QuorumVotes {
-> =20
->  typedef struct QuorumChild {
->      BdrvChild *child;
-> +
-> +    /*
-> +     * If set, check whether this node can be replaced without any
-> +     * other parent noticing: Unshare CONSISTENT_READ, and take the
-> +     * WRITE permission.
-> +     */
-> +    bool to_be_replaced;
+> I added the error handling code to virtio_queue_set_rings() because
+> that's symmetric - this function sets .desc and so it should be the one
+> to clear it on error.  But now I think virtio_init_region_cache() should
+> take on that responsibility so callers don't need to duplicate this
+> error handling code.
 
-I don't understand these permission changes. How does (preparing for)
-detaching a node from quorum make its content invalid? And why do we
-suddenly need WRITE permissions even if the quorum node is only used
-read-only?
+Is it clear in every case what the correct error handling procedure
+would be? It would feel a bit surprising if the addresses were cleared
+for callers that don't directly change them.
 
-The comment is a bit unclear, too. "check whether" implies that both
-outcomes could be true, but it doesn't say what happens in either case.
-Is this really "make sure that"?
+--Sig_/L7b.n+=8KvDdbmSISDwWlP+
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
-Kevin
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEw9DWbcNiT/aowBjO3s9rk8bwL68FAl465V8ACgkQ3s9rk8bw
+L68Jww//SNGM6J5TgNzLmI2kNkarirQhjqi6AYZtJJjRTJVXIpxxpiH7fqkK9Cpi
+/pakj9g+A6Clf3nUmVh1/dSRcWVk6EgRNOJCFh8U3vNhC4a49MV0B4dBUmaanzHQ
+L5iYB6DP1bacmc4kC+DXKDZ8VSoRSvZrXTFogp+5cCoAkaliOqJZJOvVblFVx8Ct
++d4pgYPkZkqGH+3BvTOAb/Dc1ymX8H5S1ovYPE0S8exv3sEExt4zr9mcvZqYrceQ
+KpaZzl/Kfu+vZGEmy2DQD+soN5YN8qSPqXHbmzsxr2PX6+tcJFCOEN4RrGaPi4ul
++4sje7EpOtZYobYT0ChsgydOBCVeVCWelkVg4aGAmGScL+YY6u6EadGGrke020iu
+rL2/rOa202Ie8Ji/6IytHBjysLSx5nBQifQyNUMs1ajLMBhY7/cwqygSP08VDH76
+t/QiG9ifNaLys6H4OMA2kfw8RhkQnwLesA207FxtaYrUk6wF2unpkf4Mk6kdwD+Y
+0Bnkh+UJC53Q1vSxiOBz+lbuYsZ/SHOguAtOAuplltG3rhqSGvAp7jxQ4GNRrlxa
+lOjJ2pra069gDmo2D1jkb6EQ6ZMMZwqMH47GDmrgUDN8qWWQBkp7H5KJ+D3jqSfp
+Pv7efwciz6mfXPDHXIKF5GTQwgaPOfeS9haE1VxArqtNhzX/R4A=
+=A452
+-----END PGP SIGNATURE-----
+
+--Sig_/L7b.n+=8KvDdbmSISDwWlP+--
 
 
