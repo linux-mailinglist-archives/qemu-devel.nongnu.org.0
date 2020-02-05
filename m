@@ -2,60 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11A95153546
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 17:33:04 +0100 (CET)
-Received: from localhost ([::1]:52414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97696153553
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 17:37:05 +0100 (CET)
+Received: from localhost ([::1]:52474 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izNbr-0001XH-5A
-	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 11:33:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35293)
+	id 1izNfk-0004vf-E6
+	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 11:37:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40375)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jusual@redhat.com>) id 1izNZJ-00087l-HF
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 11:30:26 -0500
+ (envelope-from <groeck7@gmail.com>) id 1izNeB-0003cC-Fr
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 11:35:28 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jusual@redhat.com>) id 1izNZI-0001Vc-C3
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 11:30:25 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:58207
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jusual@redhat.com>) id 1izNZI-0001Sv-7t
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 11:30:24 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580920223;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=t6JJqOsIC0sjR5SET7Vkcoe5+YylPvMgXs6rhxviKlc=;
- b=FbExG4IZf2IqcwFfBc+9DILQyAnTBX27O71zbbYIMq34pdNmUbTksobo9dqpiqxcrQUddG
- ggeh5p1qPF+/uuHEVtSux7GW85Gh9wDC8Ro/SZGHHWTUmcmYVJB6CHsg2ufKO4QWYSb48B
- TXRLy2Os3uWi0SeQwkku+srp1hR3m3w=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-76-H1pXfWPuOxOkNpAYQ2B0Bw-1; Wed, 05 Feb 2020 11:30:21 -0500
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D7A1D800D55;
- Wed,  5 Feb 2020 16:30:20 +0000 (UTC)
-Received: from localhost.localdomain.com (unknown [10.43.2.201])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 55B2B8DC09;
- Wed,  5 Feb 2020 16:30:13 +0000 (UTC)
-From: Julia Suvorova <jusual@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] qemu-img: Place the '-i aio' option in alphabetical order
-Date: Wed,  5 Feb 2020 17:30:08 +0100
-Message-Id: <20200205163008.204493-1-jusual@redhat.com>
+ (envelope-from <groeck7@gmail.com>) id 1izNeA-00013H-Gc
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 11:35:27 -0500
+Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:46908)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <groeck7@gmail.com>)
+ id 1izNe7-0000cz-Pc; Wed, 05 Feb 2020 11:35:23 -0500
+Received: by mail-pl1-x641.google.com with SMTP id y8so1075684pll.13;
+ Wed, 05 Feb 2020 08:35:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to
+ :user-agent; bh=jRh4q/Ba/QCpeEew0nFMRFuVZIQDzbCuo4yMPgsxAs8=;
+ b=BVjj2fmG9K7mqNhdRARDagKjmwv0HxecaX1LU34Q/haT+XFckst2IsxyxhzEZ9XqQF
+ gltlDQJODgho2hCbv0rtkEmYrWVXK2KRAW5Rei6kadiwFQT5FtjPAf1tJHrGpnBGCYv3
+ YZRLyFcvHqM7ov1pddcbf42j7MCP/Gx5D7d515GtRVv55R8DpxSW4ah9dbonpyMeDT06
+ Do0tBaGa1E41mbyQUrHhEgZEI3r0/YVGBAZZrKSTOYxefotbudWrE1o0o6I712ZNlKRn
+ ElnYTiy59wCRXVBBG2BsdLAZJMvogEqVioWup8NLv+mA0+axmlI9FFJjHIHb2+v9jF44
+ biSg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+ :references:mime-version:content-disposition
+ :content-transfer-encoding:in-reply-to:user-agent;
+ bh=jRh4q/Ba/QCpeEew0nFMRFuVZIQDzbCuo4yMPgsxAs8=;
+ b=nfz3MV76pkPoqype5YmLz79xqYOXA5bCidZExd4VPqLKafHFUMVmCh73BEx8nW6rpq
+ kZulhgC7D2edOWAkaD5ICgV7EzkNhg9pMHD/yzEztg+88HqDh9cJ9tgnTORX61E/0Zik
+ 8FmwqKbFIyv+B6VzLaeheA492vfw47jr3ta3w6Y2zEAYmbN4VQUmcm+5fSU+Fl0llnwN
+ +MwV6/dc4DAudSU/BHMW3HWHTxIhWT5ji/M3+BisDvxBI47zVb1UIn0tIrGdYP2pkGAb
+ JcQ9ArsBAUIZ9Ewca72RPnZ9EmaS3+qt5Y5zJloHbxREg53lKjr+t3D1NVJGV8ZhgmdU
+ U5sQ==
+X-Gm-Message-State: APjAAAVQDOi2NI/ixP7Xj9pZb4wOQpwjJCaf8g1BYVeFratt17kkWv1D
+ qlxRRRjuHxty8y7Zn0GJGRQ=
+X-Google-Smtp-Source: APXvYqwZkAfh0Wx6tS554LxMvEvz1GdJTay6ABW18vlOk2c1/6fwGc2zbhSJHWuqDqxhNboILsUKKQ==
+X-Received: by 2002:a17:902:6bc3:: with SMTP id
+ m3mr18082067plt.27.1580920522546; 
+ Wed, 05 Feb 2020 08:35:22 -0800 (PST)
+Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+ by smtp.gmail.com with ESMTPSA id 28sm306578pgl.42.2020.02.05.08.35.21
+ (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+ Wed, 05 Feb 2020 08:35:21 -0800 (PST)
+Date: Wed, 5 Feb 2020 08:35:20 -0800
+From: Guenter Roeck <linux@roeck-us.net>
+To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
+Subject: Re: [PATCH 1/3] m25p80: Convert to support tracing
+Message-ID: <20200205163520.GE25403@roeck-us.net>
+References: <20200203180904.2727-1-linux@roeck-us.net>
+ <615518c7-f4c8-7c08-9096-bcf5f583eeb1@kaod.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: H1pXfWPuOxOkNpAYQ2B0Bw-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <615518c7-f4c8-7c08-9096-bcf5f583eeb1@kaod.org>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::641
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -67,84 +81,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Julia Suvorova <jusual@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ qemu-block@nongnu.org, Andrew Jeffery <andrew@aj.id.au>,
+ Alistair Francis <alistair@alistair23.me>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, qemu-arm@nongnu.org,
+ Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The '-i AIO' option was accidentally placed after '-n' and '-t'. Move it
-after '--flush-interval'.
+On Wed, Feb 05, 2020 at 11:05:04AM +0100, Cédric Le Goater wrote:
+> On 2/3/20 7:09 PM, Guenter Roeck wrote:
+> > While at it, add some trace messages to help debug problems
+> > seen when running the latest Linux kernel.
+> 
+> In case you resend, It would be nice to printout a flash id in the tracing
+> else I have a patch for it on top of yours. It helped me track a squashfs
+> corruption on the Aspeed witherspoon-bmc machine which we were after since
+> 2017 or so. It seems to be a kernel bug.
+> 
 
-Signed-off-by: Julia Suvorova <jusual@redhat.com>
----
- docs/interop/qemu-img.rst | 8 ++++----
- qemu-img-cmds.hx          | 4 ++--
- 2 files changed, 6 insertions(+), 6 deletions(-)
+I'll send a new version to split patch 2. Not sure I understand what you mean
+with the above. If you send me your patch I'll be happy to merge it into mine,
+otherwise we can just keep it as follow-ip patch.
 
-diff --git a/docs/interop/qemu-img.rst b/docs/interop/qemu-img.rst
-index fa27e5c7b4..42e4451db4 100644
---- a/docs/interop/qemu-img.rst
-+++ b/docs/interop/qemu-img.rst
-@@ -247,7 +247,7 @@ Command description:
-   Amends the image format specific *OPTIONS* for the image file
-   *FILENAME*. Not all file formats support this operation.
-=20
--.. option:: bench [-c COUNT] [-d DEPTH] [-f FMT] [--flush-interval=3DFLUSH=
-_INTERVAL] [-n] [-i AIO] [--no-drain] [-o OFFSET] [--pattern=3DPATTERN] [-q=
-] [-s BUFFER_SIZE] [-S STEP_SIZE] [-t CACHE] [-w] [-U] FILENAME
-+.. option:: bench [-c COUNT] [-d DEPTH] [-f FMT] [--flush-interval=3DFLUSH=
-_INTERVAL] [-i AIO] [-n] [--no-drain] [-o OFFSET] [--pattern=3DPATTERN] [-q=
-] [-s BUFFER_SIZE] [-S STEP_SIZE] [-t CACHE] [-w] [-U] FILENAME
-=20
-   Run a simple sequential I/O benchmark on the specified image. If ``-w`` =
-is
-   specified, a write test is performed, otherwise a read test is performed=
-.
-@@ -264,13 +264,13 @@ Command description:
-   ``--no-drain`` is specified, a flush is issued without draining the requ=
-est
-   queue first.
-=20
-+  if ``-i`` is specified, *AIO* option can be used to specify different
-+  AIO backends: ``threads``, ``native`` or ``io_uring``.
-+
-   If ``-n`` is specified, the native AIO backend is used if possible. On
-   Linux, this option only works if ``-t none`` or ``-t directsync`` is
-   specified as well.
-=20
--  if ``-i`` is specified, *AIO* option can be used to specify different
--  AIO backends: ``threads``, ``native`` or ``io_uring``.
--
-   For write tests, by default a buffer filled with zeros is written. This =
-can be
-   overridden with a pattern byte specified by *PATTERN*.
-=20
-diff --git a/qemu-img-cmds.hx b/qemu-img-cmds.hx
-index 3fd836ca90..d7fbc6b1f4 100644
---- a/qemu-img-cmds.hx
-+++ b/qemu-img-cmds.hx
-@@ -16,9 +16,9 @@ SRST
- ERST
-=20
- DEF("bench", img_bench,
--    "bench [-c count] [-d depth] [-f fmt] [--flush-interval=3Dflush_interv=
-al] [-n] [--no-drain] [-o offset] [--pattern=3Dpattern] [-q] [-s buffer_siz=
-e] [-S step_size] [-t cache] [-i aio] [-w] [-U] filename")
-+    "bench [-c count] [-d depth] [-f fmt] [--flush-interval=3Dflush_interv=
-al] [-i aio] [-n] [--no-drain] [-o offset] [--pattern=3Dpattern] [-q] [-s b=
-uffer_size] [-S step_size] [-t cache] [-w] [-U] filename")
- SRST
--.. option:: bench [-c COUNT] [-d DEPTH] [-f FMT] [--flush-interval=3DFLUSH=
-_INTERVAL] [-n] [--no-drain] [-o OFFSET] [--pattern=3DPATTERN] [-q] [-s BUF=
-FER_SIZE] [-S STEP_SIZE] [-t CACHE] [-i AIO] [-w] [-U] FILENAME
-+.. option:: bench [-c COUNT] [-d DEPTH] [-f FMT] [--flush-interval=3DFLUSH=
-_INTERVAL] [-i AIO] [-n] [--no-drain] [-o OFFSET] [--pattern=3DPATTERN] [-q=
-] [-s BUFFER_SIZE] [-S STEP_SIZE] [-t CACHE] [-w] [-U] FILENAME
- ERST
- DEF("check", img_check,
-     "check [--object objectdef] [--image-opts] [-q] [-f fmt] [--output=3Do=
-fmt] [-r [leaks | all]] [-T src_cache] [-U] filename")
---=20
-2.24.1
-
+Thanks,
+Guenter
 
