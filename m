@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5528153996
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 21:37:16 +0100 (CET)
-Received: from localhost ([::1]:56116 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20AAF15399D
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 21:38:35 +0100 (CET)
+Received: from localhost ([::1]:56134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izRQB-0004jN-PH
-	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 15:37:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34772)
+	id 1izRRS-000695-7L
+	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 15:38:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34874)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <wainersm@redhat.com>) id 1izRM9-0006iW-CM
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 15:33:06 -0500
+ (envelope-from <wainersm@redhat.com>) id 1izRMF-0006nL-1W
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 15:33:12 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <wainersm@redhat.com>) id 1izRM8-0004Ii-9Q
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 15:33:05 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:27264
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <wainersm@redhat.com>) id 1izRM9-0004Qp-He
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 15:33:10 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:48568
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <wainersm@redhat.com>) id 1izRM8-0004FX-5Z
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 15:33:04 -0500
+ (Exim 4.71) (envelope-from <wainersm@redhat.com>) id 1izRM9-0004NL-Dg
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 15:33:05 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580934783;
+ s=mimecast20190719; t=1580934784;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3UqJMxRmZ3B+z0w0X8z/nuvUFxb9Oqz7piGrWh3XpDo=;
- b=IKNstoFUXqS7ZdGfugjLn+vaBKKElQjT4KU5WGLL3yseSN3ZR7Ri1vNBI4jglxT2X8CBcv
- vrSFwLI4bceTJSqxMgsRHlaTEhVDWdr3VjCkZctVafwdJQsmCTbdgjk29dG2x2VVBKIt0Q
- +I1HKr0Slajupz0LXb6wlXgAjruAmTU=
+ bh=YZzZagDMAIa73gHlbhHDi/KoiEhZ9DhGVYUeUAQzSr4=;
+ b=dUDzOswPr84xaKhmKjW4XgRQjWYVyA0d8+o64oURB02rWGay5hyKu1cNFqiUSL4w6J/w3f
+ k0HuCsFqNtT/vTF8MCxcsjqCWPtcWlxwfwwzy6jmveUo4mBRTTbEw2yLzfYlS+lwyXTLqY
+ 3QMNzQZ5R1OE06Hh2BhdS3w7nOYmb60=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-330-LmjiUhWWPM-jtO-UFx7xbw-1; Wed, 05 Feb 2020 15:32:56 -0500
+ us-mta-429-OKidnxS7P1akqN6WFxMK4A-1; Wed, 05 Feb 2020 15:32:57 -0500
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A7C798010F8;
- Wed,  5 Feb 2020 20:32:55 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 92A1EDB23;
+ Wed,  5 Feb 2020 20:32:56 +0000 (UTC)
 Received: from virtlab501.virt.lab.eng.bos.redhat.com
  (virtlab501.virt.lab.eng.bos.redhat.com [10.19.152.162])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DD4CD10013A1;
- Wed,  5 Feb 2020 20:32:54 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CA35A10013A1;
+ Wed,  5 Feb 2020 20:32:55 +0000 (UTC)
 From: Wainer dos Santos Moschetta <wainersm@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 2/8] tests/acceptance: boot_linux_console: Add boot
- Linux/x86 with KVM
-Date: Wed,  5 Feb 2020 15:32:44 -0500
-Message-Id: <20200205203250.30526-3-wainersm@redhat.com>
+Subject: [PATCH v4 3/8] tests/acceptance: boot_linux_console: Add boot
+ Linux/aarch64 with KVM
+Date: Wed,  5 Feb 2020 15:32:45 -0500
+Message-Id: <20200205203250.30526-4-wainersm@redhat.com>
 In-Reply-To: <20200205203250.30526-1-wainersm@redhat.com>
 References: <20200205203250.30526-1-wainersm@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: LmjiUhWWPM-jtO-UFx7xbw-1
+X-MC-Unique: OKidnxS7P1akqN6WFxMK4A-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,58 +78,75 @@ Cc: drjones@redhat.com, ehabkost@redhat.com, philmd@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Added boot Linux on x86_64 test case that launch QEMU with KVM
-enabled. Likewise it was added one test for TCG.
+This split in two the boot Linux test for aarch64: one that uses
+KVM acceleration and another with TCG. It changes -cpu to 'max'
+which is a common match between kvm and tcg.
+
+Note: on kvm test, even though it is tagged with 'machine:virt', it later
+has the value overwritten to pass the GIC version. The reason for that
+is an Avocado limitation, which is unable to parse correctly a
+tag containing ',' (this char being a tag delimiter). Keep the
+'machine:virt' tag is still useful since it can be used on tests
+filtering.
 
 Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
 ---
- tests/acceptance/boot_linux_console.py | 22 +++++++++++++++++-----
- 1 file changed, 17 insertions(+), 5 deletions(-)
+ tests/acceptance/boot_linux_console.py | 25 +++++++++++++++++++------
+ 1 file changed, 19 insertions(+), 6 deletions(-)
 
 diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot=
 _linux_console.py
-index e40b84651b..fc72cdde0d 100644
+index fc72cdde0d..76a66ee533 100644
 --- a/tests/acceptance/boot_linux_console.py
 +++ b/tests/acceptance/boot_linux_console.py
-@@ -51,11 +51,7 @@ class BootLinuxConsole(Test):
-         os.chdir(cwd)
-         return self.workdir + path
+@@ -270,11 +270,7 @@ class BootLinuxConsole(Test):
+         kernel_hash =3D '18d1c68f2e23429e266ca39ba5349ccd0aeb7180'
+         self.do_test_mips_malta32el_nanomips(kernel_url, kernel_hash)
 =20
--    def test_x86_64_pc(self):
+-    def test_aarch64_virt(self):
 -        """
--        :avocado: tags=3Darch:x86_64
--        :avocado: tags=3Dmachine:pc
+-        :avocado: tags=3Darch:aarch64
+-        :avocado: tags=3Dmachine:virt
 -        """
-+    def do_test_x86_64_pc(self):
++    def do_test_aarch64_virt(self):
          kernel_url =3D ('https://archives.fedoraproject.org/pub/archive/fe=
 dora'
-                       '/linux/releases/29/Everything/x86_64/os/images/pxeb=
-oot'
+                       '/linux/releases/29/Everything/aarch64/os/images/pxe=
+boot'
                        '/vmlinuz')
-@@ -70,6 +66,22 @@ class BootLinuxConsole(Test):
+@@ -284,13 +280,30 @@ class BootLinuxConsole(Test):
+         self.vm.set_console()
+         kernel_command_line =3D (self.KERNEL_COMMON_COMMAND_LINE +
+                                'console=3DttyAMA0')
+-        self.vm.add_args('-cpu', 'cortex-a53',
++        self.vm.add_args('-cpu', 'max',
+                          '-kernel', kernel_path,
+                          '-append', kernel_command_line)
+         self.vm.launch()
          console_pattern =3D 'Kernel command line: %s' % kernel_command_lin=
 e
          self.wait_for_console_pattern(console_pattern)
 =20
-+    def test_x86_64_pc_kvm(self):
++    def test_aarch64_virt_kvm(self):
 +        """
-+        :avocado: tags=3Darch:x86_64
-+        :avocado: tags=3Dmachine:pc
++        :avocado: tags=3Darch:aarch64
++        :avocado: tags=3Dmachine:virt
 +        :avocado: tags=3Daccel:kvm
 +        """
-+        self.do_test_x86_64_pc()
++        self.vm.set_machine('virt,gic-version=3Dmax')
++        self.do_test_aarch64_virt()
 +
-+    def test_x86_64_pc_tcg(self):
++    def test_aarch64_virt_tcg(self):
 +        """
-+        :avocado: tags=3Darch:x86_64
-+        :avocado: tags=3Dmachine:pc
++        :avocado: tags=3Darch:aarch64
++        :avocado: tags=3Dmachine:virt
 +        :avocado: tags=3Daccel:tcg
 +        """
-+        self.do_test_x86_64_pc()
++        self.do_test_aarch64_virt()
 +
-     def test_mips_malta(self):
+     def test_arm_virt(self):
          """
-         :avocado: tags=3Darch:mips
+         :avocado: tags=3Darch:arm
 --=20
 2.24.1
 
