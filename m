@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1FBC153650
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 18:24:06 +0100 (CET)
-Received: from localhost ([::1]:54126 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C62F153647
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 18:22:45 +0100 (CET)
+Received: from localhost ([::1]:54054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izOPF-0001Vz-Tk
-	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 12:24:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38058)
+	id 1izONw-0006y9-Bh
+	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 12:22:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37984)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1izOIa-0007se-HS
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 12:17:13 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1izOIX-0007jk-9Q
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 12:17:10 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1izOIZ-0006nD-0V
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 12:17:12 -0500
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:38072)
+ (envelope-from <alex.bennee@linaro.org>) id 1izOIV-0006MC-VK
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 12:17:09 -0500
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:37476)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1izOIY-0006g2-NN
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 12:17:10 -0500
-Received: by mail-wr1-x442.google.com with SMTP id y17so3708981wrh.5
- for <qemu-devel@nongnu.org>; Wed, 05 Feb 2020 09:17:10 -0800 (PST)
+ id 1izOIV-0006DA-NI
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 12:17:07 -0500
+Received: by mail-wm1-x342.google.com with SMTP id f129so3766434wmf.2
+ for <qemu-devel@nongnu.org>; Wed, 05 Feb 2020 09:17:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=eSwmQ9XA2bwdY7fVj2P4vxFM2o9VugdkCcmqMvw8Uvk=;
- b=vBSthV3ZD4MVKGnGuvyLazWzQciPrPCI12GGugdBxFC7jIx94G0/CR41Pq4bzm6bQr
- dal+sLntS/Cc8orEYy8hCAYPtqFpphr+3Pc2e2TxI+O/I346N+c8E7VtF1pBx7GQ1wds
- R2nZzICFLNY+xJTvuG7DS5qdmcMlqNJ/Z9MjfhQrHhwJebW9Dh0cVBgp/NSjcnd802P8
- /veR43W3JvrNkY3v/qsm7HAwxZ2W3dYRphEiBTpa6nbSJoE07Fm2OH0qhe7QgmT4apvR
- QuzAlbqh6YRlDmEEPEc0E0dKv6/33dyHaPaEuYGgJY7HBLl3IdM/MqWDLbFxyQcYi1Dy
- P4MQ==
+ bh=aZuMW44fnQ04CL8/YhpNcDrPqDAquQNEa3kKCwxgJO4=;
+ b=hJlscAK0cb1ygwmwvyDlLKaFbePQDRx5UXs6llfNmKr72lKOADg1lcYvADn6OQjU4L
+ ZDusZGUNGzLPt91NtkGGSdrz7NZaQWrGtilGdRi8DnrbBrGRykvZFXo/PjEmc2/37EJo
+ uRmacKG4AhkZyhlf2AWFG9hBs66794f+QB16f6/qkLFaeIhKliTuhcOudvQJFFE7TI11
+ HGXLkoMcIr39RDsHyn4PnG4nj/trFqrA2xFOaNHJ92fWMlUDEuqeGRi0l5ZcttnIUtdX
+ FBARWiw8rgQtXbpHvhBp+oZ/NRQIPGcdF/QX+1SS/QQFxiuK1XMEPbzxVxXFdAn6ujAG
+ Ra6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=eSwmQ9XA2bwdY7fVj2P4vxFM2o9VugdkCcmqMvw8Uvk=;
- b=U6QmMcjIFwydS6n6RJ9aVv4rlDOKt+Ietl+GYf+B/Lb6QJSrEm/0agixjsdkyOcrxa
- dOB8iG93+OSlLxD5GlbH+Bn6ILwmdHmSGstg8k1BMc5QsytPrp5pg3PE7v8kB3dFvd5g
- KTMPaTL1DFzT6yJ+8a0QOrKIfAQr2CKpjJ5ztquhYbryPXvmzGHfmNsowsIQ6qc1e6+n
- 5HoL3eePyh8lcbPZHHU4AUntpbWYH1uXrj0dTSQ5+k9cxmoIdArczeI6KTDDuakWY7Fo
- IK8InqbyxibQiPJdpoTHtugGoPC/JFAhNlEM0lPYdg/0wXBZJ/VnVT8bHd44ojVXBvAI
- 1fOQ==
-X-Gm-Message-State: APjAAAXNFbToiiG9jtG720J5AfEgo2Pxo9DAlX9bPCqKn/0Zg7AZx2OL
- Hb6VG5UH4PMDXS1AzhTM/jeVgw==
-X-Google-Smtp-Source: APXvYqyIAVGnEqTfQohXMVYoSxQI7nrtilzN6b+2pTVGivralZPcqjXxEWdtNM4FiFoMUTyde66RvQ==
-X-Received: by 2002:a5d:6692:: with SMTP id l18mr28298324wru.382.1580923029753; 
- Wed, 05 Feb 2020 09:17:09 -0800 (PST)
+ bh=aZuMW44fnQ04CL8/YhpNcDrPqDAquQNEa3kKCwxgJO4=;
+ b=M1S/gIy6PSxfwN4rmnx/4S7S+WoP84P2GZ973Ba1z1Ri59a3OzmLX+HWPNHtFT9ker
+ 1H30nTCNhEnIDEURvd+vK0nzLUNi22TTjeisAYgfOQZE+qhJIj7EclsMh1xiZN+y0dBO
+ cJ8cCaZ0CVSwzf5clc41hOQEkMDSzWWRwI3sB6hN1T4LNo1to0gZR3cFt1oXdoG6wZPZ
+ vMH2eN1L0yK/d5HMBe9egDOeA0SnEa86v4Spvwxn5XCircakeG+HOn/Kh1GDL5G2TRUm
+ +mfl6tz9ZuKdud/adpcd6RxzZ4lWRrXJPaCAyTxmM6IIgwtxbkPngYmWhpeexTHeETOe
+ BPEQ==
+X-Gm-Message-State: APjAAAUuJg7MpZo+N66b9tWrbtuaa3R2EkJcozwKBFi3a79lrdU7RtCx
+ rKDGkBJuFIiB91Xt2bpZsTJOLw==
+X-Google-Smtp-Source: APXvYqzRPVrzjOuU+2VKiiukxk6/r+PlMTlfriIj83tkEXrISLYJn41Tz3eDTbIP62dx0OnrsJ1HOw==
+X-Received: by 2002:a1c:a78b:: with SMTP id q133mr6570389wme.28.1580923026611; 
+ Wed, 05 Feb 2020 09:17:06 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id a26sm301523wmm.18.2020.02.05.09.17.02
+ by smtp.gmail.com with ESMTPSA id w13sm589266wru.38.2020.02.05.09.17.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 05 Feb 2020 09:17:02 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id A1A671FFAB;
+ by zen.linaroharston (Postfix) with ESMTP id B672D1FFAC;
  Wed,  5 Feb 2020 17:10:33 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 20/22] tests/tcg/aarch64: add test-sve-ioctl guest-debug
- test
-Date: Wed,  5 Feb 2020 17:10:29 +0000
-Message-Id: <20200205171031.22582-21-alex.bennee@linaro.org>
+Subject: [PATCH  v6 21/22] gdbstub: change GDBState.last_packet to GByteArray
+Date: Wed,  5 Feb 2020 17:10:30 +0000
+Message-Id: <20200205171031.22582-22-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200205171031.22582-1-alex.bennee@linaro.org>
 References: <20200205171031.22582-1-alex.bennee@linaro.org>
@@ -70,7 +69,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::442
+X-Received-From: 2a00:1450:4864:20::342
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,147 +81,130 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: damien.hedde@greensocs.com, Peter Maydell <peter.maydell@linaro.org>,
- luis.machado@linaro.org, richard.henderson@linaro.org,
- "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>, alan.hayward@arm.com,
+Cc: damien.hedde@greensocs.com, luis.machado@linaro.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ richard.henderson@linaro.org, alan.hayward@arm.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This test exercises the gdbstub while runing the sve-iotcl test. I
-haven't plubmed it into make system as we need a way of verifying if
-gdb has the right support for SVE.
+From: Damien Hedde <damien.hedde@greensocs.com>
 
+Remove the packet size upper limit by using a GByteArray
+instead of a statically allocated array for last_packet.
+Thus we can now send big packets.
+
+Also remove the last_packet_len field and use last_packet->len
+instead.
+
+Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20191211160514.58373-2-damien.hedde@greensocs.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
-v4
-  - interrogate ZCR_EL1 directly as no longer have vg
-v5
-  - plumb in
-  - skip if fails to connect
-v6
-  - fix for vg
----
- tests/tcg/aarch64/Makefile.target           | 11 ++-
- tests/tcg/aarch64/gdbstub/test-sve-ioctl.py | 79 +++++++++++++++++++++
- 2 files changed, 88 insertions(+), 2 deletions(-)
- create mode 100644 tests/tcg/aarch64/gdbstub/test-sve-ioctl.py
+ gdbstub.c | 39 +++++++++++++++++++++------------------
+ 1 file changed, 21 insertions(+), 18 deletions(-)
 
-diff --git a/tests/tcg/aarch64/Makefile.target b/tests/tcg/aarch64/Makefile.target
-index c879932ff6c..d99b2a9eced 100644
---- a/tests/tcg/aarch64/Makefile.target
-+++ b/tests/tcg/aarch64/Makefile.target
-@@ -54,15 +54,22 @@ sve-ioctls: CFLAGS+=-march=armv8.1-a+sve
- ifneq ($(HAVE_GDB_BIN),)
- GDB_SCRIPT=$(SRC_PATH)/tests/guest-debug/run-test.py
+diff --git a/gdbstub.c b/gdbstub.c
+index dcfa4f1dd75..b9fb8c0a95a 100644
+--- a/gdbstub.c
++++ b/gdbstub.c
+@@ -351,8 +351,7 @@ typedef struct GDBState {
+     int line_buf_index;
+     int line_sum; /* running checksum */
+     int line_csum; /* checksum at the end of the packet */
+-    uint8_t last_packet[MAX_PACKET_LENGTH + 4];
+-    int last_packet_len;
++    GByteArray *last_packet;
+     int signal;
+ #ifdef CONFIG_USER_ONLY
+     int fd;
+@@ -384,6 +383,7 @@ static void init_gdbserver_state(void)
+     gdbserver_state.init = true;
+     gdbserver_state.str_buf = g_string_new(NULL);
+     gdbserver_state.mem_buf = g_byte_array_sized_new(MAX_PACKET_LENGTH);
++    gdbserver_state.last_packet = g_byte_array_sized_new(MAX_PACKET_LENGTH + 4);
+ }
  
--AARCH64_TESTS += gdbstub-sysregs
-+AARCH64_TESTS += gdbstub-sysregs gdbstub-sve-ioctls
+ #ifndef CONFIG_USER_ONLY
+@@ -626,28 +626,29 @@ static void hexdump(const char *buf, int len,
+ static int put_packet_binary(const char *buf, int len, bool dump)
+ {
+     int csum, i;
+-    uint8_t *p;
+-    uint8_t *ps = &gdbserver_state.last_packet[0];
++    uint8_t footer[3];
  
--.PHONY: gdbstub-sysregs
-+.PHONY: gdbstub-sysregs gdbstub-sve-ioctls
- run-gdbstub-sysregs: sysregs
- 	$(call run-test, $@, $(GDB_SCRIPT) \
- 		--gdb $(HAVE_GDB_BIN) \
- 		--qemu $(QEMU) --qargs "$(QEMU_OPTS)" \
- 		--bin $< --test $(AARCH64_SRC)/gdbstub/test-sve.py, \
- 	"basic gdbstub SVE support")
-+
-+run-gdbstub-sve-ioctls: sve-ioctls
-+	$(call run-test, $@, $(GDB_SCRIPT) \
-+		--gdb $(HAVE_GDB_BIN) \
-+		--qemu $(QEMU) --qargs "$(QEMU_OPTS)" \
-+		--bin $< --test $(AARCH64_SRC)/gdbstub/test-sve-ioctl.py, \
-+	"basic gdbstub SVE ZLEN support")
- endif
+     if (dump && trace_event_get_state_backends(TRACE_GDBSTUB_IO_BINARYREPLY)) {
+         hexdump(buf, len, trace_gdbstub_io_binaryreply);
+     }
  
- endif
-diff --git a/tests/tcg/aarch64/gdbstub/test-sve-ioctl.py b/tests/tcg/aarch64/gdbstub/test-sve-ioctl.py
-new file mode 100644
-index 00000000000..c4425cc9462
---- /dev/null
-+++ b/tests/tcg/aarch64/gdbstub/test-sve-ioctl.py
-@@ -0,0 +1,79 @@
-+from __future__ import print_function
-+#
-+# Test the SVE ZReg reports the right amount of data. It uses the
-+# sve-ioctl test and examines the register data each time the
-+# __sve_ld_done breakpoint is hit.
-+#
-+# This is launched via tests/guest-debug/run-test.py
-+#
-+
-+import gdb
-+import sys
-+
-+initial_vlen = 0
-+failcount = 0
-+
-+def report(cond, msg):
-+    "Report success/fail of test"
-+    if cond:
-+        print ("PASS: %s" % (msg))
-+    else:
-+        print ("FAIL: %s" % (msg))
-+        global failcount
-+        failcount += 1
-+
-+class TestBreakpoint(gdb.Breakpoint):
-+    def __init__(self, sym_name="__sve_ld_done"):
-+        super(TestBreakpoint, self).__init__(sym_name)
-+        # self.sym, ok = gdb.lookup_symbol(sym_name)
-+
-+    def stop(self):
-+        val_i = gdb.parse_and_eval('i')
-+        global initial_vlen
-+        for i in range(0, int(val_i)):
-+            val_z = gdb.parse_and_eval("$z0.b.u[%d]" % i)
-+            report(int(val_z) == i, "z0.b.u[%d] == %d" % (i, i))
-+        for i in range(i + 1, initial_vlen):
-+            val_z = gdb.parse_and_eval("$z0.b.u[%d]" % i)
-+            report(int(val_z) == 0, "z0.b.u[%d] == 0" % (i))
-+
-+
-+def run_test():
-+    "Run through the tests one by one"
-+
-+    print ("Setup breakpoint")
-+    bp = TestBreakpoint()
-+
-+    global initial_vlen
-+    vg = gdb.parse_and_eval("$vg")
-+    initial_vlen = int(vg) * 16
-+
-+    gdb.execute("c")
-+
-+#
-+# This runs as the script it sourced (via -x, via run-test.py)
-+#
-+try:
-+    inferior = gdb.selected_inferior()
-+    arch = inferior.architecture()
-+    report(arch.name() == "aarch64", "connected to aarch64")
-+except (gdb.error, AttributeError):
-+    print("SKIPPING (not connected)", file=sys.stderr)
-+    exit(0)
-+
-+try:
-+    # These are not very useful in scripts
-+    gdb.execute("set pagination off")
-+    gdb.execute("set confirm off")
-+
-+    # Run the actual tests
-+    run_test()
-+except:
-+    print ("GDB Exception: %s" % (sys.exc_info()[0]))
-+    failcount += 1
-+    import code
-+    code.InteractiveConsole(locals=globals()).interact()
-+    raise
-+
-+print("All tests complete: %d failures" % failcount)
-+exit(failcount)
+     for(;;) {
+-        p = ps;
+-        *(p++) = '$';
+-        memcpy(p, buf, len);
+-        p += len;
++        g_byte_array_set_size(gdbserver_state.last_packet, 0);
++        g_byte_array_append(gdbserver_state.last_packet,
++                            (const uint8_t *) "$", 1);
++        g_byte_array_append(gdbserver_state.last_packet,
++                            (const uint8_t *) buf, len);
+         csum = 0;
+         for(i = 0; i < len; i++) {
+             csum += buf[i];
+         }
+-        *(p++) = '#';
+-        *(p++) = tohex((csum >> 4) & 0xf);
+-        *(p++) = tohex((csum) & 0xf);
++        footer[0] = '#';
++        footer[1] = tohex((csum >> 4) & 0xf);
++        footer[2] = tohex((csum) & 0xf);
++        g_byte_array_append(gdbserver_state.last_packet, footer, 3);
+ 
+-        gdbserver_state.last_packet_len = p - ps;
+-        put_buffer(ps, gdbserver_state.last_packet_len);
++        put_buffer(gdbserver_state.last_packet->data,
++                   gdbserver_state.last_packet->len);
+ 
+ #ifdef CONFIG_USER_ONLY
+         i = get_char();
+@@ -2812,20 +2813,22 @@ static void gdb_read_byte(uint8_t ch)
+     uint8_t reply;
+ 
+ #ifndef CONFIG_USER_ONLY
+-    if (gdbserver_state.last_packet_len) {
++    if (gdbserver_state.last_packet->len) {
+         /* Waiting for a response to the last packet.  If we see the start
+            of a new command then abandon the previous response.  */
+         if (ch == '-') {
+             trace_gdbstub_err_got_nack();
+-            put_buffer((uint8_t *)gdbserver_state.last_packet, gdbserver_state.last_packet_len);
++            put_buffer(gdbserver_state.last_packet->data,
++                       gdbserver_state.last_packet->len);
+         } else if (ch == '+') {
+             trace_gdbstub_io_got_ack();
+         } else {
+             trace_gdbstub_io_got_unexpected(ch);
+         }
+ 
+-        if (ch == '+' || ch == '$')
+-            gdbserver_state.last_packet_len = 0;
++        if (ch == '+' || ch == '$') {
++            g_byte_array_set_size(gdbserver_state.last_packet, 0);
++        }
+         if (ch != '$')
+             return;
+     }
+@@ -3209,7 +3212,7 @@ static int gdb_monitor_write(Chardev *chr, const uint8_t *buf, int len)
+     const char *p = (const char *)buf;
+     int max_sz;
+ 
+-    max_sz = (sizeof(gdbserver_state.last_packet) - 2) / 2;
++    max_sz = (MAX_PACKET_LENGTH / 2) + 1;
+     for (;;) {
+         if (len <= max_sz) {
+             gdb_monitor_output(p, len);
 -- 
 2.20.1
 
