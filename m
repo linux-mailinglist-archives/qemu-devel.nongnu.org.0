@@ -2,93 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB6161529F1
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 12:33:38 +0100 (CET)
-Received: from localhost ([::1]:45476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28255152A01
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 12:37:31 +0100 (CET)
+Received: from localhost ([::1]:45558 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izIw6-0001wp-0I
-	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 06:33:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58151)
+	id 1izIzq-0004pR-7Y
+	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 06:37:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59955)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <darren.kenny@oracle.com>) id 1izIul-0001Kp-56
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 06:32:16 -0500
+ (envelope-from <vsementsov@virtuozzo.com>) id 1izIyo-0004D3-Fg
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 06:36:27 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <darren.kenny@oracle.com>) id 1izIuj-0002mT-On
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 06:32:15 -0500
-Received: from userp2120.oracle.com ([156.151.31.85]:40250)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1izIym-0000NB-H1
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 06:36:26 -0500
+Received: from mail-eopbgr80127.outbound.protection.outlook.com
+ ([40.107.8.127]:28933 helo=EUR04-VI1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <darren.kenny@oracle.com>)
- id 1izIuj-0002gB-F8
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 06:32:13 -0500
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
- by userp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 015BRrh2001773;
- Wed, 5 Feb 2020 11:32:12 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2019-08-05;
- bh=0pse9WGwtVAq25k/FwaWoLpeYxRs/QscNPPG0UQM0BI=;
- b=aa+wkHdSUxER+uXcTVcvjMGn7s6xx31AazGepiRwL3GOu164hZ0Z7HKZrYwBjR0jfiKh
- rFM+GMnrzqlBtL+D5D5kJdOh/pASvQnQ5r4UiHZM9AHR+kXo8oI2HhciuQr8p3L/BWfL
- AQl4ExYSylW8hyUmuXv0b0XxdOMUFhZ1jjca8X/FIHLgdpUFh6WGwNJrf69q1McBjL9r
- CTFR74GARX97p3v/TpiVcl4kY9zyu51nmqFOoi/pngUH4sImp2RjSaaPfZjVKjUZmEO/
- +oJaCxzDvqQXJVdbAAC7nvBU0d+w6aEB3QL6sWThqWDi7mwZaRHe7tvdPoYxyg34FPdF eQ== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by userp2120.oracle.com with ESMTP id 2xykbpadeg-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 05 Feb 2020 11:32:12 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 015BSqgI006217;
- Wed, 5 Feb 2020 11:32:11 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
- by userp3020.oracle.com with ESMTP id 2xykc2my7p-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 05 Feb 2020 11:32:11 +0000
-Received: from abhmp0004.oracle.com (abhmp0004.oracle.com [141.146.116.10])
- by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 015BWATQ024540;
- Wed, 5 Feb 2020 11:32:10 GMT
-Received: from starbug-mbp.localdomain (/10.169.111.17)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Wed, 05 Feb 2020 03:32:09 -0800
-Received: from starbug-mbp (localhost [127.0.0.1])
- by starbug-mbp.localdomain (Postfix) with SMTP id 843FF57D725D;
- Wed,  5 Feb 2020 11:32:07 +0000 (GMT)
-Date: Wed, 5 Feb 2020 11:32:07 +0000
-From: Darren Kenny <darren.kenny@oracle.com>
-To: "Bulekov, Alexander" <alxndr@bu.edu>
-Subject: Re: [PATCH v8 05/21] libqtest: add a layer of abstraction to send/recv
-Message-ID: <20200205113207.vx4u53ikurmhky2x@starbug-mbp>
-Mail-Followup-To: "Bulekov, Alexander" <alxndr@bu.edu>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- "bsd@redhat.com" <bsd@redhat.com>,
- "stefanha@redhat.com" <stefanha@redhat.com>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>
-References: <20200129053357.27454-1-alxndr@bu.edu>
- <20200129053357.27454-6-alxndr@bu.edu>
-MIME-Version: 1.0
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1izIyl-0008UD-HR; Wed, 05 Feb 2020 06:36:24 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ZeZR76D/6ERIuH+murHuvdyrWlAqIGc0RetNFVJ3nZDZBsTNR2u974tSsMM+IGGtfYOHdK9lXfDhzS73Eky7NNRhLSHN//c+GO4suinTPb72KKm3nH9/8D+KjcDYJBSsS4BH5/+hciGMq3fqPtjaj9ZiMGwne7f/wcuUVBBmyqQlOC7935LNXqBkgo62SK5QEUSseUnq4KEuULoMRquEMyAeGgMoGUWumqRGke4gvzYYcnUkRKvvH/2+L66B0b5/0RSVYMnWgC23UyNYYvVCT0joVAck8/8z57TA3T4k4MqexNpJ6AXJ46FYd9dMGsZM1AALsCSfc641q9AU4Qk53A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=YZafg8sS5kseN39EMEmJH0bkmpgC9kxMHo2sDB3PZRs=;
+ b=GoH/r754iQLjh5XsCb4z2Xz2hKMoy6b5CEKk108JffOfqIg8lEFUYN9sKr+2pC17ArSmJijKLrpbj0agUecDkSF7LWo3S1ST5+tDwG1sulXlrM2hbJr5/OzEnu6JM+LXJgmgIzd6g2v++wXNEPE3qCX4GTo8xIpvnYCdjvklcaS1Q29HDiDRibaQC973RIwvBmfN1DqZst5psNK64PEtcKs18xJpEHGkIMe/KqA70n2cQtjNJgT7VU34fwZUploYeZ7bJh7dDSIYLa3VsSTbxBqK6ueKbSmVAN2VzLr4U6jEW/Dgr0lCssxCJ/5n1S4nBE9lPPDAm5VZX5Ex7wqD7Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=YZafg8sS5kseN39EMEmJH0bkmpgC9kxMHo2sDB3PZRs=;
+ b=ay7ygREBNEwDX8Dg9Hjxwexp+ew0+3UZyMvxQfUCTmZCbLUrOdJ+4QrM+eMhtvuIlV9vE9r3BTpFN0j5zbaX4xndUtg5tEWLrlwvnXmVFBz7C0ajzCKZ70nxfjeAGh95eGkIlQwsUutUkoNm4amI0cFICIMhANyk0H9+qsgbbx8=
+Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=vsementsov@virtuozzo.com; 
+Received: from VI1PR08MB4432.eurprd08.prod.outlook.com (20.179.28.138) by
+ VI1PR08MB4622.eurprd08.prod.outlook.com (20.178.15.17) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2686.29; Wed, 5 Feb 2020 11:36:21 +0000
+Received: from VI1PR08MB4432.eurprd08.prod.outlook.com
+ ([fe80::9c56:6d95:76d1:d0]) by VI1PR08MB4432.eurprd08.prod.outlook.com
+ ([fe80::9c56:6d95:76d1:d0%2]) with mapi id 15.20.2686.034; Wed, 5 Feb 2020
+ 11:36:20 +0000
+Subject: Re: [PATCH v2 4/7] block/block-copy: refactor interfaces to use bytes
+ instead of end
+To: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>
+References: <20191127180840.11937-1-vsementsov@virtuozzo.com>
+ <20191127180840.11937-5-vsementsov@virtuozzo.com>
+ <519528a3-3614-fd05-f828-824ebc2dba1c@virtuozzo.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+X-Tagtoolbar-Keys: D20200205143618638
+Message-ID: <0d491201-1b4c-a24e-2150-0a49085bff2a@virtuozzo.com>
+Date: Wed, 5 Feb 2020 14:36:18 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.2.1
+In-Reply-To: <519528a3-3614-fd05-f828-824ebc2dba1c@virtuozzo.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20200129053357.27454-6-alxndr@bu.edu>
-User-Agent: NeoMutt/20180716
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9521
- signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=2
- malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1911140001 definitions=main-2002050093
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9521
- signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
- priorityscore=1501 malwarescore=0
- suspectscore=2 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1911140001
- definitions=main-2002050093
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 156.151.31.85
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: HE1PR07CA0024.eurprd07.prod.outlook.com
+ (2603:10a6:7:67::34) To VI1PR08MB4432.eurprd08.prod.outlook.com
+ (2603:10a6:803:102::10)
+MIME-Version: 1.0
+Received: from [172.16.24.200] (185.231.240.5) by
+ HE1PR07CA0024.eurprd07.prod.outlook.com (2603:10a6:7:67::34) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2707.10 via Frontend Transport; Wed, 5 Feb 2020 11:36:20 +0000
+X-Tagtoolbar-Keys: D20200205143618638
+X-Originating-IP: [185.231.240.5]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: d06a4b5d-44a6-4770-3695-08d7aa2f9f3b
+X-MS-TrafficTypeDiagnostic: VI1PR08MB4622:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <VI1PR08MB46220CBDA2C36B38CDAFFDADC1020@VI1PR08MB4622.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:296;
+X-Forefront-PRVS: 0304E36CA3
+X-Forefront-Antispam-Report: SFV:NSPM;
+ SFS:(10019020)(136003)(376002)(346002)(366004)(396003)(39850400004)(199004)(189003)(2906002)(86362001)(186003)(16526019)(2616005)(31696002)(956004)(66946007)(66476007)(66556008)(5660300002)(52116002)(6486002)(16576012)(54906003)(110136005)(316002)(53546011)(26005)(478600001)(81156014)(8676002)(8936002)(81166006)(4326008)(31686004)(36756003);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:VI1PR08MB4622;
+ H:VI1PR08MB4432.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; MX:1; 
+Received-SPF: None (protection.outlook.com: virtuozzo.com does not designate
+ permitted sender hosts)
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: fMNJ3X8cstRaknavX3jIKNIGa2VV0Zpy3ERE30B/sH8AZIeStJhzHFB8OXMUWLaTgBjim+aO21K/1VieLZXT9AJFQxeP334G9uLShw5G6v+XAW1iVKvS7rkkzYe30jC0Ei0Sk2z85wol7ucM8nP8XSpVIcrQwkLpYoE2tdHpsDU35ups+/MCyl0hd0/MFzB3F6MRz37FCwtYnWL6/0YZZpVZXF18b6gqr4rOkmG49mZd2dIeyGS9J1DDqdwms55RoEfgqUA63mjSUOAkzZfAZenA5F3mnIfsa0yHYcVeRy7fQNBXevM32hOJs4SJ81yIk6qXayJZWileT8v2cGbQ8Vgxk9WN7BgopkVIqVyimQ8Oqw3UApcgXFt5mm7OQQbqjXqoH9o3AwRmHI/FcfiJM80WZLzpUdw5lCPy8g1wAyaaQtmVFyr2K+Li3uCX9Qn+
+X-MS-Exchange-AntiSpam-MessageData: 1q5HNBXY/Qn1pvobhoVfa86qLON5jxbm7MxuwpJ+m5JSemkioTp4dgiI+KkQCXy6UF8L7lf3YdwcUxE3EpX9pznwDiPbVNpumsRJYG1UxNlO76B3BG/B8/kANaxoia4+/xrM17QpPj4JlR9LdZcMbg==
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d06a4b5d-44a6-4770-3695-08d7aa2f9f3b
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Feb 2020 11:36:20.9476 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: n78r37coMJne8iYclv7DXUHjyszZZbkVkKUSXM3njllwZm1WuY0JRicqfOGoJupawCg4pwZDE54r+gDa1J40ezqkx1dSK/M8qXGeM1z4Bhk=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR08MB4622
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 40.107.8.127
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -100,144 +112,228 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+Cc: "kwolf@redhat.com" <kwolf@redhat.com>, Denis Lunev <den@virtuozzo.com>,
+ "jsnow@redhat.com" <jsnow@redhat.com>,
  "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "bsd@redhat.com" <bsd@redhat.com>, "stefanha@redhat.com" <stefanha@redhat.com>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>
+ "mreitz@redhat.com" <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jan 29, 2020 at 05:34:15AM +0000, Bulekov, Alexander wrote:
->This makes it simple to swap the transport functions for qtest commands
->to and from the qtest client. For example, now it is possible to
->directly pass qtest commands to a server handler that exists within the
->same process, without the standard way of writing to a file descriptor.
->
->Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+29.01.2020 20:12, Andrey Shinkevich wrote:
+> 
+> 
+> On 27/11/2019 21:08, Vladimir Sementsov-Ogievskiy wrote:
+>> We have a lot of "chunk_end - start" invocations, let's switch to
+>> bytes/cur_bytes scheme instead.
+>>
+>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>> ---
+>>    include/block/block-copy.h |  4 +--
+>>    block/block-copy.c         | 68 ++++++++++++++++++++------------------
+>>    2 files changed, 37 insertions(+), 35 deletions(-)
+>>
+>> diff --git a/include/block/block-copy.h b/include/block/block-copy.h
+>> index 0a161724d7..7321b3d305 100644
+>> --- a/include/block/block-copy.h
+>> +++ b/include/block/block-copy.h
+>> @@ -19,8 +19,8 @@
+>>    #include "qemu/co-shared-resource.h"
+>>    
+>>    typedef struct BlockCopyInFlightReq {
+>> -    int64_t start_byte;
+>> -    int64_t end_byte;
+>> +    int64_t start;
+>> +    int64_t bytes;
+>>        QLIST_ENTRY(BlockCopyInFlightReq) list;
+>>        CoQueue wait_queue; /* coroutines blocked on this request */
+>>    } BlockCopyInFlightReq;
+>> diff --git a/block/block-copy.c b/block/block-copy.c
+>> index 94e7e855ef..cc273b6cb8 100644
+>> --- a/block/block-copy.c
+>> +++ b/block/block-copy.c
+>> @@ -26,12 +26,12 @@
+>>    
+>>    static BlockCopyInFlightReq *block_copy_find_inflight_req(BlockCopyState *s,
+>>                                                              int64_t start,
+>> -                                                          int64_t end)
+>> +                                                          int64_t bytes)
+>>    {
+>>        BlockCopyInFlightReq *req;
+>>    
+>>        QLIST_FOREACH(req, &s->inflight_reqs, list) {
+>> -        if (end > req->start_byte && start < req->end_byte) {
+>> +        if (start + bytes > req->start && start < req->start + req->bytes) {
+>>                return req;
+>>            }
+>>        }
+>> @@ -41,21 +41,21 @@ static BlockCopyInFlightReq *block_copy_find_inflight_req(BlockCopyState *s,
+>>    
+>>    static void coroutine_fn block_copy_wait_inflight_reqs(BlockCopyState *s,
+>>                                                           int64_t start,
+>> -                                                       int64_t end)
+>> +                                                       int64_t bytes)
+>>    {
+>>        BlockCopyInFlightReq *req;
+>>    
+>> -    while ((req = block_copy_find_inflight_req(s, start, end))) {
+>> +    while ((req = block_copy_find_inflight_req(s, start, bytes))) {
+>>            qemu_co_queue_wait(&req->wait_queue, NULL);
+>>        }
+>>    }
+>>    
+>>    static void block_copy_inflight_req_begin(BlockCopyState *s,
+>>                                              BlockCopyInFlightReq *req,
+>> -                                          int64_t start, int64_t end)
+>> +                                          int64_t start, int64_t bytes)
+>>    {
+>> -    req->start_byte = start;
+>> -    req->end_byte = end;
+>> +    req->start = start;
+>> +    req->bytes = bytes;
+>>        qemu_co_queue_init(&req->wait_queue);
+>>        QLIST_INSERT_HEAD(&s->inflight_reqs, req, list);
+>>    }
+>> @@ -150,24 +150,26 @@ void block_copy_set_callbacks(
+>>    /*
+>>     * block_copy_do_copy
+>>     *
+>> - * Do copy of cluser-aligned chunk. @end is allowed to exceed s->len only to
+>> - * cover last cluster when s->len is not aligned to clusters.
+>> + * Do copy of cluser-aligned chunk. Requested region is allowed to exceed s->len
+> 
+> cluster-...
+> 
+>> + * only to cover last cluster when s->len is not aligned to clusters.
+>>     *
+>>     * No sync here: nor bitmap neighter intersecting requests handling, only copy.
+>>     *
+>>     * Returns 0 on success.
+>>     */
+>>    static int coroutine_fn block_copy_do_copy(BlockCopyState *s,
+>> -                                           int64_t start, int64_t end,
+>> +                                           int64_t start, int64_t bytes,
+>>                                               bool zeroes, bool *error_is_read)
+>>    {
+>>        int ret;
+>> -    int nbytes = MIN(end, s->len) - start;
+>> +    int nbytes = MIN(start + bytes, s->len) - start;
+>>        void *bounce_buffer = NULL;
+>>    
+>> +    assert(start >= 0 && bytes > 0 && INT64_MAX - start >= bytes);
+>>        assert(QEMU_IS_ALIGNED(start, s->cluster_size));
+>> -    assert(QEMU_IS_ALIGNED(end, s->cluster_size));
+>> -    assert(end < s->len || end == QEMU_ALIGN_UP(s->len, s->cluster_size));
+>> +    assert(QEMU_IS_ALIGNED(bytes, s->cluster_size));
+>> +    assert(start + bytes <= s->len ||
+> 
+> The '<=' looks correct but I wonder how only '<' worked without
+> assertion failure before.
 
-Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
+No difference, if end == s->len, and end is aligned, then len is aligned too and "end == QEMU_ALIGN_UP(s->len, s->cluster_size)" is true. But "<=" looks more native for end and file len.
 
->Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
->---
-> tests/qtest/libqtest.c | 48 ++++++++++++++++++++++++++++++++++--------
-> 1 file changed, 39 insertions(+), 9 deletions(-)
->
->diff --git a/tests/qtest/libqtest.c b/tests/qtest/libqtest.c
->index 76c9f8eade..e5056a1d0f 100644
->--- a/tests/qtest/libqtest.c
->+++ b/tests/qtest/libqtest.c
->@@ -35,6 +35,15 @@
-> #define SOCKET_TIMEOUT 50
-> #define SOCKET_MAX_FDS 16
->
->+
->+typedef void (*QTestSendFn)(QTestState *s, const char *buf);
->+typedef GString* (*QTestRecvFn)(QTestState *);
->+
->+typedef struct QTestClientTransportOps {
->+    QTestSendFn     send;      /* for sending qtest commands */
->+    QTestRecvFn     recv_line; /* for receiving qtest command responses */
->+} QTestTransportOps;
->+
-> struct QTestState
-> {
->     int fd;
->@@ -45,6 +54,7 @@ struct QTestState
->     bool big_endian;
->     bool irq_level[MAX_IRQ];
->     GString *rx;
->+    QTestTransportOps ops;
-> };
->
-> static GHookList abrt_hooks;
->@@ -52,6 +62,14 @@ static struct sigaction sigact_old;
->
-> static int qtest_query_target_endianness(QTestState *s);
->
->+static void qtest_client_socket_send(QTestState*, const char *buf);
->+static void socket_send(int fd, const char *buf, size_t size);
->+
->+static GString *qtest_client_socket_recv_line(QTestState *);
->+
->+static void qtest_client_set_tx_handler(QTestState *s, QTestSendFn send);
->+static void qtest_client_set_rx_handler(QTestState *s, QTestRecvFn recv);
->+
-> static int init_socket(const char *socket_path)
-> {
->     struct sockaddr_un addr;
->@@ -234,6 +252,9 @@ QTestState *qtest_init_without_qmp_handshake(const char *extra_args)
->     sock = init_socket(socket_path);
->     qmpsock = init_socket(qmp_socket_path);
->
->+    qtest_client_set_rx_handler(s, qtest_client_socket_recv_line);
->+    qtest_client_set_tx_handler(s, qtest_client_socket_send);
->+
->     qtest_add_abrt_handler(kill_qemu_hook_func, s);
->
->     command = g_strdup_printf("exec %s "
->@@ -379,13 +400,9 @@ static void socket_send(int fd, const char *buf, size_t size)
->     }
-> }
->
->-static void socket_sendf(int fd, const char *fmt, va_list ap)
->+static void qtest_client_socket_send(QTestState *s, const char *buf)
-> {
->-    gchar *str = g_strdup_vprintf(fmt, ap);
->-    size_t size = strlen(str);
->-
->-    socket_send(fd, str, size);
->-    g_free(str);
->+    socket_send(s->fd, buf, strlen(buf));
-> }
->
-> static void GCC_FMT_ATTR(2, 3) qtest_sendf(QTestState *s, const char *fmt, ...)
->@@ -393,8 +410,11 @@ static void GCC_FMT_ATTR(2, 3) qtest_sendf(QTestState *s, const char *fmt, ...)
->     va_list ap;
->
->     va_start(ap, fmt);
->-    socket_sendf(s->fd, fmt, ap);
->+    gchar *str = g_strdup_vprintf(fmt, ap);
->     va_end(ap);
->+
->+    s->ops.send(s, str);
->+    g_free(str);
-> }
->
-> /* Sends a message and file descriptors to the socket.
->@@ -431,7 +451,7 @@ static void socket_send_fds(int socket_fd, int *fds, size_t fds_num,
->     g_assert_cmpint(ret, >, 0);
-> }
->
->-static GString *qtest_recv_line(QTestState *s)
->+static GString *qtest_client_socket_recv_line(QTestState *s)
-> {
->     GString *line;
->     size_t offset;
->@@ -468,7 +488,7 @@ static gchar **qtest_rsp(QTestState *s, int expected_args)
->     int i;
->
-> redo:
->-    line = qtest_recv_line(s);
->+    line = s->ops.recv_line(s);
->     words = g_strsplit(line->str, " ", 0);
->     g_string_free(line, TRUE);
->
->@@ -1337,3 +1357,13 @@ void qmp_assert_error_class(QDict *rsp, const char *class)
->
->     qobject_unref(rsp);
-> }
->+
->+static void qtest_client_set_tx_handler(QTestState *s,
->+                    QTestSendFn send)
->+{
->+    s->ops.send = send;
->+}
->+static void qtest_client_set_rx_handler(QTestState *s, QTestRecvFn recv)
->+{
->+    s->ops.recv_line = recv;
->+}
->-- 
->2.23.0
->
->
+>Was the s->len never aligned to the cluster size?
+> 
+>> +           start + bytes == QEMU_ALIGN_UP(s->len, s->cluster_size));
+>>    
+>>        if (zeroes) {
+>>            ret = bdrv_co_pwrite_zeroes(s->target, start, nbytes, s->write_flags &
+>> @@ -347,7 +349,6 @@ int coroutine_fn block_copy(BlockCopyState *s,
+>>                                bool *error_is_read)
+>>    {
+>>        int ret = 0;
+>> -    int64_t end = bytes + start; /* bytes */
+>>        BlockCopyInFlightReq req;
+>>    
+>>        /*
+>> @@ -358,58 +359,59 @@ int coroutine_fn block_copy(BlockCopyState *s,
+>>               bdrv_get_aio_context(s->target->bs));
+>>    
+>>        assert(QEMU_IS_ALIGNED(start, s->cluster_size));
+>> -    assert(QEMU_IS_ALIGNED(end, s->cluster_size));
+>> +    assert(QEMU_IS_ALIGNED(bytes, s->cluster_size));
+>>    
+>>        block_copy_wait_inflight_reqs(s, start, bytes);
+>> -    block_copy_inflight_req_begin(s, &req, start, end);
+>> +    block_copy_inflight_req_begin(s, &req, start, bytes);
+>>    
+>> -    while (start < end) {
+>> -        int64_t next_zero, chunk_end, status_bytes;
+>> +    while (bytes) {
+>> +        int64_t next_zero, cur_bytes, status_bytes;
+>>    
+>>            if (!bdrv_dirty_bitmap_get(s->copy_bitmap, start)) {
+>>                trace_block_copy_skip(s, start);
+>>                start += s->cluster_size;
+>> +            bytes -= s->cluster_size;
+>>                continue; /* already copied */
+>>            }
+>>    
+>> -        chunk_end = MIN(end, start + s->copy_size);
+>> +        cur_bytes = MIN(bytes, s->copy_size);
+>>    
+>>            next_zero = bdrv_dirty_bitmap_next_zero(s->copy_bitmap, start,
+>> -                                                chunk_end - start);
+>> +                                                cur_bytes);
+>>            if (next_zero >= 0) {
+>>                assert(next_zero > start); /* start is dirty */
+>> -            assert(next_zero < chunk_end); /* no need to do MIN() */
+>> -            chunk_end = next_zero;
+>> +            assert(next_zero < start + cur_bytes); /* no need to do MIN() */
+>> +            cur_bytes = next_zero - start;
+>>            }
+>>    
+>> -        ret = block_copy_block_status(s, start, chunk_end - start,
+>> -                                      &status_bytes);
+>> +        ret = block_copy_block_status(s, start, cur_bytes, &status_bytes);
+>>            if (s->skip_unallocated && !(ret & BDRV_BLOCK_ALLOCATED)) {
+>>                bdrv_reset_dirty_bitmap(s->copy_bitmap, start, status_bytes);
+>>                s->progress_reset_callback(s->progress_opaque);
+>>                trace_block_copy_skip_range(s, start, status_bytes);
+>>                start += status_bytes;
+>> +            bytes -= status_bytes;
+>>                continue;
+>>            }
+>>    
+>> -        chunk_end = MIN(chunk_end, start + status_bytes);
+>> +        cur_bytes = MIN(cur_bytes, status_bytes);
+>>    
+>>            trace_block_copy_process(s, start);
+>>    
+>> -        bdrv_reset_dirty_bitmap(s->copy_bitmap, start, chunk_end - start);
+>> +        bdrv_reset_dirty_bitmap(s->copy_bitmap, start, cur_bytes);
+>>    
+>> -        co_get_from_shres(s->mem, chunk_end - start);
+>> -        ret = block_copy_do_copy(s, start, chunk_end, ret & BDRV_BLOCK_ZERO,
+>> +        co_get_from_shres(s->mem, cur_bytes);
+>> +        ret = block_copy_do_copy(s, start, cur_bytes, ret & BDRV_BLOCK_ZERO,
+>>                                     error_is_read);
+>> -        co_put_to_shres(s->mem, chunk_end - start);
+>> +        co_put_to_shres(s->mem, cur_bytes);
+>>            if (ret < 0) {
+>> -            bdrv_set_dirty_bitmap(s->copy_bitmap, start, chunk_end - start);
+>> +            bdrv_set_dirty_bitmap(s->copy_bitmap, start, cur_bytes);
+>>                break;
+>>            }
+>>    
+>> -        s->progress_bytes_callback(chunk_end - start, s->progress_opaque);
+>> -        start = chunk_end;
+>> -        ret = 0;
+>> +        s->progress_bytes_callback(cur_bytes, s->progress_opaque);
+>> +        start += cur_bytes;
+>> +        bytes -= cur_bytes;
+>>        }
+>>    
+>>        block_copy_inflight_req_end(&req);
+>>
+> 
+> At the first glance, we would only benefit from the 'while' loop by that
+> substitution to reduce the number of addition operations.
+> 
+> Reviewed-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+> 
+
+
+-- 
+Best regards,
+Vladimir
 
