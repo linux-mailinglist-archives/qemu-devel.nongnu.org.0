@@ -2,75 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D78AD15317D
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 14:13:00 +0100 (CET)
-Received: from localhost ([::1]:46760 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30A6B15317F
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 14:13:24 +0100 (CET)
+Received: from localhost ([::1]:46764 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izKUF-0005OM-Am
-	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 08:12:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55537)
+	id 1izKUd-0005v1-7f
+	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 08:13:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55615)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1izKRh-00049V-KO
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 08:10:23 -0500
+ (envelope-from <philmd@redhat.com>) id 1izKRl-0004E4-77
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 08:10:26 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1izKRd-0001zt-JP
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 08:10:18 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:44895
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1izKRk-0002QW-2j
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 08:10:25 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:45556
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1izKRd-0001sf-6A
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 08:10:17 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1izKRj-0002NQ-UB
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 08:10:24 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580908213;
+ s=mimecast20190719; t=1580908222;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=KnBC7FiBfB4t2JU3nYKzZZYEuld5OwAD+bBu0TYQ7fI=;
- b=bI1viVtCWsiOklqSANoxar5o+RD6JEj1YZStaA3BMELNPotj4YqGXRVmSkgF7ybJPb/vp4
- QxBBG5jiMiIsFrpGXp71VRYsLGzwRuFNTpPNKl+8XZLDilPzYBaeq0hmi/6TVWFIzxWImT
- QLsrAQ4+258PBbMZ/GR8MqfkheVSnzI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-378-5FTPrfSzNPmLikHfv14xgQ-1; Wed, 05 Feb 2020 08:10:05 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 93A7CA0CDC;
- Wed,  5 Feb 2020 13:10:04 +0000 (UTC)
-Received: from dhcp-200-226.str.redhat.com (dhcp-200-226.str.redhat.com
- [10.33.200.226])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1188F5DA7C;
- Wed,  5 Feb 2020 13:09:47 +0000 (UTC)
-Date: Wed, 5 Feb 2020 14:09:46 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: Making QEMU easier for management tools and applications
-Message-ID: <20200205130946.GC5768@dhcp-200-226.str.redhat.com>
-References: <20191224134139.GD2710539@redhat.com>
- <30664f6e-81da-a6e6-9b20-037fc91290fb@redhat.com>
- <878slyej29.fsf@dusky.pond.sub.org>
- <a41ae09b-021f-2fda-0b03-7b37c5624ab3@redhat.com>
- <20200123190145.GI657556@redhat.com>
- <2561a069-ce5f-3c30-b04e-db7cd2fcdc85@redhat.com>
- <20200124095027.GA824327@redhat.com>
- <20200127143505.GD5669@linux.fritz.box>
- <20200127202925.GE3419@work-vm>
- <20200128105932.GC6431@linux.fritz.box>
+ bh=JdVsCmfWYLq3X9BXHiwnkxB/k4srKjQEvuOIb3gBTJE=;
+ b=QMNfApFBaO6JxHvGoGIIvWTNO4WAaCsWnq0aZFqt6iMGN/uGWzmcWGPZVBqnp6H9OQ95/d
+ lnp5MECcxNWn2zzNJGjHcsw7qzGLrBxmB+d+y/zAfep2yFe7GAh40w6kaUMSrZcLF9KFNz
+ 3we400MF/2PfJMbjxv7RJc11kf5R8Vo=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-187-uH2CJWIiN0Cc9cqyp3OTaw-1; Wed, 05 Feb 2020 08:10:20 -0500
+Received: by mail-wr1-f70.google.com with SMTP id j4so1157874wrs.13
+ for <qemu-devel@nongnu.org>; Wed, 05 Feb 2020 05:10:20 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=svyYRmjP0AjXWveCuPG76++AZlWwHFiM6YQLm1BvpMg=;
+ b=tqDo4xRRFV45/NseuajDcN/7UBq9ELSlciOAGfS/HpJziewj3N+bYTJRaL6pfIqpp8
+ BUsarSx/u936tUVC9ioRmTJ5GfAyI8DE+yGO9Db02WrrmuM61MrV8DrrwyqhCCFcahW9
+ f2GFeoG8GcYM05HTaoqGZf4TRTzEHyOuiN7QDvN0zIOiTMh+ZbZUinrPXv5RjT+beM5/
+ AgfATQ7hgyoJ6D+VD8+dtDOsVerh0MicFah+bt33iL/rG/z2dfwoZjGFZzROqF4bsl33
+ yDSaW7AXFeeQyNDlMxNoU3D1LvQBgc+IKMWXAc5rV6lzraaDjLH7f7fQrJCWmL7R2rbh
+ BapA==
+X-Gm-Message-State: APjAAAUIpQHk0LUwZpYE9VgZht409aAxZ5W9L9628kFLWhkGFSpYHMzy
+ ES5yywIXUNrh4k5LlNU4tiyyVV4dNr/eMG3HN5MtuOkouaG3s92/MAHpajP3oZUIkSPmOpnx8n/
+ eE4L0w41b8IHdDe0=
+X-Received: by 2002:a1c:4d07:: with SMTP id o7mr5903026wmh.174.1580908219540; 
+ Wed, 05 Feb 2020 05:10:19 -0800 (PST)
+X-Google-Smtp-Source: APXvYqwu/sIdXCm/OtyGRcfvk1ZbpWz4EU2hAyh/YTnLVCRl3D4QhrAH+/n5rlA/mA8XlzquXkC/Kw==
+X-Received: by 2002:a1c:4d07:: with SMTP id o7mr5903002wmh.174.1580908219312; 
+ Wed, 05 Feb 2020 05:10:19 -0800 (PST)
+Received: from [192.168.1.35] (162.red-83-52-55.dynamicip.rima-tde.net.
+ [83.52.55.162])
+ by smtp.gmail.com with ESMTPSA id e17sm7909165wma.12.2020.02.05.05.10.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 05 Feb 2020 05:10:18 -0800 (PST)
+Subject: Re: [PATCH 3/3] stellaris: delay timer_new to avoid memleaks
+To: pannengyuan@huawei.com, peter.maydell@linaro.org
+References: <20200205070659.22488-1-pannengyuan@huawei.com>
+ <20200205070659.22488-4-pannengyuan@huawei.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <71c5dc35-d2f2-6a7e-dde3-408fc24bb425@redhat.com>
+Date: Wed, 5 Feb 2020 14:10:16 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200128105932.GC6431@linux.fritz.box>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: 5FTPrfSzNPmLikHfv14xgQ-1
+In-Reply-To: <20200205070659.22488-4-pannengyuan@huawei.com>
+Content-Language: en-US
+X-MC-Unique: uH2CJWIiN0Cc9cqyp3OTaw-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,70 +92,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- "Denis V. Lunev" <den@virtuozzo.com>, Cleber Rosa <cleber@redhat.com>,
- Stefan Hajnoczi <stefanha@gmail.com>, Markus Armbruster <armbru@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
- John Snow <jsnow@redhat.com>, Dominik Csapak <d.csapak@proxmox.com>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, zhang.zhanghailiang@huawei.com,
+ Euler Robot <euler.robot@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 28.01.2020 um 11:59 hat Kevin Wolf geschrieben:
-> > > The other part that it needs to solve is how to be available by defau=
-lt
-> > > without specifying anything on the command line. Basically, if I pres=
-s
-> > > Ctrl-Alt-2, I want to get to a monitor shell. If that shell is
-> > > implemented internally or by an external Python process, I don't mind=
-.
-> >=20
-> > That is a harder part. (I rarely use Ctrl-Alt-2 actually; I mostly
-> > use HMP on stdin).
+On 2/5/20 8:06 AM, pannengyuan@huawei.com wrote:
+> From: Pan Nengyuan <pannengyuan@huawei.com>
 >=20
-> I don't think it would be that hard, actually.
+> There is a memory leak when we call 'device_list_properties' with typenam=
+e =3D stellaris-gptm. It's easy to reproduce as follow:
 >=20
-> If you have a -qmp-shell option that takes a chardev and defaults to vc,
-> you've solved the part with both stdio and Ctrl-Alt-2. Now all you need
-> to do is launch the Python child process, pass it a pair of pipes for
-> communication and forward everything between the pipes and the chardev.
+>    virsh qemu-monitor-command vm1 --pretty '{"execute": "device-list-prop=
+erties", "arguments": {"typename": "stellaris-gptm"}}'
 >=20
-> (That's the theory anyway.)
+> This patch delay timer_new in realize to fix it.
+>=20
+> Reported-by: Euler Robot <euler.robot@huawei.com>
+> Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
+> Cc: qemu-arm@nongnu.org
+> ---
+>   hw/arm/stellaris.c | 7 ++++++-
+>   1 file changed, 6 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/hw/arm/stellaris.c b/hw/arm/stellaris.c
+> index bb025e0bd0..221a78674e 100644
+> --- a/hw/arm/stellaris.c
+> +++ b/hw/arm/stellaris.c
+> @@ -347,11 +347,15 @@ static void stellaris_gptm_init(Object *obj)
+>       sysbus_init_mmio(sbd, &s->iomem);
+>  =20
+>       s->opaque[0] =3D s->opaque[1] =3D s;
+> +}
+> +
+> +static void stellaris_gptm_realize(DeviceState *dev, Error **errp)
+> +{
+> +    gptm_state *s =3D STELLARIS_GPTM(dev);
+>       s->timer[0] =3D timer_new_ns(QEMU_CLOCK_VIRTUAL, gptm_tick, &s->opa=
+que[0]);
+>       s->timer[1] =3D timer_new_ns(QEMU_CLOCK_VIRTUAL, gptm_tick, &s->opa=
+que[1]);
+>   }
+>  =20
+> -
+>   /* System controller.  */
+>  =20
+>   typedef struct {
+> @@ -1536,6 +1540,7 @@ static void stellaris_gptm_class_init(ObjectClass *=
+klass, void *data)
+>       DeviceClass *dc =3D DEVICE_CLASS(klass);
+>  =20
+>       dc->vmsd =3D &vmstate_stellaris_gptm;
+> +    dc->realize =3D stellaris_gptm_realize;
+>   }
+>  =20
+>   static const TypeInfo stellaris_gptm_info =3D {
+>=20
 
-If someone is interested, I did a quick proof-of-concept hack:
-
-    https://repo.or.cz/qemu/kevin.git/shortlog/refs/heads/qmp-shell
-
-It doesn't clean up anything properly (including the qmp-shell processes
-it starts), but it spawns a usable qmp-shell on a user-specified
-character device. stdio seems to work, though without readline
-functionality (I suppose I still have line-buffering somewhere), vc
-doesn't really work at all yet.
-
-Try it out like this:
-
-    $ ./qemu-storage-daemon --chardev stdio,id=3Dm --monitor m,mode=3Dqmp-s=
-hell
-    monitor_qmp_event: 1
-    Welcome to the QMP low-level shell!
-    Connected to QEMU 4.2.50
-
-    (QEMU) query-version
-    {"return": {"qemu": {"micro": 50, "major": 4, "minor": 2}, "package": "=
-v4.2.0-1188-gd95a3885a9"}}
-    (QEMU) quit
-
-(Or use x86_64-softmmu/qemu-system-x86_64, but it's based on the
-refactorings in the storage daemon branch, so why not try both at once?)
-
-Polishing this to make it mergable would still require substantial work,
-so at the moment I'm not planning to do this. But if someone wants to
-pick it up, feel free (just let us know).
-
-Hm, in fact... A qmp-shell GSoC project?
-
-Kevin
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
 
