@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CB8E153B42
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 23:46:45 +0100 (CET)
-Received: from localhost ([::1]:57928 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0238153B54
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 23:48:38 +0100 (CET)
+Received: from localhost ([::1]:57944 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izTRU-0002iN-Cb
-	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 17:46:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57758)
+	id 1izTTJ-00052c-UR
+	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 17:48:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57982)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jtomko@redhat.com>) id 1izTPf-0000u3-5j
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 17:44:52 -0500
+ (envelope-from <jtomko@redhat.com>) id 1izTQ0-0001IN-AZ
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 17:45:13 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jtomko@redhat.com>) id 1izTPe-0000UB-9m
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 17:44:51 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:32002
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <jtomko@redhat.com>) id 1izTPz-0001ed-Fh
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 17:45:12 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:59936
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jtomko@redhat.com>) id 1izTPe-0000Sc-5s
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 17:44:50 -0500
+ (Exim 4.71) (envelope-from <jtomko@redhat.com>) id 1izTPz-0001cr-BJ
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 17:45:11 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580942689;
+ s=mimecast20190719; t=1580942711;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=bMcGJ7McT3ikn/n7C/ZO8N6M4dHO9pMQqT55YRC9oB0=;
- b=Njl9MIlkteE+6pWj8y7GpldEGJU4QeDWb/tJh6i5j4/1HBl9Qxqg9OFe9fj1pFXFpzGe2Z
- ZAdcTB3jV2RHl9/OuDpwft2D9Rp34O0wMVcWdXbMf+vv9PdTV8pBHy7cvlUMl61dSYe0HT
- uA9IqnTNfpgkk35JR0+jnv3XB725wLI=
+ bh=I517xhC1v9YIwJ3bqUHEyybJBeC+JH4WPZ5oxc5CMns=;
+ b=Nk62To0lMMPP7+vg/YvmunixnT7TcxwIgdrmAr9B/5ubNsm/gJoVjyITAVRkF3HvfBAVuz
+ MLReb7HJPjxcS8oG7tWZdzOlOZwc01T2EICgOmVcbY326ZqeLfIYGyao7eoLYgRhNXDGqK
+ BwnaQM1TGMnIqh/w1MRGjK9QgqGcGqc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-39-h_I9QwVYMqCXwGjcAO1toA-1; Wed, 05 Feb 2020 17:44:47 -0500
-X-MC-Unique: h_I9QwVYMqCXwGjcAO1toA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-280-zCMnM3ZrNvaKkt8p9mzGQA-1; Wed, 05 Feb 2020 17:45:06 -0500
+X-MC-Unique: zCMnM3ZrNvaKkt8p9mzGQA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 415AB1005F73;
- Wed,  5 Feb 2020 22:44:46 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7FC371007278;
+ Wed,  5 Feb 2020 22:45:05 +0000 (UTC)
 Received: from lpt (ovpn-200-44.brq.redhat.com [10.40.200.44])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A1E6960C05;
- Wed,  5 Feb 2020 22:44:38 +0000 (UTC)
-Date: Wed, 5 Feb 2020 23:44:35 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2E575F6E8;
+ Wed,  5 Feb 2020 22:44:57 +0000 (UTC)
+Date: Wed, 5 Feb 2020 23:44:54 +0100
 From: =?iso-8859-1?B?SuFu?= Tomko <jtomko@redhat.com>
 To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH 1/5] ui: add show-cursor option
-Message-ID: <20200205224435.GF31521@lpt>
+Subject: Re: [PATCH 2/5] ui/gtk: implement show-cursor option
+Message-ID: <20200205224454.GG31521@lpt>
 References: <20200205110356.3491-1-kraxel@redhat.com>
- <20200205110356.3491-2-kraxel@redhat.com>
+ <20200205110356.3491-3-kraxel@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200205110356.3491-2-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <20200205110356.3491-3-kraxel@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="sDKAb4OeUBrWWL6P"
+ protocol="application/pgp-signature"; boundary="MrRUTeZlqqNo1jQ9"
 Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,40 +77,37 @@ Cc: libvir-list@redhat.com, Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---sDKAb4OeUBrWWL6P
+--MrRUTeZlqqNo1jQ9
 Content-Type: text/plain; charset=iso-8859-1; format=flowed
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Feb 05, 2020 at 12:03:52PM +0100, Gerd Hoffmann wrote:
->When enabled forces showing a the mouse cursor, i.e. do
->nowallow the guest to hide it.  Defaults to off.
->
+On Wed, Feb 05, 2020 at 12:03:53PM +0100, Gerd Hoffmann wrote:
 >Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 >---
-> qapi/ui.json | 2 ++
-> 1 file changed, 2 insertions(+)
+> ui/gtk.c | 8 +++++++-
+> 1 file changed, 7 insertions(+), 1 deletion(-)
 >
 
 Reviewed-by: J=E1n Tomko <jtomko@redhat.com>
 
 Jano
 
---sDKAb4OeUBrWWL6P
+--MrRUTeZlqqNo1jQ9
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEQeJGMrnL0ADuclbP+YPwO/Mat50FAl47RVMACgkQ+YPwO/Ma
-t52xNgf/QZGtc5UbWYSHUtxTCmyCW8udauJoUka8m68EBNrK3oXL8RcVGUOXBw7x
-MnvftyMphQQv71I5/iJn6F7kchrjsHadW8uHDXZbTcE3K2TogXwHX1httgixClLJ
-3YUEHE9YkSl5i6uhFNVGzAy3bCdJHgTJgooxupO58NpS2W69+DaFQrkdClBu6v5b
-Yv5w1U4EcDtERalTVQlTK6pfysRf6Zv9XDsYEJonkYyFyXrusi2op3yp5QTt1kI9
-sWp8zO3ZYg725FibvuDksxeoE6+TlgQfbfoGtBZ/mYRW3sU6cDzjb9bm3E00+FDl
-J/3GF5lA/ihK/GvpZBAVOscCni3mZw==
-=xFH6
+iQEzBAEBCAAdFiEEQeJGMrnL0ADuclbP+YPwO/Mat50FAl47RWYACgkQ+YPwO/Ma
+t51ligf/WpyYsQz14yQ3a2IHIag8sY/XDvL80WUyAQZpENJIa4+uU40yB5Y7nhIz
+jX2/Pc+xo2RAmoEe1t5prbqtXshlZlBoKQL6VUEB2ZM7jFsQsCI7Lip+v11v/Pyr
+2VHEm2UuWj2/poiF6WlwsGGBDEIhz4pVwDfFmn+0GbMKwDdsO8+QbOpCpNbljNOs
+e4wgfcl21vDUwy1M1e9BYvhKFETG6vz/FHEJlchyjedcWIcImhg9liNf7dQp5i9e
+Fk6ajuOiuW7ABk0oSuC5roz9StzUqIF4rHfSXr4paIQ88pOTBWAzZat3IxSniXQA
+zspvZvWDbN6bt2/PxVxECj8Kl3KEjQ==
+=1ZLf
 -----END PGP SIGNATURE-----
 
---sDKAb4OeUBrWWL6P--
+--MrRUTeZlqqNo1jQ9--
 
 
