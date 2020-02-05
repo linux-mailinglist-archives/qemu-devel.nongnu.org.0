@@ -2,93 +2,108 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3F851531D6
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 14:28:37 +0100 (CET)
-Received: from localhost ([::1]:46970 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE5111531FA
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 14:37:53 +0100 (CET)
+Received: from localhost ([::1]:47198 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izKjM-0006vQ-TO
-	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 08:28:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35777)
+	id 1izKsK-0004AW-Nm
+	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 08:37:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46452)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <darren.kenny@oracle.com>) id 1izKhq-0005eQ-Aq
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 08:27:03 -0500
+ (envelope-from <jasper.lowell@bt.com>) id 1izEEE-0002VJ-41
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 01:32:04 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <darren.kenny@oracle.com>) id 1izKho-00037w-Mf
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 08:27:02 -0500
-Received: from userp2130.oracle.com ([156.151.31.86]:59800)
+ (envelope-from <jasper.lowell@bt.com>) id 1izEEB-0004uf-Cc
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 01:32:01 -0500
+Received: from smtpe1.intersmtp.com ([62.239.224.237]:42761)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <darren.kenny@oracle.com>)
- id 1izKho-000316-DC
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 08:27:00 -0500
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 015DO2uK105634;
- Wed, 5 Feb 2020 13:26:57 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2019-08-05;
- bh=/LVZim7N6b/mrqTWUC/HKFj/D55qTPQuXQY7Zzfr8Ws=;
- b=jXIGV0p9xJCnhs4rnqX0eAiZRtpfFiHG8tpoicGmNl+zLq26cUteUleat6yp0ivh4mv4
- rgbyMxnz3ySg2Qtxq/9t9pepMH5N6T51F+JK/UHrJrxydnXtU5hwzPo/OVEJd8y/KZ31
- +H0GSZRs/2fXLsQjgMoDPCAeLbcgb+qkV+NDs+/ACIJUvIoXlYxtkyODy7gV6yqbDaU7
- ERv69nGj03rJaw+nSbrJ89wlECe8FdbuyRj6SdK3+iMA84uIlwnQt+i8SrCyGND1D+c3
- MM6hs+Af395chOw4tax9CnFKEnVnS7vnzIGxvidHkDg5HDwTzZfUIBGOBtpPmNY16/Dr 3Q== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by userp2130.oracle.com with ESMTP id 2xykbp2y0v-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 05 Feb 2020 13:26:57 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 015DICnn087769;
- Wed, 5 Feb 2020 13:26:57 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
- by userp3020.oracle.com with ESMTP id 2xykc2v56p-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 05 Feb 2020 13:26:57 +0000
-Received: from abhmp0008.oracle.com (abhmp0008.oracle.com [141.146.116.14])
- by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 015DQsIx011534;
- Wed, 5 Feb 2020 13:26:54 GMT
-Received: from starbug-mbp.localdomain (/10.169.111.17)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Wed, 05 Feb 2020 05:26:54 -0800
-Received: from starbug-mbp (localhost [127.0.0.1])
- by starbug-mbp.localdomain (Postfix) with SMTP id 2FC5557DBB03;
- Wed,  5 Feb 2020 13:26:51 +0000 (GMT)
-Date: Wed, 5 Feb 2020 13:26:50 +0000
-From: Darren Kenny <darren.kenny@oracle.com>
-To: "Bulekov, Alexander" <alxndr@bu.edu>
-Subject: Re: [PATCH v8 18/21] fuzz: add i440fx fuzz targets
-Message-ID: <20200205132650.yajwli5c5a6b7aur@starbug-mbp>
-Mail-Followup-To: "Bulekov, Alexander" <alxndr@bu.edu>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- "bsd@redhat.com" <bsd@redhat.com>,
- "stefanha@redhat.com" <stefanha@redhat.com>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>
-References: <20200129053357.27454-1-alxndr@bu.edu>
- <20200129053357.27454-19-alxndr@bu.edu>
+ (Exim 4.71) (envelope-from <jasper.lowell@bt.com>)
+ id 1izEEA-0004Us-Bd
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 01:31:59 -0500
+Received: from tpw09926dag11h.domain1.systemhost.net (10.9.212.35) by
+ RDW083A010ED66.bt.com (10.187.98.36) with Microsoft SMTP Server (TLS) id
+ 14.3.439.0; Wed, 5 Feb 2020 06:30:32 +0000
+Received: from tpw09926dag08f.domain1.systemhost.net (10.9.202.39) by
+ tpw09926dag11h.domain1.systemhost.net (10.9.212.35) with Microsoft SMTP
+ Server (TLS) id 15.0.1395.4; Wed, 5 Feb 2020 06:31:53 +0000
+Received: from RDW083A009ED65.bt.com (10.187.98.35) by
+ tpw09926dag08f.domain1.systemhost.net (10.9.202.39) with Microsoft SMTP
+ Server (TLS) id 15.0.1395.4 via Frontend Transport; Wed, 5 Feb 2020 06:31:52
+ +0000
+Received: from GBR01-LO2-obe.outbound.protection.outlook.com (104.47.21.57) by
+ smtpe1.intersmtp.com (62.239.224.236) with Microsoft SMTP Server
+ (TLS) id 14.3.439.0; Wed, 5 Feb 2020 06:25:51 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=iysOBxVLQ/MmuWvzhfSyOnXvYlFaLLegfdB+PhvY+SaWpoup36QPEwVGGffEyHjOzXNz7QhCXwx0pQ4cInjO/M7N2CAy4+HfuEG8qRuAsZta7j+OzbXDH+p9o1RugPJAYhle8F0+w9k8wkUyFn1Pb8iXdIfVqpnDFg6ybpdR2umTz3SyRdNqHIo1/O+KmTqakKJqJxKy/+T/JGmcnnGRWvKjkc7yNojxTVA5slOfmop7MrApjotDdYtOe7WEdqaH7kMw32BZ/M3Oevb3Nqasm2kqTi3O58UJjwIU1o1J26TtV3Q7tVKTnNwMG+93Do/pxC9090gwZq31rwblgM2gwA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vpNWOIB5LrCn1oO18+FAPxdJ/sMgPQt45DyVRSJKlcc=;
+ b=L0Nl+bugBBMx9zPcRWFAOS+/2FRcrxnFslnHqig4IAXqZJPLy/g+wN6VRoSDS6Y/y16YbpamiaV6ihNvhZKVEKN1SFdcNZWMbMYiWudiUgXGDGleyIFwNhWocKgMaGC6CVUxQ8sIBtMwiZotSGAEwukCLruMOMuGtxykI6PohsoD3qITwgPFoUF11c2pLcwEODIpbPUZCY3bSTfgwPgQXJL9bX7kSNjQUk37xmRDNuq/cibzdQlwkJxlvwQs1PLtEtpKe7UUnuu92vbNPHK1yAT8JZ5a000w32sTmgW6q9kEzn5V2cnfcfiv9w/LZlG1FOLRfqJYc2eZ5Ar55Hb/tw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bt.com; dmarc=pass action=none header.from=bt.com; dkim=pass
+ header.d=bt.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bt.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vpNWOIB5LrCn1oO18+FAPxdJ/sMgPQt45DyVRSJKlcc=;
+ b=a/+YcYl+TCT/oC0X8JvZ3Yb2Rju2x8nnmtNQ2et8O5nQgp61hzjgsf2vDLbV26Fs5lql0hgwoi9vkhYu+q7x/4POB0W7FGv5qgyN0yc1ugBhAlBnLrw0bl8BCE7PvEdb5Q0a/Fikq/wl+3JHOeiTHECdMEZfjqndgl9YqATgl08=
+Received: from CWXP123MB2262.GBRP123.PROD.OUTLOOK.COM (20.179.109.212) by
+ CWXP123MB2389.GBRP123.PROD.OUTLOOK.COM (20.179.110.87) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2686.29; Wed, 5 Feb 2020 06:31:51 +0000
+Received: from CWXP123MB2262.GBRP123.PROD.OUTLOOK.COM
+ ([fe80::e475:38a3:109b:b884]) by CWXP123MB2262.GBRP123.PROD.OUTLOOK.COM
+ ([fe80::e475:38a3:109b:b884%5]) with mapi id 15.20.2707.020; Wed, 5 Feb 2020
+ 06:31:51 +0000
+From: <jasper.lowell@bt.com>
+To: <qemu-devel@nongnu.org>
+Subject: Emulating Solaris 10 on SPARC64 sun4u
+Thread-Topic: Emulating Solaris 10 on SPARC64 sun4u
+Thread-Index: AdXb7aKPCyPc5BgLRMag+zXZgy3FKQ==
+Date: Wed, 5 Feb 2020 06:31:51 +0000
+Message-ID: <CWXP123MB2262B6F3159B7AA7AB010F4183020@CWXP123MB2262.GBRP123.PROD.OUTLOOK.COM>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=jasper.lowell@bt.com; 
+x-originating-ip: [61.14.34.9]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 0f33059c-e003-4648-c131-08d7aa0515dc
+x-ms-traffictypediagnostic: CWXP123MB2389:
+x-microsoft-antispam-prvs: <CWXP123MB23893B0C3CDF298A0761B3B983020@CWXP123MB2389.GBRP123.PROD.OUTLOOK.COM>
+x-antispam-2: 1
+x-ms-oob-tlc-oobclassifiers: OLM:8273;
+x-forefront-prvs: 0304E36CA3
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10009020)(4636009)(376002)(396003)(346002)(366004)(39860400002)(136003)(199004)(189003)(33656002)(7696005)(66946007)(71200400001)(5660300002)(2906002)(76116006)(4326008)(64756008)(54906003)(66476007)(66556008)(52536014)(478600001)(66446008)(6506007)(81166006)(8676002)(186003)(81156014)(26005)(6916009)(316002)(9686003)(966005)(86362001)(8936002)(55016002)(32563001);
+ DIR:OUT; SFP:1101; SCL:1; SRVR:CWXP123MB2389;
+ H:CWXP123MB2262.GBRP123.PROD.OUTLOOK.COM; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; MX:1; 
+received-spf: None (protection.outlook.com: bt.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: cfTZ9uQFfkv342E0frT84hQ/Qwp92GPgeEs7W7IHtGkBLL4eHDsIYOWVE4h7cyiBCku7BbN5wkm+6beoQMYNRbAB6r6G2wX6Uj1Xvp6pFdyAWEyqWJBf9CrqZ1dH4C71N3VGelGdvE8ldwjWF3IJjmEwa0WbB5ihBRQY9IaEtlh2gWYnFUkHPEBG9d5WFk0zc0xQEgXr5LfYJyDB6BeS8UnVRx1sFCdPkxHq35D9czSU0Mt5LIEmkTX82g5IM9Hf/+y4+ZvNAY6Hj/DEBCUIVm0vRHD8MTnalTmtS4G41IJXggucsNcf9eOSqWBiRi1FCaZdJ6TMeHWD/ZxrWa8W5qHbJH0pWm5ermAJFDbrNRoWmmG92tEBGUIMTxtIb05nySBsYkokdssuuutMc44yyyPi55Ayo3/wdRj0W45vZ3uLbETAhvn6S4jfwE8DnUDt/9KNsbAtNF2YL5hO4QfxCQo4Zhk6NNVy44vQmTDqZ6hOuHmtoVy8gHikLjriU5ig8Li79qycBYh8YCoCAFpuEznu7tJs/3zKSl0cI4CFv/fx3/+B9oF6l4Pf3OlxOA5m
+x-ms-exchange-antispam-messagedata: 2B288idR6MYPeNYqVlhX+EZ7+J2XAl3NvpZadrhmWDT7AGeww+vKtogNg2a/dP7tMou1PFwe7sF2PuMpdkPlZi/iEiRk+5+K0f+Yq+JCZfsoYS6SnI5yZ2Sgxy8l8i0AgGnNhlfJdVceBB//4ymsEQ==
+x-ms-exchange-transport-forked: True
+Content-Type: multipart/alternative;
+ boundary="_000_CWXP123MB2262B6F3159B7AA7AB010F4183020CWXP123MB2262GBRP_"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20200129053357.27454-19-alxndr@bu.edu>
-User-Agent: NeoMutt/20180716
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9521
- signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1911140001 definitions=main-2002050107
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9521
- signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
- priorityscore=1501 malwarescore=0
- suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1911140001
- definitions=main-2002050109
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 156.151.31.86
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0f33059c-e003-4648-c131-08d7aa0515dc
+X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Feb 2020 06:31:51.2952 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a7f35688-9c00-4d5e-ba41-29f146377ab0
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: MAkMQf7F5o5EvpnTxw0C2GeeEYtGyvfvte+1+ArAUbpxy2SMdpD+mFZN0m7EVIvvk+3uNNwGFYO64rLp7FVTAQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWXP123MB2389
+X-OriginatorOrg: bt.com
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 62.239.224.237
+X-Mailman-Approved-At: Wed, 05 Feb 2020 08:35:33 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -100,245 +115,601 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "bsd@redhat.com" <bsd@redhat.com>, "stefanha@redhat.com" <stefanha@redhat.com>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>
+Cc: mark.cave-ayland@ilande.co.uk, atar4qemu@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jan 29, 2020 at 05:34:26AM +0000, Bulekov, Alexander wrote:
->These three targets should simply fuzz reads/writes to a couple ioports,
->but they mostly serve as examples of different ways to write targets.
->They demonstrate using qtest and qos for fuzzing, as well as using
->rebooting and forking to reset state, or not resetting it at all.
->
->Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
->Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+--_000_CWXP123MB2262B6F3159B7AA7AB010F4183020CWXP123MB2262GBRP_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
+I'm currently working towards emulating Solaris 10 on sun4u.
 
-A couple of nit below w.r.t. commenting on how the fuzzed data is
-being processed.
+The Solaris 10 ISO image I am attempting to boot is the one from the Oracle
+download page at https://www.oracle.com/solaris/solaris10/downloads/solaris=
+10-get-jsp-downloads.html.
+Image: sol-10-u11-ga-sparc-dvd.iso
+MD5:   53e8b066f7f250ce2fd2cef063f8072b
 
->---
-> tests/qtest/fuzz/Makefile.include |   3 +
-> tests/qtest/fuzz/i440fx_fuzz.c    | 178 ++++++++++++++++++++++++++++++
-> 2 files changed, 181 insertions(+)
-> create mode 100644 tests/qtest/fuzz/i440fx_fuzz.c
->
->diff --git a/tests/qtest/fuzz/Makefile.include b/tests/qtest/fuzz/Makefile.include
->index e3bdd33ff4..38b8cdd9f1 100644
->--- a/tests/qtest/fuzz/Makefile.include
->+++ b/tests/qtest/fuzz/Makefile.include
->@@ -6,6 +6,9 @@ fuzz-obj-y += tests/qtest/fuzz/fuzz.o # Fuzzer skeleton
-> fuzz-obj-y += tests/qtest/fuzz/fork_fuzz.o
-> fuzz-obj-y += tests/qtest/fuzz/qos_fuzz.o
->
->+# Targets
->+fuzz-obj-y += tests/qtest/fuzz/i440fx_fuzz.o
->+
-> FUZZ_CFLAGS += -I$(SRC_PATH)/tests -I$(SRC_PATH)/tests/qtest
->
-> # Linker Script to force coverage-counters into known regions which we can mark
->diff --git a/tests/qtest/fuzz/i440fx_fuzz.c b/tests/qtest/fuzz/i440fx_fuzz.c
->new file mode 100644
->index 0000000000..c7791182b8
->--- /dev/null
->+++ b/tests/qtest/fuzz/i440fx_fuzz.c
->@@ -0,0 +1,178 @@
->+/*
->+ * I440FX Fuzzing Target
->+ *
->+ * Copyright Red Hat Inc., 2019
->+ *
->+ * Authors:
->+ *  Alexander Bulekov   <alxndr@bu.edu>
->+ *
->+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
->+ * See the COPYING file in the top-level directory.
->+ */
->+
->+#include "qemu/osdep.h"
->+
->+#include "qemu/main-loop.h"
->+#include "tests/qtest/libqtest.h"
->+#include "tests/qtest/libqos/pci.h"
->+#include "tests/qtest/libqos/pci-pc.h"
->+#include "fuzz.h"
->+#include "fuzz/qos_fuzz.h"
->+#include "fuzz/fork_fuzz.h"
->+
->+
->+#define I440FX_PCI_HOST_BRIDGE_CFG 0xcf8
->+#define I440FX_PCI_HOST_BRIDGE_DATA 0xcfc
->+
->+enum action_id {
->+    WRITEB,
->+    WRITEW,
->+    WRITEL,
->+    READB,
->+    READW,
->+    READL,
->+    ACTION_MAX
->+};
->+
+I am using QEMU commit 7bd9d0a9e26c7a3c67c0f174f0009ba19969b158.
 
-While it eventually becomes clear what is happening in these
-functions, it does take several attempts at reading it to understand
-what is going on.
+The command I am using to run QEMU is:
+./qemu/sparc64-softmmu/qemu-system-sparc64 -bios ./openbios/obj-sparc64/ope=
+nbios-builtin.elf -cdrom ./iso/solaris/sol-10-u11-ga-sparc-dvd.iso -boot d =
+-nographic -m 3G
 
-For that reason, it might be worth a couple of comments for future
-maintainers as to what is going on.
+```
+CPUs: 1 x SUNW,UltraSPARC-IIi
+UUID: 00000000-0000-0000-0000-000000000000
+Welcome to OpenBIOS v1.1 built on Feb 5 2020 19:15
+  Type 'help' for detailed information
+Trying cdrom:f...
+Not a bootable ELF image
+Not a bootable a.out image
+
+Loading FCode image...
+Loaded 7420 bytes
+entry point is 0x4000
+Evaluating FCode...
+Evaluating FCode...
+Ignoring failed claim for va 1000000 memsz af6d6!
+Ignoring failed claim for va 1402000 memsz 4dcc8!
+Ignoring failed claim for va 1800000 memsz 510c8!
+SunOS Release 5.10 Version Generic_147147-26 64-bit
+Copyright (c) 1983, 2013, Oracle and/or its affiliates. All rights reserved=
+.
+could not find debugger-vocabulary-hook>threads:interpret: exception -13 ca=
+ught
+interpret \ Copyright (c) 1995-1999 by Sun Microsystems, Inc.
+\ All rights reserved.
+\
+\ ident "@(#)data64.fth  1.3     00/07/17 SMI"
+
+hex
+
+only forth also definitions
+vocabulary kdbg-words
+also kdbg-words definitions
+
+defer p@
+defer p!
+['] x@ is p@
+['] x! is p!
+
+8 constant ptrsize
+
+d# 32 constant nbitsminor
+h# ffffffff constant maxmin
+\
+\ Copyright 2008 Sun Microsystems, Inc.  All rights reserved.
+\ Use is subject to license terms.
+\
+
+\ #pragma ident  "@(#)kdbg.fth    1.20    08/06/06 SMI"
+
+h# 7ff constant v9bias
+h# unix-tte:interpret: exception -13 caught
+interpret ' unix-tte is va>tte-data failed with error ffffffffffffffed
+WARNING: consconfig: cannot find driver for screen device /pci@1fe,0/pci@1,=
+1/QEMU,VGA@2
+Configuring devices.
+WARNING: Interrupt not seen after set_features
+Using RPC Bootparams for network configuration information.
+Attempting to configure interface hme0...
+WARNING: Power off requested from power button or SC, powering down the sys=
+tem!
+Skipped interface hme0
+svc:/system/filesystem/local:default: WARNING: /usr/sbin/zfs mount -a faile=
+d: one or more file systems failed to mount
+Serial console, reverting to text install
+Beginning system identification...
+Searching for configuration file(s)...
+Search complete.
+Discovering additional network configuration...
+```
+
+The installation menu is shown after but the console is unresponsive.
+
+After some debugging, it looks like the QEMU front-end is correctly filling
+the serial receive buffer with characters, and then starts dropping them on=
+ce
+the number of characters in the buffer reach the interrupt level. The inter=
+rupt
+level happens to be 1 when booting Solaris 10. This looks like normal behav=
+iour
+to me.
+
+I started looking at why the serial receive buffer might not be consumed an=
+d
+considered that interrupts might not be being raised correctly. I ran with
+tracing and there were no interrupts for IRQ 0x2b like there are when using
+OpenBSD. When inspecting the registers of the serial device it looks like t=
+he
+Interrupt Enable Register is set to zero.
+
+If Solaris 10 was using the device is polling mode, it should be reading th=
+e RBR
+or at least the LSR. When tracing serial_ioport_read and serial_ioport_writ=
+e,
+once the menu is hit, I don't see any read or writes to the serial device
+registers despite me trying to send characters and use the menu.
+
+The driver Solaris 10 is using for the device appears to be similar/same as
+/usr/src/uts/sun4/io/su_driver.c in the OpenSolaris code found at https://g=
+ithub.com/nxmirrors/onnv.
+
+```
+asy->asy_hwtype =3D ASY16550AF;
+OUTB(FIFOR, 0x00); /* clear fifo register */
+asy->asy_trig_level =3D 0x00; /* sets the fifo Threshold to 1 */
+
+/* set/Enable FIFO */
+OUTB(FIFOR, FIFO_ON | FIFODMA | FIFOTXFLSH | FIFORXFLSH |
+(asy->asy_trig_level & 0xff));
+
+if ((INB(ISR) & 0xc0) =3D=3D 0xc0)
+    asy->asy_use_fifo =3D FIFO_ON; /* QEMU REACHES HERE. */
+else {
+    asy->asy_hwtype =3D ASY8250;
+    OUTB(FIFOR, 0x00); /* NO FIFOs */
+    asy->asy_trig_level =3D 0;
+}
+```
+
+From what I can tell when tracing serial_ioport_write and serial_ioport_rea=
+d,
+Solaris 10 correctly identifies the serial device and successfully attaches=
+ it.
+In the asyattach function (OpenSolaris driver), interrupts are disabled by =
+zeroing the
+Interrupt Enable Register. From what I'm reading in OpenSolaris source code=
+, interrupts
+are reenabled when the device is "opened". This seems like consistent and
+correct behaviour though I'm not sure why the device is not being opened to=
+ be
+used by the serial console.
+
+Is this an issue anyone else has tried to debug?
+Are there any leads that I can follow up on for why the serial console beco=
+mes unresponsive
+on Solaris 10?
 
 Thanks,
+Lowell.
 
-Darren.
+--_000_CWXP123MB2262B6F3159B7AA7AB010F4183020CWXP123MB2262GBRP_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
->+static void i440fx_fuzz_qtest(QTestState *s,
->+        const unsigned char *Data, size_t Size) {
->+    typedef struct QTestFuzzAction {
->+        uint32_t value;
->+        uint8_t id;
->+        uint8_t addr;
->+    } QTestFuzzAction;
->+    QTestFuzzAction a;
->+
->+    while (Size >= sizeof(a)) {
->+        memcpy(&a, Data, sizeof(a));
->+        uint16_t addr = a.addr % 2 ? I440FX_PCI_HOST_BRIDGE_CFG :
->+                                      I440FX_PCI_HOST_BRIDGE_DATA;
->+        switch (a.id % ACTION_MAX) {
->+        case WRITEB:
->+            qtest_outb(s, addr, (uint8_t)a.value);
->+            break;
->+        case WRITEW:
->+            qtest_outw(s, addr, (uint16_t)a.value);
->+            break;
->+        case WRITEL:
->+            qtest_outl(s, addr, (uint32_t)a.value);
->+            break;
->+        case READB:
->+            qtest_inb(s, addr);
->+            break;
->+        case READW:
->+            qtest_inw(s, addr);
->+            break;
->+        case READL:
->+            qtest_inl(s, addr);
->+            break;
->+        }
->+        Size -= sizeof(a);
->+        Data += sizeof(a);
->+    }
->+    flush_events(s);
->+}
->+
->+static void i440fx_fuzz_qos(QTestState *s,
->+        const unsigned char *Data, size_t Size) {
->+
->+    typedef struct QOSFuzzAction {
->+        uint32_t value;
->+        int devfn;
->+        uint8_t offset;
->+        uint8_t id;
->+    } QOSFuzzAction;
->+
->+    static QPCIBus *bus;
->+    if (!bus) {
->+        bus = qpci_new_pc(s, fuzz_qos_alloc);
->+    }
->+
->+    QOSFuzzAction a;
->+    while (Size >= sizeof(a)) {
->+        memcpy(&a, Data, sizeof(a));
->+        switch (a.id % ACTION_MAX) {
->+        case WRITEB:
->+            bus->config_writeb(bus, a.devfn, a.offset, (uint8_t)a.value);
->+            break;
->+        case WRITEW:
->+            bus->config_writew(bus, a.devfn, a.offset, (uint16_t)a.value);
->+            break;
->+        case WRITEL:
->+            bus->config_writel(bus, a.devfn, a.offset, (uint32_t)a.value);
->+            break;
->+        case READB:
->+            bus->config_readb(bus, a.devfn, a.offset);
->+            break;
->+        case READW:
->+            bus->config_readw(bus, a.devfn, a.offset);
->+            break;
->+        case READL:
->+            bus->config_readl(bus, a.devfn, a.offset);
->+            break;
->+        }
->+        Size -= sizeof(a);
->+        Data += sizeof(a);
->+    }
->+    flush_events(s);
->+}
->+
->+static void i440fx_fuzz_qos_fork(QTestState *s,
->+        const unsigned char *Data, size_t Size) {
->+    if (fork() == 0) {
->+        i440fx_fuzz_qos(s, Data, Size);
->+        _Exit(0);
->+    } else {
->+        wait(NULL);
->+    }
->+}
->+
->+static const char *i440fx_qtest_argv = TARGET_NAME " -machine accel=qtest"
->+                                       "-m 0 -display none";
->+static const char *i440fx_argv(FuzzTarget *t)
->+{
->+    return i440fx_qtest_argv;
->+}
->+
->+static void fork_init(void)
->+{
->+    counter_shm_init();
->+}
->+
->+static void register_pci_fuzz_targets(void)
->+{
->+    /* Uses simple qtest commands and reboots to reset state */
->+    fuzz_add_target(&(FuzzTarget){
->+                .name = "i440fx-qtest-reboot-fuzz",
->+                .description = "Fuzz the i440fx using raw qtest commands and"
->+                               "rebooting after each run",
->+                .get_init_cmdline = i440fx_argv,
->+                .fuzz = i440fx_fuzz_qtest});
->+
->+    /* Uses libqos and forks to prevent state leakage */
->+    fuzz_add_qos_target(&(FuzzTarget){
->+                .name = "i440fx-qos-fork-fuzz",
->+                .description = "Fuzz the i440fx using raw qtest commands and"
->+                               "rebooting after each run",
->+                .pre_vm_init = &fork_init,
->+                .fuzz = i440fx_fuzz_qos_fork,},
->+                "i440FX-pcihost",
->+                &(QOSGraphTestOptions){}
->+                );
->+
->+    /*
->+     * Uses libqos. Doesn't do anything to reset state. Note that if we were to
->+     * reboot after each run, we would also have to redo the qos-related
->+     * initialization (qos_init_path)
->+     */
->+    fuzz_add_qos_target(&(FuzzTarget){
->+                .name = "i440fx-qos-noreset-fuzz",
->+                .description = "Fuzz the i440fx using raw qtest commands and"
->+                               "rebooting after each run",
->+                .fuzz = i440fx_fuzz_qos,},
->+                "i440FX-pcihost",
->+                &(QOSGraphTestOptions){}
->+                );
->+}
->+
->+fuzz_target_init(register_pci_fuzz_targets);
->-- 
->2.23.0
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
+osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
+//www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
 >
->
+<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
+<style><!--
+/* Font Definitions */
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Consolas;
+	panose-1:2 11 6 9 2 2 4 3 2 4;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0cm;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;
+	mso-fareast-language:EN-US;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-priority:99;
+	color:#954F72;
+	text-decoration:underline;}
+pre
+	{mso-style-priority:99;
+	mso-style-link:"HTML Preformatted Char";
+	margin:0cm;
+	margin-bottom:.0001pt;
+	font-size:10.0pt;
+	font-family:"Courier New";}
+span.EmailStyle17
+	{mso-style-type:personal-compose;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+span.HTMLPreformattedChar
+	{mso-style-name:"HTML Preformatted Char";
+	mso-style-priority:99;
+	mso-style-link:"HTML Preformatted";
+	font-family:"Courier New";
+	mso-fareast-language:EN-AU;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-family:"Calibri",sans-serif;
+	mso-fareast-language:EN-US;}
+@page WordSection1
+	{size:612.0pt 792.0pt;
+	margin:72.0pt 72.0pt 72.0pt 72.0pt;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]-->
+</head>
+<body lang=3D"EN-AU" link=3D"#0563C1" vlink=3D"#954F72">
+<div class=3D"WordSection1">
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">I'm currently working towards emul=
+ating Solaris 10 on sun4u.<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">The Solaris 10 ISO image I am atte=
+mpting to boot is the one from the Oracle<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">download page at https://www.oracl=
+e.com/solaris/solaris10/downloads/solaris10-get-jsp-downloads.html.<o:p></o=
+:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">Image: sol-10-u11-ga-sparc-dvd.iso=
+<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">MD5:&nbsp;&nbsp; 53e8b066f7f250ce2=
+fd2cef063f8072b<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">I am using QEMU commit 7bd9d0a9e26=
+c7a3c67c0f174f0009ba19969b158.<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">The command I am using to run QEMU=
+ is:<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">./qemu/sparc64-softmmu/qemu-system=
+-sparc64 -bios ./openbios/obj-sparc64/openbios-builtin.elf -cdrom ./iso/sol=
+aris/sol-10-u11-ga-sparc-dvd.iso -boot
+ d -nographic -m 3G<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">```<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">CPUs: 1 x SUNW,UltraSPARC-IIi<o:p>=
+</o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">UUID: 00000000-0000-0000-0000-0000=
+00000000<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">Welcome to OpenBIOS v1.1 built on =
+Feb 5 2020 19:15<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">&nbsp; Type 'help' for detailed in=
+formation<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">Trying cdrom:f...<o:p></o:p></span=
+></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">Not a bootable ELF image<o:p></o:p=
+></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">Not a bootable a.out image<o:p></o=
+:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">Loading FCode image...<o:p></o:p><=
+/span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">Loaded 7420 bytes<o:p></o:p></span=
+></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">entry point is 0x4000<o:p></o:p></=
+span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">Evaluating FCode...<o:p></o:p></sp=
+an></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">Evaluating FCode...<o:p></o:p></sp=
+an></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">Ignoring failed claim for va 10000=
+00 memsz af6d6!<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">Ignoring failed claim for va 14020=
+00 memsz 4dcc8!<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">Ignoring failed claim for va 18000=
+00 memsz 510c8!<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">SunOS Release 5.10 Version Generic=
+_147147-26 64-bit<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">Copyright (c) 1983, 2013, Oracle a=
+nd/or its affiliates. All rights reserved.<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">could not find debugger-vocabulary=
+-hook&gt;threads:interpret: exception -13 caught<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">interpret \ Copyright (c) 1995-199=
+9 by Sun Microsystems, Inc.<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">\ All rights reserved.<o:p></o:p><=
+/span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">\<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">\ ident &quot;@(#)data64.fth&nbsp;=
+ 1.3&nbsp;&nbsp;&nbsp;&nbsp; 00/07/17 SMI&quot;<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">hex<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">only forth also definitions<o:p></=
+o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">vocabulary kdbg-words<o:p></o:p></=
+span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">also kdbg-words definitions<o:p></=
+o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">defer p@<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">defer p!<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">['] x@ is p@<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">['] x! is p!<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">8 constant ptrsize<o:p></o:p></spa=
+n></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">d# 32 constant nbitsminor<o:p></o:=
+p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">h# ffffffff constant maxmin<o:p></=
+o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">\<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">\ Copyright 2008 Sun Microsystems,=
+ Inc.&nbsp; All rights reserved.<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">\ Use is subject to license terms.=
+<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">\<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">\ #pragma ident&nbsp; &quot;@(#)kd=
+bg.fth&nbsp;&nbsp;&nbsp; 1.20&nbsp;&nbsp;&nbsp; 08/06/06 SMI&quot;<o:p></o:=
+p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">h# 7ff constant v9bias<o:p></o:p><=
+/span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">h# unix-tte:interpret: exception -=
+13 caught<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">interpret ' unix-tte is va&gt;tte-=
+data failed with error ffffffffffffffed<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">WARNING: consconfig: cannot find d=
+river for screen device /pci@1fe,0/pci@1,1/QEMU,VGA@2<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">Configuring devices.<o:p></o:p></s=
+pan></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">WARNING: Interrupt not seen after =
+set_features<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">Using RPC Bootparams for network c=
+onfiguration information.<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">Attempting to configure interface =
+hme0...<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">WARNING: Power off requested from =
+power button or SC, powering down the system!<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">Skipped interface hme0<o:p></o:p><=
+/span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">svc:/system/filesystem/local:defau=
+lt: WARNING: /usr/sbin/zfs mount -a failed: one or more file systems failed=
+ to mount<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">Serial console, reverting to text =
+install<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">Beginning system identification...=
+<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">Searching for configuration file(s=
+)...<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">Search complete.<o:p></o:p></span>=
+</p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">Discovering additional network con=
+figuration...<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">```<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">The installation menu is shown aft=
+er but the console is unresponsive.<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">After some debugging, it looks lik=
+e the QEMU front-end is correctly filling<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">the serial receive buffer with cha=
+racters, and then starts dropping them once<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">the number of characters in the bu=
+ffer reach the interrupt level. The interrupt<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">level happens to be 1 when booting=
+ Solaris 10. This looks like normal behaviour<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">to me.<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">I started looking at why the seria=
+l receive buffer might not be consumed and<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">considered that interrupts might n=
+ot be being raised correctly. I ran with<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">tracing and there were no interrup=
+ts for IRQ 0x2b like there are when using<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">OpenBSD. When inspecting the regis=
+ters of the serial device it looks like the<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">Interrupt Enable Register is set t=
+o zero.<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">If Solaris 10 was using the device=
+ is polling mode, it should be reading the RBR<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">or at least the LSR. When tracing =
+serial_ioport_read and serial_ioport_write,<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">once the menu is hit, I don't see =
+any read or writes to the serial device<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">registers despite me trying to sen=
+d characters and use the menu.<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">The driver Solaris 10 is using for=
+ the device appears to be similar/same as<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">/usr/src/uts/sun4/io/su_driver.c i=
+n the OpenSolaris code found at https://github.com/nxmirrors/onnv.<o:p></o:=
+p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">```<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">asy-&gt;asy_hwtype =3D ASY16550AF;=
+<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">OUTB(FIFOR, 0x00); /* clear fifo r=
+egister */<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">asy-&gt;asy_trig_level =3D 0x00; /=
+* sets the fifo Threshold to 1 */<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">/* set/Enable FIFO */<o:p></o:p></=
+span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">OUTB(FIFOR, FIFO_ON | FIFODMA | FI=
+FOTXFLSH | FIFORXFLSH |<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">(asy-&gt;asy_trig_level &amp; 0xff=
+));<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">if ((INB(ISR) &amp; 0xc0) =3D=3D 0=
+xc0)<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">&nbsp;&nbsp;&nbsp; asy-&gt;asy_use=
+_fifo =3D FIFO_ON; /* QEMU REACHES HERE. */<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">else {<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">&nbsp;&nbsp;&nbsp; asy-&gt;asy_hwt=
+ype =3D ASY8250;<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">&nbsp;&nbsp;&nbsp; OUTB(FIFOR, 0x0=
+0); /* NO FIFOs */<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">&nbsp;&nbsp;&nbsp; asy-&gt;asy_tri=
+g_level =3D 0;<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">}<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">```<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">From what I can tell when tracing =
+serial_ioport_write and serial_ioport_read,<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">Solaris 10 correctly identifies th=
+e serial device and successfully attaches it.<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">In the asyattach function (OpenSol=
+aris driver), interrupts are disabled by zeroing the<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">Interrupt Enable Register. From wh=
+at I'm reading in OpenSolaris source code, interrupts<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">are reenabled when the device is &=
+quot;opened&quot;. This seems like consistent and<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">correct behaviour though I'm not s=
+ure why the device is not being opened to be<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">used by the serial console.<o:p></=
+o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">Is this an issue anyone else has t=
+ried to debug?<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">Are there any leads that I can fol=
+low up on for why the serial console becomes unresponsive<o:p></o:p></span>=
+</p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">on Solaris 10?<o:p></o:p></span></=
+p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">Thanks,<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:Consolas=
+;color:black;mso-fareast-language:EN-AU">Lowell.<o:p></o:p></span></p>
+</div>
+</body>
+</html>
+
+--_000_CWXP123MB2262B6F3159B7AA7AB010F4183020CWXP123MB2262GBRP_--
 
