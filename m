@@ -2,69 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76A61152997
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 12:03:54 +0100 (CET)
-Received: from localhost ([::1]:44846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 896C31529A0
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 12:07:13 +0100 (CET)
+Received: from localhost ([::1]:44994 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izITJ-0003fJ-He
-	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 06:03:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44476)
+	id 1izIWW-0000St-Ju
+	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 06:07:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45220)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1izIRm-0003CS-Iz
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 06:02:19 -0500
+ (envelope-from <david.edmondson@oracle.com>) id 1izISr-0003vx-Nf
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 06:03:26 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1izIRl-0005f5-GA
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 06:02:18 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:55798
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1izIRl-0005bX-Ba
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 06:02:17 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580900534;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:openpgp:openpgp;
- bh=1hM7rcymZlUWYa2TMQzerhk4h9zJeNXgJTdJ2wWFUgg=;
- b=DwqO8dStXThRw3zf5mr/vprozXHLZ+tUmHxDctPpQIFl14eZnvkAX1C3hnR17FMXN98EeU
- yFAzkFCl22kA0xou6alA5EqCM7EVHpf14KXlrt3zd09vJQwGsuRuZDN7UBFJoq9kXMl7+A
- SFALm+bAmh67ae6yfdq9PvkNY1GreVw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-208-fp1uUQwzPBm2LbSyfvVPjQ-1; Wed, 05 Feb 2020 06:02:12 -0500
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1E92A104FB66;
- Wed,  5 Feb 2020 11:02:11 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-116-132.ams2.redhat.com [10.36.116.132])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3947C100194E;
- Wed,  5 Feb 2020 11:02:09 +0000 (UTC)
-Subject: Re: [PATCH RFC 1/2] docs: rstfy s390 dasd ipl documentation
-To: Cornelia Huck <cohuck@redhat.com>, Tony Krowiak <akrowiak@linux.ibm.com>, 
- "Jason J . Herne" <jjherne@linux.ibm.com>
-References: <20200128180142.15132-1-cohuck@redhat.com>
- <20200128180142.15132-2-cohuck@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <d1465241-ceda-e47a-7077-e6037c13931f@redhat.com>
-Date: Wed, 5 Feb 2020 12:02:07 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ (envelope-from <david.edmondson@oracle.com>) id 1izISq-0002DP-NO
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 06:03:25 -0500
+Received: from userp2120.oracle.com ([156.151.31.85]:43258)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <david.edmondson@oracle.com>)
+ id 1izISo-0001Gs-AM; Wed, 05 Feb 2020 06:03:22 -0500
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+ by userp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 015AxDiq175458;
+ Wed, 5 Feb 2020 11:03:17 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding;
+ s=corp-2019-08-05; bh=Z+hWbfF+/UsjcwZYyuGBeJA8vYQ2qZ///5B+nqeLlXk=;
+ b=bTn6XC7k7Wk0kkRKJLOLTvYw40jb3EYgnsrseoCwoao0nYJXwwIIIXhT4DqfEpkn+Bbq
+ vdKbfM94p6w6H9atF4Pt8p3jCo8SuItYdzqJBbRY6m8QvrGIi2RSCq/CNnTNxSxI8A1p
+ aNnl41WK3u2XHrBsvUl67NNZIwSX8Fabq8UE21XrZ3Rt5LTBiN5hTi2bpmL3hBueTUyv
+ lEUC7zojfGXh3RA+MwZijCOT58K2rgqVpWEp5BSgHwNu8B70q6FRZ+hCVTB/Xl7u1u6Z
+ 1Rn67SoUKVQeEntUbGXArWXcqCV4tTKZeaG7cnekX+enIotHzwbNN3E9MXoXEKTnJnGs cg== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+ by userp2120.oracle.com with ESMTP id 2xykbpa9a6-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 05 Feb 2020 11:03:16 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+ by aserp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 015AwdMh124065;
+ Wed, 5 Feb 2020 11:03:16 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+ by aserp3030.oracle.com with ESMTP id 2xykbrk3a7-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 05 Feb 2020 11:03:15 +0000
+Received: from abhmp0018.oracle.com (abhmp0018.oracle.com [141.146.116.24])
+ by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 015B3Fj7008091;
+ Wed, 5 Feb 2020 11:03:15 GMT
+Received: from disaster-area.hh.sledj.net (/81.149.164.25)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Wed, 05 Feb 2020 03:03:15 -0800
+Received: from localhost (disaster-area.hh.sledj.net [local])
+ by disaster-area.hh.sledj.net (OpenSMTPD) with ESMTPA id ae2de090;
+ Wed, 5 Feb 2020 11:03:13 +0000 (UTC)
+From: David Edmondson <david.edmondson@oracle.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v4 0/1] qemu-img: Add --target-is-zero to indicate that a
+ target is blank
+Date: Wed,  5 Feb 2020 11:02:47 +0000
+Message-Id: <20200205110248.2009589-1-david.edmondson@oracle.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-In-Reply-To: <20200128180142.15132-2-cohuck@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: fp1uUQwzPBm2LbSyfvVPjQ-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9521
+ signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=1
+ malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=543
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1911140001 definitions=main-2002050089
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9521
+ signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
+ priorityscore=1501 malwarescore=0
+ suspectscore=1 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=600 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1911140001
+ definitions=main-2002050089
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 156.151.31.85
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,25 +89,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- qemu-devel@nongnu.org, Pierre Morel <pmorel@linux.ibm.com>
+Cc: David Edmondson <david.edmondson@oracle.com>, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 28/01/2020 19.01, Cornelia Huck wrote:
-> While at it, also fix the numbering in 'What QEMU does'.
-> 
-> Signed-off-by: Cornelia Huck <cohuck@redhat.com>
-> ---
->  MAINTAINERS                                   |  2 +-
->  docs/devel/index.rst                          |  1 +
->  .../{s390-dasd-ipl.txt => s390-dasd-ipl.rst}  | 65 ++++++++++---------
->  3 files changed, 37 insertions(+), 31 deletions(-)
->  rename docs/devel/{s390-dasd-ipl.txt => s390-dasd-ipl.rst} (77%)
 
-Looks sane to me.
+qemu-img: Add --target-is-zero to indicate that a target is blank
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+v4:
+- Wording in the doc and error message.
+
+v3:
+- Merge with the rST docs.
+- No more need to fix @var -> @code.
+
+v2:
+- Remove target_is_zero, preferring to set has_zero_init
+  directly (Mark Kanda).
+- Disallow --target-is-zero in the presence of a backing file (Max
+  Reitz).
+- Add relevant documentation (Max Reitz).
+- @var -> @code for options in qemu-img.texi.
+
+
+David Edmondson (1):
+  qemu-img: Add --target-is-zero to convert
+
+ docs/interop/qemu-img.rst |  9 ++++++++-
+ qemu-img-cmds.hx          |  4 ++--
+ qemu-img.c                | 26 +++++++++++++++++++++++---
+ 3 files changed, 33 insertions(+), 6 deletions(-)
+
+-- 
+2.24.1
 
 
