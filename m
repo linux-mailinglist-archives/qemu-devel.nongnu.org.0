@@ -2,101 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 569BC1531DC
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 14:30:40 +0100 (CET)
-Received: from localhost ([::1]:46992 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DD841531EA
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 14:34:53 +0100 (CET)
+Received: from localhost ([::1]:47098 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izKlL-00012v-CI
-	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 08:30:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36808)
+	id 1izKpQ-0006rK-7a
+	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 08:34:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36806)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <i.kotrasinsk@partner.samsung.com>)
- id 1izKjZ-0007kP-Rf
+ id 1izKjZ-0007kN-S6
  for qemu-devel@nongnu.org; Wed, 05 Feb 2020 08:28:52 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <i.kotrasinsk@partner.samsung.com>)
- id 1izKjX-0004rm-FX
+ id 1izKjX-0004qP-3l
  for qemu-devel@nongnu.org; Wed, 05 Feb 2020 08:28:49 -0500
-Received: from mailout2.w1.samsung.com ([210.118.77.12]:50225)
+Received: from mailout2.w1.samsung.com ([210.118.77.12]:50229)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <i.kotrasinsk@partner.samsung.com>)
- id 1izKjX-0004cG-8Z
+ id 1izKjW-0004eX-RK
  for qemu-devel@nongnu.org; Wed, 05 Feb 2020 08:28:47 -0500
 Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
  by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
- 20200205132843euoutp0269cdc53e78195e868fc12ef1e2717ccf~whKdVPMcz0780307803euoutp02I
+ 20200205132843euoutp02a187a439e7362049af8e18bdfb64e4e5~whKd0Q0hZ0765407654euoutp02f
  for <qemu-devel@nongnu.org>; Wed,  5 Feb 2020 13:28:43 +0000 (GMT)
 DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
- 20200205132843euoutp0269cdc53e78195e868fc12ef1e2717ccf~whKdVPMcz0780307803euoutp02I
+ 20200205132843euoutp02a187a439e7362049af8e18bdfb64e4e5~whKd0Q0hZ0765407654euoutp02f
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
  s=mail20170921; t=1580909323;
- bh=VYr99tyFZEWAYBKH3h0koobEg2QlKohc8cZHhaNRbCs=;
- h=From:To:Cc:Subject:Date:References:From;
- b=K5jcGBSxQkTfhn5BZ9dikFlc1f03q6nz4NPn47H8OfHmlKAxS7KSpGeFALRGXySu1
- 73IykNYnhfMrAanPn1e1QSpWiOCFpDhaX5gaYlPBIJdhJnC8vomFOMfAOhQx/3iJxW
- vCYDsd9eyMsH8ZIO4YNAo8XEAQEkn4f6cI+QLFcs=
+ bh=03o3yCccCxhdD1rH9hs4xTIKjls4LwW1ZtXaMwsmbBM=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=I3N1/6OwpPVYBPaWq8O3ey9w6sRbSmafhgssocra/bhaji7/K2VAXai1euvXuY2wG
+ KIhPOi392idg3RumMXhbJjqcA4dRQUYYInsvnvGHlQblvfz+sbfgC6XBmBZC9WELWy
+ XOOf2GCtpT5f9x0e22gKLqyuxaeCpqtZEddVGCgo=
 Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
  eucas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20200205132843eucas1p1c820bded638f3f7c1be0cd5a2b9b6294~whKdHuWIH2962029620eucas1p1h;
+ 20200205132843eucas1p19a8bb84801ce06848c8ac6d9430d829b~whKdli5tB2963229632eucas1p1d;
  Wed,  5 Feb 2020 13:28:43 +0000 (GMT)
-Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
- eusmges1new.samsung.com (EUCPMTA) with SMTP id 56.1E.61286.B03CA3E5; Wed,  5
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+ eusmges1new.samsung.com (EUCPMTA) with SMTP id B6.1E.61286.B03CA3E5; Wed,  5
  Feb 2020 13:28:43 +0000 (GMT)
 Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
- 20200205132842eucas1p2152831620dc94c77dbccb6a371079e49~whKc4khXE0489104891eucas1p2C;
- Wed,  5 Feb 2020 13:28:42 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+ 20200205132843eucas1p11260d148e32a9663d0b472ce3ab01cbd~whKdNOnko2967829678eucas1p1R;
+ Wed,  5 Feb 2020 13:28:43 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
  eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20200205132842eusmtrp2a4f67dd24144115c670e83a01ee2ed60~whKc38uo42992629926eusmtrp2i;
- Wed,  5 Feb 2020 13:28:42 +0000 (GMT)
-X-AuditID: cbfec7f2-f0bff7000001ef66-9d-5e3ac30b0adf
+ 20200205132843eusmtrp2527c02a178f6cf6b09aab6bd2bea66f7~whKdMqp4Z3037330373eusmtrp2V;
+ Wed,  5 Feb 2020 13:28:43 +0000 (GMT)
+X-AuditID: cbfec7f2-ef1ff7000001ef66-9e-5e3ac30bcffb
 Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
- eusmgms1.samsung.com (EUCPMTA) with SMTP id 61.00.08375.A03CA3E5; Wed,  5
- Feb 2020 13:28:42 +0000 (GMT)
+ eusmgms2.samsung.com (EUCPMTA) with SMTP id 69.FC.07950.B03CA3E5; Wed,  5
+ Feb 2020 13:28:43 +0000 (GMT)
 Received: from AMDC3304.digital.local (unknown [106.120.51.21]) by
  eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20200205132842eusmtip2f98dc4e797c6029375d3fa2ab325b5d0~whKcepkKW3192731927eusmtip2W;
+ 20200205132842eusmtip28f466d97de5ab873cf56af2d1730c8a2~whKc0jjrB0153301533eusmtip21;
  Wed,  5 Feb 2020 13:28:42 +0000 (GMT)
 From: i.kotrasinsk@partner.samsung.com
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v3 0/9] Add an interVM memory sharing device
-Date: Wed,  5 Feb 2020 14:28:28 +0100
-Message-Id: <1580909317-23884-1-git-send-email-i.kotrasinsk@partner.samsung.com>
+Subject: [RFC PATCH v3 1/9] memory: Add function for finding flat memory ranges
+Date: Wed,  5 Feb 2020 14:28:29 +0100
+Message-Id: <1580909317-23884-2-git-send-email-i.kotrasinsk@partner.samsung.com>
 X-Mailer: git-send-email 2.7.4
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrMIsWRmVeSWpSXmKPExsWy7djP87rch63iDB6v5bbYc+Exm8W9mzeZ
+In-Reply-To: <1580909317-23884-1-git-send-email-i.kotrasinsk@partner.samsung.com>
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrIIsWRmVeSWpSXmKPExsWy7djPc7rch63iDM4cVbXYc+Exm8W9mzeZ
  LfZv+8dqMefMAxaL4707WBxYPe5c28Pm8eTaZiaPg+/2MHm833eVzWP7yUlMAaxRXDYpqTmZ
- ZalF+nYJXBkn515nLnigUHGx4wN7A+NV8S5GDg4JAROJeU3ZXYxcHEICKxgl/i5awgzhfGGU
- mL58NTuE85lRYu/ZJUAOJ1jHnQlnmUBsIYHljBLPZtbAdcxec4gZJMEmoCax88hnRhBbREBS
- 4nfXabCxzAINjBKPrp8FSwgLOEjcPLyZFcRmEVCVeLX2B5jNKxAgsX9lByvENjmJm+c6wZol
- BI6wSRzsuscMcbiLxK5uc4gaYYlXx7dAXScj8X/nfCYIu16i5c4OJojeDkaJvpXT2SAS1hJf
- NixlAZnDLKApsX6XPkTYUeLC83Y2iPF8EjfeCoKEmYHMSdumQ23llehoE4Ko1pPofnKTCWbr
- ssZHLBAlHhJ725MgwRMrMW3jAqYJjHKzEFYtYGRcxSieWlqcm55abJiXWq5XnJhbXJqXrpec
- n7uJERj1p/8d/7SD8eulpEOMAhyMSjy8KyZZxgmxJpYVV+YeYpTgYFYS4T2vDxTiTUmsrEot
- yo8vKs1JLT7EKM3BoiTOa7zoZayQQHpiSWp2ampBahFMlomDU6qB0btwltDvE77y4eKbyv/J
- Ny+xUJt+5fXeM+VyjvW9r5tOLV/6xUSNaTn7UY9T0bN3Hjp59M1P++e3dY5J5Dwy4nju5SG6
- 4t6rqU++r1CaZnfz0XUG1UtfMg+9FWzSOv+nmbk2/qLH96Mr3xu5S3WWpqzUmHdJZNmaksPs
- 77wzn00xj5fIunheuFiJpTgj0VCLuag4EQAdlya09gIAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrDLMWRmVeSWpSXmKPExsVy+t/xe7pch63iDB4eM7bYc+Exm8W9mzeZ
+ ZalF+nYJXBktDy8zF3zRrDi0fBJjA+NcuS5GTg4JAROJT6s+snUxcnEICaxglNj+8QELhPOF
+ UeJa7xco5zOjRPOOw0wwLU8WnmaGSCxnlLizcBUrXMu7dffYQKrYBNQkdh75zAhiiwhISvzu
+ guhgFmhglHh0/SxQgoNDWCBQ4uE1L5AaFgFVibvzZoPV8woESDQcms4IsU1O4ua5TmYQmxOo
+ /PKzKWDLJAQes0lsvLWICWSOhICLxMErJRD1whKvjm9hh7BlJP7vnA91db1Ey50dTBC9HYwS
+ fSuns0EkrCW+bFjKAjKHWUBTYv0ufYiwo8SL6RtYIMbzSdx4KwgSZgYyJ22bzgwR5pXoaBOC
+ qNaT6H5ykwlm67LGR1CdHhJvf0GDagmjxJIdT5knMMrPQti1gJFxFaN4amlxbnpqsWFearle
+ cWJucWleul5yfu4mRmBCOP3v+KcdjF8vJR1iFOBgVOLhXTHJMk6INbGsuDL3EKMEB7OSCO95
+ faAQb0piZVVqUX58UWlOavEhRmkOFiVxXuNFL2OFBNITS1KzU1MLUotgskwcnFINjCv7Zc80
+ S+36o+P1OvvQG4MtHpUbLvW1f5jqu82gK0J9mjjfXxvp1/p7BYM8uVYcaZbr3RU68bxNb727
+ R3t0mK338r3Lfy3bxOs/6cfPuRWZ3k//BQW90Z9SdM7gifYx1zwl+e3/9mosU0jndJvlP+3C
+ 897rXyd/OeIoIjllY+iiXO63dwt3yCuxFGckGmoxFxUnAgAtt91QBAMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrKLMWRmVeSWpSXmKPExsVy+t/xe7rch63iDM7P5LPYc+Exm8W9mzeZ
  LfZv+8dqMefMAxaL4707WBxYPe5c28Pm8eTaZiaPg+/2MHm833eVzWP7yUlMAaxRejZF+aUl
- qQoZ+cUltkrRhhZGeoaWFnpGJpZ6hsbmsVZGpkr6djYpqTmZZalF+nYJehkn515nLnigUHGx
- 4wN7A+NV8S5GTg4JAROJOxPOMoHYQgJLGSVePfeGiMtI/Di9hg3CFpb4c60LyOYCqvnEKNF3
- /ysLSIJNQE1i55HPjCC2iICkxO+u08wgRcwCLYwSz560g00VFnCQuHl4MyuIzSKgKvFq7Q8w
- m1cgQGL/yg5WiA1yEjfPdTJPYORZwMiwilEktbQ4Nz232FCvODG3uDQvXS85P3cTIzDkth37
- uXkH46WNwYcYBTgYlXh4V0yyjBNiTSwrrsw9xCjBwawkwnteHyjEm5JYWZValB9fVJqTWnyI
- 0RRo+URmKdHkfGA85JXEG5oamltYGpobmxubWSiJ83YIHIwREkhPLEnNTk0tSC2C6WPi4JRq
- YLRvWZk9V7zuyI/SyT8mXW569On+oeDVp9RvyGtGCUe0Szns+vQvR8X9T3j6rVLxnAOTWY7n
- P0gsd5x6peH15AKr+kuZAcvSQqefOvYgOKXs6fWlhgqBC99FcibkbFS4IOTRNm3uL503e7jr
- LgcZBM1w/V8YVrCAw9rYdEpIRATTdcf8Bw7/Y5RYijMSDbWYi4oTAbA7pf5PAgAA
-X-CMS-MailID: 20200205132842eucas1p2152831620dc94c77dbccb6a371079e49
+ qQoZ+cUltkrRhhZGeoaWFnpGJpZ6hsbmsVZGpkr6djYpqTmZZalF+nYJehktDy8zF3zRrDi0
+ fBJjA+NcuS5GTg4JAROJJwtPM3cxcnEICSxllHjX84EFIiEj8eP0GjYIW1jiz7UuNoiiT4wS
+ L059BitiE1CT2HnkMyOILSIgKfG7C2ISs0ALo8SzJ+1MIAlhAX+Jfae+sIPYLAKqEnfnzQZr
+ 4BUIkGg4NJ0RYoOcxM1zncwgNqdAoMTlZ1NYQWwhoJrXE68wT2DkW8DIsIpRJLW0ODc9t9hI
+ rzgxt7g0L10vOT93EyMwSLcd+7llB2PXu+BDjAIcjEo8vAETLOOEWBPLiitzDzFKcDArifCe
+ 1wcK8aYkVlalFuXHF5XmpBYfYjQFOmois5Rocj4wgvJK4g1NDc0tLA3Njc2NzSyUxHk7BA7G
+ CAmkJ5akZqemFqQWwfQxcXBKNTDar680nZVf735M+NQBNuWVd0xz9M+ac2pqP4me0HMm2kfj
+ X5L2kgSF3Q1dBot/KjgIJE9+dJ+tVmPqf9kZLVcfu8ZOOBrufNaIJztvyyXFn03y5/5c+2F/
+ Prnm1K4Wfg1ptYv7J/qGqalwcfH/WHa03/BeSV323u8mNa85Q2QObMmYsP9HloMSS3FGoqEW
+ c1FxIgBeHjPAaAIAAA==
+X-CMS-MailID: 20200205132843eucas1p11260d148e32a9663d0b472ce3ab01cbd
 X-Msg-Generator: CA
 Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20200205132842eucas1p2152831620dc94c77dbccb6a371079e49
+X-RootMTR: 20200205132843eucas1p11260d148e32a9663d0b472ce3ab01cbd
 X-EPHeader: CA
 CMS-TYPE: 201P
-X-CMS-RootMailID: 20200205132842eucas1p2152831620dc94c77dbccb6a371079e49
-References: <CGME20200205132842eucas1p2152831620dc94c77dbccb6a371079e49@eucas1p2.samsung.com>
+X-CMS-RootMailID: 20200205132843eucas1p11260d148e32a9663d0b472ce3ab01cbd
+References: <1580909317-23884-1-git-send-email-i.kotrasinsk@partner.samsung.com>
+ <CGME20200205132843eucas1p11260d148e32a9663d0b472ce3ab01cbd@eucas1p1.samsung.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
 X-Received-From: 210.118.77.12
 X-BeenThere: qemu-devel@nongnu.org
@@ -118,89 +121,156 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Igor Kotrasinski <i.kotrasinsk@partner.samsung.com>
 
-This patchset adds a "memory exposing" device that allows two QEMU
-instances to share arbitrary memory regions. Unlike ivshmem, it does not
-create a new region of memory that's shared between VMs, but instead
-allows one VM to access any memory region of the other VM we choose to
-share.
+Given an address this lets us find the largest contiguous memory range
+at that address.
 
-The motivation for this device is a sort of ARM Trustzone "emulation",
-where a rich system running on one machine (e.g. x86_64 linux) is able
-to perform SMCs to a trusted system running on another (e.g. OpTEE on
-ARM). With a device that allows sharing arbitrary memory between VMs,
-this can be achieved with minimal changes to the trusted system and its
-linux driver while allowing the rich system to run on a speedier x86
-emulator. I prepared additional patches for linux, OpTEE OS and OpTEE
-build system as a PoC that such emulation works and passes OpTEE tests;
-I'm not sure what would be the best way to share them.
+Signed-off-by: Igor Kotrasinski <i.kotrasinsk@partner.samsung.com>
+---
+ include/exec/memory.h | 19 +++++++++++++
+ memory.c              | 79 ++++++++++++++++++++++++++++++++++++++++++++++++++-
+ 2 files changed, 97 insertions(+), 1 deletion(-)
 
-This patchset is my first foray into QEMU source code and I'm certain
-it's not yet ready to be merged in. I'm not sure whether memory sharing
-code has any race conditions or breaks rules of working with memory
-regions, or if having VMs communicate synchronously via chardevs is the
-right way to do it. I do believe the basic idea for sharing memory
-regions is sound and that it could be useful for inter-VM communication.
-
-Changes in v3:
-- Fixed CI build for good.
-
-Changes in v2:
-- Fixed patchew errors.
-- Rebased on master.
-
-
-Igor Kotrasinski (9):
-  memory: Add function for finding flat memory ranges
-  memory: Support mmap offset for fd-backed memory regions
-  memory: Hack - use shared memory when possible
-  hw/misc/memexpose: Add documentation
-  hw/misc/memexpose: Add core memexpose files
-  hw/misc/memexpose: Add memexpose pci device
-  hw/misc/memexpose: Add memexpose memory region device
-  hw/misc/memexpose: Add simple tests
-  hw/arm/virt: Hack in support for memexpose device
-
- Kconfig.host                            |   3 +
- MAINTAINERS                             |  13 +
- Makefile                                |   1 +
- backends/hostmem-memfd.c                |   2 +-
- configure                               |   8 +
- docs/specs/memexpose-spec.txt           | 168 +++++++++
- exec.c                                  |  10 +-
- hw/arm/virt.c                           | 110 +++++-
- hw/core/numa.c                          |   4 +-
- hw/mem/Kconfig                          |   3 +
- hw/misc/Makefile.objs                   |   1 +
- hw/misc/ivshmem.c                       |   3 +-
- hw/misc/memexpose/Makefile.objs         |   4 +
- hw/misc/memexpose/memexpose-core.c      | 630 ++++++++++++++++++++++++++++++++
- hw/misc/memexpose/memexpose-core.h      | 109 ++++++
- hw/misc/memexpose/memexpose-memregion.c | 142 +++++++
- hw/misc/memexpose/memexpose-memregion.h |  41 +++
- hw/misc/memexpose/memexpose-msg.c       | 261 +++++++++++++
- hw/misc/memexpose/memexpose-msg.h       | 161 ++++++++
- hw/misc/memexpose/memexpose-pci.c       | 218 +++++++++++
- include/exec/memory.h                   |  21 ++
- include/exec/ram_addr.h                 |   2 +-
- include/hw/arm/virt.h                   |   5 +
- include/qemu/mmap-alloc.h               |   1 +
- memory.c                                |  82 ++++-
- tests/qtest/Makefile.include            |   2 +
- tests/qtest/memexpose-test.c            | 364 ++++++++++++++++++
- util/mmap-alloc.c                       |   7 +-
- util/oslib-posix.c                      |   2 +-
- 29 files changed, 2362 insertions(+), 16 deletions(-)
- create mode 100644 docs/specs/memexpose-spec.txt
- create mode 100644 hw/misc/memexpose/Makefile.objs
- create mode 100644 hw/misc/memexpose/memexpose-core.c
- create mode 100644 hw/misc/memexpose/memexpose-core.h
- create mode 100644 hw/misc/memexpose/memexpose-memregion.c
- create mode 100644 hw/misc/memexpose/memexpose-memregion.h
- create mode 100644 hw/misc/memexpose/memexpose-msg.c
- create mode 100644 hw/misc/memexpose/memexpose-msg.h
- create mode 100644 hw/misc/memexpose/memexpose-pci.c
- create mode 100644 tests/qtest/memexpose-test.c
-
+diff --git a/include/exec/memory.h b/include/exec/memory.h
+index e85b7de..ac09221 100644
+--- a/include/exec/memory.h
++++ b/include/exec/memory.h
+@@ -1915,6 +1915,25 @@ MemoryRegionSection memory_region_find(MemoryRegion *mr,
+                                        hwaddr addr, uint64_t size);
+ 
+ /**
++ * memory_region_find_flat_range: translate an address/size relative to
++ * a MemoryRegion into a FlatRange containing it.
++ *
++ * Returns a #MemoryRegionSection that describes this FlatRange.
++ * It will have the following characteristics:
++ * - @size = 0 iff no containing FlatRange was found
++ * - @mr is non-%NULL iff a containing FlatRange was found
++ *
++ * Remember that in the return value the @offset_within_region is
++ * relative to the returned region (in the .@mr field), not to the
++ * @mr argument.
++ *
++ * @mr: a MemoryRegion within which @addr is a relative address
++ * @addr: start of the area within @as to be searched
++ * @size: size of the area to be searched
++ */
++MemoryRegionSection memory_region_find_flat_range(MemoryRegion *mr,
++                                                  hwaddr addr, uint64_t size);
++/**
+  * memory_global_dirty_log_sync: synchronize the dirty log for all memory
+  *
+  * Synchronizes the dirty page log for all address spaces.
+diff --git a/memory.c b/memory.c
+index aeaa8dc..0973c44 100644
+--- a/memory.c
++++ b/memory.c
+@@ -2523,6 +2523,25 @@ static FlatRange *flatview_lookup(FlatView *view, AddrRange addr)
+                    sizeof(FlatRange), cmp_flatrange_addr);
+ }
+ 
++static int cmp_flatrange_addr_containing(const void *addr_, const void *fr_)
++{
++    const AddrRange *addr = addr_;
++    const FlatRange *fr = fr_;
++
++    if (int128_le(addr->start, fr->addr.start)) {
++        return -1;
++    } else if (int128_ge(addrrange_end(*addr), addrrange_end(fr->addr))) {
++        return 1;
++    }
++    return 0;
++}
++
++static FlatRange *flatview_lookup_containing(FlatView *view, AddrRange addr)
++{
++    return bsearch(&addr, view->ranges, view->nr,
++                   sizeof(FlatRange), cmp_flatrange_addr_containing);
++}
++
+ bool memory_region_is_mapped(MemoryRegion *mr)
+ {
+     return mr->container ? true : false;
+@@ -2532,7 +2551,8 @@ bool memory_region_is_mapped(MemoryRegion *mr)
+  * returned region.  It must be called from an RCU critical section.
+  */
+ static MemoryRegionSection memory_region_find_rcu(MemoryRegion *mr,
+-                                                  hwaddr addr, uint64_t size)
++                                                  hwaddr addr,
++                                                  uint64_t size)
+ {
+     MemoryRegionSection ret = { .mr = NULL };
+     MemoryRegion *root;
+@@ -2576,6 +2596,50 @@ static MemoryRegionSection memory_region_find_rcu(MemoryRegion *mr,
+     return ret;
+ }
+ 
++/*
++ * Same as memory_region_find_flat_range, but it does not add a reference to
++ * the returned region.  It must be called from an RCU critical section.
++ */
++static MemoryRegionSection memory_region_find_flat_range_rcu(MemoryRegion *mr,
++                                                             hwaddr addr,
++                                                             uint64_t size)
++{
++    MemoryRegionSection ret = { .size = int128_zero(), .mr = NULL };
++    MemoryRegion *root;
++    AddressSpace *as;
++    AddrRange range;
++    FlatView *view;
++    FlatRange *fr;
++
++    addr += mr->addr;
++    for (root = mr; root->container; ) {
++        root = root->container;
++        addr += root->addr;
++    }
++
++    as = memory_region_to_address_space(root);
++    if (!as) {
++        return ret;
++    }
++    range = addrrange_make(int128_make64(addr), int128_make64(size));
++
++    view = address_space_to_flatview(as);
++    fr = flatview_lookup_containing(view, range);
++    if (!fr) {
++        return ret;
++    }
++
++    ret.mr = fr->mr;
++    ret.fv = view;
++    range = fr->addr;
++    ret.offset_within_region = fr->offset_in_region;
++    ret.size = range.size;
++    ret.offset_within_address_space = int128_get64(range.start);
++    ret.readonly = fr->readonly;
++    ret.nonvolatile = fr->nonvolatile;
++    return ret;
++}
++
+ MemoryRegionSection memory_region_find(MemoryRegion *mr,
+                                        hwaddr addr, uint64_t size)
+ {
+@@ -2588,6 +2652,19 @@ MemoryRegionSection memory_region_find(MemoryRegion *mr,
+     return ret;
+ }
+ 
++MemoryRegionSection memory_region_find_flat_range(MemoryRegion *mr,
++                                                  hwaddr addr, uint64_t size)
++{
++    MemoryRegionSection ret;
++    rcu_read_lock();
++    ret = memory_region_find_flat_range_rcu(mr, addr, size);
++    if (ret.mr) {
++        memory_region_ref(ret.mr);
++    }
++    rcu_read_unlock();
++    return ret;
++}
++
+ bool memory_region_present(MemoryRegion *container, hwaddr addr)
+ {
+     MemoryRegion *mr;
 -- 
 2.7.4
 
