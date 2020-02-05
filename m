@@ -2,62 +2,142 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 105D2153BC7
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 00:21:56 +0100 (CET)
-Received: from localhost ([::1]:58370 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6A4C153BD9
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 00:27:11 +0100 (CET)
+Received: from localhost ([::1]:58422 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izTzW-0001hG-Vx
-	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 18:21:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47457)
+	id 1izU4c-0004nh-Qq
+	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 18:27:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51316)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <lvivier@redhat.com>) id 1izTy8-0000F2-PH
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 18:20:30 -0500
+ (envelope-from <jsnow@redhat.com>) id 1izU3Z-0004KU-W3
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 18:26:07 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <lvivier@redhat.com>) id 1izTy7-0004Ux-N4
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 18:20:28 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:32628
+ (envelope-from <jsnow@redhat.com>) id 1izU3Y-0003Hh-LH
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 18:26:05 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:55262
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <lvivier@redhat.com>) id 1izTy7-0004Sg-JV
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 18:20:27 -0500
+ (Exim 4.71) (envelope-from <jsnow@redhat.com>) id 1izU3Y-0003BS-FH
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 18:26:04 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580944827;
+ s=mimecast20190719; t=1580945162;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=RPolfk5EprNRzL++Au58u/9mYtG7JfilAiYb7FpEOpc=;
- b=eb2ivCMtcm7qu0qk4/VDk5xMxOvcnrPmgkR8YHe87sy4ppf7NQq1SYK5wVfE6EwPZZQGz+
- Xx6PpumFbLqVIaRDUs+jg9hKkZ06mQr1RW9s+5D6O0ioYCkVBW7sry7Js1nfG8kByJuTFV
- nAV0GzA0LMT+JcJL8IYwGnWck7a4OOw=
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=3Ef2fW+eef1MdPsdSimpMMU1VXpVchuLgfto+uQHtf0=;
+ b=V38Ie1SlVGOSmTxCHbnUv9T+EAkmbwEcHRj/2OYrwnTx6ONtdWrOWfcETshICTL6KmX8/f
+ 8gPjyW4JlmpY63E0vZK/HpJAkqiSW4ud0k3NG750Vtjh0obAj7ak1hcoZjerMMD84/JGYi
+ j/LTOMQ+wo0LVi72JwCqkk/ws+kYMe4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-306-VOd_N6mWOIaj5vu0aljInw-1; Wed, 05 Feb 2020 18:20:25 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-80-QHKd-7b_OGaqgvmOZmviHg-1; Wed, 05 Feb 2020 18:26:00 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5D01CDB25;
- Wed,  5 Feb 2020 23:20:24 +0000 (UTC)
-Received: from thinkpad.redhat.com (ovpn-116-229.ams2.redhat.com
- [10.36.116.229])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7BB6384DB4;
- Wed,  5 Feb 2020 23:20:22 +0000 (UTC)
-From: Laurent Vivier <lvivier@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 2/2] ppc/pnv: Fix PCI_EXPRESS dependency
-Date: Thu,  6 Feb 2020 00:20:16 +0100
-Message-Id: <20200205232016.588202-3-lvivier@redhat.com>
-In-Reply-To: <20200205232016.588202-1-lvivier@redhat.com>
-References: <20200205232016.588202-1-lvivier@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E180F801FB0;
+ Wed,  5 Feb 2020 23:25:59 +0000 (UTC)
+Received: from [10.18.17.116] (dhcp-17-116.bos.redhat.com [10.18.17.116])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3B91DF6E8;
+ Wed,  5 Feb 2020 23:25:49 +0000 (UTC)
+Subject: Re: [PATCH v3 00/13] RFC: [for 5.0]: HMP monitor handlers cleanups
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+References: <20200127103647.17761-1-mlevitsk@redhat.com>
+ <2e885a1d-94c7-53b5-44f7-feffe70f57c3@redhat.com>
+ <20200127204355.GE4544@andariel.pipo.sk>
+ <12217cd6-7866-ce9c-c0da-24775f9d045d@redhat.com>
+ <20200128164717.GT3215@work-vm>
+From: John Snow <jsnow@redhat.com>
+Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <68242a4a-1904-db1b-769d-3ab7b91a993b@redhat.com>
+Date: Wed, 5 Feb 2020 18:25:49 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: VOd_N6mWOIaj5vu0aljInw-1
+In-Reply-To: <20200128164717.GT3215@work-vm>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: QHKd-7b_OGaqgvmOZmviHg-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
@@ -71,73 +151,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Greg Kurz <groug@kaod.org>, qemu-ppc@nongnu.org,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Krempa <pkrempa@redhat.com>,
+ Jan Tomko <jtomko@redhat.com>, qemu-block@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Maxim Levitsky <mlevitsk@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When PHB4 bridge has been added, the dependencies to PCIE_PORT has been
-added to XIVE_SPAPR and indirectly to PSERIES.
-The build of the PowerNV machine is fine while we also build the PSERIES
-machine.
-If we disable the PSERIES machine, the PowerNV build fails because the
-PCI Express files are not built:
 
-/usr/bin/ld: hw/ppc/pnv.o: in function `pnv_chip_power8_pic_print_info':
-.../hw/ppc/pnv.c:623: undefined reference to `pnv_phb3_msi_pic_print_info'
-/usr/bin/ld: hw/ppc/pnv.o: in function `pnv_chip_power9_pic_print_info':
-.../hw/ppc/pnv.c:639: undefined reference to `pnv_phb4_pic_print_info'
-/usr/bin/ld: ../hw/usb/hcd-ehci-pci.o: in function `usb_ehci_pci_write_conf=
-ig':
-.../hw/usb/hcd-ehci-pci.c:129: undefined reference to `pci_default_write_co=
-nfig'
-/usr/bin/ld: ../hw/usb/hcd-ehci-pci.o: in function `usb_ehci_pci_realize':
-.../hw/usb/hcd-ehci-pci.c:68: undefined reference to `pci_allocate_irq'
-/usr/bin/ld: .../hw/usb/hcd-ehci-pci.c:72: undefined reference to `pci_regi=
-ster_bar'
-/usr/bin/ld: ../hw/usb/hcd-ehci-pci.o:(.data.rel+0x50): undefined reference=
- to `vmstate_pci_device'
 
-This patch fixes the problem by adding needed dependencies to POWERNV.
+On 1/28/20 11:47 AM, Dr. David Alan Gilbert wrote:
+> * John Snow (jsnow@redhat.com) wrote:
+>>
+>>
+>> On 1/27/20 3:43 PM, Peter Krempa wrote:
+>>> On Mon, Jan 27, 2020 at 14:39:02 -0500, John Snow wrote:
+>>>>
+>>>>
+>>>> On 1/27/20 5:36 AM, Maxim Levitsky wrote:
+>>>>> This patch series is bunch of cleanups
+>>>>> to the hmp monitor code.
+>>>>>
+>>>>> This series only touched blockdev related hmp handlers.
+>>>>>
+>>>>> No functional changes expected other that
+>>>>> light error message changes by the last patch.
+>>>>>
+>>>>> This was inspired by this bugzilla:
+>>>>> https://bugzilla.redhat.com/show_bug.cgi?id=1719169
+>>>>>
+>>>>> Basically some users still parse hmp error messages,
+>>>>> and they would like to have them prefixed with 'Error:'
+>>>>>
+>>>>
+>>>> HMP isn't meant to be parsed. It's explicitly *not* API or ABI. I do
+>>>> like consistency in my UIs (it's useful for human eyes, too), but I'd
+>>>> like to know more about the request.
+>>>
+>>> That's true as long as there's an stable replacement ... see below.
+>>>
+>>
+>> Thanks for the context!
+>>
+>>>>
+>>>> Is this request coming from libvirt? Can we wean them off of this
+>>>> interface? What do they need as a replacement?
+>>>
+>>> There are 5 commands that libvirt still has HMP interfaces for:
+>>>
+>>> drive_add
+>>> drive_del
+>>>
+>>> savevm
+>>> loadvm
+>>> delvm
+>>>
+>>> From upstream point of view there's no value in adding the 'error'
+>>> prefix to drive_add/drive_del as libvirt now uses blockdev-add/del QMP
+>>> command instead which have implicit error propagation.
+>>>
+>>
+>> As thought.
+>>
+>>> There are no replacements for the internal snapshot commands, but they
+>>> reported the 'error' prefix for some time even before this series.
+>>>
+>>> Said that, please don't break savevm/loadvm/delvm until a QMP
+>>> replacement is added.
+>>>
+>>
+>> Yes, noted. I wonder where userfaultfd write support is these days...
+> 
+> How would that help you there?
+> 
 
-Fixes: 4f9924c4d4cf ("ppc/pnv: Add models for POWER9 PHB4 PCIe Host bridge"=
-)
-Signed-off-by: Laurent Vivier <lvivier@redhat.com>
----
+Left at the traffic lights, but there was a thought that we'd be able to
+get transactionable save-memory support in QMP if we could use
+userfaultfd to do just-in-time copies of memory as needed, until the job
+is complete.
 
-Notes:
-    v2: remove PCI already selected by PCI_EXPRESS
-        remove PCIE_PORT, set by default to yes with PCI_DEVICES
+This way we could support it properly in QMP and we'd have a replacement
+for the HMP version which -- from memory -- is not appropriate for the
+QMP channel.
 
- hw/ppc/Kconfig | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Maybe I imagined this restriction.
 
-diff --git a/hw/ppc/Kconfig b/hw/ppc/Kconfig
-index 354828bf132f..dd86e664d215 100644
---- a/hw/ppc/Kconfig
-+++ b/hw/ppc/Kconfig
-@@ -29,6 +29,8 @@ config POWERNV
-     select XICS
-     select XIVE
-     select FDT_PPC
-+    select PCI_EXPRESS
-+    select MSI_NONBROKEN
-=20
- config PPC405
-     bool
-@@ -135,8 +137,6 @@ config XIVE_SPAPR
-     default y
-     depends on PSERIES
-     select XIVE
--    select PCI
--    select PCIE_PORT
-=20
- config XIVE_KVM
-     bool
---=20
-2.24.1
+--js
 
 
