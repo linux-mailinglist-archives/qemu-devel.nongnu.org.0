@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5B20153A56
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 22:36:39 +0100 (CET)
-Received: from localhost ([::1]:57220 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54CB4153A51
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 22:35:54 +0100 (CET)
+Received: from localhost ([::1]:57171 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izSLe-0001bW-Lw
-	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 16:36:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47297)
+	id 1izSKv-0008QM-Bg
+	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 16:35:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47345)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <robert.foley@linaro.org>) id 1izSJ0-0005F3-O5
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 16:33:55 -0500
+ (envelope-from <robert.foley@linaro.org>) id 1izSJ3-0005ME-RE
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 16:33:59 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <robert.foley@linaro.org>) id 1izSIz-000695-KB
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 16:33:54 -0500
-Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430]:36880)
+ (envelope-from <robert.foley@linaro.org>) id 1izSJ1-0006DQ-T4
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 16:33:57 -0500
+Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c]:33431)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <robert.foley@linaro.org>)
- id 1izSIz-000684-Dw
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 16:33:53 -0500
-Received: by mail-pf1-x430.google.com with SMTP id p14so1883309pfn.4
- for <qemu-devel@nongnu.org>; Wed, 05 Feb 2020 13:33:53 -0800 (PST)
+ id 1izSJ1-0006Bf-Kc
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 16:33:55 -0500
+Received: by mail-pg1-x52c.google.com with SMTP id 6so1612549pgk.0
+ for <qemu-devel@nongnu.org>; Wed, 05 Feb 2020 13:33:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=u1zXQRTCt65TSYwJmTXjVmOnrC3M0DDokMmWoCnk7AI=;
- b=qGqdd/0xD0gvMFcvR5BE7RJBtSb6tNz9tRwXs3pt0ZzRayk8YDKDXhsWRDUh3pxUPx
- q4iHrqbPCXvNVD9uTrsFPkdJO0TsJl9v+JGMMmwF5Sx9EjhwE+NkXiETsRjGn4ZRxN8Q
- BHp3EoEgc0dwhWH15BkZiZH0AsFpJchzuhMomzzA62F4ofSxLUU0nvzj7z3HB44n48XX
- PEj0UELwiFrFFE3DTp7LzbM4N/OJDxDDrp0iNRRiOPczR3V2Ig6RJV1cP+0QP5WNh0+T
- cMqklLqkSp/mCL09Ek5RFLu06Q5Wfq0a842gtm9bxJwWnbdyFuJNp3fGPT4qtENVvOVb
- QHJQ==
+ bh=7GIcztAphvqkD0Pp3nbluYcOKPaeZeGBEwgC+UA1pto=;
+ b=oHAfiQMS/aUfXYO1/tfz0x82ixNOz1AjJG7n44/gruVebwTzleAc75R+5ij6dU5N4y
+ TMAS0dPvSoWlEc+e7v5TcxbMeWEgCnaDUQhX9b5wwDgt7J4zqk8fOMB9S/DklPgDxs6S
+ XbrFTFOk3E38v5syiVbaPfyRWrrP2Ji9V1/ejGw+sRstZghGE2YQObMt8UBFnhPRrpNl
+ htZPwtIo2a0KtjJbsnFPYEc8gT6TM4c7wkrj5Ut/ruFEk2OqnmARqUZv0HTEgAzAeoTH
+ WGHd+U9GuBz6DP/nuG4MRLZXIxh+ArfONG8c/WG/8fRWo/9M2zmRPzydE01/ZQ0xnZLF
+ fiAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=u1zXQRTCt65TSYwJmTXjVmOnrC3M0DDokMmWoCnk7AI=;
- b=kCVdMU1FtJTbN2v+oHqm0YBDRx4AT5ucCmBLz4NKdkkSpaoTHQKEfEf9xV0IWkwVtA
- OPhjpyNGdVLiimdCOoAs1ET+EOqzcIJTGfNFoYKwDh10kriXToLf7eZBzX6iW1++IuUM
- Swi5qzhS7yaQgigOc9M+fbrp9XOWODuKyKQJTJWYxT3h1vEdqBBhM16t1W6VrqEGQuhH
- v2CI39pCVrRHtKVL0GL+N3QOPk3zlScNqDfuHqliECrGz/1/Cck0w5jTDm6sRY5lo/52
- R5KtUHAlOHfDF2RbElIcIBrrvNm2Oca+2T176Zl5ajpRq3qEnew/2ZYojERIQuUWZEj5
- lHug==
-X-Gm-Message-State: APjAAAVGrlKha66t81isXQHE0kbCA3mzINfyQFB2hSk7SmUCN/wlE3X0
- OU8Wj89jc/Kg7yS/4BAxIj2B9Fa0K6o=
-X-Google-Smtp-Source: APXvYqxxgwOgnKxKvjUX9TKTprlfKqyONxsB2Y/7F4qzSRT2ZWErP98bxDLyOsQV8l1FdH50FXcH+w==
-X-Received: by 2002:a63:d60a:: with SMTP id q10mr11548460pgg.244.1580938432093; 
- Wed, 05 Feb 2020 13:33:52 -0800 (PST)
+ bh=7GIcztAphvqkD0Pp3nbluYcOKPaeZeGBEwgC+UA1pto=;
+ b=D+8nTx50viYGT8+xyhSFo29tjr8w4ANdteNA5tkYqGTzLQunxT4n97N79eSwaCvvLd
+ sVn2aAkbtIaVjl/f59pmz5GdUJzXDHPsFeHn2sWlgDwRVqQaa2PYd1+JCkvNxo/Yh2at
+ V5xQndUnVRTVOZ3rdxlvFf/X526m5JngX9XCezLjUybSfhOrutE8oHQ/TuYhfgjSigpa
+ uCKm5F6C5vNMbtxZJHjFAR3nRBgR6AYXyKhdt9Fo33ZyZXWSB0rI9r1CDtNpu1zlX0Ax
+ XWe8NDQ7d/rBSjZtWl8x6UhYlZqiH98IzHNogg5twninWsyQCOZ55Krqw4TTTiLPLxo1
+ aSPA==
+X-Gm-Message-State: APjAAAUv97uwLt3bGhAE/iGsgzo95yReViFeAB03qWc40teJoe2Yz3wD
+ WuZ3PbUZEMFGiDwfITlC3KVBxoY725M=
+X-Google-Smtp-Source: APXvYqxEitoFpDNd8Z+AVaagrmH1hy47EGUYSRCMRI80u8BA9jaqOeaui/T8Dsh0tEQSfbIRnrdERQ==
+X-Received: by 2002:a63:dc4f:: with SMTP id f15mr35580980pgj.300.1580938434121; 
+ Wed, 05 Feb 2020 13:33:54 -0800 (PST)
 Received: from Rfoley-MA01.usrd.futurewei.com ([12.111.81.71])
- by smtp.gmail.com with ESMTPSA id p4sm724576pgh.14.2020.02.05.13.33.50
+ by smtp.gmail.com with ESMTPSA id p4sm724576pgh.14.2020.02.05.13.33.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Feb 2020 13:33:51 -0800 (PST)
+ Wed, 05 Feb 2020 13:33:53 -0800 (PST)
 From: Robert Foley <robert.foley@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 04/14] tests/vm: give wait_ssh() option to wait for root
-Date: Wed,  5 Feb 2020 16:29:10 -0500
-Message-Id: <20200205212920.467-5-robert.foley@linaro.org>
+Subject: [PATCH v1 05/14] tests/vm: Added gen_cloud_init_iso() to basevm.py
+Date: Wed,  5 Feb 2020 16:29:11 -0500
+Message-Id: <20200205212920.467-6-robert.foley@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200205212920.467-1-robert.foley@linaro.org>
 References: <20200205212920.467-1-robert.foley@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::430
+X-Received-From: 2607:f8b0:4864:20::52c
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,49 +79,172 @@ Cc: fam@euphon.net, philmd@redhat.com, alex.bennee@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Allow wait_ssh to wait for root user to be ready.
-This solves the issue where we perform a wait_ssh()
-successfully, but the root user is not yet ready
-to be logged in.
+This method was located in both centos and ubuntu.i386.
 
 Signed-off-by: Robert Foley <robert.foley@linaro.org>
 ---
- tests/vm/basevm.py | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ tests/vm/basevm.py   | 40 ++++++++++++++++++++++++++++++++++++++++
+ tests/vm/centos      | 33 +--------------------------------
+ tests/vm/ubuntu.i386 | 37 +------------------------------------
+ 3 files changed, 42 insertions(+), 68 deletions(-)
 
 diff --git a/tests/vm/basevm.py b/tests/vm/basevm.py
-index 4de358ae22..a29099f6f1 100755
+index a29099f6f1..a926211da8 100755
 --- a/tests/vm/basevm.py
 +++ b/tests/vm/basevm.py
-@@ -314,7 +314,7 @@ class BaseVM(object):
-     def print_step(self, text):
-         sys.stderr.write("### %s ...\n" % text)
+@@ -346,6 +346,46 @@ class BaseVM(object):
+     def qmp(self, *args, **kwargs):
+         return self._guest.qmp(*args, **kwargs)
  
--    def wait_ssh(self, seconds=300):
-+    def wait_ssh(self, wait_root=False, seconds=300):
-         # Allow more time for VM to boot under TCG.
-         if not kvm_available(self.arch):
-             seconds *= self.tcg_ssh_timeout_multiplier
-@@ -322,7 +322,10 @@ class BaseVM(object):
-         endtime = starttime + datetime.timedelta(seconds=seconds)
-         guest_up = False
-         while datetime.datetime.now() < endtime:
--            if self.ssh("exit 0") == 0:
-+            if wait_root and self.ssh_root("exit 0") == 0:
-+                guest_up = True
-+                break
-+            elif self.ssh("exit 0") == 0:
-                 guest_up = True
-                 break
-             seconds = (endtime - datetime.datetime.now()).total_seconds()
-@@ -333,7 +336,6 @@ class BaseVM(object):
++    def gen_cloud_init_iso(self):
++        cidir = self._tmpdir
++        mdata = open(os.path.join(cidir, "meta-data"), "w")
++        name = self.name.replace(".","-")
++        mdata.writelines(["instance-id: {}-vm-0\n".format(name),
++                          "local-hostname: {}-guest\n".format(name)])
++        mdata.close()
++        udata = open(os.path.join(cidir, "user-data"), "w")
++        print("guest user:pw {}:{}".format(self._config['guest_user'],
++                                           self._config['guest_pass']))
++        udata.writelines(["#cloud-config\n",
++                          "chpasswd:\n",
++                          "  list: |\n",
++                          "    root:%s\n" % self._config['root_pass'],
++                          "    %s:%s\n" % (self._config['guest_user'],
++                                           self._config['guest_pass']),
++                          "  expire: False\n",
++                          "users:\n",
++                          "  - name: %s\n" % self._config['guest_user'],
++                          "    sudo: ALL=(ALL) NOPASSWD:ALL\n",
++                          "    ssh-authorized-keys:\n",
++                          "    - %s\n" % self._config['ssh_pub_key'],
++                          "  - name: root\n",
++                          "    ssh-authorized-keys:\n",
++                          "    - %s\n" % self._config['ssh_pub_key'],
++                          "locale: en_US.UTF-8\n"])
++        proxy = os.environ.get("http_proxy")
++        if not proxy is None:
++            udata.writelines(["apt:\n",
++                              "  proxy: %s" % proxy])
++        udata.close()
++        subprocess.check_call(["genisoimage", "-output", "cloud-init.iso",
++                               "-volid", "cidata", "-joliet", "-rock",
++                               "user-data", "meta-data"],
++                               cwd=cidir,
++                               stdin=self._devnull, stdout=self._stdout,
++                               stderr=self._stdout)
++
++        return os.path.join(cidir, "cloud-init.iso")
++
+ def parse_args(vmcls):
  
-     def shutdown(self):
-         self._guest.shutdown()
+     def get_default_jobs():
+diff --git a/tests/vm/centos b/tests/vm/centos
+index f2f0befd84..c108bd6799 100755
+--- a/tests/vm/centos
++++ b/tests/vm/centos
+@@ -31,37 +31,6 @@ class CentosVM(basevm.BaseVM):
+         make docker-test-mingw@fedora  {verbose} J={jobs} NETWORK=1;
+     """
+ 
+-    def _gen_cloud_init_iso(self):
+-        cidir = self._tmpdir
+-        mdata = open(os.path.join(cidir, "meta-data"), "w")
+-        mdata.writelines(["instance-id: centos-vm-0\n",
+-                          "local-hostname: centos-guest\n"])
+-        mdata.close()
+-        udata = open(os.path.join(cidir, "user-data"), "w")
+-        udata.writelines(["#cloud-config\n",
+-                          "chpasswd:\n",
+-                          "  list: |\n",
+-                          "    root:%s\n" % self.ROOT_PASS,
+-                          "    %s:%s\n" % (self.GUEST_USER, self.GUEST_PASS),
+-                          "  expire: False\n",
+-                          "users:\n",
+-                          "  - name: %s\n" % self.GUEST_USER,
+-                          "    sudo: ALL=(ALL) NOPASSWD:ALL\n",
+-                          "    ssh-authorized-keys:\n",
+-                          "    - %s\n" % basevm.SSH_PUB_KEY,
+-                          "  - name: root\n",
+-                          "    ssh-authorized-keys:\n",
+-                          "    - %s\n" % basevm.SSH_PUB_KEY,
+-                          "locale: en_US.UTF-8\n"])
+-        udata.close()
+-        subprocess.check_call(["genisoimage", "-output", "cloud-init.iso",
+-                               "-volid", "cidata", "-joliet", "-rock",
+-                               "user-data", "meta-data"],
+-                               cwd=cidir,
+-                               stdin=self._devnull, stdout=self._stdout,
+-                               stderr=self._stdout)
+-        return os.path.join(cidir, "cloud-init.iso")
 -
-     def wait(self):
-         self._guest.wait()
+     def build_image(self, img):
+         cimg = self._download_with_cache("https://cloud.centos.org/centos/7/images/CentOS-7-x86_64-GenericCloud-1802.qcow2.xz")
+         img_tmp = img + ".tmp"
+@@ -69,7 +38,7 @@ class CentosVM(basevm.BaseVM):
+         subprocess.check_call(["ln", "-f", cimg, img_tmp + ".xz"])
+         subprocess.check_call(["xz", "--keep", "-dvf", img_tmp + ".xz"])
+         self.exec_qemu_img("resize", img_tmp, "50G")
+-        self.boot(img_tmp, extra_args = ["-cdrom", self._gen_cloud_init_iso()])
++        self.boot(img_tmp, extra_args = ["-cdrom", self.gen_cloud_init_iso()])
+         self.wait_ssh()
+         self.ssh_root_check("touch /etc/cloud/cloud-init.disabled")
+         self.ssh_root_check("yum update -y")
+diff --git a/tests/vm/ubuntu.i386 b/tests/vm/ubuntu.i386
+index 3834cd7a8d..7df54ae094 100755
+--- a/tests/vm/ubuntu.i386
++++ b/tests/vm/ubuntu.i386
+@@ -29,41 +29,6 @@ class UbuntuX86VM(basevm.BaseVM):
+         make --output-sync {target} -j{jobs} {verbose};
+     """
  
+-    def _gen_cloud_init_iso(self):
+-        cidir = self._tmpdir
+-        mdata = open(os.path.join(cidir, "meta-data"), "w")
+-        mdata.writelines(["instance-id: ubuntu-vm-0\n",
+-                          "local-hostname: ubuntu-guest\n"])
+-        mdata.close()
+-        udata = open(os.path.join(cidir, "user-data"), "w")
+-        udata.writelines(["#cloud-config\n",
+-                          "chpasswd:\n",
+-                          "  list: |\n",
+-                          "    root:%s\n" % self.ROOT_PASS,
+-                          "    %s:%s\n" % (self.GUEST_USER, self.GUEST_PASS),
+-                          "  expire: False\n",
+-                          "users:\n",
+-                          "  - name: %s\n" % self.GUEST_USER,
+-                          "    sudo: ALL=(ALL) NOPASSWD:ALL\n",
+-                          "    ssh-authorized-keys:\n",
+-                          "    - %s\n" % basevm.SSH_PUB_KEY,
+-                          "  - name: root\n",
+-                          "    ssh-authorized-keys:\n",
+-                          "    - %s\n" % basevm.SSH_PUB_KEY,
+-                          "locale: en_US.UTF-8\n"])
+-        proxy = os.environ.get("http_proxy")
+-        if not proxy is None:
+-            udata.writelines(["apt:\n",
+-                              "  proxy: %s" % proxy])
+-        udata.close()
+-        subprocess.check_call(["genisoimage", "-output", "cloud-init.iso",
+-                               "-volid", "cidata", "-joliet", "-rock",
+-                               "user-data", "meta-data"],
+-                               cwd=cidir,
+-                               stdin=self._devnull, stdout=self._stdout,
+-                               stderr=self._stdout)
+-        return os.path.join(cidir, "cloud-init.iso")
+-
+     def build_image(self, img):
+         cimg = self._download_with_cache(
+             "https://cloud-images.ubuntu.com/releases/bionic/release-20191114/ubuntu-18.04-server-cloudimg-i386.img",
+@@ -71,7 +36,7 @@ class UbuntuX86VM(basevm.BaseVM):
+         img_tmp = img + ".tmp"
+         subprocess.check_call(["cp", "-f", cimg, img_tmp])
+         self.exec_qemu_img("resize", img_tmp, "50G")
+-        self.boot(img_tmp, extra_args = ["-cdrom", self._gen_cloud_init_iso()])
++        self.boot(img_tmp, extra_args = ["-cdrom", self.gen_cloud_init_iso()])
+         self.wait_ssh()
+         self.ssh_root_check("touch /etc/cloud/cloud-init.disabled")
+         self.ssh_root_check("apt-get update")
 -- 
 2.17.1
 
