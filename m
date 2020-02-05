@@ -2,96 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00B8E1531F1
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 14:35:43 +0100 (CET)
-Received: from localhost ([::1]:47106 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49F98153218
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 14:44:31 +0100 (CET)
+Received: from localhost ([::1]:47292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izKqD-0008E4-Vs
-	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 08:35:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39745)
+	id 1izKyj-0000h1-RQ
+	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 08:44:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45617)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <darren.kenny@oracle.com>) id 1izKoq-0006kw-KK
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 08:34:18 -0500
+ (envelope-from <vsementsov@virtuozzo.com>) id 1izKxi-0008Rm-9k
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 08:43:27 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <darren.kenny@oracle.com>) id 1izKol-0005sD-Bd
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 08:34:14 -0500
-Received: from userp2130.oracle.com ([156.151.31.86]:38766)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1izKxg-0007PX-Pq
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 08:43:25 -0500
+Received: from mail-eopbgr10120.outbound.protection.outlook.com
+ ([40.107.1.120]:41036 helo=EUR02-HE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <darren.kenny@oracle.com>)
- id 1izKol-0005n8-0g
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 08:34:11 -0500
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 015DO4pf105699;
- Wed, 5 Feb 2020 13:34:08 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to : content-transfer-encoding; s=corp-2019-08-05;
- bh=D8eIJcASggBxiUBNky+yzM6ZMGXo+jEEw3xCHm52rZk=;
- b=ESsAio+muFv2wvWV/9AN+DsmRRp4fO+tsrzZPZh0U4klVWXViUQk76EOO72z+kcAzAN8
- ysvljmGTom6zyqiX14zcggwwwtIf5vd0jNCSJUQCowljJgmeqKXjHYxP3dBRr4+hWxnY
- /XXuvIikGMEIS5NbYUiY8/+7dJuOdWqY1NJHm2RORhF4R8fFJYQVY99c254R73+R0SnH
- ojBw3I6X8t6LdvKZUtm+g934bgPXxocprAV3nT1yLMQTsuiZYzIXbl0rJyE5c3HCkd+z
- X6c3iTQCvP/2yX32TMhAT9+8uxGDYAb0ud2EDyCiSZr3kGnfBr/aCz3sOuoKed1IgS1O nQ== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
- by userp2130.oracle.com with ESMTP id 2xykbp30dv-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 05 Feb 2020 13:34:08 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
- by userp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 015DT7Wg138597;
- Wed, 5 Feb 2020 13:34:08 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
- by userp3030.oracle.com with ESMTP id 2xymusr8u3-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 05 Feb 2020 13:34:07 +0000
-Received: from abhmp0002.oracle.com (abhmp0002.oracle.com [141.146.116.8])
- by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 015DY7k5013845;
- Wed, 5 Feb 2020 13:34:07 GMT
-Received: from starbug-mbp.localdomain (/10.169.111.17)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Wed, 05 Feb 2020 05:34:06 -0800
-Received: from starbug-mbp (localhost [127.0.0.1])
- by starbug-mbp.localdomain (Postfix) with ESMTP id 0239D57DBD14;
- Wed,  5 Feb 2020 13:34:04 +0000 (GMT)
-Date: Wed, 5 Feb 2020 13:34:03 +0000
-From: Darren Kenny <darren.kenny@oracle.com>
-To: "Bulekov, Alexander" <alxndr@bu.edu>
-Subject: Re: [PATCH v8 10/21] libqos: move useful qos-test funcs to
- qos_external
-Message-ID: <20200205133403.3dcbvoigtkevl3rb@starbug-mbp>
-Mail-Followup-To: "Bulekov, Alexander" <alxndr@bu.edu>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- "bsd@redhat.com" <bsd@redhat.com>,
- "stefanha@redhat.com" <stefanha@redhat.com>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-References: <20200129053357.27454-1-alxndr@bu.edu>
- <20200129053357.27454-11-alxndr@bu.edu>
-MIME-Version: 1.0
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1izKxg-0007I3-18; Wed, 05 Feb 2020 08:43:24 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=WcMphGt9XpxLGbpbmQfOINw+xjSQJdjfWQqTIxxs0uvq0Ehb03Xt0s5tJ+6sZi9ufrjUIbyiXOX06WVJTrA95XRufgewJL1/v90eVjRysqjrJjdd0EAh1NoynIKyW6KWUEHbyd4WVCUPsDDtCUsazPa0capFwEX+jF8kIYNexELQtLk7mz6ljtWL0DOYAsbRDzOX9/Ui/pp4Oyn7DUA7UzmgAY1FiXUYBZnvyL8jaxSHFyKUoTuTuIRZCCKI66hQOC/E/V+HbkZyuDuViyiYl8b0Km9j7QkDf7zW4QSbiV30FQONcakYJzRp/+/hzzhLNRd7ubl7XuTHgo3K0DJLSQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZgOkP49fAIzdUVoznSM+edkYuZYNuCAreL3sM0Ardyc=;
+ b=FYgSGj8cWvird2oJw4TyBSTCc7fp4wRlRvUKokcA3DLx93Nxu+xC2xKdwdBtDhczW2tYFxEqEOsRELuNkAIYQOEoVvywACoj+rzXhPSAV8Ackx7sLEKX3lr/SZoKfnpP8XGaT2tgZwiR83mQZ53DkE0KTWZsBTsf2ylxsYCbigqCYsDW2udx9MIYVVEMvE3gz58P6rdQHAFAfpB7ouoRPorzVBNpNL2JBPCIR8TAd1ZubbBj3LkLX1sK6HVSjXrkxHESqj5hXQCoj9qx69Z3gwNCXgI5GYQxgaxHWjZdaJrETjk8BM6pTUGjfOlHGz/SZazWtWt5nTcxxzSRhJxQ9Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZgOkP49fAIzdUVoznSM+edkYuZYNuCAreL3sM0Ardyc=;
+ b=Q8fX1lqt5ckBZzJWvBp9c4+/lv3TzJ9N+eedOck7D0F3wxaM6Pi0mdwW3BS6+6DV9XdXDmReq5k77uuCTbfudug1DyVJT/PCwUGT+cZ9XYAERpeoV8NQiqUuD3aS6myABk62PcsG9Ff22hitQzR0JEQCGCZxGmTGRmdyT5ATJak=
+Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=vsementsov@virtuozzo.com; 
+Received: from VI1PR08MB4432.eurprd08.prod.outlook.com (20.179.28.138) by
+ VI1PR08MB3789.eurprd08.prod.outlook.com (20.178.15.96) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2707.21; Wed, 5 Feb 2020 13:43:20 +0000
+Received: from VI1PR08MB4432.eurprd08.prod.outlook.com
+ ([fe80::9c56:6d95:76d1:d0]) by VI1PR08MB4432.eurprd08.prod.outlook.com
+ ([fe80::9c56:6d95:76d1:d0%2]) with mapi id 15.20.2686.034; Wed, 5 Feb 2020
+ 13:43:20 +0000
+Subject: Re: [PATCH for-4.2? v3 0/8] block: Fix resize (extending) of short
+ overlays
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: Kevin Wolf <kwolf@redhat.com>
+References: <20191122160511.8377-1-kwolf@redhat.com>
+ <20191210174644.GC7103@linux.fritz.box>
+ <eed0efba-aa38-4901-8f10-6ec3ee339437@virtuozzo.com>
+ <20191219101312.GD5230@linux.fritz.box>
+ <8a7cd617-6d34-8735-45a7-52431db1171c@virtuozzo.com>
+X-Tagtoolbar-Keys: D20200205164317167
+Message-ID: <28b8f2b6-5520-10ce-cfb2-0ecdd7aee7aa@virtuozzo.com>
+Date: Wed, 5 Feb 2020 16:43:17 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.2.1
+In-Reply-To: <8a7cd617-6d34-8735-45a7-52431db1171c@virtuozzo.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20200129053357.27454-11-alxndr@bu.edu>
-User-Agent: NeoMutt/20180716
-Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9521
- signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=2
- malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1911140001 definitions=main-2002050109
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9521
- signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
- priorityscore=1501 malwarescore=0
- suspectscore=2 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1911140001
- definitions=main-2002050109
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 156.151.31.86
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: HE1P18901CA0017.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:3:8b::27) To VI1PR08MB4432.eurprd08.prod.outlook.com
+ (2603:10a6:803:102::10)
+MIME-Version: 1.0
+Received: from [172.16.24.200] (185.231.240.5) by
+ HE1P18901CA0017.EURP189.PROD.OUTLOOK.COM (2603:10a6:3:8b::27) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2707.21 via Frontend Transport; Wed, 5 Feb 2020 13:43:19 +0000
+X-Tagtoolbar-Keys: D20200205164317167
+X-Originating-IP: [185.231.240.5]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 76809057-67ac-410e-93a3-08d7aa415c85
+X-MS-TrafficTypeDiagnostic: VI1PR08MB3789:
+X-Microsoft-Antispam-PRVS: <VI1PR08MB3789F2C59ADDB83905D2944EC1020@VI1PR08MB3789.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-Forefront-PRVS: 0304E36CA3
+X-Forefront-Antispam-Report: SFV:NSPM;
+ SFS:(10019020)(366004)(396003)(376002)(346002)(136003)(39850400004)(199004)(189003)(478600001)(6916009)(36756003)(8936002)(86362001)(31696002)(2616005)(956004)(81166006)(16526019)(4326008)(26005)(186003)(16576012)(316002)(54906003)(52116002)(31686004)(8676002)(81156014)(66946007)(6486002)(66476007)(66556008)(5660300002)(2906002);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:VI1PR08MB3789;
+ H:VI1PR08MB4432.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; MX:1; 
+Received-SPF: None (protection.outlook.com: virtuozzo.com does not designate
+ permitted sender hosts)
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: nvMpn5oIafbf4mJOpD0+g5eNs7DSHM6CEcP566RV6DtEYL1Dj7sJenRNVKr60DsQVczgGIEq1YXPrQTdov/mjmgOnaMceBaeg5FjEwz0pWcz3rMKf5fSaZa5xPnu9dOAw15JDhNbY3Yi7LaZsKViomYeGY07Xxab1yk5LOOiuccEd7TjNNrz4Th7+fbIayrkq0b6FMGr2wSfqlNvV42RFQU0ClIzEXzVvS+psKr1ueoYuNlT6m4zPxl0UkT+uEvmvSqyU8MjfdcT3BeEVyfGbF3ZCm+cxZV7yYMvK0keqL3E0/GvniFs6QCb3iOUS27Rsu9iH2Ri5VOpzOBpXUUjyi78B9FyNFxyuuJyXVRREYwZlS5f0wixwIN9nWOGqwyySC/Tk3w7XiaJrZSI86xEfd1wpKzNbjiGjEopoaxHRi4yjSyEeB4JPfti7+zWaus5
+X-MS-Exchange-AntiSpam-MessageData: sAsWQ0JZ+jqWnCkggV41z1zO1bAkN+LgQC+6XFwoehtd5K+/Fru5wyG2HktDgv4F3bQUnJwGZYYUEzvwf2PcGzp25DBVGmo52dn+/w31wwldt967UzEf5WaK7nu6Xt0eLtdbrOndyiNsYRtBHpygSQ==
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 76809057-67ac-410e-93a3-08d7aa415c85
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Feb 2020 13:43:20.1126 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: sc6ihn8WNjfWAOwXFVNpU/0sq0ptdbtL3zqipSNfbKVtyncyWDX9Qni7ma21orrIZ8OvW7hy41OWHTaekD6UWRojKd2lsu3eh2dhPK4zR2k=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR08MB3789
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 40.107.1.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -103,432 +112,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "bsd@redhat.com" <bsd@redhat.com>, "stefanha@redhat.com" <stefanha@redhat.com>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "stefanha@redhat.com" <stefanha@redhat.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
+ "mreitz@redhat.com" <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jan 29, 2020 at 05:34:19AM +0000, Bulekov, Alexander wrote:
->The moved functions are not specific to qos-test and might be useful
->elsewhere. For example the virtual-device fuzzer makes use of them for
->qos-assisted fuzz-targets.
->
->Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
->Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
->Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+19.12.2019 13:20, Vladimir Sementsov-Ogievskiy wrote:
+> 19.12.2019 13:13, Kevin Wolf wrote:
+>> Am 19.12.2019 um 10:24 hat Vladimir Sementsov-Ogievskiy geschrieben:
+>>> 10.12.2019 20:46, Kevin Wolf wrote:
+>>>> Am 22.11.2019 um 17:05 hat Kevin Wolf geschrieben:
+>>>>> See patch 4 for the description of the bug fixed.
+>>>>
+>>>> I'm applying patches 3 and 5-7 to the block branch because they make
+>>>> sense on their own.
+>>>>
+>>>> The real fix will need another approach because the error handling is
+>>>> broken in this one: If zeroing out fails (either because of NO_FALLBACK
+>>>> or because of some other I/O error), bdrv_co_truncate() will return
+>>>> failure, but the image size has already been increased, with potentially
+>>>> incorrect data in the new area.
+>>>>
+>>>> To fix this, we need to make sure that zeros will be read before we
+>>>> commit the new image size to the image file (e.g. qcow2 header) and to
+>>>> bs->total_sectors. In other words, it must become the responsibility of
+>>>> the block driver.
+>>>>
+>>>> To this effect, I'm planning to introduce a PREALLOC_MODE_ZERO_INIT flag
+>>>> that can be or'ed to the preallocation mode. This will fail by default
+>>>> because it looks like just another unimplemented preallocation mode to
+>>>> block drivers. It will be requested explicitly by commit jobs and
+>>>> automatically added by bdrv_co_truncate() if the backing file would
+>>>> become visible (like in this series, but now for all preallocation
+>>>> modes). I'm planning to implement it for qcow2 and file-posix for now,
+>>>> which should cover most interesting cases.
+>>>>
+>>>> Does this make sense to you?
+>>>
+>>> This should work. Do you still have this plan in a timeline?
+>>
+>> Still planning to do this, but tomorrow is my last working day for this
+>> year. So I guess I'll get to it sometime in January.
+>>
+> 
+> Good. Have a nice holiday!
+> 
+> 
 
-Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
+Hi, didn't you forget? I just going to ping (or resend) my related
+"[PATCH 0/4] fix & merge block_status_above and is_allocated_above", so,
+pinging these patches too...
 
->---
-> tests/qtest/Makefile.include      |   1 +
-> tests/qtest/libqos/qos_external.c | 168 ++++++++++++++++++++++++++++++
-> tests/qtest/libqos/qos_external.h |  28 +++++
-> tests/qtest/qos-test.c            | 132 +----------------------
-> 4 files changed, 198 insertions(+), 131 deletions(-)
-> create mode 100644 tests/qtest/libqos/qos_external.c
-> create mode 100644 tests/qtest/libqos/qos_external.h
->
->diff --git a/tests/qtest/Makefile.include b/tests/qtest/Makefile.include
->index 08a48c1252..bdc93d3866 100644
->--- a/tests/qtest/Makefile.include
->+++ b/tests/qtest/Makefile.include
->@@ -172,6 +172,7 @@ libqos-usb-obj-y =3D $(libqos-spapr-obj-y) $(libqos-=
-pc-obj-y) tests/qtest/libqos/u
-> # qos devices:
-> libqos-obj-y =3D  $(libqgraph-obj-y)
-> libqos-obj-y +=3D $(libqos-pc-obj-y) $(libqos-spapr-obj-y)
->+libqos-obj-y +=3D tests/qtest/libqos/qos_external.o
-> libqos-obj-y +=3D tests/qtest/libqos/e1000e.o
-> libqos-obj-y +=3D tests/qtest/libqos/i2c.o
-> libqos-obj-y +=3D tests/qtest/libqos/i2c-imx.o
->diff --git a/tests/qtest/libqos/qos_external.c b/tests/qtest/libqos/qos_=
-external.c
->new file mode 100644
->index 0000000000..398556dde0
->--- /dev/null
->+++ b/tests/qtest/libqos/qos_external.c
->@@ -0,0 +1,168 @@
->+/*
->+ * libqos driver framework
->+ *
->+ * Copyright (c) 2018 Emanuele Giuseppe Esposito <e.emanuelegiuseppe@gm=
-ail.com>
->+ *
->+ * This library is free software; you can redistribute it and/or
->+ * modify it under the terms of the GNU Lesser General Public
->+ * License version 2 as published by the Free Software Foundation.
->+ *
->+ * This library is distributed in the hope that it will be useful,
->+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
->+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
->+ * Lesser General Public License for more details.
->+ *
->+ * You should have received a copy of the GNU Lesser General Public
->+ * License along with this library; if not, see <http://www.gnu.org/lic=
-enses/>
->+ */
->+
->+#include "qemu/osdep.h"
->+#include <getopt.h>
->+#include "libqtest.h"
->+#include "qapi/qmp/qdict.h"
->+#include "qapi/qmp/qbool.h"
->+#include "qapi/qmp/qstring.h"
->+#include "qemu/module.h"
->+#include "qapi/qmp/qlist.h"
->+#include "libqos/malloc.h"
->+#include "libqos/qgraph.h"
->+#include "libqos/qgraph_internal.h"
->+#include "libqos/qos_external.h"
->+
->+
->+
->+void apply_to_node(const char *name, bool is_machine, bool is_abstract)
->+{
->+    char *machine_name =3D NULL;
->+    if (is_machine) {
->+        const char *arch =3D qtest_get_arch();
->+        machine_name =3D g_strconcat(arch, "/", name, NULL);
->+        name =3D machine_name;
->+    }
->+    qos_graph_node_set_availability(name, true);
->+    if (is_abstract) {
->+        qos_delete_cmd_line(name);
->+    }
->+    g_free(machine_name);
->+}
->+
->+/**
->+ * apply_to_qlist(): using QMP queries QEMU for a list of
->+ * machines and devices available, and sets the respective node
->+ * as true. If a node is found, also all its produced and contained
->+ * child are marked available.
->+ *
->+ * See qos_graph_node_set_availability() for more info
->+ */
->+void apply_to_qlist(QList *list, bool is_machine)
->+{
->+    const QListEntry *p;
->+    const char *name;
->+    bool abstract;
->+    QDict *minfo;
->+    QObject *qobj;
->+    QString *qstr;
->+    QBool *qbool;
->+
->+    for (p =3D qlist_first(list); p; p =3D qlist_next(p)) {
->+        minfo =3D qobject_to(QDict, qlist_entry_obj(p));
->+        qobj =3D qdict_get(minfo, "name");
->+        qstr =3D qobject_to(QString, qobj);
->+        name =3D qstring_get_str(qstr);
->+
->+        qobj =3D qdict_get(minfo, "abstract");
->+        if (qobj) {
->+            qbool =3D qobject_to(QBool, qobj);
->+            abstract =3D qbool_get_bool(qbool);
->+        } else {
->+            abstract =3D false;
->+        }
->+
->+        apply_to_node(name, is_machine, abstract);
->+        qobj =3D qdict_get(minfo, "alias");
->+        if (qobj) {
->+            qstr =3D qobject_to(QString, qobj);
->+            name =3D qstring_get_str(qstr);
->+            apply_to_node(name, is_machine, abstract);
->+        }
->+    }
->+}
->+
->+QGuestAllocator *get_machine_allocator(QOSGraphObject *obj)
->+{
->+    return obj->get_driver(obj, "memory");
->+}
->+
->+/**
->+ * allocate_objects(): given an array of nodes @arg,
->+ * walks the path invoking all constructors and
->+ * passing the corresponding parameter in order to
->+ * continue the objects allocation.
->+ * Once the test is reached, return the object it consumes.
->+ *
->+ * Since the machine and QEDGE_CONSUMED_BY nodes allocate
->+ * memory in the constructor, g_test_queue_destroy is used so
->+ * that after execution they can be safely free'd.  (The test's
->+ * ->before callback is also welcome to use g_test_queue_destroy).
->+ *
->+ * Note: as specified in walk_path() too, @arg is an array of
->+ * char *, where arg[0] is a pointer to the command line
->+ * string that will be used to properly start QEMU when executing
->+ * the test, and the remaining elements represent the actual objects
->+ * that will be allocated.
->+ */
->+void *allocate_objects(QTestState *qts, char **path, QGuestAllocator **=
-p_alloc)
->+{
->+    int current =3D 0;
->+    QGuestAllocator *alloc;
->+    QOSGraphObject *parent =3D NULL;
->+    QOSGraphEdge *edge;
->+    QOSGraphNode *node;
->+    void *edge_arg;
->+    void *obj;
->+
->+    node =3D qos_graph_get_node(path[current]);
->+    g_assert(node->type =3D=3D QNODE_MACHINE);
->+
->+    obj =3D qos_machine_new(node, qts);
->+    qos_object_queue_destroy(obj);
->+
->+    alloc =3D get_machine_allocator(obj);
->+    if (p_alloc) {
->+        *p_alloc =3D alloc;
->+    }
->+
->+    for (;;) {
->+        if (node->type !=3D QNODE_INTERFACE) {
->+            qos_object_start_hw(obj);
->+            parent =3D obj;
->+        }
->+
->+        /* follow edge and get object for next node constructor */
->+        current++;
->+        edge =3D qos_graph_get_edge(path[current - 1], path[current]);
->+        node =3D qos_graph_get_node(path[current]);
->+
->+        if (node->type =3D=3D QNODE_TEST) {
->+            g_assert(qos_graph_edge_get_type(edge) =3D=3D QEDGE_CONSUME=
-D_BY);
->+            return obj;
->+        }
->+
->+        switch (qos_graph_edge_get_type(edge)) {
->+        case QEDGE_PRODUCES:
->+            obj =3D parent->get_driver(parent, path[current]);
->+            break;
->+
->+        case QEDGE_CONSUMED_BY:
->+            edge_arg =3D qos_graph_edge_get_arg(edge);
->+            obj =3D qos_driver_new(node, obj, alloc, edge_arg);
->+            qos_object_queue_destroy(obj);
->+            break;
->+
->+        case QEDGE_CONTAINS:
->+            obj =3D parent->get_device(parent, path[current]);
->+            break;
->+        }
->+    }
->+}
->+
->diff --git a/tests/qtest/libqos/qos_external.h b/tests/qtest/libqos/qos_=
-external.h
->new file mode 100644
->index 0000000000..7b44930c55
->--- /dev/null
->+++ b/tests/qtest/libqos/qos_external.h
->@@ -0,0 +1,28 @@
->+/*
->+ * libqos driver framework
->+ *
->+ * Copyright (c) 2018 Emanuele Giuseppe Esposito <e.emanuelegiuseppe@gm=
-ail.com>
->+ *
->+ * This library is free software; you can redistribute it and/or
->+ * modify it under the terms of the GNU Lesser General Public
->+ * License version 2 as published by the Free Software Foundation.
->+ *
->+ * This library is distributed in the hope that it will be useful,
->+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
->+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
->+ * Lesser General Public License for more details.
->+ *
->+ * You should have received a copy of the GNU Lesser General Public
->+ * License along with this library; if not, see <http://www.gnu.org/lic=
-enses/>
->+ */
->+
->+#ifndef QOS_EXTERNAL_H
->+#define QOS_EXTERNAL_H
->+#include "libqos/qgraph.h"
->+
->+void apply_to_node(const char *name, bool is_machine, bool is_abstract)=
-;
->+void apply_to_qlist(QList *list, bool is_machine);
->+QGuestAllocator *get_machine_allocator(QOSGraphObject *obj);
->+void *allocate_objects(QTestState *qts, char **path, QGuestAllocator **=
-p_alloc);
->+
->+#endif
->diff --git a/tests/qtest/qos-test.c b/tests/qtest/qos-test.c
->index fd70d73ea5..ad193f43a5 100644
->--- a/tests/qtest/qos-test.c
->+++ b/tests/qtest/qos-test.c
->@@ -27,65 +27,11 @@
-> #include "libqos/malloc.h"
-> #include "libqos/qgraph.h"
-> #include "libqos/qgraph_internal.h"
->+#include "libqos/qos_external.h"
->
-> static char *old_path;
->
->-static void apply_to_node(const char *name, bool is_machine, bool is_ab=
-stract)
->-{
->-    char *machine_name =3D NULL;
->-    if (is_machine) {
->-        const char *arch =3D qtest_get_arch();
->-        machine_name =3D g_strconcat(arch, "/", name, NULL);
->-        name =3D machine_name;
->-    }
->-    qos_graph_node_set_availability(name, true);
->-    if (is_abstract) {
->-        qos_delete_cmd_line(name);
->-    }
->-    g_free(machine_name);
->-}
->
->-/**
->- * apply_to_qlist(): using QMP queries QEMU for a list of
->- * machines and devices available, and sets the respective node
->- * as true. If a node is found, also all its produced and contained
->- * child are marked available.
->- *
->- * See qos_graph_node_set_availability() for more info
->- */
->-static void apply_to_qlist(QList *list, bool is_machine)
->-{
->-    const QListEntry *p;
->-    const char *name;
->-    bool abstract;
->-    QDict *minfo;
->-    QObject *qobj;
->-    QString *qstr;
->-    QBool *qbool;
->-
->-    for (p =3D qlist_first(list); p; p =3D qlist_next(p)) {
->-        minfo =3D qobject_to(QDict, qlist_entry_obj(p));
->-        qobj =3D qdict_get(minfo, "name");
->-        qstr =3D qobject_to(QString, qobj);
->-        name =3D qstring_get_str(qstr);
->-
->-        qobj =3D qdict_get(minfo, "abstract");
->-        if (qobj) {
->-            qbool =3D qobject_to(QBool, qobj);
->-            abstract =3D qbool_get_bool(qbool);
->-        } else {
->-            abstract =3D false;
->-        }
->-
->-        apply_to_node(name, is_machine, abstract);
->-        qobj =3D qdict_get(minfo, "alias");
->-        if (qobj) {
->-            qstr =3D qobject_to(QString, qobj);
->-            name =3D qstring_get_str(qstr);
->-            apply_to_node(name, is_machine, abstract);
->-        }
->-    }
->-}
->
-> /**
->  * qos_set_machines_devices_available(): sets availability of qgraph
->@@ -129,10 +75,6 @@ static void qos_set_machines_devices_available(void)
->     qobject_unref(response);
-> }
->
->-static QGuestAllocator *get_machine_allocator(QOSGraphObject *obj)
->-{
->-    return obj->get_driver(obj, "memory");
->-}
->
-> static void restart_qemu_or_continue(char *path)
-> {
->@@ -159,78 +101,6 @@ void qos_invalidate_command_line(void)
->     old_path =3D NULL;
-> }
->
->-/**
->- * allocate_objects(): given an array of nodes @arg,
->- * walks the path invoking all constructors and
->- * passing the corresponding parameter in order to
->- * continue the objects allocation.
->- * Once the test is reached, return the object it consumes.
->- *
->- * Since the machine and QEDGE_CONSUMED_BY nodes allocate
->- * memory in the constructor, g_test_queue_destroy is used so
->- * that after execution they can be safely free'd.  (The test's
->- * ->before callback is also welcome to use g_test_queue_destroy).
->- *
->- * Note: as specified in walk_path() too, @arg is an array of
->- * char *, where arg[0] is a pointer to the command line
->- * string that will be used to properly start QEMU when executing
->- * the test, and the remaining elements represent the actual objects
->- * that will be allocated.
->- */
->-static void *allocate_objects(QTestState *qts, char **path, QGuestAlloc=
-ator **p_alloc)
->-{
->-    int current =3D 0;
->-    QGuestAllocator *alloc;
->-    QOSGraphObject *parent =3D NULL;
->-    QOSGraphEdge *edge;
->-    QOSGraphNode *node;
->-    void *edge_arg;
->-    void *obj;
->-
->-    node =3D qos_graph_get_node(path[current]);
->-    g_assert(node->type =3D=3D QNODE_MACHINE);
->-
->-    obj =3D qos_machine_new(node, qts);
->-    qos_object_queue_destroy(obj);
->-
->-    alloc =3D get_machine_allocator(obj);
->-    if (p_alloc) {
->-        *p_alloc =3D alloc;
->-    }
->-
->-    for (;;) {
->-        if (node->type !=3D QNODE_INTERFACE) {
->-            qos_object_start_hw(obj);
->-            parent =3D obj;
->-        }
->-
->-        /* follow edge and get object for next node constructor */
->-        current++;
->-        edge =3D qos_graph_get_edge(path[current - 1], path[current]);
->-        node =3D qos_graph_get_node(path[current]);
->-
->-        if (node->type =3D=3D QNODE_TEST) {
->-            g_assert(qos_graph_edge_get_type(edge) =3D=3D QEDGE_CONSUME=
-D_BY);
->-            return obj;
->-        }
->-
->-        switch (qos_graph_edge_get_type(edge)) {
->-        case QEDGE_PRODUCES:
->-            obj =3D parent->get_driver(parent, path[current]);
->-            break;
->-
->-        case QEDGE_CONSUMED_BY:
->-            edge_arg =3D qos_graph_edge_get_arg(edge);
->-            obj =3D qos_driver_new(node, obj, alloc, edge_arg);
->-            qos_object_queue_destroy(obj);
->-            break;
->-
->-        case QEDGE_CONTAINS:
->-            obj =3D parent->get_device(parent, path[current]);
->-            break;
->-        }
->-    }
->-}
->
-> /* The argument to run_one_test, which is the test function that is reg=
-istered
->  * with GTest, is a vector of strings.  The first item is the initial c=
-ommand
->--=20
->2.23.0
->
+-- 
+Best regards,
+Vladimir
 
