@@ -2,106 +2,106 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE26A15288C
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 10:39:18 +0100 (CET)
-Received: from localhost ([::1]:43644 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF7CB152890
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 10:40:37 +0100 (CET)
+Received: from localhost ([::1]:43656 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izH9R-0007k7-Qs
-	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 04:39:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49947)
+	id 1izHAi-0000oE-Qo
+	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 04:40:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49890)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <i.kotrasinsk@partner.samsung.com>)
- id 1izH3j-0000oN-NX
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 04:33:26 -0500
+ id 1izH3h-0000jL-9F
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 04:33:23 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <i.kotrasinsk@partner.samsung.com>)
- id 1izH3g-0005Hv-K4
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 04:33:23 -0500
-Received: from mailout1.w1.samsung.com ([210.118.77.11]:38028)
+ id 1izH3f-00054S-4a
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 04:33:21 -0500
+Received: from mailout2.w1.samsung.com ([210.118.77.12]:41566)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <i.kotrasinsk@partner.samsung.com>)
- id 1izH3g-0004tO-7o
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 04:33:20 -0500
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
- by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20200205093317euoutp015307305565e66d32fd9375a9ae30ae98~wd85Vs1Y_2272522725euoutp01y
+ id 1izH3e-0004xZ-Pl
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 04:33:18 -0500
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+ by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20200205093317euoutp0215c1cc0fbe42fa57edf6c038e154c329~wd85oHY1f1429014290euoutp02h
  for <qemu-devel@nongnu.org>; Wed,  5 Feb 2020 09:33:17 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20200205093317euoutp015307305565e66d32fd9375a9ae30ae98~wd85Vs1Y_2272522725euoutp01y
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
+ 20200205093317euoutp0215c1cc0fbe42fa57edf6c038e154c329~wd85oHY1f1429014290euoutp02h
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
  s=mail20170921; t=1580895197;
- bh=v5HP50D6ioOR5ulyJBYlkL4pC4y3uMp9hQG5R8Nz3DQ=;
+ bh=2EdIg2dqS4is2/71/wtKDkcAjFpedYTyvl4ZZh7iwes=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=CzJ0CygXrniTb5uny8LT4/xGFRL67m+ZsoiqqxnRpdkdOnXUDt7dyUtKnWoGkkIEd
- irmLIwjzgAtufPZFefd13MP418OFjNrNsGd1hvLff7heP7Rg25Day3pTBmL2F1X9YN
- EoiK89FTqTJnpG3A2G3rHhjo4GsoxvEzxf8FfqLg=
-Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20200205093316eucas1p145f5fb66adbfc7b10647e79fb2be701c~wd84-ansJ3063030630eucas1p1g;
- Wed,  5 Feb 2020 09:33:16 +0000 (GMT)
+ b=j4JdmbobcWRIstHh552DYk5UOjm+m38MEJfxzJoQQdhEqZSd8vcBKKq779K7UrxN7
+ jE31U+loVUg+8dy6WvkzE1d+Wk4+hmdOY5bJbogX9MtBKrlFTgPItdXYJhVyb4OyNP
+ ijUcCMihRaGE5R06H8cTBX+hHyihPmrDz5SnyaKY=
+Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+ 20200205093317eucas1p25d1445ba03cefeea41c146eb62ce70a8~wd85Sacka1343613436eucas1p25;
+ Wed,  5 Feb 2020 09:33:17 +0000 (GMT)
 Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
- eusmges3new.samsung.com (EUCPMTA) with SMTP id 00.9A.60698.CDB8A3E5; Wed,  5
- Feb 2020 09:33:16 +0000 (GMT)
+ eusmges2new.samsung.com (EUCPMTA) with SMTP id 1F.39.60679.DDB8A3E5; Wed,  5
+ Feb 2020 09:33:17 +0000 (GMT)
 Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20200205093316eucas1p17ba08bfb90d6ddbf3fe5d10c1ee798f0~wd84xNQEF3269932699eucas1p1a;
+ eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20200205093316eucas1p2b1b7b0cec7991ec53f26bd1444b7e596~wd85Adxar1341413414eucas1p29;
  Wed,  5 Feb 2020 09:33:16 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
  eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20200205093316eusmtrp15bffceee97e16800f077f220a349b9f9~wd84woqwJ1029010290eusmtrp1h;
+ 20200205093316eusmtrp19f6f09f53f4e984eec28ec1f1649cc97~wd85ADF8l1029010290eusmtrp1k;
  Wed,  5 Feb 2020 09:33:16 +0000 (GMT)
-X-AuditID: cbfec7f5-a29ff7000001ed1a-c6-5e3a8bdc3cf1
+X-AuditID: cbfec7f4-0cbff7000001ed07-9b-5e3a8bdd4b7b
 Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
- eusmgms1.samsung.com (EUCPMTA) with SMTP id 40.9D.08375.CDB8A3E5; Wed,  5
+ eusmgms2.samsung.com (EUCPMTA) with SMTP id 9A.9A.07950.CDB8A3E5; Wed,  5
  Feb 2020 09:33:16 +0000 (GMT)
 Received: from AMDC3304.digital.local (unknown [106.120.51.21]) by
  eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20200205093316eusmtip28fa9f5cac715e83348550134f511cc33~wd84QrtoM3043930439eusmtip2C;
+ 20200205093316eusmtip29c56a815c32c0e8bffd05bc6b6c4cde6~wd84uzYT00075700757eusmtip2M;
  Wed,  5 Feb 2020 09:33:16 +0000 (GMT)
 From: i.kotrasinsk@partner.samsung.com
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v2 8/9] hw/misc/memexpose: Add simple tests
-Date: Wed,  5 Feb 2020 10:33:04 +0100
-Message-Id: <1580895185-24341-9-git-send-email-i.kotrasinsk@partner.samsung.com>
+Subject: [RFC PATCH v2 9/9] hw/arm/virt: Hack in support for memexpose device
+Date: Wed,  5 Feb 2020 10:33:05 +0100
+Message-Id: <1580895185-24341-10-git-send-email-i.kotrasinsk@partner.samsung.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1580895185-24341-1-git-send-email-i.kotrasinsk@partner.samsung.com>
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrJIsWRmVeSWpSXmKPExsWy7djPc7p3uq3iDKb0mlrsufCYzWL/tn+s
- FnPOPGCxON67g8WBxePOtT1sHk+ubWbyOPhuD5PH+31X2QJYorhsUlJzMstSi/TtErgyfl7o
- Zy24l1Lx+Fg/awPjJ58uRk4OCQETie3Tmxm7GLk4hARWMEpc65jEBuF8YZRoPbkIyvnMKHF8
- zkRWmJbZpx6yQCSWM0ocWrSbFa6lYeYMRpAqNgE1iZ1HPoPZIgKSEr+7TjOD2MwCGRLPZ3WD
- 2cIC9hIXnr5iAbFZBFQlnu+dxwRi8woESNy5Pg1qm5zEzXOdYPWcAoESmz59BDtJQuAym8TE
- ydsYIYpcJKY/XcQEYQtLvDq+hR3ClpE4PbmHBcKul2i5s4MJormDUaJv5XQ2iIS1xJcNS4GK
- OICu05RYv0sfIuwosfjIK0aQsIQAn8SNt4IQ9/NJTNo2nRkizCvR0SYEUa0n0f3kJhPM1mWN
- j6C2ekg0X+2AhuISRolj7fvZJjDKz0JYtoCRcRWjeGppcW56arFxXmq5XnFibnFpXrpecn7u
- JkZgAjj97/jXHYz7/iQdYhTgYFTi4Q2YYBknxJpYVlyZe4hRgoNZSYT3vD5QiDclsbIqtSg/
- vqg0J7X4EKM0B4uSOK/xopexQgLpiSWp2ampBalFMFkmDk6pBkaF3edPRCfMWOUvsExw65n1
- dhGK8x+xSNxR4dn49cTh91eKA+PcsqtMrhkcMnpxfOH8LZ/eN9RrZ5ydx5DQVHq/TPj/tqbM
- csXzgg9zrJ0qpOd1Op6/rM3CFNP7hEdTw+ti7PTI1fGfQnIc1BSmms6advpHfJBUd6XoklbD
- 48xx69vWV78J/6rEUpyRaKjFXFScCACnQ0kh/AIAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrFLMWRmVeSWpSXmKPExsVy+t/xe7p3uq3iDPpXqVrsufCYzWL/tn+s
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrOIsWRmVeSWpSXmKPExsWy7djPc7p3u63iDD6e4bbYc+Exm8X+bf9Y
+ LeacecBicbx3B4sDi8eda3vYPJ5c28zkcfDdHiaP9/uusgWwRHHZpKTmZJalFunbJXBltO6Z
+ x16w1q5iwWWuBsadul2MnBwSAiYSi67eZuli5OIQEljBKHHwfD8ThPOFUWLFt3VQzmdGiRuP
+ trHBtGza85MZIrGcUeLe1TcsCC0dP8Cq2ATUJHYe+cwIYosISEr87jrNDGIzC2RIPJ/VDWYL
+ C/hLnJr3DMxmEVCVuHV0Jlgvr0CgRNf080wQ2+Qkbp7rBKvhBIpv+vQR6orLbBJnJgVD2C4S
+ y9/sZIawhSVeHd/CDmHLSJye3MMCYddLtNzZAfaOhEAHo0TfyulQg6wlvmxYClTEAXScpsT6
+ XfoQYUeJDwuns4KEJQT4JG68FYQ4n09i0rbpzBBhXomONiGIaj2J7ic3mWC2Lmt8BLXVQ+Lm
+ 5XvQsFrCKLGu5z3LBEb5WQjLFjAyrmIUTy0tzk1PLTbKSy3XK07MLS7NS9dLzs/dxAiM/tP/
+ jn/ZwbjrT9IhRgEORiUe3hWTLOOEWBPLiitzDzFKcDArifCe1wcK8aYkVlalFuXHF5XmpBYf
+ YpTmYFES5zVe9DJWSCA9sSQ1OzW1ILUIJsvEwSnVwMha/kg16Ep10F+xeW++rztyYGWWGedt
+ jwcJnQ3cCjF/tS0c5Jcmyuv13GqK+nlk09NbSruf3XfTrLZnUymRtd3QXNb65kkZl4i79YaY
+ JUUPtwk07cgNn3mzOvBpBsNC2yU/DVofyeSrrJn6q2rC/co3C17sFzl8MqbqRt8Ulmn1+xVq
+ 8ov2T1diKc5INNRiLipOBAD/2Jep+gIAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrJLMWRmVeSWpSXmKPExsVy+t/xe7p3uq3iDHa3mVnsufCYzWL/tn+s
  FnPOPGCxON67g8WBxePOtT1sHk+ubWbyOPhuD5PH+31X2QJYovRsivJLS1IVMvKLS2yVog0t
- jPQMLS30jEws9QyNzWOtjEyV9O1sUlJzMstSi/TtEvQyfl7oZy24l1Lx+Fg/awPjJ58uRk4O
- CQETidmnHrJ0MXJxCAksZZTYsXI1O0RCRuLH6TVsELawxJ9rXWwQRZ8YJb5um8kEkmATUJPY
- eeQzI4gtIiAp8bvrNDOIzSyQJbFz9n2wGmEBe4kLT1+xgNgsAqoSz/fOA4vzCgRI3Lk+jRVi
- gZzEzXOdYL2cAoESmz59BFssBFRz7etX1gmMfAsYGVYxiqSWFuem5xYb6hUn5haX5qXrJefn
- bmIEhuO2Yz8372C8tDH4EKMAB6MSD++KSZZxQqyJZcWVuYcYJTiYlUR4z+sDhXhTEiurUovy
- 44tKc1KLDzGaAh01kVlKNDkfGCt5JfGGpobmFpaG5sbmxmYWSuK8HQIHY4QE0hNLUrNTUwtS
- i2D6mDg4pRoY0xU9+m4aq+k4ezZ+TQiNurTo5XN5Jqsbc5XfTrZfePvCrZ/PNlUw3mEpb1pt
- c0/i2aKlKbIvwswWP9GTv3qzg6NUvMPA50DFx1Pfr25jy3+5RfKk4t2LRhKmJzpLV200iGb6
- evXT50mRbY9MHqZMLeZ9kNA45cJBO/Yms/tmESurs3fb7ru6TYmlOCPRUIu5qDgRAHcHwa1d
- AgAA
-X-CMS-MailID: 20200205093316eucas1p17ba08bfb90d6ddbf3fe5d10c1ee798f0
+ jPQMLS30jEws9QyNzWOtjEyV9O1sUlJzMstSi/TtEvQyWvfMYy9Ya1ex4DJXA+NO3S5GTg4J
+ AROJTXt+MncxcnEICSxllJi/6QAbREJG4sfpNVC2sMSfa11sEEWfGCV+fr3NDJJgE1CT2Hnk
+ MyOILSIgKfG76zRYnFkgS2Ln7PtMILawgK/E+Xc/2UFsFgFViVtHZ4IN5RUIlOiafp4JYoGc
+ xM1znWC9nEDxTZ8+gtUICQRIXPv6lXUCI98CRoZVjCKppcW56bnFRnrFibnFpXnpesn5uZsY
+ gcG47djPLTsYu94FH2IU4GBU4uENmGAZJ8SaWFZcmXuIUYKDWUmE97w+UIg3JbGyKrUoP76o
+ NCe1+BCjKdBRE5mlRJPzgZGSVxJvaGpobmFpaG5sbmxmoSTO2yFwMEZIID2xJDU7NbUgtQim
+ j4mDU6qBcer0k60b6zQjD2Q1bz2ZOJsz2HGe3eY1qgGP3W+FBYpMqw//f3nFs5vCMVnLqta/
+ 5xdacX591pEdzieFBI0Mi7xLV2hdcvvyI01v50/3FxvFb1zYNq84tEqbs/bf+6ZNmX18E57x
+ 79sy8aL1+idZQekBy5zfXzn+ToX78xSn2RUeXDzpr4tE9iixFGckGmoxFxUnAgBycBdHXAIA
+ AA==
+X-CMS-MailID: 20200205093316eucas1p2b1b7b0cec7991ec53f26bd1444b7e596
 X-Msg-Generator: CA
 Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20200205093316eucas1p17ba08bfb90d6ddbf3fe5d10c1ee798f0
+X-RootMTR: 20200205093316eucas1p2b1b7b0cec7991ec53f26bd1444b7e596
 X-EPHeader: CA
 CMS-TYPE: 201P
-X-CMS-RootMailID: 20200205093316eucas1p17ba08bfb90d6ddbf3fe5d10c1ee798f0
+X-CMS-RootMailID: 20200205093316eucas1p2b1b7b0cec7991ec53f26bd1444b7e596
 References: <1580895185-24341-1-git-send-email-i.kotrasinsk@partner.samsung.com>
- <CGME20200205093316eucas1p17ba08bfb90d6ddbf3fe5d10c1ee798f0@eucas1p1.samsung.com>
+ <CGME20200205093316eucas1p2b1b7b0cec7991ec53f26bd1444b7e596@eucas1p2.samsung.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 210.118.77.11
+X-Received-From: 210.118.77.12
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -122,414 +122,210 @@ From: Igor Kotrasinski <i.kotrasinsk@partner.samsung.com>
 
 Signed-off-by: Igor Kotrasinski <i.kotrasinsk@partner.samsung.com>
 ---
- MAINTAINERS                  |   1 +
- tests/qtest/Makefile.include |   2 +
- tests/qtest/memexpose-test.c | 364 +++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 367 insertions(+)
- create mode 100644 tests/qtest/memexpose-test.c
+ hw/arm/virt.c         | 110 +++++++++++++++++++++++++++++++++++++++++++++++++-
+ include/hw/arm/virt.h |   5 +++
+ 2 files changed, 114 insertions(+), 1 deletion(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index e016cff..6f30382 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1650,6 +1650,7 @@ F: hw/misc/memexpose/memexpose-msg.c
- F: hw/misc/memexpose/memexpose-pci.c
- F: hw/misc/memexpose/memexpose-memregion.h
- F: hw/misc/memexpose/memexpose-memregion.c
-+F: tests/qtest/memexpose-test.c
- 
- nvme
- M: Keith Busch <keith.busch@intel.com>
-diff --git a/tests/qtest/Makefile.include b/tests/qtest/Makefile.include
-index eb0f23b..f19da40 100644
---- a/tests/qtest/Makefile.include
-+++ b/tests/qtest/Makefile.include
-@@ -14,6 +14,7 @@ check-qtest-pci-$(CONFIG_RTL8139_PCI) += rtl8139-test
- check-qtest-pci-$(CONFIG_VGA) += display-vga-test
- check-qtest-pci-$(CONFIG_HDA) += intel-hda-test
- check-qtest-pci-$(CONFIG_IVSHMEM_DEVICE) += ivshmem-test
-+check-qtest-x86_64-$(CONFIG_MEMEXPOSE) += memexpose-test
- 
- DBUS_DAEMON := $(shell which dbus-daemon 2>/dev/null)
- ifneq ($(GDBUS_CODEGEN),)
-@@ -289,6 +290,7 @@ tests/qtest/test-filter-mirror$(EXESUF): tests/qtest/test-filter-mirror.o $(qtes
- tests/qtest/test-filter-redirector$(EXESUF): tests/qtest/test-filter-redirector.o $(qtest-obj-y)
- tests/qtest/test-x86-cpuid-compat$(EXESUF): tests/qtest/test-x86-cpuid-compat.o $(qtest-obj-y)
- tests/qtest/ivshmem-test$(EXESUF): tests/qtest/ivshmem-test.o contrib/ivshmem-server/ivshmem-server.o $(libqos-pc-obj-y) $(libqos-spapr-obj-y)
-+tests/qtest/memexpose-test$(EXESUF): tests/qtest/memexpose-test.o $(libqos-pc-obj-y)
- tests/qtest/dbus-vmstate-test$(EXESUF): tests/qtest/dbus-vmstate-test.o tests/qtest/migration-helpers.o tests/qtest/dbus-vmstate1.o $(libqos-pc-obj-y) $(libqos-spapr-obj-y)
- tests/qtest/test-arm-mptimer$(EXESUF): tests/qtest/test-arm-mptimer.o
- tests/qtest/numa-test$(EXESUF): tests/qtest/numa-test.o
-diff --git a/tests/qtest/memexpose-test.c b/tests/qtest/memexpose-test.c
-new file mode 100644
-index 0000000..70a8a73
---- /dev/null
-+++ b/tests/qtest/memexpose-test.c
-@@ -0,0 +1,364 @@
-+/*
-+ *  Memexpose PCI device
-+ *
-+ *  Copyright (C) 2020 Samsung Electronics Co Ltd.
-+ *    Igor Kotrasinski, <i.kotrasinsk@partner.samsung.com>
-+ *
-+ *  This program is free software; you can redistribute it and/or modify it
-+ *  under the terms of the GNU General Public License as published by the
-+ *  Free Software Foundation; either version 2 of the License, or
-+ *  (at your option) any later version.
-+ *
-+ *  This program is distributed in the hope that it will be useful, but WITHOUT
-+ *  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-+ *  FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-+ *  for more details.
-+ *
-+ *  You should have received a copy of the GNU General Public License along
-+ *  with this program; if not, see <http://www.gnu.org/licenses/>.
-+ *
-+ */
-+
-+#include "qemu/osdep.h"
-+#include <glib/gstdio.h>
-+#include "libqos/libqos-pc.h"
-+#include "libqtest-single.h"
+diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+index f788fe2..ba35b21 100644
+--- a/hw/arm/virt.c
++++ b/hw/arm/virt.c
+@@ -71,6 +71,8 @@
+ #include "hw/mem/pc-dimm.h"
+ #include "hw/mem/nvdimm.h"
+ #include "hw/acpi/generic_event_device.h"
 +#include "hw/misc/memexpose/memexpose-core.h"
-+
-+static char *tmpshm;
-+static char *tmpdir;
-+
-+static void save_fn(QPCIDevice *dev, int devfn, void *data)
++#include "hw/misc/memexpose/memexpose-memregion.h"
+ 
+ #define DEFINE_VIRT_MACHINE_LATEST(major, minor, latest) \
+     static void virt_##major##_##minor##_class_init(ObjectClass *oc, \
+@@ -168,6 +170,8 @@ static MemMapEntry extended_memmap[] = {
+     /* Additional 64 MB redist region (can contain up to 512 redistributors) */
+     [VIRT_HIGH_GIC_REDIST2] =   { 0x0, 64 * MiB },
+     [VIRT_HIGH_PCIE_ECAM] =     { 0x0, 256 * MiB },
++    [VIRT_HIGH_MEMEXPOSE_MMIO] =     { 0x0, 256 * MiB },
++    [VIRT_HIGH_MEMEXPOSE] =     { 0x0, 32 * GiB },
+     /* Second PCIe window */
+     [VIRT_HIGH_PCIE_MMIO] =     { 0x0, 512 * GiB },
+ };
+@@ -179,6 +183,7 @@ static const int a15irqmap[] = {
+     [VIRT_GPIO] = 7,
+     [VIRT_SECURE_UART] = 8,
+     [VIRT_ACPI_GED] = 9,
++    [VIRT_MEMEXPOSE] = 10,
+     [VIRT_MMIO] = 16, /* ...to 16 + NUM_VIRTIO_TRANSPORTS - 1 */
+     [VIRT_GIC_V2M] = 48, /* ...to 48 + NUM_GICV2M_SPIS - 1 */
+     [VIRT_SMMU] = 74,    /* ...to 74 + NUM_SMMU_IRQS - 1 */
+@@ -763,6 +768,67 @@ static void create_uart(const VirtMachineState *vms, int uart,
+     g_free(nodename);
+ }
+ 
++static void create_memexpose(const VirtMachineState *vms, MemoryRegion *mem,
++                             Error **errp)
 +{
-+    QPCIDevice **pdev = (QPCIDevice **) data;
-+
-+    *pdev = dev;
-+}
-+
-+static QPCIDevice *get_device(QPCIBus *pcibus)
-+{
-+    QPCIDevice *dev;
-+
-+    dev = NULL;
-+    qpci_device_foreach(pcibus, 0x1af4, 0x1111, save_fn, &dev);
-+    g_assert(dev != NULL);
-+
-+    return dev;
-+}
-+
-+typedef struct _MexpState {
-+    QOSState *qs;
-+    QPCIBar reg_bar, mem_bar;
-+    QPCIDevice *dev;
-+} MexpState;
-+
-+
-+static inline void read_mexp_mem(MexpState *s, uint64_t off,
-+                                 void *buf, size_t len)
-+{
-+    qpci_memread(s->dev, s->mem_bar, off, buf, len);
-+}
-+
-+static inline void write_mexp_mem(MexpState *s, uint64_t off,
-+                                  const void *buf, size_t len)
-+{
-+    qpci_memwrite(s->dev, s->mem_bar, off, buf, len);
-+}
-+
-+static inline void read_mem(MexpState *s, uint64_t off,
-+                            void *buf, size_t len)
-+{
-+    char *cbuf = buf;
-+    for (size_t i = 0; i < len; i++) {
-+        cbuf[i] = qtest_readb(s->qs->qts, off + i);
++    if (!vms->memexpose_size) {
++        error_setg(errp, "For memexpose support, memexpose_size "
++                         "needs to be greater than zero");
++        return;
 +    }
-+}
-+
-+static inline void write_mem(MexpState *s, uint64_t off,
-+                             const void *buf, size_t len)
-+{
-+    const char *cbuf = buf;
-+    for (size_t i = 0; i < len; i++) {
-+        qtest_writeb(s->qs->qts, off + i, cbuf[i]);
-+    }
-+}
-+
-+static inline void write_mexp_reg(MexpState *s, uint64_t off,
-+                                  uint64_t val)
-+{
-+    qpci_io_writeq(s->dev, s->reg_bar, off, val);
-+}
-+
-+static inline uint64_t read_mexp_reg(MexpState *s, uint64_t off)
-+{
-+    return qpci_io_readq(s->dev, s->reg_bar, off);
-+}
-+
-+static void mexp_send_intr(MexpState *s, uint64_t type,
-+                           uint64_t data)
-+{
-+    uint64_t send = 1;
-+    write_mexp_reg(s, MEMEXPOSE_INTR_TX_TYPE_ADDR, type);
-+    write_mexp_reg(s, MEMEXPOSE_INTR_TX_DATA_ADDR, data);
-+    write_mexp_reg(s, MEMEXPOSE_INTR_SEND_ADDR, send);
-+}
-+
-+static uint64_t mexp_recv_intr(MexpState *s, uint64_t *type,
-+                               uint64_t *data)
-+{
-+    uint64_t recv = 0;
-+    int tries = 0;
-+    while (recv == 0 && tries < 100) {
-+        recv = read_mexp_reg(s, MEMEXPOSE_INTR_RECV_ADDR);
-+        if (recv) {
-+            break;
-+        }
-+        tries++;
-+        g_usleep(10000);
-+    }
-+    *type = read_mexp_reg(s, MEMEXPOSE_INTR_RX_TYPE_ADDR);
-+    *data = read_mexp_reg(s, MEMEXPOSE_INTR_RX_DATA_ADDR);
-+    return recv;
-+}
-+
-+static void setup_vm_cmd(MexpState *s, const char *cmd, bool msix)
-+{
-+    uint64_t barsize;
-+    const char *arch = qtest_get_arch();
-+
-+    if (strcmp(arch, "x86_64") == 0) {
-+        s->qs = qtest_pc_boot(cmd);
-+    } else {
-+        g_printerr("memexpose-test tests are only available on x86_64\n");
-+        exit(EXIT_FAILURE);
-+    }
-+    s->dev = get_device(s->qs->pcibus);
-+    s->reg_bar = qpci_iomap(s->dev, 0, &barsize);
-+    g_assert_cmpuint(barsize, ==, MEMEXPOSE_INTR_MEM_SIZE);
-+
-+    if (msix) {
-+        qpci_msix_enable(s->dev);
++    if (!strcmp("", vms->memexpose_ep)) {
++        error_setg(errp, "For memexpose support, memexpose_ep "
++                         "needs to be non-empty");
++        return;
 +    }
 +
-+    s->mem_bar = qpci_iomap(s->dev, 1, &barsize);
++    DeviceState *dev = qdev_create(NULL, "memexpose-memdev");
 +
-+    qpci_device_enable(s->dev);
-+}
++    hwaddr base = vms->memmap[VIRT_HIGH_MEMEXPOSE].base;
++    hwaddr size = vms->memexpose_size;
++    hwaddr mmio_base = vms->memmap[VIRT_HIGH_MEMEXPOSE_MMIO].base;
++    hwaddr mmio_size = MEMEXPOSE_INTR_MEM_SIZE;
++    int irq = vms->irqmap[VIRT_MEMEXPOSE];
 +
-+static void remove_socks(char *tmp_path)
-+{
-+    char *memsock = g_strdup_printf("%s/qemu-mexp-mem", tmp_path);
-+    g_remove(memsock);
-+    g_free(memsock);
++    qdev_prop_set_uint64(dev, "shm_size", size);
 +
-+    char *intsock = g_strdup_printf("%s/qemu-mexp-mem", tmp_path);
-+    g_remove(intsock);
-+    g_free(intsock);
-+}
-+static void add_socks(char *tmp_path)
-+{
-+    char *memsock = g_strdup_printf("%s/qemu-mexp-mem", tmp_path);
-+    mkfifo(memsock, 0700);
-+    g_free(memsock);
-+
-+    char *intsock = g_strdup_printf("%s/qemu-mexp-mem", tmp_path);
-+    mkfifo(intsock, 0700);
-+    g_free(intsock);
-+}
-+
-+static void setup_vm(MexpState *s, int server)
-+{
-+    unsigned long shm_size = 1 << 28;
-+    const char *socksrv = server ? "server,nowait," : "";
-+    char *cmd = g_strdup_printf("-mem-path %s "
-+                                "-device memexpose-pci,mem_chardev=mem-mem,"
-+                                "intr_chardev=mem-intr,shm_size=0x%lx "
-+                                "-chardev socket,%spath=%s/qemu-mexp-mem,id=mem-mem "
-+                                "-chardev socket,%spath=%s/qemu-mexp-intr,id=mem-intr",
-+                                tmpshm, shm_size,
-+                                socksrv, tmpdir, socksrv, tmpdir);
-+    setup_vm_cmd(s, cmd, false);
-+    g_free(cmd);
-+}
-+
-+static void cleanup_vm(MexpState *s)
-+{
-+    assert(!global_qtest);
-+    g_free(s->dev);
-+    qtest_shutdown(s->qs);
-+}
-+
-+static void setup_connected_vms(MexpState *s1, MexpState *s2)
-+{
-+    remove_socks(tmpdir);
-+    add_socks(tmpdir);
-+    setup_vm(s1, 1);
-+    setup_vm(s2, 0);
-+
-+    write_mexp_reg(s1, MEMEXPOSE_INTR_ENABLE_ADDR, 1);
-+    write_mexp_reg(s2, MEMEXPOSE_INTR_ENABLE_ADDR, 1);
-+}
-+
-+static void test_memexpose_simple_memshare(void)
-+{
-+    size_t sixty_four_megs = 1 << (20 + 6);
-+    uint32_t in, out;
-+
-+    MexpState s1, s2;
-+    setup_connected_vms(&s1, &s2);
-+
-+    in = 0xdeadbeef;
-+    write_mem(&s1, sixty_four_megs, &in, 4);
-+    read_mexp_mem(&s2, sixty_four_megs, &out, 4);
-+    g_assert_cmphex(in, ==, out);
-+    in = 0xbaba1510;
-+    write_mem(&s1, sixty_four_megs, &in, 4);
-+    read_mexp_mem(&s2, sixty_four_megs, &out, 4);
-+    g_assert_cmphex(in, ==, out);
-+
-+    in = 0xaaaaaaaa;
-+    write_mexp_mem(&s1, sixty_four_megs, &in, 4);
-+    read_mem(&s2, sixty_four_megs, &out, 4);
-+    g_assert_cmphex(in, ==, out);
-+    in = 0xbbbbbbbb;
-+    write_mexp_mem(&s1, sixty_four_megs, &in, 4);
-+    read_mem(&s2, sixty_four_megs, &out, 4);
-+    g_assert_cmphex(in, ==, out);
-+
-+    cleanup_vm(&s1);
-+    cleanup_vm(&s2);
-+}
-+
-+static void test_memexpose_simple_interrupts(void)
-+{
-+    MexpState s1, s2;
-+    setup_connected_vms(&s1, &s2);
-+
-+    mexp_send_intr(&s1, 0x1, 0xdeadbea7);
-+    mexp_send_intr(&s1, 0x2, 0xdeadbaba);
-+
-+    uint64_t type, data, received;
-+
-+    received = mexp_recv_intr(&s2, &type, &data);
-+    g_assert_cmpuint(received, ==, 1);
-+    g_assert_cmphex(type, ==, 0x1);
-+    g_assert_cmphex(data, ==, 0xdeadbea7);
-+
-+    received = mexp_recv_intr(&s2, &type, &data);
-+    g_assert_cmpuint(received, ==, 1);
-+    g_assert_cmphex(type, ==, 0x2);
-+    g_assert_cmphex(data, ==, 0xdeadbaba);
-+
-+    cleanup_vm(&s1);
-+    cleanup_vm(&s2);
-+}
-+
-+static void test_memexpose_overfull_intr_queue(void)
-+{
-+    MexpState s1, s2;
-+    setup_connected_vms(&s1, &s2);
-+
-+    unsigned int i, expected, runs = MEMEXPOSE_INTR_QUEUE_SIZE + 10;
-+    uint64_t type, data;
-+
-+    for (i = 0; i < runs; i++) {
-+        mexp_send_intr(&s1, i, i);
++    char *intr_ep = g_strdup_printf("%s-intr", vms->memexpose_ep);
++    char *mem_ep = g_strdup_printf("%s-mem", vms->memexpose_ep);
++    Chardev *c = qemu_chr_find(mem_ep);
++    if (!c) {
++        error_setg(errp, "Failed to find memexpose memory endpoint");
++        return;
 +    }
-+
-+    expected = 0;
-+    while (mexp_recv_intr(&s2, &type, &data)) {
-+        if (expected < MEMEXPOSE_INTR_QUEUE_SIZE) {
-+            g_assert_cmphex(type, ==, expected);
-+            g_assert_cmphex(data, ==, expected);
-+            expected += 1;
-+        } else {
-+            g_assert_cmphex(type, >, expected);
-+            g_assert_cmphex(type, <, runs);
-+            g_assert_cmphex(data, >, expected);
-+            g_assert_cmphex(data, <, runs);
-+            expected = type;
-+        }
++    qdev_prop_set_chr(dev, "mem_chardev", c);
++    c = qemu_chr_find(intr_ep);
++    if (!c) {
++        error_setg(errp, "Failed to find memexpose interrupt endpoint");
++        return;
 +    }
-+    g_assert_cmpuint(expected, >=, MEMEXPOSE_INTR_QUEUE_SIZE - 1);
++    qdev_prop_set_chr(dev, "intr_chardev", c);
++    g_free(intr_ep);
++    g_free(mem_ep);
 +
-+    cleanup_vm(&s1);
-+    cleanup_vm(&s2);
++    qdev_init_nofail(dev);
++    MemexposeMemdev *mdev = MEMEXPOSE_MEMDEV(dev);
++    SysBusDevice *s = SYS_BUS_DEVICE(dev);
++    memory_region_add_subregion(mem, mmio_base, &mdev->intr.shmem);
++    memory_region_add_subregion(mem, base, &mdev->mem.shmem);
++    sysbus_connect_irq(s, 0, qdev_get_gpio_in(vms->gic, irq));
++
++    char *nodename = g_strdup_printf("/memexpose@%" PRIx64, mmio_base);
++    qemu_fdt_add_subnode(vms->fdt, nodename);
++    qemu_fdt_setprop_string(vms->fdt, nodename, "compatible",
++                            "memexpose-memregion");
++    qemu_fdt_setprop_sized_cells(vms->fdt, nodename, "reg",
++                                 2, mmio_base, 2, mmio_size,
++                                 2, base, 2, size);
++    qemu_fdt_setprop_cells(vms->fdt, nodename, "interrupts",
++                               GIC_FDT_IRQ_TYPE_SPI, irq,
++                               GIC_FDT_IRQ_FLAGS_LEVEL_HI);
++    g_free(nodename);
 +}
 +
-+static void test_memexpose_intr_data(void)
+ static void create_rtc(const VirtMachineState *vms)
+ {
+     char *nodename;
+@@ -1572,7 +1638,6 @@ static void machvirt_init(MachineState *machine)
+                            UINT64_MAX);
+         memory_region_add_subregion_overlap(secure_sysmem, 0, sysmem, -1);
+     }
+-
+     firmware_loaded = virt_firmware_init(vms, sysmem,
+                                          secure_sysmem ?: sysmem);
+ 
+@@ -1721,6 +1786,8 @@ static void machvirt_init(MachineState *machine)
+     fdt_add_pmu_nodes(vms);
+ 
+     create_uart(vms, VIRT_UART, sysmem, serial_hd(0));
++    if (vms->memexpose_size > 0)
++        create_memexpose(vms, sysmem, &error_abort);
+ 
+     if (vms->secure) {
+         create_secure_ram(vms, secure_sysmem);
+@@ -1849,6 +1916,32 @@ static void virt_set_gic_version(Object *obj, const char *value, Error **errp)
+     }
+ }
+ 
++static char *virt_get_memexpose_ep(Object *obj, Error **errp)
 +{
-+    MexpState s1, s2;
-+    setup_connected_vms(&s1, &s2);
-+
-+    unsigned int i;
-+    uint64_t type, data, received;
-+
-+    uint64_t send = 1;
-+    write_mexp_reg(&s1, MEMEXPOSE_INTR_TX_TYPE_ADDR, 0);
-+    for (i = 0; i < MEMEXPOSE_MAX_INTR_DATA_SIZE; i += 8) {
-+        write_mexp_reg(&s1, MEMEXPOSE_INTR_TX_DATA_ADDR + i, i);
-+    }
-+    write_mexp_reg(&s1, MEMEXPOSE_INTR_SEND_ADDR, send);
-+
-+    received = mexp_recv_intr(&s2, &type, &data);
-+    g_assert_cmpuint(received, ==, 1);
-+    for (i = 0; i < MEMEXPOSE_MAX_INTR_DATA_SIZE; i += 8) {
-+        data = read_mexp_reg(&s1, MEMEXPOSE_INTR_TX_DATA_ADDR + i);
-+        g_assert_cmphex(data, ==, i);
-+    }
-+
-+    cleanup_vm(&s1);
-+    cleanup_vm(&s2);
++    VirtMachineState *vms = VIRT_MACHINE(obj);
++    return g_strdup(vms->memexpose_ep);
 +}
 +
-+static void cleanup(void)
++static void virt_set_memexpose_ep(Object *obj, const char *value, Error **errp)
 +{
-+    if (tmpshm) {
-+        g_rmdir(tmpshm);
-+        tmpshm = NULL;
-+    }
-+
-+    if (tmpdir) {
-+        remove_socks(tmpdir);
-+        g_rmdir(tmpdir);
-+        tmpdir = NULL;
-+    }
++    VirtMachineState *vms = VIRT_MACHINE(obj);
++    g_free(vms->memexpose_ep);
++    vms->memexpose_ep = g_strdup(value);
 +}
 +
-+static void abrt_handler(void *data)
++static char *virt_get_memexpose_size(Object *obj, Error **errp)
 +{
-+    cleanup();
++    VirtMachineState *vms = VIRT_MACHINE(obj);
++    return g_strdup_printf("%" PRIx64, vms->memexpose_size);
 +}
 +
-+int main(int argc, char **argv)
++static void virt_set_memexpose_size(Object *obj, const char *value,
++                                    Error **errp)
 +{
-+    int ret;
-+    gchar dir[] = "/tmp/memexpose-test.XXXXXX";
-+    gchar shmdir[] = "/dev/shm/memexpose-test.XXXXXX";
-+
-+    g_test_init(&argc, &argv, NULL);
-+
-+    qtest_add_abrt_handler(abrt_handler, NULL);
-+
-+    if (mkdtemp(dir) == NULL) {
-+        g_error("mkdtemp: %s", g_strerror(errno));
-+        goto out;
-+    }
-+    tmpdir = dir;
-+    if (mkdtemp(shmdir) == NULL) {
-+        g_error("mkdtemp: %s", g_strerror(errno));
-+        goto out;
-+    }
-+    tmpshm = shmdir;
-+
-+    qtest_add_func("/memexpose/memory", test_memexpose_simple_memshare);
-+    qtest_add_func("/memexpose/interrupts", test_memexpose_simple_interrupts);
-+    qtest_add_func("/memexpose/interrupts_full_queue",
-+                   test_memexpose_overfull_intr_queue);
-+    qtest_add_func("/memexpose/interrupts_all_data", test_memexpose_intr_data);
-+    ret = g_test_run();
-+
-+out:
-+    cleanup();
-+    return ret;
++    VirtMachineState *vms = VIRT_MACHINE(obj);
++    parse_option_size("memexpose-size", value, &vms->memexpose_size, errp);
 +}
++
+ static char *virt_get_iommu(Object *obj, Error **errp)
+ {
+     VirtMachineState *vms = VIRT_MACHINE(obj);
+@@ -2103,6 +2196,21 @@ static void virt_instance_init(Object *obj)
+                                     "Set GIC version. "
+                                     "Valid values are 2, 3 and host", NULL);
+ 
++    /* Memexpose disabled by default */
++    vms->memexpose_ep = g_strdup("");
++    object_property_add_str(obj, "memexpose-ep", virt_get_memexpose_ep,
++                            virt_set_memexpose_ep, NULL);
++    object_property_set_description(obj, "memexpose-ep",
++                                    "Set path to memexpose server socket. "
++                                    "Sockets used for communication will be "
++                                    "<name>-intr and <name>-mem. Set to empty "
++                                    "to disable memexpose.", NULL);
++    vms->memexpose_size = 0;
++    object_property_add_str(obj, "memexpose-size", virt_get_memexpose_size,
++                            virt_set_memexpose_size, NULL);
++    object_property_set_description(obj, "memexpose-size",
++                                    "Size of the memexpose region to access.",
++                                    NULL);
+     vms->highmem_ecam = !vmc->no_highmem_ecam;
+ 
+     if (vmc->no_its) {
+diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
+index 71508bf..d0aeb67 100644
+--- a/include/hw/arm/virt.h
++++ b/include/hw/arm/virt.h
+@@ -76,6 +76,7 @@ enum {
+     VIRT_PLATFORM_BUS,
+     VIRT_GPIO,
+     VIRT_SECURE_UART,
++    VIRT_MEMEXPOSE,
+     VIRT_SECURE_MEM,
+     VIRT_PCDIMM_ACPI,
+     VIRT_ACPI_GED,
+@@ -86,6 +87,8 @@ enum {
+ enum {
+     VIRT_HIGH_GIC_REDIST2 =  VIRT_LOWMEMMAP_LAST,
+     VIRT_HIGH_PCIE_ECAM,
++    VIRT_HIGH_MEMEXPOSE_MMIO,
++    VIRT_HIGH_MEMEXPOSE,
+     VIRT_HIGH_PCIE_MMIO,
+ };
+ 
+@@ -124,6 +127,8 @@ typedef struct {
+     bool its;
+     bool virt;
+     int32_t gic_version;
++    char *memexpose_ep;
++    uint64_t memexpose_size;
+     VirtIOMMUType iommu;
+     struct arm_boot_info bootinfo;
+     MemMapEntry *memmap;
 -- 
 2.7.4
 
