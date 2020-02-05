@@ -2,88 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A05C153180
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 14:13:26 +0100 (CET)
-Received: from localhost ([::1]:46762 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12A8F15318B
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 14:17:21 +0100 (CET)
+Received: from localhost ([::1]:46816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izKUf-0005uB-CX
-	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 08:13:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55961)
+	id 1izKYS-0007yR-4c
+	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 08:17:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58969)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1izKS6-0004ZW-Pu
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 08:10:48 -0500
+ (envelope-from <maz@kernel.org>) id 1izKXL-0007Qx-Qs
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 08:16:12 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1izKS5-00045m-Dv
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 08:10:46 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:44265
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <maz@kernel.org>) id 1izKXK-00068K-UV
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 08:16:11 -0500
+Received: from mail.kernel.org ([198.145.29.99]:39084)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1izKS5-0003tm-3f
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 08:10:45 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580908243;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=//iO38SNUFBf2sVgdCFlvKEtY7M2nNpSz7rbex5YuOY=;
- b=F65fhlrat8qabgLpT1eXlbuWrA4WVzkRPrlga5Eq2XEon2Ke/K7aNx66CRlINUH/xSksfY
- fHsbdfvKgBoJd5loM4Mv9/v2Qp9QeH1LFmf+fEyLohjMId+vA0/V+JjbrXXoP7+zqhzOkR
- ph3rUZ9PChEzo+FZJe9u5mAt+MrvJ5M=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-175-1Q321mvgO56yezy61NHZwg-1; Wed, 05 Feb 2020 08:10:36 -0500
-Received: by mail-qk1-f200.google.com with SMTP id v2so1235785qkf.4
- for <qemu-devel@nongnu.org>; Wed, 05 Feb 2020 05:10:36 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=XNwzOL1zKzZ/u0+0Rk4vNAB9be5A442O/9OkSVKGp5c=;
- b=gjUzNLhZbJ/stes/WL+sv0SS/5Hd3RRIVUK+p7sQuBis0/BivV+t7YwXKDUcpl6qgq
- u64VBNo5tAQvBGmy3BWK//u+1y5rR2+RpDCnxFhvcF7MHdDAMk3vQLAiNt1mlr725NzX
- yNfhJXXFZj8qguWg+kDJAQfYflIRSC6qYvFEFePApVgJ4j3oxPUrZf8npXNSUXBJEtGI
- 99kbUcvbgyJsmKsw5n88aIuq0kYkygUSvApV159nHKMeWe3c4bIlW0bd9R3oIkxhfqxa
- QV5xMHmN8tMivJeu0MsxtwWQ7vKVmMaVllDiMGEQM/vmU/AQ8dCMiWecz+0KPQLkXpAR
- hyxA==
-X-Gm-Message-State: APjAAAUkFUU0d+GU3+c1YoNTr/6Ue0XeKxpY3BFnyo6TgifOasKTY4wy
- suR4HglpWQlsylT2itaHGi0K0pgUqmsG+c0WoF7W7JhUbsOSsPbj4iGRz/4+nmxYci83kVP1ArX
- cDrmNB2aJJQgIbCo=
-X-Received: by 2002:a05:620a:1005:: with SMTP id
- z5mr33150174qkj.26.1580908235714; 
- Wed, 05 Feb 2020 05:10:35 -0800 (PST)
-X-Google-Smtp-Source: APXvYqx08oiq6vHhHUfIemMGEHEvI7zsMwVnWKjPCWYpQXjQtnqoTy4wf0muRbLjq0g76qZDPXAcjQ==
-X-Received: by 2002:a05:620a:1005:: with SMTP id
- z5mr33150151qkj.26.1580908235435; 
- Wed, 05 Feb 2020 05:10:35 -0800 (PST)
-Received: from redhat.com (bzq-79-176-41-183.red.bezeqint.net. [79.176.41.183])
- by smtp.gmail.com with ESMTPSA id 63sm12791963qki.57.2020.02.05.05.10.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Feb 2020 05:10:34 -0800 (PST)
-Date: Wed, 5 Feb 2020 08:10:30 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Subject: Re: Disabling PCI "hot-unplug" for a guest (and/or a single PCI
- device)
-Message-ID: <20200205080952-mutt-send-email-mst@kernel.org>
-References: <16db1dcd-d1a3-5bd9-2daa-d16a0f2d168e@redhat.com>
- <20200204013947-mutt-send-email-mst@kernel.org>
- <CAMDeoFVkoTZSQ=PV=mc_AGoZ445Wug4F+RV5utaYb+jhPEtkJg@mail.gmail.com>
- <20200204113457-mutt-send-email-mst@kernel.org>
- <20200205113637.GE2221087@redhat.com>
+ (Exim 4.71) (envelope-from <maz@kernel.org>)
+ id 1izKXC-0005ik-KW; Wed, 05 Feb 2020 08:16:02 -0500
+Received: from disco-boy.misterjones.org (disco-boy.misterjones.org
+ [51.254.78.96])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 32CDC217BA;
+ Wed,  5 Feb 2020 13:16:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1580908561;
+ bh=0W0tsAYvuSVfdnkVoYJz9RA72eMKRnWbirCOKy4dgj4=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=mw/CsqZn3sB1tInzPuRPCNlNVaQNI8i89I1s/la4HB0tDL4cpBkL4a92BXQeJ8nzO
+ TxHYA9t3i+4fL9NewSZN1b0Ir8Vikf24fbQzEzPfBqwN/LTK5MuRM6q7Em4FdXDe7j
+ ZczcSmuNI+8jieLnICz0LVC3FCpmqw264fS80C/Q=
+Received: from disco-boy.misterjones.org ([51.254.78.96] helo=www.loen.fr)
+ by disco-boy.misterjones.org with esmtpsa
+ (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <maz@kernel.org>)
+ id 1izKX9-0038Qe-GA; Wed, 05 Feb 2020 13:15:59 +0000
 MIME-Version: 1.0
-In-Reply-To: <20200205113637.GE2221087@redhat.com>
-X-MC-Unique: 1Q321mvgO56yezy61NHZwg-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date: Wed, 05 Feb 2020 13:15:59 +0000
+From: Marc Zyngier <maz@kernel.org>
+To: Heyi Guo <guoheyi@huawei.com>
+Subject: Re: [RFC v2 00/14] Add SDEI support for arm64
+In-Reply-To: <e8b93460-48e6-43cd-4608-370c07cb45ec@huawei.com>
+References: <20191105091056.9541-1-guoheyi@huawei.com>
+ <CAFEAcA-+tAbb9h2wZOm56TqUvjQJT0OYFLwTVS-UxKrF5PO3mQ@mail.gmail.com>
+ <5aece614-4341-35e5-53a6-2f3d788e6e8d@huawei.com>
+ <e8b93460-48e6-43cd-4608-370c07cb45ec@huawei.com>
+Message-ID: <350aa4ca1b57a466ed882236caf23051@kernel.org>
+X-Sender: maz@kernel.org
+User-Agent: Roundcube Webmail/1.3.8
+X-SA-Exim-Connect-IP: 51.254.78.96
+X-SA-Exim-Rcpt-To: guoheyi@huawei.com, peter.maydell@linaro.org,
+ qemu-arm@nongnu.org, qemu-devel@nongnu.org, wanghaibin.wang@huawei.com,
+ Dave.Martin@arm.com, mark.rutland@arm.com, james.morse@arm.com, mst@redhat.com,
+ cohuck@redhat.com, pbonzini@redhat.com, shannon.zhaosl@gmail.com,
+ imammedo@redhat.com, gshan@redhat.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org);
+ SAEximRunCond expanded to false
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 198.145.29.99
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -95,61 +76,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: libvir-list@redhat.com, Julia Suvorova <jusual@redhat.com>,
- qemu-devel@nongnu.org, Laine Stump <laine@redhat.com>
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Gavin Shan <gshan@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Shannon Zhao <shannon.zhaosl@gmail.com>, Igor Mammedov <imammedo@redhat.com>,
+ qemu-arm <qemu-arm@nongnu.org>, James Morse <james.morse@arm.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, wanghaibin.wang@huawei.com,
+ Dave Martin <Dave.Martin@arm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Feb 05, 2020 at 11:36:37AM +0000, Daniel P. Berrang=E9 wrote:
-> On Tue, Feb 04, 2020 at 11:35:37AM -0500, Michael S. Tsirkin wrote:
-> > On Tue, Feb 04, 2020 at 05:13:54PM +0100, Julia Suvorova wrote:
-> > > On Tue, Feb 4, 2020 at 11:26 AM Michael S. Tsirkin <mst@redhat.com> w=
-rote:
-> > > >
-> > > > On Mon, Feb 03, 2020 at 05:19:51PM -0500, Laine Stump wrote:
-> > > > > 3) qemu could add a "hotpluggable=3Dno" commandline option to all=
- PCI devices
-> > > > > (including vfio-pci) and then do whatever is necessary to make su=
-re this is
-> > > > > honored in the emulated hardware (is it possible to set this on a=
- per-slot
-> > > > > basis in a PCI controller? Or must it be done for an entire contr=
-oller?
-> > > >
-> > > > I think it's possible on a per-slot basis, yes.
-> > >=20
-> > > There's a "Hot-Plug Capable" option in Slot Capability register, so w=
-e
-> > > can switch it off. But it's only for pcie devices, can't say anything
-> > > about conventional pci.
-> > >=20
-> > > Best regards, Julia Suvorova.
-> >=20
-> > For conventional PCI, we can drop SHPC capability and remove
-> > the eject method from ACPI.
->=20
-> Before considering this, is there any compelling reason to care about
-> this for PCI ?
+Hi Heyi,
 
-Not that I know. I simply answered Julia's question.
+On 2020-02-04 08:26, Heyi Guo wrote:
+> Update Marc's email address.
+> 
+> +cc Gavin as he is posting a RFC for ARM NMI.
+> 
+> Hi Marc,
+> 
+> Really sorry for missing to update your email address, for the initial
+> topic was raised long time ago and I forgot to update the Cc list in
+> the commit message of the patches.
+> 
+> Thanks Gavin for forwarding current discussion on ARM NMI to me.
+> 
+> For you said SDEI is "horrible", does it mean we'd better never
+> implement SDEI in virtual world? Or do you have any advice on how to
+> implement it?
 
-> Currently with i440fx there's no direct representation
-> of the 32 slots as objects in either QEMU or libvirt. So extending this
-> to allow disabling hotplug for i440fx PCI slots is going to need much
-> more config work for QEMU, libvirt and mgmt apps.  Personally I'd only
-> do this for PCIe until there's a clear requirement given for legacy PCI
-> support too.
+My concern is that SDEI implies having EL3. EL3 not being virtualizable
+with KVM, you end-up baking SDEI in *hardware*. Of course, this hardware
+is actually software (it is QEMU), but this isn't the way it was 
+intended.
 
-Makes sense to me.
+It's not the first time we've done that (PSCI is another example), but 
+the
+logic behind SDEI looks much more invasive.
 
-> Regards,
-> Daniel
-> --=20
-> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
-ge :|
-> |: https://libvirt.org         -o-            https://fstop138.berrange.c=
-om :|
-> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
-ge :|
-
+         M.
+-- 
+Jazz is not dead. It just smells funny...
 
