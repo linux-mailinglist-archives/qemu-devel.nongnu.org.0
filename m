@@ -2,74 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14A4915364B
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 18:23:54 +0100 (CET)
-Received: from localhost ([::1]:54118 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A715415363D
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 18:19:49 +0100 (CET)
+Received: from localhost ([::1]:53972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izOP3-000151-45
-	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 12:23:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37935)
+	id 1izOL6-0002G7-Ka
+	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 12:19:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35276)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1izOIV-0007dR-3I
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 12:17:08 -0500
+ (envelope-from <clg@kaod.org>) id 1izOCb-0005V8-BX
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 12:11:02 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1izOIT-00062c-ON
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 12:17:06 -0500
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:42607)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1izOIT-0005va-HJ
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 12:17:05 -0500
-Received: by mail-wr1-x444.google.com with SMTP id k11so3687029wrd.9
- for <qemu-devel@nongnu.org>; Wed, 05 Feb 2020 09:17:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=CSaTZJFIuVQ1omKPNOe/5wVS6aybIDfIvPKxevpi+Xg=;
- b=Ea0B9cGryTq14bPh8JN1Rt9JSZwPDYQc2rZxdqwGmqfO2zd+hPmsxX4AZG0VQdkgOL
- Xgh+Oe57fSlc1r9QdRYRNHeRuluQM9XKVdcR+z57Sh6QmrJ86odQmztICwv5IHHCpUm3
- YEEBrc7Y4TFcaNCqAA+AGyoeheljdkE113ximuonifTerOGgS/itaBDzKaRS2iL2sT7e
- 6k3mRLJIlM9ZRe8WbKc4QviNvT0EM1uHlm3sHmxJqiXRHS6o6tZD4U822UPLWtdaPB1o
- 6FBNyFmzFvkBz/n2vgYlRPLXcf1MaMYYYihDS4fkixzwMjnN7nwiLzudhk+Dk/yLP5eq
- wugg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=CSaTZJFIuVQ1omKPNOe/5wVS6aybIDfIvPKxevpi+Xg=;
- b=p3su6eCPWoM0mdexlgdK9nADGk7Jeq3YYfGIT4YnW6dvfxqzOnQyV8NbyzIb/+dlkI
- oslxywkgaUay8L2Kq3DXmcDhiehchYWmCzUTFu7q9V1lXTV5s3yCCWUgoXsJtdDQZWlP
- 4epLYewrDoExoYsWxOD9VknOcCWMNTeVd+YD7E9ZT4BKljRnHEHcAsJAk4N94POTSZ4z
- VDLR+0wqA7O2hlxABxCmo0Obo6DEg8fwQeF3EKJx+ZjgbV5U/RitF8jhRXw5paDuObom
- pCBxWg070pVTkcTCkQae+bgHD6nVOoJR5fE9PyADdoHSdzX3IYps7cWRJthHjrX2SXyc
- 8CHw==
-X-Gm-Message-State: APjAAAUy7VikX4V4YcFFq+3EdUtbo9MQc2lnd3Qf2Tw5/GrB93pVB14e
- F3mwoIEo7wdbuvKJTMZk7FNjyg==
-X-Google-Smtp-Source: APXvYqwIf8lCNbJYJpqzUvU3chuhyiI0QeiMbEk5HEBfk/vxMOByD3zYzqpU3yBDgTAcs8MTubi8ww==
-X-Received: by 2002:adf:f406:: with SMTP id g6mr18201457wro.189.1580923024070; 
- Wed, 05 Feb 2020 09:17:04 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id x10sm598659wrp.58.2020.02.05.09.17.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Feb 2020 09:17:02 -0800 (PST)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id CA53A1FFAE;
- Wed,  5 Feb 2020 17:10:33 +0000 (GMT)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH  v6 22/22] gdbstub: do not split gdb_monitor_write payload
-Date: Wed,  5 Feb 2020 17:10:31 +0000
-Message-Id: <20200205171031.22582-23-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200205171031.22582-1-alex.bennee@linaro.org>
-References: <20200205171031.22582-1-alex.bennee@linaro.org>
+ (envelope-from <clg@kaod.org>) id 1izOCZ-0006e6-J7
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 12:11:01 -0500
+Received: from 12.mo5.mail-out.ovh.net ([46.105.39.65]:36358)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1izOCZ-0006Ts-7P
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 12:10:59 -0500
+Received: from player760.ha.ovh.net (unknown [10.110.103.226])
+ by mo5.mail-out.ovh.net (Postfix) with ESMTP id 05BB826B575
+ for <qemu-devel@nongnu.org>; Wed,  5 Feb 2020 18:10:56 +0100 (CET)
+Received: from kaod.org (82-64-250-170.subs.proxad.net [82.64.250.170])
+ (Authenticated sender: clg@kaod.org)
+ by player760.ha.ovh.net (Postfix) with ESMTPSA id 2F66AF0CAE0D;
+ Wed,  5 Feb 2020 17:10:45 +0000 (UTC)
+Subject: Re: [PATCH 1/3] m25p80: Convert to support tracing
+To: Guenter Roeck <linux@roeck-us.net>
+References: <20200203180904.2727-1-linux@roeck-us.net>
+ <615518c7-f4c8-7c08-9096-bcf5f583eeb1@kaod.org>
+ <20200205163520.GE25403@roeck-us.net>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <a4ee58d2-0642-b4f4-2756-84d9f08b08a9@kaod.org>
+Date: Wed, 5 Feb 2020 18:10:44 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::444
+In-Reply-To: <20200205163520.GE25403@roeck-us.net>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+X-Ovh-Tracer-Id: 17807232929370049504
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedugedrhedugdelfecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefuvfhfhffkffgfgggjtgfgsehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuffhomhgrihhnpehgihhthhhusgdrtghomhenucfkpheptddrtddrtddrtddpkedvrdeigedrvdehtddrudejtdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejiedtrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 46.105.39.65
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,66 +59,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: damien.hedde@greensocs.com, luis.machado@linaro.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- richard.henderson@linaro.org, alan.hayward@arm.com,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Luc Michel <luc.michel@greensocs.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ qemu-block@nongnu.org, Andrew Jeffery <andrew@aj.id.au>,
+ Alistair Francis <alistair@alistair23.me>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, qemu-arm@nongnu.org,
+ Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Damien Hedde <damien.hedde@greensocs.com>
+On 2/5/20 5:35 PM, Guenter Roeck wrote:
+> On Wed, Feb 05, 2020 at 11:05:04AM +0100, C=C3=A9dric Le Goater wrote:
+>> On 2/3/20 7:09 PM, Guenter Roeck wrote:
+>>> While at it, add some trace messages to help debug problems
+>>> seen when running the latest Linux kernel.
+>>
+>> In case you resend, It would be nice to printout a flash id in the tra=
+cing
+>> else I have a patch for it on top of yours. It helped me track a squas=
+hfs
+>> corruption on the Aspeed witherspoon-bmc machine which we were after s=
+ince
+>> 2017 or so. It seems to be a kernel bug.
+>>
+>=20
+> I'll send a new version to split patch 2. Not sure I understand what yo=
+u mean
+> with the above. If you send me your patch I'll be happy to merge it int=
+o mine,
+> otherwise we can just keep it as follow-ip patch.
 
-Since we can now send packets of arbitrary length:
-simplify gdb_monitor_write() and send the whole payload
-in one packet.
+Here is the idea :=20
 
-Suggested-by: Luc Michel <luc.michel@greensocs.com>
-Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20191211160514.58373-3-damien.hedde@greensocs.com>
----
- gdbstub.c | 23 +++--------------------
- 1 file changed, 3 insertions(+), 20 deletions(-)
+  https://github.com/legoater/qemu/commit/a07727e9cfc8447ea18249ff68a561f=
+7e8883584
 
-diff --git a/gdbstub.c b/gdbstub.c
-index b9fb8c0a95a..6e461d871e0 100644
---- a/gdbstub.c
-+++ b/gdbstub.c
-@@ -3200,28 +3200,11 @@ static void gdb_chr_event(void *opaque, QEMUChrEvent event)
-     }
- }
- 
--static void gdb_monitor_output(const char *msg, int len)
--{
--    g_autoptr(GString) buf = g_string_new("O");
--    memtohex(buf, (uint8_t *)msg, len);
--    put_packet(buf->str);
--}
--
- static int gdb_monitor_write(Chardev *chr, const uint8_t *buf, int len)
- {
--    const char *p = (const char *)buf;
--    int max_sz;
--
--    max_sz = (MAX_PACKET_LENGTH / 2) + 1;
--    for (;;) {
--        if (len <= max_sz) {
--            gdb_monitor_output(p, len);
--            break;
--        }
--        gdb_monitor_output(p, max_sz);
--        p += max_sz;
--        len -= max_sz;
--    }
-+    g_autoptr(GString) hex_buf = g_string_new("O");
-+    memtohex(hex_buf, buf, len);
-+    put_packet(hex_buf->str);
-     return len;
- }
- 
--- 
-2.20.1
+You can merge and maybe extend to all traces.
 
+
+In the issue we had, two CS could be selected at the same time=20
+and the SPI transfers were getting mixed. Printing out which
+CS is doing what is interesting for debug.=20
+
+Thanks,
+C.
 
