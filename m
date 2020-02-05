@@ -2,36 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 186911526AD
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 08:10:17 +0100 (CET)
-Received: from localhost ([::1]:42122 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99BED1526B5
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 08:13:00 +0100 (CET)
+Received: from localhost ([::1]:42150 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izEpE-00028m-5y
-	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 02:10:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48340)
+	id 1izErr-0004Oc-Mj
+	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 02:12:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48422)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pannengyuan@huawei.com>) id 1izEn9-0001DU-Uh
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 02:08:12 -0500
+ (envelope-from <pannengyuan@huawei.com>) id 1izEnG-0001Fp-5o
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 02:08:18 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pannengyuan@huawei.com>) id 1izEn3-0008Ka-Er
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 02:08:04 -0500
-Received: from szxga07-in.huawei.com ([45.249.212.35]:58672 helo=huawei.com)
+ (envelope-from <pannengyuan@huawei.com>) id 1izEnE-0000ZW-4b
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 02:08:13 -0500
+Received: from szxga07-in.huawei.com ([45.249.212.35]:58666 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <pannengyuan@huawei.com>)
- id 1izEn3-0007jS-24
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 02:08:01 -0500
+ id 1izEn6-0007jP-7w; Wed, 05 Feb 2020 02:08:07 -0500
 Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id 3377740340993C654414;
+ by Forcepoint Email with ESMTP id 375FF86DF44D2F0DC405;
  Wed,  5 Feb 2020 15:07:53 +0800 (CST)
 Received: from DESKTOP-9NTIQGG.china.huawei.com (10.173.221.136) by
  DGGEMS409-HUB.china.huawei.com (10.3.19.209) with Microsoft SMTP Server id
- 14.3.439.0; Wed, 5 Feb 2020 15:07:44 +0800
+ 14.3.439.0; Wed, 5 Feb 2020 15:07:45 +0800
 From: <pannengyuan@huawei.com>
 To: <peter.maydell@linaro.org>
-Subject: [PATCH 2/3] stm32f2xx_timer: delay timer_new to avoid memleaks
-Date: Wed, 5 Feb 2020 15:06:58 +0800
-Message-ID: <20200205070659.22488-3-pannengyuan@huawei.com>
+Subject: [PATCH 3/3] stellaris: delay timer_new to avoid memleaks
+Date: Wed, 5 Feb 2020 15:06:59 +0800
+Message-ID: <20200205070659.22488-4-pannengyuan@huawei.com>
 X-Mailer: git-send-email 2.21.0.windows.1
 In-Reply-To: <20200205070659.22488-1-pannengyuan@huawei.com>
 References: <20200205070659.22488-1-pannengyuan@huawei.com>
@@ -55,54 +54,59 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Euler Robot <euler.robot@huawei.com>, Pan Nengyuan <pannengyuan@huawei.com>,
- zhang.zhanghailiang@huawei.com, Alistair
- Francis <alistair@alistair23.me>, qemu-devel@nongnu.org
+ zhang.zhanghailiang@huawei.com, qemu-arm@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Pan Nengyuan <pannengyuan@huawei.com>
 
 There is a memory leak when we call 'device_list_properties' with typenam=
-e =3D stm32f2xx_timer. It's easy to reproduce as follow:
+e =3D stellaris-gptm. It's easy to reproduce as follow:
 
-    virsh qemu-monitor-command vm1 --pretty '{"execute": "device-list-pro=
-perties", "arguments": {"typename": "stm32f2xx_timer"}}'
+  virsh qemu-monitor-command vm1 --pretty '{"execute": "device-list-prope=
+rties", "arguments": {"typename": "stellaris-gptm"}}'
 
-This patch delay timer_new to fix this memleaks.
+This patch delay timer_new in realize to fix it.
 
 Reported-by: Euler Robot <euler.robot@huawei.com>
 Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
-Cc: Alistair Francis <alistair@alistair23.me>
+Cc: qemu-arm@nongnu.org
 ---
- hw/timer/stm32f2xx_timer.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ hw/arm/stellaris.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/hw/timer/stm32f2xx_timer.c b/hw/timer/stm32f2xx_timer.c
-index fb370ce0f0..06ec8a02c2 100644
---- a/hw/timer/stm32f2xx_timer.c
-+++ b/hw/timer/stm32f2xx_timer.c
-@@ -314,7 +314,11 @@ static void stm32f2xx_timer_init(Object *obj)
-     memory_region_init_io(&s->iomem, obj, &stm32f2xx_timer_ops, s,
-                           "stm32f2xx_timer", 0x400);
-     sysbus_init_mmio(SYS_BUS_DEVICE(obj), &s->iomem);
+diff --git a/hw/arm/stellaris.c b/hw/arm/stellaris.c
+index bb025e0bd0..221a78674e 100644
+--- a/hw/arm/stellaris.c
++++ b/hw/arm/stellaris.c
+@@ -347,11 +347,15 @@ static void stellaris_gptm_init(Object *obj)
+     sysbus_init_mmio(sbd, &s->iomem);
+=20
+     s->opaque[0] =3D s->opaque[1] =3D s;
 +}
-=20
-+static void stm32f2xx_timer_realize(DeviceState *dev, Error **errp)
++
++static void stellaris_gptm_realize(DeviceState *dev, Error **errp)
 +{
-+    STM32F2XXTimerState *s =3D STM32F2XXTIMER(dev);
-     s->timer =3D timer_new_ns(QEMU_CLOCK_VIRTUAL, stm32f2xx_timer_interr=
-upt, s);
++    gptm_state *s =3D STELLARIS_GPTM(dev);
+     s->timer[0] =3D timer_new_ns(QEMU_CLOCK_VIRTUAL, gptm_tick, &s->opaq=
+ue[0]);
+     s->timer[1] =3D timer_new_ns(QEMU_CLOCK_VIRTUAL, gptm_tick, &s->opaq=
+ue[1]);
  }
 =20
-@@ -325,6 +329,7 @@ static void stm32f2xx_timer_class_init(ObjectClass *k=
-lass, void *data)
-     dc->reset =3D stm32f2xx_timer_reset;
-     device_class_set_props(dc, stm32f2xx_timer_properties);
-     dc->vmsd =3D &vmstate_stm32f2xx_timer;
-+    dc->realize =3D stm32f2xx_timer_realize;
+-
+ /* System controller.  */
+=20
+ typedef struct {
+@@ -1536,6 +1540,7 @@ static void stellaris_gptm_class_init(ObjectClass *=
+klass, void *data)
+     DeviceClass *dc =3D DEVICE_CLASS(klass);
+=20
+     dc->vmsd =3D &vmstate_stellaris_gptm;
++    dc->realize =3D stellaris_gptm_realize;
  }
 =20
- static const TypeInfo stm32f2xx_timer_info =3D {
+ static const TypeInfo stellaris_gptm_info =3D {
 --=20
 2.21.0.windows.1
 
