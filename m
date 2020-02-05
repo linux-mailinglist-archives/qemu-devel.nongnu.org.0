@@ -2,68 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1133153637
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 18:18:14 +0100 (CET)
-Received: from localhost ([::1]:53936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83F2C153644
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 18:22:27 +0100 (CET)
+Received: from localhost ([::1]:54052 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izOJa-00084T-1c
-	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 12:18:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36347)
+	id 1izONe-0006Kx-H9
+	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 12:22:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37416)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1izOFy-00041N-UD
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 12:14:32 -0500
+ (envelope-from <clg@kaod.org>) id 1izOHf-0006NC-En
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 12:16:16 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1izOFw-0005Cn-PH
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 12:14:30 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:42527
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <clg@kaod.org>) id 1izOHe-00035r-5T
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 12:16:15 -0500
+Received: from 7.mo2.mail-out.ovh.net ([188.165.48.182]:53158)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1izOFw-00058r-HD
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 12:14:28 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580922866;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/nuauJBDGKPZGZiSEz5rZKsAlRwvYx8N1fUspHI2QmE=;
- b=A28OZKWVLW/HQFNWOZQwrnQu5y10bJlc4z8JAjjcCCTBz9Y7hu2JYLWvlBoz0ep0S86Jyk
- 2jvwIWqvzzfadB2NLrsm9/GjB0LZVnr+iMKIxzfZosRW/jLkcPqcOxg17u2uQZbVaq5bm+
- 0nEeoicyWZZLy0pqBKzpT6gFKP1EKJk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-384-5t5H9mJJPA2wto0SeP0FTw-1; Wed, 05 Feb 2020 12:14:10 -0500
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4CC46189F763;
- Wed,  5 Feb 2020 17:14:09 +0000 (UTC)
-Received: from [10.3.116.181] (ovpn-116-181.phx2.redhat.com [10.3.116.181])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CE53D89E81;
- Wed,  5 Feb 2020 17:14:08 +0000 (UTC)
-Subject: Re: [PATCH v2 10/33] block: Use bdrv_inherited_options()
-To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
-References: <20200204170848.614480-1-mreitz@redhat.com>
- <20200204170848.614480-11-mreitz@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <61a0a25c-f726-c410-eddf-d47f9a93f7a3@redhat.com>
-Date: Wed, 5 Feb 2020 11:14:08 -0600
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1izOHd-00032X-Uw
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 12:16:14 -0500
+Received: from player688.ha.ovh.net (unknown [10.110.208.44])
+ by mo2.mail-out.ovh.net (Postfix) with ESMTP id BB4251C7B12
+ for <qemu-devel@nongnu.org>; Wed,  5 Feb 2020 18:16:10 +0100 (CET)
+Received: from kaod.org (82-64-250-170.subs.proxad.net [82.64.250.170])
+ (Authenticated sender: clg@kaod.org)
+ by player688.ha.ovh.net (Postfix) with ESMTPSA id 09FD7EF4C39B;
+ Wed,  5 Feb 2020 17:16:01 +0000 (UTC)
+Subject: Re: [PULL 19/35] ppc/pnv: Add models for POWER9 PHB4 PCIe Host bridge
+To: Laurent Vivier <lvivier@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>, peter.maydell@linaro.org
+References: <20200203061123.59150-1-david@gibson.dropbear.id.au>
+ <20200203061123.59150-20-david@gibson.dropbear.id.au>
+ <bbb36281-287b-70cf-80ab-9ac54eeca8de@redhat.com>
+ <ba1e6cd7-083d-5d98-e802-1e828a13c467@kaod.org>
+ <254167f7-baca-24fa-e2e0-cf78d5e50234@redhat.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <4cee3138-ebab-9154-b9f5-acc59794d9df@kaod.org>
+Date: Wed, 5 Feb 2020 18:16:01 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200204170848.614480-11-mreitz@redhat.com>
+In-Reply-To: <254167f7-baca-24fa-e2e0-cf78d5e50234@redhat.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: 5t5H9mJJPA2wto0SeP0FTw-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Ovh-Tracer-Id: 17895616069632625521
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedugedrhedugdelgecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefuvfhfhffkffgfgggjtgfgsehtjeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecukfhppedtrddtrddtrddtpdekvddrieegrddvhedtrddujedtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrieekkedrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhg
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-Received-From: 188.165.48.182
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,47 +62,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, groug@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/4/20 11:08 AM, Max Reitz wrote:
-> Let child_file's, child_format's, and child_backing's .inherit_options()
-> implementations fall back to bdrv_inherited_options() to show that it
-> would really work for all of these cases, if only the parents passed the
-> appropriate BdrvChildRole and parent_is_format values.
-> 
-> (Also, make bdrv_open_inherit(), the only place to explicitly call
-> bdrv_backing_options(), call bdrv_inherited_options() instead.)
-> 
-> This patch should incur only two visible changes, both for child_format
-> children, both of which are effectively bug fixes:
-> 
-> First, they no longer have discard=unmap set by default.  This reason it
-> was set is because bdrv_inherited_fmt_options() fell through to
-> bdrv_protocol_options(), and that set it because "format drivers take
-> care to send flushes and respect unmap policy".  None of the drivers
-> that use child_format for their children (quorum and blkverify) are
-> format drivers, though, so this reasoning does not apply here.
-> 
-> Second, they no longer have BDRV_O_NO_IO force-cleared.  child_format
-> was used solely for children that do not store any metadata and as such
-> will not be accessed by their parents as long as those parents do not
-> receive I/O themselves.  Thus, such children should inherit
-> BDRV_O_NO_IO.
-> 
-> Signed-off-by: Max Reitz <mreitz@redhat.com>
-> ---
->   block.c | 66 ++++++++++++---------------------------------------------
->   1 file changed, 14 insertions(+), 52 deletions(-)
-> 
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
+>>>> diff --git a/hw/ppc/Kconfig b/hw/ppc/Kconfig
+>>>> index e27efe9a24..354828bf13 100644
+>>>> --- a/hw/ppc/Kconfig
+>>>> +++ b/hw/ppc/Kconfig
+>>>> @@ -135,6 +135,8 @@ config XIVE_SPAPR
+>>>>      default y
+>>>>      depends on PSERIES
+>>>>      select XIVE
+>>>> +    select PCI
+>>>> +    select PCIE_PORT
+>>>
+>>> This patch is about PowerNV, why do we add dependencies for pseries
+>>> configuration?
+>>
+>> Bogus leftovers from the past. I think we can drop them.
+> 
+> I will prepare a patch for that.
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+Thanks. Here is a small command line to check PCI adapters.
 
+C.
+
+$ qemu-system-ppc64 -machine powernv9  -nographic -device ich9-ahci,id=sata0,bus=pcie.1,addr=0x0 -device e1000e,mac=C0:FF:EE:00:01:03,bus=pcie.2,addr=0x0
+
+[    0.011935416,5] OPAL v6.4 starting...
+[    0.012528373,7] initial console log level: memory 7, driver 5
+[    0.012560514,6] CPU: P9 generation processor (max 4 threads/core)
+[    0.012575475,7] CPU: Boot CPU PIR is 0x0000 PVR is 0x004e1200
+[    0.012735128,7] OPAL table: 0x30101830 .. 0x30101da0, branch table: 0x30002000
+[    0.012945847,7] Assigning physical memory map table for nimbus
+[    0.013226493,7] FDT: Parsing fdt @0x1000000
+[    0.015091333,5] CHIP: Detected Qemu simulator
+...
+[    6.259400309,5] PCI Summary:
+[    6.259731885,5] PHB#0000:00:00.0 [ROOT] 1014 04c1 R:00 C:060400 B:01..01 
+[    6.260025513,5] PHB#0001:00:00.0 [ROOT] 1014 04c1 R:00 C:060400 B:01..01 
+[    6.260263027,5] PHB#0001:01:00.0 [PCID] 8086 2922 R:02 C:010601 (          sata) 
+[    6.260485810,5] PHB#0002:00:00.0 [ROOT] 1014 04c1 R:00 C:060400 B:01..01 
+[    6.260691330,5] PHB#0002:01:00.0 [EP  ] 8086 10d3 R:00 C:020000 (      ethernet) 
+[    6.260873711,5] PHB#0003:00:00.0 [ROOT] 1014 04c1 R:00 C:060400 B:01..01 
+[    6.261053114,5] PHB#0004:00:00.0 [ROOT] 1014 04c1 R:00 C:060400 B:01..01 
+[    6.261237264,5] PHB#0005:00:00.0 [ROOT] 1014 04c1 R:00 C:060400 B:01..01 
+[    6.261496700,4] FLASH: Failed to load VERSION data
+[    6.423913697,5] INIT: Waiting for kernel...
+[    6.424004918,5] INIT: platform wait for kernel load failed
+[    6.424114190,5] INIT: Assuming kernel at 0x20000000
+[    6.424232276,3] INIT: ELF header not found. Assuming raw binary.
+[    6.424407245,3] OCC: Unassigned OCC Common Area. No sensors found
+[    6.424629768,2] NVRAM: Failed to load
+[    6.494846301,0] FATAL: Kernel is zeros, can't execute!
 
