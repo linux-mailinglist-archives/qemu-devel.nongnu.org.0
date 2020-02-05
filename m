@@ -2,68 +2,113 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51848152891
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 10:40:55 +0100 (CET)
-Received: from localhost ([::1]:43660 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F91815289C
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 10:44:33 +0100 (CET)
+Received: from localhost ([::1]:43740 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izHB0-0001Oy-AY
-	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 04:40:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52911)
+	id 1izHEW-0004YS-OH
+	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 04:44:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55604)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1izH96-0008E9-OB
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 04:38:59 -0500
+ (envelope-from <felipe@nutanix.com>) id 1izHDL-0003l9-GX
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 04:43:22 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1izH92-00073i-SE
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 04:38:55 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:52331
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1izH92-0006v1-MV
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 04:38:52 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580895531;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=8mpjPmHPBUn9rPKM0uc3lVu2psMByPl0ZA5YJDwqZjQ=;
- b=NEtGtgs7IRrENI7hbJCUE1F1kz0J8uREYgZd+GocRPBwTy9a6CvlfW8Do41gniBKdjIw8p
- TSPczxjWIUhfAsapeH0QylvV5SH3hKPsAOHz+C+vpAc8WnGmJ+hVWcaISm5t1xq9M58ptn
- 6M6PUTw41UZBseLC+RebZdLHNOILYqg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-197-eQWWhWx7OVCw2Sc7u6GwKQ-1; Wed, 05 Feb 2020 04:38:46 -0500
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0215086A079;
- Wed,  5 Feb 2020 09:38:45 +0000 (UTC)
-Received: from localhost (unknown [10.43.2.114])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7013D87B1B;
- Wed,  5 Feb 2020 09:38:40 +0000 (UTC)
-Date: Wed, 5 Feb 2020 10:38:38 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Babu Moger <babu.moger@amd.com>
-Subject: Re: [PATCH v3 00/18] APIC ID fixes for AMD EPYC CPU models
-Message-ID: <20200205103838.424b40a9@redhat.com>
-In-Reply-To: <fec6193d-09f1-5609-28fb-d10122053610@amd.com>
-References: <157541968844.46157.17994918142533791313.stgit@naples-babu.amd.com>
- <20200203155921.658d7765@redhat.com>
- <b493a4f4-48de-79a7-00d5-119fbe789879@amd.com>
- <20200204090230.28f31a87@redhat.com>
- <fec6193d-09f1-5609-28fb-d10122053610@amd.com>
+ (envelope-from <felipe@nutanix.com>) id 1izHDI-00086T-7o
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 04:43:18 -0500
+Received: from mx0b-002c1b01.pphosted.com ([148.163.155.12]:9100)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <felipe@nutanix.com>) id 1izHDI-00083j-05
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 04:43:16 -0500
+Received: from pps.filterd (m0127844.ppops.net [127.0.0.1])
+ by mx0b-002c1b01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 0159dRVi031288; Wed, 5 Feb 2020 01:43:14 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
+ h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-type :
+ content-id : content-transfer-encoding : mime-version;
+ s=proofpoint20171006; bh=9oaL2ajpCZ5fZe83rvGHuMj46uHjuckMD70a+IS6Uuo=;
+ b=rqUiMfhEfvKfFtgR5JWzvlFlZqbDfVJUUBUsdLHgRtOklOxne5YHder6P4s1VmEU+fLS
+ hEb6WnEtWp/7hrJqTbRLEognlC7Ezjs+sHA6Yw2V03lxUjdFvzqJdX44pOYhU1hOYN5v
+ ipo34Ux9xehtuIJDlETxAb0QfKaiOyVEYTUQSJJLlBwNUvGFEmN1d3IhuLrohcihVasP
+ ZxCss/8CMomdO1S9mLMChCS/AHcXXW8wj61b5a0+wpi6YM5C4PzTCQeVi8eK+IzKVs5U
+ OGv+94ybq8FxE/0RhkNEVqDCK1NlhyU4ivD93lwkqzbOFEaWq7MRgu6Ujbt6j7WB0Vmb JQ== 
+Received: from nam02-cy1-obe.outbound.protection.outlook.com
+ (mail-cys01nam02lp2059.outbound.protection.outlook.com [104.47.37.59])
+ by mx0b-002c1b01.pphosted.com with ESMTP id 2xyhprs61p-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 05 Feb 2020 01:43:14 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ILcbHsv2jZ8vq7fMcW/gZrPSZhCJ1dyVO1A+mESMqS5QE43dcsHJZGh9nowjdeBjyD5kQOFk/re34nm8YIRj9jMYIMDhYteLCBJA0C/U/4OmsCdB2Jx1HgOl0iSOS0WFU0Oza0YoA47VpsT3w0Pt8k14ZcRNn1/KltupYYbzOO/BHrqktZf+JxrS5Kh91Z+wtm0suwLFmtspl2ra8Nl/i4YC2R/5Ac9JEbOOj2EkKXfToDrPT17DXJsFGE1xtz/+gUKjEMsBT1HmfX3OIetnpINUPxGGQ7I4UPtxlrAz0uiHmZrmDjGNGhA5V4EWrhS2r0gL6ljXgFjWhlyXzNderw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9oaL2ajpCZ5fZe83rvGHuMj46uHjuckMD70a+IS6Uuo=;
+ b=cgDGIAlGeGIguplr93Ce9h9IAnNnFI3/bMGfPfF+UVwrdcA8oilVrFeelOAMmhOagmFqMEqC0NjdxJYyVgRsFP1PpQCDKFHmDqkkxVrAYbXFihG0dCXG+yIptT5rExB7O+4xyjlipnklFm1GyE9OkS8l1/MJNW23TGDgyj8nR1K44ulaehGJ6AxbtQg6WDhzpigwZXO/o+e+AbiQ6P36eZ+rEt2e4PxpU984yJIBxjIQ44t02gO1DBDQaH0Kcc+IQPO2+EK9ft1mjtPbM3+ujrYdcEUAa1nDZgtRvD4Jz3y7qqe003dEim2pAP9nbWMj2Lj0+8sZFOEzex8HlMgrDg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
+ dkim=pass header.d=nutanix.com; arc=none
+Received: from BN6PR02MB2643.namprd02.prod.outlook.com (10.173.145.9) by
+ BN6PR02MB2547.namprd02.prod.outlook.com (10.173.146.16) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2686.27; Wed, 5 Feb 2020 09:43:11 +0000
+Received: from BN6PR02MB2643.namprd02.prod.outlook.com
+ ([fe80::8401:9618:837d:d44b]) by BN6PR02MB2643.namprd02.prod.outlook.com
+ ([fe80::8401:9618:837d:d44b%10]) with mapi id 15.20.2686.035; Wed, 5 Feb 2020
+ 09:43:10 +0000
+From: Felipe Franciosi <felipe@nutanix.com>
+To: =?utf-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Subject: Re: [PATCH] fence: introduce a file-based self-fence mechanism
+Thread-Topic: [PATCH] fence: introduce a file-based self-fence mechanism
+Thread-Index: AQHVo6tgK6WTpsMO9UiL0xGIoXZMRqedTvsAgA5YhgCAYSKCAA==
+Date: Wed, 5 Feb 2020 09:43:10 +0000
+Message-ID: <67218E46-460D-47C6-833E-FAA4709DE63A@nutanix.com>
+References: <20191125161356.108054-1-felipe@nutanix.com>
+ <CAJ+F1CJP_+bcAMgFFv4nS9wNZcAAsT7BTHcyiLFr0yfF0j8XHw@mail.gmail.com>
+ <D503A2EF-70B6-4C9E-A0DB-889C915F1977@nutanix.com>
+In-Reply-To: <D503A2EF-70B6-4C9E-A0DB-889C915F1977@nutanix.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [62.254.189.133]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: d8af1a1f-86f1-4212-ba3f-08d7aa1fd030
+x-ms-traffictypediagnostic: BN6PR02MB2547:
+x-microsoft-antispam-prvs: <BN6PR02MB2547A6FE661F14F3BA7C1A2CD7020@BN6PR02MB2547.namprd02.prod.outlook.com>
+x-proofpoint-crosstenant: true
+x-ms-oob-tlc-oobclassifiers: OLM:346;
+x-forefront-prvs: 0304E36CA3
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(39860400002)(396003)(136003)(376002)(366004)(346002)(189003)(199004)(478600001)(2906002)(26005)(2616005)(30864003)(186003)(54906003)(36756003)(6486002)(316002)(81166006)(71200400001)(6506007)(91956017)(53546011)(6916009)(81156014)(8676002)(5660300002)(86362001)(8936002)(4326008)(66946007)(64756008)(66476007)(76116006)(66556008)(6512007)(66446008)(33656002)(2004002);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:BN6PR02MB2547;
+ H:BN6PR02MB2643.namprd02.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: nutanix.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 0XHNNn0OeEXPj/fgzoNfik3UaW5B4P5llNZRHJ2HpspAtA57zWjFeVtMc23Ai9aC3qWWzsUbE62iYS9WzvtpHmnjm3j8ZS2cjHWIGGgq4ghiT/zvhvseQ1Ch4Lme1w9/EmcN3cfekkN34yBuo2FdYjEckHgsBLhbcVVzIf36CrrAY8TQtBe7I8dzST5qcmb1XpvuZlAXs2aFj3KyC4s1XvZh+Pzux1fSz88WbD+Q73bmfQkjIbxizsvd/OM+z9T6iea7ZezwFcoCpIMw42+K8RDDGS22RhpIwB+vXdl7i+pYiGkJ3KqxXYJZR0/FVUE7LKkXaFPnNvLGEAj3JlOFfrpSJN3BvuhWil/5QIWQPB6avv+xcBUyvmpK0JmgpZs02GHrspBVyRHMMog9KSCfoGckEeOG8cGCUKN/kpcj7xrXQDyzN144G84nJsdRjuamyXJKo+KMXG2nbOERC10zTdkLa+KYW48aWaFbNlok/scWZ8QXrKMmhAZVekIWSNQ6CAtDIsYZLwyACJNHxIOUgU5W01MvFYEkgEIxtLFQkcRR9OxzJl+/KoOVwMi+2wxT
+x-ms-exchange-antispam-messagedata: mr4zwydpY2SMKuUy0JbxsP0A3ykc+WZCcMhf1SR6Crpy5+JVTU280tY/Ev8Tkv5RqYahgaEyuDxCec6muWgJwFJTopplKAcMZmk3Vs8CquulNZ4/wJ1zFaPzVr7R4GdO/fIW2zuJ5pSUPazAIpCRFw==
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <60BDD3CBCDC1DE45AF9CEBDC72B6B50F@namprd02.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: eQWWhWx7OVCw2Sc7u6GwKQ-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-OriginatorOrg: nutanix.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d8af1a1f-86f1-4212-ba3f-08d7aa1fd030
+X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Feb 2020 09:43:10.8387 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: bb047546-786f-4de1-bd75-24e5b6f79043
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: kUBzVynE34GDIim514wik8rz3FDdAtFX0HmXLIAsxiwVwjC1ilbQ0DoUffSIe6O1/clWkEOY8ijMGsi6H3zdjw1M7nek3ePo7OFHmvPtUtk=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR02MB2547
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
+ definitions=2020-02-05_02:2020-02-04,
+ 2020-02-05 signatures=0
+X-Proofpoint-Spam-Reason: safe
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 148.163.155.12
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,314 +120,350 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ehabkost@redhat.com, mst@redhat.com, armbru@redhat.com,
- qemu-devel@nongnu.org, pbonzini@redhat.com, rth@twiddle.net
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Daniel Berrange <berrange@redhat.com>,
+ "Dr . David
+ Alan Gilbert" <dgilbert@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 4 Feb 2020 13:08:58 -0600
-Babu Moger <babu.moger@amd.com> wrote:
-
-> On 2/4/20 2:02 AM, Igor Mammedov wrote:
-> > On Mon, 3 Feb 2020 13:31:29 -0600
-> > Babu Moger <babu.moger@amd.com> wrote:
-> >  =20
-> >> On 2/3/20 8:59 AM, Igor Mammedov wrote: =20
-> >>> On Tue, 03 Dec 2019 18:36:54 -0600
-> >>> Babu Moger <babu.moger@amd.com> wrote:
-> >>>    =20
-> >>>> This series fixes APIC ID encoding problems on AMD EPYC CPUs.
-> >>>> https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2F=
-bugzilla.redhat.com%2Fshow_bug.cgi%3Fid%3D1728166&amp;data=3D02%7C01%7Cbabu=
-.moger%40amd.com%7Cbbd1693802184161c8c308d7a9489ee9%7C3dd8961fe4884e608e11a=
-82d994e183d%7C0%7C0%7C637164001686545394&amp;sdata=3DUtYAoTk4RfZZ1VfaP%2Fhc=
-YrCSNTcubEB7cB%2BoYlRLfhc%3D&amp;reserved=3D0
-> >>>>
-> >>>> Currently, the APIC ID is decoded based on the sequence
-> >>>> sockets->dies->cores->threads. This works for most standard AMD and =
-other
-> >>>> vendors' configurations, but this decoding sequence does not follow =
-that of
-> >>>> AMD's APIC ID enumeration strictly. In some cases this can cause CPU=
- topology
-> >>>> inconsistency.  When booting a guest VM, the kernel tries to validat=
-e the
-> >>>> topology, and finds it inconsistent with the enumeration of EPYC cpu=
- models.
-> >>>>
-> >>>> To fix the problem we need to build the topology as per the Processo=
-r
-> >>>> Programming Reference (PPR) for AMD Family 17h Model 01h, Revision B=
-1
-> >>>> Processors. It is available at https://nam11.safelinks.protection.ou=
-tlook.com/?url=3Dhttps%3A%2F%2Fwww.amd.com%2Fsystem%2Ffiles%2FTechDocs%2F55=
-570-B1_PUB.zip&amp;data=3D02%7C01%7Cbabu.moger%40amd.com%7Cbbd1693802184161=
-c8c308d7a9489ee9%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C6371640016865=
-55390&amp;sdata=3DoHONRiXtpstKqwrxyzqR20bYDDr3zvmwq91a%2Br6iDqc%3D&amp;rese=
-rved=3D0
-> >>>>
-> >>>> Here is the text from the PPR.
-> >>>> Operating systems are expected to use Core::X86::Cpuid::SizeId[ApicI=
-dSize], the
-> >>>> number of least significant bits in the Initial APIC ID that indicat=
-e core ID
-> >>>> within a processor, in constructing per-core CPUID masks.
-> >>>> Core::X86::Cpuid::SizeId[ApicIdSize] determines the maximum number o=
-f cores
-> >>>> (MNC) that the processor could theoretically support, not the actual=
- number of
-> >>>> cores that are actually implemented or enabled on the processor, as =
-indicated
-> >>>> by Core::X86::Cpuid::SizeId[NC].
-> >>>> Each Core::X86::Apic::ApicId[ApicId] register is preset as follows:
-> >>>> =E2=80=A2 ApicId[6] =3D Socket ID.
-> >>>> =E2=80=A2 ApicId[5:4] =3D Node ID.
-> >>>> =E2=80=A2 ApicId[3] =3D Logical CCX L3 complex ID
-> >>>> =E2=80=A2 ApicId[2:0]=3D (SMT) ? {LogicalCoreID[1:0],ThreadId} : {1'=
-b0,LogicalCoreID[1:0]}   =20
-> >>>
-> >>>
-> >>> After checking out all patches and some pondering, used here approach
-> >>> looks to me too intrusive for the task at hand especially where it
-> >>> comes to generic code.
-> >>>
-> >>> (Ignore till =3D=3D=3D=3D to see suggestion how to simplify without r=
-eading
-> >>> reasoning behind it first)
-> >>>
-> >>> Lets look for a way to simplify it a little bit.
-> >>>
-> >>> So problem we are trying to solve,
-> >>>  1: calculate APIC IDs based on cpu type (to e more specific: for EPY=
-C based CPUs)
-> >>>  2: it depends on knowing total number of numa nodes.
-> >>>
-> >>> Externally workflow looks like following:
-> >>>   1. user provides -smp x,sockets,cores,...,maxcpus
-> >>>       that's used by possible_cpu_arch_ids() singleton to build list =
-of
-> >>>       possible CPUs (which is available to user via command 'hotplugg=
-able-cpus')
-> >>>
-> >>>       Hook could be called very early and possible_cpus data might be
-> >>>       not complete. It builds a list of possible CPUs which user coul=
-d
-> >>>       modify later.
-> >>>
-> >>>   2.1 user uses "-numa cpu,node-id=3Dx,..." or legacy "-numa node,nod=
-e_id=3Dx,cpus=3D"
-> >>>       options to assign cpus to nodes, which is one way or another ca=
-lling
-> >>>       machine_set_cpu_numa_node(). The later updates 'possible_cpus' =
-list
-> >>>       with node information. It happens early when total number of no=
-des
-> >>>       is not available.
-> >>>
-> >>>   2.2 user does not provide explicit node mappings for CPUs.
-> >>>       QEMU steps in and assigns possible cpus to nodes in machine_num=
-a_finish_cpu_init()
-> >>>       (using the same machine_set_cpu_numa_node()) right before calli=
-ng boards
-> >>>       specific machine init(). At that time total number of nodes is =
-known.
-> >>>
-> >>> In 1 -- 2.1 cases, 'arch_id' in 'possible_cpus' list doesn't have to =
-be defined before
-> >>> boards init() is run. =20
->=20
-> In case of 2.1, we need to have the arch_id already generated. This is
-> done inside possible_cpu_arch_ids. The arch_id is used by
-> machine_set_cpu_numa_node to assign the cpus to correct numa node.
-
-I might have missed something but I don't see arch_id itself being used in
-machine_set_cpu_numa_node(). It only uses props part of possible_cpus
-
-=20
-> If we want to move the arch_id generation into board init(), then we need
-> to save the cpu indexes belonging to each node somewhere.
-
-when cpus are assigned explicitly, decision what cpus go to what nodes is
-up to user and user configured mapping is stored in MachineState::possible_=
-cpus
-which is accessed by via possible_cpu_arch_ids() callback.
-Hence I don see any reason to touch cpu indexes.
-
->=20
-> >>>
-> >>> In 2.2 case it calls get_default_cpu_node_id() -> x86_get_default_cpu=
-_node_id()
-> >>> which uses arch_id calculate numa node.
-> >>> But then question is: does it have to use APIC id or could it infer '=
-pkg_id',
-> >>> it's after, from ms->possible_cpus->cpus[i].props data?   =20
-> >>
-> >> Not sure if I got the question right. In this case because the numa
-> >> information is not provided all the cpus are assigned to only one node=
-.
-> >> The apic id is used here to get the correct pkg_id. =20
-> >=20
-> > apicid was composed from socket/core/thread[/die] tuple which cpus[i].p=
-rops is.
-> >=20
-> > Question is if we can compose only pkg_id based on the same data withou=
-t
-> > converting it to apicid and then "reverse engineering" it back
-> > original data? =20
->=20
-> Yes. It is possible.
->=20
-> >=20
-> > Or more direct question: is socket-id the same as pkg_id? =20
->=20
-> Yes. Socket_id and pkg_id is same.
->=20
-> >=20
-> >  =20
-> >> =20
-> >>>  =20
-> >>> With that out of the way APIC ID will be used only during board's ini=
-t(),
-> >>> so board could update possible_cpus with valid APIC IDs at the start =
-of
-> >>> x86_cpus_init().
-> >>>
-> >>> =3D=3D=3D=3D
-> >>> in nutshell it would be much easier to do following:
-> >>>
-> >>>  1. make x86_get_default_cpu_node_id() APIC ID in-depended or
-> >>>     if impossible as alternative recompute APIC IDs there if cpu
-> >>>     type is EPYC based (since number of nodes is already known)
-> >>>  2. recompute APIC IDs in x86_cpus_init() if cpu type is EPYC based
-> >>>
-> >>> this way one doesn't need to touch generic numa code, introduce
-> >>> x86 specific init_apicid_fn() hook into generic code and keep
-> >>> x86/EPYC nuances contained within x86 code only.   =20
-> >>
-> >> I was kind of already working in the similar direction in v4.
-> >> 1. We already have split the numa initialization in patch #12(Split th=
-e
-> >> numa initialization). This way we know exactly how many numa nodes are
-> >> there before hand. =20
-> >=20
-> > I suggest to drop that patch, It's the one that touches generic numa
-> > code and adding more legacy based extensions like cpu_indexes.
-> > Which I'd like to get rid of to begin with, so only -numa cpu is left.
-> >=20
-> > I think it's not necessary to touch numa code at all for apicid generat=
-ion
-> > purpose, as I tried to explain above. We should be able to keep
-> > this x86 only business. =20
->=20
-> This is going to be difficult without touching the generic numa code.
-
-Looking at current code I don't see why one would touch numa code.
-Care to explain in more details why you'd have to touch it?
-
-> >> 2. Planning to remove init_apicid_fn
-> >> 3. Insert the handlers inside X86CPUDefinition. =20
-> > what handlers do you mean? =20
->=20
-> Apicid generation logic can be separated into 3 types of handlers.
-> x86_apicid_from_cpu_idx: Generate apicid from cpu index.
-> x86_topo_ids_from_apicid: Generate topo ids from apic id.
-> x86_apicid_from_topo_ids: Generate apicid from topo ids.
->=20
-> We should be able to generate one id from other(you can see topology.h).
->=20
-> X86CPUDefinition will have the handlers specific to each model like the
-> way we have features now. The above 3 handlers will be used as default
-> handler.
-
-it probably shouldn't be a part of X86CPUDefinition,
-as it's machines responsibility to generate and set APIC ID.
-
-What you are doing with this topo functions in this version
-looks more that enough to me.
-
-> The EPYC model will have its corresponding handlers.
->=20
-> x86_apicid_from_cpu_idx_epyc
-> x86_topo_ids_from_apicid_epyc
-> x86_apicid_from_topo_ids_epyc.
-
-CPU might use call backs, but does it have to?
-I see cpu_x86_cpuid() uses these functions to decode apic_id back to topo
-info and then compose various leaves based on it.
-Within CPU code I'd just use
- if (i_am_epyc)
-    x86_topo_ids_from_apicid_epyc()
- else
-    x86_topo_ids_from_apicid()
-it's easier to read and one doesn't have to go figure
-indirection chain to figure out what code is called.
-  =20
-> >> 4. EPYC model will have its own apid id handlers. Everything else will=
- be
-> >> initialized with a default handlers(current default handler).
-> >> 5. The function pc_possible_cpu_arch_ids will load the model definitio=
-n
-> >> and initialize the PCMachineState data structure with the model specif=
-ic
-> >> handlers. =20
-> > I'm not sure what do you mean here. =20
->=20
-> PCMachineState will have the function pointers to the above handlers.
-> I was going to load the correct handler based on the mode type.
-
-Could be done like this, but considering that within machine we need
-to calculate apic_id only once, the same 'if' trick would be simpler
-
-x86_cpus_init() {
-
-  if (cpu =3D=3D epic) {
-     make_epyc_apic_ids(mc->possible_cpu_arch_ids(ms))
-  }
-
-  // go on with creating cpus ...
-}
-
-> >> Does that sound similar to what you are thinking. Thoughts? =20
-> > If you have something to share and can push it on github,
-> > I can look at, whether it has design issues to spare you a round trip o=
-n a list.
-> > (it won't be proper review but at least I can help to pinpoint most pro=
-blematic parts)
-> >  =20
-> My code for the current approach is kind of ready(yet to be tested). I ca=
-n
-> send it as v3.1 if you want to look. Or we can wait for our discussion to
-> settle. I will post it after our discussion.
-ok, lets wait till we finish this discussion
-
-> There is one more problem we need to address. I was going to address late=
-r
-> in v4 or v5.
->=20
-> This works
-> -numa node,nodeid=3D0,cpus=3D0-3 -numa node,nodeid=3D1,cpus=3D4-7
->=20
-> This does not work
-> -numa node,nodeid=3D0,cpus=3D0-5 -numa node,nodeid=3D1,cpus=3D6-7
-Is it supposed to work (i.e. can real hardware do such topology)?
-
-> This requires the generic code to pass the node information to the x86
-> code which requires some handler changes. I was thinking my code will
-> simplify the changes to address this issue.
-
-without more information, it's hard to comment on issue and whether
-extra complexity of callbacks is justificated.=20
-
-There could be 2 ways here, add fixes to this series so we could see the re=
-ason
-or make this series simple to solve apic_id problem only and then on top of
-it send the second series that solves another issue.
-
-Considering that this series is already big/complicated enough,
-personally I'd go for 2nd option. As it's easier to describe what patches a=
-re
-doing and easier to review =3D> should result in faster reaching consensus =
-and merging.
-[...]
-
+SGV5LCBzb3JyeSBmb3IgdGhlIGRlbGF5IG9uIGZvbGxvd2luZyB1cCBvbiB0aGlzLiBJIHBpY2tl
+ZCBpdCB1cA0KYWdhaW4uIEhvcGVmdWxseSB3ZSBjYW4gZmluYWxpc2UgcXVpY2tseS4NCg0KPiBP
+biBEZWMgNSwgMjAxOSwgYXQgMjoyMiBQTSwgRmVsaXBlIEZyYW5jaW9zaSA8ZmVsaXBlQG51dGFu
+aXguY29tPiB3cm90ZToNCj4gDQo+IEhleWEsDQo+IA0KPj4gT24gTm92IDI2LCAyMDE5LCBhdCAx
+MjoxOCBQTSwgTWFyYy1BbmRyw6kgTHVyZWF1IDxtYXJjYW5kcmUubHVyZWF1QGdtYWlsLmNvbT4g
+d3JvdGU6DQo+PiANCj4+IE9uIE1vbiwgTm92IDI1LCAyMDE5IGF0IDg6MTQgUE0gRmVsaXBlIEZy
+YW5jaW9zaSA8ZmVsaXBlQG51dGFuaXguY29tPiB3cm90ZToNCj4+PiANCj4+PiBUaGlzIGludHJv
+ZHVjZXMgYSBzZWxmLWZlbmNlIG1lY2hhbmlzbSB0byBRZW11LCBjYXVzaW5nIGl0IHRvIGRpZSBp
+ZiBhDQo+Pj4gaGVhcnRiZWF0IGNvbmRpdGlvbiBpcyBub3QgbWV0LiBDdXJyZW50bHksIGEgZmls
+ZS1iYXNlZCBoZWFydGJlYXQgaXMNCj4+PiBhdmFpbGFibGUgYW5kIGNhbiBiZSBjb25maWd1cmVk
+IGFzIGZvbGxvd3M6DQo+Pj4gDQo+Pj4gLW9iamVjdCBmaWxlLWZlbmNlLGlkPWZmMCxmaWxlPS9m
+b28scXRpbWVvdXQ9MjAsa3RpbWVvdXQ9MjUsc2lnbmFsPWtpbGwNCj4+PiANCj4+PiBRZW11IHdp
+bGwgd2F0Y2ggJ2ZpbGUnIGZvciBhdHRyaWJ1dGUgY2hhbmdlcy4gVG91Y2hpbmcgdGhlIGZpbGUg
+d29ya3MgYXMNCj4+PiBhIGhlYXJ0YmVhdC4gVGhpcyBwYXJhbWV0ZXIgaXMgbWFuZGF0b3J5Lg0K
+Pj4+IA0KPj4+IEZlbmNpbmcgaGFwcGVucyBhZnRlciAncXRpbWVvdXQnIG9yICdrdGltZW91dCcg
+c2Vjb25kcyBlbGFwc2Ugd2l0aG91dCBhDQo+Pj4gaGVhcnRiZWF0LiBBdCBsZWFzdCBvbmUgb2Yg
+dGhlc2UgbXVzdCBiZSBzcGVjaWZpZWQuIEJvdGggbWF5IGJlIHVzZWQuDQo+Pj4gDQo+Pj4gV2hl
+biB1c2luZyAncXRpbWVvdXQnLCBhbiBpbnRlcm5hbCBRZW11IHRpbWVyIGlzIHVzZWQuIEZlbmNp
+bmcgd2l0aCB0aGlzDQo+Pj4gbWV0aG9kIGdpdmVzIFFlbXUgYSBjaGFuY2UgdG8gd3JpdGUgYSBs
+b2cgbWVzc2FnZSBpbmRpY2F0aW5nIHdoaWNoIGZpbGUNCj4+PiBjYXVzZWQgdGhlIGV2ZW50LiBJ
+ZiBRZW11J3MgbWFpbiBsb29wIGlzIGh1bmcgZm9yIHdoYXRldmVyIHJlYXNvbiwgdGhpcw0KPj4+
+IG1ldGhvZCB3b24ndCBzdWNjZXNzZnVsbHkga2lsbCBRZW11Lg0KPj4+IA0KPj4+IFdoZW4gdXNp
+bmcgJ2t0aW1lb3V0JywgYSBrZXJuZWwgdGltZXIgaXMgdXNlZC4gSW4gdGhpcyBjYXNlLCAnc2ln
+bmFsJw0KPj4+IGNhbiBiZSAna2lsbCcgKGZvciBTSUdLSUxMLCBkZWZhdWx0KSBvciAncXVpdCcg
+KGZvciBTSUdRVUlUKS4gVXNpbmcNCj4+PiBTSUdRVUlUIG1heSBiZSBwcmVmZXJyZWQgZm9yIG9i
+dGFpbmluZyBjb3JlIGR1bXBzLiBJZiBRZW11IGlzIGh1bmcNCj4+PiAoZWcuIHVuaW50ZXJydXB0
+YWJsZSBzbGVlcCksIHRoaXMgbWV0aG9kIHdvbid0IHN1Y2Nlc3NmdWxseSBraWxsIFFlbXUuDQo+
+Pj4gDQo+Pj4gSXQgaXMgd29ydGggbm90aW5nIHRoYXQgZXZlbiBzdWNjZXNzZnVsbHkga2lsbGlu
+ZyBRZW11IG1heSBub3QgYmUNCj4+PiBzdWZmaWNpZW50IHRvIGNvbXBsZXRlbHkgZmVuY2UgYSBW
+TSBhcyBjZXJ0YWluIG9wZXJhdGlvbnMgbGlrZSBuZXR3b3JrDQo+Pj4gcGFja2V0cyBvciBibG9j
+ayBjb21tYW5kcyBtYXkgYmUgcGVuZGluZyBpbiB0aGUga2VybmVsLiBJZiB0aGF0IGlzIGENCj4+
+PiBjb25jZXJuLCBzeXN0ZW1zIHNob3VsZCBjb25zaWRlciB1c2luZyBmdXJ0aGVyIGZlbmNpbmcg
+bWVjaGFuaXNtcyBsaWtlDQo+Pj4gaGFyZHdhcmUgd2F0Y2hkb2dzIGVpdGhlciBpbiBhZGRpdGlv
+biBvciBpbiBjb25qdW5jdGlvbiB3aXRoIHRoaXMgZm9yDQo+Pj4gYWRkaXRpb25hbCBwcm90ZWN0
+aW9uLg0KPj4+IA0KPj4+IFNpZ25lZC1vZmYtYnk6IEZlbGlwZSBGcmFuY2lvc2kgPGZlbGlwZUBu
+dXRhbml4LmNvbT4NCj4+PiAtLS0NCj4+PiBCYXNlZC1vbjogPDIwMTkxMTI1MTUzNjE5LjM5ODkz
+LTItZmVsaXBlQG51dGFuaXguY29tPg0KPj4+IA0KPj4+IE1ha2VmaWxlLm9ianMgICAgICAgfCAg
+IDEgKw0KPj4+IGZlbmNlL01ha2VmaWxlLm9ianMgfCAgIDEgKw0KPj4+IGZlbmNlL2ZpbGVfZmVu
+Y2UuYyAgfCAzODEgKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysN
+Cj4+IA0KPj4gSSB0aGluayBpdCBjb3VsZCBiZSB1bmRlciBiYWNrZW5kcy8NCj4gDQo+IEkgdGhv
+dWdodCBhYm91dCBpdCBhbmQgY291bGRuJ3QgbWFrZSB1cCBteSBtaW5kLiBNeSBkZWNpc2lvbiB3
+YXMgYmFzZWQgb246DQo+IC0gRG9lc24ndCByZWFsbHkgZmVlbCBsaWtlIGEgImJhY2tlbmQiLg0K
+PiAtIEkgZW52aXNpb24gb3RoZXIgdHlwZXMgb2Ygc2VsZi1mZW5jaW5nIGhlYXJ0YmVhdHMgKGVn
+LiBuZXR3b3JrLWJhc2VkKSwNCj4gIGluIHdoaWNoIGNhc2UgdGhpcyB3b3VsZCBwcm9iYWJseSBi
+ZSBzcGxpdCBpbiBhICJjb21tb24iIGZpbGUuDQo+IA0KPiBBcmd1YWJseSBvdGhlciBvYmplY3Rz
+IGluIGJhY2tlbmRzLyBhbHNvIGZhbGwgd2l0aGluIHRoZXNlIGNhdGVnb3JpZXMsDQo+IHNvIEkn
+bSBoYXBweSB0byBtb3ZlIGlmIHlvdSB0aGluayBpdCdzIGJldHRlci4gTGV0IG1lIGtub3cuDQoN
+CkkgY2hhbmdlZCBpdCB0byBiYWNrZW5kcy8gZm9yIHYyLg0KDQo+IA0KPiANCj4+IEFuZCBhIHNs
+aWdodCBwcmVmZXJlbmNlIGZvciAtIHNlcGVyYXRlZCB3b3JkcyBpbiBmaWxlbmFtZXMgb3ZlciBx
+ZW11IGNvZGViYXNlLg0KPiANCj4gU3VyZSwgd2lsbCBjaGFuZ2UuDQoNCkRvbmUgZm9yIHYyLg0K
+DQo+IA0KPj4gDQo+Pj4gcWVtdS1vcHRpb25zLmh4ICAgICB8ICAyNyArKystDQo+Pj4gNCBmaWxl
+cyBjaGFuZ2VkLCA0MDkgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQ0KPj4+IGNyZWF0ZSBt
+b2RlIDEwMDY0NCBmZW5jZS9NYWtlZmlsZS5vYmpzDQo+Pj4gY3JlYXRlIG1vZGUgMTAwNjQ0IGZl
+bmNlL2ZpbGVfZmVuY2UuYw0KPj4+IA0KPj4+IGRpZmYgLS1naXQgYS9NYWtlZmlsZS5vYmpzIGIv
+TWFrZWZpbGUub2Jqcw0KPj4+IGluZGV4IDExYmExYTM2YmQuLjk5OGVlZDQ3OTYgMTAwNjQ0DQo+
+Pj4gLS0tIGEvTWFrZWZpbGUub2Jqcw0KPj4+ICsrKyBiL01ha2VmaWxlLm9ianMNCj4+PiBAQCAt
+NzUsNiArNzUsNyBAQCBjb21tb24tb2JqLSQoQ09ORklHX1RQTSkgKz0gdHBtLm8NCj4+PiANCj4+
+PiBjb21tb24tb2JqLXkgKz0gYmFja2VuZHMvDQo+Pj4gY29tbW9uLW9iai15ICs9IGNoYXJkZXYv
+DQo+Pj4gK2NvbW1vbi1vYmoteSArPSBmZW5jZS8NCj4+PiANCj4+PiBjb21tb24tb2JqLSQoQ09O
+RklHX1NFQ0NPTVApICs9IHFlbXUtc2VjY29tcC5vDQo+Pj4gcWVtdS1zZWNjb21wLm8tY2ZsYWdz
+IDo9ICQoU0VDQ09NUF9DRkxBR1MpDQo+Pj4gZGlmZiAtLWdpdCBhL2ZlbmNlL01ha2VmaWxlLm9i
+anMgYi9mZW5jZS9NYWtlZmlsZS5vYmpzDQo+Pj4gbmV3IGZpbGUgbW9kZSAxMDA2NDQNCj4+PiBp
+bmRleCAwMDAwMDAwMDAwLi4yZWQyMDkyNTY4DQo+Pj4gLS0tIC9kZXYvbnVsbA0KPj4+ICsrKyBi
+L2ZlbmNlL01ha2VmaWxlLm9ianMNCj4+PiBAQCAtMCwwICsxIEBADQo+Pj4gK2NvbW1vbi1vYmot
+eSArPSBmaWxlX2ZlbmNlLm8NCj4+PiBkaWZmIC0tZ2l0IGEvZmVuY2UvZmlsZV9mZW5jZS5jIGIv
+ZmVuY2UvZmlsZV9mZW5jZS5jDQo+Pj4gbmV3IGZpbGUgbW9kZSAxMDA2NDQNCj4+PiBpbmRleCAw
+MDAwMDAwMDAwLi41Yjc0M2U2OWQyDQo+Pj4gLS0tIC9kZXYvbnVsbA0KPj4+ICsrKyBiL2ZlbmNl
+L2ZpbGVfZmVuY2UuYw0KPj4+IEBAIC0wLDAgKzEsMzgxIEBADQo+Pj4gKy8qDQo+Pj4gKyAqIFFF
+TVUgZmlsZS1iYXNlZCBzZWxmLWZlbmNlIG1lY2hhbmlzbQ0KPj4+ICsgKg0KPj4+ICsgKiBDb3B5
+cmlnaHQgKGMpIDIwMTkgTnV0YW5peCBJbmMuIEFsbCByaWdodHMgcmVzZXJ2ZWQuDQo+Pj4gKyAq
+DQo+Pj4gKyAqIEF1dGhvcnM6DQo+Pj4gKyAqICAgIEZlbGlwZSBGcmFuY2lvc2kgPGZlbGlwZUBu
+dXRhbml4LmNvbT4NCj4+PiArICoNCj4+PiArICogVGhpcyBsaWJyYXJ5IGlzIGZyZWUgc29mdHdh
+cmU7IHlvdSBjYW4gcmVkaXN0cmlidXRlIGl0IGFuZC9vcg0KPj4+ICsgKiBtb2RpZnkgaXQgdW5k
+ZXIgdGhlIHRlcm1zIG9mIHRoZSBHTlUgTGVzc2VyIEdlbmVyYWwgUHVibGljDQo+Pj4gKyAqIExp
+Y2Vuc2UgYXMgcHVibGlzaGVkIGJ5IHRoZSBGcmVlIFNvZnR3YXJlIEZvdW5kYXRpb247IGVpdGhl
+cg0KPj4+ICsgKiB2ZXJzaW9uIDIgb2YgdGhlIExpY2Vuc2UsIG9yIChhdCB5b3VyIG9wdGlvbikg
+YW55IGxhdGVyIHZlcnNpb24uDQo+Pj4gKyAqDQo+Pj4gKyAqIFRoaXMgbGlicmFyeSBpcyBkaXN0
+cmlidXRlZCBpbiB0aGUgaG9wZSB0aGF0IGl0IHdpbGwgYmUgdXNlZnVsLA0KPj4+ICsgKiBidXQg
+V0lUSE9VVCBBTlkgV0FSUkFOVFk7IHdpdGhvdXQgZXZlbiB0aGUgaW1wbGllZCB3YXJyYW50eSBv
+Zg0KPj4+ICsgKiBNRVJDSEFOVEFCSUxJVFkgb3IgRklUTkVTUyBGT1IgQSBQQVJUSUNVTEFSIFBV
+UlBPU0UuICBTZWUgdGhlIEdOVQ0KPj4+ICsgKiBMZXNzZXIgR2VuZXJhbCBQdWJsaWMgTGljZW5z
+ZSBmb3IgbW9yZSBkZXRhaWxzLg0KPj4+ICsgKg0KPj4+ICsgKiBZb3Ugc2hvdWxkIGhhdmUgcmVj
+ZWl2ZWQgYSBjb3B5IG9mIHRoZSBHTlUgTGVzc2VyIEdlbmVyYWwgUHVibGljDQo+Pj4gKyAqIExp
+Y2Vuc2UgYWxvbmcgd2l0aCB0aGlzIGxpYnJhcnk7IGlmIG5vdCwgc2VlIDxodHRwczovL3VybGRl
+ZmVuc2UucHJvb2Zwb2ludC5jb20vdjIvdXJsP3U9aHR0cC0zQV9fd3d3LmdudS5vcmdfbGljZW5z
+ZXNfJmQ9RHdJRmFRJmM9czg4M0dwVUNPQ2hLT0hpb2NZdEdjZyZyPUNDckpLVkM1ekdvdDhQcm5J
+LWlZZTAwTWRYNHBnZFFmTVJpZ3AxNFB0bWsmbT1lZHpYUTVQMEdDbW16WjQtMjB1dnNtZ3FJcmVW
+M0JLWUM4Sllpa2dIVkg0JnM9cTNHTXByYWtWb1JKdzh6a2JialhQcUFiRXh2OTNEekotSGdJMnow
+MDQwOCZlPSA+Lg0KPj4+ICsgKg0KPj4+ICsgKi8NCj4+PiArDQo+Pj4gKyNpbmNsdWRlICJxZW11
+L29zZGVwLmgiDQo+Pj4gKyNpbmNsdWRlICJxYXBpL2Vycm9yLmgiDQo+Pj4gKyNpbmNsdWRlICJx
+b20vb2JqZWN0X2ludGVyZmFjZXMuaCINCj4+PiArI2luY2x1ZGUgInFlbXUvZmlsZW1vbml0b3Iu
+aCINCj4+PiArI2luY2x1ZGUgInFlbXUvdGltZXIuaCINCj4+PiArDQo+Pj4gKyNpbmNsdWRlIDx0
+aW1lLmg+DQo+Pj4gKw0KPj4+ICsjZGVmaW5lIFRZUEVfRklMRV9GRU5DRSAiZmlsZS1mZW5jZSIN
+Cj4+PiArDQo+Pj4gK3R5cGVkZWYgc3RydWN0IEZpbGVGZW5jZSB7DQo+Pj4gKyAgICBPYmplY3Qg
+cGFyZW50X29iajsNCj4+PiArDQo+Pj4gKyAgICBnY2hhciAqZGlyOw0KPj4+ICsgICAgZ2NoYXIg
+KmZpbGU7DQo+Pj4gKyAgICB1aW50MzJfdCBxdGltZW91dDsNCj4+PiArICAgIHVpbnQzMl90IGt0
+aW1lb3V0Ow0KPj4+ICsgICAgaW50IHNpZ25hbDsNCj4+PiArDQo+Pj4gKyAgICB0aW1lcl90IGt0
+aW1lcjsNCj4+PiArICAgIFFFTVVUaW1lciAqcXRpbWVyOw0KPj4+ICsNCj4+PiArICAgIFFGaWxl
+TW9uaXRvciAqZm07DQo+Pj4gKyAgICB1aW50NjRfdCBpZDsNCj4+PiArfSBGaWxlRmVuY2U7DQo+
+Pj4gKw0KPj4+ICsjZGVmaW5lIEZJTEVfRkVOQ0Uob2JqKSBcDQo+Pj4gKyAgICBPQkpFQ1RfQ0hF
+Q0soRmlsZUZlbmNlLCAob2JqKSwgVFlQRV9GSUxFX0ZFTkNFKQ0KPj4+ICsNCj4+PiArc3RhdGlj
+IHZvaWQNCj4+PiArdGltZXJfdXBkYXRlKEZpbGVGZW5jZSAqZmYpDQo+Pj4gK3sNCj4+PiArICAg
+IHN0cnVjdCBpdGltZXJzcGVjIGl0cyA9IHsNCj4+PiArICAgICAgICAuaXRfdmFsdWUudHZfc2Vj
+ID0gZmYtPmt0aW1lb3V0LA0KPj4+ICsgICAgfTsNCj4+PiArICAgIGludCBlcnI7DQo+Pj4gKw0K
+Pj4+ICsgICAgaWYgKGZmLT5xdGltZW91dCkgew0KPj4+ICsgICAgICAgIHRpbWVyX21vZChmZi0+
+cXRpbWVyLCBxZW11X2Nsb2NrX2dldF9tcyhRRU1VX0NMT0NLX1JFQUxUSU1FKSArDQo+Pj4gKyAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgIGZmLT5xdGltZW91dCAqIDEwMDApOw0KPj4+ICsg
+ICAgfQ0KPj4+ICsNCj4+PiArICAgIGlmIChmZi0+a3RpbWVvdXQpIHsNCj4+PiArICAgICAgICBl
+cnIgPSB0aW1lcl9zZXR0aW1lKGZmLT5rdGltZXIsIDAsICZpdHMsIE5VTEwpOw0KPj4+ICsgICAg
+ICAgIGdfYXNzZXJ0KGVyciA9PSAwKTsNCj4+PiArICAgIH0NCj4+PiArfQ0KPj4+ICsNCj4+PiAr
+c3RhdGljIHZvaWQNCj4+PiArZmlsZV9mZW5jZV9hYm9ydF9jYih2b2lkICpvcGFxdWUpDQo+Pj4g
+K3sNCj4+PiArICAgIEZpbGVGZW5jZSAqZmYgPSBvcGFxdWU7DQo+Pj4gKyAgICBwcmludGYoIkZl
+bmNpbmcgYWZ0ZXIgJXUgc2Vjb25kcyBvbiAnJXMnXG4iLA0KPj4+ICsgICAgICAgICAgIGZmLT5x
+dGltZW91dCwgZ19zdHJjb25jYXQoZmYtPmRpciwgIi8iLCBmZi0+ZmlsZSwgTlVMTCkpOw0KPj4g
+DQo+PiBNYXkgYmUgZXJyb3JfcHJpbnRmKCkgaW5zdGVhZC4NCj4gDQo+IE1ha2VzIHNlbnNlLg0K
+DQpEb25lIGZvciB2Mi4NCg0KPiANCj4+IA0KPj4+ICsgICAgYWJvcnQoKTsNCj4+PiArfQ0KPj4+
+ICsNCj4+PiArc3RhdGljIHZvaWQNCj4+PiArZmlsZV9mZW5jZV93YXRjaF9jYihpbnQ2NF90IGlk
+LCBRRmlsZU1vbml0b3JFdmVudCBldiwgY29uc3QgY2hhciAqZmlsZSwNCj4+PiArICAgICAgICAg
+ICAgICAgICAgICB2b2lkICpvcGFxdWUpDQo+Pj4gK3sNCj4+PiArICAgIEZpbGVGZW5jZSAqZmYg
+PSBvcGFxdWU7DQo+Pj4gKw0KPj4+ICsgICAgaWYgKGV2ICE9IFFGSUxFX01PTklUT1JfRVZFTlRf
+QVRUUklCVVRFUykgew0KPj4+ICsgICAgICAgIHJldHVybjsNCj4+PiArICAgIH0NCj4+PiArDQo+
+Pj4gKyAgICBpZiAoZ19zdHJjbXAwKGZpbGUsIGZmLT5maWxlKSAhPSAwKSB7DQo+PiANCj4+IERv
+ZXMgaXQgYWN0dWFsbHkgaGFwcGVuPyBBcHBhcmVudGx5IHRoZSBjb2RlIGluDQo+PiB1dGlsL2Zp
+bGVtb25pdG9yLWlub3RpZnkuYyBhbHJlYWR5IGNoZWNrcyBmb3IgZ19zdHJfZXF1YWwoZmlsZW5h
+bWUpDQo+IA0KPiBZb3UgYXJlIHJpZ2h0LCBpdCBkb2VzLiBJIHRoaW5rIEkgc2F3IGl0LCBidXQg
+Zm9yIHNvbWUgcmVhc29uIGRlY2lkZWQNCj4gdG8gYmUgb3ZlciBwcm90ZWN0aXZlLiBJIHdpbGwg
+cmVtb3ZlIHRoaXMgY2hlY2suDQoNCkkgcmVwbGFjZWQgaXQgd2l0aCBhbiBhc3NlcnQgZm9yIHYy
+LiBJdCdzIGZpbmUgdG8gcmVseSBvbiB0aGUgb3RoZXINCmNvbXBvbmVudCwgYnV0IGl0J3MgZWFz
+eSB0byBzZWUgaG93IHNvbWVvbmUgY2FuIGNoYW5nZSB0aGUgYmVoYXZpb3VyDQp0aGVyZSBhbmQg
+bWlzcyBzb21lIG9mIGl0cyB1c2Vycy4gQXNzZXJ0cyBhcmUgaGVscGZ1bCBpbiB0aGF0IHNlbnNl
+IGFzDQppdCBjYW4gY2F0Y2ggdGhlc2UgcHJvZ3JhbW1pbmcgZXJyb3JzIChpbmNsdWRpbmcgY2hh
+bmdlcyB0byBvdGhlcg0KcGFydHMgb2YgdGhlIGNvZGViYXNlIHdlIGFyZSBtYWtpbmcgYXNzdW1w
+dGlvbnMgYWJvdXQpLg0KDQo+IA0KPj4gDQo+Pj4gKyAgICAgICAgcmV0dXJuOw0KPj4+ICsgICAg
+fQ0KPj4+ICsNCj4+PiArICAgIHRpbWVyX3VwZGF0ZShmZik7DQo+Pj4gK30NCj4+PiArDQo+Pj4g
+K3N0YXRpYyB2b2lkDQo+Pj4gK2t0aW1lcl90ZWFyKEZpbGVGZW5jZSAqZmYpDQo+Pj4gK3sNCj4+
+PiArICAgIGludCBlcnI7DQo+Pj4gKw0KPj4+ICsgICAgaWYgKGZmLT5rdGltZXIpIHsNCj4+PiAr
+ICAgICAgICBlcnIgPSB0aW1lcl9kZWxldGUoZmYtPmt0aW1lcik7DQo+Pj4gKyAgICAgICAgZ19h
+c3NlcnQoZXJyID09IDApOw0KPj4+ICsgICAgICAgIGZmLT5rdGltZXIgPSBOVUxMOw0KPj4+ICsg
+ICAgfQ0KPj4+ICt9DQo+Pj4gKw0KPj4+ICtzdGF0aWMgdm9pZA0KPj4+ICtrdGltZXJfc2V0dXAo
+RmlsZUZlbmNlICpmZiwgRXJyb3IgKiplcnJwKQ0KPj4+ICt7DQo+Pj4gKyAgICBpbnQgZXJyOw0K
+Pj4+ICsNCj4+PiArICAgIHN0cnVjdCBzaWdldmVudCBzZXYgPSB7DQo+Pj4gKyAgICAgICAgLnNp
+Z2V2X25vdGlmeSA9IFNJR0VWX1NJR05BTCwNCj4+PiArICAgICAgICAuc2lnZXZfc2lnbm8gPSBm
+Zi0+c2lnbmFsID8gZmYtPnNpZ25hbCA6IFNJR0tJTEwsDQo+Pj4gKyAgICB9Ow0KPj4+ICsNCj4+
+PiArICAgIGlmIChmZi0+a3RpbWVvdXQgPT0gMCkgew0KPj4+ICsgICAgICAgIHJldHVybjsNCj4+
+PiArICAgIH0NCj4+PiArDQo+Pj4gKyAgICBlcnIgPSB0aW1lcl9jcmVhdGUoQ0xPQ0tfTU9OT1RP
+TklDLCAmc2V2LCAmZmYtPmt0aW1lcik7DQo+Pj4gKyAgICBpZiAoZXJyID09IC0xKSB7DQo+Pj4g
+KyAgICAgICAgZXJyb3Jfc2V0ZyhlcnJwLCAiRXJyb3IgY3JlYXRpbmcga2VybmVsIHRpbWVyOiAl
+bSIpOw0KPj4+ICsgICAgICAgIHJldHVybjsNCj4+PiArICAgIH0NCj4+PiArfQ0KPj4+ICsNCj4+
+PiArc3RhdGljIHZvaWQNCj4+PiArcXRpbWVyX3RlYXIoRmlsZUZlbmNlICpmZikNCj4+PiArew0K
+Pj4+ICsgICAgaWYgKGZmLT5xdGltZXIpIHsNCj4+PiArICAgICAgICB0aW1lcl9kZWwoZmYtPnF0
+aW1lcik7DQo+Pj4gKyAgICAgICAgdGltZXJfZnJlZShmZi0+cXRpbWVyKTsNCj4+PiArICAgIH0N
+Cj4+PiArICAgIGZmLT5xdGltZXIgPSBOVUxMOw0KPj4+ICt9DQo+Pj4gKw0KPj4+ICtzdGF0aWMg
+dm9pZA0KPj4+ICtxdGltZXJfc2V0dXAoRmlsZUZlbmNlICpmZiwgRXJyb3IgKiplcnJwKQ0KPj4+
+ICt7DQo+Pj4gKyAgICBRRU1VVGltZXIgKnF0aW1lcjsNCj4+PiArDQo+Pj4gKyAgICBpZiAoZmYt
+PnF0aW1lb3V0ID09IDApIHsNCj4+PiArICAgICAgICByZXR1cm47DQo+Pj4gKyAgICB9DQo+Pj4g
+Kw0KPj4+ICsgICAgcXRpbWVyID0gdGltZXJfbmV3X21zKFFFTVVfQ0xPQ0tfUkVBTFRJTUUsIGZp
+bGVfZmVuY2VfYWJvcnRfY2IsIGZmKTsNCj4+PiArICAgIGlmIChxdGltZXIgPT0gTlVMTCkgew0K
+Pj4+ICsgICAgICAgIGVycm9yX3NldGcoZXJycCwgIkVycm9yIGNyZWF0aW5nIFFlbXUgdGltZXIi
+KTsNCj4+PiArICAgICAgICByZXR1cm47DQo+Pj4gKyAgICB9DQo+Pj4gKw0KPj4+ICsgICAgZmYt
+PnF0aW1lciA9IHF0aW1lcjsNCj4+PiArfQ0KPj4+ICsNCj4+PiArc3RhdGljIHZvaWQNCj4+PiAr
+d2F0Y2hfdGVhcihGaWxlRmVuY2UgKmZmKQ0KPj4+ICt7DQo+Pj4gKyAgICBpZiAoZmYtPmZtKSB7
+DQo+Pj4gKyAgICAgICAgcWVtdV9maWxlX21vbml0b3JfcmVtb3ZlX3dhdGNoKGZmLT5mbSwgZmYt
+PmRpciwgZmYtPmlkKTsNCj4+PiArICAgICAgICBxZW11X2ZpbGVfbW9uaXRvcl9mcmVlKGZmLT5m
+bSk7DQo+Pj4gKyAgICAgICAgZmYtPmZtID0gTlVMTDsNCj4+PiArICAgICAgICBmZi0+aWQgPSAw
+Ow0KPj4+ICsgICAgfQ0KPj4+ICt9DQo+Pj4gKw0KPj4+ICtzdGF0aWMgdm9pZA0KPj4+ICt3YXRj
+aF9zZXR1cChGaWxlRmVuY2UgKmZmLCBFcnJvciAqKmVycnApDQo+Pj4gK3sNCj4+PiArICAgIFFG
+aWxlTW9uaXRvciAqZm07DQo+Pj4gKyAgICBpbnQ2NF90IGlkOw0KPj4+ICsNCj4+PiArICAgIGZt
+ID0gcWVtdV9maWxlX21vbml0b3JfbmV3KGVycnApOw0KPj4+ICsgICAgaWYgKCFmbSkgew0KPj4+
+ICsgICAgICAgIHJldHVybjsNCj4+PiArICAgIH0NCj4+PiArDQo+Pj4gKyAgICBpZCA9IHFlbXVf
+ZmlsZV9tb25pdG9yX2FkZF93YXRjaChmbSwgZmYtPmRpciwgZmYtPmZpbGUsDQo+Pj4gKyAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBmaWxlX2ZlbmNlX3dhdGNoX2NiLCBmZiwg
+ZXJycCk7DQo+Pj4gKyAgICBpZiAoaWQgPCAwKSB7DQo+Pj4gKyAgICAgICAgcWVtdV9maWxlX21v
+bml0b3JfZnJlZShmbSk7DQo+Pj4gKyAgICAgICAgcmV0dXJuOw0KPj4+ICsgICAgfQ0KPj4+ICsN
+Cj4+PiArICAgIGZmLT5mbSA9IGZtOw0KPj4+ICsgICAgZmYtPmlkID0gaWQ7DQo+Pj4gK30NCj4+
+PiArDQo+Pj4gK3N0YXRpYyB2b2lkDQo+Pj4gK2ZpbGVfZmVuY2VfY29tcGxldGUoVXNlckNyZWF0
+YWJsZSAqb2JqLCBFcnJvciAqKmVycnApDQo+Pj4gK3sNCj4+PiArICAgIEZpbGVGZW5jZSAqZmYg
+PSBGSUxFX0ZFTkNFKG9iaik7DQo+Pj4gKw0KPj4+ICsgICAgaWYgKGZmLT5kaXIgPT0gTlVMTCkg
+ew0KPj4+ICsgICAgICAgIGVycm9yX3NldGcoZXJycCwgIkEgJ2ZpbGUnIG11c3QgYmUgc2V0Iik7
+DQo+Pj4gKyAgICAgICAgcmV0dXJuOw0KPj4+ICsgICAgfQ0KPj4+ICsNCj4+PiArICAgIGlmIChm
+Zi0+c2lnbmFsICE9IDAgJiYgZmYtPmt0aW1lb3V0ID09IDApIHsNCj4+PiArICAgICAgICBlcnJv
+cl9zZXRnKGVycnAsICJVc2luZyAnc2lnbmFsJyByZXF1aXJlcyAna3RpbWVvdXQnIHRvIGJlIHNl
+dCIpOw0KPj4+ICsgICAgICAgIHJldHVybjsNCj4+PiArICAgIH0NCj4+PiArDQo+Pj4gKyAgICBp
+ZiAoZmYtPmt0aW1lb3V0ID09IDAgJiYgZmYtPnF0aW1lb3V0ID09IDApIHsNCj4+PiArICAgICAg
+ICBlcnJvcl9zZXRnKGVycnAsICJPbmUgb3IgYm90aCBvZiAna3RpbWVvdXQnIG9yICdxdGltZW91
+dCcgbXVzdCBiZSBzZXQiKTsNCj4+PiArICAgICAgICByZXR1cm47DQo+Pj4gKyAgICB9DQo+Pj4g
+Kw0KPj4+ICsgICAgaWYgKGZmLT5xdGltZW91dCA+PSBmZi0+a3RpbWVvdXQpIHsNCj4+PiArICAg
+ICAgICBlcnJvcl9zZXRnKGVycnAsICJVc2luZyAncXRpbWVvdXQnID49ICdrdGltZW91dCcgZG9l
+c24ndCBtYWtlIHNlbnNlIik7DQo+Pj4gKyAgICAgICAgcmV0dXJuOw0KPj4+ICsgICAgfQ0KPj4+
+ICsNCj4+PiArICAgIHdhdGNoX3NldHVwKGZmLCBlcnJwKTsNCj4+PiArICAgIGlmICgqZXJycCAh
+PSBOVUxMKSB7DQo+Pj4gKyAgICAgICAgcmV0dXJuOw0KPj4+ICsgICAgfQ0KPj4+ICsNCj4+PiAr
+ICAgIHF0aW1lcl9zZXR1cChmZiwgZXJycCk7DQo+Pj4gKyAgICBpZiAoKmVycnAgIT0gTlVMTCkg
+ew0KPj4+ICsgICAgICAgIGdvdG8gZXJyX3dhdGNoOw0KPj4+ICsgICAgfQ0KPj4+ICsNCj4+PiAr
+ICAgIGt0aW1lcl9zZXR1cChmZiwgZXJycCk7DQo+Pj4gKyAgICBpZiAoKmVycnAgIT0gTlVMTCkg
+ew0KPj4+ICsgICAgICAgIGdvdG8gZXJyX3F0aW1lcjsNCj4+PiArICAgIH0NCj4+IA0KPj4gDQo+
+PiBJIHdvdWxkIHJhdGhlciByZXR1cm4gc3VjY2VzcyBvbiB0aGUgc2V0dXAgZnVuY3Rpb25zIGFu
+ZCB3cml0ZToNCj4+IA0KPj4gaWYgKCF3YXRjaF9zZXR1cChmZiwgZXJycCkgfHwNCj4+ICAgICAh
+cXRpbWVyX3NldHVwKC4uLikgfHwNCj4+ICAgICAhLi4uKSB7DQo+PiAgICAgcmV0dXJuOyAobm8g
+Y2xlYW51cCkNCj4+ICB9DQo+PiANCj4+IE9iamVjdCBjcmVhdGlvbiB3aWxsIGZhaWwsIGFuZCBm
+aW5hbGl6ZSBmdW5jdGlvbiB3aWxsIGJlIGNhbGxlZC4NCg0KTWFrZXMgc2Vuc2UuIERvbmUgZm9y
+IHYyLg0KDQo+PiANCj4+PiArDQo+Pj4gKyAgICB0aW1lcl91cGRhdGUoZmYpOw0KPj4+ICsNCj4+
+PiArICAgIHJldHVybjsNCj4+PiArDQo+Pj4gK2Vycl9xdGltZXI6DQo+Pj4gKyAgICBxdGltZXJf
+dGVhcihmZik7DQo+Pj4gK2Vycl93YXRjaDoNCj4+PiArICAgIHdhdGNoX3RlYXIoZmYpOw0KPj4+
+ICt9DQo+Pj4gKw0KPj4+ICtzdGF0aWMgdm9pZA0KPj4+ICtmaWxlX2ZlbmNlX3NldF9zaWduYWwo
+T2JqZWN0ICpvYmosIGNvbnN0IGNoYXIgKnZhbHVlLCBFcnJvciAqKmVycnApDQo+Pj4gK3sNCj4+
+PiArICAgIEZpbGVGZW5jZSAqZmYgPSBGSUxFX0ZFTkNFKG9iaik7DQo+Pj4gKyAgICBnY2hhciAq
+Z3NpZzsNCj4+PiArDQo+Pj4gKyAgICBpZiAoZmYtPnNpZ25hbCkgew0KPj4+ICsgICAgICAgIGVy
+cm9yX3NldGcoZXJycCwgIlNpZ25hbCBwcm9wZXJ0eSBhbHJlYWR5IHNldCIpOw0KPj4+ICsgICAg
+ICAgIHJldHVybjsNCj4+PiArICAgIH0NCj4+PiArDQo+Pj4gKyAgICBnc2lnID0gZ19hc2NpaV9z
+dHJ1cCh2YWx1ZSwgLTEpOw0KPj4+ICsNCj4+PiArICAgIGlmIChnX3N0cmNtcDAoZ3NpZywgIlFV
+SVQiKSA9PSAwKSB7DQo+Pj4gKyAgICAgICAgZmYtPnNpZ25hbCA9IFNJR1FVSVQ7DQo+Pj4gKyAg
+ICB9IGVsc2UNCj4+PiArICAgIGlmIChnX3N0cmNtcDAoZ3NpZywgIktJTEwiKSA9PSAwKSB7DQo+
+Pj4gKyAgICAgICAgZmYtPnNpZ25hbCA9IFNJR0tJTEw7DQo+Pj4gKyAgICB9IGVsc2Ugew0KPj4+
+ICsgICAgICAgIGVycm9yX3NldGcoZXJycCwgIkludmFsaWQgc2lnbmFsLiBNdXN0IGJlICdxdWl0
+JyBvciAna2lsbCciKTsNCj4+PiArICAgIH0NCj4+IA0KPj4gT3IgYmFpbCBvdXQgZWFybHkgZm9y
+IE5VTEwgY2FzZSBhbmQgdXNlIGdfYXNjaWlfc3RyY2FzZWNtcCgpDQo+IA0KPiBTb3VuZHMgYmV0
+dGVyLiBMZXQgbWUgbG9vayBpbnRvIGl0Lg0KDQpJIGZvbGxvd2VkIHlvdXIgc3VnZ2VzdGlvbiBi
+dXQgaGFkIHRvIGFkZCBhIGdvdG8uIEkgaGF2ZSB0aGUgZmVlbGluZw0KeW91IGRvbid0IGxpa2Ug
+dGhlbSwgc28gbGV0IG1lIGtub3cgd2hhdCB5b3UgdGhpbmsuIDopDQoNCj4gDQo+PiANCj4+PiAr
+DQo+Pj4gKyAgICBnX2ZyZWUoZ3NpZyk7DQo+Pj4gK30NCj4+PiArDQo+Pj4gK3N0YXRpYyBjaGFy
+ICoNCj4+PiArZmlsZV9mZW5jZV9nZXRfc2lnbmFsKE9iamVjdCAqb2JqLCBFcnJvciAqKmVycnAp
+DQo+Pj4gK3sNCj4+PiArICAgIEZpbGVGZW5jZSAqZmYgPSBGSUxFX0ZFTkNFKG9iaik7DQo+Pj4g
+Kw0KPj4+ICsgICAgc3dpdGNoIChmZi0+c2lnbmFsKSB7DQo+Pj4gKyAgICBjYXNlIFNJR0tJTEw6
+DQo+Pj4gKyAgICAgICAgcmV0dXJuIGdfc3RyZHVwKCJraWxsIik7DQo+Pj4gKyAgICBjYXNlIFNJ
+R1FVSVQ6DQo+Pj4gKyAgICAgICAgcmV0dXJuIGdfc3RyZHVwKCJxdWl0Iik7DQo+Pj4gKyAgICB9
+DQo+Pj4gKw0KPj4+ICsgICAgLyogVW5yZWFjaGFibGUgKi8NCj4+PiArICAgIGFib3J0KCk7DQo+
+Pj4gK30NCj4+PiArDQo+Pj4gK3N0YXRpYyB2b2lkDQo+Pj4gK2ZpbGVfZmVuY2Vfc2V0X2ZpbGUo
+T2JqZWN0ICpvYmosIGNvbnN0IGNoYXIgKnZhbHVlLCBFcnJvciAqKmVycnApDQo+Pj4gK3sNCj4+
+PiArICAgIEZpbGVGZW5jZSAqZmYgPSBGSUxFX0ZFTkNFKG9iaik7DQo+Pj4gKyAgICBnY2hhciAq
+ZGlyLCAqZmlsZTsNCj4+IA0KPj4gZ19hdXRvZnJlZQ0KPiANCj4gU3dlZXQuDQoNCkRvbmUgZm9y
+IHYyLg0KDQo+IA0KPj4gDQo+Pj4gKw0KPj4+ICsgICAgaWYgKGZmLT5kaXIpIHsNCj4+PiArICAg
+ICAgICBlcnJvcl9zZXRnKGVycnAsICJGaWxlIHByb3BlcnR5IGFscmVhZHkgc2V0Iik7DQo+Pj4g
+KyAgICAgICAgcmV0dXJuOw0KPj4+ICsgICAgfQ0KPj4+ICsNCj4+PiArICAgIGRpciA9IGdfcGF0
+aF9nZXRfZGlybmFtZSh2YWx1ZSk7DQo+Pj4gKyAgICBpZiAoZ19zdHJfZXF1YWwoZGlyLCAiLiIp
+KSB7DQo+Pj4gKyAgICAgICAgZXJyb3Jfc2V0ZyhlcnJwLCAiUGF0aCBmb3IgZmlsZS1mZW5jZSBt
+dXN0IGJlIGFic29sdXRlIik7DQo+Pj4gKyAgICAgICAgcmV0dXJuOw0KPj4+ICsgICAgfQ0KPj4+
+ICsNCj4+PiArICAgIGZpbGUgPSBnX3BhdGhfZ2V0X2Jhc2VuYW1lKHZhbHVlKTsNCj4+PiArICAg
+IGlmIChnX3N0cl9lcXVhbChmaWxlLCAiLiIpKSB7DQo+Pj4gKyAgICAgICAgZXJyb3Jfc2V0Zyhl
+cnJwLCAiUGF0aCBmb3IgZmlsZS1mZW5jZSBtdXN0IGJlIGEgZmlsZSIpOw0KPj4+ICsgICAgICAg
+IGdfZnJlZShkaXIpOw0KPj4+ICsgICAgICAgIHJldHVybjsNCj4+PiArICAgIH0NCj4+PiArDQo+
+Pj4gKyAgICBmZi0+ZGlyID0gZGlyOw0KPj4+ICsgICAgZmYtPmZpbGUgPSBmaWxlOw0KPj4gDQo+
+PiBnX3N0ZWFsX3BvaW50ZXIoKQ0KPiANCj4gQ29vbCEgQ2xlYXJseSBJIGNvdWxkIHNwZW5kIG1v
+cmUgdGltZSBpbiB0aGUgZ2xpYiBtYW51YWwuIDopDQoNCkRvbmUgZm9yIHYyLg0KDQo+IA0KPj4g
+DQo+Pj4gK30NCj4+PiArDQo+Pj4gK3N0YXRpYyBjaGFyICoNCj4+PiArZmlsZV9mZW5jZV9nZXRf
+ZmlsZShPYmplY3QgKm9iaiwgRXJyb3IgKiplcnJwKQ0KPj4+ICt7DQo+Pj4gKyAgICBGaWxlRmVu
+Y2UgKmZmID0gRklMRV9GRU5DRShvYmopOw0KPj4+ICsNCj4+PiArICAgIGlmIChmZi0+ZmlsZSkg
+ew0KPj4+ICsgICAgICAgIHJldHVybiBnX3N0cmNvbmNhdChmZi0+ZGlyLCAiLyIsIGZmLT5maWxl
+LCBOVUxMKTsNCj4+IA0KPj4gT3IgZ19idWlsZF9maWxlbmFtZSgpDQo+IA0KPiBNYWtlcyBzZW5z
+ZS4NCg0KRG9uZSBmb3IgdjIuDQoNCkkgd291bGQgbGlrZSB0byBhZGQgdGhhdCBJJ20gZm9sbG93
+aW5nIHlvdXIgZ3VpZGFuY2UgaW4gaG93IFFlbXUgdXNlcw0KZ2xpYiwgYnV0IHBlcnNvbmFsbHkg
+SSdtIG5vdCBhIGJpZyBmYW4gb2YgdGhlc2UgZmVhdHVyZXMuIEkgZG9uJ3Qga25vdw0KaG93IHdl
+bGwgY29tcGlsZXJzIGNhbiBvcHRpbWlzZSB0aGlzIGNvZGUsIGJ1dCB0aGVzZSAoc3BlY2lmaWMp
+DQpmdW5jdGlvbnMgYXJlIHJhdGhlciBzaW1wbGUgYW5kIEknZCBsaWtlIHRvIHRoaW5rIHdlIGNh
+biBjb3JyZWN0bHkNCmNvdmVyIGVycm9yIGNhc2VzLCBldmVudHVhbGx5IHByb2R1Y2luZyBtb3Jl
+IG9wdGltYWwgY29kZSB0aGFuIHdoYXQgSQ0KY2FuIHNlZSBiZWluZyBwcm9kdWNlZCB3aGVuIHVz
+aW5nIHRoZSBtZW1vcnkgKGRlKWFsbG9jYXRpb24gaGVscGVycy4NCg0KPiANCj4+IA0KPj4+ICsg
+ICAgfQ0KPj4+ICsNCj4+PiArICAgIHJldHVybiBOVUxMOw0KPj4+ICt9DQo+Pj4gKw0KPj4+ICtz
+dGF0aWMgdm9pZA0KPj4+ICtmaWxlX2ZlbmNlX2luc3RhbmNlX2ZpbmFsaXplKE9iamVjdCAqb2Jq
+KQ0KPj4+ICt7DQo+Pj4gKyAgICBGaWxlRmVuY2UgKmZmID0gRklMRV9GRU5DRShvYmopOw0KPj4+
+ICsNCj4+PiArICAgIGt0aW1lcl90ZWFyKGZmKTsNCj4+PiArICAgIHF0aW1lcl90ZWFyKGZmKTsN
+Cj4+PiArICAgIHdhdGNoX3RlYXIoZmYpOw0KPj4+ICsNCj4+PiArICAgIGdfZnJlZShmZi0+Zmls
+ZSk7DQo+Pj4gKyAgICBnX2ZyZWUoZmYtPmRpcik7DQo+Pj4gK30NCj4+PiArDQo+Pj4gK3N0YXRp
+YyB2b2lkDQo+Pj4gK2ZpbGVfZmVuY2VfaW5zdGFuY2VfaW5pdChPYmplY3QgKm9iaikNCj4+PiAr
+ew0KPj4+ICsgICAgRmlsZUZlbmNlICpmZiA9IEZJTEVfRkVOQ0Uob2JqKTsNCj4+PiArDQo+Pj4g
+KyAgICBvYmplY3RfcHJvcGVydHlfYWRkX3N0cihvYmosICJmaWxlIiwNCj4+PiArICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgIGZpbGVfZmVuY2VfZ2V0X2ZpbGUsDQo+Pj4gKyAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICBmaWxlX2ZlbmNlX3NldF9maWxlLA0KPj4+ICsgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgJmVycm9yX2Fib3J0KTsNCj4+PiArICAgIG9iamVjdF9wcm9wZXJ0eV9h
+ZGRfc3RyKG9iaiwgInNpZ25hbCIsDQo+Pj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICBm
+aWxlX2ZlbmNlX2dldF9zaWduYWwsDQo+Pj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICBm
+aWxlX2ZlbmNlX3NldF9zaWduYWwsDQo+Pj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAm
+ZXJyb3JfYWJvcnQpOw0KPj4+ICsgICAgb2JqZWN0X3Byb3BlcnR5X2FkZF91aW50MzJfcHRyKG9i
+aiwgInF0aW1lb3V0IiwgJmZmLT5xdGltZW91dCwNCj4+PiArICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICBmYWxzZSwgJmVycm9yX2Fib3J0KTsNCj4+PiArICAgIG9iamVjdF9wcm9w
+ZXJ0eV9hZGRfdWludDMyX3B0cihvYmosICJrdGltZW91dCIsICZmZi0+a3RpbWVvdXQsDQo+Pj4g
+KyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgZmFsc2UsICZlcnJvcl9hYm9ydCk7
+DQo+PiANCj4+IE1ha2UgdGhlbSBjbGFzcyBwcm9wZXJ0aWVzICh0aGlzIHdpbGwgaGVscCB3aXRo
+IC1vYmplY3QNCj4+IGZpbGUtZmVuY2UsaGVscCBhbmQgc3VjaCkuIChmd2l3LCBJIGhhdmUgcGVu
+ZGluZyBwYXRjaGVzIHRvIHN1cHBvcnQNCj4+IGNsYXNzIHByb3BlcnR5IGRlc2NyaXB0aW9uICYg
+ZGVmYXVsdCB2YWx1ZXMuLikNCj4gDQo+IEkgdHJpZWQgdG8gZml0IHNvbWUgb2YgdGhlc2UgaW4g
+dGhlIGNsYXNzLCBhcyB3ZWxsIGFzIGp1c3RpZnkgYSBzcGxpdA0KPiBvZiB0aGUgZmlsZS1iYXNl
+ZCBmZW5jaW5nIHdpdGggYSBtb3JlIGdlbmVyaWMgc2VsZi1mZW5jZXIgcmlnaHQgb2ZmDQo+IHRo
+ZSBiYXQuIEJ1dCBpdCBkaWRuJ3QgbWFrZSBzZW5zZSBpbiB0aGUgZW5kLiBJIGVudmlzaW9uZWQg
+c2NlbmFyaW9zDQo+IHdoZXJlIHlvdSBtYXkgaGF2ZSBkaWZmZXJlbnQgaGVhcnRiZWF0cyBmb3Ig
+b25lIFFlbXUgd2l0aCBkaWZmZXJlbnQNCj4gdGltZW91dHMuIEluIHRoYXQgY2FzZSwgaXQgd291
+bGRuJ3Qgd29yayBhcyBhIGNsYXNzIHByb3BlcnR5LCByaWdodD8NCg0KSSBkaWRuJ3QgaGVhciBi
+YWNrIGZyb20geW91IG9uIHRoaXMgc28gSSBkaWRuJ3QgY2hhbmdlIGl0LiBMZXQgbWUga25vdw0K
+eW91ciB0aG91Z2h0cy4NCg0KPiANCj4+IA0KPj4+ICt9DQo+Pj4gKw0KPj4+ICtzdGF0aWMgdm9p
+ZA0KPj4+ICtmaWxlX2ZlbmNlX2NsYXNzX2luaXQoT2JqZWN0Q2xhc3MgKmtsYXNzLCB2b2lkICpj
+bGFzc19kYXRhKQ0KPj4+ICt7DQo+Pj4gKyAgICBVc2VyQ3JlYXRhYmxlQ2xhc3MgKnVjYyA9IFVT
+RVJfQ1JFQVRBQkxFX0NMQVNTKGtsYXNzKTsNCj4+PiArICAgIHVjYy0+Y29tcGxldGUgPSBmaWxl
+X2ZlbmNlX2NvbXBsZXRlOw0KPj4+ICt9DQo+Pj4gKw0KPj4+ICtzdGF0aWMgY29uc3QgVHlwZUlu
+Zm8gZmlsZV9mZW5jZV9pbmZvID0gew0KPj4+ICsgICAgLm5hbWUgPSBUWVBFX0ZJTEVfRkVOQ0Us
+DQo+Pj4gKyAgICAucGFyZW50ID0gVFlQRV9PQkpFQ1QsDQo+Pj4gKyAgICAuY2xhc3NfaW5pdCA9
+IGZpbGVfZmVuY2VfY2xhc3NfaW5pdCwNCj4+PiArICAgIC5pbnN0YW5jZV9zaXplID0gc2l6ZW9m
+KEZpbGVGZW5jZSksDQo+Pj4gKyAgICAuaW5zdGFuY2VfaW5pdCA9IGZpbGVfZmVuY2VfaW5zdGFu
+Y2VfaW5pdCwNCj4+PiArICAgIC5pbnN0YW5jZV9maW5hbGl6ZSA9IGZpbGVfZmVuY2VfaW5zdGFu
+Y2VfZmluYWxpemUsDQo+Pj4gKyAgICAuaW50ZXJmYWNlcyA9IChJbnRlcmZhY2VJbmZvW10pIHsN
+Cj4+PiArICAgICAgICB7IFRZUEVfVVNFUl9DUkVBVEFCTEUgfSwNCj4+PiArICAgICAgICB7IH0N
+Cj4+PiArICAgIH0NCj4+PiArfTsNCj4+PiArDQo+Pj4gK3N0YXRpYyB2b2lkDQo+Pj4gK3JlZ2lz
+dGVyX3R5cGVzKHZvaWQpDQo+Pj4gK3sNCj4+PiArICAgIHR5cGVfcmVnaXN0ZXJfc3RhdGljKCZm
+aWxlX2ZlbmNlX2luZm8pOw0KPj4+ICt9DQo+Pj4gKw0KPj4+ICt0eXBlX2luaXQocmVnaXN0ZXJf
+dHlwZXMpOw0KPj4+IGRpZmYgLS1naXQgYS9xZW11LW9wdGlvbnMuaHggYi9xZW11LW9wdGlvbnMu
+aHgNCj4+PiBpbmRleCA2NWM5NDczYjczLi45OTVkM2Q2YWJmIDEwMDY0NA0KPj4+IC0tLSBhL3Fl
+bXUtb3B0aW9ucy5oeA0KPj4+ICsrKyBiL3FlbXUtb3B0aW9ucy5oeA0KPj4+IEBAIC00OTI5LDgg
+KzQ5MjksMzMgQEAgQ049bGFwdG9wLmV4YW1wbGUuY29tLE89RXhhbXBsZSBIb21lLEw9TG9uZG9u
+LFNUPUxvbmRvbixDPUdCDQo+Pj4gDQo+Pj4gQGVuZCB0YWJsZQ0KPj4+IA0KPj4+IC1FVEVYSQ0K
+Pj4+ICtAaXRlbSAtb2JqZWN0IGZpbGUtZmVuY2UsaWQ9QHZhcntpZH0sZmlsZT1AdmFye2ZpbGV9
+LHF0aW1lb3V0PUB2YXJ7cXRpbWVvdXR9LGt0aW1lb3V0PUB2YXJ7a3RpbWVvdXR9LHNpZ25hbD1A
+e3NpZ25hbH0NCj4+PiArDQo+Pj4gK1NlbGYtZmVuY2UgUWVtdSBpZiBAdmFye2ZpbGV9IGlzIG5v
+dCBtb2RpZmllZCB3aXRoaW4gYSBnaXZlbiB0aW1lb3V0Lg0KPj4+ICsNCj4+PiArUWVtdSB3aWxs
+IHdhdGNoIEB2YXJ7ZmlsZX0gZm9yIGF0dHJpYnV0ZSBjaGFuZ2VzLiBUb3VjaGluZyB0aGUgZmls
+ZSB3b3JrcyBhcyBhDQo+Pj4gK2hlYXJ0YmVhdC4gVGhpcyBwYXJhbWV0ZXIgaXMgbWFuZGF0b3J5
+Lg0KPj4+ICsNCj4+PiArRmVuY2luZyBoYXBwZW5zIGFmdGVyIEB2YXJ7cXRpbWVvdXR9IG9yIEB2
+YXJ7a3RpbWVvdXR9IHNlY29uZHMgZWxhcHNlDQo+Pj4gK3dpdGhvdXQgYSBoZWFydGJlYXQuIEF0
+IGxlYXN0IG9uZSBvZiB0aGVzZSBtdXN0IGJlIHNwZWNpZmllZC4gQm90aCBtYXkgYmUgdXNlZC4N
+Cj4+PiANCj4+PiArV2hlbiB1c2luZyBAdmFye3F0aW1lb3V0fSwgYW4gaW50ZXJuYWwgUWVtdSB0
+aW1lciBpcyB1c2VkLiBGZW5jaW5nIHdpdGgNCj4+PiArdGhpcyBtZXRob2QgZ2l2ZXMgUWVtdSBh
+IGNoYW5jZSB0byB3cml0ZSBhIGxvZyBtZXNzYWdlIGluZGljYXRpbmcgd2hpY2ggZmlsZQ0KPj4+
+ICtjYXVzZWQgdGhlIGV2ZW50LiBJZiBRZW11J3MgbWFpbiBsb29wIGlzIGh1bmcgZm9yIHdoYXRl
+dmVyIHJlYXNvbiwgdGhpcyBtZXRob2QNCj4+PiArd29uJ3Qgc3VjY2Vzc2Z1bGx5IGtpbGwgUWVt
+dS4NCj4+PiArDQo+Pj4gK1doZW4gdXNpbmcgQHZhcntrdGltZW91dH0sIGEga2VybmVsIHRpbWVy
+IGlzIHVzZWQuIEluIHRoaXMgY2FzZSwgQHZhcntzaWduYWx9DQo+Pj4gK2NhbiBiZSAna2lsbCcg
+KGZvciBTSUdLSUxMLCBkZWZhdWx0KSBvciAncXVpdCcgKGZvciBTSUdRVUlUKS4gVXNpbmcgU0lH
+UVVJVCBtYXkNCj4+PiArYmUgcHJlZmVycmVkIGZvciBvYnRhaW5pbmcgY29yZSBkdW1wcy4gSWYg
+UWVtdSBpcyBodW5nIChlZy4gdW5pbnRlcnJ1cHRhYmxlDQo+Pj4gK3NsZWVwKSwgdGhpcyBtZXRo
+b2Qgd29uJ3Qgc3VjY2Vzc2Z1bGx5IGtpbGwgUWVtdS4NCj4+PiArDQo+Pj4gK0l0IGlzIHdvcnRo
+IG5vdGluZyB0aGF0IGV2ZW4gc3VjY2Vzc2Z1bGx5IGtpbGxpbmcgUWVtdSBtYXkgbm90IGJlIHN1
+ZmZpY2llbnQgdG8NCj4+PiArY29tcGxldGVseSBmZW5jZSBhIFZNIGFzIGNlcnRhaW4gb3BlcmF0
+aW9ucyBsaWtlIG5ldHdvcmsgcGFja2V0cyBvciBibG9jaw0KPj4+ICtjb21tYW5kcyBtYXkgYmUg
+cGVuZGluZyBpbiB0aGUga2VybmVsLiBJZiB0aGF0IGlzIGEgY29uY2Vybiwgc3lzdGVtcyBzaG91
+bGQNCj4+PiArY29uc2lkZXIgdXNpbmcgZnVydGhlciBmZW5jaW5nIG1lY2hhbmlzbXMgbGlrZSBo
+YXJkd2FyZSB3YXRjaGRvZ3MgZWl0aGVyIGluDQo+Pj4gK2FkZGl0aW9uIG9yIGluIGNvbmp1bmN0
+aW9uIHdpdGggdGhpcyBmZWF0dXJlIGZvciBhZGRpdGlvbmFsIHByb3RlY3Rpb24uDQo+Pj4gKw0K
+Pj4+ICtFVEVYSQ0KPj4+IA0KPj4+IEhYQ09NTSBUaGlzIGlzIHRoZSBsYXN0IHN0YXRlbWVudC4g
+SW5zZXJ0IG5ldyBvcHRpb25zIGJlZm9yZSB0aGlzIGxpbmUhDQo+Pj4gU1RFWEkNCj4+PiAtLQ0K
+Pj4+IDIuMjAuMQ0KPj4+IA0KPj4gDQo+PiBDb2RlIGxvb2tzIGZpbmUgdG8gbWUgb3RoZXJ3aXNl
+DQo+IA0KPiBMZXQgbWUgd29yayBvbiBhIHYyIG5leHQgd2Vlay4NCg0KIm5leHQgd2VlayIgaXMg
+ZmluYWxseSBoZXJlLiA6KQ0KDQpGLg0KDQo+IA0KPiBGLg0KPiANCj4+IA0KPj4gLS0gDQo+PiBN
+YXJjLUFuZHLDqSBMdXJlYXUNCj4gDQoNCg==
 
