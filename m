@@ -2,104 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFD95152876
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 10:36:56 +0100 (CET)
-Received: from localhost ([::1]:43620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8A96152881
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 10:37:56 +0100 (CET)
+Received: from localhost ([::1]:43624 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izH79-0004Kp-Pj
-	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 04:36:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49864)
+	id 1izH87-0005tJ-U2
+	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 04:37:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49878)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <i.kotrasinsk@partner.samsung.com>)
- id 1izH3g-0000ht-BT
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 04:33:22 -0500
+ id 1izH3g-0000iV-OB
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 04:33:23 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <i.kotrasinsk@partner.samsung.com>)
- id 1izH3e-0004wk-2d
+ id 1izH3e-0004wf-2U
  for qemu-devel@nongnu.org; Wed, 05 Feb 2020 04:33:20 -0500
-Received: from mailout1.w1.samsung.com ([210.118.77.11]:38020)
+Received: from mailout1.w1.samsung.com ([210.118.77.11]:38024)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <i.kotrasinsk@partner.samsung.com>)
- id 1izH3d-0004lr-PW
+ id 1izH3d-0004oU-Po
  for qemu-devel@nongnu.org; Wed, 05 Feb 2020 04:33:18 -0500
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
  by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20200205093316euoutp01ebfdfdc03836fa6a6b1acb6d0039205d~wd84mgcjD2281022810euoutp01i
+ 20200205093316euoutp01017670c7811583e057200bf344bf8625~wd8485UOW2287922879euoutp01a
  for <qemu-devel@nongnu.org>; Wed,  5 Feb 2020 09:33:16 +0000 (GMT)
 DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20200205093316euoutp01ebfdfdc03836fa6a6b1acb6d0039205d~wd84mgcjD2281022810euoutp01i
+ 20200205093316euoutp01017670c7811583e057200bf344bf8625~wd8485UOW2287922879euoutp01a
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
  s=mail20170921; t=1580895196;
- bh=2F49GVD50FFc7SohifeVm5zou/I4maN8aL4yyICPULM=;
+ bh=U1WBsYzE1zwNDyuAmKB3GlVSl401j/4uBIO1UaB6OLY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=e6Y3oBddYo1sK7yoqG+xm+ImvKPn7wTVNss2r7Z8Bf7kcGpUmUAC9knr/6jOI72++
- h7wL6Jtwlf5Zf/BEO6Cyh5+Qp/axC6/Up4pwLcVTYBB9OHjaZXBWZQMSQmrjxpXBvt
- ZgVqre592nB72ia5UIPDzAS9sKg8yhJH+ZPCuUvE=
-Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
+ b=QbvMfeuLkSVRnRtefSF8Nq6K30n3BY07Th0UNZhAWy73amBnCM0ZK2FtRPCup4l73
+ 6rk6vU0EYYAdGvB6PDqI86rJULKIWqp8HPNF9GWii2ju/7v4tYnurdnKlxNR9vtXG6
+ Tf506g1FpBnpzYQicSJrxR/eKNSp7snNYpHJU9mU=
+Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
  eucas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20200205093316eucas1p15f8292c186b65b72173d4ae737a3d5f2~wd84R7axw3063030630eucas1p1e;
+ 20200205093316eucas1p14053f56abe04a156d36b4fd96dc28044~wd84vG7Lx3273232732eucas1p1V;
  Wed,  5 Feb 2020 09:33:16 +0000 (GMT)
 Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
- eusmges1new.samsung.com (EUCPMTA) with SMTP id CE.19.61286.CDB8A3E5; Wed,  5
+ eusmges3new.samsung.com (EUCPMTA) with SMTP id BF.8A.60698.CDB8A3E5; Wed,  5
  Feb 2020 09:33:16 +0000 (GMT)
 Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
  eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20200205093315eucas1p1d39671ae41a5918bf60f10e110d4e938~wd84C8hIr3269132691eucas1p1b;
- Wed,  5 Feb 2020 09:33:15 +0000 (GMT)
+ 20200205093316eucas1p1983761c17c0b3b6d70070bd9e1d99e23~wd84U0-Bc3269332693eucas1p1U;
+ Wed,  5 Feb 2020 09:33:16 +0000 (GMT)
 Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
  eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20200205093315eusmtrp1b256f0e25641520329abc3226a864010~wd84CchSn1029010290eusmtrp1b;
- Wed,  5 Feb 2020 09:33:15 +0000 (GMT)
-X-AuditID: cbfec7f2-ef1ff7000001ef66-58-5e3a8bdcd28f
+ 20200205093316eusmtrp141fbf836f679b0a13965ab9e75500ea1~wd84UXhs51029010290eusmtrp1d;
+ Wed,  5 Feb 2020 09:33:16 +0000 (GMT)
+X-AuditID: cbfec7f5-a0fff7000001ed1a-c5-5e3a8bdc5c4c
 Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
- eusmgms1.samsung.com (EUCPMTA) with SMTP id AE.8D.08375.BDB8A3E5; Wed,  5
- Feb 2020 09:33:15 +0000 (GMT)
+ eusmgms1.samsung.com (EUCPMTA) with SMTP id FE.8D.08375.CDB8A3E5; Wed,  5
+ Feb 2020 09:33:16 +0000 (GMT)
 Received: from AMDC3304.digital.local (unknown [106.120.51.21]) by
  eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20200205093315eusmtip2f87bfe96c9baf2725353fa028c5069ab~wd83wLOR60077300773eusmtip2K;
+ 20200205093315eusmtip269ab0d5182838f9db242b28df4b28388~wd84AZ69J0075000750eusmtip2M;
  Wed,  5 Feb 2020 09:33:15 +0000 (GMT)
 From: i.kotrasinsk@partner.samsung.com
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v2 6/9] hw/misc/memexpose: Add memexpose pci device
-Date: Wed,  5 Feb 2020 10:33:02 +0100
-Message-Id: <1580895185-24341-7-git-send-email-i.kotrasinsk@partner.samsung.com>
+Subject: [RFC PATCH v2 7/9] hw/misc/memexpose: Add memexpose memory region
+ device
+Date: Wed,  5 Feb 2020 10:33:03 +0100
+Message-Id: <1580895185-24341-8-git-send-email-i.kotrasinsk@partner.samsung.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1580895185-24341-1-git-send-email-i.kotrasinsk@partner.samsung.com>
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrGIsWRmVeSWpSXmKPExsWy7djPc7p3uq3iDC6v5bDYc+Exm8X+bf9Y
- LeacecBicbx3B4sDi8eda3vYPJ5c28zkcfDdHiaP9/uusgWwRHHZpKTmZJalFunbJXBlvDl0
- kbXgpXXFs483GBsYj+p1MXJySAiYSMyeeoEZxBYSWMEo0TfDoouRC8j+wigxbcMeRgjnM6PE
- urPtQFUcYB33m/wh4suBitadZ4LruHLtERvIKDYBNYmdRz4zgtgiApISv7tOg61gFsiQeD6r
- G8wWFnCXmPv0DSPIUBYBVYnHv+NBwrwCARJfN/QyQ1wnJ3HzXCeYzSkQKLHp00c2kF0SApfZ
- JD4dewdV5CLx68clVghbWOLV8S3sELaMxOnJPSwQdr1Ey50dTBDNHUBvrpzOBpGwlviyYSkL
- yBHMApoS63fpQ4QdJWbPvgn1MJ/EjbeCEOfzSUzaNh0qzCvR0SYEUa0n0f3kJhPM1mWNj6C2
- ekg8OneZGRI8SxglFvz7wzqBUX4WwrIFjIyrGMVTS4tz01OLDfNSy/WKE3OLS/PS9ZLzczcx
- AmP/9L/jn3Ywfr2UdIhRgINRiYd3xSTLOCHWxLLiytxDjBIczEoivOf1gUK8KYmVValF+fFF
- pTmpxYcYpTlYlMR5jRe9jBUSSE8sSc1OTS1ILYLJMnFwSjUw8sok3JixqEzMQOeYv827ZW/X
- bhb3KTx/+lvDUv8NV3qLTXub12uZrROO/dGitP7i24vuXyU2aeyTFS1a9eXIGtmo6H6PQJP2
- GF8p2cNPePoWJl++P4lTmjvW23bpv1WPJS1XPrF3bXjF4KlixBUr+fO2s9411l/bjyjfsDfo
- uLj6fsTWxucGSizFGYmGWsxFxYkAr3GlnPkCAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrOLMWRmVeSWpSXmKPExsVy+t/xe7q3u63iDLZ9MrLYc+Exm8X+bf9Y
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrBIsWRmVeSWpSXmKPExsWy7djPc7p3uq3iDPZuVbDYc+Exm8X+bf9Y
+ LeacecBicbx3B4sDi8eda3vYPJ5c28zkcfDdHiaP9/uusgWwRHHZpKTmZJalFunbJXBltN7+
+ zlow27LiUvsv5gbGdr0uRk4OCQETiZbbO1m6GLk4hARWMEqsaDrFCuF8YZTYO/0ylPOZUWLJ
+ 5DXMMC19034xQiSWM0pc+HgToeXmvf3sIFVsAmoSO498ZgSxRQQkJX53nQbrZhbIkHg+qxvM
+ FhYIlviwtJUFxGYRUJWYsGs2mM0rECDxbNYLFohtchI3z3WC1XMKBEps+vSRDWSZhMBlNolH
+ J+YwQRS5SMyZtowRwhaWeHV8CzuELSNxenIP1KB6iZY7O5ggmjsYJfpWTmeDSFhLfNmwFKiI
+ A+g6TYn1u/Qhwo4Spw61MoOEJQT4JG68FYS4n09i0rbpUGFeiY42IYhqPYnuJzeZYLYua3zE
+ AlHiIXGmMQISPEsYJd4+28E+gVF+FsKuBYyMqxjFU0uLc9NTi43zUsv1ihNzi0vz0vWS83M3
+ MQLj//S/4193MO77k3SIUYCDUYmHN2CCZZwQa2JZcWXuIUYJDmYlEd7z+kAh3pTEyqrUovz4
+ otKc1OJDjNIcLErivMaLXsYKCaQnlqRmp6YWpBbBZJk4OKUaGGUsV/npV3keki/naGjSylv0
+ QsnqjXJaoK7TfZ2Ga20upYsXb7y0ytz279u09U8lVBeuzrXeasW4+eF2e+2HVntnTKyz0BGt
+ EGrhzPzJICJwTUadWzpJfJ9acLOU5FWV8mkdKSqPNcVTwlUT+hd33jXa/d4tKOFBjX24tKij
+ qdDjPavKjfqUWIozEg21mIuKEwEBEaEP+wIAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrFLMWRmVeSWpSXmKPExsVy+t/xe7p3uq3iDPbtZLPYc+Exm8X+bf9Y
  LeacecBicbx3B4sDi8eda3vYPJ5c28zkcfDdHiaP9/uusgWwROnZFOWXlqQqZOQXl9gqRRta
- GOkZWlroGZlY6hkam8daGZkq6dvZpKTmZJalFunbJehlvDl0kbXgpXXFs483GBsYj+p1MXJw
- SAiYSNxv8u9i5OIQEljKKPGl4T9LFyMnUFxG4sfpNWwQtrDEn2tdYLaQwCdGiXV9SSA2m4Ca
- xM4jnxlBbBEBSYnfXaeZQWxmgSyJnbPvM4HYwgLuEnOfvmEE2cUioCrx+Hc8SJhXIEDi64Ze
- ZojxchI3z3WC2ZwCgRKbPn2EWhUgce3rV9YJjHwLGBlWMYqklhbnpucWG+oVJ+YWl+al6yXn
- 525iBAbitmM/N+9gvLQx+BCjAAejEg/vikmWcUKsiWXFlbmHGCU4mJVEeM/rA4V4UxIrq1KL
- 8uOLSnNSiw8xmgLdNJFZSjQ5HxgleSXxhqaG5haWhubG5sZmFkrivB0CB2OEBNITS1KzU1ML
- Uotg+pg4OKUaGPVj5qVWsVlxeQh6/w6czPmII7RA4dTj67wOWosKZrbenXIt5OYZHvV5hyws
- HjsycSzblCnybvX+T40rK6umre7+G7+wuVf+oe+39mBd07frY2az8NovuHqvXfh7mV/Xmx7R
- qYyyfpNZPVh3FlpcjH2xPPFv+KNP7CXebtOd3NTKzjw2Uy90V2Ipzkg01GIuKk4EAPZxshZa
- AgAA
-X-CMS-MailID: 20200205093315eucas1p1d39671ae41a5918bf60f10e110d4e938
+ GOkZWlroGZlY6hkam8daGZkq6dvZpKTmZJalFunbJehltN7+zlow27LiUvsv5gbGdr0uRk4O
+ CQETib5pvxi7GLk4hASWMkr839fJDpGQkfhxeg0bhC0s8edaFxtE0SdGiV1vdrGCJNgE1CR2
+ HvnMCGKLCEhK/O46zQxiMwtkSeycfZ8JxBYWCJT49m4zWA2LgKrEhF2zWUBsXoEAiWezXrBA
+ LJCTuHmuE6yXE6h+06ePYIuFgGquff3KOoGRbwEjwypGkdTS4tz03GJDveLE3OLSvHS95Pzc
+ TYzAcNx27OfmHYyXNgYfYhTgYFTi4V0xyTJOiDWxrLgy9xCjBAezkgjveX2gEG9KYmVValF+
+ fFFpTmrxIUZToKMmMkuJJucDYyWvJN7Q1NDcwtLQ3Njc2MxCSZy3Q+BgjJBAemJJanZqakFq
+ EUwfEwenVAOj5eGiFIGKZ36/6kvSSmcymh3bklkS56P3RUDkBl9u/sqQF7uSTq/mLV/+N/t4
+ 2slXe7bv8jvauPSKAN9XB+2nupsEtvnb+n+9v6ic+3eGm02nINMr35DHB/iy063F/7M94Hwn
+ WxWm5vdDXUi6N18uhj3qV4FsVbazjc8Hmc8Jmu+SnA7cu6PEUpyRaKjFXFScCADjm4dBXQIA
+ AA==
+X-CMS-MailID: 20200205093316eucas1p1983761c17c0b3b6d70070bd9e1d99e23
 X-Msg-Generator: CA
 Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20200205093315eucas1p1d39671ae41a5918bf60f10e110d4e938
+X-RootMTR: 20200205093316eucas1p1983761c17c0b3b6d70070bd9e1d99e23
 X-EPHeader: CA
 CMS-TYPE: 201P
-X-CMS-RootMailID: 20200205093315eucas1p1d39671ae41a5918bf60f10e110d4e938
+X-CMS-RootMailID: 20200205093316eucas1p1983761c17c0b3b6d70070bd9e1d99e23
 References: <1580895185-24341-1-git-send-email-i.kotrasinsk@partner.samsung.com>
- <CGME20200205093315eucas1p1d39671ae41a5918bf60f10e110d4e938@eucas1p1.samsung.com>
+ <CGME20200205093316eucas1p1983761c17c0b3b6d70070bd9e1d99e23@eucas1p1.samsung.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
 X-Received-From: 210.118.77.11
 X-BeenThere: qemu-devel@nongnu.org
@@ -122,40 +123,44 @@ From: Igor Kotrasinski <i.kotrasinsk@partner.samsung.com>
 
 Signed-off-by: Igor Kotrasinski <i.kotrasinsk@partner.samsung.com>
 ---
- MAINTAINERS                       |   1 +
- hw/misc/memexpose/Makefile.objs   |   1 +
- hw/misc/memexpose/memexpose-pci.c | 218 ++++++++++++++++++++++++++++++++++++++
- 3 files changed, 220 insertions(+)
- create mode 100644 hw/misc/memexpose/memexpose-pci.c
+ MAINTAINERS                             |   2 +
+ hw/misc/memexpose/Makefile.objs         |   1 +
+ hw/misc/memexpose/memexpose-memregion.c | 142 ++++++++++++++++++++++++++++++++
+ hw/misc/memexpose/memexpose-memregion.h |  41 +++++++++
+ 4 files changed, 186 insertions(+)
+ create mode 100644 hw/misc/memexpose/memexpose-memregion.c
+ create mode 100644 hw/misc/memexpose/memexpose-memregion.h
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 7c98fef..0517556 100644
+index 0517556..e016cff 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -1647,6 +1647,7 @@ F: hw/misc/memexpose/memexpose-core.h
- F: hw/misc/memexpose/memexpose-core.c
+@@ -1648,6 +1648,8 @@ F: hw/misc/memexpose/memexpose-core.c
  F: hw/misc/memexpose/memexpose-msg.h
  F: hw/misc/memexpose/memexpose-msg.c
-+F: hw/misc/memexpose/memexpose-pci.c
+ F: hw/misc/memexpose/memexpose-pci.c
++F: hw/misc/memexpose/memexpose-memregion.h
++F: hw/misc/memexpose/memexpose-memregion.c
  
  nvme
  M: Keith Busch <keith.busch@intel.com>
 diff --git a/hw/misc/memexpose/Makefile.objs b/hw/misc/memexpose/Makefile.objs
-index f405fe7..05a2395 100644
+index 05a2395..056bff3 100644
 --- a/hw/misc/memexpose/Makefile.objs
 +++ b/hw/misc/memexpose/Makefile.objs
-@@ -1,2 +1,3 @@
+@@ -1,3 +1,4 @@
  common-obj-y += memexpose-msg.o
  common-obj-y += memexpose-core.o
-+common-obj-$(CONFIG_PCI) += memexpose-pci.o
-diff --git a/hw/misc/memexpose/memexpose-pci.c b/hw/misc/memexpose/memexpose-pci.c
+ common-obj-$(CONFIG_PCI) += memexpose-pci.o
++common-obj-y += memexpose-memregion.o
+diff --git a/hw/misc/memexpose/memexpose-memregion.c b/hw/misc/memexpose/memexpose-memregion.c
 new file mode 100644
-index 0000000..7372651
+index 0000000..fbdd966
 --- /dev/null
-+++ b/hw/misc/memexpose/memexpose-pci.c
-@@ -0,0 +1,218 @@
++++ b/hw/misc/memexpose/memexpose-memregion.c
+@@ -0,0 +1,142 @@
 +/*
-+ *  Memexpose PCI device
++ *  Memexpose ARM device
 + *
 + *  Copyright (C) 2020 Samsung Electronics Co Ltd.
 + *    Igor Kotrasinski, <i.kotrasinsk@partner.samsung.com>
@@ -176,67 +181,28 @@ index 0000000..7372651
 + */
 +
 +#include "qemu/osdep.h"
-+#include "qemu/units.h"
-+#include "qapi/error.h"
-+#include "qemu/cutils.h"
-+#include "hw/hw.h"
-+#include "hw/pci/pci.h"
-+#include "hw/pci/msi.h"
-+#include "hw/pci/msix.h"
++#include "hw/irq.h"
++#include "hw/sysbus.h"
 +#include "hw/qdev-properties.h"
 +#include "exec/memory.h"
 +#include "exec/address-spaces.h"
 +#include "memexpose-core.h"
++#include "memexpose-memregion.h"
 +
-+#define PCI_VENDOR_ID_MEMEXPOSE            PCI_VENDOR_ID_REDHAT_QUMRANET
-+#define TYPE_MEMEXPOSE_PCI "memexpose-pci"
-+#define PCI_DEVICE_ID_MEMEXPOSE     0x1111
-+#define MEMEXPOSE_PCI(obj) \
-+    OBJECT_CHECK(MemexposePCIState, (obj), TYPE_MEMEXPOSE_PCI)
-+
-+typedef struct MemexposePCIState {
-+    PCIDevice parent_obj;
-+
-+    CharBackend intr_chr;
-+    CharBackend mem_chr;
-+
-+    MemexposeIntr intr;
-+    uint32_t intr_status;
-+    MemexposeMem mem;
-+} MemexposePCIState;
-+
-+static void raise_irq(MemexposePCIState *s)
++static void memexpose_memdev_intr(void *opaque, int dir)
 +{
-+    s->intr_status |= 1;
-+    if (msi_enabled(&s->parent_obj)) {
-+        msi_notify(&s->parent_obj, 0);
-+    } else {
-+        pci_set_irq(&s->parent_obj, 1);
-+    }
-+}
-+
-+static void lower_irq(MemexposePCIState *s)
-+{
-+    s->intr_status &= (~1);
-+    if (!s->intr_status && !msi_enabled(&s->parent_obj)) {
-+        pci_set_irq(&s->parent_obj, 0);
-+    }
-+}
-+
-+static void handle_irq(void *opaque, int dir)
-+{
-+    MemexposePCIState *s = opaque;
++    MemexposeMemdev *dev = opaque;
 +    if (dir) {
-+        raise_irq(s);
++        qemu_set_irq(dev->irq, 1);
 +    } else {
-+        lower_irq(s);
++        qemu_set_irq(dev->irq, 0);
 +    }
 +}
 +
-+static int memexpose_enable(void *opaque)
++static int memexpose_memdev_enable(void *opaque)
 +{
 +    int ret;
-+    MemexposePCIState *s = opaque;
++    MemexposeMemdev *s = opaque;
 +
 +    ret = memexpose_intr_enable(&s->intr);
 +    if (ret) {
@@ -252,126 +218,136 @@ index 0000000..7372651
 +    return 0;
 +}
 +
-+static void memexpose_disable(void *opaque)
++static void memexpose_memdev_disable(void *opaque)
 +{
-+    MemexposePCIState *s = opaque;
++    MemexposeMemdev *s = opaque;
 +
 +    memexpose_intr_disable(&s->intr);
 +    memexpose_mem_disable(&s->mem);
 +}
 +
-+static void memexpose_pci_intr_init(PCIDevice *dev, Error **errp)
++static void memexpose_memdev_init(Object *obj)
 +{
-+    MemexposePCIState *s = MEMEXPOSE_PCI(dev);
-+    struct memexpose_intr_ops ops;
-+    ops.intr = handle_irq;
-+    ops.enable = memexpose_enable;
-+    ops.disable = memexpose_disable;
-+    ops.parent = s;
++    SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
++    MemexposeMemdev *mdev = MEMEXPOSE_MEMDEV(obj);
++    sysbus_init_mmio(sbd, &mdev->intr.shmem);
++    sysbus_init_irq(sbd, &mdev->irq);
++}
 +
-+    memexpose_intr_init(&s->intr, &ops, OBJECT(dev), &s->intr_chr, errp);
++static void memexpose_memdev_finalize(Object *obj)
++{
++}
++
++static void memexpose_memdev_realize(DeviceState *dev, Error **errp)
++{
++    MemexposeMemdev *mdev = MEMEXPOSE_MEMDEV(dev);
++    struct memexpose_intr_ops ops = {
++        .parent = dev,
++        .intr = memexpose_memdev_intr,
++        .enable = memexpose_memdev_enable,
++        .disable = memexpose_memdev_disable,
++    };
++
++    memexpose_intr_init(&mdev->intr, &ops, OBJECT(dev), &mdev->intr_chr, errp);
 +    if (*errp) {
 +        return;
 +    }
-+
-+    s->intr_status = 0;
-+    uint8_t *pci_conf;
-+    pci_conf = dev->config;
-+    pci_conf[PCI_COMMAND] = PCI_COMMAND_IO | PCI_COMMAND_MEMORY;
-+    pci_config_set_interrupt_pin(pci_conf, 1);
-+    if (msi_init(dev, 0, 1, true, false, errp)) {
-+        error_setg(errp, "Failed to initialize memexpose PCI interrupts");
-+        memexpose_intr_destroy(&s->intr);
-+        return;
-+    }
-+
-+    /* region for registers*/
-+    pci_register_bar(dev, 0,
-+                     PCI_BASE_ADDRESS_SPACE_MEMORY,
-+                     &s->intr.shmem);
-+    MEMEXPOSE_DPRINTF("Initialized bar.\n");
-+}
-+
-+static void memexpose_pci_intr_exit(PCIDevice *dev)
-+{
-+    MemexposePCIState *s = MEMEXPOSE_PCI(dev);
-+    msi_uninit(dev);
-+    memexpose_intr_destroy(&s->intr);
-+}
-+
-+static void memexpose_pci_realize(PCIDevice *dev, Error **errp)
-+{
-+    MemexposePCIState *s = MEMEXPOSE_PCI(dev);
-+    memexpose_pci_intr_init(dev, errp);
-+    if (*errp) {
-+        return;
-+    }
-+
-+    Chardev *chrd = qemu_chr_fe_get_driver(&s->mem_chr);
-+    assert(chrd);
-+    MEMEXPOSE_DPRINTF("Memexpose endpoint at %s!\n",
-+                      chrd->filename);
-+    memexpose_mem_init(&s->mem, OBJECT(dev),
++    memexpose_mem_init(&mdev->mem, OBJECT(dev),
 +                       get_system_memory(),
-+                       &s->mem_chr, 0, errp);
++                       &mdev->mem_chr, 1, errp);
 +    if (*errp) {
-+        memexpose_pci_intr_exit(dev);
-+        return;
++        goto free_intr;
 +    }
++    return;
 +
-+    pci_register_bar(dev, 1,
-+                     PCI_BASE_ADDRESS_SPACE_MEMORY |
-+                     PCI_BASE_ADDRESS_MEM_TYPE_64,
-+                     &s->mem.shmem);
-+    MEMEXPOSE_DPRINTF("Initialized second bar.\n");
++free_intr:
++    memexpose_intr_destroy(&mdev->intr);
 +}
 +
-+static void memexpose_pci_exit(PCIDevice *dev)
++static void memexpose_memdev_unrealize(DeviceState *dev, Error **errp)
 +{
-+    MemexposePCIState *s = MEMEXPOSE_PCI(dev);
-+    memexpose_mem_destroy(&s->mem);
-+    memexpose_pci_intr_exit(dev);
++    MemexposeMemdev *mdev = MEMEXPOSE_MEMDEV(dev);
++    memexpose_mem_destroy(&mdev->mem);
++    memexpose_intr_destroy(&mdev->intr);
 +}
 +
-+static Property memexpose_pci_properties[] = {
-+    DEFINE_PROP_CHR("mem_chardev", MemexposePCIState, mem_chr),
-+    DEFINE_PROP_CHR("intr_chardev", MemexposePCIState, intr_chr),
-+    DEFINE_PROP_UINT64("shm_size", MemexposePCIState, mem.shmem_size, 4096),
++static Property memexpose_memdev_properties[] = {
++    DEFINE_PROP_CHR("intr_chardev", MemexposeMemdev, intr_chr),
++    DEFINE_PROP_CHR("mem_chardev", MemexposeMemdev, mem_chr),
++    DEFINE_PROP_UINT64("shm_size", MemexposeMemdev, mem.shmem_size, 4096),
 +    DEFINE_PROP_END_OF_LIST(),
 +};
 +
-+static void memexpose_pci_class_init(ObjectClass *klass, void *data)
++static void memexpose_memdev_class_init(ObjectClass *klass, void *data)
 +{
 +    DeviceClass *dc = DEVICE_CLASS(klass);
-+    PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
-+
-+    k->realize = memexpose_pci_realize;
-+    k->exit = memexpose_pci_exit;
-+    k->vendor_id = PCI_VENDOR_ID_MEMEXPOSE;
-+    k->device_id = PCI_DEVICE_ID_MEMEXPOSE;
-+    k->class_id = PCI_CLASS_MEMORY_RAM;
-+    k->revision = 1;
-+    device_class_set_props(dc, memexpose_pci_properties);
++    dc->realize = memexpose_memdev_realize;
++    dc->unrealize = memexpose_memdev_unrealize;
++    device_class_set_props(dc, memexpose_memdev_properties);
 +}
 +
-+static const TypeInfo memexpose_pci_info = {
-+    .name          = TYPE_MEMEXPOSE_PCI,
-+    .parent        = TYPE_PCI_DEVICE,
-+    .instance_size = sizeof(MemexposePCIState),
-+    .class_init    = memexpose_pci_class_init,
-+    .interfaces    = (InterfaceInfo[]) {
-+        { INTERFACE_CONVENTIONAL_PCI_DEVICE },
-+        { },
-+    },
++static const TypeInfo memexpose_memdev_info = {
++    .name = TYPE_MEMEXPOSE_MEMDEV,
++    .parent = TYPE_SYS_BUS_DEVICE,
++    .instance_size = sizeof(MemexposeMemdev),
++    .instance_init = memexpose_memdev_init,
++    .instance_finalize = memexpose_memdev_finalize,
++    .class_init = memexpose_memdev_class_init,
 +};
 +
-+
-+static void memexpose_pci_register_types(void)
++static void register_types(void)
 +{
-+    type_register_static(&memexpose_pci_info);
++    type_register_static(&memexpose_memdev_info);
 +}
 +
-+type_init(memexpose_pci_register_types)
++type_init(register_types);
+diff --git a/hw/misc/memexpose/memexpose-memregion.h b/hw/misc/memexpose/memexpose-memregion.h
+new file mode 100644
+index 0000000..7eddcbe
+--- /dev/null
++++ b/hw/misc/memexpose/memexpose-memregion.h
+@@ -0,0 +1,41 @@
++/*
++ *  Memexpose ARM device
++ *
++ *  Copyright (C) 2020 Samsung Electronics Co Ltd.
++ *    Igor Kotrasinski, <i.kotrasinsk@partner.samsung.com>
++ *
++ *  This program is free software; you can redistribute it and/or modify it
++ *  under the terms of the GNU General Public License as published by the
++ *  Free Software Foundation; either version 2 of the License, or
++ *  (at your option) any later version.
++ *
++ *  This program is distributed in the hope that it will be useful, but WITHOUT
++ *  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
++ *  FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
++ *  for more details.
++ *
++ *  You should have received a copy of the GNU General Public License along
++ *  with this program; if not, see <http://www.gnu.org/licenses/>.
++ *
++ */
++
++#ifndef _MEMEXPOSE_MEMDEV_H_
++#define _MEMEXPOSE_MEMDEV_H_
++
++#include "memexpose-core.h"
++#include "hw/sysbus.h"
++
++#define TYPE_MEMEXPOSE_MEMDEV "memexpose-memdev"
++#define MEMEXPOSE_MEMDEV(obj) \
++    OBJECT_CHECK(MemexposeMemdev, (obj), TYPE_MEMEXPOSE_MEMDEV)
++
++typedef struct MemexposeMemdev {
++    SysBusDevice dev;
++    MemexposeIntr intr;
++    MemexposeMem mem;
++    CharBackend intr_chr;
++    CharBackend mem_chr;
++    qemu_irq irq;
++} MemexposeMemdev;
++
++#endif /* _MEMEXPOSE_MEMDEV_H_ */
 -- 
 2.7.4
 
