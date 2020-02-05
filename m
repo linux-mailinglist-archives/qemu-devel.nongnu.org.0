@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86A9015299F
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 12:06:02 +0100 (CET)
-Received: from localhost ([::1]:44942 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8BDA1529AC
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 12:10:25 +0100 (CET)
+Received: from localhost ([::1]:45046 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izIVN-00079i-Ho
-	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 06:06:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45851)
+	id 1izIZc-0005r2-Oj
+	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 06:10:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45856)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kraxel@redhat.com>) id 1izITZ-00053j-JA
+ (envelope-from <kraxel@redhat.com>) id 1izITZ-00053r-LV
  for qemu-devel@nongnu.org; Wed, 05 Feb 2020 06:04:10 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1izITY-0000Z9-FL
+ (envelope-from <kraxel@redhat.com>) id 1izITY-0000am-KQ
  for qemu-devel@nongnu.org; Wed, 05 Feb 2020 06:04:09 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:42387
- helo=us-smtp-delivery-1.mimecast.com)
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:59164
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1izITX-0000TN-8V
+ (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1izITY-0000U8-Cz
  for qemu-devel@nongnu.org; Wed, 05 Feb 2020 06:04:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580900646;
+ s=mimecast20190719; t=1580900647;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=GwUdRd2fQfsOrRbTu7Qwh8J+ZBvLle2DPqjOw4ixKx0=;
- b=NsFydWDpCSD/y/RBPvKOq5LFdNM8upcs3P2DgUFKrhmi3O6ol1OlsQD0eLTA1jp8YX61lz
- /sHW2TF8EaEXEl7gXXbXtYL5HRnWScFWPzerdwljPmEShuiwea/8ppWYtkmcmudbUUQUKR
- +BshP+LQtRE6shHL5aKUE8kmutAL7t0=
+ bh=pTrNYiUvQNT+/fzdXbSfIQyC8vcvnbRrhBUzFETpfJc=;
+ b=Nv/kUyfLA24lX2K8Bggr7Uux9hAczWx7OoAvcw8kOg73y+mVhQUAe4UkgtLjPBMkBoueQe
+ 5vmWT81OFCWcJ8Yt00iw7p+YhqPTYi6qHUdXP5+tc6659PMiKtBqhmSmlCvHJOldQVAruj
+ FNYdAmhzi8S3hv/X2bScfRjQNqw71zA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-33-_oKXWm2mN_WRcS8-K6d3gw-1; Wed, 05 Feb 2020 06:04:03 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-33-Ytts3cYwOKiYcKYivBUtwg-1; Wed, 05 Feb 2020 06:04:03 -0500
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6229318C43C5;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6D7748C86C5;
  Wed,  5 Feb 2020 11:04:02 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-116-112.ams2.redhat.com
  [10.36.116.112])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6A5381A7E3;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5F305790C0;
  Wed,  5 Feb 2020 11:03:57 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 9C26A9C7F; Wed,  5 Feb 2020 12:03:56 +0100 (CET)
+ id AEBA4939C; Wed,  5 Feb 2020 12:03:56 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 3/5] ui/sdl: implement show-cursor option
-Date: Wed,  5 Feb 2020 12:03:54 +0100
-Message-Id: <20200205110356.3491-4-kraxel@redhat.com>
+Subject: [PATCH 4/5] ui: wire up legacy -show-cursor option
+Date: Wed,  5 Feb 2020 12:03:55 +0100
+Message-Id: <20200205110356.3491-5-kraxel@redhat.com>
 In-Reply-To: <20200205110356.3491-1-kraxel@redhat.com>
 References: <20200205110356.3491-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: _oKXWm2mN_WRcS8-K6d3gw-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-MC-Unique: Ytts3cYwOKiYcKYivBUtwg-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,86 +81,44 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- ui/sdl2.c | 28 ++++++++++++++++++++--------
- 1 file changed, 20 insertions(+), 8 deletions(-)
+ include/sysemu/sysemu.h | 1 -
+ vl.c                    | 4 ++--
+ 2 files changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/ui/sdl2.c b/ui/sdl2.c
-index 9030f1c42efb..e18555b10a42 100644
---- a/ui/sdl2.c
-+++ b/ui/sdl2.c
-@@ -161,9 +161,15 @@ static void sdl_update_caption(struct sdl2_console *sc=
-on)
-     }
- }
-=20
--static void sdl_hide_cursor(void)
-+static void sdl_hide_cursor(struct sdl2_console *scon)
- {
--    if (!cursor_hide) {
-+    bool allow_hide_cursor =3D true;
-+
-+    if (scon->opts->has_show_cursor && scon->opts->show_cursor) {
-+        allow_hide_cursor =3D false;
-+    }
-+
-+    if (!allow_hide_cursor) {
-         return;
-     }
-=20
-@@ -175,9 +181,15 @@ static void sdl_hide_cursor(void)
-     }
- }
-=20
--static void sdl_show_cursor(void)
-+static void sdl_show_cursor(struct sdl2_console *scon)
- {
--    if (!cursor_hide) {
-+    bool allow_hide_cursor =3D true;
-+
-+    if (scon->opts->has_show_cursor && scon->opts->show_cursor) {
-+        allow_hide_cursor =3D false;
-+    }
-+
-+    if (!allow_hide_cursor) {
-         return;
-     }
-=20
-@@ -216,7 +228,7 @@ static void sdl_grab_start(struct sdl2_console *scon)
-             SDL_WarpMouseInWindow(scon->real_window, guest_x, guest_y);
-         }
-     } else {
--        sdl_hide_cursor();
-+        sdl_hide_cursor(scon);
-     }
-     SDL_SetWindowGrab(scon->real_window, SDL_TRUE);
-     gui_grab =3D 1;
-@@ -227,7 +239,7 @@ static void sdl_grab_end(struct sdl2_console *scon)
- {
-     SDL_SetWindowGrab(scon->real_window, SDL_FALSE);
-     gui_grab =3D 0;
--    sdl_show_cursor();
-+    sdl_show_cursor(scon);
-     sdl_update_caption(scon);
- }
-=20
-@@ -658,7 +670,7 @@ static void sdl_mouse_warp(DisplayChangeListener *dcl,
-=20
-     if (on) {
-         if (!guest_cursor) {
--            sdl_show_cursor();
-+            sdl_show_cursor(scon);
-         }
-         if (gui_grab || qemu_input_is_absolute() || absolute_enabled) {
-             SDL_SetCursor(guest_sprite);
-@@ -667,7 +679,7 @@ static void sdl_mouse_warp(DisplayChangeListener *dcl,
-             }
-         }
-     } else if (gui_grab) {
--        sdl_hide_cursor();
-+        sdl_hide_cursor(scon);
-     }
-     guest_cursor =3D on;
-     guest_x =3D x, guest_y =3D y;
+diff --git a/include/sysemu/sysemu.h b/include/sysemu/sysemu.h
+index 80c57fdc4e64..da2f87c3e63a 100644
+--- a/include/sysemu/sysemu.h
++++ b/include/sysemu/sysemu.h
+@@ -42,7 +42,6 @@ extern const char *keyboard_layout;
+ extern int win2k_install_hack;
+ extern int alt_grab;
+ extern int ctrl_grab;
+-extern int cursor_hide;
+ extern int graphic_rotate;
+ extern int no_quit;
+ extern int no_shutdown;
+diff --git a/vl.c b/vl.c
+index 24951b51a94b..0db0aa0fa040 100644
+--- a/vl.c
++++ b/vl.c
+@@ -168,7 +168,6 @@ int no_hpet =3D 0;
+ int fd_bootchk =3D 1;
+ static int no_reboot;
+ int no_shutdown =3D 0;
+-int cursor_hide =3D 1;
+ int graphic_rotate =3D 0;
+ const char *watchdog;
+ QEMUOptionRom option_rom[MAX_OPTION_ROMS];
+@@ -3553,7 +3552,8 @@ int main(int argc, char **argv, char **envp)
+                 no_shutdown =3D 1;
+                 break;
+             case QEMU_OPTION_show_cursor:
+-                cursor_hide =3D 0;
++                dpy.has_show_cursor =3D true;
++                dpy.show_cursor =3D true;
+                 break;
+             case QEMU_OPTION_uuid:
+                 if (qemu_uuid_parse(optarg, &qemu_uuid) < 0) {
 --=20
 2.18.1
 
