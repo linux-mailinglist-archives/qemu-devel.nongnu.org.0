@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EE211529A8
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 12:08:47 +0100 (CET)
-Received: from localhost ([::1]:45022 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86A9015299F
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 12:06:02 +0100 (CET)
+Received: from localhost ([::1]:44942 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izIY2-0003US-9i
-	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 06:08:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45804)
+	id 1izIVN-00079i-Ho
+	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 06:06:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45851)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kraxel@redhat.com>) id 1izITY-000512-AV
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 06:04:09 -0500
+ (envelope-from <kraxel@redhat.com>) id 1izITZ-00053j-JA
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 06:04:10 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1izITW-0000K1-6N
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 06:04:07 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:20373
+ (envelope-from <kraxel@redhat.com>) id 1izITY-0000Z9-FL
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 06:04:09 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:42387
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1izITW-0000F5-0U
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 06:04:06 -0500
+ (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1izITX-0000TN-8V
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 06:04:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580900645;
+ s=mimecast20190719; t=1580900646;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZVyc8HAjJeVJ4G3eNhyQFpiME3LD4DO/y41WEU9dTqg=;
- b=jCgvQKGu0b4ud/VJ1QDp27KuZJ81Am23+1wd3i+s6jI3WopitkOKTVto0n4M8eJMbcH3xQ
- pf+HrBaGpEpTokIGhiMFFXQpCccJbhsUhTe8BOjs7NFFXg0spk/3vV0AtTyhByVx511VNX
- vTaALScT8L520PrwB4vb8/OLag3rX2I=
+ bh=GwUdRd2fQfsOrRbTu7Qwh8J+ZBvLle2DPqjOw4ixKx0=;
+ b=NsFydWDpCSD/y/RBPvKOq5LFdNM8upcs3P2DgUFKrhmi3O6ol1OlsQD0eLTA1jp8YX61lz
+ /sHW2TF8EaEXEl7gXXbXtYL5HRnWScFWPzerdwljPmEShuiwea/8ppWYtkmcmudbUUQUKR
+ +BshP+LQtRE6shHL5aKUE8kmutAL7t0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-122-KOQSnHulOcyRCr2ABH53Ew-1; Wed, 05 Feb 2020 06:04:03 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-33-_oKXWm2mN_WRcS8-K6d3gw-1; Wed, 05 Feb 2020 06:04:03 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 82D1F1063BA0;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6229318C43C5;
  Wed,  5 Feb 2020 11:04:02 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-116-112.ams2.redhat.com
  [10.36.116.112])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 64D8260BF7;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6A5381A7E3;
  Wed,  5 Feb 2020 11:03:57 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 924BA9C75; Wed,  5 Feb 2020 12:03:56 +0100 (CET)
+ id 9C26A9C7F; Wed,  5 Feb 2020 12:03:56 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/5] ui/gtk: implement show-cursor option
-Date: Wed,  5 Feb 2020 12:03:53 +0100
-Message-Id: <20200205110356.3491-3-kraxel@redhat.com>
+Subject: [PATCH 3/5] ui/sdl: implement show-cursor option
+Date: Wed,  5 Feb 2020 12:03:54 +0100
+Message-Id: <20200205110356.3491-4-kraxel@redhat.com>
 In-Reply-To: <20200205110356.3491-1-kraxel@redhat.com>
 References: <20200205110356.3491-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: KOQSnHulOcyRCr2ABH53Ew-1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: _oKXWm2mN_WRcS8-K6d3gw-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,38 +81,86 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- ui/gtk.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ ui/sdl2.c | 28 ++++++++++++++++++++--------
+ 1 file changed, 20 insertions(+), 8 deletions(-)
 
-diff --git a/ui/gtk.c b/ui/gtk.c
-index d18892d1de61..78b197ade4c1 100644
---- a/ui/gtk.c
-+++ b/ui/gtk.c
-@@ -247,6 +247,7 @@ static void gd_update_cursor(VirtualConsole *vc)
- {
-     GtkDisplayState *s =3D vc->s;
-     GdkWindow *window;
-+    bool allow_hide_cursor =3D true;
-=20
-     if (vc->type !=3D GD_VC_GFX ||
-         !qemu_console_is_graphic(vc->gfx.dcl.con)) {
-@@ -257,8 +258,13 @@ static void gd_update_cursor(VirtualConsole *vc)
-         return;
+diff --git a/ui/sdl2.c b/ui/sdl2.c
+index 9030f1c42efb..e18555b10a42 100644
+--- a/ui/sdl2.c
++++ b/ui/sdl2.c
+@@ -161,9 +161,15 @@ static void sdl_update_caption(struct sdl2_console *sc=
+on)
      }
+ }
 =20
-+    if (s->opts->has_show_cursor && s->opts->show_cursor) {
+-static void sdl_hide_cursor(void)
++static void sdl_hide_cursor(struct sdl2_console *scon)
+ {
+-    if (!cursor_hide) {
++    bool allow_hide_cursor =3D true;
++
++    if (scon->opts->has_show_cursor && scon->opts->show_cursor) {
 +        allow_hide_cursor =3D false;
 +    }
 +
-     window =3D gtk_widget_get_window(GTK_WIDGET(vc->gfx.drawing_area));
--    if (s->full_screen || qemu_input_is_absolute() || s->ptr_owner =3D=3D =
-vc) {
-+    if (allow_hide_cursor &&
-+        (s->full_screen || qemu_input_is_absolute() || s->ptr_owner =3D=3D=
- vc)) {
-         gdk_window_set_cursor(window, s->null_cursor);
++    if (!allow_hide_cursor) {
+         return;
+     }
+=20
+@@ -175,9 +181,15 @@ static void sdl_hide_cursor(void)
+     }
+ }
+=20
+-static void sdl_show_cursor(void)
++static void sdl_show_cursor(struct sdl2_console *scon)
+ {
+-    if (!cursor_hide) {
++    bool allow_hide_cursor =3D true;
++
++    if (scon->opts->has_show_cursor && scon->opts->show_cursor) {
++        allow_hide_cursor =3D false;
++    }
++
++    if (!allow_hide_cursor) {
+         return;
+     }
+=20
+@@ -216,7 +228,7 @@ static void sdl_grab_start(struct sdl2_console *scon)
+             SDL_WarpMouseInWindow(scon->real_window, guest_x, guest_y);
+         }
      } else {
-         gdk_window_set_cursor(window, NULL);
+-        sdl_hide_cursor();
++        sdl_hide_cursor(scon);
+     }
+     SDL_SetWindowGrab(scon->real_window, SDL_TRUE);
+     gui_grab =3D 1;
+@@ -227,7 +239,7 @@ static void sdl_grab_end(struct sdl2_console *scon)
+ {
+     SDL_SetWindowGrab(scon->real_window, SDL_FALSE);
+     gui_grab =3D 0;
+-    sdl_show_cursor();
++    sdl_show_cursor(scon);
+     sdl_update_caption(scon);
+ }
+=20
+@@ -658,7 +670,7 @@ static void sdl_mouse_warp(DisplayChangeListener *dcl,
+=20
+     if (on) {
+         if (!guest_cursor) {
+-            sdl_show_cursor();
++            sdl_show_cursor(scon);
+         }
+         if (gui_grab || qemu_input_is_absolute() || absolute_enabled) {
+             SDL_SetCursor(guest_sprite);
+@@ -667,7 +679,7 @@ static void sdl_mouse_warp(DisplayChangeListener *dcl,
+             }
+         }
+     } else if (gui_grab) {
+-        sdl_hide_cursor();
++        sdl_hide_cursor(scon);
+     }
+     guest_cursor =3D on;
+     guest_x =3D x, guest_y =3D y;
 --=20
 2.18.1
 
