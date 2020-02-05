@@ -2,117 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25B3115356F
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 17:42:09 +0100 (CET)
-Received: from localhost ([::1]:52564 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A698D153581
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 17:45:03 +0100 (CET)
+Received: from localhost ([::1]:52604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izNke-0001bT-8Y
-	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 11:42:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44137)
+	id 1izNnS-0003YW-Mj
+	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 11:45:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46591)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1izNjU-0000Nw-I8
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 11:40:57 -0500
+ (envelope-from <mreitz@redhat.com>) id 1izNmD-0002QK-UL
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 11:43:46 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1izNjS-0006KV-Gr
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 11:40:56 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:31840
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <mreitz@redhat.com>) id 1izNmC-0003k1-TB
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 11:43:45 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:33815
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <david@redhat.com>) id 1izNjQ-00069k-Lf
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 11:40:52 -0500
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1izNmC-0003fa-Lg
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 11:43:44 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580920850;
+ s=mimecast20190719; t=1580921024;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=2ngiJi5jD2rFb2s5ESvyyFNj/NPj/qHBDYwXjPCqtAI=;
- b=ig2rrrd1oH2gDdkIXinTcpwdgJsDsrgiqnPQPk+imjSlfz68K81IfUjNAQKNnjcg912OfO
- VzI7CBe9dYuE1SISrc23F921MAIjD5Y/83K+U/9UTHJ9zAkWWNoSti6tJ1qaNpVwTey7oL
- gY3TDx3vQ23Fw0saRk19XHwHBVZjEzI=
+ bh=ojd1ekvCDGjIcBuiHnkCw60DuW6QaKd0dTZjG46MCNs=;
+ b=egOXznpm1f30Qw+iyt59MMKLKnNkt6MilFT5CLLP7jOK6pTIiLjTWQB69AWK1DoSi6xYdM
+ iLoXDjpGL1h0Ed9beVWPGsk3fvivU2zVN0YJO9Q0jeXgXh0xEltQukZKxbqzeHt5o5qBqm
+ 4At/zR4tXwj6cTff6wCB1pElzAGL9BM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-181-cGz7EfO_N8CAJ9Wmmm3qfw-1; Wed, 05 Feb 2020 11:40:46 -0500
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-325-G6mWUtdWPP-Spo1tsdaxZQ-1; Wed, 05 Feb 2020 11:43:42 -0500
+X-MC-Unique: G6mWUtdWPP-Spo1tsdaxZQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6EE811137846;
- Wed,  5 Feb 2020 16:40:44 +0000 (UTC)
-Received: from [10.36.116.217] (ovpn-116-217.ams2.redhat.com [10.36.116.217])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 18AAC8DC11;
- Wed,  5 Feb 2020 16:40:35 +0000 (UTC)
-Subject: Re: [PATCH v2 1/7] exec: Fix for qemu_ram_resize() callback
-To: Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>,
- Igor Mammedov <imammedo@redhat.com>
-References: <20200117174522.22044-1-shameerali.kolothum.thodi@huawei.com>
- <20200117174522.22044-2-shameerali.kolothum.thodi@huawei.com>
- <20200204162320.67e5d353@redhat.com>
- <74eaaa45-0d20-9a21-fbf8-6d29deb248eb@redhat.com>
- <4ce41554-8b8e-dbb5-5fe9-43af09950f23@redhat.com>
- <8e0b2c762e914c64bebfab5fc7441661@huawei.com>
-From: David Hildenbrand <david@redhat.com>
-Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
- 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
-Organization: Red Hat GmbH
-Message-ID: <133f274e-e942-7008-93d2-8edb1bc4d7ae@redhat.com>
-Date: Wed, 5 Feb 2020 17:40:35 +0100
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1813210054E3;
+ Wed,  5 Feb 2020 16:43:38 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-117-184.ams2.redhat.com
+ [10.36.117.184])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 62FAF5D9E2;
+ Wed,  5 Feb 2020 16:43:27 +0000 (UTC)
+Subject: Re: [PATCH 09/17] block: Refactor bdrv_has_zero_init{,_truncate}
+To: Eric Blake <eblake@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-devel@nongnu.org
+References: <20200131174436.2961874-1-eblake@redhat.com>
+ <20200131174436.2961874-10-eblake@redhat.com>
+ <339f0a60-1e4f-286c-6594-1153bf284082@virtuozzo.com>
+ <62078ab7-b46f-cb70-ffb1-5e84c7e1bee5@redhat.com>
+ <89497824-33be-7238-982e-bd0edb2f5d00@redhat.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <4ffeafb0-1dd9-720c-f6a5-9af6e95b5f62@redhat.com>
+Date: Wed, 5 Feb 2020 17:43:25 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.1
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <8e0b2c762e914c64bebfab5fc7441661@huawei.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: cGz7EfO_N8CAJ9Wmmm3qfw-1
+In-Reply-To: <89497824-33be-7238-982e-bd0edb2f5d00@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="JOOQSVLJEpcSCmqIop45tK2ZqEUIeuVov"
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -124,51 +104,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
- "xiaoguangrong.eric@gmail.com" <xiaoguangrong.eric@gmail.com>,
- "mst@redhat.com" <mst@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Linuxarm <linuxarm@huawei.com>,
- "shannon.zhaosl@gmail.com" <shannon.zhaosl@gmail.com>,
- "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>, "xuwei \(O\)" <xuwei5@huawei.com>,
- "lersek@redhat.com" <lersek@redhat.com>,
- "eric.auger@redhat.com" <eric.auger@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ "open list:Sheepdog" <sheepdog@lists.wpkg.org>, qemu-block@nongnu.org,
+ Jeff Cody <codyprime@gmail.com>, Stefan Weil <sw@weilnetz.de>,
+ Peter Lieven <pl@kamp.de>, "Richard W.M. Jones" <rjones@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, david.edmondson@oracle.com,
+ Stefan Hajnoczi <stefanha@redhat.com>, "Denis V. Lunev" <den@openvz.org>,
+ Liu Yuan <namei.unix@gmail.com>, Jason Dillaman <dillaman@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
->> Oh, and one more reason why the proposal in this patch is inconsistent:
->>
->> When migrating resizable memory regions (RAM_SAVE_FLAG_MEM_SIZE) we
->> store the block->used_length (ram_save_setup()) and use that value to
->> resize the region on the target (ram_load_precopy() -> qemu_ram_resize()=
-).
->>
->> This will be the value the callback will be called with. Page aligned.
->>
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--JOOQSVLJEpcSCmqIop45tK2ZqEUIeuVov
+Content-Type: multipart/mixed; boundary="QiVYX5FMapEiIxDDPn0pomZgNlUL6SgNe"
+
+--QiVYX5FMapEiIxDDPn0pomZgNlUL6SgNe
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+On 04.02.20 18:51, Eric Blake wrote:
+> On 2/4/20 11:42 AM, Max Reitz wrote:
 >=20
-> Sorry, I didn=E2=80=99t quite get that point and not sure how "req_length=
-" approach=20
-> will affect the migration.
+>>>
+>>> I understand that this is preexisting logic, but could I ask: why?
+>>> What's wrong
+>>> if driver can guarantee that created file is all-zero, but is not sure
+>>> about
+>>> file resizing? I agree that it's normal for these flags to have the sam=
+e
+>>> value,
+>>> but what is the reason for this restriction?..
+>>
+>> If areas added by truncation (or growth, rather) are always zero, then
+>> the file can always be created with size 0 and grown from there.=C2=A0 T=
+hus,
+>> images where truncation adds zeroed areas will generally always be zero
+>> after creation.
+>>
+>>> So, the only possible combination of flags, when they differs, is
+>>> create=3D0 and
+>>> truncate=3D1.. How is it possible?
+>>
+>> For preallocated qcow2 images, it depends on the storage whether they
+>> are actually 0 after creation.=C2=A0 Hence qcow2_has_zero_init() then de=
+fers
+>> to bdrv_has_zero_init() of s->data_file->bs.
+>>
+>> But when you truncate them (with PREALLOC_MODE_OFF, as
+>> BlockDriver.bdrv_has_zero_init_truncate()=E2=80=99s comment explains), t=
+he new
+>> area is always going to be 0, regardless of initial preallocation.
+>>
+>>
+>> I just noticed a bug there, though: Encrypted qcow2 images will not see
+>> areas added through growth as 0.=C2=A0 Hence, qcow2=E2=80=99s
+>> bdrv_has_zero_init_truncate() implementation should not return true
+>> unconditionally, but only for unencrypted images.
+>=20
+> Hence patch 5 earlier in the series :)
 
-The issue is that on migration, you will lose the sub-page size either
-way. So your callback will be called
-- on the migration source with a sub-page size (via
-  memory_region_ram_resize() from e.g., hw/i386/acpi-build.c)
-- on the migration target with a page-aligned size (via
-  qemu_ram_resize() from migration/ram.c)
+Ah, good. :-)
 
-So this is inconsistent, especially when migrating.
+Max
 
-Is there a way to get access to the sub-page size without passing it
-through the callback?
 
-Like in fw_cfg_modify_file() do some fancy lookup and use the sub-page
-size instead of the passed size? (might have to be stored somewhere and
-refetched - and migrated)
+--QiVYX5FMapEiIxDDPn0pomZgNlUL6SgNe--
 
---=20
-Thanks,
+--JOOQSVLJEpcSCmqIop45tK2ZqEUIeuVov
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
 
-David / dhildenb
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl468K0ACgkQ9AfbAGHV
+z0A0Iwf+J2kubZG9AR1FBI3Op2al2du7vPslaz3AsxrmsqEpoqu26vaotqPsUS0D
+poyyKXCiKznMYaWorVzAj+o4CY6zKCoghhoBieXINnXNUBufNt6X3UQZFxUflSC8
+xAmvEZU0tJHdpp4UpXeCNvDk3jT5yW863YbOziz2jQ7jFjt3MNHTuj0L+nsUVaII
+sbqwQ9QBp88t5zkrpm7oPBa2QOLcMpXlyHz5vKANpwlcwe3ZO9x2BNLviOAqUAky
+G3kszBxq8epovuYLy6ZTdDFhpSL7l7OQRBXcwqgUUKVpX7Uubz82E8fkOwXbB06E
++Lwx5Z6/EA01h9vEUNGAbs0k/EUO9A==
+=ZsMD
+-----END PGP SIGNATURE-----
+
+--JOOQSVLJEpcSCmqIop45tK2ZqEUIeuVov--
 
 
