@@ -2,55 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83F2C153644
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 18:22:27 +0100 (CET)
-Received: from localhost ([::1]:54052 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 782D8153668
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 18:26:53 +0100 (CET)
+Received: from localhost ([::1]:54196 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izONe-0006Kx-H9
-	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 12:22:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37416)
+	id 1izORw-0005VI-ID
+	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 12:26:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38285)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1izOHf-0006NC-En
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 12:16:16 -0500
+ (envelope-from <philmd@redhat.com>) id 1izOIy-0008CQ-DZ
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 12:17:37 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1izOHe-00035r-5T
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 12:16:15 -0500
-Received: from 7.mo2.mail-out.ovh.net ([188.165.48.182]:53158)
+ (envelope-from <philmd@redhat.com>) id 1izOIt-00089j-87
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 12:17:32 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:22975
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1izOHd-00032X-Uw
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 12:16:14 -0500
-Received: from player688.ha.ovh.net (unknown [10.110.208.44])
- by mo2.mail-out.ovh.net (Postfix) with ESMTP id BB4251C7B12
- for <qemu-devel@nongnu.org>; Wed,  5 Feb 2020 18:16:10 +0100 (CET)
-Received: from kaod.org (82-64-250-170.subs.proxad.net [82.64.250.170])
- (Authenticated sender: clg@kaod.org)
- by player688.ha.ovh.net (Postfix) with ESMTPSA id 09FD7EF4C39B;
- Wed,  5 Feb 2020 17:16:01 +0000 (UTC)
-Subject: Re: [PULL 19/35] ppc/pnv: Add models for POWER9 PHB4 PCIe Host bridge
-To: Laurent Vivier <lvivier@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>, peter.maydell@linaro.org
-References: <20200203061123.59150-1-david@gibson.dropbear.id.au>
- <20200203061123.59150-20-david@gibson.dropbear.id.au>
- <bbb36281-287b-70cf-80ab-9ac54eeca8de@redhat.com>
- <ba1e6cd7-083d-5d98-e802-1e828a13c467@kaod.org>
- <254167f7-baca-24fa-e2e0-cf78d5e50234@redhat.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <4cee3138-ebab-9154-b9f5-acc59794d9df@kaod.org>
-Date: Wed, 5 Feb 2020 18:16:01 +0100
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1izOIp-0007vH-3i
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 12:17:28 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1580923042;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=+06cuhwJOrpPs/nqvWdogUh1JSYOZf7QdiLQOC+EmWQ=;
+ b=JfRhoTWT182hCBuw+KmsmdhqBCNfxCobZk6dr9q9bRZ+dvTLKko3HrYb8F0DDkLCBae0Fj
+ gnRYtTUj5/MHfneylXzm6QwzNO6T1jEg/od9uJ+XOH3cxE3NnY90n7Yv3HQ5vAZnmA7iDx
+ TDYB+dajmfLR89ICQc2ChjXAGOu3y9E=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-60-Tr0ZtjB4NcWLHEDh1974kw-1; Wed, 05 Feb 2020 12:17:16 -0500
+Received: by mail-wr1-f70.google.com with SMTP id u8so1495013wrp.10
+ for <qemu-devel@nongnu.org>; Wed, 05 Feb 2020 09:17:16 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=d1UTZ/afbxDcXrZJKo4vdbH5W01BYA3S7srPmxreZ+4=;
+ b=aAdpkUiCfyIb1SCzStlhYxqViPoi3pg8+IWCM0mfbeHbb2cm38gt7nMVncMOH2/hCY
+ kqhy42dZTwTAdQULWbpTnKgIBTs1jEfoc7hEOhn4Ng4jJZubk/qU0TptX3hWtyQdqCwf
+ unXWZ/VviFcOp198mdMuUltmA5v1mI43vpDOSO84dSNt9OReL6u+X8vrD11NpanmgebJ
+ maSE832zYYgDpYlN8bJZck4/Jdz/kPDIqdmY8acBZL8jN07mA7t0jbcyAtkTkCbZQocC
+ B2TbZ3ESDqIRWB0rUkWiWZkjq9un/ijkpUOIXDGaZ9rQC0g/AcPKAuM1YIrPwBtZF7fa
+ lVoA==
+X-Gm-Message-State: APjAAAUfcj/w2ycjzsMQlDlWNytE3bfQgKLQWM/cvKnSgDHNvdMLpUGw
+ 9mOvCq5nJN0KTohZdU5fLGkxkV+86WenWkms8PKM2hFWUZkch3eHadGXun0a9CvrBTfwWguXKGE
+ MKVVX0sV6fYU16Zw=
+X-Received: by 2002:adf:f6c8:: with SMTP id y8mr28813901wrp.167.1580923035540; 
+ Wed, 05 Feb 2020 09:17:15 -0800 (PST)
+X-Google-Smtp-Source: APXvYqymKRtkmkudc/Bjf1E9whFAMRbVqBa0mk0tDWxEZdl+vIl0aJZZbRCtFmjQzWsoiZtVMFZ64w==
+X-Received: by 2002:adf:f6c8:: with SMTP id y8mr28813881wrp.167.1580923035341; 
+ Wed, 05 Feb 2020 09:17:15 -0800 (PST)
+Received: from [192.168.1.35] (162.red-83-52-55.dynamicip.rima-tde.net.
+ [83.52.55.162])
+ by smtp.gmail.com with ESMTPSA id s65sm235454wmf.48.2020.02.05.09.17.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 05 Feb 2020 09:17:14 -0800 (PST)
+Subject: Re: [PATCH] qemu-img: Place the '-i aio' option in alphabetical order
+To: Julia Suvorova <jusual@redhat.com>, qemu-devel@nongnu.org
+References: <20200205163008.204493-1-jusual@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <d97e763f-b987-06b7-a7e3-d243b6790f31@redhat.com>
+Date: Wed, 5 Feb 2020 18:17:12 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <254167f7-baca-24fa-e2e0-cf78d5e50234@redhat.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20200205163008.204493-1-jusual@redhat.com>
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Ovh-Tracer-Id: 17895616069632625521
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedugedrhedugdelgecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefuvfhfhffkffgfgggjtgfgsehtjeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecukfhppedtrddtrddtrddtpdekvddrieegrddvhedtrddujedtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrieekkedrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhg
+X-MC-Unique: Tr0ZtjB4NcWLHEDh1974kw-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 188.165.48.182
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,59 +90,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, groug@kaod.org
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Cc'ing qemu-trivial@
 
->>>> diff --git a/hw/ppc/Kconfig b/hw/ppc/Kconfig
->>>> index e27efe9a24..354828bf13 100644
->>>> --- a/hw/ppc/Kconfig
->>>> +++ b/hw/ppc/Kconfig
->>>> @@ -135,6 +135,8 @@ config XIVE_SPAPR
->>>>      default y
->>>>      depends on PSERIES
->>>>      select XIVE
->>>> +    select PCI
->>>> +    select PCIE_PORT
->>>
->>> This patch is about PowerNV, why do we add dependencies for pseries
->>> configuration?
->>
->> Bogus leftovers from the past. I think we can drop them.
-> 
-> I will prepare a patch for that.
+On 2/5/20 5:30 PM, Julia Suvorova wrote:
+> The '-i AIO' option was accidentally placed after '-n' and '-t'. Move it
+> after '--flush-interval'.
+>=20
+> Signed-off-by: Julia Suvorova <jusual@redhat.com>
+> ---
+>   docs/interop/qemu-img.rst | 8 ++++----
+>   qemu-img-cmds.hx          | 4 ++--
+>   2 files changed, 6 insertions(+), 6 deletions(-)
+>=20
+> diff --git a/docs/interop/qemu-img.rst b/docs/interop/qemu-img.rst
+> index fa27e5c7b4..42e4451db4 100644
+> --- a/docs/interop/qemu-img.rst
+> +++ b/docs/interop/qemu-img.rst
+> @@ -247,7 +247,7 @@ Command description:
+>     Amends the image format specific *OPTIONS* for the image file
+>     *FILENAME*. Not all file formats support this operation.
+>  =20
+> -.. option:: bench [-c COUNT] [-d DEPTH] [-f FMT] [--flush-interval=3DFLU=
+SH_INTERVAL] [-n] [-i AIO] [--no-drain] [-o OFFSET] [--pattern=3DPATTERN] [=
+-q] [-s BUFFER_SIZE] [-S STEP_SIZE] [-t CACHE] [-w] [-U] FILENAME
+> +.. option:: bench [-c COUNT] [-d DEPTH] [-f FMT] [--flush-interval=3DFLU=
+SH_INTERVAL] [-i AIO] [-n] [--no-drain] [-o OFFSET] [--pattern=3DPATTERN] [=
+-q] [-s BUFFER_SIZE] [-S STEP_SIZE] [-t CACHE] [-w] [-U] FILENAME
+>  =20
+>     Run a simple sequential I/O benchmark on the specified image. If ``-w=
+`` is
+>     specified, a write test is performed, otherwise a read test is perfor=
+med.
+> @@ -264,13 +264,13 @@ Command description:
+>     ``--no-drain`` is specified, a flush is issued without draining the r=
+equest
+>     queue first.
+>  =20
+> +  if ``-i`` is specified, *AIO* option can be used to specify different
+> +  AIO backends: ``threads``, ``native`` or ``io_uring``.
+> +
+>     If ``-n`` is specified, the native AIO backend is used if possible. O=
+n
+>     Linux, this option only works if ``-t none`` or ``-t directsync`` is
+>     specified as well.
+>  =20
+> -  if ``-i`` is specified, *AIO* option can be used to specify different
+> -  AIO backends: ``threads``, ``native`` or ``io_uring``.
+> -
+>     For write tests, by default a buffer filled with zeros is written. Th=
+is can be
+>     overridden with a pattern byte specified by *PATTERN*.
+>  =20
+> diff --git a/qemu-img-cmds.hx b/qemu-img-cmds.hx
+> index 3fd836ca90..d7fbc6b1f4 100644
+> --- a/qemu-img-cmds.hx
+> +++ b/qemu-img-cmds.hx
+> @@ -16,9 +16,9 @@ SRST
+>   ERST
+>  =20
+>   DEF("bench", img_bench,
+> -    "bench [-c count] [-d depth] [-f fmt] [--flush-interval=3Dflush_inte=
+rval] [-n] [--no-drain] [-o offset] [--pattern=3Dpattern] [-q] [-s buffer_s=
+ize] [-S step_size] [-t cache] [-i aio] [-w] [-U] filename")
+> +    "bench [-c count] [-d depth] [-f fmt] [--flush-interval=3Dflush_inte=
+rval] [-i aio] [-n] [--no-drain] [-o offset] [--pattern=3Dpattern] [-q] [-s=
+ buffer_size] [-S step_size] [-t cache] [-w] [-U] filename")
+>   SRST
+> -.. option:: bench [-c COUNT] [-d DEPTH] [-f FMT] [--flush-interval=3DFLU=
+SH_INTERVAL] [-n] [--no-drain] [-o OFFSET] [--pattern=3DPATTERN] [-q] [-s B=
+UFFER_SIZE] [-S STEP_SIZE] [-t CACHE] [-i AIO] [-w] [-U] FILENAME
+> +.. option:: bench [-c COUNT] [-d DEPTH] [-f FMT] [--flush-interval=3DFLU=
+SH_INTERVAL] [-i AIO] [-n] [--no-drain] [-o OFFSET] [--pattern=3DPATTERN] [=
+-q] [-s BUFFER_SIZE] [-S STEP_SIZE] [-t CACHE] [-w] [-U] FILENAME
+>   ERST
+>   DEF("check", img_check,
+>       "check [--object objectdef] [--image-opts] [-q] [-f fmt] [--output=
+=3Dofmt] [-r [leaks | all]] [-T src_cache] [-U] filename")
+>=20
 
-Thanks. Here is a small command line to check PCI adapters.
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-C.
-
-$ qemu-system-ppc64 -machine powernv9  -nographic -device ich9-ahci,id=sata0,bus=pcie.1,addr=0x0 -device e1000e,mac=C0:FF:EE:00:01:03,bus=pcie.2,addr=0x0
-
-[    0.011935416,5] OPAL v6.4 starting...
-[    0.012528373,7] initial console log level: memory 7, driver 5
-[    0.012560514,6] CPU: P9 generation processor (max 4 threads/core)
-[    0.012575475,7] CPU: Boot CPU PIR is 0x0000 PVR is 0x004e1200
-[    0.012735128,7] OPAL table: 0x30101830 .. 0x30101da0, branch table: 0x30002000
-[    0.012945847,7] Assigning physical memory map table for nimbus
-[    0.013226493,7] FDT: Parsing fdt @0x1000000
-[    0.015091333,5] CHIP: Detected Qemu simulator
-...
-[    6.259400309,5] PCI Summary:
-[    6.259731885,5] PHB#0000:00:00.0 [ROOT] 1014 04c1 R:00 C:060400 B:01..01 
-[    6.260025513,5] PHB#0001:00:00.0 [ROOT] 1014 04c1 R:00 C:060400 B:01..01 
-[    6.260263027,5] PHB#0001:01:00.0 [PCID] 8086 2922 R:02 C:010601 (          sata) 
-[    6.260485810,5] PHB#0002:00:00.0 [ROOT] 1014 04c1 R:00 C:060400 B:01..01 
-[    6.260691330,5] PHB#0002:01:00.0 [EP  ] 8086 10d3 R:00 C:020000 (      ethernet) 
-[    6.260873711,5] PHB#0003:00:00.0 [ROOT] 1014 04c1 R:00 C:060400 B:01..01 
-[    6.261053114,5] PHB#0004:00:00.0 [ROOT] 1014 04c1 R:00 C:060400 B:01..01 
-[    6.261237264,5] PHB#0005:00:00.0 [ROOT] 1014 04c1 R:00 C:060400 B:01..01 
-[    6.261496700,4] FLASH: Failed to load VERSION data
-[    6.423913697,5] INIT: Waiting for kernel...
-[    6.424004918,5] INIT: platform wait for kernel load failed
-[    6.424114190,5] INIT: Assuming kernel at 0x20000000
-[    6.424232276,3] INIT: ELF header not found. Assuming raw binary.
-[    6.424407245,3] OCC: Unassigned OCC Common Area. No sensors found
-[    6.424629768,2] NVRAM: Failed to load
-[    6.494846301,0] FATAL: Kernel is zeros, can't execute!
 
