@@ -2,75 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C147153C9A
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 02:28:59 +0100 (CET)
-Received: from localhost ([::1]:59302 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 077DE153CC0
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 02:45:00 +0100 (CET)
+Received: from localhost ([::1]:59560 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izVyU-00065n-Bs
-	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 20:28:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54159)
+	id 1izWDz-0002Vl-3s
+	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 20:44:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55752)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1izVoW-0000vl-5U
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 20:18:41 -0500
+ (envelope-from <muriloo@linux.ibm.com>) id 1izVqK-0003Hr-BQ
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 20:20:34 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1izVoT-0003bU-3w
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 20:18:40 -0500
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:44902)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1izVoS-0003Y5-U1; Wed, 05 Feb 2020 20:18:37 -0500
-Received: by mail-wr1-x443.google.com with SMTP id m16so5105046wrx.11;
- Wed, 05 Feb 2020 17:18:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=uxynYOVPY9FVrupSLyC8th1oxyDcEka8bWnY9WEi7fw=;
- b=DnEPlkg9gxk004kUnFnkYNnpchTdTY70nFkLVQf17Ok8GoDrK2VBLesZMOqp6oGtJJ
- yIJFfw9bhsZNOidY2KeAxdYIYz8SG4h+djyZmf/yWOJvqve/q+/mwrBPYPUQtk8247CD
- reOj6azRk8iomiRILRJqmN8rLXMQCNM3v7vSUdVq/g/X25IGNwOCzlFXqHWNeIZlhBQi
- VgGPHz7GeYpwDziQpNQq4FxGxvQqW9J4nlmcxftn193CO4+fy9WyKfyTF2vfGTPuhXpy
- DLbzgYbLNQrj687oNGwVQRCw97vvCdW5kp2/zu1dR4rqtevjIqBSYP/2Qh59D71ukNYP
- 7fWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=uxynYOVPY9FVrupSLyC8th1oxyDcEka8bWnY9WEi7fw=;
- b=YwkZriaUYv7RpADFNPI6Cdan2haL+7gT1Vua0EEWgvYnUgapvvE+ZxtUFTi6jMEoUH
- TYQwUgixAUTPt9mjvClVjfEjdYUCxwkQASQQTMXOhpzEfBbUoTY16xwzT3SRqNiPtC77
- cnuS9tGw6/YXkLwu8bDG0ag4dwp34NUkfThwoa7Yk6aKx8LRy6b/BiaVpCt1xQsuG43T
- HIF0WIi6SpYfT6fR7PGZqYBLdBN7D6hTeydFbmDaYttovXxA+R5MN/RHnd4M85nhZHWy
- kaaxZjVOdmUOFaI6ftZQQi3Y1iPYrb3OngDd3neXfvoJPmXd5YF3dwILgSCc55Cu6Lzy
- lRPA==
-X-Gm-Message-State: APjAAAVtAO3D6pOTsgRAsQvlnrJjk5DIWT/7EydiKuJR1b/Mw3gD2RDx
- 3hoveRnQV7JxOPRgq/xpAOOqpuzb
-X-Google-Smtp-Source: APXvYqxyW65fEG0rV9O9MaKaeTFetznCcAKCzshX/jNDViAOaGHbwUnr6xk3h9rv7N9ntCU7VqExtw==
-X-Received: by 2002:a5d:62c8:: with SMTP id o8mr362951wrv.316.1580951915866;
- Wed, 05 Feb 2020 17:18:35 -0800 (PST)
-Received: from localhost.localdomain (2.red-95-127-156.staticip.rima-tde.net.
- [95.127.156.2])
- by smtp.gmail.com with ESMTPSA id w13sm2053526wru.38.2020.02.05.17.18.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Feb 2020 17:18:35 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 17/30] hw/arm/bcm2836: Only provide "enabled-cpus" property
- to multicore SoCs
-Date: Thu,  6 Feb 2020 02:17:43 +0100
-Message-Id: <20200206011756.2413-18-f4bug@amsat.org>
-X-Mailer: git-send-email 2.21.1
-In-Reply-To: <20200206011756.2413-1-f4bug@amsat.org>
-References: <20200206011756.2413-1-f4bug@amsat.org>
+ (envelope-from <muriloo@linux.ibm.com>) id 1izVqI-0001mO-HN
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 20:20:32 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:37560
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <muriloo@linux.ibm.com>)
+ id 1izVqI-0001cE-Ah
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 20:20:30 -0500
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 0161J7N6043815; Wed, 5 Feb 2020 20:20:28 -0500
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2xyhn3ecn6-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 05 Feb 2020 20:20:27 -0500
+Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 0161KRsp046628;
+ Wed, 5 Feb 2020 20:20:27 -0500
+Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.10])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2xyhn3ecmv-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 05 Feb 2020 20:20:27 -0500
+Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
+ by ppma02dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 0161DgF2007732;
+ Thu, 6 Feb 2020 01:20:26 GMT
+Received: from b01cxnp23033.gho.pok.ibm.com (b01cxnp23033.gho.pok.ibm.com
+ [9.57.198.28]) by ppma02dal.us.ibm.com with ESMTP id 2xykc9kjkq-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 06 Feb 2020 01:20:26 +0000
+Received: from b01ledav005.gho.pok.ibm.com (b01ledav005.gho.pok.ibm.com
+ [9.57.199.110])
+ by b01cxnp23033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 0161KPg845023666
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 6 Feb 2020 01:20:26 GMT
+Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id E2C01AE06A;
+ Thu,  6 Feb 2020 01:20:25 +0000 (GMT)
+Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 243DFAE05F;
+ Thu,  6 Feb 2020 01:20:25 +0000 (GMT)
+Received: from localhost (unknown [9.85.199.146])
+ by b01ledav005.gho.pok.ibm.com (Postfix) with ESMTPS;
+ Thu,  6 Feb 2020 01:20:24 +0000 (GMT)
+From: Murilo Opsfelder =?ISO-8859-1?Q?Ara=FAjo?= <muriloo@linux.ibm.com>
+To: David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH v1 08/13] util/mmap-alloc: Prepare for resizable mmaps
+Date: Wed, 05 Feb 2020 20:00:08 -0300
+Message-ID: <2036195.sfUKtyktLc@kermit.br.ibm.com>
+Organization: IBM
+In-Reply-To: <20200203183125.164879-9-david@redhat.com>
+References: <20200203183125.164879-1-david@redhat.com>
+ <20200203183125.164879-9-david@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::443
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
+ definitions=2020-02-05_06:2020-02-04,
+ 2020-02-05 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ impostorscore=0 malwarescore=0 suspectscore=1 phishscore=0 clxscore=1015
+ adultscore=0 mlxlogscore=999 bulkscore=0 spamscore=0 lowpriorityscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2001150001 definitions=main-2002060006
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 148.163.158.5
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,77 +94,153 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Joaquin de Andres <me@xcancerberox.com.ar>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Andrew Baumann <Andrew.Baumann@microsoft.com>,
- Esteban Bosse <estebanbosse@gmail.com>, qemu-arm@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>, Greg Kurz <groug@kaod.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It makes no sense to set enabled-cpus=0 on single core SoCs.
+Hello, David.
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- hw/arm/bcm2836.c | 15 +++++++--------
- 1 file changed, 7 insertions(+), 8 deletions(-)
+On Monday, February 3, 2020 3:31:20 PM -03 David Hildenbrand wrote:
+> When shrinking a mmap we want to re-reserve the already populated area.
+> When growing a memory region, we want to populate starting with a given
+> fd_offset. Prepare by allowing to pass these parameters.
+> 
+> Also, let's make sure we always process full pages, to avoid
+> unmapping/remapping pages that are already in use when
+> growing/shrinking. (existing callers seem to guarantee this, but that's
+> not obvious)
+> 
+> Cc: "Michael S. Tsirkin" <mst@redhat.com>
+> Cc: Greg Kurz <groug@kaod.org>
+> Cc: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>
+> Cc: Eduardo Habkost <ehabkost@redhat.com>
+> Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+> Signed-off-by: David Hildenbrand <david@redhat.com>
+> ---
+>  util/mmap-alloc.c | 32 +++++++++++++++++++++-----------
+>  1 file changed, 21 insertions(+), 11 deletions(-)
+> 
+> diff --git a/util/mmap-alloc.c b/util/mmap-alloc.c
+> index f043ccb0ab..63ad6893b7 100644
+> --- a/util/mmap-alloc.c
+> +++ b/util/mmap-alloc.c
+> @@ -83,12 +83,12 @@ size_t qemu_mempath_getpagesize(const char *mem_path)
+>  }
+> 
+>  /*
+> - * Reserve a new memory region of the requested size to be used for mapping
+> - * from the given fd (if any).
+> + * Reserve a new memory region of the requested size or re-reserve parts
+> + * of an existing region to be used for mapping from the given fd (if any).
+> */
+> -static void *mmap_reserve(size_t size, int fd)
+> +static void *mmap_reserve(void *ptr, size_t size, int fd)
+>  {
+> -    int flags = MAP_PRIVATE;
+> +    int flags = MAP_PRIVATE | (ptr ? MAP_FIXED : 0);
+> 
+>  #if defined(__powerpc64__) && defined(__linux__)
+>      /*
+> @@ -111,19 +111,23 @@ static void *mmap_reserve(size_t size, int fd)
+>      flags |= MAP_ANONYMOUS;
+>  #endif
+> 
+> -    return mmap(0, size, PROT_NONE, flags, fd, 0);
+> +    return mmap(ptr, size, PROT_NONE, flags, fd, 0);
+>  }
+> 
+>  /*
+>   * Populate memory in a reserved region from the given fd (if any).
+>   */
+> -static void *mmap_populate(void *ptr, size_t size, int fd, bool shared,
+> -                           bool is_pmem)
+> +static void *mmap_populate(void *ptr, size_t size, int fd, size_t
+> fd_offset, +                           bool shared, bool is_pmem)
+>  {
+>      int map_sync_flags = 0;
+>      int flags = MAP_FIXED;
+>      void *new_ptr;
+> 
+> +    if (fd == -1) {
+> +        fd_offset = 0;
+> +    }
+> +
+>      flags |= fd == -1 ? MAP_ANONYMOUS : 0;
+>      flags |= shared ? MAP_SHARED : MAP_PRIVATE;
+>      if (shared && is_pmem) {
+> @@ -131,7 +135,7 @@ static void *mmap_populate(void *ptr, size_t size, int
+> fd, bool shared, }
+> 
+>      new_ptr = mmap(ptr, size, PROT_READ | PROT_WRITE, flags |
+> map_sync_flags, -                   fd, 0);
+> +                   fd, fd_offset);
+>      if (new_ptr == MAP_FAILED && map_sync_flags) {
+>          if (errno == ENOTSUP) {
+>              char *proc_link = g_strdup_printf("/proc/self/fd/%d", fd);
+> @@ -153,7 +157,7 @@ static void *mmap_populate(void *ptr, size_t size, int
+> fd, bool shared, * If mmap failed with MAP_SHARED_VALIDATE | MAP_SYNC, we
+> will try * again without these flags to handle backwards compatibility. */
+> -        new_ptr = mmap(ptr, size, PROT_READ | PROT_WRITE, flags, fd, 0);
+> +        new_ptr = mmap(ptr, size, PROT_READ | PROT_WRITE, flags, fd,
+> fd_offset); }
+>      return new_ptr;
+>  }
+> @@ -178,13 +182,16 @@ void *qemu_ram_mmap(int fd,
+>      size_t offset, total;
+>      void *ptr, *guardptr;
+> 
+> +    /* we can only map whole pages */
+> +    size = QEMU_ALIGN_UP(size, pagesize);
+> +
 
-diff --git a/hw/arm/bcm2836.c b/hw/arm/bcm2836.c
-index 3b95ad11e9..caaa4b625e 100644
---- a/hw/arm/bcm2836.c
-+++ b/hw/arm/bcm2836.c
-@@ -32,6 +32,9 @@ typedef struct BCM283XClass {
- #define BCM283X_GET_CLASS(obj) \
-     OBJECT_GET_CLASS(BCM283XClass, (obj), TYPE_BCM283X)
- 
-+static Property bcm2836_enabled_cores_property =
-+    DEFINE_PROP_UINT32("enabled-cpus", BCM283XState, enabled_cpus, 0);
-+
- static void bcm2836_init(Object *obj)
- {
-     BCM283XState *s = BCM283X(obj);
-@@ -43,6 +46,10 @@ static void bcm2836_init(Object *obj)
-                                 sizeof(s->cpu[n].core), bc->cpu_type,
-                                 &error_abort, NULL);
-     }
-+    if (bc->core_count) {
-+        qdev_property_add_static(DEVICE(obj), &bcm2836_enabled_cores_property);
-+        qdev_prop_set_uint32(DEVICE(obj), "enabled-cpus", bc->core_count);
-+    }
- 
-     sysbus_init_child_obj(obj, "control", &s->control, sizeof(s->control),
-                           TYPE_BCM2836_CONTROL);
-@@ -154,12 +161,6 @@ static void bcm2836_realize(DeviceState *dev, Error **errp)
-     }
- }
- 
--static Property bcm2836_props[] = {
--    DEFINE_PROP_UINT32("enabled-cpus", BCM283XState, enabled_cpus,
--                       BCM283X_NCPUS),
--    DEFINE_PROP_END_OF_LIST()
--};
--
- static void bcm283x_class_init(ObjectClass *oc, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(oc);
-@@ -179,7 +180,6 @@ static void bcm2836_class_init(ObjectClass *oc, void *data)
-     bc->ctrl_base = 0x40000000;
-     bc->clusterid = 0xf;
-     dc->realize = bcm2836_realize;
--    device_class_set_props(dc, bcm2836_props);
- };
- 
- #ifdef TARGET_AARCH64
-@@ -194,7 +194,6 @@ static void bcm2837_class_init(ObjectClass *oc, void *data)
-     bc->ctrl_base = 0x40000000;
-     bc->clusterid = 0x0;
-     dc->realize = bcm2836_realize;
--    device_class_set_props(dc, bcm2836_props);
- };
- #endif
- 
+Caller already rounds up size to block->page_size.
+
+Why this QEMU_ALIGN_UP is necessary?
+
+>      /*
+>       * Note: this always allocates at least one extra page of virtual
+> address * space, even if size is already aligned.
+>       */
+>      total = size + align;
+
+If size was aligned above with pagesize boundary, why would this align be 
+necessary?
+
+Can the pagesize differ from memory region align?
+
+> 
+> -    guardptr = mmap_reserve(total, fd);
+> +    guardptr = mmap_reserve(0, total, fd);
+>      if (guardptr == MAP_FAILED) {
+>          return MAP_FAILED;
+>      }
+> @@ -195,7 +202,7 @@ void *qemu_ram_mmap(int fd,
+> 
+>      offset = QEMU_ALIGN_UP((uintptr_t)guardptr, align) -
+> (uintptr_t)guardptr;
+> 
+> -    ptr = mmap_populate(guardptr + offset, size, fd, shared, is_pmem);
+> +    ptr = mmap_populate(guardptr + offset, size, fd, 0, shared, is_pmem);
+>      if (ptr == MAP_FAILED) {
+>          munmap(guardptr, total);
+>          return MAP_FAILED;
+> @@ -221,6 +228,9 @@ void qemu_ram_munmap(int fd, void *ptr, size_t size)
+>  {
+>      const size_t pagesize = mmap_pagesize(fd);
+> 
+> +    /* we can only map whole pages */
+> +    size = QEMU_ALIGN_UP(size, pagesize);
+> +
+
+I'm trying to understand why this align is necessary, too.
+
+>      if (ptr) {
+>          /* Unmap both the RAM block and the guard page */
+>          munmap(ptr, size + pagesize);
+
 -- 
-2.21.1
-
+Murilo
 
