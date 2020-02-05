@@ -2,44 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45A8A153363
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 15:52:48 +0100 (CET)
-Received: from localhost ([::1]:48664 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B86715338A
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 15:59:20 +0100 (CET)
+Received: from localhost ([::1]:49128 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izM2p-000174-Aj
-	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 09:52:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38968)
+	id 1izM98-0001jl-Fm
+	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 09:59:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44532)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1izM1n-0000K1-JU
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 09:51:44 -0500
+ (envelope-from <liam.merwick@oracle.com>) id 1izM6Y-0005h8-Uq
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 09:56:40 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1izM1l-000809-IM
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 09:51:42 -0500
-Resent-Date: Wed, 05 Feb 2020 09:51:42 -0500
-Resent-Message-Id: <E1izM1l-000809-IM@eggs.gnu.org>
-Received: from sender4-of-o51.zoho.com ([136.143.188.51]:21106)
+ (envelope-from <liam.merwick@oracle.com>) id 1izM6X-00054C-Dd
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 09:56:38 -0500
+Received: from userp2120.oracle.com ([156.151.31.85]:33954)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1izM1l-0007xd-AH
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 09:51:41 -0500
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1580914288298769.6876424241237;
- Wed, 5 Feb 2020 06:51:28 -0800 (PST)
-In-Reply-To: <20200205141749.378044-1-peterx@redhat.com>
-Subject: Re: [PATCH RFC 0/9] KVM: Dirty ring support (QEMU part)
-Message-ID: <158091428682.7235.8783026210222890349@a1bbccc8075a>
+ (Exim 4.71) (envelope-from <liam.merwick@oracle.com>)
+ id 1izM6X-0004k9-38
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 09:56:37 -0500
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+ by userp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 015ErN1u173031;
+ Wed, 5 Feb 2020 14:56:18 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : date : message-id : mime-version : content-type :
+ content-transfer-encoding; s=corp-2019-08-05;
+ bh=wpmtAsdXvfQA0pZUh+Ov4fJAyWnhGEqLYZK9M81Y83U=;
+ b=rTa35x6C5GJ4JL6d7ajnEsSZalO7Xh31+wZsfNE3EexyeWY1N0DIm4q/6J9rZzm/bAdZ
+ pkoNZav4oaDy/G+61IwB6tUIUM1C0CBpmPejsmTea7UYFjyMAFaNqTNyWCCu72d0iO/p
+ LB3EhI9pOxfNgCCdaLJ0x6vElm3qkX7wQTpYngvo88NzZKrWoe6aW6k8QcVv8K5YvHDo
+ ok9XLpjBQytxfSJJ8liUIfMInSXCdEGu4nkNRZsahpGPH8dBNpGxQQvAXEOxSh3gXatP
+ 7LNe9Jy0E5qw/AP5v29CbuBTEAVTjR1lFmnwj9P74Mn8lnL24iVZ64Jl6oYY5T0WaEDg Bw== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+ by userp2120.oracle.com with ESMTP id 2xykbpbgtw-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 05 Feb 2020 14:56:17 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 015ErLU0094221;
+ Wed, 5 Feb 2020 14:56:17 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+ by aserp3020.oracle.com with ESMTP id 2xykc6sfrd-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 05 Feb 2020 14:56:16 +0000
+Received: from abhmp0013.oracle.com (abhmp0013.oracle.com [141.146.116.19])
+ by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 015EuE6v028911;
+ Wed, 5 Feb 2020 14:56:14 GMT
+Received: from ol7.uk.oracle.com (/10.175.206.136)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Wed, 05 Feb 2020 06:56:13 -0800
+From: Liam Merwick <liam.merwick@oracle.com>
+To: alex.bennee@linaro.org, fam@euphon.net, philmd@redhat.com
+Subject: [PATCH v2 0/6] tests/boot_linux_console: add extra boot acceptance
+ tests
+Date: Wed,  5 Feb 2020 14:55:59 +0000
+Message-Id: <1580914565-19675-1-git-send-email-liam.merwick@oracle.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: peterx@redhat.com
-Date: Wed, 5 Feb 2020 06:51:28 -0800 (PST)
-X-ZohoMailClient: External
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 136.143.188.51
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9521
+ signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1911140001 definitions=main-2002050118
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9521
+ signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
+ priorityscore=1501 malwarescore=0
+ suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1911140001
+ definitions=main-2002050118
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 156.151.31.85
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -51,48 +89,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: pbonzini@redhat.com, mst@redhat.com, qemu-devel@nongnu.org,
- peterx@redhat.com, dgilbert@redhat.com
+Cc: slp@redhat.com, qemu-devel@nongnu.org, wainersm@redhat.com,
+ pbonzini@redhat.com, sgarzare@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDIwNTE0MTc0OS4zNzgw
-NDQtMS1wZXRlcnhAcmVkaGF0LmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBmYWlsZWQgdGhlIGRv
-Y2tlci1taW5nd0BmZWRvcmEgYnVpbGQgdGVzdC4gUGxlYXNlIGZpbmQgdGhlIHRlc3RpbmcgY29t
-bWFuZHMgYW5kCnRoZWlyIG91dHB1dCBiZWxvdy4gSWYgeW91IGhhdmUgRG9ja2VyIGluc3RhbGxl
-ZCwgeW91IGNhbiBwcm9iYWJseSByZXByb2R1Y2UgaXQKbG9jYWxseS4KCj09PSBURVNUIFNDUklQ
-VCBCRUdJTiA9PT0KIyEgL2Jpbi9iYXNoCmV4cG9ydCBBUkNIPXg4Nl82NAptYWtlIGRvY2tlci1p
-bWFnZS1mZWRvcmEgVj0xIE5FVFdPUks9MQp0aW1lIG1ha2UgZG9ja2VyLXRlc3QtbWluZ3dAZmVk
-b3JhIEo9MTQgTkVUV09SSz0xCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgouL3FlbXUtb3B0aW9u
-cy50ZXhpOjg2OiB1bmtub3duIGNvbW1hbmQgYHZhbCcKLi9xZW11LW9wdGlvbnMudGV4aTo4Njog
-bWlzcGxhY2VkIHsKLi9xZW11LW9wdGlvbnMudGV4aTo4NjogbWlzcGxhY2VkIH0KbWFrZTogKioq
-IFtNYWtlZmlsZToxMDA3OiBxZW11LWRvYy50eHRdIEVycm9yIDEKbWFrZTogKioqIFdhaXRpbmcg
-Zm9yIHVuZmluaXNoZWQgam9icy4uLi4KLi9xZW11LW9wdGlvbnMudGV4aTo4NjogdW5rbm93biBj
-b21tYW5kIGB2YWwnCi4vcWVtdS1vcHRpb25zLnRleGk6ODY6IG1pc3BsYWNlZCB7Ci4vcWVtdS1v
-cHRpb25zLnRleGk6ODY6IG1pc3BsYWNlZCB9Cm1ha2U6ICoqKiBbTWFrZWZpbGU6MTAwMDogcWVt
-dS1kb2MuaHRtbF0gRXJyb3IgMQpUcmFjZWJhY2sgKG1vc3QgcmVjZW50IGNhbGwgbGFzdCk6CiAg
-RmlsZSAiLi90ZXN0cy9kb2NrZXIvZG9ja2VyLnB5IiwgbGluZSA2NjIsIGluIDxtb2R1bGU+CiAg
-ICBzeXMuZXhpdChtYWluKCkpCi0tLQogICAgcmFpc2UgQ2FsbGVkUHJvY2Vzc0Vycm9yKHJldGNv
-ZGUsIGNtZCkKc3VicHJvY2Vzcy5DYWxsZWRQcm9jZXNzRXJyb3I6IENvbW1hbmQgJ1snc3Vkbycs
-ICctbicsICdkb2NrZXInLCAncnVuJywgJy0tbGFiZWwnLCAnY29tLnFlbXUuaW5zdGFuY2UudXVp
-ZD00OGU4ZjJjZTkzY2I0ZGZlODA2NzM1NmQwNzVkOTI2YycsICctdScsICcxMDAxJywgJy0tc2Vj
-dXJpdHktb3B0JywgJ3NlY2NvbXA9dW5jb25maW5lZCcsICctLXJtJywgJy1lJywgJ1RBUkdFVF9M
-SVNUPScsICctZScsICdFWFRSQV9DT05GSUdVUkVfT1BUUz0nLCAnLWUnLCAnVj0nLCAnLWUnLCAn
-Sj0xNCcsICctZScsICdERUJVRz0nLCAnLWUnLCAnU0hPV19FTlY9JywgJy1lJywgJ0NDQUNIRV9E
-SVI9L3Zhci90bXAvY2NhY2hlJywgJy12JywgJy9ob21lL3BhdGNoZXcvLmNhY2hlL3FlbXUtZG9j
-a2VyLWNjYWNoZTovdmFyL3RtcC9jY2FjaGU6eicsICctdicsICcvdmFyL3RtcC9wYXRjaGV3LXRl
-c3Rlci10bXAtN2tkdHpuZ20vc3JjL2RvY2tlci1zcmMuMjAyMC0wMi0wNS0wOS40Ny4zNC4zMDI2
-NTovdmFyL3RtcC9xZW11Onoscm8nLCAncWVtdTpmZWRvcmEnLCAnL3Zhci90bXAvcWVtdS9ydW4n
-LCAndGVzdC1taW5ndyddJyByZXR1cm5lZCBub24temVybyBleGl0IHN0YXR1cyAyLgpmaWx0ZXI9
-LS1maWx0ZXI9bGFiZWw9Y29tLnFlbXUuaW5zdGFuY2UudXVpZD00OGU4ZjJjZTkzY2I0ZGZlODA2
-NzM1NmQwNzVkOTI2YwptYWtlWzFdOiAqKiogW2RvY2tlci1ydW5dIEVycm9yIDEKbWFrZVsxXTog
-TGVhdmluZyBkaXJlY3RvcnkgYC92YXIvdG1wL3BhdGNoZXctdGVzdGVyLXRtcC03a2R0em5nbS9z
-cmMnCm1ha2U6ICoqKiBbZG9ja2VyLXJ1bi10ZXN0LW1pbmd3QGZlZG9yYV0gRXJyb3IgMgoKcmVh
-bCAgICAzbTUxLjk1MHMKdXNlciAgICAwbTguMjY4cwoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFi
-bGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAyMDAyMDUxNDE3NDkuMzc4MDQ0LTEtcGV0
-ZXJ4QHJlZGhhdC5jb20vdGVzdGluZy5kb2NrZXItbWluZ3dAZmVkb3JhLz90eXBlPW1lc3NhZ2Uu
-Ci0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRwczovL3Bh
-dGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEBy
-ZWRoYXQuY29t
+Add acceptance tests for the microvm machine class, PVH, and the
+new qboot BIOS.
+
+In the case of the test to boot an uncompressed kernel there didn't
+seem to be any suitable uncompressed kernel on https://archives.fedoraproject.org/
+(there is a vmlinux in kernel-debuginfo but that RPM is 575M and
+caused timeouts when populating the Avocado cache when first run)
+so I chose an RPM with kernels for Kata that is 14M.
+(there was a discussion in [1] regarding testing PVH boot but it focussed
+more around building a vmlinux binary during testing).
+
+[ What prompted these patches was the discovery that a 'pc' guest booting an
+uncompressed kernel (PVH) with a PCI netdev hangs (before we even get guest
+console output) when bios-microvm.bin (qboot) is supplied via -bios
+(no issue when using 'q35' or 'microvm' machine classes).
+
+E.g. adding the following line to test_x86_64_pc_qboot_pvh() is enough to
+trigger a guest hang during startup:
+self.vm.add_args('-netdev', 'user,id=n1', '-device', 'virtio-net-pci,netdev=n1')
+
+I bisected that issue to 176d2cda0dee [2] in 4.1 but haven't worked out yet
+how/why the "die-id" changes impact the qboot/PVH combination
+(the boot succeeds with any subset of those boot variables).
+
+Is booting the 'pc' machine class with bios-microvm.bin something that QEMU
+officially supports or is qboot intended for microvm only? ]
+
+Each test added here adds about 1.5s to the overall runtime.
+I have run them through the Travis QEMU CI [3] and those acceptance tests pass.
+
+v1 -> v2
+Removed unnecessary qboot test for microvm in Patches 2 and 5 [Stefano]
+Added SeaBIOS test for microvm to Patch2
+Fix path concatenation in Patch4 to use os.path for filesystem paths [Wanier]
+Added Patch6 to fix extract_from_deb() to use os.path for filesystem paths
+Used dictionary to store kernel info in Patch5 [Philippe]
+Dropped patch with typo fix that has been queued separately
+Added Stefano's R-b to the patches which have not significantly changed.
+
+[1] https://patchew.org/QEMU/20191206140012.15517-1-wainersm@redhat.com/
+[2] 176d2cda0dee ("i386/cpu: Consolidate die-id validity in smp context")
+[3] https://travis-ci.org/merwick/qemu/builds/645487393
+[4] https://github.com/wainersm/qemu/commit/8f705e98df90b436b0f4946331d441309c437f7b
+
+
+Liam Merwick (6):
+  tests/boot_linux_console: add microvm acceptance test
+  tests/boot_linux_console: add BIOS acceptance test
+  travis.yml: install rpm2cpio for acceptance tests
+  tests/boot_linux_console: add extract_from_rpm method
+  tests/boot_linux_console: add PVH acceptance tests
+  tests/boot_linux_console: use os.path for filesystem paths
+
+ .travis.yml                            |   1 +
+ tests/acceptance/boot_linux_console.py | 114 ++++++++++++++++++++++++++++++---
+ 2 files changed, 106 insertions(+), 9 deletions(-)
+
+-- 
+1.8.3.1
+
 
