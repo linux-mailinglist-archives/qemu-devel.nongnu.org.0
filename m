@@ -2,85 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9BA115396E
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 21:12:21 +0100 (CET)
-Received: from localhost ([::1]:55826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B57315399F
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 21:39:40 +0100 (CET)
+Received: from localhost ([::1]:56144 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izR24-0002c9-9V
-	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 15:12:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51165)
+	id 1izRSV-00073n-GM
+	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 15:39:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34905)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pasic@linux.ibm.com>) id 1izR1I-0002B0-Nq
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 15:11:34 -0500
+ (envelope-from <wainersm@redhat.com>) id 1izRMG-0006qq-V4
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 15:33:14 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pasic@linux.ibm.com>) id 1izR1H-0000ma-H7
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 15:11:32 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:5069
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pasic@linux.ibm.com>) id 1izR1H-0000im-CA
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 15:11:31 -0500
-Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 015K9lnP113691
- for <qemu-devel@nongnu.org>; Wed, 5 Feb 2020 15:11:29 -0500
-Received: from e06smtp04.uk.ibm.com (e06smtp04.uk.ibm.com [195.75.94.100])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2xyhmhkmus-1
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Wed, 05 Feb 2020 15:11:29 -0500
-Received: from localhost
- by e06smtp04.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
- Violators will be prosecuted
- for <qemu-devel@nongnu.org> from <pasic@linux.ibm.com>;
- Wed, 5 Feb 2020 20:11:28 -0000
-Received: from b06cxnps3074.portsmouth.uk.ibm.com (9.149.109.194)
- by e06smtp04.uk.ibm.com (192.168.101.134) with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted; 
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Wed, 5 Feb 2020 20:11:25 -0000
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
- [9.149.105.232])
- by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 015KBOqs57409676
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 5 Feb 2020 20:11:25 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D307F5204E;
- Wed,  5 Feb 2020 20:11:24 +0000 (GMT)
-Received: from oc2783563651 (unknown [9.152.224.229])
- by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id B107052052;
- Wed,  5 Feb 2020 20:11:24 +0000 (GMT)
-Date: Wed, 5 Feb 2020 21:11:23 +0100
-From: Halil Pasic <pasic@linux.ibm.com>
-To: Igor Mammedov <imammedo@redhat.com>
-Subject: Re: [PATCH v4 38/80] s390x/s390-virtio-ccw: use memdev for RAM
-In-Reply-To: <1580483390-131164-39-git-send-email-imammedo@redhat.com>
-References: <1580483390-131164-1-git-send-email-imammedo@redhat.com>
- <1580483390-131164-39-git-send-email-imammedo@redhat.com>
-Organization: IBM
-X-Mailer: Claws Mail 3.11.1 (GTK+ 2.24.31; x86_64-redhat-linux-gnu)
+ (envelope-from <wainersm@redhat.com>) id 1izRMF-0004st-Hq
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 15:33:12 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:20237
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <wainersm@redhat.com>) id 1izRMF-0004sO-EB
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 15:33:11 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1580934791;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=qlS46Kt1eYVBUSmaE1NX3v1Vbc0oMSKhdSfGnMvQNP8=;
+ b=Y6ClJ887MbOgl+fD8j7c++E8WmNU4VjhAzlDOvDHB7lulxINwqsE6CwrsOw+qzjMV4ds6i
+ eDaQoZu+zuc+1bcjloVG4o2909d32wH4GqXCs8pySvNWYSLatpOEBDCvvBeZQ+N+wVqU1Z
+ 3tHLWW59b5e3vS/5oZcVn8X/5d0HF1s=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-126-NbeQTdDaPWGGmd64PJoehA-1; Wed, 05 Feb 2020 15:32:54 -0500
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D1380107B7D4;
+ Wed,  5 Feb 2020 20:32:53 +0000 (UTC)
+Received: from virtlab501.virt.lab.eng.bos.redhat.com
+ (virtlab501.virt.lab.eng.bos.redhat.com [10.19.152.162])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8E2A1100164D;
+ Wed,  5 Feb 2020 20:32:50 +0000 (UTC)
+From: Wainer dos Santos Moschetta <wainersm@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v4 0/8] Acceptance tests: boot Linux with KVM test
+Date: Wed,  5 Feb 2020 15:32:42 -0500
+Message-Id: <20200205203250.30526-1-wainersm@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-MC-Unique: NbeQTdDaPWGGmd64PJoehA-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
-X-TM-AS-GCONF: 00
-x-cbid: 20020520-0016-0000-0000-000002E404BD
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 20020520-0017-0000-0000-00003346E726
-Message-Id: <20200205211123.43914b0c.pasic@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
- definitions=2020-02-05_06:2020-02-04,
- 2020-02-05 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 clxscore=1015
- impostorscore=0 malwarescore=0 priorityscore=1501 adultscore=0
- mlxlogscore=999 suspectscore=0 bulkscore=0 lowpriorityscore=0 spamscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2001150001 definitions=main-2002050153
 Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by
- mx0b-001b2d01.pphosted.com id 015K9lnP113691
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.158.5
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,86 +68,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: drjones@redhat.com, ehabkost@redhat.com, philmd@redhat.com,
+ thuth@redhat.com, crosa@redhat.com, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 31 Jan 2020 16:09:08 +0100
-Igor Mammedov <imammedo@redhat.com> wrote:
+This adds boot Linux tests for x86_64, aarch64, ppc64, and s390x
+targets which, unlike others, enable the KVM acceleration. Likewise
+it was added test cases for tcg.
 
-> memory_region_allocate_system_memory() API is going away, so
-> replace it with memdev allocated MemoryRegion. The later is
-> initialized by generic code, so board only needs to opt in
-> to memdev scheme by providing
->   MachineClass::default_ram_id
-> and using MachineState::ram instead of manually initializing
-> RAM memory region.
->=20
-> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> Reviewed-by: David Hildenbrand <david@redhat.com>
-> Acked-by: Cornelia Huck <cohuck@redhat.com>
+It is introduced an infraestructure on avocado_qemu framework
+so that:
+a) simply tagging the test with `accel:kvm` (or `accel:tcg`) will
+automatically set the corresponding '-accel' on the launched
+QEMU;
+b) test is canceled if the accelerator is not enabled on the QEMU
+binary or not available in the host. In special, it checks if SMT
+is disabled on POWER8.
 
-Hi Igor!
+The acceptance builder on Travis was changed too in order to make
+the test run.
 
-I gave=20
--object memory-backend-file,id=3Dmem=20
--machine type=3Ds390-ccw-virtio,memory-backend=3Dmem
-a spin on s390x. Seems to largely work a expected. So I guess it is:
+Changes v3 -> v4:
+- Broke changes per-arch to ease the reviews. Resulting on
+  patches 02, 03, 05, 06.
+- The test for aarch64 now passes '-cpu max' and
+  -M 'virt,gic-version=3Dmax'. (patch 03) [drjones]
+- Added a fix to accel.kvm_available() so that it detects
+  correctly the availability of kvm on ppc64le. (patch 05)
+- The test for ppc64le now checks if SMT is enabled on
+  POWER8 then skip.=20
 
-Tested-by: Halil Pasic <pasic@linux.ibm.com>
-Acked-by: Halil Pasic <pasic@linux.ibm.com>
+v3: [PATCH v3 0/4] Acceptance tests: boot Linux with KVM test
+- https://www.mail-archive.com/qemu-devel@nongnu.org/msg672635.html
+v2: [PATCH v2 0/3] Acceptance tests: boot Linux with KVM test
+- https://www.mail-archive.com/qemu-devel@nongnu.org/msg666238.html
+v1: [PATCH 0/3] Acceptance tests: boot Linux with KVM test
+- https://www.mail-archive.com/qemu-devel@nongnu.org/msg627498.html
 
-Thanks!
+Tree:
+- Git: https://github.com/wainersm/qemu
+- Branch: acceptance_kvm_test-v4
 
-Halil
+CI:
+- Travis (FAIL): https://travis-ci.org/wainersm/qemu/builds/646154220
+  Failed jobs are not related with this series changes.
 
-> ---
-> CC: pasic@linux.ibm.com
-> ---
->  hw/s390x/s390-virtio-ccw.c | 7 +++----
->  1 file changed, 3 insertions(+), 4 deletions(-)
->=20
-> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
-> index e759eb5..a89cf4c 100644
-> --- a/hw/s390x/s390-virtio-ccw.c
-> +++ b/hw/s390x/s390-virtio-ccw.c
-> @@ -154,14 +154,12 @@ static void virtio_ccw_register_hcalls(void)
->                                     virtio_ccw_hcall_early_printk);
->  }
-> =20
-> -static void s390_memory_init(ram_addr_t mem_size)
-> +static void s390_memory_init(MemoryRegion *ram)
->  {
->      MemoryRegion *sysmem =3D get_system_memory();
-> -    MemoryRegion *ram =3D g_new(MemoryRegion, 1);
->      Error *local_err =3D NULL;
-> =20
->      /* allocate RAM for core */
-> -    memory_region_allocate_system_memory(ram, NULL, "s390.ram", mem_si=
-ze);
->      memory_region_add_subregion(sysmem, 0, ram);
-> =20
->      /*
-> @@ -245,7 +243,7 @@ static void ccw_init(MachineState *machine)
-> =20
->      s390_sclp_init();
->      /* init memory + setup max page size. Required for the CPU model *=
-/
-> -    s390_memory_init(machine->ram_size);
-> +    s390_memory_init(machine->ram);
-> =20
->      /* init CPUs (incl. CPU model) early so s390_has_feature() works *=
-/
->      s390_init_cpus(machine);
-> @@ -471,6 +469,7 @@ static void ccw_machine_class_init(ObjectClass *oc,=
- void *data)
->      hc->plug =3D s390_machine_device_plug;
->      hc->unplug_request =3D s390_machine_device_unplug_request;
->      nc->nmi_monitor_handler =3D s390_nmi;
-> +    mc->default_ram_id =3D "s390.ram";
->  }
-> =20
->  static inline bool machine_get_aes_key_wrap(Object *obj, Error **errp)
+Wainer dos Santos Moschetta (8):
+  tests/acceptance: avocado_qemu: Introduce the 'accel' test parameter
+  tests/acceptance: boot_linux_console: Add boot Linux/x86 with KVM
+  tests/acceptance: boot_linux_console: Add boot Linux/aarch64 with KVM
+  python/qemu: accel: Fix kvm_available() on ppc64le
+  test/acceptance: boot_linux_console: Add boot Linux/ppc64le with KVM
+  tests/acceptance: boot_linux_console: Add boot Linux/s390x with KVM
+  tests/acceptance: avocado_qemu: Refactor the handler of 'machine'
+    parameter
+  travis.yml: Enable acceptance KVM tests
+
+ .travis.yml                               |   7 +-
+ docs/devel/testing.rst                    |  16 ++++
+ python/qemu/accel.py                      |   3 +-
+ tests/acceptance/avocado_qemu/__init__.py |  27 +++++-
+ tests/acceptance/boot_linux_console.py    | 108 +++++++++++++++++-----
+ 5 files changed, 136 insertions(+), 25 deletions(-)
+
+--=20
+2.24.1
 
 
