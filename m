@@ -2,34 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCBA51529D9
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 12:23:53 +0100 (CET)
-Received: from localhost ([::1]:45288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10B151529C6
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 12:22:39 +0100 (CET)
+Received: from localhost ([::1]:45254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izIme-0001wg-R0
-	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 06:23:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52975)
+	id 1izIlS-00077L-1C
+	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 06:22:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52960)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1izIjx-0005GW-3L
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 06:21:06 -0500
+ (envelope-from <vsementsov@virtuozzo.com>) id 1izIjw-0005G7-Rc
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 06:21:05 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1izIjv-0001OS-Uo
+ (envelope-from <vsementsov@virtuozzo.com>) id 1izIjv-0001Nz-Ow
  for qemu-devel@nongnu.org; Wed, 05 Feb 2020 06:21:04 -0500
-Received: from relay.sw.ru ([185.231.240.75]:41382)
+Received: from relay.sw.ru ([185.231.240.75]:41384)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1izIjs-00015f-MJ; Wed, 05 Feb 2020 06:21:00 -0500
+ id 1izIjs-00015e-Ky; Wed, 05 Feb 2020 06:21:00 -0500
 Received: from vovaso.qa.sw.ru ([10.94.3.0] helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.3)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1izIjk-0006Jd-50; Wed, 05 Feb 2020 14:20:52 +0300
+ id 1izIjk-0006Jd-8S; Wed, 05 Feb 2020 14:20:52 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v4 00/10] Further bitmaps improvements
-Date: Wed,  5 Feb 2020 14:20:31 +0300
-Message-Id: <20200205112041.6003-1-vsementsov@virtuozzo.com>
+Subject: [PATCH v4 01/10] hbitmap: assert that we don't create bitmap larger
+ than INT64_MAX
+Date: Wed,  5 Feb 2020 14:20:32 +0300
+Message-Id: <20200205112041.6003-2-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20200205112041.6003-1-vsementsov@virtuozzo.com>
+References: <20200205112041.6003-1-vsementsov@virtuozzo.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
@@ -50,50 +53,40 @@ Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi!
+We have APIs which returns signed int64_t, to be able to return error.
+Therefore we can't handle bitmaps with absolute size larger than
+(INT64_MAX+1). Still, keep maximum to be INT64_MAX which is a bit
+safer.
 
-The main feature here is improvement of _next_dirty_area API, which I'm
-going to use then for backup / block-copy.
+Note, that bitmaps are used to represent disk images, which can't
+exceed INT64_MAX anyway.
 
-Somehow, I thought that it was merged, but seems I even forgot to send
-v4.
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Reviewed-by: Max Reitz <mreitz@redhat.com>
+---
+ util/hbitmap.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-v4:
-01-04: add Max's r-b
-05: switch test_hbitmap_next_zero_check_range args to int64_t too
-06: fix s/UINT64_MAX/INT64_MAX/ in comment to hbitmap_next_dirty
-    s/firt_dirty_off/first_dirty_off/
-    Context changed due to 05 change, but I keep Max's r-b
-07: simplify parameter check in hbitmap_next_dirty_area
-    drop initialization in hbitmap_sparse_merge
-    add Max's r-b
-08: commit message tweak
-    refactor converted flag to separated converted_to_be and can_add
-    do not convert to be automatically in nbd_extent_array_add
-    check uint32 overflow in nbd_extent_array_add
-10: drop extra check from store_bitmap_data, add Max's r-b
-
-Vladimir Sementsov-Ogievskiy (10):
-  hbitmap: assert that we don't create bitmap larger than INT64_MAX
-  hbitmap: move hbitmap_iter_next_word to hbitmap.c
-  hbitmap: unpublish hbitmap_iter_skip_words
-  hbitmap: drop meta bitmaps as they are unused
-  block/dirty-bitmap: switch _next_dirty_area and _next_zero to int64_t
-  block/dirty-bitmap: add _next_dirty API
-  block/dirty-bitmap: improve _next_dirty_area API
-  nbd/server: introduce NBDExtentArray
-  nbd/server: use bdrv_dirty_bitmap_next_dirty_area
-  block/qcow2-bitmap: use bdrv_dirty_bitmap_next_dirty
-
- include/block/dirty-bitmap.h |   9 +-
- include/qemu/hbitmap.h       |  97 +++--------
- block/dirty-bitmap.c         |  16 +-
- block/qcow2-bitmap.c         |  15 +-
- nbd/server.c                 | 251 ++++++++++++++--------------
- tests/test-hbitmap.c         | 314 +++++++++++++----------------------
- util/hbitmap.c               | 134 +++++++++------
- 7 files changed, 375 insertions(+), 461 deletions(-)
-
+diff --git a/util/hbitmap.c b/util/hbitmap.c
+index 242c6e519c..7f9b3e0cd7 100644
+--- a/util/hbitmap.c
++++ b/util/hbitmap.c
+@@ -716,6 +716,7 @@ HBitmap *hbitmap_alloc(uint64_t size, int granularity)
+     HBitmap *hb = g_new0(struct HBitmap, 1);
+     unsigned i;
+ 
++    assert(size <= INT64_MAX);
+     hb->orig_size = size;
+ 
+     assert(granularity >= 0 && granularity < 64);
+@@ -746,6 +747,7 @@ void hbitmap_truncate(HBitmap *hb, uint64_t size)
+     uint64_t num_elements = size;
+     uint64_t old;
+ 
++    assert(size <= INT64_MAX);
+     hb->orig_size = size;
+ 
+     /* Size comes in as logical elements, adjust for granularity. */
 -- 
 2.21.0
 
