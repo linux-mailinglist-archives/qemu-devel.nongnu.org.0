@@ -2,64 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D864153540
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 17:31:16 +0100 (CET)
-Received: from localhost ([::1]:52387 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36C81153547
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 17:34:24 +0100 (CET)
+Received: from localhost ([::1]:52426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izNa7-0008Rb-4d
-	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 11:31:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34572)
+	id 1izNd8-0002Xo-5U
+	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 11:34:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35391)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <shameerali.kolothum.thodi@huawei.com>)
- id 1izNYp-0007OR-Ed
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 11:29:57 -0500
+ (envelope-from <laine@redhat.com>) id 1izNZM-0008Bv-EI
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 11:30:30 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <shameerali.kolothum.thodi@huawei.com>)
- id 1izNYn-0000L7-JA
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 11:29:55 -0500
-Received: from lhrrgout.huawei.com ([185.176.76.210]:2070 helo=huawei.com)
+ (envelope-from <laine@redhat.com>) id 1izNZK-0001bv-9H
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 11:30:28 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:50143
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <shameerali.kolothum.thodi@huawei.com>)
- id 1izNYi-0008QL-6x; Wed, 05 Feb 2020 11:29:48 -0500
-Received: from LHREML710-CAH.china.huawei.com (unknown [172.18.7.107])
- by Forcepoint Email with ESMTP id 6D8BB9E4C216A4032FEF;
- Wed,  5 Feb 2020 16:29:42 +0000 (GMT)
-Received: from lhreml703-chm.china.huawei.com (10.201.108.52) by
- LHREML710-CAH.china.huawei.com (10.201.108.33) with Microsoft SMTP Server
- (TLS) id 14.3.408.0; Wed, 5 Feb 2020 16:29:41 +0000
-Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- lhreml703-chm.china.huawei.com (10.201.108.52) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.1713.5; Wed, 5 Feb 2020 16:29:41 +0000
-Received: from lhreml710-chm.china.huawei.com ([169.254.81.184]) by
- lhreml710-chm.china.huawei.com ([169.254.81.184]) with mapi id
- 15.01.1713.004; Wed, 5 Feb 2020 16:29:41 +0000
-From: Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>
-To: David Hildenbrand <david@redhat.com>, Igor Mammedov <imammedo@redhat.com>
-Subject: RE: [PATCH v2 1/7] exec: Fix for qemu_ram_resize() callback
-Thread-Topic: [PATCH v2 1/7] exec: Fix for qemu_ram_resize() callback
-Thread-Index: AQHVzV43w2nN4JnxQEOUTwT8NpSKx6gLQ1MAgAAWtoCAACc+AIABYS3w
-Date: Wed, 5 Feb 2020 16:29:41 +0000
-Message-ID: <8e0b2c762e914c64bebfab5fc7441661@huawei.com>
-References: <20200117174522.22044-1-shameerali.kolothum.thodi@huawei.com>
- <20200117174522.22044-2-shameerali.kolothum.thodi@huawei.com>
- <20200204162320.67e5d353@redhat.com>
- <74eaaa45-0d20-9a21-fbf8-6d29deb248eb@redhat.com>
- <4ce41554-8b8e-dbb5-5fe9-43af09950f23@redhat.com>
-In-Reply-To: <4ce41554-8b8e-dbb5-5fe9-43af09950f23@redhat.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.202.227.237]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ (Exim 4.71) (envelope-from <laine@redhat.com>) id 1izNZK-0001aM-3Y
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 11:30:26 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1580920225;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=f52w6ebl5ejOgvkvmMQsoDg9E13Xfwzbm5zspxj+lfU=;
+ b=QUsvUy7w64GBfMoU7eOFpRADYhTC4UDiWRT2NIjDcDq8QmlJAGLkJvWCG+TNG9qzVaGcON
+ ekZF3u3TsdKkvwbeVxRGyvo7th32qd5N12eUicfk8vfGvSP9XLoyhEWHGMv8LD/Ar8Ym6H
+ h+uOLDatJR3iMVvCI/ZcUj37j4AXLRg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-42-0yWj629rM3-_p-x9CUgbxw-1; Wed, 05 Feb 2020 11:30:08 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A260C800D54
+ for <qemu-devel@nongnu.org>; Wed,  5 Feb 2020 16:30:07 +0000 (UTC)
+Received: from [10.10.121.233] (ovpn-121-233.rdu2.redhat.com [10.10.121.233])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0E91B8DC13;
+ Wed,  5 Feb 2020 16:29:59 +0000 (UTC)
+Subject: Re: Disabling PCI "hot-unplug" for a guest (and/or a single PCI
+ device)
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <16db1dcd-d1a3-5bd9-2daa-d16a0f2d168e@redhat.com>
+ <20200204184336.GG2205287@redhat.com>
+From: Laine Stump <laine@redhat.com>
+Message-ID: <fc875022-31a3-2ef8-fdf9-ac8447886e9e@redhat.com>
+Date: Wed, 5 Feb 2020 11:29:58 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
+In-Reply-To: <20200204184336.GG2205287@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: 0yWj629rM3-_p-x9CUgbxw-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 185.176.76.210
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,137 +75,273 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
- "xiaoguangrong.eric@gmail.com" <xiaoguangrong.eric@gmail.com>,
- "mst@redhat.com" <mst@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Linuxarm <linuxarm@huawei.com>,
- "shannon.zhaosl@gmail.com" <shannon.zhaosl@gmail.com>,
- "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>, "xuwei \(O\)" <xuwei5@huawei.com>,
- "lersek@redhat.com" <lersek@redhat.com>,
- "eric.auger@redhat.com" <eric.auger@redhat.com>
+Cc: libvir-list@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-SGkgRGF2aWQsDQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogUWVtdS1k
-ZXZlbA0KPiBbbWFpbHRvOnFlbXUtZGV2ZWwtYm91bmNlcytzaGFtZWVyYWxpLmtvbG90aHVtLnRo
-b2RpPWh1YXdlaS5jb21Abm9uZ24NCj4gdS5vcmddIE9uIEJlaGFsZiBPZiBEYXZpZCBIaWxkZW5i
-cmFuZA0KPiBTZW50OiAwNCBGZWJydWFyeSAyMDIwIDE5OjA1DQo+IFRvOiBJZ29yIE1hbW1lZG92
-IDxpbWFtbWVkb0ByZWRoYXQuY29tPjsgU2hhbWVlcmFsaSBLb2xvdGh1bSBUaG9kaQ0KPiA8c2hh
-bWVlcmFsaS5rb2xvdGh1bS50aG9kaUBodWF3ZWkuY29tPg0KPiBDYzogcGV0ZXIubWF5ZGVsbEBs
-aW5hcm8ub3JnOyB4aWFvZ3Vhbmdyb25nLmVyaWNAZ21haWwuY29tOw0KPiBtc3RAcmVkaGF0LmNv
-bTsgc2hhbm5vbi56aGFvc2xAZ21haWwuY29tOyBxZW11LWRldmVsQG5vbmdudS5vcmc7DQo+IHh1
-d2VpIChPKSA8eHV3ZWk1QGh1YXdlaS5jb20+OyBMaW51eGFybSA8bGludXhhcm1AaHVhd2VpLmNv
-bT47DQo+IGVyaWMuYXVnZXJAcmVkaGF0LmNvbTsgcWVtdS1hcm1Abm9uZ251Lm9yZzsgbGVyc2Vr
-QHJlZGhhdC5jb20NCj4gU3ViamVjdDogUmU6IFtQQVRDSCB2MiAxLzddIGV4ZWM6IEZpeCBmb3Ig
-cWVtdV9yYW1fcmVzaXplKCkgY2FsbGJhY2sNCj4gDQo+IE9uIDA0LjAyLjIwIDE3OjQ0LCBEYXZp
-ZCBIaWxkZW5icmFuZCB3cm90ZToNCj4gPiBPbiAwNC4wMi4yMCAxNjoyMywgSWdvciBNYW1tZWRv
-diB3cm90ZToNCj4gPj4gT24gRnJpLCAxNyBKYW4gMjAyMCAxNzo0NToxNiArMDAwMA0KPiA+PiBT
-aGFtZWVyIEtvbG90aHVtIDxzaGFtZWVyYWxpLmtvbG90aHVtLnRob2RpQGh1YXdlaS5jb20+IHdy
-b3RlOg0KPiA+Pg0KPiA+Pj4gSWYgQUNQSSBibG9iIGxlbmd0aCBtb2RpZmljYXRpb25zIGhhcHBl
-bnMgYWZ0ZXIgdGhlIGluaXRpYWwNCj4gPj4+IHZpcnRfYWNwaV9idWlsZCgpIGNhbGwsIGFuZCB0
-aGUgY2hhbmdlZCBibG9iIGxlbmd0aCBpcyB3aXRoaW4NCj4gPj4+IHRoZSBQQUdFIHNpemUgYm91
-bmRhcnksIHRoZW4gdGhlIHJldmlzZWQgc2l6ZSBpcyBub3Qgc2VlbiBieQ0KPiA+Pj4gdGhlIGZp
-cm13YXJlIG9uIEd1ZXN0IHJlYm9vdC4gVGhlIGlzIGJlY2F1c2UgaW4gdGhlDQo+ID4+PiB2aXJ0
-X2FjcGlfYnVpbGRfdXBkYXRlKCkgLT4gYWNwaV9yYW1fdXBkYXRlKCkgLT4gcWVtdV9yYW1fcmVz
-aXplKCkNCj4gPj4+IHBhdGgsIHFlbXVfcmFtX3Jlc2l6ZSgpIHVzZXMgdXNlZF9sZW5ndGggKHJh
-bV9ibG9jayBzaXplIHdoaWNoIGlzDQo+ID4+PiBhbGlnbmVkIHRvIFBBR0Ugc2l6ZSkgYW5kIHRo
-ZSAicmVzaXplIGNhbGxiYWNrIiB0byB1cGRhdGUgdGhlIHNpemUNCj4gPj4+IHNlZW4gYnkgZmly
-bXdhcmUgaXMgbm90IGdldHRpbmcgaW52b2tlZC4NCj4gPj4+DQo+ID4+PiBIZW5jZSBtYWtlIHN1
-cmUgY2FsbGJhY2sgaXMgY2FsbGVkIGlmIHRoZSBuZXcgc2l6ZSBpcyBkaWZmZXJlbnQNCj4gPj4+
-IGZyb20gb3JpZ2luYWwgcmVxdWVzdGVkIHNpemUuDQo+ID4+Pg0KPiA+Pj4gU2lnbmVkLW9mZi1i
-eTogU2hhbWVlciBLb2xvdGh1bQ0KPiA8c2hhbWVlcmFsaS5rb2xvdGh1bS50aG9kaUBodWF3ZWku
-Y29tPg0KPiA+Pj4gLS0tDQo+ID4+PiBQbGVhc2UgZmluZCB0aGUgcHJldmlvdXMgZGlzY3Vzc2lv
-bnMgb24gdGhpcyBpc3N1ZSBoZXJlLA0KPiA+Pj4gaHR0cHM6Ly9wYXRjaHdvcmsua2VybmVsLm9y
-Zy9wYXRjaC8xMTE3NDk0Ny8NCj4gPj4+DQo+ID4+PiBCdXQgdGhpcyBvbmUgYXR0ZW1wdHMgYSBk
-aWZmZXJlbnQgc29sdXRpb24gdG8gZml4IGl0IGJ5IGludHJvZHVjaW5nDQo+ID4+PiByZXFfbGVu
-Z3RoIHZhciB0byBSQU1CbG9jayBzdHJ1Y3QuDQo+ID4+Pg0KPiA+Pg0KPiA+PiBsb29rcyBmaW5l
-IHRvIG1lLCBzbw0KPiA+PiBBY2tlZC1ieTogSWdvciBNYW1tZWRvdiA8aW1hbW1lZG9AcmVkaGF0
-LmNvbT4NCj4gPg0KPiA+IFRoYW5rcyBmb3IgQ0NpbmcuDQo+ID4NCj4gPiBUaGlzIGluIGZhY3Qg
-Y29sbGlkZXMgd2l0aCBteSBjaGFuZ2VzIC4uLiBidXQgbm90IHNldmVyZWx5IDopDQo+ID4NCj4g
-Pj4NCj4gPj4gQ0NpbmcgRGF2aWQgd2hvIHRvdWNoZXMgdGhpcyBhcmVhIGluIGhpcyBsYXRlc3Qg
-c2VyaWVzIGZvciBhbmQNCj4gPj4gbWlnaHQgaGF2ZSBhbiBvcGluaW9uIG9uIGhvdyBpdCBzaG91
-bGQgYmUgaGFuZGxlZC4NCj4gPj4NCj4gPg0KPiA+IFNvIHdlIGFyZSB0YWxraW5nIGFib3V0IHN1
-Yi1wYWdlIHNpemUgY2hhbmdlcz8gSSBzb21ld2hhdCBkaXNsaWtlDQo+ID4gc3RvcmluZyAicmVx
-X2xlbmd0aCIgaW4gcmFtIGJsb2Nrcy4gTG9va3MgbGlrZSBzdWItcGFnZXMgc3R1ZmYgZG9lcyBu
-b3QNCj4gPiBiZWxvbmcgdGhlcmUuDQoNClRoYW5rcyBmb3IgdGFraW5nIGEgbG9vayBhdCB0aGlz
-LiBBZ3JlZSwgSSBkaWRu4oCZdCBsaWtlIHRoYXQgInJlcV9sZW5ndGgiIGVpdGhlci4NCg0KPiA+
-IFJhbSBibG9ja3Mgb25seSBvcGVyYXRlIG9uIHBhZ2UgZ3JhbnVsYXJpdHkuIFJhbSBibG9jayBu
-b3RpZmllcnMgb25seQ0KPiA+IG9wZXJhdGUgb24gcGFnZSBncmFudWxhcml0eS4gTWVtb3J5IHJl
-Z2lvbnMgb25seSBvcGVyYXRlIG9uIHBhZ2UNCj4gPiBncmFudWxhcml0eS4gRGlydHkgYml0bWFw
-cyBvcGVyYXRlIG9uIHBhZ2UgZ3JhbnVsYXJpdHkuIEVzcGVjaWFsbHksDQo+ID4gbWVtb3J5X3Jl
-Z2lvbl9zaXplKG1yKSB3aWxsIGFsd2F5cyByZXR1cm4gYWxpZ25lZCB2YWx1ZXMuDQo+ID4NCj4g
-PiBJIHRoaW5rIHVzZXJzL293bmVyIHNob3VsZCBkZWFsIHdpdGggYW55dGhpbmcgc21hbGxlciBt
-YW51YWxseSBpZg0KPiA+IHRoZXkgcmVhbGx5IG5lZWQgaXQuDQo+ID4NCj4gPiBXaGF0IGFib3V0
-IGFsd2F5cyBjYWxsaW5nIHRoZSByZXNpemVkKCkgY2FsbGJhY2sgYW5kIGxldHRpbmcgdGhlDQo+
-ID4gYWN0dWFsIG93bmVyIGZpZ3VyZSBvdXQgaWYgdGhlIHNpemUgY2hhbmdlZCBvbiBzdWItcGFn
-ZSBncmFudWxhcml0eQ0KPiA+IG9yIG5vdD8gKGJ5IGxvb2tpbmcgdXAgdGhlIHNpemUgbWFudWFs
-bHkgdXNpbmcgc29tZSBtZWNoYW5pc20gbm90IGdsdWVkIHRvDQo+ID4gbWVtb3J5IHJlZ2lvbnMv
-cmFtIGJsb2Nrcy93aGF0ZXZlcikNCj4gPg0KPiA+IGRpZmYgLS1naXQgYS9leGVjLmMgYi9leGVj
-LmMNCj4gPiBpbmRleCA2N2U1MjBkMThlLi41OWQ0NmNjMzg4IDEwMDY0NA0KPiA+IC0tLSBhL2V4
-ZWMuYw0KPiA+ICsrKyBiL2V4ZWMuYw0KPiA+IEBAIC0yMTMwLDYgKzIxMzAsMTMgQEAgaW50IHFl
-bXVfcmFtX3Jlc2l6ZShSQU1CbG9jayAqYmxvY2ssDQo+IHJhbV9hZGRyX3QgbmV3c2l6ZSwgRXJy
-b3IgKiplcnJwKQ0KPiA+ICAgICAgbmV3c2l6ZSA9IEhPU1RfUEFHRV9BTElHTihuZXdzaXplKTsN
-Cj4gPg0KPiA+ICAgICAgaWYgKGJsb2NrLT51c2VkX2xlbmd0aCA9PSBuZXdzaXplKSB7DQo+ID4g
-KyAgICAgICAgLyoNCj4gPiArICAgICAgICAgKiBUaGUgb3duZXIgbWlnaHQgd2FudCB0byBoYW5k
-bGUgc3ViLXBhZ2UgcmVzaXplcy4gV2Ugb25seQ0KPiBwcm92aWRlDQo+ID4gKyAgICAgICAgICog
-dGhlIGFsaWduZWQgc2l6ZSAtIGJlY2F1c2UgcmFtIGJsb2NrcyBhcmUgYWx3YXlzIHBhZ2UgYWxp
-Z25lZC4NCj4gPiArICAgICAgICAgKi8NCj4gPiArICAgICAgICBpZiAoYmxvY2stPnJlc2l6ZWQp
-IHsNCj4gPiArICAgICAgICAgICAgYmxvY2stPnJlc2l6ZWQoYmxvY2stPmlkc3RyLCBuZXdzaXpl
-LCBibG9jay0+aG9zdCk7DQoNCkRvZXMgaXQgbWFrZSBzZW5zZSB0byBwYXNzIHRoZSByZXF1ZXN0
-ZWQgc2l6ZSBpbiB0aGUgY2FsbGJhY2sgdGhhbiB0aGUgYWxpZ25lZCBzaXplDQphcyB0aGUgb3du
-ZXIgbWlnaHQgYmUgaW50ZXJlc3RlZCBtb3JlIGluIHRoZSBvcmdfcmVxX3NpemUgdnMgbmV3X3Jl
-cSBfc2l6ZSBjYXNlPw0KDQo+ID4gKyAgICAgICAgfQ0KPiA+ICAgICAgICAgIHJldHVybiAwOw0K
-PiA+ICAgICAgfQ0KPiA+DQoNCiANCj4gT2gsIGFuZCBvbmUgbW9yZSByZWFzb24gd2h5IHRoZSBw
-cm9wb3NhbCBpbiB0aGlzIHBhdGNoIGlzIGluY29uc2lzdGVudDoNCj4gDQo+IFdoZW4gbWlncmF0
-aW5nIHJlc2l6YWJsZSBtZW1vcnkgcmVnaW9ucyAoUkFNX1NBVkVfRkxBR19NRU1fU0laRSkgd2UN
-Cj4gc3RvcmUgdGhlIGJsb2NrLT51c2VkX2xlbmd0aCAocmFtX3NhdmVfc2V0dXAoKSkgYW5kIHVz
-ZSB0aGF0IHZhbHVlIHRvDQo+IHJlc2l6ZSB0aGUgcmVnaW9uIG9uIHRoZSB0YXJnZXQgKHJhbV9s
-b2FkX3ByZWNvcHkoKSAtPiBxZW11X3JhbV9yZXNpemUoKSkuDQo+IA0KPiBUaGlzIHdpbGwgYmUg
-dGhlIHZhbHVlIHRoZSBjYWxsYmFjayB3aWxsIGJlIGNhbGxlZCB3aXRoLiBQYWdlIGFsaWduZWQu
-DQo+IA0KDQpTb3JyeSwgSSBkaWRu4oCZdCBxdWl0ZSBnZXQgdGhhdCBwb2ludCBhbmQgbm90IHN1
-cmUgaG93ICJyZXFfbGVuZ3RoIiBhcHByb2FjaCANCndpbGwgYWZmZWN0IHRoZSBtaWdyYXRpb24u
-DQoNCkFueXdheSwgSSBoYXZlIHJld29ya2VkIHRoZSBwYXRjaChiZWxvdykgd2l0aCB0aGUgYWJv
-dmUgc3VnZ2VzdGlvbiwgdGhhdCBpcw0KYWx3YXlzIGNhbGxpbmcgdGhlIHJlc2l6ZWQoKSBjYWxs
-YmFjaywgYnV0IG1vZGlmaWVkIGl0IHRvIHBhc3MgdGhlIHJlcXVlc3RlZCBzaXplDQppbnN0ZWFk
-IG9mIHRoZSBwYWdlIGFsaWduZWQgc2l6ZS4gUGxlYXNlIGxldCBtZSBrbm93IHlvdXIgZmVlZGJh
-Y2suDQoNClRoYW5rcywNClNoYW1lZXINCg0KZGlmZiAtLWdpdCBhL2V4ZWMuYyBiL2V4ZWMuYw0K
-aW5kZXggNjdlNTIwZDE4ZS4uYzljYjlhNTRmYSAxMDA2NDQNCi0tLSBhL2V4ZWMuYw0KKysrIGIv
-ZXhlYy5jDQpAQCAtMjEyMywxMyArMjEyMywyMiBAQCBzdGF0aWMgaW50IG1lbW9yeV90cnlfZW5h
-YmxlX21lcmdpbmcodm9pZCAqYWRkciwgc2l6ZV90IGxlbikNCiAgKiByZXNpemUgY2FsbGJhY2sg
-dG8gdXBkYXRlIGRldmljZSBzdGF0ZSBhbmQvb3IgYWRkIGFzc2VydGlvbnMgdG8gZGV0ZWN0DQog
-ICogbWlzdXNlLCBpZiBuZWNlc3NhcnkuDQogICovDQotaW50IHFlbXVfcmFtX3Jlc2l6ZShSQU1C
-bG9jayAqYmxvY2ssIHJhbV9hZGRyX3QgbmV3c2l6ZSwgRXJyb3IgKiplcnJwKQ0KK2ludCBxZW11
-X3JhbV9yZXNpemUoUkFNQmxvY2sgKmJsb2NrLCByYW1fYWRkcl90IHNpemUsIEVycm9yICoqZXJy
-cCkNCiB7DQorICAgIHJhbV9hZGRyX3QgbmV3c2l6ZTsNCiAgICAgYXNzZXJ0KGJsb2NrKTsNCiAN
-Ci0gICAgbmV3c2l6ZSA9IEhPU1RfUEFHRV9BTElHTihuZXdzaXplKTsNCisgICAgbmV3c2l6ZSA9
-IEhPU1RfUEFHRV9BTElHTihzaXplKTsNCiANCiAgICAgaWYgKGJsb2NrLT51c2VkX2xlbmd0aCA9
-PSBuZXdzaXplKSB7DQorICAgICAgICAvKg0KKyAgICAgICAgICogUkFNIGJsb2NrcyBhcmUgYWx3
-YXlzIHBhZ2UgYWxpZ25lZCwgYnV0IHRoZSBvd25lciBtaWdodCB3YW50DQorICAgICAgICAgKiB0
-byBoYW5kbGUgc3ViLXBhZ2UgcmVzaXplcy4gTGV0IHRoZSBvd25lciBrbm93IGFib3V0IGFueQ0K
-KyAgICAgICAgICogc3ViLXBhZ2UgY2hhbmdlcy4NCisgICAgICAgICAqLw0KKyAgICAgICAgaWYg
-KGJsb2NrLT5yZXNpemVkKSB7DQorICAgICAgICAgICAgYmxvY2stPnJlc2l6ZWQoYmxvY2stPmlk
-c3RyLCBzaXplLCBibG9jay0+aG9zdCk7DQorICAgICAgICB9DQogICAgICAgICByZXR1cm4gMDsN
-CiAgICAgfQ0KIA0KQEAgLTIxNTUsNyArMjE2NCw3IEBAIGludCBxZW11X3JhbV9yZXNpemUoUkFN
-QmxvY2sgKmJsb2NrLCByYW1fYWRkcl90IG5ld3NpemUsIEVycm9yICoqZXJycCkNCiAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgRElSVFlfQ0xJRU5UU19BTEwpOw0KICAg
-ICBtZW1vcnlfcmVnaW9uX3NldF9zaXplKGJsb2NrLT5tciwgbmV3c2l6ZSk7DQogICAgIGlmIChi
-bG9jay0+cmVzaXplZCkgew0KLSAgICAgICAgYmxvY2stPnJlc2l6ZWQoYmxvY2stPmlkc3RyLCBu
-ZXdzaXplLCBibG9jay0+aG9zdCk7DQorICAgICAgICBibG9jay0+cmVzaXplZChibG9jay0+aWRz
-dHIsIHNpemUsIGJsb2NrLT5ob3N0KTsNCiAgICAgfQ0KICAgICByZXR1cm4gMDsNCiB9DQpkaWZm
-IC0tZ2l0IGEvaHcvbnZyYW0vZndfY2ZnLmMgYi9ody9udnJhbS9md19jZmcuYw0KaW5kZXggMTc5
-YjMwMmYwMS4uZWM5Y2ZhNGQxMCAxMDA2NDQNCi0tLSBhL2h3L252cmFtL2Z3X2NmZy5jDQorKysg
-Yi9ody9udnJhbS9md19jZmcuYw0KQEAgLTkzNCw5ICs5MzQsMTEgQEAgdm9pZCAqZndfY2ZnX21v
-ZGlmeV9maWxlKEZXQ2ZnU3RhdGUgKnMsIGNvbnN0IGNoYXIgKmZpbGVuYW1lLA0KIA0KICAgICBm
-b3IgKGkgPSAwOyBpIDwgaW5kZXg7IGkrKykgew0KICAgICAgICAgaWYgKHN0cmNtcChmaWxlbmFt
-ZSwgcy0+ZmlsZXMtPmZbaV0ubmFtZSkgPT0gMCkgew0KLSAgICAgICAgICAgIHB0ciA9IGZ3X2Nm
-Z19tb2RpZnlfYnl0ZXNfcmVhZChzLCBGV19DRkdfRklMRV9GSVJTVCArIGksDQotICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGRhdGEsIGxlbik7DQotICAgICAgICAg
-ICAgcy0+ZmlsZXMtPmZbaV0uc2l6ZSAgID0gY3B1X3RvX2JlMzIobGVuKTsNCisgICAgICAgICAg
-ICBpZiAocy0+ZmlsZXMtPmZbaV0uc2l6ZSAhPSBjcHVfdG9fYmUzMihsZW4pKSB7DQorICAgICAg
-ICAgICAgICAgIHB0ciA9IGZ3X2NmZ19tb2RpZnlfYnl0ZXNfcmVhZChzLCBGV19DRkdfRklMRV9G
-SVJTVCArIGksDQorICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICBkYXRhLCBsZW4pOw0KKyAgICAgICAgICAgICAgICBzLT5maWxlcy0+ZltpXS5zaXplICAgPSBj
-cHVfdG9fYmUzMihsZW4pOw0KKyAgICAgICAgICAgIH0NCiAgICAgICAgICAgICByZXR1cm4gcHRy
-Ow0KICAgICAgICAgfQ0KICAgICB9DQotLS0NCg==
+On 2/4/20 1:43 PM, Daniel P. Berrang=C3=A9 wrote:
+> On Mon, Feb 03, 2020 at 05:19:51PM -0500, Laine Stump wrote:
+>> Although I've never experienced it, due to not running Windows guests, I=
+'ve
+>> recently learned that a Windows guest permits a user (hopefully only one
+>> with local admin privileges??!) to "hot-unplug" any PCI device. I've als=
+o
+>> learned that some hypervisor admins don't want to permit admins of the
+>> virtual machines they're managing to unplug PCI devices. I believe this =
+is
+>> impossible to prevent on an i440fx-based machinetype, and can only be do=
+ne
+>> on a q35-based machinetype by assigning the devices to the root bus (so =
+that
+>> they are seen as integrated devices) rather than to a pcie-root-port. Bu=
+t
+>> when libvirt is assigning PCI addresses to devices in a q35-base guest, =
+it
+>> will *always* assign a PCIe device to a pcie-root-port specifically so t=
+hat
+>> hotplug is possible (this was done to maintain functional parity with i4=
+40fx
+>> guests, where all PCI slots support hotplug).
+>=20
+> After speaking with Alex & Laine on IRC, I learnt some further relevant
+> points
+>=20
+>   - In a "typical" physical machine PCI slots will not be marked
+>     as hotpluggable - /sys/bus/pci/slots only has 2 entries on
+>     my HP DL180, corresponding to unused physical PCI slots
+>    =20
+>   - QEMU is hardcoded to report all pci & pcie-root-ports as hotpluggable=
+.
+>     So /sys/bus/pci/slots on i440fx has 31 entries, one for every
+>     device, while on q35 it has one entry for every pcie-root-port
+>     IIUC.
+>=20
+>   - It is conceptually possible to enhance pcie-root-port device
+>     to allow its hotplug capability to be toggled. Alternatively
+>     a parallel  pcie-root-port-nohotplug device could be created.
+>     The end result would be the same from guest POV
+>=20
+>   - The vfio-pci device has a companion vfio-pci-nohotplug
+>     device. The difference is simply whether the QEMU DEviceClass
+>     has the "hotpluggable" attribute set, and is separate from
+>     whether the PCI(e) root port has hotplug enabled
+>=20
+>=20
+> The last point here about vfio-pci si particularly important,
+> as it shows libvirt needs to be capable of tracking hotpluggability
+> independantly on the PCI port and the PCI device attached to the
+> port.
+>=20
+>=20
+>> 1) Rather than leaving the task of assignung the PCI addresses of device=
+s to
+>> libvirt (which is what essentially *all* management apps that use libvir=
+t
+>> currently do), the management application could itself directly assign t=
+he
+>> PCI addressed of all devices to be slots on pcie.0.
+>=20
+> [snip]
+>=20
+> This is essentially a hack to work around the fact the the pcie-root-port
+> is hardcoded to report itself as hotpluggable.
+>=20
+> As such I don't consider this is serious long term solution. If you
+> absolutely cannot wait for a newer libvirt/QEMU, this solution could
+> be used as a quick hack for mgmt apps, but long term we need todo
+> better.
+>=20
+>> 2) libvirt could gain a knob "somewhere" in the domain XML to force a si=
+ngle
+>> device, or all devices, to be assigned to a PCI address on pcie.0 rather
+>> than on a pcie-root-port. This could be thought of as a "hint" about dev=
+ice
+>> placement, as well as extra validation in the case that a PCI address ha=
+s
+>> been manually assigned. So, for example, let's say a "hotplug=3D'disable=
+'"
+>> option is added somewhere at the top level of the domain (maybe "<hotplu=
+g
+>> enable=3D'no'/>" inside <features> or something like that); when PCI add=
+resses
+>> are assigned by libvirt, it would attempt to find a slot on a controller
+>> that didn't support hotplug. And/or a similar knob could be added to eac=
+h
+>> device. In both cases, the setting would be used both when assigning PCI
+>> addresses and also to validate user-provided PCI addresses to assure tha=
+t
+>> the desired criterion was met (otherwise someone would manually select a=
+ PCI
+>> address on a controller that supported hotplug, but then set
+>> "hotplug=3D'disabled'" and expect hotplug to be magically disabled on th=
+e
+>> slot).
+>=20
+> Essentially this is the using "hotpluggable=3Dyes|no" on the device as
+> a policy knob to control device placement, to again workaround the
+> fact that pcie-root-port are hardcoded to always report themselves
+> as hotpluggable.
+>=20
+> So I'd think this should be ruled out for the same reason as
+> option 1.
+>=20
+> It has a second downside though. As we see from vfio-pci-nohotplug,
+> there is a valid use case for a "hotpluggable=3Dyes|no" attribute on
+> a device for controlling a specific hardware config choice in QEMU.
+>=20
+> We don't want to overload this attribute to both control use of
+> vfio-pci-nohotplug, and also be a policy knob for device placement.
+>=20
+>=20
+>> 3) qemu could add a "hotpluggable=3Dno" commandline option to all PCI de=
+vices
+>> (including vfio-pci) and then do whatever is necessary to make sure this=
+ is
+>> honored in the emulated hardware (is it possible to set this on a per-sl=
+ot
+>> basis in a PCI controller? Or must it be done for an entire controller? =
+I
+>> suppose it's not as much of an issue for pcie-root-port, as long as you'=
+re
+>> not using multiple functions). libvirt would then need to add this optio=
+n to
+>> the XML for each device, and management applications would need to set i=
+t -
+>> it would essentially look the same to the management application, but it
+>> would be implemented differently - instead of libvirt using that flag to
+>> make a choice about which slot to assign, it would assign PCI addresses =
+in
+>> the same manner as before, and use the libvirt XML flag to set a QEMU
+>> commandline flag for the device.
+>=20
+> I think this, or something close to it is the desirable way forward
+> here, as it gives us more explicit control over what the emulated
+> hardware actually advertizes. So instead of trying to workaround
+> limitations of QEMU, we'd be working /with/ QEMU to improve its
+> feature offerings.
+>=20
+> In QEMU pcie-root-port either needs to gain a hotpluggable=3Dyes|no
+> attribute, or a second pcie-root-port-nohotplug needs adding.
+>=20
+> Withever of these two approaches are taken in QEMU, this can be
+> controlled from libvirt via an attribute on the controller.eg
+>=20
+>     <controller type=3D'pci' model=3D'pcie-root-port' hotpluggable=3D"no|=
+yes"/>
+>=20
+> This hotpluggable attribute can be mapped to whichever CLI syntax
+> QEMU wants to support.
+>=20
+> This alone is probably sufficient for the Windows problem motivating
+> this thread.
+>=20
+> There already exists the vfio-pci-nohotplug device, but this is not
+> exposed by libvirt. So we can add an attribute to <hostdev> to
+> control its use.
+>=20
+> The remaining question is whether there's any compelling reason to
+> add non-hotpluggable variants of other devices, virtio-net-pci-nohotplug =
+?
+>=20
+> I'd probably /not/ do this, unless there's a clear compelling benefit
+> it gives which can't be achieved already via the pcie-root-port
+> hotpluggability controls.
+>=20
+>=20
+> For management applications, with Q35 we already recommend that they
+> explicitly add *many*
+>=20
+>     <controller type=3D'pci' model=3D'pcie-root-port'/>
+>=20
+> to new guests. Enough to cover all the initial cold-plugged devices,
+> and enough spare ports to enable future hotplug of extra devices.
+> OpenStack for example will add 32 pcie-root-ports, so that Q35 has
+> approximately the same hotplug capacity as i440fx would have offered.
+>=20
+> To control hotplug, management apps simply need tweak what they're
+> doing with pcie-root-ports with an extra attribute
+>=20
+> eg, consider there were 4 devices on the initially booted VM which
+> need hotplug disabled, and we still want freedom to hotplug 2
+> extra devices at runtime.
+>=20
+>     <controller type=3D'pci' model=3D'pcie-root-port' hotplug=3D"no"/>
+>     <controller type=3D'pci' model=3D'pcie-root-port' hotplug=3D"no"/>
+>     <controller type=3D'pci' model=3D'pcie-root-port' hotplug=3D"no"/>
+>     <controller type=3D'pci' model=3D'pcie-root-port' hotplug=3D"no"/>
+>     <controller type=3D'pci' model=3D'pcie-root-port' hotplug=3D"yes"/>
+>     <controller type=3D'pci' model=3D'pcie-root-port' hotplug=3D"yes"/>
+>=20
+> This is quite easy,
+
+Not quite so easy as you might think :-). The problem is that, in our=20
+fervor to make Q35 guests "as similar as possible" to 440fx guests, we=20
+have made the PCI address assignment code search out a hotplug-capable=20
+slot for each unassigned device, and if no hotpluggable slot is=20
+available it automatically adds a new root port so that there is a=20
+hotplug-capable slot. With the current set of VIR_PCI_CONNECT_TYPE=20
+flags, unless we lie to that code and tell it that these new root ports=20
+support hotplug, the the devices will be assigned first to the two=20
+available hotpluggable root ports (in your example above), and then when=20
+those are both used, it will start adding new root ports - the ports=20
+with hotplug=3D'no' will never be used.
+
+On the other hand, if we change the code to *not* require a=20
+hotplug-capable port, then the new devices will just be assigned to=20
+slots on the root bus.
+
+So the address assignment code is going to need to be re-jiggered. I=20
+guess we would need to create yet another PCI controller capability for=20
+use by the address assignment code - "Not=20
+Hot-Pluggable-But-Still-Okay-For-Auto-Assign-When-The-Guest-Is-Powered-Off"=
+.
+
+So, a mental exercise - let's say we make a new virDomainPCIConnectFlag=20
+called VIR_PCI_CONNECT_AUTO_ASSIGNABLE (that's a bit easier to say than=20
+what I had in the previous paragraph). That connect type would be added=20
+to all the controllers that currently have CONNECT_HOTPLUGGABLE set:
+
+     pci-root
+     pci-bridge
+     pcie-root
+     pcie-pci-bridge
+     pcie-root-port
+     pcie-downstream-port
+
+We then add a new controller model=20
+VIR_DOMAIN_CONTROLLER_PCIE_ROOT_PORT_NO_HOTPLUG and set it as=20
+AUTO_ASSIGNABLE, but *not* HOTPLUGGABLE.
+
+Now when a device is added to "cold" config, instead of requiring=20
+HOTPLUGGABLE, we require AUTO_ASSIGNABLE, which will get the same=20
+assignment as before the change (except that the NO_HOTPLUG root ports=20
+will also be used). If we actually hotplug a device, then we continue to=20
+require the HOTPLUGGABLE connect flag.
+
+So that much works, but we still have the problem that in order to add a=20
+device to the "cold" config that can later be hotplugged, we have to=20
+make sure all of the hotplug=3D'no' controllers are in use.
+
+I guess that will work, but it's getting pretty obtuse and complicated=20
+just to avoid adding a single flag that says "this device shouldn't be=20
+put in a hotplug-capable slot" directly to the XML for the device that=20
+you don't want hotplugged. It would be *much* simpler if qemu could=20
+provide an attribute for endpoint devices that would disable hotplug for=20
+that device, rather than requiring the option to be set on the=20
+controller that the device is plugged into. Then libvirt could just have=20
+that attribute added to the XML, and the management app would just=20
+simply add "hotplug=3D'no'" to each device. It's too bad that the method=20
+vfio-pci-nohotplug uses apparently doesn't work for PCIe...
+
+
+> as applications still do *not* have to taken on
+> responsibility for full PCI device addressing. They merely need to
+> be able to count how many PCI devices they're using. The only "gotcha"
+> is if they forget about the auto-added USB, VGA and Balloon devices,
+> but that's not a big deal.
+>=20
+> Regards,
+> Daniel
+>=20
+
 
