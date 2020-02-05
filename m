@@ -2,79 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 199F6153314
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 15:33:19 +0100 (CET)
-Received: from localhost ([::1]:48270 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2459A153317
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 15:33:27 +0100 (CET)
+Received: from localhost ([::1]:48274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izLjx-0002fT-TX
-	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 09:33:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54125)
+	id 1izLk6-0002tD-5U
+	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 09:33:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54223)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1izLiF-0001Cl-ER
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 09:31:32 -0500
+ (envelope-from <stefanha@gmail.com>) id 1izLiJ-0001LA-Vg
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 09:31:36 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1izLiE-0002Jx-5F
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 09:31:31 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:43901
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1izLiE-0002Ia-1H
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 09:31:30 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580913089;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=F3fd6swylaSuaByFBWf2JM6MkThvg4ex7Ki8CLOvkgE=;
- b=KgzhnXBDHw63UCpR356urrLMYIL9smGkNScjwUYlg68e+v2PJKxN3XFjqPlNMqkXiSNQrf
- AlZmVTJdVHJalL2WbBZ30ZWeN+Vbzi/Y935TYZ0xQJYAQZvqnnS2/3Q0I2J55835B5lrEE
- EKkAtfzi+ueSVynX0hrVDAKmsCgJZY4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-274-B1J7H38zPESLhweoZJF99g-1; Wed, 05 Feb 2020 09:31:24 -0500
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B3D9818A6ECB;
- Wed,  5 Feb 2020 14:31:23 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-116-136.ams2.redhat.com
- [10.36.116.136])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CB847790DA;
- Wed,  5 Feb 2020 14:31:20 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 9A7DF11385EE; Wed,  5 Feb 2020 15:31:19 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
-Subject: Re: [PATCH 02/13] qcrypto-luks: implement encryption key management
-References: <dc902f2ba314b63da7ae7a003463f9268e7b3535.camel@redhat.com>
- <20200128171116.GU1446339@redhat.com>
- <20200128173251.GZ1446339@redhat.com>
- <20200130123847.GE6438@linux.fritz.box>
- <20200130125319.GD1891831@redhat.com>
- <87zhe5ovbv.fsf@dusky.pond.sub.org>
- <20200130150108.GM1891831@redhat.com>
- <877e18oq76.fsf@dusky.pond.sub.org>
- <87mu9xxwzv.fsf@dusky.pond.sub.org>
- <20200205093011.GA5768@dhcp-200-226.str.redhat.com>
- <20200205102303.GB2221087@redhat.com>
-Date: Wed, 05 Feb 2020 15:31:19 +0100
-In-Reply-To: <20200205102303.GB2221087@redhat.com> ("Daniel P. =?utf-8?Q?B?=
- =?utf-8?Q?errang=C3=A9=22's?=
- message of "Wed, 5 Feb 2020 10:23:03 +0000")
-Message-ID: <87a75xgl6w.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+ (envelope-from <stefanha@gmail.com>) id 1izLiI-0002Z4-Pk
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 09:31:35 -0500
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:36002)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <stefanha@gmail.com>) id 1izLiI-0002Vd-IH
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 09:31:34 -0500
+Received: by mail-wr1-x443.google.com with SMTP id z3so3012459wru.3
+ for <qemu-devel@nongnu.org>; Wed, 05 Feb 2020 06:31:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=Ra1gr+2oURpZSjRB7HONE42zZVzjaUu9KOoewszMlgQ=;
+ b=LXAC5N2tjZech/U+qskZGmlGiGsg7TJP3qbRMCciUd6Y0ca1SmHRp1+UYLU3QgfxH5
+ z5BVzuyAGaDGSnwurhZvaBSkeAfZ/FMTZOSg7SElwh43QetozG/G1mRjFWYdw9jNVLtk
+ 7wKClmaCDPFroD2E9m6YYXIZmYjIltXDZAyJGfY00DPKu1lk5jO04lsJOTe9zTxo/YkN
+ i79Ywk1r85oBFSj1Br0oR1sdy92eYf0PBy6iVzz60WvyvXtsOq5uTBXE9upK8v7uolgd
+ KLQd6FC/xNncjWeOWCoDhBoMqzFJT8S/ixqGnExG4VeD70y6kbs68wDTSk7W8XUW2NI4
+ tt5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=Ra1gr+2oURpZSjRB7HONE42zZVzjaUu9KOoewszMlgQ=;
+ b=im14dplfYK1bMuhO+eyrE1BGxIiapQ+OdMC8zxoniLCixbOZF+NU7Yf2QNreuhkJ1/
+ NwC5oBMzweJlpKKbdw/5B1wVXemqSoY92xHWmxHP1MAVTEJFS/qK5CtNpwNG2mwtBIRj
+ usLoIjYwDp8p1+9h0fktB2altMGcdDQ+eXzAJgbYM9ATw/5Za3U80V+wWaarC4ve4nqp
+ T3Y1n/SYlYpCocfoU6rPRbMsHBBxN65IDr5YKEKpYygYbiRWciRU+W6UnjzyR99mhKVm
+ SHkU5DnRWzOELz4pTdrfngXG6YpbwqhaD3YHekWfg2bW6UH2GI86Oas4RRUahRj3jRxV
+ 0yIg==
+X-Gm-Message-State: APjAAAW6LcOllaehf2Hjs48qywrksZPann2AvAKf2hOEr2jis+y5TkST
+ u1KvzJS0pkmdnoZ2g9oIX3I=
+X-Google-Smtp-Source: APXvYqyrpVcbO+KG3BsiIJ9/Io8XIqh1eN+PC4sx6KVr54oT2W0YblN2tqDiZvgUxcxXxFtaZHudgA==
+X-Received: by 2002:adf:df03:: with SMTP id y3mr29043499wrl.260.1580913093220; 
+ Wed, 05 Feb 2020 06:31:33 -0800 (PST)
+Received: from localhost ([51.15.41.238])
+ by smtp.gmail.com with ESMTPSA id b21sm8625871wmd.37.2020.02.05.06.31.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 05 Feb 2020 06:31:31 -0800 (PST)
+Date: Wed, 5 Feb 2020 14:31:29 +0000
+From: Stefan Hajnoczi <stefanha@gmail.com>
+To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+Subject: Re: [PATCH 0/4] virtiofsd coverity fixes
+Message-ID: <20200205143129.GF58062@stefanha-x1.localdomain>
+References: <20200204110501.10731-1-dgilbert@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: B1J7H38zPESLhweoZJF99g-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="DO5DiztRLs659m5i"
+Content-Disposition: inline
+In-Reply-To: <20200204110501.10731-1-dgilbert@redhat.com>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,109 +77,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Maxim Levitsky <mlevitsk@redhat.com>,
- John Snow <jsnow@redhat.com>
+Cc: qemu-devel@nongnu.org, stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
 
-> On Wed, Feb 05, 2020 at 10:30:11AM +0100, Kevin Wolf wrote:
->> Am 05.02.2020 um 09:24 hat Markus Armbruster geschrieben:
->> > Daniel, Kevin, any comments or objections to the QAPI schema design
->> > sketch developed below?
->> >=20
->> > For your convenience, here's the result again:
->> >=20
->> >     { 'enum': 'LUKSKeyslotState',
->> >       'data': [ 'active', 'inactive' ] }
->> >     { 'struct': 'LUKSKeyslotActive',
->> >       'data': { 'secret': 'str',
->> >                 '*iter-time': 'int } }
->> >     { 'union': 'LUKSKeyslotAmend',
->> >       'base': { '*keyslot': 'int',
->> >                 'state': 'LUKSKeyslotState' }
->> >       'discriminator': 'state',
->> >       'data': { 'active': 'LUKSKeyslotActive' } }
->
-> We need 'secret' in the 'inactive' case too
+--DO5DiztRLs659m5i
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Yes, my mistake.
+On Tue, Feb 04, 2020 at 11:04:57AM +0000, Dr. David Alan Gilbert (git) wrot=
+e:
+> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+>=20
+> Hi,
+>   This is a set of fixes that fixes things that coverity pointed out.
+> Only the last one (the NULL check in do_read) is probably important.
+>=20
+> Dave
+>=20
+> Dr. David Alan Gilbert (4):
+>   virtiofsd: Remove fuse_req_getgroups
+>   virtiofsd: fv_create_listen_socket error path socket leak
+>   virtiofsd: load_capng missing unlock
+>   virtiofsd: do_read missing NULL check
+>=20
+>  tools/virtiofsd/fuse.h           | 20 --------
+>  tools/virtiofsd/fuse_lowlevel.c  | 81 ++------------------------------
+>  tools/virtiofsd/fuse_lowlevel.h  | 21 ---------
+>  tools/virtiofsd/fuse_virtio.c    |  2 +
+>  tools/virtiofsd/passthrough_ll.c |  1 +
+>  5 files changed, 7 insertions(+), 118 deletions(-)
+>=20
+> --=20
+> 2.24.1
+>=20
+>=20
 
->> I think one of the requirements was that you can specify the keyslot not
->> only by using its number, but also by specifying the old secret. Trivial
->> extension, you just get another optional field that can be specified
->> instead of 'keyslot'.
->>=20
->> Resulting commands:
->>=20
->>     Adding a key:
->>     qemu-img amend -o encrypt.keys.0.state=3Dactive,encrypt.keys.0.secre=
-t=3Dsec0 test.qcow2
->>=20
->>     Deleting a key:
->>     qemu-img amend -o encrypt.keys.0.state=3Dinactive,encrypt.keys.0.key=
-slot=3D2 test.qcow2
->
-> I think this is good as a design.
->
-> Expanding the examples to cover all scenarios we've discussed
->
->
->   - Activating a new keyslot, auto-picking slot
->
->      qemu-img amend -o encrypt.keys.0.state=3Dactive,\
->                        encrypt.keys.0.secret=3Dsec0 \
-> =09=09    test.qcow2
->
->     Must raise an error if no free slots
->
->
->   - Activating a new keyslot, picking a specific slot
->
->      qemu-img amend -o encrypt.keys.0.state=3Dactive,\
->                        encrypt.keys.0.secret=3Dsec0 \
-> =09=09       encrypt.keys.0.keyslot=3D3 \
-> =09=09    test.qcow2
->
->     Must raise an error if slot is already active
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 
-From the "describe desired state" point of view:
+--DO5DiztRLs659m5i
+Content-Type: application/pgp-signature; name="signature.asc"
 
-* Always suceeds when slot is inactive
+-----BEGIN PGP SIGNATURE-----
 
-* No-op when active and its secret is already the desired secret
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl460cEACgkQnKSrs4Gr
+c8iTrAgAwcghdnF6Fljyzhs8x0LUX1DHs4OJxW96s9E5N1VaqUJVfdbZdCeV82Y9
+Z2Bv3GTL6BDlFd/dNsbjJ6jzDOlBbOKl6Uvx2Y2+AuweczT1rWNKnW/n8z+imgHb
+/ZyqVGTFnuxDfEpsvFE5ee2zz1/yD94lUbvWP7pwboiR8SIGatK3/1+S7dzE4EZl
+7r87h7kemEQT1cQ7JaSXMkQdtV0c3RBRr0DC6BzBrXCA00gdtj14qmHWyGGkE/73
+FxbenwU+UEbUosVsZnxWCiNoIAqfhnywRclt+FrDLV1rfuK6La0Tl2gXMweRethw
+NT2fhZxC59utuXETm4/84A4AUUbY6A==
+=0pjp
+-----END PGP SIGNATURE-----
 
-* Must raise "in place update refused" error otherwise
-
->   - Deactivating a old keyslot, auto-picking slot(s) from existing passwo=
-rd
->
->      qemu-img amend -o encrypt.keys.0.state=3Dinactive,\
->                        encrypt.keys.0.secret=3Dsec0 \
-> =09=09    test.qcow2
->
->     Must raise an error if this would leave zero keyslots
->     after processing.
->
->
->   - Deactivating a old keyslot, picking a specific slot
->
->      qemu-img amend -o encrypt.keys.0.state=3Dinactive,\
->                        encrypt.keys.0.keyslot=3D2 \
-> =09=09    test.qcow2
->
->     Always succeeds even if zero keyslots left.
-
-This one's dangerous.
-
-Here's a variation: permit operations that may or will lose data only
-with 'force': true.
-
-When @keyslot is absent, using force has no effect.
-
-When @keyslot is present, using force permits update in place and
-deactivating the last slot.
-
+--DO5DiztRLs659m5i--
 
