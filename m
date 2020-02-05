@@ -2,78 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1528A1531F5
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 14:36:59 +0100 (CET)
-Received: from localhost ([::1]:47164 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00B8E1531F1
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 14:35:43 +0100 (CET)
+Received: from localhost ([::1]:47106 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izKrS-0002ZT-1b
-	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 08:36:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39398)
+	id 1izKqD-0008E4-Vs
+	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 08:35:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39745)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <darren.kenny@oracle.com>) id 1izKoH-000643-No
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 08:33:43 -0500
+ (envelope-from <darren.kenny@oracle.com>) id 1izKoq-0006kw-KK
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 08:34:18 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <darren.kenny@oracle.com>) id 1izKoF-0003pV-WC
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 08:33:41 -0500
-Received: from userp2130.oracle.com ([156.151.31.86]:38210)
+ (envelope-from <darren.kenny@oracle.com>) id 1izKol-0005sD-Bd
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 08:34:14 -0500
+Received: from userp2130.oracle.com ([156.151.31.86]:38766)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <darren.kenny@oracle.com>)
- id 1izKoF-0003mZ-LT
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 08:33:39 -0500
+ id 1izKol-0005n8-0g
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 08:34:11 -0500
 Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 015DOGWv105884;
- Wed, 5 Feb 2020 13:33:37 GMT
+ by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 015DO4pf105699;
+ Wed, 5 Feb 2020 13:34:08 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=date : from : to : cc
  : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2019-08-05;
- bh=SGgNbc6hlzFJj81WKlniWx3UYzUf9J4IUZbGBDxN7KU=;
- b=qPpCBJnJAq/SvHT1c8plTWn4JCfK07/vsYie4/iwnZ329AchOIcykoIRPCf58yJ/7m1p
- pqg9GR4DK7e1U9y2QDu9J1fPorvOVdKYmKRBlwmhtXQLe6qazrPJ2a4OrCtLB5jeAFPO
- etJFF9thwMVa2hpCUOqpN8Fi3uq4vBY3GbEP3+HiMSmsohqJPkXZ/LgdIkSbf1/eZm0C
- Bhv07+55DPiyfHoFqi8VwNb8IqzlK2TwqatGEPq8Y7SWZMs5JFBFDTst2fPbUvU+/Wnn
- npRUYnKvpDd/h5nATUZqiCpbAgcJymKEMTbz9/K0c/XxUp1g/zuzrandZJgppGfeqkqs jw== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by userp2130.oracle.com with ESMTP id 2xykbp30aq-1
+ in-reply-to : content-transfer-encoding; s=corp-2019-08-05;
+ bh=D8eIJcASggBxiUBNky+yzM6ZMGXo+jEEw3xCHm52rZk=;
+ b=ESsAio+muFv2wvWV/9AN+DsmRRp4fO+tsrzZPZh0U4klVWXViUQk76EOO72z+kcAzAN8
+ ysvljmGTom6zyqiX14zcggwwwtIf5vd0jNCSJUQCowljJgmeqKXjHYxP3dBRr4+hWxnY
+ /XXuvIikGMEIS5NbYUiY8/+7dJuOdWqY1NJHm2RORhF4R8fFJYQVY99c254R73+R0SnH
+ ojBw3I6X8t6LdvKZUtm+g934bgPXxocprAV3nT1yLMQTsuiZYzIXbl0rJyE5c3HCkd+z
+ X6c3iTQCvP/2yX32TMhAT9+8uxGDYAb0ud2EDyCiSZr3kGnfBr/aCz3sOuoKed1IgS1O nQ== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+ by userp2130.oracle.com with ESMTP id 2xykbp30dv-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 05 Feb 2020 13:33:37 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 015DTQ0o121249;
- Wed, 5 Feb 2020 13:33:36 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
- by userp3020.oracle.com with ESMTP id 2xykc2vk7u-1
+ Wed, 05 Feb 2020 13:34:08 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+ by userp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 015DT7Wg138597;
+ Wed, 5 Feb 2020 13:34:08 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+ by userp3030.oracle.com with ESMTP id 2xymusr8u3-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 05 Feb 2020 13:33:36 +0000
-Received: from abhmp0008.oracle.com (abhmp0008.oracle.com [141.146.116.14])
- by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 015DXZ7t000457;
- Wed, 5 Feb 2020 13:33:35 GMT
+ Wed, 05 Feb 2020 13:34:07 +0000
+Received: from abhmp0002.oracle.com (abhmp0002.oracle.com [141.146.116.8])
+ by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 015DY7k5013845;
+ Wed, 5 Feb 2020 13:34:07 GMT
 Received: from starbug-mbp.localdomain (/10.169.111.17)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Wed, 05 Feb 2020 05:33:35 -0800
+ with ESMTP ; Wed, 05 Feb 2020 05:34:06 -0800
 Received: from starbug-mbp (localhost [127.0.0.1])
- by starbug-mbp.localdomain (Postfix) with SMTP id 0DD0457DBCCC;
- Wed,  5 Feb 2020 13:33:32 +0000 (GMT)
-Date: Wed, 5 Feb 2020 13:33:32 +0000
+ by starbug-mbp.localdomain (Postfix) with ESMTP id 0239D57DBD14;
+ Wed,  5 Feb 2020 13:34:04 +0000 (GMT)
+Date: Wed, 5 Feb 2020 13:34:03 +0000
 From: Darren Kenny <darren.kenny@oracle.com>
 To: "Bulekov, Alexander" <alxndr@bu.edu>
-Subject: Re: [PATCH v8 21/21] fuzz: add documentation to docs/devel/
-Message-ID: <20200205133332.6tns5uwq4tqoiwv4@starbug-mbp>
+Subject: Re: [PATCH v8 10/21] libqos: move useful qos-test funcs to
+ qos_external
+Message-ID: <20200205133403.3dcbvoigtkevl3rb@starbug-mbp>
 Mail-Followup-To: "Bulekov, Alexander" <alxndr@bu.edu>,
  "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
  "bsd@redhat.com" <bsd@redhat.com>,
- "stefanha@redhat.com" <stefanha@redhat.com>
+ "stefanha@redhat.com" <stefanha@redhat.com>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 References: <20200129053357.27454-1-alxndr@bu.edu>
- <20200129053357.27454-22-alxndr@bu.edu>
+ <20200129053357.27454-11-alxndr@bu.edu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Disposition: inline
-In-Reply-To: <20200129053357.27454-22-alxndr@bu.edu>
+In-Reply-To: <20200129053357.27454-11-alxndr@bu.edu>
 User-Agent: NeoMutt/20180716
+Content-Transfer-Encoding: quoted-printable
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9521
  signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=2
  malwarescore=0
  phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
  adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
@@ -82,7 +86,7 @@ X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9521
  signatures=668685
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
  priorityscore=1501 malwarescore=0
- suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
+ suspectscore=2 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
  lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1911140001
  definitions=main-2002050109
@@ -99,148 +103,432 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "pbonzini@redhat.com" <pbonzini@redhat.com>,
- "bsd@redhat.com" <bsd@redhat.com>,
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
  "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "stefanha@redhat.com" <stefanha@redhat.com>
+ "bsd@redhat.com" <bsd@redhat.com>, "stefanha@redhat.com" <stefanha@redhat.com>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jan 29, 2020 at 05:34:29AM +0000, Bulekov, Alexander wrote:
+On Wed, Jan 29, 2020 at 05:34:19AM +0000, Bulekov, Alexander wrote:
+>The moved functions are not specific to qos-test and might be useful
+>elsewhere. For example the virtual-device fuzzer makes use of them for
+>qos-assisted fuzz-targets.
+>
 >Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
 >Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+>Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
 Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
 
 >---
-> docs/devel/fuzzing.txt | 116 +++++++++++++++++++++++++++++++++++++++++
-> 1 file changed, 116 insertions(+)
-> create mode 100644 docs/devel/fuzzing.txt
+> tests/qtest/Makefile.include      |   1 +
+> tests/qtest/libqos/qos_external.c | 168 ++++++++++++++++++++++++++++++
+> tests/qtest/libqos/qos_external.h |  28 +++++
+> tests/qtest/qos-test.c            | 132 +----------------------
+> 4 files changed, 198 insertions(+), 131 deletions(-)
+> create mode 100644 tests/qtest/libqos/qos_external.c
+> create mode 100644 tests/qtest/libqos/qos_external.h
 >
->diff --git a/docs/devel/fuzzing.txt b/docs/devel/fuzzing.txt
+>diff --git a/tests/qtest/Makefile.include b/tests/qtest/Makefile.include
+>index 08a48c1252..bdc93d3866 100644
+>--- a/tests/qtest/Makefile.include
+>+++ b/tests/qtest/Makefile.include
+>@@ -172,6 +172,7 @@ libqos-usb-obj-y =3D $(libqos-spapr-obj-y) $(libqos-=
+pc-obj-y) tests/qtest/libqos/u
+> # qos devices:
+> libqos-obj-y =3D  $(libqgraph-obj-y)
+> libqos-obj-y +=3D $(libqos-pc-obj-y) $(libqos-spapr-obj-y)
+>+libqos-obj-y +=3D tests/qtest/libqos/qos_external.o
+> libqos-obj-y +=3D tests/qtest/libqos/e1000e.o
+> libqos-obj-y +=3D tests/qtest/libqos/i2c.o
+> libqos-obj-y +=3D tests/qtest/libqos/i2c-imx.o
+>diff --git a/tests/qtest/libqos/qos_external.c b/tests/qtest/libqos/qos_=
+external.c
 >new file mode 100644
->index 0000000000..324d2cd92b
+>index 0000000000..398556dde0
 >--- /dev/null
->+++ b/docs/devel/fuzzing.txt
->@@ -0,0 +1,116 @@
->+= Fuzzing =
+>+++ b/tests/qtest/libqos/qos_external.c
+>@@ -0,0 +1,168 @@
+>+/*
+>+ * libqos driver framework
+>+ *
+>+ * Copyright (c) 2018 Emanuele Giuseppe Esposito <e.emanuelegiuseppe@gm=
+ail.com>
+>+ *
+>+ * This library is free software; you can redistribute it and/or
+>+ * modify it under the terms of the GNU Lesser General Public
+>+ * License version 2 as published by the Free Software Foundation.
+>+ *
+>+ * This library is distributed in the hope that it will be useful,
+>+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+>+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+>+ * Lesser General Public License for more details.
+>+ *
+>+ * You should have received a copy of the GNU Lesser General Public
+>+ * License along with this library; if not, see <http://www.gnu.org/lic=
+enses/>
+>+ */
 >+
->+== Introduction ==
+>+#include "qemu/osdep.h"
+>+#include <getopt.h>
+>+#include "libqtest.h"
+>+#include "qapi/qmp/qdict.h"
+>+#include "qapi/qmp/qbool.h"
+>+#include "qapi/qmp/qstring.h"
+>+#include "qemu/module.h"
+>+#include "qapi/qmp/qlist.h"
+>+#include "libqos/malloc.h"
+>+#include "libqos/qgraph.h"
+>+#include "libqos/qgraph_internal.h"
+>+#include "libqos/qos_external.h"
 >+
->+This document describes the virtual-device fuzzing infrastructure in QEMU and
->+how to use it to implement additional fuzzers.
 >+
->+== Basics ==
 >+
->+Fuzzing operates by passing inputs to an entry point/target function. The
->+fuzzer tracks the code coverage triggered by the input. Based on these
->+findings, the fuzzer mutates the input and repeats the fuzzing.
+>+void apply_to_node(const char *name, bool is_machine, bool is_abstract)
+>+{
+>+    char *machine_name =3D NULL;
+>+    if (is_machine) {
+>+        const char *arch =3D qtest_get_arch();
+>+        machine_name =3D g_strconcat(arch, "/", name, NULL);
+>+        name =3D machine_name;
+>+    }
+>+    qos_graph_node_set_availability(name, true);
+>+    if (is_abstract) {
+>+        qos_delete_cmd_line(name);
+>+    }
+>+    g_free(machine_name);
+>+}
 >+
->+To fuzz QEMU, we rely on libfuzzer. Unlike other fuzzers such as AFL, libfuzzer
->+is an _in-process_ fuzzer. For the developer, this means that it is their
->+responsibility to ensure that state is reset between fuzzing-runs.
+>+/**
+>+ * apply_to_qlist(): using QMP queries QEMU for a list of
+>+ * machines and devices available, and sets the respective node
+>+ * as true. If a node is found, also all its produced and contained
+>+ * child are marked available.
+>+ *
+>+ * See qos_graph_node_set_availability() for more info
+>+ */
+>+void apply_to_qlist(QList *list, bool is_machine)
+>+{
+>+    const QListEntry *p;
+>+    const char *name;
+>+    bool abstract;
+>+    QDict *minfo;
+>+    QObject *qobj;
+>+    QString *qstr;
+>+    QBool *qbool;
 >+
->+== Building the fuzzers ==
+>+    for (p =3D qlist_first(list); p; p =3D qlist_next(p)) {
+>+        minfo =3D qobject_to(QDict, qlist_entry_obj(p));
+>+        qobj =3D qdict_get(minfo, "name");
+>+        qstr =3D qobject_to(QString, qobj);
+>+        name =3D qstring_get_str(qstr);
 >+
->+NOTE: If possible, build a 32-bit binary. When forking, the 32-bit fuzzer is
->+much faster, since the page-map has a smaller size. This is due to the fact that
->+AddressSanitizer mmaps ~20TB of memory, as part of its detection. This results
->+in a large page-map, and a much slower fork().
+>+        qobj =3D qdict_get(minfo, "abstract");
+>+        if (qobj) {
+>+            qbool =3D qobject_to(QBool, qobj);
+>+            abstract =3D qbool_get_bool(qbool);
+>+        } else {
+>+            abstract =3D false;
+>+        }
 >+
->+To build the fuzzers, install a recent version of clang:
->+Configure with (substitute the clang binaries with the version you installed):
+>+        apply_to_node(name, is_machine, abstract);
+>+        qobj =3D qdict_get(minfo, "alias");
+>+        if (qobj) {
+>+            qstr =3D qobject_to(QString, qobj);
+>+            name =3D qstring_get_str(qstr);
+>+            apply_to_node(name, is_machine, abstract);
+>+        }
+>+    }
+>+}
 >+
->+    CC=clang-8 CXX=clang++-8 /path/to/configure --enable-fuzzing
+>+QGuestAllocator *get_machine_allocator(QOSGraphObject *obj)
+>+{
+>+    return obj->get_driver(obj, "memory");
+>+}
 >+
->+Fuzz targets are built similarly to system/softmmu:
+>+/**
+>+ * allocate_objects(): given an array of nodes @arg,
+>+ * walks the path invoking all constructors and
+>+ * passing the corresponding parameter in order to
+>+ * continue the objects allocation.
+>+ * Once the test is reached, return the object it consumes.
+>+ *
+>+ * Since the machine and QEDGE_CONSUMED_BY nodes allocate
+>+ * memory in the constructor, g_test_queue_destroy is used so
+>+ * that after execution they can be safely free'd.  (The test's
+>+ * ->before callback is also welcome to use g_test_queue_destroy).
+>+ *
+>+ * Note: as specified in walk_path() too, @arg is an array of
+>+ * char *, where arg[0] is a pointer to the command line
+>+ * string that will be used to properly start QEMU when executing
+>+ * the test, and the remaining elements represent the actual objects
+>+ * that will be allocated.
+>+ */
+>+void *allocate_objects(QTestState *qts, char **path, QGuestAllocator **=
+p_alloc)
+>+{
+>+    int current =3D 0;
+>+    QGuestAllocator *alloc;
+>+    QOSGraphObject *parent =3D NULL;
+>+    QOSGraphEdge *edge;
+>+    QOSGraphNode *node;
+>+    void *edge_arg;
+>+    void *obj;
 >+
->+    make i386-softmmu/fuzz
+>+    node =3D qos_graph_get_node(path[current]);
+>+    g_assert(node->type =3D=3D QNODE_MACHINE);
 >+
->+This builds ./i386-softmmu/qemu-fuzz-i386
+>+    obj =3D qos_machine_new(node, qts);
+>+    qos_object_queue_destroy(obj);
 >+
->+The first option to this command is: --fuzz_taget=FUZZ_NAME
->+To list all of the available fuzzers run qemu-fuzz-i386 with no arguments.
+>+    alloc =3D get_machine_allocator(obj);
+>+    if (p_alloc) {
+>+        *p_alloc =3D alloc;
+>+    }
 >+
->+eg:
->+    ./i386-softmmu/qemu-fuzz-i386 --fuzz-target=virtio-net-fork-fuzz
+>+    for (;;) {
+>+        if (node->type !=3D QNODE_INTERFACE) {
+>+            qos_object_start_hw(obj);
+>+            parent =3D obj;
+>+        }
 >+
->+Internally, libfuzzer parses all arguments that do not begin with "--".
->+Information about these is available by passing -help=1
+>+        /* follow edge and get object for next node constructor */
+>+        current++;
+>+        edge =3D qos_graph_get_edge(path[current - 1], path[current]);
+>+        node =3D qos_graph_get_node(path[current]);
 >+
->+Now the only thing left to do is wait for the fuzzer to trigger potential
->+crashes.
+>+        if (node->type =3D=3D QNODE_TEST) {
+>+            g_assert(qos_graph_edge_get_type(edge) =3D=3D QEDGE_CONSUME=
+D_BY);
+>+            return obj;
+>+        }
 >+
->+== Adding a new fuzzer ==
->+Coverage over virtual devices can be improved by adding additional fuzzers.
->+Fuzzers are kept in tests/qtest/fuzz/ and should be added to
->+tests/qtest/fuzz/Makefile.include
+>+        switch (qos_graph_edge_get_type(edge)) {
+>+        case QEDGE_PRODUCES:
+>+            obj =3D parent->get_driver(parent, path[current]);
+>+            break;
 >+
->+Fuzzers can rely on both qtest and libqos to communicate with virtual devices.
+>+        case QEDGE_CONSUMED_BY:
+>+            edge_arg =3D qos_graph_edge_get_arg(edge);
+>+            obj =3D qos_driver_new(node, obj, alloc, edge_arg);
+>+            qos_object_queue_destroy(obj);
+>+            break;
 >+
->+1. Create a new source file. For example ``tests/qtest/fuzz/foo-device-fuzz.c``.
+>+        case QEDGE_CONTAINS:
+>+            obj =3D parent->get_device(parent, path[current]);
+>+            break;
+>+        }
+>+    }
+>+}
 >+
->+2. Write the fuzzing code using the libqtest/libqos API. See existing fuzzers
->+for reference.
+>diff --git a/tests/qtest/libqos/qos_external.h b/tests/qtest/libqos/qos_=
+external.h
+>new file mode 100644
+>index 0000000000..7b44930c55
+>--- /dev/null
+>+++ b/tests/qtest/libqos/qos_external.h
+>@@ -0,0 +1,28 @@
+>+/*
+>+ * libqos driver framework
+>+ *
+>+ * Copyright (c) 2018 Emanuele Giuseppe Esposito <e.emanuelegiuseppe@gm=
+ail.com>
+>+ *
+>+ * This library is free software; you can redistribute it and/or
+>+ * modify it under the terms of the GNU Lesser General Public
+>+ * License version 2 as published by the Free Software Foundation.
+>+ *
+>+ * This library is distributed in the hope that it will be useful,
+>+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+>+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+>+ * Lesser General Public License for more details.
+>+ *
+>+ * You should have received a copy of the GNU Lesser General Public
+>+ * License along with this library; if not, see <http://www.gnu.org/lic=
+enses/>
+>+ */
 >+
->+3. Register the fuzzer in ``tests/fuzz/Makefile.include`` by appending the
->+corresponding object to fuzz-obj-y
+>+#ifndef QOS_EXTERNAL_H
+>+#define QOS_EXTERNAL_H
+>+#include "libqos/qgraph.h"
 >+
->+Fuzzers can be more-or-less thought of as special qtest programs which can
->+modify the qtest commands and/or qtest command arguments based on inputs
->+provided by libfuzzer. Libfuzzer passes a byte array and length. Commonly the
->+fuzzer loops over the byte-array interpreting it as a list of qtest commands,
->+addresses, or values.
+>+void apply_to_node(const char *name, bool is_machine, bool is_abstract)=
+;
+>+void apply_to_qlist(QList *list, bool is_machine);
+>+QGuestAllocator *get_machine_allocator(QOSGraphObject *obj);
+>+void *allocate_objects(QTestState *qts, char **path, QGuestAllocator **=
+p_alloc);
 >+
->+= Implementation Details =
->+
->+== The Fuzzer's Lifecycle ==
->+
->+The fuzzer has two entrypoints that libfuzzer calls. libfuzzer provides it's
->+own main(), which performs some setup, and calls the entrypoints:
->+
->+LLVMFuzzerInitialize: called prior to fuzzing. Used to initialize all of the
->+necessary state
->+
->+LLVMFuzzerTestOneInput: called for each fuzzing run. Processes the input and
->+resets the state at the end of each run.
->+
->+In more detail:
->+
->+LLVMFuzzerInitialize parses the arguments to the fuzzer (must start with two
->+dashes, so they are ignored by libfuzzer main()). Currently, the arguments
->+select the fuzz target. Then, the qtest client is initialized. If the target
->+requires qos, qgraph is set up and the QOM/LIBQOS modules are initialized.
->+Then the QGraph is walked and the QEMU cmd_line is determined and saved.
->+
->+After this, the vl.c:qemu__main is called to set up the guest. There are
->+target-specific hooks that can be called before and after qemu_main, for
->+additional setup(e.g. PCI setup, or VM snapshotting).
->+
->+LLVMFuzzerTestOneInput: Uses qtest/qos functions to act based on the fuzz
->+input. It is also responsible for manually calling the main loop/main_loop_wait
->+to ensure that bottom halves are executed and any cleanup required before the
->+next input.
->+
->+Since the same process is reused for many fuzzing runs, QEMU state needs to
->+be reset at the end of each run. There are currently two implemented
->+options for resetting state:
->+1. Reboot the guest between runs.
->+   Pros: Straightforward and fast for simple fuzz targets.
->+   Cons: Depending on the device, does not reset all device state. If the
->+   device requires some initialization prior to being ready for fuzzing
->+   (common for QOS-based targets), this initialization needs to be done after
->+   each reboot.
->+   Example target: i440fx-qtest-reboot-fuzz
->+2. Run each test case in a separate forked process and copy the coverage
->+   information back to the parent. This is fairly similar to AFL's "deferred"
->+   fork-server mode [3]
->+   Pros: Relatively fast. Devices only need to be initialized once. No need
->+   to do slow reboots or vmloads.
->+   Cons: Not officially supported by libfuzzer. Does not work well for devices
->+   that rely on dedicated threads.
->+   Example target: virtio-net-fork-fuzz
->-- 
->2.23.0
+>+#endif
+>diff --git a/tests/qtest/qos-test.c b/tests/qtest/qos-test.c
+>index fd70d73ea5..ad193f43a5 100644
+>--- a/tests/qtest/qos-test.c
+>+++ b/tests/qtest/qos-test.c
+>@@ -27,65 +27,11 @@
+> #include "libqos/malloc.h"
+> #include "libqos/qgraph.h"
+> #include "libqos/qgraph_internal.h"
+>+#include "libqos/qos_external.h"
 >
+> static char *old_path;
+>
+>-static void apply_to_node(const char *name, bool is_machine, bool is_ab=
+stract)
+>-{
+>-    char *machine_name =3D NULL;
+>-    if (is_machine) {
+>-        const char *arch =3D qtest_get_arch();
+>-        machine_name =3D g_strconcat(arch, "/", name, NULL);
+>-        name =3D machine_name;
+>-    }
+>-    qos_graph_node_set_availability(name, true);
+>-    if (is_abstract) {
+>-        qos_delete_cmd_line(name);
+>-    }
+>-    g_free(machine_name);
+>-}
+>
+>-/**
+>- * apply_to_qlist(): using QMP queries QEMU for a list of
+>- * machines and devices available, and sets the respective node
+>- * as true. If a node is found, also all its produced and contained
+>- * child are marked available.
+>- *
+>- * See qos_graph_node_set_availability() for more info
+>- */
+>-static void apply_to_qlist(QList *list, bool is_machine)
+>-{
+>-    const QListEntry *p;
+>-    const char *name;
+>-    bool abstract;
+>-    QDict *minfo;
+>-    QObject *qobj;
+>-    QString *qstr;
+>-    QBool *qbool;
+>-
+>-    for (p =3D qlist_first(list); p; p =3D qlist_next(p)) {
+>-        minfo =3D qobject_to(QDict, qlist_entry_obj(p));
+>-        qobj =3D qdict_get(minfo, "name");
+>-        qstr =3D qobject_to(QString, qobj);
+>-        name =3D qstring_get_str(qstr);
+>-
+>-        qobj =3D qdict_get(minfo, "abstract");
+>-        if (qobj) {
+>-            qbool =3D qobject_to(QBool, qobj);
+>-            abstract =3D qbool_get_bool(qbool);
+>-        } else {
+>-            abstract =3D false;
+>-        }
+>-
+>-        apply_to_node(name, is_machine, abstract);
+>-        qobj =3D qdict_get(minfo, "alias");
+>-        if (qobj) {
+>-            qstr =3D qobject_to(QString, qobj);
+>-            name =3D qstring_get_str(qstr);
+>-            apply_to_node(name, is_machine, abstract);
+>-        }
+>-    }
+>-}
+>
+> /**
+>  * qos_set_machines_devices_available(): sets availability of qgraph
+>@@ -129,10 +75,6 @@ static void qos_set_machines_devices_available(void)
+>     qobject_unref(response);
+> }
+>
+>-static QGuestAllocator *get_machine_allocator(QOSGraphObject *obj)
+>-{
+>-    return obj->get_driver(obj, "memory");
+>-}
+>
+> static void restart_qemu_or_continue(char *path)
+> {
+>@@ -159,78 +101,6 @@ void qos_invalidate_command_line(void)
+>     old_path =3D NULL;
+> }
+>
+>-/**
+>- * allocate_objects(): given an array of nodes @arg,
+>- * walks the path invoking all constructors and
+>- * passing the corresponding parameter in order to
+>- * continue the objects allocation.
+>- * Once the test is reached, return the object it consumes.
+>- *
+>- * Since the machine and QEDGE_CONSUMED_BY nodes allocate
+>- * memory in the constructor, g_test_queue_destroy is used so
+>- * that after execution they can be safely free'd.  (The test's
+>- * ->before callback is also welcome to use g_test_queue_destroy).
+>- *
+>- * Note: as specified in walk_path() too, @arg is an array of
+>- * char *, where arg[0] is a pointer to the command line
+>- * string that will be used to properly start QEMU when executing
+>- * the test, and the remaining elements represent the actual objects
+>- * that will be allocated.
+>- */
+>-static void *allocate_objects(QTestState *qts, char **path, QGuestAlloc=
+ator **p_alloc)
+>-{
+>-    int current =3D 0;
+>-    QGuestAllocator *alloc;
+>-    QOSGraphObject *parent =3D NULL;
+>-    QOSGraphEdge *edge;
+>-    QOSGraphNode *node;
+>-    void *edge_arg;
+>-    void *obj;
+>-
+>-    node =3D qos_graph_get_node(path[current]);
+>-    g_assert(node->type =3D=3D QNODE_MACHINE);
+>-
+>-    obj =3D qos_machine_new(node, qts);
+>-    qos_object_queue_destroy(obj);
+>-
+>-    alloc =3D get_machine_allocator(obj);
+>-    if (p_alloc) {
+>-        *p_alloc =3D alloc;
+>-    }
+>-
+>-    for (;;) {
+>-        if (node->type !=3D QNODE_INTERFACE) {
+>-            qos_object_start_hw(obj);
+>-            parent =3D obj;
+>-        }
+>-
+>-        /* follow edge and get object for next node constructor */
+>-        current++;
+>-        edge =3D qos_graph_get_edge(path[current - 1], path[current]);
+>-        node =3D qos_graph_get_node(path[current]);
+>-
+>-        if (node->type =3D=3D QNODE_TEST) {
+>-            g_assert(qos_graph_edge_get_type(edge) =3D=3D QEDGE_CONSUME=
+D_BY);
+>-            return obj;
+>-        }
+>-
+>-        switch (qos_graph_edge_get_type(edge)) {
+>-        case QEDGE_PRODUCES:
+>-            obj =3D parent->get_driver(parent, path[current]);
+>-            break;
+>-
+>-        case QEDGE_CONSUMED_BY:
+>-            edge_arg =3D qos_graph_edge_get_arg(edge);
+>-            obj =3D qos_driver_new(node, obj, alloc, edge_arg);
+>-            qos_object_queue_destroy(obj);
+>-            break;
+>-
+>-        case QEDGE_CONTAINS:
+>-            obj =3D parent->get_device(parent, path[current]);
+>-            break;
+>-        }
+>-    }
+>-}
+>
+> /* The argument to run_one_test, which is the test function that is reg=
+istered
+>  * with GTest, is a vector of strings.  The first item is the initial c=
+ommand
+>--=20
+>2.23.0
 >
 
