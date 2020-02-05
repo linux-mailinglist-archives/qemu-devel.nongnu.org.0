@@ -2,64 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D98D01539AF
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 21:42:58 +0100 (CET)
-Received: from localhost ([::1]:56227 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E2DF1539BC
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Feb 2020 21:47:24 +0100 (CET)
+Received: from localhost ([::1]:56374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izRVh-0001PP-UG
-	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 15:42:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39318)
+	id 1izRZz-0004zN-4B
+	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 15:47:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40596)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <lvivier@redhat.com>) id 1izRUU-0008J6-TD
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 15:41:46 -0500
+ (envelope-from <thuth@redhat.com>) id 1izRZ6-0004TW-Tu
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 15:46:29 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <lvivier@redhat.com>) id 1izRUI-000586-7S
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 15:41:31 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:40097
+ (envelope-from <thuth@redhat.com>) id 1izRZ5-0000Wm-Ia
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 15:46:28 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:34264
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <lvivier@redhat.com>) id 1izRUI-000580-3r
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 15:41:30 -0500
+ (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1izRZ5-0000WQ-8g
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 15:46:27 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580935289;
+ s=mimecast20190719; t=1580935586;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=M8P6BmY+O55DEFSXtp2nwUql2twMfR2ioptvYQiaZKo=;
- b=ivEV2lwh0XpAHMnI67iUNut0bZKb1B7ETs1eFFAzz1E8CfhAKWiZGXyZ5GPJeeScNv28F8
- fpTnde0y/3s3ej1X4g/14gHj7X1pPVdbuKBxuE/jeqzjh3yfh4Vq5Hu9byq1xvW9wXbw/f
- mddGjFrDgMlLjjYdVKmth4nO3YeUcsk=
+ in-reply-to:in-reply-to:references:references:openpgp:openpgp;
+ bh=OBLzCGD6UfQS4TRCCZODzoBj6cbRoKiDOdTmazOkp6I=;
+ b=evTTetxwSg/PC0khcQfMHU/Eg+KYem16RaT4Sw0+UUUCJhlHbzig7BfVSMe7MQsGgCwE4L
+ 4BQ+/YRjYd0i4ZKkeh76SLK1/yN4iPUqGeWgSDRbf+VZLHw6coXNL8apmCyo5hq3IL/Ucd
+ yNMGJc2if8pHdGJE+XZDNpQHyCULMDQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-16-G2khIUioNCG4q2EdBySK_Q-1; Wed, 05 Feb 2020 15:41:28 -0500
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-97-KUXQje5DOxm8GAALCOlgyg-1; Wed, 05 Feb 2020 15:46:22 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 02C261005F67;
- Wed,  5 Feb 2020 20:41:27 +0000 (UTC)
-Received: from thinkpad.redhat.com (ovpn-116-229.ams2.redhat.com
- [10.36.116.229])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5783A10013A1;
- Wed,  5 Feb 2020 20:41:24 +0000 (UTC)
-From: Laurent Vivier <lvivier@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 2/2] ppc/pnv: Fix PCI_EXPRESS dependency
-Date: Wed,  5 Feb 2020 21:41:15 +0100
-Message-Id: <20200205204115.555212-3-lvivier@redhat.com>
-In-Reply-To: <20200205204115.555212-1-lvivier@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E521410CE782;
+ Wed,  5 Feb 2020 20:46:20 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-116-145.ams2.redhat.com [10.36.116.145])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 41E3219C69;
+ Wed,  5 Feb 2020 20:46:19 +0000 (UTC)
+Subject: Re: [PATCH 1/2] qtest: Fix rtas dependencies
+To: Laurent Vivier <lvivier@redhat.com>, qemu-devel@nongnu.org
 References: <20200205204115.555212-1-lvivier@redhat.com>
+ <20200205204115.555212-2-lvivier@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Openpgp: preference=signencrypt
+Message-ID: <2745c304-0918-e51a-7988-c039522b3e14@redhat.com>
+Date: Wed, 5 Feb 2020 21:46:17 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: G2khIUioNCG4q2EdBySK_Q-1
+In-Reply-To: <20200205204115.555212-2-lvivier@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: KUXQje5DOxm8GAALCOlgyg-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,70 +76,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Greg Kurz <groug@kaod.org>, qemu-ppc@nongnu.org,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org,
+ Greg Kurz <groug@kaod.org>, =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When PHB4 bridge has been added, the dependencies to PCIE_PORT has been
-added to XIVE_SPAPR and indirectly to PSERIES.
-The build of the PowerNV machine is fine while we also build the PSERIES
-machine.
-If we disable the PSERIES machine, the PowerNV build fails because the
-PCI Express files are not built:
+On 05/02/2020 21.41, Laurent Vivier wrote:
+> qtest "rtas" command is only available with pseries not all ppc64 targets,
+> so if I try to compile only powernv machine, the build fails with:
+> 
+>   /usr/bin/ld: qtest.o: in function `qtest_process_command':
+>   .../qtest.c:645: undefined reference to `qtest_rtas_call'
+> 
+> We fix this by enabling rtas command only with pseries machine.
+> 
+> Fixes: eeddd59f5962 ("tests: add RTAS command in the protocol")
 
-/usr/bin/ld: hw/ppc/pnv.o: in function `pnv_chip_power8_pic_print_info':
-.../hw/ppc/pnv.c:623: undefined reference to `pnv_phb3_msi_pic_print_info'
-/usr/bin/ld: hw/ppc/pnv.o: in function `pnv_chip_power9_pic_print_info':
-.../hw/ppc/pnv.c:639: undefined reference to `pnv_phb4_pic_print_info'
-/usr/bin/ld: ../hw/usb/hcd-ehci-pci.o: in function `usb_ehci_pci_write_conf=
-ig':
-.../hw/usb/hcd-ehci-pci.c:129: undefined reference to `pci_default_write_co=
-nfig'
-/usr/bin/ld: ../hw/usb/hcd-ehci-pci.o: in function `usb_ehci_pci_realize':
-.../hw/usb/hcd-ehci-pci.c:68: undefined reference to `pci_allocate_irq'
-/usr/bin/ld: .../hw/usb/hcd-ehci-pci.c:72: undefined reference to `pci_regi=
-ster_bar'
-/usr/bin/ld: ../hw/usb/hcd-ehci-pci.o:(.data.rel+0x50): undefined reference=
- to `vmstate_pci_device'
+Well, at that point in time CONFIG_PSERIES was not available yet ... so
+not sure if the "Fixes:" really makes sense here...
 
-This patch fixes the problem by adding needed dependencies to POWERNV.
+But apart from that:
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
-Fixes: 4f9924c4d4cf ("ppc/pnv: Add models for POWER9 PHB4 PCIe Host bridge"=
-)
-Signed-off-by: Laurent Vivier <lvivier@redhat.com>
----
- hw/ppc/Kconfig | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
-
-diff --git a/hw/ppc/Kconfig b/hw/ppc/Kconfig
-index 354828bf132f..3e11d0b53e11 100644
---- a/hw/ppc/Kconfig
-+++ b/hw/ppc/Kconfig
-@@ -29,6 +29,10 @@ config POWERNV
-     select XICS
-     select XIVE
-     select FDT_PPC
-+    select PCI
-+    select PCI_EXPRESS
-+    select MSI_NONBROKEN
-+    select PCIE_PORT
-=20
- config PPC405
-     bool
-@@ -135,8 +139,6 @@ config XIVE_SPAPR
-     default y
-     depends on PSERIES
-     select XIVE
--    select PCI
--    select PCIE_PORT
-=20
- config XIVE_KVM
-     bool
---=20
-2.24.1
+> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+> ---
+>  qtest.c | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+> 
+> diff --git a/qtest.c b/qtest.c
+> index 12432f99cf44..587dcbb4b515 100644
+> --- a/qtest.c
+> +++ b/qtest.c
+> @@ -27,7 +27,8 @@
+>  #include "qemu/error-report.h"
+>  #include "qemu/module.h"
+>  #include "qemu/cutils.h"
+> -#ifdef TARGET_PPC64
+> +#include "config-devices.h"
+> +#ifdef CONFIG_PSERIES
+>  #include "hw/ppc/spapr_rtas.h"
+>  #endif
+>  
+> @@ -628,7 +629,7 @@ static void qtest_process_command(CharBackend *chr, gchar **words)
+>  #else
+>          qtest_sendf(chr, "OK little\n");
+>  #endif
+> -#ifdef TARGET_PPC64
+> +#ifdef CONFIG_PSERIES
+>      } else if (strcmp(words[0], "rtas") == 0) {
+>          uint64_t res, args, ret;
+>          unsigned long nargs, nret;
+> 
 
 
