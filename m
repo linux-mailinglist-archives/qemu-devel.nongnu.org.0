@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EC8B154A66
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 18:42:21 +0100 (CET)
-Received: from localhost ([::1]:43564 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E103154A7A
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 18:47:38 +0100 (CET)
+Received: from localhost ([::1]:43712 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izlAS-0006cZ-La
-	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 12:42:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43621)
+	id 1izlFZ-0007en-A8
+	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 12:47:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43652)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1izl07-0006on-7k
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 12:31:40 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1izl08-0006u1-Vq
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 12:31:44 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1izl05-0006oH-AT
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 12:31:39 -0500
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:35044)
+ (envelope-from <peter.maydell@linaro.org>) id 1izl05-0006oh-CO
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 12:31:40 -0500
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:51969)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1izl03-0006Yw-Cp
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 12:31:35 -0500
-Received: by mail-wm1-x32c.google.com with SMTP id b17so1013331wmb.0
- for <qemu-devel@nongnu.org>; Thu, 06 Feb 2020 09:31:33 -0800 (PST)
+ id 1izl03-0006dz-KT
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 12:31:37 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id t23so902361wmi.1
+ for <qemu-devel@nongnu.org>; Thu, 06 Feb 2020 09:31:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=m1bLOghX51x85KpGQ8LubXbMWazawtflU6lC5+ETOt0=;
- b=wQT2Bzz9jNy8iLOdroBgTf7SntlkB0ipMeBC6LwtXQO+3zjL7QRL971LsiynI8r6/l
- SBgcAXuTGmeCFDEXufv6A3rO/eIQ4Lj/eFrts8IVCYa6qiEwj1rP2H4uha8Dk16nx9x+
- uMJk1xaOpd0D5JcHLorTYHtPRE5q+OZ6OSvyKGYrPXngpbEipNk97ZvMZKwfb3iW7ybQ
- dAEIUpr9/Yt9PaJwnWjLrVAcSCIsmdnr/QOmDoOAB9YSXS2+JTAZ7m8SxnsrvTxM00EQ
- AVtUK35x83yjxfmx9c6oo5nVnJ+YOShXsSc4uRR4mu+6bhpWO6lgKexV0YK358f/Vr9E
- pzxg==
+ bh=uG5NDXEGg3myTzZttWMRSQ2riVD+Wnq5tJN9+Gr0JO8=;
+ b=HPnRFdK9v97HwNjA4B3poqNfGABq1ap6SUXDpGg+vWCinCBZx3FB+bIgbSv/eES2z/
+ Uj7wq41REfVF9ffgmNoWTSM45J8C2BOSBwVkrqi0ncL9YTSTW2e3MYIESuqkfQCuS0g3
+ x39OITu1A2G5DXcU9hJuLXgJRloksM6TaVJp4VlHAYTVyh7G9gcERt1JW4LfrfM2QKOQ
+ 5VsCmeFjBoBsuff62JBZyc7ZXklgFMA6ZmbUMUXFnK8Q/PAgrIan7ia+VUI3Qv87tLi/
+ qybnbf5Jfd3KpamawVzyAbYZEN4a01RqhjhQsQnL+eAZax6QnLMj5ROKM38dxxTnNHyi
+ IKlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=m1bLOghX51x85KpGQ8LubXbMWazawtflU6lC5+ETOt0=;
- b=SKzXFsawdu1SzVvTZ4t69ySxiPvUE/eJCvxGH9f3pc8iCGpCqDtndphu0VRe+mbsek
- 2M2Q66dTQXFMl682/ZGndcI11QrMkOcYiPQPn8yLn/J1GMgc8Is516v7KndnvYorJCWU
- TPQx+kw9HnHXIsCPQ1HPbv3bnnzqajnvzKAH46UOn7R0vTnu3S9WGqha222y6b5F99Iy
- o/pgbGfZjex/LT0UWeTQ6yn999YJD3J/9zE4wE0O/AGPvwC02aCxb4lV3r+jb3CRvIgd
- b+vnl6jkFTH3TybIl1OtzxwKr7+7Im1FsUfkOHWexEbquYz45kzTQh8KlIDtgrjdqqul
- hs9w==
-X-Gm-Message-State: APjAAAWK4lRgJCqCSBER4KK/uA+A+swLIiNUmay1W709SkHE/KyeqLIg
- 6J2T/f1sB3nRF/LTjgOlM1KwzN1kM3E=
-X-Google-Smtp-Source: APXvYqxbPYqAkExvaGSYMeSzXxhZIVtHvHwyhXGY4sxGd/4VGQ5IyK0qpxMAs+HgDf+sGeJFo9xZkg==
-X-Received: by 2002:a7b:c4c3:: with SMTP id g3mr5576802wmk.131.1581010291851; 
- Thu, 06 Feb 2020 09:31:31 -0800 (PST)
+ bh=uG5NDXEGg3myTzZttWMRSQ2riVD+Wnq5tJN9+Gr0JO8=;
+ b=ad12Pzm8hSXYTgO+USD1mKD+kwSvRJh1Rug8VGye/WCcg6m8MgwTj+dv4xex+wPObh
+ E6Q3B85PKn92p7WiQAhFYcyDUdIcaHt2UlKIfGOuk4yCmx8MAhpzLTiAljNGk79xwarO
+ vvFWaFEZWxWIA1NaEjhtmc4lLKalgn6EbRrsYnXRDknhqJHP2ZkDMNMCFvY1SyYQeGhv
+ ONnmvsUkeYtidW4UzJOnejkdGezRw8kqxpgCKlnoNl2nLqQAyYAN3qoV9Tlf46C2RrDQ
+ FapujLX3xpfH2MCXEnq2anPYPrtmDUxsNWdnmgf850FN+6VB1lTrs+AaV6qgfsOLm31t
+ ZhaQ==
+X-Gm-Message-State: APjAAAUzhbkPwBnsnmoATt3iWyqWTNj9AQ1n3G+Bp0/sgafeYuToTXKB
+ sKyZZyt0jsZoHnCg3AhrxWxiRQtmYz8=
+X-Google-Smtp-Source: APXvYqxIM0Ms/6ImsqOQDuVxmnk57D3ewuFU639UWvjrhoT6zCvNijit4pCbHlUWpei7MsBIxghMYQ==
+X-Received: by 2002:a1c:113:: with SMTP id 19mr5930397wmb.95.1581010293124;
+ Thu, 06 Feb 2020 09:31:33 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id w15sm5204214wrs.80.2020.02.06.09.31.30
+ by smtp.gmail.com with ESMTPSA id w15sm5204214wrs.80.2020.02.06.09.31.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Feb 2020 09:31:31 -0800 (PST)
+ Thu, 06 Feb 2020 09:31:32 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 21/29] scripts/qapi: Move doc-comment whitespace stripping to
- doc.py
-Date: Thu,  6 Feb 2020 17:30:32 +0000
-Message-Id: <20200206173040.17337-22-peter.maydell@linaro.org>
+Subject: [PATCH 22/29] scripts/qapi/parser.py: improve doc comment indent
+ handling
+Date: Thu,  6 Feb 2020 17:30:33 +0000
+Message-Id: <20200206173040.17337-23-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200206173040.17337-1-peter.maydell@linaro.org>
 References: <20200206173040.17337-1-peter.maydell@linaro.org>
@@ -66,7 +66,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32c
+X-Received-From: 2a00:1450:4864:20::32a
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,88 +85,203 @@ Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As we accumulate lines from doc comments when parsing the JSON, the
-QAPIDoc class generally strips leading and trailing whitespace using
-line.strip() when it calls _append_freeform().  This is fine for
-texinfo, but for rST leading whitespace is significant.  We'd like to
-move to having the text in doc comments be rST format rather than a
-custom syntax, so move the removal of leading whitespace from the
-QAPIDoc class to the texinfo-specific processing code in
-texi_format() in qapi/doc.py.
+Make the handling of indentation in doc comments more
+sophisticated, so that when we see a section like:
 
-(Trailing whitespace will always be stripped by the rstrip() in
-Section::append regardless.)
+Notes: some text
+       some more text
+          indented line 3
 
-In a followup commit we will make the whitespace in the lines of doc
-comment sections more consistently follow the input source.
+we save it for the doc-comment processing code as:
+some text
+some more text
+   indented line 3
 
-There is no change to the generated .texi files before and after this
-commit.
+and when we see a section with the heading on its own line:
+
+Notes:
+
+some text
+some more text
+   indented text
+
+we also accept that and save it in the same form.
+
+The exception is that we always retain indentation as-is
+for Examples sections, because these are literal text.
+
+If we detect that the comment document text is not indented
+as much as we expect it to be, we throw a parse error.
+(We don't complain about over-indented sections, because
+for rST this can be legitimate markup.)
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- scripts/qapi/doc.py    |  1 +
- scripts/qapi/parser.py | 12 ++++--------
- 2 files changed, 5 insertions(+), 8 deletions(-)
+ scripts/qapi/parser.py | 82 +++++++++++++++++++++++++++++++++---------
+ 1 file changed, 65 insertions(+), 17 deletions(-)
 
-diff --git a/scripts/qapi/doc.py b/scripts/qapi/doc.py
-index 6f1c17f71f7..96346c9b14f 100644
---- a/scripts/qapi/doc.py
-+++ b/scripts/qapi/doc.py
-@@ -80,6 +80,7 @@ def texi_format(doc):
-     inlist = ''
-     lastempty = False
-     for line in doc.split('\n'):
-+        line = line.strip()
-         empty = line == ''
- 
-         # FIXME: Doing this in a single if / elif chain is
 diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
-index 342792e4103..2196ec5de1e 100644
+index 2196ec5de1e..66f802641c9 100644
 --- a/scripts/qapi/parser.py
 +++ b/scripts/qapi/parser.py
-@@ -422,10 +422,10 @@ class QAPIDoc(object):
-                 self._append_line = self._append_various_line
-                 self._append_various_line(line)
-             else:
--                self._append_freeform(line.strip())
-+                self._append_freeform(line)
-         else:
-             # This is a free-form documentation block
--            self._append_freeform(line.strip())
-+            self._append_freeform(line)
+@@ -313,18 +313,32 @@ class QAPIDoc(object):
+     """
  
-     def _append_args_line(self, line):
-         """
-@@ -458,7 +458,7 @@ class QAPIDoc(object):
-                 self._append_various_line(line)
-             return
+     class Section(object):
+-        def __init__(self, name=None):
++        def __init__(self, parser, name=None, indent=0):
++            # parser, for error messages about indentation
++            self._parser = parser
+             # optional section name (argument/member or section name)
+             self.name = name
+             # the list of lines for this section
+             self.text = ''
++            # the expected indent level of the text of this section
++            self._indent = indent
  
--        self._append_freeform(line.strip())
-+        self._append_freeform(line)
+         def append(self, line):
++            # Strip leading spaces corresponding to the expected indent level
++            # Blank lines are always OK.
++            if line:
++                spacecount = len(line) - len(line.lstrip(" "))
++                if spacecount > self._indent:
++                    spacecount = self._indent
++                if spacecount < self._indent:
++                    raise QAPIParseError(self._parser, "unexpected de-indent")
++                line = line[spacecount:]
++
+             self.text += line.rstrip() + '\n'
  
-     def _append_features_line(self, line):
-         name = line.split(' ', 1)[0]
-@@ -477,7 +477,7 @@ class QAPIDoc(object):
-             self._append_various_line(line)
-             return
+     class ArgSection(Section):
+-        def __init__(self, name):
+-            QAPIDoc.Section.__init__(self, name)
++        def __init__(self, parser, name, indent=0):
++            QAPIDoc.Section.__init__(self, parser, name, indent)
+             self.member = None
  
--        self._append_freeform(line.strip())
-+        self._append_freeform(line)
+         def connect(self, member):
+@@ -338,7 +352,7 @@ class QAPIDoc(object):
+         self._parser = parser
+         self.info = info
+         self.symbol = None
+-        self.body = QAPIDoc.Section()
++        self.body = QAPIDoc.Section(parser)
+         # dict mapping parameter name to ArgSection
+         self.args = OrderedDict()
+         self.features = OrderedDict()
+@@ -443,7 +457,18 @@ class QAPIDoc(object):
  
-     def _append_various_line(self, line):
-         """
-@@ -500,10 +500,6 @@ class QAPIDoc(object):
+         if name.startswith('@') and name.endswith(':'):
              line = line[len(name)+1:]
-             self._start_section(name[:-1])
+-            self._start_args_section(name[1:-1])
++            if not line or line.isspace():
++                # Line was just the "@arg:" header; following lines
++                # are not indented
++                indent = 0
++                line = ''
++            else:
++                # Line is "@arg: first line of description"; following
++                # lines should be indented by len(name) + 1, and we
++                # pad out this first line so it is handled the same way
++                indent = len(name) + 1
++                line = ' ' * indent + line
++            self._start_args_section(name[1:-1], indent)
+         elif self._is_section_tag(name):
+             self._append_line = self._append_various_line
+             self._append_various_line(line)
+@@ -465,7 +490,17 @@ class QAPIDoc(object):
  
--        if (not self._section.name or
--                not self._section.name.startswith('Example')):
--            line = line.strip()
--
+         if name.startswith('@') and name.endswith(':'):
+             line = line[len(name)+1:]
+-            self._start_features_section(name[1:-1])
++            if not line or line.isspace():
++                # Line is just the "@name:" header, no ident for following lines
++                indent = 0
++                line = ''
++            else:
++                # Line is "@arg: first line of description"; following
++                # lines should be indented by len(name) + 3, and we
++                # pad out this first line so it is handled the same way
++                indent = len(name) + 1
++                line = ' ' * indent + line
++            self._start_features_section(name[1:-1], indent)
+         elif self._is_section_tag(name):
+             self._append_line = self._append_various_line
+             self._append_various_line(line)
+@@ -498,11 +533,23 @@ class QAPIDoc(object):
+                                  % (name, self.sections[0].name))
+         elif self._is_section_tag(name):
+             line = line[len(name)+1:]
+-            self._start_section(name[:-1])
++            if not line or line.isspace():
++                # Line is just "SectionName:", no indent for following lines
++                indent = 0
++                line = ''
++            elif name.startswith("Example"):
++                # The "Examples" section is literal-text, so preserve
++                # all the indentation as-is
++                indent = 0
++            else:
++                # Line is "SectionName: some text", indent required
++                indent = len(name) + 1
++                line = ' ' * indent + line
++            self._start_section(name[:-1], indent)
+ 
          self._append_freeform(line)
  
-     def _start_symbol_section(self, symbols_dict, name):
+-    def _start_symbol_section(self, symbols_dict, name):
++    def _start_symbol_section(self, symbols_dict, name, indent):
+         # FIXME invalid names other than the empty string aren't flagged
+         if not name:
+             raise QAPIParseError(self._parser, "invalid parameter name")
+@@ -511,21 +558,21 @@ class QAPIDoc(object):
+                                  "'%s' parameter name duplicated" % name)
+         assert not self.sections
+         self._end_section()
+-        self._section = QAPIDoc.ArgSection(name)
++        self._section = QAPIDoc.ArgSection(self._parser, name, indent)
+         symbols_dict[name] = self._section
+ 
+-    def _start_args_section(self, name):
+-        self._start_symbol_section(self.args, name)
++    def _start_args_section(self, name, indent):
++        self._start_symbol_section(self.args, name, indent)
+ 
+-    def _start_features_section(self, name):
+-        self._start_symbol_section(self.features, name)
++    def _start_features_section(self, name, indent):
++        self._start_symbol_section(self.features, name, indent)
+ 
+-    def _start_section(self, name=None):
++    def _start_section(self, name=None, indent=0):
+         if name in ('Returns', 'Since') and self.has_section(name):
+             raise QAPIParseError(self._parser,
+                                  "duplicated '%s' section" % name)
+         self._end_section()
+-        self._section = QAPIDoc.Section(name)
++        self._section = QAPIDoc.Section(self._parser, name, indent)
+         self.sections.append(self._section)
+ 
+     def _end_section(self):
+@@ -548,7 +595,7 @@ class QAPIDoc(object):
+     def connect_member(self, member):
+         if member.name not in self.args:
+             # Undocumented TODO outlaw
+-            self.args[member.name] = QAPIDoc.ArgSection(member.name)
++            self.args[member.name] = QAPIDoc.ArgSection(self._parser, member.name)
+         self.args[member.name].connect(member)
+ 
+     def connect_feature(self, feature):
+@@ -556,7 +603,8 @@ class QAPIDoc(object):
+             raise QAPISemError(feature.info,
+                                "feature '%s' lacks documentation"
+                                % feature.name)
+-            self.features[feature.name] = QAPIDoc.ArgSection(feature.name)
++            self.features[feature.name] = QAPIDoc.ArgSection(self._parser,
++                                                             feature.name)
+         self.features[feature.name].connect(feature)
+ 
+     def check_expr(self, expr):
 -- 
 2.20.1
 
