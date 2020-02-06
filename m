@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5CB015427A
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 11:59:41 +0100 (CET)
-Received: from localhost ([::1]:35766 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4277154277
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 11:58:03 +0100 (CET)
+Received: from localhost ([::1]:35728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izesm-0003SS-Tu
-	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 05:59:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49663)
+	id 1izerC-0000CS-Q8
+	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 05:58:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49664)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1izeoD-0002ok-6t
+ (envelope-from <richard.henderson@linaro.org>) id 1izeoD-0002ol-6W
  for qemu-devel@nongnu.org; Thu, 06 Feb 2020 05:54:58 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1izeoB-0006IG-7I
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 05:54:56 -0500
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:39483)
+ (envelope-from <richard.henderson@linaro.org>) id 1izeoC-0006NE-2y
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 05:54:57 -0500
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:35802)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1izeoA-0006BC-VL
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 05:54:55 -0500
-Received: by mail-wr1-x442.google.com with SMTP id y11so6576591wrt.6
- for <qemu-devel@nongnu.org>; Thu, 06 Feb 2020 02:54:54 -0800 (PST)
+ id 1izeoB-0006IW-RS
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 05:54:56 -0500
+Received: by mail-wr1-x443.google.com with SMTP id w12so6597936wrt.2
+ for <qemu-devel@nongnu.org>; Thu, 06 Feb 2020 02:54:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=terXZY92WjXcbsOvhD48ytuhDD/Edrk9JWjZRUMMrDU=;
- b=WKDWRgMAu9GQ6v9q8gcuW3d8yzd2pQ8+Ead2Cvj0jYG0zDTLFIZcuvN7TVJe93sV4T
- kyi0dinblj3p45t/J5ZuE+WuXuaC/TAWRfbq29SSY+GVyIhJ4QEZ8MNp95IMEbc/xwpc
- AZUtGtsPfKbEcG212l/MfshbAwJpEBHfIgQ+rkLfMu/Nfg12oBFtLIG37hzQzdUS/78u
- aNLOAmjcjKHh/qHcwcniEYOJr42GRok79qmKGxr6l1fWUPLcvBxW+rDE25DtnTzsdUww
- w+r6xRqebkMaZLBos7WSGvjY84YmlJ0eml7jyADeUohed6DBVJLfP3ui2g6aPs1Rluhw
- CmXQ==
+ bh=3h+vvIpNiWBS/Au+5wzfQugJDUo8XfEjM+O/Ow8Yjuc=;
+ b=tBZmPKYmGMiRxdxRZ7Df749CNMeOds8v8Bzvt4ONPvDQfcWemhnuulWEetFtv/1hV5
+ mlOC++awqMurw+ZuUhpAw2n1QGndhz9pmhWqZ3CuxFhCMrscjW9UPWH9ihnvJLyu7Oxh
+ 6nOkOfZAETpoLf5ZoYd1ZDh0rsRdNf8cnaTVLd/8+DUkzbtt8yq4/ERDsQdCSGN/xC2E
+ MQ6z8vNG+agytmjueQ7n2IIwXwb1FLu6xrNGiUprxB6u9hqCefVZXmbR2VYXoGpMQeYv
+ v8W1IqbXtHRAqmhVErqolmei5LRGF0J6p5Heh6dson4AsAiwWJiw7KSVVN8tLSXAwQ9M
+ HiLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=terXZY92WjXcbsOvhD48ytuhDD/Edrk9JWjZRUMMrDU=;
- b=p+LTx98ozfJHDbum6LPWG9PAlykGh4si99vYdmCaRWs6XDTzKDnkvZdB4zT6R+LOA8
- luwd0P3J/qc5wlwkoljnq92rTGv+rXdJdVTfwdoAlUATi9Mc50RcuWH60UnCTl0l+VG3
- UpS2nHoh2b04rUI1JWCZCtbloW7Aok35JYqZAGRoK0ihHpbyyRpy79J1LjNK11xXGK2V
- tCFeaXO22isGP+TioPPlGKW0vvxy5v6gCYWia4F2kwEXb3VnHoUr4Q/wkf996azpHlu/
- 2OeZ0mxHDFtL+2x5L0EPagFiHj6IDewTt+3IRotTJrRytQDDabo15LJM1baVG2+o7eIB
- nDWA==
-X-Gm-Message-State: APjAAAXD8jlXcF6bduu8VeMFh5ItYmMJWHGkeDEzZH5idU+ZOYfJ1f5S
- 9i3H/ih0/lqU3WNRfWNinc+1nv7A+kjwYQ==
-X-Google-Smtp-Source: APXvYqzYU/KJCKhAn2J7nlvO2PyWO5itPgA5JRTezW66UK7YwZQ9SflGmHm0NUGxDOfDrlinE+X7dA==
-X-Received: by 2002:a5d:4651:: with SMTP id j17mr3213146wrs.237.1580986493688; 
- Thu, 06 Feb 2020 02:54:53 -0800 (PST)
+ bh=3h+vvIpNiWBS/Au+5wzfQugJDUo8XfEjM+O/Ow8Yjuc=;
+ b=izGEXfJc+25j+JwA0InSlaeqTRryl2wAv6JQ0KldGwVvQmJz8m4XRdxFFSCZo2NhFL
+ ZpwqRqoHkBKdPEr6LyV5LjZ9A4ZqN15vkf42DbetSwxwr7z6tqY/F9FknJ0B+HyU+jwd
+ FKWBpt5989IjPTaFlO2tfAD7UBnnxaYMbxdzKguRdD8TlF+cVSevmYuXBnocheu9Gmzn
+ a2bPsw3RAGkP5PmbPtw0xHw+CXVH4eOZEHOKocRfxuocY7/DApytAZcVyM2Q+5t76Ig1
+ KLYXv9ium07Tg7TeOaTBLKdGc/AeF6uSpNf47NJ3g6JJz9AUFvmCcU52Sfl9XXeLPDFp
+ xAaA==
+X-Gm-Message-State: APjAAAUiFDLvginP0HX3zShSI6gMgsZ4eunzuV4n3+xHwZWqnRF3kOpp
+ LKntKwAEHEyxQgCb0/bVpORMfDCshRoonw==
+X-Google-Smtp-Source: APXvYqzBoiFD8ML5jFObBH9xfe6ldCCNidMWfiuOmVuLB0iOHXYAuZbM0GEWWLZ+uwInSkufC+QASw==
+X-Received: by 2002:a5d:5704:: with SMTP id a4mr3439538wrv.198.1580986494606; 
+ Thu, 06 Feb 2020 02:54:54 -0800 (PST)
 Received: from cloudburst.c.hoisthospitality.com ([135.196.99.211])
- by smtp.gmail.com with ESMTPSA id m21sm3364995wmi.27.2020.02.06.02.54.52
+ by smtp.gmail.com with ESMTPSA id m21sm3364995wmi.27.2020.02.06.02.54.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Feb 2020 02:54:53 -0800 (PST)
+ Thu, 06 Feb 2020 02:54:54 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 05/41] target/arm: Update CNTVCT_EL0 for VHE
-Date: Thu,  6 Feb 2020 10:54:12 +0000
-Message-Id: <20200206105448.4726-6-richard.henderson@linaro.org>
+Subject: [PATCH v7 06/41] target/arm: Split out vae1_tlbmask
+Date: Thu,  6 Feb 2020 10:54:13 +0000
+Message-Id: <20200206105448.4726-7-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200206105448.4726-1-richard.henderson@linaro.org>
 References: <20200206105448.4726-1-richard.henderson@linaro.org>
@@ -66,7 +66,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::442
+X-Received-From: 2a00:1450:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,86 +79,81 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: peter.maydell@linaro.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The virtual offset may be 0 depending on EL, E2H and TGE.
+No functional change, but unify code sequences.
 
 Tested-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/helper.c | 40 +++++++++++++++++++++++++++++++++++++---
- 1 file changed, 37 insertions(+), 3 deletions(-)
+ target/arm/helper.c | 32 +++++++++++++-------------------
+ 1 file changed, 13 insertions(+), 19 deletions(-)
 
 diff --git a/target/arm/helper.c b/target/arm/helper.c
-index c7ee0d603f..dbfdf2324b 100644
+index dbfdf2324b..8b3bb51dee 100644
 --- a/target/arm/helper.c
 +++ b/target/arm/helper.c
-@@ -2515,9 +2515,31 @@ static uint64_t gt_cnt_read(CPUARMState *env, const ARMCPRegInfo *ri)
-     return gt_get_countervalue(env);
- }
+@@ -3940,42 +3940,36 @@ static CPAccessResult aa64_cacheop_access(CPUARMState *env,
+  * Page D4-1736 (DDI0487A.b)
+  */
  
-+static uint64_t gt_virt_cnt_offset(CPUARMState *env)
++static int vae1_tlbmask(CPUARMState *env)
 +{
-+    uint64_t hcr;
-+
-+    switch (arm_current_el(env)) {
-+    case 2:
-+        hcr = arm_hcr_el2_eff(env);
-+        if (hcr & HCR_E2H) {
-+            return 0;
-+        }
-+        break;
-+    case 0:
-+        hcr = arm_hcr_el2_eff(env);
-+        if ((hcr & (HCR_E2H | HCR_TGE)) == (HCR_E2H | HCR_TGE)) {
-+            return 0;
-+        }
-+        break;
++    if (arm_is_secure_below_el3(env)) {
++        return ARMMMUIdxBit_S1SE1 | ARMMMUIdxBit_S1SE0;
++    } else {
++        return ARMMMUIdxBit_S12NSE1 | ARMMMUIdxBit_S12NSE0;
 +    }
-+
-+    return env->cp15.cntvoff_el2;
 +}
 +
- static uint64_t gt_virt_cnt_read(CPUARMState *env, const ARMCPRegInfo *ri)
+ static void tlbi_aa64_vmalle1is_write(CPUARMState *env, const ARMCPRegInfo *ri,
+                                       uint64_t value)
  {
--    return gt_get_countervalue(env) - env->cp15.cntvoff_el2;
-+    return gt_get_countervalue(env) - gt_virt_cnt_offset(env);
+     CPUState *cs = env_cpu(env);
+-    bool sec = arm_is_secure_below_el3(env);
++    int mask = vae1_tlbmask(env);
+ 
+-    if (sec) {
+-        tlb_flush_by_mmuidx_all_cpus_synced(cs,
+-                                            ARMMMUIdxBit_S1SE1 |
+-                                            ARMMMUIdxBit_S1SE0);
+-    } else {
+-        tlb_flush_by_mmuidx_all_cpus_synced(cs,
+-                                            ARMMMUIdxBit_S12NSE1 |
+-                                            ARMMMUIdxBit_S12NSE0);
+-    }
++    tlb_flush_by_mmuidx_all_cpus_synced(cs, mask);
  }
  
- static void gt_cval_write(CPUARMState *env, const ARMCPRegInfo *ri,
-@@ -2532,7 +2554,13 @@ static void gt_cval_write(CPUARMState *env, const ARMCPRegInfo *ri,
- static uint64_t gt_tval_read(CPUARMState *env, const ARMCPRegInfo *ri,
-                              int timeridx)
+ static void tlbi_aa64_vmalle1_write(CPUARMState *env, const ARMCPRegInfo *ri,
+                                     uint64_t value)
  {
--    uint64_t offset = timeridx == GTIMER_VIRT ? env->cp15.cntvoff_el2 : 0;
-+    uint64_t offset = 0;
-+
-+    switch (timeridx) {
-+    case GTIMER_VIRT:
-+        offset = gt_virt_cnt_offset(env);
-+        break;
-+    }
+     CPUState *cs = env_cpu(env);
++    int mask = vae1_tlbmask(env);
  
-     return (uint32_t)(env->cp15.c14_timer[timeridx].cval -
-                       (gt_get_countervalue(env) - offset));
-@@ -2542,7 +2570,13 @@ static void gt_tval_write(CPUARMState *env, const ARMCPRegInfo *ri,
-                           int timeridx,
-                           uint64_t value)
- {
--    uint64_t offset = timeridx == GTIMER_VIRT ? env->cp15.cntvoff_el2 : 0;
-+    uint64_t offset = 0;
-+
-+    switch (timeridx) {
-+    case GTIMER_VIRT:
-+        offset = gt_virt_cnt_offset(env);
-+        break;
-+    }
+     if (tlb_force_broadcast(env)) {
+         tlbi_aa64_vmalle1is_write(env, NULL, value);
+         return;
+     }
  
-     trace_arm_gt_tval_write(timeridx, value);
-     env->cp15.c14_timer[timeridx].cval = gt_get_countervalue(env) - offset +
+-    if (arm_is_secure_below_el3(env)) {
+-        tlb_flush_by_mmuidx(cs,
+-                            ARMMMUIdxBit_S1SE1 |
+-                            ARMMMUIdxBit_S1SE0);
+-    } else {
+-        tlb_flush_by_mmuidx(cs,
+-                            ARMMMUIdxBit_S12NSE1 |
+-                            ARMMMUIdxBit_S12NSE0);
+-    }
++    tlb_flush_by_mmuidx(cs, mask);
+ }
+ 
+ static void tlbi_aa64_alle1_write(CPUARMState *env, const ARMCPRegInfo *ri,
 -- 
 2.20.1
 
