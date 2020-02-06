@@ -2,66 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 548AF154F56
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 00:25:20 +0100 (CET)
-Received: from localhost ([::1]:47778 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6157B154F68
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 00:36:29 +0100 (CET)
+Received: from localhost ([::1]:47929 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izqWN-0002Ox-Dp
-	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 18:25:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40651)
+	id 1izqhA-0001x5-FO
+	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 18:36:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58349)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.williamson@redhat.com>) id 1izqVS-0001Nw-Rd
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 18:24:23 -0500
+ (envelope-from <jmcneill@invisible.ca>) id 1izoME-0002aD-OA
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 16:06:43 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.williamson@redhat.com>) id 1izqVQ-0000YB-4n
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 18:24:21 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:34029
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <jmcneill@invisible.ca>) id 1izoMD-0000Bc-3h
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 16:06:42 -0500
+Received: from relay4-d.mail.gandi.net ([217.70.183.196]:32807)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <alex.williamson@redhat.com>)
- id 1izqVP-0000W4-Uq
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 18:24:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581031458;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=1lWg6VGhnWcqSb5srSPqG2P0Jdyb+pQc1B1LDg45H/0=;
- b=FYGFCmYJN0FnSNd7xgAdfbDwiNo5YPtah+xbQTz9Ua9Ts3B8lpRV0lo+iWH1Vg5aw9GY7v
- iMMpncC4eMj6/re3MljNV6ne6n7xEqC5hHK+gi9bH5CK20twhLsU6YQs4gJ6+gbZxLuUP7
- NhxSPWkMXkANOvmON3t3Zq5LLCpKEe0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-16-zt33elHYPJia3-F1_IiAmA-1; Thu, 06 Feb 2020 18:24:17 -0500
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 25CDE107B113
- for <qemu-devel@nongnu.org>; Thu,  6 Feb 2020 23:24:16 +0000 (UTC)
-Received: from w520.home (ovpn-116-28.phx2.redhat.com [10.3.116.28])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D516D790F7;
- Thu,  6 Feb 2020 23:24:13 +0000 (UTC)
-Date: Thu, 6 Feb 2020 16:24:12 -0700
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PULL 20/59] target/i386: kvm: initialize microcode revision
- from KVM
-Message-ID: <20200206162412.11d5b9c6@w520.home>
-In-Reply-To: <1579787449-27599-21-git-send-email-pbonzini@redhat.com>
-References: <1579787449-27599-1-git-send-email-pbonzini@redhat.com>
- <1579787449-27599-21-git-send-email-pbonzini@redhat.com>
+ (Exim 4.71) (envelope-from <jmcneill@invisible.ca>)
+ id 1izoMC-0008Nf-Qp
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 16:06:41 -0500
+X-Originating-IP: 159.2.138.7
+Received: from performa.invisible.ca
+ (stjhnbsu6iw-159-2-138-7.dhcp-dynamic.fibreop.nb.bellaliant.net
+ [159.2.138.7]) (Authenticated sender: jmcneill@invisible.ca)
+ by relay4-d.mail.gandi.net (Postfix) with ESMTPSA id 6049DE0007;
+ Thu,  6 Feb 2020 21:06:34 +0000 (UTC)
+Date: Thu, 6 Feb 2020 17:06:32 -0400 (AST)
+From: Jared McNeill <jmcneill@invisible.ca>
+To: Kamil Rytarowski <n54@gmx.com>
+Subject: Re: [PATCH v3 1/4] Add the NVMM vcpu API
+In-Reply-To: <20200206115731.13552-2-n54@gmx.com>
+Message-ID: <alpine.NEB.2.21.2002061706060.671@performa.invisible.ca>
+References: <20200128140945.929-1-n54@gmx.com>
+ <20200206115731.13552-1-n54@gmx.com> <20200206115731.13552-2-n54@gmx.com>
+User-Agent: Alpine 2.21 (NEB 202 2017-01-01)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: zt33elHYPJia3-F1_IiAmA-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="0-1672256239-1581023197=:671"
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+ [fuzzy]
+X-Received-From: 217.70.183.196
+X-Mailman-Approved-At: Thu, 06 Feb 2020 18:31:30 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,68 +53,145 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, ehabkost@redhat.com, slp@redhat.com,
+ Kamil Rytarowski <krytarowski@gmail.com>, qemu-devel@nongnu.org,
+ pbonzini@redhat.com, philmd@redhat.com, max@m00nbsd.net, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 23 Jan 2020 14:50:10 +0100
-Paolo Bonzini <pbonzini@redhat.com> wrote:
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-> KVM can return the host microcode revision as a feature MSR.
-> Use it as the default value for -cpu host.
-> 
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> Message-Id: <1579544504-3616-4-git-send-email-pbonzini@redhat.com>
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+--0-1672256239-1581023197=:671
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8BIT
+
+Tested-by: Jared McNeill <jmcneill@invisible.ca>
+
+On Thu, 6 Feb 2020, Kamil Rytarowski wrote:
+
+> From: Maxime Villard <max@m00nbsd.net>
+>
+> Adds support for the NetBSD Virtual Machine Monitor (NVMM) stubs and
+> introduces the nvmm.h sysemu API for managing the vcpu scheduling and
+> management.
+>
+> Signed-off-by: Maxime Villard <max@m00nbsd.net>
+> Signed-off-by: Kamil Rytarowski <n54@gmx.com>
+> Reviewed-by: Sergio Lopez <slp@redhat.com>
+> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 > ---
->  target/i386/cpu.c | 4 ++++
->  target/i386/kvm.c | 5 +++++
->  2 files changed, 9 insertions(+)
-
-Hey Paolo,
-
-My Windows 10 VM boot loops with this :-\  It seems to be related to
-the CPU model.  Now fails (host-passthrough):
-
--cpu host,hv-time,hv-relaxed,hv-vapic,hv-spinlocks=0x1fff,hv-vendor-id=KeenlyKVM,kvm=off
-
-Works (host-model):
-
--cpu IvyBridge-IBRS,ss=on,vmx=on,pcid=on,hypervisor=on,arat=on,tsc-adjust=on,umip=on,md-clear=on,stibp=on,arch-capabilities=on,ssbd=on,xsaveopt=on,skip-l1dfl-vmentry=on,hv-time,hv-relaxed,hv-vapic,hv-spinlocks=0x1fff,hv-vendor-id=KeenlyKVM,kvm=off
-
-Thanks,
-Alex
-
-> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-> index 790254e..ffe5de0 100644
-> --- a/target/i386/cpu.c
-> +++ b/target/i386/cpu.c
-> @@ -6416,6 +6416,10 @@ static void x86_cpu_realizefn(DeviceState *dev, Error **errp)
->                         &cpu->mwait.ecx, &cpu->mwait.edx);
->              env->features[FEAT_1_ECX] |= CPUID_EXT_MONITOR;
->          }
-> +        if (kvm_enabled() && cpu->ucode_rev == 0) {
-> +            cpu->ucode_rev = kvm_arch_get_supported_msr_feature(kvm_state,
-> +                                                                MSR_IA32_UCODE_REV);
-> +        }
->      }
->  
->      if (cpu->ucode_rev == 0) {
-> diff --git a/target/i386/kvm.c b/target/i386/kvm.c
-> index f6dd6b7..1b67090 100644
-> --- a/target/i386/kvm.c
-> +++ b/target/i386/kvm.c
-> @@ -2696,6 +2696,11 @@ static void kvm_init_msrs(X86CPU *cpu)
->                            env->features[FEAT_CORE_CAPABILITY]);
->      }
->  
-> +    if (kvm_arch_get_supported_msr_feature(kvm_state,
-> +                                           MSR_IA32_UCODE_REV)) {
-> +        kvm_msr_entry_add(cpu, MSR_IA32_UCODE_REV, cpu->ucode_rev);
-> +    }
+> accel/stubs/Makefile.objs |  1 +
+> accel/stubs/nvmm-stub.c   | 43 +++++++++++++++++++++++++++++++++++++++
+> include/sysemu/nvmm.h     | 35 +++++++++++++++++++++++++++++++
+> 3 files changed, 79 insertions(+)
+> create mode 100644 accel/stubs/nvmm-stub.c
+> create mode 100644 include/sysemu/nvmm.h
+>
+> diff --git a/accel/stubs/Makefile.objs b/accel/stubs/Makefile.objs
+> index 3894caf95d..09f2d3e1dd 100644
+> --- a/accel/stubs/Makefile.objs
+> +++ b/accel/stubs/Makefile.objs
+> @@ -1,5 +1,6 @@
+> obj-$(call lnot,$(CONFIG_HAX))  += hax-stub.o
+> obj-$(call lnot,$(CONFIG_HVF))  += hvf-stub.o
+> obj-$(call lnot,$(CONFIG_WHPX)) += whpx-stub.o
+> +obj-$(call lnot,$(CONFIG_NVMM)) += nvmm-stub.o
+> obj-$(call lnot,$(CONFIG_KVM))  += kvm-stub.o
+> obj-$(call lnot,$(CONFIG_TCG))  += tcg-stub.o
+> diff --git a/accel/stubs/nvmm-stub.c b/accel/stubs/nvmm-stub.c
+> new file mode 100644
+> index 0000000000..c2208b84a3
+> --- /dev/null
+> +++ b/accel/stubs/nvmm-stub.c
+> @@ -0,0 +1,43 @@
+> +/*
+> + * Copyright (c) 2018-2019 Maxime Villard, All rights reserved.
+> + *
+> + * NetBSD Virtual Machine Monitor (NVMM) accelerator stub.
+> + *
+> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
+> + * See the COPYING file in the top-level directory.
+> + */
 > +
->      /*
->       * Older kernels do not include VMX MSRs in KVM_GET_MSR_INDEX_LIST, but
->       * all kernels with MSR features should have them.
-
+> +#include "qemu/osdep.h"
+> +#include "qemu-common.h"
+> +#include "cpu.h"
+> +#include "sysemu/nvmm.h"
+> +
+> +int nvmm_init_vcpu(CPUState *cpu)
+> +{
+> +    return -1;
+> +}
+> +
+> +int nvmm_vcpu_exec(CPUState *cpu)
+> +{
+> +    return -1;
+> +}
+> +
+> +void nvmm_destroy_vcpu(CPUState *cpu)
+> +{
+> +}
+> +
+> +void nvmm_cpu_synchronize_state(CPUState *cpu)
+> +{
+> +}
+> +
+> +void nvmm_cpu_synchronize_post_reset(CPUState *cpu)
+> +{
+> +}
+> +
+> +void nvmm_cpu_synchronize_post_init(CPUState *cpu)
+> +{
+> +}
+> +
+> +void nvmm_cpu_synchronize_pre_loadvm(CPUState *cpu)
+> +{
+> +}
+> diff --git a/include/sysemu/nvmm.h b/include/sysemu/nvmm.h
+> new file mode 100644
+> index 0000000000..10496f3980
+> --- /dev/null
+> +++ b/include/sysemu/nvmm.h
+> @@ -0,0 +1,35 @@
+> +/*
+> + * Copyright (c) 2018-2019 Maxime Villard, All rights reserved.
+> + *
+> + * NetBSD Virtual Machine Monitor (NVMM) accelerator support.
+> + *
+> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
+> + * See the COPYING file in the top-level directory.
+> + */
+> +
+> +#ifndef QEMU_NVMM_H
+> +#define QEMU_NVMM_H
+> +
+> +#include "config-host.h"
+> +#include "qemu-common.h"
+> +
+> +int nvmm_init_vcpu(CPUState *);
+> +int nvmm_vcpu_exec(CPUState *);
+> +void nvmm_destroy_vcpu(CPUState *);
+> +
+> +void nvmm_cpu_synchronize_state(CPUState *);
+> +void nvmm_cpu_synchronize_post_reset(CPUState *);
+> +void nvmm_cpu_synchronize_post_init(CPUState *);
+> +void nvmm_cpu_synchronize_pre_loadvm(CPUState *);
+> +
+> +#ifdef CONFIG_NVMM
+> +
+> +int nvmm_enabled(void);
+> +
+> +#else /* CONFIG_NVMM */
+> +
+> +#define nvmm_enabled() (0)
+> +
+> +#endif /* CONFIG_NVMM */
+> +
+> +#endif /* CONFIG_NVMM */
+> --
+> 2.25.0
+>
+>
+--0-1672256239-1581023197=:671--
 
