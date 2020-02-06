@@ -2,85 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0340D1549A5
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 17:50:05 +0100 (CET)
-Received: from localhost ([::1]:42324 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 629721549C7
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 17:56:41 +0100 (CET)
+Received: from localhost ([::1]:42422 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izkLs-0000cC-2F
-	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 11:50:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56348)
+	id 1izkSG-0004lQ-6l
+	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 11:56:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58232)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1izkKb-0007BD-Fw
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 11:48:46 -0500
+ (envelope-from <eblake@redhat.com>) id 1izkQt-0003v1-UM
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 11:55:17 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1izkKZ-0005kb-WF
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 11:48:45 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:44527
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <eblake@redhat.com>) id 1izkQr-00020w-VY
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 11:55:15 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:44647
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1izkKZ-0005hw-Nx
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 11:48:43 -0500
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1izkQr-0001zh-QU
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 11:55:13 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581007723;
+ s=mimecast20190719; t=1581008113;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VRKZxQWihF2X175wvO0Nl0XhJDux6OoYVe3DIPIrFGE=;
- b=YD0maEE7VauD1WakIfP6FtlrDgZU2YgvOIfE/9+89n7kXVsY6DZhtRfE9vb3KzJbKcF5I6
- wbWtBsYdAXPkIkT3RzJBJ7tQrfrYDcZglM2UC3NRxleSljdCuLtqNw1HKWFG8IhbqrGFh7
- k73+67wYpKpUSIZMDJQctC6F4h90e0A=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-277-s11usECSN9-VmFaDjU42dQ-1; Thu, 06 Feb 2020 11:48:40 -0500
-Received: by mail-wr1-f72.google.com with SMTP id s13so3747128wrb.21
- for <qemu-devel@nongnu.org>; Thu, 06 Feb 2020 08:48:40 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=h71KXt8ncdVnXZtJi10mW6py/Vn7daUYhvP48+54hXc=;
- b=ZPMUinVX1j9mpx86Ev1Ez50hOuwYaIy8BCFX07YA+u1Q3ESPTXqok/Et4sI9SjXwBF
- 7mW4jTQDJ6CY2aRYKptfdtGmg1tu/aXBJ2Nv67Xc+M++5WkFWgHw6uBhqii+oQhAcEgJ
- EGOn3TI67WniRbP/EzPKWqqtoBtZzTa2miW8FrslZFff1oAZoVR6j3nhfMKPjliDEbS5
- u1drGwwpFpPT/nYZSEg/enHcTY2YUTKcqc17rOyYGkWSS3CAuIaVXwkAUjFRlJFjoWaQ
- k3rAgnT55BB0FjS0SNjhjXB02E2KcQwa/vEizh3GGa/veq5DdwL1RxZIsFEciAk2fEKU
- E+EA==
-X-Gm-Message-State: APjAAAX/vUtuqVpVgD5wZre01J0rhoQDWyKzIyAv15k+go/Bq1NrClZO
- sbvdlxMqAgjCsUvdBihYPGsgTYslBBGycfnkg5+sOGqEeUO7kQp4Iv7pmtNDZYmAzk3DU4IMY7l
- sIkqOE6DzXeHy46s=
-X-Received: by 2002:adf:8b54:: with SMTP id v20mr4926936wra.390.1581007719830; 
- Thu, 06 Feb 2020 08:48:39 -0800 (PST)
-X-Google-Smtp-Source: APXvYqxyFQJcG1ky94iCAfcQTsaEJQjX9IlhgXGV8w6vLzy/sHf8PnM8+wszl7yLTgoOvyqa159JVg==
-X-Received: by 2002:adf:8b54:: with SMTP id v20mr4926903wra.390.1581007719498; 
- Thu, 06 Feb 2020 08:48:39 -0800 (PST)
-Received: from [192.168.1.35] (78.red-88-21-202.staticip.rima-tde.net.
- [88.21.202.78])
- by smtp.gmail.com with ESMTPSA id s8sm64879wmf.45.2020.02.06.08.48.38
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 06 Feb 2020 08:48:39 -0800 (PST)
-Subject: Re: [PATCH v2 00/29] tests/acceptance/virtio_seg_max_adjust: Restrict
- it to Linux/X86
-To: Denis Plotnikov <dplotnikov@virtuozzo.com>, qemu-devel@nongnu.org
-References: <20200129212345.20547-1-philmd@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <4bbe9ff8-e1a8-917d-5a57-ce5185da19fa@redhat.com>
-Date: Thu, 6 Feb 2020 17:48:38 +0100
+ bh=fpToknbMbQO8u6/kOoi+5h/0vxJJu9SJaVqT6g5cPvA=;
+ b=gwqWOxL1f1CDN7R11c/3Qlx2qHtWMT+Awov5T+tj7phInB1IZ8xQSZBZXjnOJnUeHO/8ok
+ M1ptfC/aUOOLIRBfUoQzL9ZDuvSMW5jaRNsUGg+DFeGosRhJnzetgmC7H7rjiJJo8QZ9U2
+ Q0ccOvr89eL7DwZNhWEEnIM7HodNGdE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-263-j_V__971NZKok27yX1rxMw-1; Thu, 06 Feb 2020 11:55:11 -0500
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2FB06800D54;
+ Thu,  6 Feb 2020 16:55:09 +0000 (UTC)
+Received: from [10.3.117.249] (ovpn-117-249.phx2.redhat.com [10.3.117.249])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 260BF84DB8;
+ Thu,  6 Feb 2020 16:55:07 +0000 (UTC)
+Subject: Re: [PULL 3/5] nbd: fix uninitialized variable warning
+To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
+References: <20200108160233.991134-1-laurent@vivier.eu>
+ <20200108160233.991134-4-laurent@vivier.eu>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <1ce40cae-eb8b-a18c-f651-2e6432c1b213@redhat.com>
+Date: Thu, 6 Feb 2020 10:55:06 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200129212345.20547-1-philmd@redhat.com>
+In-Reply-To: <20200108160233.991134-4-laurent@vivier.eu>
 Content-Language: en-US
-X-MC-Unique: s11usECSN9-VmFaDjU42dQ-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: j_V__971NZKok27yX1rxMw-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,86 +76,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Cornelia Huck <cohuck@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-block@nongnu.org,
+ qemu-trivial@nongnu.org, Pan Nengyuan <pannengyuan@huawei.com>,
+ Michael Tokarev <mjt@tls.msk.ru>, qemu-arm@nongnu.org,
+ Euler Robot <euler.robot@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/29/20 10:23 PM, Philippe Mathieu-Daud=C3=A9 wrote:
-> Currently our CI is mostly restricted to Linux/X86.
-> We want to have more, but until there we have to run these tests
-> manually, which is why we didn't noticed earlier this test was
-> failing on OSX.
->=20
-> This series contains the patches I used to debug why the
-> virtio_seg_max_adjust had broken the OSX CI, but then I
-> kept testing on other archs, thus added more patches...
->=20
-> Currently our CI is mostly restricted to Linux/X86.
-> We want to have more, but until there we have to run these tests
-> manually, which is why we didn't noticed earlier some tests are
-> failing (on OSX, using --without-default-devices, ...).
->=20
-> Tested on Linux/FreeBSD/OSX, X86/Aarch64.
->=20
-> Regards,
->=20
-> Phil.
->=20
-> Supersedes: <20200122223247.30419-1-philmd@redhat.com>
-> "tests/acceptance/virtio_seg_max_adjust: Restrict it to Linux/X86"
->=20
-> Denis Plotnikov (1):
->    tests: rename virtio_seg_max_adjust to virtio_check_params
->=20
-> Philippe Mathieu-Daud=C3=A9 (28):
->    hw/core: Allow setting 'virtio-blk-device.scsi' property on OSX host
->    accel/accel: Make TYPE_ACCEL abstract
->    python/qemu: Add binutils::binary_get_version()
->    tests/acceptance: Use 'version-min' tag to verify QEMU binary version
->    tests/acceptance: Restrict X86CPUModelAliases test to QEMU >=3D 4.1
->    python/qemu: Add binutils::binary_get_arch()
->    tests/acceptance: Use the 'arch' tag to verify QEMU binary target
->    python/qemu: Add binutils::binary_get_machines()
->    tests/acceptance: Use 'machine' tag to check if available in QEMU
->      binary
->    python/qemu: Add binutils::binary_get_qom_implementations()
->    python/qemu: Add binutils::binary_get_accels()
->    python/qemu/accel: Use binutils::binary_get_accels()
->    python/qemu: Add binutils::binary_get_devices()
->    tests/acceptance: Use 'device' tags to check availability in QEMU
->      binary
->    tests/acceptance/virtio_check_params: Only remove listed machines
->    tests/acceptance/virtio_check_params: Improve exception logging
->    tests/acceptance/virtio_check_params: List machine being tested
->    tests/acceptance/virtio_check_params: Only test Xen as superuser
->    tests/acceptance/virtio_check_params: Skip test if arch is not
->      supported
->    tests/acceptance/virtio_check_params: Kludge to skip tests on MIPS
->    tests/acceptance/virtio_check_params: Support the s390x architecture
->    tests/acceptance/virtio_check_params: Support the ppc architecture
->    tests/acceptance/virtio_check_params: Default to -nodefaults
->    tests/acceptance/virtio_check_params: Require a virtio-scsi-pci device
->    tests/acceptance/boot_linux_console: Do not use VGA on Clipper machine
->    tests/acceptance/migration: Default to -nodefaults
->    tests/acceptance/version: Default to -nodefaults
->    MAINTAINERS: Add Acceptance tests reviewers
+On 1/8/20 10:02 AM, Laurent Vivier wrote:
+> From: Pan Nengyuan <pannengyuan@huawei.com>
+> 
+> Fixes:
+> /mnt/sdb/qemu/nbd/server.c: In function 'nbd_handle_request':
+> /mnt/sdb/qemu/nbd/server.c:2313:9: error: 'ret' may be used uninitialized in this function [-Werror=maybe-uninitialized]
+>       int ret;
+> 
+> Reported-by: Euler Robot <euler.robot@huawei.com>
+> Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+> Message-Id: <20200108025132.46956-1-pannengyuan@huawei.com>
+> Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+> ---
+>   nbd/server.c | 10 +---------
+>   1 file changed, 1 insertion(+), 9 deletions(-)
+> 
 
-I have applied the following patches on my python-next tree [*]:
-15/29 tests: rename virtio_seg_max_adjust to virtio_check_params
-17/29 tests/acceptance/virtio_check_params: Improve exception logging
-18/29 tests/acceptance/virtio_check_params: List machine being tested
-24/29 tests/acceptance/virtio_check_params: Default to -nodefaults
-26/29 tests/acceptance/boot_linux_console: Do not use VGA on Clipper machin=
-e
-27/29 tests/acceptance/migration: Default to -nodefaults
-28/29 tests/acceptance/version: Default to -nodefaults
+This patch is broken; I first noticed it when testing libnbd, where the 
+symptoms are a hung interop/dirty-bitmap.sh test.
 
-I plan to disable the virtio_check_params.py test for now, because it=20
-broke the CI and the Virtuozzo folks didn't reply to this series=20
-intending to fix it. We will restore it once it later.
+> diff --git a/nbd/server.c b/nbd/server.c
+> index 24ebc1a80571..87fcd2e7bfac 100644
+> --- a/nbd/server.c
+> +++ b/nbd/server.c
+> @@ -2384,20 +2384,12 @@ static coroutine_fn int nbd_handle_request(NBDClient *client,
+>                                                  !client->export_meta.bitmap,
+>                                                  NBD_META_ID_BASE_ALLOCATION,
+>                                                  errp);
+> -                if (ret < 0) {
+> -                    return ret;
+> -                }
+> -            }
+> -
+> -            if (client->export_meta.bitmap) {
+> +            } else {              /* client->export_meta.bitmap */
+>                   ret = nbd_co_send_bitmap(client, request->handle,
+>                                            client->exp->export_bitmap,
+>                                            request->from, request->len,
+>                                            dont_fragment,
+>                                            true, NBD_META_ID_DIRTY_BITMAP, errp);
+> -                if (ret < 0) {
+> -                    return ret;
+> -                }
+>               }
 
-[*] https://gitlab.com/philmd/qemu/commits/python-next
+The NBD spec says that clients can request more than one meta context at 
+a time. Qemu does not (and hence we didn't notice the breakage until 
+now), but libnbd does, and this change prevents qemu from obeying the 
+spec (if the client requested both contexts, then we must return both, 
+and not short-circuit after the first).
+
+I'll post a patch to fix this unintended regression soon.
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
