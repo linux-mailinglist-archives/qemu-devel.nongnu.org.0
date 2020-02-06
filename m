@@ -2,124 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0640F1549FE
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 18:07:55 +0100 (CET)
-Received: from localhost ([::1]:42812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 854161549E6
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 18:03:14 +0100 (CET)
+Received: from localhost ([::1]:42662 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izkd7-0006jj-RK
-	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 12:07:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59837)
+	id 1izkYa-0002Ys-RH
+	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 12:03:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59691)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <n54@gmx.com>) id 1izkVn-0000OR-LM
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 12:00:21 -0500
+ (envelope-from <mreitz@redhat.com>) id 1izkVR-0008SQ-4r
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 11:59:59 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <n54@gmx.com>) id 1izkVm-00028U-4M
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 12:00:19 -0500
-Received: from mout.gmx.net ([212.227.15.15]:44789)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <n54@gmx.com>) id 1izkVl-00026Z-JM
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 12:00:17 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1581008396;
- bh=JNCU7gtQsJAiLhtlRQv5Wezh/cw9rczV+fHDWCZKJIM=;
- h=X-UI-Sender-Class:Subject:To:Cc:References:From:Date:In-Reply-To;
- b=SAty2BDgOHl8/leKhT7jzd1cZEYmqUWRj9RU8AkmJbYfOyk7pOSnixm4jlbvet5u1
- 4qeFhoRDQyQfEkTL6NOFowVfhqF9z5+HMjM6e5NyTogWIc5cqpvFnHaPAhxbAxDu2F
- UKRMzHkGX5mNJlnQgImpUKvDskoTH2GdInpuYuqU=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [192.168.0.241] ([89.71.135.231]) by mail.gmx.com (mrgmx004
- [212.227.17.184]) with ESMTPSA (Nemesis) id 1M9Wuk-1iuGKW28vs-005WgQ; Thu, 06
- Feb 2020 17:59:56 +0100
-Subject: Re: [PATCH v2 4/4] Add the NVMM acceleration enlightenments
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-References: <20200107124903.16505-1-n54@gmx.com>
- <20200128140945.929-1-n54@gmx.com> <20200128140945.929-5-n54@gmx.com>
- <0ed12efa-eee4-b3ff-8f02-f9c3b80d0e21@redhat.com>
- <2ae4caf9-05fd-b740-2612-e1c1ecafe277@gmx.com>
- <87o8ubuapr.fsf@dusky.pond.sub.org>
- <CAP+75-VnwDz0My7p5Zy3SN2gPeACW0z02MUgrdFnSGiZm6xGXg@mail.gmail.com>
- <e87ac5e1-749e-84a2-2c9e-89ac1c69fcdc@gmx.com>
- <87v9ojst1h.fsf@dusky.pond.sub.org>
- <f05b132a-00e6-9fe6-fc77-81e01cda9db2@gmx.com>
- <2e1a0fbb-6cf7-899a-856b-bc88a436cbd3@redhat.com>
-From: Kamil Rytarowski <n54@gmx.com>
-Autocrypt: addr=n54@gmx.com; prefer-encrypt=mutual; keydata=
- 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
- 4XSbcg==
-Message-ID: <51319772-8397-8abb-033f-bfb887aa5f38@gmx.com>
-Date: Thu, 6 Feb 2020 17:59:08 +0100
-User-Agent: Mozilla/5.0 (X11; NetBSD amd64; rv:68.0) Gecko/20100101
+ (envelope-from <mreitz@redhat.com>) id 1izkVP-0001WP-63
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 11:59:57 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:58607
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1izkVP-0001W8-2g
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 11:59:55 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1581008394;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=oewBH/LhA5VoOQ5ylG31ANqoNUJmBZXkOWH6/UtIf8E=;
+ b=GmtjJ0Y+W9zy4qpkdzeR9nQEXhJhN7zfx/PIWDYz5GZgFGNRnVP7N1Um75TZjlqcv8Fl5z
+ RuNBsyJP8zEr2sP22Yz+j5dGoMHeCfqJt07/4TEVTSbisVWeYpY3IktD51Qum3EhBKtUzc
+ T/kG+s3telvj4GJY6y27KkmW/DrBB70=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-181-_JGj2rfhO-2cHLycGU6-wg-1; Thu, 06 Feb 2020 11:59:39 -0500
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E08771005513;
+ Thu,  6 Feb 2020 16:59:37 +0000 (UTC)
+Received: from dresden.str.redhat.com (unknown [10.36.118.15])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E25AF1091ED3;
+ Thu,  6 Feb 2020 16:59:33 +0000 (UTC)
+Subject: Re: [PATCH] tests/qemu_iotests: Minimize usage of used ports
+To: Eric Blake <eblake@redhat.com>, =?UTF-8?B?THVrw6HFoSBEb2t0b3I=?=
+ <ldoktor@redhat.com>, qemu-block@nongnu.org
+References: <20200203075955.28861-1-ldoktor@redhat.com>
+ <fe6a7eb5-352a-3cb5-4e75-bd99baf6d54e@redhat.com>
+ <595ffedf-4213-f000-96e1-3216e272b1c1@redhat.com>
+ <726ca911-be83-c2d5-ff3f-efa32bc2233e@redhat.com>
+ <797578d5-bfab-5eb7-8921-0fcf1f3ee40e@redhat.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <6dcc60d8-3f3f-46bc-e3ca-c0569f9b0e23@redhat.com>
+Date: Thu, 6 Feb 2020 17:59:32 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <2e1a0fbb-6cf7-899a-856b-bc88a436cbd3@redhat.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <797578d5-bfab-5eb7-8921-0fcf1f3ee40e@redhat.com>
 Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-MC-Unique: _JGj2rfhO-2cHLycGU6-wg-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:8Z8gdB+8BSonmRvbhH/tmn2bkVcqZPzEz/1Op3OvMUlzUGjvzPw
- g0uz3qjRIx4+WUE59nae3VFYgqYZR2+EcoSq5hK8k2E+WFnm4F4AyuiU9izFRBuEMyPP+YO
- ctKqgu+eCXOQmqKou6HwL4jK8Hq4kGSjsDj1BXZkInqqCRaUTMyNkfXEe20KWE2yvp6Lhxw
- PvmDwcblk1cKE88QGQk1Q==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:aGiPAaIbJXE=:70lfjRrjIRxuebD+AJmxSn
- QK8QpG+Qh6cRnXUCZb1MjksGHFUMvyccUyDPCfY72XyzlXqQ6uVZvHxb/UprdQyzuJ8ACUtRL
- JUOH+410jdS1iC9edNV/f/m6tdUEk0ireHS/rCYSHid5Mn591TBeLaV4p5ItDN/Y1FsFFxih/
- d82b9Xr0sfG7TyNgUEQKL+MunivzjsSqx1iT/oe9HAQ+f08WNwZACpLMM5hYFL3Ehq9DxiWXJ
- o4G1Z5CocLVeaJ13dESFRUKpGc8HXaFK11gLjSX0o+XK29aPaDCDoZz2cWypG62eQucTK9dae
- kbQIBZOEEHCBGGXV9LMcyEosqIZzbIwaw/59cRixTnvMgIm8XvUUZWTPyeuyjaDy7P0f9/K01
- EnClb3/w1Nm7EHUHEGrSHQLPVag3sB7cs3hk+LFeLUdsrn0cEKQBFo0+GNtn6uHuTqXHcdca+
- sMGEnQLE4N5tSgJvidhlOV6z0T4CPKcZc7M4rfqEPUmon1B36yoMl1Agv1MqJrkAlDG2PzLXQ
- rZeq8Lr6dvUtDdpS7fdBnHgaK6XigNA2uyX9U7w75181PPdQHyBphpTbPEy6bhovEPAwmIZtL
- oHip791rt4lJhQQM8oToBdeybw6ecZjHb/Pj3DMt1Gmy9pcbomuuIhYVsQb+9JkYDsAsWmiBw
- iMYNQfW5KzzUxIohwahNO8OMEOg3gOHYcsOrAvKTIhqyANGTpYp6rIri90xoeALtUFHJEaCi5
- 3IaVzWTbAZbZBt1nX0rJs1qbcOvp+fzFVSx8I44CJojujSLUOUexPRKIJHei3gUZxPX5RMBPL
- SIdTYBFE84oZmVtkdrVuDnGknlc7VokI3wxRy6IcQrmLWqioGILnDj/NKBuEx4BFhc8hjXbkL
- vanaFVf7VqgvOAM9pAlNRT2rBJyKE4a25n7jSIwbgZSsnQ9KQQtcTvAAXo48IVmuBz7IyCQ6k
- 7KDv0cNlX4zSb4E4156wEw0AoUXSXyEurRZaN50TG1yhb30UWSZ596qTr0D7t1k1QIErcIuWf
- zNiDWFE289wlpQeC6J1aKZCxXXLze6svZSgM+iKs4wl/YVxjOXcPFLQ/dcr2yZwNUhELCm0it
- puvrM6studJja1GIwPN5a7csyccZV0nks4ntcCDsw8mvWwHPJjjmXRAM6jKtNmUdvt1NkXugy
- 2/dO5Eg1VpsPwxIEkWH7b6a1LsdXPabWRTJc42a0CK0trtKLYRabDToMo/Ab26aJLD09Q=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.15.15
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -131,79 +103,202 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>, max@m00nbsd.net,
- Richard Henderson <rth@twiddle.net>
+Cc: kwolf@redhat.com, qemu-devel@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>, Aarushi Mehta <mehta.aaru20@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 06.02.2020 17:07, Philippe Mathieu-Daud=C3=A9 wrote:
-> On 2/6/20 4:38 PM, Kamil Rytarowski wrote:
->> On 06.02.2020 15:13, Markus Armbruster wrote:
->>> Kamil Rytarowski <n54@gmx.com> writes:
+On 06.02.20 17:48, Eric Blake wrote:
+> On 2/6/20 10:37 AM, Max Reitz wrote:
+>=20
 >>>
->>>> On 06.02.2020 14:09, Philippe Mathieu-Daud=C3=A9 wrote:
->>>>> On Thu, Feb 6, 2020 at 2:06 PM Markus Armbruster
->>>>> <armbru@redhat.com> wrote:
->>>>>> Kamil Rytarowski <n54@gmx.com> writes:
->>>>>>
->>>>>>> On 03.02.2020 12:54, Philippe Mathieu-Daud=C3=A9 wrote:
->>>>>>>>> @@ -2029,6 +2072,19 @@ static void
->>>>>>>>> qemu_whpx_start_vcpu(CPUState *cpu)
->>>>>>>>> =C2=A0=C2=A0 #endif
->>>>>>>>> =C2=A0=C2=A0 }
->>>>>>>>>
->>>>>>>>> +static void qemu_nvmm_start_vcpu(CPUState *cpu)
->>>>>>>>> +{
->>>>>>>>> +=C2=A0=C2=A0=C2=A0 char thread_name[VCPU_THREAD_NAME_SIZE];
->>>>>>>>> +
->>>>>>>>> +=C2=A0=C2=A0=C2=A0 cpu->thread =3D g_malloc0(sizeof(QemuThread)=
-);
->>>>>>>>> +=C2=A0=C2=A0=C2=A0 cpu->halt_cond =3D g_malloc0(sizeof(QemuCond=
-));
->>>>>>>>
->>>>>>>> Nitpick, we prefer g_new0().
->>>>>>>
->>>>>>> In this file other qemu_*_start_vcpu() use=C2=A0 g_malloc0().
->>>>>>>
->>>>>>> I will leave this part unchanged and defer tor future style
->>>>>>> fixups if
->>>>>>> someone is interested.
->>>>>>
->>>>>> Time to re-run Coccinelle with the semantic patch from commit
->>>>>> b45c03f585e.
->>>>>
->>>>> I thought about it, but then noticed it would be clever to modify
->>>>> checkpatch to refuse 'g_malloc0?(.*sizeof.*);'
->>>>>
->>>>>
->>>>
->>>> As the patchset was reviewed, could we please merge it in the current
->>>> (v3) form (*) please?
+>>> thank you and I am sorry for not digging deep enough. This week my CI
+>>> failed with:
 >>>
->>> No objection.=C2=A0 If I wanted you to clean this up before we accept =
-your
->>> work, I would've told you :)
+>>> 01:24:06 DEBUG| [stdout] +ERROR: test_inet (__main__.QemuNBD)
+>>> 01:24:06 DEBUG| [stdout]
+>>> +----------------------------------------------------------------------
+>>> 01:24:06 DEBUG| [stdout] +Traceback (most recent call last):
+>>> 01:24:06 DEBUG| [stdout] +=C2=A0 File "147", line 85, in setUp
+>>> 01:24:06 DEBUG| [stdout] +=C2=A0=C2=A0=C2=A0 self.vm.launch()
+>>> 01:24:06 DEBUG| [stdout] +=C2=A0 File
+>>> "/home/jenkins/ppc64le/qemu-master/tests/qemu-iotests/../../python/qemu=
+/machine.py",
+>>> line 302, in launch
+>>> 01:24:06 DEBUG| [stdout] +=C2=A0=C2=A0=C2=A0 self._launch()
+>>> 01:24:06 DEBUG| [stdout] +=C2=A0 File
+>>> "/home/jenkins/ppc64le/qemu-master/tests/qemu-iotests/../../python/qemu=
+/machine.py",
+>>> line 319, in _launch
+>>> 01:24:06 DEBUG| [stdout] +=C2=A0=C2=A0=C2=A0 self._pre_launch()
+>>> 01:24:06 DEBUG| [stdout] +=C2=A0 File
+>>> "/home/jenkins/ppc64le/qemu-master/tests/qemu-iotests/../../python/qemu=
+/qtest.py",
+>>> line 106, in _pre_launch
+>>> 01:24:06 DEBUG| [stdout] +=C2=A0=C2=A0=C2=A0 super(QEMUQtestMachine,
+>>> self)._pre_launch()
+>>> 01:24:06 DEBUG| [stdout] +=C2=A0 File
+>>> "/home/jenkins/ppc64le/qemu-master/tests/qemu-iotests/../../python/qemu=
+/machine.py",
+>>> line 270, in _pre_launch
+>>> 01:24:06 DEBUG| [stdout] +=C2=A0=C2=A0=C2=A0 self._qmp =3D
+>>> qmp.QEMUMonitorProtocol(self._vm_monitor, server=3DTrue)
+>>> 01:24:06 DEBUG| [stdout] +=C2=A0 File
+>>> "/home/jenkins/ppc64le/qemu-master/tests/qemu-iotests/../../python/qemu=
+/qmp.py",
+>>> line 60, in __init__
+>>> 01:24:06 DEBUG| [stdout] +=C2=A0=C2=A0=C2=A0 self.__sock.bind(self.__ad=
+dress)
+>>> 01:24:06 DEBUG| [stdout] +OSError: [Errno 98] Address already in use
+>=20
+> Was this test 147?=C2=A0 If so, see:
+> https://lists.gnu.org/archive/html/qemu-devel/2020-02/msg01469.html
+>=20
+> because that failure matches what I was seeing.
+>=20
 >>>
->>> [...]
+>>> I made the mistake of reproducing this on my home system using the
+>>> qemu revision that I had and assuming it's caused by a used port. So
+>>> I limited the port range and used nc to occupy the port. It sort-of
+>>> reproduced but instead of Address already in use it hanged until I
+>>> kill the nc process. Then it failed with:
 >>>
+>>> +Traceback (most recent call last):
+>>> +=C2=A0 File "147", line 124, in test_inet
+>>> +=C2=A0=C2=A0=C2=A0 flatten_sock_addr(address))
+>>> +=C2=A0 File "147", line 59, in client_test
+>>> +=C2=A0=C2=A0=C2=A0 self.assert_qmp(result, 'return', {})
+>>> +=C2=A0 File
+>>> "/home/medic/Work/Projekty/qemu/tests/qemu-iotests/iotests.py", line
+>>> 821, in assert_qmp
+>>> +=C2=A0=C2=A0=C2=A0 result =3D self.dictpath(d, path)
+>>> +=C2=A0 File
+>>> "/home/medic/Work/Projekty/qemu/tests/qemu-iotests/iotests.py", line
+>>> 797, in dictpath
+>>> +=C2=A0=C2=A0=C2=A0 self.fail('failed path traversal for "%s" in "%s"' =
+% (path,
+>>> str(d)))
+>>> +AssertionError: failed path traversal for "return" in "{'error':
+>>> {'class': 'GenericError', 'desc': 'Failed to read initial magic:
+>>> Unexpected end-of-file before all bytes were read'}}"
 >>>
+>=20
+> That's a secondary failure, I assume if the initial bug is fixed we are
+> less likely to hit the secondary one; but the secondary one may still be
+> worth fixing.
+>=20
+>>> After a brief study I thought qemu is not doing the job well enough
+>>> and wanted to add a protection. Anyway after a more thorough overview
+>>> I came to a different conclusion and that is that we are facing the
+>>> same issue as with incoming migration about a year ago. What happened
+>>> is that I started "nc -l localhost 32789" which results in:
+>>>
+>>> COMMAND=C2=A0=C2=A0 PID=C2=A0 USER=C2=A0=C2=A0 FD=C2=A0=C2=A0 TYPE=C2=
+=A0 DEVICE SIZE/OFF NODE NAME
+>>> nc=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 26758 medic=C2=A0=C2=A0=C2=A0 3u=C2=A0=
+ IPv6 9579487=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0t0=C2=A0 TCP localhost:32789
+>>> (LISTEN)
+>>>
+>>> Then we start the server by "_try_server_up" where qemu-nbd detects
+>>> the port is occupied on IPv6 but available on IPv4, so it claims it:
+>>> COMMAND=C2=A0=C2=A0 PID=C2=A0 USER=C2=A0=C2=A0 FD=C2=A0=C2=A0 TYPE=C2=
+=A0 DEVICE SIZE/OFF NODE NAME
+>>> nc=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 26758 medic=C2=A0=C2=A0=C2=
+=A0 3u=C2=A0 IPv6 9579487=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0t0=C2=A0 TCP
+>>> localhost:32789 (LISTEN)
+>>> qemu-nbd=C2=A0 26927 medic=C2=A0=C2=A0=C2=A0 4u=C2=A0 IPv4 9591857=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 0t0=C2=A0 TCP
+>>> localhost:32789 (LISTEN)
+>>>
+>>> and reports success. Then we try to connect but the hotplugged VM
+>>> first attempts to connect on the IPv6 address and hangs for infinity.
+>>>
+>>> Now is this an expected behavior? If so then we need the
+>>> find_free_address (but preferably directly in _try_server_up just
+>>> before starting the qemu-nbd) to leave as little time-frame for
+>>> collision as possible. Otherwise the test is alright and qemu-nbd
+>>> needs a fix to bail out in case some address is already used (IIRC
+>>> this is what incoming migration does).
 >>
->> I see. I don't own myself a merge queue so I depend on yours.
->
-> As you said [*] you'd love to have this feature in NetBSD 9.0, no
-> objection neither. You still need some X86 specialist to review patch 3.
-> The usual reviewers Paolo/Eduardo/Richard are currently very busy.
->
-> Also while I'd love to use this feature to be able to regularly run QEMU
-> CI on NetBSD, I don't have time to test it on a bare metal hardware :|
-> Maybe do you know someone from the NetBSD community who already did?
->
-> [*] https://www.mail-archive.com/qemu-devel@nongnu.org/msg676199.html
->
->
+>> Ah, OK.
+>>
+>> Well, expected behavior...=C2=A0 It=E2=80=99s a shame, that=E2=80=99s wh=
+at it is.
+>=20
+> In libnbd, we recently improved the testsuite by switching over to
+> systemd-style fd passing: instead of asking qemu-nbd to open a random
+> port (and hoping it is available), we instead pre-open the port (where
+> failure is under our control) and then pass in that fd with environment
+> variables to qemu-nbd, which in turn guarantees that qemu-nbd won't hit
+> failures in trying to use the port.=C2=A0 Maybe we should utilize that mo=
+re
+> in qemu's own testsuite.
 
-I'm going to find a person to test it and submit "Tested-by:".
+I suppose you=E2=80=99re welcome, but it sounds a bit like overkill for now=
+. :-)
+
+> Also, I need to revisit my proposed patches for letting qemu-nbd support
+> TLS over Unix sockets, as that's another way to avoid TCP contention
+> (right now, qemu has an anachronistic prohibition against the
+> combination of TLS and Unix sockets).
+
+147 specifically wants to test inet, though (among other things).
+Support for TLS over Unix sockets won=E2=80=99t change that.  (I suppose it=
+ will
+reduce the number of inet NBD sockets in other tests, though.)
+
+>>> My second mistake was testing this on the old code-base and rebasing
+>>> it only before sending the patch (without testing after the rebase).
+>>> If I were to test it first, I would have found out that the real
+>>> reproducer is simply running the test as the commit
+>>> 8dff69b9415b4287e900358744b732195e1ab2e2 broke it.
+>>>
+>>>
+>>> So basically there are 2 actions:
+>>>
+>>> 1. fix the test as on my system it fails in 100% of cases, bisect
+>>> says the first bad commit is
+>>> 8dff69b9415b4287e900358744b732195e1ab2e2. Would anyone have time in
+>>> digging into this? I already spent way too much time on this and
+>>> don't really know what that commit is trying to do.
+>>
+>> Yep, I=E2=80=99ve sent a patch:
+>>
+>> https://lists.nongnu.org/archive/html/qemu-block/2020-02/msg00294.html
+>=20
+> Ah, so we did notice the same problem.
+>=20
+>>
+>>> 2. decide on the behavior when IPv4/6 is already in use (bail-out or
+>>> start).
+>>> 2a. In case it should bail-out than the test is correct and there is
+>>> no need for my patch. On the other hand qemu-nbd has to be fixed
+>>
+>> I don=E2=80=99t think it makes much sense to let qemu=E2=80=99s NBD serv=
+er ensure that
+>> it claims both IPv4 and IPv6 in case the user specifies a
+>> non-descriptive hostname.
+>>
+>>> 2b. Otherwise I can send a v2 that will check the port in the
+>>> _try_server_up just before starting qemu-nbd to minimize the risk of
+>>> using a utilized port (or should you decide it's not worth checking,
+>>> I can simply forget about this)
+>>
+>> Hm.=C2=A0 It wouldn=E2=80=99t be fully reliable, but, well...=C2=A0 The =
+risk would be
+>> minimal.
+>>
+>> OTOH, would it work if we just did a %s/localhost/127.0.0.1/ in the
+>> test?=C2=A0 We have specific cases for IPv6, so I think it makes sense t=
+o
+>> force IPv4 in all other cases.
+>=20
+> Except then it will fail on machines configured for IPv6-only.
+
+So we=E2=80=99ll just have to test whether IPv4 works, just like we already=
+ do
+for IPv6, no?
+
+Max
+
 
