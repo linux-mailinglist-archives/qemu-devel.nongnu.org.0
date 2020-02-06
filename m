@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69D79154486
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 14:06:44 +0100 (CET)
-Received: from localhost ([::1]:38514 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D21015449D
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 14:10:19 +0100 (CET)
+Received: from localhost ([::1]:38648 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izgrj-0007WC-GS
-	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 08:06:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57582)
+	id 1izgvC-0006VH-NT
+	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 08:10:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57694)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1izgdU-0003Mr-8r
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 07:52:01 -0500
+ (envelope-from <mreitz@redhat.com>) id 1izgdZ-0003d6-P3
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 07:52:06 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1izgdS-0001Ad-UJ
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 07:52:00 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:58586
+ (envelope-from <mreitz@redhat.com>) id 1izgdY-0001Y7-Ap
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 07:52:05 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:41658
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1izgdS-00018a-Ou
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 07:51:58 -0500
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1izgdY-0001WB-5o
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 07:52:04 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580993518;
+ s=mimecast20190719; t=1580993523;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=sYBoCWe/bXn0garbx204DM8ysDebbz1E6xy+YbNyAkE=;
- b=PdvH698amlktPLYiPaDuWI4KIi6Ut9J2wfxZ5jcaTfryimo4Zq0yeA/QzwkszVQFn8L+cp
- KEtIDuapvKeBjstHgiQ/5rjfmqtVZAfdGOzw1BUL9wMfQDLQCmVWBwOO34ooB0uyjQ730I
- 7IPY0XjxFNh7DLf2eX6m2Rsv5cYVrHU=
+ bh=I7J+RMMFdUQ6Uwh3RwaZNC8bnjHBvOR7LBoAUsefCtU=;
+ b=VE2+DM13IQcgo8yw/fCS5wX/YiFcSE79RLzhrztG52ZAXtDZ2oZ4PSdTNnk0ZqscZAiz7n
+ Rcjy3/Ni3kQ4dZwAk2otChpvMBVrbBLo+Q/RvqnaZ/uCq0FyLFSfHeD9ogMt0wOgfviIg7
+ 7WIUrc2h1eyxHcDDzVgGFpU4QpCnfSM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-412-vradT7UROwCsmFhtGTMUvA-1; Thu, 06 Feb 2020 07:51:56 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-375-NQj01UV3ODCuiIPC_Ivq3Q-1; Thu, 06 Feb 2020 07:51:58 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2305F80257C;
- Thu,  6 Feb 2020 12:51:55 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2B92B1800D42;
+ Thu,  6 Feb 2020 12:51:57 +0000 (UTC)
 Received: from localhost (unknown [10.36.118.15])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6B11F26E4B;
- Thu,  6 Feb 2020 12:51:54 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C4A108E5F8;
+ Thu,  6 Feb 2020 12:51:56 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 10/17] iotests: Enable more tests in the 'auto' group to
- improve test coverage
-Date: Thu,  6 Feb 2020 13:51:25 +0100
-Message-Id: <20200206125132.594625-11-mreitz@redhat.com>
+Subject: [PULL 11/17] qcow2: Don't round the L1 table allocation up to the
+ sector size
+Date: Thu,  6 Feb 2020 13:51:26 +0100
+Message-Id: <20200206125132.594625-12-mreitz@redhat.com>
 In-Reply-To: <20200206125132.594625-1-mreitz@redhat.com>
 References: <20200206125132.594625-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: vradT7UROwCsmFhtGTMUvA-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: NQj01UV3ODCuiIPC_Ivq3Q-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,87 +77,87 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Thomas Huth <thuth@redhat.com>
+From: Alberto Garcia <berto@igalia.com>
 
-According to Kevin, tests 030, 040 and 041 are among the most valuable
-tests that we have, so we should always run them if possible, even if
-they take a little bit longer.
+The L1 table is read from disk using the byte-based bdrv_pread() and
+is never accessed beyond its last element, so there's no need to
+allocate more memory than that.
 
-According to Max, it would be good to have a test for iothreads and
-migration. 127 and 256 seem to be good candidates for iothreads. For
-migration, let's enable 181 and 203 (which also tests iothreads).
-(091 would be a good candidate for migration, too, but Alex Benn=C3=A9e
-reported that this test fails on ZFS file systems, so it can't be
-included yet)
-
+Signed-off-by: Alberto Garcia <berto@igalia.com>
 Reviewed-by: Max Reitz <mreitz@redhat.com>
-Signed-off-by: Thomas Huth <thuth@redhat.com>
-Message-id: 20200121095205.26323-7-thuth@redhat.com
+Message-id: b2e27214ec7b03a585931bcf383ee1ac3a641a10.1579374329.git.berto@i=
+galia.com
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/qemu-iotests/group | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ block/qcow2-cluster.c  | 5 ++---
+ block/qcow2-refcount.c | 2 +-
+ block/qcow2-snapshot.c | 3 +--
+ block/qcow2.c          | 2 +-
+ 4 files changed, 5 insertions(+), 7 deletions(-)
 
-diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
-index e041cc1ee3..9d30a4b6c4 100644
---- a/tests/qemu-iotests/group
-+++ b/tests/qemu-iotests/group
-@@ -51,7 +51,7 @@
- 027 rw auto quick
- 028 rw backing quick
- 029 rw auto quick
--030 rw backing
-+030 rw auto backing
- 031 rw auto quick
- 032 rw auto quick
- 033 rw auto quick
-@@ -61,8 +61,8 @@
- 037 rw auto backing quick
- 038 rw auto backing quick
- 039 rw auto quick
--040 rw
--041 rw backing
-+040 rw auto
-+041 rw auto backing
- 042 rw auto quick
- 043 rw auto backing
- 044 rw
-@@ -148,7 +148,7 @@
- 124 rw backing
- 125 rw
- 126 rw auto backing
--127 rw backing quick
-+127 rw auto backing quick
- 128 rw quick
- 129 rw quick
- 130 rw quick
-@@ -197,7 +197,7 @@
- 177 rw auto quick
- 178 img
- 179 rw auto quick
--181 rw migration
-+181 rw auto migration
- 182 rw quick
- 183 rw migration
- 184 rw auto quick
-@@ -218,7 +218,7 @@
- 200 rw
- 201 rw migration
- 202 rw quick
--203 rw migration
-+203 rw auto migration
- 204 rw quick
- 205 rw quick
- 206 rw
-@@ -270,7 +270,7 @@
- 253 rw quick
- 254 rw backing quick
- 255 rw quick
--256 rw quick
-+256 rw auto quick
- 257 rw
- 258 rw quick
- 260 rw quick
+diff --git a/block/qcow2-cluster.c b/block/qcow2-cluster.c
+index e9431f6785..0384fb2339 100644
+--- a/block/qcow2-cluster.c
++++ b/block/qcow2-cluster.c
+@@ -124,12 +124,11 @@ int qcow2_grow_l1_table(BlockDriverState *bs, uint64_=
+t min_size,
+ #endif
+=20
+     new_l1_size2 =3D sizeof(uint64_t) * new_l1_size;
+-    new_l1_table =3D qemu_try_blockalign(bs->file->bs,
+-                                       ROUND_UP(new_l1_size2, 512));
++    new_l1_table =3D qemu_try_blockalign(bs->file->bs, new_l1_size2);
+     if (new_l1_table =3D=3D NULL) {
+         return -ENOMEM;
+     }
+-    memset(new_l1_table, 0, ROUND_UP(new_l1_size2, 512));
++    memset(new_l1_table, 0, new_l1_size2);
+=20
+     if (s->l1_size) {
+         memcpy(new_l1_table, s->l1_table, s->l1_size * sizeof(uint64_t));
+diff --git a/block/qcow2-refcount.c b/block/qcow2-refcount.c
+index f67ac6b2d8..c963bc8de1 100644
+--- a/block/qcow2-refcount.c
++++ b/block/qcow2-refcount.c
+@@ -1262,7 +1262,7 @@ int qcow2_update_snapshot_refcount(BlockDriverState *=
+bs,
+      * l1_table_offset when it is the current s->l1_table_offset! Be caref=
+ul
+      * when changing this! */
+     if (l1_table_offset !=3D s->l1_table_offset) {
+-        l1_table =3D g_try_malloc0(ROUND_UP(l1_size2, 512));
++        l1_table =3D g_try_malloc0(l1_size2);
+         if (l1_size2 && l1_table =3D=3D NULL) {
+             ret =3D -ENOMEM;
+             goto fail;
+diff --git a/block/qcow2-snapshot.c b/block/qcow2-snapshot.c
+index 5ab64da1ec..82c32d4c9b 100644
+--- a/block/qcow2-snapshot.c
++++ b/block/qcow2-snapshot.c
+@@ -1024,8 +1024,7 @@ int qcow2_snapshot_load_tmp(BlockDriverState *bs,
+         return ret;
+     }
+     new_l1_bytes =3D sn->l1_size * sizeof(uint64_t);
+-    new_l1_table =3D qemu_try_blockalign(bs->file->bs,
+-                                       ROUND_UP(new_l1_bytes, 512));
++    new_l1_table =3D qemu_try_blockalign(bs->file->bs, new_l1_bytes);
+     if (new_l1_table =3D=3D NULL) {
+         return -ENOMEM;
+     }
+diff --git a/block/qcow2.c b/block/qcow2.c
+index e29fc07068..83db013814 100644
+--- a/block/qcow2.c
++++ b/block/qcow2.c
+@@ -1491,7 +1491,7 @@ static int coroutine_fn qcow2_do_open(BlockDriverStat=
+e *bs, QDict *options,
+=20
+     if (s->l1_size > 0) {
+         s->l1_table =3D qemu_try_blockalign(bs->file->bs,
+-            ROUND_UP(s->l1_size * sizeof(uint64_t), 512));
++                                          s->l1_size * sizeof(uint64_t));
+         if (s->l1_table =3D=3D NULL) {
+             error_setg(errp, "Could not allocate L1 table");
+             ret =3D -ENOMEM;
 --=20
 2.24.1
 
