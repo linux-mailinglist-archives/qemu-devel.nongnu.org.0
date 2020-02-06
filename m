@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0C7C153CB3
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 02:40:31 +0100 (CET)
-Received: from localhost ([::1]:59496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E61F4153CAA
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 02:36:22 +0100 (CET)
+Received: from localhost ([::1]:59408 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izW9e-0005FJ-Oc
-	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 20:40:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54754)
+	id 1izW5d-0006pk-Tl
+	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 20:36:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54712)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1izVox-0001bw-8o
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 20:19:09 -0500
+ id 1izVov-0001b2-7a
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 20:19:07 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1izVou-00058R-De
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 20:19:07 -0500
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:37975)
+ id 1izVou-00056g-6k
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 20:19:05 -0500
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:43344)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1izVot-0004zb-59; Wed, 05 Feb 2020 20:19:04 -0500
-Received: by mail-wr1-x444.google.com with SMTP id y17so5137963wrh.5;
+ id 1izVou-00055m-1G; Wed, 05 Feb 2020 20:19:04 -0500
+Received: by mail-wr1-x442.google.com with SMTP id z9so5099072wrs.10;
  Wed, 05 Feb 2020 17:19:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=YKntEz0YWqvXEnpxZehSJURd2wV0yMHHN+VgGwbeMbQ=;
- b=oi+qusW0M9ReYlUYlgK0Tx/WRBFwFBdJ3G492nLXQLtnq6cGlfgg6IhU+8Q1KX6NzW
- teDpuwygyQFRiAY1Bzhvjk0EGqbVz9KYTaTxwGhK/j+amIwnTRpxU2SIJvMuV4HGjAaW
- uEp3GKynLjsBGBbR9XhcYJZWrJqckktTU7lOW+LXYjrnoVa122Niz0U/9OoMMri6G0Nh
- 9B5mbOdkBEhkSkewOp3IWx5a9VezotBoyF2DpZCYJrccs4O3bi5UT+RacKHELvRxujR9
- A2XK/Kp2QYYkb77vhJVlyXqGX55cUQB7+fpwlg7JccbeTvKPyBU0o5SLoLVlrBY+qob/
- 0Ebg==
+ bh=7XPvv6jxd1oIoIhXDZTxZc8ANlESxt/CQMBwAqbZerI=;
+ b=rDYdY5YU4skruCOuQJPEeYO2xrpqHD4ZasTyqGE/A1C3HT4xpWPqU0KTn+sxuyVwJk
+ Du9ZvGiKs6Np/JptP5r2rcJiXlIpINVPp4HtHUkvsZakBfVPx28DBeeggCYv9HmbkQ8k
+ MpKbIPLijGl95wA9SxgvQPP+8VYKFpvujqjpTTIoxSQL1Hkqe+j6jvgJBJNydr+DJnUm
+ p7BrUb258ZmRQhEj8fClvcVeXIV7lOpYYjC578khTJ2PgGh5trewrB8WDH3aJ4SS9kPz
+ hljmmweDkjkrt9l5pb4J6RwHi/Jmz4vEc4TH/OLAtIPYm0lrNouavwDPMEKTry3dLZAG
+ 8AmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=YKntEz0YWqvXEnpxZehSJURd2wV0yMHHN+VgGwbeMbQ=;
- b=RVX/foTZTBlE5I0PLAHyswFbCCyW957lSZTMwNL7RXOLHQUXCgYZfqP1yBiYlu9l82
- MsG8uk5SHa4n+wHRqE7sR5UATxTy5q63MwYdbWX8ZtTgkJC0brUwEQRD/dOfMX+lafsA
- 6Lnj3cKjWqk3eaDlPTXIljabH7TDeBFlru592ugUrGrnutDHpl5wd2bp/X/KXf4/YfGv
- 5W2/3An59btzT92rzqy29GERysDhWs0rJqWU1ZqaK5Xnup/T4/kKGvKdqfPxpV9eT9m3
- jkmckUfty90ATeG+CYzqFjGrjFjPFo0uS95qxn/ycigRl7olyPAcrvuL19DV1+56w8Z0
- 7+lw==
-X-Gm-Message-State: APjAAAVXL1JxyqoKN98Nvz+XVL3WWrlk5IqnfOrBBtqbdSBs2Ejqcknd
- WaLepIB2ImJ4Isjx/oxlUdkh9Oz+
-X-Google-Smtp-Source: APXvYqzjzkRkWsdkmEJArnKRTQ/9c7Y4rLTb8y9Vil6zbtoT1OUHB54512MrBgRxHGvWpNWdlMFJ0g==
-X-Received: by 2002:adf:f1c6:: with SMTP id z6mr303703wro.279.1580951940799;
- Wed, 05 Feb 2020 17:19:00 -0800 (PST)
+ bh=7XPvv6jxd1oIoIhXDZTxZc8ANlESxt/CQMBwAqbZerI=;
+ b=TDAKsbInk3bXrgCKUe0/CcHTkqu8xRkXHvyRi4ZMZI58oO1VCaW3KZtvR+IbveEAcw
+ Mk4ccRLohI4BGsNeUF4lV76Jfai9qLrzPjLbihB6WmT99fwiVmC94s8PY/hRxDYgfaUS
+ E9/oIZeEBCQwFVKqnGmfZ5LioK+gZBC+Ot3DIVXK1V9FAJ93ySqLLLn6fVaUzY8no5Sb
+ dt1jyusFgAFaO3DXmP2v7NCLoa8BEt9x7lr6isoxggIkiKqaqUUS4aGmxla6AVeJeQAV
+ McBHhy7WpgjCcPmjrf2SSeqnLmHx9j+BELXPCC0fJMAAfazK/xUdRmM5uPDPZH+ocNBY
+ 8oIQ==
+X-Gm-Message-State: APjAAAWbQ0S22QFq7feHWziovelOeOK5jJVagyJIincwBwrY8oQs1Plz
+ CLDCFHqbi3iEjugNciVfrv+z3p//
+X-Google-Smtp-Source: APXvYqycPJexQ273or3yEIOqRHZozGJWCWlUcs2WMEsyfftDCaQMEom004YHVUaLJ+AdOd7L1hQ0+g==
+X-Received: by 2002:a5d:4687:: with SMTP id u7mr368672wrq.176.1580951942849;
+ Wed, 05 Feb 2020 17:19:02 -0800 (PST)
 Received: from localhost.localdomain (2.red-95-127-156.staticip.rima-tde.net.
  [95.127.156.2])
- by smtp.gmail.com with ESMTPSA id w13sm2053526wru.38.2020.02.05.17.18.58
+ by smtp.gmail.com with ESMTPSA id w13sm2053526wru.38.2020.02.05.17.19.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Feb 2020 17:19:00 -0800 (PST)
+ Wed, 05 Feb 2020 17:19:02 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [NOTFORMERGE PATCH v2 29/30] hw/arm/bcm2836: Add the BCM2838 (ARMv8)
-Date: Thu,  6 Feb 2020 02:17:55 +0100
-Message-Id: <20200206011756.2413-30-f4bug@amsat.org>
+Subject: [NOTFORMERGE PATCH v2 30/30] hw/arm/raspi: Add the Raspberry Pi 4
+Date: Thu,  6 Feb 2020 02:17:56 +0100
+Message-Id: <20200206011756.2413-31-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200206011756.2413-1-f4bug@amsat.org>
 References: <20200206011756.2413-1-f4bug@amsat.org>
@@ -69,7 +69,7 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::444
+X-Received-From: 2a00:1450:4864:20::442
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,287 +90,45 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Setup the GICv2.
-
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- include/hw/arm/bcm2836.h |   3 +
- hw/arm/bcm2836.c         | 206 +++++++++++++++++++++++++++++++++++++++
- 2 files changed, 209 insertions(+)
+ hw/arm/raspi.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/include/hw/arm/bcm2836.h b/include/hw/arm/bcm2836.h
-index 3d46469a73..7c1f79911c 100644
---- a/include/hw/arm/bcm2836.h
-+++ b/include/hw/arm/bcm2836.h
-@@ -13,6 +13,7 @@
- 
- #include "hw/arm/bcm2835_peripherals.h"
- #include "hw/intc/bcm2836_control.h"
-+#include "hw/intc/arm_gic.h"
- #include "target/arm/cpu.h"
- 
- #define TYPE_BCM283X "bcm283x"
-@@ -27,6 +28,7 @@
- #define TYPE_BCM2835 "bcm2835"
- #define TYPE_BCM2836 "bcm2836"
- #define TYPE_BCM2837 "bcm2837"
-+#define TYPE_BCM2838 "bcm2838"
- 
- typedef struct BCM283XState {
-     /*< private >*/
-@@ -39,6 +41,7 @@ typedef struct BCM283XState {
-     struct {
-         ARMCPU core;
-     } cpu[BCM283X_NCPUS];
-+    GICState gic;
-     BCM2836ControlState control;
-     BCM2835PeripheralState peripherals;
- } BCM283XState;
-diff --git a/hw/arm/bcm2836.c b/hw/arm/bcm2836.c
-index bce5f8a866..f09cd25caf 100644
---- a/hw/arm/bcm2836.c
-+++ b/hw/arm/bcm2836.c
-@@ -24,6 +24,7 @@ typedef struct BCM283XClass {
-     int core_count;
-     hwaddr peri_base; /* Peripheral base address seen by the CPU */
-     hwaddr ctrl_base; /* Interrupt controller and mailboxes etc. */
-+    hwaddr gic_base;
-     int clusterid;
- } BCM283XClass;
- 
-@@ -51,6 +52,11 @@ static void bcm2836_init(Object *obj)
-         qdev_prop_set_uint32(DEVICE(obj), "enabled-cpus", bc->core_count);
-     }
- 
-+    if (bc->gic_base) {
-+        sysbus_init_child_obj(obj, "gic", &s->gic, sizeof(s->gic),
-+                              TYPE_ARM_GIC);
-+    }
-+
-     if (bc->ctrl_base) {
-         sysbus_init_child_obj(obj, "control", &s->control,
-                               sizeof(s->control), TYPE_BCM2836_CONTROL);
-@@ -201,6 +207,188 @@ static void bcm2836_realize(DeviceState *dev, Error **errp)
-     }
- }
- 
-+#ifdef TARGET_AARCH64
-+
-+#define GIC400_MAINTAINANCE_IRQ  9
-+#define GIC400_TIMER_NS_EL2_IRQ 10
-+#define GIC400_TIMER_VIRT_IRQ   11
-+#define GIC400_LEGACY_FIQ       12
-+#define GIC400_TIMER_S_EL1_IRQ  13
-+#define GIC400_TIMER_NS_EL1_IRQ 14
-+#define GIC400_LEGACY_IRQ       15
-+
-+/* Number of external interrupt lines to configure the GIC with */
-+#define GIC_NUM_IRQS                128
-+
-+#define PPI(cpu, irq) (GIC_NUM_IRQS + (cpu) * GIC_INTERNAL + GIC_NR_SGIS + irq)
-+
-+#define GIC_BASE_OFS                0x0000
-+#define GIC_DIST_OFS                0x1000
-+#define GIC_CPU_OFS                 0x2000
-+#define GIC_VIFACE_THIS_OFS         0x4000
-+#define GIC_VIFACE_OTHER_OFS(cpu)  (0x5000 + (cpu) * 0x200)
-+#define GIC_VCPU_OFS                0x6000
-+
-+#define NUM_GICV2M_SPIS       64
-+
-+#define VIRTUAL_PMU_IRQ 7
-+
-+static void bcm2838_gic_set_irq(void *opaque, int irq, int level)
-+{
-+    BCM283XState *s = (BCM283XState *)opaque;
-+
-+    printf("bcm2838_gic_set_irq irq:%d lvl:%d\n", irq, level);
-+    qemu_set_irq(qdev_get_gpio_in(DEVICE(&s->gic), irq), level);
-+}
-+
-+static void bcm2838_realize(DeviceState *dev, Error **errp)
-+{
-+    BCM283XState *s = BCM283X(dev);
-+    BCM283XClass *bc = BCM283X_GET_CLASS(dev);
-+    Error *err = NULL;
-+    int n;
-+
-+    bcm283x_common_realize(dev, &err);
-+    if (err) {
-+        error_propagate(errp, err);
-+        return;
-+    }
-+
-+    sysbus_mmio_map_overlap(SYS_BUS_DEVICE(&s->peripherals), 0,
-+                            bc->peri_base, 1);
-+
-+    /* bcm2836 interrupt controller (and mailboxes, etc.) */
-+    object_property_set_bool(OBJECT(&s->control), true, "realized", &err);
-+    if (err) {
-+        error_propagate(errp, err);
-+        return;
-+    }
-+
-+    sysbus_mmio_map(SYS_BUS_DEVICE(&s->control), 0, bc->ctrl_base);
-+
-+    /* Create cores */
-+    for (n = 0; n < bc->core_count; n++) {
-+        /* TODO: this should be converted to a property of ARM_CPU */
-+        s->cpu[n].core.mp_affinity = (bc->clusterid << 8) | n;
-+
-+        /* set periphbase/CBAR value for CPU-local registers */
-+        object_property_set_int(OBJECT(&s->cpu[n]),
-+                                bc->peri_base,
-+                                "reset-cbar", &err);
-+        if (err) {
-+            error_propagate(errp, err);
-+            return;
-+        }
-+
-+        /* start powered off if not enabled */
-+        object_property_set_bool(OBJECT(&s->cpu[n]), n >= s->enabled_cpus,
-+                                 "start-powered-off", &err);
-+        if (err) {
-+            error_propagate(errp, err);
-+            return;
-+        }
-+
-+        object_property_set_bool(OBJECT(&s->cpu[n]), true, "realized", &err);
-+        if (err) {
-+            error_propagate(errp, err);
-+            return;
-+        }
-+    }
-+
-+    object_property_set_uint(OBJECT(&s->gic), 2, "revision", &err);
-+    if (err) {
-+        error_propagate(errp, err);
-+        return;
-+    }
-+
-+    object_property_set_uint(OBJECT(&s->gic),
-+                             BCM283X_NCPUS, "num-cpu", &err);
-+    if (err) {
-+        error_propagate(errp, err);
-+        return;
-+    }
-+
-+    object_property_set_uint(OBJECT(&s->gic),
-+                             GIC_NUM_IRQS + GIC_INTERNAL, "num-irq", &err);
-+    if (err) {
-+        error_propagate(errp, err);
-+        return;
-+    }
-+
-+    object_property_set_bool(OBJECT(&s->gic),
-+                             true, "has-virtualization-extensions", &err);
-+    if (err) {
-+        error_propagate(errp, err);
-+        return;
-+    }
-+
-+    object_property_set_bool(OBJECT(&s->gic), true, "realized", &err);
-+    if (err) {
-+        error_propagate(errp, err);
-+        return;
-+    }
-+
-+    sysbus_mmio_map(SYS_BUS_DEVICE(&s->gic), 0,
-+                    bc->ctrl_base + bc->gic_base + GIC_DIST_OFS);
-+    sysbus_mmio_map(SYS_BUS_DEVICE(&s->gic), 1,
-+                    bc->ctrl_base + bc->gic_base + GIC_CPU_OFS);
-+    sysbus_mmio_map(SYS_BUS_DEVICE(&s->gic), 2,
-+                    bc->ctrl_base + bc->gic_base + GIC_VIFACE_THIS_OFS);
-+    sysbus_mmio_map(SYS_BUS_DEVICE(&s->gic), 3,
-+                    bc->ctrl_base + bc->gic_base + GIC_VCPU_OFS);
-+
-+    for (n = 0; n < BCM283X_NCPUS; n++) {
-+        sysbus_mmio_map(SYS_BUS_DEVICE(&s->gic), 4 + n,
-+                        bc->ctrl_base + bc->gic_base
-+                        + GIC_VIFACE_OTHER_OFS(n));
-+    }
-+
-+    for (n = 0; n < BCM283X_NCPUS; n++) {
-+        DeviceState *cpudev = DEVICE(&s->cpu[n]);
-+        DeviceState *gicdev = DEVICE(&s->gic);
-+
-+        /* Connect the GICv2 outputs to the CPU */
-+        sysbus_connect_irq(SYS_BUS_DEVICE(&s->gic), n,
-+                           qdev_get_gpio_in(cpudev, ARM_CPU_IRQ));
-+        sysbus_connect_irq(SYS_BUS_DEVICE(&s->gic), n + BCM283X_NCPUS,
-+                           qdev_get_gpio_in(cpudev, ARM_CPU_FIQ));
-+        sysbus_connect_irq(SYS_BUS_DEVICE(&s->gic), n + 2 * BCM283X_NCPUS,
-+                           qdev_get_gpio_in(cpudev, ARM_CPU_VIRQ));
-+        sysbus_connect_irq(SYS_BUS_DEVICE(&s->gic), n + 3 * BCM283X_NCPUS,
-+                        qdev_get_gpio_in(cpudev, ARM_CPU_VFIQ));
-+
-+        sysbus_connect_irq(SYS_BUS_DEVICE(&s->gic), n + 4 * BCM283X_NCPUS,
-+                        qdev_get_gpio_in(gicdev,
-+                                         PPI(n, GIC400_MAINTAINANCE_IRQ)));
-+
-+        /* Connect timers from the CPU to the interrupt controller */
-+        qdev_connect_gpio_out(cpudev, GTIMER_PHYS,
-+              qdev_get_gpio_in(gicdev, PPI(n, GIC400_TIMER_NS_EL1_IRQ)));
-+        qdev_connect_gpio_out(cpudev, GTIMER_VIRT,
-+              qdev_get_gpio_in(gicdev, PPI(n, GIC400_TIMER_VIRT_IRQ)));
-+        qdev_connect_gpio_out(cpudev, GTIMER_HYP,
-+              qdev_get_gpio_in(gicdev, PPI(n, GIC400_TIMER_NS_EL2_IRQ)));
-+        qdev_connect_gpio_out(cpudev, GTIMER_SEC,
-+              qdev_get_gpio_in(gicdev, PPI(n, GIC400_TIMER_S_EL1_IRQ)));
-+        /* PMU interrupt */
-+        qdev_connect_gpio_out_named(cpudev, "pmu-interrupt", 0,
-+            qdev_get_gpio_in(gicdev, PPI(n, VIRTUAL_PMU_IRQ)));
-+    }
-+
-+    /* Pass through inbound GPIO lines to the GIC */
-+    qdev_init_gpio_in(dev, bcm2838_gic_set_irq, GIC_NUM_IRQS);
-+
-+    /* Pass through outbound IRQ lines from the GIC */
-+    qdev_pass_gpios(DEVICE(&s->gic), DEVICE(&s->peripherals), NULL);
-+
-+    object_property_set_bool(OBJECT(&s->peripherals), true, "realized", &err);
-+    if (err) {
-+        error_propagate(errp, err);
-+        return;
-+    }
-+}
-+#endif /* TARGET_AARCH64 */
-+
- static void bcm283x_class_init(ObjectClass *oc, void *data)
+diff --git a/hw/arm/raspi.c b/hw/arm/raspi.c
+index 47cc250883..8a0309933b 100644
+--- a/hw/arm/raspi.c
++++ b/hw/arm/raspi.c
+@@ -88,7 +88,7 @@ static int board_version(uint32_t board_rev)
+ static const char *board_soc_type(uint32_t board_rev)
  {
-     DeviceClass *dc = DEVICE_CLASS(oc);
-@@ -246,6 +434,20 @@ static void bcm2837_class_init(ObjectClass *oc, void *data)
-     bc->clusterid = 0x0;
-     dc->realize = bcm2836_realize;
- };
-+
-+static void bcm2838_class_init(ObjectClass *oc, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(oc);
-+    BCM283XClass *bc = BCM283X_CLASS(oc);
-+
-+    bc->cpu_type = ARM_CPU_TYPE_NAME("cortex-a72");
-+    bc->core_count = BCM283X_NCPUS;
-+    bc->peri_base = 0xfe000000;
-+    bc->ctrl_base = 0xff800000;
-+    bc->gic_base = 0x40000;
-+    bc->clusterid = 0x0;
-+    dc->realize = bcm2838_realize;
-+};
- #endif
+     static const char *soc_types[] = {
+-        TYPE_BCM2835, TYPE_BCM2836, TYPE_BCM2837,
++        TYPE_BCM2835, TYPE_BCM2836, TYPE_BCM2837, TYPE_BCM2838,
+     };
+     int proc_id = board_processor_id(board_rev);
  
- static const TypeInfo bcm283x_types[] = {
-@@ -262,6 +464,10 @@ static const TypeInfo bcm283x_types[] = {
-         .name           = TYPE_BCM2837,
-         .parent         = TYPE_BCM283X,
-         .class_init     = bcm2837_class_init,
+@@ -103,7 +103,7 @@ static const char *board_soc_type(uint32_t board_rev)
+ static int cores_count(uint32_t board_rev)
+ {
+     static const int soc_cores_count[] = {
+-        1, BCM283X_NCPUS, BCM283X_NCPUS,
++        1, BCM283X_NCPUS, BCM283X_NCPUS, BCM283X_NCPUS,
+     };
+     int proc_id = board_processor_id(board_rev);
+ 
+@@ -350,6 +350,11 @@ static const TypeInfo raspi_machine_types[] = {
+         .parent         = TYPE_RASPI_MACHINE,
+         .class_init     = raspi_machine_class_init,
+         .class_data     = (void *)0xa02082,
 +    }, {
-+        .name           = TYPE_BCM2838,
-+        .parent         = TYPE_BCM283X,
-+        .class_init     = bcm2838_class_init,
++        .name           = MACHINE_TYPE_NAME("raspi4"),
++        .parent         = TYPE_RASPI_MACHINE,
++        .class_init     = raspi_machine_class_init,
++        .class_data     = (void *)0xa03111,
  #endif
      }, {
-         .name           = TYPE_BCM283X,
+         .name           = TYPE_RASPI_MACHINE,
 -- 
 2.21.1
 
