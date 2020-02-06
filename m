@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DE52154E5C
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 22:51:43 +0100 (CET)
-Received: from localhost ([::1]:46842 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E293B154E86
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 23:03:11 +0100 (CET)
+Received: from localhost ([::1]:46975 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izp3m-0003cy-L3
-	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 16:51:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42990)
+	id 1izpEs-0003qM-SH
+	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 17:03:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39946)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <beata.michalska@linaro.org>) id 1izp0W-0007iy-4P
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 16:48:22 -0500
+ (envelope-from <beata.michalska@linaro.org>) id 1izotn-0006SE-SV
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 16:41:25 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <beata.michalska@linaro.org>) id 1izp0T-0005BK-U1
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 16:48:20 -0500
-Received: from mail-il1-x144.google.com ([2607:f8b0:4864:20::144]:33209)
+ (envelope-from <beata.michalska@linaro.org>) id 1izotm-0002SP-BZ
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 16:41:23 -0500
+Received: from mail-io1-xd43.google.com ([2607:f8b0:4864:20::d43]:46702)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <beata.michalska@linaro.org>)
- id 1izp0T-00054s-IR
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 16:48:17 -0500
-Received: by mail-il1-x144.google.com with SMTP id s18so2351iln.0
- for <qemu-devel@nongnu.org>; Thu, 06 Feb 2020 13:48:17 -0800 (PST)
+ id 1izotm-0002Ot-5y
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 16:41:22 -0500
+Received: by mail-io1-xd43.google.com with SMTP id t26so7907921ioi.13
+ for <qemu-devel@nongnu.org>; Thu, 06 Feb 2020 13:41:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Wy1Sqdo0M2y1UUkfOruL8IBYp1Ki3GytyCuyoZOPLQA=;
- b=BAGyVyltUOacgCnahSh4chCmoHo3fSgdE1cTe+KSdqHvUTP35lEDhHva/ef/e2xhU9
- Apwu5z99bZ6SYGDxBcVoYh+FxU0EDNq9mRk4ckENMWpQ/XgaR2aNngYxX//tH/yCs6Qo
- 7u8HJq9F+bICLxNOakFsmeFhvVve4DEfVaF7NVQhsE5J+QEa7sUa9kZmAAMiXGQJoOVl
- NnpxT3adltjuuUWJTeISjwGaom6xdubSK3rXgnViYpC1iC13X4arU1e+1BowowYBvmoO
- 6SrZVYM2HZkL9aYimkezGECZMNy+FFb/Tk/v6JDz7Qxr2EPKMYcBCBFwuCOdPLeJH+Kb
- jSeQ==
+ :cc; bh=kvVxq0r49Mqq4asBVI4NCDYI19hcfdO7wI2SNt5QJ9A=;
+ b=vjE/8XjLWPicwX3CFGOsQ5nQfZDB9lS8l3stAVjyHSX8MRXbbJI/amrcU3tHU4Ncps
+ cl45EDIGEtj2/UFLWMZCUhFXtjepvTsqql0gZ5VjYzm1iclCwBeb6UxtlkD5taX4JsAQ
+ BmVIZOvjZs8kY+WubZYYJJ3c9DPHocNPaHwlV7o4J3uoBPDC+nHPgzdIC7f+0y0Db74l
+ HnNWsNIIJjBB92rBK3mZtnlVYxpFAQ9b5SCkFEhfq9vXcclk1MIsqKKZPnvyRUHaEK1v
+ GFuk4WluePJbRl4cqniAephhkFK5Cgn3woOhCxnZoSZbQV6Jebx6jVaRVFGH1U0TYGP4
+ wZMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=Wy1Sqdo0M2y1UUkfOruL8IBYp1Ki3GytyCuyoZOPLQA=;
- b=DeMfaRKNMGZZZPEljYrCJ847BX13oImldxHyrlDBeR6+OriVbfG8blwgSz2blao25/
- IuIfaIMNX5QqBrzMPaNakCBigL9ve5J5ZFEfYxVYH1xcpjXOvVAGXbOXk5xTfDxibnXN
- y008lsAxZjDGbwo0b7dma4slVGFIhm79IajzI6VSi4GPpgWwHmWwxpCVntytKLrvBhGV
- XDs/+w/OK8bUWOoid65UIIf7Wi7Gy99N3prKEAARXx7T3WGvt8v3ahn2+QmhFBHYxT3u
- BnVZCKSUIIlgCRYNmTS9GufUjnCjWYJalHUKqsVctWQmZ8eOBid9zsvKIeXMQEpToBIe
- vbbQ==
-X-Gm-Message-State: APjAAAWRASx/Ks1OSRQF+pvVq5hPtwl8b8k3MRM6Kob2zweesnAwmCPD
- kp42N9cfQ/qOG856ifkz/t8nm38dHGJ8pvCXVgPI2A==
-X-Google-Smtp-Source: APXvYqyk3SoOlAS3jd+ejumnymdpbTX14OcRwFgoos/s9hZz8ZoBujulACpx/OR846tg5po0Sb6vhvX0esagjErxnJ8=
-X-Received: by 2002:a05:6e02:5c3:: with SMTP id
- l3mr6351768ils.260.1581025696368; 
- Thu, 06 Feb 2020 13:48:16 -0800 (PST)
+ bh=kvVxq0r49Mqq4asBVI4NCDYI19hcfdO7wI2SNt5QJ9A=;
+ b=Kc1QAIMLraYlJBnpSqSqkzWfCaAJodkglTbtD6GEV9FmQOZWC/saIzNTqh5Q8WOsoU
+ k1TNQ8KCAIiJXSspJ0zHtsSw15WeM26wkdWCH7NnjAc8VWPrTas+xSmzcYTTlBKKifoQ
+ Rk8LEZ6CM5/LC43bTn8HYE6CWe+BMT+8Xl6Cgjj0PO6xArN+QUMQYOsDeynfb1WfwIEJ
+ 5Wrmi1TwH/YYzUPke+jStUd7LFPMZ0ScyjwwggLCc2noxj26GhNmdodl+wkPfdIjERoG
+ kPTve2mwe5+rjxaE6eQp9OBHmlnPKwVMj4icayOjO3+kfs430CSvL6T6aBXBOlx/paFx
+ lTrw==
+X-Gm-Message-State: APjAAAVTcyd2jPkfLpKTbgjJbUwkRu2Py7id9Ft/IoN/21v7YqRrAq0h
+ kkMiUyiE5IEtHyX3oiMWkLjfBOl2dWj5b3fmDY1QGg==
+X-Google-Smtp-Source: APXvYqyQCDWRRpkhqSVdBthGBigb1aUxsXt/uKE8cjGefkWSNZ4y57QZWPFq81DWzm7nnWwQEmDdLQcVncVKiCGHbaI=
+X-Received: by 2002:a5d:9255:: with SMTP id e21mr280183iol.260.1581025280987; 
+ Thu, 06 Feb 2020 13:41:20 -0800 (PST)
 MIME-Version: 1.0
 References: <20200129202441.12745-1-beata.michalska@linaro.org>
- <20200129202441.12745-3-beata.michalska@linaro.org>
- <20200205165739.2jkklbpmy3yrdq3q@kamzik.brq.redhat.com>
-In-Reply-To: <20200205165739.2jkklbpmy3yrdq3q@kamzik.brq.redhat.com>
+ <20200129202441.12745-2-beata.michalska@linaro.org>
+ <20200204103447.naw26xl2y2zbyrqb@kamzik.brq.redhat.com>
+In-Reply-To: <20200204103447.naw26xl2y2zbyrqb@kamzik.brq.redhat.com>
 From: Beata Michalska <beata.michalska@linaro.org>
-Date: Thu, 6 Feb 2020 21:48:05 +0000
-Message-ID: <CADSWDzu70AXg5pNY3sLr5GFbKtXaFmV_UgSm6TWw7oshv4vcEw@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] target/arm: kvm: Handle DABT with no valid ISS
+Date: Thu, 6 Feb 2020 21:41:10 +0000
+Message-ID: <CADSWDzuQvZThaoFbeYM2QrDbwRPrZuiyDrVJV=jxiSMTW9O-rg@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] target/arm: kvm: Inject events at the last stage
+ of sync
 To: Andrew Jones <drjones@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::144
+X-Received-From: 2607:f8b0:4864:20::d43
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,303 +81,144 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 5 Feb 2020 at 16:57, Andrew Jones <drjones@redhat.com> wrote:
+On Tue, 4 Feb 2020 at 10:34, Andrew Jones <drjones@redhat.com> wrote:
 >
-> On Wed, Jan 29, 2020 at 08:24:41PM +0000, Beata Michalska wrote:
-> > On ARMv7 & ARMv8 some load/store instructions might trigger a data abort
-> > exception with no valid ISS info to be decoded. The lack of decode info
-> > makes it at least tricky to emulate those instruction which is one of the
-> > (many) reasons why KVM will not even try to do so.
-> >
-> > Add support for handling those by requesting KVM to inject external
-> > dabt into the quest.
+> On Wed, Jan 29, 2020 at 08:24:40PM +0000, Beata Michalska wrote:
+> > KVM_SET_VCPU_EVENTS might actually lead to vcpu registers being modified.
+> > As such this should be the last step of sync to avoid potential overwriting
+> > of whatever changes KVM might have done.
 > >
 > > Signed-off-by: Beata Michalska <beata.michalska@linaro.org>
 > > ---
-> >  target/arm/cpu.h     |  2 ++
-> >  target/arm/kvm.c     | 96 ++++++++++++++++++++++++++++++++++++++++++++++++++++
-> >  target/arm/kvm32.c   |  3 ++
-> >  target/arm/kvm64.c   |  3 ++
-> >  target/arm/kvm_arm.h | 19 +++++++++++
-> >  5 files changed, 123 insertions(+)
+> >  target/arm/kvm32.c | 20 ++++++++++----------
+> >  target/arm/kvm64.c | 20 ++++++++++----------
+> >  2 files changed, 20 insertions(+), 20 deletions(-)
 > >
-> > diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-> > index c1aedbe..e04a8d3 100644
-> > --- a/target/arm/cpu.h
-> > +++ b/target/arm/cpu.h
-> > @@ -558,6 +558,8 @@ typedef struct CPUARMState {
-> >          uint8_t has_esr;
-> >          uint64_t esr;
-> >      } serror;
-> > +    /* Status field for pending external dabt */
-> > +    uint8_t ext_dabt_pending;
-> >
-> >      /* State of our input IRQ/FIQ/VIRQ/VFIQ lines */
-> >      uint32_t irq_line_state;
-> > diff --git a/target/arm/kvm.c b/target/arm/kvm.c
-> > index 8d82889..e7bc9b7 100644
-> > --- a/target/arm/kvm.c
-> > +++ b/target/arm/kvm.c
-> > @@ -37,6 +37,7 @@ const KVMCapabilityInfo kvm_arch_required_capabilities[] = {
-> >
-> >  static bool cap_has_mp_state;
-> >  static bool cap_has_inject_serror_esr;
-> > +static bool cap_has_inject_ext_dabt; /* KVM_CAP_ARM_INJECT_EXT_DABT */
->
-> nit: the KVM_CAP_ARM_INJECT_EXT_DABT comment is unnecessary
-
-Might be - I just find it handy when looking for  related details.
-I will remove that one though.
-
->
-> >
-> >  static ARMHostCPUFeatures arm_host_cpu_features;
-> >
-> > @@ -62,6 +63,12 @@ void kvm_arm_init_serror_injection(CPUState *cs)
-> >                                      KVM_CAP_ARM_INJECT_SERROR_ESR);
-> >  }
-> >
-> > +void kvm_arm_init_ext_dabt_injection(CPUState *cs)
-> > +{
-> > +    cap_has_inject_ext_dabt = kvm_check_extension(cs->kvm_state,
-> > +                                    KVM_CAP_ARM_INJECT_EXT_DABT);
-> > +}
-> > +
-> >  bool kvm_arm_create_scratch_host_vcpu(const uint32_t *cpus_to_try,
-> >                                        int *fdarray,
-> >                                        struct kvm_vcpu_init *init)
-> > @@ -216,6 +223,11 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
-> >          ret = -EINVAL;
+> > diff --git a/target/arm/kvm32.c b/target/arm/kvm32.c
+> > index 32bf8d6..cf2b47f 100644
+> > --- a/target/arm/kvm32.c
+> > +++ b/target/arm/kvm32.c
+> > @@ -386,17 +386,17 @@ int kvm_arch_put_registers(CPUState *cs, int level)
+> >          return ret;
 > >      }
 > >
-> > +    if (kvm_check_extension(s, KVM_CAP_ARM_NISV_TO_USER))
-> > +        if (kvm_vm_enable_cap(s, KVM_CAP_ARM_NISV_TO_USER, 0)) {
-> > +            warn_report("Failed to enable DABT NISV cap");
-> > +        }
+> > -    ret = kvm_put_vcpu_events(cpu);
+> > -    if (ret) {
+> > -        return ret;
+> > -    }
+> > -
+> >      write_cpustate_to_list(cpu, true);
+> >
+> >      if (!write_list_to_kvmstate(cpu, level)) {
+> >          return EINVAL;
+> >      }
+> >
+> > +    ret = kvm_put_vcpu_events(cpu);
+> > +    if (ret) {
+> > +        return ret;
+> > +    }
 > > +
 >
-> Missing {} around the outer block.
-
-Checkpatch didn't complain ...
-Will fix that.
-
+> I think we should put a comment above this that says basically the same
+> thing as the commit message in order to explain why kvm_put_vcpu_events()
+> *must* be after write_list_to_kvmstate().
 >
-> As KVM_CAP_ARM_INJECT_EXT_DABT is a VM capability then I think we should
-> set cap_has_inject_ext_dabt here, like cap_has_mp_state gets set. I see
-> you've followed the pattern used for cap_has_inject_serror_esr, but that
-> looks wrong too since KVM_CAP_ARM_INJECT_SERROR_ESR is also a VM
-> capability. The way it is now we just keep setting
-> cap_has_inject_serror_esr to the same value, NR_VCPUS times.
->
-You are totally right - I have completely missed that point! Thanks.
+Will do that.
 
+> >      kvm_arm_sync_mpstate_to_kvm(cpu);
+> >
 > >      return ret;
-> >  }
-> >
-> > @@ -598,6 +610,10 @@ int kvm_put_vcpu_events(ARMCPU *cpu)
-> >          events.exception.serror_esr = env->serror.esr;
+> > @@ -462,11 +462,6 @@ int kvm_arch_get_registers(CPUState *cs)
 > >      }
+> >      vfp_set_fpscr(env, fpscr);
 > >
-> > +    if (cap_has_inject_ext_dabt) {
-> > +        events.exception.ext_dabt_pending = env->ext_dabt_pending;
+> > -    ret = kvm_get_vcpu_events(cpu);
+> > -    if (ret) {
+> > -        return ret;
+> > -    }
+> > -
+> >      if (!write_kvmstate_to_list(cpu)) {
+> >          return EINVAL;
+> >      }
+> > @@ -475,6 +470,11 @@ int kvm_arch_get_registers(CPUState *cs)
+> >       */
+> >      write_list_to_cpustate(cpu);
+> >
+> > +    ret = kvm_get_vcpu_events(cpu);
+> > +    if (ret) {
+> > +        return ret;
 > > +    }
 > > +
-> >      ret = kvm_vcpu_ioctl(CPU(cpu), KVM_SET_VCPU_EVENTS, &events);
-> >      if (ret) {
-> >          error_report("failed to put vcpu events");
-> > @@ -627,6 +643,8 @@ int kvm_get_vcpu_events(ARMCPU *cpu)
-> >      env->serror.has_esr = events.exception.serror_has_esr;
-> >      env->serror.esr = events.exception.serror_esr;
-> >
-> > +    env->ext_dabt_pending = events.exception.ext_dabt_pending;
-> > +
 >
-> afaict from Documentation/virt/kvm/api.txt and the KVM code you cannot
-> get this state. Therefore the above line (and extra stray blank line)
-> should be dropped.
->
-That's true, though this is a lightweight way of resetting the vcpu state.
-We would have to do that otherwise to mark that this case has been handled
-and that the abort is no longer pending.
+> Why are we moving kvm_get_vcpu_events()?
 
-> >      return 0;
-> >  }
-> >
-> > @@ -634,6 +652,7 @@ void kvm_arch_pre_run(CPUState *cs, struct kvm_run *run)
-> >  {
-> >  }
-> >
-> > +
->
-> stray blank line
->
-> >  MemTxAttrs kvm_arch_post_run(CPUState *cs, struct kvm_run *run)
-> >  {
-> >      ARMCPU *cpu;
-> > @@ -699,6 +718,11 @@ int kvm_arch_handle_exit(CPUState *cs, struct kvm_run *run)
-> >              ret = EXCP_DEBUG;
-> >          } /* otherwise return to guest */
-> >          break;
-> > +    case KVM_EXIT_ARM_NISV:
-> > +        /* External DABT with no valid iss to decode */
-> > +        ret = kvm_arm_handle_dabt_nisv(cs, run->arm_nisv.esr_iss,
-> > +                                       run->arm_nisv.fault_ipa);
-> > +        break;
-> >      default:
-> >          qemu_log_mask(LOG_UNIMP, "%s: un-handled exit reason %d\n",
-> >                        __func__, run->exit_reason);
-> > @@ -833,3 +857,75 @@ int kvm_arch_msi_data_to_gsi(uint32_t data)
-> >  {
-> >      return (data - 32) & 0xffff;
-> >  }
-> > +
-> > +int kvm_arm_handle_dabt_nisv(CPUState *cs, uint64_t esr_iss,
-> > +                             uint64_t fault_ipa)
-> > +{
-> > +    ARMCPU *cpu = ARM_CPU(cs);
-> > +    CPUARMState *env = &cpu->env;
-> > +    uint32_t ins, ins_fetched;
->
-> ins_fetched is a bool
-
-Actually that's int (as per cpu_memory_rw_debug)
->
-> > +
-> > +    /*
-> > +     * Hacky workaround for kernels that for aarch32 guests, instead of expected
-> > +     * external data abort, inject the IMPLEMENTATION DEFINED exception with the
-> > +     * lock-down. This is actually handled by the guest which results in
-> > +     * re-running the faulting instruction.
-> > +     * This intends to break the vicious cycle.
-> > +     */
->
-> This doesn't seem like the right thing to do. What happens on real
-> hardware in this case? If an OS would get into a "vicious cycle" on
-> real hardware then it should get into one on KVM too.
->
-That's the problem. that would not happen on a real hardware.
-We might end up here due to a KVM bug (which has been fixed recently)
-when the injected
-abort is not the one expected (as of not the one that would be
-triggered by hw in this
-particular case).
-Details in : https://patchwork.kernel.org/patch/11358083/
-
-> > +    if (!is_a64(env)) {
-> > +        static uint8_t setback;
-> > +
-> > +        /*
-> > +         * The state has not been synchronized yet, so if this is re-occurrence
-> > +         * of the same abort triggered by guest, the status for pending external
-> > +         * abort should not get cleared yet
-> > +         */
-> > +        if (unlikely(env->ext_dabt_pending)) {
-> > +            if (setback) {
-> > +                error_report("Most probably triggered kernel issue with"
-> > +                             " injecting external data abort.");
-> > +                error_printf("Giving up trying ...\n");
-> > +                /* Here is where the fun comes to an end */
-> > +                return -EINVAL;
-> > +            }
-> > +        }
-> > +        setback = env->ext_dabt_pending;
-> > +    }
-> > +
-> > +    kvm_cpu_synchronize_state(cs);
-> > +   /*
-> > +    * ISS [23:14] is invalid so there is a limited info
-> > +    * on what has just happened so the only *useful* thing that can
-> > +    * be retrieved from ISS is WnR & DFSC (though in some cases WnR
-> > +    * might be less of a value as well)
-> > +    */
-> > +
-> > +    /*
-> > +     * Get current PC before it will get updated to exception vector entry
-> > +     */
-> > +    target_ulong ins_addr = is_a64(env) ? env->pc : env->regs[15];
->
-> ins_addr should be declared above
->
-> But what are we doing? pc is a guest virtual address. Oh, I see...
->
-> > +
-> > +    /*
-> > +     * Get the faulting instruction
-> > +     * Instructions have a fixed length of 32 bits
-> > +     * and are always little-endian
-> > +     */
-> > +    ins_fetched = !cpu_memory_rw_debug(cs, ins_addr, (uint8_t *) &ins,
-> > +                                       sizeof(uint32_t), 0);
->
-> ... we're trying to actual walk the KVM guest's page tables. That
-> seems a bit odd, and the "_debug" function name used for it makes
-> it seem even more odd.
->
-> > +
-> > +    error_report("Data abort exception with no valid ISS generated by "
-> > +                 "guest memory access at physical address: 0x" TARGET_FMT_lx,
-> > +                 (target_ulong)fault_ipa);
-> > +
-> > +    error_printf(ins_fetched ? "%s : 0x%" PRIx32 " (ins encoded)\n"  : "%s\n",
-> > +                 "KVM unable to emulate faulting instruction",
-> > +                 (!ins_fetched ? 0 : ldl_le_p(&ins)));
-> > +    error_printf("Injecting a data abort exception into guest.\n");
->
-> The guest shouldn't be able to generate three lines of errors on the host
-> whenever it wants. That's a security bug. One trace point here seems like
-> the most we should do. Or, after these three lines we should kill the
-> guest.
->
-You have a point here, this can indeed be exploited by the malicious
-guest. Not sure if killing it is necessary here.
-I could limit the logging though that gets tricky for aborts triggered by
-user-space processes which would probably leave the guest running
-without much of an issue there.
-I can y get rid of logging the additional info and keep the single
-statement of an instruction not being emulated but that still leaves an
-open door for potential exploits...
-
-> Actually, I don't think we should attempt to get the instruction at all.
-> We should do what the KVM documenation suggests we do when we get
-> this exit. We should either do a user selected action: one of suspend,
-> dump, restart, or inject a dabt (as is done below). The last choice hopes
-> that the guest will handle it in some graceful way, or that it'll crash
-> with all the information needed for a post-mortem crash investigation.
->
-> And I don't think we should do the "very brave" option of trying to
-> emulate the instruction, even if we identify it as a valid MMIO address.
-> That just sounds like a huge can of worms.
->
-> Does QEMU already have a way for users to select a
-> don't-know-how-to-handle-guest-exception behavior?
->
-
-The function is attempting to inject the external data abort. The rest is for
-the aftermath analysis to easy figuring out what has happened
-which will not be so easy in case of user-space process triggering
-the DABT with no valid ISS. There is no attempt of emulating the instruction
-just simply saying the guest tried to access this address with this instruction
-which couldn't be handled. Might be excessive in some cases
-(like misbehaving kernel) but it also might be handy on those rare
-occasions when there is not much to analyze.
-But as per the issue you have raised above I will rework that.
-
-Not sure if there is a mechanism to specify the 'preferred' behavior though.
+This is only to make things consistent with put_registeres.
+There is no functional change per se.
 
 BR
 
-
 Beata
 
-
-> > +    /*
-> > +     * Set pending ext dabt and trigger SET_EVENTS so that
-> > +     * KVM can inject the abort
-> > +     */
-> > +    env->ext_dabt_pending = 1;
+> >      kvm_arm_sync_mpstate_to_qemu(cpu);
+> >
+> >      return 0;
+> > diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
+> > index 6344113..d06fd32 100644
+> > --- a/target/arm/kvm64.c
+> > +++ b/target/arm/kvm64.c
+> > @@ -1043,17 +1043,17 @@ int kvm_arch_put_registers(CPUState *cs, int level)
+> >          return ret;
+> >      }
+> >
+> > -    ret = kvm_put_vcpu_events(cpu);
+> > -    if (ret) {
+> > -        return ret;
+> > -    }
+> > -
+> >      write_cpustate_to_list(cpu, true);
+> >
+> >      if (!write_list_to_kvmstate(cpu, level)) {
+> >          return -EINVAL;
+> >      }
+> >
+> > +    ret = kvm_put_vcpu_events(cpu);
+> > +    if (ret) {
+> > +        return ret;
+> > +    }
 > > +
-> > +    return 0;
-> > +}
+> >      kvm_arm_sync_mpstate_to_kvm(cpu);
+> >
+> >      return ret;
+> > @@ -1251,11 +1251,6 @@ int kvm_arch_get_registers(CPUState *cs)
+> >      }
+> >      vfp_set_fpcr(env, fpr);
+> >
+> > -    ret = kvm_get_vcpu_events(cpu);
+> > -    if (ret) {
+> > -        return ret;
+> > -    }
+> > -
+> >      if (!write_kvmstate_to_list(cpu)) {
+> >          return -EINVAL;
+> >      }
+> > @@ -1264,6 +1259,11 @@ int kvm_arch_get_registers(CPUState *cs)
+> >       */
+> >      write_list_to_cpustate(cpu);
+> >
+> > +    ret = kvm_get_vcpu_events(cpu);
+> > +    if (ret) {
+> > +        return ret;
+> > +    }
+> > +
+> >      kvm_arm_sync_mpstate_to_qemu(cpu);
+> >
+> >      /* TODO: other registers */
+> > --
+> > 2.7.4
+> >
+> >
+>
+> Same comments for kvm64.c as for kvm32.c
 >
 > Thanks,
 > drew
