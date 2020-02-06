@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4DCA1544CC
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 14:24:17 +0100 (CET)
-Received: from localhost ([::1]:39088 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D662E1544B7
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 14:18:44 +0100 (CET)
+Received: from localhost ([::1]:38958 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izh8i-0008To-Qf
-	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 08:24:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42028)
+	id 1izh3L-0002fM-Tq
+	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 08:18:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42504)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1izh1G-0000sg-CL
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 08:16:38 -0500
+ (envelope-from <david@redhat.com>) id 1izh1z-0001NO-R5
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 08:17:21 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1izh1F-0006iN-72
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 08:16:34 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:47117
+ (envelope-from <david@redhat.com>) id 1izh1x-0000Mi-Tm
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 08:17:19 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:29642
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <david@redhat.com>) id 1izh1D-0006g1-5x
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 08:16:32 -0500
+ (Exim 4.71) (envelope-from <david@redhat.com>) id 1izh1x-0000Ib-7w
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 08:17:17 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580994989;
+ s=mimecast20190719; t=1580995036;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=qSBwvzeii81q8sUE2/Dxr8F4be/sF3amUaeaPu+4msM=;
- b=MKALg3ESphGG20yYms3Dukvhioh7tOtiGYCpUoxmAUIA2gUFM4tNLp5isog9M76buAo/j5
- JAY0zS1Em7I+w5ADgUGFD1rX3IVZa+fPPXhCqZ/6K/J66RayBtt6rCxDuZbjLR8jcCApxN
- 4O2UdqgVKb8gvgbNjLFQ7M6ZP8UqdmM=
+ bh=5TFbR8EfSCAAEJSDo8nz3RFEvH4IPVfZhBSs17iBaOk=;
+ b=P2p896KO1eQsZk9Zd3psGyfM4ILFPu/VbKh17uN+5M2Kj2JyJZS7hndFIhERPAzBXxV45t
+ 9MGpFOk0njhez7fP+BaJAkdkkgpN0cCFL/oDieVKt6IoRTwGElgtDxdxrFk4RG5f9tQs+E
+ byvxoODw3PaHqZ+xrJsvtOqyRwZAutc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-63-OcOUbssfOrquj2egEP9rIQ-1; Thu, 06 Feb 2020 08:16:25 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-392-hdl39RseO-Ge1yunAgteag-1; Thu, 06 Feb 2020 08:17:14 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 204BB101FC60;
- Thu,  6 Feb 2020 13:16:24 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B2BE0800EB2;
+ Thu,  6 Feb 2020 13:17:13 +0000 (UTC)
 Received: from [10.36.118.128] (unknown [10.36.118.128])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C563F60BEC;
- Thu,  6 Feb 2020 13:16:19 +0000 (UTC)
-Subject: Re: [PATCH v1 06/13] util/mmap-alloc: Factor out reserving of a
- memory region to mmap_reserve()
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B9DF326FC5;
+ Thu,  6 Feb 2020 13:16:59 +0000 (UTC)
+Subject: Re: [PATCH v1 08/13] util/mmap-alloc: Prepare for resizable mmaps
+To: =?UTF-8?Q?Murilo_Opsfelder_Ara=c3=bajo?= <muriloo@linux.ibm.com>
 References: <20200203183125.164879-1-david@redhat.com>
- <20200203183125.164879-7-david@redhat.com>
- <ac536bfa-ca47-f0bd-e054-ce981758d5f3@linaro.org>
+ <2036195.sfUKtyktLc@kermit.br.ibm.com>
+ <5c261bcd-44df-b4a0-451d-83ec6ac48059@redhat.com>
+ <6458667.Kg4MDSSyM0@kermit.br.ibm.com>
 From: David Hildenbrand <david@redhat.com>
 Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
  mQINBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
@@ -94,22 +94,21 @@ Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
  njnuI31KBiLUks+paRkHQlFcgS2N3gkRBzH7xSZ+t7Re3jvXdXEzKBbQ+dC3lpJB0wPnyMcX
  FOTT3aZT7IgePkt5iC/BKBk3hqKteTnJFeVIT7EC+a6YUFg=
 Organization: Red Hat GmbH
-Message-ID: <b8dbcfec-1e7b-0e79-b7fa-c8ac75a68fb3@redhat.com>
-Date: Thu, 6 Feb 2020 14:16:19 +0100
+Message-ID: <196ab5be-c851-cc20-01ea-a2507333b3f4@redhat.com>
+Date: Thu, 6 Feb 2020 14:16:58 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.3.1
 MIME-Version: 1.0
-In-Reply-To: <ac536bfa-ca47-f0bd-e054-ce981758d5f3@linaro.org>
+In-Reply-To: <6458667.Kg4MDSSyM0@kermit.br.ibm.com>
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: OcOUbssfOrquj2egEP9rIQ-1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: hdl39RseO-Ge1yunAgteag-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -122,81 +121,172 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>, Greg Kurz <groug@kaod.org>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Murilo Opsfelder Araujo <muriloo@linux.ibm.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>, Greg Kurz <groug@kaod.org>,
  Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 06.02.20 12:55, Richard Henderson wrote:
-> On 2/3/20 6:31 PM, David Hildenbrand wrote:
->> We want to reserve a memory region without actually populating memory.
->> Let's factor that out.
+On 06.02.20 13:31, Murilo Opsfelder Ara=FAjo wrote:
+> Hello, David.
+>=20
+> On Thursday, February 6, 2020 5:52:26 AM -03 David Hildenbrand wrote:
+>> On 06.02.20 00:00, Murilo Opsfelder Ara=FAjo wrote:
+>>> Hello, David.
+>>>
+>>> On Monday, February 3, 2020 3:31:20 PM -03 David Hildenbrand wrote:
+>>>> When shrinking a mmap we want to re-reserve the already populated area=
+.
+>>>> When growing a memory region, we want to populate starting with a give=
+n
+>>>> fd_offset. Prepare by allowing to pass these parameters.
+>>>>
+>>>> Also, let's make sure we always process full pages, to avoid
+>>>> unmapping/remapping pages that are already in use when
+>>>> growing/shrinking. (existing callers seem to guarantee this, but that'=
+s
+>>>> not obvious)
+>>>>
+>>>> Cc: "Michael S. Tsirkin" <mst@redhat.com>
+>>>> Cc: Greg Kurz <groug@kaod.org>
+>>>> Cc: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>
+>>>> Cc: Eduardo Habkost <ehabkost@redhat.com>
+>>>> Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+>>>> Signed-off-by: David Hildenbrand <david@redhat.com>
+>>>> ---
+>>>>
+>>>>  util/mmap-alloc.c | 32 +++++++++++++++++++++-----------
+>>>>  1 file changed, 21 insertions(+), 11 deletions(-)
+>>>>
+>>>> diff --git a/util/mmap-alloc.c b/util/mmap-alloc.c
+>>>> index f043ccb0ab..63ad6893b7 100644
+>>>> --- a/util/mmap-alloc.c
+>>>> +++ b/util/mmap-alloc.c
+>>>> @@ -83,12 +83,12 @@ size_t qemu_mempath_getpagesize(const char *mem_pa=
+th)
+>>>>
+>>>>  }
+>>>>
+>>>>  /*
+>>>>
+>>>> - * Reserve a new memory region of the requested size to be used for
+>>>> mapping - * from the given fd (if any).
+>>>> + * Reserve a new memory region of the requested size or re-reserve pa=
+rts
+>>>> + * of an existing region to be used for mapping from the given fd (if
+>>>> any). */
+>>>> -static void *mmap_reserve(size_t size, int fd)
+>>>> +static void *mmap_reserve(void *ptr, size_t size, int fd)
+>>>>
+>>>>  {
+>>>>
+>>>> -    int flags =3D MAP_PRIVATE;
+>>>> +    int flags =3D MAP_PRIVATE | (ptr ? MAP_FIXED : 0);
+>>>>
+>>>>  #if defined(__powerpc64__) && defined(__linux__)
+>>>>
+>>>>      /*
+>>>>
+>>>> @@ -111,19 +111,23 @@ static void *mmap_reserve(size_t size, int fd)
+>>>>
+>>>>      flags |=3D MAP_ANONYMOUS;
+>>>>
+>>>>  #endif
+>>>>
+>>>> -    return mmap(0, size, PROT_NONE, flags, fd, 0);
+>>>> +    return mmap(ptr, size, PROT_NONE, flags, fd, 0);
+>>>>
+>>>>  }
+>>>>
+>>>>  /*
+>>>>
+>>>>   * Populate memory in a reserved region from the given fd (if any).
+>>>>   */
+>>>>
+>>>> -static void *mmap_populate(void *ptr, size_t size, int fd, bool share=
+d,
+>>>> -                           bool is_pmem)
+>>>> +static void *mmap_populate(void *ptr, size_t size, int fd, size_t
+>>>> fd_offset, +                           bool shared, bool is_pmem)
+>>>>
+>>>>  {
+>>>>
+>>>>      int map_sync_flags =3D 0;
+>>>>      int flags =3D MAP_FIXED;
+>>>>      void *new_ptr;
+>>>>
+>>>> +    if (fd =3D=3D -1) {
+>>>> +        fd_offset =3D 0;
+>>>> +    }
+>>>> +
+>>>>
+>>>>      flags |=3D fd =3D=3D -1 ? MAP_ANONYMOUS : 0;
+>>>>      flags |=3D shared ? MAP_SHARED : MAP_PRIVATE;
+>>>>      if (shared && is_pmem) {
+>>>>
+>>>> @@ -131,7 +135,7 @@ static void *mmap_populate(void *ptr, size_t size,
+>>>> int
+>>>> fd, bool shared, }
+>>>>
+>>>>      new_ptr =3D mmap(ptr, size, PROT_READ | PROT_WRITE, flags |
+>>>>
+>>>> map_sync_flags, -                   fd, 0);
+>>>> +                   fd, fd_offset);
+>>>>
+>>>>      if (new_ptr =3D=3D MAP_FAILED && map_sync_flags) {
+>>>>
+>>>>          if (errno =3D=3D ENOTSUP) {
+>>>>
+>>>>              char *proc_link =3D g_strdup_printf("/proc/self/fd/%d", f=
+d);
+>>>>
+>>>> @@ -153,7 +157,7 @@ static void *mmap_populate(void *ptr, size_t size,
+>>>> int
+>>>> fd, bool shared, * If mmap failed with MAP_SHARED_VALIDATE | MAP_SYNC,=
+ we
+>>>> will try * again without these flags to handle backwards compatibility=
+.
+>>>> */
+>>>> -        new_ptr =3D mmap(ptr, size, PROT_READ | PROT_WRITE, flags, fd=
+, 0);
+>>>> +        new_ptr =3D mmap(ptr, size, PROT_READ | PROT_WRITE, flags, fd=
+,
+>>>> fd_offset); }
+>>>>
+>>>>      return new_ptr;
+>>>>
+>>>>  }
+>>>>
+>>>> @@ -178,13 +182,16 @@ void *qemu_ram_mmap(int fd,
+>>>>
+>>>>      size_t offset, total;
+>>>>      void *ptr, *guardptr;
+>>>>
+>>>> +    /* we can only map whole pages */
+>>>> +    size =3D QEMU_ALIGN_UP(size, pagesize);
+>>>> +
+>>>
+>>> Caller already rounds up size to block->page_size.
+>>>
+>>> Why this QEMU_ALIGN_UP is necessary?
 >>
->> Cc: "Michael S. Tsirkin" <mst@redhat.com>
->> Cc: Greg Kurz <groug@kaod.org>
->> Cc: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>
->> Cc: Eduardo Habkost <ehabkost@redhat.com>
->> Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
->> Signed-off-by: David Hildenbrand <david@redhat.com>
->> ---
->>  util/mmap-alloc.c | 58 +++++++++++++++++++++++++++--------------------
->>  1 file changed, 33 insertions(+), 25 deletions(-)
+>> Thanks for having a look
 >>
->> diff --git a/util/mmap-alloc.c b/util/mmap-alloc.c
->> index 82f02a2cec..43a26f38a8 100644
->> --- a/util/mmap-alloc.c
->> +++ b/util/mmap-alloc.c
->> @@ -82,6 +82,38 @@ size_t qemu_mempath_getpagesize(const char *mem_path)
->>      return qemu_real_host_page_size;
->>  }
->>  
->> +/*
->> + * Reserve a new memory region of the requested size to be used for mapping
->> + * from the given fd (if any).
->> + */
->> +static void *mmap_reserve(size_t size, int fd)
->> +{
->> +    int flags = MAP_PRIVATE;
->> +
->> +#if defined(__powerpc64__) && defined(__linux__)
->> +    /*
->> +     * On ppc64 mappings in the same segment (aka slice) must share the same
->> +     * page size. Since we will be re-allocating part of this segment
->> +     * from the supplied fd, we should make sure to use the same page size, to
->> +     * this end we mmap the supplied fd.  In this case, set MAP_NORESERVE to
->> +     * avoid allocating backing store memory.
->> +     * We do this unless we are using the system page size, in which case
->> +     * anonymous memory is OK.
->> +     */
->> +    if (fd == -1 || qemu_fd_getpagesize(fd) == qemu_real_host_page_size) {
->> +        fd = -1;
->> +        flags |= MAP_ANONYMOUS;
->> +    } else {
->> +        flags |= MAP_NORESERVE;
->> +    }
->> +#else
->> +    fd = -1;
->> +    flags |= MAP_ANONYMOUS;
->> +#endif
-> 
-> Because this is just code movement,
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> 
-> But is there a reason not to add MAP_NORESERVE all of the time?
-> It seems to match intent, in that we're reserving vma but not planning to use
-> the memory, anonymous or not.
+>> I guess you read the patch description, right? :)
+>>
+>> "(existing callers seem to guarantee this, but that's
+>>   not obvious)"
+>>
+>> Do you prefer a g_assert(IS_ALIGNED()) instead?
+>=20
+> I guess you mean QEMU_IS_ALIGNED().  But yes, I think we could just check
+> alignments here, so callers do the alignments first.
 
-AFAIK, if you mmap something PROT_NONE, it's an implicit MAP_NORESERVE.
-I keep setting in conditionally, because I am not sure if any POSIX
-system (or older kernel) might choke on MAP_NORESERVE. e.g.,
+Yeh, you got the idea :)
 
-"In kernels before 2.6, this flag had effect only for private writable
-mappings." sounds like it would get ignored. But also sounds like it's
-somewhat Linux specific.
+I'll convert these to asserts for now. Thanks!
 
--- 
+--=20
 Thanks,
 
 David / dhildenb
