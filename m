@@ -2,45 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 446571544AC
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 14:14:46 +0100 (CET)
-Received: from localhost ([::1]:38864 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 136271544B4
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 14:18:05 +0100 (CET)
+Received: from localhost ([::1]:38954 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izgzV-0007FA-Af
-	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 08:14:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40102)
+	id 1izh2i-0001Uk-4f
+	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 08:18:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41662)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1izgyO-00065u-PF
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 08:13:37 -0500
+ (envelope-from <imammedo@redhat.com>) id 1izh0l-0000Sp-GY
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 08:16:04 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1izgyM-0007Fz-Ck
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 08:13:35 -0500
-Resent-Date: Thu, 06 Feb 2020 08:13:35 -0500
-Resent-Message-Id: <E1izgyM-0007Fz-Ck@eggs.gnu.org>
-Received: from sender4-of-o51.zoho.com ([136.143.188.51]:21181)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1izgyM-00071R-4L
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 08:13:34 -0500
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 158099478091875.23523148331583;
- Thu, 6 Feb 2020 05:13:00 -0800 (PST)
-In-Reply-To: <20200206115731.13552-1-n54@gmx.com>
-Subject: Re: [PATCH v3 0/4] Implements the NetBSD Virtual Machine Monitor
- accelerator
-Message-ID: <158099477921.19404.14812857642999580348@a1bbccc8075a>
+ (envelope-from <imammedo@redhat.com>) id 1izh0i-0005tb-Lx
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 08:16:02 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:35218
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1izh0i-0005rL-C7
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 08:16:00 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1580994958;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=4/btJhu5BTV1w8aRcJPEDLMys62WT/cdXUmdyyFnRrA=;
+ b=OokTOI3O7hAVKnlMITOFMfElE6qE7dt2YrfqTmnhnS8lpqQ+hyIRFSXzTRPO84wahDbJ5B
+ 3Eth2mG8s/hnfhW4pXPIDQguMhdPCQxvGYXCM58YM5mv0fRIlsKFZRVmrAqxIaUNiMq245
+ n26iHsAJGHWJkKQ9ma88LKLxoIRVgrU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-150-cHbk5HIjOpKo2kBdpDXQxA-1; Thu, 06 Feb 2020 08:15:56 -0500
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 96622101FC68;
+ Thu,  6 Feb 2020 13:15:55 +0000 (UTC)
+Received: from localhost (unknown [10.43.2.114])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1B1325C1B0;
+ Thu,  6 Feb 2020 13:15:54 +0000 (UTC)
+Date: Thu, 6 Feb 2020 14:15:53 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Halil Pasic <pasic@linux.ibm.com>
+Subject: Re: [PATCH v4 38/80] s390x/s390-virtio-ccw: use memdev for RAM
+Message-ID: <20200206141553.706bc17b@redhat.com>
+In-Reply-To: <20200205211123.43914b0c.pasic@linux.ibm.com>
+References: <1580483390-131164-1-git-send-email-imammedo@redhat.com>
+ <1580483390-131164-39-git-send-email-imammedo@redhat.com>
+ <20200205211123.43914b0c.pasic@linux.ibm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: n54@gmx.com
-Date: Thu, 6 Feb 2020 05:13:00 -0800 (PST)
-X-ZohoMailClient: External
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-MC-Unique: cHbk5HIjOpKo2kBdpDXQxA-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 136.143.188.51
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,41 +72,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, ehabkost@redhat.com, slp@redhat.com,
- qemu-devel@nongnu.org, pbonzini@redhat.com, n54@gmx.com, philmd@redhat.com,
- max@m00nbsd.net, rth@twiddle.net
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDIwNjExNTczMS4xMzU1
-Mi0xLW41NEBnbXguY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRvIGhhdmUgc29tZSBj
-b2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1vcmUgaW5mb3JtYXRp
-b246CgpTdWJqZWN0OiBbUEFUQ0ggdjMgMC80XSBJbXBsZW1lbnRzIHRoZSBOZXRCU0QgVmlydHVh
-bCBNYWNoaW5lIE1vbml0b3IgYWNjZWxlcmF0b3IKTWVzc2FnZS1pZDogMjAyMDAyMDYxMTU3MzEu
-MTM1NTItMS1uNTRAZ214LmNvbQpUeXBlOiBzZXJpZXMKCj09PSBURVNUIFNDUklQVCBCRUdJTiA9
-PT0KIyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJzZSBiYXNlID4gL2Rldi9udWxsIHx8IGV4aXQgMApn
-aXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVsaW1pdCAwCmdpdCBjb25maWcgLS1sb2NhbCBk
-aWZmLnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5hbGdvcml0aG0gaGlzdG9n
-cmFtCi4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIC0tbWFpbGJhY2sgYmFzZS4uCj09PSBURVNUIFND
-UklQVCBFTkQgPT09CgpVcGRhdGluZyAzYzhjZjVhOWMyMWZmODc4MjE2NGQxZGVmN2Y0NGJkODg4
-NzEzMzg0CmZhdGFsOiBnaXQgZmV0Y2hfcGFjazogZXhwZWN0ZWQgQUNLL05BSywgZ290ICdFUlIg
-dXBsb2FkLXBhY2s6IG5vdCBvdXIgcmVmIDFjMjk4ZGFkM2Q4MjBmN2EyMTYxMDU0ZmY1ODFjZjJm
-YTY1ZWUxYjQnCmZhdGFsOiBUaGUgcmVtb3RlIGVuZCBodW5nIHVwIHVuZXhwZWN0ZWRseQplcnJv
-cjogQ291bGQgbm90IGZldGNoIDNjOGNmNWE5YzIxZmY4NzgyMTY0ZDFkZWY3ZjQ0YmQ4ODg3MTMz
-ODQKVHJhY2ViYWNrIChtb3N0IHJlY2VudCBjYWxsIGxhc3QpOgogIEZpbGUgInBhdGNoZXctdGVz
-dGVyL3NyYy9wYXRjaGV3LWNsaSIsIGxpbmUgNTIxLCBpbiB0ZXN0X29uZQogICAgZ2l0X2Nsb25l
-X3JlcG8oY2xvbmUsIHJbInJlcG8iXSwgclsiaGVhZCJdLCBsb2dmLCBUcnVlKQogIEZpbGUgInBh
-dGNoZXctdGVzdGVyL3NyYy9wYXRjaGV3LWNsaSIsIGxpbmUgNDgsIGluIGdpdF9jbG9uZV9yZXBv
-CiAgICBzdGRvdXQ9bG9nZiwgc3RkZXJyPWxvZ2YpCiAgRmlsZSAiL29wdC9yaC9yaC1weXRob24z
-Ni9yb290L3Vzci9saWI2NC9weXRob24zLjYvc3VicHJvY2Vzcy5weSIsIGxpbmUgMjkxLCBpbiBj
-aGVja19jYWxsCiAgICByYWlzZSBDYWxsZWRQcm9jZXNzRXJyb3IocmV0Y29kZSwgY21kKQpzdWJw
-cm9jZXNzLkNhbGxlZFByb2Nlc3NFcnJvcjogQ29tbWFuZCAnWydnaXQnLCAncmVtb3RlJywgJ2Fk
-ZCcsICctZicsICctLW1pcnJvcj1mZXRjaCcsICczYzhjZjVhOWMyMWZmODc4MjE2NGQxZGVmN2Y0
-NGJkODg4NzEzMzg0JywgJ2h0dHBzOi8vZ2l0aHViLmNvbS9wYXRjaGV3LXByb2plY3QvcWVtdSdd
-JyByZXR1cm5lZCBub24temVybyBleGl0IHN0YXR1cyAxLgoKCgpUaGUgZnVsbCBsb2cgaXMgYXZh
-aWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMjAwMjA2MTE1NzMxLjEzNTUyLTEt
-bjU0QGdteC5jb20vdGVzdGluZy5jaGVja3BhdGNoLz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBn
-ZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNoZXcub3JnL10u
-ClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
+On Wed, 5 Feb 2020 21:11:23 +0100
+Halil Pasic <pasic@linux.ibm.com> wrote:
+
+> On Fri, 31 Jan 2020 16:09:08 +0100
+> Igor Mammedov <imammedo@redhat.com> wrote:
+>=20
+> > memory_region_allocate_system_memory() API is going away, so
+> > replace it with memdev allocated MemoryRegion. The later is
+> > initialized by generic code, so board only needs to opt in
+> > to memdev scheme by providing
+> >   MachineClass::default_ram_id
+> > and using MachineState::ram instead of manually initializing
+> > RAM memory region.
+> >=20
+> > Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+> > Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> > Reviewed-by: David Hildenbrand <david@redhat.com>
+> > Acked-by: Cornelia Huck <cohuck@redhat.com> =20
+>=20
+> Hi Igor!
+>=20
+> I gave=20
+> -object memory-backend-file,id=3Dmem=20
+> -machine type=3Ds390-ccw-virtio,memory-backend=3Dmem
+> a spin on s390x. Seems to largely work a expected. So I guess it is:
+>=20
+> Tested-by: Halil Pasic <pasic@linux.ibm.com>
+> Acked-by: Halil Pasic <pasic@linux.ibm.com>
+Thanks,
+
+Could you also take a look at patches 3-7/8o that makes this possible?
+(it never hurts to have second pair of eyes on a code that affects
+everyone).
+
+>=20
+> Thanks!
+>=20
+> Halil
+>=20
+> > ---
+> > CC: pasic@linux.ibm.com
+> > ---
+> >  hw/s390x/s390-virtio-ccw.c | 7 +++----
+> >  1 file changed, 3 insertions(+), 4 deletions(-)
+> >=20
+> > diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
+> > index e759eb5..a89cf4c 100644
+> > --- a/hw/s390x/s390-virtio-ccw.c
+> > +++ b/hw/s390x/s390-virtio-ccw.c
+> > @@ -154,14 +154,12 @@ static void virtio_ccw_register_hcalls(void)
+> >                                     virtio_ccw_hcall_early_printk);
+> >  }
+> > =20
+> > -static void s390_memory_init(ram_addr_t mem_size)
+> > +static void s390_memory_init(MemoryRegion *ram)
+> >  {
+> >      MemoryRegion *sysmem =3D get_system_memory();
+> > -    MemoryRegion *ram =3D g_new(MemoryRegion, 1);
+> >      Error *local_err =3D NULL;
+> > =20
+> >      /* allocate RAM for core */
+> > -    memory_region_allocate_system_memory(ram, NULL, "s390.ram", mem_si=
+ze);
+> >      memory_region_add_subregion(sysmem, 0, ram);
+> > =20
+> >      /*
+> > @@ -245,7 +243,7 @@ static void ccw_init(MachineState *machine)
+> > =20
+> >      s390_sclp_init();
+> >      /* init memory + setup max page size. Required for the CPU model *=
+/
+> > -    s390_memory_init(machine->ram_size);
+> > +    s390_memory_init(machine->ram);
+> > =20
+> >      /* init CPUs (incl. CPU model) early so s390_has_feature() works *=
+/
+> >      s390_init_cpus(machine);
+> > @@ -471,6 +469,7 @@ static void ccw_machine_class_init(ObjectClass *oc,=
+ void *data)
+> >      hc->plug =3D s390_machine_device_plug;
+> >      hc->unplug_request =3D s390_machine_device_unplug_request;
+> >      nc->nmi_monitor_handler =3D s390_nmi;
+> > +    mc->default_ram_id =3D "s390.ram";
+> >  }
+> > =20
+> >  static inline bool machine_get_aes_key_wrap(Object *obj, Error **errp)=
+ =20
+>=20
+
 
