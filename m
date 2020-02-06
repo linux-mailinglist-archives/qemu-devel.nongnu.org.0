@@ -2,57 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED918154DE5
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 22:25:23 +0100 (CET)
-Received: from localhost ([::1]:46332 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EDF0154DE8
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 22:27:02 +0100 (CET)
+Received: from localhost ([::1]:46368 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izoeI-0007NJ-T9
-	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 16:25:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34410)
+	id 1izoft-0002nN-Bp
+	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 16:27:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34426)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1izoZh-0007fP-3Y
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 16:20:38 -0500
+ (envelope-from <philmd@redhat.com>) id 1izoZj-0007jB-9E
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 16:20:40 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1izoZf-00021q-Tw
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 16:20:37 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:46706
+ (envelope-from <philmd@redhat.com>) id 1izoZh-00025U-3N
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 16:20:39 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:43196
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1izoZf-00020I-Ol
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 16:20:35 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1izoZg-000248-V9
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 16:20:37 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581024035;
+ s=mimecast20190719; t=1581024036;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rML1yevgTXmwUix358fAUG1glA5EEi/OaGGIBHDBKOU=;
- b=h4ksJzxmvaYDLQDKsP+8x7y8wNfkVxVHdmOqIla6Kb9I2wWmtc/bcZz9f0uzpWhMNKIA38
- tJ2C2ThjEJH1rCNwnXSNZZPjjnC2x6QQ3061Fy7RT0x7L2JgGYamztOx/9zW7aQCnT5NSG
- gasFe6uhulJMRgUQ22XvaYerd+yPLWw=
+ bh=w3kRttvVY8RX76t8gfCzv8UyeTjNpvkz1nioLDE1jGk=;
+ b=dJaRqSxVtP7HFZMKzpASEB59JYMpGot/IKE+H6nehO3Iv4p5syNSgBRVshr9u9DB/Pz0EP
+ 5oETzTI+UxmTISHW4WFC68aBAGfhAckBIUn//9pa/Hmwydab8EurDmK3kZRXQbkTUhSEr5
+ DLFUE6ZnokvEQmcsJGkhMqhghpBZo14=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-420-gH9GnPx3M5S5wGjTGmzV6Q-1; Thu, 06 Feb 2020 16:20:31 -0500
+ us-mta-234-_rs_FnEHNVKnPqLtEBRxmg-1; Thu, 06 Feb 2020 16:20:34 -0500
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DE66C8010CB
- for <qemu-devel@nongnu.org>; Thu,  6 Feb 2020 21:20:30 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 60D81189F762;
+ Thu,  6 Feb 2020 21:20:33 +0000 (UTC)
 Received: from x1w.redhat.com (ovpn-204-120.brq.redhat.com [10.40.204.120])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6D9FA60BEC;
- Thu,  6 Feb 2020 21:20:26 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5AAD660BEC;
+ Thu,  6 Feb 2020 21:20:31 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 08/46] python: Treat None-return of greeting cmd
-Date: Thu,  6 Feb 2020 22:18:58 +0100
-Message-Id: <20200206211936.17098-9-philmd@redhat.com>
+Subject: [PULL 09/46] python/qemu/machine: Allow to use other serial consoles
+ than default
+Date: Thu,  6 Feb 2020 22:18:59 +0100
+Message-Id: <20200206211936.17098-10-philmd@redhat.com>
 In-Reply-To: <20200206211936.17098-1-philmd@redhat.com>
 References: <20200206211936.17098-1-philmd@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: gH9GnPx3M5S5wGjTGmzV6Q-1
+X-MC-Unique: _rs_FnEHNVKnPqLtEBRxmg-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
@@ -70,42 +71,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Luk=C3=A1=C5=A1=20Doktor?= <ldoktor@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
+ Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Luk=C3=A1=C5=A1 Doktor <ldoktor@redhat.com>
+From: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
-In case qemu process dies the "monitor.cmd" returns None which gets
-passed to the "__negotiate_capabilities" and leads to unhandled
-exception. Let's only check the resp in case it has a value.
+Currently the QEMU Python module limits the QEMUMachine class to
+use the first serial console.
 
-Signed-off-by: Luk=C3=A1=C5=A1 Doktor <ldoktor@redhat.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Some machines/guest might use another console than the first one as
+the 'boot console'. For example the Raspberry Pi uses the second
+(AUX) console.
+
+To be able to use the Nth console as default, we simply need to
+connect all the N - 1 consoles to the null chardev.
+
+Add an index argument, so we can use a specific serial console as
+default.
+
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+Reviewed-by: Liam Merwick <liam.merwick@oracle.com>
+Tested-by: Liam Merwick <liam.merwick@oracle.com>
 Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-Id: <20200120071202.30646-1-ldoktor@redhat.com>
+Message-Id: <20200120235159.18510-5-f4bug@amsat.org>
+[PMD: zero-initialize _console_index in __init__()]
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- python/qemu/qmp.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ python/qemu/machine.py | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/python/qemu/qmp.py b/python/qemu/qmp.py
-index 4b9a362240..f40586eedd 100644
---- a/python/qemu/qmp.py
-+++ b/python/qemu/qmp.py
-@@ -80,7 +80,7 @@ class QEMUMonitorProtocol:
-             raise QMPConnectError
-         # Greeting seems ok, negotiate capabilities
-         resp =3D self.cmd('qmp_capabilities')
--        if "return" in resp:
-+        if resp and "return" in resp:
-             return greeting
-         raise QMPCapabilitiesError
+diff --git a/python/qemu/machine.py b/python/qemu/machine.py
+index 734efd8536..183d8f3d38 100644
+--- a/python/qemu/machine.py
++++ b/python/qemu/machine.py
+@@ -112,6 +112,7 @@ class QEMUMachine(object):
+         self._sock_dir =3D sock_dir
+         self._launched =3D False
+         self._machine =3D None
++        self._console_index =3D 0
+         self._console_set =3D False
+         self._console_device_type =3D None
+         self._console_address =3D None
+@@ -241,6 +242,8 @@ class QEMUMachine(object):
+                          'chardev=3Dmon,mode=3Dcontrol'])
+         if self._machine is not None:
+             args.extend(['-machine', self._machine])
++        for i in range(self._console_index):
++            args.extend(['-serial', 'null'])
+         if self._console_set:
+             self._console_address =3D os.path.join(self._sock_dir,
+                                                  self._name + "-console.so=
+ck")
+@@ -527,7 +530,7 @@ class QEMUMachine(object):
+         """
+         self._machine =3D machine_type
 =20
+-    def set_console(self, device_type=3DNone):
++    def set_console(self, device_type=3DNone, console_index=3D0):
+         """
+         Sets the device type for a console device
+=20
+@@ -548,9 +551,14 @@ class QEMUMachine(object):
+                             chardev:console" command line argument will
+                             be used instead, resorting to the machine's
+                             default device type.
++        @param console_index: the index of the console device to use.
++                              If not zero, the command line will create
++                              'index - 1' consoles and connect them to
++                              the 'null' backing character device.
+         """
+         self._console_set =3D True
+         self._console_device_type =3D device_type
++        self._console_index =3D console_index
+=20
+     @property
+     def console_socket(self):
 --=20
 2.21.1
 
