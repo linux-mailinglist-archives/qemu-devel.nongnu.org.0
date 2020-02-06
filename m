@@ -2,57 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39585154334
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 12:35:52 +0100 (CET)
-Received: from localhost ([::1]:36956 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA693154317
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 12:31:01 +0100 (CET)
+Received: from localhost ([::1]:36844 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izfRn-0000p8-9h
-	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 06:35:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40226)
+	id 1izfN6-0001mS-Th
+	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 06:31:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40179)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kraxel@redhat.com>) id 1izfLW-0008UZ-Bf
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 06:29:23 -0500
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1izfLV-00023Y-Do
+ (envelope-from <kraxel@redhat.com>) id 1izfLV-0008Se-OQ
  for qemu-devel@nongnu.org; Thu, 06 Feb 2020 06:29:22 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:58029
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <kraxel@redhat.com>) id 1izfLT-0001yj-EN
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 06:29:21 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:53358
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1izfLV-0001z5-8z
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 06:29:21 -0500
+ (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1izfLT-0001wN-Ab
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 06:29:19 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1580988559;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=zwt1g+F5PE/F8b5xdSUmtkVsCb/RumDNmHRiULdcix4=;
- b=NoVPFdGAWcD6carqBDa/y9rK4PNSTbcXqVVELo7Xi5YT0ze9auTCrwHpjSb8sUvxQcmq2Y
- p3kbUiN3n/xCv44aXDHWQaOHYHSUOORImmMd0KS4Cg+q4k+izsD4JvRqja04dANvusEQ94
- aVDmE/O9Sx65umLGd89DpsXnSoOFt4I=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ZjHJ0Bqyt9dFXRMBUV2U+b5uGLlCm46yUZcuR0/UrW0=;
+ b=CGX/Rqls7mMvgrsg93EZqL+umLKsI02iJYB1iRGpizV9iUSuj5xJbWHQnl45VjfP5+SaRu
+ YW3a5y/jwZ1VIMOS3tzp95QBmWF3ws7OMez6tX0/jN4EUDheRruaLAA/CmHLW9mjBfB/jE
+ qoud37t/cIF7kyuv8BJIuSGJWfXus6c=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-168-zrbjhxB2MOepGYzTXwqhVw-1; Thu, 06 Feb 2020 06:29:16 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-142-LhWjibADNXq5_wgee-ThIQ-1; Thu, 06 Feb 2020 06:29:16 -0500
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0901D8010FD;
- Thu,  6 Feb 2020 11:29:15 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E97A0101FC6C;
+ Thu,  6 Feb 2020 11:29:14 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-116-112.ams2.redhat.com
  [10.36.116.112])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C598F5DA7D;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D444884DB8;
  Thu,  6 Feb 2020 11:29:09 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id F21831747D; Thu,  6 Feb 2020 12:29:08 +0100 (CET)
+ id 05BEA9D7F; Thu,  6 Feb 2020 12:29:09 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/6] ui: rework -show-cursor option
-Date: Thu,  6 Feb 2020 12:29:02 +0100
-Message-Id: <20200206112908.5002-1-kraxel@redhat.com>
+Subject: [PATCH v2 1/6] ui: add show-cursor option
+Date: Thu,  6 Feb 2020 12:29:03 +0100
+Message-Id: <20200206112908.5002-2-kraxel@redhat.com>
+In-Reply-To: <20200206112908.5002-1-kraxel@redhat.com>
+References: <20200206112908.5002-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: zrbjhxB2MOepGYzTXwqhVw-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: LhWjibADNXq5_wgee-ThIQ-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
@@ -77,25 +80,37 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, jtomko@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+When enabled, this forces showing the mouse cursor, i.e. do
+not allow the guest to hide it.  Defaults to off.
 
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+Reviewed-by: J=C3=A1n Tomko <jtomko@redhat.com>
+---
+ qapi/ui.json | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Gerd Hoffmann (6):
-  ui: add show-cursor option
-  ui/gtk: implement show-cursor option
-  ui/sdl: implement show-cursor option
-  ui/cocoa: implement show-cursor option
-  ui: wire up legacy -show-cursor option
-  ui: deprecate legacy -show-cursor option
-
- include/sysemu/sysemu.h |  1 -
- ui/gtk.c                |  8 +++++++-
- ui/sdl2.c               | 28 ++++++++++++++++++++--------
- vl.c                    |  6 ++++--
- qapi/ui.json            |  3 +++
- qemu-deprecated.texi    |  5 +++++
- ui/cocoa.m              |  4 ++++
- 7 files changed, 43 insertions(+), 12 deletions(-)
-
+diff --git a/qapi/ui.json b/qapi/ui.json
+index e04525d8b44b..b9df7fe7b5cb 100644
+--- a/qapi/ui.json
++++ b/qapi/ui.json
+@@ -1144,6 +1144,8 @@
+ # @type:          Which DisplayType qemu should use.
+ # @full-screen:   Start user interface in fullscreen mode (default: off).
+ # @window-close:  Allow to quit qemu with window close button (default: on=
+).
++# @show-cursor:   Force showing the mouse cursor (default: off).
++#                 Since: 5.0
+ # @gl:            Enable OpenGL support (default: off).
+ #
+ # Since: 2.12
+@@ -1153,6 +1155,7 @@
+   'base'    : { 'type'           : 'DisplayType',
+                 '*full-screen'   : 'bool',
+                 '*window-close'  : 'bool',
++                '*show-cursor'   : 'bool',
+                 '*gl'            : 'DisplayGLMode' },
+   'discriminator' : 'type',
+   'data'    : { 'gtk'            : 'DisplayGTK',
 --=20
 2.18.1
 
