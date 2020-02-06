@@ -2,65 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 804E2154B83
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 20:00:04 +0100 (CET)
-Received: from localhost ([::1]:44752 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AEA5154C72
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 20:52:06 +0100 (CET)
+Received: from localhost ([::1]:45236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izmNf-00072F-Iy
-	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 14:00:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44875)
+	id 1iznC0-0000Eo-LN
+	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 14:52:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33505)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1izmMn-0006Uq-91
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 13:59:10 -0500
+ (envelope-from <jan.kiszka@siemens.com>) id 1iznAG-0007kO-DT
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 14:50:17 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1izmMl-0000kA-No
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 13:59:09 -0500
-Received: from mail-ot1-x32e.google.com ([2607:f8b0:4864:20::32e]:42340)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1izmMl-0000dR-GF
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 13:59:07 -0500
-Received: by mail-ot1-x32e.google.com with SMTP id 66so6525144otd.9
- for <qemu-devel@nongnu.org>; Thu, 06 Feb 2020 10:59:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=5Hx+wnaWAhznZBATjM7/sJ/CaMShHBa8pFQt2pSC2Uo=;
- b=X1i6ayeQ5mDg6Nyufqel01b1AlBfgeNiEC/gFI1jYP+FxqmPzGBdVRVXRhEx/6IyvO
- W4P1sx1CQgcXoM+goz+Vg3mJYx91hJplWO8z41qpU5aVVv0L85TlPu4BalDAG93qEDiN
- 9/ANNK/NLHieh7XQPAu2Bxlo8n2oLTKggVCZxUsmlVGpVDF4zwlCfOE9Gy2G/+Y+kQJu
- C4S9yO4QDmAsYH8X/8f0petuBw6yMQudYlj/xoB8AwCY9KDgorfqI/QYLb38I4961NI8
- BF2r4BkyC83xnB51CtakmJXnCk9PChYOiPyg/zGfssuF3ERniZmUAKVEyPu8mI/q0lHv
- 2Liw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=5Hx+wnaWAhznZBATjM7/sJ/CaMShHBa8pFQt2pSC2Uo=;
- b=Dr/fPLkb7CMyA1s/HcFAPXuScOf5Kg2SxOeH68+s3mahjtC5aUzCEqr9QWIUTPu29C
- im9/zwex7CrNj1VlDr0zPKctY6KKukHrA9UpUyzrRmCGXKiJqAqUSWBB6/nF1PWSNWb+
- wAJGVan8pTFRh5ZPpLBkGxzv00Re9lCHk9uTEwrKYYvoFvA4OWzjhtNxtULTxsR0eqxh
- /ij0Tn8ftu1Ndw1nEtu8ZHyLML4Bs1C1HK+tE9dJOslDTNz+NGQ5g7d4D+gFcS9iLjwV
- vJ/rDKeREBLRUydgu1lmAcx1OWinug+J5VKaYFedAjqT4dxSm5gr22catAEnThw+Dhyn
- 5AEw==
-X-Gm-Message-State: APjAAAX0Je3SDwl73xSU0XyDky7/CX2wPZTJtLlRi1AAilZbDz/AyYYo
- yLLXgW+Rndvl1T9VKWWrx+Abu1pSutsZ9q1rlD0k7Q==
-X-Google-Smtp-Source: APXvYqxKMXhkmOyoEUHu9k8nw3O1/bulKHGzi+A38WKfT0Y4+UUPbh4y05QKML4sgI3B7yGxKU5OhjO7BLDLxb9Wyd0=
-X-Received: by 2002:a05:6830:4a4:: with SMTP id
- l4mr31925998otd.91.1581015546219; 
- Thu, 06 Feb 2020 10:59:06 -0800 (PST)
+ (envelope-from <jan.kiszka@siemens.com>) id 1iznAE-00039W-RP
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 14:50:15 -0500
+Received: from gecko.sbs.de ([194.138.37.40]:46138)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <jan.kiszka@siemens.com>)
+ id 1iznAE-0002vG-H2
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 14:50:14 -0500
+Received: from mail2.sbs.de (mail2.sbs.de [192.129.41.66])
+ by gecko.sbs.de (8.15.2/8.15.2) with ESMTPS id 016JoBR9026091
+ (version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 6 Feb 2020 20:50:12 +0100
+Received: from [139.25.68.37] ([139.25.68.37])
+ by mail2.sbs.de (8.15.2/8.15.2) with ESMTP id 016JoB2I029164;
+ Thu, 6 Feb 2020 20:50:11 +0100
+From: Jan Kiszka <jan.kiszka@siemens.com>
+Subject: [PATCH] apic: Report current_count via 'info lapic'
+To: qemu-devel <qemu-devel@nongnu.org>
+Message-ID: <f6c36298-5e63-f4c6-654c-3b16010ae6da@siemens.com>
+Date: Thu, 6 Feb 2020 20:50:11 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-References: <20200206125132.594625-1-mreitz@redhat.com>
-In-Reply-To: <20200206125132.594625-1-mreitz@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 6 Feb 2020 18:58:55 +0000
-Message-ID: <CAFEAcA9nih8pU9mGsMmx3nqkAQor0x0LE8Kz1DmPgSZGGU_iDA@mail.gmail.com>
-Subject: Re: [PULL 00/17] Block patches
-To: Max Reitz <mreitz@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::32e
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
+X-Received-From: 194.138.37.40
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,40 +52,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Qemu-block <qemu-block@nongnu.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 6 Feb 2020 at 12:51, Max Reitz <mreitz@redhat.com> wrote:
->
-> The following changes since commit 418fa86dd465b4fd8394373cf83db8fa65d7611c:
->
->   Merge remote-tracking branch 'remotes/stsquad/tags/pull-testing-040220-1' into staging (2020-02-04 18:55:06 +0000)
->
-> are available in the Git repository at:
->
->   https://github.com/XanClic/qemu.git tags/pull-block-2020-02-06
->
-> for you to fetch changes up to a541fcc27c98b96da187c7d4573f3270f3ddd283:
->
->   iotests: add test for backup-top failure on permission activation (2020-02-06 13:47:45 +0100)
->
-> ----------------------------------------------------------------
-> Block patches:
-> - Drop BDRV_SECTOR_SIZE from qcow2
-> - Allow Python iotests to be added to the auto group
->   (and add some)
-> - Fix for the backup job
-> - Fix memleak in bdrv_refresh_filename()
-> - Use GStrings in two places for greater efficiency (than manually
->   handling string allocation)
+From: Jan Kiszka <jan.kiszka@siemens.com>
 
+This is helpful when debugging stuck guest timers.
 
-Applied, thanks.
+As we need apic_get_current_count for that, and it is really not
+emulation specific, move it to apic_common.c and export it.
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/5.0
-for any user-visible changes.
+Signed-off-by: Jan Kiszka <jan.kiszka@siemens.com>
+---
+ hw/intc/apic.c                  | 18 ------------------
+ hw/intc/apic_common.c           | 18 ++++++++++++++++++
+ include/hw/i386/apic_internal.h |  1 +
+ target/i386/helper.c            |  5 +++--
+ 4 files changed, 22 insertions(+), 20 deletions(-)
 
--- PMM
+diff --git a/hw/intc/apic.c b/hw/intc/apic.c
+index bd40467965..f2207d0ace 100644
+--- a/hw/intc/apic.c
++++ b/hw/intc/apic.c
+@@ -615,24 +615,6 @@ int apic_accept_pic_intr(DeviceState *dev)
+     return 0;
+ }
+ 
+-static uint32_t apic_get_current_count(APICCommonState *s)
+-{
+-    int64_t d;
+-    uint32_t val;
+-    d = (qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) - s->initial_count_load_time) >>
+-        s->count_shift;
+-    if (s->lvt[APIC_LVT_TIMER] & APIC_LVT_TIMER_PERIODIC) {
+-        /* periodic */
+-        val = s->initial_count - (d % ((uint64_t)s->initial_count + 1));
+-    } else {
+-        if (d >= s->initial_count)
+-            val = 0;
+-        else
+-            val = s->initial_count - d;
+-    }
+-    return val;
+-}
+-
+ static void apic_timer_update(APICCommonState *s, int64_t current_time)
+ {
+     if (apic_next_timer(s, current_time)) {
+diff --git a/hw/intc/apic_common.c b/hw/intc/apic_common.c
+index 9ec0f2deb2..6f4e877878 100644
+--- a/hw/intc/apic_common.c
++++ b/hw/intc/apic_common.c
+@@ -189,6 +189,24 @@ bool apic_next_timer(APICCommonState *s, int64_t current_time)
+     return true;
+ }
+ 
++uint32_t apic_get_current_count(APICCommonState *s)
++{
++    int64_t d;
++    uint32_t val;
++    d = (qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) - s->initial_count_load_time) >>
++        s->count_shift;
++    if (s->lvt[APIC_LVT_TIMER] & APIC_LVT_TIMER_PERIODIC) {
++        /* periodic */
++        val = s->initial_count - (d % ((uint64_t)s->initial_count + 1));
++    } else {
++        if (d >= s->initial_count)
++            val = 0;
++        else
++            val = s->initial_count - d;
++    }
++    return val;
++}
++
+ void apic_init_reset(DeviceState *dev)
+ {
+     APICCommonState *s;
+diff --git a/include/hw/i386/apic_internal.h b/include/hw/i386/apic_internal.h
+index b04bdd947f..2597000e03 100644
+--- a/include/hw/i386/apic_internal.h
++++ b/include/hw/i386/apic_internal.h
+@@ -211,6 +211,7 @@ void vapic_report_tpr_access(DeviceState *dev, CPUState *cpu, target_ulong ip,
+                              TPRAccess access);
+ 
+ int apic_get_ppr(APICCommonState *s);
++uint32_t apic_get_current_count(APICCommonState *s);
+ 
+ static inline void apic_set_bit(uint32_t *tab, int index)
+ {
+diff --git a/target/i386/helper.c b/target/i386/helper.c
+index c3a6e4fabe..e3c3726c29 100644
+--- a/target/i386/helper.c
++++ b/target/i386/helper.c
+@@ -370,10 +370,11 @@ void x86_cpu_dump_local_apic_state(CPUState *cs, int flags)
+     dump_apic_lvt("LVTTHMR", lvt[APIC_LVT_THERMAL], false);
+     dump_apic_lvt("LVTT", lvt[APIC_LVT_TIMER], true);
+ 
+-    qemu_printf("Timer\t DCR=0x%x (divide by %u) initial_count = %u\n",
++    qemu_printf("Timer\t DCR=0x%x (divide by %u) initial_count = %u"
++                " current_count = %u\n",
+                 s->divide_conf & APIC_DCR_MASK,
+                 divider_conf(s->divide_conf),
+-                s->initial_count);
++                s->initial_count, apic_get_current_count(s));
+ 
+     qemu_printf("SPIV\t 0x%08x APIC %s, focus=%s, spurious vec %u\n",
+                 s->spurious_vec,
+-- 
+2.16.4
 
