@@ -2,63 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C100E15447A
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 14:04:41 +0100 (CET)
-Received: from localhost ([::1]:38460 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DAD4154474
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 14:02:48 +0100 (CET)
+Received: from localhost ([::1]:38424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izgpk-0003SD-Os
-	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 08:04:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57396)
+	id 1izgnv-0008Sd-Fg
+	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 08:02:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57563)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1izgdK-000342-SN
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 07:51:51 -0500
+ (envelope-from <mreitz@redhat.com>) id 1izgdT-0003KV-FG
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 07:52:00 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1izgdJ-0000gO-Jd
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 07:51:50 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:30210
+ (envelope-from <mreitz@redhat.com>) id 1izgdS-00018W-En
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 07:51:59 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:28626
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1izgdJ-0000eb-F9
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 07:51:49 -0500
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1izgdS-00017Y-BP
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 07:51:58 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580993508;
+ s=mimecast20190719; t=1580993518;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tJqKDqnfNNXLC7lxEHA7EJIDSxFvBpjiZBpMeywV1Cg=;
- b=VEnN2vD3NLXYaIFpGDBadxThRvZJabmAWMFlbBVebdpGlL687mWKOod2EAUwFzlflwptR5
- jr/BpE4X3Amy11EzASWnfmD/sggLtTHjIsMrNFLpnnJca3FvALefIMtFT4j2Q0cvKEBX7g
- cibbwsJ+p6PZFjk4n8/REEa3i3H+o8A=
+ bh=kKGF0Ult7NG+tisw2QVtpL2MEf27Olpax01S7X0f72A=;
+ b=THthAhNOJs24Gt955RDgvz1xm0zBwV18++LS0WyBzIjzmy4L3kgfJouLnz9XHNq9lYGWCn
+ +09PuKMiQ4mDK0uY03A09KUZ5BgvsWDJNG/mIquuOmgK4k242BVyJl+dSu+b4C5O0dWHqy
+ 1zcS2B3UHNrJf6JlnFr0JzJ84YNBEak=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-280-hlkiwJT0NQu9Tpzzm05VVQ-1; Thu, 06 Feb 2020 07:51:45 -0500
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-269-SoVDdiE3PzOqfXXOxwtbjA-1; Thu, 06 Feb 2020 07:51:53 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9A03D8014DB;
- Thu,  6 Feb 2020 12:51:44 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BFFB418CA24E;
+ Thu,  6 Feb 2020 12:51:52 +0000 (UTC)
 Received: from localhost (unknown [10.36.118.15])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3B8E21036B25;
- Thu,  6 Feb 2020 12:51:44 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 63FA05DA7C;
+ Thu,  6 Feb 2020 12:51:52 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 05/17] iotests: remove 'linux' from default supported platforms
-Date: Thu,  6 Feb 2020 13:51:20 +0100
-Message-Id: <20200206125132.594625-6-mreitz@redhat.com>
+Subject: [PULL 09/17] iotests: Skip Python-based tests if QEMU does not
+ support virtio-blk
+Date: Thu,  6 Feb 2020 13:51:24 +0100
+Message-Id: <20200206125132.594625-10-mreitz@redhat.com>
 In-Reply-To: <20200206125132.594625-1-mreitz@redhat.com>
 References: <20200206125132.594625-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: hlkiwJT0NQu9Tpzzm05VVQ-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: SoVDdiE3PzOqfXXOxwtbjA-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,80 +77,56 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: John Snow <jsnow@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
 
-verify_platform will check an explicit whitelist and blacklist instead.
-The default will now be assumed to be allowed to run anywhere.
+We are going to enable some of the python-based tests in the "auto" group,
+and these tests require virtio-blk to work properly. Running iotests
+without virtio-blk likely does not make too much sense anyway, so instead
+of adding a check for the availability of virtio-blk to each and every
+test (which does not sound very appealing), let's rather add a check for
+this a central spot in the "check" script instead (so that it is still
+possible to run "make check" for qemu-system-tricore for example).
 
-For tests that do not specify their platforms explicitly, this has the effe=
-ct of
-enabling these tests on non-linux platforms. For tests that always specifie=
-d
-linux explicitly, there is no change.
-
-For Python tests on FreeBSD at least; only seven python tests fail:
-045 147 149 169 194 199 211
-
-045 and 149 appear to be misconfigurations,
-147 and 194 are the AF_UNIX path too long error,
-169 and 199 are bitmap migration bugs, and
-211 is a bug that shows up on Linux platforms, too.
-
-This is at least good evidence that these tests are not Linux-only. If
-they aren't suitable for other platforms, they should be disabled on a
-per-platform basis as appropriate.
-
-Therefore, let's switch these on and deal with the failures.
-
-Reviewed-by: Max Reitz <mreitz@redhat.com>
-Signed-off-by: John Snow <jsnow@redhat.com>
-Message-id: 20200121095205.26323-2-thuth@redhat.com
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+Message-id: 20200121095205.26323-6-thuth@redhat.com
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/qemu-iotests/iotests.py | 16 +++++++++++-----
- 1 file changed, 11 insertions(+), 5 deletions(-)
+ tests/qemu-iotests/check | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
 
-diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
-index 89aa2df2f3..ead04a1ab5 100644
---- a/tests/qemu-iotests/iotests.py
-+++ b/tests/qemu-iotests/iotests.py
-@@ -931,9 +931,14 @@ def verify_protocol(supported=3D[], unsupported=3D[]):
-     if not_sup or (imgproto in unsupported):
-         notrun('not suitable for this protocol: %s' % imgproto)
+diff --git a/tests/qemu-iotests/check b/tests/qemu-iotests/check
+index 39ed5bc1be..fff5fa956a 100755
+--- a/tests/qemu-iotests/check
++++ b/tests/qemu-iotests/check
+@@ -655,7 +655,15 @@ fi
+ python_usable=3Dfalse
+ if $PYTHON -c 'import sys; sys.exit(0 if sys.version_info >=3D (3,6) else =
+1)'
+ then
+-    python_usable=3Dtrue
++    # Our python framework also requires virtio-blk
++    if "$QEMU_PROG" -M none -device help | grep -q virtio-blk >/dev/null 2=
+>&1
++    then
++        python_usable=3Dtrue
++    else
++        python_unusable_because=3D"Missing virtio-blk in QEMU binary"
++    fi
++else
++    python_unusable_because=3D"Unsupported Python version"
+ fi
 =20
--def verify_platform(supported_oses=3D['linux']):
--    if True not in [sys.platform.startswith(x) for x in supported_oses]:
--        notrun('not suitable for this OS: %s' % sys.platform)
-+def verify_platform(supported=3DNone, unsupported=3DNone):
-+    if unsupported is not None:
-+        if any((sys.platform.startswith(x) for x in unsupported)):
-+            notrun('not suitable for this OS: %s' % sys.platform)
-+
-+    if supported is not None:
-+        if not any((sys.platform.startswith(x) for x in supported)):
-+            notrun('not suitable for this OS: %s' % sys.platform)
-=20
- def verify_cache_mode(supported_cache_modes=3D[]):
-     if supported_cache_modes and (cachemode not in supported_cache_modes):
-@@ -1028,7 +1033,8 @@ def execute_unittest(output, verbosity, debug):
-             sys.stderr.write(out)
-=20
- def execute_test(test_function=3DNone,
--                 supported_fmts=3D[], supported_oses=3D['linux'],
-+                 supported_fmts=3D[],
-+                 supported_platforms=3DNone,
-                  supported_cache_modes=3D[], supported_aio_modes=3D{},
-                  unsupported_fmts=3D[], supported_protocols=3D[],
-                  unsupported_protocols=3D[]):
-@@ -1046,7 +1052,7 @@ def execute_test(test_function=3DNone,
-     verbosity =3D 1
-     verify_image_format(supported_fmts, unsupported_fmts)
-     verify_protocol(supported_protocols, unsupported_protocols)
--    verify_platform(supported_oses)
-+    verify_platform(supported=3Dsupported_platforms)
-     verify_cache_mode(supported_cache_modes)
-     verify_aio_mode(supported_aio_modes)
-=20
+ default_machine=3D$($QEMU_PROG -machine help | sed -n '/(default)/ s/ .*//=
+p')
+@@ -843,7 +851,7 @@ do
+                 run_command=3D"$PYTHON $seq"
+             else
+                 run_command=3D"false"
+-                echo "Unsupported Python version" > $seq.notrun
++                echo "$python_unusable_because" > $seq.notrun
+             fi
+         else
+             run_command=3D"./$seq"
 --=20
 2.24.1
 
