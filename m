@@ -2,86 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D63C4154B45
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 19:37:55 +0100 (CET)
-Received: from localhost ([::1]:44468 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FF08154B5E
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 19:43:51 +0100 (CET)
+Received: from localhost ([::1]:44588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izm2E-0007AV-S0
-	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 13:37:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35141)
+	id 1izm7y-0005d3-31
+	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 13:43:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36522)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1izm0q-0005dN-LG
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 13:36:29 -0500
+ (envelope-from <philmd@redhat.com>) id 1izm3d-0000v2-9G
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 13:39:22 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1izm0p-0002JP-Il
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 13:36:28 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:36962
+ (envelope-from <philmd@redhat.com>) id 1izm3c-0000Cx-3n
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 13:39:21 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:29134
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1izm0p-0002IR-BK
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 13:36:27 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1izm3b-0000BT-WE
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 13:39:20 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581014184;
+ s=mimecast20190719; t=1581014359;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mo9yRQw1REoBA/MyFi8tTI1bRXGJ3OlE8vgJmMfM5a0=;
- b=ToVtm+REfTaN6Ut0rvWX6i2pDQfq4BS6D3nZ0GnaSUfGwhKDzGqfcuuLmnzv4laQU8FknP
- +jCRqVXI8GlvAtmTB0r6IYIo3mrAG5ls4V4xJ+nWHdYmbs0zQCVCDfg3ac7X7G4zcQUGey
- K7XHL5aPRAH54jynDzSr+62+9kER/Ds=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-157-AmVarzChPv2UPPFc8OdqJw-1; Thu, 06 Feb 2020 13:36:20 -0500
-Received: by mail-wr1-f71.google.com with SMTP id t3so3893444wrm.23
- for <qemu-devel@nongnu.org>; Thu, 06 Feb 2020 10:36:20 -0800 (PST)
+ bh=KBVMO5LDCoa1gnX6XztnMSUGsp5xXMpUZV2SehTYlzE=;
+ b=IvF0Vuu2PN3GnFc/P1GQU4uy5hgdR3p/043vv+9pD2DvR+1ORL9PVfNn8BAr3cRWnMghoC
+ kvjfK0t31nkXesrjsa205rIpq9AUTR69CmIKo0NZc6l1/KST3cQMjseAxDkV+UuYTrSl2d
+ ZMmzcmV0qzM02ffFeSG4Cytox97g6RY=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-118-xWhF9gKLN02wNfvBvYy5eg-1; Thu, 06 Feb 2020 13:39:17 -0500
+Received: by mail-wr1-f69.google.com with SMTP id f10so3948010wro.14
+ for <qemu-devel@nongnu.org>; Thu, 06 Feb 2020 10:39:17 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=d2CB3VjmYgy2Vv4LniaDWxlOYqVJgHczX0WcYY9SVVI=;
- b=SE8vX0fSzQy+nEiY/Jc/3os5t8g4QEHFN39Kc2QEDv2uuiwmB+0nzRt+RAtz9vUmsp
- M3h5l5sBYQXgSnUStxa/VQERDDiGloEZvzGZSj6bgrh4xiQxMb7GN8ORV5cQ/ZXWRV4i
- HiSWuUigg3c3dmqVi9k0vwr5lvCePihyw2qQog97P5UtrcxJnY0vp01fLFTBEwJIONb0
- E5N37CVRISWhs/lvF7apA7jlj9+NjjSEOwPk2blrjY0dn/hxCPEFFJEG73YOuCr9X1Gm
- 3x6dV+FRavgcDXXpdkPETCKQ3kisVN0iDchUz9juusSMQp6F7ISD7ygUTzvGQ/iK+eK4
- 7Asw==
-X-Gm-Message-State: APjAAAUIW98XoAdIR43ZMvPu88Q9vWsDc7MJfn3M1/nGawM8FoJOcV33
- NPpbP5e0XvXmnZ1KUHxp+AREg7NC24HuOu5BpwouhwQ/OxiqwZqxQkPg5YseH4PltAzU7DVUOj8
- C9dV/XqaAEu0hH6E=
-X-Received: by 2002:a5d:6708:: with SMTP id o8mr5403129wru.296.1581014179635; 
- Thu, 06 Feb 2020 10:36:19 -0800 (PST)
-X-Google-Smtp-Source: APXvYqyurCrMueg881uyh0F3O/o3buJvQRPn8BB71aqpfjiCewVBs5YjglBdnUGqP4vt+8eR2/ZmHA==
-X-Received: by 2002:a5d:6708:: with SMTP id o8mr5403104wru.296.1581014179444; 
- Thu, 06 Feb 2020 10:36:19 -0800 (PST)
+ bh=wycmG98GB1Km5bPiSwxvQs3qf839VppKphMS2syKTU4=;
+ b=U6PrLR6ZYGJnGieZ5YjO80qqL5hF7vGlwVxeuNi0Rw4a9WQZyN9PS1LxlJ28ZexBMj
+ ULJUtFzHZPsGGIyEeTiyWqOmik1HFpQrdz80putvqEXBGlhQUgoaf6bCHocaeIE2CMA8
+ EvUtU9j43HjeoskSTHfHwLp3/aWvIvMpSvxJ8xbL6ZNbY1cFUjDAw3fFpQO6RtkGPvoQ
+ GFlxr30tXL/rSErUPXdVEzvEMAafLNMj3ILC+NmjNcnB+Su19IzqicW6QQSr7EG1C0Hm
+ jo+nbDCA/jxE25a8genQAQpM05mB67feAr1G2SNJbyUxA5OFTvWeoLefVEV+W2u8Yl8I
+ lMaw==
+X-Gm-Message-State: APjAAAVpddk0vEqkbyPgSG/awvtNfkki1V7u0Vtqnjo6Dc4i3ZgNw2rd
+ TLaY+uYo3K16YI/u5niyBz96a1Wdgu3yw5B5xOdeZv0siCXD8RwRNFKu1rABIMwIrufoycmWcEN
+ JevLXvO8wKRXTyEg=
+X-Received: by 2002:a05:600c:242:: with SMTP id 2mr5812293wmj.2.1581014354682; 
+ Thu, 06 Feb 2020 10:39:14 -0800 (PST)
+X-Google-Smtp-Source: APXvYqwHG9NRmOoGsmcEI9xSeyKAO7t3ICqo570L25o+o6WVwZsriUYFA4FEwYfsqa+p5nIxfDFH0A==
+X-Received: by 2002:a05:600c:242:: with SMTP id 2mr5812271wmj.2.1581014354430; 
+ Thu, 06 Feb 2020 10:39:14 -0800 (PST)
 Received: from [192.168.1.35] (78.red-88-21-202.staticip.rima-tde.net.
  [88.21.202.78])
- by smtp.gmail.com with ESMTPSA id s8sm159400wrt.57.2020.02.06.10.36.18
+ by smtp.gmail.com with ESMTPSA id g18sm392660wmh.48.2020.02.06.10.39.13
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 06 Feb 2020 10:36:19 -0800 (PST)
-Subject: Re: [PATCH v2 2/4] m25p80: Improve command handling for Jedec commands
+ Thu, 06 Feb 2020 10:39:13 -0800 (PST)
+Subject: Re: [PATCH v2 4/4] aspeed/smc: Fix number of dummy cycles for
+ FAST_READ_4 command
 To: Guenter Roeck <linux@roeck-us.net>,
  Alistair Francis <alistair@alistair23.me>, Kevin Wolf <kwolf@redhat.com>
 References: <20200206183219.3756-1-linux@roeck-us.net>
- <20200206183219.3756-2-linux@roeck-us.net>
+ <20200206183219.3756-4-linux@roeck-us.net>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <a2755daa-6cf9-4858-4b0e-d160efc2fc8a@redhat.com>
-Date: Thu, 6 Feb 2020 19:36:17 +0100
+Message-ID: <6cb7f4ce-beed-7f33-8d29-536089289e5c@redhat.com>
+Date: Thu, 6 Feb 2020 19:39:12 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200206183219.3756-2-linux@roeck-us.net>
+In-Reply-To: <20200206183219.3756-4-linux@roeck-us.net>
 Content-Language: en-US
-X-MC-Unique: AmVarzChPv2UPPFc8OdqJw-1
+X-MC-Unique: xWhF9gKLN02wNfvBvYy5eg-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -102,38 +102,38 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 2/6/20 7:32 PM, Guenter Roeck wrote:
-> When requesting JEDEC data using the JEDEC_READ command, the Linux kernel
-> always requests 6 bytes. The current implementation only returns three
-> bytes, and interprets the remaining three bytes as new commands.
-> While this does not matter most of the time, it is at the very least
-> confusing. To avoid the problem, always report up to 6 bytes of JEDEC
-> data. Fill remaining data with 0.
+> The Linux kernel recently started using FAST_READ_4 commands.
+> This results in flash read failures. At the same time, the m25p80
+> emulation is seen to read 8 more bytes than expected. Adjusting the
+> expected number of dummy cycles to match FAST_READ fixes the problem.
 >=20
+> Fixes: f95c4bffdc4c ("aspeed/smc: snoop SPI transfers to fake dummy cycle=
+s")
+> Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
 > Signed-off-by: Guenter Roeck <linux@roeck-us.net>
 > ---
-> v2: Split patch into two parts; improved decription
+> v2: No change
 >=20
->   hw/block/m25p80.c | 5 ++++-
->   1 file changed, 4 insertions(+), 1 deletion(-)
+>   hw/ssi/aspeed_smc.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 >=20
-> diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
-> index 5ff8d270c4..53bf63856f 100644
-> --- a/hw/block/m25p80.c
-> +++ b/hw/block/m25p80.c
-> @@ -1040,8 +1040,11 @@ static void decode_new_cmd(Flash *s, uint32_t valu=
-e)
->           for (i =3D 0; i < s->pi->id_len; i++) {
->               s->data[i] =3D s->pi->id[i];
->           }
-> +        for (; i < SPI_NOR_MAX_ID_LEN; i++) {
-> +            s->data[i] =3D 0;
-> +        }
->  =20
-> -        s->len =3D s->pi->id_len;
-> +        s->len =3D SPI_NOR_MAX_ID_LEN;
->           s->pos =3D 0;
->           s->state =3D STATE_READING_DATA;
->           break;
+> diff --git a/hw/ssi/aspeed_smc.c b/hw/ssi/aspeed_smc.c
+> index 23c8d2f062..0444570750 100644
+> --- a/hw/ssi/aspeed_smc.c
+> +++ b/hw/ssi/aspeed_smc.c
+> @@ -787,11 +787,11 @@ static int aspeed_smc_num_dummies(uint8_t command)
+>       case FAST_READ:
+>       case DOR:
+>       case QOR:
+> +    case FAST_READ_4:
+>       case DOR_4:
+>       case QOR_4:
+>           return 1;
+>       case DIOR:
+> -    case FAST_READ_4:
+>       case DIOR_4:
+>           return 2;
+>       case QIOR:
 >=20
 
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
