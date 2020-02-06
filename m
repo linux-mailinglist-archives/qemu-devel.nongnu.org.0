@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8BEE15447B
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 14:04:52 +0100 (CET)
-Received: from localhost ([::1]:38462 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C100E15447A
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 14:04:41 +0100 (CET)
+Received: from localhost ([::1]:38460 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izgpv-0003uq-Rz
-	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 08:04:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57355)
+	id 1izgpk-0003SD-Os
+	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 08:04:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57396)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1izgdH-00030E-Nj
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 07:51:50 -0500
+ (envelope-from <mreitz@redhat.com>) id 1izgdK-000342-SN
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 07:51:51 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1izgdG-0000Zr-H8
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 07:51:47 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:45096
+ (envelope-from <mreitz@redhat.com>) id 1izgdJ-0000gO-Jd
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 07:51:50 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:30210
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1izgdG-0000Xp-DS
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 07:51:46 -0500
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1izgdJ-0000eb-F9
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 07:51:49 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580993505;
+ s=mimecast20190719; t=1580993508;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=H8KZ/TW2HT1XQWa+bFUi9md34JHzWwCTHP8M8ZEnN3U=;
- b=aRu+vacSxXHsJNH37Y4XdLH96dLEHLASIDFnugRJst6WMUQaCyQcJb5lx+/zD8eZiB/sXG
- nh/KUVnI37ihV+CiFl46/0f8Q8fcIc2YIWfKmVwFhFFMQ5ZLdyqAMN9JRgWtfirARQXPzg
- WEy5Pv2nGBfrToRQ+V9ZgVFncp9uQXE=
+ bh=tJqKDqnfNNXLC7lxEHA7EJIDSxFvBpjiZBpMeywV1Cg=;
+ b=VEnN2vD3NLXYaIFpGDBadxThRvZJabmAWMFlbBVebdpGlL687mWKOod2EAUwFzlflwptR5
+ jr/BpE4X3Amy11EzASWnfmD/sggLtTHjIsMrNFLpnnJca3FvALefIMtFT4j2Q0cvKEBX7g
+ cibbwsJ+p6PZFjk4n8/REEa3i3H+o8A=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-13-JvAIFooiPIm5Czd5SGv1Bg-1; Thu, 06 Feb 2020 07:51:43 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-280-hlkiwJT0NQu9Tpzzm05VVQ-1; Thu, 06 Feb 2020 07:51:45 -0500
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8EA0118C43CD;
- Thu,  6 Feb 2020 12:51:42 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9A03D8014DB;
+ Thu,  6 Feb 2020 12:51:44 +0000 (UTC)
 Received: from localhost (unknown [10.36.118.15])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3401489A83;
- Thu,  6 Feb 2020 12:51:42 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3B8E21036B25;
+ Thu,  6 Feb 2020 12:51:44 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 04/17] qcow2: Use a GString in report_unsupported_feature()
-Date: Thu,  6 Feb 2020 13:51:19 +0100
-Message-Id: <20200206125132.594625-5-mreitz@redhat.com>
+Subject: [PULL 05/17] iotests: remove 'linux' from default supported platforms
+Date: Thu,  6 Feb 2020 13:51:20 +0100
+Message-Id: <20200206125132.594625-6-mreitz@redhat.com>
 In-Reply-To: <20200206125132.594625-1-mreitz@redhat.com>
 References: <20200206125132.594625-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: JvAIFooiPIm5Czd5SGv1Bg-1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-MC-Unique: hlkiwJT0NQu9Tpzzm05VVQ-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,77 +75,80 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Alberto Garcia <berto@igalia.com>
+From: John Snow <jsnow@redhat.com>
 
-This is a bit more efficient than having to allocate and free memory
-for each item.
+verify_platform will check an explicit whitelist and blacklist instead.
+The default will now be assumed to be allowed to run anywhere.
 
-The default size (60) is enough for all the existing incompatible
-features or the "Unknown incompatible feature" message.
+For tests that do not specify their platforms explicitly, this has the effe=
+ct of
+enabling these tests on non-linux platforms. For tests that always specifie=
+d
+linux explicitly, there is no change.
 
-Suggested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Signed-off-by: Alberto Garcia <berto@igalia.com>
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-Message-id: 20200115135626.19442-1-berto@igalia.com
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
+For Python tests on FreeBSD at least; only seven python tests fail:
+045 147 149 169 194 199 211
+
+045 and 149 appear to be misconfigurations,
+147 and 194 are the AF_UNIX path too long error,
+169 and 199 are bitmap migration bugs, and
+211 is a bug that shows up on Linux platforms, too.
+
+This is at least good evidence that these tests are not Linux-only. If
+they aren't suitable for other platforms, they should be disabled on a
+per-platform basis as appropriate.
+
+Therefore, let's switch these on and deal with the failures.
+
+Reviewed-by: Max Reitz <mreitz@redhat.com>
+Signed-off-by: John Snow <jsnow@redhat.com>
+Message-id: 20200121095205.26323-2-thuth@redhat.com
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block/qcow2.c | 23 +++++++++++------------
- 1 file changed, 11 insertions(+), 12 deletions(-)
+ tests/qemu-iotests/iotests.py | 16 +++++++++++-----
+ 1 file changed, 11 insertions(+), 5 deletions(-)
 
-diff --git a/block/qcow2.c b/block/qcow2.c
-index cef9d72b3a..e29fc07068 100644
---- a/block/qcow2.c
-+++ b/block/qcow2.c
-@@ -453,16 +453,15 @@ static void cleanup_unknown_header_ext(BlockDriverSta=
-te *bs)
- static void report_unsupported_feature(Error **errp, Qcow2Feature *table,
-                                        uint64_t mask)
- {
--    char *features =3D g_strdup("");
--    char *old;
-+    g_autoptr(GString) features =3D g_string_sized_new(60);
+diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
+index 89aa2df2f3..ead04a1ab5 100644
+--- a/tests/qemu-iotests/iotests.py
++++ b/tests/qemu-iotests/iotests.py
+@@ -931,9 +931,14 @@ def verify_protocol(supported=3D[], unsupported=3D[]):
+     if not_sup or (imgproto in unsupported):
+         notrun('not suitable for this protocol: %s' % imgproto)
 =20
-     while (table && table->name[0] !=3D '\0') {
-         if (table->type =3D=3D QCOW2_FEAT_TYPE_INCOMPATIBLE) {
-             if (mask & (1ULL << table->bit)) {
--                old =3D features;
--                features =3D g_strdup_printf("%s%s%.46s", old, *old ? ", "=
- : "",
--                                           table->name);
--                g_free(old);
-+                if (features->len > 0) {
-+                    g_string_append(features, ", ");
-+                }
-+                g_string_append_printf(features, "%.46s", table->name);
-                 mask &=3D ~(1ULL << table->bit);
-             }
-         }
-@@ -470,14 +469,14 @@ static void report_unsupported_feature(Error **errp, =
-Qcow2Feature *table,
-     }
+-def verify_platform(supported_oses=3D['linux']):
+-    if True not in [sys.platform.startswith(x) for x in supported_oses]:
+-        notrun('not suitable for this OS: %s' % sys.platform)
++def verify_platform(supported=3DNone, unsupported=3DNone):
++    if unsupported is not None:
++        if any((sys.platform.startswith(x) for x in unsupported)):
++            notrun('not suitable for this OS: %s' % sys.platform)
++
++    if supported is not None:
++        if not any((sys.platform.startswith(x) for x in supported)):
++            notrun('not suitable for this OS: %s' % sys.platform)
 =20
-     if (mask) {
--        old =3D features;
--        features =3D g_strdup_printf("%s%sUnknown incompatible feature: %"=
- PRIx64,
--                                   old, *old ? ", " : "", mask);
--        g_free(old);
-+        if (features->len > 0) {
-+            g_string_append(features, ", ");
-+        }
-+        g_string_append_printf(features,
-+                               "Unknown incompatible feature: %" PRIx64, m=
-ask);
-     }
+ def verify_cache_mode(supported_cache_modes=3D[]):
+     if supported_cache_modes and (cachemode not in supported_cache_modes):
+@@ -1028,7 +1033,8 @@ def execute_unittest(output, verbosity, debug):
+             sys.stderr.write(out)
 =20
--    error_setg(errp, "Unsupported qcow2 feature(s): %s", features);
--    g_free(features);
-+    error_setg(errp, "Unsupported qcow2 feature(s): %s", features->str);
- }
+ def execute_test(test_function=3DNone,
+-                 supported_fmts=3D[], supported_oses=3D['linux'],
++                 supported_fmts=3D[],
++                 supported_platforms=3DNone,
+                  supported_cache_modes=3D[], supported_aio_modes=3D{},
+                  unsupported_fmts=3D[], supported_protocols=3D[],
+                  unsupported_protocols=3D[]):
+@@ -1046,7 +1052,7 @@ def execute_test(test_function=3DNone,
+     verbosity =3D 1
+     verify_image_format(supported_fmts, unsupported_fmts)
+     verify_protocol(supported_protocols, unsupported_protocols)
+-    verify_platform(supported_oses)
++    verify_platform(supported=3Dsupported_platforms)
+     verify_cache_mode(supported_cache_modes)
+     verify_aio_mode(supported_aio_modes)
 =20
- /*
 --=20
 2.24.1
 
