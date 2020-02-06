@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 317F8154285
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 12:02:42 +0100 (CET)
-Received: from localhost ([::1]:35850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D35D71542A5
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 12:07:56 +0100 (CET)
+Received: from localhost ([::1]:36018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izevh-00078a-51
-	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 06:02:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49878)
+	id 1izf0l-0000zN-Qf
+	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 06:07:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49879)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1izeoO-00034N-7G
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 05:55:10 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1izeoO-00034O-7C
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 05:55:09 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1izeoK-00071X-PS
+ (envelope-from <richard.henderson@linaro.org>) id 1izeoM-0007B3-LQ
  for qemu-devel@nongnu.org; Thu, 06 Feb 2020 05:55:08 -0500
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:37756)
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:42610)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1izeoK-0006wN-8q
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 05:55:04 -0500
-Received: by mail-wm1-x341.google.com with SMTP id f129so6470586wmf.2
- for <qemu-devel@nongnu.org>; Thu, 06 Feb 2020 02:55:04 -0800 (PST)
+ id 1izeoM-00073k-C0
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 05:55:06 -0500
+Received: by mail-wr1-x442.google.com with SMTP id k11so6550050wrd.9
+ for <qemu-devel@nongnu.org>; Thu, 06 Feb 2020 02:55:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=yGXxmEILtcVqUnUIIO59FUMDCwmme/jGV3qvovTSKWE=;
- b=jCdsbD7EAOuC8UICuzOuSOXDaG/9YvH+l9cCts5tAHr8JFs5Jk8wgfj83AHQca5I8n
- gPuV1NhFNuTgYqN7V+8wJkF07m/YJJuW0gMnTommh175KHZ/QPAol/1SHBWSA3QyWuZO
- kibC9aD2n5g0fHPHDVyi/e92JJVdEgKuByvX5++bMmNNb+9OjjqaZ+hJAQwp9m90gcWj
- g5VX6q+is1B0WFDDPP+fQRHeaSvTYyjE99tkhSC0PcpvWMpLfC/SemjWchP725pP/rQe
- hEbFlUDM7fzkK8/oPnGVCqJGqlfyMhuX/OClY5uum4scn7QjRNfOwyqJmqtfKRma/cni
- xaaQ==
+ bh=6GrGdVij1LEfH8uaHPt30B16FVSaZDBvRCDaruXRkoU=;
+ b=ir8HeMz5HCdyrAlZGKVgmJN7uHvxQsqIz0ME+V66o15woP0EDhQm3qZW5I3lT+F3TO
+ U3zwZr5zqCtmKlL3ueaznMdHauNTj5GXRHVM1jV1RNulmW+dp2IlvhBD53wbz8CwrKE5
+ pFJtYou+hIDnoh0Ik6IQ5F5wve9sgWmSGNqmhlVNSQ0iuQJd78UZQ0pfI2L05sO8bRqa
+ +coUAlfwJ0RJmCIuSEtYuTyYGP5Mho87mjQCIAIto3r1nZ8TcG+oqpu9NSxNv6uxAUhS
+ sDAktYWRDgTfNx/lrdDUEc90onSix88jj55YL4HDmG7bOM/UlcEXGNdTZ+QWbBKCC790
+ ASqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=yGXxmEILtcVqUnUIIO59FUMDCwmme/jGV3qvovTSKWE=;
- b=ZFOeeXKf0jKojrRDquBNvFQNvbjlrceIzLuqDpliKioHwUbAYlUi9cBXdpV3qska2y
- 8JpPi3Bh2RN6biSdrKQXQsLgGBF7zQ/7yrskew6h7ElxuOFwpM/7pAVIMkW+HA8IYHXT
- A5YF2JH/kUCv379DGBd4CVwJNZnhOoAyrjXCjgloxQpFwkFkzOkaiKxRpvuFIsCRLcTl
- +O/BedR687AyRMxQ7ZxCLo4nfLrXz5W2Mhq7NtXj4Zm3k0uX9Ln7JZDQMeD6RbamUPHs
- tzWqf5HaA+UI4wUt6CIlzOZhkPPdrlifDgFEVXahMDfgqC9Z0H5KxxE4CVbGp+6Cb3JX
- u5bA==
-X-Gm-Message-State: APjAAAUhmmKCuoCVOcwqzCoessDrycMlzD4tnt3HwRLdesrmS8foxGd/
- Ni+LdqXj+xHmqSMXwJkwNW/iMX52lhgPAg==
-X-Google-Smtp-Source: APXvYqywpNFeiojPx3MMJZHpM7399nFhNcjRYq+p7E/EfKVnSs/qWGC0Rgjo6xX/I+KEpmBwdugojQ==
-X-Received: by 2002:a7b:cc97:: with SMTP id p23mr3889771wma.89.1580986502650; 
- Thu, 06 Feb 2020 02:55:02 -0800 (PST)
+ bh=6GrGdVij1LEfH8uaHPt30B16FVSaZDBvRCDaruXRkoU=;
+ b=oGD3+ulA0GMOPPW64cgN9uPuVz4M2qW+L0n57JBxA8AWjmZX+mvIYYDpvETRd7kPkp
+ D0jFgYJW5dRzafwfxdMr536WS6gJxYE/qD/0uosXaf+RfwRfOczA45LtiwgmHv74XHTN
+ YHD58EwvrsdMn+Yd93BJer2hyK+7GxOjnm9J5kZxBd8FKQYAReDnC98dfAYW5kr/DaPC
+ rkUn/G1Qu7XUaeZWG96i5nOVPO9F6sY9mwwTQhc0DlswSIui2qptbVh/XJQzzvNRfSpr
+ 48mJ2Ck5cDRiqSjxjYRWrWKVAYlo3x4RCsKlqicVx3PB+O3blpOCQC8vOCWP+nHlZH3D
+ NolQ==
+X-Gm-Message-State: APjAAAVzLqoNx1Xt3/uMe58h23wBlSXKnT1Vluh28dulY/EEphDpQnla
+ b0lFzEGyff/0I8PFQm89ARNdRNvE/lWOzA==
+X-Google-Smtp-Source: APXvYqzSDBYzqxPx5lZMbVEzyCC7wkC0zVfq2NMTCbE/UL8d2nucwQwHIAIZvoGaftobiyhag1/ZzQ==
+X-Received: by 2002:adf:ca07:: with SMTP id o7mr3117668wrh.49.1580986504442;
+ Thu, 06 Feb 2020 02:55:04 -0800 (PST)
 Received: from cloudburst.c.hoisthospitality.com ([135.196.99.211])
- by smtp.gmail.com with ESMTPSA id m21sm3364995wmi.27.2020.02.06.02.55.02
+ by smtp.gmail.com with ESMTPSA id m21sm3364995wmi.27.2020.02.06.02.55.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Feb 2020 02:55:02 -0800 (PST)
+ Thu, 06 Feb 2020 02:55:04 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 15/41] target/arm: Recover 4 bits from TBFLAGs
-Date: Thu,  6 Feb 2020 10:54:22 +0000
-Message-Id: <20200206105448.4726-16-richard.henderson@linaro.org>
+Subject: [PATCH v7 17/41] target/arm: Rearrange ARMMMUIdxBit
+Date: Thu,  6 Feb 2020 10:54:24 +0000
+Message-Id: <20200206105448.4726-18-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200206105448.4726-1-richard.henderson@linaro.org>
 References: <20200206105448.4726-1-richard.henderson@linaro.org>
@@ -66,7 +66,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::341
+X-Received-From: 2a00:1450:4864:20::442
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,286 +79,77 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: peter.maydell@linaro.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We had completely run out of TBFLAG bits.
-Split A- and M-profile bits into two overlapping buckets.
-This results in 4 free bits.
-
-We used to initialize all of the a32 and m32 fields in DisasContext
-by assignment, in arm_tr_init_disas_context.  Now we only initialize
-either the a32 or m32 by assignment, because the bits overlap in
-tbflags.  So zero the entire structure in gen_intermediate_code.
+Define via macro expansion, so that renumbering of the base ARMMMUIdx
+symbols is automatically reflected in the bit definitions.
 
 Tested-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/cpu.h       | 68 ++++++++++++++++++++++++++----------------
- target/arm/helper.c    | 17 +++++------
- target/arm/translate.c | 57 +++++++++++++++++++----------------
- 3 files changed, 82 insertions(+), 60 deletions(-)
+ target/arm/cpu.h | 39 +++++++++++++++++++++++----------------
+ 1 file changed, 23 insertions(+), 16 deletions(-)
 
 diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index a188398b03..fce6a426c8 100644
+index aa9728cff6..aa121cd9d0 100644
 --- a/target/arm/cpu.h
 +++ b/target/arm/cpu.h
-@@ -3214,6 +3214,16 @@ typedef ARMCPU ArchCPU;
-  * We put flags which are shared between 32 and 64 bit mode at the top
-  * of the word, and flags which apply to only one mode at the bottom.
-  *
-+ *  31          21    18    14          9              0
-+ * +--------------+-----+-----+----------+--------------+
-+ * |              |     |   TBFLAG_A32   |              |
-+ * |              |     +-----+----------+  TBFLAG_AM32 |
-+ * |  TBFLAG_ANY  |           |TBFLAG_M32|              |
-+ * |              |           +-------------------------|
-+ * |              |           |       TBFLAG_A64        |
-+ * +--------------+-----------+-------------------------+
-+ *  31          21          14                         0
-+ *
-  * Unless otherwise noted, these bits are cached in env->hflags.
+@@ -2927,27 +2927,34 @@ typedef enum ARMMMUIdx {
+     ARMMMUIdx_Stage1_E1 = 1 | ARM_MMU_IDX_NOTLB,
+ } ARMMMUIdx;
+ 
+-/* Bit macros for the core-mmu-index values for each index,
++/*
++ * Bit macros for the core-mmu-index values for each index,
+  * for use when calling tlb_flush_by_mmuidx() and friends.
   */
- FIELD(TBFLAG_ANY, AARCH64_STATE, 31, 1)
-@@ -3223,46 +3233,54 @@ FIELD(TBFLAG_ANY, PSTATE_SS, 26, 1)     /* Not cached. */
- /* Target EL if we take a floating-point-disabled exception */
- FIELD(TBFLAG_ANY, FPEXC_EL, 24, 2)
- FIELD(TBFLAG_ANY, BE_DATA, 23, 1)
--/*
-- * For A-profile only, target EL for debug exceptions.
-- * Note that this overlaps with the M-profile-only HANDLER and STACKCHECK bits.
-- */
-+/* For A-profile only, target EL for debug exceptions.  */
- FIELD(TBFLAG_ANY, DEBUG_TARGET_EL, 21, 2)
- 
--/* Bit usage when in AArch32 state: */
--FIELD(TBFLAG_A32, THUMB, 0, 1)          /* Not cached. */
--FIELD(TBFLAG_A32, VECLEN, 1, 3)         /* Not cached. */
--FIELD(TBFLAG_A32, VECSTRIDE, 4, 2)      /* Not cached. */
-+/*
-+ * Bit usage when in AArch32 state, both A- and M-profile.
-+ */
-+FIELD(TBFLAG_AM32, CONDEXEC, 0, 8)      /* Not cached. */
-+FIELD(TBFLAG_AM32, THUMB, 8, 1)         /* Not cached. */
++#define TO_CORE_BIT(NAME) \
++    ARMMMUIdxBit_##NAME = 1 << (ARMMMUIdx_##NAME & ARM_MMU_IDX_COREIDX_MASK)
 +
-+/*
-+ * Bit usage when in AArch32 state, for A-profile only.
-+ */
-+FIELD(TBFLAG_A32, VECLEN, 9, 3)         /* Not cached. */
-+FIELD(TBFLAG_A32, VECSTRIDE, 12, 2)     /* Not cached. */
- /*
-  * We store the bottom two bits of the CPAR as TB flags and handle
-  * checks on the other bits at runtime. This shares the same bits as
-  * VECSTRIDE, which is OK as no XScale CPU has VFP.
-  * Not cached, because VECLEN+VECSTRIDE are not cached.
-  */
--FIELD(TBFLAG_A32, XSCALE_CPAR, 4, 2)
-+FIELD(TBFLAG_A32, XSCALE_CPAR, 12, 2)
-+FIELD(TBFLAG_A32, VFPEN, 14, 1)         /* Partially cached, minus FPEXC. */
-+FIELD(TBFLAG_A32, SCTLR_B, 15, 1)
-+FIELD(TBFLAG_A32, HSTR_ACTIVE, 16, 1)
- /*
-  * Indicates whether cp register reads and writes by guest code should access
-  * the secure or nonsecure bank of banked registers; note that this is not
-  * the same thing as the current security state of the processor!
-  */
--FIELD(TBFLAG_A32, NS, 6, 1)
--FIELD(TBFLAG_A32, VFPEN, 7, 1)          /* Partially cached, minus FPEXC. */
--FIELD(TBFLAG_A32, CONDEXEC, 8, 8)       /* Not cached. */
--FIELD(TBFLAG_A32, SCTLR_B, 16, 1)
--FIELD(TBFLAG_A32, HSTR_ACTIVE, 17, 1)
-+FIELD(TBFLAG_A32, NS, 17, 1)
- 
--/* For M profile only, set if FPCCR.LSPACT is set */
--FIELD(TBFLAG_A32, LSPACT, 18, 1)        /* Not cached. */
--/* For M profile only, set if we must create a new FP context */
--FIELD(TBFLAG_A32, NEW_FP_CTXT_NEEDED, 19, 1) /* Not cached. */
--/* For M profile only, set if FPCCR.S does not match current security state */
--FIELD(TBFLAG_A32, FPCCR_S_WRONG, 20, 1) /* Not cached. */
--/* For M profile only, Handler (ie not Thread) mode */
--FIELD(TBFLAG_A32, HANDLER, 21, 1)
--/* For M profile only, whether we should generate stack-limit checks */
--FIELD(TBFLAG_A32, STACKCHECK, 22, 1)
-+/*
-+ * Bit usage when in AArch32 state, for M-profile only.
-+ */
-+/* Handler (ie not Thread) mode */
-+FIELD(TBFLAG_M32, HANDLER, 9, 1)
-+/* Whether we should generate stack-limit checks */
-+FIELD(TBFLAG_M32, STACKCHECK, 10, 1)
-+/* Set if FPCCR.LSPACT is set */
-+FIELD(TBFLAG_M32, LSPACT, 11, 1)                 /* Not cached. */
-+/* Set if we must create a new FP context */
-+FIELD(TBFLAG_M32, NEW_FP_CTXT_NEEDED, 12, 1)     /* Not cached. */
-+/* Set if FPCCR.S does not match current security state */
-+FIELD(TBFLAG_M32, FPCCR_S_WRONG, 13, 1)          /* Not cached. */
- 
--/* Bit usage when in AArch64 state */
-+/*
-+ * Bit usage when in AArch64 state
-+ */
- FIELD(TBFLAG_A64, TBII, 0, 2)
- FIELD(TBFLAG_A64, SVEEXC_EL, 2, 2)
- FIELD(TBFLAG_A64, ZCR_LEN, 4, 4)
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 7ee4197456..5609bb18e8 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -11353,11 +11353,8 @@ static uint32_t rebuild_hflags_m32(CPUARMState *env, int fp_el,
- {
-     uint32_t flags = 0;
- 
--    /* v8M always enables the fpu.  */
--    flags = FIELD_DP32(flags, TBFLAG_A32, VFPEN, 1);
--
-     if (arm_v7m_is_handler_mode(env)) {
--        flags = FIELD_DP32(flags, TBFLAG_A32, HANDLER, 1);
-+        flags = FIELD_DP32(flags, TBFLAG_M32, HANDLER, 1);
-     }
- 
-     /*
-@@ -11368,7 +11365,7 @@ static uint32_t rebuild_hflags_m32(CPUARMState *env, int fp_el,
-     if (arm_feature(env, ARM_FEATURE_V8) &&
-         !((mmu_idx & ARM_MMU_IDX_M_NEGPRI) &&
-           (env->v7m.ccr[env->v7m.secure] & R_V7M_CCR_STKOFHFNMIGN_MASK))) {
--        flags = FIELD_DP32(flags, TBFLAG_A32, STACKCHECK, 1);
-+        flags = FIELD_DP32(flags, TBFLAG_M32, STACKCHECK, 1);
-     }
- 
-     return rebuild_hflags_common_32(env, fp_el, mmu_idx, flags);
-@@ -11561,7 +11558,7 @@ void cpu_get_tb_cpu_state(CPUARMState *env, target_ulong *pc,
-             if (arm_feature(env, ARM_FEATURE_M_SECURITY) &&
-                 FIELD_EX32(env->v7m.fpccr[M_REG_S], V7M_FPCCR, S)
-                 != env->v7m.secure) {
--                flags = FIELD_DP32(flags, TBFLAG_A32, FPCCR_S_WRONG, 1);
-+                flags = FIELD_DP32(flags, TBFLAG_M32, FPCCR_S_WRONG, 1);
-             }
- 
-             if ((env->v7m.fpccr[env->v7m.secure] & R_V7M_FPCCR_ASPEN_MASK) &&
-@@ -11573,12 +11570,12 @@ void cpu_get_tb_cpu_state(CPUARMState *env, target_ulong *pc,
-                  * active FP context; we must create a new FP context before
-                  * executing any FP insn.
-                  */
--                flags = FIELD_DP32(flags, TBFLAG_A32, NEW_FP_CTXT_NEEDED, 1);
-+                flags = FIELD_DP32(flags, TBFLAG_M32, NEW_FP_CTXT_NEEDED, 1);
-             }
- 
-             bool is_secure = env->v7m.fpccr[M_REG_S] & R_V7M_FPCCR_S_MASK;
-             if (env->v7m.fpccr[is_secure] & R_V7M_FPCCR_LSPACT_MASK) {
--                flags = FIELD_DP32(flags, TBFLAG_A32, LSPACT, 1);
-+                flags = FIELD_DP32(flags, TBFLAG_M32, LSPACT, 1);
-             }
-         } else {
-             /*
-@@ -11599,8 +11596,8 @@ void cpu_get_tb_cpu_state(CPUARMState *env, target_ulong *pc,
-             }
-         }
- 
--        flags = FIELD_DP32(flags, TBFLAG_A32, THUMB, env->thumb);
--        flags = FIELD_DP32(flags, TBFLAG_A32, CONDEXEC, env->condexec_bits);
-+        flags = FIELD_DP32(flags, TBFLAG_AM32, THUMB, env->thumb);
-+        flags = FIELD_DP32(flags, TBFLAG_AM32, CONDEXEC, env->condexec_bits);
-         pstate_for_ss = env->uncached_cpsr;
-     }
- 
-diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 91e2ca5515..c169984374 100644
---- a/target/arm/translate.c
-+++ b/target/arm/translate.c
-@@ -10848,38 +10848,48 @@ static void arm_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
-      */
-     dc->secure_routed_to_el3 = arm_feature(env, ARM_FEATURE_EL3) &&
-                                !arm_el_is_aa64(env, 3);
--    dc->thumb = FIELD_EX32(tb_flags, TBFLAG_A32, THUMB);
--    dc->sctlr_b = FIELD_EX32(tb_flags, TBFLAG_A32, SCTLR_B);
--    dc->hstr_active = FIELD_EX32(tb_flags, TBFLAG_A32, HSTR_ACTIVE);
-+    dc->thumb = FIELD_EX32(tb_flags, TBFLAG_AM32, THUMB);
-     dc->be_data = FIELD_EX32(tb_flags, TBFLAG_ANY, BE_DATA) ? MO_BE : MO_LE;
--    condexec = FIELD_EX32(tb_flags, TBFLAG_A32, CONDEXEC);
-+    condexec = FIELD_EX32(tb_flags, TBFLAG_AM32, CONDEXEC);
-     dc->condexec_mask = (condexec & 0xf) << 1;
-     dc->condexec_cond = condexec >> 4;
+ typedef enum ARMMMUIdxBit {
+-    ARMMMUIdxBit_E10_0 = 1 << 0,
+-    ARMMMUIdxBit_E10_1 = 1 << 1,
+-    ARMMMUIdxBit_E2 = 1 << 2,
+-    ARMMMUIdxBit_SE3 = 1 << 3,
+-    ARMMMUIdxBit_SE10_0 = 1 << 4,
+-    ARMMMUIdxBit_SE10_1 = 1 << 5,
+-    ARMMMUIdxBit_Stage2 = 1 << 6,
+-    ARMMMUIdxBit_MUser = 1 << 0,
+-    ARMMMUIdxBit_MPriv = 1 << 1,
+-    ARMMMUIdxBit_MUserNegPri = 1 << 2,
+-    ARMMMUIdxBit_MPrivNegPri = 1 << 3,
+-    ARMMMUIdxBit_MSUser = 1 << 4,
+-    ARMMMUIdxBit_MSPriv = 1 << 5,
+-    ARMMMUIdxBit_MSUserNegPri = 1 << 6,
+-    ARMMMUIdxBit_MSPrivNegPri = 1 << 7,
++    TO_CORE_BIT(E10_0),
++    TO_CORE_BIT(E10_1),
++    TO_CORE_BIT(E2),
++    TO_CORE_BIT(SE10_0),
++    TO_CORE_BIT(SE10_1),
++    TO_CORE_BIT(SE3),
++    TO_CORE_BIT(Stage2),
 +
-     core_mmu_idx = FIELD_EX32(tb_flags, TBFLAG_ANY, MMUIDX);
-     dc->mmu_idx = core_to_arm_mmu_idx(env, core_mmu_idx);
-     dc->current_el = arm_mmu_idx_to_el(dc->mmu_idx);
- #if !defined(CONFIG_USER_ONLY)
-     dc->user = (dc->current_el == 0);
- #endif
--    dc->ns = FIELD_EX32(tb_flags, TBFLAG_A32, NS);
-     dc->fp_excp_el = FIELD_EX32(tb_flags, TBFLAG_ANY, FPEXC_EL);
--    dc->vfp_enabled = FIELD_EX32(tb_flags, TBFLAG_A32, VFPEN);
--    dc->vec_len = FIELD_EX32(tb_flags, TBFLAG_A32, VECLEN);
--    if (arm_feature(env, ARM_FEATURE_XSCALE)) {
--        dc->c15_cpar = FIELD_EX32(tb_flags, TBFLAG_A32, XSCALE_CPAR);
--        dc->vec_stride = 0;
++    TO_CORE_BIT(MUser),
++    TO_CORE_BIT(MPriv),
++    TO_CORE_BIT(MUserNegPri),
++    TO_CORE_BIT(MPrivNegPri),
++    TO_CORE_BIT(MSUser),
++    TO_CORE_BIT(MSPriv),
++    TO_CORE_BIT(MSUserNegPri),
++    TO_CORE_BIT(MSPrivNegPri),
+ } ARMMMUIdxBit;
+ 
++#undef TO_CORE_BIT
 +
-+    if (arm_feature(env, ARM_FEATURE_M)) {
-+        dc->vfp_enabled = 1;
-+        dc->be_data = MO_TE;
-+        dc->v7m_handler_mode = FIELD_EX32(tb_flags, TBFLAG_M32, HANDLER);
-+        dc->v8m_secure = arm_feature(env, ARM_FEATURE_M_SECURITY) &&
-+            regime_is_secure(env, dc->mmu_idx);
-+        dc->v8m_stackcheck = FIELD_EX32(tb_flags, TBFLAG_M32, STACKCHECK);
-+        dc->v8m_fpccr_s_wrong =
-+            FIELD_EX32(tb_flags, TBFLAG_M32, FPCCR_S_WRONG);
-+        dc->v7m_new_fp_ctxt_needed =
-+            FIELD_EX32(tb_flags, TBFLAG_M32, NEW_FP_CTXT_NEEDED);
-+        dc->v7m_lspact = FIELD_EX32(tb_flags, TBFLAG_M32, LSPACT);
-     } else {
--        dc->vec_stride = FIELD_EX32(tb_flags, TBFLAG_A32, VECSTRIDE);
--        dc->c15_cpar = 0;
-+        dc->be_data =
-+            FIELD_EX32(tb_flags, TBFLAG_ANY, BE_DATA) ? MO_BE : MO_LE;
-+        dc->debug_target_el =
-+            FIELD_EX32(tb_flags, TBFLAG_ANY, DEBUG_TARGET_EL);
-+        dc->sctlr_b = FIELD_EX32(tb_flags, TBFLAG_A32, SCTLR_B);
-+        dc->hstr_active = FIELD_EX32(tb_flags, TBFLAG_A32, HSTR_ACTIVE);
-+        dc->ns = FIELD_EX32(tb_flags, TBFLAG_A32, NS);
-+        dc->vfp_enabled = FIELD_EX32(tb_flags, TBFLAG_A32, VFPEN);
-+        if (arm_feature(env, ARM_FEATURE_XSCALE)) {
-+            dc->c15_cpar = FIELD_EX32(tb_flags, TBFLAG_A32, XSCALE_CPAR);
-+        } else {
-+            dc->vec_len = FIELD_EX32(tb_flags, TBFLAG_A32, VECLEN);
-+            dc->vec_stride = FIELD_EX32(tb_flags, TBFLAG_A32, VECSTRIDE);
-+        }
-     }
--    dc->v7m_handler_mode = FIELD_EX32(tb_flags, TBFLAG_A32, HANDLER);
--    dc->v8m_secure = arm_feature(env, ARM_FEATURE_M_SECURITY) &&
--        regime_is_secure(env, dc->mmu_idx);
--    dc->v8m_stackcheck = FIELD_EX32(tb_flags, TBFLAG_A32, STACKCHECK);
--    dc->v8m_fpccr_s_wrong = FIELD_EX32(tb_flags, TBFLAG_A32, FPCCR_S_WRONG);
--    dc->v7m_new_fp_ctxt_needed =
--        FIELD_EX32(tb_flags, TBFLAG_A32, NEW_FP_CTXT_NEEDED);
--    dc->v7m_lspact = FIELD_EX32(tb_flags, TBFLAG_A32, LSPACT);
-     dc->cp_regs = cpu->cp_regs;
-     dc->features = env->features;
+ #define MMU_USER_IDX 0
  
-@@ -10901,9 +10911,6 @@ static void arm_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
-     dc->ss_active = FIELD_EX32(tb_flags, TBFLAG_ANY, SS_ACTIVE);
-     dc->pstate_ss = FIELD_EX32(tb_flags, TBFLAG_ANY, PSTATE_SS);
-     dc->is_ldex = false;
--    if (!arm_feature(env, ARM_FEATURE_M)) {
--        dc->debug_target_el = FIELD_EX32(tb_flags, TBFLAG_ANY, DEBUG_TARGET_EL);
--    }
- 
-     dc->page_start = dc->base.pc_first & TARGET_PAGE_MASK;
- 
-@@ -11340,10 +11347,10 @@ static const TranslatorOps thumb_translator_ops = {
- /* generate intermediate code for basic block 'tb'.  */
- void gen_intermediate_code(CPUState *cpu, TranslationBlock *tb, int max_insns)
- {
--    DisasContext dc;
-+    DisasContext dc = { };
-     const TranslatorOps *ops = &arm_translator_ops;
- 
--    if (FIELD_EX32(tb->flags, TBFLAG_A32, THUMB)) {
-+    if (FIELD_EX32(tb->flags, TBFLAG_AM32, THUMB)) {
-         ops = &thumb_translator_ops;
-     }
- #ifdef TARGET_AARCH64
+ static inline int arm_to_core_mmu_idx(ARMMMUIdx mmu_idx)
 -- 
 2.20.1
 
