@@ -2,66 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DABCB154DFC
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 22:34:00 +0100 (CET)
-Received: from localhost ([::1]:46482 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90287154E64
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 22:53:33 +0100 (CET)
+Received: from localhost ([::1]:46846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izomd-0007cF-Sy
-	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 16:33:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34806)
+	id 1izp5Y-000473-EA
+	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 16:53:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37755)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <nieklinnenbank@gmail.com>) id 1izoaq-0001ID-W9
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 16:21:51 -0500
+ (envelope-from <n54@gmx.com>) id 1izomN-0008Cq-4B
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 16:33:44 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <nieklinnenbank@gmail.com>) id 1izoao-00075v-RR
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 16:21:48 -0500
-Received: from mail-il1-x143.google.com ([2607:f8b0:4864:20::143]:43258)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <nieklinnenbank@gmail.com>)
- id 1izoao-00071f-Jj; Thu, 06 Feb 2020 16:21:46 -0500
-Received: by mail-il1-x143.google.com with SMTP id o13so6469351ilg.10;
- Thu, 06 Feb 2020 13:21:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ctjbc4Tr+ubp6tCXycl2H3Xae/BsxQ1mkV9e0ggGVeQ=;
- b=p789zCtokiNOy4jm91nagQ5A77PYKANjdsAq6y5iMrFMs4DeZV0VLwhAD2uF1fNw7B
- J43pG6p5TUciKEE+DoEe8k//1Zl86d+Sz/e4HdRu++dNnlij/I019RoNPVakJuTxkvAq
- FiwVffYjYC/nuS+PY6razj9DOYQPbc5RLmkbM/4Y5+nX/NR/d9LX9yXFsfPw00dp4Jq+
- U9ouUsKb1Zdio4g87we4HpfNcRLcL7XoRKnGdPRaN/W3nZcnCbvjCBHQxdBm/3znX3GX
- 5n5eqnf7wJ+Mk6cnmuuQUbdWVPWKE5upE5zT2SvIBT6On1/gHRlLjksfrLmtp3uLcsUs
- mDXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ctjbc4Tr+ubp6tCXycl2H3Xae/BsxQ1mkV9e0ggGVeQ=;
- b=nBlKzMcgkGGfnkOyDElWnk8ATCu9/5RdbIR+gIuaLcnUMds249ji7865DORAWl4vCA
- 0DbQsa5dxgTUCjISpQqaXB9LLR+kQGzfnjYSlIjIyhnGvE2XwRQBI4CPFTukbA2DbUun
- +Mshg0Kf3SIXLNjTHxFRmpCCiT25NHOynGMzgPu1TigCLc5WBwyanAIsGf1oHQASRAgB
- 67+PtEsRmtru4zzpGxXIzW5v0pgP0dAbi9BRJDLs3eyvPhvfGKoT6/mU+ve/sQHMUoKH
- BLaS8+gdUSoGpY4e9pTf7cR+EgcpwtSSWhlC2iktZwxQ9oVVJERwl62dBDuC0hdAscJz
- GaHg==
-X-Gm-Message-State: APjAAAVszv3b/9bE7iBBe6aHz7YCuSg1Uy8ZPFyFXdXOlPHw3y6bKYfF
- 5HbKYsR0sn9QEXCdhvusJqvXOQWBCNUYXL0VbXw=
-X-Google-Smtp-Source: APXvYqxFYv83jyeJ22beUn/1Q0wBtVbCNI1VVO8oxY0Hp1iVPAePCzxFiFoUyCGSNE2nPx/R+61GBe4kIB0ue1xitH0=
-X-Received: by 2002:a92:5f45:: with SMTP id t66mr6112555ilb.28.1581024105854; 
- Thu, 06 Feb 2020 13:21:45 -0800 (PST)
+ (envelope-from <n54@gmx.com>) id 1izomL-0006CU-NJ
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 16:33:42 -0500
+Received: from mout.gmx.net ([212.227.17.20]:52781)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <n54@gmx.com>) id 1izomL-00063R-8g
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 16:33:41 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1581024806;
+ bh=VeqDDBiI9TAaybJiI99EGupz0BlbLh++UmOohkP2lqg=;
+ h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
+ b=EAYH1tHU4F9gX0K2YrgIpK19C5LIk1ompsAtGZYsaC3ksFPEcoG6xUfko86mohbO2
+ PrstuXihtWGD9G2RK2AG+eUrqPuPOV7MO4LLIH7N4WJ8Nahl29W3kIAFuhtgruqpOj
+ q4dJBJ09jk352Iy02PmacexxZDH114jBLdyXzE+0=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from localhost.localdomain ([89.71.135.231]) by mail.gmx.com
+ (mrgmx105 [212.227.17.174]) with ESMTPSA (Nemesis) id
+ 1N0oBx-1jlKtP04FZ-00wo6F; Thu, 06 Feb 2020 22:33:26 +0100
+From: Kamil Rytarowski <n54@gmx.com>
+To: rth@twiddle.net, ehabkost@redhat.com, slp@redhat.com, pbonzini@redhat.com,
+ peter.maydell@linaro.org, philmd@redhat.com, max@m00nbsd.net,
+ jmcneill@invisible.ca
+Subject: [PATCH v4 0/4] Implements the NetBSD Virtual Machine Monitor
+ accelerator
+Date: Thu,  6 Feb 2020 22:32:28 +0100
+Message-Id: <20200206213232.1918-1-n54@gmx.com>
+X-Mailer: git-send-email 2.25.0
+In-Reply-To: <20200206115731.13552-1-n54@gmx.com>
+References: <20200206115731.13552-1-n54@gmx.com>
 MIME-Version: 1.0
-References: <20200119005102.3847-1-nieklinnenbank@gmail.com>
- <20200119005102.3847-17-nieklinnenbank@gmail.com>
- <6dd1ab52-3a75-c439-f26b-fa04d797059c@amsat.org>
-In-Reply-To: <6dd1ab52-3a75-c439-f26b-fa04d797059c@amsat.org>
-From: Niek Linnenbank <nieklinnenbank@gmail.com>
-Date: Thu, 6 Feb 2020 22:21:34 +0100
-Message-ID: <CAPan3Wq8eftDpzxzGoeY5Qhpvcw8oA0vFebXwmSbT+78UaDRcg@mail.gmail.com>
-Subject: Re: [PATCH v4 16/20] tests/boot_linux_console: Add a SLOW test
- booting Ubuntu on OrangePi PC
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: multipart/alternative; boundary="00000000000036006e059deedc89"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::143
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:PzMUPTHQteCIsgCfSCT2s0SKsSIyHh1XF0DKpMFww2AQlhNhaYf
+ oQR+ZOxkMJuxWMV9Ef+3rIMeHF+/YAAqr3ykKQ+8VLQLdNo4PxPLBnchd/IiU5NifuOejGB
+ sO8ttJLw3pPrGoP7nS/KskgcmYdPMAPIq7UntvZ5qszHBF+e83mUw0D/YXC+OSp8zfmxcS8
+ 2GhIwrWdtenG/9TMcCiHg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:1EmbGsqM3Ws=:6mskKEy9OkDo/rQwh0yJro
+ MXg6ynnUZaoJDg3crCIh3P32C+Oq7TDTksuSVmS5giqdaLkuk+fuQNosv+kH7pW37DX96NqkJ
+ vfE2skZeiBNyx/ZOsSjgv55a5JIUK/up80Lmdt5RQTFnLkI7XWMp/rX/WfJHpPXdke6m5RnQc
+ zmdJa4Zy5hK1eZQ+TLo/rvvV8jRSW6wUXGtL0Wb8CRYmLqe+/4cG0JYJXsNSV0Gf4hrkxhY7X
+ U0AIrM1EntJN9YRs355jwnXfZ6HFR6FdB1QuS2wThwUYkS5A7E5XBYAMpCHMlbIy23zojY1WM
+ pUDemfOztDjhFp10MlwtixMb9TGYxvgzwSoyWdokDQk+TAt8CqNxhkGXpdBFefxs4KOS4uSSB
+ 8UZk989ijO5kL+99++UY1Y8q2CFR+67k1uALzB/IWaKCQTxPWcSVEK98S+PKHBvouWvp/ZwS8
+ qMbauyInpftzXOHpjCHtW9f+F7pFR3WPNy5V+NxhJQDjj+DEPvmo7ywiPMIvglQQf5U2osdIW
+ XysbX9BQYUGFIlkuELUwXONHj2ZrnOh5iQso5/BACZE7Pti5cBD8lOT4znRKLZ0Y9agrTD/S9
+ 4vR1DKRXD0ekG+99W8KjgScE+ZopSGMbLtGhGwzbv7uQyxIhKJqO2r9aVG7BhgyT9YwriZE3U
+ eGOxKV3ATevzZ5m1h31I2a6ponKk5VVzSgDFXlBpiRzLDFh/zn79Vbr0EdQQ6MtmlHghF8jQ8
+ Pxo6ouIJPE7jfGXkBNEkWCpjxctUmR5D43wZ+PACtiLIfhE8O0u8WoA2mEYvZ3fh+Mxf/x1Bh
+ zbcDE2VCX/2R4bCwmDpmYMAEz+bY4b6TIjueKD1rN9FsmLo21VASUSiJWru0tol/czEXZigK/
+ PVb72kfHytOMwNtKEIkU2EQNQ5WZ5vi6P3gOVmKCPxDntopCaHYkdtpLaZrleig3VLohFqgPH
+ C+j/6hKvgG5/X/3CmDAMULkbbpg0+1/bVDspEh3x8Q3yKDF1eCkG9Ia1GQ/znDV7VwSMi1HBc
+ gn9NTpc0PMN3aXlkGTceRRt+YLtQJtnU0OuMXHWRSZiT3ifmUVCMN89IRxc1jmtc9ckqlCkS0
+ 0IVHVOClhIqc+zNj620M/1kvf5PCX4Zx3AdiYMGMnwKijQKp4/pIslhsL3OPu5cEwvDz/Qpxy
+ UUYsqlyN/CaEpaXnioUcr0n89TaimqvOJht6staGrvKGFnPpH3ThoQHs9XvR7xF0SimrA=
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 212.227.17.20
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,413 +80,115 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, jasowang@redhat.com,
- QEMU Developers <qemu-devel@nongnu.org>,
- Beniamino Galvani <b.galvani@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
- Cleber Rosa <crosa@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Cc: Kamil Rytarowski <n54@gmx.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000036006e059deedc89
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hello QEMU Community!
 
-Hi Philippe,
+Over the past year the NetBSD team has been working hard on a new user-mod=
+e API
+for our hypervisor that will be released as part of the upcoming NetBSD 9.=
+0.
+This new API adds user-mode capabilities to create and manage virtual mach=
+ines,
+configure memory mappings for guest machines, and create and control execu=
+tion
+of virtual processors.
 
-On Sun, Jan 19, 2020 at 11:30 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.o=
-rg>
-wrote:
+With this new API we are now able to bring our hypervisor to the QEMU
+community! The following patches implement the NetBSD Virtual Machine Moni=
+tor
+accelerator (NVMM) for QEMU on NetBSD 9.0 and newer hosts.
 
-> On 1/19/20 1:50 AM, Niek Linnenbank wrote:
-> > From: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> >
-> > This test boots Ubuntu Bionic on a OrangePi PC board.
-> >
-> > As it requires 1GB of storage, and is slow, this test is disabled
-> > on automatic CI testing.
-> >
-> > It is useful for workstation testing. Currently Avocado timeouts too
-> > quickly, so we can't run userland commands.
-> >
-> > The kernel image and DeviceTree blob are built by the Armbian
-> > project (based on Debian):
-> > https://www.armbian.com/orange-pi-pc/
-> >
-> > The Ubuntu image is downloaded from:
-> > https://dl.armbian.com/orangepipc/Bionic_current
->
-> I forgot the image is compressed is compressed with 7z, which is not
-> provided by avocado.utils.archive. This patch requires more checks, see
-> inlined...
->
-> >
-> > This test can be run using:
-> >
-> >   $ AVOCADO_ALLOW_LARGE_STORAGE=3Dyes \
-> >     avocado --show=3Dapp,console run -t machine:orangepi-pc \
-> >       tests/acceptance/boot_linux_console.py
-> >   console: U-Boot SPL 2019.04-armbian (Nov 18 2019 - 23:08:35 +0100)
-> >   console: DRAM: 1024 MiB
-> >   console: Failed to set core voltage! Can't set CPU frequency
-> >   console: Trying to boot from MMC1
-> >   console: U-Boot 2019.04-armbian (Nov 18 2019 - 23:08:35 +0100)
-> Allwinner Technology
-> >   console: CPU:   Allwinner H3 (SUN8I 0000)
-> >   console: Model: Xunlong Orange Pi PC
-> >   console: DRAM:  1 GiB
-> >   console: MMC:   mmc@1c0f000: 0
-> >   [...]
-> >   console: Uncompressing Linux... done, booting the kernel.
-> >   console: Booting Linux on physical CPU 0x0
-> >   console: Linux version 5.3.9-sunxi (root@builder) (gcc version 8.3.0
-> (GNU Toolchain for the A-profile Architecture 8.3-2019.03 (arm-rel-8.36))=
-)
-> #19.11.3 SMP Mon Nov 18 18:49:43 CET 2019
-> >   console: CPU: ARMv7 Processor [410fc075] revision 5 (ARMv7),
-> cr=3D50c5387d
-> >   console: CPU: div instructions available: patching division code
-> >   console: CPU: PIPT / VIPT nonaliasing data cache, VIPT aliasing
-> instruction cache
-> >   console: OF: fdt: Machine model: Xunlong Orange Pi PC
-> >   [...]
-> >   console: EXT4-fs (mmcblk0p1): mounted filesystem with writeback data
-> mode. Opts: (null)
-> >   console: done.
-> >   console: Begin: Running /scripts/local-bottom ... done.
-> >   console: Begin: Running /scripts/init-bottom ... done.
-> >   console: systemd[1]: systemd 237 running in system mode. (...)
-> >   console: systemd[1]: Detected architecture arm.
-> >   console: Welcome to Ubuntu 18.04.3 LTS!
-> >   console: systemd[1]: Set hostname to <orangepipc>.
-> >
-> > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> > [NL: rename in commit message Raspbian to Armbian, remove
-> vm.set_machine()]
-> > [NL: changed test to boot from SD card via BootROM]
-> > Signed-off-by: Niek Linnenbank <nieklinnenbank@gmail.com>
-> > ---
-> >  tests/acceptance/boot_linux_console.py | 41 ++++++++++++++++++++++++++
-> >  1 file changed, 41 insertions(+)
-> >
-> > diff --git a/tests/acceptance/boot_linux_console.py
-> b/tests/acceptance/boot_linux_console.py
-> > index 50294e1675..399d5062db 100644
-> > --- a/tests/acceptance/boot_linux_console.py
-> > +++ b/tests/acceptance/boot_linux_console.py
->
-> This patch needs:
->
->   from avocado.utils.path import find_command
->
->   P7ZIP_AVAILABLE =3D True
->   try:
->       find_command('7z')
->   except CmdNotFoundError:
->       P7ZIP_AVAILABLE =3D False
->
-> > @@ -591,6 +591,47 @@ class BootLinuxConsole(Test):
-> >          exec_command_and_wait_for_pattern(self, 'reboot',
-> >                                                  'reboot: Restarting
-> system')
-> >
-> > +    @skipUnless(os.getenv('AVOCADO_ALLOW_LARGE_STORAGE'), 'storage
-> limited')
->
->        @skipUnless(P7ZIP_AVAILABLE, '7z not installed')
->
+When compiling QEMU for x86_64 passing the --enable-nvmm flag will compile=
+ the
+accelerator for use. At runtime using the '-accel nvmm' should see a
+significant performance improvement over emulation, much like when using '=
+hax'
+on NetBSD.
 
-Ah indeed, that makes sense. I'll add this check for v5.
-Now that we come accross this, I'm thinking that functionality like
-decompression
-might not be specific to the linux tests and perhaps should eventually come
-in a utility/helper .py file.
+The documentation for this new API is visible at https://man.netbsd.org un=
+der
+the libnvmm(3) and nvmm(4) pages.
 
-Regards,
-Niek
+NVMM was designed and implemented by Maxime Villard.
+
+Thank you for your feedback.
+
+Refrences:
+https://m00nbsd.net/4e0798b7f2620c965d0dd9d6a7a2f296.html
+
+Test plan:
+
+1. Download a NetBSD 9.0 pre-release snapshot:
+http://nycdn.netbsd.org/pub/NetBSD-daily/netbsd-9/latest/images/NetBSD-9.0=
+_RC1-amd64.iso
+
+2. Install it natively on a not too old x86_64 hardware (Intel or AMD).
+
+There is no support for nested virtualization in NVMM.
+
+3. Setup the system.
+
+ export PKG_PATH=3Dhttp://www.ki.nu/pkgsrc/packages/current/NetBSD-9.0_RC1=
+/All
+ pkg_add git gmake python37 glib2 bison pkgconf pixman
+
+Install mozilla-rootcerts and follow post-install instructions.
+
+ pkg_add mozilla-rootcerts
+
+More information: https://wiki.qemu.org/Hosts/BSD#NetBSD
+
+4. Build qemu
+
+ mkdir build
+ cd build
+ ../configure --python=3Dpython3.7
+ gmake
+ gmake check
+
+5. Test
+
+ qemu -accel nvmm ...
 
 
->
-> > +    def test_arm_orangepi_bionic(self):
-> > +        """
-> > +        :avocado: tags=3Darch:arm
-> > +        :avocado: tags=3Dmachine:orangepi-pc
-> > +        """
-> > +
-> > +        # This test download a 196MB compressed image and expand it to
-> 932MB...
-> > +        image_url =3D ('https://dl.armbian.com/orangepipc/archive/'
-> > +
->  'Armbian_19.11.3_Orangepipc_bionic_current_5.3.9.7z')
-> > +        image_hash =3D '196a8ffb72b0123d92cea4a070894813d305c71e'
-> > +        image_path_7z =3D self.fetch_asset(image_url,
-> asset_hash=3Dimage_hash)
-> > +        image_name =3D
-> 'Armbian_19.11.3_Orangepipc_bionic_current_5.3.9.img'
-> > +        image_path =3D os.path.join(self.workdir, image_name)
-> > +        process.run("7z e -o%s %s" % (self.workdir, image_path_7z))
->
-> Because here 7z is called ^
->
-> > +
-> > +        self.vm.set_console()
-> > +        self.vm.add_args('-drive', 'file=3D' + image_path +
-> ',if=3Dsd,format=3Draw',
-> > +                         '-nic', 'user',
-> > +                         '-no-reboot')
-> > +        self.vm.launch()
-> > +
-> > +        kernel_command_line =3D (self.KERNEL_COMMON_COMMAND_LINE +
-> > +                               'console=3DttyS0,115200 '
-> > +                               'loglevel=3D7 '
-> > +                               'nosmp '
-> > +                               'systemd.default_timeout_start_sec=3D90=
-00 '
-> > +
->  'systemd.mask=3Darmbian-zram-config.service '
-> > +                               'systemd.mask=3Darmbian-ramlog.service'=
-)
-> > +
-> > +        self.wait_for_console_pattern('U-Boot SPL')
-> > +        self.wait_for_console_pattern('Autoboot in ')
-> > +        exec_command_and_wait_for_pattern(self, ' ', '=3D>')
-> > +        exec_command_and_wait_for_pattern(self, "setenv extraargs '" +
-> > +                                                kernel_command_line +
-> "'", '=3D>')
-> > +        exec_command_and_wait_for_pattern(self, 'boot', 'Starting
-> kernel ...');
-> > +
-> > +        self.wait_for_console_pattern('systemd[1]: Set hostname ' +
-> > +                                      'to <orangepipc>')
-> > +        self.wait_for_console_pattern('Starting Load Kernel Modules...=
-')
-> > +
-> >      def test_s390x_s390_ccw_virtio(self):
-> >          """
-> >          :avocado: tags=3Darch:s390x
-> >
->
+History:
+v3 -> v4:
+ - Correct build warning by adding a missing include
+ - Do not set R8-R16 registers unless TARGET_X86_64
+v2 -> v3:
+ - Register nvmm in targetos NetBSD check
+ - Stop including hw/boards.h
+ - Rephrase old code comments (remove XXX)
+v1 -> v2:
+ - Included the testing plan as requested by Philippe Mathieu-Daude
+ - Formatting nit fix in qemu-options.hx
+ - Document NVMM in the accel section of qemu-options.hx
 
+Maxime Villard (4):
+  Add the NVMM vcpu API
+  Add the NetBSD Virtual Machine Monitor accelerator.
+  Introduce the NVMM impl
+  Add the NVMM acceleration enlightenments
 
---=20
-Niek Linnenbank
+ accel/stubs/Makefile.objs |    1 +
+ accel/stubs/nvmm-stub.c   |   43 ++
+ configure                 |   37 ++
+ cpus.c                    |   58 ++
+ include/sysemu/hw_accel.h |   14 +
+ include/sysemu/nvmm.h     |   35 ++
+ qemu-options.hx           |   16 +-
+ target/i386/Makefile.objs |    1 +
+ target/i386/helper.c      |    2 +-
+ target/i386/nvmm-all.c    | 1226 +++++++++++++++++++++++++++++++++++++
+ 10 files changed, 1424 insertions(+), 9 deletions(-)
+ create mode 100644 accel/stubs/nvmm-stub.c
+ create mode 100644 include/sysemu/nvmm.h
+ create mode 100644 target/i386/nvmm-all.c
 
---00000000000036006e059deedc89
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+=2D-
+2.25.0
 
-<div dir=3D"ltr"><div>Hi Philippe,<br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Sun, Jan 19, 2020 at 11:30 PM Phil=
-ippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:f4bug@amsat.org">f4bug@amsat.=
-org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"marg=
-in:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1e=
-x">On 1/19/20 1:50 AM, Niek Linnenbank wrote:<br>
-&gt; From: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:f4bug@amsat.or=
-g" target=3D"_blank">f4bug@amsat.org</a>&gt;<br>
-&gt; <br>
-&gt; This test boots Ubuntu Bionic on a OrangePi PC board.<br>
-&gt; <br>
-&gt; As it requires 1GB of storage, and is slow, this test is disabled<br>
-&gt; on automatic CI testing.<br>
-&gt; <br>
-&gt; It is useful for workstation testing. Currently Avocado timeouts too<b=
-r>
-&gt; quickly, so we can&#39;t run userland commands.<br>
-&gt; <br>
-&gt; The kernel image and DeviceTree blob are built by the Armbian<br>
-&gt; project (based on Debian):<br>
-&gt; <a href=3D"https://www.armbian.com/orange-pi-pc/" rel=3D"noreferrer" t=
-arget=3D"_blank">https://www.armbian.com/orange-pi-pc/</a><br>
-&gt; <br>
-&gt; The Ubuntu image is downloaded from:<br>
-&gt; <a href=3D"https://dl.armbian.com/orangepipc/Bionic_current" rel=3D"no=
-referrer" target=3D"_blank">https://dl.armbian.com/orangepipc/Bionic_curren=
-t</a><br>
-<br>
-I forgot the image is compressed is compressed with 7z, which is not<br>
-provided by avocado.utils.archive. This patch requires more checks, see<br>
-inlined...<br>
-<br>
-&gt; <br>
-&gt; This test can be run using:<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0$ AVOCADO_ALLOW_LARGE_STORAGE=3Dyes \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0avocado --show=3Dapp,console run -t machine:orangep=
-i-pc \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0tests/acceptance/boot_linux_console.py<br>
-&gt;=C2=A0 =C2=A0console: U-Boot SPL 2019.04-armbian (Nov 18 2019 - 23:08:3=
-5 +0100)<br>
-&gt;=C2=A0 =C2=A0console: DRAM: 1024 MiB<br>
-&gt;=C2=A0 =C2=A0console: Failed to set core voltage! Can&#39;t set CPU fre=
-quency<br>
-&gt;=C2=A0 =C2=A0console: Trying to boot from MMC1<br>
-&gt;=C2=A0 =C2=A0console: U-Boot 2019.04-armbian (Nov 18 2019 - 23:08:35 +0=
-100) Allwinner Technology<br>
-&gt;=C2=A0 =C2=A0console: CPU:=C2=A0 =C2=A0Allwinner H3 (SUN8I 0000)<br>
-&gt;=C2=A0 =C2=A0console: Model: Xunlong Orange Pi PC<br>
-&gt;=C2=A0 =C2=A0console: DRAM:=C2=A0 1 GiB<br>
-&gt;=C2=A0 =C2=A0console: MMC:=C2=A0 =C2=A0mmc@1c0f000: 0<br>
-&gt;=C2=A0 =C2=A0[...]<br>
-&gt;=C2=A0 =C2=A0console: Uncompressing Linux... done, booting the kernel.<=
-br>
-&gt;=C2=A0 =C2=A0console: Booting Linux on physical CPU 0x0<br>
-&gt;=C2=A0 =C2=A0console: Linux version 5.3.9-sunxi (root@builder) (gcc ver=
-sion 8.3.0 (GNU Toolchain for the A-profile Architecture 8.3-2019.03 (arm-r=
-el-8.36))) #19.11.3 SMP Mon Nov 18 18:49:43 CET 2019<br>
-&gt;=C2=A0 =C2=A0console: CPU: ARMv7 Processor [410fc075] revision 5 (ARMv7=
-), cr=3D50c5387d<br>
-&gt;=C2=A0 =C2=A0console: CPU: div instructions available: patching divisio=
-n code<br>
-&gt;=C2=A0 =C2=A0console: CPU: PIPT / VIPT nonaliasing data cache, VIPT ali=
-asing instruction cache<br>
-&gt;=C2=A0 =C2=A0console: OF: fdt: Machine model: Xunlong Orange Pi PC<br>
-&gt;=C2=A0 =C2=A0[...]<br>
-&gt;=C2=A0 =C2=A0console: EXT4-fs (mmcblk0p1): mounted filesystem with writ=
-eback data mode. Opts: (null)<br>
-&gt;=C2=A0 =C2=A0console: done.<br>
-&gt;=C2=A0 =C2=A0console: Begin: Running /scripts/local-bottom ... done.<br=
->
-&gt;=C2=A0 =C2=A0console: Begin: Running /scripts/init-bottom ... done.<br>
-&gt;=C2=A0 =C2=A0console: systemd[1]: systemd 237 running in system mode. (=
-...)<br>
-&gt;=C2=A0 =C2=A0console: systemd[1]: Detected architecture arm.<br>
-&gt;=C2=A0 =C2=A0console: Welcome to Ubuntu 18.04.3 LTS!<br>
-&gt;=C2=A0 =C2=A0console: systemd[1]: Set hostname to &lt;orangepipc&gt;.<b=
-r>
-&gt; <br>
-&gt; Signed-off-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:f4bug=
-@amsat.org" target=3D"_blank">f4bug@amsat.org</a>&gt;<br>
-&gt; [NL: rename in commit message Raspbian to Armbian, remove vm.set_machi=
-ne()]<br>
-&gt; [NL: changed test to boot from SD card via BootROM]<br>
-&gt; Signed-off-by: Niek Linnenbank &lt;<a href=3D"mailto:nieklinnenbank@gm=
-ail.com" target=3D"_blank">nieklinnenbank@gmail.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 tests/acceptance/boot_linux_console.py | 41 ++++++++++++++++++++=
-++++++<br>
-&gt;=C2=A0 1 file changed, 41 insertions(+)<br>
-&gt; <br>
-&gt; diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance=
-/boot_linux_console.py<br>
-&gt; index 50294e1675..399d5062db 100644<br>
-&gt; --- a/tests/acceptance/boot_linux_console.py<br>
-&gt; +++ b/tests/acceptance/boot_linux_console.py<br>
-<br>
-This patch needs:<br>
-<br>
-=C2=A0 from avocado.utils.path import find_command<br>
-<br>
-=C2=A0 P7ZIP_AVAILABLE =3D True<br>
-=C2=A0 try:<br>
-=C2=A0 =C2=A0 =C2=A0 find_command(&#39;7z&#39;)<br>
-=C2=A0 except CmdNotFoundError:<br>
-=C2=A0 =C2=A0 =C2=A0 P7ZIP_AVAILABLE =3D False<br>
-<br>
-&gt; @@ -591,6 +591,47 @@ class BootLinuxConsole(Test):<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 exec_command_and_wait_for_pattern(se=
-lf, &#39;reboot&#39;,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;reboot: Restarting system&#39;)<br>
-&gt;=C2=A0 <br>
-&gt; +=C2=A0 =C2=A0 @skipUnless(os.getenv(&#39;AVOCADO_ALLOW_LARGE_STORAGE&=
-#39;), &#39;storage limited&#39;)<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0@skipUnless(P7ZIP_AVAILABLE, &#39;7z not install=
-ed&#39;)<br></blockquote><div><br></div><div>Ah indeed, that makes sense. I=
-&#39;ll add this check for v5.</div><div>Now that we come accross this, I&#=
-39;m thinking that functionality like decompression</div><div>might not be =
-specific to the linux tests and perhaps should eventually come in a utility=
-/helper .py file.<br></div><div><br></div><div>Regards,</div><div>Niek<br><=
-/div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px=
- 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-&gt; +=C2=A0 =C2=A0 def test_arm_orangepi_bionic(self):<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 :avocado: tags=3Darch:arm<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 :avocado: tags=3Dmachine:orangepi-pc<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 # This test download a 196MB compressed i=
-mage and expand it to 932MB...<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 image_url =3D (&#39;<a href=3D"https://dl=
-.armbian.com/orangepipc/archive/" rel=3D"noreferrer" target=3D"_blank">http=
-s://dl.armbian.com/orangepipc/archive/</a>&#39;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0&#39;Armbian_19.11.3_Orangepipc_bionic_current_5.3.9.7z&#39;)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 image_hash =3D &#39;196a8ffb72b0123d92cea=
-4a070894813d305c71e&#39;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 image_path_7z =3D self.fetch_asset(image_=
-url, asset_hash=3Dimage_hash)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 image_name =3D &#39;Armbian_19.11.3_Orang=
-epipc_bionic_current_5.3.9.img&#39;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 image_path =3D os.path.join(self.workdir,=
- image_name)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 process.run(&quot;7z e -o%s %s&quot; % (s=
-elf.workdir, image_path_7z))<br>
-<br>
-Because here 7z is called ^<br>
-<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.vm.set_console()<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.vm.add_args(&#39;-drive&#39;, &#39;f=
-ile=3D&#39; + image_path + &#39;,if=3Dsd,format=3Draw&#39;,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0&#39;-nic&#39;, &#39;user&#39;,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0&#39;-no-reboot&#39;)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.vm.launch()<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 kernel_command_line =3D (self.KERNEL_COMM=
-ON_COMMAND_LINE +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;console=3DttyS0,115200 &#39;=
-<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;loglevel=3D7 &#39;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;nosmp &#39;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;systemd.default_timeout_star=
-t_sec=3D9000 &#39;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;systemd.mask=3Darmbian-zram-=
-config.service &#39;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;systemd.mask=3Darmbian-ramlo=
-g.service&#39;)<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.wait_for_console_pattern(&#39;U-Boot=
- SPL&#39;)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.wait_for_console_pattern(&#39;Autobo=
-ot in &#39;)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 exec_command_and_wait_for_pattern(self, &=
-#39; &#39;, &#39;=3D&gt;&#39;)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 exec_command_and_wait_for_pattern(self, &=
-quot;setenv extraargs &#39;&quot; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 kernel_command_line + &quot;&#39;&quot;, &#39;=3D&=
-gt;&#39;)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 exec_command_and_wait_for_pattern(self, &=
-#39;boot&#39;, &#39;Starting kernel ...&#39;);<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.wait_for_console_pattern(&#39;system=
-d[1]: Set hostname &#39; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;to &lt=
-;orangepipc&gt;&#39;)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.wait_for_console_pattern(&#39;Starti=
-ng Load Kernel Modules...&#39;)<br>
-&gt; +<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 def test_s390x_s390_ccw_virtio(self):<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 :avocado: tags=3Darch:s390x<br>
-&gt; <br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature"><div dir=3D"ltr"><div>Niek Linnenbank<br><br></div></div></=
-div></div>
-
---00000000000036006e059deedc89--
 
