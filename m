@@ -2,71 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21683154A81
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 18:49:02 +0100 (CET)
-Received: from localhost ([::1]:43752 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93D84154A83
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 18:49:34 +0100 (CET)
+Received: from localhost ([::1]:43761 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izlGu-0001rn-Rj
-	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 12:49:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43720)
+	id 1izlHR-0002q6-E4
+	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 12:49:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45309)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1izl0E-00077M-RN
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 12:31:48 -0500
+ (envelope-from <lvivier@redhat.com>) id 1izl5C-00062O-DG
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 12:36:55 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1izl0D-0007PV-8r
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 12:31:46 -0500
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:44252)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1izl0D-0007Lw-0q
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 12:31:45 -0500
-Received: by mail-wr1-x441.google.com with SMTP id m16so8171841wrx.11
- for <qemu-devel@nongnu.org>; Thu, 06 Feb 2020 09:31:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=AtxEKrKRqNjfOrT9JbNHlMjgTudjr9VoMdnqfaiOYHo=;
- b=pbmruM8YbkTpjiYhOedn8z5wFg4jSKmwzn+kn7hTm033lhV5v/TH2hoBMf2l+Yrdwz
- a8sK1QuJFXpobaSBLsNX1TIaJw+JVic0fgh1rVToMc8wG9V07K0N9i0LtzF6wLJUFOTO
- 4L4y9fbb7aHVaq//1iEaOycU2VUhHvKudyCdOM+gyDd3elrqHFcOpZ0F0agw0woHpJNQ
- ZsXuAY0KnyGvzt4yszJRz/WtRXKiQoQOPJat89e3Q3IXMJtmW6/jEq9JPKABepuiGOMd
- /TmwuP2aeGmkowe8xTWHZjOWYhSwrYgbZ/SrXOyd3xEwRm/gULTQYNf/Rc+cwOrVXzQX
- qGIQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=AtxEKrKRqNjfOrT9JbNHlMjgTudjr9VoMdnqfaiOYHo=;
- b=pBm23kMOT6cwHo1RKzQ6kRgstJXNYaOq4WNKwvFkmgtSJsE/ruYZKxGeMotnH52Qej
- 5XQUvAPw3sm9dAxfcX4Ca6e2oOErhdh/tS6U7SN8si8eDvRvKgqLQl2pckFUoAGt8LH6
- bwL64BRYfwDaIK+D2Z5NHRJ61GoQ9NhLatQ0XFLvx4ExZSYPcJOdq2OY2rz0QOCk+pzU
- jmAAoauAbhpMM0Bo6M4GHLh+HmFPuoWf9bVm7P/XmIkSE96HcVSWfUGadTpabK8yziV4
- R+ux2/5XVth/+9G0MGOgPLr/NhICrOoKlb2ks+1DR0B8Ym6owc7QLRwpuZajtYStPzfu
- /hOA==
-X-Gm-Message-State: APjAAAU8fPJkN9xOyxouXXLnuxhI8VNonyWLdVJDO0Vj3jeRu+XxoBVr
- HP72aFZL+U31P0dgj84LbSY5sRIsXps=
-X-Google-Smtp-Source: APXvYqzCyPRBH5A2GVeiM9wTugu8nBGMzMjTyrrzovHXhDDA8vDWBVOJNHSFkyP+R+M752itH25Ppg==
-X-Received: by 2002:adf:f3cc:: with SMTP id g12mr4802565wrp.236.1581010303402; 
- Thu, 06 Feb 2020 09:31:43 -0800 (PST)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id w15sm5204214wrs.80.2020.02.06.09.31.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Feb 2020 09:31:42 -0800 (PST)
-From: Peter Maydell <peter.maydell@linaro.org>
+ (envelope-from <lvivier@redhat.com>) id 1izl5B-0002G3-2b
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 12:36:54 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:26656
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <lvivier@redhat.com>) id 1izl5A-0002Cf-SL
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 12:36:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1581010612;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=u8w48qENYXiqPortG9HSpe+QPr9/xprE1MgHBVzsIRY=;
+ b=IhIUjtcY7veIOoIsty5XbyITCw/yl1rfguVNdYYUbOdkMbmw5nPaZv5DkHR8HdJWkPW3OX
+ 2OIGT5PKjpiQtzu3fGocULuHltQnenJnVzU99Y+jqqQ4rAVqlfQHSBAutJMF5u9wbEFluP
+ 3cYvA22QAcCZghkh33t1G2lvtE+3c7c=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-421-vojzvoFnNaebNsl9_fjC4A-1; Thu, 06 Feb 2020 12:36:50 -0500
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5BB11101FC8C
+ for <qemu-devel@nongnu.org>; Thu,  6 Feb 2020 17:36:49 +0000 (UTC)
+Received: from thinkpad.redhat.com (ovpn-116-229.ams2.redhat.com
+ [10.36.116.229])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1660F60C05;
+ Thu,  6 Feb 2020 17:36:32 +0000 (UTC)
+From: Laurent Vivier <lvivier@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 29/29] docs/devel/qapi-code-gen.txt: Update to new rST backend
- conventions
-Date: Thu,  6 Feb 2020 17:30:40 +0000
-Message-Id: <20200206173040.17337-30-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200206173040.17337-1-peter.maydell@linaro.org>
-References: <20200206173040.17337-1-peter.maydell@linaro.org>
+Subject: [PATCH 1/2] tests/vhost-user-bridge: move to contrib/
+Date: Thu,  6 Feb 2020 18:36:30 +0100
+Message-Id: <20200206173631.752092-1-lvivier@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::441
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: vojzvoFnNaebNsl9_fjC4A-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,179 +69,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- Michael Roth <mdroth@linux.vnet.ibm.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, John Snow <jsnow@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Update the documentation of QAPI document comment syntax to match
-the new rST backend requirements. The principal changes are:
- * whitespace is now significant, and multiline definitions
-   must have their second and subsequent lines indented to
-   match the first line
- * general rST format markup is permitted, not just the small
-   set of markup the old texinfo generator handled. For most
-   things (notably bulleted and itemized lists) the old format
-   is the same as rST was.
- * Specific things that might trip people up:
-   - instead of *bold* and _italic_ rST has **bold** and *italic*
-   - lists need a preceding and following blank line
-   - a lone literal '*' will need to be backslash-escaped to
-     avoid a rST syntax error
- * the old leading '|' for example (literal text) blocks is
-   replaced by the standard rST '::' literal block.
- * headings and subheadings must now be in a freeform
-   documentation comment of their own
- * we support arbitrary levels of sub- and sub-sub-heading, not
-   just a main and sub-heading like the old texinfo generator
+vhost-user-bridge is not a test. Move it to contrib/ and
+add it to the tools list.
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+It will be built only if tools (--enable-tools) and
+vhost-user (--enable-vhost-user) are enabled (both are set
+by default).
+
+Suggested-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Signed-off-by: Laurent Vivier <lvivier@redhat.com>
 ---
- docs/devel/qapi-code-gen.txt | 90 ++++++++++++++++++++++++------------
- 1 file changed, 61 insertions(+), 29 deletions(-)
+ Makefile                                                      | 3 +++
+ Makefile.objs                                                 | 1 +
+ configure                                                     | 3 +++
+ contrib/vhost-user-bridge/Makefile.objs                       | 1 +
+ tests/vhost-user-bridge.c =3D> contrib/vhost-user-bridge/main.c | 0
+ tests/Makefile.include                                        | 1 -
+ 6 files changed, 8 insertions(+), 1 deletion(-)
+ create mode 100644 contrib/vhost-user-bridge/Makefile.objs
+ rename tests/vhost-user-bridge.c =3D> contrib/vhost-user-bridge/main.c (10=
+0%)
 
-diff --git a/docs/devel/qapi-code-gen.txt b/docs/devel/qapi-code-gen.txt
-index 59d6973e1ec..688eb2a0237 100644
---- a/docs/devel/qapi-code-gen.txt
-+++ b/docs/devel/qapi-code-gen.txt
-@@ -795,21 +795,39 @@ See below for more on definition documentation.
- Free-form documentation may be used to provide additional text and
- structuring content.
- 
-+==== Headings and subheadings ====
-+
-+A free-form documentation comment containing a single line
-+which starts with some '=' symbols and then a space defines
-+a section heading:
-+
-+    ##
-+    # = This is a top level heading
-+    ##
-+
-+    ##
-+    # This is a free-form comment which will go under the
-+    # top level heading.
-+    ##
-+
-+    ##
-+    # == This is a second level heading
-+    ##
-+
-+Section headings must always be correctly nested, so you can only
-+define a third-level heading inside a second-level heading, and so
-+on. The documentation generator will catch nesting mistakes and report
-+a syntax error.
- 
- ==== Documentation markup ====
- 
--Comment text starting with '=' is a section title:
-+Documentation comments can use most rST markup. In particular,
-+a '::' literal block can be used for examples:
- 
--    # = Section title
--
--Double the '=' for a subsection title:
--
--    # == Subsection title
--
--'|' denotes examples:
--
--    # | Text of the example, may span
--    # | multiple lines
-+    # ::
-+    #
-+    #   Text of the example, may span
-+    #   multiple lines
- 
- '*' starts an itemized list:
- 
-@@ -825,37 +843,35 @@ A decimal number followed by '.' starts a numbered list:
-     #    multiple lines
-     # 2. Second item
- 
--The actual number doesn't matter.  You could even use '*' instead of
--'2.' for the second item.
-+The actual number doesn't matter.
- 
--Lists can't be nested.  Blank lines are currently not supported within
--lists.
-+Lists of either kind must be preceded and followed by a blank line.
-+If a list item's text spans multiple lines, then the second and
-+subsequent lines must be correctly indented to line up with the
-+first character of the first line.
- 
--Additional whitespace between the initial '#' and the comment text is
--permitted.
--
--*foo* and _foo_ are for strong and emphasis styles respectively (they
--do not work over multiple lines).  @foo is used to reference a name in
--the schema.
-+The usual '**strong**', '*emphasised*' and '``literal``' markup should
-+be used. If you need a single literal '*' you will need to backslash-escape it.
-+As an extension beyond the usual rST syntax, you can also
-+use '@foo' to reference a name in the schema; this is rendered
-+the same way as '``foo``'.
- 
- Example:
- 
- ##
--# = Section
--# == Subsection
--#
--# Some text foo with *strong* and _emphasis_
-+# Some text foo with **bol** and *emphasis*
- # 1. with a list
- # 2. like that
- #
- # And some code:
--# | $ echo foo
--# | -> do this
--# | <- get that
- #
-+# ::
-+#
-+#   $ echo foo
-+#   -> do this
-+#   <- get that
- ##
- 
--
- ==== Definition documentation ====
- 
- Definition documentation, if present, must immediately precede the
-@@ -870,6 +886,12 @@ commands and events), member (for structs and unions), branch (for
- alternates), or value (for enums), and finally optional tagged
- sections.
- 
-+Descriptions of arguments can span multiple lines; if they
-+do then the second and subsequent lines must be indented
-+to line up with the first character of the first line of the
-+description. The parser will report a syntax error if there
-+is insufficient indentation.
-+
- FIXME: the parser accepts these things in almost any order.
- FIXME: union branches should be described, too.
- 
-@@ -883,6 +905,16 @@ The section ends with the start of a new section.
- A 'Since: x.y.z' tagged section lists the release that introduced the
- definition.
- 
-+The text of a section can start on a new line, in
-+which case it must not be indented at all. It can also start
-+on the same line as the 'Note:', 'Returns:', etc tag. In this
-+case if it spans multiple lines then second and subsequent
-+lines must be indented to match the first.
-+
-+An 'Example' or 'Examples' section is automatically rendered
-+entirely as literal fixed-width text. In other sections,
-+the text is formatted, and rST markup can be used.
-+
- For example:
- 
- ##
--- 
-2.20.1
+diff --git a/Makefile b/Makefile
+index 461d40bea6c2..23342a433e11 100644
+--- a/Makefile
++++ b/Makefile
+@@ -442,6 +442,7 @@ dummy :=3D $(call unnest-vars,, \
+                 libvhost-user-obj-y \
+                 vhost-user-scsi-obj-y \
+                 vhost-user-blk-obj-y \
++                vhost-user-bridge-obj-y \
+                 vhost-user-input-obj-y \
+                 vhost-user-gpu-obj-y \
+                 qga-vss-dll-obj-y \
+@@ -672,6 +673,8 @@ vhost-user-scsi$(EXESUF): $(vhost-user-scsi-obj-y) libv=
+host-user.a
+ =09$(call LINK, $^)
+ vhost-user-blk$(EXESUF): $(vhost-user-blk-obj-y) libvhost-user.a
+ =09$(call LINK, $^)
++vhost-user-bridge$(EXESUF): $(vhost-user-bridge-obj-y) libvhost-user.a
++=09$(call LINK, $^)
+=20
+ rdmacm-mux$(EXESUF): LIBS +=3D "-libumad"
+ rdmacm-mux$(EXESUF): $(rdmacm-mux-obj-y) $(COMMON_LDADDS)
+diff --git a/Makefile.objs b/Makefile.objs
+index 26b9cff95436..0240100b9a17 100644
+--- a/Makefile.objs
++++ b/Makefile.objs
+@@ -109,6 +109,7 @@ vhost-user-scsi.o-cflags :=3D $(LIBISCSI_CFLAGS)
+ vhost-user-scsi.o-libs :=3D $(LIBISCSI_LIBS)
+ vhost-user-scsi-obj-y =3D contrib/vhost-user-scsi/
+ vhost-user-blk-obj-y =3D contrib/vhost-user-blk/
++vhost-user-bridge-obj-y =3D contrib/vhost-user-bridge/
+ rdmacm-mux-obj-y =3D contrib/rdmacm-mux/
+ vhost-user-input-obj-y =3D contrib/vhost-user-input/
+ vhost-user-gpu-obj-y =3D contrib/vhost-user-gpu/
+diff --git a/configure b/configure
+index 115dc38085f3..0415eb5c99d3 100755
+--- a/configure
++++ b/configure
+@@ -6223,6 +6223,9 @@ if test "$want_tools" =3D "yes" ; then
+   if [ "$curl" =3D "yes" ]; then
+       tools=3D"elf2dmp\$(EXESUF) $tools"
+   fi
++  if [ "$vhost_user" =3D "yes" ]; then
++      tools=3D"vhost-user-bridge\$(EXESUF) $tools"
++  fi
+ fi
+ if test "$softmmu" =3D yes ; then
+   if test "$linux" =3D yes; then
+diff --git a/contrib/vhost-user-bridge/Makefile.objs b/contrib/vhost-user-b=
+ridge/Makefile.objs
+new file mode 100644
+index 000000000000..36a8d9b49a05
+--- /dev/null
++++ b/contrib/vhost-user-bridge/Makefile.objs
+@@ -0,0 +1 @@
++vhost-user-bridge-obj-y =3D main.o
+diff --git a/tests/vhost-user-bridge.c b/contrib/vhost-user-bridge/main.c
+similarity index 100%
+rename from tests/vhost-user-bridge.c
+rename to contrib/vhost-user-bridge/main.c
+diff --git a/tests/Makefile.include b/tests/Makefile.include
+index 2f1cafed720d..78cdbe91aed5 100644
+--- a/tests/Makefile.include
++++ b/tests/Makefile.include
+@@ -586,7 +586,6 @@ include $(SRC_PATH)/tests/qtest/Makefile.include
+=20
+ tests/test-qga$(EXESUF): qemu-ga$(EXESUF)
+ tests/test-qga$(EXESUF): tests/test-qga.o $(qtest-obj-y)
+-tests/vhost-user-bridge$(EXESUF): tests/vhost-user-bridge.o $(test-util-ob=
+j-y) libvhost-user.a
+=20
+ SPEED =3D quick
+=20
+--=20
+2.24.1
 
 
