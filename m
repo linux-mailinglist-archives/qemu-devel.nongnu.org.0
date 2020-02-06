@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 553EB15445F
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 13:59:26 +0100 (CET)
-Received: from localhost ([::1]:38355 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01CAA15446C
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 14:00:19 +0100 (CET)
+Received: from localhost ([::1]:38370 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izgkf-0002fS-93
-	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 07:59:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57452)
+	id 1izglU-0004oR-Ib
+	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 08:00:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57526)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1izgdN-00039Q-Nx
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 07:51:55 -0500
+ (envelope-from <mreitz@redhat.com>) id 1izgdR-0003Ed-KD
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 07:51:58 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1izgdM-0000pe-Bb
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 07:51:53 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:49918
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <mreitz@redhat.com>) id 1izgdQ-000117-HG
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 07:51:57 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:40202
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1izgdM-0000nb-7r
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 07:51:52 -0500
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1izgdQ-0000zX-E3
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 07:51:56 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580993511;
+ s=mimecast20190719; t=1580993516;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vjhbNnPaMVt2I/lwW2cpjj4kZp42zsTMPQlgbuLoP9k=;
- b=TFAV6iF8SYEjEbV3Kqq/Ri9lAbe4Pg/KJcsmq6Q/a2M12bS3U5uOq3/aHK/YlhdO/nwWJ5
- Q8aVROr7PjWdZSq3ceOhVhfqlvRABlhkUTqkai78kGJm5sQGKtPj7AiPq2nMy0Iuy8j06p
- D5ynTn6V9qlnETCOK8VjHBK694Zsxaw=
+ bh=Fv9iuPe4fOjRmAYC2LNSulU/wbUS6J4liTwKpDL7Qu4=;
+ b=CCfz0yEKz/Y2OR/e+6lOZ5ffItL5YSwYKfqLViJEiqxwLabZiG3voDnfK2R5IlqTR9Q4A4
+ YkoyWgWjuaqTFehbqpGnoZxsKx56/Zn9PLLdWLzLhqgfo8EIfg8+vJ5wRAQJq9ksAs8qu6
+ DY7O5fDoJAewR6gSZXn/sm1A9amAgUA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-5-rzXaVGKCO_Gb-D6vyBblkg-1; Thu, 06 Feb 2020 07:51:49 -0500
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-102-GBejXUsPOx-0KwxyGXoagw-1; Thu, 06 Feb 2020 07:51:51 -0500
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B24DB1005F81;
- Thu,  6 Feb 2020 12:51:48 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B79C51005F95;
+ Thu,  6 Feb 2020 12:51:50 +0000 (UTC)
 Received: from localhost (unknown [10.36.118.15])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 55C0987B1C;
- Thu,  6 Feb 2020 12:51:48 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5951366834;
+ Thu,  6 Feb 2020 12:51:50 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 07/17] iotests: Test 183 does not work on macOS and OpenBSD
-Date: Thu,  6 Feb 2020 13:51:22 +0100
-Message-Id: <20200206125132.594625-8-mreitz@redhat.com>
+Subject: [PULL 08/17] iotests: Check for the availability of the required
+ devices in 267 and 127
+Date: Thu,  6 Feb 2020 13:51:23 +0100
+Message-Id: <20200206125132.594625-9-mreitz@redhat.com>
 In-Reply-To: <20200206125132.594625-1-mreitz@redhat.com>
 References: <20200206125132.594625-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: rzXaVGKCO_Gb-D6vyBblkg-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-MC-Unique: GBejXUsPOx-0KwxyGXoagw-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,35 +78,76 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Thomas Huth <thuth@redhat.com>
 
-In the long run, we might want to add test 183 to the "auto" group
-(but it still fails occasionally, so we cannot do that yet). However,
-when running 183 in Cirrus-CI on macOS, or with our vm-build-openbsd
-target, it currently always fails with an "Timeout waiting for return
-on handle 0" error.
+We are going to enable 127 in the "auto" group, but it only works if
+virtio-scsi and scsi-hd are available - which is not the case with
+QEMU binaries like qemu-system-tricore for example, so we need a
+proper check for the availability of these devices here.
 
-Let's mark it as supported only on systems where the test is working
-most of the time (i.e. Linux, FreeBSD and NetBSD).
+A very similar problem exists in iotest 267 - it has been added to
+the "auto" group already, but requires virtio-blk and thus currently
+fails with qemu-system-tricore for example. Let's also add aproper
+check there.
 
 Reviewed-by: Max Reitz <mreitz@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
-Message-id: 20200121095205.26323-4-thuth@redhat.com
+Message-id: 20200121095205.26323-5-thuth@redhat.com
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/qemu-iotests/183 | 1 +
- 1 file changed, 1 insertion(+)
+ tests/qemu-iotests/127       |  2 ++
+ tests/qemu-iotests/267       |  2 ++
+ tests/qemu-iotests/common.rc | 14 ++++++++++++++
+ 3 files changed, 18 insertions(+)
 
-diff --git a/tests/qemu-iotests/183 b/tests/qemu-iotests/183
-index 64621617f5..acdbefa310 100755
---- a/tests/qemu-iotests/183
-+++ b/tests/qemu-iotests/183
-@@ -42,6 +42,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
- . ./common.filter
- . ./common.qemu
-=20
-+_supported_os Linux FreeBSD NetBSD
- _supported_fmt qcow2 raw qed quorum
+diff --git a/tests/qemu-iotests/127 b/tests/qemu-iotests/127
+index b64926ab31..a4fc866038 100755
+--- a/tests/qemu-iotests/127
++++ b/tests/qemu-iotests/127
+@@ -43,6 +43,8 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ _supported_fmt qcow2
  _supported_proto file
 =20
++_require_devices virtio-scsi scsi-hd
++
+ IMG_SIZE=3D64K
+=20
+ _make_test_img $IMG_SIZE
+diff --git a/tests/qemu-iotests/267 b/tests/qemu-iotests/267
+index c296877168..3146273eef 100755
+--- a/tests/qemu-iotests/267
++++ b/tests/qemu-iotests/267
+@@ -46,6 +46,8 @@ _require_drivers copy-on-read
+ # and generally impossible with external data files
+ _unsupported_imgopts 'refcount_bits=3D1[^0-9]' data_file
+=20
++_require_devices virtio-blk
++
+ do_run_qemu()
+ {
+     echo Testing: "$@"
+diff --git a/tests/qemu-iotests/common.rc b/tests/qemu-iotests/common.rc
+index 9ccde32634..8a6366c09d 100644
+--- a/tests/qemu-iotests/common.rc
++++ b/tests/qemu-iotests/common.rc
+@@ -713,5 +713,19 @@ _require_large_file()
+     rm "$TEST_IMG"
+ }
+=20
++# Check that a set of devices is available in the QEMU binary
++#
++_require_devices()
++{
++    available=3D$($QEMU -M none -device help | \
++                grep ^name | sed -e 's/^name "//' -e 's/".*$//')
++    for device
++    do
++        if ! echo "$available" | grep -q "$device" ; then
++            _notrun "$device not available"
++        fi
++    done
++}
++
+ # make sure this script returns success
+ true
 --=20
 2.24.1
 
