@@ -2,57 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7744815446F
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 14:01:44 +0100 (CET)
-Received: from localhost ([::1]:38404 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C42FC154473
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 14:02:30 +0100 (CET)
+Received: from localhost ([::1]:38420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izgmt-0006dy-Ha
-	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 08:01:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56783)
+	id 1izgnd-0007sb-Dn
+	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 08:02:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57346)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1izgcl-0001YE-8G
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 07:51:16 -0500
+ (envelope-from <mreitz@redhat.com>) id 1izgdH-0002zQ-Cr
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 07:51:49 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1izgck-0006bw-4b
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 07:51:15 -0500
-Received: from mout.kundenserver.de ([212.227.126.133]:58643)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1izgcj-0006XH-QX; Thu, 06 Feb 2020 07:51:14 -0500
-Received: from localhost.localdomain ([78.238.229.36]) by
- mrelayeu.kundenserver.de (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MA7X0-1ipGDR2F8E-00BbCn; Thu, 06 Feb 2020 13:50:43 +0100
-From: Laurent Vivier <laurent@vivier.eu>
-To: qemu-devel@nongnu.org
-Subject: [PULL 06/12] hw/i386/vmmouse: Fix crash when using the vmmouse on a
- machine without vmport
-Date: Thu,  6 Feb 2020 13:50:21 +0100
-Message-Id: <20200206125027.1926263-7-laurent@vivier.eu>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20200206125027.1926263-1-laurent@vivier.eu>
-References: <20200206125027.1926263-1-laurent@vivier.eu>
+ (envelope-from <mreitz@redhat.com>) id 1izgdG-0000YC-3S
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 07:51:47 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:53163
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1izgdG-0000XD-0B
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 07:51:46 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1580993505;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=shonINvC/t01O0OhjOpjtH1WEJrQjtcpVX05iRNLCwQ=;
+ b=dtAko1LnPtJwBhgICV+yL99U7UiR3Wttr2a6vMFbgK9Tjk/x0Mz5iCDANz3t4/WYnfU0ax
+ CMrQZUbjtetj6doEWKyD6d2bsjpzKqXHmOgJ4R5cDiJWPbCIXRnVM/Q46RSur8KMuIkoIF
+ Ppg8swOZRjFjFiMEh2iTk6SyoKzU9oM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-400-k3GkjJ6tMCW9rUgFUKVALQ-1; Thu, 06 Feb 2020 07:51:41 -0500
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 87D431050945;
+ Thu,  6 Feb 2020 12:51:40 +0000 (UTC)
+Received: from localhost (unknown [10.36.118.15])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2BF6E1001B09;
+ Thu,  6 Feb 2020 12:51:39 +0000 (UTC)
+From: Max Reitz <mreitz@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PULL 03/17] block: fix memleaks in bdrv_refresh_filename
+Date: Thu,  6 Feb 2020 13:51:18 +0100
+Message-Id: <20200206125132.594625-4-mreitz@redhat.com>
+In-Reply-To: <20200206125132.594625-1-mreitz@redhat.com>
+References: <20200206125132.594625-1-mreitz@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:W1eH0lsjt6jCmCVV74la6b76emMsVYrvt3vX9vKnSUbZyYJ1LxV
- vtdSYnTft+amupyioUNYFMtJdy8/g//VcZz7uFPjMidplOCS6YfqZmWLZCwx1ZIWrIYjG9l
- y61aZRme2DuQEx7Zc2iaqSnN89jnovLuJSzXeMci1JUogfrEXnKtjO2S9G1N2AYP9kCXOhj
- bNbhcsMNb4iZUJzDoKmww==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:0MfJi3yqHXI=:USKbxS+q6G353dEWeijF0b
- EK2ts37obxszI2JCLXU29w1ksJwOFewxKDy27S3Q5Xhrz2o3XOTRPZnqfnJ0wzJNTsB3rgiWR
- 6TqZXwqCbvdYxtOswWNyLVVdWtz0b+sjQC2n+9SXSp4D7IvblHcJIUSp0u7d0l/GPP9Zx8BtE
- NoVgoRl9QOqYwjpVYTakhKSa3lfeNuFeeiKgs8MFqlk+OvftJzPP73ARsZ2YeW0BnqvCIYbSR
- CLgvGMjQh0zALkd8NE9jR9UvgVfOEq2cQO9TSCl/TYc8VsSLU65ez21LfxMsRmENo5ZzrjMMV
- ARDecpr+6Irb0aKYvrNMWWFUOXCHLKGBpjrYIgYA6uKezP0MV9xKFG2TKLbL53jmg87r13mhv
- XC/YEKJSZuAqnHTIKeHiNO4sd6IM8Whj3JJBhYHp43ehAP1JnPt8HKX45OXhoTpeErpCniZLC
- bS7sQB8EGFeoXvcp0GD8pSbF1YE3zk7pqGigEarj/wuAY72NG/jeH3IzVuKkKUxjjz3TraUg2
- nihkNBbEvUw3ST+H5po1f7bvGylx6VRsMFd7UZZnWnVgWgiL2UWOiBS8ouEeKVAOiM5ndxOp/
- q6VtFwxOmSoC+ohbaQSpAsaSXG15bct0YGJTVgARmKGPqIksiRQGT1kCTXM9ycJJwHQJdMCXr
- Oudoi5Jyn0xVDGwzQYu4iqnP72/kN5DQEOCphgc1N0oKh7sfLWO2v8wlfREN9Jv3O21gsI8zz
- 63+ggC0DjmAZ7QT1dwlfch+J+nrm0flDRL2BJQnnLRepqPrOK4NZd+VPswVY1saEs7k5lp35z
- iB6j1SDhXFXscf04HhP5cReUpqrgcWMks0qiO373956cMzFE+veARtPMUn8l/PBA0vIakyu
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-MC-Unique: k3GkjJ6tMCW9rUgFUKVALQ-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.126.133
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,67 +70,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
- Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- qemu-block@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- Andrew Jeffery <andrew@aj.id.au>, Markus Armbruster <armbru@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Michael Tokarev <mjt@tls.msk.ru>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Max Reitz <mreitz@redhat.com>,
- qemu-trivial@nongnu.org, =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- qemu-arm@nongnu.org, Joel Stanley <joel@jms.id.au>,
- Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Darren Kenny <darren.kenny@oracle.com>, Richard Henderson <rth@twiddle.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Thomas Huth <thuth@redhat.com>
+From: Pan Nengyuan <pannengyuan@huawei.com>
 
-QEMU currently crashes when the user tries to use the "vmmouse" on a
-machine without vmport, e.g.:
+If we call the qmp 'query-block' while qemu is working on
+'block-commit', it will cause memleaks, the memory leak stack is as
+follow:
 
- $ x86_64-softmmu/qemu-system-x86_64 -machine microvm -device vmmouse
- Segmentation fault (core dumped)
+Indirect leak of 12360 byte(s) in 3 object(s) allocated from:
+    #0 0x7f80f0b6d970 in __interceptor_calloc (/lib64/libasan.so.5+0xef970)
+    #1 0x7f80ee86049d in g_malloc0 (/lib64/libglib-2.0.so.0+0x5249d)
+    #2 0x55ea95b5bb67 in qdict_new /mnt/sdb/qemu-4.2.0-rc0/qobject/qdict.c:=
+29
+    #3 0x55ea956cd043 in bdrv_refresh_filename /mnt/sdb/qemu-4.2.0-rc0/bloc=
+k.c:6427
+    #4 0x55ea956cc950 in bdrv_refresh_filename /mnt/sdb/qemu-4.2.0-rc0/bloc=
+k.c:6399
+    #5 0x55ea956cc950 in bdrv_refresh_filename /mnt/sdb/qemu-4.2.0-rc0/bloc=
+k.c:6399
+    #6 0x55ea956cc950 in bdrv_refresh_filename /mnt/sdb/qemu-4.2.0-rc0/bloc=
+k.c:6399
+    #7 0x55ea958818ea in bdrv_block_device_info /mnt/sdb/qemu-4.2.0-rc0/blo=
+ck/qapi.c:56
+    #8 0x55ea958879de in bdrv_query_info /mnt/sdb/qemu-4.2.0-rc0/block/qapi=
+.c:392
+    #9 0x55ea9588b58f in qmp_query_block /mnt/sdb/qemu-4.2.0-rc0/block/qapi=
+.c:578
+    #10 0x55ea95567392 in qmp_marshal_query_block qapi/qapi-commands-block-=
+core.c:95
 
-or:
+Indirect leak of 4120 byte(s) in 1 object(s) allocated from:
+    #0 0x7f80f0b6d970 in __interceptor_calloc (/lib64/libasan.so.5+0xef970)
+    #1 0x7f80ee86049d in g_malloc0 (/lib64/libglib-2.0.so.0+0x5249d)
+    #2 0x55ea95b5bb67 in qdict_new /mnt/sdb/qemu-4.2.0-rc0/qobject/qdict.c:=
+29
+    #3 0x55ea956cd043 in bdrv_refresh_filename /mnt/sdb/qemu-4.2.0-rc0/bloc=
+k.c:6427
+    #4 0x55ea956cc950 in bdrv_refresh_filename /mnt/sdb/qemu-4.2.0-rc0/bloc=
+k.c:6399
+    #5 0x55ea956cc950 in bdrv_refresh_filename /mnt/sdb/qemu-4.2.0-rc0/bloc=
+k.c:6399
+    #6 0x55ea9569f301 in bdrv_backing_attach /mnt/sdb/qemu-4.2.0-rc0/block.=
+c:1064
+    #7 0x55ea956a99dd in bdrv_replace_child_noperm /mnt/sdb/qemu-4.2.0-rc0/=
+block.c:2283
+    #8 0x55ea956b9b53 in bdrv_replace_node /mnt/sdb/qemu-4.2.0-rc0/block.c:=
+4196
+    #9 0x55ea956b9e49 in bdrv_append /mnt/sdb/qemu-4.2.0-rc0/block.c:4236
+    #10 0x55ea958c3472 in commit_start /mnt/sdb/qemu-4.2.0-rc0/block/commit=
+.c:306
+    #11 0x55ea94b68ab0 in qmp_block_commit /mnt/sdb/qemu-4.2.0-rc0/blockdev=
+.c:3459
+    #12 0x55ea9556a7a7 in qmp_marshal_block_commit qapi/qapi-commands-block=
+-core.c:407
 
- $ x86_64-softmmu/qemu-system-x86_64 -device vmmouse -M pc,vmport=off
- Segmentation fault (core dumped)
-
-Let's avoid the crash by checking for the vmport device first.
-
-Signed-off-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
-Message-Id: <20200129112954.4282-1-thuth@redhat.com>
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+Fixes: bb808d5f5c0978828a974d547e6032402c339555
+Reported-by: Euler Robot <euler.robot@huawei.com>
+Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
+Message-id: 20200116085600.24056-1-pannengyuan@huawei.com
+Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- hw/i386/vmmouse.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ block.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/hw/i386/vmmouse.c b/hw/i386/vmmouse.c
-index 7c2a3755271a..e8e62bd96b8c 100644
---- a/hw/i386/vmmouse.c
-+++ b/hw/i386/vmmouse.c
-@@ -23,6 +23,7 @@
-  */
- 
- #include "qemu/osdep.h"
-+#include "qapi/error.h"
- #include "ui/console.h"
- #include "hw/i386/pc.h"
- #include "hw/input/i8042.h"
-@@ -269,6 +270,11 @@ static void vmmouse_realizefn(DeviceState *dev, Error **errp)
- 
-     DPRINTF("vmmouse_init\n");
- 
-+    if (!object_resolve_path_type("", TYPE_VMPORT, NULL)) {
-+        error_setg(errp, "vmmouse needs a machine with vmport");
-+        return;
-+    }
-+
-     vmport_register(VMMOUSE_STATUS, vmmouse_ioport_read, s);
-     vmport_register(VMMOUSE_COMMAND, vmmouse_ioport_read, s);
-     vmport_register(VMMOUSE_DATA, vmmouse_ioport_read, s);
--- 
+diff --git a/block.c b/block.c
+index fe5050c53f..9c810534d6 100644
+--- a/block.c
++++ b/block.c
+@@ -6442,6 +6442,7 @@ void bdrv_refresh_filename(BlockDriverState *bs)
+                 child->bs->exact_filename);
+         pstrcpy(bs->filename, sizeof(bs->filename), child->bs->filename);
+=20
++        qobject_unref(bs->full_open_options);
+         bs->full_open_options =3D qobject_ref(child->bs->full_open_options=
+);
+=20
+         return;
+--=20
 2.24.1
 
 
