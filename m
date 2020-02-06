@@ -2,74 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88056154439
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 13:46:40 +0100 (CET)
-Received: from localhost ([::1]:38028 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60842154445
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 13:52:25 +0100 (CET)
+Received: from localhost ([::1]:38118 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izgYJ-0007jD-Lk
-	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 07:46:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53795)
+	id 1izgds-0003Cu-CA
+	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 07:52:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56092)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1izgXK-0006nu-8U
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 07:45:39 -0500
+ (envelope-from <laurent@vivier.eu>) id 1izgcO-0000jp-5F
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 07:50:53 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1izgXI-00022I-UU
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 07:45:37 -0500
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:38198)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1izgXI-0001yP-Lc
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 07:45:36 -0500
-Received: by mail-wr1-x444.google.com with SMTP id y17so7026196wrh.5
- for <qemu-devel@nongnu.org>; Thu, 06 Feb 2020 04:45:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=hYKVDDnLkIb4korsbU1DIAO8nK8iHZ0NEk0p10/SQ1k=;
- b=Ie/mczwVjSwBuFnQ7fmDku7jex302OT3gY6FDsWSUWquyGcoIKwp8+4ml6CicKnsYH
- TXCRX2gCU3EC6AkhjCiVhP7nXb47LU03/viMp4eYpDTyRsfUYCd+QHYES09t12//LADy
- GBqb6rw9YGp//d/8COSqfpqLKlYnTkmrqr4OXgJU0f3nesnNOdtuTQ9Mykj/WU8uUVsr
- X0JN9S06k9bBRukpQdScrlABMbngeX8TY5zeGYucR5dQ1pUlgayyKb4VDPnRzeEWMySg
- UDAbxnYoFUioGhwqDVkAmgOx8pFTPLl+eNMtLbWLhkkqff7tnzZ/906tIAdSto+BYxlJ
- CGUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=hYKVDDnLkIb4korsbU1DIAO8nK8iHZ0NEk0p10/SQ1k=;
- b=PyWvfaSpHXradD4Q56VWQ8q1s82felFc0PozLSogL7R+oPQyeOzNk5YqlwpIVVPOOp
- tgvOuMTeKN1Z6kUIFbe+VFUt5WWRLh5sLXfa2jGuM6N0e8OtY0oY44nTbIsIcsp4WdpM
- gst7ol5Np4LgzfMRCMlVIkmB271a7NuE5Gl2b+gSahFJGcBKhfA2tUwg+E3vHi2M+Gfz
- GlTLgDss9ma6+6yrg+7QPJaL32fNHaSRBo+N3JtRa4FeoAVohohJ90n07D8UmsomrWdT
- 2yFM7wN5mKQ0I7R+37q0ocgj/7GENsCEuyd+xLrXxhv5TdTMqQmFcs+sjkPG/Ci47h/h
- KiWA==
-X-Gm-Message-State: APjAAAWKLoSwU3Shk0FYpm+JJkgLGstRZgRyh3ET7n/tam22zF6uLjcK
- HxK3h7Q9k/5FOno+yCnRudI7HQ==
-X-Google-Smtp-Source: APXvYqzpzCbyDfUBZrSkZTVyclSOFPXOXf8MX+l1rWTf7GzIDyR3+JrJ1KhGKKUPUz5Jpq7MxmHGYA==
-X-Received: by 2002:a5d:4085:: with SMTP id o5mr3609457wrp.321.1580993135299; 
- Thu, 06 Feb 2020 04:45:35 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id g18sm3405662wmh.48.2020.02.06.04.45.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Feb 2020 04:45:33 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 33C291FF87;
- Thu,  6 Feb 2020 12:45:33 +0000 (GMT)
-References: <20200206093238.203984-1-kuhn.chenqun@huawei.com>
-User-agent: mu4e 1.3.7; emacs 27.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: kuhn.chenqun@huawei.com
-Subject: Re: [PATCH] tests/plugin: prevent uninitialized warning
-In-reply-to: <20200206093238.203984-1-kuhn.chenqun@huawei.com>
-Date: Thu, 06 Feb 2020 12:45:33 +0000
-Message-ID: <87d0ar995e.fsf@linaro.org>
+ (envelope-from <laurent@vivier.eu>) id 1izgcN-0005OS-06
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 07:50:52 -0500
+Received: from mout.kundenserver.de ([212.227.126.187]:48687)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>)
+ id 1izgcK-0005CF-BG; Thu, 06 Feb 2020 07:50:48 -0500
+Received: from localhost.localdomain ([78.238.229.36]) by
+ mrelayeu.kundenserver.de (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis)
+ id 1MLAAs-1jHtzG1Rek-00IDyH; Thu, 06 Feb 2020 13:50:32 +0100
+From: Laurent Vivier <laurent@vivier.eu>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/12] Trivial branch patches
+Date: Thu,  6 Feb 2020 13:50:15 +0100
+Message-Id: <20200206125027.1926263-1-laurent@vivier.eu>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::444
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:QzrtNTtr1K/Hl64rveH+CH3JhhqW2lAEJSTsE1MD4Gf/mDf2eDG
+ hcp6UwtyYGq2ZDKfQLywQR/Cbj4isrd1eOE0vfg2DmT9RgwJ+Mf/fzwBHYOZsk3WOXe7CoG
+ XVD9F+1JVH68RHSSP1QFWUKI3lggejSWLdxNVWGhfC3VovWD883sn7qhA0yhnGck+JWmQVF
+ fK4hc9oJiKuwv9ddsA8EQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:uGANA53uBh8=:mJANNCyFK9Ag03MxmagNJE
+ j44usZCp4LHSJeTclAX7LZg4UuEKy5aJBMJhQKwNDlvJDWyGW6BRUc7M9z6mrTHZy6FJVYeTp
+ 024lseQ2xq6hhO4kjUxY92mAHsDrsICKb+YPpiR3tSQe7EBujZmotQLZwtpCXmD4kmGbWJ8q9
+ iEk8yGU9hzlOB8iZzIMipyHqBbg/s3/QZ+egOUQPJk9tQxag1rtUo0YGU/VEm6UqmpSzIEzv+
+ SuqyH5r1zIcWjTSln6NwJOvhwFc5TABCKThzIuHHS+9ShSGXk6gFYPtSy3D1H93pKu3AWZ3sv
+ j4LeEu24Hf9Kn4xs2lDOuycr3d/sP5gF3Y5VmY053wH8JR2zVDH5vk4Qt7wE8LGY1KI7k1VU9
+ aOLJRbF0iQ7Q+WCH+TmYq6vQmX9rjjpjxcXHht7eEhFMkNqL5DOwXvr+5cgE3OuB5aF6/uZWU
+ SeF6Of9ebNYR5HrU3GJbGb+tMYI80laJIqNf8Jc46w7BoCZ8KaCdrNGmU7Z3GHK/yYHIHdcau
+ Ktw3FUbxfLhu2sOuSBHrWQ0nUFWJCQ8YOa5ADEIfaI+FDEOUtQRMgRzNM10gY/6UjFOWfSWG/
+ TitqJo8xo8hzoTmghFptOGuFD+qygIfjaFXSigzynQ/0D+mKBsxw5xhHw0zmRKHCdhm/l81L5
+ tTm+basNwLzPQAMwD9MDESZ/u00mbP3u9PUzJCEtYe59NBHjNO60mSg3NTHfAdhTTE32CY4qb
+ usX+c1+jHcFaXuOPTVL+qY8yVQ/wAkRJqo+bNxT/rOhvCAUDRyXmwfzTc/nj8iviSNIrO9U77
+ GYNL/onpkqa+DCYPFN6Ce3h8YHnsKLEvSVxNubbY9yN3ea+USLErU2nKXs56NGXLFOofpiH
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 212.227.126.187
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,63 +62,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, richard.henderson@linaro.org,
- qemu-devel@nongnu.org, zhang.zhanghailiang@huawei.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>,
+ Markus Armbruster <armbru@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Michael Tokarev <mjt@tls.msk.ru>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ qemu-trivial@nongnu.org, =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ qemu-arm@nongnu.org, Joel Stanley <joel@jms.id.au>,
+ Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The following changes since commit 7bd9d0a9e26c7a3c67c0f174f0009ba19969b158:
 
-kuhn.chenqun@huawei.com writes:
+  Merge remote-tracking branch 'remotes/huth-gitlab/tags/pull-request-2020-02-04' into staging (2020-02-04 16:12:31 +0000)
 
-> From: Chen Qun <kuhn.chenqun@huawei.com>
->
-> According to the glibc function requirements, we need initialise
->  the variable. Otherwise there will be compilation warnings:
->
-> glib-autocleanups.h:28:3: warning: =E2=80=98out=E2=80=99 may be
-> used uninitialized in this function [-Wmaybe-uninitialized]
->    g_free (*pp);
->    ^~~~~~~~~~~~
->
-> Reported-by: Euler Robot <euler.robot@huawei.com>
-> Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
+are available in the Git repository at:
 
-Queued to plugins/next with Thomas' single line suggestion, thanks.
+  git://github.com/vivier/qemu.git tags/trivial-branch-pull-request
 
-> ---
->  tests/plugin/bb.c   | 2 +-
->  tests/plugin/insn.c | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/tests/plugin/bb.c b/tests/plugin/bb.c
-> index f30bea08dc..8b9da23a04 100644
-> --- a/tests/plugin/bb.c
-> +++ b/tests/plugin/bb.c
-> @@ -22,7 +22,7 @@ static bool do_inline;
->=20=20
->  static void plugin_exit(qemu_plugin_id_t id, void *p)
->  {
-> -    g_autofree gchar *out;
-> +    g_autofree gchar *out =3D NULL;
->      out =3D g_strdup_printf("bb's: %" PRIu64", insns: %" PRIu64 "\n",
->                            bb_count, insn_count);
->      qemu_plugin_outs(out);
-> diff --git a/tests/plugin/insn.c b/tests/plugin/insn.c
-> index 0a8f5a0000..c83b1c0157 100644
-> --- a/tests/plugin/insn.c
-> +++ b/tests/plugin/insn.c
-> @@ -44,7 +44,7 @@ static void vcpu_tb_trans(qemu_plugin_id_t id, struct q=
-emu_plugin_tb *tb)
->=20=20
->  static void plugin_exit(qemu_plugin_id_t id, void *p)
->  {
-> -    g_autofree gchar *out;
-> +    g_autofree gchar *out =3D NULL;
->      out =3D g_strdup_printf("insns: %" PRIu64 "\n", insn_count);
->      qemu_plugin_outs(out);
->  }
+for you to fetch changes up to 8ef350b32fe08d254f92a3a7efe89809397fff77:
 
+  MAINTAINERS: Cc the qemu-arm@nongnu.org for the ARM machines (2020-02-06 12:32:03 +0100)
 
---=20
-Alex Benn=C3=A9e
+----------------------------------------------------------------
+trivial patches 20200206
+
+----------------------------------------------------------------
+
+Chen Qun (1):
+  monitor: fix memory leak in monitor_fdset_dup_fd_find_remove
+
+John Snow (1):
+  qemu-options: replace constant 1 with HAS_ARG
+
+Julia Suvorova (2):
+  qemu-img: Place the '-i aio' option in alphabetical order
+  hw/pci/pci_bridge: Fix typo in comment
+
+Leif Lindholm (1):
+  MAINTAINERS: update Leif Lindholm's address
+
+Miroslav Rezanina (1):
+  aspeed/i2c: Prevent uninitialized warning
+
+Philippe Mathieu-Daudé (4):
+  hw/smbios/smbios: Remove unused include
+  hw/timer/m48t59: Convert debug printf()s to trace events
+  MAINTAINERS: Cover hppa-softmmu.mak in the HP-PARISC Machines section
+  MAINTAINERS: Cc the qemu-arm@nongnu.org for the ARM machines
+
+Thomas Huth (2):
+  hw/bt: Remove empty Kconfig file
+  hw/i386/vmmouse: Fix crash when using the vmmouse on a machine without
+    vmport
+
+ .mailmap                    |  1 +
+ MAINTAINERS                 | 10 +++++++++-
+ docs/interop/qemu-img.rst   |  8 ++++----
+ hw/bt/Kconfig               |  0
+ hw/i2c/aspeed_i2c.c         |  2 +-
+ hw/i386/vmmouse.c           |  6 ++++++
+ hw/rtc/m48t59-internal.h    |  5 -----
+ hw/rtc/m48t59.c             | 11 +++++------
+ hw/rtc/trace-events         |  6 ++++++
+ hw/smbios/smbios.c          |  1 -
+ include/hw/pci/pci_bridge.h |  2 +-
+ monitor/misc.c              |  1 +
+ qemu-img-cmds.hx            |  4 ++--
+ qemu-options.hx             |  2 +-
+ 14 files changed, 37 insertions(+), 22 deletions(-)
+ delete mode 100644 hw/bt/Kconfig
+
+-- 
+2.24.1
+
 
