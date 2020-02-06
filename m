@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92389154A4C
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 18:35:54 +0100 (CET)
-Received: from localhost ([::1]:43372 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9072E154A5C
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 18:38:30 +0100 (CET)
+Received: from localhost ([::1]:43448 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izl4D-0003zy-K1
-	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 12:35:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43314)
+	id 1izl6j-00084i-K1
+	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 12:38:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43326)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1izkzN-00066M-En
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 12:30:55 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1izkzQ-0006AF-3J
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 12:30:56 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1izkzM-00042x-Dz
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 12:30:53 -0500
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:33713)
+ (envelope-from <peter.maydell@linaro.org>) id 1izkzP-0004Ds-59
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 12:30:56 -0500
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:35043)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1izkzM-0003zG-6x
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 12:30:52 -0500
-Received: by mail-wr1-x441.google.com with SMTP id u6so8237862wrt.0
- for <qemu-devel@nongnu.org>; Thu, 06 Feb 2020 09:30:52 -0800 (PST)
+ id 1izkzO-0004Ah-Uk
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 12:30:55 -0500
+Received: by mail-wm1-x330.google.com with SMTP id b17so1011295wmb.0
+ for <qemu-devel@nongnu.org>; Thu, 06 Feb 2020 09:30:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=E1tpXHsNOMFCBxdlvbzgg+MYBNzwjBDboyeQBHHvZGM=;
- b=X03e9YrqTAPYxUiKW42wPsUzBqsGmw3nZnKORBmgEzr/aY6kNuxIb5KNdx81teMjvf
- BPfUbK07JtvPbqwJgM9J/k1DSu4/o7LhZYVIRmNYechWV/o46CqqtxwcrR+t6YBBqfv1
- NYILT2TPjDTg0xGToL1mpnuuomQoIHqHXTDSy9en35iLRgEDaLwj2TcDJ/95JrhZjEwQ
- EnGYcebb4DwF6HzVJ0SupnjUcd0ItNub7pzRJlKEI2ONv8yVADlpjw0wyUuwz36RBS0K
- cTXo7ajIUHXxmMd5+Bx7qV2AJtfp8y/zdedfQOAiFjUcovrW1uMi6iuwlJLf6q2+FcWr
- Kq9Q==
+ bh=DdTyceGkkwj9dEzcBkZjrrEjb4XQeMiC6gg82f8sScs=;
+ b=qOnzYlFP2huECs+jOx6ZRFEEzjmdM7EPXg8vfEK7BrZvsEpWdOj7n+vMVqu063ucbB
+ IZA6ML1S8L5PJWd2YhW9enEH5XPIJOeW8BkpQSVE992NQ9HIBbV2k6B8nsMdmB8lpRdJ
+ RIPuJJ5MIlydCHfLC0EpCv5AGOI9pHh1xP1dIkr+hTitAdJDJR2Njm+nEBL9K+y4Md4z
+ uJOPLUYmiEaa3CSBYjqtudwo4R1EJL/hlhNOMkjbaS3mlGZxMcXdbQ/5KCvUOTE+tpmu
+ wg/3s9oYvN24E5f+XG4Pm62BaZBohmVkjxzlZ9a5PR2miPCQO7HpTc2NBKgAkQ3qOiHh
+ q2sw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=E1tpXHsNOMFCBxdlvbzgg+MYBNzwjBDboyeQBHHvZGM=;
- b=XNEz2TxAYMXlPZ5jHi/hqJ8zM5IuDU0G8SAXfzZJBLKKyM471caXvhK7yF5JKbi+Pj
- 6aww5yDF/ugPIZLxDFRczvw9FZV7R6ZCPWLJUBnTPis6tLlB8nVb42NpTwzLHDQbU70W
- dIhuYEZWQnJZtbAzbryeE1T0Zx4ByAIBt6WINoJN4lEMmf8DoxUj6cwimbjtKWGgd3X4
- ebI91IIWrBffWniKxBZj66pNHmNbY0xASWh4vK7Vj8Hg/50YYDXoAk9R0WW3pP5M7WHC
- gmkC/wKi0XkJ4CZ2aIpTNSSCsl5i1aOvpqaj5s6FdZJIjpzc0rGxJweWbswOe77JDl6h
- v2ww==
-X-Gm-Message-State: APjAAAUFnCpI0ZxNa1OqyuKS2ivrFy4qTBWmhkp9uSpIPWqjrxiZdUBC
- 3i6O5sxxLmjS/BUtdmxPw1HYKhCB8Y0=
-X-Google-Smtp-Source: APXvYqzG7nVuwzy1hpVPdEECk5+wQ6ZZ0wMa6QCswQQIDuuFeqxD+2g0wc7UMarnyBberhuG/lX3GQ==
-X-Received: by 2002:a5d:53c1:: with SMTP id a1mr4731013wrw.373.1581010250763; 
- Thu, 06 Feb 2020 09:30:50 -0800 (PST)
+ bh=DdTyceGkkwj9dEzcBkZjrrEjb4XQeMiC6gg82f8sScs=;
+ b=V0ZJseGG9ACcMxoUOM7Aup+YD4Dp6LnRouZspMugvyUN4qy8PO1VhHeNAIwxNWsdzT
+ calZqAah8b4F9EjySTLtLCijtfu0yLpV1swdX9ln4tfivxnsjwu75GgKWak/U8QRPI/g
+ bKtoF6Dhgz3ksUc+Er39k+k9TEY6LMjamB0Klgyuwar1JJpd+Mr/sSda4Ir9gB5e9/BA
+ Drsjd2YHfVs2I/bxEODmBJv2plSI2hUNMeSUR3OL5q+LF0C7yRaA2Y+B7CfAFk/JBKLx
+ yx5oTDKuR0u9xr1Nng8QlvMuNwdknPWXvTG54Djf0UFF4dGiTQSb73Eud3106Ctasjlc
+ 3EOw==
+X-Gm-Message-State: APjAAAWgfkdzHKKgEXsMtG0N+gSPwsL1VuX5R7+MD7O2mEqlVTv7Mv+t
+ m6+tNVZrU8ZaAsrS65/5rX9Tkdpp7QA=
+X-Google-Smtp-Source: APXvYqw1DaTTKqGhgyqctUTvCMzPMCoLPYfBxmRcvs3MWeMRqrqDPsyyGPohO7+fEIa9yEC6FYjWxQ==
+X-Received: by 2002:a1c:113:: with SMTP id 19mr5927295wmb.95.1581010253331;
+ Thu, 06 Feb 2020 09:30:53 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id w15sm5204214wrs.80.2020.02.06.09.30.48
+ by smtp.gmail.com with ESMTPSA id w15sm5204214wrs.80.2020.02.06.09.30.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Feb 2020 09:30:49 -0800 (PST)
+ Thu, 06 Feb 2020 09:30:51 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 03/29] Makefile: Fix typo in dependency list for interop
- manpages
-Date: Thu,  6 Feb 2020 17:30:14 +0000
-Message-Id: <20200206173040.17337-4-peter.maydell@linaro.org>
+Subject: [PATCH 04/29] qga/qapi-schema.json: Fix missing '-' in
+ GuestDiskBusType doc comment
+Date: Thu,  6 Feb 2020 17:30:15 +0000
+Message-Id: <20200206173040.17337-5-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200206173040.17337-1-peter.maydell@linaro.org>
 References: <20200206173040.17337-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::441
+X-Received-From: 2a00:1450:4864:20::330
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,30 +85,36 @@ Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fix a typo in the dependency list for the manpages built from the
-'interop' manual, which meant we were accidentally not including
-the .hx file in the dependency list.
+The doc comment for GuestDiskBusType doesn't match up with the
+enumeration because of a missing hyphen in 'file-backed-virtual'.
+This means the docs are rendered wrongly:
+       "virtual"
+           Win virtual bus type "file-backed" virtual: Win file-backed bus type
 
-Fixes: e13c59fa4414215500e6
+       "file-backed-virtual"
+           Not documented
+
+Add the missing hyphen.
+
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
 ---
- Makefile | 2 +-
+ qga/qapi-schema.json | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Makefile b/Makefile
-index 20bf0cc771a..274a24f7aa4 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1052,7 +1052,7 @@ $(MANUAL_BUILDDIR)/system/index.html: $(call manual-deps,system)
- 
- $(call define-manpage-rule,interop,\
-        qemu-ga.8 qemu-img.1 qemu-nbd.8 qemu-trace-stap.1 virtfs-proxy-helper.1,\
--       $(SRC_PATH/qemu-img-cmds.hx))
-+       $(SRC_PATH)/qemu-img-cmds.hx)
- 
- $(call define-manpage-rule,system,qemu-block-drivers.7)
- 
+diff --git a/qga/qapi-schema.json b/qga/qapi-schema.json
+index fb4605cc19c..23ce6af597d 100644
+--- a/qga/qapi-schema.json
++++ b/qga/qapi-schema.json
+@@ -809,7 +809,7 @@
+ # @sas: Win serial-attaches SCSI bus type
+ # @mmc: Win multimedia card (MMC) bus type
+ # @virtual: Win virtual bus type
+-# @file-backed virtual: Win file-backed bus type
++# @file-backed-virtual: Win file-backed bus type
+ #
+ # Since: 2.2; 'Unknown' and all entries below since 2.4
+ ##
 -- 
 2.20.1
 
