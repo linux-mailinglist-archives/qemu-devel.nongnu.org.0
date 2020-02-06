@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A1FA153CB1
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 02:39:44 +0100 (CET)
-Received: from localhost ([::1]:59482 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54DB3153CB5
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 02:41:39 +0100 (CET)
+Received: from localhost ([::1]:59534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izW8t-0004Li-2T
-	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 20:39:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54540)
+	id 1izWAk-0007Sn-De
+	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 20:41:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54573)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1izVom-0001Nj-CX
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 20:18:57 -0500
+ id 1izVon-0001PY-91
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 20:18:59 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1izVok-0004a5-4M
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 20:18:56 -0500
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:39007)
+ id 1izVol-0004ha-Ua
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 20:18:57 -0500
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:38250)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1izVoj-0004UP-TD; Wed, 05 Feb 2020 20:18:54 -0500
-Received: by mail-wm1-x32f.google.com with SMTP id c84so5046868wme.4;
- Wed, 05 Feb 2020 17:18:53 -0800 (PST)
+ id 1izVol-0004eV-Jk; Wed, 05 Feb 2020 20:18:55 -0500
+Received: by mail-wr1-x42c.google.com with SMTP id y17so5137762wrh.5;
+ Wed, 05 Feb 2020 17:18:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=QGRmYJ7L9YDtOUA7ryXiSMK9rx2JaMJd+CVAQCLIvks=;
- b=PMOg8rHnQB/j/VuMexCkZorSUToLiuCmrsy1V6sIgEtC8pzofMAvtEugUOX4o876aB
- lVJdm9+P+ka7/y1RnBr8c175VpBZSnNt4zCSC+6MyZMRTADPD/ybJ5KGj6AJX4gDLB0a
- qq2rnPmYCasmAMaCCDj+ODsyTL/l+vSTSck3UEKs5AdCip7wlW6uQLT2YXOcOol0EYkr
- DhqHd0OZ9WYN6iSy2xnuTR9sdFXzCwxT9DfSNnw8xQGmAv78Yh0NpBs8IxqcK2rZXvwz
- ay22rzQjuAwoWx86S9Z/JflJ8hlThUUrJRyivuBkv4uc4lp7UYOeA0meGkWJVy3j9nlO
- SNVg==
+ bh=bfg/bz0k7eHq+lcueYwbpEz5J1xmofDzQUqOznNEtbg=;
+ b=vOH8o6MTTe7aft2X2dofYaixmx9ope/7cW9LvscNzyG1Mk/0ipVmKCsUjnGDgavPPt
+ pqyxLC88jZjd4jh6YySdL45JGTyG1NmjkoHZPagayZrpjyi8V8w3Lic1e6154eSbEUPW
+ spfhuXGns2UYDk+swzu+SuJNycP/GhFwR+h3H8O+kx/jtEPfptbvMKX26bBzvsipjqxV
+ oZJmhsKgvI6nLmTamyyhUQNsRZPI3VJI49mr9h6Ybm43UgHH1kLdagIVgwJIIHZPtBHO
+ +OgY3OaVzDQCWc4qChbNr7o4F4VZsITT3qxG4kqCcRceUZqGwEAqMfC94unKOEG12iAw
+ sTnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=QGRmYJ7L9YDtOUA7ryXiSMK9rx2JaMJd+CVAQCLIvks=;
- b=YCiFsvR90HrzxNqmxMedaQdI49UKhqPaLCW5tC710+K3wc6p5Ya0IaATKcMUL3cv1J
- k4Q7PSwHRfgi5tRs8MigRQsLcBCinntCxzurLAPbZtlxpjwZfofVtiVqjDJ6IMaRub0u
- tnS+MjlhQwGr5ag4TOERCou2Ak+E5qaFbNlGRaiRj5Er4rFsyyc7o1ZHL0Nw9Ni9DYxN
- 8aoD7N0ARr34dpMgjdTCLGAe5l58LNPZNucCbDW1lpRVblb+vESQ3plxUDh/jGyO4d7A
- TMh0kyedv5i3wdQVFG1z6KbXkNpMczLTh4L04QtuWtBkkcSAkkGCx6DwWu8VQsOaeoBT
- KAxA==
-X-Gm-Message-State: APjAAAU8obgjEc1yq52WY/cpmDQPIDpF90MOytrgFvblDzjhxQGh+2Ll
- eGbdDdJDeoHlWz82JyC34EIrcW2N
-X-Google-Smtp-Source: APXvYqye/wQYwnrcgZcrArguvRbSI4az43d5rwoDw6rBWm6nW1ai0ATYCxNg1/U64diJCzrxZ1/E8A==
-X-Received: by 2002:a05:600c:214a:: with SMTP id
- v10mr654711wml.182.1580951931642; 
- Wed, 05 Feb 2020 17:18:51 -0800 (PST)
+ bh=bfg/bz0k7eHq+lcueYwbpEz5J1xmofDzQUqOznNEtbg=;
+ b=NQlPctfyqqcPUO6eiq5Obkdb7vmtHocTa8R4DpU5jm4zzeszEzoFlqhJR5la66ryW+
+ flEalq6FDuvJ9kbXSWtH/bV4fjFpjM87+maX6G1raxHj9odQSXsAj/ZtLTyIZl+eIMRq
+ xcwDWULUnLhqu4HA5ub9gfFB12zTl4qs4GtoU39d+Airzp5au6Q7ySib5eyXVsDUcjec
+ nY3bVCfxJ/lbvJiEpNmJN2980rJbIvyGgyrEYEYOnIwp40xVoZvJPm21J6rFE5qBmrBT
+ 5Rl7W2OFPCPVvzNmwkqChWPPeTU++kBp5rfBsOpPSfFgmyx/tau+50ppdmVKhPOmIAXu
+ 814w==
+X-Gm-Message-State: APjAAAW9UNaoVALkqAPxigXRw/WVgFeWjAPpGqjWrxF7qbGNxm/TVZ0L
+ imPQB3BbWPL1TPwwcOlwXZKifjZs
+X-Google-Smtp-Source: APXvYqy4WAVZ9VPTwE3eiu0WAFqNiDWJb1E8HH2oI0sZ9HZZoHIcpnNRbtSKx47Q3yFB4/jlLmSKvw==
+X-Received: by 2002:adf:f3cd:: with SMTP id g13mr411443wrp.54.1580951934397;
+ Wed, 05 Feb 2020 17:18:54 -0800 (PST)
 Received: from localhost.localdomain (2.red-95-127-156.staticip.rima-tde.net.
  [95.127.156.2])
- by smtp.gmail.com with ESMTPSA id w13sm2053526wru.38.2020.02.05.17.18.49
+ by smtp.gmail.com with ESMTPSA id w13sm2053526wru.38.2020.02.05.17.18.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Feb 2020 17:18:51 -0800 (PST)
+ Wed, 05 Feb 2020 17:18:53 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 25/30] tests/acceptance/boot_linux_console: Test the raspi0
- console
-Date: Thu,  6 Feb 2020 02:17:51 +0100
-Message-Id: <20200206011756.2413-26-f4bug@amsat.org>
+Subject: [PATCH v2 26/30] python/qemu/machine: Allow to use other serial
+ consoles than default
+Date: Thu,  6 Feb 2020 02:17:52 +0100
+Message-Id: <20200206011756.2413-27-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200206011756.2413-1-f4bug@amsat.org>
 References: <20200206011756.2413-1-f4bug@amsat.org>
@@ -71,7 +70,7 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32f
+X-Received-From: 2a00:1450:4864:20::42c
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,76 +83,86 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>,
  Joaquin de Andres <me@xcancerberox.com.ar>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Andrew Baumann <Andrew.Baumann@microsoft.com>,
- Esteban Bosse <estebanbosse@gmail.com>, qemu-arm@nongnu.org
+ Esteban Bosse <estebanbosse@gmail.com>, qemu-arm@nongnu.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  $ avocado --show=app,console run -t machine:raspi0 tests/acceptance/
-  JOB ID     : af8e017486290758bff39c986934134199af3556
-  JOB LOG    : avocado/job-results/job-2020-02-05T23.53-af8e017/job.log
-   (1/1) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_raspi0_uart0:
-  console: [    0.000000] Booting Linux on physical CPU 0x0
-  console: [    0.000000] Linux version 4.14.98+ (dom@dom-XPS-13-9370) (gcc version 4.9.3 (crosstool-NG crosstool-ng-1.22.0-88-g8460611)) #1200 Tue Feb 12 20:11:02 GMT 2019
-  console: [    0.000000] CPU: ARMv6-compatible processor [410fb767] revision 7 (ARMv7), cr=00c5387d
-  console: [    0.000000] CPU: VIPT aliasing data cache, unknown instruction cache
-  console: [    0.000000] OF: fdt: Machine model: Raspberry Pi Zero W
-  console: [    0.000000] earlycon: pl11 at MMIO 0x20201000 (options '')
-  console: [    0.000000] bootconsole [pl11] enabled
-  console: [    0.000000] Memory policy: Data cache writeback
-  console: [    0.000000] cma: Reserved 8 MiB at 0x1b800000
-  console: [    0.000000] Built 1 zonelists, mobility grouping on.  Total pages: 113680
-  console: [    0.000000] Kernel command line: printk.time=0 earlycon=pl011,0x20201000 console=ttyAMA0
-  PASS (12.59 s)
-  RESULTS    : PASS 1 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0 | CANCEL 0
-  JOB TIME   : 12.88 s
+Currently the QEMU Python module limits the QEMUMachine class to
+use the first serial console.
+
+Some machines/guest might use another console than the first one as
+the 'boot console'. For example the Raspberry Pi uses the second
+(AUX) console.
+
+To be able to use the Nth console as default, we simply need to
+connect all the N - 1 consoles to the null chardev.
+
+Add an index argument, so we can use a specific serial console as
+default.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Liam Merwick <liam.merwick@oracle.com>
+Tested-by: Liam Merwick <liam.merwick@oracle.com>
+Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Message-Id: <20200120235159.18510-5-f4bug@amsat.org>
+[PMD: zero-initialize _console_index in __init__()]
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- tests/acceptance/boot_linux_console.py | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ python/qemu/machine.py | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
-index 0371828326..df6600ab2f 100644
---- a/tests/acceptance/boot_linux_console.py
-+++ b/tests/acceptance/boot_linux_console.py
-@@ -333,15 +333,18 @@ class BootLinuxConsole(Test):
+diff --git a/python/qemu/machine.py b/python/qemu/machine.py
+index 734efd8536..183d8f3d38 100644
+--- a/python/qemu/machine.py
++++ b/python/qemu/machine.py
+@@ -112,6 +112,7 @@ class QEMUMachine(object):
+         self._sock_dir = sock_dir
+         self._launched = False
+         self._machine = None
++        self._console_index = 0
+         self._console_set = False
+         self._console_device_type = None
+         self._console_address = None
+@@ -241,6 +242,8 @@ class QEMUMachine(object):
+                          'chardev=mon,mode=control'])
+         if self._machine is not None:
+             args.extend(['-machine', self._machine])
++        for i in range(self._console_index):
++            args.extend(['-serial', 'null'])
+         if self._console_set:
+             self._console_address = os.path.join(self._sock_dir,
+                                                  self._name + "-console.sock")
+@@ -527,7 +530,7 @@ class QEMUMachine(object):
          """
-         serial_kernel_cmdline = {
-             'pl011': {
-+                0: 'earlycon=pl011,0x20201000 console=ttyAMA0',
-                 1: 'earlycon=pl011,0x20201000 console=ttyAMA0',
-                 2: 'earlycon=pl011,0x3f201000 console=ttyAMA0',
-             },
-         }
-         kernel = {
-+            0: '/boot/kernel.img',
-             1: '/boot/kernel.img',
-             2: '/boot/kernel7.img',
-         }
-         dtb = {
-+            0: '/boot/bcm2708-rpi-0-w.dtb',
-             1: '/boot/bcm2708-rpi-b.dtb',
-             2: '/boot/bcm2709-rpi-2-b.dtb',
-         }
-@@ -363,6 +366,15 @@ class BootLinuxConsole(Test):
-         console_pattern = 'Kernel command line: %s' % kernel_command_line
-         self.wait_for_console_pattern(console_pattern)
+         self._machine = machine_type
  
-+    def test_arm_raspi0_uart0(self):
-+        """
-+        :avocado: tags=arch:arm
-+        :avocado: tags=machine:raspi0
-+        :avocado: tags=cpu:arm1176
-+        :avocado: tags=device:pl011
-+        """
-+        self.do_test_arm_raspi(0, 'pl011')
-+
-     def test_arm_raspi1_uart0(self):
+-    def set_console(self, device_type=None):
++    def set_console(self, device_type=None, console_index=0):
          """
-         :avocado: tags=arch:arm
+         Sets the device type for a console device
+ 
+@@ -548,9 +551,14 @@ class QEMUMachine(object):
+                             chardev:console" command line argument will
+                             be used instead, resorting to the machine's
+                             default device type.
++        @param console_index: the index of the console device to use.
++                              If not zero, the command line will create
++                              'index - 1' consoles and connect them to
++                              the 'null' backing character device.
+         """
+         self._console_set = True
+         self._console_device_type = device_type
++        self._console_index = console_index
+ 
+     @property
+     def console_socket(self):
 -- 
 2.21.1
 
