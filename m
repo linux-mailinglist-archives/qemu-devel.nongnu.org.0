@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BB0D154DF5
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 22:31:44 +0100 (CET)
-Received: from localhost ([::1]:46440 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1A1D154E05
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 22:37:00 +0100 (CET)
+Received: from localhost ([::1]:46540 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izokR-0003oj-Ef
-	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 16:31:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34656)
+	id 1izopX-0004Ty-R1
+	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 16:36:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34691)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1izoaO-00009M-JO
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 16:21:22 -0500
+ (envelope-from <philmd@redhat.com>) id 1izoaT-0000Fy-2z
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 16:21:26 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1izoaM-0004pk-R0
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 16:21:19 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:25199
+ (envelope-from <philmd@redhat.com>) id 1izoaR-0005JX-Na
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 16:21:24 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:60076
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1izoaL-0004ew-JH
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 16:21:17 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1izoaR-0005Ez-76
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 16:21:23 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581024076;
+ s=mimecast20190719; t=1581024082;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=GvwnBf2n+YwQGmIuQTmd3deuxXo5e1sNUVXeiOxvALA=;
- b=OF/GqBQmG34jrYYZ9wFgtdMTix8eVt7n6t+vLi481eI4fEaQ/985zjzBzS7XdmQA0pBKvs
- sZsB/kiG01Vp+b9zLLVHZs7uZlRG8whU9oEdBsXmOa05e5FySqU3IsEYgDVLzkGp3zLE/U
- S8hVtyxDmJ0AnzlUN5xK9ojHjLHFShU=
+ bh=5vK//yiINyqR1YwlnKmG+x4AMYqXU3HV6llVll0Dg1U=;
+ b=iQSqnncOfhBQ6JARk/PzvW4VM5ndfofhSzqRU1xcPJbU2sZxv1p+7kKRDPA6UiB/zkTaYT
+ TwOqqInaJguzrhAeXjUtXHM4xpZ3l4od+aGo72s5ZUurY1zqoMlMB+uG0xLWKwoPzDghj4
+ YJzxN+KeGBF0oMolpcztONVxfk2Ted8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-53-4Vm-YrTzN-C9KYRBouZKOA-1; Thu, 06 Feb 2020 16:21:12 -0500
+ us-mta-73-D_Tu2-5sMAaK63yTWypb7g-1; Thu, 06 Feb 2020 16:21:21 -0500
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5408DDB91;
- Thu,  6 Feb 2020 21:21:11 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1B66FDBE8
+ for <qemu-devel@nongnu.org>; Thu,  6 Feb 2020 21:21:20 +0000 (UTC)
 Received: from x1w.redhat.com (ovpn-204-120.brq.redhat.com [10.40.204.120])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8CA6760BEC;
- Thu,  6 Feb 2020 21:21:09 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B21AF60BEC;
+ Thu,  6 Feb 2020 21:21:15 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 22/46] tests/acceptance/virtio_check_params: Disable the test
-Date: Thu,  6 Feb 2020 22:19:12 +0100
-Message-Id: <20200206211936.17098-23-philmd@redhat.com>
+Subject: [PULL 25/46] tests/acceptance/migration: Factor out assert_migration()
+Date: Thu,  6 Feb 2020 22:19:15 +0100
+Message-Id: <20200206211936.17098-26-philmd@redhat.com>
 In-Reply-To: <20200206211936.17098-1-philmd@redhat.com>
 References: <20200206211936.17098-1-philmd@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: 4Vm-YrTzN-C9KYRBouZKOA-1
+X-MC-Unique: D_Tu2-5sMAaK63yTWypb7g-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
@@ -71,73 +71,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Cornelia Huck <cohuck@redhat.com>,
- Denis Plotnikov <dplotnikov@virtuozzo.com>,
+Cc: Oksana Vohchana <ovoshcha@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Eduardo Habkost <ehabkost@redhat.com>, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This test fails on various CI:
+From: Oksana Vohchana <ovoshcha@redhat.com>
 
-- Using QEMU 4.0:
-  tests/acceptance/x86_cpu_model_versions.py:X86CPUModelAliases.test_none_a=
-lias:  ERROR: 'alias-of' (0.45 s)
+We are going to reuse this code when testing different transport
+methods, so factor it out first
 
-- On OSX
-  Unexpected error in object_property_find() at qom/object.c:1201:
-  qemu-system-x86_64: -device virtio-blk-pci,id=3Dscsi0,drive=3Ddrive0: can=
-'t apply global virtio-blk-device.scsi=3Dtrue: Property '.scsi' not found
-
-- When removing unavailable machine:
-  VirtioMaxSegSettingsCheck.test_machine_types: ERROR: list.remove(x): x no=
-t in list (0.12 s)
-
-- Using Xen:
-  xencall: error: Could not obtain handle on privileged command interface: =
-No such file or directory
-  xen be core: xen be core: can't open xen interface
-
-- On PPC:
-  TestFail: machine type pseries-2.8: No Transactional Memory support in TC=
-G, try appending -machine cap-htm=3Doff
-
-- On S390X configured with --without-default-devices:
-  ERROR: qemu-system-s390x: -device virtio-scsi-pci,id=3Dscsi0: 'virtio-scs=
-i-pci' is not a valid device model name
-
-Disable it for now.
-
-Cc: Denis Plotnikov <dplotnikov@virtuozzo.com>
-Acked-by: Cornelia Huck <cohuck@redhat.com>
-Message-Id: <20200206171715.25041-1-philmd@redhat.com>
+Signed-off-by: Oksana Vohchana <ovoshcha@redhat.com>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Message-Id: <20200203111631.18796-2-ovoshcha@redhat.com>
+[PMD: Split patch in 2, reworded subject and description]
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- tests/acceptance/virtio_check_params.py | 2 ++
- 1 file changed, 2 insertions(+)
+ tests/acceptance/migration.py | 21 +++++++++++----------
+ 1 file changed, 11 insertions(+), 10 deletions(-)
 
-diff --git a/tests/acceptance/virtio_check_params.py b/tests/acceptance/vir=
-tio_check_params.py
-index 22792d4ec6..c3af8dbf9f 100755
---- a/tests/acceptance/virtio_check_params.py
-+++ b/tests/acceptance/virtio_check_params.py
-@@ -26,6 +26,7 @@ import logging
- sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'pytho=
-n'))
- from qemu.machine import QEMUMachine
- from avocado_qemu import Test
-+from avocado import skip
+diff --git a/tests/acceptance/migration.py b/tests/acceptance/migration.py
+index a44c1ae58f..3db733b1ce 100644
+--- a/tests/acceptance/migration.py
++++ b/tests/acceptance/migration.py
+@@ -24,6 +24,16 @@ class Migration(Test):
+     def migration_finished(vm):
+         return vm.command('query-migrate')['status'] in ('completed', 'fai=
+led')
 =20
- #list of machine types and virtqueue properties to test
- VIRTIO_SCSI_PROPS =3D {'seg_max_adjust': 'seg_max_adjust'}
-@@ -117,6 +118,7 @@ class VirtioMaxSegSettingsCheck(Test):
-             return True
-         return False
-=20
-+    @skip("break multi-arch CI")
-     def test_machine_types(self):
-         # collect all machine types except 'none', 'isapc', 'microvm'
-         with QEMUMachine(self.qemu_bin) as vm:
++    def assert_migration(self, src_vm, dst_vm):
++        wait.wait_for(self.migration_finished,
++                      timeout=3Dself.timeout,
++                      step=3D0.1,
++                      args=3D(src_vm,))
++        self.assertEqual(src_vm.command('query-migrate')['status'], 'compl=
+eted')
++        self.assertEqual(dst_vm.command('query-migrate')['status'], 'compl=
+eted')
++        self.assertEqual(dst_vm.command('query-status')['status'], 'runnin=
+g')
++        self.assertEqual(src_vm.command('query-status')['status'],'postmig=
+rate')
++
+     def _get_free_port(self):
+         port =3D network.find_free_port()
+         if port is None:
+@@ -38,13 +48,4 @@ class Migration(Test):
+         dest_vm.launch()
+         source_vm.launch()
+         source_vm.qmp('migrate', uri=3Ddest_uri)
+-        wait.wait_for(
+-            self.migration_finished,
+-            timeout=3Dself.timeout,
+-            step=3D0.1,
+-            args=3D(source_vm,)
+-        )
+-        self.assertEqual(dest_vm.command('query-migrate')['status'], 'comp=
+leted')
+-        self.assertEqual(source_vm.command('query-migrate')['status'], 'co=
+mpleted')
+-        self.assertEqual(dest_vm.command('query-status')['status'], 'runni=
+ng')
+-        self.assertEqual(source_vm.command('query-status')['status'], 'pos=
+tmigrate')
++        self.assert_migration(source_vm, dest_vm)
 --=20
 2.21.1
 
