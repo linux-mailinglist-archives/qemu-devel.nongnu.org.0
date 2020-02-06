@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D25A154A67
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 18:42:23 +0100 (CET)
-Received: from localhost ([::1]:43568 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8818A154A6D
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 18:43:58 +0100 (CET)
+Received: from localhost ([::1]:43622 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izlAU-0006fX-FG
-	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 12:42:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43529)
+	id 1izlC1-0001hx-JN
+	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 12:43:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43555)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1izkzz-0006lQ-I6
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 12:31:35 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1izl03-0006mi-DU
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 12:31:37 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1izkzv-0006IJ-1V
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 12:31:30 -0500
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:39670)
+ (envelope-from <peter.maydell@linaro.org>) id 1izkzy-0006Qg-To
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 12:31:33 -0500
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:35628)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1izkzt-00064u-5P
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 12:31:26 -0500
-Received: by mail-wr1-x442.google.com with SMTP id y11so8207609wrt.6
- for <qemu-devel@nongnu.org>; Thu, 06 Feb 2020 09:31:24 -0800 (PST)
+ id 1izkzv-0006B1-1X
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 12:31:29 -0500
+Received: by mail-wr1-x42e.google.com with SMTP id w12so8229642wrt.2
+ for <qemu-devel@nongnu.org>; Thu, 06 Feb 2020 09:31:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=GvBOG5pDxbUJVtePJMB2qE/bWoG9oTyZ0L26Rr3bxAo=;
- b=tV33zF9/Gr6SLw1w+P1Ch8ja8VKEeNslcRmhwOXEgmKQCewKKxBwFpGjvJd3PtLPdg
- hUdWYPeKM6vhkUpINmHj2X4iz7xKjCAZHerqPxETYOg25niyeBJnKpMvr7b2Gs63jPmk
- UfOsaL1LMfy/pWm3MmM1kn62sAJaxv8WRyrWu1NsL0ryaEOArSZ2ktt9pmdw9ePu+PTc
- uwNklCyZwlKBRlheR7CXjKJtPsd0SsBdX6d1j7nvVxdMUSFVQKQtfrjLHuPgIj9bopn3
- 6tY4o5TsaF4VujoSCxzmTWaOdgifjejHowYl/WLV5ImbAVDVuud3VPCpZ/5EvPPzOM77
- Zz2g==
+ bh=iafVdg3waVWv4MsmBKz7Z/kOldmt8SzM/gApHhbQWYM=;
+ b=MbCnjgXj0lRGhKJMlw47Kdi598FD6EoG88uBxplHMe7iyr0lAsfEo3bcBNgF3sgYCr
+ PrhAOqpWfDg0AObWJKLoNtrbH8EnmpnhtiT2NIWmp+8KQRg7vOb0Ff2w5zM2SY2x+AW7
+ Yl0PNE4/0AGFnpqY9cQLsYduBdIFYEOM69ibJ0ihWuYfVCZVKzU0CpoT/UGR2T389AZL
+ J9QrF5hsU8mSvTekiytTNRrWhERxwnGwWjwASSrYIbLEJLkjWeC3FUKhsnBhx6HRTUs5
+ Vqcdheq2A/eNWWWwexJ/RaVkr/fV+wjMkrXyeowbJrxiHPY7MHDok/cm9/kq/Js5Mqq7
+ JJVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=GvBOG5pDxbUJVtePJMB2qE/bWoG9oTyZ0L26Rr3bxAo=;
- b=fjVnO31RJQeRYV6UrGuTqmzK97ICesXyWekkmJVA2/mg7h01AMBrA4haX/uGzeTpWj
- +OVIHMtM+fiIDCQePpNMWCARD6PYyBpBqhpraTrDOWiGLlho3G6PskqTXJl0JVUb0cH2
- PSQfhXshtyn9MRKPPzWmrAGiACb58Ah5swxOECJ7eunVkV6Xwf8nydTS/Amd+ShmfeVV
- oxB9MFjpBphpz0mlTNdUwdLyaBs/0P/7H20HhsytYCa1GBx1k2SxwlAAPBgst+K7DD/B
- JCXAamNr1WPpL+m7/JERdRaToO2YK6O5Q0JfjKmiC7utLCPGoVTqq+yCP7eewvY8gMWu
- T/3g==
-X-Gm-Message-State: APjAAAUe218QJY5F6N8YTKsUEAdVVGWXxlOg+O6z9V8YoLHdBx59qWTp
- v7qVIfgvH4jP7vfMc14Mv2CcMSB6h2Q=
-X-Google-Smtp-Source: APXvYqwMe5LTKGyKGtD4KA3RPu7CkrzpAPNrmdiwAY4sxX2kedeDwPVjMdWMksBjR5zvEcwwnJs8lA==
-X-Received: by 2002:adf:fd43:: with SMTP id h3mr4820080wrs.169.1581010283004; 
- Thu, 06 Feb 2020 09:31:23 -0800 (PST)
+ bh=iafVdg3waVWv4MsmBKz7Z/kOldmt8SzM/gApHhbQWYM=;
+ b=axk6kzwB4T+HrVg1pn3t8bG1gP9lK7NZXcBMAp6HJtGXS/6pv/M0hHM/OJnMBn6r50
+ bku4rUQ2ggvpcPl2ZpFI/e7fIzadRzuHEpMR0KgDl+YrsXD5keydy1f1y4xo5J6q+sP/
+ z4xCkXrZ4BjvC5jzQPia5OeiVZ8JC+Bb+qsvb4WTm5LsPQ7JDgBLYo+fh1jtgP+cGlrq
+ 9VIXGzMx+Q7VmMefeuvFTWfN35k0J2nU3a9E/zLo2AEjk7jmz8yHTDNskRHUlVCftYm8
+ hBFqaVShApuBLiIIUy53SxVk7r0imksRcsQhxyscyIZYWjllk8g84yCJ7AZm7Fz6//fD
+ liwQ==
+X-Gm-Message-State: APjAAAUyr9IWCrizaw5zA79oFYAD45Tw5rgMCi9AiKH7gn4MbQo55ubk
+ SXuA+f9Da1nrFQDG/rQ7Vdz4jKF1xyo=
+X-Google-Smtp-Source: APXvYqwzOE/ejjqatK6lWYo+rPhgtJe0UifoHWifAvtWEjxjgKsnqzE2HkKOfPzp67IclABR8w17aw==
+X-Received: by 2002:a5d:608f:: with SMTP id w15mr4875905wrt.20.1581010284467; 
+ Thu, 06 Feb 2020 09:31:24 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id w15sm5204214wrs.80.2020.02.06.09.31.21
+ by smtp.gmail.com with ESMTPSA id w15sm5204214wrs.80.2020.02.06.09.31.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Feb 2020 09:31:22 -0800 (PST)
+ Thu, 06 Feb 2020 09:31:23 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 15/29] qapi/ui.json: Use explicit bulleted lists
-Date: Thu,  6 Feb 2020 17:30:26 +0000
-Message-Id: <20200206173040.17337-16-peter.maydell@linaro.org>
+Subject: [PATCH 16/29] qapi/{block, misc,
+ tmp}.json: Use explicit bulleted lists
+Date: Thu,  6 Feb 2020 17:30:27 +0000
+Message-Id: <20200206173040.17337-17-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200206173040.17337-1-peter.maydell@linaro.org>
 References: <20200206173040.17337-1-peter.maydell@linaro.org>
@@ -65,7 +66,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::442
+X-Received-From: 2a00:1450:4864:20::42e
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,140 +86,185 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 A JSON block comment like this:
- Returns: nothing on success
-          If @node is not a valid block device, DeviceNotFound
-          If @name is not found, GenericError with an explanation
+     Returns: nothing on success
+              If @node is not a valid block device, DeviceNotFound
+              If @name is not found, GenericError with an explanation
 
 renders in the HTML and manpage like this:
 
- Returns: nothing on success If node is not a valid block device,
- DeviceNotFound If name is not found, GenericError with an explanation
+     Returns: nothing on success If node is not a valid block device,
+     DeviceNotFound If name is not found, GenericError with an explanation
 
 because whitespace is not significant.
 
 Use an actual bulleted list, so that the formatting is correct.
 
+This commit gathers up the remaining json files which had
+places needing this fix.
+
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- qapi/ui.json | 63 +++++++++++++++++++++++++++-------------------------
- 1 file changed, 33 insertions(+), 30 deletions(-)
+ qapi/block.json | 33 ++++++++++++++-------------------
+ qapi/misc.json  | 36 ++++++++++++++++--------------------
+ qapi/tpm.json   |  4 ++--
+ 3 files changed, 32 insertions(+), 41 deletions(-)
 
-diff --git a/qapi/ui.json b/qapi/ui.json
-index 92d409c32c8..f527bbdc26e 100644
---- a/qapi/ui.json
-+++ b/qapi/ui.json
-@@ -12,8 +12,8 @@
+diff --git a/qapi/block.json b/qapi/block.json
+index 905297bab2e..e509cc53506 100644
+--- a/qapi/block.json
++++ b/qapi/block.json
+@@ -115,15 +115,12 @@
  #
- # Sets the password of a remote display session.
+ # For the arguments, see the documentation of BlockdevSnapshotInternal.
  #
--# @protocol: 'vnc' to modify the VNC server password
--#            'spice' to modify the Spice server password
-+# @protocol: - 'vnc' to modify the VNC server password
-+#            - 'spice' to modify the Spice server password
+-# Returns: nothing on success
+-#
+-#          If @device is not a valid block device, GenericError
+-#
+-#          If any snapshot matching @name exists, or @name is empty,
+-#          GenericError
+-#
+-#          If the format of the image used does not support it,
+-#          BlockFormatFeatureNotSupported
++# Returns: - nothing on success
++#          - If @device is not a valid block device, GenericError
++#          - If any snapshot matching @name exists, or @name is empty,
++#            GenericError
++#          - If the format of the image used does not support it,
++#            BlockFormatFeatureNotSupported
  #
- # @password: the new password
+ # Since: 1.7
  #
-@@ -23,8 +23,8 @@
- #             'disconnect' to disconnect existing clients
- #             'keep' to maintain existing clients
+@@ -154,12 +151,12 @@
  #
--# Returns: Nothing on success
--#          If Spice is not enabled, DeviceNotFound
+ # @name: optional the snapshot's name to be deleted
+ #
+-# Returns: SnapshotInfo on success
+-#          If @device is not a valid block device, GenericError
+-#          If snapshot not found, GenericError
+-#          If the format of the image used does not support it,
+-#          BlockFormatFeatureNotSupported
+-#          If @id and @name are both not specified, GenericError
++# Returns: - SnapshotInfo on success
++#          - If @device is not a valid block device, GenericError
++#          - If snapshot not found, GenericError
++#          - If the format of the image used does not support it,
++#            BlockFormatFeatureNotSupported
++#          - If @id and @name are both not specified, GenericError
+ #
+ # Since: 1.7
+ #
+@@ -197,10 +194,8 @@
+ # @force: If true, eject regardless of whether the drive is locked.
+ #         If not specified, the default value is false.
+ #
+-# Returns:  Nothing on success
+-#
+-#           If @device is not a valid block device, DeviceNotFound
+-#
 +# Returns: - Nothing on success
-+#          - If Spice is not enabled, DeviceNotFound
++#          - If @device is not a valid block device, DeviceNotFound
+ # Notes:    Ejecting a device with no media results in success
+ #
+ # Since: 0.14.0
+diff --git a/qapi/misc.json b/qapi/misc.json
+index 626a342b008..06c80b58a24 100644
+--- a/qapi/misc.json
++++ b/qapi/misc.json
+@@ -418,12 +418,10 @@
+ #
+ # Return information about the balloon device.
+ #
+-# Returns: @BalloonInfo on success
+-#
+-#          If the balloon driver is enabled but not functional because the KVM
+-#          kernel module cannot support it, KvmMissingCap
+-#
+-#          If no balloon device is present, DeviceNotActive
++# Returns: - @BalloonInfo on success
++#          - If the balloon driver is enabled but not functional because the KVM
++#            kernel module cannot support it, KvmMissingCap
++#          - If no balloon device is present, DeviceNotActive
  #
  # Since: 0.14.0
  #
-@@ -46,13 +46,14 @@
- # @protocol: the name of the remote display protocol 'vnc' or 'spice'
+@@ -480,8 +478,8 @@
  #
- # @time: when to expire the password.
--#        'now' to expire the password immediately
--#        'never' to cancel password expiration
--#        '+INT' where INT is the number of seconds from now (integer)
--#        'INT' where INT is the absolute time in seconds
+ # @bar: the index of the Base Address Register for this region
  #
--# Returns: Nothing on success
--#          If @protocol is 'spice' and Spice is not active, DeviceNotFound
-+#        - 'now' to expire the password immediately
-+#        - 'never' to cancel password expiration
-+#        - '+INT' where INT is the number of seconds from now (integer)
-+#        - 'INT' where INT is the absolute time in seconds
-+#
-+# Returns: - Nothing on success
-+#          - If @protocol is 'spice' and Spice is not active, DeviceNotFound
+-# @type: 'io' if the region is a PIO region
+-#        'memory' if the region is a MMIO region
++# @type: - 'io' if the region is a PIO region
++#        - 'memory' if the region is a MMIO region
  #
- # Since: 0.14.0
+ # @size: memory size
  #
-@@ -201,9 +202,10 @@
- # @tls-port: The SPICE server's TLS port number.
+@@ -992,10 +990,10 @@
  #
- # @auth: the current authentication type used by the server
--#        'none'  if no authentication is being used
--#        'spice' uses SASL or direct TLS authentication, depending on command
--#                line options
-+#
-+#        - 'none'  if no authentication is being used
-+#        - 'spice' uses SASL or direct TLS authentication, depending on command
-+#          line options
- #
- # @mouse-mode: The mode in which the mouse cursor is displayed currently. Can
- #              be determined by the client or the server, or unknown if spice
-@@ -433,27 +435,28 @@
- # @host: The hostname the VNC server is bound to.  This depends on
- #        the name resolution on the host and may be an IP address.
- #
--# @family: 'ipv6' if the host is listening for IPv6 connections
--#                    'ipv4' if the host is listening for IPv4 connections
--#                    'unix' if the host is listening on a unix domain socket
--#                    'unknown' otherwise
-+# @family: - 'ipv6' if the host is listening for IPv6 connections
-+#          - 'ipv4' if the host is listening for IPv4 connections
-+#          - 'unix' if the host is listening on a unix domain socket
-+#          - 'unknown' otherwise
- #
- # @service: The service name of the server's port.  This may depends
- #           on the host system's service database so symbolic names should not
- #           be relied on.
- #
- # @auth: the current authentication type used by the server
--#        'none' if no authentication is being used
--#        'vnc' if VNC authentication is being used
--#        'vencrypt+plain' if VEncrypt is used with plain text authentication
--#        'vencrypt+tls+none' if VEncrypt is used with TLS and no authentication
--#        'vencrypt+tls+vnc' if VEncrypt is used with TLS and VNC authentication
--#        'vencrypt+tls+plain' if VEncrypt is used with TLS and plain text auth
--#        'vencrypt+x509+none' if VEncrypt is used with x509 and no auth
--#        'vencrypt+x509+vnc' if VEncrypt is used with x509 and VNC auth
--#        'vencrypt+x509+plain' if VEncrypt is used with x509 and plain text auth
--#        'vencrypt+tls+sasl' if VEncrypt is used with TLS and SASL auth
--#        'vencrypt+x509+sasl' if VEncrypt is used with x509 and SASL auth
-+#
-+#        - 'none' if no authentication is being used
-+#        - 'vnc' if VNC authentication is being used
-+#        - 'vencrypt+plain' if VEncrypt is used with plain text authentication
-+#        - 'vencrypt+tls+none' if VEncrypt is used with TLS and no authentication
-+#        - 'vencrypt+tls+vnc' if VEncrypt is used with TLS and VNC authentication
-+#        - 'vencrypt+tls+plain' if VEncrypt is used with TLS and plain text auth
-+#        - 'vencrypt+x509+none' if VEncrypt is used with x509 and no auth
-+#        - 'vencrypt+x509+vnc' if VEncrypt is used with x509 and VNC auth
-+#        - 'vencrypt+x509+plain' if VEncrypt is used with x509 and plain text auth
-+#        - 'vencrypt+tls+sasl' if VEncrypt is used with TLS and SASL auth
-+#        - 'vencrypt+x509+sasl' if VEncrypt is used with x509 and SASL auth
- #
- # @clients: a list of @VncClientInfo of all currently connected clients
- #
-@@ -841,8 +844,8 @@
- # @hold-time: time to delay key up events, milliseconds. Defaults
- #             to 100
+ # @value: the target size of the balloon in bytes
  #
 -# Returns: Nothing on success
--#          If key is unknown or redundant, InvalidParameter
+-#          If the balloon driver is enabled but not functional because the KVM
 +# Returns: - Nothing on success
-+#          - If key is unknown or redundant, InvalidParameter
++#          - If the balloon driver is enabled but not functional because the KVM
+ #            kernel module cannot support it, KvmMissingCap
+-#          If no balloon device is present, DeviceNotActive
++#          - If no balloon device is present, DeviceNotActive
  #
- # Since: 1.3.0
+ # Notes: This command just issues a request to the guest.  When it returns,
+ #        the balloon size may not have changed.  A guest can change the balloon
+@@ -1074,8 +1072,8 @@
+ #       If @device is 'vnc' and @target is 'password', this is the new VNC
+ #       password to set.  See change-vnc-password for additional notes.
  #
+-# Returns: Nothing on success.
+-#          If @device is not a valid block device, DeviceNotFound
++# Returns: - Nothing on success.
++#          - If @device is not a valid block device, DeviceNotFound
+ #
+ # Notes: This interface is deprecated, and it is strongly recommended that you
+ #        avoid using it.  For changing block devices, use
+@@ -1225,11 +1223,9 @@
+ #
+ # @opaque: A free-form string that can be used to describe the fd.
+ #
+-# Returns: @AddfdInfo on success
+-#
+-#          If file descriptor was not received, FdNotSupplied
+-#
+-#          If @fdset-id is a negative value, InvalidParameterValue
++# Returns: - @AddfdInfo on success
++#          - If file descriptor was not received, FdNotSupplied
++#          - If @fdset-id is a negative value, InvalidParameterValue
+ #
+ # Notes: The list of fd sets is shared by all monitor connections.
+ #
+@@ -1257,8 +1253,8 @@
+ #
+ # @fd: The file descriptor that is to be removed.
+ #
+-# Returns: Nothing on success
+-#          If @fdset-id or @fd is not found, FdNotFound
++# Returns: - Nothing on success
++#          - If @fdset-id or @fd is not found, FdNotFound
+ #
+ # Since: 1.2.0
+ #
+diff --git a/qapi/tpm.json b/qapi/tpm.json
+index 63878aa0f47..dc1f0817399 100644
+--- a/qapi/tpm.json
++++ b/qapi/tpm.json
+@@ -96,8 +96,8 @@
+ #
+ # A union referencing different TPM backend types' configuration options
+ #
+-# @type: 'passthrough' The configuration options for the TPM passthrough type
+-#        'emulator' The configuration options for TPM emulator backend type
++# @type: - 'passthrough' The configuration options for the TPM passthrough type
++#        - 'emulator' The configuration options for TPM emulator backend type
+ #
+ # Since: 1.5
+ ##
 -- 
 2.20.1
 
