@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 709D6154A6E
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 18:44:06 +0100 (CET)
-Received: from localhost ([::1]:43626 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDFDD154A69
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 18:42:44 +0100 (CET)
+Received: from localhost ([::1]:43582 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izlC9-000283-GZ
-	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 12:44:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43595)
+	id 1izlAp-0007Xx-RJ
+	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 12:42:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43620)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1izl06-0006oZ-5W
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 12:31:39 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1izl07-0006om-7H
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 12:31:40 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1izl03-0006g3-EU
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 12:31:38 -0500
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:37717)
+ (envelope-from <peter.maydell@linaro.org>) id 1izl05-0006oQ-Ap
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 12:31:39 -0500
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:54500)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1izl01-0006OA-KV
+ id 1izl03-0006Ok-DN
  for qemu-devel@nongnu.org; Thu, 06 Feb 2020 12:31:35 -0500
-Received: by mail-wm1-x32f.google.com with SMTP id f129so997547wmf.2
+Received: by mail-wm1-x32f.google.com with SMTP id g1so875613wmh.4
  for <qemu-devel@nongnu.org>; Thu, 06 Feb 2020 09:31:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=/klYbU+bqniRP71Sh9fNzl1GvlwCTSWPu2kdq/jHKgU=;
- b=iH4cPz1hfm8vkCp9iBLT6jQFV5md2N/TDCJz/BmjO8Qt+XCeemB4iSagE4yAiyYgAv
- v+XAfAJNvfxiIEbn47UL57kGhJMy/WBAZf01QXtPyH2sugVCvij6BU00/wH99jgk7Bvt
- 03tEXWnOTRltbk70EurgeIhDhrte/nOKiLNtqaeVaJo2W6zBEaceHwqBHfH8Q0rN8QEU
- /jQsVSak+QD5K9623FGpOJ3YEDWHE6d0vQFHuxmZquzMFzc1qArXHo5tUbxGn5BBtFdq
- t8Vwu5DvXaU+iGmRaOPI4PrBXquFFu6THk4ZvVdB1KLWi5k3C6bbZKXsL2es8sqJ3IC9
- HdIQ==
+ bh=GQ9AbUdIDLadhdpxHBQc+3BZwH1J8H9FJUw/8rdNkPs=;
+ b=Bk170GMuSYlv35NSWPLEMgRLEvUmRHa6JdLzzOElNDAAejvOmCeDkhUL3Esh0UzSpM
+ +hgy/ymKb+PYUSeKkg0fZOxb28yYrtTLK4ecDj33BqLDWN4CGmPVFuZqu+h5wgSXkkNw
+ fkDWmS+1EvYh2JjwBWs93hPB5mVn7GCVqUr5O56CToxytiNZgNUZbGD7kg5TZG2bLKHf
+ 71USd3Arx71gKHjv0xow8PpP5n8tpmuIiP2dXd2/S0LxWK73rm+xVwitG8U4jcx4gnqC
+ 1ttbWqHCCs6grO6sw09n9CV/sVSAXuNQZJblD60dWaj/HstvGv6kbgifzgi6zVocUN81
+ 9yBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=/klYbU+bqniRP71Sh9fNzl1GvlwCTSWPu2kdq/jHKgU=;
- b=ehHVR1Bt72Sx8vz3M8TZL2zP+8B67uwndywG+FKRfPsU/8AfYzfVVnO/zvGP2m5V4U
- Vx9MRpEHI8DhUFKaiBXG68kJl/8ptIOqnJmhBjomCKOQru0apY5v2c0/APVXBG8XUJTA
- fzMYh9gZq5wnf78TEjRXAkiizkjUwwgFJzf3JsyuS76ZikuLBNx9F2mg4tzOK4NndU14
- 329Q7kiGKvdcdkboPVRaXOVGYkAMJftt9Q+5OYY0TqRXWoLwD9H01UcTRk4JI8a7/cbx
- 7yy5CHLgS8CHKH/lj4UAInKBNkohYZQe8H/4AjYZH68us5gB0nYR9x8Y0hJ/ftlGqUNg
- eldA==
-X-Gm-Message-State: APjAAAVwcGWyyvT+4RTSIyaSqWT4MikIjqjr51sq+J/kfu6aD8WT9jm7
- NwO6+KVFfDcDvfz1NwNOwP1DjjSBLjs=
-X-Google-Smtp-Source: APXvYqyTWrRnUi2EVfsRbMd1tMYIeQsORi9Kc3tPkPz7g5iRWsQbclGrFmlE5zYeSeS5PDg5nMs12Q==
-X-Received: by 2002:a1c:a947:: with SMTP id s68mr5805949wme.61.1581010287744; 
- Thu, 06 Feb 2020 09:31:27 -0800 (PST)
+ bh=GQ9AbUdIDLadhdpxHBQc+3BZwH1J8H9FJUw/8rdNkPs=;
+ b=rU5OXLazu7Y6CTAZtq+Bx1j76BAAGV8C4ImGxzVRizSKB5S93ID7/MtNxReJEu5NQa
+ nBCdZnj8StJSZIFMqfCrvgW9Ykjm3qDOpC2jRkdlieGMriJg5jm4prs95nQk+blm9u1L
+ eApFP+i6t4ZNLlF3l8L66fozzTwWOFMgfKIREFXYLpW/DNVtWy5cYOXpeFQYxSDhkPCz
+ 0qhjQkJKkCuUOu5qlWYboLN0ZQY5NW2JYAV1civy2xBSQmROLkNiLk/1LZU3ABg09Mbf
+ Fgtv7JOcmm/zxhW8u5HQUB2TrYV2SID1n2bPA2KZbpS4GnfyC1ziCGfja21HU6/VniFM
+ HMlA==
+X-Gm-Message-State: APjAAAUlvRcdjMT0LnQmZDxxqRlKMhVHqMmgMoDLlBV0yu7IJwaMF/jy
+ 4RKp/pM41b1yA07UCEnS1YpNo2PbgBE=
+X-Google-Smtp-Source: APXvYqzIkTfW5ADy4tvL32jtSYXzuvzMlcMp6PP2FIhslvWcdevCdzd9mmcfT6QZzpVoSVxS9mmrqg==
+X-Received: by 2002:a7b:cbcf:: with SMTP id n15mr5693077wmi.21.1581010289242; 
+ Thu, 06 Feb 2020 09:31:29 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id w15sm5204214wrs.80.2020.02.06.09.31.25
+ by smtp.gmail.com with ESMTPSA id w15sm5204214wrs.80.2020.02.06.09.31.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Feb 2020 09:31:26 -0800 (PST)
+ Thu, 06 Feb 2020 09:31:28 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 18/29] qapi/migration.json: Replace _this_ with *this*
-Date: Thu,  6 Feb 2020 17:30:29 +0000
-Message-Id: <20200206173040.17337-19-peter.maydell@linaro.org>
+Subject: [PATCH 19/29] qapi/qapi-schema.json: Put headers in their own
+ doc-comment blocks
+Date: Thu,  6 Feb 2020 17:30:30 +0000
+Message-Id: <20200206173040.17337-20-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200206173040.17337-1-peter.maydell@linaro.org>
 References: <20200206173040.17337-1-peter.maydell@linaro.org>
@@ -84,32 +85,66 @@ Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The MigrationInfo::setup-time documentation is the only place where
-we use _this_ inline markup to mean italics.  rST doesn't recognize
-that markup and emits literal underscores.  Switch to *this* instead;
-for the texinfo output this will be bold, and for rST it will go back
-to being italics.
+Our current QAPI doc-comment markup allows section headers
+(introduced with a leading '=' or '==') anywhere in any documentation
+comment.  This works for texinfo because the texi generator simply
+prints a texinfo heading directive at that point in the output
+stream.  For rST generation, since we're assembling a tree of
+docutils nodes, this is awkward because a new section implies
+starting a new section node at the top level of the tree and
+generating text into there.
+
+New section headings in the middle of the documentation of a command
+or event would be pretty nonsensical, and in fact we only ever output
+new headings using 'freeform' doc comment blocks whose only content
+is the single line of the heading, with two exceptions, which are in
+the introductory freeform-doc-block at the top of
+qapi/qapi-schema.json.
+
+Split that doc-comment up so that the heading lines are in their own
+doc-comment.  This will allow us to tighten the specification to
+insist that heading lines are always standalone, rather than
+requiring the rST document generator to look at every line in a doc
+comment block and handle headings in odd places.
+
+This change makes no difference to the generated texi.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- qapi/migration.json | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ qapi/qapi-schema.json | 12 +++++++++---
+ 1 file changed, 9 insertions(+), 3 deletions(-)
 
-diff --git a/qapi/migration.json b/qapi/migration.json
-index 11033b7a8e6..52f34299698 100644
---- a/qapi/migration.json
-+++ b/qapi/migration.json
-@@ -178,8 +178,8 @@
- #                     expected downtime in milliseconds for the guest in last walk
- #                     of the dirty bitmap. (since 1.3)
+diff --git a/qapi/qapi-schema.json b/qapi/qapi-schema.json
+index 9751b11f8f1..f7ba60a5d0b 100644
+--- a/qapi/qapi-schema.json
++++ b/qapi/qapi-schema.json
+@@ -1,7 +1,9 @@
+ # -*- Mode: Python -*-
+ ##
+ # = Introduction
+-#
++##
++
++##
+ # This document describes all commands currently supported by QMP.
  #
--# @setup-time: amount of setup time in milliseconds _before_ the
--#              iterations begin but _after_ the QMP command is issued. This is designed
-+# @setup-time: amount of setup time in milliseconds *before* the
-+#              iterations begin but *after* the QMP command is issued. This is designed
- #              to provide an accounting of any activities (such as RDMA pinning) which
- #              may be expensive, but do not actually occur during the iterative
- #              migration rounds themselves. (since 1.6)
+ # Most of the time their usage is exactly the same as in the user Monitor, this
+@@ -25,9 +27,13 @@
+ #
+ # Please, refer to the QMP specification (docs/interop/qmp-spec.txt) for
+ # detailed information on the Server command and response formats.
+-#
++##
++
++##
+ # = Stability Considerations
+-#
++##
++
++##
+ # The current QMP command set (described in this file) may be useful for a
+ # number of use cases, however it's limited and several commands have bad
+ # defined semantics, specially with regard to command completion.
 -- 
 2.20.1
 
