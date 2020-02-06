@@ -2,83 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A6CB154E85
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 23:02:45 +0100 (CET)
-Received: from localhost ([::1]:46968 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC790154EB0
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 23:08:55 +0100 (CET)
+Received: from localhost ([::1]:47054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izpES-0002yK-1W
-	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 17:02:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41416)
+	id 1izpKQ-0001Ph-H8
+	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 17:08:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51507)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <farman@linux.ibm.com>) id 1izoxd-0002xR-JZ
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 16:45:23 -0500
+ (envelope-from <ehabkost@redhat.com>) id 1izpJZ-0000oS-VT
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 17:08:04 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <farman@linux.ibm.com>) id 1izoxb-0007MI-3P
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 16:45:21 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:24664)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <farman@linux.ibm.com>)
- id 1izoxa-0007IO-ME
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 16:45:18 -0500
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 016LienJ129141
- for <qemu-devel@nongnu.org>; Thu, 6 Feb 2020 16:45:17 -0500
-Received: from e06smtp07.uk.ibm.com (e06smtp07.uk.ibm.com [195.75.94.103])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2y0mpnnspj-1
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Thu, 06 Feb 2020 16:45:17 -0500
-Received: from localhost
- by e06smtp07.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
- Violators will be prosecuted
- for <qemu-devel@nongnu.org> from <farman@linux.ibm.com>;
- Thu, 6 Feb 2020 21:45:15 -0000
-Received: from b06cxnps3074.portsmouth.uk.ibm.com (9.149.109.194)
- by e06smtp07.uk.ibm.com (192.168.101.137) with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted; 
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Thu, 6 Feb 2020 21:45:12 -0000
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
- [9.149.105.59])
- by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 016LjALS38666242
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 6 Feb 2020 21:45:10 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B32B5A404D;
- Thu,  6 Feb 2020 21:45:09 +0000 (GMT)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 9CBF4A405B;
- Thu,  6 Feb 2020 21:45:09 +0000 (GMT)
-Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
- by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
- Thu,  6 Feb 2020 21:45:09 +0000 (GMT)
-Received: by tuxmaker.boeblingen.de.ibm.com (Postfix, from userid 4958)
- id 1C3F9E0289; Thu,  6 Feb 2020 22:45:09 +0100 (CET)
-From: Eric Farman <farman@linux.ibm.com>
-To: Cornelia Huck <cohuck@redhat.com>
-Subject: [RFC PATCH v2 7/7] vfio-ccw: Add support for the CRW irq
-Date: Thu,  6 Feb 2020 22:45:09 +0100
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200206214509.16434-1-farman@linux.ibm.com>
-References: <20200206214509.16434-1-farman@linux.ibm.com>
-X-TM-AS-GCONF: 00
-x-cbid: 20020621-0028-0000-0000-000003D81F4C
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 20020621-0029-0000-0000-0000249C82A4
-Message-Id: <20200206214509.16434-8-farman@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
- definitions=2020-02-06_04:2020-02-06,
- 2020-02-06 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- mlxlogscore=999 clxscore=1015 suspectscore=0 lowpriorityscore=0
- adultscore=0 malwarescore=0 impostorscore=0 phishscore=0 mlxscore=0
- bulkscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2001150001 definitions=main-2002060158
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.156.1
+ (envelope-from <ehabkost@redhat.com>) id 1izpJW-0004H6-A6
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 17:08:00 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:45440
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1izpJV-00047g-VA
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 17:07:58 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1581026876;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=k1E1+8pGlX6K6dcSitTYHD9pONPNqtoxh8e9eN9LTUk=;
+ b=Ysq4GRiLDJi7LEg78GkkKgkeXmJxv9Xjdz+//MJN0HdyhNudeQJ8R8FC0oWl6GF4SOO8rQ
+ XADLuHamKr8g0Qp8L8C01JNf5H2runMM8TimKQqZRVUhMo9EW6rCO5DGzuZ5lbgO/k/PL+
+ /jCvq0cZ3FGrM0yfNPQSVixdVxH0lgc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-399-24sAkbX1PsOd0-Qwo859GQ-1; Thu, 06 Feb 2020 17:07:54 -0500
+X-MC-Unique: 24sAkbX1PsOd0-Qwo859GQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A95E4DB25
+ for <qemu-devel@nongnu.org>; Thu,  6 Feb 2020 22:07:53 +0000 (UTC)
+Received: from localhost (unused-10-15-17-6.yyz.redhat.com [10.15.17.6])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 664A58EA10;
+ Thu,  6 Feb 2020 22:07:50 +0000 (UTC)
+Date: Thu, 6 Feb 2020 17:07:50 -0500
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Subject: Re: [PULL 00/46] Python queue 2020-02-06
+Message-ID: <20200206220750.GF412524@habkost.net>
+References: <20200206211936.17098-1-philmd@redhat.com>
+MIME-Version: 1.0
+In-Reply-To: <20200206211936.17098-1-philmd@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="dDRMvlgZJXvWKvBx"
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,137 +71,313 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Herne <jjherne@linux.ibm.com>, Eric Farman <farman@linux.ibm.com>,
- qemu-devel@nongnu.org, Halil Pasic <pasic@linux.ibm.com>,
- qemu-s390x@nongnu.org, Jared Rossi <jrossi@linux.ibm.com>
+Cc: qemu-devel@nongnu.org, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Farhan Ali <alifm@linux.ibm.com>
+--dDRMvlgZJXvWKvBx
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-The CRW irq will be used by vfio-ccw to notify the userspace
-about any CRWs the userspace needs to handle. Let's add support
-for it.
+On Thu, Feb 06, 2020 at 10:18:50PM +0100, Philippe Mathieu-Daud=C3=A9 wrote=
+:
+> Hi Peter,
+>=20
+> I prepared this series on behalf of Eduardo and
+> Cleber (one of them will ack this cover).
 
-Signed-off-by: Farhan Ali <alifm@linux.ibm.com>
-Signed-off-by: Eric Farman <farman@linux.ibm.com>
----
+Acked-by: Eduardo Habkost <ehabkost@redhat.com>
 
-Notes:
-    v1->v2:
-     - Add a loop to continually read region while data is
-       present, queueing CRWs as found [CH]
-    v0->v1: [EF]
-     - Check vcdev->crw_region before registering the irq,
-       in case host kernel does not have matching support
-     - Split the refactoring changes to an earlier (new) patch
-       (and don't remove the "num_irqs" check in the register
-       routine, but adjust it to the check the input variable)
-     - Don't revert the cool vfio_set_irq_signaling() stuff
-     - Unregister CRW IRQ before IO IRQ in unrealize
-     - s/crw1/crw0/
+>=20
+> Regards,
+>=20
+> Phil.
+>=20
+> The following changes since commit 418fa86dd465b4fd8394373cf83db8fa65d761=
+1c:
+>=20
+>   Merge remote-tracking branch 'remotes/stsquad/tags/pull-testing-040220-=
+1' into staging (2020-02-04 18:55:06 +0000)
+>=20
+> are available in the Git repository at:
+>=20
+>   https://gitlab.com/philmd/qemu.git tags/python-next-20200206
+>=20
+> for you to fetch changes up to 3e3481a5df933a26b47f08e5913821672d28d308:
+>=20
+>   .readthedocs.yml: specify some minimum python requirements (2020-02-06 =
+21:48:24 +0100)
+>=20
+> ----------------------------------------------------------------
+>=20
+> - Python 3 cleanups:
+>   . Remove text about Python 2 in qemu-deprecated (Thomas)
+>   . Remove shebang header (Paolo, Philippe)
+>   . scripts/checkpatch.pl now allows Python 3 interpreter (Philippe)
+>   . Explicit usage of Python 3 interpreter in scripts (Philippe)
+>   . Fix Python scripts permissions (Paolo, Philippe)
+>   . Drop 'from __future__ import print_function' (Paolo)
+>   . Specify minimum python requirements in ReadTheDocs configuration (Ale=
+x)
+> - Test UNIX/EXEC transports with migration (Oksana)
+> - Added extract_from_rpm helper, improved extract_from_deb (Liam)
+> - Allow to use other serial consoles than default one (Philippe)
+> - Various improvements in QEMUMonitorProtocol (Wainer)
+> - Fix kvm_available() on ppc64le (Wainer)
+>=20
+> ----------------------------------------------------------------
+>=20
+> Alex Benn=C3=A9e (1):
+>   .readthedocs.yml: specify some minimum python requirements
+>=20
+> Denis Plotnikov (1):
+>   tests: rename virtio_seg_max_adjust to virtio_check_params
+>=20
+> Liam Merwick (4):
+>   travis.yml: install rpm2cpio for acceptance tests
+>   tests/boot_linux_console: add extract_from_rpm method
+>   tests/boot_linux_console: use os.path for filesystem paths
+>   tests/boot_linux_console: fix extract_from_deb() comment
+>=20
+> Luk=C3=A1=C5=A1 Doktor (1):
+>   python: Treat None-return of greeting cmd
+>=20
+> Oksana Vohchana (4):
+>   tests/acceptance/migration: Factor out assert_migration()
+>   tests/acceptance/migration: Factor out do_migrate()
+>   tests/acceptance/migration: Test UNIX transport when migrating
+>   tests/acceptance/migration: Test EXEC transport when migrating
+>=20
+> Paolo Bonzini (3):
+>   scripts/signrom: remove Python 2 support, add shebang
+>   make all Python scripts executable
+>   drop "from __future__ import print_function"
+>=20
+> Philippe Mathieu-Daud=C3=A9 (24):
+>   python/qemu/machine: Allow to use other serial consoles than default
+>   Acceptance tests: Extract _console_interaction()
+>   Acceptance tests: Add interrupt_interactive_console_until_pattern()
+>   tests/boot_linux_console: Tag Emcraft Smartfusion2 as running 'u-boot'
+>   tests/acceptance/virtio_check_params: Improve exception logging
+>   tests/acceptance/virtio_check_params: List machine being tested
+>   tests/acceptance/virtio_check_params: Default to -nodefaults
+>   tests/acceptance/virtio_check_params: Disable the test
+>   tests/acceptance/boot_linux_console: Do not use VGA on Clipper machine
+>   tests/acceptance/version: Default to -nodefaults
+>   tests/acceptance/migration: Add the 'migration' tag
+>   tests/acceptance/migration: Default to -nodefaults
+>   scripts/checkpatch.pl: Only allow Python 3 interpreter
+>   tests/qemu-iotests/check: Allow use of python3 interpreter
+>   tests/qemu-iotests: Explicit usage of Python 3 (scripts with __main__)
+>   tests: Explicit usage of Python 3
+>   scripts: Explicit usage of Python 3 (scripts with __main__)
+>   scripts/minikconf: Explicit usage of Python 3
+>   scripts/tracetool: Remove shebang header
+>   tests/acceptance: Remove shebang header
+>   tests/vm: Remove shebang header
+>   tests/qemu-iotests: Explicit usage of Python3 (scripts without
+>     __main__)
+>   scripts: Explicit usage of Python 3 (scripts without __main__)
+>   tests/qemu-iotests/check: Only check for Python 3 interpreter
+>=20
+> Thomas Huth (2):
+>   qemu-deprecated: Remove text about Python 2
+>   tests/acceptance: Add boot tests for some of the QEMU advent calendar
+>     images
+>=20
+> Wainer dos Santos Moschetta (6):
+>   python/qemu: qmp: Replace socket.error with OSError
+>   python/qemu: Delint the qmp module
+>   python/qemu: qmp: Make accept()'s timeout configurable
+>   python/qemu: qmp: Make QEMUMonitorProtocol a context manager
+>   python/qemu: qmp: Remove unnused attributes
+>   python/qemu: accel: Fix kvm_available() on ppc64le
+>=20
+>  qemu-deprecated.texi                          |   8 --
+>  .readthedocs.yml                              |  20 +++
+>  .travis.yml                                   |   3 +-
+>  python/qemu/accel.py                          |   3 +-
+>  python/qemu/machine.py                        |  10 +-
+>  python/qemu/qmp.py                            |  99 ++++++++++----
+>  scripts/analyse-9p-simpletrace.py             |   3 +-
+>  scripts/analyse-locks-simpletrace.py          |   3 +-
+>  scripts/checkpatch.pl                         |   6 +
+>  scripts/decodetree.py                         |   2 +-
+>  scripts/device-crash-test                     |   3 +-
+>  scripts/dump-guest-memory.py                  |   1 -
+>  scripts/kvm/kvm_flightrecorder                |   3 +-
+>  scripts/kvm/vmxcap                            |   1 -
+>  scripts/minikconf.py                          |   2 +-
+>  scripts/modules/module_block.py               |   1 -
+>  scripts/qapi-gen.py                           |   3 +-
+>  scripts/qapi/doc.py                           |   1 -
+>  scripts/qmp/qemu-ga-client                    |   3 +-
+>  scripts/qmp/qmp                               |   3 +-
+>  scripts/qmp/qmp-shell                         |   3 +-
+>  scripts/qmp/qom-fuse                          |   2 +-
+>  scripts/qmp/qom-get                           |   1 -
+>  scripts/qmp/qom-list                          |   1 -
+>  scripts/qmp/qom-set                           |   1 -
+>  scripts/qmp/qom-tree                          |   1 -
+>  scripts/render_block_graph.py                 |   2 +-
+>  scripts/replay-dump.py                        |   3 +-
+>  scripts/signrom.py                            |  11 +-
+>  scripts/simpletrace.py                        |   3 +-
+>  scripts/tracetool.py                          |   2 +-
+>  scripts/tracetool/__init__.py                 |   1 -
+>  scripts/tracetool/backend/__init__.py         |   1 -
+>  scripts/tracetool/backend/dtrace.py           |   1 -
+>  scripts/tracetool/backend/ftrace.py           |   1 -
+>  scripts/tracetool/backend/log.py              |   1 -
+>  scripts/tracetool/backend/simple.py           |   1 -
+>  scripts/tracetool/backend/syslog.py           |   1 -
+>  scripts/tracetool/backend/ust.py              |   1 -
+>  scripts/tracetool/format/__init__.py          |   1 -
+>  scripts/tracetool/format/c.py                 |   1 -
+>  scripts/tracetool/format/d.py                 |   1 -
+>  scripts/tracetool/format/h.py                 |   1 -
+>  scripts/tracetool/format/log_stap.py          |   1 -
+>  scripts/tracetool/format/simpletrace_stap.py  |   1 -
+>  scripts/tracetool/format/stap.py              |   1 -
+>  scripts/tracetool/format/tcg_h.py             |   1 -
+>  scripts/tracetool/format/tcg_helper_c.py      |   1 -
+>  scripts/tracetool/format/tcg_helper_h.py      |   1 -
+>  .../tracetool/format/tcg_helper_wrapper_h.py  |   1 -
+>  scripts/tracetool/format/ust_events_c.py      |   1 -
+>  scripts/tracetool/format/ust_events_h.py      |   1 -
+>  scripts/tracetool/transform.py                |   1 -
+>  scripts/tracetool/vcpu.py                     |   1 -
+>  scripts/vmstate-static-checker.py             |   3 +-
+>  tests/acceptance/avocado_qemu/__init__.py     |  59 +++++++--
+>  tests/acceptance/boot_linux_console.py        | 124 +++++++++++++++++-
+>  tests/acceptance/migration.py                 |  57 +++++---
+>  tests/acceptance/version.py                   |   1 +
+>  ...g_max_adjust.py =3D> virtio_check_params.py} |  16 ++-
+>  tests/acceptance/x86_cpu_model_versions.py    |   1 -
+>  tests/docker/travis.py                        |   3 +-
+>  tests/guest-debug/test-gdbstub.py             |   1 -
+>  tests/migration/guestperf/engine.py           |   1 -
+>  tests/migration/guestperf/plot.py             |   1 -
+>  tests/migration/guestperf/shell.py            |   1 -
+>  tests/qapi-schema/test-qapi.py                |   3 +-
+>  tests/qemu-iotests/030                        |   2 +-
+>  tests/qemu-iotests/040                        |   2 +-
+>  tests/qemu-iotests/041                        |   2 +-
+>  tests/qemu-iotests/044                        |   2 +-
+>  tests/qemu-iotests/045                        |   2 +-
+>  tests/qemu-iotests/055                        |   2 +-
+>  tests/qemu-iotests/056                        |   2 +-
+>  tests/qemu-iotests/057                        |   2 +-
+>  tests/qemu-iotests/065                        |   2 +-
+>  tests/qemu-iotests/093                        |   2 +-
+>  tests/qemu-iotests/096                        |   2 +-
+>  tests/qemu-iotests/118                        |   2 +-
+>  tests/qemu-iotests/124                        |   2 +-
+>  tests/qemu-iotests/129                        |   2 +-
+>  tests/qemu-iotests/132                        |   2 +-
+>  tests/qemu-iotests/136                        |   2 +-
+>  tests/qemu-iotests/139                        |   2 +-
+>  tests/qemu-iotests/147                        |   2 +-
+>  tests/qemu-iotests/148                        |   2 +-
+>  tests/qemu-iotests/149                        |   3 +-
+>  tests/qemu-iotests/151                        |   2 +-
+>  tests/qemu-iotests/152                        |   2 +-
+>  tests/qemu-iotests/155                        |   2 +-
+>  tests/qemu-iotests/163                        |   2 +-
+>  tests/qemu-iotests/165                        |   3 +-
+>  tests/qemu-iotests/169                        |   2 +-
+>  tests/qemu-iotests/194                        |   2 +-
+>  tests/qemu-iotests/196                        |   2 +-
+>  tests/qemu-iotests/199                        |   2 +-
+>  tests/qemu-iotests/202                        |   2 +-
+>  tests/qemu-iotests/203                        |   2 +-
+>  tests/qemu-iotests/205                        |   2 +-
+>  tests/qemu-iotests/206                        |   2 +-
+>  tests/qemu-iotests/207                        |   2 +-
+>  tests/qemu-iotests/208                        |   2 +-
+>  tests/qemu-iotests/209                        |   2 +-
+>  tests/qemu-iotests/210                        |   2 +-
+>  tests/qemu-iotests/211                        |   2 +-
+>  tests/qemu-iotests/212                        |   2 +-
+>  tests/qemu-iotests/213                        |   2 +-
+>  tests/qemu-iotests/216                        |   2 +-
+>  tests/qemu-iotests/218                        |   2 +-
+>  tests/qemu-iotests/219                        |   2 +-
+>  tests/qemu-iotests/222                        |   2 +-
+>  tests/qemu-iotests/224                        |   2 +-
+>  tests/qemu-iotests/228                        |   2 +-
+>  tests/qemu-iotests/234                        |   2 +-
+>  tests/qemu-iotests/235                        |   2 +-
+>  tests/qemu-iotests/236                        |   2 +-
+>  tests/qemu-iotests/237                        |   2 +-
+>  tests/qemu-iotests/238                        |   2 +-
+>  tests/qemu-iotests/242                        |   2 +-
+>  tests/qemu-iotests/245                        |   2 +-
+>  tests/qemu-iotests/246                        |   2 +-
+>  tests/qemu-iotests/248                        |   2 +-
+>  tests/qemu-iotests/254                        |   2 +-
+>  tests/qemu-iotests/255                        |   2 +-
+>  tests/qemu-iotests/256                        |   2 +-
+>  tests/qemu-iotests/257                        |   2 +-
+>  tests/qemu-iotests/258                        |   2 +-
+>  tests/qemu-iotests/260                        |   2 +-
+>  tests/qemu-iotests/262                        |   2 +-
+>  tests/qemu-iotests/264                        |   2 +-
+>  tests/qemu-iotests/266                        |   2 +-
+>  tests/qemu-iotests/277                        |   2 +-
+>  tests/qemu-iotests/280                        |   2 +-
+>  tests/qemu-iotests/281                        |   2 +-
+>  tests/qemu-iotests/check                      |   2 +-
+>  tests/qemu-iotests/iotests.py                 |   1 -
+>  tests/qemu-iotests/nbd-fault-injector.py      |   3 +-
+>  tests/qemu-iotests/qcow2.py                   |   3 +-
+>  tests/qemu-iotests/qed.py                     |   3 +-
+>  tests/vm/basevm.py                            |   2 -
+>  tests/vm/centos                               |   2 +-
+>  tests/vm/fedora                               |   2 +-
+>  tests/vm/freebsd                              |   2 +-
+>  tests/vm/netbsd                               |   2 +-
+>  tests/vm/openbsd                              |   2 +-
+>  tests/vm/ubuntu.i386                          |   2 +-
+>  146 files changed, 431 insertions(+), 233 deletions(-)
+>  create mode 100644 .readthedocs.yml
+>  mode change 100644 =3D> 100755 scripts/minikconf.py
+>  mode change 100644 =3D> 100755 scripts/signrom.py
+>  rename tests/acceptance/{virtio_seg_max_adjust.py =3D> virtio_check_para=
+ms.py} (90%)
+>  mode change 100755 =3D> 100644
+>  mode change 100644 =3D> 100755 tests/qemu-iotests/222
+>  mode change 100644 =3D> 100755 tests/qemu-iotests/245
+>  mode change 100755 =3D> 100644 tests/vm/basevm.py
+>=20
+> --=20
+> 2.21.1
+>=20
 
- hw/vfio/ccw.c | 51 +++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 51 insertions(+)
+--=20
+Eduardo
 
-diff --git a/hw/vfio/ccw.c b/hw/vfio/ccw.c
-index 044441a277..5e3d446213 100644
---- a/hw/vfio/ccw.c
-+++ b/hw/vfio/ccw.c
-@@ -48,6 +48,7 @@ struct VFIOCCWDevice {
-     uint64_t crw_region_offset;
-     struct ccw_crw_region *crw_region;
-     EventNotifier io_notifier;
-+    EventNotifier crw_notifier;
-     bool force_orb_pfch;
-     bool warned_orb_pfch;
- };
-@@ -265,6 +266,40 @@ static void vfio_ccw_reset(DeviceState *dev)
-     ioctl(vcdev->vdev.fd, VFIO_DEVICE_RESET);
- }
- 
-+static void vfio_ccw_crw_notifier_handler(void *opaque)
-+{
-+    VFIOCCWDevice *vcdev = opaque;
-+    struct ccw_crw_region *region = vcdev->crw_region;
-+    CRW crw;
-+    int size;
-+    uint8_t rsc, erc;
-+
-+    if (!event_notifier_test_and_clear(&vcdev->crw_notifier)) {
-+        return;
-+    }
-+
-+    do {
-+        memset(region, 0, sizeof(*region));
-+        size = pread(vcdev->vdev.fd, region, vcdev->crw_region_size,
-+                     vcdev->crw_region_offset);
-+
-+        if (size == -1) {
-+            error_report("vfio-ccw: Read crw region failed with errno=%d", errno);
-+            break;
-+        }
-+
-+        if (size == 0 || region->crw0 == 0) {
-+            /* No more CRWs to queue */
-+            break;
-+        }
-+
-+        memcpy(&crw, &region->crw0, sizeof(CRW));
-+        rsc = (crw.flags & 0x0f00) >> 8;
-+        erc = crw.flags & 0x003f;
-+        css_queue_crw(rsc, erc, 0, 0, crw.rsid);
-+    } while (1);
-+}
-+
- static void vfio_ccw_io_notifier_handler(void *opaque)
- {
-     VFIOCCWDevice *vcdev = opaque;
-@@ -351,6 +386,10 @@ static void vfio_ccw_register_irq_notifier(VFIOCCWDevice *vcdev,
-         notifier = &vcdev->io_notifier;
-         fd_read = vfio_ccw_io_notifier_handler;
-         break;
-+    case VFIO_CCW_CRW_IRQ_INDEX:
-+        notifier = &vcdev->crw_notifier;
-+        fd_read = vfio_ccw_crw_notifier_handler;
-+        break;
-     default:
-         error_setg(errp, "vfio: Unsupported device irq(%d)", irq);
-         return;
-@@ -401,6 +440,9 @@ static void vfio_ccw_unregister_irq_notifier(VFIOCCWDevice *vcdev,
-     case VFIO_CCW_IO_IRQ_INDEX:
-         notifier = &vcdev->io_notifier;
-         break;
-+    case VFIO_CCW_CRW_IRQ_INDEX:
-+        notifier = &vcdev->crw_notifier;
-+        break;
-     default:
-         error_report("vfio: Unsupported device irq(%d)", irq);
-         return;
-@@ -621,6 +663,14 @@ static void vfio_ccw_realize(DeviceState *dev, Error **errp)
-         goto out_notifier_err;
-     }
- 
-+    if (vcdev->crw_region) {
-+        vfio_ccw_register_irq_notifier(vcdev, VFIO_CCW_CRW_IRQ_INDEX, &err);
-+        if (err) {
-+            vfio_ccw_unregister_irq_notifier(vcdev, VFIO_CCW_IO_IRQ_INDEX);
-+            goto out_notifier_err;
-+        }
-+    }
-+
-     return;
- 
- out_notifier_err:
-@@ -645,6 +695,7 @@ static void vfio_ccw_unrealize(DeviceState *dev, Error **errp)
-     S390CCWDeviceClass *cdc = S390_CCW_DEVICE_GET_CLASS(cdev);
-     VFIOGroup *group = vcdev->vdev.group;
- 
-+    vfio_ccw_unregister_irq_notifier(vcdev, VFIO_CCW_CRW_IRQ_INDEX);
-     vfio_ccw_unregister_irq_notifier(vcdev, VFIO_CCW_IO_IRQ_INDEX);
-     vfio_ccw_put_region(vcdev);
-     vfio_ccw_put_device(vcdev);
--- 
-2.17.1
+--dDRMvlgZJXvWKvBx
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEWjIv1avE09usz9GqKAeTb5hNxaYFAl48jjMACgkQKAeTb5hN
+xaZeUg//TYdu3ReaRkPArKBCgCdNW/DRaSFej548Iawhy7zZ07nJfGHOSeRqqHtM
+OR8wKiifoiaPz39NHGs2EljYwEAxHGWCRwMVQyXouGjmEiD6mEAuPcW0TK4C9GwE
+zY9DhRa5RM8JClt+AkLajx8l9UnGi5cIpaH9ePwibMy4QHETbxYifO2t+1pnUxtC
+14VvbXMh+M5IIfVXqs+E3yREGruAc7Ryc2lPQXT4j0NoSwRzQBrXRukBI9vlH2EC
+K1xi6t7BJydQR7aFokFyBqpPnZU57g+7f7dxPmvYhoxqpSZTgqbV5+y3tg5qjOAw
+AMiS3wGdmO3rtlD9kSBqpnLwS9pFZtpKvwxZXgZRJ4aJHlb1JPG6oAOTIv1NI3+Z
+qPyEpD7eRIE9ZSx0V+q9q5bXxoZxrJa02qH91lS0yCNYegtrUnWl05dPco3j4NR0
+09Rh19PkyMzb1hPeuZqiG8ECFelGGSzLKdKV12zXCWK4bXWLQ4DlqY/xQDPQtrLe
+8iqAO2CSsOf3djdgHGT6eIREbOc4H9+OYAsqAq6JK8epFq1sQUcnybsURAbeHvjc
+/SzOZTU0PypQloaZDiT3H6OApyDAKfVBBS9gPyCdPnW3OOKyZvh0nzLRRCBeYQ9M
+pRV4z7OwYgha3zJam6OeTjw/u3qtbDUg/bai0b+Qp3sbVz5fbI4=
+=nr2H
+-----END PGP SIGNATURE-----
+
+--dDRMvlgZJXvWKvBx--
 
 
