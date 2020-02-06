@@ -2,32 +2,30 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 875D315418B
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 11:06:47 +0100 (CET)
-Received: from localhost ([::1]:34796 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34CA215419D
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 11:14:18 +0100 (CET)
+Received: from localhost ([::1]:34866 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ize3Y-0008SJ-9U
-	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 05:06:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35938)
+	id 1izeAr-0004dc-8b
+	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 05:14:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42538)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1ize20-0007Qw-0C
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 05:05:10 -0500
+ (envelope-from <laurent@vivier.eu>) id 1ize61-0001UD-89
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 05:09:19 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1ize1x-0005wN-Tf
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 05:05:07 -0500
-Received: from mout.kundenserver.de ([217.72.192.75]:51919)
+ (envelope-from <laurent@vivier.eu>) id 1ize5t-00048C-68
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 05:09:15 -0500
+Received: from mout.kundenserver.de ([212.227.17.24]:39303)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1ize1v-0005Vo-FH; Thu, 06 Feb 2020 05:05:03 -0500
+ id 1ize5s-000424-Sn; Thu, 06 Feb 2020 05:09:09 -0500
 Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
- (mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MJn4B-1jEi4E15Pl-00KASf; Thu, 06 Feb 2020 11:04:47 +0100
-Subject: Re: [PATCH] MAINTAINERS: Cover hppa-softmmu.mak in the HP-PARISC
- Machines section
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20200129190316.16901-1-philmd@redhat.com>
+ (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1Mw9Hm-1jrKZo2Zoi-00s8LF; Thu, 06 Feb 2020 11:09:04 +0100
+Subject: Re: [PATCH] qemu-options: replace constant 1 with HAS_ARG
+To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
+References: <20200204165638.25051-1-jsnow@redhat.com>
 From: Laurent Vivier <laurent@vivier.eu>
 Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  mQINBFYFJhkBEAC2me7w2+RizYOKZM+vZCx69GTewOwqzHrrHSG07MUAxJ6AY29/+HYf6EY2
@@ -71,34 +69,34 @@ Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  OpKgu3nD0ahBDqANU/ZmNNarBJEwvM2vfusmNnWm3QMIwxNuJghRyuFfx694Im1js0ZY3LEU
  JGSHFG4ZynA+ZFUPA6Xf0wHeJOxGKCGIyeKORsteIqgnkINW9fnKJw2pgk8qHkwVc3Vu+wGS
  ZiJK0xFusPQehjWTHn9WjMG1zvQ5TQQHxau/2FkP45+nRPco6vVFQe8JmgtRF8WFJA==
-Message-ID: <3ee6077b-9c03-b762-8e8f-12b2c609562f@vivier.eu>
-Date: Thu, 6 Feb 2020 11:04:45 +0100
+Message-ID: <1f7d5848-767c-dd5a-a5f2-34e39fed7e62@vivier.eu>
+Date: Thu, 6 Feb 2020 11:09:03 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.3.1
 MIME-Version: 1.0
-In-Reply-To: <20200129190316.16901-1-philmd@redhat.com>
+In-Reply-To: <20200204165638.25051-1-jsnow@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:eIGvU0TxDaUkfPlAubBKTxTR1Trr6ci0bj8wfrDupejBMLGS4Yp
- kK83uMRFU7nUOOakkkwbOXl0h7FtI3OZ1iWV42++QCv2rMi5DC8NZdmxSSasye0pFgDha25
- xe6dKk3fiO3rJFk2C6X4TepAI7nbOxUShuWpErPT/sHa0bd8b3NuqTqLiNX+Ots0InnNVK9
- d54enKhY3z8GqwwEOayAw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:rUsfBGBmNgo=:Dzhwg0d6FY1CH0yHVzIRbI
- Y9djiROPSox1WZbVzJrUmNgf+3W7xBBeT8LAH9hOgyR7deG3FTldPrUBkHTGVjmQouGjxuAbM
- zZpZs72Ju6icdHlEemPt6JlgAErRN+UudT2iSHSMb7zvCbmytT7fvLAQBHyq9j3OXLmT0y0xT
- wBCQXSK+ozkVfrnbcbRdB21Moa4+NZUxlvbZjGboxN1Hi8o/rfqbkV/RKoSK8WGW/5J70c5By
- iNZT9d54GsLhF7ojh06Ou9rmwu0r/r3YV4BQKUjWNiC0dljankG+ynTFwj7/DRpXW/faMK5iT
- Lvf1hCxkamwK+bi7YFSFYV2pZNOcBfycQu0PRcJ3LhPh3YRxiiPuHySUoXz8ab3CCrNLxpZfI
- y2yvTuUOmzE1Ke/iMN+tbRgafJo6Tl2YkeSHPy3i8MDPq3btFDf0sBYny9xrRF0iAJK6OXULq
- UUu3RQ3rSPPKczjxOrkszBwNfv/6CrrtO3IQbuXE/pbzp55NHiTBl3rEHSkwRFcO6pq/HmCz5
- bcAY9/yX4fTGHj9LTzeyz/oRe5tL1I02jXupWI7aOSETsyiPVmHSQeph5R/owyh73c6DRSFuZ
- opRbUkPGXBs6FL4wDPXoNALd/EdROsq0KtMdMX/wAnnyb2UndXn+gINPIxUEXP7S12LXb8QJU
- jttFu4H7LWyb7pBJc8Nyr6evNy4VOave3SZVcJuRSQcawtqfk4Xhx+SHeZnhU3Lx7CQrfI8OB
- rmgbaCd+h5HkbAUZIyjZLHiJBUYLPy5O0V47mFgi07Yua8pOSOBUiAJWu2zG5rFf6GStqFT2/
- quc5qQUbTrnRQ14jCeqCwbYm00/wVU7cqEIO/Ih/+PmMl+WtNTvIetvDZrDc6NmyuIO5nod
+X-Provags-ID: V03:K1:tHJwbr/fFuoQJa4DR53Rm0GA396u36JN5bdrHFzbjEcBaEqpLNm
+ /WElZEis9t0hxItEkBoFc+ZsURogupYEXBP8tH7mCWUbM6c+KWKzylmytm7yiPo64V/AUPl
+ 8G0LbNS+/eSoUWr0BAK8fjPFQhA+GgVXs7tGBsvii30Pi1Uaf5bLZzTMV6ZUTdGDl1ZTdcZ
+ otGaobAnDgkdcrWgxDGcw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:XekYweDuK1s=:lxT2QY2CMm7o2A7m+ZTuKt
+ 6s1581/h3SlVi5ADLdwjzAbm4Hn7J8gQHr+/R0rF4AjiMnba9XyZ65mYb2v6LdLEnKwxiv4f9
+ k2CtkqPHpp6WtjZF41UQZE1F3Uxmhl5hM0hRDF4RHGAetgt9XoCLuLQz3l33TJn6SYuyV9Cd8
+ IddxmGsloKAX8hGVoDfmrE20UZyH8T3FjzavuxQlBrgoixLwy5awjGiwnMN2mcumHrIJMoO3/
+ zJgSLDkIjMRgEcQJCmOqZUwSs5wNErui6JZcEPdATTeOxiu36iBFaVsUnqpxODzYC3pcydUZ9
+ a9DQPBRAmpvl7J+HYXPaU7SMgd1CSnSDzHurnsnyfOQl5J1/g2C1ZMkGb56+n3+vlGb6nSyjb
+ Z22Waqg+/qIO1zF7LgYRDeIi4RfVZj9LiCve7LQ6sC+K6wvdsJxRo3u/ijnWbSis/BRgqUToA
+ hFM8s9ivjqo1BbbBCZKb8GCqiUXR4cwbjyL9oYHSQ2KP3FzVFdyeO4mNOo4RHByRQZVdUnuu+
+ IaONuGm16r6PwDc82ckyDSvtop+X1XFiAGdA5dnNBm/Xv7t48JvTogSZFPbZSPkY+RDafhhyJ
+ ptmSy9Cdbksbouk+q6ncJVlBBSXPo/rGYVgNhykX+AxU4DOYuoLn9gzNHxhil4w1UmN7n1JxC
+ Q7j4JusAvix4E3j1qFqkwc/P99uVRg6XFEG79W1YOcHLvF9KgkvblMEcT8fsqGm0+YxNw0XE9
+ Mwtzlaapw7YkTqbcy4py6BKJwf+GS6e+GKuJMNA0MYr8cwy7IAB+a6eHfsIvy1BXsnXBf+mww
+ khmwTEx2Kkss1SNyEJoQKEA5MMBb8UWB+Nss5A9nqElFk54fJ1YJLpPDaq2IKoBfj9F5h0m
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 217.72.192.75
+X-Received-From: 212.227.17.24
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -110,32 +108,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Helge Deller <deller@gmx.de>,
- Richard Henderson <rth@twiddle.net>
+Cc: qemu-trivial@nongnu.org, thuth@redhat.com, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 29/01/2020 à 20:03, Philippe Mathieu-Daudé a écrit :
-> Modifications to default-configs/hppa-softmmu.mak should be
-> reviewed by the hppa-softmmu users (currently a single machine).
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Le 04/02/2020 à 17:56, John Snow a écrit :
+> This is the only instance of a non-zero constant not using a symbolic
+> constant.
 > ---
->  MAINTAINERS | 1 +
->  1 file changed, 1 insertion(+)
+>  qemu-options.hx | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index efd3f3875f..2c00a49c42 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -896,6 +896,7 @@ HP B160L
->  M: Richard Henderson <rth@twiddle.net>
->  R: Helge Deller <deller@gmx.de>
->  S: Odd Fixes
-> +F: default-configs/hppa-softmmu.mak
->  F: hw/hppa/
->  F: pc-bios/hppa-firmware.img
+> diff --git a/qemu-options.hx b/qemu-options.hx
+> index 224a8e8712..ff3e806977 100644
+> --- a/qemu-options.hx
+> +++ b/qemu-options.hx
+> @@ -1955,7 +1955,7 @@ STEXI
+>  Start in full screen.
+>  ETEXI
 >  
+> -DEF("g", 1, QEMU_OPTION_g ,
+> +DEF("g", HAS_ARG, QEMU_OPTION_g ,
+>      "-g WxH[xDEPTH]  Set the initial graphical resolution and depth\n",
+>      QEMU_ARCH_PPC | QEMU_ARCH_SPARC | QEMU_ARCH_M68K)
+>  STEXI
 > 
 
 Applied to my trivial-patches branch.
