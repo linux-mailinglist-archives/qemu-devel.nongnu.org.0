@@ -2,71 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C561A1544C3
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 14:21:38 +0100 (CET)
-Received: from localhost ([::1]:39020 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EA991544AB
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 14:13:52 +0100 (CET)
+Received: from localhost ([::1]:38836 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izh69-0005me-Q5
-	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 08:21:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38090)
+	id 1izgyd-0005mn-DE
+	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 08:13:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38336)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1izgto-0004NA-4k
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 08:08:53 -0500
+ (envelope-from <pmathieu@redhat.com>) id 1izgug-0006XI-UC
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 08:09:47 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1izgtm-0002YY-R4
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 08:08:52 -0500
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:42334)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1izgtm-0002Xt-K3
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 08:08:50 -0500
-Received: by mail-wr1-x42d.google.com with SMTP id k11so7091053wrd.9
- for <qemu-devel@nongnu.org>; Thu, 06 Feb 2020 05:08:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=ljJYpbCmEevExEOIjsAnldy/FNpgECFYwlJ5McdAh68=;
- b=VE512ieJJ6dB3WkbowjlYFC0DUTRy5cVTn3asBq/IFUeIX4LVA9J0Xsi76h2pyPyvN
- h3WmOa6imh4jrJrt3Z+KvO/qWA0o3GuW6xWL5LkajStAbV8RPAFxK9d/2rlkYQ4Sa3oP
- Udv8/9fdgNtaltNXQVMn8tFGmjHlItiZ8ZMuv6AIrkGvtuBCp8zv6GhmSQLsJUep7Y5o
- TiCaBfMAbNdSn4IxKHNztX4o5ruKje0d8qCG8dlj2e3jvJjwyEW9O9/RpkJzKcPLhNs3
- FR/9ILa7RfQYZEOztyILAliaCbnaIuPxODTgSbjCZoAqM7R4iluCleIyVrs5fbLn7PJb
- Zwrg==
+ (envelope-from <pmathieu@redhat.com>) id 1izgue-0003nW-Mt
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 08:09:46 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:29419
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <pmathieu@redhat.com>) id 1izgue-0003mR-JD
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 08:09:44 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1580994582;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Cvnhhp1Si3xknEBPVz11bbel1MZTEbtWZmS8ulphYwU=;
+ b=iwThZkXbL4+NNMfE05ULsIcpcVLhwsLwKyt+x2i4FtSOGnKeJQJJiVVczj1SBfHTSj0ec7
+ hjzf9RGYgV6ONBJ/eslmAI+lxTrozvNYenxilTQQwKWYMVvQp4TLKkpVOZNCROXixMEcsK
+ JLCO56uk6OXWOQt+IMiqklyaumLboFI=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-388-UkTMW7gyPvCqlK7DvdeeYQ-1; Thu, 06 Feb 2020 08:09:21 -0500
+Received: by mail-wm1-f71.google.com with SMTP id b133so2609624wmb.2
+ for <qemu-devel@nongnu.org>; Thu, 06 Feb 2020 05:09:21 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=ljJYpbCmEevExEOIjsAnldy/FNpgECFYwlJ5McdAh68=;
- b=kkwczdPTU2OdGhQ0I43vk7H9QbNSWcjuTWEK/Uhzxt2oNCz6AsEIFEb+sskB4AXtJr
- M6Eic4w65NgEWAJf5ID2W4Se91isBQHSPEK3ZQY3Ixk1Qw2VFX0ZdPbDZewrvUJxyJ/p
- ynQ798aLUJUpKbP3kLtl4KwkGcya0tmeFVTvGObhex84awosUCp649uGGwC4MiYMD5ME
- GW30O8IZgaEFw/R+9kbvdTo4IXH5BoRwHdvhTYHTaEj3MxDtM2dyUb+0IfjbwQIPSwgJ
- nR3CPROBk7azp8nFANshXCzoQ4oHj0NhkcEU1SlAbZY9JEE/7cDDtyGn/Ao+Uj3VHozl
- RNJA==
-X-Gm-Message-State: APjAAAW9r3BQ67fDEJdgGI0dAQu7sAbhDnKBJUKx2Yb6Q8hZ7i7/d0y1
- c+tGTn+phkb/tpWEerE1qO+H9CQiJlRKZw==
-X-Google-Smtp-Source: APXvYqzpHcV0XajAR4nDninY+tTAex2pAJMUM00u63S+MfvDGX/5FjgKzRcTKXMuNwsri1ywj6fxRQ==
-X-Received: by 2002:adf:f58c:: with SMTP id f12mr3635101wro.22.1580994529067; 
- Thu, 06 Feb 2020 05:08:49 -0800 (PST)
-Received: from cloudburst.c.hoisthospitality.com ([135.196.99.211])
- by smtp.gmail.com with ESMTPSA id c9sm4142155wrq.44.2020.02.06.05.08.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Feb 2020 05:08:48 -0800 (PST)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 1/1] target/arm: Split out aa64_va_parameter_tbi,
- aa64_va_parameter_tbid
-Date: Thu,  6 Feb 2020 13:08:47 +0000
-Message-Id: <20200206130847.11166-2-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200206130847.11166-1-richard.henderson@linaro.org>
-References: <20200206130847.11166-1-richard.henderson@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=Cvnhhp1Si3xknEBPVz11bbel1MZTEbtWZmS8ulphYwU=;
+ b=SWkmto8oXBGWpHXCnz7awFO+ur8gpznEoozqfyjrczxUgQSuRi4v6clZn/MTagJBdu
+ 5bSIkx50vljBIKOfxOuTqqW7uXH7Q16EjwhmnzqUkNGXWlnrO7cGjSWP8kXUk183VElG
+ pJE65zMA09DGcpfpHAd5Y4ZohEWM/xnvzB7ra3/SztVIbE5HuIV8MIwDbs/vZtW8Zbj7
+ T+YgJm4tNOkchvyTJDp3BqhO7Qh2lbzV1KCoZXYea+Mn0LVv+qxwA67EIiECUq9oWlE0
+ px7k/kZ7a1fL32MHJphiB1Wdlpg8b8B0uWMFQ20+jpmUnBk/H6KtqrLPVwDukgLJ1EOp
+ Ge0g==
+X-Gm-Message-State: APjAAAXJA/rDSCVIMPSCTYplAejWP7HdS7/k5CwcLSK9y5cisdoUmd7U
+ 0pPFtN7esppC6PvG+Ksnd55pLbPAHYlen0AKXQO4VSnGV0Yi/pbMMscAhHht9ZCwBnXjCyg9AxX
+ mdJVbFCNkuE/e/6jT8PSw0W7mqBHQ4P4=
+X-Received: by 2002:adf:fa50:: with SMTP id y16mr4025739wrr.204.1580994560053; 
+ Thu, 06 Feb 2020 05:09:20 -0800 (PST)
+X-Google-Smtp-Source: APXvYqxw3H2bg8gXo3sB9U4NU3bqzyCPp0t+i4Re/brCAhnCSsXzyO6ZoPrY31rXqFOnURrJmRDigx5CgWECGJ2kVYk=
+X-Received: by 2002:adf:fa50:: with SMTP id y16mr4025712wrr.204.1580994559823; 
+ Thu, 06 Feb 2020 05:09:19 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::42d
+References: <20200107124903.16505-1-n54@gmx.com>
+ <20200128140945.929-1-n54@gmx.com>
+ <20200128140945.929-5-n54@gmx.com>
+ <0ed12efa-eee4-b3ff-8f02-f9c3b80d0e21@redhat.com>
+ <2ae4caf9-05fd-b740-2612-e1c1ecafe277@gmx.com>
+ <87o8ubuapr.fsf@dusky.pond.sub.org>
+In-Reply-To: <87o8ubuapr.fsf@dusky.pond.sub.org>
+From: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Date: Thu, 6 Feb 2020 14:09:08 +0100
+Message-ID: <CAP+75-VnwDz0My7p5Zy3SN2gPeACW0z02MUgrdFnSGiZm6xGXg@mail.gmail.com>
+Subject: Re: [PATCH v2 4/4] Add the NVMM acceleration enlightenments
+To: Markus Armbruster <armbru@redhat.com>
+X-MC-Unique: UkTMW7gyPvCqlK7DvdeeYQ-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,181 +86,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ Kamil Rytarowski <n54@gmx.com>, max@m00nbsd.net,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For the purpose of rebuild_hflags_a64, we do not need to compute
-all of the va parameters, only tbi.  Moreover, we can compute them
-in a form that is more useful to storing in hflags.
+On Thu, Feb 6, 2020 at 2:06 PM Markus Armbruster <armbru@redhat.com> wrote:
+> Kamil Rytarowski <n54@gmx.com> writes:
+>
+> > On 03.02.2020 12:54, Philippe Mathieu-Daud=C3=A9 wrote:
+> >>> @@ -2029,6 +2072,19 @@ static void qemu_whpx_start_vcpu(CPUState *cpu=
+)
+> >>>   #endif
+> >>>   }
+> >>>
+> >>> +static void qemu_nvmm_start_vcpu(CPUState *cpu)
+> >>> +{
+> >>> +    char thread_name[VCPU_THREAD_NAME_SIZE];
+> >>> +
+> >>> +    cpu->thread =3D g_malloc0(sizeof(QemuThread));
+> >>> +    cpu->halt_cond =3D g_malloc0(sizeof(QemuCond));
+> >>
+> >> Nitpick, we prefer g_new0().
+> >
+> > In this file other qemu_*_start_vcpu() use  g_malloc0().
+> >
+> > I will leave this part unchanged and defer tor future style fixups if
+> > someone is interested.
+>
+> Time to re-run Coccinelle with the semantic patch from commit
+> b45c03f585e.
 
-This eliminates the need for aa64_va_parameter_both, so fold that
-in to aa64_va_parameter.  The remaining calls to aa64_va_parameter
-are in get_phys_addr_lpae and in pauth_helper.c.
-
-This reduces the total cpu consumption of aa64_va_parameter in a
-kernel boot plus a kvm guest kernel boot from 3% to 0.5%.
-
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/arm/internals.h |  3 --
- target/arm/helper.c    | 68 +++++++++++++++++++++++-------------------
- 2 files changed, 37 insertions(+), 34 deletions(-)
-
-diff --git a/target/arm/internals.h b/target/arm/internals.h
-index 6d4a942bde..6ac84bbca7 100644
---- a/target/arm/internals.h
-+++ b/target/arm/internals.h
-@@ -1042,15 +1042,12 @@ typedef struct ARMVAParameters {
-     unsigned tsz    : 8;
-     unsigned select : 1;
-     bool tbi        : 1;
--    bool tbid       : 1;
-     bool epd        : 1;
-     bool hpd        : 1;
-     bool using16k   : 1;
-     bool using64k   : 1;
- } ARMVAParameters;
- 
--ARMVAParameters aa64_va_parameters_both(CPUARMState *env, uint64_t va,
--                                        ARMMMUIdx mmu_idx);
- ARMVAParameters aa64_va_parameters(CPUARMState *env, uint64_t va,
-                                    ARMMMUIdx mmu_idx, bool data);
- 
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 7d15d5c933..d2e9332696 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -10067,12 +10067,34 @@ static uint8_t convert_stage2_attrs(CPUARMState *env, uint8_t s2attrs)
- }
- #endif /* !CONFIG_USER_ONLY */
- 
--ARMVAParameters aa64_va_parameters_both(CPUARMState *env, uint64_t va,
--                                        ARMMMUIdx mmu_idx)
-+static int aa64_va_parameter_tbi(uint64_t tcr, ARMMMUIdx mmu_idx)
-+{
-+    if (regime_has_2_ranges(mmu_idx)) {
-+        return extract64(tcr, 37, 2);
-+    } else if (mmu_idx == ARMMMUIdx_Stage2) {
-+        return 0; /* VTCR_EL2 */
-+    } else {
-+        return extract32(tcr, 20, 1);
-+    }
-+}
-+
-+static int aa64_va_parameter_tbid(uint64_t tcr, ARMMMUIdx mmu_idx)
-+{
-+    if (regime_has_2_ranges(mmu_idx)) {
-+        return extract64(tcr, 51, 2);
-+    } else if (mmu_idx == ARMMMUIdx_Stage2) {
-+        return 0; /* VTCR_EL2 */
-+    } else {
-+        return extract32(tcr, 29, 1);
-+    }
-+}
-+
-+ARMVAParameters aa64_va_parameters(CPUARMState *env, uint64_t va,
-+                                   ARMMMUIdx mmu_idx, bool data)
- {
-     uint64_t tcr = regime_tcr(env, mmu_idx)->raw_tcr;
--    bool tbi, tbid, epd, hpd, using16k, using64k;
--    int select, tsz;
-+    bool epd, hpd, using16k, using64k;
-+    int select, tsz, tbi;
- 
-     /*
-      * Bit 55 is always between the two regions, and is canonical for
-@@ -10086,11 +10108,9 @@ ARMVAParameters aa64_va_parameters_both(CPUARMState *env, uint64_t va,
-         using16k = extract32(tcr, 15, 1);
-         if (mmu_idx == ARMMMUIdx_Stage2) {
-             /* VTCR_EL2 */
--            tbi = tbid = hpd = false;
-+            hpd = false;
-         } else {
--            tbi = extract32(tcr, 20, 1);
-             hpd = extract32(tcr, 24, 1);
--            tbid = extract32(tcr, 29, 1);
-         }
-         epd = false;
-     } else if (!select) {
-@@ -10098,27 +10118,29 @@ ARMVAParameters aa64_va_parameters_both(CPUARMState *env, uint64_t va,
-         epd = extract32(tcr, 7, 1);
-         using64k = extract32(tcr, 14, 1);
-         using16k = extract32(tcr, 15, 1);
--        tbi = extract64(tcr, 37, 1);
-         hpd = extract64(tcr, 41, 1);
--        tbid = extract64(tcr, 51, 1);
-     } else {
-         int tg = extract32(tcr, 30, 2);
-         using16k = tg == 1;
-         using64k = tg == 3;
-         tsz = extract32(tcr, 16, 6);
-         epd = extract32(tcr, 23, 1);
--        tbi = extract64(tcr, 38, 1);
-         hpd = extract64(tcr, 42, 1);
--        tbid = extract64(tcr, 52, 1);
-     }
-     tsz = MIN(tsz, 39);  /* TODO: ARMv8.4-TTST */
-     tsz = MAX(tsz, 16);  /* TODO: ARMv8.2-LVA  */
- 
-+    /* Present TBI as a composite with TBID.  */
-+    tbi = aa64_va_parameter_tbi(tcr, mmu_idx);
-+    if (!data) {
-+        tbi &= ~aa64_va_parameter_tbid(tcr, mmu_idx);
-+    }
-+    tbi = (tbi >> select) & 1;
-+
-     return (ARMVAParameters) {
-         .tsz = tsz,
-         .select = select,
-         .tbi = tbi,
--        .tbid = tbid,
-         .epd = epd,
-         .hpd = hpd,
-         .using16k = using16k,
-@@ -10126,16 +10148,6 @@ ARMVAParameters aa64_va_parameters_both(CPUARMState *env, uint64_t va,
-     };
- }
- 
--ARMVAParameters aa64_va_parameters(CPUARMState *env, uint64_t va,
--                                   ARMMMUIdx mmu_idx, bool data)
--{
--    ARMVAParameters ret = aa64_va_parameters_both(env, va, mmu_idx);
--
--    /* Present TBI as a composite with TBID.  */
--    ret.tbi &= (data || !ret.tbid);
--    return ret;
--}
--
- #ifndef CONFIG_USER_ONLY
- static ARMVAParameters aa32_va_parameters(CPUARMState *env, uint32_t va,
-                                           ARMMMUIdx mmu_idx)
-@@ -11955,21 +11967,15 @@ static uint32_t rebuild_hflags_a64(CPUARMState *env, int el, int fp_el,
- {
-     uint32_t flags = rebuild_hflags_aprofile(env);
-     ARMMMUIdx stage1 = stage_1_mmu_idx(mmu_idx);
--    ARMVAParameters p0 = aa64_va_parameters_both(env, 0, stage1);
-+    uint64_t tcr = regime_tcr(env, mmu_idx)->raw_tcr;
-     uint64_t sctlr;
-     int tbii, tbid;
- 
-     flags = FIELD_DP32(flags, TBFLAG_ANY, AARCH64_STATE, 1);
- 
-     /* Get control bits for tagged addresses.  */
--    if (regime_has_2_ranges(mmu_idx)) {
--        ARMVAParameters p1 = aa64_va_parameters_both(env, -1, stage1);
--        tbid = (p1.tbi << 1) | p0.tbi;
--        tbii = tbid & ~((p1.tbid << 1) | p0.tbid);
--    } else {
--        tbid = p0.tbi;
--        tbii = tbid & !p0.tbid;
--    }
-+    tbid = aa64_va_parameter_tbi(tcr, mmu_idx);
-+    tbii = tbid & ~aa64_va_parameter_tbid(tcr, mmu_idx);
- 
-     flags = FIELD_DP32(flags, TBFLAG_A64, TBII, tbii);
-     flags = FIELD_DP32(flags, TBFLAG_A64, TBID, tbid);
--- 
-2.20.1
+I thought about it, but then noticed it would be clever to modify
+checkpatch to refuse 'g_malloc0?(.*sizeof.*);'
 
 
