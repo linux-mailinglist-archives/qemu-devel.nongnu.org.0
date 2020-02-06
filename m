@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AB13154459
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 13:57:18 +0100 (CET)
-Received: from localhost ([::1]:38300 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1280615445E
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 13:58:45 +0100 (CET)
+Received: from localhost ([::1]:38328 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izgib-0005h7-33
-	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 07:57:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57292)
+	id 1izgk0-0000uc-1X
+	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 07:58:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57425)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1izgdF-0002sP-D0
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 07:51:46 -0500
+ (envelope-from <mreitz@redhat.com>) id 1izgdM-00037H-8w
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 07:51:53 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1izgdE-0000VP-El
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 07:51:45 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:20452
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <mreitz@redhat.com>) id 1izgdL-0000kW-80
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 07:51:52 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:46791
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1izgdE-0000Su-Ap
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 07:51:44 -0500
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1izgdK-0000il-Rb
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 07:51:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580993503;
+ s=mimecast20190719; t=1580993510;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Dwii1VXFXuBSLbNUd7nBhxt5bLCws2jTWAihBOa9gQ4=;
- b=CpMWSTqxWwL3/ImCp+40K+b6SzpZ6xA5bLurf5T49rpG4EAA4JYSGUy9ACxObVi20UP5p8
- DOTnHGGQXk0WFMEed9ERhpuClrYDswk1WLf3XynVLnvEQCspKnEV+JHAmC3Suxolnl32Jf
- UjaNJC9qoqDYfVvxZF86Jwc1qTb/dZ0=
+ bh=ROq/vrfnZbxfOZWvWvibH8HnirM/CbqmNFucAkEhNgs=;
+ b=gnAc54oqcrVfCcN7r2IhCep6g/TtqkmhSbxNp0RP5t1PofwpqIA5+Oc6oZDZcCwrwTSrAL
+ PQ3DIbgXH+MwHzSJUOyDeqnPtzYflV8VdBHKX57b4BKihlsUMiOxVN1DJ7sdEASzj/dbMO
+ yNPu+pQuomr0Yn4wA4j6Sjlgq+fRg0g=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-287-_NItlok6NFirMP_0AtouIQ-1; Thu, 06 Feb 2020 07:51:39 -0500
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-183-SxHUdOabMqal4ceCRnEU8A-1; Thu, 06 Feb 2020 07:51:47 -0500
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7B486801A1B;
- Thu,  6 Feb 2020 12:51:38 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A9662106BC09;
+ Thu,  6 Feb 2020 12:51:46 +0000 (UTC)
 Received: from localhost (unknown [10.36.118.15])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1E42A1001B09;
- Thu,  6 Feb 2020 12:51:37 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4BF3166834;
+ Thu,  6 Feb 2020 12:51:46 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 02/17] block: Use a GString in bdrv_perm_names()
-Date: Thu,  6 Feb 2020 13:51:17 +0100
-Message-Id: <20200206125132.594625-3-mreitz@redhat.com>
+Subject: [PULL 06/17] iotests: Test 041 only works on certain systems
+Date: Thu,  6 Feb 2020 13:51:21 +0100
+Message-Id: <20200206125132.594625-7-mreitz@redhat.com>
 In-Reply-To: <20200206125132.594625-1-mreitz@redhat.com>
 References: <20200206125132.594625-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: _NItlok6NFirMP_0AtouIQ-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-MC-Unique: SxHUdOabMqal4ceCRnEU8A-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,51 +76,32 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Alberto Garcia <berto@igalia.com>
+From: Thomas Huth <thuth@redhat.com>
 
-This is a bit more efficient than having to allocate and free memory
-for each new permission.
+041 works fine on Linux, FreeBSD, NetBSD and OpenBSD, but fails on macOS.
+Let's mark it as only supported on the systems where we know that it is
+working fine.
 
-The default size (30) is enough for "consistent read, write, resize".
-
-Signed-off-by: Alberto Garcia <berto@igalia.com>
-Message-id: 20200110171518.22168-1-berto@igalia.com
-Reviewed-by: Eric Blake <eblake@redhat.com>
+Reviewed-by: Max Reitz <mreitz@redhat.com>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+Message-id: 20200121095205.26323-3-thuth@redhat.com
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block.c | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
+ tests/qemu-iotests/041 | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/block.c b/block.c
-index 6c2b2bd2e2..fe5050c53f 100644
---- a/block.c
-+++ b/block.c
-@@ -1998,18 +1998,19 @@ char *bdrv_perm_names(uint64_t perm)
-         { 0, NULL }
-     };
+diff --git a/tests/qemu-iotests/041 b/tests/qemu-iotests/041
+index c07437fda1..0181f7a9b6 100755
+--- a/tests/qemu-iotests/041
++++ b/tests/qemu-iotests/041
+@@ -1134,4 +1134,5 @@ class TestOrphanedSource(iotests.QMPTestCase):
 =20
--    char *result =3D g_strdup("");
-+    GString *result =3D g_string_sized_new(30);
-     struct perm_name *p;
-=20
-     for (p =3D permissions; p->name; p++) {
-         if (perm & p->perm) {
--            char *old =3D result;
--            result =3D g_strdup_printf("%s%s%s", old, *old ? ", " : "", p-=
->name);
--            g_free(old);
-+            if (result->len > 0) {
-+                g_string_append(result, ", ");
-+            }
-+            g_string_append(result, p->name);
-         }
-     }
-=20
--    return result;
-+    return g_string_free(result, FALSE);
- }
-=20
- /*
+ if __name__ =3D=3D '__main__':
+     iotests.main(supported_fmts=3D['qcow2', 'qed'],
+-                 supported_protocols=3D['file'])
++                 supported_protocols=3D['file'],
++                 supported_platforms=3D['linux', 'freebsd', 'netbsd', 'ope=
+nbsd'])
 --=20
 2.24.1
 
