@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3E2B153C96
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 02:26:39 +0100 (CET)
-Received: from localhost ([::1]:59268 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1ED9153C9D
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 02:29:17 +0100 (CET)
+Received: from localhost ([::1]:59304 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izVwE-0002tI-KJ
-	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 20:26:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53831)
+	id 1izVym-0006Fo-Ro
+	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 20:29:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53976)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1izVoF-0000Xo-Ue
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 20:18:24 -0500
+ id 1izVoN-0000jd-6c
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 20:18:33 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1izVoF-0002iy-19
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 20:18:23 -0500
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:39337)
+ id 1izVoK-00033G-29
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 20:18:31 -0500
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:54680)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1izVoE-0002i6-Ri; Wed, 05 Feb 2020 20:18:22 -0500
-Received: by mail-wr1-x443.google.com with SMTP id y11so5131491wrt.6;
- Wed, 05 Feb 2020 17:18:22 -0800 (PST)
+ id 1izVoJ-0002xM-Rj; Wed, 05 Feb 2020 20:18:28 -0500
+Received: by mail-wm1-x342.google.com with SMTP id g1so4472302wmh.4;
+ Wed, 05 Feb 2020 17:18:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=26NlFhB7W/cGbdiqG5QYqxUB4TwmMhCNQJ4yaNv34Is=;
- b=mNXgTA7kADDjSX/C1lu3LYdrez6H66N07uAVR5iI9y1uJV5CkjfSACSIQMDrNLEPuK
- xyjDVSvzrp6xnJeUbAGN+71rquyTKTnICaQ4FhoqIvxXhH13hYghOS2mlhZ3ZVKl/6Kn
- fiN4rUjbe8louxbxG8us2qDadtUvJeWCC5KjQUshwkOX02jFbRu0LVP80Bz4dfek1G5w
- rlLXVqxVseaSkylXtqtldqkwKfuMj9cbGl1KzsYzkan67WGvSJvtNPNXiAREv6HopDGD
- jctgDLuZPDgZhmH8umZjxVTfac1FQWp2n4H3TTrVdCEBqyDEs6C6i3kWQEF73bTo7I7B
- OgSw==
+ bh=rQmOHgOI+RgkOPwFIK/xpNJ3XvDpycIgclU+wSqLCT0=;
+ b=ZesKS19eWq5MK0nAAMdsUOfUNqjZHzfFpfmjMR45YQj+mMPwyHDRqfry+1LjCNZwkT
+ LvGvT4FEVIMiKfHyDBUXvityBPd3/nrp1U+MaH3B7yRiNDDQOIfLZU7PgGafzZ5RfjSW
+ YVlLv1IbX6dSbmwRFedrh/p4rDiAlvwaC11szo9e69DiO1+rfQi2jtSS2LEIKIxBdcc6
+ cEXhNhO4b+N6p/AGUnnFp1tCAdKc+joep8M7RQub/taFfzthNxvsVnnIKHCJS88Rki53
+ B/M3Pmck1ZJoPSmoKDR6xC88onL9dD4ZVOWdiV5RXeqBVDpDQYaTRBYGBQphAJmf5zpq
+ OZXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=26NlFhB7W/cGbdiqG5QYqxUB4TwmMhCNQJ4yaNv34Is=;
- b=OTFljgnJ4gHbXMjnXUei/fz8ObrU9VJ4bUZOrvDb8k8s336WOfDEgfrO1UXRhkrQOm
- FXmGIuSzkorFYJmkI8wZ1P3eoUXah0Lbzsu93aoEjsimX9TrrOdPaK2LJO8J7ytOXBVq
- OzScAh71GpiffMwMbG6O7+xAs65KX0+5w3FWYAsh8VA5dFIRmfOKKN1nGPhUvgvyV3pJ
- +epZ1B3I1i5cVDjjoPHav1krTLIhCnekfNvB6adCjDCzeUqwMv9L+Vf4DSrWU0BDNe5i
- ZF96Iu0eoyBEI0VRz9cqPBcCKM3JiyU/L0ZqF5wlftnbaj48e3JmphmpweR526DO2znX
- 4kqw==
-X-Gm-Message-State: APjAAAVdTYYzKr+ZvtT6T6sGVnIFcJ84XgGteJ/GDaxneEWNLpqWrJyQ
- /bF1/2LkmXdgAGZDfTFKEQ/dIImT
-X-Google-Smtp-Source: APXvYqzjqbMCkaksaMMEAI9kvtXH78k2e0Hc49y2UubO4C4CrxexqH9Gb+y/mwp0xaYh9AcLGQYqzA==
-X-Received: by 2002:adf:bbcf:: with SMTP id z15mr376135wrg.266.1580951901629; 
- Wed, 05 Feb 2020 17:18:21 -0800 (PST)
+ bh=rQmOHgOI+RgkOPwFIK/xpNJ3XvDpycIgclU+wSqLCT0=;
+ b=aujt+R2imGDdP+A///AZGbg9hEwFJtHXa85Hw4y/ywHr3B4MgY57jsSzvai0AFMrDR
+ 0O2hK2uNE1X2AXGZiESm0lE12uQq1lXhNqVDv3VY8kzWCYd9wWkEzlHg7soEBq1hsZYY
+ WGb75cfKFsXybDRP0nKA/R4JlzN4+aI7ZYk1quSbHD3LFnL8iA2CN8zMTZ4vQkVckc6U
+ iVq3SwUEmsJypzrXtCT/rwLzpE8/ndEy6kpLwqDKf638V9+/b3dSkYMJz9Ctha+Kndy1
+ 9VtkQJOfSbLFKqYMHoeYMAxQlK9VqBrq1RWJ8qmAHB7rQ+GUiPLu7jcerNtNSRtleB6H
+ DxMg==
+X-Gm-Message-State: APjAAAWcxbhfspng/WK6ul1JlQo5d//j8olOVFe+ypkJL/nySlhGX94n
+ lvyicbkSs0rN5PNkCCRY/kICvjpR
+X-Google-Smtp-Source: APXvYqxQFRbbfZrfALDcn5oCY5qhQDF2Q+lVoJE9RgvaU+pDWGJxF53k2Buc8ZrUKDSfBEffZWFn8g==
+X-Received: by 2002:a7b:c109:: with SMTP id w9mr630872wmi.14.1580951905661;
+ Wed, 05 Feb 2020 17:18:25 -0800 (PST)
 Received: from localhost.localdomain (2.red-95-127-156.staticip.rima-tde.net.
  [95.127.156.2])
- by smtp.gmail.com with ESMTPSA id w13sm2053526wru.38.2020.02.05.17.18.19
+ by smtp.gmail.com with ESMTPSA id w13sm2053526wru.38.2020.02.05.17.18.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Feb 2020 17:18:21 -0800 (PST)
+ Wed, 05 Feb 2020 17:18:25 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 10/30] hw/arm/raspi: Set default RAM size to size encoded
- in board revision
-Date: Thu,  6 Feb 2020 02:17:36 +0100
-Message-Id: <20200206011756.2413-11-f4bug@amsat.org>
+Subject: [PATCH v2 12/30] hw/arm/raspi: Use a unique
+ raspi_machine_class_init() method
+Date: Thu,  6 Feb 2020 02:17:38 +0100
+Message-Id: <20200206011756.2413-13-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200206011756.2413-1-f4bug@amsat.org>
 References: <20200206011756.2413-1-f4bug@amsat.org>
@@ -70,7 +70,7 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::443
+X-Received-From: 2a00:1450:4864:20::342
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,38 +91,75 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We added a helper to extract the RAM size from the board
-revision, and made board_rev a field of RaspiMachineClass.
-The class_init() can now use the helper to extract from the
-board revision the board-specific amount of RAM.
+With the exception of the ignore_memory_transaction_failures
+flag set for the raspi2, both machine_class_init() methods
+are now identical. Merge them to keep a unique method.
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- hw/arm/raspi.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ hw/arm/raspi.c | 31 ++++++-------------------------
+ 1 file changed, 6 insertions(+), 25 deletions(-)
 
 diff --git a/hw/arm/raspi.c b/hw/arm/raspi.c
-index 651585ebfb..43f8b1d677 100644
+index a104393cb2..8fe07db47a 100644
 --- a/hw/arm/raspi.c
 +++ b/hw/arm/raspi.c
-@@ -295,7 +295,7 @@ static void raspi2_machine_class_init(ObjectClass *oc, void *data)
-     mc->max_cpus = BCM283X_NCPUS;
+@@ -293,7 +293,7 @@ static void raspi_machine_init(MachineState *machine)
+     setup_boot(machine, version, machine->ram_size - vcram_size);
+ }
+ 
+-static void raspi2_machine_class_init(ObjectClass *oc, void *data)
++static void raspi_machine_class_init(ObjectClass *oc, void *data)
+ {
+     MachineClass *mc = MACHINE_CLASS(oc);
+     RaspiMachineClass *rmc = RASPI_MACHINE_CLASS(oc);
+@@ -310,41 +310,22 @@ static void raspi2_machine_class_init(ObjectClass *oc, void *data)
      mc->min_cpus = BCM283X_NCPUS;
      mc->default_cpus = BCM283X_NCPUS;
--    mc->default_ram_size = 1 * GiB;
-+    mc->default_ram_size = board_ram_size(board_rev);
-     mc->ignore_memory_transaction_failures = true;
+     mc->default_ram_size = board_ram_size(board_rev);
+-    mc->ignore_memory_transaction_failures = true;
++    if (board_version(board_rev) == 2) {
++        mc->ignore_memory_transaction_failures = true;
++    }
  };
  
-@@ -316,7 +316,7 @@ static void raspi3_machine_class_init(ObjectClass *oc, void *data)
-     mc->max_cpus = BCM283X_NCPUS;
-     mc->min_cpus = BCM283X_NCPUS;
-     mc->default_cpus = BCM283X_NCPUS;
--    mc->default_ram_size = 1 * GiB;
-+    mc->default_ram_size = board_ram_size(board_rev);
- }
+-#ifdef TARGET_AARCH64
+-static void raspi3_machine_class_init(ObjectClass *oc, void *data)
+-{
+-    MachineClass *mc = MACHINE_CLASS(oc);
+-    RaspiMachineClass *rmc = RASPI_MACHINE_CLASS(oc);
+-    uint32_t board_rev = (uint32_t)(uintptr_t)data;
+-
+-    rmc->board_rev = board_rev;
+-    mc->desc = g_strdup_printf("Raspberry Pi %s", board_type(board_rev));
+-    mc->init = raspi_machine_init;
+-    mc->block_default_type = IF_SD;
+-    mc->no_parallel = 1;
+-    mc->no_floppy = 1;
+-    mc->no_cdrom = 1;
+-    mc->max_cpus = BCM283X_NCPUS;
+-    mc->min_cpus = BCM283X_NCPUS;
+-    mc->default_cpus = BCM283X_NCPUS;
+-    mc->default_ram_size = board_ram_size(board_rev);
+-}
+-#endif
+-
+ static const TypeInfo raspi_machine_types[] = {
+     {
+         .name           = MACHINE_TYPE_NAME("raspi2"),
+         .parent         = TYPE_RASPI_MACHINE,
+-        .class_init     = raspi2_machine_class_init,
++        .class_init     = raspi_machine_class_init,
+         .class_data     = (void *)0xa21041,
+ #ifdef TARGET_AARCH64
+     }, {
+         .name           = MACHINE_TYPE_NAME("raspi3"),
+         .parent         = TYPE_RASPI_MACHINE,
+-        .class_init     = raspi3_machine_class_init,
++        .class_init     = raspi_machine_class_init,
+         .class_data     = (void *)0xa02082,
  #endif
- 
+     }, {
 -- 
 2.21.1
 
