@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15C26153CA9
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 02:35:32 +0100 (CET)
-Received: from localhost ([::1]:59402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2C0D153CA6
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 02:33:02 +0100 (CET)
+Received: from localhost ([::1]:59364 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izW4p-0005om-0F
-	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 20:35:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54030)
+	id 1izW2P-00028k-N0
+	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 20:33:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54245)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1izVoP-0000nj-IA
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 20:18:34 -0500
+ id 1izVoY-00012D-G9
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 20:18:43 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1izVoN-0003CS-9T
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 20:18:33 -0500
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:35610)
+ id 1izVoX-0003kj-9v
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 20:18:42 -0500
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:36280)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1izVoN-00036Y-2P; Wed, 05 Feb 2020 20:18:31 -0500
-Received: by mail-wr1-x444.google.com with SMTP id w12so5157244wrt.2;
- Wed, 05 Feb 2020 17:18:30 -0800 (PST)
+ id 1izVoX-0003bp-1j; Wed, 05 Feb 2020 20:18:41 -0500
+Received: by mail-wm1-x343.google.com with SMTP id p17so5062770wma.1;
+ Wed, 05 Feb 2020 17:18:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=OGYngzYgREXVWzhCGP1KWkhVF6aFvpDG4pbFEluMwuQ=;
- b=e+ZtxNzraCnCFpA44qCYL1DhQ9sC+mCGzbpaRJu8oBsIvBs4PJJgueRGrM+gRfdTIK
- zq5MvIvyVcdWFhOTB9/iUgJr1xKkLL1irKqV3DI1zhGkoQBqKvG0qqu3Lev+Uih/1XW4
- fhH1x0SPOzGj/tQ5wrRz37c+zZEVjwSdtADQeXu0Ur6emYyqvP9RTApta9s+zI7rjzQx
- dq3iiCZzhGyTXZUhYUuiX7ssJ12l9IrnvNnCUakLoK1pS+c71GpWw2WlcMz73zyxxon1
- OpsycIvDCc992oGwqlacawG9abE/okknrjIOrEmg5Xt/8AzrLnZ/cvUYRrt++0Z2KaeP
- INxw==
+ bh=B1P152VP3CyxvJ0hiqDereblCgbtylimKSTziv7Dq7E=;
+ b=o0biDPwthid9iFIRvD5pWCxc0e1Gj158XdbKDYmH1e6zGL1J5Rjvj3P4GcZpO4JkNS
+ P3FnNYYe18HTwUVYS5fECl0XwuEg2MDtlL/oDSg0hX9qt6BTOX8cyLYmDBokQqHiHgfX
+ IPH4480fJz9X0/VsWxgJeCWNwttcMo2q+QRKo1KuWPmH5AgKOGq1dEwf0FYLBIqzCzIK
+ b/odmNLpzp4yIRa/IVG7IFs47uO/lD8xO3TS2IrsbB9QqlA8raVplRvE1uf1Je5Oc2ad
+ ojbI+raM7bG9o9AXM50UWvS1TxtEyOXdM5fUgu5wHuEkLsBaCPT65YBEVvXTrU6P5HAW
+ eLrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=OGYngzYgREXVWzhCGP1KWkhVF6aFvpDG4pbFEluMwuQ=;
- b=VgZYeBv8xzoclcwQNp4e6VsRY0CHwx9N/1reS1kxcPBl2pdigMPaLTLSwAgUANTUjd
- uWjwujiiI69pd2Ty9BDvYG1dLhTlToe3GAcUE85xYUy0LhNE2WMpXHQikOIY4t6pbN72
- jn+ah8oY+HREcCNXnIB7tkl6scHKKoV7pzqAUE7kcw/bSMKayiJnf9gAZf1rw78Ms5/J
- L6UD2Xu4mwMxZ39OeKKP5a9kY/MKjMAQ/zmVwbdLStvS6yuCn3yxj+Taby2MxJUJdSqs
- 8sHOVGbHqCaTPMoCrStqQCtBppCFsDlZDeT9uC59npTfgky/6fOshwjCmeiGdiRKkqqI
- TPBA==
-X-Gm-Message-State: APjAAAUbf6ZRNAWUmbVJefLkyHXMaPzPXP1hNkWobcYkMKzhNcfX/zQd
- JyI0au0JDbKdrmyHmFazBc2uKj5A
-X-Google-Smtp-Source: APXvYqxI/NSpQzLw1fjm+zatnYpIlXWixmPO/M+DO7/Ww1/1hnXEFtX+mvU6cnlXaSMm1PAH+NYs7A==
-X-Received: by 2002:adf:e542:: with SMTP id z2mr358528wrm.346.1580951909826;
- Wed, 05 Feb 2020 17:18:29 -0800 (PST)
+ bh=B1P152VP3CyxvJ0hiqDereblCgbtylimKSTziv7Dq7E=;
+ b=A2ep4AuwKyMk5UdshSirFssi0hQuLv/wsesuGZlKjIFrvyYlnGWEZIAOtQAskGUSoH
+ mUTreIhwPNKqLJK6sbVRwzPkVSbq6/oxCeF75QJN66dOQjVQxj6j00Zarl1d4BzlVZAH
+ /yyLTcbJIjQHn+Tbu52VdtBJRbi00DaE3ionDKEc4Xz8roExMJWPQQaGRKJmvXiqqZmd
+ LeUBj/lbCQYEz/m95lVLgcCgS5Nt+lJwnM9X1UsK1DfqNWCgx7IkV+83c1/Kaj30VdHN
+ YT27yEeCOZcHO4QyWx4l9T3SE8pIf6ynIEbRLhAoh1utS0QkQABS8HZRpPrWin23QFsI
+ glZg==
+X-Gm-Message-State: APjAAAXG8eNpnIc4Ot95sdK2U/q4rghTmzDG+gIzsRhwTIcbVnE//Hql
+ o6cOfQx12sbJujBMBUkF6/IgTlVV
+X-Google-Smtp-Source: APXvYqzEZDX4yMMaj7BEDv+6IUHXNrNe35dw1xHiAVYXxW2Vnt2Jf+EfTwFrLNbqEeAaNsYNNGrb/g==
+X-Received: by 2002:a7b:cf08:: with SMTP id l8mr576418wmg.169.1580951917859;
+ Wed, 05 Feb 2020 17:18:37 -0800 (PST)
 Received: from localhost.localdomain (2.red-95-127-156.staticip.rima-tde.net.
  [95.127.156.2])
- by smtp.gmail.com with ESMTPSA id w13sm2053526wru.38.2020.02.05.17.18.27
+ by smtp.gmail.com with ESMTPSA id w13sm2053526wru.38.2020.02.05.17.18.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Feb 2020 17:18:29 -0800 (PST)
+ Wed, 05 Feb 2020 17:18:37 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 14/30] hw/arm/bcm2836: Restrict BCM283XClass declaration to
- C source
-Date: Thu,  6 Feb 2020 02:17:40 +0100
-Message-Id: <20200206011756.2413-15-f4bug@amsat.org>
+Subject: [PATCH v2 18/30] hw/arm/bcm2836: Split out common realize() code
+Date: Thu,  6 Feb 2020 02:17:44 +0100
+Message-Id: <20200206011756.2413-19-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200206011756.2413-1-f4bug@amsat.org>
 References: <20200206011756.2413-1-f4bug@amsat.org>
@@ -70,7 +69,7 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::444
+X-Received-From: 2a00:1450:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,68 +90,78 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-No code out of bcm2836.c uses (or requires) this declarations.
-Move it locally to the C source file.
+The realize() function is clearly composed of two parts,
+each described by a comment:
+
+  void realize()
+  {
+     /* common peripherals from bcm2835 */
+     ...
+     /* bcm2836 interrupt controller (and mailboxes, etc.) */
+     ...
+   }
+
+Split the two part, so we can reuse the common part with other
+SoCs from this family.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- include/hw/arm/bcm2836.h | 12 ------------
- hw/arm/bcm2836.c         | 14 ++++++++++++++
- 2 files changed, 14 insertions(+), 12 deletions(-)
+ hw/arm/bcm2836.c | 23 +++++++++++++++++++----
+ 1 file changed, 19 insertions(+), 4 deletions(-)
 
-diff --git a/include/hw/arm/bcm2836.h b/include/hw/arm/bcm2836.h
-index 92a6544816..acc75bf553 100644
---- a/include/hw/arm/bcm2836.h
-+++ b/include/hw/arm/bcm2836.h
-@@ -42,16 +42,4 @@ typedef struct BCM283XState {
-     BCM2835PeripheralState peripherals;
- } BCM283XState;
- 
--typedef struct BCM283XInfo BCM283XInfo;
--
--typedef struct BCM283XClass {
--    DeviceClass parent_class;
--    const BCM283XInfo *info;
--} BCM283XClass;
--
--#define BCM283X_CLASS(klass) \
--    OBJECT_CLASS_CHECK(BCM283XClass, (klass), TYPE_BCM283X)
--#define BCM283X_GET_CLASS(obj) \
--    OBJECT_GET_CLASS(BCM283XClass, (obj), TYPE_BCM283X)
--
- #endif /* BCM2836_H */
 diff --git a/hw/arm/bcm2836.c b/hw/arm/bcm2836.c
-index 38e2941bab..24109fef1d 100644
+index caaa4b625e..2b6fe31139 100644
 --- a/hw/arm/bcm2836.c
 +++ b/hw/arm/bcm2836.c
-@@ -16,6 +16,15 @@
- #include "hw/arm/raspi_platform.h"
- #include "hw/sysbus.h"
+@@ -51,8 +51,10 @@ static void bcm2836_init(Object *obj)
+         qdev_prop_set_uint32(DEVICE(obj), "enabled-cpus", bc->core_count);
+     }
  
-+typedef struct BCM283XInfo BCM283XInfo;
-+
-+typedef struct BCM283XClass {
-+    /*< private >*/
-+    DeviceClass parent_class;
-+    /*< public >*/
-+    const BCM283XInfo *info;
-+} BCM283XClass;
-+
- struct BCM283XInfo {
-     const char *name;
-     const char *cpu_type;
-@@ -24,6 +33,11 @@ struct BCM283XInfo {
-     int clusterid;
- };
+-    sysbus_init_child_obj(obj, "control", &s->control, sizeof(s->control),
+-                          TYPE_BCM2836_CONTROL);
++    if (bc->ctrl_base) {
++        sysbus_init_child_obj(obj, "control", &s->control,
++                              sizeof(s->control), TYPE_BCM2836_CONTROL);
++    }
  
-+#define BCM283X_CLASS(klass) \
-+    OBJECT_CLASS_CHECK(BCM283XClass, (klass), TYPE_BCM283X)
-+#define BCM283X_GET_CLASS(obj) \
-+    OBJECT_GET_CLASS(BCM283XClass, (obj), TYPE_BCM283X)
+     sysbus_init_child_obj(obj, "peripherals", &s->peripherals,
+                           sizeof(s->peripherals), TYPE_BCM2835_PERIPHERALS);
+@@ -62,13 +64,12 @@ static void bcm2836_init(Object *obj)
+                               "vcram-size", &error_abort);
+ }
+ 
+-static void bcm2836_realize(DeviceState *dev, Error **errp)
++static void bcm283x_common_realize(DeviceState *dev, Error **errp)
+ {
+     BCM283XState *s = BCM283X(dev);
+     BCM283XClass *bc = BCM283X_GET_CLASS(dev);
+     Object *obj;
+     Error *err = NULL;
+-    int n;
+ 
+     /* common peripherals from bcm2835 */
+ 
+@@ -100,6 +101,20 @@ static void bcm2836_realize(DeviceState *dev, Error **errp)
+ 
+     sysbus_mmio_map_overlap(SYS_BUS_DEVICE(&s->peripherals), 0,
+                             bc->peri_base, 1);
++}
 +
- static const BCM283XInfo bcm283x_socs[] = {
-     {
-         .name = TYPE_BCM2836,
++static void bcm2836_realize(DeviceState *dev, Error **errp)
++{
++    BCM283XState *s = BCM283X(dev);
++    BCM283XClass *bc = BCM283X_GET_CLASS(dev);
++    Error *err = NULL;
++    int n;
++
++    bcm283x_common_realize(dev, &err);
++    if (err) {
++        error_propagate(errp, err);
++        return;
++    }
+ 
+     /* bcm2836 interrupt controller (and mailboxes, etc.) */
+     object_property_set_bool(OBJECT(&s->control), true, "realized", &err);
 -- 
 2.21.1
 
