@@ -2,56 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1C41154456
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 13:56:25 +0100 (CET)
-Received: from localhost ([::1]:38276 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BD6215446A
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 13:59:46 +0100 (CET)
+Received: from localhost ([::1]:38364 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izghl-0003YD-0R
-	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 07:56:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56637)
+	id 1izgkz-0003fa-2S
+	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 07:59:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57026)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1izgch-0001Mf-8z
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 07:51:12 -0500
+ (envelope-from <laurent@vivier.eu>) id 1izgct-00020D-Ec
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 07:51:24 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1izgce-0006Mq-96
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 07:51:11 -0500
-Received: from mout.kundenserver.de ([212.227.126.130]:57897)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (envelope-from <laurent@vivier.eu>) id 1izgcs-000789-9R
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 07:51:23 -0500
+Received: from mout.kundenserver.de ([212.227.126.134]:44683)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1izgcW-00060H-G7; Thu, 06 Feb 2020 07:51:00 -0500
+ id 1izgck-0006Yv-9s; Thu, 06 Feb 2020 07:51:14 -0500
 Received: from localhost.localdomain ([78.238.229.36]) by
  mrelayeu.kundenserver.de (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MWitM-1j1zws2frE-00X8C7; Thu, 06 Feb 2020 13:50:46 +0100
+ id 1MS43X-1j7Cbb1EHT-00TXYy; Thu, 06 Feb 2020 13:50:48 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 08/12] qemu-options: replace constant 1 with HAS_ARG
-Date: Thu,  6 Feb 2020 13:50:23 +0100
-Message-Id: <20200206125027.1926263-9-laurent@vivier.eu>
+Subject: [PULL 09/12] qemu-img: Place the '-i aio' option in alphabetical order
+Date: Thu,  6 Feb 2020 13:50:24 +0100
+Message-Id: <20200206125027.1926263-10-laurent@vivier.eu>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200206125027.1926263-1-laurent@vivier.eu>
 References: <20200206125027.1926263-1-laurent@vivier.eu>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:oUS9/CdvOMTgMQUxXzkvMUnhIKE+wbz8rdCq2y0WIs9E41NNsNp
- z7d1JpcONN9ivWLRIapo/5quaJv6DrNIaKZhhJwRV7vP/k5OX3aKs9+Lt4LyCf9YrNOIOd2
- pD0rgm5Oa9kTJdxp7craCW7YYT2zYcPnrvQo+5IP8dtR9Ffw62AKYCvlGHRBAWpjgtb9R/X
- BoIZL4WhNC2YlTkt6BXiw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:oCwD7SN5neA=:iogWmR6DI49knC4Kql8lrV
- qb2ZwyQK8f1kCwAYiNIK85dPEBIsxLFMxigtpoWedagIzXgebvoEIUfkcnDWO9vTwQIKWQvIK
- Yp42cUwMezy8fX+9kei9Kv4R2OQQphB86nC3HJO1EiSp7rnujPeH2tm6PLETYfLEk+OBpIp1Z
- WfnKCtZI0G2dtUPVsQnm+/kDWPuVg8KUKsYxAEXLnQQY5Mc/pm4stguTiUguAl2XCkThAXcDh
- C1FVnc77/EJB0M+DSIj/wLXOiLd/mvOWglURLYdElhHHTpNotHzwkdvfhYIWX/N2ILpWJJuwC
- Iwy26Rcb4SfWxvcWcLyGwTf9Rd6G6YKYrnlMj8Eym/TR2yCU7Jmfm5u4Sq+dJ5Qfmp9DJ72fq
- uNzYihVBSIJxEfAYKC71rr6T8a25wkQAQ5AS+rQ8QbdrkOwxYDwQK/yp8fuWV5YF3AvAY01Fe
- /9H1JGnswftqUTibxzSHzYxRUPVl6dHIyM7rZOMpOIlr8VfyqV/b+pAP4mTiL3oIKx4dt41W4
- bbjr1mKcQzCvQ+Mkaga7LrLWUvt09bkYCkT0p3rn8dvYWCraNAHKC/af9KwlyGUMxx2mANIRq
- ZcrKW2FpZf7+1R5FN5IGgTWGVbWx1Yti683zkzzakMF4euK3k8dJL8oRzMSkW9nGm93/Vn2le
- 95h2H4CssrkJpZM1Sy1JPILQIQOYYnN0cehD6rVuK3tS5uDY1kSyrsu8Ei2y8ATvsdWlbN9Po
- BIb1JUy54dBxydLhm4GLhjxKfus++aSqO2No5UoE6B7z6koGCBjgzLzMuSG+iDZAS0brGL/6G
- Rz0YQir4oJeGrPuhSzCFo6V4JigyLakHqIdBmmtd5ujgjWp9uLZTAxqH4x8VnwBDMmTv3LP
+X-Provags-ID: V03:K1:q5OgFELXy/F3+zstPUpHYoG35Pm5W5bnOHshrxWXGZ4a2RaL3pC
+ NPW7PkhCN8+/WkTOaXrMprme3CT2UsKRhPdf/WuINSmVq9DBvPHalTefsE1uVfJ4ByiN4fI
+ r4FAMtCKYhFM7AE1jyiVs+4TKcpaRS3oM1daT2Z2kS7fBVyw+3/ZF1ZHV31+DnuL8wb/PO8
+ /XdlYmcKygbPlS3si7Pvw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:k3aSZZVnYeE=:YBruHn1BiN+LGwbdJjWmCn
+ 4yKQka6fPnW1B9nIIYUdxfIH1JWilidqGsbDInT9rcGF7gqMX8bkpZXbYWGDBs8RngvPq6IqK
+ E0yJFb+UKBWtZg3Y7CVOoYXGjq0P5/1w/NwMrTpwDy6xQL3lOEv+DXQNsgC2lPvGY/+NXWNfI
+ 2Vrxdkq0l0ySp52HYu8RtJku04th7rk2cJwC84dHWAQOrqqWkVggRUccHoPqGwMc5GjjLtfDe
+ QvC21FkTGEAUdqyHdy1TlVrM3C6wm0HjxkSwwqRIlMcDxJJZ+5yAiyKYxbIATTlyyqXXMM+82
+ rA6zcDAHQ2FZP50MzhGisq59uhbYqBKQP/bDoTXSjVR0DONeqWZXEWWFbF8pRdH2NlJ2bYv2P
+ HIEtGPRwpVZQrMcchdY6g55/bjzfejyXWDh91KGb0yw3PZF1nUSvuXaZ8twhcvXo7xmgUIan3
+ cGK/h1vAhoNSYCOvQBylA4FeH5WJintnjdb6ZZHDWb1qyPnpx2msg9gTqrMsUiwO8xpnd/tc6
+ O4w0VEMy/kszb0qdPls2IFc//UizX4ryzMSnC3DSyhF4EFFVPWCxZDGqi6s7/H2JSiI3A6crU
+ KmKlWsT+byuSwqBCwEWgNobR97LqUXtqAL0c1cEaBIa6OJYuXrpGuBQej1RcISd9yk2Ox01O0
+ ec/eAfpo2oxHVBv4B9/RQQ4S9kz6HEkYzHJwOnf48Bd7i1XQoELV5vP51p9+VkXReYFDLLQQC
+ syLLXo9Ic37uSExoxAYZaeYBAjjSClwwqRpqPKB37zweTrDM+vQeDudJ8zOjUi+8Ahy0Kc9IW
+ WkNT477Dyul2y3e3cM4Neaq7/FsV0fRk7ofx7n+Wo5Zq7ZABg6z2GgOESyzdPR/Ns8OuXKB
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.126.130
+X-Received-From: 212.227.126.134
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,44 +64,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>,
- Markus Armbruster <armbru@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Michael Tokarev <mjt@tls.msk.ru>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Max Reitz <mreitz@redhat.com>,
- qemu-trivial@nongnu.org, =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- qemu-arm@nongnu.org, Joel Stanley <joel@jms.id.au>,
- Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- John Snow <jsnow@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Michael Tokarev <mjt@tls.msk.ru>,
+ qemu-block@nongnu.org, qemu-trivial@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, Joel Stanley <joel@jms.id.au>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Julia Suvorova <jusual@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-arm@nongnu.org,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Richard Henderson <rth@twiddle.net>, Kevin Wolf <kwolf@redhat.com>,
+ Andrew Jeffery <andrew@aj.id.au>, Laurent Vivier <laurent@vivier.eu>,
+ Max Reitz <mreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: John Snow <jsnow@redhat.com>
+From: Julia Suvorova <jusual@redhat.com>
 
-This is the only instance of a non-zero constant not using a symbolic
-constant.
+The '-i AIO' option was accidentally placed after '-n' and '-t'. Move it
+after '--flush-interval'.
+
+Signed-off-by: Julia Suvorova <jusual@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
-Signed-off-by: John Snow <jsnow@redhat.com>
-Message-Id: <20200204165638.25051-1-jsnow@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Message-Id: <20200205163008.204493-1-jusual@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- qemu-options.hx | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ docs/interop/qemu-img.rst | 8 ++++----
+ qemu-img-cmds.hx          | 4 ++--
+ 2 files changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 224a8e8712a4..ff3e806977a8 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -1955,7 +1955,7 @@ STEXI
- Start in full screen.
- ETEXI
+diff --git a/docs/interop/qemu-img.rst b/docs/interop/qemu-img.rst
+index fa27e5c7b453..42e4451db4a2 100644
+--- a/docs/interop/qemu-img.rst
++++ b/docs/interop/qemu-img.rst
+@@ -247,7 +247,7 @@ Command description:
+   Amends the image format specific *OPTIONS* for the image file
+   *FILENAME*. Not all file formats support this operation.
  
--DEF("g", 1, QEMU_OPTION_g ,
-+DEF("g", HAS_ARG, QEMU_OPTION_g ,
-     "-g WxH[xDEPTH]  Set the initial graphical resolution and depth\n",
-     QEMU_ARCH_PPC | QEMU_ARCH_SPARC | QEMU_ARCH_M68K)
- STEXI
+-.. option:: bench [-c COUNT] [-d DEPTH] [-f FMT] [--flush-interval=FLUSH_INTERVAL] [-n] [-i AIO] [--no-drain] [-o OFFSET] [--pattern=PATTERN] [-q] [-s BUFFER_SIZE] [-S STEP_SIZE] [-t CACHE] [-w] [-U] FILENAME
++.. option:: bench [-c COUNT] [-d DEPTH] [-f FMT] [--flush-interval=FLUSH_INTERVAL] [-i AIO] [-n] [--no-drain] [-o OFFSET] [--pattern=PATTERN] [-q] [-s BUFFER_SIZE] [-S STEP_SIZE] [-t CACHE] [-w] [-U] FILENAME
+ 
+   Run a simple sequential I/O benchmark on the specified image. If ``-w`` is
+   specified, a write test is performed, otherwise a read test is performed.
+@@ -264,13 +264,13 @@ Command description:
+   ``--no-drain`` is specified, a flush is issued without draining the request
+   queue first.
+ 
++  if ``-i`` is specified, *AIO* option can be used to specify different
++  AIO backends: ``threads``, ``native`` or ``io_uring``.
++
+   If ``-n`` is specified, the native AIO backend is used if possible. On
+   Linux, this option only works if ``-t none`` or ``-t directsync`` is
+   specified as well.
+ 
+-  if ``-i`` is specified, *AIO* option can be used to specify different
+-  AIO backends: ``threads``, ``native`` or ``io_uring``.
+-
+   For write tests, by default a buffer filled with zeros is written. This can be
+   overridden with a pattern byte specified by *PATTERN*.
+ 
+diff --git a/qemu-img-cmds.hx b/qemu-img-cmds.hx
+index 3fd836ca9090..d7fbc6b1f483 100644
+--- a/qemu-img-cmds.hx
++++ b/qemu-img-cmds.hx
+@@ -16,9 +16,9 @@ SRST
+ ERST
+ 
+ DEF("bench", img_bench,
+-    "bench [-c count] [-d depth] [-f fmt] [--flush-interval=flush_interval] [-n] [--no-drain] [-o offset] [--pattern=pattern] [-q] [-s buffer_size] [-S step_size] [-t cache] [-i aio] [-w] [-U] filename")
++    "bench [-c count] [-d depth] [-f fmt] [--flush-interval=flush_interval] [-i aio] [-n] [--no-drain] [-o offset] [--pattern=pattern] [-q] [-s buffer_size] [-S step_size] [-t cache] [-w] [-U] filename")
+ SRST
+-.. option:: bench [-c COUNT] [-d DEPTH] [-f FMT] [--flush-interval=FLUSH_INTERVAL] [-n] [--no-drain] [-o OFFSET] [--pattern=PATTERN] [-q] [-s BUFFER_SIZE] [-S STEP_SIZE] [-t CACHE] [-i AIO] [-w] [-U] FILENAME
++.. option:: bench [-c COUNT] [-d DEPTH] [-f FMT] [--flush-interval=FLUSH_INTERVAL] [-i AIO] [-n] [--no-drain] [-o OFFSET] [--pattern=PATTERN] [-q] [-s BUFFER_SIZE] [-S STEP_SIZE] [-t CACHE] [-w] [-U] FILENAME
+ ERST
+ DEF("check", img_check,
+     "check [--object objectdef] [--image-opts] [-q] [-f fmt] [--output=ofmt] [-r [leaks | all]] [-T src_cache] [-U] filename")
 -- 
 2.24.1
 
