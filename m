@@ -2,73 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91013154E71
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 22:58:22 +0100 (CET)
-Received: from localhost ([::1]:46906 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AF2D154E50
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 22:48:21 +0100 (CET)
+Received: from localhost ([::1]:46762 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izpAD-000701-Es
-	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 16:58:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37968)
+	id 1izp0W-0006Xd-C8
+	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 16:48:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41270)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <n54@gmx.com>) id 1izome-0000Q4-5d
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 16:34:01 -0500
+ (envelope-from <farman@linux.ibm.com>) id 1izoxZ-0002tj-TK
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 16:45:19 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <n54@gmx.com>) id 1izomc-0007ho-Ls
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 16:34:00 -0500
-Received: from mout.gmx.net ([212.227.17.21]:41359)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <n54@gmx.com>) id 1izomc-0007Zb-BT
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 16:33:58 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1581024809;
- bh=VRV1PLovQkLA2qojKHfddY9U+AMu/FeCVYXqj8PmJxM=;
- h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
- b=iR0Q0QqTYtX/XFK4+azsps5SYYtwkrgtyi2XIpmYxHD+bOVJOJEKF4Qk7kX0Z1hMf
- BDUGxtiiUJkQbYxoCA6BQrnY82zLvwTvfnsoKayMvT5xm8JTmfs5jK7NLEtVjQlytd
- VTBN0UaR1hliRxdYB3h84/nJ5TV/GXIHbpdi9tMo=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from localhost.localdomain ([89.71.135.231]) by mail.gmx.com
- (mrgmx105 [212.227.17.174]) with ESMTPSA (Nemesis) id
- 1M3lYB-1j0dr803b1-000prB; Thu, 06 Feb 2020 22:33:29 +0100
-From: Kamil Rytarowski <n54@gmx.com>
-To: rth@twiddle.net, ehabkost@redhat.com, slp@redhat.com, pbonzini@redhat.com,
- peter.maydell@linaro.org, philmd@redhat.com, max@m00nbsd.net,
- jmcneill@invisible.ca
-Subject: [PATCH v4 4/4] Add the NVMM acceleration enlightenments
-Date: Thu,  6 Feb 2020 22:32:32 +0100
-Message-Id: <20200206213232.1918-5-n54@gmx.com>
-X-Mailer: git-send-email 2.25.0
-In-Reply-To: <20200206213232.1918-1-n54@gmx.com>
-References: <20200206115731.13552-1-n54@gmx.com>
- <20200206213232.1918-1-n54@gmx.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:OdBHL44EfDbSDZKlcbBmW0xhsojvD2OKhQPP1npKozZsxRfPcF5
- FSwhU6xtCyRgghT3HzLqj82ZF9qTnGPe/GZv00Lm/WgGbYUjO5ryEfhiF9vBIW2CO6w7ETC
- wMqZL1T9LBQXXwLh3Z0cxtcNHgU6te0Ye23GDMsfLsrNR9heCGIy+6X5qQ0Uwy40/ltaHvq
- KOMG5zqIdvlRYcd78Q6dg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:0ld6lYGcVUk=:ML9y4oRUTByKeYDHhBcnus
- P0/JTHpJ2jrYLpxH8VLlCXF6gYMXImKcGcpE+nDINAbZy0vowwVKvurX9enhfYFyEgFSpppzv
- gSFjAwz+SXOcBIZX+f1flJl3StacY64hzkEgRN4+iVr9b5uyd7w3kPdIxbIyeBW6xLCwxD0W5
- 0tBiVxKNNI/CO4/+FgvqDv4YzVnpNrtATYw2WFiv6FqnT3AcVHrQWQLKHhTE41I7PefupLj1N
- PyjBya9hsC396bMuGJ2B6CVwjBHP3ax/Q/zSCwYEM53upPSZRWMCmFk2vjVJ0Ls1XAl5CW+cm
- ei7k7LXw+HbxV+Aeljwk/+Rf9yVR0aEkiHMZui5m9/szTIZKgIKlLxx/qPjiPdkDP7OKMS/mt
- c1wDORBfGLhLLHT98DG+K4N4tGmGJ8g446xxfDuPwlbzTWCuYB/xQJZXlw0IXvKtJswIJrQrb
- kffWgiYAFlN1mVsm62ULyQRkpmTku1Umzx+35+GgSpRae0OZA3Jpa3jkfySm87LssiEMQ7vlU
- 24V6+XeuZ+zpRqUAZSr6swsAiqKY9YeET0L7V0MmqXtaj9pi2lYR67xQTXmi6+uPxZ7ZEAhO4
- vSxvBtk5Ownjjiq+FJNk00SyeyOLKl70pxCeZLpazfy482S2Yk4JwnM6t7MvwJE5V3K5whaJb
- uSsqY+uES+WiCO+LDkyL+G2ZmV8eSOj8zZKhzuSy15/6NvnWtQLGuXjYrCnz/9eNVfwWkuGNf
- VU8lLudGMDDKrsuLClkTZio0K5Osq6sVGLGrDSitlK2jdsBFSa8qJBneAlMzkMb2QsxbfYgbD
- y3udzA1/lt4q8OP7pdIme2SF+fWrNkFemZPnjkjEbBdbQp7j79z5jI2HdcXbsTV28/yUQ6Gbt
- aS/xP5BTrOVruN9LAbZ31364b1qp3/n7hWL9sGvJ77AJp5EOEg3Q1WZ4PUjWRJ1VNSf2qJYDA
- jJKUSL8lWIEFcBvi/r/2DPTSFQ2L5tD9ctzjlhuAG6LhBU7AL2XHsGUldq+befEvmRWh3T0Wm
- nzIUuk9ZFHxkKt5VDKfWyqmrmA2Xi2EtXcFYQ1abW1DN33/NDRAxZQdUX7R7uEuPEfliCJWs4
- 5+EFqDl768cyMw09y95r3lEaP3I4JPCuHzJxa7f8a6p2+OSXFBwXbuXkqMo2C9Qy6ZCkczQ3b
- H5RFeXTlM8b0G1NuqTGH+Irwh/iY47NhKRFFQaLjN7y4Vc5fn3awLMFJ4NkuG2xZh9gVk=
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.17.21
+ (envelope-from <farman@linux.ibm.com>) id 1izoxY-0007BG-Au
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 16:45:17 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:32546)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <farman@linux.ibm.com>)
+ id 1izoxY-00078I-2U
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 16:45:16 -0500
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 016LeMbj097844
+ for <qemu-devel@nongnu.org>; Thu, 6 Feb 2020 16:45:15 -0500
+Received: from e06smtp04.uk.ibm.com (e06smtp04.uk.ibm.com [195.75.94.100])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2y0n7gm69f-1
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Thu, 06 Feb 2020 16:45:14 -0500
+Received: from localhost
+ by e06smtp04.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ Violators will be prosecuted
+ for <qemu-devel@nongnu.org> from <farman@linux.ibm.com>;
+ Thu, 6 Feb 2020 21:45:12 -0000
+Received: from b06cxnps3075.portsmouth.uk.ibm.com (9.149.109.195)
+ by e06smtp04.uk.ibm.com (192.168.101.134) with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted; 
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+ Thu, 6 Feb 2020 21:45:11 -0000
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
+ [9.149.105.61])
+ by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 016Lj96B59834468
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 6 Feb 2020 21:45:09 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 65CBC11C04C;
+ Thu,  6 Feb 2020 21:45:09 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 52ACD11C05E;
+ Thu,  6 Feb 2020 21:45:09 +0000 (GMT)
+Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
+ by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+ Thu,  6 Feb 2020 21:45:09 +0000 (GMT)
+Received: by tuxmaker.boeblingen.de.ibm.com (Postfix, from userid 4958)
+ id 0A1ACE026B; Thu,  6 Feb 2020 22:45:09 +0100 (CET)
+From: Eric Farman <farman@linux.ibm.com>
+To: Cornelia Huck <cohuck@redhat.com>
+Subject: [RFC PATCH v2 0/7] s390x/vfio_ccw: Channel Path Handling [QEMU]
+Date: Thu,  6 Feb 2020 22:45:02 +0100
+X-Mailer: git-send-email 2.17.1
+X-TM-AS-GCONF: 00
+x-cbid: 20020621-0016-0000-0000-000002E464C7
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 20020621-0017-0000-0000-000033474C4D
+Message-Id: <20200206214509.16434-1-farman@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
+ definitions=2020-02-06_04:2020-02-06,
+ 2020-02-06 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 impostorscore=0
+ adultscore=0 suspectscore=0 priorityscore=1501 malwarescore=0 phishscore=0
+ mlxscore=0 clxscore=1015 spamscore=0 mlxlogscore=768 lowpriorityscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2001150001
+ definitions=main-2002060158
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 148.163.156.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,188 +88,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kamil Rytarowski <n54@gmx.com>, qemu-devel@nongnu.org
+Cc: Jason Herne <jjherne@linux.ibm.com>, Eric Farman <farman@linux.ibm.com>,
+ qemu-devel@nongnu.org, Halil Pasic <pasic@linux.ibm.com>,
+ qemu-s390x@nongnu.org, Jared Rossi <jrossi@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Maxime Villard <max@m00nbsd.net>
+Here is a new pass at the channel-path handling code for vfio-ccw,
+to take advantage of the corresponding kernel patches posted here:
 
-Implements the NVMM accelerator cpu enlightenments to actually use the nvm=
-m-all
-accelerator on NetBSD platforms.
+https://lore.kernel.org/kvm/20200206213825.11444-1-farman@linux.ibm.com/
 
-Signed-off-by: Maxime Villard <max@m00nbsd.net>
-Signed-off-by: Kamil Rytarowski <n54@gmx.com>
-Reviewed-by: Sergio Lopez <slp@redhat.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Tested-by: Jared McNeill <jmcneill@invisible.ca>
-=2D--
- cpus.c                    | 58 +++++++++++++++++++++++++++++++++++++++
- include/sysemu/hw_accel.h | 14 ++++++++++
- target/i386/helper.c      |  2 +-
- 3 files changed, 73 insertions(+), 1 deletion(-)
+I did leave a couple things FIXMEs from v1 comments in here.
+Thought it'd be best to just get this out with the kernel code, to
+make sure things aren't too far in the weeds.
 
-diff --git a/cpus.c b/cpus.c
-index b4f8b84b61..f833da4a60 100644
-=2D-- a/cpus.c
-+++ b/cpus.c
-@@ -42,6 +42,7 @@
- #include "sysemu/hax.h"
- #include "sysemu/hvf.h"
- #include "sysemu/whpx.h"
-+#include "sysemu/nvmm.h"
- #include "exec/exec-all.h"
+v1: https://lore.kernel.org/qemu-devel/20191115033437.37926-1-farman@linux.ibm.com/
 
- #include "qemu/thread.h"
-@@ -1670,6 +1671,48 @@ static void *qemu_whpx_cpu_thread_fn(void *arg)
-     return NULL;
- }
+Eric Farman (2):
+  vfio-ccw: Refactor cleanup of regions
+  vfio-ccw: Refactor ccw irq handler
 
-+static void *qemu_nvmm_cpu_thread_fn(void *arg)
-+{
-+    CPUState *cpu =3D arg;
-+    int r;
-+
-+    assert(nvmm_enabled());
-+
-+    rcu_register_thread();
-+
-+    qemu_mutex_lock_iothread();
-+    qemu_thread_get_self(cpu->thread);
-+    cpu->thread_id =3D qemu_get_thread_id();
-+    current_cpu =3D cpu;
-+
-+    r =3D nvmm_init_vcpu(cpu);
-+    if (r < 0) {
-+        fprintf(stderr, "nvmm_init_vcpu failed: %s\n", strerror(-r));
-+        exit(1);
-+    }
-+
-+    /* signal CPU creation */
-+    cpu->created =3D true;
-+    qemu_cond_signal(&qemu_cpu_cond);
-+
-+    do {
-+        if (cpu_can_run(cpu)) {
-+            r =3D nvmm_vcpu_exec(cpu);
-+            if (r =3D=3D EXCP_DEBUG) {
-+                cpu_handle_guest_debug(cpu);
-+            }
-+        }
-+        qemu_wait_io_event(cpu);
-+    } while (!cpu->unplug || cpu_can_run(cpu));
-+
-+    nvmm_destroy_vcpu(cpu);
-+    cpu->created =3D false;
-+    qemu_cond_signal(&qemu_cpu_cond);
-+    qemu_mutex_unlock_iothread();
-+    rcu_unregister_thread();
-+    return NULL;
-+}
-+
- #ifdef _WIN32
- static void CALLBACK dummy_apc_func(ULONG_PTR unused)
- {
-@@ -2038,6 +2081,19 @@ static void qemu_whpx_start_vcpu(CPUState *cpu)
- #endif
- }
+Farhan Ali (5):
+  vfio-ccw: Return IOINST_CC_NOT_OPERATIONAL for EIO
+  linux-headers: update
+  vfio-ccw: Add support for the schib region
+  vfio-ccw: Add support for the crw region
+  vfio-ccw: Add support for the CRW irq
 
-+static void qemu_nvmm_start_vcpu(CPUState *cpu)
-+{
-+    char thread_name[VCPU_THREAD_NAME_SIZE];
-+
-+    cpu->thread =3D g_malloc0(sizeof(QemuThread));
-+    cpu->halt_cond =3D g_malloc0(sizeof(QemuCond));
-+    qemu_cond_init(cpu->halt_cond);
-+    snprintf(thread_name, VCPU_THREAD_NAME_SIZE, "CPU %d/NVMM",
-+             cpu->cpu_index);
-+    qemu_thread_create(cpu->thread, thread_name, qemu_nvmm_cpu_thread_fn,
-+                       cpu, QEMU_THREAD_JOINABLE);
-+}
-+
- static void qemu_dummy_start_vcpu(CPUState *cpu)
- {
-     char thread_name[VCPU_THREAD_NAME_SIZE];
-@@ -2078,6 +2134,8 @@ void qemu_init_vcpu(CPUState *cpu)
-         qemu_tcg_init_vcpu(cpu);
-     } else if (whpx_enabled()) {
-         qemu_whpx_start_vcpu(cpu);
-+    } else if (nvmm_enabled()) {
-+        qemu_nvmm_start_vcpu(cpu);
-     } else {
-         qemu_dummy_start_vcpu(cpu);
-     }
-diff --git a/include/sysemu/hw_accel.h b/include/sysemu/hw_accel.h
-index 0ec2372477..dbfa7a02f9 100644
-=2D-- a/include/sysemu/hw_accel.h
-+++ b/include/sysemu/hw_accel.h
-@@ -15,6 +15,7 @@
- #include "sysemu/hax.h"
- #include "sysemu/kvm.h"
- #include "sysemu/whpx.h"
-+#include "sysemu/nvmm.h"
+ hw/s390x/css.c                         |  13 +-
+ hw/s390x/s390-ccw.c                    |  28 ++++
+ hw/vfio/ccw.c                          | 204 ++++++++++++++++++++++---
+ include/hw/s390x/css.h                 |   3 +-
+ include/hw/s390x/s390-ccw.h            |   1 +
+ include/standard-headers/linux/input.h |   1 +
+ linux-headers/asm-arm64/unistd.h       |   1 +
+ linux-headers/linux/vfio.h             |   3 +
+ linux-headers/linux/vfio_ccw.h         |  19 +++
+ target/s390x/ioinst.c                  |   3 +-
+ 10 files changed, 250 insertions(+), 26 deletions(-)
 
- static inline void cpu_synchronize_state(CPUState *cpu)
- {
-@@ -27,6 +28,9 @@ static inline void cpu_synchronize_state(CPUState *cpu)
-     if (whpx_enabled()) {
-         whpx_cpu_synchronize_state(cpu);
-     }
-+    if (nvmm_enabled()) {
-+        nvmm_cpu_synchronize_state(cpu);
-+    }
- }
-
- static inline void cpu_synchronize_post_reset(CPUState *cpu)
-@@ -40,6 +44,10 @@ static inline void cpu_synchronize_post_reset(CPUState =
-*cpu)
-     if (whpx_enabled()) {
-         whpx_cpu_synchronize_post_reset(cpu);
-     }
-+    if (nvmm_enabled()) {
-+        nvmm_cpu_synchronize_post_reset(cpu);
-+    }
-+
- }
-
- static inline void cpu_synchronize_post_init(CPUState *cpu)
-@@ -53,6 +61,9 @@ static inline void cpu_synchronize_post_init(CPUState *c=
-pu)
-     if (whpx_enabled()) {
-         whpx_cpu_synchronize_post_init(cpu);
-     }
-+    if (nvmm_enabled()) {
-+        nvmm_cpu_synchronize_post_init(cpu);
-+    }
- }
-
- static inline void cpu_synchronize_pre_loadvm(CPUState *cpu)
-@@ -66,6 +77,9 @@ static inline void cpu_synchronize_pre_loadvm(CPUState *=
-cpu)
-     if (whpx_enabled()) {
-         whpx_cpu_synchronize_pre_loadvm(cpu);
-     }
-+    if (nvmm_enabled()) {
-+        nvmm_cpu_synchronize_pre_loadvm(cpu);
-+    }
- }
-
- #endif /* QEMU_HW_ACCEL_H */
-diff --git a/target/i386/helper.c b/target/i386/helper.c
-index c3a6e4fabe..2e79d61329 100644
-=2D-- a/target/i386/helper.c
-+++ b/target/i386/helper.c
-@@ -981,7 +981,7 @@ void cpu_report_tpr_access(CPUX86State *env, TPRAccess=
- access)
-     X86CPU *cpu =3D env_archcpu(env);
-     CPUState *cs =3D env_cpu(env);
-
--    if (kvm_enabled() || whpx_enabled()) {
-+    if (kvm_enabled() || whpx_enabled() || nvmm_enabled()) {
-         env->tpr_access_type =3D access;
-
-         cpu_interrupt(cs, CPU_INTERRUPT_TPR);
-=2D-
-2.25.0
+-- 
+2.17.1
 
 
