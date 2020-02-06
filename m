@@ -2,85 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCA85154A4E
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 18:36:08 +0100 (CET)
-Received: from localhost ([::1]:43382 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37B27154A71
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 18:44:33 +0100 (CET)
+Received: from localhost ([::1]:43630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izl4R-0004Gp-T0
-	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 12:36:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43353)
+	id 1izlCX-0002cK-46
+	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 12:44:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43658)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1izkzV-0006M9-TQ
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 12:31:03 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1izl09-0006uu-AE
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 12:31:42 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1izkzT-0004Xo-UX
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 12:31:01 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:43303
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1izkzT-0004TC-NT
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 12:30:59 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581010258;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=i8JiYZVOJu5q//tmja+OBMF2YiOBbBgKePYXyDb7DGI=;
- b=SLpWaQvTeWFVseEkC1smdjbaI6M9wB2CikXWFFtHFJN+7h1bO4rpocxXd0PMJiYpJffFrh
- GQHukXpCcndche1ibWDF//fbO7HstND9lmY3eFQnqBBSo8JZ4dAI/kH/C9Of+I8IWg/F4W
- Q9QGD47K9l5/btKERO2ilM9IUztnhuA=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-307-AaC2mE-kPSeZo4OowMOOaA-1; Thu, 06 Feb 2020 12:30:41 -0500
-Received: by mail-wr1-f72.google.com with SMTP id l1so3874803wrt.4
- for <qemu-devel@nongnu.org>; Thu, 06 Feb 2020 09:30:41 -0800 (PST)
+ (envelope-from <peter.maydell@linaro.org>) id 1izl08-00071R-5Q
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 12:31:41 -0500
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:42904)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1izl07-0006xa-V3
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 12:31:40 -0500
+Received: by mail-wr1-x42b.google.com with SMTP id k11so8181586wrd.9
+ for <qemu-devel@nongnu.org>; Thu, 06 Feb 2020 09:31:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=r46aBihEOGQbzY2WpFB3AupNkAhrK/38I7UbJd+jXYs=;
+ b=hj+8A4MGp5X+dxRQ1rF1O0gSrKg3TP0Jn6m+dX9hjIgl9pmrFNY9FA+vqDwmNG77pc
+ JfbSerHKFnq9kWU2fypJ60cipFsCpMssa44FDAGclNeb8Uxn+Qbscy2/1+M74rmXWrig
+ WU8UC6PcJo/2QIN5KMWIO45Ak21Lzgy4l/5pb+GxWIHVmcC9Srg9EbhK61zMb9x4bmpR
+ kz+eDrixeMP5SuURsHPp5q6zWRqtfEFS4fIZq6FkQ8SNj9lUQaVo1PgHZvgKjgm6zXFE
+ 8QIKihCxs4pQV72PhC/C8yfjZtq+9r5SESDhfsZGTwmrmHoNEh7vMtiyRXMP1/9PSpiQ
+ jQLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=zKer39OlqBDoVg/X7loIhKNGNv4NijwSiS5IwOXSSWI=;
- b=p7zTfcxSIrJ+3n9pY0JwE0sGUNZkIi43a+iuqMePJvWysNzy4xBW2IocOKVaqNypt3
- +jD0GdvyKGIBq6QMsEiTJoKFp7evCGaZdCTFo1LQebIjk60GBqonCVtZkSaZtiDkVHBN
- kQcn9NDRMoYaurIsdUXKxuEYEr96/igNHXECqdkN7Kw92AW8y8HMtYL8avyh/ovARFNa
- aYksR3RI7DX1zqfOr1sG2ElNNvxnwYNuscWOS0wah9jEcp8gvjxzGphC/fsbrdWEwn60
- 6vjXBF2U6h/vNKgmLH1PiMrfcxFneaepegpmNx4NLOYnQhn6ZfA9ugc5y1K/zQ9PwplL
- oHhw==
-X-Gm-Message-State: APjAAAXFrxr0UKuqvrJ4lSN8zWTN1nLceMxv2iVpOdYlmvuLWcmg9T/i
- 4YIiREqrcWSRLPGiCvMj4GgvjZqieo12+pKEC7UQhyXRRr4KGYxB41Fgz6Ep2UZB1VF6Dl7UhXi
- hWaGrFTJRckGECvQ=
-X-Received: by 2002:a1c:8055:: with SMTP id b82mr5823959wmd.127.1581010238888; 
- Thu, 06 Feb 2020 09:30:38 -0800 (PST)
-X-Google-Smtp-Source: APXvYqzdpUEwpnSPms6bTRPpIIyv9V0mlsKGJVJRMdrgxjcvLrfLQC7vypawtm8XIz5SMBOUuqzxww==
-X-Received: by 2002:a1c:8055:: with SMTP id b82mr5823936wmd.127.1581010238663; 
- Thu, 06 Feb 2020 09:30:38 -0800 (PST)
-Received: from [192.168.1.35] (78.red-88-21-202.staticip.rima-tde.net.
- [88.21.202.78])
- by smtp.gmail.com with ESMTPSA id p11sm5014539wrn.40.2020.02.06.09.30.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 06 Feb 2020 09:30:37 -0800 (PST)
-Subject: Re: [PATCH] tests/acceptance/virtio_check_params: Disable test
-To: Cornelia Huck <cohuck@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
-References: <20200206171715.25041-1-philmd@redhat.com>
- <20200206182417.01de2834.cohuck@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <69ccada3-d660-1938-6528-9711a0700e92@redhat.com>
-Date: Thu, 6 Feb 2020 18:30:37 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=r46aBihEOGQbzY2WpFB3AupNkAhrK/38I7UbJd+jXYs=;
+ b=Ej7sM9/2M+YnS2MQRgCTEDT/FgOVHIDiXBEjd4l0VRDnjkzipM6kurdM20wJkUAPUp
+ 1PTvdqMETzJcfFghsW30k48STIOpPKsCZXjViDbZtz3/Zu/ogLiOyR73PaIiu8krlhbM
+ 0tuRSNMYPp/EtgtOSfB2A7xQLAboMeR/W9Mz4zJhAbNXZgyMq09mi2Cmxg+DcZro+a2m
+ CgiiWSZvPXcBi4hv4yCwIpcuoUN7WX/6vx+OYgSYG/sjM1muBaGoIB1w9gzfsuiY3iGe
+ QFWpyBnKdKPB8qiV55+PkePIsKvFo+JKdP7005Ern3+F+cQe5qpglp07UYlti6ve0Mcs
+ M8mg==
+X-Gm-Message-State: APjAAAWKkkDDMHEJucoOKWYUbFwd9BArU8nENtJhkB37Ml/dmDKStUrN
+ T1n1AR9mcAcPUGceEAFGPxYkIF6nkFk=
+X-Google-Smtp-Source: APXvYqzs0mvO5/zCHku5GsDQ7WHZeSJuxfGbkWshMkIbAOhIsGAA5+4iqrCHVSlPmDax262hKE6Q3A==
+X-Received: by 2002:adf:fa50:: with SMTP id y16mr5226789wrr.204.1581010298564; 
+ Thu, 06 Feb 2020 09:31:38 -0800 (PST)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id w15sm5204214wrs.80.2020.02.06.09.31.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 06 Feb 2020 09:31:38 -0800 (PST)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 26/29] qapi: Use rST markup for literal blocks
+Date: Thu,  6 Feb 2020 17:30:37 +0000
+Message-Id: <20200206173040.17337-27-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200206173040.17337-1-peter.maydell@linaro.org>
+References: <20200206173040.17337-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20200206182417.01de2834.cohuck@redhat.com>
-Content-Language: en-US
-X-MC-Unique: AaC2mE-kPSeZo4OowMOOaA-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::42b
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,85 +77,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Denis Plotnikov <dplotnikov@virtuozzo.com>, qemu-devel@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
+Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/6/20 6:24 PM, Cornelia Huck wrote:
-> On Thu,  6 Feb 2020 18:17:15 +0100
-> Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> wrote:
->=20
->> This test fails on various CI:
->>
->> - Using QEMU 4.0:
->>
->>    tests/acceptance/x86_cpu_model_versions.py:X86CPUModelAliases.test_no=
-ne_alias:  ERROR: 'alias-of' (0.45 s)
->>
->> - On OSX
->>
->>     Unexpected error in object_property_find() at qom/object.c:1201:
->>     qemu-system-x86_64: -device virtio-blk-pci,id=3Dscsi0,drive=3Ddrive0=
-: can't apply global virtio-blk-device.scsi=3Dtrue: Property '.scsi' not fo=
-und
->=20
-> Hm, but there was a fix for that, wasn't there?
+There are exactly two places in our json doc comments where we
+use the markup accepted by the texi doc generator where a '|' in
+the first line of a doc comment means the line should be emitted
+as a literal block (fixed-width font, whitespace preserved).
 
-Yes, the patch is on the list:
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg675259.html
+Since we use this syntax so rarely, instead of making the rST
+generator support it, instead just convert the two uses to
+rST-format literal blocks, which are indented and introduced
+with '::'.
 
-Michael S. Tsirkin takes virtio, I'll ping him to see if he wants a=20
-respin or can take it and amend your suggestions.
+(The rST generator doesn't complain about the old style syntax,
+it just emits it with the '|' and with the whitespace not
+preserved, which looks odd, but means we can safely leave this
+change until after we've stopped generating texinfo.)
 
->>
->> - When removing unavailable machine:
->>
->>    VirtioMaxSegSettingsCheck.test_machine_types: ERROR: list.remove(x): =
-x not in list (0.12 s)
->>
->> - Using Xen:
->>
->>    xencall: error: Could not obtain handle on privileged command interfa=
-ce: No such file or directory
->>    xen be core: xen be core: can't open xen interface
->>
->> - On PPC:
->>
->>    TestFail: machine type pseries-2.8: No Transactional Memory support i=
-n TCG, try appending -machine cap-htm=3Doff
->>
->> - On S390X:
->>
->>    ERROR: qemu-system-s390x: -device virtio-scsi-pci,id=3Dscsi0: 'virtio=
--scsi-pci' is not a valid device model name
->=20
-> Depends on how your QEMU is configured... does virtio-pci default to
-> off on s390x? I use it all the time to test pci :)
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ qapi/block-core.json  | 16 +++++++++-------
+ qapi/qapi-schema.json |  6 ++++--
+ 2 files changed, 13 insertions(+), 9 deletions(-)
 
-Yes, this is a --without-default-devices job indeed.
-
->>
->> Disable it for now.
->>
->> Cc: Denis Plotnikov <dplotnikov@virtuozzo.com>
->> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
->> ---
->> Series fixing the errors:
->> https://www.mail-archive.com/qemu-devel@nongnu.org/msg675074.html
->> ---
->>   tests/acceptance/virtio_check_params.py | 2 ++
->>   1 file changed, 2 insertions(+)
->>
->=20
-> It seems reasonable though to disable it until the problems are fixed.
-
-The patches are on the list, they simply need review :)
-
-> Acked-by: Cornelia Huck <cohuck@redhat.com>
-
-Thanks,
-
-Phil.
+diff --git a/qapi/block-core.json b/qapi/block-core.json
+index 092cd8f13d9..ea0371c33fb 100644
+--- a/qapi/block-core.json
++++ b/qapi/block-core.json
+@@ -550,13 +550,15 @@
+ #        For the example above, @bins may be something like [3, 1, 5, 2],
+ #        and corresponding histogram looks like:
+ #
+-# |       5|           *
+-# |       4|           *
+-# |       3| *         *
+-# |       2| *         *    *
+-# |       1| *    *    *    *
+-# |        +------------------
+-# |            10   50   100
++# ::
++#
++#        5|           *
++#        4|           *
++#        3| *         *
++#        2| *         *    *
++#        1| *    *    *    *
++#         +------------------
++#             10   50   100
+ #
+ # Since: 4.0
+ ##
+diff --git a/qapi/qapi-schema.json b/qapi/qapi-schema.json
+index f7ba60a5d0b..1d3fb573846 100644
+--- a/qapi/qapi-schema.json
++++ b/qapi/qapi-schema.json
+@@ -22,8 +22,10 @@
+ #
+ # Example:
+ #
+-# | -> data issued by the Client
+-# | <- Server data response
++# ::
++#
++#   -> data issued by the Client
++#   <- Server data response
+ #
+ # Please, refer to the QMP specification (docs/interop/qmp-spec.txt) for
+ # detailed information on the Server command and response formats.
+-- 
+2.20.1
 
 
