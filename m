@@ -2,45 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BACBA153DB5
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 04:49:30 +0100 (CET)
-Received: from localhost ([::1]:60206 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA09F153DB1
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 04:48:39 +0100 (CET)
+Received: from localhost ([::1]:60200 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izYAT-0003of-QF
-	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 22:49:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36387)
+	id 1izY9e-0002hp-Bc
+	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 22:48:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36392)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1izY8q-0001uG-3N
+ (envelope-from <dgibson@ozlabs.org>) id 1izY8q-0001uH-5s
  for qemu-devel@nongnu.org; Wed, 05 Feb 2020 22:47:49 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1izY8o-00076w-Q5
+ (envelope-from <dgibson@ozlabs.org>) id 1izY8o-00076P-MS
  for qemu-devel@nongnu.org; Wed, 05 Feb 2020 22:47:47 -0500
-Received: from bilbo.ozlabs.org ([203.11.71.1]:49665 helo=ozlabs.org)
+Received: from ozlabs.org ([203.11.71.1]:37391)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1izY8n-0006YF-KI; Wed, 05 Feb 2020 22:47:46 -0500
+ id 1izY8n-0006ZG-Rh; Wed, 05 Feb 2020 22:47:46 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 48CksM5ffyz9sRX; Thu,  6 Feb 2020 14:47:35 +1100 (AEDT)
+ id 48CksN0LJHz9sRG; Thu,  6 Feb 2020 14:47:35 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1580960855;
- bh=HRwQaLHz4ranwD5wz3AHcVmBxfe1+G8212tIXHxsvc8=;
+ d=gibson.dropbear.id.au; s=201602; t=1580960856;
+ bh=Ga0M2cIVzY5IsNZzjobJ3QA/R2sZ0RL9C9laxcmBVpA=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=JT+uxjbL2D7QdqIyEjxdIxoxQOZyBWHIEUPFpl7iUgxcVLr6xYIWZRuufYXg83XCZ
- 3hR0Gi6QXauHUNOKSjbKrRPLATo427Qrn5GEvZSCsBPQZr/idNS2QEej258Ql2k0KV
- NlFy4YhiKfPInwfUp/Amv+TvQzQktCZxaaa1/ZU0=
-Date: Thu, 6 Feb 2020 14:45:11 +1100
+ b=jeCFnM2999TH5rjRThl7UT80uZrqa+zPe5nrOs44WT1+ub8rJ/ZGn7tZXs3ief3ZQ
+ jD16ussTN9hVUdEbuOGBRvOXr8NA4RGkHmvAhBU8vaTd2Kj4dcZq7kQmFBZNhaxvf8
+ PALquFCfKkuvvVoQ9C0FLRHndZ7XCSYwxu4J+L9c=
+Date: Thu, 6 Feb 2020 14:45:58 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Laurent Vivier <lvivier@redhat.com>
-Subject: Re: [PATCH v2 1/2] qtest: Fix rtas dependencies
-Message-ID: <20200206034511.GJ60221@umbus.fritz.box>
+Subject: Re: [PATCH v2 0/2] ppc/pnv: fix build dependencies
+Message-ID: <20200206034558.GK60221@umbus.fritz.box>
 References: <20200205232016.588202-1-lvivier@redhat.com>
- <20200205232016.588202-2-lvivier@redhat.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="Tu8ztk+XgTAiG9Id"
+ protocol="application/pgp-signature"; boundary="DozTQjXnjm3C9Xhk"
 Content-Disposition: inline
-In-Reply-To: <20200205232016.588202-2-lvivier@redhat.com>
+In-Reply-To: <20200205232016.588202-1-lvivier@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 203.11.71.1
@@ -63,53 +62,33 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---Tu8ztk+XgTAiG9Id
+--DozTQjXnjm3C9Xhk
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Feb 06, 2020 at 12:20:15AM +0100, Laurent Vivier wrote:
-> qtest "rtas" command is only available with pseries not all ppc64 targets,
-> so if I try to compile only powernv machine, the build fails with:
+On Thu, Feb 06, 2020 at 12:20:14AM +0100, Laurent Vivier wrote:
+> Building only POWERNV machine without PSERIES machine
+> fails because of a couple of reasons:
 >=20
->   /usr/bin/ld: qtest.o: in function `qtest_process_command':
->   .../qtest.c:645: undefined reference to `qtest_rtas_call'
->=20
-> We fix this by enabling rtas command only with pseries machine.
->=20
-> Fixes: eeddd59f5962 ("tests: add RTAS command in the protocol")
-> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+> - qtest uses rtas function only provided by PSERIES,
+> - the dependency to PCI Express has been added to XIVE_SPAPR
+>   rather than to POWERNV
 
-Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+Applied to ppc-for-5.0, thanks.
 
-> ---
->  qtest.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
 >=20
-> diff --git a/qtest.c b/qtest.c
-> index 12432f99cf44..587dcbb4b515 100644
-> --- a/qtest.c
-> +++ b/qtest.c
-> @@ -27,7 +27,8 @@
->  #include "qemu/error-report.h"
->  #include "qemu/module.h"
->  #include "qemu/cutils.h"
-> -#ifdef TARGET_PPC64
-> +#include "config-devices.h"
-> +#ifdef CONFIG_PSERIES
->  #include "hw/ppc/spapr_rtas.h"
->  #endif
-> =20
-> @@ -628,7 +629,7 @@ static void qtest_process_command(CharBackend *chr, g=
-char **words)
->  #else
->          qtest_sendf(chr, "OK little\n");
->  #endif
-> -#ifdef TARGET_PPC64
-> +#ifdef CONFIG_PSERIES
->      } else if (strcmp(words[0], "rtas") =3D=3D 0) {
->          uint64_t res, args, ret;
->          unsigned long nargs, nret;
+> v2: remove PCI already selected by PCI_EXPRESS
+>     remove PCIE_PORT, set by default to yes with PCI_DEVICES
+>=20
+> Laurent Vivier (2):
+>   qtest: Fix rtas dependencies
+>   ppc/pnv: Fix PCI_EXPRESS dependency
+>=20
+>  hw/ppc/Kconfig | 4 ++--
+>  qtest.c        | 5 +++--
+>  2 files changed, 5 insertions(+), 4 deletions(-)
+>=20
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -117,25 +96,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---Tu8ztk+XgTAiG9Id
+--DozTQjXnjm3C9Xhk
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl47i8UACgkQbDjKyiDZ
-s5J+lg//XsglBaRp3RLfH7BREdSZ0xykAVFX4pu68/uY4vg2PCxknWUe8j5XW7rE
-4OvGA1r+u0o03l1nY3moYm3mgR2eG+DDxlEO6ivi+1uEHg251UcG/H/xm90XTgAa
-y2uz5scVBv1bPUhOsVfuQyev+BBQ/M0/Tmyt23hAKIMRz94g37lBN4g15Cduzaj+
-X7Cr+ufKwQdInICRlqtxrHmQl6V/5zc0XtY29+49N37kYsdZ99cfapv0W6YxeorN
-rDcbUNaWqZpv1J2WXgJFFJmbdiDtMI1DMXv7wLCdzq4744SFCxvi9aBY2xWoEZbg
-VrWU3oHM5+V0j3espL+WMzO6nc2Q1wB7Heu4G7GY+4nY4hvLYylZFxL9vuIqgi1R
-fgmsxnHBpnS/5Ucar+cS6iLe+0ebIf80TM8Bm/miWbX3zi9JGDa2fj1SmI1kujhB
-CurjLFYZpEEfN94zTxZjJBPUjS42Lz0e2koGsriVEbneutfx5OVrgfaGA/UZBfMO
-Q3o7HAF1MHkk4IE4EYTdyZRccnejjJN6hDTsSvM5TUc10OtGd6I0NwbMkDFe6ebL
-AkyNvExTm8M5iAOC9NH4z5vzLTK+YndQBcAu6pxzuyHpuo0YSj1bPMg9Ao2dxH5W
-rnyr3k3q31yFUa2uPpvu7zQvTQQIl38gBTKFZbWAJcc+u0j207Q=
-=oP5J
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl47i/YACgkQbDjKyiDZ
+s5LDbg//ZwI+2hw0aj/KhgG3Sb8JlRxZhe5dq3RguvuckSq+ile3liob34IugQR7
+o3jYVHQPDFyaI9A1u8irpsnEawQ3Roy0VE/FPvz0LEM606SgXjuMMRDMfciRjHz4
+UIQ6i8zw205irTqJ2mddlp6OYvuBIhosWmrITuxtWUqA1OPpdq1cqrhWLS3Nw7sy
+iDbNoPT6RY/Nbjvc+zGTKwwJQKwW6gm7/LP6QdQkUaNz+PthatVg7BMHGfWtSAK0
+LAkaUqpiYQa3wnHTqdLtu3unrJ9ELUpcTewcWWzAPjpA+mkLZo0gd+JWM2vjlxi6
+QuYQIDcNbVf5zzWgaEA2+lOuk2eg3vQiv3cKKGnRMOohz4RZtxpiQJHogcO/izhT
+Q4Kl8Dy+ff6VPX6qGPSKUOXUAPU52OX0Hbz/toJd3HGiOh3B4c8gxdPQp5ESf4Dd
+wP1vOfqaIQwEyfuv1NlQjUAv9/Pxb6imWFaGEmxhW6svU+q38nNHNIK7iBVK8TTh
+ZAd8jwMNnQ9icus/0yEjizm6DZK1aqlKoQPWuMucR6YNB9aBv1yuFqnJTgvbxKKR
+gyr+ioNha2H0SZ1SVrwG0wUqFLMcOlyRcYpxqr+Jr5NmxXmoO2WjItklzX5oc0F1
+RFxUPWpaHArl9zNpYSXGDSJFMO3Tw5BRIVImGqpu1LpyEkal4g0=
+=jitm
 -----END PGP SIGNATURE-----
 
---Tu8ztk+XgTAiG9Id--
+--DozTQjXnjm3C9Xhk--
 
