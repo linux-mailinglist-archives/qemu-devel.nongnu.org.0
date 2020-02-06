@@ -2,56 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85A85154454
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 13:55:09 +0100 (CET)
-Received: from localhost ([::1]:38238 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAF76154461
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 13:59:33 +0100 (CET)
+Received: from localhost ([::1]:38362 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izggW-00019z-Gt
-	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 07:55:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56871)
+	id 1izgkm-00034r-Qr
+	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 07:59:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56746)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1izgco-0001hz-5P
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 07:51:19 -0500
+ (envelope-from <laurent@vivier.eu>) id 1izgck-0001VH-Bl
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 07:51:15 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1izgcn-0006oQ-3Y
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 07:51:18 -0500
-Received: from mout.kundenserver.de ([212.227.126.133]:50523)
+ (envelope-from <laurent@vivier.eu>) id 1izgci-0006Wq-Tk
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 07:51:14 -0500
+Received: from mout.kundenserver.de ([212.227.126.134]:37713)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1izgcm-0006lG-Po; Thu, 06 Feb 2020 07:51:17 -0500
+ id 1izgci-0006Sf-JS; Thu, 06 Feb 2020 07:51:12 -0500
 Received: from localhost.localdomain ([78.238.229.36]) by
  mrelayeu.kundenserver.de (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MC2o9-1intIs39fp-00CPsw; Thu, 06 Feb 2020 13:50:51 +0100
+ id 1MAOeB-1ipXCI3Q7f-00BsBg; Thu, 06 Feb 2020 13:50:54 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 11/12] aspeed/i2c: Prevent uninitialized warning
-Date: Thu,  6 Feb 2020 13:50:26 +0100
-Message-Id: <20200206125027.1926263-12-laurent@vivier.eu>
+Subject: [PULL 12/12] MAINTAINERS: Cc the qemu-arm@nongnu.org for the ARM
+ machines
+Date: Thu,  6 Feb 2020 13:50:27 +0100
+Message-Id: <20200206125027.1926263-13-laurent@vivier.eu>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200206125027.1926263-1-laurent@vivier.eu>
 References: <20200206125027.1926263-1-laurent@vivier.eu>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:hsG0MoAZNDkAr6/dAbHU0b2Sd1vXTc5zUe651VUJg4XcNzZ/noC
- GyERr62exowH3kYsMpw9MdqVw7KaD1QQWEsvZcYMoDNAyxKlNrchzjPhnrV9ReKbkreXy8C
- cWvgwNp/Qq6946Q4EnrbtStnxh5bQkjSTfTYMcFz59IKpRMQXa1BrPI5YPKPXjd+swOlff8
- vVvwuO/qtFDx64Iz1eihQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:fO6ol714BUI=:5/cYrGjiGI+7F/ekb3wmpR
- cryvZx6TRLRy7w3sjFNJDR40r9HuvwueWXLh5nCybya6LIjwj1aMXghCI5huPdqy9ZbJBZOCf
- KHlHcnaNw2IvAJ/EwbxOk4xUIW2z3aTNHZB2XR8+KXv32ExCDy2Ed56Rz/7DVUG6QcXhefjxF
- 7mWLVLyBSjtYLqE+vx36em7JcDp4PMuCOnjtAXyT9IYgB4XAT94g2dddTrTrc5is7PxDoXJV9
- BP4ww0jYNyW8vYXB+Z5C/deWFZLk/WuNf/ueYxh9aAMmTtfYs99Xx11Uku8ayEkcEjXb8/oy0
- qOLZUi4nFv35zej+g0U/OzkXPawMUSeHaR0Y+WHmrF46+ZAL76oGKrLkiI0RQ6icxcckBQNTt
- T8mlhE/13BMzi7UTIWcoAoQ9+n3CkM/cL9HsEM9XpNc6ZQhHXU1j6J0YdUqrZCkMLNfv+dS2H
- RfupBT8Rp7JY6OOf20aLVAa0fNjIfKN6QPonxosGr/m0wcjmMmB1vRq1fQqEWk88ClFE8myUY
- d3ftJn6S85ct57UhTiFlQvem/CN0u4cPA0cS+sHlvIOr1G2QIzS/eMemHzdzvSijnr2r0yW7E
- 8DGWrt5SFYB+zFefueSSzxR+/oGh7TCSajVoNjHijoHhgW2OdWKAAhlFTqTRY0JESC+ZKdhLm
- Y/71hT5TllPxWlpAKjekiyJmPR98d/WI+HyZW8GZVzCpYR1MfVR4OoyjXZOMndAKfkT3bLasc
- dpUbjxQjuMQBK66G1jx5GxBja5arIA9sR1Ylrd3DrQobJEafLSbMgX4yGQSEAnkg1+5SZ80Bv
- 8YXJOtYXsBQ79kw7f/R5jHCGq0pHhKx9TuxA5MYxrpEObdH0+ncAUM5rqyeJxN+4D2nS1hy
+X-Provags-ID: V03:K1:YjSXEMg85EuQe8WpdOigmHHgR2M7GCMGYoHmBoQQoMd5qPirpPF
+ dNHT0XutPVET5RJXlDseqc2xjqeVGPoHp39p419hrt/H8e4Gx+H+wVqSivQyWlBQ86HS6cN
+ 19IRjuldxbnvSzBwV3+QNjhOqpn2PhonuhWtqJMzN9GnKSfmNSbXsNP35s9pznv4hGrM8dT
+ GX+CVIKyx4pvN/1i5WC0Q==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:rjQcTHsO2Uk=:GdAH29v1/BasAHa1hwqcXE
+ jlmwrX3mD6V7rA9KPG0ElN8oBnZesElcEubbmES99olraZFilAY6kGcz+JcKCbw/4bCl4b9bg
+ wfSV3AZzTIfjV9BWYt8D1LoF58rYMPUkWNvWV3CILW9yeOnIIC7AtB6tbFjmP18X5jfczFFx3
+ BkGhsr2hz876N68cl5q6R6oemhS/LqvVnQPf9c68yBuhgPTWaKxB12tQyg208NKMEiO6b9UKs
+ Ckw0AGc1fE/BKXl3aM1wZVGps59J8VE/IsviDHnPXly+pQAeIdz1tlxHUMzfeW6CAXhP1haqG
+ U+atmMvfZ7dRQIt7tbL3eRHUuptw8mZSuPL+CaLsxae0mxgZmBEUP8+3do1B52KzfGHxG9E+F
+ O6iDgnAjls5JjClWmtRPDPtvI2hXZHjyUhTh4sUxKxCcIbTVsDRDZ6hCIzs40yyl+SlLXGxJd
+ AfQ8V2bjpaIl20JydHxpYEpqn6KeIBGXtGfjgP45jYDAdOXKW9MkDQKwPty63M/V16vfUkxkl
+ ZHd6gypPO+0Nu1tqtmKuyovXbAWCugCwQBwk0Ju+gnthMiVNq3waNO2L7E4+O1vPyzzrPEjCV
+ j/uUGwPdgmFdwYLlkOoFkbJRZL+4KVZ2N6+uS6AkikYx9kSpyMZJjjPbCgVjafYpVtLVjBKsn
+ /wsSTg3lxBBbXETCcwyeNk+xp8gDW8zyyIgJGnqSJTQBXhqlwA09mrPHTkhF1UvYqzmPf5345
+ Ldtru3sAOnJikUx6UQeqbFncLlEmO9vYeuw7+UHLfAFqUSve2XHFOMOvjqgUxDrN6E1/t4WhN
+ DcQ7tLGyHhPmtkhDnh0krgmi5rfwyiFEl4WD2mm6qJrW1mb9xMSR67yIImvb3qOrid4kh2Y
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.126.133
+X-Received-From: 212.227.126.134
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,45 +66,91 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
- Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- qemu-block@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- Andrew Jeffery <andrew@aj.id.au>, Markus Armbruster <armbru@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Michael Tokarev <mjt@tls.msk.ru>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>,
+ Markus Armbruster <armbru@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Michael Tokarev <mjt@tls.msk.ru>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Max Reitz <mreitz@redhat.com>,
  qemu-trivial@nongnu.org, =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- qemu-arm@nongnu.org, Joel Stanley <joel@jms.id.au>,
- Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Miroslav Rezanina <mrezanin@redhat.com>, Richard Henderson <rth@twiddle.net>
+ qemu-arm@nongnu.org, Alistair Francis <alistair.francis@wdc.com>,
+ Joel Stanley <joel@jms.id.au>, Paolo Bonzini <pbonzini@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Miroslav Rezanina <mrezanin@redhat.com>
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Compiler reports uninitialized warning for cmd_flags variable.
+Not all ARM machines sections Cc the qemu-arm@nongnu.org list,
+fix this.
 
-Adding NULL initialization to prevent this warning.
-
-Signed-off-by: Miroslav Rezanina <mrezanin@redhat.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <07957dcab31f65de3dd30efa91e6b9152ac79879.1579598240.git.mrezanin@redhat.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20200120185928.25115-2-philmd@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/i2c/aspeed_i2c.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ MAINTAINERS | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/hw/i2c/aspeed_i2c.c b/hw/i2c/aspeed_i2c.c
-index 9cda9685016c..fb973a983dcd 100644
---- a/hw/i2c/aspeed_i2c.c
-+++ b/hw/i2c/aspeed_i2c.c
-@@ -400,7 +400,7 @@ static bool aspeed_i2c_check_sram(AspeedI2CBus *bus)
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 9d45ac274ed7..e72b5e5f6968 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -809,6 +809,7 @@ F: hw/arm/virt-acpi-build.c
+ STM32F205
+ M: Alistair Francis <alistair@alistair23.me>
+ M: Peter Maydell <peter.maydell@linaro.org>
++L: qemu-arm@nongnu.org
+ S: Maintained
+ F: hw/arm/stm32f205_soc.c
+ F: hw/misc/stm32f2xx_syscfg.c
+@@ -821,6 +822,7 @@ F: include/hw/*/stm32*.h
+ STM32F405
+ M: Alistair Francis <alistair@alistair23.me>
+ M: Peter Maydell <peter.maydell@linaro.org>
++L: qemu-arm@nongnu.org
+ S: Maintained
+ F: hw/arm/stm32f405_soc.c
+ F: hw/misc/stm32f4xx_syscfg.c
+@@ -829,18 +831,21 @@ F: hw/misc/stm32f4xx_exti.c
+ Netduino 2
+ M: Alistair Francis <alistair@alistair23.me>
+ M: Peter Maydell <peter.maydell@linaro.org>
++L: qemu-arm@nongnu.org
+ S: Maintained
+ F: hw/arm/netduino2.c
  
- static void aspeed_i2c_bus_cmd_dump(AspeedI2CBus *bus)
- {
--    g_autofree char *cmd_flags;
-+    g_autofree char *cmd_flags = NULL;
-     uint32_t count;
+ Netduino Plus 2
+ M: Alistair Francis <alistair@alistair23.me>
+ M: Peter Maydell <peter.maydell@linaro.org>
++L: qemu-arm@nongnu.org
+ S: Maintained
+ F: hw/arm/netduinoplus2.c
  
-     if (bus->cmd & (I2CD_RX_BUFF_ENABLE | I2CD_RX_BUFF_ENABLE)) {
+ SmartFusion2
+ M: Subbaraya Sundeep <sundeep.lkml@gmail.com>
+ M: Peter Maydell <peter.maydell@linaro.org>
++L: qemu-arm@nongnu.org
+ S: Maintained
+ F: hw/arm/msf2-soc.c
+ F: hw/misc/msf2-sysreg.c
+@@ -854,6 +859,7 @@ F: include/hw/ssi/mss-spi.h
+ Emcraft M2S-FG484
+ M: Subbaraya Sundeep <sundeep.lkml@gmail.com>
+ M: Peter Maydell <peter.maydell@linaro.org>
++L: qemu-arm@nongnu.org
+ S: Maintained
+ F: hw/arm/msf2-som.c
+ 
+@@ -1402,6 +1408,7 @@ T: git https://github.com/jnsnow/qemu.git ide
+ 
+ OMAP
+ M: Peter Maydell <peter.maydell@linaro.org>
++L: qemu-arm@nongnu.org
+ S: Maintained
+ F: hw/*/omap*
+ F: include/hw/arm/omap.h
 -- 
 2.24.1
 
