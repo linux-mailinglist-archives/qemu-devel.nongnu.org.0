@@ -2,71 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99A661542D3
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 12:16:07 +0100 (CET)
-Received: from localhost ([::1]:36275 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 694F91542E4
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 12:17:44 +0100 (CET)
+Received: from localhost ([::1]:36308 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izf8g-0008Cm-Lh
-	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 06:16:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52094)
+	id 1izfAF-0002c9-Fv
+	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 06:17:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54834)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1izete-0006Cj-DH
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 06:00:36 -0500
+ (envelope-from <mreitz@redhat.com>) id 1izezd-00084O-Ku
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 06:06:46 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1izetc-0004ZO-MX
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 06:00:34 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:33858
+ (envelope-from <mreitz@redhat.com>) id 1izezc-0006m8-ES
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 06:06:45 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:48984
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1izetc-0004VM-HL
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 06:00:32 -0500
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1izezc-0006k0-8B
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 06:06:44 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580986832;
+ s=mimecast20190719; t=1580987203;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:openpgp:openpgp;
- bh=+rg27dlHYRZaxBCxoo0CQU8VDaQbMcMRvmbj0ClGVSo=;
- b=AXILPSpGrXHKzOhoiic6xP5EtTNodR0UhcGEcqq23l8qYewywq70zVSr9LQm6fjI3SGsWj
- Y194AWnE6Ma6MikmhmMMyK7NTfnmeFyEHgGtMoFrzNmugAroDz38l8inufLpGJnE/rsbtp
- e9SoPPMQ7rvPN9l62zTS7eUZniiHk+w=
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=1zwTJRWFNb9ADB703QfOwV9z+7tO144BelML2fvqzyw=;
+ b=XGxkc2sr0EBpS8Nz8dKvpcdzrEFQRAVMxNt/Ke5g8eGNrKibEWMF7UEQr/s2yCxMyLX5Ok
+ 30pnd6sIBdaKPctbUfTzKbWvVms4iIL1blFHcFPzqWvSBBm4IIhQ+5Bsl6E7zJVRZXpm7N
+ Zfe4Vz0KOCtx3L+rr8IjMtmH79CJcZ4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-173-Sh-vYLN9MBG36ImOjnT4Gg-1; Thu, 06 Feb 2020 06:00:24 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-228-Tml3FjtROD6Zxjazcm2OkA-1; Thu, 06 Feb 2020 06:06:38 -0500
+X-MC-Unique: Tml3FjtROD6Zxjazcm2OkA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5212B8010CB;
- Thu,  6 Feb 2020 11:00:23 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-116-151.ams2.redhat.com [10.36.116.151])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9C2B15DA7E;
- Thu,  6 Feb 2020 11:00:21 +0000 (UTC)
-Subject: Re: [PATCH] pc-bios/s390x: Pack ResetInfo struct
-To: Christian Borntraeger <borntraeger@de.ibm.com>,
- "Jason J. Herne" <jjherne@linux.ibm.com>, qemu-devel@nongnu.org,
- qemu-s390x@nongnu.org, cohuck@redhat.com
-References: <20200205182126.13010-1-jjherne@linux.ibm.com>
- <e3baa1e0-e1d3-d67c-cca9-a626d42c5489@de.ibm.com>
-From: Thomas Huth <thuth@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <896302f7-ec21-6108-6dde-f5a7439d87ab@redhat.com>
-Date: Thu, 6 Feb 2020 12:00:20 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CD82D1835A13;
+ Thu,  6 Feb 2020 11:06:37 +0000 (UTC)
+Received: from dresden.str.redhat.com (unknown [10.36.118.15])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 54B358885D;
+ Thu,  6 Feb 2020 11:06:36 +0000 (UTC)
+Subject: Re: [PATCH v2 09/33] block: Add generic bdrv_inherited_options()
+To: Eric Blake <eblake@redhat.com>, qemu-block@nongnu.org
+References: <20200204170848.614480-1-mreitz@redhat.com>
+ <20200204170848.614480-10-mreitz@redhat.com>
+ <87197a53-64e5-ec56-acff-13288256dee0@redhat.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <9e93e4ef-5e20-6b7b-971b-3a3541c6cf31@redhat.com>
+Date: Thu, 6 Feb 2020 12:06:34 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <e3baa1e0-e1d3-d67c-cca9-a626d42c5489@de.ibm.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: Sh-vYLN9MBG36ImOjnT4Gg-1
+In-Reply-To: <87197a53-64e5-ec56-acff-13288256dee0@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="ulKRRD1IDcEJC4gbtDg1dk6J23snjamas"
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,103 +98,130 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 06/02/2020 11.09, Christian Borntraeger wrote:
->=20
->=20
-> On 05.02.20 19:21, Jason J. Herne wrote:
->> This fixes vfio-ccw when booting non-Linux operating systems. Without th=
-is
->> struct being packed, a few extra bytes of low core memory get overwritte=
-n when
->> we  assign a value to memory address 0 in jump_to_IPL_2. This is enough =
-to
->> cause some non-Linux OSes of fail when booting.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--ulKRRD1IDcEJC4gbtDg1dk6J23snjamas
+Content-Type: multipart/mixed; boundary="sl6hxqi4bcyV10hYxEcYmFjfB33PxDA5O"
+
+--sl6hxqi4bcyV10hYxEcYmFjfB33PxDA5O
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+On 05.02.20 17:48, Eric Blake wrote:
+> On 2/4/20 11:08 AM, Max Reitz wrote:
+>> After the series this patch belongs to, we want to have a common
+>> BdrvChildClass that encompasses all of child_file, child_format, and
+>> child_backing.=C2=A0 Such a single class needs a single .inherit_options=
+()
+>> implementation, and this patch introduces it.
 >>
->> The problem was introduced by:
->> 5c6f0d5f46a77d77 "pc-bios/s390x: Fix reset psw mask".
+>> The next patch will show how the existing implementations can fall back
+>> to it just by passing appropriate BdrvChildRole and parent_is_format
+>> values.
 >>
->> The fix is to pack the struct thereby removing the 4 bytes of padding th=
-at get
->> added at the end, likely to allow an array of these structs to naturally=
- align
->> on an 8-byte boundary.
->>
->> Fixes: 5c6f0d5f46a7 ("pc-bios/s390x: Fix reset psw mask")
->> CC: Janosch Frank <frankja@linux.ibm.com>
->> Signed-off-by: Jason J. Herne <jjherne@linux.ibm.com>
+>> Signed-off-by: Max Reitz <mreitz@redhat.com>
 >> ---
->>  pc-bios/s390-ccw/jump2ipl.c | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
+>> =C2=A0 block.c | 84 ++++++++++++++++++++++++++++++++++++++++++++++++++++=
++++++
+>> =C2=A0 1 file changed, 84 insertions(+)
 >>
->> diff --git a/pc-bios/s390-ccw/jump2ipl.c b/pc-bios/s390-ccw/jump2ipl.c
->> index da13c43cc0..1e9eaa037f 100644
->> --- a/pc-bios/s390-ccw/jump2ipl.c
->> +++ b/pc-bios/s390-ccw/jump2ipl.c
->> @@ -18,7 +18,7 @@
->>  typedef struct ResetInfo {
->>      uint64_t ipl_psw;
->>      uint32_t ipl_continue;
->> -} ResetInfo;
->> +} __attribute__((packed)) ResetInfo;
->> =20
->>  static ResetInfo save;
 >=20
-> Just looked into that.
+> No impact until the next patch, but the division of patches was wise.
 >=20
-> We do save the old content in "save" and restore the old memory content.
 >=20
-> static void jump_to_IPL_2(void)
-> {
->     ResetInfo *current =3D 0;
+>> +=C2=A0=C2=A0=C2=A0 /*
+>> +=C2=A0=C2=A0=C2=A0=C2=A0 * First, decide whether to set, clear, or leav=
+e BDRV_O_PROTOCOL.
+>> +=C2=A0=C2=A0=C2=A0=C2=A0 * Generally, the question to answer is: Should=
+ this child be
+>> +=C2=A0=C2=A0=C2=A0=C2=A0 * format-probed by default?
+>> +=C2=A0=C2=A0=C2=A0=C2=A0 */
+>> +
+>> +=C2=A0=C2=A0=C2=A0 /*
+>> +=C2=A0=C2=A0=C2=A0=C2=A0 * Pure and non-filtered data children of non-f=
+ormat nodes should
+>> +=C2=A0=C2=A0=C2=A0=C2=A0 * be probed by default (even when the node its=
+elf has
+>> BDRV_O_PROTOCOL
+>> +=C2=A0=C2=A0=C2=A0=C2=A0 * set).=C2=A0 This only affects a very limited=
+ set of drivers (namely
+>> +=C2=A0=C2=A0=C2=A0=C2=A0 * quorum and blkverify when this comment was w=
+ritten).
+>> +=C2=A0=C2=A0=C2=A0=C2=A0 * Force-clear BDRV_O_PROTOCOL then.
+>> +=C2=A0=C2=A0=C2=A0=C2=A0 */
+>> +=C2=A0=C2=A0=C2=A0 if (!parent_is_format &&
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (role & (BDRV_CHILD_DATA | B=
+DRV_CHILD_METADATA |
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 BDRV_CHILD_FILTERED)) =3D=3D
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 BDRV=
+_CHILD_DATA)
+>> +=C2=A0=C2=A0=C2=A0 {
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 flags &=3D ~BDRV_O_PROTOCOL;
+>> +=C2=A0=C2=A0=C2=A0 }
+>> +
+>> +=C2=A0=C2=A0=C2=A0 /*
+>> +=C2=A0=C2=A0=C2=A0=C2=A0 * All children of format nodes (except for COW=
+ children) and all
+>> +=C2=A0=C2=A0=C2=A0=C2=A0 * metadata children in general should never be=
+ format-probed.
+>> +=C2=A0=C2=A0=C2=A0=C2=A0 * Force-set BDRV_O_PROTOCOL then.
+>> +=C2=A0=C2=A0=C2=A0=C2=A0 */
+>> +=C2=A0=C2=A0=C2=A0 if ((parent_is_format && !(role & BDRV_CHILD_COW)) |=
+|
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (role & BDRV_CHILD_METADATA)=
+)
 >=20
->     void (*ipl)(void) =3D (void *) (uint64_t) current->ipl_continue;
-> --->*current =3D save;
->     ipl(); /* should not return */
-> }
+> Should this use 'else if', to make it obvious that we never have a path
+> that both force-clears and force-sets BDRV_O_PROTOCOL?=C2=A0 But a carefu=
+l
+> reading shows that the two 'if' are mutually exclusive, even without the
+> second using 'else if'.
+
+It could or maybe even should, but that would make the comments more
+awkward to place.
+
+Locally, at some point I had two bools that were just set to the result
+of the conditions, and then I used them in an if/else if tree, but that
+wasn=E2=80=99t any less awkward.
+
+>> +=C2=A0=C2=A0=C2=A0 {
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 flags |=3D BDRV_O_PROTOCOL;
+>> +=C2=A0=C2=A0=C2=A0 }
+>> +
 >=20
-> void jump_to_IPL_code(uint64_t address)
-> {
->     /* store the subsystem information _after_ the bootmap was loaded */
->     write_subsystem_identification();
->=20
->     /* prevent unknown IPL types in the guest */
->     if (iplb.pbt =3D=3D S390_IPL_TYPE_QEMU_SCSI) {
->         iplb.pbt =3D S390_IPL_TYPE_CCW;
->         set_iplb(&iplb);
->     }
->=20
->     /*
->      * The IPL PSW is at address 0. We also must not overwrite the
->      * content of non-BIOS memory after we loaded the guest, so we
->      * save the original content and restore it in jump_to_IPL_2.
->      */
->     ResetInfo *current =3D 0;
->=20
-> --->save =3D *current;
+> Looks good!=C2=A0 Lots of decision trees, but also lots of good comments
+> backing up that complexity.
 
-Right, and this should also work without your modification. I've stared
-at the code a couple of weeks ago, looking for a very similar issue:
+OK :-)
 
- https://lists.gnu.org/archive/html/qemu-devel/2019-12/msg03484.html
+Max
 
-... but in the end, the problem was something else:
 
- https://lists.gnu.org/archive/html/qemu-devel/2019-12/msg03520.html
+--sl6hxqi4bcyV10hYxEcYmFjfB33PxDA5O--
 
-and the fix had been done in the startup code of the test:
+--ulKRRD1IDcEJC4gbtDg1dk6J23snjamas
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
 
- https://lists.gnu.org/archive/html/qemu-devel/2019-12/msg04225.html
+-----BEGIN PGP SIGNATURE-----
 
-So I'd guess that you face the very same problem here. That means, you
-either have to convince the non-Linux OS to check their startup code
-whether they depend on zeroed registers somewhere, or we fix this issue
-for good in jump_to_IPL_2() by clearing the registers there before
-jumping into the OS code (which we likely should do anyway since the OS
-may expect a clean state).
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl478zoACgkQ9AfbAGHV
+z0C/lwgAw/S/DuWcehbIcX0MqWX44af3kqJ0+GgN9Wg+ztvDuvzwmHDZjssRTTMv
+C7KZxJzHLkvDfwJxhUwbyfPxDOaKaA3OKG1GfGoCWTLCVzFfTLZwSdQrXDpROj4W
+eLu8J0/EpeDOSohB7anhCVUVcsQ4C9BBuhKtgB0vbpXIULmsvfjj79Yx9CcnfHyr
+kw31p1KrRW9hj/4XT9KPKg+V0YzsFc7txuF6L/0MJ8o0HO74zqXPWNd3NS575Tj9
+2utY6m3OZVnx++h6SPDwT6XqUiYgz4o/Lmuqe0AdI4SG07AYtKkmn7URzpy0pi2y
+Nv5TRYRlH7knTLrRL+IpViKepwjymA==
+=JQyp
+-----END PGP SIGNATURE-----
 
- Thomas
+--ulKRRD1IDcEJC4gbtDg1dk6J23snjamas--
 
 
