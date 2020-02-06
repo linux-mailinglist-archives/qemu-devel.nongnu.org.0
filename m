@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 570B0154A5D
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 18:38:43 +0100 (CET)
-Received: from localhost ([::1]:43452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20972154A62
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 18:40:49 +0100 (CET)
+Received: from localhost ([::1]:43510 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izl6w-0000Ak-AX
-	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 12:38:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43411)
+	id 1izl8y-0003XK-5x
+	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 12:40:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43426)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1izkzi-0006fP-Mr
+ (envelope-from <peter.maydell@linaro.org>) id 1izkzo-0006fZ-4a
  for qemu-devel@nongnu.org; Thu, 06 Feb 2020 12:31:22 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1izkzh-0005Vr-JD
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 12:31:14 -0500
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:42906)
+ (envelope-from <peter.maydell@linaro.org>) id 1izkzl-0005gr-9z
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 12:31:18 -0500
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:38357)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1izkzh-0005O9-Cg
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 12:31:13 -0500
-Received: by mail-wr1-x432.google.com with SMTP id k11so8179824wrd.9
- for <qemu-devel@nongnu.org>; Thu, 06 Feb 2020 09:31:12 -0800 (PST)
+ id 1izkzl-0005d1-2O
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 12:31:17 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id a9so991717wmj.3
+ for <qemu-devel@nongnu.org>; Thu, 06 Feb 2020 09:31:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=w5pl3TzQvaQVnyMYNeKi2uN7fk7InvWwzklZYoBOlQs=;
- b=qCQE/I5LhFJZLl3wTpxiQ4MIIL60lARoR1glCBE7G8fp/atAaTrEWixCOvehMbY5RI
- Gk7znuUqw9p4ACtsR6enTWBiIXa2PpB7WNIyyON6kyFiixK8jnIpmFyPBINh7HGA/ga5
- Ts7NDhjhn5U1uhr3Sh6LvL9KeYlXGfQL8hon9CbRAai6vGfA0tifoPZoi7WlCWzxNjzE
- Os7Y5I7gt80qX53sCGWgbAKuJdS87qgwWFtru+IesWPPt6dlIUCepZc/NUkpiFz6rPH+
- OIla3Eo486wyZKtk1CmKul2HLdAsnXblkX+y+ukRaSHm8fAQWhp/AnXRQ6FZSds/Xo1S
- OcNA==
+ bh=5mUsQje4Vxn3HIOn4m+YirZWxx0e2UfwIWtWTCNnLRg=;
+ b=rG28sFKteKvDW4C56gkPydRex38f6gwl7bRyHnqhUSQwUPImCALIN5j+ya7sRPfBdu
+ SkCGgUmNtfWSgvfJngqJ6cQShrXQxzcPU0OztWTctjFILlszYgdbtW0exLXg2BqmBhdw
+ RrKGIWKWGzd7uWIecdua1gRcClg99GmCgvyzgNZeoTLoSRrgmMEIB7+tADSRzMlkF50H
+ biBWSqkOlziwl1cySXALBnNZtfl+wgtQGiJyhYFWe2u+hYzNM0tOun2YlkcP7pFibIFR
+ WnE3vFVUG0Gg733Os3OWSFvFYWWUT+yKgZieQol/K6AyjvKyMDs2RFKWDlxeFbFI1zi3
+ D+Kg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=w5pl3TzQvaQVnyMYNeKi2uN7fk7InvWwzklZYoBOlQs=;
- b=pybBgYdmHOUNdyLbyi2oEWOOknYJh670jM/SHSozfuuPiuwBWJ4yq7wLbuIChCJNC/
- c71B2VYTaHRb/hBM+RYHVu3Z8WDAKRYShMkBKd+ItTGlj9FlhUlVlk6HNx1OFa3PgKBA
- ArcGsfeUF1r168Ycdym8qUKhZijXFmOiz15IP3+1KFm5kLd3QHrV6H1XuqGKgkjPhrj7
- nTFzbn781pYG9Cv9YUXmyIBKlYadEzg9obyzDraFwU69qHjuxNfKlFKQEMIWPq9AF1hw
- sRzwh9SJwxkuV9s8Wgtj1Sc/radc6A7vjvcusK9lw6Of/S0rRcIAC+Tcc7jAtjUqZj7p
- UDZQ==
-X-Gm-Message-State: APjAAAWiXwHReR1ubBbAc2yUnOmZALpKzAsSDmINNnRcfQaIGjiZ4zXn
- FNEN6KCNHuYMK7zQzjqNllSv+fUwGOc=
-X-Google-Smtp-Source: APXvYqzd+oGWCXam7t3UwdHZpSkTqh4gTv76VckK9mk5OcMqPdr+RBcHCDWE9MLln0rF8StBqTJgsA==
-X-Received: by 2002:a5d:488c:: with SMTP id g12mr4970537wrq.67.1581010270862; 
- Thu, 06 Feb 2020 09:31:10 -0800 (PST)
+ bh=5mUsQje4Vxn3HIOn4m+YirZWxx0e2UfwIWtWTCNnLRg=;
+ b=HRNOJo7ObggtSXkwdTmudvoRObtIrFU2aDj445TI4WiD8x7rpT75Zkgal2a2mWOt6f
+ z50CC8LXk11s5YFHhZ+VWC9WvY0xTMjPMN+zGjwczBAId156z0tGpx/SCkZyAkRR4Afc
+ Psg8y8Z7xglPuP8bwgEeQJGVTnyg9H3Y5lNBWxgnlZXkK4OMz+xJ2bHl4g6o1O1ByvPd
+ KEfAhRyZHNK1mlAyUB9lvaMwwVuC5ARSb3wZo54AWtMvfU8lIk1X7DpmaCW8HgkGSIib
+ QgStVhn5eaP7WL1fNynMMU6mAjz3qtyYXGMcyUgbXNsNNcvJAuPHWYSkE3TPbTnqeqZN
+ 1T8A==
+X-Gm-Message-State: APjAAAVtvjGHbT1bSVm/oe5du0QPRspcquytijhiArI9MJKXvsz2TvWZ
+ GLyUs+wxw35nZjp+eRr7gWNHeP4KlXo=
+X-Google-Smtp-Source: APXvYqwQAmjq6REGNCsIHzsZjbMfeaeGjUWUEWRsEdfoG1FeBqbjOWoVHL8nsW737iWalSh6XFSwNQ==
+X-Received: by 2002:a7b:c152:: with SMTP id z18mr5662343wmi.70.1581010275290; 
+ Thu, 06 Feb 2020 09:31:15 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id w15sm5204214wrs.80.2020.02.06.09.31.09
+ by smtp.gmail.com with ESMTPSA id w15sm5204214wrs.80.2020.02.06.09.31.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Feb 2020 09:31:09 -0800 (PST)
+ Thu, 06 Feb 2020 09:31:11 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 10/29] qapi: Remove hardcoded tabs
-Date: Thu,  6 Feb 2020 17:30:21 +0000
-Message-Id: <20200206173040.17337-11-peter.maydell@linaro.org>
+Subject: [PATCH 11/29] qapi/ui.json: Put input-send-event body text in the
+ right place
+Date: Thu,  6 Feb 2020 17:30:22 +0000
+Message-Id: <20200206173040.17337-12-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200206173040.17337-1-peter.maydell@linaro.org>
 References: <20200206173040.17337-1-peter.maydell@linaro.org>
@@ -65,7 +66,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::432
+X-Received-From: 2a00:1450:4864:20::32a
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,65 +85,53 @@ Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There are some stray hardcoded tabs in some of our json files;
-remove them.
+In the doc comment for input-send-event, there is a multi-line
+chunk of text ("The @device...take precedence") which is intended
+to be the main body text describing the event. However it has
+been placed after the arguments and Returns: section, which
+means that the parser actually thinks that this text is
+part of the "Returns" section text.
+
+Move the body text up to the top so that the parser correctly
+classifies it as body.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
-Most of the hardcoded tabs got removed in passing in
-fixing the indent in lines that they were in, but
-these are not part of doc comments.
----
- qapi/block-core.json | 4 ++--
- qapi/migration.json  | 6 +++---
- 2 files changed, 5 insertions(+), 5 deletions(-)
+ qapi/ui.json | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/qapi/block-core.json b/qapi/block-core.json
-index 006a0bf7a7c..6cc8a4f73e0 100644
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -2938,8 +2938,8 @@
-             '*pr-manager': 'str',
-             '*locking': 'OnOffAuto',
-             '*aio': 'BlockdevAioOptions',
--	    '*drop-cache': {'type': 'bool',
--	                    'if': 'defined(CONFIG_LINUX)'},
-+            '*drop-cache': {'type': 'bool',
-+                            'if': 'defined(CONFIG_LINUX)'},
-             '*x-check-cache-dropped': 'bool' },
-   'features': [ { 'name': 'dynamic-auto-read-only',
-                   'if': 'defined(CONFIG_POSIX)' } ] }
-diff --git a/qapi/migration.json b/qapi/migration.json
-index aa160e9e42d..11033b7a8e6 100644
---- a/qapi/migration.json
-+++ b/qapi/migration.json
-@@ -98,7 +98,7 @@
- ##
- { 'struct': 'CompressionStats',
-   'data': {'pages': 'int', 'busy': 'int', 'busy-rate': 'number',
--	   'compressed-size': 'int', 'compression-rate': 'number' } }
-+           'compressed-size': 'int', 'compression-rate': 'number' } }
- 
- ##
- # @MigrationStatus:
-@@ -713,7 +713,7 @@
-             '*multifd-channels': 'int',
-             '*xbzrle-cache-size': 'size',
-             '*max-postcopy-bandwidth': 'size',
--	    '*max-cpu-throttle': 'int' } }
-+            '*max-cpu-throttle': 'int' } }
- 
- ##
- # @migrate-set-parameters:
-@@ -845,7 +845,7 @@
-             '*block-incremental': 'bool' ,
-             '*multifd-channels': 'uint8',
-             '*xbzrle-cache-size': 'size',
--	    '*max-postcopy-bandwidth': 'size',
-+            '*max-postcopy-bandwidth': 'size',
-             '*max-cpu-throttle':'uint8'} }
- 
- ##
+diff --git a/qapi/ui.json b/qapi/ui.json
+index aced267a1e4..94a07318f55 100644
+--- a/qapi/ui.json
++++ b/qapi/ui.json
+@@ -949,13 +949,6 @@
+ #
+ # Send input event(s) to guest.
+ #
+-# @device: display device to send event(s) to.
+-# @head: head to send event(s) to, in case the
+-#        display device supports multiple scanouts.
+-# @events: List of InputEvent union.
+-#
+-# Returns: Nothing on success.
+-#
+ # The @device and @head parameters can be used to send the input event
+ # to specific input devices in case (a) multiple input devices of the
+ # same kind are added to the virtual machine and (b) you have
+@@ -967,6 +960,13 @@
+ # are admissible, but devices with input routing config take
+ # precedence.
+ #
++# @device: display device to send event(s) to.
++# @head: head to send event(s) to, in case the
++#        display device supports multiple scanouts.
++# @events: List of InputEvent union.
++#
++# Returns: Nothing on success.
++#
+ # Since: 2.6
+ #
+ # Note: The consoles are visible in the qom tree, under
 -- 
 2.20.1
 
