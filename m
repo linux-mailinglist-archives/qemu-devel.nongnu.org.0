@@ -2,69 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95CEC154B70
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 19:48:31 +0100 (CET)
-Received: from localhost ([::1]:44664 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2A61154B7A
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 19:56:34 +0100 (CET)
+Received: from localhost ([::1]:44716 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izmCU-0001pQ-MM
-	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 13:48:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39802)
+	id 1izmKH-0005II-OT
+	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 13:56:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43463)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1izmBX-0001Ip-DF
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 13:47:33 -0500
+ (envelope-from <bounces@canonical.com>) id 1izmJO-0004rE-2p
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 13:55:39 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1izmBU-0001y8-GB
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 13:47:31 -0500
-Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:42570)
+ (envelope-from <bounces@canonical.com>) id 1izmJM-0003Ow-E3
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 13:55:38 -0500
+Received: from indium.canonical.com ([91.189.90.7]:56946)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1izmBU-0001qp-9I
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 13:47:28 -0500
-Received: by mail-oi1-x242.google.com with SMTP id j132so5640160oih.9
- for <qemu-devel@nongnu.org>; Thu, 06 Feb 2020 10:47:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=W1QD4+y0q0eM1PwCMwwBeY/E5UiYS+V7aYoYuV5EFX0=;
- b=oaQhe9Ripi34qO/PXevvR+mgi1uLO84fdHITe6xnNMLZVFqxJWQ6vHfSPvEb9hSOcR
- w05Wj0RKPZsKbVxY1/gEy3NOffDQgJ/XT2WJNR49oyw7RVYH6BbLWwy2lSc3RgpbGEfh
- py5SSJTzzLgFBFRFPz5RwH+dtxTWmQB52s0fYovRH+b8TNbdYeWAjs9CGDHEAy7WQvPY
- RIqkN3o0oWbgSJSr514pk18Q6nA4vacaURV+i4ODMxSnmeZGD/7M/F+MOb3HseONv/pQ
- GxjGknzizk+0/IDFZQxGObUA11Ao0R5rYMTXYcwwDvvIc//s/ENUGousSYLn8SMCWwFj
- m9XQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=W1QD4+y0q0eM1PwCMwwBeY/E5UiYS+V7aYoYuV5EFX0=;
- b=mJK2yD/V/q0hkduI+pHvgfeTT0wXpgTIrKjKpWdxq2TnSSTzH+NqxlZlSlk7jhmBqa
- 6DDGgXitlXR+SasdDSVRJeBf112jh9VJ4T1xVsB6r5LlXkbDwUe1XLUfeQ6SGCmPsJlb
- CjInY2VN3KfIv7QJAWFFCIWpKRDqhzuNFUeF6T6rTzTXWlhRSHzZtuG15p3eAxqPaSTe
- 5FDKJcOk5LJKWlnZk7yadvHFUR5cJTvVRxck/lTHp56XWcqmgVG7DV1YurkQwiVzJuR/
- 5HKWDCYl8XjkCsdvMf48iRBTbq/SpxhDTgYWjEQCB6ny0KqsoN/Qu78LcKrmAFh1QhYd
- 4WvA==
-X-Gm-Message-State: APjAAAVPvQaxiw7hX9AN1YsFSxXYAefeHPWES5j8RNMDD1H/4pwlZu33
- bqr6phvflO0+pX7vA+VYgj8b3ectnqtlfih43LqySSiZ
-X-Google-Smtp-Source: APXvYqwuRVfclYNA/gPu1ZBSD+sXCNC/yhTt69bDbQuBENN9WvyNM94nvoHB9U6io0rufY0Jeh7NgD9BhT6Ys1Vt4dQ=
-X-Received: by 2002:a05:6808:3b2:: with SMTP id
- n18mr7709063oie.146.1581014846637; 
- Thu, 06 Feb 2020 10:47:26 -0800 (PST)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1izmJM-0003NG-8J
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 13:55:36 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1izmJJ-00078n-Py
+ for <qemu-devel@nongnu.org>; Thu, 06 Feb 2020 18:55:33 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id C0AB62E80C0
+ for <qemu-devel@nongnu.org>; Thu,  6 Feb 2020 18:55:33 +0000 (UTC)
 MIME-Version: 1.0
-References: <20200206173040.17337-1-peter.maydell@linaro.org>
-In-Reply-To: <20200206173040.17337-1-peter.maydell@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 6 Feb 2020 18:47:15 +0000
-Message-ID: <CAFEAcA8pD9kk3t5PcUsCGdS+Wzcv6z0xn7L_aE-2SA6k66j9+w@mail.gmail.com>
-Subject: Re: [PATCH 00/29] Convert QAPI doc comments to generate rST instead
- of texinfo
-To: QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::242
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 06 Feb 2020 18:48:11 -0000
+From: Alex Williamson <alex.l.williamson@gmail.com>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: alex-l-williamson chrs-hoy
+X-Launchpad-Bug-Reporter: Chris Hoy (chrs-hoy)
+X-Launchpad-Bug-Modifier: Alex Williamson (alex-l-williamson)
+References: <158096626936.9041.17441916407484515612.malonedeb@chaenomeles.canonical.com>
+Message-Id: <158101489130.26751.4263158539825062006.malone@soybean.canonical.com>
+Subject: [Bug 1862110] Re: qemu in script is not parsing properly
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="0a62c17273454a1313f81a74a2198ec30b44c7b6";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 45ba8132b77d5f9bb0e339a0730fd0ec941d56da
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -73,41 +64,126 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- Michael Roth <mdroth@linux.vnet.ibm.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, John Snow <jsnow@redhat.com>
+Reply-To: Bug 1862110 <1862110@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 6 Feb 2020 at 17:30, Peter Maydell <peter.maydell@linaro.org> wrote:
-> This series switches all our QAPI doc comments over from
-> texinfo format to rST.
+Your script is broken, you cannot mix continued lines, blank lines, and
+comments.  Take for instance this example:
 
-Oops, this fails 'make check' because I forgot to run it (not thinking
-of docs changes as being stuff that affects test) and there are
-a couple of golden-master files that need updating. I have some
-minor changes that I'll put in v2 which correct that:
+---
+#!/bin/bash
 
- * a new patch "tests/qapi/doc-good.json: Clean up markup"
-   which removes some oddities of the old markup that we don't
-   want to support, tightening up the tested doc comments:
-     * in a single list the bullet types must all match
-     * lists must have leading and following blank lines
-     * indentation is important
-     * the '|' example syntax is going to go away entirely,
-       so stop testing it
- * patches "scripts/qapi: Move doc-comment whitespace stripping to doc.py"
-   and "scripts/qapi/parser.py: improve doc comment indent handling"
-   both make minor whitespace changes that require updates to the
-   tests/qapi-schema/doc-good.out reference
- * "scripts/qapi: Remove texinfo generation support" now
-   removes the no-longer-used tests/qapi-schema/doc-good.texi
+echo Hello \
+World
 
-I won't send v2 until this has had some review, though. If you
-want a git branch with the pending-for-v2 fixups it's at:
-https://git.linaro.org/people/peter.maydell/qemu-arm.git sphinx-conversions
+echo Hello \
 
-thanks
--- PMM
+World
+
+echo Hello \
+
+# Earth
+
+World
+---
+
+Which results in:
+
+$ ./hello.sh =
+
+Hello World
+Hello
+./hello.sh: line 8: World: command not found
+Hello
+./hello.sh: line 14: World: command not found
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1862110
+
+Title:
+  qemu in script is not parsing properly
+
+Status in QEMU:
+  New
+
+Bug description:
+  Bug Report:
+  >>qemu-system-x86_64 --version: QEMU emulator version 4.2.0
+  >>Arch-linux version 2020.02.01
+  I was following a tutorial on how to make a windows vm and i have encount=
+ered and issue in the settings of my script I have listed below.
+
+  The commented code directly above the uncommented qemu instance would
+  boot the Windows screen but the issue arises when I try to reach the
+  same code block under the commented setting lines which takes me to
+  the default SeaBIOS loader.
+
+  #!/bin/bash
+
+  vmname=3D"windows10vm"
+
+  if ps -ef | grep qemu-system-x86_64 | grep -q multifunction=3Don; then
+  echo "A passthrough VM is already running." &
+  exit 1
+
+  else
+
+  # use pulseaudio
+
+  export QEMU_AUDIO_DRV=3Dpa
+  export QEMU_PA_SAMPLES=3D8192
+  export QEMU_AUDIO_TIMER_PERIOD=3D99
+  export QEMU_PA_SERVER=3D/run/user/1000/pulse/native
+
+  cp /usr/share/ovmf/x64/OVMF_VARS.fd /tmp/my_vars.fd
+
+  #qemu-system-x86_64 \
+  #-drive id=3Ddisk0,if=3Dvirtio,cache=3Dnone,format=3Draw,file=3D.../IMGs/=
+win.img \
+  #-drive file=3D.../ISOs/Win10_1909_English_x64.iso,index=3D1,media=3Dcdro=
+m \
+
+  qemu-system-x86_64 \
+
+  #-name $vmname,process=3D$vmname \
+  #-machine type=3Dq35,accel=3Dkvm \
+  #-cpu host,kvm=3Doff \
+  #-smp 4,sockets=3D1,cores=3D3,threads=3D1 \
+  #-m 8G \
+  #-balloon none \
+  #-rtc clock=3Dhost,base=3Dlocaltime \
+  #-vga none \
+  #-nographic \
+  #-serial none \
+  #-parallel none \
+  #-soundhw hda \
+  #-usb \
+  #-device usb-host,vendorid=3D...,productid=3D... \
+  #-device usb-host,vendorid=3D...,productid=3D... \
+  #-device vfio-pci,host=3D...,multifunction=3Don \
+  #-device vfio-pci,host=3D... \
+  #-drive if=3Dpflash,format=3Draw,readonly,file=3D/usr/share/ovmf/x64/OVMF=
+_VARS.fd \
+  #-drive if=3Dpflash,format=3Draw,file=3D/tmp/my_vars.fd \
+  #-boot order=3D dc \
+
+  -drive id=3Ddisk0,if=3Dvirtio,cache=3Dnone,format=3Draw,file=3D.../IMGs/w=
+in.img \
+  -drive file=3D.../ISOs/Win10_1909_English_x64.iso,index=3D1,media=3Dcdrom=
+ \
+  -drive file=3D.../ISOs/virtio-0.1.171.iso,index=3D2,media=3Dcdrom \
+
+  #-netdev type=3Dtap,id=3Dnet0,ifname=3Dvmtap0,vhost=3Don \
+  #-device virtio-net-pci,netdev=3Dnet0,mac=3D... \
+
+  exit 0
+
+  fi
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1862110/+subscriptions
 
