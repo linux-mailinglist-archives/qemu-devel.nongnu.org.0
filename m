@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C1A71543A5
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 13:01:44 +0100 (CET)
-Received: from localhost ([::1]:37438 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30C2E1543B1
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 13:03:56 +0100 (CET)
+Received: from localhost ([::1]:37476 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izfqp-0003Nn-Cx
-	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 07:01:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56955)
+	id 1izfsx-0005Ax-8W
+	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 07:03:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57404)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1izfp6-0002dB-N2
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 06:59:57 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1izfrk-0004G6-Q5
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 07:02:41 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1izfp5-0004fO-Ps
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 06:59:56 -0500
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:44257)
+ (envelope-from <richard.henderson@linaro.org>) id 1izfrj-0007Yi-Or
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 07:02:40 -0500
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:38352)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1izfp5-0004bg-Fn
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 06:59:55 -0500
-Received: by mail-wr1-x444.google.com with SMTP id m16so6805631wrx.11
- for <qemu-devel@nongnu.org>; Thu, 06 Feb 2020 03:59:54 -0800 (PST)
+ id 1izfrj-0007Y4-IW
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 07:02:39 -0500
+Received: by mail-wm1-x343.google.com with SMTP id a9so6784219wmj.3
+ for <qemu-devel@nongnu.org>; Thu, 06 Feb 2020 04:02:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=ugTmMjZDVlcovwqWwilo+FlkL7KBnhXf/E6DYiyih8E=;
- b=uG+ALDT8fSGcA2Yw7gjXagHANqn52smYG6bnTQ3emIuEHwSHHx9q0uHyNyuk8nRdO8
- yW+QWqgrn5awBLk1KIeQXZADl+5F8yMLyXXS5QX30EwGMgRvw5IKtLaghuIbgUuK3fV3
- u8/h3j5X2M1pm0VpckWyk5lY94JrWKQYUkx0BZxcI4HJSsMvCn7AnYVT2ssps8CfPMee
- jWnp3R+tZfVwb+zuFgoh0WzD+cKBAWV1bX5JLZG+kYQuEgWVUXMFB3Sh4uy5z0sZX827
- m9R6NmFGnSrIk6rEMJ8A0GFlAG+dmJ58pt5TTsQUMQZkkUIDhzuDR72BMbv/Zc24oESA
- q0Zg==
+ bh=HBy5PkeVodJyU0jU3CUnYqkVz9BEQKSFwyE5VLnRHZw=;
+ b=mmB97qzL+DybrhO/oomdcIhVVLaGU6psRPRXeCvPQUGB31paZY1Ia2E4z97MfgHFNm
+ PDlA68QhL8c4R4q+Yil/TrlDR8xJaJ4a2Ndi1yiyTTylykQyQj4Cj0LpnTRIM0enOXnV
+ FhpfXy94/a981p2s14l2HcDCJotAGrn0IRbH4PftVlJDzb0AzSloQl4fqIvY/IYXMf3A
+ Zqyd4/I7SiR3ePatMBcqLOIX2of2Vgjc9pqQtocKCe7ZFHpv/AFvmmym6CaxEJUBEscd
+ HRP8kk2GWaN438VMtQnsYDMYgDEBLb7gR5R02OsCS4Ud4fjVYC+GsCMofIxn/zwIzxM4
+ wpWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=ugTmMjZDVlcovwqWwilo+FlkL7KBnhXf/E6DYiyih8E=;
- b=jRMW6wbnF61qYPIuphZEW4F5W3o9IcIACMPMnKy0f6+ykT4JJB1UTdootXRJ6tBhe6
- yGU8WDAyczf+YIxgOyOZDNrHm8aZk0lLAVxcIOhGTxdOF2z2eqw8+wtKJ7NYdcLTqGEW
- BGvbV07DdaT045r0rl7QcWW1+gSwWPZPPHyXLeqCWgEGB94FEf3xlWqD177YEKJKcQla
- cgPFcZ07kiWK/tRi/dHFIhynt28ckfZTaxRun844Oa3D0fWBQGHGH42yQskCBmFY1i1z
- AlxCkEtrJKWa6unWQnnxjU9buitLJmCk+ZYQJlL7Gmib4pyWqVSw1IvhbfE/QQqcGpuv
- xFCg==
-X-Gm-Message-State: APjAAAVjQMEMFPPiN7JjvVFSI7UQdW2ikEdyiGVgafeSQk999cnDRPtX
- aqT1n1oOg8oelvr9dhwNe2bLyQ==
-X-Google-Smtp-Source: APXvYqyovjz7HaA3XDcBiH9inaHxPk4MuXpY4VetBmFx4ahWZ3T93XPMgiyqn34tby+nM/SDOmXVNQ==
-X-Received: by 2002:a5d:6b03:: with SMTP id v3mr3320931wrw.289.1580990393503; 
- Thu, 06 Feb 2020 03:59:53 -0800 (PST)
+ bh=HBy5PkeVodJyU0jU3CUnYqkVz9BEQKSFwyE5VLnRHZw=;
+ b=N95HUPRZ4wzpTOzXmg3ylh7yluEszzDaxECtE0LzOwo8wxwSFi9x1xFU6DGSQCJqDX
+ RRKWAUPR+kC3PWk7Mh+5CPKCvnOkyIFbVICY250L93S+qdGO212Rn2xci4rmCg7TylCr
+ LP3xxNtLlyg17OMlc863NIhT5e9rJfAFBicJWOGzrpJVdcB33VQoL9uGrO2MUAR2qESb
+ rpt8iXvSO2+vXgZLvvHjj6DeMgctgP05FgFgjjOCB5XlZV4MxvSkX7LrWnzISDi5L8Lu
+ vxuAsj+t/GRsJz99LNN9jzHGpgNr49RskgZTkzFzpOmb4fvIWROHWDXyfgq7Pqihempx
+ RmEQ==
+X-Gm-Message-State: APjAAAUoxGKaxcitRCFBS1i5NTcGks+J71FC5Sw0NC6zifKkfKysFVoD
+ VvDY5EqEw5aL7lUw/zN0RTvGxQ==
+X-Google-Smtp-Source: APXvYqwFLfNISMUcfBr7afl1sQ56rVmfPDmlw0B50YCwwJOMdiTa6QFwOZZu3+nXg0gUJHRipyqYXQ==
+X-Received: by 2002:a1c:b486:: with SMTP id d128mr4311375wmf.69.1580990556264; 
+ Thu, 06 Feb 2020 04:02:36 -0800 (PST)
 Received: from [10.43.13.93] ([135.196.99.211])
- by smtp.gmail.com with ESMTPSA id g15sm4025164wro.65.2020.02.06.03.59.52
+ by smtp.gmail.com with ESMTPSA id a184sm3434092wmf.29.2020.02.06.04.02.35
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 06 Feb 2020 03:59:52 -0800 (PST)
-Subject: Re: [PATCH v1 07/13] util/mmap-alloc: Factor out populating of memory
- to mmap_populate()
+ Thu, 06 Feb 2020 04:02:35 -0800 (PST)
+Subject: Re: [PATCH v1 08/13] util/mmap-alloc: Prepare for resizable mmaps
 To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
 References: <20200203183125.164879-1-david@redhat.com>
- <20200203183125.164879-8-david@redhat.com>
+ <20200203183125.164879-9-david@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <04926fd7-6133-c2a3-d33d-85c48cbffbae@linaro.org>
-Date: Thu, 6 Feb 2020 11:59:51 +0000
+Message-ID: <a5910c34-43d4-85bf-41c1-1948ea9221f5@linaro.org>
+Date: Thu, 6 Feb 2020 12:02:34 +0000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200203183125.164879-8-david@redhat.com>
+In-Reply-To: <20200203183125.164879-9-david@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::444
+X-Received-From: 2a00:1450:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,8 +91,14 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 2/3/20 6:31 PM, David Hildenbrand wrote:
-> We want to populate memory within a reserved memory region. Let's factor
-> that out.
+> When shrinking a mmap we want to re-reserve the already populated area.
+> When growing a memory region, we want to populate starting with a given
+> fd_offset. Prepare by allowing to pass these parameters.
+> 
+> Also, let's make sure we always process full pages, to avoid
+> unmapping/remapping pages that are already in use when
+> growing/shrinking. (existing callers seem to guarantee this, but that's
+> not obvious)
 > 
 > Cc: "Michael S. Tsirkin" <mst@redhat.com>
 > Cc: Greg Kurz <groug@kaod.org>
@@ -102,8 +107,8 @@ On 2/3/20 6:31 PM, David Hildenbrand wrote:
 > Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 > Signed-off-by: David Hildenbrand <david@redhat.com>
 > ---
->  util/mmap-alloc.c | 89 +++++++++++++++++++++++++----------------------
->  1 file changed, 47 insertions(+), 42 deletions(-)
+>  util/mmap-alloc.c | 32 +++++++++++++++++++++-----------
+>  1 file changed, 21 insertions(+), 11 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
