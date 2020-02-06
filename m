@@ -2,58 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B34B15447E
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 14:04:56 +0100 (CET)
-Received: from localhost ([::1]:38464 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C62A7154472
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 14:01:55 +0100 (CET)
+Received: from localhost ([::1]:38416 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izgpz-00043H-4A
-	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 08:04:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57795)
+	id 1izgn4-0006zm-Pi
+	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 08:01:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57910)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1izgde-0003pN-2B
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 07:52:11 -0500
+ (envelope-from <mreitz@redhat.com>) id 1izgdk-00048Z-JX
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 07:52:17 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1izgdd-0001qy-0G
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 07:52:09 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:25707
+ (envelope-from <mreitz@redhat.com>) id 1izgdj-0002GD-Et
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 07:52:16 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:46281
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1izgdc-0001pR-SN
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 07:52:08 -0500
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1izgdj-0002Ef-AW
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 07:52:15 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1580993528;
+ s=mimecast20190719; t=1580993535;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rHAUWzt6avoVW6phXiYyG8JK8L6KH9qBvSRszB9uNBQ=;
- b=iNAWbMt9nAW5z3LFrxwvAKso9HdRtzsXkqGalAyGqU/zRRah+G3m4mg4SadoLvwVtYOVyB
- /dr6R2wcbYbJJm7TZ+H7CA0++PgTN54aA3sxKlYoxC6osxS8hv5ZKw0gxaEhLXFpW7mqGp
- XP8kLPHbBA4TVPjdvNX4WU0YOUBrXQQ=
+ bh=mP+nNpAcdiBs92E8MUmJ6ArcZRiK8Dip4hFYun9uhac=;
+ b=NELOLgqHjZf+01KlZEFRzwMXmngPPdpgY7ih1/tLQAPRaaci/VM83IOG3Z1WIFmFEJi5Mh
+ kTgsUluKxMGHBArYYAcSj335Bln1Gk2x9/WW3wkQhxwLxD71ZId6tFPTfdHnrJkBPFH6TJ
+ nRC3PQqJjaBnFSuqJx029rHgglN41y0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-62-HShPvbFqO5CaL9WDFue_ZA-1; Thu, 06 Feb 2020 07:52:06 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-186-XP2PixYYPNSTmR3nmI14FQ-1; Thu, 06 Feb 2020 07:52:08 -0500
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 776CA800D6C;
- Thu,  6 Feb 2020 12:52:05 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 887981137841;
+ Thu,  6 Feb 2020 12:52:07 +0000 (UTC)
 Received: from localhost (unknown [10.36.118.15])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1C11E60BF7;
- Thu,  6 Feb 2020 12:52:04 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2AFFB863A5;
+ Thu,  6 Feb 2020 12:52:07 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 15/17] qcow2: Use BDRV_SECTOR_SIZE instead of the hardcoded
- value
-Date: Thu,  6 Feb 2020 13:51:30 +0100
-Message-Id: <20200206125132.594625-16-mreitz@redhat.com>
+Subject: [PULL 16/17] block/backup-top: fix failure path
+Date: Thu,  6 Feb 2020 13:51:31 +0100
+Message-Id: <20200206125132.594625-17-mreitz@redhat.com>
 In-Reply-To: <20200206125132.594625-1-mreitz@redhat.com>
 References: <20200206125132.594625-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: HShPvbFqO5CaL9WDFue_ZA-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-MC-Unique: XP2PixYYPNSTmR3nmI14FQ-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
@@ -76,47 +75,98 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Alberto Garcia <berto@igalia.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-This replaces all remaining instances in the qcow2 code.
+We can't access top after call bdrv_backup_top_drop, as it is already
+freed at this time.
 
-Signed-off-by: Alberto Garcia <berto@igalia.com>
-Message-id: b5f74b606c2d9873b12d29acdb7fd498029c4025.1579374329.git.berto@i=
-galia.com
+Also, no needs to unref target child by hand, it will be unrefed on
+bdrv_close() automatically.
+
+So, just do bdrv_backup_top_drop if append succeed and one bdrv_unref
+otherwise.
+
+Note, that in !appended case bdrv_unref(top) moved into drained section
+on source. It doesn't really matter, but just for code simplicity.
+
+Fixes: 7df7868b96404
+Cc: qemu-stable@nongnu.org # v4.2.0
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Reviewed-by: Max Reitz <mreitz@redhat.com>
+Message-id: 20200121142802.21467-2-vsementsov@virtuozzo.com
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block/qcow2.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ block/backup-top.c | 21 ++++++++++++---------
+ 1 file changed, 12 insertions(+), 9 deletions(-)
 
-diff --git a/block/qcow2.c b/block/qcow2.c
-index ff257d1a6c..ef96606f8d 100644
---- a/block/qcow2.c
-+++ b/block/qcow2.c
-@@ -3272,7 +3272,8 @@ qcow2_co_create(BlockdevCreateOptions *create_options=
-, Error **errp)
+diff --git a/block/backup-top.c b/block/backup-top.c
+index 9aed2eb4c0..fa78f3256d 100644
+--- a/block/backup-top.c
++++ b/block/backup-top.c
+@@ -190,6 +190,7 @@ BlockDriverState *bdrv_backup_top_append(BlockDriverSta=
+te *source,
+     BlockDriverState *top =3D bdrv_new_open_driver(&bdrv_backup_top_filter=
+,
+                                                  filter_node_name,
+                                                  BDRV_O_RDWR, errp);
++    bool appended =3D false;
 =20
-     /* Validate options and set default values */
-     if (!QEMU_IS_ALIGNED(qcow2_opts->size, BDRV_SECTOR_SIZE)) {
--        error_setg(errp, "Image size must be a multiple of 512 bytes");
-+        error_setg(errp, "Image size must be a multiple of %u bytes",
-+                   (unsigned) BDRV_SECTOR_SIZE);
-         ret =3D -EINVAL;
-         goto out;
+     if (!top) {
+         return NULL;
+@@ -212,8 +213,9 @@ BlockDriverState *bdrv_backup_top_append(BlockDriverSta=
+te *source,
+     bdrv_append(top, source, &local_err);
+     if (local_err) {
+         error_prepend(&local_err, "Cannot append backup-top filter: ");
+-        goto append_failed;
++        goto fail;
      }
-@@ -3946,8 +3947,9 @@ static int coroutine_fn qcow2_co_truncate(BlockDriver=
-State *bs, int64_t offset,
-         return -ENOTSUP;
++    appended =3D true;
+=20
+     /*
+      * bdrv_append() finished successfully, now we can require permissions
+@@ -224,14 +226,14 @@ BlockDriverState *bdrv_backup_top_append(BlockDriverS=
+tate *source,
+     if (local_err) {
+         error_prepend(&local_err,
+                       "Cannot set permissions for backup-top filter: ");
+-        goto failed_after_append;
++        goto fail;
      }
 =20
--    if (offset & 511) {
--        error_setg(errp, "The new size must be a multiple of 512");
-+    if (!QEMU_IS_ALIGNED(offset, BDRV_SECTOR_SIZE)) {
-+        error_setg(errp, "The new size must be a multiple of %u",
-+                   (unsigned) BDRV_SECTOR_SIZE);
-         return -EINVAL;
+     state->bcs =3D block_copy_state_new(top->backing, state->target,
+                                       cluster_size, write_flags, &local_er=
+r);
+     if (local_err) {
+         error_prepend(&local_err, "Cannot create block-copy-state: ");
+-        goto failed_after_append;
++        goto fail;
      }
+     *bcs =3D state->bcs;
 =20
+@@ -239,14 +241,15 @@ BlockDriverState *bdrv_backup_top_append(BlockDriverS=
+tate *source,
+=20
+     return top;
+=20
+-failed_after_append:
+-    state->active =3D false;
+-    bdrv_backup_top_drop(top);
++fail:
++    if (appended) {
++        state->active =3D false;
++        bdrv_backup_top_drop(top);
++    } else {
++        bdrv_unref(top);
++    }
+=20
+-append_failed:
+     bdrv_drained_end(source);
+-    bdrv_unref_child(top, state->target);
+-    bdrv_unref(top);
+     error_propagate(errp, local_err);
+=20
+     return NULL;
 --=20
 2.24.1
 
