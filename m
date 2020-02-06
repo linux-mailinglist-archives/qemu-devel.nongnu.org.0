@@ -2,96 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5A771549A2
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 17:49:15 +0100 (CET)
-Received: from localhost ([::1]:42302 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B4D11549AA
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 17:50:30 +0100 (CET)
+Received: from localhost ([::1]:42330 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izkL4-00072A-Un
-	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 11:49:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55965)
+	id 1izkMH-0001Q0-It
+	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 11:50:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56558)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1izkJi-00061u-B9
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 11:47:51 -0500
+ (envelope-from <eblake@redhat.com>) id 1izkL1-00083K-V8
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 11:49:13 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1izkJg-0000p3-TL
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 11:47:50 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:54458
+ (envelope-from <eblake@redhat.com>) id 1izkL0-0007Tg-20
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 11:49:11 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:35011
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1izkJf-0000m1-Oe
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 11:47:48 -0500
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1izkKz-0007R9-Uh
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 11:49:10 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581007665;
+ s=mimecast20190719; t=1581007749;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=4sTNJYlgQp756jNZAGUB0FXvrZgWAaRSclKnlZC9UbQ=;
- b=dpoZfFGiqyE6h34rbtjKMz5ZaveBnJuGYHt/tPxFh22KbyFN/cU553ToF7073XAR6c0dCw
- OjeMViX5OuGpghnlMVbVHxV9u4x1Z85VXF70Zw4Y/6OKUJHKBjHEvN3pGAgTukS0rE4tpO
- dqTTsbIkE9LHO9qLoP72fZoYJPXLZGo=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=nA0Z9XQdZkLoyMP7+S643kyEMtY3XTB4WmhULCLjqkM=;
+ b=i21k2Zserw/bEkk9R/zevCmSK79oxDIkPvd76XBjEvwPABcBxMEVV1kOSa/X96VveEb0Ey
+ ZE/mEYwsAqBODDMH+GSjrnXtoX/8lQvH/VojgJ+FrGZ1nHOPliAkc0Kn7XvUD0euw62sMw
+ WFE47oYjXiuDLxuL1YvvZNlvdYLV+Lk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-348-iVnNcBhMMO6xO19mQ9h9Jw-1; Thu, 06 Feb 2020 11:47:41 -0500
-X-MC-Unique: iVnNcBhMMO6xO19mQ9h9Jw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-143-Y47xCJDPNQa2ffI0oCmwNw-1; Thu, 06 Feb 2020 11:48:31 -0500
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 595A910A5746;
- Thu,  6 Feb 2020 16:47:40 +0000 (UTC)
-Received: from dresden.str.redhat.com (unknown [10.36.118.15])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E77E78DC2C;
- Thu,  6 Feb 2020 16:47:38 +0000 (UTC)
-Subject: Re: [PATCH v3 09/21] quorum: Add QuorumChild.to_be_replaced
-From: Max Reitz <mreitz@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-References: <20200130214431.333510-1-mreitz@redhat.com>
- <20200130214431.333510-10-mreitz@redhat.com>
- <20200205153859.GE5768@dhcp-200-226.str.redhat.com>
- <92b951da-5e12-e08f-f8f7-a862790b51ac@redhat.com>
- <20200206145825.GD4926@linux.fritz.box>
- <9d767091-4590-9fce-c596-bda5865aa190@redhat.com>
- <20200206155110.GG4926@linux.fritz.box>
- <78bd2830-9b10-9d66-afe1-783226b8edc5@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <8a3c03db-3808-0194-ee03-fef6f28667d8@redhat.com>
-Date: Thu, 6 Feb 2020 17:47:37 +0100
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3D4B7802B9E;
+ Thu,  6 Feb 2020 16:48:30 +0000 (UTC)
+Received: from [10.3.117.249] (ovpn-117-249.phx2.redhat.com [10.3.117.249])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2029B60BEC;
+ Thu,  6 Feb 2020 16:48:27 +0000 (UTC)
+Subject: Re: [PATCH] tests/qemu_iotests: Minimize usage of used ports
+To: Max Reitz <mreitz@redhat.com>, =?UTF-8?B?THVrw6HFoSBEb2t0b3I=?=
+ <ldoktor@redhat.com>, qemu-block@nongnu.org
+References: <20200203075955.28861-1-ldoktor@redhat.com>
+ <fe6a7eb5-352a-3cb5-4e75-bd99baf6d54e@redhat.com>
+ <595ffedf-4213-f000-96e1-3216e272b1c1@redhat.com>
+ <726ca911-be83-c2d5-ff3f-efa32bc2233e@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <797578d5-bfab-5eb7-8921-0fcf1f3ee40e@redhat.com>
+Date: Thu, 6 Feb 2020 10:48:26 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <78bd2830-9b10-9d66-afe1-783226b8edc5@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <726ca911-be83-c2d5-ff3f-efa32bc2233e@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: Y47xCJDPNQa2ffI0oCmwNw-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="PXnANC4CH6LWfjTAn8yOOLcXmVubvQEJA"
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -103,154 +79,170 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: kwolf@redhat.com, qemu-devel@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>, Aarushi Mehta <mehta.aaru20@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---PXnANC4CH6LWfjTAn8yOOLcXmVubvQEJA
-Content-Type: multipart/mixed; boundary="qJdfDjipM2Hy6YaNMAsvF8TTfd0Tc6beG"
+On 2/6/20 10:37 AM, Max Reitz wrote:
 
---qJdfDjipM2Hy6YaNMAsvF8TTfd0Tc6beG
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-On 06.02.20 17:43, Max Reitz wrote:
-> On 06.02.20 16:51, Kevin Wolf wrote:
->> Am 06.02.2020 um 16:21 hat Max Reitz geschrieben:
->>> On 06.02.20 15:58, Kevin Wolf wrote:
->>>> Am 06.02.2020 um 11:11 hat Max Reitz geschrieben:
->>>>> On 05.02.20 16:38, Kevin Wolf wrote:
->>>>>> Am 30.01.2020 um 22:44 hat Max Reitz geschrieben:
->>>>>>> We will need this to verify that Quorum can let one of its children=
- be
->>>>>>> replaced without breaking anything else.
->>>>>>>
->>>>>>> Signed-off-by: Max Reitz <mreitz@redhat.com>
->>>>>>> ---
->>>>>>>  block/quorum.c | 25 +++++++++++++++++++++++++
->>>>>>>  1 file changed, 25 insertions(+)
->>>>>>>
->>>>>>> diff --git a/block/quorum.c b/block/quorum.c
->>>>>>> index 59cd524502..6a7224c9e4 100644
->>>>>>> --- a/block/quorum.c
->>>>>>> +++ b/block/quorum.c
->>>>>>> @@ -67,6 +67,13 @@ typedef struct QuorumVotes {
->>>>>>> =20
->>>>>>>  typedef struct QuorumChild {
->>>>>>>      BdrvChild *child;
->>>>>>> +
->>>>>>> +    /*
->>>>>>> +     * If set, check whether this node can be replaced without any
->>>>>>> +     * other parent noticing: Unshare CONSISTENT_READ, and take th=
-e
->>>>>>> +     * WRITE permission.
->>>>>>> +     */
->>>>>>> +    bool to_be_replaced;
->>>>>>
->>>>>> I don't understand these permission changes. How does (preparing for=
+>>
+>> thank you and I am sorry for not digging deep enough. This week my CI fa=
+iled with:
+>>
+>> 01:24:06 DEBUG| [stdout] +ERROR: test_inet (__main__.QemuNBD)
+>> 01:24:06 DEBUG| [stdout] +----------------------------------------------=
+------------------------
+>> 01:24:06 DEBUG| [stdout] +Traceback (most recent call last):
+>> 01:24:06 DEBUG| [stdout] +  File "147", line 85, in setUp
+>> 01:24:06 DEBUG| [stdout] +    self.vm.launch()
+>> 01:24:06 DEBUG| [stdout] +  File "/home/jenkins/ppc64le/qemu-master/test=
+s/qemu-iotests/../../python/qemu/machine.py", line 302, in launch
+>> 01:24:06 DEBUG| [stdout] +    self._launch()
+>> 01:24:06 DEBUG| [stdout] +  File "/home/jenkins/ppc64le/qemu-master/test=
+s/qemu-iotests/../../python/qemu/machine.py", line 319, in _launch
+>> 01:24:06 DEBUG| [stdout] +    self._pre_launch()
+>> 01:24:06 DEBUG| [stdout] +  File "/home/jenkins/ppc64le/qemu-master/test=
+s/qemu-iotests/../../python/qemu/qtest.py", line 106, in _pre_launch
+>> 01:24:06 DEBUG| [stdout] +    super(QEMUQtestMachine, self)._pre_launch(=
 )
->>>>>> detaching a node from quorum make its content invalid?
->>>>>
->>>>> It doesn=E2=80=99t, of course.  What we are preparing for is to repla=
-ce it by
->>>>> some other node with some other content.
->>>>>
->>>>>> And why do we
->>>>>> suddenly need WRITE permissions even if the quorum node is only used
->>>>>> read-only?
->>>>>>
->>>>>> The comment is a bit unclear, too. "check whether" implies that both
->>>>>> outcomes could be true, but it doesn't say what happens in either ca=
-se.
->>>>>> Is this really "make sure that"?
->>>>>
->>>>> I think the comment is not only unclear, it is the problem.  (Well,
->>>>> maybe the code is also.)
->>>>>
->>>>> This series is about fixing at least some things about replacing node=
-s
->>>>> by mirroring.  The original use cases this was introduced for was to =
-fix
->>>>> broken quorum children: The other children are still intact, so you r=
-ead
->>>>> from the quorum node and replace the broken child (which maybe shows
->>>>> invalid data, or maybe just EIO) by the fixed mirror result.
->>>>>
->>>>> Replacing that broken node by the fixed one changes the data that=E2=
-=80=99s
->>>>> visible on that node.
->>>>
->>>> Hm, yes, that's true. But I wonder if this is really something that th=
-e
->>>> permission system must catch. Like other graph manipulations, it's
->>>> essentially the user saying "trust me, I know what I'm doing, this nod=
-e
->>>> makes sense in this place".
->>>>
->>>> Because if you assume that the user could add a node with unsuitable
->>>> content and you want to prevent this, where do we stop?
->>>> blockdev-snapshot can insert a non-empty overlay, which would result i=
-n
->>>> visible data change. Should we therefore only allow snapshots when
->>>> shared writes are allowed? This doesn't work obviously.
->>>>
->>>> So I'm inclined to say that this is the user's responsibility and we
->>>> don't have to jump through hoops to prevent every possible way that th=
-e
->>>> user could mess up. (Which often also result in preventing legitimate
->>>> cases like here a quorum of read-only nodes.)
->>>
->>> Well, if you ask the question =E2=80=9Cwhere do we stop=E2=80=9D, we al=
-so have to ask
->>> the question =E2=80=9Cwhere do we start=E2=80=9D.  If we say the user k=
-nows what they=E2=80=99re
->>> doing, we might as well drop the whole can_replace infrastructure
->>> altogether and just assume that you can replace any node by anything.
+>> 01:24:06 DEBUG| [stdout] +  File "/home/jenkins/ppc64le/qemu-master/test=
+s/qemu-iotests/../../python/qemu/machine.py", line 270, in _pre_launch
+>> 01:24:06 DEBUG| [stdout] +    self._qmp =3D qmp.QEMUMonitorProtocol(self=
+._vm_monitor, server=3DTrue)
+>> 01:24:06 DEBUG| [stdout] +  File "/home/jenkins/ppc64le/qemu-master/test=
+s/qemu-iotests/../../python/qemu/qmp.py", line 60, in __init__
+>> 01:24:06 DEBUG| [stdout] +    self.__sock.bind(self.__address)
+>> 01:24:06 DEBUG| [stdout] +OSError: [Errno 98] Address already in use
+
+Was this test 147?  If so, see:
+https://lists.gnu.org/archive/html/qemu-devel/2020-02/msg01469.html
+
+because that failure matches what I was seeing.
+
 >>
->> Well, I don't actually know if that would be completely unreasonable.
->> The idea was obviously to keep graph changes restricted to very specific
->> cases to avoid nasty surprises like triggering latent bugs. Meanwhile we
->> have quite a few more operations that allow changing the graph.
+>> I made the mistake of reproducing this on my home system using the qemu =
+revision that I had and assuming it's caused by a used port. So I limited t=
+he port range and used nc to occupy the port. It sort-of reproduced but ins=
+tead of Address already in use it hanged until I kill the nc process. Then =
+it failed with:
 >>
->> So if preventing some cases gives us headaches and is probably more work
->> than dealing with any bugs they might reveal, maybe preventing them is
->> wrong.
+>> +Traceback (most recent call last):
+>> +  File "147", line 124, in test_inet
+>> +    flatten_sock_addr(address))
+>> +  File "147", line 59, in client_test
+>> +    self.assert_qmp(result, 'return', {})
+>> +  File "/home/medic/Work/Projekty/qemu/tests/qemu-iotests/iotests.py", =
+line 821, in assert_qmp
+>> +    result =3D self.dictpath(d, path)
+>> +  File "/home/medic/Work/Projekty/qemu/tests/qemu-iotests/iotests.py", =
+line 797, in dictpath
+>> +    self.fail('failed path traversal for "%s" in "%s"' % (path, str(d))=
+)
+>> +AssertionError: failed path traversal for "return" in "{'error': {'clas=
+s': 'GenericError', 'desc': 'Failed to read initial magic: Unexpected end-o=
+f-file before all bytes were read'}}"
 >>
->> I'm just afraid that we might be overengineering this and waste time on
->> things that we don't actually get much use from.
+
+That's a secondary failure, I assume if the initial bug is fixed we are=20
+less likely to hit the secondary one; but the secondary one may still be=20
+worth fixing.
+
+>> After a brief study I thought qemu is not doing the job well enough and =
+wanted to add a protection. Anyway after a more thorough overview I came to=
+ a different conclusion and that is that we are facing the same issue as wi=
+th incoming migration about a year ago. What happened is that I started "nc=
+ -l localhost 32789" which results in:
+>>
+>> COMMAND   PID  USER   FD   TYPE  DEVICE SIZE/OFF NODE NAME
+>> nc      26758 medic    3u  IPv6 9579487      0t0  TCP localhost:32789 (L=
+ISTEN)
+>>
+>> Then we start the server by "_try_server_up" where qemu-nbd detects the =
+port is occupied on IPv6 but available on IPv4, so it claims it:
+>> COMMAND   PID  USER   FD   TYPE  DEVICE SIZE/OFF NODE NAME
+>> nc        26758 medic    3u  IPv6 9579487      0t0  TCP localhost:32789 =
+(LISTEN)
+>> qemu-nbd  26927 medic    4u  IPv4 9591857      0t0  TCP localhost:32789 =
+(LISTEN)
+>>
+>> and reports success. Then we try to connect but the hotplugged VM first =
+attempts to connect on the IPv6 address and hangs for infinity.
+>>
+>> Now is this an expected behavior? If so then we need the find_free_addre=
+ss (but preferably directly in _try_server_up just before starting the qemu=
+-nbd) to leave as little time-frame for collision as possible. Otherwise th=
+e test is alright and qemu-nbd needs a fix to bail out in case some address=
+ is already used (IIRC this is what incoming migration does).
 >=20
-> That=E2=80=99s why I=E2=80=99m asking.
+> Ah, OK.
+>=20
+> Well, expected behavior...  It=E2=80=99s a shame, that=E2=80=99s what it =
+is.
 
-(One thing to consider here, though, is that this series exists and has
-been reviewed by Vladimir in full, so most of the engineering effort has
-already been done.  In contrast, writing a new series to drop the whole
-can_replace infrastructure with no replacement may actually cost more.)
+In libnbd, we recently improved the testsuite by switching over to=20
+systemd-style fd passing: instead of asking qemu-nbd to open a random=20
+port (and hoping it is available), we instead pre-open the port (where=20
+failure is under our control) and then pass in that fd with environment=20
+variables to qemu-nbd, which in turn guarantees that qemu-nbd won't hit=20
+failures in trying to use the port.  Maybe we should utilize that more=20
+in qemu's own testsuite.
 
-Max
+Also, I need to revisit my proposed patches for letting qemu-nbd support=20
+TLS over Unix sockets, as that's another way to avoid TCP contention=20
+(right now, qemu has an anachronistic prohibition against the=20
+combination of TLS and Unix sockets).
+
+>=20
+>> My second mistake was testing this on the old code-base and rebasing it =
+only before sending the patch (without testing after the rebase). If I were=
+ to test it first, I would have found out that the real reproducer is simpl=
+y running the test as the commit 8dff69b9415b4287e900358744b732195e1ab2e2 b=
+roke it.
+>>
+>>
+>> So basically there are 2 actions:
+>>
+>> 1. fix the test as on my system it fails in 100% of cases, bisect says t=
+he first bad commit is 8dff69b9415b4287e900358744b732195e1ab2e2. Would anyo=
+ne have time in digging into this? I already spent way too much time on thi=
+s and don't really know what that commit is trying to do.
+>=20
+> Yep, I=E2=80=99ve sent a patch:
+>=20
+> https://lists.nongnu.org/archive/html/qemu-block/2020-02/msg00294.html
+
+Ah, so we did notice the same problem.
+
+>=20
+>> 2. decide on the behavior when IPv4/6 is already in use (bail-out or sta=
+rt).
+>> 2a. In case it should bail-out than the test is correct and there is no =
+need for my patch. On the other hand qemu-nbd has to be fixed
+>=20
+> I don=E2=80=99t think it makes much sense to let qemu=E2=80=99s NBD serve=
+r ensure that
+> it claims both IPv4 and IPv6 in case the user specifies a
+> non-descriptive hostname.
+>=20
+>> 2b. Otherwise I can send a v2 that will check the port in the _try_serve=
+r_up just before starting qemu-nbd to minimize the risk of using a utilized=
+ port (or should you decide it's not worth checking, I can simply forget ab=
+out this)
+>=20
+> Hm.  It wouldn=E2=80=99t be fully reliable, but, well...  The risk would =
+be minimal.
+>=20
+> OTOH, would it work if we just did a %s/localhost/127.0.0.1/ in the
+> test?  We have specific cases for IPv6, so I think it makes sense to
+> force IPv4 in all other cases.
+
+Except then it will fail on machines configured for IPv6-only.
 
 
---qJdfDjipM2Hy6YaNMAsvF8TTfd0Tc6beG--
-
---PXnANC4CH6LWfjTAn8yOOLcXmVubvQEJA
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl48QykACgkQ9AfbAGHV
-z0BOyQf/V9G/wepwkRtmzgfZAdK4VgRJ3UAG04ENBSOG/0rE/Cj9JFH5IWYQrgQS
-iI/6J+SAk2KQrifYqdfU4EzV2AcCP6tN4pH+8Kh/2IVeC530EUclUeMCKsGr85xb
-z62OuPG4sFyyvUzK+fxINUMPMAc8yY0sg72VEp34sNWvatU9DmaBn+Ye+fpcwM2H
-JQ/ceBi30KgU4BTsMVGuze23r3xUJ6S7F9rgvjI5oanvm6POTZk9H+lDAnCHe/Gm
-ZfIplwu/hJnZrbmHDw/Aw5fe3wNnYdRenLGDlxauTdVQ4eR1LhIeJkleeeLIz0ie
-iS6OswXwEAMUX2M8q0RmEnymOoxMwA==
-=vhm8
------END PGP SIGNATURE-----
-
---PXnANC4CH6LWfjTAn8yOOLcXmVubvQEJA--
+--=20
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
