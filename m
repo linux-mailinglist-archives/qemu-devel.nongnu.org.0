@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80202154A76
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 18:46:29 +0100 (CET)
-Received: from localhost ([::1]:43676 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EC8B154A66
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 18:42:21 +0100 (CET)
+Received: from localhost ([::1]:43564 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izlES-0005n4-IS
-	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 12:46:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43601)
+	id 1izlAS-0006cZ-La
+	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 12:42:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43621)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1izl06-0006oa-Bt
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 12:31:39 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1izl07-0006on-7k
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 12:31:40 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1izl05-0006oP-Bo
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 12:31:38 -0500
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:50842)
+ (envelope-from <peter.maydell@linaro.org>) id 1izl05-0006oH-AT
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 12:31:39 -0500
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:35044)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1izl03-0006Rl-DW
+ id 1izl03-0006Yw-Cp
  for qemu-devel@nongnu.org; Thu, 06 Feb 2020 12:31:35 -0500
-Received: by mail-wm1-x341.google.com with SMTP id a5so908314wmb.0
- for <qemu-devel@nongnu.org>; Thu, 06 Feb 2020 09:31:31 -0800 (PST)
+Received: by mail-wm1-x32c.google.com with SMTP id b17so1013331wmb.0
+ for <qemu-devel@nongnu.org>; Thu, 06 Feb 2020 09:31:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=l4qwnnNC9N66e0pcxFV0qqg5LdHM/vrVq/qnQK+MWZg=;
- b=nUwyO0VSxMPmn82rGODiQTG7gI6JE3jJJ5Y2EWw0Z2e+XMdE9/iTKdhZM05J5EkWJS
- C6GbcrUlfIpShV46fGms0C487ETRrr0iwNhRyHzHAcwkxP9WTa+iCNigKjTFIdCCGLV3
- YBxpkTJtVSoV+FwHS4eaVVbRJcD+d7Uf7YGT0CONqCB/ia/SXXjIPwkiWhDtiDKECDxc
- y1h4+wlbVcclxY3FhPCLgGi/EiSLZkO+sA9Ke6w1xPSaveOSnJaC1uO6GBySuYbHNR+V
- gIfH5rIiGD9uDYPOYVxHD60cAyPsvQX1Srn2xJEeGGoqNueSk3EtsoSUjpr0puf8MOvH
- dFvA==
+ bh=m1bLOghX51x85KpGQ8LubXbMWazawtflU6lC5+ETOt0=;
+ b=wQT2Bzz9jNy8iLOdroBgTf7SntlkB0ipMeBC6LwtXQO+3zjL7QRL971LsiynI8r6/l
+ SBgcAXuTGmeCFDEXufv6A3rO/eIQ4Lj/eFrts8IVCYa6qiEwj1rP2H4uha8Dk16nx9x+
+ uMJk1xaOpd0D5JcHLorTYHtPRE5q+OZ6OSvyKGYrPXngpbEipNk97ZvMZKwfb3iW7ybQ
+ dAEIUpr9/Yt9PaJwnWjLrVAcSCIsmdnr/QOmDoOAB9YSXS2+JTAZ7m8SxnsrvTxM00EQ
+ AVtUK35x83yjxfmx9c6oo5nVnJ+YOShXsSc4uRR4mu+6bhpWO6lgKexV0YK358f/Vr9E
+ pzxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=l4qwnnNC9N66e0pcxFV0qqg5LdHM/vrVq/qnQK+MWZg=;
- b=iKQT3fZh7mV12FsdgEYAo6DXKWROnezMfr1wEghowmCmitM7E69N1atBCdVIWgJRmQ
- +1pqoB5jpoiMo+LIf8Q8jihowMk3WDAWii+G2IyWKs8uYajmHpWsF8MyD7JaprwhHDbb
- apkf4LoOC1ZEXgrOcYIf5AwrvlBfWYJQsv0zKpZi/XGT1wSjRP65q8LhVGdN3YMvyx/k
- 74WaV2RiW8+MN1P5FG/sD9BGZ9gxall5JFCZWvymsbMiOx2gqa2RlatbPn/Luhn99L+6
- pOxWGXucpWGYgrE093xiLLIjuc8PCKlI5nQc3ZP3lJ/CwnnsJe1jt1RDW++66WxBQ9d7
- fLNA==
-X-Gm-Message-State: APjAAAXLV1y+6oAnsgvZWCSAHKrKDg6Dkv1aW0/WhPz7PAbCQzLtHHJ7
- YeUL9hyLK70V7ZJ24xF0atPO6y4L8uI=
-X-Google-Smtp-Source: APXvYqw7iFK595WeNQPs8cwLtVkVvByr+GY+aho5KJAN2SRLHNRpkLXXRoAC4IySnSl0l5tww+ajqg==
-X-Received: by 2002:a1c:e007:: with SMTP id x7mr5589690wmg.3.1581010290350;
- Thu, 06 Feb 2020 09:31:30 -0800 (PST)
+ bh=m1bLOghX51x85KpGQ8LubXbMWazawtflU6lC5+ETOt0=;
+ b=SKzXFsawdu1SzVvTZ4t69ySxiPvUE/eJCvxGH9f3pc8iCGpCqDtndphu0VRe+mbsek
+ 2M2Q66dTQXFMl682/ZGndcI11QrMkOcYiPQPn8yLn/J1GMgc8Is516v7KndnvYorJCWU
+ TPQx+kw9HnHXIsCPQ1HPbv3bnnzqajnvzKAH46UOn7R0vTnu3S9WGqha222y6b5F99Iy
+ o/pgbGfZjex/LT0UWeTQ6yn999YJD3J/9zE4wE0O/AGPvwC02aCxb4lV3r+jb3CRvIgd
+ b+vnl6jkFTH3TybIl1OtzxwKr7+7Im1FsUfkOHWexEbquYz45kzTQh8KlIDtgrjdqqul
+ hs9w==
+X-Gm-Message-State: APjAAAWK4lRgJCqCSBER4KK/uA+A+swLIiNUmay1W709SkHE/KyeqLIg
+ 6J2T/f1sB3nRF/LTjgOlM1KwzN1kM3E=
+X-Google-Smtp-Source: APXvYqxbPYqAkExvaGSYMeSzXxhZIVtHvHwyhXGY4sxGd/4VGQ5IyK0qpxMAs+HgDf+sGeJFo9xZkg==
+X-Received: by 2002:a7b:c4c3:: with SMTP id g3mr5576802wmk.131.1581010291851; 
+ Thu, 06 Feb 2020 09:31:31 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id w15sm5204214wrs.80.2020.02.06.09.31.29
+ by smtp.gmail.com with ESMTPSA id w15sm5204214wrs.80.2020.02.06.09.31.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Feb 2020 09:31:29 -0800 (PST)
+ Thu, 06 Feb 2020 09:31:31 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 20/29] qapi/machine.json: Escape a literal '*' in doc comment
-Date: Thu,  6 Feb 2020 17:30:31 +0000
-Message-Id: <20200206173040.17337-21-peter.maydell@linaro.org>
+Subject: [PATCH 21/29] scripts/qapi: Move doc-comment whitespace stripping to
+ doc.py
+Date: Thu,  6 Feb 2020 17:30:32 +0000
+Message-Id: <20200206173040.17337-22-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200206173040.17337-1-peter.maydell@linaro.org>
 References: <20200206173040.17337-1-peter.maydell@linaro.org>
@@ -65,7 +66,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::341
+X-Received-From: 2a00:1450:4864:20::32c
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,32 +85,88 @@ Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For rST, '*' is a kind of inline markup (for emphasis), so
-"*-softmmu" is a syntax error because of the missing closing '*'.
-Escape the '*' with a '\'.
+As we accumulate lines from doc comments when parsing the JSON, the
+QAPIDoc class generally strips leading and trailing whitespace using
+line.strip() when it calls _append_freeform().  This is fine for
+texinfo, but for rST leading whitespace is significant.  We'd like to
+move to having the text in doc comments be rST format rather than a
+custom syntax, so move the removal of leading whitespace from the
+QAPIDoc class to the texinfo-specific processing code in
+texi_format() in qapi/doc.py.
 
-The texinfo document generator will leave the '\' in the
-output, which is not ideal, but that generator is going to
-go away in a subsequent commit.
+(Trailing whitespace will always be stripped by the rstrip() in
+Section::append regardless.)
+
+In a followup commit we will make the whitespace in the lines of doc
+comment sections more consistently follow the input source.
+
+There is no change to the generated .texi files before and after this
+commit.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- qapi/machine.json | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ scripts/qapi/doc.py    |  1 +
+ scripts/qapi/parser.py | 12 ++++--------
+ 2 files changed, 5 insertions(+), 8 deletions(-)
 
-diff --git a/qapi/machine.json b/qapi/machine.json
-index 51ffa96be98..a83a7b56b14 100644
---- a/qapi/machine.json
-+++ b/qapi/machine.json
-@@ -12,7 +12,7 @@
- #
- # The comprehensive enumeration of QEMU system emulation ("softmmu")
- # targets. Run "./configure --help" in the project root directory, and
--# look for the *-softmmu targets near the "--target-list" option. The
-+# look for the \*-softmmu targets near the "--target-list" option. The
- # individual target constants are not documented here, for the time
- # being.
- #
+diff --git a/scripts/qapi/doc.py b/scripts/qapi/doc.py
+index 6f1c17f71f7..96346c9b14f 100644
+--- a/scripts/qapi/doc.py
++++ b/scripts/qapi/doc.py
+@@ -80,6 +80,7 @@ def texi_format(doc):
+     inlist = ''
+     lastempty = False
+     for line in doc.split('\n'):
++        line = line.strip()
+         empty = line == ''
+ 
+         # FIXME: Doing this in a single if / elif chain is
+diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
+index 342792e4103..2196ec5de1e 100644
+--- a/scripts/qapi/parser.py
++++ b/scripts/qapi/parser.py
+@@ -422,10 +422,10 @@ class QAPIDoc(object):
+                 self._append_line = self._append_various_line
+                 self._append_various_line(line)
+             else:
+-                self._append_freeform(line.strip())
++                self._append_freeform(line)
+         else:
+             # This is a free-form documentation block
+-            self._append_freeform(line.strip())
++            self._append_freeform(line)
+ 
+     def _append_args_line(self, line):
+         """
+@@ -458,7 +458,7 @@ class QAPIDoc(object):
+                 self._append_various_line(line)
+             return
+ 
+-        self._append_freeform(line.strip())
++        self._append_freeform(line)
+ 
+     def _append_features_line(self, line):
+         name = line.split(' ', 1)[0]
+@@ -477,7 +477,7 @@ class QAPIDoc(object):
+             self._append_various_line(line)
+             return
+ 
+-        self._append_freeform(line.strip())
++        self._append_freeform(line)
+ 
+     def _append_various_line(self, line):
+         """
+@@ -500,10 +500,6 @@ class QAPIDoc(object):
+             line = line[len(name)+1:]
+             self._start_section(name[:-1])
+ 
+-        if (not self._section.name or
+-                not self._section.name.startswith('Example')):
+-            line = line.strip()
+-
+         self._append_freeform(line)
+ 
+     def _start_symbol_section(self, symbols_dict, name):
 -- 
 2.20.1
 
