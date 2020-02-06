@@ -2,85 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B82841549FD
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 18:07:32 +0100 (CET)
-Received: from localhost ([::1]:42846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23E9B1549EF
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 18:04:15 +0100 (CET)
+Received: from localhost ([::1]:42718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izkcl-0008EZ-Hd
-	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 12:07:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60157)
+	id 1izkZa-00044d-67
+	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 12:04:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60059)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1izkWa-0001LV-PP
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 12:01:10 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1izkWF-0000uh-Gg
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 12:00:50 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1izkWY-0003y8-5W
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 12:01:08 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:22361)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1izkWX-0003wY-W9
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 12:01:06 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581008465;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=cksqt17eUPSaSH25Py2YB1c36CvRVSrv6JYR9mOjB98=;
- b=Q7tpmCEh/Pq4uFJEZYksxHukMPs4qfU3x/rsL+7mib3BkBljkcyimYpRxv2djWJHRkk2q7
- VCYMccMJVxBKOT+2zQPXs789ApH6umMHEcbkLPY2xUKRuNRpYTd/kfVQKGFIfmVFLAziVh
- Vkqs8uxIjSbbwvUAwSpL5GlFfkkXBxo=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-7-LfZzmRX2No-SLqg-VSQfWA-1; Thu, 06 Feb 2020 12:00:44 -0500
-Received: by mail-wm1-f70.google.com with SMTP id m18so326941wmc.4
- for <qemu-devel@nongnu.org>; Thu, 06 Feb 2020 09:00:44 -0800 (PST)
+ (envelope-from <alex.bennee@linaro.org>) id 1izkWE-0003JZ-0v
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 12:00:47 -0500
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:38449)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1izkWD-0003Gw-ON
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 12:00:45 -0500
+Received: by mail-wm1-x341.google.com with SMTP id a9so864792wmj.3
+ for <qemu-devel@nongnu.org>; Thu, 06 Feb 2020 09:00:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=PwCJ1s1OGrumu9EE0RiVxmLvtLCoj2/jQQ3z7Oc+eeI=;
+ b=PlxX0dOiRKF+w9egsSSSTOIGbFuuQYe797sKVNxBubqTXEZ6T5huhThseh3PbS5n9M
+ GVTeHjLfl4yGIDH90JkhsAmWfMnx+QKnFu0Jx2tjD4cikP3TX0oCzBL9nUjQPOWdrqPU
+ cELShXh74O/jLFKOlDa+jHLenPmDx1M8uR+WrKoQUPmKHepJFDkZB6jJJUwQbJJOWB1N
+ F9dWdmgGoCR608u6LMOp6KGLyz/MM13FQC7QkXEDqSvQ6HIcVrIIQonTf9JYuGWizvUx
+ 09l7wEp66n0wmH+7G/xHStfM2TEc1pNWIOKXkslC+qnymNxC+No2nGX/i5ApSl8C1rth
+ QH4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=0sfDc8+HE75CKdJLmKZ1mQZWgaRzTOTUYskbmSUMR7s=;
- b=AGrwxWS1/Dx4WymJO86YMQAxrXOXa7uk/4uwk4Pbjqn0g1sUj8l7w0qKJ71GaDrCmJ
- ifslavkvMvW8+vsoE5Kf4JQnr3jEOBnJwyi9vultXPLyNDqS9fTWAXwusvWHlWsuhIi7
- VmhgRV+Ysa/RTGHngwTs5nh6h8w35S7dNSep7Am73sSmt0xbFoEMmZJZfpG5+iybpeMe
- zb3yMwH0/N5NO+gLlt9Vb8GuT0gJ03tGKr4e/R/O6Ep8r2YDNmuT5b/NMEtgxDMBdvXY
- V0rjoGmAIwEVQfXmirBuhDDJbNK5jXnVjErYnVnq1BFWA3DAr/JLM4oYM36gVGQAlIVm
- 7X8g==
-X-Gm-Message-State: APjAAAUM57IU3v8XaKWe3nuqZAUzIg3E8xVvXFuduI/EMkNnnFXlmmw6
- foVm1tEpRRgP6e4w7KNrc7saRn8+P8z7+BPrhIpvKAMs2877vIncTlSVHhFrWaftOwfYf0NOxHm
- fCE1zqqah8DdpWFo=
-X-Received: by 2002:a1c:1d09:: with SMTP id d9mr5761370wmd.91.1581008442872;
- Thu, 06 Feb 2020 09:00:42 -0800 (PST)
-X-Google-Smtp-Source: APXvYqyyutWKFAtqNwE52G4QbHW7JTW+1gbK+ju86SqH3up7tzvpuZ1ioQ5Ubmj+bRTztYtlAu7tFA==
-X-Received: by 2002:a1c:1d09:: with SMTP id d9mr5761335wmd.91.1581008442578;
- Thu, 06 Feb 2020 09:00:42 -0800 (PST)
-Received: from [192.168.1.35] (78.red-88-21-202.staticip.rima-tde.net.
- [88.21.202.78])
- by smtp.gmail.com with ESMTPSA id t131sm147158wmb.13.2020.02.06.09.00.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 06 Feb 2020 09:00:42 -0800 (PST)
-Subject: Re: [PATCH v2] .readthedocs.yml: specify some minimum python
- requirements
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- peter.maydell@linaro.org
-References: <20200206163120.31899-1-alex.bennee@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <0c206609-0e39-5a19-cc25-8ca6b932cc77@redhat.com>
-Date: Thu, 6 Feb 2020 18:00:41 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=PwCJ1s1OGrumu9EE0RiVxmLvtLCoj2/jQQ3z7Oc+eeI=;
+ b=tjXVrKFjnOSA1WTUTCr2Soy2EBe+ybiO+tL6vxkin2ECXm98GwsXB/T8XkNSOZwPh5
+ 4K5qTV3D/V5QLxkb5gYzpD65qQ56MFyFB1hhgDEKTF4127OAWufd78IEI1u7K1jwC/Bj
+ iuxmjuvHCcb5qcV9kqcDeyw1fJgqPUowZABQTUJQCc3fgj2oZh8LOZpSsTQi7p7wT0Ql
+ Ws5ZxtTeQ4SUXHwfGfy5rOArAbuhbAHhNBCptvKD+Ao5Bjgh69XEsrIsMtItIZOxK2/s
+ OZRm7i+oy47PS9hnkSNW1WEArEPI3AUTMqxf7GMUa/3SlLJ3LmaxbOsZ0VLDS5rNZnjw
+ W2qQ==
+X-Gm-Message-State: APjAAAVviaJxtn3AbxaorjcQ4G5+Fg21Cc0x6q7S+rLjlxj01WeLaXfP
+ wnRU9teL5HuyeCdbttF8aOvUzg==
+X-Google-Smtp-Source: APXvYqx+ZqfsmnS9DmKNHaLROpwQbgyPQ8GH0qG5NxrcoxtCYYVG7AtmsTuP31XkKHoCx9V6SlbpwQ==
+X-Received: by 2002:a1c:b486:: with SMTP id d128mr5691154wmf.69.1581008444254; 
+ Thu, 06 Feb 2020 09:00:44 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id t81sm146938wmg.6.2020.02.06.09.00.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 06 Feb 2020 09:00:43 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 545E31FF87;
+ Thu,  6 Feb 2020 17:00:42 +0000 (GMT)
+References: <20200110161626.31943-1-alex.bennee@linaro.org>
+ <20200110161626.31943-3-alex.bennee@linaro.org>
+ <CAFEAcA9H8oNBX4QcKjSB3jFqDq==6tr392yEzJwF2Dxnw9EFcw@mail.gmail.com>
+User-agent: mu4e 1.3.7; emacs 27.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH v1 2/2] tests/tcg: add a vtimer test for aarch64
+In-reply-to: <CAFEAcA9H8oNBX4QcKjSB3jFqDq==6tr392yEzJwF2Dxnw9EFcw@mail.gmail.com>
+Date: Thu, 06 Feb 2020 17:00:42 +0000
+Message-ID: <874kw38xc5.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20200206163120.31899-1-alex.bennee@linaro.org>
-Content-Language: en-US
-X-MC-Unique: LfZzmRX2No-SLqg-VSQfWA-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::341
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,64 +83,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/6/20 5:31 PM, Alex Benn=C3=A9e wrote:
-> QEMU is all about the Python 3 now so lets also hint that to
-> ReadTheDocs in its config file.
->=20
-> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
->=20
-> ---
-> If anyone wants to include this is their next PR please do, otherwise
-> it will be a misc patch in my next series ;-)
-> ---
->   .readthedocs.yml | 20 ++++++++++++++++++++
->   1 file changed, 20 insertions(+)
->   create mode 100644 .readthedocs.yml
->=20
-> diff --git a/.readthedocs.yml b/.readthedocs.yml
-> new file mode 100644
-> index 00000000000..8355dbc6343
-> --- /dev/null
-> +++ b/.readthedocs.yml
-> @@ -0,0 +1,20 @@
-> +# .readthedocs.yml
-> +# Read the Docs configuration file
-> +# See https://docs.readthedocs.io/en/stable/config-file/v2.html for deta=
-ils
-> +
-> +# Required
-> +version: 2
-> +
-> +# Build documentation in the docs/ directory with Sphinx
-> +sphinx:
-> +  configuration: docs/conf.py
-> +
-> +# We want all the document formats
-> +formats: all
-> +
-> +# For consistency, we require that QEMU's Sphinx extensions
-> +# run with at least the same minimum version of Python that
-> +# we require for other Python in our codebase (our conf.py
-> +# enforces this, and some code needs it.)
-> +python:
-> +  version: 3.5
->=20
 
-I wonder if this could also help:
+Peter Maydell <peter.maydell@linaro.org> writes:
 
-   submodules:
-     exclude: all
+> On Fri, 10 Jan 2020 at 16:16, Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
+rote:
+>>
+>> Bug: https://bugs.launchpad.net/bugs/1859021
+>>
+>> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>> ---
+>>  tests/tcg/aarch64/system/vtimer.c         | 80 +++++++++++++++++++++++
+>>  tests/tcg/aarch64/Makefile.softmmu-target |  4 ++
+>>  2 files changed, 84 insertions(+)
+>>  create mode 100644 tests/tcg/aarch64/system/vtimer.c
+>>
+>> diff --git a/tests/tcg/aarch64/system/vtimer.c b/tests/tcg/aarch64/syste=
+m/vtimer.c
+>> new file mode 100644
+>> index 00000000000..2f6299b5d2c
+>> --- /dev/null
+>> +++ b/tests/tcg/aarch64/system/vtimer.c
+>> @@ -0,0 +1,80 @@
+>> +/*
+>> + * Simple Virtual Timer Tests
+>> + *
+>> + * Note: kvm-unit-tests has a much more comprehensive exercising of
+>> + * the timer sub-system. However this test case can tweak _EL2 values
+>> + * to trigger bugs which can't be done with that.
+>> + *
+>> + * Copyright (c) 2020 Linaro Ltd
+>> + *
+>> + * SPDX-License-Identifier: GPL-2.0-or-later
+>> + */
+>> +
+>> +#include <inttypes.h>
+>> +#include <minilib.h>
+>> +
+>> +/* grabbed from Linux */
+>> +#define __stringify_1(x...) #x
+>> +#define __stringify(x...)   __stringify_1(x)
+>
+> Code 'grabbed from Linux' is unlikely to be GPL-2-or-later...
+>
+> QEMU already has a stringify() macro in compiler.h.
 
-See https://docs.readthedocs.io/en/stable/config-file/v2.html#submodules
+Hmm I don't think I can include compiler.h in a system mode test. I can
+certainly copy and paste our local version though ;-)
 
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+>
+> thanks
+> -- PMM
 
-Patch applied to my python-next tree:
-https://gitlab.com/philmd/qemu/commits/python-next
 
+--=20
+Alex Benn=C3=A9e
 
