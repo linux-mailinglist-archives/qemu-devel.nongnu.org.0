@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03574154A6C
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 18:43:58 +0100 (CET)
-Received: from localhost ([::1]:43618 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56940154A82
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 18:49:21 +0100 (CET)
+Received: from localhost ([::1]:43756 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izlC1-0001eU-2G
-	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 12:43:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43650)
+	id 1izlHE-0002ax-Ap
+	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 12:49:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43686)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1izl08-0006tp-Tb
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 12:31:43 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1izl0B-0006ye-0g
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 12:31:45 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1izl05-0006rX-Vg
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 12:31:40 -0500
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:40792)
+ (envelope-from <peter.maydell@linaro.org>) id 1izl07-0006y6-GN
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 12:31:41 -0500
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:35630)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1izl05-0006mb-Ln
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 12:31:37 -0500
-Received: by mail-wr1-x430.google.com with SMTP id t3so8192177wru.7
- for <qemu-devel@nongnu.org>; Thu, 06 Feb 2020 09:31:37 -0800 (PST)
+ id 1izl07-0006tT-5v
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 12:31:39 -0500
+Received: by mail-wr1-x42d.google.com with SMTP id w12so8230527wrt.2
+ for <qemu-devel@nongnu.org>; Thu, 06 Feb 2020 09:31:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=jlNxGTGy98aYa+WWuQg/GQC6QdDQPDH1UcmycQV5nYo=;
- b=RlRFgFfy0wknayqP+eHAmnAZNzx5z61KwqT3nchMnUXA5tx3Q01Pjz/wyeOjtDIhW/
- h2wQrc7o7qOdNZKWIGCZ7QS/n6cow53sQqJoGLYhojwHcpaP086i1vX5CaIeUOWG+YQv
- 8RubxPIXtgw6r4ogWRdszxMFD4GcidBRPMWUJV+/s3zOskf4WqrjCCsu4kAikGhnD3fp
- pCKSQuwKgSvueCiQLsHUr7VXtR1/3zBJ1rC7JcgqB22uo4cXZAPtkHcp/dAUnb8LBZgV
- oiHhs6uHI9idKazreVz4AfrOtSNwLmzxOKn0td4nz2fFsCIxkhvUDZkNxrPt6/Q62haa
- wl/Q==
+ bh=ixvc6L0q2QlOhkl+8cnuUfHjWf1FDH70K9mOZrRaf84=;
+ b=UjIptEDNyX6txcgWnDajdndL4iFZ5SbExtDxx7je3tAjFCZSpFV3kO88xtcjtvfPA1
+ /aRolpEAZ9JzAcr3y4M9Gj82cAm3f0PuSX2I5YxBVxb1Dix3rTDegrXELXuaYrAim9j9
+ oVlg1EBKfr7S5AVr7LmI+UDiuRqA+iYdh0sCQCVxZmftRyu/y+npSH3s+GX4Ro52B1Yz
+ 2xdCO7LabfbOdaNqjjIqM+6nU39MHwBjM4NhWTRnxCTBqT48B1cXUP9dBmidkvrlt3m8
+ q0K+czYKU2X48TIZO+AaxAuAtWhQieyjoHQnVoa3meT0WZWKRq7mOpTfXykbEyu5gOiJ
+ Zhew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=jlNxGTGy98aYa+WWuQg/GQC6QdDQPDH1UcmycQV5nYo=;
- b=NrHAvyF4muugK8RFHSoJE89C5FjpLKVtNNvQC50EKGrqysnbFL3mzROpJ6hun2GELh
- 6MO3gcbPj40ICpLHJKn5TZiUGDlrVjQYb72iNtijza/y0bJUIbEDy4Ob9AbNjI4lTnAy
- a/aeP6Tpl81sSRTzKPLMB+HQ+yFWOzjDdfLak2ZDVa++/4S4a/o3XO8ZHUO5GwFfFXy+
- VHT4wTaYib1WBps1VJFJJCwkePbbyrSPlJJr9pXjX9nEvFLKfd1UQg5XPyrVP6Ow4d+l
- llWO+U1Cn/kMboI0Z1t9pKfecdOB/cZ7LLzyos5Wbuo2OXJn9KbV5dghSOkJWawm8akH
- li2g==
-X-Gm-Message-State: APjAAAXbTVW0k6PL/875QdEgZ+KecIg8+TrfKTk+UP4cPt3PLoENF2ha
- 6Fafn4U3+fjthKS9Pi2f7IwF93DuBH8=
-X-Google-Smtp-Source: APXvYqyVymxzHAcm683TF4Iw2zzyrvKT9x+gMSlzQrwjG9bf+oXo5GymHQNRV1+qBvbcb7/1Qz17XQ==
-X-Received: by 2002:a05:6000:11d0:: with SMTP id
- i16mr5078218wrx.188.1581010296009; 
- Thu, 06 Feb 2020 09:31:36 -0800 (PST)
+ bh=ixvc6L0q2QlOhkl+8cnuUfHjWf1FDH70K9mOZrRaf84=;
+ b=I7GWlIX9d4NYWS4zc/sLj/njRR/ZRxTM6QI28Reg4NOlvOZwLJWaBOLKDW5GKrJM0s
+ /Z1xLCiKKU0Uv6uF9qubeIFEYIU4MQPjtRIonEVYB84zwLgKiOZ4bU8FIkVoXO1q1N6B
+ A1J3zFWikFEu8YZWeINxE9VV9b5RBWHXRb3TavvkSLpQ7UPZwZYSiLReWhaIltv3j6gA
+ eZT7dGuZ51dmhxcTX2sqf3thHlXzAktDk+IO4NMa63zZHiT4g0x9upqe7JmTVPHIjnAc
+ JLpXouWylQvQGwr7jUcT6Ag0h8Q8LcBf9TlOMFb3gU/SLQFDbPzm0rBTA5+JBRYNBale
+ zJtA==
+X-Gm-Message-State: APjAAAWp2Vj7QcuBG8PTrJZH3pZZK6GvOrnQv9bj9dk/MvN2kYi1IDpI
+ wu0WgGA5y+0r05CxUH7fGfs7M5jy3mw=
+X-Google-Smtp-Source: APXvYqxlJJV4B9B/HmZgCoN0EVkTtzYO5G0SxJT/zDsKWDjOCEj3L0ARvmbLDq7oXd+nIAPBqInWBg==
+X-Received: by 2002:adf:f850:: with SMTP id d16mr4729690wrq.161.1581010297426; 
+ Thu, 06 Feb 2020 09:31:37 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id w15sm5204214wrs.80.2020.02.06.09.31.34
+ by smtp.gmail.com with ESMTPSA id w15sm5204214wrs.80.2020.02.06.09.31.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Feb 2020 09:31:35 -0800 (PST)
+ Thu, 06 Feb 2020 09:31:36 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 24/29] docs/interop: Convert qemu-ga-ref to rST
-Date: Thu,  6 Feb 2020 17:30:35 +0000
-Message-Id: <20200206173040.17337-25-peter.maydell@linaro.org>
+Subject: [PATCH 25/29] docs/interop: Convert qemu-qmp-ref to rST
+Date: Thu,  6 Feb 2020 17:30:36 +0000
+Message-Id: <20200206173040.17337-26-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200206173040.17337-1-peter.maydell@linaro.org>
 References: <20200206173040.17337-1-peter.maydell@linaro.org>
@@ -66,7 +65,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::430
+X-Received-From: 2a00:1450:4864:20::42d
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,222 +84,220 @@ Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Convert qemu-ga-ref to rST format. This includes dropping
+Convert qemu-qmp-ref to rST format. This includes dropping
 the plain-text, pdf and info format outputs for this document;
 as with all our other Sphinx-based documentation, we provide
 HTML and manpage only.
 
-The qemu-ga-ref.rst is somewhat more stripped down than
+The qemu-qmp-ref.rst is somewhat more stripped down than
 the .texi was, because we do not (currently) attempt to
 generate indexes for the commands, events and data types
 being documented.
 
-As the GA ref is now part of the Sphinx 'interop' manual,
-we can delete the direct link from index.html.in.
+Again, we drop the direct link from index.html.in now that
+the QMP ref is part of the interop manual.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- Makefile                      | 42 ++++++++----------
- MAINTAINERS                   |  2 +-
- docs/index.html.in            |  1 -
- docs/interop/conf.py          |  2 +
- docs/interop/index.rst        |  1 +
- docs/interop/qemu-ga-ref.rst  |  4 ++
- docs/interop/qemu-ga-ref.texi | 80 -----------------------------------
- 7 files changed, 25 insertions(+), 107 deletions(-)
- create mode 100644 docs/interop/qemu-ga-ref.rst
- delete mode 100644 docs/interop/qemu-ga-ref.texi
+ Makefile                       | 37 +++++-----------
+ docs/index.html.in             |  1 -
+ docs/interop/conf.py           |  2 +
+ docs/interop/index.rst         |  1 +
+ docs/interop/qemu-qmp-ref.rst  |  4 ++
+ docs/interop/qemu-qmp-ref.texi | 80 ----------------------------------
+ 6 files changed, 17 insertions(+), 108 deletions(-)
+ create mode 100644 docs/interop/qemu-qmp-ref.rst
+ delete mode 100644 docs/interop/qemu-qmp-ref.texi
 
 diff --git a/Makefile b/Makefile
-index 274a24f7aa4..790e5b2c817 100644
+index 790e5b2c817..159ac78dd24 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -350,7 +350,7 @@ DOCS+=$(MANUAL_BUILDDIR)/interop/qemu-nbd.8
+@@ -126,7 +126,6 @@ GENERATED_QAPI_FILES += qapi/qapi-events.h qapi/qapi-events.c
+ GENERATED_QAPI_FILES += $(QAPI_MODULES:%=qapi/qapi-events-%.h)
+ GENERATED_QAPI_FILES += $(QAPI_MODULES:%=qapi/qapi-events-%.c)
+ GENERATED_QAPI_FILES += qapi/qapi-introspect.c qapi/qapi-introspect.h
+-GENERATED_QAPI_FILES += qapi/qapi-doc.texi
+ 
+ generated-files-y += $(GENERATED_QAPI_FILES)
+ 
+@@ -349,8 +348,8 @@ DOCS+=$(MANUAL_BUILDDIR)/interop/qemu-img.1
+ DOCS+=$(MANUAL_BUILDDIR)/interop/qemu-nbd.8
  DOCS+=$(MANUAL_BUILDDIR)/interop/qemu-ga.8
  DOCS+=$(MANUAL_BUILDDIR)/system/qemu-block-drivers.7
- DOCS+=docs/interop/qemu-qmp-ref.html docs/interop/qemu-qmp-ref.txt docs/interop/qemu-qmp-ref.7
--DOCS+=docs/interop/qemu-ga-ref.html docs/interop/qemu-ga-ref.txt docs/interop/qemu-ga-ref.7
-+DOCS+=$(MANUAL_BUILDDIR)/interop/qemu-ga-ref.7
+-DOCS+=docs/interop/qemu-qmp-ref.html docs/interop/qemu-qmp-ref.txt docs/interop/qemu-qmp-ref.7
+ DOCS+=$(MANUAL_BUILDDIR)/interop/qemu-ga-ref.7
++DOCS+=$(MANUAL_BUILDDIR)/interop/qemu-qmp-ref.7
  DOCS+=docs/qemu-cpu-models.7
  DOCS+=$(MANUAL_BUILDDIR)/index.html
  ifdef CONFIG_VIRTFS
-@@ -759,11 +759,11 @@ distclean: clean
+@@ -612,8 +611,7 @@ $(SRC_PATH)/scripts/qapi-gen.py
+ qga/qapi-generated/qga-qapi-types.c qga/qapi-generated/qga-qapi-types.h \
+ qga/qapi-generated/qga-qapi-visit.c qga/qapi-generated/qga-qapi-visit.h \
+ qga/qapi-generated/qga-qapi-commands.h qga/qapi-generated/qga-qapi-commands.c \
+-qga/qapi-generated/qga-qapi-init-commands.h qga/qapi-generated/qga-qapi-init-commands.c \
+-qga/qapi-generated/qga-qapi-doc.texi: \
++qga/qapi-generated/qga-qapi-init-commands.h qga/qapi-generated/qga-qapi-init-commands.c: \
+ qga/qapi-generated/qapi-gen-timestamp ;
+ qga/qapi-generated/qapi-gen-timestamp: $(SRC_PATH)/qga/qapi-schema.json $(qapi-py)
+ 	$(call quiet-command,$(PYTHON) $(SRC_PATH)/scripts/qapi-gen.py \
+@@ -759,11 +757,6 @@ distclean: clean
  	rm -f config.log
  	rm -f linux-headers/asm
  	rm -f docs/version.texi
--	rm -f docs/interop/qemu-ga-qapi.texi docs/interop/qemu-qmp-qapi.texi
--	rm -f docs/interop/qemu-qmp-ref.7 docs/interop/qemu-ga-ref.7
--	rm -f docs/interop/qemu-qmp-ref.txt docs/interop/qemu-ga-ref.txt
--	rm -f docs/interop/qemu-qmp-ref.pdf docs/interop/qemu-ga-ref.pdf
--	rm -f docs/interop/qemu-qmp-ref.html docs/interop/qemu-ga-ref.html
-+	rm -f docs/interop/qemu-qmp-qapi.texi
-+	rm -f docs/interop/qemu-qmp-ref.7
-+	rm -f docs/interop/qemu-qmp-ref.txt
-+	rm -f docs/interop/qemu-qmp-ref.pdf
-+	rm -f docs/interop/qemu-qmp-ref.html
+-	rm -f docs/interop/qemu-qmp-qapi.texi
+-	rm -f docs/interop/qemu-qmp-ref.7
+-	rm -f docs/interop/qemu-qmp-ref.txt
+-	rm -f docs/interop/qemu-qmp-ref.pdf
+-	rm -f docs/interop/qemu-qmp-ref.html
  	rm -f docs/qemu-cpu-models.7
  	rm -rf .doctrees
  	$(call clean-manual,devel)
-@@ -817,7 +817,7 @@ endif
+@@ -817,7 +810,7 @@ endif
  # and also any sphinx-built manpages.
  define install-manual =
  for d in $$(cd $(MANUAL_BUILDDIR) && find $1 -type d); do $(INSTALL_DIR) "$(DESTDIR)$(qemu_docdir)/$$d"; done
--for f in $$(cd $(MANUAL_BUILDDIR) && find $1 -type f -a '!' '(' -name '*.[0-9]' -o -name 'qemu-*-qapi.*' -o -name 'qemu-*-ref.*' ')' ); do $(INSTALL_DATA) "$(MANUAL_BUILDDIR)/$$f" "$(DESTDIR)$(qemu_docdir)/$$f"; done
-+for f in $$(cd $(MANUAL_BUILDDIR) && find $1 -type f -a '!' '(' -name '*.[0-9]' -o -name 'qemu-*-qapi.*' -o -name 'qemu-qmp-ref.*' ')' ); do $(INSTALL_DATA) "$(MANUAL_BUILDDIR)/$$f" "$(DESTDIR)$(qemu_docdir)/$$f"; done
+-for f in $$(cd $(MANUAL_BUILDDIR) && find $1 -type f -a '!' '(' -name '*.[0-9]' -o -name 'qemu-*-qapi.*' -o -name 'qemu-qmp-ref.*' ')' ); do $(INSTALL_DATA) "$(MANUAL_BUILDDIR)/$$f" "$(DESTDIR)$(qemu_docdir)/$$f"; done
++for f in $$(cd $(MANUAL_BUILDDIR) && find $1 -type f -a '!' -name '*.[0-9]'); do $(INSTALL_DATA) "$(MANUAL_BUILDDIR)/$$f" "$(DESTDIR)$(qemu_docdir)/$$f"; done
  endef
  
  # Note that we deliberately do not install the "devel" manual: it is
-@@ -852,9 +852,7 @@ ifdef CONFIG_TRACE_SYSTEMTAP
- endif
- ifneq (,$(findstring qemu-ga,$(TOOLS)))
- 	$(INSTALL_DATA) $(MANUAL_BUILDDIR)/interop/qemu-ga.8 "$(DESTDIR)$(mandir)/man8"
--	$(INSTALL_DATA) docs/interop/qemu-ga-ref.html "$(DESTDIR)$(qemu_docdir)"
--	$(INSTALL_DATA) docs/interop/qemu-ga-ref.txt "$(DESTDIR)$(qemu_docdir)"
--	$(INSTALL_DATA) docs/interop/qemu-ga-ref.7 "$(DESTDIR)$(mandir)/man7"
-+	$(INSTALL_DATA) $(MANUAL_BUILDDIR)/interop/qemu-ga-ref.7 "$(DESTDIR)$(mandir)/man7"
- endif
- endif
- ifdef CONFIG_VIRTFS
-@@ -1041,7 +1039,7 @@ endef
+@@ -833,13 +826,11 @@ install-doc: $(DOCS) install-sphinxdocs
+ 	$(INSTALL_DATA) $(MANUAL_BUILDDIR)/index.html "$(DESTDIR)$(qemu_docdir)"
+ 	$(INSTALL_DATA) qemu-doc.html "$(DESTDIR)$(qemu_docdir)"
+ 	$(INSTALL_DATA) qemu-doc.txt "$(DESTDIR)$(qemu_docdir)"
+-	$(INSTALL_DATA) docs/interop/qemu-qmp-ref.html "$(DESTDIR)$(qemu_docdir)"
+-	$(INSTALL_DATA) docs/interop/qemu-qmp-ref.txt "$(DESTDIR)$(qemu_docdir)"
+ ifdef CONFIG_POSIX
+ 	$(INSTALL_DIR) "$(DESTDIR)$(mandir)/man1"
+ 	$(INSTALL_DATA) qemu.1 "$(DESTDIR)$(mandir)/man1"
+ 	$(INSTALL_DIR) "$(DESTDIR)$(mandir)/man7"
+-	$(INSTALL_DATA) docs/interop/qemu-qmp-ref.7 "$(DESTDIR)$(mandir)/man7"
++	$(INSTALL_DATA) $(MANUAL_BUILDDIR)/interop/qemu-qmp-ref.7 "$(DESTDIR)$(mandir)/man7"
+ 	$(INSTALL_DATA) $(MANUAL_BUILDDIR)/system/qemu-block-drivers.7 "$(DESTDIR)$(mandir)/man7"
+ 	$(INSTALL_DATA) docs/qemu-cpu-models.7 "$(DESTDIR)$(mandir)/man7"
+ ifeq ($(CONFIG_TOOLS),y)
+@@ -1039,7 +1030,7 @@ endef
  $(MANUAL_BUILDDIR)/devel/index.html: $(call manual-deps,devel)
  	$(call build-manual,devel,html)
  
--$(MANUAL_BUILDDIR)/interop/index.html: $(call manual-deps,interop) $(SRC_PATH)/qemu-img-cmds.hx
-+$(MANUAL_BUILDDIR)/interop/index.html: $(call manual-deps,interop) $(SRC_PATH)/qemu-img-cmds.hx $(SRC_PATH)/qga/qapi-schema.json $(qapi-py)
+-$(MANUAL_BUILDDIR)/interop/index.html: $(call manual-deps,interop) $(SRC_PATH)/qemu-img-cmds.hx $(SRC_PATH)/qga/qapi-schema.json $(qapi-py)
++$(MANUAL_BUILDDIR)/interop/index.html: $(call manual-deps,interop) $(SRC_PATH)/qemu-img-cmds.hx $(SRC_PATH)/qga/qapi-schema.json $(qapi-modules) $(qapi-py)
  	$(call build-manual,interop,html)
  
  $(MANUAL_BUILDDIR)/specs/index.html: $(call manual-deps,specs)
-@@ -1051,8 +1049,10 @@ $(MANUAL_BUILDDIR)/system/index.html: $(call manual-deps,system)
- 	$(call build-manual,system,html)
- 
- $(call define-manpage-rule,interop,\
--       qemu-ga.8 qemu-img.1 qemu-nbd.8 qemu-trace-stap.1 virtfs-proxy-helper.1,\
--       $(SRC_PATH)/qemu-img-cmds.hx)
-+       qemu-ga.8 qemu-ga-ref.7 \
-+       qemu-img.1 qemu-nbd.8 qemu-trace-stap.1 virtfs-proxy-helper.1,\
-+       $(SRC_PATH)/qemu-img-cmds.hx $(SRC_PATH)/qga/qapi-schema.json \
-+       $(qapi-py))
+@@ -1052,7 +1043,7 @@ $(call define-manpage-rule,interop,\
+        qemu-ga.8 qemu-ga-ref.7 \
+        qemu-img.1 qemu-nbd.8 qemu-trace-stap.1 virtfs-proxy-helper.1,\
+        $(SRC_PATH)/qemu-img-cmds.hx $(SRC_PATH)/qga/qapi-schema.json \
+-       $(qapi-py))
++       $(qapi-modules) $(qapi-py))
  
  $(call define-manpage-rule,system,qemu-block-drivers.7)
  
-@@ -1073,17 +1073,14 @@ qemu-monitor-info.texi: $(SRC_PATH)/hmp-commands-info.hx $(SRC_PATH)/scripts/hxt
- docs/interop/qemu-qmp-qapi.texi: qapi/qapi-doc.texi
- 	@cp -p $< $@
+@@ -1070,17 +1061,14 @@ qemu-monitor.texi: $(SRC_PATH)/hmp-commands.hx $(SRC_PATH)/scripts/hxtool
+ qemu-monitor-info.texi: $(SRC_PATH)/hmp-commands-info.hx $(SRC_PATH)/scripts/hxtool
+ 	$(call quiet-command,sh $(SRC_PATH)/scripts/hxtool -t < $< > $@,"GEN","$@")
  
--docs/interop/qemu-ga-qapi.texi: qga/qapi-generated/qga-qapi-doc.texi
+-docs/interop/qemu-qmp-qapi.texi: qapi/qapi-doc.texi
 -	@cp -p $< $@
 -
  qemu.1: qemu-doc.texi qemu-options.texi qemu-monitor.texi qemu-monitor-info.texi
  qemu.1: qemu-option-trace.texi
  docs/qemu-cpu-models.7: docs/qemu-cpu-models.texi
  
--html: qemu-doc.html docs/interop/qemu-qmp-ref.html docs/interop/qemu-ga-ref.html sphinxdocs
--info: qemu-doc.info docs/interop/qemu-qmp-ref.info docs/interop/qemu-ga-ref.info
--pdf: qemu-doc.pdf docs/interop/qemu-qmp-ref.pdf docs/interop/qemu-ga-ref.pdf
--txt: qemu-doc.txt docs/interop/qemu-qmp-ref.txt docs/interop/qemu-ga-ref.txt
-+html: qemu-doc.html docs/interop/qemu-qmp-ref.html sphinxdocs
-+info: qemu-doc.info docs/interop/qemu-qmp-ref.info
-+pdf: qemu-doc.pdf docs/interop/qemu-qmp-ref.pdf
-+txt: qemu-doc.txt docs/interop/qemu-qmp-ref.txt
+-html: qemu-doc.html docs/interop/qemu-qmp-ref.html sphinxdocs
+-info: qemu-doc.info docs/interop/qemu-qmp-ref.info
+-pdf: qemu-doc.pdf docs/interop/qemu-qmp-ref.pdf
+-txt: qemu-doc.txt docs/interop/qemu-qmp-ref.txt
++html: qemu-doc.html sphinxdocs
++info: qemu-doc.info
++pdf: qemu-doc.pdf
++txt: qemu-doc.txt
  
  qemu-doc.html qemu-doc.info qemu-doc.pdf qemu-doc.txt: \
  	qemu-options.texi \
-@@ -1092,11 +1089,6 @@ qemu-doc.html qemu-doc.info qemu-doc.pdf qemu-doc.txt: \
+@@ -1089,11 +1077,6 @@ qemu-doc.html qemu-doc.info qemu-doc.pdf qemu-doc.txt: \
  	qemu-monitor-info.texi \
  	docs/qemu-cpu-models.texi docs/security.texi
  
--docs/interop/qemu-ga-ref.dvi docs/interop/qemu-ga-ref.html \
--    docs/interop/qemu-ga-ref.info docs/interop/qemu-ga-ref.pdf \
--    docs/interop/qemu-ga-ref.txt docs/interop/qemu-ga-ref.7: \
--	docs/interop/qemu-ga-ref.texi docs/interop/qemu-ga-qapi.texi
+-docs/interop/qemu-qmp-ref.dvi docs/interop/qemu-qmp-ref.html \
+-    docs/interop/qemu-qmp-ref.info docs/interop/qemu-qmp-ref.pdf \
+-    docs/interop/qemu-qmp-ref.txt docs/interop/qemu-qmp-ref.7: \
+-	docs/interop/qemu-qmp-ref.texi docs/interop/qemu-qmp-qapi.texi
 -
- docs/interop/qemu-qmp-ref.dvi docs/interop/qemu-qmp-ref.html \
-     docs/interop/qemu-qmp-ref.info docs/interop/qemu-qmp-ref.pdf \
-     docs/interop/qemu-qmp-ref.txt docs/interop/qemu-qmp-ref.7: \
-diff --git a/MAINTAINERS b/MAINTAINERS
-index e32eaf89318..e99fb4b0b0e 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2126,9 +2126,9 @@ M: Michael Roth <mdroth@linux.vnet.ibm.com>
- S: Maintained
- F: qga/
- F: docs/interop/qemu-ga.rst
-+F: docs/interop/qemu-ga-ref.rst
- F: scripts/qemu-guest-agent/
- F: tests/test-qga.c
--F: docs/interop/qemu-ga-ref.texi
- T: git https://github.com/mdroth/qemu.git qga
+ $(filter %.1 %.7 %.8,$(DOCS)): scripts/texi2pod.pl
  
- QOM
+ # Reports/Analysis
 diff --git a/docs/index.html.in b/docs/index.html.in
-index 8512933d145..92a057101e6 100644
+index 92a057101e6..ba7cd611d26 100644
 --- a/docs/index.html.in
 +++ b/docs/index.html.in
-@@ -9,7 +9,6 @@
+@@ -8,7 +8,6 @@
+         <h1>QEMU @@VERSION@@ Documentation</h1>
          <ul>
              <li><a href="qemu-doc.html">User Documentation</a></li>
-             <li><a href="qemu-qmp-ref.html">QMP Reference Manual</a></li>
--            <li><a href="qemu-ga-ref.html">Guest Agent Protocol Reference</a></li>
+-            <li><a href="qemu-qmp-ref.html">QMP Reference Manual</a></li>
              <li><a href="interop/index.html">System Emulation Management and Interoperability Guide</a></li>
              <li><a href="specs/index.html">System Emulation Guest Hardware Specifications</a></li>
              <li><a href="system/index.html">System Emulation User's Guide</a></li>
 diff --git a/docs/interop/conf.py b/docs/interop/conf.py
-index b0f322207ca..21e1ac74282 100644
+index 21e1ac74282..55bbae6053a 100644
 --- a/docs/interop/conf.py
 +++ b/docs/interop/conf.py
-@@ -19,6 +19,8 @@ html_theme_options['description'] = u'System Emulation Management and Interopera
- man_pages = [
-     ('qemu-ga', 'qemu-ga', u'QEMU Guest Agent',
-      ['Michael Roth <mdroth@linux.vnet.ibm.com>'], 8),
-+    ('qemu-ga-ref', 'qemu-ga-ref', u'QEMU Guest Agent Protocol Reference',
-+     [], 7),
-     ('qemu-img', 'qemu-img', u'QEMU disk image utility',
+@@ -25,6 +25,8 @@ man_pages = [
       ['Fabrice Bellard'], 1),
      ('qemu-nbd', 'qemu-nbd', u'QEMU Disk Network Block Device Server',
+      ['Anthony Liguori <anthony@codemonkey.ws>'], 8),
++    ('qemu-qmp-ref', 'qemu-qmp-ref', u'QEMU QMP Reference Manual',
++     [], 7),
+     ('qemu-trace-stap', 'qemu-trace-stap', u'QEMU SystemTap trace tool',
+      [], 1),
+     ('virtfs-proxy-helper', 'virtfs-proxy-helper',
 diff --git a/docs/interop/index.rst b/docs/interop/index.rst
-index 3b763b1eebe..3102eef4add 100644
+index 3102eef4add..0997c1ac4ba 100644
 --- a/docs/interop/index.rst
 +++ b/docs/interop/index.rst
-@@ -18,6 +18,7 @@ Contents:
-    live-block-operations
-    pr-helper
-    qemu-ga
-+   qemu-ga-ref
+@@ -21,6 +21,7 @@ Contents:
+    qemu-ga-ref
     qemu-img
     qemu-nbd
++   qemu-qmp-ref
     qemu-trace-stap
-diff --git a/docs/interop/qemu-ga-ref.rst b/docs/interop/qemu-ga-ref.rst
+    vhost-user
+    vhost-user-gpu
+diff --git a/docs/interop/qemu-qmp-ref.rst b/docs/interop/qemu-qmp-ref.rst
 new file mode 100644
-index 00000000000..013eac0bb53
+index 00000000000..e640903abaf
 --- /dev/null
-+++ b/docs/interop/qemu-ga-ref.rst
++++ b/docs/interop/qemu-qmp-ref.rst
 @@ -0,0 +1,4 @@
-+QEMU Guest Agent Protocol Reference
-+===================================
++QEMU QMP Reference Manual
++=========================
 +
-+.. qapi-doc:: qga/qapi-schema.json
-diff --git a/docs/interop/qemu-ga-ref.texi b/docs/interop/qemu-ga-ref.texi
++.. qapi-doc:: qapi/qapi-schema.json
+diff --git a/docs/interop/qemu-qmp-ref.texi b/docs/interop/qemu-qmp-ref.texi
 deleted file mode 100644
-index ddb76ce1c2a..00000000000
---- a/docs/interop/qemu-ga-ref.texi
+index bb25758bd02..00000000000
+--- a/docs/interop/qemu-qmp-ref.texi
 +++ /dev/null
 @@ -1,80 +0,0 @@
 -\input texinfo
--@setfilename qemu-ga-ref.info
+-@setfilename qemu-qmp-ref.info
 -
 -@include version.texi
 -
 -@exampleindent 0
 -@paragraphindent 0
 -
--@settitle QEMU Guest Agent Protocol Reference
+-@settitle QEMU QMP Reference Manual
 -
 -@iftex
 -@center @image{docs/qemu_logo}
 -@end iftex
 -
 -@copying
--This is the QEMU Guest Agent Protocol reference manual.
+-This is the QEMU QMP reference manual.
 -
 -Copyright @copyright{} 2016 The QEMU Project developers
 -
@@ -322,11 +319,11 @@ index ddb76ce1c2a..00000000000
 -
 -@dircategory QEMU
 -@direntry
--* QEMU-GA-Ref: (qemu-ga-ref).   QEMU Guest Agent Protocol Reference
+-* QEMU-QMP-Ref: (qemu-qmp-ref). QEMU QMP Reference Manual
 -@end direntry
 -
 -@titlepage
--@title Guest Agent Protocol Reference Manual
+-@title QMP Reference Manual
 -@subtitle QEMU version @value{VERSION}
 -@page
 -@vskip 0pt plus 1filll
@@ -337,7 +334,7 @@ index ddb76ce1c2a..00000000000
 -
 -@ifnottex
 -@node Top
--@top QEMU Guest Agent protocol reference
+-@top QEMU QMP reference
 -@end ifnottex
 -
 -@menu
@@ -352,7 +349,7 @@ index ddb76ce1c2a..00000000000
 -@c for texi2pod:
 -@c man begin DESCRIPTION
 -
--@include qemu-ga-qapi.texi
+-@include qemu-qmp-qapi.texi
 -
 -@c man end
 -
