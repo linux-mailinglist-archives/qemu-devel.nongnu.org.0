@@ -2,55 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C74AD154444
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 13:52:17 +0100 (CET)
-Received: from localhost ([::1]:38086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FCC4154447
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 13:52:58 +0100 (CET)
+Received: from localhost ([::1]:38158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izgdk-0002ia-P5
-	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 07:52:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56052)
+	id 1izgeP-0004Mh-Cv
+	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 07:52:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56375)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1izgcM-0000j7-96
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 07:50:51 -0500
+ (envelope-from <laurent@vivier.eu>) id 1izgcW-00013b-Tk
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 07:51:02 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1izgcL-0005K6-B3
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 07:50:50 -0500
-Received: from mout.kundenserver.de ([212.227.126.131]:40183)
+ (envelope-from <laurent@vivier.eu>) id 1izgcV-00060N-OK
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 07:51:00 -0500
+Received: from mout.kundenserver.de ([212.227.126.131]:53311)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1izgcL-0005HO-2U; Thu, 06 Feb 2020 07:50:49 -0500
+ id 1izgcQ-0005b0-PN; Thu, 06 Feb 2020 07:50:55 -0500
 Received: from localhost.localdomain ([78.238.229.36]) by
  mrelayeu.kundenserver.de (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MLRI3-1jIAyA3eFP-00IUxA; Thu, 06 Feb 2020 13:50:34 +0100
+ id 1M9nlN-1iuTwk3gEX-005n7S; Thu, 06 Feb 2020 13:50:36 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/12] hw/smbios/smbios: Remove unused include
-Date: Thu,  6 Feb 2020 13:50:16 +0100
-Message-Id: <20200206125027.1926263-2-laurent@vivier.eu>
+Subject: [PULL 02/12] monitor: fix memory leak in
+ monitor_fdset_dup_fd_find_remove
+Date: Thu,  6 Feb 2020 13:50:17 +0100
+Message-Id: <20200206125027.1926263-3-laurent@vivier.eu>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200206125027.1926263-1-laurent@vivier.eu>
 References: <20200206125027.1926263-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:+3n0YO0QvTIjSQEknkdfsEfpTCPU42TUPsP6TjbitggmiHP1E+M
- RByE75jAEA5SE+wkOjw6p7PFWoJnIu0zIB5155gtr8QESRj+7fr82vaTiSMn6/AKw8pKUP5
- pISTWZkDQDr8y2IgZbxDoqo0m7FVIVQdbl4JysShTpPCQ9ygL2FHMv6vLaRDkIXmacOn5tF
- rscj+o2aL05jRX+5uiHWg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:odg5yYKeunY=:DbiVs2SHG0vDv8/rh/IG29
- UaPa51Zdy1INZz6ddPgvV+3V5uTCilCrubLwWlaVh9asTZMDjlEsV3dI60HAJY956EpzEHoYN
- gYh8D7jfjvR6yeurHO9HqIG60ARM3zSBYZHd4T+jz0o+uG7SP5mQdhW+hczwThMMLeVCpQ8+N
- N7t8k4l+hXkyxHlVK9mXEKR+XAIiDZUH/0mUPRGPJi9i2oTKZOhGGVLcdrpwQENuA12mEbh4T
- ssWQi7+WAtuK6LcmAuQYVwadSasReo6NJQc7S3XcxhPdhfI1kVjo3v6Z7jEObNi4B/lsn9NbJ
- Sjeyb5w0Pgvv/l3xYdK2O/se2WaMEQ0K2LHDQdBVVGD9ZewLgDqRibSSOAGLHeExk1TCE0Uhe
- J5QPk9lvlN7hOqy1dSeP51RYfavD/QslF/Je+EDCOHSAtEFCslfb55WtIaDV5FCedGXF9mQQl
- wBdJB9n5i0XcOnLSRUYtK6cZOh+Qd71Q3n7AZgYk2yvH/rnMoYkeuaYzv0i/3WEKhmQ/HsG59
- UTy6nPt89t5ziYgzVWF/EuQR6o2RIPKcJ1GqiD3oaX147bW5RYzVC74uPnb/bluX5fu7wzdOu
- 4ZuAEFYumm5SBulV+qd83fNwt5RrzM7nxIkK1ojSar3gfPHMTrqM/wfZMzYh/NaLO/4lurT2o
- HrB/vZx2nzeyFAOL+rtHgymw6S8AIGpqfu29O2hX1qsuqBVNjYLGohNnDXCt3YbjSfHPFq1FE
- HQYnkbKF7NvnCxpCh7qMEdNmA1NxCXU/PMpYIM8klEM3O54/hgZjP0uFImZMzVMe1t/gQDw89
- AZLjfXPw4dq0xtJ5ZXX2NCMNUL04m8kXG0YplZzMwYFC+9vb0PTLE2Wne7nebmPPncuT80Y
+X-Provags-ID: V03:K1:PkLbluZi6767fKHrm29TXI9V8f4/V582cxLm+KeDjydbCtXz7Bv
+ Tn7ZXQuNi/17LtWUKlKFKQ4SXE9KVkFyDrTp5q/j8sJg2cvmifTj8/cHjHe07iJ2a4BHTxA
+ GhwP3qNK4ScCXfEuN4ZqeXgB7g7xgA//KjXuh+IkAEdftV/uLQ0BMGbNLlMRKo3VShKUPfF
+ lETwqwIygfPTzZOCoPlug==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:MyMkWIfuP24=:8fOiACXUsPJBRFpxPx71hE
+ 5P9iq32APsm62UHeKUGw9GnzBlx4CElui7p5rO4aPQxPr3YsZT4PXTbpfoR8p9YP9Xk5rWz3s
+ erRqHPX1jR+cVRtRHxXhRzusn+EDMCYljbIqkkEdKunpvcfCUr+QBdy4C8E8ApOr1pVay4YQ/
+ WCPnWWbr9GW6ZgYebmKU80PXSvRjV4/WTckPm0xel+36DPvD+HJn5WEDh2jDL/4Znpi0B2L9O
+ rX07gehOAo3Pqv9mz+/FMpXVQUilMXNlldA1MVMWzolLoBuGcc9MHhMhSja2BsBpmEHmbtkup
+ Q13eruMCYuJHO9Gmbuj30mcfDlkPkXaSjPX7+KCqJuNPiqWkxO26AR/muHyUWZeJ9VP994kFk
+ xkQ5dm+ZEQChK9NrzsArGzD1lStIUodPGd5NNMjXutZggAXPm/iwJW/dVWsGYHgx61uzzoyKq
+ 9pMXCMMWwem0KrciygVqBudQPhdKB8GGIb0MJFEjpPz1cXlF7YBFB2fkI0n6hcEsA8A2oeoPg
+ bqmnWr5LZtniSikc6/pwxbj51DqCHFX1bfzBsa2i30yd8bPpz2MbWRxHpgf/ImYhCQvl5GBjF
+ jyKqO45o//hwKcKF+gbeDPwGgG59lOm9DGwWF2XIIuUndMvxGm14VxOwnKR+aQj0cGsYTJSLQ
+ B9XRl1IIbhRM6g3a5lqdcMojVudEn/1Kymat2R0aTWXolEOj9zYmYs+ZkhiVESbs907c5QjHo
+ BZto7rjLD7zhTpQsihgDIpdEcCJ0+9ifXt1ZGLiLgNHcYDTk6b0S7Mt7RGutKXaMHWUJON5X2
+ 0P0AXkBUIvHhQGpvi6mzvNJM09fTpC1+hnFxPjCIEFngIIhfdioooDJgkAp5y/TaE3inc8n
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 212.227.126.131
 X-BeenThere: qemu-devel@nongnu.org
@@ -64,44 +65,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>,
- Markus Armbruster <armbru@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Michael Tokarev <mjt@tls.msk.ru>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Max Reitz <mreitz@redhat.com>,
- qemu-trivial@nongnu.org, =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- qemu-arm@nongnu.org, Joel Stanley <joel@jms.id.au>,
- Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Michael Tokarev <mjt@tls.msk.ru>,
+ qemu-block@nongnu.org, qemu-trivial@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, Joel Stanley <joel@jms.id.au>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-arm@nongnu.org,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ Igor Mammedov <imammedo@redhat.com>, Chen Qun <kuhn.chenqun@huawei.com>,
+ Richard Henderson <rth@twiddle.net>, Kevin Wolf <kwolf@redhat.com>,
+ Andrew Jeffery <andrew@aj.id.au>, Laurent Vivier <laurent@vivier.eu>,
+ Max Reitz <mreitz@redhat.com>, Euler Robot <euler.robot@huawei.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+From: Chen Qun <kuhn.chenqun@huawei.com>
 
-Nothing from "sysemu/cpus.h" is used by smbios.c, remove the include.
+When remove dup_fd in monitor_fdset_dup_fd_find_remove function,
+we need to free mon_fdset_fd_dup. ASAN shows memory leak stack:
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Message-Id: <20200109112504.32622-1-philmd@redhat.com>
+Direct leak of 96 byte(s) in 3 object(s) allocated from:
+    #0 0xfffd37b033b3 in __interceptor_calloc (/lib64/libasan.so.4+0xd33b3)
+    #1 0xfffd375c71cb in g_malloc0 (/lib64/libglib-2.0.so.0+0x571cb)
+    #2 0xaaae25bf1c17 in monitor_fdset_dup_fd_add /qemu/monitor/misc.c:1724
+    #3 0xaaae265cfd8f in qemu_open /qemu/util/osdep.c:315
+    #4 0xaaae264e2b2b in qmp_chardev_open_file_source /qemu/chardev/char-fd.c:122
+    #5 0xaaae264e47cf in qmp_chardev_open_file /qemu/chardev/char-file.c:81
+    #6 0xaaae264e118b in qemu_char_open /qemu/chardev/char.c:237
+    #7 0xaaae264e118b in qemu_chardev_new /qemu/chardev/char.c:964
+    #8 0xaaae264e1543 in qemu_chr_new_from_opts /qemu/chardev/char.c:680
+    #9 0xaaae25e12e0f in chardev_init_func /qemu/vl.c:2083
+    #10 0xaaae26603823 in qemu_opts_foreach /qemu/util/qemu-option.c:1170
+    #11 0xaaae258c9787 in main /qemu/vl.c:4089
+    #12 0xfffd35b80b9f in __libc_start_main (/lib64/libc.so.6+0x20b9f)
+    #13 0xaaae258d7b63  (/qemu/build/aarch64-softmmu/qemu-system-aarch64+0x8b7b63)
+
+Reported-by: Euler Robot <euler.robot@huawei.com>
+Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Message-Id: <20200115072016.167252-1-kuhn.chenqun@huawei.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/smbios/smbios.c | 1 -
- 1 file changed, 1 deletion(-)
+ monitor/misc.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/hw/smbios/smbios.c b/hw/smbios/smbios.c
-index 11d476c4a2cb..ffd98727ee9e 100644
---- a/hw/smbios/smbios.c
-+++ b/hw/smbios/smbios.c
-@@ -24,7 +24,6 @@
- #include "qemu/option.h"
- #include "sysemu/sysemu.h"
- #include "qemu/uuid.h"
--#include "sysemu/cpus.h"
- #include "hw/firmware/smbios.h"
- #include "hw/loader.h"
- #include "hw/boards.h"
+diff --git a/monitor/misc.c b/monitor/misc.c
+index 4752150a6780..9c3484d0a774 100644
+--- a/monitor/misc.c
++++ b/monitor/misc.c
+@@ -1749,6 +1749,7 @@ static int64_t monitor_fdset_dup_fd_find_remove(int dup_fd, bool remove)
+             if (mon_fdset_fd_dup->fd == dup_fd) {
+                 if (remove) {
+                     QLIST_REMOVE(mon_fdset_fd_dup, next);
++                    g_free(mon_fdset_fd_dup);
+                     if (QLIST_EMPTY(&mon_fdset->dup_fds)) {
+                         monitor_fdset_cleanup(mon_fdset);
+                     }
 -- 
 2.24.1
 
