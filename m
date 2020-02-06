@@ -2,73 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01673154B18
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 19:28:25 +0100 (CET)
-Received: from localhost ([::1]:44332 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70999154B3B
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 19:34:10 +0100 (CET)
+Received: from localhost ([::1]:44400 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izlt2-0006gp-1Z
-	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 13:28:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60790)
+	id 1izlyb-0001Xm-GN
+	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 13:34:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33845)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1izlru-0005RZ-Np
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 13:27:16 -0500
+ (envelope-from <groeck7@gmail.com>) id 1izlx1-0000Hi-CU
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 13:32:35 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1izlrr-0002nd-EG
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 13:27:13 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:43179
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1izlrr-0002me-2H
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 13:27:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581013629;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=isNMXGOUs8sJtDIYt8gNacL6U10T80BtNVzuZugYYu0=;
- b=eP3fYI+D6pNqDk+EmLBWswhNxagNPYyf80T6/CnBJ/dJK2SFo4azj+gr7uSs3zetqexy+/
- bs5Y/aSbl8Nw0ajNAtC0OrSZEG2rDMobUXpQnjqQ6Ft19wrPRkHHwZfP2Yscu2bo8mYcTN
- WhMat3I4R/hk2dt2WeqV3EfuN9oTnoY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-420-Gf49iPlgPAWVyJ7OeGim-A-1; Thu, 06 Feb 2020 13:27:02 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 161248F6D02;
- Thu,  6 Feb 2020 18:27:01 +0000 (UTC)
-Received: from work-vm (unknown [10.36.118.75])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 30D7C60C63;
- Thu,  6 Feb 2020 18:26:41 +0000 (UTC)
-Date: Thu, 6 Feb 2020 18:26:39 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Subject: Re: qmp-shell for GSoC/Outreachy?
-Message-ID: <20200206182639.GL3655@work-vm>
-References: <2561a069-ce5f-3c30-b04e-db7cd2fcdc85@redhat.com>
- <20200124095027.GA824327@redhat.com>
- <20200127143505.GD5669@linux.fritz.box>
- <20200127202925.GE3419@work-vm>
- <20200128105932.GC6431@linux.fritz.box>
- <20200205130946.GC5768@dhcp-200-226.str.redhat.com>
- <a45df5ab-3cad-0fbe-901f-4bc1ba28d38e@redhat.com>
- <20200205194944.GP3210@work-vm> <877e10xdd6.fsf@dusky.pond.sub.org>
- <20200206142143.GA4926@linux.fritz.box>
-MIME-Version: 1.0
-In-Reply-To: <20200206142143.GA4926@linux.fritz.box>
-User-Agent: Mutt/1.13.3 (2020-01-12)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: Gf49iPlgPAWVyJ7OeGim-A-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+ (envelope-from <groeck7@gmail.com>) id 1izlwz-0002pq-Kx
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 13:32:31 -0500
+Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:36645)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <groeck7@gmail.com>)
+ id 1izlwv-0002JV-Vp; Thu, 06 Feb 2020 13:32:26 -0500
+Received: by mail-pg1-x544.google.com with SMTP id k3so3167489pgc.3;
+ Thu, 06 Feb 2020 10:32:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id;
+ bh=ALuZTuN5DfhXqsi8y55rZh7eLMFrbBhU4HDPNxMYbKY=;
+ b=rirS6Cd5G3uxOCsFgXy9CdpIl/E8oFnxeCmQCOCVRMTl5YY0EvIPiQ0Y82YtgJfxg1
+ O4qb/iX+cU4ah1COUQtieL/oykPycBuzgOy6SeMqy+sRz5uhfScA3V0MpGOhmHiOtchF
+ Y4Nm7eERHOSK7DnAm/SUXAraqKJHCjK3mAh2FZAsmdsQd90y/ymsEqaFCHlqQfqUCYfV
+ x1vFHnNlm2Y1Bmocpmh63gB4OoJzpKyEqR5oMVtdTXQXmp/vE3nMyRDU0WryycFLchvs
+ di3SwFey45cs+/9Hu+/cY5mXNrsQdtyEVOw9tYcRzs0Y2/b2sTu/D98BxKGo/YnwhHP6
+ Xvuw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
+ bh=ALuZTuN5DfhXqsi8y55rZh7eLMFrbBhU4HDPNxMYbKY=;
+ b=L1F5lvUs8ur+ouferdEIm7HXUn6gi0V2RFDUOaDZ9BcDJKphpqI/R4Bkppe3Ctiy5a
+ Xcg4EHIjm7I99EOsrkVTwIgTDHGLVTDsvbrD/3BwuNp+eZSNwxw+DGO/Bdr8jUR2jTOw
+ v98MABfJ+uN77lRBf94XYxLwTXaG4DCXCK64lR8lmhzN+tKizQ27UXk4Sac5eGJoM5Z2
+ n/olh+/ckQ7U0WIPbecnCNGB02e9W+4XDSuVsFnO5LFAYecP5hnLSv+8oYTbzS5tN7ow
+ 0muM7IwHn1nUbeQImi0Z1z90TW5CzkQxOE2Dave8CrHwfJ64qZKRgLYpN3SR9gsfRgGj
+ 9pNg==
+X-Gm-Message-State: APjAAAXZ8JNYFfTISv2F8hZzXvorIEegfnhSuhE+hTE/jkNxN+ETXfAA
+ XCUZwyb4/LCSAIGSwNzRMNo=
+X-Google-Smtp-Source: APXvYqzCwh2Bjh1FVDQs0HKAVXqvjJQtHPrrd6Ae8gj6X6/M7JDCmvH1ScwZ7Yhkukpal5pDG8fzag==
+X-Received: by 2002:a63:f648:: with SMTP id u8mr5236001pgj.148.1581013944579; 
+ Thu, 06 Feb 2020 10:32:24 -0800 (PST)
+Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+ by smtp.gmail.com with ESMTPSA id c15sm94514pfo.137.2020.02.06.10.32.22
+ (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+ Thu, 06 Feb 2020 10:32:23 -0800 (PST)
+From: Guenter Roeck <linux@roeck-us.net>
+To: Alistair Francis <alistair@alistair23.me>,
+	Kevin Wolf <kwolf@redhat.com>
+Subject: [PATCH v2 1/4] m25p80: Convert to support tracing
+Date: Thu,  6 Feb 2020 10:32:16 -0800
+Message-Id: <20200206183219.3756-1-linux@roeck-us.net>
+X-Mailer: git-send-email 2.17.1
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::544
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,302 +71,204 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- "Denis V. Lunev" <den@virtuozzo.com>, Cleber Rosa <cleber@redhat.com>,
- Stefan Hajnoczi <stefanha@gmail.com>, Markus Armbruster <armbru@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Dominik Csapak <d.csapak@proxmox.com>,
- John Snow <jsnow@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-block@nongnu.org,
+ Andrew Jeffery <andrew@aj.id.au>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, qemu-arm@nongnu.org,
+ Joel Stanley <joel@jms.id.au>, Guenter Roeck <linux@roeck-us.net>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Kevin Wolf (kwolf@redhat.com) wrote:
-> Am 06.02.2020 um 10:40 hat Markus Armbruster geschrieben:
-> > >> On 2/5/20 8:09 AM, Kevin Wolf wrote:
-> > >> > Am 28.01.2020 um 11:59 hat Kevin Wolf geschrieben:
-> > >> >>>> The other part that it needs to solve is how to be available by=
- default
-> > >> >>>> without specifying anything on the command line. Basically, if =
-I press
-> > >> >>>> Ctrl-Alt-2, I want to get to a monitor shell. If that shell is
-> > >> >>>> implemented internally or by an external Python process, I don'=
-t mind.
-> > >> >>>
-> > >> >>> That is a harder part. (I rarely use Ctrl-Alt-2 actually; I most=
-ly
-> > >> >>> use HMP on stdin).
-> > >> >>
-> > >> >> I don't think it would be that hard, actually.
-> > >> >>
-> > >> >> If you have a -qmp-shell option that takes a chardev and defaults=
- to vc,
-> > >> >> you've solved the part with both stdio and Ctrl-Alt-2. Now all yo=
-u need
-> > >> >> to do is launch the Python child process, pass it a pair of pipes=
- for
-> > >> >> communication and forward everything between the pipes and the ch=
-ardev.
-> > >> >>
-> > >> >> (That's the theory anyway.)
-> > >> >=20
-> > >> > If someone is interested, I did a quick proof-of-concept hack:
-> > >> >=20
-> > >> >     https://repo.or.cz/qemu/kevin.git/shortlog/refs/heads/qmp-shel=
-l
-> > >> >=20
-> > >> > It doesn't clean up anything properly (including the qmp-shell pro=
-cesses
-> > >> > it starts), but it spawns a usable qmp-shell on a user-specified
-> > >> > character device. stdio seems to work, though without readline
-> > >> > functionality (I suppose I still have line-buffering somewhere), v=
-c
-> > >> > doesn't really work at all yet.
-> > >> >=20
-> > >> > Try it out like this:
-> > >> >=20
-> > >> >     $ ./qemu-storage-daemon --chardev stdio,id=3Dm --monitor m,mod=
-e=3Dqmp-shell
-> > >> >     monitor_qmp_event: 1
-> > >> >     Welcome to the QMP low-level shell!
-> > >> >     Connected to QEMU 4.2.50
-> > >> >=20
-> > >> >     (QEMU) query-version
-> > >> >     {"return": {"qemu": {"micro": 50, "major": 4, "minor": 2}, "pa=
-ckage": "v4.2.0-1188-gd95a3885a9"}}
-> > >> >     (QEMU) quit
-> > >> >=20
-> > >> > (Or use x86_64-softmmu/qemu-system-x86_64, but it's based on the
-> > >> > refactorings in the storage daemon branch, so why not try both at =
-once?)
-> > >> >=20
-> > >> > Polishing this to make it mergable would still require substantial=
- work,
-> > >> > so at the moment I'm not planning to do this. But if someone wants=
- to
-> > >> > pick it up, feel free (just let us know).
-> > >> >=20
-> > >> > Hm, in fact... A qmp-shell GSoC project?
-> > >> >=20
-> > >>=20
-> > >> That would be great. I worry that we should have a clear vision for =
-the
-> > >> syntax before we give this project to an intern, though. With a clea=
-r
-> > >> vision and an outline for deliverables, it's an incredibly appropria=
-te
-> > >> project.
-> > >>=20
-> > >> Some things I think we want to define before we start:
-> > >>=20
-> > >> 1. What are we trying to achieve with a standalone shell?
-> >=20
-> > Projects without a clear goal rarely succeed.  Success within three
-> > months is even rarer.
-> >
-> > >> 2. What syntax should it use?
-> >=20
-> > Leaving that to a GSoC student amounts to setting up for failure.
->=20
-> I think this subthread shows that we actually have many separate
-> projects that people wish to have someone work on. Each of them is
-> probably a bit too small for a whole GSoC, but all of them together are
-> probably too much. So I'll guess the student would pick maybe two of
-> them, and if time is left at the end, more can be added as a bonus.
->=20
-> 1. Something like --monitor mode=3Dqmp-shell that just spawns an external
->    Python script and passes it a QMP socket. This is the fundamental
->    building block for having any kind of external monitor script
->    actually integrated in QEMU, so I think just running the existing
->    qmp-shell this way (with proper support for at least stdio and vc
->    chardevs) would make sense as a first milestone.
+While at it, add some trace messages to help debug problems
+seen when running the latest Linux kernel.
 
-I was originally going to suggest that should be sugar for a
--chardev filter  that takes an in/out chardev - but I don't know how
-you'd handle tty stuff like formatting and tab completion etc.
+Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+---
+v2: Print pointer to Flash data structure as flash ID with each trace
+    message to support systems with more than one instantiated flash.
 
-> 2. Rewriting qmp-shell to use a better syntax for nested data
->    structures. This would have to be defined before the project starts.
->=20
-> 3. Improving qmp-shell UI-wise, e.g. by having better autocompletion,
->    support for counting brackets, or whatever else was mentioned. We
->    have a few ideas, and there's room for the student to add their own
->    ideas, too.
->=20
-> 4. Something HMP-like. This isn't QMP any more, so it could as well be a
->    separate script (hmp-shell?). But it could also be integrated in
->    qmp-shell in the form of additional commands that are implemented
->    client-side. Or maybe have a single shell, but have a QMP mode and an
->    HMP mode and the user can switch between these modes.
->=20
->    The syntax for the HMP shell/mode could be the same or different from
->    the QMP syntax. This would have to be defined beforehand, too.
+ hw/block/m25p80.c     | 48 ++++++++++++++++++++-----------------------
+ hw/block/trace-events | 16 +++++++++++++++
+ 2 files changed, 38 insertions(+), 26 deletions(-)
 
-separate script sharing the qmp interface code?
-
-Dave
-
-> 5. Probably more that I just forgot now.
->=20
-> Suggesting the exact goals is part of the student application process,
-> but for fundamental things like the syntax we should probably already
-> know what we want.
->=20
-> > >> I think those are the hardest parts.
-> > >>
-> > >> Below, some musings:
-> > >>=20
-> > >> - An integrated QMP shell would be a great usability boost to users =
-of
-> > >> bare QEMU.
-> > >>=20
-> > >> - It is undesirable in general to support two interfaces. Feature
-> > >> disparity is a problem, as is needing to document and test two separ=
-ate
-> > >> interfaces. The quality disparity between the two is also an issue.
-> > >>=20
-> > >> - Offering HMP via the GTK interface but not QMP is a discoverabilit=
-y
-> > >> problem. Unfamiliar users might assume that HMP is our flagship
-> > >> interface. It is not.
-> > >>=20
-> > >> - We are unlikely to re-expand HMP to cover everything QMP does; wri=
-ting
-> > >> a QMP shell that makes QMP easy to interface with is a better soluti=
-on
-> > >> for removing redundancy and complexity.
->=20
-> I'm not entirely convinced of this because QMP is often too low-level to
-> actually address the practical high-level needs of users.
->=20
-> But these HMP-ish things are probably easier to maintain as scripts
-> outside of the QEMU binary, so I think some kind of "QMP with
-> extensions" for human could be the solution.
->=20
-> Once it's an external script, it will also be easy to exchange the shell
-> for another one depending on user preference, or to hack in whatever
-> functionality they are missing.
->=20
-> > >> - I suspect that the target audience for users of naked QEMU are:
-> > >>   - QEMU developers
-> > >>   - Upper-layer developers (RHV, oVirt, KubeVirt, libvirt, kata, et =
-al)
-> > >> researching, testing, and debugging integration.
-> > >>   - Devops professionals testing, implementing and debugging
-> > >>     configuration & infrastructure
-> > >>   - Security/infosec researchers
-> > >>   - Embedded platform developers
-> > >>   - Academic researchers
->=20
-> Maybe kernel developers should be mentioned separately, but yes, this
-> list looks plausible to me.
->=20
-> > >> So please correct me if I am off the mark;
-> > >>=20
-> > >> Design Goals:
-> > >>   - The removal of HMP
-> > >>   - An easy-to-use interface that remains reasonably "close" to the
-> > >> machine API such that it provides a smooth transition to scripting Q=
-EMU.
-> > >>   - Integration with our GTK interface for discoverability and conve=
-nience
->=20
-> As I listed above, I think these are actually three separate projects,
-> rather than goals for a single big projects.
->=20
-> > >> Syntax:
-> > >>   - TBD? Do we agree that the current syntax in qmp-shell is "bad" a=
-nd
-> > >> should be replaced? If yes, what should it look like?
-> > >
-> > > I believe it should be a python shell with added commands.
-> > >
-> > > Simple things should be simple.
-> > >   e.g. adding a disk from a local file should be trivial.
-> > >
-> > > Complex things can be complex - but it would be better if they were
-> > > simple.
-> > >
-> > >   It's OK if the worst case of a blockdev is a bit hairy, but
-> > >   watch out for cases where the hairyness creeps in unnecessarily.
-> >=20
-> > Designing interfaces to complex machinery is hard.  Experience tells
-> > that we do okay when we focus on the building blocks first.  That's
-> > -blockdev.  When we start with trying to make simple things simple, we
-> > end in swamps.  That's -drive.
-> >=20
-> > Focus on building blocks is of course no excuse for unnecessary
-> > hairiness.
-> >=20
-> > It's also no reason not to build more convenient things on top of the
-> > building blocks.  I doubt they should go into QMP, though.
->=20
-> Right, they should be implemented in that external script, which would
-> use the lower-level QMP building blocks to provide the functionality. I
-> also think it's a good idea to keep QMP accessible for more exotic use
-> cases when the simple thing just doesn't cut it any more.
->=20
-> > > If the user screwsup, it should give an error that prompts the user
-> > > to the parameter they got wrong.
-> > >
-> > > Output from commands should normally be pretty formatted (with an opt=
-ion
-> > > to display raw json for those needing it).
-> > >   e.g. that 'query-version' should give either just the package
-> > >   version (as info version currently does) or:
-> > >       4.2.50  Package: v4.2.0-1188-gd95a3885a9
-> > >
-> > > We shouldn't lose any HMP commands that some people find useful
-> > >   Ditching HMP isn't an option until we've got almost all of it
-> > >   covered.
-> >=20
-> > In particular, we currently use HMP for debugging and monitoring
-> > purposes, where we don't need or want QMP's rigor, neither its rigorous
-> > interface stability, nor its structured I/O.  We want the "whipuptitude=
-"
-> > we get from monitor_printf().  This is actually a point David has made
-> > several times.
-> >=20
-> > To have a qmp-shell replace HMP, I think it needs to be able to
-> >=20
-> > * Go beyond 1:1
-> >=20
-> >   We tried a 1:1 mapping between HMP and QMP commands, and it didn't
-> >   work out.  HMP's replacement should let us build convenient commands
-> >   from QMP building blocks.
-> >=20
-> >   We tried a 1:1 mapping between HMP and QMP command arguments, guided
-> >   by @args_type.  Worked out for simple cases, but was too constricting=
-.
->=20
-> We need to go beyond 1:1, but we probably want to be able to offer 1:1
-> as a subset of commands accepted in that shell.
->=20
-> Offering only 1:1 in a good way might already be a step forward.
->=20
-> > * Preserve "whipuptitude" [David]
-> >=20
-> >   I figure that means allowing some in QMP.  Without compromising its
-> >   core mission, of course.
->=20
-> As long as we confine it to x- commands, I think this is okay.
->=20
-> > * As discoverable as HMP is now [Kevin]
-> >=20
-> > * Help, completion and such at least on par with what HMP provides now
->=20
-> Will we want to add new annotations in the schema for this?
->=20
-> For example, HMP has completion support for block device names. In the
-> QAPI schema, these are simply 'str'. We could bake the knowledge that
-> in command 'foo' the parameter 'bar' is a block device name, but that
-> would be a hack and would probably rarely be consistent with what QEMU
-> actually does. It's really something that schema introspection should be
-> able to tell us.
->=20
-> Kevin
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
+index 61f2fb8f8f..5ff8d270c4 100644
+--- a/hw/block/m25p80.c
++++ b/hw/block/m25p80.c
+@@ -32,17 +32,7 @@
+ #include "qemu/module.h"
+ #include "qemu/error-report.h"
+ #include "qapi/error.h"
+-
+-#ifndef M25P80_ERR_DEBUG
+-#define M25P80_ERR_DEBUG 0
+-#endif
+-
+-#define DB_PRINT_L(level, ...) do { \
+-    if (M25P80_ERR_DEBUG > (level)) { \
+-        fprintf(stderr,  ": %s: ", __func__); \
+-        fprintf(stderr, ## __VA_ARGS__); \
+-    } \
+-} while (0)
++#include "trace.h"
+ 
+ /* Fields for FlashPartInfo->flags */
+ 
+@@ -574,7 +564,8 @@ static void flash_erase(Flash *s, int offset, FlashCMD cmd)
+         abort();
+     }
+ 
+-    DB_PRINT_L(0, "offset = %#x, len = %d\n", offset, len);
++    trace_m25p80_flash_erase(s, offset, len);
++
+     if ((s->pi->flags & capa_to_assert) != capa_to_assert) {
+         qemu_log_mask(LOG_GUEST_ERROR, "M25P80: %d erase size not supported by"
+                       " device\n", len);
+@@ -607,8 +598,7 @@ void flash_write8(Flash *s, uint32_t addr, uint8_t data)
+     }
+ 
+     if ((prev ^ data) & data) {
+-        DB_PRINT_L(1, "programming zero to one! addr=%" PRIx32 "  %" PRIx8
+-                   " -> %" PRIx8 "\n", addr, prev, data);
++        trace_m25p80_programming_zero_to_one(s, addr, prev, data);
+     }
+ 
+     if (s->pi->flags & EEPROM) {
+@@ -662,6 +652,9 @@ static void complete_collecting_data(Flash *s)
+ 
+     s->state = STATE_IDLE;
+ 
++    trace_m25p80_complete_collecting(s, s->cmd_in_progress, n, s->ear,
++                                     s->cur_addr);
++
+     switch (s->cmd_in_progress) {
+     case DPP:
+     case QPP:
+@@ -825,7 +818,7 @@ static void reset_memory(Flash *s)
+         break;
+     }
+ 
+-    DB_PRINT_L(0, "Reset done.\n");
++    trace_m25p80_reset_done(s);
+ }
+ 
+ static void decode_fast_read_cmd(Flash *s)
+@@ -941,9 +934,10 @@ static void decode_qio_read_cmd(Flash *s)
+ 
+ static void decode_new_cmd(Flash *s, uint32_t value)
+ {
+-    s->cmd_in_progress = value;
+     int i;
+-    DB_PRINT_L(0, "decoded new command:%x\n", value);
++
++    s->cmd_in_progress = value;
++    trace_m25p80_command_decoded(s, value);
+ 
+     if (value != RESET_MEMORY) {
+         s->reset_enable = false;
+@@ -1042,7 +1036,7 @@ static void decode_new_cmd(Flash *s, uint32_t value)
+         break;
+ 
+     case JEDEC_READ:
+-        DB_PRINT_L(0, "populated jedec code\n");
++        trace_m25p80_populated_jedec(s);
+         for (i = 0; i < s->pi->id_len; i++) {
+             s->data[i] = s->pi->id[i];
+         }
+@@ -1063,7 +1057,7 @@ static void decode_new_cmd(Flash *s, uint32_t value)
+     case BULK_ERASE_60:
+     case BULK_ERASE:
+         if (s->write_enable) {
+-            DB_PRINT_L(0, "chip erase\n");
++            trace_m25p80_chip_erase(s);
+             flash_erase(s, 0, BULK_ERASE);
+         } else {
+             qemu_log_mask(LOG_GUEST_ERROR, "M25P80: chip erase with write "
+@@ -1184,7 +1178,7 @@ static int m25p80_cs(SSISlave *ss, bool select)
+         s->data_read_loop = false;
+     }
+ 
+-    DB_PRINT_L(0, "%sselect\n", select ? "de" : "");
++    trace_m25p80_select(s, select ? "de" : "");
+ 
+     return 0;
+ }
+@@ -1194,19 +1188,20 @@ static uint32_t m25p80_transfer8(SSISlave *ss, uint32_t tx)
+     Flash *s = M25P80(ss);
+     uint32_t r = 0;
+ 
++    trace_m25p80_transfer(s, s->state, s->len, s->needed_bytes, s->pos,
++                          s->cur_addr, (uint8_t)tx);
++
+     switch (s->state) {
+ 
+     case STATE_PAGE_PROGRAM:
+-        DB_PRINT_L(1, "page program cur_addr=%#" PRIx32 " data=%" PRIx8 "\n",
+-                   s->cur_addr, (uint8_t)tx);
++        trace_m25p80_page_program(s, s->cur_addr, (uint8_t)tx);
+         flash_write8(s, s->cur_addr, (uint8_t)tx);
+         s->cur_addr = (s->cur_addr + 1) & (s->size - 1);
+         break;
+ 
+     case STATE_READ:
+         r = s->storage[s->cur_addr];
+-        DB_PRINT_L(1, "READ 0x%" PRIx32 "=%" PRIx8 "\n", s->cur_addr,
+-                   (uint8_t)r);
++        trace_m25p80_read_byte(s, s->cur_addr, (uint8_t)r);
+         s->cur_addr = (s->cur_addr + 1) & (s->size - 1);
+         break;
+ 
+@@ -1244,6 +1239,7 @@ static uint32_t m25p80_transfer8(SSISlave *ss, uint32_t tx)
+         }
+ 
+         r = s->data[s->pos];
++        trace_m25p80_read_data(s, s->pos, (uint8_t)r);
+         s->pos++;
+         if (s->pos == s->len) {
+             s->pos = 0;
+@@ -1281,7 +1277,7 @@ static void m25p80_realize(SSISlave *ss, Error **errp)
+             return;
+         }
+ 
+-        DB_PRINT_L(0, "Binding to IF_MTD drive\n");
++        trace_m25p80_binding(s);
+         s->storage = blk_blockalign(s->blk, s->size);
+ 
+         if (blk_pread(s->blk, 0, s->storage, s->size) != s->size) {
+@@ -1289,7 +1285,7 @@ static void m25p80_realize(SSISlave *ss, Error **errp)
+             return;
+         }
+     } else {
+-        DB_PRINT_L(0, "No BDRV - binding to RAM\n");
++        trace_m25p80_binding_no_bdrv(s);
+         s->storage = blk_blockalign(NULL, s->size);
+         memset(s->storage, 0xFF, s->size);
+     }
+diff --git a/hw/block/trace-events b/hw/block/trace-events
+index c03e80c2c9..f78939fa9d 100644
+--- a/hw/block/trace-events
++++ b/hw/block/trace-events
+@@ -134,3 +134,19 @@ xen_block_blockdev_add(char *str) "%s"
+ xen_block_blockdev_del(const char *node_name) "%s"
+ xen_block_device_create(unsigned int number) "%u"
+ xen_block_device_destroy(unsigned int number) "%u"
++
++# m25p80.c
++m25p80_flash_erase(void *s, int offset, uint32_t len) "[%p] offset = 0x%"PRIx32", len = %u"
++m25p80_programming_zero_to_one(void *s, uint32_t addr, uint8_t prev, uint8_t data) "[%p] programming zero to one! addr=0x%"PRIx32"  0x%"PRIx8" -> 0x%"PRIx8
++m25p80_reset_done(void *s) "[%p] Reset done."
++m25p80_command_decoded(void *s, uint32_t cmd) "[%p] new command:0x%"PRIx32
++m25p80_complete_collecting(void *s, uint32_t cmd, int n, uint8_t ear, uint32_t cur_addr) "[%p] decode cmd: 0x%"PRIx32" len %d ear 0x%"PRIx8" addr 0x%"PRIx32
++m25p80_populated_jedec(void *s) "[%p] populated jedec code"
++m25p80_chip_erase(void *s) "[%p] chip erase"
++m25p80_select(void *s, const char *what) "[%p] %sselect"
++m25p80_page_program(void *s, uint32_t addr, uint8_t tx) "[%p] page program cur_addr=0x%"PRIx32" data=0x%"PRIx8
++m25p80_transfer(void *s, uint8_t state, uint32_t len, uint8_t needed, uint32_t pos, uint32_t cur_addr, uint8_t t) "[%p] Transfer state 0x%"PRIx8" len 0x%"PRIx32" needed 0x%"PRIx8" pos 0x%"PRIx32" addr 0x%"PRIx32" tx 0x%"PRIx8
++m25p80_read_byte(void *s, uint32_t addr, uint8_t v) "[%p] Read byte 0x%"PRIx32"=0x%"PRIx8
++m25p80_read_data(void *s, uint32_t pos, uint8_t v) "[%p] Read data 0x%"PRIx32"=0x%"PRIx8
++m25p80_binding(void *s) "[%p] Binding to IF_MTD drive"
++m25p80_binding_no_bdrv(void *s) "[%p] No BDRV - binding to RAM"
+-- 
+2.17.1
 
 
