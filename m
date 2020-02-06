@@ -2,66 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C81F1542EE
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 12:20:08 +0100 (CET)
-Received: from localhost ([::1]:36466 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99A661542D3
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 12:16:07 +0100 (CET)
+Received: from localhost ([::1]:36275 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izfCZ-0006Db-LJ
-	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 06:20:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51040)
+	id 1izf8g-0008Cm-Lh
+	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 06:16:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52094)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1izeps-0005tS-7v
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 05:56:41 -0500
+ (envelope-from <thuth@redhat.com>) id 1izete-0006Cj-DH
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 06:00:36 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1izepq-0008Gd-Vc
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 05:56:40 -0500
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:34822)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1izepq-0008CC-Pd
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 05:56:38 -0500
-Received: by mail-oi1-x243.google.com with SMTP id b18so4155445oie.2
- for <qemu-devel@nongnu.org>; Thu, 06 Feb 2020 02:56:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=hoVpaaxA/IqP5s1JvcpuvxK3sp4hYRopXLBeMPJaOl8=;
- b=LHegkkIwtZCsmEJ8zzORbD7U6aCIUhhGIPofAHyFHEnUzDngNvvsdJ+jF1wCKyxdqR
- a/Uw/syfOmKFTRstECMf7Pkd6taoUe8nzOwtlEK4hBQ+xjcZ899vF3ynRklF7K2+4SHZ
- sFzY5r7nYDnS9nDTaczIbgNygo1vdBaYr6olCGR3wMenB6kAL7n4Z2rukmuHdR1kwiGJ
- 1Cn2j0s9/mqlQ6kZXcrH5I6v+1PwMjGoyN3is4ptxJwzfKzm4q3ySGAh7TK+9dIvCxNs
- P+AYK6hzWqVttRErZmW9D/BHPJFPKbkd7/DgJzRwAIHQAYRVRq48QwZibE6drbBlGTSJ
- FXOw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=hoVpaaxA/IqP5s1JvcpuvxK3sp4hYRopXLBeMPJaOl8=;
- b=VoXo41KunuDHb1lqW2YwBhkmUy0RLj0rCmmVTxjGZrQOR8/xcJ6/tgT3S6TstJUyiO
- Ceo+5vbdXL01xqJ8JUvz7ajWkL/SHpqMwbYYzmaZR99SP2KW/mQeEQVZPPPRsvSPhPXP
- g/sU9BJBBuH5ytxvYcDuXqChD2F4Gi0RG2CI73to/75m6Hnn+yzDMJFe/keYDW6MSlud
- fYKYQIeipiJNDr+f1sTk8N7raqhWnk+NS6XIM2VM2uozcKH6f85tAQKkgTuCQKUXXa0K
- kayO2YdfoOLbcwnZYMss0Y70XXY6YWaPzJKHOgvLCCXdnouTu+YhI4bdR6z1ppD0PwBM
- q1Qg==
-X-Gm-Message-State: APjAAAW2PIvQ7fEgzfKR5l53uz+x1GIkSD1ujDzlNQdtDkHwOx99H1ho
- 4UJkJvKZeOHPqVsK3HhhT4V81q/Fa9F1cpuLjMqfrQ==
-X-Google-Smtp-Source: APXvYqwkGVDe2WLXneuG+GzDJ7uHz9RYwiGtcFaYJtJiwOM1q0yhw9LMC6N5FhAGIeZdxlQcXqhwBLagB7qtvyGPELo=
-X-Received: by 2002:aca:b2c5:: with SMTP id b188mr6505351oif.163.1580986597881; 
- Thu, 06 Feb 2020 02:56:37 -0800 (PST)
+ (envelope-from <thuth@redhat.com>) id 1izetc-0004ZO-MX
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 06:00:34 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:33858
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1izetc-0004VM-HL
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 06:00:32 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1580986832;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:openpgp:openpgp;
+ bh=+rg27dlHYRZaxBCxoo0CQU8VDaQbMcMRvmbj0ClGVSo=;
+ b=AXILPSpGrXHKzOhoiic6xP5EtTNodR0UhcGEcqq23l8qYewywq70zVSr9LQm6fjI3SGsWj
+ Y194AWnE6Ma6MikmhmMMyK7NTfnmeFyEHgGtMoFrzNmugAroDz38l8inufLpGJnE/rsbtp
+ e9SoPPMQ7rvPN9l62zTS7eUZniiHk+w=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-173-Sh-vYLN9MBG36ImOjnT4Gg-1; Thu, 06 Feb 2020 06:00:24 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5212B8010CB;
+ Thu,  6 Feb 2020 11:00:23 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-116-151.ams2.redhat.com [10.36.116.151])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9C2B15DA7E;
+ Thu,  6 Feb 2020 11:00:21 +0000 (UTC)
+Subject: Re: [PATCH] pc-bios/s390x: Pack ResetInfo struct
+To: Christian Borntraeger <borntraeger@de.ibm.com>,
+ "Jason J. Herne" <jjherne@linux.ibm.com>, qemu-devel@nongnu.org,
+ qemu-s390x@nongnu.org, cohuck@redhat.com
+References: <20200205182126.13010-1-jjherne@linux.ibm.com>
+ <e3baa1e0-e1d3-d67c-cca9-a626d42c5489@de.ibm.com>
+From: Thomas Huth <thuth@redhat.com>
+Openpgp: preference=signencrypt
+Message-ID: <896302f7-ec21-6108-6dde-f5a7439d87ab@redhat.com>
+Date: Thu, 6 Feb 2020 12:00:20 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-References: <20200206104743.11740-1-alex.bennee@linaro.org>
-In-Reply-To: <20200206104743.11740-1-alex.bennee@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 6 Feb 2020 10:56:27 +0000
-Message-ID: <CAFEAcA9e=6+Uhdn6rStPqQJQPipoVDf0dANJcV2pt1iSDVQ_kA@mail.gmail.com>
-Subject: Re: [PATCH] .readthedocs.yml: specify some minimum python requirements
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <e3baa1e0-e1d3-d67c-cca9-a626d42c5489@de.ibm.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: Sh-vYLN9MBG36ImOjnT4Gg-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::243
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,62 +78,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 6 Feb 2020 at 10:47, Alex Benn=C3=A9e <alex.bennee@linaro.org> wrot=
-e:
->
-> QEMU is all about the Python 3 now so lets also hint that to
-> ReadTheDocs in its config file.
->
-> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> ---
->  .readthedocs.yml | 17 +++++++++++++++++
->  1 file changed, 17 insertions(+)
->  create mode 100644 .readthedocs.yml
->
-> diff --git a/.readthedocs.yml b/.readthedocs.yml
-> new file mode 100644
-> index 00000000000..99730364bbc
-> --- /dev/null
-> +++ b/.readthedocs.yml
-> @@ -0,0 +1,17 @@
-> +# .readthedocs.yml
-> +# Read the Docs configuration file
-> +# See https://docs.readthedocs.io/en/stable/config-file/v2.html for deta=
-ils
-> +
-> +# Required
-> +version: 2
-> +
-> +# Build documentation in the docs/ directory with Sphinx
-> +sphinx:
-> +  configuration: docs/conf.py
-> +
-> +# We want all the document formats
-> +formats: all
+On 06/02/2020 11.09, Christian Borntraeger wrote:
+>=20
+>=20
+> On 05.02.20 19:21, Jason J. Herne wrote:
+>> This fixes vfio-ccw when booting non-Linux operating systems. Without th=
+is
+>> struct being packed, a few extra bytes of low core memory get overwritte=
+n when
+>> we  assign a value to memory address 0 in jump_to_IPL_2. This is enough =
+to
+>> cause some non-Linux OSes of fail when booting.
+>>
+>> The problem was introduced by:
+>> 5c6f0d5f46a77d77 "pc-bios/s390x: Fix reset psw mask".
+>>
+>> The fix is to pack the struct thereby removing the 4 bytes of padding th=
+at get
+>> added at the end, likely to allow an array of these structs to naturally=
+ align
+>> on an 8-byte boundary.
+>>
+>> Fixes: 5c6f0d5f46a7 ("pc-bios/s390x: Fix reset psw mask")
+>> CC: Janosch Frank <frankja@linux.ibm.com>
+>> Signed-off-by: Jason J. Herne <jjherne@linux.ibm.com>
+>> ---
+>>  pc-bios/s390-ccw/jump2ipl.c | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/pc-bios/s390-ccw/jump2ipl.c b/pc-bios/s390-ccw/jump2ipl.c
+>> index da13c43cc0..1e9eaa037f 100644
+>> --- a/pc-bios/s390-ccw/jump2ipl.c
+>> +++ b/pc-bios/s390-ccw/jump2ipl.c
+>> @@ -18,7 +18,7 @@
+>>  typedef struct ResetInfo {
+>>      uint64_t ipl_psw;
+>>      uint32_t ipl_continue;
+>> -} ResetInfo;
+>> +} __attribute__((packed)) ResetInfo;
+>> =20
+>>  static ResetInfo save;
+>=20
+> Just looked into that.
+>=20
+> We do save the old content in "save" and restore the old memory content.
+>=20
+> static void jump_to_IPL_2(void)
+> {
+>     ResetInfo *current =3D 0;
+>=20
+>     void (*ipl)(void) =3D (void *) (uint64_t) current->ipl_continue;
+> --->*current =3D save;
+>     ipl(); /* should not return */
+> }
+>=20
+> void jump_to_IPL_code(uint64_t address)
+> {
+>     /* store the subsystem information _after_ the bootmap was loaded */
+>     write_subsystem_identification();
+>=20
+>     /* prevent unknown IPL types in the guest */
+>     if (iplb.pbt =3D=3D S390_IPL_TYPE_QEMU_SCSI) {
+>         iplb.pbt =3D S390_IPL_TYPE_CCW;
+>         set_iplb(&iplb);
+>     }
+>=20
+>     /*
+>      * The IPL PSW is at address 0. We also must not overwrite the
+>      * content of non-BIOS memory after we loaded the guest, so we
+>      * save the original content and restore it in jump_to_IPL_2.
+>      */
+>     ResetInfo *current =3D 0;
+>=20
+> --->save =3D *current;
 
-> +# We need at least 3.4 for enum, but we enforce 3.5+ for sphinx
+Right, and this should also work without your modification. I've stared
+at the code a couple of weeks ago, looking for a very similar issue:
 
-A better comment IMHO:
+ https://lists.gnu.org/archive/html/qemu-devel/2019-12/msg03484.html
 
-# For consistency, we require that QEMU's Sphinx extensions
-# run with at least the same minimum version of Python that
-# we require for other Python in our codebase (our conf.py
-# enforces this, and some code needs it.)
+... but in the end, the problem was something else:
 
-Otherwise this will become inaccurate in a couple of weeks
-as soon as some other extension code lands that really does
-have a 3.5 requirement.
+ https://lists.gnu.org/archive/html/qemu-devel/2019-12/msg03520.html
 
-> +python:
-> +  version: 3.5
+and the fix had been done in the startup code of the test:
 
-Otherwise
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+ https://lists.gnu.org/archive/html/qemu-devel/2019-12/msg04225.html
 
-thanks
--- PMM
+So I'd guess that you face the very same problem here. That means, you
+either have to convince the non-Linux OS to check their startup code
+whether they depend on zeroed registers somewhere, or we fix this issue
+for good in jump_to_IPL_2() by clearing the registers there before
+jumping into the OS code (which we likely should do anyway since the OS
+may expect a clean state).
+
+ Thomas
+
 
