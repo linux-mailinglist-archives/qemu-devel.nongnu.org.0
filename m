@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09F84153CB0
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 02:39:03 +0100 (CET)
-Received: from localhost ([::1]:59470 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D88A153CB9
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 02:43:43 +0100 (CET)
+Received: from localhost ([::1]:59550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izW8E-0003Ey-3p
-	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 20:39:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54630)
+	id 1izWCj-0001VV-P5
+	for lists+qemu-devel@lfdr.de; Wed, 05 Feb 2020 20:43:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54702)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1izVos-0001Vo-Dv
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 20:19:04 -0500
+ id 1izVou-0001aH-TC
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 20:19:07 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1izVon-0004wB-W9
- for qemu-devel@nongnu.org; Wed, 05 Feb 2020 20:19:02 -0500
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:33624)
+ id 1izVot-00055W-8i
+ for qemu-devel@nongnu.org; Wed, 05 Feb 2020 20:19:04 -0500
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:35870)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1izVon-0004qS-O3; Wed, 05 Feb 2020 20:18:57 -0500
-Received: by mail-wm1-x341.google.com with SMTP id m10so5693957wmc.0;
- Wed, 05 Feb 2020 17:18:57 -0800 (PST)
+ id 1izVos-0004z4-W4; Wed, 05 Feb 2020 20:19:03 -0500
+Received: by mail-wr1-x444.google.com with SMTP id z3so5154269wru.3;
+ Wed, 05 Feb 2020 17:19:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=8gSk/HX2AdgIZvykLb4KtPojBa3jZM1avH6O2vAh72A=;
- b=XGEGvDskFUrx/HYh4AyvduBZcy8cDpjIN1SPITFYSUscQAibtLFiDSe7y2OanqbV2m
- sZCboCt+09eVHwIJq4VhY4kmJIk/NS2nfMliLlSTu7m3AF7TvSD1FRRROWKzBAekPOoP
- qEfxTDCeknqLW1MiUrCzayELqzoKKwPT2Erp4DkwQUhorWsT1cvkcZty+nsS/ZMLrsS/
- eID4jYhRwZwmi5Z/XhS7Xa+ULr4rX6ok9W48M0rkd++jcor+Q03ab4f9GrGMHAj0HF8/
- UBc2ArZP1mnLePMLafR5+IjXwics80Aff9tkzsv/JHY3TUe6hmxfshgy2Ljt9OrTDioB
- EMRQ==
+ bh=wAehENzQCmMVkW/YJV6bnroThHw1HaqNAVBKJsfbRgw=;
+ b=e+LOuK1DWEq4Xvc/DBRCvTuT1Z3/F4+qqvLoIdlO5OYwW+1qexs47Xj1rhj4WR+YFe
+ av6EFp8eEZqLQLGMW7BJPbaT8QYwCZOxsOHh+8DbEuw4aYFYU/4spN7cs1O+IVyQWUy8
+ dbgNrz1XCm9pNae/8J95iFMy+b4mjsKzOXmM7yNyAT+T/Ys+T2LXZH91G0sh5z33rh+v
+ hTGzgX7Tys7XzcScRjvpV2GiFs1IxYtpdAIJztfsfh5n6n+qk8FXn6dT2nfxR26X49CH
+ UGXa4V/67BZHajmcxw8mDCuzfbAmoMW4uSrRd4kuUqnEeMvXuRMAnrNIhJ+u5+kEGDLM
+ 1AkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=8gSk/HX2AdgIZvykLb4KtPojBa3jZM1avH6O2vAh72A=;
- b=SKogVlyTyy4Y9MaMKBNVHf2/3pnr8wHE3LE/fwC7I7ged0FoDCH2jXcbArB55eU48D
- KHimTy/KlPxAaJy+hmw/CFDFsKdk9mHRlaCJusVcMmKUS2a9XPlDJt+iyjNCHf2IHrlw
- /bggRQPfZgiTd96Gm1QKXcVeJ3ay5tBvC2D8gDC4+E3RMaeHDHqsfNzqk0uIQzh16dtS
- HMN9D4AWtUJwZubWGSlJSZ3v038W26cuA0iZvNEE2HdhgHAROz8dBHxSNCNmgijmiNrU
- BCQCgUGww+W179B2w1bEIViLtYUTMsJPAOLZstxdgp7V+1Ko5Ednw5nUcKJCyAUlLUKB
- yTCA==
-X-Gm-Message-State: APjAAAVbNy1uuA2BonRk5FarxRi0A5dWXlKh9csXA/A7fp6h1bhISaFp
- KMv9M4j7FX4vNQY1C7X9i0MpNsSQ
-X-Google-Smtp-Source: APXvYqy8ORakeweCaezBp+XyQfV1y0ubQIWvhLiNIznIFWEU7/sItLAW9prkTlUldWsL6G0fX7oRAQ==
-X-Received: by 2002:a7b:c318:: with SMTP id k24mr689639wmj.54.1580951936299;
- Wed, 05 Feb 2020 17:18:56 -0800 (PST)
+ bh=wAehENzQCmMVkW/YJV6bnroThHw1HaqNAVBKJsfbRgw=;
+ b=on8gIf67d3nSHKOlMHH2foiWLv5dUCmCxGtUphOORXCMG3XGU02zVDEJvjrsmY37ZS
+ NQQBQDfQBjLW4PAlnhj3AonATSgSnmnFMVaqXHA3TSCfDCvuhmXrMaDWTihtRTN+HE3D
+ I15CZyQsklHnSy5oDa7+8u3mXXW5OJcCOqz2BzhB5dJlOXqZIc2q+niW0Yzunigy1uV3
+ Lg5ygpFUGwoPPNDWHpYz+APfW6i3gu+ylPCo/cmyqTM7vHQvIOKZOUuJIyzcOyfbBE6e
+ Uezvnz4/m8VJET2tkcvZ9zZdPztIJqBH/pZ2mED/ab6jWAosE0ny+b7WwnbUutiv3pDQ
+ xIew==
+X-Gm-Message-State: APjAAAXVnn4B5kczsyzLoggjGKpEyaEytleaPgZ/7H+E2kqMSpp37dAu
+ MQscBQXlbgwbtCc2ELbg5urA+ifn
+X-Google-Smtp-Source: APXvYqyeeZphCWO+llRbh7t0B/o+eJm6cczBsIZGaBRwSOpfkwBeeA93R4j8QDBdS7YTiOlRGCyECQ==
+X-Received: by 2002:adf:de0b:: with SMTP id b11mr335378wrm.89.1580951938635;
+ Wed, 05 Feb 2020 17:18:58 -0800 (PST)
 Received: from localhost.localdomain (2.red-95-127-156.staticip.rima-tde.net.
  [95.127.156.2])
- by smtp.gmail.com with ESMTPSA id w13sm2053526wru.38.2020.02.05.17.18.54
+ by smtp.gmail.com with ESMTPSA id w13sm2053526wru.38.2020.02.05.17.18.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Feb 2020 17:18:55 -0800 (PST)
+ Wed, 05 Feb 2020 17:18:58 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 27/30] tests/acceptance/boot_linux_console: Test the raspi1
- AUX console
-Date: Thu,  6 Feb 2020 02:17:53 +0100
-Message-Id: <20200206011756.2413-28-f4bug@amsat.org>
+Subject: [PATCH v2 28/30] tests/acceptance: Count Raspberry Pi logos displayed
+ on framebuffer
+Date: Thu,  6 Feb 2020 02:17:54 +0100
+Message-Id: <20200206011756.2413-29-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200206011756.2413-1-f4bug@amsat.org>
 References: <20200206011756.2413-1-f4bug@amsat.org>
@@ -70,7 +70,7 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::341
+X-Received-From: 2a00:1450:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,134 +86,123 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
  Joaquin de Andres <me@xcancerberox.com.ar>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Andrew Baumann <Andrew.Baumann@microsoft.com>,
- Esteban Bosse <estebanbosse@gmail.com>, qemu-arm@nongnu.org
+ Esteban Bosse <estebanbosse@gmail.com>, qemu-arm@nongnu.org, kraxel@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  $ avocado --show=app,console run -t device:bcm2835_aux tests/acceptance/
-  JOB ID     : a8846d69d52da701681b1d17f80ef299009fd078
-  JOB LOG    : avocado/job-results/job-2020-02-05T23.44-a8846d6/job.log
-   (1/3) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_raspi0_uart1:
-  console: [    0.000000] Booting Linux on physical CPU 0x0
-  console: [    0.000000] Linux version 4.14.98+ (dom@dom-XPS-13-9370) (gcc version 4.9.3 (crosstool-NG crosstool-ng-1.22.0-88-g8460611)) #1200 Tue Feb 12 20:11:02 GMT 2019
-  console: [    0.000000] CPU: ARMv6-compatible processor [410fb767] revision 7 (ARMv7), cr=00c5387d
-  console: [    0.000000] CPU: VIPT aliasing data cache, unknown instruction cache
-  console: [    0.000000] OF: fdt: Machine model: Raspberry Pi Zero W
-  console: [    0.000000] earlycon: uart8250 at MMIO32 0x20215040 (options '')
-  console: [    0.000000] bootconsole [uart8250] enabled
-  console: [    0.000000] Memory policy: Data cache writeback
-  console: [    0.000000] cma: Reserved 8 MiB at 0x1b800000
-  console: [    0.000000] Built 1 zonelists, mobility grouping on.  Total pages: 113680
-  console: [    0.000000] Kernel command line: printk.time=0 earlycon=uart8250,mmio32,0x20215040 console=ttyS1,115200
-  PASS (13.31 s)
-   (2/3) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_raspi1_uart1:
-  console: [    0.000000] Booting Linux on physical CPU 0x0
-  console: [    0.000000] Linux version 4.14.98+ (dom@dom-XPS-13-9370) (gcc version 4.9.3 (crosstool-NG crosstool-ng-1.22.0-88-g8460611)) #1200 Tue Feb 12 20:11:02 GMT 2019
-  console: [    0.000000] CPU: ARMv6-compatible processor [410fb767] revision 7 (ARMv7), cr=00c5387d
-  console: [    0.000000] CPU: VIPT aliasing data cache, unknown instruction cache
-  console: [    0.000000] OF: fdt: Machine model: Raspberry Pi Model B
-  console: [    0.000000] earlycon: uart8250 at MMIO32 0x20215040 (options '')
-  console: [    0.000000] bootconsole [uart8250] enabled
-  console: [    0.000000] Memory policy: Data cache writeback
-  console: [    0.000000] cma: Reserved 8 MiB at 0x1b800000
-  console: [    0.000000] Built 1 zonelists, mobility grouping on.  Total pages: 113680
-  console: [    0.000000] Kernel command line: printk.time=0 earlycon=uart8250,mmio32,0x20215040 console=ttyS1,115200
-  PASS (13.39 s)
-   (3/3) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_raspi2_uart1:
-  console: [    0.000000] Booting Linux on physical CPU 0xf00
-  console: [    0.000000] Linux version 4.14.98-v7+ (dom@dom-XPS-13-9370) (gcc version 4.9.3 (crosstool-NG crosstool-ng-1.22.0-88-g8460611)) #1200 SMP Tue Feb 12 20:27:48 GMT 2019
-  console: [    0.000000] CPU: ARMv7 Processor [410fc075] revision 5 (ARMv7), cr=10c5387d
-  console: [    0.000000] CPU: div instructions available: patching division code
-  console: [    0.000000] CPU: PIPT / VIPT nonaliasing data cache, VIPT aliasing instruction cache
-  console: [    0.000000] OF: fdt: Machine model: Raspberry Pi 2 Model B
-  console: [    0.000000] earlycon: uart8250 at MMIO32 0x3f215040 (options '')
-  console: [    0.000000] bootconsole [uart8250] enabled
-  console: [    0.000000] Memory policy: Data cache writealloc
-  console: [    0.000000] cma: Reserved 8 MiB at 0x3b800000
-  console: [    0.000000] percpu: Embedded 17 pages/cpu @baf2e000 s38720 r8192 d22720 u69632
-  console: [    0.000000] Built 1 zonelists, mobility grouping on.  Total pages: 243600
-  console: [    0.000000] Kernel command line: printk.time=0 earlycon=uart8250,mmio32,0x3f215040 console=ttyS1,115200
-  PASS (12.46 s)
-  RESULTS    : PASS 3 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0 | CANCEL 0
-  JOB TIME   : 39.60 s
+Add a test that verifies that each core properly displays the
+Raspberry Pi logo on the framebuffer device.
+
+We simply follow the OpenCV "Template Matching with Multiple Objects"
+tutorial, replacing Lionel Messi by a raspberrry:
+https://docs.opencv.org/4.2.0/d4/dc6/tutorial_py_template_matching.html
+
+When OpenCV and NumPy are installed, this test can be run using:
+
+  $ avocado --show=app,framebuffer run -t device:bcm2835-fb tests/acceptance/
+  JOB ID     : 9bbbc54c0a6fa180348d0b5305507f76852b4da2
+  JOB LOG    : avocado/job-results/job-2020-01-31T23.48-9bbbc54/job.log
+   (1/1) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_raspi2_framebuffer_logo:
+  framebuffer: found raspberry at position (x, y) = (0, 0)
+  framebuffer: found raspberry at position (x, y) = (71, 0)
+  framebuffer: found raspberry at position (x, y) = (142, 0)
+  framebuffer: found raspberry at position (x, y) = (213, 0)
+  PASS (11.06 s)
+  RESULTS    : PASS 1 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0 | CANCEL 0
+  JOB TIME   : 11.39 s
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- tests/acceptance/boot_linux_console.py | 37 +++++++++++++++++++++++++-
- 1 file changed, 36 insertions(+), 1 deletion(-)
+The resulting match can be visualised at https://pasteboard.co/ISzNHtx.png
+
+Cc: kraxel@redhat.com
+---
+ tests/acceptance/boot_linux_console.py | 62 ++++++++++++++++++++++++++
+ 1 file changed, 62 insertions(+)
 
 diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
-index df6600ab2f..7210acd977 100644
+index 7210acd977..33d39d8292 100644
 --- a/tests/acceptance/boot_linux_console.py
 +++ b/tests/acceptance/boot_linux_console.py
-@@ -337,6 +337,14 @@ class BootLinuxConsole(Test):
-                 1: 'earlycon=pl011,0x20201000 console=ttyAMA0',
-                 2: 'earlycon=pl011,0x3f201000 console=ttyAMA0',
-             },
-+            'bcm2835_aux': {
-+                0: 'earlycon=uart8250,mmio32,0x20215040 console=ttyS1,115200',
-+                1: 'earlycon=uart8250,mmio32,0x20215040 console=ttyS1,115200',
-+                2: 'earlycon=uart8250,mmio32,0x3f215040 console=ttyS1,115200',
-+            },
-+        }
-+        uart_id = {
-+            'pl011': 0, 'bcm2835_aux': 1,
-         }
-         kernel = {
-             0: '/boot/kernel.img',
-@@ -356,7 +364,7 @@ class BootLinuxConsole(Test):
-         kernel_path = self.extract_from_deb(deb_path, kernel[version])
-         dtb_path = self.extract_from_deb(deb_path, dtb[version])
+@@ -12,6 +12,7 @@ import os
+ import lzma
+ import gzip
+ import shutil
++import logging
  
--        self.vm.set_console()
-+        self.vm.set_console(console_index=uart_id[uart_model])
-         kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE +
-                                serial_kernel_cmdline[uart_model][version])
-         self.vm.add_args('-kernel', kernel_path,
-@@ -375,6 +383,15 @@ class BootLinuxConsole(Test):
-         """
-         self.do_test_arm_raspi(0, 'pl011')
+ from avocado import skipUnless
+ from avocado_qemu import Test
+@@ -21,6 +22,19 @@ from avocado.utils import process
+ from avocado.utils import archive
  
-+    def test_arm_raspi0_uart1(self):
-+        """
-+        :avocado: tags=arch:arm
-+        :avocado: tags=machine:raspi0
-+        :avocado: tags=cpu:arm1176
-+        :avocado: tags=device:bcm2835_aux
-+        """
-+        self.do_test_arm_raspi(0, 'bcm2835_aux')
+ 
++NUMPY_AVAILABLE = True
++try:
++    import numpy as np
++except ImportError:
++    NUMPY_AVAILABLE = False
 +
-     def test_arm_raspi1_uart0(self):
-         """
-         :avocado: tags=arch:arm
-@@ -384,6 +401,15 @@ class BootLinuxConsole(Test):
-         """
-         self.do_test_arm_raspi(1, 'pl011')
- 
-+    def test_arm_raspi1_uart1(self):
-+        """
-+        :avocado: tags=arch:arm
-+        :avocado: tags=machine:raspi1
-+        :avocado: tags=cpu:arm1176
-+        :avocado: tags=device:bcm2835_aux
-+        """
-+        self.do_test_arm_raspi(1, 'bcm2835_aux')
++CV2_AVAILABLE = True
++try:
++    import cv2
++except ImportError:
++    CV2_AVAILABLE = False
 +
-     def test_arm_raspi2_uart0(self):
++
+ class BootLinuxConsole(Test):
+     """
+     Boots a Linux kernel and checks that the console is operational and the
+@@ -428,6 +442,54 @@ class BootLinuxConsole(Test):
          """
-         :avocado: tags=arch:arm
-@@ -393,6 +419,15 @@ class BootLinuxConsole(Test):
-         """
-         self.do_test_arm_raspi(2, 'pl011')
+         self.do_test_arm_raspi(2, 'bcm2835_aux')
  
-+    def test_arm_raspi2_uart1(self):
++    @skipUnless(NUMPY_AVAILABLE, 'Python NumPy not installed')
++    @skipUnless(CV2_AVAILABLE, 'Python OpenCV not installed')
++    def test_arm_raspi2_framebuffer_logo(self):
 +        """
 +        :avocado: tags=arch:arm
 +        :avocado: tags=machine:raspi2
-+        :avocado: tags=cpu:cortex-a7
-+        :avocado: tags=device:bcm2835_aux
++        :avocado: tags=device:bcm2835-fb
 +        """
-+        self.do_test_arm_raspi(2, 'bcm2835_aux')
++        screendump_path = os.path.join(self.workdir, 'screendump.pbm')
++        rpilogo_url = ('https://github.com/raspberrypi/linux/raw/'
++                       'raspberrypi-kernel_1.20190517-1/'
++                       'drivers/video/logo/logo_linux_clut224.ppm')
++        rpilogo_hash = 'fff3cc20c6030acce0953147f9baac43f44ed6b0'
++        rpilogo_path = self.fetch_asset(rpilogo_url, asset_hash=rpilogo_hash)
++        deb_url = ('http://archive.raspberrypi.org/debian/'
++                   'pool/main/r/raspberrypi-firmware/'
++                   'raspberrypi-kernel_1.20190215-1_armhf.deb')
++        deb_hash = 'cd284220b32128c5084037553db3c482426f3972'
++        deb_path = self.fetch_asset(deb_url, asset_hash=deb_hash)
++        kernel_path = self.extract_from_deb(deb_path, '/boot/kernel7.img')
++        dtb_path = self.extract_from_deb(deb_path, '/boot/bcm2709-rpi-2-b.dtb')
++
++        self.vm.set_console()
++        kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE +
++                               'earlycon=pl011,0x3f201000 console=ttyAMA0')
++        self.vm.add_args('-kernel', kernel_path,
++                         '-dtb', dtb_path,
++                         '-append', kernel_command_line)
++        self.vm.launch()
++        framebuffer_ready = 'Console: switching to colour frame buffer device'
++        wait_for_console_pattern(self, framebuffer_ready)
++        self.vm.command('human-monitor-command', command_line='stop')
++        self.vm.command('human-monitor-command',
++                        command_line='screendump %s' % screendump_path)
++        logger = logging.getLogger('framebuffer')
++
++        cpu_cores_count = 4
++        match_threshold = 0.95
++        screendump_bgr = cv2.imread(screendump_path, cv2.IMREAD_COLOR)
++        rpilogo_bgr = cv2.imread(rpilogo_path, cv2.IMREAD_COLOR)
++        result = cv2.matchTemplate(screendump_bgr, rpilogo_bgr,
++                                   cv2.TM_CCOEFF_NORMED)
++        loc = np.where(result >= match_threshold)
++        rpilogo_count = 0
++        for rpilogo_count, pt in enumerate(zip(*loc[::-1]), start=1):
++            logger.debug('found raspberry at position (x, y) = %s', pt)
++        self.assertGreaterEqual(rpilogo_count, cpu_cores_count)
 +
      def test_arm_exynos4210_initrd(self):
          """
