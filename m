@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26371154B44
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 19:36:33 +0100 (CET)
-Received: from localhost ([::1]:44450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3413E154B46
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 19:37:56 +0100 (CET)
+Received: from localhost ([::1]:44470 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izm0t-00051D-0t
-	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 13:36:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33862)
+	id 1izm2F-0007BZ-8G
+	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 13:37:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33911)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groeck7@gmail.com>) id 1izlx5-0000IX-St
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 13:32:36 -0500
+ (envelope-from <groeck7@gmail.com>) id 1izlx7-0000My-Sw
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 13:32:38 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groeck7@gmail.com>) id 1izlx1-00031R-0T
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 13:32:35 -0500
-Received: from mail-pj1-x1044.google.com ([2607:f8b0:4864:20::1044]:36309)
+ (envelope-from <groeck7@gmail.com>) id 1izlx6-0003E2-Sk
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 13:32:37 -0500
+Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:43861)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <groeck7@gmail.com>)
- id 1izlwy-0002eB-N9; Thu, 06 Feb 2020 13:32:28 -0500
-Received: by mail-pj1-x1044.google.com with SMTP id gv17so347657pjb.1;
- Thu, 06 Feb 2020 10:32:28 -0800 (PST)
+ id 1izlx0-0002rS-CN; Thu, 06 Feb 2020 13:32:30 -0500
+Received: by mail-pf1-x442.google.com with SMTP id s1so3529362pfh.10;
+ Thu, 06 Feb 2020 10:32:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=TFJ5p1ThS0hsrxJYRVO5wCKqO07TvtEvWzLC69usUMo=;
- b=BKXJ+pHAIy34MxF73NSkOCFiML1oW02DGqYmirQl8r8f4l6ltSd1vvRctwdh0mOmwh
- z/F2l1ONMl2EJfbZcozrOor8F4x1MwzIdyIa/iJp1dNAKfZteZnsgDlU4oRzL7+W4jKS
- L8lj0N+O8xHlLyf8g+E71KuTr1V6DxuX/+KdGEK/jXbwCnmbQ7Xvg6cCvEXJPmiz+IQM
- XOZ+42oMOxoNpygjAS2qp9MpwdBu/gmjb8a+pMq/ZJbJ8amEkruSB5SiajGMke7xB1xI
- Ebcv8p+G6E7JYivxIbowUcaoeJfaDa8kEbMr1fgTDCqUp9FxsES983Ug0SofvHCIsHbc
- MMbA==
+ bh=IilPI+Sl+B1I6W2BM0SWvCm9l7ZzLSY3Gh4DaMCNP84=;
+ b=MRYmMeMeK0LrfdlBnYA80D6ZOqlWW8huDdFcoVVb5HtB7oJkkCMiuUJ4isEtkJutMQ
+ g6p2VXaPGFBMSHjPxr1FvKs0uYe23MNJY+L7ztF9YpVhHbUhUP7Yn9xe0bhWObP2g4yR
+ WGFKdwS73OTGI1pajnq8ds+WlXrkosbcmusaV9VoD+hyssqfhbw2403nzx2h8BJyAh4U
+ OvPZyhmz/fItlKH4rHtkL5aO92zPEpCy3OcMQFTZSbQgW47e5765V5sGX8XxXMcLsqEm
+ b8ivxDdHuaOpjn+ooGcJdd/51couDDkQiMQ/QRIKi7gipP5zunAc0afqGeQkpVjb53fm
+ RD/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=TFJ5p1ThS0hsrxJYRVO5wCKqO07TvtEvWzLC69usUMo=;
- b=GjpFGRTwX31Z/gwsCjoePzhPM2VF3hMnonQXCwMOXe9eoiQnZLtsB1R2oG+v5S/NnZ
- wOmQ6fP3KYgEeShO11Kfsr7BRDs8c4J+6UN0GuY7EvLR0pS+oTQ+5gTjA3O9/krUQELl
- 7htVIjn0lPE/VmVkchkCxi2C2GcuBpdJHdpmLedF/hjUJhHlBuY0EcQap0/6dxQ6zqQX
- V8P0FcMqSTfoXpvWkkOpTQM15c44riDjenP/39Fk40+8WT0w4pU4lbaKR9WMDKyLXqeY
- Jfm2Q5272tAJgU63bAGM/PENCHL6lyVMkD5cu+OPYX2T11flyCh5UaX0UqTWq48nzzJk
- hPDQ==
-X-Gm-Message-State: APjAAAUm8wKwTb1SNjvt3EU0rUTVDfFrhs4895vioz3um9OJKoaxQMrL
- GVeTW8i4e3JB4uZK4YQS/vk=
-X-Google-Smtp-Source: APXvYqxRfEApRG5pO/lESYf/dZoerR3vB53boCqOGWMuE4ZNihRkP5cC2aezSIGGoRDahk5gLSEOdA==
-X-Received: by 2002:a17:90a:5285:: with SMTP id
- w5mr6200743pjh.77.1581013947718; 
- Thu, 06 Feb 2020 10:32:27 -0800 (PST)
+ bh=IilPI+Sl+B1I6W2BM0SWvCm9l7ZzLSY3Gh4DaMCNP84=;
+ b=Jv07uvCVvoANmMmTKJAt8m/yzawU8m0dAM4+B27ToprGLlBhIayULYv1k4xXbnS9Vc
+ GOi0qquINFg3s5mfccDekg3QQEbRHEwVoidY2ZAKcPXq0TbXEwQaR7hH211uaHhS24Qs
+ tlb7vOManzD6FgdQ0Yu/inbtUx3DJIDyyK3/dlECPYQMDPGRLW33lo3sZQnF5B1C6sda
+ NUVlt9iybf12XhXs2f33odp0kjqlChaDlXY3PpL++NefnhCX9P/ju8GQfN/oLdsDoHYU
+ AlwfXhOKs/ETlHTLwkAUmmIgU3ywlLAASEIjLf2TyCPxqmPQ4+oJfCsQmpuXGPduCQdP
+ 9jOg==
+X-Gm-Message-State: APjAAAWz7vHDMM7K4VKh5gbitS+rLzrfvDrIhnYwUegRbQWB0hnArRer
+ j21goPfIRLmDGav5njGMvgo=
+X-Google-Smtp-Source: APXvYqwPzrYYEVvvds6kGd54V8A9rorEuu7jXADmNvh8HUjLrfMVFbUUwSHNlNdQ6f3lLCBup7oPXw==
+X-Received: by 2002:a63:6e8b:: with SMTP id j133mr5030071pgc.6.1581013949370; 
+ Thu, 06 Feb 2020 10:32:29 -0800 (PST)
 Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id 144sm115035pfc.45.2020.02.06.10.32.26
+ by smtp.gmail.com with ESMTPSA id 28sm127082pgl.42.2020.02.06.10.32.28
  (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Thu, 06 Feb 2020 10:32:27 -0800 (PST)
+ Thu, 06 Feb 2020 10:32:28 -0800 (PST)
 From: Guenter Roeck <linux@roeck-us.net>
 To: Alistair Francis <alistair@alistair23.me>,
 	Kevin Wolf <kwolf@redhat.com>
-Subject: [PATCH v2 3/4] m25p80: Improve command handling for unsupported
- commands
-Date: Thu,  6 Feb 2020 10:32:18 -0800
-Message-Id: <20200206183219.3756-3-linux@roeck-us.net>
+Subject: [PATCH v2 4/4] aspeed/smc: Fix number of dummy cycles for FAST_READ_4
+ command
+Date: Thu,  6 Feb 2020 10:32:19 -0800
+Message-Id: <20200206183219.3756-4-linux@roeck-us.net>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200206183219.3756-1-linux@roeck-us.net>
 References: <20200206183219.3756-1-linux@roeck-us.net>
@@ -68,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::1044
+X-Received-From: 2607:f8b0:4864:20::442
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,41 +87,37 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-block@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Whenever an unsupported command is encountered, the current code
-interprets each transferred byte as new command. Most of the time, those
-'commands' are interpreted as new unknown commands. However, in rare
-cases, it may be that for example address or length information
-passed with the original command is by itself a valid command.
-If that happens, the state machine may get completely confused and,
-worst case, start writing data into the flash or even erase it.
+The Linux kernel recently started using FAST_READ_4 commands.
+This results in flash read failures. At the same time, the m25p80
+emulation is seen to read 8 more bytes than expected. Adjusting the
+expected number of dummy cycles to match FAST_READ fixes the problem.
 
-To avoid the problem, transition into STATE_READING_DATA and keep
-sending a value of 0 until the chip is deselected after encountering
-an unsupported command.
-
+Fixes: f95c4bffdc4c ("aspeed/smc: snoop SPI transfers to fake dummy cycles")
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
 Signed-off-by: Guenter Roeck <linux@roeck-us.net>
 ---
-v2: Split patch into two parts; improved description.
+v2: No change
 
- hw/block/m25p80.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ hw/ssi/aspeed_smc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
-index 53bf63856f..8227088441 100644
---- a/hw/block/m25p80.c
-+++ b/hw/block/m25p80.c
-@@ -1161,6 +1161,11 @@ static void decode_new_cmd(Flash *s, uint32_t value)
-         s->quad_enable = false;
-         break;
-     default:
-+        s->pos = 0;
-+        s->len = 1;
-+        s->state = STATE_READING_DATA;
-+        s->data_read_loop = true;
-+        s->data[0] = 0;
-         qemu_log_mask(LOG_GUEST_ERROR, "M25P80: Unknown cmd %x\n", value);
-         break;
-     }
+diff --git a/hw/ssi/aspeed_smc.c b/hw/ssi/aspeed_smc.c
+index 23c8d2f062..0444570750 100644
+--- a/hw/ssi/aspeed_smc.c
++++ b/hw/ssi/aspeed_smc.c
+@@ -787,11 +787,11 @@ static int aspeed_smc_num_dummies(uint8_t command)
+     case FAST_READ:
+     case DOR:
+     case QOR:
++    case FAST_READ_4:
+     case DOR_4:
+     case QOR_4:
+         return 1;
+     case DIOR:
+-    case FAST_READ_4:
+     case DIOR_4:
+         return 2;
+     case QIOR:
 -- 
 2.17.1
 
