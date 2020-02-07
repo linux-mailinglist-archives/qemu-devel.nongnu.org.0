@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E078A1559E4
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 15:44:41 +0100 (CET)
-Received: from localhost ([::1]:58158 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEBDC155A21
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 15:55:07 +0100 (CET)
+Received: from localhost ([::1]:58522 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j04s4-000444-U3
-	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 09:44:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51762)
+	id 1j052A-0004wh-PJ
+	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 09:55:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51786)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j04i7-0000zr-Bi
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:34:24 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1j04i8-00013d-PU
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:34:25 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j04i6-0003Ly-9X
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:34:23 -0500
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:39695)
+ (envelope-from <peter.maydell@linaro.org>) id 1j04i7-0003Nn-Gl
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:34:24 -0500
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:46063)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j04i6-0003LO-2T
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:34:22 -0500
-Received: by mail-wr1-x42e.google.com with SMTP id y11so2955785wrt.6
- for <qemu-devel@nongnu.org>; Fri, 07 Feb 2020 06:34:22 -0800 (PST)
+ id 1j04i7-0003MV-9m
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:34:23 -0500
+Received: by mail-wr1-x444.google.com with SMTP id a6so2913738wrx.12
+ for <qemu-devel@nongnu.org>; Fri, 07 Feb 2020 06:34:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=ZA14UkL2KSdT01IcOZIpDKpbqjnmGKZmAXT+OMv/3DQ=;
- b=Oips26kArsZhthN9PTMEiDKyUhZ6GKNEp2jpJ0aC2nSK4f4vtvfNzTekVaDho38r/m
- 6cK9ShuXDN3EB1dpcw0D3RQrcdXclX+eXO7zJnjXSoPWOMpI4X8iIVZNq2xMZqavcKXv
- wsxGmweEVX45zAOMdRF6Z3h0u79IdwCaQImPqhEygmvCMHSt+1UveDfN7ejLzBdDDmXW
- hxmc5ZH4M0o6rlOVqLRdhvqIcmCpKl0B2ZibMw+K9zWvRx9RF/PGtlke3jMoNQsfgCjD
- O9RKjYpeO7wObf4jA5ZGq7S7qY/joNr3FE5bjdcWlleyX0LfWLMm1qmueiOnfvvcIgFj
- vvzQ==
+ bh=uvVs7AbJlQzoOOjIZQudyT2Qfx8L7K31YrCEz2YjTWE=;
+ b=fRc0qw3Mluk1edQfA543Uri3Q96sXB19Q8GY4ZaGZvUy7ZYWNC+Iw+XHKnuT+mydfA
+ Shd4RzsbjtC5+bYatX2uHn9SaFuTNYu719K4AVD1JzfCcbiYL24NXaXf5nE6xqIlP7p+
+ aTa7V6SG2yL67oW9vDMbAghzOqD1vxYpC2b8kSb3figRohrGDWUhtfkPI5XCaVp3lznD
+ We1cqs/ar06vdgIcKi8GUxlYcgfIQwnKY4L+eUrcJh+wvjYVv7eM9kLli9SN75GKghf6
+ kQtZDlZrv8eSTnu1tNa6HZNjQn/YYM073EdXOv6vqJwQhO9n6n0X77e88vyHu/sIa0nw
+ nTaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ZA14UkL2KSdT01IcOZIpDKpbqjnmGKZmAXT+OMv/3DQ=;
- b=khEuLjquW5Mn6Xni+lDxu0k7J12uCuOx+MO9eZJvsAyukhAdLDS2sOZse0nIrFH2xU
- cQYyBdz0P8id2G7QI8gReXbg04TiiDUbuDnzV1ce0MMNWDkQkDFWdWjhKo2KVmVXGKh7
- SjwyRpBO6hLtAR9ZVV3QtqyCnA2Vo4JNIoUiFz7t83KOR8rRkHlluTGkZTlWXjSVgtBF
- 1I9PQZ6jEayLh5unKDNlo7JNCkPKx/4rMJNRCF9+ofkbEo6FcVtNqtDeVCreQGsgxsy3
- ibr5KCsX3QSvWvyWeqIaJPs9P00GjJuRJ7TmEVDTp+JNp1/XythQCCaAC+I6uIhw+ABH
- CwRw==
-X-Gm-Message-State: APjAAAVY3ndwSyRmfVygpIavatDmHbJPAy+udS2u9nevICxV9nr4hx5+
- 6msGbVZc5167wEiDUnasV3ecBICdS8o=
-X-Google-Smtp-Source: APXvYqxXx4xCDp9ioslK/mgYFO+cxbdev46LXQUWHJYcWWi6t0LqJFJFlyY8siaV+sOUrI71eM6Vig==
-X-Received: by 2002:a5d:4f8b:: with SMTP id d11mr4824188wru.87.1581086060949; 
- Fri, 07 Feb 2020 06:34:20 -0800 (PST)
+ bh=uvVs7AbJlQzoOOjIZQudyT2Qfx8L7K31YrCEz2YjTWE=;
+ b=qyQgBn3eR1Q9Ue3mDiecyLnAlnJA+7IWg5wqX1/yAm1oKSjwdRYJ3uH6Jti059Ctvb
+ TVToWL2emTc8dC7IqayvhL32qvpHM70tibhOU3mlEVzUj35yH5qsu/DNJJO10VaLI+yk
+ ycBgSIoHA1AvNBNoldIYjFvyauDk9eMp9L0zDewTVxcbDd1cMT6kSDVQdA3gOqyo/Vbh
+ Yh+EEhSr1vzHuno5odBl+1TIQCsik0wnAv5Z4owc3inru4WxmjKqfGOUaLQ25WGNFSR/
+ IcW/gPjmAu3S/i/LhDQbHisiyxq4QM/BChLurQ+YpvpLfDc/NKAiPsFh6D82RaE1XQFs
+ wCug==
+X-Gm-Message-State: APjAAAWFCf23Xv1w8W0XJRCp9s/isfcKIA289YiFyuTms2n47q+uD+9m
+ CcF1pMt0VyRQQFSi9oJq07OBc/tOfYg=
+X-Google-Smtp-Source: APXvYqxl5rEAzv8X+ZE7pcZ26a0LuPebCQEd7u1N2Z4MBECmWarLvhzB4qOv/kgJ6eef5tbd591O9g==
+X-Received: by 2002:a5d:484f:: with SMTP id n15mr4992000wrs.365.1581086062113; 
+ Fri, 07 Feb 2020 06:34:22 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id w1sm3796430wro.72.2020.02.07.06.34.20
+ by smtp.gmail.com with ESMTPSA id w1sm3796430wro.72.2020.02.07.06.34.21
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Feb 2020 06:34:20 -0800 (PST)
+ Fri, 07 Feb 2020 06:34:21 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 33/48] target/arm: Update arm_phys_excp_target_el for TGE
-Date: Fri,  7 Feb 2020 14:33:28 +0000
-Message-Id: <20200207143343.30322-34-peter.maydell@linaro.org>
+Subject: [PULL 34/48] target/arm: Update {fp,sve}_exception_el for VHE
+Date: Fri,  7 Feb 2020 14:33:29 +0000
+Message-Id: <20200207143343.30322-35-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200207143343.30322-1-peter.maydell@linaro.org>
 References: <20200207143343.30322-1-peter.maydell@linaro.org>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42e
+X-Received-From: 2a00:1450:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,34 +84,106 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-The TGE bit routes all asynchronous exceptions to EL2.
+When TGE+E2H are both set, CPACR_EL1 is ignored.
 
 Tested-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20200206105448.4726-33-richard.henderson@linaro.org
+Message-id: 20200206105448.4726-34-richard.henderson@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/helper.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ target/arm/helper.c | 53 ++++++++++++++++++++++++---------------------
+ 1 file changed, 28 insertions(+), 25 deletions(-)
 
 diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 3b7b459314d..56a62b11d09 100644
+index 56a62b11d09..9627b4aab15 100644
 --- a/target/arm/helper.c
 +++ b/target/arm/helper.c
-@@ -8446,6 +8446,12 @@ uint32_t arm_phys_excp_target_el(CPUState *cs, uint32_t excp_idx,
-         break;
-     };
- 
-+    /*
-+     * For these purposes, TGE and AMO/IMO/FMO both force the
-+     * interrupt to EL2.  Fold TGE into the bit extracted above.
-+     */
-+    hcr |= (hcr_el2 & HCR_TGE) != 0;
+@@ -5791,7 +5791,9 @@ static const ARMCPRegInfo debug_lpae_cp_reginfo[] = {
+ int sve_exception_el(CPUARMState *env, int el)
+ {
+ #ifndef CONFIG_USER_ONLY
+-    if (el <= 1) {
++    uint64_t hcr_el2 = arm_hcr_el2_eff(env);
 +
-     /* Perform a table-lookup for the target EL given the current state */
-     target_el = target_el_table[is64][scr][rw][hcr][secure][cur_el];
++    if (el <= 1 && (hcr_el2 & (HCR_E2H | HCR_TGE)) != (HCR_E2H | HCR_TGE)) {
+         bool disabled = false;
  
+         /* The CPACR.ZEN controls traps to EL1:
+@@ -5806,8 +5808,7 @@ int sve_exception_el(CPUARMState *env, int el)
+         }
+         if (disabled) {
+             /* route_to_el2 */
+-            return (arm_feature(env, ARM_FEATURE_EL2)
+-                    && (arm_hcr_el2_eff(env) & HCR_TGE) ? 2 : 1);
++            return hcr_el2 & HCR_TGE ? 2 : 1;
+         }
+ 
+         /* Check CPACR.FPEN.  */
+@@ -11691,8 +11692,6 @@ uint32_t HELPER(crc32c)(uint32_t acc, uint32_t val, uint32_t bytes)
+ int fp_exception_el(CPUARMState *env, int cur_el)
+ {
+ #ifndef CONFIG_USER_ONLY
+-    int fpen;
+-
+     /* CPACR and the CPTR registers don't exist before v6, so FP is
+      * always accessible
+      */
+@@ -11720,30 +11719,34 @@ int fp_exception_el(CPUARMState *env, int cur_el)
+      * 0, 2 : trap EL0 and EL1/PL1 accesses
+      * 1    : trap only EL0 accesses
+      * 3    : trap no accesses
++     * This register is ignored if E2H+TGE are both set.
+      */
+-    fpen = extract32(env->cp15.cpacr_el1, 20, 2);
+-    switch (fpen) {
+-    case 0:
+-    case 2:
+-        if (cur_el == 0 || cur_el == 1) {
+-            /* Trap to PL1, which might be EL1 or EL3 */
+-            if (arm_is_secure(env) && !arm_el_is_aa64(env, 3)) {
++    if ((arm_hcr_el2_eff(env) & (HCR_E2H | HCR_TGE)) != (HCR_E2H | HCR_TGE)) {
++        int fpen = extract32(env->cp15.cpacr_el1, 20, 2);
++
++        switch (fpen) {
++        case 0:
++        case 2:
++            if (cur_el == 0 || cur_el == 1) {
++                /* Trap to PL1, which might be EL1 or EL3 */
++                if (arm_is_secure(env) && !arm_el_is_aa64(env, 3)) {
++                    return 3;
++                }
++                return 1;
++            }
++            if (cur_el == 3 && !is_a64(env)) {
++                /* Secure PL1 running at EL3 */
+                 return 3;
+             }
+-            return 1;
++            break;
++        case 1:
++            if (cur_el == 0) {
++                return 1;
++            }
++            break;
++        case 3:
++            break;
+         }
+-        if (cur_el == 3 && !is_a64(env)) {
+-            /* Secure PL1 running at EL3 */
+-            return 3;
+-        }
+-        break;
+-    case 1:
+-        if (cur_el == 0) {
+-            return 1;
+-        }
+-        break;
+-    case 3:
+-        break;
+     }
+ 
+     /*
 -- 
 2.20.1
 
