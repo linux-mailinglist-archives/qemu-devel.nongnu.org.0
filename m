@@ -2,54 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BB6C155798
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 13:26:11 +0100 (CET)
-Received: from localhost ([::1]:55414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4E191557C0
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 13:29:20 +0100 (CET)
+Received: from localhost ([::1]:55452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j02i0-00084q-VC
-	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 07:26:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45459)
+	id 1j02l4-0002xo-VV
+	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 07:29:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45507)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1j02gh-0006YH-Ff
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 07:24:48 -0500
+ (envelope-from <berrange@redhat.com>) id 1j02gk-0006bi-Fi
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 07:24:51 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1j02gg-0002un-FH
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 07:24:47 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:51857
+ (envelope-from <berrange@redhat.com>) id 1j02gj-0002x9-6M
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 07:24:50 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:45143
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1j02gg-0002uD-CB
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 07:24:46 -0500
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1j02gj-0002wn-2l
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 07:24:49 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581078285;
+ s=mimecast20190719; t=1581078288;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=kSwyJLt0pIhmpqCuj7paHMqte/QEP0BcScw1XaiA3ZQ=;
- b=FD3HZ0Mj4o4JkhAu0ZVT4VSCAwy8Aq9xAz/FLn9F7Igv83KW7Ua/3GJ9jDXJP7Yiu/cdeD
- c7V3oPnGjuTCX9tDn3tkQ8Iww7rlj9gZqHFGvlPLcH0w4rOUEHZSANbALjhta39GpkIGsY
- uBsPwqH6Ga7oJ1ElrLhb4g+bMDVNksE=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Kf1bEPsOQ+el19y8yBj1u6MqvEbYJmnNEEKnwpNAv0c=;
+ b=O0I+JxQJ3ZlRvvugmK+iY9c4uVbCCxdUszggmIneYMrJNOgLBjjFTU42IuO2iYwBFWYwwW
+ 1Ibo7AnlYEjpz4sYuNxK/etHSpoLy0S1PfGC+L9J2J8EIGUlU+m6bOfftaBKS6lGzQP7Ef
+ yrD8ZrHSkoAKYEhN1oXp2QLnMK5UUSA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-128-hRTv_pSpM2uxUCT6PrgyDQ-1; Fri, 07 Feb 2020 07:24:43 -0500
+ us-mta-148-72BwIxcNNd6ktsrgPuW-CQ-1; Fri, 07 Feb 2020 07:24:44 -0500
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6645C108442C
- for <qemu-devel@nongnu.org>; Fri,  7 Feb 2020 12:24:42 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 548B58010F0;
+ Fri,  7 Feb 2020 12:24:43 +0000 (UTC)
 Received: from dhcp-16-105.lcy.redhat.com (unknown [10.42.16.105])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D608E7FB60;
- Fri,  7 Feb 2020 12:24:41 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A36B77FB60;
+ Fri,  7 Feb 2020 12:24:42 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/3] Misc patches
-Date: Fri,  7 Feb 2020 12:24:37 +0000
-Message-Id: <20200207122440.2650229-1-berrange@redhat.com>
+Subject: [PULL 1/3] io/channel-websock: treat 'binary' and no sub-protocol as
+ the same
+Date: Fri,  7 Feb 2020 12:24:38 +0000
+Message-Id: <20200207122440.2650229-2-berrange@redhat.com>
+In-Reply-To: <20200207122440.2650229-1-berrange@redhat.com>
+References: <20200207122440.2650229-1-berrange@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: hRTv_pSpM2uxUCT6PrgyDQ-1
+X-MC-Unique: 72BwIxcNNd6ktsrgPuW-CQ-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
@@ -67,47 +71,135 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+Cc: Yu-Chen Lin <npes87184@gmail.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 5b7686f3fa2092d2b3be92df67b5966ee1b0142a=
-:
+From: Yu-Chen Lin <npes87184@gmail.com>
 
-  Merge remote-tracking branch 'remotes/ericb/tags/pull-nbd-2020-02-06' int=
-o staging (2020-02-06 18:59:12 +0000)
+noVNC doesn't use 'binary' protocol by default after
+commit c912230309806aacbae4295faf7ad6406da97617.
 
-are available in the Git repository at:
+It will cause qemu return 400 when handshaking.
 
-  https://github.com/berrange/qemu tags/misc-fixes-pull-request
+To overcome this problem and remain compatibility of
+older noVNC client.
 
-for you to fetch changes up to 416b71906edfcf280ef31d0e5e607898330b6271:
+We treat 'binary' and no sub-protocol as the same
+so that we can support different version of noVNC
+client.
 
-  docs: stop documenting the e1000 NIC model as the default (2020-02-07 12:=
-22:19 +0000)
+Tested on noVNC before c912230 and after c912230.
 
-----------------------------------------------------------------
+Buglink: https://bugs.launchpad.net/qemu/+bug/1849644
 
-* Use correct constants for 'bool' type
-* Fix compatibility with noVNC in websocket impl
-* Remove inaccurate docs aout default NIC model
-
-----------------------------------------------------------------
-
-Daniel P. Berrang=C3=A9 (1):
-  docs: stop documenting the e1000 NIC model as the default
-
-Jafar Abdi (1):
-  authz: fix usage of bool in listfile.c
-
-yuchenlin (1):
-  io/channel-websock: treat 'binary' and no sub-protocol as the same
-
- authz/listfile.c     |  2 +-
+Signed-off-by: Yu-Chen Lin <npes87184@gmail.com>
+Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+---
  io/channel-websock.c | 36 ++++++++++++++++++++++++------------
- qemu-options.hx      | 12 +++++++-----
- 3 files changed, 32 insertions(+), 18 deletions(-)
+ 1 file changed, 24 insertions(+), 12 deletions(-)
 
+diff --git a/io/channel-websock.c b/io/channel-websock.c
+index fc36d44eba..47a0e941d9 100644
+--- a/io/channel-websock.c
++++ b/io/channel-websock.c
+@@ -49,13 +49,20 @@
+     "Server: QEMU VNC\r\n"                       \
+     "Date: %s\r\n"
+=20
++#define QIO_CHANNEL_WEBSOCK_HANDSHAKE_WITH_PROTO_RES_OK \
++    "HTTP/1.1 101 Switching Protocols\r\n"              \
++    QIO_CHANNEL_WEBSOCK_HANDSHAKE_RES_COMMON            \
++    "Upgrade: websocket\r\n"                            \
++    "Connection: Upgrade\r\n"                           \
++    "Sec-WebSocket-Accept: %s\r\n"                      \
++    "Sec-WebSocket-Protocol: binary\r\n"                \
++    "\r\n"
+ #define QIO_CHANNEL_WEBSOCK_HANDSHAKE_RES_OK    \
+     "HTTP/1.1 101 Switching Protocols\r\n"      \
+     QIO_CHANNEL_WEBSOCK_HANDSHAKE_RES_COMMON    \
+     "Upgrade: websocket\r\n"                    \
+     "Connection: Upgrade\r\n"                   \
+     "Sec-WebSocket-Accept: %s\r\n"              \
+-    "Sec-WebSocket-Protocol: binary\r\n"        \
+     "\r\n"
+ #define QIO_CHANNEL_WEBSOCK_HANDSHAKE_RES_NOT_FOUND \
+     "HTTP/1.1 404 Not Found\r\n"                    \
+@@ -336,6 +343,7 @@ qio_channel_websock_find_header(QIOChannelWebsockHTTPHe=
+ader *hdrs,
+=20
+ static void qio_channel_websock_handshake_send_res_ok(QIOChannelWebsock *i=
+oc,
+                                                       const char *key,
++                                                      const bool use_proto=
+cols,
+                                                       Error **errp)
+ {
+     char combined_key[QIO_CHANNEL_WEBSOCK_CLIENT_KEY_LEN +
+@@ -361,8 +369,14 @@ static void qio_channel_websock_handshake_send_res_ok(=
+QIOChannelWebsock *ioc,
+     }
+=20
+     date =3D qio_channel_websock_date_str();
+-    qio_channel_websock_handshake_send_res(
+-        ioc, QIO_CHANNEL_WEBSOCK_HANDSHAKE_RES_OK, date, accept);
++    if (use_protocols) {
++            qio_channel_websock_handshake_send_res(
++                ioc, QIO_CHANNEL_WEBSOCK_HANDSHAKE_WITH_PROTO_RES_OK,
++                date, accept);
++    } else {
++            qio_channel_websock_handshake_send_res(
++                ioc, QIO_CHANNEL_WEBSOCK_HANDSHAKE_RES_OK, date, accept);
++    }
+=20
+     g_free(date);
+     g_free(accept);
+@@ -387,10 +401,6 @@ static void qio_channel_websock_handshake_process(QIOC=
+hannelWebsock *ioc,
+=20
+     protocols =3D qio_channel_websock_find_header(
+         hdrs, nhdrs, QIO_CHANNEL_WEBSOCK_HEADER_PROTOCOL);
+-    if (!protocols) {
+-        error_setg(errp, "Missing websocket protocol header data");
+-        goto bad_request;
+-    }
+=20
+     version =3D qio_channel_websock_find_header(
+         hdrs, nhdrs, QIO_CHANNEL_WEBSOCK_HEADER_VERSION);
+@@ -430,10 +440,12 @@ static void qio_channel_websock_handshake_process(QIO=
+ChannelWebsock *ioc,
+     trace_qio_channel_websock_http_request(ioc, protocols, version,
+                                            host, connection, upgrade, key)=
+;
+=20
+-    if (!g_strrstr(protocols, QIO_CHANNEL_WEBSOCK_PROTOCOL_BINARY)) {
+-        error_setg(errp, "No '%s' protocol is supported by client '%s'",
+-                   QIO_CHANNEL_WEBSOCK_PROTOCOL_BINARY, protocols);
+-        goto bad_request;
++    if (protocols) {
++            if (!g_strrstr(protocols, QIO_CHANNEL_WEBSOCK_PROTOCOL_BINARY)=
+) {
++                error_setg(errp, "No '%s' protocol is supported by client =
+'%s'",
++                           QIO_CHANNEL_WEBSOCK_PROTOCOL_BINARY, protocols)=
+;
++                goto bad_request;
++            }
+     }
+=20
+     if (!g_str_equal(version, QIO_CHANNEL_WEBSOCK_SUPPORTED_VERSION)) {
+@@ -467,7 +479,7 @@ static void qio_channel_websock_handshake_process(QIOCh=
+annelWebsock *ioc,
+         goto bad_request;
+     }
+=20
+-    qio_channel_websock_handshake_send_res_ok(ioc, key, errp);
++    qio_channel_websock_handshake_send_res_ok(ioc, key, !!protocols, errp)=
+;
+     return;
+=20
+  bad_request:
 --=20
 2.24.1
 
