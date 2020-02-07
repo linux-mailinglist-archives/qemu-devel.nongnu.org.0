@@ -2,82 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43F6D155594
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 11:24:55 +0100 (CET)
-Received: from localhost ([::1]:53536 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C84D15559A
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 11:25:50 +0100 (CET)
+Received: from localhost ([::1]:53560 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j00og-0002A6-BW
-	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 05:24:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48711)
+	id 1j00pZ-0004Zw-Ae
+	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 05:25:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48858)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1j00nj-0001B1-0D
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 05:23:56 -0500
+ (envelope-from <kwolf@redhat.com>) id 1j00oX-0002eW-Nq
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 05:24:46 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1j00nh-0003D1-Tx
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 05:23:54 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:58358
+ (envelope-from <kwolf@redhat.com>) id 1j00oW-0004IO-N7
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 05:24:45 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:44568
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1j00nh-0003Bl-QU
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 05:23:53 -0500
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1j00oW-0004HL-JF
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 05:24:44 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581071033;
+ s=mimecast20190719; t=1581071084;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9s1Qx6A91TLMd+q11aMBXC3QFrx0W4N2W57XoqufQh8=;
- b=dUKZ3h8bk15xyECsEJK9uAyDRrr3gFqZ24lKFPqWnsvS21uB4eAO9kkx9TtfAZhDvB0xkT
- nuXfn9x5GMVgep11W69wflfbfC8/UZLF2ZDsYu5YNB31qrYVOqr+ZFACiF5qL6SOA3C2P0
- etL8/jhN1KN2GaBNuXXxMaFbeTb7vF0=
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-23-6KCVjVR7MBa4PnsbAQjZ6g-1; Fri, 07 Feb 2020 05:23:51 -0500
-Received: by mail-qt1-f197.google.com with SMTP id c22so1321349qtn.23
- for <qemu-devel@nongnu.org>; Fri, 07 Feb 2020 02:23:51 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=ZnxDCvmuPZ5pZ0PeIwsxPJFJk2jcdWwkHN/1vNPLLDk=;
- b=Mju7AAvozIWUhjSQ8Lnk3vESxisHrEO6NPzCFlyoMi9nu0gFz9gCthtn+toSR+Sdze
- xLlXQ1bhfDS9kYiHlPeKqjHggEUDCX7NtddHWLbnD7hx85kyX2z5WM5J6RCNkt0yTd/g
- RW5hmOn/aq330mjXJWZFIQwBohZq8UnNMVDyvgLczXdWQByeb4MUFed790SkM8q2UvBA
- rSbs5GhTwvlDI2pdyAxljr/8jwwpGAEzIAT+g7VdU/XredFeeWOB+b236oOlt0XucLAz
- A2aoadH1HEKa43bMP3BX1EsSWxEPbQVeVyGNRJ/oQbSVUegFVtYqGZy+Jtsbd34l6G2A
- pYMw==
-X-Gm-Message-State: APjAAAUm3drdBApoaMVf8kuHOFzgMEnd4trlg83yCoTKP1e/YsjNsMP+
- 2uifv2JUVh1IX5hG8dqQaaiivRUc5aBiwljULvjqUzJDQ2Gh7VRsIFhju5mL8j9goyt3TfQpL4Q
- nTdQ148fZWV59F58=
-X-Received: by 2002:ac8:607:: with SMTP id d7mr6659136qth.271.1581071031048;
- Fri, 07 Feb 2020 02:23:51 -0800 (PST)
-X-Google-Smtp-Source: APXvYqxc+TXuranA8oMxcdx2IB50Rvt9e3fKtfun2BvKDyudrz+Y6Z6oRM+pTkgMGX8qk+o1/HZEFg==
-X-Received: by 2002:ac8:607:: with SMTP id d7mr6659116qth.271.1581071030771;
- Fri, 07 Feb 2020 02:23:50 -0800 (PST)
-Received: from redhat.com (bzq-79-176-41-183.red.bezeqint.net. [79.176.41.183])
- by smtp.gmail.com with ESMTPSA id e130sm1056520qkb.72.2020.02.07.02.23.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Feb 2020 02:23:49 -0800 (PST)
-Date: Fri, 7 Feb 2020 05:23:45 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Eric Auger <eric.auger@redhat.com>
-Subject: Re: [PATCH v14 08/11] virtio-iommu-pci: Introduce the x-dt-binding
- option
-Message-ID: <20200207052214-mutt-send-email-mst@kernel.org>
-References: <20200207093203.3788-1-eric.auger@redhat.com>
- <20200207093203.3788-9-eric.auger@redhat.com>
+ bh=ymCbQtwTdVv0SUivmAgpoMZL4kMp774puPfVd3PoWuo=;
+ b=iBoYC1L3FOhYFRF6v9oKqd1FEb3GD7vOgKo4WFtkVZc1ktZ1ZlE4WR2mWNFWE2dZtY629U
+ xKH20wE/6orZCt4rdS732JJqpr+zKG5w+cJ1//WM+CBQl6M6Q14A1lKs+GHHi4jQfhzI8G
+ j6QeO7WFdeyIRVtE6P9ftrFQhuKDLDA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-284-jyhCeIFaPYq_cnPaVhSIXg-1; Fri, 07 Feb 2020 05:24:42 -0500
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 41D6D189F762;
+ Fri,  7 Feb 2020 10:24:41 +0000 (UTC)
+Received: from linux.fritz.box (ovpn-116-156.ams2.redhat.com [10.36.116.156])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B9E901001B07;
+ Fri,  7 Feb 2020 10:24:34 +0000 (UTC)
+Date: Fri, 7 Feb 2020 11:24:33 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH 08/29] qapi: Use ':' after @argument in doc comments
+Message-ID: <20200207102433.GC6031@linux.fritz.box>
+References: <20200206173040.17337-1-peter.maydell@linaro.org>
+ <20200206173040.17337-9-peter.maydell@linaro.org>
+ <87pnequ4og.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
-In-Reply-To: <20200207093203.3788-9-eric.auger@redhat.com>
-X-MC-Unique: 6KCVjVR7MBa4PnsbAQjZ6g-1
+In-Reply-To: <87pnequ4og.fsf@dusky.pond.sub.org>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-MC-Unique: jyhCeIFaPYq_cnPaVhSIXg-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,95 +74,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, kevin.tian@intel.com, tnowicki@marvell.com,
- jean-philippe@linaro.org, quintela@redhat.com, qemu-devel@nongnu.org,
- peterx@redhat.com, dgilbert@redhat.com, bharatb.linux@gmail.com,
- qemu-arm@nongnu.org, eric.auger.pro@gmail.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org, Michael Roth <mdroth@linux.vnet.ibm.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Feb 07, 2020 at 10:32:00AM +0100, Eric Auger wrote:
-> At the moment, the kernel only supports device tree
-> integration of the virtio-iommu. DT bindings between the
-> PCI root complex and the IOMMU must be created by the machine
-> in conformance to:
+Am 07.02.2020 um 10:28 hat Markus Armbruster geschrieben:
+> Peter Maydell <peter.maydell@linaro.org> writes:
+> > @@ -4703,7 +4703,7 @@
+> >  #
+> >  # Options for creating an image format on a given node.
+> >  #
+> > -# @driver           block driver to create the image format
+> > +# @driver: block driver to create the image format
+> >  #
+> >  # Since: 2.12
+> >  ##
 >=20
-> Documentation/devicetree/bindings/virtio/iommu.txt.
->=20
-> To make sure the end-user is aware of this, force him to use the
-> temporary device option "x-dt-binding" and also double check the
-> machine has a hotplug handler for the virtio-iommu-pci device.
-> This hotplug handler is in charge of creating those DT bindings.
->=20
-> Signed-off-by: Eric Auger <eric.auger@redhat.com>
-> Suggested-by: Michael S. Tsirkin <mst@redhat.com>
+> Loses the visual alignment.  I'm okay with that, but the folks who took
+> the trouble to align the text may have different ideas.  Cc'ing Kevin
+> and Max.
 
-how about setting it by default from machine class?
-See
-[PATCH 1/2] spapr: Disable legacy virtio devices for pseries-5.0 and later
-[PATCH 2/2] spapr: Enable virtio iommu_platform=3Don by default
-which does it for spapr.
+I think the documentation is much easier to parse visually with aligned
+text as it makes both the option name and the whole part of the comment
+that documents options stand out clearly.
 
-> ---
->=20
-> May be squashed with previous patch
-> ---
->  hw/virtio/virtio-iommu-pci.c | 18 ++++++++++++++++++
->  1 file changed, 18 insertions(+)
->=20
-> diff --git a/hw/virtio/virtio-iommu-pci.c b/hw/virtio/virtio-iommu-pci.c
-> index d539fcce75..3d06e14000 100644
-> --- a/hw/virtio/virtio-iommu-pci.c
-> +++ b/hw/virtio/virtio-iommu-pci.c
-> @@ -14,6 +14,7 @@
->  #include "virtio-pci.h"
->  #include "hw/virtio/virtio-iommu.h"
->  #include "hw/qdev-properties.h"
-> +#include "qapi/error.h"
-> =20
->  typedef struct VirtIOIOMMUPCI VirtIOIOMMUPCI;
-> =20
-> @@ -27,10 +28,12 @@ typedef struct VirtIOIOMMUPCI VirtIOIOMMUPCI;
->  struct VirtIOIOMMUPCI {
->      VirtIOPCIProxy parent_obj;
->      VirtIOIOMMU vdev;
-> +    bool dt_binding;
->  };
-> =20
->  static Property virtio_iommu_pci_properties[] =3D {
->      DEFINE_PROP_UINT32("class", VirtIOPCIProxy, class_code, 0),
-> +    DEFINE_PROP_BOOL("x-dt-binding", VirtIOIOMMUPCI, dt_binding, false),
->      DEFINE_PROP_END_OF_LIST(),
->  };
-> =20
-> @@ -39,6 +42,21 @@ static void virtio_iommu_pci_realize(VirtIOPCIProxy *v=
-pci_dev, Error **errp)
->      VirtIOIOMMUPCI *dev =3D VIRTIO_IOMMU_PCI(vpci_dev);
->      DeviceState *vdev =3D DEVICE(&dev->vdev);
-> =20
-> +    if (!dev->dt_binding) {
-> +        error_setg(errp,
-> +                   "Instantiation currently only is possible if the mach=
-ine "
-> +                   "creates device tree iommu-map bindings, ie. ACPI is =
-not "
-> +                   "yet supported");
-> +        error_append_hint(errp, "use -virtio-iommu-pci,x-dt-binding\n");
-> +        return;
-> +    }
-> +
-> +    if (!qdev_get_machine_hotplug_handler(DEVICE(vpci_dev))) {
-> +        error_setg(errp,
-> +                   "The machine does not implement a virtio-iommu-pci ho=
-tplug "
-> +                   " handler that creates the device tree iommu-map bind=
-ings");
-> +       return;
-> +    }
->      qdev_set_parent_bus(vdev, BUS(&vpci_dev->bus));
->      object_property_set_link(OBJECT(dev),
->                               OBJECT(pci_get_bus(&vpci_dev->pci_dev)),
-> --=20
-> 2.20.1
+Of course, "It is the QEMU coding style." would trump everything, but as
+long as there isn't a style guide that requires a wall of text without
+spaces and alignment, I'd prefer to leave at least those aligned texts
+in place that we have.
+
+Kevin
 
 
