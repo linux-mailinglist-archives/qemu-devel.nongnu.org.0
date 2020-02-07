@@ -2,72 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4639155711
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 12:41:27 +0100 (CET)
-Received: from localhost ([::1]:54650 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49D36155714
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 12:41:39 +0100 (CET)
+Received: from localhost ([::1]:54658 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j020k-0004BW-Ku
-	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 06:41:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36088)
+	id 1j020w-0004o9-B2
+	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 06:41:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36113)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1j01z5-0002q9-Rf
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 06:39:44 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1j01z6-0002qD-Is
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 06:39:45 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1j01z4-0005cr-IW
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 06:39:43 -0500
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:39542)
+ (envelope-from <alex.bennee@linaro.org>) id 1j01z5-0005eZ-K7
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 06:39:44 -0500
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:42593)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1j01z4-0005ay-B9
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 06:39:42 -0500
-Received: by mail-wr1-x444.google.com with SMTP id y11so2286540wrt.6
- for <qemu-devel@nongnu.org>; Fri, 07 Feb 2020 03:39:42 -0800 (PST)
+ id 1j01z5-0005d8-Ed
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 06:39:43 -0500
+Received: by mail-wr1-x443.google.com with SMTP id k11so2262977wrd.9
+ for <qemu-devel@nongnu.org>; Fri, 07 Feb 2020 03:39:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=jyG9KD8JNUOpj/k4ZmkY8ByVZXkTc/qLI0RZdDbWsBY=;
- b=WoFpzwVH+gAAWElYog37Bo5Q23Q6rTfjzZuOrIpLpqW9WP1WodR0mn8Qwh47Aucube
- uH+TMXsZffr3MgNQs8Xa/9/SUbw0I3axKVqNsYb1VyOJO5XnmLJFEZ3nrQB36pIQfMGr
- zmqqQH3VIkw+PV+3SwPAYy8+6zCq1eqDoJq/+qFwArHXc41HeuZp+zAnuP+N3LVQxUj6
- hrYYwpotk2iNyPY+kPuqdnMnmEkfTDwyLA6alYCskHkyGo4rbDmEC7BKCgAPxTqLzWwo
- moZgxKeBcEyjeYxwkT0EtzQaaxGnYD4D6n8irNMJgH4lJpmotmRWx38ouXcwEhXq8QxR
- ZDaQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=aRRamzMzvjTZar30SD38wYqoFHYtaZyfi67Aj7iN5oE=;
+ b=QJN+mxNEcUSB83RE+yAvX7LEl9RsUWKvT1vpTFEusgMzrjk53vglkMJNkVtfCeVW5k
+ 7/lUyUE+Lry2nFiPvs+ZyM57fl+5w+bNjyLj0QXeix6kcYrtx4dT3kbOKcGyqX/u2+QL
+ RBL0XdQH4fCUfzJBV4/dhqHqbTPNZRRM3H/W48R15WAe8CphkdwVlWzJ9OJws+3g1loQ
+ qTABgAlTLRvWYsElQ5FCcl+SmVC0L/vb4bnvbO2b3txcT+qpCCr7x9eAY1kwZ8jIglBY
+ D/BTltBEr68bV5r9PJuE9VXAJ2Xj8hgM/6lmZ6FfqYbuLDWe5bN0/WaMZruVe2tIAaLn
+ Hi6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=jyG9KD8JNUOpj/k4ZmkY8ByVZXkTc/qLI0RZdDbWsBY=;
- b=Wulw0uBsDliDI7QSm3+nvLt8M666/dUQYYp+GUJLuan8rcvMqvvEbbaSARrsk2IT8c
- 8q+GecJENYtq1RhoLPSF0luKAM5PhU5cnk18/eK0SbyvpUS3aXFrSR2mLw+lu0SpqZ6x
- S5TAS43Ezfmb/cLyb/MD7XjosWuIiWwmeBrivUN79Vq7hQ3+1tfs9k2iMWR+iV1FtOUj
- fMUuJFlwlJU2LSBTsU0e3tG43rxlYk2hga7Z9Lirth0Q996/NYaMFAdedEzX0QxO3hRy
- Axtd9LPgsbaS2gMhTJEHQJxdTYNF5KKGS1L6C8fnx4ueZx/pTmgN3lOgQ6A7QBUDgFjY
- zePg==
-X-Gm-Message-State: APjAAAV1RDAETJU0aVBfneP/XfBsK1VdnOzw23z3nc9F8V0ZPBeXUAwL
- hGSzZilbG+DTl6HF5B5MVZrOjQ==
-X-Google-Smtp-Source: APXvYqyRtR/lg5DrMOcnPHycRXJ+qGrxfMS8usMunzx5so6M8lUrXbJvNPbfpnBQpYne5Hu78rx/WA==
-X-Received: by 2002:a5d:6987:: with SMTP id g7mr4148216wru.422.1581075581220; 
- Fri, 07 Feb 2020 03:39:41 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=aRRamzMzvjTZar30SD38wYqoFHYtaZyfi67Aj7iN5oE=;
+ b=ciGuOf0kt4tSeT8itIuYtX7mL6oKhKDa/ceSskMQVff3wrbDo5NcBuByREqOQFdr5x
+ rSIrqE5L5/w0/J+sttQ8LSJUlmy0VTAMlE5DjXJ6EARL2XNpdvNZev/B6S+g/ljjDYjU
+ bmtScvgYXpH8dG7lKloaVLxNwTJ0PIb0OToLxmJ7w2vKcqLQTkBoVyZ9UEsWGEVLRBRz
+ Ad9bd6oYD8JCASWuGgx/PBrqLcG+e4AbM2c1c/X58URkpaG35H4mj4P4xvlwoWSJy1Qm
+ CGT4QeKcWiAHGDSpRSonFeTjpev0ktYV0uY26x5kZ6atJoJ/tENoDr5IJYRfYD1s5oLj
+ QIlw==
+X-Gm-Message-State: APjAAAW+41w13T8lWsnBWc3gq5y6rXWmaE1k+pdzK/0x+PVX62xfdG4H
+ 0RxO0l+ii+mOzmgbmzhGXdmTng==
+X-Google-Smtp-Source: APXvYqysKk6DcuOOosFohG0nj1UwoakYcdkRJxQfl76zAda1tP4pU1CZ2Q5StxRLbGC/vvIX0LAgDQ==
+X-Received: by 2002:adf:f847:: with SMTP id d7mr4211389wrq.35.1581075582351;
+ Fri, 07 Feb 2020 03:39:42 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id z11sm2971617wrv.96.2020.02.07.03.39.39
+ by smtp.gmail.com with ESMTPSA id l15sm3022744wrv.39.2020.02.07.03.39.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 07 Feb 2020 03:39:40 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 6B5141FF87;
+ by zen.linaroharston (Postfix) with ESMTP id 809701FF8C;
  Fri,  7 Feb 2020 11:39:39 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 0/5] testing/next (rcutorture and misc tweaks)
-Date: Fri,  7 Feb 2020 11:39:34 +0000
-Message-Id: <20200207113939.9247-1-alex.bennee@linaro.org>
+Subject: [PATCH v1 1/5] tests/tcg: include a skip runner for pauth3 with
+ plugins
+Date: Fri,  7 Feb 2020 11:39:35 +0000
+Message-Id: <20200207113939.9247-2-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200207113939.9247-1-alex.bennee@linaro.org>
+References: <20200207113939.9247-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::444
+X-Received-From: 2a00:1450:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,37 +82,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com, stefanb@linux.vnet.ibm.com,
+Cc: fam@euphon.net, Peter Maydell <peter.maydell@linaro.org>,
+ berrange@redhat.com, stefanb@linux.vnet.ibm.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  richard.henderson@linaro.org, f4bug@amsat.org, cota@braap.org,
  stefanha@redhat.com, marcandre.lureau@redhat.com, pbonzini@redhat.com,
- aurelien@aurel32.net
+ "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+If we have plugins enabled we still need to have built the test to be
+able to run it.
 
-The current state of testing/next is mostly a rubber duck exercise as
-I tried to figure out what might cause the rcutorture test to fail.
-The only real practical change is asserting we are never about to
-reset and existing active RCU structure. So far I haven't seen the
-rcutorture crash occur since (although git stability seems to be a
-current problem for Travis).
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+---
+ tests/tcg/aarch64/Makefile.softmmu-target | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Alex Bennée (4):
-  tests/tcg: include a skip runner for pauth3 with plugins
-  tests/rcutorture: update usage hint
-  tests/rcutorture: better document locking of stats
-  tests/rcutorture: mild documenting refactor of update thread
-
-Thomas Huth (1):
-  travis.yml: Test the s390-ccw build, too
-
- tests/rcutorture.c                        | 55 +++++++++++++++++------
- .travis.yml                               | 10 +++++
- tests/tcg/aarch64/Makefile.softmmu-target |  2 +
- 3 files changed, 53 insertions(+), 14 deletions(-)
-
+diff --git a/tests/tcg/aarch64/Makefile.softmmu-target b/tests/tcg/aarch64/Makefile.softmmu-target
+index d2299b98b76..71f72cfbe34 100644
+--- a/tests/tcg/aarch64/Makefile.softmmu-target
++++ b/tests/tcg/aarch64/Makefile.softmmu-target
+@@ -70,4 +70,6 @@ pauth-3:
+ 	$(call skip-test, "BUILD of $@", "missing compiler support")
+ run-pauth-3:
+ 	$(call skip-test, "RUN of pauth-3", "not built")
++run-plugin-pauth-3-with-%:
++	$(call skip-test, "RUN of pauth-3 ($*)", "not built")
+ endif
 -- 
 2.20.1
 
