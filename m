@@ -2,72 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E09A155A49
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 16:03:56 +0100 (CET)
-Received: from localhost ([::1]:58816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4265B155A53
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 16:05:53 +0100 (CET)
+Received: from localhost ([::1]:58872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j05Ah-0003Vd-L2
-	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 10:03:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52005)
+	id 1j05Ca-0007Qp-9p
+	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 10:05:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52536)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j04iM-0001bz-DB
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:34:39 -0500
+ (envelope-from <jpewhacker@gmail.com>) id 1j04kx-0006vg-35
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:37:19 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j04iL-0003hd-AQ
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:34:38 -0500
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:36288)
+ (envelope-from <jpewhacker@gmail.com>) id 1j04kw-0000B2-7O
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:37:19 -0500
+Received: from mail-il1-x142.google.com ([2607:f8b0:4864:20::142]:39584)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j04iL-0003g9-4A
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:34:37 -0500
-Received: by mail-wr1-x435.google.com with SMTP id z3so2977071wru.3
- for <qemu-devel@nongnu.org>; Fri, 07 Feb 2020 06:34:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=UCTgH8+JIicTcdeMwWbA7Fm/8BcoGqpf7BduEhNp0D4=;
- b=CCzqjVQc8rRlDBbpCApRo2A5ieyiXwCmKzZ/BGTnZDIyvtwTtGek6Zh5eLbmayo2s/
- iM4PnzSQTkZDzxagoMlKmjRUnvXzOGCfjKzhAMmwlWZWAlqLUKq40CXu0dCbQTCsACqX
- /ljvKwuOGueL9q9zlNZuWuvQVIXtoGMvp5oVMKYAoB2fSpoh5Dt1HbWtqvamAn2jnGDh
- 5L96lSydfQsJXVLBR40T3FwEnI7qAUE+OnlaDr/DUWwy6x6QCt8f6WV1vtcGLNNL8oas
- N98hrkzplVMqK9bAhuJ4o7DC/8ntAxOFKKNkVtQBLHB3D9NSSJXKNffRky5sJNIcmIMb
- OT0A==
+ (Exim 4.71) (envelope-from <jpewhacker@gmail.com>)
+ id 1j04kv-000097-WE
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:37:18 -0500
+Received: by mail-il1-x142.google.com with SMTP id f70so1874223ill.6
+ for <qemu-devel@nongnu.org>; Fri, 07 Feb 2020 06:37:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:subject:to:cc:references:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=dk5ODb3Gj2TYjyKARkYyg25EdfWD4skwXJSnw3qyrb0=;
+ b=M5cddgPMHTja5Vgn3UCsynQWsaSw1+QoLZozU3H4Z0U0FpmTkI8Ct9Q8DDQjrdjyqK
+ OAuaKhun6z7d6bSQ+8P0GPeILSh84QVCG2x+w8jyw04DPrCw6VWsmNr/TFWGnBkGqRuO
+ 2vRsU8CKSRpgUXH0sFBGI+wxid+68IT/A3wgm8kz4JTITPFEGmPrjS0gbcQQnEGpYTpa
+ TNBtv6Z7Ujbr3uwZa9wTSpvoBajW72Q5kkTfeqMHEvQp989ZVOA0bdoy5TA2od9tdMah
+ IwDkGrliN0rU+SHHHBu/vUwoGVrTIIvhhKz4ZXCK+pGXW+/mn2bWS/tdtp6Fh3gGTa2+
+ ogLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=UCTgH8+JIicTcdeMwWbA7Fm/8BcoGqpf7BduEhNp0D4=;
- b=cu71lDJqgkcb0Qf8B/0MZLFfMiVqjrzUHo1fQevROyM+oaNMAFh63BTqnaFJLnnFLg
- 9ppNX90fLecClSiexXwS1c00VxaIgobJpP15tS366rCA2tIgjsYZ7eZ81c43wwc+0dct
- 2rwdsGRphBUHKkLkzNEVGZsrZP3oj1FIkSZv8PZ29KZfijLybFJh+D1+54/b4GmPZhyi
- rkzw6PjRCqs0lY7PTHQgFT++L9FB2bnE8GE/BDE8Tz/YLCTLIInaCUfF3TnadS9Q+v0Q
- NAZ1T9drtFZv+Upq7bqvmmyuzgFesrZmuOo/YIJivhuU+Gg3US4h44Yy7+dL+FGlrpcs
- 9CUQ==
-X-Gm-Message-State: APjAAAVo6eO2fGvu3aGWZWh7Dg636KZ7qtM301w9s2JS0+5vm7qHRQK+
- w/AQKaEo2iLkdxl5ZpZvoOFBkVyN96I=
-X-Google-Smtp-Source: APXvYqyLN30NEzqyXqmVE9laItkjptCrsW0Xa5YAU5yPfxJOnn9WQsuyiOPoqDYWXtshcBft7puaEw==
-X-Received: by 2002:adf:ab14:: with SMTP id q20mr4965372wrc.274.1581086075868; 
- Fri, 07 Feb 2020 06:34:35 -0800 (PST)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id w1sm3796430wro.72.2020.02.07.06.34.34
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Feb 2020 06:34:35 -0800 (PST)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 47/48] stm32f2xx_timer: delay timer_new to avoid memleaks
-Date: Fri,  7 Feb 2020 14:33:42 +0000
-Message-Id: <20200207143343.30322-48-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200207143343.30322-1-peter.maydell@linaro.org>
-References: <20200207143343.30322-1-peter.maydell@linaro.org>
+ h=x-gm-message-state:from:subject:to:cc:references:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=dk5ODb3Gj2TYjyKARkYyg25EdfWD4skwXJSnw3qyrb0=;
+ b=EQlMWSlDlzGqk2St7ZW+pyn1+Mo1oT+/sqbCMK42LzLnoUW6vlkopP0B6RqKm+XP2c
+ sQxxd8RSiAkOqaS4DODf2DH9TB0Nk9JIu5wYUAxtpRBr6Ppevz/Mil7D0STmRsxnrtGY
+ qPvahe1CWiFUNzQx2rt77x7zFq7sOz20Td0SWH252/8vwdtrtalxGKoA1TokRx/7EfEU
+ 84gSzcPRCyRwbm1pXQwo4gQw2a3zjHPfA8MvEo4pE0Y/lrWKjqTZWXohFLJiEVdICPyQ
+ wbot8Qxddz70somPVKZiv7nK7VWFWaOd4n+R57QJ4Ut9P9BDeEqwFXQZp6ZjDqprnXTO
+ Q5Zw==
+X-Gm-Message-State: APjAAAUDiVSPtuMHe7aD8lFsHlhLDMlqoBEEx0tOzw3alNKBWRtGDLf0
+ ztmudHIEYknbrKMAKrjp6UI=
+X-Google-Smtp-Source: APXvYqzAKso3V9XBOJNuQpXFb4L6TEVFLOyKaG/GW/q/r2V0J4PA5TGFnAnRUKAhVGUqwpy+2dxQng==
+X-Received: by 2002:a92:c50f:: with SMTP id r15mr9770993ilg.258.1581086235730; 
+ Fri, 07 Feb 2020 06:37:15 -0800 (PST)
+Received: from [10.30.196.58] ([204.77.163.55])
+ by smtp.gmail.com with ESMTPSA id y11sm1322793ilm.22.2020.02.07.06.37.14
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 07 Feb 2020 06:37:15 -0800 (PST)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+Subject: Re: [PATCH v3 5/7] ui/gtk: implement show-cursor option
+To: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
+References: <20200207101753.25812-1-kraxel@redhat.com>
+ <20200207101753.25812-6-kraxel@redhat.com>
+Message-ID: <b0dca00d-5d35-a139-b5d0-1777c92b23a0@gmail.com>
+Date: Fri, 7 Feb 2020 08:37:13 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200207101753.25812-6-kraxel@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::435
+X-Received-From: 2607:f8b0:4864:20::142
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,54 +83,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>, jtomko@redhat.com,
+ libvir-list@redhat.com, Markus Armbruster <armbru@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Pan Nengyuan <pannengyuan@huawei.com>
 
-There is a memory leak when we call 'device_list_properties' with typename = stm32f2xx_timer. It's easy to reproduce as follow:
+On 2/7/20 4:17 AM, Gerd Hoffmann wrote:
+> When specified just set null_cursor to NULL so we get the default
+> pointer instead of a blank pointer.
+>
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+> ---
+>   ui/gtk.c | 8 ++++++--
+>   1 file changed, 6 insertions(+), 2 deletions(-)
+>
+> diff --git a/ui/gtk.c b/ui/gtk.c
+> index d18892d1de61..a685d1ae0848 100644
+> --- a/ui/gtk.c
+> +++ b/ui/gtk.c
+> @@ -2243,8 +2243,12 @@ static void gtk_display_init(DisplayState *ds, DisplayOptions *opts)
+>       textdomain("qemu");
+>   
+>       window_display = gtk_widget_get_display(s->window);
+> -    s->null_cursor = gdk_cursor_new_for_display(window_display,
+> -                                                GDK_BLANK_CURSOR);
+> +    if (s->opts->has_show_cursor && s->opts->show_cursor) {
+> +        s->null_cursor = NULL; /* default pointer */
+> +    } else {
+> +        s->null_cursor = gdk_cursor_new_for_display(window_display,
+> +                                                    GDK_BLANK_CURSOR);
+> +    }
 
-    virsh qemu-monitor-command vm1 --pretty '{"execute": "device-list-properties", "arguments": {"typename": "stm32f2xx_timer"}}'
+I think it would make more sense to have all the logic related to what 
+cursor is used in the same location, instead of split up between here 
+and gd_update_cursor(). This would also match the behavior of the SDL 
+and cocoa backends a little better.
 
-This patch delay timer_new to fix this memleaks.
-
-Reported-by: Euler Robot <euler.robot@huawei.com>
-Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: 20200205070659.22488-3-pannengyuan@huawei.com
-Cc: Alistair Francis <alistair@alistair23.me>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- hw/timer/stm32f2xx_timer.c | 5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/hw/timer/stm32f2xx_timer.c b/hw/timer/stm32f2xx_timer.c
-index fb370ce0f05..06ec8a02c25 100644
---- a/hw/timer/stm32f2xx_timer.c
-+++ b/hw/timer/stm32f2xx_timer.c
-@@ -314,7 +314,11 @@ static void stm32f2xx_timer_init(Object *obj)
-     memory_region_init_io(&s->iomem, obj, &stm32f2xx_timer_ops, s,
-                           "stm32f2xx_timer", 0x400);
-     sysbus_init_mmio(SYS_BUS_DEVICE(obj), &s->iomem);
-+}
- 
-+static void stm32f2xx_timer_realize(DeviceState *dev, Error **errp)
-+{
-+    STM32F2XXTimerState *s = STM32F2XXTIMER(dev);
-     s->timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, stm32f2xx_timer_interrupt, s);
- }
- 
-@@ -325,6 +329,7 @@ static void stm32f2xx_timer_class_init(ObjectClass *klass, void *data)
-     dc->reset = stm32f2xx_timer_reset;
-     device_class_set_props(dc, stm32f2xx_timer_properties);
-     dc->vmsd = &vmstate_stm32f2xx_timer;
-+    dc->realize = stm32f2xx_timer_realize;
- }
- 
- static const TypeInfo stm32f2xx_timer_info = {
--- 
-2.20.1
-
+>   
+>       s->mouse_mode_notifier.notify = gd_mouse_mode_change;
+>       qemu_add_mouse_mode_change_notifier(&s->mouse_mode_notifier);
 
