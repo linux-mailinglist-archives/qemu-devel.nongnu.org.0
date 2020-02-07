@@ -2,61 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED684155F1E
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 21:17:04 +0100 (CET)
-Received: from localhost ([::1]:34758 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34451155F86
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 21:27:03 +0100 (CET)
+Received: from localhost ([::1]:34982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j0A3j-0005aE-Dr
-	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 15:17:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54172)
+	id 1j0ADO-0001VF-31
+	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 15:27:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56342)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1j0A2L-00054V-QC
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 15:15:39 -0500
+ (envelope-from <peterx@redhat.com>) id 1j0ACZ-0000ll-Ns
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 15:26:12 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1j0A2K-0005z5-0O
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 15:15:37 -0500
-Received: from indium.canonical.com ([91.189.90.7]:48314)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1j0A2J-0005xT-R0
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 15:15:35 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1j0A2I-0002j1-FL
- for <qemu-devel@nongnu.org>; Fri, 07 Feb 2020 20:15:34 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 6EE862E80C7
- for <qemu-devel@nongnu.org>; Fri,  7 Feb 2020 20:15:34 +0000 (UTC)
+ (envelope-from <peterx@redhat.com>) id 1j0ACW-0001B4-Sm
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 15:26:09 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:26123
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <peterx@redhat.com>) id 1j0ACW-00018W-Hx
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 15:26:08 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1581107167;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=fX68pnrXCaepJggUv37SrOGhdFndlVqiL1tAnozGtBA=;
+ b=Onpvyfe5BFuz/ViPgBCJEOVMbkLGBTvSzjovhLGZj/L42G4b72oqb2GgGp9RkjDF5bAIfo
+ /YNqSv/rqcwU4DVakQOIa+kU2muYqO+MK2mTKRm2P8+DcYn6Hut2kuex6GaCr3cvkHQ5ml
+ x64MhmZVQyzt/t2MH99E6ladF66gOy8=
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-341-VdttOF6PPHS3h7o94lw2KA-1; Fri, 07 Feb 2020 15:26:05 -0500
+Received: by mail-qt1-f197.google.com with SMTP id d16so330633qtr.2
+ for <qemu-devel@nongnu.org>; Fri, 07 Feb 2020 12:26:05 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=6opY5JAPnTC3deXfh3fnYGt75ABnlBjWVDrm/KM9ZmQ=;
+ b=K7nDoXn251fddrzIf3+bu/c0siAzvtVVrtfLQYS+CdsYcnpRqKK0LJct84xOHxpSEi
+ C0i4G/8PplYm9zIjb27VWBBR1Wt/wUnNx7RUiF2t9Z2t2LGSpsvyZBzGR4FsFn62qzSK
+ coMOqbiOVHAfYFy9T+tS16he3lQhqh6ruH8JXGjawyQ0kE4TOx/qvgnLoug1yEIeJHQX
+ DQTB2e7+No9jjDWptHMduPTomSYeLZv+jN85khSYpnoHsgYWkKkWLjd2MbyzW5GofRKz
+ qmfen/cbJGlYDEDikLeiaGaX1Pft2PYjv2Cv6V2Gh2oDXJu6EZxOdzdlAR617CsZu9Rb
+ BPsA==
+X-Gm-Message-State: APjAAAWWyg1pOJOuOBlXG1USuXT+WFi/V/P/tjp+R3mAb2ICEZSr+YAP
+ lKuROjFM3PeMAvIAvJJjvJNjuZxoQQfwIU2NMU+V20FXAdGGcrw8JVSKcMi10cKlyqDV8RGdgbZ
+ k85pFxoAJWmJJxu8=
+X-Received: by 2002:ac8:7501:: with SMTP id u1mr121616qtq.149.1581107164628;
+ Fri, 07 Feb 2020 12:26:04 -0800 (PST)
+X-Google-Smtp-Source: APXvYqwe/e4yWUCo5sqWEowGD6Dr2h4fjlz48tRUVqTakI1jqSws5al8i9h5KeIpmhNIqUwU7PIKtw==
+X-Received: by 2002:ac8:7501:: with SMTP id u1mr121583qtq.149.1581107164225;
+ Fri, 07 Feb 2020 12:26:04 -0800 (PST)
+Received: from xz-x1 ([2607:9880:19c8:32::2])
+ by smtp.gmail.com with ESMTPSA id s67sm1882496qke.1.2020.02.07.12.26.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 07 Feb 2020 12:26:03 -0800 (PST)
+Date: Fri, 7 Feb 2020 15:26:01 -0500
+From: Peter Xu <peterx@redhat.com>
+To: Eric Auger <eric.auger@redhat.com>
+Subject: Re: [PATCH v14 03/11] virtio-iommu: Implement attach/detach command
+Message-ID: <20200207202601.GD720553@xz-x1>
+References: <20200207093203.3788-1-eric.auger@redhat.com>
+ <20200207093203.3788-4-eric.auger@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20200207093203.3788-4-eric.auger@redhat.com>
+X-MC-Unique: VdttOF6PPHS3h7o94lw2KA-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 07 Feb 2020 20:06:33 -0000
-From: yw662 <1862415@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: yw662
-X-Launchpad-Bug-Reporter: yw662 (yw662)
-X-Launchpad-Bug-Modifier: yw662 (yw662)
-References: <158110549948.8965.4395096108369482087.malonedeb@chaenomeles.canonical.com>
-Message-Id: <158110599324.18631.7546781486066208876.malone@gac.canonical.com>
-Subject: [Bug 1862415] Re: -nic user cannot receive TFTP response from outside
- on windows 10 host
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="0a62c17273454a1313f81a74a2198ec30b44c7b6";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: fdd15d6e007a7015a11555d0b3f45d079f4bf1ba
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -65,169 +88,140 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1862415 <1862415@bugs.launchpad.net>
+Cc: peter.maydell@linaro.org, kevin.tian@intel.com, tnowicki@marvell.com,
+ jean-philippe@linaro.org, quintela@redhat.com, qemu-devel@nongnu.org,
+ dgilbert@redhat.com, bharatb.linux@gmail.com, qemu-arm@nongnu.org,
+ mst@redhat.com, eric.auger.pro@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Attachment added: "host.pcap"
-   https://bugs.launchpad.net/qemu/+bug/1862415/+attachment/5326376/+files/=
-host.pcap
+On Fri, Feb 07, 2020 at 10:31:55AM +0100, Eric Auger wrote:
 
--- =
+[...]
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1862415
+> v13 -> v14:
+> - in virtio_iommu_put_endpoint, if the EP is attached to a
+>   domain, call virtio_iommu_detach_endpoint_from_domain()
+> - remove domain ref counting and simply delete the mappings
+>   gtree when the last EP is detached from the domain
 
-Title:
-  -nic user cannot receive TFTP response from outside on windows 10 host
+Yeh this looks a good optimization!  Ref counting protects the domain
+from being gone when there's still EP in the domain, but since we've
+got the ep_list in domain after all so it seems to be safe and clearer.
 
-Status in QEMU:
-  New
+> - in virtio_iommu_detach_endpoint_from_domain(), return if the
+>   ep's domain is unset.
 
-Bug description:
-  Configuration:
-  qemu is on a windows 10 host, address 192.168.1.24
-  A tftp server, which is atftpd, is at address 192.168.1.31
-  a guest is started by: =
+[...]
 
-  ```
-  .\qemu-system-x86_64.exe -accel hax \
-  -nic user,id=3Dn1,tftp-server-name=3D192.168.1.31,bootfile=3Dtftp://192.1=
-68.1.31/grub/i386-pc/core.0 \
-  -object filter-dump,id=3Df1,netdev=3Dn1,file=3Ddump.dat
-  ```
+> +static void virtio_iommu_put_domain(gpointer data)
+> +{
+> +    VirtIOIOMMUDomain *domain =3D (VirtIOIOMMUDomain *)data;
+> +    VirtIOIOMMUEndpoint *iter, *tmp;
+> +
+> +    QLIST_FOREACH_SAFE(iter, &domain->endpoint_list, next, tmp) {
+> +        virtio_iommu_detach_endpoint_from_domain(iter);
+> +    }
+> +    trace_virtio_iommu_put_domain(domain->id);
 
-  qemu v4.2.0-11797-g2890edc853-dirty, from https://qemu.weilnetz.de/w64/
-  windows 10 1909 18363.628
+[1]
 
-  Here is the captured traffic from dump.dat, no filter applied:
-  No.	Time	Source	Destination	Protocol	Length	Info
-  1	0.000000	0.0.0.0	255.255.255.255	DHCP	439	DHCP Discover - Transaction I=
-D 0xdb38340e
-  2	0.000081	10.0.2.2	255.255.255.255	DHCP	590	DHCP Offer    - Transaction =
-ID 0xdb38340e
-  3	1.035670	0.0.0.0	255.255.255.255	DHCP	439	DHCP Discover - Transaction I=
-D 0xdb38340e
-  4	1.035693	10.0.2.2	255.255.255.255	DHCP	590	DHCP Offer    - Transaction =
-ID 0xdb38340e
-  5	3.068055	0.0.0.0	255.255.255.255	DHCP	451	DHCP Request  - Transaction I=
-D 0xdb38340e
-  6	3.068099	10.0.2.2	255.255.255.255	DHCP	590	DHCP ACK      - Transaction =
-ID 0xdb38340e
-  7	3.068209	RealtekU_12:34:56	Broadcast	ARP	42	ARP Announcement for 10.0.2=
-.15
-  8	3.148419	RealtekU_12:34:56	Broadcast	ARP	42	Who has 10.0.2.2? Tell 10.0=
-.2.15
-  9	3.148449	52:55:0a:00:02:02	RealtekU_12:34:56	ARP	64	10.0.2.2 is at 52:5=
-5:0a:00:02:02
-  10	3.148511	10.0.2.15	192.168.1.31	TFTP	91	Read Request, File: grub/i386-=
-pc/core.0, Transfer type: octet, blksize=3D1432, tsize=3D0
-  11	3.398093	10.0.2.15	192.168.1.31	TFTP	91	Read Request, File: grub/i386-=
-pc/core.0, Transfer type: octet, blksize=3D1432, tsize=3D0
-  12	3.946041	10.0.2.15	192.168.1.31	TFTP	91	Read Request, File: grub/i386-=
-pc/core.0, Transfer type: octet, blksize=3D1432, tsize=3D0
-  13	4.990262	10.0.2.15	192.168.1.31	TFTP	91	Read Request, File: grub/i386-=
-pc/core.0, Transfer type: octet, blksize=3D1432, tsize=3D0
-  14	7.022839	10.0.2.15	192.168.1.31	TFTP	91	Read Request, File: grub/i386-=
-pc/core.0, Transfer type: octet, blksize=3D1432, tsize=3D0
-  15	11.087041	10.0.2.15	192.168.1.31	TFTP	91	Read Request, File: grub/i386=
--pc/core.0, Transfer type: octet, blksize=3D1432, tsize=3D0
+> +    g_free(domain);
+> +}
 
-  =
+[...]
 
-  Here is the captured traffic at host NIC, filered by from or to 192.168.1=
-.31
-  No.	Time	Source	Destination	Protocol	Length	Info
-  14140	57.729066	192.168.1.24	192.168.1.31	TFTP	91	Read Request, File: gru=
-b/i386-pc/core.0, Transfer type: octet, blksize=3D1432, tsize=3D0
-  14141	57.732988	192.168.1.31	192.168.1.24	TFTP	69	Option Acknowledgement,=
- tsize=3D45542, blksize=3D1432
-  14255	57.977995	192.168.1.24	192.168.1.31	TFTP	91	Read Request, File: gru=
-b/i386-pc/core.0, Transfer type: octet, blksize=3D1432, tsize=3D0
-  14256	57.979876	192.168.1.31	192.168.1.24	TFTP	69	Option Acknowledgement,=
- tsize=3D45542, blksize=3D1432
-  14275	58.525939	192.168.1.24	192.168.1.31	TFTP	91	Read Request, File: gru=
-b/i386-pc/core.0, Transfer type: octet, blksize=3D1432, tsize=3D0
-  14276	58.527819	192.168.1.31	192.168.1.24	TFTP	69	Option Acknowledgement,=
- tsize=3D45542, blksize=3D1432
-  14328	59.570178	192.168.1.24	192.168.1.31	TFTP	91	Read Request, File: gru=
-b/i386-pc/core.0, Transfer type: octet, blksize=3D1432, tsize=3D0
-  14329	59.581024	192.168.1.31	192.168.1.24	TFTP	69	Option Acknowledgement,=
- tsize=3D45542, blksize=3D1432
-  14383	61.602742	192.168.1.24	192.168.1.31	TFTP	91	Read Request, File: gru=
-b/i386-pc/core.0, Transfer type: octet, blksize=3D1432, tsize=3D0
-  14384	61.605554	192.168.1.31	192.168.1.24	TFTP	69	Option Acknowledgement,=
- tsize=3D45542, blksize=3D1432
-  14730	62.736572	192.168.1.31	192.168.1.24	TFTP	69	Option Acknowledgement,=
- tsize=3D45542, blksize=3D1432
-  14741	62.987924	192.168.1.31	192.168.1.24	TFTP	69	Option Acknowledgement,=
- tsize=3D45542, blksize=3D1432
-  14756	63.533477	192.168.1.31	192.168.1.24	TFTP	69	Option Acknowledgement,=
- tsize=3D45542, blksize=3D1432
-  14815	64.577653	192.168.1.31	192.168.1.24	TFTP	69	Option Acknowledgement,=
- tsize=3D45542, blksize=3D1432
-  14916	65.666959	192.168.1.24	192.168.1.31	TFTP	91	Read Request, File: gru=
-b/i386-pc/core.0, Transfer type: octet, blksize=3D1432, tsize=3D0
-  14917	65.668778	192.168.1.31	192.168.1.24	TFTP	69	Option Acknowledgement,=
- tsize=3D45542, blksize=3D1432
-  15235	66.615186	192.168.1.31	192.168.1.24	TFTP	69	Option Acknowledgement,=
- tsize=3D45542, blksize=3D1432
-  15481	67.745250	192.168.1.31	192.168.1.24	TFTP	69	Option Acknowledgement,=
- tsize=3D45542, blksize=3D1432
-  15509	67.991523	192.168.1.31	192.168.1.24	TFTP	69	Option Acknowledgement,=
- tsize=3D45542, blksize=3D1432
-  15566	68.539050	192.168.1.31	192.168.1.24	TFTP	69	Option Acknowledgement,=
- tsize=3D45542, blksize=3D1432
-  16691	69.583531	192.168.1.31	192.168.1.24	TFTP	69	Option Acknowledgement,=
- tsize=3D45542, blksize=3D1432
-  17457	70.675366	192.168.1.31	192.168.1.24	TFTP	69	Option Acknowledgement,=
- tsize=3D45542, blksize=3D1432
-  17599	71.615337	192.168.1.31	192.168.1.24	TFTP	69	Option Acknowledgement,=
- tsize=3D45542, blksize=3D1432
-  17904	72.747338	192.168.1.31	192.168.1.24	TFTP	69	Option Acknowledgement,=
- tsize=3D45542, blksize=3D1432
-  18012	72.995681	192.168.1.31	192.168.1.24	TFTP	69	Option Acknowledgement,=
- tsize=3D45542, blksize=3D1432
-  18192	73.544257	192.168.1.31	192.168.1.24	TFTP	69	Option Acknowledgement,=
- tsize=3D45542, blksize=3D1432
-  18360	74.588002	192.168.1.31	192.168.1.24	TFTP	69	Option Acknowledgement,=
- tsize=3D45542, blksize=3D1432
-  18981	75.679037	192.168.1.31	192.168.1.24	TFTP	69	Option Acknowledgement,=
- tsize=3D45542, blksize=3D1432
-  19270	76.620528	192.168.1.31	192.168.1.24	TFTP	69	Option Acknowledgement,=
- tsize=3D45542, blksize=3D1432
-  19839	77.752338	192.168.1.31	192.168.1.24	TFTP	69	Option Acknowledgement,=
- tsize=3D45542, blksize=3D1432
-  19852	78.001267	192.168.1.31	192.168.1.24	TFTP	69	Option Acknowledgement,=
- tsize=3D45542, blksize=3D1432
-  19917	78.548965	192.168.1.31	192.168.1.24	TFTP	69	Option Acknowledgement,=
- tsize=3D45542, blksize=3D1432
-  20066	79.593232	192.168.1.31	192.168.1.24	TFTP	69	Option Acknowledgement,=
- tsize=3D45542, blksize=3D1432
-  20140	80.684604	192.168.1.31	192.168.1.24	TFTP	69	Option Acknowledgement,=
- tsize=3D45542, blksize=3D1432
-  20220	81.625996	192.168.1.31	192.168.1.24	TFTP	69	Option Acknowledgement,=
- tsize=3D45542, blksize=3D1432
-  20537	82.824574	192.168.1.31	192.168.1.24	TFTP	69	Option Acknowledgement,=
- tsize=3D45542, blksize=3D1432
-  20551	83.033318	192.168.1.31	192.168.1.24	TFTP	69	Option Acknowledgement,=
- tsize=3D45542, blksize=3D1432
-  20607	83.555510	192.168.1.31	192.168.1.24	TFTP	69	Option Acknowledgement,=
- tsize=3D45542, blksize=3D1432
-  20734	84.598612	192.168.1.31	192.168.1.24	TFTP	69	Option Acknowledgement,=
- tsize=3D45542, blksize=3D1432
-  20816	85.691535	192.168.1.31	192.168.1.24	TFTP	69	Option Acknowledgement,=
- tsize=3D45542, blksize=3D1432
-  20898	86.631036	192.168.1.31	192.168.1.24	TFTP	69	Option Acknowledgement,=
- tsize=3D45542, blksize=3D1432
-  22311	90.695296	192.168.1.31	192.168.1.24	TFTP	69	Option Acknowledgement,=
- tsize=3D45542, blksize=3D1432
+>  static int virtio_iommu_attach(VirtIOIOMMU *s,
+>                                 struct virtio_iommu_req_attach *req)
+>  {
+>      uint32_t domain_id =3D le32_to_cpu(req->domain);
+>      uint32_t ep_id =3D le32_to_cpu(req->endpoint);
+> +    VirtIOIOMMUDomain *domain;
+> +    VirtIOIOMMUEndpoint *ep;
+> =20
+>      trace_virtio_iommu_attach(domain_id, ep_id);
+> =20
+> -    return VIRTIO_IOMMU_S_UNSUPP;
+> +    ep =3D virtio_iommu_get_endpoint(s, ep_id);
+> +    if (!ep) {
+> +        return VIRTIO_IOMMU_S_NOENT;
+> +    }
+> +
+> +    if (ep->domain) {
+> +        VirtIOIOMMUDomain *previous_domain =3D ep->domain;
+> +        /*
+> +         * the device is already attached to a domain,
+> +         * detach it first
+> +         */
+> +        virtio_iommu_detach_endpoint_from_domain(ep);
+> +        if (QLIST_EMPTY(&previous_domain->endpoint_list)) {
 
-  From the traffic, the guest sent the request properly, and it is
-  rerouted outside properly, and the server respond to it properly.
-  However, the guest never received the response.
+I feel like we still need:
 
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1862415/+subscriptions
+               g_tree_destroy(previous_domain->mappings);
+
+Or the mappings will be leaked.
+
+To make this simpler, maybe we can destroy the mappings at [1] above.
+Then we can remove line [2] below too.
+
+> +            g_tree_remove(s->domains, GUINT_TO_POINTER(previous_domain->=
+id));
+> +        }
+> +    }
+> +
+> +    domain =3D virtio_iommu_get_domain(s, domain_id);
+> +    QLIST_INSERT_HEAD(&domain->endpoint_list, ep, next);
+> +
+> +    ep->domain =3D domain;
+> +
+> +    return VIRTIO_IOMMU_S_OK;
+>  }
+> =20
+>  static int virtio_iommu_detach(VirtIOIOMMU *s,
+> @@ -50,10 +268,29 @@ static int virtio_iommu_detach(VirtIOIOMMU *s,
+>  {
+>      uint32_t domain_id =3D le32_to_cpu(req->domain);
+>      uint32_t ep_id =3D le32_to_cpu(req->endpoint);
+> +    VirtIOIOMMUDomain *domain;
+> +    VirtIOIOMMUEndpoint *ep;
+> =20
+>      trace_virtio_iommu_detach(domain_id, ep_id);
+> =20
+> -    return VIRTIO_IOMMU_S_UNSUPP;
+> +    ep =3D g_tree_lookup(s->endpoints, GUINT_TO_POINTER(ep_id));
+> +    if (!ep) {
+> +        return VIRTIO_IOMMU_S_NOENT;
+> +    }
+> +
+> +    domain =3D ep->domain;
+> +
+> +    if (!domain || domain->id !=3D domain_id) {
+> +        return VIRTIO_IOMMU_S_INVAL;
+> +    }
+> +
+> +    virtio_iommu_detach_endpoint_from_domain(ep);
+> +
+> +    if (QLIST_EMPTY(&domain->endpoint_list)) {
+> +        g_tree_destroy(domain->mappings);
+
+[2]
+
+> +        g_tree_remove(s->domains, GUINT_TO_POINTER(domain->id));
+> +    }
+> +    return VIRTIO_IOMMU_S_OK;
+>  }
+> =20
+>  static int virtio_iommu_map(VirtIOIOMMU *s,
+> @@ -172,6 +409,27 @@ out:
+>      }
+>  }
+
+Other than that, the whole patch looks good to me.
+
+Thanks,
+
+--=20
+Peter Xu
+
 
