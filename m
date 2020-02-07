@@ -2,38 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7F25155082
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 03:07:46 +0100 (CET)
-Received: from localhost ([::1]:49030 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EA2915509C
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 03:13:16 +0100 (CET)
+Received: from localhost ([::1]:49120 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izt3K-0001vH-R0
-	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 21:07:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59811)
+	id 1izt8t-0004pa-Bk
+	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 21:13:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59813)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1izsvm-0006J0-54
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1izsvm-0006JG-7t
  for qemu-devel@nongnu.org; Thu, 06 Feb 2020 20:59:44 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1izsvj-0001Lx-J4
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1izsvj-0001Ld-ED
  for qemu-devel@nongnu.org; Thu, 06 Feb 2020 20:59:42 -0500
-Received: from mx2.rt-rk.com ([89.216.37.149]:53208 helo=mail.rt-rk.com)
+Received: from mx2.rt-rk.com ([89.216.37.149]:53195 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
- id 1izsvj-0001AM-9L
+ id 1izsvj-0001AE-5s
  for qemu-devel@nongnu.org; Thu, 06 Feb 2020 20:59:39 -0500
 Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id D88E21A2148;
+ by mail.rt-rk.com (Postfix) with ESMTP id D0DA31A213B;
  Fri,  7 Feb 2020 02:58:23 +0100 (CET)
 X-Virus-Scanned: amavisd-new at rt-rk.com
 Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
  [10.10.14.106])
- by mail.rt-rk.com (Postfix) with ESMTPSA id A26651A1FEC;
+ by mail.rt-rk.com (Postfix) with ESMTPSA id AA97A1A1FEE;
  Fri,  7 Feb 2020 02:58:23 +0100 (CET)
 From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH rc5 27/32] tests/machine-none: Add AVR support
-Date: Fri,  7 Feb 2020 02:57:55 +0100
-Message-Id: <1581040680-308-28-git-send-email-aleksandar.markovic@rt-rk.com>
+Subject: [PATCH rc5 28/32] tests/boot-serial: Test some Arduino boards (AVR
+ based)
+Date: Fri,  7 Feb 2020 02:57:56 +0100
+Message-Id: <1581040680-308-29-git-send-email-aleksandar.markovic@rt-rk.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1581040680-308-1-git-send-email-aleksandar.markovic@rt-rk.com>
 References: <1581040680-308-1-git-send-email-aleksandar.markovic@rt-rk.com>
@@ -55,38 +56,78 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Richard Henderson <richard.henderson@linaro.org>,
  Michael Rolnik <mrolnik@gmail.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Aleksandar Markovic <aleksandar.m.mail@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Michael Rolnik <mrolnik@gmail.com>
 
-Add a single code line that will automatically provide 'machine none'
-test.
+Print out 'T' through serial port.
+
+The Arduino Duemilanove is based on a AVR5 CPU, while the
+Arduino MEGA2560 on a AVR6 CPU.
 
 Signed-off-by: Michael Rolnik <mrolnik@gmail.com>
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+[rth: Squash Arduino adjustments from f4bug]
+Tested-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Acked-by: Thomas Huth <thuth@redhat.com>
 Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- tests/qtest/machine-none-test.c | 1 +
- 1 file changed, 1 insertion(+)
+ tests/qtest/boot-serial-test.c | 11 +++++++++++
+ tests/qtest/Makefile.include   |  2 ++
+ 2 files changed, 13 insertions(+)
 
-diff --git a/tests/qtest/machine-none-test.c b/tests/qtest/machine-none-t=
-est.c
-index 5953d31..3e5c74e 100644
---- a/tests/qtest/machine-none-test.c
-+++ b/tests/qtest/machine-none-test.c
-@@ -27,6 +27,7 @@ static struct arch2cpu cpus_map[] =3D {
-     /* tested targets list */
-     { "arm", "cortex-a15" },
-     { "aarch64", "cortex-a57" },
-+    { "avr", "avr6-avr-cpu" },
-     { "x86_64", "qemu64,apic-id=3D0" },
-     { "i386", "qemu32,apic-id=3D0" },
-     { "alpha", "ev67" },
+diff --git a/tests/qtest/boot-serial-test.c b/tests/qtest/boot-serial-tes=
+t.c
+index 85a3614..bfe7624 100644
+--- a/tests/qtest/boot-serial-test.c
++++ b/tests/qtest/boot-serial-test.c
+@@ -17,6 +17,15 @@
+ #include "libqtest.h"
+ #include "libqos/libqos-spapr.h"
+=20
++static const uint8_t bios_avr[] =3D {
++    0x88, 0xe0,             /* ldi r24, 0x08   */
++    0x80, 0x93, 0xc1, 0x00, /* sts 0x00C1, r24 ; Enable tx */
++    0x86, 0xe0,             /* ldi r24, 0x06   */
++    0x80, 0x93, 0xc2, 0x00, /* sts 0x00C2, r24 ; Set the data bits to 8 =
+*/
++    0x84, 0xe5,             /* ldi r24, 0x54   */
++    0x80, 0x93, 0xc6, 0x00, /* sts 0x00C6, r24 ; Output 'T' */
++};
++
+ static const uint8_t kernel_mcf5208[] =3D {
+     0x41, 0xf9, 0xfc, 0x06, 0x00, 0x00,     /* lea 0xfc060000,%a0 */
+     0x10, 0x3c, 0x00, 0x54,                 /* move.b #'T',%d0 */
+@@ -104,6 +113,8 @@ typedef struct testdef {
+=20
+ static testdef_t tests[] =3D {
+     { "alpha", "clipper", "", "PCI:" },
++    { "avr", "arduino-duemilanove", "", "T", sizeof(bios_avr), NULL, bio=
+s_avr },
++    { "avr", "arduino-mega-2560-v3", "", "T", sizeof(bios_avr), NULL, bi=
+os_avr},
+     { "ppc", "ppce500", "", "U-Boot" },
+     { "ppc", "40p", "-vga none -boot d", "Trying cd:," },
+     { "ppc", "g3beige", "", "PowerPC,750" },
+diff --git a/tests/qtest/Makefile.include b/tests/qtest/Makefile.include
+index eb0f23b..00b3219 100644
+--- a/tests/qtest/Makefile.include
++++ b/tests/qtest/Makefile.include
+@@ -65,6 +65,8 @@ check-qtest-i386-y +=3D numa-test
+=20
+ check-qtest-x86_64-y +=3D $(check-qtest-i386-y)
+=20
++check-qtest-avr-y +=3D boot-serial-test
++
+ check-qtest-alpha-y +=3D boot-serial-test
+ check-qtest-alpha-$(CONFIG_VGA) +=3D display-vga-test
+=20
 --=20
 2.7.4
 
