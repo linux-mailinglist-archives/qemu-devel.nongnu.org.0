@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5069015533F
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 08:48:13 +0100 (CET)
-Received: from localhost ([::1]:51374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7624715534B
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 08:55:32 +0100 (CET)
+Received: from localhost ([::1]:51546 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izyN2-0007Kn-DC
-	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 02:48:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38585)
+	id 1izyU7-0008Jt-IU
+	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 02:55:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38610)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kraxel@redhat.com>) id 1izyL3-0005as-QF
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 02:46:10 -0500
+ (envelope-from <kraxel@redhat.com>) id 1izyL4-0005bv-Kb
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 02:46:11 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1izyL2-0003Q6-LN
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 02:46:09 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:25479
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <kraxel@redhat.com>) id 1izyL0-0003Ik-DU
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 02:46:10 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:40160
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1izyL2-0003O6-G3
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 02:46:08 -0500
+ (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1izyL0-0003GB-5Z
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 02:46:06 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581061568;
+ s=mimecast20190719; t=1581061565;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=EecObiBUnF2X4g2+0vLllqQlzF5WUiqA+3VlWEDtW7M=;
- b=TO4feOEchrCTvIo80g7GuYUVYpSIUSqebmHqlRcngohqn5Hlhu+EZWPvIDUgEj0yw75hDu
- L5V+txAOManRtGudQ/EKtJjWpmeVmzNfbkP8nRwvBtvwp319qB31L9/5dE1vSEJ3gkIs0B
- JfQuoQUHQ/WnKPn8X4hmDHXUWjUMAuI=
+ bh=jQ33PVIzGLKgeiNygAl1hS3jQvDU1sm3Hnlo7xwUwhw=;
+ b=DjnmHHA7elbC4ipCU3MqoFkZvU0vMwKYV980usPYPVS3enpleTJjN4B/c5gPt7NCV1mBO0
+ 245tIL3PQm+1ZBQfkoCsGcJuUtU5SFTgD0Dx7BHYkBmumVmx/zWrkXmoaK2AjBjWCiQFGU
+ sMdgrtnVbXjnmPTlpXfCyvBRCuDcY2Y=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-341-BV6AbAnuPSS_dk1eJL_YFw-1; Fri, 07 Feb 2020 02:46:06 -0500
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-193-FFySL5GxN9aKwVLf7beh0w-1; Fri, 07 Feb 2020 02:46:03 -0500
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C7E88189F76B;
- Fri,  7 Feb 2020 07:46:04 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 77F958010EF;
+ Fri,  7 Feb 2020 07:46:02 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-116-112.ams2.redhat.com
  [10.36.116.112])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2889A1001281;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2BE6660C85;
  Fri,  7 Feb 2020 07:46:02 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 2309331F06; Fri,  7 Feb 2020 08:45:58 +0100 (CET)
+ id 2B53A31F2A; Fri,  7 Feb 2020 08:45:58 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 07/12] ossaudio: prevent SIGSEGV in oss_enable_out
-Date: Fri,  7 Feb 2020 08:45:52 +0100
-Message-Id: <20200207074557.26073-8-kraxel@redhat.com>
+Subject: [PULL 08/12] ossaudio: disable poll mode can't be reached
+Date: Fri,  7 Feb 2020 08:45:53 +0100
+Message-Id: <20200207074557.26073-9-kraxel@redhat.com>
 In-Reply-To: <20200207074557.26073-1-kraxel@redhat.com>
 References: <20200207074557.26073-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: BV6AbAnuPSS_dk1eJL_YFw-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: FFySL5GxN9aKwVLf7beh0w-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,34 +81,62 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Volker R=C3=BCmelin <vr_qemu@t-online.de>
 
-With audiodev parameter out.mixing-engine=3Doff hw->mix_buf is
-NULL. This patch reverts a small part of dc88e38fa7 "audio:
-unify input and output mixeng buffer management".
+Currently there is no way to disable poll mode in
+oss_enable_out and oss_enable_in when it was enabled before.
+The enable code path always resets the poll mode state variable.
 
-To reproduce the problem start qemu with
--audiodev oss,id=3Daudio0,try-mmap=3Don,out.mixing-engine=3Doff
-
+Fixes: b027a538c6 "oss: Remove unused error handling of qemu_set_fd_handler=
+"
 Signed-off-by: Volker R=C3=BCmelin <vr_qemu@t-online.de>
-Message-Id: <20200123074943.6699-6-vr_qemu@t-online.de>
+Message-Id: <20200123074943.6699-8-vr_qemu@t-online.de>
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- audio/ossaudio.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ audio/ossaudio.c | 14 +++++---------
+ 1 file changed, 5 insertions(+), 9 deletions(-)
 
 diff --git a/audio/ossaudio.c b/audio/ossaudio.c
-index 576b5b5b2021..39a6fc09e5df 100644
+index 39a6fc09e5df..f88d076ec236 100644
 --- a/audio/ossaudio.c
 +++ b/audio/ossaudio.c
-@@ -592,7 +592,7 @@ static void oss_enable_out(HWVoiceOut *hw, bool enable)
-             return;
-         }
+@@ -579,14 +579,12 @@ static void oss_enable_out(HWVoiceOut *hw, bool enabl=
+e)
+     AudiodevOssPerDirectionOptions *opdo =3D oss->dev->u.oss.out;
 =20
--        audio_pcm_info_clear_buf(&hw->info, hw->buf_emul, hw->mix_buf->siz=
-e);
-+        audio_pcm_info_clear_buf(&hw->info, hw->buf_emul, hw->samples);
-         trig =3D PCM_ENABLE_OUTPUT;
-         if (ioctl(oss->fd, SNDCTL_DSP_SETTRIGGER, &trig) < 0) {
-             oss_logerr(errno,
+     if (enable) {
+-        bool poll_mode =3D opdo->try_poll;
++        hw->poll_mode =3D opdo->try_poll;
+=20
+         ldebug("enabling voice\n");
+-        if (poll_mode) {
++        if (hw->poll_mode) {
+             oss_poll_out(hw);
+-            poll_mode =3D 0;
+         }
+-        hw->poll_mode =3D poll_mode;
+=20
+         if (!oss->mmapped) {
+             return;
+@@ -708,17 +706,15 @@ static void oss_enable_in(HWVoiceIn *hw, bool enable)
+     AudiodevOssPerDirectionOptions *opdo =3D oss->dev->u.oss.out;
+=20
+     if (enable) {
+-        bool poll_mode =3D opdo->try_poll;
++        hw->poll_mode =3D opdo->try_poll;
+=20
+-        if (poll_mode) {
++        if (hw->poll_mode) {
+             oss_poll_in(hw);
+-            poll_mode =3D 0;
+         }
+-        hw->poll_mode =3D poll_mode;
+     } else {
+         if (hw->poll_mode) {
+-            hw->poll_mode =3D 0;
+             qemu_set_fd_handler (oss->fd, NULL, NULL, NULL);
++            hw->poll_mode =3D 0;
+         }
+     }
+ }
 --=20
 2.18.1
 
