@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AAC01559DF
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 15:42:58 +0100 (CET)
-Received: from localhost ([::1]:58108 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E7E11559D2
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 15:41:18 +0100 (CET)
+Received: from localhost ([::1]:58056 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j04qP-0000am-Fs
-	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 09:42:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51736)
+	id 1j04on-0005aO-0u
+	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 09:41:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51734)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j04i5-0000wB-Px
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:34:23 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1j04i5-0000vt-LR
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:34:22 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j04i3-0003HO-LB
+ (envelope-from <peter.maydell@linaro.org>) id 1j04i4-0003Je-G5
  for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:34:21 -0500
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:53645)
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:56103)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j04i3-0003FG-Ct
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:34:19 -0500
-Received: by mail-wm1-x341.google.com with SMTP id s10so2805537wmh.3
- for <qemu-devel@nongnu.org>; Fri, 07 Feb 2020 06:34:19 -0800 (PST)
+ id 1j04i4-0003HZ-8p
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:34:20 -0500
+Received: by mail-wm1-x341.google.com with SMTP id q9so2777853wmj.5
+ for <qemu-devel@nongnu.org>; Fri, 07 Feb 2020 06:34:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=u9RJZS78twZl1mO1NG+LgdpwTwcS641C9DNG32q4kwo=;
- b=WuEg2ooYDbe7HNcvP1JUSCAtX76fA6xDFJ5xFi7nHLbPP3IWEVK8hiCguXomZldtH6
- 0FkTmCAqLoLdlAbtjZjpxyhJxD8mCHQipQi/+PvOXocyqDpf7VnW2BuEQB8/Gfa01LtB
- p24VpX0PAhDQLE2PP08l5HRn1e59umQ/FKk7w4GHTVZ09E1wwqB9GnuLAZFAdjc0Q1Ch
- EuyTZ3dJLtlNrGbedoZYTH7RjVw0yb2L8nXtqKc4z/SnqLKSyMGQYFV8nrdKA2rpcemi
- Y0XvnlbU+uIBICkNMG/nan7mZ388+9lVC2j094gpymiCiaWtXtldH+goykFWsxM5/pVA
- tbvQ==
+ bh=JMPFk0I8G2lk98QhY9xW2fm5UIcVqoFjQ1BM8KPf/ic=;
+ b=rjG7KeRoWjtvIsqJO1AHpjQBk2qcL+oiwqjEIS6S/lxr5oJm1Dvl2P1eTw00B2G4vK
+ I1OYDU4BtofCUYGxO1N5nzrS7sSjOSSQnbfNkOsqGy0w0N4T25hNLagdRzhJAErbKYlJ
+ zEtnhERRDk2c/SNjKKAM+LK4Qlob8IzXruO/Dpa5JSAoogVbmVVaRcbAvTzQ0q7LRmeX
+ IoY0T+VhCcVC581C3bFzX62MJJGvEOWFDzjAM+WLvjIcGIs2guTEiQABX6OTj4oNZDST
+ eY85Sw2own4qjPpUu1tpEFp+z5hWR3iJ0btJS05I3eJgSaY+DEMhAR2KnoZFNmG8/8pd
+ u+LQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=u9RJZS78twZl1mO1NG+LgdpwTwcS641C9DNG32q4kwo=;
- b=kJdEeNUMLAmtoo1NMvRef4aqX3EdZ2Fx8YuGSiXbpztoKr/0cieBH8tuqOsfG8jDde
- ys4+tY8l/EZpew8wIaVJi0/L1CZXl8ona0l/5oEMeBHrkOtIMGYyUi9j2ekUtH8fZoF4
- +EU5gRLMSE5KBebVlKXX4cAdLsumXOZp7frZPsKBI9TGhSg8YutfveHpojL6H4FwvC1k
- 4q1yGKV8VhVR9z7gAuZ6GcVfA8Yg4mWFe63O8W7b64zldTeOMkflDokfXddUJAZRWxRp
- wM3BekuPn7ETX9yWMGoLAp/awhdd1XCFg3TdYAtL+Y+oLLoAwrQpt1dj6dtFP2plyhXg
- zCQA==
-X-Gm-Message-State: APjAAAWL8KtXHPccw0EeBPV4vCGgGFXTq31oW1pg6FjR67Z/axGFWgXS
- 7hAP0G5CxUGGqN04YM8wk30PH27DiHg=
-X-Google-Smtp-Source: APXvYqxK7huXRtpaMCc6L2mpnMv98VWSn5TOtesgfteohR23WX47m9OavxVRQNMU96pIDNTjEZCVbA==
-X-Received: by 2002:a1c:9c87:: with SMTP id f129mr4912600wme.26.1581086057755; 
- Fri, 07 Feb 2020 06:34:17 -0800 (PST)
+ bh=JMPFk0I8G2lk98QhY9xW2fm5UIcVqoFjQ1BM8KPf/ic=;
+ b=k09tUufNCIFNETn4TaQyHZUDyL05QiFPR1ADBItBtTjoJA4xERL6jKTwggFFeojPFt
+ IwP/5oEyuUexDdCGzOqDTnPf/qtsIKGxru70npSWSSl0DjIJCRHf06LRf6WXiXmzz+iL
+ +VRQ/SUVIzlT/9ZkgWFbS9lnmd0ewGrNPpwES9eHg+D58ISbagAiuSU3Ni51udBQA3Vv
+ NOSGQdN4wpJocNzcNf84FA41oSlHB0JiSUH3JTGpwKRmF9K7Bpas4XYiWW9thXEEAVN1
+ kp9Vg/jSBRzQynUA/ivKZF0g6TC+U58jI871SjJ1zOm0rnrzKmmsB8sOboVRiqpZiwER
+ 2/2Q==
+X-Gm-Message-State: APjAAAWhTxFcMtUGApWSb2J+lU4ctR7SW8IWRq2hHrr82uktw7DO6ue4
+ SnQi43lYn3eNlKafYJN8qJpW5xOpnZA=
+X-Google-Smtp-Source: APXvYqxFo5AkpVuIpqsqAb0MAOzvZfHisZqDe3zPbQVZLE9OmUWs14ZkVdVAU6LUfW2eF92lLLSkrw==
+X-Received: by 2002:a7b:c0da:: with SMTP id s26mr4651088wmh.52.1581086059078; 
+ Fri, 07 Feb 2020 06:34:19 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id w1sm3796430wro.72.2020.02.07.06.34.16
+ by smtp.gmail.com with ESMTPSA id w1sm3796430wro.72.2020.02.07.06.34.17
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Feb 2020 06:34:17 -0800 (PST)
+ Fri, 07 Feb 2020 06:34:18 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 30/48] target/arm: Add VHE timer register redirection and
- aliasing
-Date: Fri,  7 Feb 2020 14:33:25 +0000
-Message-Id: <20200207143343.30322-31-peter.maydell@linaro.org>
+Subject: [PULL 31/48] target/arm: Flush tlb for ASID changes in EL2&0
+ translation regime
+Date: Fri,  7 Feb 2020 14:33:26 +0000
+Message-Id: <20200207143343.30322-32-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200207143343.30322-1-peter.maydell@linaro.org>
 References: <20200207143343.30322-1-peter.maydell@linaro.org>
@@ -85,308 +85,74 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-Apart from the wholesale redirection that HCR_EL2.E2H performs
-for EL2, there's a separate redirection specific to the timers
-that happens for EL0 when running in the EL2&0 regime.
+Since we only support a single ASID, flush the tlb when it changes.
+
+Note that TCR_EL2, like TCR_EL1, has the A1 bit that chooses between
+the two TTBR* registers for the location of the ASID.
 
 Tested-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20200206105448.4726-30-richard.henderson@linaro.org
+Message-id: 20200206105448.4726-31-richard.henderson@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/helper.c | 181 +++++++++++++++++++++++++++++++++++++++++---
- 1 file changed, 169 insertions(+), 12 deletions(-)
+ target/arm/helper.c | 22 +++++++++++++++-------
+ 1 file changed, 15 insertions(+), 7 deletions(-)
 
 diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 8f7620f2434..cfa6ce59dc8 100644
+index cfa6ce59dc8..f9be6b052f0 100644
 --- a/target/arm/helper.c
 +++ b/target/arm/helper.c
-@@ -2695,6 +2695,70 @@ static void gt_phys_ctl_write(CPUARMState *env, const ARMCPRegInfo *ri,
-     gt_ctl_write(env, ri, GTIMER_PHYS, value);
+@@ -3763,7 +3763,7 @@ static void vmsa_ttbcr_reset(CPUARMState *env, const ARMCPRegInfo *ri)
+     tcr->base_mask = 0xffffc000u;
  }
  
-+static int gt_phys_redir_timeridx(CPUARMState *env)
-+{
-+    switch (arm_mmu_idx(env)) {
-+    case ARMMMUIdx_E20_0:
-+    case ARMMMUIdx_E20_2:
-+        return GTIMER_HYP;
-+    default:
-+        return GTIMER_PHYS;
-+    }
-+}
-+
-+static int gt_virt_redir_timeridx(CPUARMState *env)
-+{
-+    switch (arm_mmu_idx(env)) {
-+    case ARMMMUIdx_E20_0:
-+    case ARMMMUIdx_E20_2:
-+        return GTIMER_HYPVIRT;
-+    default:
-+        return GTIMER_VIRT;
-+    }
-+}
-+
-+static uint64_t gt_phys_redir_cval_read(CPUARMState *env,
-+                                        const ARMCPRegInfo *ri)
-+{
-+    int timeridx = gt_phys_redir_timeridx(env);
-+    return env->cp15.c14_timer[timeridx].cval;
-+}
-+
-+static void gt_phys_redir_cval_write(CPUARMState *env, const ARMCPRegInfo *ri,
-+                                     uint64_t value)
-+{
-+    int timeridx = gt_phys_redir_timeridx(env);
-+    gt_cval_write(env, ri, timeridx, value);
-+}
-+
-+static uint64_t gt_phys_redir_tval_read(CPUARMState *env,
-+                                        const ARMCPRegInfo *ri)
-+{
-+    int timeridx = gt_phys_redir_timeridx(env);
-+    return gt_tval_read(env, ri, timeridx);
-+}
-+
-+static void gt_phys_redir_tval_write(CPUARMState *env, const ARMCPRegInfo *ri,
-+                                     uint64_t value)
-+{
-+    int timeridx = gt_phys_redir_timeridx(env);
-+    gt_tval_write(env, ri, timeridx, value);
-+}
-+
-+static uint64_t gt_phys_redir_ctl_read(CPUARMState *env,
-+                                       const ARMCPRegInfo *ri)
-+{
-+    int timeridx = gt_phys_redir_timeridx(env);
-+    return env->cp15.c14_timer[timeridx].ctl;
-+}
-+
-+static void gt_phys_redir_ctl_write(CPUARMState *env, const ARMCPRegInfo *ri,
-+                                    uint64_t value)
-+{
-+    int timeridx = gt_phys_redir_timeridx(env);
-+    gt_ctl_write(env, ri, timeridx, value);
-+}
-+
- static void gt_virt_timer_reset(CPUARMState *env, const ARMCPRegInfo *ri)
+-static void vmsa_tcr_el1_write(CPUARMState *env, const ARMCPRegInfo *ri,
++static void vmsa_tcr_el12_write(CPUARMState *env, const ARMCPRegInfo *ri,
+                                uint64_t value)
  {
-     gt_timer_reset(env, ri, GTIMER_VIRT);
-@@ -2733,6 +2797,48 @@ static void gt_cntvoff_write(CPUARMState *env, const ARMCPRegInfo *ri,
-     gt_recalc_timer(cpu, GTIMER_VIRT);
+     ARMCPU *cpu = env_archcpu(env);
+@@ -3789,7 +3789,17 @@ static void vmsa_ttbr_write(CPUARMState *env, const ARMCPRegInfo *ri,
+ static void vmsa_tcr_ttbr_el2_write(CPUARMState *env, const ARMCPRegInfo *ri,
+                                     uint64_t value)
+ {
+-    /* TODO: There are ASID fields in here with HCR_EL2.E2H */
++    /*
++     * If we are running with E2&0 regime, then an ASID is active.
++     * Flush if that might be changing.  Note we're not checking
++     * TCR_EL2.A1 to know if this is really the TTBRx_EL2 that
++     * holds the active ASID, only checking the field that might.
++     */
++    if (extract64(raw_read(env, ri) ^ value, 48, 16) &&
++        (arm_hcr_el2_eff(env) & HCR_E2H)) {
++        tlb_flush_by_mmuidx(env_cpu(env),
++                            ARMMMUIdxBit_E20_2 | ARMMMUIdxBit_E20_0);
++    }
+     raw_write(env, ri, value);
  }
  
-+static uint64_t gt_virt_redir_cval_read(CPUARMState *env,
-+                                        const ARMCPRegInfo *ri)
-+{
-+    int timeridx = gt_virt_redir_timeridx(env);
-+    return env->cp15.c14_timer[timeridx].cval;
-+}
-+
-+static void gt_virt_redir_cval_write(CPUARMState *env, const ARMCPRegInfo *ri,
-+                                     uint64_t value)
-+{
-+    int timeridx = gt_virt_redir_timeridx(env);
-+    gt_cval_write(env, ri, timeridx, value);
-+}
-+
-+static uint64_t gt_virt_redir_tval_read(CPUARMState *env,
-+                                        const ARMCPRegInfo *ri)
-+{
-+    int timeridx = gt_virt_redir_timeridx(env);
-+    return gt_tval_read(env, ri, timeridx);
-+}
-+
-+static void gt_virt_redir_tval_write(CPUARMState *env, const ARMCPRegInfo *ri,
-+                                     uint64_t value)
-+{
-+    int timeridx = gt_virt_redir_timeridx(env);
-+    gt_tval_write(env, ri, timeridx, value);
-+}
-+
-+static uint64_t gt_virt_redir_ctl_read(CPUARMState *env,
-+                                       const ARMCPRegInfo *ri)
-+{
-+    int timeridx = gt_virt_redir_timeridx(env);
-+    return env->cp15.c14_timer[timeridx].ctl;
-+}
-+
-+static void gt_virt_redir_ctl_write(CPUARMState *env, const ARMCPRegInfo *ri,
-+                                    uint64_t value)
-+{
-+    int timeridx = gt_virt_redir_timeridx(env);
-+    gt_ctl_write(env, ri, timeridx, value);
-+}
-+
- static void gt_hyp_timer_reset(CPUARMState *env, const ARMCPRegInfo *ri)
- {
-     gt_timer_reset(env, ri, GTIMER_HYP);
-@@ -2889,7 +2995,8 @@ static const ARMCPRegInfo generic_timer_cp_reginfo[] = {
-       .accessfn = gt_ptimer_access,
-       .fieldoffset = offsetoflow32(CPUARMState,
-                                    cp15.c14_timer[GTIMER_PHYS].ctl),
--      .writefn = gt_phys_ctl_write, .raw_writefn = raw_write,
-+      .readfn = gt_phys_redir_ctl_read, .raw_readfn = raw_read,
-+      .writefn = gt_phys_redir_ctl_write, .raw_writefn = raw_write,
-     },
-     { .name = "CNTP_CTL_S",
-       .cp = 15, .crn = 14, .crm = 2, .opc1 = 0, .opc2 = 1,
-@@ -2906,14 +3013,16 @@ static const ARMCPRegInfo generic_timer_cp_reginfo[] = {
-       .accessfn = gt_ptimer_access,
-       .fieldoffset = offsetof(CPUARMState, cp15.c14_timer[GTIMER_PHYS].ctl),
-       .resetvalue = 0,
--      .writefn = gt_phys_ctl_write, .raw_writefn = raw_write,
-+      .readfn = gt_phys_redir_ctl_read, .raw_readfn = raw_read,
-+      .writefn = gt_phys_redir_ctl_write, .raw_writefn = raw_write,
-     },
-     { .name = "CNTV_CTL", .cp = 15, .crn = 14, .crm = 3, .opc1 = 0, .opc2 = 1,
-       .type = ARM_CP_IO | ARM_CP_ALIAS, .access = PL0_RW,
-       .accessfn = gt_vtimer_access,
-       .fieldoffset = offsetoflow32(CPUARMState,
-                                    cp15.c14_timer[GTIMER_VIRT].ctl),
--      .writefn = gt_virt_ctl_write, .raw_writefn = raw_write,
-+      .readfn = gt_virt_redir_ctl_read, .raw_readfn = raw_read,
-+      .writefn = gt_virt_redir_ctl_write, .raw_writefn = raw_write,
-     },
-     { .name = "CNTV_CTL_EL0", .state = ARM_CP_STATE_AA64,
-       .opc0 = 3, .opc1 = 3, .crn = 14, .crm = 3, .opc2 = 1,
-@@ -2921,14 +3030,15 @@ static const ARMCPRegInfo generic_timer_cp_reginfo[] = {
-       .accessfn = gt_vtimer_access,
-       .fieldoffset = offsetof(CPUARMState, cp15.c14_timer[GTIMER_VIRT].ctl),
-       .resetvalue = 0,
--      .writefn = gt_virt_ctl_write, .raw_writefn = raw_write,
-+      .readfn = gt_virt_redir_ctl_read, .raw_readfn = raw_read,
-+      .writefn = gt_virt_redir_ctl_write, .raw_writefn = raw_write,
-     },
-     /* TimerValue views: a 32 bit downcounting view of the underlying state */
-     { .name = "CNTP_TVAL", .cp = 15, .crn = 14, .crm = 2, .opc1 = 0, .opc2 = 0,
-       .secure = ARM_CP_SECSTATE_NS,
-       .type = ARM_CP_NO_RAW | ARM_CP_IO, .access = PL0_RW,
-       .accessfn = gt_ptimer_access,
--      .readfn = gt_phys_tval_read, .writefn = gt_phys_tval_write,
-+      .readfn = gt_phys_redir_tval_read, .writefn = gt_phys_redir_tval_write,
-     },
-     { .name = "CNTP_TVAL_S",
-       .cp = 15, .crn = 14, .crm = 2, .opc1 = 0, .opc2 = 0,
-@@ -2941,18 +3051,18 @@ static const ARMCPRegInfo generic_timer_cp_reginfo[] = {
-       .opc0 = 3, .opc1 = 3, .crn = 14, .crm = 2, .opc2 = 0,
-       .type = ARM_CP_NO_RAW | ARM_CP_IO, .access = PL0_RW,
-       .accessfn = gt_ptimer_access, .resetfn = gt_phys_timer_reset,
--      .readfn = gt_phys_tval_read, .writefn = gt_phys_tval_write,
-+      .readfn = gt_phys_redir_tval_read, .writefn = gt_phys_redir_tval_write,
-     },
-     { .name = "CNTV_TVAL", .cp = 15, .crn = 14, .crm = 3, .opc1 = 0, .opc2 = 0,
-       .type = ARM_CP_NO_RAW | ARM_CP_IO, .access = PL0_RW,
-       .accessfn = gt_vtimer_access,
--      .readfn = gt_virt_tval_read, .writefn = gt_virt_tval_write,
-+      .readfn = gt_virt_redir_tval_read, .writefn = gt_virt_redir_tval_write,
-     },
-     { .name = "CNTV_TVAL_EL0", .state = ARM_CP_STATE_AA64,
-       .opc0 = 3, .opc1 = 3, .crn = 14, .crm = 3, .opc2 = 0,
-       .type = ARM_CP_NO_RAW | ARM_CP_IO, .access = PL0_RW,
-       .accessfn = gt_vtimer_access, .resetfn = gt_virt_timer_reset,
--      .readfn = gt_virt_tval_read, .writefn = gt_virt_tval_write,
-+      .readfn = gt_virt_redir_tval_read, .writefn = gt_virt_redir_tval_write,
-     },
-     /* The counter itself */
-     { .name = "CNTPCT", .cp = 15, .crm = 14, .opc1 = 0,
-@@ -2982,7 +3092,8 @@ static const ARMCPRegInfo generic_timer_cp_reginfo[] = {
-       .type = ARM_CP_64BIT | ARM_CP_IO | ARM_CP_ALIAS,
-       .fieldoffset = offsetof(CPUARMState, cp15.c14_timer[GTIMER_PHYS].cval),
-       .accessfn = gt_ptimer_access,
--      .writefn = gt_phys_cval_write, .raw_writefn = raw_write,
-+      .readfn = gt_phys_redir_cval_read, .raw_readfn = raw_read,
-+      .writefn = gt_phys_redir_cval_write, .raw_writefn = raw_write,
-     },
-     { .name = "CNTP_CVAL_S", .cp = 15, .crm = 14, .opc1 = 2,
-       .secure = ARM_CP_SECSTATE_S,
-@@ -2998,14 +3109,16 @@ static const ARMCPRegInfo generic_timer_cp_reginfo[] = {
-       .type = ARM_CP_IO,
-       .fieldoffset = offsetof(CPUARMState, cp15.c14_timer[GTIMER_PHYS].cval),
-       .resetvalue = 0, .accessfn = gt_ptimer_access,
--      .writefn = gt_phys_cval_write, .raw_writefn = raw_write,
-+      .readfn = gt_phys_redir_cval_read, .raw_readfn = raw_read,
-+      .writefn = gt_phys_redir_cval_write, .raw_writefn = raw_write,
-     },
-     { .name = "CNTV_CVAL", .cp = 15, .crm = 14, .opc1 = 3,
-       .access = PL0_RW,
-       .type = ARM_CP_64BIT | ARM_CP_IO | ARM_CP_ALIAS,
-       .fieldoffset = offsetof(CPUARMState, cp15.c14_timer[GTIMER_VIRT].cval),
-       .accessfn = gt_vtimer_access,
--      .writefn = gt_virt_cval_write, .raw_writefn = raw_write,
-+      .readfn = gt_virt_redir_cval_read, .raw_readfn = raw_read,
-+      .writefn = gt_virt_redir_cval_write, .raw_writefn = raw_write,
-     },
-     { .name = "CNTV_CVAL_EL0", .state = ARM_CP_STATE_AA64,
-       .opc0 = 3, .opc1 = 3, .crn = 14, .crm = 3, .opc2 = 2,
-@@ -3013,7 +3126,8 @@ static const ARMCPRegInfo generic_timer_cp_reginfo[] = {
-       .type = ARM_CP_IO,
-       .fieldoffset = offsetof(CPUARMState, cp15.c14_timer[GTIMER_VIRT].cval),
-       .resetvalue = 0, .accessfn = gt_vtimer_access,
--      .writefn = gt_virt_cval_write, .raw_writefn = raw_write,
-+      .readfn = gt_virt_redir_cval_read, .raw_readfn = raw_read,
-+      .writefn = gt_virt_redir_cval_write, .raw_writefn = raw_write,
-     },
-     /* Secure timer -- this is actually restricted to only EL3
-      * and configurably Secure-EL1 via the accessfn.
-@@ -3044,6 +3158,15 @@ static const ARMCPRegInfo generic_timer_cp_reginfo[] = {
-     REGINFO_SENTINEL
- };
- 
-+static CPAccessResult e2h_access(CPUARMState *env, const ARMCPRegInfo *ri,
-+                                 bool isread)
-+{
-+    if (!(arm_hcr_el2_eff(env) & HCR_E2H)) {
-+        return CP_ACCESS_TRAP;
-+    }
-+    return CP_ACCESS_OK;
-+}
-+
- #else
- 
- /* In user-mode most of the generic timer registers are inaccessible
-@@ -6431,6 +6554,40 @@ static const ARMCPRegInfo vhe_reginfo[] = {
-       .access = PL2_RW,
-       .fieldoffset = offsetof(CPUARMState, cp15.c14_timer[GTIMER_HYPVIRT].ctl),
-       .writefn = gt_hv_ctl_write, .raw_writefn = raw_write },
-+    { .name = "CNTP_CTL_EL02", .state = ARM_CP_STATE_AA64,
-+      .opc0 = 3, .opc1 = 5, .crn = 14, .crm = 2, .opc2 = 1,
-+      .type = ARM_CP_IO | ARM_CP_ALIAS,
-+      .access = PL2_RW, .accessfn = e2h_access,
-+      .fieldoffset = offsetof(CPUARMState, cp15.c14_timer[GTIMER_PHYS].ctl),
-+      .writefn = gt_phys_ctl_write, .raw_writefn = raw_write },
-+    { .name = "CNTV_CTL_EL02", .state = ARM_CP_STATE_AA64,
-+      .opc0 = 3, .opc1 = 5, .crn = 14, .crm = 3, .opc2 = 1,
-+      .type = ARM_CP_IO | ARM_CP_ALIAS,
-+      .access = PL2_RW, .accessfn = e2h_access,
-+      .fieldoffset = offsetof(CPUARMState, cp15.c14_timer[GTIMER_VIRT].ctl),
-+      .writefn = gt_virt_ctl_write, .raw_writefn = raw_write },
-+    { .name = "CNTP_TVAL_EL02", .state = ARM_CP_STATE_AA64,
-+      .opc0 = 3, .opc1 = 5, .crn = 14, .crm = 2, .opc2 = 0,
-+      .type = ARM_CP_NO_RAW | ARM_CP_IO | ARM_CP_ALIAS,
-+      .access = PL2_RW, .accessfn = e2h_access,
-+      .readfn = gt_phys_tval_read, .writefn = gt_phys_tval_write },
-+    { .name = "CNTV_TVAL_EL02", .state = ARM_CP_STATE_AA64,
-+      .opc0 = 3, .opc1 = 5, .crn = 14, .crm = 3, .opc2 = 0,
-+      .type = ARM_CP_NO_RAW | ARM_CP_IO | ARM_CP_ALIAS,
-+      .access = PL2_RW, .accessfn = e2h_access,
-+      .readfn = gt_virt_tval_read, .writefn = gt_virt_tval_write },
-+    { .name = "CNTP_CVAL_EL02", .state = ARM_CP_STATE_AA64,
-+      .opc0 = 3, .opc1 = 5, .crn = 14, .crm = 2, .opc2 = 2,
-+      .type = ARM_CP_IO | ARM_CP_ALIAS,
-+      .fieldoffset = offsetof(CPUARMState, cp15.c14_timer[GTIMER_PHYS].cval),
-+      .access = PL2_RW, .accessfn = e2h_access,
-+      .writefn = gt_phys_cval_write, .raw_writefn = raw_write },
-+    { .name = "CNTV_CVAL_EL02", .state = ARM_CP_STATE_AA64,
-+      .opc0 = 3, .opc1 = 5, .crn = 14, .crm = 3, .opc2 = 2,
-+      .type = ARM_CP_IO | ARM_CP_ALIAS,
-+      .fieldoffset = offsetof(CPUARMState, cp15.c14_timer[GTIMER_VIRT].cval),
-+      .access = PL2_RW, .accessfn = e2h_access,
-+      .writefn = gt_virt_cval_write, .raw_writefn = raw_write },
- #endif
-     REGINFO_SENTINEL
- };
+@@ -3849,7 +3859,7 @@ static const ARMCPRegInfo vmsa_cp_reginfo[] = {
+                              offsetof(CPUARMState, cp15.ttbr1_ns) } },
+     { .name = "TCR_EL1", .state = ARM_CP_STATE_AA64,
+       .opc0 = 3, .crn = 2, .crm = 0, .opc1 = 0, .opc2 = 2,
+-      .access = PL1_RW, .writefn = vmsa_tcr_el1_write,
++      .access = PL1_RW, .writefn = vmsa_tcr_el12_write,
+       .resetfn = vmsa_ttbcr_reset, .raw_writefn = raw_write,
+       .fieldoffset = offsetof(CPUARMState, cp15.tcr_el[1]) },
+     { .name = "TTBCR", .cp = 15, .crn = 2, .crm = 0, .opc1 = 0, .opc2 = 2,
+@@ -5175,10 +5185,8 @@ static const ARMCPRegInfo el2_cp_reginfo[] = {
+       .resetvalue = 0 },
+     { .name = "TCR_EL2", .state = ARM_CP_STATE_BOTH,
+       .opc0 = 3, .opc1 = 4, .crn = 2, .crm = 0, .opc2 = 2,
+-      .access = PL2_RW,
+-      /* no .writefn needed as this can't cause an ASID change;
+-       * no .raw_writefn or .resetfn needed as we never use mask/base_mask
+-       */
++      .access = PL2_RW, .writefn = vmsa_tcr_el12_write,
++      /* no .raw_writefn or .resetfn needed as we never use mask/base_mask */
+       .fieldoffset = offsetof(CPUARMState, cp15.tcr_el[2]) },
+     { .name = "VTCR", .state = ARM_CP_STATE_AA32,
+       .cp = 15, .opc1 = 4, .crn = 2, .crm = 1, .opc2 = 2,
 -- 
 2.20.1
 
