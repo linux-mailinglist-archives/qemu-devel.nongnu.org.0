@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6885A155527
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 10:57:52 +0100 (CET)
-Received: from localhost ([::1]:53110 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26D33155545
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 11:05:07 +0100 (CET)
+Received: from localhost ([::1]:53186 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j00OV-00085t-GL
-	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 04:57:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40482)
+	id 1j00VV-0002xh-Tr
+	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 05:05:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43016)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1j00NH-0006b6-4H
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 04:56:36 -0500
+ (envelope-from <imammedo@redhat.com>) id 1j00Ug-0002WV-Gi
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 05:04:15 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1j00NF-0000rZ-Vn
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 04:56:34 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:46269
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <imammedo@redhat.com>) id 1j00Ue-0003EO-Sl
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 05:04:14 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:44640
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1j00NF-0000rP-SV
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 04:56:33 -0500
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1j00Ue-0003CZ-Oq
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 05:04:12 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581069393;
+ s=mimecast20190719; t=1581069851;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:openpgp:openpgp;
- bh=Z4vSjjsokUivvYk+WWl6qmV1m+wsuP1VTe2XrcBlYjI=;
- b=MVK9zzltt/mIU2Ocuf6DV+9saFilQNr8Lju6y/3euM4YIzkQHMcdxFwgajubzqPlc9L8l9
- dygI0ypPu9ljncOC9PrQDiuDtiprZujyByb2wISnX0ajDrbsSexu5i0ih95DSJzgla+rqh
- IGhRWfvO4xufqHFC65P+iFp23CuXPB0=
+ in-reply-to:in-reply-to:references:references;
+ bh=Wd3VVIn2Cg5Lx8EL/fcabqug1FxAvnJAMcMDKwmtwJ0=;
+ b=aTfiEoh5bl4dx7xeu/7g9D36uP0/0fY8N9uLIsjflZJE985tgBkovuWDkaU7GNiEqHOCBa
+ ITEhQixj/frXDqfTmSHaCnoRv69Wz9tfIkDDmQ4TrHTGHQkchRBX0vUIyamdJSfUgDADao
+ uPecOr0+U6qEMUDRC/QbOFY/CQ6dXoY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-31-5LagyxBCPwqTRScpY134_g-1; Fri, 07 Feb 2020 04:56:32 -0500
+ us-mta-298-D_9-N9N1NdaErRoDnHsr5A-1; Fri, 07 Feb 2020 05:04:07 -0500
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D9965102CE14;
- Fri,  7 Feb 2020 09:56:30 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-116-143.ams2.redhat.com [10.36.116.143])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 06A5C89F08;
- Fri,  7 Feb 2020 09:56:20 +0000 (UTC)
-Subject: Re: [PATCH] travis.yml: Test the s390-ccw build, too
-To: Cornelia Huck <cohuck@redhat.com>
-References: <20200206202543.7085-1-thuth@redhat.com>
- <20200207104751.36609b11.cohuck@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <1a263ca4-68fd-2afc-ddf9-ed7231467b94@redhat.com>
-Date: Fri, 7 Feb 2020 10:56:18 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 78801101FC6D;
+ Fri,  7 Feb 2020 10:04:06 +0000 (UTC)
+Received: from localhost (unknown [10.43.2.114])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0B3DC857BF;
+ Fri,  7 Feb 2020 10:04:04 +0000 (UTC)
+Date: Fri, 7 Feb 2020 11:04:03 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Igor =?UTF-8?B?S290cmFzacWEc2tp?= <i.kotrasinsk@partner.samsung.com>
+Subject: Re: [RFC 0/9] Add an interVM memory sharing device
+Message-ID: <20200207110403.08a8a7cc@redhat.com>
+In-Reply-To: <91d3f574-3a4f-8291-040e-520c5c58e77e@partner.samsung.com>
+References: <CGME20200204113102eucas1p172cfb883c70cfc8d7c2832682df3df2a@eucas1p1.samsung.com>
+ <1580815851-28887-1-git-send-email-i.kotrasinsk@partner.samsung.com>
+ <20200205143911.GG58062@stefanha-x1.localdomain>
+ <1e872eb3-a21b-0f9b-e6a4-54843a028bed@siemens.com>
+ <91d3f574-3a4f-8291-040e-520c5c58e77e@partner.samsung.com>
 MIME-Version: 1.0
-In-Reply-To: <20200207104751.36609b11.cohuck@redhat.com>
-Content-Language: en-US
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: 5LagyxBCPwqTRScpY134_g-1
+X-MC-Unique: D_9-N9N1NdaErRoDnHsr5A-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,55 +74,131 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Hildenbrand <david@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Cc: peter.maydell@linaro.org, Jan Kiszka <jan.kiszka@siemens.com>,
+ pbonzini@redhat.com, qemu-devel@nongnu.org,
+ Stefan Hajnoczi <stefanha@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 07/02/2020 10.47, Cornelia Huck wrote:
-> On Thu,  6 Feb 2020 21:25:43 +0100
-> Thomas Huth <thuth@redhat.com> wrote:
->=20
->> Since we can now use a s390x host on Travis, we can also build and
->> test the s390-ccw bios images there. For this we have to make sure
->> that roms/SLOF is checked out, too, and then move the generated *.img
->> files to the right location before running the tests.
->=20
-> Oh, nice.
->=20
->>
->> Signed-off-by: Thomas Huth <thuth@redhat.com>
->> ---
->>  .travis.yml | 10 ++++++++++
->>  1 file changed, 10 insertions(+)
->>
->> diff --git a/.travis.yml b/.travis.yml
->> index 6c0ec6cf69..c0eeff9caa 100644
->> --- a/.travis.yml
->> +++ b/.travis.yml
->> @@ -508,6 +508,16 @@ matrix:
->>        env:
->>          - TEST_CMD=3D"make check check-tcg V=3D1"
->>          - CONFIG=3D"--disable-containers --target-list=3D${MAIN_SOFTMMU=
-_TARGETS},s390x-linux-user"
->> +      script:
->> +        - ( cd ${SRC_DIR} ; git submodule update --init roms/SLOF )
->> +        - BUILD_RC=3D0 && make -j${JOBS} || BUILD_RC=3D$?
->> +        - |
->> +          if [ "$BUILD_RC" -eq 0 ] ; then
->> +              mv pc-bios/s390-ccw/*.img pc-bios/ ;
->> +              ${TEST_CMD} ;
->=20
-> Out of curiousity: Which kind of tests are run for the net image?
+On Fri, 7 Feb 2020 10:00:50 +0100
+Igor Kotrasi=C5=84ski <i.kotrasinsk@partner.samsung.com> wrote:
 
-The tests/qtest/pxe-test.c test exercises the netboot.
-(and tests/qtest/cdrom-test.c execises booting from disk)
+> On 2/5/20 3:49 PM, Jan Kiszka wrote:
+> > On 05.02.20 15:39, Stefan Hajnoczi wrote: =20
+> >> On Tue, Feb 04, 2020 at 12:30:42PM +0100,=20
+> >> i.kotrasinsk@partner.samsung.com wrote: =20
+> >>> From: Igor Kotrasinski <i.kotrasinsk@partner.samsung.com>
+> >>>
+> >>> This patchset adds a "memory exposing" device that allows two QEMU
+> >>> instances to share arbitrary memory regions. Unlike ivshmem, it does =
+not
+> >>> create a new region of memory that's shared between VMs, but instead
+> >>> allows one VM to access any memory region of the other VM we choose t=
+o
+> >>> share.
+> >>>
+> >>> The motivation for this device is a sort of ARM Trustzone "emulation"=
+,
+> >>> where a rich system running on one machine (e.g. x86_64 linux) is abl=
+e
+> >>> to perform SMCs to a trusted system running on another (e.g. OpTEE on
+> >>> ARM). With a device that allows sharing arbitrary memory between VMs,
+> >>> this can be achieved with minimal changes to the trusted system and i=
+ts
+> >>> linux driver while allowing the rich system to run on a speedier x86
+> >>> emulator. I prepared additional patches for linux, OpTEE OS and OpTEE
+> >>> build system as a PoC that such emulation works and passes OpTEE test=
+s;
+> >>> I'm not sure what would be the best way to share them.
+> >>>
+> >>> This patchset is my first foray into QEMU source code and I'm certain
+> >>> it's not yet ready to be merged in. I'm not sure whether memory shari=
+ng
+> >>> code has any race conditions or breaks rules of working with memory
+> >>> regions, or if having VMs communicate synchronously via chardevs is t=
+he
+> >>> right way to do it. I do believe the basic idea for sharing memory
+> >>> regions is sound and that it could be useful for inter-VM communicati=
+on. =20
+> >>
+> >> Hi,
+> >> Without having looked into the patches yet, I'm already wondering if y=
+ou
+> >> can use the existing -object
+> >> memory-backend-file,size=3D512M,mem-path=3D/my/shared/mem feature for =
+your
+> >> use case?
+> >>
+> >> That's the existing mechanism for fully sharing guest RAM and if you
+> >> want to share all of memory then maybe a device is not necessary - jus=
+t
+> >> share the memory. =20
+>=20
+> That option adds memory in addition to the memory allocated with the=20
+> '-m' flag, doesn't it? I looked into that option, and it seemed to me=20
+> you can't back all memory this way.
+with current QEMU you play with memory sharing using numa workaround
 
-We could maybe add also add more complex test in "check-acceptance"
-later, but that's something for another day...
+-m 512 \
+-object memory-backend-file,id=3Dmem,size=3D512M,mem-path=3D/my/shared/mem =
+feature,share=3Don \
+-numa node,memdev=3Dmem
 
- Thomas
+also on the list there is series that allows to share main ram
+without numa workaround, see
+  "[PATCH v4 00/80] refactor main RAM allocation to use hostmem backend"
+
+with it applied you can share main RAM with following CLI:
+
+-object memory-backend-file,id=3Dmem,size=3D512M,mem-path=3D/my/shared/mem =
+feature,share=3Don \
+-m 512 \
+-M virt,memory-backend=3Dmem
+
+> Apart from that, the only advantage my solution has is that it's aware=20
+> of any memory overlaying the memory-backed regions (i.e. memory backed=20
+> by accessor functions). Maybe I don't need this for my use case, I'd=20
+> have to test that.
+>=20
+> >=20
+> > I suspect it's about sharing that memory in a discoverable way. Maybe i=
+t=20
+> > is also about the signalling channel defined in the device.
+> >=20
+> > OTOH, when it's really about sharing everything, even bidirectional,=20
+> > that rather looks like a pragmatic shortcut, not a generic model.
+> >=20
+> > The patches should clarify their use case a bit further, I think. The=
+=20
+> > title suggests a generic sharing solution, but my impression is that it=
+=20
+> > rather caters a specific case under specific boundary conditions.
+> >=20
+> > Jan
+> >  =20
+>=20
+> The solution does stem from a specific use case, the ARM Trustzone=20
+> forwarding described in the cover letter. Normally both OSes can pass=20
+> data around by sharing physical addresses (potentially from anywhere in=
+=20
+> memory), so giving VMs an ability to access one another's memory no=20
+> matter how it's backed allows for minimal trusted OS modification, just=
+=20
+> offsetting physical addresses. The interrupt functionality also reflects=
+=20
+> this, it's intended to pass around SMC data.
+>=20
+> I realize that this kind of total memory sharing couples the two VMs=20
+> tightly - this is why I'm asking for comments on this, perhaps there's a=
+=20
+> better solution for this specific scenario.
+>=20
+> For what it's worth, the extent of this sharing can be reduced by using=
+=20
+> a limited MemoryRegion like it's done for secure and non-secure memory=20
+> views on ARM.
+>=20
+> Igor
+>=20
 
 
