@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A64E8155579
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 11:19:19 +0100 (CET)
-Received: from localhost ([::1]:53424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83A86155584
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 11:20:54 +0100 (CET)
+Received: from localhost ([::1]:53452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j00jG-0000hW-LR
-	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 05:19:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46990)
+	id 1j00kn-00044M-Hw
+	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 05:20:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47019)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kraxel@redhat.com>) id 1j00i5-0007oM-V4
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 05:18:07 -0500
+ (envelope-from <kraxel@redhat.com>) id 1j00i6-0007oY-TS
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 05:18:08 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1j00i4-0008JI-NU
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 05:18:05 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:39434
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <kraxel@redhat.com>) id 1j00i5-0008L7-P4
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 05:18:06 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:41543
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1j00i4-0008Ir-KD
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 05:18:04 -0500
+ (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1j00i5-0008K6-LT
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 05:18:05 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581070684;
+ s=mimecast20190719; t=1581070685;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=160SiUcVsBvPhbBvJZUeSzVMISGtyFZPg7v7NBTFr3s=;
- b=izC3cVDmx0rFORJB2JUF1AvhwKcB3cY/6gGDtLSDwKIdNRrYFS6L3VjTbb52SWlvOxbooM
- RD/dsPpaClouxoz0eRN1vYaxpiT+htUjzIitVsvaaU4Js3Z6YPWBeuBvMPVy6Z/kyFM3Ko
- GZ257PiK/7v3sZEWT3ubJ0Zvb6Rr0NU=
+ bh=DuM2nl8dOdAd8yN5ihNsFvt4btiTK4V3fnxUcpfgEO0=;
+ b=b3KombWjmjYcdE4LGRzALBmwykq6aEkqIce9smuNJpo5kXSPwKFr9DLD8LYSFu99F84G5t
+ k+Uv7wPcnEUTi1pxjvoaASc5J/9grS//xal/XOSCpYjMTFSr1p4GPdtdOl5gyK7Rmkl8Dj
+ EXM9Y6BhBXSAr0YMmIcytT1suL0t72U=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-220-8ydxX-LZMwOPQKLSyt-b4A-1; Fri, 07 Feb 2020 05:18:00 -0500
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-55-5ppGau-wN7acGp4Eu3ZeTA-1; Fri, 07 Feb 2020 05:18:00 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9895E14E5;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C8D8D108838B;
  Fri,  7 Feb 2020 10:17:59 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-116-112.ams2.redhat.com
  [10.36.116.112])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2E1B45C241;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 322C95DA7D;
  Fri,  7 Feb 2020 10:17:54 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 7A7B031E89; Fri,  7 Feb 2020 11:17:53 +0100 (CET)
+ id 848E531EAC; Fri,  7 Feb 2020 11:17:53 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 2/7] ui: wire up legacy -show-cursor option
-Date: Fri,  7 Feb 2020 11:17:48 +0100
-Message-Id: <20200207101753.25812-3-kraxel@redhat.com>
+Subject: [PATCH v3 3/7] ui/sdl: switch to new show-cursor option
+Date: Fri,  7 Feb 2020 11:17:49 +0100
+Message-Id: <20200207101753.25812-4-kraxel@redhat.com>
 In-Reply-To: <20200207101753.25812-1-kraxel@redhat.com>
 References: <20200207101753.25812-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: 8ydxX-LZMwOPQKLSyt-b4A-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: 5ppGau-wN7acGp4Eu3ZeTA-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,27 +80,101 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, jtomko@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Set new show-cursor display option when legacy -show-cursor
-is specified on the command line.
+Use DisplayOpts settings instead of cursor_hide global variable.
+Also make "-display sdl,show-cursor=3Don" work.
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- vl.c | 2 ++
- 1 file changed, 2 insertions(+)
+ ui/sdl2.c | 16 ++++++++--------
+ vl.c      | 10 ++++++++++
+ 2 files changed, 18 insertions(+), 8 deletions(-)
 
+diff --git a/ui/sdl2.c b/ui/sdl2.c
+index 9030f1c42efb..3c9424eb42c3 100644
+--- a/ui/sdl2.c
++++ b/ui/sdl2.c
+@@ -161,9 +161,9 @@ static void sdl_update_caption(struct sdl2_console *sco=
+n)
+     }
+ }
+=20
+-static void sdl_hide_cursor(void)
++static void sdl_hide_cursor(struct sdl2_console *scon)
+ {
+-    if (!cursor_hide) {
++    if (scon->opts->has_show_cursor && scon->opts->show_cursor) {
+         return;
+     }
+=20
+@@ -175,9 +175,9 @@ static void sdl_hide_cursor(void)
+     }
+ }
+=20
+-static void sdl_show_cursor(void)
++static void sdl_show_cursor(struct sdl2_console *scon)
+ {
+-    if (!cursor_hide) {
++    if (scon->opts->has_show_cursor && scon->opts->show_cursor) {
+         return;
+     }
+=20
+@@ -216,7 +216,7 @@ static void sdl_grab_start(struct sdl2_console *scon)
+             SDL_WarpMouseInWindow(scon->real_window, guest_x, guest_y);
+         }
+     } else {
+-        sdl_hide_cursor();
++        sdl_hide_cursor(scon);
+     }
+     SDL_SetWindowGrab(scon->real_window, SDL_TRUE);
+     gui_grab =3D 1;
+@@ -227,7 +227,7 @@ static void sdl_grab_end(struct sdl2_console *scon)
+ {
+     SDL_SetWindowGrab(scon->real_window, SDL_FALSE);
+     gui_grab =3D 0;
+-    sdl_show_cursor();
++    sdl_show_cursor(scon);
+     sdl_update_caption(scon);
+ }
+=20
+@@ -658,7 +658,7 @@ static void sdl_mouse_warp(DisplayChangeListener *dcl,
+=20
+     if (on) {
+         if (!guest_cursor) {
+-            sdl_show_cursor();
++            sdl_show_cursor(scon);
+         }
+         if (gui_grab || qemu_input_is_absolute() || absolute_enabled) {
+             SDL_SetCursor(guest_sprite);
+@@ -667,7 +667,7 @@ static void sdl_mouse_warp(DisplayChangeListener *dcl,
+             }
+         }
+     } else if (gui_grab) {
+-        sdl_hide_cursor();
++        sdl_hide_cursor(scon);
+     }
+     guest_cursor =3D on;
+     guest_x =3D x, guest_y =3D y;
 diff --git a/vl.c b/vl.c
-index 7dcb0879c497..5419b3d68200 100644
+index 5419b3d68200..0a13cf2b1724 100644
 --- a/vl.c
 +++ b/vl.c
-@@ -3554,6 +3554,8 @@ int main(int argc, char **argv, char **envp)
-                 break;
-             case QEMU_OPTION_show_cursor:
-                 cursor_hide =3D 0;
+@@ -1931,6 +1931,16 @@ static void parse_display(const char *p)
+                 } else {
+                     goto invalid_sdl_args;
+                 }
++            } else if (strstart(opts, ",show-cursor=3D", &nextopt)) {
++                opts =3D nextopt;
 +                dpy.has_show_cursor =3D true;
-+                dpy.show_cursor =3D true;
-                 break;
-             case QEMU_OPTION_uuid:
-                 if (qemu_uuid_parse(optarg, &qemu_uuid) < 0) {
++                if (strstart(opts, "on", &nextopt)) {
++                    dpy.show_cursor =3D true;
++                } else if (strstart(opts, "off", &nextopt)) {
++                    dpy.show_cursor =3D false;
++                } else {
++                    goto invalid_sdl_args;
++                }
+             } else if (strstart(opts, ",gl=3D", &nextopt)) {
+                 opts =3D nextopt;
+                 dpy.has_gl =3D true;
 --=20
 2.18.1
 
