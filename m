@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 863F0155A1B
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 15:53:35 +0100 (CET)
-Received: from localhost ([::1]:58450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E85EF155A20
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 15:54:58 +0100 (CET)
+Received: from localhost ([::1]:58516 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j050g-0000Mu-IK
-	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 09:53:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51902)
+	id 1j0521-0004i2-U4
+	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 09:54:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51919)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j04iG-0001NM-Fs
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:34:33 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1j04iH-0001Qi-Pd
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:34:34 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j04iF-0003Ti-DU
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:34:32 -0500
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:43483)
+ (envelope-from <peter.maydell@linaro.org>) id 1j04iG-0003U5-E5
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:34:33 -0500
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:46415)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j04iF-0003TD-6a
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:34:31 -0500
-Received: by mail-wr1-x442.google.com with SMTP id z9so2923771wrs.10
- for <qemu-devel@nongnu.org>; Fri, 07 Feb 2020 06:34:31 -0800 (PST)
+ id 1j04iG-0003Ts-79
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:34:32 -0500
+Received: by mail-wr1-x444.google.com with SMTP id z7so2910944wrl.13
+ for <qemu-devel@nongnu.org>; Fri, 07 Feb 2020 06:34:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=/9Ku8hrcSYe5XpVr6coETj3vNOy7+c1M36LS3DdbtZk=;
- b=eozvNqeEnxSNtODmCnIC42ppJH+2OXROIjlbPFPO9IGVoM7tcsNKHXIsnu462ucS1+
- q6JJTL6R52tojQOs4fKB8AefU6UtLv5Gc6jS0dEsxny+8fSVlHtZc+MSVyuj26Zp9WyG
- ElnFMfgXR9TdHpUX03mpF1yQXRiFlWJ328Sv7Z8p6qkI8mn9huKlCiBU5DyYaR2Vb2NX
- ZYNSKBIoKI0iD5H5ebyyk/AzUc4IqYbY6Dc34vx2ezXyCEe6wu3sJaQBewucVu9WG9wC
- 5VejNojzi6SnxbXZy+ig7KhZYt1iECkfRpFdsKHtqLAmrtXFJJGi/gtMLbT8HouMM26u
- +2Kw==
+ bh=oIsEar5AYXxYyDE1KHxbOapxJEQ61+KtlpwUsOgsDqo=;
+ b=RqfJSZXnBSECDwW35xvoRWK1QHAeOM7ce4cBI6rPTEys9KfIai5b4ssiPKp9dvBu6n
+ MQ3xjB6WR8lol4/FTnYqjIOrXrt6/J6l7N9KLbACMMIld+wzT7foB8oYkXPpg52Etx2I
+ v6wRPUXNGvGJKwhex+s4V+XF7wcxBpxO2oGvGDnYqtrPtE/jRYITmoPWEqgINlFZyuir
+ 7GEqtd68MjxgF8sEc+VQF7M4YNcmwCiEMspL5Gr71v3Lw60idjOTifND81oiERx4oeCs
+ S7kXBTU5jxTRcTWmTb3DK4jgdYgZt+eymJKWp+G2Cf+QXTwFCLciZbsp+bNBh5yotxSG
+ pp6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=/9Ku8hrcSYe5XpVr6coETj3vNOy7+c1M36LS3DdbtZk=;
- b=bG834QU5yq7jQFlR8a6CejzYN5EyX+Ydq0uVzrb2B8QHkNJkM2Evyg6KLbo7ambLJs
- JwsJAfQEcF7mG4t695hOruwbkBSq7iPzDL2E4ns+RnwiJ/HoPGIOatMEtdB+MVmBp0y4
- FziSwUu2lR42++e2W5/fAq3TE10Pcm+h8LLnZm1t4/uHHCd8AJOeo24gu2XM7mA1jBVE
- +u+ITq/+HsqXsMQLa4jV9WI18VawK/M1NqerRYprDCphQyRP0Mb5ncTRF05Xw1nXvlrT
- tmwS3kQ3zTivNLXfJ/NL8i8QI9MlHEPSbGfuCVOsK82AM465KQfhPiDVXEjoAE/N+n0B
- liDQ==
-X-Gm-Message-State: APjAAAUCY06ZBz02fR5ZxnKURFX3ZO+mRHBhiW/uhFfwYtXzpwCeI5Hv
- NZwF6tqrd3SRbzG+b4I9Gnc8q5cFyxA=
-X-Google-Smtp-Source: APXvYqzyJCrMcFzlNURQLrOda+KSeEMD9qRKZYqERTVIAvxyJrbA3umBvAxfyVP48sy5lTPe/aLAMw==
-X-Received: by 2002:adf:cd91:: with SMTP id q17mr5095840wrj.306.1581086070031; 
+ bh=oIsEar5AYXxYyDE1KHxbOapxJEQ61+KtlpwUsOgsDqo=;
+ b=Iov5vTWpbTEhUMrDy84DX23SxokcxK9X+iyKFuSCJ7iY/Dua+KGdgecBVpUZaulN6u
+ Bc+tmGdlfSSAdFRnnbZj6Z+Os8q1sHwM91IW+gS4Mwb2qT/OhiRTx9TgFLFys3UJbzUX
+ hlR13BtPygb5/L+MSf3C5vTGtOLXDERTxYnwErqYSypTte6i6oQD5P4imyhFaC8RcNN2
+ nHcIbN2qInoHEn2reQPL4yOERha3ux+Gmy/0cjICJISTtj+P1F1chb+gQb+DP1Blj4AV
+ glZZm2Zyl5oI0uQ8XUWYpFXqygWuY3Pip0rWaGvAy4kljA3jII1jwvrkSHHz+HnsyiJR
+ 5Mpw==
+X-Gm-Message-State: APjAAAXJ9oogNrI3nQFsmnRJeToUETkZ3+iy6H+UkfI7tTDbNNG5Wyjd
+ X3P3p97C4wWxFhim2fZ8VphP8CT9WVE=
+X-Google-Smtp-Source: APXvYqwTi5IsGwIDk24iIKjWKbT3Bg1cU5VoudhXtIuueppgfQgvFXzO5lelc64zwoQyWTNWXiaEwQ==
+X-Received: by 2002:adf:ef07:: with SMTP id e7mr5141208wro.104.1581086070970; 
  Fri, 07 Feb 2020 06:34:30 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id w1sm3796430wro.72.2020.02.07.06.34.28
+ by smtp.gmail.com with ESMTPSA id w1sm3796430wro.72.2020.02.07.06.34.30
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Feb 2020 06:34:29 -0800 (PST)
+ Fri, 07 Feb 2020 06:34:30 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 41/48] target/arm: Use bool for unmasked in arm_excp_unmasked
-Date: Fri,  7 Feb 2020 14:33:36 +0000
-Message-Id: <20200207143343.30322-42-peter.maydell@linaro.org>
+Subject: [PULL 42/48] target/arm: Raise only one interrupt in
+ arm_cpu_exec_interrupt
+Date: Fri,  7 Feb 2020 14:33:37 +0000
+Message-Id: <20200207143343.30322-43-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200207143343.30322-1-peter.maydell@linaro.org>
 References: <20200207143343.30322-1-peter.maydell@linaro.org>
@@ -67,7 +68,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::442
+X-Received-From: 2a00:1450:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,48 +85,93 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-The value computed is fully boolean; using int8_t is odd.
+The fall through organization of this function meant that we
+would raise an interrupt, then might overwrite that with another.
+Since interrupt prioritization is IMPLEMENTATION DEFINED, we
+can recognize these in any order we choose.
+
+Unify the code to raise the interrupt in a block at the end.
 
 Tested-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20200206105448.4726-41-richard.henderson@linaro.org
+Message-id: 20200206105448.4726-42-richard.henderson@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/cpu.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ target/arm/cpu.c | 30 ++++++++++++------------------
+ 1 file changed, 12 insertions(+), 18 deletions(-)
 
 diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index fcee0a2dd45..4ffc09909db 100644
+index 4ffc09909db..b0762a76c4b 100644
 --- a/target/arm/cpu.c
 +++ b/target/arm/cpu.c
-@@ -417,7 +417,7 @@ static inline bool arm_excp_unmasked(CPUState *cs, unsigned int excp_idx,
- {
-     CPUARMState *env = cs->env_ptr;
-     bool pstate_unmasked;
--    int8_t unmasked = 0;
-+    bool unmasked = false;
+@@ -535,17 +535,15 @@ bool arm_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
+     uint64_t hcr_el2 = arm_hcr_el2_eff(env);
+     uint32_t target_el;
+     uint32_t excp_idx;
+-    bool ret = false;
++
++    /* The prioritization of interrupts is IMPLEMENTATION DEFINED. */
  
-     /*
-      * Don't take exceptions if they target a lower EL.
-@@ -468,7 +468,7 @@ static inline bool arm_excp_unmasked(CPUState *cs, unsigned int excp_idx,
-              * don't affect the masking logic, only the interrupt routing.
-              */
-             if (target_el == 3 || !secure) {
--                unmasked = 1;
-+                unmasked = true;
-             }
-         } else {
-             /*
-@@ -514,7 +514,7 @@ static inline bool arm_excp_unmasked(CPUState *cs, unsigned int excp_idx,
-             }
- 
-             if ((scr || hcr) && !secure) {
--                unmasked = 1;
-+                unmasked = true;
-             }
+     if (interrupt_request & CPU_INTERRUPT_FIQ) {
+         excp_idx = EXCP_FIQ;
+         target_el = arm_phys_excp_target_el(cs, excp_idx, cur_el, secure);
+         if (arm_excp_unmasked(cs, excp_idx, target_el,
+                               cur_el, secure, hcr_el2)) {
+-            cs->exception_index = excp_idx;
+-            env->exception.target_el = target_el;
+-            cc->do_interrupt(cs);
+-            ret = true;
++            goto found;
          }
      }
+     if (interrupt_request & CPU_INTERRUPT_HARD) {
+@@ -553,10 +551,7 @@ bool arm_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
+         target_el = arm_phys_excp_target_el(cs, excp_idx, cur_el, secure);
+         if (arm_excp_unmasked(cs, excp_idx, target_el,
+                               cur_el, secure, hcr_el2)) {
+-            cs->exception_index = excp_idx;
+-            env->exception.target_el = target_el;
+-            cc->do_interrupt(cs);
+-            ret = true;
++            goto found;
+         }
+     }
+     if (interrupt_request & CPU_INTERRUPT_VIRQ) {
+@@ -564,10 +559,7 @@ bool arm_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
+         target_el = 1;
+         if (arm_excp_unmasked(cs, excp_idx, target_el,
+                               cur_el, secure, hcr_el2)) {
+-            cs->exception_index = excp_idx;
+-            env->exception.target_el = target_el;
+-            cc->do_interrupt(cs);
+-            ret = true;
++            goto found;
+         }
+     }
+     if (interrupt_request & CPU_INTERRUPT_VFIQ) {
+@@ -575,14 +567,16 @@ bool arm_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
+         target_el = 1;
+         if (arm_excp_unmasked(cs, excp_idx, target_el,
+                               cur_el, secure, hcr_el2)) {
+-            cs->exception_index = excp_idx;
+-            env->exception.target_el = target_el;
+-            cc->do_interrupt(cs);
+-            ret = true;
++            goto found;
+         }
+     }
++    return false;
+ 
+-    return ret;
++ found:
++    cs->exception_index = excp_idx;
++    env->exception.target_el = target_el;
++    cc->do_interrupt(cs);
++    return true;
+ }
+ 
+ #if !defined(CONFIG_USER_ONLY) || !defined(TARGET_AARCH64)
 -- 
 2.20.1
 
