@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAA831550A3
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 03:16:42 +0100 (CET)
-Received: from localhost ([::1]:49188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C45415509F
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 03:14:56 +0100 (CET)
+Received: from localhost ([::1]:49140 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iztCD-00038Y-UU
-	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 21:16:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59860)
+	id 1iztAV-00080N-5D
+	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 21:14:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59836)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1izsvo-0006OH-6J
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 20:59:46 -0500
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1izsvn-0006MH-F9
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 20:59:45 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1izsvj-0001Lm-G4
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 20:59:44 -0500
-Received: from mx2.rt-rk.com ([89.216.37.149]:53168 helo=mail.rt-rk.com)
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1izsvj-0001MZ-NB
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 20:59:43 -0500
+Received: from mx2.rt-rk.com ([89.216.37.149]:53204 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
- id 1izsvj-00019q-3S
+ id 1izsvj-0001AK-8P
  for qemu-devel@nongnu.org; Thu, 06 Feb 2020 20:59:39 -0500
 Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id B29181A20ED;
+ by mail.rt-rk.com (Postfix) with ESMTP id D78461A2107;
  Fri,  7 Feb 2020 02:58:23 +0100 (CET)
 X-Virus-Scanned: amavisd-new at rt-rk.com
 Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
  [10.10.14.106])
- by mail.rt-rk.com (Postfix) with ESMTPSA id 79A1C1A20E9;
+ by mail.rt-rk.com (Postfix) with ESMTPSA id 8F7A31A2128;
  Fri,  7 Feb 2020 02:58:23 +0100 (CET)
 From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH rc5 25/32] hw/avr: Add limited support for some Arduino boards
-Date: Fri,  7 Feb 2020 02:57:53 +0100
-Message-Id: <1581040680-308-26-git-send-email-aleksandar.markovic@rt-rk.com>
+Subject: [PATCH rc5 26/32] target/avr: Update build system
+Date: Fri,  7 Feb 2020 02:57:54 +0100
+Message-Id: <1581040680-308-27-git-send-email-aleksandar.markovic@rt-rk.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1581040680-308-1-git-send-email-aleksandar.markovic@rt-rk.com>
 References: <1581040680-308-1-git-send-email-aleksandar.markovic@rt-rk.com>
@@ -54,250 +54,130 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Michael Rolnik <mrolnik@gmail.com>,
  Aleksandar Markovic <aleksandar.m.mail@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+From: Michael Rolnik <mrolnik@gmail.com>
 
-Arduino boards are build with AVR chipsets. Add some of these
-boards:
-
-  - Arduino Duemilanove
-  - Arduino Uno
-  - Arduino Mega
-
-For more information:
-  https://www.arduino.cc/en/Main/Products
-  https://store.arduino.cc/arduino-genuino/most-popular
+Make AVR support buildable.
 
 [AM: Remove word 'Atmel' from filenames and all elements of code]
 Suggested-by: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+Signed-off-by: Michael Rolnik <mrolnik@gmail.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
-Reviewed-by: Joaquin de Andres <me@xcancerberox.com.ar>
+Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
 ---
- hw/avr/arduino.c     | 151 +++++++++++++++++++++++++++++++++++++++++++++=
-++++++
- MAINTAINERS          |   6 ++
- hw/Kconfig           |   1 +
- hw/avr/Kconfig       |   4 ++
- hw/avr/Makefile.objs |   1 +
- 5 files changed, 163 insertions(+)
- create mode 100644 hw/avr/arduino.c
+ configure                       |  7 +++++++
+ default-configs/avr-softmmu.mak |  5 +++++
+ MAINTAINERS                     |  2 ++
+ target/avr/Makefile.objs        | 34 ++++++++++++++++++++++++++++++++++
+ 4 files changed, 48 insertions(+)
+ create mode 100644 default-configs/avr-softmmu.mak
+ create mode 100644 target/avr/Makefile.objs
 
-diff --git a/hw/avr/arduino.c b/hw/avr/arduino.c
+diff --git a/configure b/configure
+index 115dc38..cff4307 100755
+--- a/configure
++++ b/configure
+@@ -7667,6 +7667,10 @@ case "$target_name" in
+     mttcg=3D"yes"
+     gdb_xml_files=3D"aarch64-core.xml aarch64-fpu.xml arm-core.xml arm-v=
+fp.xml arm-vfp3.xml arm-neon.xml"
+   ;;
++  avr)
++    gdb_xml_files=3D"avr-cpu.xml"
++    target_compiler=3D$cross_cc_avr
++  ;;
+   cris)
+   ;;
+   hppa)
+@@ -7886,6 +7890,9 @@ for i in $ARCH $TARGET_BASE_ARCH ; do
+       disas_config "ARM_A64"
+     fi
+   ;;
++  avr)
++    disas_config "AVR"
++  ;;
+   cris)
+     disas_config "CRIS"
+   ;;
+diff --git a/default-configs/avr-softmmu.mak b/default-configs/avr-softmm=
+u.mak
 new file mode 100644
-index 0000000..00d67c9
+index 0000000..80218ad
 --- /dev/null
-+++ b/hw/avr/arduino.c
-@@ -0,0 +1,151 @@
-+/*
-+ * QEMU Arduino boards
-+ *
-+ * Copyright (c) 2019 Philippe Mathieu-Daud=C3=A9
-+ *
-+ * This work is licensed under the terms of the GNU GPLv2 or later.
-+ * See the COPYING file in the top-level directory.
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
++++ b/default-configs/avr-softmmu.mak
+@@ -0,0 +1,5 @@
++# Default configuration for avr-softmmu
 +
-+/* TODO: Implement the use of EXTRAM */
-+
-+#include "qemu/osdep.h"
-+#include "qapi/error.h"
-+#include "hw/boards.h"
-+#include "atmega.h"
-+#include "boot.h"
-+
-+typedef struct ArduinoMachineState {
-+    /*< private >*/
-+    MachineState parent_obj;
-+    /*< public >*/
-+    AtmegaMcuState mcu;
-+} ArduinoMachineState;
-+
-+typedef struct ArduinoMachineClass {
-+    /*< private >*/
-+    MachineClass parent_class;
-+    /*< public >*/
-+    const char *mcu_type;
-+    uint64_t xtal_hz;
-+} ArduinoMachineClass;
-+
-+#define TYPE_ARDUINO_MACHINE \
-+        MACHINE_TYPE_NAME("arduino")
-+#define ARDUINO_MACHINE(obj) \
-+        OBJECT_CHECK(ArduinoMachineState, (obj), TYPE_ARDUINO_MACHINE)
-+#define ARDUINO_MACHINE_CLASS(klass) \
-+        OBJECT_CLASS_CHECK(ArduinoMachineClass, (klass), TYPE_ARDUINO_MA=
-CHINE)
-+#define ARDUINO_MACHINE_GET_CLASS(obj) \
-+        OBJECT_GET_CLASS(ArduinoMachineClass, (obj), TYPE_ARDUINO_MACHIN=
-E)
-+
-+static void arduino_machine_init(MachineState *machine)
-+{
-+    ArduinoMachineClass *amc =3D ARDUINO_MACHINE_GET_CLASS(machine);
-+    ArduinoMachineState *ams =3D ARDUINO_MACHINE(machine);
-+
-+    sysbus_init_child_obj(OBJECT(machine), "mcu", &ams->mcu, sizeof(ams-=
->mcu),
-+                          amc->mcu_type);
-+    object_property_set_uint(OBJECT(&ams->mcu), amc->xtal_hz,
-+                             "xtal-frequency-hz", &error_abort);
-+    object_property_set_bool(OBJECT(&ams->mcu), true, "realized",
-+                             &error_abort);
-+
-+    if (machine->firmware) {
-+        if (!avr_load_firmware(&ams->mcu.cpu, machine,
-+                               &ams->mcu.flash, machine->firmware)) {
-+            exit(1);
-+        }
-+    }
-+}
-+
-+static void arduino_machine_class_init(ObjectClass *oc, void *data)
-+{
-+    MachineClass *mc =3D MACHINE_CLASS(oc);
-+
-+    mc->init =3D arduino_machine_init;
-+    mc->default_cpus =3D 1;
-+    mc->min_cpus =3D mc->default_cpus;
-+    mc->max_cpus =3D mc->default_cpus;
-+    mc->no_floppy =3D 1;
-+    mc->no_cdrom =3D 1;
-+    mc->no_parallel =3D 1;
-+}
-+
-+static void arduino_duemilanove_class_init(ObjectClass *oc, void *data)
-+{
-+    MachineClass *mc =3D MACHINE_CLASS(oc);
-+    ArduinoMachineClass *amc =3D ARDUINO_MACHINE_CLASS(oc);
-+
-+    /* https://www.arduino.cc/en/Main/ArduinoBoardDuemilanove */
-+    mc->desc        =3D "Arduino Duemilanove (ATmega168)",
-+    mc->alias       =3D "2009";
-+    amc->mcu_type   =3D TYPE_ATMEGA168_MCU;
-+    amc->xtal_hz    =3D 16 * 1000 * 1000;
-+};
-+
-+static void arduino_uno_class_init(ObjectClass *oc, void *data)
-+{
-+    MachineClass *mc =3D MACHINE_CLASS(oc);
-+    ArduinoMachineClass *amc =3D ARDUINO_MACHINE_CLASS(oc);
-+
-+    /* https://store.arduino.cc/arduino-uno-rev3 */
-+    mc->desc        =3D "Arduino UNO (ATmega328P)";
-+    mc->alias       =3D "uno";
-+    amc->mcu_type   =3D TYPE_ATMEGA328_MCU;
-+    amc->xtal_hz    =3D 16 * 1000 * 1000;
-+};
-+
-+static void arduino_mega_class_init(ObjectClass *oc, void *data)
-+{
-+    MachineClass *mc =3D MACHINE_CLASS(oc);
-+    ArduinoMachineClass *amc =3D ARDUINO_MACHINE_CLASS(oc);
-+
-+    /* https://www.arduino.cc/en/Main/ArduinoBoardMega */
-+    mc->desc        =3D "Arduino Mega (ATmega1280)";
-+    mc->alias       =3D "mega";
-+    amc->mcu_type   =3D TYPE_ATMEGA1280_MCU;
-+    amc->xtal_hz    =3D 16 * 1000 * 1000;
-+};
-+
-+static void arduino_mega2560_class_init(ObjectClass *oc, void *data)
-+{
-+    MachineClass *mc =3D MACHINE_CLASS(oc);
-+    ArduinoMachineClass *amc =3D ARDUINO_MACHINE_CLASS(oc);
-+
-+    /* https://store.arduino.cc/arduino-mega-2560-rev3 */
-+    mc->desc        =3D "Arduino Mega 2560 (ATmega2560)";
-+    mc->alias       =3D "mega2560";
-+    amc->mcu_type   =3D TYPE_ATMEGA2560_MCU;
-+    amc->xtal_hz    =3D 16 * 1000 * 1000; /* CSTCE16M0V53-R0 */
-+};
-+
-+static const TypeInfo arduino_machine_types[] =3D {
-+    {
-+        .name          =3D MACHINE_TYPE_NAME("arduino-duemilanove"),
-+        .parent        =3D TYPE_ARDUINO_MACHINE,
-+        .class_init    =3D arduino_duemilanove_class_init,
-+    }, {
-+        .name          =3D MACHINE_TYPE_NAME("arduino-uno"),
-+        .parent        =3D TYPE_ARDUINO_MACHINE,
-+        .class_init    =3D arduino_uno_class_init,
-+    }, {
-+        .name          =3D MACHINE_TYPE_NAME("arduino-mega"),
-+        .parent        =3D TYPE_ARDUINO_MACHINE,
-+        .class_init    =3D arduino_mega_class_init,
-+    }, {
-+        .name          =3D MACHINE_TYPE_NAME("arduino-mega-2560-v3"),
-+        .parent        =3D TYPE_ARDUINO_MACHINE,
-+        .class_init    =3D arduino_mega2560_class_init,
-+    }, {
-+        .name           =3D TYPE_ARDUINO_MACHINE,
-+        .parent         =3D TYPE_MACHINE,
-+        .instance_size  =3D sizeof(ArduinoMachineState),
-+        .class_size     =3D sizeof(ArduinoMachineClass),
-+        .class_init     =3D arduino_machine_class_init,
-+        .abstract       =3D true,
-+    }
-+};
-+
-+DEFINE_TYPES(arduino_machine_types)
++# Boards:
++#
++CONFIG_ARDUINO=3Dy
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 5eedee9..fae2bb6 100644
+index fae2bb6..a68ec75 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -925,6 +925,12 @@ F: hw/timer/avr_timer16.c
- F: include/hw/misc/avr_power.h
- F: hw/misc/avr_power.c
-=20
-+Arduino
-+M: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-+R: Sarah Harris <S.E.Harris@kent.ac.uk>
-+S: Maintained
-+F: hw/avr/arduino.c
+@@ -168,6 +168,7 @@ M: Michael Rolnik <mrolnik@gmail.com>
+ R: Sarah Harris <S.E.Harris@kent.ac.uk>
+ S: Maintained
+ F: gdb-xml/avr-cpu.xml
++F: target/avr/Makefile.objs
+ F: target/avr/cpu-param.h
+ F: target/avr/cpu-qom.h
+ F: target/avr/cpu.h
+@@ -912,6 +913,7 @@ AVR MCUs
+ M: Michael Rolnik <mrolnik@gmail.com>
+ R: Sarah Harris <S.E.Harris@kent.ac.uk>
+ S: Maintained
++F: default-configs/avr-softmmu.mak
+ F: hw/avr/Kconfig
+ F: hw/avr/Makefile.objs
+ F: hw/avr/boot.h
+diff --git a/target/avr/Makefile.objs b/target/avr/Makefile.objs
+new file mode 100644
+index 0000000..7523e0c
+--- /dev/null
++++ b/target/avr/Makefile.objs
+@@ -0,0 +1,34 @@
++#
++#  QEMU AVR CPU
++#
++#  Copyright (c) 2019 Michael Rolnik
++#
++#  This library is free software; you can redistribute it and/or
++#  modify it under the terms of the GNU Lesser General Public
++#  License as published by the Free Software Foundation; either
++#  version 2.1 of the License, or (at your option) any later version.
++#
++#  This library is distributed in the hope that it will be useful,
++#  but WITHOUT ANY WARRANTY; without even the implied warranty of
++#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++#  Lesser General Public License for more details.
++#
++#  You should have received a copy of the GNU Lesser General Public
++#  License along with this library; if not, see
++#  <http://www.gnu.org/licenses/lgpl-2.1.html>
++#
 +
- CRIS Machines
- -------------
- Axis Dev88
-diff --git a/hw/Kconfig b/hw/Kconfig
-index ecf491b..f80dff3 100644
---- a/hw/Kconfig
-+++ b/hw/Kconfig
-@@ -43,6 +43,7 @@ source watchdog/Kconfig
- # arch Kconfig
- source arm/Kconfig
- source alpha/Kconfig
-+source avr/Kconfig
- source cris/Kconfig
- source hppa/Kconfig
- source i386/Kconfig
-diff --git a/hw/avr/Kconfig b/hw/avr/Kconfig
-index 9e6527e..d31298c 100644
---- a/hw/avr/Kconfig
-+++ b/hw/avr/Kconfig
-@@ -3,3 +3,7 @@ config AVR_ATMEGA_MCU
-     select AVR_TIMER16
-     select AVR_USART
-     select AVR_POWER
++DECODETREE =3D $(SRC_PATH)/scripts/decodetree.py
++decode-y =3D $(SRC_PATH)/target/avr/insn.decode
 +
-+config ARDUINO
-+    select AVR_ATMEGA_MCU
-+    select UNIMP
-diff --git a/hw/avr/Makefile.objs b/hw/avr/Makefile.objs
-index af0fdde..4dca064 100644
---- a/hw/avr/Makefile.objs
-+++ b/hw/avr/Makefile.objs
-@@ -1,2 +1,3 @@
- obj-y +=3D boot.o
- obj-$(CONFIG_AVR_ATMEGA_MCU) +=3D atmega.o
-+obj-$(CONFIG_ARDUINO) +=3D arduino.o
++target/avr/decode_insn.inc.c: $(decode-y) $(DECODETREE)
++	$(call quiet-command, \
++	  $(PYTHON) $(DECODETREE) -o $@ --decode decode_insn --insnwidth 16 $<,=
+ \
++	  "GEN", $(TARGET_DIR)$@)
++
++target/avr/translate.o: target/avr/decode_insn.inc.c
++
++obj-y +=3D translate.o cpu.o helper.o
++obj-y +=3D gdbstub.o
++obj-y +=3D disas.o
++obj-$(CONFIG_SOFTMMU) +=3D machine.o
 --=20
 2.7.4
 
