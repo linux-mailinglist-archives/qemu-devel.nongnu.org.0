@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24A08155BAA
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 17:23:01 +0100 (CET)
-Received: from localhost ([::1]:60234 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28755155BBF
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 17:28:02 +0100 (CET)
+Received: from localhost ([::1]:60302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j06PE-0003tP-7X
-	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 11:23:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54621)
+	id 1j06U5-0007Wo-8Y
+	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 11:28:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55987)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1j06O5-0002WZ-7w
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 11:21:50 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1j06TD-0006tc-DE
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 11:27:08 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1j06O3-0006gN-Md
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 11:21:48 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:45902
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j06O1-0006Ys-Rl
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 11:21:46 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581092503;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=WkEfF1yWOwbM58Nn71tObxTOpGgWqOKG+23nqswcMZw=;
- b=GL+8iupobBqXCa1OW1aLn8Dd1wyvufR15w5LXHsuAfMnYw4j/IycuCRYWOvCyqKdoMocQL
- LyrqKndAXjrh3JjHrFMkW2A2QDVYNGLcudB9GXwTFdrvyBcjTKnXtOrp4pPgEi/jZLGA2N
- onYyrG1IrHk/7tSZ7qhor/5mbZkuT24=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-41-y2zPQzbFO2GgF2qsUL7uxw-1; Fri, 07 Feb 2020 11:21:36 -0500
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B31488014D8;
- Fri,  7 Feb 2020 16:21:32 +0000 (UTC)
-Received: from x1w.redhat.com (ovpn-204-88.brq.redhat.com [10.40.204.88])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 963A8790D8;
- Fri,  7 Feb 2020 16:21:10 +0000 (UTC)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v4 3/3] vl: Abort if multiple machines are registered as
- default
-Date: Fri,  7 Feb 2020 17:19:48 +0100
-Message-Id: <20200207161948.15972-4-philmd@redhat.com>
-In-Reply-To: <20200207161948.15972-1-philmd@redhat.com>
-References: <20200207161948.15972-1-philmd@redhat.com>
+ (envelope-from <peter.maydell@linaro.org>) id 1j06TB-0002Km-Th
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 11:27:07 -0500
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:44477)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1j06TB-0002It-Ne
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 11:27:05 -0500
+Received: by mail-ot1-x343.google.com with SMTP id h9so2651632otj.11
+ for <qemu-devel@nongnu.org>; Fri, 07 Feb 2020 08:27:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=upod4aUb/SI3ylNWoOZvHfrbH9kC8Aab+nACy1Fo47k=;
+ b=qAAwM3UHRkdXUMpX+E0r83d2KZR6sTFLnqnCiYGd6b2t6q4/LQ8iVYp+t5Lq69xXQ5
+ str3S2c23Yxceb+lJ21pft3/a2aRwj4QVvHHFJn3l7mRlDFvnt1dYksPWH5hOoOzs4+W
+ IdgNb9OM2jrWW3/9ZqWXGqt4KIdKZRPnwc8HAwtvkVSr2IB/mw/1lXY0tXsF/b4efOo9
+ 1FMgSqLxmkocQJzRn4ZlWrOyFrz3Re9yb0JmAj8GxwsMyfn+EGFKGYaptm6+ZWW3TOCQ
+ hVCrDnBcMnzS9zXX2JXT2i6Al75g3wio4r69kzGOiXBi332dWf7g0tOobQLNXkPRmk/a
+ NUnA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=upod4aUb/SI3ylNWoOZvHfrbH9kC8Aab+nACy1Fo47k=;
+ b=CsIAGLlFveM+wDGk1NOA/VdZk5k9mPK/1g0UedtltV9RuRr8RjPaqMwqiQbbMEssaN
+ XaOU5P340IXuBrbiHu4pODJWB08qY2HiJfL34H3tkqUkpcPwlInmCCiSpRhOwFaCsBbi
+ xW79YyDuHpOnF+dhc/fn0RoVqNPJbVTEOuzfi8hYgS4AHTqwR9B4we5Twbz+Q1X6Wx8W
+ TgSsJ47I91Bn11ci58q7hlzD2UIcgOj8UVxABPDR2xQ0XxuaSzeEb4zgZ7OTFXfnwN1Y
+ OX6/rtO5crFbCMCgg6EWwmUVz+4xsjgH7ye7zkJSRKVCiM/x1eGrnoYe1K9vmhjCLFh0
+ v6Zw==
+X-Gm-Message-State: APjAAAWvch+1S/KDZIWKoz5Mwuz0EDKE6EeToIh6RsYgekUsB0xQuSdk
+ 2XT5i5Zv+67mARQLdIxKcCfjGQGsEfDZ43yTAcVyqQ==
+X-Google-Smtp-Source: APXvYqwXiJmgD4Yww/9ez3szrehg/4a+lWp33J4dAHau6Zx78lcpAmDdZeX6ZG33iiXsQzZuOhpaFGKt7VjPufXUDWg=
+X-Received: by 2002:a05:6830:4a4:: with SMTP id l4mr129113otd.91.1581092824684; 
+ Fri, 07 Feb 2020 08:27:04 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: y2zPQzbFO2GgF2qsUL7uxw-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+References: <20200203032328.12051-1-crosa@redhat.com>
+ <20200203032328.12051-2-crosa@redhat.com>
+ <5d0def0e-0943-3345-784d-80f8ccc318b9@redhat.com>
+In-Reply-To: <5d0def0e-0943-3345-784d-80f8ccc318b9@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 7 Feb 2020 16:26:53 +0000
+Message-ID: <CAFEAcA8HPvzaxA1pguscX5FsuWvpJhkDAuFSApofabEWVzzjQQ@mail.gmail.com>
+Subject: Re: [RFC PATCH 2/2] GitLab CI: crude mapping of PMM's scripts to jobs
+To: Thomas Huth <thuth@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,77 +73,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Chris Wulff <crwulff@gmail.com>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- "Michael S. Tsirkin" <mst@redhat.com>, Anthony Green <green@moxielogic.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Guan Xuetao <gxt@mprc.pku.edu.cn>, Marek Vasut <marex@denx.de>,
- Jia Liu <proljc@gmail.com>, qemu-trivial@nongnu.org,
- Helge Deller <deller@gmx.de>, David Hildenbrand <david@redhat.com>,
- Magnus Damm <magnus.damm@gmail.com>, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- Richard Henderson <rth@twiddle.net>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Artyom Tarasenko <atar4qemu@gmail.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-s390x@nongnu.org,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@gmail.com>,
- Stafford Horne <shorne@gmail.com>, David Gibson <david@gibson.dropbear.id.au>,
- qemu-riscv@nongnu.org, Thomas Huth <huth@tuxfamily.org>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Cornelia Huck <cohuck@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
- Michael Walle <michael@walle.cc>, qemu-ppc@nongnu.org,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It would be confusing to have multiple default machines.
-Abort if this ever occurs.
+On Fri, 7 Feb 2020 at 08:37, Thomas Huth <thuth@redhat.com> wrote:
+> Question to Peter/Alex/Stefan/Howevermergespullreqsinthefuture:
+>
+> Should the above jobs really be skipped for pull requests, or would it
+> be ok to include them there, too? (in the latter case, the above changes
+> could just be dropped)
 
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
-v2: Use assert() instead of human friendly message (Marc-Andr=C3=A9)
-v3: Move the check to find_machine() (Michael)
+I don't mind, as long as the CI run doesn't take more than (say)
+1h to 1h30 elapsed time to complete from kicking it off to getting
+all the results back. The specific set of x86 configs tested don't
+really worry me (as long as we do have a reasonable spread):
+the thing I really care about is that we get the multiple
+host architectures and the BSDs into the test setup. (We already
+have about five different ways of doing CI testing of x86 Linux
+hosts, which is the least likely setup to break. It's the
+other host configs that I'm really keen to see progress on
+automation of, because that's what's really blocking us from
+being able to move off my hand-coded scripting.)
 
-Cc: Marc-Andr=C3=A9 Lureau <marcandre.lureau@gmail.com>
-Cc: Laurent Vivier <laurent@vivier.eu>
-Cc: Michael S. Tsirkin <mst@redhat.com>
----
- vl.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+In the long run we should probably aim for being consistent about
+what we test between the pull-request tests and whatever the
+'public-facing CI' part is.
 
-diff --git a/vl.c b/vl.c
-index 7dcb0879c4..ebc203af0d 100644
---- a/vl.c
-+++ b/vl.c
-@@ -1184,16 +1184,18 @@ static MachineClass *find_machine(const char *name,=
- GSList *machines)
- static MachineClass *find_default_machine(GSList *machines)
- {
-     GSList *el;
-+    MachineClass *default_machineclass =3D NULL;
-=20
-     for (el =3D machines; el; el =3D el->next) {
-         MachineClass *mc =3D el->data;
-=20
-         if (mc->is_default) {
--            return mc;
-+            assert(default_machineclass =3D=3D NULL && "Multiple default m=
-achines");
-+            default_machineclass =3D mc;
-         }
-     }
-=20
--    return NULL;
-+    return default_machineclass;
- }
-=20
- static int machine_help_func(QemuOpts *opts, MachineState *machine)
---=20
-2.21.1
+> > +ubuntu-18.04.3-x86_64-notcg:
+> > + tags:
+> > + - ubuntu_18.04.3
+> > + - x86_64
+> > + rules:
+> > + - if: '$CI_COMMIT_REF_NAME == "staging"'
+> > + script:
+> > + # https://git.linaro.org/people/peter.maydell/misc-scripts.git/tree/remake-merge-builds#n35
+> > + - ./configure --disable-libssh --enable-debug --disable-tcg
+> > + # https://git.linaro.org/people/peter.maydell/misc-scripts.git/tree/pull-buildtest#n35
+> > + - make
+> > + # https://git.linaro.org/people/peter.maydell/misc-scripts.git/tree/pull-buildtest#n39
+> > + # Question: check is disabled on the original script, because the machine
+> > + # is said to be running VirtualBox.  Should this be dropped or should the
+> > + # machine be tweaked or substituted?
+> > + - make check V=1
+>
+> Without TCG, you definitely need a host that can do KVM for running make
+> check.
+> Question for Peter: Would it be ok to drop this job and simply always
+> use the "build-tcg-disabled" job that is already available in
+> .gitlab-ci.yml ?
 
+If we have a CI setup where KVM reliably works then we should
+ideally test a --disable-tcg setup somehow. Right now my pullreq
+tests don't test that because I run them on my work desktop box
+and (as the config says) sometimes I'm running VirtualBox which
+causes KVM to fail -- but that should be irrelevant to our CI
+runners...
+
+thanks
+-- PMM
 
