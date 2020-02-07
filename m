@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 410781559AC
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 15:35:22 +0100 (CET)
-Received: from localhost ([::1]:57828 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F8471559BB
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 15:36:59 +0100 (CET)
+Received: from localhost ([::1]:57906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j04j3-0001ag-82
-	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 09:35:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51259)
+	id 1j04kc-0005IT-JI
+	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 09:36:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51279)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j04ha-00083v-Fe
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:33:51 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1j04hb-00086J-Iw
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:33:52 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j04hZ-0002DN-Do
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:33:50 -0500
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:35741)
+ (envelope-from <peter.maydell@linaro.org>) id 1j04ha-0002HT-E5
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:33:51 -0500
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:33113)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j04hZ-0002Au-7H
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:33:49 -0500
-Received: by mail-wr1-x42a.google.com with SMTP id w12so2978772wrt.2
- for <qemu-devel@nongnu.org>; Fri, 07 Feb 2020 06:33:49 -0800 (PST)
+ id 1j04ha-0002ER-7j
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:33:50 -0500
+Received: by mail-wr1-x432.google.com with SMTP id u6so2985012wrt.0
+ for <qemu-devel@nongnu.org>; Fri, 07 Feb 2020 06:33:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=wiym8FeREOUNdMDL8foZ2tGZjtJnFWi/X62fmxihxGc=;
- b=JCckIU0zA5hUmZXresDdkWaXhnrVotLjpdpFswhVy9EkKGTAQYysUv1jJZR6Dv5Mn7
- PxXdvfMVcN39I+kFhXroIOGgXPyPyPjq2ekvOKzQKnL5RR02iN/m3YmT+I2duwGCewRA
- aRC8leL3Jxh/D18KDEUo1q1DMtzsYbK0SbK7ShyLsyc3ClMO/x0KIsjfECXtaHs7bETJ
- v5YcZbZiCcL7oDijw80gKlBRQzoXgPGoCUAoZLYhznJgh6978R01OUpvl7nkpci+RdF9
- JiEKpFfsD2cH8cOMV3mX37XK6igfCJ1wXkMlcGkhBllvmakha7AhutrOZRFg5m4KeVsa
- kGzA==
+ bh=80J78t2XuOP/qHYw6VsV0YcPao+P7Of2KkB0sDJy0gY=;
+ b=pPLGpvX1qr1IRkgrx3okUHGvnIWpmRdJsPZBDn9IawlT2NbS26mIfZTzhm/coB2kgP
+ BsavQ30CEaTNsEzHDAHP5SyVr0VghF6TMNpcxrngq6A+63DXjMRYpyiHSaqX09NIfmeN
+ tlCsILdUSUC5rFmEIe7mh1D2mZxVH5uBl5N1qlK98oPGnhLlE47Cz+zeoahU0bo21MIq
+ W5YnxCz/HRn9RwImWqOqmMnEuEs67JQfqVqOFKMl5LOKqSOHUc+JLExHtaJ08Dv5wNVL
+ ITlV5YXX7aQVFQGhL7KlwKzKmlufHS8DoEbXxjPnwkrtOdqwBS+xEcbZWTtAMpJeCN8g
+ V3aw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=wiym8FeREOUNdMDL8foZ2tGZjtJnFWi/X62fmxihxGc=;
- b=IyGt6oVzGJvlhPpHR6kNluvWQzxmA1Hft+vm3wpo/bZEq69TLZ+f/KVdrYIysu2mrf
- ygkRnbydkJ9hwq0dShYG/ZVskrB2Ph9H36xsx7DvyDk9k/44iakRmILwoTgt1kAocqFT
- cb0hwii+MDut790mySqbnk0ZSt4xI/IZfW5fmG+W3+xHAdXOuoJpr0SyD7Ca5SsNItJ7
- j5KoHXUc1t7+OPFeS5ecXUnm6S559ULCzSS7/O/K3hS58IwKT8eArUg/UjU/Tffak5vL
- SOOnfJa6ixktULmZRFmDYNjjnAiaE85z016fxrlSgMc1mirIdn6E2SFdbhkmbJSU0Ifd
- J2ww==
-X-Gm-Message-State: APjAAAUS5UjtaTyCa8RojhmkYLpRuJPHfhO9LLaoFG1dEM4X76CNLdzS
- ap6FKysmJ1/kXGu/eCbCdIe1RNJjB08=
-X-Google-Smtp-Source: APXvYqwfvTVQtwJxY9Iqq804yJH9/rKxPDJzzDtaaZUgcE6sTBv7NYvfgd8p0IhksIWV8BMlDDwGTA==
-X-Received: by 2002:adf:f986:: with SMTP id f6mr5251522wrr.182.1581086028007; 
+ bh=80J78t2XuOP/qHYw6VsV0YcPao+P7Of2KkB0sDJy0gY=;
+ b=Tg7yE05pNOHHLc8oy6Nx5/71nTFclDt+D5D10kAYISm5IRmraNVVBs0w9gcxQe9Dju
+ ixKs7P6LXuST+AwvilMUC02nVwgGb8qYoEbo1og6ZBw0GDy0mblVOgN20n2JRBvFXU7z
+ zJ2MQeYhNPJEJaRzYvcTl9J4ve5TWNL8fu7WiqLYHGNR7u/0gJxc5lxiadzoooHEmLeO
+ wpSyRNnGeB2SzNzR+BRHBHoJ76Zz0+1c0rdk1I/Cj6+9KLU30O2cs4QPDtKc1Htxci0G
+ CAb6DMY6CTH6IIL8F5S8ILlwaEADqklL8WcKBDWtN2qsQo7DX2leqABxERCRvmWLrlA6
+ ofQQ==
+X-Gm-Message-State: APjAAAWMJcTj3YDE/qEH7+t58YDxhXYcgx3iK7ivPFEMpMESCNCkONIb
+ vLtdQ6Yl29SoegR92PQZQLQYG1CwR9E=
+X-Google-Smtp-Source: APXvYqxYzmsGaFSB39ayd8WzgFtEPPl+dC9x3sZAa5SNvq97lg3USYySCdmztjWnFX29FVuTV+y6fg==
+X-Received: by 2002:adf:ef07:: with SMTP id e7mr5138489wro.104.1581086028929; 
  Fri, 07 Feb 2020 06:33:48 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id w1sm3796430wro.72.2020.02.07.06.33.46
+ by smtp.gmail.com with ESMTPSA id w1sm3796430wro.72.2020.02.07.06.33.48
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Feb 2020 06:33:47 -0800 (PST)
+ Fri, 07 Feb 2020 06:33:48 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/48] target/arm: Define isar_feature_aa64_vh
-Date: Fri,  7 Feb 2020 14:32:57 +0000
-Message-Id: <20200207143343.30322-3-peter.maydell@linaro.org>
+Subject: [PULL 03/48] target/arm: Enable HCR_E2H for VHE
+Date: Fri,  7 Feb 2020 14:32:58 +0000
+Message-Id: <20200207143343.30322-4-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200207143343.30322-1-peter.maydell@linaro.org>
 References: <20200207143343.30322-1-peter.maydell@linaro.org>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42a
+X-Received-From: 2a00:1450:4864:20::432
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,28 +87,55 @@ From: Richard Henderson <richard.henderson@linaro.org>
 Tested-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20200206105448.4726-2-richard.henderson@linaro.org
+Message-id: 20200206105448.4726-3-richard.henderson@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/cpu.h | 5 +++++
- 1 file changed, 5 insertions(+)
+ target/arm/cpu.h    | 7 -------
+ target/arm/helper.c | 6 +++++-
+ 2 files changed, 5 insertions(+), 8 deletions(-)
 
 diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index 608fcbd0b75..2a53f5d09be 100644
+index 2a53f5d09be..0e68704a908 100644
 --- a/target/arm/cpu.h
 +++ b/target/arm/cpu.h
-@@ -3685,6 +3685,11 @@ static inline bool isar_feature_aa64_sve(const ARMISARegisters *id)
-     return FIELD_EX64(id->id_aa64pfr0, ID_AA64PFR0, SVE) != 0;
- }
+@@ -1424,13 +1424,6 @@ static inline void xpsr_write(CPUARMState *env, uint32_t val, uint32_t mask)
+ #define HCR_ATA       (1ULL << 56)
+ #define HCR_DCT       (1ULL << 57)
  
-+static inline bool isar_feature_aa64_vh(const ARMISARegisters *id)
-+{
-+    return FIELD_EX64(id->id_aa64mmfr1, ID_AA64MMFR1, VH) != 0;
-+}
-+
- static inline bool isar_feature_aa64_lor(const ARMISARegisters *id)
+-/*
+- * When we actually implement ARMv8.1-VHE we should add HCR_E2H to
+- * HCR_MASK and then clear it again if the feature bit is not set in
+- * hcr_write().
+- */
+-#define HCR_MASK      ((1ULL << 34) - 1)
+-
+ #define SCR_NS                (1U << 0)
+ #define SCR_IRQ               (1U << 1)
+ #define SCR_FIQ               (1U << 2)
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 19a57a17da5..f5ce05fdf33 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -4721,7 +4721,8 @@ static const ARMCPRegInfo el3_no_el2_v8_cp_reginfo[] = {
+ static void hcr_write(CPUARMState *env, const ARMCPRegInfo *ri, uint64_t value)
  {
-     return FIELD_EX64(id->id_aa64mmfr1, ID_AA64MMFR1, LO) != 0;
+     ARMCPU *cpu = env_archcpu(env);
+-    uint64_t valid_mask = HCR_MASK;
++    /* Begin with bits defined in base ARMv8.0.  */
++    uint64_t valid_mask = MAKE_64BIT_MASK(0, 34);
+ 
+     if (arm_feature(env, ARM_FEATURE_EL3)) {
+         valid_mask &= ~HCR_HCD;
+@@ -4735,6 +4736,9 @@ static void hcr_write(CPUARMState *env, const ARMCPRegInfo *ri, uint64_t value)
+          */
+         valid_mask &= ~HCR_TSC;
+     }
++    if (cpu_isar_feature(aa64_vh, cpu)) {
++        valid_mask |= HCR_E2H;
++    }
+     if (cpu_isar_feature(aa64_lor, cpu)) {
+         valid_mask |= HCR_TLOR;
+     }
 -- 
 2.20.1
 
