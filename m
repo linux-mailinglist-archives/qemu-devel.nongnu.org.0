@@ -2,64 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACA07155A71
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 16:14:41 +0100 (CET)
-Received: from localhost ([::1]:59162 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27D0E155A62
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 16:10:00 +0100 (CET)
+Received: from localhost ([::1]:59008 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j05L6-0006kz-PU
-	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 10:14:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60206)
+	id 1j05GZ-0007IS-5o
+	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 10:09:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60257)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j058E-0000iA-Bn
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 10:01:23 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1j058H-0000oz-9i
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 10:01:26 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j0588-0003JN-7R
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 10:01:22 -0500
-Received: from mail-oi1-x22a.google.com ([2607:f8b0:4864:20::22a]:37896)
+ (envelope-from <alex.bennee@linaro.org>) id 1j058F-0003rx-0K
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 10:01:25 -0500
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:40391)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j0587-0003Ed-SD
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 10:01:16 -0500
-Received: by mail-oi1-x22a.google.com with SMTP id l9so2237682oii.5
- for <qemu-devel@nongnu.org>; Fri, 07 Feb 2020 07:01:15 -0800 (PST)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1j058E-0003m8-PQ
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 10:01:22 -0500
+Received: by mail-wm1-x342.google.com with SMTP id t14so3087846wmi.5
+ for <qemu-devel@nongnu.org>; Fri, 07 Feb 2020 07:01:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=lmKHRLOMLiulq5XOV3jUR+8JbZpGp8iUux1+j2rpVlA=;
- b=UmCAy2b4L0d/MiGR9dcs2dEcFsArDRGOHEudwuElQ99ShjbFHd2nwC45Af7E2B4y4n
- jSBPhDj6r/zT0zNr4Fu6GN+AUUK7jYBPCjVGatFmbeYhx8bVeE88OBRemREyXzdNTPLZ
- vUE03NECGeGbTgh5LKXiM+VS5U6QTOCKdic9ClqBrpsLADRQLhCoHG9ty7LBL9o+2VHN
- +oL/sJxwH03+u9Pj9+CYmGzM8YM3iBsjOj+lV0lQmy/6mNQoqClbnwffT1w6xmu1K+1y
- OHK/gkUg/HiEVUje1JmLYb8ekbS8J8WTLEHbjv0RAWcsdtO89VICS1OX5wVw1qsgTktf
- 3HeQ==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=IJCI3ecePskizRDxYgL1MN+1IoehJPZSqp7DKKTNS8A=;
+ b=JYzdP/i/D8FO0LkEpN0NgzLiA0P0LsfNY9+uJRk7aokme7rbTV+Q9aCT14jhDdzz22
+ YdcN5f7qCR1B4UrgOKpuQ8qjDNUt3cC0Rzyi2QBdcPbsVQl502W7pdaKifQnsT7Dj2ys
+ BJeOhWbWfO+ZU4euU9FREi91EkEKlsxEDtp44ry6N8EML9BOGc8bVoTLpfDxcQKMBBsb
+ wgFr+g0ywJ7LB+bnbGXxup3/OZgfEjsSRR+b9HaITbSjMonX0j1zgTK34DQCz4OQZVuZ
+ D5+Z0DONZASvT6IrJUzf8IjQSMR9mwEjxXc7PtUDsRc9lom1fAOik5kWJ01tYqTnwnem
+ Kq7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=lmKHRLOMLiulq5XOV3jUR+8JbZpGp8iUux1+j2rpVlA=;
- b=qsENsT/RJujY5SquFLKHH6O7z7bIvSr6e53ubcOQJ0q8Shx1JqUemlfU3CRJ/GvNx4
- qyUb+OUR+f9WydCxA5eUthz4C6Kx5WLKnYcJKWGoJSe04SPJv5YwmkS9sfXMnZi7z4D6
- VLZslVfKRksgR1SFakHMx/+L0uxtb6fyhmMKjqcDyl0W+bQl3o3oxckS0mdiCyU5x8NO
- 3amZtG0vugQ5eNzA+qnWYwi0juO31SVQfkY3NlYKTcwxBFfcfm4MkoSxjfwhmGHSKIKa
- F2T+D8YxlD+29MpWT+zKEhPMnATjWPiCbDawFymFSRfcMqDFiPauM5b04o8EXfie8MTo
- dHJQ==
-X-Gm-Message-State: APjAAAXRs7H1oNyIvmjjrZINecorJVOhhFiraZMdyYor7FXF7fZYQNgQ
- f7iHf6bACHTXZAkrRDPXXxHhMKUpe7mroPyA2Cc8qw==
-X-Google-Smtp-Source: APXvYqz2c2DPD0d/PGHRD2tWrbFL78xTkKTV4/sftf/L0w+6cThlO+3fKYk968XBNSrm2SAGAbrhKMKL3spDD60Wuqs=
-X-Received: by 2002:a54:4f16:: with SMTP id e22mr2417588oiy.170.1581087674999; 
- Fri, 07 Feb 2020 07:01:14 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=IJCI3ecePskizRDxYgL1MN+1IoehJPZSqp7DKKTNS8A=;
+ b=T45Zm08XTBDIeSaiUMKg5mdT3miZ9lw17/GuJLoggKVAVI5dtQu+YQnu3wgdFVf7QN
+ 3B7kREBxYrexVkeK4TTJ5E6wlxvQkeEw9R9z2yz5hQGebXvkp1zhLipuz6tH4qA/oZ9z
+ B75PeL6tjFoDTK6P1SqhjORhw/SuCHAz7p70fYYqr/qxQFEuQon2ZlUJcylbWjooKj6N
+ X8rPEmHCdH56WESpF75Yx0joc1exl4rcBFkdI00jur0CqlQq6Z9pqTTY+5q9Fn+dtYk3
+ 4W9rSipPW3lNDR7YhmXu/UNQ9kUqlPbM8XyB5ed1thCDYttKun7AutFnG8c6zPb+XPLL
+ VhDA==
+X-Gm-Message-State: APjAAAUmmYqEMbjOUQMN5CuvQY6yseTRypxFobJgCJK8XCcfiNTQNEOj
+ tMlTl0dqlHqupbKXUwEl7BMEqw==
+X-Google-Smtp-Source: APXvYqzVWjDDMeaCLxNRhG5AojHFyJiPDRpm3KQage2ykWOJj8HuBYDCTY6w/vlwE29uaFxx6HZCbg==
+X-Received: by 2002:a1c:7203:: with SMTP id n3mr4784113wmc.119.1581087681633; 
+ Fri, 07 Feb 2020 07:01:21 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id i11sm3647867wrs.10.2020.02.07.07.01.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 07 Feb 2020 07:01:19 -0800 (PST)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id E38EE1FF87;
+ Fri,  7 Feb 2020 15:01:18 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH  v1 0/5] plugins/next
+Date: Fri,  7 Feb 2020 15:01:13 +0000
+Message-Id: <20200207150118.23007-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20200207074557.26073-1-kraxel@redhat.com>
-In-Reply-To: <20200207074557.26073-1-kraxel@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 7 Feb 2020 15:01:04 +0000
-Message-ID: <CAFEAcA8ni9V3=qzXTFu3djXGGLkXS+BJmVqfTbK4E9HZq6CeVg@mail.gmail.com>
-Subject: Re: [PULL 00/12] Audio 20200207 patches
-To: Gerd Hoffmann <kraxel@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::22a
+X-Received-From: 2a00:1450:4864:20::342
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,35 +79,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>
+Cc: robert.foley@linaro.org, robhenry@microsoft.com,
+ aaron@os.amperecomputing.com, cota@braap.org, kuhn.chenqun@huawei.com,
+ peter.puhov@linaro.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 7 Feb 2020 at 07:47, Gerd Hoffmann <kraxel@redhat.com> wrote:
->
-> The following changes since commit 928173659d6e5dc368284f73f90ea1d129e1f57d:
->
->   Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20200130' into staging (2020-01-30 16:19:04 +0000)
->
-> are available in the Git repository at:
->
->   git://git.kraxel.org/qemu tags/audio-20200207-pull-request
->
-> for you to fetch changes up to ed2a4a794184df3dbd5ee4cc06e86fe220663faf:
->
->   audio: proper support for float samples in mixeng (2020-02-06 14:35:57 +0100)
->
-> ----------------------------------------------------------------
-> audio: bugfixes, mostly audio backend rewrite fallout
->
-> ---------------------------------------------------------------
+Hi,
 
+A few bits and pieces for plugin cleanup. The most major thing in this
+series is tweaking the riscv decoder to only load the instruction
+bytes it needs.
 
-Applied, thanks.
+Alex Bennée (3):
+  docs/devel: document query handle lifetimes
+  target/riscv: progressively load the instruction during decode
+  tests/plugins: make howvec clean-up after itself.
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/5.0
-for any user-visible changes.
+Chen Qun (1):
+  tests/plugin: prevent uninitialized warning
 
--- PMM
+Emilio G. Cota (1):
+  plugins/core: add missing break in cb_to_tcg_flags
+
+ docs/devel/tcg-plugins.rst | 13 +++++++++++--
+ plugins/core.c             |  1 +
+ target/riscv/translate.c   | 39 +++++++++++++++++++-------------------
+ tests/plugin/bb.c          |  6 +++---
+ tests/plugin/howvec.c      | 12 +++++++++++-
+ tests/plugin/insn.c        |  3 +--
+ 6 files changed, 47 insertions(+), 27 deletions(-)
+
+-- 
+2.20.1
+
 
