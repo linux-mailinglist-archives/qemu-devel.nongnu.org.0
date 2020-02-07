@@ -2,90 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67EB7155988
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 15:29:33 +0100 (CET)
-Received: from localhost ([::1]:57410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D586155A1D
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 15:53:55 +0100 (CET)
+Received: from localhost ([::1]:58462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j04dQ-00024V-Fc
-	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 09:29:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50044)
+	id 1j0510-0001gm-Bm
+	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 09:53:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54634)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liam.merwick@oracle.com>) id 1j04c9-0000gK-T5
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:28:14 -0500
+ (envelope-from <016728cfe268492b180a5045b1ce6d3d143bf981@lizzy.crudebyte.com>)
+ id 1j04sw-0007SY-9a
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:45:35 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <liam.merwick@oracle.com>) id 1j04c8-0003RH-Ax
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:28:13 -0500
-Received: from aserp2120.oracle.com ([141.146.126.78]:35368)
+ (envelope-from <016728cfe268492b180a5045b1ce6d3d143bf981@lizzy.crudebyte.com>)
+ id 1j04sv-0006Fo-7d
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:45:34 -0500
+Received: from lizzy.crudebyte.com ([91.194.90.13]:40761)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <liam.merwick@oracle.com>)
- id 1j04c8-0003Lk-3F
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:28:12 -0500
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 017ES957052290;
- Fri, 7 Feb 2020 14:28:09 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=corp-2020-01-29;
- bh=cKNgBV1r7Z2Mkv2xnevHRkYunGF5cmVkVaSRz7LzOkE=;
- b=CWU9JOUzkifxUy43KJykf3IFgE6yIFc36SJpE4Lm04Av8PGFAWMrcpTHYAn+5csPUg59
- KM7rOOTf17BCExvNAcBuasOy8bEcGjsKZnmZra5ZLPeRLHSGK86qmiblw9YBmev74S0D
- dgfJbmOctRj3Y9GKSbSP9WuD/b5Gw6oijVyQsRA8WIWvbdGkdqjFLDp3Onplw6wbkrmm
- ++1qFHtpoaj3V4T1WqztUJaQwScXj4tPdHrqh5WN+xUvSQLEjrFOhGtj/ewv42FMKMyB
- Z0hsvtKeTx152DlD4u2L5y2W6bCPE8TMrKTGmgzX1OP0LfXjjFhMIAnJWm3u+W0boBBA fQ== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by aserp2120.oracle.com with ESMTP id 2xykbpga9e-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 07 Feb 2020 14:28:09 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 017EJfMX001125;
- Fri, 7 Feb 2020 14:28:09 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
- by aserp3020.oracle.com with ESMTP id 2y0mk1x6wv-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 07 Feb 2020 14:28:09 +0000
-Received: from abhmp0020.oracle.com (abhmp0020.oracle.com [141.146.116.26])
- by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 017ES8T2031417;
- Fri, 7 Feb 2020 14:28:08 GMT
-Received: from [10.175.208.183] (/10.175.208.183)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Fri, 07 Feb 2020 06:28:07 -0800
-Subject: Re: [PATCH v2 10/29] python/qemu: Add
- binutils::binary_get_qom_implementations()
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Denis Plotnikov <dplotnikov@virtuozzo.com>, qemu-devel@nongnu.org
-References: <20200129212345.20547-1-philmd@redhat.com>
- <20200129212345.20547-11-philmd@redhat.com>
-From: Liam Merwick <liam.merwick@oracle.com>
-Message-ID: <4d8b1927-8b2e-efa9-c116-4aa61462d6c2@oracle.com>
-Date: Fri, 7 Feb 2020 14:28:02 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
-MIME-Version: 1.0
-In-Reply-To: <20200129212345.20547-11-philmd@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9523
- signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=4
- malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1911140001 definitions=main-2002070110
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9523
- signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
- priorityscore=1501 malwarescore=0
- suspectscore=4 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1911140001
- definitions=main-2002070111
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by aserp2120.oracle.com id
- 017ES957052290
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 141.146.126.78
+ (Exim 4.71)
+ (envelope-from <016728cfe268492b180a5045b1ce6d3d143bf981@lizzy.crudebyte.com>)
+ id 1j04su-0004D3-GZ
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:45:33 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=lizzy; h=Message-Id:Cc:To:Subject:Date:From:Content-Type:
+ Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Content-ID:
+ Content-Description; bh=cVaDLnM2mwS3m2xiObJb7wACXihL0DcSa2dUkcfUO+o=; b=cr7+v
+ MMZsJ0dSDlRWJC4Yd0C+EoINDMYi34jM0x5GtQJ0h8DbHOz99uGAOA/KiudMi/ixNn6G+Kqq55jIj
+ zMXDSHAyfyXGVXEp3EZQwAKlnkiPV44EwCJG0NAHKMH8NjppH8qTY909gpAeuiDlMkaNHD56vXqMM
+ ssI8whbB2llAeUWjl/rZfeFjkHdyu08PIE0ULHurPPeYpdHQB+KMIsLSWKWat3ayqQ0/4zOyJC2nt
+ 0VXSzKLii7mlG8n99z3wwwJ0qb+2p2tH+m2FbMcp2+5FjBvL2R129gIviSGdtV/cQ1VV+zlwNRE5W
+ g29Q3nzZmOLV82eQMPOn5zr/ud5aw==;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Date: Fri, 7 Feb 2020 14:32:43 +0100
+Subject: [PATCH] MAINTAINERS: 9pfs: Add myself as reviewer
+To: qemu-devel@nongnu.org
+Cc: Greg Kurz <groug@kaod.org>
+Message-Id: <E1j04TG-0001xn-JY@lizzy.crudebyte.com>
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.194.90.13
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -97,90 +52,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Cornelia Huck <cohuck@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 29/01/2020 21:23, Philippe Mathieu-Daud=C3=A9 wrote:
-> Since QEMU binaries can be built with various configurations,
-> the list of QOM objects linked can vary.
-> Add a helper to query the list of all QOM types implementing a
-> particular interface.
->=20
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> ---
->   python/qemu/binutils.py          | 20 ++++++++++++++++++++
->   tests/acceptance/core_scripts.py | 10 ++++++++++
->   2 files changed, 30 insertions(+)
->=20
-> diff --git a/python/qemu/binutils.py b/python/qemu/binutils.py
-> index 7bb57c521b..76f256f5d2 100644
-> --- a/python/qemu/binutils.py
-> +++ b/python/qemu/binutils.py
-> @@ -66,3 +66,23 @@ def binary_get_machines(qemu_bin):
->           LOG.info(res)
->           vm.shutdown()
->           return [m['name'] for m in res]
-> +
-> +def binary_get_qom_implementations(qemu_bin, type_name, include_abstra=
-ct=3DFalse):
-> +    '''
-> +    Get list of QOM types implementing a particular interface
-> +
-> +    @param qemu_bin (str): path to the QEMU binary
-> +    @param type_name (str): QOM interface name
-> +    @param include_abstract (bool): if True, abstract interfaces are a=
-lso
-> +                                    returned in the list
-> +    @return list of QOM types implementing the interface @type_name
-> +    '''
-> +    with QEMUMachine(qemu_bin) as vm:
-> +        vm.set_machine('none')
-> +        vm.launch()
-> +        res =3D vm.command('qom-list-types',
-> +                         implements=3Dtype_name,
-> +                         abstract=3Dinclude_abstract)
-> +        LOG.info(res)
-> +        vm.shutdown()
+Currently 9pfs is only taken care of by Greg. Since I am actively working
+on 9pfs and already became quite used to the code base, it makes sense to
+volunteer as reviewer for 9pfs related patches.
 
+Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Cc: Greg Kurz <groug@kaod.org>
+---
+ MAINTAINERS | 1 +
+ 1 file changed, 1 insertion(+)
 
-Based on Wainer's comment on patch3 - is this vm.shutdown() needed?
-
-otherwise
-
-Reviewed-by: Liam Merwick <liam.merwick@oracle.com>
-
-
-> +        return [m['name'] for m in res]
-> diff --git a/tests/acceptance/core_scripts.py b/tests/acceptance/core_s=
-cripts.py
-> index a5b112f928..c2fe4acf1d 100644
-> --- a/tests/acceptance/core_scripts.py
-> +++ b/tests/acceptance/core_scripts.py
-> @@ -18,6 +18,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__=
-), '..', '..', 'python'))
->   from avocado_qemu import Test
->   from qemu.binutils import binary_get_arch
->   from qemu.binutils import binary_get_machines
-> +from qemu.binutils import binary_get_qom_implementations
->   from qemu.binutils import binary_get_version
->  =20
->  =20
-> @@ -49,3 +50,12 @@ class PythonQemuCoreScripts(Test):
->               logger.debug('machine: {}'.format(m))
->           # The 'none' machine is always available
->           self.assertIn('none', machines)
-> +
-> +    def test_get_qom_implementation(self):
-> +        logger =3D logging.getLogger('core')
-> +        type_name =3D "accel"
-> +        type_impl =3D binary_get_qom_implementations(self.qemu_bin,
-> +                                                   type_name, True)
-> +        for t in type_impl:
-> +            logger.debug('type: {}'.format(t))
-> +        self.assertIn(type_name, type_impl)
->=20
+diff --git a/MAINTAINERS b/MAINTAINERS
+index e72b5e5f69..ce46c0a552 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1578,6 +1578,7 @@ F: include/hw/virtio/
+ 
+ virtio-9p
+ M: Greg Kurz <groug@kaod.org>
++R: Christian Schoenebeck <qemu_oss@crudebyte.com>
+ S: Odd Fixes
+ F: hw/9pfs/
+ X: hw/9pfs/xen-9p*
+-- 
+2.20.1
 
 
