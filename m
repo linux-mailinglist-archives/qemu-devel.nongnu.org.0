@@ -2,72 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC6091558F9
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 15:04:24 +0100 (CET)
-Received: from localhost ([::1]:57078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3BCE1558F6
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 15:03:40 +0100 (CET)
+Received: from localhost ([::1]:57062 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j04F5-000664-Pd
-	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 09:04:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44873)
+	id 1j04EN-0004Um-Pm
+	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 09:03:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44945)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1j04Cc-0002Hd-2r
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:01:51 -0500
+ (envelope-from <philmd@redhat.com>) id 1j04Cm-0002cm-02
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:02:08 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1j04CX-0008Ns-1d
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:01:50 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:47059
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1j04Ck-0000K5-Kc
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:01:59 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:38446
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1j04CU-0008L7-6M
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:01:42 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j04Ck-0000Ju-HD
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:01:58 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581084101;
+ s=mimecast20190719; t=1581084118;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=CoDS1or+vhNSfw1HUju5r2RTd90BR8aIipjKbTeKoug=;
- b=YjbQIga7xpmNZt2thNb3owqxZWo81MG5FFiF8ERFDauX0v67rkX4nlglrOZigurn5LhtbQ
- +h/XMPnY0V2DsOeoz08c8t+TsIITOhVOeFmMJ3gTbEHiSqn4g5EEPu8QwAt7Uybm71xkEb
- fcsb/GLp7LzeHQxeGiifd/VOAHttZB0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-151-A82EdqvvMTaKn2x-ZKYqlw-1; Fri, 07 Feb 2020 09:01:21 -0500
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 29FB280256F;
- Fri,  7 Feb 2020 14:01:20 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-116-136.ams2.redhat.com
- [10.36.116.136])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0A652790D7;
- Fri,  7 Feb 2020 14:01:14 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 8002C11386A7; Fri,  7 Feb 2020 15:01:13 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH 2/3] MAINTAINERS: Cover qapi/block{-core}.json in 'Block
- layer core' section
-References: <20200207103012.27049-1-philmd@redhat.com>
- <20200207103012.27049-3-philmd@redhat.com>
-Date: Fri, 07 Feb 2020 15:01:13 +0100
-In-Reply-To: <20200207103012.27049-3-philmd@redhat.com> ("Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Fri, 7 Feb 2020 11:30:11
- +0100")
-Message-ID: <87blqaqyxi.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+ bh=OzYA7j6sMSvM1+wsQDNqi9C1gEidxZ3+YnF4SDYAQFQ=;
+ b=fsHkjef8+d6DUw9r7cJA/OmOr2mnqJ3VgX3Qe2c1P5SQ55rWeX9DhnDsvRiSQzIobxaPnQ
+ Q3Rm25UUns7vUmKJnXkvYymHKrBcYp289KBxfJPPHbhbXJbO98u6zsmcmnl4+n7ZC3DQ0P
+ pzook0LGW2H9jjKSn6wHQ/4h8H9mNfs=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-14-usmN2D4sPSeKpBO19aPebQ-1; Fri, 07 Feb 2020 09:01:56 -0500
+Received: by mail-wm1-f71.google.com with SMTP id a10so768756wme.9
+ for <qemu-devel@nongnu.org>; Fri, 07 Feb 2020 06:01:56 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=cV0y7LUvB+UraMl1o3hn8Zz2xU3X8YlPtRsgStWRpwA=;
+ b=i9DN9LhVsB1gFD7KNQ62plYV3NTc7UFLm22RNFm2N7q4d9qyEF2yy2UGxvTHBmdB22
+ 5Rw/UyusJPrX23RxMb+j7uTzzTgtoU9/QKbcsXOAfTkZzuYfSVODvkKlQeQDmPw5EQMz
+ a+4GPYfYFtwxRhgbnzoEWxUTc34jNX0eXYilGNbW1LOlqXgEbD2bbVz2OmHKxd+3Kii4
+ G1aLWo/znwRXDDO0cGFqZ3NHYkyqnvuhLKR1JnOaGRi3SdajyotXY8kuRyKaR4Oznmj6
+ kFwSwAWAQy/iIk9trJgyFGgowGmnaIBxIMASVN+LAyWfaAoFbEXhOmaDK0vIm+Pkm9Km
+ nYtQ==
+X-Gm-Message-State: APjAAAWutdoDwjJr0rhD/9XULDBxQyL6ZcvZKxrGM5uzx3einax0AyHl
+ OK3r8cwrnbcy3VUd7oqhubUbox0Ko0BY3nL0b4QhVSdXcsOvgVQiDR2bDFQRGC1m/Si3WpeptMK
+ Gm0Qc+4pD+ZPbIjM=
+X-Received: by 2002:a5d:6545:: with SMTP id z5mr4821952wrv.3.1581084115014;
+ Fri, 07 Feb 2020 06:01:55 -0800 (PST)
+X-Google-Smtp-Source: APXvYqz8GvwTvUAzPPkBlJmAuQN6CS0cea2WYsbLxxJV5Hy+GW4DX3D1FGWHsY2+LziXUGhWVvDoZg==
+X-Received: by 2002:a5d:6545:: with SMTP id z5mr4821826wrv.3.1581084113411;
+ Fri, 07 Feb 2020 06:01:53 -0800 (PST)
+Received: from [192.168.1.35] (78.red-88-21-202.staticip.rima-tde.net.
+ [88.21.202.78])
+ by smtp.gmail.com with ESMTPSA id y8sm3433731wma.10.2020.02.07.06.01.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 07 Feb 2020 06:01:52 -0800 (PST)
+Subject: Re: [PULL 00/46] Python queue 2020-02-06
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20200206211936.17098-1-philmd@redhat.com>
+ <CAFEAcA_bHE1s5q4bUrna0ph4Zw4m0VynjTcRo9GPjZDThqHZZQ@mail.gmail.com>
+ <c43d995e-aaba-80ca-1945-e0ba02d67162@redhat.com>
+Message-ID: <0d1891e4-b161-e695-cfc9-ce29dfdd3a34@redhat.com>
+Date: Fri, 7 Feb 2020 15:01:52 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: A82EdqvvMTaKn2x-ZKYqlw-1
+In-Reply-To: <c43d995e-aaba-80ca-1945-e0ba02d67162@redhat.com>
+Content-Language: en-US
+X-MC-Unique: usmN2D4sPSeKpBO19aPebQ-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,59 +92,150 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- qemu-trivial@nongnu.org, qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- John Snow <jsnow@redhat.com>
+Cc: Cleber Rosa <crosa@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Qemu-block <qemu-block@nongnu.org>, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
+On 2/7/20 1:39 PM, Philippe Mathieu-Daud=C3=A9 wrote:
+> On 2/7/20 12:51 PM, Peter Maydell wrote:
+>> On Thu, 6 Feb 2020 at 21:21, Philippe Mathieu-Daud=C3=A9=20
+>> <philmd@redhat.com> wrote:
+>>>
+>>> Hi Peter,
+>>>
+>>> I prepared this series on behalf of Eduardo and
+>>> Cleber (one of them will ack this cover).
+>>>
+>>> Regards,
+>>>
+>>> Phil.
+>>>
+>>> The following changes since commit=20
+>>> 418fa86dd465b4fd8394373cf83db8fa65d7611c:
+>>>
+>>> =C2=A0=C2=A0 Merge remote-tracking branch=20
+>>> 'remotes/stsquad/tags/pull-testing-040220-1' into staging (2020-02-04=
+=20
+>>> 18:55:06 +0000)
+>>>
+>>> are available in the Git repository at:
+>>>
+>>> =C2=A0=C2=A0 https://gitlab.com/philmd/qemu.git tags/python-next-202002=
+06
+>>>
+>>> for you to fetch changes up to 3e3481a5df933a26b47f08e5913821672d28d308=
+:
+>>>
+>>> =C2=A0=C2=A0 .readthedocs.yml: specify some minimum python requirements=
+=20
+>>> (2020-02-06 21:48:24 +0100)
+>>
+>> Hi; this fails 'make check' (all hosts):
+>>
+>> =C2=A0=C2=A0 TEST=C2=A0=C2=A0=C2=A0 iotest-qcow2: 252
+>> =C2=A0=C2=A0 TEST=C2=A0=C2=A0=C2=A0 iotest-qcow2: 256
+>> =C2=A0=C2=A0 TEST=C2=A0=C2=A0=C2=A0 iotest-qcow2: 265
+>> =C2=A0=C2=A0 TEST=C2=A0=C2=A0=C2=A0 iotest-qcow2: 267
+>> =C2=A0=C2=A0 TEST=C2=A0=C2=A0=C2=A0 iotest-qcow2: 268
+>> =C2=A0=C2=A0 TEST=C2=A0=C2=A0=C2=A0 iotest-qcow2: 283 [fail]
+>> QEMU=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 --
+>> "/home/petmay01/linaro/qemu-for-merges/build/all/tests/qemu-iotests/../.=
+./x86_64-softmmu/qemu-system-x86_64"=20
+>>
+>> -nodefaults -display none -accel qtest
+>> QEMU_IMG=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 --
+>> "/home/petmay01/linaro/qemu-for-merges/build/all/tests/qemu-iotests/../.=
+./qemu-img"=20
+>>
+>> QEMU_IO=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 --
+>> "/home/petmay01/linaro/qemu-for-merges/build/all/tests/qemu-iotests/../.=
+./qemu-io"=20
+>>
+>> =C2=A0 --cache writeback --aio threads -f qcow2
+>> QEMU_NBD=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 --
+>> "/home/petmay01/linaro/qemu-for-merges/build/all/tests/qemu-iotests/../.=
+./qemu-nbd"=20
+>>
+>> IMGFMT=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 -- qcow2 (compat=3D1.1)
+>> IMGPROTO=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 -- file
+>> PLATFORM=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 -- Linux/x86_64 e104462 4.15.0-74=
+-generic
+>> TEST_DIR=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 --
+>> /home/petmay01/linaro/qemu-for-merges/build/all/tests/qemu-iotests/scrat=
+ch=20
+>>
+>> SOCK_DIR=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 -- /tmp/tmp.oppAzNNHIY
+>> SOCKET_SCM_HELPER --
+>> /home/petmay01/linaro/qemu-for-merges/build/all/tests/qemu-iotests/socke=
+t_scm_helper=20
+>>
+>>
+>> --- /home/petmay01/linaro/qemu-for-merges/tests/qemu-iotests/283.out
+>> =C2=A0 2020-02-06 18:59:06.291529139 +0000
+>> +++=20
+>> /home/petmay01/linaro/qemu-for-merges/build/all/tests/qemu-iotests/283.o=
+ut.bad=20
+>>
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 2020-02-07 11:25:38.477373907 +0000
+>> @@ -1,8 +1 @@
+>> -{"execute": "blockdev-add", "arguments": {"driver": "null-co",
+>> "node-name": "target"}}
+>> -{"return": {}}
+>> -{"execute": "blockdev-add", "arguments": {"driver": "blkdebug",
+>> "image": {"driver": "null-co", "node-name": "base", "size": 1048576},
+>> "node-name": "source"}}
+>> -{"return": {}}
+>> -{"execute": "blockdev-add", "arguments": {"driver": "blkdebug",
+>> "image": "base", "node-name": "other", "take-child-perms": ["write"]}}
+>> -{"return": {}}
+>> -{"execute": "blockdev-backup", "arguments": {"device": "source",
+>> "sync": "full", "target": "target"}}
+>> -{"error": {"class": "GenericError", "desc": "Cannot set permissions
+>> for backup-top filter: Conflicts with use by other as 'image', which
+>> uses 'write' on base"}}
+>> +./check: line 866: ./283: Permission denied
+>> Not run: 220
+>> Failures: 283
+>=20
+> Interesting.
+> I apologize this test is not in my suite.
 
-> List this file in the proper section, so maintainers get
-> notified when it is modified.
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> ---
-> Cc: Kevin Wolf <kwolf@redhat.com>
-> Cc: Max Reitz <mreitz@redhat.com>
-> Cc: qemu-block@nongnu.org
-> ---
->  MAINTAINERS | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 903831e0a4..e269e9092c 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -1842,6 +1842,8 @@ S: Supported
-   Block layer core
-   M: Kevin Wolf <kwolf@redhat.com>
-   M: Max Reitz <mreitz@redhat.com>
-   L: qemu-block@nongnu.org
-   S: Supported
->  F: block*
->  F: block/
->  F: hw/block/
-> +F: qapi/block.json
-> +F: qapi/block-core.json
->  F: include/block/
->  F: qemu-img*
->  F: docs/interop/qemu-img.rst
+Actually test 283 was merged yesterday few hours before I send this pull=20
+request (which is why it passed the new checkpatch test), and it doesn't=20
+use the Python 3 interpreter after shebang.
 
-This is in addition to
+Once updated to Python 3, with this hunk, the test pass:
 
-    Block QAPI, monitor, command line
-    M: Markus Armbruster <armbru@redhat.com>
-    S: Supported
-    F: blockdev.c
-    F: block/qapi.c
-    F: qapi/block*.json
-    F: qapi/transaction.json
-    T: git https://repo.or.cz/qemu/armbru.git block-next
+-- >8 --
+--- a/tests/qemu-iotests/283
++++ b/tests/qemu-iotests/283
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env python
++#!/usr/bin/env python3
+  #
+  # Test for backup-top filter permission activation failure
+  #
+---
 
-I'm not sure this section makes much sense anymore.
+   ...
+   TEST    iotest-qcow2: 244
+   TEST    iotest-qcow2: 249
+   TEST    iotest-qcow2: 251
+   TEST    iotest-qcow2: 252
+   TEST    iotest-qcow2: 256
+   TEST    iotest-qcow2: 265
+   TEST    iotest-qcow2: 267
+   TEST    iotest-qcow2: 268
+   TEST    iotest-qcow2: 283
+Not run: 220
+Passed all 115 iotests
 
-Should qapi/transaction.json also be added to "Block layer core"?  Or
-should it go into John's section "Block Jobs"?
+I'll rebase and respin.
+
+>=20
+>> Failed 1 of 115 iotests
+>> /home/petmay01/linaro/qemu-for-merges/tests/Makefile.include:842:
+>> recipe for target 'check-tests/check-block.sh' failed
 
 
