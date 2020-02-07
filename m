@@ -2,46 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21C5015509D
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 03:13:17 +0100 (CET)
-Received: from localhost ([::1]:49122 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F8841550A4
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 03:16:52 +0100 (CET)
+Received: from localhost ([::1]:49190 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izt8u-0004tX-55
-	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 21:13:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59807)
+	id 1iztCN-0003LM-KT
+	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 21:16:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35591)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1izsvm-0006Ik-1b
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 20:59:44 -0500
+ (envelope-from <yuzenghui@huawei.com>) id 1izt86-0004lO-HL
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 21:12:28 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1izsvj-0001Mb-Ml
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 20:59:41 -0500
-Received: from mx2.rt-rk.com ([89.216.37.149]:53234 helo=mail.rt-rk.com)
+ (envelope-from <yuzenghui@huawei.com>) id 1izt85-0002gj-88
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 21:12:26 -0500
+Received: from szxga05-in.huawei.com ([45.249.212.191]:2755 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
- id 1izsvj-0001AV-CI
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 20:59:39 -0500
-Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id 0B4921A1FEC;
- Fri,  7 Feb 2020 02:58:24 +0100 (CET)
-X-Virus-Scanned: amavisd-new at rt-rk.com
-Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
- [10.10.14.106])
- by mail.rt-rk.com (Postfix) with ESMTPSA id D811F1A2147;
- Fri,  7 Feb 2020 02:58:23 +0100 (CET)
-From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH rc5 32/32] target/avr: Add section into QEMU documentation
-Date: Fri,  7 Feb 2020 02:58:00 +0100
-Message-Id: <1581040680-308-33-git-send-email-aleksandar.markovic@rt-rk.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1581040680-308-1-git-send-email-aleksandar.markovic@rt-rk.com>
-References: <1581040680-308-1-git-send-email-aleksandar.markovic@rt-rk.com>
+ (Exim 4.71) (envelope-from <yuzenghui@huawei.com>)
+ id 1izt81-0002Bt-GL; Thu, 06 Feb 2020 21:12:21 -0500
+Received: from DGGEMS408-HUB.china.huawei.com (unknown [172.30.72.60])
+ by Forcepoint Email with ESMTP id 0CC776FDC2DB42D9E710;
+ Fri,  7 Feb 2020 10:12:17 +0800 (CST)
+Received: from [127.0.0.1] (10.173.222.27) by DGGEMS408-HUB.china.huawei.com
+ (10.3.19.208) with Microsoft SMTP Server id 14.3.439.0; Fri, 7 Feb 2020
+ 10:12:07 +0800
+Subject: Re: [kvm-unit-tests PATCH v3 06/14] arm/arm64: gicv3: Set the LPI
+ config and pending tables
+To: Eric Auger <eric.auger@redhat.com>, <eric.auger.pro@gmail.com>,
+ <maz@kernel.org>, <kvmarm@lists.cs.columbia.edu>, <kvm@vger.kernel.org>,
+ <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>
+References: <20200128103459.19413-1-eric.auger@redhat.com>
+ <20200128103459.19413-7-eric.auger@redhat.com>
+From: Zenghui Yu <yuzenghui@huawei.com>
+Message-ID: <5e188428-11c9-aad4-3d5e-fca89cc41b7f@huawei.com>
+Date: Fri, 7 Feb 2020 10:12:05 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
-X-Received-From: 89.216.37.149
+In-Reply-To: <20200128103459.19413-7-eric.auger@redhat.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.173.222.27]
+X-CFilter-Loop: Reflected
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 45.249.212.191
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,108 +59,173 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Michael Rolnik <mrolnik@gmail.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Cc: andre.przywara@arm.com, drjones@redhat.com, alexandru.elisei@arm.com,
+ thuth@redhat.com, peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Michael Rolnik <mrolnik@gmail.com>
+Hi Eric,
 
-The new section explains basic ways of using AVR target in QEMU.
+On 2020/1/28 18:34, Eric Auger wrote:
+> Allocate the LPI configuration and per re-distributor pending table.
+> Set redistributor's PROPBASER and PENDBASER. The LPIs are enabled
+> by default in the config table.
+> 
+> Also introduce a helper routine that allows to set the pending table
+> bit for a given LPI.
+> 
+> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+> 
+> ---
+> 
+> v2 -> v3:
+> - Move the helpers in lib/arm/gic-v3.c and prefix them with "gicv3_"
+>    and add _lpi prefix too
+> 
+> v1 -> v2:
+> - remove memory attributes
+> ---
+>   lib/arm/asm/gic-v3.h | 16 +++++++++++
+>   lib/arm/gic-v3.c     | 64 ++++++++++++++++++++++++++++++++++++++++++++
+>   2 files changed, 80 insertions(+)
+> 
+> diff --git a/lib/arm/asm/gic-v3.h b/lib/arm/asm/gic-v3.h
+> index ffb2e26..ec2a6f0 100644
+> --- a/lib/arm/asm/gic-v3.h
+> +++ b/lib/arm/asm/gic-v3.h
+> @@ -48,6 +48,16 @@
+>   #define MPIDR_TO_SGI_AFFINITY(cluster_id, level) \
+>   	(MPIDR_AFFINITY_LEVEL(cluster_id, level) << ICC_SGI1R_AFFINITY_## level ## _SHIFT)
+>   
+> +#define GICR_PROPBASER_IDBITS_MASK                      (0x1f)
 
-Signed-off-by: Michael Rolnik <mrolnik@gmail.com>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-[PMD: Fixed typos]
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-Signed-off-by: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Reviewed-by: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
----
- qemu-doc.texi | 51 +++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 51 insertions(+)
+This is not being used.  You can use it when calculating prop_val
+or just drop it.
 
-diff --git a/qemu-doc.texi b/qemu-doc.texi
-index a1ef6b6..79c9e3a 100644
---- a/qemu-doc.texi
-+++ b/qemu-doc.texi
-@@ -1719,6 +1719,7 @@ differences are mentioned in the following sections=
-.
- * Microblaze System emulator::
- * SH4 System emulator::
- * Xtensa System emulator::
-+* AVR System emulator::
- @end menu
-=20
- @node PowerPC System emulator
-@@ -2487,6 +2488,56 @@ so should only be used with trusted guest OS.
-=20
- @c man end
-=20
-+@node AVR System emulator
-+@section AVR System emulator
-+@cindex system emulation (AVR)
-+
-+Use the executable @file{qemu-system-avr} to emulates a AVR 8 bit based =
-machine
-+having one for the following cores: avr1, avr2, avr25, avr3, avr31, avr3=
-5, avr4,
-+avr5, avr51, avr6, avrtiny, xmega2, xmega3, xmega4, xmega5, xmega6 and x=
-mega7.
-+
-+As for now it supports few Arduino boards for educational and testing pu=
-rposes.
-+These boards use a ATmega controller, which model is limited to USART & =
-16 bit
-+timer devices, enought to run FreeRTOS based applications (like this @ur=
-l{https://github.com/seharris/qemu-avr-tests/blob/master/free-rtos/Demo/A=
-VR_ATMega2560_GCC/demo.elf,,demo})
-+
-+Following are examples of possible usages, assuming demo.elf is compiled=
- for
-+AVR cpu
-+@itemize
-+
-+@item Continuous non interrupted execution
-+@example
-+qemu-system-avr -machine mega2560 -bios demo.elf
-+@end example
-+
-+@item Continuous non interrupted execution with serial output into telne=
-t window
-+@example
-+qemu-system-avr -machine mega2560 -bios demo.elf -serial tcp::5678,serve=
-r,nowait -nographic
-+@end example
-+and then in another shell
-+@example
-+telnet localhost 5678
-+@end example
-+
-+@item Debugging wit GDB debugger
-+@example
-+qemu-system-avr -machine mega2560 -bios demo.elf -s -S
-+@end example
-+and then in another shell
-+@example
-+avr-gdb demo.elf
-+@end example
-+and then within GDB shell
-+@example
-+target remote :1234
-+@end example
-+
-+@item Print out executed instructions
-+@example
-+qemu-system-avr -machine mega2560 -bios demo.elf -d in_asm
-+@end example
-+
-+@end itemize
-+
- @node QEMU User space emulator
- @chapter QEMU User space emulator
-=20
---=20
-2.7.4
+> +
+> +#define GICR_PENDBASER_PTZ                              BIT_ULL(62)
+> +
+> +#define LPI_PROP_GROUP1		(1 << 1)
+> +#define LPI_PROP_ENABLED	(1 << 0)
+> +#define LPI_PROP_DEFAULT_PRIO   0xa0
+> +#define LPI_PROP_DEFAULT	(LPI_PROP_DEFAULT_PRIO | LPI_PROP_GROUP1 | \
+> +				 LPI_PROP_ENABLED)
+> +
+>   #include <asm/arch_gicv3.h>
+>   
+>   #ifndef __ASSEMBLY__
+> @@ -64,6 +74,8 @@ struct gicv3_data {
+>   	void *dist_base;
+>   	void *redist_bases[GICV3_NR_REDISTS];
+>   	void *redist_base[NR_CPUS];
+> +	void *lpi_prop;
+> +	void *lpi_pend[NR_CPUS];
+>   	unsigned int irq_nr;
+>   };
+>   extern struct gicv3_data gicv3_data;
+> @@ -80,6 +92,10 @@ extern void gicv3_write_eoir(u32 irqstat);
+>   extern void gicv3_ipi_send_single(int irq, int cpu);
+>   extern void gicv3_ipi_send_mask(int irq, const cpumask_t *dest);
+>   extern void gicv3_set_redist_base(size_t stride);
+> +extern void gicv3_lpi_set_config(int n, u8 val);
+> +extern u8 gicv3_lpi_get_config(int n);
+> +extern void gicv3_lpi_set_pending_table_bit(int rdist, int n, bool set);
+> +extern void gicv3_lpi_alloc_tables(void);
+>   
+>   static inline void gicv3_do_wait_for_rwp(void *base)
+>   {
+> diff --git a/lib/arm/gic-v3.c b/lib/arm/gic-v3.c
+> index feecb5e..c33f883 100644
+> --- a/lib/arm/gic-v3.c
+> +++ b/lib/arm/gic-v3.c
+> @@ -5,6 +5,7 @@
+>    */
+>   #include <asm/gic.h>
+>   #include <asm/io.h>
+> +#include <alloc_page.h>
+>   
+>   void gicv3_set_redist_base(size_t stride)
+>   {
+> @@ -147,3 +148,66 @@ void gicv3_ipi_send_single(int irq, int cpu)
+>   	cpumask_set_cpu(cpu, &dest);
+>   	gicv3_ipi_send_mask(irq, &dest);
+>   }
+> +
+> +#if defined(__aarch64__)
+> +/* alloc_lpi_tables: Allocate LPI config and pending tables */
+> +void gicv3_lpi_alloc_tables(void)
+> +{
+> +	unsigned long n = SZ_64K >> PAGE_SHIFT;
+> +	unsigned long order = fls(n);
+> +	u64 prop_val;
+> +	int cpu;
+> +
+> +	gicv3_data.lpi_prop = (void *)virt_to_phys(alloc_pages(order));
+> +
+> +	/* ID bits = 13, ie. up to 14b LPI INTID */
+> +	prop_val = (u64)gicv3_data.lpi_prop | 13;
+> +
+> +	/*
+> +	 * Allocate pending tables for each redistributor
+> +	 * and set PROPBASER and PENDBASER
+> +	 */
+> +	for_each_present_cpu(cpu) {
+> +		u64 pend_val;
+> +		void *ptr;
+> +
+> +		ptr = gicv3_data.redist_base[cpu];
+> +
+> +		writeq(prop_val, ptr + GICR_PROPBASER);
+> +
+> +		gicv3_data.lpi_pend[cpu] = (void *)virt_to_phys(alloc_pages(order));
+> +
+> +		pend_val = (u64)gicv3_data.lpi_pend[cpu];
+> +
+> +		writeq(pend_val, ptr + GICR_PENDBASER);
+> +	}
+> +}
+> +
+> +void gicv3_lpi_set_config(int n, u8 value)
+> +{
+> +	u8 *entry = (u8 *)(gicv3_data.lpi_prop + (n - 8192));
+
+But this is actually the *physical* address, shouldn't it be
+converted by phys_to_virt() before reading/writing something?
+Like what you've done for the 'lpi_pend[rdist]' before writing
+pending bit.  Or I'm missing some points here?
+
+> +
+> +	*entry = value;
+> +}
+> +
+> +u8 gicv3_lpi_get_config(int n)
+> +{
+> +	u8 *entry = (u8 *)(gicv3_data.lpi_prop + (n - 8192));
+
+The same as above.
+
+
+Thanks,
+Zenghui
+
+> +
+> +	return *entry;
+> +}
+> +
+> +void gicv3_lpi_set_pending_table_bit(int rdist, int n, bool set)
+> +{
+> +	u8 *ptr = phys_to_virt((phys_addr_t)gicv3_data.lpi_pend[rdist]);
+> +	u8 mask = 1 << (n % 8), byte;
+> +
+> +	ptr += (n / 8);
+> +	byte = *ptr;
+> +	if (set)
+> +		byte |=  mask;
+> +	else
+> +		byte &= ~mask;
+> +	*ptr = byte;
+> +}
+> +#endif /* __aarch64__ */
+> 
 
 
