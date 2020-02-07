@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F75A155A6E
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 16:13:20 +0100 (CET)
-Received: from localhost ([::1]:59098 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0B9C155A77
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 16:15:56 +0100 (CET)
+Received: from localhost ([::1]:59230 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j05Jn-0004G5-Fw
-	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 10:13:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60316)
+	id 1j05MJ-0000bY-Q3
+	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 10:15:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60333)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1j058J-0000uF-Rj
+ (envelope-from <alex.bennee@linaro.org>) id 1j058K-0000wL-JE
  for qemu-devel@nongnu.org; Fri, 07 Feb 2020 10:01:29 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1j058I-000470-DI
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 10:01:27 -0500
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:54570)
+ (envelope-from <alex.bennee@linaro.org>) id 1j058J-0004D6-BW
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 10:01:28 -0500
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:55457)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1j058I-00040s-50
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 10:01:26 -0500
-Received: by mail-wm1-x344.google.com with SMTP id g1so2881177wmh.4
+ id 1j058J-00047j-3I
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 10:01:27 -0500
+Received: by mail-wm1-x343.google.com with SMTP id q9so2869375wmj.5
  for <qemu-devel@nongnu.org>; Fri, 07 Feb 2020 07:01:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=U6Am3X6OQTZ1x+tf20LucVI7jeDaV7FG5H5GI7lV8EE=;
- b=w2WmCj33W1pPjplq1vkGvP4r1LLm/qIZk/PhWqJ2Ao2pD2xj1LPBVu1ZAdDEC0C5DY
- YSKINVK4XvBick/c6PVD+n0aS729CVzuF+EaMguiB3oV3SVr2cUsNBHsfKg4X3am0xWu
- 0SNDwohlhnz72jbGkdz8/1TGMuO7NynmCQFEvjm/I/n9cMSybW/+ptVslwkXo86GEZJe
- mBv9yqp29GLdn4Da4ty9P3Ugw4R+2tFsADBU59s4WKiORfC1aaLw8jD/CHMOqR1VV+HL
- vZS3q1Dh5BtWtgB9SRwUs8SPiF/z2MhezuehcCB/sV3USuaqRSLTIMckwR86PqYuiouP
- Nd+Q==
+ bh=20w7i9jiAm5hvyfwFIkzlqbRcfX9RLZbq6NcYeukZyY=;
+ b=OLxckoe3p/ZV52/++8NBWwJliB6tjTDM7yc0RH2OX4Wutq0kcWEFI1ohBipqxVjeRj
+ DLZ14vPK1pUv9xrG3Ni1fGdTJgbDoSl5Ic09YpiYJFvyp/wfpwZWGsP2uhDjHjghj6Az
+ k+p3PTKVBPDlMj6k5qbhVGZ1hjpf5JN6ABTtzz6S1O4vnQ5eguAczP4wTt57N7AgocUf
+ zn62knDIgt5wFA7SXOfZfLSOaaUnRVgz6IN0H0wWUTJ29RUN6ybt5zmyb15qt+yYmxPb
+ fS+sTqjgjlQqrxFJeVbMpF12Kx/m1jlbiqgmrGAvy0Bdae4CnE5GpHMWH201757AEEpt
+ Hhpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=U6Am3X6OQTZ1x+tf20LucVI7jeDaV7FG5H5GI7lV8EE=;
- b=VihXl8fffGRU1hx6+iybggOt6H8T81gVTt0FL4kNpXbhBcA1FKyd2+ZDqGzmQe81Mr
- m8+I4gHjnPS0mGCcSkm9xwknDhMui3dbknzpi3V0w9rpu8l4Bz5HWPcjxMm4Wx7IjUM1
- TqzlfQXqLJLkeFUYZMlL4MVUIqCPilzeiaxUL6MdCfXuTDQKFdSWY63cC4RPFjt3EDmI
- KKVMrknEwohqahHWBwuwWhUtQ6Viao3uCH2leqhg+S5VgGViiI6Qg+kpBefDs7FKSwWc
- Ot8IULb7NAOpKLJuwgzdGeA6jcYoFEKzvbebUTmxm1R5sDDOa29rKoeFFypKF7+HwygC
- eMpw==
-X-Gm-Message-State: APjAAAWMINohVM4GMYO0zndUn3v+CQu5WAv+zA0mpgTVR88HzBUgrFS1
- 8V21kiqbnCdbjUeJ2rKi7LE3yw==
-X-Google-Smtp-Source: APXvYqxOMp8kveOFWUrZwYWQwbPSBkD6s7EKiNuV1LixsgOVeUhIHRE1vmd+9Be0JLtXQNSSaTScZw==
-X-Received: by 2002:a1c:7907:: with SMTP id l7mr4652088wme.37.1581087685087;
- Fri, 07 Feb 2020 07:01:25 -0800 (PST)
+ bh=20w7i9jiAm5hvyfwFIkzlqbRcfX9RLZbq6NcYeukZyY=;
+ b=UJjlxpNEXXR82YibifaBWhawMTzHWxjMm1XiC5Z8wLMkGf/O9Zpc7QGMbTrBM5EWYS
+ tohjlVewGddZahIyCGx65Jv8SkEGSSxI5m073i2P5Rje0i62S39CMBkoaocuLcZNv/b0
+ +5xoaHqypZfIVrbSHzWCqU6gkAuaiMM0faNffdiYdPxI6/3r90tQZRHVQeFsUImxmLto
+ sGiJ66OqK5o8CaRnA37b8MpUErXsFB64swNwzGfHfB/UFbic2Nsi5rjRgvtcsDgec/O9
+ jdZQ+urpp9vcr4SvrDQLmB/f2mEl4m6pAdYVxxLYjxdUWvxiQapRxeHw9RM0h//Wmrw2
+ Q7Mg==
+X-Gm-Message-State: APjAAAVJ5p/HRnr84WVnXT0m0kZgycd5NnNkBwsuI7w04Uzb8gJNFc+L
+ iHEZI8RxdRdjV/axBAof0kJdaA==
+X-Google-Smtp-Source: APXvYqwXNo0U8bhZTQ5u7VKINr4aWxa83nVQ2jiIacW88D7c3jN+q99h2VKAB0Pc3dYZ6whUEtkq0Q==
+X-Received: by 2002:a05:600c:d5:: with SMTP id
+ u21mr4819763wmm.98.1581087686129; 
+ Fri, 07 Feb 2020 07:01:26 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id d23sm3790469wra.30.2020.02.07.07.01.19
+ by smtp.gmail.com with ESMTPSA id s22sm3535449wmh.4.2020.02.07.07.01.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Feb 2020 07:01:22 -0800 (PST)
+ Fri, 07 Feb 2020 07:01:23 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 4621E1FF91;
+ by zen.linaroharston (Postfix) with ESMTP id 5CAAE1FF92;
  Fri,  7 Feb 2020 15:01:19 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 4/5] target/riscv: progressively load the instruction
- during decode
-Date: Fri,  7 Feb 2020 15:01:17 +0000
-Message-Id: <20200207150118.23007-5-alex.bennee@linaro.org>
+Subject: [PATCH  v1 5/5] tests/plugins: make howvec clean-up after itself.
+Date: Fri,  7 Feb 2020 15:01:18 +0000
+Message-Id: <20200207150118.23007-6-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200207150118.23007-1-alex.bennee@linaro.org>
 References: <20200207150118.23007-1-alex.bennee@linaro.org>
@@ -70,7 +70,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::344
+X-Received-From: 2a00:1450:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,141 +82,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <Alistair.Francis@wdc.com>,
- "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>, robert.foley@linaro.org,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>, robhenry@microsoft.com,
- aaron@os.amperecomputing.com, cota@braap.org,
- Palmer Dabbelt <palmer@dabbelt.com>, kuhn.chenqun@huawei.com,
+Cc: robert.foley@linaro.org, robhenry@microsoft.com,
+ aaron@os.amperecomputing.com, cota@braap.org, kuhn.chenqun@huawei.com,
  peter.puhov@linaro.org,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The plugin system would throw up a harmless warning when it detected
-that a disassembly of an instruction didn't use all it's bytes. Fix
-the riscv decoder to only load the instruction bytes it needs as it
-needs them.
-
-This drops opcode from the ctx in favour if passing the appropriately
-sized opcode down a few levels of the decode.
+TCG plugins are responsible for their own memory usage and although
+the plugin_exit is tied to the end of execution in this case it is
+still poor practice. Ensure we delete the hash table and related data
+when we are done to be a good plugin citizen.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- target/riscv/translate.c | 39 ++++++++++++++++++++-------------------
- 1 file changed, 20 insertions(+), 19 deletions(-)
+ tests/plugin/howvec.c | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
 
-diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-index 14dc71156be..99f2bcf177c 100644
---- a/target/riscv/translate.c
-+++ b/target/riscv/translate.c
-@@ -44,7 +44,6 @@ typedef struct DisasContext {
-     /* pc_succ_insn points to the instruction following base.pc_next */
-     target_ulong pc_succ_insn;
-     target_ulong priv_ver;
--    uint32_t opcode;
-     uint32_t mstatus_fs;
-     uint32_t misa;
-     uint32_t mem_idx;
-@@ -492,45 +491,45 @@ static void gen_set_rm(DisasContext *ctx, int rm)
-     tcg_temp_free_i32(t0);
+diff --git a/tests/plugin/howvec.c b/tests/plugin/howvec.c
+index 4ca555e1239..7b77403559d 100644
+--- a/tests/plugin/howvec.c
++++ b/tests/plugin/howvec.c
+@@ -163,6 +163,13 @@ static gint cmp_exec_count(gconstpointer a, gconstpointer b)
+     return ea->count > eb->count ? -1 : 1;
  }
  
--static void decode_RV32_64C0(DisasContext *ctx)
-+static void decode_RV32_64C0(DisasContext *ctx, uint16_t opcode)
++static void free_record(gpointer data)
++{
++    InsnExecCount *rec = (InsnExecCount *) data;
++    g_free(rec->insn);
++    g_free(rec);
++}
++
+ static void plugin_exit(qemu_plugin_id_t id, void *p)
  {
--    uint8_t funct3 = extract32(ctx->opcode, 13, 3);
--    uint8_t rd_rs2 = GET_C_RS2S(ctx->opcode);
--    uint8_t rs1s = GET_C_RS1S(ctx->opcode);
-+    uint8_t funct3 = extract32(opcode, 13, 3);
-+    uint8_t rd_rs2 = GET_C_RS2S(opcode);
-+    uint8_t rs1s = GET_C_RS1S(opcode);
- 
-     switch (funct3) {
-     case 3:
- #if defined(TARGET_RISCV64)
-         /* C.LD(RV64/128) -> ld rd', offset[7:3](rs1')*/
-         gen_load_c(ctx, OPC_RISC_LD, rd_rs2, rs1s,
--                 GET_C_LD_IMM(ctx->opcode));
-+                 GET_C_LD_IMM(opcode));
- #else
-         /* C.FLW (RV32) -> flw rd', offset[6:2](rs1')*/
-         gen_fp_load(ctx, OPC_RISC_FLW, rd_rs2, rs1s,
--                    GET_C_LW_IMM(ctx->opcode));
-+                    GET_C_LW_IMM(opcode));
- #endif
-         break;
-     case 7:
- #if defined(TARGET_RISCV64)
-         /* C.SD (RV64/128) -> sd rs2', offset[7:3](rs1')*/
-         gen_store_c(ctx, OPC_RISC_SD, rs1s, rd_rs2,
--                  GET_C_LD_IMM(ctx->opcode));
-+                  GET_C_LD_IMM(opcode));
- #else
-         /* C.FSW (RV32) -> fsw rs2', offset[6:2](rs1')*/
-         gen_fp_store(ctx, OPC_RISC_FSW, rs1s, rd_rs2,
--                     GET_C_LW_IMM(ctx->opcode));
-+                     GET_C_LW_IMM(opcode));
- #endif
-         break;
+     g_autoptr(GString) report = g_string_new("Instruction Classes:\n");
+@@ -213,12 +220,15 @@ static void plugin_exit(qemu_plugin_id_t id, void *p)
+         g_list_free(it);
      }
+ 
++    g_list_free(counts);
++    g_hash_table_destroy(insns);
++
+     qemu_plugin_outs(report->str);
  }
  
--static void decode_RV32_64C(DisasContext *ctx)
-+static void decode_RV32_64C(DisasContext *ctx, uint16_t opcode)
+ static void plugin_init(void)
  {
--    uint8_t op = extract32(ctx->opcode, 0, 2);
-+    uint8_t op = extract32(opcode, 0, 2);
- 
-     switch (op) {
-     case 0:
--        decode_RV32_64C0(ctx);
-+        decode_RV32_64C0(ctx, opcode);
-         break;
-     }
+-    insns = g_hash_table_new(NULL, g_direct_equal);
++    insns = g_hash_table_new_full(NULL, g_direct_equal, NULL, &free_record);
  }
-@@ -709,22 +708,24 @@ static bool gen_shift(DisasContext *ctx, arg_r *a,
- /* Include the auto-generated decoder for 16 bit insn */
- #include "decode_insn16.inc.c"
  
--static void decode_opc(DisasContext *ctx)
-+static void decode_opc(CPURISCVState *env, DisasContext *ctx, uint16_t opcode)
- {
-     /* check for compressed insn */
--    if (extract32(ctx->opcode, 0, 2) != 3) {
-+    if (extract32(opcode, 0, 2) != 3) {
-         if (!has_ext(ctx, RVC)) {
-             gen_exception_illegal(ctx);
-         } else {
-             ctx->pc_succ_insn = ctx->base.pc_next + 2;
--            if (!decode_insn16(ctx, ctx->opcode)) {
-+            if (!decode_insn16(ctx, opcode)) {
-                 /* fall back to old decoder */
--                decode_RV32_64C(ctx);
-+                decode_RV32_64C(ctx, opcode);
-             }
-         }
-     } else {
-+        uint32_t opcode32 = opcode;
-+        opcode32 = deposit32(opcode32, 16, 16, translator_lduw(env, ctx->base.pc_next + 2));
-         ctx->pc_succ_insn = ctx->base.pc_next + 4;
--        if (!decode_insn32(ctx, ctx->opcode)) {
-+        if (!decode_insn32(ctx, opcode32)) {
-             gen_exception_illegal(ctx);
-         }
-     }
-@@ -776,9 +777,9 @@ static void riscv_tr_translate_insn(DisasContextBase *dcbase, CPUState *cpu)
- {
-     DisasContext *ctx = container_of(dcbase, DisasContext, base);
-     CPURISCVState *env = cpu->env_ptr;
-+    uint16_t opcode16 = translator_lduw(env, ctx->base.pc_next);
- 
--    ctx->opcode = translator_ldl(env, ctx->base.pc_next);
--    decode_opc(ctx);
-+    decode_opc(env, ctx, opcode16);
-     ctx->base.pc_next = ctx->pc_succ_insn;
- 
-     if (ctx->base.is_jmp == DISAS_NEXT) {
+ static void vcpu_insn_exec_before(unsigned int cpu_index, void *udata)
 -- 
 2.20.1
 
