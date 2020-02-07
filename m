@@ -2,70 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2965E1559B1
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 15:36:22 +0100 (CET)
-Received: from localhost ([::1]:57888 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 141681559C7
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 15:37:55 +0100 (CET)
+Received: from localhost ([::1]:57934 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j04k1-0003v7-5q
-	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 09:36:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51230)
+	id 1j04lW-0007Ky-2m
+	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 09:37:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51239)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j04hZ-00081P-7S
+ (envelope-from <peter.maydell@linaro.org>) id 1j04hZ-00082D-Ku
  for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:33:50 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j04hX-00029C-KE
+ (envelope-from <peter.maydell@linaro.org>) id 1j04hY-0002An-Fr
  for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:33:49 -0500
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:39690)
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:37022)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j04hX-00026n-CI
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:33:47 -0500
-Received: by mail-wr1-x42f.google.com with SMTP id y11so2953556wrt.6
- for <qemu-devel@nongnu.org>; Fri, 07 Feb 2020 06:33:47 -0800 (PST)
+ id 1j04hY-00028r-64
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:33:48 -0500
+Received: by mail-wm1-x342.google.com with SMTP id f129so3030280wmf.2
+ for <qemu-devel@nongnu.org>; Fri, 07 Feb 2020 06:33:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:mime-version
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=sGknWPMvKJK0HTDj8BosRIv5ksIkG2daZ/mmCdeplGE=;
- b=jmyP4OO9RZwuaXi37LoB3uC8ucc11a8q2ZbPbhKNCeolb0irKdQ6npsEE4w7bsJASl
- ZT1V8M6Lb3u137MqqGFhNz7p5947XhjJe6e3jK9/uhx25IfBZatuuUKUlyjuqSZD4j6O
- Cf9oVNosmtbruYcFbtjFTLTwUiDvIc6w/lzNk+E9qJfe0S78Jm9M+cH58EOmAsZqrS+T
- R+cPNt4e873bkLBHp6wAz6MhIFCcQUWIEkozYAQX9zm/+ubiZUsFhDRt7bV1ZCjIxd6k
- fpX1oFwLhlUCbIDvjTQcuzznszN9btwQThu698qniUPXT7siKYPJgRQtyLI2LhFCSv3D
- 3eAA==
+ bh=wD5kKpZxds6KotN02B/ZZrgfLYdFxoUcA/v2ch/p7A4=;
+ b=YiwoQfh6f3uKr3M/wxRQs2iJzdAo+peC48VJ7ITFU5Wa8+uuzuWzmiNt+X1z4k2wIh
+ lDkWaYMfa2q1mDGzne5P9biJSRFvzPelchqrYZNHFGiw++eVcOYw55jZEc1teFG8qfj/
+ 77MeFXlwKnbawGLx3uMerS9j0TW+whhgK7optxoFp7zsSa6Ogj93Vqbymof2H69SiKRK
+ yL3Fo6DFxLopsTaA7Z+cGV3RK2wemRoo7FMVa2TCiolFhsXssmc58xixFGk2NvmLiAOm
+ JB+5uzgeScKsLuObpwhrPLyiTqYfHHfVM9D8Ru0s6mERrJ2EZzAmr4V1zhz6273CT3tw
+ 7b9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=sGknWPMvKJK0HTDj8BosRIv5ksIkG2daZ/mmCdeplGE=;
- b=gF9A2WaqaoLuFjJnrdYPHSHCpoF50C3nE0O7lYnqQ/938yF1cn46tJaJIu2UXeYIo9
- QN5ciGvyK3BZOZ8zDZMmYWpSwtnZwZSpfCaNSYgCE1TIMk+ABqEAcf1iJndS8jpyue8t
- +JUub/XBaB0sy9gqAAjvlx6nfuivaPXVakX7cjpg7+dIguzS2LRQcd4zIpuJja75UGeo
- KSWwGNvYDrhkRzHZ+lykFuB+oWeZTcnh1QTLh8FoyFuqX6SMAeKZ+uxjvVjYy0wmtqix
- Nkge+FUaV4d5CQ4X7TRMYVObbaOhNl5YD3dWIdL/wI4uIpKrFaMkUeP97Tyryb0CBq2M
- c4sg==
-X-Gm-Message-State: APjAAAXT9vShbWtcuO3PyGeKD34tLfOyWL53/KN1Pm3CunbXqut7EF2a
- 68RN7UY8jZS9EMdp+9Zs2pWqdyLilbc=
-X-Google-Smtp-Source: APXvYqyOm+QnwUxToeIVIMycUiwX0Z1S6b83PkvhNIHU/dyvYi5cGg5gnlYh5VjMoE/yGPQjbKhnvQ==
-X-Received: by 2002:a5d:6708:: with SMTP id o8mr5287051wru.296.1581086025884; 
- Fri, 07 Feb 2020 06:33:45 -0800 (PST)
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=wD5kKpZxds6KotN02B/ZZrgfLYdFxoUcA/v2ch/p7A4=;
+ b=VSBNeCpTrwHmsYdcrRDd+ziDFgoXxdZrdWlVyyxOjHX45wDef3x4cHT7kgmc31+3eo
+ plJBepi9cTnSnKdUhFMMbMbMGESoMcwtvZ1TI0Bou9HzHh8/t26Zps3Deku6n0M/YfnX
+ SlPs3TKGYwqcmQvAW9PhZomxqlOiy+ttWJ12BTNouEzss3DJbCKrS/J4zLA8zXArVg1w
+ iKTfCV77zKD+pNuSsf7F4MEsiTszqXPJ3ODAfayf4yeVRsX4DL26OyDUI+p17TVlbXeK
+ R5uF8SQ+mYt+UV51YRU+Hi8Ih9ShnIPbIt7BybYlwZrg78ovPN7wUD1pYBrGnIzKmYzb
+ prXQ==
+X-Gm-Message-State: APjAAAXqak7U/j5MsGHTwR776Kdfu+U5u1SP78p4/rHXJE0BFtO24E8o
+ PXjOcMZ/zMnvbi4ykTjx0RLKuF5o0r8=
+X-Google-Smtp-Source: APXvYqzXycdDAV7dnl3rzwMVpUkZErqrmXhI9xfWq2BKQQ1gr70HoZtA5VR6lGyQ62M0uBHN/iWrIw==
+X-Received: by 2002:a05:600c:2254:: with SMTP id
+ a20mr4524173wmm.97.1581086026761; 
+ Fri, 07 Feb 2020 06:33:46 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
  by smtp.gmail.com with ESMTPSA id w1sm3796430wro.72.2020.02.07.06.33.45
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Feb 2020 06:33:45 -0800 (PST)
+ Fri, 07 Feb 2020 06:33:46 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/48] target-arm queue
-Date: Fri,  7 Feb 2020 14:32:55 +0000
-Message-Id: <20200207143343.30322-1-peter.maydell@linaro.org>
+Subject: [PULL 01/48] target/arm/monitor: query-cpu-model-expansion crashed
+ qemu when using machine type none
+Date: Fri,  7 Feb 2020 14:32:56 +0000
+Message-Id: <20200207143343.30322-2-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200207143343.30322-1-peter.maydell@linaro.org>
+References: <20200207143343.30322-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42f
+X-Received-From: 2a00:1450:4864:20::342
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,111 +83,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The big thing here is RTH's patchset implementing ARMv8.1-VHE
-emulation; otherwise just a handful of smaller fixes.
+From: Liang Yan <lyan@suse.com>
 
-thanks
--- PMM
+Commit e19afd566781 mentioned that target-arm only supports queryable
+cpu models 'max', 'host', and the current type when KVM is in use.
+The logic works well until using machine type none.
 
-The following changes since commit 346ed3151f1c43e72c40cb55b392a1d4cface62c:
+For machine type none, cpu_type will be null if cpu option is not
+set by command line, strlen(cpu_type) will terminate process.
+So We add a check above it.
 
-  Merge remote-tracking branch 'remotes/awilliam/tags/vfio-update-20200206.0' into staging (2020-02-07 11:52:15 +0000)
+This won't affect i386 and s390x since they do not use current_cpu.
 
-are available in the Git repository at:
+Signed-off-by: Liang Yan <lyan@suse.com>
+Message-id: 20200203134251.12986-1-lyan@suse.com
+Reviewed-by: Andrew Jones <drjones@redhat.com>
+Tested-by: Andrew Jones <drjones@redhat.com>
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ target/arm/monitor.c | 15 +++++++++------
+ 1 file changed, 9 insertions(+), 6 deletions(-)
 
-  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20200207
+diff --git a/target/arm/monitor.c b/target/arm/monitor.c
+index 9725dfff16d..c2dc7908de7 100644
+--- a/target/arm/monitor.c
++++ b/target/arm/monitor.c
+@@ -137,17 +137,20 @@ CpuModelExpansionInfo *qmp_query_cpu_model_expansion(CpuModelExpansionType type,
+     }
+ 
+     if (kvm_enabled()) {
+-        const char *cpu_type = current_machine->cpu_type;
+-        int len = strlen(cpu_type) - strlen(ARM_CPU_TYPE_SUFFIX);
+         bool supported = false;
+ 
+         if (!strcmp(model->name, "host") || !strcmp(model->name, "max")) {
+             /* These are kvmarm's recommended cpu types */
+             supported = true;
+-        } else if (strlen(model->name) == len &&
+-                   !strncmp(model->name, cpu_type, len)) {
+-            /* KVM is enabled and we're using this type, so it works. */
+-            supported = true;
++        } else if (current_machine->cpu_type) {
++            const char *cpu_type = current_machine->cpu_type;
++            int len = strlen(cpu_type) - strlen(ARM_CPU_TYPE_SUFFIX);
++
++            if (strlen(model->name) == len &&
++                !strncmp(model->name, cpu_type, len)) {
++                /* KVM is enabled and we're using this type, so it works. */
++                supported = true;
++            }
+         }
+         if (!supported) {
+             error_setg(errp, "We cannot guarantee the CPU type '%s' works "
+-- 
+2.20.1
 
-for you to fetch changes up to af6c91b490e9b1bce7a168f8a9c848f3e60f616e:
-
-  stellaris: delay timer_new to avoid memleaks (2020-02-07 14:04:28 +0000)
-
-----------------------------------------------------------------
-target-arm queue:
- * monitor: fix query-cpu-model-expansion crash when using machine type none
- * Support emulation of the ARMv8.1-VHE architecture feature
- * bcm2835_dma: fix bugs in TD mode handling
- * docs/arm-cpu-features: Make kvm-no-adjvtime comment clearer
- * stellaris, stm32f2xx_timer, armv7m_systick: fix minor memory leaks
-
-----------------------------------------------------------------
-Alex Bennée (1):
-      target/arm: check TGE and E2H flags for EL0 pauth traps
-
-Liang Yan (1):
-      target/arm/monitor: query-cpu-model-expansion crashed qemu when using machine type none
-
-Pan Nengyuan (3):
-      armv7m_systick: delay timer_new to avoid memleaks
-      stm32f2xx_timer: delay timer_new to avoid memleaks
-      stellaris: delay timer_new to avoid memleaks
-
-Philippe Mathieu-Daudé (1):
-      docs/arm-cpu-features: Make kvm-no-adjvtime comment clearer
-
-Rene Stange (2):
-      bcm2835_dma: Fix the ylen loop in TD mode
-      bcm2835_dma: Re-initialize xlen in TD mode
-
-Richard Henderson (40):
-      target/arm: Define isar_feature_aa64_vh
-      target/arm: Enable HCR_E2H for VHE
-      target/arm: Add CONTEXTIDR_EL2
-      target/arm: Add TTBR1_EL2
-      target/arm: Update CNTVCT_EL0 for VHE
-      target/arm: Split out vae1_tlbmask
-      target/arm: Split out alle1_tlbmask
-      target/arm: Simplify tlb_force_broadcast alternatives
-      target/arm: Rename ARMMMUIdx*_S12NSE* to ARMMMUIdx*_E10_*
-      target/arm: Rename ARMMMUIdx_S2NS to ARMMMUIdx_Stage2
-      target/arm: Rename ARMMMUIdx_S1NSE* to ARMMMUIdx_Stage1_E*
-      target/arm: Rename ARMMMUIdx_S1SE[01] to ARMMMUIdx_SE10_[01]
-      target/arm: Rename ARMMMUIdx*_S1E3 to ARMMMUIdx*_SE3
-      target/arm: Rename ARMMMUIdx_S1E2 to ARMMMUIdx_E2
-      target/arm: Recover 4 bits from TBFLAGs
-      target/arm: Expand TBFLAG_ANY.MMUIDX to 4 bits
-      target/arm: Rearrange ARMMMUIdxBit
-      target/arm: Tidy ARMMMUIdx m-profile definitions
-      target/arm: Reorganize ARMMMUIdx
-      target/arm: Add regime_has_2_ranges
-      target/arm: Update arm_mmu_idx for VHE
-      target/arm: Update arm_sctlr for VHE
-      target/arm: Update aa64_zva_access for EL2
-      target/arm: Update ctr_el0_access for EL2
-      target/arm: Add the hypervisor virtual counter
-      target/arm: Update timer access for VHE
-      target/arm: Update define_one_arm_cp_reg_with_opaque for VHE
-      target/arm: Add VHE system register redirection and aliasing
-      target/arm: Add VHE timer register redirection and aliasing
-      target/arm: Flush tlb for ASID changes in EL2&0 translation regime
-      target/arm: Flush tlbs for E2&0 translation regime
-      target/arm: Update arm_phys_excp_target_el for TGE
-      target/arm: Update {fp,sve}_exception_el for VHE
-      target/arm: Update get_a64_user_mem_index for VHE
-      target/arm: Update arm_cpu_do_interrupt_aarch64 for VHE
-      target/arm: Enable ARMv8.1-VHE in -cpu max
-      target/arm: Move arm_excp_unmasked to cpu.c
-      target/arm: Pass more cpu state to arm_excp_unmasked
-      target/arm: Use bool for unmasked in arm_excp_unmasked
-      target/arm: Raise only one interrupt in arm_cpu_exec_interrupt
-
- target/arm/cpu-param.h     |    2 +-
- target/arm/cpu-qom.h       |    1 +
- target/arm/cpu.h           |  423 ++++++----------
- target/arm/internals.h     |   73 ++-
- target/arm/translate.h     |    4 +-
- hw/arm/stellaris.c         |    7 +-
- hw/dma/bcm2835_dma.c       |    8 +-
- hw/timer/armv7m_systick.c  |    6 +
- hw/timer/stm32f2xx_timer.c |    5 +
- target/arm/cpu.c           |  162 +++++-
- target/arm/cpu64.c         |    1 +
- target/arm/debug_helper.c  |   50 +-
- target/arm/helper-a64.c    |    2 +-
- target/arm/helper.c        | 1211 ++++++++++++++++++++++++++++++++------------
- target/arm/monitor.c       |   15 +-
- target/arm/pauth_helper.c  |   14 +-
- target/arm/translate-a64.c |   47 +-
- target/arm/translate.c     |   74 +--
- docs/arm-cpu-features.rst  |    2 +-
- 19 files changed, 1415 insertions(+), 692 deletions(-)
 
