@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0F371559E5
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 15:44:43 +0100 (CET)
-Received: from localhost ([::1]:58162 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BA36155A1C
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 15:53:45 +0100 (CET)
+Received: from localhost ([::1]:58458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j04s6-00049n-ML
-	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 09:44:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51694)
+	id 1j050q-00010Q-3K
+	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 09:53:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51713)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j04i1-0000lF-Se
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:34:18 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1j04i4-0000ra-0h
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:34:21 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j04i0-0003Cg-Qk
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:34:17 -0500
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:35484)
+ (envelope-from <peter.maydell@linaro.org>) id 1j04i2-0003F6-81
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:34:19 -0500
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:38578)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j04i0-00039o-KO
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:34:16 -0500
-Received: by mail-wm1-x329.google.com with SMTP id b17so3065380wmb.0
- for <qemu-devel@nongnu.org>; Fri, 07 Feb 2020 06:34:16 -0800 (PST)
+ id 1j04i2-0003DW-0c
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:34:18 -0500
+Received: by mail-wm1-x336.google.com with SMTP id a9so3018937wmj.3
+ for <qemu-devel@nongnu.org>; Fri, 07 Feb 2020 06:34:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=REszxidtLf31ZbQ7yJRQpRtjcKipd3XRTKwyqhC+ipM=;
- b=ycliQmCS21lwnPms2YB0p/Axc52dEFSGWXmJ9HKecfdoZU+1qbcXHq5XU+ic7JBx2l
- E1VDiQLbb++5lZk3NstuTKCNiG3Tq5cFQUvPycA0OjGHF3dL/cbk2snxY+OxKYMaeZ54
- 4CJCLPZdbgAS1glwQEFLAH1oMc+25AMRnEZXYM0PYVkRy21I/JJaQivfieC7s6Or/sfY
- cuVW/kG0lxb7yBbtTvbnqUqqHORFIGbq52RXCwInS7UanuwAFiQR29mA+HbpVu3ymyku
- tkG7WvEHXCyqfkBRoD33AurPIVyHqCtb98UVsmi8tjan4TZ9TGmrNo+97hRQLbHlJWpx
- /VnA==
+ bh=AJP2hSueoPlgKjfo6AqKMe5vPqzqSTi2t05KzPwhxL4=;
+ b=zbL3PRdUcN3Bv6KEjZxe0UQFIPkcqtBAYo1ZkhkuC/+J1zn7ohT6T8dmY+E/1ekCII
+ kWYemsBATAsLPbpL5KOAG44fAFkyF4MI5H5lPNH/NUmqGiHd9wKUInYwvqigRaXySlnm
+ wuQ40P7Omoe+06XeL9Wh41QJHDM9sVRJmgXFm6OhPy9CYuRnquJnaOGYvLHNp74gZIWp
+ x/Bg7RV3KyQMJ0iDMbN5IeC8qT3Rp8xPtMwDMsJvNaDzg68E+RcsgnmumYWM+S+TUS/b
+ 01COhoLUvB7m0n0RrOR/HGK09iJDmIWJ42+QWCRFs7VhTeRjrpWHlA0dwfRfYiVUGiYD
+ 2Y0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=REszxidtLf31ZbQ7yJRQpRtjcKipd3XRTKwyqhC+ipM=;
- b=cbsad3Zqz/Eiub4F445SKtTrE+3HFyX1ANlot8jgm7nr9OSz3cM3bmEnR/HeTPhRVC
- lu6fNIL49RitXAiV7Oc86OSsTtyDjh6jf87z2v0cdwhyMpwjNZuEgBqS79sN1JZo0tzk
- kE79bc5Mme6sFk9q+bW3PfKgb117o8CUkO00+pTRKdPQdq7XI/Tm18BfEjX9R5jtFFAi
- 5njBgjVyhAz3BE6w8zco4W6rmkmGUO6hw+KE2RsX2hO8tPppkZ5MlYRMneDImvxSykyJ
- sn/lscBieZvVXWrLUrW/7yhSZApOWXMddcnG3yrPd042qQA/+CAWDgwC2a7J8GIVkO7R
- bSOw==
-X-Gm-Message-State: APjAAAXtjN53VVJQIkUlPkZcg4p3kUFmqhCZVDbU7uhWO7MeSCNGvZGL
- 5xmkYryTOL2+pjvFZNdTI/CQoxeEpSM=
-X-Google-Smtp-Source: APXvYqx77b5mYf2gq9917jTqiIeBSchFx4clMwCamzVzObASP/vDPCGn9YKB8KIJ9exYtSSLqbWLtQ==
-X-Received: by 2002:a05:600c:2942:: with SMTP id
- n2mr4556323wmd.87.1581086055386; 
- Fri, 07 Feb 2020 06:34:15 -0800 (PST)
+ bh=AJP2hSueoPlgKjfo6AqKMe5vPqzqSTi2t05KzPwhxL4=;
+ b=XUFJT41GmWSeR2SNRDopLTqcwWaOqLwEaF5x9snEVRzROv9A7NJSjPMVVvr8DlzrwR
+ hFc1nbQaMaiqIxHNQaQXC7FdGxjbMN/LvpuTp0UILcMksOXGECKntxPsZMGAfYF7q7fY
+ d9W6NUEM/VY4W85ke889kLVLpzZ/W8acCdJ4iLHejiYOYX81NUh6H5w8Xc3YN6Gg3/P5
+ Q5R7NDKlc7uj5P6lwQL8N2M6+8SUIznKgKgaI52imGFOLjlum2nvVA0TpC0E7DyEYbdO
+ rv3EJZq6+pit0+jWfKNZGXjJEwzJ5mpsYpyO7rtC5piljd2cUnN2nQHSpWVLXN/uIFxh
+ iR2A==
+X-Gm-Message-State: APjAAAXvc5tXzdrD8kXYtOyF3N3jos+i3xIUaCidMThQYHUXC4sWQY71
+ xPqFKNf2t4QYv/wc7hyrPykBwlN3ALw=
+X-Google-Smtp-Source: APXvYqxnuImxZdWNidzyFlkZZks1ecwzutMajwJBgn18e+0Mghyd37t9lmdYD8yfosPhChohnx+GTw==
+X-Received: by 2002:a7b:c249:: with SMTP id b9mr4702955wmj.74.1581086056431;
+ Fri, 07 Feb 2020 06:34:16 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id w1sm3796430wro.72.2020.02.07.06.34.14
+ by smtp.gmail.com with ESMTPSA id w1sm3796430wro.72.2020.02.07.06.34.15
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Feb 2020 06:34:14 -0800 (PST)
+ Fri, 07 Feb 2020 06:34:15 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 28/48] target/arm: Update define_one_arm_cp_reg_with_opaque for
- VHE
-Date: Fri,  7 Feb 2020 14:33:23 +0000
-Message-Id: <20200207143343.30322-29-peter.maydell@linaro.org>
+Subject: [PULL 29/48] target/arm: Add VHE system register redirection and
+ aliasing
+Date: Fri,  7 Feb 2020 14:33:24 +0000
+Message-Id: <20200207143343.30322-30-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200207143343.30322-1-peter.maydell@linaro.org>
 References: <20200207143343.30322-1-peter.maydell@linaro.org>
@@ -69,7 +68,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::329
+X-Received-From: 2a00:1450:4864:20::336
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,37 +85,233 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-For ARMv8.1, op1 == 5 is reserved for EL2 aliases of
-EL1 and EL0 registers.
+Several of the EL1/0 registers are redirected to the EL2 version when in
+EL2 and HCR_EL2.E2H is set.  Many of these registers have side effects.
+Link together the two ARMCPRegInfo structures after they have been
+properly instantiated.  Install common dispatch routines to all of the
+relevant registers.
+
+The same set of registers that are redirected also have additional
+EL12/EL02 aliases created to access the original register that was
+redirected.
+
+Omit the generic timer registers from redirection here, because we'll
+need multiple kinds of redirection from both EL0 and EL2.
 
 Tested-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20200206105448.4726-28-richard.henderson@linaro.org
+Message-id: 20200206105448.4726-29-richard.henderson@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/helper.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+ target/arm/cpu.h    |  13 ++++
+ target/arm/helper.c | 162 ++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 175 insertions(+)
 
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index ded1e8e0a89..d091a7e2e87 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -2576,6 +2576,19 @@ struct ARMCPRegInfo {
+      * fieldoffset is 0 then no reset will be done.
+      */
+     CPResetFn *resetfn;
++
++    /*
++     * "Original" writefn and readfn.
++     * For ARMv8.1-VHE register aliases, we overwrite the read/write
++     * accessor functions of various EL1/EL0 to perform the runtime
++     * check for which sysreg should actually be modified, and then
++     * forwards the operation.  Before overwriting the accessors,
++     * the original function is copied here, so that accesses that
++     * really do go to the EL1/EL0 version proceed normally.
++     * (The corresponding EL2 register is linked via opaque.)
++     */
++    CPReadFn *orig_readfn;
++    CPWriteFn *orig_writefn;
+ };
+ 
+ /* Macros which are lvalues for the field in CPUARMState for the
 diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 992ab2a15f1..2aa04d06131 100644
+index 2aa04d06131..8f7620f2434 100644
 --- a/target/arm/helper.c
 +++ b/target/arm/helper.c
-@@ -7586,13 +7586,10 @@ void define_one_arm_cp_reg_with_opaque(ARMCPU *cpu,
-             mask = PL0_RW;
-             break;
-         case 4:
-+        case 5:
-             /* min_EL EL2 */
-             mask = PL2_RW;
-             break;
--        case 5:
--            /* unallocated encoding, so not possible */
--            assert(false);
--            break;
-         case 6:
-             /* min_EL EL3 */
-             mask = PL3_RW;
+@@ -5358,6 +5358,158 @@ static const ARMCPRegInfo el3_cp_reginfo[] = {
+     REGINFO_SENTINEL
+ };
+ 
++#ifndef CONFIG_USER_ONLY
++/* Test if system register redirection is to occur in the current state.  */
++static bool redirect_for_e2h(CPUARMState *env)
++{
++    return arm_current_el(env) == 2 && (arm_hcr_el2_eff(env) & HCR_E2H);
++}
++
++static uint64_t el2_e2h_read(CPUARMState *env, const ARMCPRegInfo *ri)
++{
++    CPReadFn *readfn;
++
++    if (redirect_for_e2h(env)) {
++        /* Switch to the saved EL2 version of the register.  */
++        ri = ri->opaque;
++        readfn = ri->readfn;
++    } else {
++        readfn = ri->orig_readfn;
++    }
++    if (readfn == NULL) {
++        readfn = raw_read;
++    }
++    return readfn(env, ri);
++}
++
++static void el2_e2h_write(CPUARMState *env, const ARMCPRegInfo *ri,
++                          uint64_t value)
++{
++    CPWriteFn *writefn;
++
++    if (redirect_for_e2h(env)) {
++        /* Switch to the saved EL2 version of the register.  */
++        ri = ri->opaque;
++        writefn = ri->writefn;
++    } else {
++        writefn = ri->orig_writefn;
++    }
++    if (writefn == NULL) {
++        writefn = raw_write;
++    }
++    writefn(env, ri, value);
++}
++
++static void define_arm_vh_e2h_redirects_aliases(ARMCPU *cpu)
++{
++    struct E2HAlias {
++        uint32_t src_key, dst_key, new_key;
++        const char *src_name, *dst_name, *new_name;
++        bool (*feature)(const ARMISARegisters *id);
++    };
++
++#define K(op0, op1, crn, crm, op2) \
++    ENCODE_AA64_CP_REG(CP_REG_ARM64_SYSREG_CP, crn, crm, op0, op1, op2)
++
++    static const struct E2HAlias aliases[] = {
++        { K(3, 0,  1, 0, 0), K(3, 4,  1, 0, 0), K(3, 5, 1, 0, 0),
++          "SCTLR", "SCTLR_EL2", "SCTLR_EL12" },
++        { K(3, 0,  1, 0, 2), K(3, 4,  1, 1, 2), K(3, 5, 1, 0, 2),
++          "CPACR", "CPTR_EL2", "CPACR_EL12" },
++        { K(3, 0,  2, 0, 0), K(3, 4,  2, 0, 0), K(3, 5, 2, 0, 0),
++          "TTBR0_EL1", "TTBR0_EL2", "TTBR0_EL12" },
++        { K(3, 0,  2, 0, 1), K(3, 4,  2, 0, 1), K(3, 5, 2, 0, 1),
++          "TTBR1_EL1", "TTBR1_EL2", "TTBR1_EL12" },
++        { K(3, 0,  2, 0, 2), K(3, 4,  2, 0, 2), K(3, 5, 2, 0, 2),
++          "TCR_EL1", "TCR_EL2", "TCR_EL12" },
++        { K(3, 0,  4, 0, 0), K(3, 4,  4, 0, 0), K(3, 5, 4, 0, 0),
++          "SPSR_EL1", "SPSR_EL2", "SPSR_EL12" },
++        { K(3, 0,  4, 0, 1), K(3, 4,  4, 0, 1), K(3, 5, 4, 0, 1),
++          "ELR_EL1", "ELR_EL2", "ELR_EL12" },
++        { K(3, 0,  5, 1, 0), K(3, 4,  5, 1, 0), K(3, 5, 5, 1, 0),
++          "AFSR0_EL1", "AFSR0_EL2", "AFSR0_EL12" },
++        { K(3, 0,  5, 1, 1), K(3, 4,  5, 1, 1), K(3, 5, 5, 1, 1),
++          "AFSR1_EL1", "AFSR1_EL2", "AFSR1_EL12" },
++        { K(3, 0,  5, 2, 0), K(3, 4,  5, 2, 0), K(3, 5, 5, 2, 0),
++          "ESR_EL1", "ESR_EL2", "ESR_EL12" },
++        { K(3, 0,  6, 0, 0), K(3, 4,  6, 0, 0), K(3, 5, 6, 0, 0),
++          "FAR_EL1", "FAR_EL2", "FAR_EL12" },
++        { K(3, 0, 10, 2, 0), K(3, 4, 10, 2, 0), K(3, 5, 10, 2, 0),
++          "MAIR_EL1", "MAIR_EL2", "MAIR_EL12" },
++        { K(3, 0, 10, 3, 0), K(3, 4, 10, 3, 0), K(3, 5, 10, 3, 0),
++          "AMAIR0", "AMAIR_EL2", "AMAIR_EL12" },
++        { K(3, 0, 12, 0, 0), K(3, 4, 12, 0, 0), K(3, 5, 12, 0, 0),
++          "VBAR", "VBAR_EL2", "VBAR_EL12" },
++        { K(3, 0, 13, 0, 1), K(3, 4, 13, 0, 1), K(3, 5, 13, 0, 1),
++          "CONTEXTIDR_EL1", "CONTEXTIDR_EL2", "CONTEXTIDR_EL12" },
++        { K(3, 0, 14, 1, 0), K(3, 4, 14, 1, 0), K(3, 5, 14, 1, 0),
++          "CNTKCTL", "CNTHCTL_EL2", "CNTKCTL_EL12" },
++
++        /*
++         * Note that redirection of ZCR is mentioned in the description
++         * of ZCR_EL2, and aliasing in the description of ZCR_EL1, but
++         * not in the summary table.
++         */
++        { K(3, 0,  1, 2, 0), K(3, 4,  1, 2, 0), K(3, 5, 1, 2, 0),
++          "ZCR_EL1", "ZCR_EL2", "ZCR_EL12", isar_feature_aa64_sve },
++
++        /* TODO: ARMv8.2-SPE -- PMSCR_EL2 */
++        /* TODO: ARMv8.4-Trace -- TRFCR_EL2 */
++    };
++#undef K
++
++    size_t i;
++
++    for (i = 0; i < ARRAY_SIZE(aliases); i++) {
++        const struct E2HAlias *a = &aliases[i];
++        ARMCPRegInfo *src_reg, *dst_reg;
++
++        if (a->feature && !a->feature(&cpu->isar)) {
++            continue;
++        }
++
++        src_reg = g_hash_table_lookup(cpu->cp_regs, &a->src_key);
++        dst_reg = g_hash_table_lookup(cpu->cp_regs, &a->dst_key);
++        g_assert(src_reg != NULL);
++        g_assert(dst_reg != NULL);
++
++        /* Cross-compare names to detect typos in the keys.  */
++        g_assert(strcmp(src_reg->name, a->src_name) == 0);
++        g_assert(strcmp(dst_reg->name, a->dst_name) == 0);
++
++        /* None of the core system registers use opaque; we will.  */
++        g_assert(src_reg->opaque == NULL);
++
++        /* Create alias before redirection so we dup the right data. */
++        if (a->new_key) {
++            ARMCPRegInfo *new_reg = g_memdup(src_reg, sizeof(ARMCPRegInfo));
++            uint32_t *new_key = g_memdup(&a->new_key, sizeof(uint32_t));
++            bool ok;
++
++            new_reg->name = a->new_name;
++            new_reg->type |= ARM_CP_ALIAS;
++            /* Remove PL1/PL0 access, leaving PL2/PL3 R/W in place.  */
++            new_reg->access &= PL2_RW | PL3_RW;
++
++            ok = g_hash_table_insert(cpu->cp_regs, new_key, new_reg);
++            g_assert(ok);
++        }
++
++        src_reg->opaque = dst_reg;
++        src_reg->orig_readfn = src_reg->readfn ?: raw_read;
++        src_reg->orig_writefn = src_reg->writefn ?: raw_write;
++        if (!src_reg->raw_readfn) {
++            src_reg->raw_readfn = raw_read;
++        }
++        if (!src_reg->raw_writefn) {
++            src_reg->raw_writefn = raw_write;
++        }
++        src_reg->readfn = el2_e2h_read;
++        src_reg->writefn = el2_e2h_write;
++    }
++}
++#endif
++
+ static CPAccessResult ctr_el0_access(CPUARMState *env, const ARMCPRegInfo *ri,
+                                      bool isread)
+ {
+@@ -7291,6 +7443,16 @@ void register_cp_regs_for_features(ARMCPU *cpu)
+         : cpu_isar_feature(aa32_predinv, cpu)) {
+         define_arm_cp_regs(cpu, predinv_reginfo);
+     }
++
++#ifndef CONFIG_USER_ONLY
++    /*
++     * Register redirections and aliases must be done last,
++     * after the registers from the other extensions have been defined.
++     */
++    if (arm_feature(env, ARM_FEATURE_EL2) && cpu_isar_feature(aa64_vh, cpu)) {
++        define_arm_vh_e2h_redirects_aliases(cpu);
++    }
++#endif
+ }
+ 
+ void arm_cpu_register_gdb_regs_for_features(ARMCPU *cpu)
 -- 
 2.20.1
 
