@@ -2,71 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E528155614
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 11:53:14 +0100 (CET)
-Received: from localhost ([::1]:53864 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2844915562F
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 11:58:52 +0100 (CET)
+Received: from localhost ([::1]:53930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j01G5-0007FO-Co
-	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 05:53:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54352)
+	id 1j01LW-0001qX-Vk
+	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 05:58:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54617)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eric.auger@redhat.com>) id 1j01FH-0006ed-Nh
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 05:52:24 -0500
+ (envelope-from <james.morse@arm.com>) id 1j01Fx-0007VE-1R
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 05:53:06 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eric.auger@redhat.com>) id 1j01FG-0004kH-G1
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 05:52:23 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:54428
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
- id 1j01FG-0004k7-Cs
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 05:52:22 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581072741;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Ex30tLwUd/BXWQ3hptk1iNZzU9TKX8GwAn4sFVV6FWk=;
- b=QCvoZwJ9928zWCQUg8NNq7IagltQpwnDOBgRA9WNed/EhHvT+s6uz34pej1DfTfWKox1ml
- 6Ut8r0yWDTz3ofA9ifjfDJ7rQskhoJ4HUfI3yV78IL1e/hwPr/She0i1ayxrFBIX53mUQK
- 7cwg9GiigBOgL5+XvpM736ij4IdWO4Q=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-161-QXmGOrFJM8WFOYSOi-AGTw-1; Fri, 07 Feb 2020 05:52:18 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4AB4D800E21;
- Fri,  7 Feb 2020 10:52:16 +0000 (UTC)
-Received: from [10.36.116.37] (ovpn-116-37.ams2.redhat.com [10.36.116.37])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AF3B160BF7;
- Fri,  7 Feb 2020 10:52:04 +0000 (UTC)
-Subject: Re: [PATCH v14 08/11] virtio-iommu-pci: Introduce the x-dt-binding
- option
-To: "Michael S. Tsirkin" <mst@redhat.com>
-References: <20200207093203.3788-1-eric.auger@redhat.com>
- <20200207093203.3788-9-eric.auger@redhat.com>
- <20200207052214-mutt-send-email-mst@kernel.org>
-From: Auger Eric <eric.auger@redhat.com>
-Message-ID: <25d39300-46b9-571c-6fa6-44c5f8d0be99@redhat.com>
-Date: Fri, 7 Feb 2020 11:51:55 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.4.0
+ (envelope-from <james.morse@arm.com>) id 1j01Fu-0005dy-R6
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 05:53:03 -0500
+Received: from foss.arm.com ([217.140.110.172]:46824)
+ by eggs.gnu.org with esmtp (Exim 4.71)
+ (envelope-from <james.morse@arm.com>)
+ id 1j01Fr-0005Tk-Bp; Fri, 07 Feb 2020 05:52:59 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 92F2630E;
+ Fri,  7 Feb 2020 02:52:57 -0800 (PST)
+Received: from [10.1.196.105] (eglon.cambridge.arm.com [10.1.196.105])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E4CFC3F52E;
+ Fri,  7 Feb 2020 02:52:55 -0800 (PST)
+Subject: Re: [RFC v2 00/14] Add SDEI support for arm64
+To: Marc Zyngier <maz@kernel.org>, Heyi Guo <guoheyi@huawei.com>
+References: <20191105091056.9541-1-guoheyi@huawei.com>
+ <CAFEAcA-+tAbb9h2wZOm56TqUvjQJT0OYFLwTVS-UxKrF5PO3mQ@mail.gmail.com>
+ <5aece614-4341-35e5-53a6-2f3d788e6e8d@huawei.com>
+ <e8b93460-48e6-43cd-4608-370c07cb45ec@huawei.com>
+ <350aa4ca1b57a466ed882236caf23051@kernel.org>
+ <c67c1563-045f-a5f8-8b8b-97d792aa1912@huawei.com>
+ <f8394aafb2adb513186cd2784a1cb077@kernel.org>
+From: James Morse <james.morse@arm.com>
+Message-ID: <58519c6b-5c0e-b557-ac91-2024c594b28c@arm.com>
+Date: Fri, 7 Feb 2020 10:52:54 +0000
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20200207052214-mutt-send-email-mst@kernel.org>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: QXmGOrFJM8WFOYSOi-AGTw-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <f8394aafb2adb513186cd2784a1cb077@kernel.org>
 Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
 Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 217.140.110.172
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,114 +59,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, kevin.tian@intel.com, tnowicki@marvell.com,
- jean-philippe@linaro.org, quintela@redhat.com, qemu-devel@nongnu.org,
- peterx@redhat.com, dgilbert@redhat.com, bharatb.linux@gmail.com,
- qemu-arm@nongnu.org, eric.auger.pro@gmail.com
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Gavin Shan <gshan@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Shannon Zhao <shannon.zhaosl@gmail.com>, Igor Mammedov <imammedo@redhat.com>,
+ qemu-arm <qemu-arm@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ wanghaibin.wang@huawei.com, Dave Martin <Dave.Martin@arm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+Hi guys,
 
-On 2/7/20 11:23 AM, Michael S. Tsirkin wrote:
-> On Fri, Feb 07, 2020 at 10:32:00AM +0100, Eric Auger wrote:
->> At the moment, the kernel only supports device tree
->> integration of the virtio-iommu. DT bindings between the
->> PCI root complex and the IOMMU must be created by the machine
->> in conformance to:
+On 06/02/2020 17:30, Marc Zyngier wrote:
+> On 2020-02-06 01:20, Heyi Guo wrote:
+>> On 2020/2/5 21:15, Marc Zyngier wrote:
+>>> My concern is that SDEI implies having EL3. EL3 not being virtualizable
+>>> with KVM, you end-up baking SDEI in *hardware*. Of course, this hardware
+>>> is actually software (it is QEMU), but this isn't the way it was intended.
 >>
->> Documentation/devicetree/bindings/virtio/iommu.txt.
+>>>
+>>> It's not the first time we've done that (PSCI is another example), but the
+>>> logic behind SDEI looks much more invasive.
 >>
->> To make sure the end-user is aware of this, force him to use the
->> temporary device option "x-dt-binding" and also double check the
->> machine has a hotplug handler for the virtio-iommu-pci device.
->> This hotplug handler is in charge of creating those DT bindings.
+>> Thanks for your comments.
 >>
->> Signed-off-by: Eric Auger <eric.auger@redhat.com>
->> Suggested-by: Michael S. Tsirkin <mst@redhat.com>
+>> Thinking about them for quite a while, below is my understanding,
+>> please correct me if I'm wrong:
+>>
+>> So should the KVM based virtual machine be treated as one with CPUs
+>> only having NS-EL1 and NS-EL0, ideally? And SDEI messes up this model,
+>> isn't it?
 > 
-> how about setting it by default from machine class?
-Do you mean in ARM virt machine class? But this wouldn't prevent a user
-from launching an ACPI booted guest. I thought you wanted the end-user
-to know what he does.
-
-I don't figure out a way to know if the guest is booted in dt or acpi
-mode. I can get access to those info:
-- whether acpi is enabled
-- whether a FW is loaded
-
-But a FW can be loaded, acpi enabled and eventually the guest is DT
-booted with acpi=off in kernel opts.
-
-Maybe at this point I could only support the case where no FW is loaded.
-In machvirt I would not register the virtio-iommu-pci hotplug handler in
-case a FW is loaded. Then I could get rid of the new x-dt-binding prop.
-
-Thoughts?
-
-Eric
-> See
-> [PATCH 1/2] spapr: Disable legacy virtio devices for pseries-5.0 and later
-> [PATCH 2/2] spapr: Enable virtio iommu_platform=on by default
-> which does it for spapr.
-
+> Well, that's exactly what it is (until we have nested virt, in which case
+> you will be able to add NS-EL2 to the mix).
 > 
->> ---
->>
->> May be squashed with previous patch
->> ---
->>  hw/virtio/virtio-iommu-pci.c | 18 ++++++++++++++++++
->>  1 file changed, 18 insertions(+)
->>
->> diff --git a/hw/virtio/virtio-iommu-pci.c b/hw/virtio/virtio-iommu-pci.c
->> index d539fcce75..3d06e14000 100644
->> --- a/hw/virtio/virtio-iommu-pci.c
->> +++ b/hw/virtio/virtio-iommu-pci.c
->> @@ -14,6 +14,7 @@
->>  #include "virtio-pci.h"
->>  #include "hw/virtio/virtio-iommu.h"
->>  #include "hw/qdev-properties.h"
->> +#include "qapi/error.h"
->>  
->>  typedef struct VirtIOIOMMUPCI VirtIOIOMMUPCI;
->>  
->> @@ -27,10 +28,12 @@ typedef struct VirtIOIOMMUPCI VirtIOIOMMUPCI;
->>  struct VirtIOIOMMUPCI {
->>      VirtIOPCIProxy parent_obj;
->>      VirtIOIOMMU vdev;
->> +    bool dt_binding;
->>  };
->>  
->>  static Property virtio_iommu_pci_properties[] = {
->>      DEFINE_PROP_UINT32("class", VirtIOPCIProxy, class_code, 0),
->> +    DEFINE_PROP_BOOL("x-dt-binding", VirtIOIOMMUPCI, dt_binding, false),
->>      DEFINE_PROP_END_OF_LIST(),
->>  };
->>  
->> @@ -39,6 +42,21 @@ static void virtio_iommu_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
->>      VirtIOIOMMUPCI *dev = VIRTIO_IOMMU_PCI(vpci_dev);
->>      DeviceState *vdev = DEVICE(&dev->vdev);
->>  
->> +    if (!dev->dt_binding) {
->> +        error_setg(errp,
->> +                   "Instantiation currently only is possible if the machine "
->> +                   "creates device tree iommu-map bindings, ie. ACPI is not "
->> +                   "yet supported");
->> +        error_append_hint(errp, "use -virtio-iommu-pci,x-dt-binding\n");
->> +        return;
->> +    }
->> +
->> +    if (!qdev_get_machine_hotplug_handler(DEVICE(vpci_dev))) {
->> +        error_setg(errp,
->> +                   "The machine does not implement a virtio-iommu-pci hotplug "
->> +                   " handler that creates the device tree iommu-map bindings");
->> +       return;
->> +    }
->>      qdev_set_parent_bus(vdev, BUS(&vpci_dev->bus));
->>      object_property_set_link(OBJECT(dev),
->>                               OBJECT(pci_get_bus(&vpci_dev->pci_dev)),
->> -- 
->> 2.20.1
-> 
+>> PSCI only contains some one-shot operations, so it is much less
+>> invasive than SDEI.
 
+Is there an established pattern for how Qemu 'gets' things that are done in secure-world?
+For PSCI the kernel does it, but this obviously doesn't scale to something like OP-TEE.
+
+Ideally we'd get the reference implementation (from ATF) in some form that is easy to use...
+
+
+>> I've another question. The origin of "virtual" SDEI requirement comes
+>> from the lack of hard lockup detector in VM.
+
+(this is your use case. Its origin was just symmetry with EL3<->EL2)
+
+
+> Sure. But nothing guarantees that the guest is going to register a SDEI
+> entry point anyway.
+
+>> We can have some kind of
+>> watchdog, but how can the watchdog trigger the VM OS to panic and run
+>> kdump, even in irq-off state?
+> 
+> Nothing. All the events, including SDEI, are maskable, one way or another.
+> 
+> Gavin's approach to inject a SError is probably OK for Linux, given that
+> it tends to run with PSTATE.A==0. But that's not a guarantee either (if
+> you take a recursive exception, SError won't be delivered).
+
+Or get stuck in debug-state (for which we mask SError), power-management, the vectors or
+somewhere weird, like KVM's world-switch.
+
+
+If you just want to kill the OS if its sort-of-alive, there is another trick:
+
+Synchronous exceptions can't be masked because they are caused by the instruction pointed
+to by the ELR. You can't inject an emulated data-abort unless the ELR points to an
+instruction that accesses memory, but...
+
+synchronous external abort for instruction fetch is something that  could happen at any
+time. If you have v8.2 you can make the severity uncontainable for extra points.
+
+On real hardware, this would be as if this instruction missed in the i-cache, then got an
+abort from the PoU-cache. The PoU-cache must have suffered some metadata corruption to
+report an uncontained error. On real hardware its very likely the next instruction would
+suffer the same fate, but linux should put up a good show of trying to panic().
+
+
+> The long and the short of it is that there is no way to do what you want
+> with absolute guarantees on the ARM architecture. It just doesn't exist.
+
+Yes. By sort-of-alive it needs to be making some kind of progress. If the CPU is spinning
+through the vectors (because some joker unmapped them), all bets are off.
+
+
+Thanks,
+
+James
 
