@@ -2,45 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6942A155083
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 03:07:47 +0100 (CET)
-Received: from localhost ([::1]:49032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DB7715507A
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 03:05:46 +0100 (CET)
+Received: from localhost ([::1]:48992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izt3L-0001vz-EZ
-	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 21:07:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59671)
+	id 1izt1d-0006ng-Mj
+	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 21:05:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59626)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1izsva-0005qW-BZ
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 20:59:31 -0500
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1izsvY-00019f-6L
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1izsvZ-0005qG-Ey
  for qemu-devel@nongnu.org; Thu, 06 Feb 2020 20:59:30 -0500
-Received: from mx2.rt-rk.com ([89.216.37.149]:53089 helo=mail.rt-rk.com)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1izsvX-00019P-VV
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 20:59:29 -0500
+Received: from mx2.rt-rk.com ([89.216.37.149]:53088 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
- id 1izsvX-00018Y-Q3
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 20:59:28 -0500
+ id 1izsvX-00018X-Ov
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 20:59:27 -0500
 Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id 159561A2055;
+ by mail.rt-rk.com (Postfix) with ESMTP id 321241A2116;
  Fri,  7 Feb 2020 02:58:23 +0100 (CET)
 X-Virus-Scanned: amavisd-new at rt-rk.com
 Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
  [10.10.14.106])
- by mail.rt-rk.com (Postfix) with ESMTPSA id CBF4D1A20F2;
+ by mail.rt-rk.com (Postfix) with ESMTPSA id E2C221A1FEE;
  Fri,  7 Feb 2020 02:58:22 +0100 (CET)
 From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH rc5 14/32] target/avr: Add instruction translation - Bit and
- Bit-test Instructions
-Date: Fri,  7 Feb 2020 02:57:42 +0100
-Message-Id: <1581040680-308-15-git-send-email-aleksandar.markovic@rt-rk.com>
+Subject: [PATCH rc5 15/32] target/avr: Add instruction translation - MCU
+ Control Instructions
+Date: Fri,  7 Feb 2020 02:57:43 +0100
+Message-Id: <1581040680-308-16-git-send-email-aleksandar.markovic@rt-rk.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1581040680-308-1-git-send-email-aleksandar.markovic@rt-rk.com>
 References: <1581040680-308-1-git-send-email-aleksandar.markovic@rt-rk.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
 X-Received-From: 89.216.37.149
 X-BeenThere: qemu-devel@nongnu.org
@@ -63,317 +60,113 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: Michael Rolnik <mrolnik@gmail.com>
 
 This includes:
-    - LSR, ROR
-    - ASR
-    - SWAP
-    - SBI, CBI
-    - BST, BLD
-    - BSET, BCLR
+    - BREAK
+    - NOP
+    - SLEEP
+    - WDR
 
 Signed-off-by: Michael Rolnik <mrolnik@gmail.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 Reviewed-by: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
 ---
- target/avr/insn.decode |  14 +++
- target/avr/translate.c | 247 +++++++++++++++++++++++++++++++++++++++++++=
-++++++
- 2 files changed, 261 insertions(+)
+ target/avr/insn.decode |  8 ++++++
+ target/avr/translate.c | 68 ++++++++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 76 insertions(+)
 
 diff --git a/target/avr/insn.decode b/target/avr/insn.decode
-index 341b552..8141e18 100644
+index 8141e18..0220da2 100644
 --- a/target/avr/insn.decode
 +++ b/target/avr/insn.decode
-@@ -163,3 +163,17 @@ XCH             1001 001 rd:5 0100
- LAC             1001 001 rd:5 0110
- LAS             1001 001 rd:5 0101
- LAT             1001 001 rd:5 0111
+@@ -177,3 +177,11 @@ BST             1111 101 rd:5 0 bit:3
+ BLD             1111 100 rd:5 0 bit:3
+ BSET            1001 0100 0 bit:3 1000
+ BCLR            1001 0100 1 bit:3 1000
 +
 +#
-+# Bit and Bit-test Instructions
++# MCU Control Instructions
 +#
-+LSR             1001 010 rd:5 0110
-+ROR             1001 010 rd:5 0111
-+ASR             1001 010 rd:5 0101
-+SWAP            1001 010 rd:5 0010
-+SBI             1001 1010 reg:5 bit:3
-+CBI             1001 1000 reg:5 bit:3
-+BST             1111 101 rd:5 0 bit:3
-+BLD             1111 100 rd:5 0 bit:3
-+BSET            1001 0100 0 bit:3 1000
-+BCLR            1001 0100 1 bit:3 1000
++BREAK           1001 0101 1001 1000
++NOP             0000 0000 0000 0000
++SLEEP           1001 0101 1000 1000
++WDR             1001 0101 1010 1000
 diff --git a/target/avr/translate.c b/target/avr/translate.c
-index 63b4e16..315f534 100644
+index 315f534..806a0f4 100644
 --- a/target/avr/translate.c
 +++ b/target/avr/translate.c
-@@ -2500,3 +2500,250 @@ static bool trans_LAT(DisasContext *ctx, arg_LAT =
-*a)
-=20
+@@ -2747,3 +2747,71 @@ static bool trans_BCLR(DisasContext *ctx, arg_BCLR *a)
+ 
      return true;
  }
 +
 +/*
-+ * Bit and Bit-test Instructions
++ * MCU Control Instructions
 + */
-+static void gen_rshift_ZNVSf(TCGv R)
-+{
-+    tcg_gen_setcondi_tl(TCG_COND_EQ, cpu_Zf, R, 0); /* Zf =3D R =3D=3D 0=
- */
-+    tcg_gen_shri_tl(cpu_Nf, R, 7); /* Nf =3D R(7) */
-+    tcg_gen_xor_tl(cpu_Vf, cpu_Nf, cpu_Cf);
-+    tcg_gen_xor_tl(cpu_Sf, cpu_Nf, cpu_Vf); /* Sf =3D Nf ^ Vf */
-+}
 +
 +/*
-+ *  Shifts all bits in Rd one place to the right. Bit 7 is cleared. Bit =
-0 is
-+ *  loaded into the C Flag of the SREG. This operation effectively divid=
-es an
-+ *  unsigned value by two. The C Flag can be used to round the result.
++ *  The BREAK instruction is used by the On-chip Debug system, and is
++ *  normally not used in the application software. When the BREAK instruction is
++ *  executed, the AVR CPU is set in the Stopped Mode. This gives the On-chip
++ *  Debugger access to internal resources.  If any Lock bits are set, or either
++ *  the JTAGEN or OCDEN Fuses are unprogrammed, the CPU will treat the BREAK
++ *  instruction as a NOP and will not enter the Stopped mode.  This instruction
++ *  is not available in all devices. Refer to the device specific instruction
++ *  set summary.
 + */
-+static bool trans_LSR(DisasContext *ctx, arg_LSR *a)
++static bool trans_BREAK(DisasContext *ctx, arg_BREAK *a)
 +{
-+    TCGv Rd =3D cpu_r[a->rd];
-+
-+    tcg_gen_andi_tl(cpu_Cf, Rd, 1);
-+    tcg_gen_shri_tl(Rd, Rd, 1);
-+
-+    /* update status register */
-+    tcg_gen_setcondi_tl(TCG_COND_EQ, cpu_Zf, Rd, 0); /* Zf =3D Rd =3D=3D=
- 0 */
-+    tcg_gen_movi_tl(cpu_Nf, 0);
-+    tcg_gen_mov_tl(cpu_Vf, cpu_Cf);
-+    tcg_gen_mov_tl(cpu_Sf, cpu_Vf);
-+
-+    return true;
-+}
-+
-+/*
-+ *  Shifts all bits in Rd one place to the right. The C Flag is shifted =
-into
-+ *  bit 7 of Rd. Bit 0 is shifted into the C Flag.  This operation, comb=
-ined
-+ *  with ASR, effectively divides multi-byte signed values by two. Combi=
-ned with
-+ *  LSR it effectively divides multi-byte unsigned values by two. The Ca=
-rry Flag
-+ *  can be used to round the result.
-+ */
-+static bool trans_ROR(DisasContext *ctx, arg_ROR *a)
-+{
-+    TCGv Rd =3D cpu_r[a->rd];
-+    TCGv t0 =3D tcg_temp_new_i32();
-+
-+    tcg_gen_shli_tl(t0, cpu_Cf, 7);
-+
-+    /* update status register */
-+    tcg_gen_andi_tl(cpu_Cf, Rd, 1);
-+
-+    /* update output register */
-+    tcg_gen_shri_tl(Rd, Rd, 1);
-+    tcg_gen_or_tl(Rd, Rd, t0);
-+
-+    /* update status register */
-+    gen_rshift_ZNVSf(Rd);
-+
-+    tcg_temp_free_i32(t0);
-+
-+    return true;
-+}
-+
-+/*
-+ *  Shifts all bits in Rd one place to the right. Bit 7 is held constant=
-. Bit 0
-+ *  is loaded into the C Flag of the SREG. This operation effectively di=
-vides a
-+ *  signed value by two without changing its sign. The Carry Flag can be=
- used to
-+ *  round the result.
-+ */
-+static bool trans_ASR(DisasContext *ctx, arg_ASR *a)
-+{
-+    TCGv Rd =3D cpu_r[a->rd];
-+    TCGv t0 =3D tcg_temp_new_i32();
-+
-+    /* update status register */
-+    tcg_gen_andi_tl(cpu_Cf, Rd, 1); /* Cf =3D Rd(0) */
-+
-+    /* update output register */
-+    tcg_gen_andi_tl(t0, Rd, 0x80); /* Rd =3D (Rd & 0x80) | (Rd >> 1) */
-+    tcg_gen_shri_tl(Rd, Rd, 1);
-+    tcg_gen_or_tl(Rd, Rd, t0);
-+
-+    /* update status register */
-+    gen_rshift_ZNVSf(Rd);
-+
-+    tcg_temp_free_i32(t0);
-+
-+    return true;
-+}
-+
-+/*
-+ *  Swaps high and low nibbles in a register.
-+ */
-+static bool trans_SWAP(DisasContext *ctx, arg_SWAP *a)
-+{
-+    TCGv Rd =3D cpu_r[a->rd];
-+    TCGv t0 =3D tcg_temp_new_i32();
-+    TCGv t1 =3D tcg_temp_new_i32();
-+
-+    tcg_gen_andi_tl(t0, Rd, 0x0f);
-+    tcg_gen_shli_tl(t0, t0, 4);
-+    tcg_gen_andi_tl(t1, Rd, 0xf0);
-+    tcg_gen_shri_tl(t1, t1, 4);
-+    tcg_gen_or_tl(Rd, t0, t1);
-+
-+    tcg_temp_free_i32(t1);
-+    tcg_temp_free_i32(t0);
-+
-+    return true;
-+}
-+
-+/*
-+ *  Sets a specified bit in an I/O Register. This instruction operates o=
-n
-+ *  the lower 32 I/O Registers -- addresses 0-31.
-+ */
-+static bool trans_SBI(DisasContext *ctx, arg_SBI *a)
-+{
-+    TCGv data =3D tcg_temp_new_i32();
-+    TCGv port =3D tcg_const_i32(a->reg);
-+
-+    gen_helper_inb(data, cpu_env, port);
-+    tcg_gen_ori_tl(data, data, 1 << a->bit);
-+    gen_helper_outb(cpu_env, port, data);
-+
-+    tcg_temp_free_i32(port);
-+    tcg_temp_free_i32(data);
-+
-+    return true;
-+}
-+
-+/*
-+ *  Clears a specified bit in an I/O Register. This instruction operates=
- on
-+ *  the lower 32 I/O Registers -- addresses 0-31.
-+ */
-+static bool trans_CBI(DisasContext *ctx, arg_CBI *a)
-+{
-+    TCGv data =3D tcg_temp_new_i32();
-+    TCGv port =3D tcg_const_i32(a->reg);
-+
-+    gen_helper_inb(data, cpu_env, port);
-+    tcg_gen_andi_tl(data, data, ~(1 << a->bit));
-+    gen_helper_outb(cpu_env, port, data);
-+
-+    tcg_temp_free_i32(data);
-+    tcg_temp_free_i32(port);
-+
-+    return true;
-+}
-+
-+/*
-+ *  Stores bit b from Rd to the T Flag in SREG (Status Register).
-+ */
-+static bool trans_BST(DisasContext *ctx, arg_BST *a)
-+{
-+    TCGv Rd =3D cpu_r[a->rd];
-+
-+    tcg_gen_andi_tl(cpu_Tf, Rd, 1 << a->bit);
-+    tcg_gen_shri_tl(cpu_Tf, cpu_Tf, a->bit);
-+
-+    return true;
-+}
-+
-+/*
-+ *  Copies the T Flag in the SREG (Status Register) to bit b in register=
- Rd.
-+ */
-+static bool trans_BLD(DisasContext *ctx, arg_BLD *a)
-+{
-+    TCGv Rd =3D cpu_r[a->rd];
-+    TCGv t1 =3D tcg_temp_new_i32();
-+
-+    tcg_gen_andi_tl(Rd, Rd, ~(1u << a->bit)); /* clear bit */
-+    tcg_gen_shli_tl(t1, cpu_Tf, a->bit); /* create mask */
-+    tcg_gen_or_tl(Rd, Rd, t1);
-+
-+    tcg_temp_free_i32(t1);
-+
-+    return true;
-+}
-+
-+/*
-+ *  Sets a single Flag or bit in SREG.
-+ */
-+static bool trans_BSET(DisasContext *ctx, arg_BSET *a)
-+{
-+    switch (a->bit) {
-+    case 0x00:
-+        tcg_gen_movi_tl(cpu_Cf, 0x01);
-+        break;
-+    case 0x01:
-+        tcg_gen_movi_tl(cpu_Zf, 0x01);
-+        break;
-+    case 0x02:
-+        tcg_gen_movi_tl(cpu_Nf, 0x01);
-+        break;
-+    case 0x03:
-+        tcg_gen_movi_tl(cpu_Vf, 0x01);
-+        break;
-+    case 0x04:
-+        tcg_gen_movi_tl(cpu_Sf, 0x01);
-+        break;
-+    case 0x05:
-+        tcg_gen_movi_tl(cpu_Hf, 0x01);
-+        break;
-+    case 0x06:
-+        tcg_gen_movi_tl(cpu_Tf, 0x01);
-+        break;
-+    case 0x07:
-+        tcg_gen_movi_tl(cpu_If, 0x01);
-+        break;
++    if (!avr_have_feature(ctx, AVR_FEATURE_BREAK)) {
++        return true;
 +    }
 +
++#ifdef BREAKPOINT_ON_BREAK
++    tcg_gen_movi_tl(cpu_pc, ctx->npc - 1);
++    gen_helper_debug(cpu_env);
++    ctx->bstate = DISAS_EXIT;
++#else
++    /* NOP */
++#endif
++
 +    return true;
 +}
++
 +
 +/*
-+ *  Clears a single Flag in SREG.
++ *  This instruction performs a single cycle No Operation.
 + */
-+static bool trans_BCLR(DisasContext *ctx, arg_BCLR *a)
++static bool trans_NOP(DisasContext *ctx, arg_NOP *a)
 +{
-+    switch (a->bit) {
-+    case 0x00:
-+        tcg_gen_movi_tl(cpu_Cf, 0x00);
-+        break;
-+    case 0x01:
-+        tcg_gen_movi_tl(cpu_Zf, 0x00);
-+        break;
-+    case 0x02:
-+        tcg_gen_movi_tl(cpu_Nf, 0x00);
-+        break;
-+    case 0x03:
-+        tcg_gen_movi_tl(cpu_Vf, 0x00);
-+        break;
-+    case 0x04:
-+        tcg_gen_movi_tl(cpu_Sf, 0x00);
-+        break;
-+    case 0x05:
-+        tcg_gen_movi_tl(cpu_Hf, 0x00);
-+        break;
-+    case 0x06:
-+        tcg_gen_movi_tl(cpu_Tf, 0x00);
-+        break;
-+    case 0x07:
-+        tcg_gen_movi_tl(cpu_If, 0x00);
-+        break;
-+    }
++
++    /* NOP */
 +
 +    return true;
 +}
---=20
++
++
++/*
++ *  This instruction sets the circuit in sleep mode defined by the MCU
++ *  Control Register.
++ */
++static bool trans_SLEEP(DisasContext *ctx, arg_SLEEP *a)
++{
++    gen_helper_sleep(cpu_env);
++    ctx->bstate = DISAS_NORETURN;
++    return true;
++}
++
++
++/*
++ *  This instruction resets the Watchdog Timer. This instruction must be
++ *  executed within a limited time given by the WD prescaler. See the Watchdog
++ *  Timer hardware specification.
++ */
++static bool trans_WDR(DisasContext *ctx, arg_WDR *a)
++{
++    gen_helper_wdr(cpu_env);
++
++    return true;
++}
+-- 
 2.7.4
 
 
