@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CC4C1559CD
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 15:39:52 +0100 (CET)
-Received: from localhost ([::1]:57992 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72A731559F6
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 15:46:29 +0100 (CET)
+Received: from localhost ([::1]:58240 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j04nO-0002Fu-UN
-	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 09:39:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51525)
+	id 1j04to-00083O-Em
+	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 09:46:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51539)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j04hq-0000HK-HW
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:34:07 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1j04hr-0000Jh-DH
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:34:08 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j04hp-0002pL-EG
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:34:06 -0500
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:46056)
+ (envelope-from <peter.maydell@linaro.org>) id 1j04hq-0002qy-8p
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:34:07 -0500
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:39283)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j04hp-0002nF-71
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:34:05 -0500
-Received: by mail-wr1-x441.google.com with SMTP id a6so2912572wrx.12
+ id 1j04hq-0002pI-26
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:34:06 -0500
+Received: by mail-wr1-x442.google.com with SMTP id y11so2954711wrt.6
  for <qemu-devel@nongnu.org>; Fri, 07 Feb 2020 06:34:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=yxq4YxHd2MI+/+Xjtj2NcaZECHeURog87fN3pYPdVps=;
- b=LZjbkFE7uVmk/lfce4cMTzCHKdwhw9nYAys8p6AdQfNkDB3uw7my6IUyFE2k/FhL4t
- Z/Z1Hrn4Vt3pZmzEuFNpCaev0H1DGxp/Qv+avjWHnjlvKMECasbY/XdcG6Pr4MNW5+Da
- VcXeQNaeZGKC79IPw5/AqL2h6ykdjHYYOr46QCktp//v1mVXC43NwhgahCDz/Pg0f9nE
- KJUOiBR/PCOV0J/+ttiPgkGC8Wm749gi2PP9PvJszcZ2sBd7GvqX4qmGnVHt04brT/6A
- 1knjlyrh3xI5BAj0i2Z1PVWLNlsahif68D4fI9Wkc0NP1YK/g6wjgvfOcXjsLh0hph8W
- i+kg==
+ bh=+7+Ixs7QmaR6uOEHjOzoEs2YwYAR1dd5H/bLNl8eCSk=;
+ b=eOM3OIX+2bDB14hbGycd7e19LhWEAv/vtAOkh8m52imwV7P9sCglkaJ9T0IYjoE/Vi
+ 1hydJkTh04HRNFlv72fAkCYjEag97F0ezDVTfIGsPFY4HOc3l+uSy25xmbhm1ESyoFoi
+ 7xv+fCN9r+k6wlj1XKz9JcB2vT4qzrTgYpLsDyrKqpbjomD5Eg90xhL/endcdgJ+FYqj
+ Bff+kEPQ32dqb1h43PNURIrWYsMDmJXBHxRmGjNFIXFoGsfIlE6aDohgCKMN3ucC/VBY
+ Xtzf5IKfmfrbCbTLZwe3iV4NkwOX0woAY3Nbej9PNdaWCaMyv/DjYaA3aQjIf4l48zOI
+ C+Ug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=yxq4YxHd2MI+/+Xjtj2NcaZECHeURog87fN3pYPdVps=;
- b=F6cOHx3aISkiopnzT4kqLiOPM7GUzkUa3kUOqg0ckKM+W9mHLCqqUpnE6ggUKyNwkU
- wW+UXHETF7DRDRx+y/Rdqg7OCdQRwQWGbHUvSgyn8EouZop6N1ukv/bJEXNHv+G+5x+t
- 2rhZFzl4zmzY+z9ljfGleVoFnTC7HCVVrNtam11f3IfqNPJC9ifrE1ETisEjKrytxYzP
- PtX1GGWRoQlSF7mOdLoK2W3UmcbWr+CxrtizTpFyxS6PIWyBHDKRbJZucL7eUedCnOip
- IN/+/W6WTc79JQ89MRn8z6ogpbEVnR7vQmW1KwNsgRXISBTmTUarQLGiqRq4t7Nhbocf
- +Z6w==
-X-Gm-Message-State: APjAAAWkq+odSj9iMYsUqibEu+gzIPfG8AURN5bHuBC0Nmbz8TZ/u1t+
- gEru+tVuDm4uR/vQFC5aRmKSKzZDwNc=
-X-Google-Smtp-Source: APXvYqx1/h2NF/L4KAF9241u/Qzxfsq+2DpWePXCgiS23QsOsEtcw5M4Zm7gMy7PSrCYxwRBtf6p9g==
-X-Received: by 2002:a5d:6708:: with SMTP id o8mr5288263wru.296.1581086043994; 
- Fri, 07 Feb 2020 06:34:03 -0800 (PST)
+ bh=+7+Ixs7QmaR6uOEHjOzoEs2YwYAR1dd5H/bLNl8eCSk=;
+ b=VRsfEfwBQkDKKOwXGvumSK9LXRX2CQh1Bm/wu2r+KKPC6aPAr4lPrOL0jYkxaluLOg
+ tpXgOHPxGsq88qwoYzIpN4VeIHRvr1EntLcCidVt12B1UPxIPYHN5lFpKvGmxhnza56i
+ HImC1wqwdIOKZXnhjxnOKgeHTg3a7xoi126OVAzWxdFmrxTQmNlHk69UZHTNALhWXWVW
+ edvH1j+6oernlfp1hBU18WPaOeFgY2JiR1gCaRjbzzmly+XxDRaJ3uRjRxSMGs+ceX7j
+ i7nPaHxstJ/EOIp/KxH95+KQM7gMNQ7H9RFqTJdlJW6KtSyogd4rJ2bjkul+IzgKoFDE
+ jXfw==
+X-Gm-Message-State: APjAAAUWvr6qK7fkAG2lqDKpLgTCIks/1ywM6ZUEruPdzYovYecz/701
+ x5SrdvGFckzBEa0h7SmAo904dkG500U=
+X-Google-Smtp-Source: APXvYqy9xiNd31d7M8XxvtriiJO1j+ekFlZQPciQZu+R9bcC9fnnsjlW4b5gmHr7hlbEPTgqU5s9FQ==
+X-Received: by 2002:adf:e542:: with SMTP id z2mr5040847wrm.346.1581086044825; 
+ Fri, 07 Feb 2020 06:34:04 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id w1sm3796430wro.72.2020.02.07.06.34.03
+ by smtp.gmail.com with ESMTPSA id w1sm3796430wro.72.2020.02.07.06.34.04
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Feb 2020 06:34:03 -0800 (PST)
+ Fri, 07 Feb 2020 06:34:04 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 17/48] target/arm: Expand TBFLAG_ANY.MMUIDX to 4 bits
-Date: Fri,  7 Feb 2020 14:33:12 +0000
-Message-Id: <20200207143343.30322-18-peter.maydell@linaro.org>
+Subject: [PULL 18/48] target/arm: Rearrange ARMMMUIdxBit
+Date: Fri,  7 Feb 2020 14:33:13 +0000
+Message-Id: <20200207143343.30322-19-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200207143343.30322-1-peter.maydell@linaro.org>
 References: <20200207143343.30322-1-peter.maydell@linaro.org>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::441
+X-Received-From: 2a00:1450:4864:20::442
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,59 +84,74 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-We are about to expand the number of mmuidx to 10, and so need 4 bits.
-For the benefit of reading the number out of -d exec, align it to the
-penultimate nibble.
+Define via macro expansion, so that renumbering of the base ARMMMUIdx
+symbols is automatically reflected in the bit definitions.
 
 Tested-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20200206105448.4726-17-richard.henderson@linaro.org
+Message-id: 20200206105448.4726-18-richard.henderson@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/cpu.h | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+ target/arm/cpu.h | 39 +++++++++++++++++++++++----------------
+ 1 file changed, 23 insertions(+), 16 deletions(-)
 
 diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index fce6a426c88..aa9728cff62 100644
+index aa9728cff62..aa121cd9d0a 100644
 --- a/target/arm/cpu.h
 +++ b/target/arm/cpu.h
-@@ -3214,7 +3214,7 @@ typedef ARMCPU ArchCPU;
-  * We put flags which are shared between 32 and 64 bit mode at the top
-  * of the word, and flags which apply to only one mode at the bottom.
-  *
-- *  31          21    18    14          9              0
-+ *  31          20    18    14          9              0
-  * +--------------+-----+-----+----------+--------------+
-  * |              |     |   TBFLAG_A32   |              |
-  * |              |     +-----+----------+  TBFLAG_AM32 |
-@@ -3222,19 +3222,19 @@ typedef ARMCPU ArchCPU;
-  * |              |           +-------------------------|
-  * |              |           |       TBFLAG_A64        |
-  * +--------------+-----------+-------------------------+
-- *  31          21          14                         0
-+ *  31          20          14                         0
-  *
-  * Unless otherwise noted, these bits are cached in env->hflags.
-  */
- FIELD(TBFLAG_ANY, AARCH64_STATE, 31, 1)
--FIELD(TBFLAG_ANY, MMUIDX, 28, 3)
--FIELD(TBFLAG_ANY, SS_ACTIVE, 27, 1)
--FIELD(TBFLAG_ANY, PSTATE_SS, 26, 1)     /* Not cached. */
-+FIELD(TBFLAG_ANY, SS_ACTIVE, 30, 1)
-+FIELD(TBFLAG_ANY, PSTATE_SS, 29, 1)     /* Not cached. */
-+FIELD(TBFLAG_ANY, BE_DATA, 28, 1)
-+FIELD(TBFLAG_ANY, MMUIDX, 24, 4)
- /* Target EL if we take a floating-point-disabled exception */
--FIELD(TBFLAG_ANY, FPEXC_EL, 24, 2)
--FIELD(TBFLAG_ANY, BE_DATA, 23, 1)
-+FIELD(TBFLAG_ANY, FPEXC_EL, 22, 2)
- /* For A-profile only, target EL for debug exceptions.  */
--FIELD(TBFLAG_ANY, DEBUG_TARGET_EL, 21, 2)
-+FIELD(TBFLAG_ANY, DEBUG_TARGET_EL, 20, 2)
+@@ -2927,27 +2927,34 @@ typedef enum ARMMMUIdx {
+     ARMMMUIdx_Stage1_E1 = 1 | ARM_MMU_IDX_NOTLB,
+ } ARMMMUIdx;
  
- /*
-  * Bit usage when in AArch32 state, both A- and M-profile.
+-/* Bit macros for the core-mmu-index values for each index,
++/*
++ * Bit macros for the core-mmu-index values for each index,
+  * for use when calling tlb_flush_by_mmuidx() and friends.
+  */
++#define TO_CORE_BIT(NAME) \
++    ARMMMUIdxBit_##NAME = 1 << (ARMMMUIdx_##NAME & ARM_MMU_IDX_COREIDX_MASK)
++
+ typedef enum ARMMMUIdxBit {
+-    ARMMMUIdxBit_E10_0 = 1 << 0,
+-    ARMMMUIdxBit_E10_1 = 1 << 1,
+-    ARMMMUIdxBit_E2 = 1 << 2,
+-    ARMMMUIdxBit_SE3 = 1 << 3,
+-    ARMMMUIdxBit_SE10_0 = 1 << 4,
+-    ARMMMUIdxBit_SE10_1 = 1 << 5,
+-    ARMMMUIdxBit_Stage2 = 1 << 6,
+-    ARMMMUIdxBit_MUser = 1 << 0,
+-    ARMMMUIdxBit_MPriv = 1 << 1,
+-    ARMMMUIdxBit_MUserNegPri = 1 << 2,
+-    ARMMMUIdxBit_MPrivNegPri = 1 << 3,
+-    ARMMMUIdxBit_MSUser = 1 << 4,
+-    ARMMMUIdxBit_MSPriv = 1 << 5,
+-    ARMMMUIdxBit_MSUserNegPri = 1 << 6,
+-    ARMMMUIdxBit_MSPrivNegPri = 1 << 7,
++    TO_CORE_BIT(E10_0),
++    TO_CORE_BIT(E10_1),
++    TO_CORE_BIT(E2),
++    TO_CORE_BIT(SE10_0),
++    TO_CORE_BIT(SE10_1),
++    TO_CORE_BIT(SE3),
++    TO_CORE_BIT(Stage2),
++
++    TO_CORE_BIT(MUser),
++    TO_CORE_BIT(MPriv),
++    TO_CORE_BIT(MUserNegPri),
++    TO_CORE_BIT(MPrivNegPri),
++    TO_CORE_BIT(MSUser),
++    TO_CORE_BIT(MSPriv),
++    TO_CORE_BIT(MSUserNegPri),
++    TO_CORE_BIT(MSPrivNegPri),
+ } ARMMMUIdxBit;
+ 
++#undef TO_CORE_BIT
++
+ #define MMU_USER_IDX 0
+ 
+ static inline int arm_to_core_mmu_idx(ARMMMUIdx mmu_idx)
 -- 
 2.20.1
 
