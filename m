@@ -2,66 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D157A155A35
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 15:57:55 +0100 (CET)
-Received: from localhost ([::1]:58618 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E839155A3A
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 15:59:31 +0100 (CET)
+Received: from localhost ([::1]:58674 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j054s-0001kp-RG
-	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 09:57:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53254)
+	id 1j056Q-0004t0-4m
+	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 09:59:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53808)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1j04nQ-0003UJ-ID
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:39:53 -0500
+ (envelope-from <pbonzini@redhat.com>) id 1j04qE-0001Qj-3s
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:42:47 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1j04nO-0004ur-6y
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:39:51 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:53284
+ (envelope-from <pbonzini@redhat.com>) id 1j04qC-00013l-ND
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:42:45 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:57038
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1j04nM-0004u6-Nd
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:39:49 -0500
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1j04qC-00012w-Hy
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:42:44 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581086388;
+ s=mimecast20190719; t=1581086564;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=iC6Zh7a0TJaRUhAecOoAB2peaVYGECdB1BmDARPH3kM=;
- b=EQYTAtwsC3nt+tGJX78jr8pnEya1bTG3mlpHLSX2bB2Dy5QQNQQdUbr3ePrHpK+LsE7Qjj
- MvL2AuguP3xFPtq7RQi42fhSusGQc2AHy3QYz+YQx7UnoHxRxLWKe9XKCmz+Ag44A5FGFm
- 1ssMnAGP6nwJzJuxFptFGdgKiraCHQE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-75-FepFPUgsPBSSTN3hyY1y_A-1; Fri, 07 Feb 2020 09:39:46 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D12DB10FB4B9;
- Fri,  7 Feb 2020 14:39:45 +0000 (UTC)
-Received: from [10.3.116.180] (ovpn-116-180.phx2.redhat.com [10.3.116.180])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 697542632C;
- Fri,  7 Feb 2020 14:39:45 +0000 (UTC)
-Subject: Re: [PATCH v2] block: always fill entire LUKS header space with zeros
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org
-References: <20200207135520.2669430-1-berrange@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <df1a34df-e1b7-283f-a37b-79e7e3bfbe1d@redhat.com>
-Date: Fri, 7 Feb 2020 08:39:44 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ bh=a6wstnYggFDTQy1hhorhhZGeyX9qdlf+LsuxkG8B6K8=;
+ b=adfuX2DgBri6Yvx+MLpUXSLZ4L/3olvOTITalhTqa/3QAiGYN9Vr/dpfxWBFZAJrdDNjUS
+ b+uugqegVU7zMTqzB/hsTCCoRSULrAUC9+EmmIw5dLEf3f4faydkrBOzCxJQoAyzUTs7qS
+ p00R1q+MYaukQcb/C7nM/YCscQgmAe0=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-379-TDI8NA5bMdmFlnCvimnKcQ-1; Fri, 07 Feb 2020 09:42:41 -0500
+Received: by mail-ed1-f69.google.com with SMTP id g11so2008941edu.10
+ for <qemu-devel@nongnu.org>; Fri, 07 Feb 2020 06:42:41 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=bi2HBmaKh2r3NXLb4eOfK9MgVgQk+n+9d8Mig9OH72o=;
+ b=tbwj3mDS63S3gCR+WRFeStqVBucqXAXKxjlcGc4QIzIBsuvU0W53qXNxcgkky2joJq
+ 6Ho4FhKNwg22UZTVP8kboco98CIzuF3XIOFaPhUBVIVh2YAdPRLUv4qcRI2GhYHySPgf
+ Zxg5LXUv/wbQSbkF/vxGULcLyp3Y7gh4YgTDya5mUi14KVokeyCnrPkNDpplY44g4Iy4
+ 08QRje75TIWinsESlkHoWmySNoJgj9dYlCivv6Lo5hUev6+elEp0aqBm75L2GIkZnFTO
+ XvgWgXgglLGYhE8pxtBd2laXqPxWNCq1xhzqxA+NksbelykuxgRXtX+k+BorrYDA9aBj
+ IEYw==
+X-Gm-Message-State: APjAAAV/7T5Rfj4BCLxrUiP2dRzN+/kM1Xc5CDnvQQKgB+vELJ6aHpFR
+ TFo1c8NDyrgSi78wVu9NRyrQ8tWgv6tJpD64f+HMTtbJmFIVnHNdSNliGqKA3S3ZGvCIYdGb9+E
+ /rcnwoPHsm0UwXmpFhGfjoRc5wL+pnQE=
+X-Received: by 2002:aa7:cfcc:: with SMTP id r12mr8183197edy.57.1581086560066; 
+ Fri, 07 Feb 2020 06:42:40 -0800 (PST)
+X-Google-Smtp-Source: APXvYqwYmdp17CwhpTix6muFNe2l/HiPkUDK2ZyQhH2o6gIcXscL0zZOk++7cLUiJi5Y57c4Wu+qV/CHp0F9fQfhRo8=
+X-Received: by 2002:aa7:cfcc:: with SMTP id r12mr8183178edy.57.1581086559792; 
+ Fri, 07 Feb 2020 06:42:39 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20200207135520.2669430-1-berrange@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: FepFPUgsPBSSTN3hyY1y_A-1
+References: <CAFEAcA--P9FLM4qBxf23sLuv5Tz4HRgj7ONC7ODxnfZiLph9TA@mail.gmail.com>
+ <2e70328b-5b7b-9e9d-8dfa-2af5c8e2fb28@redhat.com>
+In-Reply-To: <2e70328b-5b7b-9e9d-8dfa-2af5c8e2fb28@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Date: Fri, 7 Feb 2020 15:42:27 +0100
+Message-ID: <CABgObfbYT0fg_D=xAoVAWKA3waLgOv7Zg=Ysh3gKqzbvunr5wA@mail.gmail.com>
+Subject: Re: should we have a new 'tools' manual?
+To: Eric Blake <eblake@redhat.com>
+X-MC-Unique: TDI8NA5bMdmFlnCvimnKcQ-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/alternative; boundary="000000000000c18b7b059dfd66cb"
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 207.211.31.120
@@ -76,80 +81,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- Max Reitz <mreitz@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "Daniel P. Berrange" <berrange@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/7/20 7:55 AM, Daniel P. Berrang=C3=A9 wrote:
-> When initializing the LUKS header the size with default encryption
-> parameters will currently be 2068480 bytes. This is rounded up to
-> a multiple of the cluster size, 2081792, with 64k sectors. If the
-> end of the header is not the same as the end of the cluster we fill
-> the extra space with zeros. This was forgetting that not even the
-> space allocated for the header will be fully initialized, as we
-> only write key material for the first key slot. The space left
-> for the other 7 slots is never written to.
->=20
+--000000000000c18b7b059dfd66cb
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> The problem only exists when the disk image is entirely empty. Writing
-> data to the disk image payload will solve the problem by causing the
-> end of the file to be extended further.
->=20
-> The change fixes it by ensuring that the entire allocated LUKS header
-> region is fully initialized with zeros. The qemu-img check will still
-> fail for any pre-existing disk images created prior to this change,
-> unless at least 1 byte of the payload is written to.
->=20
-> Fully writing zeros to the entire LUKS header is a good idea regardless
-> as it ensures that space has been allocated on the host filesystem (or
-> whatever block storage backend is used).
+Il ven 7 feb 2020, 15:32 Eric Blake <eblake@redhat.com> ha scritto:
 
-What's more, we avoid a possible bug where creating a LUKS image backed=20
-by a block device protocol where the block device happens to already=20
-contain stale data from an earlier use of that block device in a=20
-different LUKS image, which could make it appear as though we have=20
-populated key slots.  It's unlikely that those other slots would decode=20
-the current image correctly (as the stale keyslot would decode to a=20
-different master key), but being able to supply the passphrase to that=20
-stale keyslot to decode garbage out of the new image does not seem=20
-desirable.
+> But when I spent a mere 30 minutes seeing
+> what it would take, I quickly learned that there is enough arcane
+> Makefile magic going on in building from subdirectories that it wasn't
+> worth my time to figure out how, especially if all that magic gets
+> rewritten anyway during Paolo's conversion to meson.
+>
 
->=20
-> Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-> ---
->=20
+Heh, maybe that could be a convincing example. It should be pure code
+movement.
 
-> +++ b/block/qcow2.c
-> @@ -135,13 +135,16 @@ static ssize_t qcow2_crypto_hdr_init_func(QCryptoBl=
-ock *block, size_t headerlen,
->       s->crypto_header.length =3D headerlen;
->       s->crypto_header.offset =3D ret;
->  =20
-> -    /* Zero fill remaining space in cluster so it has predictable
-> -     * content in case of future spec changes */
-> +    /*
-> +     * Zero fill all space in cluster so it has predictable
-> +     * content, as we may not initialize some regions of the
-> +     * header (eg only 1 out of 8 key slots will be initialized)
-> +     */
->       clusterlen =3D size_to_clusters(s, headerlen) * s->cluster_size;
->       assert(qcow2_pre_write_overlap_check(bs, 0, ret, clusterlen, false)=
- =3D=3D 0);
->       ret =3D bdrv_pwrite_zeroes(bs->file,
-> -                             ret + headerlen,
-> -                             clusterlen - headerlen, 0);
-> +                             ret,
-> +                             clusterlen, 0);
->       if (ret < 0) {
->           error_setg_errno(errp, -ret, "Could not zero fill encryption he=
-ader");
->           return -1;
-Reviewed-by: Eric Blake <eblake@redhat.com>
 
---=20
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+> --
+> Eric Blake, Principal Software Engineer
+> Red Hat, Inc.           +1-919-301-3226
+> Virtualization:  qemu.org | libvirt.org
+>
+>
+
+--000000000000c18b7b059dfd66cb
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
+class=3D"gmail_attr">Il ven 7 feb 2020, 15:32 Eric Blake &lt;<a href=3D"mai=
+lto:eblake@redhat.com">eblake@redhat.com</a>&gt; ha scritto:<br></div><bloc=
+kquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #cc=
+c solid;padding-left:1ex">But when I spent a mere 30 minutes seeing <br>
+what it would take, I quickly learned that there is enough arcane <br>
+Makefile magic going on in building from subdirectories that it wasn&#39;t =
+<br>
+worth my time to figure out how, especially if all that magic gets <br>
+rewritten anyway during Paolo&#39;s conversion to meson.<br></blockquote></=
+div></div><div dir=3D"auto"><br></div><div dir=3D"auto">Heh, maybe that cou=
+ld be a convincing example. It should be pure code movement.</div><div dir=
+=3D"auto"><br></div><div dir=3D"auto"><div class=3D"gmail_quote"><blockquot=
+e class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc sol=
+id;padding-left:1ex">
+<br>
+-- <br>
+Eric Blake, Principal Software Engineer<br>
+Red Hat, Inc.=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0+1-919-301-3226<br>
+Virtualization:=C2=A0 <a href=3D"http://qemu.org" rel=3D"noreferrer norefer=
+rer" target=3D"_blank">qemu.org</a> | <a href=3D"http://libvirt.org" rel=3D=
+"noreferrer noreferrer" target=3D"_blank">libvirt.org</a><br>
+<br>
+</blockquote></div></div></div>
+
+--000000000000c18b7b059dfd66cb--
 
 
