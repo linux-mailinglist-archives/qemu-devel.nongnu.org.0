@@ -2,94 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8109B1558F8
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 15:03:53 +0100 (CET)
-Received: from localhost ([::1]:57072 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D65CD1558FE
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 15:07:45 +0100 (CET)
+Received: from localhost ([::1]:57122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j04Ea-00052i-Gg
-	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 09:03:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45069)
+	id 1j04IK-0000XS-Uw
+	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 09:07:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45569)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jjherne@linux.ibm.com>) id 1j04DL-0003ak-HU
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:02:38 -0500
+ (envelope-from <drjones@redhat.com>) id 1j04HJ-0007fp-VZ
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:06:43 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jjherne@linux.ibm.com>) id 1j04DJ-0001Nc-VB
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:02:35 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:35834
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jjherne@linux.ibm.com>)
- id 1j04DJ-0001Je-OW; Fri, 07 Feb 2020 09:02:33 -0500
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 017E0PSO057891; Fri, 7 Feb 2020 09:02:32 -0500
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2y0p79t87b-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 07 Feb 2020 09:02:32 -0500
-Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 017E0jiR059970;
- Fri, 7 Feb 2020 09:02:32 -0500
-Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.11])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2y0p79t86p-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 07 Feb 2020 09:02:32 -0500
-Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
- by ppma03dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 017E19eH029297;
- Fri, 7 Feb 2020 14:02:31 GMT
-Received: from b03cxnp08027.gho.boulder.ibm.com
- (b03cxnp08027.gho.boulder.ibm.com [9.17.130.19])
- by ppma03dal.us.ibm.com with ESMTP id 2xykca33u3-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 07 Feb 2020 14:02:31 +0000
-Received: from b03ledav003.gho.boulder.ibm.com
- (b03ledav003.gho.boulder.ibm.com [9.17.130.234])
- by b03cxnp08027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 017E2Uof43647410
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 7 Feb 2020 14:02:30 GMT
-Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 062B86A04F;
- Fri,  7 Feb 2020 14:02:30 +0000 (GMT)
-Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 632246A05A;
- Fri,  7 Feb 2020 14:02:29 +0000 (GMT)
-Received: from localhost.localdomain (unknown [9.85.177.182])
- by b03ledav003.gho.boulder.ibm.com (Postfix) with ESMTP;
- Fri,  7 Feb 2020 14:02:29 +0000 (GMT)
-Subject: Re: [PATCH] pc-bios/s390x: Pack ResetInfo struct
-To: Christian Borntraeger <borntraeger@de.ibm.com>,
- Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- qemu-s390x@nongnu.org, cohuck@redhat.com
-References: <20200205182126.13010-1-jjherne@linux.ibm.com>
- <e3baa1e0-e1d3-d67c-cca9-a626d42c5489@de.ibm.com>
- <896302f7-ec21-6108-6dde-f5a7439d87ab@redhat.com>
- <caefcdbf-e68c-ba05-2ec4-17f127109434@de.ibm.com>
-From: "Jason J. Herne" <jjherne@linux.ibm.com>
-Organization: IBM
-Message-ID: <d9891265-2254-ee64-c009-0105f7a8b02b@linux.ibm.com>
-Date: Fri, 7 Feb 2020 09:02:28 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.0
+ (envelope-from <drjones@redhat.com>) id 1j04HI-0006ZU-Cq
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:06:41 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:22899
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <drjones@redhat.com>) id 1j04HI-0006ZB-7o
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:06:40 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1581084399;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=1ANWr1J4B+2ekgdtAkoqM5ghV0In7jIKf11OTWBZkeY=;
+ b=A0aGfumH6T6xZA385aAbrY4xgPy0VspRKkrwqUqJATTA/AFDA/B7S56gCOBQsWspSu2thx
+ 5PKvl8lXbyLDDZfNWcy1WZ1zpHrEBsWNsm40xqvddNmVr8QOD8Ol6go1wl+QZVtntEpiC4
+ 6T3FR3JIP25AiFhb0qsYggMr4xSs7Rw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-288-A3Xp7amqMniKgguMD0pKew-1; Fri, 07 Feb 2020 09:06:37 -0500
+X-MC-Unique: A3Xp7amqMniKgguMD0pKew-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 57D10800D54;
+ Fri,  7 Feb 2020 14:06:35 +0000 (UTC)
+Received: from kamzik.brq.redhat.com (unknown [10.43.2.160])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 57A521001281;
+ Fri,  7 Feb 2020 14:06:29 +0000 (UTC)
+Date: Fri, 7 Feb 2020 15:06:27 +0100
+From: Andrew Jones <drjones@redhat.com>
+To: Eric Auger <eric.auger@redhat.com>
+Subject: Re: [kvm-unit-tests PATCH v3 14/14] arm/arm64: ITS: pending table
+ migration test
+Message-ID: <20200207140627.rikkw5coe7naxssb@kamzik.brq.redhat.com>
+References: <20200128103459.19413-1-eric.auger@redhat.com>
+ <20200128103459.19413-15-eric.auger@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <caefcdbf-e68c-ba05-2ec4-17f127109434@de.ibm.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
- definitions=2020-02-07_01:2020-02-07,
- 2020-02-07 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 phishscore=0
- impostorscore=0 malwarescore=0 suspectscore=0 mlxlogscore=999
- priorityscore=1501 adultscore=0 lowpriorityscore=0 spamscore=0
- clxscore=1015 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2001150001 definitions=main-2002070107
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.158.5
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200128103459.19413-15-eric.auger@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -101,155 +69,302 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: jjherne@linux.ibm.com
+Cc: peter.maydell@linaro.org, thuth@redhat.com, kvm@vger.kernel.org,
+ maz@kernel.org, qemu-devel@nongnu.org, qemu-arm@nongnu.org,
+ andre.przywara@arm.com, yuzenghui@huawei.com, alexandru.elisei@arm.com,
+ kvmarm@lists.cs.columbia.edu, eric.auger.pro@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/7/20 6:28 AM, Christian Borntraeger wrote:
-> Jason,
+On Tue, Jan 28, 2020 at 11:34:59AM +0100, Eric Auger wrote:
+> Add two new migration tests. One testing the migration of
+> a topology where collection were unmapped. The second test
+> checks the migration of the pending table.
 > 
-> can you run objdump -Sdr on jump2ipl.o on a broken variant?
+> Signed-off-by: Eric Auger <eric.auger@redhat.com>
 > 
+> ---
 > 
-To keep the volume lower, I've only pasted the output that I think you're interested in. 
-If you want to see the entire thing just let me know.
+> v2 -> v3:
+> - tests belong to both its and migration groups
+> ---
+>  arm/gic.c         | 150 ++++++++++++++++++++++++++++++++++++++++++++++
+>  arm/unittests.cfg |  16 +++++
+>  2 files changed, 166 insertions(+)
+> 
+> diff --git a/arm/gic.c b/arm/gic.c
+> index fa8626a..ec3dd3a 100644
+> --- a/arm/gic.c
+> +++ b/arm/gic.c
+> @@ -195,6 +195,7 @@ static void lpi_handler(struct pt_regs *regs __unused)
+>  	smp_rmb(); /* pairs with wmb in lpi_stats_expect */
+>  	lpi_stats.observed.cpu_id = smp_processor_id();
+>  	lpi_stats.observed.lpi_id = irqnr;
+> +	acked[lpi_stats.observed.cpu_id]++;
+>  	smp_wmb(); /* pairs with rmb in check_lpi_stats */
+>  }
+>  
+> @@ -239,6 +240,18 @@ static void secondary_lpi_test(void)
+>  	while (1)
+>  		wfi();
+>  }
+> +
+> +static void check_lpi_hits(int *expected)
+> +{
+> +	int i;
+> +
+> +	for (i = 0; i < nr_cpus; i++) {
+> +		if (acked[i] != expected[i])
+> +			report(false, "expected %d LPIs on PE #%d, %d observed",
+> +			       expected[i], i, acked[i]);
 
-static void jump_to_IPL_2(void)
-{
-  1d0:	eb bf f0 58 00 24 	stmg	%r11,%r15,88(%r15)
-  1d6:	a7 fb ff 50       	aghi	%r15,-176
-  1da:	b9 04 00 bf       	lgr	%r11,%r15
-     ResetInfo *current = 0;
-  1de:	a7 19 00 00       	lghi	%r1,0
-  1e2:	e3 10 b0 a8 00 24 	stg	%r1,168(%r11)
+report_info
+pass = false
 
-     void (*ipl)(void) = (void *) (uint64_t) current->ipl_continue;
-  1e8:	e3 10 b0 a8 00 04 	lg	%r1,168(%r11)
-  1ee:	58 10 10 08       	l	%r1,8(%r1)
-  1f2:	b9 16 00 11       	llgfr	%r1,%r1
-  1f6:	e3 10 b0 a0 00 24 	stg	%r1,160(%r11)
-     *current = save;
-  1fc:	e3 10 b0 a8 00 04 	lg	%r1,168(%r11)
-  202:	c0 20 00 00 00 00 	larl	%r2,202 <jump_to_IPL_2+0x32>
-			204: R_390_PC32DBL	.bss+0x2
-  208:	eb 23 20 00 00 04 	lmg	%r2,%r3,0(%r2)
-  20e:	eb 23 10 00 00 24 	stmg	%r2,%r3,0(%r1)
-     ipl(); /* should not return */
-  214:	e3 10 b0 a0 00 04 	lg	%r1,160(%r11)
-  21a:	0d e1             	basr	%r14,%r1
-}
-  21c:	18 00             	lr	%r0,%r0
-  21e:	eb bf b1 08 00 04 	lmg	%r11,%r15,264(%r11)
-  224:	07 fe             	br	%r14
-  226:	07 07             	nopr	%r7
+> +		}
+> +	report(true, "check LPI on all vcpus");
 
-0000000000000228 <jump_to_IPL_code>:
+report(pass, ...);
 
-void jump_to_IPL_code(uint64_t address)
-{
-  228:	eb bf f0 58 00 24 	stmg	%r11,%r15,88(%r15)
-  22e:	c0 d0 00 00 00 00 	larl	%r13,22e <jump_to_IPL_code+0x6>
-			230: R_390_PC32DBL	.rodata+0x2a
-  234:	a7 fb ff 50       	aghi	%r15,-176
-  238:	b9 04 00 bf       	lgr	%r11,%r15
-  23c:	e3 20 b0 a0 00 24 	stg	%r2,160(%r11)
-     /* store the subsystem information _after_ the bootmap was loaded */
-     write_subsystem_identification();
-  242:	c0 e5 00 00 00 00 	brasl	%r14,242 <jump_to_IPL_code+0x1a>
-			244: R_390_PLT32DBL	write_subsystem_identification+0x2
+> +}
+>  #endif
+>  
+>  static void gicv2_ipi_send_self(void)
+> @@ -594,6 +607,8 @@ static void gic_test_mmio(void)
+>  static void test_its_introspection(void) {}
+>  static void test_its_trigger(void) {}
+>  static void test_its_migration(void) {}
+> +static void test_migrate_unmapped_collection(void) {}
+> +static void test_its_pending_migration(void) {}
 
-     /* prevent unknown IPL types in the guest */
-     if (iplb.pbt == S390_IPL_TYPE_QEMU_SCSI) {
-  248:	c0 10 00 00 00 00 	larl	%r1,248 <jump_to_IPL_code+0x20>
-			24a: R_390_GOTENT	iplb+0x2
-  24e:	e3 10 10 00 00 04 	lg	%r1,0(%r1)
-  254:	43 10 10 0c       	ic	%r1,12(%r1)
-  258:	a7 28 00 ff       	lhi	%r2,255
-  25c:	14 12             	nr	%r1,%r2
-  25e:	a7 1e 00 ff       	chi	%r1,255
-  262:	a7 74 00 15       	jne	28c <jump_to_IPL_code+0x64>
-         iplb.pbt = S390_IPL_TYPE_CCW;
-  266:	c0 10 00 00 00 00 	larl	%r1,266 <jump_to_IPL_code+0x3e>
-			268: R_390_GOTENT	iplb+0x2
-  26c:	e3 10 10 00 00 04 	lg	%r1,0(%r1)
-  272:	92 02 10 0c       	mvi	12(%r1),2
-         set_iplb(&iplb);
-  276:	c0 10 00 00 00 00 	larl	%r1,276 <jump_to_IPL_code+0x4e>
-			278: R_390_GOTENT	iplb+0x2
-  27c:	e3 10 10 00 00 04 	lg	%r1,0(%r1)
-  282:	b9 04 00 21       	lgr	%r2,%r1
-  286:	c0 e5 ff ff ff 75 	brasl	%r14,170 <set_iplb>
-     /*
-      * The IPL PSW is at address 0. We also must not overwrite the
-      * content of non-BIOS memory after we loaded the guest, so we
-      * save the original content and restore it in jump_to_IPL_2.
-      */
-     ResetInfo *current = 0;
-  28c:	a7 19 00 00       	lghi	%r1,0
-  290:	e3 10 b0 a8 00 24 	stg	%r1,168(%r11)
+I'm not sure what's worse. This pile of stubs or one #ifdef in main()
+wrapping all the calls.
 
-     save = *current;
-  296:	c0 10 00 00 00 00 	larl	%r1,296 <jump_to_IPL_code+0x6e>
-			298: R_390_PC32DBL	.bss+0x2
-  29c:	e3 20 b0 a8 00 04 	lg	%r2,168(%r11)
-  2a2:	eb 23 20 00 00 04 	lmg	%r2,%r3,0(%r2)
-  2a8:	eb 23 10 00 00 24 	stmg	%r2,%r3,0(%r1)
+>  
+>  #else /* __arch64__ */
+>  
+> @@ -666,6 +681,18 @@ static bool its_prerequisites(int nb_cpus)
+>  	return false;
+>  }
+>  
+> +static void set_lpi(struct its_device *dev, u32 eventid, u32 physid,
+> +		    struct its_collection *col)
+> +{
+> +	if (!dev || !col)
 
-     current->ipl_psw = (uint64_t) &jump_to_IPL_2;
-  2ae:	c0 20 ff ff ff 91 	larl	%r2,1d0 <jump_to_IPL_2>
-  2b4:	e3 10 b0 a8 00 04 	lg	%r1,168(%r11)
-  2ba:	e3 20 10 00 00 24 	stg	%r2,0(%r1)
-     current->ipl_psw |= RESET_PSW_MASK;
-  2c0:	e3 10 b0 a8 00 04 	lg	%r1,168(%r11)
-  2c6:	e3 10 10 00 00 04 	lg	%r1,0(%r1)
-  2cc:	e3 20 d0 00 00 04 	lg	%r2,0(%r13)
-  2d2:	b9 81 00 21       	ogr	%r2,%r1
-  2d6:	e3 10 b0 a8 00 04 	lg	%r1,168(%r11)
-  2dc:	e3 20 10 00 00 24 	stg	%r2,0(%r1)
-     current->ipl_continue = address & 0x7fffffff;
-  2e2:	e3 10 b0 a0 00 04 	lg	%r1,160(%r11)
-  2e8:	b9 17 00 21       	llgtr	%r2,%r1
-  2ec:	e3 10 b0 a8 00 04 	lg	%r1,168(%r11)
-  2f2:	50 20 10 08       	st	%r2,8(%r1)
+I don't think col can be null, and this doesn't look like the right place
+to check if dev is null.  If we're bothiner to call set_lpi, then I
+think we should already expect dev to be good to go.
 
-     debug_print_int("set IPL addr to", current->ipl_continue);
-  2f6:	e3 10 b0 a8 00 04 	lg	%r1,168(%r11)
-  2fc:	58 10 10 08       	l	%r1,8(%r1)
-  300:	b9 16 00 11       	llgfr	%r1,%r1
-  304:	b9 04 00 31       	lgr	%r3,%r1
-  308:	c0 20 00 00 00 00 	larl	%r2,308 <jump_to_IPL_code+0xe0>
-			30a: R_390_PC32DBL	.rodata+0x2
-  30e:	c0 e5 ff ff ff 4d 	brasl	%r14,1a8 <debug_print_int>
+> +		report_abort("wrong device or collection");
+> +
+> +	its_send_mapti(dev, physid, eventid, col);
+> +
+> +	gicv3_lpi_set_config(physid, LPI_PROP_DEFAULT);
+> +	its_send_invall(col);
+> +}
+> +
+>  /*
+>   * Setup the configuration for those mappings:
+>   * dev_id=2 event=20 -> vcpu 3, intid=8195
+> @@ -806,6 +833,121 @@ static void test_its_migration(void)
+>  	its_send_int(dev7, 255);
+>  	check_lpi_stats();
+>  }
+> +
+> +static void test_migrate_unmapped_collection(void)
+> +{
+> +	struct its_collection *col;
+> +	struct its_device *dev2, *dev7;
+> +	u8 config;
+> +
+> +	if (its_setup1())
+> +		return;
+> +
+> +	col = its_create_collection(nr_cpus - 1, nr_cpus - 1);
+> +	dev2 = its_get_device(2);
+> +	dev7 = its_get_device(7);
+> +
+> +	/* MAPTI with the collection unmapped */
+> +	set_lpi(dev2, 0, 8192, col);
+> +
+> +	puts("Now migrate the VM, then press a key to continue...\n");
+> +	(void)getchar();
+> +	report(true, "Migration complete");
 
-     /* Ensure the guest output starts fresh */
-     sclp_print("\n");
-  314:	c0 20 00 00 00 00 	larl	%r2,314 <jump_to_IPL_code+0xec>
-			316: R_390_PC32DBL	.rodata+0x12
-  31a:	c0 e5 00 00 00 00 	brasl	%r14,31a <jump_to_IPL_code+0xf2>
-			31c: R_390_PLT32DBL	sclp_print+0x2
-     /*
-      * HACK ALERT.
-      * We use the load normal reset to keep r15 unchanged. jump_to_IPL_2
-      * can then use r15 as its stack pointer.
-      */
-     asm volatile("lghi 1,1\n\t"
-  320:	a7 19 00 01       	lghi	%r1,1
-  324:	83 11 03 08       	diag	%r1,%r1,776
-                  "diag 1,1,0x308\n\t"
-                  : : : "1", "memory");
-     panic("\n! IPL returns !\n");
-  328:	c0 20 00 00 00 00 	larl	%r2,328 <jump_to_IPL_code+0x100>
-			32a: R_390_PC32DBL	.rodata+0x14
-  32e:	c0 e5 00 00 00 00 	brasl	%r14,32e <jump_to_IPL_code+0x106>
-			330: R_390_PLT32DBL	panic+0x2
-}
-  334:	18 00             	lr	%r0,%r0
-  336:	eb bf b1 08 00 04 	lmg	%r11,%r15,264(%r11)
-  33c:	07 fe             	br	%r14
-  33e:	07 07             	nopr	%r7
+report_info
 
+> +
+> +	/* on the destination, map the collection */
+> +	its_send_mapc(col, true);
+> +
+> +	lpi_stats_expect(2, 8196);
+> +	its_send_int(dev7, 255);
+> +	check_lpi_stats();
+> +
+> +	config = gicv3_lpi_get_config(8192);
+> +	report(config == LPI_PROP_DEFAULT,
+> +	       "Config of LPI 8192 was properly migrated");
+> +
+> +	lpi_stats_expect(nr_cpus - 1, 8192);
+> +	its_send_int(dev2, 0);
+> +	check_lpi_stats();
+> +
+> +	/* unmap the collection */
+> +	its_send_mapc(col, false);
+> +
+> +	lpi_stats_expect(-1, -1);
+> +	its_send_int(dev2, 0);
+> +	check_lpi_stats();
+> +
+> +	/* remap event 0 onto lpiid 8193 */
+> +	set_lpi(dev2, 0, 8193, col);
+> +	lpi_stats_expect(-1, -1);
+> +	its_send_int(dev2, 0);
+> +	check_lpi_stats();
+> +
+> +	/* remap the collection */
+> +	its_send_mapc(col, true);
+> +	lpi_stats_expect(nr_cpus - 1, 8193);
+> +}
+> +
+> +static void test_its_pending_migration(void)
+> +{
+> +	struct its_device *dev;
+> +	struct its_collection *collection[2];
+> +	int expected[NR_CPUS];
 
+expected = malloc(nr_cpus * sizeof(int));
 
--- 
--- Jason J. Herne (jjherne@linux.ibm.com)
+I know there are other places using NR_CPUS right now that don't have to,
+but we shouldn't add more. Eventually I'll change the other places too.
+
+> +	u64 pendbaser;
+> +	void *ptr;
+> +	int i;
+> +
+> +	if (its_prerequisites(4))
+> +		return;
+> +
+> +	dev = its_create_device(2 /* dev id */, 8 /* nb_ites */);
+> +	its_send_mapd(dev, true);
+> +
+> +	collection[0] = its_create_collection(nr_cpus - 1, nr_cpus - 1);
+> +	collection[1] = its_create_collection(nr_cpus - 2, nr_cpus - 2);
+> +	its_send_mapc(collection[0], true);
+> +	its_send_mapc(collection[1], true);
+> +
+> +	/* disable lpi at redist level */
+> +	gicv3_lpi_rdist_ctrl(nr_cpus - 1, false);
+> +	gicv3_lpi_rdist_ctrl(nr_cpus - 2, false);
+> +
+> +	/* even lpis are assigned to even cpu */
+> +	for (i = 0; i < 256; i++) {
+> +		struct its_collection *col = i % 2 ? collection[0] :
+> +						     collection[1];
+> +		int vcpu = col->target_address >> 16;
+
+I'm lost with the even/odd (nr_cpus - 1)/(nr_cpus - 2) stuff, and won't
+it swap if nr_cpus is odd vs. even?
+
+Shouldn't we just have something like
+
+  pe1 = nr_cpus - 1;
+  pe2 = nr_cpus - 2;
+  col1 = its_create_collection(pe1, pe1);
+  col2 = its_create_collection(pe2, pe2);
+
+without mentioning even and odd?
+
+> +
+> +		its_send_mapti(dev, 8192 + i, i, col);
+> +		gicv3_lpi_set_config(8192 + i, LPI_PROP_DEFAULT);
+> +		gicv3_lpi_set_pending_table_bit(vcpu, 8192 + i, true);
+> +	}
+> +	its_send_invall(collection[0]);
+> +	its_send_invall(collection[1]);
+> +
+> +	/* Set the PTZ bit on each pendbaser */
+> +
+> +	expected[nr_cpus - 1] = 128;
+> +	expected[nr_cpus - 2] = 128;
+> +
+> +	ptr = gicv3_data.redist_base[nr_cpus - 1] + GICR_PENDBASER;
+> +	pendbaser = readq(ptr);
+> +	writeq(pendbaser & ~GICR_PENDBASER_PTZ, ptr);
+> +
+> +	ptr = gicv3_data.redist_base[nr_cpus - 2] + GICR_PENDBASER;
+> +	pendbaser = readq(ptr);
+> +	writeq(pendbaser & ~GICR_PENDBASER_PTZ, ptr);
+> +
+> +	gicv3_lpi_rdist_ctrl(nr_cpus - 1, true);
+> +	gicv3_lpi_rdist_ctrl(nr_cpus - 2, true);
+> +
+> +	puts("Now migrate the VM, then press a key to continue...\n");
+> +	(void)getchar();
+> +	report(true, "Migration complete");
+
+report_info
+
+> +
+> +	mdelay(1000);
+
+This delay needs a comment explaining why it's here.
+
+> +
+> +	check_lpi_hits(expected);
+> +}
+>  #endif
+>  
+>  int main(int argc, char **argv)
+> @@ -847,6 +989,14 @@ int main(int argc, char **argv)
+>  		report_prefix_push(argv[1]);
+>  		test_its_migration();
+>  		report_prefix_pop();
+> +	} else if (!strcmp(argv[1], "its-pending-migration")) {
+> +		report_prefix_push(argv[1]);
+> +		test_its_pending_migration();
+> +		report_prefix_pop();
+> +	} else if (!strcmp(argv[1], "its-migrate-unmapped-collection")) {
+> +		report_prefix_push(argv[1]);
+> +		test_migrate_unmapped_collection();
+> +		report_prefix_pop();
+>  	} else if (strcmp(argv[1], "its-introspection") == 0) {
+>  		report_prefix_push(argv[1]);
+>  		test_its_introspection();
+> diff --git a/arm/unittests.cfg b/arm/unittests.cfg
+> index 8b8ec79..d917157 100644
+> --- a/arm/unittests.cfg
+> +++ b/arm/unittests.cfg
+> @@ -144,6 +144,22 @@ extra_params = -machine gic-version=3 -append 'its-migration'
+>  groups = its migration
+>  arch = arm64
+>  
+> +[its-pending-migration]
+> +file = gic.flat
+> +smp = $MAX_SMP
+> +accel = kvm
+> +extra_params = -machine gic-version=3 -append 'its-pending-migration'
+> +groups = its migration
+> +arch = arm64
+> +
+> +[its-migrate-unmapped-collection]
+> +file = gic.flat
+> +smp = $MAX_SMP
+> +accel = kvm
+> +extra_params = -machine gic-version=3 -append 'its-migrate-unmapped-collection'
+> +groups = its migration
+> +arch = arm64
+> +
+>  # Test PSCI emulation
+>  [psci]
+>  file = psci.flat
+> -- 
+> 2.20.1
+> 
+>
+
+Thanks,
+drew 
+
 
