@@ -2,51 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04D24155A78
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 16:16:25 +0100 (CET)
-Received: from localhost ([::1]:59234 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5F05155A84
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 16:19:09 +0100 (CET)
+Received: from localhost ([::1]:59300 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j05Mm-0001Fu-3X
-	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 10:16:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36191)
+	id 1j05PQ-0004Mh-Pz
+	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 10:19:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37502)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1j05JL-0004br-LH
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 10:12:52 -0500
+ (envelope-from <vsementsov@virtuozzo.com>) id 1j05Mj-0001qB-2m
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 10:16:22 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1j05JK-0006e9-6N
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 10:12:51 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:20743
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1j05JJ-0006dA-Vu
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 10:12:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581088369;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=aBCHWQ9+Hn0YFcnlnh+ot786GMekHR4eCe/0zxugR1c=;
- b=bfCFnCU6Ou4+k/2mP6Q/a/900Yk3CgVb9AfT3fbIxjHxLrnTEIFNdfKTJsv499Y3S58tsD
- HDsf2SKq/C/IbLyhmMC+sUK2FBVR8vchSudrjxVMfNapJmR16oBG36tV0HfMo6jzZrATz/
- Zb92ohYxV+JJKbarDg/RJuNHX0M6Iwg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-342-ux1CoHqmNNmsPuhV_LSONg-1; Fri, 07 Feb 2020 10:12:45 -0500
-X-MC-Unique: ux1CoHqmNNmsPuhV_LSONg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E28D8800E21;
- Fri,  7 Feb 2020 15:12:43 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-117-14.ams2.redhat.com
- [10.36.117.14])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AC3BB10016DA;
- Fri,  7 Feb 2020 15:12:42 +0000 (UTC)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1j05Mh-00081B-Kj
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 10:16:20 -0500
+Received: from mail-eopbgr60122.outbound.protection.outlook.com
+ ([40.107.6.122]:17294 helo=EUR04-DB3-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1j05Mc-0007df-2F; Fri, 07 Feb 2020 10:16:14 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=F80G26xsuMUdIPLRlnDgPRzliFXB6wX8e/AFbRFL5q+2CKFjKR2dKIdVe/HkEEsS46TwQ+f8eQ6Xk2bKdqHrd0elQkHAks/Or9Jil6gnlJy6RbxiN0MOG/Cye+fwUpVPa19XpVrJtROWCvYD+iUUUDHDTYkOOgMDd3FVHy032pNMFlBycnnRguVDAZcTm+r8pit5h/h1W4fbnPS99ljRCaVFB5mOwpFm7Bh4cNBKDg2q2NOYkkm+HEgNiY1zOBgMZTCnR0wSYN0PIAA3ido0ZSbTLuxPkioNUvqWQL3Qi4yPSo/MWxxhv7EThIuOQdqVaSgexliK2LMSoWZnFJwFqw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ny2Kb8Ln/pkcHG3qOvGVt5VIRRcLetWKRE2V88l7Ms0=;
+ b=b7Bm4fXZYOSQFgRFj+3uouSp8NsGYK+ER9AJfaRbSRJa116ZdexIdTGa8dO28u5NzN+szZ20BZ6HYQ0NgOQylLd4/ekzlleGZiKm6jtMyjjpOFKDtly8ADXQupc7y5f39FhYEjKbRaEXgqkvgq+wQLrdN4Pie17uMVLCqt6RzSMabpByquH1pg/jEhRZOC8GQZrkipV/bXC3R/Mhl/pJjaTLKkAdSuLB2u/FbHQkLAFrFdzc7by0S+mk+PtNqV+Yc8X1l6Zu/6ILVN3zP2NJUdJrVg7PQ9HShREQOE4E1BiIuLmsTFirP46VfGXOt8TDRQELarDRjpjnXVCKJBYejw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ny2Kb8Ln/pkcHG3qOvGVt5VIRRcLetWKRE2V88l7Ms0=;
+ b=mkUox7NvKNQSNAbnCoTS/rAOZ0SViA+vNs1HH7GiP/u7PjCIKfZoO9bD3932aTMfmnMWTBeHXhqZerkLkzSrdjIl6MkxsYdI770WJMCrxvx/FT8u2cXZnTFrAkXxxXfXG0pAB/TWTVoBx0MQGiGrKcrHaz0EXDjb6OECETVL7Rg=
+Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=vsementsov@virtuozzo.com; 
+Received: from AM6PR08MB4423.eurprd08.prod.outlook.com (20.179.7.140) by
+ AM6PR08MB3176.eurprd08.prod.outlook.com (52.135.164.25) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2707.25; Fri, 7 Feb 2020 15:16:11 +0000
+Received: from AM6PR08MB4423.eurprd08.prod.outlook.com
+ ([fe80::e05a:63af:818c:b664]) by AM6PR08MB4423.eurprd08.prod.outlook.com
+ ([fe80::e05a:63af:818c:b664%4]) with mapi id 15.20.2707.023; Fri, 7 Feb 2020
+ 15:16:11 +0000
 Subject: Re: [PATCH v3 1/1] qemu-img: Add --target-is-zero to convert
-To: Eric Blake <eblake@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+To: Max Reitz <mreitz@redhat.com>, Eric Blake <eblake@redhat.com>,
  David Edmondson <david.edmondson@oracle.com>, qemu-devel@nongnu.org
 References: <20200204095246.1974117-1-david.edmondson@oracle.com>
  <20200204095246.1974117-2-david.edmondson@oracle.com>
@@ -56,46 +57,55 @@ References: <20200204095246.1974117-1-david.edmondson@oracle.com>
  <38ac63ec-af49-d9d5-c1d4-e45614b71d4c@redhat.com>
  <f110458f-b3e7-6301-64bf-2b4957f3601e@virtuozzo.com>
  <570489b5-8d1b-27c4-01d3-0e63130d2c57@redhat.com>
- <bc572c68-4a4a-9734-39bb-07d78322de1b@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <56483c0b-7ebc-193b-72d7-d0331eb84b09@redhat.com>
-Date: Fri, 7 Feb 2020 16:12:41 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ <99dc03a7-f93a-bdee-f38d-ac5aae8a3ca9@virtuozzo.com>
+ <33849f7f-1ae9-126c-28b8-f9a5602aa2d0@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+X-Tagtoolbar-Keys: D20200207181610209
+Message-ID: <96aab671-23db-1917-983e-182312a41220@virtuozzo.com>
+Date: Fri, 7 Feb 2020 18:16:10 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.2.1
+In-Reply-To: <33849f7f-1ae9-126c-28b8-f9a5602aa2d0@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+X-ClientProxiedBy: HE1PR02CA0088.eurprd02.prod.outlook.com
+ (2603:10a6:7:29::17) To AM6PR08MB4423.eurprd08.prod.outlook.com
+ (2603:10a6:20b:bf::12)
 MIME-Version: 1.0
-In-Reply-To: <bc572c68-4a4a-9734-39bb-07d78322de1b@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="AX87pzFrG0JhDf89WiWLn1tGKHlsMoaVL"
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+Received: from [172.16.24.200] (185.231.240.5) by
+ HE1PR02CA0088.eurprd02.prod.outlook.com (2603:10a6:7:29::17) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2707.23 via Frontend Transport; Fri, 7 Feb 2020 15:16:11 +0000
+X-Tagtoolbar-Keys: D20200207181610209
+X-Originating-IP: [185.231.240.5]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: d810c301-0278-460a-7036-08d7abe0aa83
+X-MS-TrafficTypeDiagnostic: AM6PR08MB3176:
+X-Microsoft-Antispam-PRVS: <AM6PR08MB31766B0DFDFFCD11594CE931C11C0@AM6PR08MB3176.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-Forefront-PRVS: 0306EE2ED4
+X-Forefront-Antispam-Report: SFV:NSPM;
+ SFS:(10019020)(376002)(346002)(366004)(396003)(39850400004)(136003)(199004)(189003)(66476007)(66556008)(66946007)(86362001)(5660300002)(31696002)(2906002)(36756003)(81156014)(81166006)(478600001)(8676002)(8936002)(31686004)(4326008)(186003)(52116002)(26005)(53546011)(2616005)(956004)(316002)(16526019)(16576012)(6486002)(110136005);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:AM6PR08MB3176;
+ H:AM6PR08MB4423.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; MX:1; 
+Received-SPF: None (protection.outlook.com: virtuozzo.com does not designate
+ permitted sender hosts)
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: wRS06HqZ2MqZy7hVvNeLxbdERfaq71JAEEnUXGKheMxJJ2d2z6VmXlE6bWV46AzYhcmlNQKTjTvvyWVPVkfY8gsegjQNtZTIGmWXnEmc9mj7g5/CKhEosQ/IsslOtUIXFRsLaxIzxpZTkusN80ZFL91RMPMqEZ/OnT4miLMvkqfRjBs197a0lW+7wnf60SXz4v3SWeiyXOUK2sIhqf0KEZsOa4JuhL6h2yIYpdYgCSxxo22+j8G6A8rg5Fl8hwBQAMhKYRxj/WlFoTCt3vMYnHmYGrxZKGN6fcDCfs5dG5MQIwx/PIeyMr/MKGugZHXlA4WUT5O6LFZzf6FMVaF/T0uOYroQNGOsGYzpq7JYgrSHGe//36NqLe0p+GCxccT/vYSATY9uPm4NiyV1A7novBG96So1dbg2vmMqGmUtJgm0Y3ZqNLDg51j4+qpThyP5
+X-MS-Exchange-AntiSpam-MessageData: WQ7bi+MFPsX5n3HPMd1UFTzME0DTf3mx65xrdvb24XkK0eGeXkImWaaDoK34yZ5LiH8r7S5vMyXNzN9YuTx4MQjMTl61UCZXL148yWAeHHOrWH4I/6bPyONKBbqdrKAXkqbAmd4ylecWhqKag7K6+A==
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d810c301-0278-460a-7036-08d7abe0aa83
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Feb 2020 15:16:11.8848 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: An4pXidsCYDW33/7iExhMWWgInG7+qzxlPu8AEAkSPNUAI3R39oUtyqPcU7DPu8XLZeshp86BNGDrtVrMnarZKuATEcUxGkb5NGX7zzHJHQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3176
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 40.107.6.122
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -111,128 +121,123 @@ Cc: qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---AX87pzFrG0JhDf89WiWLn1tGKHlsMoaVL
-Content-Type: multipart/mixed; boundary="fE5oabCvqIgq0BXL6kVvIpGqOdpBF3xPO"
-
---fE5oabCvqIgq0BXL6kVvIpGqOdpBF3xPO
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-On 07.02.20 15:57, Eric Blake wrote:
-> On 2/7/20 8:41 AM, Max Reitz wrote:
->=20
->>>> I could imagine a user creating a qcow2 image on some block device wit=
-h
->>>> preallocation where we cannot verify that the result will be zero.=C2=
+07.02.2020 18:03, Max Reitz wrote:
+> On 07.02.20 15:53, Vladimir Sementsov-Ogievskiy wrote:
+>> 07.02.2020 17:41, Max Reitz wrote:
+>>> On 07.02.20 13:07, Vladimir Sementsov-Ogievskiy wrote:
+>>>> 07.02.2020 13:33, Max Reitz wrote:
+>>>>> On 04.02.20 15:23, Eric Blake wrote:
+>>>>>> On 2/4/20 7:59 AM, Vladimir Sementsov-Ogievskiy wrote:
+>>>>>>
+>>>>>>>> I understand that it is safer to have restrictions now and lift th=
+em
+>>>>>>>> later, than to allow use of the option at any time and leave room
+>>>>>>>> for
+>>>>>>>> the user to shoot themselves in the foot with no way to add safety
+>>>>>>>> later.=C2=A0 The argument against no backing file is somewhat
+>>>>>>>> understandable (technically, as long as the backing file also read=
+s
+>>>>>>>> as all zeroes, then the overall image reads as all zeroes - but wh=
+y
+>>>>>>>> have a backing file that has no content?); the argument requiring =
+-n
+>>>>>>>> is a bit weaker (if I'm creating an image, I _know_ it reads as al=
+l
+>>>>>>>> zeroes, so the --target-is-zero argument is redundant, but it
+>>>>>>>> shouldn't hurt to allow it).
+>>>>>>>
+>>>>>>> I know that it reads as all zeroes, only if this format provides ze=
+ro
+>>>>>>> initialization..
+>>>>>>>
+>>>>>>>>
+>>>>>>>>> +++ b/qemu-img.c
+>>>>>>>>
+>>>>>>>>> @@ -2247,6 +2256,11 @@ static int img_convert(int argc, char
+>>>>>>>>> **argv)
+>>>>>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 warn_report("This will become an error in future QEMU
+>>>>>>>>> versions.");
+>>>>>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0 if (s.has_zero_init && !skip_create) {
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 error_report("--targe=
+t-is-zero requires use of -n flag");
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 goto fail_getopt;
+>>>>>>>>> +=C2=A0=C2=A0=C2=A0 }
+>>>>>>>>
+>>>>>>>> So I think we could drop this hunk with no change in behavior.
+>>>>>>>
+>>>>>>> I think, no we can't. If we allow target-is-zero, with -n, we'd
+>>>>>>> better
+>>>>>>> to check that what we are creating is zero-initialized (format has
+>>>>>>> zero-init), and if not we should report error.
+>>>>>>>
+>>>>>>
+>>>>>> Good call.=C2=A0 Yes, if we allow --target-is-zero without -n, we MU=
+ST
+>>>>>> insist
+>>>>>> that bdrv_has_zero_init() returns 1 (or, after my followup series,
+>>>>>> bdrv_known_zeroes() includes BDRV_ZERO_CREATE).
+>>>>>
+>>>>> Why?
+>>>>>
+>>>>> I could imagine a user creating a qcow2 image on some block device wi=
+th
+>>>>> preallocation where we cannot verify that the result will be zero.=C2=
 =A0 But
->>>> they want qemu not to zero the device, so they would specify
->>>> --target-is-zero.
+>>>>> they want qemu not to zero the device, so they would specify
+>>>>> --target-is-zero.
+>>>>
+>>>> If user create image, setting --target-is-zero is always valid. But if
+>>>> we in
+>>>> same operation create the image automatically, having --target-is-zero=
+,
+>>>> when
+>>>> we know that what we are creating is not zero is misleading and should
+>>>> fail..
 >>>
->>> If user create image, setting --target-is-zero is always valid. But if
->>> we in
->>> same operation create the image automatically, having --target-is-zero,
->>> when
->>> we know that what we are creating is not zero is misleading and should
->>> fail..
->>
->> bdrv_has_zero_init() doesn=E2=80=99t return false only for images that w=
-e know
->> are not zero.=C2=A0 It returns true for images where we know they are.=
+>>> bdrv_has_zero_init() doesn=E2=80=99t return false only for images that =
+we know
+>>> are not zero.=C2=A0 It returns true for images where we know they are.=
 =C2=A0 But
->> if we don=E2=80=99t know, then it returns false also.
->=20
-> Huh?
->=20
-> bdrv_has_zero_init() currently returns 1 if a driver knows that creating
-> an image results in that image reading as 0.=C2=A0 That means it can retu=
-rn 1
-> even for non-zero images that were not just created.=C2=A0 Thus, that
-> interface has both false positives (returning 1 for a non-zero image if
-> the driver hard-codes it to 1) and false negatives (returning 0 for an
-> image that happens to read as zero).=C2=A0 The false negatives are less
-> important (if we don't know if the image is already zero, then zeroing
-> it again is a waste of time but not semantically wrong) than the false
-> positives (but as long as you don't rely on bdrv_has_zero_init() unless
-> you also know the image was just created, you are safely avoiding the
-> false positives).
->=20
-> And that's the whole point of my series to add a qcow2 persistent bit to
-> track whether an image has known-zero contents: qemu-img should not be
-> calling bdrv_has_zero_init(), since it is so finicky on what it means.
-
-Sorry, I was unclear.  I meant =E2=80=9Cthat we know are not zero immediate=
-ly
-after creation=E2=80=9D.
-
-My point that it may return false even for (newly created) images that
-are zero stands.  One could also say it returns only =E2=80=9Cyes=E2=80=9D =
-(is zero) or
-=E2=80=9Cmaybe=E2=80=9D, and not =E2=80=9Cyes=E2=80=9D or =E2=80=9Cno=E2=80=
-=9D.
-
->>> If we want to add a behavior to skip zeros unconditionally, we should
->>> call new
->>> option --skip-zeroes, to clearly specify what we want.
+>>> if we don=E2=80=99t know, then it returns false also.
 >>
->> It was my impression that this was exactly what --target-is-zero means
->> and implies.
+>> yes, but we don't have better check.
 >=20
-> --target-is-zero turns into the behavior of 'skip a pre-zeroing pass'.
-> If the destination is already zero, then copying zeroes from the source
-> is a waste of time. If the destination is not already zero, then zeroes
-> from the source are not copied, and the destination will not be
-> identical to the source.=C2=A0 We then have a choice of whether
-> --target-is-zero is merely a way to tell qemu something that it couldn't
-> learn otherwise but still be as safe as possible (if we can quickly
-> prove the target has non-zero data, the user lied about it being already
-> zero, so fail the command, so add yet another option to bypass the
-> safety check), or whether it really is synonymous with 'only copy the
-> non-zero portions of the source, and if the destination was not all zero
-> the copy is not faithful but I meant for it to be that way'.
+> Correct, but maybe the user knows more, hence why it may make sense for
+> them to provide us with some information we don=E2=80=99t have.
+>=20
+>>>> If we want to add a behavior to skip zeros unconditionally, we should
+>>>> call new
+>>>> option --skip-zeroes, to clearly specify what we want.
+>>>
+>>> It was my impression that this was exactly what --target-is-zero means
+>>> and implies.
+>>>
+>>
+>> For me it sounds strange that user has better knowledge about what Qemu
+>> creates than Qemu itself. And if it so - it should be fixed in Qemu,
+>> rather than creating user interface to hint Qemu what it does.
+>=20
+> I brought an example where qemu cannot know whether the image is zero
+> (preallocation on a block device), but the user / management layer might
+> know.
+>=20
 
-If you claim that it isn=E2=80=99t supposed to be an unsafe override, and i=
-f we
-plan to take your series in some form or another, it follows that we
-will have to drop this patch here.
+It sounds unsafe for me. User can't know how exactly Qemu do preallocation,
+which syscalls it calls, etc. How can user be sure, that Qemu produces
+all-zero image, if even Qemu doesn't sure in it?
 
-Because after your series, qemu can have some insight into existing
-images (either in the driver=E2=80=99s implementation of make_zero, or in
-qemu-img itself by virtue of some is_zero function).  Therefore, we
-could do the same =E2=80=9Csafety check=E2=80=9D and see whether our insigh=
-t agrees on
-what the user told us.
-
-This would make the flag completely superfluous, though, because when
-qemu knows the image to be zero, it does the right thing anyway.
-
-Therefore, I see this flag to be for cases where qemu doesn=E2=80=99t know.=
-  And
-that makes it an unsafe override.
-
-Max
+Otherwise, we should document, how exactly (up to syscalls, their
+parameters, flags, the whole logic and algorithm) preallocation is done,
+so user can analyze it and be sure that produced image would be all-zero
+(when Qemu can't determine it because some specific block device, for which
+Qemu doesn't know that its preallocation algorithm produces all-zero, but
+user is sure in it)...
 
 
---fE5oabCvqIgq0BXL6kVvIpGqOdpBF3xPO--
 
---AX87pzFrG0JhDf89WiWLn1tGKHlsMoaVL
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl49fmkACgkQ9AfbAGHV
-z0AYfgf/Rhh1MXF2bFHYnCt/2+4XSRy24KOym+AWez9RFrud0qPQ2n9SSw0ZnIsO
-HcwYNHw0AhtDgeRWAkNFD0AblNalq1HwZVKwtbLvZPAFuOkMYWgqxSox8LyHk+d3
-OrUh+Td6t/e6OAAwLSPCwYM9wO8l469QVYolyfz9OP3Z/4MVi0NBfKCR7rlyiXrQ
-natWy09O1omHR89D/9SZbhpGh5ejJgZu7geIqGLondx6cC0AAm32FBjhf762t3+1
-GcRwynMzToO85LifQizgO2TPA5hGXYD77dEI9xy/Q4sV8zVDhv7U/6urmi87VwIP
-oFWMiH+qtfUO3rf2rpKh/fvScIEyZw==
-=RzKx
------END PGP SIGNATURE-----
-
---AX87pzFrG0JhDf89WiWLn1tGKHlsMoaVL--
-
+--=20
+Best regards,
+Vladimir
 
