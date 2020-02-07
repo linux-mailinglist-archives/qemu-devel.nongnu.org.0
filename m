@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79F0C155717
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 12:42:37 +0100 (CET)
-Received: from localhost ([::1]:54688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD6AC155712
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 12:41:33 +0100 (CET)
+Received: from localhost ([::1]:54654 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j021s-0006s1-IP
-	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 06:42:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36133)
+	id 1j020q-0004bO-Ob
+	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 06:41:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36150)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1j01z7-0002qW-O6
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 06:39:46 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1j01z9-0002sx-52
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 06:39:48 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1j01z6-0005gX-Pk
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 06:39:45 -0500
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:43704)
+ (envelope-from <alex.bennee@linaro.org>) id 1j01z8-0005iy-2g
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 06:39:47 -0500
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:50504)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1j01z6-0005f0-Ik
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 06:39:44 -0500
-Received: by mail-wr1-x444.google.com with SMTP id z9so2257184wrs.10
- for <qemu-devel@nongnu.org>; Fri, 07 Feb 2020 03:39:44 -0800 (PST)
+ id 1j01z7-0005hS-SC
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 06:39:46 -0500
+Received: by mail-wm1-x341.google.com with SMTP id a5so2265090wmb.0
+ for <qemu-devel@nongnu.org>; Fri, 07 Feb 2020 03:39:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=LzvIeCvpZEKsmxLMGQeNvccjyd2G+1aRycbt9INNqtg=;
- b=QkUxzlo3KnDGlDcI7bmDbx4zP1J+9D5tXvdpAwQPShJcUBtLBBDjBmfH5fk1Wn6aDd
- YCmCofrPp83CtjA6AqPK2xCGNE8VKCXRdpp4R34qb6GwVf6Vfd7MJLapU+VzV5omoea7
- qErwKSfk6TbOjdeXTBqzCymY9DdBPmWZX25T6YLxqFkyNQpHaGDk/m6jjsF7aNOPawdk
- FF3e4EWNjnrqBFTEo2LkIH46b09dZd5TY2SsweYLBtOV9OI19pN/Sg+nfr74jsdgaELI
- 66EDosIXqzUbI5pKyKXJEOlYdXhE4zWMFDSJqVYonnQJDIxUmUjh2s6khPFlwkH5m1+b
- NXqQ==
+ bh=y4d6Sguo40PEMFEa1p9tKAqrtcGlKPa27ISKFx3kAqI=;
+ b=xxaxL3XOk3IDVbga8LKTZmCLe/MHkX23MmNEtqohD2umfyItiXSveJjh5a4SjHwFFe
+ 8I93g7ZLOJhRZ62nIMc5t50jAGhJOrwCpSQeinSI41ALjlOJPcjDSP3csld8r/Yixyt8
+ QvlKFABopqjjHkK2O8d7aYAzufhN16g1Otc60AtZ4PAhurwk09t53VqZbYDG89ZYKJkz
+ eGdj8Klcj9fWhJlZ5pI7He86f0OClxvng2C5FbeSc8nAmSPM0rKQ3LyUdwL3Y9A/VglJ
+ e3LLfJXhxBPCgphF8YGesQqCWSq/8mqcQqqAveUkxYh6Btqp7AAE1coc6TjB07HU6BjJ
+ YaMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=LzvIeCvpZEKsmxLMGQeNvccjyd2G+1aRycbt9INNqtg=;
- b=bK8qp0bm8Bcdzs3xEtmDdtc0wRsPs6XARv2Yf+Aq5eyMRZI6pdpBxDRl+0kU4v7KR1
- zlxgAISvJVApUyVcaX0e5KDZ4sBjV6QKk59zmuQ4HAdgM14ZxJ5WRRI5z67OwVj/DJEl
- cofRxkGmxr+m7/rODdsojKAUELDkXPeU/iAd1IzccPn5jchWtHfSqHllj557R5T012BG
- vg6sP1PAVjQMepcCj50RnAP8bxH8OR2khX3jkSKFanxaCElPGYpDArXoeH7mUeP4ho4D
- QdaHQM8zuWFyl+NnpGljA0SCVObScKyCzmpRf8z1nPzwcIUvbr+scfTPfXi9xQqBb8U4
- iy2A==
-X-Gm-Message-State: APjAAAX0LPG00U0DOWhSLioocBE29eYm/EbjwhKOgLN2KWFeQNQebjKY
- Ztcbiu+lMpHRj+XATP/8blbDUA==
-X-Google-Smtp-Source: APXvYqykYVKt2TskCy/Myu8ELcadctHorXAXtlrCSGjts+ZtDPkTZGnPPOGPW2su4XDlsCs4AODMVg==
-X-Received: by 2002:adf:f103:: with SMTP id r3mr4250317wro.295.1581075583589; 
- Fri, 07 Feb 2020 03:39:43 -0800 (PST)
+ bh=y4d6Sguo40PEMFEa1p9tKAqrtcGlKPa27ISKFx3kAqI=;
+ b=AdcIZiq1ZNcFv2U88BhOU8yQaJ1PzgVYRpYFjBczmbd+oGGyt9FuVTHIRjq/sb67sP
+ pZvhtTHBrRrqr9XrjIL/EfIjQB4dU1eXeMBplbcfhzh+wdL4ADLponJq7ueJ1Q83hJS7
+ 2Xi0vjhI6YWtCZIxpNw3qm0MKHw3u/caOtP1EgrdDbkWu7IL7AQ3Uw5X9NQcui/ztfv4
+ Xpt8xVfxegl9ESEABd5/pHg2xgbzVVGYvWw9Arq4MrhDnYiWVOj2VGM7v7/qOCbeagVb
+ TP6YyYN5MnvRGq37vRMArq6b1rpuDyhsQGd/lgNuvnAgFf42BIG/nzXXFaM+Ola/nlBH
+ Aazw==
+X-Gm-Message-State: APjAAAXNyQPsvgmyDkDPz5srbpVYUjxcR3QnvUQ1dX9i9clSe9CfZv0O
+ yoHW7SfaXzZtJNZ6Z2vQBoVDcQ==
+X-Google-Smtp-Source: APXvYqwQsuBWOql+9b9V/MTI2aE8Bq8cOBX55jN/KLkZR0+KNn4wL0NwpjNiRyA1gQq/pOT9P45Q4Q==
+X-Received: by 2002:a05:600c:242:: with SMTP id 2mr3908121wmj.2.1581075584796; 
+ Fri, 07 Feb 2020 03:39:44 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id 25sm2957049wmi.32.2020.02.07.03.39.40
+ by smtp.gmail.com with ESMTPSA id x14sm2954784wmj.42.2020.02.07.03.39.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Feb 2020 03:39:41 -0800 (PST)
+ Fri, 07 Feb 2020 03:39:42 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 9D4CB1FF8F;
+ by zen.linaroharston (Postfix) with ESMTP id B27191FF90;
  Fri,  7 Feb 2020 11:39:39 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 2/5] tests/rcutorture: update usage hint
-Date: Fri,  7 Feb 2020 11:39:36 +0000
-Message-Id: <20200207113939.9247-3-alex.bennee@linaro.org>
+Subject: [PATCH  v1 3/5] tests/rcutorture: better document locking of stats
+Date: Fri,  7 Feb 2020 11:39:37 +0000
+Message-Id: <20200207113939.9247-4-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200207113939.9247-1-alex.bennee@linaro.org>
 References: <20200207113939.9247-1-alex.bennee@linaro.org>
@@ -69,7 +69,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::444
+X-Received-From: 2a00:1450:4864:20::341
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,27 +89,58 @@ Cc: fam@euphon.net, berrange@redhat.com, stefanb@linux.vnet.ibm.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Although documented in the comments we don't display all the various
-invocations we can in the usage.
+This is pure code motion with no functional effect.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- tests/rcutorture.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ tests/rcutorture.c | 16 ++++++++++++----
+ 1 file changed, 12 insertions(+), 4 deletions(-)
 
 diff --git a/tests/rcutorture.c b/tests/rcutorture.c
-index 49311c82ea4..e8b2169e7dd 100644
+index e8b2169e7dd..256d24ed5ba 100644
 --- a/tests/rcutorture.c
 +++ b/tests/rcutorture.c
-@@ -413,7 +413,8 @@ static void gtest_stress_10_5(void)
+@@ -65,8 +65,6 @@
+ #include "qemu/rcu.h"
+ #include "qemu/thread.h"
  
- static void usage(int argc, char *argv[])
+-long long n_reads = 0LL;
+-long n_updates = 0L;
+ int nthreadsrunning;
+ 
+ #define GOFLAG_INIT 0
+@@ -78,11 +76,20 @@ static volatile int goflag = GOFLAG_INIT;
+ #define RCU_READ_RUN 1000
+ 
+ #define NR_THREADS 100
+-static QemuMutex counts_mutex;
+ static QemuThread threads[NR_THREADS];
+ static struct rcu_reader_data *data[NR_THREADS];
+ static int n_threads;
+ 
++/*
++ * Statistical counts
++ *
++ * These are the sum of local counters at the end of a run.
++ * Updates are protected by a mutex.
++ */
++static QemuMutex counts_mutex;
++long long n_reads = 0LL;
++long n_updates = 0L;
++
+ static void create_thread(void *(*func)(void *))
  {
--    fprintf(stderr, "Usage: %s [nreaders [ perf | stress ] ]\n", argv[0]);
-+    fprintf(stderr, "Usage: %s [nreaders [ [r|u]perf | stress [duration]]\n",
-+            argv[0]);
-     exit(-1);
- }
+     if (n_threads >= NR_THREADS) {
+@@ -230,8 +237,9 @@ struct rcu_stress {
+ struct rcu_stress rcu_stress_array[RCU_STRESS_PIPE_LEN] = { { 0 } };
+ struct rcu_stress *rcu_stress_current;
+ int rcu_stress_idx;
+-
+ int n_mberror;
++
++/* Updates protected by counts_mutex */
+ long long rcu_stress_count[RCU_STRESS_PIPE_LEN + 1];
+ 
  
 -- 
 2.20.1
