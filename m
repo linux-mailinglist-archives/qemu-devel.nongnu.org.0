@@ -2,67 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30297155EC2
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 20:48:10 +0100 (CET)
-Received: from localhost ([::1]:34516 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4169155F52
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 21:18:07 +0100 (CET)
+Received: from localhost ([::1]:34808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j09bk-00051T-NI
-	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 14:48:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44675)
+	id 1j0A4j-0007Xu-Kw
+	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 15:18:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54255)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <crosa@redhat.com>) id 1j09aj-0004Yb-9h
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 14:47:06 -0500
+ (envelope-from <kwankhede@nvidia.com>) id 1j0A36-0005br-4F
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 15:16:26 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <crosa@redhat.com>) id 1j09ah-0004WE-4v
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 14:47:04 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:36246
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <kwankhede@nvidia.com>) id 1j0A33-0006af-Ja
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 15:16:23 -0500
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:17951)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <crosa@redhat.com>) id 1j09ag-0004Vw-Tv
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 14:47:03 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581104821;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=CtisXZV9AeWomkOl/M2uCNGcCuaX0RA/AAmHa4tpSNM=;
- b=T7MLh0HSFyu/V2bkSiKBYhjPYBzIhInAQIks5t/vwM4VaksZlAk3tF75C2CIfVl9WdRs5y
- 5eR+e7mJwxmeUIdh4+rYjOeMGPwWAiN1vYTuyeHLiQkkN98Hc4SzrTLob3JOJapyDt3KE7
- lz8yIYOWeCNIwmT6F4A/rg69AH0yzl8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-79-X6PC_IuJNsWo69PqrMw41A-1; Fri, 07 Feb 2020 14:46:50 -0500
-X-MC-Unique: X6PC_IuJNsWo69PqrMw41A-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 596B010753F3;
- Fri,  7 Feb 2020 19:46:49 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-123-208.rdu2.redhat.com
- [10.10.123.208])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A886119C7F;
- Fri,  7 Feb 2020 19:46:45 +0000 (UTC)
-Date: Fri, 7 Feb 2020 14:46:43 -0500
-From: Cleber Rosa <crosa@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [RFC PATCH 2/2] GitLab CI: crude mapping of PMM's scripts to jobs
-Message-ID: <20200207194643.GC13258@localhost.localdomain>
-References: <20200203032328.12051-1-crosa@redhat.com>
- <20200203032328.12051-2-crosa@redhat.com>
- <5d0def0e-0943-3345-784d-80f8ccc318b9@redhat.com>
+ (Exim 4.71) (envelope-from <kwankhede@nvidia.com>)
+ id 1j0A33-0006U6-96
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 15:16:21 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
+ hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+ id <B5e3dc5780001>; Fri, 07 Feb 2020 12:15:52 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+ by hqpgpgate101.nvidia.com (PGP Universal service);
+ Fri, 07 Feb 2020 12:16:17 -0800
+X-PGP-Universal: processed;
+ by hqpgpgate101.nvidia.com on Fri, 07 Feb 2020 12:16:17 -0800
+Received: from HQMAIL101.nvidia.com (172.20.187.10) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 7 Feb
+ 2020 20:16:17 +0000
+Received: from kwankhede-dev.nvidia.com (10.124.1.5) by HQMAIL101.nvidia.com
+ (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Fri, 7 Feb 2020 20:16:10 +0000
+From: Kirti Wankhede <kwankhede@nvidia.com>
+To: <alex.williamson@redhat.com>, <cjia@nvidia.com>
+Subject: [PATCH v12 Kernel 0/7] KABIs to support migration for VFIO devices
+Date: Sat, 8 Feb 2020 01:12:27 +0530
+Message-ID: <1581104554-10704-1-git-send-email-kwankhede@nvidia.com>
+X-Mailer: git-send-email 2.7.0
+X-NVConfidentiality: public
 MIME-Version: 1.0
-In-Reply-To: <5d0def0e-0943-3345-784d-80f8ccc318b9@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="xesSdrSSBC0PokLI"
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+Content-Type: text/plain
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1581106552; bh=ozjH+tKAAJmnPnuzUL56QveBzh7MYBg6k3KzjCa9NPA=;
+ h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+ X-NVConfidentiality:MIME-Version:Content-Type;
+ b=DRKxYNW2DQ/3gQRCVMhlxLxUiluFQJeD/E8zG+E5HHaWAhlSsLnVdITYPCepR0Wiq
+ XF8USsCP/dLFMPsuSnFgXzsLT43BwdROqJhteoPHW27s0ttuBcx4y/Iy1LVK8COZA3
+ OotK2nA1LN12DeIxMwoP35UnRRMzqDMAJS1lNCQIDyMp/DSTMYCO0hikZnMgUTPrln
+ Hw0Mvnbtp2N1wkNr/B1IL2pOsS5Om+f2/dqi1ozKlDMb89fHx5QEjjlb1N1bpEzARh
+ asMbTt+yj+kcSzhb4qIZDjVcoc4P4mpmw5q6mLGYrvzeMcjn/dM8Kei8CiciDFrte3
+ 0J7cVLlhunIWQ==
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 216.228.121.64
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,290 +67,162 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Zhengxiao.zx@Alibaba-inc.com, kevin.tian@intel.com, yi.l.liu@intel.com,
+ yan.y.zhao@intel.com, kvm@vger.kernel.org, eskultet@redhat.com,
+ ziye.yang@intel.com, qemu-devel@nongnu.org, cohuck@redhat.com,
+ shuangtai.tst@alibaba-inc.com, dgilbert@redhat.com, zhi.a.wang@intel.com,
+ mlevitsk@redhat.com, pasic@linux.ibm.com, aik@ozlabs.ru,
+ Kirti Wankhede <kwankhede@nvidia.com>, eauger@redhat.com, felipe@nutanix.com,
+ jonathan.davies@nutanix.com, changpeng.liu@intel.com, Ken.Xue@amd.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---xesSdrSSBC0PokLI
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi,
 
-On Fri, Feb 07, 2020 at 09:37:16AM +0100, Thomas Huth wrote:
-> On 03/02/2020 04.23, Cleber Rosa wrote:
-> > This is a crude and straightforward mapping of Peter's
-> > "remake-merge-builds" and "pull-buildtest" scripts.
-> >=20
-> > Some characteristics were removed for simplicity sake (but eventually
-> > will), including:
-> >  * number of simultaneous make jobs
-> >  * make's synchronous output, not needed because of previous point
-> >  * out-of-tree builds
-> >=20
-> > This covers the "x86-64 Linux with a variety of different build
-> > configs"[1].  I've personally tested all of them, and only had
-> > issues with the "notcg" job[2], but it seems to be a test specific
-> > issue with the nested KVM I was using.
-> >=20
-> > [1] - https://wiki.qemu.org/Requirements/GatingCI#Current_Tests
-> > [2] - https://paste.centos.org/view/1dd43a1c
-> >=20
-> > Signed-off-by: Cleber Rosa <crosa@redhat.com>
-> > ---
-> >  .gitlab-ci.yml | 116 +++++++++++++++++++++++++++++++++++++++++++++++++
-> >  1 file changed, 116 insertions(+)
->=20
-> Thanks for doing this! The patch looks basically fine to me, but some
-> comments below...
->=20
-> > diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-> > index d2c7d2198e..eb4077e2ab 100644
-> > --- a/.gitlab-ci.yml
-> > +++ b/.gitlab-ci.yml
-> > @@ -2,6 +2,8 @@ include:
-> >    - local: '/.gitlab-ci-edk2.yml'
-> > =20
-> >  build-system1:
-> > + rules:
-> > + - if: '$CI_COMMIT_REF_NAME !=3D "staging"'
-> >   before_script: &before_scr_apt
-> >   - apt-get update -qq
-> >   - apt-get install -y -qq flex bison libglib2.0-dev libpixman-1-dev ge=
-nisoimage
-> > @@ -17,6 +19,8 @@ build-system1:
-> >   - make -j2 check
-> > =20
-> >  build-system2:
-> > + rules:
-> > + - if: '$CI_COMMIT_REF_NAME !=3D "staging"'
-> >   before_script:
-> >    *before_scr_apt
-> >   script:
-> > @@ -31,6 +35,8 @@ build-system2:
-> >   - make -j2 check
-> > =20
-> >  build-disabled:
-> > + rules:
-> > + - if: '$CI_COMMIT_REF_NAME !=3D "staging"'
-> >   before_script:
-> >    *before_scr_apt
-> >   script:
-> > @@ -47,6 +53,8 @@ build-disabled:
-> >   - make -j2 check-qtest SPEED=3Dslow
-> > =20
-> >  build-tcg-disabled:
-> > + rules:
-> > + - if: '$CI_COMMIT_REF_NAME !=3D "staging"'
-> >   before_script:
-> >    *before_scr_apt
-> >   script:
-> > @@ -67,6 +75,8 @@ build-tcg-disabled:
-> >              248 250 254 255 256
-> > =20
-> >  build-user:
-> > + rules:
-> > + - if: '$CI_COMMIT_REF_NAME !=3D "staging"'
-> >   before_script:
-> >    *before_scr_apt
-> >   script:
-> > @@ -78,6 +88,8 @@ build-user:
-> >   - make run-tcg-tests-i386-linux-user run-tcg-tests-x86_64-linux-user
-> > =20
-> >  build-clang:
-> > + rules:
-> > + - if: '$CI_COMMIT_REF_NAME !=3D "staging"'
-> >   before_script:
-> >    *before_scr_apt
-> >   script:
-> > @@ -92,6 +104,8 @@ build-clang:
-> >   - make -j2 check
-> > =20
-> >  build-tci:
-> > + rules:
-> > + - if: '$CI_COMMIT_REF_NAME !=3D "staging"'
-> >   before_script:
-> >    *before_scr_apt
-> >   script:
->=20
-> Question to Peter/Alex/Stefan/Howevermergespullreqsinthefuture:
->=20
-> Should the above jobs really be skipped for pull requests, or would it
-> be ok to include them there, too? (in the latter case, the above changes
-> could just be dropped)
->=20
-> > @@ -111,3 +125,105 @@ build-tci:
-> >   - QTEST_QEMU_BINARY=3D"x86_64-softmmu/qemu-system-x86_64" ./tests/qte=
-st/pxe-test
-> >   - QTEST_QEMU_BINARY=3D"s390x-softmmu/qemu-system-s390x"
-> >     ./tests/qtest/pxe-test -m slow
-> > +
-> > +ubuntu-18.04.3-x86_64-notools:
-> > + tags:
-> > + - ubuntu_18.04.3
-> > + - x86_64
-> > + rules:
-> > + - if: '$CI_COMMIT_REF_NAME =3D=3D "staging"'
-> > + script:
-> > + # https://git.linaro.org/people/peter.maydell/misc-scripts.git/tree/r=
-emake-merge-builds#n22
->=20
-> Line 22 currently seems to be disabled, so I think you could drop this jo=
-b?
->
+This patch set adds:
+* New IOCTL VFIO_IOMMU_DIRTY_PAGES to get dirty pages bitmap with
+  respect to IOMMU container rather than per device. All pages pinned by
+  vendor driver through vfio_pin_pages external API has to be marked as
+  dirty during  migration. When IOMMU capable device is present in the
+  container and all pages are pinned and mapped, then all pages are marked
+  dirty.
+  When there are CPU writes, CPU dirty page tracking can identify dirtied
+  pages, but any page pinned by vendor driver can also be written by
+  device. As of now there is no device which has hardware support for
+  dirty page tracking. So all pages which are pinned should be considered
+  as dirty.
+  This ioctl is also used to start/stop dirty pages tracking for pinned and
+  unpinned pages while migration is active.
 
-I'd gladly drop it.  I think the reason I kept it was to hear from
-Peter what to actually do about those commented out lines.
+* Updated IOCTL VFIO_IOMMU_UNMAP_DMA to get dirty pages bitmap before
+  unmapping IO virtual address range.
+  With vIOMMU, during pre-copy phase of migration, while CPUs are still
+  running, IO virtual address unmap can happen while device still keeping
+  reference of guest pfns. Those pages should be reported as dirty before
+  unmap, so that VFIO user space application can copy content of those
+  pages from source to destination.
 
-> > + - ./configure --target-list=3Darm-softmmu --disable-tools --disable-l=
-ibssh
-> > + # There is no make / make check in the "pull-buildtest" script for th=
-is.
-> > + # Question: should it at least be built? Or dropped?
-> > + - make
-> > +
-> > +ubuntu-18.04.3-x86_64-all-linux-static:
-> > + tags:
-> > + - ubuntu_18.04.3
-> > + - x86_64
-> > + rules:
-> > + - if: '$CI_COMMIT_REF_NAME =3D=3D "staging"'
-> > + script:
-> > + # https://git.linaro.org/people/peter.maydell/misc-scripts.git/tree/r=
-emake-merge-builds#n25
-> > + - ./configure --enable-debug --static --disable-system --disable-glus=
-terfs --disable-libssh
-> > + # https://git.linaro.org/people/peter.maydell/misc-scripts.git/tree/p=
-ull-buildtest#n36
-> > + - make
-> > + # https://git.linaro.org/people/peter.maydell/misc-scripts.git/tree/p=
-ull-buildtest#n45
-> > + - make check V=3D1
-> > + # https://git.linaro.org/people/peter.maydell/misc-scripts.git/tree/p=
-ull-buildtest#n48
-> > + - make check-tcg V=3D1
-> > +
-> > +ubuntu-18.04.3-x86_64-all:
-> > + tags:
-> > + - ubuntu_18.04.3
-> > + - x86_64
-> > + rules:
-> > + - if: '$CI_COMMIT_REF_NAME =3D=3D "staging"'
-> > + script:
-> > + # https://git.linaro.org/people/peter.maydell/misc-scripts.git/tree/r=
-emake-merge-builds#n26
-> > + - ./configure --disable-libssh
-> > + # https://git.linaro.org/people/peter.maydell/misc-scripts.git/tree/p=
-ull-buildtest#n28
-> > + - make
-> > + # https://git.linaro.org/people/peter.maydell/misc-scripts.git/tree/p=
-ull-buildtest#n37
-> > + - make check V=3D1
-> > +
-> > +ubuntu-18.04.3-x86_64-alldbg:
-> > + tags:
-> > + - ubuntu_18.04.3
-> > + - x86_64
-> > + rules:
-> > + - if: '$CI_COMMIT_REF_NAME =3D=3D "staging"'
-> > + script:
-> > + # https://git.linaro.org/people/peter.maydell/misc-scripts.git/tree/r=
-emake-merge-builds#n27
-> > + - ./configure --disable-libssh
-> > + # https://git.linaro.org/people/peter.maydell/misc-scripts.git/tree/p=
-ull-buildtest#n27
-> > + - make clean
-> > + # https://git.linaro.org/people/peter.maydell/misc-scripts.git/tree/p=
-ull-buildtest#n29
-> > + - make
-> > + # https://git.linaro.org/people/peter.maydell/misc-scripts.git/tree/p=
-ull-buildtest#n37
-> > + - make check V=3D1
-> > +
-> > +ubuntu-18.04.3-x86_64-clang:
-> > + tags:
-> > + - ubuntu_18.04.3
-> > + - x86_64
-> > + rules:
-> > + - if: '$CI_COMMIT_REF_NAME =3D=3D "staging"'
-> > + script:
-> > + # https://git.linaro.org/people/peter.maydell/misc-scripts.git/tree/r=
-emake-merge-builds#n31
-> > + - ./configure --disable-libssh --cc=3Dclang --cxx=3Dclang++ --enable-=
-gtk --extra-cflags=3D'-fsanitize=3Dundefined -fno-sanitize=3Dshift-base -We=
-rror'
-> > + # https://git.linaro.org/people/peter.maydell/misc-scripts.git/tree/p=
-ull-buildtest#n33
-> > + - make
-> > + # https://git.linaro.org/people/peter.maydell/misc-scripts.git/tree/p=
-ull-buildtest#n39
-> > + - make check V=3D1
-> > +
-> > +ubuntu-18.04.3-x86_64-tci:
-> > + tags:
-> > + - ubuntu_18.04.3
-> > + - x86_64
-> > + rules:
-> > + - if: '$CI_COMMIT_REF_NAME =3D=3D "staging"'
-> > + script:
-> > + # https://git.linaro.org/people/peter.maydell/misc-scripts.git/tree/r=
-emake-merge-builds#n33
-> > + - ./configure --disable-libssh --enable-debug --enable-tcg-interprete=
-r
-> > + # https://git.linaro.org/people/peter.maydell/misc-scripts.git/tree/p=
-ull-buildtest#n34
-> > + - make
->=20
-> I think "make check" should now work with TCI, too, there was a fix for
-> it some months ago (commit 2f160e0f9797c7522bfd0d09218d0c9340a5137c).
-> At least it's worth a try to enable it...
->
+* Patch 7 is proposed change to detect if IOMMU capable device driver is
+  smart to report pages to be marked dirty by pinning pages using
+  vfio_pin_pages() API.
 
-I did try, and this is what I got:
 
-ERROR:tests/qtest/prom-env-test.c:42:check_guest_memory: assertion failed (=
-signature =3D=3D MAGIC): (0x00000000 =3D=3D 0xcafec0de)
-ERROR - Bail out! ERROR:tests/qtest/prom-env-test.c:42:check_guest_memory: =
-assertion failed (signature =3D=3D MAGIC): (0x00000000 =3D=3D 0xcafec0de)
-/home/gitlab-runner/builds/E8tS7ajQ/0/crosa/qemu/tests/Makefile.include:629=
-: recipe for target 'check-qtest-sparc64' failed
-ERROR: Job failed: exit status 1
+Yet TODO:
+Since there is no device which has hardware support for system memmory
+dirty bitmap tracking, right now there is no other API from vendor driver
+to VFIO IOMMU module to report dirty pages. In future, when such hardware
+support will be implemented, an API will be required such that vendor
+driver could report dirty pages to VFIO module during migration phases.
 
-The full log can be found here: https://cleber.fedorapeople.org/ubuntu-18.0=
-4.3-x86_64-tci.txt
+Adding revision history from previous QEMU patch set to understand KABI
+changes done till now
 
-> Alternatively, I think we don't urgently need to introduce this job -
-> there is already "build-tci" in gitlab-ci.yml which should cover
-> --enable-tcg-interpreter already and does some testing, too.
->
+v11 -> v12
+- Changed bitmap allocation in vfio_iommu_type1.
+- Remove atomicity of ref_count.
+- Updated comments for migration device state structure about error
+  reporting.
+- Nit picks from v11 reviews
 
-OK, I'm fine with that, but I think Peter should have the final saying
-here (as it's "his" job).
+v10 -> v11
+- Fix pin pages API to free vpfn if it is marked as unpinned tracking page.
+- Added proposal to detect if IOMMU capable device calls external pin pages
+  API to mark pages dirty.
+- Nit picks from v10 reviews
+
+v9 -> v10:
+- Updated existing VFIO_IOMMU_UNMAP_DMA ioctl to get dirty pages bitmap
+  during unmap while migration is active
+- Added flag in VFIO_IOMMU_GET_INFO to indicate driver support dirty page
+  tracking.
+- If iommu_mapped, mark all pages dirty.
+- Added unpinned pages tracking while migration is active.
+- Updated comments for migration device state structure with bit
+  combination table and state transition details.
+
+v8 -> v9:
+- Split patch set in 2 sets, Kernel and QEMU.
+- Dirty pages bitmap is queried from IOMMU container rather than from
+  vendor driver for per device. Added 2 ioctls to achieve this.
+
+v7 -> v8:
+- Updated comments for KABI
+- Added BAR address validation check during PCI device's config space load
+  as suggested by Dr. David Alan Gilbert.
+- Changed vfio_migration_set_state() to set or clear device state flags.
+- Some nit fixes.
+
+v6 -> v7:
+- Fix build failures.
+
+v5 -> v6:
+- Fix build failure.
+
+v4 -> v5:
+- Added decriptive comment about the sequence of access of members of
+  structure vfio_device_migration_info to be followed based on Alex's
+  suggestion
+- Updated get dirty pages sequence.
+- As per Cornelia Huck's suggestion, added callbacks to VFIODeviceOps to
+  get_object, save_config and load_config.
+- Fixed multiple nit picks.
+- Tested live migration with multiple vfio device assigned to a VM.
+
+v3 -> v4:
+- Added one more bit for _RESUMING flag to be set explicitly.
+- data_offset field is read-only for user space application.
+- data_size is read for every iteration before reading data from migration,
+  that is removed assumption that data will be till end of migration
+  region.
+- If vendor driver supports mappable sparsed region, map those region
+  during setup state of save/load, similarly unmap those from cleanup
+  routines.
+- Handles race condition that causes data corruption in migration region
+  during save device state by adding mutex and serialiaing save_buffer and
+  get_dirty_pages routines.
+- Skip called get_dirty_pages routine for mapped MMIO region of device.
+- Added trace events.
+- Split into multiple functional patches.
+
+v2 -> v3:
+- Removed enum of VFIO device states. Defined VFIO device state with 2
+  bits.
+- Re-structured vfio_device_migration_info to keep it minimal and defined
+  action on read and write access on its members.
+
+v1 -> v2:
+- Defined MIGRATION region type and sub-type which should be used with
+  region type capability.
+- Re-structured vfio_device_migration_info. This structure will be placed
+  at 0th offset of migration region.
+- Replaced ioctl with read/write for trapped part of migration region.
+- Added both type of access support, trapped or mmapped, for data section
+  of the region.
+- Moved PCI device functions to pci file.
+- Added iteration to get dirty page bitmap until bitmap for all requested
+  pages are copied.
 
 Thanks,
-- Cleber.
+Kirti
 
---xesSdrSSBC0PokLI
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
+Kirti Wankhede (7):
+  vfio: KABI for migration interface for device state
+  vfio iommu: Remove atomicity of ref_count of pinned pages
+  vfio iommu: Add ioctl definition for dirty pages tracking.
+  vfio iommu: Implementation of ioctl to for dirty pages tracking.
+  vfio iommu: Update UNMAP_DMA ioctl to get dirty bitmap before unmap
+  vfio iommu: Adds flag to indicate dirty pages tracking capability
+    support
+  vfio: Selective dirty page tracking if IOMMU backed device pins pages
 
-iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAl49vqEACgkQZX6NM6Xy
-CfMNkxAAt9x4FUvc0IXIZo/0EFb+eA6kPZxdkdBgy40HZ5qeYxjpYC0Uy/GZ/dGE
-L9lCcMXRAhkPlY20VNoaXe+b6zR1lxklO9Xjc62w7t0YczxhQ0TT10MOzlqoZqmH
-Y4LlXRdwsB5iC7Dd0xMJAWgHjsrGj/WDryIADyK1/OMHMfLB5OzijyvGEH/NsG0I
-VqmtY+sj1TiHiJn+ctMJNx70UHku5EbDwEw8KsnHM5z19NJonI6G2e6qs+It+9BD
-3ICErEh0yYxDJhN7be5umMbODTPmtEwhUsRhUDgtsB0TPg1PJmCombj+Ii9CW6u4
-HGC2jec1JcOsU6wd2VfWuRZD6V2PJ8g7Ijo7+Y/THYJB9Ta8YgJdYEbsnRFUP8b9
-uPOeMSOYCz6/0W4XtqHsm0odlCYGD+2umr1ssC6kno1aB1NCQjGPAYBXjxjuyC22
-rjcMIyOPiLAh/8F4NtJvKGMvnA6PPqIV+r/Os8nUPzBsxv0CkHzYM2fqRTNIXwSJ
-8hGo4Z7zwqqSCD94Pb5zx2TduQwpUEAjNUtVjoL07UCmnSL++l9JYzyLlnLlEZd7
-373pH4KQRMG3EBQyADyokChoJrkaDHkBIpAze4CHwO4dFIPAdmPpyKuJl6pXSs+o
-xc/RKkBR6Gy1yeKmZEjmXUAvdk7j9amALdl/bAsYM3rM3jkoOVw=
-=bJDF
------END PGP SIGNATURE-----
+ drivers/vfio/vfio.c             |  13 +-
+ drivers/vfio/vfio_iommu_type1.c | 435 +++++++++++++++++++++++++++++++++++++---
+ include/linux/vfio.h            |   4 +-
+ include/uapi/linux/vfio.h       | 267 +++++++++++++++++++++++-
+ 4 files changed, 692 insertions(+), 27 deletions(-)
 
---xesSdrSSBC0PokLI--
+-- 
+2.7.0
 
 
