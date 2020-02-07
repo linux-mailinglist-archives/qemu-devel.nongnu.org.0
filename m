@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 141681559C7
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 15:37:55 +0100 (CET)
-Received: from localhost ([::1]:57934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 410781559AC
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 15:35:22 +0100 (CET)
+Received: from localhost ([::1]:57828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j04lW-0007Ky-2m
-	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 09:37:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51239)
+	id 1j04j3-0001ag-82
+	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 09:35:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51259)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j04hZ-00082D-Ku
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:33:50 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1j04ha-00083v-Fe
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:33:51 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j04hY-0002An-Fr
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:33:49 -0500
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:37022)
+ (envelope-from <peter.maydell@linaro.org>) id 1j04hZ-0002DN-Do
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:33:50 -0500
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:35741)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j04hY-00028r-64
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:33:48 -0500
-Received: by mail-wm1-x342.google.com with SMTP id f129so3030280wmf.2
- for <qemu-devel@nongnu.org>; Fri, 07 Feb 2020 06:33:48 -0800 (PST)
+ id 1j04hZ-0002Au-7H
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:33:49 -0500
+Received: by mail-wr1-x42a.google.com with SMTP id w12so2978772wrt.2
+ for <qemu-devel@nongnu.org>; Fri, 07 Feb 2020 06:33:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=wD5kKpZxds6KotN02B/ZZrgfLYdFxoUcA/v2ch/p7A4=;
- b=YiwoQfh6f3uKr3M/wxRQs2iJzdAo+peC48VJ7ITFU5Wa8+uuzuWzmiNt+X1z4k2wIh
- lDkWaYMfa2q1mDGzne5P9biJSRFvzPelchqrYZNHFGiw++eVcOYw55jZEc1teFG8qfj/
- 77MeFXlwKnbawGLx3uMerS9j0TW+whhgK7optxoFp7zsSa6Ogj93Vqbymof2H69SiKRK
- yL3Fo6DFxLopsTaA7Z+cGV3RK2wemRoo7FMVa2TCiolFhsXssmc58xixFGk2NvmLiAOm
- JB+5uzgeScKsLuObpwhrPLyiTqYfHHfVM9D8Ru0s6mERrJ2EZzAmr4V1zhz6273CT3tw
- 7b9w==
+ bh=wiym8FeREOUNdMDL8foZ2tGZjtJnFWi/X62fmxihxGc=;
+ b=JCckIU0zA5hUmZXresDdkWaXhnrVotLjpdpFswhVy9EkKGTAQYysUv1jJZR6Dv5Mn7
+ PxXdvfMVcN39I+kFhXroIOGgXPyPyPjq2ekvOKzQKnL5RR02iN/m3YmT+I2duwGCewRA
+ aRC8leL3Jxh/D18KDEUo1q1DMtzsYbK0SbK7ShyLsyc3ClMO/x0KIsjfECXtaHs7bETJ
+ v5YcZbZiCcL7oDijw80gKlBRQzoXgPGoCUAoZLYhznJgh6978R01OUpvl7nkpci+RdF9
+ JiEKpFfsD2cH8cOMV3mX37XK6igfCJ1wXkMlcGkhBllvmakha7AhutrOZRFg5m4KeVsa
+ kGzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=wD5kKpZxds6KotN02B/ZZrgfLYdFxoUcA/v2ch/p7A4=;
- b=VSBNeCpTrwHmsYdcrRDd+ziDFgoXxdZrdWlVyyxOjHX45wDef3x4cHT7kgmc31+3eo
- plJBepi9cTnSnKdUhFMMbMbMGESoMcwtvZ1TI0Bou9HzHh8/t26Zps3Deku6n0M/YfnX
- SlPs3TKGYwqcmQvAW9PhZomxqlOiy+ttWJ12BTNouEzss3DJbCKrS/J4zLA8zXArVg1w
- iKTfCV77zKD+pNuSsf7F4MEsiTszqXPJ3ODAfayf4yeVRsX4DL26OyDUI+p17TVlbXeK
- R5uF8SQ+mYt+UV51YRU+Hi8Ih9ShnIPbIt7BybYlwZrg78ovPN7wUD1pYBrGnIzKmYzb
- prXQ==
-X-Gm-Message-State: APjAAAXqak7U/j5MsGHTwR776Kdfu+U5u1SP78p4/rHXJE0BFtO24E8o
- PXjOcMZ/zMnvbi4ykTjx0RLKuF5o0r8=
-X-Google-Smtp-Source: APXvYqzXycdDAV7dnl3rzwMVpUkZErqrmXhI9xfWq2BKQQ1gr70HoZtA5VR6lGyQ62M0uBHN/iWrIw==
-X-Received: by 2002:a05:600c:2254:: with SMTP id
- a20mr4524173wmm.97.1581086026761; 
- Fri, 07 Feb 2020 06:33:46 -0800 (PST)
+ bh=wiym8FeREOUNdMDL8foZ2tGZjtJnFWi/X62fmxihxGc=;
+ b=IyGt6oVzGJvlhPpHR6kNluvWQzxmA1Hft+vm3wpo/bZEq69TLZ+f/KVdrYIysu2mrf
+ ygkRnbydkJ9hwq0dShYG/ZVskrB2Ph9H36xsx7DvyDk9k/44iakRmILwoTgt1kAocqFT
+ cb0hwii+MDut790mySqbnk0ZSt4xI/IZfW5fmG+W3+xHAdXOuoJpr0SyD7Ca5SsNItJ7
+ j5KoHXUc1t7+OPFeS5ecXUnm6S559ULCzSS7/O/K3hS58IwKT8eArUg/UjU/Tffak5vL
+ SOOnfJa6ixktULmZRFmDYNjjnAiaE85z016fxrlSgMc1mirIdn6E2SFdbhkmbJSU0Ifd
+ J2ww==
+X-Gm-Message-State: APjAAAUS5UjtaTyCa8RojhmkYLpRuJPHfhO9LLaoFG1dEM4X76CNLdzS
+ ap6FKysmJ1/kXGu/eCbCdIe1RNJjB08=
+X-Google-Smtp-Source: APXvYqwfvTVQtwJxY9Iqq804yJH9/rKxPDJzzDtaaZUgcE6sTBv7NYvfgd8p0IhksIWV8BMlDDwGTA==
+X-Received: by 2002:adf:f986:: with SMTP id f6mr5251522wrr.182.1581086028007; 
+ Fri, 07 Feb 2020 06:33:48 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id w1sm3796430wro.72.2020.02.07.06.33.45
+ by smtp.gmail.com with ESMTPSA id w1sm3796430wro.72.2020.02.07.06.33.46
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Feb 2020 06:33:46 -0800 (PST)
+ Fri, 07 Feb 2020 06:33:47 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/48] target/arm/monitor: query-cpu-model-expansion crashed
- qemu when using machine type none
-Date: Fri,  7 Feb 2020 14:32:56 +0000
-Message-Id: <20200207143343.30322-2-peter.maydell@linaro.org>
+Subject: [PULL 02/48] target/arm: Define isar_feature_aa64_vh
+Date: Fri,  7 Feb 2020 14:32:57 +0000
+Message-Id: <20200207143343.30322-3-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200207143343.30322-1-peter.maydell@linaro.org>
 References: <20200207143343.30322-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::342
+X-Received-From: 2a00:1450:4864:20::42a
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,58 +82,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Liang Yan <lyan@suse.com>
+From: Richard Henderson <richard.henderson@linaro.org>
 
-Commit e19afd566781 mentioned that target-arm only supports queryable
-cpu models 'max', 'host', and the current type when KVM is in use.
-The logic works well until using machine type none.
-
-For machine type none, cpu_type will be null if cpu option is not
-set by command line, strlen(cpu_type) will terminate process.
-So We add a check above it.
-
-This won't affect i386 and s390x since they do not use current_cpu.
-
-Signed-off-by: Liang Yan <lyan@suse.com>
-Message-id: 20200203134251.12986-1-lyan@suse.com
-Reviewed-by: Andrew Jones <drjones@redhat.com>
-Tested-by: Andrew Jones <drjones@redhat.com>
+Tested-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20200206105448.4726-2-richard.henderson@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/monitor.c | 15 +++++++++------
- 1 file changed, 9 insertions(+), 6 deletions(-)
+ target/arm/cpu.h | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/target/arm/monitor.c b/target/arm/monitor.c
-index 9725dfff16d..c2dc7908de7 100644
---- a/target/arm/monitor.c
-+++ b/target/arm/monitor.c
-@@ -137,17 +137,20 @@ CpuModelExpansionInfo *qmp_query_cpu_model_expansion(CpuModelExpansionType type,
-     }
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index 608fcbd0b75..2a53f5d09be 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -3685,6 +3685,11 @@ static inline bool isar_feature_aa64_sve(const ARMISARegisters *id)
+     return FIELD_EX64(id->id_aa64pfr0, ID_AA64PFR0, SVE) != 0;
+ }
  
-     if (kvm_enabled()) {
--        const char *cpu_type = current_machine->cpu_type;
--        int len = strlen(cpu_type) - strlen(ARM_CPU_TYPE_SUFFIX);
-         bool supported = false;
- 
-         if (!strcmp(model->name, "host") || !strcmp(model->name, "max")) {
-             /* These are kvmarm's recommended cpu types */
-             supported = true;
--        } else if (strlen(model->name) == len &&
--                   !strncmp(model->name, cpu_type, len)) {
--            /* KVM is enabled and we're using this type, so it works. */
--            supported = true;
-+        } else if (current_machine->cpu_type) {
-+            const char *cpu_type = current_machine->cpu_type;
-+            int len = strlen(cpu_type) - strlen(ARM_CPU_TYPE_SUFFIX);
++static inline bool isar_feature_aa64_vh(const ARMISARegisters *id)
++{
++    return FIELD_EX64(id->id_aa64mmfr1, ID_AA64MMFR1, VH) != 0;
++}
 +
-+            if (strlen(model->name) == len &&
-+                !strncmp(model->name, cpu_type, len)) {
-+                /* KVM is enabled and we're using this type, so it works. */
-+                supported = true;
-+            }
-         }
-         if (!supported) {
-             error_setg(errp, "We cannot guarantee the CPU type '%s' works "
+ static inline bool isar_feature_aa64_lor(const ARMISARegisters *id)
+ {
+     return FIELD_EX64(id->id_aa64mmfr1, ID_AA64MMFR1, LO) != 0;
 -- 
 2.20.1
 
