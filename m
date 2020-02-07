@@ -2,88 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E39B11559AB
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 15:35:15 +0100 (CET)
-Received: from localhost ([::1]:57784 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F74F1559DB
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 15:41:54 +0100 (CET)
+Received: from localhost ([::1]:58068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j04iw-0001KS-RT
-	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 09:35:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51006)
+	id 1j04pN-00078h-Lj
+	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 09:41:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51330)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1j04gs-0006uR-Vb
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:33:08 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1j04he-0008FK-Vl
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:33:56 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1j04gr-0001KC-Mc
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:33:06 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:44934
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j04gr-0001Jy-IM
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:33:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581085985;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=7iRgXc6jQr0WqNyPK+74WRYS/+1l/8613GhCECT0naw=;
- b=Tk43jUafbWcGyVMv/ljUzTwjZJKmEMMET3voTvr0HZQFLZz19+/sjuF7FkalKDVdoy75Uu
- shzUzNBZWP4W6CzETs7u3LEaZju7UsqO5OJ5qQ1YA8Ngf+jegO0bE+qEqDNv4KNhhiWMd2
- qf5HS3c5z+oXqFSILrdyWfLyGGuvaHU=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-181-6Eo43kniMe6Io1wG_hFwjQ-1; Fri, 07 Feb 2020 09:33:03 -0500
-Received: by mail-wm1-f71.google.com with SMTP id b202so778573wmb.2
- for <qemu-devel@nongnu.org>; Fri, 07 Feb 2020 06:33:02 -0800 (PST)
+ (envelope-from <peter.maydell@linaro.org>) id 1j04hd-0002Q6-Fw
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:33:54 -0500
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:40010)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1j04hd-0002Mw-9X
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:33:53 -0500
+Received: by mail-wm1-x343.google.com with SMTP id t14so2990209wmi.5
+ for <qemu-devel@nongnu.org>; Fri, 07 Feb 2020 06:33:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+ :content-transfer-encoding;
+ bh=Jao/xEGUWWybaAe9JIFeCQwc4HndZ45KTdA+bMec2T8=;
+ b=CfCO/UYbv1fYdo06QVoNZHJnVc40Yj5C7DS8Y8iWzFC29NUCWkgramczSTn90Zz5w7
+ xy20Sxxo74X3N34TW1B4UW3nZ1cNagk2NSg78WCRkuQu88rmF7ULHB9GIS7RKZXlSR64
+ JAHEcE3/D4qQ1og81w6hBFYf8WaslJj2Xcxt0lMebKj06wDlI6ua1bg9CiJOOfk+nox3
+ wv71MxbrrL2DbbNbwTv2CsXKAO5+lANghzmGcbdF9WMklKVkAE0fVUZKyJj7uqzkCvNh
+ 7Na7F0nPQmFZLw7aSTDAKMUTcIStWrBGCFyF8LThX6n2ddeRNTCoIPH8tkXWPwX+czQM
+ NkeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=FbBeDKAU04DWOP0hVqG1KKcgrpic8GudeGNHpNcR4hM=;
- b=Zu6iLJlyd99J0uxTdVvDbjCZ2js2xNDtN0pR2/SOFayWw0HnZUo8mCaD3bIEZqI75o
- qyE6OqSAswwtuCilJluPssblEKwVB01Kb8GITxwoC4Du+a4kD08ZJM2L4jA+epSKe5g+
- zcQjQe8V0swk7IvIhMJhUhz6FsprNBlwNEBTsaLuTvZkhbmtT7q826KMvtcfyD9C9Opk
- hk2v554DPjoATthnAVbzLTYQ91c+EL/r15Xnd/aVHL/1gL4D5MUP0gqkH8p3X5ptCkf2
- CcLv2KNV7GdJSTuQHBzlP1N9NirOZc7CNo0okjqkbP1V7fW7hNhLVc9613Kf/ECt2U0J
- GbzQ==
-X-Gm-Message-State: APjAAAWWHIMHDUSJM0gfNNzUfl0HHuWFom2GquXw8jCxriPiVGObWe3o
- MfMMQrvj3nhpZa4xrijZHumMmWI4aVUY72O1YltxZyzTXDN+SX/QIqhsqUfXwSvlyOEeCFEjg5h
- EnVlSwomcEdLWuVg=
-X-Received: by 2002:a7b:c76a:: with SMTP id x10mr4749999wmk.49.1581085981577; 
- Fri, 07 Feb 2020 06:33:01 -0800 (PST)
-X-Google-Smtp-Source: APXvYqxGphGnAcsyVhDmXRqc1qmgt7O3bvoCJIPn/SYYPpeQGZRCXt+UbXZb2QzTPc0aeMaeCgXQeA==
-X-Received: by 2002:a7b:c76a:: with SMTP id x10mr4749974wmk.49.1581085981289; 
- Fri, 07 Feb 2020 06:33:01 -0800 (PST)
-Received: from [192.168.1.35] (78.red-88-21-202.staticip.rima-tde.net.
- [88.21.202.78])
- by smtp.gmail.com with ESMTPSA id g7sm3575881wrq.21.2020.02.07.06.33.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 07 Feb 2020 06:33:00 -0800 (PST)
-Subject: Re: [PATCH v2 10/29] python/qemu: Add
- binutils::binary_get_qom_implementations()
-To: Liam Merwick <liam.merwick@oracle.com>,
- Denis Plotnikov <dplotnikov@virtuozzo.com>, qemu-devel@nongnu.org
-References: <20200129212345.20547-1-philmd@redhat.com>
- <20200129212345.20547-11-philmd@redhat.com>
- <4d8b1927-8b2e-efa9-c116-4aa61462d6c2@oracle.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <83b581d4-dd24-aa17-c06b-a6eef539139d@redhat.com>
-Date: Fri, 7 Feb 2020 15:33:00 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=Jao/xEGUWWybaAe9JIFeCQwc4HndZ45KTdA+bMec2T8=;
+ b=mp33Ht59ex2iiZF3+qlRFjuM1q0HtQ4FpITRKqB0bSRsSgqYbKIciB9VG28bOnnwOx
+ HbhYekiqTXg0QMcOvxOVZaPUQePcBLxQFEkhqHqcfzZvhj8pE09/LBoHxbOPtXZY8rkO
+ X730ZT28JqH6k8cCwFGennTg7hmtoCmxGqkcrlpM+J8nagyC6zwDvnpPgRJCalOPPMVx
+ p+BjJtdny2vwgfFTs0eHZflxZuYKyJJz0kk0W4uid4r/K0WNLW9sWDBdQcTjR9OX/g6r
+ QJ5v7YslnQW2XJr32fq7YCGWF25YnXhOMlKMJ5soXLgAFVn7HrWLE5QF92RhtSVWSD6Y
+ OPGw==
+X-Gm-Message-State: APjAAAU1V15KuM/8uGxTi0WPgC2FehdCRCUQQoP+GGuQM+/F5VzI7kdn
+ FNQGffpxY2A3LRh86/8nAS2cOaBwMJc=
+X-Google-Smtp-Source: APXvYqxGLOkWyoM0qUxQCsbPiq+x533ZORX8rIjNyc6n4J+eYo7s/NZ6lIG6wykdTC85BbhvZD+5Aw==
+X-Received: by 2002:a1c:dfd6:: with SMTP id w205mr4780123wmg.151.1581086031968; 
+ Fri, 07 Feb 2020 06:33:51 -0800 (PST)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id w1sm3796430wro.72.2020.02.07.06.33.51
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 07 Feb 2020 06:33:51 -0800 (PST)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PULL 06/48] target/arm: Update CNTVCT_EL0 for VHE
+Date: Fri,  7 Feb 2020 14:33:01 +0000
+Message-Id: <20200207143343.30322-7-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200207143343.30322-1-peter.maydell@linaro.org>
+References: <20200207143343.30322-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <4d8b1927-8b2e-efa9-c116-4aa61462d6c2@oracle.com>
-Content-Language: en-US
-X-MC-Unique: 6Eo43kniMe6Io1wG_hFwjQ-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -95,122 +79,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Cornelia Huck <cohuck@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/7/20 3:28 PM, Liam Merwick wrote:
-> On 29/01/2020 21:23, Philippe Mathieu-Daud=C3=A9 wrote:
->> Since QEMU binaries can be built with various configurations,
->> the list of QOM objects linked can vary.
->> Add a helper to query the list of all QOM types implementing a
->> particular interface.
->>
->> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
->> ---
->> =C2=A0 python/qemu/binutils.py=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 | 20 ++++++++++++++++++++
->> =C2=A0 tests/acceptance/core_scripts.py | 10 ++++++++++
->> =C2=A0 2 files changed, 30 insertions(+)
->>
->> diff --git a/python/qemu/binutils.py b/python/qemu/binutils.py
->> index 7bb57c521b..76f256f5d2 100644
->> --- a/python/qemu/binutils.py
->> +++ b/python/qemu/binutils.py
->> @@ -66,3 +66,23 @@ def binary_get_machines(qemu_bin):
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 LOG.info(res)
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vm.shutdown()
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return [m['name']=
- for m in res]
->> +
->> +def binary_get_qom_implementations(qemu_bin, type_name,=20
->> include_abstract=3DFalse):
->> +=C2=A0=C2=A0=C2=A0 '''
->> +=C2=A0=C2=A0=C2=A0 Get list of QOM types implementing a particular inte=
-rface
->> +
->> +=C2=A0=C2=A0=C2=A0 @param qemu_bin (str): path to the QEMU binary
->> +=C2=A0=C2=A0=C2=A0 @param type_name (str): QOM interface name
->> +=C2=A0=C2=A0=C2=A0 @param include_abstract (bool): if True, abstract in=
-terfaces are=20
->> also
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 returned=
- in the list
->> +=C2=A0=C2=A0=C2=A0 @return list of QOM types implementing the interface=
- @type_name
->> +=C2=A0=C2=A0=C2=A0 '''
->> +=C2=A0=C2=A0=C2=A0 with QEMUMachine(qemu_bin) as vm:
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vm.set_machine('none')
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vm.launch()
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 res =3D vm.command('qom-list=
--types',
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- implements=3Dtype_name,
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- abstract=3Dinclude_abstract)
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 LOG.info(res)
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vm.shutdown()
->=20
->=20
-> Based on Wainer's comment on patch3 - is this vm.shutdown() needed?
+From: Richard Henderson <richard.henderson@linaro.org>
 
-Nop.
+The virtual offset may be 0 depending on EL, E2H and TGE.
 
->=20
-> otherwise
->=20
-> Reviewed-by: Liam Merwick <liam.merwick@oracle.com>
+Tested-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20200206105448.4726-6-richard.henderson@linaro.org
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ target/arm/helper.c | 40 +++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 37 insertions(+), 3 deletions(-)
 
-Thanks :)
-
->=20
->=20
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return [m['name'] for m in r=
-es]
->> diff --git a/tests/acceptance/core_scripts.py=20
->> b/tests/acceptance/core_scripts.py
->> index a5b112f928..c2fe4acf1d 100644
->> --- a/tests/acceptance/core_scripts.py
->> +++ b/tests/acceptance/core_scripts.py
->> @@ -18,6 +18,7 @@=20
->> sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..',=20
->> 'python'))
->> =C2=A0 from avocado_qemu import Test
->> =C2=A0 from qemu.binutils import binary_get_arch
->> =C2=A0 from qemu.binutils import binary_get_machines
->> +from qemu.binutils import binary_get_qom_implementations
->> =C2=A0 from qemu.binutils import binary_get_version
->> @@ -49,3 +50,12 @@ class PythonQemuCoreScripts(Test):
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 logger.debug('machine: {}'.format(m))
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # The 'none' mach=
-ine is always available
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 self.assertIn('no=
-ne', machines)
->> +
->> +=C2=A0=C2=A0=C2=A0 def test_get_qom_implementation(self):
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 logger =3D logging.getLogger=
-('core')
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 type_name =3D "accel"
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 type_impl =3D binary_get_qom=
-_implementations(self.qemu_bin,
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 type_name, True)
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 for t in type_impl:
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 logg=
-er.debug('type: {}'.format(t))
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 self.assertIn(type_name, typ=
-e_impl)
->>
->=20
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index c7ee0d603f4..dbfdf2324b4 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -2515,9 +2515,31 @@ static uint64_t gt_cnt_read(CPUARMState *env, const ARMCPRegInfo *ri)
+     return gt_get_countervalue(env);
+ }
+ 
++static uint64_t gt_virt_cnt_offset(CPUARMState *env)
++{
++    uint64_t hcr;
++
++    switch (arm_current_el(env)) {
++    case 2:
++        hcr = arm_hcr_el2_eff(env);
++        if (hcr & HCR_E2H) {
++            return 0;
++        }
++        break;
++    case 0:
++        hcr = arm_hcr_el2_eff(env);
++        if ((hcr & (HCR_E2H | HCR_TGE)) == (HCR_E2H | HCR_TGE)) {
++            return 0;
++        }
++        break;
++    }
++
++    return env->cp15.cntvoff_el2;
++}
++
+ static uint64_t gt_virt_cnt_read(CPUARMState *env, const ARMCPRegInfo *ri)
+ {
+-    return gt_get_countervalue(env) - env->cp15.cntvoff_el2;
++    return gt_get_countervalue(env) - gt_virt_cnt_offset(env);
+ }
+ 
+ static void gt_cval_write(CPUARMState *env, const ARMCPRegInfo *ri,
+@@ -2532,7 +2554,13 @@ static void gt_cval_write(CPUARMState *env, const ARMCPRegInfo *ri,
+ static uint64_t gt_tval_read(CPUARMState *env, const ARMCPRegInfo *ri,
+                              int timeridx)
+ {
+-    uint64_t offset = timeridx == GTIMER_VIRT ? env->cp15.cntvoff_el2 : 0;
++    uint64_t offset = 0;
++
++    switch (timeridx) {
++    case GTIMER_VIRT:
++        offset = gt_virt_cnt_offset(env);
++        break;
++    }
+ 
+     return (uint32_t)(env->cp15.c14_timer[timeridx].cval -
+                       (gt_get_countervalue(env) - offset));
+@@ -2542,7 +2570,13 @@ static void gt_tval_write(CPUARMState *env, const ARMCPRegInfo *ri,
+                           int timeridx,
+                           uint64_t value)
+ {
+-    uint64_t offset = timeridx == GTIMER_VIRT ? env->cp15.cntvoff_el2 : 0;
++    uint64_t offset = 0;
++
++    switch (timeridx) {
++    case GTIMER_VIRT:
++        offset = gt_virt_cnt_offset(env);
++        break;
++    }
+ 
+     trace_arm_gt_tval_write(timeridx, value);
+     env->cp15.c14_timer[timeridx].cval = gt_get_countervalue(env) - offset +
+-- 
+2.20.1
 
 
