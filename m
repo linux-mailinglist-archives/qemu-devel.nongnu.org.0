@@ -2,39 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DEB415507D
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 03:05:50 +0100 (CET)
-Received: from localhost ([::1]:49006 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A2B815507B
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 03:05:49 +0100 (CET)
+Received: from localhost ([::1]:49000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izt1h-00070u-6K
-	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 21:05:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59659)
+	id 1izt1g-0006uY-3i
+	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 21:05:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59748)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1izsva-0005qO-17
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 20:59:31 -0500
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1izsvj-0006DJ-KF
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 20:59:42 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1izsvY-00019W-3P
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 20:59:29 -0500
-Received: from mx2.rt-rk.com ([89.216.37.149]:53091 helo=mail.rt-rk.com)
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1izsvi-0001JL-Be
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 20:59:39 -0500
+Received: from mx2.rt-rk.com ([89.216.37.149]:53100 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
- id 1izsvX-00018d-OD
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 20:59:28 -0500
+ id 1izsvi-00018u-3P
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 20:59:38 -0500
 Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id 4A5C91A2124;
+ by mail.rt-rk.com (Postfix) with ESMTP id 6D6121A2126;
  Fri,  7 Feb 2020 02:58:23 +0100 (CET)
 X-Virus-Scanned: amavisd-new at rt-rk.com
 Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
  [10.10.14.106])
- by mail.rt-rk.com (Postfix) with ESMTPSA id EC8D11A2107;
+ by mail.rt-rk.com (Postfix) with ESMTPSA id F38821A20E9;
  Fri,  7 Feb 2020 02:58:22 +0100 (CET)
 From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH rc5 16/32] target/avr: Add instruction translation - CPU main
- translation function
-Date: Fri,  7 Feb 2020 02:57:44 +0100
-Message-Id: <1581040680-308-17-git-send-email-aleksandar.markovic@rt-rk.com>
+Subject: [PATCH rc5 17/32] target/avr: Initialize TCG register variables
+Date: Fri,  7 Feb 2020 02:57:45 +0100
+Message-Id: <1581040680-308-18-git-send-email-aleksandar.markovic@rt-rk.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1581040680-308-1-git-send-email-aleksandar.markovic@rt-rk.com>
 References: <1581040680-308-1-git-send-email-aleksandar.markovic@rt-rk.com>
@@ -62,7 +61,7 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Michael Rolnik <mrolnik@gmail.com>
 
-Add the core of translation mechanism.
+Initialize TCG register variables.
 
 Co-developed-by: Richard Henderson <richard.henderson@linaro.org>
 Co-developed-by: Michael Rolnik <mrolnik@gmail.com>
@@ -72,243 +71,65 @@ Signed-off-by: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
 Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 Reviewed-by: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
 ---
- target/avr/translate.c | 214 +++++++++++++++++++++++++++++++++++++++++++=
-++++++
- 1 file changed, 214 insertions(+)
+ target/avr/translate.c | 30 ++++++++++++++++++++++++++++++
+ 1 file changed, 30 insertions(+)
 
 diff --git a/target/avr/translate.c b/target/avr/translate.c
-index 806a0f4..a6e6748 100644
+index a6e6748..becf096 100644
 --- a/target/avr/translate.c
 +++ b/target/avr/translate.c
-@@ -2815,3 +2815,217 @@ static bool trans_WDR(DisasContext *ctx, arg_WDR =
-*a)
+@@ -129,6 +129,36 @@ struct DisasContext {
+ };
 =20
-     return true;
- }
-+
-+
-+/*
-+ *  Core translation mechanism functions:
-+ *
-+ *    - translate()
-+ *    - canonicalize_skip()
-+ *    - gen_intermediate_code()
-+ *    - restore_state_to_opc()
-+ *
-+ */
-+static void translate(DisasContext *ctx)
+=20
++void avr_cpu_tcg_init(void)
 +{
-+    uint32_t opcode =3D next_word(ctx);
++    int i;
 +
-+    if (!decode_insn(ctx, opcode)) {
-+        gen_helper_unsupported(cpu_env);
-+        ctx->bstate =3D DISAS_NORETURN;
++#define AVR_REG_OFFS(x) offsetof(CPUAVRState, x)
++    cpu_pc =3D tcg_global_mem_new_i32(cpu_env, AVR_REG_OFFS(pc_w), "pc")=
+;
++    cpu_Cf =3D tcg_global_mem_new_i32(cpu_env, AVR_REG_OFFS(sregC), "Cf"=
+);
++    cpu_Zf =3D tcg_global_mem_new_i32(cpu_env, AVR_REG_OFFS(sregZ), "Zf"=
+);
++    cpu_Nf =3D tcg_global_mem_new_i32(cpu_env, AVR_REG_OFFS(sregN), "Nf"=
+);
++    cpu_Vf =3D tcg_global_mem_new_i32(cpu_env, AVR_REG_OFFS(sregV), "Vf"=
+);
++    cpu_Sf =3D tcg_global_mem_new_i32(cpu_env, AVR_REG_OFFS(sregS), "Sf"=
+);
++    cpu_Hf =3D tcg_global_mem_new_i32(cpu_env, AVR_REG_OFFS(sregH), "Hf"=
+);
++    cpu_Tf =3D tcg_global_mem_new_i32(cpu_env, AVR_REG_OFFS(sregT), "Tf"=
+);
++    cpu_If =3D tcg_global_mem_new_i32(cpu_env, AVR_REG_OFFS(sregI), "If"=
+);
++    cpu_rampD =3D tcg_global_mem_new_i32(cpu_env, AVR_REG_OFFS(rampD), "=
+rampD");
++    cpu_rampX =3D tcg_global_mem_new_i32(cpu_env, AVR_REG_OFFS(rampX), "=
+rampX");
++    cpu_rampY =3D tcg_global_mem_new_i32(cpu_env, AVR_REG_OFFS(rampY), "=
+rampY");
++    cpu_rampZ =3D tcg_global_mem_new_i32(cpu_env, AVR_REG_OFFS(rampZ), "=
+rampZ");
++    cpu_eind =3D tcg_global_mem_new_i32(cpu_env, AVR_REG_OFFS(eind), "ei=
+nd");
++    cpu_sp =3D tcg_global_mem_new_i32(cpu_env, AVR_REG_OFFS(sp), "sp");
++    cpu_skip =3D tcg_global_mem_new_i32(cpu_env, AVR_REG_OFFS(skip), "sk=
+ip");
++
++    for (i =3D 0; i < NUMBER_OF_CPU_REGISTERS; i++) {
++        cpu_r[i] =3D tcg_global_mem_new_i32(cpu_env, AVR_REG_OFFS(r[i]),
++                                          reg_names[i]);
 +    }
++#undef AVR_REG_OFFS
 +}
 +
-+/* Standardize the cpu_skip condition to NE.  */
-+static bool canonicalize_skip(DisasContext *ctx)
-+{
-+    switch (ctx->skip_cond) {
-+    case TCG_COND_NEVER:
-+        /* Normal case: cpu_skip is known to be false.  */
-+        return false;
 +
-+    case TCG_COND_ALWAYS:
-+        /*
-+         * Breakpoint case: cpu_skip is known to be true, via TB_FLAGS_S=
-KIP.
-+         * The breakpoint is on the instruction being skipped, at the st=
-art
-+         * of the TranslationBlock.  No need to update.
-+         */
-+        return false;
-+
-+    case TCG_COND_NE:
-+        if (ctx->skip_var1 =3D=3D NULL) {
-+            tcg_gen_mov_tl(cpu_skip, ctx->skip_var0);
-+        } else {
-+            tcg_gen_xor_tl(cpu_skip, ctx->skip_var0, ctx->skip_var1);
-+            ctx->skip_var1 =3D NULL;
-+        }
-+        break;
-+
-+    default:
-+        /* Convert to a NE condition vs 0. */
-+        if (ctx->skip_var1 =3D=3D NULL) {
-+            tcg_gen_setcondi_tl(ctx->skip_cond, cpu_skip, ctx->skip_var0=
-, 0);
-+        } else {
-+            tcg_gen_setcond_tl(ctx->skip_cond, cpu_skip,
-+                               ctx->skip_var0, ctx->skip_var1);
-+            ctx->skip_var1 =3D NULL;
-+        }
-+        ctx->skip_cond =3D TCG_COND_NE;
-+        break;
-+    }
-+    if (ctx->free_skip_var0) {
-+        tcg_temp_free(ctx->skip_var0);
-+        ctx->free_skip_var0 =3D false;
-+    }
-+    ctx->skip_var0 =3D cpu_skip;
-+    return true;
-+}
-+
-+void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_i=
-nsns)
-+{
-+    CPUAVRState *env =3D cs->env_ptr;
-+    DisasContext ctx =3D {
-+        .tb =3D tb,
-+        .cs =3D cs,
-+        .env =3D env,
-+        .memidx =3D 0,
-+        .bstate =3D DISAS_NEXT,
-+        .skip_cond =3D TCG_COND_NEVER,
-+        .singlestep =3D cs->singlestep_enabled,
-+    };
-+    target_ulong pc_start =3D tb->pc / 2;
-+    int num_insns =3D 0;
-+
-+    if (tb->flags & TB_FLAGS_FULL_ACCESS) {
-+        /*
-+         * This flag is set by ST/LD instruction we will regenerate it O=
-NLY
-+         * with mem/cpu memory access instead of mem access
-+         */
-+        max_insns =3D 1;
-+    }
-+    if (ctx.singlestep) {
-+        max_insns =3D 1;
-+    }
-+
-+    gen_tb_start(tb);
-+
-+    ctx.npc =3D pc_start;
-+    if (tb->flags & TB_FLAGS_SKIP) {
-+        ctx.skip_cond =3D TCG_COND_ALWAYS;
-+        ctx.skip_var0 =3D cpu_skip;
-+    }
-+
-+    do {
-+        TCGLabel *skip_label =3D NULL;
-+
-+        /* translate current instruction */
-+        tcg_gen_insn_start(ctx.npc);
-+        num_insns++;
-+
-+        /*
-+         * this is due to some strange GDB behavior
-+         * let's assume main has address 0x100
-+         * b main   - sets breakpoint at address 0x00000100 (code)
-+         * b *0x100 - sets breakpoint at address 0x00800100 (data)
-+         */
-+        if (unlikely(!ctx.singlestep &&
-+                (cpu_breakpoint_test(cs, OFFSET_CODE + ctx.npc * 2, BP_A=
-NY) ||
-+                 cpu_breakpoint_test(cs, OFFSET_DATA + ctx.npc * 2, BP_A=
-NY)))) {
-+            canonicalize_skip(&ctx);
-+            tcg_gen_movi_tl(cpu_pc, ctx.npc);
-+            gen_helper_debug(cpu_env);
-+            goto done_generating;
-+        }
-+
-+        /* Conditionally skip the next instruction, if indicated.  */
-+        if (ctx.skip_cond !=3D TCG_COND_NEVER) {
-+            skip_label =3D gen_new_label();
-+            if (ctx.skip_var0 =3D=3D cpu_skip) {
-+                /*
-+                 * Copy cpu_skip so that we may zero it before the branc=
-h.
-+                 * This ensures that cpu_skip is non-zero after the labe=
-l
-+                 * if and only if the skipped insn itself sets a skip.
-+                 */
-+                ctx.free_skip_var0 =3D true;
-+                ctx.skip_var0 =3D tcg_temp_new();
-+                tcg_gen_mov_tl(ctx.skip_var0, cpu_skip);
-+                tcg_gen_movi_tl(cpu_skip, 0);
-+            }
-+            if (ctx.skip_var1 =3D=3D NULL) {
-+                tcg_gen_brcondi_tl(ctx.skip_cond, ctx.skip_var0, 0, skip=
-_label);
-+            } else {
-+                tcg_gen_brcond_tl(ctx.skip_cond, ctx.skip_var0,
-+                                  ctx.skip_var1, skip_label);
-+                ctx.skip_var1 =3D NULL;
-+            }
-+            if (ctx.free_skip_var0) {
-+                tcg_temp_free(ctx.skip_var0);
-+                ctx.free_skip_var0 =3D false;
-+            }
-+            ctx.skip_cond =3D TCG_COND_NEVER;
-+            ctx.skip_var0 =3D NULL;
-+        }
-+
-+        translate(&ctx);
-+
-+        if (skip_label) {
-+            canonicalize_skip(&ctx);
-+            gen_set_label(skip_label);
-+            if (ctx.bstate =3D=3D DISAS_NORETURN) {
-+                ctx.bstate =3D DISAS_CHAIN;
-+            }
-+        }
-+    } while (ctx.bstate =3D=3D DISAS_NEXT
-+             && num_insns < max_insns
-+             && (ctx.npc - pc_start) * 2 < TARGET_PAGE_SIZE - 4
-+             && !tcg_op_buf_full());
-+
-+    if (tb->cflags & CF_LAST_IO) {
-+        gen_io_end();
-+    }
-+
-+    bool nonconst_skip =3D canonicalize_skip(&ctx);
-+
-+    switch (ctx.bstate) {
-+    case DISAS_NORETURN:
-+        assert(!nonconst_skip);
-+        break;
-+    case DISAS_NEXT:
-+    case DISAS_TOO_MANY:
-+    case DISAS_CHAIN:
-+        if (!nonconst_skip) {
-+            /* Note gen_goto_tb checks singlestep.  */
-+            gen_goto_tb(&ctx, 1, ctx.npc);
-+            break;
-+        }
-+        tcg_gen_movi_tl(cpu_pc, ctx.npc);
-+        /* fall through */
-+    case DISAS_LOOKUP:
-+        if (!ctx.singlestep) {
-+            tcg_gen_lookup_and_goto_ptr();
-+            break;
-+        }
-+        /* fall through */
-+    case DISAS_EXIT:
-+        if (ctx.singlestep) {
-+            gen_helper_debug(cpu_env);
-+        } else {
-+            tcg_gen_exit_tb(NULL, 0);
-+        }
-+        break;
-+    default:
-+        g_assert_not_reached();
-+    }
-+
-+done_generating:
-+    gen_tb_end(tb, num_insns);
-+
-+    tb->size =3D (ctx.npc - pc_start) * 2;
-+    tb->icount =3D num_insns;
-+}
-+
-+void restore_state_to_opc(CPUAVRState *env, TranslationBlock *tb,
-+                            target_ulong *data)
-+{
-+    env->pc_w =3D data[0];
-+}
+ static int to_regs_16_31_by_one(DisasContext *ctx, int indx)
+ {
+     return 16 + (indx % 16);
 --=20
 2.7.4
 
