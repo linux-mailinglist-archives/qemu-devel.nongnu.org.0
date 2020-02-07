@@ -2,45 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2885015517B
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 05:17:15 +0100 (CET)
-Received: from localhost ([::1]:49802 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BE9115518C
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 05:33:56 +0100 (CET)
+Received: from localhost ([::1]:49916 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izv4r-0003Ie-OO
-	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 23:17:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40992)
+	id 1izvL1-0001TG-Hg
+	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 23:33:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44173)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kuhn.chenqun@huawei.com>) id 1izv43-0002my-9z
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 23:16:24 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1izvIN-00076a-Rf
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 23:31:15 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kuhn.chenqun@huawei.com>) id 1izv42-0001YG-5M
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 23:16:23 -0500
-Received: from szxga05-in.huawei.com ([45.249.212.191]:2757 helo=huawei.com)
+ (envelope-from <dgibson@ozlabs.org>) id 1izvIM-00072t-Hb
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 23:31:11 -0500
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:59409 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kuhn.chenqun@huawei.com>)
- id 1izv41-0001Df-QP; Thu, 06 Feb 2020 23:16:22 -0500
-Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.59])
- by Forcepoint Email with ESMTP id 0DD36944BA51A879F96E;
- Fri,  7 Feb 2020 12:16:14 +0800 (CST)
-Received: from HGHY4C002233111.china.huawei.com (10.133.205.93) by
- DGGEMS414-HUB.china.huawei.com (10.3.19.214) with Microsoft SMTP Server id
- 14.3.439.0; Fri, 7 Feb 2020 12:16:04 +0800
-From: <kuhn.chenqun@huawei.com>
-To: <qemu-devel@nongnu.org>, <viktor.prutyanov@phystech.edu>,
- <pbonzini@redhat.com>
-Subject: [PATCH] contrib/elf2dmp: prevent uninitialized warning
-Date: Fri, 7 Feb 2020 12:16:01 +0800
-Message-ID: <20200207041601.89668-1-kuhn.chenqun@huawei.com>
-X-Mailer: git-send-email 2.14.1.windows.1
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1izvIL-0005ad-7y; Thu, 06 Feb 2020 23:31:10 -0500
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 48DMmy2zj5z9sSD; Fri,  7 Feb 2020 15:30:58 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1581049858;
+ bh=P785p36H7X0KObisezvwaG4CrKJjnf9NT1kKSv7E3K0=;
+ h=From:To:Cc:Subject:Date:From;
+ b=M3c5eViJEDEN1jHXt+txZ9oQV1kxl5+Pu4H64OMBt4YP7+iJBllsGWw139Xuab3OO
+ O6tavxKz7cPSpiddLj30MEnwOWQ9Mz1+pc//a0EhAfJ4jy9jG0OjO5N36OGI+fWEvR
+ mnFHaCAVor9UQQdF3EmX2Kxrv4A0n6E70+pdjuNk=
+From: David Gibson <david@gibson.dropbear.id.au>
+To: groug@kaod.org,
+	clg@kaod.org,
+	pair@us.ibm.com
+Subject: [PATCH 0/2] spapr: Use vIOMMU translation for virtio by default
+Date: Fri,  7 Feb 2020 15:30:53 +1100
+Message-Id: <20200207043055.218856-1-david@gibson.dropbear.id.au>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-X-Originating-IP: [10.133.205.93]
-X-CFilter-Loop: Reflected
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 45.249.212.191
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2401:3900:2:1::2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,80 +53,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Chen Qun <kuhn.chenqun@huawei.com>,
- zhang.zhanghailiang@huawei.com
+Cc: mst@redhat.com, aik@ozlabs.ru, qemu-devel@nongnu.org, paulus@samba.org,
+ mdroth@us.ibm.com, qemu-ppc@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Chen Qun <kuhn.chenqun@huawei.com>
+Upcoming Secure VM support for pSeries machines introduces some
+complications for virtio, since the transfer buffers need to be
+explicitly shared so that the hypervisor can access them.
 
-Fix compilation warnings:
-contrib/elf2dmp/main.c:66:17: warning: =E2=80=98KdpDataBlockEncoded=E2=80=
-=99 may be used
- uninitialized in this function [-Wmaybe-uninitialized]
-         block =3D __builtin_bswap64(block ^ kdbe) ^ kwa;
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-contrib/elf2dmp/main.c:78:24: note: =E2=80=98KdpDataBlockEncoded=E2=80=99=
- was declared here
-     uint64_t kwn, kwa, KdpDataBlockEncoded;
-                        ^~~~~~~~~~~~~~~~~~~
+While it's not strictly speaking dependent on it, the fact that virtio
+devices bypass normal platform IOMMU translation complicates the issue
+on the guest side.  Since there are some significan downsides to
+bypassing the vIOMMU anyway, let's just disable that.
 
-Reported-by: Euler Robot <euler.robot@huawei.com>
-Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
----
- contrib/elf2dmp/main.c | 25 ++++++++++++-------------
- 1 file changed, 12 insertions(+), 13 deletions(-)
+There's already a flag to do this in virtio, just turn it on by
+default for forthcoming pseries machine types.
 
-diff --git a/contrib/elf2dmp/main.c b/contrib/elf2dmp/main.c
-index 9a2dbc2902..203b9e6d04 100644
---- a/contrib/elf2dmp/main.c
-+++ b/contrib/elf2dmp/main.c
-@@ -76,6 +76,7 @@ static KDDEBUGGER_DATA64 *get_kdbg(uint64_t KernBase, s=
-truct pdb_reader *pdb,
-     DBGKD_DEBUG_DATA_HEADER64 kdbg_hdr;
-     bool decode =3D false;
-     uint64_t kwn, kwa, KdpDataBlockEncoded;
-+    uint64_t KiWaitNever, KiWaitAlways;
-=20
-     if (va_space_rw(vs,
-                 KdDebuggerDataBlock + offsetof(KDDEBUGGER_DATA64, Header=
-),
-@@ -84,21 +85,19 @@ static KDDEBUGGER_DATA64 *get_kdbg(uint64_t KernBase,=
- struct pdb_reader *pdb,
-         return NULL;
-     }
-=20
--    if (memcmp(&kdbg_hdr.OwnerTag, OwnerTag, sizeof(OwnerTag))) {
--        uint64_t KiWaitNever, KiWaitAlways;
--
--        decode =3D true;
-+    if (!SYM_RESOLVE(KernBase, pdb, KiWaitNever) ||
-+            !SYM_RESOLVE(KernBase, pdb, KiWaitAlways) ||
-+            !SYM_RESOLVE(KernBase, pdb, KdpDataBlockEncoded)) {
-+        return NULL;
-+    }
-=20
--        if (!SYM_RESOLVE(KernBase, pdb, KiWaitNever) ||
--                !SYM_RESOLVE(KernBase, pdb, KiWaitAlways) ||
--                !SYM_RESOLVE(KernBase, pdb, KdpDataBlockEncoded)) {
--            return NULL;
--        }
-+    if (va_space_rw(vs, KiWaitNever, &kwn, sizeof(kwn), 0) ||
-+            va_space_rw(vs, KiWaitAlways, &kwa, sizeof(kwa), 0)) {
-+        return NULL;
-+    }
-=20
--        if (va_space_rw(vs, KiWaitNever, &kwn, sizeof(kwn), 0) ||
--                va_space_rw(vs, KiWaitAlways, &kwa, sizeof(kwa), 0)) {
--            return NULL;
--        }
-+    if (memcmp(&kdbg_hdr.OwnerTag, OwnerTag, sizeof(OwnerTag))) {
-+        decode =3D true;
-=20
-         printf("[KiWaitNever] =3D 0x%016"PRIx64"\n", kwn);
-         printf("[KiWaitAlways] =3D 0x%016"PRIx64"\n", kwa);
+The implementation does this with a compat_props_add() from the latest
+machine type.  This breaks the previous convention that the setup for
+the latest machine type didn't do anything, instead just taking all
+the defaults from the abstract base class.  However,
+compat_props_add() can't be used from the base class, because
+mc->compat_props is explicitly uninitialized for abstract classes.  If
+anyone knows a better way to handle this, let me know.
+
+David Gibson (2):
+  spapr: Disable legacy virtio devices for pseries-5.0 and later
+  spapr: Enable virtio iommu_platform=3Don by default
+
+ hw/ppc/spapr.c | 16 +++++++++++++++-
+ 1 file changed, 15 insertions(+), 1 deletion(-)
+
 --=20
-2.23.0
-
+2.24.1
 
 
