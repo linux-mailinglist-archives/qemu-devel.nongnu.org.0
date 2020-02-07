@@ -2,74 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E839155A3A
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 15:59:31 +0100 (CET)
-Received: from localhost ([::1]:58674 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D852B155A17
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 15:52:25 +0100 (CET)
+Received: from localhost ([::1]:58416 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j056Q-0004t0-4m
-	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 09:59:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53808)
+	id 1j04zY-0004YS-Uh
+	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 09:52:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53851)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1j04qE-0001Qj-3s
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:42:47 -0500
+ (envelope-from <marcandre.lureau@gmail.com>) id 1j04qP-0001oG-Fj
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:42:58 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1j04qC-00013l-ND
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:42:45 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:57038
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1j04qC-00012w-Hy
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:42:44 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581086564;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=a6wstnYggFDTQy1hhorhhZGeyX9qdlf+LsuxkG8B6K8=;
- b=adfuX2DgBri6Yvx+MLpUXSLZ4L/3olvOTITalhTqa/3QAiGYN9Vr/dpfxWBFZAJrdDNjUS
- b+uugqegVU7zMTqzB/hsTCCoRSULrAUC9+EmmIw5dLEf3f4faydkrBOzCxJQoAyzUTs7qS
- p00R1q+MYaukQcb/C7nM/YCscQgmAe0=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-379-TDI8NA5bMdmFlnCvimnKcQ-1; Fri, 07 Feb 2020 09:42:41 -0500
-Received: by mail-ed1-f69.google.com with SMTP id g11so2008941edu.10
- for <qemu-devel@nongnu.org>; Fri, 07 Feb 2020 06:42:41 -0800 (PST)
+ (envelope-from <marcandre.lureau@gmail.com>) id 1j04qO-0001Na-2w
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:42:57 -0500
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:38919)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1j04qN-0001KY-QP
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:42:56 -0500
+Received: by mail-wm1-x342.google.com with SMTP id c84so3040307wme.4
+ for <qemu-devel@nongnu.org>; Fri, 07 Feb 2020 06:42:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=iAUzFj3fmEhENjTkDryCRd9rZ+G3UllLcbcBlt9mvDg=;
+ b=FYK5UNlBLG092vHPnL2fJ2OT3n28yF6P2WjKxI+TIhDHgsFr87Ukf8xRU72sBFz4WI
+ SiRW73L2dJgU0z8dVK1xoCpi8ieA0fUq3+IobRz9ZPdemChudgzRM49v5eTbNhJ5c/9X
+ gIn9mBEQxbLBuaejcyQpHtZsOby3hx0faTayxopuN+M0g3aoM2R+JXCQs+KJUjB3pSus
+ WFBw+IfOfIohh76SlwaNX7sCKfOz3SuHm97IADENzc26DrUF/LXlozfdWiS26/gzjljX
+ LgI6baGfIyJsJ6NjN6OaS2TbLXgCA3uTIeyPOU19XVFdHjpSb7OnxraczuT6TBdkEzm0
+ OYrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=bi2HBmaKh2r3NXLb4eOfK9MgVgQk+n+9d8Mig9OH72o=;
- b=tbwj3mDS63S3gCR+WRFeStqVBucqXAXKxjlcGc4QIzIBsuvU0W53qXNxcgkky2joJq
- 6Ho4FhKNwg22UZTVP8kboco98CIzuF3XIOFaPhUBVIVh2YAdPRLUv4qcRI2GhYHySPgf
- Zxg5LXUv/wbQSbkF/vxGULcLyp3Y7gh4YgTDya5mUi14KVokeyCnrPkNDpplY44g4Iy4
- 08QRje75TIWinsESlkHoWmySNoJgj9dYlCivv6Lo5hUev6+elEp0aqBm75L2GIkZnFTO
- XvgWgXgglLGYhE8pxtBd2laXqPxWNCq1xhzqxA+NksbelykuxgRXtX+k+BorrYDA9aBj
- IEYw==
-X-Gm-Message-State: APjAAAV/7T5Rfj4BCLxrUiP2dRzN+/kM1Xc5CDnvQQKgB+vELJ6aHpFR
- TFo1c8NDyrgSi78wVu9NRyrQ8tWgv6tJpD64f+HMTtbJmFIVnHNdSNliGqKA3S3ZGvCIYdGb9+E
- /rcnwoPHsm0UwXmpFhGfjoRc5wL+pnQE=
-X-Received: by 2002:aa7:cfcc:: with SMTP id r12mr8183197edy.57.1581086560066; 
- Fri, 07 Feb 2020 06:42:40 -0800 (PST)
-X-Google-Smtp-Source: APXvYqwYmdp17CwhpTix6muFNe2l/HiPkUDK2ZyQhH2o6gIcXscL0zZOk++7cLUiJi5Y57c4Wu+qV/CHp0F9fQfhRo8=
-X-Received: by 2002:aa7:cfcc:: with SMTP id r12mr8183178edy.57.1581086559792; 
- Fri, 07 Feb 2020 06:42:39 -0800 (PST)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=iAUzFj3fmEhENjTkDryCRd9rZ+G3UllLcbcBlt9mvDg=;
+ b=szIhTGbMHOpG6PPR47v5LJ321H5U7BixTXCSZxgR4Rqz30mIsvSwNIDZF0ZKTpKxTZ
+ 3pnEBM+4gQ0OOg2HyPbMCOMjG5Zl9i59RnA26OuMS8G3zXcyg39rJmmjcKJLnGb2B/wn
+ bxejwjqSmjgz+n+hrh04qHjlaJcnhU858bR2X2zzG/Ew7AxCMSdZDjALTfyessZWBSiJ
+ mQ7833yVgN9YFUvcKfKg6XAHIJQJJPBvvpfxHcdXKNkJVJ1yS5xC2mdWySV7M2g3hqSz
+ a6GzSgqLIIiAixdF8HliRqRuhSsGP6AFf+U/JVwUvOn6b1inYwB+lC2QSgDjPB2GwQmA
+ wajQ==
+X-Gm-Message-State: APjAAAV9G+DKjoJr67TbkeQ0DEaVJsc+K/ezKEK5YapBHiZYClxuEEdk
+ B3gFpvhsgFvp0RMJxfRaZGliFcPd1etgDGVwLss=
+X-Google-Smtp-Source: APXvYqypKGG2AUWeBNdV4tzCj9aRONOC7hnGDUnECtHiU23o3GvnHKXLVqFLAaNlZL9IfDImH7s5hrXOJhefODaF42E=
+X-Received: by 2002:a05:600c:2215:: with SMTP id
+ z21mr4755418wml.55.1581086574561; 
+ Fri, 07 Feb 2020 06:42:54 -0800 (PST)
 MIME-Version: 1.0
-References: <CAFEAcA--P9FLM4qBxf23sLuv5Tz4HRgj7ONC7ODxnfZiLph9TA@mail.gmail.com>
- <2e70328b-5b7b-9e9d-8dfa-2af5c8e2fb28@redhat.com>
-In-Reply-To: <2e70328b-5b7b-9e9d-8dfa-2af5c8e2fb28@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Date: Fri, 7 Feb 2020 15:42:27 +0100
-Message-ID: <CABgObfbYT0fg_D=xAoVAWKA3waLgOv7Zg=Ysh3gKqzbvunr5wA@mail.gmail.com>
-Subject: Re: should we have a new 'tools' manual?
-To: Eric Blake <eblake@redhat.com>
-X-MC-Unique: TDI8NA5bMdmFlnCvimnKcQ-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="000000000000c18b7b059dfd66cb"
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+References: <1580483390-131164-1-git-send-email-imammedo@redhat.com>
+ <1580483390-131164-76-git-send-email-imammedo@redhat.com>
+In-Reply-To: <1580483390-131164-76-git-send-email-imammedo@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Fri, 7 Feb 2020 15:42:42 +0100
+Message-ID: <CAJ+F1C+4orCn2nf_0e4Z_GpZH6M=24wZPNHGo0yVnB9gimsdVA@mail.gmail.com>
+Subject: Re: [PATCH v4 75/80] exec: drop bogus mem_path from
+ qemu_ram_alloc_from_fd()
+To: Igor Mammedov <imammedo@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::342
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,66 +76,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Daniel P. Berrange" <berrange@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, QEMU <qemu-devel@nongnu.org>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000c18b7b059dfd66cb
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hi
 
-Il ven 7 feb 2020, 15:32 Eric Blake <eblake@redhat.com> ha scritto:
-
-> But when I spent a mere 30 minutes seeing
-> what it would take, I quickly learned that there is enough arcane
-> Makefile magic going on in building from subdirectories that it wasn't
-> worth my time to figure out how, especially if all that magic gets
-> rewritten anyway during Paolo's conversion to meson.
+On Fri, Jan 31, 2020 at 4:45 PM Igor Mammedov <imammedo@redhat.com> wrote:
 >
+> Function will report error that will mention global mem_path,
+> which was valid the only if legacy -mem-path was used and
+> only in case of main RAM.
+>
+> However it doesn't work with hostmem backends
+> (for example:
+> "
+>   qemu: -object memory-backend-file,id=3Dram0,size=3D128M,mem-path=3Dfoo:
+>     backing store (null) size 0x200000 does not match 'size' option 0x800=
+0000
+> ")
+> and couldn't possibly work in general FD case the function
+> is supposed to handle.
+>
+> Taking in account that main RAM was converted into
+> memory-backend-foo object, there is no point in printing
+> file name (from inappropriate place) as failing path is
+> a part of backend's error message.
+>
+> Hence drop bogus mem_path usage from qemu_ram_alloc_from_fd(),
+> it's a job of its user to add file name to error message if applicable.
+>
+> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 
-Heh, maybe that could be a convincing example. It should be pure code
-movement.
+As you pointed out, left over from commit 8d37b030fe "exec: split
+file_ram_alloc()"
+
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
 
+> ---
+> CC: pbonzini@redhat.com
+> CC: rth@twiddle.net
+> ---
+>  exec.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/exec.c b/exec.c
+> index 9f5421c..d827fac 100644
+> --- a/exec.c
+> +++ b/exec.c
+> @@ -2308,9 +2308,9 @@ RAMBlock *qemu_ram_alloc_from_fd(ram_addr_t size, M=
+emoryRegion *mr,
+>      size =3D HOST_PAGE_ALIGN(size);
+>      file_size =3D get_file_size(fd);
+>      if (file_size > 0 && file_size < size) {
+> -        error_setg(errp, "backing store %s size 0x%" PRIx64
+> +        error_setg(errp, "backing store size 0x%" PRIx64
+>                     " does not match 'size' option 0x" RAM_ADDR_FMT,
+> -                   mem_path, file_size, size);
+> +                   file_size, size);
+>          return NULL;
+>      }
+>
 > --
-> Eric Blake, Principal Software Engineer
-> Red Hat, Inc.           +1-919-301-3226
-> Virtualization:  qemu.org | libvirt.org
+> 2.7.4
 >
 >
 
---000000000000c18b7b059dfd66cb
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">Il ven 7 feb 2020, 15:32 Eric Blake &lt;<a href=3D"mai=
-lto:eblake@redhat.com">eblake@redhat.com</a>&gt; ha scritto:<br></div><bloc=
-kquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #cc=
-c solid;padding-left:1ex">But when I spent a mere 30 minutes seeing <br>
-what it would take, I quickly learned that there is enough arcane <br>
-Makefile magic going on in building from subdirectories that it wasn&#39;t =
-<br>
-worth my time to figure out how, especially if all that magic gets <br>
-rewritten anyway during Paolo&#39;s conversion to meson.<br></blockquote></=
-div></div><div dir=3D"auto"><br></div><div dir=3D"auto">Heh, maybe that cou=
-ld be a convincing example. It should be pure code movement.</div><div dir=
-=3D"auto"><br></div><div dir=3D"auto"><div class=3D"gmail_quote"><blockquot=
-e class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc sol=
-id;padding-left:1ex">
-<br>
--- <br>
-Eric Blake, Principal Software Engineer<br>
-Red Hat, Inc.=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0+1-919-301-3226<br>
-Virtualization:=C2=A0 <a href=3D"http://qemu.org" rel=3D"noreferrer norefer=
-rer" target=3D"_blank">qemu.org</a> | <a href=3D"http://libvirt.org" rel=3D=
-"noreferrer noreferrer" target=3D"_blank">libvirt.org</a><br>
-<br>
-</blockquote></div></div></div>
-
---000000000000c18b7b059dfd66cb--
-
+--=20
+Marc-Andr=C3=A9 Lureau
 
