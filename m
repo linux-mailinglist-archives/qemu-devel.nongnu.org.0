@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E85EF155A20
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 15:54:58 +0100 (CET)
-Received: from localhost ([::1]:58516 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2934155A2B
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 15:57:29 +0100 (CET)
+Received: from localhost ([::1]:58596 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j0521-0004i2-U4
-	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 09:54:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51919)
+	id 1j054S-0000I7-V4
+	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 09:57:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51930)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j04iH-0001Qi-Pd
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:34:34 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1j04iI-0001SX-HG
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:34:35 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j04iG-0003U5-E5
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:34:33 -0500
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:46415)
+ (envelope-from <peter.maydell@linaro.org>) id 1j04iH-0003VP-AF
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:34:34 -0500
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:34405)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j04iG-0003Ts-79
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:34:32 -0500
-Received: by mail-wr1-x444.google.com with SMTP id z7so2910944wrl.13
- for <qemu-devel@nongnu.org>; Fri, 07 Feb 2020 06:34:32 -0800 (PST)
+ id 1j04iH-0003UA-2t
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:34:33 -0500
+Received: by mail-wr1-x430.google.com with SMTP id t2so2977740wrr.1
+ for <qemu-devel@nongnu.org>; Fri, 07 Feb 2020 06:34:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=oIsEar5AYXxYyDE1KHxbOapxJEQ61+KtlpwUsOgsDqo=;
- b=RqfJSZXnBSECDwW35xvoRWK1QHAeOM7ce4cBI6rPTEys9KfIai5b4ssiPKp9dvBu6n
- MQ3xjB6WR8lol4/FTnYqjIOrXrt6/J6l7N9KLbACMMIld+wzT7foB8oYkXPpg52Etx2I
- v6wRPUXNGvGJKwhex+s4V+XF7wcxBpxO2oGvGDnYqtrPtE/jRYITmoPWEqgINlFZyuir
- 7GEqtd68MjxgF8sEc+VQF7M4YNcmwCiEMspL5Gr71v3Lw60idjOTifND81oiERx4oeCs
- S7kXBTU5jxTRcTWmTb3DK4jgdYgZt+eymJKWp+G2Cf+QXTwFCLciZbsp+bNBh5yotxSG
- pp6A==
+ bh=H6l4J2wISZvntTfWJFqb7Wof8ehV1xbBXnIgF8L+9t0=;
+ b=DMI9Sb/zFp1R/BlQqqjfu2Bqm4WB+tfKqVNbqe2o0hml7vp4ZU0CdJ06nrnJBlOxy6
+ ZK4J3ARJHidJT9JQty++Ofc66nTrPtZqd+YQepTyubskrUgaNNmzKskKLEb4Z7LzKr/R
+ 5dbpzn6eXWkI46gRlhTivJ3bBBF4FKYAFQzZ1lwOMXSU8opD32zZ4S7g1ZJQAWhqVa3k
+ KE3Eg9JWas3UoX9oilT8bF1em3u4VwbG95Dr2MkR6MgKSsDFcmVlQn4xWCrxK6E2LcRh
+ O2jbzS5V9NH5JdyTggBAZl0U2OxTxYUG4EY7VzYfeSTuehLT257DJjZF1ajLOME5PRNL
+ dJ/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=oIsEar5AYXxYyDE1KHxbOapxJEQ61+KtlpwUsOgsDqo=;
- b=Iov5vTWpbTEhUMrDy84DX23SxokcxK9X+iyKFuSCJ7iY/Dua+KGdgecBVpUZaulN6u
- Bc+tmGdlfSSAdFRnnbZj6Z+Os8q1sHwM91IW+gS4Mwb2qT/OhiRTx9TgFLFys3UJbzUX
- hlR13BtPygb5/L+MSf3C5vTGtOLXDERTxYnwErqYSypTte6i6oQD5P4imyhFaC8RcNN2
- nHcIbN2qInoHEn2reQPL4yOERha3ux+Gmy/0cjICJISTtj+P1F1chb+gQb+DP1Blj4AV
- glZZm2Zyl5oI0uQ8XUWYpFXqygWuY3Pip0rWaGvAy4kljA3jII1jwvrkSHHz+HnsyiJR
- 5Mpw==
-X-Gm-Message-State: APjAAAXJ9oogNrI3nQFsmnRJeToUETkZ3+iy6H+UkfI7tTDbNNG5Wyjd
- X3P3p97C4wWxFhim2fZ8VphP8CT9WVE=
-X-Google-Smtp-Source: APXvYqwTi5IsGwIDk24iIKjWKbT3Bg1cU5VoudhXtIuueppgfQgvFXzO5lelc64zwoQyWTNWXiaEwQ==
-X-Received: by 2002:adf:ef07:: with SMTP id e7mr5141208wro.104.1581086070970; 
- Fri, 07 Feb 2020 06:34:30 -0800 (PST)
+ bh=H6l4J2wISZvntTfWJFqb7Wof8ehV1xbBXnIgF8L+9t0=;
+ b=lkcXHFqG3QtdoBUjCrAGhVWTkBQMwzgxhATGHNTl2QeQ+CO13ms8eba4rCIwqh8oK3
+ dpxkLHg8l8jEQsreQwDTGXGXx7wBwLsp+lw2Y9jqC7fCud+z/lnVDGPlQiU3StBWEc7P
+ 244OIDQKnckEmNH7GIU1dbZsNhJ4zUztFAS02XZmaY8gxp+idnGFbxD4ylfgkjrjKacy
+ I5Non/5rgf2OdizXUujT7AJexfxifoOGBBwpg45685izNSlL4/j/v0d37NtgAEPH+sAK
+ ClvSVFa2qPrKUJgiEj3V5eFh0oQxD5aUiYvvEeYhKoOGxMvhT3GLbdbQ50XYKsnUp+kO
+ XGtw==
+X-Gm-Message-State: APjAAAWEDZuQsDq3iCBpLd98CDq1Ad923SwZXaG3+06kIo/Thh1aKvNg
+ V8AzGWnG1YOxIb9f5U6nZQ8XM3ONitc=
+X-Google-Smtp-Source: APXvYqzHo3N1ey2hUU+xPf3tvB6WCOkRNgXIATvwCSXu+8hsGHuTS/bxBgBIYvexPu/A7u7cPEQ1qA==
+X-Received: by 2002:adf:f288:: with SMTP id k8mr5274288wro.301.1581086071829; 
+ Fri, 07 Feb 2020 06:34:31 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id w1sm3796430wro.72.2020.02.07.06.34.30
+ by smtp.gmail.com with ESMTPSA id w1sm3796430wro.72.2020.02.07.06.34.31
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Feb 2020 06:34:30 -0800 (PST)
+ Fri, 07 Feb 2020 06:34:31 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 42/48] target/arm: Raise only one interrupt in
- arm_cpu_exec_interrupt
-Date: Fri,  7 Feb 2020 14:33:37 +0000
-Message-Id: <20200207143343.30322-43-peter.maydell@linaro.org>
+Subject: [PULL 43/48] bcm2835_dma: Fix the ylen loop in TD mode
+Date: Fri,  7 Feb 2020 14:33:38 +0000
+Message-Id: <20200207143343.30322-44-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200207143343.30322-1-peter.maydell@linaro.org>
 References: <20200207143343.30322-1-peter.maydell@linaro.org>
@@ -68,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::444
+X-Received-From: 2a00:1450:4864:20::430
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,95 +82,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
+From: Rene Stange <rsta2@o2online.de>
 
-The fall through organization of this function meant that we
-would raise an interrupt, then might overwrite that with another.
-Since interrupt prioritization is IMPLEMENTATION DEFINED, we
-can recognize these in any order we choose.
+In TD (two dimensions) DMA mode ylen has to be increased by one after
+reading it from the TXFR_LEN register, because a value of zero has to
+result in one run through of the ylen loop. This has been tested on a
+real Raspberry Pi 3 Model B+. In the previous implementation the ylen
+loop was not passed at all for a value of zero.
 
-Unify the code to raise the interrupt in a block at the end.
-
-Tested-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20200206105448.4726-42-richard.henderson@linaro.org
+Signed-off-by: Rene Stange <rsta2@o2online.de>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/cpu.c | 30 ++++++++++++------------------
- 1 file changed, 12 insertions(+), 18 deletions(-)
+ hw/dma/bcm2835_dma.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 4ffc09909db..b0762a76c4b 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -535,17 +535,15 @@ bool arm_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
-     uint64_t hcr_el2 = arm_hcr_el2_eff(env);
-     uint32_t target_el;
-     uint32_t excp_idx;
--    bool ret = false;
-+
-+    /* The prioritization of interrupts is IMPLEMENTATION DEFINED. */
+diff --git a/hw/dma/bcm2835_dma.c b/hw/dma/bcm2835_dma.c
+index 1e458d7fba5..667d951a6f7 100644
+--- a/hw/dma/bcm2835_dma.c
++++ b/hw/dma/bcm2835_dma.c
+@@ -70,14 +70,14 @@ static void bcm2835_dma_update(BCM2835DMAState *s, unsigned c)
+         ch->stride = ldl_le_phys(&s->dma_as, ch->conblk_ad + 16);
+         ch->nextconbk = ldl_le_phys(&s->dma_as, ch->conblk_ad + 20);
  
-     if (interrupt_request & CPU_INTERRUPT_FIQ) {
-         excp_idx = EXCP_FIQ;
-         target_el = arm_phys_excp_target_el(cs, excp_idx, cur_el, secure);
-         if (arm_excp_unmasked(cs, excp_idx, target_el,
-                               cur_el, secure, hcr_el2)) {
--            cs->exception_index = excp_idx;
--            env->exception.target_el = target_el;
--            cc->do_interrupt(cs);
--            ret = true;
-+            goto found;
-         }
-     }
-     if (interrupt_request & CPU_INTERRUPT_HARD) {
-@@ -553,10 +551,7 @@ bool arm_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
-         target_el = arm_phys_excp_target_el(cs, excp_idx, cur_el, secure);
-         if (arm_excp_unmasked(cs, excp_idx, target_el,
-                               cur_el, secure, hcr_el2)) {
--            cs->exception_index = excp_idx;
--            env->exception.target_el = target_el;
--            cc->do_interrupt(cs);
--            ret = true;
-+            goto found;
-         }
-     }
-     if (interrupt_request & CPU_INTERRUPT_VIRQ) {
-@@ -564,10 +559,7 @@ bool arm_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
-         target_el = 1;
-         if (arm_excp_unmasked(cs, excp_idx, target_el,
-                               cur_el, secure, hcr_el2)) {
--            cs->exception_index = excp_idx;
--            env->exception.target_el = target_el;
--            cc->do_interrupt(cs);
--            ret = true;
-+            goto found;
-         }
-     }
-     if (interrupt_request & CPU_INTERRUPT_VFIQ) {
-@@ -575,14 +567,16 @@ bool arm_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
-         target_el = 1;
-         if (arm_excp_unmasked(cs, excp_idx, target_el,
-                               cur_el, secure, hcr_el2)) {
--            cs->exception_index = excp_idx;
--            env->exception.target_el = target_el;
--            cc->do_interrupt(cs);
--            ret = true;
-+            goto found;
-         }
-     }
-+    return false;
- 
--    return ret;
-+ found:
-+    cs->exception_index = excp_idx;
-+    env->exception.target_el = target_el;
-+    cc->do_interrupt(cs);
-+    return true;
- }
- 
- #if !defined(CONFIG_USER_ONLY) || !defined(TARGET_AARCH64)
++        ylen = 1;
+         if (ch->ti & BCM2708_DMA_TDMODE) {
+             /* 2D transfer mode */
+-            ylen = (ch->txfr_len >> 16) & 0x3fff;
++            ylen += (ch->txfr_len >> 16) & 0x3fff;
+             xlen = ch->txfr_len & 0xffff;
+             dst_stride = ch->stride >> 16;
+             src_stride = ch->stride & 0xffff;
+         } else {
+-            ylen = 1;
+             xlen = ch->txfr_len;
+             dst_stride = 0;
+             src_stride = 0;
 -- 
 2.20.1
 
