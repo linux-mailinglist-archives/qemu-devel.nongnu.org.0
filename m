@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C45415509F
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 03:14:56 +0100 (CET)
-Received: from localhost ([::1]:49140 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7F25155082
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 03:07:46 +0100 (CET)
+Received: from localhost ([::1]:49030 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iztAV-00080N-5D
-	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 21:14:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59836)
+	id 1izt3K-0001vH-R0
+	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 21:07:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59811)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1izsvn-0006MH-F9
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 20:59:45 -0500
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1izsvm-0006J0-54
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 20:59:44 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1izsvj-0001MZ-NB
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 20:59:43 -0500
-Received: from mx2.rt-rk.com ([89.216.37.149]:53204 helo=mail.rt-rk.com)
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1izsvj-0001Lx-J4
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 20:59:42 -0500
+Received: from mx2.rt-rk.com ([89.216.37.149]:53208 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
- id 1izsvj-0001AK-8P
+ id 1izsvj-0001AM-9L
  for qemu-devel@nongnu.org; Thu, 06 Feb 2020 20:59:39 -0500
 Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id D78461A2107;
+ by mail.rt-rk.com (Postfix) with ESMTP id D88E21A2148;
  Fri,  7 Feb 2020 02:58:23 +0100 (CET)
 X-Virus-Scanned: amavisd-new at rt-rk.com
 Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
  [10.10.14.106])
- by mail.rt-rk.com (Postfix) with ESMTPSA id 8F7A31A2128;
+ by mail.rt-rk.com (Postfix) with ESMTPSA id A26651A1FEC;
  Fri,  7 Feb 2020 02:58:23 +0100 (CET)
 From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH rc5 26/32] target/avr: Update build system
-Date: Fri,  7 Feb 2020 02:57:54 +0100
-Message-Id: <1581040680-308-27-git-send-email-aleksandar.markovic@rt-rk.com>
+Subject: [PATCH rc5 27/32] tests/machine-none: Add AVR support
+Date: Fri,  7 Feb 2020 02:57:55 +0100
+Message-Id: <1581040680-308-28-git-send-email-aleksandar.markovic@rt-rk.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1581040680-308-1-git-send-email-aleksandar.markovic@rt-rk.com>
 References: <1581040680-308-1-git-send-email-aleksandar.markovic@rt-rk.com>
@@ -61,123 +61,32 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Michael Rolnik <mrolnik@gmail.com>
 
-Make AVR support buildable.
+Add a single code line that will automatically provide 'machine none'
+test.
 
-[AM: Remove word 'Atmel' from filenames and all elements of code]
-Suggested-by: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
 Signed-off-by: Michael Rolnik <mrolnik@gmail.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
 Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 ---
- configure                       |  7 +++++++
- default-configs/avr-softmmu.mak |  5 +++++
- MAINTAINERS                     |  2 ++
- target/avr/Makefile.objs        | 34 ++++++++++++++++++++++++++++++++++
- 4 files changed, 48 insertions(+)
- create mode 100644 default-configs/avr-softmmu.mak
- create mode 100644 target/avr/Makefile.objs
+ tests/qtest/machine-none-test.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/configure b/configure
-index 115dc38..cff4307 100755
---- a/configure
-+++ b/configure
-@@ -7667,6 +7667,10 @@ case "$target_name" in
-     mttcg=3D"yes"
-     gdb_xml_files=3D"aarch64-core.xml aarch64-fpu.xml arm-core.xml arm-v=
-fp.xml arm-vfp3.xml arm-neon.xml"
-   ;;
-+  avr)
-+    gdb_xml_files=3D"avr-cpu.xml"
-+    target_compiler=3D$cross_cc_avr
-+  ;;
-   cris)
-   ;;
-   hppa)
-@@ -7886,6 +7890,9 @@ for i in $ARCH $TARGET_BASE_ARCH ; do
-       disas_config "ARM_A64"
-     fi
-   ;;
-+  avr)
-+    disas_config "AVR"
-+  ;;
-   cris)
-     disas_config "CRIS"
-   ;;
-diff --git a/default-configs/avr-softmmu.mak b/default-configs/avr-softmm=
-u.mak
-new file mode 100644
-index 0000000..80218ad
---- /dev/null
-+++ b/default-configs/avr-softmmu.mak
-@@ -0,0 +1,5 @@
-+# Default configuration for avr-softmmu
-+
-+# Boards:
-+#
-+CONFIG_ARDUINO=3Dy
-diff --git a/MAINTAINERS b/MAINTAINERS
-index fae2bb6..a68ec75 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -168,6 +168,7 @@ M: Michael Rolnik <mrolnik@gmail.com>
- R: Sarah Harris <S.E.Harris@kent.ac.uk>
- S: Maintained
- F: gdb-xml/avr-cpu.xml
-+F: target/avr/Makefile.objs
- F: target/avr/cpu-param.h
- F: target/avr/cpu-qom.h
- F: target/avr/cpu.h
-@@ -912,6 +913,7 @@ AVR MCUs
- M: Michael Rolnik <mrolnik@gmail.com>
- R: Sarah Harris <S.E.Harris@kent.ac.uk>
- S: Maintained
-+F: default-configs/avr-softmmu.mak
- F: hw/avr/Kconfig
- F: hw/avr/Makefile.objs
- F: hw/avr/boot.h
-diff --git a/target/avr/Makefile.objs b/target/avr/Makefile.objs
-new file mode 100644
-index 0000000..7523e0c
---- /dev/null
-+++ b/target/avr/Makefile.objs
-@@ -0,0 +1,34 @@
-+#
-+#  QEMU AVR CPU
-+#
-+#  Copyright (c) 2019 Michael Rolnik
-+#
-+#  This library is free software; you can redistribute it and/or
-+#  modify it under the terms of the GNU Lesser General Public
-+#  License as published by the Free Software Foundation; either
-+#  version 2.1 of the License, or (at your option) any later version.
-+#
-+#  This library is distributed in the hope that it will be useful,
-+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
-+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+#  Lesser General Public License for more details.
-+#
-+#  You should have received a copy of the GNU Lesser General Public
-+#  License along with this library; if not, see
-+#  <http://www.gnu.org/licenses/lgpl-2.1.html>
-+#
-+
-+DECODETREE =3D $(SRC_PATH)/scripts/decodetree.py
-+decode-y =3D $(SRC_PATH)/target/avr/insn.decode
-+
-+target/avr/decode_insn.inc.c: $(decode-y) $(DECODETREE)
-+	$(call quiet-command, \
-+	  $(PYTHON) $(DECODETREE) -o $@ --decode decode_insn --insnwidth 16 $<,=
- \
-+	  "GEN", $(TARGET_DIR)$@)
-+
-+target/avr/translate.o: target/avr/decode_insn.inc.c
-+
-+obj-y +=3D translate.o cpu.o helper.o
-+obj-y +=3D gdbstub.o
-+obj-y +=3D disas.o
-+obj-$(CONFIG_SOFTMMU) +=3D machine.o
+diff --git a/tests/qtest/machine-none-test.c b/tests/qtest/machine-none-t=
+est.c
+index 5953d31..3e5c74e 100644
+--- a/tests/qtest/machine-none-test.c
++++ b/tests/qtest/machine-none-test.c
+@@ -27,6 +27,7 @@ static struct arch2cpu cpus_map[] =3D {
+     /* tested targets list */
+     { "arm", "cortex-a15" },
+     { "aarch64", "cortex-a57" },
++    { "avr", "avr6-avr-cpu" },
+     { "x86_64", "qemu64,apic-id=3D0" },
+     { "i386", "qemu32,apic-id=3D0" },
+     { "alpha", "ev67" },
 --=20
 2.7.4
 
