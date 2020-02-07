@@ -2,75 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D356C155C2D
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 17:52:13 +0100 (CET)
-Received: from localhost ([::1]:60742 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F114A155C31
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 17:53:19 +0100 (CET)
+Received: from localhost ([::1]:60762 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j06rU-0005bW-Tk
-	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 11:52:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60712)
+	id 1j06sZ-0007Fd-2l
+	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 11:53:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60869)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1j06pf-0004AH-35
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 11:50:20 -0500
+ (envelope-from <ehabkost@redhat.com>) id 1j06qe-0004u3-Nc
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 11:51:21 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1j06pd-0005Jg-Kn
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 11:50:18 -0500
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:53522)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1j06pd-0005JB-D6
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 11:50:17 -0500
-Received: by mail-wm1-x341.google.com with SMTP id s10so3245574wmh.3
- for <qemu-devel@nongnu.org>; Fri, 07 Feb 2020 08:50:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=YIppaXtV7VBSeH2WhK7RaQjEGHXi5D11I34HwoRYAg8=;
- b=DEu35tWLoiZfUxrTXaayVg/K5HwsHHn1XmOcEdPi7VXv2yvshUJWT5oxR49pF8uNQE
- 6SyhWUufeuCr7J+X8zkyV3DOq652K3UtRYkotbX+pJrAJxgTb9sWQ4Q/q6DLV23wms3d
- KQ+mV2K0qaK/4VMCcVIr5fgkpWoMcDjAXsfidHG3GXnrKrDpFJiwMiMMDBjrnwgW90Nj
- J3zO0D9JsEC5c7q/OtkrQ7WW0uCesx/g5TYN2bg++jBWUrDgClzvClvVyYO61OwrldxS
- EYfzDOgybeiGz+RlC3Tr+ianPnVnTKiEmwwj6Y7ZDYQufJvFZz9VzA2ZM0qWrnqmpX8M
- 8Alw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=YIppaXtV7VBSeH2WhK7RaQjEGHXi5D11I34HwoRYAg8=;
- b=eEkXYx/zRJ4mcv0F5RzTfespHi1cAAxroAR6FU/PoMOMZ6PR2y6QCtnrjVrNSdDrTE
- vQdyjvBgp19AeR6KmvOPbAVA+pevyq05VTHdBKCcE5tkauiPywcdnG0TVYNAfJgolGVJ
- BLzm/0KCDuLB30c/zbo4juzc/16aSm/lP/JMWP18W1/3qeuWEOdgYewV7GknDoguG8lQ
- aBgVmByZqss4iEU3RQXx1OicGRCw3NmA30H/+Q1UA8dsXsbyIuTQT4xJ9HrxJReYy2Mc
- 3F7N1fgXMpNS6xdxuhtwFP83e7LlD0KZc38VGcOZL8sO/Ua2DC0dE5oMH/yGoO/mO2yR
- nl4w==
-X-Gm-Message-State: APjAAAWSqFYp1XZJQIoPOmtgFXjGi6wwAFo32nWPTcEqAHev5/kbhqzb
- FkhqPKqWE2JGmQuuGJfKHlzp6w==
-X-Google-Smtp-Source: APXvYqw3rJl8tsq96jRthoVlyCaWSMtRfJzKNTlzwxV1MVfwhyYTz/2CV0GsoTP40meaiig8CPhaQg==
-X-Received: by 2002:a05:600c:20f:: with SMTP id
- 15mr5186892wmi.128.1581094216165; 
- Fri, 07 Feb 2020 08:50:16 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id f8sm4032809wru.12.2020.02.07.08.50.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Feb 2020 08:50:14 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 3EA1C1FF87;
- Fri,  7 Feb 2020 16:50:14 +0000 (GMT)
-References: <20200205212920.467-1-robert.foley@linaro.org>
-User-agent: mu4e 1.3.7; emacs 27.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Robert Foley <robert.foley@linaro.org>
-Subject: Re: [PATCH v1 00/14] tests/vm: Add support for aarch64 VMs
-In-reply-to: <20200205212920.467-1-robert.foley@linaro.org>
-Date: Fri, 07 Feb 2020 16:50:14 +0000
-Message-ID: <877e0y735l.fsf@linaro.org>
+ (envelope-from <ehabkost@redhat.com>) id 1j06qd-000741-4q
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 11:51:20 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:40832
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1j06qd-00072q-0d
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 11:51:19 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1581094276;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=4B7LrMvy7n44m80MfRwSCizcOiT66wbCkqjBucqWc0A=;
+ b=h2fmbsR82wMQgW3L91twEYOjdMBQ15JsAoe2s+7YaPJV78ByVvciEV6VRRIIDX9Wp4QvHk
+ Q412It1Yg8LXxcF7Rqmhu5xwFQ1rUKXRnqSaQBuQZHS6tuJgLC7M6SNaAb5V2W2lnlGgJz
+ PtkTfW+MCdTeT+txh8dOCItRhe7uKvA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-156-tzJrbG8lOUK_PvfAeWAI6w-1; Fri, 07 Feb 2020 11:51:11 -0500
+X-MC-Unique: tzJrbG8lOUK_PvfAeWAI6w-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3B508107B7D4;
+ Fri,  7 Feb 2020 16:51:10 +0000 (UTC)
+Received: from localhost (unused-10-15-17-6.yyz.redhat.com [10.15.17.6])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B86635C21A;
+ Fri,  7 Feb 2020 16:51:07 +0000 (UTC)
+Date: Fri, 7 Feb 2020 11:51:06 -0500
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Subject: Re: [PULL v2 00/46] Python queue 2020-02-07
+Message-ID: <20200207165106.GH412524@habkost.net>
+References: <20200207151113.29349-1-philmd@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::341
+In-Reply-To: <20200207151113.29349-1-philmd@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="yEPQxsgoJgBvi8ip"
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,91 +70,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, peter.puhov@linaro.org, philmd@redhat.com,
- qemu-devel@nongnu.org
+Cc: Cleber Rosa <crosa@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+--yEPQxsgoJgBvi8ip
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Robert Foley <robert.foley@linaro.org> writes:
+On Fri, Feb 07, 2020 at 04:11:12PM +0100, Philippe Mathieu-Daud=E9 wrote:
+> Hi Peter,
+>=20
+> I prepared this series on behalf of Eduardo and
+> Cleber.
+>=20
+> Eduardo already ack'ed yesterday version (2020-02-06) cover:
+> https://www.mail-archive.com/qemu-devel@nongnu.org/msg677636.html
 
-> This is version 1 of the patch series to=20
-> add support for 2 aarch64 VMs.=20=20
->  - Ubuntu 18.04 aarch64 VM
->  - CentOS 8 aarch64 VM
+Acked-by: Eduardo Habkost <ehabkost@redhat.com>
 
-Testing under TCG with:
 
-  make vm-build-ubuntu.aarch64 V=3D1 QEMU=3Daarch64-softmmu/qemu-system-aar=
-ch64
-
-I'm seeing it hang:
-
-  DEBUG:root:ssh_cmd: ssh -t -o StrictHostKeyChecking=3Dno -o UserKnownHost=
-sFile=3D/dev/null -o ConnectTimeout=3D60 -p 37431 -i /home/alex.bennee/lsrc=
-/qemu.git/builds/all/vm-test-xxrw1r36.tmp/id_rsa -o SendEnv=3Dhttps_proxy -=
-o SendEnv=3Dhttp_proxy -o SendEnv=3Dftp_proxy -o SendEnv=3Dno_proxy root@12=
-7.0.0.1 sed -ie 's/"1"/"0"/g' /etc/apt/apt.conf.d/20auto-upgrades
-  Warning: Permanently added '[127.0.0.1]:37431' (ECDSA) to the list of kno=
-wn hosts.
-  bash: warning: setlocale: LC_ALL: cannot change locale (en_GB.UTF-8)
-  Connection to 127.0.0.1 closed.
-  DEBUG:root:ssh_cmd: ssh -t -o StrictHostKeyChecking=3Dno -o UserKnownHost=
-sFile=3D/dev/null -o ConnectTimeout=3D60 -p 37431 -i /home/alex.bennee/lsrc=
-/qemu.git/builds/all/vm-test-xxrw1r36.tmp/id_rsa -o SendEnv=3Dhttps_proxy -=
-o SendEnv=3Dhttp_proxy -o SendEnv=3Dftp_proxy -o SendEnv=3Dno_proxy root@12=
-7.0.0.1 sync && reboot
-  Warning: Permanently added '[127.0.0.1]:37431' (ECDSA) to the list of kno=
-wn hosts.
-  bash: warning: setlocale: LC_ALL: cannot change locale (en_GB.UTF-8)
-  Connection to 127.0.0.1 closed by remote host.
-  Connection to 127.0.0.1 closed.
-  DEBUG:root:ssh_cmd: ssh -t -o StrictHostKeyChecking=3Dno -o UserKnownHost=
-sFile=3D/dev/null -o ConnectTimeout=3D60 -p 37431 -i /home/alex.bennee/lsrc=
-/qemu.git/builds/all/vm-test-xxrw1r36.tmp/id_rsa -o SendEnv=3Dhttps_proxy -=
-o SendEnv=3Dhttp_proxy -o SendEnv=3Dftp_proxy -o SendEnv=3Dno_proxy root@12=
-7.0.0.1 exit 0
-  Warning: Permanently added '[127.0.0.1]:37431' (ECDSA) to the list of kno=
-wn hosts.
-  bash: warning: setlocale: LC_ALL: cannot change locale (en_GB.UTF-8)
-  Connection to 127.0.0.1 closed.
-  DEBUG:root:ssh_cmd: ssh -t -o StrictHostKeyChecking=3Dno -o UserKnownHost=
-sFile=3D/dev/null -o ConnectTimeout=3D60 -p 37431 -i /home/alex.bennee/lsrc=
-/qemu.git/builds/all/vm-test-xxrw1r36.tmp/id_rsa -o SendEnv=3Dhttps_proxy -=
-o SendEnv=3Dhttp_proxy -o SendEnv=3Dftp_proxy -o SendEnv=3Dno_proxy root@12=
-7.0.0.1 locale
-  ssh_exchange_identification: Connection closed by remote host
-  DEBUG:root:ssh_cmd: ssh -t -o StrictHostKeyChecking=3Dno -o UserKnownHost=
-sFile=3D/dev/null -o ConnectTimeout=3D60 -p 37431 -i /home/alex.bennee/lsrc=
-/qemu.git/builds/all/vm-test-xxrw1r36.tmp/id_rsa -o SendEnv=3Dhttps_proxy -=
-o SendEnv=3Dhttp_proxy -o SendEnv=3Dftp_proxy -o SendEnv=3Dno_proxy root@12=
-7.0.0.1 sed -ie s/^#\ deb-src/deb-src/g /etc/apt/sources.list
-  ssh_exchange_identification: Connection closed by remote host
-  DEBUG:root:ssh_cmd: ssh -t -o StrictHostKeyChecking=3Dno -o UserKnownHost=
-sFile=3D/dev/null -o ConnectTimeout=3D60 -p 37431 -i /home/alex.bennee/lsrc=
-/qemu.git/builds/all/vm-test-xxrw1r36.tmp/id_rsa -o SendEnv=3Dhttps_proxy -=
-o SendEnv=3Dhttp_proxy -o SendEnv=3Dftp_proxy -o SendEnv=3Dno_proxy root@12=
-7.0.0.1 apt-get update
-  ssh_exchange_identification: Connection closed by remote host
-  DEBUG:root:ssh_cmd: ssh -t -o StrictHostKeyChecking=3Dno -o UserKnownHost=
-sFile=3D/dev/null -o ConnectTimeout=3D60 -p 37431 -i /home/alex.bennee/lsrc=
-/qemu.git/builds/all/vm-test-xxrw1r36.tmp/id_rsa -o SendEnv=3Dhttps_proxy -=
-o SendEnv=3Dhttp_proxy -o SendEnv=3Dftp_proxy -o SendEnv=3Dno_proxy root@12=
-7.0.0.1 apt-get build-dep -y qemu
-  ssh_exchange_identification: Connection closed by remote host
-  DEBUG:root:ssh_cmd: ssh -t -o StrictHostKeyChecking=3Dno -o UserKnownHost=
-sFile=3D/dev/null -o ConnectTimeout=3D60 -p 37431 -i /home/alex.bennee/lsrc=
-/qemu.git/builds/all/vm-test-xxrw1r36.tmp/id_rsa -o SendEnv=3Dhttps_proxy -=
-o SendEnv=3Dhttp_proxy -o SendEnv=3Dftp_proxy -o SendEnv=3Dno_proxy root@12=
-7.0.0.1 apt-get install -y libfdt-dev flex bison
-  ssh_exchange_identification: Connection closed by remote host
-  DEBUG:root:ssh_cmd: ssh -t -o StrictHostKeyChecking=3Dno -o UserKnownHost=
-sFile=3D/dev/null -o ConnectTimeout=3D60 -p 37431 -i /home/alex.bennee/lsrc=
-/qemu.git/builds/all/vm-test-xxrw1r36.tmp/id_rsa -o SendEnv=3Dhttps_proxy -=
-o SendEnv=3Dhttp_proxy -o SendEnv=3Dftp_proxy -o SendEnv=3Dno_proxy root@12=
-7.0.0.1 poweroff
-  ssh_exchange_identification: Connection closed by remote host
+>=20
+> Since 2020-02-06 (v1):
+> - rebased to cover new iotests #283 (merged yesterday).
+>=20
+> Regards,
+>=20
+> Phil.
+>=20
+> The following changes since commit 863d2ed5823f90c42dcd481687cc99cbc9c4a1=
+7c:
+>=20
+>   Merge remote-tracking branch 'remotes/maxreitz/tags/pull-block-2020-02-=
+06' into staging (2020-02-06 16:22:05 +0000)
+>=20
+> are available in the Git repository at:
+>=20
+>   https://gitlab.com/philmd/qemu.git tags/python-next-20200207
+>=20
+> for you to fetch changes up to 66e7dde18cc4085ca47124be4ca08fa8e6bcdd3a:
+>=20
+>   .readthedocs.yml: specify some minimum python requirements (2020-02-07 =
+15:15:16 +0100)
+>=20
 
 --=20
-Alex Benn=C3=A9e
+Eduardo
+
+--yEPQxsgoJgBvi8ip
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEWjIv1avE09usz9GqKAeTb5hNxaYFAl49lXcACgkQKAeTb5hN
+xaZsHA/7Bb205h5DQB7cwiFZQxuqC8RO4hGuwXKIaoVifqRHfa/UDYb9qRy0gXQM
+p0ov1oYAElYHdF8Z1RnF7PBIbu5I6MQhxxm5sCpkPcHe2JtS35gFq8G/oil2xnYP
+EfWjqsdsCRwt93+YzTviwQ6+wgwIpCr+cxJ/s3YmuKpUx04Kqneq+UDYUxYDMFh6
+lWroM1CKgkF3IBJWGoidwZPBI7y5Sq/zX16akmTEaLgI+xmrA+rf3SQd26XRhyE+
+aNSdfy1TOKycxzZOmBx0Mr0W768os6C/crmoi+tkbaeGRX/U3zgopYX7oGGnymNJ
+j9nfwtR1UY3PTVxpv5vArFrDAT4xymo0Np84pOKF6IT8OSxe7BkVxgPY4lOg32PO
+wNYNCDEi1Fb76N/+MuTMXFcI3PS4fMDctxbAeO7wMIDjeuKuJljrVjrp9cB8EPUH
+Rtlb0I8Tad4aTweJYT8cA8z5zUlrLkUDoZbT7xoEuGC1cKTmpwEniAFNdvO+jh7u
+n8XAsdpRmBBmTXjkjQ4k56EJi5+MtbOt4a6i6Z6zDdwyMEzQ70OkbCZTg3nXZOTw
+1g/DY4c/LGgnLfK7wR1oxwAD8fVtKgPCGKBZWmspgr/3qrlGaifd+4tE66jqhOtz
+M1pbgwyiSLesDFZY4Bl/HXWV33VCAuGlp7fmgsrhBYEis0oH2xM=
+=fKP6
+-----END PGP SIGNATURE-----
+
+--yEPQxsgoJgBvi8ip--
+
 
