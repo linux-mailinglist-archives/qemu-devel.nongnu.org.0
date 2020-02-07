@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54613155A39
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 15:59:26 +0100 (CET)
-Received: from localhost ([::1]:58666 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3D46155A28
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 15:56:30 +0100 (CET)
+Received: from localhost ([::1]:58586 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j056L-0004iS-AJ
-	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 09:59:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51960)
+	id 1j053W-0007iD-28
+	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 09:56:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52018)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j04iK-0001WC-4o
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:34:37 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1j04iN-0001cF-9n
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:34:40 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j04iJ-0003bM-2f
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:34:36 -0500
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:37852)
+ (envelope-from <peter.maydell@linaro.org>) id 1j04iM-0003lF-82
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:34:39 -0500
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:35755)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j04iI-0003YZ-Rz
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:34:35 -0500
-Received: by mail-wr1-x42e.google.com with SMTP id w15so2965758wru.4
- for <qemu-devel@nongnu.org>; Fri, 07 Feb 2020 06:34:34 -0800 (PST)
+ id 1j04iM-0003iC-0k
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:34:38 -0500
+Received: by mail-wr1-x430.google.com with SMTP id w12so2982041wrt.2
+ for <qemu-devel@nongnu.org>; Fri, 07 Feb 2020 06:34:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=FY19DEE+QJS7b4V+GSCB1o9qTQC3ZKnckCvlTkoC0Q4=;
- b=qmaHht/X+mF3e9YGU+6QpGfIRrzqLPvM/WsOgN86v3dsF1B0IXzf7a315ME17osgh/
- kSrP0y4s/9nBINZjrGCR6lT7dpcOMsSxMqsMidQmJTyG6dAVNHf2sT6/RVpeH2J1Lsiw
- 27R0bGE5Sv6eo+CObzbFpy78J4W5tRbsz1HGq6de04QM6b9P3aMU6yiFw+Fa7trE4gxI
- aYiC73jjbL3aJXDcpsCWK2QJvQiE3004V3hl8PKOt0J4YaaG6vC6m39iyDoyJJuNf+CL
- 9VKvVtt8FVfSux7NUovppcXVL8dW6zvYjqMYlElzA4IKOtBonJlLgbftB3GsukqP9pE6
- +xVQ==
+ bh=3x9Z8puf4FRlU9RT4Z9Jd/7VFhB0H6I8GPKb1zE750U=;
+ b=iM/3c60lBVmQEbfGjobU2RPNpveMyGL02AR10OpVrIaEfwlnnmSOZlzOO2YGedDALb
+ EdnPcpK5PoY2f2CDOIzFJI3h2O+Th904x9KFf/mLXDyvtBZg4T6wAc7NYatTwFpR6d0g
+ f3VDYdZGiO2K8qo1l9dvLg4ulz2pcPDfSxo7SgWMQkKqch4QKxUyNe+ezN9lxLp1a7yE
+ b01RvlDggxhu5ZXtPA4no1U4Z5h9PGH65NkJKUxel5ZV5WEJ854/dUe5+it32pgPUk5+
+ m3jIR3pBUT9jot17IkPerMX1zXmhuXvy0WCJnJZtOJREYHpip3lkjL3fAvWADL+0agj9
+ Nv0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=FY19DEE+QJS7b4V+GSCB1o9qTQC3ZKnckCvlTkoC0Q4=;
- b=larQQXK/DlJR0iMB9h4NasV5MNJ3BMnYKoOYTw98NR7qUGbcoZIIhWFbFO1+VMrYkw
- AgQjZdSWNBuO3Yw53Nf+zE4CsVoX22kfvLgLcNzRYWKxA6/L0jJoLLm50gNGHWj9xpb6
- s0l0WXviV25fiLMHHgsWIxLfuvPaKc4F1a+bKKu3NIRty0yTqgzMAja2CGNwKR71yOxI
- nEGOoMpNZLEmH8lDVLql57nlEh5hqI8H68Ykyg24RNwzGpeNzQGQLcKv9sGbMXp/ntIs
- gxXmGvm2ZcRxire0gIvYzeNNEZQjYaQms1cGLjK14TZd5m5FN3X+y4VNxPGD1majBtTM
- yByA==
-X-Gm-Message-State: APjAAAUURI5gF3fTpNxI/kcM4C2Z2AzRwNedvp1fR5IZsEov1MEu0fK7
- bEKSNdkP4+HA5zi0GRp3fJvTsW62SSM=
-X-Google-Smtp-Source: APXvYqxgSRwjeRkSIruvNZlbBKeMLDDWIFH9XIJMErQZFyRWaX2K4XJkgM9hy+RW+zDOG9BHQdZpfw==
-X-Received: by 2002:a5d:40d1:: with SMTP id b17mr4854832wrq.93.1581086073667; 
- Fri, 07 Feb 2020 06:34:33 -0800 (PST)
+ bh=3x9Z8puf4FRlU9RT4Z9Jd/7VFhB0H6I8GPKb1zE750U=;
+ b=FktNStPiCnB18mBCTBOLwqH0tBpj1gZdcabVBkTJbpDon02oblXV/Y8NrD08pmdU/o
+ Mqgxm+WcIXvka9FdAOf9nFz8qJmYtFxhx4wB75tXF00yKhUBF6Ot/Xq8uLBdSXhrOJDm
+ V4m1bUZz5XIG435VUYo9XUvvhmDQt9/S69xJXhhclC4b/VGst211kVhAxjM9b3/TMOq0
+ zA+HW4qY6DsVHPWsiNyc9ZwRaobocF5WFc9kL+dGPbwfkkircYYgZFfgsMQ25c7y1EPj
+ iX7dUldcYgAT6ZdoZ5S2bVxlUOMHie674BqCbXslT6lDnNrlwDYNYqBRdxu/rtNtkL6D
+ scCg==
+X-Gm-Message-State: APjAAAWKMdwKZuwbk6Kdk7Be9PvYKAa3Mxn/XBEo7UZcG/y0HqElNNRU
+ LwkvvGGT8bNhsN423SDfb7UiRlkkHm0=
+X-Google-Smtp-Source: APXvYqxWU6i+6hDcTAUOI7rAdAfg1u9I2FrGdPbODoczca4vziKRdxvSMpo5Yy+zPRyavrDeyWjLWQ==
+X-Received: by 2002:adf:f803:: with SMTP id s3mr4965911wrp.7.1581086076818;
+ Fri, 07 Feb 2020 06:34:36 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id w1sm3796430wro.72.2020.02.07.06.34.32
+ by smtp.gmail.com with ESMTPSA id w1sm3796430wro.72.2020.02.07.06.34.35
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Feb 2020 06:34:33 -0800 (PST)
+ Fri, 07 Feb 2020 06:34:36 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 45/48] docs/arm-cpu-features: Make kvm-no-adjvtime comment
- clearer
-Date: Fri,  7 Feb 2020 14:33:40 +0000
-Message-Id: <20200207143343.30322-46-peter.maydell@linaro.org>
+Subject: [PULL 48/48] stellaris: delay timer_new to avoid memleaks
+Date: Fri,  7 Feb 2020 14:33:43 +0000
+Message-Id: <20200207143343.30322-49-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200207143343.30322-1-peter.maydell@linaro.org>
 References: <20200207143343.30322-1-peter.maydell@linaro.org>
@@ -68,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42e
+X-Received-From: 2a00:1450:4864:20::430
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,33 +82,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+From: Pan Nengyuan <pannengyuan@huawei.com>
 
-The bold text sounds like 'knock knock'. Only bolding the
-second 'not' makes it easier to read.
+There is a memory leak when we call 'device_list_properties' with typename = stellaris-gptm. It's easy to reproduce as follow:
 
-Fixes: dea101a1ae
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Andrew Jones <drjones@redhat.com>
-Message-id: 20200206225148.23923-1-philmd@redhat.com
+  virsh qemu-monitor-command vm1 --pretty '{"execute": "device-list-properties", "arguments": {"typename": "stellaris-gptm"}}'
+
+This patch delay timer_new in realize to fix it.
+
+Reported-by: Euler Robot <euler.robot@huawei.com>
+Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-id: 20200205070659.22488-4-pannengyuan@huawei.com
+Cc: qemu-arm@nongnu.org
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- docs/arm-cpu-features.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/arm/stellaris.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/docs/arm-cpu-features.rst b/docs/arm-cpu-features.rst
-index dbf3b7cf42c..fc1623aeca5 100644
---- a/docs/arm-cpu-features.rst
-+++ b/docs/arm-cpu-features.rst
-@@ -185,7 +185,7 @@ the list of KVM VCPU features and their descriptions.
+diff --git a/hw/arm/stellaris.c b/hw/arm/stellaris.c
+index bb025e0bd0d..221a78674e3 100644
+--- a/hw/arm/stellaris.c
++++ b/hw/arm/stellaris.c
+@@ -347,11 +347,15 @@ static void stellaris_gptm_init(Object *obj)
+     sysbus_init_mmio(sbd, &s->iomem);
  
-   kvm-no-adjvtime          By default kvm-no-adjvtime is disabled.  This
-                            means that by default the virtual time
--                           adjustment is enabled (vtime is *not not*
-+                           adjustment is enabled (vtime is not *not*
-                            adjusted).
+     s->opaque[0] = s->opaque[1] = s;
++}
++
++static void stellaris_gptm_realize(DeviceState *dev, Error **errp)
++{
++    gptm_state *s = STELLARIS_GPTM(dev);
+     s->timer[0] = timer_new_ns(QEMU_CLOCK_VIRTUAL, gptm_tick, &s->opaque[0]);
+     s->timer[1] = timer_new_ns(QEMU_CLOCK_VIRTUAL, gptm_tick, &s->opaque[1]);
+ }
  
-                            When virtual time adjustment is enabled each
+-
+ /* System controller.  */
+ 
+ typedef struct {
+@@ -1536,6 +1540,7 @@ static void stellaris_gptm_class_init(ObjectClass *klass, void *data)
+     DeviceClass *dc = DEVICE_CLASS(klass);
+ 
+     dc->vmsd = &vmstate_stellaris_gptm;
++    dc->realize = stellaris_gptm_realize;
+ }
+ 
+ static const TypeInfo stellaris_gptm_info = {
 -- 
 2.20.1
 
