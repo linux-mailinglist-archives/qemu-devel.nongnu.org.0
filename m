@@ -2,75 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8E69155748
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 13:03:32 +0100 (CET)
-Received: from localhost ([::1]:55026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32CC8155760
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 13:07:38 +0100 (CET)
+Received: from localhost ([::1]:55136 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j02M7-0006kX-J8
-	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 07:03:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40894)
+	id 1j02Q5-0002Rt-8v
+	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 07:07:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41863)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1j02KR-0005VR-Su
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 07:01:49 -0500
+ (envelope-from <wainersm@redhat.com>) id 1j02O8-0000oH-G4
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 07:05:37 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1j02KQ-0004qs-2g
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 07:01:47 -0500
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:42986)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1j02KO-0004pY-MM
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 07:01:46 -0500
-Received: by mail-wr1-x444.google.com with SMTP id k11so2345925wrd.9
- for <qemu-devel@nongnu.org>; Fri, 07 Feb 2020 04:01:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=IkXdX3jqdzZqpQ5BvV+KV+8d39GBQpKyYclb//73NFU=;
- b=Vh1hggbQMf8o4JDmsv/89oxq709arjDZwo64IMg2FnWg1r9TnWbaB74tP0lwcBquj0
- rdCmvfQ8PN01EhoPl5fasNik7hsZS7IWGgWxOBO96e3tTduyDEa25HB/rVhrhXvPyfGg
- z/3tKVbj064nlJDCLG+HTpIzw8OfXjnSIMQeLUPTzClfNl4FLQQ2Xx7ERTSyxT6nwly1
- LeBu2h/1EGMRxpQVf02iOv471ENJmzW+pVVEH4P/SAcwO43qpbXI+SBNYfs2Xj7D7ZoE
- YEMYzpNwUeh5yNJGc78tHU+GzIHLJYQS1dH46UVPJWuniRVnEA6W7WgGBIRkO2AeycwD
- K/og==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=IkXdX3jqdzZqpQ5BvV+KV+8d39GBQpKyYclb//73NFU=;
- b=gHYMN1jWtY1ivozKppJhu6sFsLF5+weinjQcQ4EtIsfmqIq182Nsry2mBc1QsIW4Fz
- oK2lMNLnv1vmAJpeU5iLoDU2U2HvuIapPDMO+i0Ty1RzSWKEZMP9EWWWCqkXkuY5BZa5
- E0T2Gu21S082AoV8cnIV62eC6866KiUZqs8Hpb7rkUrgUcnnCShet6xKdrvxvIPYrWaB
- B7QepoAs+UfLKG79r1AeMKftDYcegi6kxf6u7vNaeh6NRGmcE/tDqfJ/Tc9Fuwdxn6om
- cXuoouXC5b+v43WDRtTXPUmTguoS7ro/OeiHMvKOSH1HwornPO+aRaRdd84ppG4VckXf
- TV6Q==
-X-Gm-Message-State: APjAAAUnqylOyOxMaSvShRSGpvagCkhszePsVR1oEcirOIK+WhkIlh/e
- SPZhPBGuRxT0Nbth4LDz4THn6w==
-X-Google-Smtp-Source: APXvYqyGDTtn3Go75gAnI1MweyIvg6Q1Z8WseWzwfPKCPGLFqw+g+j/fZLDRtwylYk1rvPtlNpN+Ng==
-X-Received: by 2002:adf:9c8c:: with SMTP id d12mr4328120wre.404.1581076903615; 
- Fri, 07 Feb 2020 04:01:43 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id t131sm3218448wmb.13.2020.02.07.04.01.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Feb 2020 04:01:42 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id A82B01FF87;
- Fri,  7 Feb 2020 12:01:41 +0000 (GMT)
-References: <20200205212920.467-1-robert.foley@linaro.org>
- <20200205212920.467-5-robert.foley@linaro.org>
-User-agent: mu4e 1.3.7; emacs 27.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Robert Foley <robert.foley@linaro.org>
-Subject: Re: [PATCH v1 04/14] tests/vm: give wait_ssh() option to wait for root
-In-reply-to: <20200205212920.467-5-robert.foley@linaro.org>
-Date: Fri, 07 Feb 2020 12:01:41 +0000
-Message-ID: <87k14y7gii.fsf@linaro.org>
+ (envelope-from <wainersm@redhat.com>) id 1j02O6-0001dm-5q
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 07:05:35 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:52309
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <wainersm@redhat.com>) id 1j02O5-0001ZT-7H
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 07:05:33 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1581077132;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=j9Qkui0iShpfn/9QisNA8GjsUjl3Q6LtqcvlkFgcIv4=;
+ b=Y1rNFZp2S8timeuJdydozDOrVM5nyiz3bOBkhTF0N39MdvHOOCYTI3Smpdvmob1NxBTs2C
+ bYYlLNnJqsW+HjwCEgwVfz55V0AGtf6EU3XZTJTASWGKl/Uvzywg4+LQ35KH7Dl2OWcpCx
+ I2pzdQdEN2dIU+kZj2+o/Knev07ldCs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-39-uIeB8Ks2MT-HCPyqgeVb9A-1; Fri, 07 Feb 2020 07:05:18 -0500
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B9731802700;
+ Fri,  7 Feb 2020 12:05:17 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-116-96.gru2.redhat.com
+ [10.97.116.96])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5CB4D60BEC;
+ Fri,  7 Feb 2020 12:05:10 +0000 (UTC)
+Subject: Re: [PATCH v2 28/29] tests/acceptance/version: Default to -nodefaults
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Denis Plotnikov <dplotnikov@virtuozzo.com>, qemu-devel@nongnu.org
+References: <20200129212345.20547-1-philmd@redhat.com>
+ <20200129212345.20547-29-philmd@redhat.com>
+From: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Message-ID: <318d039a-af30-be53-460d-a7d49c8aaf17@redhat.com>
+Date: Fri, 7 Feb 2020 10:05:08 -0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.4.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20200129212345.20547-29-philmd@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: uIeB8Ks2MT-HCPyqgeVb9A-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::444
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,60 +77,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, peter.puhov@linaro.org, philmd@redhat.com,
- qemu-devel@nongnu.org
+Cc: Cornelia Huck <cohuck@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-Robert Foley <robert.foley@linaro.org> writes:
-
-> Allow wait_ssh to wait for root user to be ready.
-> This solves the issue where we perform a wait_ssh()
-> successfully, but the root user is not yet ready
-> to be logged in.
+On 1/29/20 7:23 PM, Philippe Mathieu-Daud=C3=A9 wrote:
+> We don't need the default options to run this test.
 >
-> Signed-off-by: Robert Foley <robert.foley@linaro.org>
+> This fixes errors when running a binary built with
+> --without-default-devices such:
+>
+>    ERROR: qemu-system-arm: Unsupported NIC model: virtio-net-pci
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 > ---
->  tests/vm/basevm.py | 8 +++++---
->  1 file changed, 5 insertions(+), 3 deletions(-)
+>   tests/acceptance/version.py | 1 +
+>   1 file changed, 1 insertion(+)
+
+My comments in [1] also applies for this change. So:
+
+Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+
+[1] https://www.mail-archive.com/qemu-devel@nongnu.org/msg675104.html
+
+
 >
-> diff --git a/tests/vm/basevm.py b/tests/vm/basevm.py
-> index 4de358ae22..a29099f6f1 100755
-> --- a/tests/vm/basevm.py
-> +++ b/tests/vm/basevm.py
-> @@ -314,7 +314,7 @@ class BaseVM(object):
->      def print_step(self, text):
->          sys.stderr.write("### %s ...\n" % text)
->=20=20
-> -    def wait_ssh(self, seconds=3D300):
-> +    def wait_ssh(self, wait_root=3DFalse, seconds=3D300):
->          # Allow more time for VM to boot under TCG.
->          if not kvm_available(self.arch):
->              seconds *=3D self.tcg_ssh_timeout_multiplier
-> @@ -322,7 +322,10 @@ class BaseVM(object):
->          endtime =3D starttime + datetime.timedelta(seconds=3Dseconds)
->          guest_up =3D False
->          while datetime.datetime.now() < endtime:
-> -            if self.ssh("exit 0") =3D=3D 0:
-> +            if wait_root and self.ssh_root("exit 0") =3D=3D 0:
-> +                guest_up =3D True
-> +                break
-> +            elif self.ssh("exit 0") =3D=3D 0:
->                  guest_up =3D True
->                  break
->              seconds =3D (endtime - datetime.datetime.now()).total_second=
-s()
-> @@ -333,7 +336,6 @@ class BaseVM(object):
->=20=20
->      def shutdown(self):
->          self._guest.shutdown()
-> -
+> diff --git a/tests/acceptance/version.py b/tests/acceptance/version.py
+> index 67c2192c93..79b923d4fc 100644
+> --- a/tests/acceptance/version.py
+> +++ b/tests/acceptance/version.py
+> @@ -17,6 +17,7 @@ class Version(Test):
+>       :avocado: tags=3Dquick
+>       """
+>       def test_qmp_human_info_version(self):
+> +        self.vm.add_args('-nodefaults')
+>           self.vm.launch()
+>           res =3D self.vm.command('human-monitor-command',
+>                                 command_line=3D'info version')
 
-Stray line deletion. Otherwise:
-
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
---=20
-Alex Benn=C3=A9e
 
