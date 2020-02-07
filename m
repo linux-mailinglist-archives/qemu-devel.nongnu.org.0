@@ -2,64 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EC75155A67
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 16:10:56 +0100 (CET)
-Received: from localhost ([::1]:59020 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1CA1155A48
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 16:03:22 +0100 (CET)
+Received: from localhost ([::1]:58804 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j05HT-00008X-Ho
-	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 10:10:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56028)
+	id 1j05A9-0002W2-L4
+	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 10:03:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56646)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groeck7@gmail.com>) id 1j04xK-000119-Un
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:50:08 -0500
+ (envelope-from <philmd@redhat.com>) id 1j04yX-0003ux-J0
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:51:23 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groeck7@gmail.com>) id 1j04xG-00058h-Kx
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:50:05 -0500
-Received: from mail-pj1-x1044.google.com ([2607:f8b0:4864:20::1044]:36000)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <groeck7@gmail.com>)
- id 1j04xD-0004wM-OG; Fri, 07 Feb 2020 09:49:59 -0500
-Received: by mail-pj1-x1044.google.com with SMTP id gv17so1026002pjb.1;
- Fri, 07 Feb 2020 06:49:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id;
- bh=oCAEZ4YZo0aISc3BRa7rvbjrbum3bZV93gOfR1uaB/M=;
- b=lPJc74pqxRHioEWnnulDBlxdpgIW+B0OPBGEms7a4ZLF0CE3UaNN4EYOa8bstVZifn
- CHoZFSW/uitmY5WsUHsigEtjiBoPlmT0uM4C/av/peWb8USR+nOdg0XXaGneKY7nibA9
- eEBJzyCAVdsAcByTYroFmCGnv30xXgRZV/I7GwoBjW1pNvExfpzkRRL7olJqa7x/ccvP
- bkWQBGW2d0qj58RmExkhSMoQHjUpdaWUl/Y7a7nzTIpiTcWhrlMS3kDq3UyfBv72em9b
- qZoLhrdmKGlgczYqA0ZH112B3VIVDE8up4epYPEzovJEPsjV/U26bVGluX5q4iQC36c7
- 4q+Q==
+ (envelope-from <philmd@redhat.com>) id 1j04yU-0007zJ-5Q
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:51:20 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:38853
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j04yU-0007yq-0Y
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:51:18 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1581087077;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Etu+e6wnyQadgfiGxFspn3QHheGkw+su2bPnv99yeeg=;
+ b=hUIYM/6dVfaZrZ709Q0enuSuClGEiWATdu9popGfn1J2LQcYu7uqpqhsfE99E/MFgd725I
+ iioojskbhA2Vnh7oXo0ZHVR8IE4FdRhByw90xPkJ2bQ368B4JUEMsvx95aQLuhi90baboj
+ +LsbKjL8UUKLlyO1c66skWM84qZS5Kk=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-43-ytDSBm_iOU2Ko0vvZmxCtg-1; Fri, 07 Feb 2020 09:51:01 -0500
+Received: by mail-wr1-f70.google.com with SMTP id d8so1346552wrq.12
+ for <qemu-devel@nongnu.org>; Fri, 07 Feb 2020 06:51:01 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
- bh=oCAEZ4YZo0aISc3BRa7rvbjrbum3bZV93gOfR1uaB/M=;
- b=L7beLgp4BncTaT5vqI4N75OUpjE43M/SuGIeHaWfyKaq9LeolALa1Zte7JZPpuZULM
- ufvewTqBau7ER9rFQq1QzTQG+t8rH+M2GMeDPS+0QAz24jsV2GUHNzKeRWeAShhMlZN7
- 9wqsBjOabdkSPIlmaJNwkPBL3imJ6es1yuwzi45tTzbx7KLSMkGZ+sIcR0KQ6/sCBIQ/
- wki8emQhtHup9U4seRbMa45n3Vvrsd3HYD1D4ZgEXEwbtfR4W4zphCrGxtnGMuvO7gjd
- jRqs3lidG1AGF+kYWfQFHsuAQket0f2LxdJFytXqgH4uEqnnBdj1KfJrNUoRACu5Z187
- dEuA==
-X-Gm-Message-State: APjAAAXRN+hWrqpShdykPjYcRzOjoYrvpZPXeNNeS207LIt/ROYwq9x5
- M3IiU/z/mXi36TsBtqtMy+7aQqaO
-X-Google-Smtp-Source: APXvYqz2tZc18ve/VWMx11toeLu7iXwfRWKRtv5xLCWxNhIeazH6HDh9TBLvxpcP+KzrI7nRqrCnng==
-X-Received: by 2002:a17:90a:8806:: with SMTP id
- s6mr4027592pjn.141.1581086998301; 
- Fri, 07 Feb 2020 06:49:58 -0800 (PST)
-Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id 144sm3660623pfc.45.2020.02.07.06.49.56
- (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Fri, 07 Feb 2020 06:49:57 -0800 (PST)
-From: Guenter Roeck <linux@roeck-us.net>
-To: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-Subject: [PATCH] hw/arm: ast2600: Wire up EHCI controllers
-Date: Fri,  7 Feb 2020 06:49:54 -0800
-Message-Id: <20200207144954.13634-1-linux@roeck-us.net>
-X-Mailer: git-send-email 2.17.1
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::1044
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=F0bDqJaWXN6Pb+0pVpT7tYDPcHahpbtor1ZQURosJAk=;
+ b=gwdyHa0OvOSlDbJaXnvMU1Z/yZNk5cPJb3duTyafVsgSDbTL+r4+N06S4laVC7BOYT
+ z588kiiCBsuy6r9jaSPr2h1AqY1cgx1PmfnDU9YWEhiDLkxOVkrjEW4pC69dNMCRRCWB
+ q+vttSJch3DRB3zi7bA7RjAnMJdgra+ZuhcxmhPIqAg90NbZNxGuerGnm5ARUGKoyjMt
+ fFRVZAXZcWrNXyN+6CyJfOd0Xhr0GSlGdD9KurmkhpTCS1S7f3cqcMAW2t0QFfDCdPtT
+ BumVbUDonJYdzEKx3MktAL9Rd5CIECMMC6mc/nFniCuGd9Fqxtp7T7k1eT0RmFy+D7hC
+ 5u7g==
+X-Gm-Message-State: APjAAAUqN++l+45yIR8lKpBhTsaXgAXAcfqSLtt6GtuUnbMTOBtU8TdR
+ tjpY/OGycn5Hawaoid4MejeJ/dlreF0EIaH04Fnq+kc0yTSugfmM14ehzrgFatSOXNUdAiq6ett
+ 1n+3FRzpNgjl+KRc=
+X-Received: by 2002:adf:e70d:: with SMTP id c13mr5034763wrm.248.1581087060045; 
+ Fri, 07 Feb 2020 06:51:00 -0800 (PST)
+X-Google-Smtp-Source: APXvYqzhe7RSB3g7npSRMH2PEbzT9KvSwPPbfF5z70Nrmv/IgqgugxsZzVCtXCfL1k2SSADxGWpOIA==
+X-Received: by 2002:adf:e70d:: with SMTP id c13mr5034751wrm.248.1581087059781; 
+ Fri, 07 Feb 2020 06:50:59 -0800 (PST)
+Received: from [192.168.1.35] (78.red-88-21-202.staticip.rima-tde.net.
+ [88.21.202.78])
+ by smtp.gmail.com with ESMTPSA id a198sm3624735wme.12.2020.02.07.06.50.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 07 Feb 2020 06:50:59 -0800 (PST)
+Subject: Re: [PATCH v2 01/30] hw/arm/raspi: Use BCM2708 machine type with pre
+ Device Tree kernels
+To: BALATON Zoltan <balaton@eik.bme.hu>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+References: <20200206011756.2413-1-f4bug@amsat.org>
+ <20200206011756.2413-2-f4bug@amsat.org>
+ <alpine.BSF.2.22.395.2002061320310.71431@zero.eik.bme.hu>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <27d1f0e2-941c-11ca-d736-f25af055d9da@redhat.com>
+Date: Fri, 7 Feb 2020 15:50:58 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
+MIME-Version: 1.0
+In-Reply-To: <alpine.BSF.2.22.395.2002061320310.71431@zero.eik.bme.hu>
+Content-Language: en-US
+X-MC-Unique: ytDSBm_iOU2Ko0vvZmxCtg-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,94 +95,154 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>,
- qemu-devel@nongnu.org, qemu-arm@nongnu.org, Joel Stanley <joel@jms.id.au>,
- Guenter Roeck <linux@roeck-us.net>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Initialize EHCI controllers on AST2600 using the existing
-TYPE_PLATFORM_EHCI. After this change, booting ast2600-evb
-into Linux successfully instantiates a USB interface after
-the necessary changes are made to its devicetree files.
+Hi Zoltan,
 
-ehci_hcd: USB 2.0 'Enhanced' Host Controller (EHCI) Driver
-ehci-platform: EHCI generic platform driver
-ehci-platform 1e6a3000.usb: EHCI Host Controller
-ehci-platform 1e6a3000.usb: new USB bus registered, assigned bus number 1
-ehci-platform 1e6a3000.usb: irq 25, io mem 0x1e6a3000
-ehci-platform 1e6a3000.usb: USB 2.0 started, EHCI 1.00
-usb usb1: Manufacturer: Linux 5.5.0-09825-ga0802f2d0ef5-dirty ehci_hcd
-usb 1-1: new high-speed USB device number 2 using ehci-platform
+On 2/6/20 1:21 PM, BALATON Zoltan wrote:
+> On Thu, 6 Feb 2020, Philippe Mathieu-Daud=C3=A9 wrote:
+>> When booting without device tree, the Linux kernels uses the $R1
+>> register to determine the machine type. The list of values is
+>> registered at [1].
+>>
+>> There are two entries for the Raspberry Pi:
+>>
+>> - https://www.arm.linux.org.uk/developer/machines/list.php?mid=3D3138
+>> =C2=A0name: MACH_TYPE_BCM2708
+>> =C2=A0value: 0xc42 (3138)
+>> =C2=A0status: Active, not mainlined
+>> =C2=A0date: 15 Oct 2010
+>>
+>> - https://www.arm.linux.org.uk/developer/machines/list.php?mid=3D4828
+>> =C2=A0name: MACH_TYPE_BCM2835
+>> =C2=A0value: 4828
+>> =C2=A0status: Active, mainlined
+>> =C2=A0date: 6 Dec 2013
+>>
+>> QEMU always used the non-mainlined type MACH_TYPE_BCM2708.
+>> The value 0xc43 is registered to 'MX51_GGC' (processor i.MX51), and
+>> 0xc44 to 'Western Digital Sharespace NAS' (processor Marvell 88F5182).
+>>
+>> The Raspberry Pi foundation bootloader only sets the BCM2708 machine
+>> type, see [2] or [3]:
+>>
+>> 133 9:
+>> 134=C2=A0=C2=A0=C2=A0=C2=A0 mov r0, #0
+>> 135=C2=A0=C2=A0=C2=A0=C2=A0 ldr r1, =3D3138=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 @ BCM2708 machine id
+>> 136=C2=A0=C2=A0=C2=A0=C2=A0 ldr r2, atags=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 @ ATAGS
+>> 137=C2=A0=C2=A0=C2=A0=C2=A0 bx=C2=A0 r4
+>>
+>> U-Boot only uses MACH_TYPE_BCM2708 (see [4]):
+>>
+>> 25 /*
+>> 26=C2=A0 * 2835 is a SKU in a series for which the 2708 is the first or=
+=20
+>> primary SoC,
+>> 27=C2=A0 * so 2708 has historically been used rather than a dedicated 28=
+35 ID.
+>> 28=C2=A0 *
+>> 29=C2=A0 * We don't define a machine type for bcm2709/bcm2836 since the =
+RPi=20
+>> Foundation
+>> 30=C2=A0 * chose to use someone else's previously registered machine ID=
+=20
+>> (3139, MX51_GGC)
+>> 31=C2=A0 * rather than obtaining a valid ID:-/
+>> 32=C2=A0 *
+>> 33=C2=A0 * For the bcm2837, hopefully a machine type is not needed, sinc=
+e=20
+>> everything
+>> 34=C2=A0 * is DT.
+>> 35=C2=A0 */
+>>
+>> While the definition MACH_BCM2709 with value 0xc43 was introduced in
+>> a commit described "Add 2709 platform for Raspberry Pi 2" out of the
+>> mainline Linux kernel, it does not seem used, and the platform is
+>> introduced with Device Tree support anyway (see [5] and [6]).
+>>
+>> Remove the unused values (0xc43 introduced in commit 1df7d1f9303aef
+>> "raspi: add raspberry pi 2 machine" and 0xc44 in commit bade58166f4
+>> "raspi: Raspberry Pi 3 support"), keeping only MACH_TYPE_BCM2708.
+>>
+>> [1] https://www.arm.linux.org.uk/developer/machines/
+>> [2]=20
+>> https://github.com/raspberrypi/tools/blob/920c7ed2e/armstubs/armstub7.S#=
+L135=20
+>>
+>> [3]=20
+>> https://github.com/raspberrypi/tools/blob/49719d554/armstubs/armstub7.S#=
+L64=20
+>>
+>> [4]=20
+>> https://gitlab.denx.de/u-boot/u-boot/blob/v2015.04/include/configs/rpi-c=
+ommon.h#L18=20
+>>
+>> [5]=20
+>> https://github.com/raspberrypi/linux/commit/d9fac63adac#diff-6722037d795=
+70df5b392a49e0e006573R526=20
+>>
+>> [6]=20
+>> http://lists.infradead.org/pipermail/linux-rpi-kernel/2015-February/0012=
+68.html=20
+>>
+>>
+>> Cc: Zolt=C3=A1n Baldaszti <bztemail@gmail.com>
+>> Cc: Pekka Enberg <penberg@iki.fi>
+>> Cc: Stephen Warren <swarren@nvidia.com>
+>> Cc: Kshitij Soni <kshitij.soni@broadcom.com>
+>> Cc: Michael Chan <michael.chan@broadcom.com>
+>> Cc: Andrew Baumann <Andrew.Baumann@microsoft.com>
+>> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+>> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+>> ---
+>> hw/arm/raspi.c | 5 ++---
+>> 1 file changed, 2 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/hw/arm/raspi.c b/hw/arm/raspi.c
+>> index 3996f6c63a..ef76a27f33 100644
+>> --- a/hw/arm/raspi.c
+>> +++ b/hw/arm/raspi.c
+>> @@ -29,8 +29,7 @@
+>> #define FIRMWARE_ADDR_3 0x80000 /* Pi 3 loads kernel.img here by=20
+>> default */
+>> #define SPINTABLE_ADDR=C2=A0 0xd8 /* Pi 3 bootloader spintable */
+>>
+>> -/* Table of Linux board IDs for different Pi versions */
+>> -static const int raspi_boardid[] =3D {[1] =3D 0xc42, [2] =3D 0xc43, [3]=
+ =3D=20
+>> 0xc44};
+>=20
+> Maybe worth a comment about why using this number (short, one line=20
+> version of commit message).
 
-Signed-off-by: Guenter Roeck <linux@roeck-us.net>
----
- hw/arm/aspeed_ast2600.c | 23 +++++++++++++++++++++++
- 1 file changed, 23 insertions(+)
+You mean something like:
 
-diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
-index 931887ac68..a528251c8d 100644
---- a/hw/arm/aspeed_ast2600.c
-+++ b/hw/arm/aspeed_ast2600.c
-@@ -31,6 +31,8 @@ static const hwaddr aspeed_soc_ast2600_memmap[] = {
-     [ASPEED_FMC]       = 0x1E620000,
-     [ASPEED_SPI1]      = 0x1E630000,
-     [ASPEED_SPI2]      = 0x1E641000,
-+    [ASPEED_EHCI1]     = 0x1E6A1000,
-+    [ASPEED_EHCI2]     = 0x1E6A3000,
-     [ASPEED_MII1]      = 0x1E650000,
-     [ASPEED_MII2]      = 0x1E650008,
-     [ASPEED_MII3]      = 0x1E650010,
-@@ -77,6 +79,8 @@ static const int aspeed_soc_ast2600_irqmap[] = {
-     [ASPEED_ADC]       = 78,
-     [ASPEED_XDMA]      = 6,
-     [ASPEED_SDHCI]     = 43,
-+    [ASPEED_EHCI1]     = 5,
-+    [ASPEED_EHCI2]     = 9,
-     [ASPEED_GPIO]      = 40,
-     [ASPEED_GPIO_1_8V] = 11,
-     [ASPEED_RTC]       = 13,
-@@ -167,6 +171,11 @@ static void aspeed_soc_ast2600_init(Object *obj)
-                               sizeof(s->spi[i]), typename);
-     }
- 
-+    for (i = 0; i < sc->ehcis_num; i++) {
-+        sysbus_init_child_obj(obj, "ehci[*]", OBJECT(&s->ehci[i]),
-+                              sizeof(s->ehci[i]), TYPE_PLATFORM_EHCI);
-+    }
-+
-     snprintf(typename, sizeof(typename), "aspeed.sdmc-%s", socname);
-     sysbus_init_child_obj(obj, "sdmc", OBJECT(&s->sdmc), sizeof(s->sdmc),
-                           typename);
-@@ -395,6 +404,19 @@ static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
-                         s->spi[i].ctrl->flash_window_base);
-     }
- 
-+    /* EHCI */
-+    for (i = 0; i < sc->ehcis_num; i++) {
-+        object_property_set_bool(OBJECT(&s->ehci[i]), true, "realized", &err);
-+        if (err) {
-+            error_propagate(errp, err);
-+            return;
-+        }
-+        sysbus_mmio_map(SYS_BUS_DEVICE(&s->ehci[i]), 0,
-+                        sc->memmap[ASPEED_EHCI1 + i]);
-+        sysbus_connect_irq(SYS_BUS_DEVICE(&s->ehci[i]), 0,
-+                           aspeed_soc_get_irq(s, ASPEED_EHCI1 + i));
-+    }
-+
-     /* SDMC - SDRAM Memory Controller */
-     object_property_set_bool(OBJECT(&s->sdmc), true, "realized", &err);
-     if (err) {
-@@ -499,6 +521,7 @@ static void aspeed_soc_ast2600_class_init(ObjectClass *oc, void *data)
-     sc->silicon_rev  = AST2600_A0_SILICON_REV;
-     sc->sram_size    = 0x10000;
-     sc->spis_num     = 2;
-+    sc->ehcis_num    = 2;
-     sc->wdts_num     = 4;
-     sc->macs_num     = 4;
-     sc->irqmap       = aspeed_soc_ast2600_irqmap;
--- 
-2.17.1
+/* Registered machine type:
+  * https://www.arm.linux.org.uk/developer/machines/list.php?mid=3D3138
+  */
+
+>=20
+> Regards,
+> BALATON Zoltan
+>=20
+>> +#define MACH_TYPE_BCM2708=C2=A0=C2=A0 3138 /* Linux board IDs */
+>>
+>> typedef struct RasPiState {
+>> =C2=A0=C2=A0=C2=A0 BCM283XState soc;
+>> @@ -116,7 +115,7 @@ static void setup_boot(MachineState *machine, int=20
+>> version, size_t ram_size)
+>> =C2=A0=C2=A0=C2=A0 static struct arm_boot_info binfo;
+>> =C2=A0=C2=A0=C2=A0 int r;
+>>
+>> -=C2=A0=C2=A0=C2=A0 binfo.board_id =3D raspi_boardid[version];
+>> +=C2=A0=C2=A0=C2=A0 binfo.board_id =3D MACH_TYPE_BCM2708;
+>> =C2=A0=C2=A0=C2=A0 binfo.ram_size =3D ram_size;
+>> =C2=A0=C2=A0=C2=A0 binfo.nb_cpus =3D machine->smp.cpus;
+>>
+>>
 
 
