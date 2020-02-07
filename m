@@ -2,72 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27D0E155A62
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 16:10:00 +0100 (CET)
-Received: from localhost ([::1]:59008 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 047B0155A72
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 16:14:53 +0100 (CET)
+Received: from localhost ([::1]:59166 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j05GZ-0007IS-5o
-	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 10:09:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60257)
+	id 1j05LI-00078E-3M
+	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 10:14:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60353)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1j058H-0000oz-9i
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 10:01:26 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1j058L-0000zO-VN
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 10:01:31 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1j058F-0003rx-0K
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 10:01:25 -0500
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:40391)
+ (envelope-from <alex.bennee@linaro.org>) id 1j058H-0003yA-0P
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 10:01:29 -0500
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:40209)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1j058E-0003m8-PQ
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 10:01:22 -0500
-Received: by mail-wm1-x342.google.com with SMTP id t14so3087846wmi.5
- for <qemu-devel@nongnu.org>; Fri, 07 Feb 2020 07:01:22 -0800 (PST)
+ id 1j058G-0003tK-Pp
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 10:01:24 -0500
+Received: by mail-wr1-x441.google.com with SMTP id t3so3050146wru.7
+ for <qemu-devel@nongnu.org>; Fri, 07 Feb 2020 07:01:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=IJCI3ecePskizRDxYgL1MN+1IoehJPZSqp7DKKTNS8A=;
- b=JYzdP/i/D8FO0LkEpN0NgzLiA0P0LsfNY9+uJRk7aokme7rbTV+Q9aCT14jhDdzz22
- YdcN5f7qCR1B4UrgOKpuQ8qjDNUt3cC0Rzyi2QBdcPbsVQl502W7pdaKifQnsT7Dj2ys
- BJeOhWbWfO+ZU4euU9FREi91EkEKlsxEDtp44ry6N8EML9BOGc8bVoTLpfDxcQKMBBsb
- wgFr+g0ywJ7LB+bnbGXxup3/OZgfEjsSRR+b9HaITbSjMonX0j1zgTK34DQCz4OQZVuZ
- D5+Z0DONZASvT6IrJUzf8IjQSMR9mwEjxXc7PtUDsRc9lom1fAOik5kWJ01tYqTnwnem
- Kq7g==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=/ZswA9Otu9vtfPLtWP689YkHSf+JvE188+hies8lU5M=;
+ b=ncgrbPZhSiBQ/R5Vkz0ucSHt+Y6ZL1DKItYxxKSCAY1OrG7J9mSyFjzO6CLX/7hagI
+ f+9tyPzRLU0pHlBuFLMlRa0E7/tD9RyRQZ8WK2+EZiU/GPJ70jbBJSJz3ZD79TcwvVgI
+ I5LNMRXIOi9C44YyNDnZhrxo7ZaBDZtKR47dXRBJzNVDQcY7u5aCWiD1ft5maLVRwL/3
+ dI8UHnl7YimIhYMjvrEi7Foeli7NCsdjRAclY+UlKzlAMYStTwFbz5dwCm2RIuEx3/h6
+ NnHXifni6JuBfLhb/is3SBSc54N7R1Ib1tEx4R+9PluCt8Zp2NHXf6NzORnz35UlsO/U
+ A7hA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=IJCI3ecePskizRDxYgL1MN+1IoehJPZSqp7DKKTNS8A=;
- b=T45Zm08XTBDIeSaiUMKg5mdT3miZ9lw17/GuJLoggKVAVI5dtQu+YQnu3wgdFVf7QN
- 3B7kREBxYrexVkeK4TTJ5E6wlxvQkeEw9R9z2yz5hQGebXvkp1zhLipuz6tH4qA/oZ9z
- B75PeL6tjFoDTK6P1SqhjORhw/SuCHAz7p70fYYqr/qxQFEuQon2ZlUJcylbWjooKj6N
- X8rPEmHCdH56WESpF75Yx0joc1exl4rcBFkdI00jur0CqlQq6Z9pqTTY+5q9Fn+dtYk3
- 4W9rSipPW3lNDR7YhmXu/UNQ9kUqlPbM8XyB5ed1thCDYttKun7AutFnG8c6zPb+XPLL
- VhDA==
-X-Gm-Message-State: APjAAAUmmYqEMbjOUQMN5CuvQY6yseTRypxFobJgCJK8XCcfiNTQNEOj
- tMlTl0dqlHqupbKXUwEl7BMEqw==
-X-Google-Smtp-Source: APXvYqzVWjDDMeaCLxNRhG5AojHFyJiPDRpm3KQage2ykWOJj8HuBYDCTY6w/vlwE29uaFxx6HZCbg==
-X-Received: by 2002:a1c:7203:: with SMTP id n3mr4784113wmc.119.1581087681633; 
- Fri, 07 Feb 2020 07:01:21 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=/ZswA9Otu9vtfPLtWP689YkHSf+JvE188+hies8lU5M=;
+ b=DHYSXQVZ/mHzrhTza4LHhQN55fS5CDGwUhhYDAokBwMHx62pi5Uou9tOvkM2SYcrBi
+ 2nx2hY4YazGdSe5PlGD2MJEPbZgf5eFwP7/M0YDy9CYaKUSJmchukrhb1AJW0CkgQN49
+ yzVdPpgIeAV9eKh7+4xlOVjIHUSW6rJt+iBJtFO9xcMWzpFa7NAMih0tXu7iTuoYHc6D
+ JG75EvtjqRCSaA+5gkB/0AGTfkgWhM8JHKcQEsP7mnrSn4A2JK9zCD2fCOnHq0EwKrhW
+ 0h982SwgeCHwFIn8eX/cbC1EL1DTAbJYP0h1Lqo4hXas81Iqa8z3j+CROEnIKWO/4vJH
+ EepQ==
+X-Gm-Message-State: APjAAAUebOudGfMLhBKVJUJskuT7CJaultjAW/mjHP36V9lEKWbUEi77
+ Ru2Al020KkwU3h4L7Oy6zl3dTQ==
+X-Google-Smtp-Source: APXvYqylIFZGgwj+7zbjjqupasm0ZNmyYEAz1rz1jBFm7MYoxN9PeEmV2jGByB76xkBD5zh0K8ji0Q==
+X-Received: by 2002:a5d:40d1:: with SMTP id b17mr4958979wrq.93.1581087682781; 
+ Fri, 07 Feb 2020 07:01:22 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id i11sm3647867wrs.10.2020.02.07.07.01.19
+ by smtp.gmail.com with ESMTPSA id r14sm3595073wrj.26.2020.02.07.07.01.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 07 Feb 2020 07:01:19 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id E38EE1FF87;
- Fri,  7 Feb 2020 15:01:18 +0000 (GMT)
+ by zen.linaroharston (Postfix) with ESMTP id 033271FF8C;
+ Fri,  7 Feb 2020 15:01:19 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 0/5] plugins/next
-Date: Fri,  7 Feb 2020 15:01:13 +0000
-Message-Id: <20200207150118.23007-1-alex.bennee@linaro.org>
+Subject: [PATCH  v1 1/5] docs/devel: document query handle lifetimes
+Date: Fri,  7 Feb 2020 15:01:14 +0000
+Message-Id: <20200207150118.23007-2-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200207150118.23007-1-alex.bennee@linaro.org>
+References: <20200207150118.23007-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::342
+X-Received-From: 2a00:1450:4864:20::441
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,31 +88,38 @@ Cc: robert.foley@linaro.org, robhenry@microsoft.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+I forgot to document the lifetime of handles in the developer
+documentation. Do so now.
 
-A few bits and pieces for plugin cleanup. The most major thing in this
-series is tweaking the riscv decoder to only load the instruction
-bytes it needs.
-
-Alex Bennée (3):
-  docs/devel: document query handle lifetimes
-  target/riscv: progressively load the instruction during decode
-  tests/plugins: make howvec clean-up after itself.
-
-Chen Qun (1):
-  tests/plugin: prevent uninitialized warning
-
-Emilio G. Cota (1):
-  plugins/core: add missing break in cb_to_tcg_flags
-
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+---
  docs/devel/tcg-plugins.rst | 13 +++++++++++--
- plugins/core.c             |  1 +
- target/riscv/translate.c   | 39 +++++++++++++++++++-------------------
- tests/plugin/bb.c          |  6 +++---
- tests/plugin/howvec.c      | 12 +++++++++++-
- tests/plugin/insn.c        |  3 +--
- 6 files changed, 47 insertions(+), 27 deletions(-)
+ 1 file changed, 11 insertions(+), 2 deletions(-)
 
+diff --git a/docs/devel/tcg-plugins.rst b/docs/devel/tcg-plugins.rst
+index 718eef00f22..a05990906cc 100644
+--- a/docs/devel/tcg-plugins.rst
++++ b/docs/devel/tcg-plugins.rst
+@@ -51,8 +51,17 @@ about how QEMU's translation works to the plugins. While there are
+ conceptions such as translation time and translation blocks the
+ details are opaque to plugins. The plugin is able to query select
+ details of instructions and system configuration only through the
+-exported *qemu_plugin* functions. The types used to describe
+-instructions and events are opaque to the plugins themselves.
++exported *qemu_plugin* functions.
++
++Query Handle Lifetime
++---------------------
++
++Each callback provides an opaque anonymous information handle which
++can usually be further queried to find out information about a
++translation, instruction or operation. The handles themselves are only
++valid during the lifetime of the callback so it is important that any
++information that is needed is extracted during the callback and saved
++by the plugin.
+ 
+ Usage
+ =====
 -- 
 2.20.1
 
