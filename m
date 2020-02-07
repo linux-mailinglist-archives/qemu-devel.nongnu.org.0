@@ -2,70 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 111F0155ACA
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 16:36:06 +0100 (CET)
-Received: from localhost ([::1]:59574 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85D83155AE7
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 16:42:30 +0100 (CET)
+Received: from localhost ([::1]:59644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j05fp-0000vP-5N
-	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 10:36:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43109)
+	id 1j05m1-0003UJ-Ix
+	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 10:42:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44392)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1j05ev-0000QZ-GR
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 10:35:10 -0500
+ (envelope-from <clg@kaod.org>) id 1j05kb-0002QP-6C
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 10:41:02 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1j05eu-0005qF-5t
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 10:35:09 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:40014
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <clg@kaod.org>) id 1j05kZ-0007qA-U7
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 10:41:00 -0500
+Received: from 5.mo1.mail-out.ovh.net ([178.33.45.107]:33578)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1j05eu-0005nk-14
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 10:35:08 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581089707;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=yPPQkTCtRUKJSQf5+v3mC0gtxDV0mWLa7RSzl48dRpA=;
- b=gDQIet5mN+KYN72QkMFGRxrQ0BAU4piDhBSldKnmijWKFhYiYnkSuZstRyp5DPseK3Brci
- xvt0XHQBA5m1wIDMFXQk4fgCrm2BPmHM12QLc/vw5BCFECczik4FbiTA7FtxHm+O141jB9
- 88BG4F9MNuSpu1VPO9s7ZMCw+k5bUYg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-148-XC1-NYkYMLecGauCAz7Heg-1; Fri, 07 Feb 2020 10:35:03 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EC9A518CA244;
- Fri,  7 Feb 2020 15:35:02 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-116-136.ams2.redhat.com
- [10.36.116.136])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8C3DE5DA7E;
- Fri,  7 Feb 2020 15:34:55 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 1DA1111386A7; Fri,  7 Feb 2020 16:34:54 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH 19/29] qapi/qapi-schema.json: Put headers in their own
- doc-comment blocks
-References: <20200206173040.17337-1-peter.maydell@linaro.org>
- <20200206173040.17337-20-peter.maydell@linaro.org>
-Date: Fri, 07 Feb 2020 16:34:54 +0100
-In-Reply-To: <20200206173040.17337-20-peter.maydell@linaro.org> (Peter
- Maydell's message of "Thu, 6 Feb 2020 17:30:30 +0000")
-Message-ID: <87r1z6pg0x.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1j05kZ-0007pW-NC
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 10:40:59 -0500
+Received: from player763.ha.ovh.net (unknown [10.110.115.3])
+ by mo1.mail-out.ovh.net (Postfix) with ESMTP id 921451ADECA
+ for <qemu-devel@nongnu.org>; Fri,  7 Feb 2020 16:40:57 +0100 (CET)
+Received: from kaod.org (82-64-250-170.subs.proxad.net [82.64.250.170])
+ (Authenticated sender: clg@kaod.org)
+ by player763.ha.ovh.net (Postfix) with ESMTPSA id 36D9AF1DE094;
+ Fri,  7 Feb 2020 15:40:51 +0000 (UTC)
+Subject: Re: [PATCH] hw/arm: ast2600: Wire up EHCI controllers
+To: Guenter Roeck <linux@roeck-us.net>
+References: <20200207144954.13634-1-linux@roeck-us.net>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <436fbb5b-e3b2-600b-79d6-469459eb947e@kaod.org>
+Date: Fri, 7 Feb 2020 16:40:49 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: XC1-NYkYMLecGauCAz7Heg-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+In-Reply-To: <20200207144954.13634-1-linux@roeck-us.net>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+X-Ovh-Tracer-Id: 9586193285964729152
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedugedrheehgdektdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefuvfhfhffkffgfgggjtgfgsehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecukfhppedtrddtrddtrddtpdekvddrieegrddvhedtrddujedtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrjeeifedrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhg
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+X-Received-From: 178.33.45.107
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,95 +57,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: John Snow <jsnow@redhat.com>,
- "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
- qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
- Michael Roth <mdroth@linux.vnet.ibm.com>
+Cc: Andrew Jeffery <andrew@aj.id.au>, Peter Maydell <peter.maydell@linaro.org>,
+ qemu-arm@nongnu.org, Joel Stanley <joel@jms.id.au>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Peter Maydell <peter.maydell@linaro.org> writes:
+On 2/7/20 3:49 PM, Guenter Roeck wrote:
+> Initialize EHCI controllers on AST2600 using the existing
+> TYPE_PLATFORM_EHCI. After this change, booting ast2600-evb
+> into Linux successfully instantiates a USB interface after
+> the necessary changes are made to its devicetree files.
+>=20
+> ehci_hcd: USB 2.0 'Enhanced' Host Controller (EHCI) Driver
+> ehci-platform: EHCI generic platform driver
+> ehci-platform 1e6a3000.usb: EHCI Host Controller
+> ehci-platform 1e6a3000.usb: new USB bus registered, assigned bus number=
+ 1
+> ehci-platform 1e6a3000.usb: irq 25, io mem 0x1e6a3000
+> ehci-platform 1e6a3000.usb: USB 2.0 started, EHCI 1.00
+> usb usb1: Manufacturer: Linux 5.5.0-09825-ga0802f2d0ef5-dirty ehci_hcd
+> usb 1-1: new high-speed USB device number 2 using ehci-platform
+>=20
+> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
 
-> Our current QAPI doc-comment markup allows section headers
-> (introduced with a leading '=3D' or '=3D=3D') anywhere in any documentati=
-on
-> comment.  This works for texinfo because the texi generator simply
-> prints a texinfo heading directive at that point in the output
-> stream.  For rST generation, since we're assembling a tree of
-> docutils nodes, this is awkward because a new section implies
-> starting a new section node at the top level of the tree and
-> generating text into there.
->
-> New section headings in the middle of the documentation of a command
-> or event would be pretty nonsensical, and in fact we only ever output
-> new headings using 'freeform' doc comment blocks whose only content
-> is the single line of the heading, with two exceptions, which are in
-> the introductory freeform-doc-block at the top of
-> qapi/qapi-schema.json.
->
-> Split that doc-comment up so that the heading lines are in their own
-> doc-comment.  This will allow us to tighten the specification to
-> insist that heading lines are always standalone, rather than
-> requiring the rST document generator to look at every line in a doc
-> comment block and handle headings in odd places.
->
-> This change makes no difference to the generated texi.
->
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
+
 > ---
->  qapi/qapi-schema.json | 12 +++++++++---
->  1 file changed, 9 insertions(+), 3 deletions(-)
->
-> diff --git a/qapi/qapi-schema.json b/qapi/qapi-schema.json
-> index 9751b11f8f1..f7ba60a5d0b 100644
-> --- a/qapi/qapi-schema.json
-> +++ b/qapi/qapi-schema.json
-> @@ -1,7 +1,9 @@
->  # -*- Mode: Python -*-
->  ##
->  # =3D Introduction
-> -#
-> +##
+>  hw/arm/aspeed_ast2600.c | 23 +++++++++++++++++++++++
+>  1 file changed, 23 insertions(+)
+>=20
+> diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
+> index 931887ac68..a528251c8d 100644
+> --- a/hw/arm/aspeed_ast2600.c
+> +++ b/hw/arm/aspeed_ast2600.c
+> @@ -31,6 +31,8 @@ static const hwaddr aspeed_soc_ast2600_memmap[] =3D {
+>      [ASPEED_FMC]       =3D 0x1E620000,
+>      [ASPEED_SPI1]      =3D 0x1E630000,
+>      [ASPEED_SPI2]      =3D 0x1E641000,
+> +    [ASPEED_EHCI1]     =3D 0x1E6A1000,
+> +    [ASPEED_EHCI2]     =3D 0x1E6A3000,
+>      [ASPEED_MII1]      =3D 0x1E650000,
+>      [ASPEED_MII2]      =3D 0x1E650008,
+>      [ASPEED_MII3]      =3D 0x1E650010,
+> @@ -77,6 +79,8 @@ static const int aspeed_soc_ast2600_irqmap[] =3D {
+>      [ASPEED_ADC]       =3D 78,
+>      [ASPEED_XDMA]      =3D 6,
+>      [ASPEED_SDHCI]     =3D 43,
+> +    [ASPEED_EHCI1]     =3D 5,
+> +    [ASPEED_EHCI2]     =3D 9,
+>      [ASPEED_GPIO]      =3D 40,
+>      [ASPEED_GPIO_1_8V] =3D 11,
+>      [ASPEED_RTC]       =3D 13,
+> @@ -167,6 +171,11 @@ static void aspeed_soc_ast2600_init(Object *obj)
+>                                sizeof(s->spi[i]), typename);
+>      }
+> =20
+> +    for (i =3D 0; i < sc->ehcis_num; i++) {
+> +        sysbus_init_child_obj(obj, "ehci[*]", OBJECT(&s->ehci[i]),
+> +                              sizeof(s->ehci[i]), TYPE_PLATFORM_EHCI);
+> +    }
 > +
-> +##
->  # This document describes all commands currently supported by QMP.
->  #
->  # Most of the time their usage is exactly the same as in the user Monito=
-r, this
-> @@ -25,9 +27,13 @@
->  #
->  # Please, refer to the QMP specification (docs/interop/qmp-spec.txt) for
->  # detailed information on the Server command and response formats.
-> -#
-> +##
+>      snprintf(typename, sizeof(typename), "aspeed.sdmc-%s", socname);
+>      sysbus_init_child_obj(obj, "sdmc", OBJECT(&s->sdmc), sizeof(s->sdm=
+c),
+>                            typename);
+> @@ -395,6 +404,19 @@ static void aspeed_soc_ast2600_realize(DeviceState=
+ *dev, Error **errp)
+>                          s->spi[i].ctrl->flash_window_base);
+>      }
+> =20
+> +    /* EHCI */
+> +    for (i =3D 0; i < sc->ehcis_num; i++) {
+> +        object_property_set_bool(OBJECT(&s->ehci[i]), true, "realized"=
+, &err);
+> +        if (err) {
+> +            error_propagate(errp, err);
+> +            return;
+> +        }
+> +        sysbus_mmio_map(SYS_BUS_DEVICE(&s->ehci[i]), 0,
+> +                        sc->memmap[ASPEED_EHCI1 + i]);
+> +        sysbus_connect_irq(SYS_BUS_DEVICE(&s->ehci[i]), 0,
+> +                           aspeed_soc_get_irq(s, ASPEED_EHCI1 + i));
+> +    }
 > +
-> +##
->  # =3D Stability Considerations
-> -#
-> +##
-> +
-> +##
->  # The current QMP command set (described in this file) may be useful for=
- a
->  # number of use cases, however it's limited and several commands have ba=
-d
->  # defined semantics, specially with regard to command completion.
-
-I figure this is a minimally invasive patch to avoid complications in
-your rST generator.  I'm afraid it sweeps the actual problem under the
-rug, namely flaws in our parsing and representation of doc comments.
-
-The doc comment parser doesn't recognize headings.  Instead, that's done
-somewhere in the bowels of the Texinfo generator.  Works as long as the
-input is "sane", happily generates invalid Texinfo otherwise, see
-tests/qapi-schema/doc-bad-section.json.
-
-The proper fix is to make the parser recognize headers in the places
-where headers make sense, and reject them elsewhere.
-
-But maybe we don't have to.  Do you plan to support full rST in doc
-comments?  If yes, why have our own syntax for headings?  Why not leave
-it to rST?  If no, do you plan to support a subset of rST?  If yes,
-define it, please.  How will it be enforced?
+>      /* SDMC - SDRAM Memory Controller */
+>      object_property_set_bool(OBJECT(&s->sdmc), true, "realized", &err)=
+;
+>      if (err) {
+> @@ -499,6 +521,7 @@ static void aspeed_soc_ast2600_class_init(ObjectCla=
+ss *oc, void *data)
+>      sc->silicon_rev  =3D AST2600_A0_SILICON_REV;
+>      sc->sram_size    =3D 0x10000;
+>      sc->spis_num     =3D 2;
+> +    sc->ehcis_num    =3D 2;
+>      sc->wdts_num     =3D 4;
+>      sc->macs_num     =3D 4;
+>      sc->irqmap       =3D aspeed_soc_ast2600_irqmap;
+>=20
 
 
