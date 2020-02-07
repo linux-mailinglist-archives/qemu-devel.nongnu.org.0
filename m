@@ -2,96 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06B2D155A3C
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 16:01:07 +0100 (CET)
-Received: from localhost ([::1]:58700 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B79E155A5F
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 16:08:56 +0100 (CET)
+Received: from localhost ([::1]:58984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j057x-000781-Lt
-	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 10:01:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53689)
+	id 1j05FX-0005C7-8E
+	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 10:08:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54055)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1j04pW-0000DU-Ra
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:42:03 -0500
+ (envelope-from <armbru@redhat.com>) id 1j04r8-0003Gu-7r
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:43:43 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1j04pU-00085p-HQ
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:42:02 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:47617
+ (envelope-from <armbru@redhat.com>) id 1j04r6-0002aI-Or
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:43:42 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:56924
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1j04pU-000857-Db
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:42:00 -0500
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1j04r6-0002YG-K9
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:43:40 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581086520;
+ s=mimecast20190719; t=1581086619;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Id6jHij/PGKh2J66FgbjSKVYJfZS/jYgqt5+FPd4NWY=;
- b=iSGdZe4S6DELPnNZDHJkXYhkmrLpE5qA7hT2gKT8UN7plrMdB/PHMZJMBGq7OiEuZCUceJ
- +jQQrBw1M5+LTcK+AKF0oXCp+mVH5bMiI3fYwx34WO7T8QNDwZX01T2QNfY7GOY3/kJQlM
- Qig7w9zwukv4DWqbmapL8Oy/q9t7wxY=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=G2UTFxXL4ENISx6MqPKkVTip4U1lFhK8T7u8BMnfjvM=;
+ b=AQiF3b6PBKg8LJjkj8/sod5WCpjNcSi5JgNCuKtcjRvfaLpQstwZKMElHZSkBvI8w4WhEV
+ pImr/ImhPf/0/Tvmy4djYIEoWNZW8ZA3PJSZTm6nSt11gRRRwMNONlymvFsWoy3zaAVM5U
+ Zn7YMaM5/3stFPOG7j+fvSF1VMgzkKs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-60-zKVpkznGOLuRR8hwKj-lCw-1; Fri, 07 Feb 2020 09:41:55 -0500
-X-MC-Unique: zKVpkznGOLuRR8hwKj-lCw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-300-LLSwRFmlOk-_cVZ4D2IG9w-1; Fri, 07 Feb 2020 09:43:37 -0500
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7EB0F800D5F;
- Fri,  7 Feb 2020 14:41:54 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-117-14.ams2.redhat.com
- [10.36.117.14])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4D5CF60BF7;
- Fri,  7 Feb 2020 14:41:53 +0000 (UTC)
-Subject: Re: [PATCH v3 1/1] qemu-img: Add --target-is-zero to convert
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Eric Blake <eblake@redhat.com>, David Edmondson
- <david.edmondson@oracle.com>, qemu-devel@nongnu.org
-References: <20200204095246.1974117-1-david.edmondson@oracle.com>
- <20200204095246.1974117-2-david.edmondson@oracle.com>
- <90f3f74b-6154-d7ce-4e0e-ba4422f7da11@redhat.com>
- <91c3d45b-4c27-d366-6dd9-5c27164cce35@virtuozzo.com>
- <92ca6082-a3a6-c116-d1cc-e9810280c0c6@redhat.com>
- <38ac63ec-af49-d9d5-c1d4-e45614b71d4c@redhat.com>
- <f110458f-b3e7-6301-64bf-2b4957f3601e@virtuozzo.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <570489b5-8d1b-27c4-01d3-0e63130d2c57@redhat.com>
-Date: Fri, 7 Feb 2020 15:41:51 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 35E1B1081FA0;
+ Fri,  7 Feb 2020 14:43:36 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-116-136.ams2.redhat.com
+ [10.36.116.136])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id ED14D5C28C;
+ Fri,  7 Feb 2020 14:43:30 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 7FBD111386A7; Fri,  7 Feb 2020 15:43:29 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH 08/29] qapi: Use ':' after @argument in doc comments
+References: <20200206173040.17337-1-peter.maydell@linaro.org>
+ <20200206173040.17337-9-peter.maydell@linaro.org>
+ <87pnequ4og.fsf@dusky.pond.sub.org>
+ <20200207102433.GC6031@linux.fritz.box>
+ <CAFEAcA9a8G=RQASBxQGLMBU32w+G7un-xQwOHv4y56W1TQftPQ@mail.gmail.com>
+Date: Fri, 07 Feb 2020 15:43:29 +0100
+In-Reply-To: <CAFEAcA9a8G=RQASBxQGLMBU32w+G7un-xQwOHv4y56W1TQftPQ@mail.gmail.com>
+ (Peter Maydell's message of "Fri, 7 Feb 2020 11:05:42 +0000")
+Message-ID: <87zhdupiem.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <f110458f-b3e7-6301-64bf-2b4957f3601e@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-MC-Unique: LLSwRFmlOk-_cVZ4D2IG9w-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="OoyiFVJMr0NAEOAhwWDux8lAl2YDh7eTb"
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
@@ -105,113 +79,164 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-block@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---OoyiFVJMr0NAEOAhwWDux8lAl2YDh7eTb
-Content-Type: multipart/mixed; boundary="d2dAZrtJMbSkAl1JONBCYBb5R2jPce645"
+Peter Maydell <peter.maydell@linaro.org> writes:
 
---d2dAZrtJMbSkAl1JONBCYBb5R2jPce645
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-On 07.02.20 13:07, Vladimir Sementsov-Ogievskiy wrote:
-> 07.02.2020 13:33, Max Reitz wrote:
->> On 04.02.20 15:23, Eric Blake wrote:
->>> On 2/4/20 7:59 AM, Vladimir Sementsov-Ogievskiy wrote:
->>>
->>>>> I understand that it is safer to have restrictions now and lift them
->>>>> later, than to allow use of the option at any time and leave room for
->>>>> the user to shoot themselves in the foot with no way to add safety
->>>>> later.=C2=A0 The argument against no backing file is somewhat
->>>>> understandable (technically, as long as the backing file also reads
->>>>> as all zeroes, then the overall image reads as all zeroes - but why
->>>>> have a backing file that has no content?); the argument requiring -n
->>>>> is a bit weaker (if I'm creating an image, I _know_ it reads as all
->>>>> zeroes, so the --target-is-zero argument is redundant, but it
->>>>> shouldn't hurt to allow it).
->>>>
->>>> I know that it reads as all zeroes, only if this format provides zero
->>>> initialization..
->>>>
->>>>>
->>>>>> +++ b/qemu-img.c
->>>>>
->>>>>> @@ -2247,6 +2256,11 @@ static int img_convert(int argc, char **argv)
->>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 warn_re=
-port("This will become an error in future QEMU
->>>>>> versions.");
->>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->>>>>> +=C2=A0=C2=A0=C2=A0 if (s.has_zero_init && !skip_create) {
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 error_report("--target-i=
-s-zero requires use of -n flag");
->>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 goto fail_getopt;
->>>>>> +=C2=A0=C2=A0=C2=A0 }
->>>>>
->>>>> So I think we could drop this hunk with no change in behavior.
->>>>
->>>> I think, no we can't. If we allow target-is-zero, with -n, we'd better
->>>> to check that what we are creating is zero-initialized (format has
->>>> zero-init), and if not we should report error.
->>>>
->>>
->>> Good call.=C2=A0 Yes, if we allow --target-is-zero without -n, we MUST =
-insist
->>> that bdrv_has_zero_init() returns 1 (or, after my followup series,
->>> bdrv_known_zeroes() includes BDRV_ZERO_CREATE).
+> On Fri, 7 Feb 2020 at 10:24, Kevin Wolf <kwolf@redhat.com> wrote:
 >>
->> Why?
+>> Am 07.02.2020 um 10:28 hat Markus Armbruster geschrieben:
+>> > Peter Maydell <peter.maydell@linaro.org> writes:
+>> > > @@ -4703,7 +4703,7 @@
+>> > >  #
+>> > >  # Options for creating an image format on a given node.
+>> > >  #
+>> > > -# @driver           block driver to create the image format
+>> > > +# @driver: block driver to create the image format
+>> > >  #
+>> > >  # Since: 2.12
+>> > >  ##
+>> >
+>> > Loses the visual alignment.  I'm okay with that, but the folks who too=
+k
+>> > the trouble to align the text may have different ideas.  Cc'ing Kevin
+>> > and Max.
 >>
->> I could imagine a user creating a qcow2 image on some block device with
->> preallocation where we cannot verify that the result will be zero.=C2=A0=
- But
->> they want qemu not to zero the device, so they would specify
->> --target-is-zero.
->=20
-> If user create image, setting --target-is-zero is always valid. But if
-> we in
-> same operation create the image automatically, having --target-is-zero,
-> when
-> we know that what we are creating is not zero is misleading and should
-> fail..
+>> I think the documentation is much easier to parse visually with aligned
+>> text as it makes both the option name and the whole part of the comment
+>> that documents options stand out clearly.
+>>
+>> Of course, "It is the QEMU coding style." would trump everything, but as
+>> long as there isn't a style guide that requires a wall of text without
+>> spaces and alignment, I'd prefer to leave at least those aligned texts
+>> in place that we have.
+>
+> So, the other way to handle this would be to say "the @foo: can have
+> an arbitrary amount of whitespace after it", and have the doc comment
+> parser strip out that many characters of extra whitespace there and
+> on the subsequent lines. The downside is that then you would have no
+> way of having a comment for an argument which started with rST markup
+> that required leading whitespace. I think this pretty much would just
+> mean that you can't start an argument description with a blockquote,
+> so we don't lose much, but there is a difference currently between:
+>
+> @arg:    In the current parser this is a blockquote
+>          Blockquote line 2
+>
+>       But this is a non-blockquoted line still in @arg's description
+>
+> and
+>
+> @arg: This is not blockquoted, it's just a line
+>       So is this
+>       and this
+>
+> I can make the parser work the other way if people prefer that though
+> (and then the first example above would become a syntax error because
+> the 3rd line would be unexpectedly de-indented).
 
-bdrv_has_zero_init() doesn=E2=80=99t return false only for images that we k=
-now
-are not zero.  It returns true for images where we know they are.  But
-if we don=E2=80=99t know, then it returns false also.
+Let me ignore rST details for a bit.
 
-> If we want to add a behavior to skip zeros unconditionally, we should
-> call new
-> option --skip-zeroes, to clearly specify what we want.
+The prevailing schema style looks like this:
 
-It was my impression that this was exactly what --target-is-zero means
-and implies.
+    # @file: Node to create the image format on
+    # @size: Size of the virtual disk in bytes
+    # @log-size: Log size in bytes, must be a multiple of 1 MB
+    #            (default: 1 MB)
+    # @block-size: Block size in bytes, must be a multiple of 1 MB and not
+    #              larger than 256 MB (default: automatically choose a bloc=
+k
+    #              size depending on the image size)
+    # @subformat: vhdx subformat (default: dynamic)
+    # @block-state-zero: Force use of payload blocks of type 'ZERO'. Non-st=
+andard,
+    #                    but default.  Do not set to 'off' when using 'qemu=
+-img
+    #                    convert' with subformat=3Ddynamic.
 
-Max
+Peter's patch converts to it.  Can't fault him for converting to the
+prevailing style.
 
+Trouble is the prevailing style is ugly, and can waste massive amounts
+of screen real estate when both the identifier and the explaining text
+are long.
 
---d2dAZrtJMbSkAl1JONBCYBb5R2jPce645--
+block*.json's style looks like this:
 
---OoyiFVJMr0NAEOAhwWDux8lAl2YDh7eTb
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
+    # @file:             Node to create the image format on
+    # @size:             Size of the virtual disk in bytes
+    # @log-size:         Log size in bytes, must be a multiple of 1 MB
+    #                    (default: 1 MB)
+    # @block-size:       Block size in bytes, must be a multiple of 1 MB an=
+d not
+    #                    larger than 256 MB (default: automatically choose =
+a block
+    #                    size depending on the image size)
+    # @subformat:        vhdx subformat (default: dynamic)
+    # @block-state-zero: Force use of payload blocks of type 'ZERO'. Non-st=
+andard,
+    #                    but default.  Do not set to 'off' when using 'qemu=
+-img
+    #                    convert' with subformat=3Ddynamic.
 
------BEGIN PGP SIGNATURE-----
+I dislike this style, too.  It's less ugly, until you add a longer
+member.  Then you either accept inconsistent indentation, or reindent
+all the other members.  Blech.
 
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl49dy8ACgkQ9AfbAGHV
-z0DoxAf9F9oeR2Sdnrm5l8lgX2UBNKKBxpT25/ZAI3FWmeFBMybKlwHsrpZaWD8Q
-OTxzoGPGkuhWcnjGvpkatGjPmNinovIzI9YItLNeY2C/zt7nKtUZzQfLr9zMezCl
-7s/c2mh+DxzWPbzGs51QvmeRSLDDtIvJeNNbOMj9J9vUmJf2G2KF1+as1KYf01Qv
-jZJHFUcDTjRZut0MPyBF1RrBvSsHBA9diRa3bX6tsQeoHlcYCVfp0CAZXJ4uAA9Z
-2u/WCo3rQZHOvIoHTr5l1q+jfY8PddSojwNjH2taFsMzKXPim/92XR21priDropB
-DiBSTq9Vd4dEX0MW9qO8+C8WD3FNNg==
-=Y2bK
------END PGP SIGNATURE-----
+Here's a style I'd dislike less:
 
---OoyiFVJMr0NAEOAhwWDux8lAl2YDh7eTb--
+    # @file: Node to create the image format on
+    #
+    # @size: Size of the virtual disk in bytes
+    #
+    # @log-size: Log size in bytes, must be a multiple of 1 MB
+    #     (default: 1 MB)
+    #
+    # @block-size: Block size in bytes, must be a multiple of 1 MB and not
+    #     larger than 256 MB (default: automatically choose a block
+    #     size depending on the image size)
+    #
+    # @subformat: vhdx subformat (default: dynamic)
+    #
+    # @block-state-zero: Force use of payload blocks of type 'ZERO'.
+    #     Non-standard, but default.  Do not set to 'off' when using
+    #     'qemu-img convert' with subformat=3Ddynamic.
+
+Or maybe even
+
+    # @file:
+    # Node to create the image format on
+    #
+    # @size:
+    # Size of the virtual disk in bytes
+    #
+    # @log-size:
+    # Log size in bytes, must be a multiple of 1 MB (default: 1 MB)
+    #
+    # @block-size:
+    # Block size in bytes, must be a multiple of 1 MB and not larger
+    # than 256 MB (default: automatically choose a block size depending
+    # on the image size)
+    #
+    # @subformat:
+    # vhdx subformat (default: dynamic)
+    #
+    # @block-state-zero:
+    # Force use of payload blocks of type 'ZERO'.  Non-standard, but
+    # default.  Do not set to 'off' when using 'qemu-img convert' with
+    # subformat=3Ddynamic.
+
+With both these styles, member names stand out reasonably well, and I
+don't have to fiddle with indentation when adding or removing members.
+With the second one, I don't have to fiddle with indentation at all.
+
+The second one might be the better fit for rST, but that's for Peter to
+judge.
 
 
