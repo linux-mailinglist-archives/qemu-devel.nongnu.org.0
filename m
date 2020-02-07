@@ -2,74 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22FD815577D
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 13:15:52 +0100 (CET)
-Received: from localhost ([::1]:55242 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DA5B15578D
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 13:20:53 +0100 (CET)
+Received: from localhost ([::1]:55310 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j02Y3-0008QD-7x
-	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 07:15:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43566)
+	id 1j02cu-0003jo-54
+	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 07:20:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44365)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1j02X2-0007qB-Q0
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 07:14:49 -0500
+ (envelope-from <drjones@redhat.com>) id 1j02by-00039j-GJ
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 07:19:55 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1j02X0-00045v-JF
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 07:14:48 -0500
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:37046)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1j02X0-0003yp-C2
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 07:14:46 -0500
-Received: by mail-wr1-x442.google.com with SMTP id w15so2433726wru.4
- for <qemu-devel@nongnu.org>; Fri, 07 Feb 2020 04:14:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=APm48nMhAJgM8zcNPhtqFc9m7bcvmldxhTeWjUTfYsM=;
- b=N60lTsGEHHHD1JsCxLhBwx6Ew0A+L5c51VQxxgbfFhrxSvno6bQFdwxMyIMSINUIa4
- 7bCdoO4kDBFDufA0avRXaubQywc4Zg9OoxROwRooxHxxWnIqoeiFa7J3A1R9MmE865SA
- vUBIC1clz89ChxpVUiZr36F0bcK9hqYSfjnVIffuEqMr7DhsayW1KjCg/96WjAEq33V1
- dO+NF9+/hJeZR9645Fm6s2xpxxkh8ef4Lzw/1ivXxbOBYn0T1IZHo8Ag0ON0RxIDj6OA
- S8LmS/edom/e8htCkBBW+oM3Tk01UvmhboVmfvHo9GQtKS7Yimqdr01hZBK6vANZwhZe
- eg0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=APm48nMhAJgM8zcNPhtqFc9m7bcvmldxhTeWjUTfYsM=;
- b=bNzIUQXSq7kEMY/x7NQ/EqmszvLdm7IJxjNgXFWeMcYAf3z1mU/apAPBKcOBcS7CI8
- sprtlBGSvxDNLFQl8zLQFOb1kXjsqMXnooeUy/X4whxQXwNVrJ4oZ6ratt1WyxN3wZ30
- 4m8wYpdVAIFhvzHS7TVzhEUcZbpTq6ZvxsoIkIyIQcRbIisMpV3jH5rNf05B45xotq5V
- H8dKQukd87x+NHcKV8+Aj5k8lRQ+uwS516pK2Iok0d/erOVg5A2yzVgNNZDvxKL3FMiM
- YxyFkz7EXIS4IahK+tsLY5WNCddgg/eeShBJ5RAFIUG3zLvYCW/AURKLTRvlQwzww2Ka
- xeaA==
-X-Gm-Message-State: APjAAAXxbPuc62PAbaD/wukAkkDFe37eudXnec6DmBmPLW3YjzvTQy8J
- pGc3lq8Jk7/7wh63j0hyVPXLyg==
-X-Google-Smtp-Source: APXvYqwc2dNNNnc2MjU62c4p+oqwCYYxMBrIr0qbX0izmO3yQ1YHqrDdzhRKx20p13+wNSoF3CGOOA==
-X-Received: by 2002:adf:f707:: with SMTP id r7mr4355556wrp.194.1581077682530; 
- Fri, 07 Feb 2020 04:14:42 -0800 (PST)
-Received: from [10.43.13.93] ([135.196.99.211])
- by smtp.gmail.com with ESMTPSA id s19sm3147586wmj.33.2020.02.07.04.14.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 07 Feb 2020 04:14:42 -0800 (PST)
-Subject: Re: [PATCH] Add support for a helper with 7 arguments
-To: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
-References: <1580942510-2820-1-git-send-email-tsimpson@quicinc.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <b308434a-1ee8-4fb5-0e60-4dfdd047c959@linaro.org>
-Date: Fri, 7 Feb 2020 12:14:40 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ (envelope-from <drjones@redhat.com>) id 1j02bw-0000mc-NK
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 07:19:53 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:56127
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <drjones@redhat.com>) id 1j02bw-0000iy-JW
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 07:19:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1581077991;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=OTNUC9fsNE6VxpNL7r78PwDWNHM+b+0JIyuBMuACd1o=;
+ b=A8KyB5Su9G77Uvw2+tiojlwY0ppqMnwGX0bUq8IwwJfNZgkSdTW4BRBxcEXQVaWPNfaKuG
+ CyLtNewi7BGR68c+ugHJYgiy+h+6bOqncSldDKeUTEj4PT5WwEQJfW1c5rmXKu+FjnFgcg
+ 6+hi2ANDbhPdIbpWxvCBuhoE8EZzF78=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-425-L5xCDUqvPKSy6tgTy0YJPw-1; Fri, 07 Feb 2020 07:19:47 -0500
+X-MC-Unique: L5xCDUqvPKSy6tgTy0YJPw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A17ED108838A;
+ Fri,  7 Feb 2020 12:19:45 +0000 (UTC)
+Received: from kamzik.brq.redhat.com (unknown [10.43.2.160])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 18FEB60BEC;
+ Fri,  7 Feb 2020 12:19:40 +0000 (UTC)
+Date: Fri, 7 Feb 2020 13:19:37 +0100
+From: Andrew Jones <drjones@redhat.com>
+To: Eric Auger <eric.auger@redhat.com>
+Subject: Re: [kvm-unit-tests PATCH v3 07/14] arm/arm64: gicv3: Enable/Disable
+ LPIs at re-distributor level
+Message-ID: <20200207121937.qstc3m55icpcn5rr@kamzik.brq.redhat.com>
+References: <20200128103459.19413-1-eric.auger@redhat.com>
+ <20200128103459.19413-8-eric.auger@redhat.com>
+ <20200207121437.qtvonx2x2xh3dvgc@kamzik.brq.redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <1580942510-2820-1-git-send-email-tsimpson@quicinc.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::442
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200207121437.qtvonx2x2xh3dvgc@kamzik.brq.redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,29 +71,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: peter.maydell@linaro.org, thuth@redhat.com, kvm@vger.kernel.org,
+ maz@kernel.org, qemu-devel@nongnu.org, qemu-arm@nongnu.org,
+ andre.przywara@arm.com, yuzenghui@huawei.com, alexandru.elisei@arm.com,
+ kvmarm@lists.cs.columbia.edu, eric.auger.pro@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/5/20 10:41 PM, Taylor Simpson wrote:
-> Currently, helpers can only take up to 6 arguments.  This patch adds the
-> capability for up to 7 arguments.  I have tested it with the Hexagon port
-> that I am preparing for submission.
+On Fri, Feb 07, 2020 at 01:14:37PM +0100, Andrew Jones wrote:
+> On Tue, Jan 28, 2020 at 11:34:52AM +0100, Eric Auger wrote:
+> > This helper function controls the signaling of LPIs at
+> > redistributor level.
+> > 
+> > Signed-off-by: Eric Auger <eric.auger@redhat.com>
+> > 
+> > ---
+> > 
+> > v2 -> v3:
+> > - move the helper in lib/arm/gic-v3.c
+> > - rename the function with gicv3_lpi_ prefix
+> > - s/report_abort/assert
+> > ---
+> >  lib/arm/asm/gic-v3.h |  1 +
+> >  lib/arm/gic-v3.c     | 17 +++++++++++++++++
+> >  2 files changed, 18 insertions(+)
+> > 
+> > diff --git a/lib/arm/asm/gic-v3.h b/lib/arm/asm/gic-v3.h
+> > index ec2a6f0..734c0c0 100644
+> > --- a/lib/arm/asm/gic-v3.h
+> > +++ b/lib/arm/asm/gic-v3.h
+> > @@ -96,6 +96,7 @@ extern void gicv3_lpi_set_config(int n, u8 val);
+> >  extern u8 gicv3_lpi_get_config(int n);
+> >  extern void gicv3_lpi_set_pending_table_bit(int rdist, int n, bool set);
+> >  extern void gicv3_lpi_alloc_tables(void);
+> > +extern void gicv3_lpi_rdist_ctrl(u32 redist, bool set);
+> >  
+> >  static inline void gicv3_do_wait_for_rwp(void *base)
+> >  {
+> > diff --git a/lib/arm/gic-v3.c b/lib/arm/gic-v3.c
+> > index c33f883..7865d01 100644
+> > --- a/lib/arm/gic-v3.c
+> > +++ b/lib/arm/gic-v3.c
+> > @@ -210,4 +210,21 @@ void gicv3_lpi_set_pending_table_bit(int rdist, int n, bool set)
+> >  		byte &= ~mask;
+> >  	*ptr = byte;
+> >  }
+> > +
+> > +void gicv3_lpi_rdist_ctrl(u32 redist, bool set)
 > 
-> Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
-> ---
->  include/exec/helper-gen.h   | 13 +++++++++++++
->  include/exec/helper-head.h  |  2 ++
->  include/exec/helper-proto.h |  6 ++++++
->  include/exec/helper-tcg.h   |  7 +++++++
->  4 files changed, 28 insertions(+)
+> _set_clr_ ?
 
-Applied to tcg-next, since this is correct, and it does work.
+No, probably not _set_clr_ here. The function could be
+static though, with other functions to enable/disable
 
-But I encourage you to re-think your purely mechanical approach to the hexagon
-port.  It seems to me that you should be doing much more during the translation
-phase so that you can minimize the number of helpers that you require.
+void gicv3_lpi_rdist_enable(redist) { gicv3_lpi_rdist_ctrl(redist, true); }
+void gicv3_lpi_rdist_disable(redist) { gicv3_lpi_rdist_ctrl(redist, false); }
 
+But whatever.
 
-r~
+> 
+> > +{
+> > +	void *ptr;
+> > +	u64 val;
+> > +
+> > +	assert(redist < nr_cpus);
+> > +
+> > +	ptr = gicv3_data.redist_base[redist];
+> > +	val = readl(ptr + GICR_CTLR);
+> > +	if (set)
+> > +		val |= GICR_CTLR_ENABLE_LPIS;
+> > +	else
+> > +		val &= ~GICR_CTLR_ENABLE_LPIS;
+> > +	writel(val,  ptr + GICR_CTLR);
+> > +}
+> >  #endif /* __aarch64__ */
+> > +
+> 
+> stray blank line here
+> 
+> > -- 
+> > 2.20.1
+> >
+> 
+> I'm not sure why this needs its own patch. I could just be part of the
+> next patch.
+> 
+> Thanks,
+> drew
+> 
+
 
