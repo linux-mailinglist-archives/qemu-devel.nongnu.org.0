@@ -2,70 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF0AF1554C0
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 10:34:05 +0100 (CET)
-Received: from localhost ([::1]:52774 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94B201554E6
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 10:41:29 +0100 (CET)
+Received: from localhost ([::1]:52928 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j001U-0007nL-Uh
-	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 04:34:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36314)
+	id 1j008e-00046X-Ls
+	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 04:41:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36568)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1izzzb-0006Pr-Tj
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 04:32:08 -0500
+ (envelope-from <eric.auger@redhat.com>) id 1j000Y-0007GK-BI
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 04:33:08 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1izzza-0003ge-IW
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 04:32:07 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:37940
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <eric.auger@redhat.com>) id 1j000W-0004sd-Nz
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 04:33:06 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:43002
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1izzza-0003g9-F8
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 04:32:06 -0500
+ (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
+ id 1j000W-0004sW-Jq
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 04:33:04 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581067926;
+ s=mimecast20190719; t=1581067984;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0QuVC4nku7IssOcGqrfKEKxSziNMgq+RKBozd+ztpJI=;
- b=Yt+PmcIJyHkV+Iuw3w+U2nu7fk4tyzPSSiGPvGrQs7YV7CLgFcYUsZBlcOdBOsOWqrBDTZ
- zAV19D2apsO+MuH5hgzI/8fL0J1x/bJJ2CC9SCGg9TERM6QCfN64Q6J6F9X6602Ynkz9vm
- dj49GmkOcZGdEGoX8C+nJelNOSjkfFA=
+ bh=8E7GaUfQvpeETkg1HVGpCN71Wn+c7dQnHHpl3bwsZK4=;
+ b=dQuCmQrVfaDNbc/HiojoCM+bqsgJNL6koHBTUL7Ar+AvQ9mlk1wYPgouNc2yw8H7CQjApb
+ cAxLZrPVlvvHUBDGMqEibDs/eDJrryR6DNfh2nVS55VVECrY6pijcb6XGL1NNnosED5mV8
+ 0VcxrS9AKlMAvfwDNXgIU1W6MaZjWfg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-327-4HOlTtgpMcmTVsh_YrXEQA-1; Fri, 07 Feb 2020 04:32:04 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-427-_QX2NS85PmCuBEQESy-Fyg-1; Fri, 07 Feb 2020 04:33:02 -0500
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 326BF800D5C;
- Fri,  7 Feb 2020 09:32:03 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-116-136.ams2.redhat.com
- [10.36.116.136])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1A8A9857BF;
- Fri,  7 Feb 2020 09:31:58 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id BF13911386A7; Fri,  7 Feb 2020 10:31:56 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH 09/29] qapi: Fix indent level on doc comments in json files
-References: <20200206173040.17337-1-peter.maydell@linaro.org>
- <20200206173040.17337-10-peter.maydell@linaro.org>
-Date: Fri, 07 Feb 2020 10:31:56 +0100
-In-Reply-To: <20200206173040.17337-10-peter.maydell@linaro.org> (Peter
- Maydell's message of "Thu, 6 Feb 2020 17:30:20 +0000")
-Message-ID: <87lfpeu4j7.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 39C2C101FC60;
+ Fri,  7 Feb 2020 09:33:01 +0000 (UTC)
+Received: from laptop.redhat.com (ovpn-116-37.ams2.redhat.com [10.36.116.37])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 93F6A790EB;
+ Fri,  7 Feb 2020 09:32:48 +0000 (UTC)
+From: Eric Auger <eric.auger@redhat.com>
+To: eric.auger.pro@gmail.com, eric.auger@redhat.com, qemu-devel@nongnu.org,
+ qemu-arm@nongnu.org, peter.maydell@linaro.org, jean-philippe@linaro.org,
+ dgilbert@redhat.com, quintela@redhat.com, mst@redhat.com, peterx@redhat.com
+Subject: [PATCH v14 04/11] virtio-iommu: Implement map/unmap
+Date: Fri,  7 Feb 2020 10:31:56 +0100
+Message-Id: <20200207093203.3788-5-eric.auger@redhat.com>
+In-Reply-To: <20200207093203.3788-1-eric.auger@redhat.com>
+References: <20200207093203.3788-1-eric.auger@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: 4HOlTtgpMcmTVsh_YrXEQA-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-MC-Unique: _QX2NS85PmCuBEQESy-Fyg-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,50 +74,165 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: John Snow <jsnow@redhat.com>,
- "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
- qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
- Michael Roth <mdroth@linux.vnet.ibm.com>
+Cc: kevin.tian@intel.com, bharatb.linux@gmail.com, tnowicki@marvell.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Peter Maydell <peter.maydell@linaro.org> writes:
+This patch implements virtio_iommu_map/unmap.
 
-> The texinfo doc generation doesn't care much about
-> indentation levels, but we would like to add a rST
-> backend, and rST does care about indentation.
->
-> Make the doc comments more strongly consistent about indentation
-> for multiline constructs like:
->
-> @arg: description line 1
->       description line 2
->
-> Returns: line one
->          line 2
->
-> so that there is always exactly one space after the
-> colon, and subsequent lines align with the first.
->
-> This commit is a purely whitespace change, and it does
-> not alter the generated .texi files (because the texi
-> generation code strips away all the extra whitespace).
-> This does mean that we end up with some over-length lines.
+Signed-off-by: Eric Auger <eric.auger@redhat.com>
+Reviewed-by: Peter Xu <peterx@redhat.com>
 
-Overlong lines need to be corrected.  Not necessarily in this patch.
+---
 
-> Note that when the documentation for an argument fits
-> on a single line like this:
->
-> @arg: one line only
->
-> then stray extra spaces after the ':' don't affect the
-> rST output, so I have not attempted to methodically
-> fix them, though the preference is a single space here too.
->
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+v11 -> v12:
+- check unmanaged managed flags on map
+- removed 2 qemu_log_mask in unmap()
+- fix leak
 
-Same commit message body as PATCH 05, except for the line wrapping.
-I like PATCH 05's better.
+v10 -> v11:
+- revisit the implementation of unmap according to Peter's suggestion
+- removed virt_addr and size from viommu_mapping struct
+- use g_tree_lookup_extended()
+- return VIRTIO_IOMMU_S_RANGE in case a mapping were
+  to be split on unmap (instead of INVAL)
+
+v5 -> v6:
+- use new v0.6 fields
+- replace error_report by qemu_log_mask
+
+v3 -> v4:
+- implement unmap semantics as specified in v0.4
+---
+ hw/virtio/trace-events   |  1 +
+ hw/virtio/virtio-iommu.c | 63 ++++++++++++++++++++++++++++++++++++++--
+ 2 files changed, 62 insertions(+), 2 deletions(-)
+
+diff --git a/hw/virtio/trace-events b/hw/virtio/trace-events
+index 15595f8cd7..22162d6583 100644
+--- a/hw/virtio/trace-events
++++ b/hw/virtio/trace-events
+@@ -64,6 +64,7 @@ virtio_iommu_attach(uint32_t domain_id, uint32_t ep_id) "=
+domain=3D%d endpoint=3D%d"
+ virtio_iommu_detach(uint32_t domain_id, uint32_t ep_id) "domain=3D%d endpo=
+int=3D%d"
+ virtio_iommu_map(uint32_t domain_id, uint64_t virt_start, uint64_t virt_en=
+d, uint64_t phys_start, uint32_t flags) "domain=3D%d virt_start=3D0x%"PRIx6=
+4" virt_end=3D0x%"PRIx64 " phys_start=3D0x%"PRIx64" flags=3D%d"
+ virtio_iommu_unmap(uint32_t domain_id, uint64_t virt_start, uint64_t virt_=
+end) "domain=3D%d virt_start=3D0x%"PRIx64" virt_end=3D0x%"PRIx64
++virtio_iommu_unmap_done(uint32_t domain_id, uint64_t virt_start, uint64_t =
+virt_end) "domain=3D%d virt_start=3D0x%"PRIx64" virt_end=3D0x%"PRIx64
+ virtio_iommu_translate(const char *name, uint32_t rid, uint64_t iova, int =
+flag) "mr=3D%s rid=3D%d addr=3D0x%"PRIx64" flag=3D%d"
+ virtio_iommu_init_iommu_mr(char *iommu_mr) "init %s"
+ virtio_iommu_get_endpoint(uint32_t ep_id) "Alloc endpoint=3D%d"
+diff --git a/hw/virtio/virtio-iommu.c b/hw/virtio/virtio-iommu.c
+index aa253eda0a..a2986c8fe8 100644
+--- a/hw/virtio/virtio-iommu.c
++++ b/hw/virtio/virtio-iommu.c
+@@ -18,6 +18,7 @@
+  */
+=20
+ #include "qemu/osdep.h"
++#include "qemu/log.h"
+ #include "qemu/iov.h"
+ #include "qemu-common.h"
+ #include "hw/qdev-properties.h"
+@@ -55,6 +56,11 @@ typedef struct VirtIOIOMMUInterval {
+     uint64_t high;
+ } VirtIOIOMMUInterval;
+=20
++typedef struct VirtIOIOMMUMapping {
++    uint64_t phys_addr;
++    uint32_t flags;
++} VirtIOIOMMUMapping;
++
+ static inline uint16_t virtio_iommu_get_bdf(IOMMUDevice *dev)
+ {
+     return PCI_BUILD_BDF(pci_bus_num(dev->bus), dev->devfn);
+@@ -301,10 +307,39 @@ static int virtio_iommu_map(VirtIOIOMMU *s,
+     uint64_t virt_start =3D le64_to_cpu(req->virt_start);
+     uint64_t virt_end =3D le64_to_cpu(req->virt_end);
+     uint32_t flags =3D le32_to_cpu(req->flags);
++    VirtIOIOMMUDomain *domain;
++    VirtIOIOMMUInterval *interval;
++    VirtIOIOMMUMapping *mapping;
++
++    if (flags & ~VIRTIO_IOMMU_MAP_F_MASK) {
++        return VIRTIO_IOMMU_S_INVAL;
++    }
++
++    domain =3D g_tree_lookup(s->domains, GUINT_TO_POINTER(domain_id));
++    if (!domain) {
++        return VIRTIO_IOMMU_S_NOENT;
++    }
++
++    interval =3D g_malloc0(sizeof(*interval));
++
++    interval->low =3D virt_start;
++    interval->high =3D virt_end;
++
++    mapping =3D g_tree_lookup(domain->mappings, (gpointer)interval);
++    if (mapping) {
++        g_free(interval);
++        return VIRTIO_IOMMU_S_INVAL;
++    }
+=20
+     trace_virtio_iommu_map(domain_id, virt_start, virt_end, phys_start, fl=
+ags);
+=20
+-    return VIRTIO_IOMMU_S_UNSUPP;
++    mapping =3D g_malloc0(sizeof(*mapping));
++    mapping->phys_addr =3D phys_start;
++    mapping->flags =3D flags;
++
++    g_tree_insert(domain->mappings, interval, mapping);
++
++    return VIRTIO_IOMMU_S_OK;
+ }
+=20
+ static int virtio_iommu_unmap(VirtIOIOMMU *s,
+@@ -313,10 +348,34 @@ static int virtio_iommu_unmap(VirtIOIOMMU *s,
+     uint32_t domain_id =3D le32_to_cpu(req->domain);
+     uint64_t virt_start =3D le64_to_cpu(req->virt_start);
+     uint64_t virt_end =3D le64_to_cpu(req->virt_end);
++    VirtIOIOMMUMapping *iter_val;
++    VirtIOIOMMUInterval interval, *iter_key;
++    VirtIOIOMMUDomain *domain;
++    int ret =3D VIRTIO_IOMMU_S_OK;
+=20
+     trace_virtio_iommu_unmap(domain_id, virt_start, virt_end);
+=20
+-    return VIRTIO_IOMMU_S_UNSUPP;
++    domain =3D g_tree_lookup(s->domains, GUINT_TO_POINTER(domain_id));
++    if (!domain) {
++        return VIRTIO_IOMMU_S_NOENT;
++    }
++    interval.low =3D virt_start;
++    interval.high =3D virt_end;
++
++    while (g_tree_lookup_extended(domain->mappings, &interval,
++                                  (void **)&iter_key, (void**)&iter_val)) =
+{
++        uint64_t current_low =3D iter_key->low;
++        uint64_t current_high =3D iter_key->high;
++
++        if (interval.low <=3D current_low && interval.high >=3D current_hi=
+gh) {
++            g_tree_remove(domain->mappings, iter_key);
++            trace_virtio_iommu_unmap_done(domain_id, current_low, current_=
+high);
++        } else {
++            ret =3D VIRTIO_IOMMU_S_RANGE;
++            break;
++        }
++    }
++    return ret;
+ }
+=20
+ static int virtio_iommu_iov_to_req(struct iovec *iov,
+--=20
+2.20.1
 
 
