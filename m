@@ -2,69 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D852B155A17
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 15:52:25 +0100 (CET)
-Received: from localhost ([::1]:58416 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 524C2155A57
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 16:07:07 +0100 (CET)
+Received: from localhost ([::1]:58924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j04zY-0004YS-Uh
-	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 09:52:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53851)
+	id 1j05Dm-0001pT-BG
+	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 10:07:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39434)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@gmail.com>) id 1j04qP-0001oG-Fj
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:42:58 -0500
+ (envelope-from <tianjia.zhang@linux.alibaba.com>) id 1j02Dx-0008GR-8i
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 06:55:06 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@gmail.com>) id 1j04qO-0001Na-2w
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:42:57 -0500
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:38919)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
- id 1j04qN-0001KY-QP
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:42:56 -0500
-Received: by mail-wm1-x342.google.com with SMTP id c84so3040307wme.4
- for <qemu-devel@nongnu.org>; Fri, 07 Feb 2020 06:42:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=iAUzFj3fmEhENjTkDryCRd9rZ+G3UllLcbcBlt9mvDg=;
- b=FYK5UNlBLG092vHPnL2fJ2OT3n28yF6P2WjKxI+TIhDHgsFr87Ukf8xRU72sBFz4WI
- SiRW73L2dJgU0z8dVK1xoCpi8ieA0fUq3+IobRz9ZPdemChudgzRM49v5eTbNhJ5c/9X
- gIn9mBEQxbLBuaejcyQpHtZsOby3hx0faTayxopuN+M0g3aoM2R+JXCQs+KJUjB3pSus
- WFBw+IfOfIohh76SlwaNX7sCKfOz3SuHm97IADENzc26DrUF/LXlozfdWiS26/gzjljX
- LgI6baGfIyJsJ6NjN6OaS2TbLXgCA3uTIeyPOU19XVFdHjpSb7OnxraczuT6TBdkEzm0
- OYrA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=iAUzFj3fmEhENjTkDryCRd9rZ+G3UllLcbcBlt9mvDg=;
- b=szIhTGbMHOpG6PPR47v5LJ321H5U7BixTXCSZxgR4Rqz30mIsvSwNIDZF0ZKTpKxTZ
- 3pnEBM+4gQ0OOg2HyPbMCOMjG5Zl9i59RnA26OuMS8G3zXcyg39rJmmjcKJLnGb2B/wn
- bxejwjqSmjgz+n+hrh04qHjlaJcnhU858bR2X2zzG/Ew7AxCMSdZDjALTfyessZWBSiJ
- mQ7833yVgN9YFUvcKfKg6XAHIJQJJPBvvpfxHcdXKNkJVJ1yS5xC2mdWySV7M2g3hqSz
- a6GzSgqLIIiAixdF8HliRqRuhSsGP6AFf+U/JVwUvOn6b1inYwB+lC2QSgDjPB2GwQmA
- wajQ==
-X-Gm-Message-State: APjAAAV9G+DKjoJr67TbkeQ0DEaVJsc+K/ezKEK5YapBHiZYClxuEEdk
- B3gFpvhsgFvp0RMJxfRaZGliFcPd1etgDGVwLss=
-X-Google-Smtp-Source: APXvYqypKGG2AUWeBNdV4tzCj9aRONOC7hnGDUnECtHiU23o3GvnHKXLVqFLAaNlZL9IfDImH7s5hrXOJhefODaF42E=
-X-Received: by 2002:a05:600c:2215:: with SMTP id
- z21mr4755418wml.55.1581086574561; 
- Fri, 07 Feb 2020 06:42:54 -0800 (PST)
-MIME-Version: 1.0
-References: <1580483390-131164-1-git-send-email-imammedo@redhat.com>
- <1580483390-131164-76-git-send-email-imammedo@redhat.com>
-In-Reply-To: <1580483390-131164-76-git-send-email-imammedo@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Fri, 7 Feb 2020 15:42:42 +0100
-Message-ID: <CAJ+F1C+4orCn2nf_0e4Z_GpZH6M=24wZPNHGo0yVnB9gimsdVA@mail.gmail.com>
-Subject: Re: [PATCH v4 75/80] exec: drop bogus mem_path from
- qemu_ram_alloc_from_fd()
-To: Igor Mammedov <imammedo@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::342
+ (envelope-from <tianjia.zhang@linux.alibaba.com>) id 1j02Dr-0001fQ-73
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 06:55:00 -0500
+Received: from out4436.biz.mail.alibaba.com ([47.88.44.36]:61457)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <tianjia.zhang@linux.alibaba.com>)
+ id 1j02Dq-0001LK-T3
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 06:54:59 -0500
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R131e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=e01e04407;
+ MF=tianjia.zhang@linux.alibaba.com; NM=1; PH=DS; RN=1; SR=0;
+ TI=SMTPD_---0TpMFALF_1581076473; 
+Received: from localhost(mailfrom:tianjia.zhang@linux.alibaba.com
+ fp:SMTPD_---0TpMFALF_1581076473) by smtp.aliyun-inc.com(127.0.0.1);
+ Fri, 07 Feb 2020 19:54:34 +0800
+From: Tianjia Zhang <tianjia.zhang@linux.alibaba.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] tests: Fix a bug with count variables
+Date: Fri,  7 Feb 2020 19:54:33 +0800
+Message-Id: <20200207115433.118254-1-tianjia.zhang@linux.alibaba.com>
+X-Mailer: git-send-email 2.17.1
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 47.88.44.36
+X-Mailman-Approved-At: Fri, 07 Feb 2020 09:58:38 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,75 +48,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, QEMU <qemu-devel@nongnu.org>,
- Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi
+The counting code here should use the local variable n_nodes_local.
+Otherwise, the variable n_nodes is counting incorrectly, causing the
+counting logic of the code to be wrong.
 
-On Fri, Jan 31, 2020 at 4:45 PM Igor Mammedov <imammedo@redhat.com> wrote:
->
-> Function will report error that will mention global mem_path,
-> which was valid the only if legacy -mem-path was used and
-> only in case of main RAM.
->
-> However it doesn't work with hostmem backends
-> (for example:
-> "
->   qemu: -object memory-backend-file,id=3Dram0,size=3D128M,mem-path=3Dfoo:
->     backing store (null) size 0x200000 does not match 'size' option 0x800=
-0000
-> ")
-> and couldn't possibly work in general FD case the function
-> is supposed to handle.
->
-> Taking in account that main RAM was converted into
-> memory-backend-foo object, there is no point in printing
-> file name (from inappropriate place) as failing path is
-> a part of backend's error message.
->
-> Hence drop bogus mem_path usage from qemu_ram_alloc_from_fd(),
-> it's a job of its user to add file name to error message if applicable.
->
-> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+Signed-off-by: Tianjia Zhang <tianjia.zhang@linux.alibaba.com>
+---
+ tests/test-rcu-list.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-As you pointed out, left over from commit 8d37b030fe "exec: split
-file_ram_alloc()"
+diff --git a/tests/test-rcu-list.c b/tests/test-rcu-list.c
+index 6f076473e0..c0fc47ded4 100644
+--- a/tests/test-rcu-list.c
++++ b/tests/test-rcu-list.c
+@@ -219,7 +219,7 @@ static void *rcu_q_updater(void *arg)
+             j++;
+             if (target_el == j) {
+                 struct list_element *new_el = g_new(struct list_element, 1);
+-                n_nodes += n_nodes_local;
++                n_nodes_local++;
+                 TEST_LIST_INSERT_AFTER_RCU(el, new_el, entry);
+                 break;
+             }
+-- 
+2.17.1
 
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-
-
-> ---
-> CC: pbonzini@redhat.com
-> CC: rth@twiddle.net
-> ---
->  exec.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/exec.c b/exec.c
-> index 9f5421c..d827fac 100644
-> --- a/exec.c
-> +++ b/exec.c
-> @@ -2308,9 +2308,9 @@ RAMBlock *qemu_ram_alloc_from_fd(ram_addr_t size, M=
-emoryRegion *mr,
->      size =3D HOST_PAGE_ALIGN(size);
->      file_size =3D get_file_size(fd);
->      if (file_size > 0 && file_size < size) {
-> -        error_setg(errp, "backing store %s size 0x%" PRIx64
-> +        error_setg(errp, "backing store size 0x%" PRIx64
->                     " does not match 'size' option 0x" RAM_ADDR_FMT,
-> -                   mem_path, file_size, size);
-> +                   file_size, size);
->          return NULL;
->      }
->
-> --
-> 2.7.4
->
->
-
-
---=20
-Marc-Andr=C3=A9 Lureau
 
