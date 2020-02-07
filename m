@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D7A3155088
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 03:09:37 +0100 (CET)
-Received: from localhost ([::1]:49056 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2530D155095
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 03:11:29 +0100 (CET)
+Received: from localhost ([::1]:49094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izt5K-0005n6-00
-	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 21:09:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59806)
+	id 1izt7A-0001cw-4n
+	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 21:11:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59822)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1izsvm-0006Ij-1e
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1izsvm-0006K3-Gr
  for qemu-devel@nongnu.org; Thu, 06 Feb 2020 20:59:44 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1izsvj-0001M6-J4
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 20:59:41 -0500
-Received: from mx2.rt-rk.com ([89.216.37.149]:53212 helo=mail.rt-rk.com)
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1izsvj-0001Ma-NW
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 20:59:42 -0500
+Received: from mx2.rt-rk.com ([89.216.37.149]:53230 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
- id 1izsvj-0001AN-9k
+ id 1izsvj-0001AT-CN
  for qemu-devel@nongnu.org; Thu, 06 Feb 2020 20:59:39 -0500
 Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id EF13F1A1FEE;
- Fri,  7 Feb 2020 02:58:23 +0100 (CET)
+ by mail.rt-rk.com (Postfix) with ESMTP id 0C75A1A20F2;
+ Fri,  7 Feb 2020 02:58:24 +0100 (CET)
 X-Virus-Scanned: amavisd-new at rt-rk.com
 Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
  [10.10.14.106])
- by mail.rt-rk.com (Postfix) with ESMTPSA id C04651A212D;
+ by mail.rt-rk.com (Postfix) with ESMTPSA id CE6D01A20E9;
  Fri,  7 Feb 2020 02:58:23 +0100 (CET)
 From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH rc5 30/32] .travis.yml: Run the AVR acceptance tests
-Date: Fri,  7 Feb 2020 02:57:58 +0100
-Message-Id: <1581040680-308-31-git-send-email-aleksandar.markovic@rt-rk.com>
+Subject: [PATCH rc5 31/32] target/avr: Simplify sections in MAINTAINERS file
+Date: Fri,  7 Feb 2020 02:57:59 +0100
+Message-Id: <1581040680-308-32-git-send-email-aleksandar.markovic@rt-rk.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1581040680-308-1-git-send-email-aleksandar.markovic@rt-rk.com>
 References: <1581040680-308-1-git-send-email-aleksandar.markovic@rt-rk.com>
@@ -54,49 +54,67 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Michael Rolnik <mrolnik@gmail.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Aleksandar Markovic <aleksandar.m.mail@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+From: Michael Rolnik <mrolnik@gmail.com>
 
-We have one test so far, and it is very fast:
+Simplify sections for AVR maintanenance in MAINTAINERS file.
 
-  $ avocado --show=3Dapp run -t arch:avr tests/acceptance/
-  (1/1) tests/acceptance/machine_avr6.py:AVR6Machine.test_freertos: PASS =
-(2.13 s)
-  RESULTS    : PASS 1 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0 =
-| CANCEL 0
-  JOB TIME   : 2.30 s
-
+Signed-off-by: Michael Rolnik <mrolnik@gmail.com>
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+[rth: Squash ordering fixes from f4bug]
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
 Reviewed-by: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
 ---
- .travis.yml | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ MAINTAINERS | 22 +++-------------------
+ 1 file changed, 3 insertions(+), 19 deletions(-)
 
-diff --git a/.travis.yml b/.travis.yml
-index 6c0ec6c..72615ae 100644
---- a/.travis.yml
-+++ b/.travis.yml
-@@ -313,7 +313,7 @@ matrix:
-     # Acceptance (Functional) tests
-     - name: "GCC check-acceptance"
-       env:
--        - CONFIG=3D"--target-list=3Dx86_64-softmmu,mips-softmmu,mips64el=
--softmmu,aarch64-softmmu,arm-softmmu,s390x-softmmu,alpha-softmmu,ppc-soft=
-mmu,ppc64-softmmu,m68k-softmmu,sparc-softmmu"
-+        - CONFIG=3D"--target-list=3Dx86_64-softmmu,mips-softmmu,mips64el=
--softmmu,aarch64-softmmu,arm-softmmu,s390x-softmmu,alpha-softmmu,ppc-soft=
-mmu,ppc64-softmmu,m68k-softmmu,sparc-softmmu,avr-softmmu"
-         - TEST_CMD=3D"make check-acceptance"
-       after_script:
-         - python3 -c 'import json; r =3D json.load(open("tests/results/l=
-atest/results.json")); [print(t["logfile"]) for t in r["tests"] if t["sta=
-tus"] not in ("PASS", "SKIP")]' | xargs cat
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 33ddbcc..a8e2144 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -167,19 +167,9 @@ AVR TCG CPUs
+ M: Michael Rolnik <mrolnik@gmail.com>
+ R: Sarah Harris <S.E.Harris@kent.ac.uk>
+ S: Maintained
++F: target/avr/
++F: default-configs/avr-softmmu.mak
+ F: gdb-xml/avr-cpu.xml
+-F: target/avr/Makefile.objs
+-F: target/avr/cpu-param.h
+-F: target/avr/cpu-qom.h
+-F: target/avr/cpu.h
+-F: target/avr/cpu.c
+-F: target/avr/disas.c
+-F: target/avr/helper.h
+-F: target/avr/helper.c
+-F: target/avr/gdbstub.c
+-F: target/avr/machine.c
+-F: target/avr/translate.c
+-F: target/avr/insn.decode
+ F: tests/acceptance/machine_avr6.py
+=20
+ CRIS TCG CPUs
+@@ -914,13 +904,7 @@ AVR MCUs
+ M: Michael Rolnik <mrolnik@gmail.com>
+ R: Sarah Harris <S.E.Harris@kent.ac.uk>
+ S: Maintained
+-F: default-configs/avr-softmmu.mak
+-F: hw/avr/Kconfig
+-F: hw/avr/Makefile.objs
+-F: hw/avr/boot.h
+-F: hw/avr/boot.c
+-F: hw/avr/atmega.h
+-F: hw/avr/atmega.c
++F: hw/avr/
+ F: include/hw/char/avr_usart.h
+ F: hw/char/avr_usart.c
+ F: include/hw/timer/avr_timer16.h
 --=20
 2.7.4
 
