@@ -2,92 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20752155556
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 11:09:22 +0100 (CET)
-Received: from localhost ([::1]:53264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18903155565
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 11:14:22 +0100 (CET)
+Received: from localhost ([::1]:53320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j00Zd-0000dG-7J
-	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 05:09:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44745)
+	id 1j00eT-0004ao-5s
+	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 05:14:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45532)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1j00Yq-0008R1-BN
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 05:08:33 -0500
+ (envelope-from <no-reply@patchew.org>) id 1j00cE-0002C1-SH
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 05:12:03 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1j00Ym-0007Vr-5Y
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 05:08:32 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:42545
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1j00Ym-0007Ss-1F
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 05:08:28 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581070107;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=jbQY/iHNJeohI9qe44PRm00voxOky+pm7e6AdALFbHY=;
- b=FdfhBkr9W1tI/zT+ty63Gs1XffXvNFjekMeywl27IiUzc99VZWEQ7xhOAg7s/6QPaVk75u
- MPtVqKIWKk726kJYgC0tmpAEgVR126x5M3JVuTm8UdKeDxdK8JU1EOlkXTl8iSREt9Uavm
- mzMojb89Tn/eLNeu/9RkA2AhG9vMoW0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-205-dVBmkxwiNiONnM4Hs7R8xg-1; Fri, 07 Feb 2020 05:08:19 -0500
-X-MC-Unique: dVBmkxwiNiONnM4Hs7R8xg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9DA95800E21;
- Fri,  7 Feb 2020 10:08:18 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-116-88.ams2.redhat.com
- [10.36.116.88])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D0C2B8E611;
- Fri,  7 Feb 2020 10:08:16 +0000 (UTC)
-Subject: Re: [PATCH v2] qapi: Allow getting flat output from
- 'query-named-block-nodes'
-To: Peter Krempa <pkrempa@redhat.com>, qemu-devel@nongnu.org
-References: <4470f8c779abc404dcf65e375db195cd91a80651.1579509782.git.pkrempa@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <79ada57a-f73e-fb7f-0c3d-11541fc5d6d5@redhat.com>
-Date: Fri, 7 Feb 2020 11:08:14 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ (envelope-from <no-reply@patchew.org>) id 1j00cD-0006IJ-BK
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 05:12:02 -0500
+Resent-Date: Fri, 07 Feb 2020 05:12:02 -0500
+Resent-Message-Id: <E1j00cD-0006IJ-BK@eggs.gnu.org>
+Received: from sender4-of-o51.zoho.com ([136.143.188.51]:21147)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1j00cD-0006HJ-3L; Fri, 07 Feb 2020 05:12:01 -0500
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1581070293488133.35641904688862;
+ Fri, 7 Feb 2020 02:11:33 -0800 (PST)
+In-Reply-To: <20200207093203.3788-1-eric.auger@redhat.com>
+Subject: Re: [PATCH v14 00/11] VIRTIO-IOMMU device
+Message-ID: <158107029187.30180.17282262107925112593@a1bbccc8075a>
 MIME-Version: 1.0
-In-Reply-To: <4470f8c779abc404dcf65e375db195cd91a80651.1579509782.git.pkrempa@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="eXoJ4XrDyXzcwmclXhzQZZX0Yc1ZbeMTl"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: eric.auger@redhat.com
+Date: Fri, 7 Feb 2020 02:11:33 -0800 (PST)
+X-ZohoMailClient: External
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 136.143.188.51
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -99,121 +50,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- qemu-block@nongnu.org
+Reply-To: qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, kevin.tian@intel.com, tnowicki@marvell.com,
+ jean-philippe@linaro.org, quintela@redhat.com, qemu-devel@nongnu.org,
+ peterx@redhat.com, dgilbert@redhat.com, eric.auger@redhat.com,
+ bharatb.linux@gmail.com, qemu-arm@nongnu.org, mst@redhat.com,
+ eric.auger.pro@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---eXoJ4XrDyXzcwmclXhzQZZX0Yc1ZbeMTl
-Content-Type: multipart/mixed; boundary="nCE8aaNRomHbFTGb2ZpR265XPSDFyPCWt"
-
---nCE8aaNRomHbFTGb2ZpR265XPSDFyPCWt
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-On 20.01.20 09:50, Peter Krempa wrote:
-> When a management application manages node names there's no reason to
-> recurse into backing images in the output of query-named-block-nodes.
->=20
-> Add a parameter to the command which will return just the top level
-> structs.
->=20
-> Signed-off-by: Peter Krempa <pkrempa@redhat.com>
-> ---
->=20
-> Diff to v1:
->  - rewrote setting of 'return_flat' in qmp_query_named_block_nodes
->  - tried to clarify the QMP schema docs for the new field
->=20
-> This patch does not aim to fix the rather suboptimal original
-> documentation of the command as that is going to end up in a bunch of
-> bikeshedding.
->=20
-> While I know that there are plans for a new command that should fix
-> this, the plans were already there for quite some time without much
-> happening. This is a quick fix to a real problem, because if you have
-> (maybe unpractically) deep backing chains, the returned JSON is getting
-> huge. (140 nesting levels exceeds 10MiB of JSON)
-
-The main reason nothing is happening is because nobody is pressing for
-it, I think.  We talk about it from time to time but then our result is
-=E2=80=9CAs long as nobody seriously complains and tells us what we need, w=
-e=E2=80=99re
-going to assume what we have is good enough.=E2=80=9D
-
-For example:
-https://lists.nongnu.org/archive/html/qemu-block/2020-01/msg00049.html
-(Under =E2=80=9CQuery function situation=E2=80=9D)
-
->  block.c               |  5 +++--
->  block/qapi.c          | 10 ++++++++--
->  blockdev.c            |  8 ++++++--
->  include/block/block.h |  2 +-
->  include/block/qapi.h  |  4 +++-
->  monitor/hmp-cmds.c    |  2 +-
->  qapi/block-core.json  |  7 ++++++-
->  7 files changed, 28 insertions(+), 10 deletions(-)
-
-[...]
-
-> diff --git a/block/qapi.c b/block/qapi.c
-> index 9a5d0c9b27..84048e1a57 100644
-> --- a/block/qapi.c
-> +++ b/block/qapi.c
-> @@ -42,7 +42,9 @@
->  #include "qemu/cutils.h"
->=20
->  BlockDeviceInfo *bdrv_block_device_info(BlockBackend *blk,
-> -                                        BlockDriverState *bs, Error **er=
-rp)
-> +                                        BlockDriverState *bs,
-> +                                        bool flat,
-> +                                        Error **errp)
->  {
->      ImageInfo **p_image_info;
->      BlockDriverState *bs0;
-> @@ -156,6 +158,10 @@ BlockDeviceInfo *bdrv_block_device_info(BlockBackend=
- *blk,
->              return NULL;
->          }
->=20
-> +        /* stop gathering data for flat output */
-> +        if (flat)
-> +            break;
-
-This should be enclosed in curly brackets (qemu coding style).
-
-Shall I fix that up?
-
-Max
-
-> +
->          if (bs0->drv && bs0->backing) {
->              info->backing_file_depth++;
->              bs0 =3D bs0->backing->bs;
-
-
---nCE8aaNRomHbFTGb2ZpR265XPSDFyPCWt--
-
---eXoJ4XrDyXzcwmclXhzQZZX0Yc1ZbeMTl
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl49Nw4ACgkQ9AfbAGHV
-z0DATQf9GkwVjnoo9hjvJcjlxnbdN6m2DJkiDzj1nKw6BozHlGmwCcxMM9piq/9m
-OkCLUGHDWC1QcHsyDM9ixU39nVaW0/kHn57/RUlgoeoBkjIYscQJYYTRQuKtlDA1
-n9Qf9qn/2gKz891+OT/MgDdJnILrGmbiabEpcbZShBOJd4ZqWObH0EY1goaUBBcQ
-7p30VEKkZXiZzDiBQs3o9bFNerYu3TlGv5+EzoJEVYdOY4YExyEAUvVzCXmlpfMD
-bp/M4wyvxIKYPZHrpRIJjVP9/7XUB1XVKOLf9Ch056JQFuKh52wCzu/GLA+XahHe
-r2dS7Nuu4Oh6CuGQ70Qm3nN/Y7p/IQ==
-=1kvi
------END PGP SIGNATURE-----
-
---eXoJ4XrDyXzcwmclXhzQZZX0Yc1ZbeMTl--
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDIwNzA5MzIwMy4zNzg4
+LTEtZXJpYy5hdWdlckByZWRoYXQuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIGZhaWxlZCB0aGUg
+ZG9ja2VyLXF1aWNrQGNlbnRvczcgYnVpbGQgdGVzdC4gUGxlYXNlIGZpbmQgdGhlIHRlc3Rpbmcg
+Y29tbWFuZHMgYW5kCnRoZWlyIG91dHB1dCBiZWxvdy4gSWYgeW91IGhhdmUgRG9ja2VyIGluc3Rh
+bGxlZCwgeW91IGNhbiBwcm9iYWJseSByZXByb2R1Y2UgaXQKbG9jYWxseS4KCj09PSBURVNUIFND
+UklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKbWFrZSBkb2NrZXItaW1hZ2UtY2VudG9zNyBWPTEg
+TkVUV09SSz0xCnRpbWUgbWFrZSBkb2NrZXItdGVzdC1xdWlja0BjZW50b3M3IFNIT1dfRU5WPTEg
+Sj0xNCBORVRXT1JLPTEKPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KCnVzZSAtdmlydGlvLWlvbW11
+LXBjaSx4LWR0LWJpbmRpbmcKQnJva2VuIHBpcGUKL3RtcC9xZW11LXRlc3Qvc3JjL3Rlc3RzL3F0
+ZXN0L2xpYnF0ZXN0LmM6MTQwOiBraWxsX3FlbXUoKSB0cmllZCB0byB0ZXJtaW5hdGUgUUVNVSBw
+cm9jZXNzIGJ1dCBlbmNvdW50ZXJlZCBleGl0IHN0YXR1cyAxIChleHBlY3RlZCAwKQpFUlJPUiAt
+IHRvbyBmZXcgdGVzdHMgcnVuIChleHBlY3RlZCA3MiwgZ290IDM5KQptYWtlOiAqKiogW2NoZWNr
+LXF0ZXN0LXg4Nl82NF0gRXJyb3IgMQptYWtlOiAqKiogV2FpdGluZyBmb3IgdW5maW5pc2hlZCBq
+b2JzLi4uLgogIFRFU1QgICAgaW90ZXN0LXFjb3cyOiAxNTQKICBURVNUICAgIGlvdGVzdC1xY293
+MjogMTU2Ci0tLQogICAgcmFpc2UgQ2FsbGVkUHJvY2Vzc0Vycm9yKHJldGNvZGUsIGNtZCkKc3Vi
+cHJvY2Vzcy5DYWxsZWRQcm9jZXNzRXJyb3I6IENvbW1hbmQgJ1snc3VkbycsICctbicsICdkb2Nr
+ZXInLCAncnVuJywgJy0tbGFiZWwnLCAnY29tLnFlbXUuaW5zdGFuY2UudXVpZD03NzM5MzQ0YzMy
+YmU0YWI4YjI3YmI3YTA5MzZkZGJkYicsICctdScsICcxMDAzJywgJy0tc2VjdXJpdHktb3B0Jywg
+J3NlY2NvbXA9dW5jb25maW5lZCcsICctLXJtJywgJy1lJywgJ1RBUkdFVF9MSVNUPScsICctZScs
+ICdFWFRSQV9DT05GSUdVUkVfT1BUUz0nLCAnLWUnLCAnVj0nLCAnLWUnLCAnSj0xNCcsICctZScs
+ICdERUJVRz0nLCAnLWUnLCAnU0hPV19FTlY9MScsICctZScsICdDQ0FDSEVfRElSPS92YXIvdG1w
+L2NjYWNoZScsICctdicsICcvaG9tZS9wYXRjaGV3Mi8uY2FjaGUvcWVtdS1kb2NrZXItY2NhY2hl
+Oi92YXIvdG1wL2NjYWNoZTp6JywgJy12JywgJy92YXIvdG1wL3BhdGNoZXctdGVzdGVyLXRtcC00
+azF5eTd5ai9zcmMvZG9ja2VyLXNyYy4yMDIwLTAyLTA3LTA0LjU5LjM2Ljc2NTI6L3Zhci90bXAv
+cWVtdTp6LHJvJywgJ3FlbXU6Y2VudG9zNycsICcvdmFyL3RtcC9xZW11L3J1bicsICd0ZXN0LXF1
+aWNrJ10nIHJldHVybmVkIG5vbi16ZXJvIGV4aXQgc3RhdHVzIDIuCmZpbHRlcj0tLWZpbHRlcj1s
+YWJlbD1jb20ucWVtdS5pbnN0YW5jZS51dWlkPTc3MzkzNDRjMzJiZTRhYjhiMjdiYjdhMDkzNmRk
+YmRiCm1ha2VbMV06ICoqKiBbZG9ja2VyLXJ1bl0gRXJyb3IgMQptYWtlWzFdOiBMZWF2aW5nIGRp
+cmVjdG9yeSBgL3Zhci90bXAvcGF0Y2hldy10ZXN0ZXItdG1wLTRrMXl5N3lqL3NyYycKbWFrZTog
+KioqIFtkb2NrZXItcnVuLXRlc3QtcXVpY2tAY2VudG9zN10gRXJyb3IgMgoKcmVhbCAgICAxMW01
+NC40ODVzCnVzZXIgICAgMG04LjAyOHMKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0
+dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMjAwMjA3MDkzMjAzLjM3ODgtMS1lcmljLmF1Z2VyQHJl
+ZGhhdC5jb20vdGVzdGluZy5kb2NrZXItcXVpY2tAY2VudG9zNy8/dHlwZT1tZXNzYWdlLgotLS0K
+RW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3
+Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0
+LmNvbQ==
 
