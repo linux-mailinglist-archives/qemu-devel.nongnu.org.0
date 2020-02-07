@@ -2,72 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3D46155A28
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 15:56:30 +0100 (CET)
-Received: from localhost ([::1]:58586 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 700E2155A36
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 15:58:12 +0100 (CET)
+Received: from localhost ([::1]:58628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j053W-0007iD-28
-	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 09:56:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52018)
+	id 1j0559-0002MQ-Fq
+	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 09:58:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52221)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j04iN-0001cF-9n
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:34:40 -0500
+ (envelope-from <liam.merwick@oracle.com>) id 1j04jA-0003Cz-Pr
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:35:30 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j04iM-0003lF-82
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:34:39 -0500
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:35755)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j04iM-0003iC-0k
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:34:38 -0500
-Received: by mail-wr1-x430.google.com with SMTP id w12so2982041wrt.2
- for <qemu-devel@nongnu.org>; Fri, 07 Feb 2020 06:34:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=3x9Z8puf4FRlU9RT4Z9Jd/7VFhB0H6I8GPKb1zE750U=;
- b=iM/3c60lBVmQEbfGjobU2RPNpveMyGL02AR10OpVrIaEfwlnnmSOZlzOO2YGedDALb
- EdnPcpK5PoY2f2CDOIzFJI3h2O+Th904x9KFf/mLXDyvtBZg4T6wAc7NYatTwFpR6d0g
- f3VDYdZGiO2K8qo1l9dvLg4ulz2pcPDfSxo7SgWMQkKqch4QKxUyNe+ezN9lxLp1a7yE
- b01RvlDggxhu5ZXtPA4no1U4Z5h9PGH65NkJKUxel5ZV5WEJ854/dUe5+it32pgPUk5+
- m3jIR3pBUT9jot17IkPerMX1zXmhuXvy0WCJnJZtOJREYHpip3lkjL3fAvWADL+0agj9
- Nv0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=3x9Z8puf4FRlU9RT4Z9Jd/7VFhB0H6I8GPKb1zE750U=;
- b=FktNStPiCnB18mBCTBOLwqH0tBpj1gZdcabVBkTJbpDon02oblXV/Y8NrD08pmdU/o
- Mqgxm+WcIXvka9FdAOf9nFz8qJmYtFxhx4wB75tXF00yKhUBF6Ot/Xq8uLBdSXhrOJDm
- V4m1bUZz5XIG435VUYo9XUvvhmDQt9/S69xJXhhclC4b/VGst211kVhAxjM9b3/TMOq0
- zA+HW4qY6DsVHPWsiNyc9ZwRaobocF5WFc9kL+dGPbwfkkircYYgZFfgsMQ25c7y1EPj
- iX7dUldcYgAT6ZdoZ5S2bVxlUOMHie674BqCbXslT6lDnNrlwDYNYqBRdxu/rtNtkL6D
- scCg==
-X-Gm-Message-State: APjAAAWKMdwKZuwbk6Kdk7Be9PvYKAa3Mxn/XBEo7UZcG/y0HqElNNRU
- LwkvvGGT8bNhsN423SDfb7UiRlkkHm0=
-X-Google-Smtp-Source: APXvYqxWU6i+6hDcTAUOI7rAdAfg1u9I2FrGdPbODoczca4vziKRdxvSMpo5Yy+zPRyavrDeyWjLWQ==
-X-Received: by 2002:adf:f803:: with SMTP id s3mr4965911wrp.7.1581086076818;
- Fri, 07 Feb 2020 06:34:36 -0800 (PST)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id w1sm3796430wro.72.2020.02.07.06.34.35
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Feb 2020 06:34:36 -0800 (PST)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 48/48] stellaris: delay timer_new to avoid memleaks
-Date: Fri,  7 Feb 2020 14:33:43 +0000
-Message-Id: <20200207143343.30322-49-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200207143343.30322-1-peter.maydell@linaro.org>
-References: <20200207143343.30322-1-peter.maydell@linaro.org>
+ (envelope-from <liam.merwick@oracle.com>) id 1j04j9-0005XS-6A
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:35:28 -0500
+Received: from userp2120.oracle.com ([156.151.31.85]:41196)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <liam.merwick@oracle.com>)
+ id 1j04j8-0005Qj-OR
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:35:27 -0500
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+ by userp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 017EXGP1067546;
+ Fri, 7 Feb 2020 14:35:23 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=corp-2020-01-29;
+ bh=B8PVcbP3bBpEhORUmyZnXmoHhEO6R7TMcrqUXa8Rg7U=;
+ b=mZeYLLjnbNwUYnWqI+ghaZHoBW0z15My8c2kzWT4CT4g79XkzkUqfnUGJgfCikYdyFTm
+ h5Zm7KeNC8ecpo7Dcfiyy+y2sHT9iaUapEYc67OIix9GWbsMPI6DcMVGx/3/VLI15IPg
+ kUr1+Qba/mM6adpxqBJr6SU5vFjyw8zIylUl+s2Am5apGjbIdjHt0r/earfHHaIW3RgK
+ +4qkrQ+RcoZHR5AJyGqdtH27rvdShstV6ONVHk9m6CjAlAGXIKQ1AGreb9yTQ5wuPe/d
+ bw+yXcNUEi3RgE+NdSZv4p2U597js+B5sQyzVPwxqRRQRugyXrimf8O2cmmSwaGIa+be Qg== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by userp2120.oracle.com with ESMTP id 2xykbprcum-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 07 Feb 2020 14:35:23 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 017EXnBk023306;
+ Fri, 7 Feb 2020 14:35:23 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+ by userp3020.oracle.com with ESMTP id 2y0jg1kaqe-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 07 Feb 2020 14:35:22 +0000
+Received: from abhmp0010.oracle.com (abhmp0010.oracle.com [141.146.116.16])
+ by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 017EZL62026814;
+ Fri, 7 Feb 2020 14:35:21 GMT
+Received: from [10.175.208.183] (/10.175.208.183)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Fri, 07 Feb 2020 06:35:21 -0800
+Subject: Re: [PATCH v2 11/29] python/qemu: Add binutils::binary_get_accels()
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Denis Plotnikov <dplotnikov@virtuozzo.com>, qemu-devel@nongnu.org
+References: <20200129212345.20547-1-philmd@redhat.com>
+ <20200129212345.20547-12-philmd@redhat.com>
+From: Liam Merwick <liam.merwick@oracle.com>
+Message-ID: <7d543b28-0c1b-7524-849f-764f4e0e69ce@oracle.com>
+Date: Fri, 7 Feb 2020 14:35:16 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::430
+In-Reply-To: <20200129212345.20547-12-philmd@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9523
+ signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=4
+ malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1911140001 definitions=main-2002070112
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9523
+ signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
+ priorityscore=1501 malwarescore=0
+ suspectscore=4 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1911140001
+ definitions=main-2002070112
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by userp2120.oracle.com id
+ 017EXGP1067546
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
+X-Received-From: 156.151.31.85
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,58 +96,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Cornelia Huck <cohuck@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Pan Nengyuan <pannengyuan@huawei.com>
+On 29/01/2020 21:23, Philippe Mathieu-Daud=C3=A9 wrote:
+> Add a helper to query the list of accelerators built into a
+> QEMU binary.
+>=20
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-There is a memory leak when we call 'device_list_properties' with typename = stellaris-gptm. It's easy to reproduce as follow:
 
-  virsh qemu-monitor-command vm1 --pretty '{"execute": "device-list-properties", "arguments": {"typename": "stellaris-gptm"}}'
+Reviewed-by: Liam Merwick <liam.merwick@oracle.com>
 
-This patch delay timer_new in realize to fix it.
 
-Reported-by: Euler Robot <euler.robot@huawei.com>
-Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-id: 20200205070659.22488-4-pannengyuan@huawei.com
-Cc: qemu-arm@nongnu.org
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- hw/arm/stellaris.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
-
-diff --git a/hw/arm/stellaris.c b/hw/arm/stellaris.c
-index bb025e0bd0d..221a78674e3 100644
---- a/hw/arm/stellaris.c
-+++ b/hw/arm/stellaris.c
-@@ -347,11 +347,15 @@ static void stellaris_gptm_init(Object *obj)
-     sysbus_init_mmio(sbd, &s->iomem);
- 
-     s->opaque[0] = s->opaque[1] = s;
-+}
-+
-+static void stellaris_gptm_realize(DeviceState *dev, Error **errp)
-+{
-+    gptm_state *s = STELLARIS_GPTM(dev);
-     s->timer[0] = timer_new_ns(QEMU_CLOCK_VIRTUAL, gptm_tick, &s->opaque[0]);
-     s->timer[1] = timer_new_ns(QEMU_CLOCK_VIRTUAL, gptm_tick, &s->opaque[1]);
- }
- 
--
- /* System controller.  */
- 
- typedef struct {
-@@ -1536,6 +1540,7 @@ static void stellaris_gptm_class_init(ObjectClass *klass, void *data)
-     DeviceClass *dc = DEVICE_CLASS(klass);
- 
-     dc->vmsd = &vmstate_stellaris_gptm;
-+    dc->realize = stellaris_gptm_realize;
- }
- 
- static const TypeInfo stellaris_gptm_info = {
--- 
-2.20.1
+> ---
+>   python/qemu/binutils.py          | 10 ++++++++++
+>   tests/acceptance/core_scripts.py | 10 ++++++++++
+>   2 files changed, 20 insertions(+)
+>=20
+> diff --git a/python/qemu/binutils.py b/python/qemu/binutils.py
+> index 76f256f5d2..bba203bc8d 100644
+> --- a/python/qemu/binutils.py
+> +++ b/python/qemu/binutils.py
+> @@ -86,3 +86,13 @@ def binary_get_qom_implementations(qemu_bin, type_na=
+me, include_abstract=3DFalse):
+>           LOG.info(res)
+>           vm.shutdown()
+>           return [m['name'] for m in res]
+> +
+> +def binary_get_accels(qemu_bin):
+> +    '''
+> +    Get list of accelerators supported by a QEMU binary
+> +
+> +    @param qemu_bin (str): path to the QEMU binary
+> +    @return list of accelerators supported by the binary
+> +    '''
+> +    accel_types =3D binary_get_qom_implementations(qemu_bin, "accel", =
+False)
+> +    return [a.strip("-accel") for a in accel_types]
+> diff --git a/tests/acceptance/core_scripts.py b/tests/acceptance/core_s=
+cripts.py
+> index c2fe4acf1d..7380f2f49b 100644
+> --- a/tests/acceptance/core_scripts.py
+> +++ b/tests/acceptance/core_scripts.py
+> @@ -16,6 +16,7 @@ import logging
+>  =20
+>   sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', '=
+python'))
+>   from avocado_qemu import Test
+> +from qemu.binutils import binary_get_accels
+>   from qemu.binutils import binary_get_arch
+>   from qemu.binutils import binary_get_machines
+>   from qemu.binutils import binary_get_qom_implementations
+> @@ -59,3 +60,12 @@ class PythonQemuCoreScripts(Test):
+>           for t in type_impl:
+>               logger.debug('type: {}'.format(t))
+>           self.assertIn(type_name, type_impl)
+> +
+> +    def test_get_accels(self):
+> +        logger =3D logging.getLogger('core')
+> +        accels =3D binary_get_accels(self.qemu_bin)
+> +        for a in accels:
+> +            logger.debug('accel: {}'.format(a))
+> +        self.assertNotIn("accel", accels)
+> +        # qtest is always available
+> +        self.assertIn("qtest", accels)
+>=20
 
 
