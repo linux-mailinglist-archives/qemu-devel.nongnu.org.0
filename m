@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4FCF155359
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 08:58:03 +0100 (CET)
-Received: from localhost ([::1]:51586 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42A4B155341
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 08:48:23 +0100 (CET)
+Received: from localhost ([::1]:51378 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1izyWY-00030y-Qk
-	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 02:58:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38644)
+	id 1izyNC-0007Y9-Av
+	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 02:48:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38690)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kraxel@redhat.com>) id 1izyL6-0005dJ-0p
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 02:46:12 -0500
+ (envelope-from <kraxel@redhat.com>) id 1izyL8-0005hi-So
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 02:46:19 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1izyL4-0003Yn-VW
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 02:46:11 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:60768
+ (envelope-from <kraxel@redhat.com>) id 1izyL7-0003em-NO
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 02:46:14 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:54863
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1izyL4-0003Xq-RO
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 02:46:10 -0500
+ (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1izyL7-0003e0-J8
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 02:46:13 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581061570;
+ s=mimecast20190719; t=1581061573;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TxdF4U8CUMJlk+/8yfkdI7k1P7e+b8uWQ+YEHyvtuhg=;
- b=hByybcYC4uFxT6trbssR33H8jqbifFvHFnUMc3kWYY3kwboe6KKknjBalKRB08aFLEsFeB
- 2yGMA0yXBhpjuJQjn8H4Mi99iM2/ohnuxKxnl2z3A/faYr+PYfAkFIYlatjhHfwGCrba0b
- d7niSb8LIGHzSfKXdA9HRSP6sd3jk9c=
+ bh=ha7Y+IThuifoP3I+jYys2llQLtKXQQEQ9+hhsIhZJT8=;
+ b=SF9aRD/lAB5qhw6EMRcyiEieF8e5EOKkvInL8ijH+eNCu2b3l1FZM9wW5jgHDPdXOU0MRH
+ l1ykItg/akv+jyxDVVxOlR5+yW7Q8hbu3n/bII97tnvuN0gPJQGpaTzvzeiMkAvTnMcQIO
+ kl1Gzmw2d8owUWh9/RWsJWPBO6r/3ck=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-389-okgyi-UtOp-g1LHbSCpOIA-1; Fri, 07 Feb 2020 02:46:06 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-69-VSoMkhc9NqaQSyRx8whHRw-1; Fri, 07 Feb 2020 02:46:09 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E4362107B276;
- Fri,  7 Feb 2020 07:46:04 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3F17DDB66;
+ Fri,  7 Feb 2020 07:46:08 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-116-112.ams2.redhat.com
  [10.36.116.112])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 316AF89A7A;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 34B978BE25;
  Fri,  7 Feb 2020 07:46:02 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 33BBD31F39; Fri,  7 Feb 2020 08:45:58 +0100 (CET)
+ id 3F02331F3B; Fri,  7 Feb 2020 08:45:58 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 09/12] audio: audio_generic_get_buffer_in should honor *size
-Date: Fri,  7 Feb 2020 08:45:54 +0100
-Message-Id: <20200207074557.26073-10-kraxel@redhat.com>
+Subject: [PULL 10/12] audio/dsound: fix invalid parameters error
+Date: Fri,  7 Feb 2020 08:45:55 +0100
+Message-Id: <20200207074557.26073-11-kraxel@redhat.com>
 In-Reply-To: <20200207074557.26073-1-kraxel@redhat.com>
 References: <20200207074557.26073-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: okgyi-UtOp-g1LHbSCpOIA-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: VSoMkhc9NqaQSyRx8whHRw-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
@@ -74,42 +74,146 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Volker=20R=C3=BCmelin?= <vr_qemu@t-online.de>,
+Cc: K=?UTF-8?B?xZE=?=v=?UTF-8?B?w6E=?=g=?UTF-8?B?w7M=?=@redhat.com, 
+ =?UTF-8?q?Zolt=C3=A1n?= <DirtY.iCE.hu@gmail.com>,
  Markus Armbruster <armbru@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Volker R=C3=BCmelin <vr_qemu@t-online.de>
+From: K=C5=91v=C3=A1g=C3=B3, Zolt=C3=A1n <dirty.ice.hu@gmail.com>
 
-The function generic_get_buffer_in currently ignores the *size
-parameter and may return a buffer larger than *size.
+Windows (unlike wine) bails out when IDirectSoundBuffer8::Lock is called
+with zero length.  Also, hw->pos_emul handling was incorrect when
+calling this function for the first time.
 
-As a result the variable samples in function
-audio_pcm_hw_run_in may underflow. The while loop then most
-likely will never termiate.
-
-Buglink: http://bugs.debian.org/948658
-Signed-off-by: Volker R=C3=BCmelin <vr_qemu@t-online.de>
-Message-Id: <20200123074943.6699-9-vr_qemu@t-online.de>
+Signed-off-by: K=C5=91v=C3=A1g=C3=B3, Zolt=C3=A1n <DirtY.iCE.hu@gmail.com>
+Reported-by: KJ Liew <liewkj@yahoo.com>
+Tested-by: Howard Spoelstra <hsp.cat7@gmail.com>
+Message-id: fe9744216d9d421a2dbb09bcf5fa0dbd18f77ac5.1580684275.git.DirtY.i=
+CE.hu@gmail.com
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- audio/audio.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ audio/dsound_template.h |  1 +
+ audio/audio.c           |  6 ++----
+ audio/dsoundaudio.c     | 27 +++++++++++++++++++++++----
+ 3 files changed, 26 insertions(+), 8 deletions(-)
 
+diff --git a/audio/dsound_template.h b/audio/dsound_template.h
+index 7a15f91ce563..9c5ce625ab91 100644
+--- a/audio/dsound_template.h
++++ b/audio/dsound_template.h
+@@ -244,6 +244,7 @@ static int dsound_init_out(HWVoiceOut *hw, struct audse=
+ttings *as,
+         goto fail0;
+     }
+=20
++    ds->first_time =3D true;
+     obt_as.endianness =3D 0;
+     audio_pcm_init_info (&hw->info, &obt_as);
+=20
 diff --git a/audio/audio.c b/audio/audio.c
-index b686429203d6..f9859408f340 100644
+index f9859408f340..3bfd808bc6f1 100644
 --- a/audio/audio.c
 +++ b/audio/audio.c
-@@ -1407,7 +1407,8 @@ void *audio_generic_get_buffer_in(HWVoiceIn *hw, size=
-_t *size)
-     }
-     assert(start >=3D 0 && start < hw->size_emul);
+@@ -1076,10 +1076,8 @@ static size_t audio_pcm_hw_run_out(HWVoiceOut *hw, s=
+ize_t live)
+     while (live) {
+         size_t size, decr, proc;
+         void *buf =3D hw->pcm_ops->get_buffer_out(hw, &size);
+-        if (!buf) {
+-            /* retrying will likely won't help, drop everything. */
+-            hw->mix_buf->pos =3D (hw->mix_buf->pos + live) % hw->mix_buf->=
+size;
+-            return clipped + live;
++        if (!buf || size =3D=3D 0) {
++            break;
+         }
 =20
--    *size =3D MIN(hw->pending_emul, hw->size_emul - start);
-+    *size =3D MIN(*size, hw->pending_emul);
-+    *size =3D MIN(*size, hw->size_emul - start);
-     return hw->buf_emul + start;
- }
+         decr =3D MIN(size / hw->info.bytes_per_frame, live);
+diff --git a/audio/dsoundaudio.c b/audio/dsoundaudio.c
+index c265c0094b9f..bd57082a8dce 100644
+--- a/audio/dsoundaudio.c
++++ b/audio/dsoundaudio.c
+@@ -53,12 +53,14 @@ typedef struct {
+ typedef struct {
+     HWVoiceOut hw;
+     LPDIRECTSOUNDBUFFER dsound_buffer;
++    bool first_time;
+     dsound *s;
+ } DSoundVoiceOut;
+=20
+ typedef struct {
+     HWVoiceIn hw;
+     LPDIRECTSOUNDCAPTUREBUFFER dsound_capture_buffer;
++    bool first_time;
+     dsound *s;
+ } DSoundVoiceIn;
+=20
+@@ -414,21 +416,32 @@ static void *dsound_get_buffer_out(HWVoiceOut *hw, si=
+ze_t *size)
+     DSoundVoiceOut *ds =3D (DSoundVoiceOut *) hw;
+     LPDIRECTSOUNDBUFFER dsb =3D ds->dsound_buffer;
+     HRESULT hr;
+-    DWORD ppos, act_size;
++    DWORD ppos, wpos, act_size;
+     size_t req_size;
+     int err;
+     void *ret;
+=20
+-    hr =3D IDirectSoundBuffer_GetCurrentPosition(dsb, &ppos, NULL);
++    hr =3D IDirectSoundBuffer_GetCurrentPosition(
++        dsb, &ppos, ds->first_time ? &wpos : NULL);
+     if (FAILED(hr)) {
+         dsound_logerr(hr, "Could not get playback buffer position\n");
+         *size =3D 0;
+         return NULL;
+     }
+=20
++    if (ds->first_time) {
++        hw->pos_emul =3D wpos;
++        ds->first_time =3D false;
++    }
++
+     req_size =3D audio_ring_dist(ppos, hw->pos_emul, hw->size_emul);
+     req_size =3D MIN(req_size, hw->size_emul - hw->pos_emul);
+=20
++    if (req_size =3D=3D 0) {
++        *size =3D 0;
++        return NULL;
++    }
++
+     err =3D dsound_lock_out(dsb, &hw->info, hw->pos_emul, req_size, &ret, =
+NULL,
+                           &act_size, NULL, false, ds->s);
+     if (err) {
+@@ -508,18 +521,24 @@ static void *dsound_get_buffer_in(HWVoiceIn *hw, size=
+_t *size)
+     DSoundVoiceIn *ds =3D (DSoundVoiceIn *) hw;
+     LPDIRECTSOUNDCAPTUREBUFFER dscb =3D ds->dsound_capture_buffer;
+     HRESULT hr;
+-    DWORD cpos, act_size;
++    DWORD cpos, rpos, act_size;
+     size_t req_size;
+     int err;
+     void *ret;
+=20
+-    hr =3D IDirectSoundCaptureBuffer_GetCurrentPosition(dscb, &cpos, NULL)=
+;
++    hr =3D IDirectSoundCaptureBuffer_GetCurrentPosition(
++        dscb, &cpos, ds->first_time ? &rpos : NULL);
+     if (FAILED(hr)) {
+         dsound_logerr(hr, "Could not get capture buffer position\n");
+         *size =3D 0;
+         return NULL;
+     }
+=20
++    if (ds->first_time) {
++        hw->pos_emul =3D rpos;
++        ds->first_time =3D false;
++    }
++
+     req_size =3D audio_ring_dist(cpos, hw->pos_emul, hw->size_emul);
+     req_size =3D MIN(req_size, hw->size_emul - hw->pos_emul);
 =20
 --=20
 2.18.1
