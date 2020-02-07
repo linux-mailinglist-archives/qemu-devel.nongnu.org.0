@@ -2,41 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 524C2155A57
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 16:07:07 +0100 (CET)
-Received: from localhost ([::1]:58924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 690F9155A3F
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 16:01:39 +0100 (CET)
+Received: from localhost ([::1]:58718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j05Dm-0001pT-BG
-	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 10:07:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39434)
+	id 1j058U-0008Pn-D7
+	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 10:01:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51975)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <tianjia.zhang@linux.alibaba.com>) id 1j02Dx-0008GR-8i
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 06:55:06 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1j04iL-0001ZF-8l
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:34:38 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tianjia.zhang@linux.alibaba.com>) id 1j02Dr-0001fQ-73
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 06:55:00 -0500
-Received: from out4436.biz.mail.alibaba.com ([47.88.44.36]:61457)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <tianjia.zhang@linux.alibaba.com>)
- id 1j02Dq-0001LK-T3
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 06:54:59 -0500
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R131e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=e01e04407;
- MF=tianjia.zhang@linux.alibaba.com; NM=1; PH=DS; RN=1; SR=0;
- TI=SMTPD_---0TpMFALF_1581076473; 
-Received: from localhost(mailfrom:tianjia.zhang@linux.alibaba.com
- fp:SMTPD_---0TpMFALF_1581076473) by smtp.aliyun-inc.com(127.0.0.1);
- Fri, 07 Feb 2020 19:54:34 +0800
-From: Tianjia Zhang <tianjia.zhang@linux.alibaba.com>
+ (envelope-from <peter.maydell@linaro.org>) id 1j04iK-0003ey-3x
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:34:37 -0500
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:45514)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1j04iJ-0003cG-T9
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:34:36 -0500
+Received: by mail-wr1-x42d.google.com with SMTP id a6so2914592wrx.12
+ for <qemu-devel@nongnu.org>; Fri, 07 Feb 2020 06:34:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+ :content-transfer-encoding;
+ bh=Uk+6MfSy1xJAjRHyCw9qUpcoTRYgUYoWZjo2KJmyMU4=;
+ b=cgSKrEJtSc/kVcDrRuXnyA180r2o0rJkNWBz/SDTSn90Vm8c6/iJEVFu7d6X372zDj
+ Fri63tSUX2kHAEU2SnjICHx4FtSdtXywOSaVjl9NM0gowDRx1/j0CxpzvDtJXuF4qy7L
+ yKfKW2Q57gMvBK562p/XckOeXBEuxLJyzR5lXHkTMCVqls838/I87IixmD24MSxiE39m
+ JQFHmu91aaaGtYuoQU8tcIkqg33ad0aAl3otLYRxWSqGgxEygtA1pAl5Gkejr8BxeHp0
+ zUT1o6/aLrJmYyPGxZb/F1ZZ1IoXxgNgZgvXDneFEXNEntCpmMSHLkiZEoV2jDLIeOnb
+ nQqg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=Uk+6MfSy1xJAjRHyCw9qUpcoTRYgUYoWZjo2KJmyMU4=;
+ b=pbnnI7BOQeAYaDZ1wb4iQLnIl4nQhwmQngohVlEI7tAIBQHTxFopmyMonU0k92tSoK
+ 3DJyNSoC7vBETGYVB2gvGeyeDMzsmPoKhvlcJLDRQaoplTET2/eDy/w2mGV0PmNqvVVh
+ CZ6lyyOXUUgtLXqwcr0Hy3U+kiklZfC6X240g6RqrMZ7F1z7IX2cP2LmsY/CbuIQE8ou
+ 0ldfJfvmbaFNkUXfoiC5D84LnusQMqDv2JsnUMLGysaVaROT2mxD/7tt1xqSI0tTg8jP
+ 3Yj7DBtNP17/6c1+zPfdRg5q67ILukdsRI0S/AX533f/lSlCbb4U+CTSV68NOOv/7L17
+ dPWQ==
+X-Gm-Message-State: APjAAAX0aSHj35t0K/3GHPdGPzxGesJu2UB6MpdGDRYwM0jN0ajoXAxw
+ CyHc5H60BphqW8ipIcKdrD7I78BQXYI=
+X-Google-Smtp-Source: APXvYqxhK3h5jRt2dIuT2lsnA0a4VpDceEyLQP5Xqxnuh4pI2nk/9MDNRDwkUDTWtJB5u86sPlNXmA==
+X-Received: by 2002:adf:f4cb:: with SMTP id h11mr5159432wrp.90.1581086074659; 
+ Fri, 07 Feb 2020 06:34:34 -0800 (PST)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id w1sm3796430wro.72.2020.02.07.06.34.33
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 07 Feb 2020 06:34:34 -0800 (PST)
+From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH] tests: Fix a bug with count variables
-Date: Fri,  7 Feb 2020 19:54:33 +0800
-Message-Id: <20200207115433.118254-1-tianjia.zhang@linux.alibaba.com>
-X-Mailer: git-send-email 2.17.1
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 47.88.44.36
-X-Mailman-Approved-At: Fri, 07 Feb 2020 09:58:38 -0500
+Subject: [PULL 46/48] armv7m_systick: delay timer_new to avoid memleaks
+Date: Fri,  7 Feb 2020 14:33:41 +0000
+Message-Id: <20200207143343.30322-47-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200207143343.30322-1-peter.maydell@linaro.org>
+References: <20200207143343.30322-1-peter.maydell@linaro.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::42d
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -51,29 +81,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The counting code here should use the local variable n_nodes_local.
-Otherwise, the variable n_nodes is counting incorrectly, causing the
-counting logic of the code to be wrong.
+From: Pan Nengyuan <pannengyuan@huawei.com>
 
-Signed-off-by: Tianjia Zhang <tianjia.zhang@linux.alibaba.com>
+There is a memory leak when we call 'device_list_properties' with typename = armv7m_systick. It's easy to reproduce as follow:
+
+  virsh qemu-monitor-command vm1 --pretty '{"execute": "device-list-properties", "arguments": {"typename": "armv7m_systick"}}'
+
+This patch delay timer_new to fix this memleaks.
+
+Reported-by: Euler Robot <euler.robot@huawei.com>
+Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
+Message-id: 20200205070659.22488-2-pannengyuan@huawei.com
+Cc: qemu-arm@nongnu.org
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- tests/test-rcu-list.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/timer/armv7m_systick.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/tests/test-rcu-list.c b/tests/test-rcu-list.c
-index 6f076473e0..c0fc47ded4 100644
---- a/tests/test-rcu-list.c
-+++ b/tests/test-rcu-list.c
-@@ -219,7 +219,7 @@ static void *rcu_q_updater(void *arg)
-             j++;
-             if (target_el == j) {
-                 struct list_element *new_el = g_new(struct list_element, 1);
--                n_nodes += n_nodes_local;
-+                n_nodes_local++;
-                 TEST_LIST_INSERT_AFTER_RCU(el, new_el, entry);
-                 break;
-             }
+diff --git a/hw/timer/armv7m_systick.c b/hw/timer/armv7m_systick.c
+index 85d122dbcbc..74c58bcf245 100644
+--- a/hw/timer/armv7m_systick.c
++++ b/hw/timer/armv7m_systick.c
+@@ -216,6 +216,11 @@ static void systick_instance_init(Object *obj)
+     memory_region_init_io(&s->iomem, obj, &systick_ops, s, "systick", 0xe0);
+     sysbus_init_mmio(sbd, &s->iomem);
+     sysbus_init_irq(sbd, &s->irq);
++}
++
++static void systick_realize(DeviceState *dev, Error **errp)
++{
++    SysTickState *s = SYSTICK(dev);
+     s->timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, systick_timer_tick, s);
+ }
+ 
+@@ -238,6 +243,7 @@ static void systick_class_init(ObjectClass *klass, void *data)
+ 
+     dc->vmsd = &vmstate_systick;
+     dc->reset = systick_reset;
++    dc->realize = systick_realize;
+ }
+ 
+ static const TypeInfo armv7m_systick_info = {
 -- 
-2.17.1
+2.20.1
 
 
