@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F2DE155AA5
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 16:23:35 +0100 (CET)
-Received: from localhost ([::1]:59366 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC3FD155AAE
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 16:25:37 +0100 (CET)
+Received: from localhost ([::1]:59415 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j05Ti-0006DA-CY
-	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 10:23:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39298)
+	id 1j05Vg-0000Hr-NS
+	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 10:25:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39664)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <cohuck@redhat.com>) id 1j05Sv-0005ib-Ip
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 10:22:46 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1j05Uf-0007PB-Tt
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 10:24:36 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cohuck@redhat.com>) id 1j05St-0003ts-Ay
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 10:22:44 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:56323
+ (envelope-from <dgilbert@redhat.com>) id 1j05Ue-0007Po-Pa
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 10:24:33 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:36375
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1j05St-0003t2-13
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 10:22:43 -0500
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1j05Ue-0007Pe-Lq
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 10:24:32 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581088962;
+ s=mimecast20190719; t=1581089072;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Yk80xZRAQSpG56SE36xTJq4b75lDgQG76fnM+EFJPlo=;
- b=d8q2AtKSY5XhkZI3InM9sa/mZ72PBe78+6IMfvHDLFy+U0y55YKrVqKufVPsuj6bfNfK8G
- c232WykDwf6N55fRKkl/2BxHNFCZhixWBB8KKYnZ9/+z2G5rcptJpTUFGaqpAIJf/+svsQ
- /PmL8BIY3xug1XQw1lEBompS1pju3/c=
+ bh=95HNyZLzTVgc+rMg1S2GcJQc40c5OxOjsFv1scrmkws=;
+ b=gczhp7/21PB8c6MfG+XxPNdDxzSUP6HTOpMADAHV4kyMqyj23Bixu1anKnOWKhVikEhJnU
+ lFNjngFJ+yFnXr16ewfHr3KUzvjHFdPQsx2zkm0Eyi6Q3vWfoiY1cC+JUEGo+eaENLT5FN
+ F6BxaVsLFq4+gwEdSR+jMulJRpaRLDo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-4-aYQCcNAoNZSub-IOeX5hMg-1; Fri, 07 Feb 2020 10:22:28 -0500
+ us-mta-29-r_FgCRhfMjmSRKzk7vJ0Aw-1; Fri, 07 Feb 2020 10:24:20 -0500
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7230CDB2C;
- Fri,  7 Feb 2020 15:22:26 +0000 (UTC)
-Received: from gondolin (dhcp-192-195.str.redhat.com [10.33.192.195])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 663A65C28C;
- Fri,  7 Feb 2020 15:22:23 +0000 (UTC)
-Date: Fri, 7 Feb 2020 16:22:21 +0100
-From: Cornelia Huck <cohuck@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 53290184AEAA;
+ Fri,  7 Feb 2020 15:24:19 +0000 (UTC)
+Received: from work-vm (unknown [10.36.118.64])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B67C15C28C;
+ Fri,  7 Feb 2020 15:24:15 +0000 (UTC)
+Date: Fri, 7 Feb 2020 15:24:13 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH RFC 1/2] docs: rstfy s390 dasd ipl documentation
-Message-ID: <20200207162221.371dfd05.cohuck@redhat.com>
-In-Reply-To: <CAFEAcA9kkxNZg7ij5vXQU-pA+sxed13L0GB6RfiWsvyT2rPPYg@mail.gmail.com>
-References: <20200128180142.15132-1-cohuck@redhat.com>
- <20200128180142.15132-2-cohuck@redhat.com>
- <CAFEAcA9kkxNZg7ij5vXQU-pA+sxed13L0GB6RfiWsvyT2rPPYg@mail.gmail.com>
-Organization: Red Hat GmbH
+Subject: Re: should we have a new 'tools' manual?
+Message-ID: <20200207152413.GF3302@work-vm>
+References: <CAFEAcA--P9FLM4qBxf23sLuv5Tz4HRgj7ONC7ODxnfZiLph9TA@mail.gmail.com>
 MIME-Version: 1.0
+In-Reply-To: <CAFEAcA--P9FLM4qBxf23sLuv5Tz4HRgj7ONC7ODxnfZiLph9TA@mail.gmail.com>
+User-Agent: Mutt/1.13.3 (2020-01-12)
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: aYQCcNAoNZSub-IOeX5hMg-1
+X-MC-Unique: r_FgCRhfMjmSRKzk7vJ0Aw-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,74 +73,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Tony Krowiak <akrowiak@linux.ibm.com>,
- "Jason J . Herne" <jjherne@linux.ibm.com>, Thomas Huth <thuth@redhat.com>,
- Pierre Morel <pmorel@linux.ibm.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- qemu-s390x <qemu-s390x@nongnu.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 7 Feb 2020 12:05:09 +0000
-Peter Maydell <peter.maydell@linaro.org> wrote:
+* Peter Maydell (peter.maydell@linaro.org) wrote:
+> So far we've been converting docs to Sphinx and assigning them
+> to manuals according to the division originally set out by
+> Paolo on the wiki: https://wiki.qemu.org/Features/Documentation
+>=20
+>  * QEMU User-mode Emulation User's Guide (docs/user)
+>  * QEMU System Emulation User's Guide (docs/system)
+>  * QEMU System Emulation Management and Interoperability Guide (docs/inte=
+rop)
+>  * QEMU System Emulation Guest Hardware Specifications (docs/specs)
+>  * QEMU Developer's Guide (docs/devel, not shipped to end-users)
+>=20
+> but some of our documentation has always been a bit of an awkward
+> fit into this classification:
+>  * qemu-img
+>  * qemu-nbd
+>  * virtfs-proxy-helper
+> etc. I've tended to put these things into interop/.
+>=20
+> The proposal from Dan and David was that we should add a sixth
+> top-level manual
+>  * QEMU Tools Guide (docs/tools)
+>=20
+> which would be a more coherent place for these to live.
+>=20
+> This seems like a good idea to me -- do people agree? What's
+> our definition of a "tool", or do we just know one when we see it?
+> What in particular should go in tools/ ?
 
-> On Tue, 28 Jan 2020 at 19:36, Cornelia Huck <cohuck@redhat.com> wrote:
-> >
-> > While at it, also fix the numbering in 'What QEMU does'.
-> >
-> > Signed-off-by: Cornelia Huck <cohuck@redhat.com>
-> > ---  
-> 
-> > diff --git a/docs/devel/s390-dasd-ipl.txt b/docs/devel/s390-dasd-ipl.rst
-> > similarity index 77%
-> > rename from docs/devel/s390-dasd-ipl.txt
-> > rename to docs/devel/s390-dasd-ipl.rst
-> > index 9107e048e4e6..1f6a7ea01ce6 100644
-> > --- a/docs/devel/s390-dasd-ipl.txt
-> > +++ b/docs/devel/s390-dasd-ipl.rst
-> > @@ -1,25 +1,28 @@
-> > -*****************************
-> > -***** s390 hardware IPL *****
-> > -*****************************
-> > +Booting from real channel-attached devices on s390x
-> > +===================================================
-> > +
-> > +s390 hardware IPL
-> > +-----------------
-> >
-> >  The s390 hardware IPL process consists of the following steps.
-> >
-> > -1. A READ IPL ccw is constructed in memory location 0x0.
-> > +1. A READ IPL ccw is constructed in memory location ``0x0``.
-> >      This ccw, by definition, reads the IPL1 record which is located on the disk
-> >      at cylinder 0 track 0 record 1. Note that the chain flag is on in this ccw
-> >      so when it is complete another ccw will be fetched and executed from memory
-> > -    location 0x08.
-> > +    location ``0x08``.  
-> 
-> I think the indentation here is off -- rST likes to see every line
-> in a multiline bullet point start in the same column, like this:
-> 
-> 1. A READ IPL ccw is constructed in memory location ``0x0``.
->    This ccw, by ...
->    at cylinder...
-> 
-> Otherwise I think you end up with a blockquote by accident.
+The virtiofs security guide that Stefan wrote doesn't really fit in the exi=
+sting ones.
+It's not about the use of qemu itself so it's not docs/user or
+docs/system.
+It's not specifying protocols or commands so it's not docs/interop.
+It's not hardware.
+And it's for end users not developers, so it's not docs/devel.
 
-Hm, the resulting html looked sane to me... but making this consistent
-is a good idea anyway.
+However, there's a question about whether it makes sense to bundle
+the docs for all of the tools into one big manual when they're
+really independent.
 
-> 
-> Formatting-wise the rest looks OK to me (and the other enumerated
-> lists in this document don't have this odd indentation, just this
-> first set of 1..4).
+Dave
 
-Thanks for looking!
 
-> 
 > thanks
 > -- PMM
-> 
+>=20
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
