@@ -2,35 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C52F6155526
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 10:57:26 +0100 (CET)
-Received: from localhost ([::1]:53108 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A67B5155524
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 10:56:05 +0100 (CET)
+Received: from localhost ([::1]:53076 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j00O5-0006uq-S4
-	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 04:57:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40350)
+	id 1j00Mm-00053y-Fw
+	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 04:56:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40072)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <rka@sysgo.com>) id 1j00MK-0004w5-7J
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 04:55:37 -0500
+ (envelope-from <lvivier@redhat.com>) id 1j00Li-00045y-Aj
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 04:54:59 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <rka@sysgo.com>) id 1j00MJ-0000CU-Ay
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 04:55:36 -0500
-Received: from mail.sysgo.com ([176.9.12.79]:52482)
- by eggs.gnu.org with esmtp (Exim 4.71)
- (envelope-from <rka@sysgo.com>)
- id 1j00MG-00008K-GF; Fri, 07 Feb 2020 04:55:32 -0500
-From: Roman Kapl <rka@sysgo.com>
-To: qemu-arm@nongnu.org
-Subject: [PATCH] i.MX: Fix inverted register bits in wdt code.
-Date: Fri,  7 Feb 2020 10:54:09 +0100
-Message-Id: <20200207095409.11227-1-rka@sysgo.com>
-X-Mailer: git-send-email 2.22.0
+ (envelope-from <lvivier@redhat.com>) id 1j00Lg-00070H-Lu
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 04:54:57 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:46025
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <lvivier@redhat.com>) id 1j00Lg-0006yu-ID
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 04:54:56 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1581069296;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=AN5OEky6D4oYKbeemXq5L4usGQTYVf9ZivJAlrymxKg=;
+ b=QFRouoSM8tkD1KsI1VEUMutdHfcWBCCZ8EenBeVuns4uhR0aKXysVDlKfV3DlYGpLEQWX8
+ tcgLf75U4AKZrMHCisnJKgTBrK0xg4dqBIbZrj3q9LE1Q+Me+YeOHVPg2p28egD7zSIM+Y
+ 7FfEM2uZzo3Q3YzPNwcihuiMMcDzGuQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-217-N8qJ8B96NG6KOU_FL9T9fA-1; Fri, 07 Feb 2020 04:54:54 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 62133801FB4
+ for <qemu-devel@nongnu.org>; Fri,  7 Feb 2020 09:54:53 +0000 (UTC)
+Received: from thinkpad.redhat.com (ovpn-116-229.ams2.redhat.com
+ [10.36.116.229])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 09CD78EA10;
+ Fri,  7 Feb 2020 09:54:12 +0000 (UTC)
+From: Laurent Vivier <lvivier@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 1/2] tests/vhost-user-bridge: move to contrib/
+Date: Fri,  7 Feb 2020 10:54:11 +0100
+Message-Id: <20200207095412.794912-1-lvivier@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: N8qJ8B96NG6KOU_FL9T9fA-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 176.9.12.79
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -42,33 +69,132 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Roman Kapl <rka@sysgo.com>,
- qemu-devel@nongnu.org, Jean-Christophe Dubois <jcd@tribudubois.net>
+Cc: Laurent Vivier <lvivier@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Documentation says for WDA '0: Assert WDOG output.' and for SRS
-'0: Assert system reset signal.'.
+vhost-user-bridge is not a test. Move it to contrib/ and
+add it to the tools list.
 
-Signed-off-by: Roman Kapl <rka@sysgo.com>
+It will be built only if tools (--enable-tools) and
+vhost-user (--enable-vhost-user) are enabled (both are set
+by default).
+
+Suggested-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/misc/imx2_wdt.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/misc/imx2_wdt.c b/hw/misc/imx2_wdt.c
-index e47e442592..c8944729c4 100644
---- a/hw/misc/imx2_wdt.c
-+++ b/hw/misc/imx2_wdt.c
-@@ -28,7 +28,7 @@ static void imx2_wdt_write(void *opaque, hwaddr addr,
-                            uint64_t value, unsigned int size)
- {
-     if (addr =3D=3D IMX2_WDT_WCR &&
--        (value & (IMX2_WDT_WCR_WDA | IMX2_WDT_WCR_SRS))) {
-+        (~value & (IMX2_WDT_WCR_WDA | IMX2_WDT_WCR_SRS))) {
-         watchdog_perform_action();
-     }
- }
+Notes:
+    v2: update docs
+
+ Makefile                                                      | 3 +++
+ Makefile.objs                                                 | 1 +
+ configure                                                     | 3 +++
+ contrib/vhost-user-bridge/Makefile.objs                       | 1 +
+ tests/vhost-user-bridge.c =3D> contrib/vhost-user-bridge/main.c | 0
+ docs/devel/migration.rst                                      | 2 +-
+ tests/Makefile.include                                        | 1 -
+ 7 files changed, 9 insertions(+), 2 deletions(-)
+ create mode 100644 contrib/vhost-user-bridge/Makefile.objs
+ rename tests/vhost-user-bridge.c =3D> contrib/vhost-user-bridge/main.c (10=
+0%)
+
+diff --git a/Makefile b/Makefile
+index 461d40bea6c2..23342a433e11 100644
+--- a/Makefile
++++ b/Makefile
+@@ -442,6 +442,7 @@ dummy :=3D $(call unnest-vars,, \
+                 libvhost-user-obj-y \
+                 vhost-user-scsi-obj-y \
+                 vhost-user-blk-obj-y \
++                vhost-user-bridge-obj-y \
+                 vhost-user-input-obj-y \
+                 vhost-user-gpu-obj-y \
+                 qga-vss-dll-obj-y \
+@@ -672,6 +673,8 @@ vhost-user-scsi$(EXESUF): $(vhost-user-scsi-obj-y) libv=
+host-user.a
+ =09$(call LINK, $^)
+ vhost-user-blk$(EXESUF): $(vhost-user-blk-obj-y) libvhost-user.a
+ =09$(call LINK, $^)
++vhost-user-bridge$(EXESUF): $(vhost-user-bridge-obj-y) libvhost-user.a
++=09$(call LINK, $^)
+=20
+ rdmacm-mux$(EXESUF): LIBS +=3D "-libumad"
+ rdmacm-mux$(EXESUF): $(rdmacm-mux-obj-y) $(COMMON_LDADDS)
+diff --git a/Makefile.objs b/Makefile.objs
+index 26b9cff95436..0240100b9a17 100644
+--- a/Makefile.objs
++++ b/Makefile.objs
+@@ -109,6 +109,7 @@ vhost-user-scsi.o-cflags :=3D $(LIBISCSI_CFLAGS)
+ vhost-user-scsi.o-libs :=3D $(LIBISCSI_LIBS)
+ vhost-user-scsi-obj-y =3D contrib/vhost-user-scsi/
+ vhost-user-blk-obj-y =3D contrib/vhost-user-blk/
++vhost-user-bridge-obj-y =3D contrib/vhost-user-bridge/
+ rdmacm-mux-obj-y =3D contrib/rdmacm-mux/
+ vhost-user-input-obj-y =3D contrib/vhost-user-input/
+ vhost-user-gpu-obj-y =3D contrib/vhost-user-gpu/
+diff --git a/configure b/configure
+index 115dc38085f3..0415eb5c99d3 100755
+--- a/configure
++++ b/configure
+@@ -6223,6 +6223,9 @@ if test "$want_tools" =3D "yes" ; then
+   if [ "$curl" =3D "yes" ]; then
+       tools=3D"elf2dmp\$(EXESUF) $tools"
+   fi
++  if [ "$vhost_user" =3D "yes" ]; then
++      tools=3D"vhost-user-bridge\$(EXESUF) $tools"
++  fi
+ fi
+ if test "$softmmu" =3D yes ; then
+   if test "$linux" =3D yes; then
+diff --git a/contrib/vhost-user-bridge/Makefile.objs b/contrib/vhost-user-b=
+ridge/Makefile.objs
+new file mode 100644
+index 000000000000..36a8d9b49a05
+--- /dev/null
++++ b/contrib/vhost-user-bridge/Makefile.objs
+@@ -0,0 +1 @@
++vhost-user-bridge-obj-y =3D main.o
+diff --git a/tests/vhost-user-bridge.c b/contrib/vhost-user-bridge/main.c
+similarity index 100%
+rename from tests/vhost-user-bridge.c
+rename to contrib/vhost-user-bridge/main.c
+diff --git a/docs/devel/migration.rst b/docs/devel/migration.rst
+index e88918f7639e..d00424460e23 100644
+--- a/docs/devel/migration.rst
++++ b/docs/devel/migration.rst
+@@ -807,7 +807,7 @@ The Linux kernel userfault support works on `/dev/shm` =
+memory and on `hugetlbfs`
+ for hugetlbfs which may be a problem in some configurations).
+=20
+ The vhost-user code in QEMU supports clients that have Postcopy support,
+-and the `vhost-user-bridge` (in `tests/`) and the DPDK package have change=
+s
++and the `vhost-user-bridge` (in `contrib/`) and the DPDK package have chan=
+ges
+ to support postcopy.
+=20
+ The client needs to open a userfaultfd and register the areas
+diff --git a/tests/Makefile.include b/tests/Makefile.include
+index 2f1cafed720d..78cdbe91aed5 100644
+--- a/tests/Makefile.include
++++ b/tests/Makefile.include
+@@ -586,7 +586,6 @@ include $(SRC_PATH)/tests/qtest/Makefile.include
+=20
+ tests/test-qga$(EXESUF): qemu-ga$(EXESUF)
+ tests/test-qga$(EXESUF): tests/test-qga.o $(qtest-obj-y)
+-tests/vhost-user-bridge$(EXESUF): tests/vhost-user-bridge.o $(test-util-ob=
+j-y) libvhost-user.a
+=20
+ SPEED =3D quick
+=20
 --=20
-2.22.0
+2.24.1
 
 
