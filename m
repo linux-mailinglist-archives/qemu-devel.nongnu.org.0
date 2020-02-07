@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9B73155A18
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 15:52:49 +0100 (CET)
-Received: from localhost ([::1]:58422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47F67155A1F
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 15:54:15 +0100 (CET)
+Received: from localhost ([::1]:58470 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j04zw-0006DK-Mt
-	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 09:52:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51671)
+	id 1j051K-0002gG-Aq
+	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 09:54:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51686)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j04i0-0000i3-Kx
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:34:17 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1j04i1-0000k0-EP
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:34:18 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j04hz-00038T-0D
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:34:16 -0500
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:36283)
+ (envelope-from <peter.maydell@linaro.org>) id 1j04i0-00039s-0n
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:34:17 -0500
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:46060)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j04hy-00036q-NX
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:34:14 -0500
-Received: by mail-wr1-x434.google.com with SMTP id z3so2975387wru.3
- for <qemu-devel@nongnu.org>; Fri, 07 Feb 2020 06:34:14 -0800 (PST)
+ id 1j04hz-000392-PG
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 09:34:15 -0500
+Received: by mail-wr1-x443.google.com with SMTP id a6so2913247wrx.12
+ for <qemu-devel@nongnu.org>; Fri, 07 Feb 2020 06:34:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=3GKWFcKaOYjzLW4s9XlbZ0NXYh0eoTxs+M3k90mqG2A=;
- b=PsrbR0EohM938LXMFuBovGD6+QVFvx/ERg0hGZ67z8znLc6EMhIgicflUFKQIEd7yg
- stwrOIGwmOVtk/jrtsn387K2O/HJbfaV3UYYdEyXjuHp/87P3jKGcpToZGwqlGP886MA
- qe4Ky5v126mcVhjkphEaBBZQQSjnTi0aP5mXpS3IF5utqIVduLsYywV6TGZ8KJk9/YEy
- oKkWC0YXh2WJMNHEL1hc2SgNruICu53X8Qn4A9eH+L4iJ7qoOP7UYSbmiuDXH2reXvkm
- xhLEnJFOjuwkVN4uznokMs14XSGbMHwMBdCAMPQLDe7WJodhBVmiWSGTB99LYyDUsLBk
- P/eg==
+ bh=QYnoVMkywmY6XVGGWRidC9UHjs8ccQpGBlGTx9rUDOw=;
+ b=XW5Zn18BkFtnWk7XB901/5W+BdbxubGToOSv5/8BIZX/nXi4qASMm0sGN2kBkOGviX
+ nxEe1+CJN7ZCJ/j5f2b0oWCVz/Zy4z/cQ2r9WXRg98Urp5vjk3/6ngdKUV3xHVpqHe2X
+ OCalNHOUzGzwF/AxK3MOOMT5hHAVfqO4lJMkiqPUGPB3538mjuXZMieJPOVuTiTPMbTW
+ HZLAfAsmRbB2q5DS7lKKom/PpRmEBfyFQEpdEW+/kR0jU1OSHo0B5/Uh4heAYuVbCS0L
+ sKFDb12K/vxkIxlGxAnGTbnnLVvAqPtdGd7N0rRoEMhOHd4BqVQVBnulABdGVHfOLqUS
+ ehgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=3GKWFcKaOYjzLW4s9XlbZ0NXYh0eoTxs+M3k90mqG2A=;
- b=B8Afeqt/QEGUQa8mrpGwGM4xRT2K3kpJp36Bqdf1s1AWjIjMONuMtmjL+ty2mzbpDR
- cIp1ktviqJDMXpR1o+Z/JaIFYDOUjohMKlispcdVdypQqztwGt5vgR9UpQbnShfAdcuu
- DpQ8ugJ1MBY/MfWXbEcgzqZCBLzKIQOrJhkmukke4Jj6CE08XfdhnYbRK9snrA4kiRWm
- +Hez//q6d50SuloK0txhcj4DurSNLoBji+Wtaee8+BuVSBu1i+PatlMz63Vqgaf/0uT8
- 2aI8rUxU00K44b02k1eN/LQsVY8sCEifRHJFFFkXPxxLOAY0eqozfCDg7QgEBF39zAHO
- SpHQ==
-X-Gm-Message-State: APjAAAWV9NpLnufeOQ0XdfbHRGwm0Y3id0vXksQH8MoKLjD11TM7knpD
- LtIgr1Aukxl8l8ht88ErWKOWG1F9/Co=
-X-Google-Smtp-Source: APXvYqy/E073lGAfqMjJgnYjt3w7ItFdUoLHHIvqW1J0LkNLhY0yPSbdm5uZtQgDMwYOKqhbS9dO/A==
-X-Received: by 2002:a5d:6144:: with SMTP id y4mr4922260wrt.367.1581086053448; 
- Fri, 07 Feb 2020 06:34:13 -0800 (PST)
+ bh=QYnoVMkywmY6XVGGWRidC9UHjs8ccQpGBlGTx9rUDOw=;
+ b=KyTGDkl6MgYEjFIcLqqbqaPXiQTmmdgWlUHKdT3wu7Kln2GmuVdlv8M5qsOUDwTgt/
+ iPcDH9/gcHMr7N28fVuEGStRmpaWCmULQHMSS4ARy7GctWd39EHzh5p+oF6CHqKydSjY
+ zKfGptU+FpnBbrIXsKhnFScorAp6+BW/1hCYjGGADHIUnKlG7neIQPxQj9qtmzednNQf
+ mkZBmV0a+vPbiAUGxIl4XruAP36kGq+mZyYNpRQltv3LQZDfZM+uWyAre+Fb0MaHhIV1
+ QDj9oVrX1j1EjY/WJtXt4sgacT3l2dmf7TzWbtZE6qg08ReRB0kxg1gjcjZcRCk/q2NL
+ IyvA==
+X-Gm-Message-State: APjAAAUySoN1+m+AaODPzXdJgMjXpGBVrVOK3ctL9qzEta/8MVZw/tXs
+ f/Awl2uMBx8sgIFVuLqhnYRz/MNyXdk=
+X-Google-Smtp-Source: APXvYqxhiwtnK4iUaMtIkDh/vHdyeFao/1ZJ47FgJfwdzD8NMo1LdMBqPESvbDBkvPwYi3vxRPMZVw==
+X-Received: by 2002:adf:eacb:: with SMTP id o11mr5283037wrn.128.1581086054455; 
+ Fri, 07 Feb 2020 06:34:14 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id w1sm3796430wro.72.2020.02.07.06.34.12
+ by smtp.gmail.com with ESMTPSA id w1sm3796430wro.72.2020.02.07.06.34.13
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Feb 2020 06:34:12 -0800 (PST)
+ Fri, 07 Feb 2020 06:34:13 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 26/48] target/arm: Add the hypervisor virtual counter
-Date: Fri,  7 Feb 2020 14:33:21 +0000
-Message-Id: <20200207143343.30322-27-peter.maydell@linaro.org>
+Subject: [PULL 27/48] target/arm: Update timer access for VHE
+Date: Fri,  7 Feb 2020 14:33:22 +0000
+Message-Id: <20200207143343.30322-28-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200207143343.30322-1-peter.maydell@linaro.org>
 References: <20200207143343.30322-1-peter.maydell@linaro.org>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::434
+X-Received-From: 2a00:1450:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,165 +87,146 @@ From: Richard Henderson <richard.henderson@linaro.org>
 Tested-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20200206105448.4726-26-richard.henderson@linaro.org
+Message-id: 20200206105448.4726-27-richard.henderson@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/cpu-qom.h |  1 +
- target/arm/cpu.h     | 11 +++++----
- target/arm/cpu.c     |  3 ++-
- target/arm/helper.c  | 56 ++++++++++++++++++++++++++++++++++++++++++++
- 4 files changed, 65 insertions(+), 6 deletions(-)
+ target/arm/helper.c | 102 +++++++++++++++++++++++++++++++++++---------
+ 1 file changed, 81 insertions(+), 21 deletions(-)
 
-diff --git a/target/arm/cpu-qom.h b/target/arm/cpu-qom.h
-index 7f5b244bde3..3a9d31ea9df 100644
---- a/target/arm/cpu-qom.h
-+++ b/target/arm/cpu-qom.h
-@@ -76,6 +76,7 @@ void arm_gt_ptimer_cb(void *opaque);
- void arm_gt_vtimer_cb(void *opaque);
- void arm_gt_htimer_cb(void *opaque);
- void arm_gt_stimer_cb(void *opaque);
-+void arm_gt_hvtimer_cb(void *opaque);
- 
- #define ARM_AFF0_SHIFT 0
- #define ARM_AFF0_MASK  (0xFFULL << ARM_AFF0_SHIFT)
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index 68e11f0eda3..ded1e8e0a89 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -144,11 +144,12 @@ typedef struct ARMGenericTimer {
-     uint64_t ctl; /* Timer Control register */
- } ARMGenericTimer;
- 
--#define GTIMER_PHYS 0
--#define GTIMER_VIRT 1
--#define GTIMER_HYP  2
--#define GTIMER_SEC  3
--#define NUM_GTIMERS 4
-+#define GTIMER_PHYS     0
-+#define GTIMER_VIRT     1
-+#define GTIMER_HYP      2
-+#define GTIMER_SEC      3
-+#define GTIMER_HYPVIRT  4
-+#define NUM_GTIMERS     5
- 
- typedef struct {
-     uint64_t raw_tcr;
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index f86e71a260d..1ecf2adb6a9 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -1272,7 +1272,6 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
-         }
-     }
- 
--
-     {
-         uint64_t scale;
- 
-@@ -1295,6 +1294,8 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
-                                               arm_gt_htimer_cb, cpu);
-         cpu->gt_timer[GTIMER_SEC] = timer_new(QEMU_CLOCK_VIRTUAL, scale,
-                                               arm_gt_stimer_cb, cpu);
-+        cpu->gt_timer[GTIMER_HYPVIRT] = timer_new(QEMU_CLOCK_VIRTUAL, scale,
-+                                                  arm_gt_hvtimer_cb, cpu);
-     }
- #endif
- 
 diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 72b336e3b5d..996865a3a20 100644
+index 996865a3a20..992ab2a15f1 100644
 --- a/target/arm/helper.c
 +++ b/target/arm/helper.c
-@@ -2556,6 +2556,7 @@ static uint64_t gt_tval_read(CPUARMState *env, const ARMCPRegInfo *ri,
+@@ -2324,10 +2324,18 @@ static CPAccessResult gt_cntfrq_access(CPUARMState *env, const ARMCPRegInfo *ri,
+      * Writable only at the highest implemented exception level.
+      */
+     int el = arm_current_el(env);
++    uint64_t hcr;
++    uint32_t cntkctl;
  
-     switch (timeridx) {
-     case GTIMER_VIRT:
-+    case GTIMER_HYPVIRT:
-         offset = gt_virt_cnt_offset(env);
+     switch (el) {
+     case 0:
+-        if (!extract32(env->cp15.c14_cntkctl, 0, 2)) {
++        hcr = arm_hcr_el2_eff(env);
++        if ((hcr & (HCR_E2H | HCR_TGE)) == (HCR_E2H | HCR_TGE)) {
++            cntkctl = env->cp15.cnthctl_el2;
++        } else {
++            cntkctl = env->cp15.c14_cntkctl;
++        }
++        if (!extract32(cntkctl, 0, 2)) {
+             return CP_ACCESS_TRAP;
+         }
          break;
-     }
-@@ -2572,6 +2573,7 @@ static void gt_tval_write(CPUARMState *env, const ARMCPRegInfo *ri,
- 
-     switch (timeridx) {
-     case GTIMER_VIRT:
-+    case GTIMER_HYPVIRT:
-         offset = gt_virt_cnt_offset(env);
-         break;
-     }
-@@ -2727,6 +2729,34 @@ static void gt_sec_ctl_write(CPUARMState *env, const ARMCPRegInfo *ri,
-     gt_ctl_write(env, ri, GTIMER_SEC, value);
- }
- 
-+static void gt_hv_timer_reset(CPUARMState *env, const ARMCPRegInfo *ri)
-+{
-+    gt_timer_reset(env, ri, GTIMER_HYPVIRT);
-+}
-+
-+static void gt_hv_cval_write(CPUARMState *env, const ARMCPRegInfo *ri,
-+                             uint64_t value)
-+{
-+    gt_cval_write(env, ri, GTIMER_HYPVIRT, value);
-+}
-+
-+static uint64_t gt_hv_tval_read(CPUARMState *env, const ARMCPRegInfo *ri)
-+{
-+    return gt_tval_read(env, ri, GTIMER_HYPVIRT);
-+}
-+
-+static void gt_hv_tval_write(CPUARMState *env, const ARMCPRegInfo *ri,
-+                             uint64_t value)
-+{
-+    gt_tval_write(env, ri, GTIMER_HYPVIRT, value);
-+}
-+
-+static void gt_hv_ctl_write(CPUARMState *env, const ARMCPRegInfo *ri,
-+                            uint64_t value)
-+{
-+    gt_ctl_write(env, ri, GTIMER_HYPVIRT, value);
-+}
-+
- void arm_gt_ptimer_cb(void *opaque)
+@@ -2355,17 +2363,47 @@ static CPAccessResult gt_counter_access(CPUARMState *env, int timeridx,
  {
-     ARMCPU *cpu = opaque;
-@@ -2755,6 +2785,13 @@ void arm_gt_stimer_cb(void *opaque)
-     gt_recalc_timer(cpu, GTIMER_SEC);
+     unsigned int cur_el = arm_current_el(env);
+     bool secure = arm_is_secure(env);
++    uint64_t hcr = arm_hcr_el2_eff(env);
+ 
+-    /* CNT[PV]CT: not visible from PL0 if ELO[PV]CTEN is zero */
+-    if (cur_el == 0 &&
+-        !extract32(env->cp15.c14_cntkctl, timeridx, 1)) {
+-        return CP_ACCESS_TRAP;
+-    }
++    switch (cur_el) {
++    case 0:
++        /* If HCR_EL2.<E2H,TGE> == '11': check CNTHCTL_EL2.EL0[PV]CTEN. */
++        if ((hcr & (HCR_E2H | HCR_TGE)) == (HCR_E2H | HCR_TGE)) {
++            return (extract32(env->cp15.cnthctl_el2, timeridx, 1)
++                    ? CP_ACCESS_OK : CP_ACCESS_TRAP_EL2);
++        }
+ 
+-    if (arm_feature(env, ARM_FEATURE_EL2) &&
+-        timeridx == GTIMER_PHYS && !secure && cur_el < 2 &&
+-        !extract32(env->cp15.cnthctl_el2, 0, 1)) {
+-        return CP_ACCESS_TRAP_EL2;
++        /* CNT[PV]CT: not visible from PL0 if EL0[PV]CTEN is zero */
++        if (!extract32(env->cp15.c14_cntkctl, timeridx, 1)) {
++            return CP_ACCESS_TRAP;
++        }
++
++        /* If HCR_EL2.<E2H,TGE> == '10': check CNTHCTL_EL2.EL1PCTEN. */
++        if (hcr & HCR_E2H) {
++            if (timeridx == GTIMER_PHYS &&
++                !extract32(env->cp15.cnthctl_el2, 10, 1)) {
++                return CP_ACCESS_TRAP_EL2;
++            }
++        } else {
++            /* If HCR_EL2.<E2H> == 0: check CNTHCTL_EL2.EL1PCEN. */
++            if (arm_feature(env, ARM_FEATURE_EL2) &&
++                timeridx == GTIMER_PHYS && !secure &&
++                !extract32(env->cp15.cnthctl_el2, 1, 1)) {
++                return CP_ACCESS_TRAP_EL2;
++            }
++        }
++        break;
++
++    case 1:
++        /* Check CNTHCTL_EL2.EL1PCTEN, which changes location based on E2H. */
++        if (arm_feature(env, ARM_FEATURE_EL2) &&
++            timeridx == GTIMER_PHYS && !secure &&
++            (hcr & HCR_E2H
++             ? !extract32(env->cp15.cnthctl_el2, 10, 1)
++             : !extract32(env->cp15.cnthctl_el2, 0, 1))) {
++            return CP_ACCESS_TRAP_EL2;
++        }
++        break;
+     }
+     return CP_ACCESS_OK;
  }
- 
-+void arm_gt_hvtimer_cb(void *opaque)
-+{
-+    ARMCPU *cpu = opaque;
-+
-+    gt_recalc_timer(cpu, GTIMER_HYPVIRT);
-+}
-+
- static void arm_gt_cntfrq_reset(CPUARMState *env, const ARMCPRegInfo *opaque)
+@@ -2375,19 +2413,41 @@ static CPAccessResult gt_timer_access(CPUARMState *env, int timeridx,
  {
-     ARMCPU *cpu = env_archcpu(env);
-@@ -6164,6 +6201,25 @@ static const ARMCPRegInfo vhe_reginfo[] = {
-       .opc0 = 3, .opc1 = 4, .crn = 2, .crm = 0, .opc2 = 1,
-       .access = PL2_RW, .writefn = vmsa_tcr_ttbr_el2_write,
-       .fieldoffset = offsetof(CPUARMState, cp15.ttbr1_el[2]) },
-+#ifndef CONFIG_USER_ONLY
-+    { .name = "CNTHV_CVAL_EL2", .state = ARM_CP_STATE_AA64,
-+      .opc0 = 3, .opc1 = 4, .crn = 14, .crm = 3, .opc2 = 2,
-+      .fieldoffset =
-+        offsetof(CPUARMState, cp15.c14_timer[GTIMER_HYPVIRT].cval),
-+      .type = ARM_CP_IO, .access = PL2_RW,
-+      .writefn = gt_hv_cval_write, .raw_writefn = raw_write },
-+    { .name = "CNTHV_TVAL_EL2", .state = ARM_CP_STATE_BOTH,
-+      .opc0 = 3, .opc1 = 4, .crn = 14, .crm = 3, .opc2 = 0,
-+      .type = ARM_CP_NO_RAW | ARM_CP_IO, .access = PL2_RW,
-+      .resetfn = gt_hv_timer_reset,
-+      .readfn = gt_hv_tval_read, .writefn = gt_hv_tval_write },
-+    { .name = "CNTHV_CTL_EL2", .state = ARM_CP_STATE_BOTH,
-+      .type = ARM_CP_IO,
-+      .opc0 = 3, .opc1 = 4, .crn = 14, .crm = 3, .opc2 = 1,
-+      .access = PL2_RW,
-+      .fieldoffset = offsetof(CPUARMState, cp15.c14_timer[GTIMER_HYPVIRT].ctl),
-+      .writefn = gt_hv_ctl_write, .raw_writefn = raw_write },
-+#endif
-     REGINFO_SENTINEL
- };
+     unsigned int cur_el = arm_current_el(env);
+     bool secure = arm_is_secure(env);
++    uint64_t hcr = arm_hcr_el2_eff(env);
  
+-    /* CNT[PV]_CVAL, CNT[PV]_CTL, CNT[PV]_TVAL: not visible from PL0 if
+-     * EL0[PV]TEN is zero.
+-     */
+-    if (cur_el == 0 &&
+-        !extract32(env->cp15.c14_cntkctl, 9 - timeridx, 1)) {
+-        return CP_ACCESS_TRAP;
+-    }
++    switch (cur_el) {
++    case 0:
++        if ((hcr & (HCR_E2H | HCR_TGE)) == (HCR_E2H | HCR_TGE)) {
++            /* If HCR_EL2.<E2H,TGE> == '11': check CNTHCTL_EL2.EL0[PV]TEN. */
++            return (extract32(env->cp15.cnthctl_el2, 9 - timeridx, 1)
++                    ? CP_ACCESS_OK : CP_ACCESS_TRAP_EL2);
++        }
+ 
+-    if (arm_feature(env, ARM_FEATURE_EL2) &&
+-        timeridx == GTIMER_PHYS && !secure && cur_el < 2 &&
+-        !extract32(env->cp15.cnthctl_el2, 1, 1)) {
+-        return CP_ACCESS_TRAP_EL2;
++        /*
++         * CNT[PV]_CVAL, CNT[PV]_CTL, CNT[PV]_TVAL: not visible from
++         * EL0 if EL0[PV]TEN is zero.
++         */
++        if (!extract32(env->cp15.c14_cntkctl, 9 - timeridx, 1)) {
++            return CP_ACCESS_TRAP;
++        }
++        /* fall through */
++
++    case 1:
++        if (arm_feature(env, ARM_FEATURE_EL2) &&
++            timeridx == GTIMER_PHYS && !secure) {
++            if (hcr & HCR_E2H) {
++                /* If HCR_EL2.<E2H,TGE> == '10': check CNTHCTL_EL2.EL1PTEN. */
++                if (!extract32(env->cp15.cnthctl_el2, 11, 1)) {
++                    return CP_ACCESS_TRAP_EL2;
++                }
++            } else {
++                /* If HCR_EL2.<E2H> == 0: check CNTHCTL_EL2.EL1PCEN. */
++                if (!extract32(env->cp15.cnthctl_el2, 1, 1)) {
++                    return CP_ACCESS_TRAP_EL2;
++                }
++            }
++        }
++        break;
+     }
+     return CP_ACCESS_OK;
+ }
 -- 
 2.20.1
 
