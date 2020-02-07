@@ -2,65 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABFE7155676
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 12:12:21 +0100 (CET)
-Received: from localhost ([::1]:54188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67509155678
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Feb 2020 12:13:34 +0100 (CET)
+Received: from localhost ([::1]:54214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j01Ya-0007Mm-Ns
-	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 06:12:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58485)
+	id 1j01Zl-0000mn-Fe
+	for lists+qemu-devel@lfdr.de; Fri, 07 Feb 2020 06:13:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58728)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j01XN-00060j-0K
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 06:11:06 -0500
+ (envelope-from <groug@kaod.org>) id 1j01Yc-000831-7X
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 06:12:23 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j01XL-00038B-Ot
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 06:11:04 -0500
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:42075)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j01XL-00037j-IX
- for qemu-devel@nongnu.org; Fri, 07 Feb 2020 06:11:03 -0500
-Received: by mail-ot1-x343.google.com with SMTP id 66so1772006otd.9
- for <qemu-devel@nongnu.org>; Fri, 07 Feb 2020 03:11:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=4tADPLToz3nwt4F0rV1Zqig+n/0qc1f6bX1x0rn/46g=;
- b=ghwUvTAojvc/PFwXoL5ZclPpSMdK9g0geVJo2qJEeggD/wjzqTCfpnW7G2vEantSGO
- QIXxSe1R9Mx6/yyiIFl8QyXDY34MKHrYKt6nzdKE/29b0xz4/Swb6BYgje8ZbH09kI0/
- 3r873rbSIY3QJ8NicQ9047cm/MyZWibLZ97bDKGhUlKBpwJrB3r4xVsEpPRepqV43gwT
- 1LnYA2peAJzrJYZVbmFvvNkoIgC8f6Rdq58p4ftdoPA0bda4UvvJHZWuXlYiEQLd9tqZ
- EZHcbSL+K+e9N2GvvJRIodP6BWuIINrTrA8/X+8i//Lh4KUySEbP+TJp/uC/FLwutC1B
- PLHw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=4tADPLToz3nwt4F0rV1Zqig+n/0qc1f6bX1x0rn/46g=;
- b=WEXUuB9YjjYok7AQfX+bP9NTRpjqSZVAi3d9mKebcyTIwUJV1kqToj55wHhlU9T4F2
- DJO6rzo31Uclw1WjRKKYR4GGWIdBVflBjlNTx9xK0bnbWCcfjJKLyqc6hapvP67IhzDM
- HvGxhb14Qp9mpQvaUNXHDpm2Rb2fD2+dwZADHtidonkWrMdIEmjeytTABnTcnvQjI1QX
- npk0KhWVaw0newOohHpHIhPwJo64IDQpl1MPr8gSSLuYTJ5cPyCrNtJqLFHZcJr5Jhe7
- 5REccIYtmDzOiTq4lFFU0U6BUr9G2vuS9tCuXNf+molZguONSsivrEODM0bGSihYxib7
- 2/iA==
-X-Gm-Message-State: APjAAAVuFwdxvPtwqPpnk8oUu8PmUj0OWoB7g/bDcMa4o6gv7JCYXx77
- +Cf7bGuTwNX2LLG0AD4BZDlnddBBLEwNOoL5nVtqRw==
-X-Google-Smtp-Source: APXvYqzgv6XKBAY57jZNdR7HjcY7Q787tFZUvZ/M3Dft4SiwtnhxO+BmUl7/DDxaE1fNKDUynMJFdxlyBDBcRab/fsM=
-X-Received: by 2002:a05:6830:184:: with SMTP id
- q4mr2323595ota.232.1581073862740; 
- Fri, 07 Feb 2020 03:11:02 -0800 (PST)
+ (envelope-from <groug@kaod.org>) id 1j01Yb-00063w-03
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 06:12:21 -0500
+Received: from 12.mo4.mail-out.ovh.net ([178.33.104.253]:44808)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1j01Ya-00061x-PW
+ for qemu-devel@nongnu.org; Fri, 07 Feb 2020 06:12:20 -0500
+Received: from player789.ha.ovh.net (unknown [10.108.54.74])
+ by mo4.mail-out.ovh.net (Postfix) with ESMTP id 2781D223DCF
+ for <qemu-devel@nongnu.org>; Fri,  7 Feb 2020 12:12:17 +0100 (CET)
+Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
+ [82.253.208.248]) (Authenticated sender: groug@kaod.org)
+ by player789.ha.ovh.net (Postfix) with ESMTPSA id 09002F25AABD;
+ Fri,  7 Feb 2020 11:12:12 +0000 (UTC)
+Date: Fri, 7 Feb 2020 12:12:09 +0100
+From: Greg Kurz <groug@kaod.org>
+To: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
+Subject: Re: [PATCH] ppc: function to setup latest class options
+Message-ID: <20200207121209.06a1be98@bahia.lan>
+In-Reply-To: <e77a2a7b-ed74-7584-4751-711b115e98c7@redhat.com>
+References: <20200207064628.1196095-1-mst@redhat.com>
+ <e77a2a7b-ed74-7584-4751-711b115e98c7@redhat.com>
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20200206125224.3819972-1-eblake@redhat.com>
-In-Reply-To: <20200206125224.3819972-1-eblake@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 7 Feb 2020 11:10:52 +0000
-Message-ID: <CAFEAcA-Bbat1qMpr=-zeYYacRVK-ODnn7AROgxA+PqkZP8kHmA@mail.gmail.com>
-Subject: Re: [PULL 0/3] NBD patches through 2020-02-06
-To: Eric Blake <eblake@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::343
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Ovh-Tracer-Id: 5048816661030607139
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedugedrheehgddvhecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgsehtqhertdertdejnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucfkpheptddrtddrtddrtddpkedvrddvheefrddvtdekrddvgeeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrjeekledrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhg
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 178.33.104.253
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,40 +56,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 6 Feb 2020 at 13:06, Eric Blake <eblake@redhat.com> wrote:
->
-> The following changes since commit 7bd9d0a9e26c7a3c67c0f174f0009ba19969b158:
->
->   Merge remote-tracking branch 'remotes/huth-gitlab/tags/pull-request-2020-02-04' into staging (2020-02-04 16:12:31 +0000)
->
-> are available in the Git repository at:
->
->   https://repo.or.cz/qemu/ericb.git tags/pull-nbd-2020-02-06
->
-> for you to fetch changes up to 0bc16997f5404134637227e53b637d0825d46b5a:
->
->   qemu-nbd: Removed deprecated --partition option (2020-02-05 17:29:49 -0600)
->
-> ----------------------------------------------------------------
-> nbd patches for 2020-02-06
->
-> - Allow setting NBD description from QMP for parity with qemu-nbd
-> - Remove deprecated 'qemu-nbd --partition'
->
-> ----------------------------------------------------------------
-> Eric Blake (3):
->       nbd: Allow description when creating NBD blockdev
->       docs: Fix typo in qemu-nbd -P replacement
->       qemu-nbd: Removed deprecated --partition option
+On Fri, 7 Feb 2020 11:35:47 +0100
+Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> wrote:
 
-Applied, thanks.
+> On 2/7/20 7:48 AM, Michael S. Tsirkin wrote:
+> > We are going to add more init for the latest machine, so move the setup
+> > to a function so we don't have to change the DEFINE_SPAPR_MACHINE macro
+> > each time.
+> >=20
+> > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> > ---
+> >   hw/ppc/spapr.c | 9 +++++++--
+> >   1 file changed, 7 insertions(+), 2 deletions(-)
+> >=20
+> > diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> > index 02cf53fc5b..4cf2a992a5 100644
+> > --- a/hw/ppc/spapr.c
+> > +++ b/hw/ppc/spapr.c
+> > @@ -4428,6 +4428,12 @@ static const TypeInfo spapr_machine_info =3D {
+> >       },
+> >   };
+> >  =20
+> > +static void spapr_machine_latest_class_options(MachineClass *mc)
+> > +{
+> > +    mc->alias =3D "pseries";
+> > +    mc->is_default =3D 1;
+>=20
+> But we can have only 1 default per QEMU binary... How PPC manage having=20
+> multiple defaults? The first or last listed is choosen as default?
+>=20
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/5.0
-for any user-visible changes.
+IIUC it isn't about putting multiple defaults here. It is about putting
+any additional init for the default machine type that we cannot put in
+spapr_machine_class_init(), instead of putting it in the versioned
+init function, eg. spapr_machine_5_0_class_options(). Otherwise this
+would force us to carry the change when we add a new machine version.
 
--- PMM
+> > +}
+> > +
+> >   #define DEFINE_SPAPR_MACHINE(suffix, verstr, latest)                 \
+> >       static void spapr_machine_##suffix##_class_init(ObjectClass *oc, \
+> >                                                       void *data)      \
+> > @@ -4435,8 +4441,7 @@ static const TypeInfo spapr_machine_info =3D {
+> >           MachineClass *mc =3D MACHINE_CLASS(oc);                      =
+  \
+> >           spapr_machine_##suffix##_class_options(mc);                  \
+> >           if (latest) {                                                \
+> > -            mc->alias =3D "pseries";                                  =
+ \
+> > -            mc->is_default =3D 1;                                     =
+ \
+> > +            spapr_machine_latest_class_options(mc);                  \
+> >           }                                                            \
+> >       }                                                                \
+> >       static const TypeInfo spapr_machine_##suffix##_info =3D {        =
+  \
+> >=20
+>=20
+>=20
+
 
