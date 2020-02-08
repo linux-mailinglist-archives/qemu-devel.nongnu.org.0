@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46BE4156471
-	for <lists+qemu-devel@lfdr.de>; Sat,  8 Feb 2020 14:07:13 +0100 (CET)
-Received: from localhost ([::1]:41192 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0D6115647A
+	for <lists+qemu-devel@lfdr.de>; Sat,  8 Feb 2020 14:11:01 +0100 (CET)
+Received: from localhost ([::1]:41394 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j0PpI-000081-Al
-	for lists+qemu-devel@lfdr.de; Sat, 08 Feb 2020 08:07:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41565)
+	id 1j0Psy-0007OH-S8
+	for lists+qemu-devel@lfdr.de; Sat, 08 Feb 2020 08:11:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41578)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1j0Ph1-00011R-6m
- for qemu-devel@nongnu.org; Sat, 08 Feb 2020 07:58:40 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1j0Ph2-00013t-38
+ for qemu-devel@nongnu.org; Sat, 08 Feb 2020 07:58:41 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1j0Ph0-0005Gq-6Z
- for qemu-devel@nongnu.org; Sat, 08 Feb 2020 07:58:39 -0500
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:33984)
+ (envelope-from <richard.henderson@linaro.org>) id 1j0Ph1-0005JO-0n
+ for qemu-devel@nongnu.org; Sat, 08 Feb 2020 07:58:40 -0500
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:35127)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1j0Pgz-0005FV-Vz
+ id 1j0Ph0-0005HA-Qo
  for qemu-devel@nongnu.org; Sat, 08 Feb 2020 07:58:38 -0500
-Received: by mail-wr1-x441.google.com with SMTP id t2so2072875wrr.1
- for <qemu-devel@nongnu.org>; Sat, 08 Feb 2020 04:58:37 -0800 (PST)
+Received: by mail-wm1-x341.google.com with SMTP id b17so5669232wmb.0
+ for <qemu-devel@nongnu.org>; Sat, 08 Feb 2020 04:58:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=6QhxeX6zK49ooY7+NT0s0wBH571TqTaLG1uXkEqzD/o=;
- b=Hq2l7CnX356ZC7G1PTAnahBVSZo3OvL/OYoSzyHE/WdonV+n1MvYaqFAaiy2XWAzmM
- thh1CJrEgwoAQdewaE1jheTaJgVhz2Y/7Y7X2DdT+bzmG2RBX4A75UFr7tR6hLy0wkGg
- 3yOUmLd7bxDrPk2QU6y7UlVh95Q0kRvY/L+lngPLZybdQ5peV+tWMlr/Ic4UZ5+veTwA
- sLYrH1RRAv/Wcj/yAcrg0xwESGkEOd4EIvc0t/yxqBRXNuuG0NH/S1XnUlggY8csy7YN
- fAcENAE5wHwkYFKD6ygVAEmwvEjyZfrbUJCMKUVQcqFQIC0EOnQPthUaMpSslaSfvyZt
- +mfw==
+ bh=n25wa1lNKzA3qMHXUq9DJlF06TNEvhgokWarr1Y211Q=;
+ b=psKcGHONxPbVPczSPJVjt80mj8pHOVWa1UuZ9t0rLSlscGs6ASfahIYU6ZuhYSQJiN
+ FprqaBdkdJG4A8BD6Z58ELF8rYPLvVUyAWKdvowbrW9p+Ydq7SUu1iMqKOSN+M/NVNdQ
+ nJR/Tw+1kXNYgBg6q3vOoZAdsANhWI5lGOOI0yxXAftwzwNnQJbsCMuF+emrV7UDvl+q
+ Nm7hGZ+n1P9UO4+CC49m0oQSWLpBXxX5gbcfFjGK1mn38RVqv+NmHjjmgZpMR91PngHQ
+ frYXexwnlN9KaxyM/jhaIqijYx3uiTSPVeq1hFRfFWDDx5zHl8XVbyn6chTHrbLS/LBh
+ 1LoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=6QhxeX6zK49ooY7+NT0s0wBH571TqTaLG1uXkEqzD/o=;
- b=tZI/TbX4XPcJ+oX+aLgt1WEVoNM90n2WraZq4Q3y26qRmJf6jmN8ZWTe8uA/o8rJ2U
- arFEQubO4cZy/YtYMyYiJNZkGrXmy8iWjTLPiZW6cvBoTfLsYNhj/YhTkvZPV1vxSNep
- mQN1iHEb5Dng1y42lJ63HPUjSqMIF0gNO3ROeWjvGTugqiA1otiLRnVvQRc2Ga8xqzqY
- 2uA501KytPuWh8pcGEOH93HqT+ELneVBG7ZGk6P8bljzj1Qy/7KQM6RXT2mxb9k6OlBN
- 4faqQKSyn9uDIuXT5189V34QnAcUVQaO+8UtGrLO8+O1aPdkSQ2SU6dXgRpLZkEvGO3u
- GlCw==
-X-Gm-Message-State: APjAAAVUM8J4VEWjrB29JqQ/AqVzY43SzCVNxvVS0NNKaGnaIRNcaMk3
- CfbF66TEIFk/V1OizXxB0JGN9QQ6BPezeA==
-X-Google-Smtp-Source: APXvYqysnwPwR3kDWmxS47B1AeT/kt8g7XO2ZRsttxboT1xxqOlB96VEw+hM94gT9d5Bzg65zTeGAw==
-X-Received: by 2002:a05:6000:50:: with SMTP id
- k16mr5105725wrx.145.1581166716838; 
- Sat, 08 Feb 2020 04:58:36 -0800 (PST)
+ bh=n25wa1lNKzA3qMHXUq9DJlF06TNEvhgokWarr1Y211Q=;
+ b=YIlV3GHgYT9z+bkWBOnZ6g69mkRuZCd4AqGiH1YLPqJZN+xzzo3neT/rEIoj/2HU+4
+ vN+t6R15o1t/qsNAiEN8p3MHRO5f5wzmDMq/e9X2l6o8zYGexkEVytjuWWc/HsSUHCvB
+ GEQdlUkmL5hP9Gvcct+x7aIgPCavEh7rwbA/RJqUjMfC1oQTFMoQNIMMJ3wdRzPziBGE
+ PJZ+/9X0NpvkIrcdh6qNXucvQ1NVcFRjhZ+5CKa6qhf1f/7JwXTnsT4qEs1TtzL3wZDY
+ YcYrFkN4snS4iCZMKyh5Yy/ku0R5GBC8+gcuNwl2j8N0VvQY5Ermn30HU/7LeG37GN/v
+ 4DFQ==
+X-Gm-Message-State: APjAAAWAFLrCfPS/4Oe6X+XzsIXeY6c2kSjwI9xCrFjHMvuI6x8GwogN
+ kFRfG5bXmnxXxh8EpL/Iv8IGBM36v2GD5Q==
+X-Google-Smtp-Source: APXvYqyXxl7WzBxLKricRy6r138rTVBHsQLtKPx5oW047eP5FOCgNUcCg5iaoNBC6B2WJHr+7HPdDA==
+X-Received: by 2002:a7b:cb42:: with SMTP id v2mr4459485wmj.170.1581166717682; 
+ Sat, 08 Feb 2020 04:58:37 -0800 (PST)
 Received: from localhost.localdomain ([82.3.55.76])
- by smtp.gmail.com with ESMTPSA id p5sm7490534wrt.79.2020.02.08.04.58.35
+ by smtp.gmail.com with ESMTPSA id p5sm7490534wrt.79.2020.02.08.04.58.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 08 Feb 2020 04:58:36 -0800 (PST)
+ Sat, 08 Feb 2020 04:58:37 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 19/20] target/arm: Implement UAO semantics
-Date: Sat,  8 Feb 2020 12:58:15 +0000
-Message-Id: <20200208125816.14954-20-richard.henderson@linaro.org>
+Subject: [PATCH v4 20/20] target/arm: Enable ARMv8.2-UAO in -cpu max
+Date: Sat,  8 Feb 2020 12:58:16 +0000
+Message-Id: <20200208125816.14954-21-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200208125816.14954-1-richard.henderson@linaro.org>
 References: <20200208125816.14954-1-richard.henderson@linaro.org>
@@ -66,7 +65,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::441
+X-Received-From: 2a00:1450:4864:20::341
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,69 +81,27 @@ Cc: peter.maydell@linaro.org, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We need only override the current condition under which
-TBFLAG_A64.UNPRIV is set.
-
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/helper.c | 41 +++++++++++++++++++++--------------------
- 1 file changed, 21 insertions(+), 20 deletions(-)
+ target/arm/cpu64.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 11a5f0be52..366dbcf460 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -12198,28 +12198,29 @@ static uint32_t rebuild_hflags_a64(CPUARMState *env, int el, int fp_el,
-     }
+diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
+index 57fbc5eade..1359564c55 100644
+--- a/target/arm/cpu64.c
++++ b/target/arm/cpu64.c
+@@ -676,6 +676,10 @@ static void aarch64_max_initfn(Object *obj)
+         t = FIELD_DP64(t, ID_AA64MMFR1, PAN, 2); /* ATS1E1 */
+         cpu->isar.id_aa64mmfr1 = t;
  
-     /* Compute the condition for using AccType_UNPRIV for LDTR et al. */
--    /* TODO: ARMv8.2-UAO */
--    switch (mmu_idx) {
--    case ARMMMUIdx_E10_1:
--    case ARMMMUIdx_E10_1_PAN:
--    case ARMMMUIdx_SE10_1:
--    case ARMMMUIdx_SE10_1_PAN:
--        /* TODO: ARMv8.3-NV */
--        flags = FIELD_DP32(flags, TBFLAG_A64, UNPRIV, 1);
--        break;
--    case ARMMMUIdx_E20_2:
--    case ARMMMUIdx_E20_2_PAN:
--        /* TODO: ARMv8.4-SecEL2 */
--        /*
--         * Note that E20_2 is gated by HCR_EL2.E2H == 1, but E20_0 is
--         * gated by HCR_EL2.<E2H,TGE> == '11', and so is LDTR.
--         */
--        if (env->cp15.hcr_el2 & HCR_TGE) {
-+    if (!(env->pstate & PSTATE_UAO)) {
-+        switch (mmu_idx) {
-+        case ARMMMUIdx_E10_1:
-+        case ARMMMUIdx_E10_1_PAN:
-+        case ARMMMUIdx_SE10_1:
-+        case ARMMMUIdx_SE10_1_PAN:
-+            /* TODO: ARMv8.3-NV */
-             flags = FIELD_DP32(flags, TBFLAG_A64, UNPRIV, 1);
-+            break;
-+        case ARMMMUIdx_E20_2:
-+        case ARMMMUIdx_E20_2_PAN:
-+            /* TODO: ARMv8.4-SecEL2 */
-+            /*
-+             * Note that EL20_2 is gated by HCR_EL2.E2H == 1, but EL20_0 is
-+             * gated by HCR_EL2.<E2H,TGE> == '11', and so is LDTR.
-+             */
-+            if (env->cp15.hcr_el2 & HCR_TGE) {
-+                flags = FIELD_DP32(flags, TBFLAG_A64, UNPRIV, 1);
-+            }
-+            break;
-+        default:
-+            break;
-         }
--        break;
--    default:
--        break;
-     }
- 
-     return rebuild_hflags_common(env, fp_el, mmu_idx, flags);
++        t = cpu->isar.id_aa64mmfr2;
++        t = FIELD_DP64(t, ID_AA64MMFR2, UAO, 1);
++        cpu->isar.id_aa64mmfr2 = t;
++
+         /* Replicate the same data to the 32-bit id registers.  */
+         u = cpu->isar.id_isar5;
+         u = FIELD_DP32(u, ID_ISAR5, AES, 2); /* AES + PMULL */
 -- 
 2.20.1
 
