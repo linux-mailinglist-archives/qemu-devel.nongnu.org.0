@@ -2,70 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0D6115647A
-	for <lists+qemu-devel@lfdr.de>; Sat,  8 Feb 2020 14:11:01 +0100 (CET)
-Received: from localhost ([::1]:41394 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52047156476
+	for <lists+qemu-devel@lfdr.de>; Sat,  8 Feb 2020 14:09:05 +0100 (CET)
+Received: from localhost ([::1]:41314 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j0Psy-0007OH-S8
-	for lists+qemu-devel@lfdr.de; Sat, 08 Feb 2020 08:11:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41578)
+	id 1j0Pr6-0003fy-Ar
+	for lists+qemu-devel@lfdr.de; Sat, 08 Feb 2020 08:09:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42349)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1j0Ph2-00013t-38
- for qemu-devel@nongnu.org; Sat, 08 Feb 2020 07:58:41 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1j0Pl9-0000ep-9C
+ for qemu-devel@nongnu.org; Sat, 08 Feb 2020 08:02:56 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1j0Ph1-0005JO-0n
- for qemu-devel@nongnu.org; Sat, 08 Feb 2020 07:58:40 -0500
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:35127)
+ (envelope-from <peter.maydell@linaro.org>) id 1j0Pl8-0000nC-9b
+ for qemu-devel@nongnu.org; Sat, 08 Feb 2020 08:02:55 -0500
+Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:46433)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1j0Ph0-0005HA-Qo
- for qemu-devel@nongnu.org; Sat, 08 Feb 2020 07:58:38 -0500
-Received: by mail-wm1-x341.google.com with SMTP id b17so5669232wmb.0
- for <qemu-devel@nongnu.org>; Sat, 08 Feb 2020 04:58:38 -0800 (PST)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1j0Pl8-0000mh-3g
+ for qemu-devel@nongnu.org; Sat, 08 Feb 2020 08:02:54 -0500
+Received: by mail-oi1-x244.google.com with SMTP id a22so4793148oid.13
+ for <qemu-devel@nongnu.org>; Sat, 08 Feb 2020 05:02:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=n25wa1lNKzA3qMHXUq9DJlF06TNEvhgokWarr1Y211Q=;
- b=psKcGHONxPbVPczSPJVjt80mj8pHOVWa1UuZ9t0rLSlscGs6ASfahIYU6ZuhYSQJiN
- FprqaBdkdJG4A8BD6Z58ELF8rYPLvVUyAWKdvowbrW9p+Ydq7SUu1iMqKOSN+M/NVNdQ
- nJR/Tw+1kXNYgBg6q3vOoZAdsANhWI5lGOOI0yxXAftwzwNnQJbsCMuF+emrV7UDvl+q
- Nm7hGZ+n1P9UO4+CC49m0oQSWLpBXxX5gbcfFjGK1mn38RVqv+NmHjjmgZpMR91PngHQ
- frYXexwnlN9KaxyM/jhaIqijYx3uiTSPVeq1hFRfFWDDx5zHl8XVbyn6chTHrbLS/LBh
- 1LoQ==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Ticawza4Abt+ODcV/2R06hYS6ay9d1PUPqXEuIBK5o0=;
+ b=OrO15+LlXwVHQBd46W40w55vOK+namnDj+H5YfBGErizLrgfKz2Rd/pPtCkiz9G1AV
+ hd/uoXiO/mYrobUnieVA15W9VtC2NRTtt/OWD9PIpkAJp7D0sTQ+5Wa7OnIfQL2STBvS
+ EqyI5Vwr3OLPicuBBJPHCg/pVGiSCxr8XlqpoohB0J7uXnAfqWIwAy/rua4zYHXZtzHI
+ j2JWlFVHzzbeMucMCDcaQR0UbznlzwtEYpnH/3DztJfdyTOQV7Qc56pnKxjy9xoI0vGD
+ zTvi00NyX79U/47GJeAkHtLXk0XJli2S1/q6oFFwfgdybEZJ3cKIDvjJ0GDv8fimKNE+
+ /krQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=n25wa1lNKzA3qMHXUq9DJlF06TNEvhgokWarr1Y211Q=;
- b=YIlV3GHgYT9z+bkWBOnZ6g69mkRuZCd4AqGiH1YLPqJZN+xzzo3neT/rEIoj/2HU+4
- vN+t6R15o1t/qsNAiEN8p3MHRO5f5wzmDMq/e9X2l6o8zYGexkEVytjuWWc/HsSUHCvB
- GEQdlUkmL5hP9Gvcct+x7aIgPCavEh7rwbA/RJqUjMfC1oQTFMoQNIMMJ3wdRzPziBGE
- PJZ+/9X0NpvkIrcdh6qNXucvQ1NVcFRjhZ+5CKa6qhf1f/7JwXTnsT4qEs1TtzL3wZDY
- YcYrFkN4snS4iCZMKyh5Yy/ku0R5GBC8+gcuNwl2j8N0VvQY5Ermn30HU/7LeG37GN/v
- 4DFQ==
-X-Gm-Message-State: APjAAAWAFLrCfPS/4Oe6X+XzsIXeY6c2kSjwI9xCrFjHMvuI6x8GwogN
- kFRfG5bXmnxXxh8EpL/Iv8IGBM36v2GD5Q==
-X-Google-Smtp-Source: APXvYqyXxl7WzBxLKricRy6r138rTVBHsQLtKPx5oW047eP5FOCgNUcCg5iaoNBC6B2WJHr+7HPdDA==
-X-Received: by 2002:a7b:cb42:: with SMTP id v2mr4459485wmj.170.1581166717682; 
- Sat, 08 Feb 2020 04:58:37 -0800 (PST)
-Received: from localhost.localdomain ([82.3.55.76])
- by smtp.gmail.com with ESMTPSA id p5sm7490534wrt.79.2020.02.08.04.58.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 08 Feb 2020 04:58:37 -0800 (PST)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v4 20/20] target/arm: Enable ARMv8.2-UAO in -cpu max
-Date: Sat,  8 Feb 2020 12:58:16 +0000
-Message-Id: <20200208125816.14954-21-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200208125816.14954-1-richard.henderson@linaro.org>
-References: <20200208125816.14954-1-richard.henderson@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Ticawza4Abt+ODcV/2R06hYS6ay9d1PUPqXEuIBK5o0=;
+ b=uVs18IJJKTwdXoQxGzmtpsFEReAI3JBExp9/RgktJeyfDkLhrEa5h1NhyfSga0AxEd
+ 54cGAKqSMa7JbZheZbGQ134AJgVMi8QtW7EUQAaOq+p7dixW2NwsQaUR/nIVGOnxi3pz
+ 6xLfCmm4h3AoOutuh1z8s8rzkIlUuyzr8mo8gV05G+8Bt379+zfzOr40yu5aopldWk6D
+ N7VU/cpVHTgZMjtMiXTVpQ23GoQdxRl/Pq5GPFuVjdrFwiXzi9INS64INkaiTwLefmpa
+ 7XRsNjRg3y7luaMXqM/cfyrdoRITOm0qNfBx41m3mMjsNJ0prCpaqzSRg6CG4nx6dpWw
+ gHRg==
+X-Gm-Message-State: APjAAAUZmzIJ0PO7fJgMT7PWHuuoZV6d/NEvihvAaUW/DpErq/VO6qg7
+ 6g8tw5+0dunG+2WY6WnSPy0DHEy3ZnQCDAKSSje5Jg==
+X-Google-Smtp-Source: APXvYqyTDWD1eFtPr2cen92aUb7Zsivfi53JKYbHwUaG4jgfBgDSNvubu3Goj29+1SrAjtAW44COycBnhOxyho8eq+8=
+X-Received: by 2002:a05:6808:289:: with SMTP id
+ z9mr5099803oic.48.1581166972862; 
+ Sat, 08 Feb 2020 05:02:52 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20200203032328.12051-1-crosa@redhat.com>
+ <20200203032328.12051-2-crosa@redhat.com>
+ <a87e5634-903d-2ad5-4f33-b65f77703302@redhat.com>
+ <20200207193429.GB13258@localhost.localdomain>
+In-Reply-To: <20200207193429.GB13258@localhost.localdomain>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Sat, 8 Feb 2020 13:02:41 +0000
+Message-ID: <CAFEAcA8dF+1a3zjw2MBVfD5k5U4EeU21iOik1mhKqg1ubicA6Q@mail.gmail.com>
+Subject: Re: [RFC PATCH 2/2] GitLab CI: crude mapping of PMM's scripts to jobs
+To: Cleber Rosa <crosa@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::341
+X-Received-From: 2607:f8b0:4864:20::244
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,32 +75,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, alex.bennee@linaro.org
+Cc: Thomas Huth <thuth@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/arm/cpu64.c | 4 ++++
- 1 file changed, 4 insertions(+)
+On Fri, 7 Feb 2020 at 19:34, Cleber Rosa <crosa@redhat.com> wrote:
+> Also, the build and make steps worked fine without `--disable-gnutls`.
+> I was trying to not carry over any "exception" type of arguments,
+> unless they proved to be necessary.  Maybe Peter can give some more
+> info about this (should it be kept or not)?
 
-diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-index 57fbc5eade..1359564c55 100644
---- a/target/arm/cpu64.c
-+++ b/target/arm/cpu64.c
-@@ -676,6 +676,10 @@ static void aarch64_max_initfn(Object *obj)
-         t = FIELD_DP64(t, ID_AA64MMFR1, PAN, 2); /* ATS1E1 */
-         cpu->isar.id_aa64mmfr1 = t;
- 
-+        t = cpu->isar.id_aa64mmfr2;
-+        t = FIELD_DP64(t, ID_AA64MMFR2, UAO, 1);
-+        cpu->isar.id_aa64mmfr2 = t;
-+
-         /* Replicate the same data to the 32-bit id registers.  */
-         u = cpu->isar.id_isar5;
-         u = FIELD_DP32(u, ID_ISAR5, AES, 2); /* AES + PMULL */
--- 
-2.20.1
+A lot of those config options are random historical accident:
+I probably added in the configure option to work around something
+years back and then never bothered to undo it. I agree that if we
+don't need to pass that option to run on whatever OS the CI
+job is running on we shouldn't keep it.
 
+More generally, I don't think we should worry much about
+exactly replicating the fine detail of the various configurations I
+currently run on x86. If we basically cover:
+ * a debug build
+ * a non-debug build
+ * a linux-user --static build
+ * a clang build with the sanitizers enabled [+]
+ * windows crossbuilds
+ * a --disable-tcg build
+ * an --enable-tci-interpreter build
+ * and at least one of the above is done as an "incremental"
+   build and one as a "make clean and then build"
+then that's the same coverage we have today.
+
+[+] my scripts do this by hand by passing a lot of extra cflags,
+but IIRC configure now supports a simple 'enable sanitizers'
+option of some kind, which would be OK too
+
+thanks
+-- PMM
 
