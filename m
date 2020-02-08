@@ -2,102 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 046091563D6
-	for <lists+qemu-devel@lfdr.de>; Sat,  8 Feb 2020 11:37:35 +0100 (CET)
-Received: from localhost ([::1]:39822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A8A11563E2
+	for <lists+qemu-devel@lfdr.de>; Sat,  8 Feb 2020 11:48:55 +0100 (CET)
+Received: from localhost ([::1]:39890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j0NUU-0007ny-Pn
-	for lists+qemu-devel@lfdr.de; Sat, 08 Feb 2020 05:37:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44374)
+	id 1j0NfS-0006Ju-EX
+	for lists+qemu-devel@lfdr.de; Sat, 08 Feb 2020 05:48:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45130)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1j0NTc-0006fJ-V7
- for qemu-devel@nongnu.org; Sat, 08 Feb 2020 05:36:41 -0500
+ (envelope-from <groug@kaod.org>) id 1j0NcA-0002uh-SL
+ for qemu-devel@nongnu.org; Sat, 08 Feb 2020 05:45:31 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1j0NTb-0003NZ-Rj
- for qemu-devel@nongnu.org; Sat, 08 Feb 2020 05:36:40 -0500
-Received: from mail-eopbgr60124.outbound.protection.outlook.com
- ([40.107.6.124]:40190 helo=EUR04-DB3-obe.outbound.protection.outlook.com)
+ (envelope-from <groug@kaod.org>) id 1j0Nc9-0005Lg-Ni
+ for qemu-devel@nongnu.org; Sat, 08 Feb 2020 05:45:30 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:22712)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1j0NTZ-00035H-2K; Sat, 08 Feb 2020 05:36:37 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=W27vmzcu1NKVYHyQz0s1TsjdGmzTU0iSo8KsOA166w4GukqZDvcEUb+wHF8ABtOVFvHgeEnQwaElLxzZe/QuVojDOHOTIyPwtu8mki6HlgvQgj5gZZbL1E3W4yxgoikDWKAPKvu5rhIly69RYRv63nKxvqbiYe1bKmc0pg2tUP47beET3xZVmwe6c5/kYl7gIepCFiIrdItaaAGj2kZC1y22gR/xiDtkVIv52K6cZGIoPg/e/DYkZS0EvfNjVUiAfItBB24UBSDrTzvuEZy7tRaf4gGwOOmadAZAymJjOnaazN1vsLLmACp26XmP/l1aUSOMXlM+wDvYjfgZuf0AAQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HCa4omPyS7QR2nzBtxg7IvGeRGsMO0xKVrHwca7mOkc=;
- b=Ixp7nqC8ilssWIzFTvbvxEQxVik0GxWU3kGeaCbQ6Kc+IiN9XZcT6h/n3m7a8p5/vOV1Q3ZtAPnO+VjiiaYgCA/RrxtO1LjtAsXQL+UtYLEXQxjH5gQM6uIdFhtmGrVM2W3XpGrOTwj5jJxLEwG+1ui36I7lVVYDGPZUNB3O+u/roCUrm83tyXnczHQW8i2p+177Et7FjK114poTFDpc1tQndZKXxWsnaesmdcZNp37MChVlYdZdB3cIDOHNWlpZmsUYld95JU4UXVfGaZamZN4nVaUZoT9MMzuxRlGzdadpQK/Ps/vc7TFy+YCW7935gECtIzGT8nZtoVa2MXHHvQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HCa4omPyS7QR2nzBtxg7IvGeRGsMO0xKVrHwca7mOkc=;
- b=Yf5CMUZ3c61n6RqNxJ0/qJ218KkaIPiPj9ULUKH6OzGiOvGkKV4mGXKogupaRFA9Pdcy638Y7K8kuHuh581yf/s2DMeHjVOBdLrQMYSDuyCWP/rt/Ly3BDQbBhvzwyV9FkdVLX/1hSiqJSv14azYKHxyfdA1zfL8woDJg3d5yoc=
-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=vsementsov@virtuozzo.com; 
-Received: from AM6PR08MB4423.eurprd08.prod.outlook.com (20.179.7.140) by
- AM6PR08MB4166.eurprd08.prod.outlook.com (20.179.1.80) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2707.21; Sat, 8 Feb 2020 10:36:31 +0000
-Received: from AM6PR08MB4423.eurprd08.prod.outlook.com
- ([fe80::e05a:63af:818c:b664]) by AM6PR08MB4423.eurprd08.prod.outlook.com
- ([fe80::e05a:63af:818c:b664%4]) with mapi id 15.20.2707.024; Sat, 8 Feb 2020
- 10:36:31 +0000
-Subject: Re: ping Re: [PATCH for-5.0 v2 0/3] benchmark util
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: qemu-devel@nongnu.org, qemu-block@nongnu.org
-References: <20191126154848.193407-1-vsementsov@virtuozzo.com>
- <e1efd3d2-b623-292b-67a9-e3cdd479f104@virtuozzo.com>
-X-Tagtoolbar-Keys: D20200208133628629
-Message-ID: <fca8ced2-b3c6-74db-0d70-11ac3304b273@virtuozzo.com>
-Date: Sat, 8 Feb 2020 13:36:28 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.2.1
-In-Reply-To: <e1efd3d2-b623-292b-67a9-e3cdd479f104@virtuozzo.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: HE1PR09CA0081.eurprd09.prod.outlook.com
- (2603:10a6:7:3d::25) To AM6PR08MB4423.eurprd08.prod.outlook.com
- (2603:10a6:20b:bf::12)
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1j0Nc9-0005II-Gb
+ for qemu-devel@nongnu.org; Sat, 08 Feb 2020 05:45:29 -0500
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 018AiV92119554
+ for <qemu-devel@nongnu.org>; Sat, 8 Feb 2020 05:45:19 -0500
+Received: from e06smtp01.uk.ibm.com (e06smtp01.uk.ibm.com [195.75.94.97])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2y1tnsshnt-1
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Sat, 08 Feb 2020 05:45:19 -0500
+Received: from localhost
+ by e06smtp01.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ Violators will be prosecuted
+ for <qemu-devel@nongnu.org> from <groug@kaod.org>;
+ Sat, 8 Feb 2020 10:45:17 -0000
+Received: from b06cxnps4074.portsmouth.uk.ibm.com (9.149.109.196)
+ by e06smtp01.uk.ibm.com (192.168.101.131) with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted; 
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+ Sat, 8 Feb 2020 10:45:14 -0000
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
+ [9.149.105.59])
+ by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 018AjDc147513800
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Sat, 8 Feb 2020 10:45:13 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 45D30A4053;
+ Sat,  8 Feb 2020 10:45:13 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 33906A404D;
+ Sat,  8 Feb 2020 10:45:13 +0000 (GMT)
+Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
+ by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Sat,  8 Feb 2020 10:45:13 +0000 (GMT)
+Received: from bahia.ibmuc.com (sig-9-145-71-236.uk.ibm.com [9.145.71.236])
+ by smtp.tlslab.ibm.com (Postfix) with ESMTP id 9B588220137;
+ Sat,  8 Feb 2020 11:45:12 +0100 (CET)
+From: Greg Kurz <groug@kaod.org>
+To: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
+Subject: [PULL 0/6] 9p patches 2020-02-08
+Date: Sat,  8 Feb 2020 11:45:00 +0100
+X-Mailer: git-send-email 2.21.1
 MIME-Version: 1.0
-Received: from [172.16.24.200] (185.231.240.5) by
- HE1PR09CA0081.eurprd09.prod.outlook.com (2603:10a6:7:3d::25) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2707.23 via Frontend Transport; Sat, 8 Feb 2020 10:36:30 +0000
-X-Tagtoolbar-Keys: D20200208133628629
-X-Originating-IP: [185.231.240.5]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 3bfda370-0b7b-423e-2ea0-08d7ac82c2b3
-X-MS-TrafficTypeDiagnostic: AM6PR08MB4166:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB4166046B02F1BD76FB1F7BECC11F0@AM6PR08MB4166.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
-X-Forefront-PRVS: 03077579FF
-X-Forefront-Antispam-Report: SFV:NSPM;
- SFS:(10019020)(39850400004)(396003)(346002)(376002)(366004)(136003)(189003)(199004)(81156014)(2906002)(8676002)(8936002)(86362001)(31696002)(16526019)(81166006)(4326008)(52116002)(316002)(478600001)(16576012)(5660300002)(6486002)(66476007)(66556008)(36756003)(31686004)(26005)(66946007)(186003)(2616005)(956004);
- DIR:OUT; SFP:1102; SCL:1; SRVR:AM6PR08MB4166;
- H:AM6PR08MB4423.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-Received-SPF: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: fF2aUnscYoshatz01hctdEbtQDysd4K/XkR8LwLaOAIB74qEG4jmbPszfVKt+GvifUo4cDGwqPLZZJo8TfQueVQLe6CXm9luCcDmzVgUT69ToeYQhOXpuH0muDvbTFWFvL04eaoD80hyd/XwYSFI0wkuQbF6G+nZgRvail1e659C5Ne5uv0Q+8tDX0RgotYn50qrG2kbiwUwbll+XoF7cq0MlnEyD+9k92By4IYNFG5kIPDeC+3nA8V2deNWtJsWym4I/kYG3/sXDHlolhj2jX0GpsAHf5eq8Q3jkgR0diLxAjOtUyBrfw/6PrFjz4XVaWveTCT7IWtM0foOaXeLBpfhMyy+4SuKPg9GFLR0Km3mOBvj1oM2DHmM2n9r/5r2QOwP2xU0bfZdGaRc0PYiLYcDR47bgFxQfENQ7yeGbXAunMrHY5Jk2WJWVmxcbjl7
-X-MS-Exchange-AntiSpam-MessageData: znv77AMaCoPkmGs5/jIzoG9JipETtuzk4kFfYDTC3IeQsNivzkN1l5wWgCpXLEhBs6wDTqIkTXy/n9elV22n9vU1hTHSBN72Vb7eft63MraAhaJad+z3wKVHqWgo99GlpqiPNnPb3+yB1ogpI7MitQ==
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3bfda370-0b7b-423e-2ea0-08d7ac82c2b3
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Feb 2020 10:36:31.0292 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: NHFKdzrth9zFenQBPvUDYxCRXJxl2z4hvL8VX/TEhnsZLwoZEYulw5K2Ps8J4I54gs0TrrtPeScWwDUxLSVMHfD2ePkdcAaiMXLRhH1XSE4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4166
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.6.124
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+x-cbid: 20020810-4275-0000-0000-0000039F3A41
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 20020810-4276-0000-0000-000038B36B9A
+Message-Id: <20200208104506.2727882-1-groug@kaod.org>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
+ definitions=2020-02-07_06:2020-02-07,
+ 2020-02-07 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ mlxlogscore=999 adultscore=0 phishscore=0 clxscore=1034 spamscore=0
+ impostorscore=0 priorityscore=1501 malwarescore=0 suspectscore=0
+ bulkscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2001150001 definitions=main-2002080089
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 148.163.156.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -109,61 +90,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, ehabkost@redhat.com, stefanha@gmail.com,
- mreitz@redhat.com, crosa@redhat.com, den@openvz.org, jsnow@redhat.com
+Cc: Christian Schoenebeck <qemu_oss@crudebyte.com>, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-pingg..
+The following changes since commit 42ccca1bd9456568f996d5646b2001faac96944b:
 
-Hi! Could it be merged at all?
+  Merge remote-tracking branch 'remotes/berrange/tags/misc-fixes-pull-request' into staging (2020-02-07 15:01:23 +0000)
 
-20.01.2020 12:10, Vladimir Sementsov-Ogievskiy wrote:
-> ping
->=20
-> 26.11.2019 18:48, Vladimir Sementsov-Ogievskiy wrote:
->> Hi all!
->>
->> Here is simple benchmarking utility, to generate performance
->> comparison tables, like the following:
->>
->> ----------=C2=A0 -------------=C2=A0 -------------=C2=A0 -------------
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- backup-1=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 backup-2=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 mirror
->> ssd -> ssd=C2=A0 0.43 +- 0.00=C2=A0=C2=A0 4.48 +- 0.06=C2=A0=C2=A0 4.38 =
-+- 0.02
->> ssd -> hdd=C2=A0 10.60 +- 0.08=C2=A0 10.69 +- 0.18=C2=A0 10.57 +- 0.05
->> ssd -> nbd=C2=A0 33.81 +- 0.37=C2=A0 10.67 +- 0.17=C2=A0 10.07 +- 0.07
->> ----------=C2=A0 -------------=C2=A0 -------------=C2=A0 -------------
->>
->> This is a v2, as v1 was inside
->> =C2=A0 "[RFC 00/24] backup performance: block_status + async"
->>
->> I'll use this benchmark in other series, hope someone
->> will like it.
->>
->> Vladimir Sementsov-Ogievskiy (3):
->> =C2=A0=C2=A0 python: add simplebench.py
->> =C2=A0=C2=A0 python: add qemu/bench_block_job.py
->> =C2=A0=C2=A0 python: add example usage of simplebench
->>
->> =C2=A0 python/bench-example.py=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- |=C2=A0 80 +++++++++++++++++++++
->> =C2=A0 python/qemu/bench_block_job.py | 115 ++++++++++++++++++++++++++++=
-+
->> =C2=A0 python/simplebench.py=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 | 128 +++++++++++++++++++++++++++++++++
->> =C2=A0 3 files changed, 323 insertions(+)
->> =C2=A0 create mode 100644 python/bench-example.py
->> =C2=A0 create mode 100755 python/qemu/bench_block_job.py
->> =C2=A0 create mode 100644 python/simplebench.py
->>
->=20
->=20
+are available in the Git repository at:
 
+  https://github.com/gkurz/qemu.git tags/9p-next-2020-02-08
 
---=20
-Best regards,
-Vladimir
+for you to fetch changes up to 2822602cbe2be98229b882101dfdb9d3a738c611:
+
+  MAINTAINERS: 9pfs: Add myself as reviewer (2020-02-08 09:29:04 +0100)
+
+----------------------------------------------------------------
+9p patches:
+- some more protocol sanity checks
+- qtest for readdir
+- Christian Schoenebeck now official reviewer
+
+----------------------------------------------------------------
+Christian Schoenebeck (6):
+      tests/virtio-9p: add terminating null in v9fs_string_read()
+      9pfs: require msize >= 4096
+      9pfs: validate count sent by client with T_readdir
+      hw/9pfs/9p-synth: added directory for readdir test
+      tests/virtio-9p: added readdir test
+      MAINTAINERS: 9pfs: Add myself as reviewer
+
+ MAINTAINERS                  |   1 +
+ hw/9pfs/9p-synth.c           |  19 ++++++
+ hw/9pfs/9p-synth.h           |   5 ++
+ hw/9pfs/9p.c                 |  21 ++++++
+ hw/9pfs/9p.h                 |  11 +++
+ tests/qtest/virtio-9p-test.c | 155 ++++++++++++++++++++++++++++++++++++++++++-
+ 6 files changed, 211 insertions(+), 1 deletion(-)
+-- 
+2.21.1
+
 
