@@ -2,84 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5CD21563E1
-	for <lists+qemu-devel@lfdr.de>; Sat,  8 Feb 2020 11:47:35 +0100 (CET)
-Received: from localhost ([::1]:39878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 278E41563E3
+	for <lists+qemu-devel@lfdr.de>; Sat,  8 Feb 2020 11:48:56 +0100 (CET)
+Received: from localhost ([::1]:39892 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j0NeA-0004Fr-MD
-	for lists+qemu-devel@lfdr.de; Sat, 08 Feb 2020 05:47:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45178)
+	id 1j0NfT-0006Lo-8f
+	for lists+qemu-devel@lfdr.de; Sat, 08 Feb 2020 05:48:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45126)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groug@kaod.org>) id 1j0NcG-0002zK-IX
- for qemu-devel@nongnu.org; Sat, 08 Feb 2020 05:45:37 -0500
+ (envelope-from <groug@kaod.org>) id 1j0NcA-0002uf-O5
+ for qemu-devel@nongnu.org; Sat, 08 Feb 2020 05:45:31 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1j0NcF-0005Q1-Ij
- for qemu-devel@nongnu.org; Sat, 08 Feb 2020 05:45:36 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:31228
+ (envelope-from <groug@kaod.org>) id 1j0Nc9-0005La-Me
+ for qemu-devel@nongnu.org; Sat, 08 Feb 2020 05:45:30 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:42350
  helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1j0NcF-0005KR-DX
- for qemu-devel@nongnu.org; Sat, 08 Feb 2020 05:45:35 -0500
-Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1j0Nc9-0005L5-I2
+ for qemu-devel@nongnu.org; Sat, 08 Feb 2020 05:45:29 -0500
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
  by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 018AgGle095670
- for <qemu-devel@nongnu.org>; Sat, 8 Feb 2020 05:45:26 -0500
+ 018Ahsrc103098
+ for <qemu-devel@nongnu.org>; Sat, 8 Feb 2020 05:45:28 -0500
 Received: from e06smtp04.uk.ibm.com (e06smtp04.uk.ibm.com [195.75.94.100])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2y1ufhg25j-1
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2y1tnb1g96-1
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Sat, 08 Feb 2020 05:45:26 -0500
+ for <qemu-devel@nongnu.org>; Sat, 08 Feb 2020 05:45:28 -0500
 Received: from localhost
  by e06smtp04.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
  Violators will be prosecuted
  for <qemu-devel@nongnu.org> from <groug@kaod.org>;
- Sat, 8 Feb 2020 10:45:24 -0000
-Received: from b06avi18626390.portsmouth.uk.ibm.com (9.149.26.192)
+ Sat, 8 Feb 2020 10:45:26 -0000
+Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
  by e06smtp04.uk.ibm.com (192.168.101.134) with IBM ESMTP SMTP Gateway:
  Authorized Use Only! Violators will be prosecuted; 
  (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Sat, 8 Feb 2020 10:45:22 -0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
- [9.149.105.61])
- by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 018AiRXn47645058
+ Sat, 8 Feb 2020 10:45:23 -0000
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com
+ (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+ by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 018AjNRk54526176
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Sat, 8 Feb 2020 10:44:27 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 28F7D11C05B;
- Sat,  8 Feb 2020 10:45:21 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 1B8C811C058;
- Sat,  8 Feb 2020 10:45:21 +0000 (GMT)
+ Sat, 8 Feb 2020 10:45:23 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id F3059A4060;
+ Sat,  8 Feb 2020 10:45:22 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id E0BB3A405C;
+ Sat,  8 Feb 2020 10:45:22 +0000 (GMT)
 Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
- by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Sat,  8 Feb 2020 10:45:21 +0000 (GMT)
+ by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Sat,  8 Feb 2020 10:45:22 +0000 (GMT)
 Received: from bahia.ibmuc.com (sig-9-145-71-236.uk.ibm.com [9.145.71.236])
- by smtp.tlslab.ibm.com (Postfix) with ESMTP id 7D339220137;
- Sat,  8 Feb 2020 11:45:20 +0100 (CET)
+ by smtp.tlslab.ibm.com (Postfix) with ESMTP id 61EA9220137;
+ Sat,  8 Feb 2020 11:45:22 +0100 (CET)
 From: Greg Kurz <groug@kaod.org>
 To: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 3/6] 9pfs: validate count sent by client with T_readdir
-Date: Sat,  8 Feb 2020 11:45:03 +0100
+Subject: [PULL 4/6] hw/9pfs/9p-synth: added directory for readdir test
+Date: Sat,  8 Feb 2020 11:45:04 +0100
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200208104506.2727882-1-groug@kaod.org>
 References: <20200208104506.2727882-1-groug@kaod.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-x-cbid: 20020810-0016-0000-0000-000002E4F33B
+x-cbid: 20020810-0016-0000-0000-000002E4F33C
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 20020810-0017-0000-0000-00003347DFDA
-Message-Id: <20200208104506.2727882-4-groug@kaod.org>
+x-cbparentid: 20020810-0017-0000-0000-00003347DFDB
+Message-Id: <20200208104506.2727882-5-groug@kaod.org>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
  definitions=2020-02-07_06:2020-02-07,
  2020-02-07 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0
- impostorscore=0 priorityscore=1501 mlxscore=0 adultscore=0 clxscore=1034
- mlxlogscore=900 bulkscore=0 spamscore=0 lowpriorityscore=0 suspectscore=2
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2001150001 definitions=main-2002080086
+ spamscore=0
+ lowpriorityscore=0 malwarescore=0 suspectscore=8 bulkscore=0 phishscore=0
+ impostorscore=0 adultscore=0 priorityscore=1501 clxscore=1034 mlxscore=0
+ mlxlogscore=827 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2001150001 definitions=main-2002080089
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
 X-Received-From: 148.163.158.5
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,49 +99,73 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
 
-A good 9p client sends T_readdir with "count" parameter that's sufficiently
-smaller than client's initially negotiated msize (maximum message size).
-We perform a check for that though to avoid the server to be interrupted
-with a "Failed to encode VirtFS reply type 41" transport error message by
-bad clients. This count value constraint uses msize - 11, because 11 is the
-header size of R_readdir.
+This will provide the following virtual files by the 9pfs
+synth driver:
+
+  - /ReadDirDir/ReadDirFile99
+  - /ReadDirDir/ReadDirFile98
+  ...
+  - /ReadDirDir/ReadDirFile1
+  - /ReadDirDir/ReadDirFile0
+
+This virtual directory and its virtual 100 files will be
+used by the upcoming 9pfs readdir tests.
 
 Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 Reviewed-by: Greg Kurz <groug@kaod.org>
-Message-Id: <3990d3891e8ae2074709b56449e96ab4b4b93b7d.1579567020.git.qemu_oss@crudebyte.com>
-[groug: added comment ]
+Message-Id: <5408c28c8de25dd575b745cef63bf785305ccef2.1579567020.git.qemu_oss@crudebyte.com>
 Signed-off-by: Greg Kurz <groug@kaod.org>
 ---
- hw/9pfs/9p.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ hw/9pfs/9p-synth.c | 19 +++++++++++++++++++
+ hw/9pfs/9p-synth.h |  5 +++++
+ 2 files changed, 24 insertions(+)
 
-diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-index c63f549f39b2..9e046f7acb51 100644
---- a/hw/9pfs/9p.c
-+++ b/hw/9pfs/9p.c
-@@ -2434,6 +2434,7 @@ static void coroutine_fn v9fs_readdir(void *opaque)
-     int32_t count;
-     uint32_t max_count;
-     V9fsPDU *pdu = opaque;
-+    V9fsState *s = pdu->s;
- 
-     retval = pdu_unmarshal(pdu, offset, "dqd", &fid,
-                            &initial_offset, &max_count);
-@@ -2442,6 +2443,14 @@ static void coroutine_fn v9fs_readdir(void *opaque)
-     }
-     trace_v9fs_readdir(pdu->tag, pdu->id, fid, initial_offset, max_count);
- 
-+    /* Enough space for a R_readdir header: size[4] Rreaddir tag[2] count[4] */
-+    if (max_count > s->msize - 11) {
-+        max_count = s->msize - 11;
-+        warn_report_once(
-+            "9p: bad client: T_readdir with count > msize - 11"
-+        );
-+    }
+diff --git a/hw/9pfs/9p-synth.c b/hw/9pfs/9p-synth.c
+index 54239c9bbf32..7eb210ffa89b 100644
+--- a/hw/9pfs/9p-synth.c
++++ b/hw/9pfs/9p-synth.c
+@@ -578,6 +578,25 @@ static int synth_init(FsContext *ctx, Error **errp)
+                                        NULL, v9fs_synth_qtest_flush_write,
+                                        ctx);
+         assert(!ret);
 +
-     fidp = get_fid(pdu, fid);
-     if (fidp == NULL) {
-         retval = -EINVAL;
++        /* Directory for READDIR test */
++        {
++            V9fsSynthNode *dir = NULL;
++            ret = qemu_v9fs_synth_mkdir(
++                NULL, 0700, QTEST_V9FS_SYNTH_READDIR_DIR, &dir
++            );
++            assert(!ret);
++            for (i = 0; i < QTEST_V9FS_SYNTH_READDIR_NFILES; ++i) {
++                char *name = g_strdup_printf(
++                    QTEST_V9FS_SYNTH_READDIR_FILE, i
++                );
++                ret = qemu_v9fs_synth_add_file(
++                    dir, 0, name, NULL, NULL, ctx
++                );
++                assert(!ret);
++                g_free(name);
++            }
++        }
+     }
+ 
+     return 0;
+diff --git a/hw/9pfs/9p-synth.h b/hw/9pfs/9p-synth.h
+index af7a993a1e8e..036d7e4a5b1c 100644
+--- a/hw/9pfs/9p-synth.h
++++ b/hw/9pfs/9p-synth.h
+@@ -55,6 +55,11 @@ int qemu_v9fs_synth_add_file(V9fsSynthNode *parent, int mode,
+ #define QTEST_V9FS_SYNTH_LOPEN_FILE "LOPEN"
+ #define QTEST_V9FS_SYNTH_WRITE_FILE "WRITE"
+ 
++/* for READDIR test */
++#define QTEST_V9FS_SYNTH_READDIR_DIR "ReadDirDir"
++#define QTEST_V9FS_SYNTH_READDIR_FILE "ReadDirFile%d"
++#define QTEST_V9FS_SYNTH_READDIR_NFILES 100
++
+ /* Any write to the "FLUSH" file is handled one byte at a time by the
+  * backend. If the byte is zero, the backend returns success (ie, 1),
+  * otherwise it forces the server to try again forever. Thus allowing
 -- 
 2.21.1
 
