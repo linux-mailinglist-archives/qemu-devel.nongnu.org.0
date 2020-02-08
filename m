@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B66321565A7
-	for <lists+qemu-devel@lfdr.de>; Sat,  8 Feb 2020 18:03:44 +0100 (CET)
-Received: from localhost ([::1]:43420 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AF6F1565C1
+	for <lists+qemu-devel@lfdr.de>; Sat,  8 Feb 2020 18:32:35 +0100 (CET)
+Received: from localhost ([::1]:43856 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j0TWB-0007GE-OD
-	for lists+qemu-devel@lfdr.de; Sat, 08 Feb 2020 12:03:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54044)
+	id 1j0Ty5-0005tH-JS
+	for lists+qemu-devel@lfdr.de; Sat, 08 Feb 2020 12:32:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32826)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1j0TQ7-0006Mi-IO
- for qemu-devel@nongnu.org; Sat, 08 Feb 2020 11:57:28 -0500
+ (envelope-from <jan.kiszka@web.de>) id 1j0TtY-0003fP-Hv
+ for qemu-devel@nongnu.org; Sat, 08 Feb 2020 12:27:53 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1j0TQ6-0001t5-KM
- for qemu-devel@nongnu.org; Sat, 08 Feb 2020 11:57:27 -0500
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:38046)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1j0TQ6-0001sg-Du; Sat, 08 Feb 2020 11:57:26 -0500
-Received: by mail-wr1-x443.google.com with SMTP id y17so2489181wrh.5;
- Sat, 08 Feb 2020 08:57:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=3rBdGV77acnZuRXknbrZFUu5k1x9HktZihwAmZUV2Pk=;
- b=QkZQuUGJDmzyGNiVBJsQGmUxc2Tnfwxw9/o3qpL3v+pg2iMhJcYKvR6V7Eyntl80hA
- PfwqlJqFk8o1dhoXOpb3K1Hwxux8sJQjTCniu7vr6gGRzeXJ0ft3ZJuycnGihT0isfjU
- v1AvhQCRcihtDAl8lCWPMTq+4CpUiQcAYgV++ev6X7cBysKB/rC4leGtsO0jpqEWYTNm
- bVFBQxSGzLGERpQikgWJkRYdrMNOfSaaJuf+TYN5B3hJlCt/9hd5y4e0VUht6b5HGwNQ
- ofdpnyswmNRlHHh0tGakWjvxeeQo+2OuYjo+rLiVsWmlff5r90MdatBQHfNiyJJl3mR+
- /O2A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=3rBdGV77acnZuRXknbrZFUu5k1x9HktZihwAmZUV2Pk=;
- b=p8SRTS5/nJyF9KRUS0dOZKDIP/MQL2+yChqsgIFANJ+KN4HFtpklGmSErX9Zmt9foR
- XqGwsew6DEHwQ2J6VvHQOUZIc8up8uFMZNnzDNmkoEUrHOm0/fNmuv/6ULQSQZ3TJBsW
- WoPyU6uDYqOHUdRNWeHv4kwbWbIrrRT488CZPxkUvHZtnLf/BScNOfDZ6j5eIFMuftHh
- tsWSlA+pVaWlxoFEHtCvF1QG0wl+FMANp5xgpFi36SGuWIE0+X3zZ8xDkj/c3W8QnxpR
- fK3BVHQaV9/PRYFGTKiwvbJ1s86JnsXQ5HBoXIB9RaplYfhloaYidkLvcP6rILVROwt3
- HwUw==
-X-Gm-Message-State: APjAAAUuh2ssTzJvIWNWXKAgcmewNfjD1d7sDb0/O8zhzR3RrHSpndCB
- x4UJwX/8Thk106WFT4By1spL7Rwb
-X-Google-Smtp-Source: APXvYqzPJ9gFBySJMdPaTLZmTNa6+vIJDT1kRKb3tcosfDMXynjOkj3xQA+at1MpnOuLK2kw9vf2Gg==
-X-Received: by 2002:adf:db48:: with SMTP id f8mr5819460wrj.146.1581181045353; 
- Sat, 08 Feb 2020 08:57:25 -0800 (PST)
-Received: from localhost.localdomain (78.red-88-21-202.staticip.rima-tde.net.
- [88.21.202.78])
- by smtp.gmail.com with ESMTPSA id a5sm7872763wmb.37.2020.02.08.08.57.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 08 Feb 2020 08:57:24 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 13/13] hw/arm/raspi: Extract the cores count from the board
- revision
-Date: Sat,  8 Feb 2020 17:56:45 +0100
-Message-Id: <20200208165645.15657-14-f4bug@amsat.org>
-X-Mailer: git-send-email 2.21.1
-In-Reply-To: <20200208165645.15657-1-f4bug@amsat.org>
-References: <20200208165645.15657-1-f4bug@amsat.org>
+ (envelope-from <jan.kiszka@web.de>) id 1j0TtX-0007X3-EQ
+ for qemu-devel@nongnu.org; Sat, 08 Feb 2020 12:27:52 -0500
+Received: from mout.web.de ([212.227.17.12]:47977)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <jan.kiszka@web.de>) id 1j0TtW-0007WO-5t
+ for qemu-devel@nongnu.org; Sat, 08 Feb 2020 12:27:51 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+ s=dbaedf251592; t=1581182863;
+ bh=JumUw+gArUHorGvI4sUVP/YGhPCioeC4AxkJDT+0lco=;
+ h=X-UI-Sender-Class:Subject:To:Cc:References:From:Date:In-Reply-To;
+ b=li12p+XiGuBxO3GQqffAdAm0wLh/oTepr9QvxE30J9aUquwuh8HduyPG+20rnzSeB
+ Q2cp5tqU8ZHksVzhgTN3pSg20rK4egFQF+fJ3Wa0/N5kGwAUDSa0JpzhYFL79NESIo
+ YvgjX7bez0Z5HauV2X9QEwash6J9ltFBSnaJ9e8M=
+X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
+Received: from [192.168.1.10] ([95.157.55.156]) by smtp.web.de (mrweb102
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 0MVLWc-1j0vkv33hW-00Yhkt; Sat, 08
+ Feb 2020 18:27:43 +0100
+Subject: Re: [PATCH v2 0/2] ui/gtk: Fix gd_refresh_rate_millihz() when widget
+ window is not realized
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20200208161048.11311-1-f4bug@amsat.org>
+From: Jan Kiszka <jan.kiszka@web.de>
+Message-ID: <9a755d19-5eef-3acf-011e-4b985d0cf20a@web.de>
+Date: Sat, 8 Feb 2020 18:27:42 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::443
+In-Reply-To: <20200208161048.11311-1-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:xdRkQM2gllCatPx8FEAYeLyp2+4T7i7ZCBWdmG7OMWuZ+OI3puB
+ RWfS2ISsIh3LaMZ7tHt+zPmQzPdq9+QYf1L1GEJMaJJ7zswVkB40dSx8o6zj61PYs5lHT1O
+ KirVxifSujdqweXUonx8OGPYKcoaBuvWn7UJOL/yXfikHPsQfgRdow1JMVErZ9tZnFhsmWH
+ vR7yjXWAExbk2qYmGml/A==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:H+PceyxPKr0=:v29k3fo7XpHpNjk4r9eR5x
+ LNy29nbv+gi6bfAyvxIOvdfcTIn1Dqd32z/fSG+D6hgaISfHAfY2eGBOm3xZRDxn6/1WIExGv
+ 7x3aHz1JbKgtQYzITlEDQSEbcQ7DVGqR4RFJUmcdiQvq3t4rtBkzMj57plzDhUnLTic9B2lID
+ 84fr1G2dyyFOSO3leIOc9aNvmEwssAwWtZyhydqeINQNJ0Uem8+W3ONw1f62mo/Melz7IKrNx
+ M7i5Zpo7ls3iVkX8/mqmRrudd0pG/y7Xkv4K2tNKS/YAVIfJ8TvXwk80U4iegidKA6wAMz+cA
+ 9YJcGcNc+giCh/K5PmLyB2Azv/ng1Oyi2CZMrwh+r5IsESIusErl1l4ex61sPIVj1dVga+JfM
+ cSB6Zm3ryVyx/JUK/KwIixQwtnnw5UPPDs2GSr/mW0j+wnK1pP7WlgstXP5ECeeLtPFXGd2Er
+ 4edZ+EvZGMH2RcPcXsFc0APve5EXRXR+Y/FTnILxivf6kJi0xCHhZZ5oQKrzkD1Tidz7Rq2C1
+ 2ih5jU0PDi1aw8MTkH7miXmnZ4C0oKNQXuM/BTuk2O4XMz0FXKjUnTfTGgFhJrHqGULJe11Pn
+ ja9EC1konP92Ek0Tmzesd8I4fm5/W/qBQroHhf3fuQ/PWgilfEL/1WZNYn7VICdnYg3esI0VD
+ dGSuQg+Wc2m3zM2/cX+knvJGMt5+EjL/s2TxkSnfwvzKBSlvhBK9WqCvPnVzMwn9UwP+wT1rp
+ oPb63vrzyBzwXg0r8oRGt7qpYkmsppd85dGGWRlBjS3XEyO4xK05uHGWL/v/f+gT4bV3bUIf/
+ EJ+hYV3oJkn85U96No+wDHTA5gkRZKqBRuAfVT2j7YYJovRMeQqUYSM5qgCkZ7LzVd5nTZVNs
+ O18oQB0+3WDq52UTRBVXH9s9rz/Ts3kLVRTQQ8hbeJ/zEvy54SKv7O/nUTaXL7lZnbNlv3q6b
+ HEZkZzpTdzx7qkqEVYKB4XN6p+siJuFv/NMEzaQcRdewTa+AEGdRXHv1Ghf7zL3C75WOGYM6k
+ 08jMm29PY2S+6yK7G6WmHJvDVangLom66UMU4fSfgZ3O7FOgWAl9zoI3yv+T0Fxkn0YSUAZ2/
+ BuMDBjzR+6JiaX7cd9V2PHZzQm/DMmaQXfPbWwQsOcFWKd+azLkSqrV3FtLYVHqB6qNY38zNi
+ r4buJ5aXDlB4GqfDdxTp4dKp4CmocP8PhVTocrNYjzE78+zbbUXPURU/4YjE09WfVHsMiawtl
+ jtbkgXGR1K/p9QBCU
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 212.227.17.12
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,65 +82,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Joaquin de Andres <me@xcancerberox.com.ar>,
- Alistair Francis <alistair@alistair23.me>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Andrew Baumann <Andrew.Baumann@microsoft.com>,
- Esteban Bosse <estebanbosse@gmail.com>,
- Niek Linnenbank <nieklinnenbank@gmail.com>, qemu-arm@nongnu.org,
- Igor Mammedov <imammedo@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>,
+ Nikola Pavlica <pavlica.nikola@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The board revision encode the count of ARM cores. Add a helper
-to extract the number of cores, and use it. This will be helpful
-when we add the Raspi0/1 that have a single core.
+On 08.02.20 17:10, Philippe Mathieu-Daud=C3=A9 wrote:
+> Fix bug report from Jan Kiszka:
+> https://www.mail-archive.com/qemu-devel@nongnu.org/msg678130.html
+> https://lists.gnu.org/archive/html/qemu-devel/2020-02/msg02260.html
+>
+> Supersedes: <20200208143008.6157-1-f4bug@amsat.org>
+>
+> Philippe Mathieu-Daud=C3=A9 (2):
+>    ui/gtk: Update gd_refresh_rate_millihz() to handle VirtualConsole
+>    ui/gtk: Fix gd_refresh_rate_millihz() when widget window is not
+>      realized
+>
+>   ui/gtk.c | 19 +++++++++++--------
+>   1 file changed, 11 insertions(+), 8 deletions(-)
+>
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- hw/arm/raspi.c | 19 ++++++++++++++++---
- 1 file changed, 16 insertions(+), 3 deletions(-)
+Yep.
 
-diff --git a/hw/arm/raspi.c b/hw/arm/raspi.c
-index bee6ca0a08..90ad9b8115 100644
---- a/hw/arm/raspi.c
-+++ b/hw/arm/raspi.c
-@@ -101,6 +101,21 @@ static const char *board_soc_type(uint32_t board_rev)
-     return soc_types[proc_id];
- }
- 
-+static int cores_count(uint32_t board_rev)
-+{
-+    static const int soc_cores_count[] = {
-+        0, BCM283X_NCPUS, BCM283X_NCPUS,
-+    };
-+    int proc_id = board_processor_id(board_rev);
-+
-+    if (proc_id >= ARRAY_SIZE(soc_cores_count) || !soc_cores_count[proc_id]) {
-+        error_report("Unsupported processor id '%d' (board revision: 0x%x)",
-+                     proc_id, board_rev);
-+        exit(1);
-+    }
-+    return soc_cores_count[proc_id];
-+}
-+
- static const char *board_type(uint32_t board_rev)
- {
-     static const char *types[] = {
-@@ -307,9 +322,7 @@ static void raspi_machine_class_init(ObjectClass *oc, void *data)
-     mc->no_parallel = 1;
-     mc->no_floppy = 1;
-     mc->no_cdrom = 1;
--    mc->max_cpus = BCM283X_NCPUS;
--    mc->min_cpus = BCM283X_NCPUS;
--    mc->default_cpus = BCM283X_NCPUS;
-+    mc->default_cpus = mc->min_cpus = mc->max_cpus = cores_count(board_rev);
-     mc->default_ram_size = board_ram_size(board_rev);
-     if (board_version(board_rev) == 2) {
-         mc->ignore_memory_transaction_failures = true;
--- 
-2.21.1
-
+Tested-by: Jan Kiszka <jan.kiszka@web.de>
 
