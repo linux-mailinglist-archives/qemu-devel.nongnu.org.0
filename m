@@ -2,45 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2152E154C81
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 20:58:18 +0100 (CET)
-Received: from localhost ([::1]:45310 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21388154C6E
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Feb 2020 20:47:07 +0100 (CET)
+Received: from localhost ([::1]:45186 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1iznI1-0004xI-7M
-	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 14:58:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35256)
+	id 1izn7B-0004oz-Lh
+	for lists+qemu-devel@lfdr.de; Thu, 06 Feb 2020 14:47:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60468)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1iznHJ-0004NZ-Ts
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 14:57:35 -0500
+ (envelope-from <jerry.geis@gmail.com>) id 1izn6O-0004DJ-Uj
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 14:46:17 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1iznHH-0003qH-Cc
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 14:57:33 -0500
-Resent-Date: Thu, 06 Feb 2020 14:57:33 -0500
-Resent-Message-Id: <E1iznHH-0003qH-Cc@eggs.gnu.org>
-Received: from sender4-of-o51.zoho.com ([136.143.188.51]:21128)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1iznHH-0003kk-39
- for qemu-devel@nongnu.org; Thu, 06 Feb 2020 14:57:31 -0500
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1581018969935501.9666108356928;
- Thu, 6 Feb 2020 11:56:09 -0800 (PST)
-In-Reply-To: <20200206173040.17337-1-peter.maydell@linaro.org>
-Subject: Re: [PATCH 00/29] Convert QAPI doc comments to generate rST instead
- of texinfo
-Message-ID: <158101896929.19404.639362435298132958@a1bbccc8075a>
+ (envelope-from <jerry.geis@gmail.com>) id 1izn6N-0000FA-Sg
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 14:46:16 -0500
+Received: from mail-qt1-x82f.google.com ([2607:f8b0:4864:20::82f]:35791)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <jerry.geis@gmail.com>)
+ id 1izn6N-0000CI-OP
+ for qemu-devel@nongnu.org; Thu, 06 Feb 2020 14:46:15 -0500
+Received: by mail-qt1-x82f.google.com with SMTP id n17so40402qtv.2
+ for <qemu-devel@nongnu.org>; Thu, 06 Feb 2020 11:46:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to;
+ bh=+fyj4BqAgCAswt8tu5laBSBlUAe3P/lOiw2nJ14ZKHQ=;
+ b=taMl987l1X1k8RXD0MdUFuVr2ow8H3o/iDZJGRq8Zxl4w5xpI67maRDiMtevCljc2S
+ j/dkQmB8eoddmgdh3LTZ8217PdIC1Sflrxj1HTHKS+mpxifeeci64WsdJMBrc4lf8Wfy
+ xqpT8IkkZ/B1O6TuSZ3jtMAnYT7G3fzwoGjPE8zRuHiOH2e3empqRe6xjVTlAS1ltAft
+ VprTeZCSaL/67HJxSzUDZ4xwkQaZfEBaCqJKFulGco9y6XFPWdvl10F6D8qEnb35m3i2
+ 2Bm9jDW9BhOYKgeYLBuNFMoCTt6ugNr+o+6NR2BAFCFIZqHRaKAgiWMzqNInO/wFeV7G
+ Hpqg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=+fyj4BqAgCAswt8tu5laBSBlUAe3P/lOiw2nJ14ZKHQ=;
+ b=gxkV6e5LUBRlGQMFTxxBj0lcVjr9Ifsle2fL6aE3DaSFqMQmMBAqOpSxll4h6gWIxM
+ WlNvILSi9IqgB6jwHRiXj/G1NBWVHVh66r6aT6yNrXdhe9UW1OPY3T025uwCUGthsjJ+
+ YspHkdIkb0IaGaDfs5FCKI3IuChksITn0dU8ooNhIfQ5PdhVOlV/dWHwvx2TPMIOxe2q
+ FChqYaTybeJyfMIzFXSErPwzQo7Mq1H7JPaVkzpLmfVwvyCzZQbVfg2EGK1mqBbknzuZ
+ AwVyphXF06QKEL0H5FuR/T3oT1v+ZqgUbMPIxlnOWAqfTzaBDllSgNuazCVeCkOtb5Js
+ hqMg==
+X-Gm-Message-State: APjAAAVfvha8gfwNU29D+DJO3qcwBZw+HJkB7rg+TmXTpOW9Q8b1ZRLR
+ 5FVYGOOewecsWlAvzG6aKFEqD8CTwKWAr42VGY/Tyg==
+X-Google-Smtp-Source: APXvYqzqko5GYMGdodmsgKiZnmAElq8u7C8/4KQmRCqUeEo/qZd/VkW6UuBVYtvFygMPUGVDTV+CRIqlPdNm/3Rc1Rw=
+X-Received: by 2002:ac8:5283:: with SMTP id s3mr4135899qtn.47.1581018374728;
+ Thu, 06 Feb 2020 11:46:14 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: peter.maydell@linaro.org
-Date: Thu, 6 Feb 2020 11:56:09 -0800 (PST)
-X-ZohoMailClient: External
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 136.143.188.51
+From: Jerry Geis <jerry.geis@gmail.com>
+Date: Sat, 8 Feb 2020 07:42:14 -0500
+Message-ID: <CABr8-B7+S=WavWA7Ad_7sSB5B-QFJ6uBFuVXPw1hNRQwdZw_7A@mail.gmail.com>
+Subject: Qemu 4.2.0 on Windows host
+To: qemu-devel@nongnu.org
+Content-Type: multipart/alternative; boundary="0000000000009bf166059ded8666"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::82f
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,47 +68,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: berrange@redhat.com, armbru@redhat.com, mdroth@linux.vnet.ibm.com,
- qemu-devel@nongnu.org, stefanha@redhat.com, jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDIwNjE3MzA0MC4xNzMz
-Ny0xLXBldGVyLm1heWRlbGxAbGluYXJvLm9yZy8KCgoKSGksCgpUaGlzIHNlcmllcyBmYWlsZWQg
-dGhlIGRvY2tlci1xdWlja0BjZW50b3M3IGJ1aWxkIHRlc3QuIFBsZWFzZSBmaW5kIHRoZSB0ZXN0
-aW5nIGNvbW1hbmRzIGFuZAp0aGVpciBvdXRwdXQgYmVsb3cuIElmIHlvdSBoYXZlIERvY2tlciBp
-bnN0YWxsZWQsIHlvdSBjYW4gcHJvYmFibHkgcmVwcm9kdWNlIGl0CmxvY2FsbHkuCgo9PT0gVEVT
-VCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCm1ha2UgZG9ja2VyLWltYWdlLWNlbnRvczcg
-Vj0xIE5FVFdPUks9MQp0aW1lIG1ha2UgZG9ja2VyLXRlc3QtcXVpY2tAY2VudG9zNyBTSE9XX0VO
-Vj0xIEo9MTQgTkVUV09SSz0xCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgogIENDICAgICAgdGVz
-dHMvdGVzdC1xYXBpLWNvbW1hbmRzLm8KICBDQyAgICAgIHRlc3RzL3Rlc3Qtc3RyaW5nLWlucHV0
-LXZpc2l0b3IubwogIENDICAgICAgdGVzdHMvdGVzdC1zdHJpbmctb3V0cHV0LXZpc2l0b3Iubwpk
-b2MtZ29vZCBGQUlMCi0tLSAvdG1wL3FlbXUtdGVzdC9zcmMvdGVzdHMvcWFwaS1zY2hlbWEvZG9j
-LWdvb2Qub3V0CisrKyAKQEAgLTEsMTk5ICswLDAgQEAKLS0tCisrKyAKQEAgLTAsMCArMSBAQAor
-ZG9jLWdvb2QuanNvbjoxMDQ6MTogdW5leHBlY3RlZCBkZS1pbmRlbnQKbWFrZTogKioqIFtjaGVj
-ay10ZXN0cy9xYXBpLXNjaGVtYS9mcm9udGVuZF0gRXJyb3IgMQptYWtlOiAqKiogV2FpdGluZyBm
-b3IgdW5maW5pc2hlZCBqb2JzLi4uLgogIENDICAgICAgdGVzdHMvdGVzdC1xbXAtZXZlbnQubwpU
-cmFjZWJhY2sgKG1vc3QgcmVjZW50IGNhbGwgbGFzdCk6Ci0tLQogICAgcmFpc2UgQ2FsbGVkUHJv
-Y2Vzc0Vycm9yKHJldGNvZGUsIGNtZCkKc3VicHJvY2Vzcy5DYWxsZWRQcm9jZXNzRXJyb3I6IENv
-bW1hbmQgJ1snc3VkbycsICctbicsICdkb2NrZXInLCAncnVuJywgJy0tbGFiZWwnLCAnY29tLnFl
-bXUuaW5zdGFuY2UudXVpZD1hYzhlOGRiZjU5M2M0MmUzODU3MjE1NTQ3NTljYjI1MicsICctdScs
-ICcxMDAzJywgJy0tc2VjdXJpdHktb3B0JywgJ3NlY2NvbXA9dW5jb25maW5lZCcsICctLXJtJywg
-Jy1lJywgJ1RBUkdFVF9MSVNUPScsICctZScsICdFWFRSQV9DT05GSUdVUkVfT1BUUz0nLCAnLWUn
-LCAnVj0nLCAnLWUnLCAnSj0xNCcsICctZScsICdERUJVRz0nLCAnLWUnLCAnU0hPV19FTlY9MScs
-ICctZScsICdDQ0FDSEVfRElSPS92YXIvdG1wL2NjYWNoZScsICctdicsICcvaG9tZS9wYXRjaGV3
-Mi8uY2FjaGUvcWVtdS1kb2NrZXItY2NhY2hlOi92YXIvdG1wL2NjYWNoZTp6JywgJy12JywgJy92
-YXIvdG1wL3BhdGNoZXctdGVzdGVyLXRtcC15OWhfa3c0ci9zcmMvZG9ja2VyLXNyYy4yMDIwLTAy
-LTA2LTE0LjUzLjUxLjExNTM3Oi92YXIvdG1wL3FlbXU6eixybycsICdxZW11OmNlbnRvczcnLCAn
-L3Zhci90bXAvcWVtdS9ydW4nLCAndGVzdC1xdWljayddJyByZXR1cm5lZCBub24temVybyBleGl0
-IHN0YXR1cyAyLgpmaWx0ZXI9LS1maWx0ZXI9bGFiZWw9Y29tLnFlbXUuaW5zdGFuY2UudXVpZD1h
-YzhlOGRiZjU5M2M0MmUzODU3MjE1NTQ3NTljYjI1MgptYWtlWzFdOiAqKiogW2RvY2tlci1ydW5d
-IEVycm9yIDEKbWFrZVsxXTogTGVhdmluZyBkaXJlY3RvcnkgYC92YXIvdG1wL3BhdGNoZXctdGVz
-dGVyLXRtcC15OWhfa3c0ci9zcmMnCm1ha2U6ICoqKiBbZG9ja2VyLXJ1bi10ZXN0LXF1aWNrQGNl
-bnRvczddIEVycm9yIDIKCnJlYWwgICAgMm0xNy42NTFzCnVzZXIgICAgMG03LjY1M3MKCgpUaGUg
-ZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMjAwMjA2
-MTczMDQwLjE3MzM3LTEtcGV0ZXIubWF5ZGVsbEBsaW5hcm8ub3JnL3Rlc3RpbmcuZG9ja2VyLXF1
-aWNrQGNlbnRvczcvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNh
-bGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBm
-ZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
+--0000000000009bf166059ded8666
+Content-Type: text/plain; charset="UTF-8"
+
+I am trying to figure out how to boot a linux external USB disk from
+windows host ?
+
+I do this all the time on linux - simply -hda /dev/sdb
+
+But how do I reference the USB on Windows ?
+Thanks,
+
+Jerry
+
+--0000000000009bf166059ded8666
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">I am trying to figure out how to boot a linux external USB=
+ disk from windows host ?<div><br></div><div>I do this all the time on linu=
+x - simply -hda /dev/sdb</div><div><br></div><div>But how do I reference th=
+e USB on Windows ?</div><div><div>Thanks,</div><div><br></div><div>Jerry</d=
+iv></div></div>
+
+--0000000000009bf166059ded8666--
 
