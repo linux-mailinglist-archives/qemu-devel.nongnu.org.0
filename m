@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60EE4156477
-	for <lists+qemu-devel@lfdr.de>; Sat,  8 Feb 2020 14:09:38 +0100 (CET)
-Received: from localhost ([::1]:41328 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8945115647D
+	for <lists+qemu-devel@lfdr.de>; Sat,  8 Feb 2020 14:12:29 +0100 (CET)
+Received: from localhost ([::1]:41522 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j0Prd-0005Ai-DM
-	for lists+qemu-devel@lfdr.de; Sat, 08 Feb 2020 08:09:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42869)
+	id 1j0PuO-0000Gs-Kn
+	for lists+qemu-devel@lfdr.de; Sat, 08 Feb 2020 08:12:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43246)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j0PqP-00039M-UI
- for qemu-devel@nongnu.org; Sat, 08 Feb 2020 08:08:23 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1j0Ptc-0008Jf-Ar
+ for qemu-devel@nongnu.org; Sat, 08 Feb 2020 08:11:41 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j0PqO-0004ev-Oj
- for qemu-devel@nongnu.org; Sat, 08 Feb 2020 08:08:21 -0500
-Received: from mail-oi1-x230.google.com ([2607:f8b0:4864:20::230]:33262)
+ (envelope-from <peter.maydell@linaro.org>) id 1j0Ptb-0005Ru-Bj
+ for qemu-devel@nongnu.org; Sat, 08 Feb 2020 08:11:40 -0500
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:40546)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j0PqO-0004e5-KO
- for qemu-devel@nongnu.org; Sat, 08 Feb 2020 08:08:20 -0500
-Received: by mail-oi1-x230.google.com with SMTP id q81so4880162oig.0
- for <qemu-devel@nongnu.org>; Sat, 08 Feb 2020 05:08:20 -0800 (PST)
+ id 1j0Ptb-0005Rk-7M
+ for qemu-devel@nongnu.org; Sat, 08 Feb 2020 08:11:39 -0500
+Received: by mail-ot1-x344.google.com with SMTP id i6so1980579otr.7
+ for <qemu-devel@nongnu.org>; Sat, 08 Feb 2020 05:11:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=dlrmj8ti/csItRZ3yLTPaYdNFExOcxHQv47BJKF4Um0=;
- b=Pu1Hn1WOXbDHWAdbjf8OoN3ruJVku2SLaaeju5J8zKkNDdaX0zHN8Wpb1ZprPxBtDh
- 9/Wn/I488z/Vgpe4SrPQ0RwHFgOBj+m6vRg2T1d/q2J+7VXaJIVmxszAawNP7B3GGC8S
- CQEAfeYwg5knWfl4mcYroyvWNUq9BCt2q92BVGFVykOZlp330G469LWdVCkljJ2FJ9nr
- uwx0qvScON9ob7oebmMnsKMK2/uJUb0YH0RpiPmx5A9COBYyg8m18U6zryBfy6JRKkvF
- 34QY52mb197B4sU1x5t4YkfUY2cy3Jh8zSFG7G8B2ZbtHV+1yZ6RqFtOBvOM4ANXxrvC
- AIPA==
+ :cc; bh=Dmcl3i0AuOwfv/pDVAsZFz0ZACKzUQMR06iDD6LJ/So=;
+ b=eVbcH3dF/N22i3yX3qPPMSczCWbALLcigWs+LIGVkYmTNVZNdOpMXbSV81itDwv6Vm
+ 7HQHu7vQEFPDBr9RcqXErHJeOF8YKf9Tc8Ek2lEZ+BONVD4BwIxsI3FpVeZsQ8G2wlV6
+ 7AvwRunqO0gslC7VNXwIM+djx/qaa6G/nu7Je2YLRJZFuz5bE/OHxcqFFQCl1IWqvJXH
+ bKUN+6lS5ntNHXyOItWCceTYygKPEpyMaR/MSfFnfYgJRi0g8dnHJtusWylaTsP/oJYr
+ ApZ5bESd+JiWcRi4GZDGQbY9slj8Ge2G6Gw5S1q+K2KQ5G640yuYLPemE/jJ4Lwqptdd
+ nDCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=dlrmj8ti/csItRZ3yLTPaYdNFExOcxHQv47BJKF4Um0=;
- b=cbQ+gGgPsgu2QGPiew+RMqKCPsmGPZ2C0BNUxJ1VF9wl8qQfnMxzrBg7+8OE10dEzK
- ir5bgyc3lqAwwi8SyNvpqVPpEMYm7UUUFh6YxV7isxdXlkFpXGaHgpezmH8gG8gibKJr
- upk4ScOGzFNqmau/IOrS/3clO+WsvcfmyNFF853bTUf4jzQSQzMBSfRXtBKUYGcujN73
- FXRj/frxLRfW/dLSfDATKxGjp9mefbndzdOCnJYB+Fa3hH24j4OgRCYsMQgZwe9nlcbz
- n/RcHOKq1d1YbkAOGqDVZyv0sAPXR4qvdv82kY6xmydYcZPihPZGMf4qoYKDTJUzxAlt
- iylw==
-X-Gm-Message-State: APjAAAUOE6P1RRyfA2l91wlxUB2vgW7/aanJX3315AZMZ8hlyxTdADhE
- aM2X/jBDp9yUe+mAPd0nvKt26IZqlhs4PU0tWABcZA==
-X-Google-Smtp-Source: APXvYqz3y5Vediewh8oHRhOIA068mYmYZfMljeIsWyEF82Y/B2hhqoYNe2jlYKAXb12UqtgP2zl+tE7VTofSHMDVc44=
-X-Received: by 2002:aca:3d7:: with SMTP id 206mr5365462oid.98.1581167299253;
- Sat, 08 Feb 2020 05:08:19 -0800 (PST)
+ bh=Dmcl3i0AuOwfv/pDVAsZFz0ZACKzUQMR06iDD6LJ/So=;
+ b=LGHagDlQHZJlhLcPXWOzY8wSjBkvAFa/fapG819CGqiokpvbrTeUiTdz6sJL8y21qq
+ afqTUSakonxJ5UyDPCcHtR1gPEsok5Vz7EMlRCbNtkBm3cplVW8pnfEBkiM9vXufUp1l
+ utunnZdARmUdA023r3MNnSEz3dNX7hv1yM4RFdH3km0tzzPaqGHcSMCRMe3+p3EPofgV
+ HFmToPdo+Y9AmEwoufKoky+/H+rDfuJX6+jT2mqzjGmtYQRnNZGqxod21OVOfxroKtBk
+ jTEea3zdqFE1iQpNix1VmzUYYMC7jZJwOA4dctnm2i/tjdO5y412iXnGeYyPiIxcvjdY
+ pbiA==
+X-Gm-Message-State: APjAAAXGzZx/8A4NdY3JGxDCrEUrtM8Ab8KikK0WhHlahziUiwLobPq0
+ /92ydYdQtQEp8TH028fKu93UHaG+1NvQVqKg0R2Sglv5
+X-Google-Smtp-Source: APXvYqwesybK5ix86Le0VzOv8F77zYEIdSLug3LN0WMvdnmuTmJuKfVuZtuX125lwDbRkX94k2A1jFdWcicuS1MGWAI=
+X-Received: by 2002:a05:6830:184:: with SMTP id
+ q4mr3466651ota.232.1581167497317; 
+ Sat, 08 Feb 2020 05:11:37 -0800 (PST)
 MIME-Version: 1.0
-References: <20191202140552.GA5353@localhost.localdomain>
- <CAFEAcA--Rag8JzvPP+Pvkebv1ifeZkpcx7zSXdDBkpZWmpZwxQ@mail.gmail.com>
- <20200203032700.GA12127@localhost.localdomain>
- <CAFEAcA-h3fJaBm+DSn6VQ=sgdS4x67MT_biyeTohk__JzkACMw@mail.gmail.com>
- <20200207203856.GA17041@localhost.localdomain>
-In-Reply-To: <20200207203856.GA17041@localhost.localdomain>
+References: <20200206173040.17337-1-peter.maydell@linaro.org>
+ <20200206173040.17337-3-peter.maydell@linaro.org>
+ <875zgipe1n.fsf@dusky.pond.sub.org>
+ <CAFEAcA90qHdHvozNhjX0d5xzoOiFb6oTVdXWf9u9aRvV=YHw4w@mail.gmail.com>
+ <87d0apldpa.fsf@dusky.pond.sub.org>
+In-Reply-To: <87d0apldpa.fsf@dusky.pond.sub.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sat, 8 Feb 2020 13:08:07 +0000
-Message-ID: <CAFEAcA9uodvAUzObR1dS3ecm-sqApO3LFHHfzqG_G+n35w_OXw@mail.gmail.com>
-Subject: Re: [RFC] QEMU Gating CI
-To: Cleber Rosa <crosa@redhat.com>
+Date: Sat, 8 Feb 2020 13:11:26 +0000
+Message-ID: <CAFEAcA-esuGOKsE27jSZ=2QxYSn-FuK5bAd_+OgoLTxEqsCRsw@mail.gmail.com>
+Subject: Re: [PATCH 02/29] configure: Check that sphinx-build is using Python 3
+To: Markus Armbruster <armbru@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::230
+X-Received-From: 2607:f8b0:4864:20::344
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,59 +76,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jeff Nelson <jen@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- Ademar Reis <areis@redhat.com>
+Cc: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ John Snow <jsnow@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 7 Feb 2020 at 20:39, Cleber Rosa <crosa@redhat.com> wrote:
-> On Fri, Feb 07, 2020 at 04:42:10PM +0000, Peter Maydell wrote:
-> > This all sounds like the right thing and great progress. So yes,
-> > I agree that the next step would be to get to a point where you
-> > can give me some instructions on how to say "OK, here's my staging
-> > branch" and run it through the new test process and look at the
-> > results.
-> >
+On Sat, 8 Feb 2020 at 07:51, Markus Armbruster <armbru@redhat.com> wrote:
+> Peter Maydell <peter.maydell@linaro.org> writes:
+> > It might be sphinx-build-3 on RH, but on Debian/Ubuntu it's
+> > just 'sphinx-build' assuming you installed the python3-sphinx
+> > and not the python2-sphinx, or you can run it directly out of
+> > /usr/share/sphinx/scripts/python3/sphinx-build, or (like
+> > me) you might have a locally installed 'sphinx-build' which
+> > is using Python 3. My assumption is that once the python2->3
+> > transition has faded into the rear view mirror most distros
+> > will just have a /usr/bin/sphinx-build that's a Python 3 one.
 >
-> IIUC the point you're describing, we must:
->
->  * Have the rigth jobs defined in .gitlab-ci.yml (there are some
->    questions to be answered on that thread)
+> Defaulting to sphinx-build-3 if it exists, else sphinx-build would be
+> nicer for users on some common systems, and wouldn't hurt users on the
+> other common systems.  It's what we do for Python.
 
-For the non-x86 architectures, do we define the jobs
-to run on those in the same .ym file? (Generally the non-x86
-machines just want to run a simple make/make check; they
-don't need to check the wide variety of different configs x86 does.)
-
->  * Setup machines with:
->    - gitlab-runner (with tags matching OS and arch)
->    - packages needed for the actual job execution (compilers, etc)
->
-> At this point, the "parallel-buildtest" command[1], would be replaced
-> with something like:
->
->  - git push git@gitlab.com:qemu-project/qemu.git staging:staging
->
-> Which would automatically generate a pipeline.  Checking the results can
-> be done with programmatically using the GitLab APIs[2].
->
-> Once the result is validated, you would run "git push publish-upstream
-> staging:master" as usual (as instructed by the script)[3].
->
-> So this leaves us with the "musts" above, and also with creating a
-> command line tool that uses the GitLab APIs to check on the status of
-> the pipeline associated with the staging branch.
-
-Yeah, that sounds right. To start with I'm ok with checking a web
-page by hand to see what the job results are, so getting the
-runners set up so we can test by doing git push is the place to start,
-I think. Once we've got the actual testing going and all the machines
-and configs we want to test in place, we can go back and look at
-improving the UX for the person doing pullreqs so it's a bit
-more automated using the GitLab APIs.
+Feel free to send a followup patch :-) I have no systems where
+there is a 'sphinx-build-3' at all.
 
 thanks
 -- PMM
