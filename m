@@ -2,75 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E82A15655E
-	for <lists+qemu-devel@lfdr.de>; Sat,  8 Feb 2020 17:12:10 +0100 (CET)
-Received: from localhost ([::1]:42944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A82115655F
+	for <lists+qemu-devel@lfdr.de>; Sat,  8 Feb 2020 17:12:12 +0100 (CET)
+Received: from localhost ([::1]:42946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j0SiH-00074Y-B4
-	for lists+qemu-devel@lfdr.de; Sat, 08 Feb 2020 11:12:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44041)
+	id 1j0SiJ-00077G-B7
+	for lists+qemu-devel@lfdr.de; Sat, 08 Feb 2020 11:12:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44051)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1j0Sh3-0005G4-Ta
- for qemu-devel@nongnu.org; Sat, 08 Feb 2020 11:10:54 -0500
+ id 1j0Sh4-0005Hc-Nu
+ for qemu-devel@nongnu.org; Sat, 08 Feb 2020 11:10:55 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1j0Sh2-00083q-R5
- for qemu-devel@nongnu.org; Sat, 08 Feb 2020 11:10:53 -0500
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:35281)
+ id 1j0Sh3-000874-Q6
+ for qemu-devel@nongnu.org; Sat, 08 Feb 2020 11:10:54 -0500
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:32965)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1j0Sh2-00081i-LP
- for qemu-devel@nongnu.org; Sat, 08 Feb 2020 11:10:52 -0500
-Received: by mail-wr1-x431.google.com with SMTP id w12so2428933wrt.2
- for <qemu-devel@nongnu.org>; Sat, 08 Feb 2020 08:10:52 -0800 (PST)
+ id 1j0Sh3-00084B-Jw
+ for qemu-devel@nongnu.org; Sat, 08 Feb 2020 11:10:53 -0500
+Received: by mail-wr1-x443.google.com with SMTP id u6so2440985wrt.0
+ for <qemu-devel@nongnu.org>; Sat, 08 Feb 2020 08:10:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=KNRX11p/24OmqP+QT494o3fZUvsDK9PhMGr8QwsMje8=;
- b=F4RzJkeFvlGYsP5voY5GZzpNQrtd/9GdxClru2a13f58XSae3Gt7NVSMV/Ywt82Xen
- wcI4dg/b9/nrzoqdLRGnU8fL+Hs/hSgqZ9DP/u95+KIunvbbVPjruHxVIlW2euNo4+Gn
- /UzNB+QKVKBuBsdsoowhQD2/8TNbKlqOTXb+xUk+gAABpMoCNtf9GVOVSy3+BRv1PGE+
- P1UKxEqXEoiJzc81EIPavaOrNmUMDXD/L6YUtRedkNlfcwMbL6Vd4VXwChdpCHtKJHo3
- xKLTYLgI/IzkMZvr/HWzSej3ygnnXo5bYr0zcWEBVXRe2PkFwgRPhSAG7uuABb9dE6jw
- 1qig==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=IF1no8gDZSvKkX0JGnOQNf/3E5e3U8HxwXO56c6MsQY=;
+ b=EsbsnAihxu5sY8c5VZLtDWF0bkerpgyZQAIS92rLkQRqe1Nne+uYSLdyyQdXwczGab
+ ZtRKNwOS8xYsPdqG3494K6S7D7X3Rg711RIP1sSEJazWEfs349yEVheN/oZZ6DCHSfJO
+ 82aT+QHAsUexuxmeP35BdsjEE9NBC0yhcZSDwJ9+jANa1nKCI8c1Dyx3mQa78HF4a7+6
+ GZJqOTiWKOGrRXdNLNIAk6711Yhui3c21PTxbQQscVyGNucrD38FzyHSzQCayWoc5T7/
+ ERozqs9c3FCWllpWCkFHDB0A+2J3+dCGwzRNlV5sHk8JqMBPKJq+pNzhWypo+bG3EqDb
+ hK+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=KNRX11p/24OmqP+QT494o3fZUvsDK9PhMGr8QwsMje8=;
- b=ObcTbLuvNyx7Lms6kbse+xJUnf3e4Q7YTfbwEb3K+SXEWfOR8K+L9AUBh+/77pFj9Y
- 1pZLFlj+x4FSTGEtpk4RgiqRFk8oTvdl/iXv7/u/04cEyckHUtPac/oSxHHjCBnQhEFh
- wBwYZAYyMdUzwZPjDo2GV3sPzTzXItLmsrX8870zlk+YzrOIohxF6y5TFRj6clyOzfbY
- eKHe5FpNKs5s12pUAKZKxRsZGMaccHJwPNXf1jBp+8cigI7zAEaaIOXCjT6ILnsLiP+w
- kJ7B5ERmu3IY5cE/BQCrkL/YlWpRN7qoLzKjXd08OXajLVEn4EHtc5XNLCQIt3eCG00M
- BWgw==
-X-Gm-Message-State: APjAAAWuLNY+2dFCzgYG3adAbS401/rcoh0KvIqrQUkJKqAkllLKT+27
- nk0gfXavP37RtTwl5ubnJxDxilR1
-X-Google-Smtp-Source: APXvYqz/RoPHAR1X9emuFxthkfxf5V0pE5KFXLoEz7FHM+kblpmbLGZTSsGl5YpYg3TTYDOalmim6Q==
-X-Received: by 2002:a5d:6a0f:: with SMTP id m15mr6269605wru.40.1581178250826; 
- Sat, 08 Feb 2020 08:10:50 -0800 (PST)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=IF1no8gDZSvKkX0JGnOQNf/3E5e3U8HxwXO56c6MsQY=;
+ b=klGD++ccpovhakDvSstSrma1n177uu8jL4Csrs5MVjSWjdQQNP9llktCSAle0NJd4C
+ O7i36426hABmPTFvSgwaiZqarcPUsPLjuE/Vx6Y6oObM5Rqckj+/GZpijEtgoEfy04Jq
+ ItPRO1pJVmzEUJ1m5kSSWB8JfJqI8f+Ky4iuMmI2NO1yDLydu8arUeMtd3XIKzm9jNI9
+ wKigGQPxTZADcF71wK6Mb5Tgn5CehlGqKysEz/tCrmqbaQkLO5+p2QbBLguSR/N3t6SL
+ 8smixxIIAGPd5JmDmPL3RKy0u4p2aVn3EfUtFEAZeEFRzeSFInG2UTOTpTCb60Fnl4qF
+ 96Cg==
+X-Gm-Message-State: APjAAAWhsVFjYvgozJx8DaJWHM+IYScmQt/vDEd9gLtuwxwK3O1R0zY5
+ dB4KpFdxTEEubQQ9EVAEnLXh5yMY
+X-Google-Smtp-Source: APXvYqx6gd9yvgkMnvGU2qe0rKK+yKp5Ue8GzVivjmge6XmRPX24XHyl4Z6CS5JpgdWZ8UC5m4ozBg==
+X-Received: by 2002:adf:a285:: with SMTP id s5mr6320362wra.118.1581178252369; 
+ Sat, 08 Feb 2020 08:10:52 -0800 (PST)
 Received: from localhost.localdomain (78.red-88-21-202.staticip.rima-tde.net.
  [88.21.202.78])
- by smtp.gmail.com with ESMTPSA id l8sm7931669wmj.2.2020.02.08.08.10.49
+ by smtp.gmail.com with ESMTPSA id l8sm7931669wmj.2.2020.02.08.08.10.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 08 Feb 2020 08:10:50 -0800 (PST)
+ Sat, 08 Feb 2020 08:10:51 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org,
 	Jan Kiszka <jan.kiszka@web.de>
-Subject: [PATCH v2 0/2] ui/gtk: Fix gd_refresh_rate_millihz() when widget
- window is not realized
-Date: Sat,  8 Feb 2020 17:10:46 +0100
-Message-Id: <20200208161048.11311-1-f4bug@amsat.org>
+Subject: [PATCH v2 1/2] ui/gtk: Update gd_refresh_rate_millihz() to handle
+ VirtualConsole
+Date: Sat,  8 Feb 2020 17:10:47 +0100
+Message-Id: <20200208161048.11311-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.1
+In-Reply-To: <20200208161048.11311-1-f4bug@amsat.org>
+References: <20200208161048.11311-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::431
+X-Received-From: 2a00:1450:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,20 +89,40 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fix bug report from Jan Kiszka:
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg678130.html
-https://lists.gnu.org/archive/html/qemu-devel/2020-02/msg02260.html
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ ui/gtk.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-Supersedes: <20200208143008.6157-1-f4bug@amsat.org>
-
-Philippe Mathieu-Daudé (2):
-  ui/gtk: Update gd_refresh_rate_millihz() to handle VirtualConsole
-  ui/gtk: Fix gd_refresh_rate_millihz() when widget window is not
-    realized
-
- ui/gtk.c | 19 +++++++++++--------
- 1 file changed, 11 insertions(+), 8 deletions(-)
-
+diff --git a/ui/gtk.c b/ui/gtk.c
+index d18892d1de..c59297ff4d 100644
+--- a/ui/gtk.c
++++ b/ui/gtk.c
+@@ -1965,11 +1965,11 @@ static GtkWidget *gd_create_menu_machine(GtkDisplayState *s)
+  * If available, return the refresh rate of the display in milli-Hertz,
+  * else return 0.
+  */
+-static int gd_refresh_rate_millihz(GtkDisplayState *s)
++static int gd_refresh_rate_millihz(GtkWidget *window)
+ {
+ #ifdef GDK_VERSION_3_22
+-    GdkDisplay *dpy = gtk_widget_get_display(s->window);
+-    GdkWindow *win = gtk_widget_get_window(s->window);
++    GdkDisplay *dpy = gtk_widget_get_display(window);
++    GdkWindow *win = gtk_widget_get_window(window);
+     GdkMonitor *monitor = gdk_display_get_monitor_at_window(dpy, win);
+ 
+     return gdk_monitor_get_refresh_rate(monitor);
+@@ -2045,7 +2045,8 @@ static GSList *gd_vc_gfx_init(GtkDisplayState *s, VirtualConsole *vc,
+     vc->gfx.kbd = qkbd_state_init(con);
+     vc->gfx.dcl.con = con;
+ 
+-    refresh_rate_millihz = gd_refresh_rate_millihz(s);
++    refresh_rate_millihz = gd_refresh_rate_millihz(vc->window ?
++                                                   vc->window : s->window);
+     if (refresh_rate_millihz) {
+         vc->gfx.dcl.update_interval = MILLISEC_PER_SEC / refresh_rate_millihz;
+     }
 -- 
 2.21.1
 
