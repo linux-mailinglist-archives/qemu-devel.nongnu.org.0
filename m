@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E868C1565A8
-	for <lists+qemu-devel@lfdr.de>; Sat,  8 Feb 2020 18:04:05 +0100 (CET)
-Received: from localhost ([::1]:43424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B66321565A7
+	for <lists+qemu-devel@lfdr.de>; Sat,  8 Feb 2020 18:03:44 +0100 (CET)
+Received: from localhost ([::1]:43420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j0TWW-0007zD-T7
-	for lists+qemu-devel@lfdr.de; Sat, 08 Feb 2020 12:04:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54019)
+	id 1j0TWB-0007GE-OD
+	for lists+qemu-devel@lfdr.de; Sat, 08 Feb 2020 12:03:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54044)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1j0TQ5-0006Hw-NQ
- for qemu-devel@nongnu.org; Sat, 08 Feb 2020 11:57:26 -0500
+ id 1j0TQ7-0006Mi-IO
+ for qemu-devel@nongnu.org; Sat, 08 Feb 2020 11:57:28 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1j0TQ4-0001s5-Jk
- for qemu-devel@nongnu.org; Sat, 08 Feb 2020 11:57:25 -0500
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:37287)
+ id 1j0TQ6-0001t5-KM
+ for qemu-devel@nongnu.org; Sat, 08 Feb 2020 11:57:27 -0500
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:38046)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1j0TQ4-0001rp-Ce; Sat, 08 Feb 2020 11:57:24 -0500
-Received: by mail-wr1-x441.google.com with SMTP id w15so2500107wru.4;
- Sat, 08 Feb 2020 08:57:24 -0800 (PST)
+ id 1j0TQ6-0001sg-Du; Sat, 08 Feb 2020 11:57:26 -0500
+Received: by mail-wr1-x443.google.com with SMTP id y17so2489181wrh.5;
+ Sat, 08 Feb 2020 08:57:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=+Rp+SKpFYOJ3Mi9QveQx+SuJfuhrTxn0ecf+GdPK71w=;
- b=iLCCIwv6c368Mp9aWasGLDkPRD6pgTk82heR7ixxQC4JHOpD6yt1eErSwTmVT7Yc0a
- yMjUReDK5K1JUXANiWaHxnLup2dYkgXSS7mZTOmtxLr6yLWTjI6w9PsDhooDLmOfXTCG
- S5sTqnqqZivgA12MZ9bCdzfO1oecdG3mU6VZP6+6FDn3LsJcFWN93m7XRCKQaiQmYhS0
- Xv6O9uM3t8DYUCJyK0d+CR7MMCuThHrm0Yfb2OAa7ucsjPJ85TRb3uXyGm/28g2R0Ozn
- 9ANBzYaxzD6GiAIqfbmvGKvQ5RtVL6eH4DdBD79W0pxrg++jnSY68ndLTy6uas3nV72h
- N5qQ==
+ bh=3rBdGV77acnZuRXknbrZFUu5k1x9HktZihwAmZUV2Pk=;
+ b=QkZQuUGJDmzyGNiVBJsQGmUxc2Tnfwxw9/o3qpL3v+pg2iMhJcYKvR6V7Eyntl80hA
+ PfwqlJqFk8o1dhoXOpb3K1Hwxux8sJQjTCniu7vr6gGRzeXJ0ft3ZJuycnGihT0isfjU
+ v1AvhQCRcihtDAl8lCWPMTq+4CpUiQcAYgV++ev6X7cBysKB/rC4leGtsO0jpqEWYTNm
+ bVFBQxSGzLGERpQikgWJkRYdrMNOfSaaJuf+TYN5B3hJlCt/9hd5y4e0VUht6b5HGwNQ
+ ofdpnyswmNRlHHh0tGakWjvxeeQo+2OuYjo+rLiVsWmlff5r90MdatBQHfNiyJJl3mR+
+ /O2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=+Rp+SKpFYOJ3Mi9QveQx+SuJfuhrTxn0ecf+GdPK71w=;
- b=RSonXk8LR5cInhg+koA+8mBa0Bdh64zrEDmXaJaKBe2n5vDuFAgK6VK35ECDyfdUNI
- R7vEPuzSpVa8urY1bcePa342qiohqloMikuQUAS3cRc//3/5kycUDj4W46w528m5+wAj
- 67M/Qv+S6//XfI0IR8+FhzEp5FTGNoJXNZKtMLpNoLEmDblpEOcX0qw6FqocyyXSWa10
- NtxgbIdqncX84U+gtq78Siv7Uvrwk1mcCp4PXg3k0QO9hHqFY/pRIyl5LE7qwUH/Fanw
- /GXP1jWz0CDVz0miJK/z6OW0jKxezN+AXrmTYP/Ah2HP43wudl2XO3y8AcBP6qCVUavD
- WkbQ==
-X-Gm-Message-State: APjAAAU/Lv1YVc4cOGbMY/VNbDJPBo44lyU1//2mPtHEY4gV/015On11
- xkrp1KfoHfsO5lXiz+223myRLDnP
-X-Google-Smtp-Source: APXvYqxgHFRfqJI62BdiOShDDOMOg3/HR2DwyOf+kCA2iV+JNr5XnXMKIMybPc8QXQheJSgUx+PfeA==
-X-Received: by 2002:a5d:51ce:: with SMTP id n14mr6221682wrv.426.1581181043242; 
- Sat, 08 Feb 2020 08:57:23 -0800 (PST)
+ bh=3rBdGV77acnZuRXknbrZFUu5k1x9HktZihwAmZUV2Pk=;
+ b=p8SRTS5/nJyF9KRUS0dOZKDIP/MQL2+yChqsgIFANJ+KN4HFtpklGmSErX9Zmt9foR
+ XqGwsew6DEHwQ2J6VvHQOUZIc8up8uFMZNnzDNmkoEUrHOm0/fNmuv/6ULQSQZ3TJBsW
+ WoPyU6uDYqOHUdRNWeHv4kwbWbIrrRT488CZPxkUvHZtnLf/BScNOfDZ6j5eIFMuftHh
+ tsWSlA+pVaWlxoFEHtCvF1QG0wl+FMANp5xgpFi36SGuWIE0+X3zZ8xDkj/c3W8QnxpR
+ fK3BVHQaV9/PRYFGTKiwvbJ1s86JnsXQ5HBoXIB9RaplYfhloaYidkLvcP6rILVROwt3
+ HwUw==
+X-Gm-Message-State: APjAAAUuh2ssTzJvIWNWXKAgcmewNfjD1d7sDb0/O8zhzR3RrHSpndCB
+ x4UJwX/8Thk106WFT4By1spL7Rwb
+X-Google-Smtp-Source: APXvYqzPJ9gFBySJMdPaTLZmTNa6+vIJDT1kRKb3tcosfDMXynjOkj3xQA+at1MpnOuLK2kw9vf2Gg==
+X-Received: by 2002:adf:db48:: with SMTP id f8mr5819460wrj.146.1581181045353; 
+ Sat, 08 Feb 2020 08:57:25 -0800 (PST)
 Received: from localhost.localdomain (78.red-88-21-202.staticip.rima-tde.net.
  [88.21.202.78])
- by smtp.gmail.com with ESMTPSA id a5sm7872763wmb.37.2020.02.08.08.57.21
+ by smtp.gmail.com with ESMTPSA id a5sm7872763wmb.37.2020.02.08.08.57.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 08 Feb 2020 08:57:22 -0800 (PST)
+ Sat, 08 Feb 2020 08:57:24 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 12/13] hw/arm/raspi: Use a unique
- raspi_machine_class_init() method
-Date: Sat,  8 Feb 2020 17:56:44 +0100
-Message-Id: <20200208165645.15657-13-f4bug@amsat.org>
+Subject: [PATCH v3 13/13] hw/arm/raspi: Extract the cores count from the board
+ revision
+Date: Sat,  8 Feb 2020 17:56:45 +0100
+Message-Id: <20200208165645.15657-14-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200208165645.15657-1-f4bug@amsat.org>
 References: <20200208165645.15657-1-f4bug@amsat.org>
@@ -70,7 +70,7 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::441
+X-Received-From: 2a00:1450:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -94,75 +94,52 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-With the exception of the ignore_memory_transaction_failures
-flag set for the raspi2, both machine_class_init() methods
-are now identical. Merge them to keep a unique method.
+The board revision encode the count of ARM cores. Add a helper
+to extract the number of cores, and use it. This will be helpful
+when we add the Raspi0/1 that have a single core.
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/arm/raspi.c | 31 ++++++-------------------------
- 1 file changed, 6 insertions(+), 25 deletions(-)
+ hw/arm/raspi.c | 19 ++++++++++++++++---
+ 1 file changed, 16 insertions(+), 3 deletions(-)
 
 diff --git a/hw/arm/raspi.c b/hw/arm/raspi.c
-index 0537fc0a2d..bee6ca0a08 100644
+index bee6ca0a08..90ad9b8115 100644
 --- a/hw/arm/raspi.c
 +++ b/hw/arm/raspi.c
-@@ -294,7 +294,7 @@ static void raspi_machine_init(MachineState *machine)
-     setup_boot(machine, version, machine->ram_size - vcram_size);
+@@ -101,6 +101,21 @@ static const char *board_soc_type(uint32_t board_rev)
+     return soc_types[proc_id];
  }
  
--static void raspi2_machine_class_init(ObjectClass *oc, void *data)
-+static void raspi_machine_class_init(ObjectClass *oc, void *data)
- {
-     MachineClass *mc = MACHINE_CLASS(oc);
-     RaspiMachineClass *rmc = RASPI_MACHINE_CLASS(oc);
-@@ -311,41 +311,22 @@ static void raspi2_machine_class_init(ObjectClass *oc, void *data)
-     mc->min_cpus = BCM283X_NCPUS;
-     mc->default_cpus = BCM283X_NCPUS;
-     mc->default_ram_size = board_ram_size(board_rev);
--    mc->ignore_memory_transaction_failures = true;
-+    if (board_version(board_rev) == 2) {
-+        mc->ignore_memory_transaction_failures = true;
++static int cores_count(uint32_t board_rev)
++{
++    static const int soc_cores_count[] = {
++        0, BCM283X_NCPUS, BCM283X_NCPUS,
++    };
++    int proc_id = board_processor_id(board_rev);
++
++    if (proc_id >= ARRAY_SIZE(soc_cores_count) || !soc_cores_count[proc_id]) {
++        error_report("Unsupported processor id '%d' (board revision: 0x%x)",
++                     proc_id, board_rev);
++        exit(1);
 +    }
- };
- 
--#ifdef TARGET_AARCH64
--static void raspi3_machine_class_init(ObjectClass *oc, void *data)
--{
--    MachineClass *mc = MACHINE_CLASS(oc);
--    RaspiMachineClass *rmc = RASPI_MACHINE_CLASS(oc);
--    uint32_t board_rev = (uint32_t)(uintptr_t)data;
--
--    rmc->board_rev = board_rev;
--    mc->desc = g_strdup_printf("Raspberry Pi %s", board_type(board_rev));
--    mc->init = raspi_machine_init;
--    mc->block_default_type = IF_SD;
--    mc->no_parallel = 1;
--    mc->no_floppy = 1;
--    mc->no_cdrom = 1;
++    return soc_cores_count[proc_id];
++}
++
+ static const char *board_type(uint32_t board_rev)
+ {
+     static const char *types[] = {
+@@ -307,9 +322,7 @@ static void raspi_machine_class_init(ObjectClass *oc, void *data)
+     mc->no_parallel = 1;
+     mc->no_floppy = 1;
+     mc->no_cdrom = 1;
 -    mc->max_cpus = BCM283X_NCPUS;
 -    mc->min_cpus = BCM283X_NCPUS;
 -    mc->default_cpus = BCM283X_NCPUS;
--    mc->default_ram_size = board_ram_size(board_rev);
--}
--#endif
--
- static const TypeInfo raspi_machine_types[] = {
-     {
-         .name           = MACHINE_TYPE_NAME("raspi2"),
-         .parent         = TYPE_RASPI_MACHINE,
--        .class_init     = raspi2_machine_class_init,
-+        .class_init     = raspi_machine_class_init,
-         .class_data     = (void *)0xa21041,
- #ifdef TARGET_AARCH64
-     }, {
-         .name           = MACHINE_TYPE_NAME("raspi3"),
-         .parent         = TYPE_RASPI_MACHINE,
--        .class_init     = raspi3_machine_class_init,
-+        .class_init     = raspi_machine_class_init,
-         .class_data     = (void *)0xa02082,
- #endif
-     }, {
++    mc->default_cpus = mc->min_cpus = mc->max_cpus = cores_count(board_rev);
+     mc->default_ram_size = board_ram_size(board_rev);
+     if (board_version(board_rev) == 2) {
+         mc->ignore_memory_transaction_failures = true;
 -- 
 2.21.1
 
