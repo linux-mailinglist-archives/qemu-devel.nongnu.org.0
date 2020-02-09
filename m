@@ -2,81 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A120E156C02
-	for <lists+qemu-devel@lfdr.de>; Sun,  9 Feb 2020 19:18:48 +0100 (CET)
-Received: from localhost ([::1]:53514 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7658156C04
+	for <lists+qemu-devel@lfdr.de>; Sun,  9 Feb 2020 19:21:49 +0100 (CET)
+Received: from localhost ([::1]:53546 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j0rAN-00050e-3N
-	for lists+qemu-devel@lfdr.de; Sun, 09 Feb 2020 13:18:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47100)
+	id 1j0rDJ-0006uD-0t
+	for lists+qemu-devel@lfdr.de; Sun, 09 Feb 2020 13:21:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47475)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1j0r9f-0004Z8-5U
- for qemu-devel@nongnu.org; Sun, 09 Feb 2020 13:18:04 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1j0rCQ-0006Rh-Ir
+ for qemu-devel@nongnu.org; Sun, 09 Feb 2020 13:20:55 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1j0r9d-00013f-W5
- for qemu-devel@nongnu.org; Sun, 09 Feb 2020 13:18:02 -0500
-Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:46921)
+ (envelope-from <richard.henderson@linaro.org>) id 1j0rCP-0003wA-Nx
+ for qemu-devel@nongnu.org; Sun, 09 Feb 2020 13:20:54 -0500
+Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:46758)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1j0r9d-00013B-PT
- for qemu-devel@nongnu.org; Sun, 09 Feb 2020 13:18:01 -0500
-Received: by mail-pl1-x641.google.com with SMTP id y8so1853714pll.13
- for <qemu-devel@nongnu.org>; Sun, 09 Feb 2020 10:18:01 -0800 (PST)
+ id 1j0rCP-0003sn-H4
+ for qemu-devel@nongnu.org; Sun, 09 Feb 2020 13:20:53 -0500
+Received: by mail-pg1-x542.google.com with SMTP id b35so2608816pgm.13
+ for <qemu-devel@nongnu.org>; Sun, 09 Feb 2020 10:20:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=xiMp2kPJLlo2ICmBN9YcEFNNAC17Lrtxh9yl+SAceYM=;
- b=OJGLLI+TBV8jN4Df6Dadt5xFW7aOcFxLnD1mSLgKUwJhTiKiz5kc3TaSHaqkZpvGXL
- o71tj4iadclVjGgVyYofAdxRyIFQ0SKWTvaKnH/eaen4Y53//c+dpaWlQnP8gs6d3ciO
- kjYa+uJ5F1qkQEgAkShkM1b8mS7MNkqHAj6zKjq6AbMS6BzZIe9v6xU4vnMtDvoH3UBH
- t/EjiD3I3ElVUPmTiUrGaaDIW59iu62tlGyMQ0jRD6CL1/1qdui2Gi2yxPS0VxeSJP5r
- fglOeEgntn249SfF/NY9civ+xlZ2eg/oSdG3ncygwO0VRfiv28C3NTWNkrInVB5WDEMc
- PxdA==
+ bh=0CSM7y2kSObdwRpjDmcGzsvrTEbJf64bugqbhJSU57s=;
+ b=mftKGZMCV9iZadeEQApW5sbhpdZ4OeU+cuADmtrauMTz4ZLoMlcJwry1BTN7s/WFtT
+ tkL1yq8O9Lqh/W8O3wU70JmhE+mhudpydiUVX8YEEilK9at0VLt8M18GA6a6MRm+ztbv
+ 4WLMglKi4IMdo7ghcvA8WB2H4Ux5qVx4SErw7HvoK1GobFpcfK155WE6EKam2fpxX4P8
+ htUkTq4nJg+JD2namnqOleCB9LmcFSKfLNzDjNyvcIU1unIzRE+m8V7V7vws+uwVzQjc
+ ysuydOP3RHnK6tzFX/ru0x0iNH0kwln56Zv3S/+iOMYhLgjlliW6vSdDt02Zd8WVtE+w
+ 491Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=xiMp2kPJLlo2ICmBN9YcEFNNAC17Lrtxh9yl+SAceYM=;
- b=ArIKu7eAEWPOOxCnKsYG3f4FCJV9SCtVLTtfl+cBSavDW6ywWIYxK2NDM4Tx3GrAkq
- RmEaBr/0wqagyUD/8/fga4rFiThn3CIQG9Hb5HzSAWbAzDlw9t9MqnvbhUS6sdrKwNzF
- jFQykLVnEdRE5aM+d9AIhVpctAffOjVGPIYcJr9ijwxCka0Em9H0cItPCmsiQCtLhkgp
- 8Y9R+ytoXL7qlrStb5jhPfP50q2lj3oII2tmQMI1tRv/aJOWC36Ko2hbynk1fMILn0E9
- k9s4W6C3FDaGUEykumX56MeD1XCP1e0grcL9D3kQFVB9o84Yyg4JJAWdRKRAkrPbVHLZ
- FS4w==
-X-Gm-Message-State: APjAAAXX5bW4TrQX7SuAhSIkULLOFrfkWHJygPkasXNeeumKMsUd2gAh
- Oi6fYDIj+oy93GHHEbJJci8sCw==
-X-Google-Smtp-Source: APXvYqxxjj6ATffHqliOvjesMAsvaqYg2wHDy4QNLvxExd2sxAz+LvbiJGn+25HzePBVJ4byDzWDIw==
-X-Received: by 2002:a17:90b:1256:: with SMTP id
- gx22mr16369760pjb.94.1581272280374; 
- Sun, 09 Feb 2020 10:18:00 -0800 (PST)
+ bh=0CSM7y2kSObdwRpjDmcGzsvrTEbJf64bugqbhJSU57s=;
+ b=D0x4xmmtPXhFEvHiSNas4/uHRKBEVMOQBr5qTBjX9zPeYJZs4LivIdA7g1h7sud4uV
+ LjnLdffcryx3zzei0P4XTCvoDX7r3g0iF80KObSg9Dr8xYInZpPBzTMMlQcMKWtzipP9
+ 6E+q4NX61OgrY+nq5jYVfZS26C8FFArecK0Ej70qg1iBOxtTDlW4DjMYoaSRoUdYwfL3
+ qWwqvwyGUJKa9Dwfraw3QfK4iGjESl3MXKFPfKcpVyDDlT6wGFXR9bRswtj/ikOf0Q+N
+ AjaWguVYQzKyXU2HlSb/+QlBFycXeYjr2VGnUUiu+DNW1vPwd5BgQU5n4dVdB6L2CHGT
+ QeIw==
+X-Gm-Message-State: APjAAAXKkPT4xyCu0aFPwAf2Yzq9oRV2i5bX8grbsS8a5p6h30Z8+BYH
+ zOxVr2EHWM0rJHv90w3Qa33unw==
+X-Google-Smtp-Source: APXvYqy6qffKrCyi2nBWbvKM6GrXMkATo++83gGNxmPue/zf/rMi7Wt5cX6iS0aN7udUkbzZDn5vGA==
+X-Received: by 2002:a63:e30e:: with SMTP id f14mr10754948pgh.260.1581272452364; 
+ Sun, 09 Feb 2020 10:20:52 -0800 (PST)
 Received: from [192.168.1.11] (97-126-123-70.tukw.qwest.net. [97.126.123.70])
  by smtp.gmail.com with ESMTPSA id
- h10sm9463729pfo.181.2020.02.09.10.17.58
+ 13sm9579207pfi.78.2020.02.09.10.20.51
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 09 Feb 2020 10:17:59 -0800 (PST)
-Subject: Re: [PATCH] Add support for a helper with 7 arguments
-To: Taylor Simpson <tsimpson@quicinc.com>, Richard Henderson
- <rth@twiddle.net>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-References: <1580942510-2820-1-git-send-email-tsimpson@quicinc.com>
- <b308434a-1ee8-4fb5-0e60-4dfdd047c959@linaro.org>
- <BYAPR02MB4886E14CC87B1169B2F6BE2BDE1C0@BYAPR02MB4886.namprd02.prod.outlook.com>
- <a01b3358-a598-9d01-f3c8-d9a84fb7dd28@twiddle.net>
- <SN6PR02MB4895FE0821C3927B41636AB0DE1E0@SN6PR02MB4895.namprd02.prod.outlook.com>
+ Sun, 09 Feb 2020 10:20:51 -0800 (PST)
+Subject: Re: [PATCH v1 1/5] docs/devel: document query handle lifetimes
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20200207150118.23007-1-alex.bennee@linaro.org>
+ <20200207150118.23007-2-alex.bennee@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <fc6876dc-1a15-152c-5585-4ab06deb60fc@linaro.org>
-Date: Sun, 9 Feb 2020 10:17:56 -0800
+Message-ID: <43781e81-c4c5-5351-aa5f-2effa7423acb@linaro.org>
+Date: Sun, 9 Feb 2020 10:20:49 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <SN6PR02MB4895FE0821C3927B41636AB0DE1E0@SN6PR02MB4895.namprd02.prod.outlook.com>
+In-Reply-To: <20200207150118.23007-2-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::641
+X-Received-From: 2607:f8b0:4864:20::542
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,56 +84,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: robert.foley@linaro.org, robhenry@microsoft.com,
+ aaron@os.amperecomputing.com, cota@braap.org, peter.puhov@linaro.org,
+ kuhn.chenqun@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/8/20 5:08 AM, Taylor Simpson wrote:
->> {
->>   r6 = memb(r1)
->>   r7 = memb(r2)
->> }
->>
->> qemu_ld   t0, r1, MO_UB, mmu_idx
->> qemu_ld   t1, r2, MO_UB, mmu_idx
->> mov       r6, t0
->> mov       r7, t1
->>
+On 2/7/20 3:01 PM, Alex Bennée wrote:
+> I forgot to document the lifetime of handles in the developer
+> documentation. Do so now.
 > 
-> Here is the TCG we generate currently.
->  movi_i32 tmp0,$0x0
->  add_i32 loc2,r1,tmp0
->  qemu_ld_i32 loc3,loc2,sb,0
->  mov_i32 new_value,loc3
->  movi_i32 tmp0,$0x0
->  add_i32 loc2,r2,tmp0
->  qemu_ld_i32 loc3,loc2,sb,0
->  mov_i32 new_value,loc3
->  mov_i32 r6,new_value
->  mov_i32 r7,new_value
-> I could work on eliminating the add of zero and the extra copies.  Is TCG
-> able to optimize these before emitting the host code?
-We can optimize them.
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> ---
+>  docs/devel/tcg-plugins.rst | 13 +++++++++++--
+>  1 file changed, 11 insertions(+), 2 deletions(-)
 
-However, you should prefer to use tcg_gen_addi_* over tcg_gen_add_* (etc) when
-you know that one operand is constant.  This will optimize away the add zero
-immediately as opposed to allocating memory and walking the data structures to
-eliminate it later.
-
-Why are you using a local temporary for EA?  That should be dead immediately
-after this slot is complete.
-
-What's with two temporaries both named "new_value"?
-
->> For a conditional load in slot 0, we can load directly into the final
->> destination register and skip the temporary.
-> 
-> In general, there will be lots of checks we would need to perform before
-> concluding that an instruction can write directly into the destination.  For
-> example, we have to make sure no other instruction later in the packet reads
-> r7.
-
-Which is of course all trivial for slot 0, being last.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 
 r~
