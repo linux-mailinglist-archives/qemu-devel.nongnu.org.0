@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03DFF158179
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Feb 2020 18:33:58 +0100 (CET)
-Received: from localhost ([::1]:36830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 027901581B8
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Feb 2020 18:50:46 +0100 (CET)
+Received: from localhost ([::1]:36952 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j1CwW-0005S5-VX
-	for lists+qemu-devel@lfdr.de; Mon, 10 Feb 2020 12:33:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36828)
+	id 1j1DCm-0003ra-L2
+	for lists+qemu-devel@lfdr.de; Mon, 10 Feb 2020 12:50:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43982)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1j1CsI-0001TK-DJ
- for qemu-devel@nongnu.org; Mon, 10 Feb 2020 12:29:36 -0500
+ (envelope-from <alex.williamson@redhat.com>) id 1j1DBX-000367-TB
+ for qemu-devel@nongnu.org; Mon, 10 Feb 2020 12:49:29 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1j1CsG-0000hm-Jd
- for qemu-devel@nongnu.org; Mon, 10 Feb 2020 12:29:34 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:20246
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <alex.williamson@redhat.com>) id 1j1DBV-0002Ue-8V
+ for qemu-devel@nongnu.org; Mon, 10 Feb 2020 12:49:26 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:22370
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1j1CsF-0000f1-Qv
- for qemu-devel@nongnu.org; Mon, 10 Feb 2020 12:29:32 -0500
+ (Exim 4.71) (envelope-from <alex.williamson@redhat.com>)
+ id 1j1DBU-0002Sc-TY
+ for qemu-devel@nongnu.org; Mon, 10 Feb 2020 12:49:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581355770;
+ s=mimecast20190719; t=1581356964;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=uiMC3X85c5kqyq0NEJnt6IeGc9LNk7dHMcmnLMJbmik=;
- b=PJsdHiv66K/U5x0Et0vZc18lr+9nNwHS+Zf/w8K58OTNxvzQ38OR8q2+kfAPMKBffwIeF6
- HuINYNhPE0uk10buCwXZYZU0Y1cCfB0gVPDZUz9X8icLffhjiqcionXZ4gC+heAi7f567t
- hoP8r6XKum/7NePkKHJZJTzARL1j0gY=
+ bh=THs6MD5F63Yy+s4wIRGm/FwycdxIdSFSGTNqGNxiuVY=;
+ b=JV6ZU2DVxzq67BjiZWdsAiH2P3Vk32SFSAizvc2A0J5EjkRirxpTZM6XH4vyGuG36BEnPp
+ 3/hppMP/EYNU60qqeKIrd8Q09aD4Wjpz834qgK4AYNTng2UEAO5kVQppONRUvrq3uZE8Pe
+ TlL3aPjrOpN9+Sb+yj56vj8ubjCGS1o=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-114-KfYqVvJyPtiUMrdbfetDQA-1; Mon, 10 Feb 2020 12:29:29 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-248-j1T4NXJNMTWeaVKLCt0QAQ-1; Mon, 10 Feb 2020 12:49:19 -0500
+X-MC-Unique: j1T4NXJNMTWeaVKLCt0QAQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 754918C1300
- for <qemu-devel@nongnu.org>; Mon, 10 Feb 2020 17:29:28 +0000 (UTC)
-Received: from dgilbert-t580.localhost (ovpn-117-112.ams2.redhat.com
- [10.36.117.112])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C105889F0A;
- Mon, 10 Feb 2020 17:29:27 +0000 (UTC)
-From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-To: qemu-devel@nongnu.org,
-	stefanha@redhat.com
-Subject: [PULL 5/5] docs: add virtiofsd(1) man page
-Date: Mon, 10 Feb 2020 17:29:18 +0000
-Message-Id: <20200210172918.95874-6-dgilbert@redhat.com>
-In-Reply-To: <20200210172918.95874-1-dgilbert@redhat.com>
-References: <20200210172918.95874-1-dgilbert@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1281A13E4;
+ Mon, 10 Feb 2020 17:49:17 +0000 (UTC)
+Received: from x1.home (ovpn-116-28.phx2.redhat.com [10.3.116.28])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 61E6C60BF1;
+ Mon, 10 Feb 2020 17:49:15 +0000 (UTC)
+Date: Mon, 10 Feb 2020 10:48:50 -0700
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Kirti Wankhede <kwankhede@nvidia.com>
+Subject: Re: [PATCH v12 Kernel 5/7] vfio iommu: Update UNMAP_DMA ioctl to
+ get dirty bitmap before unmap
+Message-ID: <20200210104850.5c4c2da4@x1.home>
+In-Reply-To: <1581104554-10704-6-git-send-email-kwankhede@nvidia.com>
+References: <1581104554-10704-1-git-send-email-kwankhede@nvidia.com>
+ <1581104554-10704-6-git-send-email-kwankhede@nvidia.com>
+Organization: Red Hat
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: KfYqVvJyPtiUMrdbfetDQA-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,246 +72,180 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Zhengxiao.zx@Alibaba-inc.com, kevin.tian@intel.com, yi.l.liu@intel.com,
+ cjia@nvidia.com, kvm@vger.kernel.org, eskultet@redhat.com, ziye.yang@intel.com,
+ qemu-devel@nongnu.org, cohuck@redhat.com, shuangtai.tst@alibaba-inc.com,
+ dgilbert@redhat.com, zhi.a.wang@intel.com, mlevitsk@redhat.com,
+ pasic@linux.ibm.com, aik@ozlabs.ru, eauger@redhat.com, felipe@nutanix.com,
+ jonathan.davies@nutanix.com, yan.y.zhao@intel.com, changpeng.liu@intel.com,
+ Ken.Xue@amd.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Stefan Hajnoczi <stefanha@redhat.com>
+On Sat, 8 Feb 2020 01:12:32 +0530
+Kirti Wankhede <kwankhede@nvidia.com> wrote:
 
-Document the virtiofsd(1) program and its command-line options.  This
-man page is a rST conversion of the original texi documentation that I
-wrote.
+> Pages, pinned by external interface for requested IO virtual address
+> range,  might get unpinned  and unmapped while migration is active and
+> device is still running, that is, in pre-copy phase while guest driver
+> still could access those pages. Host device can write to these pages while
+> those were mapped. Such pages should be marked dirty so that after
+> migration guest driver should still be able to complete the operation.
+> 
+> To get bitmap during unmap, user should set flag
+> VFIO_DMA_UNMAP_FLAG_GET_DIRTY_BITMAP, bitmap memory should be allocated and
+> zeroed by user space application. Bitmap size and page size should be set
+> by user application.
+> 
+> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
+> Reviewed-by: Neo Jia <cjia@nvidia.com>
+> ---
+>  drivers/vfio/vfio_iommu_type1.c | 56 +++++++++++++++++++++++++++++++++++++----
+>  include/uapi/linux/vfio.h       | 12 +++++++++
+>  2 files changed, 63 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/vfio/vfio_iommu_type1.c b/drivers/vfio/vfio_iommu_type1.c
+> index df358dc1c85b..4e6ad0513932 100644
+> --- a/drivers/vfio/vfio_iommu_type1.c
+> +++ b/drivers/vfio/vfio_iommu_type1.c
+> @@ -1032,7 +1032,8 @@ static long verify_bitmap_size(unsigned long npages, unsigned long bitmap_size)
+>  }
+>  
+>  static int vfio_dma_do_unmap(struct vfio_iommu *iommu,
+> -			     struct vfio_iommu_type1_dma_unmap *unmap)
+> +			     struct vfio_iommu_type1_dma_unmap *unmap,
+> +			     unsigned long *bitmap)
+>  {
+>  	uint64_t mask;
+>  	struct vfio_dma *dma, *dma_last = NULL;
+> @@ -1107,6 +1108,15 @@ static int vfio_dma_do_unmap(struct vfio_iommu *iommu,
+>  		if (dma->task->mm != current->mm)
+>  			break;
+>  
+> +		if ((unmap->flags & VFIO_DMA_UNMAP_FLAG_GET_DIRTY_BITMAP) &&
+> +		    (dma_last != dma))
+> +			vfio_iova_dirty_bitmap(iommu, dma->iova, dma->size,
+> +					       unmap->bitmap_pgsize,
+> +					      (unsigned char __user *) bitmap);
+> +		else
+> +			vfio_remove_unpinned_from_pfn_list(dma);
 
-Reviewed-by: Liam Merwick <liam.merwick@oracle.com>
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
----
- MAINTAINERS                |   1 +
- Makefile                   |   9 ++-
- docs/interop/conf.py       |   5 +-
- docs/interop/index.rst     |   1 +
- docs/interop/virtiofsd.rst | 120 +++++++++++++++++++++++++++++++++++++
- 5 files changed, 134 insertions(+), 2 deletions(-)
- create mode 100644 docs/interop/virtiofsd.rst
+Isn't there a race here?  A vendor driver could have an outstanding
+page pin request that's blocked on the iommu mutex, as soon as we
+release the mutex to notify vendor drivers of the unmap, it would get
+pinned, but on the next iteration we're not going to collect any new
+dirty pages.  This whole sequence seems to favor tracking unpinned
+pages in the dirty bitmap rather than the vpfn list with ref_count = 0.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index ce46c0a552..c7717df720 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1613,6 +1613,7 @@ S: Supported
- F: tools/virtiofsd/*
- F: hw/virtio/vhost-user-fs*
- F: include/hw/virtio/vhost-user-fs.h
-+F: docs/interop/virtiofsd.rst
-=20
- virtio-input
- M: Gerd Hoffmann <kraxel@redhat.com>
-diff --git a/Makefile b/Makefile
-index 461d40bea6..f0e1a2fc1d 100644
---- a/Makefile
-+++ b/Makefile
-@@ -348,6 +348,9 @@ DOCS=3Dqemu-doc.html qemu-doc.txt qemu.1
- DOCS+=3D$(MANUAL_BUILDDIR)/interop/qemu-img.1
- DOCS+=3D$(MANUAL_BUILDDIR)/interop/qemu-nbd.8
- DOCS+=3D$(MANUAL_BUILDDIR)/interop/qemu-ga.8
-+ifeq ($(CONFIG_LINUX)$(CONFIG_SECCOMP)$(CONFIG_LIBCAP_NG),yyy)
-+DOCS+=3D$(MANUAL_BUILDDIR)/interop/virtiofsd.1
-+endif
- DOCS+=3D$(MANUAL_BUILDDIR)/system/qemu-block-drivers.7
- DOCS+=3Ddocs/interop/qemu-qmp-ref.html docs/interop/qemu-qmp-ref.txt docs/=
-interop/qemu-qmp-ref.7
- DOCS+=3Ddocs/interop/qemu-ga-ref.html docs/interop/qemu-ga-ref.txt docs/in=
-terop/qemu-ga-ref.7
-@@ -861,6 +864,9 @@ ifdef CONFIG_VIRTFS
- =09$(INSTALL_DIR) "$(DESTDIR)$(mandir)/man1"
- =09$(INSTALL_DATA) $(MANUAL_BUILDDIR)/interop/virtfs-proxy-helper.1 "$(DES=
-TDIR)$(mandir)/man1"
- endif
-+ifeq ($(CONFIG_LINUX)$(CONFIG_SECCOMP)$(CONFIG_LIBCAP_NG),yyy)
-+=09$(INSTALL_DATA) docs/interop/virtiofsd.1 "$(DESTDIR)$(mandir)/man1"
-+endif
-=20
- install-datadir:
- =09$(INSTALL_DIR) "$(DESTDIR)$(qemu_datadir)"
-@@ -1051,7 +1057,8 @@ $(MANUAL_BUILDDIR)/system/index.html: $(call manual-d=
-eps,system)
- =09$(call build-manual,system,html)
-=20
- $(call define-manpage-rule,interop,\
--       qemu-ga.8 qemu-img.1 qemu-nbd.8 qemu-trace-stap.1 virtfs-proxy-help=
-er.1,\
-+       qemu-ga.8 qemu-img.1 qemu-nbd.8 qemu-trace-stap.1\
-+       virtiofsd.1 virtfs-proxy-helper.1,\
-        $(SRC_PATH/qemu-img-cmds.hx))
-=20
- $(call define-manpage-rule,system,qemu-block-drivers.7)
-diff --git a/docs/interop/conf.py b/docs/interop/conf.py
-index b0f322207c..b3cda17042 100644
---- a/docs/interop/conf.py
-+++ b/docs/interop/conf.py
-@@ -27,5 +27,8 @@ man_pages =3D [
-      [], 1),
-     ('virtfs-proxy-helper', 'virtfs-proxy-helper',
-      u'QEMU 9p virtfs proxy filesystem helper',
--     ['M. Mohan Kumar'], 1)
-+     ['M. Mohan Kumar'], 1),
-+    ('virtiofsd', 'virtiofsd', u'QEMU virtio-fs shared file system daemon'=
-,
-+     ['Stefan Hajnoczi <stefanha@redhat.com>',
-+      'Masayoshi Mizuma <m.mizuma@jp.fujitsu.com>'], 1),
- ]
-diff --git a/docs/interop/index.rst b/docs/interop/index.rst
-index 3b763b1eeb..e8455b4270 100644
---- a/docs/interop/index.rst
-+++ b/docs/interop/index.rst
-@@ -24,3 +24,4 @@ Contents:
-    vhost-user
-    vhost-user-gpu
-    virtfs-proxy-helper
-+   virtiofsd
-diff --git a/docs/interop/virtiofsd.rst b/docs/interop/virtiofsd.rst
-new file mode 100644
-index 0000000000..378594c422
---- /dev/null
-+++ b/docs/interop/virtiofsd.rst
-@@ -0,0 +1,120 @@
-+QEMU virtio-fs shared file system daemon
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+
-+Synopsis
-+--------
-+
-+**virtiofsd** [*OPTIONS*]
-+
-+Description
-+-----------
-+
-+Share a host directory tree with a guest through a virtio-fs device.  This
-+program is a vhost-user backend that implements the virtio-fs device.  Eac=
-h
-+virtio-fs device instance requires its own virtiofsd process.
-+
-+This program is designed to work with QEMU's ``--device vhost-user-fs-pci`=
-`
-+but should work with any virtual machine monitor (VMM) that supports
-+vhost-user.  See the Examples section below.
-+
-+This program must be run as the root user.  Upon startup the program will
-+switch into a new file system namespace with the shared directory tree as =
-its
-+root.  This prevents "file system escapes" due to symlinks and other file
-+system objects that might lead to files outside the shared directory.  The
-+program also sandboxes itself using seccomp(2) to prevent ptrace(2) and ot=
-her
-+vectors that could allow an attacker to compromise the system after gainin=
-g
-+control of the virtiofsd process.
-+
-+Options
-+-------
-+
-+.. program:: virtiofsd
-+
-+.. option:: -h, --help
-+
-+  Print help.
-+
-+.. option:: -V, --version
-+
-+  Print version.
-+
-+.. option:: -d
-+
-+  Enable debug output.
-+
-+.. option:: --syslog
-+
-+  Print log messages to syslog instead of stderr.
-+
-+.. option:: -o OPTION
-+
-+  * debug -
-+    Enable debug output.
-+
-+  * flock|no_flock -
-+    Enable/disable flock.  The default is ``no_flock``.
-+
-+  * log_level=3DLEVEL -
-+    Print only log messages matching LEVEL or more severe.  LEVEL is one o=
-f
-+    ``err``, ``warn``, ``info``, or ``debug``.  The default is ``info``.
-+
-+  * norace -
-+    Disable racy fallback.  The default is false.
-+
-+  * posix_lock|no_posix_lock -
-+    Enable/disable remote POSIX locks.  The default is ``posix_lock``.
-+
-+  * readdirplus|no_readdirplus -
-+    Enable/disable readdirplus.  The default is ``readdirplus``.
-+
-+  * source=3DPATH -
-+    Share host directory tree located at PATH.  This option is required.
-+
-+  * timeout=3DTIMEOUT -
-+    I/O timeout in seconds.  The default depends on cache=3D option.
-+
-+  * writeback|no_writeback -
-+    Enable/disable writeback cache. The cache alows the FUSE client to buf=
-fer
-+    and merge write requests.  The default is ``no_writeback``.
-+
-+  * xattr|no_xattr -
-+    Enable/disable extended attributes (xattr) on files and directories.  =
-The
-+    default is ``no_xattr``.
-+
-+.. option:: --socket-path=3DPATH
-+
-+  Listen on vhost-user UNIX domain socket at PATH.
-+
-+.. option:: --fd=3DFDNUM
-+
-+  Accept connections from vhost-user UNIX domain socket file descriptor FD=
-NUM.
-+  The file descriptor must already be listening for connections.
-+
-+.. option:: --thread-pool-size=3DNUM
-+
-+  Restrict the number of worker threads per request queue to NUM.  The def=
-ault
-+  is 64.
-+
-+.. option:: --cache=3Dnone|auto|always
-+
-+  Select the desired trade-off between coherency and performance.  ``none`=
-`
-+  forbids the FUSE client from caching to achieve best coherency at the co=
-st of
-+  performance.  ``auto`` acts similar to NFS with a 1 second metadata cach=
-e
-+  timeout.  ``always`` sets a long cache lifetime at the expense of cohere=
-ncy.
-+
-+Examples
-+--------
-+
-+Export ``/var/lib/fs/vm001/`` on vhost-user UNIX domain socket
-+``/var/run/vm001-vhost-fs.sock``:
-+
-+::
-+
-+  host# virtiofsd --socket-path=3D/var/run/vm001-vhost-fs.sock -o source=
-=3D/var/lib/fs/vm001
-+  host# qemu-system-x86_64 \
-+      -chardev socket,id=3Dchar0,path=3D/var/run/vm001-vhost-fs.sock \
-+      -device vhost-user-fs-pci,chardev=3Dchar0,tag=3Dmyfs \
-+      -object memory-backend-memfd,id=3Dmem,size=3D4G,share=3Don \
-+      -numa node,memdev=3Dmem \
-+      ...
-+  guest# mount -t virtiofs myfs /mnt
---=20
-2.24.1
+Maybe this is also the reason for the access_ok() checks in
+vfio_iova_dirty_bitmap(), but couldn't we do that in advance here for
+the whole bitmap?  Thanks,
+
+Alex
+
+> +
+> +
+>  		if (!RB_EMPTY_ROOT(&dma->pfn_list)) {
+>  			struct vfio_iommu_type1_dma_unmap nb_unmap;
+>  
+> @@ -1132,6 +1142,7 @@ static int vfio_dma_do_unmap(struct vfio_iommu *iommu,
+>  						    &nb_unmap);
+>  			goto again;
+>  		}
+> +
+>  		unmapped += dma->size;
+>  		vfio_remove_dma(iommu, dma);
+>  	}
+> @@ -2462,22 +2473,57 @@ static long vfio_iommu_type1_ioctl(void *iommu_data,
+>  
+>  	} else if (cmd == VFIO_IOMMU_UNMAP_DMA) {
+>  		struct vfio_iommu_type1_dma_unmap unmap;
+> -		long ret;
+> +		unsigned long *bitmap = NULL;
+> +		long ret, bsize;
+>  
+>  		minsz = offsetofend(struct vfio_iommu_type1_dma_unmap, size);
+>  
+>  		if (copy_from_user(&unmap, (void __user *)arg, minsz))
+>  			return -EFAULT;
+>  
+> -		if (unmap.argsz < minsz || unmap.flags)
+> +		if (unmap.argsz < minsz ||
+> +		    unmap.flags & ~VFIO_DMA_UNMAP_FLAG_GET_DIRTY_BITMAP)
+>  			return -EINVAL;
+>  
+> -		ret = vfio_dma_do_unmap(iommu, &unmap);
+> +		if (unmap.flags & VFIO_DMA_UNMAP_FLAG_GET_DIRTY_BITMAP) {
+> +			unsigned long pgshift;
+> +			uint64_t iommu_pgsizes = vfio_pgsize_bitmap(iommu);
+> +			uint64_t iommu_pgmask =
+> +				 ((uint64_t)1 << __ffs(iommu_pgsizes)) - 1;
+> +
+> +			if (copy_from_user(&unmap, (void __user *)arg,
+> +					   sizeof(unmap)))
+> +				return -EFAULT;
+> +
+> +			pgshift = __ffs(unmap.bitmap_pgsize);
+> +
+> +			if (((unmap.bitmap_pgsize - 1) & iommu_pgmask) !=
+> +			     (unmap.bitmap_pgsize - 1))
+> +				return -EINVAL;
+> +
+> +			if ((unmap.bitmap_pgsize & iommu_pgsizes) !=
+> +			     unmap.bitmap_pgsize)
+> +				return -EINVAL;
+> +			if (unmap.iova + unmap.size < unmap.iova)
+> +				return -EINVAL;
+> +			if (!access_ok((void __user *)unmap.bitmap,
+> +				       unmap.bitmap_size))
+> +				return -EINVAL;
+> +
+> +			bsize = verify_bitmap_size(unmap.size >> pgshift,
+> +						   unmap.bitmap_size);
+> +			if (bsize < 0)
+> +				return bsize;
+> +			bitmap = unmap.bitmap;
+> +		}
+> +
+> +		ret = vfio_dma_do_unmap(iommu, &unmap, bitmap);
+>  		if (ret)
+>  			return ret;
+>  
+> -		return copy_to_user((void __user *)arg, &unmap, minsz) ?
+> +		ret = copy_to_user((void __user *)arg, &unmap, minsz) ?
+>  			-EFAULT : 0;
+> +		return ret;
+>  	} else if (cmd == VFIO_IOMMU_DIRTY_PAGES) {
+>  		struct vfio_iommu_type1_dirty_bitmap range;
+>  		uint32_t mask = VFIO_IOMMU_DIRTY_PAGES_FLAG_START |
+> diff --git a/include/uapi/linux/vfio.h b/include/uapi/linux/vfio.h
+> index b1b03c720749..a852e729b5a2 100644
+> --- a/include/uapi/linux/vfio.h
+> +++ b/include/uapi/linux/vfio.h
+> @@ -985,12 +985,24 @@ struct vfio_iommu_type1_dma_map {
+>   * field.  No guarantee is made to the user that arbitrary unmaps of iova
+>   * or size different from those used in the original mapping call will
+>   * succeed.
+> + * VFIO_DMA_UNMAP_FLAG_GET_DIRTY_BITMAP should be set to get dirty bitmap
+> + * before unmapping IO virtual addresses. When this flag is set, user should
+> + * allocate memory to get bitmap, clear the bitmap memory by setting zero and
+> + * should set size of allocated memory in bitmap_size field. One bit in bitmap
+> + * represents per page , page of user provided page size in 'bitmap_pgsize',
+> + * consecutively starting from iova offset. Bit set indicates page at that
+> + * offset from iova is dirty. Bitmap of pages in the range of unmapped size is
+> + * returned in bitmap.
+>   */
+>  struct vfio_iommu_type1_dma_unmap {
+>  	__u32	argsz;
+>  	__u32	flags;
+> +#define VFIO_DMA_UNMAP_FLAG_GET_DIRTY_BITMAP (1 << 0)
+>  	__u64	iova;				/* IO virtual address */
+>  	__u64	size;				/* Size of mapping (bytes) */
+> +	__u64        bitmap_pgsize;		/* page size for bitmap */
+> +	__u64        bitmap_size;               /* in bytes */
+> +	void __user *bitmap;                    /* one bit per page */
+>  };
+>  
+>  #define VFIO_IOMMU_UNMAP_DMA _IO(VFIO_TYPE, VFIO_BASE + 14)
 
 
