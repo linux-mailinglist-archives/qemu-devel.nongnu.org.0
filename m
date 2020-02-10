@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAB4F15816D
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Feb 2020 18:32:15 +0100 (CET)
-Received: from localhost ([::1]:36802 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFB96158178
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Feb 2020 18:33:51 +0100 (CET)
+Received: from localhost ([::1]:36826 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j1Cus-0002QF-R7
-	for lists+qemu-devel@lfdr.de; Mon, 10 Feb 2020 12:32:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36741)
+	id 1j1CwQ-0005FB-OP
+	for lists+qemu-devel@lfdr.de; Mon, 10 Feb 2020 12:33:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36812)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1j1CsG-0001T1-GN
- for qemu-devel@nongnu.org; Mon, 10 Feb 2020 12:29:33 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1j1CsI-0001TI-73
+ for qemu-devel@nongnu.org; Mon, 10 Feb 2020 12:29:35 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1j1CsE-0000f6-RF
- for qemu-devel@nongnu.org; Mon, 10 Feb 2020 12:29:32 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:20585
+ (envelope-from <dgilbert@redhat.com>) id 1j1CsG-0000g3-0Y
+ for qemu-devel@nongnu.org; Mon, 10 Feb 2020 12:29:33 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:53321
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1j1CsE-0000dE-5F
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1j1CsE-0000dt-Mz
  for qemu-devel@nongnu.org; Mon, 10 Feb 2020 12:29:30 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581355768;
+ s=mimecast20190719; t=1581355769;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=GZ6TwZZMWwT/pbGum1z+9IqaBhael+mMqC6c66cR76c=;
- b=i2otBSkIy+DKzzcl5XZM4mrfn/y/UtNa8eiKNBC2+Rm69zRUpcvSiN316fEmCYzNja/RJD
- 5qtHZNGAffTM7566MFgYJ4ZaHwO4mjSzZvNKaIvmZSULSNffdJR8Nh9Q7N7ZvulNlklO31
- lhP+0mT2Z3g0LBkGyZfmUqnjRStuaCE=
+ bh=Up6lvIp24LpImdvj/6FsJ0qELcwuiownMO1ns4YqMRU=;
+ b=g/m6sS4+xpRufsIoHXPt3H5WbsGLYa+LODZQDtpeLFB29XdXPCx8iEISpdAKgBbxG2ze9U
+ xk9vvkIiERg1l960Bk2HjPyOi6xJwq9TOd/4H2bbfk5ZZh4EK6o/uxGFckW5Vqm5BIKBEs
+ MxVujqeHzjV0h0IKhOaxHsZZk8I4I/k=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-101-rqyjJ66JMmK60cHlHdHZSw-1; Mon, 10 Feb 2020 12:29:26 -0500
+ us-mta-106-SC7HIaHPMeK7fPNXr_Ph9g-1; Mon, 10 Feb 2020 12:29:27 -0500
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7834D800D41
- for <qemu-devel@nongnu.org>; Mon, 10 Feb 2020 17:29:25 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 790368C1300
+ for <qemu-devel@nongnu.org>; Mon, 10 Feb 2020 17:29:26 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-117-112.ams2.redhat.com
  [10.36.117.112])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C38F289F2C;
- Mon, 10 Feb 2020 17:29:24 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C5ECA89F0A;
+ Mon, 10 Feb 2020 17:29:25 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org,
 	stefanha@redhat.com
-Subject: [PULL 2/5] virtiofsd: fv_create_listen_socket error path socket leak
-Date: Mon, 10 Feb 2020 17:29:15 +0000
-Message-Id: <20200210172918.95874-3-dgilbert@redhat.com>
+Subject: [PULL 3/5] virtiofsd: load_capng missing unlock
+Date: Mon, 10 Feb 2020 17:29:16 +0000
+Message-Id: <20200210172918.95874-4-dgilbert@redhat.com>
 In-Reply-To: <20200210172918.95874-1-dgilbert@redhat.com>
 References: <20200210172918.95874-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: rqyjJ66JMmK60cHlHdHZSw-1
+X-MC-Unique: SC7HIaHPMeK7fPNXr_Ph9g-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,39 +77,29 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-If we fail when bringing up the socket we can leak the listen_fd;
-in practice the daemon will exit so it's not really a problem.
+Missing unlock in error path.
 
-Fixes: Coverity CID 1413121
+Fixes: Covertiy CID 1413123
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- tools/virtiofsd/fuse_virtio.c | 2 ++
- 1 file changed, 2 insertions(+)
+ tools/virtiofsd/passthrough_ll.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/tools/virtiofsd/fuse_virtio.c b/tools/virtiofsd/fuse_virtio.c
-index 80a6e929df..dd1c605dbf 100644
---- a/tools/virtiofsd/fuse_virtio.c
-+++ b/tools/virtiofsd/fuse_virtio.c
-@@ -916,6 +916,7 @@ static int fv_create_listen_socket(struct fuse_session =
-*se)
-     old_umask =3D umask(0077);
-     if (bind(listen_sock, (struct sockaddr *)&un, addr_len) =3D=3D -1) {
-         fuse_log(FUSE_LOG_ERR, "vhost socket bind: %m\n");
-+        close(listen_sock);
-         umask(old_umask);
-         return -1;
-     }
-@@ -923,6 +924,7 @@ static int fv_create_listen_socket(struct fuse_session =
-*se)
-=20
-     if (listen(listen_sock, 1) =3D=3D -1) {
-         fuse_log(FUSE_LOG_ERR, "vhost socket listen: %m\n");
-+        close(listen_sock);
-         return -1;
-     }
-=20
+diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough=
+_ll.c
+index e6f2399efc..c635fc8820 100644
+--- a/tools/virtiofsd/passthrough_ll.c
++++ b/tools/virtiofsd/passthrough_ll.c
+@@ -232,6 +232,7 @@ static int load_capng(void)
+          */
+         cap.saved =3D capng_save_state();
+         if (!cap.saved) {
++            pthread_mutex_unlock(&cap.mutex);
+             fuse_log(FUSE_LOG_ERR, "capng_save_state (thread)\n");
+             return -EINVAL;
+         }
 --=20
 2.24.1
 
