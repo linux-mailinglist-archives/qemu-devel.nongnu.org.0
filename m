@@ -2,62 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DD22157285
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Feb 2020 11:07:22 +0100 (CET)
-Received: from localhost ([::1]:59440 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C80B157260
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Feb 2020 11:02:40 +0100 (CET)
+Received: from localhost ([::1]:59274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j15yL-00009Y-DB
-	for lists+qemu-devel@lfdr.de; Mon, 10 Feb 2020 05:07:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49356)
+	id 1j15tn-0004xV-85
+	for lists+qemu-devel@lfdr.de; Mon, 10 Feb 2020 05:02:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48329)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1j15xP-000822-7x
- for qemu-devel@nongnu.org; Mon, 10 Feb 2020 05:06:24 -0500
+ (envelope-from <imammedo@redhat.com>) id 1j15sf-0004RJ-1C
+ for qemu-devel@nongnu.org; Mon, 10 Feb 2020 05:01:30 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1j15xK-0002A5-3W
- for qemu-devel@nongnu.org; Mon, 10 Feb 2020 05:06:23 -0500
-Received: from indium.canonical.com ([91.189.90.7]:60402)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1j15xJ-000296-UX
- for qemu-devel@nongnu.org; Mon, 10 Feb 2020 05:06:18 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1j15xG-0007DJ-7f
- for <qemu-devel@nongnu.org>; Mon, 10 Feb 2020 10:06:14 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 316142E804C
- for <qemu-devel@nongnu.org>; Mon, 10 Feb 2020 10:06:14 +0000 (UTC)
+ (envelope-from <imammedo@redhat.com>) id 1j15sd-0007Oe-SO
+ for qemu-devel@nongnu.org; Mon, 10 Feb 2020 05:01:28 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:45879
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1j15sc-0007NA-D8
+ for qemu-devel@nongnu.org; Mon, 10 Feb 2020 05:01:26 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1581328884;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=WLZnqbsvULJflmbDCGQLQC5zqyMuzSCNNKxNEP6giio=;
+ b=JcNLu0M5lQCL+p7QEmA6gIhQ/TD56FR3TqZ4dtH47YsoRRdxhiJotlj5r85PSbtozUjjCZ
+ EEB0zvaym6XumKIOJDXKdmEA8syY55iPHqWyJJqRui99Hu9hzNvxX5Tf9rsjhx1P8Gr5I8
+ li47sdkwTL1u3kLQaF18dykmk20NaUc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-177-QazSmJnFMRW2eK9JiTKtzQ-1; Mon, 10 Feb 2020 05:01:23 -0500
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 56E6E13FC;
+ Mon, 10 Feb 2020 10:01:21 +0000 (UTC)
+Received: from localhost (unknown [10.43.2.114])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 43A8260CD1;
+ Mon, 10 Feb 2020 10:01:15 +0000 (UTC)
+Date: Mon, 10 Feb 2020 11:01:13 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>
+Subject: Re: [PATCH v3 12/13] hw/arm/raspi: Use a unique
+ raspi_machine_class_init() method
+Message-ID: <20200210110113.43a802d6@redhat.com>
+In-Reply-To: <20200208165645.15657-13-f4bug@amsat.org>
+References: <20200208165645.15657-1-f4bug@amsat.org>
+ <20200208165645.15657-13-f4bug@amsat.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: QazSmJnFMRW2eK9JiTKtzQ-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 10 Feb 2020 09:52:31 -0000
-From: Daniel Berrange <1849644@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: berrange npes87184 samuel-t
-X-Launchpad-Bug-Reporter: Samuel (samuel-t)
-X-Launchpad-Bug-Modifier: Daniel Berrange (berrange)
-References: <157191258679.29920.9268940625941119092.malonedeb@soybean.canonical.com>
-Message-Id: <158132835289.20144.4313252888549281780.launchpad@wampee.canonical.com>
-Subject: [Bug 1849644] Re: QEMU VNC websocket proxy requires non-standard
- 'binary' subprotocol
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="0a62c17273454a1313f81a74a2198ec30b44c7b6";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: a00285631bd2d3a98e828a009416d5066504f5bb
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -66,48 +73,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1849644 <1849644@bugs.launchpad.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Joaquin de Andres <me@xcancerberox.com.ar>,
+ Alistair Francis <alistair@alistair23.me>, qemu-devel@nongnu.org,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>,
+ Esteban Bosse <estebanbosse@gmail.com>,
+ Niek Linnenbank <nieklinnenbank@gmail.com>, qemu-arm@nongnu.org,
+ Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Changed in: qemu
-       Status: New =3D> Fix Committed
+On Sat,  8 Feb 2020 17:56:44 +0100
+Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> wrote:
 
--- =
+> With the exception of the ignore_memory_transaction_failures
+> flag set for the raspi2, both machine_class_init() methods
+> are now identical. Merge them to keep a unique method.
+>=20
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1849644
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 
-Title:
-  QEMU VNC websocket proxy requires non-standard 'binary' subprotocol
+> ---
+>  hw/arm/raspi.c | 31 ++++++-------------------------
+>  1 file changed, 6 insertions(+), 25 deletions(-)
+>=20
+> diff --git a/hw/arm/raspi.c b/hw/arm/raspi.c
+> index 0537fc0a2d..bee6ca0a08 100644
+> --- a/hw/arm/raspi.c
+> +++ b/hw/arm/raspi.c
+> @@ -294,7 +294,7 @@ static void raspi_machine_init(MachineState *machine)
+>      setup_boot(machine, version, machine->ram_size - vcram_size);
+>  }
+> =20
+> -static void raspi2_machine_class_init(ObjectClass *oc, void *data)
+> +static void raspi_machine_class_init(ObjectClass *oc, void *data)
+>  {
+>      MachineClass *mc =3D MACHINE_CLASS(oc);
+>      RaspiMachineClass *rmc =3D RASPI_MACHINE_CLASS(oc);
+> @@ -311,41 +311,22 @@ static void raspi2_machine_class_init(ObjectClass *=
+oc, void *data)
+>      mc->min_cpus =3D BCM283X_NCPUS;
+>      mc->default_cpus =3D BCM283X_NCPUS;
+>      mc->default_ram_size =3D board_ram_size(board_rev);
+> -    mc->ignore_memory_transaction_failures =3D true;
+> +    if (board_version(board_rev) =3D=3D 2) {
+> +        mc->ignore_memory_transaction_failures =3D true;
+> +    }
+>  };
+> =20
+> -#ifdef TARGET_AARCH64
+> -static void raspi3_machine_class_init(ObjectClass *oc, void *data)
+> -{
+> -    MachineClass *mc =3D MACHINE_CLASS(oc);
+> -    RaspiMachineClass *rmc =3D RASPI_MACHINE_CLASS(oc);
+> -    uint32_t board_rev =3D (uint32_t)(uintptr_t)data;
+> -
+> -    rmc->board_rev =3D board_rev;
+> -    mc->desc =3D g_strdup_printf("Raspberry Pi %s", board_type(board_rev=
+));
+> -    mc->init =3D raspi_machine_init;
+> -    mc->block_default_type =3D IF_SD;
+> -    mc->no_parallel =3D 1;
+> -    mc->no_floppy =3D 1;
+> -    mc->no_cdrom =3D 1;
+> -    mc->max_cpus =3D BCM283X_NCPUS;
+> -    mc->min_cpus =3D BCM283X_NCPUS;
+> -    mc->default_cpus =3D BCM283X_NCPUS;
+> -    mc->default_ram_size =3D board_ram_size(board_rev);
+> -}
+> -#endif
+> -
+>  static const TypeInfo raspi_machine_types[] =3D {
+>      {
+>          .name           =3D MACHINE_TYPE_NAME("raspi2"),
+>          .parent         =3D TYPE_RASPI_MACHINE,
+> -        .class_init     =3D raspi2_machine_class_init,
+> +        .class_init     =3D raspi_machine_class_init,
+>          .class_data     =3D (void *)0xa21041,
+>  #ifdef TARGET_AARCH64
+>      }, {
+>          .name           =3D MACHINE_TYPE_NAME("raspi3"),
+>          .parent         =3D TYPE_RASPI_MACHINE,
+> -        .class_init     =3D raspi3_machine_class_init,
+> +        .class_init     =3D raspi_machine_class_init,
+>          .class_data     =3D (void *)0xa02082,
+>  #endif
+>      }, {
 
-Status in QEMU:
-  Fix Committed
-
-Bug description:
-  When running a machine using "-vnc" and the "websocket" option QEMU
-  seems to require the subprotocol called 'binary'. This subprotocol
-  does not exist in the WebSocket specification. In fact it has never
-  existed in the spec, in one of the very early drafts of WebSockets it
-  was briefly mentioned but it never made it to a final version.
-
-  When the WebSocket server requires a non-standard subprotocol any
-  WebSocket client that works correctly won't be able to connect.
-
-  One example of such a client is noVNC, it tells the server that it
-  doesn't want to use any subprotocol. QEMU's WebSocket proxy doesn't
-  let noVNC connect. If noVNC is modified to ask for 'binary' it will
-  work, this is, however, incorrect behavior.
-
-  Looking at the code in "io/channel-websock.c" it seems it's quite
-  hard-coded to binary:
-
-  Look at line 58 and 433 here:
-  https://git.qemu.org/?p=3Dqemu.git;a=3Dblob;f=3Dio/channel-websock.c
-
-  This code has to be made more dynamic, and shouldn't require binary.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1849644/+subscriptions
 
