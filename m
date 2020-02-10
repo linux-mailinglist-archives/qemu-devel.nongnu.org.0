@@ -2,62 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DD1A157F54
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Feb 2020 17:02:43 +0100 (CET)
-Received: from localhost ([::1]:35518 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A15BE157F71
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Feb 2020 17:06:18 +0100 (CET)
+Received: from localhost ([::1]:35590 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j1BWE-0002AD-2m
-	for lists+qemu-devel@lfdr.de; Mon, 10 Feb 2020 11:02:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43954)
+	id 1j1BZh-0005BN-NQ
+	for lists+qemu-devel@lfdr.de; Mon, 10 Feb 2020 11:06:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44446)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1j1BV2-0001YM-DO
- for qemu-devel@nongnu.org; Mon, 10 Feb 2020 11:01:30 -0500
+ (envelope-from <mst@redhat.com>) id 1j1BYT-0003ce-Rj
+ for qemu-devel@nongnu.org; Mon, 10 Feb 2020 11:05:02 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1j1BV0-0005dK-Hc
- for qemu-devel@nongnu.org; Mon, 10 Feb 2020 11:01:28 -0500
-Received: from indium.canonical.com ([91.189.90.7]:55592)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1j1BV0-0005c1-Bi
- for qemu-devel@nongnu.org; Mon, 10 Feb 2020 11:01:26 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1j1BUx-0003Q8-JY
- for <qemu-devel@nongnu.org>; Mon, 10 Feb 2020 16:01:23 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 498672E80C9
- for <qemu-devel@nongnu.org>; Mon, 10 Feb 2020 16:01:23 +0000 (UTC)
+ (envelope-from <mst@redhat.com>) id 1j1BYS-00019o-KU
+ for qemu-devel@nongnu.org; Mon, 10 Feb 2020 11:05:01 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:38227
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1j1BYS-000193-GI
+ for qemu-devel@nongnu.org; Mon, 10 Feb 2020 11:05:00 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1581350699;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=34RIxkxpBoTPoqvMocx2Ectb6O+UdVXCYCZ8rJhSlwY=;
+ b=caaRwXUfOz/CSrqPe3h8+IUajmPMul1UvGz33u2SvYaRvey0QUOntpw0r88sRER9jsZo4h
+ rBifHAK2XEVa1XP0rUbbGBl+O5G+QvFwVb1bxbL41fiSUMmu/cn6+t76Z95eFxbb+I+ooI
+ 8qUaonsOEytrqScU5J8Lsb+zJmDwZOA=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-72-kwOJe7xCP6WSvko1X8de2A-1; Mon, 10 Feb 2020 11:04:32 -0500
+Received: by mail-wm1-f71.google.com with SMTP id n17so3399581wmk.1
+ for <qemu-devel@nongnu.org>; Mon, 10 Feb 2020 08:04:32 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=eLFyI3VORtpOUV6GICPIYqBzs5fFnO6XF3iRlIaU+8Q=;
+ b=OE1tkEuAWhbgQfZcUzWt87RzmpvjZkKhPpf/C61EBpO8/FvnC4EpKMdU3/V9ACjvi1
+ ETqKTsOq1h4OSECqknuMeeWwMcv7rczhLkVCfhDuOy/N7y4GZ8KPCn815JUGJFhIUKdZ
+ gZ4pD9/p2sAqxxPyWbkbII9ORPQRltS/CbnTVQNO2/zag4yo3yFLdAVcQWa+A3VC/qz5
+ RVNp1sG6XP7PIDO9T2UoW9gJVYxL8wm/h8vKLGz4G7avfhacO7ZJy4eR+d+TLOr05bQO
+ EqboAMY4t0Sm/VlbjjLWi5IXht3qjo1zLHeYuIfyJFrxV9I6AJengAtQqiRxVkGWj8xH
+ sTDw==
+X-Gm-Message-State: APjAAAXlCcbs7wxlE6niHeymfe0x2naiVsI3CAwxkrcRpmBWfBLQ7RBs
+ yFx9PKC5j3YVo43UpVNC3fHbcaJ+4emZikncmPUx48gpWf62htNpCT44pKlvcZaHPL7LLjqMoRj
+ zeRpBK//cGyrU7rk=
+X-Received: by 2002:a7b:c774:: with SMTP id x20mr15863748wmk.67.1581350671572; 
+ Mon, 10 Feb 2020 08:04:31 -0800 (PST)
+X-Google-Smtp-Source: APXvYqzvwLrkEQR0eNlMkOydxZFqlCLIEelJUxiABKVW2SDGAV2txNtCNhoCsFvqUmHnf4Vh+bjpiw==
+X-Received: by 2002:a7b:c774:: with SMTP id x20mr15863730wmk.67.1581350671371; 
+ Mon, 10 Feb 2020 08:04:31 -0800 (PST)
+Received: from redhat.com (bzq-155-47.red.bezeqint.net. [62.219.155.47])
+ by smtp.gmail.com with ESMTPSA id y12sm1133427wrw.88.2020.02.10.08.04.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 10 Feb 2020 08:04:30 -0800 (PST)
+Date: Mon, 10 Feb 2020 11:04:28 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Raphael Norwitz <raphael.norwitz@nutanix.com>
+Subject: Re: [PATCH v2 0/3] vhost-user: Lift Max Ram Slots Limitation
+Message-ID: <20200210110330-mutt-send-email-mst@kernel.org>
+References: <1579143426-18305-1-git-send-email-raphael.norwitz@nutanix.com>
+ <20200206033248-mutt-send-email-mst@kernel.org>
+ <20200209171442.GA14809@localhost.localdomain>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20200209171442.GA14809@localhost.localdomain>
+X-MC-Unique: kwOJe7xCP6WSvko1X8de2A-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 10 Feb 2020 15:47:15 -0000
-From: yw662 <1862415@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: slirp windows
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: yw662
-X-Launchpad-Bug-Reporter: yw662 (yw662)
-X-Launchpad-Bug-Modifier: yw662 (yw662)
-References: <158110549948.8965.4395096108369482087.malonedeb@chaenomeles.canonical.com>
-Message-Id: <158134963636.19827.3626060977767539955.launchpad@wampee.canonical.com>
-Subject: [Bug 1862415] Re: -nic user cannot receive TFTP response from outside
- on windows 10 host
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="0a62c17273454a1313f81a74a2198ec30b44c7b6";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 66daa23e44361c4bebcbf2edf7662775e472249d
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -66,169 +88,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1862415 <1862415@bugs.launchpad.net>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Tags added: slirp
+On Sun, Feb 09, 2020 at 12:14:42PM -0500, Raphael Norwitz wrote:
+> On Thu, Feb 06, 2020 at 03:33:13AM -0500, Michael S. Tsirkin wrote:
+> >=20
+> > On Wed, Jan 15, 2020 at 09:57:03PM -0500, Raphael Norwitz wrote:
+> > >=20
+> > > Changes since V1:
+> > >     * Kept the assert in vhost_user_set_mem_table_postcopy, but moved=
+ it
+> > >       to prevent corruption
+> > >     * Made QEMU send a single VHOST_USER_GET_MAX_MEMSLOTS message at
+> > >       startup and cache the returned value so that QEMU does not need=
+ to
+> > >       query the backend every time vhost_backend_memslots_limit is ca=
+lled.
+> >=20
+> > I'm a bit confused about what happens on reconnect.
+> > Can you clarify pls?
+> >=20
+> >From what I can see, backends which support reconnect call vhost_dev_ini=
+t,
+> which then calls vhost_user_backend_init(), as vhost-user-blk does here:
+> https://github.com/qemu/qemu/blob/master/hw/block/vhost-user-blk.c#L315. =
+The
+> ram slots limit is fetched in vhost_user_backend_init() so every time the
+> device reconnects the limit should be refetched.=20
 
-** Tags added: windows
+Right. Point is, we might have validated using an old limit.
+Reconnect needs to verify limit did not change or at least
+did not decrease.
 
--- =
+--=20
+MST
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1862415
-
-Title:
-  -nic user cannot receive TFTP response from outside on windows 10 host
-
-Status in QEMU:
-  New
-
-Bug description:
-  Configuration:
-  qemu is on a windows 10 host, address 192.168.1.24
-  A tftp server, which is atftpd, is at address 192.168.1.31
-  a guest is started by: =
-
-  ```
-  .\qemu-system-x86_64.exe -accel hax \
-  -nic user,id=3Dn1,tftp-server-name=3D192.168.1.31,bootfile=3Dtftp://192.1=
-68.1.31/grub/i386-pc/core.0 \
-  -object filter-dump,id=3Df1,netdev=3Dn1,file=3Ddump.dat
-  ```
-
-  qemu v4.2.0-11797-g2890edc853-dirty, from https://qemu.weilnetz.de/w64/
-  windows 10 1909 18363.628
-
-  Here is the captured traffic from dump.dat, no filter applied:
-  No.	Time	Source	Destination	Protocol	Length	Info
-  1	0.000000	0.0.0.0	255.255.255.255	DHCP	439	DHCP Discover - Transaction I=
-D 0xdb38340e
-  2	0.000081	10.0.2.2	255.255.255.255	DHCP	590	DHCP Offer    - Transaction =
-ID 0xdb38340e
-  3	1.035670	0.0.0.0	255.255.255.255	DHCP	439	DHCP Discover - Transaction I=
-D 0xdb38340e
-  4	1.035693	10.0.2.2	255.255.255.255	DHCP	590	DHCP Offer    - Transaction =
-ID 0xdb38340e
-  5	3.068055	0.0.0.0	255.255.255.255	DHCP	451	DHCP Request  - Transaction I=
-D 0xdb38340e
-  6	3.068099	10.0.2.2	255.255.255.255	DHCP	590	DHCP ACK      - Transaction =
-ID 0xdb38340e
-  7	3.068209	RealtekU_12:34:56	Broadcast	ARP	42	ARP Announcement for 10.0.2=
-.15
-  8	3.148419	RealtekU_12:34:56	Broadcast	ARP	42	Who has 10.0.2.2? Tell 10.0=
-.2.15
-  9	3.148449	52:55:0a:00:02:02	RealtekU_12:34:56	ARP	64	10.0.2.2 is at 52:5=
-5:0a:00:02:02
-  10	3.148511	10.0.2.15	192.168.1.31	TFTP	91	Read Request, File: grub/i386-=
-pc/core.0, Transfer type: octet, blksize=3D1432, tsize=3D0
-  11	3.398093	10.0.2.15	192.168.1.31	TFTP	91	Read Request, File: grub/i386-=
-pc/core.0, Transfer type: octet, blksize=3D1432, tsize=3D0
-  12	3.946041	10.0.2.15	192.168.1.31	TFTP	91	Read Request, File: grub/i386-=
-pc/core.0, Transfer type: octet, blksize=3D1432, tsize=3D0
-  13	4.990262	10.0.2.15	192.168.1.31	TFTP	91	Read Request, File: grub/i386-=
-pc/core.0, Transfer type: octet, blksize=3D1432, tsize=3D0
-  14	7.022839	10.0.2.15	192.168.1.31	TFTP	91	Read Request, File: grub/i386-=
-pc/core.0, Transfer type: octet, blksize=3D1432, tsize=3D0
-  15	11.087041	10.0.2.15	192.168.1.31	TFTP	91	Read Request, File: grub/i386=
--pc/core.0, Transfer type: octet, blksize=3D1432, tsize=3D0
-
-  =
-
-  Here is the captured traffic at host NIC, filered by from or to 192.168.1=
-.31
-  No.	Time	Source	Destination	Protocol	Length	Info
-  14140	57.729066	192.168.1.24	192.168.1.31	TFTP	91	Read Request, File: gru=
-b/i386-pc/core.0, Transfer type: octet, blksize=3D1432, tsize=3D0
-  14141	57.732988	192.168.1.31	192.168.1.24	TFTP	69	Option Acknowledgement,=
- tsize=3D45542, blksize=3D1432
-  14255	57.977995	192.168.1.24	192.168.1.31	TFTP	91	Read Request, File: gru=
-b/i386-pc/core.0, Transfer type: octet, blksize=3D1432, tsize=3D0
-  14256	57.979876	192.168.1.31	192.168.1.24	TFTP	69	Option Acknowledgement,=
- tsize=3D45542, blksize=3D1432
-  14275	58.525939	192.168.1.24	192.168.1.31	TFTP	91	Read Request, File: gru=
-b/i386-pc/core.0, Transfer type: octet, blksize=3D1432, tsize=3D0
-  14276	58.527819	192.168.1.31	192.168.1.24	TFTP	69	Option Acknowledgement,=
- tsize=3D45542, blksize=3D1432
-  14328	59.570178	192.168.1.24	192.168.1.31	TFTP	91	Read Request, File: gru=
-b/i386-pc/core.0, Transfer type: octet, blksize=3D1432, tsize=3D0
-  14329	59.581024	192.168.1.31	192.168.1.24	TFTP	69	Option Acknowledgement,=
- tsize=3D45542, blksize=3D1432
-  14383	61.602742	192.168.1.24	192.168.1.31	TFTP	91	Read Request, File: gru=
-b/i386-pc/core.0, Transfer type: octet, blksize=3D1432, tsize=3D0
-  14384	61.605554	192.168.1.31	192.168.1.24	TFTP	69	Option Acknowledgement,=
- tsize=3D45542, blksize=3D1432
-  14730	62.736572	192.168.1.31	192.168.1.24	TFTP	69	Option Acknowledgement,=
- tsize=3D45542, blksize=3D1432
-  14741	62.987924	192.168.1.31	192.168.1.24	TFTP	69	Option Acknowledgement,=
- tsize=3D45542, blksize=3D1432
-  14756	63.533477	192.168.1.31	192.168.1.24	TFTP	69	Option Acknowledgement,=
- tsize=3D45542, blksize=3D1432
-  14815	64.577653	192.168.1.31	192.168.1.24	TFTP	69	Option Acknowledgement,=
- tsize=3D45542, blksize=3D1432
-  14916	65.666959	192.168.1.24	192.168.1.31	TFTP	91	Read Request, File: gru=
-b/i386-pc/core.0, Transfer type: octet, blksize=3D1432, tsize=3D0
-  14917	65.668778	192.168.1.31	192.168.1.24	TFTP	69	Option Acknowledgement,=
- tsize=3D45542, blksize=3D1432
-  15235	66.615186	192.168.1.31	192.168.1.24	TFTP	69	Option Acknowledgement,=
- tsize=3D45542, blksize=3D1432
-  15481	67.745250	192.168.1.31	192.168.1.24	TFTP	69	Option Acknowledgement,=
- tsize=3D45542, blksize=3D1432
-  15509	67.991523	192.168.1.31	192.168.1.24	TFTP	69	Option Acknowledgement,=
- tsize=3D45542, blksize=3D1432
-  15566	68.539050	192.168.1.31	192.168.1.24	TFTP	69	Option Acknowledgement,=
- tsize=3D45542, blksize=3D1432
-  16691	69.583531	192.168.1.31	192.168.1.24	TFTP	69	Option Acknowledgement,=
- tsize=3D45542, blksize=3D1432
-  17457	70.675366	192.168.1.31	192.168.1.24	TFTP	69	Option Acknowledgement,=
- tsize=3D45542, blksize=3D1432
-  17599	71.615337	192.168.1.31	192.168.1.24	TFTP	69	Option Acknowledgement,=
- tsize=3D45542, blksize=3D1432
-  17904	72.747338	192.168.1.31	192.168.1.24	TFTP	69	Option Acknowledgement,=
- tsize=3D45542, blksize=3D1432
-  18012	72.995681	192.168.1.31	192.168.1.24	TFTP	69	Option Acknowledgement,=
- tsize=3D45542, blksize=3D1432
-  18192	73.544257	192.168.1.31	192.168.1.24	TFTP	69	Option Acknowledgement,=
- tsize=3D45542, blksize=3D1432
-  18360	74.588002	192.168.1.31	192.168.1.24	TFTP	69	Option Acknowledgement,=
- tsize=3D45542, blksize=3D1432
-  18981	75.679037	192.168.1.31	192.168.1.24	TFTP	69	Option Acknowledgement,=
- tsize=3D45542, blksize=3D1432
-  19270	76.620528	192.168.1.31	192.168.1.24	TFTP	69	Option Acknowledgement,=
- tsize=3D45542, blksize=3D1432
-  19839	77.752338	192.168.1.31	192.168.1.24	TFTP	69	Option Acknowledgement,=
- tsize=3D45542, blksize=3D1432
-  19852	78.001267	192.168.1.31	192.168.1.24	TFTP	69	Option Acknowledgement,=
- tsize=3D45542, blksize=3D1432
-  19917	78.548965	192.168.1.31	192.168.1.24	TFTP	69	Option Acknowledgement,=
- tsize=3D45542, blksize=3D1432
-  20066	79.593232	192.168.1.31	192.168.1.24	TFTP	69	Option Acknowledgement,=
- tsize=3D45542, blksize=3D1432
-  20140	80.684604	192.168.1.31	192.168.1.24	TFTP	69	Option Acknowledgement,=
- tsize=3D45542, blksize=3D1432
-  20220	81.625996	192.168.1.31	192.168.1.24	TFTP	69	Option Acknowledgement,=
- tsize=3D45542, blksize=3D1432
-  20537	82.824574	192.168.1.31	192.168.1.24	TFTP	69	Option Acknowledgement,=
- tsize=3D45542, blksize=3D1432
-  20551	83.033318	192.168.1.31	192.168.1.24	TFTP	69	Option Acknowledgement,=
- tsize=3D45542, blksize=3D1432
-  20607	83.555510	192.168.1.31	192.168.1.24	TFTP	69	Option Acknowledgement,=
- tsize=3D45542, blksize=3D1432
-  20734	84.598612	192.168.1.31	192.168.1.24	TFTP	69	Option Acknowledgement,=
- tsize=3D45542, blksize=3D1432
-  20816	85.691535	192.168.1.31	192.168.1.24	TFTP	69	Option Acknowledgement,=
- tsize=3D45542, blksize=3D1432
-  20898	86.631036	192.168.1.31	192.168.1.24	TFTP	69	Option Acknowledgement,=
- tsize=3D45542, blksize=3D1432
-  22311	90.695296	192.168.1.31	192.168.1.24	TFTP	69	Option Acknowledgement,=
- tsize=3D45542, blksize=3D1432
-
-  From the traffic, the guest sent the request properly, and it is
-  rerouted outside properly, and the server respond to it properly.
-  However, the guest never received the response.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1862415/+subscriptions
 
