@@ -2,61 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6807158546
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Feb 2020 22:52:39 +0100 (CET)
-Received: from localhost ([::1]:40146 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDBE31584DA
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Feb 2020 22:38:59 +0100 (CET)
+Received: from localhost ([::1]:39980 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j1Gys-0006TO-NY
-	for lists+qemu-devel@lfdr.de; Mon, 10 Feb 2020 16:52:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46922)
+	id 1j1Gle-000530-Hh
+	for lists+qemu-devel@lfdr.de; Mon, 10 Feb 2020 16:38:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33896)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <becholey@gmail.com>) id 1j1GFc-0000sv-8D
- for qemu-devel@nongnu.org; Mon, 10 Feb 2020 16:05:54 -0500
+ (envelope-from <eblake@redhat.com>) id 1j1GkL-0004Md-VQ
+ for qemu-devel@nongnu.org; Mon, 10 Feb 2020 16:37:39 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <becholey@gmail.com>) id 1j1GFY-0005qe-AG
- for qemu-devel@nongnu.org; Mon, 10 Feb 2020 16:05:50 -0500
-Received: from mail-lj1-x231.google.com ([2a00:1450:4864:20::231]:34411)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <becholey@gmail.com>) id 1j1GFX-0005d8-Mr
- for qemu-devel@nongnu.org; Mon, 10 Feb 2020 16:05:48 -0500
-Received: by mail-lj1-x231.google.com with SMTP id x7so9057034ljc.1
- for <qemu-devel@nongnu.org>; Mon, 10 Feb 2020 13:05:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to;
- bh=ISe4DDhuA7yAx5iqGCdiX+aQ+FDLrbOVddZQEvFkTlI=;
- b=OUqDwgyWaC1c6v9/7uNRkHoO4dIX1briw+nU9+10+hqsOsioc7UNgMZe3mQlkxql0Z
- 1h/pp4QlhBRZ+0IIcIPRcEWt1mp1nDY3D4ueUGfJbW9xIICAD1MfH/A41EvtdBkXPt/L
- CqOZ5mkkFPg/xaAhHyaSc8/npOi8N6wl8Wf+jxoIJSgxG5LLh2zyq7PeXI+NXChPeUwQ
- dXKkUDRwv7u5yN5Q/AiWVA5D0lq2yZkXPUrWB72lqwEw/MV64oW22oQOhSmMyoWu/IId
- XfmtzX8PWkHIbZ+Fc35OIey69K21PWRRoWBHR6tf+/tyitEMDKGlmsqnVpMQtUiIbebI
- rnbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=ISe4DDhuA7yAx5iqGCdiX+aQ+FDLrbOVddZQEvFkTlI=;
- b=LBDpKaQ/QjSFLssrlQpfzL7FWoDDiQh+OWon74ZX0Gi1qFrph30NjsowwHQHflR78K
- ySvasjRd67ZJPVCRMgtaOp7MqSS2hOx/WLofEc9hIB0nU5smNDxS1h4MpjmE26NCVlZY
- 6tYGQUgps0Dmby2MN1aA0m2ZzbBKPFDhcXfZ7EUgQYOY/M9VbGtAEY3WtFz9jmK29yEq
- MrExnpu3TNWvrQR8Q3VLQeZ083OvzFpgNmHmB4b0IAfKcxO4SL2dqrZc8hGNjhWRRPsD
- TddWq9rOKKTfxSvZdhpRvXiCtOaAaANk9yhDWigF37j8gVuIeqi7LXtICoCbEhwT0ybX
- p3pA==
-X-Gm-Message-State: APjAAAUQUKPw+JPinmbIelsBKYIExWSVa+gB7T6T7mfZRxb+768+ubTc
- +n7EeS8M1J7QN1AJSg4fy9+eg/2HrbAqNRrzUdKpkrYuSZE=
-X-Google-Smtp-Source: APXvYqx2PYAQJaXUP6aM5fTXzW7xPzS4OxvRsg0hFl9fW9GlUgAtOmCqQ3OnNMaHTrnawqCRUiCH0g3XAzmGCUd2kwU=
-X-Received: by 2002:a2e:a36a:: with SMTP id i10mr2001145ljn.107.1581368743011; 
- Mon, 10 Feb 2020 13:05:43 -0800 (PST)
+ (envelope-from <eblake@redhat.com>) id 1j1GkI-0006Wr-UV
+ for qemu-devel@nongnu.org; Mon, 10 Feb 2020 16:37:36 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:38783
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1j1GkI-0006UL-QC
+ for qemu-devel@nongnu.org; Mon, 10 Feb 2020 16:37:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1581370654;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=FNPJLAwxlqp6XYsrI52R3aM36dx1U5zMd2uuI+0CAw4=;
+ b=CXBQTrWQHawG+eMIMrkV5U5nmhcQ0CId+VlHo6RNP6Romg06BJrz4SKEgwyPq77civwwYn
+ MfMBa2xoxpPdaiAKElN08G1zci5t6XyvdKBAPXFomy0vMeuVOrPkIE9P9G5jVsF9RsoIMA
+ e2Mtdm86z19EKUIKPgERp0tzVU5NuWc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-323-o5p4pWqfOUGlSo6mQhP9jA-1; Mon, 10 Feb 2020 16:37:26 -0500
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A55C08017CC;
+ Mon, 10 Feb 2020 21:37:24 +0000 (UTC)
+Received: from [10.3.116.180] (ovpn-116-180.phx2.redhat.com [10.3.116.180])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 61FD35C1D4;
+ Mon, 10 Feb 2020 21:37:21 +0000 (UTC)
+To: "nbd@other.debian.org" <nbd@other.debian.org>,
+ QEMU <qemu-devel@nongnu.org>, "qemu-block@nongnu.org"
+ <qemu-block@nongnu.org>, "libguestfs@redhat.com" <libguestfs@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Subject: Cross-project NBD extension proposal: NBD_INFO_INIT_STATE
+Organization: Red Hat, Inc.
+Message-ID: <a4394fde-f459-dcb5-1698-013e1e24c388@redhat.com>
+Date: Mon, 10 Feb 2020 15:37:20 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-From: =?UTF-8?Q?Alexandre_B=C3=A9choley?= <alexandre.becholey@gmail.com>
-Date: Mon, 10 Feb 2020 13:06:40 -0800
-Message-ID: <CAJjb=44YrmxEZwEDWC7=Qc_gS=qrhKJstJS-AzQP89F=mr_KPg@mail.gmail.com>
-Subject: Support for XSAVES intel instructions in QEMU
-To: qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::231
-X-Mailman-Approved-At: Mon, 10 Feb 2020 16:50:05 -0500
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-MC-Unique: o5p4pWqfOUGlSo6mQhP9jA-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,42 +74,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Alberto Garcia <berto@igalia.com>, "Richard W.M. Jones" <rjones@redhat.com>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Dear QEMU developers,
+I will be following up to this email with four separate threads each 
+addressed to the appropriate single list, with proposed changes to:
+- the NBD protocol
+- qemu: both server and client
+- libnbd: client
+- nbdkit: server
 
-I am running Hyper-V on qemu+kvm. During it initialization, it checks
-for XSAVES support: first it executes CPUID with EAX = 0xd and ECX = 1
-and looks at bit 3 in the returned value of EAX (Supports
-XSAVES/XRSTORS and IA32_XSS [1]), and then it reads the MSR
-IA32_VMX_PROCBASED_CTLS2 (index 0x48B) and looks at bit 20 (Enable
-XSAVES/XSTORS [2]). If there is any inconsistencies between the two,
-i.e. CPUID shows that XSAVES is supported and the bit is not enabled
-in the MSR, Hyper-V decides to fail and stops its initialization. It
-used to work until last spring/summer where something might have
-changed in either KVM or QEMU.
+The feature in question adds a new optional NBD_INFO_ packet to the 
+NBD_OPT_GO portion of handshake, adding up to 16 bits of information 
+that the server can advertise to the client at connection time about any 
+known initial state of the export [review to this series may propose 
+slight changes, such as using 32 bits; but hopefully by having all four 
+series posted in tandem it becomes easier to see whether any such tweaks 
+are warranted, and can keep such tweaks interoperable before any of the 
+projects land the series upstream].  For now, only 2 of those 16 bits 
+are defined: NBD_INIT_SPARSE (the image has at least one hole) and 
+NBD_INIT_ZERO (the image reads completely as zero); the two bits are 
+orthogonal and can be set independently, although it is easy enough to 
+see completely sparse files with both bits set.  Also, advertising the 
+bits is orthogonal to whether the base:allocation metacontext is used, 
+although a server with all possible extensions is likely to have the two 
+concepts match one another.
 
-It seems that KVM sets the correct flags (in CPUID and the MSR) when
-the host CPU supports XSAVES. In QEMU, based on comments in
-target/i386/cpu.c it seems that XSAVES is not added in
-builtin_x86_defs[].features[FEAT_VMX_SECONDARY_CTLS] because it might
-break live migration. Therefore, when setting the MSR for the vcpu,
-QEMU is masking off the feature.
+The new bits are added as an information chunk rather than as runtime 
+flags; this is because the intended client of this information is 
+operations like copying a sparse image into an NBD server destination. 
+Such a client only cares at initialization if it needs to perform a 
+pre-zeroing pass or if it can rely on the destination already reading as 
+zero.  Once the client starts making modifications, burdening the server 
+with the ability to do a live runtime probe of current reads-as-zero 
+state does not help the client, and burning per-export flags for 
+something that quickly goes stale on the first edit was not thought to 
+be wise, similarly, adding a new NBD_CMD did not seem worthwhile.
 
-I have tested two possible solutions:
-- adding the flag in .features[FEAT_VMX_SECONDARY_CTLS]
-- removing the support of the instruction in
-feature_word_info[FEAT_XSAVE].feat_names
+The existing 'qemu-img convert source... nbd://...' is the first command 
+line example that can benefit from the new information; the goal of 
+adding a protocol extension was to make this benefit automatic without 
+the user having to specify the proposed --target-is-zero when possible. 
+I have a similar thread pending for qemu which adds similar 
+known-reads-zero information to qcow2 files:
+https://lists.gnu.org/archive/html/qemu-devel/2020-01/msg08075.html
 
-Both solutions work and Hyper-v is happily running. I can provide a
-patch for the solution you might consider applying. Otherwise, is
-there a better way to fix the issue?
+That qemu series is at v1, and based on review it has had so far, it 
+will need some interface changes for v2, which means my qemu series here 
+will need a slight rebasing, but I'm posting this series to all lists 
+now to at least demonstrate what is possible when we have better startup 
+information.
 
-Many thanks,
-Alexandre
+Note that with this new bit, it is possible to learn if a destination is 
+sparse as part of NBD_OPT_GO rather than having to use block-status 
+commands.  With existing block-status commands, you can use an O(n) scan 
+of block-status to learn if an image reads as all zeroes (or 
+short-circuit in O(1) time if the first offset is reported as probable 
+data rather than reading as zero); but with this new bit, the answer is 
+O(1).  So even with Vladimir's recent change to make the spec permit 4G 
+block-status even when max block size is 32M, or the proposed work to 
+add 64-bit block-status, you still end up with more on-the-wire traffic 
+for block-status to learn if an image is all zeroes than if the server 
+just advertises this bit.  But by keeping both extensions orthogonal, a 
+server can implement whichever one or both reporting methods it finds 
+easiest, and a client can work with whatever a server supplies with sane 
+fallbacks when the server lacks either extension.  Conversely, 
+block-status tracks live changes to the image, while this bit is only 
+valid at connection time.
 
-Ref:
-[1] Intel SDM Volume 2A, chapter 3, page 196
-[2] Intel SDM Volume 3C, chapter 24, page 11
+My repo for each of the four projects contains a tag 'nbd-init-v1':
+  https://repo.or.cz/nbd/ericb.git/shortlog/refs/tags/nbd-init-v1
+  https://repo.or.cz/qemu/ericb.git/shortlog/refs/tags/nbd-init-v1
+  https://repo.or.cz/libnbd/ericb.git/shortlog/refs/tags/nbd-init-v1
+  https://repo.or.cz/nbdkit/ericb.git/shortlog/refs/tags/nbd-init-v1
+
+For doing interoperability testing, I find it handy to use:
+
+PATH=/path/to/built/qemu:/path/to/built/nbdkit:$PATH
+/path/to/libnbd/run your command here
+
+to pick up just-built qemu-nbd, nbdsh, and nbdkit that all support the 
+feature.
+
+For quickly setting flags:
+nbdkit eval init_sparse='exit 0' init_zero='exit 0' ...
+
+For quickly checking flags:
+qemu-nbd --list ... | grep init
+nbdsh -u uri... -c 'print(h.get_init_flags())'
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
+
 
