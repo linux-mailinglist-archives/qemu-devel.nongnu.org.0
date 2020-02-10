@@ -2,91 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45921157AF6
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Feb 2020 14:26:50 +0100 (CET)
-Received: from localhost ([::1]:33662 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F4B0157C59
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Feb 2020 14:36:54 +0100 (CET)
+Received: from localhost ([::1]:33784 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j195H-0004kM-Br
-	for lists+qemu-devel@lfdr.de; Mon, 10 Feb 2020 08:26:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47489)
+	id 1j19F7-0008TH-99
+	for lists+qemu-devel@lfdr.de; Mon, 10 Feb 2020 08:36:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48934)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1j194C-00044s-Dg
- for qemu-devel@nongnu.org; Mon, 10 Feb 2020 08:25:37 -0500
+ (envelope-from <imammedo@redhat.com>) id 1j19Dj-0007fe-Oy
+ for qemu-devel@nongnu.org; Mon, 10 Feb 2020 08:35:29 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1j194B-00037V-2I
- for qemu-devel@nongnu.org; Mon, 10 Feb 2020 08:25:36 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:26323
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <imammedo@redhat.com>) id 1j19Dh-00028U-TZ
+ for qemu-devel@nongnu.org; Mon, 10 Feb 2020 08:35:27 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:29291
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j194A-000376-VL
- for qemu-devel@nongnu.org; Mon, 10 Feb 2020 08:25:35 -0500
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1j19Dh-000285-PA
+ for qemu-devel@nongnu.org; Mon, 10 Feb 2020 08:35:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581341134;
+ s=mimecast20190719; t=1581341724;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/9oR63gc5Kxstekn/LqUpEIbad1MHfmrO3d4e+XqSqI=;
- b=Z+Vr3vfbTt3ejFIWrrrv1T3e4UcIKznpiwUpOEWAMoNy2vNsmIRcUK5PUba2dLFigUVxDM
- 8oAO20dqnH3Whlt/+c4QrRW/5mgRAvlRP+gDDcPp74sdbNHTxmvykQEPevFnavlo7i+72/
- OSh/QLIe7GljxkgHehz1RwWILf5IbEc=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-267-in1lamjlP_iJfKjuLi4WCw-1; Mon, 10 Feb 2020 08:25:32 -0500
-Received: by mail-wm1-f71.google.com with SMTP id y24so3003037wmj.8
- for <qemu-devel@nongnu.org>; Mon, 10 Feb 2020 05:25:31 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=XKV51D38Ol/2AB+0heBxOtcu0TQX+UzZDuODAQfBuhg=;
- b=or+DRZhWkPeMYl7Jys2shokisgu+k39WnETDAZuKgStdtVNQJsp31ks/0zQz7NPTNA
- xWIFvC7jTGRL24v26djlVOQTf/PVQdAT1LFT9Z6Gc5K/RmbhEv1Ljqkzym93VE51ZVYY
- RBg3CS+hunO0grR4cZWzubf2B0N38eQxrvedMSu25dNlai5L72p6OYsGkzsVMf5YUNxc
- 4qPWaLw6+kuMZTSSHGr7u7n+wROJZcPSMksOLF4gu5PUesyuBBEqFf8KJAEOIjWK39ER
- HO4yYXW7nV+No3ic4jC4EDNOnlriiL7kAb0iUAYzCu9eMQw0ne6+UDb4vrEjT32IMPAA
- wNKQ==
-X-Gm-Message-State: APjAAAUVJXdR/0KpgGdQYsOzR8EykEhvG9adp2Xdw92/ZDh7Ezed+xOm
- tXfe7ZbU0zjKWWMLMZUe9Pv5qwAxwLetjGraD5RduAxE0yBcXWpnGpsMfgc9ARtScGlfLG92xTQ
- N0285mw0qQl+Cb+A=
-X-Received: by 2002:adf:f886:: with SMTP id u6mr1993876wrp.409.1581341131018; 
- Mon, 10 Feb 2020 05:25:31 -0800 (PST)
-X-Google-Smtp-Source: APXvYqy8Wfn6CHQ6EVXlvZ3QlBX7f+VvahWCpP7bHBG4zcYGigNgUNxKMtGWnU6aHFVeG7tHkJCdBQ==
-X-Received: by 2002:adf:f886:: with SMTP id u6mr1993850wrp.409.1581341130822; 
- Mon, 10 Feb 2020 05:25:30 -0800 (PST)
-Received: from [192.168.1.35] (78.red-88-21-202.staticip.rima-tde.net.
- [88.21.202.78])
- by smtp.gmail.com with ESMTPSA id d22sm581270wmd.39.2020.02.10.05.25.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 10 Feb 2020 05:25:30 -0800 (PST)
-Subject: Re: Tricore default machine
-To: Peter Maydell <peter.maydell@linaro.org>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
-References: <20200207161948.15972-1-philmd@redhat.com>
- <20200207161948.15972-2-philmd@redhat.com>
- <9590e020-226d-bc85-e496-95b4f0116f69@redhat.com>
- <e4157357-7697-a2d5-8662-f5bd12d74619@redhat.com>
- <f7b72c47-4202-d220-7b29-bd5ad6283700@redhat.com>
- <c775db8c-63ec-e88a-f643-63f31de26f2b@mail.uni-paderborn.de>
- <CAFEAcA_evEqBg160MWASS1izoMkEF7-7nnRn9xhpBJVPb5ehOQ@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <3c83ea64-179a-db30-1bd0-9d7a495af8d4@redhat.com>
-Date: Mon, 10 Feb 2020 14:25:28 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ bh=VTrhf2L7AWCAm3nwHHBQS39Og4+yyK0u7Oe+PVNHEAI=;
+ b=AX7k55MM31K71f3NGEHldNOIdrdxsR2WzoJjveClVq/fcyfID5DXQ1xeTOmwfmh2vDP8B5
+ HsPztS80X7/UVcjfSZWYw11EcGHKu22ho4PDc7V8bMmqpj9Y08nQr2/R/8zA/+Jn92AnNW
+ LPdnJTfhm75K2qRi/jTACpOn1elEk9c=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-255-k7zHSwwMPQaT0MjaS5-Qng-1; Mon, 10 Feb 2020 08:35:20 -0500
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A02B6801FAA;
+ Mon, 10 Feb 2020 13:35:18 +0000 (UTC)
+Received: from localhost (unknown [10.43.2.114])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E310E1001B2D;
+ Mon, 10 Feb 2020 13:35:08 +0000 (UTC)
+Date: Mon, 10 Feb 2020 14:35:07 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
+Subject: Re: [PATCH v2 4/7] hw/arm/virt: Add nvdimm hot-plug infrastructure
+Message-ID: <20200210143507.63e54bd0@redhat.com>
+In-Reply-To: <20200117174522.22044-5-shameerali.kolothum.thodi@huawei.com>
+References: <20200117174522.22044-1-shameerali.kolothum.thodi@huawei.com>
+ <20200117174522.22044-5-shameerali.kolothum.thodi@huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA_evEqBg160MWASS1izoMkEF7-7nnRn9xhpBJVPb5ehOQ@mail.gmail.com>
-Content-Language: en-US
-X-MC-Unique: in1lamjlP_iJfKjuLi4WCw-1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-MC-Unique: k7zHSwwMPQaT0MjaS5-Qng-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -98,74 +72,145 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Cornelia Huck <cohuck@redhat.com>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- "Michael S. Tsirkin" <mst@redhat.com>, Anthony Green <green@moxielogic.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Guan Xuetao <gxt@mprc.pku.edu.cn>, Marek Vasut <marex@denx.de>,
- Jia Liu <proljc@gmail.com>, QEMU Trivial <qemu-trivial@nongnu.org>,
- Helge Deller <deller@gmx.de>, David Hildenbrand <david@redhat.com>,
- Magnus Damm <magnus.damm@gmail.com>, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-ppc <qemu-ppc@nongnu.org>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- David Gibson <david@gibson.dropbear.id.au>,
- Artyom Tarasenko <atar4qemu@gmail.com>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- qemu-s390x <qemu-s390x@nongnu.org>, Stafford Horne <shorne@gmail.com>,
- Richard Henderson <rth@twiddle.net>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>, Thomas Huth <huth@tuxfamily.org>,
- Chris Wulff <crwulff@gmail.com>, Laurent Vivier <laurent@vivier.eu>,
- Michael Walle <michael@walle.cc>, Palmer Dabbelt <palmer@dabbelt.com>,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: peter.maydell@linaro.org, xiaoguangrong.eric@gmail.com, mst@redhat.com,
+ shannon.zhaosl@gmail.com, qemu-devel@nongnu.org, xuwei5@hisilicon.com,
+ linuxarm@huawei.com, eric.auger@redhat.com, qemu-arm@nongnu.org,
+ lersek@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/10/20 2:22 PM, Peter Maydell wrote:
-> On Mon, 10 Feb 2020 at 12:33, Bastian Koppelmann
-> <kbastian@mail.uni-paderborn.de> wrote:
->>
->>
->> On 2/10/20 11:26 AM, Thomas Huth wrote:
->>> On 10/02/2020 11.08, Philippe Mathieu-Daud=C3=A9 wrote:
->>>> On 2/10/20 10:35 AM, Thomas Huth wrote:
->>>>> On 07/02/2020 17.19, Philippe Mathieu-Daud=C3=A9 wrote:
->>>>> I wonder whether we should simply make that machine the default for
->>>>> qemu-system-tricore? There is only one machine here, and not having a
->>>>> default machine always causes some headaches in the tests...
->>>>> (see e.g. tests/qemu-iotests/check for example)
->>>> Or make it generic? If a architecture has a single machine, use it by
->>>> default?
->>> Sounds like a good idea, too ... we've got a couple of targets that hav=
-e
->>> only one machine.
->=20
->> As far as I remember, I did not make it the default machine, since Peter
->> Maydell advised against it. His argument was that defaults are really
->> hard to get rid off since external tools (like libvirt) might rely on
->> the defaults and we don't want to break those. Anyways, no objections
->> from my side.
->=20
-> Yes; we have default machines partly for historical reasons
-> and partly because x86 does, but unless there's a good
-> reason for some architecture why this specific machine
-> should be the default, I don't think we should have a default:
-> making the user specify what they actually want helps to nudge
-> them into thinking about what they do want, rather than
-> assuming that QEMU will somehow magically be able to run
-> guest images built for any random machine for the architecture.
+On Fri, 17 Jan 2020 17:45:19 +0000
+Shameer Kolothum <shameerali.kolothum.thodi@huawei.com> wrote:
 
-OK now it makes sense.
+> From: Kwangwoo Lee <kwangwoo.lee@sk.com>
+> 
+> Prepare pre-plug and plug handlers for NVDIMM support.
+> Please note nvdimm_support is not yet enabled.
 
-> Anything in tests or whatever that breaks if there's no default
-> machine for the architecture should be improved to handle that
-> (it already needs to handle that case, though: arm does not
-> have a defined default machine).
+looks fine to me,
+except of commit message which should be updated to reflect
+what patch actually does.
 
-I tend to agree here.
+> 
+> Signed-off-by: Kwangwoo Lee <kwangwoo.lee@sk.com>
+> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+> Signed-off-by: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
+> ---
+>  hw/arm/Kconfig           |  1 +
+>  hw/arm/virt-acpi-build.c |  6 ++++++
+>  hw/arm/virt.c            | 19 +++++++++++++++++++
+>  hw/mem/Kconfig           |  2 +-
+>  include/hw/arm/virt.h    |  1 +
+>  5 files changed, 28 insertions(+), 1 deletion(-)
+> 
+> diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+> index c6e7782580..851dd81289 100644
+> --- a/hw/arm/Kconfig
+> +++ b/hw/arm/Kconfig
+> @@ -24,6 +24,7 @@ config ARM_VIRT
+>      select DIMM
+>      select ACPI_MEMORY_HOTPLUG
+>      select ACPI_HW_REDUCED
+> +    select ACPI_NVDIMM
+>  
+>  config CHEETAH
+>      bool
+> diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
+> index bd5f771e9b..c51eae549e 100644
+> --- a/hw/arm/virt-acpi-build.c
+> +++ b/hw/arm/virt-acpi-build.c
+> @@ -44,6 +44,7 @@
+>  #include "hw/pci/pcie_host.h"
+>  #include "hw/pci/pci.h"
+>  #include "hw/arm/virt.h"
+> +#include "hw/mem/nvdimm.h"
+>  #include "sysemu/numa.h"
+>  #include "sysemu/reset.h"
+>  #include "kvm_arm.h"
+> @@ -839,6 +840,11 @@ void virt_acpi_build(VirtMachineState *vms, AcpiBuildTables *tables)
+>          }
+>      }
+>  
+> +    if (ms->nvdimms_state->is_enabled) {
+> +        nvdimm_build_acpi(table_offsets, tables_blob, tables->linker,
+> +                          ms->nvdimms_state, ms->ram_slots);
+> +    }
+> +
+>      if (its_class_name() && !vmc->no_its) {
+>          acpi_add_table(table_offsets, tables_blob);
+>          build_iort(tables_blob, tables->linker, vms);
+> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+> index 39ab5f47e0..7987c8f5b8 100644
+> --- a/hw/arm/virt.c
+> +++ b/hw/arm/virt.c
+> @@ -143,6 +143,7 @@ static const MemMapEntry base_memmap[] = {
+>      [VIRT_SMMU] =               { 0x09050000, 0x00020000 },
+>      [VIRT_PCDIMM_ACPI] =        { 0x09070000, MEMORY_HOTPLUG_IO_LEN },
+>      [VIRT_ACPI_GED] =           { 0x09080000, ACPI_GED_EVT_SEL_LEN },
+> +    [VIRT_NVDIMM_ACPI] =        { 0x09090000, NVDIMM_ACPI_IO_LEN},
+>      [VIRT_MMIO] =               { 0x0a000000, 0x00000200 },
+>      /* ...repeating for a total of NUM_VIRTIO_TRANSPORTS, each of that size */
+>      [VIRT_PLATFORM_BUS] =       { 0x0c000000, 0x02000000 },
+> @@ -1749,6 +1750,18 @@ static void machvirt_init(MachineState *machine)
+>  
+>      create_platform_bus(vms);
+>  
+> +    if (machine->nvdimms_state->is_enabled) {
+> +        const struct AcpiGenericAddress arm_virt_nvdimm_acpi_dsmio = {
+> +            .space_id = AML_AS_SYSTEM_MEMORY,
+> +            .address = vms->memmap[VIRT_NVDIMM_ACPI].base,
+> +            .bit_width = NVDIMM_ACPI_IO_LEN << 3
+> +        };
+> +
+> +        nvdimm_init_acpi_state(machine->nvdimms_state, sysmem,
+> +                               arm_virt_nvdimm_acpi_dsmio,
+> +                               vms->fw_cfg, OBJECT(vms));
+> +    }
+> +
+>      vms->bootinfo.ram_size = machine->ram_size;
+>      vms->bootinfo.nb_cpus = smp_cpus;
+>      vms->bootinfo.board_id = -1;
+> @@ -1936,6 +1949,8 @@ static void virt_memory_plug(HotplugHandler *hotplug_dev,
+>  {
+>      HotplugHandlerClass *hhc;
+>      VirtMachineState *vms = VIRT_MACHINE(hotplug_dev);
+> +    MachineState *ms = MACHINE(hotplug_dev);
+> +    bool is_nvdimm = object_dynamic_cast(OBJECT(dev), TYPE_NVDIMM);
+>      Error *local_err = NULL;
+>  
+>      pc_dimm_plug(PC_DIMM(dev), MACHINE(vms), &local_err);
+> @@ -1943,6 +1958,10 @@ static void virt_memory_plug(HotplugHandler *hotplug_dev,
+>          goto out;
+>      }
+>  
+> +    if (is_nvdimm) {
+> +        nvdimm_plug(ms->nvdimms_state);
+> +    }
+> +
+>      hhc = HOTPLUG_HANDLER_GET_CLASS(vms->acpi_dev);
+>      hhc->plug(HOTPLUG_HANDLER(vms->acpi_dev), dev, &error_abort);
+>  out:
+> diff --git a/hw/mem/Kconfig b/hw/mem/Kconfig
+> index 620fd4cb59..0d5f8f321a 100644
+> --- a/hw/mem/Kconfig
+> +++ b/hw/mem/Kconfig
+> @@ -8,4 +8,4 @@ config MEM_DEVICE
+>  config NVDIMM
+>      bool
+>      default y
+> -    depends on PC
+> +    depends on PC || ARM_VIRT
+> diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
+> index 38f0c33c77..9c9eaaa89d 100644
+> --- a/include/hw/arm/virt.h
+> +++ b/include/hw/arm/virt.h
+> @@ -79,6 +79,7 @@ enum {
+>      VIRT_SECURE_MEM,
+>      VIRT_PCDIMM_ACPI,
+>      VIRT_ACPI_GED,
+> +    VIRT_NVDIMM_ACPI,
+>      VIRT_LOWMEMMAP_LAST,
+>  };
+>  
 
 
