@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70F36157D82
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Feb 2020 15:36:34 +0100 (CET)
-Received: from localhost ([::1]:34456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51A21157D9A
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Feb 2020 15:42:26 +0100 (CET)
+Received: from localhost ([::1]:34558 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j1AAr-0000Io-0n
-	for lists+qemu-devel@lfdr.de; Mon, 10 Feb 2020 09:36:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57748)
+	id 1j1AGX-0004Dw-D0
+	for lists+qemu-devel@lfdr.de; Mon, 10 Feb 2020 09:42:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58702)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1j1A9y-0008K0-30
- for qemu-devel@nongnu.org; Mon, 10 Feb 2020 09:35:39 -0500
+ (envelope-from <bounces@canonical.com>) id 1j1AFG-0002tE-RJ
+ for qemu-devel@nongnu.org; Mon, 10 Feb 2020 09:41:08 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1j1A9w-0000ax-22
- for qemu-devel@nongnu.org; Mon, 10 Feb 2020 09:35:38 -0500
-Received: from indium.canonical.com ([91.189.90.7]:55966)
+ (envelope-from <bounces@canonical.com>) id 1j1AFF-0003Ze-EU
+ for qemu-devel@nongnu.org; Mon, 10 Feb 2020 09:41:06 -0500
+Received: from indium.canonical.com ([91.189.90.7]:57580)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1j1A9v-0000aV-Ry
- for qemu-devel@nongnu.org; Mon, 10 Feb 2020 09:35:36 -0500
+ id 1j1AFF-0003Xf-7t
+ for qemu-devel@nongnu.org; Mon, 10 Feb 2020 09:41:05 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1j1A9u-0005Qg-14
- for <qemu-devel@nongnu.org>; Mon, 10 Feb 2020 14:35:34 +0000
+ id 1j1AFA-0006Hc-Pj
+ for <qemu-devel@nongnu.org>; Mon, 10 Feb 2020 14:41:00 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 05D512E80C0
- for <qemu-devel@nongnu.org>; Mon, 10 Feb 2020 14:35:34 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id BF7442E80D1
+ for <qemu-devel@nongnu.org>; Mon, 10 Feb 2020 14:41:00 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 10 Feb 2020 14:26:05 -0000
+Date: Mon, 10 Feb 2020 14:31:27 -0000
 From: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF?= <1859656@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -50,7 +50,7 @@ X-Launchpad-Bug-Reporter: Sean Feole (sfeole)
 X-Launchpad-Bug-Modifier: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF_=28paelzer?=
  =?utf-8?q?=29?=
 References: <157902669328.14768.4315907500950527119.malonedeb@wampee.canonical.com>
-Message-Id: <158134476520.18744.313046835334838352.malone@gac.canonical.com>
+Message-Id: <158134508767.26233.14077435725685992448.malone@soybean.canonical.com>
 Subject: [Bug 1859656] Re: [2.6] Unable to reboot s390x KVM machine after
  initial deploy
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
@@ -59,7 +59,7 @@ Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="0a62c17273454a1313f81a74a2198ec30b44c7b6";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 65789dfc3dfb9fb8cc07d9f4f969c304dd285767
+X-Launchpad-Hash: e1a1ba452049110cd220baad0fabac507230e5e5
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,183 +76,49 @@ Reply-To: Bug 1859656 <1859656@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Here are the interesting bits from the log:
+The assumption from here was that this only appeared to be working due
+to:
 
-   1 LOADPARM=3D[........]^M                                               =
-             =
+a) Deploy =3D netboot + reboot from disk =3D working
 
-   2 Network boot device detected^M                                        =
-           =
+but at the same time
 
-   3 ^M                                                                    =
-           =
-
-   4 Network boot starting...^M                                            =
-           =
-
-   5   Using MAC address: 52:54:00:02:a3:f9^M                              =
-           =
-
-   6   Requesting information via DHCP:     ^H^H^H010^H^H^H^Hdone^M        =
-           =
-
-   7   Using IPv4 address: 192.168.122.102^M                               =
-           =
-
-   8   Using TFTP server: 192.168.122.1^M                                  =
-           =
-
-   9   Bootfile name: 'boots390x.bin'^M                                    =
-           =
-
-  10   Receiving data:  0 KBytes^M                                         =
-           =
-
-  11   TFTP error: file not found: boots390x.bin^M                         =
-           =
-
-  12 Trying pxelinux.cfg files...^M^M                                      =
-           =
-
-...
-  14 TFTP: Received s390x/01-52-54-00-02-a3-f9 (581 bytes)^M               =
-       =
-
-  15 Loading pxelinux.cfg entry 'execute'^M                                =
-           =
-
-...
-  17   TFTP: Received ubuntu/s390x/ga-19.04/disco/daily/boot-kernel (4318 K=
-Bytes)^M   =
-
-...
-  19   TFTP: Received ubuntu/s390x/ga-19.04/disco/daily/boot-initrd (19360 =
-KBytes)^M  =
-
-  20 Network loading done, starting kernel...^M                            =
-           =
-
-  21 ^M                                                                    =
-           =
-
-  22 [    0.439873] Linux version 5.0.0-38-generic (buildd@bos02-s390x-020)=
- (gcc version 8.3.0 (Ubuntu 8.3.0-6ubuntu1)) #41-Ubuntu SMP Tue Dec 3 00:26=
-:40 UTC 2019 (Ubuntu 5.0.0-38.41-generic      5.0.21)
-
-...
-
-38 ^M[    0.451953] Kernel command line: nomodeset ro
-root=3Dsquash:http://192.168.122.1:5248/images/ubuntu/s390x/ga-19.04/disco/=
-daily/squashfs
-ip=3D::::vm1:BOOTIF ip6=3Doff overlayroot=3Dtmpfs ov
-erlayroot_cfgdisk=3Ddisabled cc:{'datasource_list': ['MAAS']}end_cc cloud-
-config-url=3Dhttp://192-168-122-0--24.maas-
-internal:5248/MAAS/metadata/latest/by-id/wpr3yp/?op=3Dget_preseed apparmor
-=3D0 log_host=3D192.168.122.1 log_port=3D5247 --- console=3Dtty1 console=3D=
-ttyS0
-BOOTIF=3D01-52-54-00-02-a3-f9
-
-...
-
- 155 Begin: Mounting root file system ... Begin: Running /scripts/local-top=
- ... IP-Config: enc1 hardware address 52:54:00:02:a3:f9 mtu 1500 DHCP RARP^M
- 156 hostname vm1 IP-Config: no response after 2 secs - giving up^M        =
-           =
-
- 157 IP-Config: enc1 hardware address 52:54:00:02:a3:f9 mtu 1500 DHCP RARP^=
-M          =
-
- 158 hostname vm1 hostname vm1 IP-Config: enc1 complete (dhcp from 192.168.=
-122.1):^M  =
-
- 159  address: 192.168.122.102  broadcast: 192.168.122.255  netmask: 255.25=
-5.255.0   ^M
- 160  gateway: 192.168.122.254  dns0     : 192.168.122.1    dns1   : 10.245=
-.236.13   ^M
- 161  domain : maas                                                        =
-    ^M     =
-
- 162  rootserver: 192.168.122.1 rootpath: ^M                               =
-           =
-
- 163  filename  : lpxelinux.0^M                                            =
-           =
-
- 164 :: root=3Dsquash:http://192.168.122.1:5248/images/ubuntu/s390x/ga-19.0=
-4/disco/daily/squashfs^M
- 165 :: mount_squash downloading http://192.168.122.1:5248/images/ubuntu/s3=
-90x/ga-19.04/disco/daily/squashfs to /root.tmp.img^M
- 166 Connecting to 192.168.122.1:5248 (192.168.122.1:5248)^M               =
-           =
-
- 167 ^Mroot.tmp.img          21% |******                         | 66726k  =
-0:00:03 ETA^Mroot.tmp.img          98% |****************************** |   =
-296M  0:00:00 ETA^Mroot.tmp.img              100% |************************=
-*******|   301M  0:00:00 ETA^M
- 168 :: mount -t squashfs -o loop  '/root.tmp.img' '/root.tmp'^M           =
-           =
-
- 169 done.
+b) Start =3D netboot (fail) + no fallback =3D fail
 
 
-^^ all of this seems to be the initial deployment ^^
-We see curtin doing its things as instructed by maas.
+To get that from Maas UI we stopped the guest (it went down as expected).
+Then from Maas we said "power on" again.
 
+There on (b) it failed as maas didn't provide it with an install image.
+If you track it in the console you see:
 
-Later on we see the reboot after install then
+$virsh start vm1 --console
+setlocale: No such file or directory
+Domain vm1 started
+Connected to domain vm1
+Escape character is ^]
+done
+  Using IPv4 address: 192.168.122.102
+  Using TFTP server: 192.168.122.1
+  Bootfile name: 'boots390x.bin'
+  Receiving data:  0 KBytes
+  TFTP error: file not found: boots390x.bin
+Trying pxelinux.cfg files...
+  Receiving data:  0 KBytes
+  Receiving data:  0 KBytes
+Failed to load OS from network
 
-1362 -----END SSH HOST KEY KEYS-----^M                                     =
-           =
+Maas tries a few times as we see the guest flip between "shut off" and "pau=
+sed" state.
+But then fives up.
 
-1363 [  202.776296] cloud-init[1567]: Cloud-init v. 19.3-41-gc4735dd3-0ubun=
-tu1~19.04.1 running 'modules:final' at Mon, 10 Feb 2020 10:42:08 +0000. Up =
-114.97 seconds.^M
-1364 [  202.776472] cloud-init[1567]: Cloud-init v. 19.3-41-gc4735dd3-0ubun=
-tu1~19.04.1 finished at Mon, 10 Feb 2020 10:43:36 +0000. Datasource DataSou=
-rceMAAS [http://192-168-122-0--24.maas-i     nternal:5248/MAAS/metadata/cur=
-tin].  Up 202.74 seconds^M
-1365 [^[[0;32m  OK  ^[[0m] Started ^[[0;1;39mExecute cloud user/final scrip=
-ts^[[0m.^M =
+The super-TL;DR matching the current insights is:
+- deploy s390x Maas-KVM @ s390x worked and still does
+- poweroff/poweron s390x Maas-KVM @ s390x never worked and still does not
 
-1366 [^[[0;32m  OK  ^[[0m] Reached target ^[[0;1;39mCloud-init target^[[0m.=
-^M         =
-
-1367 [^[[0;32m  OK  ^[[0m] Stopped target ^[[0;1;39mGraphical Interface^[[0=
-m.^M       =
-
-1368 [^[[0;32m  OK  ^[[0m] Stopped target ^[[0;1;39mCloud-init target^[[0m.
-
-...
-
-1487 [^[[0;32m  OK  ^[[0m] Reached target ^[[0;1;39mReboot^[[0m.^M         =
-           =
-
-1488 LOADPARM=3D[        ]^M                                               =
-             =
-
-1489 Using virtio-blk.^M                                                   =
-           =
-
-1490 Using SCSI scheme.^M                                                  =
-           =
-
-1491 .....^M                                                               =
-           =
-
-1492 [    0.412847] Linux version 5.0.0-38-generic (buildd@bos02-s390x-020)=
- (gcc version 8.3.0 (Ubuntu 8.3.0-6ubuntu1)) #41-Ubuntu SMP Tue Dec 3 00:26=
-:40 UTC 2019 (Ubuntu 5.0.0-38.41-generic      5.0.21)
-
-
-...
-
-the rest is the startup until a login:
-
-1967 vm1 login:
-
-
-But this does NOT use "fallback from failed network boot".
-It used a valid netboot (into the deployment) and then reboot
+To fix the latter we either need
+a) upstream to implement a fallback to the next boot mechanism
+b) maas to modify the XML after deploy to boot from disk
 
 -- =
 
