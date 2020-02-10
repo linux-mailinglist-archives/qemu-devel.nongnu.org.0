@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86DA8157E97
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Feb 2020 16:17:02 +0100 (CET)
-Received: from localhost ([::1]:34926 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92A77157E82
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Feb 2020 16:12:40 +0100 (CET)
+Received: from localhost ([::1]:34884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j1Ao1-0001ra-E3
-	for lists+qemu-devel@lfdr.de; Mon, 10 Feb 2020 10:17:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37477)
+	id 1j1Ajn-0007vh-6J
+	for lists+qemu-devel@lfdr.de; Mon, 10 Feb 2020 10:12:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36525)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1j1An6-0001Nt-6A
- for qemu-devel@nongnu.org; Mon, 10 Feb 2020 10:16:05 -0500
+ (envelope-from <imammedo@redhat.com>) id 1j1Ag0-0006Lr-Fe
+ for qemu-devel@nongnu.org; Mon, 10 Feb 2020 10:08:45 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1j1An4-00005t-Pr
- for qemu-devel@nongnu.org; Mon, 10 Feb 2020 10:16:04 -0500
-Received: from indium.canonical.com ([91.189.90.7]:41212)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1j1An4-00005A-FO
- for qemu-devel@nongnu.org; Mon, 10 Feb 2020 10:16:02 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1j1An0-0003ZJ-OH
- for <qemu-devel@nongnu.org>; Mon, 10 Feb 2020 15:15:58 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id A456B2E80CB
- for <qemu-devel@nongnu.org>; Mon, 10 Feb 2020 15:15:58 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 10 Feb 2020 15:05:36 -0000
-From: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF?= <1859656@bugs.launchpad.net>
+ (envelope-from <imammedo@redhat.com>) id 1j1Afx-0004GG-4Q
+ for qemu-devel@nongnu.org; Mon, 10 Feb 2020 10:08:43 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:33907
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1j1Afx-0004FH-0o
+ for qemu-devel@nongnu.org; Mon, 10 Feb 2020 10:08:41 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1581347320;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=flz/nr8pxJBL0iPv6EluckMhgFwSmGWI2SJ+LCMYjyU=;
+ b=NqMr+ClhD9OJjS6jpRHls/l9P/b0usOwV2mpqHInbDB4oJywBDNujzpK1UnmRyJxj3QmSb
+ /vxtmoxb6ymqsj2FQRbNyJIQoClxKEu/lOjmM17hLJSGAPdHXZcJqsDbv9dbv0HWiGUi/f
+ JmJjeTWW4dhTE5v72yDcVct3eZW0390=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-367-Mu1euFmvOeuKhXcO05OjDg-1; Mon, 10 Feb 2020 10:08:35 -0500
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E66FD8017DF;
+ Mon, 10 Feb 2020 15:08:33 +0000 (UTC)
+Received: from dell-r430-03.lab.eng.brq.redhat.com
+ (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6E6D060BF1;
+ Mon, 10 Feb 2020 15:08:29 +0000 (UTC)
+From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=maas; status=New; importance=Undecided;
- assignee=lee.trager@canonical.com; 
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug: product=ubuntu-z-systems; status=Triaged; importance=High;
- assignee=maas; 
-X-Launchpad-Bug-Tags: s390x
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: fheimes ltrager paelzer sfeole
-X-Launchpad-Bug-Reporter: Sean Feole (sfeole)
-X-Launchpad-Bug-Modifier: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF_=28paelzer?=
- =?utf-8?q?=29?=
-References: <157902669328.14768.4315907500950527119.malonedeb@wampee.canonical.com>
-Message-Id: <158134713694.20184.3611841891463469824.malone@wampee.canonical.com>
-Subject: [Bug 1859656] Re: [2.6] Unable to reboot s390x KVM machine after
- initial deploy
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="0a62c17273454a1313f81a74a2198ec30b44c7b6";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 81a8780aa5999660b4c4cc4368147c08c0bdc781
+Subject: [PATCH v5 81/80] mips/mips_jazz: add max ram size check
+Date: Mon, 10 Feb 2020 16:06:17 +0100
+Message-Id: <1581347177-88501-1-git-send-email-imammedo@redhat.com>
+In-Reply-To: <09243f48-76bb-2c8a-52b6-d7c1375cdb55@amsat.org>
+References: <09243f48-76bb-2c8a-52b6-d7c1375cdb55@amsat.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: Mu1euFmvOeuKhXcO05OjDg-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,87 +71,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1859656 <1859656@bugs.launchpad.net>
+Cc: hpoussin@reactos.org, aleksandar.rikalo@rt-rk.com, philmd@redhat.com,
+ amarkovic@wavecomp.com, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-OR
-Maas can boot from network (always) and if not deploying just issue a "rebo=
-ot from disk" command
+error out in case user asked for more RAM than board
+supports.
 
--- =
+Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+---
+CC: philmd@redhat.com
+CC: hpoussin@reactos.org
+CC: aleksandar.rikalo@rt-rk.com
+CC: aurelien@aurel32.net
+CC: amarkovic@wavecomp.com
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1859656
 
-Title:
-  [2.6] Unable to reboot s390x KVM machine after initial deploy
+ hw/mips/mips_jazz.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-Status in MAAS:
-  New
-Status in QEMU:
-  Incomplete
-Status in Ubuntu on IBM z Systems:
-  Triaged
+diff --git a/hw/mips/mips_jazz.c b/hw/mips/mips_jazz.c
+index 85d49cf..32fbd10 100644
+--- a/hw/mips/mips_jazz.c
++++ b/hw/mips/mips_jazz.c
+@@ -164,6 +164,11 @@ static void mips_jazz_init(MachineState *machine,
+     SysBusESPState *sysbus_esp;
+     ESPState *esp;
+=20
++    if (machine->ram_size > 256 * MiB) {
++        error_report("RAM size more than 256Mb is not supported");
++        exit(EXIT_FAILURE);
++    }
++
+     /* init CPUs */
+     cpu =3D MIPS_CPU(cpu_create(machine->cpu_type));
+     env =3D &cpu->env;
+--=20
+2.7.4
 
-Bug description:
-  MAAS version: 2.6.1 (7832-g17912cdc9-0ubuntu1~18.04.1)
-  Arch: S390x
-
-  Appears that MAAS can not find the s390x bootloader to boot from the
-  disk, not sure how maas determines this.  However this was working in
-  the past. I had originally thought that if the maas machine was
-  deployed then it defaulted to boot from disk.
-
-  If I force the VM to book from disk, the VM starts up as expected.
-
-  Reproduce:
-
-  - Deploy Disco on S390x KVM instance
-  - Reboot it
-
-  on the KVM console...
-
-  Connected to domain s2lp6g001
-  Escape character is ^]
-  done
-  =C2=A0=C2=A0Using IPv4 address: 10.246.75.160
-  =C2=A0=C2=A0Using TFTP server: 10.246.72.3
-  =C2=A0=C2=A0Bootfile name: 'boots390x.bin'
-  =C2=A0=C2=A0Receiving data:  0 KBytes
-  =C2=A0=C2=A0TFTP error: file not found: boots390x.bin
-  Trying pxelinux.cfg files...
-  =C2=A0=C2=A0Receiving data:  0 KBytes
-  =C2=A0=C2=A0Receiving data:  0 KBytes
-  Failed to load OS from network
-
-  =3D=3D> /var/log/maas/rackd.log <=3D=3D
-  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] boots39=
-0x.bin requested by 10.246.75.160
-  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/6=
-5a9ca43-9541-49be-b315-e2ca85936ea2 requested by 10.246.75.160
-  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
-1-52-54-00-e5-d7-bb requested by 10.246.75.160
-  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
-AF64BA0 requested by 10.246.75.160
-  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
-AF64BA requested by 10.246.75.160
-  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
-AF64B requested by 10.246.75.160
-  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
-AF64 requested by 10.246.75.160
-  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
-AF6 requested by 10.246.75.160
-  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
-AF requested by 10.246.75.160
-  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
-A requested by 10.246.75.160
-  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
- requested by 10.246.75.160
-  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/d=
-efault requested by 10.246.75.160
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/maas/+bug/1859656/+subscriptions
 
