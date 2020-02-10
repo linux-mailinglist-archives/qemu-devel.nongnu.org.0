@@ -2,71 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A1BC158549
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Feb 2020 22:56:35 +0100 (CET)
-Received: from localhost ([::1]:40200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2ACC158550
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Feb 2020 23:03:04 +0100 (CET)
+Received: from localhost ([::1]:40294 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j1H2g-0001nx-8T
-	for lists+qemu-devel@lfdr.de; Mon, 10 Feb 2020 16:56:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56075)
+	id 1j1H8x-0006pQ-IH
+	for lists+qemu-devel@lfdr.de; Mon, 10 Feb 2020 17:03:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45610)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1j1H0e-0000oz-Qt
- for qemu-devel@nongnu.org; Mon, 10 Feb 2020 16:54:29 -0500
+ (envelope-from <bounces@canonical.com>) id 1j1H6u-0005d2-43
+ for qemu-devel@nongnu.org; Mon, 10 Feb 2020 17:00:57 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1j1H0b-0005cn-Vb
- for qemu-devel@nongnu.org; Mon, 10 Feb 2020 16:54:27 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:27044
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1j1H0b-0005WX-Q8
- for qemu-devel@nongnu.org; Mon, 10 Feb 2020 16:54:25 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581371664;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=o4tGA5Mi+zktgPR4OwyscvVyBPEn50wv2Y/ZzxgboXM=;
- b=PmEcoqdEf2vyVrUs1+WewDG2immKGggI7L64tiHbry32uBbSEyoW+mEN0KgTr17VQ5/WWh
- 933yFP5eUolxo1vs82o8v66x7RYxCKxucC0I4zaih/s0uumqTXI1uIU2OCso7Z6xQtgeFF
- TWE3UtjnbG4GLIEaknUyzlu0ohIwvqo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-259-jXvbLjHeMCi-4fDuJctwqA-1; Mon, 10 Feb 2020 16:54:16 -0500
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5D22418FF663;
- Mon, 10 Feb 2020 21:54:15 +0000 (UTC)
-Received: from [10.3.116.180] (ovpn-116-180.phx2.redhat.com [10.3.116.180])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id ECDA65C1D4;
- Mon, 10 Feb 2020 21:54:14 +0000 (UTC)
-Subject: Re: [qemu PATCH 0/3] NBD_INFO_INIT_STATE extension
-To: qemu-devel@nongnu.org
-References: <158137149691.31823.13885885177793565059@a1bbccc8075a>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <69dd4619-7472-2bb8-c526-81c16e9a6764@redhat.com>
-Date: Mon, 10 Feb 2020 15:54:14 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ (envelope-from <bounces@canonical.com>) id 1j1H6s-0006Yj-FF
+ for qemu-devel@nongnu.org; Mon, 10 Feb 2020 17:00:55 -0500
+Received: from indium.canonical.com ([91.189.90.7]:47342)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1j1H6s-0006RB-8y
+ for qemu-devel@nongnu.org; Mon, 10 Feb 2020 17:00:54 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1j1H6q-00067r-6G
+ for <qemu-devel@nongnu.org>; Mon, 10 Feb 2020 22:00:52 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 2CC5B2E80C3
+ for <qemu-devel@nongnu.org>; Mon, 10 Feb 2020 22:00:52 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <158137149691.31823.13885885177793565059@a1bbccc8075a>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: jXvbLjHeMCi-4fDuJctwqA-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 10 Feb 2020 21:49:49 -0000
+From: Sean Feole <sean.feole@canonical.com>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=maas; status=New; importance=Undecided;
+ assignee=lee.trager@canonical.com; 
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug: product=ubuntu-z-systems; status=Triaged; importance=High;
+ assignee=maas; 
+X-Launchpad-Bug-Tags: s390x
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: andrew-cloke fheimes ltrager paelzer sfeole
+X-Launchpad-Bug-Reporter: Sean Feole (sfeole)
+X-Launchpad-Bug-Modifier: Sean Feole (sfeole)
+References: <157902669328.14768.4315907500950527119.malonedeb@wampee.canonical.com>
+Message-Id: <158137138956.19555.11308432255980268547.malone@gac.canonical.com>
+Subject: [Bug 1859656] Re: [2.6] Unable to reboot s390x KVM machine after
+ initial deploy
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="0a62c17273454a1313f81a74a2198ec30b44c7b6";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 8a907ff816b4969eae8436fa6073e16bb45cf05b
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -75,42 +71,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: vsementsov@virtuozzo.com, rjones@redhat.com, qemu-block@nongnu.org,
- mreitz@redhat.com
+Reply-To: Bug 1859656 <1859656@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/10/20 3:51 PM, no-reply@patchew.org wrote:
-> Patchew URL: https://patchew.org/QEMU/20200210214109.751734-1-eblake@redhat.com/
-> 
-> 
-> 
-> Hi,
-> 
-> This series failed the docker-mingw@fedora build test. Please find the testing commands and
-> their output below. If you have Docker installed, you can probably reproduce it
-> locally.
-> 
-> === TEST SCRIPT BEGIN ===
-> #! /bin/bash
-> export ARCH=x86_64
-> make docker-image-fedora V=1 NETWORK=1
-> time make docker-test-mingw@fedora J=14 NETWORK=1
-> === TEST SCRIPT END ===
-> 
->    CC      block/block-copy.o
->    CC      block/crypto.o
-> /tmp/qemu-test/src/block/block-backend.c: In function 'blk_known_zeroes':
-> /tmp/qemu-test/src/block/block-backend.c:2136:12: error: implicit declaration of function 'bdrv_known_zeroes'; did you mean 'blk_known_zeroes'? [-Werror=implicit-function-declaration]
->       return bdrv_known_zeroes(blk_bs(blk));
->              ^~~~~~~~~~~~~~~~~
+@paelzer,  Aye and thanks for your comment #27 ,  I was already aware of
+that, and yes that does work. However, it's a shoddy workaround at best
+and if this is going to be a solution to be presented to a customer MAAS
+would be scoffed at.
 
-Patchew didn't find my Based-on tag in 0/3 (maybe because it wasn't the 
-actual cover letter?)
+I'm aware of the issue at hand here, I think the problem existing now,
+is that a decision needs to be made moving forward how to fix this.  I
+was about to suggest that what makes the most sense IMO and is the least
+invasive is the suggest by @paelzer from comment #29
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+Maas can boot from network (always) and if not deploying just issue a
+"reboot from disk" command
 
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1859656
+
+Title:
+  [2.6] Unable to reboot s390x KVM machine after initial deploy
+
+Status in MAAS:
+  New
+Status in QEMU:
+  Incomplete
+Status in Ubuntu on IBM z Systems:
+  Triaged
+
+Bug description:
+  MAAS version: 2.6.1 (7832-g17912cdc9-0ubuntu1~18.04.1)
+  Arch: S390x
+
+  Appears that MAAS can not find the s390x bootloader to boot from the
+  disk, not sure how maas determines this.  However this was working in
+  the past. I had originally thought that if the maas machine was
+  deployed then it defaulted to boot from disk.
+
+  If I force the VM to book from disk, the VM starts up as expected.
+
+  Reproduce:
+
+  - Deploy Disco on S390x KVM instance
+  - Reboot it
+
+  on the KVM console...
+
+  Connected to domain s2lp6g001
+  Escape character is ^]
+  done
+  =C2=A0=C2=A0Using IPv4 address: 10.246.75.160
+  =C2=A0=C2=A0Using TFTP server: 10.246.72.3
+  =C2=A0=C2=A0Bootfile name: 'boots390x.bin'
+  =C2=A0=C2=A0Receiving data:  0 KBytes
+  =C2=A0=C2=A0TFTP error: file not found: boots390x.bin
+  Trying pxelinux.cfg files...
+  =C2=A0=C2=A0Receiving data:  0 KBytes
+  =C2=A0=C2=A0Receiving data:  0 KBytes
+  Failed to load OS from network
+
+  =3D=3D> /var/log/maas/rackd.log <=3D=3D
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] boots39=
+0x.bin requested by 10.246.75.160
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/6=
+5a9ca43-9541-49be-b315-e2ca85936ea2 requested by 10.246.75.160
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
+1-52-54-00-e5-d7-bb requested by 10.246.75.160
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
+AF64BA0 requested by 10.246.75.160
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
+AF64BA requested by 10.246.75.160
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
+AF64B requested by 10.246.75.160
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
+AF64 requested by 10.246.75.160
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
+AF6 requested by 10.246.75.160
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
+AF requested by 10.246.75.160
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
+A requested by 10.246.75.160
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
+ requested by 10.246.75.160
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/d=
+efault requested by 10.246.75.160
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/maas/+bug/1859656/+subscriptions
 
