@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B4F9158551
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Feb 2020 23:03:32 +0100 (CET)
-Received: from localhost ([::1]:40298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12F91158556
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Feb 2020 23:12:06 +0100 (CET)
+Received: from localhost ([::1]:40408 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j1H9P-0007Nv-D0
-	for lists+qemu-devel@lfdr.de; Mon, 10 Feb 2020 17:03:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45650)
+	id 1j1HHg-0003jh-Td
+	for lists+qemu-devel@lfdr.de; Mon, 10 Feb 2020 17:12:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46932)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1j1H6u-0005dW-I1
- for qemu-devel@nongnu.org; Mon, 10 Feb 2020 17:00:58 -0500
+ (envelope-from <bounces@canonical.com>) id 1j1HGQ-00031v-Ia
+ for qemu-devel@nongnu.org; Mon, 10 Feb 2020 17:10:47 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1j1H6s-0006aA-VJ
- for qemu-devel@nongnu.org; Mon, 10 Feb 2020 17:00:56 -0500
-Received: from indium.canonical.com ([91.189.90.7]:47414)
+ (envelope-from <bounces@canonical.com>) id 1j1HGP-0003Ic-AC
+ for qemu-devel@nongnu.org; Mon, 10 Feb 2020 17:10:46 -0500
+Received: from indium.canonical.com ([91.189.90.7]:48308)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1j1H6s-0006XM-Nw
- for qemu-devel@nongnu.org; Mon, 10 Feb 2020 17:00:54 -0500
+ id 1j1HGP-0003Dc-2f
+ for qemu-devel@nongnu.org; Mon, 10 Feb 2020 17:10:45 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1j1H6r-00069Y-NH
- for <qemu-devel@nongnu.org>; Mon, 10 Feb 2020 22:00:53 +0000
+ id 1j1HGN-00071G-GC
+ for <qemu-devel@nongnu.org>; Mon, 10 Feb 2020 22:10:43 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id AE1EB2E80C3
- for <qemu-devel@nongnu.org>; Mon, 10 Feb 2020 22:00:53 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 779F02E8042
+ for <qemu-devel@nongnu.org>; Mon, 10 Feb 2020 22:10:43 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 10 Feb 2020 21:53:57 -0000
+Date: Mon, 10 Feb 2020 22:04:15 -0000
 From: Sean Feole <sean.feole@canonical.com>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -49,7 +49,7 @@ X-Launchpad-Bug-Commenters: andrew-cloke fheimes ltrager paelzer sfeole
 X-Launchpad-Bug-Reporter: Sean Feole (sfeole)
 X-Launchpad-Bug-Modifier: Sean Feole (sfeole)
 References: <157902669328.14768.4315907500950527119.malonedeb@wampee.canonical.com>
-Message-Id: <158137163790.27184.7636946626159415441.malone@soybean.canonical.com>
+Message-Id: <158137225576.19444.8899003608170022590.malone@wampee.canonical.com>
 Subject: [Bug 1859656] Re: [2.6] Unable to reboot s390x KVM machine after
  initial deploy
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
@@ -58,7 +58,7 @@ Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="0a62c17273454a1313f81a74a2198ec30b44c7b6";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 53bdaca20f62d74f88b947c37b5f538c43062b04
+X-Launchpad-Hash: 8d6ebc13ab45af06edaf21152598673ccb7deda4
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
@@ -75,19 +75,32 @@ Reply-To: Bug 1859656 <1859656@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-To add to this discussion today, I noticed that some of the maas
-deployments for s390x are working. I took a look and I was able to
-successfully deploy 19.10/18.04/20.04
+Here is my pkg versions as things are now.
 
-I have not changed anything on the MAAS host,  I have not upgraded / altere=
-d any packages.
-I have not upgraded libvirt,
+maas:
+  Installed: 2.6.2-7841-ga10625be3-0ubuntu1~18.04.1
+  Candidate: 2.6.2-7841-ga10625be3-0ubuntu1~18.04.1
 
-The only thing that's different to my knowledge is that the images maas
-is booting our -dailies and updated quite often.
+On the s390x Lpar,  Bionic, Linux s2lp6 4.15.0-74-generic #84-Ubuntu SMP
+Thu Dec 19 08:05:42 UTC 2019 s390x s390x s390x GNU/Linux
 
-I don't have free time today to look into this, however now i'm
-wondering what has changed.
+
+ubuntu@s2lp6:~$ dpkg -l | grep libvirt
+ii  libvirt-clients                       4.0.0-1ubuntu8.14                =
+   s390x        Programs for the libvirt library
+ii  libvirt-daemon                        4.0.0-1ubuntu8.14                =
+   s390x        Virtualization daemon
+ii  libvirt-daemon-driver-storage-rbd     4.0.0-1ubuntu8.14                =
+   s390x        Virtualization daemon RBD storage driver
+ii  libvirt-daemon-system                 4.0.0-1ubuntu8.14                =
+   s390x        Libvirt daemon configuration files
+ii  libvirt0:s390x                        4.0.0-1ubuntu8.14                =
+   s390x        library for interfacing with different virtualization syste=
+ms
+ii  python-libvirt                        4.0.0-1                          =
+   s390x        libvirt Python bindings
+ii  uvtool-libvirt                        0~git140-0ubuntu1                =
+   all          Library and tools for using Ubuntu Cloud Images with libvirt
 
 -- =
 
