@@ -2,73 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4036115853E
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Feb 2020 22:49:41 +0100 (CET)
-Received: from localhost ([::1]:40116 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3934158547
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Feb 2020 22:53:20 +0100 (CET)
+Received: from localhost ([::1]:40158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j1Gw0-0004Qa-AN
-	for lists+qemu-devel@lfdr.de; Mon, 10 Feb 2020 16:49:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33786)
+	id 1j1GzX-0007cH-Qe
+	for lists+qemu-devel@lfdr.de; Mon, 10 Feb 2020 16:53:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48535)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <palmerdabbelt@google.com>) id 1j1Gsu-0002iI-KV
- for qemu-devel@nongnu.org; Mon, 10 Feb 2020 16:46:29 -0500
+ (envelope-from <no-reply@patchew.org>) id 1j1GyA-0006WZ-J4
+ for qemu-devel@nongnu.org; Mon, 10 Feb 2020 16:51:56 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <palmerdabbelt@google.com>) id 1j1Gst-0007Gf-Ep
- for qemu-devel@nongnu.org; Mon, 10 Feb 2020 16:46:28 -0500
-Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:41112)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <palmerdabbelt@google.com>)
- id 1j1Gst-0007C8-3w
- for qemu-devel@nongnu.org; Mon, 10 Feb 2020 16:46:27 -0500
-Received: by mail-pg1-x542.google.com with SMTP id 70so2468996pgf.8
- for <qemu-devel@nongnu.org>; Mon, 10 Feb 2020 13:46:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=date:from:subject:in-reply-to:cc:to:message-id:mime-version
- :content-transfer-encoding;
- bh=IeOm7hpSFIGFkdQhxKOH2BAg3N9pNkx3FwZUvGEAD5Y=;
- b=QFBqB0Lv48H86rdRKD4AW7PPBUVqhgB4n1/JCgqv+PqvkRAceDKyYV7JmKRkGdcjXD
- zSdf+NRwwKisCRwGjb6VLdDgPCZv1ZpKv4dEQzQcuZAqwZ4PmV6q0v05YIRQWfqpFgLA
- 2EDqKQGQtDOr/awV0aBh9dveBK/6Jfd12zhWSD7b/ppXNH+k5p1lwP5cAvuAzfTGT0LD
- kQZ18LIpfy0D4DXxBClt9Owo8e4H5vCbXwsyPwZFnsmkbY/y9aHrYWp4XXQLcIi7KCFZ
- AR757KjKN5BsctLjrz36j4t1q0nDwDjEC1Y+pQ1QDJX2fK39+RyRyB0yLHxqJ37R2qA1
- XiGg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:subject:in-reply-to:cc:to:message-id
- :mime-version:content-transfer-encoding;
- bh=IeOm7hpSFIGFkdQhxKOH2BAg3N9pNkx3FwZUvGEAD5Y=;
- b=WtjzIY7Hf97VVLKsPJJs4X+PR4uD80Dk7wix9omoRJcr+Y+ETtH3lQP41dILNMQ/cU
- dvspjmoLyp5C85kTfAL4TzhrSlBet/vpo32o3Jh8rUkgv5xOyb2GtVxmE7VIMZZ/+qk8
- noF2YDSNkgtIYzutto+rdp6HrzGsMGsAkdBTmgv/YZg7pVLkwQDBjNN+up/pPJqVQmm2
- amzbCQhVeSU44mb1NQr4yiovkTyd79fbayDP13j9rTdyyyU/qCzGaDcMvdvLfuWktC2R
- tNRh3QuFemCXELr0e/QRmNTccZfqUJn66iOa3uWPjqXELwXk+y4JH9wrgCsLckyAb2gk
- nHOg==
-X-Gm-Message-State: APjAAAW/t9QAmMqfvu0H4Lg3DJ/UPw252nfHyIwwY2WvAcpqYVn2lXvm
- khUx7IJ4oHix/RlK2lfl7rPb0NH7AsA=
-X-Google-Smtp-Source: APXvYqyzjqx++4TuPpPinFpXXZarmgvZQIjG4hfHR19fCqm8huUWzBgcK4set+PBcXGbHqwRTdjj4w==
-X-Received: by 2002:a62:6342:: with SMTP id x63mr3047294pfb.103.1581371185341; 
- Mon, 10 Feb 2020 13:46:25 -0800 (PST)
-Received: from localhost ([2600:1012:b161:af3e:21a9:6308:301b:ae65])
- by smtp.gmail.com with ESMTPSA id k63sm385817pjb.10.2020.02.10.13.46.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Feb 2020 13:46:24 -0800 (PST)
-Date: Mon, 10 Feb 2020 13:46:24 -0800 (PST)
-X-Google-Original-Date: Mon, 10 Feb 2020 13:44:59 PST (-0800)
-From: Palmer Dabbelt <palmerdabbelt@google.com>
-X-Google-Original-From: Palmer Dabbelt <palmer@dabbelt.com>
-Subject: Re: [PATCH v2 07/35] target/riscv: Add the force HS exception mode
-In-Reply-To: <aa605609b28f811897f61d9b6a48f2ad6e396f0f.1580518859.git.alistair.francis@wdc.com>
-CC: qemu-devel@nongnu.org, qemu-riscv@nongnu.org,
- Alistair Francis <Alistair.Francis@wdc.com>, alistair23@gmail.com
-To: Alistair Francis <Alistair.Francis@wdc.com>
-Message-ID: <mhng-d8e0b6f3-e24d-4dce-a5a2-a46e59db8950@palmerdabbelt-glaptop1>
-Mime-Version: 1.0 (MHng)
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::542
+ (envelope-from <no-reply@patchew.org>) id 1j1Gy7-00061H-Ap
+ for qemu-devel@nongnu.org; Mon, 10 Feb 2020 16:51:53 -0500
+Resent-Date: Mon, 10 Feb 2020 16:51:52 -0500
+Resent-Message-Id: <E1j1Gy7-00061H-Ap@eggs.gnu.org>
+Received: from sender4-of-o51.zoho.com ([136.143.188.51]:21113)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1j1Gy6-0005vl-RT; Mon, 10 Feb 2020 16:51:51 -0500
+ARC-Seal: i=1; a=rsa-sha256; t=1581371499; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=hnI4+X8o6mvdJFdjUxioAW5mGHgn/kxkkP6mk9/gJu+jqU/XLVCayUezlfGfqeT/W7YjHS2e+9gFZ5ugdY60RLulemq8n1OcouwyJYPWvezhTpMfbmXIhXU7Q3ZK5J2ozdn0lXYY2Rg+4ZWs1HeF/L6LvgmfZmsfmrPGtt1jof4=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1581371499;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=uJy5+sKuwekMUi4N4I2LLpx+9azmBFS/BsO5qWz+HY0=; 
+ b=H7aLCHi9LL2zw12y1i8eJEHlRWmQt3KU/BPC7YwsWfMm6sIAgCsbMgIKVxSvmB257WabVieGD58gb6V/82BeRU+bKcxk+/qgoue06NZu+n11Qh5gWvm+FeU7vXc6cDRASdhTjqEc5kUJQj9iOkfSbYEWbDeWAE5R2jEm++JQ/qc=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=patchew.org;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1581371498163466.2914955305895;
+ Mon, 10 Feb 2020 13:51:38 -0800 (PST)
+In-Reply-To: <20200210214109.751734-1-eblake@redhat.com>
+Subject: Re: [qemu PATCH 0/3] NBD_INFO_INIT_STATE extension
+Message-ID: <158137149691.31823.13885885177793565059@a1bbccc8075a>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: eblake@redhat.com
+Date: Mon, 10 Feb 2020 13:51:38 -0800 (PST)
+X-ZohoMailClient: External
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 136.143.188.51
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,81 +63,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: qemu-devel@nongnu.org
+Cc: mreitz@redhat.com, vsementsov@virtuozzo.com, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org, rjones@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 31 Jan 2020 17:01:54 PST (-0800), Alistair Francis wrote:
-> Add a FORCE_HS_EXCEP mode to the RISC-V virtulisation status. This bit
-> specifies if an exeption should be taken to HS mode no matter the
-> current delegation status. This is used when an exeption must be taken
-> to HS mode, such as when handling interrupts.
->
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> ---
->  target/riscv/cpu.h        |  2 ++
->  target/riscv/cpu_bits.h   |  6 ++++++
->  target/riscv/cpu_helper.c | 18 ++++++++++++++++++
->  3 files changed, 26 insertions(+)
->
-> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> index a9cbd8584e..42720d65f9 100644
-> --- a/target/riscv/cpu.h
-> +++ b/target/riscv/cpu.h
-> @@ -273,6 +273,8 @@ bool riscv_cpu_exec_interrupt(CPUState *cs, int interrupt_request);
->  bool riscv_cpu_fp_enabled(CPURISCVState *env);
->  bool riscv_cpu_virt_enabled(CPURISCVState *env);
->  void riscv_cpu_set_virt_enabled(CPURISCVState *env, bool enable);
-> +bool riscv_cpu_force_hs_excep_enabled(CPURISCVState *env);
-> +void riscv_cpu_set_force_hs_excep(CPURISCVState *env, bool enable);
->  int riscv_cpu_mmu_index(CPURISCVState *env, bool ifetch);
->  hwaddr riscv_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
->  void  riscv_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
-> diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-> index 2cdb0de4fe..ad6479796c 100644
-> --- a/target/riscv/cpu_bits.h
-> +++ b/target/riscv/cpu_bits.h
-> @@ -432,6 +432,12 @@
->
->  /* Virtulisation Register Fields */
->  #define VIRT_ONOFF          1
-> +/* This is used to save state for when we take an exception. If this is set
-> + * that means that we want to force a HS level exception (no matter what the
-> + * delegation is set to). This will occur for things such as a second level
-> + * page table fault.
-> + */
-> +#define FORCE_HS_EXCEP      2
->
->  /* RV32 satp CSR field masks */
->  #define SATP32_MODE         0x80000000
-> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-> index 5844e543f3..1e28103500 100644
-> --- a/target/riscv/cpu_helper.c
-> +++ b/target/riscv/cpu_helper.c
-> @@ -100,6 +100,24 @@ void riscv_cpu_set_virt_enabled(CPURISCVState *env, bool enable)
->      env->virt = set_field(env->virt, VIRT_ONOFF, enable);
->  }
->
-> +bool riscv_cpu_force_hs_excep_enabled(CPURISCVState *env)
-> +{
-> +    if (!riscv_has_ext(env, RVH)) {
-> +        return false;
-> +    }
-> +
-> +    return get_field(env->virt, FORCE_HS_EXCEP);
-> +}
-> +
-> +void riscv_cpu_set_force_hs_excep(CPURISCVState *env, bool enable)
-> +{
-> +    if (!riscv_has_ext(env, RVH)) {
-> +        return;
-> +    }
-> +
-> +    env->virt = set_field(env->virt, FORCE_HS_EXCEP, enable);
-> +}
-> +
->  int riscv_cpu_claim_interrupts(RISCVCPU *cpu, uint32_t interrupts)
->  {
->      CPURISCVState *env = &cpu->env;
-
-Reviewed-by: Palmer Dabbelt <palmerdabbelt@google.com>
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDIxMDIxNDEwOS43NTE3
+MzQtMS1lYmxha2VAcmVkaGF0LmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBmYWlsZWQgdGhlIGRv
+Y2tlci1taW5nd0BmZWRvcmEgYnVpbGQgdGVzdC4gUGxlYXNlIGZpbmQgdGhlIHRlc3RpbmcgY29t
+bWFuZHMgYW5kCnRoZWlyIG91dHB1dCBiZWxvdy4gSWYgeW91IGhhdmUgRG9ja2VyIGluc3RhbGxl
+ZCwgeW91IGNhbiBwcm9iYWJseSByZXByb2R1Y2UgaXQKbG9jYWxseS4KCj09PSBURVNUIFNDUklQ
+VCBCRUdJTiA9PT0KIyEgL2Jpbi9iYXNoCmV4cG9ydCBBUkNIPXg4Nl82NAptYWtlIGRvY2tlci1p
+bWFnZS1mZWRvcmEgVj0xIE5FVFdPUks9MQp0aW1lIG1ha2UgZG9ja2VyLXRlc3QtbWluZ3dAZmVk
+b3JhIEo9MTQgTkVUV09SSz0xCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgogIENDICAgICAgYmxv
+Y2svYmxvY2stY29weS5vCiAgQ0MgICAgICBibG9jay9jcnlwdG8ubwovdG1wL3FlbXUtdGVzdC9z
+cmMvYmxvY2svYmxvY2stYmFja2VuZC5jOiBJbiBmdW5jdGlvbiAnYmxrX2tub3duX3plcm9lcyc6
+Ci90bXAvcWVtdS10ZXN0L3NyYy9ibG9jay9ibG9jay1iYWNrZW5kLmM6MjEzNjoxMjogZXJyb3I6
+IGltcGxpY2l0IGRlY2xhcmF0aW9uIG9mIGZ1bmN0aW9uICdiZHJ2X2tub3duX3plcm9lcyc7IGRp
+ZCB5b3UgbWVhbiAnYmxrX2tub3duX3plcm9lcyc/IFstV2Vycm9yPWltcGxpY2l0LWZ1bmN0aW9u
+LWRlY2xhcmF0aW9uXQogICAgIHJldHVybiBiZHJ2X2tub3duX3plcm9lcyhibGtfYnMoYmxrKSk7
+CiAgICAgICAgICAgIF5+fn5+fn5+fn5+fn5+fn5+CiAgICAgICAgICAgIGJsa19rbm93bl96ZXJv
+ZXMKL3RtcC9xZW11LXRlc3Qvc3JjL2Jsb2NrL2Jsb2NrLWJhY2tlbmQuYzoyMTM2OjEyOiBlcnJv
+cjogbmVzdGVkIGV4dGVybiBkZWNsYXJhdGlvbiBvZiAnYmRydl9rbm93bl96ZXJvZXMnIFstV2Vy
+cm9yPW5lc3RlZC1leHRlcm5zXQpjYzE6IGFsbCB3YXJuaW5ncyBiZWluZyB0cmVhdGVkIGFzIGVy
+cm9ycwptYWtlOiAqKiogWy90bXAvcWVtdS10ZXN0L3NyYy9ydWxlcy5tYWs6Njk6IGJsb2NrL2Js
+b2NrLWJhY2tlbmQub10gRXJyb3IgMQptYWtlOiAqKiogV2FpdGluZyBmb3IgdW5maW5pc2hlZCBq
+b2JzLi4uLgogIENDICAgICAgYmxvY2svYWlvX3Rhc2subwovdG1wL3FlbXUtdGVzdC9zcmMvYmxv
+Y2svbmJkLmM6IEluIGZ1bmN0aW9uICduYmRfa25vd25femVyb2VzJzoKL3RtcC9xZW11LXRlc3Qv
+c3JjL2Jsb2NrL25iZC5jOjE5MTk6MTY6IGVycm9yOiAnQkRSVl9aRVJPX09QRU4nIHVuZGVjbGFy
+ZWQgKGZpcnN0IHVzZSBpbiB0aGlzIGZ1bmN0aW9uKTsgZGlkIHlvdSBtZWFuICdCRFJWX1JFUV9N
+QVNLJz8KICAgICAgICAgcmV0dXJuIEJEUlZfWkVST19PUEVOOwogICAgICAgICAgICAgICAgXn5+
+fn5+fn5+fn5+fn4KICAgICAgICAgICAgICAgIEJEUlZfUkVRX01BU0sKL3RtcC9xZW11LXRlc3Qv
+c3JjL2Jsb2NrL25iZC5jOjE5MTk6MTY6IG5vdGU6IGVhY2ggdW5kZWNsYXJlZCBpZGVudGlmaWVy
+IGlzIHJlcG9ydGVkIG9ubHkgb25jZSBmb3IgZWFjaCBmdW5jdGlvbiBpdCBhcHBlYXJzIGluCi90
+bXAvcWVtdS10ZXN0L3NyYy9ibG9jay9uYmQuYzogQXQgdG9wIGxldmVsOgovdG1wL3FlbXUtdGVz
+dC9zcmMvYmxvY2svbmJkLmM6MjA0Mjo2OiBlcnJvcjogJ0Jsb2NrRHJpdmVyJyB7YWthICdzdHJ1
+Y3QgQmxvY2tEcml2ZXInfSBoYXMgbm8gbWVtYmVyIG5hbWVkICdiZHJ2X2tub3duX3plcm9lcyc7
+IGRpZCB5b3UgbWVhbiAnYmRydl9qb2luX29wdGlvbnMnPwogICAgIC5iZHJ2X2tub3duX3plcm9l
+cyAgICAgICAgICA9IG5iZF9rbm93bl96ZXJvZXMsCiAgICAgIF5+fn5+fn5+fn5+fn5+fn5+CiAg
+ICAgIGJkcnZfam9pbl9vcHRpb25zCi90bXAvcWVtdS10ZXN0L3NyYy9ibG9jay9uYmQuYzoyMDQy
+OjM1OiBlcnJvcjogaW5pdGlhbGl6YXRpb24gb2YgJ2ludCAoKikoQmxvY2tEcml2ZXJTdGF0ZSAq
+LCBCZHJ2Q2hpbGQgKiwgdWludDY0X3QsICBCZHJ2Q2hpbGQgKiwgdWludDY0X3QsICB1aW50NjRf
+dCwgIEJkcnZSZXF1ZXN0RmxhZ3MsICBCZHJ2UmVxdWVzdEZsYWdzKScge2FrYSAnaW50ICgqKShz
+dHJ1Y3QgQmxvY2tEcml2ZXJTdGF0ZSAqLCBzdHJ1Y3QgQmRydkNoaWxkICosIGxvbmcgbG9uZyB1
+bnNpZ25lZCBpbnQsICBzdHJ1Y3QgQmRydkNoaWxkICosIGxvbmcgbG9uZyB1bnNpZ25lZCBpbnQs
+ICBsb25nIGxvbmcgdW5zaWduZWQgaW50LCAgZW51bSA8YW5vbnltb3VzPiwgIGVudW0gPGFub255
+bW91cz4pJ30gZnJvbSBpbmNvbXBhdGlibGUgcG9pbnRlciB0eXBlICdpbnQgKCopKEJsb2NrRHJp
+dmVyU3RhdGUgKiknIHtha2EgJ2ludCAoKikoc3RydWN0IEJsb2NrRHJpdmVyU3RhdGUgKiknfSBb
+LVdlcnJvcj1pbmNvbXBhdGlibGUtcG9pbnRlci10eXBlc10KICAgICAuYmRydl9rbm93bl96ZXJv
+ZXMgICAgICAgICAgPSBuYmRfa25vd25femVyb2VzLAogICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgIF5+fn5+fn5+fn5+fn5+fn4KL3RtcC9xZW11LXRlc3Qvc3JjL2Jsb2NrL25iZC5j
+OjIwNDI6MzU6IG5vdGU6IChuZWFyIGluaXRpYWxpemF0aW9uIGZvciAnYmRydl9uYmQuYmRydl9j
+b19jb3B5X3JhbmdlX2Zyb20nKQovdG1wL3FlbXUtdGVzdC9zcmMvYmxvY2svbmJkLmM6MjA2ODo2
+OiBlcnJvcjogJ0Jsb2NrRHJpdmVyJyB7YWthICdzdHJ1Y3QgQmxvY2tEcml2ZXInfSBoYXMgbm8g
+bWVtYmVyIG5hbWVkICdiZHJ2X2tub3duX3plcm9lcyc7IGRpZCB5b3UgbWVhbiAnYmRydl9qb2lu
+X29wdGlvbnMnPwogICAgIC5iZHJ2X2tub3duX3plcm9lcyAgICAgICAgICA9IG5iZF9rbm93bl96
+ZXJvZXMsCiAgICAgIF5+fn5+fn5+fn5+fn5+fn5+CiAgICAgIGJkcnZfam9pbl9vcHRpb25zCi90
+bXAvcWVtdS10ZXN0L3NyYy9ibG9jay9uYmQuYzoyMDY4OjM1OiBlcnJvcjogaW5pdGlhbGl6YXRp
+b24gb2YgJ2ludCAoKikoQmxvY2tEcml2ZXJTdGF0ZSAqLCBCZHJ2Q2hpbGQgKiwgdWludDY0X3Qs
+ICBCZHJ2Q2hpbGQgKiwgdWludDY0X3QsICB1aW50NjRfdCwgIEJkcnZSZXF1ZXN0RmxhZ3MsICBC
+ZHJ2UmVxdWVzdEZsYWdzKScge2FrYSAnaW50ICgqKShzdHJ1Y3QgQmxvY2tEcml2ZXJTdGF0ZSAq
+LCBzdHJ1Y3QgQmRydkNoaWxkICosIGxvbmcgbG9uZyB1bnNpZ25lZCBpbnQsICBzdHJ1Y3QgQmRy
+dkNoaWxkICosIGxvbmcgbG9uZyB1bnNpZ25lZCBpbnQsICBsb25nIGxvbmcgdW5zaWduZWQgaW50
+LCAgZW51bSA8YW5vbnltb3VzPiwgIGVudW0gPGFub255bW91cz4pJ30gZnJvbSBpbmNvbXBhdGli
+bGUgcG9pbnRlciB0eXBlICdpbnQgKCopKEJsb2NrRHJpdmVyU3RhdGUgKiknIHtha2EgJ2ludCAo
+Kikoc3RydWN0IEJsb2NrRHJpdmVyU3RhdGUgKiknfSBbLVdlcnJvcj1pbmNvbXBhdGlibGUtcG9p
+bnRlci10eXBlc10KICAgICAuYmRydl9rbm93bl96ZXJvZXMgICAgICAgICAgPSBuYmRfa25vd25f
+emVyb2VzLAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIF5+fn5+fn5+fn5+fn5+
+fn4KL3RtcC9xZW11LXRlc3Qvc3JjL2Jsb2NrL25iZC5jOjIwNjg6MzU6IG5vdGU6IChuZWFyIGlu
+aXRpYWxpemF0aW9uIGZvciAnYmRydl9uYmRfdGNwLmJkcnZfY29fY29weV9yYW5nZV9mcm9tJykK
+L3RtcC9xZW11LXRlc3Qvc3JjL2Jsb2NrL25iZC5jOjIwOTQ6NjogZXJyb3I6ICdCbG9ja0RyaXZl
+cicge2FrYSAnc3RydWN0IEJsb2NrRHJpdmVyJ30gaGFzIG5vIG1lbWJlciBuYW1lZCAnYmRydl9r
+bm93bl96ZXJvZXMnOyBkaWQgeW91IG1lYW4gJ2JkcnZfam9pbl9vcHRpb25zJz8KICAgICAuYmRy
+dl9rbm93bl96ZXJvZXMgICAgICAgICAgPSBuYmRfa25vd25femVyb2VzLAogICAgICBefn5+fn5+
+fn5+fn5+fn5+fgogICAgICBiZHJ2X2pvaW5fb3B0aW9ucwovdG1wL3FlbXUtdGVzdC9zcmMvYmxv
+Y2svbmJkLmM6MjA5NDozNTogZXJyb3I6IGluaXRpYWxpemF0aW9uIG9mICdpbnQgKCopKEJsb2Nr
+RHJpdmVyU3RhdGUgKiwgQmRydkNoaWxkICosIHVpbnQ2NF90LCAgQmRydkNoaWxkICosIHVpbnQ2
+NF90LCAgdWludDY0X3QsICBCZHJ2UmVxdWVzdEZsYWdzLCAgQmRydlJlcXVlc3RGbGFncyknIHth
+a2EgJ2ludCAoKikoc3RydWN0IEJsb2NrRHJpdmVyU3RhdGUgKiwgc3RydWN0IEJkcnZDaGlsZCAq
+LCBsb25nIGxvbmcgdW5zaWduZWQgaW50LCAgc3RydWN0IEJkcnZDaGlsZCAqLCBsb25nIGxvbmcg
+dW5zaWduZWQgaW50LCAgbG9uZyBsb25nIHVuc2lnbmVkIGludCwgIGVudW0gPGFub255bW91cz4s
+ICBlbnVtIDxhbm9ueW1vdXM+KSd9IGZyb20gaW5jb21wYXRpYmxlIHBvaW50ZXIgdHlwZSAnaW50
+ICgqKShCbG9ja0RyaXZlclN0YXRlICopJyB7YWthICdpbnQgKCopKHN0cnVjdCBCbG9ja0RyaXZl
+clN0YXRlICopJ30gWy1XZXJyb3I9aW5jb21wYXRpYmxlLXBvaW50ZXItdHlwZXNdCiAgICAgLmJk
+cnZfa25vd25femVyb2VzICAgICAgICAgID0gbmJkX2tub3duX3plcm9lcywKICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICBefn5+fn5+fn5+fn5+fn5+Ci90bXAvcWVtdS10ZXN0L3Ny
+Yy9ibG9jay9uYmQuYzoyMDk0OjM1OiBub3RlOiAobmVhciBpbml0aWFsaXphdGlvbiBmb3IgJ2Jk
+cnZfbmJkX3VuaXguYmRydl9jb19jb3B5X3JhbmdlX2Zyb20nKQpjYzE6IGFsbCB3YXJuaW5ncyBi
+ZWluZyB0cmVhdGVkIGFzIGVycm9ycwptYWtlOiAqKiogWy90bXAvcWVtdS10ZXN0L3NyYy9ydWxl
+cy5tYWs6Njk6IGJsb2NrL25iZC5vXSBFcnJvciAxClRyYWNlYmFjayAobW9zdCByZWNlbnQgY2Fs
+bCBsYXN0KToKICBGaWxlICIuL3Rlc3RzL2RvY2tlci9kb2NrZXIucHkiLCBsaW5lIDY2NCwgaW4g
+PG1vZHVsZT4KICAgIHN5cy5leGl0KG1haW4oKSkKLS0tCiAgICByYWlzZSBDYWxsZWRQcm9jZXNz
+RXJyb3IocmV0Y29kZSwgY21kKQpzdWJwcm9jZXNzLkNhbGxlZFByb2Nlc3NFcnJvcjogQ29tbWFu
+ZCAnWydzdWRvJywgJy1uJywgJ2RvY2tlcicsICdydW4nLCAnLS1sYWJlbCcsICdjb20ucWVtdS5p
+bnN0YW5jZS51dWlkPTgxMWE2YzhkMmIxZjQzMzJiNzFhZmYxMzYxNmY4YjE0JywgJy11JywgJzEw
+MDMnLCAnLS1zZWN1cml0eS1vcHQnLCAnc2VjY29tcD11bmNvbmZpbmVkJywgJy0tcm0nLCAnLWUn
+LCAnVEFSR0VUX0xJU1Q9JywgJy1lJywgJ0VYVFJBX0NPTkZJR1VSRV9PUFRTPScsICctZScsICdW
+PScsICctZScsICdKPTE0JywgJy1lJywgJ0RFQlVHPScsICctZScsICdTSE9XX0VOVj0nLCAnLWUn
+LCAnQ0NBQ0hFX0RJUj0vdmFyL3RtcC9jY2FjaGUnLCAnLXYnLCAnL2hvbWUvcGF0Y2hldzIvLmNh
+Y2hlL3FlbXUtZG9ja2VyLWNjYWNoZTovdmFyL3RtcC9jY2FjaGU6eicsICctdicsICcvdmFyL3Rt
+cC9wYXRjaGV3LXRlc3Rlci10bXAtbl96amthcmsvc3JjL2RvY2tlci1zcmMuMjAyMC0wMi0xMC0x
+Ni40OS4xOC45OTIwOi92YXIvdG1wL3FlbXU6eixybycsICdxZW11OmZlZG9yYScsICcvdmFyL3Rt
+cC9xZW11L3J1bicsICd0ZXN0LW1pbmd3J10nIHJldHVybmVkIG5vbi16ZXJvIGV4aXQgc3RhdHVz
+IDIuCmZpbHRlcj0tLWZpbHRlcj1sYWJlbD1jb20ucWVtdS5pbnN0YW5jZS51dWlkPTgxMWE2Yzhk
+MmIxZjQzMzJiNzFhZmYxMzYxNmY4YjE0Cm1ha2VbMV06ICoqKiBbZG9ja2VyLXJ1bl0gRXJyb3Ig
+MQptYWtlWzFdOiBMZWF2aW5nIGRpcmVjdG9yeSBgL3Zhci90bXAvcGF0Y2hldy10ZXN0ZXItdG1w
+LW5femprYXJrL3NyYycKbWFrZTogKioqIFtkb2NrZXItcnVuLXRlc3QtbWluZ3dAZmVkb3JhXSBF
+cnJvciAyCgpyZWFsICAgIDJtMTguNTA5cwp1c2VyICAgIDBtNy45NjFzCgoKVGhlIGZ1bGwgbG9n
+IGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8yMDIwMDIxMDIxNDEwOS43
+NTE3MzQtMS1lYmxha2VAcmVkaGF0LmNvbS90ZXN0aW5nLmRvY2tlci1taW5nd0BmZWRvcmEvP3R5
+cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcg
+W2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRj
+aGV3LWRldmVsQHJlZGhhdC5jb20=
 
