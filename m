@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCACD156E88
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Feb 2020 05:57:29 +0100 (CET)
-Received: from localhost ([::1]:56866 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15D1A156E8B
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Feb 2020 05:59:26 +0100 (CET)
+Received: from localhost ([::1]:56892 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j118S-0001AP-Rf
-	for lists+qemu-devel@lfdr.de; Sun, 09 Feb 2020 23:57:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49586)
+	id 1j11AL-00041J-52
+	for lists+qemu-devel@lfdr.de; Sun, 09 Feb 2020 23:59:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49616)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <sbhat@linux.ibm.com>) id 1j117E-0008L6-Rm
- for qemu-devel@nongnu.org; Sun, 09 Feb 2020 23:56:14 -0500
+ (envelope-from <sbhat@linux.ibm.com>) id 1j117P-0000B8-MB
+ for qemu-devel@nongnu.org; Sun, 09 Feb 2020 23:56:24 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <sbhat@linux.ibm.com>) id 1j117D-0003Nc-5c
- for qemu-devel@nongnu.org; Sun, 09 Feb 2020 23:56:12 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:63330
+ (envelope-from <sbhat@linux.ibm.com>) id 1j117O-0003na-Gg
+ for qemu-devel@nongnu.org; Sun, 09 Feb 2020 23:56:23 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:59346
  helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <sbhat@linux.ibm.com>) id 1j117C-0003L8-7N
- for qemu-devel@nongnu.org; Sun, 09 Feb 2020 23:56:11 -0500
-Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+ (Exim 4.71) (envelope-from <sbhat@linux.ibm.com>) id 1j117O-0003mI-B7
+ for qemu-devel@nongnu.org; Sun, 09 Feb 2020 23:56:22 -0500
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
  by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 01A4s50b180938
- for <qemu-devel@nongnu.org>; Sun, 9 Feb 2020 23:56:09 -0500
+ 01A4sb4g120157
+ for <qemu-devel@nongnu.org>; Sun, 9 Feb 2020 23:56:21 -0500
 Received: from e06smtp01.uk.ibm.com (e06smtp01.uk.ibm.com [195.75.94.97])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2y1u7ypmdb-1
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2y1tncfwt2-1
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Sun, 09 Feb 2020 23:56:09 -0500
+ for <qemu-devel@nongnu.org>; Sun, 09 Feb 2020 23:56:21 -0500
 Received: from localhost
  by e06smtp01.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
  Violators will be prosecuted
  for <qemu-devel@nongnu.org> from <sbhat@linux.ibm.com>;
- Mon, 10 Feb 2020 04:56:07 -0000
-Received: from b06cxnps4074.portsmouth.uk.ibm.com (9.149.109.196)
+ Mon, 10 Feb 2020 04:56:20 -0000
+Received: from b06avi18878370.portsmouth.uk.ibm.com (9.149.26.194)
  by e06smtp01.uk.ibm.com (192.168.101.131) with IBM ESMTP SMTP Gateway:
  Authorized Use Only! Violators will be prosecuted; 
  (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Mon, 10 Feb 2020 04:56:05 -0000
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com
- (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
- by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 01A4u4ab23986394
+ Mon, 10 Feb 2020 04:56:16 -0000
+Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
+ [9.149.105.60])
+ by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 01A4uFEl43778308
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 10 Feb 2020 04:56:04 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 2C143A405B;
- Mon, 10 Feb 2020 04:56:04 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 2C209A4060;
- Mon, 10 Feb 2020 04:56:03 +0000 (GMT)
+ Mon, 10 Feb 2020 04:56:15 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 9E2A14203F;
+ Mon, 10 Feb 2020 04:56:15 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 9A99942041;
+ Mon, 10 Feb 2020 04:56:14 +0000 (GMT)
 Received: from lep8c.aus.stglabs.ibm.com (unknown [9.40.192.207])
- by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Mon, 10 Feb 2020 04:56:03 +0000 (GMT)
-Subject: [PATCH v6 1/4] mem: move nvdimm_device_list to utilities
+ by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Mon, 10 Feb 2020 04:56:14 +0000 (GMT)
+Subject: [PATCH v6 2/4] nvdimm: add uuid property to nvdimm
 From: Shivaprasad G Bhat <sbhat@linux.ibm.com>
 To: imammedo@redhat.com, david@gibson.dropbear.id.au,
  xiaoguangrong.eric@gmail.com, mst@redhat.com
-Date: Sun, 09 Feb 2020 22:56:02 -0600
+Date: Sun, 09 Feb 2020 22:56:13 -0600
 In-Reply-To: <158131055152.2897.1684848646085925139.stgit@lep8c.aus.stglabs.ibm.com>
 References: <158131055152.2897.1684848646085925139.stgit@lep8c.aus.stglabs.ibm.com>
 User-Agent: StGit/0.17.1-dirty
@@ -66,18 +66,18 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-TM-AS-GCONF: 00
-x-cbid: 20021004-4275-0000-0000-0000039F9C81
+x-cbid: 20021004-4275-0000-0000-0000039F9C83
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 20021004-4276-0000-0000-000038B3CF69
-Message-Id: <158131055857.2897.15658377276504711773.stgit@lep8c.aus.stglabs.ibm.com>
+x-cbparentid: 20021004-4276-0000-0000-000038B3CF6A
+Message-Id: <158131056931.2897.14057087440721445976.stgit@lep8c.aus.stglabs.ibm.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
  definitions=2020-02-09_08:2020-02-07,
  2020-02-09 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 adultscore=0
- mlxlogscore=999 spamscore=0 priorityscore=1501 suspectscore=2
- impostorscore=0 lowpriorityscore=0 phishscore=0 mlxscore=0 clxscore=1015
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ spamscore=0
+ lowpriorityscore=0 malwarescore=0 suspectscore=2 bulkscore=0 phishscore=0
+ impostorscore=0 adultscore=0 priorityscore=1501 clxscore=1015 mlxscore=0
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2001150001 definitions=main-2002100039
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
 X-Received-From: 148.163.158.5
@@ -96,119 +96,104 @@ Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, sbhat@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-nvdimm_device_list is required for parsing the list for devices
-in subsequent patches. Move it to common utility area.
+For ppc64, PAPR requires the nvdimm device to have UUID property
+set in the device tree. Add an option to get it from the user.
 
 Signed-off-by: Shivaprasad G Bhat <sbhat@linux.ibm.com>
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 ---
- hw/acpi/nvdimm.c            |   28 +---------------------------
- include/qemu/nvdimm-utils.h |    7 +++++++
- util/Makefile.objs          |    1 +
- util/nvdimm-utils.c         |   29 +++++++++++++++++++++++++++++
- 4 files changed, 38 insertions(+), 27 deletions(-)
- create mode 100644 include/qemu/nvdimm-utils.h
- create mode 100644 util/nvdimm-utils.c
+ hw/mem/nvdimm.c         |   40 ++++++++++++++++++++++++++++++++++++++++
+ include/hw/mem/nvdimm.h |    7 +++++++
+ 2 files changed, 47 insertions(+)
 
-diff --git a/hw/acpi/nvdimm.c b/hw/acpi/nvdimm.c
-index 9fdad6dc3f..5219dd0e2e 100644
---- a/hw/acpi/nvdimm.c
-+++ b/hw/acpi/nvdimm.c
-@@ -32,33 +32,7 @@
- #include "hw/acpi/bios-linker-loader.h"
- #include "hw/nvram/fw_cfg.h"
- #include "hw/mem/nvdimm.h"
--
--static int nvdimm_device_list(Object *obj, void *opaque)
--{
--    GSList **list = opaque;
--
--    if (object_dynamic_cast(obj, TYPE_NVDIMM)) {
--        *list = g_slist_append(*list, DEVICE(obj));
--    }
--
--    object_child_foreach(obj, nvdimm_device_list, opaque);
--    return 0;
--}
--
--/*
-- * inquire NVDIMM devices and link them into the list which is
-- * returned to the caller.
-- *
-- * Note: it is the caller's responsibility to free the list to avoid
-- * memory leak.
-- */
--static GSList *nvdimm_get_device_list(void)
--{
--    GSList *list = NULL;
--
--    object_child_foreach(qdev_get_machine(), nvdimm_device_list, &list);
--    return list;
--}
-+#include "qemu/nvdimm-utils.h"
+diff --git a/hw/mem/nvdimm.c b/hw/mem/nvdimm.c
+index 39f1426d1f..8e426d24bb 100644
+--- a/hw/mem/nvdimm.c
++++ b/hw/mem/nvdimm.c
+@@ -69,11 +69,51 @@ out:
+     error_propagate(errp, local_err);
+ }
  
- #define NVDIMM_UUID_LE(a, b, c, d0, d1, d2, d3, d4, d5, d6, d7)             \
-    { (a) & 0xff, ((a) >> 8) & 0xff, ((a) >> 16) & 0xff, ((a) >> 24) & 0xff, \
-diff --git a/include/qemu/nvdimm-utils.h b/include/qemu/nvdimm-utils.h
-new file mode 100644
-index 0000000000..4b8b198ba7
---- /dev/null
-+++ b/include/qemu/nvdimm-utils.h
-@@ -0,0 +1,7 @@
-+#ifndef NVDIMM_UTILS_H
-+#define NVDIMM_UTILS_H
-+
-+#include "qemu/osdep.h"
-+
-+GSList *nvdimm_get_device_list(void);
-+#endif
-diff --git a/util/Makefile.objs b/util/Makefile.objs
-index 11262aafaf..6b38b67cf1 100644
---- a/util/Makefile.objs
-+++ b/util/Makefile.objs
-@@ -20,6 +20,7 @@ util-obj-y += envlist.o path.o module.o
- util-obj-y += host-utils.o
- util-obj-y += bitmap.o bitops.o hbitmap.o
- util-obj-y += fifo8.o
-+util-obj-y += nvdimm-utils.o
- util-obj-y += cacheinfo.o
- util-obj-y += error.o qemu-error.o
- util-obj-y += qemu-print.o
-diff --git a/util/nvdimm-utils.c b/util/nvdimm-utils.c
-new file mode 100644
-index 0000000000..5cc768ca47
---- /dev/null
-+++ b/util/nvdimm-utils.c
-@@ -0,0 +1,29 @@
-+#include "qemu/nvdimm-utils.h"
-+#include "hw/mem/nvdimm.h"
-+
-+static int nvdimm_device_list(Object *obj, void *opaque)
++static void nvdimm_get_uuid(Object *obj, Visitor *v, const char *name,
++                                  void *opaque, Error **errp)
 +{
-+    GSList **list = opaque;
++    NVDIMMDevice *nvdimm = NVDIMM(obj);
++    char *value = NULL;
 +
-+    if (object_dynamic_cast(obj, TYPE_NVDIMM)) {
-+        *list = g_slist_append(*list, DEVICE(obj));
++    value = qemu_uuid_unparse_strdup(&nvdimm->uuid);
++
++    visit_type_str(v, name, &value, errp);
++    g_free(value);
++}
++
++
++static void nvdimm_set_uuid(Object *obj, Visitor *v, const char *name,
++                                  void *opaque, Error **errp)
++{
++    NVDIMMDevice *nvdimm = NVDIMM(obj);
++    Error *local_err = NULL;
++    char *value;
++
++    visit_type_str(v, name, &value, &local_err);
++    if (local_err) {
++        goto out;
 +    }
 +
-+    object_child_foreach(obj, nvdimm_device_list, opaque);
-+    return 0;
++    if (qemu_uuid_parse(value, &nvdimm->uuid) != 0) {
++        error_setg(errp, "Property '%s.%s' has invalid value",
++                   object_get_typename(obj), name);
++        goto out;
++    }
++    g_free(value);
++
++out:
++    error_propagate(errp, local_err);
 +}
 +
-+/*
-+ * inquire NVDIMM devices and link them into the list which is
-+ * returned to the caller.
-+ *
-+ * Note: it is the caller's responsibility to free the list to avoid
-+ * memory leak.
-+ */
-+GSList *nvdimm_get_device_list(void)
-+{
-+    GSList *list = NULL;
 +
-+    object_child_foreach(qdev_get_machine(), nvdimm_device_list, &list);
-+    return list;
-+}
+ static void nvdimm_init(Object *obj)
+ {
+     object_property_add(obj, NVDIMM_LABEL_SIZE_PROP, "int",
+                         nvdimm_get_label_size, nvdimm_set_label_size, NULL,
+                         NULL, NULL);
++
++    object_property_add(obj, NVDIMM_UUID_PROP, "QemuUUID", nvdimm_get_uuid,
++                        nvdimm_set_uuid, NULL, NULL, NULL);
+ }
+ 
+ static void nvdimm_finalize(Object *obj)
+diff --git a/include/hw/mem/nvdimm.h b/include/hw/mem/nvdimm.h
+index 523a9b3d4a..4807ca615b 100644
+--- a/include/hw/mem/nvdimm.h
++++ b/include/hw/mem/nvdimm.h
+@@ -25,6 +25,7 @@
+ 
+ #include "hw/mem/pc-dimm.h"
+ #include "hw/acpi/bios-linker-loader.h"
++#include "qemu/uuid.h"
+ 
+ #define NVDIMM_DEBUG 0
+ #define nvdimm_debug(fmt, ...)                                \
+@@ -49,6 +50,7 @@
+                                                TYPE_NVDIMM)
+ 
+ #define NVDIMM_LABEL_SIZE_PROP "label-size"
++#define NVDIMM_UUID_PROP       "uuid"
+ #define NVDIMM_UNARMED_PROP    "unarmed"
+ 
+ struct NVDIMMDevice {
+@@ -83,6 +85,11 @@ struct NVDIMMDevice {
+      * the guest write persistence.
+      */
+     bool unarmed;
++
++    /*
++     * The PPC64 - spapr requires each nvdimm device have a uuid.
++     */
++    QemuUUID uuid;
+ };
+ typedef struct NVDIMMDevice NVDIMMDevice;
+ 
 
 
