@@ -2,50 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46F7A15822B
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Feb 2020 19:22:30 +0100 (CET)
-Received: from localhost ([::1]:37314 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C71BF1582FA
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Feb 2020 19:50:00 +0100 (CET)
+Received: from localhost ([::1]:37482 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j1DhV-0001wW-3t
-	for lists+qemu-devel@lfdr.de; Mon, 10 Feb 2020 13:22:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44104)
+	id 1j1E87-0001Cg-BJ
+	for lists+qemu-devel@lfdr.de; Mon, 10 Feb 2020 13:49:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41484)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berto@igalia.com>) id 1j1Dge-0001Qx-7d
- for qemu-devel@nongnu.org; Mon, 10 Feb 2020 13:21:37 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1j1E6x-0000YG-VN
+ for qemu-devel@nongnu.org; Mon, 10 Feb 2020 13:48:49 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berto@igalia.com>) id 1j1Dgd-00041s-AA
- for qemu-devel@nongnu.org; Mon, 10 Feb 2020 13:21:36 -0500
-Received: from fanzine.igalia.com ([178.60.130.6]:34355)
+ (envelope-from <peter.maydell@linaro.org>) id 1j1E6w-0003Wi-HH
+ for qemu-devel@nongnu.org; Mon, 10 Feb 2020 13:48:47 -0500
+Received: from mail-ot1-x330.google.com ([2607:f8b0:4864:20::330]:37370)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <berto@igalia.com>)
- id 1j1Dgc-0003yQ-MY; Mon, 10 Feb 2020 13:21:35 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
- s=20170329; 
- h=Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
- bh=ang7Jt1nAzb7R1I5OW8wFx8IKrIogTat/QTgtHDpG10=; 
- b=bc5EuXH9Ty4LJj/hBgJJOy4JqduCNPF5TXptSMJAlpmfTkS5FhDWO3Yyx5GXvBdHCrVOx3Bt2XDP1zUtisl3sszJxFVBGj1fMIDdYJKMZbO+Axe/J6f3e2NnxyZY8cJ6Uj7H1l/l5ol1Ug2CnsTwc6Jhoty6O9YnbR3K+UaCnOx2nBz0DeSVdQIxjp6z0yCSWYSzcaaXC6Nv3T53zAcfB3wNLiutad+pr3A/OK+7TAs8UkwycThNT4goJ5dHTusO9UBR9b7P+NIMkJzVjWKVLjohUwU2VBirACR02twYs/tbDdrh03KlEDkbmjpq6JDp/KoeUqJFqsOaK3PktCT2NA==;
-Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
- by fanzine.igalia.com with esmtps 
- (Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
- id 1j1DgZ-0005S2-If; Mon, 10 Feb 2020 19:21:31 +0100
-Received: from berto by mail.igalia.com with local (Exim)
- id 1j1DgZ-0004qk-8O; Mon, 10 Feb 2020 19:21:31 +0100
-From: Alberto Garcia <berto@igalia.com>
-To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
-Subject: Re: [PATCH 07/17] gluster: Drop useless has_zero_init callback
-In-Reply-To: <20200131174436.2961874-8-eblake@redhat.com>
-References: <20200131174436.2961874-1-eblake@redhat.com>
- <20200131174436.2961874-8-eblake@redhat.com>
-User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
- (i586-pc-linux-gnu)
-Date: Mon, 10 Feb 2020 19:21:31 +0100
-Message-ID: <w51blq6fglw.fsf@maestria.local.igalia.com>
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1j1E6w-0003U5-Bv
+ for qemu-devel@nongnu.org; Mon, 10 Feb 2020 13:48:46 -0500
+Received: by mail-ot1-x330.google.com with SMTP id d3so7433951otp.4
+ for <qemu-devel@nongnu.org>; Mon, 10 Feb 2020 10:48:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=tck7Wc4e0znZK+D6kS+GoPvxriS8xDhVgklXe6rxj8M=;
+ b=Im5fExOEnTrZC+66oqTqv3bPb7LTgtc4CU9wRMzlAtr7NgT+Md/Whxdn0c5KxPTAbo
+ 7VVAe7f/CMm23yZ09gml7N39SRgHyJ7mBxp5kO0tfC1aP1D7hiedDZCAdn7NZb8JwRly
+ IfG9pd5d8Mx3wPzUb/+YWQGxjKCWju20a5WDlWJHDQ5axf0lavlE6H58OggeFnNI9wzg
+ FFdzioc2aDvsvVyYNm46IQX8b97i1X5rLszKTnbLOCxFl1/NKtGinDYNmg3jKCgb7t9l
+ r7S2gonsFoZuCJoa9hoGbyH3RRb0nT+iRFImH7PL2ElrpnM2sdfr5cHZYkhNCWFce1W5
+ HuoQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=tck7Wc4e0znZK+D6kS+GoPvxriS8xDhVgklXe6rxj8M=;
+ b=bNwZ0pqISBA+7Bsja4ugeG6MK0ofmiXvIrJHYKor44cbDn9SM/kABS9v+DY8SgCoaR
+ zPvf5dSFYbQo+MeTKnf2PtcQWlWD2Y5ut/UD347ux7JFETQ8COh7aPuQm4rm+XGdTqhF
+ nUr491DKYQ3aH9IDAtnGsuHkREL8iXmPxpwBGWFmBA8eUASJyjMw4m9aRD+hmqP5K22u
+ zWUbwfliV9aLtDJInJrZJ6VsiAB8VBbs5YRbMXL/eLyT9L3x5sCYhlHbK0wf2Uw13hAy
+ nFL6rZHrgJP13JmDbccGWk/rTqoUp7iL/4J3VgHudpD+ZLxdfZhsWW38lhIJ9MftZ5hs
+ uwrg==
+X-Gm-Message-State: APjAAAW8v0/weY62j9LEAauRYreC/pLyBOjlxclwfI4KEVe2S50RqGj0
+ FS/7TDoENImod/d7vONMzpRVGzHeMq4Eb2qRPHrnoA==
+X-Google-Smtp-Source: APXvYqz5T49JGQmKj5DkQ3Sam/P8nind5WYgMtWajALuy76WbPdY79k5Nx3G8EHLmDkbKOnnMio2waK0kPky2Wh5o10=
+X-Received: by 2002:a05:6830:4a4:: with SMTP id
+ l4mr2126919otd.91.1581360524053; 
+ Mon, 10 Feb 2020 10:48:44 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x (no
- timestamps) [generic] [fuzzy]
-X-Received-From: 178.60.130.6
+References: <20200210172918.95874-1-dgilbert@redhat.com>
+In-Reply-To: <20200210172918.95874-1-dgilbert@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 10 Feb 2020 18:48:32 +0000
+Message-ID: <CAFEAcA8B7_4k7fudkAN7-hkTLYcLGZArZdvhYbMFUaz3HCcAMA@mail.gmail.com>
+Subject: Re: [PULL 0/5] virtiofs queue
+To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::330
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,19 +72,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: david.edmondson@oracle.com, Kevin Wolf <kwolf@redhat.com>,
- "open list:GLUSTER" <integration@gluster.org>, qemu-block@nongnu.org,
- mreitz@redhat.com
+Cc: QEMU Developers <qemu-devel@nongnu.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri 31 Jan 2020 06:44:26 PM CET, Eric Blake wrote:
-> block.c already defaults to 0 if we don't provide a callback; there's
-> no need to write a callback that always fails.
+On Mon, 10 Feb 2020 at 17:31, Dr. David Alan Gilbert (git)
+<dgilbert@redhat.com> wrote:
 >
-> Signed-off-by: Eric Blake <eblake@redhat.com>
+> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+>
+> The following changes since commit 2b8a51cdb3e8d15a5c35de7a2e76a813ae7358f0:
+>
+>   Merge remote-tracking branch 'remotes/gkurz/tags/9p-next-2020-02-08' into staging (2020-02-10 16:07:29 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/dagrh/qemu.git tags/pull-virtiofs-20200210
+>
+> for you to fetch changes up to 6a7e2bbee5fa5f167959f05319550d2a49a6b8bb:
+>
+>   docs: add virtiofsd(1) man page (2020-02-10 17:25:52 +0000)
+>
+> ----------------------------------------------------------------
+> virtiofsd pull 2020-02-10
+>
+> Coverity fixes and a reworked man page.
+>
+> ----------------------------------------------------------------
+> Dr. David Alan Gilbert (4):
+>       virtiofsd: Remove fuse_req_getgroups
+>       virtiofsd: fv_create_listen_socket error path socket leak
+>       virtiofsd: load_capng missing unlock
+>       virtiofsd: do_read missing NULL check
+>
+> Stefan Hajnoczi (1):
+>       docs: add virtiofsd(1) man page
 
-Reviewed-by: Alberto Garcia <berto@igalia.com>
 
-Berto
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/5.0
+for any user-visible changes.
+
+-- PMM
 
