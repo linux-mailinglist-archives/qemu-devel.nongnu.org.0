@@ -2,37 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28FE7157EE4
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Feb 2020 16:35:47 +0100 (CET)
-Received: from localhost ([::1]:35116 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A329A157EE3
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Feb 2020 16:35:44 +0100 (CET)
+Received: from localhost ([::1]:35114 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j1B69-0003lP-2p
-	for lists+qemu-devel@lfdr.de; Mon, 10 Feb 2020 10:35:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41640)
+	id 1j1B67-0003gb-Cs
+	for lists+qemu-devel@lfdr.de; Mon, 10 Feb 2020 10:35:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41635)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <zhabin@linux.alibaba.com>) id 1j150s-000793-R8
+ (envelope-from <zhabin@linux.alibaba.com>) id 1j150s-00078z-Sa
  for qemu-devel@nongnu.org; Mon, 10 Feb 2020 04:05:56 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <zhabin@linux.alibaba.com>) id 1j150p-0004Jx-HO
- for qemu-devel@nongnu.org; Mon, 10 Feb 2020 04:05:52 -0500
-Received: from out4436.biz.mail.alibaba.com ([47.88.44.36]:37980)
+ (envelope-from <zhabin@linux.alibaba.com>) id 1j150o-0004Ih-6D
+ for qemu-devel@nongnu.org; Mon, 10 Feb 2020 04:05:51 -0500
+Received: from out4436.biz.mail.alibaba.com ([47.88.44.36]:53923)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <zhabin@linux.alibaba.com>)
- id 1j150p-0004Hm-7W
- for qemu-devel@nongnu.org; Mon, 10 Feb 2020 04:05:51 -0500
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R121e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=e01f04428; MF=zhabin@linux.alibaba.com;
- NM=1; PH=DS; RN=10; SR=0; TI=SMTPD_---0Tpb9F9X_1581325530; 
+ id 1j150n-0004Ep-Su
+ for qemu-devel@nongnu.org; Mon, 10 Feb 2020 04:05:50 -0500
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R111e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=e01e07417; MF=zhabin@linux.alibaba.com;
+ NM=1; PH=DS; RN=10; SR=0; TI=SMTPD_---0Tpb7N0C_1581325531; 
 Received: from localhost(mailfrom:zhabin@linux.alibaba.com
- fp:SMTPD_---0Tpb9F9X_1581325530) by smtp.aliyun-inc.com(127.0.0.1);
+ fp:SMTPD_---0Tpb7N0C_1581325531) by smtp.aliyun-inc.com(127.0.0.1);
  Mon, 10 Feb 2020 17:05:31 +0800
 From: Zha Bin <zhabin@linux.alibaba.com>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH v2 0/5] virtio mmio specification enhancement
-Date: Mon, 10 Feb 2020 17:05:16 +0800
-Message-Id: <cover.1581305609.git.zhabin@linux.alibaba.com>
+Subject: [PATCH v2 1/5] virtio-mmio: add notify feature for per-queue
+Date: Mon, 10 Feb 2020 17:05:17 +0800
+Message-Id: <8a4ea95d6d77a2814aaf6897b5517353289a098e.1581305609.git.zhabin@linux.alibaba.com>
 X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <cover.1581305609.git.zhabin@linux.alibaba.com>
+References: <cover.1581305609.git.zhabin@linux.alibaba.com>
+In-Reply-To: <cover.1581305609.git.zhabin@linux.alibaba.com>
+References: <cover.1581305609.git.zhabin@linux.alibaba.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
 X-Received-From: 47.88.44.36
 X-Mailman-Approved-At: Mon, 10 Feb 2020 10:31:31 -0500
@@ -53,83 +57,145 @@ Cc: virtio-dev@lists.oasis-open.org, zhabin@linux.alibaba.com, slp@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In cloud native environment, we need a lightweight and secure system. It
-should benefit from the speed of containers and the security of VM, which
-is classified as secure containers. The traditional solution of cloud VM
-is Qemu. In fact we don't need to pay for the legacy devices. Currently,
-more userspace VMMs, e.g. Qemu, Firecracker, Cloud Hypervisor and Alibaba
-Cloud VMM which is called Dragonball, began to pay attention to a
-lightweight solution.
+From: Liu Jiang <gerry@linux.alibaba.com>
 
-The lightweight VMM is suitable to cloud native infrastructure which is
-designed for creating secure sandbox to address the requirements of
-multi-tenant. Meanwhile, with faster startup time and lower memory
-overhead, it makes possible to launch thousands of microVMs on the same
-machine. This VMM minimizes the emulation devices and uses virtio-mmio to
-get a more lightweight transport layer. The virtio-mmio devices have less
-code than virtio-pci, which can decrease boot time and increase deploy
-density by customizing kernel such as setting pci=off. From another point
-of view, the minimal device can reduce the attack surface.
-
-We have compared the number of files and the lines of code between
-virtio-mmio and virio-pci.
-
-				Virtio-PCI	    Virtio-MMIO	
-	number of files(Linux)	    161			1
-	lines of code(Linux)	    78237		538
-	number of files(Qemu)	    24			1
-	lines of code(Qemu)	    8952		421
-
-But the current standard virtio-mmio spec has some limitations which is
-only support legacy interrupt and will cause performance penalties.
-
-To address such limitation, we proposed to update virtio-mmio spec with
-two new feature bits to support MSI interrupt and enhancing notification
-mechanism[1], which can achieve the same performance as virtio-pci devices
-with only around 600 lines of code.
-
-Here are the performance gain of MSI interrupt in virtio-mmio. Each case is
-repeated three times.
-
-        netperf -t TCP_RR -H 192.168.1.36 -l 30 -- -r 32,1024
-
-                Virtio-PCI    Virtio-MMIO   Virtio-MMIO(MSI)
-        trans/s     9536        6939            9500
-        trans/s     9734        7029            9749
-        trans/s     9894        7095            9318
-
-With the virtio spec proposal[1], other VMMs (e.g. Qemu) can also make use
-of the new features to get a enhancing performance.
+The standard virtio-mmio devices use notification register to signal
+backend. This will cause vmexits and slow down the performance when we
+passthrough the virtio-mmio devices to guest virtual machines.
+We proposed to update virtio over MMIO spec to add the per-queue
+notify feature VIRTIO_F_MMIO_NOTIFICATION[1]. It can allow the VMM to
+configure notify location for each queue.
 
 [1] https://lkml.org/lkml/2020/1/21/31
 
-Change Log:
-v1->v2
-* Change version update to feature bit
-* Add mask/unmask support
-* Add two MSI sharing/non-sharing modes
-* Create generic irq domain for all architectures
+Signed-off-by: Liu Jiang <gerry@linux.alibaba.com>
+Co-developed-by: Zha Bin <zhabin@linux.alibaba.com>
+Signed-off-by: Zha Bin <zhabin@linux.alibaba.com>
+Co-developed-by: Jing Liu <jing2.liu@linux.intel.com>
+Signed-off-by: Jing Liu <jing2.liu@linux.intel.com>
+Co-developed-by: Chao Peng <chao.p.peng@linux.intel.com>
+Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
+---
+ drivers/virtio/virtio_mmio.c       | 37 +++++++++++++++++++++++++++++++++++--
+ include/uapi/linux/virtio_config.h |  8 +++++++-
+ 2 files changed, 42 insertions(+), 3 deletions(-)
 
-Liu Jiang (5):
-  virtio-mmio: add notify feature for per-queue
-  virtio-mmio: refactor common functionality
-  virtio-mmio: create a generic MSI irq domain
-  virtio-mmio: add MSI interrupt feature support
-  x86: virtio-mmio: support virtio-mmio with MSI for x86
-
- arch/x86/kernel/apic/msi.c          |  11 +-
- drivers/base/platform-msi.c         |   4 +-
- drivers/virtio/Kconfig              |   9 +
- drivers/virtio/virtio_mmio.c        | 351 ++++++++++++++++++++++++++++++++----
- drivers/virtio/virtio_mmio_common.h |  39 ++++
- drivers/virtio/virtio_mmio_msi.h    | 175 ++++++++++++++++++
- include/linux/msi.h                 |   1 +
- include/uapi/linux/virtio_config.h  |  13 +-
- include/uapi/linux/virtio_mmio.h    |  31 ++++
- 9 files changed, 596 insertions(+), 38 deletions(-)
- create mode 100644 drivers/virtio/virtio_mmio_common.h
- create mode 100644 drivers/virtio/virtio_mmio_msi.h
-
+diff --git a/drivers/virtio/virtio_mmio.c b/drivers/virtio/virtio_mmio.c
+index 97d5725..1733ab97 100644
+--- a/drivers/virtio/virtio_mmio.c
++++ b/drivers/virtio/virtio_mmio.c
+@@ -90,6 +90,9 @@ struct virtio_mmio_device {
+ 	/* a list of queues so we can dispatch IRQs */
+ 	spinlock_t lock;
+ 	struct list_head virtqueues;
++
++	unsigned short notify_base;
++	unsigned short notify_multiplier;
+ };
+ 
+ struct virtio_mmio_vq_info {
+@@ -98,6 +101,9 @@ struct virtio_mmio_vq_info {
+ 
+ 	/* the list node for the virtqueues list */
+ 	struct list_head node;
++
++	/* Notify Address*/
++	unsigned int notify_addr;
+ };
+ 
+ 
+@@ -119,13 +125,23 @@ static u64 vm_get_features(struct virtio_device *vdev)
+ 	return features;
+ }
+ 
++static void vm_transport_features(struct virtio_device *vdev, u64 features)
++{
++	if (features & BIT_ULL(VIRTIO_F_MMIO_NOTIFICATION))
++		__virtio_set_bit(vdev, VIRTIO_F_MMIO_NOTIFICATION);
++}
++
+ static int vm_finalize_features(struct virtio_device *vdev)
+ {
+ 	struct virtio_mmio_device *vm_dev = to_virtio_mmio_device(vdev);
++	u64 features = vdev->features;
+ 
+ 	/* Give virtio_ring a chance to accept features. */
+ 	vring_transport_features(vdev);
+ 
++	/* Give virtio_mmio a chance to accept features. */
++	vm_transport_features(vdev, features);
++
+ 	/* Make sure there is are no mixed devices */
+ 	if (vm_dev->version == 2 &&
+ 			!__virtio_test_bit(vdev, VIRTIO_F_VERSION_1)) {
+@@ -272,10 +288,13 @@ static void vm_reset(struct virtio_device *vdev)
+ static bool vm_notify(struct virtqueue *vq)
+ {
+ 	struct virtio_mmio_device *vm_dev = to_virtio_mmio_device(vq->vdev);
++	struct virtio_mmio_vq_info *info = vq->priv;
+ 
+-	/* We write the queue's selector into the notification register to
++	/* We write the queue's selector into the Notify Address to
+ 	 * signal the other end */
+-	writel(vq->index, vm_dev->base + VIRTIO_MMIO_QUEUE_NOTIFY);
++	if (info)
++		writel(vq->index, vm_dev->base + info->notify_addr);
++
+ 	return true;
+ }
+ 
+@@ -434,6 +453,12 @@ static struct virtqueue *vm_setup_vq(struct virtio_device *vdev, unsigned index,
+ 	vq->priv = info;
+ 	info->vq = vq;
+ 
++	if (__virtio_test_bit(vdev, VIRTIO_F_MMIO_NOTIFICATION))
++		info->notify_addr = vm_dev->notify_base +
++				vm_dev->notify_multiplier * vq->index;
++	else
++		info->notify_addr = VIRTIO_MMIO_QUEUE_NOTIFY;
++
+ 	spin_lock_irqsave(&vm_dev->lock, flags);
+ 	list_add(&info->node, &vm_dev->virtqueues);
+ 	spin_unlock_irqrestore(&vm_dev->lock, flags);
+@@ -471,6 +496,14 @@ static int vm_find_vqs(struct virtio_device *vdev, unsigned nvqs,
+ 		return irq;
+ 	}
+ 
++	if (__virtio_test_bit(vdev, VIRTIO_F_MMIO_NOTIFICATION)) {
++		unsigned int notify = readl(vm_dev->base +
++				VIRTIO_MMIO_QUEUE_NOTIFY);
++
++		vm_dev->notify_base = notify & 0xffff;
++		vm_dev->notify_multiplier = (notify >> 16) & 0xffff;
++	}
++
+ 	err = request_irq(irq, vm_interrupt, IRQF_SHARED,
+ 			dev_name(&vdev->dev), vm_dev);
+ 	if (err)
+diff --git a/include/uapi/linux/virtio_config.h b/include/uapi/linux/virtio_config.h
+index ff8e7dc..5d93c01 100644
+--- a/include/uapi/linux/virtio_config.h
++++ b/include/uapi/linux/virtio_config.h
+@@ -52,7 +52,7 @@
+  * rest are per-device feature bits.
+  */
+ #define VIRTIO_TRANSPORT_F_START	28
+-#define VIRTIO_TRANSPORT_F_END		38
++#define VIRTIO_TRANSPORT_F_END		40
+ 
+ #ifndef VIRTIO_CONFIG_NO_LEGACY
+ /* Do we get callbacks when the ring is completely used, even if we've
+@@ -88,4 +88,10 @@
+  * Does the device support Single Root I/O Virtualization?
+  */
+ #define VIRTIO_F_SR_IOV			37
++
++/*
++ * This feature indicates the enhanced notification support on MMIO transport
++ * layer.
++ */
++#define VIRTIO_F_MMIO_NOTIFICATION	39
+ #endif /* _UAPI_LINUX_VIRTIO_CONFIG_H */
 -- 
 1.8.3.1
 
