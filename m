@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FEC8157D4C
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Feb 2020 15:22:05 +0100 (CET)
-Received: from localhost ([::1]:34260 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B830B157D4E
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Feb 2020 15:22:06 +0100 (CET)
+Received: from localhost ([::1]:34262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j19wq-0003kE-HX
-	for lists+qemu-devel@lfdr.de; Mon, 10 Feb 2020 09:22:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55259)
+	id 1j19wr-0003mN-J1
+	for lists+qemu-devel@lfdr.de; Mon, 10 Feb 2020 09:22:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55266)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1j19vh-0002AT-8q
- for qemu-devel@nongnu.org; Mon, 10 Feb 2020 09:20:54 -0500
+ (envelope-from <bounces@canonical.com>) id 1j19vi-0002AU-1s
+ for qemu-devel@nongnu.org; Mon, 10 Feb 2020 09:20:55 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1j19vf-0000TG-RQ
+ (envelope-from <bounces@canonical.com>) id 1j19vg-0000Tr-MI
  for qemu-devel@nongnu.org; Mon, 10 Feb 2020 09:20:53 -0500
-Received: from indium.canonical.com ([91.189.90.7]:49448)
+Received: from indium.canonical.com ([91.189.90.7]:49550)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1j19vf-0000SW-MD
- for qemu-devel@nongnu.org; Mon, 10 Feb 2020 09:20:51 -0500
+ id 1j19vg-0000TM-HF
+ for qemu-devel@nongnu.org; Mon, 10 Feb 2020 09:20:52 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1j19vd-0002Gt-Cd
- for <qemu-devel@nongnu.org>; Mon, 10 Feb 2020 14:20:49 +0000
+ id 1j19vf-0002Uq-8S
+ for <qemu-devel@nongnu.org>; Mon, 10 Feb 2020 14:20:51 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 0B9412E80E4
- for <qemu-devel@nongnu.org>; Mon, 10 Feb 2020 14:20:49 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 015D52E80DE
+ for <qemu-devel@nongnu.org>; Mon, 10 Feb 2020 14:20:51 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 10 Feb 2020 14:12:55 -0000
+Date: Mon, 10 Feb 2020 14:13:54 -0000
 From: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF?= <1859656@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -50,7 +50,7 @@ X-Launchpad-Bug-Reporter: Sean Feole (sfeole)
 X-Launchpad-Bug-Modifier: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF_=28paelzer?=
  =?utf-8?q?=29?=
 References: <157902669328.14768.4315907500950527119.malonedeb@wampee.canonical.com>
-Message-Id: <158134397559.26030.16800013351473389086.malone@soybean.canonical.com>
+Message-Id: <158134403431.19711.4414252229802680097.malone@wampee.canonical.com>
 Subject: [Bug 1859656] Re: [2.6] Unable to reboot s390x KVM machine after
  initial deploy
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
@@ -59,7 +59,7 @@ Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="0a62c17273454a1313f81a74a2198ec30b44c7b6";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: c904ddb9bd53e0c9366675a71b2fc6eddad5b4e8
+X-Launchpad-Hash: 948a758a6421af4fe638786577cf58eddcb62a9f
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,35 +76,9 @@ Reply-To: Bug 1859656 <1859656@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The one that currently is deployed is using the same "list network and hd" =
-which should not work.
-It will boot network but should not internally fall back to disk.
- 10   <os>                                                                 =
-          =
-
- 11     <type arch=3D's390x' machine=3D's390-ccw-virtio-bionic'>hvm</type> =
-              =
-
- 12     <boot dev=3D'network'/>                                            =
-            =
-
- 13     <boot dev=3D'hd'/>                                                 =
-            =
-
- 14   </os>
-
-Now lets understand how/what works here...
-
-Qemu is given both boot options (we know it will ignore the second ... or a=
-t least we think and are told so).
-   ... -boot strict=3Don ... id=3Dvirtio-disk0,bootindex=3D2 ... mac=3D52:5=
-4:00:02:a3:f9,devno=3Dfe.0.0001,bootindex=3D1
-
-I'd expect this one to "just" netboot, but we need to understand how it got=
- "up" from there.
-Fortunately there was a full log of the serial console on disk.
-
-Attaching files from this test ...
+** Attachment added: "Guest XML "as it was once working""
+   https://bugs.launchpad.net/maas/+bug/1859656/+attachment/5327027/+files/=
+vm1-as-deployed-by-maas.xml
 
 -- =
 
