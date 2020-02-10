@@ -2,71 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E21C157D09
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Feb 2020 15:05:57 +0100 (CET)
-Received: from localhost ([::1]:34130 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42512157D4F
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Feb 2020 15:22:07 +0100 (CET)
+Received: from localhost ([::1]:34266 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j19hD-00054i-Kb
-	for lists+qemu-devel@lfdr.de; Mon, 10 Feb 2020 09:05:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53009)
+	id 1j19ws-0003p7-8b
+	for lists+qemu-devel@lfdr.de; Mon, 10 Feb 2020 09:22:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55275)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kchamart@redhat.com>) id 1j19fz-0004MO-0d
- for qemu-devel@nongnu.org; Mon, 10 Feb 2020 09:04:40 -0500
+ (envelope-from <bounces@canonical.com>) id 1j19vi-0002Aa-UG
+ for qemu-devel@nongnu.org; Mon, 10 Feb 2020 09:20:55 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kchamart@redhat.com>) id 1j19fv-0008Io-Es
- for qemu-devel@nongnu.org; Mon, 10 Feb 2020 09:04:37 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:29034
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kchamart@redhat.com>) id 1j19fu-0008GJ-7L
- for qemu-devel@nongnu.org; Mon, 10 Feb 2020 09:04:35 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581343473;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=EIskmKVOh+LTTylQPtf//WMO9D7sXZzX/P4ECmAW0ZM=;
- b=RP969qqkGAS6bAxjw/QnQyk8pP1epbk7f+/V6MUqozzDOjmpXmtYsOpgguhNOnY4R5Edck
- G4iAvSNuORsQ+BwGyZG+/8AVoqAS5n4ni/0cFg+Dasi7DcvRTE8K+4VM+KcEOxizqP40Zj
- orfFOzxNLxfxe3QXYoxN1vpOc/P4vPw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-79-MIASV_FSNJa90-OImJ50nA-1; Mon, 10 Feb 2020 09:03:58 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F205518C43D7;
- Mon, 10 Feb 2020 14:03:56 +0000 (UTC)
-Received: from paraplu.localdomain (ovpn-116-68.ams2.redhat.com [10.36.116.68])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 61D60388;
- Mon, 10 Feb 2020 14:03:56 +0000 (UTC)
-Received: by paraplu.localdomain (Postfix, from userid 1001)
- id EE3813E048C; Mon, 10 Feb 2020 15:03:53 +0100 (CET)
-Date: Mon, 10 Feb 2020 15:03:53 +0100
-From: Kashyap Chamarthy <kchamart@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: Re: [PATCH v3] qemu-cpu-models: Document -noTSX, mds-no, taa-no, and
- tsx-ctrl
-Message-ID: <20200210140353.GB25927@paraplu>
-References: <20200127121625.27078-1-kchamart@redhat.com>
+ (envelope-from <bounces@canonical.com>) id 1j19ve-0000S8-1i
+ for qemu-devel@nongnu.org; Mon, 10 Feb 2020 09:20:54 -0500
+Received: from indium.canonical.com ([91.189.90.7]:49268)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1j19vd-0000Qv-Sk
+ for qemu-devel@nongnu.org; Mon, 10 Feb 2020 09:20:49 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1j19va-0002GK-7C
+ for <qemu-devel@nongnu.org>; Mon, 10 Feb 2020 14:20:46 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id D05622E80D3
+ for <qemu-devel@nongnu.org>; Mon, 10 Feb 2020 14:20:45 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20200127121625.27078-1-kchamart@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: MIASV_FSNJa90-OImJ50nA-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+Date: Mon, 10 Feb 2020 14:06:45 -0000
+From: Laurent Vivier <Laurent@vivier.eu>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: laurent-vivier tebounet
+X-Launchpad-Bug-Reporter: Thierry Briot (tebounet)
+X-Launchpad-Bug-Modifier: Laurent Vivier (laurent-vivier)
+References: <158133547000.19789.14380673630783179726.malonedeb@wampee.canonical.com>
+Message-Id: <158134360589.18906.12789169077470202526.malone@gac.canonical.com>
+Subject: [Bug 1862619] Re: "-serial telnet::xxxx,
+ server" causes "Device 'serial0' is in use"
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="0a62c17273454a1313f81a74a2198ec30b44c7b6";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 1227ea2437bbf24c85a594bb82af6e3f27311fb8
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -75,158 +65,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
- rth@twiddle.net
+Reply-To: Bug 1862619 <1862619@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ping.
+Try top put "-serial mon:stdio" before "-serial telnet::4441,server"
 
-On Mon, Jan 27, 2020 at 01:16:24PM +0100, Kashyap Chamarthy wrote:
-> - Add the '-noTSX' variants for CascadeLake and SkyLake.
->=20
-> - Document the three MSR bits: 'mds-no', 'taa-no', and 'tsx-ctrl'
->=20
->   Two confusing about 'mds-no' (and the first point applies to the other
->   two MSRs too):
->=20
->   (1) The 'mds-no' will _not_ show up in the guest's /proc/cpuinfo.
->       Rather it is used to fill in the guest's sysfs:
->=20
->         sys/devices/system/cpu/vulnerabilities/mds:Not affected
->=20
->       Paolo confirmed on IRC as such.
->=20
->   (2) There are _three_ variants[+] of CascadeLake CPUs, with different
->       stepping levels: 5, 6, and 7.  To quote wikichip.org[*]:
->=20
->         "note that while steppings 6 & 7 are fully mitigated, earlier
->         stepping 5 is not protected against MSBDS, MLPDS, nor MDSUM"
->=20
->       The above is also indicated in the Intel's document[+], as
->       indicated by "No" under the three columns of MFBDS, MSBDS, and
->       MLPDS.
->=20
->       [+] https://software.intel.com/security-software-guidance/insights/=
-processors-affected-microarchitectural-data-sampling
->       [*] https://en.wikichip.org/wiki/intel/microarchitectures/cascade_l=
-ake#Key_changes_from_Skylake
->=20
-> Signed-off-by: Kashyap Chamarthy <kchamart@redhat.com>
-> ---
-> v3:
->  - Address feedback from Paolo
->  - Add URL to the deep-dive on Intel's MDS
-> v2:
->  - Address feedback from DanPB
->  - Add sections on 'taa-no' and 'tsx-ctrl'
-> ---
->  docs/qemu-cpu-models.texi | 65 ++++++++++++++++++++++++++++++++++++++-
->  1 file changed, 64 insertions(+), 1 deletion(-)
->=20
-> diff --git a/docs/qemu-cpu-models.texi b/docs/qemu-cpu-models.texi
-> index f88a1def0d042cc25213259172a648f0a9c514dc..8be3fc34570c5af10557b862c=
-467f5520245a85a 100644
-> --- a/docs/qemu-cpu-models.texi
-> +++ b/docs/qemu-cpu-models.texi
-> @@ -72,14 +72,25 @@ between machines, if live migration compatibility is =
-required, use the newest
->  CPU model that is compatible across all desired hosts.
-> =20
->  @table @option
-> +
-> +@item @code{Cascadelake-Server}
-> +@item @code{Cascadelake-Server-noTSX}
-> +
-> +Intel Xeon Processor (Cascade Lake, 2019), with "stepping" levels
-> +6 or 7 only.  (The Cascade Lake Xeon processor with @b{stepping 5 is
-> +vulnerable to MDS variants}.)
-> +
-> +
->  @item @code{Skylake-Server}
->  @item @code{Skylake-Server-IBRS}
-> +@item @code{Skylake-Server-noTSX-IBRS}
-> =20
->  Intel Xeon Processor (Skylake, 2016)
-> =20
-> =20
->  @item @code{Skylake-Client}
->  @item @code{Skylake-Client-IBRS}
-> +@item @code{Skylake-Client-noTSX-IBRS}
-> =20
->  Intel Core Processor (Skylake, 2015)
-> =20
-> @@ -214,9 +225,61 @@ Must be explicitly turned on for all Intel CPU model=
-s.
-> =20
->  Requires the host CPU microcode to support this feature before it
->  can be used for guest CPUs.
-> +
-> +@item @code{mds-no}
-> +
-> +Recommended to inform the guest OS that the host is @i{not} vulnerable
-> +to any of the MDS variants ([MFBDS] CVE-2018-12130, [MLPDS]
-> +CVE-2018-12127, [MSBDS] CVE-2018-12126).
-> +
-> +This is an MSR (Model-Specific Register) feature rather than a CPUID
-> +feature, so it will not appear in the Linux @code{/proc/cpuinfo} in the
-> +host or guest.  Instead, the host kernel uses it to populate the MDS
-> +vulnerability file in @code{sysfs}.
-> +
-> +So it should only be enabled for VMs if the host reports @code{Not
-> +affected} in the @code{/sys/devices/system/cpu/vulnerabilities/mds}
-> +file.
-> +
-> +@item @code{taa-no}
-> +
-> +Recommended to inform that the guest that the host is @i{not} vulnerable
-> +to CVE-2019-11135, TSX Asynchronous Abort (TAA).
-> +
-> +This too is an MSR feature, so it does not show up in the Linux
-> +@code{/proc/cpuinfo} in the host or guest.
-> +
-> +It should only be enabled for VMs if the host reports @code{Not
-> +affected} in the
-> +@code{/sys/devices/system/cpu/vulnerabilities/tsx_async_abort} file.
-> +
-> +@item @code{tsx-ctrl}
-> +
-> +Recommended to inform the guest that it can disable the Intel TSX
-> +(Transactional Synchronization Extensions) feature; or, if the processor
-> +is vulnerable, use the Intel VERW instruction (a processor-level
-> +instruction that performs checks on memory access) as a mitigation for
-> +the TAA vulnerability.  (For details, refer to
-> +@url{https://software.intel.com/security-software-guidance/insights/deep=
--dive-intel-analysis-microarchitectural-data-sampling,
-> +this Intel's deep-dive into MDS}.
-> +
-> +Expose this to the guest OS if and only if: (a) the host has TSX
-> +enabled; and (b) the guest has @code{rtm} CPU flag enabled.
-> +
-> +By disabling TSX, KVM-based guests can avoid paying the price of
-> +mitigting TSX-based attacks.
-> +
-> +Note that @code{tasx-ctrl} too is an MSR feature, so it does not show up
-> +in the Linux @code{/proc/cpuinfo} in the host or guest.
-> +
-> +To validate that Intel TSX is indeed disabled for the guest, there are
-> +two ways: (a) check for the @i{absence} of @code{rtm} in the guest's
-> +@code{/proc/cpuinfo}; or (b) the
-> +@code{/sys/devices/system/cpu/vulnerabilities/tsx_async_abort} file in
-> +the guest should report @code{Mitigation: TSX disabled}.
-> +
->  @end table
-> =20
-> -
->  @node preferred_cpu_models_amd_x86
->  @subsubsection Preferred CPU models for AMD x86 hosts
-> =20
-> --=20
-> 2.21.0
->=20
->=20
+-- =
 
---=20
-/kashyap
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1862619
 
+Title:
+  "-serial telnet::xxxx,server" causes "Device 'serial0' is in use"
+
+Status in QEMU:
+  New
+
+Bug description:
+  I start qemu version 4.2.50 in a first terminal :
+
+  $ sudo ./qemu-system-hppa -boot d -serial telnet::4441,server -drive
+  if=3Dscsi,bus=3D0,index=3D6,file=3D./hpux.img,format=3Draw -serial mon:st=
+dio -D
+  /tmp/foo -nographic -m 512 -d nochain -cdrom
+  ./HPUX_9.05_Installation_Disc_S700.iso -D /tmp/foo -net
+  nic,model=3Dtulip  -net tap
+
+  qemu-system-hppa: -serial telnet::4441,server: info: QEMU waiting for
+  connection on: disconnected:telnet:0.0.0.0:4441,server
+
+  In another terminal, I launch "telnet localhost 4441"
+
+  And in the qemu window I have the following error:
+
+  Unexpected error in qemu_chr_fe_init() at chardev/char-fe.c:220:
+  qemu-system-hppa: Device 'serial0' is in use
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1862619/+subscriptions
 
