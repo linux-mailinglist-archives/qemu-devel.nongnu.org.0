@@ -2,69 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D35AD158067
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Feb 2020 18:02:54 +0100 (CET)
-Received: from localhost ([::1]:36346 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99CA4158073
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Feb 2020 18:06:29 +0100 (CET)
+Received: from localhost ([::1]:36532 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j1CST-0000R0-Cz
-	for lists+qemu-devel@lfdr.de; Mon, 10 Feb 2020 12:02:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44156)
+	id 1j1CVw-0004OD-MV
+	for lists+qemu-devel@lfdr.de; Mon, 10 Feb 2020 12:06:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47122)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <thuth@redhat.com>) id 1j1CPo-0006jh-FE
- for qemu-devel@nongnu.org; Mon, 10 Feb 2020 12:00:10 -0500
+ (envelope-from <stefanha@redhat.com>) id 1j1CRz-00010M-Uc
+ for qemu-devel@nongnu.org; Mon, 10 Feb 2020 12:02:28 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <thuth@redhat.com>) id 1j1CPm-0008Hx-6m
- for qemu-devel@nongnu.org; Mon, 10 Feb 2020 12:00:07 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:58634
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <stefanha@redhat.com>) id 1j1CRx-0001j6-14
+ for qemu-devel@nongnu.org; Mon, 10 Feb 2020 12:02:23 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:50895
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <thuth@redhat.com>) id 1j1CPl-0008HR-Tf
- for qemu-devel@nongnu.org; Mon, 10 Feb 2020 12:00:06 -0500
+ (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1j1CRw-0001hr-S6
+ for qemu-devel@nongnu.org; Mon, 10 Feb 2020 12:02:20 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581354004;
+ s=mimecast20190719; t=1581354140;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:openpgp:openpgp;
- bh=s6JBxGllA5vxyJ1DROXunLofJ9+EPWLrYz6J/SfQH1E=;
- b=Q0FlcJPF3YUQgxPsJnOz1MYD2t7AbQcdQa5sDvxWbKgH4+gJEbdxvsWJkbXOLjh8Qzx578
- 3qOf7dZYYPjhqLkEzP0lw8fmAfPk4IM8CUkZXzIj8rAeSuu7FsIHuHpsC4fPByfFyLt3P2
- 4r3X6BSMlQdJPFKOTI+xKWuEraxkags=
+ in-reply-to:in-reply-to:references:references;
+ bh=joVqO0LAAtUumbvnGIQSo3huRexd8380oAt8VaQc3Hw=;
+ b=Wg++NkWh22tmZ7cSX/SV2l4cw2KaA9l3FcTIE9/KHjwQRSb1WKn1bg+6WnUBI6GO7OnC4K
+ mm7qFBqEHjn72navhDTaB4aCqEM+1fKy4QXt/wLEFOVGsEJukhMRFC978rbS7npkeQMtoz
+ qFsakFT3jqtS2vTMH99L+51Me2IEgVE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-403-YR-RwlLxPzmdV8gFRaoa6A-1; Mon, 10 Feb 2020 12:00:00 -0500
+ us-mta-319-W1wCJ2ilOye80dW2IkDznA-1; Mon, 10 Feb 2020 12:02:16 -0500
+X-MC-Unique: W1wCJ2ilOye80dW2IkDznA-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1ED61800D4E;
- Mon, 10 Feb 2020 16:59:59 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-116-219.ams2.redhat.com [10.36.116.219])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 934415C1D6;
- Mon, 10 Feb 2020 16:59:54 +0000 (UTC)
-Subject: Re: [PATCH v2] tests/acceptance: Add a test for the canon-a1100
- machine
-From: Thomas Huth <thuth@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20200129090420.13954-1-thuth@redhat.com>
-Openpgp: preference=signencrypt
-Message-ID: <a967c93c-58b2-9a8d-02fe-e7fc9e833827@redhat.com>
-Date: Mon, 10 Feb 2020 17:59:52 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BE7E819251AE
+ for <qemu-devel@nongnu.org>; Mon, 10 Feb 2020 17:02:15 +0000 (UTC)
+Received: from localhost (unknown [10.36.118.86])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6BCF25C21B;
+ Mon, 10 Feb 2020 17:02:03 +0000 (UTC)
+Date: Mon, 10 Feb 2020 17:02:03 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Laurent Vivier <lvivier@redhat.com>
+Subject: Re: [PATCH v2 1/2] tests/vhost-user-bridge: move to contrib/
+Message-ID: <20200210170203.GH411895@stefanha-x1.localdomain>
+References: <20200207095412.794912-1-lvivier@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200129090420.13954-1-thuth@redhat.com>
-Content-Language: en-US
+In-Reply-To: <20200207095412.794912-1-lvivier@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: YR-RwlLxPzmdV8gFRaoa6A-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="K1n7F7fSdjvFAEnM"
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,50 +71,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>, qemu-arm@nongnu.org,
- Antony Pavlov <antonynpavlov@gmail.com>, Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: Juan Quintela <quintela@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 29/01/2020 10.04, Thomas Huth wrote:
-> The canon-a1100 machine can be used with the Barebox firmware. The
-> QEMU Advent Calendar 2018 features a pre-compiled image which we
-> can use for testing.
+--K1n7F7fSdjvFAEnM
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Fri, Feb 07, 2020 at 10:54:11AM +0100, Laurent Vivier wrote:
+> vhost-user-bridge is not a test. Move it to contrib/ and
+> add it to the tools list.
 >=20
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-> Tested-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> It will be built only if tools (--enable-tools) and
+> vhost-user (--enable-vhost-user) are enabled (both are set
+> by default).
+>=20
+> Suggested-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+> Reviewed-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
 > ---
->  v2:
->  - Rename file and add class docstring to please pylint
->  - Add entry to MAINTAINERS
->  - Add :avocado: tags=3Ddevice:pflash_cfi02
 >=20
->  MAINTAINERS                                |  1 +
->  tests/acceptance/machine_arm_canona1100.py | 35 ++++++++++++++++++++++
->  2 files changed, 36 insertions(+)
->  create mode 100644 tests/acceptance/machine_arm_canona1100.py
+> Notes:
+>     v2: update docs
 >=20
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index efd3f3875f..ddf6fe0794 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -561,6 +561,7 @@ S: Odd Fixes
->  F: include/hw/arm/digic.h
->  F: hw/*/digic*
->  F: include/hw/*/digic*
-> +F: tests/acceptance/machine_arm_canona1100.py
-[...]
+>  Makefile                                                      | 3 +++
+>  Makefile.objs                                                 | 1 +
+>  configure                                                     | 3 +++
+>  contrib/vhost-user-bridge/Makefile.objs                       | 1 +
+>  tests/vhost-user-bridge.c =3D> contrib/vhost-user-bridge/main.c | 0
+>  docs/devel/migration.rst                                      | 2 +-
+>  tests/Makefile.include                                        | 1 -
+>  7 files changed, 9 insertions(+), 2 deletions(-)
+>  create mode 100644 contrib/vhost-user-bridge/Makefile.objs
+>  rename tests/vhost-user-bridge.c =3D> contrib/vhost-user-bridge/main.c (=
+100%)
 
- Hi Peter,
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 
-could you maybe take this patch through your ARM tree?
+--K1n7F7fSdjvFAEnM
+Content-Type: application/pgp-signature; name="signature.asc"
 
- Thanks,
-  Thomas
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl5BjIoACgkQnKSrs4Gr
+c8jHMAgAhemJJyhVkuRK/pat8SD/c5itxF8rDBiHikUVJd7ZJoBI4n6Q+nxM6hk+
+/tEawq/vIHXzYaM48m+TxxiNu3mZIgAFGtc5Ygtm6eqTcE+y9zH4SVk8n4FWcp3w
++L09Jh+8HD+1ijDb9os6vvvJ1BIhz6sKJi9t8yFffRWrjJCV+0pit/T1Yyzp1HD7
+gknEfrBcCZnIMrzj3Kt4toHOAS4LboEssASdpiLtvbsDhtwJ1TUmp1EOKHkMUnvV
+GsQljjsIx2pAZIIO0nzgnWIFI8mmKnzQXFKftJEnfw3agaJxC3xqICs5u47zkeJd
+73EC+ig60ISItcJ9UHC+uDjJ2Mx13w==
+=Xfvi
+-----END PGP SIGNATURE-----
+
+--K1n7F7fSdjvFAEnM--
 
 
