@@ -2,71 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84772157D3E
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Feb 2020 15:17:05 +0100 (CET)
-Received: from localhost ([::1]:34228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70F36157D82
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Feb 2020 15:36:34 +0100 (CET)
+Received: from localhost ([::1]:34456 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j19s0-0000QZ-1K
-	for lists+qemu-devel@lfdr.de; Mon, 10 Feb 2020 09:17:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54624)
+	id 1j1AAr-0000Io-0n
+	for lists+qemu-devel@lfdr.de; Mon, 10 Feb 2020 09:36:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57748)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stenavin@gmail.com>) id 1j19qt-0007zE-6G
- for qemu-devel@nongnu.org; Mon, 10 Feb 2020 09:15:56 -0500
+ (envelope-from <bounces@canonical.com>) id 1j1A9y-0008K0-30
+ for qemu-devel@nongnu.org; Mon, 10 Feb 2020 09:35:39 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stenavin@gmail.com>) id 1j19qr-0006Eh-IW
- for qemu-devel@nongnu.org; Mon, 10 Feb 2020 09:15:55 -0500
-Received: from mail-ot1-x334.google.com ([2607:f8b0:4864:20::334]:45710)
+ (envelope-from <bounces@canonical.com>) id 1j1A9w-0000ax-22
+ for qemu-devel@nongnu.org; Mon, 10 Feb 2020 09:35:38 -0500
+Received: from indium.canonical.com ([91.189.90.7]:55966)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <stenavin@gmail.com>)
- id 1j19qr-0006EF-CT; Mon, 10 Feb 2020 09:15:53 -0500
-Received: by mail-ot1-x334.google.com with SMTP id 59so6408724otp.12;
- Mon, 10 Feb 2020 06:15:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=oPgNC3OJCuFq5YuQ1njM+htwOmotKHGPSANsq2ZmEnA=;
- b=F7vOZboYY5LLet+SUTIFWyTfb3dPVNvXHiWPDjJnsCzyl7Ee0j1CGhhyFUg7NIryS4
- AxvGwqBHamhzztcxE4lCOYXVtG5P3It8vldRzFKYA/xt7N3V2rnNfe5oI67JRYjSTagR
- VVy6rCOO8Vmp898kfUYouCh11FwHRJQFfkdyGyLwCyb48PeS8LMqlVr80Ks06w6/yHO0
- nmSpAIP+0rXuVbft1Q8VgFezeC+dcf09zOm+vAp0tg81WqNxVD6qTZw0/Aaqqi/omUwZ
- VImBddZsmx5BH2ZJTIvdqFm7wVixXy3eYb9a+aPi/PugHPjID92vl12/tHfTiMpz4AEi
- F+BQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=oPgNC3OJCuFq5YuQ1njM+htwOmotKHGPSANsq2ZmEnA=;
- b=qv8ILIPH77PpYdVJ/voUhC2xE0rC1fVv+ov42ai4rbm2ipxxmTKz8IZrf7PyBPsOS5
- gwmCw2Py4hrSGbBgYnc2S7d4wPKYQyjOtyhNq5eWprJI6iHMA8B3yZ1pSQ7q0OYW+oAi
- qfzq4v4kSZpbGCjg6JDrvaJTAi2L8WzAxy7I7N9X7gLqx2vgF8D+PCQhiG1EOYUdTIaA
- 2OTQ0RSBDv4XnPnUiQozdbaTnOh/kR0VbEAyTjbFoqAlOpF1hk0mhJI4srrmxGYPPGeM
- ku9LUMF0Edd8+xOYh1D2V1cVrpIafa2c3SzQdoxPFn2vDgV371lf0UhS892hE0ppPYzX
- EaUA==
-X-Gm-Message-State: APjAAAXG1WINKHoD8ClM40L2Uvz4cThCZp9xRRlh2CWce7oSwiXB1OzA
- ArQY38NJ8jahLQWHCIs/mzAyBCK3xbzln7LuWt++XGURMBU=
-X-Google-Smtp-Source: APXvYqyrCMGTTNYCI/p10KQ92aTozKpff4+5hDPur+gMfuvAv3hAaV9sRq2675vIzWDAN8zDNCyyftUMMiy6S8uyO+c=
-X-Received: by 2002:a9d:2184:: with SMTP id s4mr1146922otb.121.1581344152294; 
- Mon, 10 Feb 2020 06:15:52 -0800 (PST)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1j1A9v-0000aV-Ry
+ for qemu-devel@nongnu.org; Mon, 10 Feb 2020 09:35:36 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1j1A9u-0005Qg-14
+ for <qemu-devel@nongnu.org>; Mon, 10 Feb 2020 14:35:34 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 05D512E80C0
+ for <qemu-devel@nongnu.org>; Mon, 10 Feb 2020 14:35:34 +0000 (UTC)
 MIME-Version: 1.0
-References: <20200207232528.13461-1-stenavin@gmail.com>
- <20200210114316.GW3888@redhat.com>
- <20200210134846.GD5955@linux.fritz.box>
-In-Reply-To: <20200210134846.GD5955@linux.fritz.box>
-From: Nikolay Ivanets <stenavin@gmail.com>
-Date: Mon, 10 Feb 2020 16:15:40 +0200
-Message-ID: <CAHwdxNdNQjXNr+rndka0vztMThgkrpifKJqVq5p1SO0nn7U2Kw@mail.gmail.com>
-Subject: Re: [Libguestfs] [RFC] lib: allow to specify physical/logical block
- size for disks
-To: Kevin Wolf <kwolf@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::334
+Date: Mon, 10 Feb 2020 14:26:05 -0000
+From: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF?= <1859656@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=maas; status=New; importance=Undecided;
+ assignee=lee.trager@canonical.com; 
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug: product=ubuntu-z-systems; status=Triaged; importance=High;
+ assignee=maas; 
+X-Launchpad-Bug-Tags: s390x
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: fheimes ltrager paelzer sfeole
+X-Launchpad-Bug-Reporter: Sean Feole (sfeole)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF_=28paelzer?=
+ =?utf-8?q?=29?=
+References: <157902669328.14768.4315907500950527119.malonedeb@wampee.canonical.com>
+Message-Id: <158134476520.18744.313046835334838352.malone@gac.canonical.com>
+Subject: [Bug 1859656] Re: [2.6] Unable to reboot s390x KVM machine after
+ initial deploy
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="0a62c17273454a1313f81a74a2198ec30b44c7b6";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 65789dfc3dfb9fb8cc07d9f4f969c304dd285767
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -75,88 +72,261 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, libguestfs@redhat.com,
- "Richard W.M. Jones" <rjones@redhat.com>, qemu-block@nongnu.org,
- qemu-devel@nongnu.org
+Reply-To: Bug 1859656 <1859656@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-=D0=BF=D0=BD, 10 =D0=BB=D1=8E=D1=82. 2020 =D0=BE 15:48 Kevin Wolf <kwolf@re=
-dhat.com> =D0=BF=D0=B8=D1=88=D0=B5:
->
-> Am 10.02.2020 um 12:43 hat Richard W.M. Jones geschrieben:
-> > On Sat, Feb 08, 2020 at 01:25:28AM +0200, Mykola Ivanets wrote:
-> > > From: Nikolay Ivanets <stenavin@gmail.com>
-> > >
-> > > I faced with situation where libguestfs cannot recognize partitions o=
-n a
-> > > disk image which was partitioned on a system with "4K native" sector
-> > > size support.
-> >
-> > Do you have a small test case for this?
-> >
-> > > In order to fix the issue we need to allow users to specify desired
-> > > physical and/or logical block size per drive basis.
-> >
-> > It seems like physical_block_size / logical_block_size in qemu are
-> > completely undocumented.  However I did some experiments with patching
-> > libguestfs and examining the qemu and parted code.  Here are my
-> > observations:
-> >
-> > (1) Setting only physical_block_size =3D 4096 seems to do nothing.
->
-> The guest sees the physical_block_size and can try to keep its requests
-> aligned as an optimisation. But it doesn't actually make a semantic
-> difference as to how the content of the disk is accessed.
->
-> > (2) Setting only logical_block_size =3D 4096 is explicitly rejected by
-> > virtio-scsi:
-> >
-> > https://git.qemu.org/?p=3Dqemu.git;a=3Dblob;f=3Dhw/scsi/scsi-disk.c;h=
-=3D10d0794d60f196f177563aae00bed2181f5c1bb1;hb=3DHEAD#l2352
-> >
-> > (A similar test exists for virtio-blk)
-> >
-> > (3) Setting both physical_block_size =3D logical_block_size =3D 4096
-> > changes how parted partitions GPT disks.  The partition table is
-> > clearly using 4K sectors as you can see by examining the disk
-> > afterwards with hexdump.
->
-> This is what you want for emulating a 4k native disk.
->
-> > (4) Neither setting changes MBR partitioning by parted, although my
-> > interpretation of Wikipedia indicates that it should be possible to
-> > create a MBR disk with 4K sector size.  Maybe I'm doing something
-> > wrong, or parted just doesn't support this case.
->
-> I seem to remember that 4k native disks require GPT, but if you say you
-> read otherwise, I'm not 100% sure about this any more.
->
-> > So it appears that we should just have one blocksize control (maybe
-> > called "sectorsize"?) which sets both physical_block_size and
-> > logical_block_size to the same value.  It may also be worth enforcing
-> > that blocksize/sectorsize must be set to 512 or 4096 (which we can
-> > relax later if necessary).
->
-> A single option (to control logical_block_size) makes sense for
-> libguestfs. physical_block_size is only relevant for the appliance and
-> not for the resulting image, so it can be treated as an implementation
-> detail.
->
-> Kevin
->
+Here are the interesting bits from the log:
 
-So, can we summarize?
+   1 LOADPARM=3D[........]^M                                               =
+             =
 
-- in libguestfs we will expose the only parameter called 'blocksize'
-- 512 and 4096 are the only allowed values for 'blocksize' for now
-- we will reject libvirt XML with values for physical_* and
-logical_block_size other then 512 or 4096
-- importing disks configuration from libvirt XML we will use logical_block_=
-size
+   2 Network boot device detected^M                                        =
+           =
 
-Richard, are we fine with that?
+   3 ^M                                                                    =
+           =
 
---
-  Mykola Ivanets
+   4 Network boot starting...^M                                            =
+           =
+
+   5   Using MAC address: 52:54:00:02:a3:f9^M                              =
+           =
+
+   6   Requesting information via DHCP:     ^H^H^H010^H^H^H^Hdone^M        =
+           =
+
+   7   Using IPv4 address: 192.168.122.102^M                               =
+           =
+
+   8   Using TFTP server: 192.168.122.1^M                                  =
+           =
+
+   9   Bootfile name: 'boots390x.bin'^M                                    =
+           =
+
+  10   Receiving data:  0 KBytes^M                                         =
+           =
+
+  11   TFTP error: file not found: boots390x.bin^M                         =
+           =
+
+  12 Trying pxelinux.cfg files...^M^M                                      =
+           =
+
+...
+  14 TFTP: Received s390x/01-52-54-00-02-a3-f9 (581 bytes)^M               =
+       =
+
+  15 Loading pxelinux.cfg entry 'execute'^M                                =
+           =
+
+...
+  17   TFTP: Received ubuntu/s390x/ga-19.04/disco/daily/boot-kernel (4318 K=
+Bytes)^M   =
+
+...
+  19   TFTP: Received ubuntu/s390x/ga-19.04/disco/daily/boot-initrd (19360 =
+KBytes)^M  =
+
+  20 Network loading done, starting kernel...^M                            =
+           =
+
+  21 ^M                                                                    =
+           =
+
+  22 [    0.439873] Linux version 5.0.0-38-generic (buildd@bos02-s390x-020)=
+ (gcc version 8.3.0 (Ubuntu 8.3.0-6ubuntu1)) #41-Ubuntu SMP Tue Dec 3 00:26=
+:40 UTC 2019 (Ubuntu 5.0.0-38.41-generic      5.0.21)
+
+...
+
+38 ^M[    0.451953] Kernel command line: nomodeset ro
+root=3Dsquash:http://192.168.122.1:5248/images/ubuntu/s390x/ga-19.04/disco/=
+daily/squashfs
+ip=3D::::vm1:BOOTIF ip6=3Doff overlayroot=3Dtmpfs ov
+erlayroot_cfgdisk=3Ddisabled cc:{'datasource_list': ['MAAS']}end_cc cloud-
+config-url=3Dhttp://192-168-122-0--24.maas-
+internal:5248/MAAS/metadata/latest/by-id/wpr3yp/?op=3Dget_preseed apparmor
+=3D0 log_host=3D192.168.122.1 log_port=3D5247 --- console=3Dtty1 console=3D=
+ttyS0
+BOOTIF=3D01-52-54-00-02-a3-f9
+
+...
+
+ 155 Begin: Mounting root file system ... Begin: Running /scripts/local-top=
+ ... IP-Config: enc1 hardware address 52:54:00:02:a3:f9 mtu 1500 DHCP RARP^M
+ 156 hostname vm1 IP-Config: no response after 2 secs - giving up^M        =
+           =
+
+ 157 IP-Config: enc1 hardware address 52:54:00:02:a3:f9 mtu 1500 DHCP RARP^=
+M          =
+
+ 158 hostname vm1 hostname vm1 IP-Config: enc1 complete (dhcp from 192.168.=
+122.1):^M  =
+
+ 159  address: 192.168.122.102  broadcast: 192.168.122.255  netmask: 255.25=
+5.255.0   ^M
+ 160  gateway: 192.168.122.254  dns0     : 192.168.122.1    dns1   : 10.245=
+.236.13   ^M
+ 161  domain : maas                                                        =
+    ^M     =
+
+ 162  rootserver: 192.168.122.1 rootpath: ^M                               =
+           =
+
+ 163  filename  : lpxelinux.0^M                                            =
+           =
+
+ 164 :: root=3Dsquash:http://192.168.122.1:5248/images/ubuntu/s390x/ga-19.0=
+4/disco/daily/squashfs^M
+ 165 :: mount_squash downloading http://192.168.122.1:5248/images/ubuntu/s3=
+90x/ga-19.04/disco/daily/squashfs to /root.tmp.img^M
+ 166 Connecting to 192.168.122.1:5248 (192.168.122.1:5248)^M               =
+           =
+
+ 167 ^Mroot.tmp.img          21% |******                         | 66726k  =
+0:00:03 ETA^Mroot.tmp.img          98% |****************************** |   =
+296M  0:00:00 ETA^Mroot.tmp.img              100% |************************=
+*******|   301M  0:00:00 ETA^M
+ 168 :: mount -t squashfs -o loop  '/root.tmp.img' '/root.tmp'^M           =
+           =
+
+ 169 done.
+
+
+^^ all of this seems to be the initial deployment ^^
+We see curtin doing its things as instructed by maas.
+
+
+Later on we see the reboot after install then
+
+1362 -----END SSH HOST KEY KEYS-----^M                                     =
+           =
+
+1363 [  202.776296] cloud-init[1567]: Cloud-init v. 19.3-41-gc4735dd3-0ubun=
+tu1~19.04.1 running 'modules:final' at Mon, 10 Feb 2020 10:42:08 +0000. Up =
+114.97 seconds.^M
+1364 [  202.776472] cloud-init[1567]: Cloud-init v. 19.3-41-gc4735dd3-0ubun=
+tu1~19.04.1 finished at Mon, 10 Feb 2020 10:43:36 +0000. Datasource DataSou=
+rceMAAS [http://192-168-122-0--24.maas-i     nternal:5248/MAAS/metadata/cur=
+tin].  Up 202.74 seconds^M
+1365 [^[[0;32m  OK  ^[[0m] Started ^[[0;1;39mExecute cloud user/final scrip=
+ts^[[0m.^M =
+
+1366 [^[[0;32m  OK  ^[[0m] Reached target ^[[0;1;39mCloud-init target^[[0m.=
+^M         =
+
+1367 [^[[0;32m  OK  ^[[0m] Stopped target ^[[0;1;39mGraphical Interface^[[0=
+m.^M       =
+
+1368 [^[[0;32m  OK  ^[[0m] Stopped target ^[[0;1;39mCloud-init target^[[0m.
+
+...
+
+1487 [^[[0;32m  OK  ^[[0m] Reached target ^[[0;1;39mReboot^[[0m.^M         =
+           =
+
+1488 LOADPARM=3D[        ]^M                                               =
+             =
+
+1489 Using virtio-blk.^M                                                   =
+           =
+
+1490 Using SCSI scheme.^M                                                  =
+           =
+
+1491 .....^M                                                               =
+           =
+
+1492 [    0.412847] Linux version 5.0.0-38-generic (buildd@bos02-s390x-020)=
+ (gcc version 8.3.0 (Ubuntu 8.3.0-6ubuntu1)) #41-Ubuntu SMP Tue Dec 3 00:26=
+:40 UTC 2019 (Ubuntu 5.0.0-38.41-generic      5.0.21)
+
+
+...
+
+the rest is the startup until a login:
+
+1967 vm1 login:
+
+
+But this does NOT use "fallback from failed network boot".
+It used a valid netboot (into the deployment) and then reboot
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1859656
+
+Title:
+  [2.6] Unable to reboot s390x KVM machine after initial deploy
+
+Status in MAAS:
+  New
+Status in QEMU:
+  Incomplete
+Status in Ubuntu on IBM z Systems:
+  Triaged
+
+Bug description:
+  MAAS version: 2.6.1 (7832-g17912cdc9-0ubuntu1~18.04.1)
+  Arch: S390x
+
+  Appears that MAAS can not find the s390x bootloader to boot from the
+  disk, not sure how maas determines this.  However this was working in
+  the past. I had originally thought that if the maas machine was
+  deployed then it defaulted to boot from disk.
+
+  If I force the VM to book from disk, the VM starts up as expected.
+
+  Reproduce:
+
+  - Deploy Disco on S390x KVM instance
+  - Reboot it
+
+  on the KVM console...
+
+  Connected to domain s2lp6g001
+  Escape character is ^]
+  done
+  =C2=A0=C2=A0Using IPv4 address: 10.246.75.160
+  =C2=A0=C2=A0Using TFTP server: 10.246.72.3
+  =C2=A0=C2=A0Bootfile name: 'boots390x.bin'
+  =C2=A0=C2=A0Receiving data:  0 KBytes
+  =C2=A0=C2=A0TFTP error: file not found: boots390x.bin
+  Trying pxelinux.cfg files...
+  =C2=A0=C2=A0Receiving data:  0 KBytes
+  =C2=A0=C2=A0Receiving data:  0 KBytes
+  Failed to load OS from network
+
+  =3D=3D> /var/log/maas/rackd.log <=3D=3D
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] boots39=
+0x.bin requested by 10.246.75.160
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/6=
+5a9ca43-9541-49be-b315-e2ca85936ea2 requested by 10.246.75.160
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
+1-52-54-00-e5-d7-bb requested by 10.246.75.160
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
+AF64BA0 requested by 10.246.75.160
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
+AF64BA requested by 10.246.75.160
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
+AF64B requested by 10.246.75.160
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
+AF64 requested by 10.246.75.160
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
+AF6 requested by 10.246.75.160
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
+AF requested by 10.246.75.160
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
+A requested by 10.246.75.160
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/0=
+ requested by 10.246.75.160
+  2020-01-14 18:21:24 provisioningserver.rackdservices.tftp: [info] s390x/d=
+efault requested by 10.246.75.160
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/maas/+bug/1859656/+subscriptions
 
