@@ -2,80 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55AB615727D
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Feb 2020 11:05:34 +0100 (CET)
-Received: from localhost ([::1]:59406 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBCFA157290
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Feb 2020 11:09:29 +0100 (CET)
+Received: from localhost ([::1]:59514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j15wb-00075i-DB
-	for lists+qemu-devel@lfdr.de; Mon, 10 Feb 2020 05:05:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49131)
+	id 1j160O-0002bM-W8
+	for lists+qemu-devel@lfdr.de; Mon, 10 Feb 2020 05:09:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49667)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1j15uw-00061g-IN
- for qemu-devel@nongnu.org; Mon, 10 Feb 2020 05:03:51 -0500
+ (envelope-from <philmd@redhat.com>) id 1j15zW-0001YY-8r
+ for qemu-devel@nongnu.org; Mon, 10 Feb 2020 05:08:35 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1j15uv-0000aa-4b
- for qemu-devel@nongnu.org; Mon, 10 Feb 2020 05:03:50 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:30075
+ (envelope-from <philmd@redhat.com>) id 1j15zV-0003e9-7v
+ for qemu-devel@nongnu.org; Mon, 10 Feb 2020 05:08:34 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:37111
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j15uv-0000Zr-1i
- for qemu-devel@nongnu.org; Mon, 10 Feb 2020 05:03:49 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j15zV-0003do-52
+ for qemu-devel@nongnu.org; Mon, 10 Feb 2020 05:08:33 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581329028;
+ s=mimecast20190719; t=1581329312;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wLYpZlV9+uDIFJrGMqLMbQayl69T21ST4M8dMLeBfp8=;
- b=c8kJZz+PeOK7/rcHn1lJSFFJBB6X5vRQWQsa2NPOVLp2iDIj5ySqQIO+DvSbrAB8tn6nH4
- 3YHMk5ScwGBg7LCS7tftWJ+VlodLbTwA1H6ar8veLar/gbn1hzbJ9RmXsMXL28GzuWd0gY
- QhqMowWZHOdAiqpuL1ApUrDzUxulrUA=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-309-ZyNlZyRWMVWfDvPHv4gKSg-1; Mon, 10 Feb 2020 05:03:44 -0500
-Received: by mail-wm1-f69.google.com with SMTP id p2so2805646wma.3
- for <qemu-devel@nongnu.org>; Mon, 10 Feb 2020 02:03:43 -0800 (PST)
+ bh=GEwOIU5Knq6SawMhFxJo/HE+63XcAfDlm1ZnWDPhA4s=;
+ b=Kbz3un5a38p0KWcNCeW1Su4RJ+bm93tzEa84Lik1GWQBT9PJAvrtS4hw8A8Npy5deI+559
+ NzyAO7Yy/YEHiT/VNG3yydJiKGOjnYIMh62NKXdYqlNOkK591fdhB/aZmy96efG8gokifD
+ psu0/9tKvJfusaXj6bewbcbYY3a9tJU=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-145-OuCktb6iOweb4CGr8N2QFQ-1; Mon, 10 Feb 2020 05:08:28 -0500
+Received: by mail-wr1-f72.google.com with SMTP id o6so4743760wrp.8
+ for <qemu-devel@nongnu.org>; Mon, 10 Feb 2020 02:08:28 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=lEhnb6Cth6xROqsu5iiv/oZfGsAEK7hLaGuWixp3v6M=;
- b=n5IfctN3vTSd14Gc50qcgZiCvxJ3b6f0qWWKohHGfMoE2UUgpPg67tRgmxMB1k9owV
- 6St6CRNm1nrEePLX1b0y1y4qZAETdGr38M3lXp61d/wMWdYhZ/UMXZJ3RZwOKbUrRygM
- tqR36rC5kGMkhquDRiIFQLn/jWDEiIm/AaAAA1MPA3U8IDlP868V55iPrY4RHje7E3xB
- eMIMhQeMUoZsT8Ci55+UUV4WsBlpA6T2rgMUV+avHbqOm+sH/4OYpqrsHmBj4lOY1p86
- EY77vjnRBADkD2XGHyimuG5kyg+8jxL+erxDnHViPV/9r9gOaI//a/kSmRm5nHLBoPMU
- xshw==
-X-Gm-Message-State: APjAAAUN0eCO2FffD0DT8ogojzB2zywW3RH2TN01diH8aDteePliOLh3
- QNazBMJFg7lR4+hVPGw1RPcQEUG+p8Nufr7HNbvh6lNRTG/CvZNjIoUK0uap/gO67NReuhbs63j
- lXhaYNhZOXgs3cTM=
-X-Received: by 2002:a1c:4d18:: with SMTP id o24mr14447779wmh.35.1581329022912; 
- Mon, 10 Feb 2020 02:03:42 -0800 (PST)
-X-Google-Smtp-Source: APXvYqyAjMAD3cL38mRzle1leoRt2C5sYgRN70zWU0/Aa8NLfptJBAB9nOC7bpQLRRuuhyT5q6591w==
-X-Received: by 2002:a1c:4d18:: with SMTP id o24mr14447732wmh.35.1581329022505; 
- Mon, 10 Feb 2020 02:03:42 -0800 (PST)
+ bh=5Ul9+bFbs4YFu9JtS6vW944J+gWMQesivcq7ADHTFdg=;
+ b=tdpaYZph7ppbs1fTTsQxWauniPeo0zzK/hia1CArhpYgDD68Ev6sela2tRCvokZ/VX
+ OmYfkChrejVxL7v9IkrG8X+QlC8H5V8nztliJYQ2Nsx1lz8mcH8mQ3rtlgdsXVqbkojh
+ gvFMKg3mvBDfJ8LlUgQmH70fSPJ3aXn1GCWDKNQPM8sWZmf5X0hLaPddM6IokAhG+sez
+ 5HFcdK3X9mwHRj6T8V9aBRS3lzNbyJ7GWwClE3ytvdaOSgGpzc5pjKlV7anGws2hmj1R
+ UKXd0RT6BEvp7dw/jVgwcDx2g4rX4h4b3N5UdyiTjHfvZcn1+OzyZ64iXytwxnKjmwjy
+ VPQw==
+X-Gm-Message-State: APjAAAVT8WxMizpHA2mM7cDizB7yNotG03SU7BRGu8+pATYeSUaBGqhm
+ CiLguiAHkuQQR8RjRhqgLk7DPPAJiucXOLgWP5M2JlOworcNXHgRJSt+0y480Z/vkH0dYWXtYVD
+ l63nSRXHdwPyFwIA=
+X-Received: by 2002:a1c:7c05:: with SMTP id x5mr14580603wmc.15.1581329307714; 
+ Mon, 10 Feb 2020 02:08:27 -0800 (PST)
+X-Google-Smtp-Source: APXvYqzemucSh+LJEgGRApO0q2hZLXGUqIUUyrnPIjVxUOYQ08fnpizbAEBzS/n1i6tuXyyYaVE/+Q==
+X-Received: by 2002:a1c:7c05:: with SMTP id x5mr14580564wmc.15.1581329307495; 
+ Mon, 10 Feb 2020 02:08:27 -0800 (PST)
 Received: from [192.168.1.35] (78.red-88-21-202.staticip.rima-tde.net.
  [88.21.202.78])
- by smtp.gmail.com with ESMTPSA id q3sm14482691wmj.38.2020.02.10.02.03.41
+ by smtp.gmail.com with ESMTPSA id y139sm15275033wmd.24.2020.02.10.02.08.25
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 10 Feb 2020 02:03:42 -0800 (PST)
-Subject: Re: [PATCH v3 08/13] hw/arm/raspi: Make board_rev a field of
- RaspiMachineClass
-To: Igor Mammedov <imammedo@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-References: <20200208165645.15657-1-f4bug@amsat.org>
- <20200208165645.15657-9-f4bug@amsat.org> <20200210105042.7e76e4e6@redhat.com>
+ Mon, 10 Feb 2020 02:08:26 -0800 (PST)
+Subject: Re: Tricore default machine
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+References: <20200207161948.15972-1-philmd@redhat.com>
+ <20200207161948.15972-2-philmd@redhat.com>
+ <9590e020-226d-bc85-e496-95b4f0116f69@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <2adc51a2-b526-7f6a-4c01-775f3ac06444@redhat.com>
-Date: Mon, 10 Feb 2020 11:03:40 +0100
+Message-ID: <e4157357-7697-a2d5-8662-f5bd12d74619@redhat.com>
+Date: Mon, 10 Feb 2020 11:08:25 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200210105042.7e76e4e6@redhat.com>
+In-Reply-To: <9590e020-226d-bc85-e496-95b4f0116f69@redhat.com>
 Content-Language: en-US
-X-MC-Unique: ZyNlZyRWMVWfDvPHv4gKSg-1
+X-MC-Unique: OuCktb6iOweb4CGr8N2QFQ-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
@@ -94,126 +93,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Joaquin de Andres <me@xcancerberox.com.ar>,
- Alistair Francis <alistair@alistair23.me>, qemu-devel@nongnu.org,
- Andrew Baumann <Andrew.Baumann@microsoft.com>,
- Esteban Bosse <estebanbosse@gmail.com>,
- Niek Linnenbank <nieklinnenbank@gmail.com>, qemu-arm@nongnu.org
+Cc: Cornelia Huck <cohuck@redhat.com>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Anthony Green <green@moxielogic.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Guan Xuetao <gxt@mprc.pku.edu.cn>, Marek Vasut <marex@denx.de>,
+ Jia Liu <proljc@gmail.com>, qemu-trivial@nongnu.org,
+ Helge Deller <deller@gmx.de>, David Hildenbrand <david@redhat.com>,
+ Magnus Damm <magnus.damm@gmail.com>, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-ppc@nongnu.org,
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-s390x@nongnu.org,
+ Stafford Horne <shorne@gmail.com>, Richard Henderson <rth@twiddle.net>,
+ qemu-riscv@nongnu.org, Thomas Huth <huth@tuxfamily.org>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Chris Wulff <crwulff@gmail.com>, Laurent Vivier <laurent@vivier.eu>,
+ Michael Walle <michael@walle.cc>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/10/20 10:50 AM, Igor Mammedov wrote:
-> On Sat,  8 Feb 2020 17:56:40 +0100
-> Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> wrote:
->=20
->> We want to have a common class_init(). The only value that
->> matters (and changes) is the board revision.
->> Pass the board_rev as class_data to class_init().
+On 2/10/20 10:35 AM, Thomas Huth wrote:
+> On 07/02/2020 17.19, Philippe Mathieu-Daud=C3=A9 wrote:
+>> The MachineClass is already zeroed on creation.
 >>
->> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+>> Note: The code setting is_default=3D0 in hw/i386/pc_piix.c is
+>>        different (related to compat options). When adding a
+>>        new versioned machine, we want it to be the new default,
+>>        so we have to mark the previous one as not default.
+>>
+>> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 >> ---
->>   hw/arm/raspi.c | 17 ++++++++++++++---
->>   1 file changed, 14 insertions(+), 3 deletions(-)
->>
->> diff --git a/hw/arm/raspi.c b/hw/arm/raspi.c
->> index 62b8df3c2e..fbfcd29732 100644
->> --- a/hw/arm/raspi.c
->> +++ b/hw/arm/raspi.c
->> @@ -46,6 +46,7 @@ typedef struct RaspiMachineClass {
->>       /*< private >*/
->>       MachineClass parent_obj;
->>       /*< public >*/
->> +    uint32_t board_rev;
->>   } RaspiMachineClass;
->>  =20
->>   #define TYPE_RASPI_MACHINE       MACHINE_TYPE_NAME("raspi-common")
->> @@ -227,9 +228,11 @@ static void setup_boot(MachineState *machine, int v=
-ersion, size_t ram_size)
->>       arm_load_kernel(ARM_CPU(first_cpu), machine, &binfo);
+>> v3: new patch
+>> ---
+>>   hw/lm32/lm32_boards.c               | 1 -
+>>   hw/lm32/milkymist.c                 | 1 -
+>>   hw/m68k/q800.c                      | 1 -
+>>   hw/microblaze/petalogix_ml605_mmu.c | 1 -
+>>   hw/tricore/tricore_testboard.c      | 1 -
+>>   5 files changed, 5 deletions(-)
+> [...]
+>> diff --git a/hw/tricore/tricore_testboard.c b/hw/tricore/tricore_testboa=
+rd.c
+>> index 20c9ccb3ce..8ec2b5bddd 100644
+>> --- a/hw/tricore/tricore_testboard.c
+>> +++ b/hw/tricore/tricore_testboard.c
+>> @@ -105,7 +105,6 @@ static void ttb_machine_init(MachineClass *mc)
+>>   {
+>>       mc->desc =3D "a minimal TriCore board";
+>>       mc->init =3D tricoreboard_init;
+>> -    mc->is_default =3D 0;
+>>       mc->default_cpu_type =3D TRICORE_CPU_TYPE_NAME("tc1796");
 >>   }
->>  =20
->> -static void raspi_init(MachineState *machine, uint32_t board_rev)
->> +static void raspi_init(MachineState *machine)
->>   {
->> +    RaspiMachineClass *mc =3D RASPI_MACHINE_GET_CLASS(machine);
->>       RaspiMachineState *s =3D RASPI_MACHINE(machine);
->> +    uint32_t board_rev =3D mc->board_rev;
->>       int version =3D board_version(board_rev);
->>       uint64_t ram_size =3D board_ram_size(board_rev);
->>       uint32_t vcram_size;
->> @@ -279,13 +282,16 @@ static void raspi_init(MachineState *machine, uint=
-32_t board_rev)
->>  =20
->>   static void raspi2_init(MachineState *machine)
->>   {
->> -    raspi_init(machine, 0xa21041);
->> +    raspi_init(machine);
->>   }
->>  =20
->>   static void raspi2_machine_class_init(ObjectClass *oc, void *data)
->>   {
->>       MachineClass *mc =3D MACHINE_CLASS(oc);
->> +    RaspiMachineClass *rmc =3D RASPI_MACHINE_CLASS(oc);
->> +    uint32_t board_rev =3D (uint32_t)(uintptr_t)data;
->>  =20
->> +    rmc->board_rev =3D board_rev;
 >=20
-> instead of doing a bit obscure ".class_data     =3D (void *)0xa21041," an=
-d
-> using it here, I'd just do
->=20
->         rmc->board_rev =3D 0xa21041;
->=20
-> using value specific for each leaf class
+> I wonder whether we should simply make that machine the default for
+> qemu-system-tricore? There is only one machine here, and not having a
+> default machine always causes some headaches in the tests...
+> (see e.g. tests/qemu-iotests/check for example)
 
-Leaf classes are removed in patch #12 "Use a unique=20
-raspi_machine_class_init() method", see more uses of .class_data from v2:
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg677164.html
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg677166.html
-
-Are you disagreeing with them? Then we should document .class_data as=20
-deprecated and show example of good code.
-
-> with this change
->   Reviewed-by: Igor Mammedov <imammedo@redhat.com>
->=20
->>       mc->desc =3D "Raspberry Pi 2B";
->>       mc->init =3D raspi2_init;
->>       mc->block_default_type =3D IF_SD;
->> @@ -302,13 +308,16 @@ static void raspi2_machine_class_init(ObjectClass =
-*oc, void *data)
->>   #ifdef TARGET_AARCH64
->>   static void raspi3_init(MachineState *machine)
->>   {
->> -    raspi_init(machine, 0xa02082);
->> +    raspi_init(machine);
->>   }
->>  =20
->>   static void raspi3_machine_class_init(ObjectClass *oc, void *data)
->>   {
->>       MachineClass *mc =3D MACHINE_CLASS(oc);
->> +    RaspiMachineClass *rmc =3D RASPI_MACHINE_CLASS(oc);
->> +    uint32_t board_rev =3D (uint32_t)(uintptr_t)data;
->>  =20
->> +    rmc->board_rev =3D board_rev;
->>       mc->desc =3D "Raspberry Pi 3B";
->>       mc->init =3D raspi3_init;
->>       mc->block_default_type =3D IF_SD;
->> @@ -327,11 +336,13 @@ static const TypeInfo raspi_machine_types[] =3D {
->>           .name           =3D MACHINE_TYPE_NAME("raspi2"),
->>           .parent         =3D TYPE_RASPI_MACHINE,
->>           .class_init     =3D raspi2_machine_class_init,
->> +        .class_data     =3D (void *)0xa21041,
->>   #ifdef TARGET_AARCH64
->>       }, {
->>           .name           =3D MACHINE_TYPE_NAME("raspi3"),
->>           .parent         =3D TYPE_RASPI_MACHINE,
->>           .class_init     =3D raspi3_machine_class_init,
->> +        .class_data     =3D (void *)0xa02082,
->>   #endif
->>       }, {
->>           .name           =3D TYPE_RASPI_MACHINE,
->=20
+Or make it generic? If a architecture has a single machine, use it by=20
+default?
 
 
