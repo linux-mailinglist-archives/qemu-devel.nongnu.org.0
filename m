@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51ECC157D98
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Feb 2020 15:42:25 +0100 (CET)
-Received: from localhost ([::1]:34556 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10C61157D99
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Feb 2020 15:42:26 +0100 (CET)
+Received: from localhost ([::1]:34560 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j1AGW-0004Cw-34
-	for lists+qemu-devel@lfdr.de; Mon, 10 Feb 2020 09:42:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58701)
+	id 1j1AGX-0004G0-3R
+	for lists+qemu-devel@lfdr.de; Mon, 10 Feb 2020 09:42:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58705)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1j1AFG-0002tD-RJ
+ (envelope-from <bounces@canonical.com>) id 1j1AFH-0002tF-5v
  for qemu-devel@nongnu.org; Mon, 10 Feb 2020 09:41:08 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1j1AFF-0003Zm-Fb
- for qemu-devel@nongnu.org; Mon, 10 Feb 2020 09:41:06 -0500
-Received: from indium.canonical.com ([91.189.90.7]:57656)
+ (envelope-from <bounces@canonical.com>) id 1j1AFF-0003a6-SH
+ for qemu-devel@nongnu.org; Mon, 10 Feb 2020 09:41:07 -0500
+Received: from indium.canonical.com ([91.189.90.7]:57740)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1j1AFF-0003YD-9m
+ id 1j1AFF-0003ZJ-ME
  for qemu-devel@nongnu.org; Mon, 10 Feb 2020 09:41:05 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1j1AFC-0006Fr-MA
- for <qemu-devel@nongnu.org>; Mon, 10 Feb 2020 14:41:02 +0000
+ id 1j1AFE-0006Qy-Ok
+ for <qemu-devel@nongnu.org>; Mon, 10 Feb 2020 14:41:04 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id A663D2E80C0
- for <qemu-devel@nongnu.org>; Mon, 10 Feb 2020 14:41:02 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id B9C612E80C8
+ for <qemu-devel@nongnu.org>; Mon, 10 Feb 2020 14:41:04 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 10 Feb 2020 14:33:00 -0000
+Date: Mon, 10 Feb 2020 14:33:57 -0000
 From: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF?= <1859656@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -50,7 +50,7 @@ X-Launchpad-Bug-Reporter: Sean Feole (sfeole)
 X-Launchpad-Bug-Modifier: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF_=28paelzer?=
  =?utf-8?q?=29?=
 References: <157902669328.14768.4315907500950527119.malonedeb@wampee.canonical.com>
-Message-Id: <158134518103.8732.3152596533083031336.malone@chaenomeles.canonical.com>
+Message-Id: <158134523754.18703.5499939892840904367.malone@gac.canonical.com>
 Subject: [Bug 1859656] Re: [2.6] Unable to reboot s390x KVM machine after
  initial deploy
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
@@ -59,7 +59,7 @@ Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="0a62c17273454a1313f81a74a2198ec30b44c7b6";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 320349312b04a786091eb71cf898a7d5dc57b18d
+X-Launchpad-Hash: f6cddbf50496454e83276c98a852c9ec099561f2
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,18 +76,11 @@ Reply-To: Bug 1859656 <1859656@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I flipped =
+@sfeole - after initial deployment just do the change to your guest XMLs
+you see in comment #27
 
-    <boot dev=3D'hd'/>
-    <boot dev=3D'network'/>
-
-to
-
-    <boot dev=3D'hd'/>
-    <boot dev=3D'network'/>
-
-And JFH started it from the MAAS UI again.
-Now things work (obviously as expected)
+@maas - as I said in comment #26 (and before) this needs coding in maas
+to switch the XML content (or waiting a long time on IBM)
 
 -- =
 
