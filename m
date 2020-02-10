@@ -2,61 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D12815802D
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Feb 2020 17:52:11 +0100 (CET)
-Received: from localhost ([::1]:36132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E4CF15800E
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Feb 2020 17:46:27 +0100 (CET)
+Received: from localhost ([::1]:36080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j1CI6-0001g3-Nh
-	for lists+qemu-devel@lfdr.de; Mon, 10 Feb 2020 11:52:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59107)
+	id 1j1CCY-0006Rm-Bj
+	for lists+qemu-devel@lfdr.de; Mon, 10 Feb 2020 11:46:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50919)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1j1CGh-0001Ex-VT
- for qemu-devel@nongnu.org; Mon, 10 Feb 2020 11:50:45 -0500
+ (envelope-from <quintela@redhat.com>) id 1j1CB5-0005ck-Tg
+ for qemu-devel@nongnu.org; Mon, 10 Feb 2020 11:44:56 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1j1CGg-0007VE-8e
- for qemu-devel@nongnu.org; Mon, 10 Feb 2020 11:50:43 -0500
-Received: from indium.canonical.com ([91.189.90.7]:42862)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1j1CGg-0007Se-2r
- for qemu-devel@nongnu.org; Mon, 10 Feb 2020 11:50:42 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1j1CGd-0002Wo-Ji
- for <qemu-devel@nongnu.org>; Mon, 10 Feb 2020 16:50:39 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 7B82D2E80C7
- for <qemu-devel@nongnu.org>; Mon, 10 Feb 2020 16:50:39 +0000 (UTC)
+ (envelope-from <quintela@redhat.com>) id 1j1CB4-0000Nf-MO
+ for qemu-devel@nongnu.org; Mon, 10 Feb 2020 11:44:55 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:50574
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1j1CB4-0000Md-If
+ for qemu-devel@nongnu.org; Mon, 10 Feb 2020 11:44:54 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1581353094;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=vV4eGTWFc+JudZUEnauQlSTCA8p35uJtX0Dklx+ttrk=;
+ b=O7HGYSmmprHl91yQBX0L/OB41C3HbKsRcCyj6rnbNnZvNlJVi7J7zmAzvidPc7SghrEhxO
+ doZB2W0o88yx41cEXC05mUL2gfKNpDDbxa1JbGljPx+l/gCcgdIE2gxEBIceobQ7F2L/2x
+ WG66ZACAr3IXsJZoMpTeWRmhJYQ0Ang=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-132-TPZjxvRtNGCfDg9wDmtWZA-1; Mon, 10 Feb 2020 11:44:52 -0500
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 92567107ACCD;
+ Mon, 10 Feb 2020 16:44:50 +0000 (UTC)
+Received: from redhat.com (ovpn-117-6.ams2.redhat.com [10.36.117.6])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4959B60BF3;
+ Mon, 10 Feb 2020 16:44:42 +0000 (UTC)
+From: Juan Quintela <quintela@redhat.com>
+To: Auger Eric <eric.auger@redhat.com>
+Subject: Re: [PATCH v12 12/13] virtio-iommu: Support migration
+In-Reply-To: <6a276f9d-18a3-300b-c55f-00665d30b34f@redhat.com> (Auger Eric's
+ message of "Mon, 10 Feb 2020 14:36:56 +0100")
+References: <20200109144319.15912-1-eric.auger@redhat.com>
+ <20200109144319.15912-13-eric.auger@redhat.com>
+ <87eev27hby.fsf@secure.laptop>
+ <c8df42d0-c913-94e3-39a0-1e09fa459622@redhat.com>
+ <6a276f9d-18a3-300b-c55f-00665d30b34f@redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+Date: Mon, 10 Feb 2020 17:44:40 +0100
+Message-ID: <8736bi75on.fsf@secure.laptop>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: TPZjxvRtNGCfDg9wDmtWZA-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 10 Feb 2020 16:43:39 -0000
-From: Thierry Briot <1862619@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: laurent-vivier tebounet
-X-Launchpad-Bug-Reporter: Thierry Briot (tebounet)
-X-Launchpad-Bug-Modifier: Thierry Briot (tebounet)
-References: <158133547000.19789.14380673630783179726.malonedeb@wampee.canonical.com>
-Message-Id: <158135302001.26327.5993481167014171135.malone@soybean.canonical.com>
-Subject: [Bug 1862619] Re: "-serial telnet::xxxx,
- server" causes "Device 'serial0' is in use"
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="0a62c17273454a1313f81a74a2198ec30b44c7b6";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 94c6253452d24a40a094bb149f2116cc275bddea
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -65,47 +77,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1862619 <1862619@bugs.launchpad.net>
+Reply-To: quintela@redhat.com
+Cc: peter.maydell@linaro.org, kevin.tian@intel.com, tnowicki@marvell.com,
+ mst@redhat.com, qemu-devel@nongnu.org, peterx@redhat.com, dgilbert@redhat.com,
+ bharatb.linux@gmail.com, qemu-arm@nongnu.org, jean-philippe@linaro.org,
+ eric.auger.pro@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If I use an installation support HP-UX 11.00, the installation starts autom=
-atically. Then, it finds no disk for installation, but I will work on the d=
-rive option of qemu to resolve this trouble.
-Thanks a lot for your help !
+Auger Eric <eric.auger@redhat.com> wrote:
+> Hi Juan,
+>
+> On 2/10/20 2:09 PM, Auger Eric wrote:
+>> Hi Juan,
+>>=20
+>> On 2/10/20 1:33 PM, Juan Quintela wrote:
+>>> Eric Auger <eric.auger@redhat.com> wrote:
+>>>> Add Migration support. We rely on recently added gtree and qlist
+>>>> migration. We only migrate the domain gtree. The endpoint gtree
+>>>> is re-constructed in a post-load operation.
+>>>>
+>>>> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+>>>
+>>> Reviewed-by: Juan Quintela <quintela@redhat.com>
+>>>
+>>> And yes, this is as confusing as it can be:
+>>>  a tree of mappings (i.e. key,value)
+>>>  a list of endpoints
+>>>
+>>> I will propose this as most complex structure migrated ever.
+>> :-) Thank you Juan, Dave, and Peter for your support
+>
+> I did not notice this at the first glimpse but could you send the R-b on
+> the v15. I have been running like a hamster on my wheel during last week.
+>
+> Code has not changed though :-).
 
--- =
+Sure.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1862619
+Later, Juan.
 
-Title:
-  "-serial telnet::xxxx,server" causes "Device 'serial0' is in use"
-
-Status in QEMU:
-  New
-
-Bug description:
-  I start qemu version 4.2.50 in a first terminal :
-
-  $ sudo ./qemu-system-hppa -boot d -serial telnet::4441,server -drive
-  if=3Dscsi,bus=3D0,index=3D6,file=3D./hpux.img,format=3Draw -serial mon:st=
-dio -D
-  /tmp/foo -nographic -m 512 -d nochain -cdrom
-  ./HPUX_9.05_Installation_Disc_S700.iso -D /tmp/foo -net
-  nic,model=3Dtulip  -net tap
-
-  qemu-system-hppa: -serial telnet::4441,server: info: QEMU waiting for
-  connection on: disconnected:telnet:0.0.0.0:4441,server
-
-  In another terminal, I launch "telnet localhost 4441"
-
-  And in the qemu window I have the following error:
-
-  Unexpected error in qemu_chr_fe_init() at chardev/char-fe.c:220:
-  qemu-system-hppa: Device 'serial0' is in use
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1862619/+subscriptions
 
