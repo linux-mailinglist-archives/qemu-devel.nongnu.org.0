@@ -2,66 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6417B158557
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Feb 2020 23:13:56 +0100 (CET)
-Received: from localhost ([::1]:40428 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AECB7158597
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Feb 2020 23:31:58 +0100 (CET)
+Received: from localhost ([::1]:40576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j1HJT-0004yv-Fn
-	for lists+qemu-devel@lfdr.de; Mon, 10 Feb 2020 17:13:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52662)
+	id 1j1Hav-0002fk-A5
+	for lists+qemu-devel@lfdr.de; Mon, 10 Feb 2020 17:31:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39661)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <rjones@redhat.com>) id 1j1HIQ-0004Sd-Vh
- for qemu-devel@nongnu.org; Mon, 10 Feb 2020 17:12:52 -0500
+ (envelope-from <eblake@redhat.com>) id 1j1HZc-000233-9f
+ for qemu-devel@nongnu.org; Mon, 10 Feb 2020 17:30:37 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <rjones@redhat.com>) id 1j1HIP-0001e2-Rr
- for qemu-devel@nongnu.org; Mon, 10 Feb 2020 17:12:50 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:30836
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <eblake@redhat.com>) id 1j1HZZ-0004C0-4z
+ for qemu-devel@nongnu.org; Mon, 10 Feb 2020 17:30:34 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:47584
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <rjones@redhat.com>) id 1j1HIP-0001ZD-No
- for qemu-devel@nongnu.org; Mon, 10 Feb 2020 17:12:49 -0500
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1j1HZX-00045e-GU
+ for qemu-devel@nongnu.org; Mon, 10 Feb 2020 17:30:32 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581372767;
+ s=mimecast20190719; t=1581373828;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=QOz4jUc9DBSbAVfQbhgVjaaSplcNNtLmmQV105ndPrw=;
- b=Gz7xVIYjxdejEdBuKwpbixG/MqB/61puKI8+ABp8pJrwFrETUT1goCVco9jQVhH+/qGjxv
- aJzA1bY2t9N0NcdqqhLbESLu5fe4nJN+XNMDb0qc16D/8lKH9f2S45Q//YGt7tUishU6WC
- DrrYd9h9gSRcUiqvaf34sYMW2ED8eOY=
+ bh=ndWJYrJDqYVWn5Nd+TybwT3Eg8HqEeF8V1B3jDFRXaA=;
+ b=QrYtQpmrfCoeICgjTyueHQ1+6iULIA3wNuWf7ECdMC7UltxHC3l9bgBj2J3tP6imj5hhfg
+ ksi/xVLRCu0/EGq4HAPF2PeTFjxZJibilX0ou0VVwCj//k2/8RrpMInu4m8thTJzQ1zKa9
+ 42mZThuCEUGWkZNASqAZ3tegnlylB6g=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-93-ix0loyFpNxm6I5fLidTLxg-1; Mon, 10 Feb 2020 17:12:39 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-212-shvBQj_jMsGEgMCNZpUZsQ-1; Mon, 10 Feb 2020 17:29:59 -0500
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 25C6CDB60;
- Mon, 10 Feb 2020 22:12:38 +0000 (UTC)
-Received: from localhost (unknown [10.36.118.78])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2B55B19C70;
- Mon, 10 Feb 2020 22:12:35 +0000 (UTC)
-Date: Mon, 10 Feb 2020 22:12:34 +0000
-From: "Richard W.M. Jones" <rjones@redhat.com>
-To: Eric Blake <eblake@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D286F800D5B;
+ Mon, 10 Feb 2020 22:29:57 +0000 (UTC)
+Received: from [10.3.116.180] (ovpn-116-180.phx2.redhat.com [10.3.116.180])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 59BDE5C1D4;
+ Mon, 10 Feb 2020 22:29:54 +0000 (UTC)
 Subject: Re: Cross-project NBD extension proposal: NBD_INFO_INIT_STATE
-Message-ID: <20200210221234.GH3888@redhat.com>
+To: "Richard W.M. Jones" <rjones@redhat.com>
 References: <a4394fde-f459-dcb5-1698-013e1e24c388@redhat.com>
+ <20200210221234.GH3888@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <cc6e1e2e-d3a9-c498-354b-d382b5623ca0@redhat.com>
+Date: Mon, 10 Feb 2020 16:29:53 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <a4394fde-f459-dcb5-1698-013e1e24c388@redhat.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: ix0loyFpNxm6I5fLidTLxg-1
+In-Reply-To: <20200210221234.GH3888@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-MC-Unique: shvBQj_jMsGEgMCNZpUZsQ-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,26 +83,63 @@ Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Feb 10, 2020 at 03:37:20PM -0600, Eric Blake wrote:
-> For now, only 2 of those 16 bits are defined: NBD_INIT_SPARSE (the
-> image has at least one hole) and NBD_INIT_ZERO (the image reads
-> completely as zero); the two bits are orthogonal and can be set
-> independently, although it is easy enough to see completely sparse
-> files with both bits set.
+On 2/10/20 4:12 PM, Richard W.M. Jones wrote:
+> On Mon, Feb 10, 2020 at 03:37:20PM -0600, Eric Blake wrote:
+>> For now, only 2 of those 16 bits are defined: NBD_INIT_SPARSE (the
+>> image has at least one hole) and NBD_INIT_ZERO (the image reads
+>> completely as zero); the two bits are orthogonal and can be set
+>> independently, although it is easy enough to see completely sparse
+>> files with both bits set.
+> 
+> I think I'm confused about the exact meaning of NBD_INIT_SPARSE.  Do
+> you really mean the whole image is sparse; or (as you seem to have
+> said above) that there exists a hole somewhere in the image but we're
+> not saying where it is and there can be non-sparse parts of the image?
 
-I think I'm confused about the exact meaning of NBD_INIT_SPARSE.  Do
-you really mean the whole image is sparse; or (as you seem to have
-said above) that there exists a hole somewhere in the image but we're
-not saying where it is and there can be non-sparse parts of the image?
+As implemented:
 
-Rich.
+NBD_INIT_SPARSE - there is at least one hole somewhere (allocation would 
+be required to write to that part of the file), but there may b 
+allocated data elsewhere in the image.  Most disk images will fit this 
+definition (for example, it is very common to have a hole between the 
+MBR or GPT and the first partition containing a file system, or for file 
+systems themselves to be sparse within the larger block device).
 
---=20
-Richard Jones, Virtualization Group, Red Hat http://people.redhat.com/~rjon=
-es
-Read my programming and virtualization blog: http://rwmj.wordpress.com
-virt-p2v converts physical machines to virtual machines.  Boot with a
-live CD or over the network (PXE) and turn machines into KVM guests.
-http://libguestfs.org/virt-v2v
+NBD_INIT_ZERO - all bytes read as zero.
+
+The combination NBD_INIT_SPARSE|NBD_INIT_ZERO is common (generally, if 
+you use lseek(SEEK_DATA) to prove the entire image reads as zeroes, you 
+also know the entire image is sparse), but NBD_INIT_ZERO in isolation is 
+also possible (especially with the qcow2 proposal of a persistent 
+autoclear bit, where even with a fully preallocated qcow2 image you 
+still know it reads as zeroes but there are no holes).  But you are also 
+right that for servers that can advertise both bits efficiently, 
+NBD_INIT_SPARSE in isolation may be more common than 
+NBD_INIT_SPARSE|NBD_INIT_ZERO (the former for most disk images, the 
+latter only for a freshly-created image that happens to create with zero 
+initialization).
+
+What's more, in my patches, I did NOT patch qemu to set or consume 
+INIT_SPARSE; so far, it only sets/consumes INIT_ZERO.  Of course, if we 
+can find a reason WHY qemu should track whether a qcow2 image is 
+fully-allocated, by demonstrating a qemu-img algorithm that becomes 
+easier for knowing if an image is sparse (even if our justification is: 
+"when copying an image, I want to know if the _source_ is sparse, to 
+know whether I have to bend over backwards to preallocate the 
+destination"), then using that in qemu makes sense for my v2 patches. 
+But for v1, my only justification was "when copying an image, I can skip 
+holes in the source if I know the _destination_ already reads as 
+zeroes", which only needed INIT_ZERO.
+
+Some of the nbdkit patches demonstrate the some-vs.-all nature of the 
+two bits; for example, in the split plugin, I initialize h->init_sparse 
+= false; h->init_zero = true; then in a loop over each file change 
+h->init_sparse to true if at least one file was sparse, and change 
+h->init_zero to false if at least one file had non-zero contents.
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
