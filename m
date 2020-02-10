@@ -2,71 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 686901580FF
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Feb 2020 18:11:53 +0100 (CET)
-Received: from localhost ([::1]:36628 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFBCB1580A4
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Feb 2020 18:10:20 +0100 (CET)
+Received: from localhost ([::1]:36586 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j1CbA-0001jd-H6
-	for lists+qemu-devel@lfdr.de; Mon, 10 Feb 2020 12:11:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54153)
+	id 1j1CZg-0008Cw-05
+	for lists+qemu-devel@lfdr.de; Mon, 10 Feb 2020 12:10:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56764)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@redhat.com>) id 1j1CWW-0005db-Hl
- for qemu-devel@nongnu.org; Mon, 10 Feb 2020 12:07:05 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1j1CYH-0007JV-Ha
+ for qemu-devel@nongnu.org; Mon, 10 Feb 2020 12:08:54 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1j1CWU-0006ty-5i
- for qemu-devel@nongnu.org; Mon, 10 Feb 2020 12:07:04 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:46732
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1j1CWT-0006ry-Da
- for qemu-devel@nongnu.org; Mon, 10 Feb 2020 12:07:01 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581354420;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=uSy1lI2nx5MJ6FTmAGhu+XLLRL0CzeIUMCYV1fx0Cd4=;
- b=FfGy96Gkw05d0A0e0kLpsRpZnc5i3OjgHu52EbTcEYLMmHFCWezaFJO1W9cpfyj0FbqlHw
- SzFm0cRqZjXrqgPOrMm0vXCO/mg4oYHUId2uoO9vNC4QNslpV6wElmUdfjT05kwCg4oTK2
- /8cKzsO3Xhqtaq7lLFGOK7ix2b7SSY4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-25-EjBaRISHPI6DVvOaUr9fkQ-1; Mon, 10 Feb 2020 12:06:47 -0500
-X-MC-Unique: EjBaRISHPI6DVvOaUr9fkQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E5F35800D41;
- Mon, 10 Feb 2020 17:06:45 +0000 (UTC)
-Received: from localhost (unknown [10.36.118.86])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 51C3C5C1D6;
- Mon, 10 Feb 2020 17:06:42 +0000 (UTC)
-Date: Mon, 10 Feb 2020 17:06:41 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Subject: Re: [PATCH v1 2/4] virtio: increase virtuqueue size for virtio-scsi
- and virtio-blk
-Message-ID: <20200210170641.GJ411895@stefanha-x1.localdomain>
-References: <20200129140702.5411-1-dplotnikov@virtuozzo.com>
- <20200129140702.5411-3-dplotnikov@virtuozzo.com>
- <20200130145840.GH180311@stefanha-x1.localdomain>
- <92f392e9-eb05-5c85-4d50-208110720a22@virtuozzo.com>
- <20200205111905.GE58062@stefanha-x1.localdomain>
- <683b80a8-0d40-7f14-e3f4-628d2b38037f@virtuozzo.com>
- <20200209024650-mutt-send-email-mst@kernel.org>
+ (envelope-from <peter.maydell@linaro.org>) id 1j1CYG-0000Te-4N
+ for qemu-devel@nongnu.org; Mon, 10 Feb 2020 12:08:53 -0500
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:37364)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1j1CYF-0000SS-Uk
+ for qemu-devel@nongnu.org; Mon, 10 Feb 2020 12:08:52 -0500
+Received: by mail-oi1-x243.google.com with SMTP id q84so9908219oic.4
+ for <qemu-devel@nongnu.org>; Mon, 10 Feb 2020 09:08:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=5nZnL3RWARalwZX4QtKSGVx3kPVgKyGF5aGBI4l4uUE=;
+ b=IRd8nTiW5BKQNUs9raDb/I6md2mxE0kwBw6DQFpkqazGYCuZyWkRY0hKJDlOktjx6t
+ bE9NUbisaCQUaLUg0UNcGMgNQ0L2Hx3wWolpjvUa0q3thr3qCvGEZIt57dvo3DmmajEL
+ zVTbhXqP6dE/gEVy+3vZybR0x6WPYBWF82vTChfA67Tk0PB3T6QDZzJpB+IDU4uNZ+I7
+ 6WnWtNY8VFVL8QNIwudWNJnP0NQ46L8+vnZ/gcXJBFEQdXMYbmRt+G/fiD4F5SOHCc8Y
+ D7MHE1H0E3eiig96HkuU9dJtMZ1T6FBOBa907fQgkr0sktkqYDauuJ6S3pUciwv6hMuH
+ fm0w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=5nZnL3RWARalwZX4QtKSGVx3kPVgKyGF5aGBI4l4uUE=;
+ b=fXzo1hKvsn0dom6w9csNJ38YiQclAj1ooF6U5MEVTSVpdwaVcyrfl8jUmVSDesUQHT
+ DnLE4/1CD2z0kUMc6DzQmM3ERlfgMIVGzPEVZf8953qeqHx0osfHLwWpLoPmeDvLtr77
+ BKrY8JLl7DSCSUSQ/+mmPGO7vlO1nmMBNWgRzVD6iNvW6Fachsi287XSrTqhh9JTZhBw
+ n34Vy36qenPLahs72p00Dkt7OFVb2o8nQxYobiVExFmLVyCy0lg6dpkZMkqn/o+vWtDh
+ Gk6qPH7EL+aMoBY8mf1H8XlQb//9im8kZ1Ijz7aZDWWoYh0jC2IfuHLr/SPfOIToRDL0
+ IioA==
+X-Gm-Message-State: APjAAAWSxvKFOPR59SaakL1svab7iLWEDvpsBtOQ8glG2NoX37DA4Gxs
+ 0NZ5HOd7SPgZZp4z4vGBTaNBP74b9nDIJa6DeEgosw==
+X-Google-Smtp-Source: APXvYqxKTAEzUVRXXOh35I+0EuvYPf3hPXeQrGK7RfqKck1J72tkae6hgdcO3efhNO5oBKSVg/XsdZB4rKMLaZNIvmM=
+X-Received: by 2002:a54:4f16:: with SMTP id e22mr36154oiy.170.1581354530972;
+ Mon, 10 Feb 2020 09:08:50 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20200209024650-mutt-send-email-mst@kernel.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="PEkEgRdBLZYkpbX2"
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+References: <20200208104506.2727882-1-groug@kaod.org>
+In-Reply-To: <20200208104506.2727882-1-groug@kaod.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 10 Feb 2020 17:08:38 +0000
+Message-ID: <CAFEAcA_b0y6qX9LExsuNFEDivZN2y6-zbcrTLhX1djqPiYoA5A@mail.gmail.com>
+Subject: Re: [PULL 0/6] 9p patches 2020-02-08
+To: Greg Kurz <groug@kaod.org>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::243
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,51 +71,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, vsementsov@virtuozzo.com,
- ehabkost@redhat.com, qemu-block@nongnu.org,
- Stefan Hajnoczi <stefanha@gmail.com>, qemu-devel@nongnu.org, mreitz@redhat.com,
- Denis Plotnikov <dplotnikov@virtuozzo.com>, pbonzini@redhat.com,
- den@virtuozzo.com
+Cc: Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---PEkEgRdBLZYkpbX2
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Sat, 8 Feb 2020 at 10:45, Greg Kurz <groug@kaod.org> wrote:
+>
+> The following changes since commit 42ccca1bd9456568f996d5646b2001faac96944b:
+>
+>   Merge remote-tracking branch 'remotes/berrange/tags/misc-fixes-pull-request' into staging (2020-02-07 15:01:23 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://github.com/gkurz/qemu.git tags/9p-next-2020-02-08
+>
+> for you to fetch changes up to 2822602cbe2be98229b882101dfdb9d3a738c611:
+>
+>   MAINTAINERS: 9pfs: Add myself as reviewer (2020-02-08 09:29:04 +0100)
+>
+> ----------------------------------------------------------------
+> 9p patches:
+> - some more protocol sanity checks
+> - qtest for readdir
+> - Christian Schoenebeck now official reviewer
+>
+> ----------------------------------------------------------------
 
-On Sun, Feb 09, 2020 at 02:49:09AM -0500, Michael S. Tsirkin wrote:
-> On Fri, Feb 07, 2020 at 11:48:05AM +0300, Denis Plotnikov wrote:
-> > On 05.02.2020 14:19, Stefan Hajnoczi wrote:
-> > > On Tue, Feb 04, 2020 at 12:59:04PM +0300, Denis Plotnikov wrote:
-> > > > On 30.01.2020 17:58, Stefan Hajnoczi wrote:
-> > > > > On Wed, Jan 29, 2020 at 05:07:00PM +0300, Denis Plotnikov wrote:
-> > So, what about changing the queue sizes just for virtio-blk-device and
-> > virtio-scsi-device?
->=20
-> Hmm that would break ability to migrate between userspace and vhost
-> backends, would it not?
 
-I think live and offline migration between them would still work as long
-as the queue size is manually specified.
 
-Stefan
+Applied, thanks.
 
---PEkEgRdBLZYkpbX2
-Content-Type: application/pgp-signature; name="signature.asc"
+Please update the changelog at https://wiki.qemu.org/ChangeLog/5.0
+for any user-visible changes.
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl5BjaEACgkQnKSrs4Gr
-c8hzvggAw60KVXEYRyUpisr4WQc9+pW0PKQVEIi9N5oC9Tt9nkSExq9wHuOxjvzc
-v6RwrKxnE3F1Vzqi4l7oppOPo9wyJysUF05EXgauio7gIquL5QwMrzzhSbCx6Sce
-WIkOwi3rnt0fA7hyOGu6EBzZ7/xVA8PU7M3MOY4GdjeORH6lX6cBGD3FjvseB3JL
-jjLqR7KbrA/A7eXeYG13JUWVJFFVGw9TXWbr3nXeatDr5Vl1JXxMvx4ZoGQFe2nA
-KbD0WSGJjRFi8dru0jXOrTccFKA3VTFEKrZPliaGJdErmxQx0cWJmBVRw44qZH0A
-Tingo4ps8F8gTafZlHSQ3x/l7jtMyA==
-=NoXG
------END PGP SIGNATURE-----
-
---PEkEgRdBLZYkpbX2--
-
+-- PMM
 
