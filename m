@@ -2,47 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01594157EDC
-	for <lists+qemu-devel@lfdr.de>; Mon, 10 Feb 2020 16:35:08 +0100 (CET)
-Received: from localhost ([::1]:35112 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0E88157F09
+	for <lists+qemu-devel@lfdr.de>; Mon, 10 Feb 2020 16:41:59 +0100 (CET)
+Received: from localhost ([::1]:35274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j1B5X-00032y-1U
-	for lists+qemu-devel@lfdr.de; Mon, 10 Feb 2020 10:35:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41629)
+	id 1j1BCA-0002Sj-Q2
+	for lists+qemu-devel@lfdr.de; Mon, 10 Feb 2020 10:41:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40698)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <zhabin@linux.alibaba.com>) id 1j150s-00078x-Qm
- for qemu-devel@nongnu.org; Mon, 10 Feb 2020 04:05:55 -0500
+ (envelope-from <bounces@canonical.com>) id 1j1BBE-0001ns-TY
+ for qemu-devel@nongnu.org; Mon, 10 Feb 2020 10:41:02 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <zhabin@linux.alibaba.com>) id 1j150n-0004IP-Pq
- for qemu-devel@nongnu.org; Mon, 10 Feb 2020 04:05:50 -0500
-Received: from out4436.biz.mail.alibaba.com ([47.88.44.36]:33718)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <zhabin@linux.alibaba.com>)
- id 1j150n-0004BN-GT
- for qemu-devel@nongnu.org; Mon, 10 Feb 2020 04:05:49 -0500
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R181e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=e01f04397; MF=zhabin@linux.alibaba.com;
- NM=1; PH=DS; RN=10; SR=0; TI=SMTPD_---0TpbD1jB_1581325533; 
-Received: from localhost(mailfrom:zhabin@linux.alibaba.com
- fp:SMTPD_---0TpbD1jB_1581325533) by smtp.aliyun-inc.com(127.0.0.1);
- Mon, 10 Feb 2020 17:05:33 +0800
-From: Zha Bin <zhabin@linux.alibaba.com>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH v2 5/5] x86: virtio-mmio: support virtio-mmio with MSI for x86
-Date: Mon, 10 Feb 2020 17:05:21 +0800
-Message-Id: <946b71e77a34666a9b8c419c5a467d1628b50fa0.1581305609.git.zhabin@linux.alibaba.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <cover.1581305609.git.zhabin@linux.alibaba.com>
-References: <cover.1581305609.git.zhabin@linux.alibaba.com>
-In-Reply-To: <cover.1581305609.git.zhabin@linux.alibaba.com>
-References: <cover.1581305609.git.zhabin@linux.alibaba.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 47.88.44.36
-X-Mailman-Approved-At: Mon, 10 Feb 2020 10:31:30 -0500
+ (envelope-from <bounces@canonical.com>) id 1j1BBB-0008PK-8H
+ for qemu-devel@nongnu.org; Mon, 10 Feb 2020 10:41:00 -0500
+Received: from indium.canonical.com ([91.189.90.7]:48472)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1j1BBB-0008NI-2n
+ for qemu-devel@nongnu.org; Mon, 10 Feb 2020 10:40:57 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1j1BAz-00083n-81
+ for <qemu-devel@nongnu.org>; Mon, 10 Feb 2020 15:40:45 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 060CB2E80C3
+ for <qemu-devel@nongnu.org>; Mon, 10 Feb 2020 15:40:45 +0000 (UTC)
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 10 Feb 2020 15:33:17 -0000
+From: Thierry Briot <1862619@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: laurent-vivier tebounet
+X-Launchpad-Bug-Reporter: Thierry Briot (tebounet)
+X-Launchpad-Bug-Modifier: Thierry Briot (tebounet)
+References: <158133547000.19789.14380673630783179726.malonedeb@wampee.canonical.com>
+Message-Id: <158134879794.30590.5702353034805141066.malone@gac.canonical.com>
+Subject: [Bug 1862619] Re: "-serial telnet::xxxx,
+ server" causes "Device 'serial0' is in use"
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="0a62c17273454a1313f81a74a2198ec30b44c7b6";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: b574a969c1eb99e6b41b97a662332f091e139dbd
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -51,58 +65,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-dev@lists.oasis-open.org, zhabin@linux.alibaba.com, slp@redhat.com,
- mst@redhat.com, jasowang@redhat.com, jing2.liu@linux.intel.com,
- qemu-devel@nongnu.org, chao.p.peng@linux.intel.com, gerry@linux.alibaba.com
+Reply-To: Bug 1862619 <1862619@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Liu Jiang <gerry@linux.alibaba.com>
+Effectively, no more error !
+Now, my hppa machine is booted on its installation support for HP-UX 10.20,=
+ et I am connected with telnet in an other terminal. I don't know what I mu=
+st enter now (on a real machine, the installation starts automatically, if =
+I remember well what I did in 1990 !)
 
-virtio-mmio supports a generic MSI irq domain for all archs. This
-patch adds the x86 architecture support.
+-- =
 
-Signed-off-by: Liu Jiang <gerry@linux.alibaba.com>
-Co-developed-by: Zha Bin <zhabin@linux.alibaba.com>
-Signed-off-by: Zha Bin <zhabin@linux.alibaba.com>
-Co-developed-by: Jing Liu <jing2.liu@linux.intel.com>
-Signed-off-by: Jing Liu <jing2.liu@linux.intel.com>
-Co-developed-by: Chao Peng <chao.p.peng@linux.intel.com>
-Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
----
- arch/x86/kernel/apic/msi.c | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1862619
 
-diff --git a/arch/x86/kernel/apic/msi.c b/arch/x86/kernel/apic/msi.c
-index 159bd0c..2fcd602 100644
---- a/arch/x86/kernel/apic/msi.c
-+++ b/arch/x86/kernel/apic/msi.c
-@@ -45,7 +45,11 @@ static void __irq_msi_compose_msg(struct irq_cfg *cfg, struct msi_msg *msg)
- 		MSI_DATA_VECTOR(cfg->vector);
- }
- 
--static void irq_msi_compose_msg(struct irq_data *data, struct msi_msg *msg)
-+/*
-+ * x86 PCI-MSI/HPET/DMAR related method.
-+ * Also can be used as arch specific method for virtio-mmio MSI.
-+ */
-+void irq_msi_compose_msg(struct irq_data *data, struct msi_msg *msg)
- {
- 	__irq_msi_compose_msg(irqd_cfg(data), msg);
- }
-@@ -166,6 +170,11 @@ static void irq_msi_update_msg(struct irq_data *irqd, struct irq_cfg *cfg)
- 	return ret;
- }
- 
-+struct irq_domain *arch_msi_root_irq_domain(void)
-+{
-+	return x86_vector_domain;
-+}
-+
- /*
-  * IRQ Chip for MSI PCI/PCI-X/PCI-Express Devices,
-  * which implement the MSI or MSI-X Capability Structure.
--- 
-1.8.3.1
+Title:
+  "-serial telnet::xxxx,server" causes "Device 'serial0' is in use"
 
+Status in QEMU:
+  New
+
+Bug description:
+  I start qemu version 4.2.50 in a first terminal :
+
+  $ sudo ./qemu-system-hppa -boot d -serial telnet::4441,server -drive
+  if=3Dscsi,bus=3D0,index=3D6,file=3D./hpux.img,format=3Draw -serial mon:st=
+dio -D
+  /tmp/foo -nographic -m 512 -d nochain -cdrom
+  ./HPUX_9.05_Installation_Disc_S700.iso -D /tmp/foo -net
+  nic,model=3Dtulip  -net tap
+
+  qemu-system-hppa: -serial telnet::4441,server: info: QEMU waiting for
+  connection on: disconnected:telnet:0.0.0.0:4441,server
+
+  In another terminal, I launch "telnet localhost 4441"
+
+  And in the qemu window I have the following error:
+
+  Unexpected error in qemu_chr_fe_init() at chardev/char-fe.c:220:
+  qemu-system-hppa: Device 'serial0' is in use
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1862619/+subscriptions
 
