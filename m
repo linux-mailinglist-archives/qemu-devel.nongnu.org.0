@@ -2,81 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43EF2159A6D
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Feb 2020 21:20:04 +0100 (CET)
-Received: from localhost ([::1]:56824 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F3D3159A92
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Feb 2020 21:37:29 +0100 (CET)
+Received: from localhost ([::1]:57062 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j1c0p-0001Bk-0R
-	for lists+qemu-devel@lfdr.de; Tue, 11 Feb 2020 15:20:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34615)
+	id 1j1cHg-00088l-8x
+	for lists+qemu-devel@lfdr.de; Tue, 11 Feb 2020 15:37:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34748)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peterx@redhat.com>) id 1j1byV-0008HG-8C
- for qemu-devel@nongnu.org; Tue, 11 Feb 2020 15:17:40 -0500
+ (envelope-from <alxndr@bu.edu>) id 1j1cFh-0006MM-TY
+ for qemu-devel@nongnu.org; Tue, 11 Feb 2020 15:35:27 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peterx@redhat.com>) id 1j1byT-0007rU-MT
- for qemu-devel@nongnu.org; Tue, 11 Feb 2020 15:17:38 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:53846
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <peterx@redhat.com>) id 1j1byT-0007pR-8y
- for qemu-devel@nongnu.org; Tue, 11 Feb 2020 15:17:37 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581452256;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=NTvEuZSA3B0nadze0YvBWzv0QAqBQfRUw/3RF8G30MM=;
- b=F9DEVE7Gu+PV7x2dp/z5S8Dixk0ERVh6qTVbIZjNTomvlq6ToiAyYHWGo/am0rAQhHKPVT
- W4Nd8fsKt1g7gNWTaQ/uQ9dbculraYZbgpT0A28RUmE1o+e7q/3zWuh5ubCJIPwQQEuzvx
- +y9IFhl3OWlb/h/av/riGw7LpYwTmtc=
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-211-vymaQ6DpNJ-O4shMwnQR2A-1; Tue, 11 Feb 2020 15:17:32 -0500
-Received: by mail-qt1-f197.google.com with SMTP id b5so7466255qtt.10
- for <qemu-devel@nongnu.org>; Tue, 11 Feb 2020 12:17:32 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=2n1XuFh1TfPRhW8BtVWDxws+sMTjPmhnwZU8q2safFI=;
- b=XbXqRhtZwoDFMO+TMUYdgBtPlcoTEF6wwAOuNqVtS3rV/LixfdB7vGYiPH76McclJn
- JVhRt+msNrNXSvCyJFdRLHRRZm7i0zUqzUHQiiV86qcbNcihYB+2Oru/pnlo5UGTHuv7
- Wv9KaPW114vCjL6rdUnHEZmEidpicJ4591ehoPuuqBFQlmDsxFtUIsdSPXnnwGZEazws
- 5U2ELtCuAZ5Qp65seMZwAO1lq0yZ/oWE0XaWjcu7XDLQXuXVUS4Rk5mWkG+DBNHHE1tf
- ZUnPZcwCW3ZGdXmHjv+TCcEkbjK56wzYbaZGMXP+4s4cEiNnf5uenPPDZvIUKQdBwi/h
- ydog==
-X-Gm-Message-State: APjAAAWU7l7B3F4N3+LszIVRh2AIFAEnH6C19lRVdX0Tgeuegh9QJ0Iu
- TbJZqNnNSoiaDwhmCvxqOwdINCWFEI8EWLBbOylYN9zA1bYGrKZMjLSTBEfeEZxZxRe6EAcyZN2
- aS7C1deEiYcBhn1s=
-X-Received: by 2002:ac8:70d5:: with SMTP id g21mr16029175qtp.46.1581452251962; 
- Tue, 11 Feb 2020 12:17:31 -0800 (PST)
-X-Google-Smtp-Source: APXvYqzPgOox0hoFSqBwyM/SG+T29FHEd69AnhPYMbf1Hp8+R4QUO+KGBpbRLIGWBg/HA0g58mdBtg==
-X-Received: by 2002:ac8:70d5:: with SMTP id g21mr16029153qtp.46.1581452251773; 
- Tue, 11 Feb 2020 12:17:31 -0800 (PST)
-Received: from xz-x1 ([2607:9880:19c8:32::2])
- by smtp.gmail.com with ESMTPSA id 8sm2582400qkm.92.2020.02.11.12.17.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 Feb 2020 12:17:30 -0800 (PST)
-Date: Tue, 11 Feb 2020 15:17:28 -0500
-From: Peter Xu <peterx@redhat.com>
-To: "Liu, Yi L" <yi.l.liu@intel.com>
-Subject: Re: [RFC v3 15/25] intel_iommu: process pasid cache invalidation
-Message-ID: <20200211201728.GM984290@xz-x1>
-References: <1580300216-86172-1-git-send-email-yi.l.liu@intel.com>
- <1580300216-86172-16-git-send-email-yi.l.liu@intel.com>
-MIME-Version: 1.0
-In-Reply-To: <1580300216-86172-16-git-send-email-yi.l.liu@intel.com>
-X-MC-Unique: vymaQ6DpNJ-O4shMwnQR2A-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+ (envelope-from <alxndr@bu.edu>) id 1j1cFg-00085a-65
+ for qemu-devel@nongnu.org; Tue, 11 Feb 2020 15:35:25 -0500
+Received: from mail-bn8nam11on2120.outbound.protection.outlook.com
+ ([40.107.236.120]:36865 helo=NAM11-BN8-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <alxndr@bu.edu>) id 1j1cFf-00083m-TI
+ for qemu-devel@nongnu.org; Tue, 11 Feb 2020 15:35:24 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=EoBSMISSKneOKT3Yh5woQ4JCaeawClGbuX5oiTNubARfzlF8w5wuD7EjfPFyX23vwe1AqsDHyQyO/3JuGoUNiFWqn4xzDbNIr3hssd+1qaUstOTOlXBRr7UsKhO+FMJXQzLW28g7YJddbnCTbIPoG/LBx6AbAZbksyHbT0/iXuAhtXPdCh//Zkxr+8dUghDqEh+a3+GzgvzKOxGlFS6JAh8QJwJEGZUlhuAiuxbuWJKbhwZg3hcRCLj1BHCLzQjZwKCVRvXf0JtN87g20DVw4c7pimfKhCSFbAWKmQi9cFGS/NbjfYwcIb3m2iM61zKrhshtKK5ryVMb/8y5WdkzzA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1ALXLmbzosCHPoTm1IlhlUxp8dcSeatzPX6KEJpp9V4=;
+ b=JNU2L6ry3YDRm7okH+FOg0ft8toV+xYERSzDM93oRxKTgxkXOap1sxpcMNMZiSRQ+XeHSPo4NVqgj2BSqM744qP8T2lFLsZ5Z/KlK91HYvyoQDs/ygEeiE333Frpu/6Kjej57vVo79u/hx52LgvVgy2kSsQ5Bh+Gg5LKrA2uoA84iaftsbuwQyS6C0tTtz7Hjibcg7briwr/kAZp1RCMd7BtVTloPgdXKpAemuvSg3CPCVSyqr2e+q4aBtrjejAGHmqOWrKIitnFFWlFFr7JaSii7J3Nv9fxqiFzpCQWv2bsPMeqpGDiprMPL8EpJxpCkTHUEB7xgAc68jTtg/stDw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bu.edu; dmarc=pass action=none header.from=bu.edu; dkim=pass
+ header.d=bu.edu; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bushare.onmicrosoft.com; s=selector2-bushare-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1ALXLmbzosCHPoTm1IlhlUxp8dcSeatzPX6KEJpp9V4=;
+ b=uYgHWjdGmswC5f/j6nugrlRaE7MLFIhNtxMRDPKH/4+dhzw16ZfiUA/39K6T/LJqWOEgvqYWStmMGaHeHc0I7WE/ACdsspzWXfquO53iEYXCdbEmvMg4FHSprbsEkrXM+lTTLm3V5ZvZtSYkkdc6G3A16kFt4rNHpXK59JtYwJ8=
+Authentication-Results: spf=none (sender IP is ) smtp.mailfrom=alxndr@bu.edu; 
+Received: from SN6PR03MB3871.namprd03.prod.outlook.com (52.135.102.32) by
+ SN6PR03MB3599.namprd03.prod.outlook.com (52.135.87.155) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2707.21; Tue, 11 Feb 2020 20:35:21 +0000
+Received: from SN6PR03MB3871.namprd03.prod.outlook.com
+ ([fe80::9c11:10cd:6e97:bbe8]) by SN6PR03MB3871.namprd03.prod.outlook.com
+ ([fe80::9c11:10cd:6e97:bbe8%7]) with mapi id 15.20.2707.030; Tue, 11 Feb 2020
+ 20:35:21 +0000
+From: Alexander Bulekov <alxndr@bu.edu>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v9 00/23] Add virtual device fuzzing support
+Date: Tue, 11 Feb 2020 15:34:47 -0500
+Message-ID: <20200211203510.3534-1-alxndr@bu.edu>
+X-Mailer: git-send-email 2.25.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-ClientProxiedBy: BL0PR02CA0124.namprd02.prod.outlook.com
+ (2603:10b6:208:35::29) To SN6PR03MB3871.namprd03.prod.outlook.com
+ (2603:10b6:805:6d::32)
+MIME-Version: 1.0
+Received: from mozz.bu.edu (128.197.127.33) by
+ BL0PR02CA0124.namprd02.prod.outlook.com (2603:10b6:208:35::29) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2707.23 via Frontend Transport; Tue, 11 Feb 2020 20:35:21 +0000
+X-Mailer: git-send-email 2.25.0
+X-Originating-IP: [128.197.127.33]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 785e83b0-133d-4570-6997-08d7af31ea57
+X-MS-TrafficTypeDiagnostic: SN6PR03MB3599:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <SN6PR03MB359907F96531F8340699E003BA180@SN6PR03MB3599.namprd03.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:785;
+X-Forefront-PRVS: 0310C78181
+X-Forefront-Antispam-Report: SFV:NSPM;
+ SFS:(10019020)(4636009)(39860400002)(346002)(136003)(396003)(376002)(366004)(199004)(189003)(36756003)(52116002)(7696005)(478600001)(6666004)(316002)(786003)(8676002)(8936002)(956004)(2616005)(4326008)(81156014)(5660300002)(75432002)(1076003)(81166006)(2906002)(66556008)(66476007)(66946007)(6486002)(26005)(186003)(16526019)(86362001)(6916009);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:SN6PR03MB3599;
+ H:SN6PR03MB3871.namprd03.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; MX:1; 
+Received-SPF: None (protection.outlook.com: bu.edu does not designate
+ permitted sender hosts)
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: rd0KSaMCfAQK8h7r9dveTKDlrwJsonMu45/ecxJUsojlxJhE+dxsk93nceKJ79d85ZaTH2q1WFUW7BZRbi1//V48a+TebfhxDCyh72uOD3oHDwaRfTTe7coWCpzsdTf71DaAMERY9f96tQZ3EDz18rdiWtOAwHDMU/Pa2NoMDTNyDGi6xfN0huEAMf1KYJffybFKOfkSYsVG2RJoEK8MJ73bnbwTJNW9snvsbGkJfC06zwxyUh4BJJkKDlbT30Zs+GkXA8JGHqB47IiSkTT8ub7vsVNuijAMDJlGT3MwsTblP2rI3Jkxo66g74JDli3AnbXQJNvuVWtwQJPoLSqQ9PAzqzg7B7Ln6bPb+tMhn/KDvMurEo3QQzZOSP2sGRFdTcT+o7FoBFj1HVn8keAo4Z9tbZwwfsBwMT3XdyKsj8ekpqm0YA/+haKMQGKFnsfM
+X-MS-Exchange-AntiSpam-MessageData: NU4js67iVGPtzFGWnVK25Tw7QCoYkpizHAYQ3zNuZzUw9pTz9Tyy7paEwb9QFGiZDtoT20CNBcfSNPcX18SNjO1A4AMDzCqueoXInDAKsSGNuzV8b9AJUFiNGDzRdo+C+lXiAjsLULz0fEE0qRKjbQ==
+X-OriginatorOrg: bu.edu
+X-MS-Exchange-CrossTenant-Network-Message-Id: 785e83b0-133d-4570-6997-08d7af31ea57
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Feb 2020 20:35:21.8028 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d57d32cc-c121-488f-b07b-dfe705680c71
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: aOjmpkrfWT+8FTFHIu/xt2ebgiucszOqllaQm46/q3/qvQLs8F/2JMUTtcK8CpIX
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR03MB3599
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 40.107.236.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,36 +102,156 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kevin.tian@intel.com, Jacob Pan <jacob.jun.pan@linux.intel.com>,
- Yi Sun <yi.y.sun@linux.intel.com>, Eduardo Habkost <ehabkost@redhat.com>,
- kvm@vger.kernel.org, mst@redhat.com, jun.j.tian@intel.com,
- qemu-devel@nongnu.org, eric.auger@redhat.com, alex.williamson@redhat.com,
- pbonzini@redhat.com, hao.wu@intel.com, yi.y.sun@intel.com,
- Richard Henderson <rth@twiddle.net>, david@gibson.dropbear.id.au
+Cc: Alexander Bulekov <alxndr@bu.edu>, pbonzini@redhat.com, bsd@redhat.com,
+ stefanha@redhat.com, darren.kenny@oracle.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jan 29, 2020 at 04:16:46AM -0800, Liu, Yi L wrote:
-> From: Liu Yi L <yi.l.liu@intel.com>
->=20
-> This patch adds PASID cache invalidation handling. When guest enabled
-> PASID usages (e.g. SVA), guest software should issue a proper PASID
-> cache invalidation when caching-mode is exposed. This patch only adds
-> the draft handling of pasid cache invalidation. Detailed handling will
-> be added in subsequent patches.
->=20
-> Cc: Kevin Tian <kevin.tian@intel.com>
-> Cc: Jacob Pan <jacob.jun.pan@linux.intel.com>
-> Cc: Peter Xu <peterx@redhat.com>
-> Cc: Yi Sun <yi.y.sun@linux.intel.com>
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
-> Cc: Richard Henderson <rth@twiddle.net>
-> Cc: Eduardo Habkost <ehabkost@redhat.com>
-> Signed-off-by: Liu Yi L <yi.l.liu@intel.com>
+Hello,
 
-Reviewed-by: Peter Xu <peterx@redhat.com>
+This series adds a framework for coverage-guided fuzzing of
+virtual-devices. Fuzzing targets are based on qtest and can make use of
+the libqos abstractions.
+
+V9:
+ * Fix bug in the virtio-scsi fuzzer. Virtqueues were being kicked only
+   if free_head !=3D 0 (which it never was).
+ * Move vl.c and main.c into a new directory: softmmu/
+ * virtio-net-fuzz: refactor the looop over used descriptor.
+ * Improve comments for i440fx and virtio-scsi fuzzers.
+
+V8:
+ * Small fixes to the virtio-net.
+ * Keep rcu_atfork when not using qtest.
+
+V7:
+ * virtio-net: add virtio-net-check-used which waits for inputs on
+ the tx/ctrl vq by watching the used vring.
+ * virtio-net: add virtio-net-socket which uses the socket backend and can
+ exercise the rx components of virtio-net.
+ * virtio-net: add virtio-net-slirp which uses the user backend and exercis=
+es
+ slirp. This may lead to real traffic emitted by qemu so it is best to
+ run in an isolated network environment.
+ * build should succeed after each commit
+
+V5/V6:
+ * added virtio-scsi fuzzer
+ * add support for using fork-based fuzzers with multiple libfuzzer
+   workers
+ * misc fixes addressing V4 comments
+ * cleanup in-process handlers/globals in libqtest.c
+ * small fixes to fork-based fuzzing and support for multiple workers
+ * changes to the virtio-net fuzzer to kick after each vq add
+
+V4:
+ * add/transfer license headers to new files
+ * restructure the added QTestClientTransportOps struct
+ * restructure the FuzzTarget struct and fuzzer skeleton
+ * fork-based fuzzer now directly mmaps shm over the coverage bitmaps
+ * fixes to i440 and virtio-net fuzz targets
+ * undo the changes to qtest_memwrite
+ * possible to build /fuzz and /all in the same build-dir
+ * misc fixes to address V3 comments
+
+V3:
+ * rebased onto v4.1.0+
+ * add the fuzzer as a new build-target type in the build-system
+ * add indirection to qtest client/server communication functions
+ * remove ramfile and snapshot-based fuzzing support
+ * add i440fx fuzz-target as a reference for developers.
+ * add linker-script to assist with fork-based fuzzer
+
+V2:
+ * split off changes to qos virtio-net and qtest server to other patches
+ * move vl:main initialization into new func: qemu_init
+ * moved useful functions from qos-test.c to a separate object
+ * use struct of function pointers for add_fuzz_target(), instead of
+   arguments
+ * move ramfile to migration/qemu-file
+ * rewrite fork-based fuzzer pending patch to libfuzzer
+ * pass check-patch
+
+Alexander Bulekov (23):
+  checkpatch: replace vl.c in the top of repo check
+  softmmu: move vl.c to softmmu/
+  softmmu: split off vl.c:main() into main.c
+  module: check module wasn't already initialized
+  fuzz: add FUZZ_TARGET module type
+  qtest: add qtest_server_send abstraction
+  libqtest: add a layer of abstraction to send/recv
+  libqtest: make bufwrite rely on the TransportOps
+  qtest: add in-process incoming command handler
+  libqos: rename i2c_send and i2c_recv
+  libqos: split qos-test and libqos makefile vars
+  libqos: move useful qos-test funcs to qos_external
+  fuzz: add fuzzer skeleton
+  exec: keep ram block across fork when using qtest
+  main: keep rcu_atfork callback enabled for qtest
+  fuzz: support for fork-based fuzzing.
+  fuzz: add support for qos-assisted fuzz targets
+  fuzz: add target/fuzz makefile rules
+  fuzz: add configure flag --enable-fuzzing
+  fuzz: add i440fx fuzz targets
+  fuzz: add virtio-net fuzz target
+  fuzz: add virtio-scsi fuzz target
+  fuzz: add documentation to docs/devel/
+
+ Makefile                            |  15 +-
+ Makefile.objs                       |   2 -
+ Makefile.target                     |  19 ++-
+ configure                           |  39 +++++
+ docs/devel/fuzzing.txt              | 116 ++++++++++++++
+ exec.c                              |  12 +-
+ include/qemu/module.h               |   4 +-
+ include/sysemu/qtest.h              |   4 +
+ include/sysemu/sysemu.h             |   4 +
+ qtest.c                             |  31 +++-
+ scripts/checkpatch.pl               |   2 +-
+ softmmu/Makefile.objs               |   3 +
+ softmmu/main.c                      |  53 +++++++
+ vl.c =3D> softmmu/vl.c                |  48 +++---
+ tests/qtest/Makefile.include        |  72 ++++-----
+ tests/qtest/fuzz/Makefile.include   |  18 +++
+ tests/qtest/fuzz/fork_fuzz.c        |  55 +++++++
+ tests/qtest/fuzz/fork_fuzz.h        |  23 +++
+ tests/qtest/fuzz/fork_fuzz.ld       |  37 +++++
+ tests/qtest/fuzz/fuzz.c             | 179 +++++++++++++++++++++
+ tests/qtest/fuzz/fuzz.h             |  95 +++++++++++
+ tests/qtest/fuzz/i440fx_fuzz.c      | 193 +++++++++++++++++++++++
+ tests/qtest/fuzz/qos_fuzz.c         | 234 ++++++++++++++++++++++++++++
+ tests/qtest/fuzz/qos_fuzz.h         |  33 ++++
+ tests/qtest/fuzz/virtio_net_fuzz.c  | 198 +++++++++++++++++++++++
+ tests/qtest/fuzz/virtio_scsi_fuzz.c | 214 +++++++++++++++++++++++++
+ tests/qtest/libqos/i2c.c            |  10 +-
+ tests/qtest/libqos/i2c.h            |   4 +-
+ tests/qtest/libqos/qos_external.c   | 168 ++++++++++++++++++++
+ tests/qtest/libqos/qos_external.h   |  28 ++++
+ tests/qtest/libqtest.c              | 119 ++++++++++++--
+ tests/qtest/libqtest.h              |   4 +
+ tests/qtest/pca9552-test.c          |  10 +-
+ tests/qtest/qos-test.c              | 132 +---------------
+ util/module.c                       |   7 +
+ 35 files changed, 1958 insertions(+), 227 deletions(-)
+ create mode 100644 docs/devel/fuzzing.txt
+ create mode 100644 softmmu/Makefile.objs
+ create mode 100644 softmmu/main.c
+ rename vl.c =3D> softmmu/vl.c (99%)
+ create mode 100644 tests/qtest/fuzz/Makefile.include
+ create mode 100644 tests/qtest/fuzz/fork_fuzz.c
+ create mode 100644 tests/qtest/fuzz/fork_fuzz.h
+ create mode 100644 tests/qtest/fuzz/fork_fuzz.ld
+ create mode 100644 tests/qtest/fuzz/fuzz.c
+ create mode 100644 tests/qtest/fuzz/fuzz.h
+ create mode 100644 tests/qtest/fuzz/i440fx_fuzz.c
+ create mode 100644 tests/qtest/fuzz/qos_fuzz.c
+ create mode 100644 tests/qtest/fuzz/qos_fuzz.h
+ create mode 100644 tests/qtest/fuzz/virtio_net_fuzz.c
+ create mode 100644 tests/qtest/fuzz/virtio_scsi_fuzz.c
+ create mode 100644 tests/qtest/libqos/qos_external.c
+ create mode 100644 tests/qtest/libqos/qos_external.h
 
 --=20
-Peter Xu
+2.25.0
 
 
