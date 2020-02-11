@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 240231593A0
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Feb 2020 16:49:38 +0100 (CET)
-Received: from localhost ([::1]:51974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2CA11593B1
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Feb 2020 16:50:00 +0100 (CET)
+Received: from localhost ([::1]:51978 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j1Xn7-0004D8-6l
-	for lists+qemu-devel@lfdr.de; Tue, 11 Feb 2020 10:49:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46971)
+	id 1j1XnU-0004s6-1S
+	for lists+qemu-devel@lfdr.de; Tue, 11 Feb 2020 10:50:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47006)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1j1Xm8-0003Tj-TP
- for qemu-devel@nongnu.org; Tue, 11 Feb 2020 10:48:37 -0500
+ (envelope-from <eblake@redhat.com>) id 1j1XmT-0003pK-JF
+ for qemu-devel@nongnu.org; Tue, 11 Feb 2020 10:48:58 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1j1Xm7-0004s0-NU
- for qemu-devel@nongnu.org; Tue, 11 Feb 2020 10:48:36 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:35201
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <eblake@redhat.com>) id 1j1XmQ-0005Cr-0u
+ for qemu-devel@nongnu.org; Tue, 11 Feb 2020 10:48:57 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:48120
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1j1Xm6-0004qz-KJ
- for qemu-devel@nongnu.org; Tue, 11 Feb 2020 10:48:35 -0500
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1j1XmP-0005CP-Sw
+ for qemu-devel@nongnu.org; Tue, 11 Feb 2020 10:48:53 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581436114;
+ s=mimecast20190719; t=1581436133;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=m4oIzaT1cOEqoZ+upxTTVZbTLXWPV1CZB4Vo9fFDfrc=;
- b=OdlpxVrUrvxDc7i2uW3mj6Ym/8lZCY9UXr2svs29/K0gNjmLor2NKYYKI3vIBfzeaX2p/w
- i2OyzHAAfCt66BWIWN/Zyd0MPiVIWDw9xA0ZwvocUivTJN0hvtX9KqbC9nX5kUtHlcJzB5
- cMDt+x9iEnOSZN2o/VQVlCinS18u0s0=
+ bh=SHZhZt1TzaDbDWCI0NpQhimNxtT86tJ9Y0VZzkSl7+8=;
+ b=IvF97SceUYJIFOJd2RrOQZ1OQPiS9rz9TSZxWT6aQWHjS3a6ngvZ6WJvLtUxzlzPqldLP2
+ maolkF3eNwd6JBpw4IwNNGel5oOExMqU+ELQ/CgLUnh6pUmfVHrD3t0TM6tFvK90rPLPtZ
+ 3KF61oGgdBTkhjniiO1HknMpnIg2iDM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-388-mAj8V2QKPruXsKVh4wBEvg-1; Tue, 11 Feb 2020 10:48:30 -0500
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-429-Wri0-BYuMDqlgmWY4Lw1lQ-1; Tue, 11 Feb 2020 10:48:51 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 53E1B1B18BC1;
- Tue, 11 Feb 2020 15:48:29 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3F470107ACC5;
+ Tue, 11 Feb 2020 15:48:50 +0000 (UTC)
 Received: from [10.3.116.180] (ovpn-116-180.phx2.redhat.com [10.3.116.180])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D26BA5C1B2;
- Tue, 11 Feb 2020 15:48:28 +0000 (UTC)
-Subject: Re: [PATCH v2 29/33] block: Make bdrv_filter_default_perms() static
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CAA8F26E4C;
+ Tue, 11 Feb 2020 15:48:49 +0000 (UTC)
+Subject: Re: [PATCH v2 30/33] block: Drop bdrv_format_default_perms()
 To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
 References: <20200204170848.614480-1-mreitz@redhat.com>
- <20200204170848.614480-30-mreitz@redhat.com>
+ <20200204170848.614480-31-mreitz@redhat.com>
 From: Eric Blake <eblake@redhat.com>
 Organization: Red Hat, Inc.
-Message-ID: <6015c40e-2506-7088-22a3-c54bb694580f@redhat.com>
-Date: Tue, 11 Feb 2020 09:48:28 -0600
+Message-ID: <d268cf48-c2cc-ca61-2b56-3f07532b46db@redhat.com>
+Date: Tue, 11 Feb 2020 09:48:49 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200204170848.614480-30-mreitz@redhat.com>
+In-Reply-To: <20200204170848.614480-31-mreitz@redhat.com>
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: mAj8V2QKPruXsKVh4wBEvg-1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: Wri0-BYuMDqlgmWY4Lw1lQ-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,51 +84,10 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On 2/4/20 11:08 AM, Max Reitz wrote:
 > Signed-off-by: Max Reitz <mreitz@redhat.com>
 > ---
->   block.c                   | 12 ++++++------
->   include/block/block_int.h | 10 ----------
->   2 files changed, 6 insertions(+), 16 deletions(-)
+>   block.c                   | 19 -------------------
+>   include/block/block_int.h | 11 -----------
+>   2 files changed, 30 deletions(-)
 > 
-> diff --git a/block.c b/block.c
-> index 747a2973f5..091e9cc16a 100644
-> --- a/block.c
-> +++ b/block.c
-> @@ -2194,12 +2194,12 @@ int bdrv_child_refresh_perms(BlockDriverState *bs, BdrvChild *c, Error **errp)
->       return bdrv_child_try_set_perm(c, perms, shared, errp);
->   }
->   
-> -void bdrv_filter_default_perms(BlockDriverState *bs, BdrvChild *c,
-> -                               const BdrvChildClass *child_class,
-> -                               BdrvChildRole role,
-> -                               BlockReopenQueue *reopen_queue,
-> -                               uint64_t perm, uint64_t shared,
-> -                               uint64_t *nperm, uint64_t *nshared)
-> +static void bdrv_filter_default_perms(BlockDriverState *bs, BdrvChild *c,
-> +                                      const BdrvChildClass *child_class,
-> +                                      BdrvChildRole role,
-> +                                      BlockReopenQueue *reopen_queue,
-> +                                      uint64_t perm, uint64_t shared,
-> +                                      uint64_t *nperm, uint64_t *nshared)
->   {
-
-Hmm - no comment here...
-
->       *nperm = perm & DEFAULT_PERM_PASSTHROUGH;
->       *nshared = (shared & DEFAULT_PERM_PASSTHROUGH) | DEFAULT_PERM_UNCHANGED;
-> diff --git a/include/block/block_int.h b/include/block/block_int.h
-> index 7b51866678..5e3f512ae8 100644
-> --- a/include/block/block_int.h
-> +++ b/include/block/block_int.h
-> @@ -1254,16 +1254,6 @@ int bdrv_child_try_set_perm(BdrvChild *c, uint64_t perm, uint64_t shared,
->    */
->   int bdrv_child_refresh_perms(BlockDriverState *bs, BdrvChild *c, Error **errp);
->   
-> -/* Default implementation for BlockDriver.bdrv_child_perm() that can be used by
-> - * block filters: Forward CONSISTENT_READ, WRITE, WRITE_UNCHANGED and RESIZE to
-> - * all children */
-> -void bdrv_filter_default_perms(BlockDriverState *bs, BdrvChild *c,
-
-...and you lost the comment here.  It's still a useful comment, so move 
-it to the .c (and wing it to keep syntax check happy).  With that,
 
 Reviewed-by: Eric Blake <eblake@redhat.com>
 
