@@ -2,81 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7203D159213
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Feb 2020 15:39:14 +0100 (CET)
-Received: from localhost ([::1]:50708 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1B17159218
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Feb 2020 15:41:13 +0100 (CET)
+Received: from localhost ([::1]:50740 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j1Wgz-0000VY-II
-	for lists+qemu-devel@lfdr.de; Tue, 11 Feb 2020 09:39:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52437)
+	id 1j1Wiu-0001km-VP
+	for lists+qemu-devel@lfdr.de; Tue, 11 Feb 2020 09:41:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52891)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1j1Wfz-0008Ds-Pg
- for qemu-devel@nongnu.org; Tue, 11 Feb 2020 09:38:12 -0500
+ (envelope-from <philmd@redhat.com>) id 1j1Whx-00015p-Gb
+ for qemu-devel@nongnu.org; Tue, 11 Feb 2020 09:40:14 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1j1Wfy-00005w-PR
- for qemu-devel@nongnu.org; Tue, 11 Feb 2020 09:38:11 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:58575
+ (envelope-from <philmd@redhat.com>) id 1j1Whw-000148-Es
+ for qemu-devel@nongnu.org; Tue, 11 Feb 2020 09:40:13 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:48388
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j1Wfy-00005o-M1
- for qemu-devel@nongnu.org; Tue, 11 Feb 2020 09:38:10 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j1Whw-00013t-BN
+ for qemu-devel@nongnu.org; Tue, 11 Feb 2020 09:40:12 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581431890;
+ s=mimecast20190719; t=1581432012;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=x88N6pPs6rHTY0pUy/rigwoxjDeK2oYyZ8TZlYQL7N0=;
- b=dFxGebt6NGXFX8wLRO71/B4QDNRHS313RaDtm8cDbavPSh/FqCRoDp4Bu1vbQSTxMIKNiN
- Mil4YzVr6CHAR7otF5dw5ePB7fqV5hXS5eAqs7fgkaS0UiHxv4Dvtz7ZeERQ5WyiN4Xl2d
- CSaMHUT11dwjvApqMajTX1ieaQGPYHo=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-359-t1SCMvsdPQqjCQ9cmqunXg-1; Tue, 11 Feb 2020 09:37:52 -0500
-Received: by mail-wm1-f72.google.com with SMTP id t17so1470546wmi.7
- for <qemu-devel@nongnu.org>; Tue, 11 Feb 2020 06:37:52 -0800 (PST)
+ bh=TcFr0cnrHTTAW4AH1D/MKWrrR3+FcPd/pBf9B7yu9j4=;
+ b=VA5G/CtkyOYzfiXyxNsssqSaTQV8S3StyFvDA5xjL/gFXg/kAx6IUBSL6mGUqgjpNMD5k8
+ EVBXTmNJ+RR/kVqcL2WVKFLGrtFdZitB7ABJHoxNnZG0qVdj7OhYHWrAoOYqm5YyU3py2y
+ HdL9Kg1+6FybaFNlc/lh/uaySCZAOMs=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-237-RtkcCOzUNqSmF_M1wA2eqQ-1; Tue, 11 Feb 2020 09:40:10 -0500
+Received: by mail-wm1-f70.google.com with SMTP id b133so1189010wmb.2
+ for <qemu-devel@nongnu.org>; Tue, 11 Feb 2020 06:40:10 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=x88N6pPs6rHTY0pUy/rigwoxjDeK2oYyZ8TZlYQL7N0=;
- b=rXbRw055P11RWa3dyzT2GPdzfpo9Hh82DbcbbOXPbqEXHroBwNWpQz74G079gYPTrB
- wh53cp0Xy2HEOX5J/2UbqgBkMuZe13xfhGNb8q57RBV9Nv3a5y6vSZ5fw89vsfM3s/zR
- fiDJK5YXFZuPNwg4Ke9sIYjJm7wWahiBXlDou5rZlVTlSvHdy8RP6j1N66YVjN+AmX1s
- 64jwyn//ftWAEtuks24FyZJFaUsT2uACwoDT9HOaHhFBg5EU+G54/8oX5SFpTtWC4pvg
- CC7iH01H0IUUEQO3lIm91nTwilGZA+1ui7NHCuz1+4K68ttVSUXwtFjHfC51Su1niv3H
- qyNA==
-X-Gm-Message-State: APjAAAUSC3rtjPupXkSZ1OEUJKWjzcVBnyrBfV3bAlIy7n/U68rYVbFw
- 5iW+76o6J975eW+rSDc/2hNguYD2VYYJPGpAsFVDoSXUykuZ1w9s+x8wDciH8WroxIQKQT/U/+p
- Z1Bj8l8eL2RS/LFU=
-X-Received: by 2002:a7b:cd14:: with SMTP id f20mr5887631wmj.43.1581431871400; 
- Tue, 11 Feb 2020 06:37:51 -0800 (PST)
-X-Google-Smtp-Source: APXvYqzEgbcdclIJ5kYu8zqGuLAS+Cl4rRTl5j6kBFdVDyAPakQSWSuCOM0IpU+ihQfBdmgZE3yJug==
-X-Received: by 2002:a7b:cd14:: with SMTP id f20mr5887616wmj.43.1581431871153; 
- Tue, 11 Feb 2020 06:37:51 -0800 (PST)
+ bh=w8YDB+nFDe6ADUNWgnur2rvXmvOWjWGVkhRTlCgwGvI=;
+ b=XYChjPxKbz4bGkAjpt652K0D0EygMbXByRJLL+etWMK8pJFtmvcQr+Piwx63uJqzuh
+ ydZjVEM0qDRKE9e5ZhZLfXeNVtjusDJBDhhfM8fb8JAkAuY3CjQR6MZxXZ16XKgH4A6C
+ gkrubFNHvOqIJWmVvimlS6VEK4emtaycVqNgtZgCJf3R1LXdW7zOx22k1s49Z6iqMZTi
+ hE2uvU1DrUkbIUULIe01eVrfd8mWKJBU0CqgLaUJzwq0elDBazU1BDOwT6K2Q6tH4eyI
+ zZwVtJavMkTnGp5L5BYhQDDyQfnMrLY3TytUOz/I2gR41+GWbqBS615UpRgjqlr+3Zda
+ gL7w==
+X-Gm-Message-State: APjAAAXmDCBe8MeTXMPybEetYoo61cEvAplBLj6Zu6katB/7op6XnNqv
+ nVQDXPXD/elmUEVtqRdlMRHymRkFRo57MiK50M7oWPGfs7MXcHMQ4SelRhO7HdcPU+1hyWTZ31F
+ VwBwT8unzfwOskTw=
+X-Received: by 2002:a7b:cb86:: with SMTP id m6mr6213639wmi.51.1581432009265;
+ Tue, 11 Feb 2020 06:40:09 -0800 (PST)
+X-Google-Smtp-Source: APXvYqxaVSJqrFNGII4KM5bpRI7IQ+VHLqzAfopQ244HJx8ONjA86PZUDmr/ZsDqMr7ftrl46gKmDA==
+X-Received: by 2002:a7b:cb86:: with SMTP id m6mr6213618wmi.51.1581432009089;
+ Tue, 11 Feb 2020 06:40:09 -0800 (PST)
 Received: from [192.168.50.32] (243.red-88-26-246.staticip.rima-tde.net.
  [88.26.246.243])
- by smtp.gmail.com with ESMTPSA id z19sm3872848wmi.43.2020.02.11.06.37.50
+ by smtp.gmail.com with ESMTPSA id d22sm3939686wmd.39.2020.02.11.06.40.08
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 11 Feb 2020 06:37:50 -0800 (PST)
-Subject: Re: [PATCH v1 0/2] Improve virtio_check_params test
-To: Denis Plotnikov <dplotnikov@virtuozzo.com>, qemu-devel@nongnu.org
-References: <20200211142551.13072-1-dplotnikov@virtuozzo.com>
+ Tue, 11 Feb 2020 06:40:08 -0800 (PST)
+Subject: Re: [RFC PATCH 55/66] Hexagon HVX import instruction encodings
+To: Taylor Simpson <tsimpson@quicinc.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+References: <1581381644-13678-1-git-send-email-tsimpson@quicinc.com>
+ <1581381644-13678-56-git-send-email-tsimpson@quicinc.com>
+ <fd38e134-8314-f206-9a04-0e41119105f6@redhat.com>
+ <BYAPR02MB48865F7264F3F5B2D8735385DE180@BYAPR02MB4886.namprd02.prod.outlook.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <1b7ccdc2-2e3e-32d2-c82b-fb1e6cddd998@redhat.com>
-Date: Tue, 11 Feb 2020 15:37:49 +0100
+Message-ID: <0541dc03-b3f8-8612-9921-e1df9546ce87@redhat.com>
+Date: Tue, 11 Feb 2020 15:40:07 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200211142551.13072-1-dplotnikov@virtuozzo.com>
+In-Reply-To: <BYAPR02MB48865F7264F3F5B2D8735385DE180@BYAPR02MB4886.namprd02.prod.outlook.com>
 Content-Language: en-US
-X-MC-Unique: t1SCMvsdPQqjCQ9cmqunXg-1
+X-MC-Unique: RtkcCOzUNqSmF_M1wA2eqQ-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 207.211.31.120
@@ -91,36 +95,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: cohuck@redhat.com, wainersm@redhat.com
+Cc: "riku.voipio@iki.fi" <riku.voipio@iki.fi>,
+ "richard.henderson@linaro.org" <richard.henderson@linaro.org>,
+ "laurent@vivier.eu" <laurent@vivier.eu>,
+ "aleksandar.m.mail@gmail.com" <aleksandar.m.mail@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Denis,
+On 2/11/20 3:35 PM, Taylor Simpson wrote:
+> Hi Philippe,
+>=20
+> Thanks for all your feedback.  I' get your comments addressed soon.
+>=20
+> I'm sorry you had trouble applying this patch.
 
-On 2/11/20 3:25 PM, Denis Plotnikov wrote:
-> * fixed failing on non-existed machine type removal
-> * the test refactored to add more parameters to check
-> 
-> Gereral questions left:
->     How to restric test for using:
->     1. on a set of target OS-es
->     2. on a set target architectures
->    
-> 
-> Denis Plotnikov (2):
->    tests/acceptance/virtio_check_params: remove excluded machine types
->      carefully
->    tests/acceptance/virtio_check_params: prepare to check different
->      params
-> 
->   tests/acceptance/virtio_check_params.py | 52 ++++++++++++++++---------
->   1 file changed, 33 insertions(+), 19 deletions(-)
-> 
+No problem.
 
-Have you noticed my other series suggested by Cornelia?
+> The target/hexagon/imported/encode.def should have been created by patch =
+17.  Did you apply that one?
 
-It runs your test on S390X and PPC:
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg675092.html
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg675095.html
+Ah, I haven't received patch #17, and can't find it on the list.
+
+>=20
+> Taylor
+>=20
+>=20
+>=20
+>> -----Original Message-----
+>> From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+>> Sent: Tuesday, February 11, 2020 1:02 AM
+>> To: Taylor Simpson <tsimpson@quicinc.com>; qemu-devel@nongnu.org
+>> Cc: richard.henderson@linaro.org; laurent@vivier.eu; riku.voipio@iki.fi;
+>> aleksandar.m.mail@gmail.com
+>> Subject: Re: [RFC PATCH 55/66] Hexagon HVX import instruction encodings
+>>
+>>> +#define EXTNAME mmvec
+>>> +#include "mmvec/encode_ext.def"
+>>> +#undef EXTNAME
+>>> diff --git a/target/hexagon/imported/encode.def
+>> b/target/hexagon/imported/encode.def
+>>> index 33c3396..d1b3510 100644
+>>> --- a/target/hexagon/imported/encode.def
+>>> +++ b/target/hexagon/imported/encode.def
+>>> @@ -71,6 +71,7 @@
+>>>
+>>>    #include "encode_pp.def"
+>>>    #include "encode_subinsn.def"
+>>> +#include "allextenc.def"
+>>>
+>>>    #ifdef __SELF_DEF_FIELD32
+>>>    #undef __SELF_DEF_FIELD32
+>>
+>> I had a problem applying this one:
+>>
+>> Applying: Hexagon HVX import instruction encodings
+>> error: target/hexagon/imported/encode.def: does not exist in index
+>> Patch failed at 0054 Hexagon HVX import instruction encodings
+>> hint: Use 'git am --show-current-patch' to see the failed patch
+>> When you have resolved this problem, run "git am --continue".
+>> If you prefer to skip this patch, run "git am --skip" instead.
+>> To restore the original branch and stop patching, run "git am --abort".
+>>
+>> Resolved by doing:
+>>
+>> (review/hexagon|AM 54/65)$ touch target/hexagon/imported/encode.def
+>> (review/hexagon|AM 54/65)$ git add target/hexagon/imported/encode.def
+>> (review/hexagon|AM 54/65)$ git am --continue
+>> Applying: Hexagon HVX import instruction encodings
+>> Applying: Hexagon HVX import semantics
+>> ...
+>=20
 
 
