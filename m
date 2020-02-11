@@ -2,66 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D250158B56
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Feb 2020 09:36:20 +0100 (CET)
-Received: from localhost ([::1]:45124 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC4CF158B68
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Feb 2020 09:43:02 +0100 (CET)
+Received: from localhost ([::1]:45178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j1R1m-0002ZE-UX
-	for lists+qemu-devel@lfdr.de; Tue, 11 Feb 2020 03:36:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50184)
+	id 1j1R8H-0006pb-JS
+	for lists+qemu-devel@lfdr.de; Tue, 11 Feb 2020 03:43:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51539)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <quintela@redhat.com>) id 1j1R0f-0001pq-So
- for qemu-devel@nongnu.org; Tue, 11 Feb 2020 03:35:10 -0500
+ (envelope-from <groug@kaod.org>) id 1j1R7a-0006OF-9i
+ for qemu-devel@nongnu.org; Tue, 11 Feb 2020 03:42:19 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <quintela@redhat.com>) id 1j1R0e-0006al-Bv
- for qemu-devel@nongnu.org; Tue, 11 Feb 2020 03:35:09 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:49090
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <groug@kaod.org>) id 1j1R7Z-0003ZK-10
+ for qemu-devel@nongnu.org; Tue, 11 Feb 2020 03:42:18 -0500
+Received: from 15.mo4.mail-out.ovh.net ([91.121.62.11]:44308)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1j1R0e-0006QQ-0z
- for qemu-devel@nongnu.org; Tue, 11 Feb 2020 03:35:08 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581410106;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=IbOPxbuyM/BU2Xlzv4ld1EGX3vbsBk63yJcj9VgI2hw=;
- b=i0ozBfo8FXhgTuhvLCShejWxOQYOdh04sg8YMS0K4AjNGft7cx9E/JHcpwFnkH4++8mK8n
- nN7+Hd4FIHAk5v1Ij8Pzv+H76WNBdBfoCc5+AIT1Ra/BIg7FJPXjC0TW2Tylk8RzMH9tMf
- HkWI5ipy4iS/GYw2tgdZUboW7Ocg+Qw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-126-ocNEm_GTP1mo1-P02XIbig-1; Tue, 11 Feb 2020 03:35:02 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DB47618A550F
- for <qemu-devel@nongnu.org>; Tue, 11 Feb 2020 08:35:01 +0000 (UTC)
-Received: from redhat.com (ovpn-117-191.ams2.redhat.com [10.36.117.191])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 72BAD5DA7B;
- Tue, 11 Feb 2020 08:34:53 +0000 (UTC)
-From: Juan Quintela <quintela@redhat.com>
-To: "Dr. David Alan Gilbert \(git\)" <dgilbert@redhat.com>
-Subject: Re: [PATCH] tests/migration: Add some slack to auto converge
-In-Reply-To: <20200210195731.177595-1-dgilbert@redhat.com> (David Alan
- Gilbert's message of "Mon, 10 Feb 2020 19:57:31 +0000")
-References: <20200210195731.177595-1-dgilbert@redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
-Date: Tue, 11 Feb 2020 09:34:51 +0100
-Message-ID: <87r1z15xp0.fsf@secure.laptop>
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1j1R7Y-0003DP-Qp
+ for qemu-devel@nongnu.org; Tue, 11 Feb 2020 03:42:16 -0500
+Received: from player792.ha.ovh.net (unknown [10.110.208.89])
+ by mo4.mail-out.ovh.net (Postfix) with ESMTP id 595A42246CA
+ for <qemu-devel@nongnu.org>; Tue, 11 Feb 2020 09:42:08 +0100 (CET)
+Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
+ [82.253.208.248]) (Authenticated sender: groug@kaod.org)
+ by player792.ha.ovh.net (Postfix) with ESMTPSA id A3AD8F44E51A;
+ Tue, 11 Feb 2020 08:42:05 +0000 (UTC)
+Date: Tue, 11 Feb 2020 09:42:01 +0100
+From: Greg Kurz <groug@kaod.org>
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Subject: Re: [PULL 0/6] 9p patches 2020-02-08
+Message-ID: <20200211094201.33b35260@bahia.lan>
+In-Reply-To: <1679063.kJpWnTDlLf@silver>
+References: <20200208104506.2727882-1-groug@kaod.org>
+ <CAFEAcA_b0y6qX9LExsuNFEDivZN2y6-zbcrTLhX1djqPiYoA5A@mail.gmail.com>
+ <1679063.kJpWnTDlLf@silver>
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: ocNEm_GTP1mo1-P02XIbig-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Ovh-Tracer-Id: 7556758703985367360
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedugedriedvgdduvddvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtgfesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuffhomhgrihhnpehgihhthhhusgdrtghomhdpqhgvmhhurdhorhhgnecukfhppedtrddtrddtrddtpdekvddrvdehfedrvddtkedrvdegkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejledvrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+X-Received-From: 91.121.62.11
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,32 +57,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
-Cc: lvivier@redhat.com, thuth@redhat.com, philmd@redhat.com,
- qemu-devel@nongnu.org, peterx@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-"Dr. David Alan Gilbert (git)" <dgilbert@redhat.com> wrote:
-> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
->
-> There's an assert in autoconverge that checks that we quit the
-> iteration when we go below the expected threshold.  Philippe
-> saw a case where this assert fired with the measured value
-> slightly over the threshold. (about 3k out of a few million).
->
-> I can think of two reasons:
->   a) Rounding errors
->   b) That after we make the decision to quit iteration we do one
->     more sync and that sees a few more dirty pages.
->
-> So add 1% slack to the assertion, that should cover a and
-> most cases of b, probably all we'll see for the test.
->
-> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+On Tue, 11 Feb 2020 09:15:41 +0100
+Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
 
-Reviewed-by: Juan Quintela <quintela@redhat.com>
+> On Montag, 10. Februar 2020 18:08:38 CET Peter Maydell wrote:
+> > On Sat, 8 Feb 2020 at 10:45, Greg Kurz <groug@kaod.org> wrote:
+> > > The following changes since commit 
+> 42ccca1bd9456568f996d5646b2001faac96944b:
+> > >   Merge remote-tracking branch
+> > >   'remotes/berrange/tags/misc-fixes-pull-request' into staging
+> > >   (2020-02-07 15:01:23 +0000)> 
+> > > are available in the Git repository at:
+> > >   https://github.com/gkurz/qemu.git tags/9p-next-2020-02-08
+> > > 
+> > > for you to fetch changes up to 2822602cbe2be98229b882101dfdb9d3a738c611:
+> > >   MAINTAINERS: 9pfs: Add myself as reviewer (2020-02-08 09:29:04 +0100)
+> > > 
+> > > ----------------------------------------------------------------
+> > > 9p patches:
+> > > - some more protocol sanity checks
+> > > - qtest for readdir
+> > > - Christian Schoenebeck now official reviewer
+> > > 
+> > > ----------------------------------------------------------------
+> > 
+> > Applied, thanks.
+> > 
+> > Please update the changelog at https://wiki.qemu.org/ChangeLog/5.0
+> > for any user-visible changes.
+> > 
+> > -- PMM
+> 
+> I.e. msize >= 4096 now being required. AFAICS I cannot update the wiki myself.
+> 
 
-It shouldn't matter really.  And if we are seeing that problem.
+I've updated the wiki.
+
+> Best regards,
+> Christian Schoenebeck
+> 
+> 
 
 
