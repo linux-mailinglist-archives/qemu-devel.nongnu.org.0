@@ -2,50 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC4CF158B68
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Feb 2020 09:43:02 +0100 (CET)
-Received: from localhost ([::1]:45178 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47618158B42
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Feb 2020 09:31:32 +0100 (CET)
+Received: from localhost ([::1]:45074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j1R8H-0006pb-JS
-	for lists+qemu-devel@lfdr.de; Tue, 11 Feb 2020 03:43:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51539)
+	id 1j1Qx9-0000eD-C7
+	for lists+qemu-devel@lfdr.de; Tue, 11 Feb 2020 03:31:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48978)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groug@kaod.org>) id 1j1R7a-0006OF-9i
- for qemu-devel@nongnu.org; Tue, 11 Feb 2020 03:42:19 -0500
+ (envelope-from <pannengyuan@huawei.com>) id 1j1Qw7-0000CG-2k
+ for qemu-devel@nongnu.org; Tue, 11 Feb 2020 03:30:28 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1j1R7Z-0003ZK-10
- for qemu-devel@nongnu.org; Tue, 11 Feb 2020 03:42:18 -0500
-Received: from 15.mo4.mail-out.ovh.net ([91.121.62.11]:44308)
+ (envelope-from <pannengyuan@huawei.com>) id 1j1Qw5-0002SH-GT
+ for qemu-devel@nongnu.org; Tue, 11 Feb 2020 03:30:26 -0500
+Received: from szxga07-in.huawei.com ([45.249.212.35]:57882 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1j1R7Y-0003DP-Qp
- for qemu-devel@nongnu.org; Tue, 11 Feb 2020 03:42:16 -0500
-Received: from player792.ha.ovh.net (unknown [10.110.208.89])
- by mo4.mail-out.ovh.net (Postfix) with ESMTP id 595A42246CA
- for <qemu-devel@nongnu.org>; Tue, 11 Feb 2020 09:42:08 +0100 (CET)
-Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
- [82.253.208.248]) (Authenticated sender: groug@kaod.org)
- by player792.ha.ovh.net (Postfix) with ESMTPSA id A3AD8F44E51A;
- Tue, 11 Feb 2020 08:42:05 +0000 (UTC)
-Date: Tue, 11 Feb 2020 09:42:01 +0100
-From: Greg Kurz <groug@kaod.org>
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Subject: Re: [PULL 0/6] 9p patches 2020-02-08
-Message-ID: <20200211094201.33b35260@bahia.lan>
-In-Reply-To: <1679063.kJpWnTDlLf@silver>
-References: <20200208104506.2727882-1-groug@kaod.org>
- <CAFEAcA_b0y6qX9LExsuNFEDivZN2y6-zbcrTLhX1djqPiYoA5A@mail.gmail.com>
- <1679063.kJpWnTDlLf@silver>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.71) (envelope-from <pannengyuan@huawei.com>)
+ id 1j1Qw5-00021f-2S
+ for qemu-devel@nongnu.org; Tue, 11 Feb 2020 03:30:25 -0500
+Received: from DGGEMS401-HUB.china.huawei.com (unknown [172.30.72.59])
+ by Forcepoint Email with ESMTP id D04F2B3062E6468881E9;
+ Tue, 11 Feb 2020 16:30:15 +0800 (CST)
+Received: from localhost.localdomain (10.175.104.216) by
+ DGGEMS401-HUB.china.huawei.com (10.3.19.201) with Microsoft SMTP Server id
+ 14.3.439.0; Tue, 11 Feb 2020 16:30:09 +0800
+From: <pannengyuan@huawei.com>
+To: <quintela@redhat.com>, <dgilbert@redhat.com>, <thuth@redhat.com>,
+ <lvivier@redhat.com>, <pbonzini@redhat.com>
+Subject: [PATCH] migration-test: fix some memleaks in migration-test
+Date: Tue, 11 Feb 2020 16:45:57 +0800
+Message-ID: <20200211084557.32109-1-pannengyuan@huawei.com>
+X-Mailer: git-send-email 2.18.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Ovh-Tracer-Id: 7556758703985367360
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedugedriedvgdduvddvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtgfesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuffhomhgrihhnpehgihhthhhusgdrtghomhdpqhgvmhhurdhorhhgnecukfhppedtrddtrddtrddtpdekvddrvdehfedrvddtkedrvdegkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejledvrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
+Content-Type: text/plain
+X-Originating-IP: [10.175.104.216]
+X-CFilter-Loop: Reflected
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.121.62.11
+ [fuzzy]
+X-Received-From: 45.249.212.35
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,49 +52,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+Cc: Pan Nengyuan <pannengyuan@huawei.com>, qemu-devel@nongnu.org,
+ zhang.zhanghailiang@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 11 Feb 2020 09:15:41 +0100
-Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
+From: Pan Nengyuan <pannengyuan@huawei.com>
 
-> On Montag, 10. Februar 2020 18:08:38 CET Peter Maydell wrote:
-> > On Sat, 8 Feb 2020 at 10:45, Greg Kurz <groug@kaod.org> wrote:
-> > > The following changes since commit 
-> 42ccca1bd9456568f996d5646b2001faac96944b:
-> > >   Merge remote-tracking branch
-> > >   'remotes/berrange/tags/misc-fixes-pull-request' into staging
-> > >   (2020-02-07 15:01:23 +0000)> 
-> > > are available in the Git repository at:
-> > >   https://github.com/gkurz/qemu.git tags/9p-next-2020-02-08
-> > > 
-> > > for you to fetch changes up to 2822602cbe2be98229b882101dfdb9d3a738c611:
-> > >   MAINTAINERS: 9pfs: Add myself as reviewer (2020-02-08 09:29:04 +0100)
-> > > 
-> > > ----------------------------------------------------------------
-> > > 9p patches:
-> > > - some more protocol sanity checks
-> > > - qtest for readdir
-> > > - Christian Schoenebeck now official reviewer
-> > > 
-> > > ----------------------------------------------------------------
-> > 
-> > Applied, thanks.
-> > 
-> > Please update the changelog at https://wiki.qemu.org/ChangeLog/5.0
-> > for any user-visible changes.
-> > 
-> > -- PMM
-> 
-> I.e. msize >= 4096 now being required. AFAICS I cannot update the wiki myself.
-> 
+spotted by asan, 'check-qtest-aarch64' runs fail if sanitizers is enabled.
 
-I've updated the wiki.
+Reported-by: Euler Robot <euler.robot@huawei.com>
+Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
+---
+ tests/qtest/migration-test.c | 14 ++++++++++++--
+ 1 file changed, 12 insertions(+), 2 deletions(-)
 
-> Best regards,
-> Christian Schoenebeck
-> 
-> 
+diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
+index cf27ebbc9d..2bb214c87f 100644
+--- a/tests/qtest/migration-test.c
++++ b/tests/qtest/migration-test.c
+@@ -498,11 +498,13 @@ static int test_migrate_start(QTestState **from, QTestState **to,
+     const char *arch = qtest_get_arch();
+     const char *machine_opts = NULL;
+     const char *memory_size;
++    int ret = 0;
+ 
+     if (args->use_shmem) {
+         if (!g_file_test("/dev/shm", G_FILE_TEST_IS_DIR)) {
+             g_test_skip("/dev/shm is not supported");
+-            return -1;
++            ret = -1;
++            goto out;
+         }
+     }
+ 
+@@ -611,8 +613,9 @@ static int test_migrate_start(QTestState **from, QTestState **to,
+         g_free(shmem_path);
+     }
+ 
++out:
+     migrate_start_destroy(args);
+-    return 0;
++    return ret;
+ }
+ 
+ static void test_migrate_end(QTestState *from, QTestState *to, bool test_dest)
+@@ -1134,6 +1137,8 @@ static void test_validate_uuid(void)
+ {
+     MigrateStart *args = migrate_start_new();
+ 
++    g_free(args->opts_source);
++    g_free(args->opts_target);
+     args->opts_source = g_strdup("-uuid 11111111-1111-1111-1111-111111111111");
+     args->opts_target = g_strdup("-uuid 11111111-1111-1111-1111-111111111111");
+     do_test_validate_uuid(args, false);
+@@ -1143,6 +1148,8 @@ static void test_validate_uuid_error(void)
+ {
+     MigrateStart *args = migrate_start_new();
+ 
++    g_free(args->opts_source);
++    g_free(args->opts_target);
+     args->opts_source = g_strdup("-uuid 11111111-1111-1111-1111-111111111111");
+     args->opts_target = g_strdup("-uuid 22222222-2222-2222-2222-222222222222");
+     args->hide_stderr = true;
+@@ -1153,6 +1160,7 @@ static void test_validate_uuid_src_not_set(void)
+ {
+     MigrateStart *args = migrate_start_new();
+ 
++    g_free(args->opts_target);
+     args->opts_target = g_strdup("-uuid 22222222-2222-2222-2222-222222222222");
+     args->hide_stderr = true;
+     do_test_validate_uuid(args, false);
+@@ -1162,6 +1170,7 @@ static void test_validate_uuid_dst_not_set(void)
+ {
+     MigrateStart *args = migrate_start_new();
+ 
++    g_free(args->opts_source);
+     args->opts_source = g_strdup("-uuid 11111111-1111-1111-1111-111111111111");
+     args->hide_stderr = true;
+     do_test_validate_uuid(args, false);
+@@ -1379,6 +1388,7 @@ static void test_multifd_tcp_cancel(void)
+                             "  'arguments': { 'uri': 'tcp:127.0.0.1:0' }}");
+     qobject_unref(rsp);
+ 
++    g_free(uri);
+     uri = migrate_get_socket_address(to2, "socket-address");
+ 
+     wait_for_migration_status(from, "cancelled", NULL);
+-- 
+2.18.1
 
 
