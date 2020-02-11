@@ -2,79 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B93C1598DE
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Feb 2020 19:40:51 +0100 (CET)
-Received: from localhost ([::1]:55728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 240A51598E9
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Feb 2020 19:43:11 +0100 (CET)
+Received: from localhost ([::1]:55790 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j1aSo-0001Hs-IM
-	for lists+qemu-devel@lfdr.de; Tue, 11 Feb 2020 13:40:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37896)
+	id 1j1aV4-0003kd-5w
+	for lists+qemu-devel@lfdr.de; Tue, 11 Feb 2020 13:43:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40879)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1j1aQu-0000Fk-Jz
- for qemu-devel@nongnu.org; Tue, 11 Feb 2020 13:38:53 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1j1aT2-0002Jt-8c
+ for qemu-devel@nongnu.org; Tue, 11 Feb 2020 13:41:05 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1j1aQs-0007bE-5E
- for qemu-devel@nongnu.org; Tue, 11 Feb 2020 13:38:52 -0500
-Received: from mail-pj1-x1044.google.com ([2607:f8b0:4864:20::1044]:38154)
+ (envelope-from <richard.henderson@linaro.org>) id 1j1aT1-0002NY-An
+ for qemu-devel@nongnu.org; Tue, 11 Feb 2020 13:41:04 -0500
+Received: from mail-pj1-x1042.google.com ([2607:f8b0:4864:20::1042]:35467)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1j1aQj-0007UN-7l
- for qemu-devel@nongnu.org; Tue, 11 Feb 2020 13:38:45 -0500
-Received: by mail-pj1-x1044.google.com with SMTP id j17so1612015pjz.3
- for <qemu-devel@nongnu.org>; Tue, 11 Feb 2020 10:38:40 -0800 (PST)
+ id 1j1aT1-0002LR-4f
+ for qemu-devel@nongnu.org; Tue, 11 Feb 2020 13:41:03 -0500
+Received: by mail-pj1-x1042.google.com with SMTP id q39so1621201pjc.0
+ for <qemu-devel@nongnu.org>; Tue, 11 Feb 2020 10:41:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=bgRe39UrkcomXY7L1G7morRvB0wlq0CEf4d3hqQT3SM=;
- b=fPxw2c5lGZAyzveefWmZxHefL+dty2md53xGCW1WYhSmfgT+sgxcF8NH0GPVL9tWhR
- T/VSenqLMI07/f4/AN7cR71g2y9UqpJLpSi3ixMbuhBEDdiAMrJSkbv0It+TaDE7mPKq
- KPnNhEFrqiVA5aOGPJAOiAySeoGFEoin3TB5rsTaGJdNbqIGc2gZXBYCQancYeJ6ZDEi
- /Lwa7lTMz6JsQI+m1gly5QvdUq4SZt36Tc9qHfwKoloEkgvzl9WHooINCKu/UAfOGi6B
- tu78hFJ46YDYyiCpYOo33nlfWf0q/jxFu/IvWNvj2pzJ3phbecwCHLbw+uvOEBES0mDq
- civg==
+ bh=CsEraNL+eCiliAYsnik2Wjy5DfmaIOa1lMicG/YV6+8=;
+ b=r8e5AkJWTHWNzM5tg2EVsBP38ngyLPTOCHCIsAXf531bVkYUIhaUmEfhTkzxQcX6Rn
+ JM9qbEeZiHFgHOn59LqpvLgeQmBdeRu3H/ILCaU+7jL+5iIJu+9ntKxnj1qchm7pJvW4
+ YpO4JY55m7D3h8GbIaWGiKQ42bldNr6yUpOwWWgK2cdT4gqbSIUV2gjtAaMNTGULqwNI
+ sGkTsNpjnRSiWQKvmpoxj3pX4RZMAWB/k9IALYKLLLn46qpxQ0VcJEfAE/Q9sq+w/vIH
+ NraH0em32ylJAIN0mX8XlbeQdeRu/DdIrEIYnlJQEU+pcu4CepyJehaPREQiWBcrJK0t
+ d/1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=bgRe39UrkcomXY7L1G7morRvB0wlq0CEf4d3hqQT3SM=;
- b=XS/CpgtJV1WPfoEVSXlqoYIz09AfAcPsLl1scr5JNVVK1cL9uqkkwvKkUUCHoYEq4i
- vcBjchR1VuTIovl3kWQfTjyP4GR7LcVlFdsH2ZGsOhWkXVoz4NklL51yl7HdmuKkXMVl
- tWnAP3QCMW5ejFXyztLWdzhQuZkr9n7MSz8AGFVnwLZkXwSaWMRtNMZXotYC9K9sTpbi
- fBg+cvU7MIS1WgfWLrLpGniFyIyNsDSAmyMe0CwKvuGirVsQlRNOAAu/RywvGCnGFtsm
- JBojyymRK8WN9aVT7XxrFnWE1S0JC/KC0u+TSbdKVtIEtg3RiR4Y1iuhw+fNc/1Eua9z
- bUhQ==
-X-Gm-Message-State: APjAAAWnCIOzsAimBqBGqhDITNPJ1oGAJD6J6LpXKmFhBVGKTSzsVWO/
- 1GGVkjNYjB6gWYD8ADgIZ9smRQ==
-X-Google-Smtp-Source: APXvYqy6giOd/T9bI26+Uzl1tsQ9jdxIGQCqj7VzhbBDLOIOct3iJXEzGzy6D33ZMUmRspKYgmJovQ==
-X-Received: by 2002:a17:90a:e397:: with SMTP id
- b23mr5032255pjz.135.1581446319768; 
- Tue, 11 Feb 2020 10:38:39 -0800 (PST)
+ bh=CsEraNL+eCiliAYsnik2Wjy5DfmaIOa1lMicG/YV6+8=;
+ b=Viiss0TSImoOK3C8c6ZhxKO1+39H+NaGarMhdjpUGKSfMFAj1VN8xOfAFq76FTIAwy
+ 1Zo5a57xemNsCFRGJ2Ou16JBZmGqNNtyKDQs0lA7uW5ilNDYeyX0ZQP3jshYroM6rSmK
+ LUvo6CEVLUvfq1xLcYvgUa9kV8yLscp4QNRRPEklqZ9N0Lz6OUyauf2ZX0j5/k1o3zd8
+ boQCP96x725ZGw2SxyaYPgnE5IEL67OAG/ba8Yk8K2LhBY9GIzkKPPPpvrr8uiRJU6PD
+ 00Y8MgJBKSGFhS3atDYNOMU4MD8O3BQqv7i5AkBn43qCqoZ+CYGAQLT+G1KFgWqPckzT
+ 2arw==
+X-Gm-Message-State: APjAAAXkDbayQ6nVc6jxrVj1CS1zavtKgxPpqEQC94bsab/sZZDIohiL
+ yWhbPGWuTetETmeWs20dqL7Crw==
+X-Google-Smtp-Source: APXvYqzqZhTSIA/GgQPIUrg9JtTvZjvPEIfZcbufluKOdkxVuP0Hc2zJMGYJE0XDjEh2HywV9JTUbA==
+X-Received: by 2002:a17:90a:26e1:: with SMTP id
+ m88mr5168859pje.101.1581446461925; 
+ Tue, 11 Feb 2020 10:41:01 -0800 (PST)
 Received: from [192.168.1.11] (97-126-123-70.tukw.qwest.net. [97.126.123.70])
  by smtp.gmail.com with ESMTPSA id
- z10sm5133184pgz.88.2020.02.11.10.38.38
+ s130sm5628290pfc.62.2020.02.11.10.41.00
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 11 Feb 2020 10:38:39 -0800 (PST)
-Subject: Re: [PATCH 07/13] target/arm: Define an aa32_pmu_8_1 isar feature
- test function
+ Tue, 11 Feb 2020 10:41:01 -0800 (PST)
+Subject: Re: [PATCH 08/13] target/arm: Add _aa64_ and _any_ versions of
+ pmu_8_1 isar checks
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20200211173726.22541-1-peter.maydell@linaro.org>
- <20200211173726.22541-8-peter.maydell@linaro.org>
+ <20200211173726.22541-9-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <a95c4d3a-792d-4725-25b8-88967aedcc55@linaro.org>
-Date: Tue, 11 Feb 2020 10:38:37 -0800
+Message-ID: <b7f2e055-d61b-d19e-598f-8d94fca6c1dd@linaro.org>
+Date: Tue, 11 Feb 2020 10:40:59 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200211173726.22541-8-peter.maydell@linaro.org>
+In-Reply-To: <20200211173726.22541-9-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::1044
+X-Received-From: 2607:f8b0:4864:20::1042
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,21 +92,27 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 2/11/20 9:37 AM, Peter Maydell wrote:
-> Instead of open-coding a check on the ID_DFR0 PerfMon ID register
-> field, create a standardly-named isar_feature for "does AArch32 have
-> a v8.1 PMUv3" and use it.
+> Add the 64-bit version of the "is this a v8.1 PMUv3?"
+> ID register check function, and the _any_ version that
+> checks for either AArch32 or AArch64 support. We'll use
+> this in a later commit.
 > 
-> This entails moving the id_dfr0 field into the ARMISARegisters struct.
+> We don't (yet) do any isar_feature checks on ID_AA64DFR1_EL1,
+> but we move id_aa64dfr1 into the ARMISARegisters struct with
+> id_aa64dfr0, for consistency.
 > 
 > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
->  target/arm/cpu.h      |  9 ++++++++-
->  hw/intc/armv7m_nvic.c |  2 +-
->  target/arm/cpu.c      | 28 ++++++++++++++--------------
->  target/arm/cpu64.c    |  6 +++---
->  target/arm/helper.c   |  5 ++---
->  5 files changed, 28 insertions(+), 22 deletions(-)
+>  target/arm/cpu.h    | 15 +++++++++++++--
+>  target/arm/cpu.c    |  3 ++-
+>  target/arm/cpu64.c  |  6 +++---
+>  target/arm/helper.c | 12 +++++++-----
+>  4 files changed, 25 insertions(+), 11 deletions(-)
 
+Normally we also read the value of the ISAR registers for KVM.  I know these
+tests don't apply along these paths, but for consistency...
+
+Otherwise,
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 
