@@ -2,62 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3B3E158630
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Feb 2020 00:35:58 +0100 (CET)
-Received: from localhost ([::1]:41008 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66B4F1586CC
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Feb 2020 01:37:28 +0100 (CET)
+Received: from localhost ([::1]:41384 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j1Iar-0003HT-Ae
-	for lists+qemu-devel@lfdr.de; Mon, 10 Feb 2020 18:35:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55044)
+	id 1j1JYN-00087S-07
+	for lists+qemu-devel@lfdr.de; Mon, 10 Feb 2020 19:37:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49689)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1j1IZs-0002dL-KE
- for qemu-devel@nongnu.org; Mon, 10 Feb 2020 18:34:57 -0500
+ (envelope-from <balaton@eik.bme.hu>) id 1j1JXQ-0007aK-TK
+ for qemu-devel@nongnu.org; Mon, 10 Feb 2020 19:36:29 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1j1IZr-0001pz-Gh
- for qemu-devel@nongnu.org; Mon, 10 Feb 2020 18:34:56 -0500
-Received: from indium.canonical.com ([91.189.90.7]:59492)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1j1IZr-0001ll-Ax
- for qemu-devel@nongnu.org; Mon, 10 Feb 2020 18:34:55 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1j1IZn-0007DP-1b
- for <qemu-devel@nongnu.org>; Mon, 10 Feb 2020 23:34:51 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 01BDA2E802B
- for <qemu-devel@nongnu.org>; Mon, 10 Feb 2020 23:34:51 +0000 (UTC)
+ (envelope-from <balaton@eik.bme.hu>) id 1j1JXP-0006tl-6i
+ for qemu-devel@nongnu.org; Mon, 10 Feb 2020 19:36:28 -0500
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:47091)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <balaton@eik.bme.hu>) id 1j1JXO-0006SY-WF
+ for qemu-devel@nongnu.org; Mon, 10 Feb 2020 19:36:27 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 181B57475F6;
+ Tue, 11 Feb 2020 01:36:22 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id EFAB074638A; Tue, 11 Feb 2020 01:36:21 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id EE66A74569F;
+ Tue, 11 Feb 2020 01:36:21 +0100 (CET)
+Date: Tue, 11 Feb 2020 01:36:21 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [RFC 0/1] ATI R300 emulated grpahics card V2
+In-Reply-To: <alpine.BSF.2.21.99999.352.1911301300470.56280@zero.eik.bme.hu>
+Message-ID: <alpine.BSF.2.22.395.2002110128370.67831@zero.eik.bme.hu>
+References: <20191128064350.20727-1-aaron.zakhrov@gmail.com>
+ <20191128113023.gdw63adoooqlider@sirius.home.kraxel.org>
+ <alpine.BSF.2.21.99999.352.1911291908110.15049@zero.eik.bme.hu>
+ <alpine.BSF.2.21.99999.352.1911301300470.56280@zero.eik.bme.hu>
+User-Agent: Alpine 2.22 (BSF 395 2020-01-19)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 10 Feb 2020 23:22:21 -0000
-From: Sergey Nizovtsev <1502613@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=In Progress; importance=Wishlist;
- assignee=snizovtsev@gmail.com; 
-X-Launchpad-Bug-Tags: battery management power virtual
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: naftaly-avadiaev snizovtsev wolfgangandreas
-X-Launchpad-Bug-Reporter: Wolfgang Andreas (wolfgangandreas)
-X-Launchpad-Bug-Modifier: Sergey Nizovtsev (snizovtsev)
-References: <20151004131253.1871.94138.malonedeb@wampee.canonical.com>
-Message-Id: <158137694122.19555.10796048629016029147.malone@gac.canonical.com>
-Subject: [Bug 1502613] Re: [Feature Request] Battery Status / Virtual Battery
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="0a62c17273454a1313f81a74a2198ec30b44c7b6";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 6386c330afc7090e47f21ee02844692fe2bdd358
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2001:738:2001:2001::2001
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -66,53 +55,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1502613 <1502613@bugs.launchpad.net>
+Cc: qemu-devel@nongnu.org, aaron.zakhrov@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I've started working on this issue and have some progress. Fedora 31
-guest is already able to see a battery device but its state currently
-hardcoded. I think i will finish this in a few weeks.
+On Sat, 30 Nov 2019, BALATON Zoltan wrote:
+> That's all I could find out so far, any help to get further is  appreciated.
 
-** Attachment added: "qemu-battery-poc.png"
-   https://bugs.launchpad.net/qemu/+bug/1502613/+attachment/5327136/+files/=
-qemu-battery-poc.png
+I've created a ticket at my qmiga.osdn.io page where I've summarised 
+previous discussion at one place which could be used to track what we know 
+about it. See here:
 
-** Changed in: qemu
-     Assignee: (unassigned) =3D> Sergey Nizovtsev (snizovtsev)
+https://osdn.net/projects/qmiga/ticket/40018
 
-** Changed in: qemu
-       Status: New =3D> In Progress
+Help getting further is still appreciated, I couldn't do much with this so 
+far but if anyone knows anything about early Radeon microengine feel free 
+to chime in.
 
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1502613
-
-Title:
-  [Feature Request] Battery Status / Virtual Battery
-
-Status in QEMU:
-  In Progress
-
-Bug description:
-  When using virtualization on notebooks heavily then virtual machines
-  do not realize that they're running on a notebook device causing high
-  power consumption because they're not switching into a optimized
-  "laptop mode". This leads to the circumstance that they are trying to
-  do things like defragmentation / virtus scan / etc. while the host is
-  still running on batteries.
-
-  So it would be great if QEMU / KVM would have support for emulating
-  "Virtual Batteries" to guests causing them to enable power-saving
-  options like disabling specific services / devices / file operations
-  automatically by OS.
-
-  Optionally a great feature would be to set virtual battery's status
-  manually. For example: Current charge rate / charging / discharging /
-  ...
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1502613/+subscriptions
+Regards,
+BALATON Zoltan
 
