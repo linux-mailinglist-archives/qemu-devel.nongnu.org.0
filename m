@@ -2,79 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A4A7159417
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Feb 2020 16:58:42 +0100 (CET)
-Received: from localhost ([::1]:52202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E086C159409
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Feb 2020 16:57:13 +0100 (CET)
+Received: from localhost ([::1]:52174 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j1Xvt-0005zR-DA
-	for lists+qemu-devel@lfdr.de; Tue, 11 Feb 2020 10:58:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48641)
+	id 1j1XuS-0003Q2-ON
+	for lists+qemu-devel@lfdr.de; Tue, 11 Feb 2020 10:57:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48683)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1j1XtN-0002Ke-U8
- for qemu-devel@nongnu.org; Tue, 11 Feb 2020 10:56:06 -0500
+ (envelope-from <eblake@redhat.com>) id 1j1XtW-0002Vg-80
+ for qemu-devel@nongnu.org; Tue, 11 Feb 2020 10:56:15 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1j1XtM-0006JR-WB
- for qemu-devel@nongnu.org; Tue, 11 Feb 2020 10:56:05 -0500
-Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:34026)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1j1XtM-0006Ii-MF
- for qemu-devel@nongnu.org; Tue, 11 Feb 2020 10:56:04 -0500
-Received: by mail-pl1-x644.google.com with SMTP id j7so4435831plt.1
- for <qemu-devel@nongnu.org>; Tue, 11 Feb 2020 07:56:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=QOk9GEk8P97Nr46FRq3IM9r/5hhIciqeGkunvl9OamQ=;
- b=B0t1iFcSlUp8EdhF5M6r0ToWHz+dvNYm8TjUumCfuMfflP3ueM6Yy0ZeTSNyl4cgKw
- wRsbQ3OR9I3s1gYqr/gDbw0TrM0zblFDD9QZla2am9wUVBmYAINNMrCPXMXrB48jlmiH
- 7np3QfYLBJ+fNxJrUPy5N43gvGIsljBAmRTZUQ+t0kwVSfra3KAhGeabxz6w4Kb6S/5W
- SqQBheCDtHMGBGknWX/TGN6zhS1+tOvu8m9s6zgl1/NeCuJkUmdXZw+WX2qFDD0wOQeT
- qZDKfya4DQ7ahMIuZcvk7O7b3BBJiA8SAhKvDf9IsO+DES1+XPDCFWtpFMWjN1QPJ6Hp
- vKIQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=QOk9GEk8P97Nr46FRq3IM9r/5hhIciqeGkunvl9OamQ=;
- b=l3w6kMXvxNgwoj5cduUA0GFR2yDgRcB1RVW/vIoagdBOyBc3e0NmfZ8ky9Gp7rMKmH
- 5iVYeeTT/SowfcFq13w8OT2kbHGuvnq4MRoWFUfP0YXl5Fb+PKyfFhAHnfcE2t4J8gbk
- ftTzl3zm5sUdjzLVSD3Axf1BgdYxkLfL9Bf5URZ187O2Ve0zivvAJteC4BcDt9ukMNtG
- KAta9bCiPeyRrPPu/4XwGImGLX6E5svhXYqsgPmJVsVG2MXCkA0d2CNGxoYpp5fA6mGN
- uhAsJgQ47g0SZ4XnFiKBEY7eaNMYurem+I1Qacqma0x8hzj4q50n1SMxOsnV3/OZ9pZr
- Gr0Q==
-X-Gm-Message-State: APjAAAU+8QBzCplCZE7CDiWqwfDrVWbv8rSMCHHG5HJg7QFDlnbLOzUr
- hfZ8mY3vWkkjHkG9CWH7aJH83Q==
-X-Google-Smtp-Source: APXvYqwVvzaH/BlUTphcFqRVnMy/yK50hn4/J1hbAU7/n5f0+sLnE5oOzDLPRny0YMQ/4DqiMhzwmg==
-X-Received: by 2002:a17:902:9a94:: with SMTP id
- w20mr19070104plp.6.1581436563595; 
- Tue, 11 Feb 2020 07:56:03 -0800 (PST)
-Received: from [192.168.1.11] (97-126-123-70.tukw.qwest.net. [97.126.123.70])
- by smtp.gmail.com with ESMTPSA id
- e38sm4333195pgm.82.2020.02.11.07.56.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 11 Feb 2020 07:56:02 -0800 (PST)
-Subject: Re: [PATCH v4 2/4] target/riscv: configure and turn on vector
- extension from command line
-To: LIU Zhiwei <zhiwei_liu@c-sky.com>, alistair23@gmail.com,
- chihmin.chao@sifive.com, palmer@dabbelt.com
-References: <20200210081240.11481-1-zhiwei_liu@c-sky.com>
- <20200210081240.11481-3-zhiwei_liu@c-sky.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <4a1182b3-b92a-51b1-1784-4324250fb2dd@linaro.org>
-Date: Tue, 11 Feb 2020 07:56:00 -0800
+ (envelope-from <eblake@redhat.com>) id 1j1XtV-0006OS-AH
+ for qemu-devel@nongnu.org; Tue, 11 Feb 2020 10:56:14 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:53493
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1j1XtV-0006OD-6I
+ for qemu-devel@nongnu.org; Tue, 11 Feb 2020 10:56:13 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1581436572;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=xXH8nGiWwwHqFt/zI5lsREPaOPoiwC12mk6zevwfIUs=;
+ b=LKUvDsj0V9YX74b3I7x/El50tzAi1SXiJuKki9kcfElnWiyEbgXk1fl0S1zvu0KsvkL1WI
+ l3omEJbxX3yPSmQE8aV0xfjk5L0eCMTO67eTYFz3q5FZqTFSrrK9HRrr01YWYhWi2Vtqh/
+ BrCq2vvfJ07NWhjPOx3jn/uhTBe7i44=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-137-0ktZBLgcN-GhD-d288acug-1; Tue, 11 Feb 2020 10:56:10 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B688A189F763;
+ Tue, 11 Feb 2020 15:56:09 +0000 (UTC)
+Received: from [10.3.116.180] (ovpn-116-180.phx2.redhat.com [10.3.116.180])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5171126E4C;
+ Tue, 11 Feb 2020 15:56:09 +0000 (UTC)
+Subject: Re: [PATCH v2 33/33] block: Drop @child_class from bdrv_child_perm()
+To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
+References: <20200204170848.614480-1-mreitz@redhat.com>
+ <20200204170848.614480-34-mreitz@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <9df21c8e-7726-f120-a075-7ee9b5ace6fd@redhat.com>
+Date: Tue, 11 Feb 2020 09:56:08 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200210081240.11481-3-zhiwei_liu@c-sky.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20200204170848.614480-34-mreitz@redhat.com>
 Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: 0ktZBLgcN-GhD-d288acug-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::644
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,34 +76,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: wenmeng_zhang@c-sky.com, qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
- wxy194768@alibaba-inc.com
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/10/20 8:12 AM, LIU Zhiwei wrote:
-> +            if (cpu->cfg.vlen > RV_VLEN_MAX || cpu->cfg.vlen < 128) {
-> +                error_setg(errp,
-> +                       "Vector extension implementation only supports VLEN "
-> +                       "in the range [128, %d]", RV_VLEN_MAX);
-> +                return;
-> +            }
-> +            if (!is_power_of_2(cpu->cfg.elen)) {
-> +                error_setg(errp,
-> +                       "Vector extension ELEN must be power of 2");
-> +                return;
-> +            }
-> +            if (cpu->cfg.elen > 64) {
-> +                error_setg(errp,
-> +                       "Vector extension ELEN must <= 64");
-> +                return;
-> +            }
+On 2/4/20 11:08 AM, Max Reitz wrote:
+> Implementations should decide the necessary permissions based on @role.
+> 
+> Signed-off-by: Max Reitz <mreitz@redhat.com>
+> ---
+>   block.c                     | 45 ++++++++++++++++---------------------
+>   block/backup-top.c          |  3 +--
+>   block/blkdebug.c            |  3 +--
+>   block/blklogwrites.c        |  3 +--
+>   block/commit.c              |  1 -
+>   block/copy-on-read.c        |  1 -
+>   block/mirror.c              |  1 -
+>   block/quorum.c              |  1 -
+>   block/replication.c         |  1 -
+>   block/vvfat.c               |  4 +---
+>   include/block/block_int.h   |  4 +---
+>   tests/test-bdrv-drain.c     | 19 +---------------
+>   tests/test-bdrv-graph-mod.c |  1 -
+>   13 files changed, 25 insertions(+), 62 deletions(-)
 
-ELEN should use the same "only supports ELEN in the range" language as VLEN.
+Nice diffstat.
 
-Otherwise,
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
-r~
 
