@@ -2,65 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A401159415
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Feb 2020 16:58:26 +0100 (CET)
-Received: from localhost ([::1]:52200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66917159445
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Feb 2020 17:04:50 +0100 (CET)
+Received: from localhost ([::1]:52306 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j1Xvd-0005Yw-MJ
-	for lists+qemu-devel@lfdr.de; Tue, 11 Feb 2020 10:58:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49063)
+	id 1j1Y1p-0000vt-5k
+	for lists+qemu-devel@lfdr.de; Tue, 11 Feb 2020 11:04:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50126)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bmeng.cn@gmail.com>) id 1j1Xuc-0004WL-2F
- for qemu-devel@nongnu.org; Tue, 11 Feb 2020 10:57:23 -0500
+ (envelope-from <stefanha@redhat.com>) id 1j1Y0Z-00083l-Ur
+ for qemu-devel@nongnu.org; Tue, 11 Feb 2020 11:03:32 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bmeng.cn@gmail.com>) id 1j1Xua-0007LO-RV
- for qemu-devel@nongnu.org; Tue, 11 Feb 2020 10:57:21 -0500
-Received: from mail-yb1-xb42.google.com ([2607:f8b0:4864:20::b42]:39954)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bmeng.cn@gmail.com>)
- id 1j1Xua-0007KR-NT; Tue, 11 Feb 2020 10:57:20 -0500
-Received: by mail-yb1-xb42.google.com with SMTP id f130so3687470ybc.7;
- Tue, 11 Feb 2020 07:57:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=cycEn2geULASHbi0E1x8o7VfiYWuePvwwltYWBZYG5U=;
- b=CRaNl0vDwGEglF1KfsPr8qQ7IV3W5dp6O9sH5Y+9dSq3q2rRzjQnrH9yjWetbbbZSn
- QjnP73F7/thRxZJFJ9vj90O5bG1PuYl4MNxSHGco6qLpGEl4UnBWu7hsIwci9QV8Ue6z
- cGNM8u26boSyaJMLjRFxAadANgX9hixyUGXjzO0rZooh57naTa/d40EmkNRtAOLN8rda
- NI/5WrqRhgUY+XbzmUBLN9FoUMYfntovmHmz2EJkthU6EHur3wMhtM+y9DzR1Coe7ZbO
- SnWvJohZ9B9FqfcT0eArR3nl+NZKl0Dq+u9x5zbQjZh4UXKOkqNENXDU2hdWiA8rLnH3
- 9KoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=cycEn2geULASHbi0E1x8o7VfiYWuePvwwltYWBZYG5U=;
- b=St2qrXDDhfmWgtLPIR6f2fmXA3cKw7pIRWVSZ1ZmiPw05APGitwGipx880AHjKZtoP
- a2oJLw3tAwNHrvwNyPr4t+iXRfP0fBJjjXUAPdVt6AtU/u4PPK98rg+y8w9Cqh3DmWOf
- i5X29YfZneDzexrD6ea4cPUVWRgeRdTAwwuYWpBHupmvNgee+e5rpHEHDk9HYU0cYj1l
- yOq9FSr0yIH5Ww20uqWNLjAUTLJpvbBkK8kGiwRMfxZKqQVEAkiTOiRmWzWkuuCdxeig
- PmZCajDpFPf+b2hsXgCRgFieLbp/TFE2iz/z48JPN9MNp9WGvsyH/77UZVxprHfni7Dd
- 20tg==
-X-Gm-Message-State: APjAAAVYYr1H6bV2/l01uMX356nX+NIRjTb4knk6hXEeAC+3Qb+itjEb
- DtWBTR7rP/JVNzaF3P2+wjmyHOJHkp7k6fw583U=
-X-Google-Smtp-Source: APXvYqz12j8kOzZdq1I8pHzIjJ1IjbJN8N/f/UEOO3LCamend3NvxGppHQb3b/vDikkhBemI8g2Wixj1KAJnT+KHr94=
-X-Received: by 2002:a25:d348:: with SMTP id e69mr1219390ybf.203.1581436639865; 
- Tue, 11 Feb 2020 07:57:19 -0800 (PST)
+ (envelope-from <stefanha@redhat.com>) id 1j1Y0V-0005DN-5H
+ for qemu-devel@nongnu.org; Tue, 11 Feb 2020 11:03:31 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:27285
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1j1Y0U-0005Ae-QF
+ for qemu-devel@nongnu.org; Tue, 11 Feb 2020 11:03:27 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1581437005;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=C/C3DFLKOff+u8tqd5nj4EtQC62OiWFmBEjl7KJljQI=;
+ b=XNW80XD4p7mZokKteYM0Kl8rJe4c1JWQ5n7PHeZcYr0LXMb61BVLSon5oCDEn+oe110nx9
+ guAlxp8HcAbQtn8uLkUv/RAkq9JuXOBQBZueybLN5AdgcMOK5+ZNg0XClza0deaY5H2meo
+ /rTIcAyF+b4lRVUU1KwPKWYQxTCd/UI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-162-xbKoimazMYeUYaxMn_FsfA-1; Tue, 11 Feb 2020 11:03:23 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7AB9610054E3;
+ Tue, 11 Feb 2020 16:03:22 +0000 (UTC)
+Received: from localhost (unknown [10.36.118.99])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4843426FB6;
+ Tue, 11 Feb 2020 16:03:18 +0000 (UTC)
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 0/4] luks: add qemu-img measure support
+Date: Tue, 11 Feb 2020 16:03:14 +0000
+Message-Id: <20200211160318.453650-1-stefanha@redhat.com>
 MIME-Version: 1.0
-References: <mhng-e3089574-e78c-4b6c-961e-cac55f0f23d4@palmerdabbelt-glaptop1>
- <mhng-3370fb0c-3076-4a05-8bcd-ac7fce08d408@palmerdabbelt-glaptop1>
-In-Reply-To: <mhng-3370fb0c-3076-4a05-8bcd-ac7fce08d408@palmerdabbelt-glaptop1>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Tue, 11 Feb 2020 23:57:08 +0800
-Message-ID: <CAEUhbmXbJUdk7VBvwh=-B1MkS=++2v=VEBNuS9x7rrndsHBT-A@mail.gmail.com>
-Subject: Re: [PATCH] riscv: sifive_u: Add a "serial" property for board serial
- number
-To: Palmer Dabbelt <palmerdabbelt@google.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::b42
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: xbKoimazMYeUYaxMn_FsfA-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: base64
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,84 +67,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, qemu-block@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Palmer,
+djM6CiAqIE1vdmUgcGF5bG9hZCBvZmZzZXQgY2FsY3VsYXRpb24gZnVuY3Rpb24gdG8gY3J5cHRv
+L2Jsb2NrLmMgW01heF0KICogWmVyby91bmFsbG9jYXRlZCBibG9ja3MgYWx3YXlzIHJlcXVpcmUg
+ZGlzayBzcGFjZSBvbiBlbmNyeXB0ZWQgZmlsZXMgW01heF0KICogVXBkYXRlIHFlbXUtaW90ZXN0
+cyAxNzggb3V0cHV0IHdoZW4gY2hhbmdpbmcgcWVtdS1pbWcgbWVhc3VyZSBjb21tYW5kLWxpbmUK
+ICAgb3B0aW9ucwoKdjI6CiAqIEZpeCB1aW50NjRfdCA8LT4gc2l6ZV90IHR5cGUgbWlzbWF0Y2gg
+aW4gYmxvY2tfY3J5cHRvX21lYXN1cmUoKSBzbyB0aGF0CiAgIDMyLWJpdCBidWlsZHMgcGFzcwoK
+VGhpcyBwYXRjaCBzZXJpZXMgYWRkcyBxZW11LWltZyBtZWFzdXJlIHN1cHBvcnQgdG8gdGhlICJs
+dWtzIiBibG9jayBkcml2ZXIuICBXZQpqdXN0IG5lZWQgdG8gdGFrZSBpbnRvIGFjY291bnQgdGhl
+IExVS1MgaGVhZGVyIHdoZW4gc2l6aW5nIHRoZSBpbWFnZS4KClN0ZWZhbiBIYWpub2N6aSAoNCk6
+CiAgbHVrczogZXh0cmFjdCBxY3J5cHRvX2Jsb2NrX2NhbGN1bGF0ZV9wYXlsb2FkX29mZnNldCgp
+CiAgbHVrczogaW1wbGVtZW50IC5iZHJ2X21lYXN1cmUoKQogIHFlbXUtaW1nOiBhbGxvdyBxZW11
+LWltZyBtZWFzdXJlIC0tb2JqZWN0IHdpdGhvdXQgYSBmaWxlbmFtZQogIGlvdGVzdHM6IGFkZCAy
+ODIgbHVrcyBxZW11LWltZyBtZWFzdXJlIHRlc3QKCiBibG9jay9jcnlwdG8uYyAgICAgICAgICAg
+ICAgICAgICB8IDYyICsrKysrKysrKysrKysrKysrKysrKwogYmxvY2svcWNvdzIuYyAgICAgICAg
+ICAgICAgICAgICAgfCA3NCArKysrKysrLS0tLS0tLS0tLS0tLS0tLS0tCiBjcnlwdG8vYmxvY2su
+YyAgICAgICAgICAgICAgICAgICB8IDQwICsrKysrKysrKysrKysrCiBpbmNsdWRlL2NyeXB0by9i
+bG9jay5oICAgICAgICAgICB8IDIyICsrKysrKysrCiBxZW11LWltZy5jICAgICAgICAgICAgICAg
+ICAgICAgICB8ICA2ICstLQogdGVzdHMvcWVtdS1pb3Rlc3RzLzE3OCAgICAgICAgICAgfCAgMiAr
+LQogdGVzdHMvcWVtdS1pb3Rlc3RzLzE3OC5vdXQucWNvdzIgfCAgOCArLS0KIHRlc3RzL3FlbXUt
+aW90ZXN0cy8xNzgub3V0LnJhdyAgIHwgIDggKy0tCiB0ZXN0cy9xZW11LWlvdGVzdHMvMjgyICAg
+ICAgICAgICB8IDkzICsrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrCiB0ZXN0cy9xZW11
+LWlvdGVzdHMvMjgyLm91dCAgICAgICB8IDMwICsrKysrKysrKysrCiB0ZXN0cy9xZW11LWlvdGVz
+dHMvZ3JvdXAgICAgICAgICB8ICAxICsKIDExIGZpbGVzIGNoYW5nZWQsIDI3OCBpbnNlcnRpb25z
+KCspLCA2OCBkZWxldGlvbnMoLSkKIGNyZWF0ZSBtb2RlIDEwMDc1NSB0ZXN0cy9xZW11LWlvdGVz
+dHMvMjgyCiBjcmVhdGUgbW9kZSAxMDA2NDQgdGVzdHMvcWVtdS1pb3Rlc3RzLzI4Mi5vdXQKCi0t
+IAoyLjI0LjEKCg==
 
-On Tue, Feb 11, 2020 at 3:55 AM Palmer Dabbelt <palmerdabbelt@google.com> wrote:
->
-> On Wed, 29 Jan 2020 07:29:11 PST (-0800), Palmer Dabbelt wrote:
-> > On Fri, 10 Jan 2020 07:52:05 GMT (+0000), bmeng.cn@gmail.com wrote:
-> >> Hi Palmer,
-> >>
-> >> On Fri, Nov 22, 2019 at 10:38 AM Palmer Dabbelt
-> >> <palmerdabbelt@google.com> wrote:
-> >>>
-> >>> On Thu, 21 Nov 2019 17:10:18 PST (-0800), bmeng.cn@gmail.com wrote:
-> >>> > On Sat, Nov 16, 2019 at 11:08 PM Bin Meng <bmeng.cn@gmail.com> wrote:
-> >>> >>
-> >>> >> At present the board serial number is hard-coded to 1, and passed
-> >>> >> to OTP model during initialization. Firmware (FSBL, U-Boot) uses
-> >>> >> the serial number to generate a unique MAC address for the on-chip
-> >>> >> ethernet controller. When multiple QEMU 'sifive_u' instances are
-> >>> >> created and connected to the same subnet, they all have the same
-> >>> >> MAC address hence it creates a unusable network.
-> >>> >>
-> >>> >> A new "serial" property is introduced to specify the board serial
-> >>> >> number. When not given, the default serial number 1 is used.
-> >>> >>
-> >>> >> Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
-> >>> >> ---
-> >>> >>
-> >>> >>  hw/riscv/sifive_u.c         | 21 ++++++++++++++++++++-
-> >>> >>  include/hw/riscv/sifive_u.h |  1 +
-> >>> >>  2 files changed, 21 insertions(+), 1 deletion(-)
-> >>> >>
-> >>> >
-> >>> > ping?
-> >>>
-> >>> Sorry, it looks like I dropped this one.  I've put it in the queue for 5.0,
-> >>> with a
-> >>>
-> >>> Reviewed-by: Palmer Dabbelt <palmerdabbelt@google.com>
-> >>
-> >> Has this been applied somewhere?
-> >
-> > Weird, not sure how I managed to screw this up again.  It's actually on for-master as
-> >
-> >     * a828041ba6 - riscv: sifive_u: Add a "serial" property for board serial number (50 seconds ago) <Bin Meng>
-> >
-> > with any luck I'll manage to avoid screwing it up a third time.
->
-> Ah, OK -- the issue here is that this fails "make check", specifically
->
->     $ make check-qtest-riscv64
->     make[1]: Entering directory '/home/palmerdabbelt/life/riscv/qemu/slirp'
->     make[1]: Nothing to be done for 'all'.
->     make[1]: Leaving directory '/home/palmerdabbelt/life/riscv/qemu/slirp'
->             CHK version_gen.h
->       TEST    check-qtest-riscv64: tests/qtest/cdrom-test
->       TEST    check-qtest-riscv64: tests/qtest/device-introspect-test
->     /home/palmerdabbelt/life/riscv/qemu/hw/riscv/sifive_u.c:406:riscv_sifive_u_soc_init: Object 0x55baf3feea00 is not an instance of type sifive_u-machine
->     Broken pipe
->     tests/qtest/libqtest.c:149: kill_qemu() detected QEMU death from signal 6 (Aborted)
->     ERROR - too few tests run (expected 6, got 5)
->     make: *** [/home/palmerdabbelt/life/riscv/qemu/tests/Makefile.include:630: check-qtest-riscv64] Error 1
->
-> which is probably how it kept getting disappeared -- I just forgot to reply on
-> the list.  I'm going to hold it back from the PR I'm staging right now, LMK if
-> you have a fix.
-
-OK, I will take a look. I remember I did run "make check" but it did
-not report any issue before. Is 'make check-qtest-riscv64' not part of
-'make check'?
-
-Regards,
-Bin
 
