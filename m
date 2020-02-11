@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B452C159671
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Feb 2020 18:45:13 +0100 (CET)
-Received: from localhost ([::1]:54452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA535159678
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Feb 2020 18:47:27 +0100 (CET)
+Received: from localhost ([::1]:54534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j1Zay-0008Sd-P1
-	for lists+qemu-devel@lfdr.de; Tue, 11 Feb 2020 12:45:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49190)
+	id 1j1Zd8-00039V-Qt
+	for lists+qemu-devel@lfdr.de; Tue, 11 Feb 2020 12:47:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49254)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j1ZTv-00069G-08
+ (envelope-from <peter.maydell@linaro.org>) id 1j1ZTw-0006CP-5g
  for qemu-devel@nongnu.org; Tue, 11 Feb 2020 12:37:57 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j1ZTu-0004Zy-30
- for qemu-devel@nongnu.org; Tue, 11 Feb 2020 12:37:54 -0500
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:37983)
+ (envelope-from <peter.maydell@linaro.org>) id 1j1ZTv-0004cH-8S
+ for qemu-devel@nongnu.org; Tue, 11 Feb 2020 12:37:56 -0500
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:37311)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j1ZTt-0004CX-Td
- for qemu-devel@nongnu.org; Tue, 11 Feb 2020 12:37:54 -0500
-Received: by mail-wr1-x444.google.com with SMTP id y17so13475074wrh.5
- for <qemu-devel@nongnu.org>; Tue, 11 Feb 2020 09:37:43 -0800 (PST)
+ id 1j1ZTv-0004FX-2G
+ for qemu-devel@nongnu.org; Tue, 11 Feb 2020 12:37:55 -0500
+Received: by mail-wr1-x444.google.com with SMTP id w15so13493860wru.4
+ for <qemu-devel@nongnu.org>; Tue, 11 Feb 2020 09:37:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=io9bXmaa0QYPJVSqKww1B9uAPmBiSE1Ya1UcsX2Idyc=;
- b=KF4l/ywOty3YpZ9QhWVHm4Sgoe8AApE7/HUdf8rwM94OMyAIsDmZPQCljsjMX1RGJB
- q7M4nl/eyUh6A7za0tysFLuGiY5ukdRJ4UT88c/o53DSU2Nzv3T1Bn3EanNQiAoTME0x
- wumgYLi0fe5anD5kCHKZDX1lC8kXS/QHrs9dM6idCrqO2RO2cOvNaeYXNkF8hnEWdS3q
- K9n0GVu8QUEaEA8ulcfBI3iZEG8z1nYzG3VsWaow0cIT2f875WiaSF/oyBbUXy5eHxiL
- +jHr8jXqHF7EZsjO4CbElFuRzrhYnZ95aarphF0FElA6/YcIFbA6g02tKmVIocD02xIH
- PqGA==
+ bh=QC2sj7hRnULzZHQ/M270NTSzgdnZq80bFajxC6Weuc8=;
+ b=o+leqigJNWcFqwtsJhWALp7Y5vmlcJFbosiZSHof164p8ZMOLigeyVPjCKtYGEtQzM
+ a5OqoFFz4+HmGrmMZCsCINSWcob29qU/P6x/yJEg/vQztpBBmjPPaAQOe4fmDtqN0TL2
+ 0TI7h0nTrFVkKCtlv4zSBhGjI4VlY9ZD7yOg1DV6Yq/Y+NlON53bmKFeQtW67krmq/3h
+ rKJAMm/5reOI7gpLqCVwKj5S+2q2gjI6rFG+MBYIhYLa0lvjmiAagTXbpVwpd88v6qcj
+ shHvU+Pqa+pGQcWD2+aqKZkq1s1g/EOldp6ykIrsz17Tbr+9HGlk59S7oHs/jWfu6CQa
+ Y9oA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=io9bXmaa0QYPJVSqKww1B9uAPmBiSE1Ya1UcsX2Idyc=;
- b=ZNSqKlFshq49vnvfWAvqHVGA3Iq3Ucr/lmVfibNYn5p+GPzPSojsD1ueVGS4df+Iom
- VjbCY42heu78jpumN+Ecl+00VO43OgxquI7/tuscSGsOV1ruAUhs5dNNjAkdDv7sygKv
- 6zdoyATwXHIpuzU9McBvOMyI0h/Cl2nhP/Rm+n3J5HnIkV01Poz3UlaadIM/wp811G9C
- MmQTY1UuL6l4oyLrzVoF6WaAeTeSgujb01dKi4eI1PruxRiSH04hUbA1+SYpDCDrh0o1
- IRzGnm1qFkDsya7Z5DyxO+pcTVYzX45n1S6y0ZRRhKzIRBvc2AgMna5RSOAsZUGQOBCP
- Griw==
-X-Gm-Message-State: APjAAAVBjD48+knVIYwmN0cG4z5uBMViCARU1X5f7muudsggW6cOdpNr
- Bs3B78GcfAWP1vkxyKkg0vNjJH2EMIo=
-X-Google-Smtp-Source: APXvYqzi/FIoeg7bByd1vdSHp3LUvj3U+Nm4a/Y7hgREMGCqOF6GrK4aHmhyUrcPexURhUzuhF9l0Q==
-X-Received: by 2002:a5d:42c6:: with SMTP id t6mr9548904wrr.151.1581442662986; 
- Tue, 11 Feb 2020 09:37:42 -0800 (PST)
+ bh=QC2sj7hRnULzZHQ/M270NTSzgdnZq80bFajxC6Weuc8=;
+ b=V7Qy0R0TOY+w1SobzbGBEDSQNOApr5vZAXSeMFm06kLFrr9TytGzglDgqOk3ZKH3DR
+ Pr3FunCDkWXyPHps0DWg5LYGzTwlZ16+JR65rFHFpff9DpVqxZQI5TCR0Q2HC5I4Ql64
+ SfaVG62ICqURapHtFBCe3VT1YEkWkgmaM47F+Uh79nCt9fnXTGc67JealB7jcVYOil8j
+ NRRV6185QeS90nwPaVnBMrwmYuG4rcIozelQrtUHA/Ahta7gVlg1r8FMVY/Vj42n+wPG
+ lmFeickZv+2Q5ibzeTDZtrFFFhokz+Y+CLQUpndBYP4d3A3U21ZxlotlQrK+wtl1+cCQ
+ atOQ==
+X-Gm-Message-State: APjAAAVRvdVQHfbLNysgBWikjZq4u6tEGJa9Sg0e/eHdBf/CjovWchgH
+ gJAIcryP/B7SYyW2z+wcyG73VQ==
+X-Google-Smtp-Source: APXvYqy3+vOVRopjenWuO69A+GCgmGMlB+78AKUNX+r94f/3SpcoEJoFgVaPefTU8KnvwuIRYQgDEA==
+X-Received: by 2002:adf:f302:: with SMTP id i2mr9605140wro.21.1581442664016;
+ Tue, 11 Feb 2020 09:37:44 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id y1sm6109675wrq.16.2020.02.11.09.37.41
+ by smtp.gmail.com with ESMTPSA id y1sm6109675wrq.16.2020.02.11.09.37.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 Feb 2020 09:37:42 -0800 (PST)
+ Tue, 11 Feb 2020 09:37:43 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 11/13] target/arm: Provide ARMv8.4-PMU in '-cpu max'
-Date: Tue, 11 Feb 2020 17:37:24 +0000
-Message-Id: <20200211173726.22541-12-peter.maydell@linaro.org>
+Subject: [PATCH 12/13] target/arm: Correct definition of PMCRDP
+Date: Tue, 11 Feb 2020 17:37:25 +0000
+Message-Id: <20200211173726.22541-13-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200211173726.22541-1-peter.maydell@linaro.org>
 References: <20200211173726.22541-1-peter.maydell@linaro.org>
@@ -84,33 +84,31 @@ Cc: Eric Auger <eric.auger@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Set the ID register bits to provide ARMv8.4-PMU (and implicitly
-also ARMv8.1-PMU) in the 'max' CPU.
+The PMCR_EL0.DP bit is bit 5, which is 0x20, not 0x10.  0x10 is 'X'.
+Correct our #define of PMCRDP and add the missing PMCRX.
+
+We do have the correct behaviour for handling the DP bit being
+set, so this fixes a guest-visible bug.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/cpu64.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ target/arm/helper.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-index 4b4b134ef84..5b8b7a9d4b8 100644
---- a/target/arm/cpu64.c
-+++ b/target/arm/cpu64.c
-@@ -693,6 +693,14 @@ static void aarch64_max_initfn(Object *obj)
-         u = FIELD_DP32(u, ID_ISAR6, SPECRES, 1);
-         cpu->isar.id_isar6 = u;
- 
-+        u = cpu->isar.id_aa64dfr0;
-+        u = FIELD_DP32(u, ID_AA64DFR0, PMUVER, 5); /* v8.4-PMU */
-+        cpu->isar.id_aa64dfr0 = u;
-+
-+        u = cpu->isar.id_dfr0;
-+        u = FIELD_DP32(u, ID_DFR0, PERFMON, 5); /* v8.4-PMU */
-+        cpu->isar.id_dfr0 = u;
-+
-         /*
-          * FIXME: We do not yet support ARMv8.2-fp16 for AArch32 yet,
-          * so do not set MVFR1.FPHP.  Strictly speaking this is not legal,
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index cb3c30f1725..c6758bfbeb5 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -1017,7 +1017,8 @@ static const ARMCPRegInfo v6_cp_reginfo[] = {
+ #define PMCRN_MASK  0xf800
+ #define PMCRN_SHIFT 11
+ #define PMCRLC  0x40
+-#define PMCRDP  0x10
++#define PMCRDP  0x20
++#define PMCRX   0x10
+ #define PMCRD   0x8
+ #define PMCRC   0x4
+ #define PMCRP   0x2
 -- 
 2.20.1
 
