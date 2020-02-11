@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FBEF159ABA
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Feb 2020 21:49:26 +0100 (CET)
-Received: from localhost ([::1]:57232 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 332FD159A99
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Feb 2020 21:39:25 +0100 (CET)
+Received: from localhost ([::1]:57082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j1cTF-0000Ro-FV
-	for lists+qemu-devel@lfdr.de; Tue, 11 Feb 2020 15:49:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35395)
+	id 1j1cJY-00033Z-74
+	for lists+qemu-devel@lfdr.de; Tue, 11 Feb 2020 15:39:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35200)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alxndr@bu.edu>) id 1j1cG3-0006fG-U8
- for qemu-devel@nongnu.org; Tue, 11 Feb 2020 15:35:49 -0500
+ (envelope-from <alxndr@bu.edu>) id 1j1cG0-0006Zu-Ho
+ for qemu-devel@nongnu.org; Tue, 11 Feb 2020 15:35:46 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alxndr@bu.edu>) id 1j1cFz-0008S9-06
- for qemu-devel@nongnu.org; Tue, 11 Feb 2020 15:35:47 -0500
-Received: from mail-eopbgr690106.outbound.protection.outlook.com
- ([40.107.69.106]:43233 helo=NAM04-CO1-obe.outbound.protection.outlook.com)
+ (envelope-from <alxndr@bu.edu>) id 1j1cFy-0008QZ-Eh
+ for qemu-devel@nongnu.org; Tue, 11 Feb 2020 15:35:44 -0500
+Received: from mail-dm6nam12on2092.outbound.protection.outlook.com
+ ([40.107.243.92]:50848 helo=NAM12-DM6-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <alxndr@bu.edu>) id 1j1cFy-0008My-D5
+ (Exim 4.71) (envelope-from <alxndr@bu.edu>) id 1j1cFy-0008HE-0R
  for qemu-devel@nongnu.org; Tue, 11 Feb 2020 15:35:42 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=A32sUcqgl70YUsuFqn4vC4ciNpXt2rwQpzz5L8X7n2KuIwGxChU8Rn/kZ7qifV9DXiWpnX+f7HFHHqcfWLjy3W2+yxkEW/9+1RYqlR75I0Y5yOagE+wUdW0MqvtCo0vExZyM+byqJyNp2+gOrrcoHJjfVTwEHZvDS5fbOLoF0AICXg0nvq1NU1JlzKEcGIuOnk/ZNs4NDAMvLuRqTUSRn27on6GOvxNSTPbZ2rwMpD7FkKt3ecl4XGfiVnjVm3pou+3yTdri9Rru+IN80DuHv6cKyzflL9EXQYEOWKP7f/7zn8T1L2BfWlTyiosF/BZM0uxeljPuD8OE0VVby8u6Qw==
+ b=fBSUaDeXOeLsqXZA0sYiVVTQXwq+l+FfcbEXD/FleAXx1Yh0V7SyvVtLJ7RBrxTE2ueahFh6LLHe7uqRWaO5VEXUxy1L7i9e2UcIryNaNcGAy8yxWx3NLipEY5yvOXHYfE412mjsncmLCNgO7HxdgLyfHFGY3eUFCZbrHpXiu0AlGJGOzRIUbmuN1YrYN/rjty15tnWcPOeSPQwfZyRzGK0ohVUMWidSmVBFYAnE8SEEdPRtt76oySwF3MeEyQQ+UHR3q4cW9EUX5t9sKOwpOg7qOITtWSf4D9OJtyRtYCaZKsyN4Yb3038WXzV2qtI0mfKSO2LTR8uS7EQ6evhmhA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Hkh/R5nFd6Ghtc/QkVgwC9wl0JQAJ14dD2v8bKKRHCk=;
- b=eFNa7iOwLkfs18sHqlFZ3k+8rCQRNIF/wmhUBUoJ5iFi7xz1lkFDH6saW2yXYOxa2MgD3JOPMp29b0VDB8tJ9vOx0+mrk7KbXmoe9xjpsi/QoBgRPdSjMVorn5n1Q2DH4IiOpbnzpJe1HEM0L3bXotxV3XQZAiWUVIkGa7W2nlbpcLfw3wiLRYHJplQBQcdyEQZHIOAdMtiWhURZaE4xxc2m8GNZlTlckzRIJNVeCHZQU5GJIY9trHN2H2WhXXz94iIpdph03sW1POqsc60inCTV+DZTj6jIiHcGZTzAc1Ak6oiwRtnRIUq3023V0UjojJRCDXpCnqnsa73svskYkQ==
+ bh=05U5h3WDwUYNOjflgUQUtGsB+LG5FvrHD0dL78Kevi4=;
+ b=EnE9jc8PW4e4xuEO1bfmVwoRKPLrJyKs5lQo4XBhZKP0N5aTyAx5bSGcV6fxlS6LNOOIgD7v7VfLwWeIAaWYcwpgpZcAXKQwV5ECyivnkh3taYEaLObc7BNIGwEeBUdFdvD/iUIi8GXZZwQcMMdFEIeLjm2oKJdt1ri/GGHwBshk5B3dtYT7XI2WhaHLo456t6F1aWEXMrXTgYYoJoC3y+NAas1SGmZbXtbOciUrX2qgazl+mQUfUuOhzEnh97JI0mH7T7lEg3ZHVYy1QP0dUsatKv6K3ZdnVT6U6x8XZDSdhrR0pSU6ug3RukgBEm9Wzmf+PZ2uZqSigch8w7wB3w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=bu.edu; dmarc=pass action=none header.from=bu.edu; dkim=pass
  header.d=bu.edu; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bushare.onmicrosoft.com; s=selector2-bushare-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Hkh/R5nFd6Ghtc/QkVgwC9wl0JQAJ14dD2v8bKKRHCk=;
- b=GnSS/snsc3fhLWzj+Nw1cG+T0UCvPU84xLMvAmtiSTixNv3uiVYHnYaSGUa5E0A2icqnBCe961vR4Ulusyz8mOGkctIkLCXT191aRoXSqgZXsK1FBsuj04+eNB+AZJdGi4S45lPYHPHNrk7zw5Hpi6lMBNZwEHh0xVaeCmLutRc=
+ bh=05U5h3WDwUYNOjflgUQUtGsB+LG5FvrHD0dL78Kevi4=;
+ b=ESsffH2jvOHc4lyY3F6vjJH6hVHZQNZSJLchXiapI5ghlWEmTjiH9TP83IBa5SZa0YkHoDMdQ+YQ/Whltiu2xkq4YKqHck3+/GoLFkU9v1wYkTO/oQNYxy9QOJ0Ufupm7qfmEEzU/FeWPDJxgt4k2pzJfIejZRO59QlI6kN7D3o=
 Authentication-Results: spf=none (sender IP is ) smtp.mailfrom=alxndr@bu.edu; 
 Received: from SN6PR03MB3871.namprd03.prod.outlook.com (52.135.102.32) by
  SN6PR03MB4336.namprd03.prod.outlook.com (20.177.254.75) with Microsoft SMTP
@@ -47,9 +47,9 @@ Received: from SN6PR03MB3871.namprd03.prod.outlook.com
  20:35:35 +0000
 From: Alexander Bulekov <alxndr@bu.edu>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v9 14/23] exec: keep ram block across fork when using qtest
-Date: Tue, 11 Feb 2020 15:35:01 -0500
-Message-ID: <20200211203510.3534-15-alxndr@bu.edu>
+Subject: [PATCH v9 15/23] main: keep rcu_atfork callback enabled for qtest
+Date: Tue, 11 Feb 2020 15:35:02 -0500
+Message-ID: <20200211203510.3534-16-alxndr@bu.edu>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <20200211203510.3534-1-alxndr@bu.edu>
 References: <20200211203510.3534-1-alxndr@bu.edu>
@@ -66,14 +66,14 @@ Received: from mozz.bu.edu (128.197.127.33) by
 X-Mailer: git-send-email 2.25.0
 X-Originating-IP: [128.197.127.33]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: e0173771-a8c6-4832-50db-08d7af31f203
+X-MS-Office365-Filtering-Correlation-Id: b21fe97d-43ca-431f-8617-08d7af31f26e
 X-MS-TrafficTypeDiagnostic: SN6PR03MB4336:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SN6PR03MB4336C6C8AF5800666743F026BA180@SN6PR03MB4336.namprd03.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4941;
+X-Microsoft-Antispam-PRVS: <SN6PR03MB433675B24E8B4D95A7539C64BA180@SN6PR03MB4336.namprd03.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:159;
 X-Forefront-PRVS: 0310C78181
 X-Forefront-Antispam-Report: SFV:NSPM;
- SFS:(10019020)(4636009)(396003)(366004)(136003)(376002)(39860400002)(346002)(199004)(189003)(16526019)(6666004)(1076003)(5660300002)(86362001)(316002)(186003)(786003)(66556008)(54906003)(6916009)(66476007)(6486002)(66946007)(8936002)(478600001)(4326008)(7696005)(52116002)(36756003)(75432002)(2616005)(2906002)(956004)(8676002)(26005)(81166006)(81156014);
+ SFS:(10019020)(4636009)(396003)(366004)(136003)(376002)(39860400002)(346002)(199004)(189003)(16526019)(6666004)(1076003)(5660300002)(86362001)(316002)(186003)(786003)(66556008)(6916009)(66476007)(6486002)(66946007)(8936002)(478600001)(4326008)(7696005)(52116002)(36756003)(75432002)(2616005)(2906002)(956004)(8676002)(26005)(81166006)(81156014);
  DIR:OUT; SFP:1102; SCL:1; SRVR:SN6PR03MB4336;
  H:SN6PR03MB3871.namprd03.prod.outlook.com; FPR:; SPF:None; LANG:en;
  PTR:InfoNoRecords; A:1; MX:1; 
@@ -81,19 +81,19 @@ Received-SPF: None (protection.outlook.com: bu.edu does not designate
  permitted sender hosts)
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: xuWn+4fz7KJML0kDpUa3ouvfTEEpV32UqHBzMCdrM37BMSpoXR/MeXWBpXAaLjmfcPIPlqDsiDMjsWzh8VXTJRi6VLHeHv3NcKcZgmJtbPWJc9Opc/7OjO4bWfqXOPMGu5qwfiF1jFI8F9UIc0B1KRJi+TMeA5x0+eeE4rh48Kk8toYa6g3CHsgHVqBhdpjKYf9zzFcy6q+0dEhKJNWS38r68pNXUA3qmHe/unj/gXjU0oKyIvoV1Ej7aHnxssZALXYrx+qbV9HXng+0JvfkfsF2UWq66ueND7jly6bdvMOKxZYRl4+ZIhYlLx915BbYld3qt8D0G4CDcU+vEx1sxyDWbXTb5NqqC+1UovhZZZ9WW2jypW5S6B2fQUrue0dJJdLC8HGeyCXElOWtBEHipJwLKWLQzReKk6IzXvUok4RkxRm6LbEqhs7Nhvv8OFKn
-X-MS-Exchange-AntiSpam-MessageData: F0V16MIrff4w54i4cQ4NPASk2/CtXZvCnfAfv/F1cT/rdIo1jB+qd8UIvgWre4B6nNNAhRxfB8ACBIyTy5QKA9wTKZKhlTL6/q1YwQJ/TgHLTcpDoxLtUTh8GYfkV6ZbPedW9UGOwhIkbwUrLApifQ==
+X-Microsoft-Antispam-Message-Info: iygZQ7pGkUg6shIEUNgGQwb2VYrBTi++5bfIFqBdOxetkZOutOAxllEveUa2Q1p555cJrFiTBwq+OAt332MY5q8zxUc9/IMqBHdGzPXYvK+536Rlr6d/YR9kvX1UETv9FpPeC7hE1c4j/9ng3LivAB8/gA+5pFOUA7Q1KgMo96yusZeX9uyOvF/+FUxasgWRWgAi37Af+8UIvG+uDP6CFc7rUM4i9Of4ZHj2wvuSZXkM6WvccTXfocD4N5SVMVX6xH2AahQ5kCnMTka92imgCIy9yzJ9mySo/sdMzjSeXvHI6egzuQcqg6xAsBSACsQZ50VHoLuOEV4OBnsi9WOo70/LbJk3LoDlyC2OEpRDoZ6GtPJp1qDkiw0nbO1M9vqkerknZZeKHYRV+8O4Ye6P8qbM0terckrFn/2yY38b1Rd/oh3QUYl8YXiIQ//hxm19
+X-MS-Exchange-AntiSpam-MessageData: yX7mz5bXtjv+6CI2laUIyG55K6y+u+Ufn3p3lHxSqI2YDA1r/NmxQzZIN8X5UfoPIR/bNjn1HfTykT6IVKi3yFKu/0LYMYZkRB6Knj/IjyLerBBTUdBjLvcxQuY6ZGk6VPmOkqYmEKL4zQlFynbYEg==
 X-OriginatorOrg: bu.edu
-X-MS-Exchange-CrossTenant-Network-Message-Id: e0173771-a8c6-4832-50db-08d7af31f203
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Feb 2020 20:35:34.6305 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: b21fe97d-43ca-431f-8617-08d7af31f26e
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Feb 2020 20:35:35.4690 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: d57d32cc-c121-488f-b07b-dfe705680c71
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Qn/E0UyFvjrD7WZA/0/M7vRx96d6yhAsMvE+WuzJvWtQUqro17dAvvzJ4FDdAJHb
+X-MS-Exchange-CrossTenant-UserPrincipalName: 35I5YMpvipEGz8TUAtmEw/k3vwel3LQbfU67U4MSdH/kQwZcz9JobTm8HIiZryx9
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR03MB4336
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Received-From: 40.107.69.106
+X-detected-operating-system: by eggs.gnu.org: Windows NT kernel [generic]
+ [fuzzy]
+X-Received-From: 40.107.243.92
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -105,57 +105,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: darren.kenny@oracle.com, Alexander Bulekov <alxndr@bu.edu>, bsd@redhat.com,
- stefanha@redhat.com, pbonzini@redhat.com, Richard Henderson <rth@twiddle.net>
+Cc: Alexander Bulekov <alxndr@bu.edu>, pbonzini@redhat.com, bsd@redhat.com,
+ stefanha@redhat.com, darren.kenny@oracle.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ram blocks were marked MADV_DONTFORK breaking fuzzing-tests which
-execute each test-input in a forked process.
+The qtest-based fuzzer makes use of forking to reset-state between
+tests. Keep the callback enabled, so the call_rcu thread gets created
+within the child process.
 
 Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
+Acked-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- exec.c | 12 ++++++++++--
- 1 file changed, 10 insertions(+), 2 deletions(-)
+ softmmu/vl.c | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
 
-diff --git a/exec.c b/exec.c
-index 67e520d18e..43f6659d12 100644
---- a/exec.c
-+++ b/exec.c
-@@ -35,6 +35,7 @@
- #include "sysemu/kvm.h"
- #include "sysemu/sysemu.h"
- #include "sysemu/tcg.h"
-+#include "sysemu/qtest.h"
- #include "qemu/timer.h"
- #include "qemu/config-file.h"
- #include "qemu/error-report.h"
-@@ -2306,8 +2307,15 @@ static void ram_block_add(RAMBlock *new_block, Error=
- **errp, bool shared)
-     if (new_block->host) {
-         qemu_ram_setup_dump(new_block->host, new_block->max_length);
-         qemu_madvise(new_block->host, new_block->max_length, QEMU_MADV_HUG=
-EPAGE);
--        /* MADV_DONTFORK is also needed by KVM in absence of synchronous M=
-MU */
--        qemu_madvise(new_block->host, new_block->max_length, QEMU_MADV_DON=
-TFORK);
-+        /*
-+         * MADV_DONTFORK is also needed by KVM in absence of synchronous M=
-MU
-+         * Configure it unless the machine is a qtest server, in which cas=
-e
-+         * KVM is not used and it may be forked (eg for fuzzing purposes).
-+         */
-+        if (!qtest_enabled()) {
-+            qemu_madvise(new_block->host, new_block->max_length,
-+                         QEMU_MADV_DONTFORK);
-+        }
-         ram_block_notify_add(new_block->host, new_block->max_length);
-     }
- }
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index 46a48d09df..78f6530620 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -3813,7 +3813,17 @@ void qemu_init(int argc, char **argv, char **envp)
+     set_memory_options(&ram_slots, &maxram_size, machine_class);
+=20
+     os_daemonize();
+-    rcu_disable_atfork();
++
++    /*
++     * If QTest is enabled, keep the rcu_atfork enabled, since system proc=
+esses
++     * may be forked testing purposes (e.g. fork-server based fuzzing) The=
+ fork
++     * should happen before a signle cpu instruction is executed, to preve=
+nt
++     * deadlocks. See commit 73c6e40, rcu: "completely disable pthread_atf=
+ork
++     * callbacks as soon as possible"
++     */
++    if (!qtest_enabled()) {
++        rcu_disable_atfork();
++    }
+=20
+     if (pid_file && !qemu_write_pidfile(pid_file, &err)) {
+         error_reportf_err(err, "cannot create PID file: ");
 --=20
 2.25.0
 
