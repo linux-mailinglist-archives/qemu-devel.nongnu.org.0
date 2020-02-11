@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A367215966C
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Feb 2020 18:44:14 +0100 (CET)
-Received: from localhost ([::1]:54436 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30A17159655
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Feb 2020 18:41:52 +0100 (CET)
+Received: from localhost ([::1]:54348 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j1Za0-0006xW-JW
-	for lists+qemu-devel@lfdr.de; Tue, 11 Feb 2020 12:44:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48599)
+	id 1j1ZXj-0002lF-7I
+	for lists+qemu-devel@lfdr.de; Tue, 11 Feb 2020 12:41:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48586)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j1ZTk-0005m0-Mi
+ (envelope-from <peter.maydell@linaro.org>) id 1j1ZTk-0005ld-I5
  for qemu-devel@nongnu.org; Tue, 11 Feb 2020 12:37:46 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j1ZTh-000480-Gn
+ (envelope-from <peter.maydell@linaro.org>) id 1j1ZTh-00047k-HT
  for qemu-devel@nongnu.org; Tue, 11 Feb 2020 12:37:44 -0500
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:45811)
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:34743)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j1ZTh-000417-3p
+ id 1j1ZTh-00041w-2X
  for qemu-devel@nongnu.org; Tue, 11 Feb 2020 12:37:41 -0500
-Received: by mail-wr1-x442.google.com with SMTP id g3so12391070wrs.12
- for <qemu-devel@nongnu.org>; Tue, 11 Feb 2020 09:37:37 -0800 (PST)
+Received: by mail-wr1-x444.google.com with SMTP id t2so13513085wrr.1
+ for <qemu-devel@nongnu.org>; Tue, 11 Feb 2020 09:37:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=JSb9oHrSYbgGp44mvDk4b87Si1MyKo6uTVibb795S44=;
- b=KdeyNqLxNRrctXOU0reSvDdXp6NGfQg7f6hSUk9aRbusiSG9sNsOUnCk6SMN/M2JqP
- XERnMDwo2friCZIdQUq6Wmu8xWzIkZChGfqaAT6d2vDpKdMhppkKhYDblc4uibLU0H+E
- HvErkYM1w4qnj7ir3hNCs6wURUTagP8rSLkwvZAYj37nqzVVb/3pfW35VzGIvOwS32in
- AHS8soIyVBrzlY5JzztGPDUXKorbacNLcgxyKC9Gr8EkBz/gO56SegcMG9lxF+rz/PGa
- ZuyT2rp6TGsq7HnF3Y1Q9K62lC0dC5SxwHChlD/eU54oE2TREOtnvK+4fMMVasMWWyWx
- H93w==
+ bh=qxQxsH3Nx8XV7gIhtppy/YXx/6TNRZKK5/Th8LAFzrk=;
+ b=Or+uJnxKkB+GMkRP2hg+4vyPMAOYFHQgggoAJPhT9R4YxuWXTgS2WgwCv+sdziRws1
+ cd/vVZvzpO8Ck8IyQ2Hz+Y/7JKqMPcofJNUN5FFW2M5Aeqo4Yo/qwlc/LdLWOZgplh+R
+ Vr7SkBSa1A3zgLTCie7P0/UPYKrUDSk8EZoNTBKqOMOsCUtvwiX5W/Hsn93dm2bjqI0d
+ mUUcUQpDOKnCnYIQHBeISv79NXTyfzrFcEk+4eB5z6StWh66XQ24dfi4iRKPDrMfuYw5
+ Y0m6aHGoROcaY0HPSckQXhiXMIK5kbnNnehEykk2ZlQ6FHFOtw4kU5O8dphR5Z46nrtv
+ +IsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=JSb9oHrSYbgGp44mvDk4b87Si1MyKo6uTVibb795S44=;
- b=nIPHaYF0RPFuqw8njR2PJhGWrrf56PQa9NlLj740WeMH/bsd5VKbpSUHdwEDvXDKGQ
- DBccDbabZCmsyvmFRTDtokW5NqjPrBPV3fBa+5ZqNaxNXAdCXuywp3Tb0qs5XXbH4LLn
- dMRjE4XWWP7DdNelN26xxn9EKCTQ+oQFvRhew5tM9+bfjUwKRxh2njK9lk54fkr14S2e
- BjZKODM69W//SSasTDOqD2ZvCufdwJRVplQPLoROzWFz4FX/0OCR7Fqu7aeAoEySoRuo
- 9CPqFL0AodGhLHb6jy85ol/E+1Vc1bQthp+IcwiOiGsOkvUD145aBJLnLML5OTna3Cay
- DvWg==
-X-Gm-Message-State: APjAAAXNUkANaQxk3ENqxUVhnjEzg3JHMxIsmUYJL9fJS3TWX/qx4gAW
- FE20atUFIWRqXTKzDiWB4Q0bSA==
-X-Google-Smtp-Source: APXvYqw5SfhlcHyGkeYZgx2b8Q1M4Ss8bsnvd4T3uU10JvDCymyaDjrUIXSEn4BWjiGxcisUDGehqw==
-X-Received: by 2002:a5d:494b:: with SMTP id r11mr9526289wrs.184.1581442656249; 
- Tue, 11 Feb 2020 09:37:36 -0800 (PST)
+ bh=qxQxsH3Nx8XV7gIhtppy/YXx/6TNRZKK5/Th8LAFzrk=;
+ b=K7+vfqJ74h4C81xWEGtaF3TKMpesgPRwVVTLVaaq9Hy3JZ+2OJajOEgZqPwmSVFWIY
+ iLd+U3HHe6e3WcJMjo3GDTiyHDiUwAiSkyn/p0dMeWt6fEH/EDbjjnSGUYdazDGLeXKp
+ oxcspQ1y02JcgnjoAZYXa1atoLXRfw8J9eVZspCwmEjFHohOXtT1UsXbt19zw0yo1MxK
+ Ue0GmJNWRPlmABp/owVgaVkQhxXUDXiduBbCFuxSnW7hp2iEMEaFQzw0lm6rgV8RLRy3
+ CmHYD5GtVUQrTDcl/QT5z7u89aKiSrj2CVElTVZgm40wQ8kkeefx8mmSdYYi4pngf12L
+ rxTg==
+X-Gm-Message-State: APjAAAWNazYxlQy2V7sdZAVv+B5tZWa+sbiZSigSXRLuoisOnrhYMK0D
+ MnXJqgUU5UOMfm9YKJBCH0VUwA==
+X-Google-Smtp-Source: APXvYqxL5OzHiKpM25WXZN02bwuTG/dLrHwv/AXG49S6J/zl090mnsU85INwztH9W7Wlo5ibc+cKYw==
+X-Received: by 2002:a5d:6082:: with SMTP id w2mr9633556wrt.300.1581442657385; 
+ Tue, 11 Feb 2020 09:37:37 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id y1sm6109675wrq.16.2020.02.11.09.37.35
+ by smtp.gmail.com with ESMTPSA id y1sm6109675wrq.16.2020.02.11.09.37.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 Feb 2020 09:37:35 -0800 (PST)
+ Tue, 11 Feb 2020 09:37:36 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 05/13] target/arm: Add and use FIELD definitions for
- ID_AA64DFR0_EL1
-Date: Tue, 11 Feb 2020 17:37:18 +0000
-Message-Id: <20200211173726.22541-6-peter.maydell@linaro.org>
+Subject: [PATCH 06/13] target/arm: Use FIELD macros for clearing ID_DFR0
+ PERFMON field
+Date: Tue, 11 Feb 2020 17:37:19 +0000
+Message-Id: <20200211173726.22541-7-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200211173726.22541-1-peter.maydell@linaro.org>
 References: <20200211173726.22541-1-peter.maydell@linaro.org>
@@ -67,7 +67,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::442
+X-Received-From: 2a00:1450:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,67 +85,32 @@ Cc: Eric Auger <eric.auger@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add FIELD() definitions for the ID_AA64DFR0_EL1 and use them
-where we currently have hard-coded bit values.
+We already define FIELD macros for ID_DFR0, so use them in the
+one place where we're doing direct bit value manipulation.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/cpu.h    | 10 ++++++++++
- target/arm/cpu.c    |  2 +-
- target/arm/helper.c |  6 +++---
- 3 files changed, 14 insertions(+), 4 deletions(-)
+We have lots of this non-FIELD style in the code, of course;
+I change this one purely because it otherwise looks a bit odd
+sat next to the ID_AA64DFR0 line that was changed in the previous
+patch...
+---
+ target/arm/cpu.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index b1f3ecfd942..f2194b27ba3 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -1806,6 +1806,16 @@ FIELD(ID_AA64MMFR1, PAN, 20, 4)
- FIELD(ID_AA64MMFR1, SPECSEI, 24, 4)
- FIELD(ID_AA64MMFR1, XNX, 28, 4)
- 
-+FIELD(ID_AA64DFR0, DEBUGVER, 0, 4)
-+FIELD(ID_AA64DFR0, TRACEVER, 4, 4)
-+FIELD(ID_AA64DFR0, PMUVER, 8, 4)
-+FIELD(ID_AA64DFR0, BRPS, 12, 4)
-+FIELD(ID_AA64DFR0, WRPS, 20, 4)
-+FIELD(ID_AA64DFR0, CTX_CMPS, 28, 4)
-+FIELD(ID_AA64DFR0, PMSVER, 32, 4)
-+FIELD(ID_AA64DFR0, DOUBLELOCK, 36, 4)
-+FIELD(ID_AA64DFR0, TRACEFILT, 40, 4)
-+
- FIELD(ID_DFR0, COPDBG, 0, 4)
- FIELD(ID_DFR0, COPSDBG, 4, 4)
- FIELD(ID_DFR0, MMAPDBG, 8, 4)
 diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 5712082c0b9..dc582da8fa4 100644
+index dc582da8fa4..e7858b073b5 100644
 --- a/target/arm/cpu.c
 +++ b/target/arm/cpu.c
-@@ -1602,7 +1602,7 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
-                 cpu);
+@@ -1603,7 +1603,7 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
  #endif
      } else {
--        cpu->id_aa64dfr0 &= ~0xf00;
-+        cpu->id_aa64dfr0 = FIELD_DP32(cpu->id_aa64dfr0, ID_AA64DFR0, PMUVER, 0);
-         cpu->id_dfr0 &= ~(0xf << 24);
+         cpu->id_aa64dfr0 = FIELD_DP32(cpu->id_aa64dfr0, ID_AA64DFR0, PMUVER, 0);
+-        cpu->id_dfr0 &= ~(0xf << 24);
++        cpu->id_dfr0 = FIELD_DP32(cpu->id_dfr0, ID_DFR0, PERFMON, 0);
          cpu->pmceid0 = 0;
          cpu->pmceid1 = 0;
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 0011a22f42d..2a57bfd9e86 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -5771,9 +5771,9 @@ static void define_debug_regs(ARMCPU *cpu)
-      * check that if they both exist then they agree.
-      */
-     if (arm_feature(&cpu->env, ARM_FEATURE_AARCH64)) {
--        assert(extract32(cpu->id_aa64dfr0, 12, 4) == brps);
--        assert(extract32(cpu->id_aa64dfr0, 20, 4) == wrps);
--        assert(extract32(cpu->id_aa64dfr0, 28, 4) == ctx_cmps);
-+        assert(FIELD_EX32(cpu->id_aa64dfr0, ID_AA64DFR0, BRPS) == brps);
-+        assert(FIELD_EX32(cpu->id_aa64dfr0, ID_AA64DFR0, WRPS) == wrps);
-+        assert(FIELD_EX32(cpu->id_aa64dfr0, ID_AA64DFR0, CTX_CMPS) == ctx_cmps);
      }
- 
-     define_one_arm_cp_reg(cpu, &dbgdidr);
 -- 
 2.20.1
 
