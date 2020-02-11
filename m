@@ -2,63 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03EB6158C1B
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Feb 2020 10:50:43 +0100 (CET)
-Received: from localhost ([::1]:46700 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8ADD158C21
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Feb 2020 10:52:37 +0100 (CET)
+Received: from localhost ([::1]:46748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j1SBm-00061b-01
-	for lists+qemu-devel@lfdr.de; Tue, 11 Feb 2020 04:50:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46635)
+	id 1j1SDc-0000gz-VN
+	for lists+qemu-devel@lfdr.de; Tue, 11 Feb 2020 04:52:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46783)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1j1SAS-0004d3-B9
- for qemu-devel@nongnu.org; Tue, 11 Feb 2020 04:49:21 -0500
+ (envelope-from <philmd@redhat.com>) id 1j1SBR-0006SF-Su
+ for qemu-devel@nongnu.org; Tue, 11 Feb 2020 04:50:23 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1j1SAR-0000mW-7F
- for qemu-devel@nongnu.org; Tue, 11 Feb 2020 04:49:20 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:53301
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1j1SBQ-0001Hq-Kg
+ for qemu-devel@nongnu.org; Tue, 11 Feb 2020 04:50:21 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:57228
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1j1SAR-0000mG-3I
- for qemu-devel@nongnu.org; Tue, 11 Feb 2020 04:49:19 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j1SBQ-0001Ha-GE
+ for qemu-devel@nongnu.org; Tue, 11 Feb 2020 04:50:20 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581414558;
+ s=mimecast20190719; t=1581414620;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Fxq5/54+kseiSxGsPENC/qqBcAO/y7qe+/OvFgzHB98=;
- b=ABwhAb8p+YN9iZh+9g9WRj8j35aTJDyjWfUTgTEI10tEftU6SmDFGVN1lr6VzJ5NgCAPm0
- 3P9hhcozUKKFwLKrSVEjgiGaRSfZAanprCgWvxb4UL4y76vJes2uBJefq5eVEIygPfDsAi
- CXAws7ooVm31gB34lGQI2piMT5295Kw=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=I/QS6QzeIWG5iv9yWE9Vw+sGPF69fQbBmrDYUidEQe4=;
+ b=izmUFSQJmygXLzOQKbnn8AODb4wkx/+2T3RQnDeYB79FYD9si09IuCTjQWVpnfEEe20rqR
+ SZT772GmhuzJ3/DXHFDmrZT7jEPGm8fFH2oPCK+ZqjV39Joc7UoEFxEgsdx79pDgFciPuo
+ his4JskT3FuAJETjtACfF2IzsqCB+N4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-232-OohDAN-eMte_NIqyMjbGAQ-1; Tue, 11 Feb 2020 04:49:15 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-304-SbZGpjPLPw2L73nFwgDchQ-1; Tue, 11 Feb 2020 04:50:15 -0500
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2059B800D48;
- Tue, 11 Feb 2020 09:49:14 +0000 (UTC)
-Received: from linux.fritz.box.com (ovpn-117-79.ams2.redhat.com [10.36.117.79])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BD958165D3;
- Tue, 11 Feb 2020 09:49:12 +0000 (UTC)
-From: Kevin Wolf <kwolf@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH 3/3] iotests: Test copy offloading with external data file
-Date: Tue, 11 Feb 2020 10:49:00 +0100
-Message-Id: <20200211094900.17315-4-kwolf@redhat.com>
-In-Reply-To: <20200211094900.17315-1-kwolf@redhat.com>
-References: <20200211094900.17315-1-kwolf@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1E9941093D80
+ for <qemu-devel@nongnu.org>; Tue, 11 Feb 2020 09:50:15 +0000 (UTC)
+Received: from x1w.redhat.com (ovpn-205-81.brq.redhat.com [10.40.205.81])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 40DFA10016DA;
+ Tue, 11 Feb 2020 09:50:07 +0000 (UTC)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2] gitlab-ci: Move EDK2 YAML config to .gitlab-ci.d directory
+Date: Tue, 11 Feb 2020 10:50:04 +0100
+Message-Id: <20200211095004.29647-1-philmd@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: OohDAN-eMte_NIqyMjbGAQ-1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-MC-Unique: SbZGpjPLPw2L73nFwgDchQ-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,71 +67,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, pbutsykin@virtuozzo.com, jsnow@redhat.com,
- qemu-devel@nongnu.org, mreitz@redhat.com
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This adds a test for 'qemu-img convert' with copy offloading where the
-target image has an external data file. If the test hosts supports it,
-it tests both the case where copy offloading is supported and the case
-where it isn't (otherwise we just test unsupported twice).
+We plan to let maintainers managing their own GitLab CI jobs.
+The .gitlab-ci.d directory will contain all the new GitLab files,
+to keep the root directory cleaner.
 
-More specifically, the case with unsupported copy offloading tests
-qcow2_alloc_cluster_abort() with external data files.
+The EDK2 job was introduced before .gitlab-ci.d was suggested as
+a common directory. Move the YAML file, update its references.
 
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+Suggested-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Reviewed-by: Laszlo Ersek <lersek@redhat.com>
+Acked-by: Thomas Huth <thuth@redhat.com>
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- tests/qemu-iotests/244     | 14 ++++++++++++++
- tests/qemu-iotests/244.out |  6 ++++++
- 2 files changed, 20 insertions(+)
+Supersedes: <20200211065022.11134-1-philmd@redhat.com>
+v2: Reworded subject/description (Thomas)
+---
+ .gitignore                                   | 1 +
+ .gitlab-ci-edk2.yml =3D> .gitlab-ci.d/edk2.yml | 2 +-
+ .gitlab-ci.yml                               | 2 +-
+ MAINTAINERS                                  | 3 +--
+ 4 files changed, 4 insertions(+), 4 deletions(-)
+ rename .gitlab-ci-edk2.yml =3D> .gitlab-ci.d/edk2.yml (98%)
 
-diff --git a/tests/qemu-iotests/244 b/tests/qemu-iotests/244
-index 0d1efee6ef..2ec1815e6f 100755
---- a/tests/qemu-iotests/244
-+++ b/tests/qemu-iotests/244
-@@ -197,6 +197,20 @@ $QEMU_IO -c 'read -P 0x11 0 1M' -f $IMGFMT "$TEST_IMG"=
- | _filter_qemu_io
- $QEMU_IMG map --output=3Dhuman "$TEST_IMG" | _filter_testdir
- $QEMU_IMG map --output=3Djson "$TEST_IMG"
+diff --git a/.gitignore b/.gitignore
+index bc0a035f9c..18288eacd1 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -95,6 +95,7 @@
+ *.tp
+ *.vr
+ *.d
++!/.gitlab-ci.d
+ !/scripts/qemu-guest-agent/fsfreeze-hook.d
+ *.o
+ .sdk
+diff --git a/.gitlab-ci-edk2.yml b/.gitlab-ci.d/edk2.yml
+similarity index 98%
+rename from .gitlab-ci-edk2.yml
+rename to .gitlab-ci.d/edk2.yml
+index 088ba4b43a..a9990b7147 100644
+--- a/.gitlab-ci-edk2.yml
++++ b/.gitlab-ci.d/edk2.yml
+@@ -2,7 +2,7 @@ docker-edk2:
+  stage: build
+  rules: # Only run this job when the Dockerfile is modified
+  - changes:
+-   - .gitlab-ci-edk2.yml
++   - .gitlab-ci.d/edk2.yml
+    - .gitlab-ci.d/edk2/Dockerfile
+    when: always
+  image: docker:19.03.1
+diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+index c15e394f09..dae6045d78 100644
+--- a/.gitlab-ci.yml
++++ b/.gitlab-ci.yml
+@@ -1,5 +1,5 @@
+ include:
+-  - local: '/.gitlab-ci-edk2.yml'
++  - local: '/.gitlab-ci.d/edk2.yml'
 =20
-+echo
-+echo "=3D=3D=3D Copy offloading =3D=3D=3D"
-+echo
-+
-+# Make use of copy offloading if the test host can provide it
-+_make_test_img -o "data_file=3D$TEST_IMG.data" 64M
-+$QEMU_IMG convert -f $IMGFMT -O $IMGFMT -n -C "$TEST_IMG.src" "$TEST_IMG"
-+$QEMU_IMG compare -f $IMGFMT -F $IMGFMT "$TEST_IMG.src" "$TEST_IMG"
-+
-+# blkdebug doesn't support copy offloading, so this tests the error path
-+$QEMU_IMG amend -f $IMGFMT -o "data_file=3Dblkdebug::$TEST_IMG.data" "$TES=
-T_IMG"
-+$QEMU_IMG convert -f $IMGFMT -O $IMGFMT -n -C "$TEST_IMG.src" "$TEST_IMG"
-+$QEMU_IMG compare -f $IMGFMT -F $IMGFMT "$TEST_IMG.src" "$TEST_IMG"
-+
- # success, all done
- echo "*** done"
- rm -f $seq.full
-diff --git a/tests/qemu-iotests/244.out b/tests/qemu-iotests/244.out
-index 6a3d0067cc..e6f4dc7993 100644
---- a/tests/qemu-iotests/244.out
-+++ b/tests/qemu-iotests/244.out
-@@ -122,4 +122,10 @@ Offset          Length          Mapped to       File
- 0               0x100000        0               TEST_DIR/t.qcow2.data
- [{ "start": 0, "length": 1048576, "depth": 0, "zero": false, "data": true,=
- "offset": 0},
- { "start": 1048576, "length": 66060288, "depth": 0, "zero": true, "data": =
-false}]
-+
-+=3D=3D=3D Copy offloading =3D=3D=3D
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D67108864 data_file=3DT=
-EST_DIR/t.IMGFMT.data
-+Images are identical.
-+Images are identical.
- *** done
+ before_script:
+  - apt-get update -qq
+diff --git a/MAINTAINERS b/MAINTAINERS
+index c7717df720..fb00a55f41 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2391,8 +2391,7 @@ F: roms/edk2
+ F: roms/edk2-*
+ F: tests/data/uefi-boot-images/
+ F: tests/uefi-test-tools/
+-F: .gitlab-ci-edk2.yml
+-F: .gitlab-ci.d/edk2/
++F: .gitlab-ci.d/edk2*
+=20
+ Usermode Emulation
+ ------------------
 --=20
-2.20.1
+2.21.1
 
 
