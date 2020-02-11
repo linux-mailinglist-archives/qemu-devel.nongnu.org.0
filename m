@@ -2,61 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C7FF1591BD
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Feb 2020 15:21:52 +0100 (CET)
-Received: from localhost ([::1]:50470 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99DF41591A7
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Feb 2020 15:15:21 +0100 (CET)
+Received: from localhost ([::1]:50358 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j1WQA-0008F1-My
-	for lists+qemu-devel@lfdr.de; Tue, 11 Feb 2020 09:21:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49569)
+	id 1j1WJs-0003xx-CM
+	for lists+qemu-devel@lfdr.de; Tue, 11 Feb 2020 09:15:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48339)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1j1WP8-0007C8-5E
- for qemu-devel@nongnu.org; Tue, 11 Feb 2020 09:20:47 -0500
+ (envelope-from <dplotnikov@virtuozzo.com>) id 1j1WJ2-0003Qj-1p
+ for qemu-devel@nongnu.org; Tue, 11 Feb 2020 09:14:29 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1j1WP7-0006bB-1o
- for qemu-devel@nongnu.org; Tue, 11 Feb 2020 09:20:46 -0500
-Received: from indium.canonical.com ([91.189.90.7]:41102)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1j1WP6-0006Yw-Rh
- for qemu-devel@nongnu.org; Tue, 11 Feb 2020 09:20:44 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1j1WP5-0006l5-5s
- for <qemu-devel@nongnu.org>; Tue, 11 Feb 2020 14:20:43 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 1CB732E80C8
- for <qemu-devel@nongnu.org>; Tue, 11 Feb 2020 14:20:43 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 11 Feb 2020 14:14:10 -0000
-From: Thomas Huth <1663079@bugs.launchpad.net>
+ (envelope-from <dplotnikov@virtuozzo.com>) id 1j1WJ0-0002P6-JL
+ for qemu-devel@nongnu.org; Tue, 11 Feb 2020 09:14:27 -0500
+Received: from relay.sw.ru ([185.231.240.75]:44576)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dplotnikov@virtuozzo.com>)
+ id 1j1WJ0-0002Mf-Cf; Tue, 11 Feb 2020 09:14:26 -0500
+Received: from dptest2.qa.sw.ru ([10.94.4.71])
+ by relay.sw.ru with esmtp (Exim 4.92.3)
+ (envelope-from <dplotnikov@virtuozzo.com>)
+ id 1j1WIp-0008Te-RJ; Tue, 11 Feb 2020 17:14:15 +0300
+From: Denis Plotnikov <dplotnikov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: manuel-arguelles th-huth
-X-Launchpad-Bug-Reporter: Paco (manuel-arguelles)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <20170209005538.4996.16948.malonedeb@wampee.canonical.com>
-Message-Id: <158143045062.18301.18312147824149119673.malone@wampee.canonical.com>
-Subject: [Bug 1663079] Re: socket network not working
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="0a62c17273454a1313f81a74a2198ec30b44c7b6";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 09f8779615a0659b8696f52d036de0827ad0e721
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+Subject: [PATCH v2] virtio: increase virtuqueue size for virtio-scsi and
+ virtio-blk
+Date: Tue, 11 Feb 2020 17:14:14 +0300
+Message-Id: <20200211141414.12149-1-dplotnikov@virtuozzo.com>
+X-Mailer: git-send-email 2.17.0
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
+X-Received-From: 185.231.240.75
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -65,55 +44,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1663079 <1663079@bugs.launchpad.net>
+Cc: kwolf@redhat.com, fam@euphon.net, vsementsov@virtuozzo.com,
+ ehabkost@redhat.com, qemu-block@nongnu.org, mst@redhat.com, mreitz@redhat.com,
+ stefanha@redhat.com, pbonzini@redhat.com, den@virtuozzo.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Works for me with the current QEMU master branch... can you still
-reproduce the issue with the latest version of QEMU (either v4.2 or the
-master branch)?
+The goal is to reduce the amount of requests issued by a guest on
+1M reads/writes. This rises the performance up to 4% on that kind of
+disk access pattern.
 
-** Changed in: qemu
-       Status: New =3D> Incomplete
+The maximum chunk size to be used for the guest disk accessing is
+limited with seg_max parameter, which represents the max amount of
+pices in the scatter-geather list in one guest disk request.
 
--- =
+Since seg_max is virqueue_size dependent, increasing the virtqueue
+size increases seg_max, which, in turn, increases the maximum size
+of data to be read/write from a guest disk.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1663079
+More details in the original problem statment:
+https://lists.gnu.org/archive/html/qemu-devel/2017-12/msg03721.html
 
-Title:
-  socket network not working
+Suggested-by: Denis V. Lunev <den@openvz.org>
+Signed-off-by: Denis Plotnikov <dplotnikov@virtuozzo.com>
+---
+ hw/block/virtio-blk.c | 4 ++--
+ hw/core/machine.c     | 2 ++
+ hw/scsi/virtio-scsi.c | 4 ++--
+ 3 files changed, 6 insertions(+), 4 deletions(-)
 
-Status in QEMU:
-  Incomplete
+diff --git a/hw/block/virtio-blk.c b/hw/block/virtio-blk.c
+index 09f46ed85f..6df3a7a6df 100644
+--- a/hw/block/virtio-blk.c
++++ b/hw/block/virtio-blk.c
+@@ -914,7 +914,7 @@ static void virtio_blk_update_config(VirtIODevice *vdev, uint8_t *config)
+     memset(&blkcfg, 0, sizeof(blkcfg));
+     virtio_stq_p(vdev, &blkcfg.capacity, capacity);
+     virtio_stl_p(vdev, &blkcfg.seg_max,
+-                 s->conf.seg_max_adjust ? s->conf.queue_size - 2 : 128 - 2);
++                 s->conf.seg_max_adjust ? s->conf.queue_size - 2 : 256 - 2);
+     virtio_stw_p(vdev, &blkcfg.geometry.cylinders, conf->cyls);
+     virtio_stl_p(vdev, &blkcfg.blk_size, blk_size);
+     virtio_stw_p(vdev, &blkcfg.min_io_size, conf->min_io_size / blk_size);
+@@ -1272,7 +1272,7 @@ static Property virtio_blk_properties[] = {
+     DEFINE_PROP_BIT("request-merging", VirtIOBlock, conf.request_merging, 0,
+                     true),
+     DEFINE_PROP_UINT16("num-queues", VirtIOBlock, conf.num_queues, 1),
+-    DEFINE_PROP_UINT16("queue-size", VirtIOBlock, conf.queue_size, 128),
++    DEFINE_PROP_UINT16("queue-size", VirtIOBlock, conf.queue_size, 256),
+     DEFINE_PROP_BOOL("seg-max-adjust", VirtIOBlock, conf.seg_max_adjust, true),
+     DEFINE_PROP_LINK("iothread", VirtIOBlock, conf.iothread, TYPE_IOTHREAD,
+                      IOThread *),
+diff --git a/hw/core/machine.c b/hw/core/machine.c
+index 2501b540ec..3427d6cf4c 100644
+--- a/hw/core/machine.c
++++ b/hw/core/machine.c
+@@ -28,6 +28,8 @@
+ #include "hw/mem/nvdimm.h"
+ 
+ GlobalProperty hw_compat_4_2[] = {
++    { "virtio-blk-device", "queue-size", "128"},
++    { "virtio-scsi-device", "virtqueue_size", "128"},
+     { "virtio-blk-device", "x-enable-wce-if-config-wce", "off" },
+     { "virtio-blk-device", "seg-max-adjust", "off"},
+     { "virtio-scsi-device", "seg_max_adjust", "off"},
+diff --git a/hw/scsi/virtio-scsi.c b/hw/scsi/virtio-scsi.c
+index 3b61563609..b38f50a429 100644
+--- a/hw/scsi/virtio-scsi.c
++++ b/hw/scsi/virtio-scsi.c
+@@ -660,7 +660,7 @@ static void virtio_scsi_get_config(VirtIODevice *vdev,
+ 
+     virtio_stl_p(vdev, &scsiconf->num_queues, s->conf.num_queues);
+     virtio_stl_p(vdev, &scsiconf->seg_max,
+-                 s->conf.seg_max_adjust ? s->conf.virtqueue_size - 2 : 128 - 2);
++                 s->conf.seg_max_adjust ? s->conf.virtqueue_size - 2 : 256 - 2);
+     virtio_stl_p(vdev, &scsiconf->max_sectors, s->conf.max_sectors);
+     virtio_stl_p(vdev, &scsiconf->cmd_per_lun, s->conf.cmd_per_lun);
+     virtio_stl_p(vdev, &scsiconf->event_info_size, sizeof(VirtIOSCSIEvent));
+@@ -965,7 +965,7 @@ static void virtio_scsi_device_unrealize(DeviceState *dev, Error **errp)
+ static Property virtio_scsi_properties[] = {
+     DEFINE_PROP_UINT32("num_queues", VirtIOSCSI, parent_obj.conf.num_queues, 1),
+     DEFINE_PROP_UINT32("virtqueue_size", VirtIOSCSI,
+-                                         parent_obj.conf.virtqueue_size, 128),
++                                         parent_obj.conf.virtqueue_size, 256),
+     DEFINE_PROP_BOOL("seg_max_adjust", VirtIOSCSI,
+                       parent_obj.conf.seg_max_adjust, true),
+     DEFINE_PROP_UINT32("max_sectors", VirtIOSCSI, parent_obj.conf.max_sectors,
+-- 
+2.17.0
 
-Bug description:
-  The socket network type is no longer working in 2.8.0.
-
-  When trying to establish a network between 2 qemu instances:
-
-  The listening host:
-  qemu-system-x86_64 -netdev socket,id=3Din0,listen=3D127.0.0.1:9999 -devic=
-e virtio-net-pci,netdev=3Din0
-
-  works fine, but for the second one:
-
-  qemu-system-x86_64 -netdev socket,id=3Din0,connect=3D127.0.0.1:9999
-  -device virtio-net-pci,netdev=3Din0
-
-  It fails with:
-
-  qemu-system-x86_64: -device virtio-net-pci,netdev=3Din0: Property
-  'virtio-net-device.netdev' can't find value 'in0'
-
-  netstat shows a new connection to port 9999 in time_wait state every
-  time.
-
-  host: kernel 4.4.38, 64bits.
-
-  It was working fine with previous version.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1663079/+subscriptions
 
