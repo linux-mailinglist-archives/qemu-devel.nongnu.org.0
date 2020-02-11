@@ -2,69 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E086C159409
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Feb 2020 16:57:13 +0100 (CET)
-Received: from localhost ([::1]:52174 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A401159415
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Feb 2020 16:58:26 +0100 (CET)
+Received: from localhost ([::1]:52200 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j1XuS-0003Q2-ON
-	for lists+qemu-devel@lfdr.de; Tue, 11 Feb 2020 10:57:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48683)
+	id 1j1Xvd-0005Yw-MJ
+	for lists+qemu-devel@lfdr.de; Tue, 11 Feb 2020 10:58:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49063)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1j1XtW-0002Vg-80
- for qemu-devel@nongnu.org; Tue, 11 Feb 2020 10:56:15 -0500
+ (envelope-from <bmeng.cn@gmail.com>) id 1j1Xuc-0004WL-2F
+ for qemu-devel@nongnu.org; Tue, 11 Feb 2020 10:57:23 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1j1XtV-0006OS-AH
- for qemu-devel@nongnu.org; Tue, 11 Feb 2020 10:56:14 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:53493
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1j1XtV-0006OD-6I
- for qemu-devel@nongnu.org; Tue, 11 Feb 2020 10:56:13 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581436572;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=xXH8nGiWwwHqFt/zI5lsREPaOPoiwC12mk6zevwfIUs=;
- b=LKUvDsj0V9YX74b3I7x/El50tzAi1SXiJuKki9kcfElnWiyEbgXk1fl0S1zvu0KsvkL1WI
- l3omEJbxX3yPSmQE8aV0xfjk5L0eCMTO67eTYFz3q5FZqTFSrrK9HRrr01YWYhWi2Vtqh/
- BrCq2vvfJ07NWhjPOx3jn/uhTBe7i44=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-137-0ktZBLgcN-GhD-d288acug-1; Tue, 11 Feb 2020 10:56:10 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B688A189F763;
- Tue, 11 Feb 2020 15:56:09 +0000 (UTC)
-Received: from [10.3.116.180] (ovpn-116-180.phx2.redhat.com [10.3.116.180])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5171126E4C;
- Tue, 11 Feb 2020 15:56:09 +0000 (UTC)
-Subject: Re: [PATCH v2 33/33] block: Drop @child_class from bdrv_child_perm()
-To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
-References: <20200204170848.614480-1-mreitz@redhat.com>
- <20200204170848.614480-34-mreitz@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <9df21c8e-7726-f120-a075-7ee9b5ace6fd@redhat.com>
-Date: Tue, 11 Feb 2020 09:56:08 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ (envelope-from <bmeng.cn@gmail.com>) id 1j1Xua-0007LO-RV
+ for qemu-devel@nongnu.org; Tue, 11 Feb 2020 10:57:21 -0500
+Received: from mail-yb1-xb42.google.com ([2607:f8b0:4864:20::b42]:39954)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bmeng.cn@gmail.com>)
+ id 1j1Xua-0007KR-NT; Tue, 11 Feb 2020 10:57:20 -0500
+Received: by mail-yb1-xb42.google.com with SMTP id f130so3687470ybc.7;
+ Tue, 11 Feb 2020 07:57:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=cycEn2geULASHbi0E1x8o7VfiYWuePvwwltYWBZYG5U=;
+ b=CRaNl0vDwGEglF1KfsPr8qQ7IV3W5dp6O9sH5Y+9dSq3q2rRzjQnrH9yjWetbbbZSn
+ QjnP73F7/thRxZJFJ9vj90O5bG1PuYl4MNxSHGco6qLpGEl4UnBWu7hsIwci9QV8Ue6z
+ cGNM8u26boSyaJMLjRFxAadANgX9hixyUGXjzO0rZooh57naTa/d40EmkNRtAOLN8rda
+ NI/5WrqRhgUY+XbzmUBLN9FoUMYfntovmHmz2EJkthU6EHur3wMhtM+y9DzR1Coe7ZbO
+ SnWvJohZ9B9FqfcT0eArR3nl+NZKl0Dq+u9x5zbQjZh4UXKOkqNENXDU2hdWiA8rLnH3
+ 9KoA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=cycEn2geULASHbi0E1x8o7VfiYWuePvwwltYWBZYG5U=;
+ b=St2qrXDDhfmWgtLPIR6f2fmXA3cKw7pIRWVSZ1ZmiPw05APGitwGipx880AHjKZtoP
+ a2oJLw3tAwNHrvwNyPr4t+iXRfP0fBJjjXUAPdVt6AtU/u4PPK98rg+y8w9Cqh3DmWOf
+ i5X29YfZneDzexrD6ea4cPUVWRgeRdTAwwuYWpBHupmvNgee+e5rpHEHDk9HYU0cYj1l
+ yOq9FSr0yIH5Ww20uqWNLjAUTLJpvbBkK8kGiwRMfxZKqQVEAkiTOiRmWzWkuuCdxeig
+ PmZCajDpFPf+b2hsXgCRgFieLbp/TFE2iz/z48JPN9MNp9WGvsyH/77UZVxprHfni7Dd
+ 20tg==
+X-Gm-Message-State: APjAAAVYYr1H6bV2/l01uMX356nX+NIRjTb4knk6hXEeAC+3Qb+itjEb
+ DtWBTR7rP/JVNzaF3P2+wjmyHOJHkp7k6fw583U=
+X-Google-Smtp-Source: APXvYqz12j8kOzZdq1I8pHzIjJ1IjbJN8N/f/UEOO3LCamend3NvxGppHQb3b/vDikkhBemI8g2Wixj1KAJnT+KHr94=
+X-Received: by 2002:a25:d348:: with SMTP id e69mr1219390ybf.203.1581436639865; 
+ Tue, 11 Feb 2020 07:57:19 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20200204170848.614480-34-mreitz@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: 0ktZBLgcN-GhD-d288acug-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+References: <mhng-e3089574-e78c-4b6c-961e-cac55f0f23d4@palmerdabbelt-glaptop1>
+ <mhng-3370fb0c-3076-4a05-8bcd-ac7fce08d408@palmerdabbelt-glaptop1>
+In-Reply-To: <mhng-3370fb0c-3076-4a05-8bcd-ac7fce08d408@palmerdabbelt-glaptop1>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Tue, 11 Feb 2020 23:57:08 +0800
+Message-ID: <CAEUhbmXbJUdk7VBvwh=-B1MkS=++2v=VEBNuS9x7rrndsHBT-A@mail.gmail.com>
+Subject: Re: [PATCH] riscv: sifive_u: Add a "serial" property for board serial
+ number
+To: Palmer Dabbelt <palmerdabbelt@google.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::b42
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,38 +72,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org
+Cc: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/4/20 11:08 AM, Max Reitz wrote:
-> Implementations should decide the necessary permissions based on @role.
-> 
-> Signed-off-by: Max Reitz <mreitz@redhat.com>
-> ---
->   block.c                     | 45 ++++++++++++++++---------------------
->   block/backup-top.c          |  3 +--
->   block/blkdebug.c            |  3 +--
->   block/blklogwrites.c        |  3 +--
->   block/commit.c              |  1 -
->   block/copy-on-read.c        |  1 -
->   block/mirror.c              |  1 -
->   block/quorum.c              |  1 -
->   block/replication.c         |  1 -
->   block/vvfat.c               |  4 +---
->   include/block/block_int.h   |  4 +---
->   tests/test-bdrv-drain.c     | 19 +---------------
->   tests/test-bdrv-graph-mod.c |  1 -
->   13 files changed, 25 insertions(+), 62 deletions(-)
+Hi Palmer,
 
-Nice diffstat.
+On Tue, Feb 11, 2020 at 3:55 AM Palmer Dabbelt <palmerdabbelt@google.com> wrote:
+>
+> On Wed, 29 Jan 2020 07:29:11 PST (-0800), Palmer Dabbelt wrote:
+> > On Fri, 10 Jan 2020 07:52:05 GMT (+0000), bmeng.cn@gmail.com wrote:
+> >> Hi Palmer,
+> >>
+> >> On Fri, Nov 22, 2019 at 10:38 AM Palmer Dabbelt
+> >> <palmerdabbelt@google.com> wrote:
+> >>>
+> >>> On Thu, 21 Nov 2019 17:10:18 PST (-0800), bmeng.cn@gmail.com wrote:
+> >>> > On Sat, Nov 16, 2019 at 11:08 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+> >>> >>
+> >>> >> At present the board serial number is hard-coded to 1, and passed
+> >>> >> to OTP model during initialization. Firmware (FSBL, U-Boot) uses
+> >>> >> the serial number to generate a unique MAC address for the on-chip
+> >>> >> ethernet controller. When multiple QEMU 'sifive_u' instances are
+> >>> >> created and connected to the same subnet, they all have the same
+> >>> >> MAC address hence it creates a unusable network.
+> >>> >>
+> >>> >> A new "serial" property is introduced to specify the board serial
+> >>> >> number. When not given, the default serial number 1 is used.
+> >>> >>
+> >>> >> Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
+> >>> >> ---
+> >>> >>
+> >>> >>  hw/riscv/sifive_u.c         | 21 ++++++++++++++++++++-
+> >>> >>  include/hw/riscv/sifive_u.h |  1 +
+> >>> >>  2 files changed, 21 insertions(+), 1 deletion(-)
+> >>> >>
+> >>> >
+> >>> > ping?
+> >>>
+> >>> Sorry, it looks like I dropped this one.  I've put it in the queue for 5.0,
+> >>> with a
+> >>>
+> >>> Reviewed-by: Palmer Dabbelt <palmerdabbelt@google.com>
+> >>
+> >> Has this been applied somewhere?
+> >
+> > Weird, not sure how I managed to screw this up again.  It's actually on for-master as
+> >
+> >     * a828041ba6 - riscv: sifive_u: Add a "serial" property for board serial number (50 seconds ago) <Bin Meng>
+> >
+> > with any luck I'll manage to avoid screwing it up a third time.
+>
+> Ah, OK -- the issue here is that this fails "make check", specifically
+>
+>     $ make check-qtest-riscv64
+>     make[1]: Entering directory '/home/palmerdabbelt/life/riscv/qemu/slirp'
+>     make[1]: Nothing to be done for 'all'.
+>     make[1]: Leaving directory '/home/palmerdabbelt/life/riscv/qemu/slirp'
+>             CHK version_gen.h
+>       TEST    check-qtest-riscv64: tests/qtest/cdrom-test
+>       TEST    check-qtest-riscv64: tests/qtest/device-introspect-test
+>     /home/palmerdabbelt/life/riscv/qemu/hw/riscv/sifive_u.c:406:riscv_sifive_u_soc_init: Object 0x55baf3feea00 is not an instance of type sifive_u-machine
+>     Broken pipe
+>     tests/qtest/libqtest.c:149: kill_qemu() detected QEMU death from signal 6 (Aborted)
+>     ERROR - too few tests run (expected 6, got 5)
+>     make: *** [/home/palmerdabbelt/life/riscv/qemu/tests/Makefile.include:630: check-qtest-riscv64] Error 1
+>
+> which is probably how it kept getting disappeared -- I just forgot to reply on
+> the list.  I'm going to hold it back from the PR I'm staging right now, LMK if
+> you have a fix.
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
+OK, I will take a look. I remember I did run "make check" but it did
+not report any issue before. Is 'make check-qtest-riscv64' not part of
+'make check'?
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
-
+Regards,
+Bin
 
