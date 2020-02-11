@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA793159A9B
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Feb 2020 21:39:29 +0100 (CET)
-Received: from localhost ([::1]:57084 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77438159AA5
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Feb 2020 21:41:53 +0100 (CET)
+Received: from localhost ([::1]:57122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j1cJc-0003Di-Oe
-	for lists+qemu-devel@lfdr.de; Tue, 11 Feb 2020 15:39:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35044)
+	id 1j1cLw-0006pF-G4
+	for lists+qemu-devel@lfdr.de; Tue, 11 Feb 2020 15:41:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35098)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alxndr@bu.edu>) id 1j1cFx-0006Wi-UV
- for qemu-devel@nongnu.org; Tue, 11 Feb 2020 15:35:44 -0500
+ (envelope-from <alxndr@bu.edu>) id 1j1cFy-0006Xt-Jt
+ for qemu-devel@nongnu.org; Tue, 11 Feb 2020 15:35:46 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alxndr@bu.edu>) id 1j1cFv-0008Ku-3g
- for qemu-devel@nongnu.org; Tue, 11 Feb 2020 15:35:41 -0500
+ (envelope-from <alxndr@bu.edu>) id 1j1cFv-0008Lw-Sq
+ for qemu-devel@nongnu.org; Tue, 11 Feb 2020 15:35:42 -0500
 Received: from mail-dm6nam12on2092.outbound.protection.outlook.com
  ([40.107.243.92]:50848 helo=NAM12-DM6-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <alxndr@bu.edu>) id 1j1cFu-0008HE-T4
+ (Exim 4.71) (envelope-from <alxndr@bu.edu>) id 1j1cFv-0008HE-8J
  for qemu-devel@nongnu.org; Tue, 11 Feb 2020 15:35:39 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GVfnk/clVUWMCc6gczy7VIKc+DlAruui7i6sbFdg13Jv8oIb0gLFKtWjuzokVufjAYfmYA4WJIyFJo5aXXFh2+IeZjIk4dayuZULWw47iUMrCazt05dtAxKzn3JsToGuEOAlSDLMlMEn9NaVugv1AIBODFTS6IY0HhWJTygoonUpdlwzjn+OjLMEuvrLk0VIrhkyp4P1xueCf+D85aL0ZTd3Wxz6Q+oE5cMcU7npgDvqgE4IhjxxFG8umkvXkowTNc2BivRlYvYWxfQu/4qqjBHJg23MPkbvjlfuxfrPBDIiH5lAD2JyYbKXRc6hInx1GlRzvYtigZwhoRnPmZncLQ==
+ b=bPgrVqKKQWO3NUKPJ1kw5mRErVU1K/DSA60/ogtGwl2vZ1g2u3K9/iuSwgxDryt+fA1/e4iQ+SCyHJV9UTpvhKnMVL3ZgQDo8DMU+Ry2pbpF+GanOiVNqKw0ZNhn6Pbd2W+otl9dYlJZ1T2zxN9JDvALsa8HF1uaPV9UYih61hP/1NK86HnYzdJSPl1oRCitdwCNN6wcMJ2fnMMbLxTHu0enF7a2Ys6EWuxOaHXEps3Soz1TavyM3KU9AsXB//SLoC6u8DhxgbgM7kZjnTwzP5Jtwco6AAM1zTOzcjOSRrHlrecTM8q6voW8aci+kevWyy/tKYR/o0NrFcOH82x5iw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EidSJguOjA9uQ8reMJ7rGZwKnYrZW8gHg9BjGSzrZk4=;
- b=YvnY0eLZcWvr9NnYRKA8CqWxWp9w3XSxhlouDNurzVZr7K2UYz2DZdahTRvrcBDng39JfmDuvlJ6Es7UMRdXbOl1RzElQPBC+k9M/lXmutmxFwVQnOyo0OtBlpO5K+g8GrqiGRp5ghEQ+F4qkIZhMJRPBSExQRwaiNiOpVoG7nvOEPmf4MpiyRVoBfAXXcD6LsvFQVqb9JqpDzhw+lzPBFogDaxyTOkE4zV8PL3gYc0o0BiyGfVVLGNFJC73hY8TnItM7Fw0twlZRSKNNcoa3bf271C2EQ7ts9lJ2tDOyZK/x+bhaawEHUMeKoWKM4zUgJ2Q7OK/C6sBp0oFj3IbLA==
+ bh=R6DjZ5pCytY86TNcPguLvC4URQw1EXIw/v070Xasuh4=;
+ b=bWZQQjgk6RdP1o1VzR72Ezr/j3+J2rXnUV2Srjjd2JsHGh/9Vg1tK7PK/BRZDVH1qrrg2YeQrRUOJYn+TpZ4oQ0thNMlvZrpXw3xaMg7xTZr4JteZ1Xl0U8DzOz0QT9Wa35ZI0XFniT1NmSXOL6EtWqIl+juRWVxft/JPLcQdqj1zCkKoJOWbCVO/6mPjoj8EDaOttir3Zey8prZADFHHytrcgTCMhx8AlZkYAfW708L0nC2S3suyq4XeV31o1Zrb0gKXQZHqneYAn74OoTw5lHKo8Bzeo/XVc4lEQhmjsKkzmCrrgTZD3ivWJpttQW29eu7XLkDUH+uCSN2ph0oxQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=bu.edu; dmarc=pass action=none header.from=bu.edu; dkim=pass
  header.d=bu.edu; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bushare.onmicrosoft.com; s=selector2-bushare-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EidSJguOjA9uQ8reMJ7rGZwKnYrZW8gHg9BjGSzrZk4=;
- b=6eBauvx0T+7st6i4LRYKBJU64hsVzB+LnVnV3pQ92I+5Ii+yDTeb51u8AcY+lXL9ev9qJmypCC+C9GZ4ZFobXEKRDyyda1wNLbRQCu73l2Vt5+3/zMRnBAVJGDDEKKtkbf3SFhra9P9zc0iE7t3wYbIu+tsWefpaFz9ZFTXEivI=
+ bh=R6DjZ5pCytY86TNcPguLvC4URQw1EXIw/v070Xasuh4=;
+ b=JGRJvhPwTHSKAJRUUCvxTaMhhHKQiEnnKjQnI+dOsbl/EnEw/nV2x/Upub6NBPSKzgbkCS0umxqVUez6fez2H6em8yXwAcAKe8riekfjC3PSoGWz/Kcj6dzCRnrmRqhbgWVrEbu6+1TTb0hDfWaZrBDSjMyAKYZ5c+QAcYwOw3s=
 Authentication-Results: spf=none (sender IP is ) smtp.mailfrom=alxndr@bu.edu; 
 Received: from SN6PR03MB3871.namprd03.prod.outlook.com (52.135.102.32) by
  SN6PR03MB4336.namprd03.prod.outlook.com (20.177.254.75) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2707.27; Tue, 11 Feb 2020 20:35:32 +0000
+ 15.20.2707.27; Tue, 11 Feb 2020 20:35:33 +0000
 Received: from SN6PR03MB3871.namprd03.prod.outlook.com
  ([fe80::9c11:10cd:6e97:bbe8]) by SN6PR03MB3871.namprd03.prod.outlook.com
  ([fe80::9c11:10cd:6e97:bbe8%7]) with mapi id 15.20.2707.030; Tue, 11 Feb 2020
- 20:35:32 +0000
+ 20:35:33 +0000
 From: Alexander Bulekov <alxndr@bu.edu>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v9 11/23] libqos: split qos-test and libqos makefile vars
-Date: Tue, 11 Feb 2020 15:34:58 -0500
-Message-ID: <20200211203510.3534-12-alxndr@bu.edu>
+Subject: [PATCH v9 12/23] libqos: move useful qos-test funcs to qos_external
+Date: Tue, 11 Feb 2020 15:34:59 -0500
+Message-ID: <20200211203510.3534-13-alxndr@bu.edu>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <20200211203510.3534-1-alxndr@bu.edu>
 References: <20200211203510.3534-1-alxndr@bu.edu>
@@ -62,18 +62,18 @@ MIME-Version: 1.0
 Received: from mozz.bu.edu (128.197.127.33) by
  BL0PR02CA0124.namprd02.prod.outlook.com (2603:10b6:208:35::29) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2707.23 via Frontend Transport; Tue, 11 Feb 2020 20:35:31 +0000
+ 15.20.2707.23 via Frontend Transport; Tue, 11 Feb 2020 20:35:32 +0000
 X-Mailer: git-send-email 2.25.0
 X-Originating-IP: [128.197.127.33]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 06e8430c-bde1-44af-205d-08d7af31f05c
+X-MS-Office365-Filtering-Correlation-Id: d2e2db65-2471-4798-7087-08d7af31f0f8
 X-MS-TrafficTypeDiagnostic: SN6PR03MB4336:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SN6PR03MB433668D1EC86388773CACEEBBA180@SN6PR03MB4336.namprd03.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2958;
+X-Microsoft-Antispam-PRVS: <SN6PR03MB4336C8A41FF5ADAB4E299F70BA180@SN6PR03MB4336.namprd03.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2887;
 X-Forefront-PRVS: 0310C78181
 X-Forefront-Antispam-Report: SFV:NSPM;
- SFS:(10019020)(4636009)(396003)(366004)(136003)(376002)(39860400002)(346002)(199004)(189003)(16526019)(6666004)(1076003)(5660300002)(86362001)(316002)(186003)(786003)(66556008)(54906003)(6916009)(66476007)(6486002)(66946007)(8936002)(478600001)(4326008)(7696005)(52116002)(36756003)(75432002)(2616005)(2906002)(956004)(8676002)(26005)(81166006)(81156014);
+ SFS:(10019020)(4636009)(396003)(366004)(136003)(376002)(39860400002)(346002)(199004)(189003)(16526019)(6666004)(1076003)(5660300002)(86362001)(316002)(186003)(786003)(66556008)(54906003)(6916009)(66476007)(6486002)(66946007)(8936002)(478600001)(4326008)(7696005)(52116002)(36756003)(75432002)(2616005)(2906002)(30864003)(956004)(8676002)(26005)(81166006)(81156014)(2004002);
  DIR:OUT; SFP:1102; SCL:1; SRVR:SN6PR03MB4336;
  H:SN6PR03MB3871.namprd03.prod.outlook.com; FPR:; SPF:None; LANG:en;
  PTR:InfoNoRecords; A:1; MX:1; 
@@ -81,15 +81,15 @@ Received-SPF: None (protection.outlook.com: bu.edu does not designate
  permitted sender hosts)
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ROxQk3f07rJpGuB/LoMyU1/zWvv5j8u2pXwGEeOobO9PrMDhcGVAzEfbLJcRGmCNAet8OLjGsUz6bDvZNeVZR3N4CGIl0uSizXx9UzA+b/25S8+0fbgpr6usHXd6NjPDWxd3SMfznMMS9OXFWBd7LntvS60d+UlsiDx/x4CuHBYwawf8unxTakJluJu9f3dh6ApsXjLr9xqHI3IBWFZEvpq0X0H6e3rX9z1w/F44Ay1NP4MxC8ZvdJqopZ0NX54ux4p5SfbCOImUkn1YsPsG+2pcc0otgXvKorneWz4OMGAumArnWwh/9u8fZMq9pnUh1Q7XTyqYUfv4Qjk+t6ORsaAOMuCqygXJs1qEOZGGC3VzFHfiDyxLlrnO5We69xRgR5+1ophtDp/tf2dA6AvfBMOpah0KDgsJNsWewfUfqQd3c7PfFxcS6mNrVguptJ5B
-X-MS-Exchange-AntiSpam-MessageData: GaJwSvPNVsemkDrrDlYFXTKD2iisWPCquxb2jKEzVtILk40+DM2cQb+NFQiYE7vGDkNI6O9shIr9hMPXnYOOENjRISFDNtcqkBVYVDq5uMgIbRwYCG0Pe2W5CCHgC2ceePQUqDgXwnYBlycOZK2lWQ==
+X-Microsoft-Antispam-Message-Info: AiJlkn6yYLY6a6q/UUc8e6qMapVzt3gG4I/3McElezDFJCK8PL0fsPuAy7Py3lvIJ8ZXN6xNpsMWCxZieNk+czttlsQstfOg6M7eJarTgnoCKO/csopSw2Xq2Vtru84LmKiohN4yQddI2Ci30d1bAew0EKXON09+3+n/iF+hpecDiOqbELfSbLSmbwmb1atUxKoYSDcNhvJuWUTtNJjUJI+X/7rlvF8Es8xVcA8Vit0y1pSsponu3Ar7OeeedtGr75jk46YdqTFPwwuVDvJ41vzeclbEDwO1dgfuZ1QM4lwFXOwDWLqMTilCHNFsZhKEQSu7VdGXmF51El8DLSe0ANIi2anuEQmQ+37Yg6il2yqQr/tNF+3c8yUk5ZirG2MzCCaSNU96cbYavEPbSlysC9wO7426wCEiUGTeF795HGMeM58ZrQVxCF7eY6uTyiGG1cFxjd3nFEm0KWVnzNnTC4YATqd9nwi9qyHZUo5cACoUkTyUc4H1+z0BJAa2CH6nPq7MtriPUswDXR5zSchCelHyfYPLq4fK9IB1UyG1o4WSAdW3qtAaJU1IwjVdDwf2
+X-MS-Exchange-AntiSpam-MessageData: e7rTlTbjEJU9XUHZOcYKMDM/GhnU6tnagzZ6lMbc38iCFSIjE8KfHlldByKkUVxqcxKStuekVRBmBzEsUD2JjgUAVJHi+erMXzxhrzRvZm7THytgBl1Qfv2jGLFFMdhR7ZUVCsVEjQhqFKewFnb30A==
 X-OriginatorOrg: bu.edu
-X-MS-Exchange-CrossTenant-Network-Message-Id: 06e8430c-bde1-44af-205d-08d7af31f05c
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Feb 2020 20:35:31.9191 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: d2e2db65-2471-4798-7087-08d7af31f0f8
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Feb 2020 20:35:32.9515 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: d57d32cc-c121-488f-b07b-dfe705680c71
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: SL5ob1aAePsibpzSXq67hyKOsjFP8z7zjkVkA2yYnl5BwlCBuu0FjDYE7z3n4OCr
+X-MS-Exchange-CrossTenant-UserPrincipalName: ROAiWx67KZD+NBaWeJgNTrninq78wzhaFSbm3Vdg2GXTVKm4VCQw0YoCgj4VTA/7
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR03MB4336
 X-detected-operating-system: by eggs.gnu.org: Windows NT kernel [generic]
  [fuzzy]
@@ -112,127 +112,419 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Most qos-related objects were specified in the qos-test-obj-y variable.
-qos-test-obj-y also included qos-test.o which defines a main().
-This made it difficult to repurpose qos-test-obj-y to link anything
-beside tests/qos-test against libqos. This change separates objects that
-are libqos-specific and ones that are qos-test specific into different
-variables.
+The moved functions are not specific to qos-test and might be useful
+elsewhere. For example the virtual-device fuzzer makes use of them for
+qos-assisted fuzz-targets.
 
 Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
-Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
 ---
- tests/qtest/Makefile.include | 71 ++++++++++++++++++------------------
- 1 file changed, 36 insertions(+), 35 deletions(-)
+ tests/qtest/Makefile.include      |   1 +
+ tests/qtest/libqos/qos_external.c | 168 ++++++++++++++++++++++++++++++
+ tests/qtest/libqos/qos_external.h |  28 +++++
+ tests/qtest/qos-test.c            | 132 +----------------------
+ 4 files changed, 198 insertions(+), 131 deletions(-)
+ create mode 100644 tests/qtest/libqos/qos_external.c
+ create mode 100644 tests/qtest/libqos/qos_external.h
 
 diff --git a/tests/qtest/Makefile.include b/tests/qtest/Makefile.include
-index eb0f23b108..838618e6f9 100644
+index 838618e6f9..e769c1ad70 100644
 --- a/tests/qtest/Makefile.include
 +++ b/tests/qtest/Makefile.include
-@@ -157,52 +157,53 @@ check-qtest-s390x-y +=3D migration-test
- # libqos / qgraph :
- libqgraph-obj-y =3D tests/qtest/libqos/qgraph.o
-=20
--libqos-obj-y =3D $(libqgraph-obj-y) tests/qtest/libqos/pci.o tests/qtest/l=
-ibqos/fw_cfg.o
--libqos-obj-y +=3D tests/qtest/libqos/malloc.o
--libqos-obj-y +=3D tests/qtest/libqos/libqos.o
--libqos-spapr-obj-y =3D $(libqos-obj-y) tests/qtest/libqos/malloc-spapr.o
-+libqos-core-obj-y =3D $(libqgraph-obj-y) tests/qtest/libqos/pci.o tests/qt=
-est/libqos/fw_cfg.o
-+libqos-core-obj-y +=3D tests/qtest/libqos/malloc.o
-+libqos-core-obj-y +=3D tests/qtest/libqos/libqos.o
-+libqos-spapr-obj-y =3D $(libqos-core-obj-y) tests/qtest/libqos/malloc-spap=
-r.o
- libqos-spapr-obj-y +=3D tests/qtest/libqos/libqos-spapr.o
- libqos-spapr-obj-y +=3D tests/qtest/libqos/rtas.o
- libqos-spapr-obj-y +=3D tests/qtest/libqos/pci-spapr.o
--libqos-pc-obj-y =3D $(libqos-obj-y) tests/qtest/libqos/pci-pc.o
-+libqos-pc-obj-y =3D $(libqos-core-obj-y) tests/qtest/libqos/pci-pc.o
- libqos-pc-obj-y +=3D tests/qtest/libqos/malloc-pc.o tests/qtest/libqos/lib=
-qos-pc.o
- libqos-pc-obj-y +=3D tests/qtest/libqos/ahci.o
- libqos-usb-obj-y =3D $(libqos-spapr-obj-y) $(libqos-pc-obj-y) tests/qtest/=
-libqos/usb.o
-=20
+@@ -172,6 +172,7 @@ libqos-usb-obj-y =3D $(libqos-spapr-obj-y) $(libqos-pc-=
+obj-y) tests/qtest/libqos/u
  # qos devices:
--qos-test-obj-y =3D tests/qtest/qos-test.o $(libqgraph-obj-y)
--qos-test-obj-y +=3D $(libqos-pc-obj-y) $(libqos-spapr-obj-y)
--qos-test-obj-y +=3D tests/qtest/libqos/e1000e.o
--qos-test-obj-y +=3D tests/qtest/libqos/i2c.o
--qos-test-obj-y +=3D tests/qtest/libqos/i2c-imx.o
--qos-test-obj-y +=3D tests/qtest/libqos/i2c-omap.o
--qos-test-obj-y +=3D tests/qtest/libqos/sdhci.o
--qos-test-obj-y +=3D tests/qtest/libqos/tpci200.o
--qos-test-obj-y +=3D tests/qtest/libqos/virtio.o
--qos-test-obj-$(CONFIG_VIRTFS) +=3D tests/qtest/libqos/virtio-9p.o
--qos-test-obj-y +=3D tests/qtest/libqos/virtio-balloon.o
--qos-test-obj-y +=3D tests/qtest/libqos/virtio-blk.o
--qos-test-obj-y +=3D tests/qtest/libqos/virtio-mmio.o
--qos-test-obj-y +=3D tests/qtest/libqos/virtio-net.o
--qos-test-obj-y +=3D tests/qtest/libqos/virtio-pci.o
--qos-test-obj-y +=3D tests/qtest/libqos/virtio-pci-modern.o
--qos-test-obj-y +=3D tests/qtest/libqos/virtio-rng.o
--qos-test-obj-y +=3D tests/qtest/libqos/virtio-scsi.o
--qos-test-obj-y +=3D tests/qtest/libqos/virtio-serial.o
-+libqos-obj-y =3D  $(libqgraph-obj-y)
-+libqos-obj-y +=3D $(libqos-pc-obj-y) $(libqos-spapr-obj-y)
-+libqos-obj-y +=3D tests/qtest/libqos/e1000e.o
-+libqos-obj-y +=3D tests/qtest/libqos/i2c.o
-+libqos-obj-y +=3D tests/qtest/libqos/i2c-imx.o
-+libqos-obj-y +=3D tests/qtest/libqos/i2c-omap.o
-+libqos-obj-y +=3D tests/qtest/libqos/sdhci.o
-+libqos-obj-y +=3D tests/qtest/libqos/tpci200.o
-+libqos-obj-y +=3D tests/qtest/libqos/virtio.o
-+libqos-obj-$(CONFIG_VIRTFS) +=3D tests/qtest/libqos/virtio-9p.o
-+libqos-obj-y +=3D tests/qtest/libqos/virtio-balloon.o
-+libqos-obj-y +=3D tests/qtest/libqos/virtio-blk.o
-+libqos-obj-y +=3D tests/qtest/libqos/virtio-mmio.o
-+libqos-obj-y +=3D tests/qtest/libqos/virtio-net.o
-+libqos-obj-y +=3D tests/qtest/libqos/virtio-pci.o
-+libqos-obj-y +=3D tests/qtest/libqos/virtio-pci-modern.o
-+libqos-obj-y +=3D tests/qtest/libqos/virtio-rng.o
-+libqos-obj-y +=3D tests/qtest/libqos/virtio-scsi.o
-+libqos-obj-y +=3D tests/qtest/libqos/virtio-serial.o
+ libqos-obj-y =3D  $(libqgraph-obj-y)
+ libqos-obj-y +=3D $(libqos-pc-obj-y) $(libqos-spapr-obj-y)
++libqos-obj-y +=3D tests/qtest/libqos/qos_external.o
+ libqos-obj-y +=3D tests/qtest/libqos/e1000e.o
+ libqos-obj-y +=3D tests/qtest/libqos/i2c.o
+ libqos-obj-y +=3D tests/qtest/libqos/i2c-imx.o
+diff --git a/tests/qtest/libqos/qos_external.c b/tests/qtest/libqos/qos_ext=
+ernal.c
+new file mode 100644
+index 0000000000..398556dde0
+--- /dev/null
++++ b/tests/qtest/libqos/qos_external.c
+@@ -0,0 +1,168 @@
++/*
++ * libqos driver framework
++ *
++ * Copyright (c) 2018 Emanuele Giuseppe Esposito <e.emanuelegiuseppe@gmail=
+.com>
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License version 2 as published by the Free Software Foundation.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see <http://www.gnu.org/licens=
+es/>
++ */
++
++#include "qemu/osdep.h"
++#include <getopt.h>
++#include "libqtest.h"
++#include "qapi/qmp/qdict.h"
++#include "qapi/qmp/qbool.h"
++#include "qapi/qmp/qstring.h"
++#include "qemu/module.h"
++#include "qapi/qmp/qlist.h"
++#include "libqos/malloc.h"
++#include "libqos/qgraph.h"
++#include "libqos/qgraph_internal.h"
++#include "libqos/qos_external.h"
++
++
++
++void apply_to_node(const char *name, bool is_machine, bool is_abstract)
++{
++    char *machine_name =3D NULL;
++    if (is_machine) {
++        const char *arch =3D qtest_get_arch();
++        machine_name =3D g_strconcat(arch, "/", name, NULL);
++        name =3D machine_name;
++    }
++    qos_graph_node_set_availability(name, true);
++    if (is_abstract) {
++        qos_delete_cmd_line(name);
++    }
++    g_free(machine_name);
++}
++
++/**
++ * apply_to_qlist(): using QMP queries QEMU for a list of
++ * machines and devices available, and sets the respective node
++ * as true. If a node is found, also all its produced and contained
++ * child are marked available.
++ *
++ * See qos_graph_node_set_availability() for more info
++ */
++void apply_to_qlist(QList *list, bool is_machine)
++{
++    const QListEntry *p;
++    const char *name;
++    bool abstract;
++    QDict *minfo;
++    QObject *qobj;
++    QString *qstr;
++    QBool *qbool;
++
++    for (p =3D qlist_first(list); p; p =3D qlist_next(p)) {
++        minfo =3D qobject_to(QDict, qlist_entry_obj(p));
++        qobj =3D qdict_get(minfo, "name");
++        qstr =3D qobject_to(QString, qobj);
++        name =3D qstring_get_str(qstr);
++
++        qobj =3D qdict_get(minfo, "abstract");
++        if (qobj) {
++            qbool =3D qobject_to(QBool, qobj);
++            abstract =3D qbool_get_bool(qbool);
++        } else {
++            abstract =3D false;
++        }
++
++        apply_to_node(name, is_machine, abstract);
++        qobj =3D qdict_get(minfo, "alias");
++        if (qobj) {
++            qstr =3D qobject_to(QString, qobj);
++            name =3D qstring_get_str(qstr);
++            apply_to_node(name, is_machine, abstract);
++        }
++    }
++}
++
++QGuestAllocator *get_machine_allocator(QOSGraphObject *obj)
++{
++    return obj->get_driver(obj, "memory");
++}
++
++/**
++ * allocate_objects(): given an array of nodes @arg,
++ * walks the path invoking all constructors and
++ * passing the corresponding parameter in order to
++ * continue the objects allocation.
++ * Once the test is reached, return the object it consumes.
++ *
++ * Since the machine and QEDGE_CONSUMED_BY nodes allocate
++ * memory in the constructor, g_test_queue_destroy is used so
++ * that after execution they can be safely free'd.  (The test's
++ * ->before callback is also welcome to use g_test_queue_destroy).
++ *
++ * Note: as specified in walk_path() too, @arg is an array of
++ * char *, where arg[0] is a pointer to the command line
++ * string that will be used to properly start QEMU when executing
++ * the test, and the remaining elements represent the actual objects
++ * that will be allocated.
++ */
++void *allocate_objects(QTestState *qts, char **path, QGuestAllocator **p_a=
+lloc)
++{
++    int current =3D 0;
++    QGuestAllocator *alloc;
++    QOSGraphObject *parent =3D NULL;
++    QOSGraphEdge *edge;
++    QOSGraphNode *node;
++    void *edge_arg;
++    void *obj;
++
++    node =3D qos_graph_get_node(path[current]);
++    g_assert(node->type =3D=3D QNODE_MACHINE);
++
++    obj =3D qos_machine_new(node, qts);
++    qos_object_queue_destroy(obj);
++
++    alloc =3D get_machine_allocator(obj);
++    if (p_alloc) {
++        *p_alloc =3D alloc;
++    }
++
++    for (;;) {
++        if (node->type !=3D QNODE_INTERFACE) {
++            qos_object_start_hw(obj);
++            parent =3D obj;
++        }
++
++        /* follow edge and get object for next node constructor */
++        current++;
++        edge =3D qos_graph_get_edge(path[current - 1], path[current]);
++        node =3D qos_graph_get_node(path[current]);
++
++        if (node->type =3D=3D QNODE_TEST) {
++            g_assert(qos_graph_edge_get_type(edge) =3D=3D QEDGE_CONSUMED_B=
+Y);
++            return obj;
++        }
++
++        switch (qos_graph_edge_get_type(edge)) {
++        case QEDGE_PRODUCES:
++            obj =3D parent->get_driver(parent, path[current]);
++            break;
++
++        case QEDGE_CONSUMED_BY:
++            edge_arg =3D qos_graph_edge_get_arg(edge);
++            obj =3D qos_driver_new(node, obj, alloc, edge_arg);
++            qos_object_queue_destroy(obj);
++            break;
++
++        case QEDGE_CONTAINS:
++            obj =3D parent->get_device(parent, path[current]);
++            break;
++        }
++    }
++}
++
+diff --git a/tests/qtest/libqos/qos_external.h b/tests/qtest/libqos/qos_ext=
+ernal.h
+new file mode 100644
+index 0000000000..7b44930c55
+--- /dev/null
++++ b/tests/qtest/libqos/qos_external.h
+@@ -0,0 +1,28 @@
++/*
++ * libqos driver framework
++ *
++ * Copyright (c) 2018 Emanuele Giuseppe Esposito <e.emanuelegiuseppe@gmail=
+.com>
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License version 2 as published by the Free Software Foundation.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see <http://www.gnu.org/licens=
+es/>
++ */
++
++#ifndef QOS_EXTERNAL_H
++#define QOS_EXTERNAL_H
++#include "libqos/qgraph.h"
++
++void apply_to_node(const char *name, bool is_machine, bool is_abstract);
++void apply_to_qlist(QList *list, bool is_machine);
++QGuestAllocator *get_machine_allocator(QOSGraphObject *obj);
++void *allocate_objects(QTestState *qts, char **path, QGuestAllocator **p_a=
+lloc);
++
++#endif
+diff --git a/tests/qtest/qos-test.c b/tests/qtest/qos-test.c
+index fd70d73ea5..ad193f43a5 100644
+--- a/tests/qtest/qos-test.c
++++ b/tests/qtest/qos-test.c
+@@ -27,65 +27,11 @@
+ #include "libqos/malloc.h"
+ #include "libqos/qgraph.h"
+ #include "libqos/qgraph_internal.h"
++#include "libqos/qos_external.h"
 =20
- # qos machines:
--qos-test-obj-y +=3D tests/qtest/libqos/aarch64-xlnx-zcu102-machine.o
--qos-test-obj-y +=3D tests/qtest/libqos/arm-imx25-pdk-machine.o
--qos-test-obj-y +=3D tests/qtest/libqos/arm-n800-machine.o
--qos-test-obj-y +=3D tests/qtest/libqos/arm-raspi2-machine.o
--qos-test-obj-y +=3D tests/qtest/libqos/arm-sabrelite-machine.o
--qos-test-obj-y +=3D tests/qtest/libqos/arm-smdkc210-machine.o
--qos-test-obj-y +=3D tests/qtest/libqos/arm-virt-machine.o
--qos-test-obj-y +=3D tests/qtest/libqos/arm-xilinx-zynq-a9-machine.o
--qos-test-obj-y +=3D tests/qtest/libqos/ppc64_pseries-machine.o
--qos-test-obj-y +=3D tests/qtest/libqos/x86_64_pc-machine.o
-+libqos-obj-y +=3D tests/qtest/libqos/aarch64-xlnx-zcu102-machine.o
-+libqos-obj-y +=3D tests/qtest/libqos/arm-imx25-pdk-machine.o
-+libqos-obj-y +=3D tests/qtest/libqos/arm-n800-machine.o
-+libqos-obj-y +=3D tests/qtest/libqos/arm-raspi2-machine.o
-+libqos-obj-y +=3D tests/qtest/libqos/arm-sabrelite-machine.o
-+libqos-obj-y +=3D tests/qtest/libqos/arm-smdkc210-machine.o
-+libqos-obj-y +=3D tests/qtest/libqos/arm-virt-machine.o
-+libqos-obj-y +=3D tests/qtest/libqos/arm-xilinx-zynq-a9-machine.o
-+libqos-obj-y +=3D tests/qtest/libqos/ppc64_pseries-machine.o
-+libqos-obj-y +=3D tests/qtest/libqos/x86_64_pc-machine.o
+ static char *old_path;
 =20
- # qos tests:
-+qos-test-obj-y +=3D tests/qtest/qos-test.o
- qos-test-obj-y +=3D tests/qtest/ac97-test.o
- qos-test-obj-y +=3D tests/qtest/ds1338-test.o
- qos-test-obj-y +=3D tests/qtest/e1000-test.o
-@@ -234,7 +235,7 @@ check-unit-y +=3D tests/test-qgraph$(EXESUF)
- tests/test-qgraph$(EXESUF): tests/test-qgraph.o $(libqgraph-obj-y)
+-static void apply_to_node(const char *name, bool is_machine, bool is_abstr=
+act)
+-{
+-    char *machine_name =3D NULL;
+-    if (is_machine) {
+-        const char *arch =3D qtest_get_arch();
+-        machine_name =3D g_strconcat(arch, "/", name, NULL);
+-        name =3D machine_name;
+-    }
+-    qos_graph_node_set_availability(name, true);
+-    if (is_abstract) {
+-        qos_delete_cmd_line(name);
+-    }
+-    g_free(machine_name);
+-}
 =20
- check-qtest-generic-y +=3D qos-test
--tests/qtest/qos-test$(EXESUF): $(qos-test-obj-y)
-+tests/qtest/qos-test$(EXESUF): $(qos-test-obj-y) $(libqos-obj-y)
+-/**
+- * apply_to_qlist(): using QMP queries QEMU for a list of
+- * machines and devices available, and sets the respective node
+- * as true. If a node is found, also all its produced and contained
+- * child are marked available.
+- *
+- * See qos_graph_node_set_availability() for more info
+- */
+-static void apply_to_qlist(QList *list, bool is_machine)
+-{
+-    const QListEntry *p;
+-    const char *name;
+-    bool abstract;
+-    QDict *minfo;
+-    QObject *qobj;
+-    QString *qstr;
+-    QBool *qbool;
+-
+-    for (p =3D qlist_first(list); p; p =3D qlist_next(p)) {
+-        minfo =3D qobject_to(QDict, qlist_entry_obj(p));
+-        qobj =3D qdict_get(minfo, "name");
+-        qstr =3D qobject_to(QString, qobj);
+-        name =3D qstring_get_str(qstr);
+-
+-        qobj =3D qdict_get(minfo, "abstract");
+-        if (qobj) {
+-            qbool =3D qobject_to(QBool, qobj);
+-            abstract =3D qbool_get_bool(qbool);
+-        } else {
+-            abstract =3D false;
+-        }
+-
+-        apply_to_node(name, is_machine, abstract);
+-        qobj =3D qdict_get(minfo, "alias");
+-        if (qobj) {
+-            qstr =3D qobject_to(QString, qobj);
+-            name =3D qstring_get_str(qstr);
+-            apply_to_node(name, is_machine, abstract);
+-        }
+-    }
+-}
 =20
- # QTest dependencies:
- tests/qtest/qmp-test$(EXESUF): tests/qtest/qmp-test.o
+ /**
+  * qos_set_machines_devices_available(): sets availability of qgraph
+@@ -129,10 +75,6 @@ static void qos_set_machines_devices_available(void)
+     qobject_unref(response);
+ }
+=20
+-static QGuestAllocator *get_machine_allocator(QOSGraphObject *obj)
+-{
+-    return obj->get_driver(obj, "memory");
+-}
+=20
+ static void restart_qemu_or_continue(char *path)
+ {
+@@ -159,78 +101,6 @@ void qos_invalidate_command_line(void)
+     old_path =3D NULL;
+ }
+=20
+-/**
+- * allocate_objects(): given an array of nodes @arg,
+- * walks the path invoking all constructors and
+- * passing the corresponding parameter in order to
+- * continue the objects allocation.
+- * Once the test is reached, return the object it consumes.
+- *
+- * Since the machine and QEDGE_CONSUMED_BY nodes allocate
+- * memory in the constructor, g_test_queue_destroy is used so
+- * that after execution they can be safely free'd.  (The test's
+- * ->before callback is also welcome to use g_test_queue_destroy).
+- *
+- * Note: as specified in walk_path() too, @arg is an array of
+- * char *, where arg[0] is a pointer to the command line
+- * string that will be used to properly start QEMU when executing
+- * the test, and the remaining elements represent the actual objects
+- * that will be allocated.
+- */
+-static void *allocate_objects(QTestState *qts, char **path, QGuestAllocato=
+r **p_alloc)
+-{
+-    int current =3D 0;
+-    QGuestAllocator *alloc;
+-    QOSGraphObject *parent =3D NULL;
+-    QOSGraphEdge *edge;
+-    QOSGraphNode *node;
+-    void *edge_arg;
+-    void *obj;
+-
+-    node =3D qos_graph_get_node(path[current]);
+-    g_assert(node->type =3D=3D QNODE_MACHINE);
+-
+-    obj =3D qos_machine_new(node, qts);
+-    qos_object_queue_destroy(obj);
+-
+-    alloc =3D get_machine_allocator(obj);
+-    if (p_alloc) {
+-        *p_alloc =3D alloc;
+-    }
+-
+-    for (;;) {
+-        if (node->type !=3D QNODE_INTERFACE) {
+-            qos_object_start_hw(obj);
+-            parent =3D obj;
+-        }
+-
+-        /* follow edge and get object for next node constructor */
+-        current++;
+-        edge =3D qos_graph_get_edge(path[current - 1], path[current]);
+-        node =3D qos_graph_get_node(path[current]);
+-
+-        if (node->type =3D=3D QNODE_TEST) {
+-            g_assert(qos_graph_edge_get_type(edge) =3D=3D QEDGE_CONSUMED_B=
+Y);
+-            return obj;
+-        }
+-
+-        switch (qos_graph_edge_get_type(edge)) {
+-        case QEDGE_PRODUCES:
+-            obj =3D parent->get_driver(parent, path[current]);
+-            break;
+-
+-        case QEDGE_CONSUMED_BY:
+-            edge_arg =3D qos_graph_edge_get_arg(edge);
+-            obj =3D qos_driver_new(node, obj, alloc, edge_arg);
+-            qos_object_queue_destroy(obj);
+-            break;
+-
+-        case QEDGE_CONTAINS:
+-            obj =3D parent->get_device(parent, path[current]);
+-            break;
+-        }
+-    }
+-}
+=20
+ /* The argument to run_one_test, which is the test function that is regist=
+ered
+  * with GTest, is a vector of strings.  The first item is the initial comm=
+and
 --=20
 2.25.0
 
