@@ -2,66 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7451158FF5
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Feb 2020 14:32:30 +0100 (CET)
-Received: from localhost ([::1]:49664 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9F2C159038
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Feb 2020 14:47:23 +0100 (CET)
+Received: from localhost ([::1]:49900 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j1VeO-00062h-Is
-	for lists+qemu-devel@lfdr.de; Tue, 11 Feb 2020 08:32:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39446)
+	id 1j1Vso-0008Ld-HN
+	for lists+qemu-devel@lfdr.de; Tue, 11 Feb 2020 08:47:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42944)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <wainersm@redhat.com>) id 1j1VZJ-0003JT-6J
- for qemu-devel@nongnu.org; Tue, 11 Feb 2020 08:27:14 -0500
+ (envelope-from <philmd@redhat.com>) id 1j1Vr0-0007YU-7R
+ for qemu-devel@nongnu.org; Tue, 11 Feb 2020 08:45:31 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <wainersm@redhat.com>) id 1j1VZH-0006ZR-Mj
- for qemu-devel@nongnu.org; Tue, 11 Feb 2020 08:27:12 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:47390
+ (envelope-from <philmd@redhat.com>) id 1j1Vqy-0001w5-WA
+ for qemu-devel@nongnu.org; Tue, 11 Feb 2020 08:45:30 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:26448
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <wainersm@redhat.com>) id 1j1VZH-0006YD-Ie
- for qemu-devel@nongnu.org; Tue, 11 Feb 2020 08:27:11 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j1Vqy-0001vp-Sn
+ for qemu-devel@nongnu.org; Tue, 11 Feb 2020 08:45:28 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581427630;
+ s=mimecast20190719; t=1581428728;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=z/qJBYRVnB77xtsfuXVdnqROrpMkltvPU3ucSmYzph4=;
- b=DI+ghVrwzOtNds5g4guKnyswQnSuFATN7nb8N10tuweZoG/HlL/gRCs5bUqqD497/EGk2y
- iTJu2Mrl/OQEDjv1Z4m3cbcpyErAW2yozIyQomTlmDYARXfSfZO/dftdKb6dspdjo60EdB
- /JpXu9s3PPQT6iNf10gbYx+LdZvmr4s=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=IzIp1s9Bnmy8J/2t3Wh08UI/uQGMQgtx2fSxMdVnCyE=;
+ b=OaIYgJsZJbQkX+O3x44xZ4UpNa7Wcp0FM7LrYyWb+GlgCBR1OU6qcrDkHG4L44xEl1Ojao
+ yV30UzoaeewRGvINYEVVsraM35PIV3HtHCBdHSpHzVLjebUEcVNh7gDcb/9Yih19sWrYSH
+ 5/rVTLU+JayE9Cc0Gm+M/qaKAYoA0EI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-405-SqkxKux8OT2Fv9Ym9tkM-A-1; Tue, 11 Feb 2020 08:27:08 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-257-8n8r9VplP0yaKrR6wTVfiw-1; Tue, 11 Feb 2020 08:45:15 -0500
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D0762107ACC4
- for <qemu-devel@nongnu.org>; Tue, 11 Feb 2020 13:27:07 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-116-102.gru2.redhat.com
- [10.97.116.102])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1F3158AC3E;
- Tue, 11 Feb 2020 13:26:55 +0000 (UTC)
-Subject: Re: [PATCH v2] gitlab-ci: Move EDK2 YAML config to .gitlab-ci.d
- directory
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20200211095004.29647-1-philmd@redhat.com>
-From: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-ID: <99644327-3404-6e30-682c-7dd53506ab05@redhat.com>
-Date: Tue, 11 Feb 2020 11:26:53 -0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.4.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A74C785EE86;
+ Tue, 11 Feb 2020 13:45:14 +0000 (UTC)
+Received: from x1w.redhat.com (ovpn-205-48.brq.redhat.com [10.40.205.48])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1FA615C1D6;
+ Tue, 11 Feb 2020 13:45:06 +0000 (UTC)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] tests/acceptance/ppc_prep_40p: Use cdn.netbsd.org hostname
+Date: Tue, 11 Feb 2020 14:45:04 +0100
+Message-Id: <20200211134504.9156-1-philmd@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200211095004.29647-1-philmd@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: SqkxKux8OT2Fv9Ym9tkM-A-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-MC-Unique: 8n8r9VplP0yaKrR6wTVfiw-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -77,88 +68,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Laszlo Ersek <lersek@redhat.com>
+Cc: Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Kamil Rytarowski <kamil@netbsd.org>, qemu-ppc@nongnu.org,
+ Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Use NetBSD content delivery network to get faster downloads.
 
-On 2/11/20 7:50 AM, Philippe Mathieu-Daud=C3=A9 wrote:
-> We plan to let maintainers managing their own GitLab CI jobs.
-> The .gitlab-ci.d directory will contain all the new GitLab files,
-> to keep the root directory cleaner.
->
-> The EDK2 job was introduced before .gitlab-ci.d was suggested as
-> a common directory. Move the YAML file, update its references.
->
-> Suggested-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-> Reviewed-by: Laszlo Ersek <lersek@redhat.com>
-> Acked-by: Thomas Huth <thuth@redhat.com>
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> ---
-> Supersedes: <20200211065022.11134-1-philmd@redhat.com>
-> v2: Reworded subject/description (Thomas)
-> ---
->   .gitignore                                   | 1 +
->   .gitlab-ci-edk2.yml =3D> .gitlab-ci.d/edk2.yml | 2 +-
->   .gitlab-ci.yml                               | 2 +-
->   MAINTAINERS                                  | 3 +--
->   4 files changed, 4 insertions(+), 4 deletions(-)
->   rename .gitlab-ci-edk2.yml =3D> .gitlab-ci.d/edk2.yml (98%)
+Suggested-by: Kamil Rytarowski <kamil@netbsd.org>
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+---
+ tests/acceptance/ppc_prep_40p.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-
-> diff --git a/.gitignore b/.gitignore
-> index bc0a035f9c..18288eacd1 100644
-> --- a/.gitignore
-> +++ b/.gitignore
-> @@ -95,6 +95,7 @@
->   *.tp
->   *.vr
->   *.d
-> +!/.gitlab-ci.d
->   !/scripts/qemu-guest-agent/fsfreeze-hook.d
->   *.o
->   .sdk
-> diff --git a/.gitlab-ci-edk2.yml b/.gitlab-ci.d/edk2.yml
-> similarity index 98%
-> rename from .gitlab-ci-edk2.yml
-> rename to .gitlab-ci.d/edk2.yml
-> index 088ba4b43a..a9990b7147 100644
-> --- a/.gitlab-ci-edk2.yml
-> +++ b/.gitlab-ci.d/edk2.yml
-> @@ -2,7 +2,7 @@ docker-edk2:
->    stage: build
->    rules: # Only run this job when the Dockerfile is modified
->    - changes:
-> -   - .gitlab-ci-edk2.yml
-> +   - .gitlab-ci.d/edk2.yml
->      - .gitlab-ci.d/edk2/Dockerfile
->      when: always
->    image: docker:19.03.1
-> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-> index c15e394f09..dae6045d78 100644
-> --- a/.gitlab-ci.yml
-> +++ b/.gitlab-ci.yml
-> @@ -1,5 +1,5 @@
->   include:
-> -  - local: '/.gitlab-ci-edk2.yml'
-> +  - local: '/.gitlab-ci.d/edk2.yml'
->  =20
->   before_script:
->    - apt-get update -qq
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index c7717df720..fb00a55f41 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -2391,8 +2391,7 @@ F: roms/edk2
->   F: roms/edk2-*
->   F: tests/data/uefi-boot-images/
->   F: tests/uefi-test-tools/
-> -F: .gitlab-ci-edk2.yml
-> -F: .gitlab-ci.d/edk2/
-> +F: .gitlab-ci.d/edk2*
->  =20
->   Usermode Emulation
->   ------------------
+diff --git a/tests/acceptance/ppc_prep_40p.py b/tests/acceptance/ppc_prep_4=
+0p.py
+index efe06037ba..6729d96f5e 100644
+--- a/tests/acceptance/ppc_prep_40p.py
++++ b/tests/acceptance/ppc_prep_40p.py
+@@ -34,7 +34,7 @@ def test_factory_firmware_and_netbsd(self):
+                     '7020-40p/P12H0456.IMG')
+         bios_hash =3D '1775face4e6dc27f3a6ed955ef6eb331bf817f03'
+         bios_path =3D self.fetch_asset(bios_url, asset_hash=3Dbios_hash)
+-        drive_url =3D ('https://ftp.netbsd.org/pub/NetBSD/NetBSD-archive/'
++        drive_url =3D ('https://cdn.netbsd.org/pub/NetBSD/NetBSD-archive/'
+                      'NetBSD-4.0/prep/installation/floppy/generic_com0.fs'=
+)
+         drive_hash =3D 'dbcfc09912e71bd5f0d82c7c1ee43082fb596ceb'
+         drive_path =3D self.fetch_asset(drive_url, asset_hash=3Ddrive_hash=
+)
+@@ -67,7 +67,7 @@ def test_openbios_and_netbsd(self):
+         :avocado: tags=3Darch:ppc
+         :avocado: tags=3Dmachine:40p
+         """
+-        drive_url =3D ('https://ftp.netbsd.org/pub/NetBSD/iso/7.1.2/'
++        drive_url =3D ('https://cdn.netbsd.org/pub/NetBSD/iso/7.1.2/'
+                      'NetBSD-7.1.2-prep.iso')
+         drive_hash =3D 'ac6fa2707d888b36d6fa64de6e7fe48e'
+         drive_path =3D self.fetch_asset(drive_url, asset_hash=3Ddrive_hash=
+,
+--=20
+2.21.1
 
 
