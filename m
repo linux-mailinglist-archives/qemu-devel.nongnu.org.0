@@ -2,74 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82E36159677
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Feb 2020 18:47:25 +0100 (CET)
-Received: from localhost ([::1]:54531 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13850159680
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Feb 2020 18:49:29 +0100 (CET)
+Received: from localhost ([::1]:54588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j1Zd6-00033q-Gd
-	for lists+qemu-devel@lfdr.de; Tue, 11 Feb 2020 12:47:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52891)
+	id 1j1Zf5-0005CI-S7
+	for lists+qemu-devel@lfdr.de; Tue, 11 Feb 2020 12:49:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58170)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1j1ZW0-0001NQ-Gu
- for qemu-devel@nongnu.org; Tue, 11 Feb 2020 12:40:05 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1j1ZZ6-0006ZE-Ou
+ for qemu-devel@nongnu.org; Tue, 11 Feb 2020 12:43:18 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1j1ZVz-0007nM-E0
- for qemu-devel@nongnu.org; Tue, 11 Feb 2020 12:40:04 -0500
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:45849)
+ (envelope-from <peter.maydell@linaro.org>) id 1j1ZZ4-00044m-PV
+ for qemu-devel@nongnu.org; Tue, 11 Feb 2020 12:43:16 -0500
+Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:46201)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1j1ZVy-0007jz-KW
- for qemu-devel@nongnu.org; Tue, 11 Feb 2020 12:40:03 -0500
-Received: by mail-wr1-x434.google.com with SMTP id g3so12401274wrs.12
- for <qemu-devel@nongnu.org>; Tue, 11 Feb 2020 09:40:02 -0800 (PST)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1j1ZZ4-00043F-Jw
+ for qemu-devel@nongnu.org; Tue, 11 Feb 2020 12:43:14 -0500
+Received: by mail-ot1-x341.google.com with SMTP id g64so10913293otb.13
+ for <qemu-devel@nongnu.org>; Tue, 11 Feb 2020 09:43:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=Noqmg8cfjHwzPPaplaraDi7BhzESC7+sjf6K+biuZhM=;
- b=QtlkuSd7yE12W4PWDNQzeFTPIKiyMKrNhmIv7nzOIr4uAfqUto7mcK4Hg8QqT5Ermq
- TjgwjUPI9ViFU+JKkFXsjthrqe1srKtcyT4mFbtGhWecgFJCqLGpjtjXKDpryX1a2ruk
- OvczoaLjExveCmSgDfqTIgjju2XhCKzxo3fYLRaZlcdsSGE78mv7SCAi5wTVQyxrYAo+
- kSFsZRNWayThkeQCOIw9RCBU1MTIFdN+mCaH2ldJPdAnSbgBvXiiVPSrGsC0iIPPsCrn
- X1LmY5gXSr64tMgNM09lJdsQSyCkOgaBZdwAsqJMwcHQG/Qqzz/FeaSdnycyoX0qnlYp
- 9PEQ==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=jGOnQiV8XB0esoSOdIPdJyPoFQW5GLKxN2/UKQS+CVg=;
+ b=kXgQ7PaOm0MJgP3tIP1ReXswXibQR0150wp1E9oriW4FfGrTxlLmysfCC+FGdo/FlI
+ aXCQs7tqne26EBGv3xGbLxgkUY8N6dYHbmLhuT6RGp5tZXX0OFtxySh63/v/5n4WxJ/e
+ QvStYtaERzUoNFbLjCWNHj5OEjC/nKWFTmfa7i1UNIQ9TUVbTR/Wvwaw8aqNZQRQBWZD
+ chlNmI/fLRc8T9/RknNAJg3W6BfHHUm3MQxDGDTLKlEz6FzPmkwMjZQvLJKrNpAKL132
+ jO6D6M2T4S5GIwosUnLBT1WzjaDr6UCnCgoBX/rUk8FOkkZtL903ipLOTOPh6+6ooJUz
+ TfYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=Noqmg8cfjHwzPPaplaraDi7BhzESC7+sjf6K+biuZhM=;
- b=IFkeBK3JvsKofKipyO/48WrnfVFWd/yUH8d/T1uxRljZWp7C8YyQftCMnhuixCJWP3
- Tv8hyNHeGrxSFIDMLpNFSnfBUmi1/hlpkKp5XdyFapetRoOAtJQ00Fw6r+Nvwspp0c2s
- ivVf2xlD6YuDCaCk3mMG5g/kRqMN6UM2KL8xKVrcOZ9gl2pyISKm6FP5QVhVLKmPSmqm
- WRE3WS8h8EIGFAhm9nTl0k4rmA3+DTORTQkI7kAkAOBX3NWhT+AzbWNu+BKISFyq5aMl
- EabwiOBaeaGnkW3UJFsZmnNBVYrnbrU7Cj7dbjmnlw9kETdP62PNU7IGkq+jlZH+az4I
- fH1Q==
-X-Gm-Message-State: APjAAAWnnPhcAgnEMap55Tk/xT/ptdomS64DECT/sFS87wYzBkmiv1Cc
- 2R1TKDPGLjfr31iPoXWJhJttFg==
-X-Google-Smtp-Source: APXvYqyQa2MNqC8Ysve4VGRi0dHffUp/QDzZi8NkvJsC5QCeTTc3Q2YZHPfwaL47iYyN6DJoAwYuBw==
-X-Received: by 2002:adf:e5c4:: with SMTP id a4mr10283320wrn.292.1581442801122; 
- Tue, 11 Feb 2020 09:40:01 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id v17sm6024754wrt.91.2020.02.11.09.39.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 Feb 2020 09:40:00 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 67DC41FF87;
- Tue, 11 Feb 2020 17:39:59 +0000 (GMT)
-References: <tencent_BC7FD00363690990994E90F8@qq.com>
-User-agent: mu4e 1.3.8; emacs 26.1
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: wuchenye1995 <wuchenye1995@gmail.com>
-Subject: Re: A problem with live migration of UEFI virtual machines
-In-reply-to: <tencent_BC7FD00363690990994E90F8@qq.com>
-Date: Tue, 11 Feb 2020 17:39:59 +0000
-Message-ID: <87sgjhxbtc.fsf@zen.linaroharston>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=jGOnQiV8XB0esoSOdIPdJyPoFQW5GLKxN2/UKQS+CVg=;
+ b=JV85oAStaDzQWF1hU3vqItVGtprZA0T8EOzGIp6WVdckT0Vdd0nTidXb3V9SiD+AZo
+ sAuUS9yNbiDx2PoJIndsz2v7mbEAZAZSDyKlthykHzp3Oh04mDVodlzY+dCxAlE3nJwC
+ QI3lTPCGFzDvVn4vaxQOnSkoDezWNNoemUonESB1K5oNImRvH8adhlDBtMh6pkbYqIYp
+ ev2eaLCxBh+PT4RMgbwe2lmJyOlx6AepPnGFvoLZ7cvryLyFoqmMwt0ZvzGjHJCBNh6W
+ eIWmIPxOY2mM0q3Idch5qIRKfFuy3xPZ+5jQc4+bPVVdkxFpnKmqsMV57bZKe0vWDAns
+ sHTA==
+X-Gm-Message-State: APjAAAWtlMEvtL8IyXgsmGg1Xhb9Q7ztx8c+MSTKl4e2AkaeLbQqE0uS
+ RqAjP+kUvtz++jCUId+ntdTuSNOJM60julvGJMlZu63j
+X-Google-Smtp-Source: APXvYqyy6cXBSVJjerzHa6t/VrvaDLF2eKMcXUmIFvkePvxXqGgeEPifiDe5wVfjcSyF4tDfgyA8AP/LJjYVK2xg5XQ=
+X-Received: by 2002:a05:6830:1184:: with SMTP id
+ u4mr5800687otq.221.1581442993554; 
+ Tue, 11 Feb 2020 09:43:13 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <20200211173510.16347-1-alex.bennee@linaro.org>
+In-Reply-To: <20200211173510.16347-1-alex.bennee@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 11 Feb 2020 17:43:02 +0000
+Message-ID: <CAFEAcA8GQ=bkQjRvC_XDh_4zZMSCWsoJOB8=7QPg0BgBFYNj8w@mail.gmail.com>
+Subject: Re: [PATCH] linux-user: un-register threads from RCU before exit
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::434
+X-Received-From: 2607:f8b0:4864:20::341
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,33 +74,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: discuss <discuss@edk2.groups.io>,
- "devel@edk2.groups.io" <devel@edk2.groups.io>,
- zhoujianjay <zhoujianjay@gmail.com>, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Riku Voipio <riku.voipio@iki.fi>,
+ QEMU Developers <qemu-devel@nongnu.org>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, 11 Feb 2020 at 17:36, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
+te:
+>
+> Through a mechanism I don't quite yet understand we can find ourselves
+> with a left over RCU thread when we exit group. This is a racy failure
+> that occurs for example with:
+>
+>   alpha-linux-user running testthread
+>     with libhowvec.so plugin
+>     but only when run from make
+>
+> This may not be the correct fix but it seems to alleviate the
+> symptoms.
 
-wuchenye1995 <wuchenye1995@gmail.com> writes:
+This is weird. The only time we call preexit_cleanup()
+is when the next thing we do is to terminate the entire
+process all at once. (For some reason in one place
+we do that by calling _exit() and in another place
+by calling exit_group() -- I don't see why we need that
+inconsistency).
 
-> Hi all,
->    We found a problem with live migration of UEFI virtual machines due to=
- size of OVMF.fd changes.
->    Specifically, the size of OVMF.fd in edk with low version such as edk-=
-2.0-25 is 2MB while the size of it in higher version such as edk-2.0-30 is =
-4MB.
->    When we migrate a UEFI virtual machine from the host with low version =
-of edk2 to the host with higher one, qemu component will report an error in=
- function qemu_ram_resize while
-> checking size of ovmf_pcbios: Length mismatch: pc.bios: 0x200000 in !=3D =
-0x400000: Invalid argument.
->    We want to know how to solve this problem after updating the
->    version of edk2.
+I'm pretty sure the system emulation threads don't
+call rcu_unregister_thread() for the "whole process
+is going away" case, so something odd is happening here...
 
-You can only migrate a machine that is identical - so instantiating a
-empty machine with a different EDK image is bound to cause a problem
-because the machines don't match.
-
---=20
-Alex Benn=C3=A9e
+thanks
+-- PMM
 
