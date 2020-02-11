@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AF13159A90
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Feb 2020 21:37:23 +0100 (CET)
-Received: from localhost ([::1]:57058 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B72F2159A9C
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Feb 2020 21:39:31 +0100 (CET)
+Received: from localhost ([::1]:57086 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j1cHZ-000846-Ml
-	for lists+qemu-devel@lfdr.de; Tue, 11 Feb 2020 15:37:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34765)
+	id 1j1cJe-0003M0-Od
+	for lists+qemu-devel@lfdr.de; Tue, 11 Feb 2020 15:39:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34858)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alxndr@bu.edu>) id 1j1cFi-0006MN-Ak
- for qemu-devel@nongnu.org; Tue, 11 Feb 2020 15:35:27 -0500
+ (envelope-from <alxndr@bu.edu>) id 1j1cFl-0006NE-FF
+ for qemu-devel@nongnu.org; Tue, 11 Feb 2020 15:35:33 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alxndr@bu.edu>) id 1j1cFh-00087j-7x
- for qemu-devel@nongnu.org; Tue, 11 Feb 2020 15:35:26 -0500
-Received: from mail-bn8nam11on2092.outbound.protection.outlook.com
- ([40.107.236.92]:44875 helo=NAM11-BN8-obe.outbound.protection.outlook.com)
+ (envelope-from <alxndr@bu.edu>) id 1j1cFi-0008BP-Se
+ for qemu-devel@nongnu.org; Tue, 11 Feb 2020 15:35:29 -0500
+Received: from mail-bn8nam11on2118.outbound.protection.outlook.com
+ ([40.107.236.118]:3988 helo=NAM11-BN8-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <alxndr@bu.edu>) id 1j1cFh-00086O-1J
- for qemu-devel@nongnu.org; Tue, 11 Feb 2020 15:35:25 -0500
+ (Exim 4.71) (envelope-from <alxndr@bu.edu>) id 1j1cFi-0008AB-Mk
+ for qemu-devel@nongnu.org; Tue, 11 Feb 2020 15:35:26 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ePWSDCE85i2wckDEuwTEv7Zbt6mtcXbE5MV6SrR4R/XpG6oBlLTycLKTcLemjWgnwrKNss8hvz+msS1WqmIq+Nz0VMawY6qokU5Xp3PAkOlhIuMsuvyyhop5+SpyfdH5b07q+Dt0U4CN2aWZyPBZisElsJveT1aHhNyNwV1QSMdTVFzvIUirLWcAh8JLont3COwNzXIGjwwJqpCNWp0QYjeoMezKgbmQHeS38w99L5v/QiZ0HdtX7RPFfVOwNI01XhojxNVoNIexfuYSYQNpHMR+/ewb+bGXI8JSsN3fZYBdj/ptNm36LugmYL6RKKxUPYjJTnebF4WtV0WdMyKxwQ==
+ b=O/oBkaaJmMmfwpEv2ASebz6+fJMZpOGMuefjfb6Uf0plIoreShP7U+vnNoLvsR6lzn2/HTejiazKnLBA+uw0nQyKpaG5U6mfLQl/6KeGGtkYEWUyabn+AyYgdgc4EE93iekJBKOaZ7KdeuP/BGBCI+SNOMtpjKSsrwfHEbAimf8m6hHCIkLScIpuyBz9Z/m01UEVYiBPns9JChe2rpPAmsoxPL8ufUky+25lLFWtMoX4IfDQWQPcxQX+VnaLKeKQX5bccBgxu8kUi0FfRwM72cKxnLy9wYFugH/HVtACz52vId3YhH0xkESMRUfI65BBANTz9xrLj+ixMU1EUlJx+g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pPb+uhgPYlvdJyG/R+X2+zMJUtQFZJ0QzQ4q5gowrp4=;
- b=eugSuEYsIdQ8pfjmWJf1pcAPD12MWJG11isi1F0jjjSIytWRYRTlfShZIWuZN7fplWF7dp3Syh5m4ZG7J4OEtIgP5ILWQf6nuAzoxawN6yrx+rw4AbhQvHCoyq3Njelwee9LrWi2ipaeOlX8HoAOXQZxVOUPiJ+M5JPMM+OJh1MAFM10YBEDbEaqTXgp7BQ6XlJsKEQb54GT3ONCjIVYJgBHM4Bv5sFnZSxE58onG1zk+tv86+t+PTHrNBk9Q3h1mBpNLjbdJfM6HN5KJ5yVnix2DbLGIsyp3wY7kVGQI5arblpCUb9YdUeupabLvtjvIn0t+xw+U6kqIIc6i9GP+Q==
+ bh=HBZxBoD0Y8BkVslqXltNmCr0zhdp+qR09ExxpEOSoMU=;
+ b=R1pakQl/tj6OUtThDQB+QZp0itXW4IF9PCCvZ7swM5TOe/eY3p1ZOpXD2DkX1EQtOj8xeo1Y1+/yHFbkW3JX9BSX4v1cBWz5WxP2CqZGrtbKHfEl0JfU/cA0Q9lRJwcUBq1sUu50LDOXuDZzWjsgCKcUMaGgTX3sEUjMBV2RWJ9YVP99gQjXeIpK6lYLYc4GkmNIwTBHjRHoSS+MJpUPwrIGCOv4DJehJD55KGwEg1a9zdtWobsSG6rk7Zlhz0Rs7jXuC0Pyx51xWNZ8YmryrhLjcIjAV6nHnokGM5A/I8ohFRTk8wm48Lv/2z87BBPIgsrcyy/jVQJJX+xuS1uF5Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=bu.edu; dmarc=pass action=none header.from=bu.edu; dkim=pass
  header.d=bu.edu; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bushare.onmicrosoft.com; s=selector2-bushare-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pPb+uhgPYlvdJyG/R+X2+zMJUtQFZJ0QzQ4q5gowrp4=;
- b=QZiohgjW/UVRH6J5ll2TTpHF44Umvbe72F91+H3PwBtn4szK2Ws8B5Lp5K4gPc5LZCj7TsktjWac1SvrpOKDVQFO1ArzhpLSr/YR9gUA/C1xXgyqX8io20FxeG+1YrcqWwuJ9Fz04WebpP8BxrRH25rOQTwahTg5yqYFw3f/6gE=
+ bh=HBZxBoD0Y8BkVslqXltNmCr0zhdp+qR09ExxpEOSoMU=;
+ b=jE9oWZ+zhO+1hNCGF5R9TXINHBcOQHTcS5nVTa/VJrJB93JG29AgslBeJ/yIs91rHEr71UlvIAg/+Wtl2BTlQhrydg6R3n8fbeo3u6s5ZV1EUkKOlAOUP8jElRh8LXBhD2d5dp7RFO5Q752nfOJ0FHqj2onXeiG/b3P583vvFSg=
 Authentication-Results: spf=none (sender IP is ) smtp.mailfrom=alxndr@bu.edu; 
 Received: from SN6PR03MB3871.namprd03.prod.outlook.com (52.135.102.32) by
  SN6PR03MB3599.namprd03.prod.outlook.com (52.135.87.155) with Microsoft SMTP
@@ -47,9 +47,9 @@ Received: from SN6PR03MB3871.namprd03.prod.outlook.com
  20:35:24 +0000
 From: Alexander Bulekov <alxndr@bu.edu>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v9 02/23] softmmu: move vl.c to softmmu/
-Date: Tue, 11 Feb 2020 15:34:49 -0500
-Message-ID: <20200211203510.3534-3-alxndr@bu.edu>
+Subject: [PATCH v9 03/23] softmmu: split off vl.c:main() into main.c
+Date: Tue, 11 Feb 2020 15:34:50 -0500
+Message-ID: <20200211203510.3534-4-alxndr@bu.edu>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <20200211203510.3534-1-alxndr@bu.edu>
 References: <20200211203510.3534-1-alxndr@bu.edu>
@@ -62,15 +62,15 @@ MIME-Version: 1.0
 Received: from mozz.bu.edu (128.197.127.33) by
  BL0PR02CA0124.namprd02.prod.outlook.com (2603:10b6:208:35::29) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2707.23 via Frontend Transport; Tue, 11 Feb 2020 20:35:23 +0000
+ 15.20.2707.23 via Frontend Transport; Tue, 11 Feb 2020 20:35:24 +0000
 X-Mailer: git-send-email 2.25.0
 X-Originating-IP: [128.197.127.33]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 818b6f64-7a8c-438f-de66-08d7af31eb91
+X-MS-Office365-Filtering-Correlation-Id: 34e0adf3-3b36-48a8-8268-08d7af31ec1a
 X-MS-TrafficTypeDiagnostic: SN6PR03MB3599:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SN6PR03MB35999B4A5AA00CE83BB18F10BA180@SN6PR03MB3599.namprd03.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:421;
+X-Microsoft-Antispam-PRVS: <SN6PR03MB3599F718F63D0A5ED9FC7D85BA180@SN6PR03MB3599.namprd03.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
 X-Forefront-PRVS: 0310C78181
 X-Forefront-Antispam-Report: SFV:NSPM;
  SFS:(10019020)(4636009)(39860400002)(346002)(136003)(396003)(376002)(366004)(199004)(189003)(36756003)(52116002)(7696005)(478600001)(6666004)(316002)(786003)(8676002)(8936002)(956004)(2616005)(4326008)(81156014)(5660300002)(75432002)(1076003)(81166006)(2906002)(66556008)(66476007)(66946007)(6486002)(26005)(186003)(16526019)(86362001)(6916009);
@@ -81,18 +81,18 @@ Received-SPF: None (protection.outlook.com: bu.edu does not designate
  permitted sender hosts)
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Pf6G9dzRmMugIrZZ/i+fYR7rHShITsfnANsnfGKdq8xwsZa0MHzzcmrbfQu0xXe9lVUCoR8M8nCT8sg/20/8SAh5puaLw73QdxgIovSrUkZXyAlnig/NRI353ICnrFtkTP4Kq2A+ys0+KU4YIu4mIa/o38pj+fj/4k3wgsBmyHof+dn3WVDnrtC/M7EuoizSffjCTCDBPMPJgkWJJk4DBrYwJGTtO1R5/ADZf46DOWl28Y6Y0ofUrVkBvPJPZRS/aeMOyAJzVWRfSzxrsqaf7BcMEgJC81epCnTZDjYZx/9CFDW6WBWJNuNWcYdlBTxEOLTgDwDcow8ETdgw8r5E4YoRbWwZNusuMeAcUowX+TLiFazhgOw79aiAw1pbaorw3xw/1tzWwR0BVHArT/X90kzmJYwj10YMkSg+tYInEEgOvh3dCnD3XYmx7kkgdmlo
-X-MS-Exchange-AntiSpam-MessageData: BV6cjTXxxjeoJ6qWXWCQb2tw1ou+NxsuIODbrSOWjd2p+5YivCTDrIaj6q0nppr8FNbu4We2EO3Zjt9TUWYngNUQSZcizgMsr5n/X3jw9usOARm4EyQ/HuxR6Fv8dHiZZmHf4qhhwgvnP4SeKDWLBg==
+X-Microsoft-Antispam-Message-Info: /WYRxxRgIZTrxzGCSWSisyXnlRoTSgTuspyHc9h5/Dt1m9+zW4+2sEZgb1EFJb4jAvLZz7sCquWRYzjFTX7js/JykKh4GGgs4HWIjXhSuK5EUonUQu45vevZGe8WjLpLxOUVj59bkgYRDaS/GOj/20SoTgN32khQeGKtWfYwA/NeaCYtgTQWNjLWBGFL2XO8wnqr7qqmOvRkiSQbq7NqZFK8D58vOgP4KdVgJSDMP/HC+lPCmnGTnSl/TKiYiTUsuABytPBT7oz1C6Y19ioOba6g5qw1MrprcBisL5yXCJLzplIxqWFvNteQRKRYN2oSv901VMluFslbHbpGQX29b37ehd5OZxUbM9ZDB9SBci9wwbaUlBMIXXZ6uobkTRmqXU1uSnJYib3FzyNxQlFl9W6Bwg3TrHEFB5iNWDLC/PNylacATEX43UjpZL5HnXjZ
+X-MS-Exchange-AntiSpam-MessageData: Gzb+fnRbMeL/1TIY+2UV7sg2PRUugPw/xn+SaVK0ppMoDhZTNf6l5pCnwhoyd858adjKpfN7YlmVP5A6AbhxmBv19DUdgMp/mmJppTZYMx9CaEq67p+lSXMEECGB8gcC6FAGS2QnvkerZso070JXqg==
 X-OriginatorOrg: bu.edu
-X-MS-Exchange-CrossTenant-Network-Message-Id: 818b6f64-7a8c-438f-de66-08d7af31eb91
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Feb 2020 20:35:23.9476 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 34e0adf3-3b36-48a8-8268-08d7af31ec1a
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Feb 2020 20:35:24.8041 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: d57d32cc-c121-488f-b07b-dfe705680c71
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: OVIhdNZD3EyxrBSSUuJZKJ+b09qH+8dfLyyq7pvnCul+1IU3aCL0es+XKNiqPe6s
+X-MS-Exchange-CrossTenant-UserPrincipalName: oKEHzs5vWQ8h1E9ePZ0jzhjfurgdjdM1XH+gOEOEooH++cliE0qWvxVO7c/ctm6W
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR03MB3599
 X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.236.92
+X-Received-From: 40.107.236.118
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -109,53 +109,228 @@ Cc: Alexander Bulekov <alxndr@bu.edu>, pbonzini@redhat.com, bsd@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
----
- Makefile.objs         | 2 --
- Makefile.target       | 1 +
- softmmu/Makefile.objs | 2 ++
- vl.c =3D> softmmu/vl.c  | 0
- 4 files changed, 3 insertions(+), 2 deletions(-)
- create mode 100644 softmmu/Makefile.objs
- rename vl.c =3D> softmmu/vl.c (100%)
+A program might rely on functions implemented in vl.c, but implement its
+own main(). By placing main into a separate source file, there are no
+complaints about duplicate main()s when linking against vl.o. For
+example, the virtual-device fuzzer uses a main() provided by libfuzzer,
+and needs to perform some initialization before running the softmmu
+initialization. Now, main simply calls three vl.c functions which
+handle the guest initialization, main loop and cleanup.
 
-diff --git a/Makefile.objs b/Makefile.objs
-index 26b9cff954..8a1cbe8000 100644
---- a/Makefile.objs
-+++ b/Makefile.objs
-@@ -58,8 +58,6 @@ common-obj-y +=3D ui/
- common-obj-m +=3D ui/
-=20
- common-obj-y +=3D dma-helpers.o
--common-obj-y +=3D vl.o
--vl.o-cflags :=3D $(GPROF_CFLAGS) $(SDL_CFLAGS)
- common-obj-$(CONFIG_TPM) +=3D tpm.o
-=20
- common-obj-y +=3D backends/
+Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
+---
+ Makefile.target         |  2 +-
+ include/sysemu/sysemu.h |  4 ++++
+ softmmu/Makefile.objs   |  1 +
+ softmmu/main.c          | 53 +++++++++++++++++++++++++++++++++++++++++
+ softmmu/vl.c            | 36 +++++++---------------------
+ 5 files changed, 68 insertions(+), 28 deletions(-)
+ create mode 100644 softmmu/main.c
+
 diff --git a/Makefile.target b/Makefile.target
-index 6e61f607b1..06c36d1161 100644
+index 06c36d1161..6f4dd72022 100644
 --- a/Makefile.target
 +++ b/Makefile.target
-@@ -160,6 +160,7 @@ obj-y +=3D qapi/
- obj-y +=3D memory.o
- obj-y +=3D memory_mapping.o
- obj-y +=3D migration/ram.o
-+obj-y +=3D softmmu/
- LIBS :=3D $(libs_softmmu) $(LIBS)
+@@ -203,7 +203,7 @@ endif
+ COMMON_LDADDS =3D ../libqemuutil.a
 =20
- # Hardware support
+ # build either PROG or PROGW
+-$(QEMU_PROG_BUILD): $(all-obj-y) $(COMMON_LDADDS)
++$(QEMU_PROG_BUILD): $(all-obj-y) $(COMMON_LDADDS) $(softmmu-main-y)
+ 	$(call LINK, $(filter-out %.mak, $^))
+ ifdef CONFIG_DARWIN
+ 	$(call quiet-command,Rez -append $(SRC_PATH)/pc-bios/qemu.rsrc -o $@,"REZ=
+","$(TARGET_DIR)$@")
+diff --git a/include/sysemu/sysemu.h b/include/sysemu/sysemu.h
+index 6358a324a7..3e81a1a79c 100644
+--- a/include/sysemu/sysemu.h
++++ b/include/sysemu/sysemu.h
+@@ -116,6 +116,10 @@ QemuOpts *qemu_get_machine_opts(void);
+=20
+ bool defaults_enabled(void);
+=20
++void qemu_init(int argc, char **argv, char **envp);
++void qemu_main_loop(void);
++void qemu_cleanup(void);
++
+ extern QemuOptsList qemu_legacy_drive_opts;
+ extern QemuOptsList qemu_common_drive_opts;
+ extern QemuOptsList qemu_drive_opts;
 diff --git a/softmmu/Makefile.objs b/softmmu/Makefile.objs
-new file mode 100644
-index 0000000000..d80a5ffe5a
---- /dev/null
+index d80a5ffe5a..dd15c24346 100644
+--- a/softmmu/Makefile.objs
 +++ b/softmmu/Makefile.objs
-@@ -0,0 +1,2 @@
-+obj-y +=3D vl.o
-+vl.o-cflags :=3D $(GPROF_CFLAGS) $(SDL_CFLAGS)
-diff --git a/vl.c b/softmmu/vl.c
-similarity index 100%
-rename from vl.c
-rename to softmmu/vl.c
+@@ -1,2 +1,3 @@
++softmmu-main-y =3D softmmu/main.o
+ obj-y +=3D vl.o
+ vl.o-cflags :=3D $(GPROF_CFLAGS) $(SDL_CFLAGS)
+diff --git a/softmmu/main.c b/softmmu/main.c
+new file mode 100644
+index 0000000000..7adc530c73
+--- /dev/null
++++ b/softmmu/main.c
+@@ -0,0 +1,53 @@
++/*
++ * QEMU System Emulator
++ *
++ * Copyright (c) 2003-2020 Fabrice Bellard
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a=
+ copy
++ * of this software and associated documentation files (the "Software"), t=
+o deal
++ * in the Software without restriction, including without limitation the r=
+ights
++ * to use, copy, modify, merge, publish, distribute, sublicense, and/or se=
+ll
++ * copies of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be included=
+ in
++ * all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS=
+ OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY=
+,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
++ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OT=
+HER
++ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING=
+ FROM,
++ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS =
+IN
++ * THE SOFTWARE.
++ */
++
++#include "qemu/osdep.h"
++#include "qemu-common.h"
++#include "sysemu/sysemu.h"
++
++#ifdef CONFIG_SDL
++#if defined(__APPLE__) || defined(main)
++#include <SDL.h>
++int main(int argc, char **argv)
++{
++    return qemu_main(argc, argv, NULL);
++}
++#undef main
++#define main qemu_main
++#endif
++#endif /* CONFIG_SDL */
++
++#ifdef CONFIG_COCOA
++#undef main
++#define main qemu_main
++#endif /* CONFIG_COCOA */
++
++int main(int argc, char **argv, char **envp)
++{
++    qemu_init(argc, argv, envp);
++    qemu_main_loop();
++    qemu_cleanup();
++
++    return 0;
++}
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index 7dcb0879c4..46a48d09df 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -36,25 +36,6 @@
+ #include "sysemu/seccomp.h"
+ #include "sysemu/tcg.h"
+=20
+-#ifdef CONFIG_SDL
+-#if defined(__APPLE__) || defined(main)
+-#include <SDL.h>
+-int qemu_main(int argc, char **argv, char **envp);
+-int main(int argc, char **argv)
+-{
+-    return qemu_main(argc, argv, NULL);
+-}
+-#undef main
+-#define main qemu_main
+-#endif
+-#endif /* CONFIG_SDL */
+-
+-#ifdef CONFIG_COCOA
+-#undef main
+-#define main qemu_main
+-#endif /* CONFIG_COCOA */
+-
+-
+ #include "qemu/error-report.h"
+ #include "qemu/sockets.h"
+ #include "sysemu/accel.h"
+@@ -1671,7 +1652,7 @@ static bool main_loop_should_exit(void)
+     return false;
+ }
+=20
+-static void main_loop(void)
++void qemu_main_loop(void)
+ {
+ #ifdef CONFIG_PROFILER
+     int64_t ti;
+@@ -2839,7 +2820,7 @@ static void configure_accelerators(const char *progna=
+me)
+     }
+ }
+=20
+-int main(int argc, char **argv, char **envp)
++void qemu_init(int argc, char **argv, char **envp)
+ {
+     int i;
+     int snapshot, linux_boot;
+@@ -3391,7 +3372,7 @@ int main(int argc, char **argv, char **envp)
+             case QEMU_OPTION_watchdog:
+                 if (watchdog) {
+                     error_report("only one watchdog option may be given");
+-                    return 1;
++                    exit(1);
+                 }
+                 watchdog =3D optarg;
+                 break;
+@@ -4300,7 +4281,7 @@ int main(int argc, char **argv, char **envp)
+     parse_numa_opts(current_machine);
+=20
+     /* do monitor/qmp handling at preconfig state if requested */
+-    main_loop();
++    qemu_main_loop();
+=20
+     audio_init_audiodevs();
+=20
+@@ -4418,7 +4399,7 @@ int main(int argc, char **argv, char **envp)
+     if (vmstate_dump_file) {
+         /* dump and exit */
+         dump_vmstate_json_to_file(vmstate_dump_file);
+-        return 0;
++        exit(0);
+     }
+=20
+     if (incoming) {
+@@ -4435,8 +4416,11 @@ int main(int argc, char **argv, char **envp)
+     accel_setup_post(current_machine);
+     os_setup_post();
+=20
+-    main_loop();
++    return;
++}
+=20
++void qemu_cleanup(void)
++{
+     gdbserver_cleanup();
+=20
+     /*
+@@ -4473,6 +4457,4 @@ int main(int argc, char **argv, char **envp)
+     qemu_chr_cleanup();
+     user_creatable_cleanup();
+     /* TODO: unref root container, check all devices are ok */
+-
+-    return 0;
+ }
 --=20
 2.25.0
 
