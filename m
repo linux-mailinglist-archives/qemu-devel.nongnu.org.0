@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 016A01598B1
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Feb 2020 19:32:44 +0100 (CET)
-Received: from localhost ([::1]:55560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6B2C1598C9
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Feb 2020 19:35:23 +0100 (CET)
+Received: from localhost ([::1]:55636 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j1aKx-0001kv-1I
-	for lists+qemu-devel@lfdr.de; Tue, 11 Feb 2020 13:32:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48889)
+	id 1j1aNW-0004yt-Pa
+	for lists+qemu-devel@lfdr.de; Tue, 11 Feb 2020 13:35:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50501)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eric.auger@redhat.com>) id 1j1aJO-0000aO-2K
- for qemu-devel@nongnu.org; Tue, 11 Feb 2020 13:31:06 -0500
+ (envelope-from <eric.auger@redhat.com>) id 1j1aK3-0001W6-Ov
+ for qemu-devel@nongnu.org; Tue, 11 Feb 2020 13:31:48 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eric.auger@redhat.com>) id 1j1aJN-0000yw-1C
- for qemu-devel@nongnu.org; Tue, 11 Feb 2020 13:31:05 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:60565
+ (envelope-from <eric.auger@redhat.com>) id 1j1aK2-0002HN-PC
+ for qemu-devel@nongnu.org; Tue, 11 Feb 2020 13:31:47 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:23234
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
- id 1j1aJM-0000y3-TD
- for qemu-devel@nongnu.org; Tue, 11 Feb 2020 13:31:04 -0500
+ id 1j1aK2-0002Fu-IZ
+ for qemu-devel@nongnu.org; Tue, 11 Feb 2020 13:31:46 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581445864;
+ s=mimecast20190719; t=1581445905;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vQe3nGagGzeCsufC3rqZRuUQ8B4VGRBcrcOfQrGBV8w=;
- b=XizbppCkcIq3S0jPR6Yg3/Y+HDcyF02GFLkUuS+eqEqnhruL49WoKpIjI40/YDmU0CcGE5
- FxxH19lIGS8qlUcOo+uE6iQwKluCR30kSE1VFvNyGnzE0Uigbzn3EgNZc2JYdQYSq3FxwQ
- KQvD88omyJGCgb1qA5XQDq1/s5+E8G0=
+ bh=hd8VPzkhK8n9/lwhgrwAyRD2bhnpTGXUCuZRADWF3wk=;
+ b=VYtUUgrwOaGygKk20gEBIN9XUFnx4iWU3Pcoygx1J4X7YsaReDQ22f5wuE3vrukY0bxdD6
+ o9FUaUJn7TQw5b0mECFhqyvKGhjenAnpy5/Z9L3c/nGT9tZLlYR+z/iTuGJaFDvDyqeL4J
+ Z9/v5n0PQKYE7SDF490Ak5Tavb7OwNY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-44-MhMVp186MkW1lxqSwApFkQ-1; Tue, 11 Feb 2020 13:31:00 -0500
-X-MC-Unique: MhMVp186MkW1lxqSwApFkQ-1
+ us-mta-63-2Smuds_WMvW744S-HoF1CA-1; Tue, 11 Feb 2020 13:31:42 -0500
+X-MC-Unique: 2Smuds_WMvW744S-HoF1CA-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2ED611005510;
- Tue, 11 Feb 2020 18:30:58 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 142A5477;
+ Tue, 11 Feb 2020 18:31:40 +0000 (UTC)
 Received: from [10.36.116.37] (ovpn-116-37.ams2.redhat.com [10.36.116.37])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8935689F38;
- Tue, 11 Feb 2020 18:30:53 +0000 (UTC)
-Subject: Re: [kvm-unit-tests PATCH v2 6/9] arm: pmu: Test chained counter
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6303960499;
+ Tue, 11 Feb 2020 18:31:35 +0000 (UTC)
+Subject: Re: [kvm-unit-tests PATCH v2 5/9] arm: pmu: Basic event counter Tests
 To: Peter Maydell <peter.maydell@linaro.org>
 References: <20200130112510.15154-1-eric.auger@redhat.com>
- <20200130112510.15154-7-eric.auger@redhat.com>
- <CAFEAcA_jfZKjey8komTt97Mu-oFjWyFNG2cY4-o8yFAP1oGiug@mail.gmail.com>
+ <20200130112510.15154-6-eric.auger@redhat.com>
+ <CAFEAcA9Yc9dKTCcP3fP93tQU62Q=2FYOoYGvUqfiOMY=pYV_RA@mail.gmail.com>
 From: Auger Eric <eric.auger@redhat.com>
-Message-ID: <5f11c69b-655a-2fa9-462f-9fd6ebdb501d@redhat.com>
-Date: Tue, 11 Feb 2020 19:30:50 +0100
+Message-ID: <94fcec29-d44a-98cf-c397-b23b5d355eac@redhat.com>
+Date: Tue, 11 Feb 2020 19:31:32 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.4.0
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA_jfZKjey8komTt97Mu-oFjWyFNG2cY4-o8yFAP1oGiug@mail.gmail.com>
+In-Reply-To: <CAFEAcA9Yc9dKTCcP3fP93tQU62Q=2FYOoYGvUqfiOMY=pYV_RA@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,32 +86,43 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Hi Peter,
 
-On 2/11/20 5:24 PM, Peter Maydell wrote:
+On 2/11/20 5:27 PM, Peter Maydell wrote:
 > On Thu, 30 Jan 2020 at 11:26, Eric Auger <eric.auger@redhat.com> wrote:
 >>
->> Add 2 tests exercising chained counters. The first one uses
->> CPU_CYCLES and the second one uses SW_INCR.
+>> Adds the following tests:
+>> - event-counter-config: test event counter configuration
+>> - basic-event-count:
+>>   - programs counters #0 and #1 to count 2 required events
+>>   (resp. CPU_CYCLES and INST_RETIRED). Counter #0 is preset
+>>   to a value close enough to the 32b
+>>   overflow limit so that we check the overflow bit is set
+>>   after the execution of the asm loop.
+>> - mem-access: counts MEM_ACCESS event on counters #0 and #1
+>>   with and without 32-bit overflow.
 >>
 >> Signed-off-by: Eric Auger <eric.auger@redhat.com>
->> +static void test_chained_sw_incr(void)
+> 
+>> +static bool satisfy_prerequisites(uint32_t *events, unsigned int nb_events)
 >> +{
->> +       uint32_t events[] = { 0x0 /* SW_INCR */, 0x0 /* SW_INCR */};
+>> +       int i;
+>> +
+>> +       if (pmu.nb_implemented_counters < nb_events) {
+>> +               report_skip("Skip test as number of counters is too small (%d)",
+>> +                           pmu.nb_implemented_counters);
+>> +               return false;
+>> +       }
+>> +
+>> +       for (i = 0; i < nb_events; i++) {
+>> +               if (!is_event_supported(events[i], false)) {
+>> +                       report_skip("Skip test as event %d is not supported",
+>> +                                   events[i]);
 > 
-> Cut-n-paste error? This test relies on the CHAIN event but it
-> isn't present in this list of events to pass to satisfy_prerequisites(),
-> so I suspect the second element should be "0x1e /* CHAIN */" ?
-No that's not a cut-n-paste error. I may rename the test into test_sw_incr.
-
-It starts by testing unchained SW_INCR.
-
-chained SW_INCR testing start with
-/* 64b SW_INCR */
-
-
-> 
-> (This makes the test fail on QEMU TCG, because we don't implement
-> CHAIN.)
-OK
+> Event numbers are given in hex in the Arm ARM and also
+> specified in hex in your test source code. I think it
+> would be more helpful if the message here used "0x%x", to
+> save the reader having to do the decimal-to-hex conversion
+> to find the event in the spec or the test case.
+Sure I will fix that
 
 Thanks
 
