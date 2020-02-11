@@ -2,69 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6868B1598B8
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Feb 2020 19:34:16 +0100 (CET)
-Received: from localhost ([::1]:55595 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 293A61598D3
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Feb 2020 19:36:35 +0100 (CET)
+Received: from localhost ([::1]:55662 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j1aMR-0003bD-3n
-	for lists+qemu-devel@lfdr.de; Tue, 11 Feb 2020 13:34:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51505)
+	id 1j1aOg-0006BN-81
+	for lists+qemu-devel@lfdr.de; Tue, 11 Feb 2020 13:36:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55976)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eric.auger@redhat.com>) id 1j1aKa-0001zS-Vs
- for qemu-devel@nongnu.org; Tue, 11 Feb 2020 13:32:22 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1j1aMN-00047B-GT
+ for qemu-devel@nongnu.org; Tue, 11 Feb 2020 13:34:12 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eric.auger@redhat.com>) id 1j1aKZ-000377-Ry
- for qemu-devel@nongnu.org; Tue, 11 Feb 2020 13:32:20 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:35217
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
- id 1j1aKZ-00035F-NJ
- for qemu-devel@nongnu.org; Tue, 11 Feb 2020 13:32:19 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581445939;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ZAgyvfwf3MxzMiPOUvUmlPx5ULbWnylJ3lGwUp9IgdE=;
- b=LQC9pzJcGEpWe+qx0YPkaiWPxZscnV7B8F4l0vsgmgPPpxhknLJUUxadlOtuEfPZvsDzda
- 8mU9Kxr82rA3K9k6Y15poxITreTLchY2L+Fn7z3XT/bvzbQYlyDPrrsUTKkPZBHXYA3V9O
- eBX+Kr5+RXO0i9ollSB4nk5E4LKVUzU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-317-XCCwj2V_O9aRrp398QR0pA-1; Tue, 11 Feb 2020 13:32:10 -0500
-X-MC-Unique: XCCwj2V_O9aRrp398QR0pA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 48518113784B;
- Tue, 11 Feb 2020 18:32:08 +0000 (UTC)
-Received: from [10.36.116.37] (ovpn-116-37.ams2.redhat.com [10.36.116.37])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C54275C1B5;
- Tue, 11 Feb 2020 18:32:03 +0000 (UTC)
-Subject: Re: [kvm-unit-tests PATCH v2 4/9] arm: pmu: Check Required Event
- Support
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20200130112510.15154-1-eric.auger@redhat.com>
- <20200130112510.15154-5-eric.auger@redhat.com>
- <CAFEAcA_V3rT+C1FCPPyjmQ8svxF1tMWWOLgZ1Vn_CNQ3N0x-KA@mail.gmail.com>
-From: Auger Eric <eric.auger@redhat.com>
-Message-ID: <e3fc48f2-e31c-c70b-16fe-ca5af4a0708e@redhat.com>
-Date: Tue, 11 Feb 2020 19:32:00 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.4.0
+ (envelope-from <richard.henderson@linaro.org>) id 1j1aMM-00072u-GC
+ for qemu-devel@nongnu.org; Tue, 11 Feb 2020 13:34:11 -0500
+Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:40755)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1j1aMM-00070K-7w
+ for qemu-devel@nongnu.org; Tue, 11 Feb 2020 13:34:10 -0500
+Received: by mail-pf1-x444.google.com with SMTP id q8so5905629pfh.7
+ for <qemu-devel@nongnu.org>; Tue, 11 Feb 2020 10:34:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=dD9Gwl0YviawrYH50yAj2nFcWE0R1gSfyvKEaJotWtg=;
+ b=vhBwl2NmTXULuDQPL8cDwcK4DWd+mTOC8TJKpwBLb/hzFaSHrnYEzEEISmMxeA5vEN
+ BleCTcc1y7SQMHAjSw3XhAl7kgdKha7vEl0RlQaNKgOvFO79D5W8uCNfxIds0KAN80W0
+ UCS5PKyjmlG3XPLSu5wilDDsLDh1xw/iuQWF3FOxhBzCHpKrYRMUSDoy+WKItjAJyILt
+ soFT3qZFDl6RoS5g8o3dqog/zHfZifFzllbU9R7JZXq/+ZnCfZ5wHDmFXoQb9FOs/z9N
+ slBviXW3t9O4A7LVQ1ZVFTzgQ8Zk9kY2IqsZZCSFm3p3qJ65YJ0e1gCxDJ2id3fNz6XA
+ +HFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=dD9Gwl0YviawrYH50yAj2nFcWE0R1gSfyvKEaJotWtg=;
+ b=Sif7hu+3XEXUQiu7+fKsvJfS/xh7kyoGPD785z+MXwflgHdAyyNR1FqacVg+LXZvcB
+ L7SCEHZtMW7PITaeQEcmVDYgfynvYMP95XJpQnNg0LIW6wx1+qPvPo5NRzm9Ewde031W
+ w8IgeuAagZFBPtzLMJ5UX4vFFsloxVzwGNG/hJzl2IT0aX29LQgdIQGFjt2SzmQSVbvx
+ tUhglU5gNoTLS1ifSeS4pAqF6YPr+Pd/gO2ZgQ1HevpGNpiB7VG0TwViY8KEOXoZK3fL
+ u5SplVntF5FaRmKvG3ffO3PwLpmfFfPurypUfHHguVfkuIKnvAx28M/V0ng0R5W6TwCN
+ FNXw==
+X-Gm-Message-State: APjAAAVsfa21up/BsU/NBmi9Luk7reNC5SKz5D+4UyASEo1gHGvBovrR
+ 0rI9NWBH2Rp4caCSHGECRFtPNQ==
+X-Google-Smtp-Source: APXvYqw7F5n57V9rMdbCcYaYOkYGd4U7T9oaQJ88BN9LSSoGlxHrSh9EiGEddPngb65uKsw94OPeNQ==
+X-Received: by 2002:a63:e04a:: with SMTP id n10mr4336216pgj.341.1581446049050; 
+ Tue, 11 Feb 2020 10:34:09 -0800 (PST)
+Received: from [192.168.1.11] (97-126-123-70.tukw.qwest.net. [97.126.123.70])
+ by smtp.gmail.com with ESMTPSA id
+ l8sm3998719pjy.24.2020.02.11.10.34.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 11 Feb 2020 10:34:08 -0800 (PST)
+Subject: Re: [PATCH 05/13] target/arm: Add and use FIELD definitions for
+ ID_AA64DFR0_EL1
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20200211173726.22541-1-peter.maydell@linaro.org>
+ <20200211173726.22541-6-peter.maydell@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <6a75d967-513d-93ef-b983-b8a35f78c2bf@linaro.org>
+Date: Tue, 11 Feb 2020 10:34:06 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA_V3rT+C1FCPPyjmQ8svxF1tMWWOLgZ1Vn_CNQ3N0x-KA@mail.gmail.com>
+In-Reply-To: <20200211173726.22541-6-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,70 +85,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jones <drjones@redhat.com>, kvm-devel <kvm@vger.kernel.org>,
- Marc Zyngier <maz@kernel.org>, QEMU Developers <qemu-devel@nongnu.org>,
- qemu-arm <qemu-arm@nongnu.org>, Andre Przywara <andre.przywara@arm.com>,
- Andrew Murray <andrew.murray@arm.com>,
- Alexandru Elisei <alexandru.elisei@arm.com>, kvmarm@lists.cs.columbia.edu,
- Eric Auger <eric.auger.pro@gmail.com>
+Cc: Eric Auger <eric.auger@redhat.com>,
+ Aaron Lindsay <aaron@os.amperecomputing.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Peter,
+On 2/11/20 9:37 AM, Peter Maydell wrote:
+>      if (arm_feature(&cpu->env, ARM_FEATURE_AARCH64)) {
+> -        assert(extract32(cpu->id_aa64dfr0, 12, 4) == brps);
+> -        assert(extract32(cpu->id_aa64dfr0, 20, 4) == wrps);
+> -        assert(extract32(cpu->id_aa64dfr0, 28, 4) == ctx_cmps);
+> +        assert(FIELD_EX32(cpu->id_aa64dfr0, ID_AA64DFR0, BRPS) == brps);
+> +        assert(FIELD_EX32(cpu->id_aa64dfr0, ID_AA64DFR0, WRPS) == wrps);
+> +        assert(FIELD_EX32(cpu->id_aa64dfr0, ID_AA64DFR0, CTX_CMPS) == ctx_cmps);
 
-On 2/11/20 5:28 PM, Peter Maydell wrote:
-> On Thu, 30 Jan 2020 at 11:25, Eric Auger <eric.auger@redhat.com> wrote:
->>
->> If event counters are implemented check the common events
->> required by the PMUv3 are implemented.
->>
->> Some are unconditionally required (SW_INCR, CPU_CYCLES,
->> either INST_RETIRED or INST_SPEC). Some others only are
->> required if the implementation implements some other features.
->>
->> Check those wich are unconditionally required.
->>
->> This test currently fails on TCG as neither INST_RETIRED
->> or INST_SPEC are supported.
->>
->> Signed-off-by: Eric Auger <eric.auger@redhat.com>
->>
-> 
->> +static bool is_event_supported(uint32_t n, bool warn)
->> +{
->> +       uint64_t pmceid0 = read_sysreg(pmceid0_el0);
->> +       uint64_t pmceid1 = read_sysreg_s(PMCEID1_EL0);
->> +       bool supported;
->> +       uint64_t reg;
->> +
->> +       /*
->> +        * The low 32-bits of PMCEID0/1 respectly describe
->> +        * event support for events 0-31/32-63. Their High
->> +        * 32-bits describe support for extended events
->> +        * starting at 0x4000, using the same split.
->> +        */
->> +       if (n >= 0x0  && n <= 0x3F)
->> +               reg = (pmceid0 & 0xFFFFFFFF) | ((pmceid1 & 0xFFFFFFFF) << 32);
->> +       else if  (n >= 0x4000 && n <= 0x403F)
->> +               reg = (pmceid0 >> 32) | ((pmceid1 >> 32) << 32);
->> +       else
->> +               abort();
->> +
->> +       supported =  reg & (1UL << (n & 0x3F));
->> +
->> +       if (!supported && warn)
->> +               report_info("event %d is not supported", n);
-> 
-> As with satisfy_prerequisites(), printing this with "0x%x"
-> would probably be more helpful to most users.
-OK
+Should really be FIELD_EX64.  Otherwise,
 
-Thanks
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-Eric
-> 
-> thanks
-> -- PMM
-> 
+
+r~
+
 
 
