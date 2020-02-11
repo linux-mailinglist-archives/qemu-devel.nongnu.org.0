@@ -2,58 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A802F1598D8
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Feb 2020 19:39:21 +0100 (CET)
-Received: from localhost ([::1]:55696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C43C1598DF
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Feb 2020 19:41:11 +0100 (CET)
+Received: from localhost ([::1]:55744 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j1aRM-00004w-2U
-	for lists+qemu-devel@lfdr.de; Tue, 11 Feb 2020 13:39:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34219)
+	id 1j1aT8-0001sX-Dv
+	for lists+qemu-devel@lfdr.de; Tue, 11 Feb 2020 13:41:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36510)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1j1aP5-0006mx-2w
- for qemu-devel@nongnu.org; Tue, 11 Feb 2020 13:37:00 -0500
+ (envelope-from <abologna@redhat.com>) id 1j1aQ5-0007uy-0D
+ for qemu-devel@nongnu.org; Tue, 11 Feb 2020 13:38:02 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1j1aP3-0004Fm-PM
- for qemu-devel@nongnu.org; Tue, 11 Feb 2020 13:36:58 -0500
-Resent-Date: Tue, 11 Feb 2020 13:36:58 -0500
-Resent-Message-Id: <E1j1aP3-0004Fm-PM@eggs.gnu.org>
-Received: from sender4-of-o51.zoho.com ([136.143.188.51]:21117)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1j1aP3-00047S-HX
- for qemu-devel@nongnu.org; Tue, 11 Feb 2020 13:36:57 -0500
-ARC-Seal: i=1; a=rsa-sha256; t=1581446209; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=nVnclkDcRkLNquwUudn7qwLTR0UhYdbUSjKkyp9K07h//kdg7y1ekOgDV6MSlSenMusM7nEZ+OvwKHL1OXFSHY81lCmCgWOQC0VH8tZgPDjuNGkpyVMspL4IL4llbKng40nme9NfG8UmZKokkxA1uU4hqqupudq3Jtrs5AO1gjs=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1581446209;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=4IQaD9qde+8QNTu3+5Txz9AZKMOSdm67txd0TExZLQg=; 
- b=YhnSjeB/RnTHzP1lFM+Fv3apHzkt4ULcvohxu6UQJOs163BcydmnVpbwSEoZ5rVar/lW+pT0N/vZ1/FP0H6m0tx2BtE9CsNM4HF15nR++oXoLaf5FrXBJciYwsCvM2hs9OOjWUYUzI3vXUt7BYwPTKmoNcibhdYTr0Atbuu/0Kk=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1581446207276550.7718058893702;
- Tue, 11 Feb 2020 10:36:47 -0800 (PST)
-In-Reply-To: <20200211175516.10716-1-pbonzini@redhat.com>
-Subject: Re: [PATCH] target/i386: check for availability of MSR_IA32_UCODE_REV
- as an emulated MSR
-Message-ID: <158144620617.7519.8581186859525916946@a1bbccc8075a>
+ (envelope-from <abologna@redhat.com>) id 1j1aQ3-0006FF-Cz
+ for qemu-devel@nongnu.org; Tue, 11 Feb 2020 13:38:00 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:20966
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <abologna@redhat.com>) id 1j1aQ3-0006Cm-93
+ for qemu-devel@nongnu.org; Tue, 11 Feb 2020 13:37:59 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1581446278;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=1FIkEpSl8qkDbHz+wUVRnPVG2Mdsen+3/qcU+l5bVnQ=;
+ b=JVV4/xX3DLZ8Nong22WTAWMyKhXPDa1EeLMo33OXQBge/0rTUq2pSigt2KxaXyzKLKSxP7
+ uxkNIltGTAVISj8+FhFBE3ccV3z/y5CPG15l4lvL8E6yAvE50/67HXCvc6yQf4TXZGiamL
+ kddvBYrcCq53fgYtQh+Vytl990RhmZs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-31-ZDF3vHx-OcqPjI_JhZZ_BA-1; Tue, 11 Feb 2020 13:37:49 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9F94D13EA
+ for <qemu-devel@nongnu.org>; Tue, 11 Feb 2020 18:37:48 +0000 (UTC)
+Received: from kinshicho.usersys.redhat.com (unknown [10.43.2.246])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9A33090069;
+ Tue, 11 Feb 2020 18:37:47 +0000 (UTC)
+From: Andrea Bolognani <abologna@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] qapi: Expand documentation for LostTickPolicy
+Date: Tue, 11 Feb 2020 19:37:44 +0100
+Message-Id: <20200211183744.210298-1-abologna@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: pbonzini@redhat.com
-Date: Tue, 11 Feb 2020 10:36:47 -0800 (PST)
-X-ZohoMailClient: External
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: ZDF3vHx-OcqPjI_JhZZ_BA-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 136.143.188.51
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,49 +68,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: alex.williamson@redhat.com, qemu-devel@nongnu.org
+Cc: Andrew Jones <drjones@redhat.com>, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDIxMTE3NTUxNi4xMDcx
-Ni0xLXBib256aW5pQHJlZGhhdC5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgZmFpbGVkIHRoZSBk
-b2NrZXItcXVpY2tAY2VudG9zNyBidWlsZCB0ZXN0LiBQbGVhc2UgZmluZCB0aGUgdGVzdGluZyBj
-b21tYW5kcyBhbmQKdGhlaXIgb3V0cHV0IGJlbG93LiBJZiB5b3UgaGF2ZSBEb2NrZXIgaW5zdGFs
-bGVkLCB5b3UgY2FuIHByb2JhYmx5IHJlcHJvZHVjZSBpdApsb2NhbGx5LgoKPT09IFRFU1QgU0NS
-SVBUIEJFR0lOID09PQojIS9iaW4vYmFzaAptYWtlIGRvY2tlci1pbWFnZS1jZW50b3M3IFY9MSBO
-RVRXT1JLPTEKdGltZSBtYWtlIGRvY2tlci10ZXN0LXF1aWNrQGNlbnRvczcgU0hPV19FTlY9MSBK
-PTE0IE5FVFdPUks9MQo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoKcWVtdS1zeXN0ZW0teDg2XzY0
-OiAtYWNjZWwga3ZtOiBmYWlsZWQgdG8gaW5pdGlhbGl6ZSBrdm06IE5vIHN1Y2ggZmlsZSBvciBk
-aXJlY3RvcnkKcWVtdS1zeXN0ZW0teDg2XzY0OiBmYWxsaW5nIGJhY2sgdG8gdGNnCioqCkVSUk9S
-Oi90bXAvcWVtdS10ZXN0L3NyYy90ZXN0cy9xdGVzdC9taWdyYXRpb24taGVscGVycy5jOjExOTpj
-aGVja19taWdyYXRpb25fc3RhdHVzOiBhc3NlcnRpb24gZmFpbGVkIChjdXJyZW50X3N0YXR1cyAh
-PSAiY29tcGxldGVkIik6ICgiY29tcGxldGVkIiAhPSAiY29tcGxldGVkIikKRVJST1IgLSBCYWls
-IG91dCEgRVJST1I6L3RtcC9xZW11LXRlc3Qvc3JjL3Rlc3RzL3F0ZXN0L21pZ3JhdGlvbi1oZWxw
-ZXJzLmM6MTE5OmNoZWNrX21pZ3JhdGlvbl9zdGF0dXM6IGFzc2VydGlvbiBmYWlsZWQgKGN1cnJl
-bnRfc3RhdHVzICE9ICJjb21wbGV0ZWQiKTogKCJjb21wbGV0ZWQiICE9ICJjb21wbGV0ZWQiKQpt
-YWtlOiAqKiogW2NoZWNrLXF0ZXN0LXg4Nl82NF0gRXJyb3IgMQptYWtlOiAqKiogV2FpdGluZyBm
-b3IgdW5maW5pc2hlZCBqb2JzLi4uLgogIFRFU1QgICAgaW90ZXN0LXFjb3cyOiAwODAKICBURVNU
-ICAgIGlvdGVzdC1xY293MjogMDg2Ci0tLQogICAgcmFpc2UgQ2FsbGVkUHJvY2Vzc0Vycm9yKHJl
-dGNvZGUsIGNtZCkKc3VicHJvY2Vzcy5DYWxsZWRQcm9jZXNzRXJyb3I6IENvbW1hbmQgJ1snc3Vk
-bycsICctbicsICdkb2NrZXInLCAncnVuJywgJy0tbGFiZWwnLCAnY29tLnFlbXUuaW5zdGFuY2Uu
-dXVpZD1kNzQ4ZmI4N2U1NGI0NGU5YjViMzRkOTcyYzMxZTEwNCcsICctdScsICcxMDAxJywgJy0t
-c2VjdXJpdHktb3B0JywgJ3NlY2NvbXA9dW5jb25maW5lZCcsICctLXJtJywgJy1lJywgJ1RBUkdF
-VF9MSVNUPScsICctZScsICdFWFRSQV9DT05GSUdVUkVfT1BUUz0nLCAnLWUnLCAnVj0nLCAnLWUn
-LCAnSj0xNCcsICctZScsICdERUJVRz0nLCAnLWUnLCAnU0hPV19FTlY9MScsICctZScsICdDQ0FD
-SEVfRElSPS92YXIvdG1wL2NjYWNoZScsICctdicsICcvaG9tZS9wYXRjaGV3Ly5jYWNoZS9xZW11
-LWRvY2tlci1jY2FjaGU6L3Zhci90bXAvY2NhY2hlOnonLCAnLXYnLCAnL3Zhci90bXAvcGF0Y2hl
-dy10ZXN0ZXItdG1wLWM3aXV5MG9sL3NyYy9kb2NrZXItc3JjLjIwMjAtMDItMTEtMTMuMjUuMDYu
-NjMwNTovdmFyL3RtcC9xZW11Onoscm8nLCAncWVtdTpjZW50b3M3JywgJy92YXIvdG1wL3FlbXUv
-cnVuJywgJ3Rlc3QtcXVpY2snXScgcmV0dXJuZWQgbm9uLXplcm8gZXhpdCBzdGF0dXMgMi4KZmls
-dGVyPS0tZmlsdGVyPWxhYmVsPWNvbS5xZW11Lmluc3RhbmNlLnV1aWQ9ZDc0OGZiODdlNTRiNDRl
-OWI1YjM0ZDk3MmMzMWUxMDQKbWFrZVsxXTogKioqIFtkb2NrZXItcnVuXSBFcnJvciAxCm1ha2Vb
-MV06IExlYXZpbmcgZGlyZWN0b3J5IGAvdmFyL3RtcC9wYXRjaGV3LXRlc3Rlci10bXAtYzdpdXkw
-b2wvc3JjJwptYWtlOiAqKiogW2RvY2tlci1ydW4tdGVzdC1xdWlja0BjZW50b3M3XSBFcnJvciAy
-CgpyZWFsICAgIDExbTQwLjI3NXMKdXNlciAgICAwbTguNTMxcwoKClRoZSBmdWxsIGxvZyBpcyBh
-dmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAyMDAyMTExNzU1MTYuMTA3MTYt
-MS1wYm9uemluaUByZWRoYXQuY29tL3Rlc3RpbmcuZG9ja2VyLXF1aWNrQGNlbnRvczcvP3R5cGU9
-bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0
-dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3
-LWRldmVsQHJlZGhhdC5jb20=
+The current documentation is fairly terse and not easy to decode
+for someone who's not intimately familiar with the inner workings
+of timer devices. Expand on it by providing a somewhat verbose
+description of what behavior each policy will result in, as seen
+from both the guest OS and host point of view.
+
+Signed-off-by: Andrea Bolognani <abologna@redhat.com>
+---
+This information is reported pretty much word by word in
+
+  https://libvirt.org/formatdomain.html#elementsTime
+
+so I'm hoping I can get the QEMU documentation updated and then just
+merge back the changes.
+
+ qapi/misc.json | 34 +++++++++++++++++++++++-----------
+ 1 file changed, 23 insertions(+), 11 deletions(-)
+
+diff --git a/qapi/misc.json b/qapi/misc.json
+index 33b94e3589..cd7445d29f 100644
+--- a/qapi/misc.json
++++ b/qapi/misc.json
+@@ -163,17 +163,29 @@
+ ##
+ # @LostTickPolicy:
+ #
+-# Policy for handling lost ticks in timer devices.
+-#
+-# @discard: throw away the missed tick(s) and continue with future injecti=
+on
+-#           normally.  Guest time may be delayed, unless the OS has explic=
+it
+-#           handling of lost ticks
+-#
+-# @delay: continue to deliver ticks at the normal rate.  Guest time will b=
+e
+-#         delayed due to the late tick
+-#
+-# @slew: deliver ticks at a higher rate to catch up with the missed tick. =
+The
+-#        guest time should not be delayed once catchup is complete.
++# Policy for handling lost ticks in timer devices.  Ticks end up getting
++# lost when, for example, the guest is paused.
++#
++# @discard: throw away the missed ticks and continue with future injection
++#           normally.  The guest OS will see the timer jump ahead by a
++#           potentially quite significant amount all at once, as if the
++#           intervening chunk of time had simply not existed; needless to
++#           say, such a sudden jump can easily confuse a guest OS which is
++#           not specifically prepared to deal with it.  Assuming the guest
++#           OS can deal correctly with the time jump, the time in the gues=
+t
++#           and in the host should now match.
++#
++# @delay: continue to deliver ticks at the normal rate.  The guest OS will
++#         not notice anything is amiss, as from its point of view time wil=
+l
++#         have continued to flow normally.  The time in the guest should n=
+ow
++#         be behind the time in the host by exactly the amount of time dur=
+ing
++#         which ticks have been missed.
++#
++# @slew: deliver ticks at a higher rate to catch up with the missed ticks.
++#        The guest OS will not notice anything is amiss, as from its point
++#        of view time will have continued to flow normally.  Once the time=
+r
++#        has managed to catch up with all the missing ticks, the time in
++#        the guest and in the host should match.
+ #
+ # Since: 2.0
+ ##
+--=20
+2.24.1
+
 
