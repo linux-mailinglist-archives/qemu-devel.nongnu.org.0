@@ -2,74 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4486159207
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Feb 2020 15:34:36 +0100 (CET)
-Received: from localhost ([::1]:50654 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7912F15921A
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Feb 2020 15:42:34 +0100 (CET)
+Received: from localhost ([::1]:50752 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j1WcV-0006Un-Q6
-	for lists+qemu-devel@lfdr.de; Tue, 11 Feb 2020 09:34:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51695)
+	id 1j1WkD-0002wG-II
+	for lists+qemu-devel@lfdr.de; Tue, 11 Feb 2020 09:42:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53030)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1j1Wbh-00061F-E3
- for qemu-devel@nongnu.org; Tue, 11 Feb 2020 09:33:46 -0500
+ (envelope-from <bounces@canonical.com>) id 1j1Wiz-0002EB-V4
+ for qemu-devel@nongnu.org; Tue, 11 Feb 2020 09:41:19 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1j1Wbg-00070q-3S
- for qemu-devel@nongnu.org; Tue, 11 Feb 2020 09:33:45 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:58471
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1j1Wbg-000700-0K
- for qemu-devel@nongnu.org; Tue, 11 Feb 2020 09:33:44 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581431623;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=bz6LXVsoI66LuUac2rYRL3fWGQcpAXi7rFujqid6psU=;
- b=Fy6y88dfQnZKjqVdDdDBD5xt/uPdElSbVamLTol9MuwiG+P870+mEdDvNLER+JboyWsG81
- nDcijzofSXDu3+GZA0m/louztprJTzN723ZnFkMahwWcbEhy1ZlriKnZGiHxD2KpvyS1wb
- cnZ5ML2JA5jK7XIBRDHx/SF4EUZurm0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-409-0TpUnLkwOsaXtrymsb3Cig-1; Tue, 11 Feb 2020 09:33:32 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8B74F800EB2;
- Tue, 11 Feb 2020 14:33:31 +0000 (UTC)
-Received: from [10.3.116.180] (ovpn-116-180.phx2.redhat.com [10.3.116.180])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 34A1189F35;
- Tue, 11 Feb 2020 14:33:26 +0000 (UTC)
-Subject: Re: Cross-project NBD extension proposal: NBD_INFO_INIT_STATE
-To: "Richard W.M. Jones" <rjones@redhat.com>
-References: <a4394fde-f459-dcb5-1698-013e1e24c388@redhat.com>
- <20200210221234.GH3888@redhat.com>
- <cc6e1e2e-d3a9-c498-354b-d382b5623ca0@redhat.com>
- <20200210225255.GJ3888@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <6ac74a99-67b6-3c41-873f-174237412605@redhat.com>
-Date: Tue, 11 Feb 2020 08:33:26 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ (envelope-from <bounces@canonical.com>) id 1j1Wiy-0001RY-Sg
+ for qemu-devel@nongnu.org; Tue, 11 Feb 2020 09:41:17 -0500
+Received: from indium.canonical.com ([91.189.90.7]:45342)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1j1Wiy-0001R6-NT
+ for qemu-devel@nongnu.org; Tue, 11 Feb 2020 09:41:16 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1j1Wiw-0000tk-HM
+ for <qemu-devel@nongnu.org>; Tue, 11 Feb 2020 14:41:14 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 66EF52E80C8
+ for <qemu-devel@nongnu.org>; Tue, 11 Feb 2020 14:41:14 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20200210225255.GJ3888@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: 0TpUnLkwOsaXtrymsb3Cig-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 11 Feb 2020 14:34:04 -0000
+From: Thomas Huth <1661815@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: shqking th-huth
+X-Launchpad-Bug-Reporter: shqking (shqking)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <20170204082040.20702.26524.malonedeb@gac.canonical.com>
+Message-Id: <158143164456.4193.17045622028698450853.malone@soybean.canonical.com>
+Subject: [Bug 1661815] Re: Stack address is returned from function
+ translate_one
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="0a62c17273454a1313f81a74a2198ec30b44c7b6";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 3244471e83f35aee0ea6e4b0a570da0864ebaf9b
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -78,69 +66,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Alberto Garcia <berto@igalia.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>, QEMU <qemu-devel@nongnu.org>,
- Max Reitz <mreitz@redhat.com>, "nbd@other.debian.org" <nbd@other.debian.org>,
- "libguestfs@redhat.com" <libguestfs@redhat.com>
+Reply-To: Bug 1661815 <1661815@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/10/20 4:52 PM, Richard W.M. Jones wrote:
-> On Mon, Feb 10, 2020 at 04:29:53PM -0600, Eric Blake wrote:
->> On 2/10/20 4:12 PM, Richard W.M. Jones wrote:
->>> On Mon, Feb 10, 2020 at 03:37:20PM -0600, Eric Blake wrote:
->>>> For now, only 2 of those 16 bits are defined: NBD_INIT_SPARSE (the
->>>> image has at least one hole) and NBD_INIT_ZERO (the image reads
->>>> completely as zero); the two bits are orthogonal and can be set
->>>> independently, although it is easy enough to see completely sparse
->>>> files with both bits set.
->>>
->>> I think I'm confused about the exact meaning of NBD_INIT_SPARSE.  Do
->>> you really mean the whole image is sparse; or (as you seem to have
->>> said above) that there exists a hole somewhere in the image but we're
->>> not saying where it is and there can be non-sparse parts of the image?
->>
->> As implemented:
->>
->> NBD_INIT_SPARSE - there is at least one hole somewhere (allocation
->> would be required to write to that part of the file), but there may
->> b allocated data elsewhere in the image.  Most disk images will fit
->> this definition (for example, it is very common to have a hole
->> between the MBR or GPT and the first partition containing a file
->> system, or for file systems themselves to be sparse within the
->> larger block device).
-> 
-> I think I'm still confused about why this particular flag would be
-> useful for clients (I can completely understand why clients need
-> NBD_INIT_ZERO).
-> 
-> But anyway ... could a flag indicating that the whole image is sparse
-> be useful, either as well as NBD_INIT_SPARSE or instead of it?  You
-> could use it to avoid an initial disk trim, which is something that
-> mke2fs does:
-> 
->    https://github.com/tytso/e2fsprogs/blob/0670fc20df4a4bbbeb0edb30d82628ea30a80598/misc/mke2fs.c#L2768
+Fixed here:
+https://git.qemu.org/?p=3Dqemu.git;a=3Dcommitdiff;h=3D344a7f656e8d211cdd6e
 
-I'm open to suggestions on how many initial bits should be provided.  In 
-fact, if we wanted, we could have a pair mutually-exclusive bits, 
-advertising:
-00 - no information known
-01 - image is completely sparse
-10 - image is completely allocated
-11 - error
+** Changed in: qemu
+       Status: New =3D> Fix Committed
 
-The goal of providing a 16-bit answer (or we could mandate 32 or 64 
-bits, if we think we will ever want to extend that far) was to make it 
-easier to add in whatever other initial-state extensions that someone 
-could find useful.  Until we're happy with the design, the size or any 
-given bit assignment is not locked down; once we do start committing any 
-of this series, we've locked in what interoperability will demand but 
-still have spare bits as future extensions.
+-- =
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1661815
 
+Title:
+  Stack address is returned from function translate_one
+
+Status in QEMU:
+  Fix Committed
+
+Bug description:
+  The vulnerable version is qemu-2.8.0, and the vulnerable function is
+  in "target-s390x/translate.c".
+
+  The code snippet is as following.
+
+  static ExitStatus translate_one(CPUS390XState *env, DisasContext *s)
+  {
+      const DisasInsn *insn;
+      ExitStatus ret =3D NO_EXIT;
+      DisasFields f;
+      ...
+      s->fields =3D &f;
+      ...
+      s->pc =3D s->next_pc;
+      return ret;
+  }
+
+  A stack address, i.e. the address of local variable "f" is returned
+  from current function through the output parameter "s->fields" as a
+  side effect.
+
+  This issue is one kind of undefined behaviors, according the C
+  Standard, 6.2.4 [ISO/IEC 9899:2011]
+  (https://www.securecoding.cert.org/confluence/display/c/DCL30-C.+Declare+=
+objects+with+appropriate+storage+durations)
+
+  This dangerous defect may lead to an exploitable vulnerability.
+  We suggest sanitizing "s->fields" as null before return.
+
+  Note that this issue is reported by shqking and Zhenwei Zou together.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1661815/+subscriptions
 
