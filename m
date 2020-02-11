@@ -2,53 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07FD2158FEC
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Feb 2020 14:28:10 +0100 (CET)
-Received: from localhost ([::1]:49604 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 374B7159014
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Feb 2020 14:36:04 +0100 (CET)
+Received: from localhost ([::1]:49714 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j1VaC-0003uh-Rx
-	for lists+qemu-devel@lfdr.de; Tue, 11 Feb 2020 08:28:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39496)
+	id 1j1Vhr-0000U3-2O
+	for lists+qemu-devel@lfdr.de; Tue, 11 Feb 2020 08:36:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49401)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <qemu_oss@crudebyte.com>) id 1j1VZN-0003LD-QO
- for qemu-devel@nongnu.org; Tue, 11 Feb 2020 08:27:19 -0500
+ (envelope-from <rvkagan@yandex-team.ru>) id 1j1U7K-0006CW-40
+ for qemu-devel@nongnu.org; Tue, 11 Feb 2020 06:54:15 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <qemu_oss@crudebyte.com>) id 1j1VZM-0006g2-Gv
- for qemu-devel@nongnu.org; Tue, 11 Feb 2020 08:27:17 -0500
-Received: from kylie.crudebyte.com ([5.189.157.229]:50217)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <qemu_oss@crudebyte.com>)
- id 1j1VZM-0006eZ-0q
- for qemu-devel@nongnu.org; Tue, 11 Feb 2020 08:27:16 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=SvMFBPyVA2sWHdOVkBpLA7RMtSjtuLyUX6xG3t4Q13k=; b=o7Sq4Or3j/GfKru+IXWuwTzbJf
- vgGgR7fvKYQE2YugRYtBkDElgjbJwOS7iZwLJ+0Xc6njQ5X0sSYf2zfn4qEq5TYR8YIzMIU5FAUkd
- 89xp2AcG2ALtyjKh4b23wWHaQpasUpS7sxeZxZ2A2R/WSo1McmyfHIyb0/jaKboW67vcgdyUmq5xJ
- syPkNkJqLHit8Ia+LNRdHlKv96RAZ2oqfsllGc7nMhM6BY+b50Vn4Y9s9Urhq5ZWB8baCuNji0hhj
- 337o+bvzH9SddGd53VaHu4qUKaiXqkkWpg4vbjZMZ7MXBGdIrE2bLwVvpP5rcsE3642sWHX38uhxk
- hsIcrxDqrRb3y554LklJ1QPc3KaXyWer3ctImdzGtb9CCI55DJTV3SXh+vjq4DT4dCVyeucElu6Gq
- pRu8/Glfbc8u2JNca3+wdaP1KKaU9ATu7B9S2plSRKn6QjXsevfL5aEfgq+aiuTWdFvm4GALWnqCi
- cNNcQqBh6xYxGjx3QrDkx6vZz7WeCIIwNOs87c7kig3hFEAk/uHBrNehxNFY9DRNRYeOxqMp6mXKj
- 9UAye8Zl8h4NJLpzT9hZvIn5qxg9HLhM6Zgo6N1U+sPp5QVbhU++aqXnnfOtb+6goVFJLcAxqk0yl
- kxMOjlyF5TMuxtVG3TnPJw5MwlC4Cj2OWjLiPxBg0=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+ (envelope-from <rvkagan@yandex-team.ru>) id 1j1U7I-0005Ta-UC
+ for qemu-devel@nongnu.org; Tue, 11 Feb 2020 06:54:14 -0500
+Received: from forwardcorp1o.mail.yandex.net ([95.108.205.193]:48390)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <rvkagan@yandex-team.ru>)
+ id 1j1U7D-0005Kw-G8; Tue, 11 Feb 2020 06:54:08 -0500
+Received: from mxbackcorp2j.mail.yandex.net (mxbackcorp2j.mail.yandex.net
+ [IPv6:2a02:6b8:0:1619::119])
+ by forwardcorp1o.mail.yandex.net (Yandex) with ESMTP id C90722E157B;
+ Tue, 11 Feb 2020 14:54:02 +0300 (MSK)
+Received: from vla5-58875c36c028.qloud-c.yandex.net
+ (vla5-58875c36c028.qloud-c.yandex.net [2a02:6b8:c18:340b:0:640:5887:5c36])
+ by mxbackcorp2j.mail.yandex.net (mxbackcorp/Yandex) with ESMTP id
+ RRyd5SKXoO-s2wGAHb5; Tue, 11 Feb 2020 14:54:02 +0300
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1581422042; bh=Tt2vqKivAOJ6aDB2/qFN9hpnhVxIgNZjPRUUlCBjKtc=;
+ h=Message-Id:Date:Subject:To:From:Cc;
+ b=MFDBCRgVazOl5HjER1qK34Bjt1ENXwclmQ4cgx+OAQ7fKdC+hh51gaVaR6XgdrXB7
+ 7l6kesBXornwMaYENQS/902X/wWkeEP+WrMFgR+l0vyRWFjcB+dBXGfR4bPguei6uw
+ 9M3Gh9idcIs/uk/aPhI8FNOaB298sdA/xjvQWsVw=
+Authentication-Results: mxbackcorp2j.mail.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Received: from dynamic-red.dhcp.yndx.net (dynamic-red.dhcp.yndx.net
+ [2a02:6b8:0:408:5417:48f1:724b:1a04])
+ by vla5-58875c36c028.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ fOc4LbSE0T-s2W4Kl6A; Tue, 11 Feb 2020 14:54:02 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+From: Roman Kagan <rvkagan@yandex-team.ru>
 To: qemu-devel@nongnu.org
-Cc: Greg Kurz <groug@kaod.org>, Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PULL 0/6] 9p patches 2020-02-08
-Date: Tue, 11 Feb 2020 14:27:13 +0100
-Message-ID: <13290652.vqYYtG2mAD@silver>
-In-Reply-To: <20200211094201.33b35260@bahia.lan>
-References: <20200208104506.2727882-1-groug@kaod.org>
- <1679063.kJpWnTDlLf@silver> <20200211094201.33b35260@bahia.lan>
+Subject: [PATCH] block: make BlockConf.*_size properties 32-bit
+Date: Tue, 11 Feb 2020 14:54:01 +0300
+Message-Id: <20200211115401.43230-1-rvkagan@yandex-team.ru>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 5.189.157.229
+ [fuzzy]
+X-Received-From: 95.108.205.193
+X-Mailman-Approved-At: Tue, 11 Feb 2020 08:34:09 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,55 +66,137 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Dienstag, 11. Februar 2020 09:42:01 CET Greg Kurz wrote:
-> On Tue, 11 Feb 2020 09:15:41 +0100
-> 
-> Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
-> > On Montag, 10. Februar 2020 18:08:38 CET Peter Maydell wrote:
-> > > On Sat, 8 Feb 2020 at 10:45, Greg Kurz <groug@kaod.org> wrote:
-> > > > The following changes since commit
-> > 
-> > 42ccca1bd9456568f996d5646b2001faac96944b:
-> > > >   Merge remote-tracking branch
-> > > >   'remotes/berrange/tags/misc-fixes-pull-request' into staging
-> > > >   (2020-02-07 15:01:23 +0000)>
-> > > > 
-> > > > are available in the Git repository at:
-> > > >   https://github.com/gkurz/qemu.git tags/9p-next-2020-02-08
-> > > > 
-> > > > for you to fetch changes up to 
-2822602cbe2be98229b882101dfdb9d3a738c611:
-> > > >   MAINTAINERS: 9pfs: Add myself as reviewer (2020-02-08 09:29:04
-> > > >   +0100)
-> > > > 
-> > > > ----------------------------------------------------------------
-> > > > 9p patches:
-> > > > - some more protocol sanity checks
-> > > > - qtest for readdir
-> > > > - Christian Schoenebeck now official reviewer
-> > > > 
-> > > > ----------------------------------------------------------------
-> > > 
-> > > Applied, thanks.
-> > > 
-> > > Please update the changelog at https://wiki.qemu.org/ChangeLog/5.0
-> > > for any user-visible changes.
-> > > 
-> > > -- PMM
-> > 
-> > I.e. msize >= 4096 now being required. AFAICS I cannot update the wiki
-> > myself.
-> I've updated the wiki.
+Devices (virtio-blk, scsi, etc.) and the block layer are happy to use
+32-bit for logical_block_size, physical_block_size, and min_io_size.
+However, the properties in BlockConf are defined as uint16_t limiting
+the values to 32768.
 
-Thanks Greg!
+This appears unnecessary tight, and we've seen bigger block sizes handy
+at times.
 
-BTW, I think "negociate" is the 18th century variant of "negotiate". :)
+Make them 32 bit instead and lift the limitation.
 
-Best regards,
-Christian Schoenebeck
+Signed-off-by: Roman Kagan <rvkagan@yandex-team.ru>
+---
+ hw/core/qdev-properties.c    | 21 ++++++++++++---------
+ include/hw/block/block.h     |  8 ++++----
+ include/hw/qdev-properties.h |  2 +-
+ 3 files changed, 17 insertions(+), 14 deletions(-)
 
+diff --git a/hw/core/qdev-properties.c b/hw/core/qdev-properties.c
+index 7f93bfeb88..5f84e4a3b8 100644
+--- a/hw/core/qdev-properties.c
++++ b/hw/core/qdev-properties.c
+@@ -716,30 +716,32 @@ const PropertyInfo qdev_prop_pci_devfn =3D {
+=20
+ /* --- blocksize --- */
+=20
++#define MIN_BLOCK_SIZE 512
++#define MAX_BLOCK_SIZE 2147483648
++
+ static void set_blocksize(Object *obj, Visitor *v, const char *name,
+                           void *opaque, Error **errp)
+ {
+     DeviceState *dev =3D DEVICE(obj);
+     Property *prop =3D opaque;
+-    uint16_t value, *ptr =3D qdev_get_prop_ptr(dev, prop);
++    uint32_t value, *ptr =3D qdev_get_prop_ptr(dev, prop);
+     Error *local_err =3D NULL;
+-    const int64_t min =3D 512;
+-    const int64_t max =3D 32768;
+=20
+     if (dev->realized) {
+         qdev_prop_set_after_realize(dev, name, errp);
+         return;
+     }
+=20
+-    visit_type_uint16(v, name, &value, &local_err);
++    visit_type_uint32(v, name, &value, &local_err);
+     if (local_err) {
+         error_propagate(errp, local_err);
+         return;
+     }
+     /* value of 0 means "unset" */
+-    if (value && (value < min || value > max)) {
++    if (value && (value < MIN_BLOCK_SIZE || value > MAX_BLOCK_SIZE)) {
+         error_setg(errp, QERR_PROPERTY_VALUE_OUT_OF_RANGE,
+-                   dev->id ? : "", name, (int64_t)value, min, max);
++                   dev->id ? : "", name, (int64_t)value,
++                   (int64_t)MIN_BLOCK_SIZE, (int64_t)MAX_BLOCK_SIZE);
+         return;
+     }
+=20
+@@ -755,9 +757,10 @@ static void set_blocksize(Object *obj, Visitor *v, c=
+onst char *name,
+ }
+=20
+ const PropertyInfo qdev_prop_blocksize =3D {
+-    .name  =3D "uint16",
+-    .description =3D "A power of two between 512 and 32768",
+-    .get   =3D get_uint16,
++    .name  =3D "uint32",
++    .description =3D "A power of two between " stringify(MIN_BLOCK_SIZE)
++                   " and " stringify(MAX_BLOCK_SIZE),
++    .get   =3D get_uint32,
+     .set   =3D set_blocksize,
+     .set_default_value =3D set_default_value_uint,
+ };
+diff --git a/include/hw/block/block.h b/include/hw/block/block.h
+index d7246f3862..9dd6bba56a 100644
+--- a/include/hw/block/block.h
++++ b/include/hw/block/block.h
+@@ -18,9 +18,9 @@
+=20
+ typedef struct BlockConf {
+     BlockBackend *blk;
+-    uint16_t physical_block_size;
+-    uint16_t logical_block_size;
+-    uint16_t min_io_size;
++    uint32_t physical_block_size;
++    uint32_t logical_block_size;
++    uint32_t min_io_size;
+     uint32_t opt_io_size;
+     int32_t bootindex;
+     uint32_t discard_granularity;
+@@ -51,7 +51,7 @@ static inline unsigned int get_physical_block_exp(Block=
+Conf *conf)
+                           _conf.logical_block_size),                    =
+\
+     DEFINE_PROP_BLOCKSIZE("physical_block_size", _state,                =
+\
+                           _conf.physical_block_size),                   =
+\
+-    DEFINE_PROP_UINT16("min_io_size", _state, _conf.min_io_size, 0),    =
+\
++    DEFINE_PROP_UINT32("min_io_size", _state, _conf.min_io_size, 0),    =
+\
+     DEFINE_PROP_UINT32("opt_io_size", _state, _conf.opt_io_size, 0),    =
+\
+     DEFINE_PROP_UINT32("discard_granularity", _state,                   =
+\
+                        _conf.discard_granularity, -1),                  =
+\
+diff --git a/include/hw/qdev-properties.h b/include/hw/qdev-properties.h
+index 906e697c58..ebdeeb4866 100644
+--- a/include/hw/qdev-properties.h
++++ b/include/hw/qdev-properties.h
+@@ -193,7 +193,7 @@ extern const PropertyInfo qdev_prop_pcie_link_width;
+ #define DEFINE_PROP_BIOS_CHS_TRANS(_n, _s, _f, _d) \
+     DEFINE_PROP_SIGNED(_n, _s, _f, _d, qdev_prop_bios_chs_trans, int)
+ #define DEFINE_PROP_BLOCKSIZE(_n, _s, _f) \
+-    DEFINE_PROP_UNSIGNED(_n, _s, _f, 0, qdev_prop_blocksize, uint16_t)
++    DEFINE_PROP_UNSIGNED(_n, _s, _f, 0, qdev_prop_blocksize, uint32_t)
+ #define DEFINE_PROP_PCI_HOST_DEVADDR(_n, _s, _f) \
+     DEFINE_PROP(_n, _s, _f, qdev_prop_pci_host_devaddr, PCIHostDeviceAdd=
+ress)
+ #define DEFINE_PROP_OFF_AUTO_PCIBAR(_n, _s, _f, _d) \
+--=20
+2.24.1
 
 
