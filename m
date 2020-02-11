@@ -2,63 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16ECC15925A
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Feb 2020 15:56:43 +0100 (CET)
-Received: from localhost ([::1]:50940 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E00615923B
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Feb 2020 15:50:00 +0100 (CET)
+Received: from localhost ([::1]:50852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j1Wxt-00018z-SM
-	for lists+qemu-devel@lfdr.de; Tue, 11 Feb 2020 09:56:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60572)
+	id 1j1WrP-00065s-B7
+	for lists+qemu-devel@lfdr.de; Tue, 11 Feb 2020 09:49:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54733)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1j1Wwv-0000iw-AI
- for qemu-devel@nongnu.org; Tue, 11 Feb 2020 09:55:42 -0500
+ (envelope-from <dplotnikov@virtuozzo.com>) id 1j1WqE-0005Us-Ni
+ for qemu-devel@nongnu.org; Tue, 11 Feb 2020 09:48:48 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1j1Wwt-0002BK-Mc
- for qemu-devel@nongnu.org; Tue, 11 Feb 2020 09:55:41 -0500
-Received: from indium.canonical.com ([91.189.90.7]:47230)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1j1Wwt-0002AZ-Gr
- for qemu-devel@nongnu.org; Tue, 11 Feb 2020 09:55:39 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1j1Wws-0002Bf-BO
- for <qemu-devel@nongnu.org>; Tue, 11 Feb 2020 14:55:38 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 538F32E80C3
- for <qemu-devel@nongnu.org>; Tue, 11 Feb 2020 14:55:38 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+ (envelope-from <dplotnikov@virtuozzo.com>) id 1j1WqD-0005DK-8t
+ for qemu-devel@nongnu.org; Tue, 11 Feb 2020 09:48:46 -0500
+Received: from mail-eopbgr140128.outbound.protection.outlook.com
+ ([40.107.14.128]:17238 helo=EUR01-VE1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dplotnikov@virtuozzo.com>)
+ id 1j1WqC-0005By-Gn
+ for qemu-devel@nongnu.org; Tue, 11 Feb 2020 09:48:45 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=hx7/roA92iCidYSJd/eN4a9AEF6CZpi0RGnOlYIlIQn7/R4yo+HtpU2Q8QwhwERirD+nBgocTGtMgdosmpkMI2jwoqb1dC3pqhecdG+RDO8bOfdYGgwqbQzov8/koMyVxS6Bk22m6NyrOKLIwkGUH/SfRQDejGPjvtOrl9zCBHCmUc7xcbiyEGwIma2rtTNvMzqexu4xW63gDQWqMXHFIaz5qosnwZFtNqNH8EJOBS5NBj3M6xpRhlua27D6mk0u+DMaa4IJxWoqqBUfl9qk5RqKfss3s9vOT/OLb9JiBZATKin+k6HGWltfBwNcbESp/YyLdnjFeEQ1R873Nk/OMg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=UJhowy0bYVhjlJFUirCnJb8gkBcAvI+G4RvctFfIL2Y=;
+ b=b/KJnHWc+N57HL+nJhLpEmpCIK+hgcVhqrG4VmJiY2R60M3QworKiqDmj7I27TeAgXuhXO+MDGziA8W29jpaPnefaPfbd2BuUunZVK+TJdObc8ecApyabtWBieckDwWe9itsyXK5huF8HxoYX/4R0zvQkt819k0VSDOQcANBsV2NXOBS163SjuZs6VWCFDCtaxu4iTWUVdHtLvFArgukBwTpk4qhPM7NXMMcsxsDqLlu5TQ0IPEgq9lVIaVfTCjAYex1i3WGqBaM8XlXcNdP/jSbOWcV2V3qdXHDU71NQxtpd9efzHzMh/HGJ37sxmvNklvedxYUqwj1gkVRya+rVg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=UJhowy0bYVhjlJFUirCnJb8gkBcAvI+G4RvctFfIL2Y=;
+ b=JjUksOkwSDcrq8QW/rrQr8LtbbF4ciuhjzMLvOtGOujcBMCrA1Y7XUq5I4+lOJ6VUJNUcB+0g0wTACxV9bgVzFztXMeEH8stdYnSc/N1KOTV5GSfmpfMteTm2tv2XOp8s7yRkfpAsVgw4Bfpq9e7bkNfImJuKu6NDQlGWsUn3nY=
+Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=dplotnikov@virtuozzo.com; 
+Received: from AM0PR08MB3745.eurprd08.prod.outlook.com (20.178.22.27) by
+ AM0PR08MB4067.eurprd08.prod.outlook.com (20.178.202.85) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2707.25; Tue, 11 Feb 2020 14:48:42 +0000
+Received: from AM0PR08MB3745.eurprd08.prod.outlook.com
+ ([fe80::5558:d9d2:7f7d:e4]) by AM0PR08MB3745.eurprd08.prod.outlook.com
+ ([fe80::5558:d9d2:7f7d:e4%2]) with mapi id 15.20.2707.030; Tue, 11 Feb 2020
+ 14:48:41 +0000
+Subject: Re: [PATCH v1 0/2] Improve virtio_check_params test
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20200211142551.13072-1-dplotnikov@virtuozzo.com>
+ <1b7ccdc2-2e3e-32d2-c82b-fb1e6cddd998@redhat.com>
+From: Denis Plotnikov <dplotnikov@virtuozzo.com>
+Message-ID: <65c2d1b2-f7d8-ec97-d5f2-8757281b2964@virtuozzo.com>
+Date: Tue, 11 Feb 2020 17:48:39 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
+In-Reply-To: <1b7ccdc2-2e3e-32d2-c82b-fb1e6cddd998@redhat.com>
+Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 11 Feb 2020 14:45:33 -0000
-From: Thomas Huth <1665389@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: kvm
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: bonzini dgilbert-h ngoldin th-huth
-X-Launchpad-Bug-Reporter: Nadav Goldin (ngoldin)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <20170216160426.5716.21453.malonedeb@soybean.canonical.com>
-Message-Id: <158143233334.17295.11644255535580188971.malone@chaenomeles.canonical.com>
-Subject: [Bug 1665389] Re: Nested kvm guest fails to start on a emulated
- Westmere CPU guest under a Broadwell CPU host
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="0a62c17273454a1313f81a74a2198ec30b44c7b6";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 2de1f07c26530b5581b37e61747320bd9fac82b6
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+Content-Language: en-US
+X-ClientProxiedBy: HE1PR0402CA0004.eurprd04.prod.outlook.com
+ (2603:10a6:3:d0::14) To AM0PR08MB3745.eurprd08.prod.outlook.com
+ (2603:10a6:208:ff::27)
+MIME-Version: 1.0
+Received: from [192.168.1.63] (178.34.162.57) by
+ HE1PR0402CA0004.eurprd04.prod.outlook.com (2603:10a6:3:d0::14) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2707.21 via Frontend Transport; Tue, 11 Feb 2020 14:48:41 +0000
+X-Originating-IP: [178.34.162.57]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: a50f0b47-5e7a-4811-d528-08d7af017c81
+X-MS-TrafficTypeDiagnostic: AM0PR08MB4067:
+X-Microsoft-Antispam-PRVS: <AM0PR08MB40679AEA27965078C953077BCF180@AM0PR08MB4067.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:5797;
+X-Forefront-PRVS: 0310C78181
+X-Forefront-Antispam-Report: SFV:NSPM;
+ SFS:(10019020)(396003)(136003)(366004)(39850400004)(376002)(346002)(199004)(189003)(2906002)(186003)(956004)(16526019)(2616005)(8676002)(8936002)(16576012)(966005)(81156014)(81166006)(316002)(478600001)(31686004)(52116002)(4326008)(6486002)(36756003)(31696002)(5660300002)(86362001)(66476007)(66946007)(66556008)(53546011)(26005);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:AM0PR08MB4067;
+ H:AM0PR08MB3745.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; MX:1; 
+Received-SPF: None (protection.outlook.com: virtuozzo.com does not designate
+ permitted sender hosts)
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Lg/6VrZtl0LuT1HEt5Z88S/NgFa9Xazekr696DgS+mDO5LMaM+Xsnv5OEAPs89lVWDHLFWlc5XN7a65GKSJGu8M0qFGaroyrjTpXXc6KPmwNzUNWyFGFnS0HcdVwPdR5nVakdag08AjtfVvVrQBKyrzLe5P5bJk5ZWb0W5jk3IDzZxYvHCvPsguIPQa6OshmM5LeNV3/1oH3gke9IsL4z1sx5d2wLdy0Ut3RM9GV/yRtaRgXlXLm58TiEy8IG5haIut8of59mGDB9ET3xS2iLrJCehrx9PWR/u6K1uK17n5DYoc5yBdrqjCZl6s17Y3EzSawDOCliQGI8LBurbJSeHqRV8UGlkS3Ef7uRCxT3NkpcJgARVd0u9KG792YsIHOEd+WQ0/ORnNmHnEbRYCuurxJETcVWiho1AUNV56q7qS8EpMHQ43rmc0u4j4PfjK6YRYk+bK9nWdh8nXAanPMyYWkumcaEfXgHLMzU2mGU+4Rm3PXvAgOL8jmnbiU+Tc/p+nceltk2+lz6yV+z7ZJ6Q==
+X-MS-Exchange-AntiSpam-MessageData: 8PxXLuHtAO2mjsUx14+ZmZeFIrNV0TkGIkc4agp6qfNH+/JvarpIBWPXUamvqxyHA+QYDjQ8PCuH/roft6w6kfhK3R5CIwVIMl3YLAUw3XojekuivxUXyTdlN9I6QW+ooW6Gek1TvToFhnudiARhaA==
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a50f0b47-5e7a-4811-d528-08d7af017c81
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Feb 2020 14:48:41.6984 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: V+TsVH4OGb0RMmBoX3yYRcGjjuqkjJhe4/1G3+A7e9MJKJfQzQ1LtuvM6tDEcyNhs09xd0m4d3jJhCmByqghcgMvQdwxUK85AMl4/szQsAA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB4067
+X-detected-operating-system: by eggs.gnu.org: Windows NT kernel [generic]
+ [fuzzy]
+X-Received-From: 40.107.14.128
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -67,140 +109,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1665389 <1665389@bugs.launchpad.net>
+Cc: cohuck@redhat.com, wainersm@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Can you still reproduce this issue with the latest version of QEMU
-(v4.2)?
 
-** Changed in: qemu
-       Status: New =3D> Incomplete
 
--- =
+On 11.02.2020 17:37, Philippe Mathieu-Daud=E9 wrote:
+> Hi Denis,
+>
+> On 2/11/20 3:25 PM, Denis Plotnikov wrote:
+>> * fixed failing on non-existed machine type removal
+>> * the test refactored to add more parameters to check
+>>
+>> Gereral questions left:
+>> =A0=A0=A0 How to restric test for using:
+>> =A0=A0=A0 1. on a set of target OS-es
+>> =A0=A0=A0 2. on a set target architectures
+>>
+>> Denis Plotnikov (2):
+>> =A0=A0 tests/acceptance/virtio_check_params: remove excluded machine typ=
+es
+>> =A0=A0=A0=A0 carefully
+>> =A0=A0 tests/acceptance/virtio_check_params: prepare to check different
+>> =A0=A0=A0=A0 params
+>>
+>> =A0 tests/acceptance/virtio_check_params.py | 52 ++++++++++++++++-------=
+--
+>> =A0 1 file changed, 33 insertions(+), 19 deletions(-)
+>>
+>
+> Have you noticed my other series suggested by Cornelia?
+>
+> It runs your test on S390X and PPC:
+> https://www.mail-archive.com/qemu-devel@nongnu.org/msg675092.html
+> https://www.mail-archive.com/qemu-devel@nongnu.org/msg675095.html
+>
+> Hi, Philippe
+Seems that I've missed them. I just made patches upon the fresh master.
+Can I get a git tree which has those patches applied? Or should I wait=20
+while the patches landed to qemu master and the rebase on them?
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1665389
-
-Title:
-  Nested kvm guest fails to start on a emulated Westmere CPU guest under
-  a Broadwell CPU host
-
-Status in QEMU:
-  Incomplete
-
-Bug description:
-  Using latest master(5dae13), qemu fails to start any nested guest in a
-  Westmere emulated guest(layer 1), under a Broadwell host(layer 0),
-  with the error:
-
-  qemu-custom: /root/qemu/target/i386/kvm.c:1849: kvm_put_msrs:
-  Assertion `ret =3D=3D cpu->kvm_msr_buf->nmsrs' failed.
-
-  The qemu command used(though other CPUs didn't work either):
-  /usr/bin/qemu-custom -name guest=3D12ed9230-vm-el73,debug-threads=3Don -S=
- -object secret,id=3DmasterKey0,format=3Draw,file=3D/var/lib/libvirt/qemu/d=
-omain-5-12ed9230-vm-el73/master-key.aes -machine pc-i440fx-2.9,accel=3Dkvm,=
-usb=3Doff -cpu Westmere,+vmx -m 512 -realtime mlock=3Doff -smp 2,sockets=3D=
-2,cores=3D1,threads=3D1 -object iothread,id=3Diothread1 -uuid f4ce4eba-985f=
--42a3-94c4-6e4a8a530347 -nographic -no-user-config -nodefaults -chardev soc=
-ket,id=3Dcharmonitor,path=3D/var/lib/libvirt/qemu/domain-5-12ed9230-vm-el73=
-/monitor.sock,server,nowait -mon chardev=3Dcharmonitor,id=3Dmonitor,mode=3D=
-control -rtc base=3Dutc -no-shutdown -boot menu=3Doff,strict=3Don -device v=
-irtio-serial-pci,id=3Dvirtio-serial0,bus=3Dpci.0,addr=3D0x3 -drive file=3D/=
-root/lago/.lago/default/images/vm-el73_root.qcow2,format=3Dqcow2,if=3Dnone,=
-id=3Ddrive-virtio-disk0,serial=3D1,discard=3Dunmap -device virtio-blk-pci,s=
-csi=3Doff,bus=3Dpci.0,addr=3D0x4,drive=3Ddrive-virtio-disk0,id=3Dvirtio-dis=
-k0,bootindex=3D1 -netdev tap,fd=3D26,id=3Dhostnet0,vhost=3Don,vhostfd=3D28 =
--device virtio-net-pci,netdev=3Dhostnet0,id=3Dnet0,mac=3D54:52:c0:a7:c8:02,=
-bus=3Dpci.0,addr=3D0x2 -chardev pty,id=3Dcharserial0 -device isa-serial,cha=
-rdev=3Dcharserial0,id=3Dserial0 -chardev socket,id=3Dcharchannel0,path=3D/v=
-ar/lib/libvirt/qemu/channel/target/domain-5-12ed9230-vm-el73/org.qemu.guest=
-_agent.0,server,nowait -device virtserialport,bus=3Dvirtio-serial0.0,nr=3D1=
-,chardev=3Dcharchannel0,id=3Dchannel0,name=3Dorg.qemu.guest_agent.0 -object=
- rng-random,id=3Dobjrng0,filename=3D/dev/random -device virtio-rng-pci,rng=
-=3Dobjrng0,id=3Drng0,bus=3Dpci.0,addr=3D0x9 -msg timestamp=3Don
-  2017-02-16T15:14:45.840412Z qemu-custom: -chardev pty,id=3Dcharserial0: c=
-har device redirected to /dev/pts/2 (label charserial0)
-  qemu-custom: /root/qemu/target/i386/kvm.c:1849: kvm_put_msrs: Assertion `=
-ret =3D=3D cpu->kvm_msr_buf->nmsrs' failed.
-
-  =
-
-  The CPU flags in the Westmere guest:
-  flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pa=
-t pse36 clflush mmx fxsr sse sse2 syscall nx lm constant_tsc rep_good nopl =
-pni pclmulqdq vmx ssse3 cx16 sse4_1 sse4_2 x2apic popcnt aes hypervisor lah=
-f_lm arat tpr_shadow vnmi flexpriority ept vpid
-
-  The guest kernel is 3.10.0-514.2.2.el7.x86_64.
-
-  The CPU flags of the host(Broadwell): =
-
-  flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pa=
-t pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb =
-rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology no=
-nstop_tsc aperfmperf eagerfpu pni pclmulqdq dtes64 monitor ds_cpl vmx smx e=
-st tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt=
- tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch epb=
- intel_pt tpr_shadow vnmi flexpriority ept vpid fsgsbase tsc_adjust bmi1 hl=
-e avx2 smep bmi2 erms invpcid rtm mpx rdseed adx smap clflushopt xsaveopt x=
-savec xgetbv1 xsaves dtherm ida arat pln pts hwp hwp_notify hwp_act_window =
-hwp_epp
-
-  qemu command on the host - Broadwell(which works):
-  /usr/bin/qemu-kvm -name 4ffcd448-vm-el73,debug-threads=3Don -S -machine p=
-c-i440fx-2.6,accel=3Dkvm,usb=3Doff -cpu Westmere,+x2apic,+vmx,+vme -m 4096 =
--realtime mlock=3Doff -smp 2,sockets=3D2,cores=3D1,threads=3D1 -object ioth=
-read,id=3Diothread1 -uuid 8cc0a2cf-d25a-4014-acdb-f159c376a532 -nographic -=
-no-user-config -nodefaults -chardev socket,id=3Dcharmonitor,path=3D/var/lib=
-/libvirt/qemu/domain-4-4ffcd448-vm-el73/monitor.sock,server,nowait -mon cha=
-rdev=3Dcharmonitor,id=3Dmonitor,mode=3Dcontrol -rtc base=3Dutc -no-shutdown=
- -boot menu=3Doff,strict=3Don -device virtio-scsi-pci,id=3Dscsi0,bus=3Dpci.=
-0,addr=3D0x3 -device virtio-serial-pci,id=3Dvirtio-serial0,bus=3Dpci.0,addr=
-=3D0x4 -drive file=3D/home/ngoldin/src/nvgoldin.github.com/lago-init-files/=
-.lago/flags-tests/default/images/vm-el73_root.qcow2,format=3Dqcow2,if=3Dnon=
-e,id=3Ddrive-virtio-disk0,serial=3D1,discard=3Dunmap -device virtio-blk-pci=
-,scsi=3Doff,bus=3Dpci.0,addr=3D0x5,drive=3Ddrive-virtio-disk0,id=3Dvirtio-d=
-isk0,bootindex=3D1 -drive file=3D/home/ngoldin/src/nvgoldin.github.com/lago=
--init-files/.lago/flags-tests/default/images/vm-el73_additonal.qcow2,format=
-=3Dqcow2,if=3Dnone,id=3Ddrive-scsi0-0-0-0,serial=3D2,discard=3Dunmap -devic=
-e scsi-hd,bus=3Dscsi0.0,channel=3D0,scsi-id=3D0,lun=3D0,drive=3Ddrive-scsi0=
--0-0-0,id=3Dscsi0-0-0-0,bootindex=3D2 -netdev tap,fd=3D29,id=3Dhostnet0,vho=
-st=3Don,vhostfd=3D31 -device virtio-net-pci,netdev=3Dhostnet0,id=3Dnet0,mac=
-=3D54:52:c0:a8:c9:02,bus=3Dpci.0,addr=3D0x2 -chardev pty,id=3Dcharserial0 -=
-device isa-serial,chardev=3Dcharserial0,id=3Dserial0 -chardev socket,id=3Dc=
-harchannel0,path=3D/var/lib/libvirt/qemu/channel/target/domain-4-4ffcd448-v=
-m-el73/org.qemu.guest_agent.0,server,nowait -device virtserialport,bus=3Dvi=
-rtio-serial0.0,nr=3D1,chardev=3Dcharchannel0,id=3Dchannel0,name=3Dorg.qemu.=
-guest_agent.0 -object rng-random,id=3Dobjrng0,filename=3D/dev/random -devic=
-e virtio-rng-pci,rng=3Dobjrng0,id=3Drng0,bus=3Dpci.0,addr=3D0x9 -msg timest=
-amp=3Don
-
-  On the Broadwell host I'm using a distribution package if it matters
-  (qemu-kvm-2.6.2-5.fc24.x86_64 and 4.8.15-200.fc24.x86_64)
-
-  As the error indicates, I think this assertion was put in:
-  commit 48e1a45c3166d659f781171a47dabf4a187ed7a5
-  Author: Paolo Bonzini <pbonzini@redhat.com>
-  Date:   Wed Mar 30 22:55:29 2016 +0200
-
-      target-i386: assert that KVM_GET/SET_MSRS can set all requested MSRs
-      =
-
-      This would have caught the bug in the previous patch.
-      =
-
-      Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-
-  I tried going back one commit before to 273c515, and then the error is go=
-ne and the nested guest comes up as expected. If I try to run with head at =
-the above commit(48e145c) the error output is slightly different, though it=
- looks the same:
-  /root/qemu/target-i386/kvm.c:1713: kvm_put_msrs: Assertion `ret =3D=3D n'=
- failed.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1665389/+subscriptions
+Denis
 
