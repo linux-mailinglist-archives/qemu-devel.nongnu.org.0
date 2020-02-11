@@ -2,61 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CBD31598B3
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Feb 2020 19:34:01 +0100 (CET)
-Received: from localhost ([::1]:55592 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AC141598A2
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Feb 2020 19:31:05 +0100 (CET)
+Received: from localhost ([::1]:55500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j1aMC-0003JP-8w
-	for lists+qemu-devel@lfdr.de; Tue, 11 Feb 2020 13:34:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50000)
+	id 1j1aJM-0008PI-BG
+	for lists+qemu-devel@lfdr.de; Tue, 11 Feb 2020 13:31:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45245)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1j1aJt-0001JZ-Tq
- for qemu-devel@nongnu.org; Tue, 11 Feb 2020 13:31:39 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1j1aHn-0007Sm-7e
+ for qemu-devel@nongnu.org; Tue, 11 Feb 2020 13:29:28 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1j1aJs-0001uV-Dn
- for qemu-devel@nongnu.org; Tue, 11 Feb 2020 13:31:37 -0500
-Received: from indium.canonical.com ([91.189.90.7]:51604)
+ (envelope-from <richard.henderson@linaro.org>) id 1j1aHm-00068M-44
+ for qemu-devel@nongnu.org; Tue, 11 Feb 2020 13:29:27 -0500
+Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:42926)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1j1aJs-0001qg-7m
- for qemu-devel@nongnu.org; Tue, 11 Feb 2020 13:31:36 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1j1aJp-0000JD-Dx
- for <qemu-devel@nongnu.org>; Tue, 11 Feb 2020 18:31:33 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 5765B2E80D3
- for <qemu-devel@nongnu.org>; Tue, 11 Feb 2020 18:31:33 +0000 (UTC)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1j1aHl-00065Q-St
+ for qemu-devel@nongnu.org; Tue, 11 Feb 2020 13:29:26 -0500
+Received: by mail-pf1-x443.google.com with SMTP id 4so5886970pfz.9
+ for <qemu-devel@nongnu.org>; Tue, 11 Feb 2020 10:29:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=9IQX76N1HVS8RO6biOhu769HLbabl1tu8cVc/rmMs1c=;
+ b=c1/f3Sl8IyBvlBnrrWcrKtWuUbOsdK21+s7X7vze6mydlmhO8cCplVFedWP3+TU+O7
+ r4WLf4hSJTxt7z4Yvnd9Ps+Ka0FpNCbpDqXGiaYTIgAhruardKB3Y3jo61qY8pjrhegG
+ y/jJYoyhULoys/FMsW274ljtnrI4q9mAwl1FOiQi/jm4g0/xjqdwhHMtFYHYoOBOMIJZ
+ Q+ohPE4uviLlyT89pObwfwihPU05/AgZFsrrRAAo3ZwplgtxSm845GgaAe2rGhyYZLtL
+ XsKa32wmXSfp62ph9zVovrDWxHTQ1VkUp/hGgtbXSa6QPZCzK+e8N1Hi7trgWSIR4rkf
+ nepw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=9IQX76N1HVS8RO6biOhu769HLbabl1tu8cVc/rmMs1c=;
+ b=mfFn93EUfShBE0dAXo9hkdU8Ve7TS8GjZnFqnl30wjZnxSao+lWtVf6Uwjw2FjX03U
+ V8EKfTgD/kJtjvSKylnqf+sxxrVUGELhh59QVUzb1JVWbc77S6MJz9rkRV6RTeL1cuoW
+ y1j2hGio/08n0E4RM9cUeomcRCz55AVg1/v7X3cntkH5OAUhmfsKWGjqY3L5B2ZOf1QL
+ thGuuE5lvydj4o1ZTnDHWP3oFUrPIkqzJh/N/0RIYrd+xkuhogfu2l92WACKQKshHAmD
+ 1WvRDGwzCPRaVM3DvDtgYMfKrKaRm9q0hOIFwbDzQeYMkniyubX4r7Gh3F8XqCevqIrH
+ E9nA==
+X-Gm-Message-State: APjAAAWAERq7QOoWN01y/IYli4dO13Rgy8h1beFcL/aEW5si4L2OWp+T
+ /mGAoa8bysdMVpyZcF7TfsFTCQ==
+X-Google-Smtp-Source: APXvYqx5ZgS39wdTKIUz25kzKF+3sks0s84NIVWJrLx6f0mi8udz8LoXKfQQCfi6ZIOKEVAR5dJLYQ==
+X-Received: by 2002:a62:547:: with SMTP id 68mr4427817pff.217.1581445764876;
+ Tue, 11 Feb 2020 10:29:24 -0800 (PST)
+Received: from [192.168.1.11] (97-126-123-70.tukw.qwest.net. [97.126.123.70])
+ by smtp.gmail.com with ESMTPSA id
+ gx2sm4041591pjb.18.2020.02.11.10.29.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 11 Feb 2020 10:29:24 -0800 (PST)
+Subject: Re: [PATCH 03/13] target/arm: Define and use any_predinv isar_feature
+ test
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20200211173726.22541-1-peter.maydell@linaro.org>
+ <20200211173726.22541-4-peter.maydell@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <1354828b-4941-0025-4675-c4105b4f3df0@linaro.org>
+Date: Tue, 11 Feb 2020 10:29:22 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 11 Feb 2020 18:22:09 -0000
-From: Alex Williamson <alex.l.williamson@gmail.com>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: alex-l-williamson chrs-hoy
-X-Launchpad-Bug-Reporter: Chris Hoy (chrs-hoy)
-X-Launchpad-Bug-Modifier: Alex Williamson (alex-l-williamson)
-References: <158096626936.9041.17441916407484515612.malonedeb@chaenomeles.canonical.com>
-Message-Id: <158144533016.15569.13654641520342120039.launchpad@soybean.canonical.com>
-Subject: [Bug 1862110] Re: qemu in script is not parsing properly
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="19413b719a8df7423ab1390528edadce9e0e4aca";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: edb2b5c9e5fe5973346ad3ec5858af4d282aceba
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+In-Reply-To: <20200211173726.22541-4-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -65,99 +85,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1862110 <1862110@bugs.launchpad.net>
+Cc: Eric Auger <eric.auger@redhat.com>,
+ Aaron Lindsay <aaron@os.amperecomputing.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Changed in: qemu
-       Status: New =3D> Invalid
+On 2/11/20 9:37 AM, Peter Maydell wrote:
+> Instead of open-coding "ARM_FEATURE_AARCH64 ? aa64_predinv: aa32_predinv",
+> define and use an any_predinv isar_feature test function.
+> 
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+>  target/arm/cpu.h    | 5 +++++
+>  target/arm/helper.c | 9 +--------
+>  2 files changed, 6 insertions(+), 8 deletions(-)
 
--- =
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1862110
 
-Title:
-  qemu in script is not parsing properly
+r~
 
-Status in QEMU:
-  Invalid
-
-Bug description:
-  Bug Report:
-  >>qemu-system-x86_64 --version: QEMU emulator version 4.2.0
-  >>Arch-linux version 2020.02.01
-  I was following a tutorial on how to make a windows vm and i have encount=
-ered and issue in the settings of my script I have listed below.
-
-  The commented code directly above the uncommented qemu instance would
-  boot the Windows screen but the issue arises when I try to reach the
-  same code block under the commented setting lines which takes me to
-  the default SeaBIOS loader.
-
-  #!/bin/bash
-
-  vmname=3D"windows10vm"
-
-  if ps -ef | grep qemu-system-x86_64 | grep -q multifunction=3Don; then
-  echo "A passthrough VM is already running." &
-  exit 1
-
-  else
-
-  # use pulseaudio
-
-  export QEMU_AUDIO_DRV=3Dpa
-  export QEMU_PA_SAMPLES=3D8192
-  export QEMU_AUDIO_TIMER_PERIOD=3D99
-  export QEMU_PA_SERVER=3D/run/user/1000/pulse/native
-
-  cp /usr/share/ovmf/x64/OVMF_VARS.fd /tmp/my_vars.fd
-
-  #qemu-system-x86_64 \
-  #-drive id=3Ddisk0,if=3Dvirtio,cache=3Dnone,format=3Draw,file=3D.../IMGs/=
-win.img \
-  #-drive file=3D.../ISOs/Win10_1909_English_x64.iso,index=3D1,media=3Dcdro=
-m \
-
-  qemu-system-x86_64 \
-
-  #-name $vmname,process=3D$vmname \
-  #-machine type=3Dq35,accel=3Dkvm \
-  #-cpu host,kvm=3Doff \
-  #-smp 4,sockets=3D1,cores=3D3,threads=3D1 \
-  #-m 8G \
-  #-balloon none \
-  #-rtc clock=3Dhost,base=3Dlocaltime \
-  #-vga none \
-  #-nographic \
-  #-serial none \
-  #-parallel none \
-  #-soundhw hda \
-  #-usb \
-  #-device usb-host,vendorid=3D...,productid=3D... \
-  #-device usb-host,vendorid=3D...,productid=3D... \
-  #-device vfio-pci,host=3D...,multifunction=3Don \
-  #-device vfio-pci,host=3D... \
-  #-drive if=3Dpflash,format=3Draw,readonly,file=3D/usr/share/ovmf/x64/OVMF=
-_VARS.fd \
-  #-drive if=3Dpflash,format=3Draw,file=3D/tmp/my_vars.fd \
-  #-boot order=3D dc \
-
-  -drive id=3Ddisk0,if=3Dvirtio,cache=3Dnone,format=3Draw,file=3D.../IMGs/w=
-in.img \
-  -drive file=3D.../ISOs/Win10_1909_English_x64.iso,index=3D1,media=3Dcdrom=
- \
-  -drive file=3D.../ISOs/virtio-0.1.171.iso,index=3D2,media=3Dcdrom \
-
-  #-netdev type=3Dtap,id=3Dnet0,ifname=3Dvmtap0,vhost=3Don \
-  #-device virtio-net-pci,netdev=3Dnet0,mac=3D... \
-
-  exit 0
-
-  fi
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1862110/+subscriptions
 
