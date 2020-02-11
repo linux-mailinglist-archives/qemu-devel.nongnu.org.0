@@ -2,95 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D20491594FF
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Feb 2020 17:33:16 +0100 (CET)
-Received: from localhost ([::1]:52930 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D3E615955F
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Feb 2020 17:52:24 +0100 (CET)
+Received: from localhost ([::1]:53198 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j1YTL-0004ec-VI
-	for lists+qemu-devel@lfdr.de; Tue, 11 Feb 2020 11:33:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55766)
+	id 1j1Ylr-0006rB-9e
+	for lists+qemu-devel@lfdr.de; Tue, 11 Feb 2020 11:52:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59226)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1j1YRd-0003UC-T3
- for qemu-devel@nongnu.org; Tue, 11 Feb 2020 11:31:32 -0500
+ (envelope-from <bounces@canonical.com>) id 1j1Yl1-0006Hz-Ow
+ for qemu-devel@nongnu.org; Tue, 11 Feb 2020 11:51:32 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1j1YRc-00049r-LK
- for qemu-devel@nongnu.org; Tue, 11 Feb 2020 11:31:29 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:43491
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1j1YRb-00047j-A7
- for qemu-devel@nongnu.org; Tue, 11 Feb 2020 11:31:27 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581438686;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=VzqDTjv8gID1rTPuZ8ilL/GJRuvyFRHsVxucRjZiYa8=;
- b=Jm3Ai9fRyEEDiF24HMbF9GnaQqpLP0VJHYLTdGOZGXVhIwO8kTSDW/K1/2zCRzT/msCu7l
- n2jTAoD1igIyMXrue7BhFZ+PLTovfZx7N6UDCTF20dJ72L5ROB2Suc98HrpLltO5mLBib7
- xf9vheEgp9J+yNGSpQc5AX2uCta5bPg=
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-221-qIb7C_IqNUqDqzIDyGWpAw-1; Tue, 11 Feb 2020 11:31:23 -0500
-Received: by mail-qv1-f70.google.com with SMTP id cn2so7534342qvb.1
- for <qemu-devel@nongnu.org>; Tue, 11 Feb 2020 08:31:23 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=uDg+yEvCnnWHS+5dlCm8H6KCpzkckiv1ab0dkL5Z9lI=;
- b=mE8vU3QNIBinakEaU+Z8sVMs0V2m+40TDf19vy80XWb1zau47B/a4Jh/aALGkJeZZM
- 6ki32S/hdgBsaUWsmOXUyaOXUN73i2/cU2aSwqBAW69XX1za89YJW+8gy3bXJfL0rzwo
- 9vByud3eMlL5HA2xGtqD7sEwsEq2U6u2khYI5n0mAXUESD4q3F0kiKcfBBQ5Zu2m1V0g
- ECVvvonMsuC8Y3TIMZ3k7VXUdi37iQFy1vplAPVEED3feCewxPqLFKlW1+u+tpguTF78
- QLdRnzXW5m9kyebY9u4wj2xU0+vNZdwoAD7s3dZJ3fX6J8FCZuFVGWK4GkL3fXBDPXcV
- MHVw==
-X-Gm-Message-State: APjAAAW6FvuPRc3m/qQa24BLOGbB9adNgGk3sOnkpB/xQ59OVf/jLiuK
- A9NC52XoTbPhtNfz69YHTn/o4D4m9VpsJbA3gj7vISmhjNBHmrhFs6pIUoSSzc5utVy7bKIUtKW
- KiJZacUeYCzBUNWQ=
-X-Received: by 2002:a05:620a:15cf:: with SMTP id
- o15mr6969374qkm.140.1581438683175; 
- Tue, 11 Feb 2020 08:31:23 -0800 (PST)
-X-Google-Smtp-Source: APXvYqwmmLJO5CQ2LZhsBmlZl0JYhSHQ8CbDA19ynDHfBNVVMjPkmi7MfzuwaMAyXisMSKTjRMEZtA==
-X-Received: by 2002:a05:620a:15cf:: with SMTP id
- o15mr6969334qkm.140.1581438682804; 
- Tue, 11 Feb 2020 08:31:22 -0800 (PST)
-Received: from redhat.com (bzq-79-176-41-183.red.bezeqint.net. [79.176.41.183])
- by smtp.gmail.com with ESMTPSA id y26sm2541392qtc.94.2020.02.11.08.31.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 Feb 2020 08:31:21 -0800 (PST)
-Date: Tue, 11 Feb 2020 11:31:17 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [PATCH v2 2/4] virtio-scsi: default num_queues to -smp N
-Message-ID: <20200211113108-mutt-send-email-mst@kernel.org>
-References: <20200124100159.736209-1-stefanha@redhat.com>
- <20200124100159.736209-3-stefanha@redhat.com>
- <20200127141031.6e108839.cohuck@redhat.com>
- <20200129154438.GC157595@stefanha-x1.localdomain>
- <bc9680fc-c382-301f-a1fe-21740c918570@redhat.com>
- <20200130105235.GC176651@stefanha-x1.localdomain>
- <20200203102529.3op54zggtquoguuo@dritchie>
- <20200203105744.GD1922177@redhat.com>
- <20200203113949.hnjuqzkrqqwst54e@dritchie>
- <20200211162041.GA432724@stefanha-x1.localdomain>
+ (envelope-from <bounces@canonical.com>) id 1j1Yl0-0003kW-FA
+ for qemu-devel@nongnu.org; Tue, 11 Feb 2020 11:51:31 -0500
+Received: from indium.canonical.com ([91.189.90.7]:56232)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1j1Yl0-0003k3-9z
+ for qemu-devel@nongnu.org; Tue, 11 Feb 2020 11:51:30 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1j1Yky-0004WE-DQ
+ for <qemu-devel@nongnu.org>; Tue, 11 Feb 2020 16:51:28 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 1BA962E80D4
+ for <qemu-devel@nongnu.org>; Tue, 11 Feb 2020 16:51:28 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20200211162041.GA432724@stefanha-x1.localdomain>
-X-MC-Unique: qIb7C_IqNUqDqzIDyGWpAw-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+Date: Tue, 11 Feb 2020 16:37:25 -0000
+From: Thomas Huth <1661386@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: bonzini dgilbert-h matwey-kornilov th-huth
+X-Launchpad-Bug-Reporter: Matwey V. Kornilov (matwey-kornilov)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <20170202204510.26617.69309.malonedeb@wampee.canonical.com>
+Message-Id: <158143904664.29547.417848089163174657.launchpad@chaenomeles.canonical.com>
+Subject: [Bug 1661386] Re: Assertion `ret == cpu->kvm_msr_buf->nmsrs' failed
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="19413b719a8df7423ab1390528edadce9e0e4aca";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 37316a12f5284e932e6c9e4fe294762f107f6c75
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -99,66 +65,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- Sergio Lopez <slp@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Reply-To: Bug 1661386 <1661386@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Feb 11, 2020 at 04:20:41PM +0000, Stefan Hajnoczi wrote:
-> On Mon, Feb 03, 2020 at 12:39:49PM +0100, Sergio Lopez wrote:
-> > On Mon, Feb 03, 2020 at 10:57:44AM +0000, Daniel P. Berrang=E9 wrote:
-> > > On Mon, Feb 03, 2020 at 11:25:29AM +0100, Sergio Lopez wrote:
-> > > > On Thu, Jan 30, 2020 at 10:52:35AM +0000, Stefan Hajnoczi wrote:
-> > > > > On Thu, Jan 30, 2020 at 01:29:16AM +0100, Paolo Bonzini wrote:
-> > > > > > On 29/01/20 16:44, Stefan Hajnoczi wrote:
-> > > > > > > On Mon, Jan 27, 2020 at 02:10:31PM +0100, Cornelia Huck wrote=
-:
-> > > > > > >> On Fri, 24 Jan 2020 10:01:57 +0000
-> > > > > > >> Stefan Hajnoczi <stefanha@redhat.com> wrote:
-> > > So I think we need to, at the very least, make a clear statement here
-> > > about what tuning approach should be applied vCPU count gets high,
-> > > and probably even apply that  as a default out of the box approach.
-> >=20
-> > In general, I would agree, but in this particular case the
-> > optimization has an impact on something outside's QEMU control (host's
-> > resources), so we lack the information needed to make a proper guess.
-> >=20
-> > My main concern here is users upgrading QEMU to hit some kind of crash
-> > or performance issue, without having touched their VM config. And
->=20
-> I don't think this is an issue since only newly created guests are
-> affected.  Existing machine types are unchanged.
->=20
-> > let's not forget that Stefan said in the cover that this amounts to a
-> > 1-4% improvement on 4k operations on an SSD, and I guess that's with
-> > iodepth=3D1. I suspect with a larger block size and/or higher iodepth
-> > the improvement will be barely noticeable, which means it'll only have
-> > a positive impact on users running DB/OLTP or similar workloads on
-> > dedicated, directly attached, low-latency storage.
-> >=20
-> > But don't get me wrong, this is a *good* optimization. It's just I
-> > think we should play safe here.
->=20
-> The NVMe card I've been testing has 64 queues.  Let's keep the virtio
-> limit roughly the same as real hardware.  That way, multi-queue block
-> layer support in QEMU will be able to fully exploit the hardware
-> (similar to how we size request queues to be larger than the common 64
-> /sys/block/FOO/queue/nr_requests).
->=20
-> The point of this change is to improve performance on SMP guests.
-> Setting the limit to 4-8 is too low, since it leaves guests that most
-> need this optimization with a sub-optimal configuration.
->=20
-> I will create a 32 vCPU guest with 100 virtio-blk devices and verify
-> that enabling multi-queue is successful.
->=20
-> Stefan
+** Changed in: qemu
+       Status: Incomplete =3D> Fix Released
 
+-- =
 
-and that it's helpful for performance?
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1661386
 
+Title:
+  Assertion `ret =3D=3D cpu->kvm_msr_buf->nmsrs' failed
+
+Status in QEMU:
+  Fix Released
+
+Bug description:
+  Hello,
+
+  =
+
+  I see the following when try to run qemu from master as the following:
+
+  # ./x86_64-softmmu/qemu-system-x86_64 --version
+  QEMU emulator version 2.8.50 (v2.8.0-1006-g4e9f524)
+  Copyright (c) 2003-2016 Fabrice Bellard and the QEMU Project developers
+  # ./x86_64-softmmu/qemu-system-x86_64 -machine accel=3Dkvm -nodefaults
+  -no-reboot -nographic -cpu host -vga none  -kernel .build.kernel.kvm
+  -initrd .build.initrd.kvm -append 'panic=3D1 no-kvmclock console=3DttyS0
+  loglevel=3D7' -m 1024 -serial stdio
+  qemu-system-x86_64: /home/matwey/lab/qemu/target/i386/kvm.c:1849:
+  kvm_put_msrs: Assertion `ret =3D=3D cpu->kvm_msr_buf->nmsrs' failed.
+
+  First broken commit has been bisected:
+
+  commit 48e1a45c3166d659f781171a47dabf4a187ed7a5
+  Author: Paolo Bonzini <pbonzini@redhat.com>
+  Date:   Wed Mar 30 22:55:29 2016 +0200
+
+      target-i386: assert that KVM_GET/SET_MSRS can set all requested MSRs
+      =
+
+      This would have caught the bug in the previous patch.
+      =
+
+      Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+
+  My cpuinfo is the following:
+
+  processor       : 0
+  vendor_id       : GenuineIntel
+  cpu family      : 6
+  model           : 44
+  model name      : Intel(R) Xeon(R) CPU           X5675  @ 3.07GHz
+  stepping        : 2
+  microcode       : 0x14
+  cpu MHz         : 3066.775
+  cache size      : 12288 KB
+  physical id     : 0
+  siblings        : 2
+  core id         : 0
+  cpu cores       : 2
+  apicid          : 0
+  initial apicid  : 0
+  fpu             : yes
+  fpu_exception   : yes
+  cpuid level     : 11
+  wp              : yes
+  flags           : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mc=
+a cmov pat pse36 clflush dts mmx fxsr sse sse2 ss ht syscall nx rdtscp lm c=
+onstant_tsc arch_perfmon pebs bts nopl xtopology tsc_reliable nonstop_tsc a=
+perfmperf pni pclmulqdq vmx ssse3 cx16 sse4_1 sse4_2 popcnt aes hypervisor =
+lahf_lm ida arat epb dtherm tpr_shadow vnmi ept vpid
+  bugs            :
+  bogomips        : 6133.55
+  clflush size    : 64
+  cache_alignment : 64
+  address sizes   : 40 bits physical, 48 bits virtual
+  power management:
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1661386/+subscriptions
 
