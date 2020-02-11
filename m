@@ -2,63 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D61615940B
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Feb 2020 16:57:34 +0100 (CET)
-Received: from localhost ([::1]:52180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E655C159389
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Feb 2020 16:47:41 +0100 (CET)
+Received: from localhost ([::1]:51912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j1Xun-000477-Id
-	for lists+qemu-devel@lfdr.de; Tue, 11 Feb 2020 10:57:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48624)
+	id 1j1XlF-0002Rq-1B
+	for lists+qemu-devel@lfdr.de; Tue, 11 Feb 2020 10:47:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46660)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1j1XtM-0002Jm-US
- for qemu-devel@nongnu.org; Tue, 11 Feb 2020 10:56:06 -0500
+ (envelope-from <eblake@redhat.com>) id 1j1Xk8-0001xE-9V
+ for qemu-devel@nongnu.org; Tue, 11 Feb 2020 10:46:33 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1j1XtL-0006Hu-4c
- for qemu-devel@nongnu.org; Tue, 11 Feb 2020 10:56:04 -0500
-Received: from indium.canonical.com ([91.189.90.7]:38988)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1j1XtK-0006Gl-Uv
- for qemu-devel@nongnu.org; Tue, 11 Feb 2020 10:56:03 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1j1XtI-0003lE-Lx
- for <qemu-devel@nongnu.org>; Tue, 11 Feb 2020 15:56:00 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 87AE82E8679
- for <qemu-devel@nongnu.org>; Tue, 11 Feb 2020 15:56:00 +0000 (UTC)
+ (envelope-from <eblake@redhat.com>) id 1j1Xk6-0002ce-U2
+ for qemu-devel@nongnu.org; Tue, 11 Feb 2020 10:46:31 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:44716
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1j1Xk6-0002cA-Q3
+ for qemu-devel@nongnu.org; Tue, 11 Feb 2020 10:46:30 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1581435990;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=1rYF6a/rzZIXYq2pah1hmpwwbEOuBhQjJtmq2Cq6gDk=;
+ b=aeJ7mlMY21tI/ITJufh0pR4ovrbKFnXNNyH+R6i82uhjWYoPfEhVteHTUCFIBcaB6s3sr7
+ 82WwEiuNrcfENFih+6ntoOvzgBuVw2SUk05kc8wnacnZEPRj414Uq3hEp9Yz11AK8zabCm
+ debjtJUjx/nmNAt390GVWVb1qyjtZ3U=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-329-AHlB33cVOdahHoIajSsnpQ-1; Tue, 11 Feb 2020 10:46:27 -0500
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6FACB107ACC4;
+ Tue, 11 Feb 2020 15:46:26 +0000 (UTC)
+Received: from [10.3.116.180] (ovpn-116-180.phx2.redhat.com [10.3.116.180])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CA35D60BF1;
+ Tue, 11 Feb 2020 15:46:25 +0000 (UTC)
+Subject: Re: [PATCH v2 28/33] block: Use bdrv_default_perms()
+To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
+References: <20200204170848.614480-1-mreitz@redhat.com>
+ <20200204170848.614480-29-mreitz@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <ee7f8f32-4b86-de90-8348-48fd2a08260f@redhat.com>
+Date: Tue, 11 Feb 2020 09:46:24 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 11 Feb 2020 15:43:25 -0000
-From: "Matwey V. Kornilov" <matwey.kornilov@gmail.com>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: bonzini dgilbert-h matwey-kornilov th-huth
-X-Launchpad-Bug-Reporter: Matwey V. Kornilov (matwey-kornilov)
-X-Launchpad-Bug-Modifier: Matwey V. Kornilov (matwey-kornilov)
-References: <20170202204510.26617.69309.malonedeb@wampee.canonical.com>
- <158143216740.3624.3045704956517936916.malone@soybean.canonical.com>
-Message-Id: <CAJs94EY=7W3F9zZiB7kqL7FAqzJL7k1VWqYrbZfLHbBWPsrseA@mail.gmail.com>
-Subject: Re: [Bug 1661386] Re: Assertion `ret == cpu->kvm_msr_buf->nmsrs'
- failed
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="0a62c17273454a1313f81a74a2198ec30b44c7b6";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 7f5270d709d00d0b6e1c5dfcd8934508f31133bc
+In-Reply-To: <20200204170848.614480-29-mreitz@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: AHlB33cVOdahHoIajSsnpQ-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -67,183 +76,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1661386 <1661386@bugs.launchpad.net>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+On 2/4/20 11:08 AM, Max Reitz wrote:
+> bdrv_default_perms() can decide which permission profile to use based on
+> the BdrvChildRole, so block drivers do not need to select it explicitly.
+> 
+> The blkverify driver now no longer shares the WRITE permission for the
+> image to verify.  We thus have to adjust two places in
+> test-block-iothread not to take it.  (Note that in theory, blkverify
+> should behave like quorum in this regard and share neither WRITE nor
+> RESIZE for both of its children.  In practice, it does not really
+> matter, because blkverify is used only for debugging, so we might as
+> well keep its permissions rather liberal.)
+> 
+> Signed-off-by: Max Reitz <mreitz@redhat.com>
+> ---
 
-Thank you for your reply. I've checked that this commit fixed my issue.
+> +++ b/block/blklogwrites.c
+> @@ -295,13 +295,8 @@ static void blk_log_writes_child_perm(BlockDriverState *bs, BdrvChild *c,
+>           return;
+>       }
+>   
+> -    if (!strcmp(c->name, "log")) {
+> -        bdrv_format_default_perms(bs, c, child_class, role, ro_q, perm, shrd,
+> -                                  nperm, nshrd);
+> -    } else {
+> -        bdrv_filter_default_perms(bs, c, child_class, role, ro_q, perm, shrd,
+> -                                  nperm, nshrd);
+> -    }
+> +    bdrv_default_perms(bs, c, child_class, role, ro_q, perm, shrd,
+> +                       nperm, nshrd);
+>   }
 
-=D0=B2=D1=82, 11 =D1=84=D0=B5=D0=B2=D1=80. 2020 =D0=B3. =D0=B2 17:50, Thoma=
-s Huth <1661386@bugs.launchpad.net>:
->
-> There was a fix for this assertion message wrt PMU registers in December =
-2017 already:
-> https://git.qemu.org/?p=3Dqemu.git;a=3Dcommitdiff;h=3D0b368a10c71af96f6cf
-> Thus, can you still reproduce this issue with the latest version of QEMU,=
- or is the problem gone now?
->
-> ** Changed in: qemu
->        Status: New =3D> Incomplete
->
-> --
-> You received this bug notification because you are subscribed to the bug
-> report.
-> https://bugs.launchpad.net/bugs/1661386
->
-> Title:
->   Assertion `ret =3D=3D cpu->kvm_msr_buf->nmsrs' failed
->
-> Status in QEMU:
->   Incomplete
->
-> Bug description:
->   Hello,
->
->
->   I see the following when try to run qemu from master as the following:
->
->   # ./x86_64-softmmu/qemu-system-x86_64 --version
->   QEMU emulator version 2.8.50 (v2.8.0-1006-g4e9f524)
->   Copyright (c) 2003-2016 Fabrice Bellard and the QEMU Project developers
->   # ./x86_64-softmmu/qemu-system-x86_64 -machine accel=3Dkvm -nodefaults
->   -no-reboot -nographic -cpu host -vga none  -kernel .build.kernel.kvm
->   -initrd .build.initrd.kvm -append 'panic=3D1 no-kvmclock console=3DttyS0
->   loglevel=3D7' -m 1024 -serial stdio
->   qemu-system-x86_64: /home/matwey/lab/qemu/target/i386/kvm.c:1849:
->   kvm_put_msrs: Assertion `ret =3D=3D cpu->kvm_msr_buf->nmsrs' failed.
->
->   First broken commit has been bisected:
->
->   commit 48e1a45c3166d659f781171a47dabf4a187ed7a5
->   Author: Paolo Bonzini <pbonzini@redhat.com>
->   Date:   Wed Mar 30 22:55:29 2016 +0200
->
->       target-i386: assert that KVM_GET/SET_MSRS can set all requested MSRs
->
->       This would have caught the bug in the previous patch.
->
->       Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
->
->   My cpuinfo is the following:
->
->   processor       : 0
->   vendor_id       : GenuineIntel
->   cpu family      : 6
->   model           : 44
->   model name      : Intel(R) Xeon(R) CPU           X5675  @ 3.07GHz
->   stepping        : 2
->   microcode       : 0x14
->   cpu MHz         : 3066.775
->   cache size      : 12288 KB
->   physical id     : 0
->   siblings        : 2
->   core id         : 0
->   cpu cores       : 2
->   apicid          : 0
->   initial apicid  : 0
->   fpu             : yes
->   fpu_exception   : yes
->   cpuid level     : 11
->   wp              : yes
->   flags           : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge =
-mca cmov pat pse36 clflush dts mmx fxsr sse sse2 ss ht syscall nx rdtscp lm=
- constant_tsc arch_perfmon pebs bts nopl xtopology tsc_reliable nonstop_tsc=
- aperfmperf pni pclmulqdq vmx ssse3 cx16 sse4_1 sse4_2 popcnt aes hyperviso=
-r lahf_lm ida arat epb dtherm tpr_shadow vnmi ept vpid
->   bugs            :
->   bogomips        : 6133.55
->   clflush size    : 64
->   cache_alignment : 64
->   address sizes   : 40 bits physical, 48 bits virtual
->   power management:
->
-> To manage notifications about this bug go to:
-> https://bugs.launchpad.net/qemu/+bug/1661386/+subscriptions
+I like the consolidation this is making possible.
 
+The commit note on test-block-iothread was important, and makes sense.
 
--- =
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
-With best regards,
-Matwey V. Kornilov
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1661386
-
-Title:
-  Assertion `ret =3D=3D cpu->kvm_msr_buf->nmsrs' failed
-
-Status in QEMU:
-  Incomplete
-
-Bug description:
-  Hello,
-
-  =
-
-  I see the following when try to run qemu from master as the following:
-
-  # ./x86_64-softmmu/qemu-system-x86_64 --version
-  QEMU emulator version 2.8.50 (v2.8.0-1006-g4e9f524)
-  Copyright (c) 2003-2016 Fabrice Bellard and the QEMU Project developers
-  # ./x86_64-softmmu/qemu-system-x86_64 -machine accel=3Dkvm -nodefaults
-  -no-reboot -nographic -cpu host -vga none  -kernel .build.kernel.kvm
-  -initrd .build.initrd.kvm -append 'panic=3D1 no-kvmclock console=3DttyS0
-  loglevel=3D7' -m 1024 -serial stdio
-  qemu-system-x86_64: /home/matwey/lab/qemu/target/i386/kvm.c:1849:
-  kvm_put_msrs: Assertion `ret =3D=3D cpu->kvm_msr_buf->nmsrs' failed.
-
-  First broken commit has been bisected:
-
-  commit 48e1a45c3166d659f781171a47dabf4a187ed7a5
-  Author: Paolo Bonzini <pbonzini@redhat.com>
-  Date:   Wed Mar 30 22:55:29 2016 +0200
-
-      target-i386: assert that KVM_GET/SET_MSRS can set all requested MSRs
-      =
-
-      This would have caught the bug in the previous patch.
-      =
-
-      Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-
-  My cpuinfo is the following:
-
-  processor       : 0
-  vendor_id       : GenuineIntel
-  cpu family      : 6
-  model           : 44
-  model name      : Intel(R) Xeon(R) CPU           X5675  @ 3.07GHz
-  stepping        : 2
-  microcode       : 0x14
-  cpu MHz         : 3066.775
-  cache size      : 12288 KB
-  physical id     : 0
-  siblings        : 2
-  core id         : 0
-  cpu cores       : 2
-  apicid          : 0
-  initial apicid  : 0
-  fpu             : yes
-  fpu_exception   : yes
-  cpuid level     : 11
-  wp              : yes
-  flags           : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mc=
-a cmov pat pse36 clflush dts mmx fxsr sse sse2 ss ht syscall nx rdtscp lm c=
-onstant_tsc arch_perfmon pebs bts nopl xtopology tsc_reliable nonstop_tsc a=
-perfmperf pni pclmulqdq vmx ssse3 cx16 sse4_1 sse4_2 popcnt aes hypervisor =
-lahf_lm ida arat epb dtherm tpr_shadow vnmi ept vpid
-  bugs            :
-  bogomips        : 6133.55
-  clflush size    : 64
-  cache_alignment : 64
-  address sizes   : 40 bits physical, 48 bits virtual
-  power management:
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1661386/+subscriptions
 
