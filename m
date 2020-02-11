@@ -2,40 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A73B31591E2
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Feb 2020 15:27:12 +0100 (CET)
-Received: from localhost ([::1]:50510 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6463D1591FF
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Feb 2020 15:32:04 +0100 (CET)
+Received: from localhost ([::1]:50598 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j1WVL-0002aM-NL
-	for lists+qemu-devel@lfdr.de; Tue, 11 Feb 2020 09:27:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50388)
+	id 1j1Wa2-0005Nm-4b
+	for lists+qemu-devel@lfdr.de; Tue, 11 Feb 2020 09:32:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51108)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dplotnikov@virtuozzo.com>) id 1j1WUC-0001Nf-2U
- for qemu-devel@nongnu.org; Tue, 11 Feb 2020 09:26:01 -0500
+ (envelope-from <stefanb@linux.ibm.com>) id 1j1WZ3-0004tj-8g
+ for qemu-devel@nongnu.org; Tue, 11 Feb 2020 09:31:02 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dplotnikov@virtuozzo.com>) id 1j1WUA-0002Rq-SR
- for qemu-devel@nongnu.org; Tue, 11 Feb 2020 09:26:00 -0500
-Received: from relay.sw.ru ([185.231.240.75]:45002)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dplotnikov@virtuozzo.com>)
- id 1j1WUA-0002QC-LY
- for qemu-devel@nongnu.org; Tue, 11 Feb 2020 09:25:58 -0500
-Received: from dptest2.qa.sw.ru ([10.94.4.71])
- by relay.sw.ru with esmtp (Exim 4.92.3)
- (envelope-from <dplotnikov@virtuozzo.com>)
- id 1j1WU4-00009Q-IT; Tue, 11 Feb 2020 17:25:52 +0300
-From: Denis Plotnikov <dplotnikov@virtuozzo.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v1 2/2] tests/acceptance/virtio_check_params: prepare to check
- different params
-Date: Tue, 11 Feb 2020 17:25:51 +0300
-Message-Id: <20200211142551.13072-3-dplotnikov@virtuozzo.com>
-X-Mailer: git-send-email 2.17.0
-In-Reply-To: <20200211142551.13072-1-dplotnikov@virtuozzo.com>
-References: <20200211142551.13072-1-dplotnikov@virtuozzo.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
-X-Received-From: 185.231.240.75
+ (envelope-from <stefanb@linux.ibm.com>) id 1j1WZ2-0005vv-AL
+ for qemu-devel@nongnu.org; Tue, 11 Feb 2020 09:31:01 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:51438
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <stefanb@linux.ibm.com>)
+ id 1j1WYz-0005up-Up; Tue, 11 Feb 2020 09:30:58 -0500
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 01BEO3jQ058128; Tue, 11 Feb 2020 09:30:55 -0500
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2y1u1kb9t9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 11 Feb 2020 09:30:55 -0500
+Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 01BEOAjf058827;
+ Tue, 11 Feb 2020 09:30:55 -0500
+Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.11])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2y1u1kb9sn-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 11 Feb 2020 09:30:55 -0500
+Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
+ by ppma03dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 01BEU7U7028052;
+ Tue, 11 Feb 2020 14:30:54 GMT
+Received: from b01cxnp22034.gho.pok.ibm.com (b01cxnp22034.gho.pok.ibm.com
+ [9.57.198.24]) by ppma03dal.us.ibm.com with ESMTP id 2y1mm7d9ma-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 11 Feb 2020 14:30:53 +0000
+Received: from b01ledav001.gho.pok.ibm.com (b01ledav001.gho.pok.ibm.com
+ [9.57.199.106])
+ by b01cxnp22034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 01BEUrte54591824
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 11 Feb 2020 14:30:53 GMT
+Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 1003A28066;
+ Tue, 11 Feb 2020 14:30:53 +0000 (GMT)
+Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 078F42805C;
+ Tue, 11 Feb 2020 14:30:53 +0000 (GMT)
+Received: from sbct-3.pok.ibm.com (unknown [9.47.158.153])
+ by b01ledav001.gho.pok.ibm.com (Postfix) with ESMTP;
+ Tue, 11 Feb 2020 14:30:52 +0000 (GMT)
+Subject: Re: [RFC 1/2] tpm: Let the TPM TIS device be usable on ARM
+To: Peter Maydell <peter.maydell@linaro.org>,
+ Auger Eric <eric.auger@redhat.com>
+References: <20200210131523.27540-1-eric.auger@redhat.com>
+ <20200210131523.27540-2-eric.auger@redhat.com>
+ <5cbd1960-6138-f4d0-948f-1983cb0f93b0@redhat.com>
+ <e69f69c5-40f5-1fe5-f298-129324cc7055@redhat.com>
+ <CAFEAcA_TJ5gDMRNK=O-iaqksYL_aQFu7repo7wKi7pGb-A9cYQ@mail.gmail.com>
+From: Stefan Berger <stefanb@linux.ibm.com>
+Message-ID: <f54abc68-5727-b965-5217-68288b1a344a@linux.ibm.com>
+Date: Tue, 11 Feb 2020 09:30:52 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.1
+MIME-Version: 1.0
+In-Reply-To: <CAFEAcA_TJ5gDMRNK=O-iaqksYL_aQFu7repo7wKi7pGb-A9cYQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
+ definitions=2020-02-11_04:2020-02-10,
+ 2020-02-11 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 suspectscore=0
+ impostorscore=0 bulkscore=0 mlxlogscore=999 mlxscore=0 phishscore=0
+ lowpriorityscore=0 spamscore=0 adultscore=0 clxscore=1011
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2001150001 definitions=main-2002110108
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by
+ mx0a-001b2d01.pphosted.com id 01BEO3jQ058128
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 148.163.158.5
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -47,101 +101,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: cohuck@redhat.com, philmd@redhat.com, wainersm@redhat.com
+Cc: Laszlo Ersek <lersek@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ qemu-arm <qemu-arm@nongnu.org>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>, ardb@kernel.org,
+ Eric Auger <eric.auger.pro@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Denis Plotnikov <dplotnikov@virtuozzo.com>
----
- tests/acceptance/virtio_check_params.py | 38 ++++++++++++++-----------
- 1 file changed, 22 insertions(+), 16 deletions(-)
+On 2/11/20 5:56 AM, Peter Maydell wrote:
+> On Tue, 11 Feb 2020 at 08:35, Auger Eric <eric.auger@redhat.com> wrote:
+>> Hi Philippe,
+>>
+>> On 2/11/20 9:25 AM, Philippe Mathieu-Daud=C3=A9 wrote:
+>>> You don't need much to remove the RFC tag:
+>>>
+>>> - rename TYPE_TPM_TIS as TYPE_TPM_TIS_ISA
+>>> - rename TPMState as TPMCommonState, add an abstract TYPE_TPM_TIS
+>>> parent, let TYPE_TPM_TIS_ISA be a child
+>>> - add TYPE_TPM_TIS_SYSBUS also child.
+>> Yes I tried my luck without too much hopes ;-)
+> There should be a few existing examples in the tree
+> of devices that we provide in a sysbus and also
+> an isa or pci flavour, that you can use as templates
+> for how to structure the device.
 
-diff --git a/tests/acceptance/virtio_check_params.py b/tests/acceptance/virtio_check_params.py
-index deec89bf86..e578952a97 100644
---- a/tests/acceptance/virtio_check_params.py
-+++ b/tests/acceptance/virtio_check_params.py
-@@ -43,7 +43,7 @@ VM_DEV_PARAMS = {'virtio-scsi-pci': ['-device', 'virtio-scsi-pci,id=scsi0'],
- EXCLUDED_MACHINES = ['none', 'isapc', 'microvm']
- 
- 
--class VirtioMaxSegSettingsCheck(Test):
-+class VirtioParamsCheck(Test):
-     @staticmethod
-     def make_pattern(props):
-         pattern_items = ['{0} = \w+'.format(prop) for prop in props]
-@@ -75,12 +75,12 @@ class VirtioMaxSegSettingsCheck(Test):
-                 props[p[0]] = p[1]
-         return query_ok, props, error
- 
--    def check_mt(self, mt, dev_type_name):
--        mt['device'] = dev_type_name # Only for the debug() call.
-+    def check_mt(self, mt, expected_vals, dev_type_name):
-+        msg = "mt: %s dev: %s" % (mt, dev_type_name) # For debug() call only.
-         logger = logging.getLogger('machine')
--        logger.debug(mt)
-+        logger.debug(msg)
-         with QEMUMachine(self.qemu_bin) as vm:
--            vm.set_machine(mt["name"])
-+            vm.set_machine(mt)
-             vm.add_args('-nodefaults')
-             for s in VM_DEV_PARAMS[dev_type_name]:
-                 vm.add_args(s)
-@@ -92,11 +92,15 @@ class VirtioMaxSegSettingsCheck(Test):
-                 error = sys.exc_info()[0]
- 
-         if not query_ok:
--            self.fail('machine type {0}: {1}'.format(mt['name'], error))
-+            self.fail('machine type {0}: {1}'.format(mt, error))
- 
-         for prop_name, prop_val in props.items():
--            expected_val = mt[prop_name]
--            self.assertEqual(expected_val, prop_val)
-+            expected_val = expected_vals[prop_name]
-+            msg = 'Property value mismatch for (MT: {0}, '\
-+                  'property name: {1}): expected value: "{2}" '\
-+                  'actual value: "{3}"'\
-+                  .format(mt, prop_name, expected_val, prop_val)
-+            self.assertEqual(expected_val, prop_val, msg)
- 
-     @staticmethod
-     def seg_max_adjust_enabled(mt):
-@@ -128,25 +132,27 @@ class VirtioMaxSegSettingsCheck(Test):
- 
-     @skip("break multi-arch CI")
-     def test_machine_types(self):
--        # collect all machine types except 'none', 'isapc', 'microvm'
-+        # collect all machine types
-         with QEMUMachine(self.qemu_bin) as vm:
-             vm.launch()
-             machines = [m['name'] for m in vm.command('query-machines')]
-             vm.shutdown()
- 
-+        # ..and exclude non-relevant ones
-         machines = self.filter_machines(machines)
- 
-         for dev_type in DEV_TYPES:
--            # create the list of machine types and their parameters.
--            mtypes = list()
-+            # define expected parameters for each machine type
-+            mt_expected_vals = dict()
-             for m in machines:
-                 if self.seg_max_adjust_enabled(m):
-                     enabled = 'true'
-                 else:
-                     enabled = 'false'
--                mtypes.append({'name': m,
--                               DEV_TYPES[dev_type]['seg_max_adjust']: enabled})
- 
--            # test each machine type for a device type
--            for mt in mtypes:
--                self.check_mt(mt, dev_type)
-+                mt_expected_vals[m] = {
-+                    DEV_TYPES[dev_type]['seg_max_adjust']: enabled }
-+
-+            # test each machine type
-+            for mt in mt_expected_vals:
-+                self.check_mt(mt, mt_expected_vals[mt], dev_type)
--- 
-2.17.0
+block/fdc.c ?
+
+
+ =C2=A0=C2=A0 Stefan
+
 
 
