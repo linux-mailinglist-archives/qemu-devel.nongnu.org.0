@@ -2,65 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 484D4158CF6
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Feb 2020 11:53:52 +0100 (CET)
-Received: from localhost ([::1]:47596 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64A3C158CFC
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Feb 2020 11:55:44 +0100 (CET)
+Received: from localhost ([::1]:47642 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j1TAt-0004uK-BX
-	for lists+qemu-devel@lfdr.de; Tue, 11 Feb 2020 05:53:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35884)
+	id 1j1TCh-0006rl-FN
+	for lists+qemu-devel@lfdr.de; Tue, 11 Feb 2020 05:55:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36327)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <cohuck@redhat.com>) id 1j1T9v-00041y-PH
- for qemu-devel@nongnu.org; Tue, 11 Feb 2020 05:52:52 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1j1TBv-0006IE-L5
+ for qemu-devel@nongnu.org; Tue, 11 Feb 2020 05:54:56 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cohuck@redhat.com>) id 1j1T9u-0002D0-Rl
- for qemu-devel@nongnu.org; Tue, 11 Feb 2020 05:52:51 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:59210
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <dgilbert@redhat.com>) id 1j1TBu-0003A9-Fv
+ for qemu-devel@nongnu.org; Tue, 11 Feb 2020 05:54:55 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:33010
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1j1T9u-0002Cj-O4
- for qemu-devel@nongnu.org; Tue, 11 Feb 2020 05:52:50 -0500
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1j1TBu-00039x-C6
+ for qemu-devel@nongnu.org; Tue, 11 Feb 2020 05:54:54 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581418370;
+ s=mimecast20190719; t=1581418493;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HYx6OVR723Zi4nipjoFJ22+MDt+DL3IeYBIHYelzPpo=;
- b=aCyfrcvodCVPnCAx9+pcmMLRPsdxKD9de1Un5f56UChyELVMhXhg+fuTLd5XAsWWEd9g3Q
- XSZjyTTqHBBWHZEpjzU4MiHyGYXiebpInW4gzfP0c+T9ItVAldbto50WGrSxtBWJ51SZeV
- vPpgpsYH2u3KLvHZ48dtIEEsZ5u/pVQ=
+ bh=iHY7ub2o3vjcoBWtVFe7KNkC1+w19KUXJy+zKfKAo+U=;
+ b=Dg1u/QlgVdILnCNXdFBNVUUzTeLLsa7b4cpnaODgjwJfuBJ35Og3mevZLNYOT3PGT/aiv/
+ Y7Cpd6GNTfltK4Fxcub6RJq72hYl9wYfOWkRd1vDsRzizZV/52tVwQH5xepGojFMEdLfFx
+ 8uKmnu0AdwSo+DCgn4O7IcNMV+CVdZA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-296-QtxOb3vKPVKHpxweGSzaug-1; Tue, 11 Feb 2020 05:52:48 -0500
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-31-iF-96TDFPtOJH7YpwpxbPQ-1; Tue, 11 Feb 2020 05:54:51 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A77CA18B5FAC;
- Tue, 11 Feb 2020 10:52:47 +0000 (UTC)
-Received: from gondolin (dhcp-192-195.str.redhat.com [10.33.192.195])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 204E35C109;
- Tue, 11 Feb 2020 10:52:41 +0000 (UTC)
-Date: Tue, 11 Feb 2020 11:52:39 +0100
-From: Cornelia Huck <cohuck@redhat.com>
-To: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
-Subject: Re: [PATCH] tests/acceptance/virtio_check_params: Only disable the
- test on CI
-Message-ID: <20200211115239.6027b3c7.cohuck@redhat.com>
-In-Reply-To: <20200211104938.12068-1-philmd@redhat.com>
-References: <20200211104938.12068-1-philmd@redhat.com>
-Organization: Red Hat GmbH
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7E4848017DF
+ for <qemu-devel@nongnu.org>; Tue, 11 Feb 2020 10:54:50 +0000 (UTC)
+Received: from work-vm (unknown [10.36.118.42])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 94EBD165D3;
+ Tue, 11 Feb 2020 10:54:48 +0000 (UTC)
+Date: Tue, 11 Feb 2020 10:54:46 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Juan Quintela <quintela@redhat.com>
+Subject: Re: [PATCH v5 2/8] migration: Add support for modules
+Message-ID: <20200211105446.GE2751@work-vm>
+References: <20200129115655.10414-1-quintela@redhat.com>
+ <20200129115655.10414-3-quintela@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: QtxOb3vKPVKHpxweGSzaug-1
+In-Reply-To: <20200129115655.10414-3-quintela@redhat.com>
+User-Agent: Mutt/1.13.3 (2020-01-12)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: iF-96TDFPtOJH7YpwpxbPQ-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,48 +74,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Denis Plotnikov <dplotnikov@virtuozzo.com>, qemu-devel@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 11 Feb 2020 11:49:38 +0100
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> wrote:
-
-> Commit 2d6a6e238a incorrectly totally disabled this test.
-> The original intention was to only disable on continuous integration.
+* Juan Quintela (quintela@redhat.com) wrote:
+> So we don't have to compile everything in, or have ifdefs
 >=20
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> Signed-off-by: Juan Quintela <quintela@redhat.com>
+
+As far as I can tell this matches the way all the rest of the module
+stuff works, so:
+
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+
+(Although I wish it was documented somewhere).
+
+Dave
+
 > ---
->  tests/acceptance/virtio_check_params.py | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  include/qemu/module.h | 2 ++
+>  vl.c                  | 1 +
+>  2 files changed, 3 insertions(+)
 >=20
-> diff --git a/tests/acceptance/virtio_check_params.py b/tests/acceptance/v=
-irtio_check_params.py
-> index 87e6c839d1..015582cf9c 100644
-> --- a/tests/acceptance/virtio_check_params.py
-> +++ b/tests/acceptance/virtio_check_params.py
-> @@ -25,7 +25,7 @@ import logging
->  sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'pyt=
-hon'))
->  from qemu.machine import QEMUMachine
->  from avocado_qemu import Test
-> -from avocado import skip
-> +from avocado import skipIf
+> diff --git a/include/qemu/module.h b/include/qemu/module.h
+> index 65ba596e46..907cb5c0a5 100644
+> --- a/include/qemu/module.h
+> +++ b/include/qemu/module.h
+> @@ -40,6 +40,7 @@ static void __attribute__((constructor)) do_qemu_init_ =
+## function(void)    \
+>  #endif
 > =20
->  #list of machine types and virtqueue properties to test
->  VIRTIO_SCSI_PROPS =3D {'seg_max_adjust': 'seg_max_adjust'}
-> @@ -117,7 +117,7 @@ class VirtioMaxSegSettingsCheck(Test):
->              return True
->          return False
+>  typedef enum {
+> +    MODULE_INIT_MIGRATION,
+>      MODULE_INIT_BLOCK,
+>      MODULE_INIT_OPTS,
+>      MODULE_INIT_QOM,
+> @@ -56,6 +57,7 @@ typedef enum {
+>  #define xen_backend_init(function) module_init(function, \
+>                                                 MODULE_INIT_XEN_BACKEND)
+>  #define libqos_init(function) module_init(function, MODULE_INIT_LIBQOS)
+> +#define migration_init(function) module_init(function, MODULE_INIT_MIGRA=
+TION)
 > =20
-> -    @skip("break multi-arch CI")
-> +    @skipIf(os.getenv('CONTINUOUS_INTEGRATION'), 'Break multi-arch CI')
->      def test_machine_types(self):
->          # collect all machine types except 'none', 'isapc', 'microvm'
->          with QEMUMachine(self.qemu_bin) as vm:
-
-Acked-by: Cornelia Huck <cohuck@redhat.com>
+>  #define block_module_load_one(lib) module_load_one("block-", lib)
+>  #define ui_module_load_one(lib) module_load_one("ui-", lib)
+> diff --git a/vl.c b/vl.c
+> index b0f52c4d6e..9f8577955a 100644
+> --- a/vl.c
+> +++ b/vl.c
+> @@ -2890,6 +2890,7 @@ int main(int argc, char **argv, char **envp)
+>      qemu_init_exec_dir(argv[0]);
+> =20
+>      module_call_init(MODULE_INIT_QOM);
+> +    module_call_init(MODULE_INIT_MIGRATION);
+> =20
+>      qemu_add_opts(&qemu_drive_opts);
+>      qemu_add_drive_opts(&qemu_legacy_drive_opts);
+> --=20
+> 2.24.1
+>=20
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
