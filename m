@@ -2,61 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D3E615955F
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Feb 2020 17:52:24 +0100 (CET)
-Received: from localhost ([::1]:53198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A5C1159526
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Feb 2020 17:39:38 +0100 (CET)
+Received: from localhost ([::1]:52992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j1Ylr-0006rB-9e
-	for lists+qemu-devel@lfdr.de; Tue, 11 Feb 2020 11:52:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59226)
+	id 1j1YZV-0007XO-66
+	for lists+qemu-devel@lfdr.de; Tue, 11 Feb 2020 11:39:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56735)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1j1Yl1-0006Hz-Ow
- for qemu-devel@nongnu.org; Tue, 11 Feb 2020 11:51:32 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1j1YYg-00077X-Ua
+ for qemu-devel@nongnu.org; Tue, 11 Feb 2020 11:38:47 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1j1Yl0-0003kW-FA
- for qemu-devel@nongnu.org; Tue, 11 Feb 2020 11:51:31 -0500
-Received: from indium.canonical.com ([91.189.90.7]:56232)
+ (envelope-from <peter.maydell@linaro.org>) id 1j1YYf-0000EM-Or
+ for qemu-devel@nongnu.org; Tue, 11 Feb 2020 11:38:46 -0500
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:37630)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1j1Yl0-0003k3-9z
- for qemu-devel@nongnu.org; Tue, 11 Feb 2020 11:51:30 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1j1Yky-0004WE-DQ
- for <qemu-devel@nongnu.org>; Tue, 11 Feb 2020 16:51:28 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 1BA962E80D4
- for <qemu-devel@nongnu.org>; Tue, 11 Feb 2020 16:51:28 +0000 (UTC)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1j1YYf-0000Dy-Jd
+ for qemu-devel@nongnu.org; Tue, 11 Feb 2020 11:38:45 -0500
+Received: by mail-ot1-x343.google.com with SMTP id d3so10735219otp.4
+ for <qemu-devel@nongnu.org>; Tue, 11 Feb 2020 08:38:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=sMeB6VxXbVgvSLSrQF5TwJ/F+NcWXqVfkF/dRKlg44Y=;
+ b=Rv4qQBcFN2L34rRg/urnetBnktSFeDSkR4gV2cPF9+HYkS5ZbSQrI3BpqguZTE/lFY
+ +qaR3qBoB56n4N840LMz+pjlhh+4OA69grQVcHf5iO5waPhQmJ/Vl4fNoUlZsp8LQduy
+ X5rwimXosLMoEnXsyT0v3zB3YGDOH6asfp/NM3Ac1wA3LbNd2t9O+EHlkYsglPaEhx2O
+ f8U2+X5gJgGFoUpDzRkyAq9rQwg7CjwLcuBN3vjwoUtNDjArUG6TXjNq7v2hMwHisdu6
+ gq3PV6nA/9nvBG8GWRtWJsRrPpVOxwcyp2qO/HEwDOMr72c2RBkjqd/wjM3MKtbaCjiD
+ HkwA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=sMeB6VxXbVgvSLSrQF5TwJ/F+NcWXqVfkF/dRKlg44Y=;
+ b=D/OKhvKUYMMzOhJvCUUKDaY0Fqq/XI4byBRhviO7PDjljvLgO09n4MJhpkttk30fDI
+ 6uu+UdjTa16qPwHL+RX0zW1UBexR56h3YXJ9Mc29vl2PvgsnTQq9w7JRmxy28OcjBMnc
+ CzBpslOlE/4RKHw4KJiM9uq+fpL8DYgWwDUkCp8x84r/I98bLdzB6DFWeJ82w17QqX7H
+ c57pLMH9kYEaEU/PzRUH1xWTw/TqPRseyQC3Mk7dj81cOAKRKn3VoJ++OugloF9Ww2MN
+ x/2IWzgA5/HH7tstcPFGNvS2e7+nK3gyx2YvoRLlfhTdZFgS5uDJGdN2KLoDJeuf9dvy
+ Gj5w==
+X-Gm-Message-State: APjAAAULrckjU+luMUVwf0BjCLr1o+WgX/0vEVz43YNgoNE9XMkZNlBR
+ E7zabwv2R3qifwKk0RazARoN5dvlw2foQpEu7H/aKA==
+X-Google-Smtp-Source: APXvYqxULG4ZZ0BpHqRsJtgOhmIGdyvczHL9ANWVA+KeMmdVWHJFJx87cqm9b8dRPfQ0zNec4RIb85Wz9uYwY0P842A=
+X-Received: by 2002:a05:6830:184:: with SMTP id
+ q4mr5995750ota.232.1581439124241; 
+ Tue, 11 Feb 2020 08:38:44 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 11 Feb 2020 16:37:25 -0000
-From: Thomas Huth <1661386@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: bonzini dgilbert-h matwey-kornilov th-huth
-X-Launchpad-Bug-Reporter: Matwey V. Kornilov (matwey-kornilov)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <20170202204510.26617.69309.malonedeb@wampee.canonical.com>
-Message-Id: <158143904664.29547.417848089163174657.launchpad@chaenomeles.canonical.com>
-Subject: [Bug 1661386] Re: Assertion `ret == cpu->kvm_msr_buf->nmsrs' failed
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="19413b719a8df7423ab1390528edadce9e0e4aca";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 37316a12f5284e932e6c9e4fe294762f107f6c75
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+References: <20200204171053.1718013-1-laurent@vivier.eu>
+ <20200204171053.1718013-2-laurent@vivier.eu>
+In-Reply-To: <20200204171053.1718013-2-laurent@vivier.eu>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 11 Feb 2020 16:38:33 +0000
+Message-ID: <CAFEAcA-uH-gnPZ9=YPBzdCLVxSKp86cs07tMuLSAgO3bNWd05A@mail.gmail.com>
+Subject: Re: [PATCH v2 1/4] linux-user: add missing TARGET_SIGRTMIN for hppa
+To: Laurent Vivier <laurent@vivier.eu>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -65,89 +73,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1661386 <1661386@bugs.launchpad.net>
+Cc: Marlies Ruck <marlies.ruck@gmail.com>, Riku Voipio <riku.voipio@iki.fi>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Aleksandar Markovic <aleksandar.markovic@rt-rk.com>,
+ Josh Kunz <jkz@google.com>, Taylor Simpson <tsimpson@quicinc.com>,
+ Matus Kysel <mkysel@tachyum.com>,
+ =?UTF-8?B?TWlsb8WhIFN0b2phbm92acSH?= <milos.stojanovic@rt-rk.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Changed in: qemu
-       Status: Incomplete =3D> Fix Released
+On Tue, 4 Feb 2020 at 17:11, Laurent Vivier <laurent@vivier.eu> wrote:
+>
+> This signal is defined for all other targets and we will need it later
+>
+> Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+> ---
+>  linux-user/hppa/target_signal.h | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/linux-user/hppa/target_signal.h b/linux-user/hppa/target_signal.h
+> index ba159ff8d006..c2a0102ed73d 100644
+> --- a/linux-user/hppa/target_signal.h
+> +++ b/linux-user/hppa/target_signal.h
+> @@ -34,6 +34,7 @@
+>  #define TARGET_SIGURG          29
+>  #define TARGET_SIGXFSZ         30
+>  #define TARGET_SIGSYS          31
+> +#define TARGET_SIGRTMIN        32
+>
+>  #define TARGET_SIG_BLOCK       0
+>  #define TARGET_SIG_UNBLOCK     1
+> --
+> 2.24.1
 
--- =
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1661386
-
-Title:
-  Assertion `ret =3D=3D cpu->kvm_msr_buf->nmsrs' failed
-
-Status in QEMU:
-  Fix Released
-
-Bug description:
-  Hello,
-
-  =
-
-  I see the following when try to run qemu from master as the following:
-
-  # ./x86_64-softmmu/qemu-system-x86_64 --version
-  QEMU emulator version 2.8.50 (v2.8.0-1006-g4e9f524)
-  Copyright (c) 2003-2016 Fabrice Bellard and the QEMU Project developers
-  # ./x86_64-softmmu/qemu-system-x86_64 -machine accel=3Dkvm -nodefaults
-  -no-reboot -nographic -cpu host -vga none  -kernel .build.kernel.kvm
-  -initrd .build.initrd.kvm -append 'panic=3D1 no-kvmclock console=3DttyS0
-  loglevel=3D7' -m 1024 -serial stdio
-  qemu-system-x86_64: /home/matwey/lab/qemu/target/i386/kvm.c:1849:
-  kvm_put_msrs: Assertion `ret =3D=3D cpu->kvm_msr_buf->nmsrs' failed.
-
-  First broken commit has been bisected:
-
-  commit 48e1a45c3166d659f781171a47dabf4a187ed7a5
-  Author: Paolo Bonzini <pbonzini@redhat.com>
-  Date:   Wed Mar 30 22:55:29 2016 +0200
-
-      target-i386: assert that KVM_GET/SET_MSRS can set all requested MSRs
-      =
-
-      This would have caught the bug in the previous patch.
-      =
-
-      Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-
-  My cpuinfo is the following:
-
-  processor       : 0
-  vendor_id       : GenuineIntel
-  cpu family      : 6
-  model           : 44
-  model name      : Intel(R) Xeon(R) CPU           X5675  @ 3.07GHz
-  stepping        : 2
-  microcode       : 0x14
-  cpu MHz         : 3066.775
-  cache size      : 12288 KB
-  physical id     : 0
-  siblings        : 2
-  core id         : 0
-  cpu cores       : 2
-  apicid          : 0
-  initial apicid  : 0
-  fpu             : yes
-  fpu_exception   : yes
-  cpuid level     : 11
-  wp              : yes
-  flags           : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mc=
-a cmov pat pse36 clflush dts mmx fxsr sse sse2 ss ht syscall nx rdtscp lm c=
-onstant_tsc arch_perfmon pebs bts nopl xtopology tsc_reliable nonstop_tsc a=
-perfmperf pni pclmulqdq vmx ssse3 cx16 sse4_1 sse4_2 popcnt aes hypervisor =
-lahf_lm ida arat epb dtherm tpr_shadow vnmi ept vpid
-  bugs            :
-  bogomips        : 6133.55
-  clflush size    : 64
-  cache_alignment : 64
-  address sizes   : 40 bits physical, 48 bits virtual
-  power management:
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1661386/+subscriptions
+thanks
+-- PMM
 
