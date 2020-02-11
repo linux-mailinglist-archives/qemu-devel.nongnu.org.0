@@ -2,69 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D059159649
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Feb 2020 18:39:35 +0100 (CET)
-Received: from localhost ([::1]:54274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B8E5159656
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Feb 2020 18:41:55 +0100 (CET)
+Received: from localhost ([::1]:54356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j1ZVW-0007pB-Kn
-	for lists+qemu-devel@lfdr.de; Tue, 11 Feb 2020 12:39:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48328)
+	id 1j1ZXm-0002tG-Ac
+	for lists+qemu-devel@lfdr.de; Tue, 11 Feb 2020 12:41:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48306)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j1ZTh-0005hO-88
+ (envelope-from <peter.maydell@linaro.org>) id 1j1ZTh-0005hH-8I
  for qemu-devel@nongnu.org; Tue, 11 Feb 2020 12:37:43 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j1ZTf-00043F-9c
- for qemu-devel@nongnu.org; Tue, 11 Feb 2020 12:37:40 -0500
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:33699)
+ (envelope-from <peter.maydell@linaro.org>) id 1j1ZTc-00040x-KA
+ for qemu-devel@nongnu.org; Tue, 11 Feb 2020 12:37:38 -0500
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:43979)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j1ZTc-0003uX-C2
+ id 1j1ZTc-0003wQ-CY
  for qemu-devel@nongnu.org; Tue, 11 Feb 2020 12:37:36 -0500
-Received: by mail-wr1-x429.google.com with SMTP id u6so13526094wrt.0
- for <qemu-devel@nongnu.org>; Tue, 11 Feb 2020 09:37:31 -0800 (PST)
+Received: by mail-wr1-x441.google.com with SMTP id r11so10241721wrq.10
+ for <qemu-devel@nongnu.org>; Tue, 11 Feb 2020 09:37:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=pOWADl33ItxnHLnQPh02kJSDMI6+RBZACRYlGT5q2kA=;
- b=f8Ov91TPgNR7MnEPQ5eXQmWueQiHZnuJ4bVhI7UAbktZ+fGBFDLzzESpXQua3JY59M
- b/b2CvHXmusdrAPVN42FcwjdnyDTWiuoAsTlaiGu6AXxcKkgOgXUw7fzKHB37XW/9GxU
- UXq6JadmCzUTTLWa5B0iDn51kefFEWRnfk3CB++jXUl01w3uNMmdbcJ+cv9hPsU9rgDs
- DJY4JFf9Z4gms4GJAmz0Syw/TB3wRrFYplpZ8RuL3Ty+46m4DMcqV97v3atmMc9bZQYU
- TxlAbYbDyqPrYqBwOKcbEu/i1rUhpXz6XsDx0mhWxeWFWI3j26SDFwVbMsTiIOcARum2
- jwMw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=R0OwC1B8BgXBSOjTXwBE9Hi1bALQDEZkRmOqTJGQEkU=;
+ b=PZW8DFMjqw47iAcPzf9b6l+9mIHS/WpeJZSmWqIcZpepD4P2HStYpdDsgyZlGnn5IL
+ dyg3r7eyz4DKGAzTHTvbEZQXWtHdhgvNuCPGUYcxMEH3E6OV8YJZaO61IwAuuJPN0w8L
+ 8Q9Mo1dhktWx09bjhzVQgIqy+b8xMLs+TTP1zFgFstSjOq/vgNWuxoRPXugskkhfXC/N
+ CvJ3rkOYNdsql8AF83qejZqSpPYO4SonZ+rczkba4+qz318rV6WBDWFqsOrId7JyS0jY
+ IibxKQgnPE3G06T+xg3nQ1auaATZCssTK1W1a9cBrWtvN3dpYrjmtiZrzArCieJHnM1H
+ eADQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=pOWADl33ItxnHLnQPh02kJSDMI6+RBZACRYlGT5q2kA=;
- b=JGridasCShE0JxzF3v/qhUALHRXxki8CLVGudsMhE05YOTMpsy/Xhu9YttqW4IYtUX
- d3zAr4UwmOdOzjANFkk+ulX65Lw+l/YCLCCzJAKgdHae2VD1dc2baHRtdu9bCwsmy1Ii
- eHxrYolLjFgzG30gHf1BdkSV1QXkI6tyaZhLTiKB83p6uxmXjifDNcL73eeH5amG8xFP
- +ZMW8KclVtJp903UhjyxjmbgB/gO09jMaePqraQ17hOuuoZxoK5ETlsqhL4rRf2blKPy
- fmhQdcsaudo72tSPx2V7x3XeomfXVhwJ1My+4hyDKV/Mdv3wv/q+LCVkbN2HxxhDYjfk
- 85VQ==
-X-Gm-Message-State: APjAAAVpCf3N0mntGD6/5CmQVICqoKYXhgeznwmsye/6Aj52kPa2gMqs
- LjicEKNRFiT9D2NQIjntgFOZnQ==
-X-Google-Smtp-Source: APXvYqwrgooQpZp+nYDAYx2QFK1oTEN2lNKqH8+3pT5mBgx4lwOdHWaejIZbCHe3TNDhV1Hx9ljmqQ==
-X-Received: by 2002:adf:d850:: with SMTP id k16mr9419458wrl.216.1581442649904; 
- Tue, 11 Feb 2020 09:37:29 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=R0OwC1B8BgXBSOjTXwBE9Hi1bALQDEZkRmOqTJGQEkU=;
+ b=NL0TqVpviVw13nZsaxfXfVayRZECeIbuLsmm5zg+auX0ypwhGOEn/adoVEHt8vYZB7
+ oBZtPsflLVhkhvK8IBLHVPs+RSIFT2upty1PQ746OtYKdzCZZzQr3BacXnjNf6KwosJL
+ 03psg36SENHt9pyXqAeB7cloxBjNFT4f7hvgVwzkJw43wXaxWjVoS+vAHqellXXwQlg+
+ JlDC78X3fDDFUoc+hwhgGN2UIkDupMnNChHbBq4szZ5fzK0enrtM6saBGaEvf8etq5Xb
+ t9fLaibrkCPcS0nlzksx6u7BBq0BZZVpF2mxx+ar98c5yfYlOT2rsO8/j7dNWMV4QZFB
+ Zd9Q==
+X-Gm-Message-State: APjAAAW28BbEN+fMfIWtGK/8ogiuLpmu8jJPOXojjgZa6XftZ5yXQreY
+ AtnsBFPj9Tr45Sia408jlmE/P6Fv3Gk=
+X-Google-Smtp-Source: APXvYqxLA7Q9DtUeELb9DKZG7XJpa9FuC0Dmuz3n7MCzWRV9YkFBFQUZgF+87MlVqoVQ2CfvSLkWng==
+X-Received: by 2002:a5d:53c1:: with SMTP id a1mr9323802wrw.373.1581442651064; 
+ Tue, 11 Feb 2020 09:37:31 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id y1sm6109675wrq.16.2020.02.11.09.37.28
+ by smtp.gmail.com with ESMTPSA id y1sm6109675wrq.16.2020.02.11.09.37.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 Feb 2020 09:37:29 -0800 (PST)
+ Tue, 11 Feb 2020 09:37:30 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 00/13] arm: Implement ARMv8.1-PMU and ARMv8.4-PMU
-Date: Tue, 11 Feb 2020 17:37:13 +0000
-Message-Id: <20200211173726.22541-1-peter.maydell@linaro.org>
+Subject: [PATCH 01/13] target/arm: Add _aa32_ to isar_feature functions
+ testing 32-bit ID registers
+Date: Tue, 11 Feb 2020 17:37:14 +0000
+Message-Id: <20200211173726.22541-2-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200211173726.22541-1-peter.maydell@linaro.org>
+References: <20200211173726.22541-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::429
+X-Received-From: 2a00:1450:4864:20::441
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,104 +85,137 @@ Cc: Eric Auger <eric.auger@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patchset implements the ARMv8.1-PMU and ARMv8.4-PMU architecture
-extensions. These are fairly small changes on top of the basic
-PMUv3 we already implement, and in fact we already had most of
-the v8.1-PMU functionality implemented but unadvertised.
+Enforce a convention that an isar_feature function that tests a
+32-bit ID register always has _aa32_ in its name, and one that
+tests a 64-bit ID register always has _aa64_ in its name.
+We already follow this except for three cases: thumb_div,
+arm_div and jazelle, which all need _aa32_ adding.
 
-In the course of doing this, I found that our naming and use of
-isar_feature ID register test functions was slightly inconsistent,
-so the first few patches straighten this out and align on:
+(As noted in the comment, isar_feature_aa32_fp16_arith()
+is an exception in that it currently tests ID_AA64PFR0_EL1,
+but will switch to MVFR1 once we've properly implemented
+FP16 for AArch32.)
 
- * functions which test AArch32 ID registers always have an
-   _aa32_ infix in their name, and can only be used if we
-   know the CPU has AArch32 (eg in codegen in translate.c)
-   or if "false" is the right answer for a no-AArch32 CPU
-   (eg registering AArch32-only system registers, or
-   determining whether to allow guest writes to sysreg bits
-   that are writeable only on the AArch32 version of the reg)
- * functions which test AArch64 ID registers always have an
-   _aa64_ infix in their name, and can only be used if
-   we know the CPU has AArch64 or if "false" is the right
-   answer for a no-AArch64 CPU
- * functions with an _any_ infix always return the logical
-   OR of the _aa32_ and _aa64_ tests, and should be used
-   when we want to know "does this feature exist" in code
-   that might be called for AArch32 or AArch64
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ target/arm/cpu.h       | 13 ++++++++++---
+ linux-user/elfload.c   |  4 ++--
+ target/arm/cpu.c       |  6 ++++--
+ target/arm/helper.c    |  2 +-
+ target/arm/translate.c |  6 +++---
+ 5 files changed, 20 insertions(+), 11 deletions(-)
 
-I have audited all the callsites of isar_feature tests and they
-almost all followed this naming convention and usage already.  We
-were missing the _aa32_ infix in the arm_div, thumb_div and jazelle
-tests, and we needed an _any_ version of the function for fp16
-(specifically whether FP(S)CR.FZ16 is writeable) and for predinv
-(whether to register the sysregs).
-
-Having got those preliminaries out of the way, we can define _aa32_,
-_aa64_ and _any_ versions of "do I have a PMUv3 with the v8.1
-extensions?", and use them when implementing the extended
-functionality.
-
-The ARMv8.1-PMU extension requires:
- * the evtCount field in PMETYPER<n>_EL0 is 16 bits, not 10
- * MDCR_EL2.HPMD allows event counting to be disabled at EL2
- * two new required events, STALL_FRONTEND and STALL_BACKEND
- * ID register bits in ID_AA64DFR0_EL1 and ID_DFR0
-We already implement all of that except the new events;
-for QEMU our CPU never "stalls" in that sense, so we can
-just implement them as always-reads-zero.
-
-The ARMv8.4-PMU extension adds:
- * one new required event, STALL (again, reads-as-zero)
- * one new system register PMMIR_EL1, which provides information
-   about the PMU implementation. Since the only currently defined
-   field in it relates to an event we don't provide, we can
-   validly implement the register as RAZ.
-
-The final two patches fix some bugs I discovered while
-running this through Eric's recent kvm-unit-tests PMU tests:
- * we had the wrong definition of the PMCR.DP bit position
- * we incorrectly implemented PMCR.LC as RAZ/WI
-
-I've tested this with Eric's unit tests, and by running 'perf test'
-in a VM (which had some failures but none which seemed to be related
-to these changes).  I don't generally use the perf emulation, so
-testing would be welcome from people who do.
-
-Based-on: 20200210120146.17631-1-peter.maydell@linaro.org
-("target/arm: Implement ARMv8.1-VMID16 extension")
-purely to avoid possible textual conflicts.
-
-thanks
--- PMM
-
-
-Peter Maydell (13):
-  target/arm: Add _aa32_ to isar_feature functions testing 32-bit ID
-    registers
-  target/arm: Add isar_feature_any_fp16 and document naming/usage
-    conventions
-  target/arm: Define and use any_predinv isar_feature test
-  target/arm: Factor out PMU register definitions
-  target/arm: Add and use FIELD definitions for ID_AA64DFR0_EL1
-  target/arm: Use FIELD macros for clearing ID_DFR0 PERFMON field
-  target/arm: Define an aa32_pmu_8_1 isar feature test function
-  target/arm: Add _aa64_ and _any_ versions of pmu_8_1 isar checks
-  target/arm: Implement ARMv8.1-PMU extension
-  target/arm: Implement ARMv8.4-PMU extension
-  target/arm: Provide ARMv8.4-PMU in '-cpu max'
-  target/arm: Correct definition of PMCRDP
-  target/arm: Correct handling of PMCR_EL0.LC bit
-
- target/arm/cpu.h        |  87 +++++++++++++-
- hw/intc/armv7m_nvic.c   |   2 +-
- linux-user/elfload.c    |   4 +-
- target/arm/cpu.c        |  37 +++---
- target/arm/cpu64.c      |  20 +++-
- target/arm/helper.c     | 248 ++++++++++++++++++++++++----------------
- target/arm/translate.c  |   6 +-
- target/arm/vfp_helper.c |   2 +-
- 8 files changed, 273 insertions(+), 133 deletions(-)
-
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index 608fcbd0b75..ad2f0e172a7 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -3396,20 +3396,27 @@ static inline uint64_t *aa64_vfp_qreg(CPUARMState *env, unsigned regno)
+ /* Shared between translate-sve.c and sve_helper.c.  */
+ extern const uint64_t pred_esz_masks[4];
+ 
++/*
++ * Naming convention for isar_feature functions:
++ * Functions which test 32-bit ID registers should have _aa32_ in
++ * their name. Functions which test 64-bit ID registers should have
++ * _aa64_ in their name.
++ */
++
+ /*
+  * 32-bit feature tests via id registers.
+  */
+-static inline bool isar_feature_thumb_div(const ARMISARegisters *id)
++static inline bool isar_feature_aa32_thumb_div(const ARMISARegisters *id)
+ {
+     return FIELD_EX32(id->id_isar0, ID_ISAR0, DIVIDE) != 0;
+ }
+ 
+-static inline bool isar_feature_arm_div(const ARMISARegisters *id)
++static inline bool isar_feature_aa32_arm_div(const ARMISARegisters *id)
+ {
+     return FIELD_EX32(id->id_isar0, ID_ISAR0, DIVIDE) > 1;
+ }
+ 
+-static inline bool isar_feature_jazelle(const ARMISARegisters *id)
++static inline bool isar_feature_aa32_jazelle(const ARMISARegisters *id)
+ {
+     return FIELD_EX32(id->id_isar1, ID_ISAR1, JAZELLE) != 0;
+ }
+diff --git a/linux-user/elfload.c b/linux-user/elfload.c
+index f3080a16358..b1a895f24ce 100644
+--- a/linux-user/elfload.c
++++ b/linux-user/elfload.c
+@@ -475,8 +475,8 @@ static uint32_t get_elf_hwcap(void)
+     GET_FEATURE(ARM_FEATURE_VFP3, ARM_HWCAP_ARM_VFPv3);
+     GET_FEATURE(ARM_FEATURE_V6K, ARM_HWCAP_ARM_TLS);
+     GET_FEATURE(ARM_FEATURE_VFP4, ARM_HWCAP_ARM_VFPv4);
+-    GET_FEATURE_ID(arm_div, ARM_HWCAP_ARM_IDIVA);
+-    GET_FEATURE_ID(thumb_div, ARM_HWCAP_ARM_IDIVT);
++    GET_FEATURE_ID(aa32_arm_div, ARM_HWCAP_ARM_IDIVA);
++    GET_FEATURE_ID(aa32_thumb_div, ARM_HWCAP_ARM_IDIVT);
+     /* All QEMU's VFPv3 CPUs have 32 registers, see VFP_DREG in translate.c.
+      * Note that the ARM_HWCAP_ARM_VFPv3D16 bit is always the inverse of
+      * ARM_HWCAP_ARM_VFPD32 (and so always clear for QEMU); it is unrelated
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index f86e71a260d..5712082c0b9 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -1470,7 +1470,8 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
+          * Presence of EL2 itself is ARM_FEATURE_EL2, and of the
+          * Security Extensions is ARM_FEATURE_EL3.
+          */
+-        assert(!tcg_enabled() || no_aa32 || cpu_isar_feature(arm_div, cpu));
++        assert(!tcg_enabled() || no_aa32 ||
++               cpu_isar_feature(aa32_arm_div, cpu));
+         set_feature(env, ARM_FEATURE_LPAE);
+         set_feature(env, ARM_FEATURE_V7);
+     }
+@@ -1496,7 +1497,8 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
+     if (arm_feature(env, ARM_FEATURE_V6)) {
+         set_feature(env, ARM_FEATURE_V5);
+         if (!arm_feature(env, ARM_FEATURE_M)) {
+-            assert(!tcg_enabled() || no_aa32 || cpu_isar_feature(jazelle, cpu));
++            assert(!tcg_enabled() || no_aa32 ||
++                   cpu_isar_feature(aa32_jazelle, cpu));
+             set_feature(env, ARM_FEATURE_AUXCR);
+         }
+     }
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 19a57a17da5..ddfd0183d98 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -6781,7 +6781,7 @@ void register_cp_regs_for_features(ARMCPU *cpu)
+     if (arm_feature(env, ARM_FEATURE_LPAE)) {
+         define_arm_cp_regs(cpu, lpae_cp_reginfo);
+     }
+-    if (cpu_isar_feature(jazelle, cpu)) {
++    if (cpu_isar_feature(aa32_jazelle, cpu)) {
+         define_arm_cp_regs(cpu, jazelle_regs);
+     }
+     /* Slightly awkwardly, the OMAP and StrongARM cores need all of
+diff --git a/target/arm/translate.c b/target/arm/translate.c
+index 2f4aea927f1..052992037cc 100644
+--- a/target/arm/translate.c
++++ b/target/arm/translate.c
+@@ -42,7 +42,7 @@
+ #define ENABLE_ARCH_5     arm_dc_feature(s, ARM_FEATURE_V5)
+ /* currently all emulated v5 cores are also v5TE, so don't bother */
+ #define ENABLE_ARCH_5TE   arm_dc_feature(s, ARM_FEATURE_V5)
+-#define ENABLE_ARCH_5J    dc_isar_feature(jazelle, s)
++#define ENABLE_ARCH_5J    dc_isar_feature(aa32_jazelle, s)
+ #define ENABLE_ARCH_6     arm_dc_feature(s, ARM_FEATURE_V6)
+ #define ENABLE_ARCH_6K    arm_dc_feature(s, ARM_FEATURE_V6K)
+ #define ENABLE_ARCH_6T2   arm_dc_feature(s, ARM_FEATURE_THUMB2)
+@@ -9850,8 +9850,8 @@ static bool op_div(DisasContext *s, arg_rrr *a, bool u)
+     TCGv_i32 t1, t2;
+ 
+     if (s->thumb
+-        ? !dc_isar_feature(thumb_div, s)
+-        : !dc_isar_feature(arm_div, s)) {
++        ? !dc_isar_feature(aa32_thumb_div, s)
++        : !dc_isar_feature(aa32_arm_div, s)) {
+         return false;
+     }
+ 
 -- 
 2.20.1
 
