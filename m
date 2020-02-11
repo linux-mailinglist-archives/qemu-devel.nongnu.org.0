@@ -2,61 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C6EF159249
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Feb 2020 15:51:38 +0100 (CET)
-Received: from localhost ([::1]:50884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F24F159226
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Feb 2020 15:44:51 +0100 (CET)
+Received: from localhost ([::1]:50782 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j1Wsz-0007LF-Ne
-	for lists+qemu-devel@lfdr.de; Tue, 11 Feb 2020 09:51:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59815)
+	id 1j1WmQ-0004GQ-7B
+	for lists+qemu-devel@lfdr.de; Tue, 11 Feb 2020 09:44:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53526)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1j1WsF-0006uz-03
- for qemu-devel@nongnu.org; Tue, 11 Feb 2020 09:50:52 -0500
+ (envelope-from <pmathieu@redhat.com>) id 1j1Wlb-0003fV-Tc
+ for qemu-devel@nongnu.org; Tue, 11 Feb 2020 09:44:01 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1j1Ws9-00083m-Uy
- for qemu-devel@nongnu.org; Tue, 11 Feb 2020 09:50:50 -0500
-Received: from indium.canonical.com ([91.189.90.7]:46888)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1j1Ws9-00082F-PO
- for qemu-devel@nongnu.org; Tue, 11 Feb 2020 09:50:45 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1j1Ws7-0001kN-4Q
- for <qemu-devel@nongnu.org>; Tue, 11 Feb 2020 14:50:43 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 14BE52E80CE
- for <qemu-devel@nongnu.org>; Tue, 11 Feb 2020 14:50:43 +0000 (UTC)
+ (envelope-from <pmathieu@redhat.com>) id 1j1Wla-0002cp-Er
+ for qemu-devel@nongnu.org; Tue, 11 Feb 2020 09:43:59 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:49907
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <pmathieu@redhat.com>) id 1j1Wla-0002ce-Aj
+ for qemu-devel@nongnu.org; Tue, 11 Feb 2020 09:43:58 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1581432237;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=7Dm8yZ2czQFGm0IoMtfw733Ltb9lhpwVi3xdSGCntNs=;
+ b=GcTzQr9AUBUdCHwzpkPmcC7FcHVQcrlcBhwcVZtuspgjBs9QpCOk5PFES4UThrREnEkRhn
+ +JdjQsogDE+TisyY30fvzaClb0dIyWIOvOiaxw9jfOFGWhEeaMSa7MnY2fK3I+S5WB7pUe
+ mks3kdZjcFNgA6htANZnaFsF+qMV7WI=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-85-m8B6B7VxO7-YdBEAvE-OIg-1; Tue, 11 Feb 2020 09:43:39 -0500
+Received: by mail-wr1-f72.google.com with SMTP id d15so6996401wru.1
+ for <qemu-devel@nongnu.org>; Tue, 11 Feb 2020 06:43:39 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=7Dm8yZ2czQFGm0IoMtfw733Ltb9lhpwVi3xdSGCntNs=;
+ b=jQ72s1Rph3iQIlYUJcw1kTM6CyFoPLEDGcWJia+GZacZYN1SYFnpw854x+Q7alW5ci
+ fQTM7wyv2kkP8vQBy2iW66R4E6K4kn40v/S047psPxU8a7AVdwIYhX8daF5jXc+hKFF/
+ 3xcI3/0cG/kziAfKMxgUKORXmcNregB1pHl1N9R8Y4LnaSBIGxQktB1DVf6v4w7s+k7x
+ tMazS4KK61q1Xx7rU+obpx3jvwKQmn4RGcFjjLj47ZRKN2UzRrSC7Ha0TwQP55M8O2X2
+ M4jttw6RM2am37bSp9ZDz9Z3Kn9OxQdE3PXLJY2pIxfbg2MnRNFzpd74MLE7Scmd6IRC
+ QPrw==
+X-Gm-Message-State: APjAAAXwhTzoppG2aTWaXha+fbSlIKWU27YOYzncx4DZb1mK6mcc7PnR
+ jZwyZCjTDjgmu6xnxg8JPrCicS3JfE7GOrh0xSIAAidE8Mk7XR5K7BefHBYYUJ7ezHZkuSKD8xQ
+ tLaiCxKh41Vo6uFgD2t2nibWTis77SIw=
+X-Received: by 2002:adf:f6c1:: with SMTP id y1mr8675548wrp.17.1581432218422;
+ Tue, 11 Feb 2020 06:43:38 -0800 (PST)
+X-Google-Smtp-Source: APXvYqzeAbs+05ONikP3Q+hRb0Dwm3+jZlSmmLqWUlMYwLL2gLaDsSHoYdVf+ySA9QqDP/61tFR+trjE9ILx1nJ1aTs=
+X-Received: by 2002:adf:f6c1:: with SMTP id y1mr8675530wrp.17.1581432218222;
+ Tue, 11 Feb 2020 06:43:38 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+References: <1581381644-13678-1-git-send-email-tsimpson@quicinc.com>
+ <1581381644-13678-56-git-send-email-tsimpson@quicinc.com>
+ <fd38e134-8314-f206-9a04-0e41119105f6@redhat.com>
+ <BYAPR02MB48865F7264F3F5B2D8735385DE180@BYAPR02MB4886.namprd02.prod.outlook.com>
+ <0541dc03-b3f8-8612-9921-e1df9546ce87@redhat.com>
+In-Reply-To: <0541dc03-b3f8-8612-9921-e1df9546ce87@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Date: Tue, 11 Feb 2020 15:43:26 +0100
+Message-ID: <CAP+75-UX=6n4Y7tWN+cfoZmgmeoc2X-=mpkCD6_tj5+UDMuzKA@mail.gmail.com>
+Subject: Re: [RFC PATCH 55/66] Hexagon HVX import instruction encodings
+To: Taylor Simpson <tsimpson@quicinc.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+X-MC-Unique: m8B6B7VxO7-YdBEAvE-OIg-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 11 Feb 2020 14:42:47 -0000
-From: Thomas Huth <1661386@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: bonzini dgilbert-h matwey-kornilov th-huth
-X-Launchpad-Bug-Reporter: Matwey V. Kornilov (matwey-kornilov)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <20170202204510.26617.69309.malonedeb@wampee.canonical.com>
-Message-Id: <158143216740.3624.3045704956517936916.malone@soybean.canonical.com>
-Subject: [Bug 1661386] Re: Assertion `ret == cpu->kvm_msr_buf->nmsrs' failed
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="0a62c17273454a1313f81a74a2198ec30b44c7b6";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: efcf7bed143b4aecca3515ea3ffe86183d30fcb0
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -65,95 +87,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1661386 <1661386@bugs.launchpad.net>
+Cc: "riku.voipio@iki.fi" <riku.voipio@iki.fi>,
+ "richard.henderson@linaro.org" <richard.henderson@linaro.org>,
+ "laurent@vivier.eu" <laurent@vivier.eu>,
+ "aleksandar.m.mail@gmail.com" <aleksandar.m.mail@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There was a fix for this assertion message wrt PMU registers in December 20=
-17 already:
-https://git.qemu.org/?p=3Dqemu.git;a=3Dcommitdiff;h=3D0b368a10c71af96f6cf
-Thus, can you still reproduce this issue with the latest version of QEMU, o=
-r is the problem gone now?
+On Tue, Feb 11, 2020 at 3:40 PM Philippe Mathieu-Daud=C3=A9
+<philmd@redhat.com> wrote:
+>
+> On 2/11/20 3:35 PM, Taylor Simpson wrote:
+> > Hi Philippe,
+> >
+> > Thanks for all your feedback.  I' get your comments addressed soon.
+> >
+> > I'm sorry you had trouble applying this patch.
+>
+> No problem.
+>
+> > The target/hexagon/imported/encode.def should have been created by patc=
+h 17.  Did you apply that one?
+>
+> Ah, I haven't received patch #17, and can't find it on the list.
 
-** Changed in: qemu
-       Status: New =3D> Incomplete
+Oops I was looking at incorrect list =3D)
 
--- =
+Here it is:
+https://lists.gnu.org/archive/html/qemu-devel/2020-02/msg02526.html
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1661386
+And patchew received it...
+https://patchew.org/QEMU/1581381644-13678-1-git-send-email-tsimpson@quicinc=
+.com/
 
-Title:
-  Assertion `ret =3D=3D cpu->kvm_msr_buf->nmsrs' failed
+>
+> >
+> > Taylor
+> >
+> >
+> >
+> >> -----Original Message-----
+> >> From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> >> Sent: Tuesday, February 11, 2020 1:02 AM
+> >> To: Taylor Simpson <tsimpson@quicinc.com>; qemu-devel@nongnu.org
+> >> Cc: richard.henderson@linaro.org; laurent@vivier.eu; riku.voipio@iki.f=
+i;
+> >> aleksandar.m.mail@gmail.com
+> >> Subject: Re: [RFC PATCH 55/66] Hexagon HVX import instruction encoding=
+s
+> >>
+> >>> +#define EXTNAME mmvec
+> >>> +#include "mmvec/encode_ext.def"
+> >>> +#undef EXTNAME
+> >>> diff --git a/target/hexagon/imported/encode.def
+> >> b/target/hexagon/imported/encode.def
+> >>> index 33c3396..d1b3510 100644
+> >>> --- a/target/hexagon/imported/encode.def
+> >>> +++ b/target/hexagon/imported/encode.def
+> >>> @@ -71,6 +71,7 @@
+> >>>
+> >>>    #include "encode_pp.def"
+> >>>    #include "encode_subinsn.def"
+> >>> +#include "allextenc.def"
+> >>>
+> >>>    #ifdef __SELF_DEF_FIELD32
+> >>>    #undef __SELF_DEF_FIELD32
+> >>
+> >> I had a problem applying this one:
+> >>
+> >> Applying: Hexagon HVX import instruction encodings
+> >> error: target/hexagon/imported/encode.def: does not exist in index
+> >> Patch failed at 0054 Hexagon HVX import instruction encodings
+> >> hint: Use 'git am --show-current-patch' to see the failed patch
+> >> When you have resolved this problem, run "git am --continue".
+> >> If you prefer to skip this patch, run "git am --skip" instead.
+> >> To restore the original branch and stop patching, run "git am --abort"=
+.
+> >>
+> >> Resolved by doing:
+> >>
+> >> (review/hexagon|AM 54/65)$ touch target/hexagon/imported/encode.def
+> >> (review/hexagon|AM 54/65)$ git add target/hexagon/imported/encode.def
+> >> (review/hexagon|AM 54/65)$ git am --continue
+> >> Applying: Hexagon HVX import instruction encodings
+> >> Applying: Hexagon HVX import semantics
+> >> ...
+> >
 
-Status in QEMU:
-  Incomplete
-
-Bug description:
-  Hello,
-
-  =
-
-  I see the following when try to run qemu from master as the following:
-
-  # ./x86_64-softmmu/qemu-system-x86_64 --version
-  QEMU emulator version 2.8.50 (v2.8.0-1006-g4e9f524)
-  Copyright (c) 2003-2016 Fabrice Bellard and the QEMU Project developers
-  # ./x86_64-softmmu/qemu-system-x86_64 -machine accel=3Dkvm -nodefaults
-  -no-reboot -nographic -cpu host -vga none  -kernel .build.kernel.kvm
-  -initrd .build.initrd.kvm -append 'panic=3D1 no-kvmclock console=3DttyS0
-  loglevel=3D7' -m 1024 -serial stdio
-  qemu-system-x86_64: /home/matwey/lab/qemu/target/i386/kvm.c:1849:
-  kvm_put_msrs: Assertion `ret =3D=3D cpu->kvm_msr_buf->nmsrs' failed.
-
-  First broken commit has been bisected:
-
-  commit 48e1a45c3166d659f781171a47dabf4a187ed7a5
-  Author: Paolo Bonzini <pbonzini@redhat.com>
-  Date:   Wed Mar 30 22:55:29 2016 +0200
-
-      target-i386: assert that KVM_GET/SET_MSRS can set all requested MSRs
-      =
-
-      This would have caught the bug in the previous patch.
-      =
-
-      Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-
-  My cpuinfo is the following:
-
-  processor       : 0
-  vendor_id       : GenuineIntel
-  cpu family      : 6
-  model           : 44
-  model name      : Intel(R) Xeon(R) CPU           X5675  @ 3.07GHz
-  stepping        : 2
-  microcode       : 0x14
-  cpu MHz         : 3066.775
-  cache size      : 12288 KB
-  physical id     : 0
-  siblings        : 2
-  core id         : 0
-  cpu cores       : 2
-  apicid          : 0
-  initial apicid  : 0
-  fpu             : yes
-  fpu_exception   : yes
-  cpuid level     : 11
-  wp              : yes
-  flags           : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mc=
-a cmov pat pse36 clflush dts mmx fxsr sse sse2 ss ht syscall nx rdtscp lm c=
-onstant_tsc arch_perfmon pebs bts nopl xtopology tsc_reliable nonstop_tsc a=
-perfmperf pni pclmulqdq vmx ssse3 cx16 sse4_1 sse4_2 popcnt aes hypervisor =
-lahf_lm ida arat epb dtherm tpr_shadow vnmi ept vpid
-  bugs            :
-  bogomips        : 6133.55
-  clflush size    : 64
-  cache_alignment : 64
-  address sizes   : 40 bits physical, 48 bits virtual
-  power management:
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1661386/+subscriptions
 
