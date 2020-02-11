@@ -2,58 +2,117 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCFD315901A
-	for <lists+qemu-devel@lfdr.de>; Tue, 11 Feb 2020 14:37:11 +0100 (CET)
-Received: from localhost ([::1]:49742 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EED8158FEF
+	for <lists+qemu-devel@lfdr.de>; Tue, 11 Feb 2020 14:30:38 +0100 (CET)
+Received: from localhost ([::1]:49614 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j1Viw-00026O-Qo
-	for lists+qemu-devel@lfdr.de; Tue, 11 Feb 2020 08:37:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51666)
+	id 1j1Vca-0004gd-UK
+	for lists+qemu-devel@lfdr.de; Tue, 11 Feb 2020 08:30:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38394)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bauerchen@tencent.com>) id 1j1ULI-0001ct-Qf
- for qemu-devel@nongnu.org; Tue, 11 Feb 2020 07:08:42 -0500
+ (envelope-from <n54@gmx.com>) id 1j1VYE-00030i-30
+ for qemu-devel@nongnu.org; Tue, 11 Feb 2020 08:26:07 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bauerchen@tencent.com>) id 1j1UL7-0004ys-Po
- for qemu-devel@nongnu.org; Tue, 11 Feb 2020 07:08:31 -0500
-Received: from mail6.tencent.com ([220.249.245.26]:41909)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <bauerchen@tencent.com>)
- id 1j1UL7-0004qQ-0o
- for qemu-devel@nongnu.org; Tue, 11 Feb 2020 07:08:29 -0500
-Received: from EX-SZ018.tencent.com (unknown [10.28.6.39])
- by mail6.tencent.com (Postfix) with ESMTP id 5E89BCCA33;
- Tue, 11 Feb 2020 20:08:42 +0800 (CST)
-Received: from EX-SZ003.tencent.com (10.28.6.15) by EX-SZ018.tencent.com
- (10.28.6.39) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5; Tue, 11 Feb
- 2020 20:08:18 +0800
-Received: from EX-SZ005.tencent.com (10.28.6.29) by EX-SZ003.tencent.com
- (10.28.6.15) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5; Tue, 11 Feb
- 2020 20:08:18 +0800
-Received: from EX-SZ005.tencent.com ([fe80::1c8:f876:daf6:e9c0]) by
- EX-SZ005.tencent.com ([fe80::1c8:f876:daf6:e9c0%4]) with mapi id
- 15.01.1713.004; Tue, 11 Feb 2020 20:08:18 +0800
-From: =?utf-8?B?YmF1ZXJjaGVuKOmZiOiSmeiSmSk=?= <bauerchen@tencent.com>
-To: qemu-devel <qemu-devel@nongnu.org>
-Subject: Requesting review  about optimizing large guest start up time
-Thread-Topic: Requesting review  about optimizing large guest start up time
-Thread-Index: AQHV4NMV+rH5F4FwIUiLta/s/6EHWw==
-Date: Tue, 11 Feb 2020 12:08:18 +0000
-Message-ID: <e9dfa1311de74824983e769ea197c2e6@tencent.com>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-originating-ip: [9.19.161.93]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ (envelope-from <n54@gmx.com>) id 1j1VYD-0005jV-26
+ for qemu-devel@nongnu.org; Tue, 11 Feb 2020 08:26:05 -0500
+Received: from mout.gmx.net ([212.227.17.22]:33181)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <n54@gmx.com>)
+ id 1j1VYC-0005iN-Km; Tue, 11 Feb 2020 08:26:05 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1581427558;
+ bh=RIuGQiAxEON+keyaN2yoL9yG73Kwn9WzXUtj0mkXfVY=;
+ h=X-UI-Sender-Class:Subject:To:Cc:References:From:Date:In-Reply-To;
+ b=UM4imKuFJkS6a1NztzZgQ3fJAbSQhwRm2JYWhKhvKWZO+QPvyB7DfMXJouo0ZNFM7
+ 1Jv5H76OuXwmnpM6wIl7LMGAopbJwaML/v4U3QB1VsQ8MCf27F6oxNvDpWBnyY07Rv
+ Su+hQrPB812w4hFaY6ZRuFz5owEBIUNDFOfkqF4Q=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [192.168.0.241] ([89.71.135.231]) by mail.gmx.com (mrgmx104
+ [212.227.17.174]) with ESMTPSA (Nemesis) id 1N3bX1-1jRWbu3dp5-010gHg; Tue, 11
+ Feb 2020 14:25:58 +0100
+Subject: Re: [PATCH] tests/acceptance/ppc_prep_40p: Do not run NetBSD test by
+ default
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20200211131948.26142-1-philmd@redhat.com>
+From: Kamil Rytarowski <n54@gmx.com>
+Autocrypt: addr=n54@gmx.com; prefer-encrypt=mutual; keydata=
+ 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
+ 4XSbcg==
+Message-ID: <a38b7bc4-971e-5373-7324-b27de9de631b@gmx.com>
+Date: Tue, 11 Feb 2020 14:25:00 +0100
+User-Agent: Mozilla/5.0 (X11; NetBSD amd64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 220.249.245.26
-X-Mailman-Approved-At: Tue, 11 Feb 2020 08:34:09 -0500
+In-Reply-To: <20200211131948.26142-1-philmd@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="5eQQ9kWmZGC2SS3FH1MDTTUUiv6q2bOee"
+X-Provags-ID: V03:K1:nqhhH4m2u3s4VrU2RsrR6IQqhDyLZgZ8WTZ3CwuATMBfEdLduAo
+ wljh1CV+nUrwwhx1O4qKdqk7E4xitZYCCigRaEZ7WO40AoLb+dd57scwNw5TSitsxsVwaWg
+ 1mRwOnB3fsXwBJfjPVoIBPDkeCHGOf69/4xqD8k/gFxiA0wHoVf3PCNVcN0co3bN2woUlSY
+ 5sXQhbPC08BlOXqvY2kiw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:DBgMsCVrnEs=:JHxfJh1SV2s3cY5e3MqTuV
+ LR9LABee/sas679f0gXKJ10aq9QNqyFoLDFadiQWFMTof62lmWPbIx/rBVIe81a15cpX/uIJh
+ gW/Kq8QWv3OxFRxcDnQXbpBZ8AyfHqkkS9XN4WyEvNWbRgSJjqqA+VhnUK2eK3SXeYcES3o4t
+ LrGiCi2W8XX6Y7lZ+K6szxeTDjQcHQvt8OKA04877ue7NkasSYin1P9jqt570Wp0KlvTlFoSv
+ GVHUt20cltnYPZX664OJIB4sNRRK7LHAsN9fznuHMwHYvZCImBKHmUrk813HtFUCdCbGC1t1H
+ 5PXT2Zc+tOKT+GsVYZUuKdn/JGqNzEyt45e3UZ5/e6eqRm7+6jcdeeB+8f1JLZvikovqC7zhD
+ 6Vq2ifDmcrhHQpslVxkJy6fWBtQYfVA18lHRvTbGSW2pS+KjNGiBNi78R6gE0bxGGrb5RDa9W
+ 2rj+8yvtaNXo6EDOk31hy01qE52OKsHxaWp4VPCrRmXCWEL8tP99N0yjdlZEtrb1GUXFasWBj
+ Vqg6ZqssFB7kAhkil/L0bVe6twuvjoqH0XsosPyC7AhEdqqmHCQ28+LspLzQ69BO9+SOcQQJu
+ 8YWc9sz/7WCbI1uyreQbT2VPLzprYURgHRLKXI1AguYXYfwJyaf5IMYsDRu/Rr5U/s/ypcNC6
+ Q5IDXe0LBa+yhewgh28B4mofiMb2+/fjE2zusQgHbsT74Cu2DOb+B6TPIJjU+wsWyCUqnz2tn
+ WkIhOH1r3T3I0zwUC26xUCw3FoaAPCL+ceqUz1eOqv582/Ve1r7HoqDzjKGbvo1EKIAV/ZsxV
+ RQUv4Yi1wppelkHSFu+9jJK8Fy+SDmC35cZFH02jUHGPcUhCUwD8pMEMwMdXFwzV1SqKKGi5m
+ cypa/iuA0sSkH69T98KcmOFV0qe3NJXZGuPqBvN0eXvRhxAd+JTsurODq4MWRoCzX1b5NuGMd
+ hFLF9vFBKYWbvZhW1r/5D3OwwBhLfpR0E8Spo3A7uBCxYGl0i94cvdUhA1JvKg/W+0cyy0WPy
+ 0rmgbpZShF2iO1IiWstRzUkX5Y/32qAErnAhqQ7M54za8PTN0MSzBL/qGLWiGIcd3ktw+1cuv
+ v0sU0Bl/EGPWeuaGPY2lt3ChImA/XyElpCJkJyDCGwTz0STEEtCKi2KQub3MNGOW4JWNjABlZ
+ QH/5RvhzqDncYSV2pP/8kQY+Ipd1mzASRmWaODyvzepSiAzmWmN3wAmwQOs/kvLhsF1T4=
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 212.227.17.22
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,92 +124,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "pbonzini >" <pbonzini@redhat.com>
+Cc: Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Kamil Rytarowski <kamil@netbsd.org>, qemu-ppc@nongnu.org,
+ Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-RnJvbSBjODgyYjE1NTQ2NjMxM2ZjZDg1YWMzMzBhNDVhNTczZTYwOGIwZDc0IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBiYXVlcmNoZW4gPGJhdWVyY2hlbkB0ZW5jZW50LmNvbT4KRGF0
-ZTogVHVlLCAxMSBGZWIgMjAyMCAxNzoxMDozNSArMDgwMApTdWJqZWN0OiBbUEFUQ0hdIE9wdGlt
-aXplOiBsYXJnZSBndWVzdCBzdGFydC11cCBpbiBtZW0tcHJlYWxsb2MKTUlNRS1WZXJzaW9uOiAx
-LjAKQ29udGVudC1UeXBlOiB0ZXh0L3BsYWluOyBjaGFyc2V0PXV0Zi04CkNvbnRlbnQtVHJhbnNm
-ZXItRW5jb2Rpbmc6IDhiaXQKCltkZXNjXToKwqAgwqAgTGFyZ2UgbWVtb3J5IFZNIHN0YXJ0cyBz
-bG93bHkgd2hlbiB1c2luZyAtbWVtLXByZWFsbG9jLCBhbmQKwqAgwqAgdGhlcmUgYXJlIHNvbWUg
-YXJlYXMgdG8gb3B0aW1pemUgaW4gY3VycmVudCBtZXRob2Q7CgrCoCDCoCAx44CBbW1hcCB3aWxs
-IGJlIHVzZWQgdG8gYWxsb2MgdGhyZWFkcyBzdGFjayBkdXJpbmcgY3JlYXRlIHBhZ2UKwqAgwqAg
-Y2xlYXJpbmcgdGhyZWFkcywgYW5kIGl0IHdpbGwgYXR0ZW1wdCBtbS0+bW1hcF9zZW0gZm9yIHdy
-aXRlCsKgIMKgIGxvY2ssIGJ1dCBjbGVhcmluZyB0aHJlYWRzIGhhdmUgaG9sZCByZWFkIGxvY2ss
-IHRoaXMgY29tcGV0aXRpb24KwqAgwqAgd2lsbCBjYXVzZSB0aHJlYWRzIGNyZWF0ZWlvbiB2ZXJ5
-IHNsb3c7CgrCoCDCoCAy44CBbWV0aG9kcyBvZiBjYWxjdWF0aW5nIHBhZ2VzIGZvciBwZXIgdGhy
-ZWFkcyBpcyBub3Qgd2VsbDtpZiB3ZSB1c2UKwqAgwqAgNjQgdGhyZWFkcyB0byBzcGxpdCAxNjAg
-aHVnZXBhZ2UsNjMgdGhyZWFkcyBjbGVhciAycGFnZSwxIHRocmVhZArCoCDCoCBjbGVhciAzNCBw
-YWdlLHNvIHRoZSBlbnRpcmUgc3BlZWQgaXMgdmVyeSBzbG93OwoKwqAgwqAgdG8gc29sdmUgdGhl
-IGZpcnN0IHByb2JsZW0sd2UgYWRkIGEgbXV0ZXggaW4gdGhyZWFkIGZ1bmN0aW9uLGFuZArCoCDC
-oCBzdGFydCBhbGwgdGhyZWFkcyB3aGVuIGFsbCB0aHJlYWRzIGZpbmlzaGVkIGNyZWF0ZWlvbjsK
-wqAgwqAgYW5kIHRoZSBzZWNvbmQgcHJvYmxlbSwgd2Ugc3ByZWFkIHJlbWFpbmRlciB0byBvdGhl
-ciB0aHJlYWRzLGluCsKgIMKgIHNpdHVhdGlvbiB0aGF0IDE2MCBodWdlcGFnZSBhbmQgNjQgdGhy
-ZWFkcywgdGhlcmUgYXJlIDMyIHRocmVhZHMKwqAgwqAgY2xlYXIgMyBwYWdlcyxhbmQgMzIgdGhy
-ZWFkcyBjbGVhciAyIHBhZ2VzOwpbdGVzdF06CsKgIMKgIDMyMEcgODRjIFZNIHN0YXJ0IHRpbWUg
-Y2FuIGJlIHJlZHVjZWQgdG8gMTBzCsKgIMKgIDY4MEcgODRjIFZNIHN0YXJ0IHRpbWUgY2FuIGJl
-IHJlZHVjZWQgdG8gMThzCgpTaWduZWQtb2ZmLWJ5OiBiYXVlcmNoZW4gPGJhdWVyY2hlbkB0ZW5j
-ZW50LmNvbT4KUmV2aWV3ZWQtYnk6UGFuIFJ1aSA8cnVpcHBhbkB0ZW5jZW50LmNvbT4KUmV2aWV3
-ZWQtYnk6SXZhbiBSZW4gPGl2YW5yZW5AdGVuY2VudC5jb20+Ci0tLQrCoHV0aWwvb3NsaWItcG9z
-aXguYyB8IDQ0ICsrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKy0tLS0tLS0tCsKg
-MSBmaWxlIGNoYW5nZWQsIDM2IGluc2VydGlvbnMoKyksIDggZGVsZXRpb25zKC0pCgpkaWZmIC0t
-Z2l0IGEvdXRpbC9vc2xpYi1wb3NpeC5jIGIvdXRpbC9vc2xpYi1wb3NpeC5jCmluZGV4IDVhMjkx
-Y2MuLmU5NzM2OWIgMTAwNjQ0Ci0tLSBhL3V0aWwvb3NsaWItcG9zaXguYworKysgYi91dGlsL29z
-bGliLXBvc2l4LmMKQEAgLTc2LDYgKzc2LDEwIEBAIHN0YXRpYyBNZW1zZXRUaHJlYWQgKm1lbXNl
-dF90aHJlYWQ7CsKgc3RhdGljIGludCBtZW1zZXRfbnVtX3RocmVhZHM7CsKgc3RhdGljIGJvb2wg
-bWVtc2V0X3RocmVhZF9mYWlsZWQ7CsKgCitzdGF0aWMgUWVtdU11dGV4IHBhZ2VfbXV0ZXg7Citz
-dGF0aWMgUWVtdUNvbmQgcGFnZV9jb25kOworc3RhdGljIHZvbGF0aWxlIGJvb2wgdGhyZWFkX2Ny
-ZWF0ZV9mbGFnOworCsKgaW50IHFlbXVfZ2V0X3RocmVhZF9pZCh2b2lkKQrCoHsKwqAjaWYgZGVm
-aW5lZChfX2xpbnV4X18pCkBAIC00MDMsNiArNDA3LDE0IEBAIHN0YXRpYyB2b2lkICpkb190b3Vj
-aF9wYWdlcyh2b2lkICphcmcpCsKgIMKgIMKgTWVtc2V0VGhyZWFkICptZW1zZXRfYXJncyA9IChN
-ZW1zZXRUaHJlYWQgKilhcmc7CsKgIMKgIMKgc2lnc2V0X3Qgc2V0LCBvbGRzZXQ7CsKgCisgwqAg
-wqAvKndhaXQgZm9yIGFsbCB0aHJlYWRzIGNyZWF0ZSBmaW5pc2hlZCAqLworIMKgIMKgcWVtdV9t
-dXRleF9sb2NrKCZwYWdlX211dGV4KTsKKyDCoCDCoHdoaWxlKCF0aHJlYWRfY3JlYXRlX2ZsYWcp
-eworIMKgIMKgIMKgIMKgcWVtdV9jb25kX3dhaXQoJnBhZ2VfY29uZCwgJnBhZ2VfbXV0ZXgpOwor
-IMKgIMKgfQorIMKgIMKgcWVtdV9tdXRleF91bmxvY2soJnBhZ2VfbXV0ZXgpOworCisKwqAgwqAg
-wqAvKiB1bmJsb2NrIFNJR0JVUyAqLwrCoCDCoCDCoHNpZ2VtcHR5c2V0KCZzZXQpOwrCoCDCoCDC
-oHNpZ2FkZHNldCgmc2V0LCBTSUdCVVMpOwpAQCAtNDQ4LDMwICs0NjAsNDYgQEAgc3RhdGljIGlu
-bGluZSBpbnQgZ2V0X21lbXNldF9udW1fdGhyZWFkcyhpbnQgc21wX2NwdXMpCsKgIMKgIMKgcmV0
-dXJuIHJldDsKwqB9CsKgCitzdGF0aWMgdm9pZCBjYWxjX3BhZ2VfcGVyX3RocmVhZChzaXplX3Qg
-bnVtcGFnZXMsIGludCBtZW1zZXRfdGhyZWFkcywgc2l6ZV90ICpwYWdlc19wZXJfdGhyZWFkKXsK
-KyDCoCDCoGludCBhdmcgPSBudW1wYWdlcyAvIG1lbXNldF90aHJlYWRzICsgMTsKKyDCoCDCoGlu
-dCBpID0gMDsKKyDCoCDCoGludCBsYXN0ID0gYXZnICogbWVtc2V0X3RocmVhZHMgLSBudW1wYWdl
-czsKKyDCoCDCoGZvciAoaSA9IDA7IGkgPCBtZW1zZXRfdGhyZWFkczsgaSsrKQorIMKgIMKgewor
-IMKgIMKgIMKgIMKgaWYobWVtc2V0X3RocmVhZHMgLSBpIDw9IGxhc3QpeworIMKgIMKgIMKgIMKg
-IMKgIMKgcGFnZXNfcGVyX3RocmVhZFtpXSA9IGF2ZyAtIDE7CisgwqAgwqAgwqAgwqB9ZWxzZQor
-IMKgIMKgIMKgIMKgIMKgIMKgcGFnZXNfcGVyX3RocmVhZFtpXSA9IGF2ZzsKKyDCoCDCoH0KK30K
-KwrCoHN0YXRpYyBib29sIHRvdWNoX2FsbF9wYWdlcyhjaGFyICphcmVhLCBzaXplX3QgaHBhZ2Vz
-aXplLCBzaXplX3QgbnVtcGFnZXMsCsKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKg
-IMKgIMKgIMKgaW50IHNtcF9jcHVzKQrCoHsKLSDCoCDCoHNpemVfdCBudW1wYWdlc19wZXJfdGhy
-ZWFkOwotIMKgIMKgc2l6ZV90IHNpemVfcGVyX3RocmVhZDsKKyDCoCDCoHNpemVfdCAqbnVtcGFn
-ZXNfcGVyX3RocmVhZDsKwqAgwqAgwqBjaGFyICphZGRyID0gYXJlYTsKwqAgwqAgwqBpbnQgaSA9
-IDA7CsKgCsKgIMKgIMKgbWVtc2V0X3RocmVhZF9mYWlsZWQgPSBmYWxzZTsKKyDCoCDCoHRocmVh
-ZF9jcmVhdGVfZmxhZyA9IGZhbHNlOwrCoCDCoCDCoG1lbXNldF9udW1fdGhyZWFkcyA9IGdldF9t
-ZW1zZXRfbnVtX3RocmVhZHMoc21wX2NwdXMpOworIMKgIMKgbnVtcGFnZXNfcGVyX3RocmVhZCA9
-IGdfbmV3MChzaXplX3QsIG1lbXNldF9udW1fdGhyZWFkcyk7CsKgIMKgIMKgbWVtc2V0X3RocmVh
-ZCA9IGdfbmV3MChNZW1zZXRUaHJlYWQsIG1lbXNldF9udW1fdGhyZWFkcyk7Ci0gwqAgwqBudW1w
-YWdlc19wZXJfdGhyZWFkID0gKG51bXBhZ2VzIC8gbWVtc2V0X251bV90aHJlYWRzKTsKLSDCoCDC
-oHNpemVfcGVyX3RocmVhZCA9IChocGFnZXNpemUgKiBudW1wYWdlc19wZXJfdGhyZWFkKTsKKyDC
-oCDCoGNhbGNfcGFnZV9wZXJfdGhyZWFkKG51bXBhZ2VzLCBtZW1zZXRfbnVtX3RocmVhZHMsIG51
-bXBhZ2VzX3Blcl90aHJlYWQpOworCsKgIMKgIMKgZm9yIChpID0gMDsgaSA8IG1lbXNldF9udW1f
-dGhyZWFkczsgaSsrKSB7CsKgIMKgIMKgIMKgIMKgbWVtc2V0X3RocmVhZFtpXS5hZGRyID0gYWRk
-cjsKLSDCoCDCoCDCoCDCoG1lbXNldF90aHJlYWRbaV0ubnVtcGFnZXMgPSAoaSA9PSAobWVtc2V0
-X251bV90aHJlYWRzIC0gMSkpID8KLSDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDC
-oCDCoCDCoCDCoCDCoCDCoCDCoG51bXBhZ2VzIDogbnVtcGFnZXNfcGVyX3RocmVhZDsKKyDCoCDC
-oCDCoCDCoG1lbXNldF90aHJlYWRbaV0ubnVtcGFnZXMgPSBudW1wYWdlc19wZXJfdGhyZWFkW2ld
-OwrCoCDCoCDCoCDCoCDCoG1lbXNldF90aHJlYWRbaV0uaHBhZ2VzaXplID0gaHBhZ2VzaXplOwrC
-oCDCoCDCoCDCoCDCoHFlbXVfdGhyZWFkX2NyZWF0ZSgmbWVtc2V0X3RocmVhZFtpXS5wZ3RocmVh
-ZCwgInRvdWNoX3BhZ2VzIiwKwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAg
-wqAgZG9fdG91Y2hfcGFnZXMsICZtZW1zZXRfdGhyZWFkW2ldLArCoCDCoCDCoCDCoCDCoCDCoCDC
-oCDCoCDCoCDCoCDCoCDCoCDCoCDCoCBRRU1VX1RIUkVBRF9KT0lOQUJMRSk7Ci0gwqAgwqAgwqAg
-wqBhZGRyICs9IHNpemVfcGVyX3RocmVhZDsKLSDCoCDCoCDCoCDCoG51bXBhZ2VzIC09IG51bXBh
-Z2VzX3Blcl90aHJlYWQ7CisgwqAgwqAgwqAgwqBhZGRyICs9IG51bXBhZ2VzX3Blcl90aHJlYWRb
-aV0gKiBocGFnZXNpemU7CisgwqAgwqAgwqAgwqBudW1wYWdlcyAtPSBudW1wYWdlc19wZXJfdGhy
-ZWFkW2ldOwrCoCDCoCDCoH0KKyDCoCDCoHRocmVhZF9jcmVhdGVfZmxhZyA9IHRydWU7CisgwqAg
-wqBxZW11X2NvbmRfYnJvYWRjYXN0KCZwYWdlX2NvbmQpOworCsKgIMKgIMKgZm9yIChpID0gMDsg
-aSA8IG1lbXNldF9udW1fdGhyZWFkczsgaSsrKSB7CsKgIMKgIMKgIMKgIMKgcWVtdV90aHJlYWRf
-am9pbigmbWVtc2V0X3RocmVhZFtpXS5wZ3RocmVhZCk7CsKgIMKgIMKgfQotLcKgCjEuOC4zLjE=
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--5eQQ9kWmZGC2SS3FH1MDTTUUiv6q2bOee
+Content-Type: multipart/mixed; boundary="V2tWknc5kHbw80xntLyjvKIflS14tY7dA";
+ protected-headers="v1"
+From: Kamil Rytarowski <n54@gmx.com>
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+Cc: Cleber Rosa <crosa@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Kamil Rytarowski <kamil@netbsd.org>, =?UTF-8?Q?Herv=c3=a9_Poussineau?=
+ <hpoussin@reactos.org>, qemu-ppc@nongnu.org,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Message-ID: <a38b7bc4-971e-5373-7324-b27de9de631b@gmx.com>
+Subject: Re: [PATCH] tests/acceptance/ppc_prep_40p: Do not run NetBSD test by
+ default
+References: <20200211131948.26142-1-philmd@redhat.com>
+In-Reply-To: <20200211131948.26142-1-philmd@redhat.com>
+
+--V2tWknc5kHbw80xntLyjvKIflS14tY7dA
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+Please use cdn.netbsd.org always.
+
+On 11.02.2020 14:19, Philippe Mathieu-Daud=C3=A9 wrote:
+> The ftp.netbsd.org server is slow and downloading the NetBSD ISO
+> takes too long. Do not include this test in the default suite.
+>=20
+> Similarly to commit 471c97a69b:
+>=20
+>   Currently the Avocado framework does not distinct the time spent
+>   downloading assets vs. the time spent running a test. With big
+>   assets (like a full VM image) the tests likely fail.
+>=20
+>   This is a limitation known by the Avocado team.
+>   Until this issue get fixed, do not run this tests automatically.
+>=20
+>   Tests can still be run setting the AVOCADO_TIMEOUT_EXPECTED
+>   environment variable.
+>=20
+> Reported-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> ---
+>  tests/acceptance/ppc_prep_40p.py | 1 +
+>  1 file changed, 1 insertion(+)
+>=20
+> diff --git a/tests/acceptance/ppc_prep_40p.py b/tests/acceptance/ppc_pr=
+ep_40p.py
+> index b27572f212..efe06037ba 100644
+> --- a/tests/acceptance/ppc_prep_40p.py
+> +++ b/tests/acceptance/ppc_prep_40p.py
+> @@ -61,6 +61,7 @@ def test_openbios_192m(self):
+>          wait_for_console_pattern(self, '>> CPU type PowerPC,604')
+> =20
+>      @skipIf(os.getenv('CONTINUOUS_INTEGRATION'), 'Running on Travis-CI=
+')
+> +    @skipUnless(os.getenv('AVOCADO_TIMEOUT_EXPECTED'), 'Test might tim=
+eout')
+>      def test_openbios_and_netbsd(self):
+>          """
+>          :avocado: tags=3Darch:ppc
+>=20
+
+
+
+--V2tWknc5kHbw80xntLyjvKIflS14tY7dA--
+
+--5eQQ9kWmZGC2SS3FH1MDTTUUiv6q2bOee
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEELaxVpweEzw+lMDwuS7MI6bAudmwFAl5CqywACgkQS7MI6bAu
+dmz3Bw/9E+9yBi/A5WJJ/yQq0OdmHy+0SbuO2K7neV0d2X5NTG13Uufa9JPzh5Sp
+mFC0rwHWkHhka6/322jPCvO3QiDqFV1KZsPU8b3PqMgq4yeZXtMWoAgZl4zyV/D3
+Ws6sSompDX50geqHFyjKNR7J1E1lP3eIcwkJCT3nHaqGpZcz7fWjo+kaJ8zVEStz
+0TdsvAtSRo3OIUzoIxRf68fP4A04P+V4rEWUIc0o8XaxKGHL8aGBzAcfv+Yp/jYJ
+hWJj9Irohimz3GgJtn79Y0PIGRjp7fylicHar0rAs0t/1wtDrDTSJYRa1cejgtV+
+UVDE/e8LpQZaw5j306k7tTvv5hFzj89fyzNy1IGx5chtcgNEp7hMuTe57d7islHZ
+ucALji6i1OPqM3amIKfRKoJFDrLJ/4vcgLc9clPJ1gUGlOSDjg6PFbfU/+7HIc1X
+XTHGNQ/ScPYe0McoWMhkkojKSNFwl0ONSLvNjWZC1yxcewmkpyDTuxcU+OeQEISK
+xPMAqa65CD6aMglxsLklbLgcAEKidB37uFnariJMjpqQtMNEXipSMwztwZoYZOre
+gxHxcCtZlIdFLav1eOfPC5K1DAqlYk5jdjU7nl6Nl22AIU3GlEC03EJ7v8tb87i5
+AOhxQslPzXt7Ds6eQW0beUoDuYFk72rTzfUlIlf/s6ZNVstA7Lc=
+=DL/n
+-----END PGP SIGNATURE-----
+
+--5eQQ9kWmZGC2SS3FH1MDTTUUiv6q2bOee--
 
