@@ -2,60 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B12C15AD8D
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Feb 2020 17:41:55 +0100 (CET)
-Received: from localhost ([::1]:40270 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6025215AD97
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Feb 2020 17:43:15 +0100 (CET)
+Received: from localhost ([::1]:40296 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j1v5G-00035U-1X
-	for lists+qemu-devel@lfdr.de; Wed, 12 Feb 2020 11:41:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36497)
+	id 1j1v6Y-0006CQ-EO
+	for lists+qemu-devel@lfdr.de; Wed, 12 Feb 2020 11:43:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36553)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1j1v4O-0002Mq-LZ
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 11:41:01 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j1v4w-0003A5-F0
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 11:41:35 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1j1v4N-0000xz-9s
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 11:41:00 -0500
-Received: from indium.canonical.com ([91.189.90.7]:35594)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j1v4v-0001WS-Am
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 11:41:34 -0500
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:43197)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1j1v4N-0000x9-4W
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 11:40:59 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1j1v4L-0008SU-1z
- for <qemu-devel@nongnu.org>; Wed, 12 Feb 2020 16:40:57 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 0C4062E8078
- for <qemu-devel@nongnu.org>; Wed, 12 Feb 2020 16:40:57 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 12 Feb 2020 16:23:54 -0000
-From: Faisal Al-Humaimidi <1862979@bugs.launchpad.net>
+ (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1j1v4v-0001UF-2W
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 11:41:33 -0500
+Received: by mail-wr1-x442.google.com with SMTP id r11so3166917wrq.10
+ for <qemu-devel@nongnu.org>; Wed, 12 Feb 2020 08:41:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=0IbAcXPnVNL1M99L3vAYUmiNlHM1q7zQnW91i3q1wDA=;
+ b=QWZPqBcFTCdv7WOOpHVWZDV/ymF78kcO/Fc0ryg0eviHt2zwKsItSZrFaU1CW1wbKi
+ GUNfwQx929V7pfvYfXPld4QaedcNr4fxQdiSTlNFoesOQ0PJIPVKs/Me2MSZUtjKRAY0
+ tAstrhN5M2gtdrzUWYkaDEdIrk2RbLXa55C2W+EeWe7e8T386YcEvh9nN7gLJgNTY83n
+ syHOYNzZrOCTz5XHnLYvB0vbqKKJBQdYMwaPVAv7q5L34DTNPEbuHqLw/yDzzIgNrC9B
+ 1hs3IA6Wkwpc37LBdtIehI+iTvr2X2oUjI1eqf6NACs5WZi7fMdTnmOx+6Elvjr1DXcE
+ g8YA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=0IbAcXPnVNL1M99L3vAYUmiNlHM1q7zQnW91i3q1wDA=;
+ b=pDAiiM+t46LAUNR7A5kLhFYOGrOG8iCp+2ELvoK3CGr16zRdW/uRAnw3GKbtBWup6l
+ b8E9x1U70djtJVMlL3SEjHq7Z/6n+oRU5MnZgLCcpBtXR9nhi+eXU8NGPFikc6SLyZV3
+ x41Gy9EgoIR/5HPukqptoj3CjVefBBEa4mmOh7Q1snn0lFAxZmCkHUv7el8g1w0ctGNH
+ /llzek5V2hugxasYv8e5xH6hUZZnJ5yU16IdW0HdJRrPkw/S2jHo4AlqTICtNlJdeOUB
+ 3djPLcNsAWmIisObSB3ESrGIBPaoUF3JuEXa5dHBCtdigLoHqxnG3iL6qN5vD+cOkd5+
+ Oz9g==
+X-Gm-Message-State: APjAAAX2IFJwvQ790Px/K2ZMkHBL6mWFPiktCwKJG6a8x9ItLBWZbOn7
+ 0ms/q7gAmpgHi3qShnoupxjab+Gm
+X-Google-Smtp-Source: APXvYqyZi80wt1E2NY1+eD3wBELScR1fzEb4QXOjvaIB1C5nimMW+S4Yak3UTin24iDg7w7lA4x/ZA==
+X-Received: by 2002:adf:f64b:: with SMTP id x11mr15809499wrp.355.1581525691395; 
+ Wed, 12 Feb 2020 08:41:31 -0800 (PST)
+Received: from donizetti.fritz.box ([151.30.86.140])
+ by smtp.gmail.com with ESMTPSA id a16sm1195122wrt.30.2020.02.12.08.41.30
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 12 Feb 2020 08:41:30 -0800 (PST)
+From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: falhumai96
-X-Launchpad-Bug-Reporter: Faisal Al-Humaimidi (falhumai96)
-X-Launchpad-Bug-Modifier: Faisal Al-Humaimidi (falhumai96)
-Message-Id: <158152463419.28848.6286969532824555776.malonedeb@chaenomeles.canonical.com>
-Subject: [Bug 1862979] [NEW] Cannot Create Socket Networking in Windows Host
- using Multicast
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="19413b719a8df7423ab1390528edadce9e0e4aca";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 8c5d9572cbc7f00c8acf1afc255f560fd1d8f693
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+Subject: [PULL 0/9] Mini misc patches queue for 2020-02-12
+Date: Wed, 12 Feb 2020 17:41:20 +0100
+Message-Id: <20200212164129.6968-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.21.0
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::442
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -64,132 +77,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1862979 <1862979@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+The following changes since commit 7bd9d0a9e26c7a3c67c0f174f0009ba19969b158:
 
-Hello QEMU devs,
+  Merge remote-tracking branch 'remotes/huth-gitlab/tags/pull-request-2020-02-04' into staging (2020-02-04 16:12:31 +0000)
 
-I am trying to create a simulated VLAN using socket networking, and the
-only way to connect multiple networks in QEMU using socket networking is
-by using the multicast `mcast` option of the `socket` network backend.
+are available in the Git repository at:
 
-However, when I try use the following arguments in QEMU to create a
-multicast socket network:
+  git://github.com/bonzini/qemu.git tags/for-upstream
 
-`-device e1000,id=3Dsock-0 -netdev id=3Dsock-0,mcast=3D230.0.0.1:1234`
+for you to fetch changes up to be02cda3afde60d219786e23c3f8edb53aec8e17:
 
-it fails with:
+  target/i386: enable monitor and ucode revision with -cpu max (2020-02-12 16:29:51 +0100)
 
-`can't bind ip address=3D230.0.0.1: unknown error` in my Windows host.
+----------------------------------------------------------------
+* various small fixes and cleanups
+* fixes for the ucode revision patch from the previous pull request
 
-I would like to know if this is a bug, or if I am missing a prerequisite
-before running the QEMU command.
+----------------------------------------------------------------
+Luc Michel (1):
+      seqlock: fix seqlock_write_unlock_impl function
 
-By the way, I am using Windows 10, and running a cross-compiled QEMU
-4.2.0.
+Marc-André Lureau (1):
+      minikconf: accept alnum identifiers
 
-** Affects: qemu
-     Importance: Undecided
-         Status: New
+Pan Nengyuan (1):
+      vl: Don't mismatch g_strsplit()/g_free()
 
-** Description changed:
+Paolo Bonzini (5):
+      exec: do not define use_icount for user-mode emulation
+      build: move TARGET_GPROF to config-host.mak
+      target/i386: fix TCG UCODE_REV access
+      target/i386: check for availability of MSR_IA32_UCODE_REV as an emulated MSR
+      target/i386: enable monitor and ucode revision with -cpu max
 
-  Hello QEMU devs,
-  =
+Peter Maydell (1):
+      Remove support for CLOCK_MONOTONIC not being defined
 
-  I am trying to create a simulated VLAN using socket networking, and the
-  only way to connect multiple networks in QEMU using socket networking is
-  by using the multicast `mcast` option of the `socket` network backend.
-  =
+ bsd-user/syscall.c        |  6 +++---
+ configure                 |  4 +++-
+ exec.c                    |  8 ++++----
+ include/qemu/seqlock.h    |  4 ++--
+ include/qemu/timer.h      |  5 +----
+ linux-user/exit.c         |  4 ++--
+ linux-user/signal.c       |  2 +-
+ scripts/minikconf.py      |  2 +-
+ target/i386/cpu.c         |  2 ++
+ target/i386/kvm.c         |  7 +++++--
+ target/i386/misc_helper.c |  8 ++++----
+ tests/check-block.sh      |  2 +-
+ util/qemu-timer-common.c  | 11 ++++-------
+ vl.c                      |  2 +-
+ 14 files changed, 34 insertions(+), 33 deletions(-)
+-- 
+2.21.0
 
-  However, when I try use the following arguments in QEMU to create a
-  multicast socket network:
-  =
-
-  `-device e1000,id=3Dsock-0 -netdev id=3Dsock-0,mcast=3D230.0.0.1:1234`
-  =
-
-  it fails with:
-  =
-
-  `can't bind ip address=3D230.0.0.1: unknown error` in my Windows host.
-  =
-
-  I would like to know if this is a bug, or if I am missing a prerequisite
-  before running the QEMU command.
-+ =
-
-+ By the way, I am using Windows 10.
-
-** Description changed:
-
-  Hello QEMU devs,
-  =
-
-  I am trying to create a simulated VLAN using socket networking, and the
-  only way to connect multiple networks in QEMU using socket networking is
-  by using the multicast `mcast` option of the `socket` network backend.
-  =
-
-  However, when I try use the following arguments in QEMU to create a
-  multicast socket network:
-  =
-
-  `-device e1000,id=3Dsock-0 -netdev id=3Dsock-0,mcast=3D230.0.0.1:1234`
-  =
-
-  it fails with:
-  =
-
-  `can't bind ip address=3D230.0.0.1: unknown error` in my Windows host.
-  =
-
-  I would like to know if this is a bug, or if I am missing a prerequisite
-  before running the QEMU command.
-  =
-
-- By the way, I am using Windows 10.
-+ By the way, I am using Windows 10, and running a cross-compiled QEMU
-+ 4.2.0.
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1862979
-
-Title:
-  Cannot Create Socket Networking in Windows Host using Multicast
-
-Status in QEMU:
-  New
-
-Bug description:
-  Hello QEMU devs,
-
-  I am trying to create a simulated VLAN using socket networking, and
-  the only way to connect multiple networks in QEMU using socket
-  networking is by using the multicast `mcast` option of the `socket`
-  network backend.
-
-  However, when I try use the following arguments in QEMU to create a
-  multicast socket network:
-
-  `-device e1000,id=3Dsock-0 -netdev id=3Dsock-0,mcast=3D230.0.0.1:1234`
-
-  it fails with:
-
-  `can't bind ip address=3D230.0.0.1: unknown error` in my Windows host.
-
-  I would like to know if this is a bug, or if I am missing a
-  prerequisite before running the QEMU command.
-
-  By the way, I am using Windows 10, and running a cross-compiled QEMU
-  4.2.0.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1862979/+subscriptions
 
