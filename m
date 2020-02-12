@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB25A15AD93
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Feb 2020 17:42:48 +0100 (CET)
-Received: from localhost ([::1]:40284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D77B215AD9B
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Feb 2020 17:44:29 +0100 (CET)
+Received: from localhost ([::1]:40316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j1v67-0004up-VQ
-	for lists+qemu-devel@lfdr.de; Wed, 12 Feb 2020 11:42:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36589)
+	id 1j1v7k-0008V0-SR
+	for lists+qemu-devel@lfdr.de; Wed, 12 Feb 2020 11:44:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36600)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j1v4z-0003DZ-J2
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 11:41:38 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j1v51-0003Fo-6v
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 11:41:40 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j1v4y-0001cv-Hh
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 11:41:37 -0500
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:34583)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j1v50-0001gY-9M
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 11:41:39 -0500
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:41686)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1j1v4y-0001bp-Bz
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 11:41:36 -0500
-Received: by mail-wr1-x42a.google.com with SMTP id n10so1246279wrm.1
- for <qemu-devel@nongnu.org>; Wed, 12 Feb 2020 08:41:36 -0800 (PST)
+ id 1j1v50-0001fm-3R
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 11:41:38 -0500
+Received: by mail-wr1-x435.google.com with SMTP id c9so3191290wrw.8
+ for <qemu-devel@nongnu.org>; Wed, 12 Feb 2020 08:41:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=CWJvAvx0dchzpGCPANbmzUz7ah1bBr5dRqjSpIoNg1Q=;
- b=hCL+tnsLmT+AXe6cFASvJyq49VQuOT+HhdcGF/IDzpSys96fGMg9cwwXd+meWrHIWn
- UGomxzzRyJInJEVQUcgIhDFBr3naI/BnMrlXL9nfkYUGe7fqrb/GWQvfESoDZNr442/d
- gLnrXOrz6Cj+ihdiTYlf57XfYg09U9Ux/qEdpjGD78g+H4TWDgp1LpaHleNBD4y5LMZY
- D/k4Qf9P0C6m+LlT7PY7kyZjuYa5GFiEi8IJ6kGEFgO2znhoVMGlYEgB8+7GJWMAqmse
- G9RZtvMrYY+lB27owQ2ON8cYfe3Bog3t7CjAL+2MLWUUYZGz65ZfsN5qlk5Jm5mK4wrS
- Y6lw==
+ bh=Sk9WshqGTq9cCur9E6esTWtP0xlnXywDapbkjl0RGOM=;
+ b=Q6+kKDxBlMkENLKz28HVgnBJtW8Q5wB+Dbgs7tPkrz2SUaWnBKVs5g8472EBH6pkC/
+ enGWcIAps1DJiDcZqkJoxRr5MvVkz6qzlZ8p9ISVs5Hkj9Fvg5pCn3Rv+nUomdYkpn7m
+ jszlHhOc19DOpOYy3rHxtqAYWd8i7vi6Mk+fXOleynGWcJN859phidjtLYQGA83mPwyo
+ itN0SXRq+QL8nUT5ufbHf9+S8RKGbdkFYM6CqqRtBuZcjEYaRQbVu87iOWF3KKlgSJ5t
+ qjqVFju71PV7TT58YL6um4VPaQlN+SjxqBb0YNBFAoCqrkrshX2EQKoF2YwJAsmqnlOX
+ 625w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=CWJvAvx0dchzpGCPANbmzUz7ah1bBr5dRqjSpIoNg1Q=;
- b=RDYL6XSpH79HcLR8Mw4027APcz1A3dx+ns5yF6peBykj5HS4idLApLzPfsbVoji1XW
- LEgW1r+g0uKskF7ONvigPGEAr8clHklDSN2t7Wc5lNxbEglWLkrl5zqK4JqUt0OF7FLS
- lHd+UqVSMVtwZkar1R7VX/J2NZojOgvMeGJLuEjl7LD47/DV/4iztNkxqMWJPtC9figM
- m4QY+ZAJCU4zLKCnDwLQ/bvAlLxeFftEFX/ILSLQlRCNOKh24OBG0cjFVDjJVT0EXM9C
- bfqa4/xUvhEXie+fB51Cz2hn9sF/mRjfyojrf+yjCRSW6kxpR9YTN8T+8JxFLP/waAwV
- YE+Q==
-X-Gm-Message-State: APjAAAV0ufCm5B39gSa5NY9f9WEvN3/u5zoW/rxJGdPqO8aA83RG/ahb
- AQ66L7BCeGdvvJ/Knn/GhdCuyD4S
-X-Google-Smtp-Source: APXvYqylJOEOG4noTE7X1DesW0JAviLRllHXiugDWYnLVCvxPvjnXZLCgbXeksCEcjz0wtyicls5bQ==
-X-Received: by 2002:adf:f302:: with SMTP id i2mr16087362wro.21.1581525695112; 
- Wed, 12 Feb 2020 08:41:35 -0800 (PST)
+ bh=Sk9WshqGTq9cCur9E6esTWtP0xlnXywDapbkjl0RGOM=;
+ b=TB5wgJAbgCCmJicKzlHXiTyOmhSppbnYHsXT1FfNtTGcmBfCpboFkw6j7Cab+mfAPL
+ Lzxx1R1YUEYB4J8RC2+4aW5A5USq0s0JqjhxiHtAvs2hbUhPDudG4Lp7ZFeNMBlo+3gG
+ pNQYNKEHFzo1MdPW4iIRkoW7ojlnxuklhqk2omdhPomQUC/j7Frvv7t5PrPbVPE54t8j
+ 7p3ZYILwcFY3acI1FYED0dthZTadsnV25JcWgz+/vI4Gd+DOb7UOb0y8NG0UX8gy5Dno
+ 5zm4CHNLC1MZ7U5cJ3XDAfKzGd/Cm1B3XsJO+Q2tLQgCVd03DUmfKwhhWPtTl4p08xfy
+ fxkg==
+X-Gm-Message-State: APjAAAXRlx1we93SRoXp///iBOTYyJdmu22bHMCrygoJV7TTTDkftlne
+ yBl1MjPTfROtA0PcXo+N7zKAvQd3
+X-Google-Smtp-Source: APXvYqzMW9M8hAiYtzselwEvAJXNDK/EGBCOfZGvTJmRnyb2RU7e1mR95B315E7gVOZwsiXtqbZlTg==
+X-Received: by 2002:a5d:4709:: with SMTP id y9mr16103264wrq.412.1581525696743; 
+ Wed, 12 Feb 2020 08:41:36 -0800 (PST)
 Received: from donizetti.fritz.box ([151.30.86.140])
- by smtp.gmail.com with ESMTPSA id a16sm1195122wrt.30.2020.02.12.08.41.33
+ by smtp.gmail.com with ESMTPSA id a16sm1195122wrt.30.2020.02.12.08.41.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 12 Feb 2020 08:41:34 -0800 (PST)
+ Wed, 12 Feb 2020 08:41:36 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 3/9] Remove support for CLOCK_MONOTONIC not being defined
-Date: Wed, 12 Feb 2020 17:41:23 +0100
-Message-Id: <20200212164129.6968-4-pbonzini@redhat.com>
+Subject: [PULL 4/9] minikconf: accept alnum identifiers
+Date: Wed, 12 Feb 2020 17:41:24 +0100
+Message-Id: <20200212164129.6968-5-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200212164129.6968-1-pbonzini@redhat.com>
 References: <20200212164129.6968-1-pbonzini@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42a
+X-Received-From: 2a00:1450:4864:20::435
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,75 +78,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Peter Maydell <peter.maydell@linaro.org>
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Some older parts of QEMU's codebase assume that CLOCK_MONOTONIC
-might not be defined by the host OS, and have workarounds to
-deal with this. However, more recently (notably in commit
-50290c002c045280f8d for qemu-img in mid-2019, but also much
-earlier in 2011 in commit 22795174a37e0 for ui/spice-display.c)
-we've written code that assumes CLOCK_MONOTONIC is always
-defined. The only host OS anybody's ever noticed this on
-is OSX 10.11 and earlier, which we don't support.
-
-So we can assume that all our host OSes have the #define,
-and we can remove some now-unnecessary ifdefs.
-
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Message-Id: <20200201172252.6605-1-peter.maydell@linaro.org>
+Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- include/qemu/timer.h     |  5 +----
- util/qemu-timer-common.c | 11 ++++-------
- 2 files changed, 5 insertions(+), 11 deletions(-)
+ scripts/minikconf.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/qemu/timer.h b/include/qemu/timer.h
-index 85bc6eb00b..6a8b48b5a9 100644
---- a/include/qemu/timer.h
-+++ b/include/qemu/timer.h
-@@ -838,14 +838,11 @@ extern int use_rt_clock;
- 
- static inline int64_t get_clock(void)
- {
--#ifdef CLOCK_MONOTONIC
-     if (use_rt_clock) {
-         struct timespec ts;
-         clock_gettime(CLOCK_MONOTONIC, &ts);
-         return ts.tv_sec * 1000000000LL + ts.tv_nsec;
--    } else
--#endif
--    {
-+    } else {
-         /* XXX: using gettimeofday leads to problems if the date
-            changes, so it should be avoided. */
-         return get_clock_realtime();
-diff --git a/util/qemu-timer-common.c b/util/qemu-timer-common.c
-index 06d084d364..baf3317f74 100644
---- a/util/qemu-timer-common.c
-+++ b/util/qemu-timer-common.c
-@@ -49,14 +49,11 @@ int use_rt_clock;
- 
- static void __attribute__((constructor)) init_get_clock(void)
- {
-+    struct timespec ts;
-+
-     use_rt_clock = 0;
--#ifdef CLOCK_MONOTONIC
--    {
--        struct timespec ts;
--        if (clock_gettime(CLOCK_MONOTONIC, &ts) == 0) {
--            use_rt_clock = 1;
--        }
-+    if (clock_gettime(CLOCK_MONOTONIC, &ts) == 0) {
-+        use_rt_clock = 1;
-     }
--#endif
- }
- #endif
+diff --git a/scripts/minikconf.py b/scripts/minikconf.py
+index 40ae1989e1..febd9a479f 100644
+--- a/scripts/minikconf.py
++++ b/scripts/minikconf.py
+@@ -645,7 +645,7 @@ class KconfigParser:
+             self.cursor = self.src.find('\n', self.cursor)
+             self.val = self.src[start:self.cursor]
+             return TOK_SOURCE
+-        elif self.tok.isalpha():
++        elif self.tok.isalnum():
+             # identifier
+             while self.src[self.cursor].isalnum() or self.src[self.cursor] == '_':
+                 self.cursor += 1
 -- 
 2.21.0
 
