@@ -2,30 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A16DE15B282
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Feb 2020 22:10:56 +0100 (CET)
-Received: from localhost ([::1]:43466 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3D9A15B2A9
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Feb 2020 22:20:07 +0100 (CET)
+Received: from localhost ([::1]:43538 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j1zHb-0004fn-5B
-	for lists+qemu-devel@lfdr.de; Wed, 12 Feb 2020 16:10:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47786)
+	id 1j1zQU-0007Qr-Q5
+	for lists+qemu-devel@lfdr.de; Wed, 12 Feb 2020 16:20:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48777)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1j1zGa-000441-6n
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 16:09:53 -0500
+ (envelope-from <laurent@vivier.eu>) id 1j1zPh-0006hw-Dx
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 16:19:18 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1j1zGY-0001SC-2l
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 16:09:52 -0500
-Received: from mout.kundenserver.de ([212.227.17.10]:40335)
+ (envelope-from <laurent@vivier.eu>) id 1j1zPg-0006YO-8q
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 16:19:17 -0500
+Received: from mout.kundenserver.de ([217.72.192.74]:51657)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1j1zGX-0001Qp-Pu
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 16:09:50 -0500
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1j1zPg-0006Xn-0d
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 16:19:16 -0500
 Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
- (mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MfZDK-1jhvir2lnE-00fwbC; Wed, 12 Feb 2020 22:09:21 +0100
+ (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MWSJJ-1j0W6Z1MsN-00XrJd; Wed, 12 Feb 2020 22:18:52 +0100
+Subject: Re: [PATCH 2/9] linux-user: arm: Update syscall numbers to kernel 5.5
+ level
 To: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>, qemu-devel@nongnu.org
 References: <1580818058-16159-1-git-send-email-aleksandar.markovic@rt-rk.com>
- <1580818058-16159-6-git-send-email-aleksandar.markovic@rt-rk.com>
+ <1580818058-16159-3-git-send-email-aleksandar.markovic@rt-rk.com>
 From: Laurent Vivier <laurent@vivier.eu>
 Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  mQINBFYFJhkBEAC2me7w2+RizYOKZM+vZCx69GTewOwqzHrrHSG07MUAxJ6AY29/+HYf6EY2
@@ -69,36 +71,34 @@ Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  OpKgu3nD0ahBDqANU/ZmNNarBJEwvM2vfusmNnWm3QMIwxNuJghRyuFfx694Im1js0ZY3LEU
  JGSHFG4ZynA+ZFUPA6Xf0wHeJOxGKCGIyeKORsteIqgnkINW9fnKJw2pgk8qHkwVc3Vu+wGS
  ZiJK0xFusPQehjWTHn9WjMG1zvQ5TQQHxau/2FkP45+nRPco6vVFQe8JmgtRF8WFJA==
-Subject: Re: [PATCH 5/9] linux-user: mips: Update syscall numbers to kernel
- 5.5 level
-Message-ID: <92f1a3ae-ed61-693f-f619-6a63c39e66a2@vivier.eu>
-Date: Wed, 12 Feb 2020 22:09:20 +0100
+Message-ID: <20ecbbc1-6528-bf17-310e-4eba73fb73a5@vivier.eu>
+Date: Wed, 12 Feb 2020 22:18:51 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.3.1
 MIME-Version: 1.0
-In-Reply-To: <1580818058-16159-6-git-send-email-aleksandar.markovic@rt-rk.com>
+In-Reply-To: <1580818058-16159-3-git-send-email-aleksandar.markovic@rt-rk.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:qt0mT7IAByDsngalIpombBQyWDTS4VS3G5BYivdg56P/dyqWA3Y
- aEd7QyoBe3FT0cjDDM83Zw+HIlg42bLsuYD/Rb8iWE57KsBVnfnTqgw3M/U8ryXvucinZSp
- LeMxPIDyE6AyZ86gyXvEptQjdaw1tadIUrTMKR8QkDgnN151miGduF3CrYiqJELcGq3GrIU
- OtEwHkVTUQa/ln6bhIj8A==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:Yfc2YarhrAw=:x/3E1EQ4aEOu28b3jGPssV
- iePJxiNAjWgTGZ7EIywq0aLxH/ERq2JcskYpBVWZhKeohJdMoWgPUWTspiSGzlfiuHqm6R4dc
- 4E1Wbbz3VvxRxayW+hsTFnefI1TIjDx++gHlxNuJsC/UaoqLNWsbv4e4lVQ94cNBU4elDWVBk
- yBhuzM94DD3zTQtCMTIuvIGkRAv2vacPA8Zq7ECqu5ByS17z86sskWEueAxqPQRrMUeYF1XGN
- avpuKl5qzNYlZy4NhywoQE/81VjS1zKq8AaHqZx7i8alsivEkipyV7ITeJHuiA3IX2Mm4Vvzj
- LtBATB26MMnkRP3iK1XX+OTt8rSJr/SW7LrBTZFPo8thzQb93PcGwXX0HXrOtK3nmkJd1HNgR
- yU+21EbYVYrj+BoJscxuM6xG/GJsJY4rePprG+IN6BSTetWFKT4ZrNCcomViXbcEaz0WQzzdt
- QwHu0h5qeHnLUaqqdZt1BuggshFjD6UNjEUC/52OSBXxdROENOheHznvOYoYm41g+1mduda3P
- BHPUab9Ym36HEoZH2wkY/wi/rGdXMdj3sY9L62h/z6uBua0BFPuv7UYC3+iHjHodzVWB8FG+N
- mkq55FzQ0OGZkcz5UmnXo001B6DqMK52hb/INgZrVCAHKvBKAtYe7JIsMbD4NyT4yrVtTEB22
- KTw+vm+x+PdBcs6wA6VwylptzNgr+Kw8LaDwG8qGksLoga4iaYUh4Hc8RgxgtK48j0tsZ++sJ
- G7vgKmmzMOuknVZKIl55oYG7tRL+V3P2vTItyayR882KDJfzqzZH7/7dw4r1hJmWw+xrw5F5X
- WDynon4+oE97afzyIwK09Wqat/AKXSZjYdwQ/rPxm0Hwc9V8tKlXo0TpIZdTX5o6ttVXxCy
+X-Provags-ID: V03:K1:f1IND4lVG8Y2CLDkuMOz+/wGiuorHn6T0epT3ToDCqoeo1k9T+m
+ LNJNI7spZFnbBwSCd84esdigeV0sf55+G5dbOmKhYj4yjIU8afY6nTktsK2KJcbTjxs2qhJ
+ h8CHd41TCxQQ/TjjKVzuUw25NuADRbfP06EdhZrfpmr3dBQ0blJ2KA/GaZMPLE/q+aIHUCB
+ dOfX0QQXGQPxcIJF0ykbw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:loFRBxGjwcY=:bHjs249tEGWwqz+nd5bgG/
+ j6Bi1F9QOUzltNe3ngX+v3iudIzZqqhomrfpdsUwGak3J9DDt4+RgjfdayjNURtYa/Gf5qQ+O
+ dNGwbH2VYcejbBKa7sg3oyA1bOsVPF0H0yANMH+6Cmxdec4osOmbFWkwZ904TESgFk+i6qDE5
+ JMlyxLv7VTHPlZ9fHNGLTMQmCHBc0kcaBwKjju3JCijrZPBWWb83F5PFmvY3ozfRIyT5BaJ9L
+ jQaeY3O8/KbCCkS4YhEtBoUdV+1iGw0ssaOSH+ugFZiF6EMUEx9THKM6YnFtL77rc0j8WSjcq
+ Xec6akwYzf5aGx1P5o3dGZI9svcHY9HmwrP/Zi9ECh94GBKCkbiECsXYNrzk95On7o4z3uLId
+ 0Ughd5lcWbBBB0sQyFIdXq06jiayPKqvueyigbwKr3oDp0vn8Cp7CXi6Ukta47eXx4URrq24V
+ +ycSKI+Lz11Nsn2qyW51JujJxo1fXneKzI3+Kmgtok+SGcedBdG1UTa/yyUYgl2KHCq6h6FQp
+ mo09l9UCEINZo1aaCSQTcd4f1heJCAAwxJAsMFECMYgB8kBAyr1I3gYoM4zzq0ObFpnZKNQki
+ XHSLzBz39uHcYGdTzoI8RtEamV0K18uBs7agiJWOrGHyD2Wpdv4h4mZ+t/K0tEJCwX4K3FHpN
+ /4mNTqvX7d4tlJJu8/7pWQtiGDBdfCsMqSMXxczBnY9dGZX9U+wS4mE46Hl5N2nKyoW4CYzaj
+ 2AiW88BSoIhPl/v1C/XsdnY5HTJutqV+9wTpJwTCiFMZm9NYLtK01g9sXrUgHqoVQpW44F/M/
+ NczErdyRh5ApKAHBBcMwR89lh8zldSHnGDFgdzQk2an0TXCvb+X/Y4VfXKcVTIsG6a7c4rK
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.17.10
+X-Received-From: 217.72.192.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -110,265 +110,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>, amarkovic@wavecomp.com,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>, amarkovic@wavecomp.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Le 04/02/2020 à 13:07, Aleksandar Markovic a écrit :
 > From: Aleksandar Markovic <amarkovic@wavecomp.com>
 > 
-> Update mips syscall numbers based on Linux kernel tag v5.5.
+> Update arm syscall numbers based on Linux kernel v5.5.
 > 
-> CC: Aurelien Jarno <aurelien@aurel32.net>
-> CC: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>
+> CC: Peter Maydell <peter.maydell@linaro.org>
 > Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
 > ---
->  linux-user/mips/cpu_loop.c     | 78 +++++++++++++++++++++++++++++++++++++++++-
->  linux-user/mips/syscall_nr.h   | 45 ++++++++++++++++++++++++
->  linux-user/mips64/syscall_nr.h | 13 +++++++
->  3 files changed, 135 insertions(+), 1 deletion(-)
+>  linux-user/arm/syscall_nr.h | 44 ++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 44 insertions(+)
 > 
-> diff --git a/linux-user/mips/cpu_loop.c b/linux-user/mips/cpu_loop.c
-> index 39915b3..b81479b 100644
-> --- a/linux-user/mips/cpu_loop.c
-> +++ b/linux-user/mips/cpu_loop.c
-> @@ -25,8 +25,9 @@
->  #include "internal.h"
+> diff --git a/linux-user/arm/syscall_nr.h b/linux-user/arm/syscall_nr.h
+> index e7eda0d..6db9235 100644
+> --- a/linux-user/arm/syscall_nr.h
+> +++ b/linux-user/arm/syscall_nr.h
+> @@ -399,5 +399,49 @@
+>  #define TARGET_NR_userfaultfd                  (388)
+>  #define TARGET_NR_membarrier                   (389)
+>  #define TARGET_NR_mlock2                       (390)
+> +#define TARGET_NR_copy_file_range              (391)
+> +#define TARGET_NR_preadv2                      (392)
+> +#define TARGET_NR_pwritev2                     (393)
+> +#define TARGET_NR_pkey_mprotect                (394)
+> +#define TARGET_NR_pkey_alloc                   (395)
+> +#define TARGET_NR_pkey_free                    (396)
+> +#define TARGET_NR_statx                        (397)
+> +#define TARGET_NR_rseq                         (398)
+> +#define TARGET_NR_io_pgetevents                (399)
+> +#define TARGET_NR_migrate_pages                (400)
+> +#define TARGET_NR_kexec_file_load              (401)
+> +/* 402 is unused */
+> +#define TARGET_NR_clock_gettime64              (403)
+> +#define TARGET_NR_clock_settime64              (404)
+> +#define TARGET_NR_clock_adjtime64              (405)
+> +#define TARGET_NR_clock_getres_time64          (406)
+> +#define TARGET_NR_clock_nanosleep_time64       (407)
+> +#define TARGET_NR_timer_gettime64              (408)
+> +#define TARGET_NR_timer_settime64              (409)
+> +#define TARGET_NR_timerfd_gettime64            (410)
+> +#define TARGET_NR_timerfd_settime64            (411)
+> +#define TARGET_NR_utimensat_time64             (412)
+> +#define TARGET_NR_pselect6_time64              (413)
+> +#define TARGET_NR_ppoll_time64                 (414)
+> +#define TARGET_NR_io_pgetevents_time64         (416)
+> +#define TARGET_NR_recvmmsg_time64              (417)
+> +#define TARGET_NR_mq_timedsend_time64          (418)
+> +#define TARGET_NR_mq_timedreceive_time64       (419)
+> +#define TARGET_NR_semtimedop_time64            (420)
+> +#define TARGET_NR_rt_sigtimedwait_time64       (421)
+> +#define TARGET_NR_futex_time64                 (422)
+> +#define TARGET_NR_sched_rr_get_interval_time64 (423)
+> +#define TARGET_NR_pidfd_send_signal            (424)
+> +#define TARGET_NR_io_uring_setup               (425)
+> +#define TARGET_NR_io_uring_enter               (426)
+> +#define TARGET_NR_io_uring_register            (427)
+> +#define TARGET_NR_open_tree                    (428)
+> +#define TARGET_NR_move_mount                   (429)
+> +#define TARGET_NR_fsopen                       (430)
+> +#define TARGET_NR_fsconfig                     (431)
+> +#define TARGET_NR_fsmount                      (432)
+> +#define TARGET_NR_fspick                       (433)
+> +#define TARGET_NR_pidfd_open                   (434)
+> +#define TARGET_NR_clone3                       (435)
 >  
->  # ifdef TARGET_ABI_MIPSO32
-> +#  define MIPS_SYSCALL_NUMBER_UNUSED -1
->  #  define MIPS_SYS(name, args) args,
-> -static const uint8_t mips_syscall_args[] = {
-> +static const int8_t mips_syscall_args[] = {
->          MIPS_SYS(sys_syscall    , 8)    /* 4000 */
->          MIPS_SYS(sys_exit       , 1)
->          MIPS_SYS(sys_fork       , 0)
-> @@ -390,6 +391,75 @@ static const uint8_t mips_syscall_args[] = {
->          MIPS_SYS(sys_copy_file_range, 6) /* 360 */
->          MIPS_SYS(sys_preadv2, 6)
->          MIPS_SYS(sys_pwritev2, 6)
-> +        MIPS_SYS(sys_pkey_mprotect, 4)
-> +        MIPS_SYS(sys_pkey_alloc, 2)
-> +        MIPS_SYS(sys_pkey_free, 1)                 /* 365 */
-> +        MIPS_SYS(sys_statx, 5)
-> +        MIPS_SYS(sys_rseq, 4)
-> +        MIPS_SYS(sys_io_pgetevents, 6)
-> +        MIPS_SYSCALL_NUMBER_UNUSED,
-> +        MIPS_SYSCALL_NUMBER_UNUSED,                /* 370 */
-> +        MIPS_SYSCALL_NUMBER_UNUSED,
-> +        MIPS_SYSCALL_NUMBER_UNUSED,
-> +        MIPS_SYSCALL_NUMBER_UNUSED,
-> +        MIPS_SYSCALL_NUMBER_UNUSED,
-> +        MIPS_SYSCALL_NUMBER_UNUSED,                /* 375 */
-> +        MIPS_SYSCALL_NUMBER_UNUSED,
-> +        MIPS_SYSCALL_NUMBER_UNUSED,
-> +        MIPS_SYSCALL_NUMBER_UNUSED,
-> +        MIPS_SYSCALL_NUMBER_UNUSED,
-> +        MIPS_SYSCALL_NUMBER_UNUSED,                /* 380 */
-> +        MIPS_SYSCALL_NUMBER_UNUSED,
-> +        MIPS_SYSCALL_NUMBER_UNUSED,
-> +        MIPS_SYSCALL_NUMBER_UNUSED,
-> +        MIPS_SYSCALL_NUMBER_UNUSED,
-> +        MIPS_SYSCALL_NUMBER_UNUSED,                /* 385 */
-> +        MIPS_SYSCALL_NUMBER_UNUSED,
-> +        MIPS_SYSCALL_NUMBER_UNUSED,
-> +        MIPS_SYSCALL_NUMBER_UNUSED,
-> +        MIPS_SYSCALL_NUMBER_UNUSED,
-> +        MIPS_SYSCALL_NUMBER_UNUSED,                /* 390 */
-> +        MIPS_SYSCALL_NUMBER_UNUSED,
-> +        MIPS_SYSCALL_NUMBER_UNUSED,
-> +        MIPS_SYS(sys_semget, 3)
-> +        MIPS_SYS(sys_semctl, 4)
-> +        MIPS_SYS(sys_shmget, 3)                    /* 395 */
-> +        MIPS_SYS(sys_shmctl, 3)
-> +        MIPS_SYS(sys_shmat, 3)
-> +        MIPS_SYS(sys_shmdt, 1)
-> +        MIPS_SYS(sys_msgget, 2)
-> +        MIPS_SYS(sys_msgsnd, 4)                    /* 400 */
-> +        MIPS_SYS(sys_msgrcv, 5)
-> +        MIPS_SYS(sys_msgctl, 3)
-> +        MIPS_SYS(sys_timer_gettime64, 2)
-> +        MIPS_SYS(sys_timer_settime64, 4)
-> +        MIPS_SYS(sys_timerfd_gettime64, 2)         /* 410 */
-> +        MIPS_SYS(sys_timerfd_settime64, 4)
-
-These have different names in the kernel:
-
-clock_gettime64                  403
-clock_settime64                  404
-clock_adjtime64                  405
-clock_getres_time64              406
-clock_nanosleep_time64           407
-
-> +        MIPS_SYS(sys_utimensat_time64, 4)
-> +        MIPS_SYS(sys_pselect6_time64, 6)
-> +        MIPS_SYS(sys_ppoll_time64, 5)
-> +        MIPS_SYSCALL_NUMBER_UNUSED,                /* 415 */
-> +        MIPS_SYS(sys_io_pgetevents_time64, 6)
-> +        MIPS_SYS(sys_recvmmsg_time64, 5)
-> +        MIPS_SYS(sys_mq_timedsend_time64, 5)
-> +        MIPS_SYS(sys_mq_timedreceive_time64, 5)
-> +        MIPS_SYS(sys_semtimedop_time64, 4)         /* 420 */
-> +        MIPS_SYS(sys_rt_sigtimedwait_time64, 4)
-> +        MIPS_SYS(sys_futex_time64, 6)
-> +        MIPS_SYS(sys_sched_rr_get_interval_time64, 2)
-> +        MIPS_SYS(sys_pidfd_send_signal, 4)
-> +        MIPS_SYS(sys_io_uring_setup, 2)            /* 425 */
-> +        MIPS_SYS(sys_io_uring_enter, 6)
-> +        MIPS_SYS(sys_io_uring_register, 4)
-> +        MIPS_SYS(sys_open_tree, 3)
-> +        MIPS_SYS(sys_move_mount, 5)
-> +        MIPS_SYS(sys_fsopen, 2)                    /* 430 */
-> +        MIPS_SYS(sys_fsconfig, 5)
-> +        MIPS_SYS(sys_fsmount, 3)
-> +        MIPS_SYS(sys_fspick, 3)
-> +        MIPS_SYS(sys_pidfd_open, 2)
-> +        MIPS_SYS(sys_clone3, 2)                    /* 435 */
-
-This comes from arch/mips/kernel/syscalls/syscall_o32.tbl for the
-syscall number.
-
-Where do you find the number of the arguments in the kernel?
-
-> +
->  };
->  #  undef MIPS_SYS
->  # endif /* O32 */
-> @@ -447,8 +517,14 @@ void cpu_loop(CPUMIPSState *env)
->  # ifdef TARGET_ABI_MIPSO32
->              syscall_num = env->active_tc.gpr[2] - 4000;
->              if (syscall_num >= sizeof(mips_syscall_args)) {
-> +                /* syscall_num is larger that any defined for MIPS O32 */
-> +                ret = -TARGET_ENOSYS;
-> +            } else if (mips_syscall_args[syscall_num] ==
-> +                       MIPS_SYSCALL_NUMBER_UNUSED) {
-> +                /* syscall_num belongs to the range not defined for MIPS O32 */
->                  ret = -TARGET_ENOSYS;
->              } else {
-> +                /* syscall_num is valid */
->                  int nb_args;
->                  abi_ulong sp_reg;
->                  abi_ulong arg5 = 0, arg6 = 0, arg7 = 0, arg8 = 0;
-> diff --git a/linux-user/mips/syscall_nr.h b/linux-user/mips/syscall_nr.h
-> index 7fa7fa5..0be3af1 100644
-> --- a/linux-user/mips/syscall_nr.h
-> +++ b/linux-user/mips/syscall_nr.h
-> @@ -376,5 +376,50 @@
->  #define TARGET_NR_statx                 (TARGET_NR_Linux + 366)
->  #define TARGET_NR_rseq                  (TARGET_NR_Linux + 367)
->  #define TARGET_NR_io_pgetevents         (TARGET_NR_Linux + 368)
-> +/* room for arch specific calls */
-> +#define TARGET_NR_semget                (TARGET_NR_Linux + 393)
-> +#define TARGET_NR_semctl                (TARGET_NR_Linux + 394)
-> +#define TARGET_NR_shmget                (TARGET_NR_Linux + 395)
-> +#define TARGET_NR_shmctl                (TARGET_NR_Linux + 396)
-> +#define TARGET_NR_shmat                 (TARGET_NR_Linux + 397)
-> +#define TARGET_NR_shmdt                 (TARGET_NR_Linux + 398)
-> +#define TARGET_NR_msgget                (TARGET_NR_Linux + 399)
-> +#define TARGET_NR_msgsnd                (TARGET_NR_Linux + 400)
-> +#define TARGET_NR_msgrcv                (TARGET_NR_Linux + 401)
-> +#define TARGET_NR_msgctl                (TARGET_NR_Linux + 402)
-> +/* 403-423 common for 32-bit archs */
-> +#define TARGET_NR_clock_gettime64              (TARGET_NR_Linux + 403)
-> +#define TARGET_NR_clock_settime64              (TARGET_NR_Linux + 404)
-> +#define TARGET_NR_clock_adjtime64              (TARGET_NR_Linux + 405)
-> +#define TARGET_NR_clock_getres_time64          (TARGET_NR_Linux + 406)
-> +#define TARGET_NR_clock_nanosleep_time64       (TARGET_NR_Linux + 407)
-> +#define TARGET_NR_timer_gettime64              (TARGET_NR_Linux + 408)
-> +#define TARGET_NR_timer_settime64              (TARGET_NR_Linux + 409)
-> +#define TARGET_NR_timerfd_gettime64            (TARGET_NR_Linux + 410)
-> +#define TARGET_NR_timerfd_settime64            (TARGET_NR_Linux + 411)
-> +#define TARGET_NR_utimensat_time64             (TARGET_NR_Linux + 412)
-> +#define TARGET_NR_pselect6_time64              (TARGET_NR_Linux + 413)
-> +#define TARGET_NR_ppoll_time64                 (TARGET_NR_Linux + 414)
-> +#define TARGET_NR_io_pgetevents_time64         (TARGET_NR_Linux + 416)
-> +#define TARGET_NR_recvmmsg_time64              (TARGET_NR_Linux + 417)
-> +#define TARGET_NR_mq_timedsend_time64          (TARGET_NR_Linux + 418)
-> +#define TARGET_NR_mq_timedreceive_time64       (TARGET_NR_Linux + 419)
-> +#define TARGET_NR_semtimedop_time64            (TARGET_NR_Linux + 420)
-> +#define TARGET_NR_rt_sigtimedwait_time64       (TARGET_NR_Linux + 421)
-> +#define TARGET_NR_futex_time64                 (TARGET_NR_Linux + 422)
-> +#define TARGET_NR_sched_rr_get_interval_time64 (TARGET_NR_Linux + 423)
-> +/* 424 onwards common for all archs */
-> +#define TARGET_NR_pidfd_send_signal            (TARGET_NR_Linux + 424)
-> +#define TARGET_NR_io_uring_setup               (TARGET_NR_Linux + 425)
-> +#define TARGET_NR_io_uring_enter               (TARGET_NR_Linux + 426)
-> +#define TARGET_NR_io_uring_register            (TARGET_NR_Linux + 427)
-> +#define TARGET_NR_open_tree                    (TARGET_NR_Linux + 428)
-> +#define TARGET_NR_move_mount                   (TARGET_NR_Linux + 429)
-> +#define TARGET_NR_fsopen                       (TARGET_NR_Linux + 430)
-> +#define TARGET_NR_fsconfig                     (TARGET_NR_Linux + 431)
-> +#define TARGET_NR_fsmount                      (TARGET_NR_Linux + 432)
-> +#define TARGET_NR_fspick                       (TARGET_NR_Linux + 433)
-> +#define TARGET_NR_pidfd_open                   (TARGET_NR_Linux + 434)
-> +#define TARGET_NR_clone3                       (TARGET_NR_Linux + 435)
-
-These values come from linux/arch/mips/kernel/syscalls/syscall_o32.tbl
-
 >  #endif
-> diff --git a/linux-user/mips64/syscall_nr.h b/linux-user/mips64/syscall_nr.h
-> index db40f69..c86943a 100644
-> --- a/linux-user/mips64/syscall_nr.h
-> +++ b/linux-user/mips64/syscall_nr.h
-> @@ -674,6 +674,19 @@
->  #define TARGET_NR_statx                 (TARGET_NR_Linux + 326)
->  #define TARGET_NR_rseq                  (TARGET_NR_Linux + 327)
->  #define TARGET_NR_io_pgetevents         (TARGET_NR_Linux + 328)
-> +/* 329 through 423 are reserved to sync up with other architectures */
-> +#define TARGET_NR_pidfd_send_signal     (TARGET_NR_Linux + 424)
-> +#define TARGET_NR_io_uring_setup        (TARGET_NR_Linux + 425)
-> +#define TARGET_NR_io_uring_enter        (TARGET_NR_Linux + 426)
-> +#define TARGET_NR_io_uring_register     (TARGET_NR_Linux + 427)
-> +#define TARGET_NR_open_tree             (TARGET_NR_Linux + 428)
-> +#define TARGET_NR_move_mount            (TARGET_NR_Linux + 429)
-> +#define TARGET_NR_fsopen                (TARGET_NR_Linux + 430)
-> +#define TARGET_NR_fsconfig              (TARGET_NR_Linux + 431)
-> +#define TARGET_NR_fsmount               (TARGET_NR_Linux + 432)
-> +#define TARGET_NR_fspick                (TARGET_NR_Linux + 433)
-> +#define TARGET_NR_pidfd_open            (TARGET_NR_Linux + 434)
-> +#define TARGET_NR_clone3                (TARGET_NR_Linux + 435)
->  #endif
+> 
 
-These values come from linux/arch/mips/kernel/syscalls/syscall_n64.tbl
-
-So why don't you update the value for
-arch/mips/kernel/syscalls/syscall_n32.tbl (also in mips64/syscall_nr.h,
-enclosed in TARGET_ABI32)?
-
-clock_gettime64                  403
-clock_settime64                  404
-clock_adjtime64                  405
-clock_getres_time64              406
-clock_nanosleep_time64           407
-timer_gettime64                  408
-timer_settime64                  409
-timerfd_gettime64                410
-timerfd_settime64                411
-utimensat_time64                 412
-pselect6_time64                  413
-ppoll_time64                     414
-io_pgetevents_time64             416
-recvmmsg_time64                  417
-mq_timedsend_time64              418
-mq_timedreceive_time64           419
-semtimedop_time64                420
-rt_sigtimedwait_time64           421
-futex_time64                     422
-sched_rr_get_interval_time64     423
-pidfd_send_signal                424
-io_uring_setup                   425
-io_uring_enter                   426
-io_uring_register                427
-open_tree                        428
-move_mount                       429
-fsopen                           430
-fsconfig                         431
-fsmount                          432
-fspick                           433
-pidfd_open                       434
-clone3                           435
-
-Thanks,
-Laurent
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 
