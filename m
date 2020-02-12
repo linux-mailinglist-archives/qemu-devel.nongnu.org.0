@@ -2,61 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBE0215B407
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Feb 2020 23:41:53 +0100 (CET)
-Received: from localhost ([::1]:44408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED5F515B3F2
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Feb 2020 23:37:49 +0100 (CET)
+Received: from localhost ([::1]:44362 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j20hb-0007KE-G0
-	for lists+qemu-devel@lfdr.de; Wed, 12 Feb 2020 17:41:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46418)
+	id 1j20dg-00054T-PK
+	for lists+qemu-devel@lfdr.de; Wed, 12 Feb 2020 17:37:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45619)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1j20gc-0006oB-JW
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 17:40:51 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1j20cy-0004Vn-0C
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 17:37:05 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1j20gb-0008Oq-AW
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 17:40:50 -0500
-Received: from indium.canonical.com ([91.189.90.7]:47508)
+ (envelope-from <richard.henderson@linaro.org>) id 1j20cw-0005xF-Mg
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 17:37:03 -0500
+Received: from mail-pj1-x1042.google.com ([2607:f8b0:4864:20::1042]:39246)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1j20gb-0008OI-5W
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 17:40:49 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1j20gZ-0006vM-JW
- for <qemu-devel@nongnu.org>; Wed, 12 Feb 2020 22:40:47 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 8ED292E8074
- for <qemu-devel@nongnu.org>; Wed, 12 Feb 2020 22:40:47 +0000 (UTC)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1j20cw-0005wc-Dn
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 17:37:02 -0500
+Received: by mail-pj1-x1042.google.com with SMTP id e9so1495855pjr.4
+ for <qemu-devel@nongnu.org>; Wed, 12 Feb 2020 14:37:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=7RomneQjE1BDZHcQ1b+trUZ64+juggZ5CxifJHgKC34=;
+ b=S4oIIKfk5KzJpLxhqC5CdiBkoNrzOHRBsWT3usl8Dm0AFGD7ElOMMy6X/KH36XVpFm
+ 7rSf7Ds31RzjkX7gpdLHHnVt5d/QFF5a8NaPzJAQaK894tyOStw7EkBHSpo7iKPRhUk2
+ pNCM8JPvNsq3orRZvbYF3lvAsB1+18onhwCCr0Uyuzh5BlkgdONlxQvhNzxUd8CDUU+I
+ O+/wut/8h8Z1FaFZilPm+/lgAWMnN4Kgz1j15TAbmILoLoFexqIjyz5fN9zryZ2s7b5z
+ 8OOpPvc8064gjfSBlHURT3FLlmTNoQp/XGPV2ShAR+9mlCihnq5+XR5ld7YTHnhIW2Tx
+ Vmlg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=7RomneQjE1BDZHcQ1b+trUZ64+juggZ5CxifJHgKC34=;
+ b=YFQGvmVghhh762QxGhkzzzc0cUlgoM9whflLf18ggtBo1Spy1tEEKJBDCHGib9hhAp
+ hfAo/Qgfm+ufwlJ2BnqGTWN6XfSUI6w/vm+L8W0P3fCQOTCZhjDmL51KOZ+w9GZg5fCz
+ y+ODlOPJzBkjC6qvSHrZ2kvTqjKLuLJkwfZjcRJAq3O/UNLbIISCua28UiLD7u7F0MZs
+ HmWe/vNgI7CZeDSrILFhsQpVyv5hKtGEXBvQiwgtcsdEPaUC+MTTTj9PPansIrvTOdSu
+ uhlXSR+CxA/8ca1sPwARWqWki+6CQ9Rx10AyiB7Rva/EWHR73XTVBYK/w5vq7wFuFo36
+ NWxQ==
+X-Gm-Message-State: APjAAAW2nhDK3EHr0GT3yG0U5zPYmiL0xoxedvUvxtLjCiYd0WcOBu9j
+ qSwHEBAOaXIenewXWujOhSin3Q==
+X-Google-Smtp-Source: APXvYqxVNsRaoYrcKa0Fr0qb62323nPrDlFnl9CT6CVJPoLliyghkkGILQaQxH0GqL/Dhk+9dYwe0A==
+X-Received: by 2002:a17:90a:c390:: with SMTP id
+ h16mr1465066pjt.131.1581547021013; 
+ Wed, 12 Feb 2020 14:37:01 -0800 (PST)
+Received: from [192.168.1.11] (97-126-123-70.tukw.qwest.net. [97.126.123.70])
+ by smtp.gmail.com with ESMTPSA id
+ t28sm254365pfq.122.2020.02.12.14.36.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 12 Feb 2020 14:37:00 -0800 (PST)
+Subject: Re: [PULL 34/35] target/ppc: Use probe_write for DCBZ
+To: Greg Kurz <groug@kaod.org>, David Gibson <david@gibson.dropbear.id.au>
+References: <20200203061123.59150-1-david@gibson.dropbear.id.au>
+ <20200203061123.59150-35-david@gibson.dropbear.id.au>
+ <20200212194825.18da5290@bahia.lan>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <5b92b6e2-2bb9-2234-7cf3-0487d82fbf7c@linaro.org>
+Date: Wed, 12 Feb 2020 14:36:58 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 12 Feb 2020 22:33:40 -0000
-From: Chris Hoy <1862887@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: builds
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: chrs-hoy
-X-Launchpad-Bug-Reporter: Chris Hoy (chrs-hoy)
-X-Launchpad-Bug-Modifier: Chris Hoy (chrs-hoy)
-References: <158149024287.24857.8410135131433041908.malonedeb@gac.canonical.com>
-Message-Id: <158154682102.24991.10084721959749770485.malone@gac.canonical.com>
-Subject: [Bug 1862887] Re: qemu does not load pulseaudio modules properly
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="19413b719a8df7423ab1390528edadce9e0e4aca";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 99ef504ef35874ca0a514220657e8f42cb39f1f2
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+In-Reply-To: <20200212194825.18da5290@bahia.lan>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::1042
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -65,107 +85,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1862887 <1862887@bugs.launchpad.net>
+Cc: lvivier@redhat.com, peter.maydell@linaro.org, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, Howard Spoelstra <hsp.cat7@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-EDIT: This is for Arch 2020.02.01
+On 2/12/20 10:48 AM, Greg Kurz wrote:
+> On Mon,  3 Feb 2020 17:11:22 +1100
+> David Gibson <david@gibson.dropbear.id.au> wrote:
+> 
+>> From: Richard Henderson <richard.henderson@linaro.org>
+>>
+>> Using probe_write instead of tlb_vaddr_to_host means that we
+>> process watchpoints and notdirty pages more efficiently.
+>>
+>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>> Message-Id: <20200129235040.24022-5-richard.henderson@linaro.org>
+>> Tested-by: Howard Spoelstra <hsp.cat7@gmail.com>
+>> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+>> ---
+>>  target/ppc/mem_helper.c | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/target/ppc/mem_helper.c b/target/ppc/mem_helper.c
+>> index 0cb78777e7..98f589552b 100644
+>> --- a/target/ppc/mem_helper.c
+>> +++ b/target/ppc/mem_helper.c
+>> @@ -298,7 +298,7 @@ static void dcbz_common(CPUPPCState *env, target_ulong addr,
+>>      }
+>>  
+>>      /* Try fast path translate */
+>> -    haddr = tlb_vaddr_to_host(env, addr, MMU_DATA_STORE, mmu_idx);
+>> +    haddr = probe_write(env, addr, dcbz_size, mmu_idx, retaddr);
+> 
+> Hi Richard,
+> 
+> This one is making coverity unhappy.
+> 
+> 
+> ** CID 1419390:  Memory - corruptions  (OVERRUN)
+> 
+> 
+> ______________________________________________________________________________________________________
+> *** CID 1419390:  Memory - corruptions  (OVERRUN)
+> /target/ppc/mem_helper.c: 301 in dcbz_common()
+> 295         /* Check reservation */
+> 296         if ((env->reserve_addr & mask) == addr)  {
+> 297             env->reserve_addr = (target_ulong)-1ULL;
+> 298         }
+> 299     
+> 300         /* Try fast path translate */
+>>>>     CID 1419390:  Memory - corruptions  (OVERRUN)
+>>>>     Overrunning callee's array of size 9 by passing argument "mmu_idx" (which evaluates to 9) in call to "probe_write".  
+> 301         haddr = probe_write(env, addr, dcbz_size, mmu_idx, retaddr);
+> 302         if (haddr) {
+> 303             memset(haddr, 0, dcbz_size);
+> 304         } else {
+> 305             /* Slow path */
+> 306             for (i = 0; i < dcbz_size; i += 8) {
+> 
+> 
+> Can you have a look ?
 
--- =
+That's a bit of a mystery, given
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1862887
+#define NB_MMU_MODES 10
 
-Title:
-  qemu does not load pulseaudio modules properly
+So I wonder what array is supposed to be of size 9...
 
-Status in QEMU:
-  New
+Ho hum.  False positive.  Expanding everything in the coverity gui shows it's
+taking the definition from target/xtensa/cpu-param.h.
 
-Bug description:
-  Hello,
 
-  This is on Arch-linux(latest) and the qemu 4.2.0 version made from git cl=
-one https://github.com/spheenik/qemu.git
-  with:
-   ./configure --prefix=3D/opt/qemu-test --python=3D/usr/bin/python2 --targ=
-et-list=3Dx86_64-softmmu =
-
-  --audio-drv-list=3Dpa --disable-werror
-  added to the build.
-
-  I've been workin on a passthrough Windows 10 vm this month and have been =
-steadily seeing some promising progress. My block/issue at the moment is in=
-tegrating the audio now that the GPU has been succesfully passed through. =
-
-  I've been going back and forth between the audio options for Pulseaudio a=
-nd cannot change the following issue:
-  pulseaudio: pa_context_connect() failed
-  pulseaudio: Reason: Connection refused
-  pulseaudio: Failed to initialize PA contextlibusb: error [udev_hotplug_ev=
-ent] ignoring udev action bind
-  I leave my current operable build followed by some of the options that I =
-have tried using to correct this despite the following errors not changing
-
-  This is my current operable build:
-
-  #!/bin/bash
-
-  vmname=3D"windows10vm"
-
-  if ps -ef | grep /opt/qemu-test/bin/qemu-system-x86_64 | grep -q multifun=
-ction=3Don; then
-  echo "A passthrough VM is already running." &
-  exit 1
-
-  else
-
-  /opt/qemu-test/bin/qemu-system-x86_64 \
-  -m 12G \
-  -drive id=3Ddisk0,if=3Dvirtio,cache=3Dnone,format=3Draw,file=3D.../win2.i=
-mg \
-  -drive file=3D.../Win10_1909_English_x64.iso,index=3D1,media=3Dcdrom \
-  -drive file=3D.../virtio-win-0.1.171.iso,index=3D2,media=3Dcdrom \
-  -boot order=3Ddc \
-  -bios /usr/share/ovmf/x64/OVMF_CODE.fd \
-  -name $vmname,process=3D$vmname \
-  -machine type=3Dq35,accel=3Dkvm,vmport=3Doff \
-  -cpu host,kvm=3Doff \
-  -smp 3,sockets=3D1,cores=3D3,threads=3D1 \
-  -device virtio-balloon \
-  -rtc clock=3Dhost,base=3Dlocaltime \
-  -vga none \
-  -nographic \
-  -serial none \
-  -parallel none \
-  -soundhw hda \
-  -usb \
-  -device usb-host,vendorid=3D...,productid=3D... \
-  -device usb-host,vendorid=3D...,productid=3D... \
-  -device usb-host,vendorid=3D...,productid=3D... \
-  -device vfio-pci,host=3D...,multifunction=3Don \
-  -device vfio-pci,host=3D... \
-  -device e1000,netdev=3Dnet0 \
-  -netdev user,id=3Dnet0,hostfwd=3Dtcp::...-:22 \
-
-  Here's a list of setting combinations I had tried to resolve this:
-
-  #export QEMU_AUDIO_DRV=3Dpa
-  #QEMU_ALSA_DAC_BUFFER_SIZE=3D512 QEMU_ALSA_DAC_PERIOD_SIZE=3D170
-  #export QEMU_PA_SAMPLES=3D8192 =
-
-  #export QEMU_AUDIO_TIMER_PERIOD=3D99
-  #export QEMU_PA_SERVER=3D/run/user/1000/pulse/native
-  #export QEMU_PA_SINK=3Dalsa_output.usb-C-Media_Electronics_Inc._USB_Audio=
-_Device-00.analog-stereo
-  #export QEMU_PA_SOURCE=3Dinput
-
-  -audiodev pa,id=3Dpa1,server=3Dserver=3D/run/user/1000/pulse/native
-
-  At best I have removed an XDG_RUNTIME_DIR error but other than that
-  this build has no audio compatability.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1862887/+subscriptions
+r~
 
