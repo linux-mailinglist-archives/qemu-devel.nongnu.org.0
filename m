@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63C8015AA7D
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Feb 2020 14:54:57 +0100 (CET)
-Received: from localhost ([::1]:38232 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55CCD15AA4D
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Feb 2020 14:47:15 +0100 (CET)
+Received: from localhost ([::1]:38080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j1sTg-0001Oy-Dt
-	for lists+qemu-devel@lfdr.de; Wed, 12 Feb 2020 08:54:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39575)
+	id 1j1sME-0002vO-9s
+	for lists+qemu-devel@lfdr.de; Wed, 12 Feb 2020 08:47:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39614)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1j1sJd-0000M5-Uu
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 08:44:35 -0500
+ (envelope-from <david@redhat.com>) id 1j1sJs-0000ue-9i
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 08:44:49 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1j1sJc-0004xJ-Bh
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 08:44:33 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:21992
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <david@redhat.com>) id 1j1sJq-00059V-V5
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 08:44:48 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:31646
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <david@redhat.com>) id 1j1sJc-0004wu-6S
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 08:44:32 -0500
+ (Exim 4.71) (envelope-from <david@redhat.com>) id 1j1sJq-000596-RN
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 08:44:46 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581515071;
+ s=mimecast20190719; t=1581515086;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mplzcwPG73COXHnghBhE4N6/huJASTrDghs1zBoH9YM=;
- b=LgvM4Tml7TJC9B4Q8ltHs0+cUAc6zy4VH8O8JvBcHt5dWVyTUI/B2Oi+JP23EQ4WBn5jwx
- oep2yuPwP7mK9wZYecL/PWCFFVtfA/1w5b+o6mivhKvmUHx8xdpzIEiShUnxJ73ucifzs5
- UXn1BJVwTfD4otNDoGZC+RB7LhbBphk=
+ bh=dvyH6dpXKalWf9UO+cg9MYwefzVgUpzVUOYn5jFtHs0=;
+ b=W50PBK27SdZz4RMK4jI1Jw/JfFRejph1aJnkUoafVAGqkCEXcP+dMYp2a/nA9DTzGDn6gy
+ f7CR9j8tITHJV1F0HdsfmuBBBJid/gn670ij844qRu4mHA5nVdTLziVlhmF6f97KW/irOi
+ a72nwdUrR611jXfDGef0sJOu5xVioww=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-312-XCFNyH4ONouLpBJHwJnMag-1; Wed, 12 Feb 2020 08:44:28 -0500
+ us-mta-364-2vk34nHQP2-CsQY7Iphvxw-1; Wed, 12 Feb 2020 08:44:45 -0500
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 47CF510054E3;
- Wed, 12 Feb 2020 13:44:27 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E7671800D55;
+ Wed, 12 Feb 2020 13:44:43 +0000 (UTC)
 Received: from t480s.redhat.com (ovpn-117-92.ams2.redhat.com [10.36.117.92])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0F02F10027A8;
- Wed, 12 Feb 2020 13:44:09 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 96D771001B09;
+ Wed, 12 Feb 2020 13:44:27 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 fixed 14/16] util: vfio-helpers: Implement
- ram_block_resized()
-Date: Wed, 12 Feb 2020 14:42:52 +0100
-Message-Id: <20200212134254.11073-15-david@redhat.com>
+Subject: [PATCH v2 fixed 15/16] util: oslib: Resizable anonymous allocations
+ under POSIX
+Date: Wed, 12 Feb 2020 14:42:53 +0100
+Message-Id: <20200212134254.11073-16-david@redhat.com>
 In-Reply-To: <20200212134254.11073-1-david@redhat.com>
 References: <20200212134254.11073-1-david@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: XCFNyH4ONouLpBJHwJnMag-1
+X-MC-Unique: 2vk34nHQP2-CsQY7Iphvxw-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,215 +72,162 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>, David Hildenbrand <david@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>, Stefan Weil <sw@weilnetz.de>,
+ David Hildenbrand <david@redhat.com>,
  "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
  Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Let's implement ram_block_resized(), allowing resizable mappings.
+Introduce qemu_anon_ram_alloc_resizable() and qemu_anon_ram_resize().
+Implement them under POSIX and make them return NULL under WIN32.
 
-For resizable mappings, we reserve $max_size IOVA address space, but only
-map $size of it. When resizing, unmap the old part and remap the new
-part. We'll need a new ioctl to do this atomically (e.g., to resize
-while the guest is running - not allowed for now).
+Under POSIX, we make use of resizable mmaps. An implementation under
+WIN32 is theoretically possible AFAIK and can be added later.
+
+In qemu_anon_ram_free(), rename the size parameter to max_size, to make
+it clearer that we have to use the maximum size when freeing resizable
+anonymous allocations.
 
 Cc: Richard Henderson <rth@twiddle.net>
 Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Cc: Eduardo Habkost <ehabkost@redhat.com>
 Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Cc: Alex Williamson <alex.williamson@redhat.com>
-Cc: Stefan Hajnoczi <stefanha@redhat.com>
-Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Stefan Weil <sw@weilnetz.de>
+Cc: Igor Mammedov <imammedo@redhat.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- util/trace-events   |  5 ++--
- util/vfio-helpers.c | 70 ++++++++++++++++++++++++++++++++++++++++-----
- 2 files changed, 66 insertions(+), 9 deletions(-)
+ include/qemu/osdep.h |  6 +++++-
+ util/oslib-posix.c   | 37 ++++++++++++++++++++++++++++++++++---
+ util/oslib-win32.c   | 14 ++++++++++++++
+ util/trace-events    |  4 +++-
+ 4 files changed, 56 insertions(+), 5 deletions(-)
 
+diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+index 9bd3dcfd13..84c54c1647 100644
+--- a/include/qemu/osdep.h
++++ b/include/qemu/osdep.h
+@@ -311,8 +311,12 @@ int qemu_daemon(int nochdir, int noclose);
+ void *qemu_try_memalign(size_t alignment, size_t size);
+ void *qemu_memalign(size_t alignment, size_t size);
+ void *qemu_anon_ram_alloc(size_t size, uint64_t *align, bool shared);
++void *qemu_anon_ram_alloc_resizable(size_t size, size_t max_size,
++                                    uint64_t *align, bool shared);
++bool qemu_anon_ram_resize(void *ptr, size_t old_size, size_t new_size,
++                          bool shared);
+ void qemu_vfree(void *ptr);
+-void qemu_anon_ram_free(void *ptr, size_t size);
++void qemu_anon_ram_free(void *ptr, size_t max_size);
+=20
+ #define QEMU_MADV_INVALID -1
+=20
+diff --git a/util/oslib-posix.c b/util/oslib-posix.c
+index 5a291cc982..147246d543 100644
+--- a/util/oslib-posix.c
++++ b/util/oslib-posix.c
+@@ -219,16 +219,47 @@ void *qemu_anon_ram_alloc(size_t size, uint64_t *alig=
+nment, bool shared)
+     return ptr;
+ }
+=20
++void *qemu_anon_ram_alloc_resizable(size_t size, size_t max_size,
++                                    uint64_t *alignment, bool shared)
++{
++    size_t align =3D QEMU_VMALLOC_ALIGN;
++    void *ptr =3D qemu_ram_mmap_resizable(-1, size, max_size, align, share=
+d,
++                                        false);
++
++    if (ptr =3D=3D MAP_FAILED) {
++        return NULL;
++    }
++
++    if (alignment) {
++        *alignment =3D align;
++    }
++
++    trace_qemu_anon_ram_alloc_resizable(size, max_size, ptr);
++    return ptr;
++}
++
++bool qemu_anon_ram_resize(void *ptr, size_t old_size, size_t new_size,
++                          bool shared)
++{
++    bool resized =3D qemu_ram_mmap_resize(ptr, -1, old_size, new_size, sha=
+red,
++                                        false);
++
++    if (resized) {
++        trace_qemu_anon_ram_resize(old_size, new_size, ptr);
++    }
++    return resized;
++}
++
+ void qemu_vfree(void *ptr)
+ {
+     trace_qemu_vfree(ptr);
+     free(ptr);
+ }
+=20
+-void qemu_anon_ram_free(void *ptr, size_t size)
++void qemu_anon_ram_free(void *ptr, size_t max_size)
+ {
+-    trace_qemu_anon_ram_free(ptr, size);
+-    qemu_ram_munmap(-1, ptr, size);
++    trace_qemu_anon_ram_free(ptr, max_size);
++    qemu_ram_munmap(-1, ptr, max_size);
+ }
+=20
+ void qemu_set_block(int fd)
+diff --git a/util/oslib-win32.c b/util/oslib-win32.c
+index e9b14ab178..5ba872bd3b 100644
+--- a/util/oslib-win32.c
++++ b/util/oslib-win32.c
+@@ -90,6 +90,20 @@ void *qemu_anon_ram_alloc(size_t size, uint64_t *align, =
+bool shared)
+     return ptr;
+ }
+=20
++void *qemu_anon_ram_alloc_resizable(size_t size, size_t max_size,
++                                    uint64_t *align, bool shared)
++{
++    /* resizable ram not implemented yet */
++    return NULL;
++}
++
++bool qemu_anon_ram_resize(void *ptr, size_t old_size, size_t new_size,
++                          bool shared)
++{
++    /* resizable ram not implemented yet */
++    return false;
++}
++
+ void qemu_vfree(void *ptr)
+ {
+     trace_qemu_vfree(ptr);
 diff --git a/util/trace-events b/util/trace-events
-index 83b6639018..88b7dbf4a5 100644
+index 88b7dbf4a5..8f44dcc1a0 100644
 --- a/util/trace-events
 +++ b/util/trace-events
-@@ -74,8 +74,9 @@ qemu_mutex_unlock(void *mutex, const char *file, const in=
-t line) "released mutex
+@@ -46,8 +46,10 @@ qemu_co_mutex_unlock_return(void *mutex, void *self) "mu=
+tex %p self %p"
+ # oslib-posix.c
+ qemu_memalign(size_t alignment, size_t size, void *ptr) "alignment %zu siz=
+e %zu ptr %p"
+ qemu_anon_ram_alloc(size_t size, void *ptr) "size %zu ptr %p"
++qemu_anon_ram_alloc_resizable(size_t size, size_t max_size, void *ptr) "si=
+ze %zu max_size %zu ptr %p"
++qemu_anon_ram_resize(size_t old_size, size_t new_size, void *ptr) "old_siz=
+e %zu new_size %zu ptr %p"
+ qemu_vfree(void *ptr) "ptr %p"
+-qemu_anon_ram_free(void *ptr, size_t size) "ptr %p size %zu"
++qemu_anon_ram_free(void *ptr, size_t max_size) "ptr %p max_size %zu"
 =20
- # vfio-helpers.c
- qemu_vfio_dma_reset_temporary(void *s) "s %p"
--qemu_vfio_ram_block_added(void *s, void *p, size_t size) "s %p host %p siz=
-e 0x%zx"
--qemu_vfio_ram_block_removed(void *s, void *p, size_t size) "s %p host %p s=
-ize 0x%zx"
-+qemu_vfio_ram_block_added(void *s, void *p, size_t size, size_t max_size) =
-"s %p host %p size 0x%zx max_size 0x%zx"
-+qemu_vfio_ram_block_removed(void *s, void *p, size_t size, size_t max_size=
-) "s %p host %p size 0x%zx max_size 0x%zx"
-+qemu_vfio_ram_block_resized(void *s, void *p, size_t old_size, size_t new_=
-sizze) "s %p host %p old_size 0x%zx new_size 0x%zx"
- qemu_vfio_find_mapping(void *s, void *p) "s %p host %p"
- qemu_vfio_new_mapping(void *s, void *host, size_t size, int index, uint64_=
-t iova) "s %p host %p size %zu index %d iova 0x%"PRIx64
- qemu_vfio_do_mapping(void *s, void *host, size_t size, uint64_t iova) "s %=
-p host %p size %zu iova 0x%"PRIx64
-diff --git a/util/vfio-helpers.c b/util/vfio-helpers.c
-index 3db6aa49f4..70877b9ebd 100644
---- a/util/vfio-helpers.c
-+++ b/util/vfio-helpers.c
-@@ -372,14 +372,20 @@ fail_container:
-     return ret;
- }
-=20
-+static int qemu_vfio_dma_map_resizable(QEMUVFIOState *s, void *host,
-+                                       size_t size, size_t max_size,
-+                                       bool temporary, uint64_t *iova);
-+static void qemu_vfio_dma_map_resize(QEMUVFIOState *s, void *host,
-+                                     size_t old_size, size_t new_size);
-+
- static void qemu_vfio_ram_block_added(RAMBlockNotifier *n, void *host,
-                                       size_t size, size_t max_size)
- {
-     QEMUVFIOState *s =3D container_of(n, QEMUVFIOState, ram_notifier);
-     int ret;
-=20
--    trace_qemu_vfio_ram_block_added(s, host, max_size);
--    ret =3D qemu_vfio_dma_map(s, host, max_size, false, NULL);
-+    trace_qemu_vfio_ram_block_added(s, host, size, max_size);
-+    ret =3D qemu_vfio_dma_map_resizable(s, host, size, max_size, false, NU=
-LL);
-     if (ret) {
-         error_report("qemu_vfio_dma_map(%p, %zu) failed: %d", host,
-                      max_size, ret);
-@@ -391,16 +397,28 @@ static void qemu_vfio_ram_block_removed(RAMBlockNotif=
-ier *n, void *host,
- {
-     QEMUVFIOState *s =3D container_of(n, QEMUVFIOState, ram_notifier);
-     if (host) {
--        trace_qemu_vfio_ram_block_removed(s, host, max_size);
-+        trace_qemu_vfio_ram_block_removed(s, host, size, max_size);
-         qemu_vfio_dma_unmap(s, host);
-     }
- }
-=20
-+static void qemu_vfio_ram_block_resized(RAMBlockNotifier *n, void *host,
-+                                        size_t old_size, size_t new_size)
-+{
-+    QEMUVFIOState *s =3D container_of(n, QEMUVFIOState, ram_notifier);
-+
-+    if (host) {
-+        trace_qemu_vfio_ram_block_resized(s, host, old_size, new_size);
-+        qemu_vfio_dma_map_resize(s, host, old_size, new_size);
-+    }
-+}
-+
- static void qemu_vfio_open_common(QEMUVFIOState *s)
- {
-     qemu_mutex_init(&s->lock);
-     s->ram_notifier.ram_block_added =3D qemu_vfio_ram_block_added;
-     s->ram_notifier.ram_block_removed =3D qemu_vfio_ram_block_removed;
-+    s->ram_notifier.ram_block_resized =3D qemu_vfio_ram_block_resized;
-     s->low_water_mark =3D QEMU_VFIO_IOVA_MIN;
-     s->high_water_mark =3D QEMU_VFIO_IOVA_MAX;
-     ram_block_notifier_add(&s->ram_notifier);
-@@ -597,9 +615,14 @@ static bool qemu_vfio_verify_mappings(QEMUVFIOState *s=
-)
-  * the result in @iova if not NULL. The caller need to make sure the area =
-is
-  * aligned to page size, and mustn't overlap with existing mapping areas (=
-split
-  * mapping status within this area is not allowed).
-+ *
-+ * If size < max_size, a region of max_size in IOVA address is reserved, s=
-uch
-+ * that the mapping can later be resized. Resizable mappings are only allo=
-wed
-+ * for !temporary mappings.
-  */
--int qemu_vfio_dma_map(QEMUVFIOState *s, void *host, size_t size,
--                      bool temporary, uint64_t *iova)
-+static int qemu_vfio_dma_map_resizable(QEMUVFIOState *s, void *host,
-+                                       size_t size, size_t max_size,
-+                                       bool temporary, uint64_t *iova)
- {
-     int ret =3D 0;
-     int index;
-@@ -608,13 +631,17 @@ int qemu_vfio_dma_map(QEMUVFIOState *s, void *host, s=
-ize_t size,
-=20
-     assert(QEMU_PTR_IS_ALIGNED(host, qemu_real_host_page_size));
-     assert(QEMU_IS_ALIGNED(size, qemu_real_host_page_size));
-+    assert(QEMU_IS_ALIGNED(max_size, qemu_real_host_page_size));
-+    assert(size =3D=3D max_size || !temporary);
-+    assert(size <=3D max_size);
-+
-     trace_qemu_vfio_dma_map(s, host, size, temporary, iova);
-     qemu_mutex_lock(&s->lock);
-     mapping =3D qemu_vfio_find_mapping(s, host, &index);
-     if (mapping) {
-         iova0 =3D mapping->iova + ((uint8_t *)host - (uint8_t *)mapping->h=
-ost);
-     } else {
--        if (s->high_water_mark - s->low_water_mark + 1 < size) {
-+        if (s->high_water_mark - s->low_water_mark + 1 < max_size) {
-             ret =3D -ENOMEM;
-             goto out;
-         }
-@@ -631,7 +658,7 @@ int qemu_vfio_dma_map(QEMUVFIOState *s, void *host, siz=
-e_t size,
-                 qemu_vfio_remove_mapping(s, mapping);
-                 goto out;
-             }
--            s->low_water_mark +=3D size;
-+            s->low_water_mark +=3D max_size;
-             qemu_vfio_dump_mappings(s);
-         } else {
-             iova0 =3D s->high_water_mark - size;
-@@ -650,6 +677,12 @@ out:
-     return ret;
- }
-=20
-+int qemu_vfio_dma_map(QEMUVFIOState *s, void *host, size_t size,
-+                      bool temporary, uint64_t *iova)
-+{
-+    return qemu_vfio_dma_map_resizable(s, host, size, size, temporary, iov=
-a);
-+}
-+
- /* Reset the high watermark and free all "temporary" mappings. */
- int qemu_vfio_dma_reset_temporary(QEMUVFIOState *s)
- {
-@@ -694,6 +727,29 @@ out:
-     qemu_mutex_unlock(&s->lock);
- }
-=20
-+static void qemu_vfio_dma_map_resize(QEMUVFIOState *s, void *host,
-+                                     size_t old_size, size_t new_size)
-+{
-+    IOVAMapping *m;
-+    int index =3D 0;
-+
-+    qemu_mutex_lock(&s->lock);
-+    m =3D qemu_vfio_find_mapping(s, host, &index);
-+    if (!m) {
-+        return;
-+    }
-+    assert(m->size =3D=3D old_size);
-+
-+    /* Note: Not atomic - we need a new ioctl for that. */
-+    qemu_vfio_undo_mapping(s, m->iova, m->size);
-+    qemu_vfio_do_mapping(s, host, m->iova, new_size);
-+
-+    m->size =3D new_size;
-+    assert(qemu_vfio_verify_mappings(s));
-+
-+    qemu_mutex_unlock(&s->lock);
-+}
-+
- static void qemu_vfio_reset(QEMUVFIOState *s)
- {
-     ioctl(s->device, VFIO_DEVICE_RESET);
+ # hbitmap.c
+ hbitmap_iter_skip_words(const void *hb, void *hbi, uint64_t pos, unsigned =
+long cur) "hb %p hbi %p pos %"PRId64" cur 0x%lx"
 --=20
 2.24.1
 
