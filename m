@@ -2,64 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84F2015B26A
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Feb 2020 22:00:38 +0100 (CET)
-Received: from localhost ([::1]:43392 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10E1F15B2A4
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Feb 2020 22:17:43 +0100 (CET)
+Received: from localhost ([::1]:43530 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j1z7d-0001sG-K1
-	for lists+qemu-devel@lfdr.de; Wed, 12 Feb 2020 16:00:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45665)
+	id 1j1zO9-0006AK-TB
+	for lists+qemu-devel@lfdr.de; Wed, 12 Feb 2020 16:17:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48503)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kraxel@redhat.com>) id 1j1z5C-0007ib-DZ
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 15:58:07 -0500
+ (envelope-from <alistair23@gmail.com>) id 1j1zN6-0005kx-Qb
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 16:16:37 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1j1z5B-0000Yj-5q
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 15:58:05 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:35223
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1j1z5A-0000YF-Ox
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 15:58:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581541084;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=pIA31GGHwnSVzhhgGJbBw/VxpPhisxi9uyc4TTNp6LY=;
- b=YN6Ik0YBoG7ZBQWHee2dJKh4AjIUsUK+TotIFnIsaSGU+tJ6zYoYiJVImyGyISoMP9LTi2
- 2ZTx+y/Y7Etg6iwynay6Yx5iD0iap2jQC214X50TD9b3yOdjI7wgEB3ZDOgZN7mwy0ZK4m
- w0Yc+ST766OII9iKJo6uTh9vI3JIjP0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-27-pm1Iv0k2MZ-iPJkbjrwkXA-1; Wed, 12 Feb 2020 15:58:01 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0BAB9801E76
- for <qemu-devel@nongnu.org>; Wed, 12 Feb 2020 20:58:01 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-117-39.ams2.redhat.com
- [10.36.117.39])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3009360499;
- Wed, 12 Feb 2020 20:57:58 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 2CC619CA7; Wed, 12 Feb 2020 21:57:57 +0100 (CET)
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 0/2] Usb 20200212 patches
-Date: Wed, 12 Feb 2020 21:57:55 +0100
-Message-Id: <20200212205757.5608-1-kraxel@redhat.com>
+ (envelope-from <alistair23@gmail.com>) id 1j1zN5-000588-O2
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 16:16:36 -0500
+Received: from mail-lf1-x144.google.com ([2a00:1450:4864:20::144]:45164)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alistair23@gmail.com>)
+ id 1j1zN5-00057a-Ek
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 16:16:35 -0500
+Received: by mail-lf1-x144.google.com with SMTP id 203so2614345lfa.12
+ for <qemu-devel@nongnu.org>; Wed, 12 Feb 2020 13:16:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=sBqcUBxCANXQFJU3FEnbftOqu1L0ICjqa8GyUYu+cVg=;
+ b=tVtyln8NgY4sfHjaWKOEBG5dP76ch/Zcy6G+aQjD/RSr5XGaouFR/lAc1GWx7tpr6F
+ SSxaVmmP+4vxQgQgub41+0b8K+ADrwGCB7lIZwDLgNz6wCh7sd5hlu02eoaagerLbjBi
+ qBAikrbsDNFIXYWvtgMBw2+WY/fYdRdq9ccnUo1ayo5xovb/tUmEdMnRjSO/xmdjhX5h
+ N7/ozUXhB7us5d7smNhiSsiuNvmNHsjOLHaOd9spWj31V+znrKdaAbnUvriQLmmUDVKx
+ I9MDMstVKocJm9reNdK7UbXzXE+MaxTV3LoHU4uuM4hXkZ+lEiIoKEyEc13Sx+D+PM2X
+ wUAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=sBqcUBxCANXQFJU3FEnbftOqu1L0ICjqa8GyUYu+cVg=;
+ b=c868lRFfsGoDp/eP/p1KP/90frB7cx3YoOc3MoIxqqIRP516GIbXrdQYEre7SPtMHt
+ iphH1KZDqaZWevNzdfmBFln/B9ySfH+ygByJeDKfQqnXRPEAX1rgAilRf0C8l/iDFehP
+ q7T4gd3KgXLjKwHjacE5YEPDGPodHr0opPe5vSLhFih9vEmUUROD6p5CTKtuHGFIs84f
+ xNnDGh7MSenvkybr8NE40G9lD+usmDs5qDcV/Cq+WwG0fKnltGoXelsiLOA/RQohciCH
+ U5kVuCrfqDjCzWKJpivouAahlsqFvpce/qH39oY/ZGQ5SIoGU0GhI03KtNUBuB9/i3Yu
+ uuPw==
+X-Gm-Message-State: APjAAAVjDso6sSuZc3qJ42CDi2uRTBncU1sM69wSb5nMEjegiQ7shXv6
+ w4eCT+5zYf7cxLPInYl4aeStX2hTk28jmUMnPkI=
+X-Google-Smtp-Source: APXvYqwihCjd4MMX5Ohwy2rYvx85ATAoWp/Oaee/+3xs+V8gwHa4nG8TRRrxdgbTsYuwkzAmAZ56tksIhKb82j35na4=
+X-Received: by 2002:a19:5057:: with SMTP id z23mr7664606lfj.132.1581542193720; 
+ Wed, 12 Feb 2020 13:16:33 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: pm1Iv0k2MZ-iPJkbjrwkXA-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+References: <CANA1cB+D-Uth0C-6qNE5HcAJkQeDsCbKqmYG7uHsLqbbofSsZQ@mail.gmail.com>
+ <CANA1cBKtbYqnxnSacEK3sXOYM987J5+MacpKWHdKHwB5sk672w@mail.gmail.com>
+ <CAEUhbmUsK7u9ubVH+4vidgQUDmO4oN5AdSUZPXiioMFgMHg-Jg@mail.gmail.com>
+In-Reply-To: <CAEUhbmUsK7u9ubVH+4vidgQUDmO4oN5AdSUZPXiioMFgMHg-Jg@mail.gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Wed, 12 Feb 2020 13:09:17 -0800
+Message-ID: <CAKmqyKMZipi-Fv0Y+1W32Cv5sj+CeeHFsusa5iNpLPJgoLa-1g@mail.gmail.com>
+Subject: Re: Question: SiFive U SPI and SD
+To: Bin Meng <bmeng.cn@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::144
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,38 +73,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
+Cc: Nikita Ermakov <arei@altlinux.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit e18e5501d8ac692d32657a3e1ef545b14e72b730=
-:
+On Mon, Feb 10, 2020 at 7:51 AM Bin Meng <bmeng.cn@gmail.com> wrote:
+>
+> Hi Nikita,
+>
+> On Sun, Feb 9, 2020 at 10:56 PM Nikita Ermakov <arei@altlinux.org> wrote:
+> >
+> > Hello!
+> >
+> > I am trying to make an SD card working on the sifive_u (hw/riscv/sifive_u.c) SoC machine.
+> > As far as I understand there is no way to connect an SD card to the SoC with cmdline for now. So, I started to dig in to the QEMU internals and especially sifive_u SoC implementation to try to understand how I could connect SD card to this SoC.
+> >
+> > From what I understood I need to:
+> > 1) Implement SiFive U SPI controller.
+>
+> This one is definitely needed.
+>
+> > 2) Implement spi-sd adapter in a way like the hw/sd/ssi-sd.c
+>
+> I believe we can just use hw/sd/ssi-sd.c.
 
-  Merge remote-tracking branch 'remotes/dgilbert-gitlab/tags/pull-virtiofs-=
-20200210' into staging (2020-02-10 18:09:14 +0000)
+I had a crack at this awhile ago and you can see the patches here (I
+just rebased them):
+https://github.com/alistair23/qemu/tree/mainline/alistair/sifive_spi.next
 
-are available in the Git repository at:
+Debugging failures was really hard in Linux, but now that U-Boot and
+Oreboot (https://github.com/oreboot/oreboot/pull/234) have SPI support
+it is probably easier to debug.
 
-  git://git.kraxel.org/qemu tags/usb-20200212-pull-request
+If you wanted to help you could try to debug that branch and figure
+out why it isn't working.
 
-for you to fetch changes up to 8ddcc43592f215a7523774704df6c60d12d9f647:
+Alistair
 
-  uas: fix super speed bMaxPacketSize0 (2020-02-12 17:20:41 +0100)
-
-----------------------------------------------------------------
-usb: bugfixes
-
-----------------------------------------------------------------
-
-Gerd Hoffmann (2):
-  usb-host: wait for cancel complete
-  uas: fix super speed bMaxPacketSize0
-
- hw/usb/dev-uas.c     |  2 +-
- hw/usb/host-libusb.c | 17 +++++++++--------
- 2 files changed, 10 insertions(+), 9 deletions(-)
-
---=20
-2.18.2
-
+>
+> >
+> > Probably I should merge 1) and 2) into one hw/riscv/sifive_u_spi.c source file.
+> >
+> > Could somebody correct me please if I am wrong at some point?
+> > I am newbie in the QEMU internals :)
+> >
+> > The purpose is why I want to implement this is to boot up the Linux kernel on '-machine sifive_u' and load rootfs from SD.
+>
+> Regards,
+> Bin
+>
 
