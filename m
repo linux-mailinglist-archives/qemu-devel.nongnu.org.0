@@ -2,61 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00FB415AD31
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Feb 2020 17:21:55 +0100 (CET)
-Received: from localhost ([::1]:39994 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A59615AD49
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Feb 2020 17:23:38 +0100 (CET)
+Received: from localhost ([::1]:40016 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j1ult-000704-Vk
-	for lists+qemu-devel@lfdr.de; Wed, 12 Feb 2020 11:21:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33535)
+	id 1j1unZ-0001ks-2V
+	for lists+qemu-devel@lfdr.de; Wed, 12 Feb 2020 11:23:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33469)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kraxel@redhat.com>) id 1j1uj0-0001kI-0w
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 11:18:55 -0500
+ (envelope-from <kraxel@redhat.com>) id 1j1uiw-0001eu-8P
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 11:18:51 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1j1uiy-0004cT-Nt
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 11:18:53 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:59918
+ (envelope-from <kraxel@redhat.com>) id 1j1uiv-0004YM-9G
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 11:18:50 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:25368
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1j1uiy-0004c2-Jf
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 11:18:52 -0500
+ (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1j1uiv-0004Xk-5k
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 11:18:49 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581524332;
+ s=mimecast20190719; t=1581524328;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=31dz9GiRQ4PDE/nDhDuPz2Klvu3+qgLjkLjr4ChUaCs=;
- b=JXzbfw8WzGEG2tljsJzueyb9AM7Q5xsfxV6vqdd+koiqdmuMcmGLRSn2E/UTMGIAmF+OVP
- eHY+5V+4OKmykIm+d0jMAZXZ86LuT1IRwYQ6UlvIS6MvKlHT5hfoVB6vLezGTQCpnLaor7
- KNuEySODpqNj8HkN6VKUK3evfQLH9hg=
+ bh=WwAdZkFTA+k84+vbH3AhktyI2fkZKZ5DVj945SvB/nA=;
+ b=gibOxR1ZNGt7DOU6g+BN4dFthnREBBwd/M+yziuRdXZFC1QBc49ij9lsnWH4KTULxhO4Ed
+ a2JXitw59u+Z1ZA+6F/zl+5rQPO5rj5IR3rCEGL5sMGC8V/xPdHlSz3Jgz3Mk31fLaYDo+
+ IQsxXV6qLWiy/OdGTjwGkVt59eLcK/U=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-219-PwFQTfzSOhqejfOdHfDcuw-1; Wed, 12 Feb 2020 11:18:49 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-391-1ICVHIP1Ny2PsbgOnmzOVg-1; Wed, 12 Feb 2020 11:18:44 -0500
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 07010DB21;
- Wed, 12 Feb 2020 16:18:48 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 888B218C8C04;
+ Wed, 12 Feb 2020 16:18:43 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-117-39.ams2.redhat.com
  [10.36.117.39])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9F89360FC1;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 91F565C1B2;
  Wed, 12 Feb 2020 16:18:36 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id D976F9CA7; Wed, 12 Feb 2020 17:18:35 +0100 (CET)
+ id E1D5C1FCF2; Wed, 12 Feb 2020 17:18:35 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/10] ui/gtk: Fix gd_refresh_rate_millihz() when widget window
- is not realized
-Date: Wed, 12 Feb 2020 17:18:27 +0100
-Message-Id: <20200212161835.28576-3-kraxel@redhat.com>
+Subject: [PULL 03/10] ui: add show-cursor option
+Date: Wed, 12 Feb 2020 17:18:28 +0100
+Message-Id: <20200212161835.28576-4-kraxel@redhat.com>
 In-Reply-To: <20200212161835.28576-1-kraxel@redhat.com>
 References: <20200212161835.28576-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: PwFQTfzSOhqejfOdHfDcuw-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-MC-Unique: 1ICVHIP1Ny2PsbgOnmzOVg-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
@@ -76,74 +75,44 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>, libvir-list@redhat.com,
- Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+ Markus Armbruster <armbru@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+When enabled, this forces showing the mouse cursor,
+i.e. do not hide the pointer on mouse grabs.
+Defaults to off.
 
-gtk_widget_get_window() returns NULL if the widget's window is not
-realized, and QEMU crashes. Example under gtk 3.22.30 (mate 1.20.1):
-
-  qemu-system-x86_64: Gdk: gdk_window_get_origin: assertion 'GDK_IS_WINDOW =
-(window)' failed
-  (gdb) bt
-  #0  0x00007ffff496cf70 in gdk_window_get_origin () from /usr/lib64/libgdk=
--3.so.0
-  #1  0x00007ffff49582a0 in gdk_display_get_monitor_at_window () from /usr/=
-lib64/libgdk-3.so.0
-  #2  0x0000555555bb73e2 in gd_refresh_rate_millihz (window=3D0x5555579d628=
-0) at ui/gtk.c:1973
-  #3  gd_vc_gfx_init (view_menu=3D0x5555579f0590, group=3D0x0, idx=3D0, con=
-=3D<optimized out>, vc=3D0x5555579d4a90, s=3D0x5555579d49f0) at ui/gtk.c:20=
-48
-  #4  gd_create_menu_view (s=3D0x5555579d49f0) at ui/gtk.c:2149
-  #5  gd_create_menus (s=3D0x5555579d49f0) at ui/gtk.c:2188
-  #6  gtk_display_init (ds=3D<optimized out>, opts=3D0x55555661ed80 <dpy>) =
-at ui/gtk.c:2256
-  #7  0x000055555583d5a0 in main (argc=3D<optimized out>, argv=3D<optimized=
- out>, envp=3D<optimized out>) at vl.c:4358
-
-Fixes: c4c00922cc and 28b58f19d2 (display/gtk: get proper refreshrate)
-Reported-by: Jan Kiszka <jan.kiszka@web.de>
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-Tested-by: Jan Kiszka <jan.kiszka@web.de>
-Message-id: 20200208161048.11311-3-f4bug@amsat.org
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
+Reviewed-by: J=C3=A1n Tomko <jtomko@redhat.com>
 ---
- ui/gtk.c | 12 +++++++-----
- 1 file changed, 7 insertions(+), 5 deletions(-)
+ qapi/ui.json | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/ui/gtk.c b/ui/gtk.c
-index c59297ff4d2e..850c49bee02a 100644
---- a/ui/gtk.c
-+++ b/ui/gtk.c
-@@ -1968,14 +1968,16 @@ static GtkWidget *gd_create_menu_machine(GtkDisplay=
-State *s)
- static int gd_refresh_rate_millihz(GtkWidget *window)
- {
- #ifdef GDK_VERSION_3_22
--    GdkDisplay *dpy =3D gtk_widget_get_display(window);
-     GdkWindow *win =3D gtk_widget_get_window(window);
--    GdkMonitor *monitor =3D gdk_display_get_monitor_at_window(dpy, win);
-=20
--    return gdk_monitor_get_refresh_rate(monitor);
--#else
-+    if (win) {
-+        GdkDisplay *dpy =3D gtk_widget_get_display(window);
-+        GdkMonitor *monitor =3D gdk_display_get_monitor_at_window(dpy, win=
-);
-+
-+        return gdk_monitor_get_refresh_rate(monitor);
-+    }
-+#endif
-     return 0;
--#endif
- }
-=20
- static GSList *gd_vc_gfx_init(GtkDisplayState *s, VirtualConsole *vc,
+diff --git a/qapi/ui.json b/qapi/ui.json
+index e04525d8b44b..f8c803fe4328 100644
+--- a/qapi/ui.json
++++ b/qapi/ui.json
+@@ -1144,6 +1144,8 @@
+ # @type:          Which DisplayType qemu should use.
+ # @full-screen:   Start user interface in fullscreen mode (default: off).
+ # @window-close:  Allow to quit qemu with window close button (default: on=
+).
++# @show-cursor:   Force showing the mouse cursor (default: off).
++#                 (since: 5.0)
+ # @gl:            Enable OpenGL support (default: off).
+ #
+ # Since: 2.12
+@@ -1153,6 +1155,7 @@
+   'base'    : { 'type'           : 'DisplayType',
+                 '*full-screen'   : 'bool',
+                 '*window-close'  : 'bool',
++                '*show-cursor'   : 'bool',
+                 '*gl'            : 'DisplayGLMode' },
+   'discriminator' : 'type',
+   'data'    : { 'gtk'            : 'DisplayGTK',
 --=20
 2.18.2
 
