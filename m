@@ -2,37 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 526EE15A9CC
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Feb 2020 14:13:41 +0100 (CET)
-Received: from localhost ([::1]:37488 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7001015A9B6
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Feb 2020 14:07:55 +0100 (CET)
+Received: from localhost ([::1]:37408 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j1rpk-0003Uc-Cf
-	for lists+qemu-devel@lfdr.de; Wed, 12 Feb 2020 08:13:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33363)
+	id 1j1rkA-0001ff-GL
+	for lists+qemu-devel@lfdr.de; Wed, 12 Feb 2020 08:07:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33457)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ysato@users.sourceforge.jp>) id 1j1rgG-0004co-Hu
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 08:03:57 -0500
+ (envelope-from <ysato@users.sourceforge.jp>) id 1j1rgL-0004gC-Fz
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 08:03:59 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ysato@users.sourceforge.jp>) id 1j1rfs-0008Au-0V
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 08:03:52 -0500
-Received: from mail03.asahi-net.or.jp ([202.224.55.15]:40889)
+ (envelope-from <ysato@users.sourceforge.jp>) id 1j1rg1-0008Gy-T6
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 08:03:57 -0500
+Received: from mail03.asahi-net.or.jp ([202.224.55.15]:40891)
  by eggs.gnu.org with esmtp (Exim 4.71)
- (envelope-from <ysato@users.sourceforge.jp>) id 1j1rfr-000890-Jp
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 08:03:27 -0500
+ (envelope-from <ysato@users.sourceforge.jp>) id 1j1rg1-000892-KB
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 08:03:37 -0500
 Received: from h61-195-96-97.vps.ablenet.jp (h61-195-96-97.ablenetvps.ne.jp
  [61.195.96.97]) (Authenticated sender: PQ4Y-STU)
- by mail03.asahi-net.or.jp (Postfix) with ESMTPA id 40C59DCA87;
+ by mail03.asahi-net.or.jp (Postfix) with ESMTPA id 63657DCA88;
  Wed, 12 Feb 2020 22:03:22 +0900 (JST)
 Received: from yo-satoh-debian.localdomain
  (ae231051.dynamic.ppp.asahi-net.or.jp [14.3.231.51])
- by h61-195-96-97.vps.ablenet.jp (Postfix) with ESMTPSA id 0CC8324008E;
+ by h61-195-96-97.vps.ablenet.jp (Postfix) with ESMTPSA id 36911240090;
  Wed, 12 Feb 2020 22:03:22 +0900 (JST)
 From: Yoshinori Sato <ysato@users.sourceforge.jp>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v30 12/22] target/rx: Collect all bytes during disassembly
-Date: Wed, 12 Feb 2020 22:03:01 +0900
-Message-Id: <20200212130311.127515-13-ysato@users.sourceforge.jp>
+Subject: [PATCH v30 13/22] target/rx: Dump bytes for each insn during
+ disassembly
+Date: Wed, 12 Feb 2020 22:03:02 +0900
+Message-Id: <20200212130311.127515-14-ysato@users.sourceforge.jp>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200212130311.127515-1-ysato@users.sourceforge.jp>
 References: <20200212130311.127515-1-ysato@users.sourceforge.jp>
@@ -60,145 +61,49 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-Collected, to be used in the next patch.
+There are so many different forms of each RX instruction
+that it will be very useful to be able to look at the bytes
+to see on which path a bug may lie.
 
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 Reviewed-by: Yoshinori Sato <ysato@users.sourceforge.jp>
 Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
-Message-Id: <20190607091116.49044-23-ysato@users.sourceforge.jp>
+Message-Id: <20190607091116.49044-24-ysato@users.sourceforge.jp>
 Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/rx/disas.c | 62 ++++++++++++++++++++++++++++++++---------------
- 1 file changed, 42 insertions(+), 20 deletions(-)
+ target/rx/disas.c | 16 +++++++++++++++-
+ 1 file changed, 15 insertions(+), 1 deletion(-)
 
 diff --git a/target/rx/disas.c b/target/rx/disas.c
-index ebc1a44249..5a32a87534 100644
+index 5a32a87534..d73b53db44 100644
 --- a/target/rx/disas.c
 +++ b/target/rx/disas.c
-@@ -25,43 +25,59 @@ typedef struct DisasContext {
-     disassemble_info *dis;
-     uint32_t addr;
-     uint32_t pc;
-+    uint8_t len;
-+    uint8_t bytes[8];
- } DisasContext;
+@@ -102,7 +102,21 @@ static int bdsp_s(DisasContext *ctx, int d)
+ /* Include the auto-generated decoder.  */
+ #include "decode.inc.c"
 =20
-=20
- static uint32_t decode_load_bytes(DisasContext *ctx, uint32_t insn,
--                           int i, int n)
-+                                  int i, int n)
- {
--    bfd_byte buf;
-+    uint32_t addr =3D ctx->addr;
+-#define prt(...) (ctx->dis->fprintf_func)((ctx->dis->stream), __VA_ARGS_=
+_)
++static void dump_bytes(DisasContext *ctx)
++{
++    int i, len =3D ctx->len;
 +
-+    g_assert(ctx->len =3D=3D i);
-+    g_assert(n <=3D ARRAY_SIZE(ctx->bytes));
++    for (i =3D 0; i < len; ++i) {
++        ctx->dis->fprintf_func(ctx->dis->stream, "%02x ", ctx->bytes[i])=
+;
++    }
++    ctx->dis->fprintf_func(ctx->dis->stream, "%*c", (8 - i) * 3, '\t');
++}
 +
-     while (++i <=3D n) {
--        ctx->dis->read_memory_func(ctx->addr++, &buf, 1, ctx->dis);
--        insn |=3D buf << (32 - i * 8);
-+        ctx->dis->read_memory_func(addr++, &ctx->bytes[i - 1], 1, ctx->d=
-is);
-+        insn |=3D ctx->bytes[i - 1] << (32 - i * 8);
-     }
-+    ctx->addr =3D addr;
-+    ctx->len =3D n;
-+
-     return insn;
- }
++#define prt(...) \
++    do {                                                        \
++        dump_bytes(ctx);                                        \
++        ctx->dis->fprintf_func(ctx->dis->stream, __VA_ARGS__);  \
++    } while (0)
 =20
- static int32_t li(DisasContext *ctx, int sz)
- {
--    int32_t addr;
--    bfd_byte buf[4];
--    addr =3D ctx->addr;
-+    uint32_t addr =3D ctx->addr;
-+    uintptr_t len =3D ctx->len;
-=20
-     switch (sz) {
-     case 1:
-+        g_assert(len + 1 <=3D ARRAY_SIZE(ctx->bytes));
-         ctx->addr +=3D 1;
--        ctx->dis->read_memory_func(addr, buf, 1, ctx->dis);
--        return (int8_t)buf[0];
-+        ctx->len +=3D 1;
-+        ctx->dis->read_memory_func(addr, ctx->bytes + len, 1, ctx->dis);
-+        return (int8_t)ctx->bytes[len];
-     case 2:
-+        g_assert(len + 2 <=3D ARRAY_SIZE(ctx->bytes));
-         ctx->addr +=3D 2;
--        ctx->dis->read_memory_func(addr, buf, 2, ctx->dis);
--        return ldsw_le_p(buf);
-+        ctx->len +=3D 2;
-+        ctx->dis->read_memory_func(addr, ctx->bytes + len, 2, ctx->dis);
-+        return ldsw_le_p(ctx->bytes + len);
-     case 3:
-+        g_assert(len + 3 <=3D ARRAY_SIZE(ctx->bytes));
-         ctx->addr +=3D 3;
--        ctx->dis->read_memory_func(addr, buf, 3, ctx->dis);
--        return (int8_t)buf[2] << 16 | lduw_le_p(buf);
-+        ctx->len +=3D 3;
-+        ctx->dis->read_memory_func(addr, ctx->bytes + len, 3, ctx->dis);
-+        return (int8_t)ctx->bytes[len + 2] << 16 | lduw_le_p(ctx->bytes =
-+ len);
-     case 0:
-+        g_assert(len + 4 <=3D ARRAY_SIZE(ctx->bytes));
-         ctx->addr +=3D 4;
--        ctx->dis->read_memory_func(addr, buf, 4, ctx->dis);
--        return ldl_le_p(buf);
-+        ctx->len +=3D 4;
-+        ctx->dis->read_memory_func(addr, ctx->bytes + len, 4, ctx->dis);
-+        return ldl_le_p(ctx->bytes + len);
-     default:
-         g_assert_not_reached();
-     }
-@@ -110,7 +126,7 @@ static const char psw[] =3D {
- static void rx_index_addr(DisasContext *ctx, char out[8], int ld, int mi=
-)
- {
-     uint32_t addr =3D ctx->addr;
--    uint8_t buf[2];
-+    uintptr_t len =3D ctx->len;
-     uint16_t dsp;
-=20
-     switch (ld) {
-@@ -119,14 +135,18 @@ static void rx_index_addr(DisasContext *ctx, char o=
-ut[8], int ld, int mi)
-         out[0] =3D '\0';
-         return;
-     case 1:
-+        g_assert(len + 1 <=3D ARRAY_SIZE(ctx->bytes));
-         ctx->addr +=3D 1;
--        ctx->dis->read_memory_func(addr, buf, 1, ctx->dis);
--        dsp =3D buf[0];
-+        ctx->len +=3D 1;
-+        ctx->dis->read_memory_func(addr, ctx->bytes + len, 1, ctx->dis);
-+        dsp =3D ctx->bytes[len];
-         break;
-     case 2:
-+        g_assert(len + 2 <=3D ARRAY_SIZE(ctx->bytes));
-         ctx->addr +=3D 2;
--        ctx->dis->read_memory_func(addr, buf, 2, ctx->dis);
--        dsp =3D lduw_le_p(buf);
-+        ctx->len +=3D 2;
-+        ctx->dis->read_memory_func(addr, ctx->bytes + len, 2, ctx->dis);
-+        dsp =3D lduw_le_p(ctx->bytes + len);
-         break;
-     default:
-         g_assert_not_reached();
-@@ -1392,8 +1412,10 @@ int print_insn_rx(bfd_vma addr, disassemble_info *=
-dis)
-     DisasContext ctx;
-     uint32_t insn;
-     int i;
-+
-     ctx.dis =3D dis;
-     ctx.pc =3D ctx.addr =3D addr;
-+    ctx.len =3D 0;
-=20
-     insn =3D decode_load(&ctx);
-     if (!decode(&ctx, insn)) {
+ #define RX_MEMORY_BYTE 0
+ #define RX_MEMORY_WORD 1
 --=20
 2.20.1
 
