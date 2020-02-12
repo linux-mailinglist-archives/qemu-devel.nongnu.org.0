@@ -2,64 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BABE15AA82
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Feb 2020 14:56:23 +0100 (CET)
-Received: from localhost ([::1]:38268 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3426615AA8F
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Feb 2020 14:58:46 +0100 (CET)
+Received: from localhost ([::1]:38330 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j1sV4-0003Xp-Cy
-	for lists+qemu-devel@lfdr.de; Wed, 12 Feb 2020 08:56:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39639)
+	id 1j1sXN-0007ft-8t
+	for lists+qemu-devel@lfdr.de; Wed, 12 Feb 2020 08:58:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41106)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1j1sJv-00013B-GO
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 08:44:53 -0500
+ (envelope-from <stefanha@gmail.com>) id 1j1sTe-00029Q-3N
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 08:54:55 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1j1sJt-0005CK-OY
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 08:44:51 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:25766
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <david@redhat.com>) id 1j1sJt-0005Br-KC
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 08:44:49 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581515089;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=paiODFbGD5fd47o3hrnj9jzAWs9R0kAqAVdxlWzm1Ig=;
- b=Ci+wOv5JiUuWZzudZDyxGRsmHQfZE+DcrcidU0OEfIH3z9xZ/uCRb17ACS7Qp8wo5zMwbM
- rF4CT4MTxVm4erteL0JuqDIZ2oMp0htWKbGO8VCFUHyd/24QsvVSsoHKx55fU+zT/XJH39
- FM/kPUW5JsDtXAfHkqfO3bft6ew+iPw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-268-HNNGAaqFMSKuyypWtD84UA-1; Wed, 12 Feb 2020 08:44:47 -0500
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8226EDBCC;
- Wed, 12 Feb 2020 13:44:46 +0000 (UTC)
-Received: from t480s.redhat.com (ovpn-117-92.ams2.redhat.com [10.36.117.92])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 419961001281;
- Wed, 12 Feb 2020 13:44:44 +0000 (UTC)
-From: David Hildenbrand <david@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 fixed 16/16] exec: Ram blocks with resizable anonymous
- allocations under POSIX
-Date: Wed, 12 Feb 2020 14:42:54 +0100
-Message-Id: <20200212134254.11073-17-david@redhat.com>
-In-Reply-To: <20200212134254.11073-1-david@redhat.com>
-References: <20200212134254.11073-1-david@redhat.com>
+ (envelope-from <stefanha@gmail.com>) id 1j1sTc-0005ui-QA
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 08:54:54 -0500
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:36569)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <stefanha@gmail.com>) id 1j1sTc-0005tP-In
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 08:54:52 -0500
+Received: by mail-wr1-x432.google.com with SMTP id z3so2472404wru.3
+ for <qemu-devel@nongnu.org>; Wed, 12 Feb 2020 05:54:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=pxIsCLzIiIZBTXvrA990N9OJJAZy+6fW75tsngcvtNA=;
+ b=Xbyma8IXA1/npXnvNOE54w+8cEpd78HE9bGPAMaNvDZaRzT5Xu2r904QJ7mrCU047/
+ g9jbZjlaNyhjZ1XrXVN+66cnblIIcm7lg48gw23o7miuw/JmMsVijAdI5JozkIGcPWru
+ vaTYKlL+CMY4XjuC6PyQOLb7cZV3SIe2ClLhaD2t2qKXjgYpz2Os4hbxKTuhcEmHShwp
+ IAyP1E5szIijmM01lWelsHAIrDhh++pAOldd1lRPBblxGO+JsneI0jI/v+QsDpeRuoaA
+ t5OICXLZFCtoHNTLy9JWCcSZOpSKMIDhx2vtKzBfa/nuxdJW+s8+K4yXI/CMpB0CQobh
+ qdsw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=pxIsCLzIiIZBTXvrA990N9OJJAZy+6fW75tsngcvtNA=;
+ b=IYPpQnkY/did4Q/HtrM0pOdXr+RAcq8lmCxqBtqvsPqw6faHcBsMucLIJJZLxbSxSm
+ nWv7iXTY50R00YrjIe8CCtQI0oEPDMoRrS91sL687pbeCb9cFGxpKVPBTwWduDpkLCBe
+ b769uEWSB7mAZyK/uSKgwWWhd2Ql0dtuaRzDkf+6DabUZGS3wXwFWTGoxrv54dJLIRGt
+ 6usZ/D4xNWkoT78ahM65x4XyFk9d/wCq7h7mO/zjIOTzciZ6D6eiWFnlTbiSSUqWNzgY
+ Nq9NerxEcIws1sCViN7JQzxxx4edL/TMkbGdFQbCWQ0DZQJ6umxSMGfenubNonU2Um2F
+ qVLQ==
+X-Gm-Message-State: APjAAAUC5B428XbNreEttWthHnJXd0RP2ppl6dg+ovWgNCxYSasml3Oa
+ 3ukdEy7aHK8OGDt8vMkG0Co=
+X-Google-Smtp-Source: APXvYqyXfS0vDMuvII0hJ+bOWiWGHXJFInCly1Kgw2SMGFR2OS+b6M9SSbV5bPqegeofleObOFIq3Q==
+X-Received: by 2002:adf:ffc7:: with SMTP id x7mr15196713wrs.159.1581515691233; 
+ Wed, 12 Feb 2020 05:54:51 -0800 (PST)
+Received: from localhost ([51.15.41.238])
+ by smtp.gmail.com with ESMTPSA id c9sm801379wme.41.2020.02.12.05.54.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 12 Feb 2020 05:54:44 -0800 (PST)
+Date: Wed, 12 Feb 2020 13:54:42 +0000
+From: Stefan Hajnoczi <stefanha@gmail.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: Summary of Re: Making QEMU easier for management tools and
+ applications
+Message-ID: <20200212135442.GB432724@stefanha-x1.localdomain>
+References: <CAJSP0QUk=4co-nqk8fv2n-T2_W40rE3r_5OMoxD7otAV993mCA@mail.gmail.com>
+ <875zgm2vqv.fsf@dusky.pond.sub.org>
+ <CAJSP0QWCn_vv2Vs-UWc9nPHjdBQq9KMkiQ7D91+RwHM_okTzZw@mail.gmail.com>
+ <87ftfio0ke.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: HNNGAaqFMSKuyypWtD84UA-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="ZfOjI3PrQbgiZnxM"
+Content-Disposition: inline
+In-Reply-To: <87ftfio0ke.fsf@dusky.pond.sub.org>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::432
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,246 +81,122 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>, Stefan Weil <sw@weilnetz.de>,
- David Hildenbrand <david@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>,
- Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ "Daniel P. Berrange" <berrange@redhat.com>,
+ "Denis V. Lunev" <den@virtuozzo.com>, qemu-devel <qemu-devel@nongnu.org>,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
+ Dominik Csapak <d.csapak@proxmox.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We can now make use of resizable anonymous allocations to implement
-actually resizable ram blocks. Resizable anonymous allocations are
-not implemented under WIN32 yet and are not available when using
-alternative allocators. Fall back to the existing handling.
 
-We also have to fallback to the existing handling in case any ram block
-notifier does not support resizing (esp., AMD SEV, HAX) yet. Remember
-in RAM_RESIZEABLE_ALLOC if we are using resizable anonymous allocations.
+--ZfOjI3PrQbgiZnxM
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-As the mmap()-hackery will invalidate some madvise settings, we have to
-re-apply them after resizing. After resizing, notify the ram block
-notifiers.
+On Mon, Feb 10, 2020 at 05:43:13PM +0100, Markus Armbruster wrote:
+> Stefan Hajnoczi <stefanha@gmail.com> writes:
+>=20
+> > On Tue, Feb 4, 2020 at 3:54 PM Markus Armbruster <armbru@redhat.com> wr=
+ote:
+> >> =3D Ways to provide machine-friendly initial configuration =3D
+> >>
+> >> Two ways to provide machine-friendly initial configuration on par with
+> >> QMP have been proposed:
+> >>
+> >> 1. Extend QMP
+> >>
+> >>    Machines use the CLI only to configure a QMP socket.  The remainder
+> >>    of the CLI becomes human-only, with much relaxed compatibility rule=
+s.
+> >>
+> >> 2. QAPIfy the CLI
+> >>
+> >>    Provide a machine-friendly CLI based on QAPI and JSON.  The current
+> >>    CLI becomes human-only, with much relaxed compatibility rules.
+> >
+> > Do we keep the existing CLI around in both cases?  I'm concerned that
+> > we're still following the HMP/QMP approach, which has left QEMU with
+> > the legacy HMP monitor that we still haven't removed.
+>=20
+> The "HMP is legacy" idea is relatively recent.
+>=20
+> I think having separate interfaces for humans and machines makes sense,
+> we just need to give both the attention and care they need and deserve.
+>=20
+> I think a human-friendly monitor is has its use, but it should ideally
+> be done differently than we do HMP now.
+>=20
+> Likewise, human-friendly initial configuration should exist, but it
+> should ideally be done differently than we do HMP now.
+>=20
+> > I'm in favor of simplifying QEMU at the expense of an incompatible CLI
+> > change in QEMU 6.0.
+>=20
+> I'm convinced the current CLI needs cleanup badly, and that means
+> incompatible change.  The question is how and when to change it.
+>=20
+> Here's how I'd like us to do it:
+>=20
+> 1. Create machine-friendly initial configuration interface separate from
+>    the existing CLI
+>=20
+>    Doesn't mean it cannot be a CLI.
+>=20
+> 2. Develop it step by step to feature parity with existing CLI
+>=20
+>    If we identify misfeatures we don't want anymore, we should
+>    immediately deprecate them in the existing CLI instead.
+>=20
+> 2. Transition machine users to this new interface
+>=20
+> 3. Declare the existing CLI to be like HMP: for humans, may change
+>    incompatibly
+>=20
+> 4. Clean up existing CLI step by step to wrap around the
+>    machine-friendly interface
+>=20
+>    Whatever we deprecated in step 2 goes to the bit bucket instead.
+>=20
+>    I'm open to replacing the existing CLI by a separate wrapper process
+>    instead.
+>=20
+>    Capability to translate to the machine-friendly interface is
+>    desirable, so human users can easily transition to the
+>    machine-friendly interface when they run into a need to automate.
+>=20
+> The risk is of course that we fail at step 4 and remain stuck with the
+> CLI mess we've made.
 
-Try to grow early, as that can easily fail if out of memory. Shrink late
-and ignore errors (nothing will actually break). Warn only.
+Yes, QEMU does not have a good track record of successfully converting
+to new APIs and then removing old code.
 
-The benefit of actually resizable ram blocks is that e.g., under Linux,
-only the actual size will be reserved (even if
-"/proc/sys/vm/overcommit_memory" is set to "never"). Additional memory will
-be reserved when trying to resize, which allows to have ram blocks that
-start small but can theoretically grow very large.
+My worry is that this effort will result in the addition of even more
+code but we'll still be stuck with the old cruft (both in the user
+visible interface and in the implementation).
 
-Note1: We are not able to create resizable ram blocks with pre-allocated
-       memory yet, so prealloc is not affected.
-Note2: mlock should work as it used to as os_mlock() does a
-       mlockall(MCL_CURRENT | MCL_FUTURE), which includes future
-       mappings.
-Note3: Nobody should access memory beyond used_length. Memory notifiers
-       already properly take care of this, only ram block notifiers
-       violate this constraint and, therefore, have to be special-cased.
-       Especially, any ram block notifier that might dynamically
-       register at runtime (e.g., vfio), has to support resizes. Add an
-       assert for that. Both, HAX and SEV register early, so they are
-       fine.
+But we won't get anywhere if we don't try :).  This sounds like a
+significant project and I wonder if others would be willing to help if
+you can break down the tasks for them.
 
-Cc: Richard Henderson <rth@twiddle.net>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Cc: Eduardo Habkost <ehabkost@redhat.com>
-Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Cc: Stefan Weil <sw@weilnetz.de>
-Cc: Igor Mammedov <imammedo@redhat.com>
-Cc: Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>
-Signed-off-by: David Hildenbrand <david@redhat.com>
----
- exec.c                    | 60 ++++++++++++++++++++++++++++++++++++---
- hw/core/numa.c            |  7 +++++
- include/exec/cpu-common.h |  2 ++
- include/exec/memory.h     |  8 ++++++
- 4 files changed, 73 insertions(+), 4 deletions(-)
+Stefan
 
-diff --git a/exec.c b/exec.c
-index f2d30479b8..71e32dcc11 100644
---- a/exec.c
-+++ b/exec.c
-@@ -2053,6 +2053,16 @@ void qemu_ram_unset_migratable(RAMBlock *rb)
-     rb->flags &=3D ~RAM_MIGRATABLE;
- }
-=20
-+bool qemu_ram_is_resizable(RAMBlock *rb)
-+{
-+    return rb->flags & RAM_RESIZEABLE;
-+}
-+
-+bool qemu_ram_is_resizable_alloc(RAMBlock *rb)
-+{
-+    return rb->flags & RAM_RESIZEABLE_ALLOC;
-+}
-+
- /* Called with iothread lock held.  */
- void qemu_ram_set_idstr(RAMBlock *new_block, const char *name, DeviceState=
- *dev)
- {
-@@ -2139,6 +2149,7 @@ static void qemu_ram_apply_settings(void *host, size_=
-t length)
-  */
- int qemu_ram_resize(RAMBlock *block, ram_addr_t newsize, Error **errp)
- {
-+    const bool shared =3D block->flags & RAM_SHARED;
-     const ram_addr_t oldsize =3D block->used_length;
-=20
-     assert(block);
-@@ -2149,7 +2160,7 @@ int qemu_ram_resize(RAMBlock *block, ram_addr_t newsi=
-ze, Error **errp)
-         return 0;
-     }
-=20
--    if (!(block->flags & RAM_RESIZEABLE)) {
-+    if (!qemu_ram_is_resizable(block)) {
-         error_setg_errno(errp, EINVAL,
-                          "Length mismatch: %s: 0x" RAM_ADDR_FMT
-                          " in !=3D 0x" RAM_ADDR_FMT, block->idstr,
-@@ -2165,6 +2176,12 @@ int qemu_ram_resize(RAMBlock *block, ram_addr_t news=
-ize, Error **errp)
-         return -EINVAL;
-     }
-=20
-+    if (oldsize < newsize && qemu_ram_is_resizable_alloc(block) &&
-+        !qemu_anon_ram_resize(block->host, oldsize, newsize, shared)) {
-+        error_setg_errno(errp, -ENOMEM, "Cannot allocate enough memory.");
-+        return -ENOMEM;
-+    }
-+
-     cpu_physical_memory_clear_dirty_range(block->offset, block->used_lengt=
-h);
-     block->used_length =3D newsize;
-     cpu_physical_memory_set_dirty_range(block->offset, block->used_length,
-@@ -2178,6 +2195,21 @@ int qemu_ram_resize(RAMBlock *block, ram_addr_t news=
-ize, Error **errp)
-     if (block->resized) {
-         block->resized(block->idstr, newsize, block->host);
-     }
-+
-+    /*
-+     * Shrinking will only fail in rare scenarios (e.g., maximum number of
-+     * mappings reached), and can be ignored. Warn only.
-+     */
-+    if (newsize < oldsize && qemu_ram_is_resizable_alloc(block) &&
-+        !qemu_anon_ram_resize(block->host, oldsize, newsize, shared)) {
-+        warn_report("Shrinking memory allocation failed.");
-+    }
-+
-+    if (block->host && qemu_ram_is_resizable_alloc(block)) {
-+        /* re-apply settings that might have been overriden by the resize =
-*/
-+        qemu_ram_apply_settings(block->host, block->max_length);
-+    }
-+
-     return 0;
- }
-=20
-@@ -2256,6 +2288,28 @@ static void dirty_memory_extend(ram_addr_t old_ram_s=
-ize,
-     }
- }
-=20
-+static void ram_block_alloc_ram(RAMBlock *rb)
-+{
-+    const bool shared =3D qemu_ram_is_shared(rb);
-+
-+    /*
-+     * If we can, try to allocate actually resizable ram. Will also fail
-+     * if qemu_anon_ram_alloc_resizable() is not implemented.
-+     */
-+    if (phys_mem_alloc =3D=3D qemu_anon_ram_alloc &&
-+        qemu_ram_is_resizable(rb) &&
-+        ram_block_notifiers_support_resize()) {
-+        rb->host =3D qemu_anon_ram_alloc_resizable(rb->used_length,
-+                                                 rb->max_length, &rb->mr->=
-align,
-+                                                 shared);
-+        if (rb->host) {
-+            rb->flags |=3D RAM_RESIZEABLE_ALLOC;
-+            return;
-+        }
-+    }
-+    rb->host =3D phys_mem_alloc(rb->max_length, &rb->mr->align, shared);
-+}
-+
- static void ram_block_add(RAMBlock *new_block, Error **errp)
- {
-     RAMBlock *block;
-@@ -2278,9 +2332,7 @@ static void ram_block_add(RAMBlock *new_block, Error =
-**errp)
-                 return;
-             }
-         } else {
--            new_block->host =3D phys_mem_alloc(new_block->max_length,
--                                             &new_block->mr->align,
--                                             qemu_ram_is_shared(new_block)=
-);
-+            ram_block_alloc_ram(new_block);
-             if (!new_block->host) {
-                 error_setg_errno(errp, errno,
-                                  "cannot set up guest memory '%s'",
-diff --git a/hw/core/numa.c b/hw/core/numa.c
-index 5b20dc726d..601cf9f603 100644
---- a/hw/core/numa.c
-+++ b/hw/core/numa.c
-@@ -907,6 +907,13 @@ static int ram_block_notify_add_single(RAMBlock *rb, v=
-oid *opaque)
-     RAMBlockNotifier *notifier =3D opaque;
-=20
-     if (host) {
-+        /*
-+         * Dynamically adding notifiers that don't support resizes is forb=
-idden
-+         * when dealing with resizable ram blocks that have actually resiz=
-able
-+         * allocations.
-+         */
-+        g_assert(!qemu_ram_is_resizable_alloc(rb) ||
-+                 notifier->ram_block_resized);
-         notifier->ram_block_added(notifier, host, size, max_size);
-     }
-     return 0;
-diff --git a/include/exec/cpu-common.h b/include/exec/cpu-common.h
-index 9760ac9068..a9c76bd5ef 100644
---- a/include/exec/cpu-common.h
-+++ b/include/exec/cpu-common.h
-@@ -66,6 +66,8 @@ void qemu_ram_set_uf_zeroable(RAMBlock *rb);
- bool qemu_ram_is_migratable(RAMBlock *rb);
- void qemu_ram_set_migratable(RAMBlock *rb);
- void qemu_ram_unset_migratable(RAMBlock *rb);
-+bool qemu_ram_is_resizable(RAMBlock *rb);
-+bool qemu_ram_is_resizable_alloc(RAMBlock *rb);
-=20
- size_t qemu_ram_pagesize(RAMBlock *block);
- size_t qemu_ram_pagesize_largest(void);
-diff --git a/include/exec/memory.h b/include/exec/memory.h
-index e85b7de99a..19417943a2 100644
---- a/include/exec/memory.h
-+++ b/include/exec/memory.h
-@@ -129,6 +129,14 @@ typedef struct IOMMUNotifier IOMMUNotifier;
- /* RAM is a persistent kind memory */
- #define RAM_PMEM (1 << 5)
-=20
-+/*
-+ * Implies RAM_RESIZEABLE. Memory beyond the used_length is inaccessible
-+ * (esp. initially and after resizing). For such memory blocks, only the
-+ * used_length is reserved in the OS - resizing might fail. Will only be
-+ * used with host OS support and if all ram block notifiers support resizi=
-ng.
-+ */
-+#define RAM_RESIZEABLE_ALLOC (1 << 6)
-+
- static inline void iommu_notifier_init(IOMMUNotifier *n, IOMMUNotify fn,
-                                        IOMMUNotifierFlag flags,
-                                        hwaddr start, hwaddr end,
---=20
-2.24.1
+--ZfOjI3PrQbgiZnxM
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl5EA6IACgkQnKSrs4Gr
+c8iJ7wgAsyT+pb7U8B3s53JDuPIwO+drOVzODQFMpnQrWWzZBy9Fyne3fx4z1Cgh
+r83+M2JPGMtC/mO0zH5x/08Q4ltXI0UWmdM2YVbP9AKPAegB8eeVGn2Zmi42DRo0
+tr6I9MTRe5vS4B9W5feux5reSFRcc0v9II52UBj6CaNPxKe+UDmSNEF9q7VcIn5t
+Kc+2AooRRV9hCMoYrMrNLDxBYbbUiJPTO0+VVetzz+gDI/DsmLQJ/fMyOw9BQnai
+6/NFbK040uHppiXaR1ek94KbrNWLRHH0fSBysxM4u4S5dSqOvXDK2uYW4xg7ILu6
+oTPNU5lFbgsOMyfiP1zrVWHQ6IO/+A==
+=2Maj
+-----END PGP SIGNATURE-----
+
+--ZfOjI3PrQbgiZnxM--
 
