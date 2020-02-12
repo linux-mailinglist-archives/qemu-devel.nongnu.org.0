@@ -2,67 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 128D315B3AA
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Feb 2020 23:28:33 +0100 (CET)
-Received: from localhost ([::1]:44228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E399915B3C9
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Feb 2020 23:33:25 +0100 (CET)
+Received: from localhost ([::1]:44302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j20Uh-0000Y3-V7
-	for lists+qemu-devel@lfdr.de; Wed, 12 Feb 2020 17:28:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43789)
+	id 1j20ZR-0003F7-02
+	for lists+qemu-devel@lfdr.de; Wed, 12 Feb 2020 17:33:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44822)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <lersek@redhat.com>) id 1j20Ty-0008Si-2l
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 17:27:47 -0500
+ (envelope-from <balaton@eik.bme.hu>) id 1j20YP-0002MT-BV
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 17:32:22 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <lersek@redhat.com>) id 1j20Tw-0007rQ-Rc
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 17:27:45 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:27711
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <balaton@eik.bme.hu>) id 1j20YN-0002pY-TZ
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 17:32:20 -0500
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:31078)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <lersek@redhat.com>) id 1j20Tw-0007r5-NG
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 17:27:44 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581546464;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ZpL7IJLwUL2QKwDIGgNNnKflS4tUNZmi76iHFhrnDvg=;
- b=gnVQLrTrNv4kBSwSkSyrSDUsHrG01pikf3cnBVUbiE3jrQ2J2vc+ro2APG+q9hwAKZ6M4D
- aLouPPpcgus2oLNRvcJEj3G0E/y0C8+hC2m9K3p42oaAR7mtU1P4ph9mwICtepn3d3IgtO
- ZPZFnas9s3C2iTFCbDeTM58+uow6DoM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-30-SWN1QuflNl2aYxUILl_ahQ-1; Wed, 12 Feb 2020 17:27:42 -0500
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 84A401005502
- for <qemu-devel@nongnu.org>; Wed, 12 Feb 2020 22:27:41 +0000 (UTC)
-Received: from lacos-laptop-7.usersys.redhat.com (ovpn-117-72.ams2.redhat.com
- [10.36.117.72])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 184EC5C1B2;
- Wed, 12 Feb 2020 22:27:35 +0000 (UTC)
-Subject: Re: [PATCH] acpi: cpuhp: document CPHP_GET_CPU_ID_CMD command
-To: mst@redhat.com
-References: <1580306781-228371-1-git-send-email-imammedo@redhat.com>
-From: Laszlo Ersek <lersek@redhat.com>
-Message-ID: <3c6d3232-f5d3-3d42-da19-2aa5a3c7ef02@redhat.com>
-Date: Wed, 12 Feb 2020 23:27:34 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
-MIME-Version: 1.0
-In-Reply-To: <1580306781-228371-1-git-send-email-imammedo@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: SWN1QuflNl2aYxUILl_ahQ-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+ (Exim 4.71) (envelope-from <balaton@eik.bme.hu>)
+ id 1j20YN-0002lH-NF; Wed, 12 Feb 2020 17:32:19 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 73D3674638A;
+ Wed, 12 Feb 2020 23:32:07 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 5A37574637F; Wed, 12 Feb 2020 23:32:07 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+Date: Wed, 12 Feb 2020 23:26:14 +0100
+Subject: [PATCH] target/ppc/cpu.h: Remove duplicate includes
+To: qemu-devel@nongnu.org
+Message-Id: <20200212223207.5A37574637F@zero.eik.bme.hu>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2001:738:2001:2001::2001
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,46 +44,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>, philmd@redhat.com,
- qemu-devel@nongnu.org
+Cc: qemu-trivial@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Michael,
+Commit 74433bf083b added some includes but added them twice. Since
+these are guarded against multiple inclusion including them once is
+enough.
 
-On 01/29/20 15:06, Igor Mammedov wrote:
-> Commit 3a61c8db9d25 introduced CPHP_GET_CPU_ID_CMD command but
-> did not sufficiently describe it. Fix it by adding missing command
-> documentation.
-> 
-> Fixes: 3a61c8db9d25 ("acpi: cpuhp: add CPHP_GET_CPU_ID_CMD command")
-> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-> Reviewed-by: Laszlo Ersek <lersek@redhat.com>
-> ---
->  docs/specs/acpi_cpu_hotplug.txt | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/docs/specs/acpi_cpu_hotplug.txt b/docs/specs/acpi_cpu_hotplug.txt
-> index a8ce5e7..9bb22d1 100644
-> --- a/docs/specs/acpi_cpu_hotplug.txt
-> +++ b/docs/specs/acpi_cpu_hotplug.txt
-> @@ -94,6 +94,8 @@ write access:
->                 register in QEMU
->              2: following writes to 'Command data' register set OST status
->                 register in QEMU
-> +            3: following reads from 'Command data' and 'Command data 2' return
-> +               architecture specific CPU ID value for currently selected CPU.
->              other values: reserved
->      [0x6-0x7] reserved
->      [0x8] Command data: (DWORD access)
-> 
+Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+---
+ target/ppc/cpu.h | 2 --
+ 1 file changed, 2 deletions(-)
 
-can you please merge this?
-
-It's a docs patch, but 3a61c8db9d25 (noted in "Fixes:") had gone in
-through your tree.
-
-Thank you!
-Laszlo
+diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+index 3a1eb76004..07dd2b4da7 100644
+--- a/target/ppc/cpu.h
++++ b/target/ppc/cpu.h
+@@ -23,8 +23,6 @@
+ #include "qemu/int128.h"
+ #include "exec/cpu-defs.h"
+ #include "cpu-qom.h"
+-#include "exec/cpu-defs.h"
+-#include "cpu-qom.h"
+ 
+ /* #define PPC_EMULATE_32BITS_HYPV */
+ 
+-- 
+2.21.1
 
 
