@@ -2,77 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4B0615B162
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Feb 2020 20:53:29 +0100 (CET)
-Received: from localhost ([::1]:42616 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABBE315B18E
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Feb 2020 21:04:44 +0100 (CET)
+Received: from localhost ([::1]:42698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j1y4e-0004ZL-Qq
-	for lists+qemu-devel@lfdr.de; Wed, 12 Feb 2020 14:53:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36320)
+	id 1j1yFX-00071q-Gm
+	for lists+qemu-devel@lfdr.de; Wed, 12 Feb 2020 15:04:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37793)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1j1y3v-000488-Ln
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 14:52:44 -0500
+ (envelope-from <palmerdabbelt@google.com>) id 1j1yEj-0006Zz-VE
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 15:03:55 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1j1y3u-0005wQ-KK
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 14:52:43 -0500
-Received: from mail-pj1-x1041.google.com ([2607:f8b0:4864:20::1041]:40743)
+ (envelope-from <palmerdabbelt@google.com>) id 1j1yEi-00020g-NP
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 15:03:53 -0500
+Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:33028)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1j1y3u-0005uL-DZ
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 14:52:42 -0500
-Received: by mail-pj1-x1041.google.com with SMTP id 12so1327692pjb.5
- for <qemu-devel@nongnu.org>; Wed, 12 Feb 2020 11:52:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=H5IV7B0IbQTgV19nWCo0n2HMQNpzH7M7m1oTyDs0liM=;
- b=Y+c+14fm5bc3m1Zenswn/gWhd0VOcUosfOXTc8EqsX+firT2+tyG9urPNxWP62DsqU
- qpeeKts4yqz4Kiu8D5C7bBcnHB7CVOhWJygYIFXIKsXZG7bq4o5Z0n0zh9m1TTDN8nuq
- YPt4Pf2B4rU8kRYWhMIaNGsaPiCVU/p61wEaSCIpP641pFxQpWkMXMrBZrhwlSq3rD95
- XW90H6f9PW2MqVmk2UdIAWALaPmIK2WLcg2e+wkh9a4AanfK0qq28fQwW1KiRJpF70Ol
- p+wB0Jcq9XPY9Eau0DD0eUl5C2W3u3djF5NVTarhgkcSmLyL28AbkdsIbFrFKcryOZGB
- fHEw==
+ (Exim 4.71) (envelope-from <palmerdabbelt@google.com>)
+ id 1j1yEi-00020F-Fe
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 15:03:52 -0500
+Received: by mail-pf1-x444.google.com with SMTP id n7so1775858pfn.0
+ for <qemu-devel@nongnu.org>; Wed, 12 Feb 2020 12:03:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=date:from:subject:in-reply-to:cc:to:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ku0u44AaXoWhDq+EGfoD3hhpjQe5d615GZuiFC5+jSA=;
+ b=Ae0cQpHxGFtKGvlbMZLYFXBCzA4+0XVN1wH5eVR0pxQsUcTivZoI0HYzDWz3g3bTvt
+ vkoSLquSjQnLfjHNhfaNWBsBmQZfYccxAmQL56M0aZ7xMm8pHtYNBzVLGvvVOvFC5309
+ QWtlQQs0UDdUQ8ReSE/ii6YvxrCNo2Qm9etaevZlBPQIN6wGgs97uCJe0yMheAuwDRdg
+ YAHIYLgaIvEDBMDrSwrwD5hs+61u0bT8NWfnmpiccqXEQfqFjaGNgrPgaJbPoN4BDvcW
+ 7flzD8PeSyuL1VP+MW9Cf3psBlC2jpJKUs8BrgI6yVryYu8pC9H48LcSMazTneFrL0Il
+ as/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=H5IV7B0IbQTgV19nWCo0n2HMQNpzH7M7m1oTyDs0liM=;
- b=ZqFw/Xwi9CcJUxjV223ZNQMzYZRzJu7mZzKoXuiGcFqe6IhruwoYx76uQaQj9w41Gs
- RTWNrMmjKx1Xfu56o+jpg8Mee5u5iYyF66dPxAlu0ELVmxe2Y0BKEfRL2/0Wm2jCLXK0
- SGH2/n8vHCuXs6JJ17ZcB/FfAGF8pkrwTvLRrHWnu8m97G+BH0dxiC8WUeoOSMHOBv12
- BhNy4F8ddAMKiWnsThPFWO2KMJCyFy8BWhJfUU3c805ot6SHJRz2a6ERFKb4QoZx57+7
- rvB75A+0FLCi29qMJBNY7cwTtkgdTYX/j1U/1EM6tzacP0kuCs+EzWtnI9frMv5il1+0
- BVzQ==
-X-Gm-Message-State: APjAAAUsMdf4suB0Kbf7ejSjlfgfbbPqF+JhAko1uiGV61ywBUaZHFiF
- /6+Y6K7ZxVp+rlfgz39FZ5KQ4g==
-X-Google-Smtp-Source: APXvYqx72i/G1QKTwNls/XeTXOKwHjPrXCSJZALpLiYWmUiqpotw/0s0I6RCV0cE9p/cEwXHuG40pA==
-X-Received: by 2002:a17:90b:243:: with SMTP id fz3mr791775pjb.29.1581537161199; 
- Wed, 12 Feb 2020 11:52:41 -0800 (PST)
-Received: from [192.168.1.11] (97-126-123-70.tukw.qwest.net. [97.126.123.70])
- by smtp.gmail.com with ESMTPSA id
- t11sm1334743pgi.15.2020.02.12.11.52.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 12 Feb 2020 11:52:40 -0800 (PST)
-Subject: Re: [PATCH 2/2] target/arm: Use tcg_gen_gvec_5_ptr for sve FMLA/FCMLA
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20200212025145.24300-1-richard.henderson@linaro.org>
- <20200212025145.24300-3-richard.henderson@linaro.org>
- <87h7zwxenx.fsf@zen.linaroharston>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <125be513-4309-a44f-0551-8864cccb25b6@linaro.org>
-Date: Wed, 12 Feb 2020 11:52:38 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
-MIME-Version: 1.0
-In-Reply-To: <87h7zwxenx.fsf@zen.linaroharston>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+ h=x-gm-message-state:date:from:subject:in-reply-to:cc:to:message-id
+ :mime-version:content-transfer-encoding;
+ bh=ku0u44AaXoWhDq+EGfoD3hhpjQe5d615GZuiFC5+jSA=;
+ b=H2BHsMwH1fQkgEqRfwYbjOSAu/8CRSV418VWiUu1JaaMP6VgTQp42qPICNx3IEGLi5
+ EheapHfZ8MHjVoPke3HUZSAjAeavOclXCUNwcQ528q4XmPXmVeGiPVy16W3P8p1wUElK
+ B8cRKOVF0GmQWxgB64tHyJPBjQmvzwUBV3OY8n+hCKrqpjHV+kGLViahhjRyrcglzOgI
+ nfKidjIkDwHe5SYeY3vKkb3iVNEqWVdBlrMQO2R7YBI7qH7CTU8TY3EauGVic9WTZGBI
+ qEh/XnbK7zhkF5mEko24Do+koqDhv4YDoGwn9YvPmiXjd+TZsI7ppbvmw/qk2HuU83p7
+ IWog==
+X-Gm-Message-State: APjAAAW61g3PHiT7aXrBCVAhv35GlfaZ9unJg3eXFzF59wLHm9M+ju/0
+ b5cXGpsHIETgIA28qTrgbssMjHqOj78=
+X-Google-Smtp-Source: APXvYqybEyBz6aZCFIco49ZXh1fSVeezuSMKPMUySe5EwzVt3DY/FyxkZlAiYcCH+jrIfdTOdbLFJg==
+X-Received: by 2002:a62:790e:: with SMTP id u14mr13693447pfc.174.1581537830747; 
+ Wed, 12 Feb 2020 12:03:50 -0800 (PST)
+Received: from localhost ([2620:0:1000:2514:23a5:d584:6a92:3e3c])
+ by smtp.gmail.com with ESMTPSA id b24sm73925pfo.84.2020.02.12.12.03.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 12 Feb 2020 12:03:50 -0800 (PST)
+Date: Wed, 12 Feb 2020 12:03:50 -0800 (PST)
+X-Google-Original-Date: Wed, 12 Feb 2020 12:03:47 PST (-0800)
+From: Palmer Dabbelt <palmerdabbelt@google.com>
+X-Google-Original-From: Palmer Dabbelt <palmer@dabbelt.com>
+Subject: Re: [PATCH v2 21/35] target/riscv: Add hypvervisor trap support
+In-Reply-To: <7ee4badbb4dfc33ab2e75151b69559f09d733575.1580518859.git.alistair.francis@wdc.com>
+CC: qemu-devel@nongnu.org, qemu-riscv@nongnu.org,
+ Alistair Francis <Alistair.Francis@wdc.com>, alistair23@gmail.com
+To: Alistair Francis <Alistair.Francis@wdc.com>
+Message-ID: <mhng-d32ca7fd-b39f-45d3-a373-ff66d707397b@palmerdabbelt-glaptop1>
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::1041
+X-Received-From: 2607:f8b0:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,24 +80,129 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, tsimpson@quicinc.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/12/20 2:50 AM, Alex Bennée wrote:
-> 
-> Richard Henderson <richard.henderson@linaro.org> writes:
-> 
->> Now that we can pass 7 parameters, do not encode register
->> operands within simd_data.
-> 
-> What defines the upper limit? Is it the ABI of the backend or just the
-> efficiency of implementing the prologue for the call?
+On Fri, 31 Jan 2020 17:02:30 PST (-0800), Alistair Francis wrote:
+> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> ---
+>  target/riscv/cpu_helper.c | 69 +++++++++++++++++++++++++++++++++------
+>  1 file changed, 59 insertions(+), 10 deletions(-)
+>
+> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+> index 98017df33b..e7728cb0ca 100644
+> --- a/target/riscv/cpu_helper.c
+> +++ b/target/riscv/cpu_helper.c
+> @@ -639,6 +639,8 @@ void riscv_cpu_do_interrupt(CPUState *cs)
+>
+>      RISCVCPU *cpu = RISCV_CPU(cs);
+>      CPURISCVState *env = &cpu->env;
+> +    bool force_hs_execp = riscv_cpu_force_hs_excep_enabled(env);
+> +    target_ulong s;
+>
+>      /* cs->exception is 32-bits wide unlike mcause which is XLEN-bits wide
+>       * so we mask off the MSB and separate into trap type and cause.
+> @@ -648,19 +650,14 @@ void riscv_cpu_do_interrupt(CPUState *cs)
+>      target_ulong deleg = async ? env->mideleg : env->medeleg;
+>      target_ulong tval = 0;
+>
+> -    static const int ecall_cause_map[] = {
+> -        [PRV_U] = RISCV_EXCP_U_ECALL,
+> -        [PRV_S] = RISCV_EXCP_S_ECALL,
+> -        [PRV_H] = RISCV_EXCP_VS_ECALL,
+> -        [PRV_M] = RISCV_EXCP_M_ECALL
+> -    };
+> -
+>      if (!async) {
+>          /* set tval to badaddr for traps with address information */
+>          switch (cause) {
+>          case RISCV_EXCP_INST_GUEST_PAGE_FAULT:
+>          case RISCV_EXCP_LOAD_GUEST_ACCESS_FAULT:
+>          case RISCV_EXCP_STORE_GUEST_AMO_ACCESS_FAULT:
+> +            force_hs_execp = true;
+> +            /* fallthrough */
+>          case RISCV_EXCP_INST_ADDR_MIS:
+>          case RISCV_EXCP_INST_ACCESS_FAULT:
+>          case RISCV_EXCP_LOAD_ADDR_MIS:
+> @@ -678,7 +675,16 @@ void riscv_cpu_do_interrupt(CPUState *cs)
+>          /* ecall is dispatched as one cause so translate based on mode */
+>          if (cause == RISCV_EXCP_U_ECALL) {
+>              assert(env->priv <= 3);
+> -            cause = ecall_cause_map[env->priv];
+> +
+> +            if (env->priv == PRV_M) {
+> +                cause = RISCV_EXCP_M_ECALL;
+> +            } else if (env->priv == PRV_S && riscv_cpu_virt_enabled(env)) {
+> +                cause = RISCV_EXCP_VS_ECALL;
+> +            } else if (env->priv == PRV_S && !riscv_cpu_virt_enabled(env)) {
+> +                cause = RISCV_EXCP_S_ECALL;
+> +            } else if (env->priv == PRV_U) {
+> +                cause = RISCV_EXCP_U_ECALL;
+> +            }
+>          }
+>      }
+>
+> @@ -688,7 +694,36 @@ void riscv_cpu_do_interrupt(CPUState *cs)
+>      if (env->priv <= PRV_S &&
+>              cause < TARGET_LONG_BITS && ((deleg >> cause) & 1)) {
+>          /* handle the trap in S-mode */
+> -        target_ulong s = env->mstatus;
+> +        if (riscv_has_ext(env, RVH)) {
+> +            target_ulong hdeleg = async ? env->hideleg : env->hedeleg;
+> +
+> +            if (riscv_cpu_virt_enabled(env) && ((hdeleg >> cause) & 1) &&
+> +                !force_hs_execp) {
+> +                /* Trap to VS mode */
+> +            } else if (riscv_cpu_virt_enabled(env)) {
+> +                /* Trap into HS mode, from virt */
+> +                riscv_cpu_swap_hypervisor_regs(env);
+> +                env->hstatus = set_field(env->hstatus, HSTATUS_SP2V,
+> +                                         get_field(env->hstatus, HSTATUS_SPV));
+> +                env->hstatus = set_field(env->hstatus, HSTATUS_SP2P,
+> +                                         get_field(env->mstatus, SSTATUS_SPP));
+> +                env->hstatus = set_field(env->hstatus, HSTATUS_SPV,
+> +                                         riscv_cpu_virt_enabled(env));
+> +
+> +                riscv_cpu_set_virt_enabled(env, 0);
+> +                riscv_cpu_set_force_hs_excep(env, 0);
+> +            } else {
+> +                /* Trap into HS mode */
+> +                env->hstatus = set_field(env->hstatus, HSTATUS_SP2V,
+> +                                         get_field(env->hstatus, HSTATUS_SPV));
+> +                env->hstatus = set_field(env->hstatus, HSTATUS_SP2P,
+> +                                         get_field(env->mstatus, SSTATUS_SPP));
+> +                env->hstatus = set_field(env->hstatus, HSTATUS_SPV,
+> +                                         riscv_cpu_virt_enabled(env));
+> +            }
+> +        }
+> +
+> +        s = env->mstatus;
+>          s = set_field(s, MSTATUS_SPIE, env->priv_ver >= PRIV_VERSION_1_10_0 ?
+>              get_field(s, MSTATUS_SIE) : get_field(s, MSTATUS_UIE << env->priv));
+>          s = set_field(s, MSTATUS_SPP, env->priv);
+> @@ -702,7 +737,21 @@ void riscv_cpu_do_interrupt(CPUState *cs)
+>          riscv_cpu_set_mode(env, PRV_S);
+>      } else {
+>          /* handle the trap in M-mode */
+> -        target_ulong s = env->mstatus;
+> +        if (riscv_has_ext(env, RVH)) {
+> +            if (riscv_cpu_virt_enabled(env)) {
+> +                riscv_cpu_swap_hypervisor_regs(env);
+> +            }
+> +            env->mstatus = set_field(env->mstatus, MSTATUS_MPV,
+> +                                      riscv_cpu_virt_enabled(env));
+> +            env->mstatus = set_field(env->mstatus, MSTATUS_MTL,
+> +                                      riscv_cpu_force_hs_excep_enabled(env));
+> +
+> +            /* Trapping to M mode, virt is disabled */
+> +            riscv_cpu_set_virt_enabled(env, 0);
+> +            riscv_cpu_set_force_hs_excep(env, 0);
+> +        }
+> +
+> +        s = env->mstatus;
+>          s = set_field(s, MSTATUS_MPIE, env->priv_ver >= PRIV_VERSION_1_10_0 ?
+>              get_field(s, MSTATUS_MIE) : get_field(s, MSTATUS_UIE << env->priv));
+>          s = set_field(s, MSTATUS_MPP, env->priv);
 
-The current upper limit is from the lifetime tracking data.  Which gives us 14
-arguments within the bits of the uint16_t.  Which gives us 7 uint64_t arguments
-on a 32-bit host.
-
-
-r~
+Reviewed-by: Palmer Dabbelt <palmerdabbelt@google.com>
 
