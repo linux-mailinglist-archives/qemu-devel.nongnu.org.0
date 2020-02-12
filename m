@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADF5B15A9E1
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Feb 2020 14:17:58 +0100 (CET)
-Received: from localhost ([::1]:37578 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E41415A9EB
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Feb 2020 14:19:58 +0100 (CET)
+Received: from localhost ([::1]:37634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j1rtt-0001vo-Nr
-	for lists+qemu-devel@lfdr.de; Wed, 12 Feb 2020 08:17:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35066)
+	id 1j1rvp-0004gc-FX
+	for lists+qemu-devel@lfdr.de; Wed, 12 Feb 2020 08:19:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35273)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mrezanin@redhat.com>) id 1j1rsW-00006A-Nm
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 08:16:33 -0500
+ (envelope-from <mlevitsk@redhat.com>) id 1j1rtq-0002sB-9H
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 08:17:55 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mrezanin@redhat.com>) id 1j1rsV-0000AK-8r
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 08:16:32 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:44297
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <mlevitsk@redhat.com>) id 1j1rtp-0001Cp-8V
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 08:17:54 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:41254
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mrezanin@redhat.com>) id 1j1rsV-00009f-2J
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 08:16:31 -0500
+ (Exim 4.71) (envelope-from <mlevitsk@redhat.com>) id 1j1rtp-0001CU-5V
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 08:17:53 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581513390;
+ s=mimecast20190719; t=1581513472;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:  in-reply-to:in-reply-to; 
- bh=eUOUjurayrpPHx79FoNOSIJ/hmCUjZs8UB6F+2NQ5FE=;
- b=QzRWClPkG15LUl/kbpZkSRPzg4aRNYgPxDgk/XRhjpZZE6tUDRhb1TyXUQoAU6uxn8k5CN
- 6D/9ooQnBdqE2nbD7kO8QT3OaUI+SospGvicqhJijOuoHNOJGodFuQpMiOYaThcmHpXp4l
- DJ0RSaJp4yT203nC36YdX1JWjWC/Z68=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=deY8EPNmcz+ZVD+I6hCztZjLcaEb7MFzeRRk2PQvUbA=;
+ b=WeoDHXx6Atr5SXK1/2XKyMtknSFaPv46fBlVyrXCja8BRD1YDbm4TfV8NVLl2TTZn6WS36
+ Xyaz35+aDMS008YvaGkzcZsvTU8Yl+sCyj753m4z5oLHwQBufbjU2OpBLr8qdn4Pv1sX5K
+ IxAHgS9wPHsu4SuUehnMB1qxEtvhFDg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-74-AUhVmQAeNk-rfafBSaYkSg-1; Wed, 12 Feb 2020 08:16:28 -0500
+ us-mta-292-_hxAmFM0PLGBMWdcZBzKaQ-1; Wed, 12 Feb 2020 08:17:48 -0500
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 111461851FDA;
- Wed, 12 Feb 2020 13:16:27 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com
- (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 08D1860BF1;
- Wed, 12 Feb 2020 13:16:27 +0000 (UTC)
-Received: from zmail17.collab.prod.int.phx2.redhat.com
- (zmail17.collab.prod.int.phx2.redhat.com [10.5.83.19])
- by colo-mx.corp.redhat.com (Postfix) with ESMTP id EEB1218095FF;
- Wed, 12 Feb 2020 13:16:26 +0000 (UTC)
-Date: Wed, 12 Feb 2020 08:16:26 -0500 (EST)
-From: Miroslav Rezanina <mrezanin@redhat.com>
-To: qemu-devel@nongnu.org
-Message-ID: <1608747495.7195569.1581513386780.JavaMail.zimbra@redhat.com>
-In-Reply-To: <1908428819.7192207.1581512184275.JavaMail.zimbra@redhat.com>
-Subject: [PATCH] docs: Fix virtiofsd.1 location
-MIME-Version: 1.0
-X-Originating-IP: [10.40.204.108, 10.4.195.17]
-Thread-Topic: docs: Fix virtiofsd.1 location
-Thread-Index: qzJivM1tz9HXMqT7v9j6aH0ajiE8dA==
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2EFA88017CC;
+ Wed, 12 Feb 2020 13:17:47 +0000 (UTC)
+Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.63])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D424360BF4;
+ Wed, 12 Feb 2020 13:17:44 +0000 (UTC)
+Message-ID: <106b20e0cd6eff05f1031e34373721c3b9494fcc.camel@redhat.com>
+Subject: Re: [PATCH v5 01/26] nvme: rename trace events to nvme_dev
+From: Maxim Levitsky <mlevitsk@redhat.com>
+To: Klaus Birkelund Jensen <k.jensen@samsung.com>
+Date: Wed, 12 Feb 2020 15:17:33 +0200
+In-Reply-To: <20200212130838.2zgz6iuysi4ef2ne@apples.localdomain>
+References: <20200204095208.269131-1-k.jensen@samsung.com>
+ <CGME20200204095216eucas1p2cb2b4772c04b92c97b0690c8e565234c@eucas1p2.samsung.com>
+ <20200204095208.269131-2-k.jensen@samsung.com>
+ <0106bf338e09bbf01e35bbcabed344ba71a2ad0d.camel@redhat.com>
+ <20200212130838.2zgz6iuysi4ef2ne@apples.localdomain>
+Mime-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: AUhVmQAeNk-rfafBSaYkSg-1
+X-MC-Unique: _hxAmFM0PLGBMWdcZBzKaQ-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,38 +74,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Beata Michalska <beata.michalska@linaro.org>,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>,
+ Javier Gonzalez <javier.gonz@samsung.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Patch 6a7e2bbee5 docs: add virtiofsd(1) man page introduced new man
-page virtiofsd.1. Unfortunately, wrong file location is used as
-source for install command. This cause installation of docs fail.
+On Wed, 2020-02-12 at 14:08 +0100, Klaus Birkelund Jensen wrote:
+> On Feb 12 11:08, Maxim Levitsky wrote:
+> > On Tue, 2020-02-04 at 10:51 +0100, Klaus Jensen wrote:
+> > > Change the prefix of all nvme device related trace events to 'nvme_dev'
+> > > to not clash with trace events from the nvme block driver.
+> > > 
+> 
+> Hi Maxim,
+> 
+> Thank you very much for your thorough reviews! Utterly appreciated!
 
-Fixing wrong location so installation is successful.
+Thanks to you for the patch series!
 
-Signed-off-by: Miroslav Rezanina <mrezanin@redhat.com>
----
- Makefile | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> I'll start going through your suggested changes. There is a bit of work
+> to do on splitting patches into refactoring and bugfixes, but I can
+> definitely see the reason for this, so I'll get to work.
+> 
+> You mention the alignment with split lines alot. I actually thought I
+> was following CODING_STYLE.rst (which allows a single 4 space indent for
+> functions, but not statements such as if/else and while/for). But since
+> hw/block/nvme.c is originally written in the style of aligning with the
+> opening paranthesis I'm in the wrong here, so I will of course amend
+> it. Should have done that from the beginning, it's just my personal
+> taste shining through ;)
 
-diff --git a/Makefile b/Makefile
-index f0e1a2f..62a367d 100644
---- a/Makefile
-+++ b/Makefile
-@@ -865,7 +865,7 @@ ifdef CONFIG_VIRTFS
-        $(INSTALL_DATA) $(MANUAL_BUILDDIR)/interop/virtfs-proxy-helper.1 "$(DESTDIR)$(mandir)/man1"
- endif
- ifeq ($(CONFIG_LINUX)$(CONFIG_SECCOMP)$(CONFIG_LIBCAP_NG),yyy)
--       $(INSTALL_DATA) docs/interop/virtiofsd.1 "$(DESTDIR)$(mandir)/man1"
-+       $(INSTALL_DATA) $(MANUAL_BUILDDIR)/interop/virtiofsd.1 "$(DESTDIR)$(mandir)/man1"
- endif
+TO be honest this is my personal taste as well, but after *many* review
+complains about this I consider that aligning on opening paranthesis 
+is kind of an official style.
 
- install-datadir:
--- 
-1.8.3.1
+If others are OK with this though, I am personally 100% fine with leaving the
+split lines as is.
 
+
+Best regards,
+	Maxim Levitsky
 
 
