@@ -2,114 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 613DE15ADA9
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Feb 2020 17:48:39 +0100 (CET)
-Received: from localhost ([::1]:40382 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61DFD15ADA0
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Feb 2020 17:46:01 +0100 (CET)
+Received: from localhost ([::1]:40342 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j1vBm-0006Qm-Cq
-	for lists+qemu-devel@lfdr.de; Wed, 12 Feb 2020 11:48:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36688)
+	id 1j1v9E-00033L-FI
+	for lists+qemu-devel@lfdr.de; Wed, 12 Feb 2020 11:46:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36881)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <tsimpson@quicinc.com>) id 1j1v5d-0004yz-Vx
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 11:42:19 -0500
+ (envelope-from <laurent@vivier.eu>) id 1j1v7W-00011C-0C
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 11:44:16 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tsimpson@quicinc.com>) id 1j1v5c-0002s2-G1
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 11:42:17 -0500
-Received: from alexa-out-sd-01.qualcomm.com ([199.106.114.38]:54655)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <tsimpson@quicinc.com>)
- id 1j1v5c-0002o0-0N
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 11:42:16 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1581525736; x=1613061736;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=MngNjPpuZ8LMm4C/KfjVsfAiMb/T2IhJwmc5aqrnsV8=;
- b=dcKhC1wCnq7+Y/Usz6wr1UgzyUtKbaoTTisEAW9dYGSryjyyMnCsW/je
- 7Ez6ZtKkxCU73HLRlDHmbHptsKLRZEFpOt2Z/AFnKQQemLTvbiWc4B6KP
- X/Kb3bAJx8M21JJ2PJzu4uSoGAKsoixQflFd1QokFLbUAG8u8GiMts6AW Q=;
-Received: from unknown (HELO ironmsg-SD-alpha.qualcomm.com) ([10.53.140.30])
- by alexa-out-sd-01.qualcomm.com with ESMTP; 12 Feb 2020 08:42:14 -0800
-Received: from nasanexm03b.na.qualcomm.com ([10.85.0.98])
- by ironmsg-SD-alpha.qualcomm.com with ESMTP/TLS/AES256-SHA;
- 12 Feb 2020 08:42:14 -0800
-Received: from nasanexm03d.na.qualcomm.com (10.85.0.91) by
- nasanexm03b.na.qualcomm.com (10.85.0.98) with Microsoft SMTP Server (TLS) id
- 15.0.1473.3; Wed, 12 Feb 2020 08:42:14 -0800
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (199.106.107.6)
- by nasanexm03d.na.qualcomm.com (10.85.0.91) with Microsoft SMTP Server (TLS)
- id 15.0.1473.3 via Frontend Transport; Wed, 12 Feb 2020 08:42:14 -0800
-Received: from BYAPR02MB4886.namprd02.prod.outlook.com (52.135.234.160) by
- BYAPR02MB4277.namprd02.prod.outlook.com (52.135.237.12) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2707.25; Wed, 12 Feb 2020 16:42:13 +0000
-Received: from BYAPR02MB4886.namprd02.prod.outlook.com
- ([fe80::bde4:83e4:96ad:fe62]) by BYAPR02MB4886.namprd02.prod.outlook.com
- ([fe80::bde4:83e4:96ad:fe62%6]) with mapi id 15.20.2707.030; Wed, 12 Feb 2020
- 16:42:13 +0000
-From: Taylor Simpson <tsimpson@quicinc.com>
-To: Laurent Vivier <laurent@vivier.eu>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>
-Subject: RE: [PATCH v3 0/4] linux-user: fix use of SIGRTMIN
-Thread-Topic: [PATCH v3 0/4] linux-user: fix use of SIGRTMIN
-Thread-Index: AQHV4aQAI8ElQXE8CEKfgmR6Uf7pZKgXw1iA
-Date: Wed, 12 Feb 2020 16:42:12 +0000
-Message-ID: <BYAPR02MB48860D7D29C1C09D45A4187CDE1B0@BYAPR02MB4886.namprd02.prod.outlook.com>
-References: <20200212125658.644558-1-laurent@vivier.eu>
-In-Reply-To: <20200212125658.644558-1-laurent@vivier.eu>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=tsimpson@quicinc.com; 
-x-originating-ip: [199.106.103.59]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: e3f868e3-c177-483f-d0a3-08d7afda82ea
-x-ms-traffictypediagnostic: BYAPR02MB4277:
-x-microsoft-antispam-prvs: <BYAPR02MB4277DC997167A326BAC51FC8DE1B0@BYAPR02MB4277.namprd02.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:5516;
-x-forefront-prvs: 0311124FA9
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(396003)(136003)(346002)(366004)(39860400002)(376002)(199004)(189003)(9686003)(52536014)(55016002)(8676002)(8936002)(66476007)(64756008)(26005)(7696005)(66556008)(478600001)(5660300002)(66946007)(66446008)(86362001)(81166006)(186003)(81156014)(53546011)(33656002)(71200400001)(110136005)(54906003)(6506007)(4326008)(76116006)(316002)(2906002);
- DIR:OUT; SFP:1102; SCL:1; SRVR:BYAPR02MB4277;
- H:BYAPR02MB4886.namprd02.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: ra3RGUVZAdXBxhlNIlfkn0boKn26CSKm1i2oiuajJa/PjiyyzqfnFZZaKEUWiBEpm2gdLkkS0r8ANw85fYNRKrurUcJiPqyhJX0/owgawPZyEH8QU4ppNAAYxVNtDiWQAcGMkmqD6maUJKgKqa2w1eyFKJFqbWx08RZrd9q87WRnqTZ7DiKxWxxHGYr46GT7jl7HV64twmXXuVq800lEiK82umCNwfILnf7kxOWk6lBO0E/VtmrNbFFVdXBTJ3FyOCGylNRDj+Q9ObpuA+H61ZpI5oIpM054oO2PGbJQtsjvi5+aYUqkYO3LNj7CdOk9IGPHlqUbXMA1YqM+B1yVSidyB2ZtC672dFy1bPihAi4L6H+M6KCLCy04Nry8bpl9k20iuNHD4RC+z51wMOHUSfsNVIgqjDIwZnKdlOzpKflJ6kM9r3FVO32mibiolyqf
-x-ms-exchange-antispam-messagedata: ZIQb6/zs19cPc9GFbGbtCMd4Wj0AxiykaWiLmtVw+NUvISf/5OSGFcfjsCvidAFq9r4ei9hr/fc+R3C8T8eaYL62S8FQoQhc/geWW3WV9ibfACq8iHOKK7eiV60T5GP+sy46W2D7HO8S41RAMi/qHQ==
-x-ms-exchange-transport-forked: True
-arc-seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=j4Lo++FdstCgX9Veyz9San2potAk3tU2kkTCzGdUBTsii+DiynRsojcB0lzKSkZmIhIJlB2McC75eY3KcdAqL8NBlIvSCFLYRtgnunN4kLWDZR5lYjXUrkinVPwIwTwDV7flqhqT7v5ikB4/L8/Fc+trwwb6HxDRhklBBA5cb28NLiwAaSLdYgiOL/xoddhQBYX4LiAK3Pm7JoFeQzQtsuWbkBbbg4eDsWEysGvMC48LVsJPrCxNeTi3STDOQRZr+kLNL2xNCPApcRsG/k7h3/x0uII8ZRa809DLIAakX4ar+WdOQgQdYJSy3dzyHU6seuvJQKxlqUA8PbBUALHrPA==
-arc-message-signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mp9A7L6Bssa/RnBXl4w7knNJ+RXSJxfNbZ3t4LhX42E=;
- b=lv8pN+z9ZSxE30glaPVyhMhcHqnYYd5Exfwamt7hZbwKClN2kAMsWBJ39JuvlTcdJV6Gc+LzEwZV8DKi+/rPzxS80iBnO8kHKaQ7VQrU6lw4ElPhg4Yek5YUn5eONCXdLKeU/bzOkJXlV5WEgkvnR2MRoWt+1z4QC/U+YbLm115VPF2QuJboIkH0Z6mUFYS+bQDBXdG82aZjXb200kpKP3In3G9txchVv9WhwL5AU9TlGhL+XKtpxRUhA3E7A7vGccvPGFK7j1OZHDdud79XE+wJktDXlaWa0eZcLrAe3FtqkC9od3pc86khZ93DDVGKqvTGcEQ7bB9n9BuhCmCTag==
-arc-authentication-results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=quicinc.com; dmarc=pass action=none header.from=quicinc.com;
- dkim=pass header.d=quicinc.com; arc=none
-dkim-signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=qualcomm.onmicrosoft.com; s=selector1-qualcomm-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mp9A7L6Bssa/RnBXl4w7knNJ+RXSJxfNbZ3t4LhX42E=;
- b=IgYtkVNUNZ/dLao5V9iZCtScC/OjWqHvN2ruwkXAVXRlOi+qkCOrxVLjyUQRzycKEBOTD4Br9FzDCHbNSJ3zYV9/dEeeXJVtQ7Pm6dlSmDMorksA8cdrOklv0nsQZhtwAaPoJW/fm4IXXkoj7ajdbWwr73Xev3EFPyKWAP48EZU=
-x-ms-exchange-crosstenant-network-message-id: e3f868e3-c177-483f-d0a3-08d7afda82ea
-x-ms-exchange-crosstenant-originalarrivaltime: 12 Feb 2020 16:42:12.8543 (UTC)
-x-ms-exchange-crosstenant-fromentityheader: Hosted
-x-ms-exchange-crosstenant-id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
-x-ms-exchange-crosstenant-mailboxtype: HOSTED
-x-ms-exchange-crosstenant-userprincipalname: /ZkfKbyLbviTDeMV4U71qHpgnYJkNIkSbWuLi7QASWawyMWAdFIK7nxDW7wXjX4crj6k4HyxqB0RnnGGZQo4yg==
-x-ms-exchange-transport-crosstenantheadersstamped: BYAPR02MB4277
-x-originatororg: quicinc.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ (envelope-from <laurent@vivier.eu>) id 1j1v7U-0004fD-7u
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 11:44:13 -0500
+Received: from mout.kundenserver.de ([212.227.126.134]:58487)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1j1v7T-0004dh-UV
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 11:44:12 -0500
+Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
+ (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MLAZe-1ikwCC42cc-00IARj; Wed, 12 Feb 2020 17:43:59 +0100
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20200204211901.1731821-1-laurent@vivier.eu>
+ <713318de-21ee-4137-0580-c6d852bea008@redhat.com>
+ <93a00c06-f42d-0c7d-79a4-0dcd1bc488c5@vivier.eu>
+ <67dbdf8f-0565-32f0-bfeb-0ca7d694d948@redhat.com>
+From: Laurent Vivier <laurent@vivier.eu>
+Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
+ 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
+Subject: Re: [PATCH v2] linux-user: implement TARGET_SO_PEERSEC
+Message-ID: <a873c241-ffc0-1023-7d2a-d6f08c463bf6@vivier.eu>
+Date: Wed, 12 Feb 2020 17:43:58 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.1
 MIME-Version: 1.0
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
-X-Received-From: 199.106.114.38
+In-Reply-To: <67dbdf8f-0565-32f0-bfeb-0ca7d694d948@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:Z0jqvRnHS2/geQIK4epTTC9VJlqdK5un/XiIhIcr7ty2wYd9IdL
+ d29nUv8OrB13qfCO4GI6gYHcnnY14B4ZbkY5BKgAR82sqsYv7okf6QEK7c0HJPrO80NwuZz
+ rJKRTq4JvNUStTTnZq7clQUi/a+oWkQUjH+kY75H5aeI8/XMXu9I9iladUrkDrBVFFwavQl
+ sOuyzxf0bJHmLDd5GHMDQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:LwuylW7Zd34=:VVHA2GEP54bwZ6GsMbrR+q
+ Y7J3O9Be3X0fUFRkZk1logIKkzsAJP08L5TIJi9N6GAsqp0ylqV5TZYBPF18WJogUMm/SrVKR
+ nWW0fIP9ckscMfbHrKRykbMMd1ZI2feKHbS5Ywgfx54CAhqOzAtletP4D6Ii3sDinIcDYed2L
+ 6QixhfY9k1z/bf17TNmovMHmfnl0Vt/ITCjKtztLfmgBM/j99iCh5RsmfFiBzGOlqLbBx5nqv
+ cScVQJkn5nT/17IrQVOA6wezrRf/KDnvHKrhPT7qLfltLXiNfDo9ZWLZAmRFvOjYkAKq/IMlw
+ UfAzrLIw4SSfkt+VmLaUsEkkZEIUblbqceXngk4MUAEvMNKxfYqCawG7OrkqBYCoFsnrKmlbX
+ nqcFCwYN9xU8t3nOH3/7UX0J8xYqcWSnoAQczgd+iUt034WpeOfJ3xsxdh0Ff9E7I/xiwNUr/
+ 1oka2JeqkFhekxfdQJahK8O5O2Q6UyPtyYjblBMINjPQ3a4PSNjL6R8RTqNJj+o6wFkbd9P11
+ 7lc0nDCrAJrGa+EBXsJaqT9Lrudt26rUcfrV5JctKRLO0Gijm2/RCF0ghaxIU5IIVk/okakQi
+ R3bEwJxLs4lLccMl0z+maLbpZq+0PMZtpP4fsCmzn4EwaNfdFfGACz7DYPr2qj+1OPf0rn+9f
+ aiMPhjPzmAI13LOFMPVJjTGuTl5GegEnmI/XS3GD6P6Q5NUSucvGUE2cUETtVbxeyEWWZrOS8
+ FPdhSqqn+MEZMvPZBLaeaDl69a/BSPoL/13c2RYpcqGMs9orBQfvf9KEMp40fKgxc5alsYUIR
+ 76K5MnSccybTYsj3OC718Tfu98ygywmTlJ5fj6vxuIETKT962tmoSuobeyUd3yk1bhkX4/6
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 212.227.126.134
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -121,51 +112,171 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Marlies Ruck <marlies.ruck@gmail.com>, Riku Voipio <riku.voipio@iki.fi>,
- Aleksandar Markovic <aleksandar.markovic@rt-rk.com>,
- Josh Kunz <jkz@google.com>, Matus Kysel <mkysel@tachyum.com>,
- "milos.stojanovic@rt-rk.com" <milos.stojanovic@rt-rk.com>
+Cc: Riku Voipio <riku.voipio@iki.fi>,
+ =?UTF-8?Q?Matthias_L=c3=bcscher?= <lueschem@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-VGVzdGVkLWJ5OiBUYXlsb3IgU2ltcHNvbiA8dHNpbXBzb25AcXVpY2luYy5jb20+DQoNCj4gLS0t
-LS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogTGF1cmVudCBWaXZpZXIgPGxhdXJlbnRA
-dml2aWVyLmV1Pg0KPiBTZW50OiBXZWRuZXNkYXksIEZlYnJ1YXJ5IDEyLCAyMDIwIDY6NTcgQU0N
-Cj4gVG86IHFlbXUtZGV2ZWxAbm9uZ251Lm9yZw0KPiBDYzogQWxla3NhbmRhciBNYXJrb3ZpYyA8
-YWxla3NhbmRhci5tYXJrb3ZpY0BydC1yay5jb20+OyBMYXVyZW50IFZpdmllcg0KPiA8bGF1cmVu
-dEB2aXZpZXIuZXU+OyBNYXR1cyBLeXNlbCA8bWt5c2VsQHRhY2h5dW0uY29tPjsNCj4gbWlsb3Mu
-c3RvamFub3ZpY0BydC1yay5jb207IFJpa3UgVm9pcGlvIDxyaWt1LnZvaXBpb0Bpa2kuZmk+OyBK
-b3NoIEt1bnoNCj4gPGprekBnb29nbGUuY29tPjsgVGF5bG9yIFNpbXBzb24gPHRzaW1wc29uQHF1
-aWNpbmMuY29tPjsgUGV0ZXIgTWF5ZGVsbA0KPiA8cGV0ZXIubWF5ZGVsbEBsaW5hcm8ub3JnPjsg
-TWFybGllcyBSdWNrIDxtYXJsaWVzLnJ1Y2tAZ21haWwuY29tPg0KPiBTdWJqZWN0OiBbUEFUQ0gg
-djMgMC80XSBsaW51eC11c2VyOiBmaXggdXNlIG9mIFNJR1JUTUlODQo+DQo+IFRoaXMgc2VyaWVz
-IGZpeGVzIHRoZSBwcm9ibGVtIG9mIHRoZSBmaXJzdCByZWFsLXRpbWUgc2lnbmFscyBhbHJlYWR5
-DQo+IGluIHVzZSBieSB0aGUgZ2xpYmMgdGhhdCBhcmUgbm90IGF2YWlsYWJsZSBmb3IgdGhlIHRh
-cmdldCBnbGliYy4NCj4NCj4gSW5zdGVhZCBvZiByZXZlcnRpbmcgdGhlIGZpcnN0IGFuZCBsYXN0
-IHJlYWwtdGltZSBzaWduYWxzIHdlIHJlbHkgb24NCj4gdGhlIHZhbHVlIHByb3ZpZGVkIGJ5IHRo
-ZSBnbGliYyAoU0lHUlRNSU4pIHRvIGtub3cgdGhlIGZpcnN0IGF2YWlsYWJsZQ0KPiBzaWduYWwg
-YW5kIHdlIG1hcCBhbGwgdGhlIHNpZ25hbHMgZnJvbSB0aGlzIHZhbHVlIHRvIFNJR1JUTUFYIG9u
-IHRvcA0KPiBvZiBUQVJHRVRfU0lHUlRNSU4uIFNvIHRoZSBjb25zZXF1ZW5jZSBpcyB3ZSBoYXZl
-IGxlc3MgYXZhaWxhYmxlIHNpZ25hbHMNCj4gaW4gdGhlIHRhcmdldCAoZ2VuZXJhbGx5IDIpIGJ1
-dCBhbGwgc2VlbXMgZmluZSBhcyBhdCBsZWFzdCAzMCBzaWduYWxzIGFyZQ0KPiBzdGlsbCBhdmFp
-bGFibGUuDQo+DQo+IFRoaXMgaGFzIGJlZW4gdGVzdGVkIHdpdGggR28gKGdvbGFuZyAxLjEwLjEg
-bGludXgvYXJtNjQsIGJpb25pYykgb24geDg2XzY0DQo+IGZlZG9yYSAzMS4gV2UgY2FuIGF2b2lk
-IHRoZSBmYWlsdXJlIGluIHRoaXMgY2FzZSBhbGxvd2luZyB0aGUgdW5zdXBwb3J0ZWQNCj4gc2ln
-bmFscyB3aGVuIHdlIGRvbid0IHByb3ZpZGUgdGhlICJhY3QiIHBhcmFtZXRlcnMgdG8gc2lnYWN0
-aW9uLCBvbmx5IHRoZQ0KPiAib2xkYWN0IiBvbmUuIEkgaGF2ZSBhbHNvIHJ1biB0aGUgTFRQIHN1
-aXRlIHdpdGggc2V2ZXJhbCB0YXJnZXQgYW5kIGRlYmlhbg0KPiBiYXNlZCBkaXN0cm9zLg0KPg0K
-PiB2MzogdXNlIHRyYWNlX2V2ZW50X2dldF9zdGF0ZV9iYWNrZW5kcygpDQo+ICAgICB1cGRhdGUg
-Y29tbWVudHMNCj4gICAgIEFkZCBSLWINCj4NCj4gdjI6IHRlc3RlZCB3aXRoIGdvbGFuZyAxLjEy
-LjEwIGxpbnV4L2FybTY0LCBlb2FuKQ0KPiAgICAgSWdub3JlIHVuc3VwcG9ydGVkIHNpZ25hbHMg
-cmF0aGVyIHRoYW4gcmV0dXJuaW5nIGFuIGVycm9yDQo+ICAgICByZXBsYWNlIGksIGogYnkgdGFy
-Z2V0X3NpZywgaG9zdF9zaWcNCj4NCj4gTGF1cmVudCBWaXZpZXIgKDQpOg0KPiAgIGxpbnV4LXVz
-ZXI6IGFkZCBtaXNzaW5nIFRBUkdFVF9TSUdSVE1JTiBmb3IgaHBwYQ0KPiAgIGxpbnV4LXVzZXI6
-IGNsZWFudXAgc2lnbmFsLmMNCj4gICBsaW51eC11c2VyOiBmaXggVEFSR0VUX05TSUcgYW5kIF9O
-U0lHIHVzZXMNCj4gICBsaW51eC11c2VyOiBmaXggdXNlIG9mIFNJR1JUTUlODQo+DQo+ICBsaW51
-eC11c2VyL2hwcGEvdGFyZ2V0X3NpZ25hbC5oIHwgICAxICsNCj4gIGxpbnV4LXVzZXIvc2lnbmFs
-LmMgICAgICAgICAgICAgfCAxMzQgKysrKysrKysrKysrKysrKysrKysrKysrLS0tLS0tLS0NCj4g
-IGxpbnV4LXVzZXIvdHJhY2UtZXZlbnRzICAgICAgICAgfCAgIDMgKw0KPiAgMyBmaWxlcyBjaGFu
-Z2VkLCAxMDYgaW5zZXJ0aW9ucygrKSwgMzIgZGVsZXRpb25zKC0pDQo+DQo+IC0tDQo+IDIuMjQu
-MQ0KDQo=
+Le 12/02/2020 à 17:08, Philippe Mathieu-Daudé a écrit :
+> On 2/12/20 5:03 PM, Laurent Vivier wrote:
+>> Le 12/02/2020 à 16:56, Philippe Mathieu-Daudé a écrit :
+>>> On 2/4/20 10:19 PM, Laurent Vivier wrote:
+>>>> "The purpose of this option is to allow an application to obtain the
+>>>> security credentials of a Unix stream socket peer.  It is analogous to
+>>>> SO_PEERCRED (which provides authentication using standard Unix
+>>>> credentials
+>>>> of pid, uid and gid), and extends this concept to other security
+>>>> models." -- https://lwn.net/Articles/62370/
+>>>>
+>>>> Until now it was passed to the kernel with an "int" argument and
+>>>> fails when it was supported by the host because the parameter is
+>>>> like a filename: it is always a \0-terminated string with no embedded
+>>>> \0 characters, but is not guaranteed to be ASCII or UTF-8.
+>>>>
+>>>> I've tested the option with the following program:
+>>>>
+>>>>       /*
+>>>>        * cc -o getpeercon getpeercon.c
+>>>>        */
+>>>>
+>>>>       #include <stdio.h>
+>>>>       #include <sys/types.h>
+>>>>       #include <sys/socket.h>
+>>>>       #include <netinet/in.h>
+>>>>       #include <arpa/inet.h>
+>>>>
+>>>>       int main(void)
+>>>>       {
+>>>>           int fd;
+>>>>           struct sockaddr_in server, addr;
+>>>>           int ret;
+>>>>           socklen_t len;
+>>>>           char buf[256];
+>>>>
+>>>>           fd = socket(PF_INET, SOCK_STREAM, 0);
+>>>>           if (fd == -1) {
+>>>>               perror("socket");
+>>>>               return 1;
+>>>>           }
+>>>>
+>>>>           server.sin_family = AF_INET;
+>>>>           inet_aton("127.0.0.1", &server.sin_addr);
+>>>>           server.sin_port = htons(40390);
+>>>>
+>>>>           connect(fd, (struct sockaddr*)&server, sizeof(server));
+>>>>
+>>>>           len = sizeof(buf);
+>>>>           ret = getsockopt(fd, SOL_SOCKET, SO_PEERSEC, buf, &len);
+>>>>           if (ret == -1) {
+>>>>               perror("getsockopt");
+>>>>               return 1;
+>>>>           }
+>>>>           printf("%d %s\n", len, buf);
+>>>>           return 0;
+>>>>       }
+>>>>
+>>>> On host:
+>>>>
+>>>>     $ ./getpeercon
+>>>>     33 system_u:object_r:unlabeled_t:s0
+>>>>
+>>>> With qemu-aarch64/bionic without the patch:
+>>>>
+>>>>     $ ./getpeercon
+>>>>     getsockopt: Numerical result out of range
+>>>>
+>>>> With the patch:
+>>>>
+>>>>     $ ./getpeercon
+>>>>     33 system_u:object_r:unlabeled_t:s0
+>>>>
+>>>> Bug: https://bugs.launchpad.net/qemu/+bug/1823790
+>>>> Reported-by: Matthias Lüscher <lueschem@gmail.com>
+>>>> Tested-by: Matthias Lüscher <lueschem@gmail.com>
+>>>> Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+>>>> ---
+>>>>
+>>>> Notes:
+>>>>       v2: use correct length in unlock_user()
+>>>>
+>>>>    linux-user/syscall.c | 22 ++++++++++++++++++++++
+>>>>    1 file changed, 22 insertions(+)
+>>>>
+>>>> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+>>>> index d60142f0691c..c930577686da 100644
+>>>> --- a/linux-user/syscall.c
+>>>> +++ b/linux-user/syscall.c
+>>>> @@ -2344,6 +2344,28 @@ static abi_long do_getsockopt(int sockfd, int
+>>>> level, int optname,
+>>>>                }
+>>>>                break;
+>>>>            }
+>>>> +        case TARGET_SO_PEERSEC: {
+>>>> +            char *name;
+>>>> +
+>>>> +            if (get_user_u32(len, optlen)) {
+>>>> +                return -TARGET_EFAULT;
+>>>> +            }
+>>>> +            if (len < 0) {
+>>>> +                return -TARGET_EINVAL;
+>>>> +            }
+>>>> +            name = lock_user(VERIFY_WRITE, optval_addr, len, 0);
+>>>> +            if (!name) {
+>>>> +                return -TARGET_EFAULT;
+>>>> +            }
+>>>> +            lv = len;
+>>>> +            ret = get_errno(getsockopt(sockfd, level, SO_PEERSEC,
+>>>> +                                       name, &lv));
+>>>
+>>> Can we get lv > len?
+>>
+>> No:
+>>
+>> getsockopt(2)
+>>
+>> "For  getsockopt(), optlen is a value-result argument, initially
+>> containing the size of the buffer pointed to by optval, and modified on
+>> return to  indicate the  actual  size  of  the value returned."
+>>
+>>>
+>>>> +            if (put_user_u32(lv, optlen)) {
+>>>> +                ret = -TARGET_EFAULT;
+>>>> +            }
+>>>> +            unlock_user(name, optval_addr, lv);
+>>>
+>>> Maybe safer to use len instead of lv here?
+>>
+>> No:
+>>
+>> this is the length of the buffer we must copy back to the user. Kernel
+>> has only modified lv length, not len.
+> 
+> So we can simplify the TARGET_SO_LINGER case then.
+
+No, this case is different because lglen is sizeof(struct linger) and it
+can differ from len. So lglen can be greater than len.
+
+If you check the kernel you can see if the buffer is not big enough the
+data are partially copied. This is partially done in our code because
+the __put_user() can overflow the user memory but we return len to the
+caller. To fix that, we should use a local target_linger to change
+endianness and then copy the local copy to the user copy using len.
+
+>>
+>> linux-user/qemu.h
+>>
+>> /* Unlock an area of guest memory.  The first LEN bytes must be
+>>     flushed back to guest memory. host_ptr = NULL is explicitly
+>>     allowed and does nothing. */
+>> static inline void unlock_user(void *host_ptr, abi_ulong guest_addr,
+>>                                 long len)
+>>
+> 
+> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> 
+
+Thank you.
+
+Laurent
 
