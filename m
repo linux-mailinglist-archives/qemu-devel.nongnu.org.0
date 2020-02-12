@@ -2,79 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BB8E15B044
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Feb 2020 19:55:21 +0100 (CET)
-Received: from localhost ([::1]:42052 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 918ED15B046
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Feb 2020 19:56:44 +0100 (CET)
+Received: from localhost ([::1]:42082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j1xAO-0008Px-01
-	for lists+qemu-devel@lfdr.de; Wed, 12 Feb 2020 13:55:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56747)
+	id 1j1xBj-0001se-La
+	for lists+qemu-devel@lfdr.de; Wed, 12 Feb 2020 13:56:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56787)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groug@kaod.org>) id 1j1x98-0007C3-Rx
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 13:54:03 -0500
+ (envelope-from <groug@kaod.org>) id 1j1x9D-0007Fa-Pi
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 13:54:09 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1j1x97-0001E8-Ti
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 13:54:02 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:14716
+ (envelope-from <groug@kaod.org>) id 1j1x9C-0001Hc-Rv
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 13:54:07 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:58074
  helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1j1x97-0001Di-Od
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 13:54:01 -0500
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1j1x9C-0001HT-N5
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 13:54:06 -0500
+Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
  by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 01CInOLi142697
- for <qemu-devel@nongnu.org>; Wed, 12 Feb 2020 13:54:00 -0500
-Received: from e06smtp05.uk.ibm.com (e06smtp05.uk.ibm.com [195.75.94.101])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2y3wxenbtc-1
+ 01CInWSV139346
+ for <qemu-devel@nongnu.org>; Wed, 12 Feb 2020 13:54:06 -0500
+Received: from e06smtp07.uk.ibm.com (e06smtp07.uk.ibm.com [195.75.94.103])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2y4bp9kn9y-1
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Wed, 12 Feb 2020 13:54:00 -0500
+ for <qemu-devel@nongnu.org>; Wed, 12 Feb 2020 13:54:06 -0500
 Received: from localhost
- by e06smtp05.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ by e06smtp07.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
  Violators will be prosecuted
  for <qemu-devel@nongnu.org> from <groug@kaod.org>;
- Wed, 12 Feb 2020 18:53:58 -0000
-Received: from b06cxnps4074.portsmouth.uk.ibm.com (9.149.109.196)
- by e06smtp05.uk.ibm.com (192.168.101.135) with IBM ESMTP SMTP Gateway:
+ Wed, 12 Feb 2020 18:54:04 -0000
+Received: from b06avi18878370.portsmouth.uk.ibm.com (9.149.26.194)
+ by e06smtp07.uk.ibm.com (192.168.101.137) with IBM ESMTP SMTP Gateway:
  Authorized Use Only! Violators will be prosecuted; 
  (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Wed, 12 Feb 2020 18:53:56 -0000
-Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
- [9.149.105.60])
- by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 01CIrtNc50790466
+ Wed, 12 Feb 2020 18:54:01 -0000
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
+ [9.149.105.59])
+ by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 01CIs1o438863314
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 12 Feb 2020 18:53:55 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 1828A42047;
- Wed, 12 Feb 2020 18:53:55 +0000 (GMT)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id DBE2A42041;
- Wed, 12 Feb 2020 18:53:54 +0000 (GMT)
+ Wed, 12 Feb 2020 18:54:01 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 0DF6FA4055;
+ Wed, 12 Feb 2020 18:54:01 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id D375BA404D;
+ Wed, 12 Feb 2020 18:54:00 +0000 (GMT)
 Received: from bahia.lan (unknown [9.145.71.236])
- by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Wed, 12 Feb 2020 18:53:54 +0000 (GMT)
-Subject: [PATCH 0/3] pnv: Fix a couple of issues reported by Coverity
+ by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Wed, 12 Feb 2020 18:54:00 +0000 (GMT)
+Subject: [PATCH 1/3] pnv/phb3: Convert 1u to 1ull
 From: Greg Kurz <groug@kaod.org>
 To: David Gibson <david@gibson.dropbear.id.au>
-Date: Wed, 12 Feb 2020 19:53:54 +0100
+Date: Wed, 12 Feb 2020 19:54:00 +0100
+In-Reply-To: <158153363409.3229002.13469293798150754920.stgit@bahia.lan>
+References: <158153363409.3229002.13469293798150754920.stgit@bahia.lan>
 User-Agent: StGit/unknown-version
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-TM-AS-GCONF: 00
-x-cbid: 20021218-0020-0000-0000-000003A98D26
+x-cbid: 20021218-0028-0000-0000-000003D9F3A0
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 20021218-0021-0000-0000-000022017496
-Message-Id: <158153363409.3229002.13469293798150754920.stgit@bahia.lan>
+x-cbparentid: 20021218-0029-0000-0000-0000249E6802
+Message-Id: <158153364010.3229002.8004283672455615950.stgit@bahia.lan>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
  definitions=2020-02-12_08:2020-02-12,
  2020-02-12 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 phishscore=0
- malwarescore=0 suspectscore=0 clxscore=1034 mlxscore=0 priorityscore=1501
- bulkscore=0 mlxlogscore=739 lowpriorityscore=0 impostorscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ spamscore=0 clxscore=1034
+ mlxscore=0 impostorscore=0 bulkscore=0 suspectscore=0 malwarescore=0
+ mlxlogscore=876 priorityscore=1501 phishscore=0 adultscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2001150001 definitions=main-2002120134
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
 X-Received-From: 148.163.158.5
@@ -94,23 +96,31 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This fixes some issues in the PHB3 and PHB4 code that was merged
-recently.
+As reported by Coverity defect CID 1419397, the 'j' variable goes up to
+63 and shouldn't be used to left shift a 32-bit integer.
 
---
-Greg
+The result of the operation goes to a 64-bit integer : use a 64-bit
+constant.
 
+Reported-by: Coverity CID 1419397 Bad bit shift operation
+Fixes: 9ae1329ee2fe "ppc/pnv: Add models for POWER8 PHB3 PCIe Host bridge"
+Signed-off-by: Greg Kurz <groug@kaod.org>
 ---
+ hw/pci-host/pnv_phb3_msi.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Greg Kurz (3):
-      pnv/phb3: Convert 1u to 1ull
-      pnv/phb4: Fix error path in pnv_pec_realize()
-      pnv/phb3: Add missing break statement
-
-
- hw/pci-host/pnv_phb3_msi.c  |    2 +-
- hw/pci-host/pnv_phb3_pbcq.c |    1 +
- hw/pci-host/pnv_phb4_pec.c  |    2 +-
- 3 files changed, 3 insertions(+), 2 deletions(-)
+diff --git a/hw/pci-host/pnv_phb3_msi.c b/hw/pci-host/pnv_phb3_msi.c
+index ecfc1b2c4e3d..d645468f4a6f 100644
+--- a/hw/pci-host/pnv_phb3_msi.c
++++ b/hw/pci-host/pnv_phb3_msi.c
+@@ -220,7 +220,7 @@ static void phb3_msi_resend(ICSState *ics)
+             if ((msi->rba[i] & (1ull << j)) == 0) {
+                 continue;
+             }
+-            msi->rba[i] &= ~(1u << j);
++            msi->rba[i] &= ~(1ull << j);
+             phb3_msi_try_send(msi, i * 64 + j, true);
+         }
+     }
 
 
