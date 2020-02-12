@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2E7815A991
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Feb 2020 13:59:30 +0100 (CET)
-Received: from localhost ([::1]:36976 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADC7215A99A
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Feb 2020 14:01:10 +0100 (CET)
+Received: from localhost ([::1]:37196 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j1rc1-0000Y4-MC
-	for lists+qemu-devel@lfdr.de; Wed, 12 Feb 2020 07:59:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60878)
+	id 1j1rdd-0003KE-Pp
+	for lists+qemu-devel@lfdr.de; Wed, 12 Feb 2020 08:01:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60899)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1j1raZ-0007Zj-VI
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 07:58:20 -0500
+ (envelope-from <laurent@vivier.eu>) id 1j1rai-0007Zq-EU
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 07:58:28 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1j1raP-0003s9-GZ
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 07:57:59 -0500
-Received: from mout.kundenserver.de ([212.227.126.133]:51335)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1j1raP-0003rF-7G
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 07:57:49 -0500
+ (envelope-from <laurent@vivier.eu>) id 1j1raO-0003r0-1h
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 07:58:08 -0500
+Received: from mout.kundenserver.de ([212.227.126.130]:46449)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1j1raN-0003oq-Bj
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 07:57:47 -0500
 Received: from localhost.localdomain ([78.238.229.36]) by
  mrelayeu.kundenserver.de (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MHoZS-1jFYQB4ATe-00EvBY; Wed, 12 Feb 2020 13:57:06 +0100
+ id 1N95mR-1jWfpe0IJL-0163yD; Wed, 12 Feb 2020 13:57:05 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 4/4] linux-user: fix use of SIGRTMIN
-Date: Wed, 12 Feb 2020 13:56:58 +0100
-Message-Id: <20200212125658.644558-5-laurent@vivier.eu>
+Subject: [PATCH v3 3/4] linux-user: fix TARGET_NSIG and _NSIG uses
+Date: Wed, 12 Feb 2020 13:56:57 +0100
+Message-Id: <20200212125658.644558-4-laurent@vivier.eu>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200212125658.644558-1-laurent@vivier.eu>
 References: <20200212125658.644558-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:J92mwqrY8tMW58Fc7j+NPrHkaGX9N6Me3XwyeYxAeTcxENAHD3W
- CI1Gcj/g44tXy0DWFr1Hjfh4XWDRhascm4w2kXIPfB6T8golCLT4hjxnJSmZEyWmrpJGgBr
- 8Hu31rxW5TUR3x3rojmmn0W6h2P2Azsuc9T/lmNcsFy3dVUWv4l6Nh7LG7T2i/GW9XHI2AE
- juH/AB8QYcYn867AoqYrA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:DJQHfzKL2kQ=:CX1qI1f8d0asqplHJkHI0q
- akaZiY9Xc0WpZSZWQDsdTBXZxtoSty2QkpyswZuus4s1haqOHhAxGMnamtd/0MECQ7eUhtQG8
- oSiEjWlNZmUlPWYRThJDCgkStlM+TkwqVBr1kxG6UHIvkOf/AImBRTlCuon47mCCALZgCGR6M
- WZXe3GcqvWfrE2tu5W5a++lhSnPpaU50SM9yqJu9Sy6AS5vZ8MCBccGaJ3DYbvJ866wfMw4Mn
- PPCZRr6SP7R2fbeH7yvlAd7m5RRFI8QlLJYpGEqLc+snuosnkbSzyvxNzvUrilqUiMsCB5Ila
- DgraK+tYn2SmyLu66pBxQ5vRGOCjSPPw0Jm3+DRee+0ztlc2AluW/pdqom491PPonC6yjki0S
- lMv5FEDzpyoUGMi37ob7LMc2G7JZewz59yfBNZuGAB0COYttf9sDjomtuJS0bWzkzNJXoJg3Y
- IN3Rxw14AbnGxHJSIpNZelnQhWrLDkojIB7x+zPcTFlN4bqpHmowevIDKFe3WQJh6StUZTbAA
- 762k1d8zie5M6+LNPuLuiAcZZLg/xdIG5LgJdcm3VGjWXTwDB5TNqRqmckgM/sgEPv7Xnh/TV
- cSAGediKkMFzfh2HUHRmY8JxRzWzOCic/cEncJprF3/jdfybinRNKBzG+P4i2mM5xifk12KEm
- b4JkySZcku2kOH1zGDL6O8qSh6E9fuZSlgHf36NqNZi2Vitv1r759cwj1NyYg17gGnZG+917A
- UsTT3v/JnefsBhcuSTACBoEUsOrYQa/jKh/ew2+H0RzMfVdAWSVn2HiNTMaiz/HYdJ/8dNBEa
- K8r/ACgCN4Vjx3wkvuJntw/ytiEudYALT4vInP7yecsVHrOZ5M+zQYObl4NltnPVcWo6ozf
+X-Provags-ID: V03:K1:1K87h0YECN1DOrif4jlPfK1AnLqj9HcewBJexoZAsBxqOzEAoCa
+ 8wki7Bqt4HO2/YvawsRV8yOP36fb3feib32cdwAiziJQ7OUputj2Coyju7uhut04/7Vwg2N
+ gX+ojcj5Io/fzQRxLJSEEjNTr/IeDJcCnEIa6IL9Mr9Mzk+l/0Fw8Mbl7VPmWbi592AzFlK
+ W1tbVSL3cKS2WQA9XTPTA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:jVLYmX8mgWQ=:qqbYrzwNtKwKUry5T3Gw1W
+ /yLtjtgCh1heb0uWM9hJcQnqRSQAnFVi7Iy4DftS3fOjg+m3wJb1xsF6fdv8MvDtTGdEpCT93
+ 9fu1ua5BVX54SKW9MmvibXt91+PhyWsLgR6rwTeVgFzHZ5wxl34rmf+Kf+9h6KS8yXLSgLSj+
+ Yj//qC6HXqxwfAjztGWg1pSw0O+bGsI4V/Za0o6yYqDuow+bJqoQuGTU2EdrbmmLLZd1EqXnA
+ fVIjrvZ38xt/sgdq/I+djMEZcorqEfkN92OVW4KaHlLJ+sPXRgObIf/pO9QZDrIPlgB03tEhg
+ GMILCgf1BErzqIVg/bvRgevvQtlEEUfgDrJyuzNBAJTnlPELQpd4eFYOhrCKI0Yt7Ov/AW0Da
+ qUM4JP/XUrLO4LEDOO89qtdiGM+Wxc03AjpJf3Qd0MM9xs6rPShQH7w7it4bA7F0QaxOQHnsp
+ SJkamY+Pyxvwml1tLqaDrpixKXx/4hLUEP3tsetFD2Tq/qPlMDcITBX0hi797CAwhQokL4n78
+ 8ZgwK87qQWPrwO+h6irkTlYygzp4d4G3xnH7P5KOhIzwKbvzV4pZNVLSO51TFC33Nj0SilS4r
+ j586Be6gHR+KpIdGEW3s9nMem10boZBlNFvsdDKzIF8BXfJ7a8d9kteMRNKYhtSRkUeTVPWTj
+ X7dSaVhDTSU1xT5uvYH3iJ2pW1Ikp4yaYnohtJlKMY8yGVTw6bXbLIl7SkmCzw/bsrNnMc0Gb
+ QbeG3mPbdf/NTDfr043dAaTNFNlvUM2iLIIaBg3IjghcuGfyj2StwM7fm1hcXlRcdet9QcJ/G
+ lamRSBp57M0upDx5Su8wy8NFRPJK35aVUKpcBisk/VYHJyrCfkyaiUW1nfd3nBqNaU1djaH
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.126.133
+X-Received-From: 212.227.126.130
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,135 +72,134 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Some RT signals can be in use by glibc,
-it's why SIGRTMIN (34) is generally greater than __SIGRTMIN (32).
+Valid signal numbers are between 1 (SIGHUP) and SIGRTMAX.
 
-So SIGRTMIN cannot be mapped to TARGET_SIGRTMIN.
+System includes define _NSIG to SIGRTMAX + 1, but
+QEMU (like kernel) defines TARGET_NSIG to TARGET_SIGRTMAX.
 
-Instead of swapping only SIGRTMIN and SIGRTMAX, map all the
-range [TARGET_SIGRTMIN ... TARGET_SIGRTMAX - X] to
-      [__SIGRTMIN + X ... SIGRTMAX ]
-(SIGRTMIN is __SIGRTMIN + X).
+Fix all the checks involving the signal range.
 
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
-Reviewed-by: Taylor Simson <tsimpson@quicinc.com>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 ---
 
 Notes:
-    v3: use trace_event_get_state_backends()
-        update comments
-    
-    v2: ignore error when target sig <= TARGET_NSIG but host sig > SIGRTMAX
-        replace i, j by target_sig, host_sig
-        update signal_table_init() trace message
+    v2: replace i, j by target_sig, host_sig
 
- linux-user/signal.c     | 50 ++++++++++++++++++++++++++++++++++++-----
- linux-user/trace-events |  3 +++
- 2 files changed, 48 insertions(+), 5 deletions(-)
+ linux-user/signal.c | 52 ++++++++++++++++++++++++++++++++-------------
+ 1 file changed, 37 insertions(+), 15 deletions(-)
 
 diff --git a/linux-user/signal.c b/linux-user/signal.c
-index c1e664f97a7c..046159dd0c5b 100644
+index 246315571c09..c1e664f97a7c 100644
 --- a/linux-user/signal.c
 +++ b/linux-user/signal.c
-@@ -498,18 +498,30 @@ static int core_dump_signal(int sig)
+@@ -30,6 +30,15 @@ static struct target_sigaction sigact_table[TARGET_NSIG];
+ static void host_signal_handler(int host_signum, siginfo_t *info,
+                                 void *puc);
  
- static void signal_table_init(void)
- {
--    int host_sig, target_sig;
-+    int host_sig, target_sig, count;
- 
-     /*
--     * Nasty hack: Reverse SIGRTMIN and SIGRTMAX to avoid overlap with
--     * host libpthread signals.  This assumes no one actually uses SIGRTMAX :-/
-+     * Signals are supported starting from TARGET_SIGRTMIN and going up
-+     * until we run out of host realtime signals.
-+     * glibc at least uses only the lower 2 rt signals and probably
-+     * nobody's using the upper ones.
-+     * it's why SIGRTMIN (34) is generally greater than __SIGRTMIN (32)
-      * To fix this properly we need to do manual signal delivery multiplexed
-      * over a single host signal.
-+     * Attempts for configure "missing" signals via sigaction will be
-+     * silently ignored.
-      */
--    host_to_target_signal_table[__SIGRTMIN] = __SIGRTMAX;
--    host_to_target_signal_table[__SIGRTMAX] = __SIGRTMIN;
-+    for (host_sig = SIGRTMIN; host_sig <= SIGRTMAX; host_sig++) {
-+        target_sig = host_sig - SIGRTMIN + TARGET_SIGRTMIN;
-+        if (target_sig <= TARGET_NSIG) {
-+            host_to_target_signal_table[host_sig] = target_sig;
-+        }
-+    }
- 
-     /* generate signal conversion tables */
-+    for (target_sig = 1; target_sig <= TARGET_NSIG; target_sig++) {
-+        target_to_host_signal_table[target_sig] = _NSIG; /* poison */
-+    }
-     for (host_sig = 1; host_sig < _NSIG; host_sig++) {
-         if (host_to_target_signal_table[host_sig] == 0) {
-             host_to_target_signal_table[host_sig] = host_sig;
-@@ -519,6 +531,15 @@ static void signal_table_init(void)
-             target_to_host_signal_table[target_sig] = host_sig;
-         }
-     }
 +
-+    if (trace_event_get_state_backends(TRACE_SIGNAL_TABLE_INIT)) {
-+        for (target_sig = 1, count = 0; target_sig <= TARGET_NSIG; target_sig++) {
-+            if (target_to_host_signal_table[target_sig] == _NSIG) {
-+                count++;
-+            }
-+        }
-+        trace_signal_table_init(count);
++/*
++ * System includes define _NSIG as SIGRTMAX + 1,
++ * but qemu (like the kernel) defines TARGET_NSIG as TARGET_SIGRTMAX
++ * and the first signal is SIGHUP defined as 1
++ * Signal number 0 is reserved for use as kill(pid, 0), to test whether
++ * a process exists without sending it a signal.
++ */
++QEMU_BUILD_BUG_ON(__SIGRTMAX + 1 != _NSIG);
+ static uint8_t host_to_target_signal_table[_NSIG] = {
+     [SIGHUP] = TARGET_SIGHUP,
+     [SIGINT] = TARGET_SIGINT,
+@@ -67,19 +76,24 @@ static uint8_t host_to_target_signal_table[_NSIG] = {
+     [SIGSYS] = TARGET_SIGSYS,
+     /* next signals stay the same */
+ };
+-static uint8_t target_to_host_signal_table[_NSIG];
+ 
++static uint8_t target_to_host_signal_table[TARGET_NSIG + 1];
++
++/* valid sig is between 1 and _NSIG - 1 */
+ int host_to_target_signal(int sig)
+ {
+-    if (sig < 0 || sig >= _NSIG)
++    if (sig < 1 || sig >= _NSIG) {
+         return sig;
 +    }
+     return host_to_target_signal_table[sig];
  }
  
- void signal_init(void)
-@@ -817,6 +838,8 @@ int do_sigaction(int sig, const struct target_sigaction *act,
-     int host_sig;
-     int ret = 0;
++/* valid sig is between 1 and TARGET_NSIG */
+ int target_to_host_signal(int sig)
+ {
+-    if (sig < 0 || sig >= _NSIG)
++    if (sig < 1 || sig > TARGET_NSIG) {
+         return sig;
++    }
+     return target_to_host_signal_table[sig];
+ }
  
-+    trace_signal_do_sigaction_guest(sig, TARGET_NSIG);
-+
-     if (sig < 1 || sig > TARGET_NSIG || sig == TARGET_SIGKILL || sig == TARGET_SIGSTOP) {
-         return -TARGET_EINVAL;
-     }
-@@ -847,6 +870,23 @@ int do_sigaction(int sig, const struct target_sigaction *act,
- 
-         /* we update the host linux signal state */
-         host_sig = target_to_host_signal(sig);
-+        trace_signal_do_sigaction_host(host_sig, TARGET_NSIG);
-+        if (host_sig > SIGRTMAX) {
-+            /* we don't have enough host signals to map all target signals */
-+            qemu_log_mask(LOG_UNIMP, "Unsupported target signal #%d, ignored\n",
-+                          sig);
-+            /*
-+             * we don't return an error here because some programs try to
-+             * register an handler for all possible rt signals even if they
-+             * don't need it.
-+             * An error here can abort them whereas there can be no problem
-+             * to not have the signal available later.
-+             * This is the case for golang,
-+             *   See https://github.com/golang/go/issues/33746
-+             * So we silently ignore the error.
-+             */
-+            return 0;
+@@ -100,11 +114,15 @@ static inline int target_sigismember(const target_sigset_t *set, int signum)
+ void host_to_target_sigset_internal(target_sigset_t *d,
+                                     const sigset_t *s)
+ {
+-    int i;
++    int host_sig, target_sig;
+     target_sigemptyset(d);
+-    for (i = 1; i <= TARGET_NSIG; i++) {
+-        if (sigismember(s, i)) {
+-            target_sigaddset(d, host_to_target_signal(i));
++    for (host_sig = 1; host_sig < _NSIG; host_sig++) {
++        target_sig = host_to_target_signal(host_sig);
++        if (target_sig < 1 || target_sig > TARGET_NSIG) {
++            continue;
 +        }
-         if (host_sig != SIGSEGV && host_sig != SIGBUS) {
-             sigfillset(&act1.sa_mask);
-             act1.sa_flags = SA_SIGINFO;
-diff --git a/linux-user/trace-events b/linux-user/trace-events
-index f6de1b8befc0..0296133daeb6 100644
---- a/linux-user/trace-events
-+++ b/linux-user/trace-events
-@@ -1,6 +1,9 @@
- # See docs/devel/tracing.txt for syntax documentation.
++        if (sigismember(s, host_sig)) {
++            target_sigaddset(d, target_sig);
+         }
+     }
+ }
+@@ -122,11 +140,15 @@ void host_to_target_sigset(target_sigset_t *d, const sigset_t *s)
+ void target_to_host_sigset_internal(sigset_t *d,
+                                     const target_sigset_t *s)
+ {
+-    int i;
++    int host_sig, target_sig;
+     sigemptyset(d);
+-    for (i = 1; i <= TARGET_NSIG; i++) {
+-        if (target_sigismember(s, i)) {
+-            sigaddset(d, target_to_host_signal(i));
++    for (target_sig = 1; target_sig <= TARGET_NSIG; target_sig++) {
++        host_sig = target_to_host_signal(target_sig);
++        if (host_sig < 1 || host_sig >= _NSIG) {
++            continue;
++        }
++        if (target_sigismember(s, target_sig)) {
++            sigaddset(d, host_sig);
+         }
+     }
+ }
+@@ -492,10 +514,10 @@ static void signal_table_init(void)
+         if (host_to_target_signal_table[host_sig] == 0) {
+             host_to_target_signal_table[host_sig] = host_sig;
+         }
+-    }
+-    for (host_sig = 1; host_sig < _NSIG; host_sig++) {
+         target_sig = host_to_target_signal_table[host_sig];
+-        target_to_host_signal_table[target_sig] = host_sig;
++        if (target_sig <= TARGET_NSIG) {
++            target_to_host_signal_table[target_sig] = host_sig;
++        }
+     }
+ }
  
- # signal.c
-+signal_table_init(int i) "number of unavailable signals: %d"
-+signal_do_sigaction_guest(int sig, int max) "target signal %d (MAX %d)"
-+signal_do_sigaction_host(int sig, int max) "host signal %d (MAX %d)"
- # */signal.c
- user_setup_frame(void *env, uint64_t frame_addr) "env=%p frame_addr=0x%"PRIx64
- user_setup_rt_frame(void *env, uint64_t frame_addr) "env=%p frame_addr=0x%"PRIx64
+@@ -518,7 +540,7 @@ void signal_init(void)
+     act.sa_sigaction = host_signal_handler;
+     for(i = 1; i <= TARGET_NSIG; i++) {
+ #ifdef TARGET_GPROF
+-        if (i == SIGPROF) {
++        if (i == TARGET_SIGPROF) {
+             continue;
+         }
+ #endif
 -- 
 2.24.1
 
