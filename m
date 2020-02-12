@@ -2,84 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2555B15B020
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Feb 2020 19:46:04 +0100 (CET)
-Received: from localhost ([::1]:41974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DB5D15B022
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Feb 2020 19:48:03 +0100 (CET)
+Received: from localhost ([::1]:41982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j1x1P-0003UO-66
-	for lists+qemu-devel@lfdr.de; Wed, 12 Feb 2020 13:46:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55403)
+	id 1j1x3K-0004Vc-5j
+	for lists+qemu-devel@lfdr.de; Wed, 12 Feb 2020 13:48:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55550)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <farosas@linux.ibm.com>) id 1j1x0G-0002T4-Lf
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 13:44:53 -0500
+ (envelope-from <groeck7@gmail.com>) id 1j1x2G-0003zk-1D
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 13:46:56 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <farosas@linux.ibm.com>) id 1j1x0F-0004UK-DC
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 13:44:52 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:51820)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <farosas@linux.ibm.com>)
- id 1j1x0F-0004Q6-87; Wed, 12 Feb 2020 13:44:51 -0500
-Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 01CIdWeQ178346; Wed, 12 Feb 2020 13:44:35 -0500
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2y1ucmse6y-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 12 Feb 2020 13:44:35 -0500
-Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 01CIdfXZ178772;
- Wed, 12 Feb 2020 13:44:34 -0500
-Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com
- [169.55.85.253])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2y1ucmse6k-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 12 Feb 2020 13:44:34 -0500
-Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
- by ppma01wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 01CIiBxe003088;
- Wed, 12 Feb 2020 18:44:33 GMT
-Received: from b03cxnp07029.gho.boulder.ibm.com
- (b03cxnp07029.gho.boulder.ibm.com [9.17.130.16])
- by ppma01wdc.us.ibm.com with ESMTP id 2y1mm76tb9-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 12 Feb 2020 18:44:33 +0000
-Received: from b03ledav006.gho.boulder.ibm.com
- (b03ledav006.gho.boulder.ibm.com [9.17.130.237])
- by b03cxnp07029.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 01CIiXLw59834688
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 12 Feb 2020 18:44:33 GMT
-Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0CC9FC6057;
- Wed, 12 Feb 2020 18:44:33 +0000 (GMT)
-Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 4E5E4C6055;
- Wed, 12 Feb 2020 18:44:32 +0000 (GMT)
-Received: from localhost (unknown [9.86.26.115])
- by b03ledav006.gho.boulder.ibm.com (Postfix) with ESMTPS;
- Wed, 12 Feb 2020 18:44:31 +0000 (GMT)
-From: Fabiano Rosas <farosas@linux.ibm.com>
-To: Alexey Kardashevskiy <aik@ozlabs.ru>, qemu-devel@nongnu.org
-Subject: Re: [PATCH qemu v6 2/6] ppc/spapr: Move GPRs setup to one place
-In-Reply-To: <20200203032943.121178-3-aik@ozlabs.ru>
-References: <20200203032943.121178-1-aik@ozlabs.ru>
- <20200203032943.121178-3-aik@ozlabs.ru>
-Date: Wed, 12 Feb 2020 15:44:30 -0300
-Message-ID: <87ftffk5m9.fsf@linux.ibm.com>
+ (envelope-from <groeck7@gmail.com>) id 1j1x2E-0005pV-HZ
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 13:46:55 -0500
+Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:33168)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <groeck7@gmail.com>)
+ id 1j1x2E-0005oq-BU; Wed, 12 Feb 2020 13:46:54 -0500
+Received: by mail-pf1-x441.google.com with SMTP id n7so1680603pfn.0;
+ Wed, 12 Feb 2020 10:46:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:date:from:to:cc:subject:message-id:mime-version
+ :content-disposition:user-agent;
+ bh=22sSFhbdsV1ZQo5hM/tLUFsL0nUT6G4An3xw/2y359A=;
+ b=Ay698HX8RLMebhZAYFwIIssr2H6lkl0lqXbe8hN0pQpvHkQ6bx3AesBAZm8N4UKMcz
+ XW/M8ccCmx6S7t6nXS/69I7BXSc/zDuYKmJIOYGQYqPPG8LVLatJdWFhMeZRpbhdeq0h
+ g2ZhWAhZE5sA/VHCjxq87AN0tMYKnLdzj8kehCFf3ryrCg+3A06ngU+E2Mj3pRgpyCw7
+ 6HkBU1XO7KXWsIF/TqzeGk/1lpFMIo6DFHCZh73bTlNTdMsL/pdzWimmgOJIMqLqorOP
+ YoC3RkXZVbjWSwYLigtMzgHS+IgjgKchT+Ll7tU90+dYQJ+8oaPq55MIG9Y3vGvqskOR
+ g4Ug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+ :mime-version:content-disposition:user-agent;
+ bh=22sSFhbdsV1ZQo5hM/tLUFsL0nUT6G4An3xw/2y359A=;
+ b=Y+JQrK8mocvORle045LZ4QpU7kzq6RlFC5ISpnvKYUALPLwn/BgxYu2Cdq1TGzCrPJ
+ a7VWmBtAIrbcvmdHRbfZsEeH1gGyAv6B9/V76ULe/Xh0Tqg0XQB18ppiSLxPNj8PL6x+
+ UbPfjlVuHTUFIvRRfHqKaV3j8exgD9yt2jqr+Ya47ngdIoO0ASmbe9NH6rgPW7oJUP+C
+ +sEmUVXrBQnsTlbgXVtsgJyMosLo9oT/5uiLgTfVP+u4vliLvHFS4ki6K3YIOwWzM7qr
+ eReyS5vQM0nVW79/yNrX91aOCCQQxSyg7bBEqZRaRX2T+2Y+RlTPhSUQFCBhdczEvSmY
+ 6zFg==
+X-Gm-Message-State: APjAAAXuPOB5SKhdAH7weoFYEsUitPJvJNdk5pso4g3Y4o0VFOUyVV80
+ PVYxhtLA8IcyCTj+i0oWvvvvEfsj
+X-Google-Smtp-Source: APXvYqzKLm63EvPDtFCEQd2vIrtuCVzUnNukcVgJ5oIzMn4y+Zq+82DK9h7qdiX36n3fkfjV3s/9pA==
+X-Received: by 2002:a63:e509:: with SMTP id r9mr8412061pgh.274.1581533211534; 
+ Wed, 12 Feb 2020 10:46:51 -0800 (PST)
+Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+ by smtp.gmail.com with ESMTPSA id d22sm1585601pfo.187.2020.02.12.10.46.49
+ (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+ Wed, 12 Feb 2020 10:46:50 -0800 (PST)
+Date: Wed, 12 Feb 2020 10:46:48 -0800
+From: Guenter Roeck <linux@roeck-us.net>
+To: qemu-devel@nongnu.org
+Subject: Question about (and problem with) pflash data access
+Message-ID: <20200212184648.GA584@roeck-us.net>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
- definitions=2020-02-12_08:2020-02-12,
- 2020-02-12 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 bulkscore=0
- phishscore=0 impostorscore=0 adultscore=0 lowpriorityscore=0 mlxscore=0
- mlxlogscore=999 priorityscore=1501 suspectscore=22 spamscore=0
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2001150001 definitions=main-2002120133
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.158.5
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::441
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,99 +75,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Alexey Kardashevskiy <aik@ozlabs.ru> writes:
+Hi,
 
-> At the moment "pseries" starts in SLOF which only expects the FDT blob
-> pointer in r3. As we are going to introduce a OpenFirmware support in
-> QEMU, we will be booting OF clients directly and these expect a stack
-> pointer in r1, the OF entry point in r5 and in addition to this, Linux
-> looks at r3/r4 for the initramdisk location (although vmlinux can find
-> this from the device tree but zImage from distro kernels cannot).
->
-> This extends spapr_cpu_set_entry_state() to take more registers. This
-> should cause no behavioral change.
->
-> Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
+I have been playing with pflash recently. For the most part it works,
+but I do have an odd problem when trying to instantiate pflash on sx1.
 
-Reviewed-by: Fabiano Rosas <farosas@linux.ibm.com>
+My data file looks as follows.
 
-> ---
->  include/hw/ppc/spapr_cpu_core.h | 4 +++-
->  hw/ppc/spapr.c                  | 4 ++--
->  hw/ppc/spapr_cpu_core.c         | 7 ++++++-
->  hw/ppc/spapr_rtas.c             | 2 +-
->  4 files changed, 12 insertions(+), 5 deletions(-)
->
-> diff --git a/include/hw/ppc/spapr_cpu_core.h b/include/hw/ppc/spapr_cpu_core.h
-> index 1c4cc6559c52..edd7214fafcf 100644
-> --- a/include/hw/ppc/spapr_cpu_core.h
-> +++ b/include/hw/ppc/spapr_cpu_core.h
-> @@ -40,7 +40,9 @@ typedef struct SpaprCpuCoreClass {
->  } SpaprCpuCoreClass;
->  
->  const char *spapr_get_cpu_core_type(const char *cpu_type);
-> -void spapr_cpu_set_entry_state(PowerPCCPU *cpu, target_ulong nip, target_ulong r3);
-> +void spapr_cpu_set_entry_state(PowerPCCPU *cpu, target_ulong nip,
-> +                               target_ulong r1, target_ulong r3,
-> +                               target_ulong r4, target_ulong r5);
->  
->  typedef struct SpaprCpuState {
->      uint64_t vpa_addr;
-> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> index c9b2e0a5e060..660a4b60e072 100644
-> --- a/hw/ppc/spapr.c
-> +++ b/hw/ppc/spapr.c
-> @@ -1674,8 +1674,8 @@ static void spapr_machine_reset(MachineState *machine)
->      spapr->fdt_blob = fdt;
->  
->      /* Set up the entry state */
-> -    spapr_cpu_set_entry_state(first_ppc_cpu, SPAPR_ENTRY_POINT, fdt_addr);
-> -    first_ppc_cpu->env.gpr[5] = 0;
-> +    spapr_cpu_set_entry_state(first_ppc_cpu, SPAPR_ENTRY_POINT,
-> +                              0, fdt_addr, 0, 0);
->  
->      spapr->cas_reboot = false;
->  
-> diff --git a/hw/ppc/spapr_cpu_core.c b/hw/ppc/spapr_cpu_core.c
-> index d09125d9afd4..696b76598dd7 100644
-> --- a/hw/ppc/spapr_cpu_core.c
-> +++ b/hw/ppc/spapr_cpu_core.c
-> @@ -84,13 +84,18 @@ static void spapr_reset_vcpu(PowerPCCPU *cpu)
->      spapr_irq_cpu_intc_reset(spapr, cpu);
->  }
->  
-> -void spapr_cpu_set_entry_state(PowerPCCPU *cpu, target_ulong nip, target_ulong r3)
-> +void spapr_cpu_set_entry_state(PowerPCCPU *cpu, target_ulong nip,
-> +                               target_ulong r1, target_ulong r3,
-> +                               target_ulong r4, target_ulong r5)
->  {
->      PowerPCCPUClass *pcc = POWERPC_CPU_GET_CLASS(cpu);
->      CPUPPCState *env = &cpu->env;
->  
->      env->nip = nip;
-> +    env->gpr[1] = r1;
->      env->gpr[3] = r3;
-> +    env->gpr[4] = r4;
-> +    env->gpr[5] = r5;
->      kvmppc_set_reg_ppc_online(cpu, 1);
->      CPU(cpu)->halted = 0;
->      /* Enable Power-saving mode Exit Cause exceptions */
-> diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
-> index 656fdd221665..9e3cbd70bbd9 100644
-> --- a/hw/ppc/spapr_rtas.c
-> +++ b/hw/ppc/spapr_rtas.c
-> @@ -190,7 +190,7 @@ static void rtas_start_cpu(PowerPCCPU *callcpu, SpaprMachineState *spapr,
->       */
->      newcpu->env.tb_env->tb_offset = callcpu->env.tb_env->tb_offset;
->  
-> -    spapr_cpu_set_entry_state(newcpu, start, r3);
-> +    spapr_cpu_set_entry_state(newcpu, start, 0, r3, 0, 0);
->  
->      qemu_cpu_kick(CPU(newcpu));
+0000000 0001 0000 aaaa aaaa 5555 5555 0000 0000
+0000020 0000 0000 0000 0000 0000 0000 0000 0000
+*
+0002000 0002 0000 aaaa aaaa 5555 5555 0000 0000
+0002020 0000 0000 0000 0000 0000 0000 0000 0000
+*
+0004000 0003 0000 aaaa aaaa 5555 5555 0000 0000
+0004020 0000 0000 0000 0000 0000 0000 0000 0000
+...
+
+In the sx1 machine, this becomes:
+
+0000000 6001 0000 aaaa aaaa 5555 5555 0000 0000
+0000020 0000 0000 0000 0000 0000 0000 0000 0000
+*
+0002000 6002 0000 aaaa aaaa 5555 5555 0000 0000
+0002020 0000 0000 0000 0000 0000 0000 0000 0000
+*
+0004000 6003 0000 aaaa aaaa 5555 5555 0000 0000
+0004020 0000 0000 0000 0000 0000 0000 0000 0000
+*
+...
+
+pflash is instantiated with "-drive file=flash.32M.test,format=raw,if=pflash".
+
+I don't have much success with pflash tracing - data accesses don't
+show up there.
+
+I did find a number of problems with the sx1 emulation, but I have no clue
+what is going on with pflash. As far as I can see pflash works fine on
+other machines. Can someone give me a hint what to look out for ?
+
+Thanks,
+Guenter
 
