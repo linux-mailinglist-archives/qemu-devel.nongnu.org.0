@@ -2,85 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41D6015A17C
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Feb 2020 08:01:51 +0100 (CET)
-Received: from localhost ([::1]:60900 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43B0D15A18E
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Feb 2020 08:15:38 +0100 (CET)
+Received: from localhost ([::1]:32806 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j1m1u-0007aA-Bw
-	for lists+qemu-devel@lfdr.de; Wed, 12 Feb 2020 02:01:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51081)
+	id 1j1mFE-0004q8-OZ
+	for lists+qemu-devel@lfdr.de; Wed, 12 Feb 2020 02:15:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53585)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1j1m0R-0006wo-VQ
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 02:00:22 -0500
+ (envelope-from <philmd@redhat.com>) id 1j1mE4-0003rL-TF
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 02:14:26 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1j1m0R-00076Y-0u
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 02:00:19 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:21346
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1j1mE3-0004Nz-38
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 02:14:24 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:37348
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j1m0Q-00076K-Tz
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 02:00:18 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j1mE2-0004NY-Nz
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 02:14:23 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581490818;
+ s=mimecast20190719; t=1581491662;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6MRxxhJz5ACe4KFlcaa+fP4wgS0TkQlKalaXQCvWfjU=;
- b=a7gODjYMZ601OTsvEGkriyqBMVPg3x5xpNG1hSYKT2reTTZO14lKf3sPjUJKKxAdTtyu9R
- Vy7IuS7fsN8nADz2rY8QVo2wtHqoOuTm1CbChJSZFPpmDUZ5/EVYtCeWrdW7k85CBjDlRe
- Xkcma2NjBWiZ+s3ZG/kYO/lBmNBLyaM=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-346-aS_3CNPWMNmMPaaSF7NqhQ-1; Wed, 12 Feb 2020 02:00:15 -0500
-Received: by mail-wr1-f69.google.com with SMTP id c6so416954wrm.18
- for <qemu-devel@nongnu.org>; Tue, 11 Feb 2020 23:00:15 -0800 (PST)
+ bh=aT5UiNf8gz7EGwt9+XmRFIld/RnBLY/7qtRI4rhcrME=;
+ b=FE5NrWVYmvsvFtFENS/DG4EM1gHsE6nEKPRe2O8kwIkDLaskRsb2m3oW282D3GuKosFDLG
+ hJuUxU8t77LuTjNqN/Vju3nH3uFBqhMeAXCa+3mTGy4FQw7GcDDj7YxH/sZdAozKZe1aOk
+ FT0DJy1S2a6zJqR3BXsBOw7KU30Px/0=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-370-PyeRKo5dMuKCM8ChjUbgfA-1; Wed, 12 Feb 2020 02:14:19 -0500
+Received: by mail-wm1-f72.google.com with SMTP id t17so348022wmi.7
+ for <qemu-devel@nongnu.org>; Tue, 11 Feb 2020 23:14:19 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=JBqVS9TdpckNkCj29pRaqkiTCWcb7HanfRdJZjSEvaA=;
- b=LjWJRS1fPLjwfk17EUKy6lm1vZQVg02MuRAdlA963rnstZTjtBux7+Q9Y3bHFpheLl
- Rls00odzCU/QnUsuBcrQ+o4Fd9W9RSDkjNNdDnbYF3ge3BX1qdo5ytLheZZrs56kWeok
- p+G3WAWkX3GjWl17FAePi4ksrzWoQma3/pGKTg3Hbqn3/DQHOUKW5IM+f8lHs8q3fGc8
- B0HkK9q/eDr6UulekIYSivxv4GV1b1HRh69s8mJbNAfB5BQAo8H0pX1cJSg8L/4asgfN
- JH0EXPDyy6ohp4MXxuhtcOKM78lvjqsTlpMQgyWDLloFg7a10YkS3BZbjsnljVk6EnJo
- rOmg==
-X-Gm-Message-State: APjAAAUaRFbZRsBmN6R5GRbH1p7d/rEsbf86PsXyfygW88A0zUJbYzMz
- /bqKrL370lCyP7gUYglV8iWg5BPgcbFtxIjPqynSS8cZoEj67mc4398yjJDNUYkhKG49K6i3v6Q
- J2n/1p9ZKLzvzZRg=
-X-Received: by 2002:adf:ec83:: with SMTP id z3mr12972527wrn.133.1581490814303; 
- Tue, 11 Feb 2020 23:00:14 -0800 (PST)
-X-Google-Smtp-Source: APXvYqzHIXGQYkxu0zWlgcQ9o1SAYADdfAKEKNe4sgdImf1skp2RdvfgiyNolpdE5IYNRxL0c56tiw==
-X-Received: by 2002:adf:ec83:: with SMTP id z3mr12972470wrn.133.1581490813873; 
- Tue, 11 Feb 2020 23:00:13 -0800 (PST)
+ bh=u3tnGTnKXIZFszcgkY4p1KSu60g0NmpIXqQvcc6mDgw=;
+ b=R34COIXqsppNANaGWkcVHEtkVCQTNLIvy/lDhmB1UHFzrMwUZRLTIAuNKy70P28sQH
+ PwXgMPeAP60EJ73CvQX0yKPhBaZ/zI4AbUyfe6ruUgV4N31Wj9QiZtl3auaGRW7qck/u
+ aT5ErMF2pW6FEpFaM+iT/NaUCH3c3puZ41XdL+uHDKaEGF30sItjQWAVEpIlXAl94CPq
+ eugomTCCklkd8z23Dqe3iOviUJ7PD/DDcQg2zYhiZ4f7LUqLnCC477l1My+tx5lCoIgz
+ niIWbBpkr54l1OJrydYyjIHlWi8D/887Z7/9+i4pHMFOPHDlTlE3V7QBrKLyx0yy5Xl8
+ NSnQ==
+X-Gm-Message-State: APjAAAUSlSQ/8rQ7ssCrGxxCQhjSLi3X1YRZaBWRTEE6g2+WpmeHwK9v
+ rXJsTrPCeMvScgTxQagF8n9c2ILmTQ/7lEouTK9SMGs27phPnpwImBKs4GheHLXjd+b/xGcSCtZ
+ mYtOLRo0xtluMIsI=
+X-Received: by 2002:adf:dcc2:: with SMTP id x2mr13317778wrm.24.1581491658739; 
+ Tue, 11 Feb 2020 23:14:18 -0800 (PST)
+X-Google-Smtp-Source: APXvYqxuH0wWLtSVjrGN5rXX6zXAGIiDIt6OWW5TgbpXQ3GGBIsalhml1IpzTc/GlrfwSx/NiQcCRw==
+X-Received: by 2002:adf:dcc2:: with SMTP id x2mr13317746wrm.24.1581491658438; 
+ Tue, 11 Feb 2020 23:14:18 -0800 (PST)
 Received: from [192.168.1.35] (78.red-88-21-202.staticip.rima-tde.net.
  [88.21.202.78])
- by smtp.gmail.com with ESMTPSA id c74sm7410596wmd.26.2020.02.11.23.00.13
+ by smtp.gmail.com with ESMTPSA id f8sm8471536wru.12.2020.02.11.23.14.17
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 11 Feb 2020 23:00:13 -0800 (PST)
-Subject: Re: [PATCH 12/13] target/arm: Correct definition of PMCRDP
+ Tue, 11 Feb 2020 23:14:17 -0800 (PST)
+Subject: Re: [PATCH 13/13] target/arm: Correct handling of PMCR_EL0.LC bit
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org, Aaron Lindsay <aaron@os.amperecomputing.com>
+ qemu-devel@nongnu.org
 References: <20200211173726.22541-1-peter.maydell@linaro.org>
- <20200211173726.22541-13-peter.maydell@linaro.org>
+ <20200211173726.22541-14-peter.maydell@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <c412f5b4-ce4f-8f7f-2ad2-24cc69a6dbc4@redhat.com>
-Date: Wed, 12 Feb 2020 08:00:12 +0100
+Message-ID: <a9e33251-9f9d-dc6a-efd9-6f4fcba1a124@redhat.com>
+Date: Wed, 12 Feb 2020 08:14:16 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200211173726.22541-13-peter.maydell@linaro.org>
+In-Reply-To: <20200211173726.22541-14-peter.maydell@linaro.org>
 Content-Language: en-US
-X-MC-Unique: aS_3CNPWMNmMPaaSF7NqhQ-1
+X-MC-Unique: PyeRKo5dMuKCM8ChjUbgfA-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,40 +93,79 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Eric Auger <eric.auger@redhat.com>,
+ Aaron Lindsay <aaron@os.amperecomputing.com>,
  Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 2/11/20 6:37 PM, Peter Maydell wrote:
-> The PMCR_EL0.DP bit is bit 5, which is 0x20, not 0x10.  0x10 is 'X'.
-> Correct our #define of PMCRDP and add the missing PMCRX.
+> The LC bit in the PMCR_EL0 register is supposed to be:
+>   * read/write
+>   * RES1 on an AArch64-only implementation
+>   * an architecturally UNKNOWN value on reset
+> (and use of LC=3D=3D0 by software is deprecated).
 >=20
-> We do have the correct behaviour for handling the DP bit being
-> set, so this fixes a guest-visible bug.
+> We were implementing it incorrectly as read-only always zero,
+> though we do have all the code needed to test it and behave
+> accordingly.
 >=20
-
-Fixes: 033614c47de
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-
+> Instead make it a read-write bit which resets to 1 always, which
+> satisfies all the architectural requirements above.
+>=20
 > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
->   target/arm/helper.c | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
+>   target/arm/helper.c | 13 +++++++++----
+>   1 file changed, 9 insertions(+), 4 deletions(-)
 >=20
 > diff --git a/target/arm/helper.c b/target/arm/helper.c
-> index cb3c30f1725..c6758bfbeb5 100644
+> index c6758bfbeb5..1d8eafceda8 100644
 > --- a/target/arm/helper.c
 > +++ b/target/arm/helper.c
-> @@ -1017,7 +1017,8 @@ static const ARMCPRegInfo v6_cp_reginfo[] =3D {
->   #define PMCRN_MASK  0xf800
->   #define PMCRN_SHIFT 11
->   #define PMCRLC  0x40
-> -#define PMCRDP  0x10
-> +#define PMCRDP  0x20
-> +#define PMCRX   0x10
->   #define PMCRD   0x8
+> @@ -1023,6 +1023,11 @@ static const ARMCPRegInfo v6_cp_reginfo[] =3D {
 >   #define PMCRC   0x4
 >   #define PMCRP   0x2
+>   #define PMCRE   0x1
+> +/*
+> + * Mask of PMCR bits writeable by guest (not including WO bits like C, P=
+,
+> + * which can be written as 1 to trigger behaviour but which stay RAZ).
+> + */
+> +#define PMCR_WRITEABLE_MASK (PMCRLC | PMCRDP | PMCRX | PMCRD | PMCRE)
+>  =20
+>   #define PMXEVTYPER_P          0x80000000
+>   #define PMXEVTYPER_U          0x40000000
+> @@ -1577,9 +1582,8 @@ static void pmcr_write(CPUARMState *env, const ARMC=
+PRegInfo *ri,
+>           }
+>       }
+>  =20
+> -    /* only the DP, X, D and E bits are writable */
+> -    env->cp15.c9_pmcr &=3D ~0x39;
+> -    env->cp15.c9_pmcr |=3D (value & 0x39);
+
+Ah this was missing PMCRLC indeed.
+
+I was tempted to use 'Fixes: 74594c9d813' but the PMCRLC is "Reserved,=20
+UNK/SBZP" in the ARMv7 reference manual.
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+
+> +    env->cp15.c9_pmcr &=3D ~PMCR_WRITEABLE_MASK;
+> +    env->cp15.c9_pmcr |=3D (value & PMCR_WRITEABLE_MASK);
+>  =20
+>       pmu_op_finish(env);
+>   }
+> @@ -5886,7 +5890,8 @@ static void define_pmu_regs(ARMCPU *cpu)
+>           .access =3D PL0_RW, .accessfn =3D pmreg_access,
+>           .type =3D ARM_CP_IO,
+>           .fieldoffset =3D offsetof(CPUARMState, cp15.c9_pmcr),
+> -        .resetvalue =3D (cpu->midr & 0xff000000) | (pmcrn << PMCRN_SHIFT=
+),
+> +        .resetvalue =3D (cpu->midr & 0xff000000) | (pmcrn << PMCRN_SHIFT=
+) |
+> +                      PMCRLC,
+>           .writefn =3D pmcr_write, .raw_writefn =3D raw_write,
+>       };
+>       define_one_arm_cp_reg(cpu, &pmcr);
 >=20
 
 
