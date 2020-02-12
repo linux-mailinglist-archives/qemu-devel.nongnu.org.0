@@ -2,83 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9436815B047
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Feb 2020 19:56:51 +0100 (CET)
-Received: from localhost ([::1]:42084 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B2A815B0E6
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Feb 2020 20:21:52 +0100 (CET)
+Received: from localhost ([::1]:42306 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j1xBq-00024x-Ll
-	for lists+qemu-devel@lfdr.de; Wed, 12 Feb 2020 13:56:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56980)
+	id 1j1xa2-0003SN-Jk
+	for lists+qemu-devel@lfdr.de; Wed, 12 Feb 2020 14:21:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60366)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <farosas@linux.ibm.com>) id 1j1xAA-0000K8-WC
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 13:55:08 -0500
+ (envelope-from <ehabkost@redhat.com>) id 1j1xZ7-0002yr-Oj
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 14:20:54 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <farosas@linux.ibm.com>) id 1j1xA9-0001iz-MS
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 13:55:06 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:1350)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <farosas@linux.ibm.com>)
- id 1j1xA9-0001ip-Hr; Wed, 12 Feb 2020 13:55:05 -0500
-Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 01CInnmA049314; Wed, 12 Feb 2020 13:55:02 -0500
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2y1ucmsqvf-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 12 Feb 2020 13:55:01 -0500
-Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 01CInrH3049802;
- Wed, 12 Feb 2020 13:55:01 -0500
-Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
- [169.63.214.131])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2y1ucmsquv-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 12 Feb 2020 13:55:01 -0500
-Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
- by ppma01dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 01CIsb5p029456;
- Wed, 12 Feb 2020 18:55:00 GMT
-Received: from b01cxnp23034.gho.pok.ibm.com (b01cxnp23034.gho.pok.ibm.com
- [9.57.198.29]) by ppma01dal.us.ibm.com with ESMTP id 2y1mm868fy-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 12 Feb 2020 18:55:00 +0000
-Received: from b01ledav004.gho.pok.ibm.com (b01ledav004.gho.pok.ibm.com
- [9.57.199.109])
- by b01cxnp23034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 01CIsxkB41943454
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 12 Feb 2020 18:54:59 GMT
-Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 706B2112061;
- Wed, 12 Feb 2020 18:54:59 +0000 (GMT)
-Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id DAEF6112063;
- Wed, 12 Feb 2020 18:54:58 +0000 (GMT)
-Received: from localhost (unknown [9.86.26.115])
- by b01ledav004.gho.pok.ibm.com (Postfix) with ESMTPS;
- Wed, 12 Feb 2020 18:54:58 +0000 (GMT)
-From: Fabiano Rosas <farosas@linux.ibm.com>
-To: Alexey Kardashevskiy <aik@ozlabs.ru>, qemu-devel@nongnu.org
-Subject: Re: [PATCH qemu v6 5/6] spapr: Allow changing offset for -kernel image
-In-Reply-To: <20200203032943.121178-6-aik@ozlabs.ru>
-References: <20200203032943.121178-1-aik@ozlabs.ru>
- <20200203032943.121178-6-aik@ozlabs.ru>
-Date: Wed, 12 Feb 2020 15:54:57 -0300
-Message-ID: <87d0ajk54u.fsf@linux.ibm.com>
+ (envelope-from <ehabkost@redhat.com>) id 1j1xZ5-0005Ih-Io
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 14:20:52 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:49356
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1j1xZ5-0005I4-AH
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 14:20:51 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1581535250;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=s0lXdHMdVKA2lMjrl9KywbEwQU1cAXTI72xDOQukghM=;
+ b=dT8aLuaaEvyPK2I5aZV5Ccao0JlAFlDbGvuCPoklJf+aI8gxH0kMTMGFpSxRDcINe1Vb/2
+ T3vZkLQuhPEcfsn1gEEIa8VJBevunpB57OKNK2/4MDrICJfYYKtFtHc0Cc80X4UxVICwap
+ z1nWCoiajm5uujGlLgmJ2BozzQqAaF4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-14-iXHHlpguOIiyJaHHuuYTyA-1; Wed, 12 Feb 2020 14:20:47 -0500
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C23948017CC
+ for <qemu-devel@nongnu.org>; Wed, 12 Feb 2020 19:20:46 +0000 (UTC)
+Received: from localhost (ovpn-126-54.rdu2.redhat.com [10.10.126.54])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 881D15C10D;
+ Wed, 12 Feb 2020 19:20:46 +0000 (UTC)
+Date: Wed, 12 Feb 2020 14:20:45 -0500
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH] target/i386: enable monitor and ucode revision with -cpu
+ max
+Message-ID: <20200212192045.GD30675@habkost.net>
+References: <1581521009-44121-1-git-send-email-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
- definitions=2020-02-12_08:2020-02-12,
- 2020-02-12 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 bulkscore=0
- phishscore=0 impostorscore=0 adultscore=0 lowpriorityscore=0 mlxscore=0
- mlxlogscore=999 priorityscore=1501 suspectscore=22 spamscore=0
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2001150001 definitions=main-2002120134
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.158.5
+In-Reply-To: <1581521009-44121-1-git-send-email-pbonzini@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-MC-Unique: iXHHlpguOIiyJaHHuuYTyA-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,138 +72,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Alexey Kardashevskiy <aik@ozlabs.ru> writes:
+On Wed, Feb 12, 2020 at 04:23:29PM +0100, Paolo Bonzini wrote:
+> These two features were incorrectly tied to host_cpuid_required rather th=
+an
+> cpu->max_features.  As a result, -cpu max was not enabling either MONITOR
+> features or ucode revision.
+>=20
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 
-> This allows moving the kernel in the guest memory. The option is useful
-> for step debugging (as Linux is linked at 0x0); it also allows loading
-> grub which is normally linked to run at 0x20000.
->
+Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
 
-+1, as this fixes half of the '-S' debugging issue.
+--=20
+Eduardo
 
-> This uses the existing kernel address by default.
->
-> Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
-
-Reviewed-by: Fabiano Rosas <farosas@linux.ibm.com>
-
-> ---
->  include/hw/ppc/spapr.h |  1 +
->  hw/ppc/spapr.c         | 38 +++++++++++++++++++++++++++++++-------
->  2 files changed, 32 insertions(+), 7 deletions(-)
->
-> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-> index 3b50f36c338a..32e831a395ae 100644
-> --- a/include/hw/ppc/spapr.h
-> +++ b/include/hw/ppc/spapr.h
-> @@ -164,6 +164,7 @@ struct SpaprMachineState {
->      void *fdt_blob;
->      long kernel_size;
->      bool kernel_le;
-> +    uint64_t kernel_addr;
->      uint32_t initrd_base;
->      long initrd_size;
->      uint64_t rtc_offset; /* Now used only during incoming migration */
-> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> index 60153bf0b771..b59e9dc360fe 100644
-> --- a/hw/ppc/spapr.c
-> +++ b/hw/ppc/spapr.c
-> @@ -1054,7 +1054,7 @@ static void spapr_dt_chosen(SpaprMachineState *spapr, void *fdt)
->      }
->  
->      if (spapr->kernel_size) {
-> -        uint64_t kprop[2] = { cpu_to_be64(KERNEL_LOAD_ADDR),
-> +        uint64_t kprop[2] = { cpu_to_be64(spapr->kernel_addr),
->                                cpu_to_be64(spapr->kernel_size) };
->  
->          _FDT(fdt_setprop(fdt, chosen, "qemu,boot-kernel",
-> @@ -1242,7 +1242,8 @@ void *spapr_build_fdt(SpaprMachineState *spapr, bool reset, size_t space)
->      /* Build memory reserve map */
->      if (reset) {
->          if (spapr->kernel_size) {
-> -            _FDT((fdt_add_mem_rsv(fdt, KERNEL_LOAD_ADDR, spapr->kernel_size)));
-> +            _FDT((fdt_add_mem_rsv(fdt, spapr->kernel_addr,
-> +                                  spapr->kernel_size)));
->          }
->          if (spapr->initrd_size) {
->              _FDT((fdt_add_mem_rsv(fdt, spapr->initrd_base,
-> @@ -1270,7 +1271,9 @@ void *spapr_build_fdt(SpaprMachineState *spapr, bool reset, size_t space)
->  
->  static uint64_t translate_kernel_address(void *opaque, uint64_t addr)
->  {
-> -    return (addr & 0x0fffffff) + KERNEL_LOAD_ADDR;
-> +    SpaprMachineState *spapr = opaque;
-> +
-> +    return (addr & 0x0fffffff) + spapr->kernel_addr;
->  }
->  
->  static void emulate_spapr_hypercall(PPCVirtualHypervisor *vhyp,
-> @@ -2947,14 +2950,15 @@ static void spapr_machine_init(MachineState *machine)
->          uint64_t lowaddr = 0;
->  
->          spapr->kernel_size = load_elf(kernel_filename, NULL,
-> -                                      translate_kernel_address, NULL,
-> +                                      translate_kernel_address, spapr,
->                                        NULL, &lowaddr, NULL, NULL, 1,
->                                        PPC_ELF_MACHINE, 0, 0);
->          if (spapr->kernel_size == ELF_LOAD_WRONG_ENDIAN) {
->              spapr->kernel_size = load_elf(kernel_filename, NULL,
-> -                                          translate_kernel_address, NULL, NULL,
-> +                                          translate_kernel_address, spapr, NULL,
->                                            &lowaddr, NULL, NULL, 0,
-> -                                          PPC_ELF_MACHINE, 0, 0);
-> +                                          PPC_ELF_MACHINE,
-> +                                          0, 0);
->              spapr->kernel_le = spapr->kernel_size > 0;
->          }
->          if (spapr->kernel_size < 0) {
-> @@ -2968,7 +2972,7 @@ static void spapr_machine_init(MachineState *machine)
->              /* Try to locate the initrd in the gap between the kernel
->               * and the firmware. Add a bit of space just in case
->               */
-> -            spapr->initrd_base = (KERNEL_LOAD_ADDR + spapr->kernel_size
-> +            spapr->initrd_base = (spapr->kernel_addr + spapr->kernel_size
->                                    + 0x1ffff) & ~0xffff;
->              spapr->initrd_size = load_image_targphys(initrd_filename,
->                                                       spapr->initrd_base,
-> @@ -3214,6 +3218,18 @@ static void spapr_set_vsmt(Object *obj, Visitor *v, const char *name,
->      visit_type_uint32(v, name, (uint32_t *)opaque, errp);
->  }
->  
-> +static void spapr_get_kernel_addr(Object *obj, Visitor *v, const char *name,
-> +                                  void *opaque, Error **errp)
-> +{
-> +    visit_type_uint64(v, name, (uint64_t *)opaque, errp);
-> +}
-> +
-> +static void spapr_set_kernel_addr(Object *obj, Visitor *v, const char *name,
-> +                                  void *opaque, Error **errp)
-> +{
-> +    visit_type_uint64(v, name, (uint64_t *)opaque, errp);
-> +}
-> +
->  static char *spapr_get_ic_mode(Object *obj, Error **errp)
->  {
->      SpaprMachineState *spapr = SPAPR_MACHINE(obj);
-> @@ -3319,6 +3335,14 @@ static void spapr_instance_init(Object *obj)
->      object_property_add_bool(obj, "vfio-no-msix-emulation",
->                               spapr_get_msix_emulation, NULL, NULL);
->  
-> +    object_property_add(obj, "kernel-addr", "uint64", spapr_get_kernel_addr,
-> +                        spapr_set_kernel_addr, NULL, &spapr->kernel_addr,
-> +                        &error_abort);
-> +    object_property_set_description(obj, "kernel-addr",
-> +                                    stringify(KERNEL_LOAD_ADDR)
-> +                                    " for -kernel is the default",
-> +                                    NULL);
-> +    spapr->kernel_addr = KERNEL_LOAD_ADDR;
->      /* The machine class defines the default interrupt controller mode */
->      spapr->irq = smc->irq;
->      object_property_add_str(obj, "ic-mode", spapr_get_ic_mode,
 
