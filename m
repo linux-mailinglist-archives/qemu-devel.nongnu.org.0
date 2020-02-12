@@ -2,57 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A64A415AA91
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Feb 2020 14:59:14 +0100 (CET)
-Received: from localhost ([::1]:38338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7D5C15AA8D
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Feb 2020 14:58:29 +0100 (CET)
+Received: from localhost ([::1]:38320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j1sXk-0000BK-K6
-	for lists+qemu-devel@lfdr.de; Wed, 12 Feb 2020 08:59:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41197)
+	id 1j1sX6-00074N-MS
+	for lists+qemu-devel@lfdr.de; Wed, 12 Feb 2020 08:58:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41490)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1j1sUL-00031B-Nw
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 08:55:39 -0500
+ (envelope-from <stefanha@gmail.com>) id 1j1sW4-0005ln-GI
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 08:57:25 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1j1sUI-0006Ve-Kc
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 08:55:36 -0500
-Resent-Date: Wed, 12 Feb 2020 08:55:36 -0500
-Resent-Message-Id: <E1j1sUI-0006Ve-Kc@eggs.gnu.org>
-Received: from sender4-of-o51.zoho.com ([136.143.188.51]:21187)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1j1sUI-0006Tr-CL
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 08:55:34 -0500
-ARC-Seal: i=1; a=rsa-sha256; t=1581515723; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=Hm2wmLWsSjgCg5iPpjaYdMIzZHeKFAG4bH9Ox8vDe7yD6slf2jkSsbiTBJhFdfYp8yr0hkGXRHTslj5J825TsqaAN90f269th36nby9qDaME0HXPziqHqT8XiJhSHfOHPOyBCsT81V3YJfBSgpKwzzBtdix0JzRym3OSfnbmVRQ=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1581515723;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=wJ1Vec1mbHM4viOt2loMucmQ/XX4wRwfTtpxHxt/y1Q=; 
- b=I7iX++r6mD3BUUqMOWsApKmEI4AtMTNOo2fTs7W7gXqvA4NNGmFdL/SConUXiEXp0GoM0waJefpdt8OC5tT/Yw8PNwNpiKsNityOnIaOitPrOfj86MgwfsYRL5aacXAH7l1UVOhRWh6cb+ZHZo4MdLFFhDYFl6WMJGLW6CD8h9I=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1581515719974888.1501019539159;
- Wed, 12 Feb 2020 05:55:19 -0800 (PST)
-In-Reply-To: <20200212130311.127515-1-ysato@users.sourceforge.jp>
-Subject: Re: [PATCH v30 00/22] Add RX archtecture support
-Message-ID: <158151571873.15549.11712232794912565821@a1bbccc8075a>
+ (envelope-from <stefanha@gmail.com>) id 1j1sW3-00085g-7u
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 08:57:24 -0500
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:46118)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <stefanha@gmail.com>) id 1j1sW2-00084k-Vj
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 08:57:23 -0500
+Received: by mail-wr1-x444.google.com with SMTP id z7so2439056wrl.13
+ for <qemu-devel@nongnu.org>; Wed, 12 Feb 2020 05:57:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=yAjuGTrUzLaSLstCGgSeS/+v1tAOAo7YPsCrfgS10/k=;
+ b=dC1xNDEkBmq46s6SixW2OK2qE1nzWKsKbiplgtnG6BqTnZ9vYt5YgWclBIf8yzGms5
+ uVr57TTvHsDptxqx+V4KSiqQkNKnLOAAeYC32C6BDrhGspBexbf8Y8ImDjRGtu1sksU+
+ 1dJys+op2Zk1t/Kpq0US7uO2ETF0ccix/svRaigg3UOU29iMPplnAb0Asq2G/EeQJj+x
+ nOODt/BNbfAttq7Nu2iB0ZmijNXmYiOBaJQeOyqtOV2mFt12Ls2b52yLaD+szSKqj3GB
+ q8lZLaNdvEEsy08by0tD4XyrKQrZzxmk8Tm5aFfkdMkXQ7Eq2yHDa3uVy3+fzYAQdffl
+ Pouw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=yAjuGTrUzLaSLstCGgSeS/+v1tAOAo7YPsCrfgS10/k=;
+ b=EP86rGmDc1foplqv+gVa9xhy0cqKwFij6m3GbYMsUyiXgzaZ+Xb/LQYiUUFEQ/yUFj
+ uK/p4jjvkf4xjKplUv95EHOJEWMp7XFCBfWI8VZbQ70tym+Dglv4BdxqaOXuBFs+hbKZ
+ TnQ8rtoD400qtXKFrtwfZT8vRICKEY3JzxXXtQTDE88e/JKqHjGDobATr2olXnvP+ZCk
+ xwHCEGqTPMHHweEyfrTRGXABpGCDljZldN53EUFlENlUI13CCgetbQIjOFGVrXNZJUSO
+ y2iClfEea52z3N32ZYhQV1FMJJ3+wnxuPNuFViof+wKHUlIE0R4/55OoFkwai7CyOtXQ
+ IwUQ==
+X-Gm-Message-State: APjAAAWTRja2mrIrM9QKz3HWLy8KwgixqYNsMXiM3uYRywmTd517VNpb
+ VnZVco6HoGCJGD4uSXXzUgY=
+X-Google-Smtp-Source: APXvYqxXaDwah9t+7npfYSk3wL3F9BzWn3o3rs+My4QMXALIJLZg4LQPueFUMBlaSEfJ/lkEMoBkjg==
+X-Received: by 2002:a5d:610c:: with SMTP id v12mr14678588wrt.88.1581515841855; 
+ Wed, 12 Feb 2020 05:57:21 -0800 (PST)
+Received: from localhost ([51.15.41.238])
+ by smtp.gmail.com with ESMTPSA id v5sm685993wrv.86.2020.02.12.05.57.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 12 Feb 2020 05:57:17 -0800 (PST)
+Date: Wed, 12 Feb 2020 13:57:15 +0000
+From: Stefan Hajnoczi <stefanha@gmail.com>
+To: Igor =?utf-8?Q?Kotrasi=C5=84ski?= <i.kotrasinsk@partner.samsung.com>
+Subject: Re: [RFC 0/9] Add an interVM memory sharing device
+Message-ID: <20200212135715.GC432724@stefanha-x1.localdomain>
+References: <CGME20200204113102eucas1p172cfb883c70cfc8d7c2832682df3df2a@eucas1p1.samsung.com>
+ <1580815851-28887-1-git-send-email-i.kotrasinsk@partner.samsung.com>
+ <20200205143911.GG58062@stefanha-x1.localdomain>
+ <1e872eb3-a21b-0f9b-e6a4-54843a028bed@siemens.com>
+ <91d3f574-3a4f-8291-040e-520c5c58e77e@partner.samsung.com>
+ <20200207110403.08a8a7cc@redhat.com>
+ <20200207163349.GI168381@stefanha-x1.localdomain>
+ <91525902-952f-7f84-c1b0-a4e5c35e0363@partner.samsung.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: ysato@users.sourceforge.jp
-Date: Wed, 12 Feb 2020 05:55:19 -0800 (PST)
-X-ZohoMailClient: External
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 136.143.188.51
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="R+My9LyyhiUvIEro"
+Content-Disposition: inline
+In-Reply-To: <91525902-952f-7f84-c1b0-a4e5c35e0363@partner.samsung.com>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,154 +84,131 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: philmd@redhat.com, richard.henderson@linaro.org, qemu-devel@nongnu.org,
- ysato@users.sourceforge.jp
+Cc: peter.maydell@linaro.org, Igor Mammedov <imammedo@redhat.com>,
+ pbonzini@redhat.com, qemu-devel@nongnu.org,
+ Jan Kiszka <jan.kiszka@siemens.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDIxMjEzMDMxMS4xMjc1
-MTUtMS15c2F0b0B1c2Vycy5zb3VyY2Vmb3JnZS5qcC8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVt
-cyB0byBoYXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZv
-cgptb3JlIGluZm9ybWF0aW9uOgoKU3ViamVjdDogW1BBVENIIHYzMCAwMC8yMl0gQWRkIFJYIGFy
-Y2h0ZWN0dXJlIHN1cHBvcnQKTWVzc2FnZS1pZDogMjAyMDAyMTIxMzAzMTEuMTI3NTE1LTEteXNh
-dG9AdXNlcnMuc291cmNlZm9yZ2UuanAKVHlwZTogc2VyaWVzCgo9PT0gVEVTVCBTQ1JJUFQgQkVH
-SU4gPT09CiMhL2Jpbi9iYXNoCmdpdCByZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0
-IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0tbG9j
-YWwgZGlmZi5yZW5hbWVzIFRydWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhp
-c3RvZ3JhbQouL3NjcmlwdHMvY2hlY2twYXRjaC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0gVEVT
-VCBTQ1JJUFQgRU5EID09PQoKRnJvbSBodHRwczovL2dpdGh1Yi5jb20vcGF0Y2hldy1wcm9qZWN0
-L3FlbXUKIC0gW3RhZyB1cGRhdGVdICAgICAgcGF0Y2hldy8yMDIwMDIxMjEzMDMxMS4xMjc1MTUt
-MS15c2F0b0B1c2Vycy5zb3VyY2Vmb3JnZS5qcCAtPiBwYXRjaGV3LzIwMjAwMjEyMTMwMzExLjEy
-NzUxNS0xLXlzYXRvQHVzZXJzLnNvdXJjZWZvcmdlLmpwClN3aXRjaGVkIHRvIGEgbmV3IGJyYW5j
-aCAndGVzdCcKYjk5ZGM4MiBxZW11LWRvYy50ZXhpOiBBZGQgUlggc2VjdGlvbi4KMGQ4MTU4OSBC
-b290TGludXhDb25zb2xlVGVzdDogVGVzdCB0aGUgUlgtVmlydCBtYWNoaW5lCmUxZmI5OGYgQWRk
-IHJ4LXNvZnRtbXUKOWZiNzEwMiBody9yeDogUmVzdHJpY3QgdGhlIFJYNjJOIG1pY3JvY29udHJv
-bGxlciB0byB0aGUgUlg2Mk4gQ1BVIGNvcmUKMzQ5MWRiOSBody9yeDogSG9ub3IgLWFjY2VsIHF0
-ZXN0Cjc5MDVmNzAgaHcvcng6IFJYIFRhcmdldCBoYXJkd2FyZSBkZWZpbml0aW9uCjY4NzFhMjgg
-aHcvY2hhcjogUlg2Mk4gc2VyaWFsIGNvbW11bmljYXRpb24gaW50ZXJmYWNlIChTQ0kpCjQzMGU3
-YWUgaHcvdGltZXI6IFJYNjJOIGludGVybmFsIHRpbWVyIG1vZHVsZXMKMDI5ZjdjMiBody9pbnRj
-OiBSWDYyTiBpbnRlcnJ1cHQgY29udHJvbGxlciAoSUNVYSkKMDg0MzZhMCB0YXJnZXQvcng6IER1
-bXAgYnl0ZXMgZm9yIGVhY2ggaW5zbiBkdXJpbmcgZGlzYXNzZW1ibHkKMDkyMjk5OCB0YXJnZXQv
-cng6IENvbGxlY3QgYWxsIGJ5dGVzIGR1cmluZyBkaXNhc3NlbWJseQpmN2M5ZWViIHRhcmdldC9y
-eDogRW1pdCBhbGwgZGlzYXNzZW1ibHkgaW4gb25lIHBydCgpCmIyNmM5NjIgdGFyZ2V0L3J4OiBV
-c2UgcHJ0X2xkbWkgZm9yIFhDSEdfbXIgZGlzYXNzZW1ibHkKNTQ3Y2JhNyB0YXJnZXQvcng6IFJl
-cGxhY2Ugb3BlcmFuZCB3aXRoIHBydF9sZG1pIGluIGRpc2Fzc2VtYmxlcgo3MmZkYjBjIHRhcmdl
-dC9yeDogRGlzYXNzZW1ibGUgcnhfaW5kZXhfYWRkciBpbnRvIGEgc3RyaW5nCjlhZTQ3YzggdGFy
-Z2V0L3J4OiBSWCBkaXNhc3NlbWJsZXIKNmNlOTE2NiB0YXJnZXQvcng6IENQVSBkZWZpbml0aW9u
-CmY0NGI5M2YgdGFyZ2V0L3J4OiBUQ0cgaGVscGVyCmQxMmMyYjAgdGFyZ2V0L3J4OiBUQ0cgdHJh
-bnNsYXRpb24KNDc2NWNlZSBody9yZWdpc3RlcmZpZWxkcy5oOiBBZGQgOGJpdCBhbmQgMTZiaXQg
-cmVnaXN0ZXIgbWFjcm9zCmQ4YmVmOTggcWVtdS9iaXRvcHMuaDogQWRkIGV4dHJhY3Q4IGFuZCBl
-eHRyYWN0MTYKM2IyOWEwYSBNQUlOVEFJTkVSUzogQWRkIFJYCgo9PT0gT1VUUFVUIEJFR0lOID09
-PQoxLzIyIENoZWNraW5nIGNvbW1pdCAzYjI5YTBhMmMxM2IgKE1BSU5UQUlORVJTOiBBZGQgUlgp
-CjIvMjIgQ2hlY2tpbmcgY29tbWl0IGQ4YmVmOTg2NzQxNCAocWVtdS9iaXRvcHMuaDogQWRkIGV4
-dHJhY3Q4IGFuZCBleHRyYWN0MTYpCjMvMjIgQ2hlY2tpbmcgY29tbWl0IDQ3NjVjZWU2MmExYiAo
-aHcvcmVnaXN0ZXJmaWVsZHMuaDogQWRkIDhiaXQgYW5kIDE2Yml0IHJlZ2lzdGVyIG1hY3JvcykK
-VXNlIG9mIHVuaW5pdGlhbGl6ZWQgdmFsdWUgaW4gY29uY2F0ZW5hdGlvbiAoLikgb3Igc3RyaW5n
-IGF0IC4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIGxpbmUgMjQ5MC4KRVJST1I6IE1hY3JvcyB3aXRo
-IG11bHRpcGxlIHN0YXRlbWVudHMgc2hvdWxkIGJlIGVuY2xvc2VkIGluIGEgZG8gLSB3aGlsZSBs
-b29wCiMyNzogRklMRTogaW5jbHVkZS9ody9yZWdpc3RlcmZpZWxkcy5oOjI1OgorI2RlZmluZSBS
-RUc4KHJlZywgYWRkcikgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgIFwKKyAgICBlbnVtIHsgQV8gIyMgcmVnID0gKGFkZHIpIH07ICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgXAorICAgIGVudW0geyBSXyAjIyByZWcgPSAoYWRk
-cikgfTsKCkVSUk9SOiBNYWNyb3Mgd2l0aCBtdWx0aXBsZSBzdGF0ZW1lbnRzIHNob3VsZCBiZSBl
-bmNsb3NlZCBpbiBhIGRvIC0gd2hpbGUgbG9vcAojMzE6IEZJTEU6IGluY2x1ZGUvaHcvcmVnaXN0
-ZXJmaWVsZHMuaDoyOToKKyNkZWZpbmUgUkVHMTYocmVnLCBhZGRyKSAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXAorICAgIGVudW0geyBBXyAjIyByZWcg
-PSAoYWRkcikgfTsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcCisg
-ICAgZW51bSB7IFJfICMjIHJlZyA9IChhZGRyKSAvIDIgfTsKCnRvdGFsOiAyIGVycm9ycywgMCB3
-YXJuaW5ncywgNTYgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMy8yMiBoYXMgc3R5bGUgcHJvYmxlbXMs
-IHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2
-ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5U
-QUlORVJTLgoKNC8yMiBDaGVja2luZyBjb21taXQgZDEyYzJiMDVkYzY0ICh0YXJnZXQvcng6IFRD
-RyB0cmFuc2xhdGlvbikKV0FSTklORzogYWRkZWQsIG1vdmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwg
-ZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVwZGF0aW5nPwojMjA6IApuZXcgZmlsZSBtb2RlIDEwMDY0
-NAoKdG90YWw6IDAgZXJyb3JzLCAxIHdhcm5pbmdzLCAzMDY1IGxpbmVzIGNoZWNrZWQKClBhdGNo
-IDQvMjIgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNl
-IGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVy
-LCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KNS8yMiBDaGVja2luZyBjb21taXQgZjQ0
-YjkzZmVmYTM5ICh0YXJnZXQvcng6IFRDRyBoZWxwZXIpCldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBv
-ciBkZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRhdGluZz8KIzIxOiAK
-bmV3IGZpbGUgbW9kZSAxMDA2NDQKCnRvdGFsOiAwIGVycm9ycywgMSB3YXJuaW5ncywgNjUwIGxp
-bmVzIGNoZWNrZWQKClBhdGNoIDUvMjIgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3
-LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVt
-IHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KNi8yMiBD
-aGVja2luZyBjb21taXQgNmNlOTE2Njc4YzRiICh0YXJnZXQvcng6IENQVSBkZWZpbml0aW9uKQpX
-QVJOSU5HOiBhZGRlZCwgbW92ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBkb2VzIE1BSU5UQUlORVJT
-IG5lZWQgdXBkYXRpbmc/CiMyMjogCm5ldyBmaWxlIG1vZGUgMTAwNjQ0Cgp0b3RhbDogMCBlcnJv
-cnMsIDEgd2FybmluZ3MsIDY1OSBsaW5lcyBjaGVja2VkCgpQYXRjaCA2LzIyIGhhcyBzdHlsZSBw
-cm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNl
-IHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0gg
-aW4gTUFJTlRBSU5FUlMuCjcvMjIgQ2hlY2tpbmcgY29tbWl0IDlhZTQ3YzgzY2Q5OSAodGFyZ2V0
-L3J4OiBSWCBkaXNhc3NlbWJsZXIpCldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZp
-bGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRhdGluZz8KIzM4OiAKbmV3IGZpbGUgbW9k
-ZSAxMDA2NDQKCnRvdGFsOiAwIGVycm9ycywgMSB3YXJuaW5ncywgMTQ5NyBsaW5lcyBjaGVja2Vk
-CgpQYXRjaCA3LzIyIGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBv
-ZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFp
-bnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjgvMjIgQ2hlY2tpbmcgY29t
-bWl0IDcyZmRiMGNmOGUwMiAodGFyZ2V0L3J4OiBEaXNhc3NlbWJsZSByeF9pbmRleF9hZGRyIGlu
-dG8gYSBzdHJpbmcpCjkvMjIgQ2hlY2tpbmcgY29tbWl0IDU0N2NiYTdmZWM2NyAodGFyZ2V0L3J4
-OiBSZXBsYWNlIG9wZXJhbmQgd2l0aCBwcnRfbGRtaSBpbiBkaXNhc3NlbWJsZXIpCjEwLzIyIENo
-ZWNraW5nIGNvbW1pdCBiMjZjOTYyZjFlMTEgKHRhcmdldC9yeDogVXNlIHBydF9sZG1pIGZvciBY
-Q0hHX21yIGRpc2Fzc2VtYmx5KQoxMS8yMiBDaGVja2luZyBjb21taXQgZjdjOWVlYmQzMmZiICh0
-YXJnZXQvcng6IEVtaXQgYWxsIGRpc2Fzc2VtYmx5IGluIG9uZSBwcnQoKSkKMTIvMjIgQ2hlY2tp
-bmcgY29tbWl0IDA5MjI5OThjOGNhMiAodGFyZ2V0L3J4OiBDb2xsZWN0IGFsbCBieXRlcyBkdXJp
-bmcgZGlzYXNzZW1ibHkpCjEzLzIyIENoZWNraW5nIGNvbW1pdCAwODQzNmEwOGVjZTcgKHRhcmdl
-dC9yeDogRHVtcCBieXRlcyBmb3IgZWFjaCBpbnNuIGR1cmluZyBkaXNhc3NlbWJseSkKMTQvMjIg
-Q2hlY2tpbmcgY29tbWl0IDAyOWY3YzI5M2M1MyAoaHcvaW50YzogUlg2Mk4gaW50ZXJydXB0IGNv
-bnRyb2xsZXIgKElDVWEpKQpXQVJOSU5HOiBhZGRlZCwgbW92ZWQgb3IgZGVsZXRlZCBmaWxlKHMp
-LCBkb2VzIE1BSU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/CiM0MDogCm5ldyBmaWxlIG1vZGUgMTAw
-NjQ0Cgp0b3RhbDogMCBlcnJvcnMsIDEgd2FybmluZ3MsIDQ0NSBsaW5lcyBjaGVja2VkCgpQYXRj
-aCAxNC8yMiBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhl
-c2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWlu
-ZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoxNS8yMiBDaGVja2luZyBjb21taXQg
-NDMwZTdhZTViYzUzIChody90aW1lcjogUlg2Mk4gaW50ZXJuYWwgdGltZXIgbW9kdWxlcykKV0FS
-TklORzogYWRkZWQsIG1vdmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVSUyBu
-ZWVkIHVwZGF0aW5nPwojNTA6IApuZXcgZmlsZSBtb2RlIDEwMDY0NAoKdG90YWw6IDAgZXJyb3Jz
-LCAxIHdhcm5pbmdzLCA4NDUgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMTUvMjIgaGFzIHN0eWxlIHBy
-b2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2Ug
-cG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBp
-biBNQUlOVEFJTkVSUy4KMTYvMjIgQ2hlY2tpbmcgY29tbWl0IDY4NzFhMjg1OTU2NCAoaHcvY2hh
-cjogUlg2Mk4gc2VyaWFsIGNvbW11bmljYXRpb24gaW50ZXJmYWNlIChTQ0kpKQpXQVJOSU5HOiBh
-ZGRlZCwgbW92ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBkb2VzIE1BSU5UQUlORVJTIG5lZWQgdXBk
-YXRpbmc/CiM0MzogCm5ldyBmaWxlIG1vZGUgMTAwNjQ0Cgp0b3RhbDogMCBlcnJvcnMsIDEgd2Fy
-bmluZ3MsIDQwMCBsaW5lcyBjaGVja2VkCgpQYXRjaCAxNi8yMiBoYXMgc3R5bGUgcHJvYmxlbXMs
-IHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2
-ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5U
-QUlORVJTLgoxNy8yMiBDaGVja2luZyBjb21taXQgNzkwNWY3MGExMmExIChody9yeDogUlggVGFy
-Z2V0IGhhcmR3YXJlIGRlZmluaXRpb24pCldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVk
-IGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRhdGluZz8KIzIzOiAKbmV3IGZpbGUg
-bW9kZSAxMDA2NDQKCkVSUk9SOiB0cmFpbGluZyB3aGl0ZXNwYWNlCiMxMjg6IEZJTEU6IGh3L3J4
-L3J4LXZpcnQuYzo3MzoKKyAgICAkCgpFUlJPUjogdHJhaWxpbmcgd2hpdGVzcGFjZQojMTQ2OiBG
-SUxFOiBody9yeC9yeC12aXJ0LmM6OTE6CisgICAgICAgIC8qIFRoZSBrZXJuZWwgaW1hZ2UgaXMg
-bG9hZGVkIGludG8gJAoKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlIGEgbGVhZGluZyAvKiBv
-biBhIHNlcGFyYXRlIGxpbmUKIzE0NjogRklMRTogaHcvcngvcngtdmlydC5jOjkxOgorICAgICAg
-ICAvKiBUaGUga2VybmVsIGltYWdlIGlzIGxvYWRlZCBpbnRvIAoKV0FSTklORzogQmxvY2sgY29t
-bWVudHMgdXNlICogb24gc3Vic2VxdWVudCBsaW5lcwojMTQ3OiBGSUxFOiBody9yeC9yeC12aXJ0
-LmM6OTI6CisgICAgICAgIC8qIFRoZSBrZXJuZWwgaW1hZ2UgaXMgbG9hZGVkIGludG8gCisgICAg
-ICAgICAgIHRoZSBsYXR0ZXIgaGFsZiBvZiB0aGUgU0RSQU0gc3BhY2UuICovCgpXQVJOSU5HOiBC
-bG9jayBjb21tZW50cyB1c2UgYSB0cmFpbGluZyAqLyBvbiBhIHNlcGFyYXRlIGxpbmUKIzE0Nzog
-RklMRTogaHcvcngvcngtdmlydC5jOjkyOgorICAgICAgICAgICB0aGUgbGF0dGVyIGhhbGYgb2Yg
-dGhlIFNEUkFNIHNwYWNlLiAqLwoKdG90YWw6IDIgZXJyb3JzLCA0IHdhcm5pbmdzLCA0OTMgbGlu
-ZXMgY2hlY2tlZAoKUGF0Y2ggMTcvMjIgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3
-LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVt
-IHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KCjE4LzIy
-IENoZWNraW5nIGNvbW1pdCAzNDkxZGI5NjcxNGUgKGh3L3J4OiBIb25vciAtYWNjZWwgcXRlc3Qp
-CjE5LzIyIENoZWNraW5nIGNvbW1pdCA5ZmI3MTAyZTJlZTIgKGh3L3J4OiBSZXN0cmljdCB0aGUg
-Ulg2Mk4gbWljcm9jb250cm9sbGVyIHRvIHRoZSBSWDYyTiBDUFUgY29yZSkKMjAvMjIgQ2hlY2tp
-bmcgY29tbWl0IGUxZmI5OGY5MGMzYiAoQWRkIHJ4LXNvZnRtbXUpCldBUk5JTkc6IGFkZGVkLCBt
-b3ZlZCBvciBkZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRhdGluZz8K
-IzY5OiAKbmV3IGZpbGUgbW9kZSAxMDA2NDQKCnRvdGFsOiAwIGVycm9ycywgMSB3YXJuaW5ncywg
-ODMgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMjAvMjIgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2Ug
-cmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9y
-dCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4K
-MjEvMjIgQ2hlY2tpbmcgY29tbWl0IDBkODE1ODlmNzY4MiAoQm9vdExpbnV4Q29uc29sZVRlc3Q6
-IFRlc3QgdGhlIFJYLVZpcnQgbWFjaGluZSkKMjIvMjIgQ2hlY2tpbmcgY29tbWl0IGI5OWRjODIx
-ZGNiOCAocWVtdS1kb2MudGV4aTogQWRkIFJYIHNlY3Rpb24uKQo9PT0gT1VUUFVUIEVORCA9PT0K
-ClRlc3QgY29tbWFuZCBleGl0ZWQgd2l0aCBjb2RlOiAxCgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWls
-YWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8yMDIwMDIxMjEzMDMxMS4xMjc1MTUtMS15
-c2F0b0B1c2Vycy5zb3VyY2Vmb3JnZS5qcC90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9bWVzc2Fn
-ZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8v
-cGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVs
-QHJlZGhhdC5jb20=
+
+--R+My9LyyhiUvIEro
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Mon, Feb 10, 2020 at 02:01:48PM +0100, Igor Kotrasi=C5=84ski wrote:
+> On 2/7/20 5:33 PM, Stefan Hajnoczi wrote:
+> > On Fri, Feb 07, 2020 at 11:04:03AM +0100, Igor Mammedov wrote:
+> >> On Fri, 7 Feb 2020 10:00:50 +0100
+> >> Igor Kotrasi=C5=84ski <i.kotrasinsk@partner.samsung.com> wrote:
+> >>
+> >>> On 2/5/20 3:49 PM, Jan Kiszka wrote:
+> >>>> On 05.02.20 15:39, Stefan Hajnoczi wrote:
+> >>>>> On Tue, Feb 04, 2020 at 12:30:42PM +0100,
+> >>>>> i.kotrasinsk@partner.samsung.com wrote:
+> >>>>>> From: Igor Kotrasinski <i.kotrasinsk@partner.samsung.com>
+> >>>>>>
+> >>>>>> This patchset adds a "memory exposing" device that allows two QEMU
+> >>>>>> instances to share arbitrary memory regions. Unlike ivshmem, it do=
+es not
+> >>>>>> create a new region of memory that's shared between VMs, but inste=
+ad
+> >>>>>> allows one VM to access any memory region of the other VM we choos=
+e to
+> >>>>>> share.
+> >>>>>>
+> >>>>>> The motivation for this device is a sort of ARM Trustzone "emulati=
+on",
+> >>>>>> where a rich system running on one machine (e.g. x86_64 linux) is =
+able
+> >>>>>> to perform SMCs to a trusted system running on another (e.g. OpTEE=
+ on
+> >>>>>> ARM). With a device that allows sharing arbitrary memory between V=
+Ms,
+> >>>>>> this can be achieved with minimal changes to the trusted system an=
+d its
+> >>>>>> linux driver while allowing the rich system to run on a speedier x=
+86
+> >>>>>> emulator. I prepared additional patches for linux, OpTEE OS and Op=
+TEE
+> >>>>>> build system as a PoC that such emulation works and passes OpTEE t=
+ests;
+> >>>>>> I'm not sure what would be the best way to share them.
+> >>>>>>
+> >>>>>> This patchset is my first foray into QEMU source code and I'm cert=
+ain
+> >>>>>> it's not yet ready to be merged in. I'm not sure whether memory sh=
+aring
+> >>>>>> code has any race conditions or breaks rules of working with memory
+> >>>>>> regions, or if having VMs communicate synchronously via chardevs i=
+s the
+> >>>>>> right way to do it. I do believe the basic idea for sharing memory
+> >>>>>> regions is sound and that it could be useful for inter-VM communic=
+ation.
+> >>>>>
+> >>>>> Hi,
+> >>>>> Without having looked into the patches yet, I'm already wondering i=
+f you
+> >>>>> can use the existing -object
+> >>>>> memory-backend-file,size=3D512M,mem-path=3D/my/shared/mem feature f=
+or your
+> >>>>> use case?
+> >>>>>
+> >>>>> That's the existing mechanism for fully sharing guest RAM and if you
+> >>>>> want to share all of memory then maybe a device is not necessary - =
+just
+> >>>>> share the memory.
+> >>>
+> >>> That option adds memory in addition to the memory allocated with the
+> >>> '-m' flag, doesn't it? I looked into that option, and it seemed to me
+> >>> you can't back all memory this way.
+> >> with current QEMU you play with memory sharing using numa workaround
+> >>
+> >> -m 512 \
+> >> -object memory-backend-file,id=3Dmem,size=3D512M,mem-path=3D/my/shared=
+/mem feature,share=3Don \
+> >> -numa node,memdev=3Dmem
+> >>
+> >> also on the list there is series that allows to share main ram
+> >> without numa workaround, see
+> >>    "[PATCH v4 00/80] refactor main RAM allocation to use hostmem backe=
+nd"
+> >>
+> >> with it applied you can share main RAM with following CLI:
+> >>
+> >> -object memory-backend-file,id=3Dmem,size=3D512M,mem-path=3D/my/shared=
+/mem feature,share=3Don \
+> >> -m 512 \
+> >> -M virt,memory-backend=3Dmem
+> >=20
+> > Nice!  That takes care of memory.
+>=20
+> After a bit of hacking to map the shared RAM instead of communicating=20
+> via socket I can confirm - I can run OpTEE this way, and it passes=20
+> tests. My solution is *technically* more accurate since it is aware of=20
+> memory subregions and completely independent from memory backend setup,=
+=20
+> but with my use case satisfied already, I don't think it's of use to anyo=
+ne.
+
+Great!
+
+Stefan
+
+--R+My9LyyhiUvIEro
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl5EBDsACgkQnKSrs4Gr
+c8iIpgf7Bt9GrWA25TH/5eT26OK8BZv/xUJSNUYpluf1QYH9WAezM9DNRCceHmtf
+EoMjGVB0VJDuJZ+udv/FtGUrKWazWzkSvsUYLo1MuR7IASVe6h0Nvpd3ReykBNbp
+nOArd2MUp8qr+HxOz3tTqL3xGoh+92MoqJMbswGutfr2htjGvHcf6/7to+IESbC2
+ITRFwIRvsgscO+EOC/s8hLauMuy/L+T+k2nfuhoDt/7sRUQi9GRI7y3CvyYjqmM2
+UHABKBzvnUxBgveluGxSaK2SnwNeU2tVZBNDyIq0muuEDntEIWM1LHhFl3uAv9NG
+0D14+YjIWgSQVURJqeAD532bteWKAw==
+=2nWC
+-----END PGP SIGNATURE-----
+
+--R+My9LyyhiUvIEro--
 
