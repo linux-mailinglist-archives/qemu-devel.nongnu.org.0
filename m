@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63B5315AA65
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Feb 2020 14:51:15 +0100 (CET)
-Received: from localhost ([::1]:38160 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F40915AA62
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Feb 2020 14:50:17 +0100 (CET)
+Received: from localhost ([::1]:38124 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j1sQ6-0002IW-FT
-	for lists+qemu-devel@lfdr.de; Wed, 12 Feb 2020 08:51:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39274)
+	id 1j1sPA-0000I7-K5
+	for lists+qemu-devel@lfdr.de; Wed, 12 Feb 2020 08:50:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39304)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1j1sIh-0006vd-Kl
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 08:43:36 -0500
+ (envelope-from <david@redhat.com>) id 1j1sIl-000753-Hd
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 08:43:40 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1j1sIg-00040Y-AC
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 08:43:35 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:49261
+ (envelope-from <david@redhat.com>) id 1j1sIk-00044X-Dj
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 08:43:39 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:58922
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <david@redhat.com>) id 1j1sIg-000408-5y
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 08:43:34 -0500
+ (Exim 4.71) (envelope-from <david@redhat.com>) id 1j1sIk-000447-9u
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 08:43:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581515013;
+ s=mimecast20190719; t=1581515017;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qepC1WP47Sat3hY176Yi0qhBDAWOu4/qmPiAqR1VGoI=;
- b=OiD1rfHCqmrbWUFBgXqN1iANkXv1+AZmiJG7MT146fAs5CX89B7JOnPSsP7lCELsyhfu3j
- qhRJ7lI012GukJ0+DvmVPudbzo59vuhXL5MaoejHWx4tlTJh9oDzwWPxuYKmarzhVVPzbg
- B9p9uLbU/u2n2otxh89g08BfG+eXX5A=
+ bh=zxlDY+iam1eGvrSP9JAuoFgfMKsrZ8lZwfOq1IgFDoE=;
+ b=XMz2kupMbqLyupEc6zIXNc+UBJEXSjpkdUp/ukzeLmdrcXENIBJ+zMoCcNTiUTBJjnqvIV
+ uiGqoSoLb4EjPbdTN+6L2z8bgp5vU3T3JsHBrLehdipEXVWanEc7MoMrZTSM1Fjq3xA2RW
+ o3ySSkNMGX5+8JiLbkpnrQ9jdqctaF4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-434-9MvaIf2aOqmiAlzZkmZ4HQ-1; Wed, 12 Feb 2020 08:43:31 -0500
+ us-mta-56-5VpgLspdNxWtiMZ0y68tQQ-1; Wed, 12 Feb 2020 08:43:34 -0500
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D3AB9107ACC9;
- Wed, 12 Feb 2020 13:43:30 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 20B65800D4E;
+ Wed, 12 Feb 2020 13:43:33 +0000 (UTC)
 Received: from t480s.redhat.com (ovpn-117-92.ams2.redhat.com [10.36.117.92])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9096E1001DDE;
- Wed, 12 Feb 2020 13:43:28 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3084C1001B08;
+ Wed, 12 Feb 2020 13:43:31 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 fixed 04/16] util: vfio-helpers: Factor out removal from
- qemu_vfio_undo_mapping()
-Date: Wed, 12 Feb 2020 14:42:42 +0100
-Message-Id: <20200212134254.11073-5-david@redhat.com>
+Subject: [PATCH v2 fixed 05/16] exec: Factor out setting ram settings (madvise
+ ...) into qemu_ram_apply_settings()
+Date: Wed, 12 Feb 2020 14:42:43 +0100
+Message-Id: <20200212134254.11073-6-david@redhat.com>
 In-Reply-To: <20200212134254.11073-1-david@redhat.com>
 References: <20200212134254.11073-1-david@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: 9MvaIf2aOqmiAlzZkmZ4HQ-1
+X-MC-Unique: 5VpgLspdNxWtiMZ0y68tQQ-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
@@ -73,126 +73,76 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Eduardo Habkost <ehabkost@redhat.com>,
  "Michael S . Tsirkin" <mst@redhat.com>, David Hildenbrand <david@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
  "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
  Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Factor it out and properly use it where applicable. Make
-qemu_vfio_undo_mapping() look like qemu_vfio_do_mapping(), passing the
-size and iova, not the mapping.
+Factor all settings out into qemu_ram_apply_settings().
 
+For memory_try_enable_merging(), the important bit is that it won't be
+called with XEN - which is now still the case as new_block->host will
+remain NULL.
+
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Cc: Richard Henderson <rth@twiddle.net>
 Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Eduardo Habkost <ehabkost@redhat.com>
-Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Cc: Alex Williamson <alex.williamson@redhat.com>
-Cc: Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Igor Mammedov <imammedo@redhat.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- util/vfio-helpers.c | 43 +++++++++++++++++++++++++++----------------
- 1 file changed, 27 insertions(+), 16 deletions(-)
+ exec.c | 15 ++++++++++-----
+ 1 file changed, 10 insertions(+), 5 deletions(-)
 
-diff --git a/util/vfio-helpers.c b/util/vfio-helpers.c
-index 13dd962d95..b3adc328db 100644
---- a/util/vfio-helpers.c
-+++ b/util/vfio-helpers.c
-@@ -517,6 +517,20 @@ static IOVAMapping *qemu_vfio_add_mapping(QEMUVFIOStat=
-e *s,
-     return insert;
+diff --git a/exec.c b/exec.c
+index 05cfe868ab..31a462a7d3 100644
+--- a/exec.c
++++ b/exec.c
+@@ -2121,6 +2121,15 @@ static int memory_try_enable_merging(void *addr, siz=
+e_t len)
+     return qemu_madvise(addr, len, QEMU_MADV_MERGEABLE);
  }
 =20
-+/**
-+ * Remove the mapping from @s and free it.
-+ */
-+static void qemu_vfio_remove_mapping(QEMUVFIOState *s, IOVAMapping *mappin=
-g)
++static void qemu_ram_apply_settings(void *host, size_t length)
 +{
-+    const int index =3D mapping - s->mappings;
-+
-+    assert(index >=3D 0 && index < s->nr_mappings);
-+    memmove(mapping, &s->mappings[index + 1],
-+            sizeof(s->mappings[0]) * (s->nr_mappings - index - 1));
-+    s->nr_mappings--;
-+    s->mappings =3D g_renew(IOVAMapping, s->mappings, s->nr_mappings);
++    memory_try_enable_merging(host, length);
++    qemu_ram_setup_dump(host, length);
++    qemu_madvise(host, length, QEMU_MADV_HUGEPAGE);
++    /* MADV_DONTFORK is also needed by KVM in absence of synchronous MMU *=
+/
++    qemu_madvise(host, length, QEMU_MADV_DONTFORK);
 +}
 +
- /* Do the DMA mapping with VFIO. */
- static int qemu_vfio_do_mapping(QEMUVFIOState *s, void *host, size_t size,
-                                 uint64_t iova)
-@@ -538,29 +552,22 @@ static int qemu_vfio_do_mapping(QEMUVFIOState *s, voi=
-d *host, size_t size,
- }
-=20
- /**
-- * Undo the DMA mapping from @s with VFIO, and remove from mapping list.
-+ * Undo the DMA mapping from @s with VFIO.
-  */
--static void qemu_vfio_undo_mapping(QEMUVFIOState *s, IOVAMapping *mapping)
-+static void qemu_vfio_undo_mapping(QEMUVFIOState *s, size_t size, uint64_t=
- iova)
- {
--    int index;
-     struct vfio_iommu_type1_dma_unmap unmap =3D {
-         .argsz =3D sizeof(unmap),
-         .flags =3D 0,
--        .iova =3D mapping->iova,
--        .size =3D mapping->size,
-+        .iova =3D iova,
-+        .size =3D size,
-     };
-=20
--    index =3D mapping - s->mappings;
--    assert(mapping->size > 0);
--    assert(QEMU_IS_ALIGNED(mapping->size, qemu_real_host_page_size));
--    assert(index >=3D 0 && index < s->nr_mappings);
-+    assert(size > 0);
-+    assert(QEMU_IS_ALIGNED(size, qemu_real_host_page_size));
-     if (ioctl(s->container, VFIO_IOMMU_UNMAP_DMA, &unmap)) {
-         error_report("VFIO_UNMAP_DMA failed: %d", -errno);
-     }
--    memmove(mapping, &s->mappings[index + 1],
--            sizeof(s->mappings[0]) * (s->nr_mappings - index - 1));
--    s->nr_mappings--;
--    s->mappings =3D g_renew(IOVAMapping, s->mappings, s->nr_mappings);
- }
-=20
- /* Check if the mapping list is (ascending) ordered. */
-@@ -620,7 +627,7 @@ int qemu_vfio_dma_map(QEMUVFIOState *s, void *host, siz=
-e_t size,
-             assert(qemu_vfio_verify_mappings(s));
-             ret =3D qemu_vfio_do_mapping(s, host, size, iova0);
-             if (ret) {
--                qemu_vfio_undo_mapping(s, mapping);
-+                qemu_vfio_remove_mapping(s, mapping);
-                 goto out;
+ /* Only legal before guest might have detected the memory size: e.g. on
+  * incoming migration, or right after reset.
+  *
+@@ -2271,7 +2280,6 @@ static void ram_block_add(RAMBlock *new_block, Error =
+**errp, bool shared)
+                 qemu_mutex_unlock_ramlist();
+                 return;
              }
-             s->low_water_mark +=3D size;
-@@ -680,7 +687,8 @@ void qemu_vfio_dma_unmap(QEMUVFIOState *s, void *host)
-     if (!m) {
-         goto out;
+-            memory_try_enable_merging(new_block->host, new_block->max_leng=
+th);
+         }
      }
--    qemu_vfio_undo_mapping(s, m);
-+    qemu_vfio_undo_mapping(s, m->size, m->iova);
-+    qemu_vfio_remove_mapping(s, m);
- out:
-     qemu_mutex_unlock(&s->lock);
+=20
+@@ -2309,10 +2317,7 @@ static void ram_block_add(RAMBlock *new_block, Error=
+ **errp, bool shared)
+                                         DIRTY_CLIENTS_ALL);
+=20
+     if (new_block->host) {
+-        qemu_ram_setup_dump(new_block->host, new_block->max_length);
+-        qemu_madvise(new_block->host, new_block->max_length, QEMU_MADV_HUG=
+EPAGE);
+-        /* MADV_DONTFORK is also needed by KVM in absence of synchronous M=
+MU */
+-        qemu_madvise(new_block->host, new_block->max_length, QEMU_MADV_DON=
+TFORK);
++        qemu_ram_apply_settings(new_block->host, new_block->max_length);
+         ram_block_notify_add(new_block->host, new_block->max_length);
+     }
  }
-@@ -697,7 +705,10 @@ void qemu_vfio_close(QEMUVFIOState *s)
-         return;
-     }
-     while (s->nr_mappings) {
--        qemu_vfio_undo_mapping(s, &s->mappings[s->nr_mappings - 1]);
-+        IOVAMapping *m =3D &s->mappings[s->nr_mappings - 1];
-+
-+        qemu_vfio_undo_mapping(s, m->size, m->iova);
-+        qemu_vfio_remove_mapping(s, m);
-     }
-     ram_block_notifier_remove(&s->ram_notifier);
-     qemu_vfio_reset(s);
 --=20
 2.24.1
 
