@@ -2,88 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C19315A220
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Feb 2020 08:35:09 +0100 (CET)
-Received: from localhost ([::1]:33026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22AAD15A21C
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Feb 2020 08:35:00 +0100 (CET)
+Received: from localhost ([::1]:33022 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j1mY8-00018n-Bb
-	for lists+qemu-devel@lfdr.de; Wed, 12 Feb 2020 02:35:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56685)
+	id 1j1mXz-0000qU-75
+	for lists+qemu-devel@lfdr.de; Wed, 12 Feb 2020 02:34:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56646)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1j1mWc-0008Ff-G2
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 02:33:36 -0500
+ (envelope-from <yi.l.liu@intel.com>) id 1j1mWT-0008Ar-N7
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 02:33:26 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1j1mWb-0000Gk-1m
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 02:33:34 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:51314
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <yi.l.liu@intel.com>) id 1j1mWS-0008Te-OP
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 02:33:25 -0500
+Received: from mga18.intel.com ([134.134.136.126]:21427)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1j1mWZ-0000FE-AE
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 02:33:31 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581492809;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/BM69+Y7TajZn6asrNdzUdIiEbpq1Rz3isd25gnT8r8=;
- b=h7Rf0hgmcS41peO1QP0g4FyfguTDvewdVKDOQwCQ1o56a1ku8Bthnhz1afXgRPcbzP0mPz
- eNT+JBBbezABnelYjvyZuMcC0tMHoOvMXdZaHN1jZG4rqYJ9CtvWTJwY05F0Drb3OmJxS1
- lPjeNM56GJ8wqhzUkkGsm/UxUZX48zI=
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-390-NLXPXGZENOi38G6opLkp-w-1; Wed, 12 Feb 2020 02:33:25 -0500
-Received: by mail-qv1-f70.google.com with SMTP id g15so885715qvq.20
- for <qemu-devel@nongnu.org>; Tue, 11 Feb 2020 23:33:25 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=sJhg7KkEzOGnn4hSvrDQwQ/QlaSsdTM15d7DcDDIQpU=;
- b=AgaPy0E+X8Zgx2llVxJm3ZFiS9X8E6qc90YwWPJQHvjB95cw2WzhRaTvM/GEYsCcXe
- QWe3D2ieXC8B7CcWL6J/PbEbIPI5ZgUtWlhRQ0cHboi+AMM/9ZR7q0O4lN7MlkLT4gWY
- doNxvUl9ht4N58kY5T0n1FoAYUXtddRqgqLj/q2SyKspcW7M5spTdfjA/Ozu9RvzxSLN
- WAh4rmq8DTT78Lxr5Ayp/3GalMqWX37AW6wWX5w5mwi32vPsN6+NoM7jhVIHo7vQdVHg
- NKzG7btc9DyoDTgumx9+23065MaECzYFD/Bb2LJ+6AwSMUvoyVUUNOL77PZLGtMlNA3x
- 44Qg==
-X-Gm-Message-State: APjAAAWweCvLrnWFqiqi/x8RdamrTMOxbMVARjz5sI1gRb+NWkwULqbG
- pVsxcS9uyFze4OOCfnjcKlv2LrMDyJVRRti64rg2reYL8+dDRmpilFcpXcjN0nyYmBf3HkwNv72
- pOvEJ0/bpxYpdSuA=
-X-Received: by 2002:a37:7245:: with SMTP id n66mr6550697qkc.202.1581492805429; 
- Tue, 11 Feb 2020 23:33:25 -0800 (PST)
-X-Google-Smtp-Source: APXvYqzrwLw9tJ+j7cQsj4KIfybcSmpt4S0r5Ij00Kd6ddFwi9Qet0H0RfsmeBuMxbC3RCsQtJIU9A==
-X-Received: by 2002:a37:7245:: with SMTP id n66mr6550688qkc.202.1581492805139; 
- Tue, 11 Feb 2020 23:33:25 -0800 (PST)
-Received: from redhat.com (bzq-79-176-41-183.red.bezeqint.net. [79.176.41.183])
- by smtp.gmail.com with ESMTPSA id k15sm3284451qkk.103.2020.02.11.23.33.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 Feb 2020 23:33:24 -0800 (PST)
-Date: Wed, 12 Feb 2020 02:33:19 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: "Liu, Jing2" <jing2.liu@linux.intel.com>
-Subject: Re: [virtio-dev] Re: [PATCH v2 4/5] virtio-mmio: add MSI interrupt
- feature support
-Message-ID: <20200212023051-mutt-send-email-mst@kernel.org>
-References: <cover.1581305609.git.zhabin@linux.alibaba.com>
- <4c3d13be5a391b1fc50416838de57d903cbf8038.1581305609.git.zhabin@linux.alibaba.com>
- <0c71ff9d-1a7f-cfd2-e682-71b181bdeae4@redhat.com>
- <c42c8b49-5357-f341-2942-ba84afc25437@linux.intel.com>
- <ad96269f-753d-54b8-a4ae-59d1595dd3b2@redhat.com>
- <5522f205-207b-b012-6631-3cc77dde3bfe@linux.intel.com>
- <45e22435-08d3-08fe-8843-d8db02fcb8e3@redhat.com>
- <4c19292f-9d25-a859-3dde-6dd5a03fdf0b@linux.intel.com>
+ (Exim 4.71) (envelope-from <yi.l.liu@intel.com>) id 1j1mWS-0008Sj-FJ
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 02:33:24 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 11 Feb 2020 23:33:22 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,428,1574150400"; d="scan'208";a="432224082"
+Received: from fmsmsx107.amr.corp.intel.com ([10.18.124.205])
+ by fmsmga005.fm.intel.com with ESMTP; 11 Feb 2020 23:33:22 -0800
+Received: from FMSMSX109.amr.corp.intel.com (10.18.116.9) by
+ fmsmsx107.amr.corp.intel.com (10.18.124.205) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Tue, 11 Feb 2020 23:33:22 -0800
+Received: from shsmsx106.ccr.corp.intel.com (10.239.4.159) by
+ fmsmsx109.amr.corp.intel.com (10.18.116.9) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Tue, 11 Feb 2020 23:33:22 -0800
+Received: from shsmsx104.ccr.corp.intel.com ([169.254.5.5]) by
+ SHSMSX106.ccr.corp.intel.com ([169.254.10.225]) with mapi id 14.03.0439.000;
+ Wed, 12 Feb 2020 15:33:20 +0800
+From: "Liu, Yi L" <yi.l.liu@intel.com>
+To: Peter Xu <peterx@redhat.com>
+Subject: RE: [RFC v3 15/25] intel_iommu: process pasid cache invalidation
+Thread-Topic: [RFC v3 15/25] intel_iommu: process pasid cache invalidation
+Thread-Index: AQHV1p1PAzphlBRtJ0alU6uXzLVYlKgV/TkAgAFCrnA=
+Date: Wed, 12 Feb 2020 07:33:20 +0000
+Message-ID: <A2975661238FB949B60364EF0F2C25743A1BA59E@SHSMSX104.ccr.corp.intel.com>
+References: <1580300216-86172-1-git-send-email-yi.l.liu@intel.com>
+ <1580300216-86172-16-git-send-email-yi.l.liu@intel.com>
+ <20200211201728.GM984290@xz-x1>
+In-Reply-To: <20200211201728.GM984290@xz-x1>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 11.2.0.6
+dlp-reaction: no-action
+x-ctpclassification: CTP_NT
+x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiYWUxZjBiMzAtODQyNi00NGM3LWI1Y2YtNTQ5ZDdhNmUxM2ZmIiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiNlRsWGt4SzYxZDYxaTM1UEFkRVNnQ2d5RXFlR21aMGRJcUYzZGMzZFlGS25WNFFrczRDUEV3QkJqbGhpY0ltayJ9
+x-originating-ip: [10.239.127.40]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-In-Reply-To: <4c19292f-9d25-a859-3dde-6dd5a03fdf0b@linux.intel.com>
-X-MC-Unique: NLXPXGZENOi38G6opLkp-w-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Received-From: 134.134.136.126
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -95,273 +76,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-dev@lists.oasis-open.org, Zha Bin <zhabin@linux.alibaba.com>,
- slp@redhat.com, Jason Wang <jasowang@redhat.com>, linux-kernel@vger.kernel.org,
- qemu-devel@nongnu.org, chao.p.peng@linux.intel.com, gerry@linux.alibaba.com
+Cc: "Tian, Kevin" <kevin.tian@intel.com>,
+ Jacob Pan <jacob.jun.pan@linux.intel.com>, Yi Sun <yi.y.sun@linux.intel.com>,
+ Eduardo
+ Habkost <ehabkost@redhat.com>, "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ "mst@redhat.com" <mst@redhat.com>, "Tian, Jun J" <jun.j.tian@intel.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "eric.auger@redhat.com" <eric.auger@redhat.com>,
+ "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>, "Wu, Hao" <hao.wu@intel.com>,
+ "Sun, Yi Y" <yi.y.sun@intel.com>, Richard Henderson <rth@twiddle.net>,
+ "david@gibson.dropbear.id.au" <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Feb 12, 2020 at 11:54:53AM +0800, Liu, Jing2 wrote:
->=20
-> On 2/11/2020 3:40 PM, Jason Wang wrote:
->=20
->=20
->     On 2020/2/11 =E4=B8=8B=E5=8D=882:02, Liu, Jing2 wrote:
->=20
->=20
->=20
->         On 2/11/2020 12:02 PM, Jason Wang wrote:
->=20
->=20
->             On 2020/2/11 =E4=B8=8A=E5=8D=8811:35, Liu, Jing2 wrote:
->=20
->=20
->                 On 2/11/2020 11:17 AM, Jason Wang wrote:
->=20
->=20
->                     On 2020/2/10 =E4=B8=8B=E5=8D=885:05, Zha Bin wrote:
->=20
->                         From: Liu Jiang<gerry@linux.alibaba.com>
->=20
->                         Userspace VMMs (e.g. Qemu microvm, Firecracker) t=
-ake
->                         advantage of using
->                         virtio over mmio devices as a lightweight machine=
- model
->                         for modern
->                         cloud. The standard virtio over MMIO transport la=
-yer
->                         only supports one
->                         legacy interrupt, which is much heavier than virt=
-io
->                         over PCI transport
->                         layer using MSI. Legacy interrupt has long work p=
-ath
->                         and causes specific
->                         VMExits in following cases, which would considera=
-bly
->                         slow down the
->                         performance:
->=20
->                         1) read interrupt status register
->                         2) update interrupt status register
->                         3) write IOAPIC EOI register
->=20
->                         We proposed to add MSI support for virtio over MM=
-IO via
->                         new feature
->                         bit VIRTIO_F_MMIO_MSI[1] which increases the inte=
-rrupt
->                         performance.
->=20
->                         With the VIRTIO_F_MMIO_MSI feature bit supported,=
- the
->                         virtio-mmio MSI
->                         uses msi_sharing[1] to indicate the event and vec=
-tor
->                         mapping.
->                         Bit 1 is 0: device uses non-sharing and fixed vec=
-tor
->                         per event mapping.
->                         Bit 1 is 1: device uses sharing mode and dynamic
->                         mapping.
->=20
->=20
->=20
->                     I believe dynamic mapping should cover the case of fi=
-xed
->                     vector?
->=20
->=20
->                 Actually this bit *aims* for msi sharing or msi non-shari=
-ng.
->=20
->                 It means, when msi sharing bit is 1, device doesn't want =
-vector
->                 per queue
->=20
->                 (it wants msi vector sharing as name) and doesn't want a =
-high
->                 interrupt rate.
->=20
->                 So driver turns to !per_vq_vectors and has to do dynamica=
-l
->                 mapping.
->=20
->                 So they are opposite not superset.
->=20
->                 Thanks!
->=20
->                 Jing
->=20
->=20
->=20
->             I think you need add more comments on the command.
->=20
->             E.g if I want to map vector 0 to queue 1, how do I need to do=
-?
->=20
->             write(1, queue_sel);
->             write(0, vector_sel);
->=20
->=20
->         That's true. Besides, two commands are used for msi sharing mode,
->=20
->         VIRTIO_MMIO_MSI_CMD_MAP_CONFIG and VIRTIO_MMIO_MSI_CMD_MAP_QUEUE.
->=20
->         "To set up the event and vector mapping for MSI sharing mode, dri=
-ver
->         SHOULD write a valid MsiVecSel followed by
->         VIRTIO_MMIO_MSI_CMD_MAP_CONFIG/VIRTIO_MMIO_MSI_CMD_MAP_QUEUE comm=
-and to
->         map the configuration change/selected queue events respectively.=
-=C2=A0 "
->         (See spec patch 5/5)
->=20
->         So if driver detects the msi sharing mode, when it does setup vq,
->         writes the queue_sel (this already exists in setup vq), vector se=
-l and
->         then MAP_QUEUE command to do the queue event mapping.
->=20
->=20
->=20
->     So actually the per vq msix could be done through this.
->=20
-> Right, per vq msix can also be mapped by the 2 commands if we want.=C2=A0
->=20
-> The current design benefits for those devices requesting per vq msi that =
-driver
->=20
-> doesn't have to map during setup each queue,
->=20
-> since we define the relationship by default.
-
-Point being to save some exits for configuration? How much does it
-save? IMHO we need to find a way to drastically simplify this interface,
-to cut down the new LOC to at most 100-200, proportionally to the
-performance gain it gives.
-
-
->=20
->     I don't get why you need to introduce MSI_SHARING_MASK which is the c=
-harge
->     of driver instead of device.
->=20
-> MSI_SHARING_MASK is just for identifying the msi_sharing bit in readl(Msi=
-State)
-> (0x0c4). The device tells whether it wants msi_sharing.
->=20
-> MsiState register: R
->=20
-> le32 {
-> =C2=A0=C2=A0=C2=A0 msi_enabled : 1;
-> =C2=A0=C2=A0=C2=A0 msi_sharing: 1;
-> =C2=A0=C2=A0=C2=A0 reserved : 30;
-> };
->=20
->     The interrupt rate should have no direct relationship with whether it=
- has
->     been shared or not.
->=20
->=20
->=20
->     Btw, you introduce mask/unmask without pending, how to deal with the =
-lost
->     interrupt during the masking then?
->=20
->=20
->=20
->         For msi non-sharing mode, no special action is needed because we =
-make
->         the rule of per_vq_vector and fixed relationship.
->=20
->         Correct me if this is not that clear for spec/code comments.
->=20
->=20
->=20
->     The ABI is not as straightforward as PCI did. Why not just reuse the =
-PCI
->     layout?
->=20
->     E.g having
->=20
->     queue_sel
->     queue_msix_vector
->     msix_config
->=20
->     for configuring map between msi vector and queues/config
->=20
-> Thanks for the advice. :)
->=20
-> Actually when looking into pci, the queue_msix_vector/msix_config is the =
-msi
-> vector index, which is the same as the mmio register MsiVecSel (0x0d0).
->=20
-> So we don't introduce two extra registers for mapping even in sharing mod=
-e.
->=20
-> What do you think?
->=20
->=20
->=20
->     Then
->=20
->     vector_sel
->     address
->     data
->     pending
->     mask
->     unmask
->=20
->     for configuring msi table?
->=20
-> PCI-like msix table is not introduced to device and instead simply use co=
-mmands
-> to tell the mask/configure/enable.
->=20
-> Thanks!
->=20
-> Jing
->=20
->=20
->     Thanks
->=20
->=20
->=20
->         Thanks!
->=20
->         Jing
->=20
->=20
->=20
->=20
->             ?
->=20
->             Thanks
->=20
->=20
->=20
->=20
->=20
->=20
->                     Thanks
->=20
->=20
->=20
->                     -----------------------------------------------------=
-----------------
->=20
->                     To unsubscribe, e-mail:
->                     virtio-dev-unsubscribe@lists.oasis-open.org
->                     For additional commands, e-mail:
->                     virtio-dev-help@lists.oasis-open.org
->=20
->=20
->=20
->=20
->=20
->=20
->=20
->=20
-
+PiBGcm9tOiBQZXRlciBYdSA8cGV0ZXJ4QHJlZGhhdC5jb20+DQo+IFNlbnQ6IFdlZG5lc2RheSwg
+RmVicnVhcnkgMTIsIDIwMjAgNDoxNyBBTQ0KPiBUbzogTGl1LCBZaSBMIDx5aS5sLmxpdUBpbnRl
+bC5jb20+DQo+IFN1YmplY3Q6IFJlOiBbUkZDIHYzIDE1LzI1XSBpbnRlbF9pb21tdTogcHJvY2Vz
+cyBwYXNpZCBjYWNoZSBpbnZhbGlkYXRpb24NCj4gDQo+IE9uIFdlZCwgSmFuIDI5LCAyMDIwIGF0
+IDA0OjE2OjQ2QU0gLTA4MDAsIExpdSwgWWkgTCB3cm90ZToNCj4gPiBGcm9tOiBMaXUgWWkgTCA8
+eWkubC5saXVAaW50ZWwuY29tPg0KPiA+DQo+ID4gVGhpcyBwYXRjaCBhZGRzIFBBU0lEIGNhY2hl
+IGludmFsaWRhdGlvbiBoYW5kbGluZy4gV2hlbiBndWVzdCBlbmFibGVkDQo+ID4gUEFTSUQgdXNh
+Z2VzIChlLmcuIFNWQSksIGd1ZXN0IHNvZnR3YXJlIHNob3VsZCBpc3N1ZSBhIHByb3BlciBQQVNJ
+RA0KPiA+IGNhY2hlIGludmFsaWRhdGlvbiB3aGVuIGNhY2hpbmctbW9kZSBpcyBleHBvc2VkLiBU
+aGlzIHBhdGNoIG9ubHkgYWRkcw0KPiA+IHRoZSBkcmFmdCBoYW5kbGluZyBvZiBwYXNpZCBjYWNo
+ZSBpbnZhbGlkYXRpb24uIERldGFpbGVkIGhhbmRsaW5nIHdpbGwNCj4gPiBiZSBhZGRlZCBpbiBz
+dWJzZXF1ZW50IHBhdGNoZXMuDQo+ID4NCj4gPiBDYzogS2V2aW4gVGlhbiA8a2V2aW4udGlhbkBp
+bnRlbC5jb20+DQo+ID4gQ2M6IEphY29iIFBhbiA8amFjb2IuanVuLnBhbkBsaW51eC5pbnRlbC5j
+b20+DQo+ID4gQ2M6IFBldGVyIFh1IDxwZXRlcnhAcmVkaGF0LmNvbT4NCj4gPiBDYzogWWkgU3Vu
+IDx5aS55LnN1bkBsaW51eC5pbnRlbC5jb20+DQo+ID4gQ2M6IFBhb2xvIEJvbnppbmkgPHBib256
+aW5pQHJlZGhhdC5jb20+DQo+ID4gQ2M6IFJpY2hhcmQgSGVuZGVyc29uIDxydGhAdHdpZGRsZS5u
+ZXQ+DQo+ID4gQ2M6IEVkdWFyZG8gSGFia29zdCA8ZWhhYmtvc3RAcmVkaGF0LmNvbT4NCj4gPiBT
+aWduZWQtb2ZmLWJ5OiBMaXUgWWkgTCA8eWkubC5saXVAaW50ZWwuY29tPg0KPiANCj4gUmV2aWV3
+ZWQtYnk6IFBldGVyIFh1IDxwZXRlcnhAcmVkaGF0LmNvbT4NCg0KVGhhbmtz8J+Yig0KDQpSZWdh
+cmRzLA0KWWkgTGl1DQo=
 
