@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A288815AA2F
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Feb 2020 14:39:18 +0100 (CET)
-Received: from localhost ([::1]:37888 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5770915AA3A
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Feb 2020 14:42:42 +0100 (CET)
+Received: from localhost ([::1]:37960 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j1sEX-0007U0-Lh
-	for lists+qemu-devel@lfdr.de; Wed, 12 Feb 2020 08:39:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38220)
+	id 1j1sHp-0004cR-8U
+	for lists+qemu-devel@lfdr.de; Wed, 12 Feb 2020 08:42:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38250)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1j1sCK-00036w-RS
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 08:37:02 -0500
+ (envelope-from <david@redhat.com>) id 1j1sCP-0003D3-AL
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 08:37:07 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1j1sCI-0006fC-U3
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 08:37:00 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:47584
+ (envelope-from <david@redhat.com>) id 1j1sCM-0006hw-R3
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 08:37:04 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:25072
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <david@redhat.com>) id 1j1sCI-0006eC-Q6
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 08:36:58 -0500
+ (Exim 4.71) (envelope-from <david@redhat.com>) id 1j1sCL-0006gx-Rh
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 08:37:02 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581514617;
+ s=mimecast20190719; t=1581514621;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=s7I9nX8GRdQCY264mtTFqsL2Ag1R0WWkRnlvVoYEVLo=;
- b=TdWdhBAEt+I4n3eMRit1HsZYLHbTxcnHx4bzf2+DzlEtyAnQewTSmtlaMwp1YIDWbQtUgw
- T7Sff8PaRs3v29iS1Hb+UvXyfOXdS/kF8y6LO/RcWVQ8YGkHZsibSvmaY5v5JMLZhEFWlt
- sJup8rrAd67lEHrraps3krryNnlXn8U=
+ bh=prr+xXq0UMhDLa4d53EkNtGWAZ3Cr+6TY7QxrKm2lC8=;
+ b=Zi/SQ+W45+DWHNv1k31B22QCribO/Q2jlydGjHxjf2+KmjU/DhAyFZKGsddwHigICCVUsC
+ 1GtWTWKsV8Gol+rmRM3yrCQO07apgFopNj9EL8zMPQratgWacAi4TBjHNF67vgpKPFLdUi
+ Z46duR4WDqaG+eIrPHCLv7ZM7+pPnkI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-196-zOrwDZH2NqyK5qTb13LU-w-1; Wed, 12 Feb 2020 08:36:55 -0500
+ us-mta-427-LIjZw0XxMIGF_grZB8SA5A-1; Wed, 12 Feb 2020 08:36:59 -0500
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 893C719057A9;
- Wed, 12 Feb 2020 13:36:54 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AF0DDDB24;
+ Wed, 12 Feb 2020 13:36:58 +0000 (UTC)
 Received: from t480s.redhat.com (ovpn-117-92.ams2.redhat.com [10.36.117.92])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8D8B927063;
- Wed, 12 Feb 2020 13:36:50 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D74F519C69;
+ Wed, 12 Feb 2020 13:36:54 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 15/16] memory: Add region_resize() callback to memory
- notifier
-Date: Wed, 12 Feb 2020 14:36:00 +0100
-Message-Id: <20200212133601.10555-16-david@redhat.com>
+Subject: [PATCH v2 16/16] kvm: Implement region_resize() for atomic memory
+ section resizes
+Date: Wed, 12 Feb 2020 14:36:01 +0100
+Message-Id: <20200212133601.10555-17-david@redhat.com>
 In-Reply-To: <20200212133601.10555-1-david@redhat.com>
 References: <20200212133601.10555-1-david@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: zOrwDZH2NqyK5qTb13LU-w-1
+X-MC-Unique: LIjZw0XxMIGF_grZB8SA5A-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,180 +80,193 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Let's provide a way for memory notifiers to get notified about a resize.
-If the region_resize() callback is not implemented by a notifier, we
-mimic the old behavior by removing the old section and adding the
-new, resized section.
+virtio-mem wants to resize (esp. grow) memory regions while the guest is
+already aware of them and makes use of them. Resizing a KVM slot can
+only currently be done by removing it and re-adding it. While the kvm slot
+is temporarily removed, VCPUs that try to read from these slots will fault.
 
-The existing code would remove all sections first and then add the new
-ones. When resizing, we will now remove+re-add in a single shot. As we
-grow in the adding phase and shrink in the removal phase, this should
-not make a difference.
+Let's inhibit KVM_RUN while performing the resize. Keep it lightweight by
+remembering using one bool per VCPU, if the VCPU is executing in the
+kernel.
 
-This callback is helpful when backends (like KVM) want to implement
-atomic resizes of memory sections (e.g., resize while VCPUs are running and
-using the section).
+Note1: Instead of implementing region_resize(), we could also inhibit in
+begin() and let the VCPUs continue to run in commit(). This would also
+handle atomic splitting of memory regions. (I remember a BUG report but
+cannot dig up the mail). However, using the region_resize() callback we
+can later wire up an ioctl that can perform the resize atomically, and
+make the inhibit conditional. Also, this way we inhibit KVM only when
+resizing - not on any address space changes. This will not affect existing
+RT workloads (resizes currently only happen during reboot or at the
+start of an incoming migration).
 
-Note 1: Resizing while changing logging is unlikely, but nothing speaks
-        against allowing it.
-Note 2: Resizing MMIO regions is unlikely (coalesced io handling), but
-        nothing speaks against it.
+Note2: We cannot use pause_all_vcpus()/resume_all_vcpus(), as it will
+temporarily drop the BQL, which is something most caller cannot deal
+with when trying to resize a memory region.
 
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- include/exec/memory.h | 19 ++++++++++
- memory.c              | 85 ++++++++++++++++++++++++++++++++++++++++---
- 2 files changed, 99 insertions(+), 5 deletions(-)
+ accel/kvm/kvm-all.c   | 87 +++++++++++++++++++++++++++++++++++++++++++
+ include/hw/core/cpu.h |  3 ++
+ 2 files changed, 90 insertions(+)
 
-diff --git a/include/exec/memory.h b/include/exec/memory.h
-index dfedd88f13..1ec5432340 100644
---- a/include/exec/memory.h
-+++ b/include/exec/memory.h
-@@ -493,6 +493,25 @@ struct MemoryListener {
-      */
-     void (*region_nop)(MemoryListener *listener, MemoryRegionSection *sect=
-ion);
+diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+index c111312dfd..e24805771c 100644
+--- a/accel/kvm/kvm-all.c
++++ b/accel/kvm/kvm-all.c
+@@ -148,6 +148,10 @@ bool kvm_ioeventfd_any_length_allowed;
+ bool kvm_msi_use_devid;
+ static bool kvm_immediate_exit;
+ static hwaddr kvm_max_slot_size =3D ~0;
++static QemuMutex kvm_run_mutex;
++static QemuCond kvm_run_cond;
++static QemuCond kvm_run_inhibit_cond;
++static int kvm_run_inhibited;
 =20
-+    /**
-+     * @region_resize:
-+     *
-+     * Called during an address space update transaction,
-+     * for a section of the address space that is in the same place in the
-+     * address space as in the last transaction, however, the size changed=
-.
-+     * Dirty memory logging can change as well.
-+     *
-+     * Note: If this callback is not implemented well, the resize is
-+     *       communicated via a region_del(), followed by a region_add()
-+     *       instead.
-+     *
-+     * @listener: The #MemoryListener.
-+     * @section: The old #MemoryRegionSection.
-+     * @new: The new size.
-+     */
-+    void (*region_resize)(MemoryListener *listener,
-+                          MemoryRegionSection *section, Int128 new);
-+
-     /**
-      * @log_start:
-      *
-diff --git a/memory.c b/memory.c
-index 5c62702618..0d9fe189ad 100644
---- a/memory.c
-+++ b/memory.c
-@@ -246,6 +246,17 @@ static bool flatrange_equal(FlatRange *a, FlatRange *b=
-)
-         && a->nonvolatile =3D=3D b->nonvolatile;
+ static const KVMCapabilityInfo kvm_required_capabilites[] =3D {
+     KVM_CAP_INFO(USER_MEMORY),
+@@ -1121,6 +1125,57 @@ static void kvm_region_del(MemoryListener *listener,
+     memory_region_unref(section->mr);
  }
 =20
-+static bool flatrange_resized(FlatRange *a, FlatRange *b)
++/*
++ * Certain updates (e.g., resizing memory regions) require temporarily rem=
+oving
++ * kvm memory slots. Avoid any VCPU to fault by making sure all VCPUs
++ * left KVM_RUN and won't enter it again until unblocked.
++ */
++static void kvm_run_inhibit_begin(void)
 +{
-+    return a->mr =3D=3D b->mr
-+        && int128_eq(a->addr.start, b->addr.start)
-+        && int128_ne(a->addr.size, b->addr.size)
-+        && a->offset_in_region =3D=3D b->offset_in_region
-+        && a->romd_mode =3D=3D b->romd_mode
-+        && a->readonly =3D=3D b->readonly
-+        && a->nonvolatile =3D=3D b->nonvolatile;
-+}
++    CPUState *cpu;
 +
- static FlatView *flatview_new(MemoryRegion *mr_root)
- {
-     FlatView *view;
-@@ -875,6 +886,51 @@ static void flat_range_coalesced_io_add(FlatRange *fr,=
- AddressSpace *as)
-     }
- }
-=20
-+static void memory_listener_resize_region(FlatRange *fr, AddressSpace *as,
-+                                          enum ListenerDirection dir,
-+                                          Int128 new)
-+{
-+    FlatView *as_view =3D address_space_to_flatview(as);
-+    MemoryRegionSection old_mrs =3D section_from_flat_range(fr, as_view);
-+    MemoryRegionSection new_mrs =3D old_mrs;
-+    MemoryListener *listener;
++    atomic_inc(&kvm_run_inhibited);
++    while (true) {
++        bool any_in_kernel =3D false;
 +
-+    new_mrs.size =3D new;
-+
-+    switch (dir) {
-+    case Forward:
-+        QTAILQ_FOREACH(listener, &as->listeners, link_as) {
-+            if (listener->region_resize) {
-+                listener->region_resize(listener, &old_mrs, new);
-+                continue;
-+            }
-+            if (listener->region_del) {
-+                listener->region_del(listener, &old_mrs);
-+            }
-+            if (listener->region_add) {
-+                listener->region_add(listener, &new_mrs);
++        CPU_FOREACH(cpu) {
++            if (atomic_read(&cpu->in_kernel)) {
++                any_in_kernel =3D true;
++                qemu_cpu_kick(cpu);
 +            }
 +        }
-+        break;
-+    case Reverse:
-+        QTAILQ_FOREACH_REVERSE(listener, &as->listeners, link_as) {
-+            if (listener->region_resize) {
-+                listener->region_resize(listener, &old_mrs, new);
-+                continue;
-+            }
-+            if (listener->region_del) {
-+                listener->region_del(listener, &old_mrs);
-+            }
-+            if (listener->region_add) {
-+                listener->region_add(listener, &new_mrs);
-+            }
++        if (!any_in_kernel) {
++            break;
 +        }
-+        break;
-+    default:
-+        g_assert_not_reached();
++        qemu_mutex_lock(&kvm_run_mutex);
++        qemu_cond_wait(&kvm_run_inhibit_cond, &kvm_run_mutex);
++        qemu_mutex_unlock(&kvm_run_mutex);
 +    }
 +}
 +
- static void address_space_update_topology_pass(AddressSpace *as,
-                                                const FlatView *old_view,
-                                                const FlatView *new_view,
-@@ -899,11 +955,30 @@ static void address_space_update_topology_pass(Addres=
-sSpace *as,
-             frnew =3D NULL;
++static void kvm_run_inhibit_end(void)
++{
++    atomic_dec(&kvm_run_inhibited);
++    qemu_mutex_lock(&kvm_run_mutex);
++    qemu_cond_broadcast(&kvm_run_cond);
++    qemu_mutex_unlock(&kvm_run_mutex);
++}
++
++static void kvm_region_resize(MemoryListener *listener,
++                              MemoryRegionSection *section, Int128 new)
++{
++    KVMMemoryListener *kml =3D container_of(listener, KVMMemoryListener, l=
+istener);
++    MemoryRegionSection new_section =3D *section;
++
++    new_section.size =3D new;
++
++    /* Inhibit KVM while we temporarily remove slots. */
++    kvm_run_inhibit_begin();
++    kvm_set_phys_mem(kml, section, false);
++    kvm_set_phys_mem(kml, &new_section, true);
++    kvm_run_inhibit_end();
++}
++
+ static void kvm_log_sync(MemoryListener *listener,
+                          MemoryRegionSection *section)
+ {
+@@ -1239,6 +1294,7 @@ void kvm_memory_listener_register(KVMState *s, KVMMem=
+oryListener *kml,
+=20
+     kml->listener.region_add =3D kvm_region_add;
+     kml->listener.region_del =3D kvm_region_del;
++    kml->listener.region_resize =3D kvm_region_resize;
+     kml->listener.log_start =3D kvm_log_start;
+     kml->listener.log_stop =3D kvm_log_stop;
+     kml->listener.log_sync =3D kvm_log_sync;
+@@ -1884,6 +1940,9 @@ static int kvm_init(MachineState *ms)
+     assert(TARGET_PAGE_SIZE <=3D qemu_real_host_page_size);
+=20
+     s->sigmask_len =3D 8;
++    qemu_mutex_init(&kvm_run_mutex);
++    qemu_cond_init(&kvm_run_cond);
++    qemu_cond_init(&kvm_run_inhibit_cond);
+=20
+ #ifdef KVM_CAP_SET_GUEST_DEBUG
+     QTAILQ_INIT(&s->kvm_sw_breakpoints);
+@@ -2294,6 +2353,29 @@ static void kvm_eat_signals(CPUState *cpu)
+     } while (sigismember(&chkset, SIG_IPI));
+ }
+=20
++static void kvm_set_cpu_in_kernel(CPUState *cpu, bool in_kernel)
++{
++    atomic_set(&cpu->in_kernel, in_kernel);
++    if (in_kernel) {
++        /* wait until KVM_RUN is no longer inhibited */
++        while (unlikely(atomic_read(&kvm_run_inhibited))) {
++            atomic_set(&cpu->in_kernel, false);
++            qemu_mutex_lock(&kvm_run_mutex);
++            qemu_cond_broadcast(&kvm_run_inhibit_cond);
++            qemu_cond_wait(&kvm_run_cond, &kvm_run_mutex);
++            qemu_mutex_unlock(&kvm_run_mutex);
++            atomic_set(&cpu->in_kernel, true);
++        }
++    } else {
++        /* wake up somebody wanting to inhibit KVM_RUN */
++        if (unlikely(atomic_read(&kvm_run_inhibited))) {
++            qemu_mutex_lock(&kvm_run_mutex);
++            qemu_cond_broadcast(&kvm_run_inhibit_cond);
++            qemu_mutex_unlock(&kvm_run_mutex);
++        }
++    }
++}
++
+ int kvm_cpu_exec(CPUState *cpu)
+ {
+     struct kvm_run *run =3D cpu->kvm_run;
+@@ -2318,6 +2400,9 @@ int kvm_cpu_exec(CPUState *cpu)
          }
 =20
--        if (frold
--            && (!frnew
--                || int128_lt(frold->addr.start, frnew->addr.start)
--                || (int128_eq(frold->addr.start, frnew->addr.start)
--                    && !flatrange_equal(frold, frnew)))) {
-+        if (frold && frnew && flatrange_resized(frold, frnew)) {
-+            /* In both and only the size (+ eventually logging) changed. *=
-/
+         kvm_arch_pre_run(cpu, run);
 +
-+            if (int128_lt(frold->addr.size, frnew->addr.size) && adding) {
-+                /* Grow in the adding phase. */
-+                memory_listener_resize_region(frold, as, Forward,
-+                                              frnew->addr.size);
-+                flat_range_coalesced_io_del(frold, as);
-+                flat_range_coalesced_io_add(frnew, as);
-+            } else if (int128_gt(frold->addr.size, frnew->addr.size) &&
-+                       !adding) {
-+                /* Shrink in the removal phase. */
-+                memory_listener_resize_region(frold, as, Reverse,
-+                                              frnew->addr.size);
-+                flat_range_coalesced_io_del(frold, as);
-+                flat_range_coalesced_io_add(frnew, as);
-+            }
++        kvm_set_cpu_in_kernel(cpu, true);
 +
-+            ++iold;
-+            ++inew;
-+        } else if (frold && (!frnew
-+                             || int128_lt(frold->addr.start, frnew->addr.s=
-tart)
-+                             || (int128_eq(frold->addr.start, frnew->addr.=
-start)
-+                                 && !flatrange_equal(frold, frnew)))) {
-             /* In old but not in new, or in both but attributes changed. *=
-/
+         if (atomic_read(&cpu->exit_request)) {
+             DPRINTF("interrupt exit requested\n");
+             /*
+@@ -2335,6 +2420,8 @@ int kvm_cpu_exec(CPUState *cpu)
 =20
-             if (!adding) {
+         run_ret =3D kvm_vcpu_ioctl(cpu, KVM_RUN, 0);
+=20
++        kvm_set_cpu_in_kernel(cpu, false);
++
+         attrs =3D kvm_arch_post_run(cpu, run);
+=20
+ #ifdef KVM_HAVE_MCE_INJECTION
+diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
+index 73e9a869a4..83614e537b 100644
+--- a/include/hw/core/cpu.h
++++ b/include/hw/core/cpu.h
+@@ -431,6 +431,9 @@ struct CPUState {
+     /* shared by kvm, hax and hvf */
+     bool vcpu_dirty;
+=20
++    /* kvm only for now: VCPU is executing in the kernel (KVM_RUN) */
++    bool in_kernel;
++
+     /* Used to keep track of an outstanding cpu throttle thread for migrat=
+ion
+      * autoconverge
+      */
 --=20
 2.24.1
 
