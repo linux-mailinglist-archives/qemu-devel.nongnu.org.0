@@ -2,52 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C108815A3E7
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Feb 2020 09:50:59 +0100 (CET)
-Received: from localhost ([::1]:33628 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EB8815A427
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Feb 2020 10:01:20 +0100 (CET)
+Received: from localhost ([::1]:33706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j1njW-0002LE-Dr
-	for lists+qemu-devel@lfdr.de; Wed, 12 Feb 2020 03:50:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40088)
+	id 1j1ntX-0006nL-By
+	for lists+qemu-devel@lfdr.de; Wed, 12 Feb 2020 04:01:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41941)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <zhiwei_liu@c-sky.com>) id 1j1nii-0001mc-Ns
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 03:50:10 -0500
+ (envelope-from <imammedo@redhat.com>) id 1j1nsV-0005zp-Q9
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 04:00:17 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <zhiwei_liu@c-sky.com>) id 1j1nig-0003ix-Nr
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 03:50:08 -0500
-Received: from smtp2200-217.mail.aliyun.com ([121.197.200.217]:36669)
+ (envelope-from <imammedo@redhat.com>) id 1j1nsT-00045W-Ia
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 04:00:15 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:24572
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1j1nif-0003bo-U0; Wed, 12 Feb 2020 03:50:06 -0500
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07436303|-1; CH=green;
- DM=CONTINUE|CONTINUE|true|0.758985-0.00729214-0.233723;
- DS=CONTINUE|ham_regular_dialog|0.177221-0.000613269-0.822166;
- FP=0|0|0|0|0|-1|-1|-1; HT=e02c03309; MF=zhiwei_liu@c-sky.com; NM=1; PH=DS;
- RN=8; RT=8; SR=0; TI=SMTPD_---.GnDbdkE_1581497395; 
-Received: from 192.168.3.18(mailfrom:zhiwei_liu@c-sky.com
- fp:SMTPD_---.GnDbdkE_1581497395)
- by smtp.aliyun-inc.com(10.147.41.121);
- Wed, 12 Feb 2020 16:49:56 +0800
-Subject: Re: [PATCH v3 1/5] target/riscv: add vector unit stride load and
- store instructions
-To: Richard Henderson <richard.henderson@linaro.org>, alistair23@gmail.com,
- chihmin.chao@sifive.com, palmer@dabbelt.com
-References: <20200210074256.11412-1-zhiwei_liu@c-sky.com>
- <20200210074256.11412-2-zhiwei_liu@c-sky.com>
- <9054a6fb-adee-4dcc-d7c6-9a974a83668a@linaro.org>
-From: LIU Zhiwei <zhiwei_liu@c-sky.com>
-Message-ID: <9ffcc075-1cef-fde3-16df-34f5b34e6b4c@c-sky.com>
-Date: Wed, 12 Feb 2020 16:55:51 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1j1nsT-00044u-EB
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 04:00:13 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1581498012;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=TqQh7dgkubIomz+Rv4207t0vGgmw8qZ9yOhDbGmYEJQ=;
+ b=A2jyi8a4cRQZMlBazNIOggl42uhnxaTF7HNO1LrevMnvPT3Gr64TH5HuiSZ7Cuj7fvd6zE
+ q2nTQ6rY3cenGVEIFkZshhEEX0B8xJTViOraQKEdkwXfkyBug1zVLj5QixZwvrQRvoZGbU
+ GfoFhLA405BvBtzI3e616+CD78VeFlg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-150-uTkPpipTNH-xfIZQzZhx4g-1; Wed, 12 Feb 2020 04:00:11 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D2DF4800D53;
+ Wed, 12 Feb 2020 09:00:09 +0000 (UTC)
+Received: from localhost (unknown [10.43.2.114])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4CEBA5D9E2;
+ Wed, 12 Feb 2020 09:00:08 +0000 (UTC)
+Date: Wed, 12 Feb 2020 10:00:07 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Tao Xu <tao3.xu@intel.com>
+Subject: Re: [PATCH v3 4/4] target/i386: Add notes for versioned CPU models
+Message-ID: <20200212100007.08b5b221@redhat.com>
+In-Reply-To: <20200212081328.7385-5-tao3.xu@intel.com>
+References: <20200212081328.7385-1-tao3.xu@intel.com>
+ <20200212081328.7385-5-tao3.xu@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <9054a6fb-adee-4dcc-d7c6-9a974a83668a@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic] [fuzzy]
-X-Received-From: 121.197.200.217
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: uTkPpipTNH-xfIZQzZhx4g-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,198 +71,306 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: wenmeng_zhang@c-sky.com, qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
- wxy194768@alibaba-inc.com
+Cc: qemu-devel@nongnu.org, pbonzini@redhat.com, ehabkost@redhat.com,
+ rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi, Richard
+On Wed, 12 Feb 2020 16:13:28 +0800
+Tao Xu <tao3.xu@intel.com> wrote:
 
-Thanks for comments.
+> Add which features are added or removed in this version. Remove the
+> changed model-id in versioned CPU models, to keep the model name
+> unchanged at /proc/cpuinfo inside the VM.
+> 
+> Signed-off-by: Tao Xu <tao3.xu@intel.com>
+> ---
+> 
+> Changes in v2:
+>     - correct the note of Cascadelake v3 (Xiaoyao)
+> ---
+>  target/i386/cpu.c | 54 ++++++++++++++++++++++-------------------------
+>  1 file changed, 25 insertions(+), 29 deletions(-)
+> 
+> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+> index 81a039beb6..739ef4ce91 100644
+> --- a/target/i386/cpu.c
+> +++ b/target/i386/cpu.c
+> @@ -2278,10 +2278,9 @@ static X86CPUDefinition builtin_x86_defs[] = {
+>              {
+>                  .version = 2,
+>                  .alias = "Nehalem-IBRS",
+> +                .note = "IBRS",
+>                  .props = (PropValue[]) {
+>                      { "spec-ctrl", "on" },
+> -                    { "model-id",
+> -                      "Intel Core i7 9xx (Nehalem Core i7, IBRS update)" },
+>                      { /* end of list */ }
+>                  }
+>              },
+> @@ -2359,10 +2358,9 @@ static X86CPUDefinition builtin_x86_defs[] = {
+>              {
+>                  .version = 2,
+>                  .alias = "Westmere-IBRS",
+> +                .note = "IBRS",
+>                  .props = (PropValue[]) {
+>                      { "spec-ctrl", "on" },
+> -                    { "model-id",
+> -                      "Westmere E56xx/L56xx/X56xx (IBRS update)" },
+>                      { /* end of list */ }
+>                  }
+>              },
+> @@ -2445,10 +2443,9 @@ static X86CPUDefinition builtin_x86_defs[] = {
+>              {
+>                  .version = 2,
+>                  .alias = "SandyBridge-IBRS",
+> +                .note = "IBRS",
+>                  .props = (PropValue[]) {
+>                      { "spec-ctrl", "on" },
+> -                    { "model-id",
+> -                      "Intel Xeon E312xx (Sandy Bridge, IBRS update)" },
+>                      { /* end of list */ }
+>                  }
+>              },
+> @@ -2537,10 +2534,9 @@ static X86CPUDefinition builtin_x86_defs[] = {
+>              {
+>                  .version = 2,
+>                  .alias = "IvyBridge-IBRS",
+> +                .note = "IBRS",
+>                  .props = (PropValue[]) {
+>                      { "spec-ctrl", "on" },
+> -                    { "model-id",
+> -                      "Intel Xeon E3-12xx v2 (Ivy Bridge, IBRS)" },
+>                      { /* end of list */ }
+>                  }
+>              },
+> @@ -2634,17 +2630,18 @@ static X86CPUDefinition builtin_x86_defs[] = {
+>              {
+>                  .version = 2,
+>                  .alias = "Haswell-noTSX",
+> +                .note = "no TSX",
+>                  .props = (PropValue[]) {
+>                      { "hle", "off" },
+>                      { "rtm", "off" },
+>                      { "stepping", "1" },
+> -                    { "model-id", "Intel Core Processor (Haswell, no TSX)", },
+>                      { /* end of list */ }
+>                  },
+>              },
+>              {
+>                  .version = 3,
+>                  .alias = "Haswell-IBRS",
+> +                .note = "IBRS",
+>                  .props = (PropValue[]) {
+>                      /* Restore TSX features removed by -v2 above */
+>                      { "hle", "on" },
+> @@ -2655,21 +2652,18 @@ static X86CPUDefinition builtin_x86_defs[] = {
+>                       */
+>                      { "stepping", "4" },
+>                      { "spec-ctrl", "on" },
+> -                    { "model-id",
+> -                      "Intel Core Processor (Haswell, IBRS)" },
+>                      { /* end of list */ }
+>                  }
+>              },
+>              {
+>                  .version = 4,
+>                  .alias = "Haswell-noTSX-IBRS",
+> +                .note = "no TSX, IBRS",
+>                  .props = (PropValue[]) {
+>                      { "hle", "off" },
+>                      { "rtm", "off" },
+>                      /* spec-ctrl was already enabled by -v3 above */
+>                      { "stepping", "1" },
+> -                    { "model-id",
+> -                      "Intel Core Processor (Haswell, no TSX, IBRS)" },
+>                      { /* end of list */ }
+>                  }
+>              },
+> @@ -2765,35 +2759,33 @@ static X86CPUDefinition builtin_x86_defs[] = {
+>              {
+>                  .version = 2,
+>                  .alias = "Broadwell-noTSX",
+> +                .note = "no TSX",
+>                  .props = (PropValue[]) {
+>                      { "hle", "off" },
+>                      { "rtm", "off" },
+> -                    { "model-id", "Intel Core Processor (Broadwell, no TSX)", },
+>                      { /* end of list */ }
+>                  },
+>              },
+>              {
+>                  .version = 3,
+>                  .alias = "Broadwell-IBRS",
+> +                .note = "IBRS",
+>                  .props = (PropValue[]) {
+>                      /* Restore TSX features removed by -v2 above */
+>                      { "hle", "on" },
+>                      { "rtm", "on" },
+>                      { "spec-ctrl", "on" },
+> -                    { "model-id",
+> -                      "Intel Core Processor (Broadwell, IBRS)" },
+>                      { /* end of list */ }
+>                  }
+>              },
+>              {
+>                  .version = 4,
+>                  .alias = "Broadwell-noTSX-IBRS",
+> +                .note = "no TSX, IBRS",
+>                  .props = (PropValue[]) {
+>                      { "hle", "off" },
+>                      { "rtm", "off" },
+>                      /* spec-ctrl was already enabled by -v3 above */
+> -                    { "model-id",
+> -                      "Intel Core Processor (Broadwell, no TSX, IBRS)" },
+>                      { /* end of list */ }
+>                  }
+>              },
+> @@ -2893,22 +2885,20 @@ static X86CPUDefinition builtin_x86_defs[] = {
+>              { .version = 1 },
+>              {
+>                  .version = 2,
+> +                .note = "IBRS",
+>                  .alias = "Skylake-Client-IBRS",
+>                  .props = (PropValue[]) {
+>                      { "spec-ctrl", "on" },
+> -                    { "model-id",
+> -                      "Intel Core Processor (Skylake, IBRS)" },
+>                      { /* end of list */ }
+>                  }
+>              },
+>              {
+>                  .version = 3,
+>                  .alias = "Skylake-Client-noTSX-IBRS",
+> +                .note = "no TSX, IBRS",
+>                  .props = (PropValue[]) {
+>                      { "hle", "off" },
+>                      { "rtm", "off" },
+> -                    { "model-id",
+> -                      "Intel Core Processor (Skylake, IBRS, no TSX)" },
+>                      { /* end of list */ }
+>                  }
+>              },
+> @@ -3016,24 +3006,22 @@ static X86CPUDefinition builtin_x86_defs[] = {
+>              {
+>                  .version = 2,
+>                  .alias = "Skylake-Server-IBRS",
+> +                .note = "IBRS",
+>                  .props = (PropValue[]) {
+>                      /* clflushopt was not added to Skylake-Server-IBRS */
+>                      /* TODO: add -v3 including clflushopt */
+>                      { "clflushopt", "off" },
+>                      { "spec-ctrl", "on" },
+> -                    { "model-id",
+> -                      "Intel Xeon Processor (Skylake, IBRS)" },
+>                      { /* end of list */ }
+>                  }
+>              },
+>              {
+>                  .version = 3,
+>                  .alias = "Skylake-Server-noTSX-IBRS",
+> +                .note = "no TSX, IBRS",
+>                  .props = (PropValue[]) {
+>                      { "hle", "off" },
+>                      { "rtm", "off" },
+> -                    { "model-id",
+> -                      "Intel Xeon Processor (Skylake, IBRS, no TSX)" },
+>                      { /* end of list */ }
+>                  }
+>              },
+> @@ -3142,6 +3130,7 @@ static X86CPUDefinition builtin_x86_defs[] = {
+>          .versions = (X86CPUVersionDefinition[]) {
+>              { .version = 1 },
+>              { .version = 2,
+> +              .note = "ARCH_CAPABILITIES",
 
-On 2020/2/12 14:38, Richard Henderson wrote:
-> On 2/9/20 11:42 PM, LIU Zhiwei wrote:
->> +/*
->> + * As simd_desc supports at most 256 bytes, and in this implementation,
->> + * the max vector group length is 2048 bytes. So split it into two parts.
->> + *
->> + * The first part is floor(maxsz, 64), encoded in maxsz of simd_desc.
->> + * The second part is (maxsz % 64) >> 3, encoded in data of simd_desc.
->> + */
->> +static uint32_t maxsz_part1(uint32_t maxsz)
->> +{
->> +    return ((maxsz & ~(0x3f)) >> 3) + 0x8; /* add offset 8 to avoid return 0 */
->> +}
->> +
->> +static uint32_t maxsz_part2(uint32_t maxsz)
->> +{
->> +    return (maxsz & 0x3f) >> 3;
->> +}
-> I would much rather adjust simd_desc to support 2048 bytes.
->
-> I've just posted a patch set that removes an assert in target/arm that would
-> trigger if SIMD_DATA_SHIFT was increased to make room for a larger oprsz.
-Do you mean "assert(maxsz % 8 == 0 && maxsz <= (8 << SIMD_MAXSZ_BITS));" 
-in tcg-op-gvec.c?
-If it is removed, I can pass 2048 bytes by set maxsz == 256.
-> Or, since we're not going through tcg_gen_gvec_* for ldst, don't bother with
-> simd_desc at all, and just pass vlen, unencoded.
-  Vlen is not enough,  lmul is also needed in helpers.
->
->> +/* define check conditions data structure */
->> +struct vext_check_ctx {
->> +
->> +    struct vext_reg {
->> +        uint8_t reg;
->> +        bool widen;
->> +        bool need_check;
->> +    } check_reg[6];
->> +
->> +    struct vext_overlap_mask {
->> +        uint8_t reg;
->> +        uint8_t vm;
->> +        bool need_check;
->> +    } check_overlap_mask;
->> +
->> +    struct vext_nf {
->> +        uint8_t nf;
->> +        bool need_check;
->> +    } check_nf;
->> +    target_ulong check_misa;
->> +
->> +} vchkctx;
-> You cannot use a global variable.  The data must be thread-safe.
->
-> If we're going to do the checks this way, with a structure, it needs to be on
-> the stack or within DisasContext.
->> +#define GEN_VEXT_LD_US_TRANS(NAME, DO_OP, SEQ)                            \
->> +static bool trans_##NAME(DisasContext *s, arg_r2nfvm* a)                  \
->> +{                                                                         \
->> +    vchkctx.check_misa = RVV;                                             \
->> +    vchkctx.check_overlap_mask.need_check = true;                         \
->> +    vchkctx.check_overlap_mask.reg = a->rd;                               \
->> +    vchkctx.check_overlap_mask.vm = a->vm;                                \
->> +    vchkctx.check_reg[0].need_check = true;                               \
->> +    vchkctx.check_reg[0].reg = a->rd;                                     \
->> +    vchkctx.check_reg[0].widen = false;                                   \
->> +    vchkctx.check_nf.need_check = true;                                   \
->> +    vchkctx.check_nf.nf = a->nf;                                          \
->> +                                                                          \
->> +    if (!vext_check(s)) {                                                 \
->> +        return false;                                                     \
->> +    }                                                                     \
->> +    return DO_OP(s, a, SEQ);                                              \
->> +}
-> I don't see the improvement from a pointer.  Something like
->
->      if (vext_check_isa_ill(s) &&
->          vext_check_overlap(s, a->rd, a->rm) &&
->          vext_check_reg(s, a->rd, false) &&
->          vext_check_nf(s, a->nf)) {
->          return DO_OP(s, a, SEQ);
->      }
->      return false;
->
-> seems just as clear without the extra data.
-I am not quite sure which is clearer. In my opinion, setting datas is 
-more easy than call different intefaces.
->> +#ifdef CONFIG_USER_ONLY
->> +#define MO_SB 0
->> +#define MO_LESW 0
->> +#define MO_LESL 0
->> +#define MO_LEQ 0
->> +#define MO_UB 0
->> +#define MO_LEUW 0
->> +#define MO_LEUL 0
->> +#endif
-> What is this for?  We already define these unconditionally.
-Yes. I miss a head file "exec/memop.h". When I compile in user mode,  
-some make errors appear.
-I will remove these codes next patch.
->
->> +static inline int vext_elem_mask(void *v0, int mlen, int index)
->> +{
->> +    int idx = (index * mlen) / 8;
->> +    int pos = (index * mlen) % 8;
->> +
->> +    return (*((uint8_t *)v0 + idx) >> pos) & 0x1;
->> +}
-> This is a little-endian indexing of the mask.  Just above we talk about using a
-> host-endian ordering of uint64_t.
->
-> Thus this must be based on uint64_t instead of uint8_t.
->
->> +/*
->> + * This function checks watchpoint before really load operation.
->> + *
->> + * In softmmu mode, the TLB API probe_access is enough for watchpoint check.
->> + * In user mode, there is no watchpoint support now.
->> + *
->> + * It will triggle an exception if there is no mapping in TLB
->> + * and page table walk can't fill the TLB entry. Then the guest
->> + * software can return here after process the exception or never return.
->> + */
->> +static void probe_read_access(CPURISCVState *env, target_ulong addr,
->> +        target_ulong len, uintptr_t ra)
->> +{
->> +    while (len) {
->> +        const target_ulong pagelen = -(addr | TARGET_PAGE_MASK);
->> +        const target_ulong curlen = MIN(pagelen, len);
->> +
->> +        probe_read(env, addr, curlen, cpu_mmu_index(env, false), ra);
-> The return value here is non-null when we can read directly from host memory.
-> It would be a shame to throw that work away.
-Yes. These host addresses can be useful. I just ignore them, because it 
-will have to
-add some local variables to use them. And cpu_*_mmuidx_ra will just 
-search tlb table by tlb_hit.
-I am not quite sure if I should keep host address in an array.
+what's ARCH_CAPABILITIES?
 
-Do you think it is necessary?
->
->> +/* data structure and common functions for load and store */
->> +typedef void vext_ld_elem_fn(CPURISCVState *env, target_ulong addr,
->> +        uint32_t idx, void *vd, uintptr_t retaddr);
->> +typedef void vext_st_elem_fn(CPURISCVState *env, target_ulong addr,
->> +        uint32_t idx, void *vd, uintptr_t retaddr);
->> +typedef target_ulong vext_get_index_addr(target_ulong base,
->> +        uint32_t idx, void *vs2);
->> +typedef void vext_ld_clear_elem(void *vd, uint32_t idx,
->> +        uint32_t cnt, uint32_t tot);
->> +
->> +struct vext_ldst_ctx {
->> +    struct vext_common_ctx vcc;
->> +    uint32_t nf;
->> +    target_ulong base;
->> +    target_ulong stride;
->> +    int mmuidx;
->> +
->> +    vext_ld_elem_fn *ld_elem;
->> +    vext_st_elem_fn *st_elem;
->> +    vext_get_index_addr *get_index_addr;
->> +    vext_ld_clear_elem *clear_elem;
->> +};
-> I think you should pass these elements directly, as needed, rather than putting
-> them all in a struct.
->
-> This would allow the main helper function to be inlined, which in turn allows
-> the mini helper functions to be inlined.
-The structure is to reduce main helper function code size and reduce the 
-number of arguments
-of mini helper functions.
-I once pass these elements directly before this patch. It's more 
-confused as so many scatted
-variables and arguments.
-
-I'm not quite sure about the efficiency improvements. If you are sure 
-about that, could you
-explain more details about how to achieve it.
-
-Best Regards,
-Zhiwei
-
->
->
-> r~
+>                .props = (PropValue[]) {
+>                    { "arch-capabilities", "on" },
+>                    { "rdctl-no", "on" },
+> @@ -3153,6 +3142,7 @@ static X86CPUDefinition builtin_x86_defs[] = {
+>              },
+>              { .version = 3,
+>                .alias = "Cascadelake-Server-noTSX",
+> +              .note = "ARCH_CAPABILITIES, no TSX",
+>                .props = (PropValue[]) {
+>                    { "hle", "off" },
+>                    { "rtm", "off" },
+> @@ -3374,6 +3364,7 @@ static X86CPUDefinition builtin_x86_defs[] = {
+>              { .version = 1 },
+>              {
+>                  .version = 2,
+> +                .note = "no TSX",
+>                  .alias = "Icelake-Client-noTSX",
+>                  .props = (PropValue[]) {
+>                      { "hle", "off" },
+> @@ -3491,6 +3482,7 @@ static X86CPUDefinition builtin_x86_defs[] = {
+>              { .version = 1 },
+>              {
+>                  .version = 2,
+> +                .note = "no TSX",
+>                  .alias = "Icelake-Server-noTSX",
+>                  .props = (PropValue[]) {
+>                      { "hle", "off" },
+> @@ -3598,6 +3590,7 @@ static X86CPUDefinition builtin_x86_defs[] = {
+>              { .version = 1 },
+>              {
+>                  .version = 2,
+> +                .note = "no MPX, no MONITOR",
+>                  .props = (PropValue[]) {
+>                      { "monitor", "off" },
+>                      { "mpx", "off" },
+> @@ -3727,14 +3720,15 @@ static X86CPUDefinition builtin_x86_defs[] = {
+>              { .version = 1 },
+>              {
+>                  .version = 2,
+> +                .note = "no MPX",
+>                  .props = (PropValue[]) {
+>                      { "mpx", "off" },
+> -                    { "model-id", "Intel Atom Processor (Snowridge, no MPX)" },
+>                      { /* end of list */ },
+>                  },
+>              },
+>              {
+>                  .version = 3,
+> +                .note = "no MPX, no MONITOR",
+>                  .props = (PropValue[]) {
+>                      /* mpx was already removed by -v2 above */
+>                      { "monitor", "off" },
+> @@ -3856,6 +3850,7 @@ static X86CPUDefinition builtin_x86_defs[] = {
+>              { .version = 1 },
+>              {
+>                  .version = 2,
+> +                .note = "no MONITOR",
+>                  .props = (PropValue[]) {
+>                      { "monitor", "off" },
+>                      { /* end of list */ },
+> @@ -3980,15 +3975,15 @@ static X86CPUDefinition builtin_x86_defs[] = {
+>              {
+>                  .version = 2,
+>                  .alias = "EPYC-IBPB",
+> +                .note = "IBPB",
+>                  .props = (PropValue[]) {
+>                      { "ibpb", "on" },
+> -                    { "model-id",
+> -                      "AMD EPYC Processor (with IBPB)" },
+>                      { /* end of list */ }
+>                  }
+>              },
+>              {
+>                  .version = 3,
+> +                .note = "IBPB, no MONITOR",
+>                  .props = (PropValue[]) {
+>                      /* ibpb was already enabled by -v2 above */
+>                      { "monitor", "off" },
+> @@ -4051,6 +4046,7 @@ static X86CPUDefinition builtin_x86_defs[] = {
+>              { .version = 1 },
+>              {
+>                  .version = 2,
+> +                .note = "no MONITOR",
+>                  .props = (PropValue[]) {
+>                      { "monitor", "off" },
+>                      { /* end of list */ },
 
 
