@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 884C715AA34
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Feb 2020 14:41:53 +0100 (CET)
-Received: from localhost ([::1]:37930 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9668615AA2A
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Feb 2020 14:38:56 +0100 (CET)
+Received: from localhost ([::1]:37882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j1sH2-0002oT-Iy
-	for lists+qemu-devel@lfdr.de; Wed, 12 Feb 2020 08:41:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38035)
+	id 1j1sEB-0006bV-JU
+	for lists+qemu-devel@lfdr.de; Wed, 12 Feb 2020 08:38:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38056)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1j1sBo-0001uN-IE
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 08:36:29 -0500
+ (envelope-from <david@redhat.com>) id 1j1sBs-00024E-Oy
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 08:36:33 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1j1sBn-0006Eh-53
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 08:36:28 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:58916
+ (envelope-from <david@redhat.com>) id 1j1sBr-0006Ha-G0
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 08:36:32 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:50963
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <david@redhat.com>) id 1j1sBn-0006Dc-0z
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 08:36:27 -0500
+ (Exim 4.71) (envelope-from <david@redhat.com>) id 1j1sBr-0006HJ-Bw
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 08:36:31 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581514586;
+ s=mimecast20190719; t=1581514590;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=bM2sLCVmdoxBoIAr1ChW/OgRh7L93CZY2ADROzfXC+w=;
- b=GUmhtLCMzkq6ubWsrqwSuhW9xCIOrBDjCKLsGJyomISbrmGVeFETlNxfvBcE+cAOs0BFeb
- zLihwDF0DAXSCXBjOX/fseZ3g5sNtzpefozJbkfIWYiaDF4ma1tG7vKj0b6E/L0MEgM3jV
- FEVwXxU4/r7cyvX/wUW8V/1P3sZZgz4=
+ bh=BBNasa56TtnVAjj/4k9eShjYigwuq4zSyA2Tmtxnj24=;
+ b=Ip4nLi8ir7hDdqfYzfcavhxCs8+B5PE3RByAu7cuOfmLZtPLQvFbQ8GBRRBy+Y9IgIm1ik
+ 8Ceg/fYqxezpFxxE5999GzyBSDeLFzpUd+yH5sdjLVahDLAXStxAX4dzvuswJiYew+Egdi
+ qFlkdeH6EdZxLqWLAsdgR2l2MbDCFck=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-428-ZfL7LalrN6OLFr_Fabu8OA-1; Wed, 12 Feb 2020 08:36:22 -0500
+ us-mta-186-rNmESfL9NKODpGuY5UtgpA-1; Wed, 12 Feb 2020 08:36:29 -0500
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 70739800D48;
- Wed, 12 Feb 2020 13:36:21 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5CCDD19057A1;
+ Wed, 12 Feb 2020 13:36:28 +0000 (UTC)
 Received: from t480s.redhat.com (ovpn-117-92.ams2.redhat.com [10.36.117.92])
- by smtp.corp.redhat.com (Postfix) with ESMTP id ACA5526FB6;
- Wed, 12 Feb 2020 13:36:19 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BDD7819C69;
+ Wed, 12 Feb 2020 13:36:21 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 05/16] pc: Support for virtio-mem-pci
-Date: Wed, 12 Feb 2020 14:35:50 +0100
-Message-Id: <20200212133601.10555-6-david@redhat.com>
+Subject: [PATCH v2 06/16] exec: Provide owner when resizing memory region
+Date: Wed, 12 Feb 2020 14:35:51 +0100
+Message-Id: <20200212133601.10555-7-david@redhat.com>
 In-Reply-To: <20200212133601.10555-1-david@redhat.com>
 References: <20200212133601.10555-1-david@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: ZfL7LalrN6OLFr_Fabu8OA-1
+X-MC-Unique: rNmESfL9NKODpGuY5UtgpA-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
@@ -78,158 +78,156 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Let's pass the owner in the callback. While touching it, introduce a
+typedef for the callback.
+
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- hw/i386/Kconfig |  1 +
- hw/i386/pc.c    | 42 ++++++++++++++++++++++++------------------
- 2 files changed, 25 insertions(+), 18 deletions(-)
+ exec.c                  | 13 +++++--------
+ hw/core/loader.c        |  3 ++-
+ include/exec/memory.h   |  7 ++++---
+ include/exec/ram_addr.h |  4 +---
+ include/exec/ramblock.h |  3 ++-
+ memory.c                |  4 +---
+ 6 files changed, 15 insertions(+), 19 deletions(-)
 
-diff --git a/hw/i386/Kconfig b/hw/i386/Kconfig
-index cdc851598c..e8ce582edd 100644
---- a/hw/i386/Kconfig
-+++ b/hw/i386/Kconfig
-@@ -35,6 +35,7 @@ config PC
-     select ACPI_PCI
-     select ACPI_VMGENID
-     select VIRTIO_PMEM_SUPPORTED
-+    select VIRTIO_MEM_SUPPORTED
+diff --git a/exec.c b/exec.c
+index 71e32dcc11..5bc9b231c4 100644
+--- a/exec.c
++++ b/exec.c
+@@ -2193,7 +2193,8 @@ int qemu_ram_resize(RAMBlock *block, ram_addr_t newsi=
+ze, Error **errp)
 =20
- config PC_PCI
-     bool
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 2ddce4230a..ed8850f31d 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -85,6 +85,7 @@
- #include "hw/net/ne2000-isa.h"
- #include "standard-headers/asm-x86/bootparam.h"
- #include "hw/virtio/virtio-pmem-pci.h"
-+#include "hw/virtio/virtio-mem-pci.h"
- #include "hw/mem/memory-device.h"
- #include "sysemu/replay.h"
- #include "qapi/qmp/qerror.h"
-@@ -1648,8 +1649,8 @@ static void pc_cpu_pre_plug(HotplugHandler *hotplug_d=
-ev,
-     numa_cpu_pre_plug(cpu_slot, dev, errp);
- }
-=20
--static void pc_virtio_pmem_pci_pre_plug(HotplugHandler *hotplug_dev,
--                                        DeviceState *dev, Error **errp)
-+static void pc_virtio_md_pci_pre_plug(HotplugHandler *hotplug_dev,
-+                                      DeviceState *dev, Error **errp)
- {
-     HotplugHandler *hotplug_dev2 =3D qdev_get_bus_hotplug_handler(dev);
-     Error *local_err =3D NULL;
-@@ -1660,7 +1661,7 @@ static void pc_virtio_pmem_pci_pre_plug(HotplugHandle=
-r *hotplug_dev,
-          * order. This should never be the case on x86, however better add
-          * a safety net.
-          */
--        error_setg(errp, "virtio-pmem-pci not supported on this bus.");
-+        error_setg(errp, "virtio based memory devices not supported on thi=
-s bus.");
-         return;
+     memory_region_set_size(block->mr, newsize);
+     if (block->resized) {
+-        block->resized(block->idstr, newsize, block->host);
++        block->resized(memory_region_owner(block->mr), block->idstr, newsi=
+ze,
++                       block->host);
      }
+=20
      /*
-@@ -1675,8 +1676,8 @@ static void pc_virtio_pmem_pci_pre_plug(HotplugHandle=
-r *hotplug_dev,
-     error_propagate(errp, local_err);
- }
+@@ -2476,9 +2477,7 @@ RAMBlock *qemu_ram_alloc_from_file(ram_addr_t size, M=
+emoryRegion *mr,
 =20
--static void pc_virtio_pmem_pci_plug(HotplugHandler *hotplug_dev,
--                                    DeviceState *dev, Error **errp)
-+static void pc_virtio_md_pci_plug(HotplugHandler *hotplug_dev,
-+                                  DeviceState *dev, Error **errp)
+ static
+ RAMBlock *qemu_ram_alloc_internal(ram_addr_t size, ram_addr_t max_size,
+-                                  void (*resized)(const char*,
+-                                                  uint64_t length,
+-                                                  void *host),
++                                  memory_region_resized_fn resized,
+                                   void *host, bool resizeable, bool share,
+                                   MemoryRegion *mr, Error **errp)
  {
-     HotplugHandler *hotplug_dev2 =3D qdev_get_bus_hotplug_handler(dev);
-     Error *local_err =3D NULL;
-@@ -1694,15 +1695,15 @@ static void pc_virtio_pmem_pci_plug(HotplugHandler =
-*hotplug_dev,
-     error_propagate(errp, local_err);
+@@ -2529,10 +2528,8 @@ RAMBlock *qemu_ram_alloc(ram_addr_t size, bool share=
+,
  }
 =20
--static void pc_virtio_pmem_pci_unplug_request(HotplugHandler *hotplug_dev,
--                                              DeviceState *dev, Error **er=
-rp)
-+static void pc_virtio_md_pci_unplug_request(HotplugHandler *hotplug_dev,
-+                                            DeviceState *dev, Error **errp=
-)
+ RAMBlock *qemu_ram_alloc_resizeable(ram_addr_t size, ram_addr_t maxsz,
+-                                     void (*resized)(const char*,
+-                                                     uint64_t length,
+-                                                     void *host),
+-                                     MemoryRegion *mr, Error **errp)
++                                    memory_region_resized_fn resized,
++                                    MemoryRegion *mr, Error **errp)
  {
-     /* We don't support virtio pmem hot unplug */
-     error_setg(errp, "virtio pmem device unplug not supported.");
+     return qemu_ram_alloc_internal(size, maxsz, resized, NULL, true,
+                                    false, mr, errp);
+diff --git a/hw/core/loader.c b/hw/core/loader.c
+index d1b78f60cd..59fb1620f1 100644
+--- a/hw/core/loader.c
++++ b/hw/core/loader.c
+@@ -912,7 +912,8 @@ static void rom_insert(Rom *rom)
+     QTAILQ_INSERT_TAIL(&roms, rom, next);
  }
 =20
--static void pc_virtio_pmem_pci_unplug(HotplugHandler *hotplug_dev,
--                                      DeviceState *dev, Error **errp)
-+static void pc_virtio_md_pci_unplug(HotplugHandler *hotplug_dev,
-+                                    DeviceState *dev, Error **errp)
+-static void fw_cfg_resized(const char *id, uint64_t length, void *host)
++static void fw_cfg_resized(Object *owner, const char *id, uint64_t length,
++                           void *host)
  {
-     /* We don't support virtio pmem hot unplug */
- }
-@@ -1714,8 +1715,9 @@ static void pc_machine_device_pre_plug_cb(HotplugHand=
-ler *hotplug_dev,
-         pc_memory_pre_plug(hotplug_dev, dev, errp);
-     } else if (object_dynamic_cast(OBJECT(dev), TYPE_CPU)) {
-         pc_cpu_pre_plug(hotplug_dev, dev, errp);
--    } else if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_PMEM_PCI)) {
--        pc_virtio_pmem_pci_pre_plug(hotplug_dev, dev, errp);
-+    } else if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_PMEM_PCI) ||
-+               object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_MEM_PCI)) {
-+        pc_virtio_md_pci_pre_plug(hotplug_dev, dev, errp);
-     }
- }
+     if (fw_cfg) {
+         fw_cfg_modify_file(fw_cfg, id + strlen("/rom@"), host, length);
+diff --git a/include/exec/memory.h b/include/exec/memory.h
+index 19417943a2..9f02bb7830 100644
+--- a/include/exec/memory.h
++++ b/include/exec/memory.h
+@@ -846,6 +846,9 @@ void memory_region_init_ram_shared_nomigrate(MemoryRegi=
+on *mr,
+                                              bool share,
+                                              Error **errp);
 =20
-@@ -1726,8 +1728,9 @@ static void pc_machine_device_plug_cb(HotplugHandler =
-*hotplug_dev,
-         pc_memory_plug(hotplug_dev, dev, errp);
-     } else if (object_dynamic_cast(OBJECT(dev), TYPE_CPU)) {
-         pc_cpu_plug(hotplug_dev, dev, errp);
--    } else if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_PMEM_PCI)) {
--        pc_virtio_pmem_pci_plug(hotplug_dev, dev, errp);
-+    } else if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_PMEM_PCI) ||
-+               object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_MEM_PCI)) {
-+        pc_virtio_md_pci_plug(hotplug_dev, dev, errp);
-     }
- }
++typedef void (*memory_region_resized_fn)(Object *owner, const char*id,
++                                         uint64_t length, void *host);
++
+ /**
+  * memory_region_init_resizeable_ram:  Initialize memory region with resiz=
+eable
+  *                                     RAM.  Accesses into the region will
+@@ -870,9 +873,7 @@ void memory_region_init_resizeable_ram(MemoryRegion *mr=
+,
+                                        const char *name,
+                                        uint64_t size,
+                                        uint64_t max_size,
+-                                       void (*resized)(const char*,
+-                                                       uint64_t length,
+-                                                       void *host),
++                                       memory_region_resized_fn resized,
+                                        Error **errp);
+ #ifdef CONFIG_POSIX
 =20
-@@ -1738,8 +1741,9 @@ static void pc_machine_device_unplug_request_cb(Hotpl=
-ugHandler *hotplug_dev,
-         pc_memory_unplug_request(hotplug_dev, dev, errp);
-     } else if (object_dynamic_cast(OBJECT(dev), TYPE_CPU)) {
-         pc_cpu_unplug_request_cb(hotplug_dev, dev, errp);
--    } else if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_PMEM_PCI)) {
--        pc_virtio_pmem_pci_unplug_request(hotplug_dev, dev, errp);
-+    } else if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_PMEM_PCI) ||
-+               object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_MEM_PCI)) {
-+        pc_virtio_md_pci_unplug_request(hotplug_dev, dev, errp);
-     } else {
-         error_setg(errp, "acpi: device unplug request for not supported de=
-vice"
-                    " type: %s", object_get_typename(OBJECT(dev)));
-@@ -1753,8 +1757,9 @@ static void pc_machine_device_unplug_cb(HotplugHandle=
-r *hotplug_dev,
-         pc_memory_unplug(hotplug_dev, dev, errp);
-     } else if (object_dynamic_cast(OBJECT(dev), TYPE_CPU)) {
-         pc_cpu_unplug_cb(hotplug_dev, dev, errp);
--    } else if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_PMEM_PCI)) {
--        pc_virtio_pmem_pci_unplug(hotplug_dev, dev, errp);
-+    } else if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_PMEM_PCI) ||
-+               object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_MEM_PCI)) {
-+        pc_virtio_md_pci_unplug(hotplug_dev, dev, errp);
-     } else {
-         error_setg(errp, "acpi: device unplug for not supported device"
-                    " type: %s", object_get_typename(OBJECT(dev)));
-@@ -1766,7 +1771,8 @@ static HotplugHandler *pc_get_hotplug_handler(Machine=
-State *machine,
+diff --git a/include/exec/ram_addr.h b/include/exec/ram_addr.h
+index 5e59a3d8d7..0ee3126361 100644
+--- a/include/exec/ram_addr.h
++++ b/include/exec/ram_addr.h
+@@ -128,9 +128,7 @@ RAMBlock *qemu_ram_alloc_from_ptr(ram_addr_t size, void=
+ *host,
+ RAMBlock *qemu_ram_alloc(ram_addr_t size, bool share, MemoryRegion *mr,
+                          Error **errp);
+ RAMBlock *qemu_ram_alloc_resizeable(ram_addr_t size, ram_addr_t max_size,
+-                                    void (*resized)(const char*,
+-                                                    uint64_t length,
+-                                                    void *host),
++                                    memory_region_resized_fn resized,
+                                     MemoryRegion *mr, Error **errp);
+ void qemu_ram_free(RAMBlock *block);
+=20
+diff --git a/include/exec/ramblock.h b/include/exec/ramblock.h
+index 07d50864d8..437b8f82ea 100644
+--- a/include/exec/ramblock.h
++++ b/include/exec/ramblock.h
+@@ -21,6 +21,7 @@
+=20
+ #ifndef CONFIG_USER_ONLY
+ #include "cpu-common.h"
++#include "exec/memory.h"
+=20
+ struct RAMBlock {
+     struct rcu_head rcu;
+@@ -30,7 +31,7 @@ struct RAMBlock {
+     ram_addr_t offset;
+     ram_addr_t used_length;
+     ram_addr_t max_length;
+-    void (*resized)(const char*, uint64_t length, void *host);
++    memory_region_resized_fn resized;
+     uint32_t flags;
+     /* Protected by iothread lock.  */
+     char idstr[256];
+diff --git a/memory.c b/memory.c
+index aeaa8dcc9e..cb09a8ee59 100644
+--- a/memory.c
++++ b/memory.c
+@@ -1535,9 +1535,7 @@ void memory_region_init_resizeable_ram(MemoryRegion *=
+mr,
+                                        const char *name,
+                                        uint64_t size,
+                                        uint64_t max_size,
+-                                       void (*resized)(const char*,
+-                                                       uint64_t length,
+-                                                       void *host),
++                                       memory_region_resized_fn resized,
+                                        Error **errp)
  {
-     if (object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM) ||
-         object_dynamic_cast(OBJECT(dev), TYPE_CPU) ||
--        object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_PMEM_PCI)) {
-+        object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_PMEM_PCI) ||
-+        object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_MEM_PCI)) {
-         return HOTPLUG_HANDLER(machine);
-     }
-=20
+     Error *err =3D NULL;
 --=20
 2.24.1
 
