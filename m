@@ -2,89 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 845EE15A16F
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Feb 2020 07:57:13 +0100 (CET)
-Received: from localhost ([::1]:60856 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43EFF15A17D
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Feb 2020 08:02:34 +0100 (CET)
+Received: from localhost ([::1]:60910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j1lxQ-0006NZ-Kv
-	for lists+qemu-devel@lfdr.de; Wed, 12 Feb 2020 01:57:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50702)
+	id 1j1m2b-0000EP-B9
+	for lists+qemu-devel@lfdr.de; Wed, 12 Feb 2020 02:02:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51214)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1j1lwe-0005oO-RC
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 01:56:26 -0500
+ (envelope-from <bounces@canonical.com>) id 1j1m14-0007dM-Kn
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 02:01:07 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1j1lwc-0005hZ-UN
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 01:56:24 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:22627
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j1lwc-0005gP-Nz
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 01:56:22 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581490581;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=emBLU9zfR6wvubBsXvLZCTLmJWD4AYoymoktpSgcDJI=;
- b=W4lwN4wxF1Eq4zTsRxSE7h7x/lIjxneNzniGf5pEvJyco309i/lF3/C5sU4FBKZdvjPvGz
- O7YElWTG+sfsP76/lZb1dFliJmQqGfv3TQ7A8SwwztbtBjhU6S3lRrC6W9dKJYBjq7CkAE
- jjDXrGOPIbeP2+VCVN6eFXuVWOyM05c=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-168-jNDAcyO_NXiaYmjsdtal3Q-1; Wed, 12 Feb 2020 01:56:20 -0500
-Received: by mail-wr1-f69.google.com with SMTP id z15so437110wrw.0
- for <qemu-devel@nongnu.org>; Tue, 11 Feb 2020 22:56:20 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=+vc/IPVngR7+dVJrNaz1Qwoc+ViRrmQ+T3F453ChKZY=;
- b=itWJFN3FlU8tI2ZUKWXUEo5XRJ9lV2eL/uyQgHqltdsTy479v+hlGYtm85HV76tTkG
- gru7eSxfKbo8KzDRc+aW6ylPjdvz6a6vyDZzbIPkBYIH9ysp+dkIBmrkaXbrTL8VgBjl
- sjn73k1ZzvwnPKqw1gA0opbRQ3qOVnEVEmc3eQh3IviHf9pCBnSkGWyDw4OivJ/yV5WX
- evUfeZ9n0J+Mze9ll+usPqirIXnGs7PLW8VbAJ336hEDJ+0riWyMobTH0Gkt7d1by/Yt
- bTICpF3h6UlLY/27t3AnaSub+mD0IQuxxioPexAEd1mSRl2hdIiNXomHypFznKg0acOK
- Rs1Q==
-X-Gm-Message-State: APjAAAWbgPWRh9lDRw0xHHg1q62KUlPxmPAdX7FX7cMfk/ykr87m5xR8
- 9VBl+yXEfbbtdh3j/LCDPSwxl3Gf+8WCVqyiJnwK8jxrbvs03I77xo+KnEmzliUFBobz5qsT315
- JB+LpJd255fsi9g4=
-X-Received: by 2002:a1c:1b4d:: with SMTP id b74mr10993916wmb.33.1581490578284; 
- Tue, 11 Feb 2020 22:56:18 -0800 (PST)
-X-Google-Smtp-Source: APXvYqxFp/4orhLssETCIFGfNh5PqDe7ybIAXmQWmyfuxQBEyBgmAMF7iwqFS//jdtppyNJWq3Dp0w==
-X-Received: by 2002:a1c:1b4d:: with SMTP id b74mr10993873wmb.33.1581490577879; 
- Tue, 11 Feb 2020 22:56:17 -0800 (PST)
-Received: from [192.168.1.35] (78.red-88-21-202.staticip.rima-tde.net.
- [88.21.202.78])
- by smtp.gmail.com with ESMTPSA id j65sm2175105wmb.21.2020.02.11.22.56.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 11 Feb 2020 22:56:17 -0800 (PST)
-Subject: Re: [PATCH 08/13] target/arm: Add _aa64_ and _any_ versions of
- pmu_8_1 isar checks
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-References: <20200211173726.22541-1-peter.maydell@linaro.org>
- <20200211173726.22541-9-peter.maydell@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <89172af7-49e5-156d-4ca6-566417039c4e@redhat.com>
-Date: Wed, 12 Feb 2020 07:56:16 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ (envelope-from <bounces@canonical.com>) id 1j1m12-0007SU-VZ
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 02:00:58 -0500
+Received: from indium.canonical.com ([91.189.90.7]:50194)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1j1m12-0007RV-PE
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 02:00:56 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1j1m11-00009W-G2
+ for <qemu-devel@nongnu.org>; Wed, 12 Feb 2020 07:00:55 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 76EC82E80C0
+ for <qemu-devel@nongnu.org>; Wed, 12 Feb 2020 07:00:55 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20200211173726.22541-9-peter.maydell@linaro.org>
-Content-Language: en-US
-X-MC-Unique: jNDAcyO_NXiaYmjsdtal3Q-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+Date: Wed, 12 Feb 2020 06:50:42 -0000
+From: Chris Hoy <1862887@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: builds
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: chrs-hoy
+X-Launchpad-Bug-Reporter: Chris Hoy (chrs-hoy)
+X-Launchpad-Bug-Modifier: Chris Hoy (chrs-hoy)
+Message-Id: <158149024287.24857.8410135131433041908.malonedeb@gac.canonical.com>
+Subject: [Bug 1862887] [NEW] qemu does not load pulseaudio modules properly
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="19413b719a8df7423ab1390528edadce9e0e4aca";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: d5e55ea9acf7e42968691cccfaec927661e86bb5
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -93,202 +64,196 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eric Auger <eric.auger@redhat.com>,
- Aaron Lindsay <aaron@os.amperecomputing.com>,
- Richard Henderson <richard.henderson@linaro.org>
+Reply-To: Bug 1862887 <1862887@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/11/20 6:37 PM, Peter Maydell wrote:
-> Add the 64-bit version of the "is this a v8.1 PMUv3?"
-> ID register check function, and the _any_ version that
-> checks for either AArch32 or AArch64 support. We'll use
-> this in a later commit.
->=20
-> We don't (yet) do any isar_feature checks on ID_AA64DFR1_EL1,
-> but we move id_aa64dfr1 into the ARMISARegisters struct with
-> id_aa64dfr0, for consistency.
->=20
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
->   target/arm/cpu.h    | 15 +++++++++++++--
->   target/arm/cpu.c    |  3 ++-
->   target/arm/cpu64.c  |  6 +++---
->   target/arm/helper.c | 12 +++++++-----
->   4 files changed, 25 insertions(+), 11 deletions(-)
->=20
-> diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-> index b55f6c8b7d3..2b3124fd76b 100644
-> --- a/target/arm/cpu.h
-> +++ b/target/arm/cpu.h
-> @@ -871,6 +871,8 @@ struct ARMCPU {
->           uint64_t id_aa64pfr1;
->           uint64_t id_aa64mmfr0;
->           uint64_t id_aa64mmfr1;
-> +        uint64_t id_aa64dfr0;
-> +        uint64_t id_aa64dfr1;
->       } isar;
->       uint32_t midr;
->       uint32_t revidr;
-> @@ -887,8 +889,6 @@ struct ARMCPU {
->       uint32_t id_mmfr2;
->       uint32_t id_mmfr3;
->       uint32_t id_mmfr4;
-> -    uint64_t id_aa64dfr0;
-> -    uint64_t id_aa64dfr1;
->       uint64_t id_aa64afr0;
->       uint64_t id_aa64afr1;
->       uint32_t dbgdidr;
-> @@ -3728,6 +3728,12 @@ static inline bool isar_feature_aa64_bti(const ARM=
-ISARegisters *id)
->       return FIELD_EX64(id->id_aa64pfr1, ID_AA64PFR1, BT) !=3D 0;
->   }
->  =20
-> +static inline bool isar_feature_aa64_pmu_8_1(const ARMISARegisters *id)
-> +{
-> +    return FIELD_EX32(id->id_aa64dfr0, ID_AA64DFR0, PMUVER) >=3D 4 &&
-> +        FIELD_EX32(id->id_aa64dfr0, ID_AA64DFR0, PMUVER) !=3D 0xf;
+Public bug reported:
 
-FIELD_EX64()
+Hello,
 
-> +}
-> +
->   /*
->    * Feature tests for "does this exist in either 32-bit or 64-bit?"
->    */
-> @@ -3741,6 +3747,11 @@ static inline bool isar_feature_any_predinv(const =
-ARMISARegisters *id)
->       return isar_feature_aa64_predinv(id) || isar_feature_aa32_predinv(i=
-d);
->   }
->  =20
-> +static inline bool isar_feature_any_pmu_8_1(const ARMISARegisters *id)
-> +{
-> +    return isar_feature_aa64_pmu_8_1(id) || isar_feature_aa32_pmu_8_1(id=
-);
-> +}
-> +
->   /*
->    * Forward to the above feature tests given an ARMCPU pointer.
->    */
+This is on Arch-linux(latest) and the qemu 4.2.0 version made from git clon=
+e https://github.com/spheenik/qemu.git
+with:
+ ./configure --prefix=3D/opt/qemu-test --python=3D/usr/bin/python2 --target=
+-list=3Dx86_64-softmmu =
 
-I'm not sure why, I can't apply this patch locally, but this might be a=20
-problem with my smtp setup (I am having some mails oddly re-encoded).
+--audio-drv-list=3Dpa --disable-werror
+added to the build.
 
-Applying: target/arm: Add _aa64_ and _any_ versions of pmu_8_1 isar checks
-error: patch failed: target/arm/cpu.h:3741
-error: target/arm/cpu.h: patch does not apply
-Patch failed at 0008 target/arm: Add _aa64_ and _any_ versions of=20
-pmu_8_1 isar checks
+I've been workin on a passthrough Windows 10 vm this month and have been st=
+eadily seeing some promising progress. My block/issue at the moment is inte=
+grating the audio now that the GPU has been succesfully passed through. =
 
-> diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-> index ac0c96322d1..df44df1a43a 100644
-> --- a/target/arm/cpu.c
-> +++ b/target/arm/cpu.c
-> @@ -1602,7 +1602,8 @@ static void arm_cpu_realizefn(DeviceState *dev, Err=
-or **errp)
->                   cpu);
->   #endif
->       } else {
-> -        cpu->id_aa64dfr0 =3D FIELD_DP32(cpu->id_aa64dfr0, ID_AA64DFR0, P=
-MUVER, 0);
-> +        cpu->isar.id_aa64dfr0 =3D
-> +            FIELD_DP32(cpu->isar.id_aa64dfr0, ID_AA64DFR0, PMUVER, 0);
+I've been going back and forth between the audio options for Pulseaudio and=
+ cannot change the following issue:
+pulseaudio: pa_context_connect() failed
+pulseaudio: Reason: Connection refused
+pulseaudio: Failed to initialize PA contextlibusb: error [udev_hotplug_even=
+t] ignoring udev action bind
+I leave my current operable build followed by some of the options that I ha=
+ve tried using to correct this despite the following errors not changing
 
-FIELD_EX64()
+This is my current operable build:
 
->           cpu->isar.id_dfr0 =3D FIELD_DP32(cpu->isar.id_dfr0, ID_DFR0, PE=
-RFMON, 0);
->           cpu->pmceid0 =3D 0;
->           cpu->pmceid1 =3D 0;
-> diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-> index f8fda7e0988..4b4b134ef84 100644
-> --- a/target/arm/cpu64.c
-> +++ b/target/arm/cpu64.c
-> @@ -135,7 +135,7 @@ static void aarch64_a57_initfn(Object *obj)
->       cpu->isar.id_isar5 =3D 0x00011121;
->       cpu->isar.id_isar6 =3D 0;
->       cpu->isar.id_aa64pfr0 =3D 0x00002222;
-> -    cpu->id_aa64dfr0 =3D 0x10305106;
-> +    cpu->isar.id_aa64dfr0 =3D 0x10305106;
->       cpu->isar.id_aa64isar0 =3D 0x00011120;
->       cpu->isar.id_aa64mmfr0 =3D 0x00001124;
->       cpu->dbgdidr =3D 0x3516d000;
-> @@ -189,7 +189,7 @@ static void aarch64_a53_initfn(Object *obj)
->       cpu->isar.id_isar5 =3D 0x00011121;
->       cpu->isar.id_isar6 =3D 0;
->       cpu->isar.id_aa64pfr0 =3D 0x00002222;
-> -    cpu->id_aa64dfr0 =3D 0x10305106;
-> +    cpu->isar.id_aa64dfr0 =3D 0x10305106;
->       cpu->isar.id_aa64isar0 =3D 0x00011120;
->       cpu->isar.id_aa64mmfr0 =3D 0x00001122; /* 40 bit physical addr */
->       cpu->dbgdidr =3D 0x3516d000;
-> @@ -241,7 +241,7 @@ static void aarch64_a72_initfn(Object *obj)
->       cpu->isar.id_isar4 =3D 0x00011142;
->       cpu->isar.id_isar5 =3D 0x00011121;
->       cpu->isar.id_aa64pfr0 =3D 0x00002222;
-> -    cpu->id_aa64dfr0 =3D 0x10305106;
-> +    cpu->isar.id_aa64dfr0 =3D 0x10305106;
->       cpu->isar.id_aa64isar0 =3D 0x00011120;
->       cpu->isar.id_aa64mmfr0 =3D 0x00001124;
->       cpu->dbgdidr =3D 0x3516d000;
-> diff --git a/target/arm/helper.c b/target/arm/helper.c
-> index ca0bf3402ca..9537785104e 100644
-> --- a/target/arm/helper.c
-> +++ b/target/arm/helper.c
-> @@ -25,6 +25,7 @@
->   #include "hw/semihosting/semihost.h"
->   #include "sysemu/cpus.h"
->   #include "sysemu/kvm.h"
-> +#include "sysemu/tcg.h"
->   #include "qemu/range.h"
->   #include "qapi/qapi-commands-machine-target.h"
->   #include "qapi/error.h"
-> @@ -5771,9 +5772,10 @@ static void define_debug_regs(ARMCPU *cpu)
->        * check that if they both exist then they agree.
->        */
->       if (arm_feature(&cpu->env, ARM_FEATURE_AARCH64)) {
-> -        assert(FIELD_EX32(cpu->id_aa64dfr0, ID_AA64DFR0, BRPS) =3D=3D br=
-ps);
-> -        assert(FIELD_EX32(cpu->id_aa64dfr0, ID_AA64DFR0, WRPS) =3D=3D wr=
-ps);
-> -        assert(FIELD_EX32(cpu->id_aa64dfr0, ID_AA64DFR0, CTX_CMPS) =3D=
-=3D ctx_cmps);
-> +        assert(FIELD_EX32(cpu->isar.id_aa64dfr0, ID_AA64DFR0, BRPS) =3D=
-=3D brps);
-> +        assert(FIELD_EX32(cpu->isar.id_aa64dfr0, ID_AA64DFR0, WRPS) =3D=
-=3D wrps);
-> +        assert(FIELD_EX32(cpu->isar.id_aa64dfr0, ID_AA64DFR0, CTX_CMPS)
-> +               =3D=3D ctx_cmps);
+#!/bin/bash
 
-FIELD_EX64()
+vmname=3D"windows10vm"
 
->       }
->  =20
->       define_one_arm_cp_reg(cpu, &dbgdidr);
-> @@ -6395,12 +6397,12 @@ void register_cp_regs_for_features(ARMCPU *cpu)
->                 .opc0 =3D 3, .opc1 =3D 0, .crn =3D 0, .crm =3D 5, .opc2 =
-=3D 0,
->                 .access =3D PL1_R, .type =3D ARM_CP_CONST,
->                 .accessfn =3D access_aa64_tid3,
-> -              .resetvalue =3D cpu->id_aa64dfr0 },
-> +              .resetvalue =3D cpu->isar.id_aa64dfr0 },
->               { .name =3D "ID_AA64DFR1_EL1", .state =3D ARM_CP_STATE_AA64=
-,
->                 .opc0 =3D 3, .opc1 =3D 0, .crn =3D 0, .crm =3D 5, .opc2 =
-=3D 1,
->                 .access =3D PL1_R, .type =3D ARM_CP_CONST,
->                 .accessfn =3D access_aa64_tid3,
-> -              .resetvalue =3D cpu->id_aa64dfr1 },
-> +              .resetvalue =3D cpu->isar.id_aa64dfr1 },
->               { .name =3D "ID_AA64DFR2_EL1_RESERVED", .state =3D ARM_CP_S=
-TATE_AA64,
->                 .opc0 =3D 3, .opc1 =3D 0, .crn =3D 0, .crm =3D 5, .opc2 =
-=3D 2,
->                 .access =3D PL1_R, .type =3D ARM_CP_CONST,
->=20
+if ps -ef | grep /opt/qemu-test/bin/qemu-system-x86_64 | grep -q multifunct=
+ion=3Don; then
+echo "A passthrough VM is already running." &
+exit 1
 
-Using 64bit macros:
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+else
 
+/opt/qemu-test/bin/qemu-system-x86_64 \
+-m 12G \
+-drive id=3Ddisk0,if=3Dvirtio,cache=3Dnone,format=3Draw,file=3D.../win2.img=
+ \
+-drive file=3D.../Win10_1909_English_x64.iso,index=3D1,media=3Dcdrom \
+-drive file=3D.../virtio-win-0.1.171.iso,index=3D2,media=3Dcdrom \
+-boot order=3Ddc \
+-bios /usr/share/ovmf/x64/OVMF_CODE.fd \
+-name $vmname,process=3D$vmname \
+-machine type=3Dq35,accel=3Dkvm,vmport=3Doff \
+-cpu host,kvm=3Doff \
+-smp 3,sockets=3D1,cores=3D3,threads=3D1 \
+-device virtio-balloon \
+-rtc clock=3Dhost,base=3Dlocaltime \
+-vga none \
+-nographic \
+-serial none \
+-parallel none \
+-soundhw hda \
+-usb \
+-device usb-host,vendorid=3D...,productid=3D... \
+-device usb-host,vendorid=3D...,productid=3D... \
+-device usb-host,vendorid=3D...,productid=3D... \
+-device vfio-pci,host=3D...,multifunction=3Don \
+-device vfio-pci,host=3D... \
+-device e1000,netdev=3Dnet0 \
+-netdev user,id=3Dnet0,hostfwd=3Dtcp::...-:22 \
+
+Here's a list of setting combinations I had tried to resolve this:
+
+#export QEMU_AUDIO_DRV=3Dpa
+#QEMU_ALSA_DAC_BUFFER_SIZE=3D512 QEMU_ALSA_DAC_PERIOD_SIZE=3D170
+#export QEMU_PA_SAMPLES=3D8192 =
+
+#export QEMU_AUDIO_TIMER_PERIOD=3D99
+#export QEMU_PA_SERVER=3D/run/user/1000/pulse/native
+#export QEMU_PA_SINK=3Dalsa_output.usb-C-Media_Electronics_Inc._USB_Audio_D=
+evice-00.analog-stereo
+#export QEMU_PA_SOURCE=3Dinput
+
+-audiodev pa,id=3Dpa1,server=3Dserver=3D/run/user/1000/pulse/native
+
+At best I have removed an XDG_RUNTIME_DIR error but other than that this
+build has no audio compatability.
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+
+** Tags: builds
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1862887
+
+Title:
+  qemu does not load pulseaudio modules properly
+
+Status in QEMU:
+  New
+
+Bug description:
+  Hello,
+
+  This is on Arch-linux(latest) and the qemu 4.2.0 version made from git cl=
+one https://github.com/spheenik/qemu.git
+  with:
+   ./configure --prefix=3D/opt/qemu-test --python=3D/usr/bin/python2 --targ=
+et-list=3Dx86_64-softmmu =
+
+  --audio-drv-list=3Dpa --disable-werror
+  added to the build.
+
+  I've been workin on a passthrough Windows 10 vm this month and have been =
+steadily seeing some promising progress. My block/issue at the moment is in=
+tegrating the audio now that the GPU has been succesfully passed through. =
+
+  I've been going back and forth between the audio options for Pulseaudio a=
+nd cannot change the following issue:
+  pulseaudio: pa_context_connect() failed
+  pulseaudio: Reason: Connection refused
+  pulseaudio: Failed to initialize PA contextlibusb: error [udev_hotplug_ev=
+ent] ignoring udev action bind
+  I leave my current operable build followed by some of the options that I =
+have tried using to correct this despite the following errors not changing
+
+  This is my current operable build:
+
+  #!/bin/bash
+
+  vmname=3D"windows10vm"
+
+  if ps -ef | grep /opt/qemu-test/bin/qemu-system-x86_64 | grep -q multifun=
+ction=3Don; then
+  echo "A passthrough VM is already running." &
+  exit 1
+
+  else
+
+  /opt/qemu-test/bin/qemu-system-x86_64 \
+  -m 12G \
+  -drive id=3Ddisk0,if=3Dvirtio,cache=3Dnone,format=3Draw,file=3D.../win2.i=
+mg \
+  -drive file=3D.../Win10_1909_English_x64.iso,index=3D1,media=3Dcdrom \
+  -drive file=3D.../virtio-win-0.1.171.iso,index=3D2,media=3Dcdrom \
+  -boot order=3Ddc \
+  -bios /usr/share/ovmf/x64/OVMF_CODE.fd \
+  -name $vmname,process=3D$vmname \
+  -machine type=3Dq35,accel=3Dkvm,vmport=3Doff \
+  -cpu host,kvm=3Doff \
+  -smp 3,sockets=3D1,cores=3D3,threads=3D1 \
+  -device virtio-balloon \
+  -rtc clock=3Dhost,base=3Dlocaltime \
+  -vga none \
+  -nographic \
+  -serial none \
+  -parallel none \
+  -soundhw hda \
+  -usb \
+  -device usb-host,vendorid=3D...,productid=3D... \
+  -device usb-host,vendorid=3D...,productid=3D... \
+  -device usb-host,vendorid=3D...,productid=3D... \
+  -device vfio-pci,host=3D...,multifunction=3Don \
+  -device vfio-pci,host=3D... \
+  -device e1000,netdev=3Dnet0 \
+  -netdev user,id=3Dnet0,hostfwd=3Dtcp::...-:22 \
+
+  Here's a list of setting combinations I had tried to resolve this:
+
+  #export QEMU_AUDIO_DRV=3Dpa
+  #QEMU_ALSA_DAC_BUFFER_SIZE=3D512 QEMU_ALSA_DAC_PERIOD_SIZE=3D170
+  #export QEMU_PA_SAMPLES=3D8192 =
+
+  #export QEMU_AUDIO_TIMER_PERIOD=3D99
+  #export QEMU_PA_SERVER=3D/run/user/1000/pulse/native
+  #export QEMU_PA_SINK=3Dalsa_output.usb-C-Media_Electronics_Inc._USB_Audio=
+_Device-00.analog-stereo
+  #export QEMU_PA_SOURCE=3Dinput
+
+  -audiodev pa,id=3Dpa1,server=3Dserver=3D/run/user/1000/pulse/native
+
+  At best I have removed an XDG_RUNTIME_DIR error but other than that
+  this build has no audio compatability.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1862887/+subscriptions
 
