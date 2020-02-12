@@ -2,83 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C36E15B53D
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 00:51:54 +0100 (CET)
-Received: from localhost ([::1]:45206 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7C3715B57D
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 00:56:09 +0100 (CET)
+Received: from localhost ([::1]:45272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j21nN-00011X-2i
-	for lists+qemu-devel@lfdr.de; Wed, 12 Feb 2020 18:51:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60533)
+	id 1j21rU-0005tr-Py
+	for lists+qemu-devel@lfdr.de; Wed, 12 Feb 2020 18:56:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33129)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1j21m2-00088J-2O
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 18:50:31 -0500
+ (envelope-from <philmd@redhat.com>) id 1j21qg-0005H7-5K
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 18:55:19 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1j21m0-0004ME-LE
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 18:50:29 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:21104
+ (envelope-from <philmd@redhat.com>) id 1j21qe-0000A3-8f
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 18:55:17 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:44433
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j21m0-0004JT-IF
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 18:50:28 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j21qe-00009j-4r
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 18:55:16 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581551427;
+ s=mimecast20190719; t=1581551715;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hoVDmVj7tf/3I9f5qv34pu2bsqPu8fzOGSr0NtbiWQU=;
- b=BFIplAEw992N+Q6dvzq/nTFeQm75c14SrhrSJnHd2GtbN28vWq931ngy7exTHC8qI7/uwk
- TVDEma+kqF08y+pH6gNOQw2oAX7Nk/6CvHZqdruCm9nCHQp9BjUyKDKbfseTNHa0v2t20z
- R0Ym49ZfAybCW+tPsBTrv5nMV8rtUms=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-431-YDkkpMmlNTS8XUQQosoBPA-1; Wed, 12 Feb 2020 18:50:23 -0500
-Received: by mail-wr1-f69.google.com with SMTP id j4so1528568wrs.13
- for <qemu-devel@nongnu.org>; Wed, 12 Feb 2020 15:50:23 -0800 (PST)
+ bh=R4woObnsmSdZMMEHBC68PBlk6yPgGEqa4BBtrfc0mm4=;
+ b=GXqDsuIIy+CBJYBZHEfyvEJK2ynUGJCfde/IPU91ZBceW2h5dK25RdWiI+pDr7idxeLNjX
+ Why5I2AHh7/KkFDouf32Wtbd5DDfutAvhlFW9j9it2Ubzagos3ty+Mg/fcCOLn3G2xMh2j
+ vvCVwBf4OtCPtKsHN7Cj4T1SYnFqoLE=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-269-OHYkU8dgMMG1cILttlQVjg-1; Wed, 12 Feb 2020 18:55:11 -0500
+Received: by mail-wr1-f72.google.com with SMTP id w17so1537797wrr.9
+ for <qemu-devel@nongnu.org>; Wed, 12 Feb 2020 15:55:11 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=3e9tHzcBpymr9ZVFlcWUS9SfB7AP8b+B0HxesLBu11M=;
- b=NOMiHH7psugNXwfh/LWqRN/jBAd9RsWrStiQp3w7SnWYb2ImIKj+L9Jaq5PlJWXuBT
- J5ZwblYyJX8u4CsKQc13H6Vk0Yzu7abiwh4ZhN7fBEbrLIwH/Fe0j1kko/zfXpWEgKC1
- 4hqhWKxhAi2OKgFW7dbOVTpy5/1VSrKVmrDEp7VtNPj/RL2rnqJU5L/fLD0VLXpG150t
- CUi7NEvm9EgOBMt2+3iWbIx4C4d6BvlfGdX/RpQCQ1VkXo8bTqEH6/yScP1OIo/zvHPO
- bJspPHIVx14corwLOezjRxCPcS8bsEkZeAZOmcrtZbC3dZT18tonIjU2L/8hSyqq56GO
- UZmA==
-X-Gm-Message-State: APjAAAWuVMqFGstR9wwHeqVPiIYimdEtiTLvVg2JuhjXp4TKLevXln+l
- secPjEgsaho23giuG03QQlfr9oNSO37ATuRdEOJ2YKkqmF3vJ8u5lt8f35dhN4VgJAP0GTRGCIV
- 8dmwhbP3mvuzB9BE=
-X-Received: by 2002:a1c:2747:: with SMTP id n68mr1577737wmn.14.1581551422659; 
- Wed, 12 Feb 2020 15:50:22 -0800 (PST)
-X-Google-Smtp-Source: APXvYqylpGT5HSn5stNxNaDEcj76HjrkuBgop9QrCW+yd9BJg26CcgpM9rW0U0h6pky3USnPxuIDpw==
-X-Received: by 2002:a1c:2747:: with SMTP id n68mr1577688wmn.14.1581551422240; 
- Wed, 12 Feb 2020 15:50:22 -0800 (PST)
+ bh=R4woObnsmSdZMMEHBC68PBlk6yPgGEqa4BBtrfc0mm4=;
+ b=aYSUC0bmzb5C13/2ZzauU76tyuUgM4CWnUyJl20j5zu1q05J7Wcod/tDA+Xll6tTpd
+ U1lI0ABFeIzMMybnvIbLLTUQjVgEgO7Tb8SyTRvjJQSrkr6I5SKM4GMLHdFzOrsj41vB
+ Ll8kUNeVpBucwiWxlBbAy00I8K49u1l+9XZkPun1wgwa8+VYm6Xp/5GWIiUpo4NSXig0
+ C4io4nLrs8WYiESC0mz6AXuXAW4c5F6dodnV3hH1XzpykygO6pT+ZJLmcdlrZcl7EXBf
+ ZW6RftZxgTV3uxvEJbNSDJwnVA84srPHSLzUdEQHClpwVX16/2Lp4fvXugJa1sO/gofU
+ Q5Xw==
+X-Gm-Message-State: APjAAAUeYHGHtsO2PkOEB0LvqPt3eJ2AVli1HKE/B4mUtcyabtJFtTlH
+ YilmwXSVqTJS3c7b0vEneO5BtxEYnwqpKWoLPbX5iU/oJ8t681e/sO67iwZ5x3XCHzg60iQxycr
+ /wnLYzoTViulsYNo=
+X-Received: by 2002:a5d:4204:: with SMTP id n4mr17481633wrq.123.1581551710468; 
+ Wed, 12 Feb 2020 15:55:10 -0800 (PST)
+X-Google-Smtp-Source: APXvYqwSxQYQ6FRS7z+9ss8zG6WFoazTCqNvzW0ktjRibnlDOgXYWb+YKqI+KO8ZiMV7uUP7jnkFfA==
+X-Received: by 2002:a5d:4204:: with SMTP id n4mr17481606wrq.123.1581551710182; 
+ Wed, 12 Feb 2020 15:55:10 -0800 (PST)
 Received: from [192.168.1.35] (78.red-88-21-202.staticip.rima-tde.net.
  [88.21.202.78])
- by smtp.gmail.com with ESMTPSA id m68sm467847wme.48.2020.02.12.15.50.21
+ by smtp.gmail.com with ESMTPSA id n8sm463957wrx.42.2020.02.12.15.55.09
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 12 Feb 2020 15:50:21 -0800 (PST)
-Subject: Re: Question about (and problem with) pflash data access
-To: Guenter Roeck <linux@roeck-us.net>
-References: <20200212184648.GA584@roeck-us.net>
- <504e7722-0b60-ec02-774d-26a7320e5309@redhat.com>
- <20200212230918.GA27242@roeck-us.net>
+ Wed, 12 Feb 2020 15:55:09 -0800 (PST)
+Subject: Re: [PATCH v5 5/6] hppa: Add emulation of Artist graphics
+To: Sven Schnelle <svens@stackframe.org>, Richard Henderson <rth@twiddle.net>
+References: <20191220211512.3289-1-svens@stackframe.org>
+ <20191220211512.3289-6-svens@stackframe.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <560224fe-f0a3-c64a-6689-e824225cfbb9@redhat.com>
-Date: Thu, 13 Feb 2020 00:50:20 +0100
+Message-ID: <896a8b05-b3a4-846d-f129-73207282edd5@redhat.com>
+Date: Thu, 13 Feb 2020 00:55:08 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200212230918.GA27242@roeck-us.net>
+In-Reply-To: <20191220211512.3289-6-svens@stackframe.org>
 Content-Language: en-US
-X-MC-Unique: YDkkpMmlNTS8XUQQosoBPA-1
+X-MC-Unique: OHYkU8dgMMG1cILttlQVjg-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 207.211.31.81
@@ -93,160 +92,155 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- qemu-block@nongnu.org, Alexey Kardashevskiy <aik@ozlabs.ru>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- qemu-arm <qemu-arm@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
- Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
+Cc: Helge Deller <deller@gmx.de>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cc'ing Paolo and Alexey.
+Hi Sven,
 
-On 2/13/20 12:09 AM, Guenter Roeck wrote:
-> On Wed, Feb 12, 2020 at 10:39:30PM +0100, Philippe Mathieu-Daud=C3=A9 wro=
-te:
->> Cc'ing Jean-Christophe and Peter.
->>
->> On 2/12/20 7:46 PM, Guenter Roeck wrote:
->>> Hi,
->>>
->>> I have been playing with pflash recently. For the most part it works,
->>> but I do have an odd problem when trying to instantiate pflash on sx1.
->>>
->>> My data file looks as follows.
->>>
->>> 0000000 0001 0000 aaaa aaaa 5555 5555 0000 0000
->>> 0000020 0000 0000 0000 0000 0000 0000 0000 0000
->>> *
->>> 0002000 0002 0000 aaaa aaaa 5555 5555 0000 0000
->>> 0002020 0000 0000 0000 0000 0000 0000 0000 0000
->>> *
->>> 0004000 0003 0000 aaaa aaaa 5555 5555 0000 0000
->>> 0004020 0000 0000 0000 0000 0000 0000 0000 0000
->>> ...
->>>
->>> In the sx1 machine, this becomes:
->>>
->>> 0000000 6001 0000 aaaa aaaa 5555 5555 0000 0000
->>> 0000020 0000 0000 0000 0000 0000 0000 0000 0000
->>> *
->>> 0002000 6002 0000 aaaa aaaa 5555 5555 0000 0000
->>> 0002020 0000 0000 0000 0000 0000 0000 0000 0000
->>> *
->>> 0004000 6003 0000 aaaa aaaa 5555 5555 0000 0000
->>> 0004020 0000 0000 0000 0000 0000 0000 0000 0000
->>> *
->>> ...
->>>
->>> pflash is instantiated with "-drive file=3Dflash.32M.test,format=3Draw,=
-if=3Dpflash".
->>>
->>> I don't have much success with pflash tracing - data accesses don't
->>> show up there.
->>>
->>> I did find a number of problems with the sx1 emulation, but I have no c=
-lue
->>> what is going on with pflash. As far as I can see pflash works fine on
->>> other machines. Can someone give me a hint what to look out for ?
->>
->> This is specific to the SX1, introduced in commit 997641a84ff:
->>
->>   64 static uint64_t static_read(void *opaque, hwaddr offset,
->>   65                             unsigned size)
->>   66 {
->>   67     uint32_t *val =3D (uint32_t *) opaque;
->>   68     uint32_t mask =3D (4 / size) - 1;
->>   69
->>   70     return *val >> ((offset & mask) << 3);
->>   71 }
->>
->> Only guessing, this looks like some hw parity, and I imagine you need to
->> write the parity bits in your flash.32M file before starting QEMU, then =
-it
->> would appear "normal" within the guest.
->>
-> I thought this might be related, but that is not the case. I added log
-> messages, and even ran the code in gdb. static_read() and static_write()
-> are not executed.
->=20
-> Also,
->=20
->      memory_region_init_io(&cs[0], NULL, &static_ops, &cs0val,
->                            "sx1.cs0", OMAP_CS0_SIZE - flash_size);
->                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^
->      memory_region_add_subregion(address_space,
->                                  OMAP_CS0_BASE + flash_size, &cs[0]);
->                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^
->=20
-> suggests that the code is only executed for memory accesses _after_
-> the actual flash. The memory tree is:
->=20
-> memory-region: system
->    0000000000000000-ffffffffffffffff (prio 0, i/o): system
->      0000000000000000-0000000001ffffff (prio 0, romd): omap_sx1.flash0-1
->      0000000000000000-0000000001ffffff (prio 0, rom): omap_sx1.flash0-0
+On 12/20/19 10:15 PM, Sven Schnelle wrote:
+> This adds emulation of Artist graphics good enough
+> to get a Text console on both Linux and HP-UX. The
+> X11 server from HP-UX also works.
+> 
+> Signed-off-by: Sven Schnelle <svens@stackframe.org>
+> ---
+>   hw/display/Kconfig       |    4 +
+>   hw/display/Makefile.objs |    1 +
+>   hw/display/artist.c      | 1450 ++++++++++++++++++++++++++++++++++++++
+>   hw/display/trace-events  |    9 +
+>   hw/hppa/Kconfig          |    1 +
+>   hw/hppa/hppa_hardware.h  |    1 +
+>   hw/hppa/machine.c        |    9 +
+>   7 files changed, 1475 insertions(+)
+>   create mode 100644 hw/display/artist.c
+> 
+> diff --git a/hw/display/Kconfig b/hw/display/Kconfig
+> index c500d1fc6d..15d59e10dc 100644
+> --- a/hw/display/Kconfig
+> +++ b/hw/display/Kconfig
+> @@ -91,6 +91,10 @@ config TCX
+>   config CG3
+>       bool
+>   
+> +config ARTIST
+> +    bool
+> +    select FRAMEBUFFER
+> +
+>   config VGA
+>       bool
+>   
+> diff --git a/hw/display/Makefile.objs b/hw/display/Makefile.objs
+> index f2182e3bef..5f03dfdcc4 100644
+> --- a/hw/display/Makefile.objs
+> +++ b/hw/display/Makefile.objs
+> @@ -40,6 +40,7 @@ common-obj-$(CONFIG_SM501) += sm501.o
+>   common-obj-$(CONFIG_TCX) += tcx.o
+>   common-obj-$(CONFIG_CG3) += cg3.o
+>   common-obj-$(CONFIG_NEXTCUBE) += next-fb.o
+> +common-obj-$(CONFIG_ARTIST) += artist.o
+>   
+>   obj-$(CONFIG_VGA) += vga.o
+>   
+> diff --git a/hw/display/artist.c b/hw/display/artist.c
+[...]
+> +static void draw_line_size(ARTISTState *s, bool update_start)
+> +{
+> +
+> +    int startx = artist_get_x(s->vram_start);
+> +    int starty = artist_get_y(s->vram_start);
+> +    int endx = artist_get_x(s->line_size);
+> +    int endy = artist_get_y(s->line_size);
+> +
+> +    trace_artist_draw_line(startx, starty, endx, endy);
+> +    draw_line(s, startx, starty, endx, endy, update_start, -1, -1);
+> +}
+> +
+> +static void draw_line_xy(ARTISTState *s, bool update_start)
+> +{
+> +
+> +    int startx = artist_get_x(s->vram_start);
+> +    int starty = artist_get_y(s->vram_start);
+> +    int sizex = artist_get_x(s->blockmove_size);
+> +    int sizey = artist_get_y(s->blockmove_size);
+> +    int linexy = s->line_xy >> 16;
+> +    int endx, endy;
+> +
+> +    endx = startx;
+> +    endy = starty;
+> +
+> +    if (sizex > 0) {
+> +        endx = startx + linexy;
+> +    }
+> +
+> +    if (sizex < 0) {
+> +        endx = startx;
+> +        startx -= linexy;
+> +    }
+> +
+> +    if (sizey > 0) {
+> +        endy = starty + linexy;
+> +    }
+> +
+> +    if (sizey < 0) {
+> +        endy = starty;
+> +        starty -= linexy;
+> +    }
+> +
+> +    if (startx < 0) {
+> +        startx = 0;
+> +    }
+> +
+> +    if (endx < 0) {
+> +        endx = 0;
 
-Eh two memory regions with same size and same priority... Is this legal?
+If negative, set to zero.
 
-(qemu) info mtree -f -d
-FlatView #0
-  AS "memory", root: system
-  AS "cpu-memory-0", root: system
-  Root memory region: system
-   0000000000000000-0000000001ffffff (prio 0, romd): omap_sx1.flash0-1
-   0000000002000000-0000000003ffffff (prio 0, i/o): sx1.cs0
-   0000000004000000-0000000007ffffff (prio 0, i/o): sx1.cs1
-   0000000008000000-000000000bffffff (prio 0, i/o): sx1.cs3
-   0000000010000000-0000000011ffffff (prio 0, ram): omap1.dram
-   0000000020000000-000000002002ffff (prio 0, ram): omap1.sram
-   ...
-   Dispatch
-     Physical sections
-       #0 @0000000000000000..ffffffffffffffff (noname) [unassigned]
-       #1 @0000000000000000..0000000001ffffff omap_sx1.flash0-1 [not dirty]
-       #2 @0000000002000000..0000000003ffffff sx1.cs0 [ROM]
-       #3 @0000000004000000..0000000007ffffff sx1.cs1 [watch]
-       #4 @0000000008000000..000000000bffffff sx1.cs3
-       #5 @0000000010000000..0000000011ffffff omap1.dram
-       #6 @0000000020000000..000000002002ffff omap1.sram
-       ...
-     Nodes (9 bits per level, 6 levels) ptr=3D[3] skip=3D4
-       [0]
-           0       skip=3D3  ptr=3D[3]
-           1..511  skip=3D1  ptr=3DNIL
-       [1]
-           0       skip=3D2  ptr=3D[3]
-           1..511  skip=3D1  ptr=3DNIL
-       [2]
-           0       skip=3D1  ptr=3D[3]
-           1..511  skip=3D1  ptr=3DNIL
-       [3]
-           0       skip=3D1  ptr=3D[4]
-           1       skip=3D1  ptr=3D[5]
-           2       skip=3D2  ptr=3D[7]
-           3..13   skip=3D1  ptr=3DNIL
-          14       skip=3D2  ptr=3D[9]
-          15       skip=3D2  ptr=3D[11]
-          16..511  skip=3D1  ptr=3DNIL
-       [4]
-           0..63   skip=3D0  ptr=3D#1
-          64..127  skip=3D0  ptr=3D#2
-         128..255  skip=3D0  ptr=3D#3
-         256..383  skip=3D0  ptr=3D#4
-         384..511  skip=3D1  ptr=3DNIL
+> +    }
+> +
+> +    if (starty < 0) {
+> +        starty = 0;
+> +    }
+> +
+> +    if (endy < 0) {
+> +        endy = 0;
 
-So the romd wins.
+Ditto.
 
->      0000000002000000-0000000003ffffff (prio 0, i/o): sx1.cs0
->=20
-> I thought that the dual memory assignment (omap_sx1.flash0-1 and
-> omap_sx1.flash0-0) might play a role, but removing that didn't make
-> a difference either (not that I have any idea what it is supposed
-> to be used for).
->=20
-> Thanks,
-> Guenter
->=20
+> +    }
+> +
+> +
+> +    if (endx < 0) {
+> +        return;
+
+Here Coverity points:
+
+ >>>     CID 1419388:  Control flow issues  (DEADCODE)
+ >>>     Execution cannot reach this statement: "return;".
+
+> +    }
+> +
+> +    if (endy < 0) {
+> +        return;
+
+Here again.
+
+> +    }
+> +
+> +    trace_artist_draw_line(startx, starty, endx, endy);
+> +    draw_line(s, startx, starty, endx, endy, false, -1, -1);
+> +}
+> +
+> +static void draw_line_end(ARTISTState *s, bool update_start)
+> +{
+> +
+> +    int startx = artist_get_x(s->vram_start);
+> +    int starty = artist_get_y(s->vram_start);
+> +    int endx = artist_get_x(s->line_end);
+> +    int endy = artist_get_y(s->line_end);
+> +
+> +    trace_artist_draw_line(startx, starty, endx, endy);
+> +    draw_line(s, startx, starty, endx, endy, update_start, -1, -1);
+> +}
 
 
