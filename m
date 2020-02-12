@@ -2,65 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5770915AA3A
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Feb 2020 14:42:42 +0100 (CET)
-Received: from localhost ([::1]:37960 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC99515AA5D
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Feb 2020 14:49:43 +0100 (CET)
+Received: from localhost ([::1]:38120 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j1sHp-0004cR-8U
-	for lists+qemu-devel@lfdr.de; Wed, 12 Feb 2020 08:42:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38250)
+	id 1j1sOc-0007fR-Uv
+	for lists+qemu-devel@lfdr.de; Wed, 12 Feb 2020 08:49:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38749)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1j1sCP-0003D3-AL
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 08:37:07 -0500
+ (envelope-from <no-reply@patchew.org>) id 1j1sFY-000206-J4
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 08:40:22 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1j1sCM-0006hw-R3
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 08:37:04 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:25072
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <david@redhat.com>) id 1j1sCL-0006gx-Rh
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 08:37:02 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581514621;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=prr+xXq0UMhDLa4d53EkNtGWAZ3Cr+6TY7QxrKm2lC8=;
- b=Zi/SQ+W45+DWHNv1k31B22QCribO/Q2jlydGjHxjf2+KmjU/DhAyFZKGsddwHigICCVUsC
- 1GtWTWKsV8Gol+rmRM3yrCQO07apgFopNj9EL8zMPQratgWacAi4TBjHNF67vgpKPFLdUi
- Z46duR4WDqaG+eIrPHCLv7ZM7+pPnkI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-427-LIjZw0XxMIGF_grZB8SA5A-1; Wed, 12 Feb 2020 08:36:59 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AF0DDDB24;
- Wed, 12 Feb 2020 13:36:58 +0000 (UTC)
-Received: from t480s.redhat.com (ovpn-117-92.ams2.redhat.com [10.36.117.92])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D74F519C69;
- Wed, 12 Feb 2020 13:36:54 +0000 (UTC)
-From: David Hildenbrand <david@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 16/16] kvm: Implement region_resize() for atomic memory
- section resizes
-Date: Wed, 12 Feb 2020 14:36:01 +0100
-Message-Id: <20200212133601.10555-17-david@redhat.com>
-In-Reply-To: <20200212133601.10555-1-david@redhat.com>
-References: <20200212133601.10555-1-david@redhat.com>
+ (envelope-from <no-reply@patchew.org>) id 1j1sFW-0000mp-AK
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 08:40:20 -0500
+Resent-Date: Wed, 12 Feb 2020 08:40:20 -0500
+Resent-Message-Id: <E1j1sFW-0000mp-AK@eggs.gnu.org>
+Received: from sender4-of-o51.zoho.com ([136.143.188.51]:21139)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1j1sFW-0000kr-25
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 08:40:18 -0500
+ARC-Seal: i=1; a=rsa-sha256; t=1581514800; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=j7Q3vlsj4o9eEOvffS5fML9vC/w5YtO4ZUEPa/1AKbEogw5N9Dmkt0FglXHTa/i8qDAZfSZH3WuvMC5lsMrXbyXapWyif6DcFtQ7cdEej43B90mCj1oRPi4TlP4Jt7FR+PewyNTvzf5L/VQhzvF1CWmQCmwnWQZMj/tpp1NN6yE=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1581514800;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=rtWdxkD6TfECGnNnjKij25OWGOvww1iCyLQAUd0Jf/8=; 
+ b=O8hGUV7Y0kctgGDcr2m0ODdk3p6Nr0ErjMs5rdq4NHBCdu+scFurCzqTUL8VhZ3Ma8QNdnxUmIKMSUE3dM9fdaGsMDJUgK66BVV4Tt93NGXNLWBmBw+gIL3VBohRr+ZrAlypyO7bgVb5Kpxk/MGyENVTVO4lzc4FerV4SampqAI=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=patchew.org;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1581514796977109.97451554689326;
+ Wed, 12 Feb 2020 05:39:56 -0800 (PST)
+In-Reply-To: <20200212130311.127515-1-ysato@users.sourceforge.jp>
+Subject: Re: [PATCH v30 00/22] Add RX archtecture support
+Message-ID: <158151479563.15549.6051375017041475131@a1bbccc8075a>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: LIjZw0XxMIGF_grZB8SA5A-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: ysato@users.sourceforge.jp
+Date: Wed, 12 Feb 2020 05:39:56 -0800 (PST)
+X-ZohoMailClient: External
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 136.143.188.51
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,202 +64,157 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>, David Hildenbrand <david@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Reply-To: qemu-devel@nongnu.org
+Cc: philmd@redhat.com, richard.henderson@linaro.org, qemu-devel@nongnu.org,
+ ysato@users.sourceforge.jp
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-virtio-mem wants to resize (esp. grow) memory regions while the guest is
-already aware of them and makes use of them. Resizing a KVM slot can
-only currently be done by removing it and re-adding it. While the kvm slot
-is temporarily removed, VCPUs that try to read from these slots will fault.
-
-Let's inhibit KVM_RUN while performing the resize. Keep it lightweight by
-remembering using one bool per VCPU, if the VCPU is executing in the
-kernel.
-
-Note1: Instead of implementing region_resize(), we could also inhibit in
-begin() and let the VCPUs continue to run in commit(). This would also
-handle atomic splitting of memory regions. (I remember a BUG report but
-cannot dig up the mail). However, using the region_resize() callback we
-can later wire up an ioctl that can perform the resize atomically, and
-make the inhibit conditional. Also, this way we inhibit KVM only when
-resizing - not on any address space changes. This will not affect existing
-RT workloads (resizes currently only happen during reboot or at the
-start of an incoming migration).
-
-Note2: We cannot use pause_all_vcpus()/resume_all_vcpus(), as it will
-temporarily drop the BQL, which is something most caller cannot deal
-with when trying to resize a memory region.
-
-Signed-off-by: David Hildenbrand <david@redhat.com>
----
- accel/kvm/kvm-all.c   | 87 +++++++++++++++++++++++++++++++++++++++++++
- include/hw/core/cpu.h |  3 ++
- 2 files changed, 90 insertions(+)
-
-diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-index c111312dfd..e24805771c 100644
---- a/accel/kvm/kvm-all.c
-+++ b/accel/kvm/kvm-all.c
-@@ -148,6 +148,10 @@ bool kvm_ioeventfd_any_length_allowed;
- bool kvm_msi_use_devid;
- static bool kvm_immediate_exit;
- static hwaddr kvm_max_slot_size =3D ~0;
-+static QemuMutex kvm_run_mutex;
-+static QemuCond kvm_run_cond;
-+static QemuCond kvm_run_inhibit_cond;
-+static int kvm_run_inhibited;
-=20
- static const KVMCapabilityInfo kvm_required_capabilites[] =3D {
-     KVM_CAP_INFO(USER_MEMORY),
-@@ -1121,6 +1125,57 @@ static void kvm_region_del(MemoryListener *listener,
-     memory_region_unref(section->mr);
- }
-=20
-+/*
-+ * Certain updates (e.g., resizing memory regions) require temporarily rem=
-oving
-+ * kvm memory slots. Avoid any VCPU to fault by making sure all VCPUs
-+ * left KVM_RUN and won't enter it again until unblocked.
-+ */
-+static void kvm_run_inhibit_begin(void)
-+{
-+    CPUState *cpu;
-+
-+    atomic_inc(&kvm_run_inhibited);
-+    while (true) {
-+        bool any_in_kernel =3D false;
-+
-+        CPU_FOREACH(cpu) {
-+            if (atomic_read(&cpu->in_kernel)) {
-+                any_in_kernel =3D true;
-+                qemu_cpu_kick(cpu);
-+            }
-+        }
-+        if (!any_in_kernel) {
-+            break;
-+        }
-+        qemu_mutex_lock(&kvm_run_mutex);
-+        qemu_cond_wait(&kvm_run_inhibit_cond, &kvm_run_mutex);
-+        qemu_mutex_unlock(&kvm_run_mutex);
-+    }
-+}
-+
-+static void kvm_run_inhibit_end(void)
-+{
-+    atomic_dec(&kvm_run_inhibited);
-+    qemu_mutex_lock(&kvm_run_mutex);
-+    qemu_cond_broadcast(&kvm_run_cond);
-+    qemu_mutex_unlock(&kvm_run_mutex);
-+}
-+
-+static void kvm_region_resize(MemoryListener *listener,
-+                              MemoryRegionSection *section, Int128 new)
-+{
-+    KVMMemoryListener *kml =3D container_of(listener, KVMMemoryListener, l=
-istener);
-+    MemoryRegionSection new_section =3D *section;
-+
-+    new_section.size =3D new;
-+
-+    /* Inhibit KVM while we temporarily remove slots. */
-+    kvm_run_inhibit_begin();
-+    kvm_set_phys_mem(kml, section, false);
-+    kvm_set_phys_mem(kml, &new_section, true);
-+    kvm_run_inhibit_end();
-+}
-+
- static void kvm_log_sync(MemoryListener *listener,
-                          MemoryRegionSection *section)
- {
-@@ -1239,6 +1294,7 @@ void kvm_memory_listener_register(KVMState *s, KVMMem=
-oryListener *kml,
-=20
-     kml->listener.region_add =3D kvm_region_add;
-     kml->listener.region_del =3D kvm_region_del;
-+    kml->listener.region_resize =3D kvm_region_resize;
-     kml->listener.log_start =3D kvm_log_start;
-     kml->listener.log_stop =3D kvm_log_stop;
-     kml->listener.log_sync =3D kvm_log_sync;
-@@ -1884,6 +1940,9 @@ static int kvm_init(MachineState *ms)
-     assert(TARGET_PAGE_SIZE <=3D qemu_real_host_page_size);
-=20
-     s->sigmask_len =3D 8;
-+    qemu_mutex_init(&kvm_run_mutex);
-+    qemu_cond_init(&kvm_run_cond);
-+    qemu_cond_init(&kvm_run_inhibit_cond);
-=20
- #ifdef KVM_CAP_SET_GUEST_DEBUG
-     QTAILQ_INIT(&s->kvm_sw_breakpoints);
-@@ -2294,6 +2353,29 @@ static void kvm_eat_signals(CPUState *cpu)
-     } while (sigismember(&chkset, SIG_IPI));
- }
-=20
-+static void kvm_set_cpu_in_kernel(CPUState *cpu, bool in_kernel)
-+{
-+    atomic_set(&cpu->in_kernel, in_kernel);
-+    if (in_kernel) {
-+        /* wait until KVM_RUN is no longer inhibited */
-+        while (unlikely(atomic_read(&kvm_run_inhibited))) {
-+            atomic_set(&cpu->in_kernel, false);
-+            qemu_mutex_lock(&kvm_run_mutex);
-+            qemu_cond_broadcast(&kvm_run_inhibit_cond);
-+            qemu_cond_wait(&kvm_run_cond, &kvm_run_mutex);
-+            qemu_mutex_unlock(&kvm_run_mutex);
-+            atomic_set(&cpu->in_kernel, true);
-+        }
-+    } else {
-+        /* wake up somebody wanting to inhibit KVM_RUN */
-+        if (unlikely(atomic_read(&kvm_run_inhibited))) {
-+            qemu_mutex_lock(&kvm_run_mutex);
-+            qemu_cond_broadcast(&kvm_run_inhibit_cond);
-+            qemu_mutex_unlock(&kvm_run_mutex);
-+        }
-+    }
-+}
-+
- int kvm_cpu_exec(CPUState *cpu)
- {
-     struct kvm_run *run =3D cpu->kvm_run;
-@@ -2318,6 +2400,9 @@ int kvm_cpu_exec(CPUState *cpu)
-         }
-=20
-         kvm_arch_pre_run(cpu, run);
-+
-+        kvm_set_cpu_in_kernel(cpu, true);
-+
-         if (atomic_read(&cpu->exit_request)) {
-             DPRINTF("interrupt exit requested\n");
-             /*
-@@ -2335,6 +2420,8 @@ int kvm_cpu_exec(CPUState *cpu)
-=20
-         run_ret =3D kvm_vcpu_ioctl(cpu, KVM_RUN, 0);
-=20
-+        kvm_set_cpu_in_kernel(cpu, false);
-+
-         attrs =3D kvm_arch_post_run(cpu, run);
-=20
- #ifdef KVM_HAVE_MCE_INJECTION
-diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-index 73e9a869a4..83614e537b 100644
---- a/include/hw/core/cpu.h
-+++ b/include/hw/core/cpu.h
-@@ -431,6 +431,9 @@ struct CPUState {
-     /* shared by kvm, hax and hvf */
-     bool vcpu_dirty;
-=20
-+    /* kvm only for now: VCPU is executing in the kernel (KVM_RUN) */
-+    bool in_kernel;
-+
-     /* Used to keep track of an outstanding cpu throttle thread for migrat=
-ion
-      * autoconverge
-      */
---=20
-2.24.1
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDIxMjEzMDMxMS4xMjc1
+MTUtMS15c2F0b0B1c2Vycy5zb3VyY2Vmb3JnZS5qcC8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVt
+cyB0byBoYXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZv
+cgptb3JlIGluZm9ybWF0aW9uOgoKU3ViamVjdDogW1BBVENIIHYzMCAwMC8yMl0gQWRkIFJYIGFy
+Y2h0ZWN0dXJlIHN1cHBvcnQKTWVzc2FnZS1pZDogMjAyMDAyMTIxMzAzMTEuMTI3NTE1LTEteXNh
+dG9AdXNlcnMuc291cmNlZm9yZ2UuanAKVHlwZTogc2VyaWVzCgo9PT0gVEVTVCBTQ1JJUFQgQkVH
+SU4gPT09CiMhL2Jpbi9iYXNoCmdpdCByZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0
+IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0tbG9j
+YWwgZGlmZi5yZW5hbWVzIFRydWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhp
+c3RvZ3JhbQouL3NjcmlwdHMvY2hlY2twYXRjaC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0gVEVT
+VCBTQ1JJUFQgRU5EID09PQoKVXBkYXRpbmcgM2M4Y2Y1YTljMjFmZjg3ODIxNjRkMWRlZjdmNDRi
+ZDg4ODcxMzM4NApGcm9tIGh0dHBzOi8vZ2l0aHViLmNvbS9wYXRjaGV3LXByb2plY3QvcWVtdQog
+LSBbdGFnIHVwZGF0ZV0gICAgICBwYXRjaGV3LzIwMjAwMjEyMDIzMTAxLjExNjI2ODYtMS1lYmxh
+a2VAcmVkaGF0LmNvbSAtPiBwYXRjaGV3LzIwMjAwMjEyMDIzMTAxLjExNjI2ODYtMS1lYmxha2VA
+cmVkaGF0LmNvbQogLSBbdGFnIHVwZGF0ZV0gICAgICBwYXRjaGV3LzIwMjAwMjEyMTMwMzExLjEy
+NzUxNS0xLXlzYXRvQHVzZXJzLnNvdXJjZWZvcmdlLmpwIC0+IHBhdGNoZXcvMjAyMDAyMTIxMzAz
+MTEuMTI3NTE1LTEteXNhdG9AdXNlcnMuc291cmNlZm9yZ2UuanAKU3dpdGNoZWQgdG8gYSBuZXcg
+YnJhbmNoICd0ZXN0Jwo2M2Q4ZjI5IHFlbXUtZG9jLnRleGk6IEFkZCBSWCBzZWN0aW9uLgowODI4
+ZmVlIEJvb3RMaW51eENvbnNvbGVUZXN0OiBUZXN0IHRoZSBSWC1WaXJ0IG1hY2hpbmUKYmVhOWFl
+MiBBZGQgcngtc29mdG1tdQo0NmYyN2UzIGh3L3J4OiBSZXN0cmljdCB0aGUgUlg2Mk4gbWljcm9j
+b250cm9sbGVyIHRvIHRoZSBSWDYyTiBDUFUgY29yZQoyYWZjZTRjIGh3L3J4OiBIb25vciAtYWNj
+ZWwgcXRlc3QKZWQ5M2JmZCBody9yeDogUlggVGFyZ2V0IGhhcmR3YXJlIGRlZmluaXRpb24KNzJm
+NDk2MyBody9jaGFyOiBSWDYyTiBzZXJpYWwgY29tbXVuaWNhdGlvbiBpbnRlcmZhY2UgKFNDSSkK
+YWQwMGVmYSBody90aW1lcjogUlg2Mk4gaW50ZXJuYWwgdGltZXIgbW9kdWxlcwpiZjZjODJmIGh3
+L2ludGM6IFJYNjJOIGludGVycnVwdCBjb250cm9sbGVyIChJQ1VhKQoyNTNkOTQxIHRhcmdldC9y
+eDogRHVtcCBieXRlcyBmb3IgZWFjaCBpbnNuIGR1cmluZyBkaXNhc3NlbWJseQowZDgxNmNhIHRh
+cmdldC9yeDogQ29sbGVjdCBhbGwgYnl0ZXMgZHVyaW5nIGRpc2Fzc2VtYmx5CmJkZmJjZjMgdGFy
+Z2V0L3J4OiBFbWl0IGFsbCBkaXNhc3NlbWJseSBpbiBvbmUgcHJ0KCkKZjU4NzEyNCB0YXJnZXQv
+cng6IFVzZSBwcnRfbGRtaSBmb3IgWENIR19tciBkaXNhc3NlbWJseQplZWNhNjE4IHRhcmdldC9y
+eDogUmVwbGFjZSBvcGVyYW5kIHdpdGggcHJ0X2xkbWkgaW4gZGlzYXNzZW1ibGVyCjk1NmJlZmUg
+dGFyZ2V0L3J4OiBEaXNhc3NlbWJsZSByeF9pbmRleF9hZGRyIGludG8gYSBzdHJpbmcKMDgzNTI0
+OSB0YXJnZXQvcng6IFJYIGRpc2Fzc2VtYmxlcgo2ODIxMjM2IHRhcmdldC9yeDogQ1BVIGRlZmlu
+aXRpb24KMGU3NmE4ZiB0YXJnZXQvcng6IFRDRyBoZWxwZXIKZmUzN2FiMSB0YXJnZXQvcng6IFRD
+RyB0cmFuc2xhdGlvbgo3Y2MwMWVmIGh3L3JlZ2lzdGVyZmllbGRzLmg6IEFkZCA4Yml0IGFuZCAx
+NmJpdCByZWdpc3RlciBtYWNyb3MKZDE3ODAyYiBxZW11L2JpdG9wcy5oOiBBZGQgZXh0cmFjdDgg
+YW5kIGV4dHJhY3QxNgo4MTQ2MmRiIE1BSU5UQUlORVJTOiBBZGQgUlgKCj09PSBPVVRQVVQgQkVH
+SU4gPT09CjEvMjIgQ2hlY2tpbmcgY29tbWl0IDgxNDYyZGI2NjdiMiAoTUFJTlRBSU5FUlM6IEFk
+ZCBSWCkKMi8yMiBDaGVja2luZyBjb21taXQgZDE3ODAyYjJiZDA5IChxZW11L2JpdG9wcy5oOiBB
+ZGQgZXh0cmFjdDggYW5kIGV4dHJhY3QxNikKMy8yMiBDaGVja2luZyBjb21taXQgN2NjMDFlZjI4
+MDVlIChody9yZWdpc3RlcmZpZWxkcy5oOiBBZGQgOGJpdCBhbmQgMTZiaXQgcmVnaXN0ZXIgbWFj
+cm9zKQpVc2Ugb2YgdW5pbml0aWFsaXplZCB2YWx1ZSBpbiBjb25jYXRlbmF0aW9uICguKSBvciBz
+dHJpbmcgYXQgLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwgbGluZSAyNDkwLgpFUlJPUjogTWFjcm9z
+IHdpdGggbXVsdGlwbGUgc3RhdGVtZW50cyBzaG91bGQgYmUgZW5jbG9zZWQgaW4gYSBkbyAtIHdo
+aWxlIGxvb3AKIzI3OiBGSUxFOiBpbmNsdWRlL2h3L3JlZ2lzdGVyZmllbGRzLmg6MjU6CisjZGVm
+aW5lIFJFRzgocmVnLCBhZGRyKSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgXAorICAgIGVudW0geyBBXyAjIyByZWcgPSAoYWRkcikgfTsgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcCisgICAgZW51bSB7IFJfICMjIHJlZyA9
+IChhZGRyKSB9OwoKRVJST1I6IE1hY3JvcyB3aXRoIG11bHRpcGxlIHN0YXRlbWVudHMgc2hvdWxk
+IGJlIGVuY2xvc2VkIGluIGEgZG8gLSB3aGlsZSBsb29wCiMzMTogRklMRTogaW5jbHVkZS9ody9y
+ZWdpc3RlcmZpZWxkcy5oOjI5OgorI2RlZmluZSBSRUcxNihyZWcsIGFkZHIpICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcCisgICAgZW51bSB7IEFfICMj
+IHJlZyA9IChhZGRyKSB9OyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+IFwKKyAgICBlbnVtIHsgUl8gIyMgcmVnID0gKGFkZHIpIC8gMiB9OwoKdG90YWw6IDIgZXJyb3Jz
+LCAwIHdhcm5pbmdzLCA1NiBsaW5lcyBjaGVja2VkCgpQYXRjaCAzLzIyIGhhcyBzdHlsZSBwcm9i
+bGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBv
+c2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4g
+TUFJTlRBSU5FUlMuCgo0LzIyIENoZWNraW5nIGNvbW1pdCBmZTM3YWIxMTY1NWUgKHRhcmdldC9y
+eDogVENHIHRyYW5zbGF0aW9uKQpXQVJOSU5HOiBhZGRlZCwgbW92ZWQgb3IgZGVsZXRlZCBmaWxl
+KHMpLCBkb2VzIE1BSU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/CiMyMDogCm5ldyBmaWxlIG1vZGUg
+MTAwNjQ0Cgp0b3RhbDogMCBlcnJvcnMsIDEgd2FybmluZ3MsIDMwNjUgbGluZXMgY2hlY2tlZAoK
+UGF0Y2ggNC8yMiBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2Yg
+dGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50
+YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgo1LzIyIENoZWNraW5nIGNvbW1p
+dCAwZTc2YThmOTg4YTggKHRhcmdldC9yeDogVENHIGhlbHBlcikKV0FSTklORzogYWRkZWQsIG1v
+dmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVwZGF0aW5nPwoj
+MjE6IApuZXcgZmlsZSBtb2RlIDEwMDY0NAoKdG90YWw6IDAgZXJyb3JzLCAxIHdhcm5pbmdzLCA2
+NTAgbGluZXMgY2hlY2tlZAoKUGF0Y2ggNS8yMiBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSBy
+ZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0
+IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgo2
+LzIyIENoZWNraW5nIGNvbW1pdCA2ODIxMjM2ZjFlYzYgKHRhcmdldC9yeDogQ1BVIGRlZmluaXRp
+b24pCldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRB
+SU5FUlMgbmVlZCB1cGRhdGluZz8KIzIyOiAKbmV3IGZpbGUgbW9kZSAxMDA2NDQKCnRvdGFsOiAw
+IGVycm9ycywgMSB3YXJuaW5ncywgNjU5IGxpbmVzIGNoZWNrZWQKClBhdGNoIDYvMjIgaGFzIHN0
+eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUg
+ZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQ
+QVRDSCBpbiBNQUlOVEFJTkVSUy4KNy8yMiBDaGVja2luZyBjb21taXQgMDgzNTI0OTg4YzkxICh0
+YXJnZXQvcng6IFJYIGRpc2Fzc2VtYmxlcikKV0FSTklORzogYWRkZWQsIG1vdmVkIG9yIGRlbGV0
+ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVwZGF0aW5nPwojMzg6IApuZXcgZmls
+ZSBtb2RlIDEwMDY0NAoKdG90YWw6IDAgZXJyb3JzLCAxIHdhcm5pbmdzLCAxNDk3IGxpbmVzIGNo
+ZWNrZWQKClBhdGNoIDcvMjIgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYg
+YW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRo
+ZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KOC8yMiBDaGVja2lu
+ZyBjb21taXQgOTU2YmVmZWMwYmZiICh0YXJnZXQvcng6IERpc2Fzc2VtYmxlIHJ4X2luZGV4X2Fk
+ZHIgaW50byBhIHN0cmluZykKOS8yMiBDaGVja2luZyBjb21taXQgZWVjYTYxODAzZjY1ICh0YXJn
+ZXQvcng6IFJlcGxhY2Ugb3BlcmFuZCB3aXRoIHBydF9sZG1pIGluIGRpc2Fzc2VtYmxlcikKMTAv
+MjIgQ2hlY2tpbmcgY29tbWl0IGY1ODcxMjQ1N2RjNyAodGFyZ2V0L3J4OiBVc2UgcHJ0X2xkbWkg
+Zm9yIFhDSEdfbXIgZGlzYXNzZW1ibHkpCjExLzIyIENoZWNraW5nIGNvbW1pdCBiZGZiY2YzNTYz
+N2IgKHRhcmdldC9yeDogRW1pdCBhbGwgZGlzYXNzZW1ibHkgaW4gb25lIHBydCgpKQoxMi8yMiBD
+aGVja2luZyBjb21taXQgMGQ4MTZjYTA5ODNmICh0YXJnZXQvcng6IENvbGxlY3QgYWxsIGJ5dGVz
+IGR1cmluZyBkaXNhc3NlbWJseSkKMTMvMjIgQ2hlY2tpbmcgY29tbWl0IDI1M2Q5NDFhYWE4NiAo
+dGFyZ2V0L3J4OiBEdW1wIGJ5dGVzIGZvciBlYWNoIGluc24gZHVyaW5nIGRpc2Fzc2VtYmx5KQox
+NC8yMiBDaGVja2luZyBjb21taXQgYmY2YzgyZmMzYmNkIChody9pbnRjOiBSWDYyTiBpbnRlcnJ1
+cHQgY29udHJvbGxlciAoSUNVYSkpCldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZp
+bGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRhdGluZz8KIzQwOiAKbmV3IGZpbGUgbW9k
+ZSAxMDA2NDQKCnRvdGFsOiAwIGVycm9ycywgMSB3YXJuaW5ncywgNDQ1IGxpbmVzIGNoZWNrZWQK
+ClBhdGNoIDE0LzIyIGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBv
+ZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFp
+bnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjE1LzIyIENoZWNraW5nIGNv
+bW1pdCBhZDAwZWZhOGQzMTQgKGh3L3RpbWVyOiBSWDYyTiBpbnRlcm5hbCB0aW1lciBtb2R1bGVz
+KQpXQVJOSU5HOiBhZGRlZCwgbW92ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBkb2VzIE1BSU5UQUlO
+RVJTIG5lZWQgdXBkYXRpbmc/CiM1MDogCm5ldyBmaWxlIG1vZGUgMTAwNjQ0Cgp0b3RhbDogMCBl
+cnJvcnMsIDEgd2FybmluZ3MsIDg0NSBsaW5lcyBjaGVja2VkCgpQYXRjaCAxNS8yMiBoYXMgc3R5
+bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBm
+YWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BB
+VENIIGluIE1BSU5UQUlORVJTLgoxNi8yMiBDaGVja2luZyBjb21taXQgNzJmNDk2M2E5MWY5ICho
+dy9jaGFyOiBSWDYyTiBzZXJpYWwgY29tbXVuaWNhdGlvbiBpbnRlcmZhY2UgKFNDSSkpCldBUk5J
+Tkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVl
+ZCB1cGRhdGluZz8KIzQzOiAKbmV3IGZpbGUgbW9kZSAxMDA2NDQKCnRvdGFsOiAwIGVycm9ycywg
+MSB3YXJuaW5ncywgNDAwIGxpbmVzIGNoZWNrZWQKClBhdGNoIDE2LzIyIGhhcyBzdHlsZSBwcm9i
+bGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBv
+c2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4g
+TUFJTlRBSU5FUlMuCjE3LzIyIENoZWNraW5nIGNvbW1pdCBlZDkzYmZkMTk5ODYgKGh3L3J4OiBS
+WCBUYXJnZXQgaGFyZHdhcmUgZGVmaW5pdGlvbikKV0FSTklORzogYWRkZWQsIG1vdmVkIG9yIGRl
+bGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVwZGF0aW5nPwojMjM6IApuZXcg
+ZmlsZSBtb2RlIDEwMDY0NAoKRVJST1I6IHRyYWlsaW5nIHdoaXRlc3BhY2UKIzEyODogRklMRTog
+aHcvcngvcngtdmlydC5jOjczOgorICAgICQKCkVSUk9SOiB0cmFpbGluZyB3aGl0ZXNwYWNlCiMx
+NDY6IEZJTEU6IGh3L3J4L3J4LXZpcnQuYzo5MToKKyAgICAgICAgLyogVGhlIGtlcm5lbCBpbWFn
+ZSBpcyBsb2FkZWQgaW50byAkCgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgYSBsZWFkaW5n
+IC8qIG9uIGEgc2VwYXJhdGUgbGluZQojMTQ2OiBGSUxFOiBody9yeC9yeC12aXJ0LmM6OTE6Cisg
+ICAgICAgIC8qIFRoZSBrZXJuZWwgaW1hZ2UgaXMgbG9hZGVkIGludG8gCgpXQVJOSU5HOiBCbG9j
+ayBjb21tZW50cyB1c2UgKiBvbiBzdWJzZXF1ZW50IGxpbmVzCiMxNDc6IEZJTEU6IGh3L3J4L3J4
+LXZpcnQuYzo5MjoKKyAgICAgICAgLyogVGhlIGtlcm5lbCBpbWFnZSBpcyBsb2FkZWQgaW50byAK
+KyAgICAgICAgICAgdGhlIGxhdHRlciBoYWxmIG9mIHRoZSBTRFJBTSBzcGFjZS4gKi8KCldBUk5J
+Tkc6IEJsb2NrIGNvbW1lbnRzIHVzZSBhIHRyYWlsaW5nICovIG9uIGEgc2VwYXJhdGUgbGluZQoj
+MTQ3OiBGSUxFOiBody9yeC9yeC12aXJ0LmM6OTI6CisgICAgICAgICAgIHRoZSBsYXR0ZXIgaGFs
+ZiBvZiB0aGUgU0RSQU0gc3BhY2UuICovCgp0b3RhbDogMiBlcnJvcnMsIDQgd2FybmluZ3MsIDQ5
+MyBsaW5lcyBjaGVja2VkCgpQYXRjaCAxNy8yMiBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSBy
+ZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0
+IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoK
+MTgvMjIgQ2hlY2tpbmcgY29tbWl0IDJhZmNlNGM0ZWMyNCAoaHcvcng6IEhvbm9yIC1hY2NlbCBx
+dGVzdCkKMTkvMjIgQ2hlY2tpbmcgY29tbWl0IDQ2ZjI3ZTMyNTJlNCAoaHcvcng6IFJlc3RyaWN0
+IHRoZSBSWDYyTiBtaWNyb2NvbnRyb2xsZXIgdG8gdGhlIFJYNjJOIENQVSBjb3JlKQoyMC8yMiBD
+aGVja2luZyBjb21taXQgYmVhOWFlMmM1ZWQ3IChBZGQgcngtc29mdG1tdSkKV0FSTklORzogYWRk
+ZWQsIG1vdmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVwZGF0
+aW5nPwojNjk6IApuZXcgZmlsZSBtb2RlIDEwMDY0NAoKdG90YWw6IDAgZXJyb3JzLCAxIHdhcm5p
+bmdzLCA4MyBsaW5lcyBjaGVja2VkCgpQYXRjaCAyMC8yMiBoYXMgc3R5bGUgcHJvYmxlbXMsIHBs
+ZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMg
+cmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlO
+RVJTLgoyMS8yMiBDaGVja2luZyBjb21taXQgMDgyOGZlZWMzZGU5IChCb290TGludXhDb25zb2xl
+VGVzdDogVGVzdCB0aGUgUlgtVmlydCBtYWNoaW5lKQoyMi8yMiBDaGVja2luZyBjb21taXQgNjNk
+OGYyOWQ2NzFjIChxZW11LWRvYy50ZXhpOiBBZGQgUlggc2VjdGlvbi4pCj09PSBPVVRQVVQgRU5E
+ID09PQoKVGVzdCBjb21tYW5kIGV4aXRlZCB3aXRoIGNvZGU6IDEKCgpUaGUgZnVsbCBsb2cgaXMg
+YXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMjAwMjEyMTMwMzExLjEyNzUx
+NS0xLXlzYXRvQHVzZXJzLnNvdXJjZWZvcmdlLmpwL3Rlc3RpbmcuY2hlY2twYXRjaC8/dHlwZT1t
+ZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0
+cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXct
+ZGV2ZWxAcmVkaGF0LmNvbQ==
 
