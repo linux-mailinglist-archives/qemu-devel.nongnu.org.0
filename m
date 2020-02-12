@@ -2,64 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5067315AD30
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Feb 2020 17:21:50 +0100 (CET)
-Received: from localhost ([::1]:39992 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1C8515AD21
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Feb 2020 17:20:17 +0100 (CET)
+Received: from localhost ([::1]:39910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j1ulp-0006lT-Aw
-	for lists+qemu-devel@lfdr.de; Wed, 12 Feb 2020 11:21:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33466)
+	id 1j1ukK-0003F6-7E
+	for lists+qemu-devel@lfdr.de; Wed, 12 Feb 2020 11:20:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33453)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kraxel@redhat.com>) id 1j1uiw-0001ek-4Q
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 11:18:51 -0500
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1j1uiv-0004YE-6A
+ (envelope-from <kraxel@redhat.com>) id 1j1uiv-0001dC-OL
  for qemu-devel@nongnu.org; Wed, 12 Feb 2020 11:18:50 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:52765
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <kraxel@redhat.com>) id 1j1uit-0004Wd-H7
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 11:18:48 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:31988
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1j1uiv-0004Xf-2k
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 11:18:49 -0500
+ (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1j1uit-0004W7-Dj
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 11:18:47 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581524328;
+ s=mimecast20190719; t=1581524326;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=qSMJAQomtpzP/Dr733919naIw3tYANguYQgEPpG7jGI=;
- b=Bwcli3P7x2IIddcYbXuF2OPKr0g77NbNfF4Xa9BZsScZx1cSzu7hRbOqBxiPqE2IY9C6BT
- xyMQf/3bp3UipmmOn21T2dKT/Jviynb2xYBftzw2MqkumTMgthM04mnUXPcOh4y14e08Ks
- gYeTLSkNQ7djuqcp94HJupA2buC8U/g=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=1KIHTt1+MMh3tS0Tz2tXta1bnVaXy/hfgKs9ZpWu9zg=;
+ b=AWCfOJYIVaq4RSHlvuWTUWy4MZTJ5EupIxWBzek619xgVpftw3MhStMpYqPwAi/m1d3kq7
+ DFwUjYn354Ddua2kU4hvEaujlro5Tz2+2WcsEubiaJ178O/cylrOKstMZmU3FMMEf+O8Dm
+ Pf67i2HtysfDYOKGo2utAllfSpI3gkA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-191-tQ27u0JMMw2-kYa-oLyDBA-1; Wed, 12 Feb 2020 11:18:44 -0500
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-272-zYWZ7mWCN7yoEiEsbU6ASA-1; Wed, 12 Feb 2020 11:18:44 -0500
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D2221133657D;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7D51B18C8C01;
  Wed, 12 Feb 2020 16:18:43 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-117-39.ams2.redhat.com
  [10.36.117.39])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 905321001B07;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A5E9E5C240;
  Wed, 12 Feb 2020 16:18:36 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id C99109D6B; Wed, 12 Feb 2020 17:18:35 +0100 (CET)
+ id D11669D1F; Wed, 12 Feb 2020 17:18:35 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/10] Ui 20200212 patches
-Date: Wed, 12 Feb 2020 17:18:25 +0100
-Message-Id: <20200212161835.28576-1-kraxel@redhat.com>
+Subject: [PULL 01/10] ui/gtk: Update gd_refresh_rate_millihz() to handle
+ VirtualConsole
+Date: Wed, 12 Feb 2020 17:18:26 +0100
+Message-Id: <20200212161835.28576-2-kraxel@redhat.com>
+In-Reply-To: <20200212161835.28576-1-kraxel@redhat.com>
+References: <20200212161835.28576-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: tQ27u0JMMw2-kYa-oLyDBA-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-MC-Unique: zYWZ7mWCN7yoEiEsbU6ASA-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,58 +75,55 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>, libvir-list@redhat.com,
- Markus Armbruster <armbru@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+ Markus Armbruster <armbru@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit e18e5501d8ac692d32657a3e1ef545b14e72b730=
-:
+From: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
-  Merge remote-tracking branch 'remotes/dgilbert-gitlab/tags/pull-virtiofs-=
-20200210' into staging (2020-02-10 18:09:14 +0000)
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+Tested-by: Jan Kiszka <jan.kiszka@web.de>
+Message-id: 20200208161048.11311-2-f4bug@amsat.org
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+---
+ ui/gtk.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-are available in the Git repository at:
-
-  git://git.kraxel.org/qemu tags/ui-20200212-pull-request
-
-for you to fetch changes up to 483644c25b932360018d15818d8bcd8c85ba70b8:
-
-  ui/cocoa: Drop workarounds for pre-10.12 OSX (2020-02-12 13:27:08 +0100)
-
-----------------------------------------------------------------
-gtk: refresh rate fix.
-cocoa: drop pre-10.12 support.
-ui: rework show-cursor option.
-
-----------------------------------------------------------------
-
-Gerd Hoffmann (7):
-  ui: add show-cursor option
-  ui: wire up legacy -show-cursor option
-  ui/sdl: switch to new show-cursor option
-  ui/cocoa: switch to new show-cursor option
-  ui/gtk: implement show-cursor option
-  ui: drop curor_hide global variable.
-  ui: deprecate legacy -show-cursor option
-
-Peter Maydell (1):
-  ui/cocoa: Drop workarounds for pre-10.12 OSX
-
-Philippe Mathieu-Daud=C3=A9 (2):
-  ui/gtk: Update gd_refresh_rate_millihz() to handle VirtualConsole
-  ui/gtk: Fix gd_refresh_rate_millihz() when widget window is not
-    realized
-
- include/sysemu/sysemu.h |  1 -
- ui/gtk.c                | 27 +++++++++++-------
- ui/sdl2.c               | 16 +++++------
- vl.c                    | 16 +++++++++--
- qapi/ui.json            |  3 ++
- qemu-deprecated.texi    |  5 ++++
- ui/cocoa.m              | 63 +++--------------------------------------
- 7 files changed, 51 insertions(+), 80 deletions(-)
-
+diff --git a/ui/gtk.c b/ui/gtk.c
+index d18892d1de61..c59297ff4d2e 100644
+--- a/ui/gtk.c
++++ b/ui/gtk.c
+@@ -1965,11 +1965,11 @@ static GtkWidget *gd_create_menu_machine(GtkDisplay=
+State *s)
+  * If available, return the refresh rate of the display in milli-Hertz,
+  * else return 0.
+  */
+-static int gd_refresh_rate_millihz(GtkDisplayState *s)
++static int gd_refresh_rate_millihz(GtkWidget *window)
+ {
+ #ifdef GDK_VERSION_3_22
+-    GdkDisplay *dpy =3D gtk_widget_get_display(s->window);
+-    GdkWindow *win =3D gtk_widget_get_window(s->window);
++    GdkDisplay *dpy =3D gtk_widget_get_display(window);
++    GdkWindow *win =3D gtk_widget_get_window(window);
+     GdkMonitor *monitor =3D gdk_display_get_monitor_at_window(dpy, win);
+=20
+     return gdk_monitor_get_refresh_rate(monitor);
+@@ -2045,7 +2045,8 @@ static GSList *gd_vc_gfx_init(GtkDisplayState *s, Vir=
+tualConsole *vc,
+     vc->gfx.kbd =3D qkbd_state_init(con);
+     vc->gfx.dcl.con =3D con;
+=20
+-    refresh_rate_millihz =3D gd_refresh_rate_millihz(s);
++    refresh_rate_millihz =3D gd_refresh_rate_millihz(vc->window ?
++                                                   vc->window : s->window)=
+;
+     if (refresh_rate_millihz) {
+         vc->gfx.dcl.update_interval =3D MILLISEC_PER_SEC / refresh_rate_mi=
+llihz;
+     }
 --=20
 2.18.2
 
