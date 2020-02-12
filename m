@@ -2,60 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B94F15AF4C
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Feb 2020 18:57:13 +0100 (CET)
-Received: from localhost ([::1]:41370 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5768815AEBF
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Feb 2020 18:32:15 +0100 (CET)
+Received: from localhost ([::1]:41056 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j1wG8-00033s-Cb
-	for lists+qemu-devel@lfdr.de; Wed, 12 Feb 2020 12:57:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41222)
+	id 1j1vrx-0003RS-QM
+	for lists+qemu-devel@lfdr.de; Wed, 12 Feb 2020 12:32:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43192)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1j1vbw-0005u9-Sr
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 12:15:42 -0500
+ (envelope-from <palmerdabbelt@google.com>) id 1j1vqJ-0001s4-WE
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 12:30:33 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1j1vbv-0001Cq-36
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 12:15:40 -0500
-Received: from indium.canonical.com ([91.189.90.7]:40984)
+ (envelope-from <palmerdabbelt@google.com>) id 1j1vqI-0000F6-RE
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 12:30:31 -0500
+Received: from mail-pj1-x1044.google.com ([2607:f8b0:4864:20::1044]:36572)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1j1vbu-0001CT-TS
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 12:15:39 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1j1vbs-0003ZQ-SJ
- for <qemu-devel@nongnu.org>; Wed, 12 Feb 2020 17:15:36 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id D251D2E8042
- for <qemu-devel@nongnu.org>; Wed, 12 Feb 2020 17:15:36 +0000 (UTC)
+ (Exim 4.71) (envelope-from <palmerdabbelt@google.com>)
+ id 1j1vqI-0000Eb-K7
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 12:30:30 -0500
+Received: by mail-pj1-x1044.google.com with SMTP id gv17so1178150pjb.1
+ for <qemu-devel@nongnu.org>; Wed, 12 Feb 2020 09:30:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=subject:date:message-id:mime-version:content-transfer-encoding:cc
+ :from:to; bh=4nc65UwGd7yoi1Os6ktRGrdFxX5zRBNyu0ATl7n0nPI=;
+ b=RKGfwmBUd/DXdxlmRFv6i3tBsOqmFqg1ac4ezXC6vzFd70lfS7/WNAdijy7VV9OyzH
+ y5HV2QegffJYGsDpmjg3PUs1KWLOZdswbD+tIuZEvQicuPinWSP1jxRcK72Tdf5tJ8Eo
+ dIiRLVkSlKuVljn04p7x3m6Hv343Q8bUyNGvnHIRUCkZ5F6xlTzrKiYjcM3LW46QiCvO
+ vr5O9qipEjtdLm3u4fclhpgC5M4CoyQn+AYXrY1jwb1VJRtwSSO6ikxmpxchfE1Eiyeg
+ i34DYrp4mKX182VPbar0o0gOVL5bChcIBwFm8ebRD6YSKU6Lf2N3wm987Bp1vZ9nQbUn
+ KI4A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:date:message-id:mime-version
+ :content-transfer-encoding:cc:from:to;
+ bh=4nc65UwGd7yoi1Os6ktRGrdFxX5zRBNyu0ATl7n0nPI=;
+ b=BOCasced1KY5aEf+QWaHuUZeU4FJazxeNqEN2tykyrPb8pZ3DuOoZyRFP+2izyDqAD
+ PITCZIY11ht5CwvZAgfY1YtQWpsr+i8CzKqwzHBg3av0JZ1N6gpi8DDSgcRHozfMRIuu
+ uSORbeleIy0gJ2p2EmxAySHP9JXhqNVIMQsFn2h9uOH8jmrM9mru8LTPNGbbQRlf7HQF
+ Tvele4pc057HxEAm+a/l6z/kaAnCFdnRdB3MgpmrO8cjsxaPjAZ0/M+bhtiioZs3yqBW
+ IURMU9T+Wi6vqFsbcn8tv1sBe85vpynd8VVjcK/527b5gqppBNIfEZyL8yAlEpzR4oud
+ +tHA==
+X-Gm-Message-State: APjAAAUxZNNJPZduPPWWwgE3FGH2F0d4B4zUTiuQJfRE9hX636gEgvn5
+ n2cudl37A0jJ1SM04bSPfqCyUgUuzfU=
+X-Google-Smtp-Source: APXvYqy1Nz5BgjS+6JGHow+6egv54/q4RJtsu6sQ7H340aJd6YSF9Nf6nsyWKp13wwLWednVtAHWbw==
+X-Received: by 2002:a17:902:8bc3:: with SMTP id
+ r3mr24869780plo.220.1581528628804; 
+ Wed, 12 Feb 2020 09:30:28 -0800 (PST)
+Received: from localhost ([2620:0:1000:fd28:dc94:91b3:e554:4ae7])
+ by smtp.gmail.com with ESMTPSA id w18sm1572179pfq.167.2020.02.12.09.30.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 12 Feb 2020 09:30:28 -0800 (PST)
+Subject: [PULL] RISC-V Patches for the 5.0 Soft Freeze, Part 2
+Date: Wed, 12 Feb 2020 09:29:16 -0800
+Message-Id: <20200212172921.36796-1-palmerdabbelt@google.com>
+X-Mailer: git-send-email 2.25.0.225.g125e21ebc7-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 12 Feb 2020 17:03:07 -0000
-From: Marco <jermy.07@gmail.com>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: jermy-07
-X-Launchpad-Bug-Reporter: Marco (jermy-07)
-X-Launchpad-Bug-Modifier: Marco (jermy-07)
-Message-Id: <158152698766.24807.871332888169155245.malonedeb@gac.canonical.com>
-Subject: [Bug 1862986] [NEW] qemu-s390x crashes when run on aarch64
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="19413b719a8df7423ab1390528edadce9e0e4aca";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: ad2d6e17fb9358edc2db1b0065ebdde753076fd3
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-X-Mailman-Approved-At: Wed, 12 Feb 2020 12:56:25 -0500
+Content-Transfer-Encoding: 8bit
+Cc: qemu-devel@nongnu.org,       qemu-riscv@nongnu.org
+From: Palmer Dabbelt <palmerdabbelt@google.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::1044
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -64,273 +76,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1862986 <1862986@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+The following changes since commit 81a23caf47956778c5a5056ad656d1ef92bf9659:
 
-All tested versions (2.11 and 4.2) qemu-s390x crashes with a segfault
-when run on an aarch64 odroid Ubuntu.
+  Merge remote-tracking branch 'remotes/stefanha/tags/block-pull-request' into staging (2020-02-10 17:08:51 +0000)
 
+are available in the Git repository at:
 
-Steps to reproduce:
+  git@github.com:palmer-dabbelt/qemu.git tags/riscv-for-master-5.0-sf2
 
-root@odroid:~/workspace/bitcoin-core# /usr/local/bin/qemu-s390x "/root/work=
-space/bitcoin-core/build/bitcoin-s390x-linux-gnu/src/test/test_bitcoin_orig"
-Segmentation fault (core dumped)
-root@odroid:~/workspace/bitcoin-core# /usr/local/bin/qemu-s390x --version
-qemu-s390x version 4.2.0
-Copyright (c) 2003-2019 Fabrice Bellard and the QEMU Project developers
-root@odroid:~/workspace/bitcoin-core# /usr/bin/qemu-s390x "/root/workspace/=
-bitcoin-core/build/bitcoin-s390x-linux-gnu/src/test/test_bitcoin_orig"
-Segmentation fault (core dumped)
-root@odroid:~/workspace/bitcoin-core# /usr/bin/qemu-s390x --version
-qemu-s390x version 2.11.1(Debian 1:2.11+dfsg-1ubuntu7.22)
-Copyright (c) 2003-2017 Fabrice Bellard and the QEMU Project developers
+for you to fetch changes up to 9c8fdcece53e05590441785ab22d91a22da36e29:
 
-qemu-arm does work on the same machine:
+  MAINTAINERS: Add maintainer entry for Goldfish RTC (2020-02-10 12:01:39 -0800)
 
-root@odroid:~/workspace/bitcoin-core# /usr/bin/qemu-arm bitcoin-0.19.0.1-ar=
-mhf/bin/test_bitcoin -t amount_tests
-Running 4 test cases...
+----------------------------------------------------------------
+RISC-V Patches for the 5.0 Soft Freeze, Part 2
 
-*** No errors detected
-root@odroid:~/workspace/bitcoin-core# /usr/local/bin/qemu-arm bitcoin-0.19.=
-0.1-armhf/bin/test_bitcoin -t amount_tests
-Running 4 test cases...
+This is a fairly light-weight pull request, but I wanted to send it out to
+avoid the Goldfish stuff getting buried as the next PR should contain the H
+extension implementation.
 
-*** No errors detected
+As far as this PR goes, it contains:
 
+* The addition of syscon device tree nodes for reboot and poweroff, which
+  allows Linux to control QEMU without an additional driver.  The existing
+  device was already compatible with the syscon interface.
+* A fix to our GDB stub to avoid confusing XLEN and FLEN, specifically useful
+  for rv32id-based systems.
+* A device emulation for the Goldfish RTC device, a simple memory-mapped RTC.
+* The addition of the Goldfish RTC device to the RISC-V virt board.
 
-What kind of debug information would be helpful for this issue report?
-GDB for the self-compiled latest release is not particularly helpful:
+This passes "make check" and boots buildroot for me.
 
-(gdb) run
-Starting program: /usr/local/bin/qemu-s390x /root/workspace/bitcoin-core/bu=
-ild/bitcoin-s390x-linux-gnu/src/test/test_bitcoin_orig
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/aarch64-linux-gnu/libthread_db.so.1".
-[New Thread 0x7fb7a2a140 (LWP 28264)]
+----------------------------------------------------------------
 
-Thread 1 "qemu-s390x" received signal SIGSEGV, Segmentation fault.
-0x000000555596b218 in __bss_start__ ()
-(gdb) bt
-#0  0x000000555596b218 in __bss_start__ ()
-#1  0x00000055556120a8 in ?? ()
-#2  0x00000055579904b0 in ?? ()
-Backtrace stopped: previous frame inner to this frame (corrupt stack?)
+Peter: I'm sending hw/rtc code because it was suggested that the Goldfish
+implementation gets handled via the RISC-V tree as our virt board is the only
+user.  I'm happy to do things differently in the future (maybe send
+goldfish-specific PRs?) if that's better for you.  Just LMK what makes sense, I
+anticipate that this'll be a pretty low traffic device so I'm fine with pretty
+much anything.
 
+----------------------------------------------------------------
+Anup Patel (4):
+      riscv/virt: Add syscon reboot and poweroff DT nodes
+      hw: rtc: Add Goldfish RTC device
+      riscv: virt: Use Goldfish RTC device
+      MAINTAINERS: Add maintainer entry for Goldfish RTC
 
-A bit more information is available in the version shipped by Ubuntu:
+Keith Packard (1):
+      riscv: Separate FPU register size from core register size in gdbstub [v2]
 
-(gdb) run
-Starting program: /usr/bin/qemu-s390x /root/workspace/bitcoin-core/build/bi=
-tcoin-s390x-linux-gnu/src/test/test_bitcoin_orig
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/aarch64-linux-gnu/libthread_db.so.1".
-[New Thread 0x7fb7a01180 (LWP 28271)]
+ MAINTAINERS                   |   8 ++
+ configure                     |   4 +-
+ hw/riscv/Kconfig              |   1 +
+ hw/riscv/virt.c               |  42 ++++++-
+ hw/rtc/Kconfig                |   3 +
+ hw/rtc/Makefile.objs          |   1 +
+ hw/rtc/goldfish_rtc.c         | 285 ++++++++++++++++++++++++++++++++++++++++++
+ hw/rtc/trace-events           |   4 +
+ include/hw/riscv/virt.h       |   2 +
+ include/hw/rtc/goldfish_rtc.h |  46 +++++++
+ target/riscv/gdbstub.c        |  20 +--
+ 11 files changed, 401 insertions(+), 15 deletions(-)
+ create mode 100644 hw/rtc/goldfish_rtc.c
+ create mode 100644 include/hw/rtc/goldfish_rtc.h
 
-Thread 1 "qemu-s390x" received signal SIGSEGV, Segmentation fault.
-0x0000005555738f98 in code_gen_buffer ()
-(gdb) bt
-#0  0x0000005555738f98 in code_gen_buffer ()
-#1  0x00000055555e96c8 in cpu_exec ()
-#2  0x00000055555ee430 in cpu_loop ()
-#3  0x00000055555c3328 in main ()
-
-** Affects: qemu
-     Importance: Undecided
-         Status: New
-
-** Description changed:
-
-  All tested versions (2.11 and 4.2) qemu-s390x crashes with a segfault
-  when run on an aarch64 odroid Ubuntu.
-+ =
-
-  =
-
-  Steps to reproduce:
-  =
-
-  root@odroid:~/workspace/bitcoin-core# /usr/local/bin/qemu-s390x "/root/wo=
-rkspace/bitcoin-core/build/bitcoin-s390x-linux-gnu/src/test/test_bitcoin_or=
-ig"
-  Segmentation fault (core dumped)
-  root@odroid:~/workspace/bitcoin-core# /usr/local/bin/qemu-s390x --version
-  qemu-s390x version 4.2.0
-  Copyright (c) 2003-2019 Fabrice Bellard and the QEMU Project developers
-  root@odroid:~/workspace/bitcoin-core# /usr/bin/qemu-s390x "/root/workspac=
-e/bitcoin-core/build/bitcoin-s390x-linux-gnu/src/test/test_bitcoin_orig"
-  Segmentation fault (core dumped)
-  root@odroid:~/workspace/bitcoin-core# /usr/bin/qemu-s390x --version
-  qemu-s390x version 2.11.1(Debian 1:2.11+dfsg-1ubuntu7.22)
-  Copyright (c) 2003-2017 Fabrice Bellard and the QEMU Project developers
-  =
-
-- =
-
-  qemu-arm does work on the same machine:
-  =
-
-  root@odroid:~/workspace/bitcoin-core# /usr/bin/qemu-arm bitcoin-0.19.0.1-=
-armhf/bin/test_bitcoin -t amount_tests
-  Running 4 test cases...
-  =
-
-  *** No errors detected
-  root@odroid:~/workspace/bitcoin-core# /usr/local/bin/qemu-arm bitcoin-0.1=
-9.0.1-armhf/bin/test_bitcoin -t amount_tests
-  Running 4 test cases...
-  =
-
-  *** No errors detected
-  =
-
-  =
-
-+ =
-
-  What kind of debug information would be helpful for this issue report?
-- =
-
-- =
-
-  GDB for the self-compiled latest release is not particularly helpful:
-  =
-
-  (gdb) run
-  Starting program: /usr/local/bin/qemu-s390x /root/workspace/bitcoin-core/=
-build/bitcoin-s390x-linux-gnu/src/test/test_bitcoin_orig
-  [Thread debugging using libthread_db enabled]
-  Using host libthread_db library "/lib/aarch64-linux-gnu/libthread_db.so.1=
-".
-  [New Thread 0x7fb7a2a140 (LWP 28264)]
-  =
-
-  Thread 1 "qemu-s390x" received signal SIGSEGV, Segmentation fault.
-  0x000000555596b218 in __bss_start__ ()
-  (gdb) bt
-  #0  0x000000555596b218 in __bss_start__ ()
-  #1  0x00000055556120a8 in ?? ()
-  #2  0x00000055579904b0 in ?? ()
-  Backtrace stopped: previous frame inner to this frame (corrupt stack?)
-  =
-
-+ =
-
-+ =
-
-  A bit more information is available in the version shipped by Ubuntu:
-  =
-
-  (gdb) run
-  Starting program: /usr/bin/qemu-s390x /root/workspace/bitcoin-core/build/=
-bitcoin-s390x-linux-gnu/src/test/test_bitcoin_orig
-  [Thread debugging using libthread_db enabled]
-  Using host libthread_db library "/lib/aarch64-linux-gnu/libthread_db.so.1=
-".
-  [New Thread 0x7fb7a01180 (LWP 28271)]
-  =
-
-  Thread 1 "qemu-s390x" received signal SIGSEGV, Segmentation fault.
-  0x0000005555738f98 in code_gen_buffer ()
-  (gdb) bt
-  #0  0x0000005555738f98 in code_gen_buffer ()
-  #1  0x00000055555e96c8 in cpu_exec ()
-  #2  0x00000055555ee430 in cpu_loop ()
-  #3  0x00000055555c3328 in main ()
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1862986
-
-Title:
-  qemu-s390x crashes when run on aarch64
-
-Status in QEMU:
-  New
-
-Bug description:
-  All tested versions (2.11 and 4.2) qemu-s390x crashes with a segfault
-  when run on an aarch64 odroid Ubuntu.
-
-
-  Steps to reproduce:
-
-  root@odroid:~/workspace/bitcoin-core# /usr/local/bin/qemu-s390x "/root/wo=
-rkspace/bitcoin-core/build/bitcoin-s390x-linux-gnu/src/test/test_bitcoin_or=
-ig"
-  Segmentation fault (core dumped)
-  root@odroid:~/workspace/bitcoin-core# /usr/local/bin/qemu-s390x --version
-  qemu-s390x version 4.2.0
-  Copyright (c) 2003-2019 Fabrice Bellard and the QEMU Project developers
-  root@odroid:~/workspace/bitcoin-core# /usr/bin/qemu-s390x "/root/workspac=
-e/bitcoin-core/build/bitcoin-s390x-linux-gnu/src/test/test_bitcoin_orig"
-  Segmentation fault (core dumped)
-  root@odroid:~/workspace/bitcoin-core# /usr/bin/qemu-s390x --version
-  qemu-s390x version 2.11.1(Debian 1:2.11+dfsg-1ubuntu7.22)
-  Copyright (c) 2003-2017 Fabrice Bellard and the QEMU Project developers
-
-  qemu-arm does work on the same machine:
-
-  root@odroid:~/workspace/bitcoin-core# /usr/bin/qemu-arm bitcoin-0.19.0.1-=
-armhf/bin/test_bitcoin -t amount_tests
-  Running 4 test cases...
-
-  *** No errors detected
-  root@odroid:~/workspace/bitcoin-core# /usr/local/bin/qemu-arm bitcoin-0.1=
-9.0.1-armhf/bin/test_bitcoin -t amount_tests
-  Running 4 test cases...
-
-  *** No errors detected
-
-
-  =
-
-  What kind of debug information would be helpful for this issue report?
-  GDB for the self-compiled latest release is not particularly helpful:
-
-  (gdb) run
-  Starting program: /usr/local/bin/qemu-s390x /root/workspace/bitcoin-core/=
-build/bitcoin-s390x-linux-gnu/src/test/test_bitcoin_orig
-  [Thread debugging using libthread_db enabled]
-  Using host libthread_db library "/lib/aarch64-linux-gnu/libthread_db.so.1=
-".
-  [New Thread 0x7fb7a2a140 (LWP 28264)]
-
-  Thread 1 "qemu-s390x" received signal SIGSEGV, Segmentation fault.
-  0x000000555596b218 in __bss_start__ ()
-  (gdb) bt
-  #0  0x000000555596b218 in __bss_start__ ()
-  #1  0x00000055556120a8 in ?? ()
-  #2  0x00000055579904b0 in ?? ()
-  Backtrace stopped: previous frame inner to this frame (corrupt stack?)
-
-
-  =
-
-  A bit more information is available in the version shipped by Ubuntu:
-
-  (gdb) run
-  Starting program: /usr/bin/qemu-s390x /root/workspace/bitcoin-core/build/=
-bitcoin-s390x-linux-gnu/src/test/test_bitcoin_orig
-  [Thread debugging using libthread_db enabled]
-  Using host libthread_db library "/lib/aarch64-linux-gnu/libthread_db.so.1=
-".
-  [New Thread 0x7fb7a01180 (LWP 28271)]
-
-  Thread 1 "qemu-s390x" received signal SIGSEGV, Segmentation fault.
-  0x0000005555738f98 in code_gen_buffer ()
-  (gdb) bt
-  #0  0x0000005555738f98 in code_gen_buffer ()
-  #1  0x00000055555e96c8 in cpu_exec ()
-  #2  0x00000055555ee430 in cpu_loop ()
-  #3  0x00000055555c3328 in main ()
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1862986/+subscriptions
 
