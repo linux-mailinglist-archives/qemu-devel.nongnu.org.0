@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01FA515AA30
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Feb 2020 14:40:31 +0100 (CET)
-Received: from localhost ([::1]:37910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7732015AA39
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Feb 2020 14:42:33 +0100 (CET)
+Received: from localhost ([::1]:37956 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j1sFh-0001Jf-WB
-	for lists+qemu-devel@lfdr.de; Wed, 12 Feb 2020 08:40:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38091)
+	id 1j1sHg-0004Kn-Fe
+	for lists+qemu-devel@lfdr.de; Wed, 12 Feb 2020 08:42:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38107)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1j1sBy-0002HF-GQ
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 08:36:39 -0500
+ (envelope-from <david@redhat.com>) id 1j1sC0-0002O7-SW
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 08:36:42 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david@redhat.com>) id 1j1sBx-0006M6-Hr
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 08:36:38 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:46756
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <david@redhat.com>) id 1j1sBz-0006Nn-GJ
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 08:36:40 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:52806
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <david@redhat.com>) id 1j1sBx-0006LU-E0
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 08:36:37 -0500
+ (Exim 4.71) (envelope-from <david@redhat.com>) id 1j1sBz-0006NV-CK
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 08:36:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581514597;
+ s=mimecast20190719; t=1581514599;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VMZ5CHimy2pMVf1DZMbDkZ5p4+sNSYTUkI8optPBc4w=;
- b=TuFZp6agYwQVP2QwnQD7leJuGwOXRqx2fGDP+oXneLTSsk/A9te2OpodFC4epkAjIUou4y
- PsiUQSkdvlN3mM6txwcpcGkdu/6troLT8gffT/qlU/dz6r27GuC7dCcQwutUaiTxMvQ4Ad
- Weml91PJkvKWFqwg5dHDTeCIwsvVf7k=
+ bh=8EJilu8UQEI4Ua/3JwUxBBHVuhlt2FuhAXQHVUGsLTc=;
+ b=R42hRv3/+N85+5K+XwsJTWU2qmYd9V/YBWzjAKX/kKvp03bfRZ/GzcKjUMnnrTKAQoa7jI
+ BsHGGSvqrvW65zZ9SkI/Gx2TrcmgQabBSkoUlywGbChlv3YS90cmZASsQcFsiFQA7Y6Dxf
+ DR2DaGDJNWG+JnVDNIegexOmFUj0jik=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-131-jAM5I1DbOG2TGDWoZlJ4Pw-1; Wed, 12 Feb 2020 08:36:35 -0500
+ us-mta-181-67-pY_7JN4uM5wcOc2HeTg-1; Wed, 12 Feb 2020 08:36:37 -0500
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9E1CB19057A5;
- Wed, 12 Feb 2020 13:36:34 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B5CB219057A2;
+ Wed, 12 Feb 2020 13:36:36 +0000 (UTC)
 Received: from t480s.redhat.com (ovpn-117-92.ams2.redhat.com [10.36.117.92])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D632119C69;
- Wed, 12 Feb 2020 13:36:32 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F0B7F19C69;
+ Wed, 12 Feb 2020 13:36:34 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 09/16] memory-device: properly deal with resizable memory
- regions
-Date: Wed, 12 Feb 2020 14:35:54 +0100
-Message-Id: <20200212133601.10555-10-david@redhat.com>
+Subject: [PATCH v2 10/16] hostmem: Factor out applying settings
+Date: Wed, 12 Feb 2020 14:35:55 +0100
+Message-Id: <20200212133601.10555-11-david@redhat.com>
 In-Reply-To: <20200212133601.10555-1-david@redhat.com>
 References: <20200212133601.10555-1-david@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: jAM5I1DbOG2TGDWoZlJ4Pw-1
+X-MC-Unique: 67-pY_7JN4uM5wcOc2HeTg-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,42 +79,190 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In case we are dealing with resizable memory regions, we always have to
-assign space in the physical address space which can fit the maximum
-region size.
+We want to reuse the functionality when resizing resizable memory
+region.
 
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- hw/mem/memory-device.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ backends/hostmem.c | 137 +++++++++++++++++++++++++--------------------
+ 1 file changed, 76 insertions(+), 61 deletions(-)
 
-diff --git a/hw/mem/memory-device.c b/hw/mem/memory-device.c
-index 4bc9cf0917..32d0c5d334 100644
---- a/hw/mem/memory-device.c
-+++ b/hw/mem/memory-device.c
-@@ -269,7 +269,7 @@ void memory_device_pre_plug(MemoryDeviceState *md, Mach=
-ineState *ms,
-     align =3D legacy_align ? *legacy_align : memory_region_get_alignment(m=
-r);
-     addr =3D mdc->get_addr(md);
-     addr =3D memory_device_get_free_addr(ms, !addr ? NULL : &addr, align,
--                                       memory_region_size(mr), &local_err)=
-;
-+                                       memory_region_max_size(mr), &local_=
-err);
-     if (local_err) {
-         goto out;
-     }
-@@ -329,7 +329,7 @@ uint64_t memory_device_get_region_size(const MemoryDevi=
-ceState *md,
-         return 0;
-     }
-=20
--    return memory_region_size(mr);
-+    return memory_region_max_size(mr);
+diff --git a/backends/hostmem.c b/backends/hostmem.c
+index e773bdfa6e..2c8e4567e1 100644
+--- a/backends/hostmem.c
++++ b/backends/hostmem.c
+@@ -308,15 +308,85 @@ size_t host_memory_backend_pagesize(HostMemoryBackend=
+ *memdev)
  }
+ #endif
 =20
- static const TypeInfo memory_device_info =3D {
++static void host_memory_backend_apply_settings(HostMemoryBackend *backend,
++                                               Error **errp)
++{
++    const uint64_t sz =3D memory_region_size(&backend->mr);
++    void *ptr =3D memory_region_get_ram_ptr(&backend->mr);
++    MachineState *ms =3D MACHINE(qdev_get_machine());
++    Error *local_err =3D NULL;
++
++    if (backend->merge) {
++        qemu_madvise(ptr, sz, QEMU_MADV_MERGEABLE);
++    }
++    if (!backend->dump) {
++        qemu_madvise(ptr, sz, QEMU_MADV_DONTDUMP);
++    }
++#ifdef CONFIG_NUMA
++   unsigned long lastbit =3D find_last_bit(backend->host_nodes, MAX_NODES)=
+;
++   /* lastbit =3D=3D MAX_NODES means maxnode =3D 0 */
++   unsigned long maxnode =3D (lastbit + 1) % (MAX_NODES + 1);
++   /*
++    * Ensure policy won't be ignored in case memory is preallocated before
++    * mbind(). note: MPOL_MF_STRICT is ignored on hugepages so this doesn'=
+t
++    * catch hugepage case.
++    */
++   unsigned flags =3D MPOL_MF_STRICT | MPOL_MF_MOVE;
++
++   /*
++    * Check for invalid host-nodes and policies and give more verbose erro=
+r
++    * messages than mbind().
++    */
++   if (maxnode && backend->policy =3D=3D MPOL_DEFAULT) {
++       error_setg(errp, "host-nodes must be empty for policy default,"
++                  " or you should explicitly specify a policy other"
++                  " than default");
++       return;
++   } else if (maxnode =3D=3D 0 && backend->policy !=3D MPOL_DEFAULT) {
++       error_setg(errp, "host-nodes must be set for policy %s",
++                  HostMemPolicy_str(backend->policy));
++       return;
++   }
++
++   /*
++    * We can have up to MAX_NODES nodes, but we need to pass maxnode+1 as
++    * argument to mbind() due to an old Linux bug (feature?) which cuts of=
+f the
++    * last specified node. This means backend->host_nodes must have MAX_NO=
+DES+1
++    * bits available.
++    */
++   assert(sizeof(backend->host_nodes) >=3D
++          BITS_TO_LONGS(MAX_NODES + 1) * sizeof(unsigned long));
++   assert(maxnode <=3D MAX_NODES);
++   if (mbind(ptr, sz, backend->policy,
++             maxnode ? backend->host_nodes : NULL, maxnode + 1, flags)) {
++       if (backend->policy !=3D MPOL_DEFAULT || errno !=3D ENOSYS) {
++           error_setg_errno(errp, errno,
++                            "cannot bind memory to host NUMA nodes");
++           return;
++       }
++   }
++#endif
++    /*
++     * Preallocate memory after the NUMA policy has been instantiated. Thi=
+s is
++     * necessary to guarantee memory is allocated with specified NUMA poli=
+cy
++     * in place.
++     */
++    if (backend->prealloc) {
++        os_mem_prealloc(memory_region_get_fd(&backend->mr), ptr, sz,
++                        ms->smp.cpus, &local_err);
++        if (local_err) {
++            error_propagate(errp, local_err);
++            return;
++        }
++    }
++}
++
+ static void
+ host_memory_backend_memory_complete(UserCreatable *uc, Error **errp)
+ {
+     HostMemoryBackend *backend =3D MEMORY_BACKEND(uc);
+     HostMemoryBackendClass *bc =3D MEMORY_BACKEND_GET_CLASS(uc);
+-    MachineState *ms =3D MACHINE(qdev_get_machine());
+     Error *local_err =3D NULL;
+-    void *ptr;
+-    uint64_t sz;
+=20
+     if (bc->alloc) {
+         bc->alloc(backend, &local_err);
+@@ -324,64 +394,9 @@ host_memory_backend_memory_complete(UserCreatable *uc,=
+ Error **errp)
+             goto out;
+         }
+=20
+-        ptr =3D memory_region_get_ram_ptr(&backend->mr);
+-        sz =3D memory_region_size(&backend->mr);
+-
+-        if (backend->merge) {
+-            qemu_madvise(ptr, sz, QEMU_MADV_MERGEABLE);
+-        }
+-        if (!backend->dump) {
+-            qemu_madvise(ptr, sz, QEMU_MADV_DONTDUMP);
+-        }
+-#ifdef CONFIG_NUMA
+-        unsigned long lastbit =3D find_last_bit(backend->host_nodes, MAX_N=
+ODES);
+-        /* lastbit =3D=3D MAX_NODES means maxnode =3D 0 */
+-        unsigned long maxnode =3D (lastbit + 1) % (MAX_NODES + 1);
+-        /* ensure policy won't be ignored in case memory is preallocated
+-         * before mbind(). note: MPOL_MF_STRICT is ignored on hugepages so
+-         * this doesn't catch hugepage case. */
+-        unsigned flags =3D MPOL_MF_STRICT | MPOL_MF_MOVE;
+-
+-        /* check for invalid host-nodes and policies and give more verbose
+-         * error messages than mbind(). */
+-        if (maxnode && backend->policy =3D=3D MPOL_DEFAULT) {
+-            error_setg(errp, "host-nodes must be empty for policy default,=
+"
+-                       " or you should explicitly specify a policy other"
+-                       " than default");
+-            return;
+-        } else if (maxnode =3D=3D 0 && backend->policy !=3D MPOL_DEFAULT) =
+{
+-            error_setg(errp, "host-nodes must be set for policy %s",
+-                       HostMemPolicy_str(backend->policy));
+-            return;
+-        }
+-
+-        /* We can have up to MAX_NODES nodes, but we need to pass maxnode+=
+1
+-         * as argument to mbind() due to an old Linux bug (feature?) which
+-         * cuts off the last specified node. This means backend->host_node=
+s
+-         * must have MAX_NODES+1 bits available.
+-         */
+-        assert(sizeof(backend->host_nodes) >=3D
+-               BITS_TO_LONGS(MAX_NODES + 1) * sizeof(unsigned long));
+-        assert(maxnode <=3D MAX_NODES);
+-        if (mbind(ptr, sz, backend->policy,
+-                  maxnode ? backend->host_nodes : NULL, maxnode + 1, flags=
+)) {
+-            if (backend->policy !=3D MPOL_DEFAULT || errno !=3D ENOSYS) {
+-                error_setg_errno(errp, errno,
+-                                 "cannot bind memory to host NUMA nodes");
+-                return;
+-            }
+-        }
+-#endif
+-        /* Preallocate memory after the NUMA policy has been instantiated.
+-         * This is necessary to guarantee memory is allocated with
+-         * specified NUMA policy in place.
+-         */
+-        if (backend->prealloc) {
+-            os_mem_prealloc(memory_region_get_fd(&backend->mr), ptr, sz,
+-                            ms->smp.cpus, &local_err);
+-            if (local_err) {
+-                goto out;
+-            }
++        host_memory_backend_apply_settings(backend, &local_err);
++        if (local_err) {
++            goto out;
+         }
+     }
+ out:
 --=20
 2.24.1
 
