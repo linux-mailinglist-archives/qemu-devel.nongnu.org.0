@@ -2,45 +2,115 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B74E15A9B4
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Feb 2020 14:07:53 +0100 (CET)
-Received: from localhost ([::1]:37405 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CE5115A9E2
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Feb 2020 14:18:16 +0100 (CET)
+Received: from localhost ([::1]:37590 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j1rk8-0001Xl-1k
-	for lists+qemu-devel@lfdr.de; Wed, 12 Feb 2020 08:07:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33362)
+	id 1j1ruB-0002bn-89
+	for lists+qemu-devel@lfdr.de; Wed, 12 Feb 2020 08:18:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34066)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ysato@users.sourceforge.jp>) id 1j1rgG-0004cn-HT
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 08:03:57 -0500
+ (envelope-from <k.jensen@samsung.com>) id 1j1rl2-0004QO-A5
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 08:08:49 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ysato@users.sourceforge.jp>) id 1j1rfr-0008Ae-Uk
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 08:03:52 -0500
-Received: from mail02.asahi-net.or.jp ([202.224.55.14]:32953)
- by eggs.gnu.org with esmtp (Exim 4.71)
- (envelope-from <ysato@users.sourceforge.jp>) id 1j1rfr-00089Q-9u
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 08:03:27 -0500
-Received: from h61-195-96-97.vps.ablenet.jp (h61-195-96-97.ablenetvps.ne.jp
- [61.195.96.97]) (Authenticated sender: PQ4Y-STU)
- by mail02.asahi-net.or.jp (Postfix) with ESMTPA id 4C801DD664;
- Wed, 12 Feb 2020 22:03:24 +0900 (JST)
-Received: from yo-satoh-debian.localdomain
- (ae231051.dynamic.ppp.asahi-net.or.jp [14.3.231.51])
- by h61-195-96-97.vps.ablenet.jp (Postfix) with ESMTPSA id 210D4240093;
- Wed, 12 Feb 2020 22:03:24 +0900 (JST)
-From: Yoshinori Sato <ysato@users.sourceforge.jp>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v30 22/22] qemu-doc.texi: Add RX section.
-Date: Wed, 12 Feb 2020 22:03:11 +0900
-Message-Id: <20200212130311.127515-23-ysato@users.sourceforge.jp>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200212130311.127515-1-ysato@users.sourceforge.jp>
-References: <20200212130311.127515-1-ysato@users.sourceforge.jp>
+ (envelope-from <k.jensen@samsung.com>) id 1j1rl0-0003Bs-OY
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 08:08:48 -0500
+Received: from mailout1.w1.samsung.com ([210.118.77.11]:40570)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <k.jensen@samsung.com>)
+ id 1j1rl0-00036s-Ig
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 08:08:46 -0500
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+ by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20200212130841euoutp01088130042ed576f8fa768709fe7891c9~yqZ9usWeQ1719717197euoutp01F
+ for <qemu-devel@nongnu.org>; Wed, 12 Feb 2020 13:08:41 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
+ 20200212130841euoutp01088130042ed576f8fa768709fe7891c9~yqZ9usWeQ1719717197euoutp01F
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1581512921;
+ bh=J7PQo5C9rJV3jHvh8muksx2TE6eiHf9S3vzjhQ9NU/w=;
+ h=Date:From:To:CC:Subject:In-Reply-To:References:From;
+ b=OLfN0GKvSv5GjrmFUcx3IuzrJOgQ3vYLxvuIoUmFgU6IxSNoxNKNLL9pMCMPMVa0M
+ RTxvc7r34BOrz9JFzAljja73oCXsEjqJTHY1m3kNBZKJ7FUnjVlyal6w0+LKCbuilr
+ 2PvWEdSlZ5Sb5oPn9zq4JbgstSaiNyqTYti+qz+E=
+Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+ 20200212130841eucas1p1f72c45b668ee8910df3b08eb9cd78b10~yqZ9gc7rs2493424934eucas1p1R;
+ Wed, 12 Feb 2020 13:08:41 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+ eusmges3new.samsung.com (EUCPMTA) with SMTP id CB.5A.60698.9D8F34E5; Wed, 12
+ Feb 2020 13:08:41 +0000 (GMT)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+ 20200212130840eucas1p1dbe8d50ad7a2957b01ce1d94be9dede5~yqZ9O3-s72290022900eucas1p1q;
+ Wed, 12 Feb 2020 13:08:40 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+ eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20200212130840eusmtrp1bf7f1805d23844a0fb1ca784728f4fbd~yqZ9ON_Js1504515045eusmtrp1j;
+ Wed, 12 Feb 2020 13:08:40 +0000 (GMT)
+X-AuditID: cbfec7f5-a0fff7000001ed1a-24-5e43f8d97d45
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+ eusmgms2.samsung.com (EUCPMTA) with SMTP id C9.15.07950.8D8F34E5; Wed, 12
+ Feb 2020 13:08:40 +0000 (GMT)
+Received: from CAMSVWEXC01.scsc.local (unknown [106.1.227.71]) by
+ eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+ 20200212130840eusmtip2c86ec75fa4f3c1aa1c5daa5b7dac7a8a~yqZ9H3XHk1447714477eusmtip2K;
+ Wed, 12 Feb 2020 13:08:40 +0000 (GMT)
+Received: from CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347) by
+ CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347) with Microsoft SMTP
+ Server (TLS) id 15.0.1320.4; Wed, 12 Feb 2020 13:08:40 +0000
+Received: from apples.localdomain (106.110.32.41) by CAMSVWEXC01.scsc.local
+ (106.1.227.71) with Microsoft SMTP Server (TLS) id 15.0.1320.4 via Frontend
+ Transport; Wed, 12 Feb 2020 13:08:39 +0000
+Date: Wed, 12 Feb 2020 14:08:38 +0100
+From: Klaus Birkelund Jensen <k.jensen@samsung.com>
+To: Maxim Levitsky <mlevitsk@redhat.com>
+Subject: Re: [PATCH v5 01/26] nvme: rename trace events to nvme_dev
+Message-ID: <20200212130838.2zgz6iuysi4ef2ne@apples.localdomain>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 202.224.55.14
+In-Reply-To: <0106bf338e09bbf01e35bbcabed344ba71a2ad0d.camel@redhat.com>
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Sa0iTURjHO3svex3OXqfggxrloiukloGrzCwlVhBdCAIpbenLNOeUd177
+ pCnqlncFddEFs2kqFE6Xl7y0D0ooTiFNy8hARaNpppaWSptHw2+///85P8554DCEpI1yZ6LV
+ CRyvVqiktIg0da9YjowuB4f5mg1CmbEgG8k63/6iZMXmYSSrGuRkbVM1Atnjj3tl+tlsWtaT
+ 10wGMfL+ZotQ3lCrpeVjw29o+cSwUSCf6xiir1ChooBIThWdxPE+gbdFURm5C1S8SZQyXtGC
+ 0tAAo0MODLDHIX3ZItQhESNhaxBMZReROCwimG+3EjgsIPg8NE9tKT8bRyk8qEZQn/NJ8P/U
+ WJ2WxqEPwR+DadPvRpA3+HrDJ9l9MDRoFdiZZv3gu66asLMrexDmpyuRXSDYUgHkPHyB7AMX
+ NhgKdVbSzmI2CEZePaEwO8O7iomN3oGVw/Ms/YYMbIMQGhtbBfi1IaC3mjbZBb71NAoxe0Jv
+ SS6JhQcI8n8sETiUIygz/LZtwdjCKcjvU9kFgo2CTGM9ieuzMFkaitEJRqzO+IQTFJvKCFyL
+ ISdLgm/aD833mxCuPWGyfg+u5dD0t44sRF76bcvot12ltxkEewhetvpg9IDqdWZb+xRRtciN
+ S9TEKjmNn5pL9tYoYjWJaqV3RFxsA7J9qd71nqVm1LF6x4xYBkkdxV3TwWESSpGkSY01I2AI
+ qavYLd1WiSMVqfc4Pi6cT1RxGjPyYEipm9ivcuaWhFUqErgYjovn+K2pgHFwT0Nej75aVN4z
+ /erLozcyzYzOkR+8WKUtapEmndk9P2zk/cm1Ll/9SP5chvaLv5K2XCMWgswH7o7PaJ3Cyt87
+ eq0m7DzpOf74mMhnR9wsX7Cr87RuOfCcujcyc/z8oiGrJO/CVEz7iQ/PLoWvXA+g1xTJzhED
+ N32WU9IzHONCrpb1SUlNlOLoYYLXKP4Bom/g004DAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrCIsWRmVeSWpSXmKPExsVy+t/xe7o3fjjHGbxrMLTY3N/OaLH/4DdW
+ i0mHrjFaLLmYarH72Qomi3m3lC1mvWtnszjeu4PFgcPj3I7z7B6bVnWyedy5tofN48m1zUwe
+ 7/ddZQtgjdKzKcovLUlVyMgvLrFVija0MNIztLTQMzKx1DM0No+1MjJV0rezSUnNySxLLdK3
+ S9DLuPDGsuAne8XtLQfYGxjXsHUxcnJICJhIfNpyk7WLkYtDSGApo8S8GzuZIBIyEp+ufGSH
+ sIUl/lzrYoMo+sgose3AdmYI5wyjxO69z6AyxxglXl7fzgjSwiKgKnH14luwUWwCxhJvupYz
+ g9giAhoSH18sYgRpYBaYwiTRMXslWIOwgLPEhK63LCA2r4CDxI0N86GO+sso8XvbC2aIhKDE
+ yZlPgIo4gLo1Jdbv0ocwpSWW/+MAqeAU8JBY2jaLcQKj0CwkDbMQGmYhNCxgZF7FKJJaWpyb
+ nltspFecmFtcmpeul5yfu4kRGGPbjv3csoOx613wIUYBDkYlHt4DL5zjhFgTy4orcw8xSnAw
+ K4nwijcChXhTEiurUovy44tKc1KLDzGaAr0/kVlKNDkfGP95JfGGpobmFpaG5sbmxmYWSuK8
+ HQIHY4QE0hNLUrNTUwtSi2D6mDg4pRoYT6l9a983Ifatxdyy0GMxoeZ8F1+UvXHdyGSb3HtM
+ eMOkLevEt651lYptVZqu/a8wMDp8w4/GksxHtxfnzH3v4n3Iie3hWfkF//Y8XFlh/V8lZttS
+ 6zueT7T7pn6W0ggQZ1E/NmXvf0cjDu+puQYN6TVK52IZl525+1paybfhyuHrm529v3TOVmIp
+ zkg01GIuKk4EAMowN3fHAgAA
+X-CMS-MailID: 20200212130840eucas1p1dbe8d50ad7a2957b01ce1d94be9dede5
+X-Msg-Generator: CA
+Content-Type: multipart/mixed;
+ boundary="----23msWjQUv43tpiUhVjkRmyiL.ak-ODCQG-izg5rO9weAO7SH=_797f1_"
+X-RootMTR: 20200204095216eucas1p2cb2b4772c04b92c97b0690c8e565234c
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20200204095216eucas1p2cb2b4772c04b92c97b0690c8e565234c
+References: <20200204095208.269131-1-k.jensen@samsung.com>
+ <CGME20200204095216eucas1p2cb2b4772c04b92c97b0690c8e565234c@eucas1p2.samsung.com>
+ <20200204095208.269131-2-k.jensen@samsung.com>
+ <0106bf338e09bbf01e35bbcabed344ba71a2ad0d.camel@redhat.com>
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 210.118.77.11
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,87 +122,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: richard.henderson@linaro.org, philmd@redhat.com,
- Yoshinori Sato <ysato@users.sourceforge.jp>
+Cc: Kevin Wolf <kwolf@redhat.com>, Beata Michalska <beata.michalska@linaro.org>,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>,
+ Javier Gonzalez <javier.gonz@samsung.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Describe emulated target specification. And two examples.
+------23msWjQUv43tpiUhVjkRmyiL.ak-ODCQG-izg5rO9weAO7SH=_797f1_
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
 
-Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
----
- qemu-doc.texi | 44 ++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 44 insertions(+)
+On Feb 12 11:08, Maxim Levitsky wrote:
+> On Tue, 2020-02-04 at 10:51 +0100, Klaus Jensen wrote:
+> > Change the prefix of all nvme device related trace events to 'nvme_dev'
+> > to not clash with trace events from the nvme block driver.
+> > 
 
-diff --git a/qemu-doc.texi b/qemu-doc.texi
-index a1ef6b6484..0b2173daa7 100644
---- a/qemu-doc.texi
-+++ b/qemu-doc.texi
-@@ -1719,6 +1719,7 @@ differences are mentioned in the following sections=
-.
- * Microblaze System emulator::
- * SH4 System emulator::
- * Xtensa System emulator::
-+* RX System emulator::
- @end menu
-=20
- @node PowerPC System emulator
-@@ -2487,6 +2488,49 @@ so should only be used with trusted guest OS.
-=20
- @c man end
-=20
-+@node RX System emulator
-+@section RX System emulator
-+@cindex system emulation (RX)
-+
-+Use the executable @file{qemu-system-rx} to simulate a Virtual RX target=
-.
-+This target emulated following devices.
-+
-+@itemize @minus
-+@item
-+R5F562N8 MCU
-+@item
-+On-chip memory (ROM 512KB, RAM 96KB)
-+@item
-+Interrupt Control Unit (ICUa)
-+@item
-+8Bit Timer x 1CH (TMR0,1)
-+@item
-+Compare Match Timer x 2CH (CMT0,1)
-+@item
-+Serial Communication Interface x 1CH (SCI0)
-+@item
-+External memory 16MByte
-+@end itemize
-+
-+Example of @file{qemu-system-rx} usage for rx is shown below:
-+
-+Download @code{u-boot_image} from @url{https://osdn.net/users/ysato/pf/q=
-emu/dl/u-boot.bin.gz}
-+
-+Start emulation of rx-virt:
-+@example
-+qemu-system-rx -bios @code{u-boot_image}
-+@end example
-+
-+Download @code{kernel_image} from @url{https://osdn.net/users/ysato/pf/q=
-emu/dl/zImage}
-+
-+Download @code{device_tree_blob} from @url{https://osdn.net/users/ysato/=
-pf/qemu/dl/rx-virt.dtb}
-+
-+Start emulation of rx-virt:
-+@example
-+qemu-system-rx -kernel @code{kernel_image} -dtb @code{device_tree_blob} =
-\
-+  -append "earlycon"
-+@end example
-+
- @node QEMU User space emulator
- @chapter QEMU User space emulator
-=20
---=20
-2.20.1
+Hi Maxim,
 
+Thank you very much for your thorough reviews! Utterly appreciated!
+
+I'll start going through your suggested changes. There is a bit of work
+to do on splitting patches into refactoring and bugfixes, but I can
+definitely see the reason for this, so I'll get to work.
+
+You mention the alignment with split lines alot. I actually thought I
+was following CODING_STYLE.rst (which allows a single 4 space indent for
+functions, but not statements such as if/else and while/for). But since
+hw/block/nvme.c is originally written in the style of aligning with the
+opening paranthesis I'm in the wrong here, so I will of course amend
+it. Should have done that from the beginning, it's just my personal
+taste shining through ;)
+
+
+Thanks again,
+Klaus
+
+
+------23msWjQUv43tpiUhVjkRmyiL.ak-ODCQG-izg5rO9weAO7SH=_797f1_
+Content-Type: text/plain; charset="utf-8"
+
+
+------23msWjQUv43tpiUhVjkRmyiL.ak-ODCQG-izg5rO9weAO7SH=_797f1_--
 
