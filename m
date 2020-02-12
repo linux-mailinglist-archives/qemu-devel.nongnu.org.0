@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 724DA15AD9D
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Feb 2020 17:44:56 +0100 (CET)
-Received: from localhost ([::1]:40320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D35615AD94
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Feb 2020 17:42:50 +0100 (CET)
+Received: from localhost ([::1]:40288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j1v8B-0001GS-Ex
-	for lists+qemu-devel@lfdr.de; Wed, 12 Feb 2020 11:44:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36561)
+	id 1j1v69-0004zT-G9
+	for lists+qemu-devel@lfdr.de; Wed, 12 Feb 2020 11:42:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36575)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j1v4w-0003Av-Ui
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 11:41:35 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j1v4x-0003Bv-RT
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 11:41:36 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j1v4v-0001XS-Pv
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 11:41:34 -0500
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:45697)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j1v4w-0001aD-PK
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 11:41:35 -0500
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:44969)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1j1v4v-0001VW-Jn
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 11:41:33 -0500
-Received: by mail-wr1-x430.google.com with SMTP id g3so3174969wrs.12
- for <qemu-devel@nongnu.org>; Wed, 12 Feb 2020 08:41:33 -0800 (PST)
+ id 1j1v4w-0001Y0-Ii
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 11:41:34 -0500
+Received: by mail-wr1-x429.google.com with SMTP id m16so3169620wrx.11
+ for <qemu-devel@nongnu.org>; Wed, 12 Feb 2020 08:41:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=JT9C6l5cMam9Id8e97W1nQcd6eNpyd3ZDkBP7+S4YoY=;
- b=kLg9vX/ceW2zrRYHMBPJQ+F88tGJek7bOgDLHOVfBEfnyhiuhRJJJptq+NyUShj2mu
- TR4K54dYUOM5aqSSGmriAdosVdUlUMr9a4XZZTEl7PAciMUIk7EaaRx1NX6PnA4LShzg
- IBW7ETBzOQoZCMi1YSkP79u6znaUzIn8kpLGhstAKdK45J3r+TtH8TGiQYq/v2JjZ55k
- beUdsOZM8gUNG0VF034LMTgIuONKAkkcmwA2H7vFfv5obujXCGMVDe+0VmZBG8QSMFQ1
- 4XHWM+g74VMCxGh0tE4dbfJFpFPQaQL0l5JYCqA7ZCybxRMKI8dfDMr6lxhR75qA7jU7
- ETnQ==
+ bh=l/AgXBV6DaQrKl5QgbkJnKxXBovTmb0GOhwB0Jdunvg=;
+ b=jSZ4NELS3N5ZQHNUZStq1QI/1oxM94YeVO3gRLCkC67cqSUldMrrgybtFgQMaAQwAH
+ YVyqCfAxTqFrV4kGm8CbhfohgMG/obUxBh0DiNBRtMlIYVyIB27QBWhe8DOgE6Z+uIEY
+ wBfqFm2AVWKlsMhdibPh7FhZvfe51mp3usfIT6JBG3TN9GEvGlxRX5XTZjRhpvotrjAK
+ 2i4knTHDMiMobvXJ0FzSIOvtt5Xy90SCufBi6qLKXLXlA16GSnBQ7YyAew8wssXJZBsV
+ dTbfufe8BPvdYmt0kKD2xBzW9uVFz9GDgnu78B5KvLWOd/Vjpkphvt5YhhVMyVgxGToz
+ SpNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=JT9C6l5cMam9Id8e97W1nQcd6eNpyd3ZDkBP7+S4YoY=;
- b=ZW2kp4xkBOM/7aFyHCes7T9MPtmqOv4/fgnuvZr3cLFhUoV6Jf9CE8KAadGcXa+q6D
- tPs0NwFD29lEkDqcxaMgIkugehATcWqOi22nhq/6xpYiVpoNV+SbhEPHL+/uKDFQko/J
- zPMCILeqtcIx/tmaG+D6gSCtjWKXg7RNxCUzs6SWcOxAodT2sTlY/8IBWYWWA/35dK5P
- SAuBvCt6hB/g9Bs2TakG+Vn8RfCGvmLs2NcG+MUD+kIZpcjqH9Qzc21yi7N4hSuqRII1
- uF6CFvcdCyHd+pH3GzP6ugqXXcIBF/M2V754sTRpnKGgog+n2SElF/ShuxlM4tus8DXG
- F7IA==
-X-Gm-Message-State: APjAAAWxLmcqxibfldWBBZhUU2wdVzujXaIgtoHdAuFnCR1M5xKA1h2c
- sFf4Xi2UE5bYVZerVv3DgLdTN0em
-X-Google-Smtp-Source: APXvYqxyyAik/Ns4GkKTfUdfqSItmebsY6yELfJdH6bnYaGSr97vGniXdBcoHI75bE1Y48oFNM2hkA==
-X-Received: by 2002:a5d:5188:: with SMTP id k8mr1161196wrv.151.1581525692348; 
- Wed, 12 Feb 2020 08:41:32 -0800 (PST)
+ bh=l/AgXBV6DaQrKl5QgbkJnKxXBovTmb0GOhwB0Jdunvg=;
+ b=j89lnLqUcFfUvP8Xm1ghgae3ZYQ6bn/hBDXtIlT4EtFdICPbhvjbOcDV80L97EvwBS
+ F0CU9cvNsoGGeb4CH4eKSbgVbetS+SG31OLffy/zFELC6UOorqdhTIyweGiqGgleS5NO
+ 4W255776mapkPvo7ZyH6A6tZFG6WI/Pl4ckSmmVM+ZobEzgh7lt8FPTWT+TvJLf3z7/G
+ CziNwC6JjaYaSRRurMAHXzo4PY9Ciz6pL7GlLz8LITTHZbRqC9utXdNdwEY2RA8ZAnj7
+ bFDiPRV5ctml8K2hEIrXeV/dgxMTRGvO78Efmr9+bCWbu0cq9JgVDwen7L+4IazOORrk
+ Mm7g==
+X-Gm-Message-State: APjAAAXRCYRpEcCacC442TpDYAwyqumjsvKNnsNPEnEAJuix0/GBP3H5
+ 68NQg5xWf6GLfjIu8tujkHTpCK4u
+X-Google-Smtp-Source: APXvYqzBu7Z+ywm1OvreW9HDbBFrfeBKev83gXRZumjYLb5gC6JszamV4ybcZk8MLia+9IsATDSZKA==
+X-Received: by 2002:adf:ec83:: with SMTP id z3mr15538203wrn.133.1581525693355; 
+ Wed, 12 Feb 2020 08:41:33 -0800 (PST)
 Received: from donizetti.fritz.box ([151.30.86.140])
- by smtp.gmail.com with ESMTPSA id a16sm1195122wrt.30.2020.02.12.08.41.31
+ by smtp.gmail.com with ESMTPSA id a16sm1195122wrt.30.2020.02.12.08.41.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 12 Feb 2020 08:41:31 -0800 (PST)
+ Wed, 12 Feb 2020 08:41:32 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 1/9] vl: Don't mismatch g_strsplit()/g_free()
-Date: Wed, 12 Feb 2020 17:41:21 +0100
-Message-Id: <20200212164129.6968-2-pbonzini@redhat.com>
+Subject: [PULL 2/9] seqlock: fix seqlock_write_unlock_impl function
+Date: Wed, 12 Feb 2020 17:41:22 +0100
+Message-Id: <20200212164129.6968-3-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200212164129.6968-1-pbonzini@redhat.com>
 References: <20200212164129.6968-1-pbonzini@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::430
+X-Received-From: 2a00:1450:4864:20::429
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,60 +78,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Pan Nengyuan <pannengyuan@huawei.com>, Euler Robot <euler.robot@huawei.com>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Luc Michel <luc.michel@greensocs.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Pan Nengyuan <pannengyuan@huawei.com>
+From: Luc Michel <luc.michel@greensocs.com>
 
-It's a mismatch between g_strsplit and g_free, it will cause a memory leak as follow:
+The seqlock write unlock function was incorrectly calling
+seqlock_write_begin() instead of seqlock_write_end(), and was releasing
+the lock before incrementing the sequence. This could lead to a race
+condition and a corrupted sequence number becoming odd even though the
+lock is not held.
 
-[root@localhost]# ./aarch64-softmmu/qemu-system-aarch64 -accel help
-Accelerators supported in QEMU binary:
-tcg
-kvm
-=================================================================
-==1207900==ERROR: LeakSanitizer: detected memory leaks
-
-Direct leak of 8 byte(s) in 2 object(s) allocated from:
-    #0 0xfffd700231cb in __interceptor_malloc (/lib64/libasan.so.4+0xd31cb)
-    #1 0xfffd6ec57163 in g_malloc (/lib64/libglib-2.0.so.0+0x57163)
-    #2 0xfffd6ec724d7 in g_strndup (/lib64/libglib-2.0.so.0+0x724d7)
-    #3 0xfffd6ec73d3f in g_strsplit (/lib64/libglib-2.0.so.0+0x73d3f)
-    #4 0xaaab66be5077 in main /mnt/sdc/qemu-master/qemu-4.2.0-rc0/vl.c:3517
-    #5 0xfffd6e140b9f in __libc_start_main (/lib64/libc.so.6+0x20b9f)
-    #6 0xaaab66bf0f53  (./build/aarch64-softmmu/qemu-system-aarch64+0x8a0f53)
-
-Direct leak of 2 byte(s) in 2 object(s) allocated from:
-    #0 0xfffd700231cb in __interceptor_malloc (/lib64/libasan.so.4+0xd31cb)
-    #1 0xfffd6ec57163 in g_malloc (/lib64/libglib-2.0.so.0+0x57163)
-    #2 0xfffd6ec7243b in g_strdup (/lib64/libglib-2.0.so.0+0x7243b)
-    #3 0xfffd6ec73e6f in g_strsplit (/lib64/libglib-2.0.so.0+0x73e6f)
-    #4 0xaaab66be5077 in main /mnt/sdc/qemu-master/qemu-4.2.0-rc0/vl.c:3517
-    #5 0xfffd6e140b9f in __libc_start_main (/lib64/libc.so.6+0x20b9f)
-    #6 0xaaab66bf0f53  (./build/aarch64-softmmu/qemu-system-aarch64+0x8a0f53)
-
-Reported-by: Euler Robot <euler.robot@huawei.com>
-Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
-Message-Id: <20200110091710.53424-2-pannengyuan@huawei.com>
+Signed-off-by: Luc Michel <luc.michel@greensocs.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20200129144948.2161551-1-luc.michel@greensocs.com>
+Fixes: 988fcafc73 ("seqlock: add QemuLockable support", 2018-08-23)
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- vl.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ include/qemu/seqlock.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/vl.c b/vl.c
-index 7dcb0879c4..c5beda7d48 100644
---- a/vl.c
-+++ b/vl.c
-@@ -3501,7 +3501,7 @@ int main(int argc, char **argv, char **envp)
-                             gchar **optname = g_strsplit(typename,
-                                                          ACCEL_CLASS_SUFFIX, 0);
-                             printf("%s\n", optname[0]);
--                            g_free(optname);
-+                            g_strfreev(optname);
-                         }
-                         g_free(typename);
-                     }
+diff --git a/include/qemu/seqlock.h b/include/qemu/seqlock.h
+index fd408b7ec5..8b6b4ee4bb 100644
+--- a/include/qemu/seqlock.h
++++ b/include/qemu/seqlock.h
+@@ -55,11 +55,11 @@ static inline void seqlock_write_lock_impl(QemuSeqLock *sl, QemuLockable *lock)
+ #define seqlock_write_lock(sl, lock) \
+     seqlock_write_lock_impl(sl, QEMU_MAKE_LOCKABLE(lock))
+ 
+-/* Lock out other writers and update the count.  */
++/* Update the count and release the lock.  */
+ static inline void seqlock_write_unlock_impl(QemuSeqLock *sl, QemuLockable *lock)
+ {
++    seqlock_write_end(sl);
+     qemu_lockable_unlock(lock);
+-    seqlock_write_begin(sl);
+ }
+ #define seqlock_write_unlock(sl, lock) \
+     seqlock_write_unlock_impl(sl, QEMU_MAKE_LOCKABLE(lock))
 -- 
 2.21.0
 
