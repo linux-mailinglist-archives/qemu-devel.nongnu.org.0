@@ -2,57 +2,111 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC99515AA5D
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Feb 2020 14:49:43 +0100 (CET)
-Received: from localhost ([::1]:38120 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD1F115AA64
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Feb 2020 14:51:04 +0100 (CET)
+Received: from localhost ([::1]:38158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j1sOc-0007fR-Uv
-	for lists+qemu-devel@lfdr.de; Wed, 12 Feb 2020 08:49:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38749)
+	id 1j1sPu-0001tw-TV
+	for lists+qemu-devel@lfdr.de; Wed, 12 Feb 2020 08:51:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38898)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1j1sFY-000206-J4
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 08:40:22 -0500
+ (envelope-from <david@redhat.com>) id 1j1sGH-00031B-TS
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 08:41:07 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1j1sFW-0000mp-AK
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 08:40:20 -0500
-Resent-Date: Wed, 12 Feb 2020 08:40:20 -0500
-Resent-Message-Id: <E1j1sFW-0000mp-AK@eggs.gnu.org>
-Received: from sender4-of-o51.zoho.com ([136.143.188.51]:21139)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1j1sFW-0000kr-25
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 08:40:18 -0500
-ARC-Seal: i=1; a=rsa-sha256; t=1581514800; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=j7Q3vlsj4o9eEOvffS5fML9vC/w5YtO4ZUEPa/1AKbEogw5N9Dmkt0FglXHTa/i8qDAZfSZH3WuvMC5lsMrXbyXapWyif6DcFtQ7cdEej43B90mCj1oRPi4TlP4Jt7FR+PewyNTvzf5L/VQhzvF1CWmQCmwnWQZMj/tpp1NN6yE=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1581514800;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=rtWdxkD6TfECGnNnjKij25OWGOvww1iCyLQAUd0Jf/8=; 
- b=O8hGUV7Y0kctgGDcr2m0ODdk3p6Nr0ErjMs5rdq4NHBCdu+scFurCzqTUL8VhZ3Ma8QNdnxUmIKMSUE3dM9fdaGsMDJUgK66BVV4Tt93NGXNLWBmBw+gIL3VBohRr+ZrAlypyO7bgVb5Kpxk/MGyENVTVO4lzc4FerV4SampqAI=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1581514796977109.97451554689326;
- Wed, 12 Feb 2020 05:39:56 -0800 (PST)
-In-Reply-To: <20200212130311.127515-1-ysato@users.sourceforge.jp>
-Subject: Re: [PATCH v30 00/22] Add RX archtecture support
-Message-ID: <158151479563.15549.6051375017041475131@a1bbccc8075a>
+ (envelope-from <david@redhat.com>) id 1j1sGG-0001jp-EU
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 08:41:05 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:59352
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <david@redhat.com>) id 1j1sGG-0001jF-8W
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 08:41:04 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1581514863;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=gGiaFgzmw3pu/uHd2hSzl6iUAalXz4D6H1dh/3g1Qes=;
+ b=DNsp2jzMghF2vkK1pC1HCT59eW65R00HLUIH9cUJU3BRGfFUwxgX9BvL7UOrszdhsTafEC
+ s6kqRr6aPG+QfwH27hRGRw8oSiCxlDOY10N2BeDn8+bkKUmLi9d+QWyj3Dj2Df6xs6uPZV
+ Xyx3uou8prBINpSWLvE0VtlH4dRp+l0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-348-BSoeZ-44PV2oK_DKil-J2A-1; Wed, 12 Feb 2020 08:41:00 -0500
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2E2F1800D50;
+ Wed, 12 Feb 2020 13:40:59 +0000 (UTC)
+Received: from [10.36.117.92] (ovpn-117-92.ams2.redhat.com [10.36.117.92])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DF56360BF1;
+ Wed, 12 Feb 2020 13:40:54 +0000 (UTC)
+Subject: Re: [PATCH v2 00/16] Ram blocks with resizable anonymous allocations
+ under POSIX
+To: qemu-devel@nongnu.org
+References: <20200212133601.10555-1-david@redhat.com>
+From: David Hildenbrand <david@redhat.com>
+Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+Organization: Red Hat GmbH
+Message-ID: <6cec3934-da0c-6d61-dd39-17fd39bbce24@redhat.com>
+Date: Wed, 12 Feb 2020 14:40:54 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: ysato@users.sourceforge.jp
-Date: Wed, 12 Feb 2020 05:39:56 -0800 (PST)
-X-ZohoMailClient: External
+In-Reply-To: <20200212133601.10555-1-david@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: BSoeZ-44PV2oK_DKil-J2A-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 136.143.188.51
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,157 +118,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: philmd@redhat.com, richard.henderson@linaro.org, qemu-devel@nongnu.org,
- ysato@users.sourceforge.jp
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDIxMjEzMDMxMS4xMjc1
-MTUtMS15c2F0b0B1c2Vycy5zb3VyY2Vmb3JnZS5qcC8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVt
-cyB0byBoYXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZv
-cgptb3JlIGluZm9ybWF0aW9uOgoKU3ViamVjdDogW1BBVENIIHYzMCAwMC8yMl0gQWRkIFJYIGFy
-Y2h0ZWN0dXJlIHN1cHBvcnQKTWVzc2FnZS1pZDogMjAyMDAyMTIxMzAzMTEuMTI3NTE1LTEteXNh
-dG9AdXNlcnMuc291cmNlZm9yZ2UuanAKVHlwZTogc2VyaWVzCgo9PT0gVEVTVCBTQ1JJUFQgQkVH
-SU4gPT09CiMhL2Jpbi9iYXNoCmdpdCByZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0
-IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0tbG9j
-YWwgZGlmZi5yZW5hbWVzIFRydWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhp
-c3RvZ3JhbQouL3NjcmlwdHMvY2hlY2twYXRjaC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0gVEVT
-VCBTQ1JJUFQgRU5EID09PQoKVXBkYXRpbmcgM2M4Y2Y1YTljMjFmZjg3ODIxNjRkMWRlZjdmNDRi
-ZDg4ODcxMzM4NApGcm9tIGh0dHBzOi8vZ2l0aHViLmNvbS9wYXRjaGV3LXByb2plY3QvcWVtdQog
-LSBbdGFnIHVwZGF0ZV0gICAgICBwYXRjaGV3LzIwMjAwMjEyMDIzMTAxLjExNjI2ODYtMS1lYmxh
-a2VAcmVkaGF0LmNvbSAtPiBwYXRjaGV3LzIwMjAwMjEyMDIzMTAxLjExNjI2ODYtMS1lYmxha2VA
-cmVkaGF0LmNvbQogLSBbdGFnIHVwZGF0ZV0gICAgICBwYXRjaGV3LzIwMjAwMjEyMTMwMzExLjEy
-NzUxNS0xLXlzYXRvQHVzZXJzLnNvdXJjZWZvcmdlLmpwIC0+IHBhdGNoZXcvMjAyMDAyMTIxMzAz
-MTEuMTI3NTE1LTEteXNhdG9AdXNlcnMuc291cmNlZm9yZ2UuanAKU3dpdGNoZWQgdG8gYSBuZXcg
-YnJhbmNoICd0ZXN0Jwo2M2Q4ZjI5IHFlbXUtZG9jLnRleGk6IEFkZCBSWCBzZWN0aW9uLgowODI4
-ZmVlIEJvb3RMaW51eENvbnNvbGVUZXN0OiBUZXN0IHRoZSBSWC1WaXJ0IG1hY2hpbmUKYmVhOWFl
-MiBBZGQgcngtc29mdG1tdQo0NmYyN2UzIGh3L3J4OiBSZXN0cmljdCB0aGUgUlg2Mk4gbWljcm9j
-b250cm9sbGVyIHRvIHRoZSBSWDYyTiBDUFUgY29yZQoyYWZjZTRjIGh3L3J4OiBIb25vciAtYWNj
-ZWwgcXRlc3QKZWQ5M2JmZCBody9yeDogUlggVGFyZ2V0IGhhcmR3YXJlIGRlZmluaXRpb24KNzJm
-NDk2MyBody9jaGFyOiBSWDYyTiBzZXJpYWwgY29tbXVuaWNhdGlvbiBpbnRlcmZhY2UgKFNDSSkK
-YWQwMGVmYSBody90aW1lcjogUlg2Mk4gaW50ZXJuYWwgdGltZXIgbW9kdWxlcwpiZjZjODJmIGh3
-L2ludGM6IFJYNjJOIGludGVycnVwdCBjb250cm9sbGVyIChJQ1VhKQoyNTNkOTQxIHRhcmdldC9y
-eDogRHVtcCBieXRlcyBmb3IgZWFjaCBpbnNuIGR1cmluZyBkaXNhc3NlbWJseQowZDgxNmNhIHRh
-cmdldC9yeDogQ29sbGVjdCBhbGwgYnl0ZXMgZHVyaW5nIGRpc2Fzc2VtYmx5CmJkZmJjZjMgdGFy
-Z2V0L3J4OiBFbWl0IGFsbCBkaXNhc3NlbWJseSBpbiBvbmUgcHJ0KCkKZjU4NzEyNCB0YXJnZXQv
-cng6IFVzZSBwcnRfbGRtaSBmb3IgWENIR19tciBkaXNhc3NlbWJseQplZWNhNjE4IHRhcmdldC9y
-eDogUmVwbGFjZSBvcGVyYW5kIHdpdGggcHJ0X2xkbWkgaW4gZGlzYXNzZW1ibGVyCjk1NmJlZmUg
-dGFyZ2V0L3J4OiBEaXNhc3NlbWJsZSByeF9pbmRleF9hZGRyIGludG8gYSBzdHJpbmcKMDgzNTI0
-OSB0YXJnZXQvcng6IFJYIGRpc2Fzc2VtYmxlcgo2ODIxMjM2IHRhcmdldC9yeDogQ1BVIGRlZmlu
-aXRpb24KMGU3NmE4ZiB0YXJnZXQvcng6IFRDRyBoZWxwZXIKZmUzN2FiMSB0YXJnZXQvcng6IFRD
-RyB0cmFuc2xhdGlvbgo3Y2MwMWVmIGh3L3JlZ2lzdGVyZmllbGRzLmg6IEFkZCA4Yml0IGFuZCAx
-NmJpdCByZWdpc3RlciBtYWNyb3MKZDE3ODAyYiBxZW11L2JpdG9wcy5oOiBBZGQgZXh0cmFjdDgg
-YW5kIGV4dHJhY3QxNgo4MTQ2MmRiIE1BSU5UQUlORVJTOiBBZGQgUlgKCj09PSBPVVRQVVQgQkVH
-SU4gPT09CjEvMjIgQ2hlY2tpbmcgY29tbWl0IDgxNDYyZGI2NjdiMiAoTUFJTlRBSU5FUlM6IEFk
-ZCBSWCkKMi8yMiBDaGVja2luZyBjb21taXQgZDE3ODAyYjJiZDA5IChxZW11L2JpdG9wcy5oOiBB
-ZGQgZXh0cmFjdDggYW5kIGV4dHJhY3QxNikKMy8yMiBDaGVja2luZyBjb21taXQgN2NjMDFlZjI4
-MDVlIChody9yZWdpc3RlcmZpZWxkcy5oOiBBZGQgOGJpdCBhbmQgMTZiaXQgcmVnaXN0ZXIgbWFj
-cm9zKQpVc2Ugb2YgdW5pbml0aWFsaXplZCB2YWx1ZSBpbiBjb25jYXRlbmF0aW9uICguKSBvciBz
-dHJpbmcgYXQgLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwgbGluZSAyNDkwLgpFUlJPUjogTWFjcm9z
-IHdpdGggbXVsdGlwbGUgc3RhdGVtZW50cyBzaG91bGQgYmUgZW5jbG9zZWQgaW4gYSBkbyAtIHdo
-aWxlIGxvb3AKIzI3OiBGSUxFOiBpbmNsdWRlL2h3L3JlZ2lzdGVyZmllbGRzLmg6MjU6CisjZGVm
-aW5lIFJFRzgocmVnLCBhZGRyKSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgXAorICAgIGVudW0geyBBXyAjIyByZWcgPSAoYWRkcikgfTsgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcCisgICAgZW51bSB7IFJfICMjIHJlZyA9
-IChhZGRyKSB9OwoKRVJST1I6IE1hY3JvcyB3aXRoIG11bHRpcGxlIHN0YXRlbWVudHMgc2hvdWxk
-IGJlIGVuY2xvc2VkIGluIGEgZG8gLSB3aGlsZSBsb29wCiMzMTogRklMRTogaW5jbHVkZS9ody9y
-ZWdpc3RlcmZpZWxkcy5oOjI5OgorI2RlZmluZSBSRUcxNihyZWcsIGFkZHIpICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcCisgICAgZW51bSB7IEFfICMj
-IHJlZyA9IChhZGRyKSB9OyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-IFwKKyAgICBlbnVtIHsgUl8gIyMgcmVnID0gKGFkZHIpIC8gMiB9OwoKdG90YWw6IDIgZXJyb3Jz
-LCAwIHdhcm5pbmdzLCA1NiBsaW5lcyBjaGVja2VkCgpQYXRjaCAzLzIyIGhhcyBzdHlsZSBwcm9i
-bGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBv
-c2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4g
-TUFJTlRBSU5FUlMuCgo0LzIyIENoZWNraW5nIGNvbW1pdCBmZTM3YWIxMTY1NWUgKHRhcmdldC9y
-eDogVENHIHRyYW5zbGF0aW9uKQpXQVJOSU5HOiBhZGRlZCwgbW92ZWQgb3IgZGVsZXRlZCBmaWxl
-KHMpLCBkb2VzIE1BSU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/CiMyMDogCm5ldyBmaWxlIG1vZGUg
-MTAwNjQ0Cgp0b3RhbDogMCBlcnJvcnMsIDEgd2FybmluZ3MsIDMwNjUgbGluZXMgY2hlY2tlZAoK
-UGF0Y2ggNC8yMiBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2Yg
-dGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50
-YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgo1LzIyIENoZWNraW5nIGNvbW1p
-dCAwZTc2YThmOTg4YTggKHRhcmdldC9yeDogVENHIGhlbHBlcikKV0FSTklORzogYWRkZWQsIG1v
-dmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVwZGF0aW5nPwoj
-MjE6IApuZXcgZmlsZSBtb2RlIDEwMDY0NAoKdG90YWw6IDAgZXJyb3JzLCAxIHdhcm5pbmdzLCA2
-NTAgbGluZXMgY2hlY2tlZAoKUGF0Y2ggNS8yMiBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSBy
-ZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0
-IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgo2
-LzIyIENoZWNraW5nIGNvbW1pdCA2ODIxMjM2ZjFlYzYgKHRhcmdldC9yeDogQ1BVIGRlZmluaXRp
-b24pCldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRB
-SU5FUlMgbmVlZCB1cGRhdGluZz8KIzIyOiAKbmV3IGZpbGUgbW9kZSAxMDA2NDQKCnRvdGFsOiAw
-IGVycm9ycywgMSB3YXJuaW5ncywgNjU5IGxpbmVzIGNoZWNrZWQKClBhdGNoIDYvMjIgaGFzIHN0
-eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUg
-ZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQ
-QVRDSCBpbiBNQUlOVEFJTkVSUy4KNy8yMiBDaGVja2luZyBjb21taXQgMDgzNTI0OTg4YzkxICh0
-YXJnZXQvcng6IFJYIGRpc2Fzc2VtYmxlcikKV0FSTklORzogYWRkZWQsIG1vdmVkIG9yIGRlbGV0
-ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVwZGF0aW5nPwojMzg6IApuZXcgZmls
-ZSBtb2RlIDEwMDY0NAoKdG90YWw6IDAgZXJyb3JzLCAxIHdhcm5pbmdzLCAxNDk3IGxpbmVzIGNo
-ZWNrZWQKClBhdGNoIDcvMjIgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYg
-YW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRo
-ZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KOC8yMiBDaGVja2lu
-ZyBjb21taXQgOTU2YmVmZWMwYmZiICh0YXJnZXQvcng6IERpc2Fzc2VtYmxlIHJ4X2luZGV4X2Fk
-ZHIgaW50byBhIHN0cmluZykKOS8yMiBDaGVja2luZyBjb21taXQgZWVjYTYxODAzZjY1ICh0YXJn
-ZXQvcng6IFJlcGxhY2Ugb3BlcmFuZCB3aXRoIHBydF9sZG1pIGluIGRpc2Fzc2VtYmxlcikKMTAv
-MjIgQ2hlY2tpbmcgY29tbWl0IGY1ODcxMjQ1N2RjNyAodGFyZ2V0L3J4OiBVc2UgcHJ0X2xkbWkg
-Zm9yIFhDSEdfbXIgZGlzYXNzZW1ibHkpCjExLzIyIENoZWNraW5nIGNvbW1pdCBiZGZiY2YzNTYz
-N2IgKHRhcmdldC9yeDogRW1pdCBhbGwgZGlzYXNzZW1ibHkgaW4gb25lIHBydCgpKQoxMi8yMiBD
-aGVja2luZyBjb21taXQgMGQ4MTZjYTA5ODNmICh0YXJnZXQvcng6IENvbGxlY3QgYWxsIGJ5dGVz
-IGR1cmluZyBkaXNhc3NlbWJseSkKMTMvMjIgQ2hlY2tpbmcgY29tbWl0IDI1M2Q5NDFhYWE4NiAo
-dGFyZ2V0L3J4OiBEdW1wIGJ5dGVzIGZvciBlYWNoIGluc24gZHVyaW5nIGRpc2Fzc2VtYmx5KQox
-NC8yMiBDaGVja2luZyBjb21taXQgYmY2YzgyZmMzYmNkIChody9pbnRjOiBSWDYyTiBpbnRlcnJ1
-cHQgY29udHJvbGxlciAoSUNVYSkpCldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZp
-bGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRhdGluZz8KIzQwOiAKbmV3IGZpbGUgbW9k
-ZSAxMDA2NDQKCnRvdGFsOiAwIGVycm9ycywgMSB3YXJuaW5ncywgNDQ1IGxpbmVzIGNoZWNrZWQK
-ClBhdGNoIDE0LzIyIGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBv
-ZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFp
-bnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjE1LzIyIENoZWNraW5nIGNv
-bW1pdCBhZDAwZWZhOGQzMTQgKGh3L3RpbWVyOiBSWDYyTiBpbnRlcm5hbCB0aW1lciBtb2R1bGVz
-KQpXQVJOSU5HOiBhZGRlZCwgbW92ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBkb2VzIE1BSU5UQUlO
-RVJTIG5lZWQgdXBkYXRpbmc/CiM1MDogCm5ldyBmaWxlIG1vZGUgMTAwNjQ0Cgp0b3RhbDogMCBl
-cnJvcnMsIDEgd2FybmluZ3MsIDg0NSBsaW5lcyBjaGVja2VkCgpQYXRjaCAxNS8yMiBoYXMgc3R5
-bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBm
-YWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BB
-VENIIGluIE1BSU5UQUlORVJTLgoxNi8yMiBDaGVja2luZyBjb21taXQgNzJmNDk2M2E5MWY5ICho
-dy9jaGFyOiBSWDYyTiBzZXJpYWwgY29tbXVuaWNhdGlvbiBpbnRlcmZhY2UgKFNDSSkpCldBUk5J
-Tkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVl
-ZCB1cGRhdGluZz8KIzQzOiAKbmV3IGZpbGUgbW9kZSAxMDA2NDQKCnRvdGFsOiAwIGVycm9ycywg
-MSB3YXJuaW5ncywgNDAwIGxpbmVzIGNoZWNrZWQKClBhdGNoIDE2LzIyIGhhcyBzdHlsZSBwcm9i
-bGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBv
-c2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4g
-TUFJTlRBSU5FUlMuCjE3LzIyIENoZWNraW5nIGNvbW1pdCBlZDkzYmZkMTk5ODYgKGh3L3J4OiBS
-WCBUYXJnZXQgaGFyZHdhcmUgZGVmaW5pdGlvbikKV0FSTklORzogYWRkZWQsIG1vdmVkIG9yIGRl
-bGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVwZGF0aW5nPwojMjM6IApuZXcg
-ZmlsZSBtb2RlIDEwMDY0NAoKRVJST1I6IHRyYWlsaW5nIHdoaXRlc3BhY2UKIzEyODogRklMRTog
-aHcvcngvcngtdmlydC5jOjczOgorICAgICQKCkVSUk9SOiB0cmFpbGluZyB3aGl0ZXNwYWNlCiMx
-NDY6IEZJTEU6IGh3L3J4L3J4LXZpcnQuYzo5MToKKyAgICAgICAgLyogVGhlIGtlcm5lbCBpbWFn
-ZSBpcyBsb2FkZWQgaW50byAkCgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgYSBsZWFkaW5n
-IC8qIG9uIGEgc2VwYXJhdGUgbGluZQojMTQ2OiBGSUxFOiBody9yeC9yeC12aXJ0LmM6OTE6Cisg
-ICAgICAgIC8qIFRoZSBrZXJuZWwgaW1hZ2UgaXMgbG9hZGVkIGludG8gCgpXQVJOSU5HOiBCbG9j
-ayBjb21tZW50cyB1c2UgKiBvbiBzdWJzZXF1ZW50IGxpbmVzCiMxNDc6IEZJTEU6IGh3L3J4L3J4
-LXZpcnQuYzo5MjoKKyAgICAgICAgLyogVGhlIGtlcm5lbCBpbWFnZSBpcyBsb2FkZWQgaW50byAK
-KyAgICAgICAgICAgdGhlIGxhdHRlciBoYWxmIG9mIHRoZSBTRFJBTSBzcGFjZS4gKi8KCldBUk5J
-Tkc6IEJsb2NrIGNvbW1lbnRzIHVzZSBhIHRyYWlsaW5nICovIG9uIGEgc2VwYXJhdGUgbGluZQoj
-MTQ3OiBGSUxFOiBody9yeC9yeC12aXJ0LmM6OTI6CisgICAgICAgICAgIHRoZSBsYXR0ZXIgaGFs
-ZiBvZiB0aGUgU0RSQU0gc3BhY2UuICovCgp0b3RhbDogMiBlcnJvcnMsIDQgd2FybmluZ3MsIDQ5
-MyBsaW5lcyBjaGVja2VkCgpQYXRjaCAxNy8yMiBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSBy
-ZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0
-IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoK
-MTgvMjIgQ2hlY2tpbmcgY29tbWl0IDJhZmNlNGM0ZWMyNCAoaHcvcng6IEhvbm9yIC1hY2NlbCBx
-dGVzdCkKMTkvMjIgQ2hlY2tpbmcgY29tbWl0IDQ2ZjI3ZTMyNTJlNCAoaHcvcng6IFJlc3RyaWN0
-IHRoZSBSWDYyTiBtaWNyb2NvbnRyb2xsZXIgdG8gdGhlIFJYNjJOIENQVSBjb3JlKQoyMC8yMiBD
-aGVja2luZyBjb21taXQgYmVhOWFlMmM1ZWQ3IChBZGQgcngtc29mdG1tdSkKV0FSTklORzogYWRk
-ZWQsIG1vdmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVwZGF0
-aW5nPwojNjk6IApuZXcgZmlsZSBtb2RlIDEwMDY0NAoKdG90YWw6IDAgZXJyb3JzLCAxIHdhcm5p
-bmdzLCA4MyBsaW5lcyBjaGVja2VkCgpQYXRjaCAyMC8yMiBoYXMgc3R5bGUgcHJvYmxlbXMsIHBs
-ZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMg
-cmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlO
-RVJTLgoyMS8yMiBDaGVja2luZyBjb21taXQgMDgyOGZlZWMzZGU5IChCb290TGludXhDb25zb2xl
-VGVzdDogVGVzdCB0aGUgUlgtVmlydCBtYWNoaW5lKQoyMi8yMiBDaGVja2luZyBjb21taXQgNjNk
-OGYyOWQ2NzFjIChxZW11LWRvYy50ZXhpOiBBZGQgUlggc2VjdGlvbi4pCj09PSBPVVRQVVQgRU5E
-ID09PQoKVGVzdCBjb21tYW5kIGV4aXRlZCB3aXRoIGNvZGU6IDEKCgpUaGUgZnVsbCBsb2cgaXMg
-YXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMjAwMjEyMTMwMzExLjEyNzUx
-NS0xLXlzYXRvQHVzZXJzLnNvdXJjZWZvcmdlLmpwL3Rlc3RpbmcuY2hlY2twYXRjaC8/dHlwZT1t
-ZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0
-cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXct
-ZGV2ZWxAcmVkaGF0LmNvbQ==
+On 12.02.20 14:35, David Hildenbrand wrote:
+> We already allow resizable ram blocks for anonymous memory, however, they
+> are not actually resized. All memory is mmaped() R/W, including the memory
+> exceeding the used_length, up to the max_length.
+> 
+> When resizing, effectively only the boundary is moved. Implement actually
+> resizable anonymous allocations and make use of them in resizable ram
+> blocks when possible. Memory exceeding the used_length will be
+> inaccessible. Especially ram block notifiers require care.
+> 
+> Having actually resizable anonymous allocations (via mmap-hackery) allows
+> to reserve a big region in virtual address space and grow the
+> accessible/usable part on demand. Even if "/proc/sys/vm/overcommit_memory"
+> is set to "never" under Linux, huge reservations will succeed. If there is
+> not enough memory when resizing (to populate parts of the reserved region),
+> trying to resize will fail. Only the actually used size is reserved in the
+> OS.
+> 
+> E.g., virtio-mem [1] wants to reserve big resizable memory regions and
+> grow the usable part on demand. I think this change is worth sending out
+> individually. Accompanied by a bunch of minor fixes and cleanups.
+> 
+> Especially, memory notifiers already handle resizing by first removing
+> the old region, and then re-adding the resized region. prealloc is
+> currently not possible with resizable ram blocks. mlock() should continue
+> to work as is. Resizing is currently rare and must only happen on the
+> start of an incoming migration, or during resets. No code path (except
+> HAX and SEV ram block notifiers) should access memory outside of the usable
+> range - and if we ever find one, that one has to be fixed (I did not
+> identify any).
+> 
+> v1 -> v2:
+> - Add "util: vfio-helpers: Fix qemu_vfio_close()"
+> - Add "util: vfio-helpers: Remove Error parameter from
+>        qemu_vfio_undo_mapping()"
+> - Add "util: vfio-helpers: Factor out removal from
+>        qemu_vfio_undo_mapping()"
+> - "util/mmap-alloc: ..."
+>  -- Minor changes due to review feedback (e.g., assert alignment, return
+>     bool when resizing)
+> - "util: vfio-helpers: Implement ram_block_resized()"
+>  -- Reserve max_size in the IOVA address space.
+>  -- On resize, undo old mapping and do new mapping. We can later implement
+>     a new ioctl to resize the mapping directly.
+> - "numa: Teach ram block notifiers about resizable ram blocks"
+>  -- Pass size/max_size to ram block notifiers, which makes things easier an
+>     cleaner
+> - "exec: Ram blocks with resizable anonymous allocations under POSIX"
+>  -- Adapt to new ram block notifiers
+>  -- Shrink after notifying. Always trigger ram block notifiers on resizes
+>  -- Add a safety net that all ram block notifiers registered at runtime
+>     support resizes.
+> 
+> [1] https://lore.kernel.org/kvm/20191212171137.13872-1-david@redhat.com/
+> 
+> David Hildenbrand (16):
+>   util: vfio-helpers: Factor out and fix processing of existing ram
+>     blocks
+>   util: vfio-helpers: Fix qemu_vfio_close()
+>   util: vfio-helpers: Remove Error parameter from
+>     qemu_vfio_undo_mapping()
+>   util: vfio-helpers: Factor out removal from qemu_vfio_undo_mapping()
+>   exec: Factor out setting ram settings (madvise ...) into
+>     qemu_ram_apply_settings()
+>   exec: Reuse qemu_ram_apply_settings() in qemu_ram_remap()
+>   exec: Drop "shared" parameter from ram_block_add()
+>   util/mmap-alloc: Factor out calculation of pagesize to mmap_pagesize()
+>   util/mmap-alloc: Factor out reserving of a memory region to
+>     mmap_reserve()
+>   util/mmap-alloc: Factor out populating of memory to mmap_populate()
+>   util/mmap-alloc: Prepare for resizable mmaps
+>   util/mmap-alloc: Implement resizable mmaps
+>   numa: Teach ram block notifiers about resizable ram blocks
+>   util: vfio-helpers: Implement ram_block_resized()
+>   util: oslib: Resizable anonymous allocations under POSIX
+>   exec: Ram blocks with resizable anonymous allocations under POSIX
+
+I should double check what I send out while doing last minute changes.
+Please ignore this series, will send the proper one right away.
+
+
+-- 
+Thanks,
+
+David / dhildenb
+
 
