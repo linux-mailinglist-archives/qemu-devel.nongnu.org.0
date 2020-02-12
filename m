@@ -2,81 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F31B315A247
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Feb 2020 08:41:46 +0100 (CET)
-Received: from localhost ([::1]:33092 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D661615A2DA
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Feb 2020 09:06:57 +0100 (CET)
+Received: from localhost ([::1]:33234 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j1meY-0004Uw-33
-	for lists+qemu-devel@lfdr.de; Wed, 12 Feb 2020 02:41:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57847)
+	id 1j1n2u-0002MH-Tr
+	for lists+qemu-devel@lfdr.de; Wed, 12 Feb 2020 03:06:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60943)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1j1md3-00036c-LZ
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 02:40:15 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1j1n1u-0001uT-4f
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 03:05:56 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1j1md2-0008MP-0q
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 02:40:13 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:48481
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <dgibson@ozlabs.org>) id 1j1n1s-0003OF-5H
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 03:05:53 -0500
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:53883 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1j1md1-0008M1-SQ
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 02:40:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581493211;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=mrHbuaMlnERkGtyLRhbM6jrYlqM8KMZduIIgctHI/SM=;
- b=anIyMXyub+Np/ROlsEYjho3cBZSjpkFbwVZLLcjc6nUhxoXAU/GP7mI/DgBpxgK/41hjQq
- hsIWsOcdiLi0i36yjoF+i59j3G9c1RkCRTUfTU9LDIjcnecjcn//48xZipyHo3t30bG4bG
- G7/1Sv5UWgmYmsqy8aC44/QV0hKvJ3A=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-47-j-azpxgmMTSP_z62io9-bA-1; Wed, 12 Feb 2020 02:40:09 -0500
-Received: by mail-qv1-f69.google.com with SMTP id d7so904370qvq.12
- for <qemu-devel@nongnu.org>; Tue, 11 Feb 2020 23:40:09 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=xVKePZgaphaDI35OhGGqEmHTyZDPeJtIwjix5bHryQw=;
- b=LNcV5UKM2NB7DodEsn3p8axe9HJkgXTc0FUAoue8w7PzSwJ79GUoKW+IzsFb/eL3xZ
- g3Hciouda2qSSkn83dwQEjMixJ/RLHds2kF3Y1tUHIGMZyePmTcjxWYagwgtF5vl/OPy
- xuMHLyc30i02kJZMQwQsq5PEmf+TIgUxQNwryAewe+/YGqcsTWzcvZn3NzP7Ua++HGga
- vqrC8U89wqZk13d6u8wFlOAa7KUUaUotQ9I5nuFs/CsWIHtz71tcBchjc9HAYeqU+DKU
- LCeSKD4pAN8D075QKOjYh4XIn8hSrT6N2XCj5XrMiIez6h5pV4NgRBc12uPyNtC5jih9
- w/4g==
-X-Gm-Message-State: APjAAAWb6j3TGKaZY0aJrsR2dEubHFsje3WMlpuEeCwTZtUiagX+IomC
- NGOx0x1IYoLx/q/Ecz8QOl7hAIiG56K3XG570fuvTaIAgjHfnPJnymbzn9Cgs/tmGYJ5hgiqbgN
- 6+8FpjzS/MsrMQ/I=
-X-Received: by 2002:a37:2e44:: with SMTP id u65mr4852229qkh.262.1581493209133; 
- Tue, 11 Feb 2020 23:40:09 -0800 (PST)
-X-Google-Smtp-Source: APXvYqyy+Ry1Zatw1m0sXpMx8HYxWWQ4COR7G3iFEl3z4TO+wr2swYRITwLGNXj+PQF406l4DPKOmQ==
-X-Received: by 2002:a37:2e44:: with SMTP id u65mr4852208qkh.262.1581493208834; 
- Tue, 11 Feb 2020 23:40:08 -0800 (PST)
-Received: from redhat.com (bzq-79-176-41-183.red.bezeqint.net. [79.176.41.183])
- by smtp.gmail.com with ESMTPSA id i28sm3841339qtc.57.2020.02.11.23.40.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 Feb 2020 23:40:08 -0800 (PST)
-Date: Wed, 12 Feb 2020 02:40:03 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Zha Bin <zhabin@linux.alibaba.com>
-Subject: Re: [PATCH v2 3/5] virtio-mmio: create a generic MSI irq domain
-Message-ID: <20200212023540-mutt-send-email-mst@kernel.org>
-References: <cover.1581305609.git.zhabin@linux.alibaba.com>
- <4c52548758eefe1fe7078d3b6f10492a001c0636.1581305609.git.zhabin@linux.alibaba.com>
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>) id 1j1n1r-0003L0-0G
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 03:05:52 -0500
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 48HXJV1WMNz9sNg; Wed, 12 Feb 2020 19:05:46 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1581494746;
+ bh=IGzmov+0cJgomEZP97UMK8ApIlBcyws4t7pmGf9P8RM=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=HRQ1FGUHrQO4O0G/6BYEiHyTjYUam0CWD8BeugOx9LcXgEoJ6YHVB5csa3D6aTWpp
+ LQSiIY/Begbs194+Gdeb1P20ckTvACgsRYz9QV8JDhm3Z1S/mmZwpQjFISp2CRf5DB
+ Z07wlIfS4aHoWj/bpnWqOT8K6CimmbBERb3QYFGo=
+Date: Wed, 12 Feb 2020 17:32:53 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: "Liu, Yi L" <yi.l.liu@intel.com>
+Subject: Re: [RFC v3 02/25] hw/iommu: introduce DualStageIOMMUObject
+Message-ID: <20200212063253.GA22584@umbus.fritz.box>
+References: <1580300216-86172-1-git-send-email-yi.l.liu@intel.com>
+ <1580300216-86172-3-git-send-email-yi.l.liu@intel.com>
+ <20200131035914.GF15210@umbus.fritz.box>
+ <A2975661238FB949B60364EF0F2C25743A1992F1@SHSMSX104.ccr.corp.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <4c52548758eefe1fe7078d3b6f10492a001c0636.1581305609.git.zhabin@linux.alibaba.com>
-X-MC-Unique: j-azpxgmMTSP_z62io9-bA-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="185D1s7FREAUfc0L"
 Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+In-Reply-To: <A2975661238FB949B60364EF0F2C25743A1992F1@SHSMSX104.ccr.corp.intel.com>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2401:3900:2:1::2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,212 +57,181 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-dev@lists.oasis-open.org, slp@redhat.com, jasowang@redhat.com,
- jing2.liu@linux.intel.com, linux-kernel@vger.kernel.org, qemu-devel@nongnu.org,
- chao.p.peng@linux.intel.com, gerry@linux.alibaba.com
+Cc: "Tian, Kevin" <kevin.tian@intel.com>,
+ Jacob Pan <jacob.jun.pan@linux.intel.com>, Yi Sun <yi.y.sun@linux.intel.com>,
+ "kvm@vger.kernel.org" <kvm@vger.kernel.org>, "mst@redhat.com" <mst@redhat.com>,
+ "Tian, Jun J" <jun.j.tian@intel.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "peterx@redhat.com" <peterx@redhat.com>,
+ "eric.auger@redhat.com" <eric.auger@redhat.com>,
+ "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>, "Sun, Yi Y" <yi.y.sun@intel.com>,
+ "Wu, Hao" <hao.wu@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Feb 10, 2020 at 05:05:19PM +0800, Zha Bin wrote:
-> From: Liu Jiang <gerry@linux.alibaba.com>
+
+--185D1s7FREAUfc0L
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Fri, Jan 31, 2020 at 11:42:06AM +0000, Liu, Yi L wrote:
+> Hi David,
 >=20
-> Create a generic irq domain for all architectures which
-> supports virtio-mmio. The device offering VIRTIO_F_MMIO_MSI
-> feature bit can use this irq domain.
+> > From: David Gibson [mailto:david@gibson.dropbear.id.au]
+> > Sent: Friday, January 31, 2020 11:59 AM
+> > To: Liu, Yi L <yi.l.liu@intel.com>
+> > Subject: Re: [RFC v3 02/25] hw/iommu: introduce DualStageIOMMUObject
+> >=20
+> > On Wed, Jan 29, 2020 at 04:16:33AM -0800, Liu, Yi L wrote:
+> > > From: Liu Yi L <yi.l.liu@intel.com>
+> > >
+> > > Currently, many platform vendors provide the capability of dual stage
+> > > DMA address translation in hardware. For example, nested translation
+> > > on Intel VT-d scalable mode, nested stage translation on ARM SMMUv3,
+> > > and etc. In dual stage DMA address translation, there are two stages
+> > > address translation, stage-1 (a.k.a first-level) and stage-2 (a.k.a
+> > > second-level) translation structures. Stage-1 translation results are
+> > > also subjected to stage-2 translation structures. Take vSVA (Virtual
+> > > Shared Virtual Addressing) as an example, guest IOMMU driver owns
+> > > stage-1 translation structures (covers GVA->GPA translation), and host
+> > > IOMMU driver owns stage-2 translation structures (covers GPA->HPA
+> > > translation). VMM is responsible to bind stage-1 translation structur=
+es
+> > > to host, thus hardware could achieve GVA->GPA and then GPA->HPA
+> > > translation. For more background on SVA, refer the below links.
+> > >  - https://www.youtube.com/watch?v=3DKq_nfGK5MwQ
+> > >  - https://events19.lfasiallc.com/wp-content/uploads/2017/11/\
+> > > Shared-Virtual-Memory-in-KVM_Yi-Liu.pdf
+> > >
+> > > As above, dual stage DMA translation offers two stage address mapping=
+s,
+> > > which could have better DMA address translation support for passthru
+> > > devices. This is also what vIOMMU developers are doing so far. Efforts
+> > > includes vSVA enabling from Yi Liu and SMMUv3 Nested Stage Setup from
+> > > Eric Auger.
+> > > https://www.spinics.net/lists/kvm/msg198556.html
+> > > https://lists.gnu.org/archive/html/qemu-devel/2019-07/msg02842.html
+> > >
+> > > Both efforts are aiming to expose a vIOMMU with dual stage hardware
+> > > backed. As so, QEMU needs to have an explicit object to stand for
+> > > the dual stage capability from hardware. Such object offers abstract
+> > > for the dual stage DMA translation related operations, like:
+> > >
+> > >  1) PASID allocation (allow host to intercept in PASID allocation)
+> > >  2) bind stage-1 translation structures to host
+> > >  3) propagate stage-1 cache invalidation to host
+> > >  4) DMA address translation fault (I/O page fault) servicing etc.
+> > >
+> > > This patch introduces DualStageIOMMUObject to stand for the hardware
+> > > dual stage DMA translation capability. PASID allocation/free are the
+> > > first operation included in it, in future, there will be more operati=
+ons
+> > > like bind_stage1_pgtbl and invalidate_stage1_cache and etc.
+> > >
+> > > Cc: Kevin Tian <kevin.tian@intel.com>
+> > > Cc: Jacob Pan <jacob.jun.pan@linux.intel.com>
+> > > Cc: Peter Xu <peterx@redhat.com>
+> > > Cc: Eric Auger <eric.auger@redhat.com>
+> > > Cc: Yi Sun <yi.y.sun@linux.intel.com>
+> > > Cc: David Gibson <david@gibson.dropbear.id.au>
+> > > Signed-off-by: Liu Yi L <yi.l.liu@intel.com>
+> >=20
+> > Several overall queries about this:
+> >=20
+> > 1) Since it's explicitly handling PASIDs, this seems a lot more
+> >    specific to SVM than the name suggests.  I'd suggest a rename.
 >=20
-> Signed-off-by: Liu Jiang <gerry@linux.alibaba.com>
-> Co-developed-by: Zha Bin <zhabin@linux.alibaba.com>
-> Signed-off-by: Zha Bin <zhabin@linux.alibaba.com>
-> Co-developed-by: Jing Liu <jing2.liu@linux.intel.com>
-> Signed-off-by: Jing Liu <jing2.liu@linux.intel.com>
-> Co-developed-by: Chao Peng <chao.p.peng@linux.intel.com>
-> Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
-> ---
->  drivers/base/platform-msi.c      |  4 +-
->  drivers/virtio/Kconfig           |  9 ++++
->  drivers/virtio/virtio_mmio_msi.h | 93 ++++++++++++++++++++++++++++++++++=
-++++++
->  include/linux/msi.h              |  1 +
->  4 files changed, 105 insertions(+), 2 deletions(-)
->  create mode 100644 drivers/virtio/virtio_mmio_msi.h
+> It is not specific to SVM in future. We have efforts to move guest
+> IOVA support based on host IOMMU's dual-stage DMA translation
+> capability.
+
+It's assuming the existence of pasids though, which is a rather more
+specific model than simply having two translation stages.
+
+> Then, guest IOVA support will also re-use the methods
+> provided by this abstract layer. e.g. the bind_guest_pgtbl() and
+> flush_iommu_iotlb().
 >=20
-> diff --git a/drivers/base/platform-msi.c b/drivers/base/platform-msi.c
-> index 8da314b..45752f1 100644
-> --- a/drivers/base/platform-msi.c
-> +++ b/drivers/base/platform-msi.c
-> @@ -31,12 +31,11 @@ struct platform_msi_priv_data {
->  /* The devid allocator */
->  static DEFINE_IDA(platform_msi_devid_ida);
-> =20
-> -#ifdef GENERIC_MSI_DOMAIN_OPS
->  /*
->   * Convert an msi_desc to a globaly unique identifier (per-device
->   * devid + msi_desc position in the msi_list).
->   */
-> -static irq_hw_number_t platform_msi_calc_hwirq(struct msi_desc *desc)
-> +irq_hw_number_t platform_msi_calc_hwirq(struct msi_desc *desc)
->  {
->  =09u32 devid;
-> =20
-> @@ -45,6 +44,7 @@ static irq_hw_number_t platform_msi_calc_hwirq(struct m=
-si_desc *desc)
->  =09return (devid << (32 - DEV_ID_SHIFT)) | desc->platform.msi_index;
->  }
-> =20
-> +#ifdef GENERIC_MSI_DOMAIN_OPS
->  static void platform_msi_set_desc(msi_alloc_info_t *arg, struct msi_desc=
- *desc)
->  {
->  =09arg->desc =3D desc;
-> diff --git a/drivers/virtio/Kconfig b/drivers/virtio/Kconfig
-> index 078615c..551a9f7 100644
-> --- a/drivers/virtio/Kconfig
-> +++ b/drivers/virtio/Kconfig
-> @@ -84,6 +84,15 @@ config VIRTIO_MMIO
-> =20
->   =09 If unsure, say N.
-> =20
-> +config VIRTIO_MMIO_MSI
-> +=09bool "Memory-mapped virtio device MSI"
-> +=09depends on VIRTIO_MMIO && GENERIC_MSI_IRQ_DOMAIN && GENERIC_MSI_IRQ
-> +=09help
-> +=09 This allows device drivers to support msi interrupt handling for
-> +=09 virtio-mmio devices. It can improve performance greatly.
-> +
-> +=09 If unsure, say N.
-> +
->  config VIRTIO_MMIO_CMDLINE_DEVICES
->  =09bool "Memory mapped virtio devices parameter parsing"
->  =09depends on VIRTIO_MMIO
-> diff --git a/drivers/virtio/virtio_mmio_msi.h b/drivers/virtio/virtio_mmi=
-o_msi.h
-> new file mode 100644
-> index 0000000..27cb2af
-> --- /dev/null
-> +++ b/drivers/virtio/virtio_mmio_msi.h
-> @@ -0,0 +1,93 @@
-> +/* SPDX-License-Identifier: GPL-2.0-or-later */
-> +#ifndef _DRIVERS_VIRTIO_VIRTIO_MMIO_MSI_H
-> +#define _DRIVERS_VIRTIO_VIRTIO_MMIO_MSI_H
-> +
-> +#ifdef CONFIG_VIRTIO_MMIO_MSI
-> +
-> +#include <linux/msi.h>
-> +#include <linux/irq.h>
-> +#include <linux/irqdomain.h>
-> +#include <linux/platform_device.h>
-> +
-> +static irq_hw_number_t mmio_msi_hwirq;
-> +static struct irq_domain *mmio_msi_domain;
+> For the naming, how about HostIOMMUContext? This layer is to provide
+> explicit methods for setting up dual-stage DMA translation in host.
 
-So each instance of including this header will create its own
-copy of the variables. That won't do the right thing.
+Uh.. maybe?  I'm still having trouble figuring out what this object
+really represents.
 
+> > 2) Why are you hand rolling structures of pointers, rather than making
+> >    this a QOM class or interface and putting those things into methods?
+>=20
+> Maybe the name is not proper. Although I named it as DualStageIOMMUObject,
+> it is actually a kind of abstract layer we discussed in previous email. I
+> think this is similar with VFIO_MAP/UNMAP. The difference is that VFIO_MA=
+P/
+> UNMAP programs mappings to host iommu domain. While the newly added expli=
+cit
+> method is to link guest page table to host iommu domain. VFIO_MAP/UNMAP
+> is exposed to vIOMMU emulators via MemoryRegion layer. right? Maybe addin=
+g a
+> similar abstract layer is enough. Is adding QOM really necessary for this
+> case?
 
-> +
-> +struct irq_domain *__weak arch_msi_root_irq_domain(void)
-> +{
-> +=09return NULL;
-> +}
-> +
-> +void __weak irq_msi_compose_msg(struct irq_data *data, struct msi_msg *m=
-sg)
-> +{
-> +}
-> +
-> +static void mmio_msi_mask_irq(struct irq_data *data)
-> +{
-> +}
-> +
-> +static void mmio_msi_unmask_irq(struct irq_data *data)
-> +{
-> +}
-> +
-> +static struct irq_chip mmio_msi_controller =3D {
-> +=09.name=09=09=09=3D "VIRTIO-MMIO-MSI",
-> +=09.irq_mask=09=09=3D mmio_msi_mask_irq,
-> +=09.irq_unmask=09=09=3D mmio_msi_unmask_irq,
-> +=09.irq_ack=09=09=3D irq_chip_ack_parent,
-> +=09.irq_retrigger=09=09=3D irq_chip_retrigger_hierarchy,
-> +=09.irq_compose_msi_msg=09=3D irq_msi_compose_msg,
-> +=09.flags=09=09=09=3D IRQCHIP_SKIP_SET_WAKE,
-> +};
-> +
-> +static int mmio_msi_prepare(struct irq_domain *domain, struct device *de=
-v,
-> +=09=09=09=09int nvec, msi_alloc_info_t *arg)
-> +{
-> +=09memset(arg, 0, sizeof(*arg));
-> +=09return 0;
-> +}
-> +
-> +static void mmio_msi_set_desc(msi_alloc_info_t *arg, struct msi_desc *de=
-sc)
-> +{
-> +=09mmio_msi_hwirq =3D platform_msi_calc_hwirq(desc);
-> +}
-> +
-> +static irq_hw_number_t mmio_msi_get_hwirq(struct msi_domain_info *info,
-> +=09=09=09=09=09      msi_alloc_info_t *arg)
-> +{
-> +=09return mmio_msi_hwirq;
-> +}
-> +
-> +static struct msi_domain_ops mmio_msi_domain_ops =3D {
-> +=09.msi_prepare=09=3D mmio_msi_prepare,
-> +=09.set_desc=09=3D mmio_msi_set_desc,
-> +=09.get_hwirq=09=3D mmio_msi_get_hwirq,
-> +};
-> +
-> +static struct msi_domain_info mmio_msi_domain_info =3D {
-> +=09.flags          =3D MSI_FLAG_USE_DEF_DOM_OPS |
-> +=09=09=09  MSI_FLAG_USE_DEF_CHIP_OPS |
-> +=09=09=09  MSI_FLAG_ACTIVATE_EARLY,
-> +=09.ops            =3D &mmio_msi_domain_ops,
-> +=09.chip           =3D &mmio_msi_controller,
-> +=09.handler        =3D handle_edge_irq,
-> +=09.handler_name   =3D "edge",
-> +};
-> +
-> +static inline void mmio_msi_create_irq_domain(void)
-> +{
-> +=09struct fwnode_handle *fn;
-> +=09struct irq_domain *parent =3D arch_msi_root_irq_domain();
-> +
-> +=09fn =3D irq_domain_alloc_named_fwnode("VIRTIO-MMIO-MSI");
-> +=09if (fn && parent) {
-> +=09=09mmio_msi_domain =3D
-> +=09=09=09platform_msi_create_irq_domain(fn,
-> +=09=09=09=09&mmio_msi_domain_info, parent);
-> +=09=09irq_domain_free_fwnode(fn);
-> +=09}
-> +}
+Um... sorry, I'm having a lot of trouble making any sense of that.
 
-It does not look like anyone cleans up this domain.
-So how does this work with a modular virtio mmio?
-what happens when you unload the module?
+> > 3) It's not really clear to me if this is for the case where both
+> >    stages of translation are visible to the guest, or only one of
+> >    them.
+>=20
+> For this case, vIOMMU will only expose a single stage translation to VM.
+> e.g. Intel VT-d, vIOMMU exposes first-level translation to guest. Hardware
+> IOMMUs with the dual-stage translation capability lets guest own stage-1
+> translation structures and host owns the stage-2 translation structures.
+> VMM is responsible to bind guest's translation structures to host and
+> enable dual-stage translation. e.g. on Intel VT-d, config translation type
+> to be NESTED.
 
+Ok, understood.
 
-> +#else
-> +static inline void mmio_msi_create_irq_domain(void) {}
-> +#endif
-> +
-> +#endif
-> diff --git a/include/linux/msi.h b/include/linux/msi.h
-> index 8ad679e..ee5f566 100644
-> --- a/include/linux/msi.h
-> +++ b/include/linux/msi.h
-> @@ -362,6 +362,7 @@ int platform_msi_domain_alloc(struct irq_domain *doma=
-in, unsigned int virq,
->  void platform_msi_domain_free(struct irq_domain *domain, unsigned int vi=
-rq,
->  =09=09=09      unsigned int nvec);
->  void *platform_msi_get_host_data(struct irq_domain *domain);
-> +irq_hw_number_t platform_msi_calc_hwirq(struct msi_desc *desc);
->  #endif /* CONFIG_GENERIC_MSI_IRQ_DOMAIN */
-> =20
->  #ifdef CONFIG_PCI_MSI_IRQ_DOMAIN
-> --=20
-> 1.8.3.1
+> Take guest SVM as an example, guest iommu driver owns the gVA->gPA mappin=
+gs,
+> which is treated as stage-1 translation from host point of view. Host its=
+elf
+> owns the gPA->hPPA translation and called stage-2 translation when dual-s=
+tage
+> translation is configured.
+>=20
+> For guest IOVA, it is similar with guest SVM. Guest iommu driver owns the
+> gIOVA->gPA mappings, which is treated as stage-1 translation. Host owns t=
+he
+> gPA->hPA translation.
 
+Ok, that makes sense.  It's still not really clear to me which part of
+this setup this object represents.
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--185D1s7FREAUfc0L
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl5DnBMACgkQbDjKyiDZ
+s5L0wxAAqn3HW9/zSf5J5Y8sgkr4tSCjrVrh5J3DVZk8buayTmrXQRl5NMGlAllJ
+z96k+OjQ+/otGLFU9RTSvxDeFGew7+WgksG/LsRqG8VFWGn2pg6sqwhssGETzoRQ
+oalhA+tZnwvk/+NGwT5R3fbv5hATtIzs7z3+tk6wifq7YGYfl3lbMZvkucELKwny
+geOEkZMtZf9GKJzraP1Ppj0SnJhGQ+de+7e68JoBbeCpcPye0/PmKISUpkp3PNWQ
++13544JCoDMiFFZk9Z5IFtzfqugxptbYwlpZ0OYhYNS1JcnlBcew7qqukhYWKn5e
+yDhHvu2Vvukvp0Q+a1h1MJ1moyQTqtC6Yu+eiMEziealMqEGvRqFhmRApNkEjUB0
+xs4tMdKYTLMTsNpTf3xsf0iX9FMtjZBwkdt8HaK6Uy9UAGSGhgi9eLKofoyZNYPZ
+uffICUI4q1sbCcu78zvfT+n4uhKSJNhlYm4ygNwOXYydI9MmJQCQGPcHaSjSSnrX
+IsY6RfiV8B1S8eVFXfxTQ2Hk/B6VKP2GhZml3bYHwJpnIcAnoYATJcU8miDVc/2i
+IP+ZdkwLscci5xUgQ/MsAA8ejlVo5EYaMwpbfwcpAT3HpHnbCk+5EbuckTuBz8Ig
+yr37//nX5/o8TujUi/E1mGXAhLKNEN6GXx8W5HAmrBo0E63hVXY=
+=7Fao
+-----END PGP SIGNATURE-----
+
+--185D1s7FREAUfc0L--
 
