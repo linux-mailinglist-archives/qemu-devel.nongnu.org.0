@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D77B215AD9B
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Feb 2020 17:44:29 +0100 (CET)
-Received: from localhost ([::1]:40316 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AB8215AD95
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Feb 2020 17:42:53 +0100 (CET)
+Received: from localhost ([::1]:40290 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j1v7k-0008V0-SR
-	for lists+qemu-devel@lfdr.de; Wed, 12 Feb 2020 11:44:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36600)
+	id 1j1v6C-00059Q-81
+	for lists+qemu-devel@lfdr.de; Wed, 12 Feb 2020 11:42:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36612)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j1v51-0003Fo-6v
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 11:41:40 -0500
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j1v53-0003Jb-05
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 11:41:41 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j1v50-0001gY-9M
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 11:41:39 -0500
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:41686)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j1v51-0001ie-WE
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 11:41:40 -0500
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:36349)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1j1v50-0001fm-3R
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 11:41:38 -0500
-Received: by mail-wr1-x435.google.com with SMTP id c9so3191290wrw.8
- for <qemu-devel@nongnu.org>; Wed, 12 Feb 2020 08:41:38 -0800 (PST)
+ id 1j1v51-0001i9-QH
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 11:41:39 -0500
+Received: by mail-wm1-x335.google.com with SMTP id p17so3298332wma.1
+ for <qemu-devel@nongnu.org>; Wed, 12 Feb 2020 08:41:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Sk9WshqGTq9cCur9E6esTWtP0xlnXywDapbkjl0RGOM=;
- b=Q6+kKDxBlMkENLKz28HVgnBJtW8Q5wB+Dbgs7tPkrz2SUaWnBKVs5g8472EBH6pkC/
- enGWcIAps1DJiDcZqkJoxRr5MvVkz6qzlZ8p9ISVs5Hkj9Fvg5pCn3Rv+nUomdYkpn7m
- jszlHhOc19DOpOYy3rHxtqAYWd8i7vi6Mk+fXOleynGWcJN859phidjtLYQGA83mPwyo
- itN0SXRq+QL8nUT5ufbHf9+S8RKGbdkFYM6CqqRtBuZcjEYaRQbVu87iOWF3KKlgSJ5t
- qjqVFju71PV7TT58YL6um4VPaQlN+SjxqBb0YNBFAoCqrkrshX2EQKoF2YwJAsmqnlOX
- 625w==
+ bh=Oo23LZ+bVDGb+bI6Wuhk5pe6slIqDak+OkHafTFG1M8=;
+ b=d7lj4n+gGvjSeLgmK0OhVz0NM90F/ZZqU2NfatMzFSfMg2FdpqcJW/t/bJxywR6LRu
+ DsbEF6qg6j8xQhoi8uzr+peOcrlRLJDx8caLvvKdVqipVLWzHq7+NnpEqje0rRoXl0ta
+ n3xugMBSBHdbC8tEuN3vrx5/mbyEBMZJXY9sdN4nXf18tzbCh2e+RarQgUyHETGSfHcU
+ mdhWNpH7Lzq+n2YH3RbwgiYGVs5+RgaAWCDre/PnnVOy+vKmwZrZNWOoQOtYRJYS8GRF
+ rX6z6E/rfX2QiAuphgA/WJFO4qkcfv3p+293pmZ9p7c/U8CBebODG/TXxr5rPctZq771
+ WAng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=Sk9WshqGTq9cCur9E6esTWtP0xlnXywDapbkjl0RGOM=;
- b=TB5wgJAbgCCmJicKzlHXiTyOmhSppbnYHsXT1FfNtTGcmBfCpboFkw6j7Cab+mfAPL
- Lzxx1R1YUEYB4J8RC2+4aW5A5USq0s0JqjhxiHtAvs2hbUhPDudG4Lp7ZFeNMBlo+3gG
- pNQYNKEHFzo1MdPW4iIRkoW7ojlnxuklhqk2omdhPomQUC/j7Frvv7t5PrPbVPE54t8j
- 7p3ZYILwcFY3acI1FYED0dthZTadsnV25JcWgz+/vI4Gd+DOb7UOb0y8NG0UX8gy5Dno
- 5zm4CHNLC1MZ7U5cJ3XDAfKzGd/Cm1B3XsJO+Q2tLQgCVd03DUmfKwhhWPtTl4p08xfy
- fxkg==
-X-Gm-Message-State: APjAAAXRlx1we93SRoXp///iBOTYyJdmu22bHMCrygoJV7TTTDkftlne
- yBl1MjPTfROtA0PcXo+N7zKAvQd3
-X-Google-Smtp-Source: APXvYqzMW9M8hAiYtzselwEvAJXNDK/EGBCOfZGvTJmRnyb2RU7e1mR95B315E7gVOZwsiXtqbZlTg==
-X-Received: by 2002:a5d:4709:: with SMTP id y9mr16103264wrq.412.1581525696743; 
- Wed, 12 Feb 2020 08:41:36 -0800 (PST)
+ bh=Oo23LZ+bVDGb+bI6Wuhk5pe6slIqDak+OkHafTFG1M8=;
+ b=qXhSdZDk1/RDgtuSqoQyFNgXiwpHbOW4Z4cFtiPAsnRlk86XaE5HDt2cohXnWf72Zp
+ 4mBAxpdV+PgIEciL/7mm5GQZ4QOsoBVFz4sljC653w2zEIlaUVImNnOcUFD8z515NsFB
+ K7KPqmAuQD7MLMoi/dSzcrs3zHil0e7gYKoYGrsrboY9ctfYe3XxCU4vjh8ak4b7ICa1
+ AtYIXaPB7Pp06Rv/btbRuKBVltnBe0jACAlOWiaiGEnalXVGao2SeFLKGnZyFOazD5wP
+ YVhf75qx+NcRoFCu5AE+zYkVmk+ToFktAV6proTHBe/bNsBb6oNFx5+BlJoylvk/YSw2
+ JakQ==
+X-Gm-Message-State: APjAAAWVzkUJwHTCPNv/yZPdNQs56uKdWhiClsmOhZZBeaI0ec6Z1mZi
+ keFlx5Sm+BOsheEQ/4IZXgnx5rHk
+X-Google-Smtp-Source: APXvYqyYRPihTdET1TDMyHzIpvQHHZAjXmCNuf4dgq93R4RQuwG+DbeMzt8e0ijVbEB37AdsQXcRxw==
+X-Received: by 2002:a05:600c:21c5:: with SMTP id
+ x5mr13987288wmj.72.1581525698598; 
+ Wed, 12 Feb 2020 08:41:38 -0800 (PST)
 Received: from donizetti.fritz.box ([151.30.86.140])
- by smtp.gmail.com with ESMTPSA id a16sm1195122wrt.30.2020.02.12.08.41.35
+ by smtp.gmail.com with ESMTPSA id a16sm1195122wrt.30.2020.02.12.08.41.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 12 Feb 2020 08:41:36 -0800 (PST)
+ Wed, 12 Feb 2020 08:41:37 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 4/9] minikconf: accept alnum identifiers
-Date: Wed, 12 Feb 2020 17:41:24 +0100
-Message-Id: <20200212164129.6968-5-pbonzini@redhat.com>
+Subject: [PULL 5/9] exec: do not define use_icount for user-mode emulation
+Date: Wed, 12 Feb 2020 17:41:25 +0100
+Message-Id: <20200212164129.6968-6-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200212164129.6968-1-pbonzini@redhat.com>
 References: <20200212164129.6968-1-pbonzini@redhat.com>
@@ -66,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::435
+X-Received-From: 2a00:1450:4864:20::335
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,31 +79,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-André Lureau <marcandre.lureau@redhat.com>
+use_icount is also defined by stubs/cpu-get-icount.c, we do not need
+to have a useless definition in exec.c.
 
-Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+Message-id: <20200204161036.20889-1-pbonzini@redhat.com>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- scripts/minikconf.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ exec.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/scripts/minikconf.py b/scripts/minikconf.py
-index 40ae1989e1..febd9a479f 100644
---- a/scripts/minikconf.py
-+++ b/scripts/minikconf.py
-@@ -645,7 +645,7 @@ class KconfigParser:
-             self.cursor = self.src.find('\n', self.cursor)
-             self.val = self.src[start:self.cursor]
-             return TOK_SOURCE
--        elif self.tok.isalpha():
-+        elif self.tok.isalnum():
-             # identifier
-             while self.src[self.cursor].isalnum() or self.src[self.cursor] == '_':
-                 self.cursor += 1
+diff --git a/exec.c b/exec.c
+index 67e520d18e..5fc3746053 100644
+--- a/exec.c
++++ b/exec.c
+@@ -98,15 +98,15 @@ CPUTailQ cpus = QTAILQ_HEAD_INITIALIZER(cpus);
+ /* current CPU in the current thread. It is only valid inside
+    cpu_exec() */
+ __thread CPUState *current_cpu;
+-/* 0 = Do not count executed instructions.
+-   1 = Precise instruction counting.
+-   2 = Adaptive rate instruction counting.  */
+-int use_icount;
+ 
+ uintptr_t qemu_host_page_size;
+ intptr_t qemu_host_page_mask;
+ 
+ #if !defined(CONFIG_USER_ONLY)
++/* 0 = Do not count executed instructions.
++   1 = Precise instruction counting.
++   2 = Adaptive rate instruction counting.  */
++int use_icount;
+ 
+ typedef struct PhysPageEntry PhysPageEntry;
+ 
 -- 
 2.21.0
 
