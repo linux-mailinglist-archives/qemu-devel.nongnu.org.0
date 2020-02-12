@@ -2,81 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED5F515B3F2
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Feb 2020 23:37:49 +0100 (CET)
-Received: from localhost ([::1]:44362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF85615B42B
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Feb 2020 23:56:41 +0100 (CET)
+Received: from localhost ([::1]:44542 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j20dg-00054T-PK
-	for lists+qemu-devel@lfdr.de; Wed, 12 Feb 2020 17:37:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45619)
+	id 1j20vw-0005Tt-Sn
+	for lists+qemu-devel@lfdr.de; Wed, 12 Feb 2020 17:56:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49188)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1j20cy-0004Vn-0C
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 17:37:05 -0500
+ (envelope-from <bounces@canonical.com>) id 1j20v9-00053K-6p
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 17:55:52 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1j20cw-0005xF-Mg
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 17:37:03 -0500
-Received: from mail-pj1-x1042.google.com ([2607:f8b0:4864:20::1042]:39246)
+ (envelope-from <bounces@canonical.com>) id 1j20v7-0004Lp-6S
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 17:55:50 -0500
+Received: from indium.canonical.com ([91.189.90.7]:49296)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1j20cw-0005wc-Dn
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 17:37:02 -0500
-Received: by mail-pj1-x1042.google.com with SMTP id e9so1495855pjr.4
- for <qemu-devel@nongnu.org>; Wed, 12 Feb 2020 14:37:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=7RomneQjE1BDZHcQ1b+trUZ64+juggZ5CxifJHgKC34=;
- b=S4oIIKfk5KzJpLxhqC5CdiBkoNrzOHRBsWT3usl8Dm0AFGD7ElOMMy6X/KH36XVpFm
- 7rSf7Ds31RzjkX7gpdLHHnVt5d/QFF5a8NaPzJAQaK894tyOStw7EkBHSpo7iKPRhUk2
- pNCM8JPvNsq3orRZvbYF3lvAsB1+18onhwCCr0Uyuzh5BlkgdONlxQvhNzxUd8CDUU+I
- O+/wut/8h8Z1FaFZilPm+/lgAWMnN4Kgz1j15TAbmILoLoFexqIjyz5fN9zryZ2s7b5z
- 8OOpPvc8064gjfSBlHURT3FLlmTNoQp/XGPV2ShAR+9mlCihnq5+XR5ld7YTHnhIW2Tx
- Vmlg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=7RomneQjE1BDZHcQ1b+trUZ64+juggZ5CxifJHgKC34=;
- b=YFQGvmVghhh762QxGhkzzzc0cUlgoM9whflLf18ggtBo1Spy1tEEKJBDCHGib9hhAp
- hfAo/Qgfm+ufwlJ2BnqGTWN6XfSUI6w/vm+L8W0P3fCQOTCZhjDmL51KOZ+w9GZg5fCz
- y+ODlOPJzBkjC6qvSHrZ2kvTqjKLuLJkwfZjcRJAq3O/UNLbIISCua28UiLD7u7F0MZs
- HmWe/vNgI7CZeDSrILFhsQpVyv5hKtGEXBvQiwgtcsdEPaUC+MTTTj9PPansIrvTOdSu
- uhlXSR+CxA/8ca1sPwARWqWki+6CQ9Rx10AyiB7Rva/EWHR73XTVBYK/w5vq7wFuFo36
- NWxQ==
-X-Gm-Message-State: APjAAAW2nhDK3EHr0GT3yG0U5zPYmiL0xoxedvUvxtLjCiYd0WcOBu9j
- qSwHEBAOaXIenewXWujOhSin3Q==
-X-Google-Smtp-Source: APXvYqxVNsRaoYrcKa0Fr0qb62323nPrDlFnl9CT6CVJPoLliyghkkGILQaQxH0GqL/Dhk+9dYwe0A==
-X-Received: by 2002:a17:90a:c390:: with SMTP id
- h16mr1465066pjt.131.1581547021013; 
- Wed, 12 Feb 2020 14:37:01 -0800 (PST)
-Received: from [192.168.1.11] (97-126-123-70.tukw.qwest.net. [97.126.123.70])
- by smtp.gmail.com with ESMTPSA id
- t28sm254365pfq.122.2020.02.12.14.36.59
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 12 Feb 2020 14:37:00 -0800 (PST)
-Subject: Re: [PULL 34/35] target/ppc: Use probe_write for DCBZ
-To: Greg Kurz <groug@kaod.org>, David Gibson <david@gibson.dropbear.id.au>
-References: <20200203061123.59150-1-david@gibson.dropbear.id.au>
- <20200203061123.59150-35-david@gibson.dropbear.id.au>
- <20200212194825.18da5290@bahia.lan>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <5b92b6e2-2bb9-2234-7cf3-0487d82fbf7c@linaro.org>
-Date: Wed, 12 Feb 2020 14:36:58 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1j20v7-0004JB-1G
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 17:55:49 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1j20v5-0008AU-Nr
+ for <qemu-devel@nongnu.org>; Wed, 12 Feb 2020 22:55:47 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 9DA232E8078
+ for <qemu-devel@nongnu.org>; Wed, 12 Feb 2020 22:55:47 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20200212194825.18da5290@bahia.lan>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::1042
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 12 Feb 2020 22:47:19 -0000
+From: crocket <crockabiscuit@gmail.com>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: crockabiscuit laurent-vivier
+X-Launchpad-Bug-Reporter: crocket (crockabiscuit)
+X-Launchpad-Bug-Modifier: crocket (crockabiscuit)
+References: <157762661516.5433.16221584605990009162.malonedeb@gac.canonical.com>
+Message-Id: <158154763916.30296.5905313912066757526.malone@wampee.canonical.com>
+Subject: [Bug 1857811] Re: qemu user static binary seems to lack support for
+ network namespace.
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="19413b719a8df7423ab1390528edadce9e0e4aca";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: efeb14222ebe67b24a61d3bc0271ae2507d9951c
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -85,77 +65,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, peter.maydell@linaro.org, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, Howard Spoelstra <hsp.cat7@gmail.com>
+Reply-To: Bug 1857811 <1857811@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/12/20 10:48 AM, Greg Kurz wrote:
-> On Mon,  3 Feb 2020 17:11:22 +1100
-> David Gibson <david@gibson.dropbear.id.au> wrote:
-> 
->> From: Richard Henderson <richard.henderson@linaro.org>
->>
->> Using probe_write instead of tlb_vaddr_to_host means that we
->> process watchpoints and notdirty pages more efficiently.
->>
->> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
->> Message-Id: <20200129235040.24022-5-richard.henderson@linaro.org>
->> Tested-by: Howard Spoelstra <hsp.cat7@gmail.com>
->> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
->> ---
->>  target/ppc/mem_helper.c | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/target/ppc/mem_helper.c b/target/ppc/mem_helper.c
->> index 0cb78777e7..98f589552b 100644
->> --- a/target/ppc/mem_helper.c
->> +++ b/target/ppc/mem_helper.c
->> @@ -298,7 +298,7 @@ static void dcbz_common(CPUPPCState *env, target_ulong addr,
->>      }
->>  
->>      /* Try fast path translate */
->> -    haddr = tlb_vaddr_to_host(env, addr, MMU_DATA_STORE, mmu_idx);
->> +    haddr = probe_write(env, addr, dcbz_size, mmu_idx, retaddr);
-> 
-> Hi Richard,
-> 
-> This one is making coverity unhappy.
-> 
-> 
-> ** CID 1419390:  Memory - corruptions  (OVERRUN)
-> 
-> 
-> ______________________________________________________________________________________________________
-> *** CID 1419390:  Memory - corruptions  (OVERRUN)
-> /target/ppc/mem_helper.c: 301 in dcbz_common()
-> 295         /* Check reservation */
-> 296         if ((env->reserve_addr & mask) == addr)  {
-> 297             env->reserve_addr = (target_ulong)-1ULL;
-> 298         }
-> 299     
-> 300         /* Try fast path translate */
->>>>     CID 1419390:  Memory - corruptions  (OVERRUN)
->>>>     Overrunning callee's array of size 9 by passing argument "mmu_idx" (which evaluates to 9) in call to "probe_write".  
-> 301         haddr = probe_write(env, addr, dcbz_size, mmu_idx, retaddr);
-> 302         if (haddr) {
-> 303             memset(haddr, 0, dcbz_size);
-> 304         } else {
-> 305             /* Slow path */
-> 306             for (i = 0; i < dcbz_size; i += 8) {
-> 
-> 
-> Can you have a look ?
+qemu-4.0.0
 
-That's a bit of a mystery, given
+> uname -a
+Linux gentoo 4.19.97-gentoo #3 SMP PREEMPT Mon Feb 10 15:09:44 KST 2020 x86=
+_64 AMD FX(tm)-8300 Eight-Core Processor AuthenticAMD GNU/Linux
 
-#define NB_MMU_MODES 10
+-- =
 
-So I wonder what array is supposed to be of size 9...
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1857811
 
-Ho hum.  False positive.  Expanding everything in the coverity gui shows it's
-taking the definition from target/xtensa/cpu-param.h.
+Title:
+  qemu user static binary seems to lack support for network namespace.
 
+Status in QEMU:
+  New
 
-r~
+Bug description:
+  Whenever I execute emerge in gentoo linux in qemu-aarch64 chroot, I
+  see the following error message.
+
+  Unable to configure loopback interface: Operation not supported
+
+  If I disable emerge's network-sandbox which utilizes network
+  namespace, the error disappears.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1857811/+subscriptions
 
