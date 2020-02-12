@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6025215AD97
-	for <lists+qemu-devel@lfdr.de>; Wed, 12 Feb 2020 17:43:15 +0100 (CET)
-Received: from localhost ([::1]:40296 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 724DA15AD9D
+	for <lists+qemu-devel@lfdr.de>; Wed, 12 Feb 2020 17:44:56 +0100 (CET)
+Received: from localhost ([::1]:40320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j1v6Y-0006CQ-EO
-	for lists+qemu-devel@lfdr.de; Wed, 12 Feb 2020 11:43:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36553)
+	id 1j1v8B-0001GS-Ex
+	for lists+qemu-devel@lfdr.de; Wed, 12 Feb 2020 11:44:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36561)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j1v4w-0003A5-F0
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j1v4w-0003Av-Ui
  for qemu-devel@nongnu.org; Wed, 12 Feb 2020 11:41:35 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1j1v4v-0001WS-Am
+ (envelope-from <paolo.bonzini@gmail.com>) id 1j1v4v-0001XS-Pv
  for qemu-devel@nongnu.org; Wed, 12 Feb 2020 11:41:34 -0500
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:43197)
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:45697)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1j1v4v-0001UF-2W
+ id 1j1v4v-0001VW-Jn
  for qemu-devel@nongnu.org; Wed, 12 Feb 2020 11:41:33 -0500
-Received: by mail-wr1-x442.google.com with SMTP id r11so3166917wrq.10
+Received: by mail-wr1-x430.google.com with SMTP id g3so3174969wrs.12
  for <qemu-devel@nongnu.org>; Wed, 12 Feb 2020 08:41:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=0IbAcXPnVNL1M99L3vAYUmiNlHM1q7zQnW91i3q1wDA=;
- b=QWZPqBcFTCdv7WOOpHVWZDV/ymF78kcO/Fc0ryg0eviHt2zwKsItSZrFaU1CW1wbKi
- GUNfwQx929V7pfvYfXPld4QaedcNr4fxQdiSTlNFoesOQ0PJIPVKs/Me2MSZUtjKRAY0
- tAstrhN5M2gtdrzUWYkaDEdIrk2RbLXa55C2W+EeWe7e8T386YcEvh9nN7gLJgNTY83n
- syHOYNzZrOCTz5XHnLYvB0vbqKKJBQdYMwaPVAv7q5L34DTNPEbuHqLw/yDzzIgNrC9B
- 1hs3IA6Wkwpc37LBdtIehI+iTvr2X2oUjI1eqf6NACs5WZi7fMdTnmOx+6Elvjr1DXcE
- g8YA==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=JT9C6l5cMam9Id8e97W1nQcd6eNpyd3ZDkBP7+S4YoY=;
+ b=kLg9vX/ceW2zrRYHMBPJQ+F88tGJek7bOgDLHOVfBEfnyhiuhRJJJptq+NyUShj2mu
+ TR4K54dYUOM5aqSSGmriAdosVdUlUMr9a4XZZTEl7PAciMUIk7EaaRx1NX6PnA4LShzg
+ IBW7ETBzOQoZCMi1YSkP79u6znaUzIn8kpLGhstAKdK45J3r+TtH8TGiQYq/v2JjZ55k
+ beUdsOZM8gUNG0VF034LMTgIuONKAkkcmwA2H7vFfv5obujXCGMVDe+0VmZBG8QSMFQ1
+ 4XHWM+g74VMCxGh0tE4dbfJFpFPQaQL0l5JYCqA7ZCybxRMKI8dfDMr6lxhR75qA7jU7
+ ETnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=0IbAcXPnVNL1M99L3vAYUmiNlHM1q7zQnW91i3q1wDA=;
- b=pDAiiM+t46LAUNR7A5kLhFYOGrOG8iCp+2ELvoK3CGr16zRdW/uRAnw3GKbtBWup6l
- b8E9x1U70djtJVMlL3SEjHq7Z/6n+oRU5MnZgLCcpBtXR9nhi+eXU8NGPFikc6SLyZV3
- x41Gy9EgoIR/5HPukqptoj3CjVefBBEa4mmOh7Q1snn0lFAxZmCkHUv7el8g1w0ctGNH
- /llzek5V2hugxasYv8e5xH6hUZZnJ5yU16IdW0HdJRrPkw/S2jHo4AlqTICtNlJdeOUB
- 3djPLcNsAWmIisObSB3ESrGIBPaoUF3JuEXa5dHBCtdigLoHqxnG3iL6qN5vD+cOkd5+
- Oz9g==
-X-Gm-Message-State: APjAAAX2IFJwvQ790Px/K2ZMkHBL6mWFPiktCwKJG6a8x9ItLBWZbOn7
- 0ms/q7gAmpgHi3qShnoupxjab+Gm
-X-Google-Smtp-Source: APXvYqyZi80wt1E2NY1+eD3wBELScR1fzEb4QXOjvaIB1C5nimMW+S4Yak3UTin24iDg7w7lA4x/ZA==
-X-Received: by 2002:adf:f64b:: with SMTP id x11mr15809499wrp.355.1581525691395; 
- Wed, 12 Feb 2020 08:41:31 -0800 (PST)
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=JT9C6l5cMam9Id8e97W1nQcd6eNpyd3ZDkBP7+S4YoY=;
+ b=ZW2kp4xkBOM/7aFyHCes7T9MPtmqOv4/fgnuvZr3cLFhUoV6Jf9CE8KAadGcXa+q6D
+ tPs0NwFD29lEkDqcxaMgIkugehATcWqOi22nhq/6xpYiVpoNV+SbhEPHL+/uKDFQko/J
+ zPMCILeqtcIx/tmaG+D6gSCtjWKXg7RNxCUzs6SWcOxAodT2sTlY/8IBWYWWA/35dK5P
+ SAuBvCt6hB/g9Bs2TakG+Vn8RfCGvmLs2NcG+MUD+kIZpcjqH9Qzc21yi7N4hSuqRII1
+ uF6CFvcdCyHd+pH3GzP6ugqXXcIBF/M2V754sTRpnKGgog+n2SElF/ShuxlM4tus8DXG
+ F7IA==
+X-Gm-Message-State: APjAAAWxLmcqxibfldWBBZhUU2wdVzujXaIgtoHdAuFnCR1M5xKA1h2c
+ sFf4Xi2UE5bYVZerVv3DgLdTN0em
+X-Google-Smtp-Source: APXvYqxyyAik/Ns4GkKTfUdfqSItmebsY6yELfJdH6bnYaGSr97vGniXdBcoHI75bE1Y48oFNM2hkA==
+X-Received: by 2002:a5d:5188:: with SMTP id k8mr1161196wrv.151.1581525692348; 
+ Wed, 12 Feb 2020 08:41:32 -0800 (PST)
 Received: from donizetti.fritz.box ([151.30.86.140])
- by smtp.gmail.com with ESMTPSA id a16sm1195122wrt.30.2020.02.12.08.41.30
- for <qemu-devel@nongnu.org>
+ by smtp.gmail.com with ESMTPSA id a16sm1195122wrt.30.2020.02.12.08.41.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 12 Feb 2020 08:41:30 -0800 (PST)
+ Wed, 12 Feb 2020 08:41:31 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/9] Mini misc patches queue for 2020-02-12
-Date: Wed, 12 Feb 2020 17:41:20 +0100
-Message-Id: <20200212164129.6968-1-pbonzini@redhat.com>
+Subject: [PULL 1/9] vl: Don't mismatch g_strsplit()/g_free()
+Date: Wed, 12 Feb 2020 17:41:21 +0100
+Message-Id: <20200212164129.6968-2-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20200212164129.6968-1-pbonzini@redhat.com>
+References: <20200212164129.6968-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::442
+X-Received-From: 2a00:1450:4864:20::430
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,61 +77,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Pan Nengyuan <pannengyuan@huawei.com>, Euler Robot <euler.robot@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 7bd9d0a9e26c7a3c67c0f174f0009ba19969b158:
+From: Pan Nengyuan <pannengyuan@huawei.com>
 
-  Merge remote-tracking branch 'remotes/huth-gitlab/tags/pull-request-2020-02-04' into staging (2020-02-04 16:12:31 +0000)
+It's a mismatch between g_strsplit and g_free, it will cause a memory leak as follow:
 
-are available in the Git repository at:
+[root@localhost]# ./aarch64-softmmu/qemu-system-aarch64 -accel help
+Accelerators supported in QEMU binary:
+tcg
+kvm
+=================================================================
+==1207900==ERROR: LeakSanitizer: detected memory leaks
 
-  git://github.com/bonzini/qemu.git tags/for-upstream
+Direct leak of 8 byte(s) in 2 object(s) allocated from:
+    #0 0xfffd700231cb in __interceptor_malloc (/lib64/libasan.so.4+0xd31cb)
+    #1 0xfffd6ec57163 in g_malloc (/lib64/libglib-2.0.so.0+0x57163)
+    #2 0xfffd6ec724d7 in g_strndup (/lib64/libglib-2.0.so.0+0x724d7)
+    #3 0xfffd6ec73d3f in g_strsplit (/lib64/libglib-2.0.so.0+0x73d3f)
+    #4 0xaaab66be5077 in main /mnt/sdc/qemu-master/qemu-4.2.0-rc0/vl.c:3517
+    #5 0xfffd6e140b9f in __libc_start_main (/lib64/libc.so.6+0x20b9f)
+    #6 0xaaab66bf0f53  (./build/aarch64-softmmu/qemu-system-aarch64+0x8a0f53)
 
-for you to fetch changes up to be02cda3afde60d219786e23c3f8edb53aec8e17:
+Direct leak of 2 byte(s) in 2 object(s) allocated from:
+    #0 0xfffd700231cb in __interceptor_malloc (/lib64/libasan.so.4+0xd31cb)
+    #1 0xfffd6ec57163 in g_malloc (/lib64/libglib-2.0.so.0+0x57163)
+    #2 0xfffd6ec7243b in g_strdup (/lib64/libglib-2.0.so.0+0x7243b)
+    #3 0xfffd6ec73e6f in g_strsplit (/lib64/libglib-2.0.so.0+0x73e6f)
+    #4 0xaaab66be5077 in main /mnt/sdc/qemu-master/qemu-4.2.0-rc0/vl.c:3517
+    #5 0xfffd6e140b9f in __libc_start_main (/lib64/libc.so.6+0x20b9f)
+    #6 0xaaab66bf0f53  (./build/aarch64-softmmu/qemu-system-aarch64+0x8a0f53)
 
-  target/i386: enable monitor and ucode revision with -cpu max (2020-02-12 16:29:51 +0100)
+Reported-by: Euler Robot <euler.robot@huawei.com>
+Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
+Message-Id: <20200110091710.53424-2-pannengyuan@huawei.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ vl.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-----------------------------------------------------------------
-* various small fixes and cleanups
-* fixes for the ucode revision patch from the previous pull request
-
-----------------------------------------------------------------
-Luc Michel (1):
-      seqlock: fix seqlock_write_unlock_impl function
-
-Marc-André Lureau (1):
-      minikconf: accept alnum identifiers
-
-Pan Nengyuan (1):
-      vl: Don't mismatch g_strsplit()/g_free()
-
-Paolo Bonzini (5):
-      exec: do not define use_icount for user-mode emulation
-      build: move TARGET_GPROF to config-host.mak
-      target/i386: fix TCG UCODE_REV access
-      target/i386: check for availability of MSR_IA32_UCODE_REV as an emulated MSR
-      target/i386: enable monitor and ucode revision with -cpu max
-
-Peter Maydell (1):
-      Remove support for CLOCK_MONOTONIC not being defined
-
- bsd-user/syscall.c        |  6 +++---
- configure                 |  4 +++-
- exec.c                    |  8 ++++----
- include/qemu/seqlock.h    |  4 ++--
- include/qemu/timer.h      |  5 +----
- linux-user/exit.c         |  4 ++--
- linux-user/signal.c       |  2 +-
- scripts/minikconf.py      |  2 +-
- target/i386/cpu.c         |  2 ++
- target/i386/kvm.c         |  7 +++++--
- target/i386/misc_helper.c |  8 ++++----
- tests/check-block.sh      |  2 +-
- util/qemu-timer-common.c  | 11 ++++-------
- vl.c                      |  2 +-
- 14 files changed, 34 insertions(+), 33 deletions(-)
+diff --git a/vl.c b/vl.c
+index 7dcb0879c4..c5beda7d48 100644
+--- a/vl.c
++++ b/vl.c
+@@ -3501,7 +3501,7 @@ int main(int argc, char **argv, char **envp)
+                             gchar **optname = g_strsplit(typename,
+                                                          ACCEL_CLASS_SUFFIX, 0);
+                             printf("%s\n", optname[0]);
+-                            g_free(optname);
++                            g_strfreev(optname);
+                         }
+                         g_free(typename);
+                     }
 -- 
 2.21.0
+
 
 
