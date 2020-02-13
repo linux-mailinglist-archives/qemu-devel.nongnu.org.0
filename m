@@ -2,67 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EDD315CE57
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 23:54:58 +0100 (CET)
-Received: from localhost ([::1]:60376 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B1E515CE5F
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 23:57:03 +0100 (CET)
+Received: from localhost ([::1]:60436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j2NNp-0001hZ-7d
-	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 17:54:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39681)
+	id 1j2NPq-0004eF-JJ
+	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 17:57:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39574)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1j2NKL-0004kL-0i
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 17:51:23 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1j2NKI-0004fb-MY
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 17:51:19 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1j2NKJ-0003mz-U4
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 17:51:20 -0500
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:40369)
+ (envelope-from <alex.bennee@linaro.org>) id 1j2NKH-0003iO-Mi
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 17:51:18 -0500
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:37297)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1j2NKJ-0003kY-M2
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 17:51:19 -0500
-Received: by mail-wr1-x441.google.com with SMTP id t3so8743312wru.7
- for <qemu-devel@nongnu.org>; Thu, 13 Feb 2020 14:51:19 -0800 (PST)
+ id 1j2NKH-0003ge-C4
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 17:51:17 -0500
+Received: by mail-wm1-x330.google.com with SMTP id a6so8631829wme.2
+ for <qemu-devel@nongnu.org>; Thu, 13 Feb 2020 14:51:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=dX/a2gresk53+psqLbyuBofhTGzw6h0OJ4TRN4KF5Rs=;
- b=IQtepx4vfMTvVFOK9Y6UxzAtq0SHyHWQqFQ8JI7tMZMn0QV+8Pd9bQxmtz+H9RONrL
- qSY9GCRkAYjQrCkd6Ic4oJsGvEDLeMqk6tZR15G+3/3n96moR1AMtwSOb0p5A/lgYVBe
- b/pN1oUsSpcdC8iKaPNv6o07d5ar0IDhD4ROL1+idItbz2+HCkPNqgvhnL8sZmC0mNFM
- sW7Cosw+jQdHUCMNCUdJOOuZeXZZXlMzroxcWW0x8UgBQYuZH4NX659rVNRFX6ut4hAt
- 8X309SO6JINTqM4tV5UpynLmITd5N0WCqLw2f0T6WrBtM/+BlwP22xNTJaWEAY6dsm8t
- /m7w==
+ bh=mRJBG/zc2GQpI0clN99w+344ScpJbk+vuaXsTd83iMo=;
+ b=FBbVtg0B2DtHIda3Y16/vX49BMh0/hFDiAFf3H6iP8zj9TOi6IuWuGSjXOWdVBtDNT
+ ibvl5q9JJltl62tVn1yLCo1z9AYydV86k9c0oK9QsjHKEiizGihoSYNte2fyMpoIw3Om
+ 8wegrkdFhlNjgDlvNAQ+6MqtgmuHHT6an7u+dwBmxFvh9//FTX5hTLA0vj5KxU84m0Dj
+ T7532m+E2xMCoqDz23adm1BHdcd8Va8GbqhL5KhEjxmAPvBM2EymicUt8R4dtZ8/VIS6
+ /D+5kJOhJk4zJeWyXWfLrVl+XNY1CfMS7PX+H7VPCmJuf+SfSF80dgIKaZw7wPqroj0q
+ c9ng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=dX/a2gresk53+psqLbyuBofhTGzw6h0OJ4TRN4KF5Rs=;
- b=hhqp1AfKa8BCWz2IoQ4TVZjXR6Oquy76f1IYx8RTGuMf1oDXmZsh4OA1Vdg1Y051ow
- JA/BnRjne3y/R4rIuqgV5lSCVpWEL2MalhqzJglBvsOvF+OKG+DgPyGGKtN3TsrA/GQM
- 6TudN2t/5jpLoNQAFtKdfwB+bYm3i72xHCNhQapIq9EF8UbJFSrxGtAwLAtu0Zh4A7iD
- k0lukPT/ZTcQ7h33ZJrHNC9BnchHmypQmGoA1EmRbdQAYnqK7mNw17KaeebE+ZaMOehI
- wI+7tGEeBishAkIJZLWjBTHMbZ2Y8moxqRKVx49kvFI2kYlS8XKNNtkf0Gp2Oj3oNb2C
- EQRQ==
-X-Gm-Message-State: APjAAAX0dFv36Ult3A+d1tegBZuXT0i9sGYtICQCOU4Gax/evkRcRh1T
- lg+BbJRIL/6Lc28bBKfgMirQKQ==
-X-Google-Smtp-Source: APXvYqxVlNOwSuluIVpSUIJTp1bpxZcIZMGZ5qLV6QfBdiWGN5qMo9fUTAq6tVcIQsBJFXkM8Hhq6w==
-X-Received: by 2002:a05:6000:124b:: with SMTP id
- j11mr22157353wrx.285.1581634278278; 
- Thu, 13 Feb 2020 14:51:18 -0800 (PST)
+ bh=mRJBG/zc2GQpI0clN99w+344ScpJbk+vuaXsTd83iMo=;
+ b=AghUQe7slmrsP/KqrR5uuCXI4JvcVfQFhYZG7+gGVfqK4m6MLauET2eft5Un5m5kNc
+ XjLR3B0xC9cyRhDHc5GwKJeHz43dGcYoFAM/Wpj3QxD24klOyu+V8VGZKScQrT3fz2ad
+ AdtvCuCzen/Jn7gKiaTkCAAEe8VNDh7nWeSo5/8NhrbLZRRkoiZmB5oC1t0uAdDvozwM
+ NEaWawNnV0A0p4WgN68XzPMBdWtPsqZcoeVD9wCj1pET92luLZWb+0diLHTtRmXYYFLz
+ Jt9+zdrHe/8ZWS0GqabGgws8aFKKM9vGMwqY0XGut23Da29E9i13z+RvUsxvdg7qLBOn
+ Lr6g==
+X-Gm-Message-State: APjAAAW+AxiTEAFumRF+QzRQmDA7IZLDEPvK0pE9jfhukgv5b5RBUiEA
+ HJXfRPHGLG4cqTzf8wEJAq1iEw==
+X-Google-Smtp-Source: APXvYqynCNmkW4jS9MOXirlbbMMtt8nDRPORg7lrwtr18L2aQ1wi07FeVgLTIqy8rJN3vvjLfilJSg==
+X-Received: by 2002:a1c:7907:: with SMTP id l7mr299383wme.37.1581634276342;
+ Thu, 13 Feb 2020 14:51:16 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id n3sm4841916wmc.27.2020.02.13.14.51.10
+ by smtp.gmail.com with ESMTPSA id a16sm4574682wrt.30.2020.02.13.14.51.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 13 Feb 2020 14:51:13 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id F3F8F1FF91;
- Thu, 13 Feb 2020 22:51:09 +0000 (GMT)
+ by zen.linaroharston (Postfix) with ESMTP id 150151FF92;
+ Thu, 13 Feb 2020 22:51:10 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 04/19] tests/rcutorture: mild documenting refactor of
- update thread
-Date: Thu, 13 Feb 2020 22:50:54 +0000
-Message-Id: <20200213225109.13120-5-alex.bennee@linaro.org>
+Subject: [PATCH  v2 05/19] travis.yml: Test the s390-ccw build, too
+Date: Thu, 13 Feb 2020 22:50:55 +0000
+Message-Id: <20200213225109.13120-6-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200213225109.13120-1-alex.bennee@linaro.org>
 References: <20200213225109.13120-1-alex.bennee@linaro.org>
@@ -71,7 +69,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::441
+X-Received-From: 2a00:1450:4864:20::330
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,98 +81,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com, robert.foley@linaro.org,
- pbonzini@redhat.com, stefanb@linux.vnet.ibm.com,
+Cc: fam@euphon.net, Thomas Huth <thuth@redhat.com>, berrange@redhat.com,
+ robert.foley@linaro.org, pbonzini@redhat.com, stefanb@linux.vnet.ibm.com,
+ "open list:S390 general arch..." <qemu-s390x@nongnu.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- richard.henderson@linaro.org, f4bug@amsat.org, robhenry@microsoft.com,
+ Cornelia Huck <cohuck@redhat.com>, richard.henderson@linaro.org,
+ f4bug@amsat.org, robhenry@microsoft.com,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  marcandre.lureau@redhat.com, aaron@os.amperecomputing.com, cota@braap.org,
  stefanha@redhat.com, kuhn.chenqun@huawei.com, peter.puhov@linaro.org,
  aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is mainly to help with reasoning what the test is trying to do.
-We can move rcu_stress_idx to a local variable as there is only ever
-one updater thread. I've also added an assert to catch the case where
-we end up updating the current structure to itself which is the only
-way I can see the mberror cases we are seeing on Travis.
+From: Thomas Huth <thuth@redhat.com>
 
-We shall see if the rcutorture test failures go away now.
+Since we can now use a s390x host on Travis, we can also build and
+test the s390-ccw bios images there. For this we have to make sure
+that roms/SLOF is checked out, too, and then move the generated *.img
+files to the right location before running the tests.
 
+Signed-off-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Acked-by: Cornelia Huck <cohuck@redhat.com>
+Message-Id: <20200206202543.7085-1-thuth@redhat.com>
 ---
- tests/rcutorture.c | 36 +++++++++++++++++++++++++++---------
- 1 file changed, 27 insertions(+), 9 deletions(-)
+ .travis.yml | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/tests/rcutorture.c b/tests/rcutorture.c
-index 256d24ed5ba..9559f13cd1f 100644
---- a/tests/rcutorture.c
-+++ b/tests/rcutorture.c
-@@ -236,7 +236,6 @@ struct rcu_stress {
+diff --git a/.travis.yml b/.travis.yml
+index 58870559515..ea13e071795 100644
+--- a/.travis.yml
++++ b/.travis.yml
+@@ -509,6 +509,16 @@ matrix:
+       env:
+         - TEST_CMD="make check check-tcg V=1"
+         - CONFIG="--disable-containers --target-list=${MAIN_SOFTMMU_TARGETS},s390x-linux-user"
++      script:
++        - ( cd ${SRC_DIR} ; git submodule update --init roms/SLOF )
++        - BUILD_RC=0 && make -j${JOBS} || BUILD_RC=$?
++        - |
++          if [ "$BUILD_RC" -eq 0 ] ; then
++              mv pc-bios/s390-ccw/*.img pc-bios/ ;
++              ${TEST_CMD} ;
++          else
++              $(exit $BUILD_RC);
++          fi
  
- struct rcu_stress rcu_stress_array[RCU_STRESS_PIPE_LEN] = { { 0 } };
- struct rcu_stress *rcu_stress_current;
--int rcu_stress_idx;
- int n_mberror;
- 
- /* Updates protected by counts_mutex */
-@@ -288,29 +287,48 @@ static void *rcu_read_stress_test(void *arg)
-     return NULL;
- }
- 
-+/*
-+ * Stress Test Updater
-+ *
-+ * The updater cycles around updating rcu_stress_current to point at
-+ * one of the rcu_stress_array_entries and resets it's pipe_count. It
-+ * then increments pipe_count of all the other entries. The pipe_count
-+ * will be read under an rcu_read_lock() and distribution of values
-+ * calculated. The final result gives an indication of how many
-+ * previously current rcu_stress entries are in flight until the RCU
-+ * cycle complete.
-+ */
- static void *rcu_update_stress_test(void *arg)
- {
--    int i;
--    struct rcu_stress *p;
-+    int i, rcu_stress_idx = 0;
-+    struct rcu_stress *cp = atomic_read(&rcu_stress_current);
- 
-     rcu_register_thread();
--
-     *(struct rcu_reader_data **)arg = &rcu_reader;
-+
-     while (goflag == GOFLAG_INIT) {
-         g_usleep(1000);
-     }
-+
-     while (goflag == GOFLAG_RUN) {
--        i = rcu_stress_idx + 1;
--        if (i >= RCU_STRESS_PIPE_LEN) {
--            i = 0;
-+        struct rcu_stress *p;
-+        rcu_stress_idx++;
-+        if (rcu_stress_idx >= RCU_STRESS_PIPE_LEN) {
-+            rcu_stress_idx = 0;
-         }
--        p = &rcu_stress_array[i];
-+        p = &rcu_stress_array[rcu_stress_idx];
-+        /* catching up with ourselves would be a bug */
-+        assert(p != cp);
-         p->mbtest = 0;
-         smp_mb();
-         p->pipe_count = 0;
-         p->mbtest = 1;
-         atomic_rcu_set(&rcu_stress_current, p);
--        rcu_stress_idx = i;
-+        cp = p;
-+        /*
-+         * New RCU structure is now live, update pipe counts on old
-+         * ones.
-+         */
-         for (i = 0; i < RCU_STRESS_PIPE_LEN; i++) {
-             if (i != rcu_stress_idx) {
-                 rcu_stress_array[i].pipe_count++;
+     # Release builds
+     # The make-release script expect a QEMU version, so our tag must start with a 'v'.
 -- 
 2.20.1
 
