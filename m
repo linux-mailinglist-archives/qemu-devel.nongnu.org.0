@@ -2,47 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1025515BA4F
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 08:54:11 +0100 (CET)
-Received: from localhost ([::1]:48500 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9942415BA6D
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 09:03:14 +0100 (CET)
+Received: from localhost ([::1]:48553 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j29K6-0003QR-4V
-	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 02:54:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58500)
+	id 1j29Sr-0006ch-My
+	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 03:03:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59714)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <robert.hu@linux.intel.com>) id 1j29J9-0002X2-DR
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 02:53:12 -0500
+ (envelope-from <rvkagan@yandex-team.ru>) id 1j29Rk-00066M-Rh
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 03:02:05 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <robert.hu@linux.intel.com>) id 1j29J8-0001wA-8K
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 02:53:11 -0500
-Received: from mga17.intel.com ([192.55.52.151]:53034)
+ (envelope-from <rvkagan@yandex-team.ru>) id 1j29Rj-0005xC-Em
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 03:02:04 -0500
+Received: from forwardcorp1j.mail.yandex.net ([2a02:6b8:0:1619::183]:59594)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <robert.hu@linux.intel.com>)
- id 1j29J8-0001uK-0B
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 02:53:10 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 12 Feb 2020 23:53:07 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,436,1574150400"; d="scan'208";a="381032029"
-Received: from sqa-gate.sh.intel.com (HELO robert-ivt.tsp.org)
- ([10.239.48.212])
- by orsmga004.jf.intel.com with ESMTP; 12 Feb 2020 23:53:05 -0800
-From: Robert Hoo <robert.hu@linux.intel.com>
-To: qemu-devel@nongnu.org, pbonzini@redhat.com, laurent@vivier.eu,
- philmd@redhat.com, berrange@redhat.com
-Subject: [PATCH 2/2] util: add util function buffer_zero_avx512()
-Date: Thu, 13 Feb 2020 15:52:59 +0800
-Message-Id: <1581580379-54109-3-git-send-email-robert.hu@linux.intel.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1581580379-54109-1-git-send-email-robert.hu@linux.intel.com>
-References: <1581580379-54109-1-git-send-email-robert.hu@linux.intel.com>
+ (Exim 4.71) (envelope-from <rvkagan@yandex-team.ru>)
+ id 1j29Re-0005u4-9J; Thu, 13 Feb 2020 03:01:58 -0500
+Received: from mxbackcorp1o.mail.yandex.net (mxbackcorp1o.mail.yandex.net
+ [IPv6:2a02:6b8:0:1a2d::301])
+ by forwardcorp1j.mail.yandex.net (Yandex) with ESMTP id 386672E09D9;
+ Thu, 13 Feb 2020 11:01:53 +0300 (MSK)
+Received: from myt5-70c90f7d6d7d.qloud-c.yandex.net
+ (myt5-70c90f7d6d7d.qloud-c.yandex.net [2a02:6b8:c12:3e2c:0:640:70c9:f7d])
+ by mxbackcorp1o.mail.yandex.net (mxbackcorp/Yandex) with ESMTP id
+ 98NdLBoO9o-1qLGHEwN; Thu, 13 Feb 2020 11:01:53 +0300
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1581580913; bh=xmwl9d/QOnFU5e1pk36cLHU0c2h2EIFHcdEx7t5akq0=;
+ h=In-Reply-To:Message-ID:Subject:To:From:References:Date:Cc;
+ b=Ic1GsgzceCyNkNKpeeTQLl/lc+zUk8J9xpBxjQHbR0G+VgUS+TbqYsvPRnEAWE2pZ
+ JnExfPtkccMPcjakS6u9ZLRtMqQLfLH4yBotn/HI0o6rhVmn5tCvnmxZefZzSmkhf7
+ Shp4dH0uLRgDKzreql8SoG/m5YpdDXz4lBI/HoAQ=
+Authentication-Results: mxbackcorp1o.mail.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Received: from dynamic-red.dhcp.yndx.net (dynamic-red.dhcp.yndx.net
+ [2a02:6b8:0:408:5417:48f1:724b:1a04])
+ by myt5-70c90f7d6d7d.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ nK5WwLc6Ef-1qVa4AoK; Thu, 13 Feb 2020 11:01:52 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+Date: Thu, 13 Feb 2020 11:01:51 +0300
+From: Roman Kagan <rvkagan@yandex-team.ru>
+To: Eric Blake <eblake@redhat.com>
+Subject: Re: [PATCH] block: make BlockConf.*_size properties 32-bit
+Message-ID: <20200213080151.GA85593@rvkaganb>
+Mail-Followup-To: Roman Kagan <rvkagan@yandex-team.ru>,
+ Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org
+References: <20200211115401.43230-1-rvkagan@yandex-team.ru>
+ <c79721ac-357f-6b9f-6d71-53f2cb72ef6e@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <c79721ac-357f-6b9f-6d71-53f2cb72ef6e@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 192.55.52.151
+X-Received-From: 2a02:6b8:0:1619::183
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,121 +73,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: robert.hu@intel.com, Robert Hoo <robert.hu@linux.intel.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-And initialize buffer_is_zero() with it, when Intel AVX512F is
-available on host.
+On Wed, Feb 12, 2020 at 03:44:19PM -0600, Eric Blake wrote:
+> On 2/11/20 5:54 AM, Roman Kagan wrote:
+> > Devices (virtio-blk, scsi, etc.) and the block layer are happy to use
+> > 32-bit for logical_block_size, physical_block_size, and min_io_size.
+> > However, the properties in BlockConf are defined as uint16_t limiting
+> > the values to 32768.
+> > 
+> > This appears unnecessary tight, and we've seen bigger block sizes handy
+> > at times.
+> 
+> What larger sizes?  I could see 64k or maybe even 1M block sizes,...
 
-This function utilizes Intel AVX512 fundamental instructions which
-perform over previous AVX2 instructions.
+We played exactly with these two :)
 
-Signed-off-by: Robert Hoo <robert.hu@linux.intel.com>
----
- include/qemu/cpuid.h |  3 +++
- util/bufferiszero.c  | 56 +++++++++++++++++++++++++++++++++++++++++++++++++---
- 2 files changed, 56 insertions(+), 3 deletions(-)
+> > 
+> > Make them 32 bit instead and lift the limitation.
+> > 
+> > Signed-off-by: Roman Kagan <rvkagan@yandex-team.ru>
+> > ---
+> >   hw/core/qdev-properties.c    | 21 ++++++++++++---------
+> >   include/hw/block/block.h     |  8 ++++----
+> >   include/hw/qdev-properties.h |  2 +-
+> >   3 files changed, 17 insertions(+), 14 deletions(-)
+> > 
+> > diff --git a/hw/core/qdev-properties.c b/hw/core/qdev-properties.c
+> > index 7f93bfeb88..5f84e4a3b8 100644
+> > --- a/hw/core/qdev-properties.c
+> > +++ b/hw/core/qdev-properties.c
+> > @@ -716,30 +716,32 @@ const PropertyInfo qdev_prop_pci_devfn = {
+> >   /* --- blocksize --- */
+> > +#define MIN_BLOCK_SIZE 512
+> > +#define MAX_BLOCK_SIZE 2147483648
+> 
+> ...but 2G block sizes are going to have tremendous performance problems.
+> 
+> I'm not necessarily opposed to the widening to a 32-bit type, but think you
+> need more justification or a smaller number for the max block size,
 
-diff --git a/include/qemu/cpuid.h b/include/qemu/cpuid.h
-index 6930170..09fc245 100644
---- a/include/qemu/cpuid.h
-+++ b/include/qemu/cpuid.h
-@@ -45,6 +45,9 @@
- #ifndef bit_AVX2
- #define bit_AVX2        (1 << 5)
- #endif
-+#ifndef bit_AVX512F
-+#define bit_AVX512F        (1 << 16)
-+#endif
- #ifndef bit_BMI2
- #define bit_BMI2        (1 << 8)
- #endif
-diff --git a/util/bufferiszero.c b/util/bufferiszero.c
-index bfb2605..cbb854a 100644
---- a/util/bufferiszero.c
-+++ b/util/bufferiszero.c
-@@ -187,12 +187,54 @@ buffer_zero_avx2(const void *buf, size_t len)
- #pragma GCC pop_options
- #endif /* CONFIG_AVX2_OPT */
- 
-+#ifdef CONFIG_AVX512F_OPT
-+#pragma GCC push_options
-+#pragma GCC target("avx512f")
-+#include <immintrin.h>
-+
-+static bool
-+buffer_zero_avx512(const void *buf, size_t len)
-+{
-+    __m512i t;
-+    __m512i *p, *e;
-+
-+    if (unlikely(len < 64)) { /*buff less than 512 bits, unlikely*/
-+        return buffer_zero_int(buf, len);
-+    }
-+    /* Begin with an unaligned head of 64 bytes.  */
-+    t = _mm512_loadu_si512(buf);
-+    p = (__m512i *)(((uintptr_t)buf + 5 * 64) & -64);
-+    e = (__m512i *)(((uintptr_t)buf + len) & -64);
-+
-+    /* Loop over 64-byte aligned blocks of 256.  */
-+    while (p < e) {
-+        __builtin_prefetch(p);
-+        if (unlikely(_mm512_test_epi64_mask(t, t))) {
-+            return false;
-+        }
-+        t = p[-4] | p[-3] | p[-2] | p[-1];
-+        p += 4;
-+    }
-+
-+    t |= _mm512_loadu_si512(buf + len - 4 * 64);
-+    t |= _mm512_loadu_si512(buf + len - 3 * 64);
-+    t |= _mm512_loadu_si512(buf + len - 2 * 64);
-+    t |= _mm512_loadu_si512(buf + len - 1 * 64);
-+
-+    return !_mm512_test_epi64_mask(t, t);
-+
-+}
-+#pragma GCC pop_options
-+#endif
-+
-+
- /* Note that for test_buffer_is_zero_next_accel, the most preferred
-  * ISA must have the least significant bit.
-  */
--#define CACHE_AVX2    1
--#define CACHE_SSE4    2
--#define CACHE_SSE2    4
-+#define CACHE_AVX512F 1
-+#define CACHE_AVX2    2
-+#define CACHE_SSE4    4
-+#define CACHE_SSE2    6
- 
- /* Make sure that these variables are appropriately initialized when
-  * SSE2 is enabled on the compiler command-line, but the compiler is
-@@ -226,6 +268,11 @@ static void init_accel(unsigned cache)
-         fn = buffer_zero_avx2;
-     }
- #endif
-+#ifdef CONFIG_AVX512F_OPT
-+    if (cache & CACHE_AVX512F) {
-+        fn = buffer_zero_avx512;
-+    }
-+#endif
-     buffer_accel = fn;
- }
- 
-@@ -255,6 +302,9 @@ static void __attribute__((constructor)) init_cpuid_cache(void)
-             if ((bv & 6) == 6 && (b & bit_AVX2)) {
-                 cache |= CACHE_AVX2;
-             }
-+            if ((bv & 6) == 6 && (b & bit_AVX512F)) {
-+                cache |= CACHE_AVX512F;
-+            }
-         }
-     }
-     cpuid_cache = cache;
--- 
-1.8.3.1
+I thought any smaller value would just be arbitrary and hard to reason
+about, so I went ahead with the max value that fit in the type and could
+be made visibile to the guest.
 
+Besides this is a property that is set explicitly, so I don't see a
+problem leaving this up to the user.
+
+> particularly since qcow2 refuses to use cluster sizes larger than 2M and it
+> makes no sense to allow a block size larger than a cluster size.
+
+This still doesn't contradict passing a bigger value to the guest, for
+experimenting if nothing else.
+
+Thanks,
+Roman.
 
