@@ -2,54 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B24815BE60
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 13:24:34 +0100 (CET)
-Received: from localhost ([::1]:51354 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44FBC15BE5E
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 13:23:39 +0100 (CET)
+Received: from localhost ([::1]:51344 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j2DXl-00021N-Hd
-	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 07:24:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39207)
+	id 1j2DWs-0000jd-9S
+	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 07:23:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39198)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1j2DUm-0006fc-UR
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 07:21:30 -0500
+ (envelope-from <laurent@vivier.eu>) id 1j2DUm-0006e5-09
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 07:21:29 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1j2DUl-0003S9-9H
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 07:21:28 -0500
-Received: from mout.kundenserver.de ([212.227.126.134]:49887)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1j2DUl-0003Qs-03
+ (envelope-from <laurent@vivier.eu>) id 1j2DUk-0003RQ-OO
  for qemu-devel@nongnu.org; Thu, 13 Feb 2020 07:21:27 -0500
+Received: from mout.kundenserver.de ([212.227.126.134]:33905)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1j2DUk-0003Pr-FJ
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 07:21:26 -0500
 Received: from localhost.localdomain ([78.238.229.36]) by
  mrelayeu.kundenserver.de (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MQ5nE-1ip4Lx1rV2-00M450; Thu, 13 Feb 2020 13:21:13 +0100
+ id 1MmDAW-1jkJjd48RM-00iDZO; Thu, 13 Feb 2020 13:21:14 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 4/5] linux-user: fix use of SIGRTMIN
-Date: Thu, 13 Feb 2020 13:21:07 +0100
-Message-Id: <20200213122108.965455-5-laurent@vivier.eu>
+Subject: [PULL 5/5] linux-user: implement TARGET_SO_PEERSEC
+Date: Thu, 13 Feb 2020 13:21:08 +0100
+Message-Id: <20200213122108.965455-6-laurent@vivier.eu>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200213122108.965455-1-laurent@vivier.eu>
 References: <20200213122108.965455-1-laurent@vivier.eu>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:MleeMIE0cAxKS0cEfFJvt48rVMBIGdRfm5bSToK1ySZ8kt1ZrX6
- d330DfzWiYOFYbZDh6WkLKq5+ffkq45cl3zmcm3I2f7auDk8kfsZmHQR/s0HL+q4CssYrZ2
- SbWRBkIgL2BgfyQfJC2hVJucVk8x2N1MnGgOE/bkmEClRJTCd3eNwAbaYyACmrR87p3s691
- 1mBUdqJquZOaohya2o33A==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:5Ic2Biv6Ui4=:p9ns19Vsp3jKY/I1OkYLBf
- 8vZnag5+r2LBljhPaP9KirU4sgBzLz+80IQ60G/iWaoWtHQ0fZaJ9xyUACEmuTVcp7g5L4/gc
- qSusjP7y6cGdCuYvrWtZdESoupaP0ePdevx4uV/Ky85La8CxbgjN6PQ2S8NRN8gX3bSbOFG0O
- vh5YlZmCE4TDE7XQE5HEKivBEstxqvLVrXzvhx0RTm7C8s2kbWJRrAVT5eXSiIZ7x/jsQmr3a
- n0R9pTBIDVKxDk7u3PGgxYDZDlLofvBUtI47WMJ0KSTKKcTK75ectW2IFU6Am3iael4Vg1bSE
- 7ygJvc30IGe7dhgZWClX0C48r7csLSCmV6MYeLEnJCxj4vIS1gVowyNFmIJbwS08a26qZ8RCj
- 3Y3ihfBnV+Qb7el+OSifIhzcQsYeFyWrWYftoqpJ/MdMm2Gr5wuLrKl9blEOp1fUYyVE+ADYh
- 4vaVeqe7Rmy05rwVlqSjpA5utxV50Zb4LuJoWS028aZ8OwwmkpGCN9LJFgnPuHFsvV5iAqv5O
- uhjI2B62s+t1j87DRLZlAOd6Qv+1mcnVCb2stNT996tjRuolucieTPZ3P8uF9LxV6WBzXCskN
- cCizM2YE7ftN6bOL4keGQzEKavvdd5lBKedB6iBYmRnTwThB7498qgC+md3HwLZtUFSjT8g9d
- 8BPl+88xqCkzGjoZ4sAl/AuJB57cgrUVkCapNr5xYRGiBvBsNfnK/3XLtc+f/3+peKVdgCzl2
- ycZfkpsjDH7FzsbL2tUBz5bdF2QV+Rye9aZJls43V9u/FxtKu/mC+FKMMYHF8ixyALgia95po
- 6TKXZlTJArUYFUEn4mFhpSnJkhdwYsSQh+EZW5HpdiQu7+LzvKJ/qW2pe9IPGHjTNSqqLWB
+X-Provags-ID: V03:K1:pXdY38UTIdcbZNZR88eBsXzg58bbI5HYUMzcwVSUd7ASq4azCuG
+ 7wK2FkvwqbCTlVA9qTPcECDpFoCm0aJoCbWlClrGq8sHilrsnESxZhN19va4WrS0bNVK9Yc
+ Vpu7fqpqH24Lrbc2q79+ryU1XGo01pcd0whueVtTmxCpypu9gC4gUb9SDXQI5jaa7xcmRRr
+ bZT8xaLjAsPeoLiGgOC3A==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:iJgSuFHQbf4=:DMRKxnf85KIDcqlFlFkITr
+ QA1q4lwoHgzvyGfBUi223bRs4815vC61J9qJLRz/1i7ZXozixt0RkGBOzO8lX/OaRHZB7ZJAk
+ YXugjmH1f5o5bheLdxlGwHeqnbVXVRO2Tge3tA+UqSrdzJkpwqFrj3nZuDKutaps0OOXawcE/
+ 4hUZQO2kfh+coH10nQJZMMPZajIfBF02mJWpJQ8eVd56fcvhkoCf2RTHiSpZA7o6ZsZIPw83T
+ r++h228FCAzLVrDDSDe/1Ttg6Hpxgqm/sEmqJWgDlFVIz0dEbT5BO/rIT2ZEpZM/j7Tx9Rkyd
+ ZZzpfd9DdataEjFFh62WOkfri8GKmqeECvGvBPWvTnQ+ZNws1u1k5O77khJYRkK8+EMkWB5m3
+ 4pXqnqhdIXiqUUvjYijKKCbFbZGn4yOHVc7vMSp1/JjH7la+ZvXzPe0lijC3QKvSfJP6SrtO0
+ 5A+H4yy9KyjNV58T+vdU/kJcMVVKA6JXObSXhz08hx83ujDGuFLC3cNvdOU0mloOc+GO9KOQG
+ Vs3PeCrjfX63pBXDrluWfBWrT82qW21NWDjfl45zT8hovKkraK7uRNRO2lrtB4zlGB4Rv9RaG
+ IPWhdYqbNUsrXZ1tpexwbGgAC3eDpncCEB9pB5Taa+yvKVCY63x6Rtgp/LFvyXKf2tkd77g6p
+ ncto1TkSpHp6/g+C4R5rzAEf4viwnZ19urwA8iOBMUpiV7AftkEYDAXRS8QYZV7XGRv9h140E
+ AahogyMdl+Qv+i+55TQqvW/z0kV7pStvElnRho4HR/XGsSvi0QK+mFWxlkSFGoh+GzvsCI7/G
+ JDTyG829HYGDU3XsWqeSUYYdSuH+NKQARdIBmByYXGZhXB5KDjjy955yV/nZGe/x5RfGJr5
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 212.227.126.134
 X-BeenThere: qemu-devel@nongnu.org
@@ -63,135 +64,125 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Taylor Simson <tsimpson@quicinc.com>, Riku Voipio <riku.voipio@iki.fi>,
- Laurent Vivier <laurent@vivier.eu>
+Cc: Riku Voipio <riku.voipio@iki.fi>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Laurent Vivier <laurent@vivier.eu>,
+ =?UTF-8?q?Matthias=20L=C3=BCscher?= <lueschem@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Some RT signals can be in use by glibc,
-it's why SIGRTMIN (34) is generally greater than __SIGRTMIN (32).
+"The purpose of this option is to allow an application to obtain the
+security credentials of a Unix stream socket peer.  It is analogous to
+SO_PEERCRED (which provides authentication using standard Unix credentials
+of pid, uid and gid), and extends this concept to other security
+models." -- https://lwn.net/Articles/62370/
 
-So SIGRTMIN cannot be mapped to TARGET_SIGRTMIN.
+Until now it was passed to the kernel with an "int" argument and
+fails when it was supported by the host because the parameter is
+like a filename: it is always a \0-terminated string with no embedded
+\0 characters, but is not guaranteed to be ASCII or UTF-8.
 
-Instead of swapping only SIGRTMIN and SIGRTMAX, map all the
-range [TARGET_SIGRTMIN ... TARGET_SIGRTMAX - X] to
-      [__SIGRTMIN + X ... SIGRTMAX ]
-(SIGRTMIN is __SIGRTMIN + X).
+I've tested the option with the following program:
 
+    /*
+     * cc -o getpeercon getpeercon.c
+     */
+
+    #include <stdio.h>
+    #include <sys/types.h>
+    #include <sys/socket.h>
+    #include <netinet/in.h>
+    #include <arpa/inet.h>
+
+    int main(void)
+    {
+        int fd;
+        struct sockaddr_in server, addr;
+        int ret;
+        socklen_t len;
+        char buf[256];
+
+        fd = socket(PF_INET, SOCK_STREAM, 0);
+        if (fd == -1) {
+            perror("socket");
+            return 1;
+        }
+
+        server.sin_family = AF_INET;
+        inet_aton("127.0.0.1", &server.sin_addr);
+        server.sin_port = htons(40390);
+
+        connect(fd, (struct sockaddr*)&server, sizeof(server));
+
+        len = sizeof(buf);
+        ret = getsockopt(fd, SOL_SOCKET, SO_PEERSEC, buf, &len);
+        if (ret == -1) {
+            perror("getsockopt");
+            return 1;
+        }
+        printf("%d %s\n", len, buf);
+        return 0;
+    }
+
+On host:
+
+  $ ./getpeercon
+  33 system_u:object_r:unlabeled_t:s0
+
+With qemu-aarch64/bionic without the patch:
+
+  $ ./getpeercon
+  getsockopt: Numerical result out of range
+
+With the patch:
+
+  $ ./getpeercon
+  33 system_u:object_r:unlabeled_t:s0
+
+Bug: https://bugs.launchpad.net/qemu/+bug/1823790
+Reported-by: Matthias Lüscher <lueschem@gmail.com>
+Tested-by: Matthias Lüscher <lueschem@gmail.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
-Reviewed-by: Taylor Simson <tsimpson@quicinc.com>
-Tested-by: Taylor Simpson <tsimpson@quicinc.com>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Message-Id: <20200212125658.644558-5-laurent@vivier.eu>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20200204211901.1731821-1-laurent@vivier.eu>
 ---
- linux-user/signal.c     | 50 ++++++++++++++++++++++++++++++++++++-----
- linux-user/trace-events |  3 +++
- 2 files changed, 48 insertions(+), 5 deletions(-)
+ linux-user/syscall.c | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
 
-diff --git a/linux-user/signal.c b/linux-user/signal.c
-index c1e664f97a7c..046159dd0c5b 100644
---- a/linux-user/signal.c
-+++ b/linux-user/signal.c
-@@ -498,18 +498,30 @@ static int core_dump_signal(int sig)
- 
- static void signal_table_init(void)
- {
--    int host_sig, target_sig;
-+    int host_sig, target_sig, count;
- 
-     /*
--     * Nasty hack: Reverse SIGRTMIN and SIGRTMAX to avoid overlap with
--     * host libpthread signals.  This assumes no one actually uses SIGRTMAX :-/
-+     * Signals are supported starting from TARGET_SIGRTMIN and going up
-+     * until we run out of host realtime signals.
-+     * glibc at least uses only the lower 2 rt signals and probably
-+     * nobody's using the upper ones.
-+     * it's why SIGRTMIN (34) is generally greater than __SIGRTMIN (32)
-      * To fix this properly we need to do manual signal delivery multiplexed
-      * over a single host signal.
-+     * Attempts for configure "missing" signals via sigaction will be
-+     * silently ignored.
-      */
--    host_to_target_signal_table[__SIGRTMIN] = __SIGRTMAX;
--    host_to_target_signal_table[__SIGRTMAX] = __SIGRTMIN;
-+    for (host_sig = SIGRTMIN; host_sig <= SIGRTMAX; host_sig++) {
-+        target_sig = host_sig - SIGRTMIN + TARGET_SIGRTMIN;
-+        if (target_sig <= TARGET_NSIG) {
-+            host_to_target_signal_table[host_sig] = target_sig;
-+        }
-+    }
- 
-     /* generate signal conversion tables */
-+    for (target_sig = 1; target_sig <= TARGET_NSIG; target_sig++) {
-+        target_to_host_signal_table[target_sig] = _NSIG; /* poison */
-+    }
-     for (host_sig = 1; host_sig < _NSIG; host_sig++) {
-         if (host_to_target_signal_table[host_sig] == 0) {
-             host_to_target_signal_table[host_sig] = host_sig;
-@@ -519,6 +531,15 @@ static void signal_table_init(void)
-             target_to_host_signal_table[target_sig] = host_sig;
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index d60142f0691c..c930577686da 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -2344,6 +2344,28 @@ static abi_long do_getsockopt(int sockfd, int level, int optname,
+             }
+             break;
          }
-     }
++        case TARGET_SO_PEERSEC: {
++            char *name;
 +
-+    if (trace_event_get_state_backends(TRACE_SIGNAL_TABLE_INIT)) {
-+        for (target_sig = 1, count = 0; target_sig <= TARGET_NSIG; target_sig++) {
-+            if (target_to_host_signal_table[target_sig] == _NSIG) {
-+                count++;
++            if (get_user_u32(len, optlen)) {
++                return -TARGET_EFAULT;
 +            }
++            if (len < 0) {
++                return -TARGET_EINVAL;
++            }
++            name = lock_user(VERIFY_WRITE, optval_addr, len, 0);
++            if (!name) {
++                return -TARGET_EFAULT;
++            }
++            lv = len;
++            ret = get_errno(getsockopt(sockfd, level, SO_PEERSEC,
++                                       name, &lv));
++            if (put_user_u32(lv, optlen)) {
++                ret = -TARGET_EFAULT;
++            }
++            unlock_user(name, optval_addr, lv);
++            break;
 +        }
-+        trace_signal_table_init(count);
-+    }
- }
- 
- void signal_init(void)
-@@ -817,6 +838,8 @@ int do_sigaction(int sig, const struct target_sigaction *act,
-     int host_sig;
-     int ret = 0;
- 
-+    trace_signal_do_sigaction_guest(sig, TARGET_NSIG);
-+
-     if (sig < 1 || sig > TARGET_NSIG || sig == TARGET_SIGKILL || sig == TARGET_SIGSTOP) {
-         return -TARGET_EINVAL;
-     }
-@@ -847,6 +870,23 @@ int do_sigaction(int sig, const struct target_sigaction *act,
- 
-         /* we update the host linux signal state */
-         host_sig = target_to_host_signal(sig);
-+        trace_signal_do_sigaction_host(host_sig, TARGET_NSIG);
-+        if (host_sig > SIGRTMAX) {
-+            /* we don't have enough host signals to map all target signals */
-+            qemu_log_mask(LOG_UNIMP, "Unsupported target signal #%d, ignored\n",
-+                          sig);
-+            /*
-+             * we don't return an error here because some programs try to
-+             * register an handler for all possible rt signals even if they
-+             * don't need it.
-+             * An error here can abort them whereas there can be no problem
-+             * to not have the signal available later.
-+             * This is the case for golang,
-+             *   See https://github.com/golang/go/issues/33746
-+             * So we silently ignore the error.
-+             */
-+            return 0;
-+        }
-         if (host_sig != SIGSEGV && host_sig != SIGBUS) {
-             sigfillset(&act1.sa_mask);
-             act1.sa_flags = SA_SIGINFO;
-diff --git a/linux-user/trace-events b/linux-user/trace-events
-index f6de1b8befc0..0296133daeb6 100644
---- a/linux-user/trace-events
-+++ b/linux-user/trace-events
-@@ -1,6 +1,9 @@
- # See docs/devel/tracing.txt for syntax documentation.
- 
- # signal.c
-+signal_table_init(int i) "number of unavailable signals: %d"
-+signal_do_sigaction_guest(int sig, int max) "target signal %d (MAX %d)"
-+signal_do_sigaction_host(int sig, int max) "host signal %d (MAX %d)"
- # */signal.c
- user_setup_frame(void *env, uint64_t frame_addr) "env=%p frame_addr=0x%"PRIx64
- user_setup_rt_frame(void *env, uint64_t frame_addr) "env=%p frame_addr=0x%"PRIx64
+         case TARGET_SO_LINGER:
+         {
+             struct linger lg;
 -- 
 2.24.1
 
