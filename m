@@ -2,72 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2CB015BF52
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 14:28:53 +0100 (CET)
-Received: from localhost ([::1]:52324 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B626315BFAC
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 14:47:08 +0100 (CET)
+Received: from localhost ([::1]:52588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j2EY1-000699-2B
-	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 08:28:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47686)
+	id 1j2Epf-00007k-H9
+	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 08:47:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58092)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1j2EX0-0005hX-1m
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 08:27:51 -0500
+ (envelope-from <miaoyubo@huawei.com>) id 1j29GL-00029X-3Y
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 02:50:17 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1j2EWy-0003AR-KX
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 08:27:49 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:27431
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <miaoyubo@huawei.com>) id 1j29GK-0000vL-0j
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 02:50:16 -0500
+Received: from szxga07-in.huawei.com ([45.249.212.35]:44314 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1j2EWy-0003A0-GT
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 08:27:48 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581600467;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=BVACvJE2iDdy2aQ/FlMkm7ngfFvDanAmGURJDONj6uY=;
- b=RsF6shW86vkzbRAhQS2m68JqzE+wylab8pEqhiQeapZoIkcRoSTrPkXEnu46L6wKSOAc7p
- OBiNm5rs19C96QmBAdbAyRgf8jHBNUjTL8xe/YUIMX1IkNuITw+zI7Znd6hjF35t6AYUJk
- /bSbTYyPLYslUTf0EUL4MuG/sHXrdro=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-124-J8Lie6gQNfudJt3PxnvdNA-1; Thu, 13 Feb 2020 08:27:46 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2DEA4800D41
- for <qemu-devel@nongnu.org>; Thu, 13 Feb 2020 13:27:44 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-117-234.ams2.redhat.com
- [10.36.117.234])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E330A60BF4;
- Thu, 13 Feb 2020 13:27:43 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 3E30E11385C9; Thu, 13 Feb 2020 14:27:42 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
-Subject: Re: [PATCH v5 4/8] multifd: Add multifd-zlib-level parameter
-References: <20200129115655.10414-1-quintela@redhat.com>
- <20200129115655.10414-5-quintela@redhat.com>
- <87eevhxtfv.fsf@dusky.pond.sub.org>
- <20200211185728.GQ55376@redhat.com>
-Date: Thu, 13 Feb 2020 14:27:42 +0100
-In-Reply-To: <20200211185728.GQ55376@redhat.com> ("Daniel P. =?utf-8?Q?Ber?=
- =?utf-8?Q?rang=C3=A9=22's?=
- message of "Tue, 11 Feb 2020 18:57:28 +0000")
-Message-ID: <871rqy62i9.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+ (Exim 4.71) (envelope-from <miaoyubo@huawei.com>) id 1j29GJ-0000ph-L3
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 02:50:15 -0500
+Received: from DGGEMS407-HUB.china.huawei.com (unknown [172.30.72.59])
+ by Forcepoint Email with ESMTP id BD8D327E415507F86BFD;
+ Thu, 13 Feb 2020 15:50:06 +0800 (CST)
+Received: from DESKTOP-D7EVK5B.china.huawei.com (10.173.221.29) by
+ DGGEMS407-HUB.china.huawei.com (10.3.19.207) with Microsoft SMTP Server id
+ 14.3.439.0; Thu, 13 Feb 2020 15:49:58 +0800
+From: Yubo Miao <miaoyubo@huawei.com>
+To: <peter.maydell@linaro.org>, <shannon.zhaosl@gmail.com>
+Subject: [RFC 0/2] pci_expander_brdige:acpi:Support pxb-pcie for ARM
+Date: Thu, 13 Feb 2020 15:49:50 +0800
+Message-ID: <20200213074952.544-1-miaoyubo@huawei.com>
+X-Mailer: git-send-email 2.24.1.windows.2
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: J8Lie6gQNfudJt3PxnvdNA-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain
+X-Originating-IP: [10.173.221.29]
+X-CFilter-Loop: Reflected
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+ [fuzzy]
+X-Received-From: 45.249.212.35
+X-Mailman-Approved-At: Thu, 13 Feb 2020 08:44:55 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,73 +52,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
- qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: imammedo@redhat.com, miaoyubo@huawei.com, qemu-devel@nongnu.org,
+ xiexiangyou@huawei.com, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
+From: miaoyubo <miaoyubo@huawei.com>
 
-> On Thu, Jan 30, 2020 at 09:03:00AM +0100, Markus Armbruster wrote:
->> Juan Quintela <quintela@redhat.com> writes:
->>=20
->> > It will indicate which level use for compression.
->> >
->> > Signed-off-by: Juan Quintela <quintela@redhat.com>
->>=20
->> This is slightly confusing (there is no zlib compression), unless you
->> peek at the next patch (which adds zlib compression).
->>=20
->> Three ways to make it less confusing:
->>=20
->> * Squash the two commits
->>=20
->> * Swap them: first add zlib compression with level hardcoded to 1, then
->>   make the level configurable.
->>=20
->> * Have the first commit explain itself better.  Something like
->>=20
->>     multifd: Add multifd-zlib-level parameter
->>=20
->>     This parameter specifies zlib compression level.  The next patch
->>     will put it to use.
->
-> Wouldn't the "normal" best practice for QAPI design be to use a
-> enum and discriminated union. eg
->
->   { 'enum': 'MigrationCompression',
->      'data': ['none', 'zlib'] }
->
->   { 'struct': 'MigrationCompressionParamsZLib',
->     'data': { 'compression-level' } }
->
->   { 'union':  'MigrationCompressionParams',
->     'base': { 'mode': 'MigrationCompression' },
->     'discriminator': 'mode',
->     'data': {
->       'zlib': 'MigrationCompressionParamsZLib',
->     }
+Currently pxb-pcie is not supported by arm and only one
+main host bridge is described in acpi tables, which means
+it is not impossible to present different io numas for different
+devices. This series of patches make arm to support PXB-PCIE.
 
-This expresses the connection between compression mode and level.  In
-general, we prefer that to a bunch of optional members where the
-comments say things like "member A can be present only when member B has
-value V", or worse "member A is silently ignored unless member B has
-value V".  However:
+Users can configure pxb-pcie with certain numa, Example command
+is:
 
-> Of course this is quite different from how migration parameters are
-> done today. Maybe it makes sense to stick with the flat list of
-> migration parameters for consistency & ignore normal QAPI design
-> practice ?
+   -device pxb-pcie,id=3Dpci.7,bus_nr=3D128,numa_node=3D0,bus=3Dpcie.0,ad=
+dr=3D0x9
 
-Unsure.  It's certainly ugly now.  Each parameter is defined in three
-places: enum MigrationParameter (for HMP), struct MigrateSetParameters
-(for QMP migrate-set-parameters), and struct MigrationParameters (for
-QMP query-migrate-parameters).
+Since devices could not be plugged into pxb-pcie directly, one
+pcie-root-port is auto plugged into the pxb, therefore, the devices
+could be plugged into pxb-pcie.
 
-I don't know how to make this better other than by starting over.
-I don't know whether starting over would result in enough of an
-improvement to make it worthwhile.
+With the patches,io numa could be presented to the guest by define a pxb-=
+pcie
+with the numa and plug the device into the pxb-pcie.
+
+miaoyubo (2):
+  arm: acpi: pci-expender-bus: Make arm to support PXB-PCIE
+  pci-expender-bus:Add pcie-root-port to pxb-pcie under arm.
+
+ hw/arm/virt-acpi-build.c            | 234 ++++++++++++++++++++++++++--
+ hw/pci-bridge/pci_expander_bridge.c |   9 ++
+ hw/pci-host/gpex.c                  |   4 +
+ include/hw/arm/virt.h               |   1 +
+ include/hw/pci/pcie_port.h          |   1 +
+ 5 files changed, 238 insertions(+), 11 deletions(-)
+
+--=20
+2.19.1
+
 
 
