@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 730E715C9FA
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 19:09:07 +0100 (CET)
-Received: from localhost ([::1]:57348 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5427B15C9D8
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 19:01:38 +0100 (CET)
+Received: from localhost ([::1]:57182 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j2IvC-0007vN-DV
-	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 13:09:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33846)
+	id 1j2Inw-0005MT-Jy
+	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 13:01:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33722)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j2Ijc-0000Ts-OY
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 12:57:10 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1j2IjY-0000JQ-NO
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 12:57:05 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j2IjX-0002WZ-5j
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 12:57:08 -0500
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:46094)
+ (envelope-from <peter.maydell@linaro.org>) id 1j2IjX-0002WQ-4w
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 12:57:04 -0500
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:43693)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j2IjW-0002S5-U2
+ id 1j2IjW-0002TL-UX
  for qemu-devel@nongnu.org; Thu, 13 Feb 2020 12:57:03 -0500
-Received: by mail-wr1-x434.google.com with SMTP id z7so7788648wrl.13
- for <qemu-devel@nongnu.org>; Thu, 13 Feb 2020 09:56:59 -0800 (PST)
+Received: by mail-wr1-x42d.google.com with SMTP id r11so7776296wrq.10
+ for <qemu-devel@nongnu.org>; Thu, 13 Feb 2020 09:57:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=A2//xF4cU9fngBLXdXyIv9i7RvZaILvkPN4bDJz6pxM=;
- b=U0GYZGnvwGmx7JLznGm9hVOateVotVkRb9aUaYbBA5NcAQkNIOOWh5EqQmTiK68wxg
- ThlZriYAnFjDSKhgfxFkAaBJ+EqveSwfT7vCiRxHTXVGYf+vCy6Ed1jKuL3W89sEebRu
- QQrUonxFWB3EimGddl7tTD3yA664xWNFdDu+yadN9rvzLkFAfh7KgYFsrAM1Qq1tk5b+
- Rbzz8FRmJs+znx6Tefvwl9HXzvvMrcCd/6ZovqgkIerbtWg+IfqnSsZBRV1GEGJl6SY4
- y12s3Z6cTWj9NFDPLBXTtdOCiocJa1bRlTtx36Dq6xMjeDBqTVbOfpv6uVet8zmW0rR+
- 9Cqg==
+ bh=4JzfbSfaGdZz4al+lIjrQuS06F81QxSYycFR01GlxW8=;
+ b=t5uW4ITj/cw5tMyjge1kQlVt5gRdlEpwv57S6oX3TLm/Go14RT+R4TZNWDz2hnYvsK
+ uplfLm4aGKSSOPLXcA/ATvvx62aw3PzhRtUKEVIUZjpkRoas6vC+0VJLjVkmsrc27/6x
+ nZFf+Q7fOUPOgSzrY0EnNkVf5dHoHRZoN8Ofeddf9NvrDb7O6SgpbT4+eQTiQ7+Obp26
+ eEoM7pN2V8ne04LEU6XIP6KPRaSsJvvkI08YKVGxfdGhIA1/9MQEd9twz0hWKkmSI1Oi
+ aoYuBawSyo7c1JRE9i6hNiAhYRHTjER7sl3XBFOPmWwS6MZ94uNJFs2ys/EuCDX3TFbF
+ k8gA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=A2//xF4cU9fngBLXdXyIv9i7RvZaILvkPN4bDJz6pxM=;
- b=A6RUa8drE9assr7KttEGck4i27yo5l3cE7XG4B4MTuxEbYe7RfnxeS+4IZGqCv0Ns9
- 9JkwJs1MqfvLOol2yZeIdzbkJJsxW3g8flzRIms48BgA/woxT9hhnT0emlO1IkiQWIw+
- 6ilmQvvbpIjLYSAG61X3tGjABJgOCndEOEYxqOe5sSFCxoQCsbpieCqtW+OayWkJ7xC9
- 4dospJDldTp+5MKOqtQg5XGS1t1ncQ2lMr5EJuFhR5mQik/VhxwOGBYbLPgv8/y6TZPK
- kB/fLThoPrazmNlCSOeFJYDZU2FeXuGjiz0VmODxyHSiDhdr/IAC33omPq0gsUlq7ky+
- EXog==
-X-Gm-Message-State: APjAAAWNm6ZI6qlE3THN4pq9UFt9TpyoGN6oWbEty8e0p4QZMy+jWvC/
- V0EaNnThbhYrAFD277nbUeJ8MHKlHIs=
-X-Google-Smtp-Source: APXvYqys9A4r9ErZKxx8Rn4o2ZOhb0vNkWQum/hj0nT62+o5d4X13K1rag/WuTmePnVeYN1xbBdZGw==
-X-Received: by 2002:a5d:6b03:: with SMTP id v3mr21788863wrw.289.1581616618568; 
- Thu, 13 Feb 2020 09:56:58 -0800 (PST)
+ bh=4JzfbSfaGdZz4al+lIjrQuS06F81QxSYycFR01GlxW8=;
+ b=eyNiTaGZVBH+7Bd+T1DkCwNdSSY5d14LXHYNshkkZX+C4Ayx8RA02ZgRWz7mK+Tu4e
+ c0tNev8RvLVhNPiN4wsHclQNeanRskCdO6TnfDOq3lOPrCoUQUf8FaoVtDzw2GznqA89
+ Sf6gHeYz90xiAN9wnFJff+xrv0sWiPVa8v5dKIoA6DShuTV7PBLeB/G35e4NwDnGAGxC
+ tiDT5Pk4t6FB/5nKz3CZs7w3lSuLPut2dPDpvYwP5udDB+4rwQJkf7UAvUZYmcDWBxPj
+ LBwU459CbbDb/C3CBXKp47J4tp3xCDNyg1G5ipL3OXQH6HArxMF1MQtyjPWIlxRoIZyM
+ 3qgA==
+X-Gm-Message-State: APjAAAWOo1qWx0IlPRQGc2A84aD6+YEB56czYrKCCn3qigPEYrpaEMHL
+ dPIQceVIETflwdms8YTu+Cm71ZYiZPY=
+X-Google-Smtp-Source: APXvYqyKj1rSYYrLvD2U51SDhrigyhTuQXBsIdOYZd/q8wyErv3fh/JAgD3vMUIJ8rn9dArBhhizfg==
+X-Received: by 2002:a5d:448c:: with SMTP id j12mr22422198wrq.125.1581616619927; 
+ Thu, 13 Feb 2020 09:56:59 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id p26sm3692913wmc.24.2020.02.13.09.56.57
+ by smtp.gmail.com with ESMTPSA id p26sm3692913wmc.24.2020.02.13.09.56.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Feb 2020 09:56:57 -0800 (PST)
+ Thu, 13 Feb 2020 09:56:59 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 06/30] qga/qapi-schema.json: minor format fixups for rST
-Date: Thu, 13 Feb 2020 17:56:23 +0000
-Message-Id: <20200213175647.17628-7-peter.maydell@linaro.org>
+Subject: [PATCH v2 07/30] qapi/block-core.json: Use literal block for ascii art
+Date: Thu, 13 Feb 2020 17:56:24 +0000
+Message-Id: <20200213175647.17628-8-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200213175647.17628-1-peter.maydell@linaro.org>
 References: <20200213175647.17628-1-peter.maydell@linaro.org>
@@ -65,7 +65,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::434
+X-Received-From: 2a00:1450:4864:20::42d
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,184 +84,53 @@ Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-rST format requires a blank line before the start of a bulleted
-or enumerated list. Two places in qapi-schema.json were missing
-this blank line.
+The ascii-art graph in the BlockLatencyHistogramInfo documentation
+doesn't render correctly, because the whitespace is collapsed.
 
-Some places were using an indented line as a sort of single-item
-bulleted list, which in the texinfo output comes out all run
-onto a single line; use a real bulleted list instead.
+Use the '|' format that emits a literal 'example' block so the graph
+is displayed correctly.
 
-Some places unnecessarily indented lists, which confuses rST.
+Strictly the texinfo generated is still wrong because each line
+goes into its own @example environment, but it renders better
+than what we had before.
 
-guest-fstrim:minimum's documentation was indented the
-right amount to share a line with @minimum, but wasn't
-actually doing so.
-
-The indent on the bulleted list in the guest-set-vcpus
-Returns section meant rST misindented it.
-
-Changes to the generated texinfo are very minor (the new
-bulleted lists, and a few extra blank lines).
+Fixing this rendering is a necessary prerequisite for the rST
+generator, which otherwise complains about the inconsistent
+indentation in the ascii-art graph.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- qga/qapi-schema.json | 94 ++++++++++++++++++++++++--------------------
- 1 file changed, 51 insertions(+), 43 deletions(-)
+v1->v2: tweaked commit message, made graph still line up
+with preceding paragraph text
+---
+ qapi/block-core.json | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/qga/qapi-schema.json b/qga/qapi-schema.json
-index 7661b2b3b45..f6fcb59f34b 100644
---- a/qga/qapi-schema.json
-+++ b/qga/qapi-schema.json
-@@ -510,8 +510,7 @@
+diff --git a/qapi/block-core.json b/qapi/block-core.json
+index ef94a296868..db9ca688d49 100644
+--- a/qapi/block-core.json
++++ b/qapi/block-core.json
+@@ -550,13 +550,13 @@
+ #        For the example above, @bins may be something like [3, 1, 5, 2],
+ #        and corresponding histogram looks like:
  #
- # Discard (or "trim") blocks which are not in use by the filesystem.
+-#        5|           *
+-#        4|           *
+-#        3| *         *
+-#        2| *         *    *
+-#        1| *    *    *    *
+-#         +------------------
+-#             10   50   100
++# |      5|           *
++# |      4|           *
++# |      3| *         *
++# |      2| *         *    *
++# |      1| *    *    *    *
++# |       +------------------
++# |           10   50   100
  #
--# @minimum:
--#           Minimum contiguous free range to discard, in bytes. Free ranges
-+# @minimum: Minimum contiguous free range to discard, in bytes. Free ranges
- #           smaller than this may be ignored (this is a hint and the guest
- #           may not respect it).  By increasing this value, the fstrim
- #           operation will complete more quickly for filesystems with badly
-@@ -546,7 +545,8 @@
- # (or set its status to "shutdown") due to other reasons.
- #
- # The following errors may be returned:
--#          If suspend to disk is not supported, Unsupported
-+#
-+# - If suspend to disk is not supported, Unsupported
- #
- # Notes: It's strongly recommended to issue the guest-sync command before
- #        sending commands when the guest resumes
-@@ -575,12 +575,14 @@
- #
- # This command does NOT return a response on success. There are two options
- # to check for success:
--#   1. Wait for the SUSPEND QMP event from QEMU
--#   2. Issue the query-status QMP command to confirm the VM status is
--#      "suspended"
-+#
-+# 1. Wait for the SUSPEND QMP event from QEMU
-+# 2. Issue the query-status QMP command to confirm the VM status is
-+#    "suspended"
- #
- # The following errors may be returned:
--#          If suspend to ram is not supported, Unsupported
-+#
-+# - If suspend to ram is not supported, Unsupported
- #
- # Notes: It's strongly recommended to issue the guest-sync command before
- #        sending commands when the guest resumes
-@@ -607,12 +609,14 @@
- #
- # This command does NOT return a response on success. There are two options
- # to check for success:
--#   1. Wait for the SUSPEND QMP event from QEMU
--#   2. Issue the query-status QMP command to confirm the VM status is
--#      "suspended"
-+#
-+# 1. Wait for the SUSPEND QMP event from QEMU
-+# 2. Issue the query-status QMP command to confirm the VM status is
-+#    "suspended"
- #
- # The following errors may be returned:
--#          If hybrid suspend is not supported, Unsupported
-+#
-+# - If hybrid suspend is not supported, Unsupported
- #
- # Notes: It's strongly recommended to issue the guest-sync command before
- #        sending commands when the guest resumes
-@@ -767,18 +771,22 @@
- # Returns: The length of the initial sublist that has been successfully
- #          processed. The guest agent maximizes this value. Possible cases:
- #
--#          - 0:              if the @vcpus list was empty on input. Guest state
--#                            has not been changed. Otherwise,
--#          - Error:          processing the first node of @vcpus failed for the
--#                            reason returned. Guest state has not been changed.
--#                            Otherwise,
--#          - < length(@vcpus): more than zero initial nodes have been processed,
--#                            but not the entire @vcpus list. Guest state has
--#                            changed accordingly. To retrieve the error
--#                            (assuming it persists), repeat the call with the
--#                            successfully processed initial sublist removed.
--#                            Otherwise,
--#          - length(@vcpus): call successful.
-+#          - 0:
-+#            if the @vcpus list was empty on input. Guest state
-+#            has not been changed. Otherwise,
-+#          - Error:
-+#            processing the first node of @vcpus failed for the
-+#            reason returned. Guest state has not been changed.
-+#            Otherwise,
-+#          - < length(@vcpus):
-+#            more than zero initial nodes have been processed,
-+#            but not the entire @vcpus list. Guest state has
-+#            changed accordingly. To retrieve the error
-+#            (assuming it persists), repeat the call with the
-+#            successfully processed initial sublist removed.
-+#            Otherwise,
-+#          - length(@vcpus):
-+#            call successful.
- #
- # Since: 1.5
+ # Since: 4.0
  ##
-@@ -1182,35 +1190,35 @@
- # @GuestOSInfo:
- #
- # @kernel-release:
--#     * POSIX: release field returned by uname(2)
--#     * Windows: build number of the OS
-+# * POSIX: release field returned by uname(2)
-+# * Windows: build number of the OS
- # @kernel-version:
--#     * POSIX: version field returned by uname(2)
--#     * Windows: version number of the OS
-+# * POSIX: version field returned by uname(2)
-+# * Windows: version number of the OS
- # @machine:
--#     * POSIX: machine field returned by uname(2)
--#     * Windows: one of x86, x86_64, arm, ia64
-+# * POSIX: machine field returned by uname(2)
-+# * Windows: one of x86, x86_64, arm, ia64
- # @id:
--#     * POSIX: as defined by os-release(5)
--#     * Windows: contains string "mswindows"
-+# * POSIX: as defined by os-release(5)
-+# * Windows: contains string "mswindows"
- # @name:
--#     * POSIX: as defined by os-release(5)
--#     * Windows: contains string "Microsoft Windows"
-+# * POSIX: as defined by os-release(5)
-+# * Windows: contains string "Microsoft Windows"
- # @pretty-name:
--#     * POSIX: as defined by os-release(5)
--#     * Windows: product name, e.g. "Microsoft Windows 10 Enterprise"
-+# * POSIX: as defined by os-release(5)
-+# * Windows: product name, e.g. "Microsoft Windows 10 Enterprise"
- # @version:
--#     * POSIX: as defined by os-release(5)
--#     * Windows: long version string, e.g. "Microsoft Windows Server 2008"
-+# * POSIX: as defined by os-release(5)
-+# * Windows: long version string, e.g. "Microsoft Windows Server 2008"
- # @version-id:
--#     * POSIX: as defined by os-release(5)
--#     * Windows: short version identifier, e.g. "7" or "20012r2"
-+# * POSIX: as defined by os-release(5)
-+# * Windows: short version identifier, e.g. "7" or "20012r2"
- # @variant:
--#     * POSIX: as defined by os-release(5)
--#     * Windows: contains string "server" or "client"
-+# * POSIX: as defined by os-release(5)
-+# * Windows: contains string "server" or "client"
- # @variant-id:
--#     * POSIX: as defined by os-release(5)
--#     * Windows: contains string "server" or "client"
-+# * POSIX: as defined by os-release(5)
-+# * Windows: contains string "server" or "client"
- #
- # Notes:
- #
 -- 
 2.20.1
 
