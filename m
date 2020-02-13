@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C084D15C0E0
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 16:01:14 +0100 (CET)
-Received: from localhost ([::1]:54124 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC28315C102
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 16:06:29 +0100 (CET)
+Received: from localhost ([::1]:54248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j2FzM-00031z-2i
-	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 10:01:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60475)
+	id 1j2G4S-0001U8-NZ
+	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 10:06:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60477)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j2FhM-0004kU-TV
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 09:42:38 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1j2FhN-0004kd-CD
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 09:42:39 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j2FhC-0002HH-Oa
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 09:42:32 -0500
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:35572)
+ (envelope-from <peter.maydell@linaro.org>) id 1j2FhC-0002I9-UV
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 09:42:33 -0500
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:34121)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j2FhC-0002Ee-I2
+ id 1j2FhC-0002Gc-O5
  for qemu-devel@nongnu.org; Thu, 13 Feb 2020 09:42:26 -0500
-Received: by mail-wr1-x429.google.com with SMTP id w12so6997298wrt.2
+Received: by mail-wm1-x341.google.com with SMTP id s144so7258313wme.1
  for <qemu-devel@nongnu.org>; Thu, 13 Feb 2020 06:42:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=B4itb9kIDkgDxpdKjzasmbvHH8eIShpCoXlgDew/PyI=;
- b=Won5PYxRo25UM/ElpmKlqGBZOZhrYjMfXAHJJmpp96LwZMFFc4k2vT/+PPFXp3Ww1K
- TowLse4c00bLeW2WGYXwMab/2wjdYF9Pp42TE3lHWfcd8quf149KVEUVuP6L3E9q68fm
- OocJQAWpuIQTB+RP3UHFglhZ7CuRtgnHG6IEQKIJ7aPPru9uhjCsv53tQCHxLfbDr/5l
- yGF0RqURA1wRMr6rciMrZ8UUnpgtP2dx+YysbO+G46oo6GMcFFH7LOkBEWUmGPkFIUbx
- DO9EQ2jjYoeZssNL8Bwvq94XstmCO7pseCgbCTKekrZeLu/pfAw8f23Sokm1+0hof5mR
- mxgg==
+ bh=5os6T9iOh7dBv5fGrw979h37TvZ3kqm7dXAx5e9KJF4=;
+ b=bkCuQ/YcOtpLi53t48Ps16ySnvhDQ2b10r53alETUR5CILzHtuSVjyuDYdZQ2UO/+B
+ QZ884Qh1negW4LXWG1OGCjf13cXQhigfP0hsR4WJdNXmspKb0VcYMTqQEY87e14nqV6I
+ jtRGKrd/abFkKqCvKxSoKuBTrwJuBnc2BYIC8l1cMhCbEr109HtTas/YAFDI5pZy7Xfs
+ ymhfUySemIL1aqLn3xqY3IRaFHedPa4zN4o9/lyeOrxT1Il+lhn5mPze/MB20u7/LEL9
+ lxjnOQ1EGJG+hEF+DlcRGHnpmMnvysx2eqprKZpEEJR/ej04e987bAb/t/0mEmih+0SE
+ hkaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=B4itb9kIDkgDxpdKjzasmbvHH8eIShpCoXlgDew/PyI=;
- b=alEahApgIuw8t5AJo/KNq3Z+oq39AqRG8poK/i4lHnv5CL9hV4qFZXvwgpnHK/mg10
- bf1cYLCA8KeOVwJfGkrRH2XUudAx34sk8W6SWtRX0HPhB0C5yVbuuwxjLSv26e96Fm/7
- 5Zky/TBShZ+HEcwa9H9UG8yLGguC9QLDuxf/MN+IR1NLemLncKIpdtqCzlyRW4/9BpID
- /hVJaPmMv1tAML6RkrRRAaCdMz2MHxcG/ubm4Xu+36Vvzy0bmH7ybqwti0qPy+5QB58B
- sJHEJhCoogoIUWjPFOD7hRvSW8QRqEZ2OLHQwpeOvQpG2NVT33xKoxM1QEHp0WDPnt99
- gFfA==
-X-Gm-Message-State: APjAAAVAbO2P3d547Tplwnhf1BFU5zpozoMbI3vktol2FRDH7lHwVfXr
- lYI9GHCNA5qcM1JXnYWLBveb9K0Dej8=
-X-Google-Smtp-Source: APXvYqzKZZVhegR/5a/95BpbLA6+ofciBM0xPKzrgryWbg9L/8pzT6WocNomELXevcaIkTUPH0y+1w==
-X-Received: by 2002:a5d:4984:: with SMTP id r4mr21287909wrq.137.1581604943047; 
- Thu, 13 Feb 2020 06:42:23 -0800 (PST)
+ bh=5os6T9iOh7dBv5fGrw979h37TvZ3kqm7dXAx5e9KJF4=;
+ b=h/urqrC42NCva8mgHSGGfx3n0CjN1KgjqWVilqG/nMD3YQ6buY3W+DQfYfbNdX74VV
+ wfx+9B8hDx/DDpRdoO87+ICkkOiHSXLRdL8hSj+M4gELnPUpDWEWl9j8NIXhdzDlHceB
+ aOzSNrvdsN4/ZO3Jgw3q4T8rM+96BSb4EY0u0wO9CUpmmhK+7Hv2I05p56Ah0bWzRKtA
+ A/8CCjlsmsTtq7MZXQC7WiDTKEzxbmhEphgL8tNZPzLMPhIIT/MmnATB2+PC/e/IaSrT
+ wz+udvyND+9wI3okxAHWKeB4URVVyCwsqdJ0rWhkLQcr+N+Gqj5VM3iCGhKn9zuKixRS
+ 9yYA==
+X-Gm-Message-State: APjAAAW5SQvOEMmAL/DoUq/0p7rbFZIBAQnFOC9+WY01Ns2EqievzXGF
+ wLxjKhgGnutK2Eg14mvRCdF0WK5/BI4=
+X-Google-Smtp-Source: APXvYqzoABP5IiZ1UswY7prYBtEXtFsD08NXC3cv26QJwmqHE3f1531Mk2iH4RaIkcL5+v0pPM526w==
+X-Received: by 2002:a1c:9854:: with SMTP id a81mr6008245wme.1.1581604945388;
+ Thu, 13 Feb 2020 06:42:25 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id e22sm3362454wme.45.2020.02.13.06.42.22
+ by smtp.gmail.com with ESMTPSA id e22sm3362454wme.45.2020.02.13.06.42.24
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Feb 2020 06:42:22 -0800 (PST)
+ Thu, 13 Feb 2020 06:42:24 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 31/46] hw/arm: ast2600: Wire up EHCI controllers
-Date: Thu, 13 Feb 2020 14:41:30 +0000
-Message-Id: <20200213144145.818-32-peter.maydell@linaro.org>
+Subject: [PULL 33/46] hw/arm/raspi: Use BCM2708 machine type with pre Device
+ Tree kernels
+Date: Thu, 13 Feb 2020 14:41:32 +0000
+Message-Id: <20200213144145.818-34-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200213144145.818-1-peter.maydell@linaro.org>
 References: <20200213144145.818-1-peter.maydell@linaro.org>
@@ -67,7 +68,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::429
+X-Received-From: 2a00:1450:4864:20::341
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,93 +83,108 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Guenter Roeck <linux@roeck-us.net>
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Initialize EHCI controllers on AST2600 using the existing
-TYPE_PLATFORM_EHCI. After this change, booting ast2600-evb
-into Linux successfully instantiates a USB interface after
-the necessary changes are made to its devicetree files.
+When booting without device tree, the Linux kernels uses the $R1
+register to determine the machine type. The list of values is
+registered at [1].
 
-ehci_hcd: USB 2.0 'Enhanced' Host Controller (EHCI) Driver
-ehci-platform: EHCI generic platform driver
-ehci-platform 1e6a3000.usb: EHCI Host Controller
-ehci-platform 1e6a3000.usb: new USB bus registered, assigned bus number 1
-ehci-platform 1e6a3000.usb: irq 25, io mem 0x1e6a3000
-ehci-platform 1e6a3000.usb: USB 2.0 started, EHCI 1.00
-usb usb1: Manufacturer: Linux 5.5.0-09825-ga0802f2d0ef5-dirty ehci_hcd
-usb 1-1: new high-speed USB device number 2 using ehci-platform
+There are two entries for the Raspberry Pi:
 
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
-Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+- https://www.arm.linux.org.uk/developer/machines/list.php?mid=3138
+  name: MACH_TYPE_BCM2708
+  value: 0xc42 (3138)
+  status: Active, not mainlined
+  date: 15 Oct 2010
+
+- https://www.arm.linux.org.uk/developer/machines/list.php?mid=4828
+  name: MACH_TYPE_BCM2835
+  value: 4828
+  status: Active, mainlined
+  date: 6 Dec 2013
+
+QEMU always used the non-mainlined type MACH_TYPE_BCM2708.
+The value 0xc43 is registered to 'MX51_GGC' (processor i.MX51), and
+0xc44 to 'Western Digital Sharespace NAS' (processor Marvell 88F5182).
+
+The Raspberry Pi foundation bootloader only sets the BCM2708 machine
+type, see [2] or [3]:
+
+ 133 9:
+ 134     mov r0, #0
+ 135     ldr r1, =3138       @ BCM2708 machine id
+ 136     ldr r2, atags       @ ATAGS
+ 137     bx  r4
+
+U-Boot only uses MACH_TYPE_BCM2708 (see [4]):
+
+ 25 /*
+ 26  * 2835 is a SKU in a series for which the 2708 is the first or primary SoC,
+ 27  * so 2708 has historically been used rather than a dedicated 2835 ID.
+ 28  *
+ 29  * We don't define a machine type for bcm2709/bcm2836 since the RPi Foundation
+ 30  * chose to use someone else's previously registered machine ID (3139, MX51_GGC)
+ 31  * rather than obtaining a valid ID:-/
+ 32  *
+ 33  * For the bcm2837, hopefully a machine type is not needed, since everything
+ 34  * is DT.
+ 35  */
+
+While the definition MACH_BCM2709 with value 0xc43 was introduced in
+a commit described "Add 2709 platform for Raspberry Pi 2" out of the
+mainline Linux kernel, it does not seem used, and the platform is
+introduced with Device Tree support anyway (see [5] and [6]).
+
+Remove the unused values (0xc43 introduced in commit 1df7d1f9303aef
+"raspi: add raspberry pi 2 machine" and 0xc44 in commit bade58166f4
+"raspi: Raspberry Pi 3 support"), keeping only MACH_TYPE_BCM2708.
+
+[1] https://www.arm.linux.org.uk/developer/machines/
+[2] https://github.com/raspberrypi/tools/blob/920c7ed2e/armstubs/armstub7.S#L135
+[3] https://github.com/raspberrypi/tools/blob/49719d554/armstubs/armstub7.S#L64
+[4] https://gitlab.denx.de/u-boot/u-boot/blob/v2015.04/include/configs/rpi-common.h#L18
+[5] https://github.com/raspberrypi/linux/commit/d9fac63adac#diff-6722037d79570df5b392a49e0e006573R526
+[6] http://lists.infradead.org/pipermail/linux-rpi-kernel/2015-February/001268.html
+
+Cc: Zoltán Baldaszti <bztemail@gmail.com>
+Cc: Pekka Enberg <penberg@iki.fi>
+Cc: Stephen Warren <swarren@nvidia.com>
+Cc: Kshitij Soni <kshitij.soni@broadcom.com>
+Cc: Michael Chan <michael.chan@broadcom.com>
+Cc: Andrew Baumann <Andrew.Baumann@microsoft.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Niek Linnenbank <nieklinnenbank@gmail.com>
-Message-id: 20200207174548.9087-1-linux@roeck-us.net
+Message-id: 20200208165645.15657-2-f4bug@amsat.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/aspeed_ast2600.c | 23 +++++++++++++++++++++++
- 1 file changed, 23 insertions(+)
+ hw/arm/raspi.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
-index 90cf1c755d3..446b44d31cf 100644
---- a/hw/arm/aspeed_ast2600.c
-+++ b/hw/arm/aspeed_ast2600.c
-@@ -31,6 +31,8 @@ static const hwaddr aspeed_soc_ast2600_memmap[] = {
-     [ASPEED_FMC]       = 0x1E620000,
-     [ASPEED_SPI1]      = 0x1E630000,
-     [ASPEED_SPI2]      = 0x1E641000,
-+    [ASPEED_EHCI1]     = 0x1E6A1000,
-+    [ASPEED_EHCI2]     = 0x1E6A3000,
-     [ASPEED_MII1]      = 0x1E650000,
-     [ASPEED_MII2]      = 0x1E650008,
-     [ASPEED_MII3]      = 0x1E650010,
-@@ -79,6 +81,8 @@ static const int aspeed_soc_ast2600_irqmap[] = {
-     [ASPEED_ADC]       = 78,
-     [ASPEED_XDMA]      = 6,
-     [ASPEED_SDHCI]     = 43,
-+    [ASPEED_EHCI1]     = 5,
-+    [ASPEED_EHCI2]     = 9,
-     [ASPEED_EMMC]      = 15,
-     [ASPEED_GPIO]      = 40,
-     [ASPEED_GPIO_1_8V] = 11,
-@@ -166,6 +170,11 @@ static void aspeed_soc_ast2600_init(Object *obj)
-                               sizeof(s->spi[i]), typename);
-     }
+diff --git a/hw/arm/raspi.c b/hw/arm/raspi.c
+index 3996f6c63a4..f2ccabc6628 100644
+--- a/hw/arm/raspi.c
++++ b/hw/arm/raspi.c
+@@ -29,8 +29,8 @@
+ #define FIRMWARE_ADDR_3 0x80000 /* Pi 3 loads kernel.img here by default */
+ #define SPINTABLE_ADDR  0xd8 /* Pi 3 bootloader spintable */
  
-+    for (i = 0; i < sc->ehcis_num; i++) {
-+        sysbus_init_child_obj(obj, "ehci[*]", OBJECT(&s->ehci[i]),
-+                              sizeof(s->ehci[i]), TYPE_PLATFORM_EHCI);
-+    }
-+
-     snprintf(typename, sizeof(typename), "aspeed.sdmc-%s", socname);
-     sysbus_init_child_obj(obj, "sdmc", OBJECT(&s->sdmc), sizeof(s->sdmc),
-                           typename);
-@@ -416,6 +425,19 @@ static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
-                         s->spi[i].ctrl->flash_window_base);
-     }
+-/* Table of Linux board IDs for different Pi versions */
+-static const int raspi_boardid[] = {[1] = 0xc42, [2] = 0xc43, [3] = 0xc44};
++/* Registered machine type (matches RPi Foundation bootloader and U-Boot) */
++#define MACH_TYPE_BCM2708   3138
  
-+    /* EHCI */
-+    for (i = 0; i < sc->ehcis_num; i++) {
-+        object_property_set_bool(OBJECT(&s->ehci[i]), true, "realized", &err);
-+        if (err) {
-+            error_propagate(errp, err);
-+            return;
-+        }
-+        sysbus_mmio_map(SYS_BUS_DEVICE(&s->ehci[i]), 0,
-+                        sc->memmap[ASPEED_EHCI1 + i]);
-+        sysbus_connect_irq(SYS_BUS_DEVICE(&s->ehci[i]), 0,
-+                           aspeed_soc_get_irq(s, ASPEED_EHCI1 + i));
-+    }
-+
-     /* SDMC - SDRAM Memory Controller */
-     object_property_set_bool(OBJECT(&s->sdmc), true, "realized", &err);
-     if (err) {
-@@ -534,6 +556,7 @@ static void aspeed_soc_ast2600_class_init(ObjectClass *oc, void *data)
-     sc->silicon_rev  = AST2600_A0_SILICON_REV;
-     sc->sram_size    = 0x10000;
-     sc->spis_num     = 2;
-+    sc->ehcis_num    = 2;
-     sc->wdts_num     = 4;
-     sc->macs_num     = 4;
-     sc->irqmap       = aspeed_soc_ast2600_irqmap;
+ typedef struct RasPiState {
+     BCM283XState soc;
+@@ -116,7 +116,7 @@ static void setup_boot(MachineState *machine, int version, size_t ram_size)
+     static struct arm_boot_info binfo;
+     int r;
+ 
+-    binfo.board_id = raspi_boardid[version];
++    binfo.board_id = MACH_TYPE_BCM2708;
+     binfo.ram_size = ram_size;
+     binfo.nb_cpus = machine->smp.cpus;
+ 
 -- 
 2.20.1
 
