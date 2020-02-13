@@ -2,71 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE19815CA27
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 19:19:46 +0100 (CET)
-Received: from localhost ([::1]:57596 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 944C315CA44
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 19:23:53 +0100 (CET)
+Received: from localhost ([::1]:57670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j2J5V-0004dF-TL
-	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 13:19:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34866)
+	id 1j2J9U-00015N-JB
+	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 13:23:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43238)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j2Ik3-00015h-9T
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 12:57:36 -0500
+ (envelope-from <jjherne@linux.ibm.com>) id 1j2Ioi-0007xA-K4
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 13:02:25 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j2Ik0-0003WG-Kp
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 12:57:35 -0500
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:34729)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j2Ik0-0003UU-DB
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 12:57:32 -0500
-Received: by mail-wr1-x443.google.com with SMTP id n10so5873416wrm.1
- for <qemu-devel@nongnu.org>; Thu, 13 Feb 2020 09:57:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=AtxEKrKRqNjfOrT9JbNHlMjgTudjr9VoMdnqfaiOYHo=;
- b=I4+X7x9nkXMTo3cW1cxmLx38gFKcu8rtt/clXujOGlYgO52GPOYXm9m7aa5BaF+cuh
- FZgA8Zzf1dVhOJ2m+hGauORRaOpBG5SGgaZ8KBKbcbpHb/sFFUHJDug5MD9HgXR7ejjM
- CVVofs86mfTAkNntXKmQFKnIJ5+8VBQxrJ900CkNK0U/TDs0YLoXSkOzTSgU18jPyety
- tAGFB8yaVkHM10Zj+igXo4yiYuvuA77bwkgRFBSWo5N1nJIEv1zM1BiWggJUJbaR2gUr
- pwelvJH+WDrHyC5GnexthFbD6bSDPyLw0B+ncOK0hZjHo/X0maAFtcWVPU4C+VToDiLX
- /auA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=AtxEKrKRqNjfOrT9JbNHlMjgTudjr9VoMdnqfaiOYHo=;
- b=a4CXxcyaFD89ucaavogANBMz1BK/9WSVO2KQsrz9b+2xXeuKFhsIvEi/YTKqrrj2PA
- e+Q+lw9KGZ5uFfOBSWrImkfZPKKw+iAdTbtgCdp0CScr/oRNsvFb3SuNtUjJIYx/7WVz
- d6BILHrRb5+U1KIqE57nbnrCEgkEIO1jbObVLyqHVEEK+yck8iKzPao8qQp3eBt2kr9C
- z04yc8SC7m4B0BPjPmTVwQDB1EL46R6iIYYaNzg09NR/syuuwlI8weI4ddbbjkrNlPYh
- LJD6bKURlJ5uyH6kAraJk5fLergE3eF96cP/xoHzatMGZfJZHRnxNh07YuDcBiNFYrr/
- +qdw==
-X-Gm-Message-State: APjAAAWkIU9IiyPCbBj13t6mUB9GUD5W7FYajWU0x6A6m+YT8AEb3MaX
- SUIol1zeXPupEY1Uulv91mcV0diXFis=
-X-Google-Smtp-Source: APXvYqwOWyzmktsHVOUDehBMzDvEIIkgU8lsnBIJM6aitMr1yPcrFkAv94uS8gdIOLe1Rs0WCJq7YQ==
-X-Received: by 2002:a5d:65c5:: with SMTP id e5mr22464807wrw.311.1581616651041; 
- Thu, 13 Feb 2020 09:57:31 -0800 (PST)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id p26sm3692913wmc.24.2020.02.13.09.57.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Feb 2020 09:57:30 -0800 (PST)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 30/30] docs/devel/qapi-code-gen.txt: Update to new rST
- backend conventions
-Date: Thu, 13 Feb 2020 17:56:47 +0000
-Message-Id: <20200213175647.17628-31-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200213175647.17628-1-peter.maydell@linaro.org>
-References: <20200213175647.17628-1-peter.maydell@linaro.org>
+ (envelope-from <jjherne@linux.ibm.com>) id 1j2Iof-0004YJ-JW
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 13:02:23 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:34002)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <jjherne@linux.ibm.com>)
+ id 1j2Iof-0004TF-Ak; Thu, 13 Feb 2020 13:02:21 -0500
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 01DHniZP077250; Thu, 13 Feb 2020 13:02:19 -0500
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2y4j86s20d-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 13 Feb 2020 13:02:18 -0500
+Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 01DHnrUl077686;
+ Thu, 13 Feb 2020 13:02:17 -0500
+Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
+ [169.63.214.131])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2y4j86s1yw-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 13 Feb 2020 13:02:17 -0500
+Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
+ by ppma01dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 01DI0Zit011024;
+ Thu, 13 Feb 2020 18:02:16 GMT
+Received: from b03cxnp07028.gho.boulder.ibm.com
+ (b03cxnp07028.gho.boulder.ibm.com [9.17.130.15])
+ by ppma01dal.us.ibm.com with ESMTP id 2y5bc000d1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 13 Feb 2020 18:02:16 +0000
+Received: from b03ledav001.gho.boulder.ibm.com
+ (b03ledav001.gho.boulder.ibm.com [9.17.130.232])
+ by b03cxnp07028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 01DI2Fw319726724
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 13 Feb 2020 18:02:15 GMT
+Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 6E1CD6E050;
+ Thu, 13 Feb 2020 18:02:15 +0000 (GMT)
+Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 109176E052;
+ Thu, 13 Feb 2020 18:02:14 +0000 (GMT)
+Received: from [9.60.75.232] (unknown [9.60.75.232])
+ by b03ledav001.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Thu, 13 Feb 2020 18:02:14 +0000 (GMT)
+Subject: Re: [PATCH] pc-bios/s390x: Pack ResetInfo struct
+To: Christian Borntraeger <borntraeger@de.ibm.com>, qemu-devel@nongnu.org,
+ qemu-s390x@nongnu.org, cohuck@redhat.com
+References: <20200205182126.13010-1-jjherne@linux.ibm.com>
+ <e3baa1e0-e1d3-d67c-cca9-a626d42c5489@de.ibm.com>
+From: "Jason J. Herne" <jjherne@linux.ibm.com>
+Organization: IBM
+Message-ID: <bf3f44b5-f0fe-59f4-9152-54edd8c9822e@linux.ibm.com>
+Date: Thu, 13 Feb 2020 13:02:14 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::443
+In-Reply-To: <e3baa1e0-e1d3-d67c-cca9-a626d42c5489@de.ibm.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
+ definitions=2020-02-13_06:2020-02-12,
+ 2020-02-13 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 bulkscore=0
+ phishscore=0 priorityscore=1501 lowpriorityscore=0 mlxscore=0
+ impostorscore=0 malwarescore=0 spamscore=0 mlxlogscore=999 clxscore=1015
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2001150001 definitions=main-2002130127
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 148.163.156.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,179 +97,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- Michael Roth <mdroth@linux.vnet.ibm.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, John Snow <jsnow@redhat.com>
+Reply-To: jjherne@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Update the documentation of QAPI document comment syntax to match
-the new rST backend requirements. The principal changes are:
- * whitespace is now significant, and multiline definitions
-   must have their second and subsequent lines indented to
-   match the first line
- * general rST format markup is permitted, not just the small
-   set of markup the old texinfo generator handled. For most
-   things (notably bulleted and itemized lists) the old format
-   is the same as rST was.
- * Specific things that might trip people up:
-   - instead of *bold* and _italic_ rST has **bold** and *italic*
-   - lists need a preceding and following blank line
-   - a lone literal '*' will need to be backslash-escaped to
-     avoid a rST syntax error
- * the old leading '|' for example (literal text) blocks is
-   replaced by the standard rST '::' literal block.
- * headings and subheadings must now be in a freeform
-   documentation comment of their own
- * we support arbitrary levels of sub- and sub-sub-heading, not
-   just a main and sub-heading like the old texinfo generator
+On 2/6/20 5:09 AM, Christian Borntraeger wrote:
+> 
+> 
+> On 05.02.20 19:21, Jason J. Herne wrote:
+>> This fixes vfio-ccw when booting non-Linux operating systems. Without this
+>> struct being packed, a few extra bytes of low core memory get overwritten when
+>> we  assign a value to memory address 0 in jump_to_IPL_2. This is enough to
+>> cause some non-Linux OSes of fail when booting.
+>>
+>> The problem was introduced by:
+>> 5c6f0d5f46a77d77 "pc-bios/s390x: Fix reset psw mask".
+>>
+>> The fix is to pack the struct thereby removing the 4 bytes of padding that get
+>> added at the end, likely to allow an array of these structs to naturally align
+>> on an 8-byte boundary.
+>>
+>> Fixes: 5c6f0d5f46a7 ("pc-bios/s390x: Fix reset psw mask")
+>> CC: Janosch Frank <frankja@linux.ibm.com>
+>> Signed-off-by: Jason J. Herne <jjherne@linux.ibm.com>
+>> ---
+>>   pc-bios/s390-ccw/jump2ipl.c | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/pc-bios/s390-ccw/jump2ipl.c b/pc-bios/s390-ccw/jump2ipl.c
+>> index da13c43cc0..1e9eaa037f 100644
+>> --- a/pc-bios/s390-ccw/jump2ipl.c
+>> +++ b/pc-bios/s390-ccw/jump2ipl.c
+>> @@ -18,7 +18,7 @@
+>>   typedef struct ResetInfo {
+>>       uint64_t ipl_psw;
+>>       uint32_t ipl_continue;
+>> -} ResetInfo;
+>> +} __attribute__((packed)) ResetInfo;
+>>   
+>>   static ResetInfo save;
+> 
+> Just looked into that.
+> 
+> We do save the old content in "save" and restore the old memory content.
+> 
+> static void jump_to_IPL_2(void)
+> {
+>      ResetInfo *current = 0;
+> 
+>      void (*ipl)(void) = (void *) (uint64_t) current->ipl_continue;
+> --->*current = save;
+>      ipl(); /* should not return */
+> }
+> 
+> void jump_to_IPL_code(uint64_t address)
+> {
+>      /* store the subsystem information _after_ the bootmap was loaded */
+>      write_subsystem_identification();
+> 
+>      /* prevent unknown IPL types in the guest */
+>      if (iplb.pbt == S390_IPL_TYPE_QEMU_SCSI) {
+>          iplb.pbt = S390_IPL_TYPE_CCW;
+>          set_iplb(&iplb);
+>      }
+> 
+>      /*
+>       * The IPL PSW is at address 0. We also must not overwrite the
+>       * content of non-BIOS memory after we loaded the guest, so we
+>       * save the original content and restore it in jump_to_IPL_2.
+>       */
+>      ResetInfo *current = 0;
+> 
+> --->save = *current;
+> 
+> 
+> 
+> does something like
+> 
+> 
+> diff --git a/pc-bios/s390-ccw/jump2ipl.c b/pc-bios/s390-ccw/jump2ipl.c
+> index da13c43cc0..8839226803 100644
+> --- a/pc-bios/s390-ccw/jump2ipl.c
+> +++ b/pc-bios/s390-ccw/jump2ipl.c
+> @@ -18,6 +18,7 @@
+>   typedef struct ResetInfo {
+>       uint64_t ipl_psw;
+>       uint32_t ipl_continue;
+> +    uint32_t pad;
+>   } ResetInfo;
+>   
+>   static ResetInfo save;
+> 
+> 
+> also work? If yes, both variants are valid. Either packed or explicit padding.
+> 
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- docs/devel/qapi-code-gen.txt | 90 ++++++++++++++++++++++++------------
- 1 file changed, 61 insertions(+), 29 deletions(-)
+I don't believe this will work. I think the problem is that we're overwriting too much 
+memory when we cast address 0 as a ResetInfo and then overwrite it (*current = save). I 
+think we need the struct to be sized at 12-bytes instead of 16.
 
-diff --git a/docs/devel/qapi-code-gen.txt b/docs/devel/qapi-code-gen.txt
-index 59d6973e1ec..688eb2a0237 100644
---- a/docs/devel/qapi-code-gen.txt
-+++ b/docs/devel/qapi-code-gen.txt
-@@ -795,21 +795,39 @@ See below for more on definition documentation.
- Free-form documentation may be used to provide additional text and
- structuring content.
- 
-+==== Headings and subheadings ====
-+
-+A free-form documentation comment containing a single line
-+which starts with some '=' symbols and then a space defines
-+a section heading:
-+
-+    ##
-+    # = This is a top level heading
-+    ##
-+
-+    ##
-+    # This is a free-form comment which will go under the
-+    # top level heading.
-+    ##
-+
-+    ##
-+    # == This is a second level heading
-+    ##
-+
-+Section headings must always be correctly nested, so you can only
-+define a third-level heading inside a second-level heading, and so
-+on. The documentation generator will catch nesting mistakes and report
-+a syntax error.
- 
- ==== Documentation markup ====
- 
--Comment text starting with '=' is a section title:
-+Documentation comments can use most rST markup. In particular,
-+a '::' literal block can be used for examples:
- 
--    # = Section title
--
--Double the '=' for a subsection title:
--
--    # == Subsection title
--
--'|' denotes examples:
--
--    # | Text of the example, may span
--    # | multiple lines
-+    # ::
-+    #
-+    #   Text of the example, may span
-+    #   multiple lines
- 
- '*' starts an itemized list:
- 
-@@ -825,37 +843,35 @@ A decimal number followed by '.' starts a numbered list:
-     #    multiple lines
-     # 2. Second item
- 
--The actual number doesn't matter.  You could even use '*' instead of
--'2.' for the second item.
-+The actual number doesn't matter.
- 
--Lists can't be nested.  Blank lines are currently not supported within
--lists.
-+Lists of either kind must be preceded and followed by a blank line.
-+If a list item's text spans multiple lines, then the second and
-+subsequent lines must be correctly indented to line up with the
-+first character of the first line.
- 
--Additional whitespace between the initial '#' and the comment text is
--permitted.
--
--*foo* and _foo_ are for strong and emphasis styles respectively (they
--do not work over multiple lines).  @foo is used to reference a name in
--the schema.
-+The usual '**strong**', '*emphasised*' and '``literal``' markup should
-+be used. If you need a single literal '*' you will need to backslash-escape it.
-+As an extension beyond the usual rST syntax, you can also
-+use '@foo' to reference a name in the schema; this is rendered
-+the same way as '``foo``'.
- 
- Example:
- 
- ##
--# = Section
--# == Subsection
--#
--# Some text foo with *strong* and _emphasis_
-+# Some text foo with **bol** and *emphasis*
- # 1. with a list
- # 2. like that
- #
- # And some code:
--# | $ echo foo
--# | -> do this
--# | <- get that
- #
-+# ::
-+#
-+#   $ echo foo
-+#   -> do this
-+#   <- get that
- ##
- 
--
- ==== Definition documentation ====
- 
- Definition documentation, if present, must immediately precede the
-@@ -870,6 +886,12 @@ commands and events), member (for structs and unions), branch (for
- alternates), or value (for enums), and finally optional tagged
- sections.
- 
-+Descriptions of arguments can span multiple lines; if they
-+do then the second and subsequent lines must be indented
-+to line up with the first character of the first line of the
-+description. The parser will report a syntax error if there
-+is insufficient indentation.
-+
- FIXME: the parser accepts these things in almost any order.
- FIXME: union branches should be described, too.
- 
-@@ -883,6 +905,16 @@ The section ends with the start of a new section.
- A 'Since: x.y.z' tagged section lists the release that introduced the
- definition.
- 
-+The text of a section can start on a new line, in
-+which case it must not be indented at all. It can also start
-+on the same line as the 'Note:', 'Returns:', etc tag. In this
-+case if it spans multiple lines then second and subsequent
-+lines must be indented to match the first.
-+
-+An 'Example' or 'Examples' section is automatically rendered
-+entirely as literal fixed-width text. In other sections,
-+the text is formatted, and rST markup can be used.
-+
- For example:
- 
- ##
+
 -- 
-2.20.1
-
+-- Jason J. Herne (jjherne@linux.ibm.com)
 
