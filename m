@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5427B15C9D8
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 19:01:38 +0100 (CET)
-Received: from localhost ([::1]:57182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A68615C9E9
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 19:06:25 +0100 (CET)
+Received: from localhost ([::1]:57300 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j2Inw-0005MT-Jy
-	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 13:01:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33722)
+	id 1j2Isa-0004Si-05
+	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 13:06:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33775)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j2IjY-0000JQ-NO
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 12:57:05 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1j2IjZ-0000MD-Qk
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 12:57:09 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j2IjX-0002WQ-4w
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 12:57:04 -0500
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:43693)
+ (envelope-from <peter.maydell@linaro.org>) id 1j2IjX-0002XG-Bk
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 12:57:05 -0500
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:55116)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j2IjW-0002TL-UX
+ id 1j2IjX-0002V6-22
  for qemu-devel@nongnu.org; Thu, 13 Feb 2020 12:57:03 -0500
-Received: by mail-wr1-x42d.google.com with SMTP id r11so7776296wrq.10
- for <qemu-devel@nongnu.org>; Thu, 13 Feb 2020 09:57:01 -0800 (PST)
+Received: by mail-wm1-x332.google.com with SMTP id g1so7246107wmh.4
+ for <qemu-devel@nongnu.org>; Thu, 13 Feb 2020 09:57:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=4JzfbSfaGdZz4al+lIjrQuS06F81QxSYycFR01GlxW8=;
- b=t5uW4ITj/cw5tMyjge1kQlVt5gRdlEpwv57S6oX3TLm/Go14RT+R4TZNWDz2hnYvsK
- uplfLm4aGKSSOPLXcA/ATvvx62aw3PzhRtUKEVIUZjpkRoas6vC+0VJLjVkmsrc27/6x
- nZFf+Q7fOUPOgSzrY0EnNkVf5dHoHRZoN8Ofeddf9NvrDb7O6SgpbT4+eQTiQ7+Obp26
- eEoM7pN2V8ne04LEU6XIP6KPRaSsJvvkI08YKVGxfdGhIA1/9MQEd9twz0hWKkmSI1Oi
- aoYuBawSyo7c1JRE9i6hNiAhYRHTjER7sl3XBFOPmWwS6MZ94uNJFs2ys/EuCDX3TFbF
- k8gA==
+ bh=vejfpe8tmTeOtD0T1idJ1yF06muHUSuIJ0JKc90oK5k=;
+ b=a8FnFq0FdyXcQBKB79jagevKbkn4gNGuJ7mqUe9MuQM9+drUSpUWBTPTGu+ZPih7vD
+ uZdF6KujbEkcIykFVv77XCrAqjhYq+8pXG6aQbzaf/dt96ixWF+RHrssXNJZbVEKXWmN
+ TviIdSxSnFFqx+ogpxnhjW/Cnuf1GCOyffSI9tzreIinE0rmvIZPhSV/GTPxWLX5054c
+ Cr/FIfxcTXlQFn4LqD17FubUuYAkQEXD4ABhv/VK74C9dztir8KzbdxTFsgQFShg2yP7
+ iiBCevns4kKACxsfCJRnHqBSn/4kbaLXC5FXNaQpVQw9JXo0pfSlb+t2vqxrvY/Pv109
+ hiDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=4JzfbSfaGdZz4al+lIjrQuS06F81QxSYycFR01GlxW8=;
- b=eyNiTaGZVBH+7Bd+T1DkCwNdSSY5d14LXHYNshkkZX+C4Ayx8RA02ZgRWz7mK+Tu4e
- c0tNev8RvLVhNPiN4wsHclQNeanRskCdO6TnfDOq3lOPrCoUQUf8FaoVtDzw2GznqA89
- Sf6gHeYz90xiAN9wnFJff+xrv0sWiPVa8v5dKIoA6DShuTV7PBLeB/G35e4NwDnGAGxC
- tiDT5Pk4t6FB/5nKz3CZs7w3lSuLPut2dPDpvYwP5udDB+4rwQJkf7UAvUZYmcDWBxPj
- LBwU459CbbDb/C3CBXKp47J4tp3xCDNyg1G5ipL3OXQH6HArxMF1MQtyjPWIlxRoIZyM
- 3qgA==
-X-Gm-Message-State: APjAAAWOo1qWx0IlPRQGc2A84aD6+YEB56czYrKCCn3qigPEYrpaEMHL
- dPIQceVIETflwdms8YTu+Cm71ZYiZPY=
-X-Google-Smtp-Source: APXvYqyKj1rSYYrLvD2U51SDhrigyhTuQXBsIdOYZd/q8wyErv3fh/JAgD3vMUIJ8rn9dArBhhizfg==
-X-Received: by 2002:a5d:448c:: with SMTP id j12mr22422198wrq.125.1581616619927; 
- Thu, 13 Feb 2020 09:56:59 -0800 (PST)
+ bh=vejfpe8tmTeOtD0T1idJ1yF06muHUSuIJ0JKc90oK5k=;
+ b=mVkSS02/CqAuuc197Rv9YSHu0bQNTZD61SfnAds9fXQfW/WSr6WlV5Dbnm+uBJ1KRA
+ IQFWcFtFX3lXrZaZGxTBFlwDO4gVSNdKMuSFYwrqgsmec5U+4zPp47iN9IinMl6VIoxF
+ agBy9oiQlu+DRRgNRW/GSMDuTDDfBMxFYa4CYn8k4lOTgQfjDELf9K8qNhh+GPx5ofbB
+ 6DMBoca16HQ9h+jSrPIBGU/nUbHdKpASArnvwUpgq6srO8uHrJ4eP/q8WXKPTDG0/qaa
+ miP6Y3j092/cvyJ2s9s2EzORpkxJMAWvJtp6fTeXn28sLPtMfrfnGk6/ZDmjxknuVLMq
+ z6XA==
+X-Gm-Message-State: APjAAAVA1Q9M5tF1uQI1CAMLOyHiKNsJYQQ7mtqmhv+QqCWFml1eeODQ
+ gohNuW6jGvc2PzSVtJ8LGlscXPijcr0=
+X-Google-Smtp-Source: APXvYqxatoixZIAkGTfUzQYPndM3c4lxzQ/7Yt1mLoYGUg0sQZV8EvPUoU7NEwxxxomdGgsEaJa6ng==
+X-Received: by 2002:a1c:4857:: with SMTP id v84mr6951355wma.8.1581616621280;
+ Thu, 13 Feb 2020 09:57:01 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id p26sm3692913wmc.24.2020.02.13.09.56.58
+ by smtp.gmail.com with ESMTPSA id p26sm3692913wmc.24.2020.02.13.09.57.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Feb 2020 09:56:59 -0800 (PST)
+ Thu, 13 Feb 2020 09:57:00 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 07/30] qapi/block-core.json: Use literal block for ascii art
-Date: Thu, 13 Feb 2020 17:56:24 +0000
-Message-Id: <20200213175647.17628-8-peter.maydell@linaro.org>
+Subject: [PATCH v2 08/30] qapi: Use ':' after @argument in doc comments
+Date: Thu, 13 Feb 2020 17:56:25 +0000
+Message-Id: <20200213175647.17628-9-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200213175647.17628-1-peter.maydell@linaro.org>
 References: <20200213175647.17628-1-peter.maydell@linaro.org>
@@ -65,7 +65,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42d
+X-Received-From: 2a00:1450:4864:20::332
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,52 +84,424 @@ Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The ascii-art graph in the BlockLatencyHistogramInfo documentation
-doesn't render correctly, because the whitespace is collapsed.
+Some qapi doc comments have forgotten the ':' after the
+@argument, like this:
 
-Use the '|' format that emits a literal 'example' block so the graph
-is displayed correctly.
+# @filename         Filename for the new image file
+# @size             Size of the virtual disk in bytes
 
-Strictly the texinfo generated is still wrong because each line
-goes into its own @example environment, but it renders better
-than what we had before.
+The result is that these are parsed as part of the body
+text and appear as a run-on line:
+  filename Filename for the new image file size Size of the virtual disk in bytes"
+followed by
+  filename: string
+    Not documented
+  size: int
+    Not documented
 
-Fixing this rendering is a necessary prerequisite for the rST
-generator, which otherwise complains about the inconsistent
-indentation in the ascii-art graph.
+in the 'Members' section.
+
+Correct the formatting.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
 ---
-v1->v2: tweaked commit message, made graph still line up
-with preceding paragraph text
----
- qapi/block-core.json | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ qapi/block-core.json | 236 +++++++++++++++++++++----------------------
+ 1 file changed, 118 insertions(+), 118 deletions(-)
 
 diff --git a/qapi/block-core.json b/qapi/block-core.json
-index ef94a296868..db9ca688d49 100644
+index db9ca688d49..c617bc2af63 100644
 --- a/qapi/block-core.json
 +++ b/qapi/block-core.json
-@@ -550,13 +550,13 @@
- #        For the example above, @bins may be something like [3, 1, 5, 2],
- #        and corresponding histogram looks like:
+@@ -3235,9 +3235,9 @@
+ ##
+ # @SshHostKeyCheckMode:
  #
--#        5|           *
--#        4|           *
--#        3| *         *
--#        2| *         *    *
--#        1| *    *    *    *
--#         +------------------
--#             10   50   100
-+# |      5|           *
-+# |      4|           *
-+# |      3| *         *
-+# |      2| *         *    *
-+# |      1| *    *    *    *
-+# |       +------------------
-+# |           10   50   100
+-# @none             Don't check the host key at all
+-# @hash             Compare the host key with a given hash
+-# @known_hosts      Check the host key against the known_hosts file
++# @none: Don't check the host key at all
++# @hash: Compare the host key with a given hash
++# @known_hosts: Check the host key against the known_hosts file
+ #
+ # Since: 2.12
+ ##
+@@ -3247,8 +3247,8 @@
+ ##
+ # @SshHostKeyCheckHashType:
+ #
+-# @md5              The given hash is an md5 hash
+-# @sha1             The given hash is an sha1 hash
++# @md5: The given hash is an md5 hash
++# @sha1: The given hash is an sha1 hash
+ #
+ # Since: 2.12
+ ##
+@@ -3258,8 +3258,8 @@
+ ##
+ # @SshHostKeyHash:
+ #
+-# @type             The hash algorithm used for the hash
+-# @hash             The expected hash value
++# @type: The hash algorithm used for the hash
++# @hash: The expected hash value
+ #
+ # Since: 2.12
+ ##
+@@ -4265,13 +4265,13 @@
+ #
+ # Driver specific image creation options for file.
+ #
+-# @filename         Filename for the new image file
+-# @size             Size of the virtual disk in bytes
+-# @preallocation    Preallocation mode for the new image (default: off;
+-#                   allowed values: off,
+-#                   falloc (if defined CONFIG_POSIX_FALLOCATE),
+-#                   full (if defined CONFIG_POSIX))
+-# @nocow            Turn off copy-on-write (valid only on btrfs; default: off)
++# @filename: Filename for the new image file
++# @size: Size of the virtual disk in bytes
++# @preallocation: Preallocation mode for the new image (default: off;
++#                 allowed values: off,
++#                 falloc (if defined CONFIG_POSIX_FALLOCATE),
++#                 full (if defined CONFIG_POSIX))
++# @nocow: Turn off copy-on-write (valid only on btrfs; default: off)
+ #
+ # Since: 2.12
+ ##
+@@ -4286,12 +4286,12 @@
+ #
+ # Driver specific image creation options for gluster.
+ #
+-# @location         Where to store the new image file
+-# @size             Size of the virtual disk in bytes
+-# @preallocation    Preallocation mode for the new image (default: off;
+-#                   allowed values: off,
+-#                   falloc (if defined CONFIG_GLUSTERFS_FALLOCATE),
+-#                   full (if defined CONFIG_GLUSTERFS_ZEROFILL))
++# @location: Where to store the new image file
++# @size: Size of the virtual disk in bytes
++# @preallocation: Preallocation mode for the new image (default: off;
++#                 allowed values: off,
++#                 falloc (if defined CONFIG_GLUSTERFS_FALLOCATE),
++#                 full (if defined CONFIG_GLUSTERFS_ZEROFILL))
+ #
+ # Since: 2.12
+ ##
+@@ -4305,11 +4305,11 @@
+ #
+ # Driver specific image creation options for LUKS.
+ #
+-# @file             Node to create the image format on
+-# @size             Size of the virtual disk in bytes
+-# @preallocation    Preallocation mode for the new image
+-#                   (since: 4.2)
+-#                   (default: off; allowed values: off, metadata, falloc, full)
++# @file: Node to create the image format on
++# @size: Size of the virtual disk in bytes
++# @preallocation: Preallocation mode for the new image
++#                 (since: 4.2)
++#                 (default: off; allowed values: off, metadata, falloc, full)
+ #
+ # Since: 2.12
+ ##
+@@ -4324,8 +4324,8 @@
+ #
+ # Driver specific image creation options for NFS.
+ #
+-# @location         Where to store the new image file
+-# @size             Size of the virtual disk in bytes
++# @location: Where to store the new image file
++# @size: Size of the virtual disk in bytes
+ #
+ # Since: 2.12
+ ##
+@@ -4338,9 +4338,9 @@
+ #
+ # Driver specific image creation options for parallels.
+ #
+-# @file             Node to create the image format on
+-# @size             Size of the virtual disk in bytes
+-# @cluster-size     Cluster size in bytes (default: 1 MB)
++# @file: Node to create the image format on
++# @size: Size of the virtual disk in bytes
++# @cluster-size: Cluster size in bytes (default: 1 MB)
+ #
+ # Since: 2.12
+ ##
+@@ -4354,11 +4354,11 @@
+ #
+ # Driver specific image creation options for qcow.
+ #
+-# @file             Node to create the image format on
+-# @size             Size of the virtual disk in bytes
+-# @backing-file     File name of the backing file if a backing file
+-#                   should be used
+-# @encrypt          Encryption options if the image should be encrypted
++# @file: Node to create the image format on
++# @size: Size of the virtual disk in bytes
++# @backing-file: File name of the backing file if a backing file
++#                should be used
++# @encrypt: Encryption options if the image should be encrypted
+ #
+ # Since: 2.12
+ ##
+@@ -4385,24 +4385,24 @@
+ #
+ # Driver specific image creation options for qcow2.
+ #
+-# @file             Node to create the image format on
+-# @data-file        Node to use as an external data file in which all guest
+-#                   data is stored so that only metadata remains in the qcow2
+-#                   file (since: 4.0)
+-# @data-file-raw    True if the external data file must stay valid as a
+-#                   standalone (read-only) raw image without looking at qcow2
+-#                   metadata (default: false; since: 4.0)
+-# @size             Size of the virtual disk in bytes
+-# @version          Compatibility level (default: v3)
+-# @backing-file     File name of the backing file if a backing file
+-#                   should be used
+-# @backing-fmt      Name of the block driver to use for the backing file
+-# @encrypt          Encryption options if the image should be encrypted
+-# @cluster-size     qcow2 cluster size in bytes (default: 65536)
+-# @preallocation    Preallocation mode for the new image (default: off;
+-#                   allowed values: off, falloc, full, metadata)
+-# @lazy-refcounts   True if refcounts may be updated lazily (default: off)
+-# @refcount-bits    Width of reference counts in bits (default: 16)
++# @file: Node to create the image format on
++# @data-file: Node to use as an external data file in which all guest
++#             data is stored so that only metadata remains in the qcow2
++#             file (since: 4.0)
++# @data-file-raw: True if the external data file must stay valid as a
++#                 standalone (read-only) raw image without looking at qcow2
++#                 metadata (default: false; since: 4.0)
++# @size: Size of the virtual disk in bytes
++# @version: Compatibility level (default: v3)
++# @backing-file: File name of the backing file if a backing file
++#                should be used
++# @backing-fmt: Name of the block driver to use for the backing file
++# @encrypt: Encryption options if the image should be encrypted
++# @cluster-size: qcow2 cluster size in bytes (default: 65536)
++# @preallocation: Preallocation mode for the new image (default: off;
++#                 allowed values: off, falloc, full, metadata)
++# @lazy-refcounts: True if refcounts may be updated lazily (default: off)
++# @refcount-bits: Width of reference counts in bits (default: 16)
+ #
+ # Since: 2.12
+ ##
+@@ -4425,13 +4425,13 @@
+ #
+ # Driver specific image creation options for qed.
+ #
+-# @file             Node to create the image format on
+-# @size             Size of the virtual disk in bytes
+-# @backing-file     File name of the backing file if a backing file
+-#                   should be used
+-# @backing-fmt      Name of the block driver to use for the backing file
+-# @cluster-size     Cluster size in bytes (default: 65536)
+-# @table-size       L1/L2 table size (in clusters)
++# @file: Node to create the image format on
++# @size: Size of the virtual disk in bytes
++# @backing-file: File name of the backing file if a backing file
++#                should be used
++# @backing-fmt: Name of the block driver to use for the backing file
++# @cluster-size: Cluster size in bytes (default: 65536)
++# @table-size: L1/L2 table size (in clusters)
+ #
+ # Since: 2.12
+ ##
+@@ -4448,10 +4448,10 @@
+ #
+ # Driver specific image creation options for rbd/Ceph.
+ #
+-# @location         Where to store the new image file. This location cannot
+-#                   point to a snapshot.
+-# @size             Size of the virtual disk in bytes
+-# @cluster-size     RBD object size
++# @location: Where to store the new image file. This location cannot
++#            point to a snapshot.
++# @size: Size of the virtual disk in bytes
++# @cluster-size: RBD object size
+ #
+ # Since: 2.12
+ ##
+@@ -4499,23 +4499,23 @@
+ #
+ # Driver specific image creation options for VMDK.
+ #
+-# @file         Where to store the new image file. This refers to the image
+-#               file for monolithcSparse and streamOptimized format, or the
+-#               descriptor file for other formats.
+-# @size         Size of the virtual disk in bytes
+-# @extents      Where to store the data extents. Required for monolithcFlat,
+-#               twoGbMaxExtentSparse and twoGbMaxExtentFlat formats. For
+-#               monolithicFlat, only one entry is required; for
+-#               twoGbMaxExtent* formats, the number of entries required is
+-#               calculated as extent_number = virtual_size / 2GB. Providing
+-#               more extents than will be used is an error.
+-# @subformat    The subformat of the VMDK image. Default: "monolithicSparse".
+-# @backing-file The path of backing file. Default: no backing file is used.
+-# @adapter-type The adapter type used to fill in the descriptor. Default: ide.
+-# @hwversion    Hardware version. The meaningful options are "4" or "6".
+-#               Default: "4".
+-# @zeroed-grain Whether to enable zeroed-grain feature for sparse subformats.
+-#               Default: false.
++# @file: Where to store the new image file. This refers to the image
++#        file for monolithcSparse and streamOptimized format, or the
++#        descriptor file for other formats.
++# @size: Size of the virtual disk in bytes
++# @extents: Where to store the data extents. Required for monolithcFlat,
++#           twoGbMaxExtentSparse and twoGbMaxExtentFlat formats. For
++#           monolithicFlat, only one entry is required; for
++#           twoGbMaxExtent* formats, the number of entries required is
++#           calculated as extent_number = virtual_size / 2GB. Providing
++#           more extents than will be used is an error.
++# @subformat: The subformat of the VMDK image. Default: "monolithicSparse".
++# @backing-file: The path of backing file. Default: no backing file is used.
++# @adapter-type: The adapter type used to fill in the descriptor. Default: ide.
++# @hwversion: Hardware version. The meaningful options are "4" or "6".
++#             Default: "4".
++# @zeroed-grain: Whether to enable zeroed-grain feature for sparse subformats.
++#                Default: false.
  #
  # Since: 4.0
+ ##
+@@ -4533,9 +4533,9 @@
+ ##
+ # @SheepdogRedundancyType:
+ #
+-# @full             Create a fully replicated vdi with x copies
+-# @erasure-coded    Create an erasure coded vdi with x data strips and
+-#                   y parity strips
++# @full: Create a fully replicated vdi with x copies
++# @erasure-coded: Create an erasure coded vdi with x data strips and
++#                 y parity strips
+ #
+ # Since: 2.12
+ ##
+@@ -4545,7 +4545,7 @@
+ ##
+ # @SheepdogRedundancyFull:
+ #
+-# @copies           Number of copies to use (between 1 and 31)
++# @copies: Number of copies to use (between 1 and 31)
+ #
+ # Since: 2.12
+ ##
+@@ -4555,8 +4555,8 @@
+ ##
+ # @SheepdogRedundancyErasureCoded:
+ #
+-# @data-strips      Number of data strips to use (one of {2,4,8,16})
+-# @parity-strips    Number of parity strips to use (between 1 and 15)
++# @data-strips: Number of data strips to use (one of {2,4,8,16})
++# @parity-strips: Number of parity strips to use (between 1 and 15)
+ #
+ # Since: 2.12
+ ##
+@@ -4580,13 +4580,13 @@
+ #
+ # Driver specific image creation options for Sheepdog.
+ #
+-# @location         Where to store the new image file
+-# @size             Size of the virtual disk in bytes
+-# @backing-file     File name of a base image
+-# @preallocation    Preallocation mode for the new image (default: off;
+-#                   allowed values: off, full)
+-# @redundancy       Redundancy of the image
+-# @object-size      Object size of the image
++# @location: Where to store the new image file
++# @size: Size of the virtual disk in bytes
++# @backing-file: File name of a base image
++# @preallocation: Preallocation mode for the new image (default: off;
++#                 allowed values: off, full)
++# @redundancy: Redundancy of the image
++# @object-size: Object size of the image
+ #
+ # Since: 2.12
+ ##
+@@ -4603,8 +4603,8 @@
+ #
+ # Driver specific image creation options for SSH.
+ #
+-# @location         Where to store the new image file
+-# @size             Size of the virtual disk in bytes
++# @location: Where to store the new image file
++# @size: Size of the virtual disk in bytes
+ #
+ # Since: 2.12
+ ##
+@@ -4617,10 +4617,10 @@
+ #
+ # Driver specific image creation options for VDI.
+ #
+-# @file             Node to create the image format on
+-# @size             Size of the virtual disk in bytes
+-# @preallocation    Preallocation mode for the new image (default: off;
+-#                   allowed values: off, metadata)
++# @file: Node to create the image format on
++# @size: Size of the virtual disk in bytes
++# @preallocation: Preallocation mode for the new image (default: off;
++#                 allowed values: off, metadata)
+ #
+ # Since: 2.12
+ ##
+@@ -4645,17 +4645,17 @@
+ #
+ # Driver specific image creation options for vhdx.
+ #
+-# @file             Node to create the image format on
+-# @size             Size of the virtual disk in bytes
+-# @log-size         Log size in bytes, must be a multiple of 1 MB
+-#                   (default: 1 MB)
+-# @block-size       Block size in bytes, must be a multiple of 1 MB and not
+-#                   larger than 256 MB (default: automatically choose a block
+-#                   size depending on the image size)
+-# @subformat        vhdx subformat (default: dynamic)
+-# @block-state-zero Force use of payload blocks of type 'ZERO'. Non-standard,
+-#                   but default.  Do not set to 'off' when using 'qemu-img
+-#                   convert' with subformat=dynamic.
++# @file: Node to create the image format on
++# @size: Size of the virtual disk in bytes
++# @log-size: Log size in bytes, must be a multiple of 1 MB
++#            (default: 1 MB)
++# @block-size: Block size in bytes, must be a multiple of 1 MB and not
++#              larger than 256 MB (default: automatically choose a block
++#              size depending on the image size)
++# @subformat: vhdx subformat (default: dynamic)
++# @block-state-zero: Force use of payload blocks of type 'ZERO'. Non-standard,
++#                    but default.  Do not set to 'off' when using 'qemu-img
++#                    convert' with subformat=dynamic.
+ #
+ # Since: 2.12
+ ##
+@@ -4683,12 +4683,12 @@
+ #
+ # Driver specific image creation options for vpc (VHD).
+ #
+-# @file             Node to create the image format on
+-# @size             Size of the virtual disk in bytes
+-# @subformat        vhdx subformat (default: dynamic)
+-# @force-size       Force use of the exact byte size instead of rounding to the
+-#                   next size that can be represented in CHS geometry
+-#                   (default: false)
++# @file: Node to create the image format on
++# @size: Size of the virtual disk in bytes
++# @subformat: vhdx subformat (default: dynamic)
++# @force-size: Force use of the exact byte size instead of rounding to the
++#              next size that can be represented in CHS geometry
++#              (default: false)
+ #
+ # Since: 2.12
+ ##
+@@ -4703,7 +4703,7 @@
+ #
+ # Options for creating an image format on a given node.
+ #
+-# @driver           block driver to create the image format
++# @driver: block driver to create the image format
+ #
+ # Since: 2.12
  ##
 -- 
 2.20.1
