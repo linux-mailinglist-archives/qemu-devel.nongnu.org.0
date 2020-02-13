@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4978D15C9DA
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 19:01:44 +0100 (CET)
-Received: from localhost ([::1]:57186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B378215C9DF
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 19:03:36 +0100 (CET)
+Received: from localhost ([::1]:57240 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j2Io3-0005Z9-7L
-	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 13:01:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33624)
+	id 1j2Ipr-0000RB-Eu
+	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 13:03:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33735)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j2IjS-00007Y-9G
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 12:57:01 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1j2IjZ-0000KA-1m
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 12:57:06 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j2IjR-0002P2-AH
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 12:56:58 -0500
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:43699)
+ (envelope-from <peter.maydell@linaro.org>) id 1j2IjX-0002WJ-4G
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 12:57:04 -0500
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:35172)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j2IjR-0002NM-4R
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 12:56:57 -0500
-Received: by mail-wr1-x434.google.com with SMTP id r11so7776034wrq.10
- for <qemu-devel@nongnu.org>; Thu, 13 Feb 2020 09:56:57 -0800 (PST)
+ id 1j2IjW-0002Qb-Sb
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 12:57:03 -0500
+Received: by mail-wm1-x341.google.com with SMTP id b17so7802588wmb.0
+ for <qemu-devel@nongnu.org>; Thu, 13 Feb 2020 09:56:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=g2WZpfNoMWL/DfUoo26twQ8bt2763a6Rl0JvwrClvQs=;
- b=XlWHyHLG1QEHmvjeZvjkLlCerr0xlPubWaomPJugssnSIl1etyMCbT4VRCgmQ2sw2r
- vOfhpsqVXJpuLTOFLR7eSFpquI4tlLiQILUJEAAAbK6UtkL9ZAp42aBHCDItBE39OA4P
- YnF2xYHSo9XeRcgDZrlBTEw+UIy8K0VXiy5wHARNXbAB0ih48IJeUUGgvDxVCPem4LmX
- mudojxNGhEGD3nu6DrDrxf6AVe3HBNIXXCo7x/VJ2eeL8Hw2YlvZje/hhmNDpI5rJpGr
- gBHaoq5iKG+g2qfOQ/JGjsE9OZpbKFC+DZp2KfTPlK+5ww0JxKZhWgQxEhWQsaU9xRnJ
- 81BA==
+ bh=fLHmDYlQWfVhICZYevuL8zWZyC/V25dFeDELII/rZe0=;
+ b=nbRdmOjVYe+iQDa1VUiH9cMvYBXgtoW5pQWEPpqGeiVioM1n33HMFS/UmSzWDzM5Ju
+ qjjWvT11C6fIgGtWotWjMy/WjpwJdLApmGTZLT52g9UIO1jNKk92VeCPk2Dn2jkbxW0t
+ HIDY3anAa0jcHaSUncmh0pJTLR75UHEQp2KkaPPETu6lfmG2QChU7NPkFkdWsx2IFaE9
+ B76D514cfJzk3IVGs694et2/oLLHFE01agoIzBJVq3JmMUpQLtcp5xkDAnhi6L/MTHi6
+ vJmPTeu9qI3f17b24PJ13omw5X2YDEvIcKsAftH8fqerlTzp+Sa3XnIHQvT1F5+YvfVp
+ r83g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=g2WZpfNoMWL/DfUoo26twQ8bt2763a6Rl0JvwrClvQs=;
- b=ZmuR7K+QZrdxZLJdUCVLSR8etbfKtWwpmWmCtFNJKyb/GD6jnnjcHQMEuaz1YkUugh
- 6zu5Nk5AQl7UKKTdksgIY9azoUqrQtgvmwrgbLW/t2Hdjruu/8S3N3RA4C4APEolphSa
- suQS75pZsLiZtM1NwnqTLQU9eAg4VwCN2YuuOaA3L7NJooc5r41oOh0Q4pKWi1OebztK
- Qjq0BBCZvxIxT5BkWlP8oLkzml0RwOsMik/AjtTHoRMHuMG8wZOhUF9AbdgTCdquPqg3
- sJ3py8CRZWxqR6FdPwjo9E0X4HZ28UruEZw6i7zxPeJTF4q2QRpgkeTSG03kq0WrZZFU
- aKjA==
-X-Gm-Message-State: APjAAAX9b8OUqHf5ztYvaVFQ4Hjr7/NSrrsDcaJD8Whaee3cTQkf3Voc
- 1hLTHF0J2Et5W4pXQ1rF7mKhmXZzqLg=
-X-Google-Smtp-Source: APXvYqzSR42TgFvA5POGIbBseeCQorZaGXeW0oi5bLUw+40gFc7tw5/MLZMcv7bljicZSWhx1n5oNQ==
-X-Received: by 2002:adf:f28f:: with SMTP id k15mr22514041wro.230.1581616615883; 
- Thu, 13 Feb 2020 09:56:55 -0800 (PST)
+ bh=fLHmDYlQWfVhICZYevuL8zWZyC/V25dFeDELII/rZe0=;
+ b=hglR01z3AwIttx1gUkCX9wlTDC2Rgta3Y3sfHXBwM2CwuDUz1zckt5e1ZlknrhNhv2
+ b3nWLM32PMXnOlE5rjyIktAIwmd9e5TU+t6hOSYqlBlzF4Q1qZI4aK9UbpRjF6IdRCv2
+ Brz5oS7T+qMXIphBvNudq6/COJz9gkwn/j7ldo7t8KE+hicWgmyWKK0iU5a4V23HzQI4
+ iqTmLCzE1phVGiBg1lumB+zfcFMT2kpQQx1VxPg4s6tNm45deDT6Le2Ogw6QdcRc6Afp
+ fqCnT4sx722PXKlSc+/4crR/X4i0O7UTnc4yvBvUIxgl1RR9Onpyi9GZOdO4K/zb9XXa
+ ox+w==
+X-Gm-Message-State: APjAAAXStY6ZkjwAJZJufkv1SZkF6gMsjr0q7Tyh2PbtyDGQDvQZ1nwV
+ aQq/qcQVYj3FQtkDzkHi7UT0CVj/wZs=
+X-Google-Smtp-Source: APXvYqxzY+gNirlHFe6Hw3LMktCz1UNWii9+LvHgOX44Jfd3R1gJ9Dcex+yCTesEwg7YGdKp4sidUw==
+X-Received: by 2002:a05:600c:2c53:: with SMTP id
+ r19mr6976901wmg.39.1581616617124; 
+ Thu, 13 Feb 2020 09:56:57 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id p26sm3692913wmc.24.2020.02.13.09.56.54
+ by smtp.gmail.com with ESMTPSA id p26sm3692913wmc.24.2020.02.13.09.56.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Feb 2020 09:56:55 -0800 (PST)
+ Thu, 13 Feb 2020 09:56:56 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 04/30] qga/qapi-schema.json: Fix missing '-' in
- GuestDiskBusType doc comment
-Date: Thu, 13 Feb 2020 17:56:21 +0000
-Message-Id: <20200213175647.17628-5-peter.maydell@linaro.org>
+Subject: [PATCH v2 05/30] qga/qapi-schema.json: Fix indent level on doc
+ comments
+Date: Thu, 13 Feb 2020 17:56:22 +0000
+Message-Id: <20200213175647.17628-6-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200213175647.17628-1-peter.maydell@linaro.org>
 References: <20200213175647.17628-1-peter.maydell@linaro.org>
@@ -66,7 +67,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::434
+X-Received-From: 2a00:1450:4864:20::341
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,36 +86,190 @@ Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The doc comment for GuestDiskBusType doesn't match up with the
-enumeration because of a missing hyphen in 'file-backed-virtual'.
-This means the docs are rendered wrongly:
-       "virtual"
-           Win virtual bus type "file-backed" virtual: Win file-backed bus type
+The texinfo doc generation doesn't care much about indentation
+levels, but we would like to add a rST backend, and rST does care
+about indentation.
 
-       "file-backed-virtual"
-           Not documented
+Make the doc comments more strongly consistent about indentation
+for multiline constructs like:
 
-Add the missing hyphen.
+@arg: description line 1
+      description line 2
+
+Returns: line one
+         line 2
+
+so that there is always exactly one space after the colon, and
+subsequent lines align with the first.
+
+This commit is a purely whitespace change, and it does not alter the
+generated .texi files (because the texi generation code strips away
+all the extra whitespace).  This does mean that we end up with some
+over-length lines.
+
+Note that when the documentation for an argument fits on a single
+line like this:
+
+@arg: one line only
+
+then stray extra spaces after the ':' don't affect the rST output, so
+I have not attempted to methodically fix them, though the preference
+is a single space here too.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Eric Blake <eblake@redhat.com>
 Reviewed-by: Markus Armbruster <armbru@redhat.com>
 ---
- qga/qapi-schema.json | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ qga/qapi-schema.json | 62 ++++++++++++++++++++++----------------------
+ 1 file changed, 31 insertions(+), 31 deletions(-)
 
 diff --git a/qga/qapi-schema.json b/qga/qapi-schema.json
-index fb4605cc19c..23ce6af597d 100644
+index 23ce6af597d..7661b2b3b45 100644
 --- a/qga/qapi-schema.json
 +++ b/qga/qapi-schema.json
-@@ -809,7 +809,7 @@
- # @sas: Win serial-attaches SCSI bus type
- # @mmc: Win multimedia card (MMC) bus type
- # @virtual: Win virtual bus type
--# @file-backed virtual: Win file-backed bus type
-+# @file-backed-virtual: Win file-backed bus type
+@@ -416,7 +416,7 @@
+ # Returns: GuestFsfreezeStatus ("thawed", "frozen", etc., as defined below)
  #
- # Since: 2.2; 'Unknown' and all entries below since 2.4
+ # Note: This may fail to properly report the current state as a result of
+-# some other guest processes having issued an fs freeze/thaw.
++#       some other guest processes having issued an fs freeze/thaw.
+ #
+ # Since: 0.15.0
+ ##
+@@ -431,13 +431,13 @@
+ # unfreeze.
+ #
+ # Note: On Windows, the command is implemented with the help of a
+-# Volume Shadow-copy Service DLL helper. The frozen state is limited
+-# for up to 10 seconds by VSS.
++#       Volume Shadow-copy Service DLL helper. The frozen state is limited
++#       for up to 10 seconds by VSS.
+ #
+ # Returns: Number of file systems currently frozen. On error, all filesystems
+-# will be thawed. If no filesystems are frozen as a result of this call,
+-# then @guest-fsfreeze-status will remain "thawed" and calling
+-# @guest-fsfreeze-thaw is not necessary.
++#          will be thawed. If no filesystems are frozen as a result of this call,
++#          then @guest-fsfreeze-status will remain "thawed" and calling
++#          @guest-fsfreeze-thaw is not necessary.
+ #
+ # Since: 0.15.0
+ ##
+@@ -455,7 +455,7 @@
+ #               Invalid mount points are ignored.
+ #
+ # Returns: Number of file systems currently frozen. On error, all filesystems
+-# will be thawed.
++#          will be thawed.
+ #
+ # Since: 2.2
+ ##
+@@ -511,12 +511,12 @@
+ # Discard (or "trim") blocks which are not in use by the filesystem.
+ #
+ # @minimum:
+-#       Minimum contiguous free range to discard, in bytes. Free ranges
+-#       smaller than this may be ignored (this is a hint and the guest
+-#       may not respect it).  By increasing this value, the fstrim
+-#       operation will complete more quickly for filesystems with badly
+-#       fragmented free space, although not all blocks will be discarded.
+-#       The default value is zero, meaning "discard every free block".
++#           Minimum contiguous free range to discard, in bytes. Free ranges
++#           smaller than this may be ignored (this is a hint and the guest
++#           may not respect it).  By increasing this value, the fstrim
++#           operation will complete more quickly for filesystems with badly
++#           fragmented free space, although not all blocks will be discarded.
++#           The default value is zero, meaning "discard every free block".
+ #
+ # Returns: A @GuestFilesystemTrimResponse which contains the
+ #          status of all trimmed paths. (since 2.4)
+@@ -693,7 +693,7 @@
+ # @ip-addresses: List of addresses assigned to @name
+ #
+ # @statistics: various statistic counters related to @name
+-# (since 2.11)
++#              (since 2.11)
+ #
+ # Since: 1.1
+ ##
+@@ -743,7 +743,7 @@
+ # This is a read-only operation.
+ #
+ # Returns: The list of all VCPUs the guest knows about. Each VCPU is put on the
+-# list exactly once, but their order is unspecified.
++#          list exactly once, but their order is unspecified.
+ #
+ # Since: 1.5
+ ##
+@@ -937,8 +937,8 @@
+ # This is a read-only operation.
+ #
+ # Returns: The list of all memory blocks the guest knows about.
+-# Each memory block is put on the list exactly once, but their order
+-# is unspecified.
++#          Each memory block is put on the list exactly once, but their order
++#          is unspecified.
+ #
+ # Since: 2.3
+ ##
+@@ -971,9 +971,9 @@
+ # @response: the result of memory block operation.
+ #
+ # @error-code: the error number.
+-#               When memory block operation fails, we assign the value of
+-#               'errno' to this member, it indicates what goes wrong.
+-#               When the operation succeeds, it will be omitted.
++#              When memory block operation fails, we assign the value of
++#              'errno' to this member, it indicates what goes wrong.
++#              When the operation succeeds, it will be omitted.
+ #
+ # Since: 2.3
+ ##
+@@ -1040,15 +1040,15 @@
+ # @exited: true if process has already terminated.
+ # @exitcode: process exit code if it was normally terminated.
+ # @signal: signal number (linux) or unhandled exception code
+-#       (windows) if the process was abnormally terminated.
++#          (windows) if the process was abnormally terminated.
+ # @out-data: base64-encoded stdout of the process
+ # @err-data: base64-encoded stderr of the process
+-#       Note: @out-data and @err-data are present only
+-#       if 'capture-output' was specified for 'guest-exec'
++#            Note: @out-data and @err-data are present only
++#            if 'capture-output' was specified for 'guest-exec'
+ # @out-truncated: true if stdout was not fully captured
+-#       due to size limitation.
++#                 due to size limitation.
+ # @err-truncated: true if stderr was not fully captured
+-#       due to size limitation.
++#                 due to size limitation.
+ #
+ # Since: 2.5
+ ##
+@@ -1131,8 +1131,8 @@
+ 
+ ##
+ # @GuestUser:
+-# @user:       Username
+-# @domain:     Logon domain (windows only)
++# @user: Username
++# @domain: Logon domain (windows only)
+ # @login-time: Time of login of this user on the computer. If multiple
+ #              instances of the user are logged in, the earliest login time is
+ #              reported. The value is in fractional seconds since epoch time.
+@@ -1156,10 +1156,10 @@
+ ##
+ # @GuestTimezone:
+ #
+-# @zone:    Timezone name. These values may differ depending on guest/OS and
+-#           should only be used for informational purposes.
+-# @offset:  Offset to UTC in seconds, negative numbers for time zones west of
+-#           GMT, positive numbers for east
++# @zone: Timezone name. These values may differ depending on guest/OS and
++#        should only be used for informational purposes.
++# @offset: Offset to UTC in seconds, negative numbers for time zones west of
++#          GMT, positive numbers for east
+ #
+ # Since: 2.10
  ##
 -- 
 2.20.1
