@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C67D15CC5C
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 21:25:25 +0100 (CET)
-Received: from localhost ([::1]:58736 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D307715CC62
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 21:27:21 +0100 (CET)
+Received: from localhost ([::1]:58770 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j2L36-0001xL-4V
-	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 15:25:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41593)
+	id 1j2L4y-0004C1-Un
+	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 15:27:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44351)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <wainersm@redhat.com>) id 1j2L1s-0001W1-3l
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 15:24:10 -0500
+ (envelope-from <wainersm@redhat.com>) id 1j2L2Z-00025I-B9
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 15:24:52 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <wainersm@redhat.com>) id 1j2L1p-0003V5-NC
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 15:24:06 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:43928
+ (envelope-from <wainersm@redhat.com>) id 1j2L2X-0005qY-7B
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 15:24:51 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:28813
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <wainersm@redhat.com>) id 1j2L1p-0003PY-9v
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 15:24:05 -0500
+ (Exim 4.71) (envelope-from <wainersm@redhat.com>) id 1j2L2X-0005pA-2O
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 15:24:49 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581625443;
+ s=mimecast20190719; t=1581625488;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=G2IicUNsUu02N5jrG2mBmQhIdyCTShodZwM9dDIE49g=;
- b=aLouCIatg5HYG4aftW8TqZ6AnbVspBLmlbQwh+3ZsIr40Qi5HhUKzaG4wF2W+Bybuhgcpf
- lIePb5PIf24UGeZd3u+aZ1+9mPedDOTWSnRdimMpidx1ncv2otvda41YBgHi5tKLYRImuY
- q9fPi27MJxw8IxfWY2UY5s3O9K1+AD4=
+ bh=1JfrV3R3U6fsvWIf//S18w/1Nd77SECfsn7uVUow0Og=;
+ b=AKoTqw6VGYBut+bB14CU1NyM+oEwM3epRgajAy8pntzBq7q4NkALcrpW32tWo/qgEERzRz
+ Fm/6+ur/Egm8SggDHK7S0qK3iQCyMr4ZEj+laapHlOYc+elztsMfnYMjKdBb/OMalsFG7D
+ HWv+bcqvZVTmMjx/6rRR+zmTOv9OKeQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-370-sjidpGmiNsarW0rbWkT_TA-1; Thu, 13 Feb 2020 15:23:57 -0500
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-149-OGN49DWgN0e4dI115XCYIQ-1; Thu, 13 Feb 2020 15:24:40 -0500
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2F93B107ACC5;
- Thu, 13 Feb 2020 20:23:56 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C33431857343;
+ Thu, 13 Feb 2020 20:24:38 +0000 (UTC)
 Received: from localhost.localdomain (ovpn-116-24.gru2.redhat.com
  [10.97.116.24])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0CCEA5C131;
- Thu, 13 Feb 2020 20:23:49 +0000 (UTC)
-Subject: Re: [PATCH] tests/acceptance/ppc_prep_40p: Do not run NetBSD test by
- default
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A5B775C1BB;
+ Thu, 13 Feb 2020 20:24:30 +0000 (UTC)
+Subject: Re: [PATCH] tests/acceptance/ppc_prep_40p: Use cdn.netbsd.org hostname
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  qemu-devel@nongnu.org
-References: <20200211131948.26142-1-philmd@redhat.com>
+References: <20200211134504.9156-1-philmd@redhat.com>
 From: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-ID: <314af1aa-f584-4465-0ce5-3dd9cbec5df5@redhat.com>
-Date: Thu, 13 Feb 2020 18:23:47 -0200
+Message-ID: <ceea0b44-6925-72c7-e593-1111da4541bf@redhat.com>
+Date: Thu, 13 Feb 2020 18:24:29 -0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.4.0
 MIME-Version: 1.0
-In-Reply-To: <20200211131948.26142-1-philmd@redhat.com>
+In-Reply-To: <20200211134504.9156-1-philmd@redhat.com>
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: sjidpGmiNsarW0rbWkT_TA-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-MC-Unique: OGN49DWgN0e4dI115XCYIQ-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,33 +78,19 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: qemu-ppc@nongnu.org, Kamil Rytarowski <kamil@netbsd.org>,
  =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-On 2/11/20 11:19 AM, Philippe Mathieu-Daud=C3=A9 wrote:
-> The ftp.netbsd.org server is slow and downloading the NetBSD ISO
-> takes too long. Do not include this test in the default suite.
+On 2/11/20 11:45 AM, Philippe Mathieu-Daud=C3=A9 wrote:
+> Use NetBSD content delivery network to get faster downloads.
 >
-> Similarly to commit 471c97a69b:
->
->    Currently the Avocado framework does not distinct the time spent
->    downloading assets vs. the time spent running a test. With big
->    assets (like a full VM image) the tests likely fail.
->
->    This is a limitation known by the Avocado team.
->    Until this issue get fixed, do not run this tests automatically.
->
->    Tests can still be run setting the AVOCADO_TIMEOUT_EXPECTED
->    environment variable.
->
-> Reported-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> Suggested-by: Kamil Rytarowski <kamil@netbsd.org>
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 > ---
->   tests/acceptance/ppc_prep_40p.py | 1 +
->   1 file changed, 1 insertion(+)
+>   tests/acceptance/ppc_prep_40p.py | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
 
 
 LGTM.
@@ -115,18 +101,32 @@ Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
 >
 > diff --git a/tests/acceptance/ppc_prep_40p.py b/tests/acceptance/ppc_prep=
 _40p.py
-> index b27572f212..efe06037ba 100644
+> index efe06037ba..6729d96f5e 100644
 > --- a/tests/acceptance/ppc_prep_40p.py
 > +++ b/tests/acceptance/ppc_prep_40p.py
-> @@ -61,6 +61,7 @@ def test_openbios_192m(self):
->           wait_for_console_pattern(self, '>> CPU type PowerPC,604')
->  =20
->       @skipIf(os.getenv('CONTINUOUS_INTEGRATION'), 'Running on Travis-CI'=
+> @@ -34,7 +34,7 @@ def test_factory_firmware_and_netbsd(self):
+>                       '7020-40p/P12H0456.IMG')
+>           bios_hash =3D '1775face4e6dc27f3a6ed955ef6eb331bf817f03'
+>           bios_path =3D self.fetch_asset(bios_url, asset_hash=3Dbios_hash=
 )
-> +    @skipUnless(os.getenv('AVOCADO_TIMEOUT_EXPECTED'), 'Test might timeo=
-ut')
->       def test_openbios_and_netbsd(self):
->           """
+> -        drive_url =3D ('https://ftp.netbsd.org/pub/NetBSD/NetBSD-archive=
+/'
+> +        drive_url =3D ('https://cdn.netbsd.org/pub/NetBSD/NetBSD-archive=
+/'
+>                        'NetBSD-4.0/prep/installation/floppy/generic_com0.=
+fs')
+>           drive_hash =3D 'dbcfc09912e71bd5f0d82c7c1ee43082fb596ceb'
+>           drive_path =3D self.fetch_asset(drive_url, asset_hash=3Ddrive_h=
+ash)
+> @@ -67,7 +67,7 @@ def test_openbios_and_netbsd(self):
 >           :avocado: tags=3Darch:ppc
+>           :avocado: tags=3Dmachine:40p
+>           """
+> -        drive_url =3D ('https://ftp.netbsd.org/pub/NetBSD/iso/7.1.2/'
+> +        drive_url =3D ('https://cdn.netbsd.org/pub/NetBSD/iso/7.1.2/'
+>                        'NetBSD-7.1.2-prep.iso')
+>           drive_hash =3D 'ac6fa2707d888b36d6fa64de6e7fe48e'
+>           drive_path =3D self.fetch_asset(drive_url, asset_hash=3Ddrive_h=
+ash,
 
 
