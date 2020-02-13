@@ -2,47 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D02AE15CE7E
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Feb 2020 00:07:25 +0100 (CET)
-Received: from localhost ([::1]:60696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E57215CE76
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Feb 2020 00:03:12 +0100 (CET)
+Received: from localhost ([::1]:60608 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j2NZs-0002Gd-Sm
-	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 18:07:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51097)
+	id 1j2NVm-0004mU-5B
+	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 18:03:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51098)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1j2NQy-00075Q-Mu
+ (envelope-from <dgibson@ozlabs.org>) id 1j2NQy-00075R-Mw
  for qemu-devel@nongnu.org; Thu, 13 Feb 2020 17:58:13 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1j2NQx-0006V4-8x
+ (envelope-from <dgibson@ozlabs.org>) id 1j2NQx-0006V9-8x
  for qemu-devel@nongnu.org; Thu, 13 Feb 2020 17:58:12 -0500
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:34085 helo=ozlabs.org)
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:39985 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1j2NQw-0006Gj-BZ; Thu, 13 Feb 2020 17:58:11 -0500
+ id 1j2NQv-0006Gt-PS; Thu, 13 Feb 2020 17:58:10 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 48JX3Z67X0z9s29; Fri, 14 Feb 2020 09:58:02 +1100 (AEDT)
+ id 48JX3Z6Y7dz9sRG; Fri, 14 Feb 2020 09:58:02 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1581634682;
- bh=X1vgOpqyDNmAZ02SAi1Zjqk0fxNRP35hkvyITlY5dlw=;
+ bh=diOphC0RvZAzk7sd5XPNf8YAh2BCWesdZSoV6j22MaM=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=XYBM+yOByVYFjTL46IxzTY1+KdyfdOnTU+mYQSqJtBLvLeHfZu/p5xBtZzZd2wrfY
- OdyfkRz5n1zY3+btnpPKwXvweMGM6I8gZEbnvSUYPg7KhMEL0+8+4HYsg7bp8nhCJ7
- gN+F5dd87TSucaWVX+ljOn+FmHn/fL3w/yNKyEJM=
-Date: Fri, 14 Feb 2020 09:56:50 +1100
+ b=qD8qhRs6zuK3fcjQRL/o3f3ozpXTYjbqWXUGHktynbVSnv5hygwXzpKX7wRbSNvto
+ ZHYi1Bv5bvokdJ73XNuQ5Krs/fOx5wjnRA42D8J6bOGdT5wVDABm6xfq827mLZXx0a
+ H5bEs0xYkPNbfdgOKYyhnLHUCDiajmn0pBsXU4s8=
+Date: Fri, 14 Feb 2020 09:57:56 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH v2 1/2] spapr: Disable legacy virtio devices for
- pseries-5.0 and later
-Message-ID: <20200213225650.GH124369@umbus.fritz.box>
+Subject: Re: [PATCH v2 0/2] spapr: Use vIOMMU translation for virtio by default
+Message-ID: <20200213225756.GI124369@umbus.fritz.box>
 References: <20200213005837.131791-1-david@gibson.dropbear.id.au>
- <20200213005837.131791-2-david@gibson.dropbear.id.au>
- <20200213153425.53b5c53c@bahia.lan>
+ <20200213124643.7b205d44@bahia.lan>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="l06SQqiZYCi8rTKz"
+ protocol="application/pgp-signature"; boundary="vs0rQTeTompTJjtd"
 Content-Disposition: inline
-In-Reply-To: <20200213153425.53b5c53c@bahia.lan>
+In-Reply-To: <20200213124643.7b205d44@bahia.lan>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
 X-Received-From: 2401:3900:2:1::2
@@ -63,77 +61,73 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---l06SQqiZYCi8rTKz
+--vs0rQTeTompTJjtd
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Feb 13, 2020 at 03:34:25PM +0100, Greg Kurz wrote:
-> On Thu, 13 Feb 2020 11:58:36 +1100
+On Thu, Feb 13, 2020 at 12:46:43PM +0100, Greg Kurz wrote:
+> On Thu, 13 Feb 2020 11:58:35 +1100
 > David Gibson <david@gibson.dropbear.id.au> wrote:
 >=20
-> > PAPR specifies a kind of odd, paravirtualized PCI bus, which looks to
-> > the guess mostly like classic PCI, even if some of the individual
-> > devices on the bus are PCI Express.  One consequence of that is that
-> > virtio-pci devices still default to being in transitional mode, though
-> > legacy mode is now disabled by default on current q35 x86 machine
-> > types.
+> > Upcoming Secure VM support for pSeries machines introduces some
+> > complications for virtio, since the transfer buffers need to be
+> > explicitly shared so that the hypervisor can access them.
 > >=20
-> > Legacy mode virtio devices aren't really necessary any more, and are
-> > causing some problems for future changes.  Therefore, for the
-> > pseries-5.0 machine type (and onwards), switch to modern-only
-> > virtio-pci devices by default.
+> > While it's not strictly speaking dependent on it, the fact that virtio
+> > devices bypass normal platform IOMMU translation complicates the issue
+> > on the guest side.  Since there are some significan downsides to
+> > bypassing the vIOMMU anyway, let's just disable that.
 > >=20
-> > This does mean we no longer support guest kernels prior to 4.0, unless
-> > they have modern virtio support backported (which some distro kernels
-> > like that in RHEL7 do).
+> > There's already a flag to do this in virtio, just turn it on by
+> > default for forthcoming pseries machine types.
 > >=20
-> > Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-> > ---
-> >  hw/ppc/spapr.c | 14 +++++++++++++-
-> >  1 file changed, 13 insertions(+), 1 deletion(-)
+> > Any opinions on whether dropping support for the older guest kernels
+> > is acceptable at this point?
 > >=20
-> > diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> > index cb220fde45..6e1e467cc6 100644
-> > --- a/hw/ppc/spapr.c
-> > +++ b/hw/ppc/spapr.c
-> > @@ -65,6 +65,7 @@
-> > =20
-> >  #include "hw/pci/pci.h"
-> >  #include "hw/scsi/scsi.h"
-> > +#include "hw/virtio/virtio-pci.h"
-> >  #include "hw/virtio/virtio-scsi.h"
-> >  #include "hw/virtio/vhost-scsi-common.h"
-> > =20
-> > @@ -4567,7 +4568,14 @@ static void spapr_machine_latest_class_options(M=
-achineClass *mc)
-> >   */
-> >  static void spapr_machine_5_0_class_options(MachineClass *mc)
-> >  {
-> > -    /* Defaults for the latest behaviour inherited from the base class=
- */
 >=20
-> Hmm... and so it seems we still have to carry this around when we
-> add a new machine version. At least, that's what I had to do when
-> adding a dummy 5.1 machine. This is because it is the old machine
-> type that calls the class_options() function of the new one, not
-> the other way around.
+> As expected, this breaks compatibility with existing RHEL 6.10 guests. Ea=
+ch
+> patch in this series requires an extra -global option to be specified on
+> the command line in order to boot successfully.
+>=20
+> Patch 1: -global virtio-pci.disable-legacy=3Dauto
+> Patch 2: -global virtio-pci.iommu_platform=3Doff
 
-Uh.. no. It can just go in latest_class_options.  I thought I'd
-already moved it there, but obviously not.  I've fixed that up for the
-next spin.
+Right, or setting an older machine type.
 
-> I was thinking about adapting Michael's patch. Instead of having
-> a class_options() function that we only call for the latest
-> machine type, we need a function that sets the default behaviour
-> and call it for all machine types (which can still change the
-> behaviour in their own class_options() function).
+> As seen on the RH site [1], RHEL6 will reach "End of Maintenance Support
+> or Maintenance Support 2 (Product retirement)" on November 30, 2020 and
+> "End of Extended Life-cycle Support" on June 30, 2024.
+>=20
+> Not sure if it's okay to drop support for RHEL6 this soon.
 
-This will be confusing in a different way.  It will reset the default
-options on each of the chained old machine types, which means anything
-set in the "default" options needs to be overriden in *all* old
-machine types that don't want it, not just the latest which doesn't
-want it.
+Hm, yeah.  I'm happy enough to do this upstream, downstream will
+require some discussion.
+
+> RHEL 7.7 guests seem to be unaffected.
+
+Yeah, I already checked and RHEL7 has backported support for modern
+virtio and the iommu platform flag.
+
+>=20
+> [1] https://access.redhat.com/support/policy/updates/errata/#Life_Cycle_D=
+ates
+>=20
+> > Changes since v1:
+> >  * Added information on which guest kernel versions will no longer
+> >    work with these changes
+> >  * Use Michael Tsirkin's suggested better way of handling the machine
+> >    type change
+> >=20
+> > David Gibson (2):
+> >   spapr: Disable legacy virtio devices for pseries-5.0 and later
+> >   spapr: Enable virtio iommu_platform=3Don by default
+> >=20
+> >  hw/ppc/spapr.c | 16 +++++++++++++++-
+> >  1 file changed, 15 insertions(+), 1 deletion(-)
+> >=20
+>=20
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -141,25 +135,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---l06SQqiZYCi8rTKz
+--vs0rQTeTompTJjtd
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl5F1C8ACgkQbDjKyiDZ
-s5IUjBAAkiCCHnyzVMzfq4xng8thPYhPLgBuvtTtEX/hhqaDCCBKV/cGXRpGjkqB
-oK/pjwr6OQ3kvv0Np8xCxvEbddS+u0KScTGlltN3mQzDR22P/yCk2BQ7LxXvkbX5
-gYhPcs7Cauq1h8jk0VggnHAMlcOjPhRvTLHw8A9NSTHFlGy8bqXGWPhnRgdWs6jI
-evvuAElkphoeNwAKhedh1qJRe98hlqieeMhy2jScnIfAahpbg7FZ7qO388415tXk
-eFCJ1k8NRrikeHA0yS4CChWybse8rlsSRJ9k6/+nGfC5SvBpV+HkxVOJCkxhhluH
-RR+qziitmIGxO+dnTxshHDWvQ58JFxNAqNQmPSsKGmRyedyiviqt3K9uvTQ8vWGS
-hO38X8Y5RucJawjBP/n/fmzDYJiriDymWFZ/G5gxilrhvBBCxJAfbpSC2q2cYYsP
-HyeMIgYPeyMoHUhkN3srYKRW4kJnqObvfYgYuM5BWkVp2H6Yu0v+NuCYNPt7V2+f
-50zY+VORl+9qyJcYxii1CoWf4kVBTCLmVXtAojQGFJJtmbErY9Wl3PnrslZQzPnp
-/okBxRl+uqa0VIsSwOfyCTzsxJC9yNKv8T7Y7M9OUuKKCmB3+50RKz5wbWfPM1CS
-cuwPrU3BZ/pGe2d6P8hxJTldAp/ku0l7gfoLvYkzJhYF+VR4BoA=
-=XVds
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl5F1HQACgkQbDjKyiDZ
+s5Kp8BAA5s7lU2O9pHRUGE1w1AN9HLT/I2wsICxTCpqzYDu1TcZky+lZVaGa5u+8
+edLRQogRxd9vkK7o4QEAbsJVr705X8tR6C5iF4ErV1vkmxljFmMSMfpFg/qVPcXd
+sSXo/Owdio7dQRPlHPGc7vXFlPWsihcOKIAvX4Sy8uij7iA+2/pqIk81jJoUNPaD
+/9cFSNSHlqtvHbN+Sqzr06RYMcmRIrSMOFsQxalmiSgw/Xcujf5nWnkhEMRE0j1p
+eT2N2EWM76N8I9pU4lKJNx4zwzHtJeJvQGFXEiTVz1FbkWaJmBEnN+V0l/+R/nRn
+wONTAaQO+gR/PAaqSuoLLTUbErR4+yWDuuwsJ8vS69aRuHl9BexjD1AzKVSC9D6i
+PU+HNboNdMfjbuQe9NcKjPU2UBdbrRpPGRbmKWM5V6mtCSincIfkR3O4IcQ9Lblf
+CCGkNPAKswEtoQQEFkGI+LPIkhMn2Exwg49oNH61CT9epLrTamysheijozxLAo3O
+HVLZHD9JKyD8rIU0jYMq3N5OmdS8iJZ1zlj9jQWjpneRL9abOflAvLYujRzwtFH2
+VhxnsJ0ToStrc42ZgxLZNeeqDXc5Hx/ajl4pVWvPisJdPEgAfg9ao6K2b4rQjf7h
+60mYOz9rv/FUfpiNZ8UvtL85OcncvnyJby11/9E2u0wkN3tq628=
+=K/Ky
 -----END PGP SIGNATURE-----
 
---l06SQqiZYCi8rTKz--
+--vs0rQTeTompTJjtd--
 
