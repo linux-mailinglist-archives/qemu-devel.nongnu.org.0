@@ -2,48 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E57215CE76
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Feb 2020 00:03:12 +0100 (CET)
-Received: from localhost ([::1]:60608 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E33215CE79
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Feb 2020 00:04:50 +0100 (CET)
+Received: from localhost ([::1]:60648 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j2NVm-0004mU-5B
-	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 18:03:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51098)
+	id 1j2NXN-0007Yz-LY
+	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 18:04:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53515)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1j2NQy-00075R-Mw
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 17:58:13 -0500
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1j2NSM-0000q4-In
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 17:59:40 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1j2NQx-0006V9-8x
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 17:58:12 -0500
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:39985 helo=ozlabs.org)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1j2NQv-0006Gt-PS; Thu, 13 Feb 2020 17:58:10 -0500
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 48JX3Z6Y7dz9sRG; Fri, 14 Feb 2020 09:58:02 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1581634682;
- bh=diOphC0RvZAzk7sd5XPNf8YAh2BCWesdZSoV6j22MaM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=qD8qhRs6zuK3fcjQRL/o3f3ozpXTYjbqWXUGHktynbVSnv5hygwXzpKX7wRbSNvto
- ZHYi1Bv5bvokdJ73XNuQ5Krs/fOx5wjnRA42D8J6bOGdT5wVDABm6xfq827mLZXx0a
- H5bEs0xYkPNbfdgOKYyhnLHUCDiajmn0pBsXU4s8=
-Date: Fri, 14 Feb 2020 09:57:56 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH v2 0/2] spapr: Use vIOMMU translation for virtio by default
-Message-ID: <20200213225756.GI124369@umbus.fritz.box>
-References: <20200213005837.131791-1-david@gibson.dropbear.id.au>
- <20200213124643.7b205d44@bahia.lan>
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1j2NSL-0000St-BU
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 17:59:38 -0500
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:39308)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
+ id 1j2NSL-0000RM-5R
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 17:59:37 -0500
+Received: by mail-ot1-x344.google.com with SMTP id 77so7310872oty.6
+ for <qemu-devel@nongnu.org>; Thu, 13 Feb 2020 14:59:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=8DZUfrsptKkjr6heg9eOVdtvAibTtpCOAnIfI86EvMQ=;
+ b=X/rqpeqRsv+xmW0AE7DRaG/r9BGJ1WbpWdx5jtKHE4j0ltWsHynwpCH5u8+imLaxxL
+ Yx3ROf37bdJ4GTf5wGC+w5DwwMxvfDCrqG3vBOj5z5h3yILUZ1uJiJWBkbSbQc64GYoo
+ nEU7kine/yzgy7viMkXZa1Vh/eYnIJg7r4FYeUane+tq2bFBYrdz9PDDvt880qy6vvpe
+ 9iuDekFU0b2+O1uPy84cB6KKMeYcKBAIk8sdC+znH+UDQEE94IrzQFfFNzia2crQK7jM
+ 7PoZ2xIrn7jHRlVU6tKCTkY8CyvzONzGfR4fO6ftJ+GbC2XyT05Kc/B+bb+jg4a423qg
+ vSwQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=8DZUfrsptKkjr6heg9eOVdtvAibTtpCOAnIfI86EvMQ=;
+ b=ftSzreG7ROwgD9LlHdKidXLMS1VSni7jv9utKnH4GvdqZH9dCAMAwq8qsjg5jDcDPJ
+ FUscQ1OrGlpyRQJaFwX2C0BuD9X0ul3QUN4lFvKFymWF1uWx7BvF6RPj0F70A59isPDR
+ ZDujAIRrRbxqavw0dGqXVle0grk6XNw+ut7ikUM3u4GJnUwY0K+WqpngYAcg7IEQsYPj
+ rZ0dtRKma1HBK/TN87GxgnfLxCjlymdOZCtqKQifT6VKuy+bH4jmy6Pyoc6gOmqtQz4H
+ +zpUM9syYIV+GDCmg2DSgi0Llcuo+LEXinrh3QiflJs6eOxIht8wJAzsJwpqs2rybyy4
+ i4DA==
+X-Gm-Message-State: APjAAAWj6i7/bZv41I8Mp/efRy7l5syueoFgmF7siBZ8eu5QpK48x3qE
+ OIYhc5TO0CGZawRfLYP3TpKjk2EH6juFH5A1AB4=
+X-Google-Smtp-Source: APXvYqy6OPVZPu94jKzuGCL2z/nb67OSUbTx2ieI548rJiToSjtiC4LKkRyjRmIWAsJAzkSoQ1HkWEDIVHPH1X5xSj0=
+X-Received: by 2002:a9d:2184:: with SMTP id s4mr14358809otb.121.1581634776279; 
+ Thu, 13 Feb 2020 14:59:36 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="vs0rQTeTompTJjtd"
-Content-Disposition: inline
-In-Reply-To: <20200213124643.7b205d44@bahia.lan>
+References: <20200213175647.17628-1-peter.maydell@linaro.org>
+ <20200213175647.17628-8-peter.maydell@linaro.org>
+In-Reply-To: <20200213175647.17628-8-peter.maydell@linaro.org>
+From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Date: Thu, 13 Feb 2020 23:59:15 +0100
+Message-ID: <CAL1e-=iWXDGat9dVwNEKU1JUYTz1vc-wr2f1pTNiHP-e6zpPbA@mail.gmail.com>
+Subject: Re: [PATCH v2 07/30] qapi/block-core.json: Use literal block for
+ ascii art
+To: Peter Maydell <peter.maydell@linaro.org>
+Content-Type: multipart/alternative; boundary="0000000000000130ff059e7d0b16"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2401:3900:2:1::2
+X-Received-From: 2607:f8b0:4864:20::344
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,105 +73,166 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pair@us.ibm.com, mst@redhat.com, aik@ozlabs.ru, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org, clg@kaod.org, mdroth@us.ibm.com, paulus@samba.org
+Cc: "Daniel P . Berrange" <berrange@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
---vs0rQTeTompTJjtd
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--0000000000000130ff059e7d0b16
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Feb 13, 2020 at 12:46:43PM +0100, Greg Kurz wrote:
-> On Thu, 13 Feb 2020 11:58:35 +1100
-> David Gibson <david@gibson.dropbear.id.au> wrote:
->=20
-> > Upcoming Secure VM support for pSeries machines introduces some
-> > complications for virtio, since the transfer buffers need to be
-> > explicitly shared so that the hypervisor can access them.
-> >=20
-> > While it's not strictly speaking dependent on it, the fact that virtio
-> > devices bypass normal platform IOMMU translation complicates the issue
-> > on the guest side.  Since there are some significan downsides to
-> > bypassing the vIOMMU anyway, let's just disable that.
-> >=20
-> > There's already a flag to do this in virtio, just turn it on by
-> > default for forthcoming pseries machine types.
-> >=20
-> > Any opinions on whether dropping support for the older guest kernels
-> > is acceptable at this point?
-> >=20
->=20
-> As expected, this breaks compatibility with existing RHEL 6.10 guests. Ea=
-ch
-> patch in this series requires an extra -global option to be specified on
-> the command line in order to boot successfully.
->=20
-> Patch 1: -global virtio-pci.disable-legacy=3Dauto
-> Patch 2: -global virtio-pci.iommu_platform=3Doff
+6:59 PM =C4=8Cet, 13.02.2020. Peter Maydell <peter.maydell@linaro.org> =D1=
+=98=D0=B5
+=D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:
+>
+> The ascii-art graph
 
-Right, or setting an older machine type.
+Just out of couriousity, are unicode characters allowed in rst files?
 
-> As seen on the RH site [1], RHEL6 will reach "End of Maintenance Support
-> or Maintenance Support 2 (Product retirement)" on November 30, 2020 and
-> "End of Extended Life-cycle Support" on June 30, 2024.
->=20
-> Not sure if it's okay to drop support for RHEL6 this soon.
+The boxes could've been rendered in a much more beautifull way using "lines
+and corners" group of unicode characters.
 
-Hm, yeah.  I'm happy enough to do this upstream, downstream will
-require some discussion.
+Aleksandar
 
-> RHEL 7.7 guests seem to be unaffected.
+> in the BlockLatencyHistogramInfo documentation
+> doesn't render correctly, because the whitespace is collapsed.
+>
+> Use the '|' format that emits a literal 'example' block so the graph
+> is displayed correctly.
+>
+> Strictly the texinfo generated is still wrong because each line
+> goes into its own @example environment, but it renders better
+> than what we had before.
+>
+> Fixing this rendering is a necessary prerequisite for the rST
+> generator, which otherwise complains about the inconsistent
+> indentation in the ascii-art graph.
+>
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+> v1->v2: tweaked commit message, made graph still line up
+> with preceding paragraph text
+> ---
+>  qapi/block-core.json | 14 +++++++-------
+>  1 file changed, 7 insertions(+), 7 deletions(-)
+>
+> diff --git a/qapi/block-core.json b/qapi/block-core.json
+> index ef94a296868..db9ca688d49 100644
+> --- a/qapi/block-core.json
+> +++ b/qapi/block-core.json
+> @@ -550,13 +550,13 @@
+>  #        For the example above, @bins may be something like [3, 1, 5, 2]=
+,
+>  #        and corresponding histogram looks like:
+>  #
+> -#        5|           *
+> -#        4|           *
+> -#        3| *         *
+> -#        2| *         *    *
+> -#        1| *    *    *    *
+> -#         +------------------
+> -#             10   50   100
+> +# |      5|           *
+> +# |      4|           *
+> +# |      3| *         *
+> +# |      2| *         *    *
+> +# |      1| *    *    *    *
+> +# |       +------------------
+> +# |           10   50   100
+>  #
+>  # Since: 4.0
+>  ##
+> --
+> 2.20.1
+>
+>
 
-Yeah, I already checked and RHEL7 has backported support for modern
-virtio and the iommu platform flag.
+--0000000000000130ff059e7d0b16
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
->=20
-> [1] https://access.redhat.com/support/policy/updates/errata/#Life_Cycle_D=
-ates
->=20
-> > Changes since v1:
-> >  * Added information on which guest kernel versions will no longer
-> >    work with these changes
-> >  * Use Michael Tsirkin's suggested better way of handling the machine
-> >    type change
-> >=20
-> > David Gibson (2):
-> >   spapr: Disable legacy virtio devices for pseries-5.0 and later
-> >   spapr: Enable virtio iommu_platform=3Don by default
-> >=20
-> >  hw/ppc/spapr.c | 16 +++++++++++++++-
-> >  1 file changed, 15 insertions(+), 1 deletion(-)
-> >=20
->=20
+<p dir=3D"ltr"></p>
+<p dir=3D"ltr">6:59 PM =C4=8Cet, 13.02.2020. Peter Maydell &lt;<a href=3D"m=
+ailto:peter.maydell@linaro.org">peter.maydell@linaro.org</a>&gt; =D1=98=D0=
+=B5 =D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:<br>
+&gt;<br>
+&gt; The ascii-art graph</p>
+<p dir=3D"ltr">Just out of couriousity, are unicode characters allowed in r=
+st files?</p>
+<p dir=3D"ltr">The boxes could&#39;ve been rendered in a much more beautifu=
+ll way using &quot;lines and corners&quot; group of unicode characters.</p>
+<p dir=3D"ltr">Aleksandar</p>
+<p dir=3D"ltr">&gt; in the BlockLatencyHistogramInfo documentation<br>
+&gt; doesn&#39;t render correctly, because the whitespace is collapsed.<br>
+&gt;<br>
+&gt; Use the &#39;|&#39; format that emits a literal &#39;example&#39; bloc=
+k so the graph<br>
+&gt; is displayed correctly.<br>
+&gt;<br>
+&gt; Strictly the texinfo generated is still wrong because each line<br>
+&gt; goes into its own @example environment, but it renders better<br>
+&gt; than what we had before.<br>
+&gt;<br>
+&gt; Fixing this rendering is a necessary prerequisite for the rST<br>
+&gt; generator, which otherwise complains about the inconsistent<br>
+&gt; indentation in the ascii-art graph.<br>
+&gt;<br>
+&gt; Signed-off-by: Peter Maydell &lt;<a href=3D"mailto:peter.maydell@linar=
+o.org">peter.maydell@linaro.org</a>&gt;<br>
+&gt; ---<br>
+&gt; v1-&gt;v2: tweaked commit message, made graph still line up<br>
+&gt; with preceding paragraph text<br>
+&gt; ---<br>
+&gt; =C2=A0qapi/block-core.json | 14 +++++++-------<br>
+&gt; =C2=A01 file changed, 7 insertions(+), 7 deletions(-)<br>
+&gt;<br>
+&gt; diff --git a/qapi/block-core.json b/qapi/block-core.json<br>
+&gt; index ef94a296868..db9ca688d49 100644<br>
+&gt; --- a/qapi/block-core.json<br>
+&gt; +++ b/qapi/block-core.json<br>
+&gt; @@ -550,13 +550,13 @@<br>
+&gt; =C2=A0#=C2=A0 =C2=A0 =C2=A0 =C2=A0 For the example above, @bins may be=
+ something like [3, 1, 5, 2],<br>
+&gt; =C2=A0#=C2=A0 =C2=A0 =C2=A0 =C2=A0 and corresponding histogram looks l=
+ike:<br>
+&gt; =C2=A0#<br>
+&gt; -#=C2=A0 =C2=A0 =C2=A0 =C2=A0 5|=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0*<br>
+&gt; -#=C2=A0 =C2=A0 =C2=A0 =C2=A0 4|=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0*<br>
+&gt; -#=C2=A0 =C2=A0 =C2=A0 =C2=A0 3| *=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*<=
+br>
+&gt; -#=C2=A0 =C2=A0 =C2=A0 =C2=A0 2| *=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*=
+=C2=A0 =C2=A0 *<br>
+&gt; -#=C2=A0 =C2=A0 =C2=A0 =C2=A0 1| *=C2=A0 =C2=A0 *=C2=A0 =C2=A0 *=C2=A0=
+ =C2=A0 *<br>
+&gt; -#=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0+------------------<br>
+&gt; -#=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A010=C2=A0 =C2=A050=C2=
+=A0 =C2=A0100<br>
+&gt; +# |=C2=A0 =C2=A0 =C2=A0 5|=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*<=
+br>
+&gt; +# |=C2=A0 =C2=A0 =C2=A0 4|=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*<=
+br>
+&gt; +# |=C2=A0 =C2=A0 =C2=A0 3| *=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*<br>
+&gt; +# |=C2=A0 =C2=A0 =C2=A0 2| *=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*=C2=A0=
+ =C2=A0 *<br>
+&gt; +# |=C2=A0 =C2=A0 =C2=A0 1| *=C2=A0 =C2=A0 *=C2=A0 =C2=A0 *=C2=A0 =C2=
+=A0 *<br>
+&gt; +# |=C2=A0 =C2=A0 =C2=A0 =C2=A0+------------------<br>
+&gt; +# |=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A010=C2=A0 =C2=A050=C2=A0 =
+=C2=A0100<br>
+&gt; =C2=A0#<br>
+&gt; =C2=A0# Since: 4.0<br>
+&gt; =C2=A0##<br>
+&gt; -- <br>
+&gt; 2.20.1<br>
+&gt;<br>
+&gt;<br>
+</p>
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---vs0rQTeTompTJjtd
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl5F1HQACgkQbDjKyiDZ
-s5Kp8BAA5s7lU2O9pHRUGE1w1AN9HLT/I2wsICxTCpqzYDu1TcZky+lZVaGa5u+8
-edLRQogRxd9vkK7o4QEAbsJVr705X8tR6C5iF4ErV1vkmxljFmMSMfpFg/qVPcXd
-sSXo/Owdio7dQRPlHPGc7vXFlPWsihcOKIAvX4Sy8uij7iA+2/pqIk81jJoUNPaD
-/9cFSNSHlqtvHbN+Sqzr06RYMcmRIrSMOFsQxalmiSgw/Xcujf5nWnkhEMRE0j1p
-eT2N2EWM76N8I9pU4lKJNx4zwzHtJeJvQGFXEiTVz1FbkWaJmBEnN+V0l/+R/nRn
-wONTAaQO+gR/PAaqSuoLLTUbErR4+yWDuuwsJ8vS69aRuHl9BexjD1AzKVSC9D6i
-PU+HNboNdMfjbuQe9NcKjPU2UBdbrRpPGRbmKWM5V6mtCSincIfkR3O4IcQ9Lblf
-CCGkNPAKswEtoQQEFkGI+LPIkhMn2Exwg49oNH61CT9epLrTamysheijozxLAo3O
-HVLZHD9JKyD8rIU0jYMq3N5OmdS8iJZ1zlj9jQWjpneRL9abOflAvLYujRzwtFH2
-VhxnsJ0ToStrc42ZgxLZNeeqDXc5Hx/ajl4pVWvPisJdPEgAfg9ao6K2b4rQjf7h
-60mYOz9rv/FUfpiNZ8UvtL85OcncvnyJby11/9E2u0wkN3tq628=
-=K/Ky
------END PGP SIGNATURE-----
-
---vs0rQTeTompTJjtd--
+--0000000000000130ff059e7d0b16--
 
