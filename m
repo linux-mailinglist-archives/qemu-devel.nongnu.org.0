@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05A6115C9E0
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 19:03:51 +0100 (CET)
-Received: from localhost ([::1]:57244 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC96715CA0F
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 19:13:40 +0100 (CET)
+Received: from localhost ([::1]:57462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j2Iq5-0000mU-Vb
-	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 13:03:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34219)
+	id 1j2Izb-0006Kq-Og
+	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 13:13:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34132)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j2Ijp-0000hi-JP
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 12:57:23 -0500
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j2Ijn-000304-US
+ (envelope-from <peter.maydell@linaro.org>) id 1j2Ijn-0000ev-ND
  for qemu-devel@nongnu.org; Thu, 13 Feb 2020 12:57:21 -0500
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:44779)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <peter.maydell@linaro.org>) id 1j2Iji-0002sf-O0
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 12:57:19 -0500
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:39696)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j2Ijn-0002vV-Lu
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 12:57:19 -0500
-Received: by mail-wr1-x432.google.com with SMTP id m16so7783223wrx.11
- for <qemu-devel@nongnu.org>; Thu, 13 Feb 2020 09:57:17 -0800 (PST)
+ id 1j2Iji-0002qj-Ge
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 12:57:14 -0500
+Received: by mail-wm1-x333.google.com with SMTP id c84so7796254wme.4
+ for <qemu-devel@nongnu.org>; Thu, 13 Feb 2020 09:57:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=WG/jZg+6Ema0IEye1yAbgm9SmgPhpVrIhKYh9qk0Xfs=;
- b=tGwlv/+UqN4qdPmNebjLy5ZzPY0u+Eun/MdjMic5tj70EOCfrKbrZfbgPA8Ie3acGQ
- zmc27OEVXzXo1O1O8ZkfC6RmHxpXhA0D4cCPmshhMQ8gPyjEYkCb0QlQ8Rxzsqq3pAPb
- z39ETamZGVDjB9DHBJh9fbzBougvxNVHdJA0wvjI86UkUsE+NVlJuXnNjj70FreR3aBZ
- 5lrAohY1/81WXo0hY/g9LS3roCI4sbvnd1ajsdbUtSySp9H89q96AAK6LBJx8R6W2PBs
- rvxfFRlyCN+USwFR3WXr+OiCjX1ECL+I8QGWsqMZMBieOCUdlnu6g/hsHfTgQ2onxo2V
- OHeQ==
+ bh=zJjv+z0Lmna1TM2chaAJ29LZREt9wVMVE2+U6A2tRX4=;
+ b=mNgcXFBjVHrzN754CquH3cR1TQbRWe5YNnCJNEdnj5u5NVfGuqOrvJFsv/YY1gxKDt
+ hPFThYyRSfDbhT0ZqOVyOyaillb5aL5EiY4qdCX+72PYDc/C6wHCY5L8mBdcOreANawL
+ 3pz4CCXair7oRKsOHFGWBCVavwGv5jQRpS5vNKeFT2kUMaShUZQnfMKxgF1atP25ZhUE
+ SKqRe4SiP6s0016M3/B4voNrfGhN9hRV41ZO2FaruAvIdcFfuzcZrKW4aQmzfYAumSxa
+ amGsFAY03Q+yipNT4YOx1dbMUS6FEop50gnOyirkth4ECgtpftUreIotQBk9FTXVM9fo
+ rgew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=WG/jZg+6Ema0IEye1yAbgm9SmgPhpVrIhKYh9qk0Xfs=;
- b=dM8M0FJteGHLguqcA8FBJbgUCypqFwhYzuxA+ZSu58hK4CURfUuP8n7dhi1uEhXoj6
- HsKcW6tS71NX6vga9LLKZxVb+G/1U4dBDYCMe6bAiJyVJRuTxHLNHtljLPQ/7lI+0qk4
- 7QwLiJT90FNtdi66qxC6X0QtoOfKVdLeJf3S9KXVVxK6ELTqpQYX6vYQG9qEq8fxJkiQ
- xw2yrGQpO1ZsNopI0UV9GW7+Q9DXlthN4I1/AQWI1qSwK4KukS6dGhrcV5KLXgzaYMF0
- Dg2hx1dAmdQDrK08+jImgLKYacVQwRScaIoVkG3LrwRETagPyQD5ncvHDpG7OYkkQAU4
- SKDg==
-X-Gm-Message-State: APjAAAX+hJocSTgqJAB0Iql868au6GaqWJKlW8jnecz4TUzUZxqd+I7Q
- mK0XjhDGsQgoRmI38/DlnOiG4naJtlw=
-X-Google-Smtp-Source: APXvYqwXE0njSEe2USltb+IakH4cDPz2qDiqRPzhSgHNttD9hrIN2f8wvlQOpjNGbT94eYYZ38Lq6Q==
-X-Received: by 2002:adf:db84:: with SMTP id u4mr23300767wri.317.1581616632071; 
- Thu, 13 Feb 2020 09:57:12 -0800 (PST)
+ bh=zJjv+z0Lmna1TM2chaAJ29LZREt9wVMVE2+U6A2tRX4=;
+ b=kxgQibbGHYNj0JPhZML94rZEdiUND8GO+K8injs2ZjLd1yGhegHG8d7DCVf1XUTRYq
+ OEvOKjR/Hz6EbeBqlLQsiRXhdCSRjBHGspmp8MDItmbst3PO0WjCV69xem1zMyIrEvgh
+ wIYp2MgQv9frTkQvvUjwok1HiWmYnHvvkTiUWGtpjjW/jk4sJ5yCmalkGEwGHOwe/Yfc
+ eaL/xJhI4X0Ph/VGQlWGr8uun8v76zZzxPF8UKrCwQwQGTrEt0ylsezNbC+rjm5CkuPT
+ sxY3whYSMJNa4WZaMvMxeiWZAlqv88i/GvdZ5FDYtaKRgKbq7eqh9Uz0i2wdc2z8pxSb
+ Q5ug==
+X-Gm-Message-State: APjAAAWwDqEQiNBkLbzgizBYm2SFabG1dhJtBt2yAvF5cCk4WN9ZzpNJ
+ 121pypOoysHAzq9vffvLGr2yJ16+2cU=
+X-Google-Smtp-Source: APXvYqzHScbfKs79eVEBPx3SZyyr4pP+V4lacOdWPIVGeBC5sish0ZG7L1O1uyVmnPE0Ek7doG2xDw==
+X-Received: by 2002:a7b:c8d7:: with SMTP id f23mr6818432wml.173.1581616633159; 
+ Thu, 13 Feb 2020 09:57:13 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id p26sm3692913wmc.24.2020.02.13.09.57.10
+ by smtp.gmail.com with ESMTPSA id p26sm3692913wmc.24.2020.02.13.09.57.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Feb 2020 09:57:11 -0800 (PST)
+ Thu, 13 Feb 2020 09:57:12 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 15/30] qapi/{block, misc, tmp,
- net}.json: Use explicit bulleted lists
-Date: Thu, 13 Feb 2020 17:56:32 +0000
-Message-Id: <20200213175647.17628-16-peter.maydell@linaro.org>
+Subject: [PATCH v2 16/30] qapi: Add blank lines before bulleted lists
+Date: Thu, 13 Feb 2020 17:56:33 +0000
+Message-Id: <20200213175647.17628-17-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200213175647.17628-1-peter.maydell@linaro.org>
 References: <20200213175647.17628-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::432
+X-Received-From: 2a00:1450:4864:20::333
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,188 +85,75 @@ Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A JSON block comment like this:
-     Returns: nothing on success
-              If @node is not a valid block device, DeviceNotFound
-              If @name is not found, GenericError with an explanation
-
-renders like this:
-
-     Returns: nothing on success If node is not a valid block device,
-     DeviceNotFound If name is not found, GenericError with an explanation
-
-because whitespace is not significant.
-
-Use an actual bulleted list, so that the formatting is correct.
-
-This commit gathers up the remaining json files which had
-places needing this fix.
+rST insists on a blank line before and after a bulleted list,
+but our texinfo doc generator did not. Add some extra blank
+lines in the doc comments so they're acceptable rST input.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
-v1->v2: minor commit msg tweak
----
- qapi/block.json | 33 ++++++++++++++-------------------
- qapi/misc.json  | 36 ++++++++++++++++--------------------
- qapi/tpm.json   |  4 ++--
- 3 files changed, 32 insertions(+), 41 deletions(-)
+ qapi/block-core.json | 1 +
+ qapi/char.json       | 2 ++
+ qapi/trace.json      | 1 +
+ qapi/ui.json         | 1 +
+ 4 files changed, 5 insertions(+)
 
-diff --git a/qapi/block.json b/qapi/block.json
-index 65eaacf31ad..da19834db41 100644
---- a/qapi/block.json
-+++ b/qapi/block.json
-@@ -115,15 +115,12 @@
+diff --git a/qapi/block-core.json b/qapi/block-core.json
+index 082aca3f699..13dad62f441 100644
+--- a/qapi/block-core.json
++++ b/qapi/block-core.json
+@@ -4757,6 +4757,7 @@
  #
- # For the arguments, see the documentation of BlockdevSnapshotInternal.
+ # Once the tray opens, a DEVICE_TRAY_MOVED event is emitted. There are cases in
+ # which no such event will be generated, these include:
++#
+ # - if the guest has locked the tray, @force is false and the guest does not
+ #   respond to the eject request
+ # - if the BlockBackend denoted by @device does not have a guest device attached
+diff --git a/qapi/char.json b/qapi/char.json
+index 8a9f1e75097..6907b2bfdba 100644
+--- a/qapi/char.json
++++ b/qapi/char.json
+@@ -133,6 +133,7 @@
+ # @data: data to write
  #
--# Returns: nothing on success
--#
--#          If @device is not a valid block device, GenericError
--#
--#          If any snapshot matching @name exists, or @name is empty,
--#          GenericError
--#
--#          If the format of the image used does not support it,
--#          BlockFormatFeatureNotSupported
-+# Returns: - nothing on success
-+#          - If @device is not a valid block device, GenericError
-+#          - If any snapshot matching @name exists, or @name is empty,
-+#            GenericError
-+#          - If the format of the image used does not support it,
-+#            BlockFormatFeatureNotSupported
+ # @format: data encoding (default 'utf8').
++#
+ #          - base64: data must be base64 encoded text.  Its binary
+ #            decoding gets written.
+ #          - utf8: data's UTF-8 encoding is written
+@@ -167,6 +168,7 @@
+ # @size: how many bytes to read at most
  #
- # Since: 1.7
+ # @format: data encoding (default 'utf8').
++#
+ #          - base64: the data read is returned in base64 encoding.
+ #          - utf8: the data read is interpreted as UTF-8.
+ #            Bug: can screw up when the buffer contains invalid UTF-8
+diff --git a/qapi/trace.json b/qapi/trace.json
+index 4955e5a7503..47c68f04da7 100644
+--- a/qapi/trace.json
++++ b/qapi/trace.json
+@@ -53,6 +53,7 @@
+ # Returns: a list of @TraceEventInfo for the matching events
  #
-@@ -154,12 +151,12 @@
+ #          An event is returned if:
++#
+ #          - its name matches the @name pattern, and
+ #          - if @vcpu is given, the event has the "vcpu" property.
  #
- # @name: optional the snapshot's name to be deleted
+diff --git a/qapi/ui.json b/qapi/ui.json
+index e4bd3d8ea76..89126da395b 100644
+--- a/qapi/ui.json
++++ b/qapi/ui.json
+@@ -934,6 +934,7 @@
+ # Input event union.
  #
--# Returns: SnapshotInfo on success
--#          If @device is not a valid block device, GenericError
--#          If snapshot not found, GenericError
--#          If the format of the image used does not support it,
--#          BlockFormatFeatureNotSupported
--#          If @id and @name are both not specified, GenericError
-+# Returns: - SnapshotInfo on success
-+#          - If @device is not a valid block device, GenericError
-+#          - If snapshot not found, GenericError
-+#          - If the format of the image used does not support it,
-+#            BlockFormatFeatureNotSupported
-+#          - If @id and @name are both not specified, GenericError
- #
- # Since: 1.7
- #
-@@ -197,10 +194,8 @@
- # @force: If true, eject regardless of whether the drive is locked.
- #         If not specified, the default value is false.
- #
--# Returns:  Nothing on success
--#
--#           If @device is not a valid block device, DeviceNotFound
--#
-+# Returns: - Nothing on success
-+#          - If @device is not a valid block device, DeviceNotFound
- # Notes:    Ejecting a device with no media results in success
- #
- # Since: 0.14.0
-diff --git a/qapi/misc.json b/qapi/misc.json
-index 626a342b008..06c80b58a24 100644
---- a/qapi/misc.json
-+++ b/qapi/misc.json
-@@ -418,12 +418,10 @@
- #
- # Return information about the balloon device.
- #
--# Returns: @BalloonInfo on success
--#
--#          If the balloon driver is enabled but not functional because the KVM
--#          kernel module cannot support it, KvmMissingCap
--#
--#          If no balloon device is present, DeviceNotActive
-+# Returns: - @BalloonInfo on success
-+#          - If the balloon driver is enabled but not functional because the KVM
-+#            kernel module cannot support it, KvmMissingCap
-+#          - If no balloon device is present, DeviceNotActive
- #
- # Since: 0.14.0
- #
-@@ -480,8 +478,8 @@
- #
- # @bar: the index of the Base Address Register for this region
- #
--# @type: 'io' if the region is a PIO region
--#        'memory' if the region is a MMIO region
-+# @type: - 'io' if the region is a PIO region
-+#        - 'memory' if the region is a MMIO region
- #
- # @size: memory size
- #
-@@ -992,10 +990,10 @@
- #
- # @value: the target size of the balloon in bytes
- #
--# Returns: Nothing on success
--#          If the balloon driver is enabled but not functional because the KVM
-+# Returns: - Nothing on success
-+#          - If the balloon driver is enabled but not functional because the KVM
- #            kernel module cannot support it, KvmMissingCap
--#          If no balloon device is present, DeviceNotActive
-+#          - If no balloon device is present, DeviceNotActive
- #
- # Notes: This command just issues a request to the guest.  When it returns,
- #        the balloon size may not have changed.  A guest can change the balloon
-@@ -1074,8 +1072,8 @@
- #       If @device is 'vnc' and @target is 'password', this is the new VNC
- #       password to set.  See change-vnc-password for additional notes.
- #
--# Returns: Nothing on success.
--#          If @device is not a valid block device, DeviceNotFound
-+# Returns: - Nothing on success.
-+#          - If @device is not a valid block device, DeviceNotFound
- #
- # Notes: This interface is deprecated, and it is strongly recommended that you
- #        avoid using it.  For changing block devices, use
-@@ -1225,11 +1223,9 @@
- #
- # @opaque: A free-form string that can be used to describe the fd.
- #
--# Returns: @AddfdInfo on success
--#
--#          If file descriptor was not received, FdNotSupplied
--#
--#          If @fdset-id is a negative value, InvalidParameterValue
-+# Returns: - @AddfdInfo on success
-+#          - If file descriptor was not received, FdNotSupplied
-+#          - If @fdset-id is a negative value, InvalidParameterValue
- #
- # Notes: The list of fd sets is shared by all monitor connections.
- #
-@@ -1257,8 +1253,8 @@
- #
- # @fd: The file descriptor that is to be removed.
- #
--# Returns: Nothing on success
--#          If @fdset-id or @fd is not found, FdNotFound
-+# Returns: - Nothing on success
-+#          - If @fdset-id or @fd is not found, FdNotFound
- #
- # Since: 1.2.0
- #
-diff --git a/qapi/tpm.json b/qapi/tpm.json
-index 63878aa0f47..dc1f0817399 100644
---- a/qapi/tpm.json
-+++ b/qapi/tpm.json
-@@ -96,8 +96,8 @@
- #
- # A union referencing different TPM backend types' configuration options
- #
--# @type: 'passthrough' The configuration options for the TPM passthrough type
--#        'emulator' The configuration options for TPM emulator backend type
-+# @type: - 'passthrough' The configuration options for the TPM passthrough type
-+#        - 'emulator' The configuration options for TPM emulator backend type
- #
- # Since: 1.5
- ##
+ # @type: the input type, one of:
++#
+ #        - 'key': Input event of Keyboard
+ #        - 'btn': Input event of pointer buttons
+ #        - 'rel': Input event of relative pointer motion
 -- 
 2.20.1
 
