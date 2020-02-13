@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F320315CA14
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 19:15:55 +0100 (CET)
-Received: from localhost ([::1]:57484 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED56C15C9EE
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 19:07:09 +0100 (CET)
+Received: from localhost ([::1]:57312 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j2J1m-00006G-LH
-	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 13:15:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34268)
+	id 1j2ItI-0005Xm-UL
+	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 13:07:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34256)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j2Ijq-0000jk-Dq
+ (envelope-from <peter.maydell@linaro.org>) id 1j2Ijq-0000ix-5j
  for qemu-devel@nongnu.org; Thu, 13 Feb 2020 12:57:23 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j2Ijn-00030G-Vs
+ (envelope-from <peter.maydell@linaro.org>) id 1j2Ijn-0002zk-SB
  for qemu-devel@nongnu.org; Thu, 13 Feb 2020 12:57:22 -0500
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:38152)
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:34410)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j2Ijn-0002tL-Nt
+ id 1j2Ijn-0002vL-Ko
  for qemu-devel@nongnu.org; Thu, 13 Feb 2020 12:57:19 -0500
-Received: by mail-wm1-x330.google.com with SMTP id a9so7778035wmj.3
- for <qemu-devel@nongnu.org>; Thu, 13 Feb 2020 09:57:15 -0800 (PST)
+Received: by mail-wr1-x435.google.com with SMTP id n10so5872493wrm.1
+ for <qemu-devel@nongnu.org>; Thu, 13 Feb 2020 09:57:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=2dmYuTKXtlDf7qo2rxYhEFkrRnpA4jjhd2faKlrwZ8Q=;
- b=M7cf3Tpv0TbiH4jAA+mpprfGsTBqeF2jucRhoLItmQLYJ1e3E1dPU88k7KejoRx/ra
- 1fJ6Civlw2zODEJi4/LuZVyZsDFgvKeCUqSyiPON+ENzA3oRLL7YPOI3ojAuzbb5S1Z7
- yCKrShgHT9D1LCmN1K59r2vKKtinH26w4ZxOtErn+zggkkWLojvJLUrtzUpPN+Y8AsHj
- jbm+BOs9vE1i1YB2mAY1KemkNKKIe8tKfyucLTHWFIpjObBiGblN9bXDs8tYiKg18mZX
- Z10vVmnA/8rIRt8dGyjjSgVEtGB4O4S9sqazEm72TWGWQkrPAx3AGICOaA7dZYRetRkC
- 3dzQ==
+ bh=qPc42rOU+K2bcRl791RJcPWPfU6tbDmR/D/lgmu3rFs=;
+ b=RHX3VCgOjhNyk18lXE7UVhLw16go464p5KsFIKlYMwjq1hdnSq+sZrfjB7qj1bBE1e
+ vyeWsf2H0UpvFFUItljZt0eoxGLMqwiJ4YR6Lv00VTnwNa/l36j1+ReKwA7cNBP4qLXM
+ 5EEiqCLWsk03i5qG0wjlOIuYde5GaBYD50CBtlskHGa89aR9wyIT+EKRBRvgN3MhS/yQ
+ FgyZqC2qVWeryZ+laHJOsMy5znWBlGxO0+E4KWt6I6J8NK+N/OuIsFtwnAjqqe4OK7nz
+ FouCCI0LlOAlVAi38BeOHyrpQHpvcKtK3EzCwaHSwT9qPiGPpin30WUh3/p0uDJVhz2h
+ Lq2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=2dmYuTKXtlDf7qo2rxYhEFkrRnpA4jjhd2faKlrwZ8Q=;
- b=ODljdvD//Ral6ymXKQp+REeV78bKeSy6NiLl4Z6FCH2H2gEvAhceCN5CWDUV5p4uc3
- wSQerG+ShPln++Ifg2jGma5VHXn8Yv2Dgb2Seop1X3DEmcVbFzyTJli1dujtn4gdmdpT
- vth2S7uRj966M8o6KKujt2MfO9vvWQJGM2Q6+8sETWVXHY4vzJsP41S4B21vggUj5Ws9
- tIXMLKnqCVw5fK6+dqWQRJ0jVHyS5E+Xyp3zNdCjETVzk6NFiPLNmA0Q4Ote623aqVuy
- 9qIl+RZwZ+iBZDP3f3i104z00x7KJe7pfpjuLrvbxGph0rDmuCVrnDnN0KGJHujhhqI3
- eabA==
-X-Gm-Message-State: APjAAAUeJ+XmtR5bYwkZaC4HonWSIXidjkP7x2G7BwAYo1VQE3BKHYfy
- YZa/gzfrvIRWep0YTkBGXvILXuy30/g=
-X-Google-Smtp-Source: APXvYqz0AHlryDTdfJc6gV0fixv8cb8f0deB/gXf6AdXh/o6vFiiNNOFJi4scSCnnAAr7mZJfEolDg==
-X-Received: by 2002:a1c:f008:: with SMTP id a8mr6835616wmb.81.1581616634400;
- Thu, 13 Feb 2020 09:57:14 -0800 (PST)
+ bh=qPc42rOU+K2bcRl791RJcPWPfU6tbDmR/D/lgmu3rFs=;
+ b=SKb5DaHrQGMtG9OF3Kf5j5pr/iORdTLE8eQnOd4Rv2ypMecfE07wgit4DL9i33Q6aj
+ BTgAssXJ/qXt1W6panRiena57JSOLsXOfMPrkCG/brpMPJTpjqgGX/AsmkalRKhGRplX
+ cBPRTkFp2ToTO+PzteBSAus5DEDjRYUednqk3IfJUN9GCppJ+TUdbnfQnTSrrMNUJAID
+ XhubEuG9t5C9thG3oV8jQN6COabLVzF8cyAzeGdmRXzDqlVcsWUegvIjp2VV9JP1KDQt
+ X3MQGtHw1fdPMH76dQp5ZYO7Qc8RlOViRbEAAD9vKCl6IQWR2ScwPgwkTUW6itPYerx6
+ jJwA==
+X-Gm-Message-State: APjAAAWcY5h9efKiAcIO8aTZ8is21hr92moBzjHgHi8xB5ojLW6AC+hL
+ 68+0iPA99T6m0JWJv+VPH+BXqd5OqOE=
+X-Google-Smtp-Source: APXvYqwyq9NgrpGNC++7t24JAWMRYjkA1ynXFz5Oac6Ffiyrza0tjiHmWv0FaV31q19YJlQddFykWw==
+X-Received: by 2002:adf:f606:: with SMTP id t6mr22828970wrp.304.1581616635653; 
+ Thu, 13 Feb 2020 09:57:15 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id p26sm3692913wmc.24.2020.02.13.09.57.13
+ by smtp.gmail.com with ESMTPSA id p26sm3692913wmc.24.2020.02.13.09.57.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Feb 2020 09:57:13 -0800 (PST)
+ Thu, 13 Feb 2020 09:57:15 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 17/30] qapi/migration.json: Replace _this_ with *this*
-Date: Thu, 13 Feb 2020 17:56:34 +0000
-Message-Id: <20200213175647.17628-18-peter.maydell@linaro.org>
+Subject: [PATCH v2 18/30] qapi: Delete all the "foo: dropped in n.n" notes
+Date: Thu, 13 Feb 2020 17:56:35 +0000
+Message-Id: <20200213175647.17628-19-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200213175647.17628-1-peter.maydell@linaro.org>
 References: <20200213175647.17628-1-peter.maydell@linaro.org>
@@ -65,7 +65,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::330
+X-Received-From: 2a00:1450:4864:20::435
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,49 +84,82 @@ Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The MigrationInfo::setup-time documentation is the only place where
-we use _this_ inline markup for emphasis, commonly rendered in
-italics.  rST doesn't recognize that markup and emits literal
-underscores.
+A handful of QAPI doc comments include lines like
+"ppcemb: dropped in 3.1". The doc comment parser will just
+put these into whatever the preceding section was; sometimes
+that's "Notes", and sometimes it's some random other section,
+as with "NetClientDriver" where the "'dump': dropped in 2.12"
+line ends up in the "Since:" section.
 
-Switch to *this* instead.  Changes markup to strong emphasis with
-Texinfo, commonly rendered as bold.  With rST, it will go right back
-to emphasis / italics.
+This tends to render wrongly, more so in the upcoming rST
+generator, but sometimes even in the texinfo, as in the case
+of QKeyCode:
+   ac_bookmarks
+       since 2.10 altgr, altgr_r: dropped in 2.10
 
-rST also uses **this** for strong (commonly rendered bold) where
-Texinfo uses *this*. We have one place in the doc comments
-which uses strong/bold markup, in qapi/introspect.json:
-    Note: the QAPI schema is also used to help define *internal*
-
-When we switch to rST that will be rendered as emphasis / italics.
-Markus (who wrote that) thinks that using emphasis / italics
-there is an improvement, so we leave that markup alone.
+We now have a better place to tell users about deprecated
+and deleted functionality -- qemu-deprecated.texi.
+So just remove all these "dropped in" remarks entirely.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
 ---
-v1->v2: updated commit message. Paras 1 and 2 are from Markus;
-paras 3 and 4 are new, and mention a non-change agreed in
-the thread off the cover letter of the v1 patch series.
+Perhaps qemu-deprecated.texi should be updated -- Markus
+said he'd look into that. So this patch is to some extent
+a placeholder to get these broken bits of doc comment out
+of the way.
 ---
- qapi/migration.json | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ qapi/machine.json | 2 --
+ qapi/net.json     | 4 ----
+ qapi/ui.json      | 1 -
+ 3 files changed, 7 deletions(-)
 
-diff --git a/qapi/migration.json b/qapi/migration.json
-index 11033b7a8e6..52f34299698 100644
---- a/qapi/migration.json
-+++ b/qapi/migration.json
-@@ -178,8 +178,8 @@
- #                     expected downtime in milliseconds for the guest in last walk
- #                     of the dirty bitmap. (since 1.3)
+diff --git a/qapi/machine.json b/qapi/machine.json
+index 704b2b0fe31..6c11e3cf3a4 100644
+--- a/qapi/machine.json
++++ b/qapi/machine.json
+@@ -20,8 +20,6 @@
+ #        prefix to produce the corresponding QEMU executable name. This
+ #        is true even for "qemu-system-x86_64".
  #
--# @setup-time: amount of setup time in milliseconds _before_ the
--#              iterations begin but _after_ the QMP command is issued. This is designed
-+# @setup-time: amount of setup time in milliseconds *before* the
-+#              iterations begin but *after* the QMP command is issued. This is designed
- #              to provide an accounting of any activities (such as RDMA pinning) which
- #              may be expensive, but do not actually occur during the iterative
- #              migration rounds themselves. (since 1.6)
+-# ppcemb: dropped in 3.1
+-#
+ # Since: 3.0
+ ##
+ { 'enum' : 'SysEmuTarget',
+diff --git a/qapi/net.json b/qapi/net.json
+index 80dcf0df06e..1cb9a7d782b 100644
+--- a/qapi/net.json
++++ b/qapi/net.json
+@@ -446,8 +446,6 @@
+ # Available netdev drivers.
+ #
+ # Since: 2.7
+-#
+-# 'dump': dropped in 2.12
+ ##
+ { 'enum': 'NetClientDriver',
+   'data': [ 'none', 'nic', 'user', 'tap', 'l2tpv3', 'socket', 'vde',
+@@ -493,8 +491,6 @@
+ # @opts: device type specific properties (legacy)
+ #
+ # Since: 1.2
+-#
+-# 'vlan': dropped in 3.0
+ ##
+ { 'struct': 'NetLegacy',
+   'data': {
+diff --git a/qapi/ui.json b/qapi/ui.json
+index 89126da395b..e16e98a060d 100644
+--- a/qapi/ui.json
++++ b/qapi/ui.json
+@@ -779,7 +779,6 @@
+ # @ac_forward: since 2.10
+ # @ac_refresh: since 2.10
+ # @ac_bookmarks: since 2.10
+-# altgr, altgr_r: dropped in 2.10
+ #
+ # @muhenkan: since 2.12
+ # @katakanahiragana: since 2.12
 -- 
 2.20.1
 
