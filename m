@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B087815C0A5
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 15:47:46 +0100 (CET)
-Received: from localhost ([::1]:53816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7D5415C0B1
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 15:50:36 +0100 (CET)
+Received: from localhost ([::1]:53876 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j2FmK-0001br-Nq
-	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 09:47:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60275)
+	id 1j2Fp4-00056B-Lt
+	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 09:50:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60279)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j2Fgy-0004PC-AZ
+ (envelope-from <peter.maydell@linaro.org>) id 1j2Fgy-0004PY-Fm
  for qemu-devel@nongnu.org; Thu, 13 Feb 2020 09:42:13 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j2Fgx-0001tF-8x
+ (envelope-from <peter.maydell@linaro.org>) id 1j2Fgx-0001tI-98
  for qemu-devel@nongnu.org; Thu, 13 Feb 2020 09:42:12 -0500
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:36152)
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:36564)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j2Fgx-0001qa-0P
+ id 1j2Fgx-0001qe-0A
  for qemu-devel@nongnu.org; Thu, 13 Feb 2020 09:42:11 -0500
-Received: by mail-wr1-x42a.google.com with SMTP id z3so7010630wru.3
+Received: by mail-wm1-x335.google.com with SMTP id p17so7025970wma.1
  for <qemu-devel@nongnu.org>; Thu, 13 Feb 2020 06:42:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=UM5sTdj2EYOtgEuwYW49VvaCFPwcbtuVqRLWhdo1ojU=;
- b=uxH3ziJk0qIPc1YVZiQQH+XoWOHB5dpNXtOuw2FKgNoVQv5xi0MmKvYZmZhB1VUt5A
- lHqQ6Nr0McGN5Z/dAOrkxHfk0aulpd6UBN8Dd7ZTcgTzkmYB9YSITIUgcE7Rp+UvEj4h
- DX2TcpIAKfG7HqDRIziSSu0l1guaZsoZtNCffPQV7+6NVPlFEeNI7iBACv3wD8c/hgBS
- UElWmnU3pzy/RpYBJ4Xcc4ltC5bBaDTJk4WnBU1BwHGGt26hc/U9e421QQvRIMJDsyet
- s2EaNr5A5uW3piTymqzeaQjfijtGzuxFjkss+DFGEz5rfV7gQItl6Qhu2r+7N/SMexaD
- qYJw==
+ bh=m2dLEYJaJTFcXfFVK5jWIib2jbC07UmG8YI+7vEwhGE=;
+ b=E80EYpEOl4feEEqsuDvsG/RpHnCEY0e/0WX9JofdCj4faAL3OFsn/WTqVOPt2Oklsd
+ KkdTiSW64R/TankoFFCW6BFIUnZztL48UJZXYvbm/RPGhnfD5PLtVi9t/Ow2r+P/M9Sm
+ c9DuQXzJOX7Tk68tynAN6Xphfpz3r6HhMkPlSDMm3Z0eoR9rm4FMnCmUoJe1VO4Ivj1O
+ lX+aKM3K08hrCZSaBHFSD+kOY4diF647b3mZgSYRghzD9l736JSOMWZwJ1aEvioax4pM
+ HJrXZ50l0bsSS/LVmmG/eZb16z7A1+brms4F+ZF2dvGNtV6od5hqgc2RH/9G35X9bO2A
+ yi9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=UM5sTdj2EYOtgEuwYW49VvaCFPwcbtuVqRLWhdo1ojU=;
- b=ICPdakCVMMU2oguG77aPLnBTZw+JTdmEpYFR44yhz0pBIex7S8PjqyDi4hGrAOAhl+
- e4MsEZyV0OcULXyHLRDASyTLhdWL3Y23hgLy+UIYRJ03qxHxtgFyMyhRfI7rkxVPWK2A
- o6zTB6+zesRj721JV5paXzGWOucKmstIKXSrDios1rx/ca3fTRIVj2cRaKhNLTfD5gRf
- S0UHBG1KiT45Sd/eymwc4oBqOxCK8GCsSmX/HPEhc4LLG3KvhCy2OIvajutFOVnNg0od
- xhJLk4qpIR1bkGASsxuZF7AlwFtI14Gz9dMWc6XoFIYjkNWMnoV/JoP+cjjvgz0Ip/8k
- 4u3g==
-X-Gm-Message-State: APjAAAX9sgBs8K/SS76a/KyKUTp5/0w5anf7NjM4tMFKyU9/6n9r3jJ3
- ImyG7Z9Lzzn4ChMNd+aDFi9HC3pWsZ0=
-X-Google-Smtp-Source: APXvYqziaRDFKqcP9fPh/ja2IXC4Q/rOn/gUaeO2ip1QZbl/l0zqs8RHl33ZH3OwcZ7Og0NxYUjwXQ==
-X-Received: by 2002:adf:c453:: with SMTP id a19mr22318154wrg.341.1581604927704; 
- Thu, 13 Feb 2020 06:42:07 -0800 (PST)
+ bh=m2dLEYJaJTFcXfFVK5jWIib2jbC07UmG8YI+7vEwhGE=;
+ b=fr1bZBpUe4mY2FZg7QgaQfZiaClZowp1byvW1HnNcq/tElg5jg8J+cyXMpDNnP4TUV
+ t5vTRi1S660tiausD0pz2GKX4oaqrXYgDC3cJLAdP0e3E29swh59zcMIP3q1uYAqBKth
+ C3EecHHsBZz+Iyj86K7Jnp5TkjcyV2UPh06LZViVm+5za0Mh+SMx8NANfIF5DLVWSUqh
+ 8K7TtAC/uGGuA2KofhJx8N82txaqRgnkUeuS7F3qb+5MPb8NjYLeGUBesAPfBNocGmx/
+ 9GunPGmMFeKpkT/Fa/aPpNvAp4Mvm1kS0kSzw4wapqGuFNB8aR0NDNbIw6D7+v8Wr2iA
+ A4TQ==
+X-Gm-Message-State: APjAAAUSEeQWrwOyybE0PERdI3Dv0BM5QjpULjpX+y7GBEoSa/Wjt3f4
+ 3xkRCTA1083m91Q+QPPA9V1PgIRYLEA=
+X-Google-Smtp-Source: APXvYqwS3UUCv0vMIr//1klnJCoLaNJzOMpwhdufzvVOvPLysUqGpEiF/ejsPHUiFYAuZziwUDNW1w==
+X-Received: by 2002:a7b:c5cd:: with SMTP id n13mr6205303wmk.172.1581604928709; 
+ Thu, 13 Feb 2020 06:42:08 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id e22sm3362454wme.45.2020.02.13.06.42.06
+ by smtp.gmail.com with ESMTPSA id e22sm3362454wme.45.2020.02.13.06.42.07
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Feb 2020 06:42:07 -0800 (PST)
+ Thu, 13 Feb 2020 06:42:08 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 16/46] target/arm: Replace CPSR_ERET_MASK with
- aarch32_cpsr_valid_mask
-Date: Thu, 13 Feb 2020 14:41:15 +0000
-Message-Id: <20200213144145.818-17-peter.maydell@linaro.org>
+Subject: [PULL 17/46] target/arm: Use aarch32_cpsr_valid_mask in
+ helper_exception_return
+Date: Thu, 13 Feb 2020 14:41:16 +0000
+Message-Id: <20200213144145.818-18-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200213144145.818-1-peter.maydell@linaro.org>
 References: <20200213144145.818-1-peter.maydell@linaro.org>
@@ -67,7 +67,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42a
+X-Received-From: 2a00:1450:4864:20::335
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,52 +84,41 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-CPSR_ERET_MASK was a useless renaming of CPSR_RESERVED.
-The function also takes into account bits that the cpu
-does not support.
+Using ~0 as the mask on the aarch64->aarch32 exception return
+was not even as correct as the CPSR_ERET_MASK that we had used
+on the aarch32->aarch32 exception return.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20200208125816.14954-8-richard.henderson@linaro.org
+Message-id: 20200208125816.14954-9-richard.henderson@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/cpu.h       | 2 --
- target/arm/op_helper.c | 5 ++++-
- 2 files changed, 4 insertions(+), 3 deletions(-)
+ target/arm/helper-a64.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index 08b2f5d73e4..694b0742983 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -1209,8 +1209,6 @@ void pmu_init(ARMCPU *cpu);
- #define CPSR_USER (CPSR_NZCV | CPSR_Q | CPSR_GE)
- /* Execution state bits.  MRS read as zero, MSR writes ignored.  */
- #define CPSR_EXEC (CPSR_T | CPSR_IT | CPSR_J | CPSR_IL)
--/* Mask of bits which may be set by exception return copying them from SPSR */
--#define CPSR_ERET_MASK (~CPSR_RESERVED)
- 
- /* Bit definitions for M profile XPSR. Most are the same as CPSR. */
- #define XPSR_EXCP 0x1ffU
-diff --git a/target/arm/op_helper.c b/target/arm/op_helper.c
-index 27d16ad9ad9..acf1815ea3e 100644
---- a/target/arm/op_helper.c
-+++ b/target/arm/op_helper.c
-@@ -400,11 +400,14 @@ void HELPER(cpsr_write)(CPUARMState *env, uint32_t val, uint32_t mask)
- /* Write the CPSR for a 32-bit exception return */
- void HELPER(cpsr_write_eret)(CPUARMState *env, uint32_t val)
+diff --git a/target/arm/helper-a64.c b/target/arm/helper-a64.c
+index bf45f8a785e..0c9feba3929 100644
+--- a/target/arm/helper-a64.c
++++ b/target/arm/helper-a64.c
+@@ -959,7 +959,7 @@ void HELPER(exception_return)(CPUARMState *env, uint64_t new_pc)
  {
-+    uint32_t mask;
-+
-     qemu_mutex_lock_iothread();
-     arm_call_pre_el_change_hook(env_archcpu(env));
-     qemu_mutex_unlock_iothread();
+     int cur_el = arm_current_el(env);
+     unsigned int spsr_idx = aarch64_banked_spsr_index(cur_el);
+-    uint32_t spsr = env->banked_spsr[spsr_idx];
++    uint32_t mask, spsr = env->banked_spsr[spsr_idx];
+     int new_el;
+     bool return_to_aa64 = (spsr & PSTATE_nRW) == 0;
  
--    cpsr_write(env, val, CPSR_ERET_MASK, CPSRWriteExceptionReturn);
-+    mask = aarch32_cpsr_valid_mask(env->features, &env_archcpu(env)->isar);
-+    cpsr_write(env, val, mask, CPSRWriteExceptionReturn);
- 
-     /* Generated code has already stored the new PC value, but
-      * without masking out its low bits, because which bits need
+@@ -1014,7 +1014,8 @@ void HELPER(exception_return)(CPUARMState *env, uint64_t new_pc)
+          * will sort the register banks out for us, and we've already
+          * caught all the bad-mode cases in el_from_spsr().
+          */
+-        cpsr_write(env, spsr, ~0, CPSRWriteRaw);
++        mask = aarch32_cpsr_valid_mask(env->features, &env_archcpu(env)->isar);
++        cpsr_write(env, spsr, mask, CPSRWriteRaw);
+         if (!arm_singlestep_active(env)) {
+             env->uncached_cpsr &= ~PSTATE_SS;
+         }
 -- 
 2.20.1
 
