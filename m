@@ -2,68 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCFAB15DACE
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Feb 2020 16:24:53 +0100 (CET)
-Received: from localhost ([::1]:40276 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 233E415DD5E
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Feb 2020 16:58:38 +0100 (CET)
+Received: from localhost ([::1]:40728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j2cpo-0004tD-Up
-	for lists+qemu-devel@lfdr.de; Fri, 14 Feb 2020 10:24:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48059)
+	id 1j2dMT-0006tt-73
+	for lists+qemu-devel@lfdr.de; Fri, 14 Feb 2020 10:58:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54580)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1j2cob-0003IZ-0h
- for qemu-devel@nongnu.org; Fri, 14 Feb 2020 10:23:37 -0500
+ (envelope-from <balaton@eik.bme.hu>) id 1j2dLk-0006CX-H8
+ for qemu-devel@nongnu.org; Fri, 14 Feb 2020 10:57:53 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1j2coZ-0004A6-5n
- for qemu-devel@nongnu.org; Fri, 14 Feb 2020 10:23:36 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:54136
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <balaton@eik.bme.hu>) id 1j2dLi-0007bY-OC
+ for qemu-devel@nongnu.org; Fri, 14 Feb 2020 10:57:51 -0500
+Received: from zero.eik.bme.hu ([152.66.115.2]:17083)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1j2coY-00042x-Lv
- for qemu-devel@nongnu.org; Fri, 14 Feb 2020 10:23:34 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581693813;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=zq3tTHKMHThelryW+GrW/XWmdIXJAoXdeTB4wou6J1o=;
- b=Xa/msTC3jxvIFdLGdNwmLcI8Exhh2RafXq+7LkKjJs0pBE32fYS5m/2tUbq1KZpPF1J7RU
- XNf7+PyK+uzcazTjyVFViDqPfYVneXAbbHk+PJSiYfht2jqxCbgHyibJsP5mYjG8EXzp4b
- BktRlFf2P2O3q8DuhRGW5sirbavh5dI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-38-62MQKd_vOl-DdRyONT-cFA-1; Fri, 14 Feb 2020 10:23:31 -0500
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 142BB800D50
- for <qemu-devel@nongnu.org>; Fri, 14 Feb 2020 15:23:31 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-117-234.ams2.redhat.com
- [10.36.117.234])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D69D7867EC;
- Fri, 14 Feb 2020 15:23:30 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 5B7F311385C9; Fri, 14 Feb 2020 16:23:29 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Andrea Bolognani <abologna@redhat.com>
-Subject: Re: [PATCH] qapi: Expand documentation for LostTickPolicy
-References: <20200211183744.210298-1-abologna@redhat.com>
-Date: Fri, 14 Feb 2020 16:23:29 +0100
-In-Reply-To: <20200211183744.210298-1-abologna@redhat.com> (Andrea Bolognani's
- message of "Tue, 11 Feb 2020 19:37:44 +0100")
-Message-ID: <875zg9ry4u.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: 62MQKd_vOl-DdRyONT-cFA-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+ (Exim 4.71) (envelope-from <balaton@eik.bme.hu>)
+ id 1j2dLi-0007Zt-1a; Fri, 14 Feb 2020 10:57:50 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 2AA6A7461AE;
+ Fri, 14 Feb 2020 16:57:48 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 0896B745953; Fri, 14 Feb 2020 16:57:48 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+Date: Fri, 14 Feb 2020 00:57:34 +0100
+Subject: [PATCH v2] target/ppc: Fix typo in comments
+To: qemu-devel@nongnu.org
+Message-Id: <20200214155748.0896B745953@zero.eik.bme.hu>
+X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
+X-Received-From: 152.66.115.2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,20 +43,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jones <drjones@redhat.com>, qemu-devel@nongnu.org
+Cc: qemu-trivial@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Andrea Bolognani <abologna@redhat.com> writes:
+"Deferred" was misspelled as "differed" in some comments, correct this
+typo,
 
-> The current documentation is fairly terse and not easy to decode
-> for someone who's not intimately familiar with the inner workings
-> of timer devices. Expand on it by providing a somewhat verbose
-> description of what behavior each policy will result in, as seen
-> from both the guest OS and host point of view.
->
-> Signed-off-by: Andrea Bolognani <abologna@redhat.com>
+Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+---
+v2: Found one more where even the typo was misspelled
 
-Queued, thanks!
+target/ppc/fpu_helper.c            | 4 ++--
+ target/ppc/translate/fp-impl.inc.c | 6 +++---
+ 2 files changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
+index dc383242f7..ae43b08eb5 100644
+--- a/target/ppc/fpu_helper.c
++++ b/target/ppc/fpu_helper.c
+@@ -293,7 +293,7 @@ static void float_invalid_op_vxvc(CPUPPCState *env, bool set_fpcc,
+         env->error_code = POWERPC_EXCP_FP | POWERPC_EXCP_FP_VXVC;
+         /* Update the floating-point enabled exception summary */
+         env->fpscr |= FP_FEX;
+-        /* Exception is differed */
++        /* Exception is deferred */
+     }
+ }
+ 
+@@ -644,7 +644,7 @@ static void do_float_check_status(CPUPPCState *env, uintptr_t raddr)
+ 
+     if (cs->exception_index == POWERPC_EXCP_PROGRAM &&
+         (env->error_code & POWERPC_EXCP_FP)) {
+-        /* Differred floating-point exception after target FPR update */
++        /* Deferred floating-point exception after target FPR update */
+         if (fp_exceptions_enabled(env)) {
+             raise_exception_err_ra(env, cs->exception_index,
+                                    env->error_code, raddr);
+diff --git a/target/ppc/translate/fp-impl.inc.c b/target/ppc/translate/fp-impl.inc.c
+index d8e27bf4d5..9f7868ee28 100644
+--- a/target/ppc/translate/fp-impl.inc.c
++++ b/target/ppc/translate/fp-impl.inc.c
+@@ -781,7 +781,7 @@ static void gen_mtfsb1(DisasContext *ctx)
+         tcg_gen_trunc_tl_i32(cpu_crf[1], cpu_fpscr);
+         tcg_gen_shri_i32(cpu_crf[1], cpu_crf[1], FPSCR_OX);
+     }
+-    /* We can raise a differed exception */
++    /* We can raise a deferred exception */
+     gen_helper_float_check_status(cpu_env);
+ }
+ 
+@@ -817,7 +817,7 @@ static void gen_mtfsf(DisasContext *ctx)
+         tcg_gen_trunc_tl_i32(cpu_crf[1], cpu_fpscr);
+         tcg_gen_shri_i32(cpu_crf[1], cpu_crf[1], FPSCR_OX);
+     }
+-    /* We can raise a differed exception */
++    /* We can raise a deferred exception */
+     gen_helper_float_check_status(cpu_env);
+     tcg_temp_free_i64(t1);
+ }
+@@ -850,7 +850,7 @@ static void gen_mtfsfi(DisasContext *ctx)
+         tcg_gen_trunc_tl_i32(cpu_crf[1], cpu_fpscr);
+         tcg_gen_shri_i32(cpu_crf[1], cpu_crf[1], FPSCR_OX);
+     }
+-    /* We can raise a differed exception */
++    /* We can raise a deferred exception */
+     gen_helper_float_check_status(cpu_env);
+ }
+ 
+-- 
+2.21.1
 
 
