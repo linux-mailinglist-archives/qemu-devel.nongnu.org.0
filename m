@@ -2,73 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96A8E15BEAB
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 13:48:38 +0100 (CET)
-Received: from localhost ([::1]:51616 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7074F15BEFF
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 14:11:50 +0100 (CET)
+Received: from localhost ([::1]:52060 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j2Dv3-0003NY-Mw
-	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 07:48:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43031)
+	id 1j2EHU-0000xA-VS
+	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 08:11:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45792)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1j2Dtq-0002vc-Od
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 07:47:23 -0500
+ (envelope-from <armbru@redhat.com>) id 1j2EGa-0000QX-93
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 08:10:53 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1j2Dto-0002B1-Ab
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 07:47:22 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:45183
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <armbru@redhat.com>) id 1j2EGY-00052U-J8
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 08:10:51 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:43265
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1j2Dto-0002AE-6d
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 07:47:20 -0500
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1j2EGY-00052O-Eq
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 08:10:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581598038;
+ s=mimecast20190719; t=1581599450;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=SrhUWHbuo2+hzsFW2k27Wzo8kufp8Phw+1/+5XPZwrQ=;
- b=BYM+8I1wCxnDFsDbchkCfUEGfzOjN5flk0VbuZq2CCbSCFSR7lgx15/t2T7biRB6Rvn94/
- U+Cf7G6WfJUBXwuGYiNC13A1H/yDivybhPahUitVf96qaCd7ggZT4bd4AX4hcqBpDee8Au
- 9iTvpoYk0ZUT2gYU20Cm8phfaRF6Mww=
+ bh=1SBsrdgb5ofnGmWqIt3nsWq1DLdwGxYr7lksCuflN7I=;
+ b=IGdZgbnkpOSxX46SZGBE1p6Doso/MmpPrtSKdFMTw6buiieVcMfq4SwqkkTuKjdIvFRCkZ
+ QJH87Hk5BNxDIVDyto27cVFLfWgg9KVcSVJP4c54KWsydl2w2wFEqMt9H/OQWR/qoVsR33
+ bFNuvBgMxYhFIDWUpdEhyFp/PkIyqAI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-29-wv6dz4wTOUOIbU5GmvWOrg-1; Thu, 13 Feb 2020 07:47:13 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-339-dBhP9g3jOdi0iHKpAfdVKw-1; Thu, 13 Feb 2020 08:10:48 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F22AA100550E;
- Thu, 13 Feb 2020 12:47:11 +0000 (UTC)
-Received: from [10.3.116.180] (ovpn-116-180.phx2.redhat.com [10.3.116.180])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4268126FCF;
- Thu, 13 Feb 2020 12:47:11 +0000 (UTC)
-Subject: Re: [PATCH] block: make BlockConf.*_size properties 32-bit
-To: Roman Kagan <rvkagan@yandex-team.ru>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
- <berrange@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- qemu-block@nongnu.org
-References: <20200211115401.43230-1-rvkagan@yandex-team.ru>
- <c79721ac-357f-6b9f-6d71-53f2cb72ef6e@redhat.com>
- <20200213080151.GA85593@rvkaganb>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <d869f498-0d6b-1a7f-72b5-bc5f2088b119@redhat.com>
-Date: Thu, 13 Feb 2020 06:47:10 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1A8591800D6B
+ for <qemu-devel@nongnu.org>; Thu, 13 Feb 2020 13:10:47 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-117-234.ams2.redhat.com
+ [10.36.117.234])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 82EEC5DA83;
+ Thu, 13 Feb 2020 13:10:41 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id C461511385C9; Thu, 13 Feb 2020 14:10:39 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH] console: make QMP screendump use coroutine
+References: <20200113144848.2168018-1-marcandre.lureau@redhat.com>
+ <20200212122945.uaq4cbeyhbssr4cs@sirius.home.kraxel.org>
+Date: Thu, 13 Feb 2020 14:10:39 +0100
+In-Reply-To: <20200212122945.uaq4cbeyhbssr4cs@sirius.home.kraxel.org> (Gerd
+ Hoffmann's message of "Wed, 12 Feb 2020 13:29:45 +0100")
+Message-ID: <875zga63ao.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20200213080151.GA85593@rvkaganb>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: wv6dz4wTOUOIbU5GmvWOrg-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: dBhP9g3jOdi0iHKpAfdVKw-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,76 +77,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/13/20 2:01 AM, Roman Kagan wrote:
-> On Wed, Feb 12, 2020 at 03:44:19PM -0600, Eric Blake wrote:
->> On 2/11/20 5:54 AM, Roman Kagan wrote:
->>> Devices (virtio-blk, scsi, etc.) and the block layer are happy to use
->>> 32-bit for logical_block_size, physical_block_size, and min_io_size.
->>> However, the properties in BlockConf are defined as uint16_t limiting
->>> the values to 32768.
->>>
->>> This appears unnecessary tight, and we've seen bigger block sizes handy
->>> at times.
->>
->> What larger sizes?  I could see 64k or maybe even 1M block sizes,...
-> 
-> We played exactly with these two :)
-> 
->>>
->>> Make them 32 bit instead and lift the limitation.
->>>
->>> Signed-off-by: Roman Kagan <rvkagan@yandex-team.ru>
->>> ---
->>>    hw/core/qdev-properties.c    | 21 ++++++++++++---------
->>>    include/hw/block/block.h     |  8 ++++----
->>>    include/hw/qdev-properties.h |  2 +-
->>>    3 files changed, 17 insertions(+), 14 deletions(-)
->>>
->>> diff --git a/hw/core/qdev-properties.c b/hw/core/qdev-properties.c
->>> index 7f93bfeb88..5f84e4a3b8 100644
->>> --- a/hw/core/qdev-properties.c
->>> +++ b/hw/core/qdev-properties.c
->>> @@ -716,30 +716,32 @@ const PropertyInfo qdev_prop_pci_devfn = {
->>>    /* --- blocksize --- */
->>> +#define MIN_BLOCK_SIZE 512
->>> +#define MAX_BLOCK_SIZE 2147483648
->>
->> ...but 2G block sizes are going to have tremendous performance problems.
->>
->> I'm not necessarily opposed to the widening to a 32-bit type, but think you
->> need more justification or a smaller number for the max block size,
-> 
-> I thought any smaller value would just be arbitrary and hard to reason
-> about, so I went ahead with the max value that fit in the type and could
-> be made visibile to the guest.
+Gerd Hoffmann <kraxel@redhat.com> writes:
 
-You've got bigger problems than what is visible to the guest. 
-block/qcow2.c operates on a cluster at a time; if you are stating that 
-it now requires reading multiple clusters to operate on one, qcow2 will 
-have to do lots of wasteful read-modify-write cycles.  You really need a 
-strong reason to support a maximum larger than 2M other than just "so 
-the guest can experiment with it".
+>   Hi,
+>
+>> Thanks to the QMP coroutine support, the screendump handler can
+>> trigger a graphic_hw_update(), yield and let the main loop run until
+>> update is done. Then the handler is resumed, and the ppm_save() will
+>> write the screen image to disk in the coroutine context (thus
+>> non-blocking).
+>>=20
+>> For now, HMP doesn't have coroutine support, so it remains potentially
+>> outdated or glitched.
+>>=20
+>> Fixes:
+>> https://bugzilla.redhat.com/show_bug.cgi?id=3D1230527
+>>=20
+>> Based-on: <20200109183545.27452-2-kwolf@redhat.com>
+>
+> What is the status here?  Tried to apply (worked) and build (failed),
+> seems Kevins patches are not merged yet?
 
-> 
-> Besides this is a property that is set explicitly, so I don't see a
-> problem leaving this up to the user.
-> 
->> particularly since qcow2 refuses to use cluster sizes larger than 2M and it
->> makes no sense to allow a block size larger than a cluster size.
-> 
-> This still doesn't contradict passing a bigger value to the guest, for
-> experimenting if nothing else.
-> 
-> Thanks,
-> Roman.
-> 
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+I reviewed v3, Kevin worked in improvements promptly, and I failed to
+review v4 promptly.  Sorry about that.
 
 
