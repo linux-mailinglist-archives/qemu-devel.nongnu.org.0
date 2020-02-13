@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEA0815C12E
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 16:15:41 +0100 (CET)
-Received: from localhost ([::1]:54458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 419B215C116
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 16:10:53 +0100 (CET)
+Received: from localhost ([::1]:54328 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j2GDM-0005PY-QU
-	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 10:15:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60572)
+	id 1j2G8i-00078U-BI
+	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 10:10:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60535)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j2FhP-0004pB-0Y
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 09:42:41 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1j2FhO-0004mm-74
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 09:42:39 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j2FhN-0002Q3-No
+ (envelope-from <peter.maydell@linaro.org>) id 1j2FhN-0002Oi-1N
  for qemu-devel@nongnu.org; Thu, 13 Feb 2020 09:42:38 -0500
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:51274)
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:51731)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j2FhN-0002Je-Gl
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 09:42:37 -0500
-Received: by mail-wm1-x32c.google.com with SMTP id t23so6545404wmi.1
+ id 1j2FhM-0002Jr-Qo
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 09:42:36 -0500
+Received: by mail-wm1-x344.google.com with SMTP id t23so6545453wmi.1
  for <qemu-devel@nongnu.org>; Thu, 13 Feb 2020 06:42:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=N0Kibz+Zwr8u1oAxdBoyGL/jmEs53LkcKtGIGXIk9Jc=;
- b=wb2dCeNIurBpUwfbb+APC04g/OdzVnWqKdQvnLa1cLt/2n93PP9Vf1kWWSq8fEkjlk
- KJZ2xAPZbx8IrjqXXwMKL6k2a4b+MB417a8gGkizabplGLFcLGXLDMcw3/RGsNZi46tY
- yegTzrkI/t2qo2MjxOg2Qayz3jda1whapC657j3/CaPmZuRZxx4WJx7mbBR7vxbG7Y5V
- 1jQy4VZ/9Tl1cTGYuNeDUO+35ibMXhHeQ5JTvulG8hePM9XzFr7H4GykaeU+2Jqcjx9R
- cDgceb3pbdCBkciuAdXtYq/4rRZJlWeylBXOOiuK0siJwYGO4LSaQSjkp8YL8R1+d+xO
- BejA==
+ bh=GWz1pjVoz6EtEwxuWeaelwOEmy5EO8eEws/ey/K03f8=;
+ b=BhmP95Exm/gK6DIhdwZvHR2w/qXWOLQX6K1tO4UzwadBpAEOX6iZjrIr4We4QPyzav
+ XeiOY7BCkxyr00YSJilvGDmnE25aX5KN5kq5ezQ5n+kcz0ivD2hk5/26w5hyOAX8g+3s
+ Nu1kCvHqIHD5GY3VTqObTGf/A6gXZurBxxwXjAJBgjOPTx9Lr5qGgdRQBHpUCf76dRhn
+ k6NtpmPwTezQjIlFhfMyDn+DDj4OAAu2cTkWz+DifJm8T+DAbMDcuWbdKwqdGU3lSMx0
+ 9XqClUUONZjdi+nSGBl0Kd0viV/G3sK4rOC3GNn6ziqy/aL0b7ZRkANt3e5pLLLP1D8v
+ 4D/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=N0Kibz+Zwr8u1oAxdBoyGL/jmEs53LkcKtGIGXIk9Jc=;
- b=uily8rNaLX37ezcvUErvrew1jQEYk0i/MZj8Sc6maGdqvy6W1qWPJDP8/NGXTAZw7n
- eXLRUSV3CFAHSS9BDMspNMARxO6oJOZ/TlhzSxjRn/WHKhgLXEmNfTc0b6c+yUu4g9i/
- M3LSGvlEzbMYr1qRegl4IZnHAIUZbrwHMkqjjMLLKQSrCdNe+Ulh7IuIBXDVxC6KrTUz
- jpgCRgaxa+t9NsrmhS1C3SFy+9DVct0CknN8drlA373mXnC/MQB8Uds3Vnnhs0x7/IXM
- iiPE3dtmvGWtq9v8oKhk4t2PYfcXTzrdjdsHPkUl7qRmDT9fnPUoxKAm/XjsLnqe+E87
- Gaxw==
-X-Gm-Message-State: APjAAAXmUoSUyPk62cJEXOXPax1/Rl21+IlAN53rXXdejr0G7xBTbCpk
- d7NKSh3d91yuyCC0WHkIlwBC0ijscnY=
-X-Google-Smtp-Source: APXvYqzi9MoiaVJPVAlZNkKtGHYFbUaHRSDbd+RDOerdVtWFt31e4cAwDTdWIBb07cjHAXsupdXEog==
-X-Received: by 2002:a7b:cbc9:: with SMTP id n9mr6268103wmi.89.1581604948544;
- Thu, 13 Feb 2020 06:42:28 -0800 (PST)
+ bh=GWz1pjVoz6EtEwxuWeaelwOEmy5EO8eEws/ey/K03f8=;
+ b=eomcmT/0j+jy8mfej+g/2sHexm/gckMZiP5atyp4zPJeCbKHKi9MQy1KkEWZI0PcWi
+ ymmN+8mD/ESGSWx1q9Fu3eHLEU0lH4h/8++6tUwDL35xY+bxtwZbiRx5zec2x0mzdzrE
+ PeHgL3rsPbOeIp+jDQu6Mt3TyylIvjiHhyNMEBv4bEoozTpbpMN+xTPUDvMmLm/pOZBZ
+ 78URAzJjpdqAx2iMej35Hg7tuolbBD9cxAx5JAm6Daki6fbVnvCgT9/4A4ss0hMR9P5W
+ 5ifLXCHlfzrAICgj8QMu9zml3s6teblaqPsB3CT5GRP5vUj+RvQZeM7h1o0wBAFJ83jA
+ yo2g==
+X-Gm-Message-State: APjAAAXbtGY5hxbXQVbLXYUAFoc/zPqY2F+AkwNM9vnqr/o0ApNTspVx
+ OmNc16JsBQtLxcevqKsL6f5yFX6s1zM=
+X-Google-Smtp-Source: APXvYqxZlRYvB5OlqBUmfdFnmCVMqixBq/pjTIZEgq+x+O5IsGATa3zecZpTB3Fmly7voxqV9wdUgw==
+X-Received: by 2002:a05:600c:22d3:: with SMTP id
+ 19mr6111153wmg.20.1581604949515; 
+ Thu, 13 Feb 2020 06:42:29 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id e22sm3362454wme.45.2020.02.13.06.42.27
+ by smtp.gmail.com with ESMTPSA id e22sm3362454wme.45.2020.02.13.06.42.28
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Feb 2020 06:42:27 -0800 (PST)
+ Thu, 13 Feb 2020 06:42:28 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 36/46] hw/arm/raspi: Extract the RAM size from the board
+Subject: [PULL 37/46] hw/arm/raspi: Extract the processor type from the board
  revision
-Date: Thu, 13 Feb 2020 14:41:35 +0000
-Message-Id: <20200213144145.818-37-peter.maydell@linaro.org>
+Date: Thu, 13 Feb 2020 14:41:36 +0000
+Message-Id: <20200213144145.818-38-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200213144145.818-1-peter.maydell@linaro.org>
 References: <20200213144145.818-1-peter.maydell@linaro.org>
@@ -68,7 +69,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32c
+X-Received-From: 2a00:1450:4864:20::344
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,67 +86,53 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-The board revision encode the amount of RAM. Add a helper
-to extract the RAM size, and use it.
-Since the amount of RAM is fixed (it is impossible to physically
-modify to have more or less RAM), do not allow sizes different
-than the one anounced by the manufacturer.
+The board revision encode the processor type. Add a helper
+to extract the type, and use it.
 
-Acked-by: Igor Mammedov <imammedo@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-id: 20200208165645.15657-5-f4bug@amsat.org
+Message-id: 20200208165645.15657-6-f4bug@amsat.org
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/raspi.c | 15 ++++++++++++---
- 1 file changed, 12 insertions(+), 3 deletions(-)
+ hw/arm/raspi.c | 18 ++++++++++++++++--
+ 1 file changed, 16 insertions(+), 2 deletions(-)
 
 diff --git a/hw/arm/raspi.c b/hw/arm/raspi.c
-index f285e2988fc..dcd8d2d6d38 100644
+index dcd8d2d6d38..7a2ca97347e 100644
 --- a/hw/arm/raspi.c
 +++ b/hw/arm/raspi.c
-@@ -13,6 +13,7 @@
+@@ -67,6 +67,21 @@ static int board_version(uint32_t board_rev)
+     return board_processor_id(board_rev) + 1;
+ }
  
- #include "qemu/osdep.h"
- #include "qemu/units.h"
-+#include "qemu/cutils.h"
- #include "qapi/error.h"
- #include "cpu.h"
- #include "hw/arm/bcm2836.h"
-@@ -49,6 +50,12 @@ FIELD(REV_CODE, MANUFACTURER,      16, 4);
- FIELD(REV_CODE, MEMORY_SIZE,       20, 3);
- FIELD(REV_CODE, STYLE,             23, 1);
- 
-+static uint64_t board_ram_size(uint32_t board_rev)
++static const char *board_soc_type(uint32_t board_rev)
 +{
-+    assert(FIELD_EX32(board_rev, REV_CODE, STYLE)); /* Only new style */
-+    return 256 * MiB << FIELD_EX32(board_rev, REV_CODE, MEMORY_SIZE);
++    static const char *soc_types[] = {
++        NULL, TYPE_BCM2836, TYPE_BCM2837,
++    };
++    int proc_id = board_processor_id(board_rev);
++
++    if (proc_id >= ARRAY_SIZE(soc_types) || !soc_types[proc_id]) {
++        error_report("Unsupported processor id '%d' (board revision: 0x%x)",
++                     proc_id, board_rev);
++        exit(1);
++    }
++    return soc_types[proc_id];
 +}
 +
- static int board_processor_id(uint32_t board_rev)
+ static void write_smpboot(ARMCPU *cpu, const struct arm_boot_info *info)
  {
-     assert(FIELD_EX32(board_rev, REV_CODE, STYLE)); /* Only new style */
-@@ -191,15 +198,17 @@ static void raspi_init(MachineState *machine, uint32_t board_rev)
- {
-     RasPiState *s = g_new0(RasPiState, 1);
-     int version = board_version(board_rev);
-+    uint64_t ram_size = board_ram_size(board_rev);
-     uint32_t vcram_size;
-     DriveInfo *di;
-     BlockBackend *blk;
-     BusState *bus;
-     DeviceState *carddev;
- 
--    if (machine->ram_size > 1 * GiB) {
--        error_report("Requested ram size is too large for this machine: "
--                     "maximum is 1GB");
-+    if (machine->ram_size != ram_size) {
-+        char *size_str = size_to_str(ram_size);
-+        error_report("Invalid RAM size, should be %s", size_str);
-+        g_free(size_str);
-         exit(1);
+     static const uint32_t smpboot[] = {
+@@ -213,8 +228,7 @@ static void raspi_init(MachineState *machine, uint32_t board_rev)
      }
  
+     object_initialize_child(OBJECT(machine), "soc", &s->soc, sizeof(s->soc),
+-                            version == 3 ? TYPE_BCM2837 : TYPE_BCM2836,
+-                            &error_abort, NULL);
++                            board_soc_type(board_rev), &error_abort, NULL);
+ 
+     /* Allocate and map RAM */
+     memory_region_allocate_system_memory(&s->ram, OBJECT(machine), "ram",
 -- 
 2.20.1
 
