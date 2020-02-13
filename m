@@ -2,82 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58ECC15CCA8
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 21:57:51 +0100 (CET)
-Received: from localhost ([::1]:59088 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BBD815CD2B
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 22:22:06 +0100 (CET)
+Received: from localhost ([::1]:59282 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j2LYU-0000P5-8K
-	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 15:57:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45111)
+	id 1j2Lvw-0001fL-EL
+	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 16:22:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45792)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peterx@redhat.com>) id 1j2LXR-0008Lz-QO
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 15:56:47 -0500
+ (envelope-from <yury.norov@gmail.com>) id 1j2LO9-00041C-Eq
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 15:47:10 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peterx@redhat.com>) id 1j2LXQ-0000jr-1r
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 15:56:45 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:38302
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <peterx@redhat.com>) id 1j2LXP-0000eI-Sp
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 15:56:43 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581627402;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ap30mZ97gP15a6U01OPnLER+dBPFMwjQe00TpcBbGys=;
- b=WhChxU2iOzmMfO7HygR3NvhsCn1xrP7h2BzNIwKqfigMJTP2Bt5zcbLQYI888B9mX+7c6f
- G/VC73K1Bzuj56zuoaWp24Rc7A5ZGOEH4x155jWabVVSCvSGk0lJZ3pVUjrJ/3hpGIJTxw
- s4BlDkbyhS4MfyPFPGD3hYKR0d3w7LE=
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-85-gJnWYySKPum4aRM5p9gW3g-1; Thu, 13 Feb 2020 15:56:41 -0500
-Received: by mail-qk1-f199.google.com with SMTP id o185so4570540qke.21
- for <qemu-devel@nongnu.org>; Thu, 13 Feb 2020 12:56:40 -0800 (PST)
+ (envelope-from <yury.norov@gmail.com>) id 1j2LO8-00020b-2l
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 15:47:09 -0500
+Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:43501)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <yury.norov@gmail.com>)
+ id 1j2LO7-0001xU-Qf
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 15:47:08 -0500
+Received: by mail-pf1-x442.google.com with SMTP id s1so3653418pfh.10
+ for <qemu-devel@nongnu.org>; Thu, 13 Feb 2020 12:47:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to
+ :user-agent; bh=mC+IGwdPVaxHWNj8mNYZ18hdPPLG4fUBhPiGoWxhKxE=;
+ b=j3X7DBSj5zX5OgW3FjuIP5XlFWRSCWBxH//ZxteGT1FVRQw3F8sb2Gl4Rjyax/bZD1
+ 9egkvtO6Qlt6ccniFbuWMFLOzKQ0dR2Lbeye5gd7C80+hMILADn/0bSI+kFAl2p5Fcxt
+ nYxnN5D2rcw0r8l96CLp5005UPmDwRTA65RlFtvPrZchdmdb581wLJrS5CfAbVs1oHXW
+ tTFY9HG2w8c7dPWRq7zT+TSd1IOtxetwIfM4JIz1vRdHINhhiwoGLStDTMiuag18KOgh
+ G8ocsJT1plVZh9F8gtzcusgw6svbLgw7ZWkSNcbHPxKB58EP6c/CAJoiGl3d26yOFlbV
+ 3U1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=Paz7QgpWjjS+o+8EToccGSVCZ1VnodiEDyCB2yLmgL0=;
- b=oab6tWbK5DRjMPIUukof+T2gyDi+t7L+TR8QXM1Ebvqe5jFl+zAWeGGWMH2eG41z/q
- TjO4E3uxMwazSrx33SxKmfs/wsKAQinFZaZNrbikHLjyZ9jL3iW+dEbhPeGddU0M7e6w
- w/pZratSyMg3QBKfOmHDQka3dB+R2VkDd8KCbIo8LvMFT40Zq0tqZT1zi4p2HxOiKrDL
- jl4BQoq4Yy4jZFE5UA2qv3Oi/T/DynptKoa0dYsFaumUbjuMlt7tXzpi8CYPGGVbA25v
- 4xrKNY1gV/7gBd3GNke5SNykaNk5onxMahm5MwGuftr9WuheXO5slSh1O/yFq3NCHrFL
- /75Q==
-X-Gm-Message-State: APjAAAXz6iEHaUaJj1b2DzTgU9ofR4ZhBcaZDRFeTeI8Xqf71pYs6SHH
- A3Q61DzibeMtQPnKkX5v4JyB1gi2Ie2DqcY+t843izfGTyWxkf1TWtJ5Cv7M5TJmnkiyFAosUx8
- 3+JR6rHFiDu7sfKA=
-X-Received: by 2002:a0c:a910:: with SMTP id y16mr13383975qva.139.1581627400391; 
- Thu, 13 Feb 2020 12:56:40 -0800 (PST)
-X-Google-Smtp-Source: APXvYqyVFT7M2JKlbnABBs1QaOxpQI1MGl1ytpAGhPseDua1mge1jafsQdn98fs+2L496DkPWdwOpg==
-X-Received: by 2002:a0c:a910:: with SMTP id y16mr13383961qva.139.1581627400088; 
- Thu, 13 Feb 2020 12:56:40 -0800 (PST)
-Received: from xz-x1 ([2607:9880:19c8:32::2])
- by smtp.gmail.com with ESMTPSA id w2sm2138305qtd.97.2020.02.13.12.56.38
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to:user-agent;
+ bh=mC+IGwdPVaxHWNj8mNYZ18hdPPLG4fUBhPiGoWxhKxE=;
+ b=ZiOso5piEGidZ8D31lOEy2UpWq71iRWwtuYN9jQKR+pfZN/wddU7EtdfMF1Szo41Ys
+ SnR3ixfxXvwWJV6FRDkOcvVizy9D9bimACgimbKjw5QsxY7ZEj/+RwMVKzb6Isn54KXE
+ k3r8kQdiWm1xPot3k0PRw5jTJZN51S+U4l3Z1u3HhHVmTkz06MathexjXqjMbEPwXugY
+ FJlA7uigdEN+zi54M97GJ6Ah5sCtstQT9khBxrY2UXmyplrp6tiIcOVBgM8jgETGuWsP
+ vprHWhw7znQ612PJ02ylMvF0E3YxK2y/b3Qm20zLZ0F+5NjZbxMmHaUJwPGLjx/UScW3
+ +eHA==
+X-Gm-Message-State: APjAAAVJ0ZlJQ52KYd4rXAJWo92d/HHDONT6m13euW/hrWt1yxhUq9zj
+ 0Gr0N64U8Qo2kHlHh1/FBFc=
+X-Google-Smtp-Source: APXvYqyd9pyCtc5N8+2APg5W0dnO2VBKRiLd30iN0yDW/F2HDyNPfQO2v/jLo2mGZPtCkwII3lpKiQ==
+X-Received: by 2002:a62:ab13:: with SMTP id p19mr15286361pff.98.1581626826350; 
+ Thu, 13 Feb 2020 12:47:06 -0800 (PST)
+Received: from localhost ([73.93.152.205])
+ by smtp.gmail.com with ESMTPSA id r9sm4219555pfl.136.2020.02.13.12.47.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Feb 2020 12:56:39 -0800 (PST)
-Date: Thu, 13 Feb 2020 15:56:36 -0500
-From: Peter Xu <peterx@redhat.com>
-To: David Hildenbrand <david@redhat.com>
-Subject: Re: [PATCH RFC] memory: Don't allow to resize RAM while migrating
-Message-ID: <20200213205636.GE1103216@xz-x1>
-References: <20200213172016.196609-1-david@redhat.com>
- <20200213183221.GD1103216@xz-x1>
- <97821f63-bfdc-6342-bb8d-3d2b89c809fc@redhat.com>
+ Thu, 13 Feb 2020 12:47:05 -0800 (PST)
+Date: Thu, 13 Feb 2020 12:47:04 -0800
+From: Yury Norov <yury.norov@gmail.com>
+To: Christian Borntraeger <borntraeger@de.ibm.com>
+Subject: Re: [PATCH] uapi: fix userspace breakage, use __BITS_PER_LONG for swap
+Message-ID: <20200213204704.GA22037@yury-thinkpad>
+References: <20200213142147.17604-1-borntraeger@de.ibm.com>
 MIME-Version: 1.0
-In-Reply-To: <97821f63-bfdc-6342-bb8d-3d2b89c809fc@redhat.com>
-X-MC-Unique: gJnWYySKPum4aRM5p9gW3g-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200213142147.17604-1-borntraeger@de.ibm.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::442
+X-Mailman-Approved-At: Thu, 13 Feb 2020 16:19:59 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,86 +81,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Shannon Zhao <shannon.zhao@linaro.org>, Paolo Bonzini <pbonzini@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: William Breathitt Gray <vilhelm.gray@gmail.com>,
+ linux-kernel@vger.kernel.org, qemu-devel <qemu-devel@nongnu.org>,
+ Joe Perches <joe@perches.com>, Andrew Morton <akpm@linux-foundation.org>,
+ Thomas Gleixner <tglx@linutronix.de>, Allison Randal <allison@lohutok.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Feb 13, 2020 at 08:42:23PM +0100, David Hildenbrand wrote:
-> On 13.02.20 19:32, Peter Xu wrote:
-> > On Thu, Feb 13, 2020 at 06:20:16PM +0100, David Hildenbrand wrote:
-> >> Resizing while migrating is dangerous and does not work as expected.
-> >> The whole migration code works on the usable_length of ram blocks and =
-does
-> >> not expect this to change at random points in time.
-> >>
-> >> Precopy: The ram block size must not change on the source, after
-> >> ram_save_setup(), so as long as the guest is still running on the sour=
-ce.
-> >>
-> >> Postcopy: The ram block size must not change on the target, after
-> >> synchronizing the RAM block list (ram_load_precopy()).
-> >>
-> >> AFAIKS, resizing can be trigger *after* (but not during) a reset in
-> >> ACPI code by the guest
-> >> - hw/arm/virt-acpi-build.c:acpi_ram_update()
-> >> - hw/i386/acpi-build.c:acpi_ram_update()
-> >=20
-> > What can be the pre-condition of triggering this after reset?  I'm
-> > thinking whether QEMU can be aware of this "resizing can happen"
-> > condition, then we could simply stop the migration from happening even
-> > before the resizing happens.  Thanks,
->=20
-> I think the condition is not known before the guest actually tries to
-> read the relevant memory areas (which trigger the rebuilt+resize, and
-> AFAIK, the new size depends on fw config done by the guest after the
-> reset). So it's hard to "predict".
+On Thu, Feb 13, 2020 at 03:21:47PM +0100, Christian Borntraeger wrote:
+> QEMU has a funny new build error message when I use the upstream kernel headers:
+> 
+>   CC      block/file-posix.o
+> In file included from /home/cborntra/REPOS/qemu/include/qemu/timer.h:4,
+>                  from /home/cborntra/REPOS/qemu/include/qemu/timed-average.h:29,
+>                  from /home/cborntra/REPOS/qemu/include/block/accounting.h:28,
+>                  from /home/cborntra/REPOS/qemu/include/block/block_int.h:27,
+>                  from /home/cborntra/REPOS/qemu/block/file-posix.c:30:
+> /usr/include/linux/swab.h: In function ‘__swab’:
+> /home/cborntra/REPOS/qemu/include/qemu/bitops.h:20:34: error: "sizeof" is not defined, evaluates to 0 [-Werror=undef]
+>    20 | #define BITS_PER_LONG           (sizeof (unsigned long) * BITS_PER_BYTE)
+>       |                                  ^~~~~~
+> /home/cborntra/REPOS/qemu/include/qemu/bitops.h:20:41: error: missing binary operator before token "("
+>    20 | #define BITS_PER_LONG           (sizeof (unsigned long) * BITS_PER_BYTE)
+>       |                                         ^
+> cc1: all warnings being treated as errors
+> make: *** [/home/cborntra/REPOS/qemu/rules.mak:69: block/file-posix.o] Error 1
+> rm tests/qemu-iotests/socket_scm_helper.o
+> 
+> This was triggered by commit d5767057c9a ("uapi: rename ext2_swab() to swab() and share globally in swab.h")
+> This patch is doing
+> +#include <asm/bitsperlong.h>
+> but it uses BITS_PER_LONG.
+> 
+> The kernel file asm/bitsperlong.h provide only __BITS_PER_LONG.
+> 
+> Let us use the __ variant in swap.h
+> Fixes: d5767057c9a ("uapi: rename ext2_swab() to swab() and share globally in swab.h")
+> Cc: Yury Norov <yury.norov@gmail.com>
+> Cc: Allison Randal <allison@lohutok.net>
+> Cc: Joe Perches <joe@perches.com>
+> Cc: Thomas Gleixner <tglx@linutronix.de>
+> Cc: William Breathitt Gray <vilhelm.gray@gmail.com>
+> Signed-off-by: Christian Borntraeger <borntraeger@de.ibm.com>
+> ---
+>  include/uapi/linux/swab.h | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/include/uapi/linux/swab.h b/include/uapi/linux/swab.h
+> index fa7f97da5b76..7272f85d6d6a 100644
+> --- a/include/uapi/linux/swab.h
+> +++ b/include/uapi/linux/swab.h
+> @@ -135,9 +135,9 @@ static inline __attribute_const__ __u32 __fswahb32(__u32 val)
+>  
+>  static __always_inline unsigned long __swab(const unsigned long y)
+>  {
+> -#if BITS_PER_LONG == 64
+> +#if __BITS_PER_LONG == 64
+>  	return __swab64(y);
+> -#else /* BITS_PER_LONG == 32 */
+> +#else /* __BITS_PER_LONG == 32 */
+>  	return __swab32(y);
+>  #endif
+>  }
 
-I chimmed in without much context, sorry if I'm going to ask naive
-questions. :)
-
-What I was asking is about why the resizing can happen.  A quick read
-told me that it was majorly for easier extension of ROMs (firmware
-updates?).  With that, I'm imaging a common case for memory
-resizing...
-
-  (1) Source QEMU runs VM on old host, with old firmware
-
-  (2) Migrate source QEMU to destination new host, with new and bigger
-      firmware
-
-  (3) During the migration, the ROM size on the destination will still
-      be the old, referring to ram_load_precopy(), as long as no
-      system reset
-
-  (4) After migration finished, when the system reboots, memory
-      resizing happens with the new and bigger firmware loaded
-
-And is this patch trying to fix/warn when there's a reboot during (3)
-so the new size is discovered at a wrong time?  Is my understanding
-correct?
-
->=20
-> In the precopy case it would be easier to abort (although, not simple
-> AFAIKS), in the postcopy not so easy - because you're already partially
-> running on the migration target.
-
-Prior to this patch, would a precopy still survive with such an
-accident (asked because I _feel_ like migrating a ramblock with
-smaller used_length to the same ramblock with bigger used_length seems
-to be fine?)?  Or we can stop the precopy and restart.  After this
-patch, it'll crash the source VM (&error_abort specified in
-memory_region_ram_resize()), which seems a bit more harsh?
-
-Thanks,
-
---=20
-Peter Xu
-
+There is a patch from Torsten Hilbrich fixing this:
+https://lkml.org/lkml/2020/2/12/93
 
