@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B606415CE77
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Feb 2020 00:03:45 +0100 (CET)
-Received: from localhost ([::1]:60614 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4065115CE84
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Feb 2020 00:09:32 +0100 (CET)
+Received: from localhost ([::1]:60728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j2NWK-0005yi-PG
-	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 18:03:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40059)
+	id 1j2Nbu-0004av-2o
+	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 18:09:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55401)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1j2NKT-00052q-9j
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 17:51:30 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1j2NTW-0002Rr-LU
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 18:00:53 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1j2NKR-00042G-8o
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 17:51:28 -0500
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:55728)
+ (envelope-from <alex.bennee@linaro.org>) id 1j2NTU-0002UX-S0
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 18:00:50 -0500
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:39525)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1j2NKQ-0003zK-W2
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 17:51:27 -0500
-Received: by mail-wm1-x341.google.com with SMTP id q9so8049030wmj.5
- for <qemu-devel@nongnu.org>; Thu, 13 Feb 2020 14:51:26 -0800 (PST)
+ id 1j2NTU-0002SN-JA
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 18:00:48 -0500
+Received: by mail-wm1-x343.google.com with SMTP id c84so8644677wme.4
+ for <qemu-devel@nongnu.org>; Thu, 13 Feb 2020 15:00:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=PR3MIDvz3PtDDaollGFXmkX1Ue3lMr6ulNQeQQNdSxU=;
- b=HGy8wIBTjh4t+t0UcTdaF4nKqSFidG8Nzy8TP43VSwJ7xA3QuJwKqzhfg0tOlb+td1
- RhzwZ+hVAHoz7hV2mntzn4VR5vk6q7NLN72XjpUbrmx1sEkQ5Hx8NhHc/VaL5fmMI76i
- FZMlLlSSdCeM4WTi26riXAe5p7rYxa+Gx4LLFOO9XJv+3bCnXbNbwakjLDpoMilcTSkM
- 0cxA3f3QnQFq/l8QJmaxls/yeHRS0miiJpLDfzU2PHdDawb8K27y+16taT0X2w8I6wbT
- XWMLXBFXI6GEiAHDNiJrak3o84kR7ZRhTUR2PsnKfFsB/b+FT6KW2W3AnKOq6baH1DjD
- mmYQ==
+ bh=eMpV6oHUHsBouYuIbNXi5ILIhk0UHtJDCsWgmHAo3NA=;
+ b=yWYuM7YLKyGrZb4442dJsx+3FP9M68tyeTgoIjDsy/KBHCLHqV5KYl2OB82ZG8T2z3
+ 0irZnQLeJS0D71zNnIvuzHviUrfkUqRX538O+rbr6YTDR6XuoCGeBkNYmLc3WoOyshrp
+ ydVvsSCAQyTSe3g0/skIhHY9ydPWVmFTlTGXutOFH+uo2ukrrP6z2EvWcOZawJd9ZAiL
+ GhM3O62anngurZ8Fnea3fLmm1CRTyj/boxu5G3bjwogyTKh8CTOgryh3ApMOwg72jdbG
+ HKy/bomz7fWgvyVK6bDmhG0lq1mSc7kwjYvaJUeToNAX+WiabNf9Z4r+rJ3SvHCQ+9D1
+ /V3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=PR3MIDvz3PtDDaollGFXmkX1Ue3lMr6ulNQeQQNdSxU=;
- b=tK6uE3UhUbF9W2FALvPHoa2RXxQ+fRe/uYzYFgJ4JnuPD0uXCBKdVC1ju2McSBdBdB
- EhBrzwz0SvZk2IzIU7AaNlIOCRJp0hjzllynDah7Gx/N8G48oD3J4LYSPkOoZ7M+1Z07
- o/y5uHEnO8Lc3e/Be9u/+DVlVC1vbXejcDdOeFq5rZk8ISpwsvi0PKb/WIpRKgrb2IIg
- 4HNZ1N8YayFSovLpLqold34oGvRm4n07ArajkTz7RPqvQSdrp7hsbycJtsSWqqUoNHkB
- WAkIn0VWp/PcZBHVg3eCU2CJLxvpyDTYNfQo32KByWEZPqgpE2NCsS8Wmb/l/5Uui0L9
- u2bA==
-X-Gm-Message-State: APjAAAWgj05n401qn5YURZMXI5UZalw69gKAFgNBRI0Ki6TVurRMnPjm
- w8zIkmcMoM4lTO79qqUtkCEj1Q==
-X-Google-Smtp-Source: APXvYqxTgiN1o3Q+dQ0mTQfcNpsXh9e+wirhn5EeQL4LcPZiT8+4V4WR27RCBlqDCv3vYRViWcqJ7g==
-X-Received: by 2002:a1c:df09:: with SMTP id w9mr276099wmg.143.1581634285619;
- Thu, 13 Feb 2020 14:51:25 -0800 (PST)
+ bh=eMpV6oHUHsBouYuIbNXi5ILIhk0UHtJDCsWgmHAo3NA=;
+ b=BEfLq2wBIc6LNvr10Z+JJUHkpo8TizEpLQx6Mmj5XZ3YXaQm7wjNXU7Ay2OGFmALMg
+ XBUYOJjhtXqoSBb49ILygaVTEF7BUJ05Wzr8YWDvBEvQvYek3Hcoq2tsK4K8HE1W+T1I
+ V1c1Uyb2IeMMe3nx9mprvqfDk3IrRDJDMD/3VoC1gVQk5vckeCu++QmyZvfEVli/sNZr
+ epJnBAW0g4aAP+Zi3VJ0yc7KYgnN6Ug12gZA84/nJyNDrlIQC110JXGFResMCCFo16nE
+ bjaTl6sgbDmQ3O5TxGyHjQyGLWPHHkpS0UKFWO/EUKLHlGF4MXjJK/FABByWR37ffC4m
+ IExg==
+X-Gm-Message-State: APjAAAUA4zs67DTaQMjqNbJmTU+BYHM0NawON0NPwTVJ6ywLn3/ycbz6
+ EBW+yRMWTa4Fad7QNEDkFzhLVA==
+X-Google-Smtp-Source: APXvYqxFAebULEpqCErB+HkrKEnxog72/GKAQavzWaKmoa154Lgl0JBqMji0ONGsAf1ar5TMlUqbsg==
+X-Received: by 2002:a1c:4c13:: with SMTP id z19mr322801wmf.75.1581634847347;
+ Thu, 13 Feb 2020 15:00:47 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id w15sm4698048wrs.80.2020.02.13.14.51.15
+ by smtp.gmail.com with ESMTPSA id a8sm4904539wmc.20.2020.02.13.15.00.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Feb 2020 14:51:20 -0800 (PST)
+ Thu, 13 Feb 2020 15:00:45 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id AAAE51FF9C;
+ by zen.linaroharston (Postfix) with ESMTP id D7EF01FF9E;
  Thu, 13 Feb 2020 22:51:10 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v2 12/19] tests/plugin: prevent uninitialized warning
-Date: Thu, 13 Feb 2020 22:51:02 +0000
-Message-Id: <20200213225109.13120-13-alex.bennee@linaro.org>
+Subject: [PATCH v2 14/19] target/riscv: progressively load the instruction
+ during decode
+Date: Thu, 13 Feb 2020 22:51:04 +0000
+Message-Id: <20200213225109.13120-15-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200213225109.13120-1-alex.bennee@linaro.org>
 References: <20200213225109.13120-1-alex.bennee@linaro.org>
@@ -69,7 +70,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::341
+X-Received-From: 2a00:1450:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,69 +82,178 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, Thomas Huth <thuth@redhat.com>, berrange@redhat.com,
- robert.foley@linaro.org, pbonzini@redhat.com, stefanb@linux.vnet.ibm.com,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Euler Robot <euler.robot@huawei.com>, richard.henderson@linaro.org,
- f4bug@amsat.org, robhenry@microsoft.com, marcandre.lureau@redhat.com,
- aaron@os.amperecomputing.com, cota@braap.org, stefanha@redhat.com,
- kuhn.chenqun@huawei.com, peter.puhov@linaro.org, aurelien@aurel32.net
+Cc: fam@euphon.net, Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>,
+ stefanb@linux.vnet.ibm.com, aaron@os.amperecomputing.com, cota@braap.org,
+ marcandre.lureau@redhat.com, robert.foley@linaro.org,
+ richard.henderson@linaro.org, stefanha@redhat.com, peter.puhov@linaro.org,
+ kuhn.chenqun@huawei.com,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, berrange@redhat.com,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>, f4bug@amsat.org,
+ robhenry@microsoft.com, Palmer Dabbelt <palmer@dabbelt.com>,
+ pbonzini@redhat.com, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Chen Qun <kuhn.chenqun@huawei.com>
+The plugin system would throw up a harmless warning when it detected
+that a disassembly of an instruction didn't use all it's bytes. Fix
+the riscv decoder to only load the instruction bytes it needs as it
+needs them.
 
-According to the glibc function requirements, we need initialise
- the variable. Otherwise there will be compilation warnings:
+This drops opcode from the ctx in favour if passing the appropriately
+sized opcode down a few levels of the decode.
 
-glib-autocleanups.h:28:3: warning: ‘out’ may be
-used uninitialized in this function [-Wmaybe-uninitialized]
-   g_free (*pp);
-   ^~~~~~~~~~~~
-
-Reported-by: Euler Robot <euler.robot@huawei.com>
-Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20200206093238.203984-1-kuhn.chenqun@huawei.com>
-[AJB: uses Thomas's single line allocation]
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
----
- tests/plugin/bb.c   | 6 +++---
- tests/plugin/insn.c | 3 +--
- 2 files changed, 4 insertions(+), 5 deletions(-)
 
-diff --git a/tests/plugin/bb.c b/tests/plugin/bb.c
-index f30bea08dcc..df19fd359df 100644
---- a/tests/plugin/bb.c
-+++ b/tests/plugin/bb.c
-@@ -22,9 +22,9 @@ static bool do_inline;
+---
+v2
+  - use extract16 for uint16_t opcodes
+
+squash! target/riscv: progressively load the instruction during decode
+---
+ target/riscv/instmap.h   |  8 ++++----
+ target/riscv/translate.c | 40 +++++++++++++++++++++-------------------
+ 2 files changed, 25 insertions(+), 23 deletions(-)
+
+diff --git a/target/riscv/instmap.h b/target/riscv/instmap.h
+index f8ad7d60fd5..40b6d2b64de 100644
+--- a/target/riscv/instmap.h
++++ b/target/riscv/instmap.h
+@@ -344,8 +344,8 @@ enum {
+ #define GET_C_LW_IMM(inst)          ((extract32(inst, 6, 1) << 2) \
+                                     | (extract32(inst, 10, 3) << 3) \
+                                     | (extract32(inst, 5, 1) << 6))
+-#define GET_C_LD_IMM(inst)          ((extract32(inst, 10, 3) << 3) \
+-                                    | (extract32(inst, 5, 2) << 6))
++#define GET_C_LD_IMM(inst)          ((extract16(inst, 10, 3) << 3) \
++                                    | (extract16(inst, 5, 2) << 6))
+ #define GET_C_J_IMM(inst)           ((extract32(inst, 3, 3) << 1) \
+                                     | (extract32(inst, 11, 1) << 4) \
+                                     | (extract32(inst, 2, 1) << 5) \
+@@ -363,7 +363,7 @@ enum {
+ #define GET_C_RD(inst)              GET_RD(inst)
+ #define GET_C_RS1(inst)             GET_RD(inst)
+ #define GET_C_RS2(inst)             extract32(inst, 2, 5)
+-#define GET_C_RS1S(inst)            (8 + extract32(inst, 7, 3))
+-#define GET_C_RS2S(inst)            (8 + extract32(inst, 2, 3))
++#define GET_C_RS1S(inst)            (8 + extract16(inst, 7, 3))
++#define GET_C_RS2S(inst)            (8 + extract16(inst, 2, 3))
  
- static void plugin_exit(qemu_plugin_id_t id, void *p)
- {
--    g_autofree gchar *out;
--    out = g_strdup_printf("bb's: %" PRIu64", insns: %" PRIu64 "\n",
--                          bb_count, insn_count);
-+    g_autofree gchar *out = g_strdup_printf(
-+        "bb's: %" PRIu64", insns: %" PRIu64 "\n",
-+        bb_count, insn_count);
-     qemu_plugin_outs(out);
+ #endif
+diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+index 14dc71156be..d5de7f468a7 100644
+--- a/target/riscv/translate.c
++++ b/target/riscv/translate.c
+@@ -44,7 +44,6 @@ typedef struct DisasContext {
+     /* pc_succ_insn points to the instruction following base.pc_next */
+     target_ulong pc_succ_insn;
+     target_ulong priv_ver;
+-    uint32_t opcode;
+     uint32_t mstatus_fs;
+     uint32_t misa;
+     uint32_t mem_idx;
+@@ -492,45 +491,45 @@ static void gen_set_rm(DisasContext *ctx, int rm)
+     tcg_temp_free_i32(t0);
  }
  
-diff --git a/tests/plugin/insn.c b/tests/plugin/insn.c
-index 0a8f5a0000e..a9a6e412373 100644
---- a/tests/plugin/insn.c
-+++ b/tests/plugin/insn.c
-@@ -44,8 +44,7 @@ static void vcpu_tb_trans(qemu_plugin_id_t id, struct qemu_plugin_tb *tb)
- 
- static void plugin_exit(qemu_plugin_id_t id, void *p)
+-static void decode_RV32_64C0(DisasContext *ctx)
++static void decode_RV32_64C0(DisasContext *ctx, uint16_t opcode)
  {
--    g_autofree gchar *out;
--    out = g_strdup_printf("insns: %" PRIu64 "\n", insn_count);
-+    g_autofree gchar *out = g_strdup_printf("insns: %" PRIu64 "\n", insn_count);
-     qemu_plugin_outs(out);
+-    uint8_t funct3 = extract32(ctx->opcode, 13, 3);
+-    uint8_t rd_rs2 = GET_C_RS2S(ctx->opcode);
+-    uint8_t rs1s = GET_C_RS1S(ctx->opcode);
++    uint8_t funct3 = extract16(opcode, 13, 3);
++    uint8_t rd_rs2 = GET_C_RS2S(opcode);
++    uint8_t rs1s = GET_C_RS1S(opcode);
+ 
+     switch (funct3) {
+     case 3:
+ #if defined(TARGET_RISCV64)
+         /* C.LD(RV64/128) -> ld rd', offset[7:3](rs1')*/
+         gen_load_c(ctx, OPC_RISC_LD, rd_rs2, rs1s,
+-                 GET_C_LD_IMM(ctx->opcode));
++                 GET_C_LD_IMM(opcode));
+ #else
+         /* C.FLW (RV32) -> flw rd', offset[6:2](rs1')*/
+         gen_fp_load(ctx, OPC_RISC_FLW, rd_rs2, rs1s,
+-                    GET_C_LW_IMM(ctx->opcode));
++                    GET_C_LW_IMM(opcode));
+ #endif
+         break;
+     case 7:
+ #if defined(TARGET_RISCV64)
+         /* C.SD (RV64/128) -> sd rs2', offset[7:3](rs1')*/
+         gen_store_c(ctx, OPC_RISC_SD, rs1s, rd_rs2,
+-                  GET_C_LD_IMM(ctx->opcode));
++                  GET_C_LD_IMM(opcode));
+ #else
+         /* C.FSW (RV32) -> fsw rs2', offset[6:2](rs1')*/
+         gen_fp_store(ctx, OPC_RISC_FSW, rs1s, rd_rs2,
+-                     GET_C_LW_IMM(ctx->opcode));
++                     GET_C_LW_IMM(opcode));
+ #endif
+         break;
+     }
  }
  
+-static void decode_RV32_64C(DisasContext *ctx)
++static void decode_RV32_64C(DisasContext *ctx, uint16_t opcode)
+ {
+-    uint8_t op = extract32(ctx->opcode, 0, 2);
++    uint8_t op = extract16(opcode, 0, 2);
+ 
+     switch (op) {
+     case 0:
+-        decode_RV32_64C0(ctx);
++        decode_RV32_64C0(ctx, opcode);
+         break;
+     }
+ }
+@@ -709,22 +708,25 @@ static bool gen_shift(DisasContext *ctx, arg_r *a,
+ /* Include the auto-generated decoder for 16 bit insn */
+ #include "decode_insn16.inc.c"
+ 
+-static void decode_opc(DisasContext *ctx)
++static void decode_opc(CPURISCVState *env, DisasContext *ctx, uint16_t opcode)
+ {
+     /* check for compressed insn */
+-    if (extract32(ctx->opcode, 0, 2) != 3) {
++    if (extract16(opcode, 0, 2) != 3) {
+         if (!has_ext(ctx, RVC)) {
+             gen_exception_illegal(ctx);
+         } else {
+             ctx->pc_succ_insn = ctx->base.pc_next + 2;
+-            if (!decode_insn16(ctx, ctx->opcode)) {
++            if (!decode_insn16(ctx, opcode)) {
+                 /* fall back to old decoder */
+-                decode_RV32_64C(ctx);
++                decode_RV32_64C(ctx, opcode);
+             }
+         }
+     } else {
++        uint32_t opcode32 = opcode;
++        opcode32 = deposit32(opcode32, 16, 16,
++                             translator_lduw(env, ctx->base.pc_next + 2));
+         ctx->pc_succ_insn = ctx->base.pc_next + 4;
+-        if (!decode_insn32(ctx, ctx->opcode)) {
++        if (!decode_insn32(ctx, opcode32)) {
+             gen_exception_illegal(ctx);
+         }
+     }
+@@ -776,9 +778,9 @@ static void riscv_tr_translate_insn(DisasContextBase *dcbase, CPUState *cpu)
+ {
+     DisasContext *ctx = container_of(dcbase, DisasContext, base);
+     CPURISCVState *env = cpu->env_ptr;
++    uint16_t opcode16 = translator_lduw(env, ctx->base.pc_next);
+ 
+-    ctx->opcode = translator_ldl(env, ctx->base.pc_next);
+-    decode_opc(ctx);
++    decode_opc(env, ctx, opcode16);
+     ctx->base.pc_next = ctx->pc_succ_insn;
+ 
+     if (ctx->base.is_jmp == DISAS_NEXT) {
 -- 
 2.20.1
 
