@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7C7E15CC61
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 21:26:56 +0100 (CET)
-Received: from localhost ([::1]:58768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5321215CC66
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 21:30:09 +0100 (CET)
+Received: from localhost ([::1]:58802 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j2L4Z-0003de-NS
-	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 15:26:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45146)
+	id 1j2L7g-00067I-2P
+	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 15:30:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56817)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <quintela@redhat.com>) id 1j2L2t-0002eT-8e
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 15:25:12 -0500
+ (envelope-from <wainersm@redhat.com>) id 1j2L6h-0005iB-D5
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 15:29:08 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <quintela@redhat.com>) id 1j2L2s-0006cj-8c
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 15:25:11 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:60030
+ (envelope-from <wainersm@redhat.com>) id 1j2L6g-0000Tx-22
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 15:29:07 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:23747
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1j2L2s-0006at-4G
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 15:25:10 -0500
+ (Exim 4.71) (envelope-from <wainersm@redhat.com>) id 1j2L6f-0000Rj-TU
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 15:29:06 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581625509;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1581625744;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=z91YD+wNqo4iSr/Tc2T/4xWPZtbIjpEjf+PHAmCyj/8=;
- b=Ga+c7755SNcqM7XHNoSBPc2zVhPP9Jse2wEbmPOC4VwFtS20qCiNWbrP45apQCvun4i/mt
- L/xxGh71Z5F0LcLlAVd/8gRKd8On8W2rsOfdmyZxmIBi2eXWkx33ohLciyWmPe9poxevnh
- cWvDAm6XnLCTX4xqp48fw9p4K5icGd0=
+ bh=h0jrHRmyKXESYC21YjJBCQbKdMN66qCn5iecIaWEg+4=;
+ b=gWSChvHbniCQc5M+yOjTNMPvNzEQ5zBOVtnCd2sug+s7Y3kPFmhuRpof6vf+dZ2ojwKt2e
+ o5yH/3Lspog3swhvJuFaYWstdlXQetM04r4aZDxdlV8JFRpVCDvFINXnbF13e24ATzWtR5
+ y8ZMuKDTOpsnN3Z1O6ROhqfe8rSV/8A=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-238-Ff2mQTJIPi--aw2_yQ_AjQ-1; Thu, 13 Feb 2020 15:25:07 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-169-It0bUXmMOtiKTd2cb5hWyw-1; Thu, 13 Feb 2020 15:28:56 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C3573800D4C
- for <qemu-devel@nongnu.org>; Thu, 13 Feb 2020 20:25:06 +0000 (UTC)
-Received: from redhat.com (ovpn-116-40.ams2.redhat.com [10.36.116.40])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 80CAA8AC41;
- Thu, 13 Feb 2020 20:25:04 +0000 (UTC)
-From: Juan Quintela <quintela@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH v5 5/8] multifd: Add zlib compression multifd support
-In-Reply-To: <20200211184332.GH2751@work-vm> (David Alan Gilbert's message of
- "Tue, 11 Feb 2020 18:43:32 +0000")
-References: <20200129115655.10414-1-quintela@redhat.com>
- <20200129115655.10414-6-quintela@redhat.com>
- <20200211184332.GH2751@work-vm>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
-Date: Thu, 13 Feb 2020 21:24:59 +0100
-Message-ID: <87tv3ujkv8.fsf@secure.laptop>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6364618B5FAA;
+ Thu, 13 Feb 2020 20:28:55 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-116-24.gru2.redhat.com
+ [10.97.116.24])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F2F606E40A;
+ Thu, 13 Feb 2020 20:28:49 +0000 (UTC)
+Subject: Re: [PATCH v2] tests/acceptance/machine_sparc_leon3: Do not run
+ HelenOS test by default
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20200212203627.16592-1-philmd@redhat.com>
+From: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Message-ID: <c588253f-a205-a309-6983-09607c1e61e6@redhat.com>
+Date: Thu, 13 Feb 2020 18:28:47 -0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.4.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: Ff2mQTJIPi--aw2_yQ_AjQ-1
+In-Reply-To: <20200212203627.16592-1-philmd@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: It0bUXmMOtiKTd2cb5hWyw-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,74 +77,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: KONRAD Frederic <frederic.konrad@adacore.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Fabien Chouteau <chouteau@adacore.com>, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-"Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
-> * Juan Quintela (quintela@redhat.com) wrote:
->> Signed-off-by: Juan Quintela <quintela@redhat.com>
->> ---
->>  hw/core/qdev-properties.c    |   2 +-
->>  migration/Makefile.objs      |   1 +
->>  migration/migration.c        |   9 +
->>  migration/migration.h        |   1 +
->>  migration/multifd-zlib.c     | 325 +++++++++++++++++++++++++++++++++++
->>  migration/multifd.c          |   6 +
->>  migration/multifd.h          |   4 +
->>  qapi/migration.json          |   3 +-
->>  tests/qtest/migration-test.c |   6 +
->>  9 files changed, 355 insertions(+), 2 deletions(-)
->>  create mode 100644 migration/multifd-zlib.c
->
-> Coupld of really minor points below to fix up, but other than those:
->
->
-> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
->
->>  }
->> =20
->> +int migrate_multifd_zlib_level(void)
->> +{
->> +    MigrationState *s;
->> +
->> +    s =3D migrate_get_current();
->> +
->> +    return s->parameters.multifd_zlib_level;
->> +}
->> +
->
-> Does this belong in the previous patch?
 
-It is used only here.  Should not make any difference.
+On 2/12/20 6:36 PM, Philippe Mathieu-Daud=C3=A9 wrote:
+> The www.helenos.org server is slow and downloading the Leon3 binary
+> takes too long [*]. Do not include this test in the default suite.
+>
+> Similarly to commit 471c97a69b:
+>
+>    Currently the Avocado framework does not distinct the time spent
+>    downloading assets vs. the time spent running a test. With big
+>    assets (like a full VM image) the tests likely fail.
+>
+>    This is a limitation known by the Avocado team.
+>    Until this issue get fixed, do not run this tests automatically.
+>
+>    Tests can still be run setting the AVOCADO_TIMEOUT_EXPECTED
+>    environment variable.
+>
+> [*] https://travis-ci.org/stsquad/qemu/jobs/649599880#L4198
+>
+> Reported-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> ---
+> v2: Add missing staged hunk...
+> ---
+>   tests/acceptance/machine_sparc_leon3.py | 4 ++++
+>   1 file changed, 4 insertions(+)
 
-Anyways, changing it.
+LGTM.
+
+Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+
 
 >
->>  int migrate_use_xbzrle(void)
->>  {
->>      MigrationState *s;
->> diff --git a/migration/migration.h b/migration/migration.h
->> index 3d23a0852e..95e9c196ff 100644
->> --- a/migration/migration.h
->> +++ b/migration/migration.h
->> @@ -301,6 +301,7 @@ bool migrate_use_multifd(void);
->>  bool migrate_pause_before_switchover(void);
->>  int migrate_multifd_channels(void);
->>  MultiFDMethod migrate_multifd_method(void);
->> +int migrate_multifd_zlib_level(void);
->> +        int flush =3D Z_NO_FLUSH;
->> +        unsigned long start =3D zs->total_out;
->> +
->> +        if (i =3D=3D used  - 1) {
->
-> Note an extra space there.
->
-
-Fixed, thanks.
+> diff --git a/tests/acceptance/machine_sparc_leon3.py b/tests/acceptance/m=
+achine_sparc_leon3.py
+> index f77e210ccb..27e4717a51 100644
+> --- a/tests/acceptance/machine_sparc_leon3.py
+> +++ b/tests/acceptance/machine_sparc_leon3.py
+> @@ -5,6 +5,9 @@
+>   # This work is licensed under the terms of the GNU GPL, version 2 or
+>   # later. See the COPYING file in the top-level directory.
+>  =20
+> +import os
+> +
+> +from avocado import skipUnless
+>   from avocado_qemu import Test
+>   from avocado_qemu import wait_for_console_pattern
+>  =20
+> @@ -13,6 +16,7 @@ class Leon3Machine(Test):
+>  =20
+>       timeout =3D 60
+>  =20
+> +    @skipUnless(os.getenv('AVOCADO_TIMEOUT_EXPECTED'), 'Test might timeo=
+ut')
+>       def test_leon3_helenos_uimage(self):
+>           """
+>           :avocado: tags=3Darch:sparc
 
 
