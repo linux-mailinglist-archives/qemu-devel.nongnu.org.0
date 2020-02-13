@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3965015CA07
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 19:11:41 +0100 (CET)
-Received: from localhost ([::1]:57402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36A1A15C9E4
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 19:04:33 +0100 (CET)
+Received: from localhost ([::1]:57252 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j2Ixg-00039W-9N
-	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 13:11:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33982)
+	id 1j2Iqm-0001m4-4f
+	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 13:04:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34049)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j2Ijg-0000aZ-RF
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 12:57:14 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1j2Iji-0000cZ-C8
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 12:57:19 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j2Ije-0002kT-Mi
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 12:57:12 -0500
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:39259)
+ (envelope-from <peter.maydell@linaro.org>) id 1j2Ijg-0002oZ-Pn
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 12:57:14 -0500
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:38560)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j2Ije-0002i3-FS
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 12:57:10 -0500
-Received: by mail-wr1-x42f.google.com with SMTP id y11so7799805wrt.6
- for <qemu-devel@nongnu.org>; Thu, 13 Feb 2020 09:57:10 -0800 (PST)
+ id 1j2Ijg-0002mD-FS
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 12:57:12 -0500
+Received: by mail-wr1-x441.google.com with SMTP id y17so7808311wrh.5
+ for <qemu-devel@nongnu.org>; Thu, 13 Feb 2020 09:57:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=mu3MkvlL4TJMpHa8jn/jjpDGQdQ8pv8OsHnWYrWoDqc=;
- b=U4TnXLX90XXMV2WdPCsrWE+e9/UtZoiIRLQHYGsYarcEufmuRhJy2eISqhnxib1TEj
- gJLYJL9gi2/o9lXyw9VT2Lu1fy0Bc0KQFaqF9Ewd5l+xZMkiyt7yrLM4dR5ykjcSUENJ
- 0HcXtuIHofsWeh9rqd09jGmt1wTsPGp1c28i369Ii/KFr9B3MeYNgZ6VrCyW4MS1Pshs
- AHCSNhR2Id/oSL2Y5I1tkpd2W2xWR87vhDmOHAkRtnzkcSq1X+d/1wk7WvF0g76cBz1G
- eb1JmfsQAoHw9voFVlATtbevDutPGdLHzX8n89GP4MQ7QIHEA18TfkQILa74MB0XAabd
- sC4w==
+ bh=4LajsEXnh86T0w1vg82Lrkoo26G75hwMO4oMmN11qAc=;
+ b=kb54xXtc7RJX8XVCbxg40+dIhbauaqx9Tww9zaQt51zP1QopStJzoJckcNFDYqbR1F
+ 1Itm4ZVvSpR/+1fs+Hvx8kChukL1cCjWzTv6nnkQ75aSHBDDWqDpMJPp624Nvn9DEfUd
+ 4FfA8Zihvf+q8nam9sb/1ugLh+k9VkJBRnFOqYbGVw87EQV9dUfMzFQQ+b1uBLKM0vy3
+ nOaIIoPFgE14OjU7VpTE8c/QyBP7yQ/Mabx/F6KUb+SHkrt99a9qy3qHh+FhpGQxqCTj
+ X+lAHJy+PLC18UeiG+L6jhgjwmJWqN0Fs4Y9cAjEIsF9NFZjiXWYIik2PPcf9jVYa9pb
+ DIjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=mu3MkvlL4TJMpHa8jn/jjpDGQdQ8pv8OsHnWYrWoDqc=;
- b=blAvuUGKTPFSOjkKCqSDWnAnpD53GtyWkn9jR/nCHK3virT7gqnlYL98E54nUJ0ffX
- ch6UIRhVkHzyfMVwMKi+KHSQnYP0G8NuZ0SOlECUjyyc3FPh91NFrg3pQiWNw0mC3IJe
- VD1M9D3I04oIjDP0dxqgHtY2jzvGoMhlpxdkpyEq6K231qMENKk1PcdmokdHn6/G7qcd
- AtdSUxVgwy8f7WFIKccdrScDRcCocv5d0jzrGYhYAVS90Et1lvDveMrsYEwNlGg8DSu7
- f1yUtAMziRXTacSTNkJM/VDUt7mST6nd5cxZoi97RKL87jGw3/MmrhbsEm11+8yqiE8/
- i3oA==
-X-Gm-Message-State: APjAAAWyjBvHWwPjado6ubuf/A9a4tM7pnjn1R9YnHqtgV59ompv5DVS
- l1xgcKL176ns/yrbKd8SNpX5xGkpTYg=
-X-Google-Smtp-Source: APXvYqy0W4M2wcNg88Qiiym1yJKifncOYzw7oi0464jSEpr3YqhjaRF6+HBPXa4LOWg5uYwzlXZoFw==
-X-Received: by 2002:adf:e610:: with SMTP id p16mr24461231wrm.81.1581616629063; 
- Thu, 13 Feb 2020 09:57:09 -0800 (PST)
+ bh=4LajsEXnh86T0w1vg82Lrkoo26G75hwMO4oMmN11qAc=;
+ b=fe7zxJQ9nKVfdI3MusdvUQ9pNDo/3lsnL12tOQQXfcj7yBQrF8Vx1PQ8PFCq6EKBVb
+ 2dY0eN2ECYQNZFtAGH9a8kWVlhxrFsw1CBzrkHlgiEQwzpw9vPlgvxGRVnYknlnVl6Bt
+ XFR8iviY1HgTIgAA6ti4USFAGUUw2G7oAU0fVTiBmMA38UAx3Q3y8oE+Kl4waGHzmDQu
+ 47/0TzcdyIG81PmGcQmOexl7CRxtXlFMrw3z9LEjC4nwjRTaMcdnTHHEQ2KU+kugDcn/
+ MUJIJDWISq09etImKfUGNo+pnNoloYh3INoN3+uBNPkmyzNT2VNM/Nxf4bV7ZZmJ5z3d
+ 6wJQ==
+X-Gm-Message-State: APjAAAXMngF4mvjVC+tB8ChWIkXaqOrE/c60wtNDbR9PwDx/23XFIL51
+ N7QO31E3dmx3oiGQHMAD1DGaCbYWZCA=
+X-Google-Smtp-Source: APXvYqxkS/RlD3x5yZSbU+s8h7a0nQYc9pLTThSf9jPh9bGApQ4fFPLe89gAovIKCa/qrQIQLBYz3g==
+X-Received: by 2002:adf:e8c9:: with SMTP id k9mr23234937wrn.168.1581616630810; 
+ Thu, 13 Feb 2020 09:57:10 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id p26sm3692913wmc.24.2020.02.13.09.57.07
+ by smtp.gmail.com with ESMTPSA id p26sm3692913wmc.24.2020.02.13.09.57.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Feb 2020 09:57:08 -0800 (PST)
+ Thu, 13 Feb 2020 09:57:10 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 13/30] qapi/block-core.json: Use explicit bulleted lists
-Date: Thu, 13 Feb 2020 17:56:30 +0000
-Message-Id: <20200213175647.17628-14-peter.maydell@linaro.org>
+Subject: [PATCH v2 14/30] qapi/ui.json: Use explicit bulleted lists
+Date: Thu, 13 Feb 2020 17:56:31 +0000
+Message-Id: <20200213175647.17628-15-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200213175647.17628-1-peter.maydell@linaro.org>
 References: <20200213175647.17628-1-peter.maydell@linaro.org>
@@ -65,7 +65,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42f
+X-Received-From: 2a00:1450:4864:20::441
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -99,272 +99,128 @@ because whitespace is not significant.
 Use an actual bulleted list, so that the formatting is correct.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
 ---
-v1->v2: minor commit msg tweak as suggested by Markus
+v1->v2: commit message tweak as suggested by Markus
 ---
- qapi/block-core.json | 108 +++++++++++++++++++++----------------------
- 1 file changed, 54 insertions(+), 54 deletions(-)
+ qapi/ui.json | 63 +++++++++++++++++++++++++++-------------------------
+ 1 file changed, 33 insertions(+), 30 deletions(-)
 
-diff --git a/qapi/block-core.json b/qapi/block-core.json
-index 31f7a1281c6..082aca3f699 100644
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -1326,8 +1326,8 @@
+diff --git a/qapi/ui.json b/qapi/ui.json
+index 088a8680efb..e4bd3d8ea76 100644
+--- a/qapi/ui.json
++++ b/qapi/ui.json
+@@ -12,8 +12,8 @@
  #
- # @size:  new image size in bytes
+ # Sets the password of a remote display session.
  #
--# Returns: nothing on success
--#          If @device is not a valid block device, DeviceNotFound
-+# Returns: - nothing on success
-+#          - If @device is not a valid block device, DeviceNotFound
+-# @protocol: 'vnc' to modify the VNC server password
+-#            'spice' to modify the Spice server password
++# @protocol: - 'vnc' to modify the VNC server password
++#            - 'spice' to modify the Spice server password
+ #
+ # @password: the new password
+ #
+@@ -23,8 +23,8 @@
+ #             'disconnect' to disconnect existing clients
+ #             'keep' to maintain existing clients
+ #
+-# Returns: Nothing on success
+-#          If Spice is not enabled, DeviceNotFound
++# Returns: - Nothing on success
++#          - If Spice is not enabled, DeviceNotFound
  #
  # Since: 0.14.0
  #
-@@ -1510,8 +1510,8 @@
+@@ -46,13 +46,14 @@
+ # @protocol: the name of the remote display protocol 'vnc' or 'spice'
  #
- # For the arguments, see the documentation of BlockdevSnapshotSync.
+ # @time: when to expire the password.
+-#        'now' to expire the password immediately
+-#        'never' to cancel password expiration
+-#        '+INT' where INT is the number of seconds from now (integer)
+-#        'INT' where INT is the absolute time in seconds
  #
--# Returns: nothing on success
--#          If @device is not a valid block device, DeviceNotFound
-+# Returns: - nothing on success
-+#          - If @device is not a valid block device, DeviceNotFound
+-# Returns: Nothing on success
+-#          If @protocol is 'spice' and Spice is not active, DeviceNotFound
++#        - 'now' to expire the password immediately
++#        - 'never' to cancel password expiration
++#        - '+INT' where INT is the number of seconds from now (integer)
++#        - 'INT' where INT is the absolute time in seconds
++#
++# Returns: - Nothing on success
++#          - If @protocol is 'spice' and Spice is not active, DeviceNotFound
  #
  # Since: 0.14.0
  #
-@@ -1586,9 +1586,8 @@
- #                when specifying the string or the image chain may
- #                not be able to be reopened again.
+@@ -201,9 +202,10 @@
+ # @tls-port: The SPICE server's TLS port number.
+ #
+ # @auth: the current authentication type used by the server
+-#        'none'  if no authentication is being used
+-#        'spice' uses SASL or direct TLS authentication, depending on command
+-#                line options
++#
++#        - 'none'  if no authentication is being used
++#        - 'spice' uses SASL or direct TLS authentication, depending on command
++#          line options
+ #
+ # @mouse-mode: The mode in which the mouse cursor is displayed currently. Can
+ #              be determined by the client or the server, or unknown if spice
+@@ -433,27 +435,28 @@
+ # @host: The hostname the VNC server is bound to.  This depends on
+ #        the name resolution on the host and may be an IP address.
+ #
+-# @family: 'ipv6' if the host is listening for IPv6 connections
+-#                    'ipv4' if the host is listening for IPv4 connections
+-#                    'unix' if the host is listening on a unix domain socket
+-#                    'unknown' otherwise
++# @family: - 'ipv6' if the host is listening for IPv6 connections
++#          - 'ipv4' if the host is listening for IPv4 connections
++#          - 'unix' if the host is listening on a unix domain socket
++#          - 'unknown' otherwise
+ #
+ # @service: The service name of the server's port.  This may depends
+ #           on the host system's service database so symbolic names should not
+ #           be relied on.
+ #
+ # @auth: the current authentication type used by the server
+-#        'none' if no authentication is being used
+-#        'vnc' if VNC authentication is being used
+-#        'vencrypt+plain' if VEncrypt is used with plain text authentication
+-#        'vencrypt+tls+none' if VEncrypt is used with TLS and no authentication
+-#        'vencrypt+tls+vnc' if VEncrypt is used with TLS and VNC authentication
+-#        'vencrypt+tls+plain' if VEncrypt is used with TLS and plain text auth
+-#        'vencrypt+x509+none' if VEncrypt is used with x509 and no auth
+-#        'vencrypt+x509+vnc' if VEncrypt is used with x509 and VNC auth
+-#        'vencrypt+x509+plain' if VEncrypt is used with x509 and plain text auth
+-#        'vencrypt+tls+sasl' if VEncrypt is used with TLS and SASL auth
+-#        'vencrypt+x509+sasl' if VEncrypt is used with x509 and SASL auth
++#
++#        - 'none' if no authentication is being used
++#        - 'vnc' if VNC authentication is being used
++#        - 'vencrypt+plain' if VEncrypt is used with plain text authentication
++#        - 'vencrypt+tls+none' if VEncrypt is used with TLS and no authentication
++#        - 'vencrypt+tls+vnc' if VEncrypt is used with TLS and VNC authentication
++#        - 'vencrypt+tls+plain' if VEncrypt is used with TLS and plain text auth
++#        - 'vencrypt+x509+none' if VEncrypt is used with x509 and no auth
++#        - 'vencrypt+x509+vnc' if VEncrypt is used with x509 and VNC auth
++#        - 'vencrypt+x509+plain' if VEncrypt is used with x509 and plain text auth
++#        - 'vencrypt+tls+sasl' if VEncrypt is used with TLS and SASL auth
++#        - 'vencrypt+x509+sasl' if VEncrypt is used with x509 and SASL auth
+ #
+ # @clients: a list of @VncClientInfo of all currently connected clients
+ #
+@@ -840,8 +843,8 @@
+ # @hold-time: time to delay key up events, milliseconds. Defaults
+ #             to 100
  #
 -# Returns: Nothing on success
--#
--#          If "device" does not exist or cannot be determined, DeviceNotFound
+-#          If key is unknown or redundant, InvalidParameter
 +# Returns: - Nothing on success
-+#          - If "device" does not exist or cannot be determined, DeviceNotFound
++#          - If key is unknown or redundant, InvalidParameter
  #
- # Since: 2.1
- ##
-@@ -1674,9 +1673,9 @@
- #                list without user intervention.
- #                Defaults to true. (Since 3.1)
+ # Since: 1.3.0
  #
--# Returns: Nothing on success
--#          If @device does not exist, DeviceNotFound
--#          Any other error returns a GenericError.
-+# Returns: - Nothing on success
-+#          - If @device does not exist, DeviceNotFound
-+#          - Any other error returns a GenericError.
- #
- # Since: 1.3
- #
-@@ -1704,8 +1703,8 @@
- # The operation can be stopped before it has completed using the
- # block-job-cancel command.
- #
--# Returns: nothing on success
--#          If @device is not a valid block device, GenericError
-+# Returns: - nothing on success
-+#          - If @device is not a valid block device, GenericError
- #
- # Since: 1.6
- #
-@@ -1730,8 +1729,8 @@
- # The operation can be stopped before it has completed using the
- # block-job-cancel command.
- #
--# Returns: nothing on success
--#          If @device is not a valid block device, DeviceNotFound
-+# Returns: - nothing on success
-+#          - If @device is not a valid block device, DeviceNotFound
- #
- # Since: 2.3
- #
-@@ -1925,8 +1924,8 @@
- # format of the mirror image, default is to probe if mode='existing',
- # else the format of the source.
- #
--# Returns: nothing on success
--#          If @device is not a valid block device, GenericError
-+# Returns: - nothing on success
-+#          - If @device is not a valid block device, GenericError
- #
- # Since: 1.3
- #
-@@ -2097,9 +2096,9 @@
- #
- # Create a dirty bitmap with a name on the node, and start tracking the writes.
- #
--# Returns: nothing on success
--#          If @node is not a valid block device or node, DeviceNotFound
--#          If @name is already taken, GenericError with an explanation
-+# Returns: - nothing on success
-+#          - If @node is not a valid block device or node, DeviceNotFound
-+#          - If @name is already taken, GenericError with an explanation
- #
- # Since: 2.4
- #
-@@ -2120,10 +2119,10 @@
- # with block-dirty-bitmap-add. If the bitmap is persistent, remove it from its
- # storage too.
- #
--# Returns: nothing on success
--#          If @node is not a valid block device or node, DeviceNotFound
--#          If @name is not found, GenericError with an explanation
--#          if @name is frozen by an operation, GenericError
-+# Returns: - nothing on success
-+#          - If @node is not a valid block device or node, DeviceNotFound
-+#          - If @name is not found, GenericError with an explanation
-+#          - if @name is frozen by an operation, GenericError
- #
- # Since: 2.4
- #
-@@ -2144,9 +2143,9 @@
- # backup from this point in time forward will only backup clusters
- # modified after this clear operation.
- #
--# Returns: nothing on success
--#          If @node is not a valid block device, DeviceNotFound
--#          If @name is not found, GenericError with an explanation
-+# Returns: - nothing on success
-+#          - If @node is not a valid block device, DeviceNotFound
-+#          - If @name is not found, GenericError with an explanation
- #
- # Since: 2.4
- #
-@@ -2165,9 +2164,9 @@
- #
- # Enables a dirty bitmap so that it will begin tracking disk changes.
- #
--# Returns: nothing on success
--#          If @node is not a valid block device, DeviceNotFound
--#          If @name is not found, GenericError with an explanation
-+# Returns: - nothing on success
-+#          - If @node is not a valid block device, DeviceNotFound
-+#          - If @name is not found, GenericError with an explanation
- #
- # Since: 4.0
- #
-@@ -2186,9 +2185,9 @@
- #
- # Disables a dirty bitmap so that it will stop tracking disk changes.
- #
--# Returns: nothing on success
--#          If @node is not a valid block device, DeviceNotFound
--#          If @name is not found, GenericError with an explanation
-+# Returns: - nothing on success
-+#          - If @node is not a valid block device, DeviceNotFound
-+#          - If @name is not found, GenericError with an explanation
- #
- # Since: 4.0
- #
-@@ -2215,11 +2214,11 @@
- # of the source bitmaps. This can be used to achieve backup checkpoints, or in
- # simpler usages, to copy bitmaps.
- #
--# Returns: nothing on success
--#          If @node is not a valid block device, DeviceNotFound
--#          If any bitmap in @bitmaps or @target is not found, GenericError
--#          If any of the bitmaps have different sizes or granularities,
--#              GenericError
-+# Returns: - nothing on success
-+#          - If @node is not a valid block device, DeviceNotFound
-+#          - If any bitmap in @bitmaps or @target is not found, GenericError
-+#          - If any of the bitmaps have different sizes or granularities,
-+#            GenericError
- #
- # Since: 4.0
- #
-@@ -2251,10 +2250,10 @@
- #
- # Get bitmap SHA256.
- #
--# Returns: BlockDirtyBitmapSha256 on success
--#          If @node is not a valid block device, DeviceNotFound
--#          If @name is not found or if hashing has failed, GenericError with an
--#          explanation
-+# Returns: - BlockDirtyBitmapSha256 on success
-+#          - If @node is not a valid block device, DeviceNotFound
-+#          - If @name is not found or if hashing has failed, GenericError with an
-+#            explanation
- #
- # Since: 2.10
- ##
-@@ -2371,8 +2370,8 @@
- # the device will be removed from its group and the rest of its
- # members will not be affected. The 'group' parameter is ignored.
- #
--# Returns: Nothing on success
--#          If @device is not a valid block device, DeviceNotFound
-+# Returns: - Nothing on success
-+#          - If @device is not a valid block device, DeviceNotFound
- #
- # Since: 1.1
- #
-@@ -2622,7 +2621,8 @@
- #                list without user intervention.
- #                Defaults to true. (Since 3.1)
- #
--# Returns: Nothing on success. If @device does not exist, DeviceNotFound.
-+# Returns: - Nothing on success.
-+#          - If @device does not exist, DeviceNotFound.
- #
- # Since: 1.1
- #
-@@ -2656,8 +2656,8 @@
- # @speed: the maximum speed, in bytes per second, or 0 for unlimited.
- #         Defaults to 0.
- #
--# Returns: Nothing on success
--#          If no background operation is active on this device, DeviceNotActive
-+# Returns: - Nothing on success
-+#          - If no background operation is active on this device, DeviceNotActive
- #
- # Since: 1.1
- ##
-@@ -2696,8 +2696,8 @@
- #         abandon the job immediately (even if it is paused) instead of waiting
- #         for the destination to complete its final synchronization (since 1.3)
- #
--# Returns: Nothing on success
--#          If no background operation is active on this device, DeviceNotActive
-+# Returns: - Nothing on success
-+#          - If no background operation is active on this device, DeviceNotActive
- #
- # Since: 1.1
- ##
-@@ -2720,8 +2720,8 @@
- #          the name of the parameter), but since QEMU 2.7 it can have
- #          other values.
- #
--# Returns: Nothing on success
--#          If no background operation is active on this device, DeviceNotActive
-+# Returns: - Nothing on success
-+#          - If no background operation is active on this device, DeviceNotActive
- #
- # Since: 1.3
- ##
-@@ -2742,8 +2742,8 @@
- #          the name of the parameter), but since QEMU 2.7 it can have
- #          other values.
- #
--# Returns: Nothing on success
--#          If no background operation is active on this device, DeviceNotActive
-+# Returns: - Nothing on success
-+#          - If no background operation is active on this device, DeviceNotActive
- #
- # Since: 1.3
- ##
-@@ -2770,8 +2770,8 @@
- #          the name of the parameter), but since QEMU 2.7 it can have
- #          other values.
- #
--# Returns: Nothing on success
--#          If no background operation is active on this device, DeviceNotActive
-+# Returns: - Nothing on success
-+#          - If no background operation is active on this device, DeviceNotActive
- #
- # Since: 1.3
- ##
 -- 
 2.20.1
 
