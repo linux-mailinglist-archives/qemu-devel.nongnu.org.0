@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FF7615B7AB
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 04:23:33 +0100 (CET)
-Received: from localhost ([::1]:46817 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC8CA15B7AD
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 04:23:41 +0100 (CET)
+Received: from localhost ([::1]:46824 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j256C-0003gH-HX
-	for lists+qemu-devel@lfdr.de; Wed, 12 Feb 2020 22:23:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60132)
+	id 1j256K-0003ut-QN
+	for lists+qemu-devel@lfdr.de; Wed, 12 Feb 2020 22:23:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60152)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1j255B-0002BP-95
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 22:22:30 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1j255D-0002Bh-6W
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 22:22:32 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1j255A-0008W3-7e
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 22:22:29 -0500
-Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:38429)
+ (envelope-from <richard.henderson@linaro.org>) id 1j255B-0000BH-RB
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 22:22:31 -0500
+Received: from mail-pj1-x1042.google.com ([2607:f8b0:4864:20::1042]:32824)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1j255A-0008Uj-2M
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 22:22:28 -0500
-Received: by mail-pl1-x642.google.com with SMTP id t6so1750871plj.5
- for <qemu-devel@nongnu.org>; Wed, 12 Feb 2020 19:22:28 -0800 (PST)
+ id 1j255B-000076-Kr
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 22:22:29 -0500
+Received: by mail-pj1-x1042.google.com with SMTP id m7so2277559pjs.0
+ for <qemu-devel@nongnu.org>; Wed, 12 Feb 2020 19:22:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=b0SUyaJJjQZuc34rLJlUYZCom+bkortVckKDUk4LlxA=;
- b=tEI+Wq+MT+AsYiUz4cgA7Dp9LDe139xyevHXaao51NWk4Qy+oHi8p3FQTzxyP6TQoL
- vn3yo3aKQhiqaWVSgTQBnM/i1ZWcF5GRjHnqZqpIKSop9zahZmSW2lPkOX/K6XirkBqm
- /hEGcr3q0MjJCWTwiswI8i2EZOSz4V9Sot3kp/G5Jn0xXD8rkcDjqidnN4iRidn+LqYn
- CL0QQQPBoVyX1fX+aG0+o5NWXugfdCywTMVZr0ky8Jl71dNhDP1GxrSAI0cSSXXvXP/L
- qubE268Myx0bhtFagMfU4vyfzI6m5q6blBQnJK5Yu3TiEkvqqwctKFggO0iwgVl/PAua
- rVRA==
+ bh=3RA4GH2ajonQfyTX2FF7Fo2q74LDzhgpTLSFFMfVDM0=;
+ b=THdGCW3BNt7EkumthnWSpnaggBv5wTqJePjQFtUbV0FtYNR6Elwo6RmDAszysaDX93
+ WZxt67oaz68yYxgCu/DmOwUR3qLrwQwuXBejZD7Fz7Jd0KgRtxo8rOLgJH3dSlvoyYQq
+ 4kMCGRVoGb7U3CbOTjulcz3d/M/izPUoiprD+3lCjRfPdRf+c5JgKBmYFOabTGYpXpYQ
+ rVIy0h07eIUin5tRf/RxBiQEMfvOx9jb0d+hVn1gRFnB6ASyeyPGgt+hQTZKJsaC0YF3
+ nvgh13RmH1LFDiqU54VZVgbW/d3+1+8pR+FlukC9/S26o+HJdwOddr3EewtR/vfWQlRk
+ v0bA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=b0SUyaJJjQZuc34rLJlUYZCom+bkortVckKDUk4LlxA=;
- b=f5KhhQ7ouOqjRD1qePlmcoiYc/ZdLcd+1DwgoY5WItmNHCaxBy5ueaYsmZo3BH4OnW
- 56gkZJjrqUiyy7vCNNUYs7Q5aZFeqZulBaJ5P5pxgkFcENsojOtjicf6+LncNSIp4B1W
- FCaDoxvLRNfe8YPQS2kobvmFrsjsx5G5IkOMybGvAIqoODk3XPzHXExpOInOJmpj6Hia
- cWsS1k88XpbEBDyxqamrlTzCsbi4MmGiODywfJSa4P8IQj5Ss+pKgsdV/hnf9f3jgJB+
- XHoRVkEiMUnicuTWELG/jqtmZ/eECjvQdoc6f6JTTEVxvlDUjDxScTTxAezJ6aKnaSEH
- y8Lg==
-X-Gm-Message-State: APjAAAWxg+NATTcSOE4LDEJ8C9eWP6aU9bs58/MF6DYAHHNjTbX5OsbD
- uAwwl+zaIO8376E9kyRSmcnLX/VDHDs=
-X-Google-Smtp-Source: APXvYqwfbIZVmRRrcKRrI/Zf0x2uc2Ci6u8Lf9830+GAo06JS18B/AG1p2+VTYZEwfxWryFoWSgQvg==
-X-Received: by 2002:a17:90a:bf83:: with SMTP id
- d3mr2634922pjs.77.1581564146790; 
- Wed, 12 Feb 2020 19:22:26 -0800 (PST)
+ bh=3RA4GH2ajonQfyTX2FF7Fo2q74LDzhgpTLSFFMfVDM0=;
+ b=LpIfLcNhtMhBXhb4yNvh25ACGWIs57eHXdwEkYhgTW95Jxhsonnv7nyQg/zUhxtavQ
+ fgYpuiitKq0kAbow5m35O4hS4U8m75yRrtgqihpOFnBfnL7TvInvmAcwCGXcXHTtg+Yp
+ b5VwMMLWNV7k5lyONtm25ioO9WX/UZ9GP8CKFDIquuEQDxuRuxEmiDHN80XBPTS1fFcS
+ S3ewYEmGJ8LBI5j3ui6FBDtuIYK1/SH1NOt9oTepul9SdcCPIEzqv8zB7uMcUcAoIUYu
+ ECYlZ/csl3VGeSr3DDYgsdETNioNKQIfohK/U+Qv0n+jKUbLYiSC4MvriCpgZMptjvCE
+ wFqA==
+X-Gm-Message-State: APjAAAWIvY80pDpqcDlIwSZj0sEuhql7qC8rGMdT7jMwC/LtTfms3iOd
+ IqLV9qXCDeJ6omyrpCWbk7vEpJRWrqM=
+X-Google-Smtp-Source: APXvYqwkxsQgvc7yg6I/O5sR/X0zBZGvTBAQRGCjDSrVYOl77FHeccjroXaStw3fR+3IZMG//koEWw==
+X-Received: by 2002:a17:90a:f317:: with SMTP id
+ ca23mr2611033pjb.20.1581564148049; 
+ Wed, 12 Feb 2020 19:22:28 -0800 (PST)
 Received: from localhost.localdomain (97-126-123-70.tukw.qwest.net.
  [97.126.123.70])
- by smtp.gmail.com with ESMTPSA id l15sm536067pgi.31.2020.02.12.19.22.25
+ by smtp.gmail.com with ESMTPSA id l15sm536067pgi.31.2020.02.12.19.22.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 12 Feb 2020 19:22:26 -0800 (PST)
+ Wed, 12 Feb 2020 19:22:27 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 1/5] target/i386: Renumber EXCP_SYSCALL
-Date: Wed, 12 Feb 2020 19:22:19 -0800
-Message-Id: <20200213032223.14643-2-richard.henderson@linaro.org>
+Subject: [PATCH v3 2/5] linux-user/i386: Split out gen_signal
+Date: Wed, 12 Feb 2020 19:22:20 -0800
+Message-Id: <20200213032223.14643-3-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200213032223.14643-1-richard.henderson@linaro.org>
 References: <20200213032223.14643-1-richard.henderson@linaro.org>
@@ -68,7 +68,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::642
+X-Received-From: 2607:f8b0:4864:20::1042
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,34 +86,173 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We are not short of numbers for EXCP_*.  There is no need to confuse things
-by having EXCP_VMEXIT and EXCP_SYSCALL overlap, even though the former is
-only used for system mode and the latter is only used for user mode.
+This is a bit tidier than open-coding the 5 lines necessary
+to initialize the target_siginfo_t.  In addition, this zeros
+the remaining bytes of the target_siginfo_t, rather than
+passing in garbage.
 
 Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/i386/cpu.h | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ linux-user/i386/cpu_loop.c | 93 ++++++++++++++------------------------
+ 1 file changed, 33 insertions(+), 60 deletions(-)
 
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 576f309bbf..08b4422f36 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -999,9 +999,8 @@ typedef uint64_t FeatureWordArray[FEATURE_WORDS];
- #define EXCP11_ALGN	17
- #define EXCP12_MCHK	18
+diff --git a/linux-user/i386/cpu_loop.c b/linux-user/i386/cpu_loop.c
+index 024b6f4d58..e217cca5ee 100644
+--- a/linux-user/i386/cpu_loop.c
++++ b/linux-user/i386/cpu_loop.c
+@@ -81,13 +81,23 @@ static void set_idt(int n, unsigned int dpl)
+ }
+ #endif
  
--#define EXCP_SYSCALL    0x100 /* only happens in user only emulation
--                                 for syscall instruction */
--#define EXCP_VMEXIT     0x100
-+#define EXCP_VMEXIT     0x100 /* only for system emulation */
-+#define EXCP_SYSCALL    0x101 /* only for user emulation */
++static void gen_signal(CPUX86State *env, int sig, int code, abi_ptr addr)
++{
++    target_siginfo_t info = {
++        .si_signo = sig,
++        .si_code = code,
++        ._sifields._sigfault._addr = addr
++    };
++
++    queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
++}
++
+ void cpu_loop(CPUX86State *env)
+ {
+     CPUState *cs = env_cpu(env);
+     int trapnr;
+     abi_ulong pc;
+     abi_ulong ret;
+-    target_siginfo_t info;
  
- /* i386-specific interrupt pending bits.  */
- #define CPU_INTERRUPT_POLL      CPU_INTERRUPT_TGT_EXT_1
+     for(;;) {
+         cpu_exec_start(cs);
+@@ -134,70 +144,45 @@ void cpu_loop(CPUX86State *env)
+ #endif
+         case EXCP0B_NOSEG:
+         case EXCP0C_STACK:
+-            info.si_signo = TARGET_SIGBUS;
+-            info.si_errno = 0;
+-            info.si_code = TARGET_SI_KERNEL;
+-            info._sifields._sigfault._addr = 0;
+-            queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
++            gen_signal(env, TARGET_SIGBUS, TARGET_SI_KERNEL, 0);
+             break;
+         case EXCP0D_GPF:
+             /* XXX: potential problem if ABI32 */
+ #ifndef TARGET_X86_64
+             if (env->eflags & VM_MASK) {
+                 handle_vm86_fault(env);
+-            } else
+-#endif
+-            {
+-                info.si_signo = TARGET_SIGSEGV;
+-                info.si_errno = 0;
+-                info.si_code = TARGET_SI_KERNEL;
+-                info._sifields._sigfault._addr = 0;
+-                queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
++                break;
+             }
++#endif
++            gen_signal(env, TARGET_SIGSEGV, TARGET_SI_KERNEL, 0);
+             break;
+         case EXCP0E_PAGE:
+-            info.si_signo = TARGET_SIGSEGV;
+-            info.si_errno = 0;
+-            if (!(env->error_code & 1))
+-                info.si_code = TARGET_SEGV_MAPERR;
+-            else
+-                info.si_code = TARGET_SEGV_ACCERR;
+-            info._sifields._sigfault._addr = env->cr[2];
+-            queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
++            gen_signal(env, TARGET_SIGSEGV,
++                       (env->error_code & 1 ?
++                        TARGET_SEGV_ACCERR : TARGET_SEGV_MAPERR),
++                       env->cr[2]);
+             break;
+         case EXCP00_DIVZ:
+ #ifndef TARGET_X86_64
+             if (env->eflags & VM_MASK) {
+                 handle_vm86_trap(env, trapnr);
+-            } else
+-#endif
+-            {
+-                /* division by zero */
+-                info.si_signo = TARGET_SIGFPE;
+-                info.si_errno = 0;
+-                info.si_code = TARGET_FPE_INTDIV;
+-                info._sifields._sigfault._addr = env->eip;
+-                queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
++                break;
+             }
++#endif
++            gen_signal(env, TARGET_SIGFPE, TARGET_FPE_INTDIV, env->eip);
+             break;
+         case EXCP01_DB:
+         case EXCP03_INT3:
+ #ifndef TARGET_X86_64
+             if (env->eflags & VM_MASK) {
+                 handle_vm86_trap(env, trapnr);
+-            } else
++                break;
++            }
+ #endif
+-            {
+-                info.si_signo = TARGET_SIGTRAP;
+-                info.si_errno = 0;
+-                if (trapnr == EXCP01_DB) {
+-                    info.si_code = TARGET_TRAP_BRKPT;
+-                    info._sifields._sigfault._addr = env->eip;
+-                } else {
+-                    info.si_code = TARGET_SI_KERNEL;
+-                    info._sifields._sigfault._addr = 0;
+-                }
+-                queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
++            if (trapnr == EXCP01_DB) {
++                gen_signal(env, TARGET_SIGTRAP, TARGET_TRAP_BRKPT, env->eip);
++            } else {
++                gen_signal(env, TARGET_SIGTRAP, TARGET_SI_KERNEL, 0);
+             }
+             break;
+         case EXCP04_INTO:
+@@ -205,31 +190,19 @@ void cpu_loop(CPUX86State *env)
+ #ifndef TARGET_X86_64
+             if (env->eflags & VM_MASK) {
+                 handle_vm86_trap(env, trapnr);
+-            } else
+-#endif
+-            {
+-                info.si_signo = TARGET_SIGSEGV;
+-                info.si_errno = 0;
+-                info.si_code = TARGET_SI_KERNEL;
+-                info._sifields._sigfault._addr = 0;
+-                queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
++                break;
+             }
++#endif
++            gen_signal(env, TARGET_SIGSEGV, TARGET_SI_KERNEL, 0);
+             break;
+         case EXCP06_ILLOP:
+-            info.si_signo = TARGET_SIGILL;
+-            info.si_errno = 0;
+-            info.si_code = TARGET_ILL_ILLOPN;
+-            info._sifields._sigfault._addr = env->eip;
+-            queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
++            gen_signal(env, TARGET_SIGILL, TARGET_ILL_ILLOPN, env->eip);
+             break;
+         case EXCP_INTERRUPT:
+             /* just indicate that signals should be handled asap */
+             break;
+         case EXCP_DEBUG:
+-            info.si_signo = TARGET_SIGTRAP;
+-            info.si_errno = 0;
+-            info.si_code = TARGET_TRAP_BRKPT;
+-            queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
++            gen_signal(env, TARGET_SIGTRAP, TARGET_TRAP_BRKPT, 0);
+             break;
+         case EXCP_ATOMIC:
+             cpu_exec_step_atomic(cs);
 -- 
 2.20.1
 
