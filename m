@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AE8615C08C
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 15:44:39 +0100 (CET)
-Received: from localhost ([::1]:53726 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DA6F15C0A4
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 15:47:33 +0100 (CET)
+Received: from localhost ([::1]:53812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j2FjK-0005uT-Jz
-	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 09:44:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60062)
+	id 1j2Fm0-0001Ng-CZ
+	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 09:47:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60092)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j2Fgi-0004At-Io
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 09:41:57 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1j2Fgj-0004Ax-Ae
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 09:41:58 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j2Fgh-0001QH-Cv
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 09:41:56 -0500
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:40363)
+ (envelope-from <peter.maydell@linaro.org>) id 1j2Fgh-0001RY-Sb
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 09:41:57 -0500
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:36554)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j2Fgg-0001Jw-3X
+ id 1j2Fgh-0001M0-KZ
  for qemu-devel@nongnu.org; Thu, 13 Feb 2020 09:41:55 -0500
-Received: by mail-wr1-x42b.google.com with SMTP id t3so6978710wru.7
- for <qemu-devel@nongnu.org>; Thu, 13 Feb 2020 06:41:52 -0800 (PST)
+Received: by mail-wm1-x32e.google.com with SMTP id p17so7025003wma.1
+ for <qemu-devel@nongnu.org>; Thu, 13 Feb 2020 06:41:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=5QW6Q1EJKNnfHRnGkMMq3g240uRrMtzhye8Daf9kap0=;
- b=pzwh0JRNzbgzXLuIIOn36aAf5N0rkLo+dd+BOgXKPjML24IRd/apN5rEnlhmkTkH9X
- fD69ZSNML4jKlH6+pK6Odcv+oWJ/uYoY6TWtpUQxLoXEUGYthpmh5eB78Pmql+zwfpv8
- qP6dH3yH8Da1s+fA6KNjSVwvN58uI1ysrMAm0WQIDeONXGe08lmJZPjwwuIMewTHxF3+
- ttSEPFtbXKiZNGNBvOvtD1H8OSQYRXZFN64wHJ+o8n31BuIGp+XhUslFQkAIa7zWdeZT
- E+TY4BNvTRII0QV5RXkli2vhb5R2A3x69R79oouTYcceFFMiEitKGjzQConhecEu9VuP
- wrXg==
+ bh=GmFMEgF1fTeT3DdHq7kQLyhzWA5CJUtbhKey5Au3480=;
+ b=daqrNIt3h3x46atj8KbW8eEIA2rqZjU296ow02AF3dyR4M2spYuFPicdtdT75p2phv
+ N3fK2hn5AFHgzI50pEAguGSfizhtBqKoC8mrsPrCnedtKYvh+wNU7K88JEL7qgngyqyE
+ ElE4aJPBeulgivC57KmRzZ9pdxhd6m9SxlqQih3WFxoYXoHDxj/8EzjezcFSb5qKpENF
+ M/bjuLHaNq4nw+McPxKhaHghCFnuvaH5YD0gePwT2QlZoxg/PfI0veCW0iG+p7hCsHi2
+ eNvtbJWS2+nPZBMySWAADEENEUEIEQj8Hndwk0WfR36iKVejibac6G2VeUMxenAIZ8ip
+ gmvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=5QW6Q1EJKNnfHRnGkMMq3g240uRrMtzhye8Daf9kap0=;
- b=eBGj8Xpobzkm4vuP2gdqJULZKCsZiwco15J5Df0j9swxSM8VS2VY4wRarwvs35baqp
- Wm+kwrQczO/Tm5GEXKApFqd+SseV5XRU5VZQiTe1+zB40LElJMM/xOAs8QnlgSkIyyVj
- h/KGF8CKUCuKlUUS0ebyyoOhL4RRwAOlG6E6Ik6g7jU1NmzMyI9RPjNss3FeaKRCDE0P
- SMKtw5ebPWUCgYzwx6ZRb8B++wnrrWUSWGe46PgUTf21W8SImoOaMgBODJRkAu1pngUI
- sxh8fBO+JfsFi8C034ieDWSLzJKCBC0FiVRtWMvCYtcLdgnklkcfSeC9FIojocWzttia
- pc4Q==
-X-Gm-Message-State: APjAAAWvkS+LJh0jviOt4UlDmDNBfcJyjghrCmeMjLP4xFf0w5EOY5jD
- 9136cdDzEz2dvL/APeyeWWdwXULk3Uc=
-X-Google-Smtp-Source: APXvYqztGyu3s8i3X8xYVHfovkIMdiGVfNGYiHwr5RYvXd5RKA4df+qv8ehBTQk/tFNr+SE1E/+8ig==
-X-Received: by 2002:adf:f986:: with SMTP id f6mr23124895wrr.182.1581604911259; 
- Thu, 13 Feb 2020 06:41:51 -0800 (PST)
+ bh=GmFMEgF1fTeT3DdHq7kQLyhzWA5CJUtbhKey5Au3480=;
+ b=rkQrZbjJO4bjZkQ+YeuSBxs1N7iBcUfLhwl05ybDBUZ7X5PIr8/dKdXMgOJrjeYi2X
+ 5aY9pQOdrUIN4fPdTPjY7JzCA6k512j0wIw/Y11rWrZ9d96QDY2f4uvlhBqp+i/7+mE2
+ fO7DuJBnHdN8PqWn6otc9X4jMhkLAHHkyBiasIDkwaT+3AaA0BCOs4jbdLYV93f3Pdl2
+ mOLdInuq7p+ZC4qJVGbzCueSavraqneRmcwgehQg40xZLNrTkSSUfphIVoiM5uDogxvf
+ OxhSkyfpQ4UZBY41t6F/eRQsOZSXO8mdNr3o8qpItwHY5OlTW29dgon7iVCum8dIUyFI
+ 6ZDg==
+X-Gm-Message-State: APjAAAXsl34j/AUlvH5KbycAWSd2mw2SZlnl5dAwTuxwh9zIFztSPMh1
+ goiz6CLd8DyCeKqYJKg+0eZXDhe+yes=
+X-Google-Smtp-Source: APXvYqzsMru86Gdh+uUmBFf4cMofnhAcfSxno0HZ2Mc11D4tVSnb6pxHA0vuH04zETqPEGoqkvtlrQ==
+X-Received: by 2002:a7b:cbc8:: with SMTP id n8mr6250499wmi.35.1581604912311;
+ Thu, 13 Feb 2020 06:41:52 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id e22sm3362454wme.45.2020.02.13.06.41.50
+ by smtp.gmail.com with ESMTPSA id e22sm3362454wme.45.2020.02.13.06.41.51
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Feb 2020 06:41:50 -0800 (PST)
+ Thu, 13 Feb 2020 06:41:51 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 03/46] bios-tables-test: prepare to change ARM virt ACPI DSDT
-Date: Thu, 13 Feb 2020 14:41:02 +0000
-Message-Id: <20200213144145.818-4-peter.maydell@linaro.org>
+Subject: [PULL 04/46] arm/virt/acpi: remove meaningless sub device "RP0" from
+ PCI0
+Date: Thu, 13 Feb 2020 14:41:03 +0000
+Message-Id: <20200213144145.818-5-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200213144145.818-1-peter.maydell@linaro.org>
 References: <20200213144145.818-1-peter.maydell@linaro.org>
@@ -66,7 +67,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42b
+X-Received-From: 2a00:1450:4864:20::32e
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,27 +84,33 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Heyi Guo <guoheyi@huawei.com>
 
-We are going to change ARM virt ACPI DSDT table, which will cause make
-check to fail, so temporarily add related golden masters to ignore
-list.
+The sub device "RP0" under PCI0 in ACPI/DSDT does not contain any
+method or property other than "_ADR", so it is safe to remove it.
 
 Signed-off-by: Heyi Guo <guoheyi@huawei.com>
+Acked-by: "Michael S. Tsirkin" <mst@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Message-id: 20200204014325.16279-2-guoheyi@huawei.com
+Message-id: 20200204014325.16279-3-guoheyi@huawei.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- tests/qtest/bios-tables-test-allowed-diff.h | 3 +++
- 1 file changed, 3 insertions(+)
+ hw/arm/virt-acpi-build.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index dfb8523c8bf..32a401ae35f 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1 +1,4 @@
- /* List of comma-separated changed AML files to ignore */
-+"tests/data/acpi/virt/DSDT",
-+"tests/data/acpi/virt/DSDT.memhp",
-+"tests/data/acpi/virt/DSDT.numamem",
+diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
+index bd5f771e9be..9f4c7d1889c 100644
+--- a/hw/arm/virt-acpi-build.c
++++ b/hw/arm/virt-acpi-build.c
+@@ -317,10 +317,6 @@ static void acpi_dsdt_add_pci(Aml *scope, const MemMapEntry *memmap,
+     aml_append(method, aml_return(buf));
+     aml_append(dev, method);
+ 
+-    Aml *dev_rp0 = aml_device("%s", "RP0");
+-    aml_append(dev_rp0, aml_name_decl("_ADR", aml_int(0)));
+-    aml_append(dev, dev_rp0);
+-
+     Aml *dev_res0 = aml_device("%s", "RES0");
+     aml_append(dev_res0, aml_name_decl("_HID", aml_string("PNP0C02")));
+     crs = aml_resource_template();
 -- 
 2.20.1
 
