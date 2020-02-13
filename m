@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 731B915B5CA
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 01:24:43 +0100 (CET)
-Received: from localhost ([::1]:45438 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CFC315B5D0
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 01:26:10 +0100 (CET)
+Received: from localhost ([::1]:45474 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j22J8-0003iF-Bd
-	for lists+qemu-devel@lfdr.de; Wed, 12 Feb 2020 19:24:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37179)
+	id 1j22KX-0005cb-9E
+	for lists+qemu-devel@lfdr.de; Wed, 12 Feb 2020 19:26:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37192)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1j22I6-0002Vk-0J
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 19:23:39 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1j22I7-0002Vz-7L
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 19:23:40 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1j22I4-0005VP-Tp
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 19:23:37 -0500
-Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630]:42972)
+ (envelope-from <richard.henderson@linaro.org>) id 1j22I5-0005Wp-V4
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 19:23:39 -0500
+Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:39191)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1j22I4-0005UP-OR
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 19:23:36 -0500
-Received: by mail-pl1-x630.google.com with SMTP id e8so1583102plt.9
- for <qemu-devel@nongnu.org>; Wed, 12 Feb 2020 16:23:36 -0800 (PST)
+ id 1j22I5-0005Vr-PE
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 19:23:37 -0500
+Received: by mail-pj1-x102f.google.com with SMTP id e9so1592521pjr.4
+ for <qemu-devel@nongnu.org>; Wed, 12 Feb 2020 16:23:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=uAQRooIFC1RVgmc7hgLv35x85QYxjKufqRBZQSXx1kU=;
- b=H+4JnBeMPUr2Uy8/74M40WQCNRuLSR+7rf3uOtB1kS0rKIqWegr9mrhTEw2Zgroeny
- k6MC5Tf1aBgCXt45JHeY/eOPoKd1Kqwd8cQio1y35ymzipVnwFEiTXzzqUhEXO6zmtHY
- Ds8NeDnH3i/JSIZZwjhjJNMTSEtfwyZQsj2hcxRp0HNxthclU8TT1k/AW2L2vn2BwExj
- ZDbAJ/N9w6Uq9LwaoWWyzgy36d1JjggwsCajAx8doSZALfKDRg1yWB2DRKO6Y4uUe0xf
- pde/YyN/7d3ZJV7EGtGhNZW5H43oVK8G4gPzKuyDeiN+HvOyjw/B3MEIDXJURdVEVAX1
- /QMQ==
+ bh=B4yrJjvGv9DkVGdrXIq6dZpfj43fltGdT2dNbPVV5FA=;
+ b=KvxlcxWEkAO2ybOp4+zTLHKIeYTgrMRDBQqPqV20utOHBXJ7Pry/sHo21qJM17tahh
+ iKK5Vv8GQ2w8qBbJzKiw1+cguvcl89jt6V731oR9vFVoaLBeMpHI42C38aXr/NN/tLnE
+ gtZgfGk5KoeGw85oyGBan9qYYvjreJUBtAHun+JnAxWa986Gc2bbHSxniNvzxUHVSYD2
+ 1IQ4o+VzEIIuBmd+rGC2vFfh4U7qyOi+Kgk7pdpcbmsLWiN2cP899icCEKFzLzyyS+eH
+ n6oXdPVz1ao+zhv9PLHMpQqmL3RR468xv50yO3GUlCusA0AvAIX6UtmW/0K6/Ttnc0kr
+ w3nQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=uAQRooIFC1RVgmc7hgLv35x85QYxjKufqRBZQSXx1kU=;
- b=ts13ygFEk7S7wULSvAKN8S09oyYcZKrTJ+cXe+et77ADa/LcM7PrI5cuorYtYIew49
- /68Oxcf/fRMtjAQ5KkN7qURcA7vK4JkRtkNfAJS9DFaEQgRaHBNzkj0p8MhnVJSQPXYG
- 5Z8v6W8+gBx1cHcXuG/QApcSOWt/o7i2ye9rAysUYciS5hb1gpxqk20H/PmkAO27Z5tw
- kl0RS8qQiqGwFqdEGJxlDkZqTEE24KtTwf17WbTRzeECX81Dn1FSYfByCQjZmKMUniLb
- /3SS+BFqyvJDcG7Dbzqhzv6lC3XOOko8LfGeIkFomq60DaSMUmswaVI2agD/nbEkuckP
- SAfw==
-X-Gm-Message-State: APjAAAX57llQ/RUlYBJRVgm1JZVdAgwGIkqL9E8CjaPSqxbVoOx5xg/u
- 4pHZwRxeAqGEjNMLlDsdiytYMXJ+ULI=
-X-Google-Smtp-Source: APXvYqzWtcWejBVgaY6bmnYutJotS68gtPh1Aso1M34Gk1uPysHhb+o7dnsOyg/KlosxY+YXgjo+sg==
-X-Received: by 2002:a17:90a:9c1:: with SMTP id 59mr1877816pjo.65.1581553415251; 
- Wed, 12 Feb 2020 16:23:35 -0800 (PST)
+ bh=B4yrJjvGv9DkVGdrXIq6dZpfj43fltGdT2dNbPVV5FA=;
+ b=kEISq2n3a7vsqlFncryNhXo/oExtAgz6z/Utl3AzKaqvGDJYOUrs/hVDTFe7iEeLHk
+ ZbToVS9gIxGnSF7N1BcwqSesLKpUhuzU6uIrENzKwLlDOE/WxVgCHKjcH3I2bHKFXfrG
+ 8NE1bA8by+6cWCnzInc9tjl/Ockd/JHena7ufZPSDVsRo/LmgdH2g3nUWZLWSCUb7UIq
+ 2NKI/14WX6iOX1At0Tq3N6fsc8j5cFNT4cr3R/6kJcsKt9D5TBFlNmomP4sYMrIlU69T
+ InOO72U+jRfQgJ4mj+CFBKYqFy0q4j6sKN9bTBrbyzLwnPinVagPmP48ODrNNjRAg7UV
+ d9/w==
+X-Gm-Message-State: APjAAAWm+qq+pTarADPwhAau+NmdYt4n0VEjC3tVgBg/7JNzOPGZgK2A
+ jll0cnsNGCQYiDY4G21JakhUiHSkd0o=
+X-Google-Smtp-Source: APXvYqy6VeePBRtYD7HiypABpV1aLnLSWRqLl+5yl1Z6phGtOE/iBZ647ob5sV0323ocXxZtRJFKSA==
+X-Received: by 2002:a17:90a:a10c:: with SMTP id
+ s12mr1893008pjp.47.1581553416399; 
+ Wed, 12 Feb 2020 16:23:36 -0800 (PST)
 Received: from localhost.localdomain (97-126-123-70.tukw.qwest.net.
  [97.126.123.70])
- by smtp.gmail.com with ESMTPSA id j4sm365277pfh.152.2020.02.12.16.23.34
+ by smtp.gmail.com with ESMTPSA id j4sm365277pfh.152.2020.02.12.16.23.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 12 Feb 2020 16:23:34 -0800 (PST)
+ Wed, 12 Feb 2020 16:23:35 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 1/3] exec: flush CPU TB cache in breakpoint_invalidate
-Date: Wed, 12 Feb 2020 16:23:30 -0800
-Message-Id: <20200213002332.31821-2-richard.henderson@linaro.org>
+Subject: [PULL 2/3] tcg: Add support for a helper with 7 arguments
+Date: Wed, 12 Feb 2020 16:23:31 -0800
+Message-Id: <20200213002332.31821-3-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200213002332.31821-1-richard.henderson@linaro.org>
 References: <20200213002332.31821-1-richard.henderson@linaro.org>
@@ -66,7 +67,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::630
+X-Received-From: 2607:f8b0:4864:20::102f
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,62 +79,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Max Filippov <jcmvbkbc@gmail.com>
+Cc: peter.maydell@linaro.org, Taylor Simpson <tsimpson@quicinc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Max Filippov <jcmvbkbc@gmail.com>
+From: Taylor Simpson <tsimpson@quicinc.com>
 
-When a breakpoint is inserted at location for which there's currently no
-virtual to physical translation no action is taken on CPU TB cache. If a
-TB for that virtual address already exists but is not visible ATM the
-breakpoint won't be hit next time an instruction at that address will be
-executed.
+Currently, helpers can only take up to 6 arguments.  This patch adds the
+capability for up to 7 arguments.  I have tested it with the Hexagon port
+that I am preparing for submission.
 
-Flush entire CPU TB cache in breakpoint_invalidate to force
-re-translation of all TBs for the breakpoint address.
-
-This change fixes the following scenario:
-- linux user application is running
-- a breakpoint is inserted from QEMU gdbstub for a user address that is
-  not currently present in the target CPU TLB
-- an instruction at that address is executed, but the external debugger
-  doesn't get control.
-
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: Max Filippov <jcmvbkbc@gmail.com>
-Message-Id: <20191127220602.10827-2-jcmvbkbc@gmail.com>
+Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
+Message-Id: <1580942510-2820-1-git-send-email-tsimpson@quicinc.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- exec.c | 15 +++++++--------
- 1 file changed, 7 insertions(+), 8 deletions(-)
+ include/exec/helper-gen.h   | 13 +++++++++++++
+ include/exec/helper-head.h  |  2 ++
+ include/exec/helper-proto.h |  6 ++++++
+ include/exec/helper-tcg.h   |  7 +++++++
+ 4 files changed, 28 insertions(+)
 
-diff --git a/exec.c b/exec.c
-index 67e520d18e..7f4074f95e 100644
---- a/exec.c
-+++ b/exec.c
-@@ -1019,14 +1019,13 @@ void tb_invalidate_phys_addr(AddressSpace *as, hwaddr addr, MemTxAttrs attrs)
- 
- static void breakpoint_invalidate(CPUState *cpu, target_ulong pc)
- {
--    MemTxAttrs attrs;
--    hwaddr phys = cpu_get_phys_page_attrs_debug(cpu, pc, &attrs);
--    int asidx = cpu_asidx_from_attrs(cpu, attrs);
--    if (phys != -1) {
--        /* Locks grabbed by tb_invalidate_phys_addr */
--        tb_invalidate_phys_addr(cpu->cpu_ases[asidx].as,
--                                phys | (pc & ~TARGET_PAGE_MASK), attrs);
--    }
-+    /*
-+     * There may not be a virtual to physical translation for the pc
-+     * right now, but there may exist cached TB for this pc.
-+     * Flush the whole TB cache to force re-translation of such TBs.
-+     * This is heavyweight, but we're debugging anyway.
-+     */
-+    tb_flush(cpu);
+diff --git a/include/exec/helper-gen.h b/include/exec/helper-gen.h
+index 236ff40524..29c02f85dc 100644
+--- a/include/exec/helper-gen.h
++++ b/include/exec/helper-gen.h
+@@ -66,6 +66,18 @@ static inline void glue(gen_helper_, name)(dh_retvar_decl(ret)          \
+   tcg_gen_callN(HELPER(name), dh_retvar(ret), 6, args);                 \
  }
- #endif
  
++#define DEF_HELPER_FLAGS_7(name, flags, ret, t1, t2, t3, t4, t5, t6, t7)\
++static inline void glue(gen_helper_, name)(dh_retvar_decl(ret)          \
++    dh_arg_decl(t1, 1),  dh_arg_decl(t2, 2), dh_arg_decl(t3, 3),        \
++    dh_arg_decl(t4, 4), dh_arg_decl(t5, 5), dh_arg_decl(t6, 6),         \
++    dh_arg_decl(t7, 7))                                                 \
++{                                                                       \
++  TCGTemp *args[7] = { dh_arg(t1, 1), dh_arg(t2, 2), dh_arg(t3, 3),     \
++                     dh_arg(t4, 4), dh_arg(t5, 5), dh_arg(t6, 6),       \
++                     dh_arg(t7, 7) };                                   \
++  tcg_gen_callN(HELPER(name), dh_retvar(ret), 7, args);                 \
++}
++
+ #include "helper.h"
+ #include "trace/generated-helpers.h"
+ #include "trace/generated-helpers-wrappers.h"
+@@ -79,6 +91,7 @@ static inline void glue(gen_helper_, name)(dh_retvar_decl(ret)          \
+ #undef DEF_HELPER_FLAGS_4
+ #undef DEF_HELPER_FLAGS_5
+ #undef DEF_HELPER_FLAGS_6
++#undef DEF_HELPER_FLAGS_7
+ #undef GEN_HELPER
+ 
+ #endif /* HELPER_GEN_H */
+diff --git a/include/exec/helper-head.h b/include/exec/helper-head.h
+index f2519c9741..3094c7946d 100644
+--- a/include/exec/helper-head.h
++++ b/include/exec/helper-head.h
+@@ -148,6 +148,8 @@
+     DEF_HELPER_FLAGS_5(name, 0, ret, t1, t2, t3, t4, t5)
+ #define DEF_HELPER_6(name, ret, t1, t2, t3, t4, t5, t6) \
+     DEF_HELPER_FLAGS_6(name, 0, ret, t1, t2, t3, t4, t5, t6)
++#define DEF_HELPER_7(name, ret, t1, t2, t3, t4, t5, t6, t7) \
++    DEF_HELPER_FLAGS_7(name, 0, ret, t1, t2, t3, t4, t5, t6, t7)
+ 
+ /* MAX_OPC_PARAM_IARGS must be set to n if last entry is DEF_HELPER_FLAGS_n. */
+ 
+diff --git a/include/exec/helper-proto.h b/include/exec/helper-proto.h
+index 1c4ba9bc78..a0a8d9aa46 100644
+--- a/include/exec/helper-proto.h
++++ b/include/exec/helper-proto.h
+@@ -30,6 +30,11 @@ dh_ctype(ret) HELPER(name) (dh_ctype(t1), dh_ctype(t2), dh_ctype(t3), \
+ dh_ctype(ret) HELPER(name) (dh_ctype(t1), dh_ctype(t2), dh_ctype(t3), \
+                             dh_ctype(t4), dh_ctype(t5), dh_ctype(t6));
+ 
++#define DEF_HELPER_FLAGS_7(name, flags, ret, t1, t2, t3, t4, t5, t6, t7) \
++dh_ctype(ret) HELPER(name) (dh_ctype(t1), dh_ctype(t2), dh_ctype(t3), \
++                            dh_ctype(t4), dh_ctype(t5), dh_ctype(t6), \
++                            dh_ctype(t7));
++
+ #include "helper.h"
+ #include "trace/generated-helpers.h"
+ #include "tcg-runtime.h"
+@@ -42,5 +47,6 @@ dh_ctype(ret) HELPER(name) (dh_ctype(t1), dh_ctype(t2), dh_ctype(t3), \
+ #undef DEF_HELPER_FLAGS_4
+ #undef DEF_HELPER_FLAGS_5
+ #undef DEF_HELPER_FLAGS_6
++#undef DEF_HELPER_FLAGS_7
+ 
+ #endif /* HELPER_PROTO_H */
+diff --git a/include/exec/helper-tcg.h b/include/exec/helper-tcg.h
+index 573c2ce2e9..27870509a2 100644
+--- a/include/exec/helper-tcg.h
++++ b/include/exec/helper-tcg.h
+@@ -52,6 +52,12 @@
+     | dh_sizemask(t2, 2) | dh_sizemask(t3, 3) | dh_sizemask(t4, 4) \
+     | dh_sizemask(t5, 5) | dh_sizemask(t6, 6) },
+ 
++#define DEF_HELPER_FLAGS_7(NAME, FLAGS, ret, t1, t2, t3, t4, t5, t6, t7) \
++  { .func = HELPER(NAME), .name = str(NAME), .flags = FLAGS, \
++    .sizemask = dh_sizemask(ret, 0) | dh_sizemask(t1, 1) \
++    | dh_sizemask(t2, 2) | dh_sizemask(t3, 3) | dh_sizemask(t4, 4) \
++    | dh_sizemask(t5, 5) | dh_sizemask(t6, 6) | dh_sizemask(t7, 7) },
++
+ #include "helper.h"
+ #include "trace/generated-helpers.h"
+ #include "tcg-runtime.h"
+@@ -65,5 +71,6 @@
+ #undef DEF_HELPER_FLAGS_4
+ #undef DEF_HELPER_FLAGS_5
+ #undef DEF_HELPER_FLAGS_6
++#undef DEF_HELPER_FLAGS_7
+ 
+ #endif /* HELPER_TCG_H */
 -- 
 2.20.1
 
