@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AE0A15C082
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 15:41:19 +0100 (CET)
-Received: from localhost ([::1]:53402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B19A215C08E
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 15:44:45 +0100 (CET)
+Received: from localhost ([::1]:53734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j2Fg5-0003Fw-2V
-	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 09:41:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59625)
+	id 1j2FjQ-0005z8-Pk
+	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 09:44:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60048)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j2Fes-0002Vm-7D
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 09:40:03 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1j2Fgi-0004As-4s
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 09:41:57 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j2Fer-00067i-45
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 09:40:02 -0500
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:46654)
+ (envelope-from <peter.maydell@linaro.org>) id 1j2Fgg-0001Oh-55
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 09:41:56 -0500
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:33770)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j2Feq-00065o-TY
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 09:40:01 -0500
-Received: by mail-ot1-x344.google.com with SMTP id g64so5727120otb.13
- for <qemu-devel@nongnu.org>; Thu, 13 Feb 2020 06:40:00 -0800 (PST)
+ id 1j2Fgc-0001BY-I9
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 09:41:54 -0500
+Received: by mail-wr1-x432.google.com with SMTP id u6so7017958wrt.0
+ for <qemu-devel@nongnu.org>; Thu, 13 Feb 2020 06:41:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=A4EPPn1XD+DrC3EutJ1d+JoZYSjW6TenIzcHdxfjf7A=;
- b=WP+5LnmzPYpCz1W88JoUB3XPljfC+Y8gXRoZakD0QsCtzfuBycN0/X6D07SflZQzCb
- IQLogAZ5rX/hGMw2TJ6jnI9/r6z0YxK6sMD1Bjqxj4yTPeeweVLslHSW63m17T/eoHCZ
- IjAo3GMVWWsE189yVidUxOKy56SNv8kLO76+x+hjXp9Nqop0dfYQkLFjgZCYsyZgr6tf
- YTxw0JquFLwP+blpXdXFGBmWdFh9ikNYofnbAAxEgAL8gTxLR/qBVXgDHSV5eslBaRDZ
- qk2ov+BkDppxTBGMVUeK8FsCLRNQ2pDGeHhKwUniOUP8P/ikNjvQ1ORnBOo3F7nA5SPA
- ILTg==
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=PGSDCccbGiXjX/zXoKO/zem9AXmsZofLXoSgTSuBx04=;
+ b=lM25owbb3dVdXDyDVqpfgaI7HpTXLclOrHv2kn+fPB0drwXsAupBpLJXxg51k0CR3S
+ D6TXrn53TuM1X8CeIq/WVtARoubribljt0Y9sBG6PRrTGo3ZXYbuag7VY4hqZecXWo1/
+ TUR4mz72KsXmarnM2JBeTjZoCSf6pIqmKN5ac3Kt6VKqdjideopy1OB7IrirTkB0t4Jd
+ +5roxzkTyOgIq0Q0L205NJV7HlFU97mHuKRkM218/ncONwjIxzOOz88sQko+IGgH25fV
+ CmP6g5cEjuXI3DojIDfG0d5NEml75qMG37b+KlBcP94fe+FaqgX9q5/Es1exYa/B/mKd
+ sRNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=A4EPPn1XD+DrC3EutJ1d+JoZYSjW6TenIzcHdxfjf7A=;
- b=taiIvQhPOWnpW/kPUCvzh5PabJf2NOQBLVVMfFSjR1b35+GOrD/dTcBmegeZV0c1s0
- WowGkThtzyddny6mK3rQntjkwWF6VY+Xf9wONzW41V8GiIJ2ezXbAPQHy+dId+W4HaSd
- HRLohQOe4qa+y/Gl5T0g7vrtmNQAVSASx0C/vQQ5fMvbTPLoz9CIe5BB5ptnZmZMFxrD
- Ab38J/KrxhvbzpTgyuV6gBueuOugfk3CBG1kMe7oygsUGWo34qIa024MRnA6LcHu3r8s
- jRWZxKFzF0vvQfmFb8Nz1I7nkQ+4edjsZmhV/J1RaTdS5lvlWbqTv1P00ddfaYDtqoso
- ekIQ==
-X-Gm-Message-State: APjAAAUwucgt9c4qNstyiqCuRni4xujxoJF+ip6BvTXXzK7J2zHBQsW7
- CkFW7KDOObsyO3kk6ZhXAr7l14+DrP0g8qeQp5S53g==
-X-Google-Smtp-Source: APXvYqydj9Bn6PFD5jDxyVYkM5fsmTuxz5POgqf4lvuKlvngYkfNz0g6YXkdOktRWSsZSKwiLRaHTiD/9LMwYvCEBn4=
-X-Received: by 2002:a05:6830:1184:: with SMTP id
- u4mr12900017otq.221.1581604799968; 
- Thu, 13 Feb 2020 06:39:59 -0800 (PST)
-MIME-Version: 1.0
-References: <20200212184648.GA584@roeck-us.net>
- <504e7722-0b60-ec02-774d-26a7320e5309@redhat.com>
- <20200212230918.GA27242@roeck-us.net>
- <560224fe-f0a3-c64a-6689-e824225cfbb9@redhat.com>
- <279d959f-f7e5-65e1-9c68-459f3fed56d3@ozlabs.ru>
- <52f0b829-151a-3dd0-0ec7-c3155185510c@redhat.com>
- <9f652340-1277-0eb2-bc2c-402b4209a220@roeck-us.net>
-In-Reply-To: <9f652340-1277-0eb2-bc2c-402b4209a220@roeck-us.net>
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=PGSDCccbGiXjX/zXoKO/zem9AXmsZofLXoSgTSuBx04=;
+ b=VHl2kuR8o8uQ5Zc0o9uVXuULK//HTu0GycYG1sRHabN4EUyQSilSb6ArXSbvbP6qNg
+ sBz0xWHHmnOQnT1CqbFrDWu0lqVLVeaOM8kW8skwZFyAnWf2rebWWKVxdnndBWlcJIs/
+ q0/snzEEPiblP4oYlgOGN535aEEMrVe7QhdJpY5p825nRAmMOQK8M+3DhLBKZbTGaUSk
+ 7diC+hcKETjuLB9RIOMJkOBFRdv/V9iXsW4yhnCa1Aa0qVWAAXWI92G41KYyK+qgKDwW
+ XxekxQWRLQXj4N5VuHrinM6i0j8tmINO4f6l6hiR/2m7UqzDMQZe6SuZMVspCSCF/xK2
+ LI8Q==
+X-Gm-Message-State: APjAAAXVgrfNiZ1bCqmOqpm3HJ2AQXQEV6EwswB0F6xoo2XPV56p5AOR
+ 9kwkwiMRUBUcH6yis2umw0AGmngVuIY=
+X-Google-Smtp-Source: APXvYqzuu4X3gvA9qgcmdtPY4eP4uVaPcbciV5uXwOPljhfAMWk8KRTSJ3NTiK4mm5mOcrHUusUeBA==
+X-Received: by 2002:adf:f28c:: with SMTP id k12mr23004748wro.360.1581604907954; 
+ Thu, 13 Feb 2020 06:41:47 -0800 (PST)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id e22sm3362454wme.45.2020.02.13.06.41.47
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 13 Feb 2020 06:41:47 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 13 Feb 2020 14:39:49 +0000
-Message-ID: <CAFEAcA8CyTqdqvT6xatkxb9EN49zD4OBaKrbaLpkyZg+eMoM6w@mail.gmail.com>
-Subject: Re: Question about (and problem with) pflash data access
-To: Guenter Roeck <linux@roeck-us.net>
-Content-Type: text/plain; charset="UTF-8"
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/46] target-arm queue
+Date: Thu, 13 Feb 2020 14:40:59 +0000
+Message-Id: <20200213144145.818-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::344
+X-Received-From: 2a00:1450:4864:20::432
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,43 +77,124 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
- Alexey Kardashevskiy <aik@ozlabs.ru>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
- qemu-arm <qemu-arm@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
- Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 13 Feb 2020 at 14:26, Guenter Roeck <linux@roeck-us.net> wrote:
-> What really puzzles me is that there is no trace output for
-> flash data accesses (trace_pflash_data_read and trace_pflash_data_write),
-> meaning the actual flash data access must be handled elsewhere.
-> Can someone give me a hint where that might be ?
-> Clearly I am missing something about inner workings of qemu.
+Big pullreq this week, since it's got RTH's PAN/UAO/ATS1E1
+implementation in it, and also Philippe's raspi board model
+cleanup patchset, as well as a scattering of smaller stuff.
 
-Probably the device is in 'romd' mode. A QEMU MemoryRegion
-can be:
- * RAM (includes ROM for these purposes) -- backed by host
-   memory, reads and writes (if permitted) go straight to
-   the host memory via fastpath accesses
- * MMIO -- backed by a read and write accessor function,
-   all accesses go to these functions
- * "ROM device" -- a mix of the above where there is a
-   backing bit of host memory but also accessor functions.
-   When the device is in "romd" mode, reads go direct to
-   host memory, and writes still go to the accessor function.
-   When the device is not in "romd" mode, reads also go
-   to the accessor function.
-
-We use this in the pflash devices to make the common case
-("just read the flash") fast. When the guest makes a write
-to flash that puts it into programming mode, we call
-memory_region_rom_device_set_romd(..., false) so we can
-intercept reads and make them do the right thing for
-programming mode.
-
-thanks
 -- PMM
+
+
+The following changes since commit 7ce9ce89930ce260af839fb3e3e5f9101f5c69a0:
+
+  Merge remote-tracking branch 'remotes/kraxel/tags/ui-20200212-pull-request' into staging (2020-02-13 11:06:32 +0000)
+
+are available in the Git repository at:
+
+  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20200213
+
+for you to fetch changes up to dc7a88d0810ad272bdcd2e0869359af78fdd9114:
+
+  target/arm: Implement ARMv8.1-VMID16 extension (2020-02-13 14:30:51 +0000)
+
+----------------------------------------------------------------
+target-arm queue:
+ * i.MX: Fix inverted sense of register bits in watchdog timer
+ * i.MX: Add support for WDT on i.MX6
+ * arm/virt: cleanups to ACPI tables
+ * Implement ARMv8.1-VMID16 extension
+ * Implement ARMv8.1-PAN
+ * Implement ARMv8.2-UAO
+ * Implement ARMv8.2-ATS1E1
+ * ast2400/2500/2600: Wire up EHCI controllers
+ * hw/char/exynos4210_uart: Fix memleaks in exynos4210_uart_init
+ * hw/arm/raspi: Clean up the board code
+
+----------------------------------------------------------------
+Chen Qun (1):
+      hw/char/exynos4210_uart: Fix memleaks in exynos4210_uart_init
+
+Guenter Roeck (2):
+      hw/arm: ast2400/ast2500: Wire up EHCI controllers
+      hw/arm: ast2600: Wire up EHCI controllers
+
+Heyi Guo (7):
+      bios-tables-test: prepare to change ARM virt ACPI DSDT
+      arm/virt/acpi: remove meaningless sub device "RP0" from PCI0
+      arm/virt/acpi: remove _ADR from devices identified by _HID
+      arm/acpi: fix PCI _PRT definition
+      arm/acpi: fix duplicated _UID of PCI interrupt link devices
+      arm/acpi: simplify the description of PCI _CRS
+      virt/acpi: update golden masters for DSDT update
+
+Peter Maydell (1):
+      target/arm: Implement ARMv8.1-VMID16 extension
+
+Philippe Mathieu-Daudé (13):
+      hw/arm/raspi: Use BCM2708 machine type with pre Device Tree kernels
+      hw/arm/raspi: Correct the board descriptions
+      hw/arm/raspi: Extract the version from the board revision
+      hw/arm/raspi: Extract the RAM size from the board revision
+      hw/arm/raspi: Extract the processor type from the board revision
+      hw/arm/raspi: Trivial code movement
+      hw/arm/raspi: Make machines children of abstract RaspiMachineClass
+      hw/arm/raspi: Make board_rev a field of RaspiMachineClass
+      hw/arm/raspi: Let class_init() directly call raspi_machine_init()
+      hw/arm/raspi: Set default RAM size to size encoded in board revision
+      hw/arm/raspi: Extract the board model from the board revision
+      hw/arm/raspi: Use a unique raspi_machine_class_init() method
+      hw/arm/raspi: Extract the cores count from the board revision
+
+Richard Henderson (20):
+      target/arm: Add arm_mmu_idx_is_stage1_of_2
+      target/arm: Add mmu_idx for EL1 and EL2 w/ PAN enabled
+      target/arm: Add isar_feature tests for PAN + ATS1E1
+      target/arm: Move LOR regdefs to file scope
+      target/arm: Split out aarch32_cpsr_valid_mask
+      target/arm: Mask CPSR_J when Jazelle is not enabled
+      target/arm: Replace CPSR_ERET_MASK with aarch32_cpsr_valid_mask
+      target/arm: Use aarch32_cpsr_valid_mask in helper_exception_return
+      target/arm: Remove CPSR_RESERVED
+      target/arm: Introduce aarch64_pstate_valid_mask
+      target/arm: Update MSR access for PAN
+      target/arm: Update arm_mmu_idx_el for PAN
+      target/arm: Enforce PAN semantics in get_S1prot
+      target/arm: Set PAN bit as required on exception entry
+      target/arm: Implement ATS1E1 system registers
+      target/arm: Enable ARMv8.2-ATS1E1 in -cpu max
+      target/arm: Add ID_AA64MMFR2_EL1
+      target/arm: Update MSR access to UAO
+      target/arm: Implement UAO semantics
+      target/arm: Enable ARMv8.2-UAO in -cpu max
+
+Roman Kapl (2):
+      i.MX: Fix inverted register bits in wdt code.
+      i.MX: Add support for WDT on i.MX6
+
+ include/hw/arm/aspeed_soc.h       |   6 +
+ include/hw/arm/fsl-imx6.h         |   3 +
+ target/arm/cpu-param.h            |   2 +-
+ target/arm/cpu.h                  |  95 ++++++++---
+ target/arm/internals.h            |  85 ++++++++++
+ hw/arm/aspeed_ast2600.c           |  23 +++
+ hw/arm/aspeed_soc.c               |  25 +++
+ hw/arm/fsl-imx6.c                 |  21 +++
+ hw/arm/raspi.c                    | 190 ++++++++++++++++------
+ hw/arm/virt-acpi-build.c          |  25 +--
+ hw/char/exynos4210_uart.c         |   5 +-
+ hw/misc/imx2_wdt.c                |   2 +-
+ target/arm/cpu.c                  |   4 +
+ target/arm/cpu64.c                |  10 ++
+ target/arm/helper-a64.c           |   6 +-
+ target/arm/helper.c               | 327 +++++++++++++++++++++++++++++---------
+ target/arm/kvm64.c                |   2 +
+ target/arm/op_helper.c            |  14 +-
+ target/arm/translate-a64.c        |  31 ++++
+ target/arm/translate.c            |  42 +++--
+ tests/data/acpi/virt/DSDT         | Bin 18462 -> 5307 bytes
+ tests/data/acpi/virt/DSDT.memhp   | Bin 19799 -> 6644 bytes
+ tests/data/acpi/virt/DSDT.numamem | Bin 18462 -> 5307 bytes
+ 23 files changed, 731 insertions(+), 187 deletions(-)
 
