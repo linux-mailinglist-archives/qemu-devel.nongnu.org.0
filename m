@@ -2,71 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1189915B7F3
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 04:50:37 +0100 (CET)
-Received: from localhost ([::1]:46978 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E00915B85F
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 05:13:56 +0100 (CET)
+Received: from localhost ([::1]:47154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j25WO-0003n0-5L
-	for lists+qemu-devel@lfdr.de; Wed, 12 Feb 2020 22:50:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33957)
+	id 1j25sx-0001MB-FF
+	for lists+qemu-devel@lfdr.de; Wed, 12 Feb 2020 23:13:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36221)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gshan@redhat.com>) id 1j25VT-0003HC-Sl
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 22:49:41 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1j25sB-0000qR-RD
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 23:13:09 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <gshan@redhat.com>) id 1j25VS-0006fD-MZ
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 22:49:39 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:51701
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <dgibson@ozlabs.org>) id 1j25sA-0005ve-IO
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 23:13:07 -0500
+Received: from ozlabs.org ([2401:3900:2:1::2]:41177)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <gshan@redhat.com>) id 1j25VS-0006dI-JT
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 22:49:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581565778;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=47Mm1myGpPPW+ruwkT/I7EdLKcI7mHHjG7F+OyG5zcY=;
- b=bO9TiYDtoHhRFTF9wGzBjtFaqL/j1niz+K5yrO6hAZMlG+sefQPf+EBI400TLdVWdD/gdE
- P4cp3N+5TtS/Or3YoHe5vRrBR25YdgsD6MRHn0wgR5MLo4qChviHBkPurJChQ5XGRVsipo
- x81WiSRQ2ObXMcDDLrHWjWLTRGlIPxw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-161-lpd9mqrfPjGyNrAGruFQdA-1; Wed, 12 Feb 2020 22:49:32 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6BD8613E4;
- Thu, 13 Feb 2020 03:49:31 +0000 (UTC)
-Received: from localhost.localdomain (vpn2-54-95.bne.redhat.com [10.64.54.95])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3E7B060499;
- Thu, 13 Feb 2020 03:49:24 +0000 (UTC)
-Subject: Re: [RESEND RFC PATCH v2 1/2] target/arm: Allow to inject SError
- interrupt
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20200205110541.37811-2-gshan@redhat.com>
- <8dce7dbe-c6c1-122a-f960-0fc29257dd1c@redhat.com>
- <CAFEAcA-RiVfrFFkxppB=z8x76rjorF-5onyGwVAdsHY7W1U88g@mail.gmail.com>
-From: Gavin Shan <gshan@redhat.com>
-Message-ID: <21e4051a-4d06-03cb-6d8e-5331b5b570c4@redhat.com>
-Date: Thu, 13 Feb 2020 14:49:21 +1100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.0
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1j25s9-0005tR-HP; Wed, 12 Feb 2020 23:13:06 -0500
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 48J35T6qwCz9sRX; Thu, 13 Feb 2020 15:13:01 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1581567181;
+ bh=23smO4OZpKHGrNoU2HG+RJmTQaQgnv0j+T5ikhvyT8o=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=cMw81FZsjdj1JEx787+GWw43YrQuvVtjzPaOF+ex6ZNjdOgwUczT3K27OIpv3MAqF
+ visaZlsYaEl2YllTRjTHgO+rP7/tcKiSOUT7W7pYNzkpJeTJr7ZRw9IW0vPcnQGO+Z
+ nkHEtV9BX3NEtYcG8JBanF12/c9XfiJxUIlYQ6dE=
+Date: Thu, 13 Feb 2020 14:34:51 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Alexey Kardashevskiy <aik@ozlabs.ru>
+Subject: Re: [PATCH qemu v6 1/6] ppc: Start CPU in the default mode which is
+ big-endian 32bit
+Message-ID: <20200213033451.GE124369@umbus.fritz.box>
+References: <20200203032943.121178-1-aik@ozlabs.ru>
+ <20200203032943.121178-2-aik@ozlabs.ru>
+ <20200212054304.GY22584@umbus.fritz.box>
+ <5b900904-ccb6-58c7-5e11-c8de1154cc52@ozlabs.ru>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA-RiVfrFFkxppB=z8x76rjorF-5onyGwVAdsHY7W1U88g@mail.gmail.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: lpd9mqrfPjGyNrAGruFQdA-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="/2994txjAzEdQwm5"
+Content-Disposition: inline
+In-Reply-To: <5b900904-ccb6-58c7-5e11-c8de1154cc52@ozlabs.ru>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2401:3900:2:1::2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,55 +58,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Gavin Shan <gshan@redhat.com>
-Cc: Andrew Jones <drjones@redhat.com>, jthierry@redhat.com,
- Alexey Kardashevskiy <aik@ozlabs.ru>, Marc Zyngier <maz@kernel.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Eric Auger <eric.auger@redhat.com>,
- qemu-arm <qemu-arm@nongnu.org>, Shan Gavin <shan.gavin@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/12/20 10:34 PM, Peter Maydell wrote:
-> On Wed, 12 Feb 2020 at 06:39, Gavin Shan <gshan@redhat.com> wrote:
->> On 2/5/20 10:05 PM, Gavin Shan wrote:
->>> This allows to inject SError interrupt, which will be used on receiving
->>> QMP/HMP "nmi" command in next patch.
->>>
->>> Signed-off-by: Gavin Shan <gshan@redhat.com>
->>> ---
->>>    target/arm/cpu.c    | 11 +++++++++++
->>>    target/arm/cpu.h    | 12 +++++++++---
->>>    target/arm/helper.c |  4 ++++
->>>    3 files changed, 24 insertions(+), 3 deletions(-)
->>>
->>
->> Hi Peter, could you please take a look when you get a chance? I'm not sure
->> the implementation is good enough to inject SError. If there are somebody
->> else who can help to review, please let me know so that I can copy her/him
->> either.
-> 
-> Yeah, this is on my list to look at; Richard Henderson also could
-> have a look at it. From a quick scan I suspect you may be missing
-> handling for AArch32.
-> 
 
-[Thanks for copying Richard Henderson]
+--/2994txjAzEdQwm5
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Yes, the functionality is only supported on aarch64 currently by intention
-because the next patch enables it on "max" and "host" CPU models and both
-of them are running in aarch64 mode.
+On Thu, Feb 13, 2020 at 02:09:17PM +1100, Alexey Kardashevskiy wrote:
+>=20
+>=20
+> On 12/02/2020 16:43, David Gibson wrote:
+> > On Mon, Feb 03, 2020 at 02:29:38PM +1100, Alexey Kardashevskiy wrote:
+> >> At the moment we enforce 64bit mode on a CPU when reset. This does not
+> >> make difference as SLOF or Linux set the desired mode straight away.
+> >> However if we ever boot something other than these two,
+> >> this might not work as, for example, GRUB expects the default MSR state
+> >> and does not work properly.
+> >>
+> >> This removes setting MSR_SF from the PPC CPU reset.
+> >=20
+> > Hrm.  This is in the core cpu model so it doesn't just affect pseries,
+> > but powernv (and theoretically others) as well.  Generally the cpu
+> > model should have the bare metal behaviour, and we can override it in
+> > the pseries machine if necessary.
+> >=20
+> > So for a bare metal POWER system, what mode do we start in?  I'm
+> > guessing it probably doesn't matter in practice, since the skiboot
+> > firmware also probably does a mode set on entry, but it'd be nice to
+> > get this right in theory.
+>=20
+>=20
+> Huh. "Figure 65.  MSR setting due to interrupt" of PowerISA 3.0 says
+> "The SF bit is set to 1" so after all the existing behavior is correct
+> and my patch is just wrong. Cool.
 
-https://patchwork.kernel.org/patch/11366119/
+Well, I guess SF after interrupt isn't *necessarily* the same as SF at
+reset, but it's a good place to start.
 
-If you really want to get this supported for aarch32 either, I can do
-it. However, it seems there is a long list of aarch32 CPU models, defined
-in target/arm/cpu.c::arm_cpus. so which CPU models you prefer to see with
-this supported? I think we might choose one or two popular CPU models if
-you agree.
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
-Thanks,
-Gavin
+--/2994txjAzEdQwm5
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl5Ew9gACgkQbDjKyiDZ
+s5Iz7Q//a0O2MqL3cFokJTh5ClMOLSKvmShdnHZpPiyw46zVCF6wxZav9OiuNKwA
+tGuZ/EVsjX//QTPxICO8RIcutFbBWSlJlWXAdaWXsMRdxZ4TxBLeetFw/piJ/3SO
+ZeYLcmK+oin+iMjeuqxRmGlCXr41LyermoLLbOHgm7RWEksM653fuJyJIwZDl4Yy
+zRZZ/Yj4z+T+UGOyyJIQloSBxthkeM/gaVcbdL97yVW+kyM3HqWOkO/jCTHrMaPP
+xZGnm/5gjrIasVw3z7iuB0bltn9vUZmXL8Bk7iAHdyyj1nZxZNWGLOPeHxgd2nuG
+rjkd0tt742KPGNzE0lfJir2I33IyAGS1yJMVcM7evm+rvDdpQ7t1C5vbB5nOu/k3
+nuS62tQ27gwNJoIlaGslmfcfWk6iTqgRSTJJqFlu3JG44Af9tZVphB7W9RuL7OR8
+sU6dc+WvMBDU6U7IE6ZGIEGs77Y3BU+3CEwrKCcFs6aNAbIUO7pHR6jMMFiqxeih
+ejpBNhCgcgK20zs4RjvNA+O/Tt5N3ZHvceqe9K4Y/2BUjQu2nzzSdEseSwrCcqWE
+SLi3pk+6/VlsVYVuCUEGbyO5GtFU7vvx8JzKp7CZDEH24/n6kpUWjvpAdQ8euaDe
+ZDUL5eQQvYrwrabPC0aCQ3coCV2UmPLYrB2QiwDKFK16YYYdKic=
+=rlmM
+-----END PGP SIGNATURE-----
+
+--/2994txjAzEdQwm5--
 
