@@ -2,36 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63C4C15B6B6
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 02:29:48 +0100 (CET)
-Received: from localhost ([::1]:45886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70FC515B6B8
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 02:29:57 +0100 (CET)
+Received: from localhost ([::1]:45890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j23K7-0007qE-Fu
-	for lists+qemu-devel@lfdr.de; Wed, 12 Feb 2020 20:29:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46783)
+	id 1j23KG-0008BI-Ed
+	for lists+qemu-devel@lfdr.de; Wed, 12 Feb 2020 20:29:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46798)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pannengyuan@huawei.com>) id 1j23It-0006Uo-81
+ (envelope-from <pannengyuan@huawei.com>) id 1j23It-0006Ve-Vd
  for qemu-devel@nongnu.org; Wed, 12 Feb 2020 20:28:32 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pannengyuan@huawei.com>) id 1j23Is-0004HJ-Ag
+ (envelope-from <pannengyuan@huawei.com>) id 1j23Is-0004J7-Ul
  for qemu-devel@nongnu.org; Wed, 12 Feb 2020 20:28:31 -0500
-Received: from szxga05-in.huawei.com ([45.249.212.191]:2761 helo=huawei.com)
+Received: from szxga07-in.huawei.com ([45.249.212.35]:56706 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <pannengyuan@huawei.com>)
- id 1j23Ip-0003qA-Qr; Wed, 12 Feb 2020 20:28:28 -0500
-Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id DD9E7CEBD0AD588AB3EA;
- Thu, 13 Feb 2020 09:28:20 +0800 (CST)
+ id 1j23Iq-00045a-Iv; Wed, 12 Feb 2020 20:28:28 -0500
+Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.60])
+ by Forcepoint Email with ESMTP id 0986683FF7BE07E89FBC;
+ Thu, 13 Feb 2020 09:28:26 +0800 (CST)
 Received: from DESKTOP-9NTIQGG.china.huawei.com (10.173.221.136) by
  DGGEMS414-HUB.china.huawei.com (10.3.19.214) with Microsoft SMTP Server id
- 14.3.439.0; Thu, 13 Feb 2020 09:28:14 +0800
+ 14.3.439.0; Thu, 13 Feb 2020 09:28:15 +0800
 From: <pannengyuan@huawei.com>
 To: <mst@redhat.com>, <kwolf@redhat.com>, <mreitz@redhat.com>
-Subject: [PATCH 0/2] delete virtio queues in vhost-user-blk-unrealize
-Date: Thu, 13 Feb 2020 09:28:05 +0800
-Message-ID: <20200213012807.45552-1-pannengyuan@huawei.com>
+Subject: [PATCH 1/2] vhost-user-blk: delete virtioqueues in unrealize to fix
+ memleaks
+Date: Thu, 13 Feb 2020 09:28:06 +0800
+Message-ID: <20200213012807.45552-2-pannengyuan@huawei.com>
 X-Mailer: git-send-email 2.21.0.windows.1
+In-Reply-To: <20200213012807.45552-1-pannengyuan@huawei.com>
+References: <20200213012807.45552-1-pannengyuan@huawei.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [10.173.221.136]
@@ -39,7 +42,7 @@ X-CFilter-Loop: Reflected
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 45.249.212.191
+X-Received-From: 45.249.212.35
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -51,29 +54,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Pan Nengyuan <pannengyuan@huawei.com>, qemu-devel@nongnu.org,
- qemu-block@nongnu.org, zhang.zhanghailiang@huawei.com
+Cc: Euler Robot <euler.robot@huawei.com>, Pan Nengyuan <pannengyuan@huawei.com>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org, zhang.zhanghailiang@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Pan Nengyuan <pannengyuan@huawei.com>
 
-This series patch fix memleaks when detaching vhost-user-blk device.
-1. use old virtio_del_queue to fix memleaks, it's easier for stable branc=
-hes to merge.
-   As the discussion in https://lists.nongnu.org/archive/html/qemu-devel/=
-2020-01/msg02903.html
+virtio queues forgot to delete in unrealize, and aslo error path in
+realize, this patch fix these memleaks, the leak stack is as follow:
 
-2. convert virtio_del_queue to the new one(virtio_delete_queue).
+Direct leak of 114688 byte(s) in 16 object(s) allocated from:
+    #0 0x7f24024fdbf0 in calloc (/lib64/libasan.so.3+0xcabf0)
+    #1 0x7f2401642015 in g_malloc0 (/lib64/libglib-2.0.so.0+0x50015)
+    #2 0x55ad175a6447 in virtio_add_queue /mnt/sdb/qemu/hw/virtio/virtio.=
+c:2327
+    #3 0x55ad17570cf9 in vhost_user_blk_device_realize /mnt/sdb/qemu/hw/b=
+lock/vhost-user-blk.c:419
+    #4 0x55ad175a3707 in virtio_device_realize /mnt/sdb/qemu/hw/virtio/vi=
+rtio.c:3509
+    #5 0x55ad176ad0d1 in device_set_realized /mnt/sdb/qemu/hw/core/qdev.c=
+:876
+    #6 0x55ad1781ff9d in property_set_bool /mnt/sdb/qemu/qom/object.c:208=
+0
+    #7 0x55ad178245ae in object_property_set_qobject /mnt/sdb/qemu/qom/qo=
+m-qobject.c:26
+    #8 0x55ad17821eb4 in object_property_set_bool /mnt/sdb/qemu/qom/objec=
+t.c:1338
+    #9 0x55ad177aeed7 in virtio_pci_realize /mnt/sdb/qemu/hw/virtio/virti=
+o-pci.c:1801
 
-Pan Nengyuan (2):
-  vhost-user-blk: delete virtioqueues in unrealize to fix memleaks
-  vhost-use-blk: convert to new virtio_delete_queue
+Reported-by: Euler Robot <euler.robot@huawei.com>
+Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
+---
+ hw/block/vhost-user-blk.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
- hw/block/vhost-user-blk.c          | 15 +++++++++++++--
- include/hw/virtio/vhost-user-blk.h |  1 +
- 2 files changed, 14 insertions(+), 2 deletions(-)
-
+diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
+index d8c459c575..2eba8b9db0 100644
+--- a/hw/block/vhost-user-blk.c
++++ b/hw/block/vhost-user-blk.c
+@@ -460,6 +460,9 @@ reconnect:
+ virtio_err:
+     g_free(s->vqs);
+     g_free(s->inflight);
++    for (i =3D 0; i < s->num_queues; i++) {
++        virtio_del_queue(vdev, i);
++    }
+     virtio_cleanup(vdev);
+     vhost_user_cleanup(&s->vhost_user);
+ }
+@@ -468,6 +471,7 @@ static void vhost_user_blk_device_unrealize(DeviceSta=
+te *dev, Error **errp)
+ {
+     VirtIODevice *vdev =3D VIRTIO_DEVICE(dev);
+     VHostUserBlk *s =3D VHOST_USER_BLK(dev);
++    int i;
+=20
+     virtio_set_status(vdev, 0);
+     qemu_chr_fe_set_handlers(&s->chardev,  NULL, NULL, NULL,
+@@ -476,6 +480,10 @@ static void vhost_user_blk_device_unrealize(DeviceSt=
+ate *dev, Error **errp)
+     vhost_dev_free_inflight(s->inflight);
+     g_free(s->vqs);
+     g_free(s->inflight);
++
++    for (i =3D 0; i < s->num_queues; i++) {
++        virtio_del_queue(vdev, i);
++    }
+     virtio_cleanup(vdev);
+     vhost_user_cleanup(&s->vhost_user);
+ }
 --=20
 2.21.0.windows.1
 
