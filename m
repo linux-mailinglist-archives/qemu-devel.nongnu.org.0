@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA52915CE7A
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Feb 2020 00:05:19 +0100 (CET)
-Received: from localhost ([::1]:60652 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4660F15CE75
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Feb 2020 00:03:12 +0100 (CET)
+Received: from localhost ([::1]:60610 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j2NXq-000894-RJ
-	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 18:05:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40177)
+	id 1j2NVm-0004nb-6z
+	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 18:03:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55409)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1j2NKV-00058V-4C
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 17:51:32 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1j2NTW-0002SW-Mk
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 18:00:51 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1j2NKT-00048a-QG
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 17:51:31 -0500
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:35928)
+ (envelope-from <alex.bennee@linaro.org>) id 1j2NTV-0002WN-Ja
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 18:00:50 -0500
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:51791)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1j2NKT-00046A-In
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 17:51:29 -0500
-Received: by mail-wm1-x343.google.com with SMTP id p17so8613500wma.1
- for <qemu-devel@nongnu.org>; Thu, 13 Feb 2020 14:51:29 -0800 (PST)
+ id 1j2NTV-0002U1-BQ
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 18:00:49 -0500
+Received: by mail-wm1-x331.google.com with SMTP id t23so8082417wmi.1
+ for <qemu-devel@nongnu.org>; Thu, 13 Feb 2020 15:00:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=KXMngXIFaO7CsnyCy/hFBjzW3N8yM4HjBEk1iXtE1Sc=;
- b=hjLNs/VKAMUlMkReH7wRf1oxOUGeghpQBm9N2Hz8Mh4RmPFZGmz8ve/7deldGMwvWJ
- Y31gXGXoApTbx+/j7vnJSLtHn6Unkm6h1vWTY2zs4NrMWge6i6rxbU2Cow7eyH9ivIFe
- c+4jPnNJGjNqpc/i6AV+sJQFxeNuvJDWzRRflNE5Bh0DVUf655aKQs0iHASXt+LuJ4nQ
- SJqluhI0Hm4ra8vtzmknMo0JyNGHy66GcGi2FlWdqPjSiF3nrStJzPnkQzCCHqJGkBOT
- CQyKRmjN0F4iEtTgr7xcIUz3fcRLBrSNzavhmFyiy1iIfHlHuPdVQYdXtcp+5HuBS/lM
- fTKQ==
+ bh=XyWMlP9lSq+SHEuFrUXA9vT/NjMQXbVZXYjMIeFpuFk=;
+ b=BE+uE/QzmzIMit3y/U2+UjFQso1IN3d6c1aebqTkkHEK4r8hOBziUWkSJUXO2H9ANH
+ 125hHcbkVqXkaxGXTuVgT+Xj/K6lj7Dlokr/BXAABM/AZiDZg0sGZXyH1PWJhId7ZoE9
+ FNXpmok+GI6Mt2ikFlVpdDioYE/4Mm2N+dOilRBw9s/Zo+aNl/ut6FBETUr+WQEvPtuy
+ XCYl+RM2UQbpEAmxaPbTeQ5mhbqCGivIM+QH2P3E+t3jVvk1S2baQ1ZR91aR6NE8UOsA
+ cpUMKgitoW4/K0r8jzD7Gh6NFmh8jA9KsqFk7NIh55JLqCxkQ3DBf9YoppOZ7LU5VL4w
+ 6TeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=KXMngXIFaO7CsnyCy/hFBjzW3N8yM4HjBEk1iXtE1Sc=;
- b=mUQ+K3awauo0kKqk9uvWjopLACZsUembMMa8gLpCssPi5mwX19RaKJ7BPSv+ifWrUJ
- 5j7vgY64B4uUFaQ4wg6+n0V4/d1M1Nq5IWF68EO/6EMT+9ZVofUkQWTPHGNZRInH5ogo
- NyY5BZ3GKlXNk4cs4nZSKhmU5l5mA9O71NHp4dzbq6KHyRq7KXIZqy6fHagIhJjO1Lpc
- YNumf0DldMK4S1kmWY+Ol4EMwCJG9AiNwjHKVt6FbznHZVPnbiYlxuwZEUXj7QfsLXyp
- IZu/t/nWt9KfgJgGTE5XCOYuloRcPcT3slJcjuV1byxGjffejkqaSsRpIXk1Mercrsw5
- lLbg==
-X-Gm-Message-State: APjAAAVU7k6GdzxizQeY5yZRWFYvrWNy8B9tmArb7R91wRyCzBnEPJBH
- HCdQ8iycmKdzdBSLyqaWjv8hHw==
-X-Google-Smtp-Source: APXvYqzHK9ao6abtRObDnx63YVtYorm55G9DyZX8ipG9JSezk1MYyZzHSd977GhJblg7cVIRmYrnLQ==
-X-Received: by 2002:a7b:ce98:: with SMTP id q24mr297673wmj.41.1581634288590;
- Thu, 13 Feb 2020 14:51:28 -0800 (PST)
+ bh=XyWMlP9lSq+SHEuFrUXA9vT/NjMQXbVZXYjMIeFpuFk=;
+ b=iCkmSc/VmKkdaMfmmmk4q54L41tGn3oS703BDUe3mLl2fTm6acm5ng3XZEIzK5qQI0
+ juuZQBTOCWOpqX6m0oN5tBVnh0+4g1NxDqsGa4CSIw9MT6aE12vG30ZrMI4JB0w1Nw4X
+ eyhVOd3EZY3GVV3hjBBh3n9sIj6T819Ll7kmoojmMVRfpjFcixgxGffAb9vCI9Dzxqe4
+ 0Tv5CcPN+ocqWKfPALOgeV3ewDz3fvW9tQUn4j/p8aFOT3c6X5rZmB2eZIrG7p1oR/1s
+ UV41elOTpkadLpOxCaYH7twHIMF5r8cP6BmDk966cZZl0lhbZvXLQSS2QpeSZM0Kl1q2
+ 8PRA==
+X-Gm-Message-State: APjAAAUXbFd+15fIIn35O5PZw7NItY8U9q0xpPiFKZLUDvhYJ0LxzASq
+ up3GV0SBNErjKJ6zTfNEOO+qGA==
+X-Google-Smtp-Source: APXvYqxs9bpll6gQGd3PXZ6P9mqHQhmANao0vOGL1LIvg4DFQVm+k+hPh8ybusWgtw5FS66DT1kmXw==
+X-Received: by 2002:a1c:9e89:: with SMTP id h131mr313898wme.161.1581634848250; 
+ Thu, 13 Feb 2020 15:00:48 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id f12sm4702437wmj.10.2020.02.13.14.51.17
+ by smtp.gmail.com with ESMTPSA id e17sm4722373wrn.62.2020.02.13.15.00.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Feb 2020 14:51:20 -0800 (PST)
+ Thu, 13 Feb 2020 15:00:45 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 223FB1FFA6;
+ by zen.linaroharston (Postfix) with ESMTP id 36C4F1FFA9;
  Thu, 13 Feb 2020 22:51:11 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v2 17/19] tcg: save vaddr temp for plugin usage
-Date: Thu, 13 Feb 2020 22:51:07 +0000
-Message-Id: <20200213225109.13120-18-alex.bennee@linaro.org>
+Subject: [PATCH  v2 18/19] tests/tcg: fix typo in configure.sh test for v8.3
+Date: Thu, 13 Feb 2020 22:51:08 +0000
+Message-Id: <20200213225109.13120-19-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200213225109.13120-1-alex.bennee@linaro.org>
 References: <20200213225109.13120-1-alex.bennee@linaro.org>
@@ -69,7 +69,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::343
+X-Received-From: 2a00:1450:4864:20::331
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,94 +85,33 @@ Cc: fam@euphon.net, berrange@redhat.com, robert.foley@linaro.org,
  pbonzini@redhat.com, stefanb@linux.vnet.ibm.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  richard.henderson@linaro.org, f4bug@amsat.org, robhenry@microsoft.com,
- qemu-stable@nongnu.org, marcandre.lureau@redhat.com,
- aaron@os.amperecomputing.com, cota@braap.org, stefanha@redhat.com,
- kuhn.chenqun@huawei.com, peter.puhov@linaro.org, aurelien@aurel32.net,
- Richard Henderson <rth@twiddle.net>
+ marcandre.lureau@redhat.com, aaron@os.amperecomputing.com, cota@braap.org,
+ stefanha@redhat.com, kuhn.chenqun@huawei.com, peter.puhov@linaro.org,
+ aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
+Although most people use the docker images this can trip up on
+developer systems with actual valid cross-compilers!
 
-While do_gen_mem_cb does copy (via extu_tl_i64) vaddr into a new temp
-this won't help if the vaddr temp gets clobbered by the actual
-load/store op. To avoid this clobbering we explicitly copy vaddr
-before the op to ensure it is live my the time we do the
-instrumentation.
-
-Suggested-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Cc: qemu-stable@nongnu.org
 ---
- tcg/tcg-op.c | 23 ++++++++++++++++++++---
- 1 file changed, 20 insertions(+), 3 deletions(-)
+ tests/tcg/configure.sh | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tcg/tcg-op.c b/tcg/tcg-op.c
-index 7d782002e3f..e2e25ebf7db 100644
---- a/tcg/tcg-op.c
-+++ b/tcg/tcg-op.c
-@@ -2794,13 +2794,26 @@ static void tcg_gen_req_mo(TCGBar type)
-     }
- }
- 
-+static inline TCGv plugin_prep_mem_callbacks(TCGv vaddr)
-+{
-+#ifdef CONFIG_PLUGIN
-+    if (tcg_ctx->plugin_insn != NULL) {
-+        /* Save a copy of the vaddr for use after a load.  */
-+        TCGv temp = tcg_temp_new();
-+        tcg_gen_mov_tl(temp, vaddr);
-+        return temp;
-+    }
-+#endif
-+    return vaddr;
-+}
-+
- static inline void plugin_gen_mem_callbacks(TCGv vaddr, uint16_t info)
- {
- #ifdef CONFIG_PLUGIN
--    if (tcg_ctx->plugin_insn == NULL) {
--        return;
-+    if (tcg_ctx->plugin_insn != NULL) {
-+        plugin_gen_empty_mem_callback(vaddr, info);
-+        tcg_temp_free(vaddr);
-     }
--    plugin_gen_empty_mem_callback(vaddr, info);
- #endif
- }
- 
-@@ -2822,6 +2835,7 @@ void tcg_gen_qemu_ld_i32(TCGv_i32 val, TCGv addr, TCGArg idx, MemOp memop)
-         }
-     }
- 
-+    addr = plugin_prep_mem_callbacks(addr);
-     gen_ldst_i32(INDEX_op_qemu_ld_i32, val, addr, memop, idx);
-     plugin_gen_mem_callbacks(addr, info);
- 
-@@ -2868,6 +2882,7 @@ void tcg_gen_qemu_st_i32(TCGv_i32 val, TCGv addr, TCGArg idx, MemOp memop)
-         memop &= ~MO_BSWAP;
-     }
- 
-+    addr = plugin_prep_mem_callbacks(addr);
-     gen_ldst_i32(INDEX_op_qemu_st_i32, val, addr, memop, idx);
-     plugin_gen_mem_callbacks(addr, info);
- 
-@@ -2905,6 +2920,7 @@ void tcg_gen_qemu_ld_i64(TCGv_i64 val, TCGv addr, TCGArg idx, MemOp memop)
-         }
-     }
- 
-+    addr = plugin_prep_mem_callbacks(addr);
-     gen_ldst_i64(INDEX_op_qemu_ld_i64, val, addr, memop, idx);
-     plugin_gen_mem_callbacks(addr, info);
- 
-@@ -2967,6 +2983,7 @@ void tcg_gen_qemu_st_i64(TCGv_i64 val, TCGv addr, TCGArg idx, MemOp memop)
-         memop &= ~MO_BSWAP;
-     }
- 
-+    addr = plugin_prep_mem_callbacks(addr);
-     gen_ldst_i64(INDEX_op_qemu_st_i64, val, addr, memop, idx);
-     plugin_gen_mem_callbacks(addr, info);
- 
+diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
+index 9eb6ba3b7ea..eaaaff6233a 100755
+--- a/tests/tcg/configure.sh
++++ b/tests/tcg/configure.sh
+@@ -228,7 +228,7 @@ for target in $target_list; do
+                 echo "CROSS_CC_HAS_SVE=y" >> $config_target_mak
+             fi
+             if do_compiler "$target_compiler" $target_compiler_cflags \
+-               -march=-march=armv8.3-a -o $TMPE $TMPC; then
++               -march=armv8.3-a -o $TMPE $TMPC; then
+                 echo "CROSS_CC_HAS_ARMV8_3=y" >> $config_target_mak
+             fi
+         ;;
 -- 
 2.20.1
 
