@@ -2,60 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DB0A15BEB3
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 13:51:32 +0100 (CET)
-Received: from localhost ([::1]:51646 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F19E15BE9A
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 13:44:07 +0100 (CET)
+Received: from localhost ([::1]:51588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j2Dxr-000533-Gr
-	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 07:51:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43471)
+	id 1j2Dqg-0001zi-MY
+	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 07:44:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42494)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1j2Dx0-0004U6-IP
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 07:50:39 -0500
+ (envelope-from <laurent@vivier.eu>) id 1j2Dph-00016F-MT
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 07:43:06 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1j2Dwy-00047r-Rz
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 07:50:38 -0500
-Received: from indium.canonical.com ([91.189.90.7]:38464)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1j2Dwy-00047D-Lw
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 07:50:36 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1j2Dwx-0006ng-2l
- for <qemu-devel@nongnu.org>; Thu, 13 Feb 2020 12:50:35 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 0F6832E80C3
- for <qemu-devel@nongnu.org>; Thu, 13 Feb 2020 12:50:35 +0000 (UTC)
+ (envelope-from <laurent@vivier.eu>) id 1j2Dpg-0006ur-EQ
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 07:43:05 -0500
+Received: from mout.kundenserver.de ([217.72.192.74]:44835)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1j2Dpg-0006t2-4y
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 07:43:04 -0500
+Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
+ (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1N5n81-1jZcy41Sln-017Bwn; Thu, 13 Feb 2020 13:42:47 +0100
+Subject: Re: [PATCH v3 0/9] linux-user: Update syscall numbers to kernel 5.5
+ level
+To: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>, qemu-devel@nongnu.org
+References: <1581596954-2305-1-git-send-email-aleksandar.markovic@rt-rk.com>
+From: Laurent Vivier <laurent@vivier.eu>
+Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <ba093983-a40e-13af-0f11-795b9dd90693@vivier.eu>
+Date: Thu, 13 Feb 2020 13:42:46 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 13 Feb 2020 12:42:35 -0000
-From: Cheng Jiang <1863096@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: chengjiang
-X-Launchpad-Bug-Reporter: Cheng Jiang (chengjiang)
-X-Launchpad-Bug-Modifier: Cheng Jiang (chengjiang)
-Message-Id: <158159775529.28653.1884388369388986202.malonedeb@chaenomeles.canonical.com>
-Subject: [Bug 1863096] [NEW] vhost-user multi-queues interrupt failed when
- Qemu reconnection happens
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="19413b719a8df7423ab1390528edadce9e0e4aca";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 7507caa2ca503eef65fbe2479285e517f6560d87
+In-Reply-To: <1581596954-2305-1-git-send-email-aleksandar.markovic@rt-rk.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:+g6T/uxcaL78ElaqYfeyWTt5FG9EhFTF3d4Finv/070d2tOhoFx
+ 6FuL1F0IYKPjrIv+JspL30GSypYefaB0Ckiv4+/Var9Bn1dOUx9RVDUgiP3TEw6JKnI/pRL
+ ZPODlB5HdsHb3ZqkXpd9hEdqXAQkHsBswF5o/OoLzIuyVehe/PFhNnwjNTbNcAT7DxjzoeF
+ opXIuvObu+mMGvkQdq01g==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:N+men0ddEGc=:XbVrcOg5DtvdBDOmvKjQPi
+ vcspA9ZzjprIOhL+IT94fH4PTHoixvGT1z6pha0JNjKxY9T67jXJnyMzgAAQjY3jC+/x1yP1d
+ TxXIBYpd292JC0foftfVnDyjPnPxLKBR6DP6bFuy4bpbiGCjajkPHjHR0IMD1I6BZTwHhcg+W
+ SlwdSMqYmMMHY3s3O/MtP2tvyOPnkFPNYAKfj45L5ZofdFpuSaHXF4Hpud6CQyD0itbXBbcls
+ /Rjb8LslHMY6MuHnWMiK/0d7+U7X4MKAxZTAWv1G0uwuH8SXXxxKZn1I82mVIiVs5CVQKUUrH
+ LaPxzw2IyYsOUCk81WGBJy2Q9XQoXTTRaJ3gGHOUK1+t9NPCDem2XjTRfAZl6bbnIt6DBmdoT
+ e+Uxo6NrzgptCXcLPfwIK1e59Y6RiddYpyc/yh56+jURk2jQDQnaxXSt9TzfeX14yg1L6dOP/
+ J45tPCYkWqOfw1eHWXKMbp3izcFKh4qwTKX4G5f24tpNmvuGLein4gtV/07YT5DYloky5vUu3
+ DXpIbtdlSPVxD8iLjRLct3+y7zSirt7IGmP+cwc3UE+OVa7jhFKLb+oKTVxKCpZZJ3fA/zaqL
+ X8ectcPlokafjyd9onF26kvWrdTaIkWrb5Wj10oZ/eNL3IbtqbdEBbcT4YwCXzqh447jAK2j6
+ 2woMLhEscvvnuV/A93n3buJMDJr0V9/8MCwlb1nNw8YyXsR0lU8K7H9bEuFyWn+YBUohVcbDq
+ PYi70Su7ey1T5+k04C5O6hTYsdRuix5bBDC1Gw77MQN9WOo9rvWwxcYsNssSI7eRy0FFVh2Re
+ l668s/2SMwSgXDOsFixsII4hcRZdpKAoBXemYKn/Ux9oKom4odmnc/bhg5DH5DHy5D/rKZr
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+X-Received-From: 217.72.192.74
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -64,172 +109,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1863096 <1863096@bugs.launchpad.net>
+Cc: Aleksandar Markovic <amarkovic@wavecomp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+Le 13/02/2020 à 13:29, Aleksandar Markovic a écrit :
+> From: Aleksandar Markovic <amarkovic@wavecomp.com>
+> 
+> v2->v3:
+> 
+>   - corrected number of arguments for two mips syscalls
+> 
+> v1->v2:
+> 
+>   - corrected mips parts based on Laurent's review
+> 
+> This series is a spin-off of another larger linux-user series
+> that become too large to handle, hence these patches related to
+> syscall numbers are now in this, separate, series.
+> 
+> This series covers updating syscall numbers defined in the following
+> files:
+> 
+>   - linux-user/alpha/syscall_nr.h
+>   - linux-user/arm/syscall_nr.h
+>   - linux-user/m68k/syscall_nr.h
+>   - linux-user/microblaze/syscall_nr.h
+>   - linux-user/mips/cpu_loop.c
+>   - linux-user/mips/syscall_nr.h
+>   - linux-user/mips64/syscall_nr.h
+>   - linux-user/sh4/syscall_nr.h
+>   - linux-user/x86_64/syscall_nr.h
+>   - linux-user/xtensa/syscall_nr.h
+> 
+> ----------------------------------------------------------------------
+> 
+> Aleksandar Markovic (9):
+>   linux-user: alpha: Update syscall numbers to kernel 5.5 level
+>   linux-user: arm: Update syscall numbers to kernel 5.5 level
+>   linux-user: m68k: Update syscall numbers to kernel 5.5 level
+>   linux-user: microblaze: Update syscall numbers to kernel 5.5 level
+>   linux-user: mips: Update syscall numbers to kernel 5.5 level
+>   linux-user: sh4: Update syscall numbers to kernel 5.5 level
+>   linux-user: x86_64: Update syscall numbers to kernel 5.5 level
+>   linux-user: xtensa: Update syscall numbers to kernel 5.5 level
+>   linux-user: xtensa: Remove unused constant TARGET_NR_syscall_count
+> 
+>  linux-user/alpha/syscall_nr.h      | 35 ++++++++++++++++
+>  linux-user/arm/syscall_nr.h        | 44 ++++++++++++++++++++
+>  linux-user/m68k/syscall_nr.h       | 50 ++++++++++++++++++++++-
+>  linux-user/microblaze/syscall_nr.h | 45 +++++++++++++++++++++
+>  linux-user/mips/syscall_nr.h       | 45 +++++++++++++++++++++
+>  linux-user/mips64/syscall_nr.h     | 50 ++++++++++++++++++++++-
+>  linux-user/sh4/syscall_nr.h        | 48 ++++++++++++++++++++++
+>  linux-user/x86_64/syscall_nr.h     | 24 +++++++++++
+>  linux-user/xtensa/syscall_nr.h     | 36 ++++++++++++++++-
+>  linux-user/mips/cpu_loop.c         | 83 +++++++++++++++++++++++++++++++++++++-
+>  10 files changed, 454 insertions(+), 6 deletions(-)
+> 
 
-After upgrade qemu to v4.2.0, vhost-user multi-queues interrupt failed
-with event idx interrupt mode when reconnection happens.
+I've applied the series to my linux-user for 5.0 branch.
 
-Test Environment:
-DPDK version: DPDK v19.11
-Other software versions: qemu 4.2.0.
-OS: Linux 4.15.0-20-generic
-Compiler: gcc (Ubuntu 7.3.0-16ubuntu3) 7.3.0
-Hardware platform: Purley.
-
-The reproduce step is:
-1. Launch l3fwd-power example app with client mode::
-
-    ./l3fwd-power -l 1-16 \
-    -n 4 --socket-mem 1024,1024 --legacy-mem --no-pci\
-    --log-level=3D9 \
-    --vdev 'eth_vhost0,iface=3D/vhost-net0,queues=3D16,client=3D1' \
-    -- -p 0x1 \
-    --parse-ptype 1 \
-    --config "(0,0,1),(0,1,2),(0,2,3),(0,3,4),(0,4,5),(0,5,6),(0,6,7),(0,7,=
-8),(0,8,9),(0,9,10),(0,10,11),(0,11,12),(0,12,13),(0,13,14),(0,14,15),(0,15=
-,16)"
-
-2. Launch VM1 with server mode:
-
-3. Relauch l3fwd-power sample to for reconnection:
-
-    ./l3fwd-power -l 1-16 \
-    -n 4 --socket-mem 1024,1024 --legacy-mem --no-pci\
-    --log-level=3D9 \
-    --vdev 'eth_vhost0,iface=3D/vhost-net0,queues=3D16,client=3D1' \
-    -- -p 0x1 \
-    --parse-ptype 1 \
-    --config "(0,0,1),(0,1,2),(0,2,3),(0,3,4),(0,4,5),(0,5,6),(0,6,7),(0,7,=
-8),(0,8,9),(0,9,10),(0,10,11),(0,11,12),(0,12,13),(0,13,14),(0,14,15),(0,15=
-,16)"
-
-4. Set vitio-net with 16 quques and give vitio-net ip address:
-
-    ethtool -L [ens3] combined 16    # [ens3] is the name of virtio-net
-    ifconfig [ens3] 1.1.1.1
-
-5. Send packets with different IPs from virtio-net, notice to bind each
-vcpu to different send packets process::
-
-    taskset -c 0 ping 1.1.1.2
-    taskset -c 1 ping 1.1.1.3
-    taskset -c 2 ping 1.1.1.4
-    taskset -c 3 ping 1.1.1.5
-    taskset -c 4 ping 1.1.1.6
-    taskset -c 5 ping 1.1.1.7
-    taskset -c 6 ping 1.1.1.8
-    taskset -c 7 ping 1.1.1.9
-    taskset -c 8 ping 1.1.1.2
-    taskset -c 9 ping 1.1.1.2
-    taskset -c 10 ping 1.1.1.2
-    taskset -c 11 ping 1.1.1.2
-    taskset -c 12 ping 1.1.1.2
-    taskset -c 13 ping 1.1.1.2
-    taskset -c 14 ping 1.1.1.2
-    taskset -c 15 ping 1.1.1.2
-
-If everything ok, then we can see the result such as following:
-
-    L3FWD_POWER: lcore 0 is waked up from rx interrupt on port 0 queue 0
-    ...
-    ...
-    L3FWD_POWER: lcore 15 is waked up from rx interrupt on port 0 queue 15
-
-But we can't see the log above because of the bug.
-
-** Affects: qemu
-     Importance: Undecided
-         Status: New
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1863096
-
-Title:
-  vhost-user multi-queues interrupt failed when Qemu reconnection
-  happens
-
-Status in QEMU:
-  New
-
-Bug description:
-  After upgrade qemu to v4.2.0, vhost-user multi-queues interrupt failed
-  with event idx interrupt mode when reconnection happens.
-
-  Test Environment:
-  DPDK version: DPDK v19.11
-  Other software versions: qemu 4.2.0.
-  OS: Linux 4.15.0-20-generic
-  Compiler: gcc (Ubuntu 7.3.0-16ubuntu3) 7.3.0
-  Hardware platform: Purley.
-
-  The reproduce step is:
-  1. Launch l3fwd-power example app with client mode::
-
-      ./l3fwd-power -l 1-16 \
-      -n 4 --socket-mem 1024,1024 --legacy-mem --no-pci\
-      --log-level=3D9 \
-      --vdev 'eth_vhost0,iface=3D/vhost-net0,queues=3D16,client=3D1' \
-      -- -p 0x1 \
-      --parse-ptype 1 \
-      --config "(0,0,1),(0,1,2),(0,2,3),(0,3,4),(0,4,5),(0,5,6),(0,6,7),(0,=
-7,8),(0,8,9),(0,9,10),(0,10,11),(0,11,12),(0,12,13),(0,13,14),(0,14,15),(0,=
-15,16)"
-
-  2. Launch VM1 with server mode:
-
-  3. Relauch l3fwd-power sample to for reconnection:
-
-      ./l3fwd-power -l 1-16 \
-      -n 4 --socket-mem 1024,1024 --legacy-mem --no-pci\
-      --log-level=3D9 \
-      --vdev 'eth_vhost0,iface=3D/vhost-net0,queues=3D16,client=3D1' \
-      -- -p 0x1 \
-      --parse-ptype 1 \
-      --config "(0,0,1),(0,1,2),(0,2,3),(0,3,4),(0,4,5),(0,5,6),(0,6,7),(0,=
-7,8),(0,8,9),(0,9,10),(0,10,11),(0,11,12),(0,12,13),(0,13,14),(0,14,15),(0,=
-15,16)"
-
-  4. Set vitio-net with 16 quques and give vitio-net ip address:
-
-      ethtool -L [ens3] combined 16    # [ens3] is the name of virtio-net
-      ifconfig [ens3] 1.1.1.1
-
-  5. Send packets with different IPs from virtio-net, notice to bind
-  each vcpu to different send packets process::
-
-      taskset -c 0 ping 1.1.1.2
-      taskset -c 1 ping 1.1.1.3
-      taskset -c 2 ping 1.1.1.4
-      taskset -c 3 ping 1.1.1.5
-      taskset -c 4 ping 1.1.1.6
-      taskset -c 5 ping 1.1.1.7
-      taskset -c 6 ping 1.1.1.8
-      taskset -c 7 ping 1.1.1.9
-      taskset -c 8 ping 1.1.1.2
-      taskset -c 9 ping 1.1.1.2
-      taskset -c 10 ping 1.1.1.2
-      taskset -c 11 ping 1.1.1.2
-      taskset -c 12 ping 1.1.1.2
-      taskset -c 13 ping 1.1.1.2
-      taskset -c 14 ping 1.1.1.2
-      taskset -c 15 ping 1.1.1.2
-
-  If everything ok, then we can see the result such as following:
-
-      L3FWD_POWER: lcore 0 is waked up from rx interrupt on port 0 queue 0
-      ...
-      ...
-      L3FWD_POWER: lcore 15 is waked up from rx interrupt on port 0 queue 15
-
-  But we can't see the log above because of the bug.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1863096/+subscriptions
+Thanks,
+Laurent
 
