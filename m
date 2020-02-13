@@ -2,57 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44FBC15BE5E
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 13:23:39 +0100 (CET)
-Received: from localhost ([::1]:51344 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C2FA15BE71
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 13:30:20 +0100 (CET)
+Received: from localhost ([::1]:51400 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j2DWs-0000jd-9S
-	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 07:23:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39198)
+	id 1j2DdL-0004mM-Gi
+	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 07:30:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40209)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1j2DUm-0006e5-09
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 07:21:29 -0500
+ (envelope-from <Aleksandar.Markovic@rt-rk.com>) id 1j2Dc9-00047j-9y
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 07:29:06 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1j2DUk-0003RQ-OO
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 07:21:27 -0500
-Received: from mout.kundenserver.de ([212.227.126.134]:33905)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1j2DUk-0003Pr-FJ
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 07:21:26 -0500
-Received: from localhost.localdomain ([78.238.229.36]) by
- mrelayeu.kundenserver.de (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MmDAW-1jkJjd48RM-00iDZO; Thu, 13 Feb 2020 13:21:14 +0100
-From: Laurent Vivier <laurent@vivier.eu>
-To: qemu-devel@nongnu.org
-Subject: [PULL 5/5] linux-user: implement TARGET_SO_PEERSEC
-Date: Thu, 13 Feb 2020 13:21:08 +0100
-Message-Id: <20200213122108.965455-6-laurent@vivier.eu>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20200213122108.965455-1-laurent@vivier.eu>
-References: <20200213122108.965455-1-laurent@vivier.eu>
+ (envelope-from <Aleksandar.Markovic@rt-rk.com>) id 1j2Dc7-0005kf-RV
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 07:29:04 -0500
+Received: from mx2.rt-rk.com ([89.216.37.149]:34108 helo=mail.rt-rk.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <Aleksandar.Markovic@rt-rk.com>)
+ id 1j2Dc7-0005aW-Kg
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 07:29:03 -0500
+Received: from localhost (localhost [127.0.0.1])
+ by mail.rt-rk.com (Postfix) with ESMTP id 241631A1CC4;
+ Thu, 13 Feb 2020 13:27:56 +0100 (CET)
+X-Virus-Scanned: amavisd-new at rt-rk.com
+Received: by mail.rt-rk.com (Postfix, from userid 492)
+ id CC7481A20AD; Thu, 13 Feb 2020 13:27:53 +0100 (CET)
+in-reply-to: <9146df56-af9e-ca88-5565-b0b6a160af5d@vivier.eu>
+to: "Laurent Vivier" <laurent@vivier.eu>
+from: "Aleksandar Markovic" <Aleksandar.Markovic@rt-rk.com>
+message-id: <5824-5e454100-7-2ea1ccc0@56748061>
+subject: =?utf-8?q?Re=3A?==?utf-8?q?_=5BPATCH?= v2 =?utf-8?q?5=2F9=5D?=
+ =?utf-8?q?_linux-user=3A?==?utf-8?q?_mips=3A?= Update syscall numbers to 
+ kernel =?utf-8?q?5=2E5?= level
+X-Forward: 127.0.0.1
+date: Thu, 13 Feb 2020 13:27:53 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:pXdY38UTIdcbZNZR88eBsXzg58bbI5HYUMzcwVSUd7ASq4azCuG
- 7wK2FkvwqbCTlVA9qTPcECDpFoCm0aJoCbWlClrGq8sHilrsnESxZhN19va4WrS0bNVK9Yc
- Vpu7fqpqH24Lrbc2q79+ryU1XGo01pcd0whueVtTmxCpypu9gC4gUb9SDXQI5jaa7xcmRRr
- bZT8xaLjAsPeoLiGgOC3A==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:iJgSuFHQbf4=:DMRKxnf85KIDcqlFlFkITr
- QA1q4lwoHgzvyGfBUi223bRs4815vC61J9qJLRz/1i7ZXozixt0RkGBOzO8lX/OaRHZB7ZJAk
- YXugjmH1f5o5bheLdxlGwHeqnbVXVRO2Tge3tA+UqSrdzJkpwqFrj3nZuDKutaps0OOXawcE/
- 4hUZQO2kfh+coH10nQJZMMPZajIfBF02mJWpJQ8eVd56fcvhkoCf2RTHiSpZA7o6ZsZIPw83T
- r++h228FCAzLVrDDSDe/1Ttg6Hpxgqm/sEmqJWgDlFVIz0dEbT5BO/rIT2ZEpZM/j7Tx9Rkyd
- ZZzpfd9DdataEjFFh62WOkfri8GKmqeECvGvBPWvTnQ+ZNws1u1k5O77khJYRkK8+EMkWB5m3
- 4pXqnqhdIXiqUUvjYijKKCbFbZGn4yOHVc7vMSp1/JjH7la+ZvXzPe0lijC3QKvSfJP6SrtO0
- 5A+H4yy9KyjNV58T+vdU/kJcMVVKA6JXObSXhz08hx83ujDGuFLC3cNvdOU0mloOc+GO9KOQG
- Vs3PeCrjfX63pBXDrluWfBWrT82qW21NWDjfl45zT8hovKkraK7uRNRO2lrtB4zlGB4Rv9RaG
- IPWhdYqbNUsrXZ1tpexwbGgAC3eDpncCEB9pB5Taa+yvKVCY63x6Rtgp/LFvyXKf2tkd77g6p
- ncto1TkSpHp6/g+C4R5rzAEf4viwnZ19urwA8iOBMUpiV7AftkEYDAXRS8QYZV7XGRv9h140E
- AahogyMdl+Qv+i+55TQqvW/z0kV7pStvElnRho4HR/XGsSvi0QK+mFWxlkSFGoh+GzvsCI7/G
- JDTyG829HYGDU3XsWqeSUYYdSuH+NKQARdIBmByYXGZhXB5KDjjy955yV/nZGe/x5RfGJr5
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.126.134
+content-type: multipart/alternative;
+ boundary="----=_=-_OpenGroupware_org_NGMime-22564-1581596873.802189-2------"
+User-Agent: SOGoMail 2.3.10
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
+X-Received-From: 89.216.37.149
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,126 +53,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Riku Voipio <riku.voipio@iki.fi>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?q?Matthias=20L=C3=BCscher?= <lueschem@gmail.com>
+Cc: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ Aurelien Jarno <aurelien@aurel32.net>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-"The purpose of this option is to allow an application to obtain the
-security credentials of a Unix stream socket peer.  It is analogous to
-SO_PEERCRED (which provides authentication using standard Unix credentials
-of pid, uid and gid), and extends this concept to other security
-models." -- https://lwn.net/Articles/62370/
+------=_=-_OpenGroupware_org_NGMime-22564-1581596873.802189-2------
+content-type: text/plain; charset=utf-8
+content-length: 564
+content-transfer-encoding: quoted-printable
 
-Until now it was passed to the kernel with an "int" argument and
-fails when it was supported by the host because the parameter is
-like a filename: it is always a \0-terminated string with no embedded
-\0 characters, but is not guaranteed to be ASCII or UTF-8.
 
-I've tested the option with the following program:
+=C2=A0> > + MIPS=5FSYS(sys=5Fclock=5Fgettime64, 2)
+> > + MIPS=5FSYS(sys=5Fclock=5Fsettime64, 4)
+> > + MIPS=5FSYS(sys=5Fclock=5Fadjtime64, 2) /* 405 */
+> > + MIPS=5FSYS(sys=5Fclock=5Fgetres=5Ftime64, 4)
+>
+> According to
+> https://github.com/strace/strace/blob/master/linux/syscallent-common-=
+32.h:
+>
+> [BASE=5FNR + 406] =3D { 2, 0, SEN(clock=5Fgetres=5Ftime64),
+> "clock=5Fgetres=5Ftime64" },
+>
 
-    /*
-     * cc -o getpeercon getpeercon.c
-     */
+404 also has the same problem, I am going to fix both.
 
-    #include <stdio.h>
-    #include <sys/types.h>
-    #include <sys/socket.h>
-    #include <netinet/in.h>
-    #include <arpa/inet.h>
+Thanks,
+Aleksandar
 
-    int main(void)
-    {
-        int fd;
-        struct sockaddr_in server, addr;
-        int ret;
-        socklen_t len;
-        char buf[256];
+>
+> once fixed you can add my
+>
+> Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 
-        fd = socket(PF_INET, SOCK_STREAM, 0);
-        if (fd == -1) {
-            perror("socket");
-            return 1;
-        }
 
-        server.sin_family = AF_INET;
-        inet_aton("127.0.0.1", &server.sin_addr);
-        server.sin_port = htons(40390);
+=C2=A0
 
-        connect(fd, (struct sockaddr*)&server, sizeof(server));
+------=_=-_OpenGroupware_org_NGMime-22564-1581596873.802189-2------
+content-type: text/html; charset=utf-8
+content-length: 892
+content-transfer-encoding: quoted-printable
 
-        len = sizeof(buf);
-        ret = getsockopt(fd, SOL_SOCKET, SO_PEERSEC, buf, &len);
-        if (ret == -1) {
-            perror("getsockopt");
-            return 1;
-        }
-        printf("%d %s\n", len, buf);
-        return 0;
-    }
+<html>&nbsp;<blockquote type=3D"cite" cite=3D"9146df56-af9e-ca88-5565-b=
+0b6a160af5d@vivier.eu">&gt; &gt; + MIPS=5FSYS(sys=5Fclock=5Fgettime64, =
+2)<br />&gt; &gt; + MIPS=5FSYS(sys=5Fclock=5Fsettime64, 4)<br />&gt; &g=
+t; + MIPS=5FSYS(sys=5Fclock=5Fadjtime64, 2) /* 405 */<br />&gt; &gt; + =
+MIPS=5FSYS(sys=5Fclock=5Fgetres=5Ftime64, 4)<br />&gt;<br />&gt; Accord=
+ing to<br />&gt; https://github.com/strace/strace/blob/master/linux/sys=
+callent-common-32.h:<br />&gt;<br />&gt; [BASE=5FNR + 406] =3D { 2, 0, =
+SEN(clock=5Fgetres=5Ftime64),<br />&gt; &quot;clock=5Fgetres=5Ftime64&q=
+uot; },<br />&gt;<br /><br />404 also has the same problem, I am going =
+to fix both.<br /><br />Thanks,<br />Aleksandar<br /><br />&gt;<br />&g=
+t; once fixed you can add my<br />&gt;<br />&gt; Reviewed-by: Laurent V=
+ivier &lt;laurent@vivier.eu&gt;</blockquote><br /><br /><br />&nbsp;</h=
+tml>
 
-On host:
-
-  $ ./getpeercon
-  33 system_u:object_r:unlabeled_t:s0
-
-With qemu-aarch64/bionic without the patch:
-
-  $ ./getpeercon
-  getsockopt: Numerical result out of range
-
-With the patch:
-
-  $ ./getpeercon
-  33 system_u:object_r:unlabeled_t:s0
-
-Bug: https://bugs.launchpad.net/qemu/+bug/1823790
-Reported-by: Matthias Lüscher <lueschem@gmail.com>
-Tested-by: Matthias Lüscher <lueschem@gmail.com>
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200204211901.1731821-1-laurent@vivier.eu>
----
- linux-user/syscall.c | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
-
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index d60142f0691c..c930577686da 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -2344,6 +2344,28 @@ static abi_long do_getsockopt(int sockfd, int level, int optname,
-             }
-             break;
-         }
-+        case TARGET_SO_PEERSEC: {
-+            char *name;
-+
-+            if (get_user_u32(len, optlen)) {
-+                return -TARGET_EFAULT;
-+            }
-+            if (len < 0) {
-+                return -TARGET_EINVAL;
-+            }
-+            name = lock_user(VERIFY_WRITE, optval_addr, len, 0);
-+            if (!name) {
-+                return -TARGET_EFAULT;
-+            }
-+            lv = len;
-+            ret = get_errno(getsockopt(sockfd, level, SO_PEERSEC,
-+                                       name, &lv));
-+            if (put_user_u32(lv, optlen)) {
-+                ret = -TARGET_EFAULT;
-+            }
-+            unlock_user(name, optval_addr, lv);
-+            break;
-+        }
-         case TARGET_SO_LINGER:
-         {
-             struct linger lg;
--- 
-2.24.1
+------=_=-_OpenGroupware_org_NGMime-22564-1581596873.802189-2--------
 
 
