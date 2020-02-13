@@ -2,38 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAB2A15BBDC
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 10:42:59 +0100 (CET)
-Received: from localhost ([::1]:49550 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE3B815BBCD
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 10:39:50 +0100 (CET)
+Received: from localhost ([::1]:49488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j2B1O-000649-SX
-	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 04:42:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45918)
+	id 1j2AyL-0008MC-B6
+	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 04:39:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45891)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <fengzhimin1@huawei.com>) id 1j2Awz-0006gu-NF
+ (envelope-from <fengzhimin1@huawei.com>) id 1j2Awz-0006gh-2A
  for qemu-devel@nongnu.org; Thu, 13 Feb 2020 04:38:26 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <fengzhimin1@huawei.com>) id 1j2Awy-00051H-RR
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 04:38:25 -0500
-Received: from szxga05-in.huawei.com ([45.249.212.191]:2767 helo=huawei.com)
+ (envelope-from <fengzhimin1@huawei.com>) id 1j2Awx-0004zK-Sn
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 04:38:24 -0500
+Received: from szxga05-in.huawei.com ([45.249.212.191]:2769 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <fengzhimin1@huawei.com>)
- id 1j2Awy-0004qC-Gl
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 04:38:24 -0500
+ id 1j2Awx-0004qB-Gu
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 04:38:23 -0500
 Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id 9E6BC3112DDA4FD972F1;
+ by Forcepoint Email with ESMTP id ADAF9EEDB2457C73FE05;
  Thu, 13 Feb 2020 17:38:15 +0800 (CST)
 Received: from huawei.com (10.173.220.198) by DGGEMS404-HUB.china.huawei.com
  (10.3.19.204) with Microsoft SMTP Server id 14.3.439.0; Thu, 13 Feb 2020
- 17:38:07 +0800
+ 17:38:08 +0800
 From: Zhimin Feng <fengzhimin1@huawei.com>
 To: <quintela@redhat.com>, <dgilbert@redhat.com>, <armbru@redhat.com>,
  <eblake@redhat.com>
-Subject: [PATCH RFC 00/14] *** multifd for RDMA v2 ***
-Date: Thu, 13 Feb 2020 17:37:41 +0800
-Message-ID: <20200213093755.370-1-fengzhimin1@huawei.com>
+Subject: [PATCH RFC 01/14] migration: add the 'migrate_use_rdma_pin_all'
+ function
+Date: Thu, 13 Feb 2020 17:37:42 +0800
+Message-ID: <20200213093755.370-2-fengzhimin1@huawei.com>
 X-Mailer: git-send-email 2.24.0.windows.2
+In-Reply-To: <20200213093755.370-1-fengzhimin1@huawei.com>
+References: <20200213093755.370-1-fengzhimin1@huawei.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [10.173.220.198]
@@ -58,40 +61,44 @@ Cc: jemmy858585@gmail.com, Zhimin Feng <fengzhimin1@huawei.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi
+Signed-off-by: Zhimin Feng <fengzhimin1@huawei.com>
+---
+ migration/migration.c | 9 +++++++++
+ migration/migration.h | 1 +
+ 2 files changed, 10 insertions(+)
 
-This is a version against current code. It is based on the multifd work.
-we can use the multifd parameters for rdma transport. All data is
-transported by the multifd RDMA channels and the main channel is only
-used to distribute its to the different multifd channels.
-
-Zhimin Feng (14):
-  migration: add the 'migrate_use_rdma_pin_all' function
-  migration: judge whether or not the RDMA is used for migration
-  migration/rdma: Create multiFd migration threads
-  migration/rdma: Export the RDMAContext struct
-  migration/rdma: Create the multifd channels for RDMA
-  migration/rdma: Transmit initial packet
-  migration/rdma: Export the 'qemu_rdma_registration_handle' and
-    'qemu_rdma_exchange_send' functions
-  migration/rdma: Add the function for dynamic page registration
-  migration/rdma: register memory for multifd RDMA channels
-  migration/rdma: Wait for all multifd to complete registration
-  migration/rdma: use multifd to migrate VM for rdma-pin-all mode
-  migration/rdma: use multifd to migrate VM for NOT rdma-pin-all mode
-  migration/rdma: only register the memory for multifd channels
-  migration/rdma: RDMA cleanup for multifd migration
-
- migration/migration.c |  19 ++
- migration/migration.h |   2 +
- migration/multifd.c   | 192 +++++++++++++-
- migration/multifd.h   |  12 +
- migration/qemu-file.c |   5 +
- migration/qemu-file.h |   1 +
- migration/rdma.c      | 579 +++++++++++++++++++++++-------------------
- migration/rdma.h      | 268 +++++++++++++++++++
- 8 files changed, 804 insertions(+), 274 deletions(-)
-
+diff --git a/migration/migration.c b/migration/migration.c
+index 3a21a4686c..10a13e0c79 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -2208,6 +2208,15 @@ bool migrate_use_events(void)
+     return s->enabled_capabilities[MIGRATION_CAPABILITY_EVENTS];
+ }
+=20
++bool migrate_use_rdma_pin_all(void)
++{
++    MigrationState *s;
++
++    s =3D migrate_get_current();
++
++    return s->enabled_capabilities[MIGRATION_CAPABILITY_RDMA_PIN_ALL];
++}
++
+ bool migrate_use_multifd(void)
+ {
+     MigrationState *s;
+diff --git a/migration/migration.h b/migration/migration.h
+index 8473ddfc88..50fc2693c7 100644
+--- a/migration/migration.h
++++ b/migration/migration.h
+@@ -297,6 +297,7 @@ bool migrate_ignore_shared(void);
+ bool migrate_validate_uuid(void);
+=20
+ bool migrate_auto_converge(void);
++bool migrate_use_rdma_pin_all(void);
+ bool migrate_use_multifd(void);
+ bool migrate_pause_before_switchover(void);
+ int migrate_multifd_channels(void);
 --=20
 2.19.1
 
