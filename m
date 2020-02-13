@@ -2,60 +2,162 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A43F215B6F1
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 03:00:20 +0100 (CET)
-Received: from localhost ([::1]:46134 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3AE315B6CB
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 02:44:09 +0100 (CET)
+Received: from localhost ([::1]:45974 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j23nf-000232-CA
-	for lists+qemu-devel@lfdr.de; Wed, 12 Feb 2020 21:00:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39083)
+	id 1j23Y0-0004OH-EG
+	for lists+qemu-devel@lfdr.de; Wed, 12 Feb 2020 20:44:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49294)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1j20DX-0001aT-Nc
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 17:10:49 -0500
+ (envelope-from <aik@ozlabs.ru>) id 1j23XF-0003vK-SJ
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 20:43:23 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1j20DV-0003Qw-Jf
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 17:10:47 -0500
-Received: from indium.canonical.com ([91.189.90.7]:44714)
+ (envelope-from <aik@ozlabs.ru>) id 1j23XE-0006YP-6v
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 20:43:21 -0500
+Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:41644)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1j20DV-0003Pi-Dy
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 17:10:45 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1j20DT-0004tR-VS
- for <qemu-devel@nongnu.org>; Wed, 12 Feb 2020 22:10:43 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id E4A902E8042
- for <qemu-devel@nongnu.org>; Wed, 12 Feb 2020 22:10:43 +0000 (UTC)
+ (Exim 4.71) (envelope-from <aik@ozlabs.ru>) id 1j23XD-0006Vk-Oe
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 20:43:20 -0500
+Received: by mail-pg1-x541.google.com with SMTP id 70so2170761pgf.8
+ for <qemu-devel@nongnu.org>; Wed, 12 Feb 2020 17:43:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ozlabs-ru.20150623.gappssmtp.com; s=20150623;
+ h=subject:from:to:cc:references:autocrypt:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=NRD9pq+QWZNEx3HUEFnAjx7Eg2aqpC4jr/mNZq48940=;
+ b=l8MOw79sKL0PEMrxXDfS2MC320nM9mbq39fHZBFPAzRHrFG6YXlPWNlDAC8q1JXS8s
+ fKyOijUyFzxKiMjKEG75QE6eTMtX35PmKoCKQuaWyZFF3SO6FZti8U9xXXa7DXe5j25b
+ +1syTtV1BeUhk/y7Vc5t7m5ZvxlyOUgkkpahA/kN86Y1VvdnHLRH0QmpmqjmUNjCkuVB
+ ooGrKHqMAJTrOmJmcWenAfGKjLt8dbgJrI707mUhsxMN6DLz/yQPAEhkgHR2qYHBl/md
+ 4uwR/XsvSZiydbQTHpJBTGbBI7jc6P/F1nl6/wlSRAR6MNVjvnynRibI9KZuDKgJsV6L
+ 3HVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:from:to:cc:references:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=NRD9pq+QWZNEx3HUEFnAjx7Eg2aqpC4jr/mNZq48940=;
+ b=FqHVnjRh+juiVBXh0WfLBJJ3jvNSl7ASgbRxsuKAQKwd5h4AJWVUmUPhZpUAHo3MoC
+ 8qpDSJgOc6YKK37etyc6kHarkvA7J71KxI05dhhjXK5gQQ5IPqc5cFnDnO6Vdg3l+rFm
+ EsSDly2o0VuFmiw2Lf4giBexnuK1HVQ7lJ0OATu7uw+oOpl4Pw8jYC291UD1WCkNra83
+ r9GeNHp+KNzxUIRj/rCMbpoxG39lUAnPLK4fsbjPv4vzWW00E+m0i8h8Jw+hfXaAqGsG
+ 4nemFvvGK9X0vT02mNjdQCYBpJAxZxFQIdwCBTuI02OIkrJTWRcujw8FXGOJJSn/MaRn
+ 5/rg==
+X-Gm-Message-State: APjAAAWlmqedFBHBRkTUHFoMUZBp0pXSZMdUsmZglQeQTPgHASh5rYXc
+ jAZ3RbRPPsQkSyLutCZdyvpnfg==
+X-Google-Smtp-Source: APXvYqzahqfMfoxvUvOzUNXdal8n0Yc3ubrvHl0BkPgyNqtQ5SXPqgAVrt7OWvLgglf7K30unIbMAA==
+X-Received: by 2002:a63:78c7:: with SMTP id
+ t190mr16141452pgc.416.1581558197607; 
+ Wed, 12 Feb 2020 17:43:17 -0800 (PST)
+Received: from [10.61.2.175] ([122.99.82.10])
+ by smtp.gmail.com with ESMTPSA id l73sm385094pge.44.2020.02.12.17.43.14
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 12 Feb 2020 17:43:16 -0800 (PST)
+Subject: Re: VW ELF loader
+From: Alexey Kardashevskiy <aik@ozlabs.ru>
+To: Paolo Bonzini <pbonzini@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
+References: <f881c2e7-be92-9695-6e19-2dd88cbc63c1@ozlabs.ru>
+ <e3ee4b4d-1b24-2900-4304-05fa521a9b47@redhat.com>
+ <20200203012842.GD52446@umbus.fritz.box>
+ <ec81cca1-d5fb-3f1e-b433-3328d81a117e@redhat.com>
+ <de7e4d34-eb63-904c-3475-7feee154c72c@ozlabs.ru>
+ <8420784f-b4c7-9864-8534-b94dbc5f74ff@redhat.com>
+ <20200205055851.GH60221@umbus.fritz.box>
+ <73105e0b-c0a0-009f-aeba-fec818d3088c@redhat.com>
+ <23090d06-320e-91b5-f73e-c17e065fcad8@ozlabs.ru>
+ <dbea9886-04d8-f9fe-f79d-31d8abe76615@redhat.com>
+ <274037e5-9bd5-8507-4b4b-067a86225787@ozlabs.ru>
+Autocrypt: addr=aik@ozlabs.ru; keydata=
+ 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
+Message-ID: <9539866e-b3ca-cf29-5a05-164480f89075@ozlabs.ru>
+Date: Thu, 13 Feb 2020 12:43:12 +1100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 12 Feb 2020 22:01:07 -0000
-From: Yifan <me@yifanlu.com>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: yifanlu
-X-Launchpad-Bug-Reporter: Yifan (yifanlu)
-X-Launchpad-Bug-Modifier: Yifan (yifanlu)
-Message-Id: <158154486735.14935.3370403781300872079.malonedeb@soybean.canonical.com>
-Subject: [Bug 1863025] [NEW] Use-after-free after flush in TCG accelerator
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="19413b719a8df7423ab1390528edadce9e0e4aca";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 9484060313346fba58f007d3cdcf5834e322216c
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-X-Mailman-Approved-At: Wed, 12 Feb 2020 20:59:15 -0500
+In-Reply-To: <274037e5-9bd5-8507-4b4b-067a86225787@ozlabs.ru>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::541
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -64,213 +166,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1863025 <1863025@bugs.launchpad.net>
+Cc: Christian Borntraeger <borntraeger@de.ibm.com>,
+ Thomas Huth <thuth@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Cornelia Huck <conny@cornelia-huck.de>,
+ Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
 
-I believe I found a UAF in TCG that can lead to a guest VM escape. The
-security list informed me "This can not be treated as a security issue."
-and to post it here. I am looking at the 4.2.0 source code. The issue
-requires a race and I will try to describe it in terms of three
-concurrent threads.
 
-Thread A:
+On 10/02/2020 11:31, Alexey Kardashevskiy wrote:
+> 
+> 
+> On 07/02/2020 10:46, Paolo Bonzini wrote:
+>> On 07/02/20 00:23, Alexey Kardashevskiy wrote:
+>>>> Right, not unlike what you get with vof=on. :)  I'm not against at all
+>>>> that idea.  I just don't understand what you refer to below as (2).
+>>>> Does petitboot not have the problem because it kexecs the new kernel?
+>>>
+>>> Petitboot does not have this problem *if* it runs without SLOF, i.e.
+>>> directly via -kernel and -initrd and uses OF CI (cut down version, about
+>>> v3-v4 of my patchset, without block devices and grub lookup). In this
+>>> case there is one device tree instance, fully synchronized with the
+>>> machine state.
+>>>
+>>> If there is still SLOF and (2) is happening, then petitboot is screwed
+>>> as any other kernel.
+>>
+>> Ok, so "minimal pseudo-OpenFirmware in QEMU" is doable and can get
+>> everything right;
+> 
+> I am not convinced that ditching drivers is not right; I am moving elf +
+> mbr + gpt + grub loading to the guest though so 20 bytes blob becomes
+> FDT-less firmmare, a few kbytes big.
 
-A1. qemu_tcg_cpu_thread_fn runs work loop
-A2. qemu_wait_io_event =3D> qemu_wait_io_event_common =3D> process_queued_c=
-pu_work
-A3. start_exclusive critical section entered
-A4. do_tb_flush is called, TB memory freed/re-allocated
-A5. end_exclusive exits critical section
 
-Thread B:
+Ok. So, I have made a small firmware which does OF CI, loads GRUB and
+instantiates RTAS:
+https://github.com/aik/of1275
+Quite raw but gives the idea.
 
-B1. qemu_tcg_cpu_thread_fn runs work loop
-B2. tcg_cpu_exec =3D> cpu_exec =3D> tb_find =3D> tb_gen_code
-B3. tcg_tb_alloc obtains a new TB
+It does not contain drivers and still relies on QEMU to hook an OF path
+to a backend. Is this a showstopper and without drivers it is no go? Thanks,
 
-Thread C:
 
-C1. qemu_tcg_cpu_thread_fn runs work loop
-C2. cpu_exec_step_atomic executes
-C3. TB obtained with tb_lookup__cpu_state or tb_gen_code
-C4. start_exclusive critical section entered
-C5. cpu_tb_exec executes the TB code
-C6. end_exclusive exits critical section
 
-Consider the following sequence of events:
-=C2=A0=C2=A0B2 =3D> B3 =3D> C3 (same TB as B2) =3D> A3 =3D> A4 (TB freed) =
-=3D> A5 =3D> B2 =3D>
-=C2=A0=C2=A0B3 (re-allocates TB from B2) =3D> C4 =3D> C5 (freed/reused TB n=
-ow executing) =3D> C6
+>> it's just work to set up PCI and do all that other
+>> do_driver_stuff(), so you can either do it yourself or use
+>> Linux+petitboot.  Is this correct?
+> 
+> Except using the "just" word, yes, correct ;)
+> 
+>> Also, can a normal distro kernel run via -kernel/-initrd + the minimal
+>> firmware in QEMU?
+> 
+> Yes.
 
-In short, because thread C uses the TB in the critical section, there is
-no guarantee that the pointer has not been "freed" (rather the memory is
-marked as re-usable) and therefore a use-after-free occurs.
 
-Since the TCG generated code can be in the same memory as the TB data
-structure, it is possible for an attacker to overwrite the UAF pointer
-with code generated from TCG. This can overwrite key pointer values and
-could lead to code execution on the host outside of the TCG sandbox.
-
-** Affects: qemu
-     Importance: Undecided
-         Status: New
-
-** Description changed:
-
-- I believe I found a UAF in TCG that can lead to a guest VM escape. The se=
-curity =
-
-- list informed me "This can not be treated as a security issue." and to po=
-st it =
-
-- here. I am looking at the 4.2.0 source code. The issue requires a race an=
-d I =
-
-- will try to describe it in terms of three concurrent threads.
-- =
-
-- I am looking =
-
-- at the 4.2.0 source code. The issue requires a race and I will try to des=
-cribe =
-
-- it in terms of three concurrent threads.
-+ I believe I found a UAF in TCG that can lead to a guest VM escape. The
-+ security list informed me "This can not be treated as a security issue."
-+ and to post it here. I am looking at the 4.2.0 source code. The issue
-+ requires a race and I will try to describe it in terms of three
-+ concurrent threads.
-  =
-
-  Thread A:
-  =
-
-  A1. qemu_tcg_cpu_thread_fn runs work loop
-  A2. qemu_wait_io_event =3D> qemu_wait_io_event_common =3D> process_queued=
-_cpu_work
-  A3. start_exclusive critical section entered
-  A4. do_tb_flush is called, TB memory freed/re-allocated
-  A5. end_exclusive exits critical section
-  =
-
-  Thread B:
-  =
-
-  B1. qemu_tcg_cpu_thread_fn runs work loop
-  B2. tcg_cpu_exec =3D> cpu_exec =3D> tb_find =3D> tb_gen_code
-  B3. tcg_tb_alloc obtains a new TB
-  =
-
-  Thread C:
-  =
-
-  C1. qemu_tcg_cpu_thread_fn runs work loop
-  C2. cpu_exec_step_atomic executes
-  C3. TB obtained with tb_lookup__cpu_state or tb_gen_code
-  C4. start_exclusive critical section entered
-  C5. cpu_tb_exec executes the TB code
-  C6. end_exclusive exits critical section
-  =
-
-  Consider the following sequence of events:
--   B2 =3D> B3 =3D> C3 (same TB as B2) =3D> A3 =3D> A4 (TB freed) =3D> A5 =
-=3D> B2 =3D> =
-
--   B3 (re-allocates TB from B2) =3D> C4 =3D> C5 (freed/reused TB now execu=
-ting) =3D> C6
-+ =C2=A0=C2=A0B2 =3D> B3 =3D> C3 (same TB as B2) =3D> A3 =3D> A4 (TB freed)=
- =3D> A5 =3D> B2 =3D>
-+ =C2=A0=C2=A0B3 (re-allocates TB from B2) =3D> C4 =3D> C5 (freed/reused TB=
- now executing) =3D> C6
-  =
-
-- In short, because thread C uses the TB in the critical section, there is =
-no =
-
-- guarantee that the pointer has not been "freed" (rather the memory is mar=
-ked as =
-
-- re-usable) and therefore a use-after-free occurs.
-+ In short, because thread C uses the TB in the critical section, there is
-+ no guarantee that the pointer has not been "freed" (rather the memory is
-+ marked as re-usable) and therefore a use-after-free occurs.
-  =
-
-- Since the TCG generated code can be in the same memory as the TB data str=
-ucture,
-- it is possible for an attacker to overwrite the UAF pointer with code gen=
-erated
-- from TCG. This can overwrite key pointer values and could lead to code =
-
-- execution on the host outside of the TCG sandbox.
-+ Since the TCG generated code can be in the same memory as the TB data
-+ structure, it is possible for an attacker to overwrite the UAF pointer
-+ with code generated from TCG. This can overwrite key pointer values and
-+ could lead to code execution on the host outside of the TCG sandbox.
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1863025
-
-Title:
-  Use-after-free after flush in TCG accelerator
-
-Status in QEMU:
-  New
-
-Bug description:
-  I believe I found a UAF in TCG that can lead to a guest VM escape. The
-  security list informed me "This can not be treated as a security
-  issue." and to post it here. I am looking at the 4.2.0 source code.
-  The issue requires a race and I will try to describe it in terms of
-  three concurrent threads.
-
-  Thread A:
-
-  A1. qemu_tcg_cpu_thread_fn runs work loop
-  A2. qemu_wait_io_event =3D> qemu_wait_io_event_common =3D> process_queued=
-_cpu_work
-  A3. start_exclusive critical section entered
-  A4. do_tb_flush is called, TB memory freed/re-allocated
-  A5. end_exclusive exits critical section
-
-  Thread B:
-
-  B1. qemu_tcg_cpu_thread_fn runs work loop
-  B2. tcg_cpu_exec =3D> cpu_exec =3D> tb_find =3D> tb_gen_code
-  B3. tcg_tb_alloc obtains a new TB
-
-  Thread C:
-
-  C1. qemu_tcg_cpu_thread_fn runs work loop
-  C2. cpu_exec_step_atomic executes
-  C3. TB obtained with tb_lookup__cpu_state or tb_gen_code
-  C4. start_exclusive critical section entered
-  C5. cpu_tb_exec executes the TB code
-  C6. end_exclusive exits critical section
-
-  Consider the following sequence of events:
-  =C2=A0=C2=A0B2 =3D> B3 =3D> C3 (same TB as B2) =3D> A3 =3D> A4 (TB freed)=
- =3D> A5 =3D> B2 =3D>
-  =C2=A0=C2=A0B3 (re-allocates TB from B2) =3D> C4 =3D> C5 (freed/reused TB=
- now executing) =3D> C6
-
-  In short, because thread C uses the TB in the critical section, there
-  is no guarantee that the pointer has not been "freed" (rather the
-  memory is marked as re-usable) and therefore a use-after-free occurs.
-
-  Since the TCG generated code can be in the same memory as the TB data
-  structure, it is possible for an attacker to overwrite the UAF pointer
-  with code generated from TCG. This can overwrite key pointer values
-  and could lead to code execution on the host outside of the TCG
-  sandbox.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1863025/+subscriptions
+-- 
+Alexey
 
