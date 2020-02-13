@@ -2,48 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0809F15C1F4
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 16:27:58 +0100 (CET)
-Received: from localhost ([::1]:54774 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B51E815C196
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 16:24:33 +0100 (CET)
+Received: from localhost ([::1]:54674 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j2GPF-0004VS-4i
-	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 10:27:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36981)
+	id 1j2GLw-0000XP-QP
+	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 10:24:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41993)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groug@kaod.org>) id 1j2G94-0000DA-DD
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 10:11:17 -0500
+ (envelope-from <peterx@redhat.com>) id 1j2GC8-0004hS-NX
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 10:14:25 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1j2G90-00029n-Ub
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 10:11:13 -0500
-Received: from 6.mo5.mail-out.ovh.net ([178.32.119.138]:35343)
+ (envelope-from <peterx@redhat.com>) id 1j2GC7-0000KB-Dt
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 10:14:24 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:20930
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1j2G90-00025g-Nr
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 10:11:10 -0500
-Received: from player789.ha.ovh.net (unknown [10.108.35.122])
- by mo5.mail-out.ovh.net (Postfix) with ESMTP id 3C67A265C08
- for <qemu-devel@nongnu.org>; Thu, 13 Feb 2020 16:11:08 +0100 (CET)
-Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
- [82.253.208.248]) (Authenticated sender: groug@kaod.org)
- by player789.ha.ovh.net (Postfix) with ESMTPSA id EBDAAF5FCAE3;
- Thu, 13 Feb 2020 15:10:57 +0000 (UTC)
-Date: Thu, 13 Feb 2020 16:10:55 +0100
-From: Greg Kurz <groug@kaod.org>
-To: David Gibson <david@gibson.dropbear.id.au>
-Subject: Re: [PATCH 0/3] spapr: Fix device unplug vs CAS or migration
-Message-ID: <20200213161055.3d1b25aa@bahia.lan>
-In-Reply-To: <158076936422.2118610.5626450767672103134.stgit@bahia.lan>
-References: <158076936422.2118610.5626450767672103134.stgit@bahia.lan>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.71) (envelope-from <peterx@redhat.com>) id 1j2GC7-0000GO-93
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 10:14:23 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1581606861;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ade2SLj469FEqRgx9o4Hyyq2hjcS5wtLZnI6lrJkg3U=;
+ b=VvSOqmGz4IrmYYMDYsnTSWPwnOKUmq05fIQ6jCXV7obz0Tu7zMNEuRbetz09on+mFV5LFl
+ q2i/4E2XFi5cfgeTff2eQhVSuILJjH1z1eOAE4IBcNxz3M+nE/DR+Ga2p4mSWOlI5tSfkr
+ aYbwlFf1RCbHk+xjeIUd3+34lkBZqTA=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-297-0silQa-2PDWzV--IiAyvVA-1; Thu, 13 Feb 2020 10:14:19 -0500
+Received: by mail-qv1-f72.google.com with SMTP id dr18so3675750qvb.14
+ for <qemu-devel@nongnu.org>; Thu, 13 Feb 2020 07:14:19 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=D7J324WQAoq2u/kCpVQoNxxqWQHNOPZCO9rtsI+SE2g=;
+ b=Yx35rqXGzmQkAB4tFVjV0kWECCEniMMLXyjlfRBgMtylLUqwMFS0UlumoMU0IZn6W9
+ L6H2qOktjlHiRp55ksv4Qgf3ivzF4058VlL5ELQLOurNUw/nOV3wWZlRxFSz9rtro/sX
+ lml733jVTsJS3nn6ezLToYqlstRV8dPDXlQ7DJoBp9Ru86ipN2aa9x5Wt/I3h0aGlZFT
+ Jw8MPbPpFuQy0HpRuHc3wqijNnxUZG3ykARDvCGvkCA95q2HxLmzaWEW/FQ+kNhAqI3U
+ k4UTH6YuwcL2yZBAR4lD2GGaHXIBNcxKp4Pp7EhEizgTACsuJWxZraI55A7jcYR/nuUY
+ 2Q6Q==
+X-Gm-Message-State: APjAAAUL+40bS7vxOuTeYuNjVIIKSuiY5MondLDO4QsjiSUCo8sqa0GJ
+ WwpdR1ngCGr0Upv5/k/ZK8uJW2acVVZHiUrm8SLIa6NhDuei/S6zM1OQO6/HrW2KPK4bNIzVGvT
+ nApww4O9fMlBIvFA=
+X-Received: by 2002:ac8:3fd7:: with SMTP id v23mr11839175qtk.293.1581606858701; 
+ Thu, 13 Feb 2020 07:14:18 -0800 (PST)
+X-Google-Smtp-Source: APXvYqz/olUw67aKcDa7V3uIGbnjWmagwwd8gdJGvG4T5y4R5j6P9/7zwS0mga+7AjKw14eAlN5l8Q==
+X-Received: by 2002:ac8:3fd7:: with SMTP id v23mr11839146qtk.293.1581606858479; 
+ Thu, 13 Feb 2020 07:14:18 -0800 (PST)
+Received: from xz-x1 ([2607:9880:19c8:32::2])
+ by smtp.gmail.com with ESMTPSA id 73sm1605499qtg.40.2020.02.13.07.14.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 13 Feb 2020 07:14:17 -0800 (PST)
+Date: Thu, 13 Feb 2020 10:14:15 -0500
+From: Peter Xu <peterx@redhat.com>
+To: "Liu, Yi L" <yi.l.liu@intel.com>
+Subject: Re: [RFC v3 16/25] intel_iommu: add PASID cache management
+ infrastructure
+Message-ID: <20200213151415.GC1103216@xz-x1>
+References: <1580300216-86172-1-git-send-email-yi.l.liu@intel.com>
+ <1580300216-86172-17-git-send-email-yi.l.liu@intel.com>
+ <20200211233548.GO984290@xz-x1>
+ <A2975661238FB949B60364EF0F2C25743A1BA669@SHSMSX104.ccr.corp.intel.com>
+ <20200212152629.GA1083891@xz-x1>
+ <A2975661238FB949B60364EF0F2C25743A1BBCA9@SHSMSX104.ccr.corp.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Ovh-Tracer-Id: 7425028411529468390
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedugedrieekgdejfecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgsehtjeertdertddvnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucffohhmrghinhepqhgvmhhurdhorhhgpdhoiihlrggsshdrohhrghenucfkpheptddrtddrtddrtddpkedvrddvheefrddvtdekrddvgeeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrjeekledrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhg
+In-Reply-To: <A2975661238FB949B60364EF0F2C25743A1BBCA9@SHSMSX104.ccr.corp.intel.com>
+X-MC-Unique: 0silQa-2PDWzV--IiAyvVA-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 178.32.119.138
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,58 +94,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Alexey Kardashevskiy <aik@ozlabs.ru>,
- qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Cc: "Tian, Kevin" <kevin.tian@intel.com>,
+ Jacob Pan <jacob.jun.pan@linux.intel.com>, Yi Sun <yi.y.sun@linux.intel.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ "kvm@vger.kernel.org" <kvm@vger.kernel.org>, "mst@redhat.com" <mst@redhat.com>,
+ "Tian, Jun J" <jun.j.tian@intel.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "eric.auger@redhat.com" <eric.auger@redhat.com>,
+ "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>, "Wu, Hao" <hao.wu@intel.com>,
+ "Sun, Yi Y" <yi.y.sun@intel.com>, Richard Henderson <rth@twiddle.net>,
+ "david@gibson.dropbear.id.au" <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ping ?
+On Thu, Feb 13, 2020 at 02:59:37AM +0000, Liu, Yi L wrote:
+> > - Remove the vtd_pasid_as check right below because it's not needed.
+> >=20
+> > >
+> > >
+> > > > > +        if (vtd_pasid_as &&
+> >                    ^^^^^^^^^^^^
+>=20
+> yes, it is. In current series vtd_add_find_pasid_as() doesn=E2=80=99t che=
+ck the
+> result of vtd_pasid_as mem allocation, so no need to check vtd_pasid_as
+> here either. However, it might be better to check the allocation result
+> or it will result in issue if allocation failed. What's your preference
+> here?
 
-This series fixes actual bugs. Also, I have another patch on top of
-that to cold plug (or remove) devices pending hot plug (or unplug)
-before CAS, hence removing the need for CAS reboot in these cases.
-This requires SLOF to correctly parse the FDT it gets at CAS. Patches
-have been sent for that too:
+That should not be needed, because IIRC g_malloc0() will directly
+coredump if allocation fails.  Even if not, it'll coredump in
+vtd_add_find_pasid_as() soon when accessing the NULL pointer.
 
-https://git.qemu.org/?p=SLOF.git;a=commitdiff;h=689ff6f6554d94fdab854bf4fc4ec85e2675e43d
-https://git.qemu.org/?p=SLOF.git;a=commitdiff;h=a093be1ebe7a48321646601d94be6cf735c81e12
-https://patchwork.ozlabs.org/patch/1235817/
-
-On Mon, 03 Feb 2020 23:36:04 +0100
-Greg Kurz <groug@kaod.org> wrote:
-
-> While working on getting rid of CAS reboot, I realized that we currently
-> don't handle device hot unplug properly in the following situations:
-> 
-> 1) if the device is unplugged between boot and CAS, SLOF doesn't handle
->    the even, which is a known limitation. The device hence stays around
->    forever (specifically, until some other event is emitted and the guest
->    eventually completes the unplug or a reboot). Until we can teach SLOF
->    to correctly process the full FDT at CAS, we should trigger a CAS reboot,
->    like we already do for hotplug.
-> 
-> 2) if the guest is migrated after the even was emitted but before the
->    guest could process it, the destination is unaware of the pending
->    unplug operation and doesn't remove the device when the guests
->    releases it. The 'unplug_requested' field of the DRC is actually state
->    that should be migrated.
-> 
-> --
-> Greg
-> 
-> ---
-> 
-> Greg Kurz (3):
->       spapr: Don't use spapr_drc_needed() in CAS code
->       spapr: Detect hot unplugged devices during CAS
->       spapr: Migrate SpaprDrc::unplug_requested
-> 
-> 
->  hw/ppc/spapr_drc.c         |   30 ++++++++++++++++++++++++++----
->  hw/ppc/spapr_hcall.c       |   12 +++++++++---
->  include/hw/ppc/spapr_drc.h |    8 +++++++-
->  3 files changed, 42 insertions(+), 8 deletions(-)
-> 
-> 
+--=20
+Peter Xu
 
 
