@@ -2,77 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1432115CEBC
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Feb 2020 00:43:01 +0100 (CET)
-Received: from localhost ([::1]:32790 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58A7515CED6
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Feb 2020 01:02:52 +0100 (CET)
+Received: from localhost ([::1]:32916 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j2O8K-0000zc-54
-	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 18:43:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57397)
+	id 1j2ORX-0001Ec-DN
+	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 19:02:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37795)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1j2O7K-00089H-6J
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 18:41:59 -0500
+ (envelope-from <balaton@eik.bme.hu>) id 1j2OQf-0000GV-GL
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 19:01:58 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1j2O7J-0002wS-AY
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 18:41:58 -0500
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:46355)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1j2O7J-0002vb-4V
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 18:41:57 -0500
-Received: by mail-wr1-x441.google.com with SMTP id z7so8832116wrl.13
- for <qemu-devel@nongnu.org>; Thu, 13 Feb 2020 15:41:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=K3jU1DlzIeT5aazRZD5c7uQ9ch7IHGbrpGTEyi2PlAw=;
- b=N7uK8Kyy6lM1lge8Vdsb5ibzr/N1UUN597O98Eeo8HitITIj+31VR1ivhhEgkyrAjN
- wGuCqD4u4ukEtTCr3bWsLebgMQfM2SiWmibLyuEZUgOqjRrWjJk5EtgdqLXCbF1g8WPM
- cMh1VxbQoB50ctAsmbq2OmSIJ3Z4rsy7kF27pnJ/MDkwMyLFn59V1AicuHMeA9us04jn
- mUEvBrriwYM4OC9KrQIF1JFTREq9snCXZqYzB40mIuQOtG8aolsDtieQ8OXqTo2dlRsc
- Y1W6+UAmO3yt6ZJJmoVOYIlBx9HRTVw6u1JYfMIJAUyMXjXpfr1O88YhCSHk26GTnysa
- 0jdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=K3jU1DlzIeT5aazRZD5c7uQ9ch7IHGbrpGTEyi2PlAw=;
- b=cuuH0T89ugihJNFAg87RBR9Id+xwELMbl0ZP5HXJ4twNSFZhsPrgziTkDFCacD1x3W
- qoKs9R9CvhsHBysyIqy63Gtz3hIxGhUnKN2rzn1uMWLKWIc/Q69lT+2Us/08LYAKgNA6
- /oZULKl5J+LlsUTF0BHqC7qYDDAVWO5tAc5PySx49XmWYn7ni0XThJrzvRNsbSqUUqj8
- Nk0MQP/Vp99QkRsjwDbu6BFFtDJs9ZPjbs+668fCNP6KIZcgkkGRmmffdSaxFi0X/MzH
- aJ7BcgDTHD6NIiZFtXM0AL1AyYeB5YKYQr8b/hcCFC/Jk5JXJ0133yJA+GGecsmS+XKI
- /TaA==
-X-Gm-Message-State: APjAAAVxLk+lqNEgkscV7mRLhH5DQTptXoVOTQ80gaOczG99zHnB/Kv2
- dAqs/tNhIdl9HIJRNVMDUjM=
-X-Google-Smtp-Source: APXvYqy4/ysfFEayBzEZO9SA6LVO8yVI3yyLcMsgJz7rYe+t02Z3BzjQbbWy7DRRWzLqwSdFOyiiOw==
-X-Received: by 2002:adf:b254:: with SMTP id y20mr23698402wra.362.1581637316147; 
- Thu, 13 Feb 2020 15:41:56 -0800 (PST)
-Received: from x1w.redhat.com (78.red-88-21-202.staticip.rima-tde.net.
- [88.21.202.78])
- by smtp.gmail.com with ESMTPSA id d4sm1521065wra.14.2020.02.13.15.41.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Feb 2020 15:41:55 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: Sven Schnelle <svens@stackframe.org>, qemu-devel@nongnu.org,
- Helge Deller <deller@gmx.de>
-Subject: [RFC PATCH 4/4] hw/hppa/dino: Do not accept accesses to registers
- 0x818 and 0x82c
-Date: Fri, 14 Feb 2020 00:41:48 +0100
-Message-Id: <20200213234148.8434-5-f4bug@amsat.org>
-X-Mailer: git-send-email 2.21.1
-In-Reply-To: <20200213234148.8434-1-f4bug@amsat.org>
-References: <20200213234148.8434-1-f4bug@amsat.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+ (envelope-from <balaton@eik.bme.hu>) id 1j2OQd-0001CD-R9
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 19:01:56 -0500
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:51035)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <balaton@eik.bme.hu>)
+ id 1j2OQd-0000o1-Kk; Thu, 13 Feb 2020 19:01:55 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 8B73C747DF7;
+ Fri, 14 Feb 2020 01:01:43 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 6D67F747DCF; Fri, 14 Feb 2020 01:01:43 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+Date: Fri, 14 Feb 2020 00:57:34 +0100
+Subject: [PATCH] target/ppc: Fix typo in comments
+To: qemu-devel@nongnu.org
+Message-Id: <20200214000143.6D67F747DCF@zero.eik.bme.hu>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::441
+X-Received-From: 2001:738:2001:2001::2001
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,34 +44,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Richard Henderson <rth@twiddle.net>
+Cc: qemu-trivial@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Register 0x818 is documented as 'undefined', and register
-0x82c is not documented. Refuse their access.
+"Deferred" was misspelled as "differed" in some comments, correct this
+typo,
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 ---
- hw/hppa/dino.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ target/ppc/fpu_helper.c            | 2 +-
+ target/ppc/translate/fp-impl.inc.c | 6 +++---
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/hw/hppa/dino.c b/hw/hppa/dino.c
-index be799aad43..2b1b38c58a 100644
---- a/hw/hppa/dino.c
-+++ b/hw/hppa/dino.c
-@@ -181,7 +181,9 @@ static bool dino_chip_mem_valid(void *opaque, hwaddr addr,
-     case DINO_IO_ADDR_EN:
-     case DINO_PCI_IO_DATA:
-     case DINO_TOC_ADDR:
--    case DINO_GMASK ... DINO_TLTIM:
-+    case DINO_GMASK ... DINO_PCISTS:
-+    case DINO_MLTIM ... DINO_PCIWOR:
-+    case DINO_TLTIM:
-         ret = true;
-         break;
-     case DINO_PCI_IO_DATA + 2:
+diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
+index dc383242f7..5182764df3 100644
+--- a/target/ppc/fpu_helper.c
++++ b/target/ppc/fpu_helper.c
+@@ -293,7 +293,7 @@ static void float_invalid_op_vxvc(CPUPPCState *env, bool set_fpcc,
+         env->error_code = POWERPC_EXCP_FP | POWERPC_EXCP_FP_VXVC;
+         /* Update the floating-point enabled exception summary */
+         env->fpscr |= FP_FEX;
+-        /* Exception is differed */
++        /* Exception is deferred */
+     }
+ }
+ 
+diff --git a/target/ppc/translate/fp-impl.inc.c b/target/ppc/translate/fp-impl.inc.c
+index d8e27bf4d5..9f7868ee28 100644
+--- a/target/ppc/translate/fp-impl.inc.c
++++ b/target/ppc/translate/fp-impl.inc.c
+@@ -781,7 +781,7 @@ static void gen_mtfsb1(DisasContext *ctx)
+         tcg_gen_trunc_tl_i32(cpu_crf[1], cpu_fpscr);
+         tcg_gen_shri_i32(cpu_crf[1], cpu_crf[1], FPSCR_OX);
+     }
+-    /* We can raise a differed exception */
++    /* We can raise a deferred exception */
+     gen_helper_float_check_status(cpu_env);
+ }
+ 
+@@ -817,7 +817,7 @@ static void gen_mtfsf(DisasContext *ctx)
+         tcg_gen_trunc_tl_i32(cpu_crf[1], cpu_fpscr);
+         tcg_gen_shri_i32(cpu_crf[1], cpu_crf[1], FPSCR_OX);
+     }
+-    /* We can raise a differed exception */
++    /* We can raise a deferred exception */
+     gen_helper_float_check_status(cpu_env);
+     tcg_temp_free_i64(t1);
+ }
+@@ -850,7 +850,7 @@ static void gen_mtfsfi(DisasContext *ctx)
+         tcg_gen_trunc_tl_i32(cpu_crf[1], cpu_fpscr);
+         tcg_gen_shri_i32(cpu_crf[1], cpu_crf[1], FPSCR_OX);
+     }
+-    /* We can raise a differed exception */
++    /* We can raise a deferred exception */
+     gen_helper_float_check_status(cpu_env);
+ }
+ 
 -- 
 2.21.1
 
