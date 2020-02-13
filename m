@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17F3015BE81
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 13:35:34 +0100 (CET)
-Received: from localhost ([::1]:51492 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B35F15BE80
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 13:35:08 +0100 (CET)
+Received: from localhost ([::1]:51480 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j2DiP-0005aJ-60
-	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 07:35:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40362)
+	id 1j2Dhz-0004qy-4a
+	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 07:35:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40366)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1j2Dca-0004TZ-KN
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1j2Dca-0004Tk-Nz
  for qemu-devel@nongnu.org; Thu, 13 Feb 2020 07:29:33 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1j2DcZ-0005x9-0R
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1j2DcZ-0005xS-C6
  for qemu-devel@nongnu.org; Thu, 13 Feb 2020 07:29:32 -0500
-Received: from mx2.rt-rk.com ([89.216.37.149]:51434 helo=mail.rt-rk.com)
+Received: from mx2.rt-rk.com ([89.216.37.149]:51491 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
- id 1j2DcY-0005vz-Qm
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 07:29:30 -0500
+ id 1j2DcZ-0005wJ-4F
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 07:29:31 -0500
 Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id D567D1A1E65;
+ by mail.rt-rk.com (Postfix) with ESMTP id E46FD1A1FF1;
  Thu, 13 Feb 2020 13:29:27 +0100 (CET)
 X-Virus-Scanned: amavisd-new at rt-rk.com
 Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
  [10.10.14.106])
- by mail.rt-rk.com (Postfix) with ESMTPSA id 8F4951A1D77;
+ by mail.rt-rk.com (Postfix) with ESMTPSA id A96761A2086;
  Thu, 13 Feb 2020 13:29:27 +0100 (CET)
 From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 7/9] linux-user: x86_64: Update syscall numbers to kernel
+Subject: [PATCH v3 8/9] linux-user: xtensa: Update syscall numbers to kernel
  5.5 level
-Date: Thu, 13 Feb 2020 13:29:12 +0100
-Message-Id: <1581596954-2305-8-git-send-email-aleksandar.markovic@rt-rk.com>
+Date: Thu, 13 Feb 2020 13:29:13 +0100
+Message-Id: <1581596954-2305-9-git-send-email-aleksandar.markovic@rt-rk.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1581596954-2305-1-git-send-email-aleksandar.markovic@rt-rk.com>
 References: <1581596954-2305-1-git-send-email-aleksandar.markovic@rt-rk.com>
@@ -51,59 +51,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- laurent@vivier.eu, Aleksandar Markovic <amarkovic@wavecomp.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: Max Filippov <jcmvbkbc@gmail.com>, laurent@vivier.eu,
+ Aleksandar Markovic <amarkovic@wavecomp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Aleksandar Markovic <amarkovic@wavecomp.com>
 
-Update x86_64 syscall numbers based on Linux kernel v5.5.
+Update xtensa syscall numbers based on Linux kernel v5.5.
 
-CC: Paolo Bonzini <pbonzini@redhat.com>
-CC: Richard Henderson <rth@twiddle.net>
-CC: Eduardo Habkost <ehabkost@redhat.com>
+CC: Max Filippov <jcmvbkbc@gmail.com>
+Acked-by: Max Filippov <jcmvbkbc@gmail.com>
 Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/x86_64/syscall_nr.h | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
+ linux-user/xtensa/syscall_nr.h | 38 ++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 36 insertions(+), 2 deletions(-)
 
-diff --git a/linux-user/x86_64/syscall_nr.h b/linux-user/x86_64/syscall_nr.h
-index 9b6981e..e5d14ec 100644
---- a/linux-user/x86_64/syscall_nr.h
-+++ b/linux-user/x86_64/syscall_nr.h
-@@ -328,5 +328,29 @@
- #define TARGET_NR_membarrier            324
- #define TARGET_NR_mlock2                325
- #define TARGET_NR_copy_file_range       326
-+#define TARGET_NR_preadv2               327
-+#define TARGET_NR_pwritev2              328
-+#define TARGET_NR_pkey_mprotect         329
-+#define TARGET_NR_pkey_alloc            330
-+#define TARGET_NR_pkey_free             331
-+#define TARGET_NR_statx                 332
-+#define TARGET_NR_io_pgetevents         333
-+#define TARGET_NR_rseq                  334
-+/*
-+ * don't use numbers 387 through 423, add new calls after the last
-+ * 'common' entry
-+ */
-+#define TARGET_NR_pidfd_send_signal     424
-+#define TARGET_NR_io_uring_setup        425
-+#define TARGET_NR_io_uring_enter        426
-+#define TARGET_NR_io_uring_register     427
-+#define TARGET_NR_open_tree             428
-+#define TARGET_NR_move_mount            429
-+#define TARGET_NR_fsopen                430
-+#define TARGET_NR_fsconfig              431
-+#define TARGET_NR_fsmount               432
-+#define TARGET_NR_fspick                433
-+#define TARGET_NR_pidfd_open            434
-+#define TARGET_NR_clone3                435
+diff --git a/linux-user/xtensa/syscall_nr.h b/linux-user/xtensa/syscall_nr.h
+index 27645be..3d19d0c 100644
+--- a/linux-user/xtensa/syscall_nr.h
++++ b/linux-user/xtensa/syscall_nr.h
+@@ -431,7 +431,41 @@
+ #define TARGET_NR_pkey_free                          350
  
- #endif
+ #define TARGET_NR_statx                              351
+-
+-#define TARGET_NR_syscall_count                      352
++#define TARGET_NR_rseq                               352
++/* 353 through 402 are unassigned to sync up with generic numbers */
++#define TARGET_NR_clock_gettime64                    403
++#define TARGET_NR_clock_settime64                    404
++#define TARGET_NR_clock_adjtime64                    405
++#define TARGET_NR_clock_getres_time64                406
++#define TARGET_NR_clock_nanosleep_time64             407
++#define TARGET_NR_timer_gettime64                    408
++#define TARGET_NR_timer_settime64                    409
++#define TARGET_NR_timerfd_gettime64                  410
++#define TARGET_NR_timerfd_settime64                  411
++#define TARGET_NR_utimensat_time64                   412
++#define TARGET_NR_pselect6_time64                    413
++#define TARGET_NR_ppoll_time64                       414
++#define TARGET_NR_io_pgetevents_time64               416
++#define TARGET_NR_recvmmsg_time64                    417
++#define TARGET_NR_mq_timedsend_time64                418
++#define TARGET_NR_mq_timedreceive_time64             419
++#define TARGET_NR_semtimedop_time64                  420
++#define TARGET_NR_rt_sigtimedwait_time64             421
++#define TARGET_NR_futex_time64                       422
++#define TARGET_NR_sched_rr_get_interval_time64       423
++#define TARGET_NR_pidfd_send_signal                  424
++#define TARGET_NR_io_uring_setup                     425
++#define TARGET_NR_io_uring_enter                     426
++#define TARGET_NR_io_uring_register                  427
++#define TARGET_NR_open_tree                          428
++#define TARGET_NR_move_mount                         429
++#define TARGET_NR_fsopen                             430
++#define TARGET_NR_fsconfig                           431
++#define TARGET_NR_fsmount                            432
++#define TARGET_NR_fspick                             433
++#define TARGET_NR_pidfd_open                         434
++#define TARGET_NR_clone3                             435
++
++#define TARGET_NR_syscall_count                      436
+ 
+ #endif /* XTENSA_SYSCALL_NR_H */
 -- 
 2.7.4
 
