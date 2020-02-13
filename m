@@ -2,42 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA72C15BA4E
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 08:54:09 +0100 (CET)
-Received: from localhost ([::1]:48498 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE3D915BA55
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 08:55:00 +0100 (CET)
+Received: from localhost ([::1]:48508 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j29K4-0003OT-JF
-	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 02:54:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58474)
+	id 1j29Ku-0004iw-0i
+	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 02:55:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58482)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <robert.hu@linux.intel.com>) id 1j29J8-0002WR-6Y
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 02:53:10 -0500
+ (envelope-from <robert.hu@linux.intel.com>) id 1j29J8-0002WS-Ig
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 02:53:11 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <robert.hu@linux.intel.com>) id 1j29J7-0001vH-Ad
+ (envelope-from <robert.hu@linux.intel.com>) id 1j29J7-0001vO-C2
  for qemu-devel@nongnu.org; Thu, 13 Feb 2020 02:53:10 -0500
-Received: from mga17.intel.com ([192.55.52.151]:53027)
+Received: from mga17.intel.com ([192.55.52.151]:53030)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <robert.hu@linux.intel.com>)
- id 1j29J7-0001tl-2Z
+ id 1j29J7-0001u3-2i
  for qemu-devel@nongnu.org; Thu, 13 Feb 2020 02:53:09 -0500
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 12 Feb 2020 23:53:03 -0800
+ 12 Feb 2020 23:53:05 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,436,1574150400"; d="scan'208";a="381032017"
+X-IronPort-AV: E=Sophos;i="5.70,436,1574150400"; d="scan'208";a="381032021"
 Received: from sqa-gate.sh.intel.com (HELO robert-ivt.tsp.org)
  ([10.239.48.212])
- by orsmga004.jf.intel.com with ESMTP; 12 Feb 2020 23:53:01 -0800
+ by orsmga004.jf.intel.com with ESMTP; 12 Feb 2020 23:53:03 -0800
 From: Robert Hoo <robert.hu@linux.intel.com>
 To: qemu-devel@nongnu.org, pbonzini@redhat.com, laurent@vivier.eu,
  philmd@redhat.com, berrange@redhat.com
-Subject: [PATCH 0/2] Add AVX512F optimization option and buffer_zero_avx512()
-Date: Thu, 13 Feb 2020 15:52:57 +0800
-Message-Id: <1581580379-54109-1-git-send-email-robert.hu@linux.intel.com>
+Subject: [PATCH 1/2] configure: add configure option avx512f_opt
+Date: Thu, 13 Feb 2020 15:52:58 +0800
+Message-Id: <1581580379-54109-2-git-send-email-robert.hu@linux.intel.com>
 X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1581580379-54109-1-git-send-email-robert.hu@linux.intel.com>
+References: <1581580379-54109-1-git-send-email-robert.hu@linux.intel.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
 X-Received-From: 192.55.52.151
@@ -56,19 +58,96 @@ Cc: robert.hu@intel.com, Robert Hoo <robert.hu@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-1. Add avx512_opt option and enable it when host has the ability
+Like previous avx2_opt option, config-host.mak will have CONFIG_AVX512F_OPT
+defined if compiling host has the ability.
 
-2. Implement new buffer_zero_avx512() with AVX512F instructions
+AVX512F instruction set is available since Intel Skylake.
+More info:
+https://software.intel.com/sites/default/files/managed/c5/15/architecture-instruction-set-extensions-programming-reference.pdf
 
-Robert Hoo (2):
-  configure: add configure option avx512f_opt
-  util: add function buffer_zero_avx512()
+Signed-off-by: Robert Hoo <robert.hu@linux.intel.com>
+---
+ configure | 39 +++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 39 insertions(+)
 
- configure            | 39 ++++++++++++++++++++++++++++++++++++
- include/qemu/cpuid.h |  3 +++
- util/bufferiszero.c  | 56 +++++++++++++++++++++++++++++++++++++++++++++++++---
- 3 files changed, 95 insertions(+), 3 deletions(-)
-
+diff --git a/configure b/configure
+index 115dc38..9bf8de0 100755
+--- a/configure
++++ b/configure
+@@ -1382,6 +1382,11 @@ for opt do
+   ;;
+   --enable-avx2) avx2_opt="yes"
+   ;;
++  --disable-avx512f) avx512f_opt="no"
++  ;;
++  --enable-avx512f) avx512f_opt="yes"
++  ;;
++
+   --enable-glusterfs) glusterfs="yes"
+   ;;
+   --disable-virtio-blk-data-plane|--enable-virtio-blk-data-plane)
+@@ -1811,6 +1816,7 @@ disabled with --disable-FEATURE, default is enabled if available:
+   tcmalloc        tcmalloc support
+   jemalloc        jemalloc support
+   avx2            AVX2 optimization support
++  avx512f         AVX512F optimization support
+   replication     replication support
+   opengl          opengl support
+   virglrenderer   virgl rendering support
+@@ -5481,6 +5487,34 @@ EOF
+   fi
+ fi
+ 
++##########################################
++# avx512f optimization requirement check
++#
++# There is no point enabling this if cpuid.h is not usable,
++# since we won't be able to select the new routines.
++
++if test "$cpuid_h" = "yes" && test "$avx512f_opt" != "no"; then
++  cat > $TMPC << EOF
++#pragma GCC push_options
++#pragma GCC target("avx512f")
++#include <cpuid.h>
++#include <immintrin.h>
++static int bar(void *a) {
++    __m512i x = *(__m512i *)a;
++    return _mm512_test_epi64_mask(x, x);
++}
++int main(int argc, char *argv[])
++{
++	return bar(argv[0]);
++}
++EOF
++  if compile_object "" ; then
++    avx512f_opt="yes"
++  else
++    avx512f_opt="no"
++  fi
++fi
++
+ ########################################
+ # check if __[u]int128_t is usable.
+ 
+@@ -6605,6 +6639,7 @@ echo "libxml2           $libxml2"
+ echo "tcmalloc support  $tcmalloc"
+ echo "jemalloc support  $jemalloc"
+ echo "avx2 optimization $avx2_opt"
++echo "avx512f optimization $avx512f_opt"
+ echo "replication support $replication"
+ echo "VxHS block device $vxhs"
+ echo "bochs support     $bochs"
+@@ -7152,6 +7187,10 @@ if test "$avx2_opt" = "yes" ; then
+   echo "CONFIG_AVX2_OPT=y" >> $config_host_mak
+ fi
+ 
++if test "$avx512f_opt" = "yes" ; then
++  echo "CONFIG_AVX512F_OPT=y" >> $config_host_mak
++fi
++
+ if test "$lzo" = "yes" ; then
+   echo "CONFIG_LZO=y" >> $config_host_mak
+ fi
 -- 
 1.8.3.1
 
