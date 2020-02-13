@@ -2,55 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A20A515BE59
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 13:22:28 +0100 (CET)
-Received: from localhost ([::1]:51326 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2ACEE15BE5D
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 13:23:37 +0100 (CET)
+Received: from localhost ([::1]:51342 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j2DVj-0007Ne-6U
-	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 07:22:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39154)
+	id 1j2DWq-0000g2-7z
+	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 07:23:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39161)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1j2DUe-0006Xn-Q0
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 07:21:21 -0500
+ (envelope-from <laurent@vivier.eu>) id 1j2DUf-0006Xr-61
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 07:21:22 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1j2DUd-0003N1-TP
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 07:21:20 -0500
-Received: from mout.kundenserver.de ([212.227.126.135]:44373)
+ (envelope-from <laurent@vivier.eu>) id 1j2DUe-0003N9-7p
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 07:21:21 -0500
+Received: from mout.kundenserver.de ([212.227.126.131]:59659)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1j2DUd-0003Ml-KS
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 07:21:19 -0500
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1j2DUd-0003Mp-Vr
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 07:21:20 -0500
 Received: from localhost.localdomain ([78.238.229.36]) by
  mrelayeu.kundenserver.de (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1N5VPe-1jZuQ90tju-016u68; Thu, 13 Feb 2020 13:21:11 +0100
+ id 1MAORn-1jDRcq3OOJ-00Btl7; Thu, 13 Feb 2020 13:21:12 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/5] Linux user for 5.0 patches
-Date: Thu, 13 Feb 2020 13:21:03 +0100
-Message-Id: <20200213122108.965455-1-laurent@vivier.eu>
+Subject: [PULL 1/5] linux-user: add missing TARGET_SIGRTMIN for hppa
+Date: Thu, 13 Feb 2020 13:21:04 +0100
+Message-Id: <20200213122108.965455-2-laurent@vivier.eu>
 X-Mailer: git-send-email 2.24.1
+In-Reply-To: <20200213122108.965455-1-laurent@vivier.eu>
+References: <20200213122108.965455-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:3QvUa7020QDb70ZRgNAQsc/jmZfCgJiLmiksWyoaJZx3FvKAc0C
- 42ePORjAuqiY1g4yecJZs8dtqlL3tb/WIWiIxi/sOl41GcbO+UOOu5RFSIYFMfhyFKsvItC
- FWqrEnqvk0EVol6qJjuHD4i/XVNE4NBADf2F3Mphm7nTgNxyCOGB7XipNoumNZAUUzPoH00
- Qx6nArZSZloMbmeKf+whA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:aQeriiRiuBY=:vgOm9bcyO7pc4EFA2u03Xm
- Qb7p19apZYGcrjDcgXAzegK5/VM+5GeEHsucIslDHUTzTFqbQPdd099OFerW6n0fLu7guze5A
- gzyfEPoFrkpsCy3FmkVMXIFzI/mCf9qvYTH4PORVWGw2BbhjZnQ4AUCZyTdBXkuAcFkzbpZFX
- ftVmm2KPDpoNfvh9q5gK6WxekrvDXGV8K0zCBDwZd1ziYtphVW5TiDEOe2SgRq1IXZ2i4lUaH
- GLJaM+qTX4I5N4Yg2GFWIGpFCkzhP/hvxZWoTn/991/RRY8xlgXbzYxlzH5MnP7ia6I45JyZo
- f/HbjCJ3TyZXJJot/AxTl1mSlCMWqY11nYVgEYhE5LGHooh5pQ10x+li/WHfYlFuU7vTQCqTZ
- j0fLq6a6WgMYieA6C23PifF5jJJL1vaxx5AmGa0W5XpPirTPq4e2WGzFx7BPq6Q6G7/zCRWIK
- SrE73xO8dN9bVWm+JbY4umxrpnvsvRfZO+PETMfVmyuB1wMNljYKIdJvFKxe97AkSfM5RkoQg
- itiPJX5dNORrp64y0F2oPI4DKivTYjb7gmVXuzkc3InY+31EMzZf1ha801krIMfmuGzg5FHei
- ifEv7fcJDUt4Sdkzt0FTpQyKlaHYZSqWM42yHfoj7CTQ1KAnkvnY/aT57QkuDnbyP9wzbIV8V
- /iypkrNDe5rsyGJm8WQdB4/d2hkD9uJyub0InCInuviDTh6sDtRGlWlDbGzEOAmcfEj60aC0B
- vd7qQS/3gX3BnC5XhbmGWlGSPBKOyeffIVxOSXbr/uxCDhS319ixAoSe+oU/q6UOsIq4fp1Ru
- bjWjrt5w2AIWvyuvycXVfWm/wCOk/2d/gx/Grfu0u9UW7+Ebh6anGLUzxO3a4qF9wdWcd4x
+X-Provags-ID: V03:K1:YfOIAiU/LjNkBiZ3cPPuh1vObMf3Wv0zYFURKZ1NvR0fNa2PHdP
+ KLvXX5BAbFbyazvl0/iJV4RtkQKrK1lpXH/xC9CG8pGZWujIM3vv+hytl12fPM8GAxQ3c1t
+ 7q7V0uQZyefn29axRzNPNAmaMqeroVG8nf7tqsfI8zA0wW9E+4j7e5jfW4sXQKGQttawt5p
+ Qn9cEbc9NSNtK+Y+scHGQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:xOwFN2M/zUI=:69c3wmChX0RFLQr2vRj/4e
+ ZiNM8n01Cp0ykPrX7XCR/9tTRDl02LqxyLDCWztExqNARjvym6sKB4WL6qFYrw8dB2tTKddL3
+ hsptHf05VmiQ3UCJ0k9nC3hudLKYVrfbdEwUDNEjQgSZP42t/BD6QTXUcLAi4HKwU7Tr81Vk3
+ GWymoVJGn8JiWJJ077/1jHZJq1wZxAApobQVDQR6Vwz0KxlGcOOIIEdy3ZIDMtxFl6vXI1BHY
+ FKJibgDAxsGr4W6K5RvdoRTsEqLcqJ4Q8D1xtxYySZ7zI5MszyGzDGXhGQF/KKRHxKQBXj1KD
+ tka2bhYbLYgTQXg0ALw9QQHUULBqihWr/VTZ0+7f0WMbl9zY8yUHD7yeAXUkEwvGbu2HiYhnn
+ w87SF3KL0tnO/QoTMGUVdoDNubtwUCZQhIe2luVfgCjDoO3z/sVts/esGDZGTLMgqP+hw5kXQ
+ 1VZzJxuPB/MuY5FGz4H+KpV8tse8cueAndwrXZFgtyrgK7aV9vfHq/ycjzQWEQ4scrb1JJhnx
+ T0/5FtYTly/BXs29vSZnfkZLDj+3A1XGMYVx2pZIq4Yqdok0SMMfb1b4JeLJLmCn+vZPX7Yh4
+ gOuyg+qm07XcConQapmuP4ynCwc8QfiX/KBmbMYWP4zyMjAbz+nr+47MHh4HuxYIoFsMB/nNW
+ tLuOqp6FwushmShKTZtn1H3bCNkf6K2rGsjmvDHAtjnVLrqy3/F1klNEv9K3VtyZwRH3KRKPG
+ mBJW0vuezaUUaSlesqAZdjGU1RArNxL603CwAO/eEGa9VZBDWSOe8oie8BMB2a/I1Xh9BMmAk
+ sr7kEo1fy0tIM1blS/o9kGPMjdRcOSTQhMm3tuQptqDBb0pYLQykGIRYkMlpEFXD4NxWlVV
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.126.135
+X-Received-From: 212.227.126.131
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,41 +63,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Taylor Simpson <tsimpson@quicinc.com>, Riku Voipio <riku.voipio@iki.fi>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit e18e5501d8ac692d32657a3e1ef545b14e72b730:
+This signal is defined for all other targets and we will need it later
 
-  Merge remote-tracking branch 'remotes/dgilbert-gitlab/tags/pull-virtiofs-20200210' into staging (2020-02-10 18:09:14 +0000)
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+[pm: that this was actually an ABI change in the hppa kernel (at kernel
+version 3.17, kernel commit 1f25df2eff5b25f52c139d). Before that
+SIGRTMIN was 37...
+All our other HPPA TARGET_SIG* values are for the updated
+ABI following that commit, so using 32 for SIGRTMIN is
+the right thing for us.]
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Tested-by: Taylor Simpson <tsimpson@quicinc.com>
+Message-Id: <20200212125658.644558-2-laurent@vivier.eu>
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+---
+ linux-user/hppa/target_signal.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-are available in the Git repository at:
-
-  git://github.com/vivier/qemu.git tags/linux-user-for-5.0-pull-request
-
-for you to fetch changes up to 6d485a55d0cd8fbb8b4337b298f79ddb0c2a5511:
-
-  linux-user: implement TARGET_SO_PEERSEC (2020-02-12 18:56:45 +0100)
-
-----------------------------------------------------------------
-Implement TARGET_SO_PEERSEC
-Fix rt signals management
-
-----------------------------------------------------------------
-
-Laurent Vivier (5):
-  linux-user: add missing TARGET_SIGRTMIN for hppa
-  linux-user: cleanup signal.c
-  linux-user: fix TARGET_NSIG and _NSIG uses
-  linux-user: fix use of SIGRTMIN
-  linux-user: implement TARGET_SO_PEERSEC
-
- linux-user/hppa/target_signal.h |   1 +
- linux-user/signal.c             | 134 ++++++++++++++++++++++++--------
- linux-user/syscall.c            |  22 ++++++
- linux-user/trace-events         |   3 +
- 4 files changed, 128 insertions(+), 32 deletions(-)
-
+diff --git a/linux-user/hppa/target_signal.h b/linux-user/hppa/target_signal.h
+index ba159ff8d006..c2a0102ed73d 100644
+--- a/linux-user/hppa/target_signal.h
++++ b/linux-user/hppa/target_signal.h
+@@ -34,6 +34,7 @@
+ #define TARGET_SIGURG          29
+ #define TARGET_SIGXFSZ         30
+ #define TARGET_SIGSYS          31
++#define TARGET_SIGRTMIN        32
+ 
+ #define TARGET_SIG_BLOCK       0
+ #define TARGET_SIG_UNBLOCK     1
 -- 
 2.24.1
 
