@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE76515CE52
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 23:52:55 +0100 (CET)
-Received: from localhost ([::1]:60322 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E460815CE59
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 23:55:47 +0100 (CET)
+Received: from localhost ([::1]:60388 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j2NLq-0006Ra-Pi
-	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 17:52:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39617)
+	id 1j2NOd-00036C-0K
+	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 17:55:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39797)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1j2NKJ-0004hB-P8
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 17:51:20 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1j2NKN-0004py-KX
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 17:51:24 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1j2NKI-0003kT-Mv
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 17:51:19 -0500
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:35387)
+ (envelope-from <alex.bennee@linaro.org>) id 1j2NKL-0003qx-Kp
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 17:51:23 -0500
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:55063)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1j2NKI-0003im-G2
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 17:51:18 -0500
-Received: by mail-wr1-x42a.google.com with SMTP id w12so8750696wrt.2
- for <qemu-devel@nongnu.org>; Thu, 13 Feb 2020 14:51:18 -0800 (PST)
+ id 1j2NKL-0003oz-Dr
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 17:51:21 -0500
+Received: by mail-wm1-x341.google.com with SMTP id g1so8045555wmh.4
+ for <qemu-devel@nongnu.org>; Thu, 13 Feb 2020 14:51:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=xk2650h3wDm/dF48W9ZCLpoRo1e5nZQvUV6vRqejydc=;
- b=eH7t+n1eFb0+y+a7SHsE01/f2K8cdBjpxqOAV8O18/rfxRHFc2hVVQwM8dWQHElvxI
- qJ2FDoaS73kF2LYsN7H+2UTd1mW4d4grXgzW1LEHDjk2tHIqT7wj96sOba+7Cg/ai02m
- Wf9+SDglzqXlq6NcCpMaAOFTIlfPjEZX7IgKgfUGv/x5jjSH+7wZ7iHesMXrZ9vRLk87
- GxpjvmFVImdeEDFVdu3umK/uerXmQzQqhcz9y6JXnBzP1UchnOI37AOuMC7RNL98Tn1T
- tBGovp1ov4a+qS65LPs9IWvav/+MHaCxQ769HPauefcwtdij6PARjMTqHohM+imu+CUU
- CaLg==
+ bh=VpwFpiMNotiifqERZwrlUS7tMztF4zpdV9YKBtMwAzQ=;
+ b=ZyRQE6MFUXogmCv7BXm5vq3qJTVllCYg50LkwvGBzIL427iRM2MbIUwYgS+XzgBr7x
+ NiIwBvZzVJUPhjoRLRNvSAxwq+nwcPlFBmPnq360D+uIb4JKqzrHs9b77bLmsJAFE+Df
+ APVrOzZ22gYxZ8FlPBZvRzwPk3VHq3277gWI3YfeQ21IclmDVqTFiV1+kqZu3O8EYDVT
+ Vb6Qa32c5MXCC78OgkopuPKcU+IdBRwBufQQ9fQ2m5qoxIwABHmEOztBovYZkb/liGxh
+ eiS20XzeiII1Tv0PmwelA2lXYiCVgtAh9vt1XxatN5XUe/iEvpXBa0coWoLY5Y/ghmxi
+ NCqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=xk2650h3wDm/dF48W9ZCLpoRo1e5nZQvUV6vRqejydc=;
- b=a3XUALx268dR6M1O/aFxAiWh/rMUJtJI/OBAXZPOX8rYQNCY8DlQQImFnw3c1oS0g8
- BKXzrzcUwD37DjaUeRKx9KwlVab9BxAaTC4HrSAQ1GxCRQYErSBbhRK7MEIsmp08N3Aw
- P3wQq2mf5+AT8Ipah98e3rPIEO9dGT9RI2uc+ZAwAJFAAhXuVaGQ29aDgx3FnCTQ69c8
- AQCyf2Jpm+L4vKQMK4R47VBtvYjiskMH9rwGxJS6ZMJ6siVwRWEvlFY5z0mao4WruQ+J
- 96eAyCPniQEAN7/wyFbuEO/5gkZgjmt4TuxVm+1uCv/m81pYtDrIx0Uq65w/CfYgKse1
- iZvw==
-X-Gm-Message-State: APjAAAXQRyaMdeV8X16m6uEk9Nb64S5uKAV2nW1Ksw3h/3witfJoCt3U
- hvAtCcLDlr2EZK7GazSli6SIOg==
-X-Google-Smtp-Source: APXvYqzJOe77pFpjrlEz89yVOZGhXXfIH84ndzVvrVax18jPyP6IqgKZAeGS6Ml8/v+lF+VWsmcTmQ==
-X-Received: by 2002:a5d:6390:: with SMTP id p16mr25132679wru.170.1581634277331; 
- Thu, 13 Feb 2020 14:51:17 -0800 (PST)
+ bh=VpwFpiMNotiifqERZwrlUS7tMztF4zpdV9YKBtMwAzQ=;
+ b=owNnm0pP0LZJ25FcSB7aGbgdUXjL7yTTOneP+j6Hl0CR62Uq2PINEBLFAdW+SZo3+i
+ YjS8L/EjhWxSaViDnDhbLxDATIkJ9NuSQPCcLcF3iOtEM9FrbxcLvkafbN6hFVce/sO6
+ exbo8Yowb6U89Z+dNdLyE8NUNHZw+B0FPfqE1gKZjwMaccpILlZrYRyOV1OONogUwIaY
+ g6jzaILbCyo1MCqIjGOJ6PcN8DUW0/TBJN+RpiDw/CjLyxhID0eTmcpgm5XB2BZPF+Su
+ QXhwSfXmk08eNQ5i9fHnAvNZNKdkDHbLTMVA7tl4jaGcSch33EGc5nNGaXSeim6wI32J
+ ONwQ==
+X-Gm-Message-State: APjAAAUiRfY1FU2aQr4P2OcSndwZcF4ddyD+NBTjBjANMeHZphcSlkP6
+ BuORjooHPwno33VPQmeDPKijbQ==
+X-Google-Smtp-Source: APXvYqxAs6IXhXlxAR2sJ+fJIOZW2l6tuGG+RCLLhhZK2Rugs51Gxz9cUIJDX/q/4wqWphshnSYaRw==
+X-Received: by 2002:a7b:c94a:: with SMTP id i10mr325935wml.88.1581634280400;
+ Thu, 13 Feb 2020 14:51:20 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id a22sm4940111wmd.20.2020.02.13.14.51.12
+ by smtp.gmail.com with ESMTPSA id n3sm4608557wrs.8.2020.02.13.14.51.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 13 Feb 2020 14:51:13 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 293031FF93;
+ by zen.linaroharston (Postfix) with ESMTP id 3E8D11FF96;
  Thu, 13 Feb 2020 22:51:10 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v2 06/19] travis.yml: Fix Travis YAML configuration warnings
-Date: Thu, 13 Feb 2020 22:50:56 +0000
-Message-Id: <20200213225109.13120-7-alex.bennee@linaro.org>
+Subject: [PATCH  v2 07/19] travis.yml: single-thread build-tcg stages
+Date: Thu, 13 Feb 2020 22:50:57 +0000
+Message-Id: <20200213225109.13120-8-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200213225109.13120-1-alex.bennee@linaro.org>
 References: <20200213225109.13120-1-alex.bennee@linaro.org>
@@ -69,7 +69,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42a
+X-Received-From: 2a00:1450:4864:20::341
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,69 +87,40 @@ Cc: fam@euphon.net, berrange@redhat.com, robert.foley@linaro.org,
  richard.henderson@linaro.org, f4bug@amsat.org, robhenry@microsoft.com,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  marcandre.lureau@redhat.com, aaron@os.amperecomputing.com, cota@braap.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, stefanha@redhat.com,
- kuhn.chenqun@huawei.com, peter.puhov@linaro.org, aurelien@aurel32.net
+ stefanha@redhat.com, kuhn.chenqun@huawei.com, peter.puhov@linaro.org,
+ aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Wainer dos Santos Moschetta <wainersm@redhat.com>
+This still seems to be a problem for Travis.
 
-This fixes the following warnings Travis has detected on the
-YAML configuration:
-
-- 'on root: missing os, using the default "linux"'
-- 'on root: the key matrix is an alias for jobs, using jobs'
-- 'on jobs.include.python: unexpected sequence, using the first value (3.5)'
-- 'on jobs.include.python: unexpected sequence, using the first value (3.6)'
-
-Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20200207210124.141119-2-wainersm@redhat.com>
 ---
- .travis.yml | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+ .travis.yml | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/.travis.yml b/.travis.yml
-index ea13e071795..0612998958b 100644
+index 0612998958b..f4020dcc6c8 100644
 --- a/.travis.yml
 +++ b/.travis.yml
-@@ -1,6 +1,7 @@
- # The current Travis default is a VM based 16.04 Xenial on GCE
- # Additional builds with specific requirements for a full VM need to
- # be added as additional matrix: entries later on
-+os: linux
- dist: xenial
- language: c
- compiler:
-@@ -113,7 +114,7 @@ after_script:
-   - if command -v ccache ; then ccache --show-stats ; fi
- 
- 
--matrix:
-+jobs:
-   include:
-     - name: "GCC static (user)"
+@@ -400,7 +400,7 @@ jobs:
+     - name: "GCC check-tcg (some-softmmu)"
        env:
-@@ -297,8 +298,7 @@ matrix:
-         - CONFIG="--target-list=x86_64-softmmu"
-         - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-default"
-       language: python
--      python:
--        - "3.5"
-+      python: 3.5
+         - CONFIG="--enable-debug-tcg --target-list=xtensa-softmmu,arm-softmmu,aarch64-softmmu,alpha-softmmu"
+-        - TEST_BUILD_CMD="make -j${JOBS} build-tcg"
++        - TEST_BUILD_CMD="make build-tcg"
+         - TEST_CMD="make check-tcg"
+         - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-debug-tcg"
  
+@@ -409,7 +409,7 @@ jobs:
+     - name: "GCC plugins check-tcg (some-softmmu)"
+       env:
+         - CONFIG="--enable-plugins --enable-debug-tcg --target-list=xtensa-softmmu,arm-softmmu,aarch64-softmmu,alpha-softmmu"
+-        - TEST_BUILD_CMD="make -j${JOBS} build-tcg"
++        - TEST_BUILD_CMD="make build-tcg"
+         - TEST_CMD="make check-tcg"
+         - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-debug-tcg"
  
-     - name: "GCC Python 3.6 (x86_64-softmmu)"
-@@ -306,8 +306,7 @@ matrix:
-         - CONFIG="--target-list=x86_64-softmmu"
-         - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-default"
-       language: python
--      python:
--        - "3.6"
-+      python: 3.6
- 
- 
-     # Acceptance (Functional) tests
 -- 
 2.20.1
 
