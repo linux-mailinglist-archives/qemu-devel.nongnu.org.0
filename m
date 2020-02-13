@@ -2,37 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41F6A15C137
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 16:18:27 +0100 (CET)
-Received: from localhost ([::1]:54518 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18D1415C146
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 16:21:18 +0100 (CET)
+Received: from localhost ([::1]:54568 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j2GG2-0000lf-BK
-	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 10:18:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35036)
+	id 1j2GIn-0004RM-6E
+	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 10:21:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36744)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dplotnikov@virtuozzo.com>) id 1j2Fy5-0002hf-1B
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 09:59:54 -0500
+ (envelope-from <peterx@redhat.com>) id 1j2G70-0005ZW-LJ
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 10:09:07 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dplotnikov@virtuozzo.com>) id 1j2Fy0-0002XX-Bl
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 09:59:50 -0500
-Received: from relay.sw.ru ([185.231.240.75]:39750)
+ (envelope-from <peterx@redhat.com>) id 1j2G6w-00074k-Vc
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 10:09:05 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:35707
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dplotnikov@virtuozzo.com>)
- id 1j2Fy0-0002Qu-3v; Thu, 13 Feb 2020 09:59:48 -0500
-Received: from dptest2.qa.sw.ru ([10.94.4.71])
- by relay.sw.ru with esmtp (Exim 4.92.3)
- (envelope-from <dplotnikov@virtuozzo.com>)
- id 1j2Fxf-0003g2-UX; Thu, 13 Feb 2020 17:59:28 +0300
-From: Denis Plotnikov <dplotnikov@virtuozzo.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2] virtio: increase virtuqueue size for virtio-scsi and
- virtio-blk
-Date: Thu, 13 Feb 2020 17:59:27 +0300
-Message-Id: <20200213145927.7539-1-dplotnikov@virtuozzo.com>
-X-Mailer: git-send-email 2.17.0
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
-X-Received-From: 185.231.240.75
+ (Exim 4.71) (envelope-from <peterx@redhat.com>) id 1j2G6w-00073H-RH
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 10:09:02 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1581606542;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=/RP4jL+liXOr7+owGoE1uisFYbkKabx8mrOWiLhVUgk=;
+ b=fNbVUqZV57v/9BFlacRccv+wdsQk6ntTrZAPenamYgKfyxJ4IR1S6eaVYWisKfr3zsjlz5
+ 7M4BuSY8cURpruVmw/vz7TM7BW9Cm0PX3GUpN/we84nX8/R9eSHB9Yg1QO9We0qeRot22p
+ jQamYBFVLAXHvEqip2VX4Js53klIkG0=
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-13--N5pNiBlOS6qFip21CCGbw-1; Thu, 13 Feb 2020 10:08:57 -0500
+Received: by mail-qv1-f69.google.com with SMTP id n11so3672197qvp.15
+ for <qemu-devel@nongnu.org>; Thu, 13 Feb 2020 07:08:57 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=TTCs0FYlF7ncgzuKAoKWZgYBOizTPZCqyTpm/Xkwuxg=;
+ b=uO3PeMaIjMm4gmwrmCetUCdBX8EeIcJK6hkwesSAnfaCEC9Ki2jiBvL+LejaZP4JuA
+ weewfmCipPiSaHLCsniQpnQHfaqO9jNZq4eTfVIKEOZG+ueZXQcdDP7tQ7SkkMJHA5xb
+ n01ZVAgQkwe7zSvwGQCSy7QkFyBASn9c/PDaB0k70mEXTTg5U6SNwKCDgEv8eoHTA++l
+ IrV5v9oHEjm1ln2InWNL8RgUkSGP7FBN+OHcIVLmFDepNfTv8fOf7iJYHy4kMiUE3WRE
+ GPZwX6caQCa9AtWMsmKoFNjZH6aBf+5iRsMnDFnYlYLIDcBmNn2oyXo2KnZRJ2arnZJS
+ g2PA==
+X-Gm-Message-State: APjAAAV2+TCtDfc7/6Q8r9LrZEl3X8X9A9KoV1ah9vQ4I9xxrx4IsT/t
+ 8W2YnwYH4rxSfjcbJ+Mv/Yvj7cdPZozn7HQZZg+mvTrCuF+g10hKdpXdyCqUVfD7600oLyqkCUA
+ 7yLEpViVurQIS/fI=
+X-Received: by 2002:a05:620a:663:: with SMTP id
+ a3mr16110922qkh.310.1581606537257; 
+ Thu, 13 Feb 2020 07:08:57 -0800 (PST)
+X-Google-Smtp-Source: APXvYqzUgLATtaYNS3Kg0ZyRQURNj5rc+bKl6duQGjBd/h/0kPnf2VPQA4IkJPSzdtqTGd9fGBjJUw==
+X-Received: by 2002:a05:620a:663:: with SMTP id
+ a3mr16110888qkh.310.1581606536927; 
+ Thu, 13 Feb 2020 07:08:56 -0800 (PST)
+Received: from xz-x1 (CPEf81d0fb19163-CMf81d0fb19160.cpe.net.fido.ca.
+ [72.137.123.47])
+ by smtp.gmail.com with ESMTPSA id l19sm1441196qkl.3.2020.02.13.07.08.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 13 Feb 2020 07:08:56 -0800 (PST)
+Date: Thu, 13 Feb 2020 10:08:53 -0500
+From: Peter Xu <peterx@redhat.com>
+To: "Liu, Yi L" <yi.l.liu@intel.com>
+Subject: Re: [RFC v3 14/25] intel_iommu: add virtual command capability support
+Message-ID: <20200213150853.GB1103216@xz-x1>
+References: <1580300216-86172-1-git-send-email-yi.l.liu@intel.com>
+ <1580300216-86172-15-git-send-email-yi.l.liu@intel.com>
+ <20200211215630.GN984290@xz-x1>
+ <A2975661238FB949B60364EF0F2C25743A1BBBF4@SHSMSX104.ccr.corp.intel.com>
+ <20200213143110.GA1103216@xz-x1>
+MIME-Version: 1.0
+In-Reply-To: <20200213143110.GA1103216@xz-x1>
+X-MC-Unique: -N5pNiBlOS6qFip21CCGbw-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -44,79 +94,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, fam@euphon.net, ehabkost@redhat.com,
- qemu-block@nongnu.org, mst@redhat.com, mreitz@redhat.com, stefanha@redhat.com,
- pbonzini@redhat.com
+Cc: "Tian, Kevin" <kevin.tian@intel.com>,
+ Jacob Pan <jacob.jun.pan@linux.intel.com>, Yi Sun <yi.y.sun@linux.intel.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ "kvm@vger.kernel.org" <kvm@vger.kernel.org>, "mst@redhat.com" <mst@redhat.com>,
+ "Tian, Jun J" <jun.j.tian@intel.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "eric.auger@redhat.com" <eric.auger@redhat.com>,
+ "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>, "Wu, Hao" <hao.wu@intel.com>,
+ "Sun, Yi Y" <yi.y.sun@intel.com>, Richard Henderson <rth@twiddle.net>,
+ "david@gibson.dropbear.id.au" <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-v1:
-  * seg_max default value changing removed
+On Thu, Feb 13, 2020 at 09:31:10AM -0500, Peter Xu wrote:
 
----
-The goal is to reduce the amount of requests issued by a guest on
-1M reads/writes. This rises the performance up to 4% on that kind of
-disk access pattern.
+[...]
 
-The maximum chunk size to be used for the guest disk accessing is
-limited with seg_max parameter, which represents the max amount of
-pices in the scatter-geather list in one guest disk request.
+> > > Apart of this: also I just noticed (when reading the latter part of
+> > > the series) that the time that a pasid table walk can consume will
+> > > depend on this value too.  I'd suggest to make this as small as we
+> > > can, as long as it satisfies the usage.  We can even bump it in the
+> > > future.
+> >=20
+> > I see. This looks to be an optimization. right? Instead of modify the
+> > value of this macro,  I think we can do this optimization by tracking
+> > the allocated PASIDs in QEMU. Thus, the pasid table walk  would be more
+> > efficient and also no dependency on the VTD_MAX_HPASID. Does it make
+> > sense to you? :-)
+>=20
+> Yeah sounds good. :)
 
-Since seg_max is virqueue_size dependent, increasing the virtqueue
-size increases seg_max, which, in turn, increases the maximum size
-of data to be read/write from a guest disk.
+Just to make sure it's safe even for when the global allocation is not
+happening (full emulation devices?  Do they need the PASID table walk
+too?).  Anyway, be careful to not miss some valid PASID entries, or we
+can still use the MIN(PASID_MAX, CONTEXT_ENTRY_SIZE) to be safe as a
+first version.  Thanks,
 
-More details in the original problem statment:
-https://lists.gnu.org/archive/html/qemu-devel/2017-12/msg03721.html
-
-Suggested-by: Denis V. Lunev <den@openvz.org>
-Signed-off-by: Denis Plotnikov <dplotnikov@virtuozzo.com>
----
- hw/block/virtio-blk.c | 2 +-
- hw/core/machine.c     | 2 ++
- hw/scsi/virtio-scsi.c | 2 +-
- 3 files changed, 4 insertions(+), 2 deletions(-)
-
-diff --git a/hw/block/virtio-blk.c b/hw/block/virtio-blk.c
-index 09f46ed85f..142863a3b2 100644
---- a/hw/block/virtio-blk.c
-+++ b/hw/block/virtio-blk.c
-@@ -1272,7 +1272,7 @@ static Property virtio_blk_properties[] = {
-     DEFINE_PROP_BIT("request-merging", VirtIOBlock, conf.request_merging, 0,
-                     true),
-     DEFINE_PROP_UINT16("num-queues", VirtIOBlock, conf.num_queues, 1),
--    DEFINE_PROP_UINT16("queue-size", VirtIOBlock, conf.queue_size, 128),
-+    DEFINE_PROP_UINT16("queue-size", VirtIOBlock, conf.queue_size, 256),
-     DEFINE_PROP_BOOL("seg-max-adjust", VirtIOBlock, conf.seg_max_adjust, true),
-     DEFINE_PROP_LINK("iothread", VirtIOBlock, conf.iothread, TYPE_IOTHREAD,
-                      IOThread *),
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index 2501b540ec..3427d6cf4c 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -28,6 +28,8 @@
- #include "hw/mem/nvdimm.h"
- 
- GlobalProperty hw_compat_4_2[] = {
-+    { "virtio-blk-device", "queue-size", "128"},
-+    { "virtio-scsi-device", "virtqueue_size", "128"},
-     { "virtio-blk-device", "x-enable-wce-if-config-wce", "off" },
-     { "virtio-blk-device", "seg-max-adjust", "off"},
-     { "virtio-scsi-device", "seg_max_adjust", "off"},
-diff --git a/hw/scsi/virtio-scsi.c b/hw/scsi/virtio-scsi.c
-index 3b61563609..472bbd233b 100644
---- a/hw/scsi/virtio-scsi.c
-+++ b/hw/scsi/virtio-scsi.c
-@@ -965,7 +965,7 @@ static void virtio_scsi_device_unrealize(DeviceState *dev, Error **errp)
- static Property virtio_scsi_properties[] = {
-     DEFINE_PROP_UINT32("num_queues", VirtIOSCSI, parent_obj.conf.num_queues, 1),
-     DEFINE_PROP_UINT32("virtqueue_size", VirtIOSCSI,
--                                         parent_obj.conf.virtqueue_size, 128),
-+                                         parent_obj.conf.virtqueue_size, 256),
-     DEFINE_PROP_BOOL("seg_max_adjust", VirtIOSCSI,
-                       parent_obj.conf.seg_max_adjust, true),
-     DEFINE_PROP_UINT32("max_sectors", VirtIOSCSI, parent_obj.conf.max_sectors,
--- 
-2.17.0
+--=20
+Peter Xu
 
 
