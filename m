@@ -2,80 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F132F15C04E
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 15:28:38 +0100 (CET)
-Received: from localhost ([::1]:53160 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EC5D15C055
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 15:30:17 +0100 (CET)
+Received: from localhost ([::1]:53184 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j2FTq-0002rF-17
-	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 09:28:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57182)
+	id 1j2FVQ-0004ZJ-MV
+	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 09:30:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57660)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groeck7@gmail.com>) id 1j2FSE-0000h3-Qs
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 09:27:00 -0500
+ (envelope-from <armbru@redhat.com>) id 1j2FU5-0003Yx-9J
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 09:28:54 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groeck7@gmail.com>) id 1j2FSD-0000wz-P8
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 09:26:58 -0500
-Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:36683)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <groeck7@gmail.com>)
- id 1j2FS9-0000dS-GC; Thu, 13 Feb 2020 09:26:53 -0500
-Received: by mail-pg1-x543.google.com with SMTP id d9so3199392pgu.3;
- Thu, 13 Feb 2020 06:26:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=s50XvQnoQSUg49YR8kGWh2NJT/BLHna6vSzN//Vm66o=;
- b=nhQ+AGrZdEhJdLgZEci6TjjmQP3dNV6eep5Xn2GDxgT1QzZVL+C1tXzZ+ckuDNAxx7
- NjTLkIzF5j9+O7gw+TXVOaRe5WL0KEhoL7Uq4nRnHnXQVRB3pDbVwuYmLZ1+Qu3LWYOG
- 31P86zyqXlNU5scpBF7sSfnpu3gX2C3sE3VmrRJTYAhx13HVO2D8XDatFS9SwNp7RsQV
- PTApZmM1sBWIiQ7Nb6nG48oXOO94zG64z6ZgQHuMgUUMcwEAQBFjToJOX6t8FAZyDqoG
- 5f5mu6kGo16t1ruByn65OHxbTTRO9RfgLHGw9dcbYlStTQ1OEI97Y4Y/Jq/aOi6fF1LW
- nIbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=s50XvQnoQSUg49YR8kGWh2NJT/BLHna6vSzN//Vm66o=;
- b=EY5ywVdPhcMQUBa6dUaQZv+CGYWdmKDMrOGtjPhj0mGvvk+9+qj3+Ry6uqcrzyNNyZ
- 8+oEji2fc/P8FkURkYvL8jtpDMU+/mIdGbfKcqjPsij8AroO2bUeO3KmvlmmIQMYSfIa
- IbGSeW25j/ApW5XKb0jRerqFEFxnlhYUjcx518sgxwSALInjSPlHy1fk+0QZs+kGrn6A
- n9F2YfaTqI6EFJM679aMLHXfNRm5igcGyVN7mdhOCer8a6+Fa31w4yBVXCUFpRUEw2f2
- fZEkCoHgjbm+K+Lk9HOhQ6arT5j/f+ia9MusRDUjDdAncXW3FWf7yECB0+YznbbQVWjL
- NgiQ==
-X-Gm-Message-State: APjAAAX8RwwyLbXhHLKvEo2zmp3IsV3PLCkK/LOnavgLAmbpFrUWwEbE
- idL9TfSO6MdUX0ioCasejfmCTMnE
-X-Google-Smtp-Source: APXvYqzKvYndIx8VWYbSkTcMBkvzNmzXpeYOUvSJRO1afjU3/y6mvrED7lraljP5rcKhSX3VyHHP0w==
-X-Received: by 2002:a65:68d8:: with SMTP id k24mr18995581pgt.208.1581604011625; 
- Thu, 13 Feb 2020 06:26:51 -0800 (PST)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id
- k4sm3436172pfg.40.2020.02.13.06.26.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 13 Feb 2020 06:26:49 -0800 (PST)
-Subject: Re: Question about (and problem with) pflash data access
-To: Paolo Bonzini <pbonzini@redhat.com>, Alexey Kardashevskiy
- <aik@ozlabs.ru>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-References: <20200212184648.GA584@roeck-us.net>
- <504e7722-0b60-ec02-774d-26a7320e5309@redhat.com>
- <20200212230918.GA27242@roeck-us.net>
- <560224fe-f0a3-c64a-6689-e824225cfbb9@redhat.com>
- <279d959f-f7e5-65e1-9c68-459f3fed56d3@ozlabs.ru>
- <52f0b829-151a-3dd0-0ec7-c3155185510c@redhat.com>
-From: Guenter Roeck <linux@roeck-us.net>
-Message-ID: <9f652340-1277-0eb2-bc2c-402b4209a220@roeck-us.net>
-Date: Thu, 13 Feb 2020 06:26:47 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ (envelope-from <armbru@redhat.com>) id 1j2FU3-0005LY-VD
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 09:28:53 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:41468
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1j2FU3-0005JD-Qb
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 09:28:51 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1581604131;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=RBSzIVY1Yxxy+SMOPuUm9xVNxtbGI4btvDOaPLwtk5s=;
+ b=RsyVf6smgpruS4YBMdG5p6MvafqCFeTLVj8JXh68Rs0xsOlL4KUS5TuIP70aeh+OYrS/RR
+ 2AcS1Hc5Qv5bNdpjOlOKL0TwPwVoIkWVMcWIeN2uzQtGJL6Jb+aFKLehe1hAw0+pAeDz0H
+ 3rAPN7RR05v8fY4LFJideh1q1lhiSOs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-210-sZg428NbOd2-gaHU3wFEDg-1; Thu, 13 Feb 2020 09:28:46 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 09F1B8E9EBA;
+ Thu, 13 Feb 2020 14:28:45 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-117-234.ams2.redhat.com
+ [10.36.117.234])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9F01919C70;
+ Thu, 13 Feb 2020 14:28:32 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 19BB911385C9; Thu, 13 Feb 2020 15:28:31 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Eduardo Habkost <ehabkost@redhat.com>
+Subject: Re: [PATCH] hw/char/exynos4210_uart: Fix memleaks in
+ exynos4210_uart_init
+References: <20200212033641.249560-1-kuhn.chenqun@huawei.com>
+ <ce5d39c0-d532-4b54-a39c-01c9c97cbb59@redhat.com>
+ <7412CDE03601674DA8197E2EBD8937E83B1163F4@dggemm531-mbx.china.huawei.com>
+ <99531e05-f8fc-ef0a-ca62-6d477c899e78@redhat.com>
+ <20200212161957.GA5028@habkost.net>
+Date: Thu, 13 Feb 2020 15:28:31 +0100
+In-Reply-To: <20200212161957.GA5028@habkost.net> (Eduardo Habkost's message of
+ "Wed, 12 Feb 2020 11:19:57 -0500")
+Message-ID: <87r1yy4l4g.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <52f0b829-151a-3dd0-0ec7-c3155185510c@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::543
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: sZg428NbOd2-gaHU3wFEDg-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,57 +80,124 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- qemu-block@nongnu.org, qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- qemu-arm <qemu-arm@nongnu.org>,
- Jean-Christophe PLAGNIOL-VILLARD <plagnioj@jcrosoft.com>
+Cc: "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
+ Zhanghailiang <zhang.zhanghailiang@huawei.com>,
+ "i.mitsyanko@gmail.com" <i.mitsyanko@gmail.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>,
+ "Chenqun \(kuhn\)" <kuhn.chenqun@huawei.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/13/20 1:51 AM, Paolo Bonzini wrote:
-> On 13/02/20 08:40, Alexey Kardashevskiy wrote:
->>>>
->>>> memory-region: system
->>>>     0000000000000000-ffffffffffffffff (prio 0, i/o): system
->>>>       0000000000000000-0000000001ffffff (prio 0, romd): omap_sx1.flash0-1
->>>>       0000000000000000-0000000001ffffff (prio 0, rom): omap_sx1.flash0-0
->>> Eh two memory regions with same size and same priority... Is this legal?
->>
->> I'd say yes if used with memory_region_set_enabled() to make sure only
->> one is enabled. Having both enabled is weird and we should print a
->> warning.
-> 
-> Yeah, it's undefined which one becomes visible.
-> 
+Eduardo Habkost <ehabkost@redhat.com> writes:
 
-I have a patch fixing that, resulting in
+> On Wed, Feb 12, 2020 at 08:39:55AM +0100, Philippe Mathieu-Daud=C3=A9 wro=
+te:
+>> Cc'ing Eduardo & Markus.
+>>=20
+>> On 2/12/20 7:44 AM, Chenqun (kuhn) wrote:
+>> > > -----Original Message-----
+>> > > From: Philippe Mathieu-Daud=C3=A9 [mailto:philmd@redhat.com]
+>> > > Sent: Wednesday, February 12, 2020 2:16 PM
+>> > > To: Chenqun (kuhn) <kuhn.chenqun@huawei.com>; qemu-
+>> > > devel@nongnu.org; i.mitsyanko@gmail.com; peter.maydell@linaro.org
+>> > > Cc: qemu-trivial@nongnu.org; Zhanghailiang
+>> > > <zhang.zhanghailiang@huawei.com>
+>> > > Subject: Re: [PATCH] hw/char/exynos4210_uart: Fix memleaks in
+>> > > exynos4210_uart_init
+>> > >=20
+>> > > On 2/12/20 4:36 AM, kuhn.chenqun@huawei.com wrote:
+>> > > > From: Chen Qun <kuhn.chenqun@huawei.com>
+>> > > >=20
+>> > > > It's easy to reproduce as follow:
+>> > > > virsh qemu-monitor-command vm1 --pretty '{"execute":
+>> > > > "device-list-properties", "arguments":{"typename":"exynos4210.uart=
+"}}'
+>> > > >=20
+>> > > > ASAN shows memory leak stack:
+>> > > >     #1 0xfffd896d71cb in g_malloc0 (/lib64/libglib-2.0.so.0+0x571c=
+b)
+>> > > >     #2 0xaaad270beee3 in timer_new_full /qemu/include/qemu/timer.h=
+:530
+>> > > >     #3 0xaaad270beee3 in timer_new /qemu/include/qemu/timer.h:551
+>> > > >     #4 0xaaad270beee3 in timer_new_ns /qemu/include/qemu/timer.h:5=
+69
+>> > > >     #5 0xaaad270beee3 in exynos4210_uart_init
+>> > > /qemu/hw/char/exynos4210_uart.c:677
+>> > > >     #6 0xaaad275c8f4f in object_initialize_with_type /qemu/qom/obj=
+ect.c:516
+>> > > >     #7 0xaaad275c91bb in object_new_with_type /qemu/qom/object.c:6=
+84
+>> > > >     #8 0xaaad2755df2f in qmp_device_list_properties
+>> > > > /qemu/qom/qom-qmp-cmds.c:152
+>> > > >=20
+>> > > > Reported-by: Euler Robot <euler.robot@huawei.com>
+>> > > > Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
+>> > > > ---
+>> > > >    hw/char/exynos4210_uart.c | 8 ++++----
+>> > > >    1 file changed, 4 insertions(+), 4 deletions(-)
+>> > > >=20
+>> > > > diff --git a/hw/char/exynos4210_uart.c b/hw/char/exynos4210_uart.c
+>> > > > index 25d6588e41..5048db5410 100644
+>> > > > --- a/hw/char/exynos4210_uart.c
+>> > > > +++ b/hw/char/exynos4210_uart.c
+>> > > > @@ -674,10 +674,6 @@ static void exynos4210_uart_init(Object *obj)
+>> > > >        SysBusDevice *dev =3D SYS_BUS_DEVICE(obj);
+>> > > >        Exynos4210UartState *s =3D EXYNOS4210_UART(dev);
+>> > > >=20
+>> > > > -    s->fifo_timeout_timer =3D timer_new_ns(QEMU_CLOCK_VIRTUAL,
+>> > > > -                                         exynos4210_uart_timeout_=
+int, s);
+>> > > > -    s->wordtime =3D NANOSECONDS_PER_SECOND * 10 / 9600;
+>> > >=20
+>> > > Why are you moving s->wordtime from init() to realize()?
+>> > >=20
+>> > Hi  Philippe,  thanks for your reply!
+>> >=20
+>> > Because I found the variable wordtime is usually used with fifo_timeou=
+t_timer.
+>> > Eg, they are used together in the exynos4210_uart_rx_timeout_set funct=
+ion.
+>> >=20
+>> > I didn't find anything wrong with wordtime in the realize().
+>> > Does it have any other effects?
+>>=20
+>> IIUC when we use both init() and realize(), realize() should only contai=
+ns
+>> on code that consumes the object properties... But maybe the design is n=
+ot
+>> clear. Then why not move all the init() code to realize()?
+>
+> Normally I would recommend the opposite: delay as much as
+> possible to realize(), to avoid unwanted side effects when (e.g.)
+> running qom-list-properties.
 
-(qemu) info mtree -f
-FlatView #0
-  AS "I/O", root: io
-  Root memory region: io
-   0000000000000000-000000000000ffff (prio 0, i/o): io
+Sadly, our documentation on device initialization and realization is
+rather sparse, and developers are left guessing.  Their guesses are
+often based on what existing code does.  Some of the existing code even
+gets things right.
 
-FlatView #1
-  AS "memory", root: system
-  AS "cpu-memory-0", root: system
-  Root memory region: system
-   0000000000000000-0000000001ffffff (prio 0, romd): omap_sx1.flash0
-   0000000002000000-0000000003ffffff (prio 0, i/o): sx1.cs0
-   0000000004000000-0000000007ffffff (prio 0, i/o): sx1.cs1
-   0000000008000000-000000000bffffff (prio 0, i/o): sx1.cs2
-   000000000c000000-000000000fffffff (prio 0, i/o): sx1.cs3
-   ...
+A few rules from the top of my head:
 
-but unfortunately that doesn't fix my problem. The data in the
-omap_sx1.flash0 region is as wrong as before.
+* Creating and immediately destroying an object must be safe and free of
+  side effects: initialization may only touch the object itself, and
+  finalization must clean up everything initialization creates.
 
-What really puzzles me is that there is no trace output for
-flash data accesses (trace_pflash_data_read and trace_pflash_data_write),
-meaning the actual flash data access must be handled elsewhere.
-Can someone give me a hint where that might be ?
-Clearly I am missing something about inner workings of qemu.
+* unrealize() must clean up everything realize() creates.
 
-Thanks,
-Guenter
+* Since initialization cannot fail, code that needs to fail gracefully
+  must live in realize().
+
+* Since property values get set between initialization and realization,
+  code that uses property values must live in realize().
+
+* Dynamic properties have to be created in initialization to be visible
+  in introspection.
+
+> But as s->wordtime is a simple struct field (that we could even
+> decide to expose to the outside as a read-only QOM property), it
+> doesn't really matter.  Personally, I would keep it where it is
+> just to avoid churn.
+
 
