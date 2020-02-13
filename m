@@ -2,82 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 776C515C159
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 16:22:53 +0100 (CET)
-Received: from localhost ([::1]:54610 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41F6A15C137
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 16:18:27 +0100 (CET)
+Received: from localhost ([::1]:54518 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j2GKK-0006Yh-Hd
-	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 10:22:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33527)
+	id 1j2GG2-0000lf-BK
+	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 10:18:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35036)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1j2Fok-00061M-LZ
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 09:50:15 -0500
+ (envelope-from <dplotnikov@virtuozzo.com>) id 1j2Fy5-0002hf-1B
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 09:59:54 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1j2Foh-0005gt-84
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 09:50:13 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:31049
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <dplotnikov@virtuozzo.com>) id 1j2Fy0-0002XX-Bl
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 09:59:50 -0500
+Received: from relay.sw.ru ([185.231.240.75]:39750)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1j2Foh-0005dS-2t
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 09:50:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581605409;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=k76DfKGktXC3gCKxb0MlmatUxUtATJH1V5XwEodiORI=;
- b=hUjPngqpXtP0t1ykrQiYKgjF1z7F5rnM7jls501DVF+DgYd3Yql+GMYsNISmU0PvxPm4np
- iqJb03yOAPQCwfBggQxb7y7U+ZEv2Bb+e6KRYBPqPKSQjH/AFyAu0trQ0R6e0WkhCWC8wu
- ONP1vcdp7Oqnv+pKx8Te/Ypn7Zmoli0=
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-289-oU-dOP61PXK0KnZI6o9DXQ-1; Thu, 13 Feb 2020 09:50:07 -0500
-Received: by mail-qv1-f72.google.com with SMTP id p3so3645392qvt.9
- for <qemu-devel@nongnu.org>; Thu, 13 Feb 2020 06:50:07 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=eovNYun51mc439+hX2zwVKiuy2KZyB2kwXBRWB23szI=;
- b=dTyVMaQspt8dt9hMvo917+JstUK7T+Xglw4HJpvJfn21S3R+uVkgTTiTnu/r/oePVf
- zOQ2uTLzzq2PACTugcNXeSc5gMSAiAMtlk68RGHBpRXpssi4yXulLHHw0I8fHWCTA5Nc
- eJTbT2g5pVKfzpP3/TQBcKYE1A2d3vIkLsKRZf5tsrXRWNP9THDYdpWJrrZIczVLRo0e
- 0p1I8OOA53C5ysxBtAPlvQFvIjL+3SbeW1Vk9bJ7TYIxkeUrNuTT4lX14R2rW2mC0Bwv
- MjRCGxouX/Z97o8DjNGg6qfy35mLFQ3ZKyHuHGBbf807eMIbtgWnYHcKTXIQGdBi4Urp
- JX9g==
-X-Gm-Message-State: APjAAAUOKfLcOX+a3n28fEuJuJ0baPRfbU3g82alsqfEwL3IjW46gMxN
- SQGdOQWgreaIC6i1EcjA8tptSJY0ca9ac9z6wpCc1R7uZaCsYbYCbhbil2PFK6qgdHLPZE6edqH
- miPttTKTl1NdSiNc=
-X-Received: by 2002:ac8:5502:: with SMTP id j2mr12366823qtq.127.1581605406552; 
- Thu, 13 Feb 2020 06:50:06 -0800 (PST)
-X-Google-Smtp-Source: APXvYqx5WKYG2+h//TLgvRBup1A9MTHLSuATjesCJf2FrpLOLV/OY+QO8VbJEw+GjAO/eXrrwYDn5w==
-X-Received: by 2002:ac8:5502:: with SMTP id j2mr12366797qtq.127.1581605406253; 
- Thu, 13 Feb 2020 06:50:06 -0800 (PST)
-Received: from redhat.com (bzq-79-176-28-95.red.bezeqint.net. [79.176.28.95])
- by smtp.gmail.com with ESMTPSA id
- o189sm1424567qkd.124.2020.02.13.06.50.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Feb 2020 06:50:05 -0800 (PST)
-Date: Thu, 13 Feb 2020 09:50:02 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: "V." <mail@winaoe.org>
-Subject: Re: [PATCH/RFC 0/1] Vhost User Cross Cable: Intro
-Message-ID: <20200213094723-mutt-send-email-mst@kernel.org>
-References: <98d1e1f0-0e53-d207-78ce-ea9717673985@winaoe.org>
-MIME-Version: 1.0
-In-Reply-To: <98d1e1f0-0e53-d207-78ce-ea9717673985@winaoe.org>
-X-MC-Unique: oU-dOP61PXK0KnZI6o9DXQ-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+ (Exim 4.71) (envelope-from <dplotnikov@virtuozzo.com>)
+ id 1j2Fy0-0002Qu-3v; Thu, 13 Feb 2020 09:59:48 -0500
+Received: from dptest2.qa.sw.ru ([10.94.4.71])
+ by relay.sw.ru with esmtp (Exim 4.92.3)
+ (envelope-from <dplotnikov@virtuozzo.com>)
+ id 1j2Fxf-0003g2-UX; Thu, 13 Feb 2020 17:59:28 +0300
+From: Denis Plotnikov <dplotnikov@virtuozzo.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2] virtio: increase virtuqueue size for virtio-scsi and
+ virtio-blk
+Date: Thu, 13 Feb 2020 17:59:27 +0300
+Message-Id: <20200213145927.7539-1-dplotnikov@virtuozzo.com>
+X-Mailer: git-send-email 2.17.0
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
+X-Received-From: 185.231.240.75
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,53 +44,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, fam@euphon.net, ehabkost@redhat.com,
+ qemu-block@nongnu.org, mst@redhat.com, mreitz@redhat.com, stefanha@redhat.com,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jan 08, 2020 at 02:54:30AM +0100, V. wrote:
-> Hi List,
->=20
-> For my VM setup I tend to use a lot of VM to VM single network links to d=
-o routing, switching and bridging in VM's instead of the host.
-> Also stemming from a silly fetish to sometimes use some OpenBSD VMs as fi=
-rewall, but that is besides the point here.
-> I am using the standard, tested and true method of using a whole bunch=A0=
- of bridges, having 2 vhost taps each.
-> This works and it's fast, but it is a nightmare to manage with all the in=
-terfaces on the host.
->=20
-> So, I looked a bit into how I can improve this, basically coming down to =
-"How to connect 2 VM's together in a really fast and easy way".
-> This however, is not as straightforward as I thought, without going the w=
-hole route of OVS/Snabb/any other big feature bloated
-> software switch.
-> Cause really, all I want is to connect 2 VM's in a fast and easy way. Sho=
-uldn't be that hard right?
->=20
-> Anyways, I end up finding tests/vhost-user-bridge.c, which is very nicely=
- doing half of what I wanted.
+v1:
+  * seg_max default value changing removed
 
-BTW you can easily run two vhost user bridges and connect them back to
-back, right?
+---
+The goal is to reduce the amount of requests issued by a guest on
+1M reads/writes. This rises the performance up to 4% on that kind of
+disk access pattern.
 
-> After some doubling of the vhosts and eliminating udp, I came up with a V=
-host User Cross Cable. (patch in next post).
+The maximum chunk size to be used for the guest disk accessing is
+limited with seg_max parameter, which represents the max amount of
+pices in the scatter-geather list in one guest disk request.
 
-Hmm you forgot --thread=3Dshallow so your posts aren't linked.
+Since seg_max is virqueue_size dependent, increasing the virtqueue
+size increases seg_max, which, in turn, increases the maximum size
+of data to be read/write from a guest disk.
 
+More details in the original problem statment:
+https://lists.gnu.org/archive/html/qemu-devel/2017-12/msg03721.html
 
+Suggested-by: Denis V. Lunev <den@openvz.org>
+Signed-off-by: Denis Plotnikov <dplotnikov@virtuozzo.com>
+---
+ hw/block/virtio-blk.c | 2 +-
+ hw/core/machine.c     | 2 ++
+ hw/scsi/virtio-scsi.c | 2 +-
+ 3 files changed, 4 insertions(+), 2 deletions(-)
 
-> It just opens 2 vhost sockets instead of 1 and does the forwarding betwee=
-n them.
-> A terrible hack and slash of vhost-user-bridge.c, probably now with bugs =
-causing the dead of many puppies and the end of humanity,
-> but it works!
-
-I think generally this approach has value, maybe a separate utility,
-maybe as a flag for vhost-user-bridge.
-
---=20
-MST
+diff --git a/hw/block/virtio-blk.c b/hw/block/virtio-blk.c
+index 09f46ed85f..142863a3b2 100644
+--- a/hw/block/virtio-blk.c
++++ b/hw/block/virtio-blk.c
+@@ -1272,7 +1272,7 @@ static Property virtio_blk_properties[] = {
+     DEFINE_PROP_BIT("request-merging", VirtIOBlock, conf.request_merging, 0,
+                     true),
+     DEFINE_PROP_UINT16("num-queues", VirtIOBlock, conf.num_queues, 1),
+-    DEFINE_PROP_UINT16("queue-size", VirtIOBlock, conf.queue_size, 128),
++    DEFINE_PROP_UINT16("queue-size", VirtIOBlock, conf.queue_size, 256),
+     DEFINE_PROP_BOOL("seg-max-adjust", VirtIOBlock, conf.seg_max_adjust, true),
+     DEFINE_PROP_LINK("iothread", VirtIOBlock, conf.iothread, TYPE_IOTHREAD,
+                      IOThread *),
+diff --git a/hw/core/machine.c b/hw/core/machine.c
+index 2501b540ec..3427d6cf4c 100644
+--- a/hw/core/machine.c
++++ b/hw/core/machine.c
+@@ -28,6 +28,8 @@
+ #include "hw/mem/nvdimm.h"
+ 
+ GlobalProperty hw_compat_4_2[] = {
++    { "virtio-blk-device", "queue-size", "128"},
++    { "virtio-scsi-device", "virtqueue_size", "128"},
+     { "virtio-blk-device", "x-enable-wce-if-config-wce", "off" },
+     { "virtio-blk-device", "seg-max-adjust", "off"},
+     { "virtio-scsi-device", "seg_max_adjust", "off"},
+diff --git a/hw/scsi/virtio-scsi.c b/hw/scsi/virtio-scsi.c
+index 3b61563609..472bbd233b 100644
+--- a/hw/scsi/virtio-scsi.c
++++ b/hw/scsi/virtio-scsi.c
+@@ -965,7 +965,7 @@ static void virtio_scsi_device_unrealize(DeviceState *dev, Error **errp)
+ static Property virtio_scsi_properties[] = {
+     DEFINE_PROP_UINT32("num_queues", VirtIOSCSI, parent_obj.conf.num_queues, 1),
+     DEFINE_PROP_UINT32("virtqueue_size", VirtIOSCSI,
+-                                         parent_obj.conf.virtqueue_size, 128),
++                                         parent_obj.conf.virtqueue_size, 256),
+     DEFINE_PROP_BOOL("seg_max_adjust", VirtIOSCSI,
+                       parent_obj.conf.seg_max_adjust, true),
+     DEFINE_PROP_UINT32("max_sectors", VirtIOSCSI, parent_obj.conf.max_sectors,
+-- 
+2.17.0
 
 
