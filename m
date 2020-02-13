@@ -2,75 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAFA415CE85
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Feb 2020 00:09:59 +0100 (CET)
-Received: from localhost ([::1]:60733 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D02AE15CE7E
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Feb 2020 00:07:25 +0100 (CET)
+Received: from localhost ([::1]:60696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j2NcN-0005Mu-1T
-	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 18:09:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55494)
+	id 1j2NZs-0002Gd-Sm
+	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 18:07:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51097)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1j2NTZ-0002Y9-PR
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 18:00:55 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1j2NQy-00075Q-Mu
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 17:58:13 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1j2NTY-0002cN-G8
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 18:00:53 -0500
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:37339)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1j2NTY-0002Yr-4n
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 18:00:52 -0500
-Received: by mail-wm1-x331.google.com with SMTP id a6so8652046wme.2
- for <qemu-devel@nongnu.org>; Thu, 13 Feb 2020 15:00:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=LM7CKlGDQQ+uKXRKtjMMvs0F+UsijFwZIGBIi2qQw/Q=;
- b=qfVW2oUzLqRug/aLV6Y9TNPG2a5TkiHjAHWnpxNSLz56sNjjDscu/WsAQp13sji8V9
- E8bJAgsrTnpjozDWbzCw3VRopqX0xuCFlo8b3WjBSwAeLWcVrv4Fyj9yQfZVGA7ff3fu
- 9Cva+Df/8rx6xOwVq1uhrEm0dNbTXNqEJSX3Xy7DD8f5sUs8nWct3+lw5gbS/BqexWfQ
- n0BMedHsC8kx/asNpCshF5LLbv0XLaMEN73l1svNbY/0Bp2YF2gVFaGm3s9y4fHW9oNZ
- CyX03PUQoMm79c/MJFCZsWdC7E6IYTQlRiS44Ylm33CrHuQmlejAIDD4f1nu5IostMBH
- py/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=LM7CKlGDQQ+uKXRKtjMMvs0F+UsijFwZIGBIi2qQw/Q=;
- b=VwFZdl2k99zPE2ggOtt/JSgrokvwfNUtFpEpL+1fngdnAmcTELsYzzRDb2K9SUww7C
- TonHcudg60Yt4z5/FdWuA/l40YCgklt9J5ly0FdC9nw9M7LNS16SM+yCeXYDCpr7QZU1
- E7a6SlLgF3EXWaW/qOexmKgcYPUh0o+1LQD/6YIyyQSlDwWcip2rB+p3rtx61CR2ppv2
- pdui+BmjoJeQswF5oIyaTbgHUndb2G3LWfVVw8u6+uo8F0B/F9F+3kl/pOCHHgBE3VVw
- oGtUV9JDE5wKlQ8AqbTz24I02qSi/5Ncx+5HEIxRpbGnO9iD4vhIpTzQwLUNMfBiSW/j
- MUGQ==
-X-Gm-Message-State: APjAAAWgLTbScCgEcQrk4pp5KGaMXo55afRwXlwT69wKuRhUEu0dz/9F
- WbXo8r3aGraI52LbI0cwq2aVmg==
-X-Google-Smtp-Source: APXvYqy3FM1UHxkksxLUjLHga8c0vG8IxJhnXVTnC6gu4TEOl9s6AhuymItty/lTFFqo3SW0hZIywA==
-X-Received: by 2002:a05:600c:214a:: with SMTP id
- v10mr358086wml.182.1581634850234; 
- Thu, 13 Feb 2020 15:00:50 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id g15sm4363854wro.65.2020.02.13.15.00.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Feb 2020 15:00:45 -0800 (PST)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 4B08F1FFAA;
- Thu, 13 Feb 2020 22:51:11 +0000 (GMT)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 19/19] tests/tcg: take into account expected clashes pauth-4
-Date: Thu, 13 Feb 2020 22:51:09 +0000
-Message-Id: <20200213225109.13120-20-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200213225109.13120-1-alex.bennee@linaro.org>
-References: <20200213225109.13120-1-alex.bennee@linaro.org>
+ (envelope-from <dgibson@ozlabs.org>) id 1j2NQx-0006V4-8x
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 17:58:12 -0500
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:34085 helo=ozlabs.org)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1j2NQw-0006Gj-BZ; Thu, 13 Feb 2020 17:58:11 -0500
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 48JX3Z67X0z9s29; Fri, 14 Feb 2020 09:58:02 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1581634682;
+ bh=X1vgOpqyDNmAZ02SAi1Zjqk0fxNRP35hkvyITlY5dlw=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=XYBM+yOByVYFjTL46IxzTY1+KdyfdOnTU+mYQSqJtBLvLeHfZu/p5xBtZzZd2wrfY
+ OdyfkRz5n1zY3+btnpPKwXvweMGM6I8gZEbnvSUYPg7KhMEL0+8+4HYsg7bp8nhCJ7
+ gN+F5dd87TSucaWVX+ljOn+FmHn/fL3w/yNKyEJM=
+Date: Fri, 14 Feb 2020 09:56:50 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH v2 1/2] spapr: Disable legacy virtio devices for
+ pseries-5.0 and later
+Message-ID: <20200213225650.GH124369@umbus.fritz.box>
+References: <20200213005837.131791-1-david@gibson.dropbear.id.au>
+ <20200213005837.131791-2-david@gibson.dropbear.id.au>
+ <20200213153425.53b5c53c@bahia.lan>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="l06SQqiZYCi8rTKz"
+Content-Disposition: inline
+In-Reply-To: <20200213153425.53b5c53c@bahia.lan>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::331
+X-Received-From: 2401:3900:2:1::2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,94 +57,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, Peter Maydell <peter.maydell@linaro.org>,
- berrange@redhat.com, robert.foley@linaro.org, pbonzini@redhat.com,
- stefanb@linux.vnet.ibm.com,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- richard.henderson@linaro.org, f4bug@amsat.org, robhenry@microsoft.com,
- marcandre.lureau@redhat.com, aaron@os.amperecomputing.com, cota@braap.org,
- stefanha@redhat.com, kuhn.chenqun@huawei.com, peter.puhov@linaro.org,
- "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>, aurelien@aurel32.net
+Cc: pair@us.ibm.com, mst@redhat.com, aik@ozlabs.ru, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org, clg@kaod.org, mdroth@us.ibm.com, paulus@samba.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Pointer authentication isn't perfect so measure the percentage of
-failed checks. As we want to vary the pointer that is authenticated we
-recurse down the stack.
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- tests/tcg/aarch64/pauth-4.c | 54 +++++++++++++++++++++++++------------
- 1 file changed, 37 insertions(+), 17 deletions(-)
+--l06SQqiZYCi8rTKz
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/tests/tcg/aarch64/pauth-4.c b/tests/tcg/aarch64/pauth-4.c
-index 1040e92aec3..24a639e36ca 100644
---- a/tests/tcg/aarch64/pauth-4.c
-+++ b/tests/tcg/aarch64/pauth-4.c
-@@ -1,25 +1,45 @@
- #include <stdint.h>
- #include <assert.h>
-+#include <stdio.h>
-+#include <stdlib.h>
-+
-+#define TESTS 1000
- 
- int main()
- {
--  uintptr_t x, y;
-+    int i, count = 0;
-+    float perc;
-+    void *base = malloc(TESTS);
-+
-+    for (i = 0; i < TESTS; i++) {
-+        uintptr_t in, x, y;
-+
-+        in = i + (uintptr_t) base;
-+
-+        asm("mov %0, %[in]\n\t"
-+            "pacia %0, sp\n\t"        /* sigill if pauth not supported */
-+            "eor %0, %0, #4\n\t"      /* corrupt single bit */
-+            "mov %1, %0\n\t"
-+            "autia %1, sp\n\t"        /* validate corrupted pointer */
-+            "xpaci %0\n\t"            /* strip pac from corrupted pointer */
-+            : /* out */ "=r"(x), "=r"(y)
-+            : /* in */ [in] "r" (in)
-+            : /* clobbers */);
- 
--  asm("mov %0, lr\n\t"
--      "pacia %0, sp\n\t"        /* sigill if pauth not supported */
--      "eor %0, %0, #4\n\t"      /* corrupt single bit */
--      "mov %1, %0\n\t"
--      "autia %1, sp\n\t"        /* validate corrupted pointer */
--      "xpaci %0\n\t"            /* strip pac from corrupted pointer */
--      : "=r"(x), "=r"(y));
-+        /*
-+         * Once stripped, the corrupted pointer is of the form 0x0000...wxyz.
-+         * We expect the autia to indicate failure, producing a pointer of the
-+         * form 0x000e....wxyz.  Use xpaci and != for the test, rather than
-+         * extracting explicit bits from the top, because the location of the
-+         * error code "e" depends on the configuration of virtual memory.
-+         */
-+        if (x != y) {
-+            count++;
-+        }
- 
--  /*
--   * Once stripped, the corrupted pointer is of the form 0x0000...wxyz.
--   * We expect the autia to indicate failure, producing a pointer of the
--   * form 0x000e....wxyz.  Use xpaci and != for the test, rather than
--   * extracting explicit bits from the top, because the location of the
--   * error code "e" depends on the configuration of virtual memory.
--   */
--  assert(x != y);
--  return 0;
-+    }
-+    perc = (float) count / (float) TESTS;
-+    printf("Checks Passed: %0.2f%%", perc * 100.0);
-+    assert(perc > 0.95);
-+    return 0;
- }
--- 
-2.20.1
+On Thu, Feb 13, 2020 at 03:34:25PM +0100, Greg Kurz wrote:
+> On Thu, 13 Feb 2020 11:58:36 +1100
+> David Gibson <david@gibson.dropbear.id.au> wrote:
+>=20
+> > PAPR specifies a kind of odd, paravirtualized PCI bus, which looks to
+> > the guess mostly like classic PCI, even if some of the individual
+> > devices on the bus are PCI Express.  One consequence of that is that
+> > virtio-pci devices still default to being in transitional mode, though
+> > legacy mode is now disabled by default on current q35 x86 machine
+> > types.
+> >=20
+> > Legacy mode virtio devices aren't really necessary any more, and are
+> > causing some problems for future changes.  Therefore, for the
+> > pseries-5.0 machine type (and onwards), switch to modern-only
+> > virtio-pci devices by default.
+> >=20
+> > This does mean we no longer support guest kernels prior to 4.0, unless
+> > they have modern virtio support backported (which some distro kernels
+> > like that in RHEL7 do).
+> >=20
+> > Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+> > ---
+> >  hw/ppc/spapr.c | 14 +++++++++++++-
+> >  1 file changed, 13 insertions(+), 1 deletion(-)
+> >=20
+> > diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> > index cb220fde45..6e1e467cc6 100644
+> > --- a/hw/ppc/spapr.c
+> > +++ b/hw/ppc/spapr.c
+> > @@ -65,6 +65,7 @@
+> > =20
+> >  #include "hw/pci/pci.h"
+> >  #include "hw/scsi/scsi.h"
+> > +#include "hw/virtio/virtio-pci.h"
+> >  #include "hw/virtio/virtio-scsi.h"
+> >  #include "hw/virtio/vhost-scsi-common.h"
+> > =20
+> > @@ -4567,7 +4568,14 @@ static void spapr_machine_latest_class_options(M=
+achineClass *mc)
+> >   */
+> >  static void spapr_machine_5_0_class_options(MachineClass *mc)
+> >  {
+> > -    /* Defaults for the latest behaviour inherited from the base class=
+ */
+>=20
+> Hmm... and so it seems we still have to carry this around when we
+> add a new machine version. At least, that's what I had to do when
+> adding a dummy 5.1 machine. This is because it is the old machine
+> type that calls the class_options() function of the new one, not
+> the other way around.
 
+Uh.. no. It can just go in latest_class_options.  I thought I'd
+already moved it there, but obviously not.  I've fixed that up for the
+next spin.
+
+> I was thinking about adapting Michael's patch. Instead of having
+> a class_options() function that we only call for the latest
+> machine type, we need a function that sets the default behaviour
+> and call it for all machine types (which can still change the
+> behaviour in their own class_options() function).
+
+This will be confusing in a different way.  It will reset the default
+options on each of the chained old machine types, which means anything
+set in the "default" options needs to be overriden in *all* old
+machine types that don't want it, not just the latest which doesn't
+want it.
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--l06SQqiZYCi8rTKz
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl5F1C8ACgkQbDjKyiDZ
+s5IUjBAAkiCCHnyzVMzfq4xng8thPYhPLgBuvtTtEX/hhqaDCCBKV/cGXRpGjkqB
+oK/pjwr6OQ3kvv0Np8xCxvEbddS+u0KScTGlltN3mQzDR22P/yCk2BQ7LxXvkbX5
+gYhPcs7Cauq1h8jk0VggnHAMlcOjPhRvTLHw8A9NSTHFlGy8bqXGWPhnRgdWs6jI
+evvuAElkphoeNwAKhedh1qJRe98hlqieeMhy2jScnIfAahpbg7FZ7qO388415tXk
+eFCJ1k8NRrikeHA0yS4CChWybse8rlsSRJ9k6/+nGfC5SvBpV+HkxVOJCkxhhluH
+RR+qziitmIGxO+dnTxshHDWvQ58JFxNAqNQmPSsKGmRyedyiviqt3K9uvTQ8vWGS
+hO38X8Y5RucJawjBP/n/fmzDYJiriDymWFZ/G5gxilrhvBBCxJAfbpSC2q2cYYsP
+HyeMIgYPeyMoHUhkN3srYKRW4kJnqObvfYgYuM5BWkVp2H6Yu0v+NuCYNPt7V2+f
+50zY+VORl+9qyJcYxii1CoWf4kVBTCLmVXtAojQGFJJtmbErY9Wl3PnrslZQzPnp
+/okBxRl+uqa0VIsSwOfyCTzsxJC9yNKv8T7Y7M9OUuKKCmB3+50RKz5wbWfPM1CS
+cuwPrU3BZ/pGe2d6P8hxJTldAp/ku0l7gfoLvYkzJhYF+VR4BoA=
+=XVds
+-----END PGP SIGNATURE-----
+
+--l06SQqiZYCi8rTKz--
 
