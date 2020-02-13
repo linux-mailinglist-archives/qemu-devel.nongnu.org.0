@@ -2,66 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26B9A15CE4D
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 23:49:39 +0100 (CET)
-Received: from localhost ([::1]:60158 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D70615CE53
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 23:53:01 +0100 (CET)
+Received: from localhost ([::1]:60332 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j2NIe-0003oV-Nc
-	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 17:49:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34393)
+	id 1j2NLv-0006cZ-5r
+	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 17:53:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39386)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1j2NHW-00034j-9F
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 17:48:28 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1j2NKE-0004b0-OJ
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 17:51:15 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1j2NHV-0006UI-4K
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 17:48:26 -0500
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:36541)
+ (envelope-from <alex.bennee@linaro.org>) id 1j2NKD-0003YX-CY
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 17:51:14 -0500
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:35957)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
- id 1j2NHU-000697-Ll
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 17:48:24 -0500
-Received: by mail-ot1-x343.google.com with SMTP id j20so7312929otq.3
- for <qemu-devel@nongnu.org>; Thu, 13 Feb 2020 14:48:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=5gVLkcooyTNnleYQe61DpXF/xKxVEtPc9IP+fcRQ+9k=;
- b=mR5UVTXwvhULltw2f/twvvByaNkQtUtXU1KBOCkLg3sVEPIWoS99K66RNnKDCUGWau
- 19PvNHqhU+J9Wp3gggTWAqxQFQnX8iJjmXijaPiNZO/uDAAVTX8M7jK37L+w0qGraOU/
- V6OiBLflpJLRUEZQJSyGckw6q9Ri3cNZCjUQju4xiQ7iIXnaRBB34YH/eAb2VSPAkXt/
- 9/9s19znvztz+4SFJtVvDhMKqH96YUyeTOIckxDBkpC7ATIRbjzCwh9iOlSDor/L+I3W
- 6So2G6gVYzrLAvppgUgnOw6uC/vrmFxNf6wGzQ0pF3wXcLbaXO4Nw1iWq65lOiKMOJ9M
- wt+Q==
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1j2NKD-0003WK-54
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 17:51:13 -0500
+Received: by mail-wr1-x42d.google.com with SMTP id z3so8778831wru.3
+ for <qemu-devel@nongnu.org>; Thu, 13 Feb 2020 14:51:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=laSM3HZXwplL6XfOd/sM7CxCKbzr6u+s3QkgdUGnKFA=;
+ b=yiXbccLZbiBzX10hP3xI+e+vS6ueaWKHK+fx0CdxUZJvZ+f8551KK64GGBblhMUkbm
+ roVt/5YCvB1q5FeUpTHT03xLaHBNXVI51F5BJ4UKCbUY6AGrDhIyEZh6OQTxjr7HguvA
+ I/bjJjOr1R8snZYjKHOaQczDKA0wPkqZRZKgpkp475VQIYcyhfQKAti2ORelxNJtcMBj
+ W6P3s66rJZm19ey66SGmnS1c0P9yii20cOuRnWigqeyAl750x/2MrljbHjWKt0+2n8WJ
+ 1V3N+Z3Jq4stw3//TzNdXiCS+50s8IGJPRoW2c44pTWyDrf1MFeYzRd4yhj0LF+GPmVr
+ zcwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=5gVLkcooyTNnleYQe61DpXF/xKxVEtPc9IP+fcRQ+9k=;
- b=uBg2U/BbDaPislhrGZWc3Dm2tvpnuJbUub9zhfZqn6LqGuD0cdQbHM4ehff6NtGb8/
- kL+u5v05hckKyOWfTlHYe6VT0ktaBZp7skhfLLZYL9Pb+iojzdTDrRHNY1iwkQI51/WE
- BnXNcTLLCXG7I6mXmSxnKDkLf/zl3Eb3+GpSKU8uks7A9gAG8P7T8reXifNdDKaysCGz
- Z5wgjBYa9aH8hNTo/1ipgdgad18u2qsu9O0ynSnT4z4uAa8+Io59DeBRaScsyk6CmgeD
- jQCE/L9LSq8kJiovdp8eT7sKES1j9yh9ad3pQvCRfcFKzLpdKbL+8jFqA3O/kVw8HOeg
- viAA==
-X-Gm-Message-State: APjAAAVz+gvKtmafHq0bRDeRYLUwEaX6HYDGMvZBxSnTVcvi2lxiuG0Q
- 7mvMqmZk1kwQ8vRIWPywjHd0dwTNWQSjkhHFyME=
-X-Google-Smtp-Source: APXvYqwFK41k9e08V9jpGrHhlSCLBfB9nz5ePcvyILwPsDsCpQvunCWm6YdO01DLNEN2aHiea23WfGJ6KOs1k9oX+dg=
-X-Received: by 2002:a9d:7305:: with SMTP id e5mr14505475otk.64.1581634088546; 
- Thu, 13 Feb 2020 14:48:08 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=laSM3HZXwplL6XfOd/sM7CxCKbzr6u+s3QkgdUGnKFA=;
+ b=IMSuYZzGErr61NEb5SgMz9iT4ytBO+5/SHhaBcc+xGamKpYeKJnLnaLgTIbwSVTZQZ
+ 61+H1jxHEKvW1VimHNF25zOr3ySFYh4YkptOQFbmpITdok4nDJ9QN/Ey2uoexGUINkOG
+ fq6rIliDtSq6kRDAZP5H3S8F1EeQ7c3wHn7HxYhNwKFXNis+BHV7DBtW6XuLEzVOyvn8
+ IHFa3W5fd7LpdARmhpnSn/Zy3Ac+E4h+Qzn0LSGNfBCfyn89ZIY3dggRTpT7n4adwTHX
+ m0penmpXMxiTCqOySTobZI1Jn+89gn4Pf023CTZGTMf3dtvy0e76o9s+uY6Vwbb1zGkM
+ 8UIw==
+X-Gm-Message-State: APjAAAU/s6q7sfprqJPMZmhreIBN3lpj19aSWmYztVQhpHFXx2gav+Sr
+ KX0AS31t2yRAHdvnbiPjmk4wGA==
+X-Google-Smtp-Source: APXvYqwk2dJhsLMOKBgbHKVeG8JgdibIpFjX5sjPnmPUMlawQGt/1e94Kg1D14m2ln7xw/hF0w3uJw==
+X-Received: by 2002:a05:6000:124b:: with SMTP id
+ j11mr22157053wrx.285.1581634271652; 
+ Thu, 13 Feb 2020 14:51:11 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id a5sm4680376wmb.37.2020.02.13.14.51.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 13 Feb 2020 14:51:10 -0800 (PST)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 9FAC81FF87;
+ Thu, 13 Feb 2020 22:51:09 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH  v2 00/19] testing and plugin updates
+Date: Thu, 13 Feb 2020 22:50:50 +0000
+Message-Id: <20200213225109.13120-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <1581603905-21565-1-git-send-email-Filip.Bozuta@rt-rk.com>
- <1581603905-21565-3-git-send-email-Filip.Bozuta@rt-rk.com>
-In-Reply-To: <1581603905-21565-3-git-send-email-Filip.Bozuta@rt-rk.com>
-From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Date: Thu, 13 Feb 2020 23:47:48 +0100
-Message-ID: <CAL1e-=gbxdb7MC5zXOcv-XAdKA92N9eLLkmxEL2Nz9KE0O-+Ag@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] tests/tcg/multiarch: Add tests for implemented
- alsa sound timer ioctls
-To: Filip Bozuta <Filip.Bozuta@rt-rk.com>
-Content-Type: multipart/alternative; boundary="000000000000033671059e7ce206"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::343
+X-Received-From: 2a00:1450:4864:20::42d
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,116 +80,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, laurent@vivier.eu
+Cc: fam@euphon.net, berrange@redhat.com, robert.foley@linaro.org,
+ pbonzini@redhat.com, stefanb@linux.vnet.ibm.com,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ richard.henderson@linaro.org, f4bug@amsat.org, robhenry@microsoft.com,
+ marcandre.lureau@redhat.com, aaron@os.amperecomputing.com, cota@braap.org,
+ stefanha@redhat.com, kuhn.chenqun@huawei.com, peter.puhov@linaro.org,
+ aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000033671059e7ce206
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hi,
 
-3:26 PM =C4=8Cet, 13.02.2020. Filip Bozuta <Filip.Bozuta@rt-rk.com> =D1=98=
-=D0=B5
-=D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:
->
-> +int main(int argc, char **argv)
-> +{
-> +    char ioctls[15][35] =3D {"SNDRV_TIMER_IOCTL_PVERSION",
-> +                           "SNDRV_TIMER_IOCTL_INFO",
-> +                           "SNDRV_TIMER_IOCTL_NEXT_DEVICE",
-> +                           "SNDRV_TIMER_IOCTL_PARAMS",
-> +                           "SNDRV_TIMER_IOCTL_TREAD",
-> +                           "SNDRV_TIMER_IOCTL_STATUS",
-> +                           "SNDRV_TIMER_IOCTL_GINFO",
-> +                           "SNDRV_TIMER_IOCTL_START",
-> +                           "SNDRV_TIMER_IOCTL_GPARAMS",
-> +                           "SNDRV_TIMER_IOCTL_STOP",
-> +                           "SNDRV_TIMER_IOCTL_GSTATUS",
-> +                           "SNDRV_TIMER_IOCTL_CONTINUE",
-> +                           "SNDRV_TIMER_IOCTL_SELECT",
-> +                           "SNDRV_TIMER_IOCTL_PAUSE"};
-> +
-> +    bool (*const funcs[]) (int, bool) =3D {
-> +          test_pversion,
-> +          test_next_device,
-> +          test_tread,
-> +          test_ginfo,
-> +          test_gparams,
-> +          test_gstatus,
-> +          test_select,
-> +          test_info,
-> +          test_params,
-> +          test_status,
-> +          test_start,
-> +          test_pause,
-> +          test_continue,
-> +          test_stop,
-> +          NULL
-> +    };
-> +
+I've ended up combining my accumulated testing fixes with the plugin
+fixes as there is some cross-over between the two. On the testing side
+I still haven't seen rcutorture trip up on my branches but the final
+patch that light re-factors it needs to be reviewed. I've also added
+some fixes for pauth - both ensuring they compiler and tweaking
+pauth-4 to take into account the occasional authentication clashes.
 
-Order of these two arrays don't match, and that leads to the wrong choice
-of test function later on in the code. For example, if one chooses
-"SNDRV_TIMER_IOCTL_STATUS" in the command line, one will end up testing
-"SNDRV_TIMER_IOCTL_GSTATUS", if one chooses "SNDRV_TIMER_IOCTL_INFO", one
-will end up testing "SNDRV_TIMER_IOCTL_NEXT_DEVICE", etc. Nice feature
-(ability to test just a single ioctl), but it needs to be fixed.
+Plugin wise I have cleaned up the riscv parser to use extract16 where
+appropriate. We also managed to diagnose a bug in the address passing
+of the memory instrumentation which only showed up under alpha. The
+relevant patches have been Cc'ed to qemu-stable.
 
-Thanks,
-Aleksandar
+The following patches need review:
 
---000000000000033671059e7ce206
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: base64
+  tests/tcg: take into account expected clashes pauth-4
+  tests/tcg: fix typo in configure.sh test for v8.3
+  tcg: save vaddr temp for plugin usage
+  tests/tcg: give debug builds a little bit longer
+  tracing: only allow -trace to override -D if set
+  tests/iotests: be a little more forgiving on the size test
+  travis.yml: single-thread build-tcg stages
+  travis.yml: Fix Travis YAML configuration warnings
+  tests/rcutorture: mild documenting refactor of update thread
+  tests/tcg: include a skip runner for pauth3 with plugins
 
-PHAgZGlyPSJsdHIiPjwvcD4NCjxwIGRpcj0ibHRyIj4zOjI2IFBNIMSMZXQsIDEzLjAyLjIwMjAu
-IEZpbGlwIEJvenV0YSAmbHQ7PGEgaHJlZj0ibWFpbHRvOkZpbGlwLkJvenV0YUBydC1yay5jb20i
-PkZpbGlwLkJvenV0YUBydC1yay5jb208L2E+Jmd0OyDRmNC1INC90LDQv9C40YHQsNC+L9C70LA6
-PGJyPg0KJmd0Ozxicj4NCiZndDsgK2ludCBtYWluKGludCBhcmdjLCBjaGFyICoqYXJndik8YnI+
-DQomZ3Q7ICt7PGJyPg0KJmd0OyArwqAgwqAgY2hhciBpb2N0bHNbMTVdWzM1XSA9IHsmcXVvdDtT
-TkRSVl9USU1FUl9JT0NUTF9QVkVSU0lPTiZxdW90Oyw8YnI+DQomZ3Q7ICvCoCDCoCDCoCDCoCDC
-oCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCZxdW90O1NORFJWX1RJTUVSX0lPQ1RMX0lORk8m
-cXVvdDssPGJyPg0KJmd0OyArwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAg
-wqAmcXVvdDtTTkRSVl9USU1FUl9JT0NUTF9ORVhUX0RFVklDRSZxdW90Oyw8YnI+DQomZ3Q7ICvC
-oCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCZxdW90O1NORFJWX1RJTUVS
-X0lPQ1RMX1BBUkFNUyZxdW90Oyw8YnI+DQomZ3Q7ICvCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDC
-oCDCoCDCoCDCoCDCoCDCoCZxdW90O1NORFJWX1RJTUVSX0lPQ1RMX1RSRUFEJnF1b3Q7LDxicj4N
-CiZndDsgK8KgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgJnF1b3Q7U05E
-UlZfVElNRVJfSU9DVExfU1RBVFVTJnF1b3Q7LDxicj4NCiZndDsgK8KgIMKgIMKgIMKgIMKgIMKg
-IMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgJnF1b3Q7U05EUlZfVElNRVJfSU9DVExfR0lORk8mcXVv
-dDssPGJyPg0KJmd0OyArwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAm
-cXVvdDtTTkRSVl9USU1FUl9JT0NUTF9TVEFSVCZxdW90Oyw8YnI+DQomZ3Q7ICvCoCDCoCDCoCDC
-oCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCZxdW90O1NORFJWX1RJTUVSX0lPQ1RMX0dQ
-QVJBTVMmcXVvdDssPGJyPg0KJmd0OyArwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAg
-wqAgwqAgwqAmcXVvdDtTTkRSVl9USU1FUl9JT0NUTF9TVE9QJnF1b3Q7LDxicj4NCiZndDsgK8Kg
-IMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgJnF1b3Q7U05EUlZfVElNRVJf
-SU9DVExfR1NUQVRVUyZxdW90Oyw8YnI+DQomZ3Q7ICvCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDC
-oCDCoCDCoCDCoCDCoCDCoCZxdW90O1NORFJWX1RJTUVSX0lPQ1RMX0NPTlRJTlVFJnF1b3Q7LDxi
-cj4NCiZndDsgK8KgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgJnF1b3Q7
-U05EUlZfVElNRVJfSU9DVExfU0VMRUNUJnF1b3Q7LDxicj4NCiZndDsgK8KgIMKgIMKgIMKgIMKg
-IMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgJnF1b3Q7U05EUlZfVElNRVJfSU9DVExfUEFVU0Um
-cXVvdDt9Ozxicj4NCiZndDsgKzxicj4NCiZndDsgK8KgIMKgIGJvb2wgKCpjb25zdCBmdW5jc1td
-KSAoaW50LCBib29sKSA9IHs8YnI+DQomZ3Q7ICvCoCDCoCDCoCDCoCDCoCB0ZXN0X3B2ZXJzaW9u
-LDxicj4NCiZndDsgK8KgIMKgIMKgIMKgIMKgIHRlc3RfbmV4dF9kZXZpY2UsPGJyPg0KJmd0OyAr
-wqAgwqAgwqAgwqAgwqAgdGVzdF90cmVhZCw8YnI+DQomZ3Q7ICvCoCDCoCDCoCDCoCDCoCB0ZXN0
-X2dpbmZvLDxicj4NCiZndDsgK8KgIMKgIMKgIMKgIMKgIHRlc3RfZ3BhcmFtcyw8YnI+DQomZ3Q7
-ICvCoCDCoCDCoCDCoCDCoCB0ZXN0X2dzdGF0dXMsPGJyPg0KJmd0OyArwqAgwqAgwqAgwqAgwqAg
-dGVzdF9zZWxlY3QsPGJyPg0KJmd0OyArwqAgwqAgwqAgwqAgwqAgdGVzdF9pbmZvLDxicj4NCiZn
-dDsgK8KgIMKgIMKgIMKgIMKgIHRlc3RfcGFyYW1zLDxicj4NCiZndDsgK8KgIMKgIMKgIMKgIMKg
-IHRlc3Rfc3RhdHVzLDxicj4NCiZndDsgK8KgIMKgIMKgIMKgIMKgIHRlc3Rfc3RhcnQsPGJyPg0K
-Jmd0OyArwqAgwqAgwqAgwqAgwqAgdGVzdF9wYXVzZSw8YnI+DQomZ3Q7ICvCoCDCoCDCoCDCoCDC
-oCB0ZXN0X2NvbnRpbnVlLDxicj4NCiZndDsgK8KgIMKgIMKgIMKgIMKgIHRlc3Rfc3RvcCw8YnI+
-DQomZ3Q7ICvCoCDCoCDCoCDCoCDCoCBOVUxMPGJyPg0KJmd0OyArwqAgwqAgfTs8YnI+DQomZ3Q7
-ICs8L3A+DQo8cCBkaXI9Imx0ciI+T3JkZXIgb2YgdGhlc2UgdHdvIGFycmF5cyBkb24mIzM5O3Qg
-bWF0Y2gsIGFuZCB0aGF0IGxlYWRzIHRvIHRoZSB3cm9uZyBjaG9pY2Ugb2YgdGVzdCBmdW5jdGlv
-biBsYXRlciBvbiBpbiB0aGUgY29kZS4gRm9yIGV4YW1wbGUsIGlmIG9uZSBjaG9vc2VzICZxdW90
-O1NORFJWX1RJTUVSX0lPQ1RMX1NUQVRVUyZxdW90OyBpbiB0aGUgY29tbWFuZCBsaW5lLCBvbmUg
-d2lsbCBlbmQgdXAgdGVzdGluZyAmcXVvdDtTTkRSVl9USU1FUl9JT0NUTF9HU1RBVFVTJnF1b3Q7
-LCBpZiBvbmUgY2hvb3NlcyAmcXVvdDtTTkRSVl9USU1FUl9JT0NUTF9JTkZPJnF1b3Q7LCBvbmUg
-d2lsbCBlbmQgdXAgdGVzdGluZyAmcXVvdDtTTkRSVl9USU1FUl9JT0NUTF9ORVhUX0RFVklDRSZx
-dW90OywgZXRjLiBOaWNlIGZlYXR1cmUgKGFiaWxpdHkgdG8gdGVzdCBqdXN0IGEgc2luZ2xlIGlv
-Y3RsKSwgYnV0IGl0IG5lZWRzIHRvIGJlIGZpeGVkLjwvcD4NCjxwIGRpcj0ibHRyIj5UaGFua3Ms
-PGJyPg0KQWxla3NhbmRhcjwvcD4NCg==
---000000000000033671059e7ce206--
+Alex Bennée (13):
+  tests/tcg: include a skip runner for pauth3 with plugins
+  tests/rcutorture: update usage hint
+  tests/rcutorture: better document locking of stats
+  tests/rcutorture: mild documenting refactor of update thread
+  travis.yml: single-thread build-tcg stages
+  tests/iotests: be a little more forgiving on the size test
+  tracing: only allow -trace to override -D if set
+  docs/devel: document query handle lifetimes
+  target/riscv: progressively load the instruction during decode
+  tests/plugins: make howvec clean-up after itself.
+  tests/tcg: give debug builds a little bit longer
+  tests/tcg: fix typo in configure.sh test for v8.3
+  tests/tcg: take into account expected clashes pauth-4
+
+Chen Qun (1):
+  tests/plugin: prevent uninitialized warning
+
+Emilio G. Cota (1):
+  plugins/core: add missing break in cb_to_tcg_flags
+
+Richard Henderson (1):
+  tcg: save vaddr temp for plugin usage
+
+Thomas Huth (1):
+  travis.yml: Test the s390-ccw build, too
+
+Wainer dos Santos Moschetta (1):
+  travis.yml: Fix Travis YAML configuration warnings
+
+Yoshinori Sato (1):
+  qemu/bitops.h: Add extract8 and extract16
+
+ docs/devel/tcg-plugins.rst                | 13 +++++-
+ include/qemu/bitops.h                     | 38 ++++++++++++++++
+ target/riscv/instmap.h                    |  8 ++--
+ plugins/core.c                            |  1 +
+ target/riscv/translate.c                  | 40 +++++++++--------
+ tcg/tcg-op.c                              | 23 ++++++++--
+ tests/plugin/bb.c                         |  6 +--
+ tests/plugin/howvec.c                     | 26 +++++++----
+ tests/plugin/insn.c                       |  3 +-
+ tests/rcutorture.c                        | 55 +++++++++++++++++------
+ tests/tcg/aarch64/pauth-4.c               | 54 +++++++++++++++-------
+ trace/control.c                           | 11 +++--
+ .travis.yml                               | 23 +++++++---
+ tests/qemu-iotests/214                    |  4 +-
+ tests/tcg/Makefile.target                 |  4 +-
+ tests/tcg/aarch64/Makefile.softmmu-target |  2 +
+ tests/tcg/configure.sh                    |  2 +-
+ 17 files changed, 225 insertions(+), 88 deletions(-)
+
+-- 
+2.20.1
+
 
