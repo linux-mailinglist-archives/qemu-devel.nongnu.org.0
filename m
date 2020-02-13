@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DA6F15C0A4
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 15:47:33 +0100 (CET)
-Received: from localhost ([::1]:53812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA06715C0BC
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 15:55:42 +0100 (CET)
+Received: from localhost ([::1]:53994 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j2Fm0-0001Ng-CZ
-	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 09:47:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60092)
+	id 1j2Fu1-0003n9-Sb
+	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 09:55:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60128)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j2Fgj-0004Ax-Ae
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 09:41:58 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1j2Fgk-0004BZ-El
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 09:41:59 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j2Fgh-0001RY-Sb
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 09:41:57 -0500
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:36554)
+ (envelope-from <peter.maydell@linaro.org>) id 1j2Fgj-0001Ut-2r
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 09:41:58 -0500
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:51272)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j2Fgh-0001M0-KZ
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 09:41:55 -0500
-Received: by mail-wm1-x32e.google.com with SMTP id p17so7025003wma.1
- for <qemu-devel@nongnu.org>; Thu, 13 Feb 2020 06:41:55 -0800 (PST)
+ id 1j2Fgi-0001PE-RN
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 09:41:57 -0500
+Received: by mail-wm1-x331.google.com with SMTP id t23so6543016wmi.1
+ for <qemu-devel@nongnu.org>; Thu, 13 Feb 2020 06:41:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=GmFMEgF1fTeT3DdHq7kQLyhzWA5CJUtbhKey5Au3480=;
- b=daqrNIt3h3x46atj8KbW8eEIA2rqZjU296ow02AF3dyR4M2spYuFPicdtdT75p2phv
- N3fK2hn5AFHgzI50pEAguGSfizhtBqKoC8mrsPrCnedtKYvh+wNU7K88JEL7qgngyqyE
- ElE4aJPBeulgivC57KmRzZ9pdxhd6m9SxlqQih3WFxoYXoHDxj/8EzjezcFSb5qKpENF
- M/bjuLHaNq4nw+McPxKhaHghCFnuvaH5YD0gePwT2QlZoxg/PfI0veCW0iG+p7hCsHi2
- eNvtbJWS2+nPZBMySWAADEENEUEIEQj8Hndwk0WfR36iKVejibac6G2VeUMxenAIZ8ip
- gmvA==
+ bh=yohK9fa0GtpK0dTMm8tvPjd2OMeAkG47tGbSwUeB+Fk=;
+ b=J+oXnFnBRNGSedUedeFmSvNuAQdP+1GD0qZwVe4yRz/BN7Z/LG7X1ui9LwdRUrU6r+
+ gDH+a/c9rMOdaU+r5dCVfksGCYWlhqdf8CmwxKRkXD/+Wqf5Xqg2fZoM8F3+IMQb9+z8
+ 4cv6g/gxlqOYx2inwgwPUm6chDN6pbUBENbhc7V5O2x2aXTeJ+LbEHiWs6sE/PwuPmvo
+ J6Um9nkD0V3hXLaCmnxLY/ckDnfjt4+DOa9PJmySbp+/oe6VfEJ/oG8l18RCTqgc9Is9
+ MswuTHhsSZZsTi5DD+lnQ0IdrNs86rL6FP9aredvqbj+M7JWQhOAKRvQ+Kkq60kzqzso
+ zDWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=GmFMEgF1fTeT3DdHq7kQLyhzWA5CJUtbhKey5Au3480=;
- b=rkQrZbjJO4bjZkQ+YeuSBxs1N7iBcUfLhwl05ybDBUZ7X5PIr8/dKdXMgOJrjeYi2X
- 5aY9pQOdrUIN4fPdTPjY7JzCA6k512j0wIw/Y11rWrZ9d96QDY2f4uvlhBqp+i/7+mE2
- fO7DuJBnHdN8PqWn6otc9X4jMhkLAHHkyBiasIDkwaT+3AaA0BCOs4jbdLYV93f3Pdl2
- mOLdInuq7p+ZC4qJVGbzCueSavraqneRmcwgehQg40xZLNrTkSSUfphIVoiM5uDogxvf
- OxhSkyfpQ4UZBY41t6F/eRQsOZSXO8mdNr3o8qpItwHY5OlTW29dgon7iVCum8dIUyFI
- 6ZDg==
-X-Gm-Message-State: APjAAAXsl34j/AUlvH5KbycAWSd2mw2SZlnl5dAwTuxwh9zIFztSPMh1
- goiz6CLd8DyCeKqYJKg+0eZXDhe+yes=
-X-Google-Smtp-Source: APXvYqzsMru86Gdh+uUmBFf4cMofnhAcfSxno0HZ2Mc11D4tVSnb6pxHA0vuH04zETqPEGoqkvtlrQ==
-X-Received: by 2002:a7b:cbc8:: with SMTP id n8mr6250499wmi.35.1581604912311;
- Thu, 13 Feb 2020 06:41:52 -0800 (PST)
+ bh=yohK9fa0GtpK0dTMm8tvPjd2OMeAkG47tGbSwUeB+Fk=;
+ b=qeghM/qLY1urm6q8LB9J2CYeDYRVRgtdSvq//VrsBVxq+JG8XLMEnQdKT6hF7V1isq
+ KnMnUffH3mRJ6g64nb5f2taGJz1F4uRS4d6DW7yigpTb+6mFlamTMYQkmBUcnXeGx2Q7
+ R+e00q5o2q56WZLRzKvJYRWOfVAZYHdLY/O9xZc0EZNuplh0ZrzKlowUpyxXbtClZeOl
+ B30DrpJnlwV5oxuj1iOeLQjSycp43g4U6mT93wbdmAHvvVNT+kpx+OPjHWTr52Rd5cky
+ xFdov0f28qsrRy8X44N9dn0tGLggLjFG0E87Finp6/VJEY3iColfsBfuZJqkcCNdQW/9
+ D2AQ==
+X-Gm-Message-State: APjAAAXNudBn0YJvzLuZmXbrcU462iIXJLBNL2i37AlLeSASGjzsH/Fk
+ aSrXYieR3krd4SUxHUsrxXFBqdw5v+U=
+X-Google-Smtp-Source: APXvYqxI/1IJNDwCQnquqhsoWWSsYBTTdtRhh9pqDGnVx9QzYDRuiSwoWmaKBrgNpVAIp8UXNYZmWQ==
+X-Received: by 2002:a05:600c:211:: with SMTP id
+ 17mr6139910wmi.60.1581604913529; 
+ Thu, 13 Feb 2020 06:41:53 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id e22sm3362454wme.45.2020.02.13.06.41.51
+ by smtp.gmail.com with ESMTPSA id e22sm3362454wme.45.2020.02.13.06.41.52
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Feb 2020 06:41:51 -0800 (PST)
+ Thu, 13 Feb 2020 06:41:52 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 04/46] arm/virt/acpi: remove meaningless sub device "RP0" from
- PCI0
-Date: Thu, 13 Feb 2020 14:41:03 +0000
-Message-Id: <20200213144145.818-5-peter.maydell@linaro.org>
+Subject: [PULL 05/46] arm/virt/acpi: remove _ADR from devices identified by
+ _HID
+Date: Thu, 13 Feb 2020 14:41:04 +0000
+Message-Id: <20200213144145.818-6-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200213144145.818-1-peter.maydell@linaro.org>
 References: <20200213144145.818-1-peter.maydell@linaro.org>
@@ -67,7 +68,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32e
+X-Received-From: 2a00:1450:4864:20::331
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,33 +85,68 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Heyi Guo <guoheyi@huawei.com>
 
-The sub device "RP0" under PCI0 in ACPI/DSDT does not contain any
-method or property other than "_ADR", so it is safe to remove it.
+According to ACPI spec, _ADR should be used for device on a bus that
+has a standard enumeration algorithm, but not for device which is on
+system bus and must be enumerated by OSPM. And it is not recommended
+to contain both _HID and _ADR in a single device.
+
+See ACPI 6.3, section 6.1, top of page 343:
+
+A device object must contain either an _HID object or an _ADR object,
+but should not contain both.
+
+(https://uefi.org/sites/default/files/resources/ACPI_6_3_May16.pdf)
 
 Signed-off-by: Heyi Guo <guoheyi@huawei.com>
-Acked-by: "Michael S. Tsirkin" <mst@redhat.com>
+Acked-by: Igor Mammedov <imammedo@redhat.com>
+Acked-by: Michael S. Tsirkin <mst@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Message-id: 20200204014325.16279-3-guoheyi@huawei.com
+Message-id: 20200204014325.16279-4-guoheyi@huawei.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/virt-acpi-build.c | 4 ----
- 1 file changed, 4 deletions(-)
+ hw/arm/virt-acpi-build.c | 8 --------
+ 1 file changed, 8 deletions(-)
 
 diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
-index bd5f771e9be..9f4c7d1889c 100644
+index 9f4c7d1889c..be752c0ad8e 100644
 --- a/hw/arm/virt-acpi-build.c
 +++ b/hw/arm/virt-acpi-build.c
-@@ -317,10 +317,6 @@ static void acpi_dsdt_add_pci(Aml *scope, const MemMapEntry *memmap,
-     aml_append(method, aml_return(buf));
-     aml_append(dev, method);
+@@ -78,11 +78,6 @@ static void acpi_dsdt_add_uart(Aml *scope, const MemMapEntry *uart_memmap,
+                              AML_EXCLUSIVE, &uart_irq, 1));
+     aml_append(dev, aml_name_decl("_CRS", crs));
  
--    Aml *dev_rp0 = aml_device("%s", "RP0");
--    aml_append(dev_rp0, aml_name_decl("_ADR", aml_int(0)));
--    aml_append(dev, dev_rp0);
+-    /* The _ADR entry is used to link this device to the UART described
+-     * in the SPCR table, i.e. SPCR.base_address.address == _ADR.
+-     */
+-    aml_append(dev, aml_name_decl("_ADR", aml_int(uart_memmap->base)));
 -
-     Aml *dev_res0 = aml_device("%s", "RES0");
-     aml_append(dev_res0, aml_name_decl("_HID", aml_string("PNP0C02")));
-     crs = aml_resource_template();
+     aml_append(scope, dev);
+ }
+ 
+@@ -170,7 +165,6 @@ static void acpi_dsdt_add_pci(Aml *scope, const MemMapEntry *memmap,
+     aml_append(dev, aml_name_decl("_CID", aml_string("PNP0A03")));
+     aml_append(dev, aml_name_decl("_SEG", aml_int(0)));
+     aml_append(dev, aml_name_decl("_BBN", aml_int(0)));
+-    aml_append(dev, aml_name_decl("_ADR", aml_int(0)));
+     aml_append(dev, aml_name_decl("_UID", aml_string("PCI0")));
+     aml_append(dev, aml_name_decl("_STR", aml_unicode("PCIe 0 Device")));
+     aml_append(dev, aml_name_decl("_CCA", aml_int(1)));
+@@ -334,7 +328,6 @@ static void acpi_dsdt_add_gpio(Aml *scope, const MemMapEntry *gpio_memmap,
+ {
+     Aml *dev = aml_device("GPO0");
+     aml_append(dev, aml_name_decl("_HID", aml_string("ARMH0061")));
+-    aml_append(dev, aml_name_decl("_ADR", aml_int(0)));
+     aml_append(dev, aml_name_decl("_UID", aml_int(0)));
+ 
+     Aml *crs = aml_resource_template();
+@@ -364,7 +357,6 @@ static void acpi_dsdt_add_power_button(Aml *scope)
+ {
+     Aml *dev = aml_device(ACPI_POWER_BUTTON_DEVICE);
+     aml_append(dev, aml_name_decl("_HID", aml_string("PNP0C0C")));
+-    aml_append(dev, aml_name_decl("_ADR", aml_int(0)));
+     aml_append(dev, aml_name_decl("_UID", aml_int(0)));
+     aml_append(scope, dev);
+ }
 -- 
 2.20.1
 
