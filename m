@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1854F15C0B0
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 15:50:33 +0100 (CET)
-Received: from localhost ([::1]:53872 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AE8615C08C
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 15:44:39 +0100 (CET)
+Received: from localhost ([::1]:53726 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j2Fp2-00055x-2W
-	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 09:50:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60072)
+	id 1j2FjK-0005uT-Jz
+	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 09:44:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60062)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j2Fgi-0004Av-RU
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 09:41:58 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1j2Fgi-0004At-Io
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 09:41:57 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j2Fgh-0001Qh-Fr
+ (envelope-from <peter.maydell@linaro.org>) id 1j2Fgh-0001QH-Cv
  for qemu-devel@nongnu.org; Thu, 13 Feb 2020 09:41:56 -0500
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:40369)
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:40363)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j2Fgh-0001GD-5P
+ id 1j2Fgg-0001Jw-3X
  for qemu-devel@nongnu.org; Thu, 13 Feb 2020 09:41:55 -0500
-Received: by mail-wr1-x432.google.com with SMTP id t3so6978624wru.7
- for <qemu-devel@nongnu.org>; Thu, 13 Feb 2020 06:41:51 -0800 (PST)
+Received: by mail-wr1-x42b.google.com with SMTP id t3so6978710wru.7
+ for <qemu-devel@nongnu.org>; Thu, 13 Feb 2020 06:41:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=kec+6YUQYfqYLzCYTZScAog/TIHEyy7ZDa+Goaadib4=;
- b=PbX0qO5sj8ysdGwyoOnslIPqIYt5Q3QW5o238rnLWVMmBUPFKUcriZWP9xES/Yfc5L
- 3yHOU41e/cguUoRHgvQk/FQEAZDe24odCEjHnMp45cDNn6AZlk7A87Zl6/9fW5/uP2Fm
- w4rIgLcZxC8FnhDi6nGVjNjhyld+qb2YxUosjhffkd0E3K0U+lvOuIjEZbVJgAFdK4RS
- TTKdSfK1mlbPzCr0tKPBvRLy7NTD3qtIoUEcGRtYtBXlsa7BcYpV1nOs6b+rLK7K73pi
- 4UOaqqm5bCR59XqSxNp6djI4g4ILx7KJHds8Ut/oEUmPw0urevokxoMbpOpQkjkoUDsN
- 4tLg==
+ bh=5QW6Q1EJKNnfHRnGkMMq3g240uRrMtzhye8Daf9kap0=;
+ b=pzwh0JRNzbgzXLuIIOn36aAf5N0rkLo+dd+BOgXKPjML24IRd/apN5rEnlhmkTkH9X
+ fD69ZSNML4jKlH6+pK6Odcv+oWJ/uYoY6TWtpUQxLoXEUGYthpmh5eB78Pmql+zwfpv8
+ qP6dH3yH8Da1s+fA6KNjSVwvN58uI1ysrMAm0WQIDeONXGe08lmJZPjwwuIMewTHxF3+
+ ttSEPFtbXKiZNGNBvOvtD1H8OSQYRXZFN64wHJ+o8n31BuIGp+XhUslFQkAIa7zWdeZT
+ E+TY4BNvTRII0QV5RXkli2vhb5R2A3x69R79oouTYcceFFMiEitKGjzQConhecEu9VuP
+ wrXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=kec+6YUQYfqYLzCYTZScAog/TIHEyy7ZDa+Goaadib4=;
- b=IeAjZ4Im7DatevAXf4Nyb8Fzwu5xZVuS1cTbOiO5ASqB3mSJpq4U4VV+WQ3UPBJFkp
- fRHZ2m4Lt+FAeDFa4S1SwVXaoOcw5I4Wxi99KWG60KMcMyH105p1QSC57LiSext8D5ec
- HD2ACaUST5ZbpR7pqs71ubHVVeDlVXDzMQPjr2XvTDd+wT5/AEorZlsaGGr1Kclte/bI
- AAfUmQiNGlVv255EbtfWJJL9zO5cDCHgpprhNQteT4xzqejXi0rWs3YILZx+OiLIfvaJ
- wnBSYHfT90ml2Fq4RKtaZtltU3OAjw5Y3YxUgZ46jKWb+aBFNDiAFuoLmwQ5uQBAIU/2
- FVfg==
-X-Gm-Message-State: APjAAAUmSxRC3Ne/w6kmFb9/ujbXPmCmR2zpRKEdfekhfObS+FZLF2FK
- NEm3N9M8vgWSvhW+ggmkcBdVfA0WCrs=
-X-Google-Smtp-Source: APXvYqwvvQaeclkoFGqzmfO2NBPyFaFetpXzOwQm36Imw5cR+prg4nBn1nJ3Pm3epPMZfHNCoaTPqA==
-X-Received: by 2002:adf:e781:: with SMTP id n1mr23601555wrm.56.1581604910108; 
- Thu, 13 Feb 2020 06:41:50 -0800 (PST)
+ bh=5QW6Q1EJKNnfHRnGkMMq3g240uRrMtzhye8Daf9kap0=;
+ b=eBGj8Xpobzkm4vuP2gdqJULZKCsZiwco15J5Df0j9swxSM8VS2VY4wRarwvs35baqp
+ Wm+kwrQczO/Tm5GEXKApFqd+SseV5XRU5VZQiTe1+zB40LElJMM/xOAs8QnlgSkIyyVj
+ h/KGF8CKUCuKlUUS0ebyyoOhL4RRwAOlG6E6Ik6g7jU1NmzMyI9RPjNss3FeaKRCDE0P
+ SMKtw5ebPWUCgYzwx6ZRb8B++wnrrWUSWGe46PgUTf21W8SImoOaMgBODJRkAu1pngUI
+ sxh8fBO+JfsFi8C034ieDWSLzJKCBC0FiVRtWMvCYtcLdgnklkcfSeC9FIojocWzttia
+ pc4Q==
+X-Gm-Message-State: APjAAAWvkS+LJh0jviOt4UlDmDNBfcJyjghrCmeMjLP4xFf0w5EOY5jD
+ 9136cdDzEz2dvL/APeyeWWdwXULk3Uc=
+X-Google-Smtp-Source: APXvYqztGyu3s8i3X8xYVHfovkIMdiGVfNGYiHwr5RYvXd5RKA4df+qv8ehBTQk/tFNr+SE1E/+8ig==
+X-Received: by 2002:adf:f986:: with SMTP id f6mr23124895wrr.182.1581604911259; 
+ Thu, 13 Feb 2020 06:41:51 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id e22sm3362454wme.45.2020.02.13.06.41.49
+ by smtp.gmail.com with ESMTPSA id e22sm3362454wme.45.2020.02.13.06.41.50
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Feb 2020 06:41:49 -0800 (PST)
+ Thu, 13 Feb 2020 06:41:50 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/46] i.MX: Add support for WDT on i.MX6
-Date: Thu, 13 Feb 2020 14:41:01 +0000
-Message-Id: <20200213144145.818-3-peter.maydell@linaro.org>
+Subject: [PULL 03/46] bios-tables-test: prepare to change ARM virt ACPI DSDT
+Date: Thu, 13 Feb 2020 14:41:02 +0000
+Message-Id: <20200213144145.818-4-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200213144145.818-1-peter.maydell@linaro.org>
 References: <20200213144145.818-1-peter.maydell@linaro.org>
@@ -66,7 +66,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::432
+X-Received-From: 2a00:1450:4864:20::42b
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,87 +81,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Roman Kapl <rka@sysgo.com>
+From: Heyi Guo <guoheyi@huawei.com>
 
-Uses the i.MX2 rudimentary watchdog driver.
+We are going to change ARM virt ACPI DSDT table, which will cause make
+check to fail, so temporarily add related golden masters to ignore
+list.
 
-Signed-off-by: Roman Kapl <rka@sysgo.com>
-Message-id: 20200207095529.11309-1-rka@sysgo.com
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-[PMM: removed accidental duplicate #include line]
+Signed-off-by: Heyi Guo <guoheyi@huawei.com>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+Message-id: 20200204014325.16279-2-guoheyi@huawei.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/hw/arm/fsl-imx6.h |  3 +++
- hw/arm/fsl-imx6.c         | 21 +++++++++++++++++++++
- 2 files changed, 24 insertions(+)
+ tests/qtest/bios-tables-test-allowed-diff.h | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/include/hw/arm/fsl-imx6.h b/include/hw/arm/fsl-imx6.h
-index 1265a55c3b0..60eadccb421 100644
---- a/include/hw/arm/fsl-imx6.h
-+++ b/include/hw/arm/fsl-imx6.h
-@@ -21,6 +21,7 @@
- #include "hw/cpu/a9mpcore.h"
- #include "hw/misc/imx6_ccm.h"
- #include "hw/misc/imx6_src.h"
-+#include "hw/misc/imx2_wdt.h"
- #include "hw/char/imx_serial.h"
- #include "hw/timer/imx_gpt.h"
- #include "hw/timer/imx_epit.h"
-@@ -42,6 +43,7 @@
- #define FSL_IMX6_NUM_GPIOS 7
- #define FSL_IMX6_NUM_ESDHCS 4
- #define FSL_IMX6_NUM_ECSPIS 5
-+#define FSL_IMX6_NUM_WDTS 2
- 
- typedef struct FslIMX6State {
-     /*< private >*/
-@@ -59,6 +61,7 @@ typedef struct FslIMX6State {
-     IMXGPIOState   gpio[FSL_IMX6_NUM_GPIOS];
-     SDHCIState     esdhc[FSL_IMX6_NUM_ESDHCS];
-     IMXSPIState    spi[FSL_IMX6_NUM_ECSPIS];
-+    IMX2WdtState   wdt[FSL_IMX6_NUM_WDTS];
-     IMXFECState    eth;
-     MemoryRegion   rom;
-     MemoryRegion   caam;
-diff --git a/hw/arm/fsl-imx6.c b/hw/arm/fsl-imx6.c
-index 552145b24ec..ecc62855f2b 100644
---- a/hw/arm/fsl-imx6.c
-+++ b/hw/arm/fsl-imx6.c
-@@ -91,6 +91,12 @@ static void fsl_imx6_init(Object *obj)
-         sysbus_init_child_obj(obj, name, &s->spi[i], sizeof(s->spi[i]),
-                               TYPE_IMX_SPI);
-     }
-+    for (i = 0; i < FSL_IMX6_NUM_WDTS; i++) {
-+        snprintf(name, NAME_SIZE, "wdt%d", i);
-+        sysbus_init_child_obj(obj, name, &s->wdt[i], sizeof(s->wdt[i]),
-+                              TYPE_IMX2_WDT);
-+    }
-+
- 
-     sysbus_init_child_obj(obj, "eth", &s->eth, sizeof(s->eth), TYPE_IMX_ENET);
- }
-@@ -383,6 +389,21 @@ static void fsl_imx6_realize(DeviceState *dev, Error **errp)
-                        qdev_get_gpio_in(DEVICE(&s->a9mpcore),
-                                         FSL_IMX6_ENET_MAC_1588_IRQ));
- 
-+    /*
-+     * Watchdog
-+     */
-+    for (i = 0; i < FSL_IMX6_NUM_WDTS; i++) {
-+        static const hwaddr FSL_IMX6_WDOGn_ADDR[FSL_IMX6_NUM_WDTS] = {
-+            FSL_IMX6_WDOG1_ADDR,
-+            FSL_IMX6_WDOG2_ADDR,
-+        };
-+
-+        object_property_set_bool(OBJECT(&s->wdt[i]), true, "realized",
-+                                 &error_abort);
-+
-+        sysbus_mmio_map(SYS_BUS_DEVICE(&s->wdt[i]), 0, FSL_IMX6_WDOGn_ADDR[i]);
-+    }
-+
-     /* ROM memory */
-     memory_region_init_rom(&s->rom, NULL, "imx6.rom",
-                            FSL_IMX6_ROM_SIZE, &err);
+diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
+index dfb8523c8bf..32a401ae35f 100644
+--- a/tests/qtest/bios-tables-test-allowed-diff.h
++++ b/tests/qtest/bios-tables-test-allowed-diff.h
+@@ -1 +1,4 @@
+ /* List of comma-separated changed AML files to ignore */
++"tests/data/acpi/virt/DSDT",
++"tests/data/acpi/virt/DSDT.memhp",
++"tests/data/acpi/virt/DSDT.numamem",
 -- 
 2.20.1
 
