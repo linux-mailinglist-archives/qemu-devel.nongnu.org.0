@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BBAF15C9FC
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 19:09:45 +0100 (CET)
-Received: from localhost ([::1]:57358 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0B1E15CA23
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 19:18:37 +0100 (CET)
+Received: from localhost ([::1]:57560 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j2Ivo-0000Dj-Ds
-	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 13:09:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34321)
+	id 1j2J4O-0002jV-DO
+	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 13:18:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34338)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j2Ijr-0000lh-9E
+ (envelope-from <peter.maydell@linaro.org>) id 1j2Ijr-0000mL-HN
  for qemu-devel@nongnu.org; Thu, 13 Feb 2020 12:57:24 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j2Ijp-00035U-QI
+ (envelope-from <peter.maydell@linaro.org>) id 1j2Ijp-00035l-T4
  for qemu-devel@nongnu.org; Thu, 13 Feb 2020 12:57:23 -0500
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:41524)
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:33657)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j2Ijp-00030B-J8
+ id 1j2Ijp-00033Q-Km
  for qemu-devel@nongnu.org; Thu, 13 Feb 2020 12:57:21 -0500
-Received: by mail-wr1-x42b.google.com with SMTP id c9so7823149wrw.8
- for <qemu-devel@nongnu.org>; Thu, 13 Feb 2020 09:57:20 -0800 (PST)
+Received: by mail-wr1-x42d.google.com with SMTP id u6so7849583wrt.0
+ for <qemu-devel@nongnu.org>; Thu, 13 Feb 2020 09:57:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=nWSMAlzi0oMRfWAEf8TA2pk4lWoUJVNUT6Q1IhJAJTw=;
- b=YIRE4jcK+0fjtmEQLEKh2kjaNrFYZxoyMYdp0YERwobrCTt+GIEMZ/lvNAduuK+83e
- LxcTVAxN+wPUFxfYcM66Bsz360iKWx8IoTTHlPwHR0duhoiCqf7V25D4Aq9KEhJcO1bB
- kANvVgdKYSMxDv7G0CTD8C+EIbIAmcjlstf+yfCM4vXH9IewdXkI8cSOb18yCSX35Okk
- iNI04V/y5VhKLs1wj68gPOIyf/R28wZpFJkHIsXSq2diosuFLNQPHyOFphowKsdcTU1Q
- xPuEP5Z35qQDwE8906fh0WJYTY0yTaOroSckfg+iYaRIQH4plPr0CNUZRBKOyA5xHR/O
- dIaA==
+ bh=wpXd5QxscHZ5Ze+pVlbaJlNdMe0Q3RlgSzZJLeNwcSk=;
+ b=UirwSC0WPnPtZx8dyMewg+fuLEeN+VYHty+qCll09IjdIfyajD7PMeU1cJRH77Lu+h
+ UchqNPNSDpKlaYqzlTt/gQwtrO11jv5SQW6/irbQpeaIhD3uEhXIMl4/Wp41zt8TiRt/
+ fhKcLPLu7unjaYUWm5g8/AByhV6CALsNBGzkhVc/SeIDYYc2UDUVRF4XMhMZV9NKMgrr
+ HB1ocjka/MNnMy2eYI23wYgOqe7SDZydT1tu43J1mLEqYlR5fjGjDSEaRENeCafxYiF3
+ 1whPVv/izr0zoTE7KsN2MCSJJ0Ma4CfjcU2dhJxINJfjgAC0iOSxZ6s7EZlJ2oH4cpmV
+ An5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=nWSMAlzi0oMRfWAEf8TA2pk4lWoUJVNUT6Q1IhJAJTw=;
- b=DqkhTT2bcviYm0T8G0zsNHYlZJFZsUcGPrFvUe1Cjqky2kCug62DuuI5NsIKeM4XAS
- mCIxlJFWdMirnToidViMoL3KLYzDB9DTfve8UujySEPcXJCXpvHR1u5mkE2ugDgEOukI
- zS7HfwhYOXQWy7LBnREzs9Gz7vlohYG4Eyap4Pt4XuJQWrmX211VidBWOzRDsgU9+XKl
- t4RUrfp6cr3oQ4k8U8UAwbufDZrJ/ejQd8PmNEV2AgOgosr1t7gDZ67prxoD2DQlugmu
- i5ewdz6RagAJQTp4kY9E6FmeutLs6uKsio/Lxs8B+6nfEP0ATVXcw+O4TEkIwRNlsVQ5
- EuBQ==
-X-Gm-Message-State: APjAAAUp3T9/lCmcy0VZfn94ebvDNp2wBCAutj0rjmE7VCT9rEQwa9Y2
- dxSUCoKmqwFIjANZbn94jeOgSIpLTa0=
-X-Google-Smtp-Source: APXvYqy96OB83DLNVXKqm6ESXGIib2d6iQEIwmAr+OrkP87HW2kY5ROT5F7gOvE7QX589jiuc1dKhg==
-X-Received: by 2002:adf:b60f:: with SMTP id f15mr23945099wre.372.1581616639294; 
- Thu, 13 Feb 2020 09:57:19 -0800 (PST)
+ bh=wpXd5QxscHZ5Ze+pVlbaJlNdMe0Q3RlgSzZJLeNwcSk=;
+ b=ACe/qlWSFAbWxzlDYlDw107rnVHl5ADLxJxclXVeaj5V9ete89A1K+brj1VC+qSDqF
+ tVIzgFdvp7pq4/vSBMypHsj8PiO3nXV+JbvUbGPRkVCRwaEh/w2f1RrZKQ0HM/D6/nGn
+ O7Ep+MBvOgVGXx5Re6GW7Vl9KswjwFNgorv4k+cSiMAOrBd8uyGOXGoC9wpsvZhF7VkH
+ 63lGDvgVmB3qq5cB9wVZb5LLcfHuVHB1lh44LrVdRWU/Ip1bdNVbZW9tiFRn7UjJSMIp
+ eBeirOPuGhbH/4QhhjXW+mAo9fwzpvWoGveP7TGec9V7BXB8v/phmdZN3Lg+NgsHWeJe
+ fzhg==
+X-Gm-Message-State: APjAAAUfdaGCjAa2+PCKEFmHCjXtN6LuKcWbvbXpe9tGxgAxCzAd2BCE
+ DolXdXvtdZus/+YcfbOuFVR1QNuHCu4=
+X-Google-Smtp-Source: APXvYqw0JLqOxAetbv1MciWoFRa+PvDZjQkct/q4n3ImEAQpbOreWsBOz88X+WgD6L6euW/zLWvlsQ==
+X-Received: by 2002:adf:ffc5:: with SMTP id x5mr23553063wrs.92.1581616640457; 
+ Thu, 13 Feb 2020 09:57:20 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id p26sm3692913wmc.24.2020.02.13.09.57.18
+ by smtp.gmail.com with ESMTPSA id p26sm3692913wmc.24.2020.02.13.09.57.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Feb 2020 09:57:18 -0800 (PST)
+ Thu, 13 Feb 2020 09:57:19 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 21/30] tests/qapi/doc-good.json: Clean up markup
-Date: Thu, 13 Feb 2020 17:56:38 +0000
-Message-Id: <20200213175647.17628-22-peter.maydell@linaro.org>
+Subject: [PATCH v2 22/30] scripts/qapi: Move doc-comment whitespace stripping
+ to doc.py
+Date: Thu, 13 Feb 2020 17:56:39 +0000
+Message-Id: <20200213175647.17628-23-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200213175647.17628-1-peter.maydell@linaro.org>
 References: <20200213175647.17628-1-peter.maydell@linaro.org>
@@ -65,7 +66,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42b
+X-Received-From: 2a00:1450:4864:20::42d
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,181 +85,146 @@ Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-doc-good.json tests some oddities of markup that we don't want to
-accept.  Make them match the more restrictive rST syntax:
+As we accumulate lines from doc comments when parsing the JSON, the
+QAPIDoc class generally strips leading and trailing whitespace using
+line.strip() when it calls _append_freeform().  This is fine for
+texinfo, but for rST leading whitespace is significant.  We'd like to
+move to having the text in doc comments be rST format rather than a
+custom syntax, so move the removal of leading whitespace from the
+QAPIDoc class to the texinfo-specific processing code in
+texi_format() in qapi/doc.py.
 
- * in a single list the bullet types must all match
- * lists must have leading and following blank lines
- * indentation is important
- * the '|' example syntax is going to go away entirely, so stop
-   testing it
+(Trailing whitespace will always be stripped by the rstrip() in
+Section::append regardless.)
 
-This will avoid the tests spuriously breaking when we tighten up the
-parser code in the following commits.
+In a followup commit we will make the whitespace in the lines of doc
+comment sections more consistently follow the input source.
+
+There is no change to the generated .texi files before and after this
+commit.
+
+Because the qapi-schema test checks the exact values of the
+documentation comments against a reference, we need to update that
+reference to match the new whitespace.  In the first four places this
+is now correctly checking that we did put in the amount of whitespace
+to pass a rST-formatted list to the backend; in the last two places
+the extra whitespace is 'wrong' and will go away again in the
+following commit.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
-New patch in v2
+New in v2: update doc-good.out as noted in final para of commit msg
 ---
- tests/qapi-schema/doc-good.json | 25 +++++++++++++------------
- tests/qapi-schema/doc-good.out  | 12 ++++++------
- tests/qapi-schema/doc-good.texi | 12 +++---------
- 3 files changed, 22 insertions(+), 27 deletions(-)
+ scripts/qapi/doc.py            |  1 +
+ scripts/qapi/parser.py         | 12 ++++--------
+ tests/qapi-schema/doc-good.out | 12 ++++++------
+ 3 files changed, 11 insertions(+), 14 deletions(-)
 
-diff --git a/tests/qapi-schema/doc-good.json b/tests/qapi-schema/doc-good.json
-index d992e713d97..a45dc22848c 100644
---- a/tests/qapi-schema/doc-good.json
-+++ b/tests/qapi-schema/doc-good.json
-@@ -10,25 +10,25 @@
- #
- # *strong* _with emphasis_
- # @var {in braces}
-+#
- # * List item one
--# - Two, multiple
-+# * Two, multiple
- #   lines
- #
--# 3. Three
--# Still in list
-+# * Three
-+#   Still in list
-+#
-+# Not in list
- #
--#   Not in list
- # - Second list
--# Note: still in list
-+#   Note: still in list
- #
- # Note: not in list
-+#
- # 1. Third list
- #    is numbered
- #
--# - another item
--#
--# | example
--# | multiple lines
-+# 2. another item
- #
- # Returns: the King
- # Since: the first age
-@@ -62,7 +62,7 @@
- ##
- # @Base:
- # @base1:
--#   the first member
-+# the first member
- ##
- { 'struct': 'Base', 'data': { 'base1': 'Enum' } }
+diff --git a/scripts/qapi/doc.py b/scripts/qapi/doc.py
+index 1787a53d91a..26cd1a1751e 100644
+--- a/scripts/qapi/doc.py
++++ b/scripts/qapi/doc.py
+@@ -79,6 +79,7 @@ def texi_format(doc):
+     inlist = ''
+     lastempty = False
+     for line in doc.split('\n'):
++        line = line.strip()
+         empty = line == ''
  
-@@ -101,7 +101,7 @@
- ##
- # @Alternate:
- # @i: an integer
--# @b is undocumented
-+#     @b is undocumented
- ##
- { 'alternate': 'Alternate',
-   'data': { 'i': 'int', 'b': 'bool' } }
-@@ -115,7 +115,7 @@
- # @arg1: the first argument
- #
- # @arg2: the second
--# argument
-+#        argument
- #
- # Features:
- # @cmd-feat1: a feature
-@@ -124,6 +124,7 @@
- # Returns: @Object
- # TODO: frobnicate
- # Notes:
-+#
- # - Lorem ipsum dolor sit amet
- # - Ut enim ad minim veniam
- #
+         # FIXME: Doing this in a single if / elif chain is
+diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
+index 342792e4103..2196ec5de1e 100644
+--- a/scripts/qapi/parser.py
++++ b/scripts/qapi/parser.py
+@@ -422,10 +422,10 @@ class QAPIDoc(object):
+                 self._append_line = self._append_various_line
+                 self._append_various_line(line)
+             else:
+-                self._append_freeform(line.strip())
++                self._append_freeform(line)
+         else:
+             # This is a free-form documentation block
+-            self._append_freeform(line.strip())
++            self._append_freeform(line)
+ 
+     def _append_args_line(self, line):
+         """
+@@ -458,7 +458,7 @@ class QAPIDoc(object):
+                 self._append_various_line(line)
+             return
+ 
+-        self._append_freeform(line.strip())
++        self._append_freeform(line)
+ 
+     def _append_features_line(self, line):
+         name = line.split(' ', 1)[0]
+@@ -477,7 +477,7 @@ class QAPIDoc(object):
+             self._append_various_line(line)
+             return
+ 
+-        self._append_freeform(line.strip())
++        self._append_freeform(line)
+ 
+     def _append_various_line(self, line):
+         """
+@@ -500,10 +500,6 @@ class QAPIDoc(object):
+             line = line[len(name)+1:]
+             self._start_section(name[:-1])
+ 
+-        if (not self._section.name or
+-                not self._section.name.startswith('Example')):
+-            line = line.strip()
+-
+         self._append_freeform(line)
+ 
+     def _start_symbol_section(self, symbols_dict, name):
 diff --git a/tests/qapi-schema/doc-good.out b/tests/qapi-schema/doc-good.out
-index 4c9406a464d..9503a3a3178 100644
+index 9503a3a3178..a65bce639ff 100644
 --- a/tests/qapi-schema/doc-good.out
 +++ b/tests/qapi-schema/doc-good.out
-@@ -68,25 +68,25 @@ doc freeform
+@@ -71,20 +71,20 @@ doc freeform
  
- *strong* _with emphasis_
- @var {in braces}
-+
  * List item one
--- Two, multiple
-+* Two, multiple
- lines
+ * Two, multiple
+-lines
++  lines
  
--3. Three
-+* Three
- Still in list
+ * Three
+-Still in list
++  Still in list
  
  Not in list
-+
+ 
  - Second list
- Note: still in list
+-Note: still in list
++  Note: still in list
  
  Note: not in list
-+
+ 
  1. Third list
- is numbered
+-is numbered
++   is numbered
  
--- another item
--
--| example
--| multiple lines
-+2. another item
+ 2. another item
  
- Returns: the King
- Since: the first age
-diff --git a/tests/qapi-schema/doc-good.texi b/tests/qapi-schema/doc-good.texi
-index d4b15dabf03..1e8063c8579 100644
---- a/tests/qapi-schema/doc-good.texi
-+++ b/tests/qapi-schema/doc-good.texi
-@@ -6,6 +6,7 @@
+@@ -144,7 +144,7 @@ doc symbol=Alternate
  
- @strong{strong} @emph{with emphasis}
- @code{var} @{in braces@}
-+
- @itemize @bullet
- @item
- List item one
-@@ -20,6 +21,7 @@ Still in list
- @end itemize
+     arg=i
+ an integer
+-@b is undocumented
++    @b is undocumented
+     arg=b
  
- Not in list
-+
- @itemize @minus
- @item
- Second list
-@@ -28,6 +30,7 @@ Note: still in list
- @end itemize
+ doc freeform
+@@ -157,7 +157,7 @@ doc symbol=cmd
+ the first argument
+     arg=arg2
+ the second
+-argument
++       argument
+     arg=arg3
  
- Note: not in list
-+
- @enumerate
- @item
- Third list
-@@ -36,15 +39,6 @@ is numbered
- @item
- another item
- 
--@example
--example
--@end example
--
--@example
--multiple lines
--@end example
--
--
- @end enumerate
- 
- Returns: the King
+     feature=cmd-feat1
 -- 
 2.20.1
 
