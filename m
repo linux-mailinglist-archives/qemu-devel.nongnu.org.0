@@ -2,73 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 857E815B5CB
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 01:24:46 +0100 (CET)
-Received: from localhost ([::1]:45442 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AE1015B5D7
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 01:29:59 +0100 (CET)
+Received: from localhost ([::1]:45502 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j22JB-0003oY-Iw
-	for lists+qemu-devel@lfdr.de; Wed, 12 Feb 2020 19:24:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37206)
+	id 1j22OE-0007S9-Cs
+	for lists+qemu-devel@lfdr.de; Wed, 12 Feb 2020 19:29:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37921)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1j22I8-0002X7-Gc
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 19:23:41 -0500
+ (envelope-from <laurent@vivier.eu>) id 1j22NR-0006hq-5Z
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 19:29:10 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1j22I7-0005Yh-Bd
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 19:23:40 -0500
-Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:35941)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1j22I7-0005Xe-5y
- for qemu-devel@nongnu.org; Wed, 12 Feb 2020 19:23:39 -0500
-Received: by mail-pl1-x644.google.com with SMTP id a6so1594605plm.3
- for <qemu-devel@nongnu.org>; Wed, 12 Feb 2020 16:23:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=c4AW/Bq5GW+BzA+6gDLmVxKMMXGf/BYTygbPUAb8Kco=;
- b=t7qUbzd9aT12EgxgQUJUcRZohEiyj18dQ/+wVd8dCAqBrGH6suOs5fZMUpCViqifoH
- wW0TNaRvbBFdBiMaArITAZRcCLbeJFtdkdMSIbfd4N3O+anTuChhfz5G6W5yKLGQeLeE
- 8fmes6TkW8pRzMNLCg1/ZG36F0U/9QBfi278+M/etGDIgig4c5PC5gXT4/RSfH0RzJT/
- is1FvGjXkNooUTzWP+RTdQP4ivE6Ih+jPShaAlrZ50ap+qKPVS7x6dYXoY5ytv1MmctN
- uZViF5z8RwctCM1TmMyAgV9TBNUjrZSdpjMFsgqHl6WAox1BkJuRUyfOZJRZ3Skr0QuC
- ZLFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=c4AW/Bq5GW+BzA+6gDLmVxKMMXGf/BYTygbPUAb8Kco=;
- b=XyfxrUTFERT9YpgV0apsHMTHufNMpcRpyHoj5bFj0eTW5zM4r1Yl3Rvbb66KJ58U4l
- o4gvYs86rgPeZJtDNtYnT4bKIdhEYxQFm4od6XPHAWjKFpGjB4Pj/KcxiKrOBFuOc7sz
- MtreDqm/9uwi3zuC85T1DnGz3L5ID6w1oexbt1ZGLQnMc4QFtVryYd0fkl+H6JIQVJMr
- v1ZKervGLughk9mkUhLJxtifTJkb3aERzO83AbgWK911jKSSsT5CY2tD1LEc+QGkpwcu
- 44CXuremu7MCZ6/5415N6uotdMK9VXMg9VZ0PF4bubYynCwrcmxSd+hp7zY5fA9cwYc/
- YBBA==
-X-Gm-Message-State: APjAAAW4JmBdFD3fF0NG9mYr+P54YvUO3PbWKYyRN/9dFpsKq14lxVji
- pL1ZWQfAX7beS8GU8fdC0a2zyCTZf0g=
-X-Google-Smtp-Source: APXvYqwrhdOTUxtnU/YboFEUeHlnHpB0o9DD9z8owCifwcGwGcYumdPdme9fj3RZlOfNkglj0Zv9Bw==
-X-Received: by 2002:a17:90a:b009:: with SMTP id
- x9mr1951391pjq.124.1581553417777; 
- Wed, 12 Feb 2020 16:23:37 -0800 (PST)
-Received: from localhost.localdomain (97-126-123-70.tukw.qwest.net.
- [97.126.123.70])
- by smtp.gmail.com with ESMTPSA id j4sm365277pfh.152.2020.02.12.16.23.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 12 Feb 2020 16:23:37 -0800 (PST)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 3/3] tcg: Add tcg_gen_gvec_5_ptr
-Date: Wed, 12 Feb 2020 16:23:32 -0800
-Message-Id: <20200213002332.31821-4-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200213002332.31821-1-richard.henderson@linaro.org>
-References: <20200213002332.31821-1-richard.henderson@linaro.org>
+ (envelope-from <laurent@vivier.eu>) id 1j22NP-0003g5-Hc
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 19:29:09 -0500
+Received: from mout.kundenserver.de ([212.227.17.24]:54151)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1j22NP-0003e4-8Y
+ for qemu-devel@nongnu.org; Wed, 12 Feb 2020 19:29:07 -0500
+Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
+ (mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MauFB-1je7LB3l7r-00cO2N; Thu, 13 Feb 2020 01:28:23 +0100
+Subject: Re: [PATCH 0/9] linux-user: Update syscall numbers to kernel 5.5 level
+From: Laurent Vivier <laurent@vivier.eu>
+To: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>, qemu-devel@nongnu.org
+References: <1580818058-16159-1-git-send-email-aleksandar.markovic@rt-rk.com>
+ <62529593-1ac2-e294-1750-4e31a59867da@vivier.eu>
+Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <eb759931-d726-f1df-e794-2d5cfdd1e96f@vivier.eu>
+Date: Thu, 13 Feb 2020 01:28:17 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <62529593-1ac2-e294-1750-4e31a59867da@vivier.eu>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::644
+X-Provags-ID: V03:K1:fXA++eTBMHZkWs0itYgX5TanYK8EYVEoeMH4CbOpjBaxjFeVWeD
+ L2FLSXmc8ZaVKAVrq+EENwkQsgrbYPvwxA44rQmorY1GTSpKc4LClc5BhzxoVJA1yOPryCI
+ rPysdKmJEQKUhjdqnE5YNJTgPbyx04rgsqRmHsbh6vEgDe5i5W07t5TBPTiBhCkYWYGowiC
+ /GjZaoyP2S0PhAK2x0e4A==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:vlqPdRCH9cE=:3sbguQNKRcDf1b3+hUoW+k
+ eMMGntQjKEg1XYnbG9Xp3/AhPHU65LrzFU0D0+WryVFo66A6laTZSUKubcXHkWO6Csq+FnsfK
+ wqfaXzRiAgsilTqeQ/iZvSr4msicCLTWCkdhWNELDwibzt+9zd765i+j3DYR8xtVg1K3SOcTM
+ CyjWlXt4vWS4+GDk2VP2e2hehhjMub08w2gtcBZ7cQmJ1UA0WjFv4qH5nzZisw0k/K46ig4rP
+ trxq4gvANueF89CjB+TVlPNY+lGA9gZLL40vqpP2r8LatD0qrGmjQNUd5pFN+uTfgkjyfKRSH
+ ucCwrGfKMdzVAl5V2SPhDwmmW93huuOeQhwx5k3Eh5It3wylIXgSGHvMEV1MyhhDL/t3FWcL9
+ R8S8FBQ49mSaUanzcKzgx1SeitPb2VpzVcslnr6WfKpRHoRNc8BUdVomyhf1FO6rw11+KK2uL
+ +xmiv2LWdto8SvW2wa3wCpSOhodHEpDHOtIHxDXzd//PRWGRHbvveMNzsNIcRnYvT4XUfejvv
+ WN4/sZEzvAUUqnq348eSSaw86lq6sCtO4bRMIvWVIb2TT1NRkUJ5gJrjj+UU/jAAoFSF0Aguo
+ mJcMzwbrgS44rFLAQ1szi9vJcrUq0v9nNG1aOZIGw5qeitOKbY/rR521Mt1XoQUrI+XIKPX2g
+ yomJGedmaKHIdvQ+fKn5H8H3uXexz8vvsmtm4FZvqslWxaTeEfj43NYYX8nm9s4CgvBLGyNiJ
+ asArSpyuooOwdN6I+xVQpWHC780b/p7anRCN2aUlKpQgQDh1yMq7T+FNiJwbLEQgszHuDPqkn
+ vSYtLEY8OfeEfXO8hKnQkhN65BKZ35AMY30lPB0v5MCQHBPXvWH8MVhVl/fP4DAeynN5n04
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 212.227.17.24
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,86 +109,135 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- peter.maydell@linaro.org, Taylor Simpson <tsimpson@quicinc.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Marek Vasut <marex@denx.de>, Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ David Hildenbrand <david@redhat.com>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Chris Wulff <crwulff@gmail.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>, amarkovic@wavecomp.com,
+ "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Stafford Horne <shorne@gmail.com>,
+ Richard Henderson <rth@twiddle.net>, Artyom Tarasenko <atar4qemu@gmail.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Extend the vector generator infrastructure to handle
-5 vector arguments.
+Le 12/02/2020 à 22:34, Laurent Vivier a écrit :
+> Le 04/02/2020 à 13:07, Aleksandar Markovic a écrit :
+>> From: Aleksandar Markovic <amarkovic@wavecomp.com>
+>>
+>> Hello, folks!
+>>
+>> This series is a spin-off of another larger linux-user series
+>> that become too large to handle, hence these patches related to
+>> syscall numbers are now in this, separate, series.
+>>
+>> Now that kernel 5.5 is released few days ago, it is time to
+>> reflect what can be updated in linux-user for upcomming QEMU 5.0.
+>>
+>> An obvoius kernel change we should take into account are new
+>> system calls, and the foirst step is updating syscall numbers
+>> mainteined within QEMU linux-user.
+>>
+>> Regarding kernel syscal numbers there is good news and bad news.
+>>
+>> The good news is that kernel developers decided to make future
+>> syscall numbers much more synchonized accross architectures than
+>> before. They already reached that state.
+>>
+>> The bad news is that we in QEMU did not reach that state yet, since
+>> we lag after kernel significantly.
+>>
+>> The good news again is that we will reach that state if we update
+>> syscall numbers accross the board now. This is the main intention
+>> and motivation of this series.
+>>
+>> The bad news again is that in order to update syscall numebrs we
+>> need to be very careful at this moment. There are a number of new
+>> syscalls added to the kernel recently that QEMU doesn't know about
+>> at all. Significant number of new syscalls deal with 32/64-bit
+>> compatibility, traditionally a problematic area in kernel, and in
+>> QEMU as well. Moreover, some of the new syscalls are applicable to
+>> 32-bit architectures only.
+>>
+>> This series covers updating syscall numbers defined in the following
+>> files:
+>>
+>>   - linux-user/alpha/syscall_nr.h
+>>   - linux-user/arm/syscall_nr.h
+>>   - linux-user/m68k/syscall_nr.h
+>>   - linux-user/microblaze/syscall_nr.h
+>>   - linux-user/mips/cpu_loop.c
+>>   - linux-user/mips/syscall_nr.h
+>>   - linux-user/mips64/syscall_nr.h
+>>   - linux-user/sh4/syscall_nr.h
+>>   - linux-user/x86_64/syscall_nr.h
+>>   - linux-user/xtensa/syscall_nr.h
+>>
+>> This series doesn't cover following files (since they use certain
+>> proprietary rules for mapping between kernel source and qemu source,
+>> I don't feel quite comfortable changing them - therefore I am asking
+>> corresponding target maintainers or Lauren to update them, if
+>> possible, before our 5.0 release):
+>>
+>>   - linux-user/aarch64/syscall_nr.h
+>>   - linux-user/i386/syscall_nr.h
+>>   - linux-user/nios2/syscall_nr.h
+>>   - linux-user/ppc/syscall_nr.h
+>>   - linux-user/riscv/syscall_nr.h
+>>   - linux-user/s390x/syscall_nr.h
+>>   - linux-user/sparc/syscall_nr.h
+>>   - linux-user/sparc64/syscall_nr.h
+>>
+>> CC: Peter Maydell <peter.maydell@linaro.org>
+>> CC: Paolo Bonzini <pbonzini@redhat.com>
+>> CC: Richard Henderson <rth@twiddle.net>
+>> CC: Eduardo Habkost <ehabkost@redhat.com>
+>> CC: Chris Wulff <crwulff@gmail.com>
+>> CC: Marek Vasut <marex@denx.de>
+>> CC: David Gibson <david@gibson.dropbear.id.au>
+>> CC: Palmer Dabbelt <palmer@dabbelt.com>
+>> CC: Alistair Francis <Alistair.Francis@wdc.com>
+>> CC: Sagar Karandikar <sagark@eecs.berkeley.edu>
+>> CC: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
+>> CC: David Hildenbrand <david@redhat.com>
+>> CC: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+>> CC: Artyom Tarasenko <atar4qemu@gmail.com>
+>>
+>> This series also doesn't cover following files (since I can't find
+>> corresponding kernel code - and I am also asking corresponding
+>> target maintainers or Lauren to update them, if possible, before
+>> our 5.0 release):
+>>
+>>   - linux-user/cris/cpu_loop.c
+>>   - linux-user/hppa/syscall_nr.h
+>>   - linux-user/openrisc/syscall_nr.h
+>>   - linux-user/tilegx/syscall_nr.h
+>>
+>> CC: Edgar E. Iglesias <edgar.iglesias@gmail.com>
+>> CC: Richard Henderson <rth@twiddle.net>
+>> CC: Stafford Horne <shorne@gmail.com>
+>>
+>> Again, I don't plan (I am really running out of time resources) to
+>> work in a significant way on this issue any more, and I am asking
+>> you guys other maintainers to help finish updating syscall numbers
+>> before QEMU 5.0 release.
+>>
+>> Once we do that, updating syscall numbers in QEMU should and will
+>> be significantly easier.
+>>
+> 
+> I think we should copy the syscall.tbl and syscallhdr.sh scripts from
+> the linux tree and update syscallhdr.sh to generate our syscall_nr.h
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Taylor Simpson <tsimpson@quicinc.com>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- include/tcg/tcg-op-gvec.h |  7 +++++++
- tcg/tcg-op-gvec.c         | 32 ++++++++++++++++++++++++++++++++
- 2 files changed, 39 insertions(+)
+I made a draft here:
 
-diff --git a/include/tcg/tcg-op-gvec.h b/include/tcg/tcg-op-gvec.h
-index 830d68f697..74534e2480 100644
---- a/include/tcg/tcg-op-gvec.h
-+++ b/include/tcg/tcg-op-gvec.h
-@@ -83,6 +83,13 @@ void tcg_gen_gvec_4_ptr(uint32_t dofs, uint32_t aofs, uint32_t bofs,
-                         uint32_t maxsz, int32_t data,
-                         gen_helper_gvec_4_ptr *fn);
- 
-+typedef void gen_helper_gvec_5_ptr(TCGv_ptr, TCGv_ptr, TCGv_ptr, TCGv_ptr,
-+                                   TCGv_ptr, TCGv_ptr, TCGv_i32);
-+void tcg_gen_gvec_5_ptr(uint32_t dofs, uint32_t aofs, uint32_t bofs,
-+                        uint32_t cofs, uint32_t eofs, TCGv_ptr ptr,
-+                        uint32_t oprsz, uint32_t maxsz, int32_t data,
-+                        gen_helper_gvec_5_ptr *fn);
-+
- /* Expand a gvec operation.  Either inline or out-of-line depending on
-    the actual vector size and the operations supported by the host.  */
- typedef struct {
-diff --git a/tcg/tcg-op-gvec.c b/tcg/tcg-op-gvec.c
-index 41b4a3c661..327d9588e0 100644
---- a/tcg/tcg-op-gvec.c
-+++ b/tcg/tcg-op-gvec.c
-@@ -290,6 +290,38 @@ void tcg_gen_gvec_4_ptr(uint32_t dofs, uint32_t aofs, uint32_t bofs,
-     tcg_temp_free_i32(desc);
- }
- 
-+/* Generate a call to a gvec-style helper with five vector operands
-+   and an extra pointer operand.  */
-+void tcg_gen_gvec_5_ptr(uint32_t dofs, uint32_t aofs, uint32_t bofs,
-+                        uint32_t cofs, uint32_t eofs, TCGv_ptr ptr,
-+                        uint32_t oprsz, uint32_t maxsz, int32_t data,
-+                        gen_helper_gvec_5_ptr *fn)
-+{
-+    TCGv_ptr a0, a1, a2, a3, a4;
-+    TCGv_i32 desc = tcg_const_i32(simd_desc(oprsz, maxsz, data));
-+
-+    a0 = tcg_temp_new_ptr();
-+    a1 = tcg_temp_new_ptr();
-+    a2 = tcg_temp_new_ptr();
-+    a3 = tcg_temp_new_ptr();
-+    a4 = tcg_temp_new_ptr();
-+
-+    tcg_gen_addi_ptr(a0, cpu_env, dofs);
-+    tcg_gen_addi_ptr(a1, cpu_env, aofs);
-+    tcg_gen_addi_ptr(a2, cpu_env, bofs);
-+    tcg_gen_addi_ptr(a3, cpu_env, cofs);
-+    tcg_gen_addi_ptr(a4, cpu_env, eofs);
-+
-+    fn(a0, a1, a2, a3, a4, ptr, desc);
-+
-+    tcg_temp_free_ptr(a0);
-+    tcg_temp_free_ptr(a1);
-+    tcg_temp_free_ptr(a2);
-+    tcg_temp_free_ptr(a3);
-+    tcg_temp_free_ptr(a4);
-+    tcg_temp_free_i32(desc);
-+}
-+
- /* Return true if we want to implement something of OPRSZ bytes
-    in units of LNSZ.  This limits the expansion of inline code.  */
- static inline bool check_size_impl(uint32_t oprsz, uint32_t lnsz)
--- 
-2.20.1
+https://github.com/vivier/qemu/commits/linux-user-syscalltbl
+
+Thanks,
+Laurent
 
 
