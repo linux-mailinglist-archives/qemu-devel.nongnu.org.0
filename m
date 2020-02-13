@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C26DC15BBD8
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 10:42:07 +0100 (CET)
-Received: from localhost ([::1]:49532 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B31B215BBEE
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 10:43:54 +0100 (CET)
+Received: from localhost ([::1]:49566 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j2B0Y-0004Wh-S0
-	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 04:42:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46027)
+	id 1j2B2H-00078M-PZ
+	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 04:43:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46031)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <fengzhimin1@huawei.com>) id 1j2AxB-0006zY-WD
+ (envelope-from <fengzhimin1@huawei.com>) id 1j2AxC-0006zl-2a
  for qemu-devel@nongnu.org; Thu, 13 Feb 2020 04:38:39 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <fengzhimin1@huawei.com>) id 1j2AxA-0005Dj-Tm
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 04:38:37 -0500
-Received: from szxga05-in.huawei.com ([45.249.212.191]:2777 helo=huawei.com)
+ (envelope-from <fengzhimin1@huawei.com>) id 1j2AxA-0005DP-QN
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 04:38:38 -0500
+Received: from szxga05-in.huawei.com ([45.249.212.191]:2778 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <fengzhimin1@huawei.com>)
- id 1j2AxA-00051U-I6
+ id 1j2AxA-00051S-FU
  for qemu-devel@nongnu.org; Thu, 13 Feb 2020 04:38:36 -0500
 Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id CD6209BCF9EC61BBFD07;
+ by Forcepoint Email with ESMTP id D2A28455B78695011160;
  Thu, 13 Feb 2020 17:38:20 +0800 (CST)
 Received: from huawei.com (10.173.220.198) by DGGEMS404-HUB.china.huawei.com
  (10.3.19.204) with Microsoft SMTP Server id 14.3.439.0; Thu, 13 Feb 2020
- 17:38:12 +0800
+ 17:38:13 +0800
 From: Zhimin Feng <fengzhimin1@huawei.com>
 To: <quintela@redhat.com>, <dgilbert@redhat.com>, <armbru@redhat.com>,
  <eblake@redhat.com>
-Subject: [PATCH RFC 08/14] migration/rdma: Add the function for dynamic page
- registration
-Date: Thu, 13 Feb 2020 17:37:49 +0800
-Message-ID: <20200213093755.370-9-fengzhimin1@huawei.com>
+Subject: [PATCH RFC 09/14] migration/rdma: register memory for multifd RDMA
+ channels
+Date: Thu, 13 Feb 2020 17:37:50 +0800
+Message-ID: <20200213093755.370-10-fengzhimin1@huawei.com>
 X-Mailer: git-send-email 2.24.0.windows.2
 In-Reply-To: <20200213093755.370-1-fengzhimin1@huawei.com>
 References: <20200213093755.370-1-fengzhimin1@huawei.com>
@@ -61,94 +61,176 @@ Cc: jemmy858585@gmail.com, Zhimin Feng <fengzhimin1@huawei.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add the 'qemu_rdma_registration' function,
-multifd send threads call it to register memory.
+register memory for multifd RDMA channels and transmit the destination
+the keys to source to use including the virtual addresses.
 
 Signed-off-by: Zhimin Feng <fengzhimin1@huawei.com>
 ---
- migration/rdma.c | 51 ++++++++++++++++++++++++++++++++++++++++++++++++
- migration/rdma.h |  1 +
- 2 files changed, 52 insertions(+)
+ migration/multifd.c | 34 +++++++++++++++++++++++++++++---
+ migration/rdma.c    | 48 +++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 79 insertions(+), 3 deletions(-)
 
+diff --git a/migration/multifd.c b/migration/multifd.c
+index a57d7a2eab..4ae25fc88f 100644
+--- a/migration/multifd.c
++++ b/migration/multifd.c
+@@ -388,7 +388,11 @@ static void multifd_send_terminate_threads(Error *er=
+r)
+=20
+         qemu_mutex_lock(&p->mutex);
+         p->quit =3D true;
+-        qemu_sem_post(&p->sem);
++        if (migrate_use_rdma()) {
++            qemu_sem_post(&p->sem_sync);
++        } else {
++            qemu_sem_post(&p->sem);
++        }
+         qemu_mutex_unlock(&p->mutex);
+     }
+ }
+@@ -484,6 +488,8 @@ static void *multifd_rdma_send_thread(void *opaque)
+ {
+     MultiFDSendParams *p =3D opaque;
+     Error *local_err =3D NULL;
++    int ret =3D 0;
++    RDMAControlHeader head =3D { .len =3D 0, .repeat =3D 1 };
+=20
+     trace_multifd_send_thread_start(p->id);
+=20
+@@ -491,14 +497,28 @@ static void *multifd_rdma_send_thread(void *opaque)
+         goto out;
+     }
+=20
++    /* wait for semaphore notification to register memory */
++    qemu_sem_wait(&p->sem_sync);
++    if (qemu_rdma_registration(p->rdma) < 0) {
++        goto out;
++    }
++
+     while (true) {
++        qemu_sem_wait(&p->sem_sync);
++
+         qemu_mutex_lock(&p->mutex);
+         if (p->quit) {
+             qemu_mutex_unlock(&p->mutex);
+             break;
+         }
+         qemu_mutex_unlock(&p->mutex);
+-        qemu_sem_wait(&p->sem);
++
++        /* Send FINISHED to the destination */
++        head.type =3D RDMA_CONTROL_REGISTER_FINISHED;
++        ret =3D qemu_rdma_exchange_send(p->rdma, &head, NULL, NULL, NULL=
+, NULL);
++        if (ret < 0) {
++            return NULL;
++        }
+     }
+=20
+ out:
+@@ -836,15 +856,23 @@ void multifd_recv_sync_main(void)
+ static void *multifd_rdma_recv_thread(void *opaque)
+ {
+     MultiFDRecvParams *p =3D opaque;
++    int ret =3D 0;
+=20
+     while (true) {
++        qemu_sem_wait(&p->sem_sync);
++
+         qemu_mutex_lock(&p->mutex);
+         if (p->quit) {
+             qemu_mutex_unlock(&p->mutex);
+             break;
+         }
+         qemu_mutex_unlock(&p->mutex);
+-        qemu_sem_wait(&p->sem_sync);
++
++        ret =3D qemu_rdma_registration_handle(p->file, p->c);
++        if (ret < 0) {
++            qemu_file_set_error(p->file, ret);
++            break;
++        }
+     }
+=20
+     qemu_mutex_lock(&p->mutex);
 diff --git a/migration/rdma.c b/migration/rdma.c
-index 23f7f525f4..19a238be30 100644
+index 19a238be30..5de3a29712 100644
 --- a/migration/rdma.c
 +++ b/migration/rdma.c
-@@ -3471,6 +3471,57 @@ out:
-     return ret;
- }
+@@ -3570,6 +3570,19 @@ static int rdma_load_hook(QEMUFile *f, void *opaqu=
+e, uint64_t flags, void *data)
+         return rdma_block_notification_handle(opaque, data);
 =20
-+/*
-+ * Dynamic page registrations for multifd RDMA threads.
-+ */
-+int qemu_rdma_registration(void *opaque)
-+{
-+    RDMAContext *rdma =3D opaque;
-+    RDMAControlHeader resp =3D {.type =3D RDMA_CONTROL_RAM_BLOCKS_RESULT=
- };
-+    RDMALocalBlocks *local =3D &rdma->local_ram_blocks;
-+    int reg_result_idx, i, nb_dest_blocks;
-+    RDMAControlHeader head =3D { .len =3D 0, .repeat =3D 1 };
-+    int ret =3D 0;
-+
-+    head.type =3D RDMA_CONTROL_RAM_BLOCKS_REQUEST;
-+
-+    ret =3D qemu_rdma_exchange_send(rdma, &head, NULL, &resp,
-+            &reg_result_idx, rdma->pin_all ?
-+            qemu_rdma_reg_whole_ram_blocks : NULL);
-+    if (ret < 0) {
-+        goto out;
-+    }
-+
-+    nb_dest_blocks =3D resp.len / sizeof(RDMADestBlock);
-+
-+    if (local->nb_blocks !=3D nb_dest_blocks) {
-+        rdma->error_state =3D -EINVAL;
-+        ret =3D -1;
-+        goto out;
-+    }
-+
-+    qemu_rdma_move_header(rdma, reg_result_idx, &resp);
-+    memcpy(rdma->dest_blocks,
-+           rdma->wr_data[reg_result_idx].control_curr, resp.len);
-+
-+    for (i =3D 0; i < nb_dest_blocks; i++) {
-+        network_to_dest_block(&rdma->dest_blocks[i]);
-+
-+        /* We require that the blocks are in the same order */
-+        if (rdma->dest_blocks[i].length !=3D local->block[i].length) {
-+            rdma->error_state =3D -EINVAL;
-+            ret =3D -1;
-+            goto out;
+     case RAM_CONTROL_HOOK:
++        if (migrate_use_multifd()) {
++            int i;
++            MultiFDRecvParams *multifd_recv_param =3D NULL;
++            int thread_count =3D migrate_multifd_channels();
++            /* Inform dest recv_thread to poll */
++            for (i =3D 0; i < thread_count; i++) {
++                if (get_multifd_recv_param(i, &multifd_recv_param)) {
++                    return -1;
++                }
++                qemu_sem_post(&multifd_recv_param->sem_sync);
++            }
 +        }
-+        local->block[i].remote_host_addr =3D
-+            rdma->dest_blocks[i].remote_host_addr;
-+        local->block[i].remote_rkey =3D rdma->dest_blocks[i].remote_rkey=
++
+         return qemu_rdma_registration_handle(f, opaque);
+=20
+     default:
+@@ -3643,6 +3656,25 @@ static int qemu_rdma_registration_stop(QEMUFile *f=
+, void *opaque,
+         head.type =3D RDMA_CONTROL_RAM_BLOCKS_REQUEST;
+         trace_qemu_rdma_registration_stop_ram();
+=20
++        if (migrate_use_multifd()) {
++            /*
++             * Inform the multifd channels to register memory
++             */
++            int i;
++            int thread_count =3D migrate_multifd_channels();
++            MultiFDSendParams *multifd_send_param =3D NULL;
++            for (i =3D 0; i < thread_count; i++) {
++                ret =3D get_multifd_send_param(i, &multifd_send_param);
++                if (ret) {
++                    ERROR(errp, "rdma: error getting"
++                                "multifd_send_param(%d)", i);
++                    return ret;
++                }
++
++                qemu_sem_post(&multifd_send_param->sem_sync);
++            }
++        }
++
+         /*
+          * Make sure that we parallelize the pinning on both sides.
+          * For very large guests, doing this serially takes a really
+@@ -3708,6 +3740,22 @@ static int qemu_rdma_registration_stop(QEMUFile *f=
+, void *opaque,
+     head.type =3D RDMA_CONTROL_REGISTER_FINISHED;
+     ret =3D qemu_rdma_exchange_send(rdma, &head, NULL, NULL, NULL, NULL)=
 ;
+=20
++    if (migrate_use_multifd()) {
++        /* Inform src send_thread to send FINISHED signal */
++        int i;
++        int thread_count =3D migrate_multifd_channels();
++        MultiFDSendParams *multifd_send_param =3D NULL;
++        for (i =3D 0; i < thread_count; i++) {
++            ret =3D get_multifd_send_param(i, &multifd_send_param);
++            if (ret) {
++                ERROR(errp, "rdma: error getting multifd_send_param(%d)"=
+, i);
++                return ret;
++            }
++
++            qemu_sem_post(&multifd_send_param->sem_sync);
++        }
 +    }
 +
-+out:
-+    return ret;
-+}
-+
- /* Destination:
-  * Called via a ram_control_load_hook during the initial RAM load sectio=
-n which
-  * lists the RAMBlocks by name.  This lets us know the order of the RAMB=
-locks
-diff --git a/migration/rdma.h b/migration/rdma.h
-index 8e1a6edf57..86c89bdd1f 100644
---- a/migration/rdma.h
-+++ b/migration/rdma.h
-@@ -280,6 +280,7 @@ int qemu_rdma_exchange_send(RDMAContext *rdma, RDMACo=
-ntrolHeader *head,
-                             uint8_t *data, RDMAControlHeader *resp,
-                             int *resp_idx,
-                             int (*callback)(RDMAContext *rdma));
-+int qemu_rdma_registration(void *opaque);
-=20
- void rdma_start_outgoing_migration(void *opaque, const char *host_port,
-                                    Error **errp);
+     if (ret < 0) {
+         goto err;
+     }
 --=20
 2.19.1
 
