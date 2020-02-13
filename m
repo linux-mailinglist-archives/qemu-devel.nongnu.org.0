@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4660F15CE75
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Feb 2020 00:03:12 +0100 (CET)
-Received: from localhost ([::1]:60610 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAFA415CE85
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Feb 2020 00:09:59 +0100 (CET)
+Received: from localhost ([::1]:60733 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j2NVm-0004nb-6z
-	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 18:03:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55409)
+	id 1j2NcN-0005Mu-1T
+	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 18:09:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55494)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1j2NTW-0002SW-Mk
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 18:00:51 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1j2NTZ-0002Y9-PR
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 18:00:55 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1j2NTV-0002WN-Ja
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 18:00:50 -0500
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:51791)
+ (envelope-from <alex.bennee@linaro.org>) id 1j2NTY-0002cN-G8
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 18:00:53 -0500
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:37339)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1j2NTV-0002U1-BQ
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 18:00:49 -0500
-Received: by mail-wm1-x331.google.com with SMTP id t23so8082417wmi.1
- for <qemu-devel@nongnu.org>; Thu, 13 Feb 2020 15:00:49 -0800 (PST)
+ id 1j2NTY-0002Yr-4n
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 18:00:52 -0500
+Received: by mail-wm1-x331.google.com with SMTP id a6so8652046wme.2
+ for <qemu-devel@nongnu.org>; Thu, 13 Feb 2020 15:00:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=XyWMlP9lSq+SHEuFrUXA9vT/NjMQXbVZXYjMIeFpuFk=;
- b=BE+uE/QzmzIMit3y/U2+UjFQso1IN3d6c1aebqTkkHEK4r8hOBziUWkSJUXO2H9ANH
- 125hHcbkVqXkaxGXTuVgT+Xj/K6lj7Dlokr/BXAABM/AZiDZg0sGZXyH1PWJhId7ZoE9
- FNXpmok+GI6Mt2ikFlVpdDioYE/4Mm2N+dOilRBw9s/Zo+aNl/ut6FBETUr+WQEvPtuy
- XCYl+RM2UQbpEAmxaPbTeQ5mhbqCGivIM+QH2P3E+t3jVvk1S2baQ1ZR91aR6NE8UOsA
- cpUMKgitoW4/K0r8jzD7Gh6NFmh8jA9KsqFk7NIh55JLqCxkQ3DBf9YoppOZ7LU5VL4w
- 6TeQ==
+ bh=LM7CKlGDQQ+uKXRKtjMMvs0F+UsijFwZIGBIi2qQw/Q=;
+ b=qfVW2oUzLqRug/aLV6Y9TNPG2a5TkiHjAHWnpxNSLz56sNjjDscu/WsAQp13sji8V9
+ E8bJAgsrTnpjozDWbzCw3VRopqX0xuCFlo8b3WjBSwAeLWcVrv4Fyj9yQfZVGA7ff3fu
+ 9Cva+Df/8rx6xOwVq1uhrEm0dNbTXNqEJSX3Xy7DD8f5sUs8nWct3+lw5gbS/BqexWfQ
+ n0BMedHsC8kx/asNpCshF5LLbv0XLaMEN73l1svNbY/0Bp2YF2gVFaGm3s9y4fHW9oNZ
+ CyX03PUQoMm79c/MJFCZsWdC7E6IYTQlRiS44Ylm33CrHuQmlejAIDD4f1nu5IostMBH
+ py/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=XyWMlP9lSq+SHEuFrUXA9vT/NjMQXbVZXYjMIeFpuFk=;
- b=iCkmSc/VmKkdaMfmmmk4q54L41tGn3oS703BDUe3mLl2fTm6acm5ng3XZEIzK5qQI0
- juuZQBTOCWOpqX6m0oN5tBVnh0+4g1NxDqsGa4CSIw9MT6aE12vG30ZrMI4JB0w1Nw4X
- eyhVOd3EZY3GVV3hjBBh3n9sIj6T819Ll7kmoojmMVRfpjFcixgxGffAb9vCI9Dzxqe4
- 0Tv5CcPN+ocqWKfPALOgeV3ewDz3fvW9tQUn4j/p8aFOT3c6X5rZmB2eZIrG7p1oR/1s
- UV41elOTpkadLpOxCaYH7twHIMF5r8cP6BmDk966cZZl0lhbZvXLQSS2QpeSZM0Kl1q2
- 8PRA==
-X-Gm-Message-State: APjAAAUXbFd+15fIIn35O5PZw7NItY8U9q0xpPiFKZLUDvhYJ0LxzASq
- up3GV0SBNErjKJ6zTfNEOO+qGA==
-X-Google-Smtp-Source: APXvYqxs9bpll6gQGd3PXZ6P9mqHQhmANao0vOGL1LIvg4DFQVm+k+hPh8ybusWgtw5FS66DT1kmXw==
-X-Received: by 2002:a1c:9e89:: with SMTP id h131mr313898wme.161.1581634848250; 
- Thu, 13 Feb 2020 15:00:48 -0800 (PST)
+ bh=LM7CKlGDQQ+uKXRKtjMMvs0F+UsijFwZIGBIi2qQw/Q=;
+ b=VwFZdl2k99zPE2ggOtt/JSgrokvwfNUtFpEpL+1fngdnAmcTELsYzzRDb2K9SUww7C
+ TonHcudg60Yt4z5/FdWuA/l40YCgklt9J5ly0FdC9nw9M7LNS16SM+yCeXYDCpr7QZU1
+ E7a6SlLgF3EXWaW/qOexmKgcYPUh0o+1LQD/6YIyyQSlDwWcip2rB+p3rtx61CR2ppv2
+ pdui+BmjoJeQswF5oIyaTbgHUndb2G3LWfVVw8u6+uo8F0B/F9F+3kl/pOCHHgBE3VVw
+ oGtUV9JDE5wKlQ8AqbTz24I02qSi/5Ncx+5HEIxRpbGnO9iD4vhIpTzQwLUNMfBiSW/j
+ MUGQ==
+X-Gm-Message-State: APjAAAWgLTbScCgEcQrk4pp5KGaMXo55afRwXlwT69wKuRhUEu0dz/9F
+ WbXo8r3aGraI52LbI0cwq2aVmg==
+X-Google-Smtp-Source: APXvYqy3FM1UHxkksxLUjLHga8c0vG8IxJhnXVTnC6gu4TEOl9s6AhuymItty/lTFFqo3SW0hZIywA==
+X-Received: by 2002:a05:600c:214a:: with SMTP id
+ v10mr358086wml.182.1581634850234; 
+ Thu, 13 Feb 2020 15:00:50 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id e17sm4722373wrn.62.2020.02.13.15.00.45
+ by smtp.gmail.com with ESMTPSA id g15sm4363854wro.65.2020.02.13.15.00.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 13 Feb 2020 15:00:45 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 36C4F1FFA9;
+ by zen.linaroharston (Postfix) with ESMTP id 4B08F1FFAA;
  Thu, 13 Feb 2020 22:51:11 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v2 18/19] tests/tcg: fix typo in configure.sh test for v8.3
-Date: Thu, 13 Feb 2020 22:51:08 +0000
-Message-Id: <20200213225109.13120-19-alex.bennee@linaro.org>
+Subject: [PATCH v2 19/19] tests/tcg: take into account expected clashes pauth-4
+Date: Thu, 13 Feb 2020 22:51:09 +0000
+Message-Id: <20200213225109.13120-20-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200213225109.13120-1-alex.bennee@linaro.org>
 References: <20200213225109.13120-1-alex.bennee@linaro.org>
@@ -81,37 +82,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com, robert.foley@linaro.org,
- pbonzini@redhat.com, stefanb@linux.vnet.ibm.com,
+Cc: fam@euphon.net, Peter Maydell <peter.maydell@linaro.org>,
+ berrange@redhat.com, robert.foley@linaro.org, pbonzini@redhat.com,
+ stefanb@linux.vnet.ibm.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  richard.henderson@linaro.org, f4bug@amsat.org, robhenry@microsoft.com,
  marcandre.lureau@redhat.com, aaron@os.amperecomputing.com, cota@braap.org,
  stefanha@redhat.com, kuhn.chenqun@huawei.com, peter.puhov@linaro.org,
- aurelien@aurel32.net
+ "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Although most people use the docker images this can trip up on
-developer systems with actual valid cross-compilers!
+Pointer authentication isn't perfect so measure the percentage of
+failed checks. As we want to vary the pointer that is authenticated we
+recurse down the stack.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- tests/tcg/configure.sh | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tests/tcg/aarch64/pauth-4.c | 54 +++++++++++++++++++++++++------------
+ 1 file changed, 37 insertions(+), 17 deletions(-)
 
-diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
-index 9eb6ba3b7ea..eaaaff6233a 100755
---- a/tests/tcg/configure.sh
-+++ b/tests/tcg/configure.sh
-@@ -228,7 +228,7 @@ for target in $target_list; do
-                 echo "CROSS_CC_HAS_SVE=y" >> $config_target_mak
-             fi
-             if do_compiler "$target_compiler" $target_compiler_cflags \
--               -march=-march=armv8.3-a -o $TMPE $TMPC; then
-+               -march=armv8.3-a -o $TMPE $TMPC; then
-                 echo "CROSS_CC_HAS_ARMV8_3=y" >> $config_target_mak
-             fi
-         ;;
+diff --git a/tests/tcg/aarch64/pauth-4.c b/tests/tcg/aarch64/pauth-4.c
+index 1040e92aec3..24a639e36ca 100644
+--- a/tests/tcg/aarch64/pauth-4.c
++++ b/tests/tcg/aarch64/pauth-4.c
+@@ -1,25 +1,45 @@
+ #include <stdint.h>
+ #include <assert.h>
++#include <stdio.h>
++#include <stdlib.h>
++
++#define TESTS 1000
+ 
+ int main()
+ {
+-  uintptr_t x, y;
++    int i, count = 0;
++    float perc;
++    void *base = malloc(TESTS);
++
++    for (i = 0; i < TESTS; i++) {
++        uintptr_t in, x, y;
++
++        in = i + (uintptr_t) base;
++
++        asm("mov %0, %[in]\n\t"
++            "pacia %0, sp\n\t"        /* sigill if pauth not supported */
++            "eor %0, %0, #4\n\t"      /* corrupt single bit */
++            "mov %1, %0\n\t"
++            "autia %1, sp\n\t"        /* validate corrupted pointer */
++            "xpaci %0\n\t"            /* strip pac from corrupted pointer */
++            : /* out */ "=r"(x), "=r"(y)
++            : /* in */ [in] "r" (in)
++            : /* clobbers */);
+ 
+-  asm("mov %0, lr\n\t"
+-      "pacia %0, sp\n\t"        /* sigill if pauth not supported */
+-      "eor %0, %0, #4\n\t"      /* corrupt single bit */
+-      "mov %1, %0\n\t"
+-      "autia %1, sp\n\t"        /* validate corrupted pointer */
+-      "xpaci %0\n\t"            /* strip pac from corrupted pointer */
+-      : "=r"(x), "=r"(y));
++        /*
++         * Once stripped, the corrupted pointer is of the form 0x0000...wxyz.
++         * We expect the autia to indicate failure, producing a pointer of the
++         * form 0x000e....wxyz.  Use xpaci and != for the test, rather than
++         * extracting explicit bits from the top, because the location of the
++         * error code "e" depends on the configuration of virtual memory.
++         */
++        if (x != y) {
++            count++;
++        }
+ 
+-  /*
+-   * Once stripped, the corrupted pointer is of the form 0x0000...wxyz.
+-   * We expect the autia to indicate failure, producing a pointer of the
+-   * form 0x000e....wxyz.  Use xpaci and != for the test, rather than
+-   * extracting explicit bits from the top, because the location of the
+-   * error code "e" depends on the configuration of virtual memory.
+-   */
+-  assert(x != y);
+-  return 0;
++    }
++    perc = (float) count / (float) TESTS;
++    printf("Checks Passed: %0.2f%%", perc * 100.0);
++    assert(perc > 0.95);
++    return 0;
+ }
 -- 
 2.20.1
 
