@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E460815CE59
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 23:55:47 +0100 (CET)
-Received: from localhost ([::1]:60388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5522A15CE61
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 23:57:29 +0100 (CET)
+Received: from localhost ([::1]:60440 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j2NOd-00036C-0K
-	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 17:55:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39797)
+	id 1j2NQG-0005J7-CH
+	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 17:57:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39717)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1j2NKN-0004py-KX
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 17:51:24 -0500
+ (envelope-from <alex.bennee@linaro.org>) id 1j2NKL-0004mo-Pd
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 17:51:26 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1j2NKL-0003qx-Kp
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 17:51:23 -0500
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:55063)
+ (envelope-from <alex.bennee@linaro.org>) id 1j2NKK-0003p8-Q8
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 17:51:21 -0500
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:46656)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1j2NKL-0003oz-Dr
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 17:51:21 -0500
-Received: by mail-wm1-x341.google.com with SMTP id g1so8045555wmh.4
- for <qemu-devel@nongnu.org>; Thu, 13 Feb 2020 14:51:21 -0800 (PST)
+ id 1j2NKK-0003mt-G3
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 17:51:20 -0500
+Received: by mail-wr1-x443.google.com with SMTP id z7so8724211wrl.13
+ for <qemu-devel@nongnu.org>; Thu, 13 Feb 2020 14:51:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=VpwFpiMNotiifqERZwrlUS7tMztF4zpdV9YKBtMwAzQ=;
- b=ZyRQE6MFUXogmCv7BXm5vq3qJTVllCYg50LkwvGBzIL427iRM2MbIUwYgS+XzgBr7x
- NiIwBvZzVJUPhjoRLRNvSAxwq+nwcPlFBmPnq360D+uIb4JKqzrHs9b77bLmsJAFE+Df
- APVrOzZ22gYxZ8FlPBZvRzwPk3VHq3277gWI3YfeQ21IclmDVqTFiV1+kqZu3O8EYDVT
- Vb6Qa32c5MXCC78OgkopuPKcU+IdBRwBufQQ9fQ2m5qoxIwABHmEOztBovYZkb/liGxh
- eiS20XzeiII1Tv0PmwelA2lXYiCVgtAh9vt1XxatN5XUe/iEvpXBa0coWoLY5Y/ghmxi
- NCqw==
+ bh=qYrx6G8+J0oij9Dy1s5nRsl6vpAyTX2kML2yVNSLhuM=;
+ b=niIgQPui7NAxYOQJiLcjx7TnRxkZpFyCqQatN0LoVfQCb0MXPj5C3YJByjCx0lgyJI
+ 6dZ4BbSXewrPQ3uAsO893PsPfc9Vtk04CH9lkeXHwEyZT2RFt9FTpVJvzVijqywQrQD+
+ xrJ015peFr1YdP2X32vb4o9SfxMiJSCkN+u4rN5UXmNBiJaufPv+nwwnOv4wbzNAxJUj
+ WhQNAfzaEcFK+DZqW7DP4YwvcP4TcoR+LEhJODph0UFBm2j/L8JpmqOII7YttIiflYiK
+ lLiLB4Fh7h/2QQhw+anvB6HIm0HSSBo4bJlGdUxPTMEx0SmAA7BW4CnDa3tIQH6ebZzi
+ FXvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=VpwFpiMNotiifqERZwrlUS7tMztF4zpdV9YKBtMwAzQ=;
- b=owNnm0pP0LZJ25FcSB7aGbgdUXjL7yTTOneP+j6Hl0CR62Uq2PINEBLFAdW+SZo3+i
- YjS8L/EjhWxSaViDnDhbLxDATIkJ9NuSQPCcLcF3iOtEM9FrbxcLvkafbN6hFVce/sO6
- exbo8Yowb6U89Z+dNdLyE8NUNHZw+B0FPfqE1gKZjwMaccpILlZrYRyOV1OONogUwIaY
- g6jzaILbCyo1MCqIjGOJ6PcN8DUW0/TBJN+RpiDw/CjLyxhID0eTmcpgm5XB2BZPF+Su
- QXhwSfXmk08eNQ5i9fHnAvNZNKdkDHbLTMVA7tl4jaGcSch33EGc5nNGaXSeim6wI32J
- ONwQ==
-X-Gm-Message-State: APjAAAUiRfY1FU2aQr4P2OcSndwZcF4ddyD+NBTjBjANMeHZphcSlkP6
- BuORjooHPwno33VPQmeDPKijbQ==
-X-Google-Smtp-Source: APXvYqxAs6IXhXlxAR2sJ+fJIOZW2l6tuGG+RCLLhhZK2Rugs51Gxz9cUIJDX/q/4wqWphshnSYaRw==
-X-Received: by 2002:a7b:c94a:: with SMTP id i10mr325935wml.88.1581634280400;
- Thu, 13 Feb 2020 14:51:20 -0800 (PST)
+ bh=qYrx6G8+J0oij9Dy1s5nRsl6vpAyTX2kML2yVNSLhuM=;
+ b=bl1XijWVXsixl5UfI26xGowKs5Z5tYexLvJWQ0qc1VkUgpMztJ/KI6+nYLqJqbN/WA
+ qQKx5i2+kQfbANtUCYnZR9ou8DDfqnWfe0juSXUnAEzeYUXomqQPuJ6PtfV7RnsWTWwd
+ 8gSm3M46aTiteSQxvQGPBDcHEwtfvcwDRnJWma2GSL5WzbYY2ImwIgk3VcerTZfzYcfo
+ eFWCKZamNCys2Nr4bZFOoyTgM1fitvAFnmyVEkYONQ5MvBp72ao0VK5TokHCAlKAj5VM
+ mtEyP55A2bVleFPXBERiR0vq4m7P5qCA8mEtHwCLjIPk52Zdp/z+Q8li/nFFy1zzHWPH
+ 9seg==
+X-Gm-Message-State: APjAAAWH3iILoHYUKFDEaB/3NQpz0xKJu6h2uxXcoJlNkilB/rTnCe/6
+ TBKp6jq4Et22zIv/d0p9nSk74A==
+X-Google-Smtp-Source: APXvYqyOowDUAhA5GGlS5+UfE6RHgUsUBzb9MatMsM+U61SwKCOwoaQAdQnxU8IUp6hdDMq7myk2Rw==
+X-Received: by 2002:adf:e8ca:: with SMTP id k10mr22532315wrn.50.1581634279427; 
+ Thu, 13 Feb 2020 14:51:19 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id n3sm4608557wrs.8.2020.02.13.14.51.12
+ by smtp.gmail.com with ESMTPSA id t12sm4446150wrq.97.2020.02.13.14.51.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 13 Feb 2020 14:51:13 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 3E8D11FF96;
+ by zen.linaroharston (Postfix) with ESMTP id 532851FF98;
  Thu, 13 Feb 2020 22:51:10 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v2 07/19] travis.yml: single-thread build-tcg stages
-Date: Thu, 13 Feb 2020 22:50:57 +0000
-Message-Id: <20200213225109.13120-8-alex.bennee@linaro.org>
+Subject: [PATCH v2 08/19] tests/iotests: be a little more forgiving on the
+ size test
+Date: Thu, 13 Feb 2020 22:50:58 +0000
+Message-Id: <20200213225109.13120-9-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200213225109.13120-1-alex.bennee@linaro.org>
 References: <20200213225109.13120-1-alex.bennee@linaro.org>
@@ -69,7 +70,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::341
+X-Received-From: 2a00:1450:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,46 +82,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com, robert.foley@linaro.org,
- pbonzini@redhat.com, stefanb@linux.vnet.ibm.com,
+Cc: fam@euphon.net, Kevin Wolf <kwolf@redhat.com>, berrange@redhat.com,
+ robert.foley@linaro.org, pbonzini@redhat.com, stefanb@linux.vnet.ibm.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  richard.henderson@linaro.org, f4bug@amsat.org, robhenry@microsoft.com,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- marcandre.lureau@redhat.com, aaron@os.amperecomputing.com, cota@braap.org,
- stefanha@redhat.com, kuhn.chenqun@huawei.com, peter.puhov@linaro.org,
- aurelien@aurel32.net
+ Max Reitz <mreitz@redhat.com>, marcandre.lureau@redhat.com,
+ aaron@os.amperecomputing.com, cota@braap.org, stefanha@redhat.com,
+ kuhn.chenqun@huawei.com, peter.puhov@linaro.org,
+ "open list:Block layer core" <qemu-block@nongnu.org>, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This still seems to be a problem for Travis.
+At least on ZFS this was failing as 512 was less than or equal to 512.
+I suspect the reason is additional compression done by ZFS and however
+qemu-img gets the actual size.
+
+Loosen the criteria to make sure after is not bigger than before and
+also dump the values in the report.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- .travis.yml | 4 ++--
+ tests/qemu-iotests/214 | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/.travis.yml b/.travis.yml
-index 0612998958b..f4020dcc6c8 100644
---- a/.travis.yml
-+++ b/.travis.yml
-@@ -400,7 +400,7 @@ jobs:
-     - name: "GCC check-tcg (some-softmmu)"
-       env:
-         - CONFIG="--enable-debug-tcg --target-list=xtensa-softmmu,arm-softmmu,aarch64-softmmu,alpha-softmmu"
--        - TEST_BUILD_CMD="make -j${JOBS} build-tcg"
-+        - TEST_BUILD_CMD="make build-tcg"
-         - TEST_CMD="make check-tcg"
-         - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-debug-tcg"
+diff --git a/tests/qemu-iotests/214 b/tests/qemu-iotests/214
+index 3500e0c47a2..6d1324cd157 100755
+--- a/tests/qemu-iotests/214
++++ b/tests/qemu-iotests/214
+@@ -125,9 +125,9 @@ $QEMU_IO -c "write -P 0xcc $offset $data_size" "json:{\
+ sizeB=$($QEMU_IMG info --output=json "$TEST_IMG" |
+         sed -n '/"actual-size":/ s/[^0-9]//gp')
  
-@@ -409,7 +409,7 @@ jobs:
-     - name: "GCC plugins check-tcg (some-softmmu)"
-       env:
-         - CONFIG="--enable-plugins --enable-debug-tcg --target-list=xtensa-softmmu,arm-softmmu,aarch64-softmmu,alpha-softmmu"
--        - TEST_BUILD_CMD="make -j${JOBS} build-tcg"
-+        - TEST_BUILD_CMD="make build-tcg"
-         - TEST_CMD="make check-tcg"
-         - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-debug-tcg"
+-if [ $sizeA -le $sizeB ]
++if [ $sizeA -lt $sizeB ]
+ then
+-    echo "Compression ERROR"
++    echo "Compression ERROR ($sizeA vs $sizeB)"
+ fi
  
+ $QEMU_IMG check --output=json "$TEST_IMG" |
 -- 
 2.20.1
 
