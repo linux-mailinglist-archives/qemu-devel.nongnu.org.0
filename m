@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF2CE15CA32
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 19:22:20 +0100 (CET)
-Received: from localhost ([::1]:57652 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BCE515CA47
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 19:24:17 +0100 (CET)
+Received: from localhost ([::1]:57672 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j2J7z-0007SS-Vx
-	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 13:22:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40492)
+	id 1j2J9s-0001Wq-Ds
+	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 13:24:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40626)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <Babu.Moger@amd.com>) id 1j2J2r-0001gL-1k
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 13:17:03 -0500
+ (envelope-from <Babu.Moger@amd.com>) id 1j2J2w-0001nf-DR
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 13:17:08 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <Babu.Moger@amd.com>) id 1j2J2o-00075n-Lh
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 13:16:59 -0500
-Received: from mail-co1nam11on2065.outbound.protection.outlook.com
- ([40.107.220.65]:24582 helo=NAM11-CO1-obe.outbound.protection.outlook.com)
+ (envelope-from <Babu.Moger@amd.com>) id 1j2J2u-0007Fz-C4
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 13:17:05 -0500
+Received: from mail-bn7nam10on2060b.outbound.protection.outlook.com
+ ([2a01:111:f400:7e8a::60b]:6189
+ helo=NAM10-BN7-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <Babu.Moger@amd.com>) id 1j2J2m-0006zk-M8
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 13:16:58 -0500
+ (Exim 4.71) (envelope-from <Babu.Moger@amd.com>) id 1j2J2u-0007B7-42
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 13:17:04 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=f+8biz1sIjf2++YTucYJOmFm42jgugN4CCCVjTFy4zm6LZyfDBCMnHKt5n7Bzld3nNlv04vAdcPzVO3EX7z778j98xsfVtvxcAnYVB/lc6PSnKaQV9qDT+1GksZ4XWb95r34BpEQedJNrfZD3CQ3kCWWnnRnXkaNK8sVkh28n/VyxxPys089BweqehGfkTtsunCAul0RTV9D4GCqItLt5u5abF1N5S1wQ4TYTgpYowzwNx054SsEcToCe69ILfVQtcBPgvHTgr4KfhTVTFgM2V0Z9KxviR1v4bfZyNpKXNXitP5bZVH80WvlfdGuXWLN0/aqXlDLM7SGxywLUBLajg==
+ b=YsOrrJ9Xs+d6Be3M6thdrECin+9KtmqJNDdpuLgVPPcC4K/wcqzDMgqeN8hTsvfZTfqa7J3X62UCAUorG8CM03WOSCMZPSL/DH06ogq3EUsfGIkKSAb1hDkUGYm6IxP7BtKy+Au+3xufaLxz6vLJuoLamQXKLZZV5438ACDkmC02MI54CQawSd88jFSpw5hnazM7eh78l+VTUZeBU4k6O+U/xkh4lorhIa7JCixVCJ30PvxnNzDv++Xy95R9F7mBRqpN3cdghb8q8yW06u/SB3vhwoOOZUgCjKCl80u2CwSd5lmN5PtYest/cmffmzDzdY2OmWkDHDuTn4x/y8Ls2A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CNe3huCaHLb5U4U6YnLGBCxi33Xr+1+zob87QqmkfzQ=;
- b=cQ3sWiTrlPmQOFqjiTsk7+wclQo3IaHm6sWeriCdtYr2PLH45ks5E9nOFkWlYa54WIl/ylGMuxRHze1cBP7Ib5q7K1DouZODg5kagHksFcKzBACE4mluj+MWuge/3aOS9MCUR6pS9nG5dfIHkP9kvN+HTQtLNDJMATh1r5ZJnUzirfEXPxIh5PCeDuUFJNgLBZVkpN1M0OBAiVkGfqmJo2RjqAAW+83b3nl5TH8bbYCT5JwKVm/vaormlFIJFycNaVY3xkY4h4WplQcecUML0hiyfqYwPfh1FfHatcDZUdMMbSgb5oR7SOgAw0XA7oEicZfSb9FRthyO3SwW6gwdyg==
+ bh=OY5EblooCvrRGolnk6yNopmDzImb23dQ0t5sMPQDJgE=;
+ b=jvt3fYfHxRgshLxHJJ/YP34J+mV1j3mKr3GMxR9wSkk1ViFGEj5TwKuCVbKYv5e5RX/MnStj27gqVdV2LwSq4vclMarXZG/+rLenUW+QX7mMGEcUqyBNkJuGNDomRLDuVljZ2rWUubhSBRg/8ujSv9mD74SyG/w5fPfRsuLmA/ppHoOU6C59Wua0XjjjL3cv530jH+eGkO97bJhnLy3h4VIcR0frow+5MFl+eppblvMnkayyBzouoOGOEWIEmzlKROs5uyHsiZQFEg9uaRMK90NSdaJPEIIBUUgNzF7zKQ1LFk+LISTfssq4q8cgxVEDkLwXG776KFx5omIQbSeyTg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CNe3huCaHLb5U4U6YnLGBCxi33Xr+1+zob87QqmkfzQ=;
- b=t3LWuBWEiF5AbEnKPiNua3R0oYhCVsInP4o6lqXGzr6608IXmhV786rz9Bpec78tsTfGIv5yrk0Xr8FapjCboej+/G4la+jW0NLmBWWXy9NysvBDKVSJg76tpA2sNFHVLNeq8MQP153VrzW8g3D1pQAkHWCoTMWaV3DrYxQpp/c=
+ bh=OY5EblooCvrRGolnk6yNopmDzImb23dQ0t5sMPQDJgE=;
+ b=GxvMmZ0COYVXajau2YkVuS4XLkLy2E+/bq9CW8kSeWES16TBik4c+xDuFNNqu/ca/4ZvKnW88KD7brIHTVkFO6Rd+QDVW4Q8On+F+3N3TVIvPBqVwIjAvcq87jFlh08c5Ybfa2UHHLyPKFIw29HKPcp4m6QdZwUvJHrFaQP2CXk=
 Authentication-Results: spf=none (sender IP is )
  smtp.mailfrom=Babu.Moger@amd.com; 
 Received: from CY4PR12MB1574.namprd12.prod.outlook.com (10.172.71.23) by
  CY4PR12MB1318.namprd12.prod.outlook.com (10.168.164.138) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2707.24; Thu, 13 Feb 2020 18:16:53 +0000
+ 15.20.2707.24; Thu, 13 Feb 2020 18:16:59 +0000
 Received: from CY4PR12MB1574.namprd12.prod.outlook.com
  ([fe80::e0cc:653a:e9bc:aa8e]) by CY4PR12MB1574.namprd12.prod.outlook.com
  ([fe80::e0cc:653a:e9bc:aa8e%2]) with mapi id 15.20.2707.030; Thu, 13 Feb 2020
- 18:16:52 +0000
-Subject: [PATCH v4 04/16] hw/i386: Introduce init_topo_info to initialize
- X86CPUTopoInfo
+ 18:16:59 +0000
+Subject: [PATCH v4 05/16] machine: Add SMP Sockets in CpuTopology
 From: Babu Moger <babu.moger@amd.com>
 To: ehabkost@redhat.com, marcel.apfelbaum@gmail.com, pbonzini@redhat.com,
  rth@twiddle.net, mst@redhat.com, imammedo@redhat.com
-Date: Thu, 13 Feb 2020 12:16:51 -0600
-Message-ID: <158161781120.48948.3568234592332597800.stgit@naples-babu.amd.com>
+Date: Thu, 13 Feb 2020 12:16:58 -0600
+Message-ID: <158161781807.48948.6804322747644119810.stgit@naples-babu.amd.com>
 In-Reply-To: <158161767653.48948.10578064482878399556.stgit@naples-babu.amd.com>
 References: <158161767653.48948.10578064482878399556.stgit@naples-babu.amd.com>
 User-Agent: StGit/unknown-version
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SN6PR08CA0030.namprd08.prod.outlook.com
- (2603:10b6:805:66::43) To CY4PR12MB1574.namprd12.prod.outlook.com
+X-ClientProxiedBy: SN1PR12CA0086.namprd12.prod.outlook.com
+ (2603:10b6:802:21::21) To CY4PR12MB1574.namprd12.prod.outlook.com
  (2603:10b6:910:e::23)
 MIME-Version: 1.0
 Received: from naples-babu.amd.com (165.204.78.2) by
- SN6PR08CA0030.namprd08.prod.outlook.com (2603:10b6:805:66::43) with Microsoft
+ SN1PR12CA0086.namprd12.prod.outlook.com (2603:10b6:802:21::21) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2729.23 via Frontend Transport; Thu, 13 Feb 2020 18:16:52 +0000
+ 15.20.2707.29 via Frontend Transport; Thu, 13 Feb 2020 18:16:58 +0000
 X-Originating-IP: [165.204.78.2]
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 90cb85bb-7f1b-44f0-8ad7-08d7b0b0e6a5
+X-MS-Office365-Filtering-Correlation-Id: 224af5bf-d630-4073-8591-08d7b0b0eabb
 X-MS-TrafficTypeDiagnostic: CY4PR12MB1318:|CY4PR12MB1318:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <CY4PR12MB131810AE5A93D10331F77958951A0@CY4PR12MB1318.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3826;
+X-Microsoft-Antispam-PRVS: <CY4PR12MB1318131AD6A67E37E65A2C2B951A0@CY4PR12MB1318.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
 X-Forefront-PRVS: 031257FE13
 X-Forefront-Antispam-Report: SFV:NSPM;
  SFS:(10009020)(4636009)(136003)(366004)(39860400002)(346002)(396003)(376002)(189003)(199004)(66476007)(66556008)(66946007)(81166006)(26005)(186003)(316002)(2906002)(52116002)(8936002)(8676002)(478600001)(103116003)(86362001)(7696005)(5660300002)(81156014)(4326008)(956004)(16526019)(44832011)(55016002);
@@ -84,18 +84,18 @@ Received-SPF: None (protection.outlook.com: amd.com does not designate
  permitted sender hosts)
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 2EgwgCNALvSiTLES0/766gkQc/BGHDb4G3M7lRornW4dqQLG0aJE0DJ30g72NaYxtFDTOEsA0fLRJgp2CxmvT/3vDGnWcOY4hwrwDNaDbeMSPnaHPVFHWUOVc2W19UOfv1efDKFyQCon+dK5gdCjXZSmQECj8agqdWlVOunSBRVEfL1atHC+vv7rw5yJf3XKPf2MH/02xS1ltPM5Uwu3+L6UYcbGvu4kG/oMfeMcInCvvLXiPwI9oZqrODAyAIJX7A7M9ErDiHmmYDX0LlGKzgvXXEcEOcyGvZxihrkBfAN92WG9oznNkCNFymO379d9DDXhtrv/EUcdlvQOQp9S4ChKCcawuZsFeSK/n0lwJC4x7vlTX7Y9FuzVwZvlPMtod24LWzVA1qJCLQAHZG32cxRmAGBAWm/6d3KEdy12p4vS+QPh6OQBx4moMQTFNxZD
-X-MS-Exchange-AntiSpam-MessageData: x6k1XmR3K5V9MfV9pAyOi7Ma/F+9nes6vrcvCglgMHxtWFbeHeOhWln5fLvvYXRKiMCXihEI6JW+94mrR3rPljQhM34rfwoW2lpMiWOdv/xMwPyH8VEubPVRiI5fZUo3N2nousNsroCALASDbSIHGA==
+X-Microsoft-Antispam-Message-Info: QjVUQfmaXBadT/OsaOcMqQWoA7eV39V6U9laXI+8l7y14xIiofxxS3DGPTyiEvcoB7vBfKPwK9dqDl9bL0cia1F1Rn8jrjsmBTw+OBWCwdEHqtUwvJzUVxBkyg8iNud0vzEaCW3vV9X9BvCL7HwZzU6CT4uBulO9CMA029IO7a15FXOBwcFVIQ9ifOM1NShapGvahUGv1r41xrZ7ieJ2dgzP+TXBmzuQ1sNwjTFBPYYDuLFoQ+4mKgtnzoHxc/CMyCFQb3Zc3rf2dfORgupuIwDoXhfc9YmS23U4nJg/zDMJ7KOiqwaYzGmfetyo5HEClH3MTPcjCpTQqyMTuc3EAxxakf0b4t2Tw+l1TSpfSpPsBij2PCVMiM38KQgb3MsQUiDvzlzVd39MvEwLk8n2V8fDeJFsI/Yea4OJCvmNj16rCT5p5nhSpodMtD8fm42x
+X-MS-Exchange-AntiSpam-MessageData: nk7sN+v6xbn1NyPfMncSHcrelD8m/l+9Ehvv4wgdTaUlFSOSbnSufWfTl/PaazMMZ2F/E7m1TezAPw0LFjo9y4xB4BhvT6o7RAHOkA3Yq6sVGMf5V0DXWMhjgwnTP1Ey5XcIBUVOyHw+L86dXGwU9Q==
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 90cb85bb-7f1b-44f0-8ad7-08d7b0b0e6a5
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Feb 2020 18:16:52.8355 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 224af5bf-d630-4073-8591-08d7b0b0eabb
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Feb 2020 18:16:59.6634 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: M0D1kjwJVgD/DckPKT0hiPV2UGljet6BTfzRHDNo1NOTfWZRaIeB+yABJ03OaUM7
+X-MS-Exchange-CrossTenant-UserPrincipalName: MpnLZ9a06uw4OixLToqlNZyVLnglgY0zWnv/6XgiLXHBy1QWne+agDbztpP9EPFq
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR12MB1318
 X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.220.65
+X-Received-From: 2a01:111:f400:7e8a::60b
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -111,144 +111,73 @@ Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Initialize all the parameters in one function init_topo_info.
-
-Move the data structure X86CPUTopoIDs and X86CPUTopoInfo into
-x86.h.
+Store the  smp sockets in CpuTopology. The socket information required to
+build the apic id in EPYC mode. Right now socket information is not passed
+to down when decoding the apic id. Add the socket information here.
 
 Signed-off-by: Babu Moger <babu.moger@amd.com>
 Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- hw/i386/pc.c               |    4 +---
- hw/i386/x86.c              |   14 +++-----------
- include/hw/i386/topology.h |   26 ++++++++++----------------
- include/hw/i386/x86.h      |   17 +++++++++++++++++
- 4 files changed, 31 insertions(+), 30 deletions(-)
+ hw/core/machine.c   |    1 +
+ hw/i386/pc.c        |    1 +
+ include/hw/boards.h |    2 ++
+ vl.c                |    1 +
+ 4 files changed, 5 insertions(+)
 
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 2adf7f6afa..9803413dd9 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -1749,9 +1749,7 @@ static void pc_cpu_pre_plug(HotplugHandler *hotplug_dev,
-         return;
+diff --git a/hw/core/machine.c b/hw/core/machine.c
+index 023548b4f3..ea03c25565 100644
+--- a/hw/core/machine.c
++++ b/hw/core/machine.c
+@@ -789,6 +789,7 @@ static void smp_parse(MachineState *ms, QemuOpts *opts)
+         ms->smp.cpus = cpus;
+         ms->smp.cores = cores;
+         ms->smp.threads = threads;
++        ms->smp.sockets = sockets;
      }
  
--    topo_info.dies_per_pkg = x86ms->smp_dies;
--    topo_info.cores_per_die = smp_cores;
--    topo_info.threads_per_core = smp_threads;
-+    init_topo_info(&topo_info, x86ms);
+     if (ms->smp.cpus > 1) {
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index 9803413dd9..f13721ac43 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -978,6 +978,7 @@ void pc_smp_parse(MachineState *ms, QemuOpts *opts)
+         ms->smp.cpus = cpus;
+         ms->smp.cores = cores;
+         ms->smp.threads = threads;
++        ms->smp.sockets = sockets;
+         x86ms->smp_dies = dies;
+     }
  
-     env->nr_dies = x86ms->smp_dies;
- 
-diff --git a/hw/i386/x86.c b/hw/i386/x86.c
-index f18cab8e5c..083effb2f5 100644
---- a/hw/i386/x86.c
-+++ b/hw/i386/x86.c
-@@ -63,15 +63,12 @@ static size_t pvh_start_addr;
- uint32_t x86_cpu_apic_id_from_index(X86MachineState *x86ms,
-                                     unsigned int cpu_index)
- {
--    MachineState *ms = MACHINE(x86ms);
-     X86MachineClass *x86mc = X86_MACHINE_GET_CLASS(x86ms);
-     X86CPUTopoInfo topo_info;
-     uint32_t correct_id;
-     static bool warned;
- 
--    topo_info.dies_per_pkg = x86ms->smp_dies;
--    topo_info.cores_per_die = ms->smp.cores;
--    topo_info.threads_per_core = ms->smp.threads;
-+    init_topo_info(&topo_info, x86ms);
- 
-     correct_id = x86_apicid_from_cpu_idx(&topo_info, cpu_index);
-     if (x86mc->compat_apic_id_mode) {
-@@ -146,10 +143,7 @@ int64_t x86_get_default_cpu_node_id(const MachineState *ms, int idx)
-    X86MachineState *x86ms = X86_MACHINE(ms);
-    X86CPUTopoInfo topo_info;
- 
--   topo_info.dies_per_pkg = x86ms->smp_dies;
--   topo_info.cores_per_die = ms->smp.cores;
--   topo_info.threads_per_core = ms->smp.threads;
--
-+   init_topo_info(&topo_info, x86ms);
- 
-    assert(idx < ms->possible_cpus->len);
-    x86_topo_ids_from_apicid(ms->possible_cpus->cpus[idx].arch_id,
-@@ -177,9 +171,7 @@ const CPUArchIdList *x86_possible_cpu_arch_ids(MachineState *ms)
-                                   sizeof(CPUArchId) * max_cpus);
-     ms->possible_cpus->len = max_cpus;
- 
--    topo_info.dies_per_pkg = x86ms->smp_dies;
--    topo_info.cores_per_die = ms->smp.cores;
--    topo_info.threads_per_core = ms->smp.threads;
-+    init_topo_info(&topo_info, x86ms);
- 
-     for (i = 0; i < ms->possible_cpus->len; i++) {
-         X86CPUTopoIDs topo_ids;
-diff --git a/include/hw/i386/topology.h b/include/hw/i386/topology.h
-index ba52d49079..ef0ab0b6a3 100644
---- a/include/hw/i386/topology.h
-+++ b/include/hw/i386/topology.h
-@@ -40,23 +40,17 @@
- 
- 
- #include "qemu/bitops.h"
-+#include "hw/i386/x86.h"
- 
--/* APIC IDs can be 32-bit, but beware: APIC IDs > 255 require x2APIC support
-- */
--typedef uint32_t apic_id_t;
--
--typedef struct X86CPUTopoIDs {
--    unsigned pkg_id;
--    unsigned die_id;
--    unsigned core_id;
--    unsigned smt_id;
--} X86CPUTopoIDs;
--
--typedef struct X86CPUTopoInfo {
--    unsigned dies_per_pkg;
--    unsigned cores_per_die;
--    unsigned threads_per_core;
--} X86CPUTopoInfo;
-+static inline void init_topo_info(X86CPUTopoInfo *topo_info,
-+                                  const X86MachineState *x86ms)
-+{
-+    MachineState *ms = MACHINE(x86ms);
-+
-+    topo_info->dies_per_pkg = x86ms->smp_dies;
-+    topo_info->cores_per_die = ms->smp.cores;
-+    topo_info->threads_per_core = ms->smp.threads;
-+}
- 
- /* Return the bit width needed for 'count' IDs
+diff --git a/include/hw/boards.h b/include/hw/boards.h
+index 24cbeecbae..a50a2d779e 100644
+--- a/include/hw/boards.h
++++ b/include/hw/boards.h
+@@ -256,12 +256,14 @@ typedef struct DeviceMemoryState {
+  * @cpus: the number of present logical processors on the machine
+  * @cores: the number of cores in one package
+  * @threads: the number of threads in one core
++ * @sockets: the number of sockets on the machine
+  * @max_cpus: the maximum number of logical processors on the machine
   */
-diff --git a/include/hw/i386/x86.h b/include/hw/i386/x86.h
-index 4b84917885..ad62b01cf2 100644
---- a/include/hw/i386/x86.h
-+++ b/include/hw/i386/x86.h
-@@ -36,6 +36,23 @@ typedef struct {
-     bool compat_apic_id_mode;
- } X86MachineClass;
+ typedef struct CpuTopology {
+     unsigned int cpus;
+     unsigned int cores;
+     unsigned int threads;
++    unsigned int sockets;
+     unsigned int max_cpus;
+ } CpuTopology;
  
-+/* APIC IDs can be 32-bit, but beware: APIC IDs > 255 require x2APIC support
-+ */
-+typedef uint32_t apic_id_t;
-+
-+typedef struct X86CPUTopoIDs {
-+    unsigned pkg_id;
-+    unsigned die_id;
-+    unsigned core_id;
-+    unsigned smt_id;
-+} X86CPUTopoIDs;
-+
-+typedef struct X86CPUTopoInfo {
-+    unsigned dies_per_pkg;
-+    unsigned cores_per_die;
-+    unsigned threads_per_core;
-+} X86CPUTopoInfo;
-+
- typedef struct {
-     /*< private >*/
-     MachineState parent;
+diff --git a/vl.c b/vl.c
+index 94508300c3..3f6d396a95 100644
+--- a/vl.c
++++ b/vl.c
+@@ -3819,6 +3819,7 @@ int main(int argc, char **argv, char **envp)
+     current_machine->smp.max_cpus = machine_class->default_cpus;
+     current_machine->smp.cores = 1;
+     current_machine->smp.threads = 1;
++    current_machine->smp.sockets = 1;
+ 
+     machine_class->smp_parse(current_machine,
+         qemu_opts_find(qemu_find_opts("smp-opts"), NULL));
 
 
