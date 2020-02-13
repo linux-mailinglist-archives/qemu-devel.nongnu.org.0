@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC96715CA0F
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 19:13:40 +0100 (CET)
-Received: from localhost ([::1]:57462 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F320315CA14
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 19:15:55 +0100 (CET)
+Received: from localhost ([::1]:57484 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j2Izb-0006Kq-Og
-	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 13:13:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34132)
+	id 1j2J1m-00006G-LH
+	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 13:15:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34268)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j2Ijn-0000ev-ND
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 12:57:21 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1j2Ijq-0000jk-Dq
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 12:57:23 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j2Iji-0002sf-O0
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 12:57:19 -0500
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:39696)
+ (envelope-from <peter.maydell@linaro.org>) id 1j2Ijn-00030G-Vs
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 12:57:22 -0500
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:38152)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j2Iji-0002qj-Ge
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 12:57:14 -0500
-Received: by mail-wm1-x333.google.com with SMTP id c84so7796254wme.4
- for <qemu-devel@nongnu.org>; Thu, 13 Feb 2020 09:57:14 -0800 (PST)
+ id 1j2Ijn-0002tL-Nt
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 12:57:19 -0500
+Received: by mail-wm1-x330.google.com with SMTP id a9so7778035wmj.3
+ for <qemu-devel@nongnu.org>; Thu, 13 Feb 2020 09:57:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=zJjv+z0Lmna1TM2chaAJ29LZREt9wVMVE2+U6A2tRX4=;
- b=mNgcXFBjVHrzN754CquH3cR1TQbRWe5YNnCJNEdnj5u5NVfGuqOrvJFsv/YY1gxKDt
- hPFThYyRSfDbhT0ZqOVyOyaillb5aL5EiY4qdCX+72PYDc/C6wHCY5L8mBdcOreANawL
- 3pz4CCXair7oRKsOHFGWBCVavwGv5jQRpS5vNKeFT2kUMaShUZQnfMKxgF1atP25ZhUE
- SKqRe4SiP6s0016M3/B4voNrfGhN9hRV41ZO2FaruAvIdcFfuzcZrKW4aQmzfYAumSxa
- amGsFAY03Q+yipNT4YOx1dbMUS6FEop50gnOyirkth4ECgtpftUreIotQBk9FTXVM9fo
- rgew==
+ bh=2dmYuTKXtlDf7qo2rxYhEFkrRnpA4jjhd2faKlrwZ8Q=;
+ b=M7cf3Tpv0TbiH4jAA+mpprfGsTBqeF2jucRhoLItmQLYJ1e3E1dPU88k7KejoRx/ra
+ 1fJ6Civlw2zODEJi4/LuZVyZsDFgvKeCUqSyiPON+ENzA3oRLL7YPOI3ojAuzbb5S1Z7
+ yCKrShgHT9D1LCmN1K59r2vKKtinH26w4ZxOtErn+zggkkWLojvJLUrtzUpPN+Y8AsHj
+ jbm+BOs9vE1i1YB2mAY1KemkNKKIe8tKfyucLTHWFIpjObBiGblN9bXDs8tYiKg18mZX
+ Z10vVmnA/8rIRt8dGyjjSgVEtGB4O4S9sqazEm72TWGWQkrPAx3AGICOaA7dZYRetRkC
+ 3dzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=zJjv+z0Lmna1TM2chaAJ29LZREt9wVMVE2+U6A2tRX4=;
- b=kxgQibbGHYNj0JPhZML94rZEdiUND8GO+K8injs2ZjLd1yGhegHG8d7DCVf1XUTRYq
- OEvOKjR/Hz6EbeBqlLQsiRXhdCSRjBHGspmp8MDItmbst3PO0WjCV69xem1zMyIrEvgh
- wIYp2MgQv9frTkQvvUjwok1HiWmYnHvvkTiUWGtpjjW/jk4sJ5yCmalkGEwGHOwe/Yfc
- eaL/xJhI4X0Ph/VGQlWGr8uun8v76zZzxPF8UKrCwQwQGTrEt0ylsezNbC+rjm5CkuPT
- sxY3whYSMJNa4WZaMvMxeiWZAlqv88i/GvdZ5FDYtaKRgKbq7eqh9Uz0i2wdc2z8pxSb
- Q5ug==
-X-Gm-Message-State: APjAAAWwDqEQiNBkLbzgizBYm2SFabG1dhJtBt2yAvF5cCk4WN9ZzpNJ
- 121pypOoysHAzq9vffvLGr2yJ16+2cU=
-X-Google-Smtp-Source: APXvYqzHScbfKs79eVEBPx3SZyyr4pP+V4lacOdWPIVGeBC5sish0ZG7L1O1uyVmnPE0Ek7doG2xDw==
-X-Received: by 2002:a7b:c8d7:: with SMTP id f23mr6818432wml.173.1581616633159; 
- Thu, 13 Feb 2020 09:57:13 -0800 (PST)
+ bh=2dmYuTKXtlDf7qo2rxYhEFkrRnpA4jjhd2faKlrwZ8Q=;
+ b=ODljdvD//Ral6ymXKQp+REeV78bKeSy6NiLl4Z6FCH2H2gEvAhceCN5CWDUV5p4uc3
+ wSQerG+ShPln++Ifg2jGma5VHXn8Yv2Dgb2Seop1X3DEmcVbFzyTJli1dujtn4gdmdpT
+ vth2S7uRj966M8o6KKujt2MfO9vvWQJGM2Q6+8sETWVXHY4vzJsP41S4B21vggUj5Ws9
+ tIXMLKnqCVw5fK6+dqWQRJ0jVHyS5E+Xyp3zNdCjETVzk6NFiPLNmA0Q4Ote623aqVuy
+ 9qIl+RZwZ+iBZDP3f3i104z00x7KJe7pfpjuLrvbxGph0rDmuCVrnDnN0KGJHujhhqI3
+ eabA==
+X-Gm-Message-State: APjAAAUeJ+XmtR5bYwkZaC4HonWSIXidjkP7x2G7BwAYo1VQE3BKHYfy
+ YZa/gzfrvIRWep0YTkBGXvILXuy30/g=
+X-Google-Smtp-Source: APXvYqz0AHlryDTdfJc6gV0fixv8cb8f0deB/gXf6AdXh/o6vFiiNNOFJi4scSCnnAAr7mZJfEolDg==
+X-Received: by 2002:a1c:f008:: with SMTP id a8mr6835616wmb.81.1581616634400;
+ Thu, 13 Feb 2020 09:57:14 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id p26sm3692913wmc.24.2020.02.13.09.57.12
+ by smtp.gmail.com with ESMTPSA id p26sm3692913wmc.24.2020.02.13.09.57.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Feb 2020 09:57:12 -0800 (PST)
+ Thu, 13 Feb 2020 09:57:13 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 16/30] qapi: Add blank lines before bulleted lists
-Date: Thu, 13 Feb 2020 17:56:33 +0000
-Message-Id: <20200213175647.17628-17-peter.maydell@linaro.org>
+Subject: [PATCH v2 17/30] qapi/migration.json: Replace _this_ with *this*
+Date: Thu, 13 Feb 2020 17:56:34 +0000
+Message-Id: <20200213175647.17628-18-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200213175647.17628-1-peter.maydell@linaro.org>
 References: <20200213175647.17628-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::333
+X-Received-From: 2a00:1450:4864:20::330
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,75 +84,49 @@ Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-rST insists on a blank line before and after a bulleted list,
-but our texinfo doc generator did not. Add some extra blank
-lines in the doc comments so they're acceptable rST input.
+The MigrationInfo::setup-time documentation is the only place where
+we use _this_ inline markup for emphasis, commonly rendered in
+italics.  rST doesn't recognize that markup and emits literal
+underscores.
+
+Switch to *this* instead.  Changes markup to strong emphasis with
+Texinfo, commonly rendered as bold.  With rST, it will go right back
+to emphasis / italics.
+
+rST also uses **this** for strong (commonly rendered bold) where
+Texinfo uses *this*. We have one place in the doc comments
+which uses strong/bold markup, in qapi/introspect.json:
+    Note: the QAPI schema is also used to help define *internal*
+
+When we switch to rST that will be rendered as emphasis / italics.
+Markus (who wrote that) thinks that using emphasis / italics
+there is an improvement, so we leave that markup alone.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
 ---
- qapi/block-core.json | 1 +
- qapi/char.json       | 2 ++
- qapi/trace.json      | 1 +
- qapi/ui.json         | 1 +
- 4 files changed, 5 insertions(+)
+v1->v2: updated commit message. Paras 1 and 2 are from Markus;
+paras 3 and 4 are new, and mention a non-change agreed in
+the thread off the cover letter of the v1 patch series.
+---
+ qapi/migration.json | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/qapi/block-core.json b/qapi/block-core.json
-index 082aca3f699..13dad62f441 100644
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -4757,6 +4757,7 @@
+diff --git a/qapi/migration.json b/qapi/migration.json
+index 11033b7a8e6..52f34299698 100644
+--- a/qapi/migration.json
++++ b/qapi/migration.json
+@@ -178,8 +178,8 @@
+ #                     expected downtime in milliseconds for the guest in last walk
+ #                     of the dirty bitmap. (since 1.3)
  #
- # Once the tray opens, a DEVICE_TRAY_MOVED event is emitted. There are cases in
- # which no such event will be generated, these include:
-+#
- # - if the guest has locked the tray, @force is false and the guest does not
- #   respond to the eject request
- # - if the BlockBackend denoted by @device does not have a guest device attached
-diff --git a/qapi/char.json b/qapi/char.json
-index 8a9f1e75097..6907b2bfdba 100644
---- a/qapi/char.json
-+++ b/qapi/char.json
-@@ -133,6 +133,7 @@
- # @data: data to write
- #
- # @format: data encoding (default 'utf8').
-+#
- #          - base64: data must be base64 encoded text.  Its binary
- #            decoding gets written.
- #          - utf8: data's UTF-8 encoding is written
-@@ -167,6 +168,7 @@
- # @size: how many bytes to read at most
- #
- # @format: data encoding (default 'utf8').
-+#
- #          - base64: the data read is returned in base64 encoding.
- #          - utf8: the data read is interpreted as UTF-8.
- #            Bug: can screw up when the buffer contains invalid UTF-8
-diff --git a/qapi/trace.json b/qapi/trace.json
-index 4955e5a7503..47c68f04da7 100644
---- a/qapi/trace.json
-+++ b/qapi/trace.json
-@@ -53,6 +53,7 @@
- # Returns: a list of @TraceEventInfo for the matching events
- #
- #          An event is returned if:
-+#
- #          - its name matches the @name pattern, and
- #          - if @vcpu is given, the event has the "vcpu" property.
- #
-diff --git a/qapi/ui.json b/qapi/ui.json
-index e4bd3d8ea76..89126da395b 100644
---- a/qapi/ui.json
-+++ b/qapi/ui.json
-@@ -934,6 +934,7 @@
- # Input event union.
- #
- # @type: the input type, one of:
-+#
- #        - 'key': Input event of Keyboard
- #        - 'btn': Input event of pointer buttons
- #        - 'rel': Input event of relative pointer motion
+-# @setup-time: amount of setup time in milliseconds _before_ the
+-#              iterations begin but _after_ the QMP command is issued. This is designed
++# @setup-time: amount of setup time in milliseconds *before* the
++#              iterations begin but *after* the QMP command is issued. This is designed
+ #              to provide an accounting of any activities (such as RDMA pinning) which
+ #              may be expensive, but do not actually occur during the iterative
+ #              migration rounds themselves. (since 1.6)
 -- 
 2.20.1
 
