@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A16A15C0B5
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 15:53:08 +0100 (CET)
-Received: from localhost ([::1]:53942 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FF7C15C0A1
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 15:47:10 +0100 (CET)
+Received: from localhost ([::1]:53808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j2FrX-0000E6-2t
-	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 09:53:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60121)
+	id 1j2Fll-000138-12
+	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 09:47:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60133)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j2Fgk-0004BI-1M
+ (envelope-from <peter.maydell@linaro.org>) id 1j2Fgk-0004Ba-LD
  for qemu-devel@nongnu.org; Thu, 13 Feb 2020 09:41:59 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j2Fgi-0001Tg-JS
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 09:41:57 -0500
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:51713)
+ (envelope-from <peter.maydell@linaro.org>) id 1j2Fgj-0001VW-Ek
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 09:41:58 -0500
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:54377)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j2Fgi-0001R6-Bm
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 09:41:56 -0500
-Received: by mail-wm1-x343.google.com with SMTP id t23so6543098wmi.1
- for <qemu-devel@nongnu.org>; Thu, 13 Feb 2020 06:41:56 -0800 (PST)
+ id 1j2Fgj-0001TY-89
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 09:41:57 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id g1so6528281wmh.4
+ for <qemu-devel@nongnu.org>; Thu, 13 Feb 2020 06:41:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=bLlb0z2duQkI+Q2aALcxB/tkS6BOKIX9RgY26xXMpws=;
- b=jL6r7CiKawvDxqjJJJMzLEQoA6d1ZfruWlifdKSFpIxxVmSFuThM0T3F5xq0sT8Nqc
- rufPIc5Pwo6/tEY85SRJ81m3brtWxUSbJpci43oD04fMSDl9b1LmMxuvZD7wt5HNBFaA
- 2FhjCULbGBtaDFkUW3iN4gH9wfSnbx3WefoTLCTEX2fTIuVn/xSBSl52dxh0iB1A5e6U
- l3I2RMSoQKiOyC8W2sNpxrDCdZeQYbBVl1xcjTRHMGYP+fLVVlMS9OsX65NesamQW3pG
- 60DohEAvOJtiyCozUiYrukp3jXYWndi1woERSlBQ8Y/UBxIUyPTKsYfHyUfiuNfdeOE3
- s/+Q==
+ bh=hsa2S0sFIOl02Bh0pvhS4b/KPw5mItrIiArWOu9Dh0U=;
+ b=GpIzEyeSHAE10eNpET5ddNljibe5bJ2nZUvIBXk1pNTcf1Kwu4bmY/armpmhrf683g
+ OWiabVQbK32qSDOdrEuNoJlKCn9qYzJFmBB1/6bQGp3IKk6lQIonJ+cMVwLFTIPHXG+N
+ dti4kjGp5U6R98O2vm7iL+UGri9i6BHN0bBG5eYixiapvVfwCQVqBCwv3eSKduz03bKX
+ jSt7R9ekOTNNWb6FZ+IQwp+8CMlZ+11ZYFIgLHHBPnVbXhsp6cXI7j37JL9MAJ3j+hUJ
+ Pi8NQ1zFOdcxy3D5LaWey5z2d8mY69xSkvmpP1U1Tkb9iwi1+4+6fbdf0bf/Yd0yHBXR
+ dYuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=bLlb0z2duQkI+Q2aALcxB/tkS6BOKIX9RgY26xXMpws=;
- b=JpB+A5m2pQk3FVeNLiq4G+A3AH5/vxYdZJ7EKfg34UC8eXFZi9VCQ1IDil1O8NEkES
- KNoQvNwmkcr1FKbl+VF5aX2VQnG7UtHLNnGaKm8XfvjZrO9EzfxAQWpyC3hShKEA1WHP
- ryEnW57f/+q+d5wOlNt79dKs2dgg4stvPcW7wYtvmpkGHZGvjCy2YP1G79invSltOH7K
- jKtw8LPsSWUmhLBCWt/sbVNeiqRbOIw6gHRGgkXoSlXlfOiM7PhDVKVfu24CByD9GW/E
- ZtFCpiRQWPpioPm6mJRHEOT6e+zhPYjVqpnkxD9I0/sq6qmJqGoXv+rvqL8BlMLpbaFT
- DtFA==
-X-Gm-Message-State: APjAAAX9aTAgvoxAd72mzpJE9mKBNiQzrLi+e3b6H1HB/piGOt6npGYt
- yYYo5WQHE5i0rnd6Du3B+LAIRYTM3lY=
-X-Google-Smtp-Source: APXvYqwqzVxKYTMx6IpFuyBUsA2HRPxNKzdjMeXQaooaLuailUOU18K7KUYUcLzjeQuiz07wzfZcyg==
-X-Received: by 2002:a1c:9854:: with SMTP id a81mr6006141wme.1.1581604915018;
+ bh=hsa2S0sFIOl02Bh0pvhS4b/KPw5mItrIiArWOu9Dh0U=;
+ b=jNYCmIMnbYrWWKviyhDDsd8XpI3CbpE3gCKoz4DV5Re1i3xMpKGM97ujsyT1crfRv/
+ 9sMDmUfyOAPFV1BZPP2rQt/wAXgqcyXQH9z5xnQukeeyk50k8git0g+NDYcHaYJCjole
+ i//em3zgFFkndL/TwR0FT6H7By8awUXpIiVD+SAVLCYNl90EOnCrj20p5nKgJ/EVXNCp
+ hEuzFrPb0AXDlPDIGF8oTWluZ91wVVxcFmk0F+t5DFQ1a8TCQpUfcsrnqeFPOjAUUy21
+ P419H8zP38xA6NY7te4avX8LfdsjoRlL9PtK95WXQmxhCbqQMNXFkjtm9BgTINaV/cd8
+ vtgg==
+X-Gm-Message-State: APjAAAWufEowgpQSWnNkLgP/SeFXnPUlWQlajeKhUR4In4R2ausQ2w11
+ JDT0fZ+9aFKmpbQZeJojHigE/CvXaGM=
+X-Google-Smtp-Source: APXvYqwp9qyV2t5VXnRASbNJ3bWPVgQN+NNt8WlA0HUGkt8LFgsyaq69e78L1lXwL1l22FsiRHUCOg==
+X-Received: by 2002:a1c:7317:: with SMTP id d23mr6370674wmb.165.1581604915973; 
  Thu, 13 Feb 2020 06:41:55 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id e22sm3362454wme.45.2020.02.13.06.41.53
+ by smtp.gmail.com with ESMTPSA id e22sm3362454wme.45.2020.02.13.06.41.55
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Feb 2020 06:41:54 -0800 (PST)
+ Thu, 13 Feb 2020 06:41:55 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 06/46] arm/acpi: fix PCI _PRT definition
-Date: Thu, 13 Feb 2020 14:41:05 +0000
-Message-Id: <20200213144145.818-7-peter.maydell@linaro.org>
+Subject: [PULL 07/46] arm/acpi: fix duplicated _UID of PCI interrupt link
+ devices
+Date: Thu, 13 Feb 2020 14:41:06 +0000
+Message-Id: <20200213144145.818-8-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200213144145.818-1-peter.maydell@linaro.org>
 References: <20200213144145.818-1-peter.maydell@linaro.org>
@@ -66,7 +67,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::343
+X-Received-From: 2a00:1450:4864:20::32a
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,50 +84,30 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Heyi Guo <guoheyi@huawei.com>
 
-The address field in each _PRT mapping package should be constructed
-with high word for device# and low word for function#, so it is wrong
-to use bus_no as the high word. The existing code adds a bunch useless
-entries with device #s above 31. Enumerate all possible slots
-(i.e. PCI_SLOT_MAX) instead.
+Using _UID of 0 for all PCI interrupt link devices absolutely violates
+the spec. Simply increase one by one.
 
 Signed-off-by: Heyi Guo <guoheyi@huawei.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Message-id: 20200204014325.16279-5-guoheyi@huawei.com
+Message-id: 20200204014325.16279-6-guoheyi@huawei.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/virt-acpi-build.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ hw/arm/virt-acpi-build.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
-index be752c0ad8e..5d157a9dd5e 100644
+index 5d157a9dd5e..f3e340b1729 100644
 --- a/hw/arm/virt-acpi-build.c
 +++ b/hw/arm/virt-acpi-build.c
-@@ -151,7 +151,7 @@ static void acpi_dsdt_add_pci(Aml *scope, const MemMapEntry *memmap,
- {
-     int ecam_id = VIRT_ECAM_ID(highmem_ecam);
-     Aml *method, *crs, *ifctx, *UUID, *ifctx1, *elsectx, *buf;
--    int i, bus_no;
-+    int i, slot_no;
-     hwaddr base_mmio = memmap[VIRT_PCIE_MMIO].base;
-     hwaddr size_mmio = memmap[VIRT_PCIE_MMIO].size;
-     hwaddr base_pio = memmap[VIRT_PCIE_PIO].base;
-@@ -170,12 +170,12 @@ static void acpi_dsdt_add_pci(Aml *scope, const MemMapEntry *memmap,
-     aml_append(dev, aml_name_decl("_CCA", aml_int(1)));
- 
-     /* Declare the PCI Routing Table. */
--    Aml *rt_pkg = aml_varpackage(nr_pcie_buses * PCI_NUM_PINS);
--    for (bus_no = 0; bus_no < nr_pcie_buses; bus_no++) {
-+    Aml *rt_pkg = aml_varpackage(PCI_SLOT_MAX * PCI_NUM_PINS);
-+    for (slot_no = 0; slot_no < PCI_SLOT_MAX; slot_no++) {
-         for (i = 0; i < PCI_NUM_PINS; i++) {
--            int gsi = (i + bus_no) % PCI_NUM_PINS;
-+            int gsi = (i + slot_no) % PCI_NUM_PINS;
-             Aml *pkg = aml_package(4);
--            aml_append(pkg, aml_int((bus_no << 16) | 0xFFFF));
-+            aml_append(pkg, aml_int((slot_no << 16) | 0xFFFF));
-             aml_append(pkg, aml_int(i));
-             aml_append(pkg, aml_name("GSI%d", gsi));
-             aml_append(pkg, aml_int(0));
+@@ -189,7 +189,7 @@ static void acpi_dsdt_add_pci(Aml *scope, const MemMapEntry *memmap,
+         uint32_t irqs =  irq + i;
+         Aml *dev_gsi = aml_device("GSI%d", i);
+         aml_append(dev_gsi, aml_name_decl("_HID", aml_string("PNP0C0F")));
+-        aml_append(dev_gsi, aml_name_decl("_UID", aml_int(0)));
++        aml_append(dev_gsi, aml_name_decl("_UID", aml_int(i)));
+         crs = aml_resource_template();
+         aml_append(crs,
+                    aml_interrupt(AML_CONSUMER, AML_LEVEL, AML_ACTIVE_HIGH,
 -- 
 2.20.1
 
