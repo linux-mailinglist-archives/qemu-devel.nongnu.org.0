@@ -2,66 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6F2215BBB9
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 10:32:10 +0100 (CET)
-Received: from localhost ([::1]:49408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAB2A15BBDC
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 10:42:59 +0100 (CET)
+Received: from localhost ([::1]:49550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j2Aqv-0004vI-PS
-	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 04:32:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45185)
+	id 1j2B1O-000649-SX
+	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 04:42:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45918)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1j2Apq-0004Hy-1B
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 04:31:03 -0500
+ (envelope-from <fengzhimin1@huawei.com>) id 1j2Awz-0006gu-NF
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 04:38:26 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1j2Apn-0006Ob-GO
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 04:31:00 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:47331
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <fengzhimin1@huawei.com>) id 1j2Awy-00051H-RR
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 04:38:25 -0500
+Received: from szxga05-in.huawei.com ([45.249.212.191]:2767 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1j2Apm-0006Nd-OL
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 04:30:58 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581586257;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=U/Z73Y+Nz88H31/zruCQ4ZyD8XbYulGWg0WlAtXQaxY=;
- b=D9q2bHE4N4/nVOQScCJTXBVO2PJwsky0IH0CM8zGW6eV3eSPLhFv43yTqn6v6sfBoSJ8i6
- deW3lHQ0xR643jmGFERYeAtjl3mRJG54q3bLoAi/qCY20hMBD5oX+1A8HboSk0b0x9lTSq
- D9FVMDHt037di+zBKwabRmZrWY5G5xc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-152-T9IhgDrCMIm394WWOVZueQ-1; Thu, 13 Feb 2020 04:30:50 -0500
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D0FB51084430;
- Thu, 13 Feb 2020 09:30:49 +0000 (UTC)
-Received: from redhat.com (unknown [10.36.112.14])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BE1E790092;
- Thu, 13 Feb 2020 09:30:47 +0000 (UTC)
-Date: Thu, 13 Feb 2020 09:30:44 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH] qemu-doc: Clarify extent of build platform support
-Message-ID: <20200213093044.GC594756@redhat.com>
-References: <20200213084335.15100-1-armbru@redhat.com>
+ (Exim 4.71) (envelope-from <fengzhimin1@huawei.com>)
+ id 1j2Awy-0004qC-Gl
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 04:38:24 -0500
+Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.58])
+ by Forcepoint Email with ESMTP id 9E6BC3112DDA4FD972F1;
+ Thu, 13 Feb 2020 17:38:15 +0800 (CST)
+Received: from huawei.com (10.173.220.198) by DGGEMS404-HUB.china.huawei.com
+ (10.3.19.204) with Microsoft SMTP Server id 14.3.439.0; Thu, 13 Feb 2020
+ 17:38:07 +0800
+From: Zhimin Feng <fengzhimin1@huawei.com>
+To: <quintela@redhat.com>, <dgilbert@redhat.com>, <armbru@redhat.com>,
+ <eblake@redhat.com>
+Subject: [PATCH RFC 00/14] *** multifd for RDMA v2 ***
+Date: Thu, 13 Feb 2020 17:37:41 +0800
+Message-ID: <20200213093755.370-1-fengzhimin1@huawei.com>
+X-Mailer: git-send-email 2.24.0.windows.2
 MIME-Version: 1.0
-In-Reply-To: <20200213084335.15100-1-armbru@redhat.com>
-User-Agent: Mutt/1.13.3 (2020-01-12)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: T9IhgDrCMIm394WWOVZueQ-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain
+X-Originating-IP: [10.173.220.198]
+X-CFilter-Loop: Reflected
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+ [fuzzy]
+X-Received-From: 45.249.212.191
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,66 +53,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: peter.maydell@linaro.org, pbonzini@redhat.com, jsnow@redhat.com,
- qemu-devel@nongnu.org, ehabkost@redhat.com
+Cc: jemmy858585@gmail.com, Zhimin Feng <fengzhimin1@huawei.com>,
+ qemu-devel@nongnu.org, zhang.zhanghailiang@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Feb 13, 2020 at 09:43:34AM +0100, Markus Armbruster wrote:
-> Supporting a build platform beyond its end of life makes no sense.
-> Spell that out just to be clear.
+Hi
 
-Agreed, that matches my intention when first writing this doc.
+This is a version against current code. It is based on the multifd work.
+we can use the multifd parameters for rdma transport. All data is
+transported by the multifd RDMA channels and the main channel is only
+used to distribute its to the different multifd channels.
 
->=20
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> ---
->  qemu-doc.texi | 9 +++++----
->  1 file changed, 5 insertions(+), 4 deletions(-)
+Zhimin Feng (14):
+  migration: add the 'migrate_use_rdma_pin_all' function
+  migration: judge whether or not the RDMA is used for migration
+  migration/rdma: Create multiFd migration threads
+  migration/rdma: Export the RDMAContext struct
+  migration/rdma: Create the multifd channels for RDMA
+  migration/rdma: Transmit initial packet
+  migration/rdma: Export the 'qemu_rdma_registration_handle' and
+    'qemu_rdma_exchange_send' functions
+  migration/rdma: Add the function for dynamic page registration
+  migration/rdma: register memory for multifd RDMA channels
+  migration/rdma: Wait for all multifd to complete registration
+  migration/rdma: use multifd to migrate VM for rdma-pin-all mode
+  migration/rdma: use multifd to migrate VM for NOT rdma-pin-all mode
+  migration/rdma: only register the memory for multifd channels
+  migration/rdma: RDMA cleanup for multifd migration
 
-Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+ migration/migration.c |  19 ++
+ migration/migration.h |   2 +
+ migration/multifd.c   | 192 +++++++++++++-
+ migration/multifd.h   |  12 +
+ migration/qemu-file.c |   5 +
+ migration/qemu-file.h |   1 +
+ migration/rdma.c      | 579 +++++++++++++++++++++++-------------------
+ migration/rdma.h      | 268 +++++++++++++++++++
+ 8 files changed, 804 insertions(+), 274 deletions(-)
 
-
->=20
-> diff --git a/qemu-doc.texi b/qemu-doc.texi
-> index a1ef6b6484..33b9597b1d 100644
-> --- a/qemu-doc.texi
-> +++ b/qemu-doc.texi
-> @@ -2880,10 +2880,11 @@ lifetime distros will be assumed to ship similar =
-software versions.
-> =20
->  For distributions with long-lifetime releases, the project will aim to s=
-upport
->  the most recent major version at all times. Support for the previous maj=
-or
-> -version will be dropped 2 years after the new major version is released.=
- For
-> -the purposes of identifying supported software versions, the project wil=
-l look
-> -at RHEL, Debian, Ubuntu LTS, and SLES distros. Other long-lifetime distr=
-os will
-> -be assumed to ship similar software versions.
-> +version will be dropped 2 years after the new major version is released,
-> +or when it reaches ``end of life''. For the purposes of identifying
-> +supported software versions, the project will look at RHEL, Debian,
-> +Ubuntu LTS, and SLES distros. Other long-lifetime distros will be
-> +assumed to ship similar software versions.
-> =20
->  @section Windows
-> =20
-> --=20
-> 2.21.1
->=20
-
-Regards,
-Daniel
 --=20
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
- :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com=
- :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
- :|
+2.19.1
+
 
 
