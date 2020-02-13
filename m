@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1255D15BF9A
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 14:43:27 +0100 (CET)
-Received: from localhost ([::1]:52516 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EDC015BFB1
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 14:49:15 +0100 (CET)
+Received: from localhost ([::1]:52624 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j2Em6-0005vG-5B
-	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 08:43:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49812)
+	id 1j2Eri-0003NP-Fz
+	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 08:49:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50360)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@redhat.com>) id 1j2ElF-0005RQ-9K
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 08:42:34 -0500
+ (envelope-from <stefanha@redhat.com>) id 1j2EoL-00081u-AM
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 08:45:46 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1j2ElD-0007Z5-Uk
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 08:42:32 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:42225
+ (envelope-from <stefanha@redhat.com>) id 1j2EoF-0000Yx-0p
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 08:45:41 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:51579
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1j2ElD-0007Yh-QL
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 08:42:31 -0500
+ (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1j2EoE-0000Yg-T7
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 08:45:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581601351;
+ s=mimecast20190719; t=1581601538;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=xdPKQfrZ1RBDe4hqhlglMERfhsJPUIIP0SAu6YT/YJA=;
- b=GkonhpLXl99TwyJFxdbV8fAoqBSZ2mVrGvth0/p4xB0AkkiJCP5QVy8nb6HPhhfYy+9+UH
- LszQxnvcT52pbuPjM8QG3t0YxSP5lBhKF/W1jIlNqXOpB3ufUq9sUErr2pVW4UHXY+NuLv
- s/VNQGqpiOyL/uChYhNlUg32T6/xMBY=
+ bh=aGWb3j7hBbexZ89g551PL4PcAp6TmTiI6IUGkx8rOKQ=;
+ b=B7LTd3NPPiS5y1trGs0GR3vgy1DwvCpOk6NC46+3tmi7lvyyBdqSn4Ihz8CZ/eeEje0Tes
+ gwUIT/l+ZljbRMRU7mewUTd56QPpfMbjwkfi+DSj1GcmhfEKfYrTPDre2aI1wNlKJp/8MM
+ qBTaa7dpxDPzjxXnitbH4/3+kQzxUlE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-436-Waoq8wDlOuWrOgDAuZ8ZMQ-1; Thu, 13 Feb 2020 08:42:29 -0500
-X-MC-Unique: Waoq8wDlOuWrOgDAuZ8ZMQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-436-NAQehj_4Mmm8irIRQKFGqQ-1; Thu, 13 Feb 2020 08:45:33 -0500
+X-MC-Unique: NAQehj_4Mmm8irIRQKFGqQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EBAB3107ACC4;
- Thu, 13 Feb 2020 13:42:27 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 030E0100550E;
+ Thu, 13 Feb 2020 13:45:32 +0000 (UTC)
 Received: from localhost (unknown [10.36.118.21])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0B5A09008B;
- Thu, 13 Feb 2020 13:42:24 +0000 (UTC)
-Date: Thu, 13 Feb 2020 13:42:23 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5FFED5C12E;
+ Thu, 13 Feb 2020 13:45:28 +0000 (UTC)
+Date: Thu, 13 Feb 2020 13:45:27 +0000
 From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Alexander Bulekov <alxndr@bu.edu>
-Subject: Re: [PATCH v9 22/23] fuzz: add virtio-scsi fuzz target
-Message-ID: <20200213134223.GE544499@stefanha-x1.localdomain>
-References: <20200211203510.3534-1-alxndr@bu.edu>
- <20200211203510.3534-23-alxndr@bu.edu>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Subject: Re: [PATCH] tracing: only allow -trace to override -D if set
+Message-ID: <20200213134527.GF544499@stefanha-x1.localdomain>
+References: <20200211111054.27538-1-alex.bennee@linaro.org>
+ <20200212153459.GE432724@stefanha-x1.localdomain>
+ <195b1312-e86b-3b4b-5447-29a21708c931@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200211203510.3534-23-alxndr@bu.edu>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <195b1312-e86b-3b4b-5447-29a21708c931@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="XuV1QlJbYrcVoo+x"
+ protocol="application/pgp-signature"; boundary="7mxbaLlpDEyR1+x6"
 Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 205.139.110.120
@@ -71,79 +72,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- qemu-devel@nongnu.org, darren.kenny@oracle.com, bsd@redhat.com,
- pbonzini@redhat.com
+Cc: Stefan Hajnoczi <stefanha@gmail.com>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---XuV1QlJbYrcVoo+x
-Content-Type: text/plain; charset=us-ascii
+--7mxbaLlpDEyR1+x6
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Feb 11, 2020 at 03:35:09PM -0500, Alexander Bulekov wrote:
-> diff --git a/tests/qtest/fuzz/virtio_scsi_fuzz.c b/tests/qtest/fuzz/virtio_scsi_fuzz.c
-> new file mode 100644
-> index 0000000000..f62f512a26
-> --- /dev/null
-> +++ b/tests/qtest/fuzz/virtio_scsi_fuzz.c
-> @@ -0,0 +1,214 @@
-> +/*
-> + * virtio-serial Fuzzing Target
-> + *
-> + * Copyright Red Hat Inc., 2019
-> + *
-> + * Authors:
-> + *  Alexander Bulekov   <alxndr@bu.edu>
-> + *
-> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
-> + * See the COPYING file in the top-level directory.
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +
-> +#include "tests/qtest/libqtest.h"
-> +#include "tests/qtest/libqos/virtio-net.h"
+On Wed, Feb 12, 2020 at 11:31:00PM +0100, Philippe Mathieu-Daud=E9 wrote:
+> On 2/12/20 4:34 PM, Stefan Hajnoczi wrote:
+> > On Tue, Feb 11, 2020 at 11:10:54AM +0000, Alex Benn=E9e wrote:
+> > > Otherwise any -D settings the user may have made get ignored.
+> > >=20
+> > > Signed-off-by: Alex Benn=E9e <alex.bennee@linaro.org>
+> > > ---
+> > >   trace/control.c | 11 ++++++++---
+> > >   1 file changed, 8 insertions(+), 3 deletions(-)
+> >=20
+> > Thanks, applied to my tracing tree:
+> > https://github.com/stefanha/qemu/commits/tracing
+>=20
+> If possible, please add 'Fixes: e144a605a'.
 
-virtio-net?
+Done!
 
-> +static void register_virtio_scsi_fuzz_targets(void)
-> +{
-> +    fuzz_add_qos_target(&(FuzzTarget){
-> +                .name = "virtio-scsi-fuzz",
-> +                .description = "Fuzz the virtio-net virtual queues, forking"
+Stefan
 
-s/net/scsi/
-
-> +                                "for each fuzz run",
-> +                .pre_vm_init = &counter_shm_init,
-> +                .pre_fuzz = &virtio_scsi_pre_fuzz,
-> +                .fuzz = virtio_scsi_fork_fuzz,},
-> +                "virtio-scsi",
-> +                &(QOSGraphTestOptions){.before = virtio_scsi_test_setup}
-> +                );
-> +
-> +    fuzz_add_qos_target(&(FuzzTarget){
-> +                .name = "virtio-scsi-flags-fuzz",
-> +                .description = "Fuzz the virtio-net virtual queues, forking"
-
-s/net/scsi/
-
---XuV1QlJbYrcVoo+x
+--7mxbaLlpDEyR1+x6
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl5FUj8ACgkQnKSrs4Gr
-c8ix3gf+McQkkr7MrMnPmSpjSBo4tOpdjV2ErMC0TJ/ErfcBLaozrDb6Jj9kWQGA
-TCoekFbaNKIjcH8cJxGHa2+tV79QWrICyGdz2UpL1SQGxxNST6HfUQUzzZNhb+ao
-/4tGJQR6jznu81BxfRKueyUFtgI1xd/l0l/4YjYQS85CKoFisM0pWBawPBqkYxQC
-mIa+74sYd0YqBjwEHclZm2rVvMif2VKWxj83j5rgj1eZy1dbSrFopf/xJHFRaXxG
-C45d7tHiyNdiUjtYVjyi4iurMsXPMugrz1ofk7JhynaMYLDn2XUbYEX0e/FFfsc6
-bi8dhuOosKiQTNCUIaI4KQK8vfGOVg==
-=FTT0
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl5FUvcACgkQnKSrs4Gr
+c8hJdggAknMfSRJ2fXYrSAJRwXoodwYDN2h7y49z296PCcfiHYxWcwt/0ZSg1O8i
+v3FEn/dUGhs4UtTdW0QOSxUW3B16v8tMShPcmNuo/aeM6Hmemu0J3/3TW4PStTxj
+EGuyW0m539hSuei01AIIIueezkRA5LjOZZAxvHfuXrHvaD1xIZ0zaB6kiwxlAh9x
+6DSw3/3QlDrojqmlUugK5LPgIUXTTAzC/FfhFzxEom90lCWDZiZnmYAOEMsu8N71
+Jewl8+f7y1pNEADJK5KtSk1BwWKiQucsLe0A7gIJawjkfhxVk4w5DSxzSqjo5LXs
+bdhBeG955yVUuHxx8TxmElM2qYl8bg==
+=y82C
 -----END PGP SIGNATURE-----
 
---XuV1QlJbYrcVoo+x--
+--7mxbaLlpDEyR1+x6--
 
 
