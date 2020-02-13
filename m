@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEDDA15C9DD
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 19:01:57 +0100 (CET)
-Received: from localhost ([::1]:57198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F01A715C9E1
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 19:03:57 +0100 (CET)
+Received: from localhost ([::1]:57248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j2IoG-0005uq-Nn
-	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 13:01:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33896)
+	id 1j2IqC-00011D-Tc
+	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 13:03:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33905)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j2Ije-0000Wa-7d
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 12:57:11 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1j2Ije-0000X4-FJ
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 12:57:12 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j2Ijd-0002h5-5n
+ (envelope-from <peter.maydell@linaro.org>) id 1j2Ijd-0002hH-7I
  for qemu-devel@nongnu.org; Thu, 13 Feb 2020 12:57:10 -0500
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:39254)
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:44420)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j2Ijc-0002em-Ua
+ id 1j2Ijd-0002g3-0r
  for qemu-devel@nongnu.org; Thu, 13 Feb 2020 12:57:09 -0500
-Received: by mail-wr1-x42a.google.com with SMTP id y11so7799656wrt.6
+Received: by mail-wr1-x443.google.com with SMTP id m16so7782756wrx.11
  for <qemu-devel@nongnu.org>; Thu, 13 Feb 2020 09:57:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=sGzD1fnYqJucooAWR/6jjHsELD6Wua5qgxiKhqNXiBA=;
- b=Bdkwvjf1Ht6ZzhUErzkXSHz+tHXmVxhMT92XnMbCvMn2ykoOwccQzVEYSELyoRVIWU
- 5sHbYqLgz+14duGha+TuD2tdKvMOcdxcrsXMw2rMXZ21BJNMyx3wg64rPryjiWGdajYT
- rxiyPVMlX5oF8hBA5SA9qJrI4TxFaHQA5ry+C+hJDfwJ8m6UuaefLURrKyd5wD2Y9eIB
- MBx4d1f3QF8V0TeFP8CbBsaJY6a7xBA617u0N7AvBdbYXhPpx84gK5mCFV+98/3PfcMI
- y8H1xuLotDKjig1wCunOpBC9YpELDuRePIRb84Osm0Tv0/v9s5Dl9Ol1m0Qsku76s3Rs
- SHGQ==
+ bh=yvaniTNaVZq0Mihik+Rp3oNaMwVKeXRTQ0KV3KgYMSs=;
+ b=Jrn04ao4kz1sf2I87ukxuP+3d1j9SrtJLv/gX70tylZGk3nbluTBiJG8iiPoc0VZdu
+ Sp9Fg8aFui1RlyaNvS+ih7zWN/DJeckphHjw1qeY4E9V3iE4zaRLythZ47YmFSpzx7JO
+ mKUZsZLRwBuE4RHPtreWe3wtZHkt9LGLp+OB+AmssqzYe8SyQp+LnVboUcnajlSeAvH5
+ jEAygADwIWTryf7exIKJsIczVvUfp1+cZ3eDpacb4H7tyhtOx6zZb4Gfpv731Y2Kp47K
+ G+LE3SBRyRbRzo0AVNpnOj1CEgva4q8rxRvHvqEfTv+U1gwZZ4GhZ6WrEMJgNgLv/8Ng
+ YVEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=sGzD1fnYqJucooAWR/6jjHsELD6Wua5qgxiKhqNXiBA=;
- b=DhxzFnv2WVFLvd+TrCEbbLYbLL14sOfp1UJ5IWZmbeLytn7wx0CN/SW/kV3mdv/AeS
- oY2IyfR821bt05UrV980vo3MiaP/kolWw+lnUIsroYNwMa8fKAfHpCS+3DX9hMVktzTm
- D7uVTLsJ0xA9plIJg3974dbfFiUlo0VKcy40bzNguHfHx/W1vejctHIXkKN2kISFLfes
- 4A8DzwOYr+mIPEEPaF1UuDN4KnEctGI0XKTd5kXFcr2ThO3O8Hx/CpMb31QOOn3kVyUK
- PUrkaAC7XQJBcjp4VVQW5X0FzNHt+mm9k6Y2X9pMMzbKCCHB/dHhUrFpUUbtdxBrrd4V
- Hz0g==
-X-Gm-Message-State: APjAAAVDJuFEmDfeeQl5JswSSg1Kp+fxx2IazIB8b5FQfwLyOfbxHBIM
- O2HyEXEXSzV29mUW2cBxf6US70+stxo=
-X-Google-Smtp-Source: APXvYqyp5vIV6tJ6nys+Ep0AEdSKpp17crvqiwpngqCkRkiYs9XAGF4WZiianZn1YvXrmQE8c0wBsg==
-X-Received: by 2002:a5d:614a:: with SMTP id y10mr8406616wrt.73.1581616626610; 
- Thu, 13 Feb 2020 09:57:06 -0800 (PST)
+ bh=yvaniTNaVZq0Mihik+Rp3oNaMwVKeXRTQ0KV3KgYMSs=;
+ b=T4b1Sq0QcaCCUoF9vg/ln9T9GHD3pUdWtpI+uVkn4re0OpVXdFMFtsKailpfzqzTIL
+ wqRQHwirl+N9gzcXDHRTJQst8X8ORe6rp3CVyTtoCR4BmfI0HOa7cNI0HnEznP4NT8W9
+ LHLX4oFpEqODuvmb2gFEjQFyeb8rFSnUYgJZBVkKu7hX8hDP3btelUljhw0hUvdfF5br
+ vQJjLslqrKk2o9n2Vg67kzO9bVAqeZHs3Hd1JhJiG6yClSWDXyuf/1qg6ZiIHt6VG8WL
+ CwgIbI6J1QWUZ8XmV0l/t/Y8lQxvLjV8W4K/OxEE10jYpPFbhZGCxbBAVx/QxyP2p6hT
+ MNwg==
+X-Gm-Message-State: APjAAAWCeZ0k+AmWOTNShzaxs3Np/NRSd/iBxGRFuux5COxTfHVkeEcC
+ 5kzHLKP8qENMmruAd9laVXApjZ4HHcM=
+X-Google-Smtp-Source: APXvYqxpcHid7/tGU+ylIuNZdLr8vJmCJh5CWcxleKKuxKKnkXDd7MgGf4Daf8Nrn3NL8JOQemGofQ==
+X-Received: by 2002:adf:cd92:: with SMTP id q18mr22439671wrj.261.1581616627772; 
+ Thu, 13 Feb 2020 09:57:07 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id p26sm3692913wmc.24.2020.02.13.09.57.05
+ by smtp.gmail.com with ESMTPSA id p26sm3692913wmc.24.2020.02.13.09.57.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Feb 2020 09:57:06 -0800 (PST)
+ Thu, 13 Feb 2020 09:57:07 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 11/30] qapi/ui.json: Put input-send-event body text in the
- right place
-Date: Thu, 13 Feb 2020 17:56:28 +0000
-Message-Id: <20200213175647.17628-12-peter.maydell@linaro.org>
+Subject: [PATCH v2 12/30] qapi/ui.json: Avoid `...' texinfo style quoting
+Date: Thu, 13 Feb 2020 17:56:29 +0000
+Message-Id: <20200213175647.17628-13-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200213175647.17628-1-peter.maydell@linaro.org>
 References: <20200213175647.17628-1-peter.maydell@linaro.org>
@@ -66,7 +65,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42a
+X-Received-From: 2a00:1450:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,54 +84,67 @@ Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In the doc comment for input-send-event, there is a multi-line
-chunk of text ("The @device...take precedence") which is intended
-to be the main body text describing the event. However it has
-been placed after the arguments and Returns: section, which
-means that the parser actually thinks that this text is
-part of the "Returns" section text.
-
-Move the body text up to the top so that the parser correctly
-classifies it as body.
+Avoid texinfo style quoting with `...', because rST treats it
+as a syntax error. Use '...' instead, as we do in other
+doc comments. This looks OK in texinfo, and rST formats it as
+paired-quotation-marks.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Markus Armbruster <armbru@redhat.com>
 ---
- qapi/ui.json | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ qapi/ui.json | 24 ++++++++++++------------
+ 1 file changed, 12 insertions(+), 12 deletions(-)
 
 diff --git a/qapi/ui.json b/qapi/ui.json
-index ba873e1e298..e8b8b708c72 100644
+index e8b8b708c72..088a8680efb 100644
 --- a/qapi/ui.json
 +++ b/qapi/ui.json
-@@ -949,13 +949,6 @@
+@@ -12,16 +12,16 @@
  #
- # Send input event(s) to guest.
+ # Sets the password of a remote display session.
  #
--# @device: display device to send event(s) to.
--# @head: head to send event(s) to, in case the
--#        display device supports multiple scanouts.
--# @events: List of InputEvent union.
--#
--# Returns: Nothing on success.
--#
- # The @device and @head parameters can be used to send the input event
- # to specific input devices in case (a) multiple input devices of the
- # same kind are added to the virtual machine and (b) you have
-@@ -967,6 +960,13 @@
- # are admissible, but devices with input routing config take
- # precedence.
+-# @protocol: `vnc' to modify the VNC server password
+-#            `spice' to modify the Spice server password
++# @protocol: 'vnc' to modify the VNC server password
++#            'spice' to modify the Spice server password
  #
-+# @device: display device to send event(s) to.
-+# @head: head to send event(s) to, in case the
-+#        display device supports multiple scanouts.
-+# @events: List of InputEvent union.
-+#
-+# Returns: Nothing on success.
-+#
- # Since: 2.6
+ # @password: the new password
  #
- # Note: The consoles are visible in the qom tree, under
+ # @connected: how to handle existing clients when changing the
+-#             password.  If nothing is specified, defaults to `keep'
+-#             `fail' to fail the command if clients are connected
+-#             `disconnect' to disconnect existing clients
+-#             `keep' to maintain existing clients
++#             password.  If nothing is specified, defaults to 'keep'
++#             'fail' to fail the command if clients are connected
++#             'disconnect' to disconnect existing clients
++#             'keep' to maintain existing clients
+ #
+ # Returns: Nothing on success
+ #          If Spice is not enabled, DeviceNotFound
+@@ -43,16 +43,16 @@
+ #
+ # Expire the password of a remote display server.
+ #
+-# @protocol: the name of the remote display protocol `vnc' or `spice'
++# @protocol: the name of the remote display protocol 'vnc' or 'spice'
+ #
+ # @time: when to expire the password.
+-#        `now' to expire the password immediately
+-#        `never' to cancel password expiration
+-#        `+INT' where INT is the number of seconds from now (integer)
+-#        `INT' where INT is the absolute time in seconds
++#        'now' to expire the password immediately
++#        'never' to cancel password expiration
++#        '+INT' where INT is the number of seconds from now (integer)
++#        'INT' where INT is the absolute time in seconds
+ #
+ # Returns: Nothing on success
+-#          If @protocol is `spice' and Spice is not active, DeviceNotFound
++#          If @protocol is 'spice' and Spice is not active, DeviceNotFound
+ #
+ # Since: 0.14.0
+ #
 -- 
 2.20.1
 
