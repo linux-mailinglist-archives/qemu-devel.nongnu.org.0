@@ -2,69 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6F1415BBE0
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 10:43:07 +0100 (CET)
-Received: from localhost ([::1]:49553 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 668A015BBF5
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Feb 2020 10:45:13 +0100 (CET)
+Received: from localhost ([::1]:49620 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j2B1W-0006AR-VM
-	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 04:43:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46311)
+	id 1j2B3Y-00010F-Fu
+	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 04:45:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46735)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bmeng.cn@gmail.com>) id 1j2Ayf-0001xZ-VJ
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 04:40:10 -0500
+ (envelope-from <jasowang@redhat.com>) id 1j2B1Q-00072r-Es
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 04:43:04 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bmeng.cn@gmail.com>) id 1j2Ayd-0006nD-KX
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 04:40:09 -0500
-Received: from mail-yw1-xc43.google.com ([2607:f8b0:4864:20::c43]:45322)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bmeng.cn@gmail.com>)
- id 1j2Ayd-0006mM-GV; Thu, 13 Feb 2020 04:40:07 -0500
-Received: by mail-yw1-xc43.google.com with SMTP id a125so2287453ywe.12;
- Thu, 13 Feb 2020 01:40:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=6Q0qB5blx30CgH7LC/Q64RAkBHUHVkwmIqC9zE+i9wA=;
- b=XOah7EFbhmf3/3BLajWW6e0pToDIfi237Rp35OQIHfGEwTCYnPA9LsCBieXeMNPSK9
- BbouB31z3y/6+TV63WBMcHs/hduNccxn5r2HtNB7M5ImbvIpobxNZTJNYEtM68tkaHzg
- tbQvGF6u1Whs3lpMAWEtsDrvLiV2pE9v0++v5tL7d+lpOG5Kiif7mPKa83pU7HhlIPMU
- +CpuQR+Q+fASQsm2gtf6OKhUD6QjGFS+P7fqMVnZ1Qb1yDcGImGoNcrWw9ww0r1vacuw
- 2p0EEwacv3bcVYYDb0fXhGrsyOZpo0NeTDEPaoC4maJ1sGrRonrcxTCrfKZw1EnHeR/Q
- +aQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=6Q0qB5blx30CgH7LC/Q64RAkBHUHVkwmIqC9zE+i9wA=;
- b=U3J+UlTpxR2c2DxUtRw+6dqKlzV5utFNT+o+Z5/BiJdtMrtE3QwbrIBYLaLYD7dwgn
- 1bGBesBbkxLZ5pw1zOcwWdIBAppSTCzT/+cMeSLU28d8WulIrAgd5qqsOqEp+bERQk9h
- pdei56Dr17K7wCSyFN3GV8Pfaw+Tpg0YyjqCeElf7nRbGnd9o7IReSRMb1gHxXNVVU6m
- KX3R16Jagli8rWcbbpamKho66o7tQNxfzuurkNAIMOK1j/xTORo9R6CTujzLwYdM7sYj
- A8tq2/M//HlvlrGwaHYVA1xhRrk7kR5sckffXCJw+kC0TCYGzhxcJgkfJ/ppz+lsfgN0
- tjXA==
-X-Gm-Message-State: APjAAAXTYLTheX75UtRszvBbyfnMJe8nz7LXzCvXy8KuJyUmrAKaF9BS
- rPAo8ibgsIuAYGaFKYOq8NQAoZ7M7crlsY4JYgY=
-X-Google-Smtp-Source: APXvYqzYdWGZ0rh6H0kGcm9gOMLsZ3Q5ZvgE/v++SLk5oA8keG1npJu0IqTVVFFFqZRDTJGCL1cHzD8xCUshQzZuQwc=
-X-Received: by 2002:a81:9816:: with SMTP id p22mr2156509ywg.209.1581586806456; 
- Thu, 13 Feb 2020 01:40:06 -0800 (PST)
-MIME-Version: 1.0
+ (envelope-from <jasowang@redhat.com>) id 1j2B1O-00019j-W3
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 04:42:59 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:38414
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <jasowang@redhat.com>) id 1j2B1O-00019H-Re
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 04:42:58 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1581586978;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=KyRax9WTiMAW7Zu3vAA5Nj0OKEpA3JbfVMnYVMZ/OpY=;
+ b=ZJnNB1dK42L5xdSLLML5u77DAUYeeGYDU08KzfQM5v1x8MVYCrBe0oK+7zC+pjtsDB51Ed
+ D5Ax2Axwl5jc+g63UhhHzMoAwWqnoaLQFnLXM/YmmnFuF0TZ+JVoUGFmgDWEpymrA2Gk73
+ ZX3kzAW1s3OU2miUC4WXcGPwm9y6QaY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-319-XrWPDVpWO8S1ZCF-CMpVTg-1; Thu, 13 Feb 2020 04:42:57 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 87D588018A5;
+ Thu, 13 Feb 2020 09:42:55 +0000 (UTC)
+Received: from [10.72.13.212] (ovpn-13-212.pek2.redhat.com [10.72.13.212])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D8AB426E7B;
+ Thu, 13 Feb 2020 09:42:49 +0000 (UTC)
+Subject: Re: [Qemu-devel] [PATCH v3] hw: net: cadence_gem: Fix build errors in
+ DB_PRINT()
+To: Bin Meng <bmeng.cn@gmail.com>
 References: <1565335544-23584-1-git-send-email-bmeng.cn@gmail.com>
  <CAKmqyKOyTXgs5uZuukZjAEqQkTtf1U+vD=u9_470+OgsfaQdqQ@mail.gmail.com>
  <CAEUhbmW0sCEN7mzSfCvUBSqhAGD3v5JyeDj2iSqs0MQJv13bag@mail.gmail.com>
  <67e917c9-d080-5af1-22ea-ba6d9af4daee@redhat.com>
-In-Reply-To: <67e917c9-d080-5af1-22ea-ba6d9af4daee@redhat.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Thu, 13 Feb 2020 17:39:55 +0800
-Message-ID: <CAEUhbmUswmWjiaAy+26mYkEMpciTP6u6=WDmVX2U9MKo=uR_qA@mail.gmail.com>
-Subject: Re: [Qemu-devel] [PATCH v3] hw: net: cadence_gem: Fix build errors in
- DB_PRINT()
-To: Jason Wang <jasowang@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+ <CAEUhbmUswmWjiaAy+26mYkEMpciTP6u6=WDmVX2U9MKo=uR_qA@mail.gmail.com>
+From: Jason Wang <jasowang@redhat.com>
+Message-ID: <91d39b2d-3077-a638-d253-be9acdb24f8a@redhat.com>
+Date: Thu, 13 Feb 2020 17:42:48 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
+MIME-Version: 1.0
+In-Reply-To: <CAEUhbmUswmWjiaAy+26mYkEMpciTP6u6=WDmVX2U9MKo=uR_qA@mail.gmail.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: XrWPDVpWO8S1ZCF-CMpVTg-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::c43
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,42 +84,48 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
  qemu-arm <qemu-arm@nongnu.org>, Alistair Francis <Alistair.Francis@wdc.com>,
  "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
  Alistair Francis <alistair23@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Jason,
 
-On Mon, Aug 19, 2019 at 1:40 PM Jason Wang <jasowang@redhat.com> wrote:
+On 2020/2/13 =E4=B8=8B=E5=8D=885:39, Bin Meng wrote:
+> Hi Jason,
 >
->
-> On 2019/8/19 =E4=B8=8B=E5=8D=881:24, Bin Meng wrote:
-> > On Sat, Aug 10, 2019 at 9:58 AM Alistair Francis <alistair23@gmail.com>=
+> On Mon, Aug 19, 2019 at 1:40 PM Jason Wang <jasowang@redhat.com> wrote:
+>>
+>> On 2019/8/19 =E4=B8=8B=E5=8D=881:24, Bin Meng wrote:
+>>> On Sat, Aug 10, 2019 at 9:58 AM Alistair Francis <alistair23@gmail.com>=
  wrote:
-> >> On Fri, Aug 9, 2019 at 12:26 AM Bin Meng <bmeng.cn@gmail.com> wrote:
-> >>> When CADENCE_GEM_ERR_DEBUG is turned on, there are several
-> >>> compilation errors in DB_PRINT(). Fix them.
-> >>>
-> >>> While we are here, update to use appropriate modifiers in
-> >>> the same DB_PRINT() call.
-> >>>
-> >>> Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
-> >> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-> >>
-> > Ping?
-> >
-> > What's the status of this patch?
-> >
-> > Regards,
-> > Bin
+>>>> On Fri, Aug 9, 2019 at 12:26 AM Bin Meng <bmeng.cn@gmail.com> wrote:
+>>>>> When CADENCE_GEM_ERR_DEBUG is turned on, there are several
+>>>>> compilation errors in DB_PRINT(). Fix them.
+>>>>>
+>>>>> While we are here, update to use appropriate modifiers in
+>>>>> the same DB_PRINT() call.
+>>>>>
+>>>>> Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
+>>>> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+>>>>
+>>> Ping?
+>>>
+>>> What's the status of this patch?
+>>>
+>>> Regards,
+>>> Bin
+>>
+>> Applied.
+> I checked latest qemu/master and found this patch isn't applied. Could
+> you please take a look?
 >
->
-> Applied.
+> Regards,
+> Bin
 
-I checked latest qemu/master and found this patch isn't applied. Could
-you please take a look?
 
-Regards,
-Bin
+For some unknown reason it was lost, I've applied in my tree and it will=20
+be in the next pull request.
+
+Sorry.
+
 
