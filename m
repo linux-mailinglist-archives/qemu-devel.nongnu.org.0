@@ -2,65 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73B9715F29C
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Feb 2020 19:17:37 +0100 (CET)
-Received: from localhost ([::1]:43510 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDD6C15F3AF
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Feb 2020 19:22:21 +0100 (CET)
+Received: from localhost ([::1]:43680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j2fWy-0006GI-GA
-	for lists+qemu-devel@lfdr.de; Fri, 14 Feb 2020 13:17:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60894)
+	id 1j2fbY-0008Pd-Uo
+	for lists+qemu-devel@lfdr.de; Fri, 14 Feb 2020 13:22:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60921)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1j2fVV-0004TM-BA
- for qemu-devel@nongnu.org; Fri, 14 Feb 2020 13:16:06 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1j2fVW-0004Vs-Vx
+ for qemu-devel@nongnu.org; Fri, 14 Feb 2020 13:16:08 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1j2fVU-0000FY-Dm
- for qemu-devel@nongnu.org; Fri, 14 Feb 2020 13:16:05 -0500
-Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:33297)
+ (envelope-from <richard.henderson@linaro.org>) id 1j2fVV-0000GM-Lm
+ for qemu-devel@nongnu.org; Fri, 14 Feb 2020 13:16:06 -0500
+Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:37088)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1j2fVU-0000FK-7H
- for qemu-devel@nongnu.org; Fri, 14 Feb 2020 13:16:04 -0500
-Received: by mail-pl1-x644.google.com with SMTP id ay11so4028780plb.0
- for <qemu-devel@nongnu.org>; Fri, 14 Feb 2020 10:16:04 -0800 (PST)
+ id 1j2fVV-0000Fu-FM
+ for qemu-devel@nongnu.org; Fri, 14 Feb 2020 13:16:05 -0500
+Received: by mail-pf1-x444.google.com with SMTP id p14so5264995pfn.4
+ for <qemu-devel@nongnu.org>; Fri, 14 Feb 2020 10:16:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=hc+/AucXa0inxq9dbV/arLbbzIae9WxdVjI4zl5RMxY=;
- b=upfqOujZGWqMRFNIe2Y4HrByxOI+hj3ayK33nXTKGLh9nQgtl7T2uG7bkQyxpUfpgE
- ZmgP10cb/8yOXuRakIVq4khHPFm/Wx0fOdOuvYJtthyjxbYjVPu9fLAJ6R66UMxjGQm6
- u83i07TWr+DXx7tjIGC0AObz47i7a90B0tdWpb51vFN4wFQIzQjknvGNkvJcUItzhqpz
- P+hA0TvbSKBomcEECSUbRln2jdEU7krQ+XMVN26zQUje6KWoq9+DPzAjesGKRB25Nm4v
- ccdFeIo8jKQpVqX1b9mkuz7KLDnQhJblXLxhXF8AXrLHj9bBlTQVw1nAzyr7vOtWYjEH
- XF1A==
+ bh=KNXQ9uIT7Co5CZWLUxtFqeHCHOoXldJvxdr++tcI33U=;
+ b=p0TaMt+fQy9mNLg6/mlONYUBZ8Ubz9qwoEP++u5+q95ZSw4TxN78D30n9LgP0kSIXB
+ c/B16AWveocGQ/PH60hrOV/Hceqe4EAmCqJWcHndjka8Q3io0iGeba03jZafyvruNZaY
+ Lnvo+6nGlcjQu9fCWefveEVTZI6tt53R3RWpmvXd4Hw013bDHu0tHgn6i8cjsl5gf7gM
+ HHIXeEm3YarIz8BAGKec1I09BtV50tQLMU+7LMyULJXG2TrL7aCKOQ/yxbYCuNLkdbFk
+ jrz/omI5pC9V5fg9CWHYFWZ7xTUOWj7NGPNfjsWHvsscP/k/Eq5LE3xzLv4QqcQvU2oZ
+ YtRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=hc+/AucXa0inxq9dbV/arLbbzIae9WxdVjI4zl5RMxY=;
- b=KncrELX3+PPxgMbagT80tmnezGRC8brw7NmroCN8yrW65/BLQoGRgAD/Wlfkuakb96
- I3cZbVNKOI/fXnuHcmqa2zjudjHM+XP7BVRbHYkZs/KBM6D1ccOdLFkCLxuUwT/pOu8M
- TY9xJc2YvJ4VUakHl2/xUaIuW9ZWM8mdeLr5OfZZotiegy8+gqaJ4lzmeWB1z76XXd5w
- 4JoWIjQ8KMDaoMG7YUbH1MTbhTOaCC6E7EXzV8Zeg3eLYVfNOpazbDKabvzYcbbW2G0h
- fLRpSo2InlwRnHmxc2O4kaDaSSmKPxu8qFNizSwO3sc/86DMq31KH7WUEoLfKSuWBanC
- 76FA==
-X-Gm-Message-State: APjAAAVyy5hLW3VG6VNEPI2XOfOJ2CVL0aPqf/Xv4kZ4lL38p/R2QPRs
- Ccu37QufgxZwByub9vO3IAK43sqsPX8=
-X-Google-Smtp-Source: APXvYqxqulXxdG7hk382vvxsBn259LGCN4zy9eER1fHDr7Q40c5Qzx6a1VRmv9v/Ide+z1V4gXWeEw==
-X-Received: by 2002:a17:902:a5c4:: with SMTP id
- t4mr4694242plq.242.1581704162920; 
- Fri, 14 Feb 2020 10:16:02 -0800 (PST)
+ bh=KNXQ9uIT7Co5CZWLUxtFqeHCHOoXldJvxdr++tcI33U=;
+ b=tH3eB+7WX2oRoSbZoMi/bH2mlZXftsIbfTSfJ4xog9xGhQswwIi3rptOJ6ykXW3GRR
+ j3+vBVV0WoStx8b64DumDCYzsnXBp8bqRr/qBCODNbPPnvTZl97gRqXWbQ7GbgeqVSOi
+ MrF68UIzuWe7RbT5mj+XdJsYIDzTmpUc16TK70bSttMdSSHSTcmNPXW+lPICRFR37lXw
+ aPizTmiYeplC/WqitbkactQZdNVEqxnMN2gRDqoUsgnPNiUlAD8v0otBgKuG9M6QKW0H
+ DelZQxAqZ9BC49EjiwkNGbr7L8y5nrkmBpEEa0yEfzdE0XyYQCX5LUzyF/9jXd5QBqL7
+ hHFg==
+X-Gm-Message-State: APjAAAW4/PK0EG/Kbzd5UapSs55Dh5/5ovBit6wZ27H12w7i9hdKXiKW
+ /R3HIIhx/1+6qtuIVtWjcxUpdGI9P6w=
+X-Google-Smtp-Source: APXvYqzdiCTG6m9MKi+gipSGguA2OM9G+qIjl3IwUcFBUhbnd2RVyP9osEsERfRukvC31MoPZvjpsA==
+X-Received: by 2002:a65:6147:: with SMTP id o7mr5138480pgv.442.1581704164122; 
+ Fri, 14 Feb 2020 10:16:04 -0800 (PST)
 Received: from localhost.localdomain (97-126-123-70.tukw.qwest.net.
  [97.126.123.70])
- by smtp.gmail.com with ESMTPSA id i3sm7525123pfg.94.2020.02.14.10.16.01
+ by smtp.gmail.com with ESMTPSA id i3sm7525123pfg.94.2020.02.14.10.16.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 Feb 2020 10:16:02 -0800 (PST)
+ Fri, 14 Feb 2020 10:16:03 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 12/19] target/arm: Remove ARM_FEATURE_VFP check from
- disas_vfp_insn
-Date: Fri, 14 Feb 2020 10:15:40 -0800
-Message-Id: <20200214181547.21408-13-richard.henderson@linaro.org>
+Subject: [PATCH 13/19] target/arm: Move VLLDM and VLSTM to vfp.decode
+Date: Fri, 14 Feb 2020 10:15:41 -0800
+Message-Id: <20200214181547.21408-14-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200214181547.21408-1-richard.henderson@linaro.org>
 References: <20200214181547.21408-1-richard.henderson@linaro.org>
@@ -68,7 +66,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::644
+X-Received-From: 2607:f8b0:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,28 +82,136 @@ Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We now have proper ISA checks within each trans_* function.
+Now that we no longer have an early check for ARM_FEATURE_VFP,
+we can use the proper ISA check in trans_VLLDM_VLSTM.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/translate.c | 4 ----
- 1 file changed, 4 deletions(-)
+ target/arm/vfp.decode          |  2 ++
+ target/arm/translate-vfp.inc.c | 35 ++++++++++++++++++++++
+ target/arm/translate.c         | 53 ++++++----------------------------
+ 3 files changed, 46 insertions(+), 44 deletions(-)
 
+diff --git a/target/arm/vfp.decode b/target/arm/vfp.decode
+index a67b3f29ee..592fe9e1e4 100644
+--- a/target/arm/vfp.decode
++++ b/target/arm/vfp.decode
+@@ -242,3 +242,5 @@ VCVT_sp_int  ---- 1110 1.11 110 s:1 .... 1010 rz:1 1.0 .... \
+              vd=%vd_sp vm=%vm_sp
+ VCVT_dp_int  ---- 1110 1.11 110 s:1 .... 1011 rz:1 1.0 .... \
+              vd=%vd_sp vm=%vm_dp
++
++VLLDM_VLSTM  1110 1100 001 l:1 rn:4 0000 1010 0000 0000
+diff --git a/target/arm/translate-vfp.inc.c b/target/arm/translate-vfp.inc.c
+index f6f7601fe2..8f2b97e0e7 100644
+--- a/target/arm/translate-vfp.inc.c
++++ b/target/arm/translate-vfp.inc.c
+@@ -2816,3 +2816,38 @@ static bool trans_VCVT_dp_int(DisasContext *s, arg_VCVT_dp_int *a)
+     tcg_temp_free_ptr(fpst);
+     return true;
+ }
++
++/*
++ * Decode VLLDM of VLSTM are nonstandard because:
++ *  * if there is no FPU then these insns must NOP in
++ *    Secure state and UNDEF in Nonsecure state
++ *  * if there is an FPU then these insns do not have
++ *    the usual behaviour that disas_vfp_insn() provides of
++ *    being controlled by CPACR/NSACR enable bits or the
++ *    lazy-stacking logic.
++ */
++static bool trans_VLLDM_VLSTM(DisasContext *s, arg_VLLDM_VLSTM *a)
++{
++    TCGv_i32 fptr;
++
++    if (!arm_dc_feature(s, ARM_FEATURE_M) ||
++        !arm_dc_feature(s, ARM_FEATURE_V8)) {
++        return false;
++    }
++    if (!dc_isar_feature(aa32_fpsp_v2, s)) {
++        /* No FPU: NOP if secure, otherwise UNDEF.  */
++        return s->v8m_secure;
++    }
++
++    fptr = load_reg(s, a->rn);
++    if (a->l) {
++        gen_helper_v7m_vlldm(cpu_env, fptr);
++    } else {
++        gen_helper_v7m_vlstm(cpu_env, fptr);
++    }
++    tcg_temp_free_i32(fptr);
++
++    /* End the TB, because we have updated FP control bits */
++    s->base.is_jmp = DISAS_UPDATE;
++    return true;
++}
 diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 0da780102c..e8c3d4f26f 100644
+index e8c3d4f26f..b2641b4262 100644
 --- a/target/arm/translate.c
 +++ b/target/arm/translate.c
-@@ -2652,10 +2652,6 @@ static void gen_neon_dup_high16(TCGv_i32 var)
-  */
- static int disas_vfp_insn(DisasContext *s, uint32_t insn)
- {
--    if (!arm_dc_feature(s, ARM_FEATURE_VFP)) {
--        return 1;
--    }
+@@ -10708,53 +10708,18 @@ static void disas_thumb2_insn(DisasContext *s, uint32_t insn)
+                 goto illegal_op; /* op0 = 0b11 : unallocated */
+             }
+ 
+-            /*
+-             * Decode VLLDM and VLSTM first: these are nonstandard because:
+-             *  * if there is no FPU then these insns must NOP in
+-             *    Secure state and UNDEF in Nonsecure state
+-             *  * if there is an FPU then these insns do not have
+-             *    the usual behaviour that disas_vfp_insn() provides of
+-             *    being controlled by CPACR/NSACR enable bits or the
+-             *    lazy-stacking logic.
+-             */
+-            if (arm_dc_feature(s, ARM_FEATURE_V8) &&
+-                (insn & 0xffa00f00) == 0xec200a00) {
+-                /* 0b1110_1100_0x1x_xxxx_xxxx_1010_xxxx_xxxx
+-                 *  - VLLDM, VLSTM
+-                 * We choose to UNDEF if the RAZ bits are non-zero.
+-                 */
+-                if (!s->v8m_secure || (insn & 0x0040f0ff)) {
++            if (disas_vfp_insn(s, insn)) {
++                if (((insn >> 8) & 0xe) == 10 &&
++                    dc_isar_feature(aa32_fpsp_v2, s)) {
++                    /* FP, and the CPU supports it */
+                     goto illegal_op;
++                } else {
++                    /* All other insns: NOCP */
++                    gen_exception_insn(s, s->pc_curr, EXCP_NOCP,
++                                       syn_uncategorized(),
++                                       default_exception_el(s));
+                 }
 -
-     /*
-      * If the decodetree decoder handles this insn it will always
-      * emit code to either execute the insn or generate an appropriate
+-                if (arm_dc_feature(s, ARM_FEATURE_VFP)) {
+-                    uint32_t rn = (insn >> 16) & 0xf;
+-                    TCGv_i32 fptr = load_reg(s, rn);
+-
+-                    if (extract32(insn, 20, 1)) {
+-                        gen_helper_v7m_vlldm(cpu_env, fptr);
+-                    } else {
+-                        gen_helper_v7m_vlstm(cpu_env, fptr);
+-                    }
+-                    tcg_temp_free_i32(fptr);
+-
+-                    /* End the TB, because we have updated FP control bits */
+-                    s->base.is_jmp = DISAS_UPDATE;
+-                }
+-                break;
+             }
+-            if (arm_dc_feature(s, ARM_FEATURE_VFP) &&
+-                ((insn >> 8) & 0xe) == 10) {
+-                /* FP, and the CPU supports it */
+-                if (disas_vfp_insn(s, insn)) {
+-                    goto illegal_op;
+-                }
+-                break;
+-            }
+-
+-            /* All other insns: NOCP */
+-            gen_exception_insn(s, s->pc_curr, EXCP_NOCP, syn_uncategorized(),
+-                               default_exception_el(s));
+             break;
+         }
+         if ((insn & 0xfe000a00) == 0xfc000800
 -- 
 2.20.1
 
