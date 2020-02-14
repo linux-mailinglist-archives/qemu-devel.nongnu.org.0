@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 048FF15F794
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Feb 2020 21:18:04 +0100 (CET)
-Received: from localhost ([::1]:45288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 880E115F7B0
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Feb 2020 21:28:00 +0100 (CET)
+Received: from localhost ([::1]:45368 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j2hPX-00055w-2X
-	for lists+qemu-devel@lfdr.de; Fri, 14 Feb 2020 15:18:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53284)
+	id 1j2hZ9-0000vZ-3o
+	for lists+qemu-devel@lfdr.de; Fri, 14 Feb 2020 15:27:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54384)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1j2hNy-0003VQ-LN
- for qemu-devel@nongnu.org; Fri, 14 Feb 2020 15:16:27 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1j2hYP-0000Hr-O0
+ for qemu-devel@nongnu.org; Fri, 14 Feb 2020 15:27:14 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1j2hNw-0008W9-Pp
- for qemu-devel@nongnu.org; Fri, 14 Feb 2020 15:16:26 -0500
-Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:42740)
+ (envelope-from <richard.henderson@linaro.org>) id 1j2hYO-0007pb-Fi
+ for qemu-devel@nongnu.org; Fri, 14 Feb 2020 15:27:13 -0500
+Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:38156)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1j2hNv-0008SS-2x
- for qemu-devel@nongnu.org; Fri, 14 Feb 2020 15:16:23 -0500
-Received: by mail-pl1-x641.google.com with SMTP id e8so4116801plt.9
- for <qemu-devel@nongnu.org>; Fri, 14 Feb 2020 12:16:22 -0800 (PST)
+ id 1j2hYO-0007nj-9E
+ for qemu-devel@nongnu.org; Fri, 14 Feb 2020 15:27:12 -0500
+Received: by mail-pf1-x443.google.com with SMTP id x185so5406669pfc.5
+ for <qemu-devel@nongnu.org>; Fri, 14 Feb 2020 12:27:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=yLOIlj4grM8eviEKTqXRptVV66hvg/CY2BHHsnJ6OZY=;
- b=ktT3k91QI2LArI/nDEvOp5qp1+rc2G6SI1Fs68B20ern9mNOvsosFQfH052r9yxdA7
- Bm7MdmVtTbPg8dQr8o1vZqmPbBpvYj6hBxY/xEVKaYW+vx87YzYywu6GQ4HRJTTqkM4S
- KMLeqDMfwZJIGFntKl4ty7pK/MzXBNNvMTaf+Le4DBMBNIX71PlBEnBKAUjitJuyuuaQ
- bGXbbKG08S/+RVypC0v2R9nv/9w0SoccnBuqdD6PimqMQHI+yNyJmDrpmMgoGTOjwhJu
- mrGviXSugVKRgRnd81jT8lFhL31bJq8WxSosmTOSR+lyVMrlLjONpv5eLnmO01g6v682
- o3NA==
+ bh=M7j4CG8nV+0KgYUGMZ6IOG13oj6Se74LLRKpGWdiWoc=;
+ b=nsq8F6eT7Fi/2tYJJkvW7py8OfZPXn5znkyI4ewMJ1HEY0aun8j71wTrDV7qw3epHU
+ /OLR9y+jvpvsPxJ1qty6VSVrpV9TPm804oITIZEEfDxH2qpLjiMDMA3h/IyU9aW8+n0j
+ H+MRxILoOeSWhNY4m0Mm2mCokgaYFVX9o8x2TGc+wkIJsVK17hqjCN/9dbaF9fDe1tN0
+ APjR/fRucLcqDEfbwKMbseu6uoPU+qOSJwYYxQpusZtENT7kHcvVA5nt5q6XYe9gjWS7
+ uPpDF44QFG/5VeOyyd44bHjiuI2qHhbwuSo1I+tTw0S/hTeVl84s1OkZFZGKevxcBAzM
+ R2Cg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=yLOIlj4grM8eviEKTqXRptVV66hvg/CY2BHHsnJ6OZY=;
- b=nk72ubtL7pRj1oDPPA+ER+HZxNC2Jhmc7LPsxLkj8BZ19zUyb+zkZ9g0gTddm6ks3/
- cyVsmuvcbMPsQGfchEXFYyXbjm/SP/tS2LGxNbbv1ZIG1jGymNk4UrMoasIYDriWo6Jr
- UzjdFgMggT1//Z7GeN37gc6UvXHG8mqhO6wUQ8NfSJN8h646NR89WUAgYOP4XV4AXOBR
- CpH26aUkJtunlpGkkJEQfULviXVdNpsLFIwjp5XlOEylB375eLLYdb20k2etUheXeJQQ
- 6C55z5qingNhGw1HbblD+bH6OgjrDtfQufvbKn7bLeNoW+z3LM/W7NIhd2Lo6qQneD+d
- 2fOQ==
-X-Gm-Message-State: APjAAAU5zUX13s/i7FyWuBy4oMqP1JNeaJ8WbXEeGWr4mI2BkZ9/RqJ3
- C8rUPmcTrG5jHq0yo6htjSD/SQ==
-X-Google-Smtp-Source: APXvYqyHlwli2Jx/Yg+3xpHv1hkNoYtXnxvxqcVXApbXqLrfkXmM6aOjykuv59A9xTr8uCW86c9qlw==
-X-Received: by 2002:a17:902:820b:: with SMTP id
- x11mr4984546pln.196.1581711381611; 
- Fri, 14 Feb 2020 12:16:21 -0800 (PST)
+ bh=M7j4CG8nV+0KgYUGMZ6IOG13oj6Se74LLRKpGWdiWoc=;
+ b=QJiKlJhoK3MxGVIOKENBk819KpO7vLHuGvCEYnsCdUvckeyA1JMEob7ZAOkqQRFtqE
+ oa/MlzddFlGU5nDDTLkCSbUUqidR8teA5ymzY/Yy5bFqJh1bABYFIX5LMYc1BSmq7mKL
+ 8PpHzBgQcURRZTIjCOeFqYwNqKwPwlWA2TuzGlXN6qERi3Xrvr4XouWAuX6TSQH/+jOs
+ BwvlvvXOsv9XvhI/krmmusZ2brPheJUADiYVA4bIWNLvXLXrGIwHjEX+Yprh56k5RWrA
+ VxXw+1F4gNfMH42BtMAyUNR+o8Rz4LVpYN43GIJPMh//oC9YiMcF6lsFpU+63r3TO4CA
+ lpAg==
+X-Gm-Message-State: APjAAAVTKiw15dqNMxFLgcnVqqcRqrpPnE/gEuCnZ2+cZv0NxKrZKOqk
+ 3QHY8AqmTx8E2B/jVJuUn1DwJQ==
+X-Google-Smtp-Source: APXvYqywCHHnEINmT+OqVghomynW1Ce8vaFZlyaUTVgFDpjwyw8BFRSKl+1eHTCtqSRrkup5FrvkKg==
+X-Received: by 2002:a63:7c4d:: with SMTP id l13mr5353961pgn.275.1581712030128; 
+ Fri, 14 Feb 2020 12:27:10 -0800 (PST)
 Received: from [192.168.1.11] (97-126-123-70.tukw.qwest.net. [97.126.123.70])
  by smtp.gmail.com with ESMTPSA id
- z4sm7854380pfn.42.2020.02.14.12.16.20
+ c1sm8030081pfa.51.2020.02.14.12.27.09
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 14 Feb 2020 12:16:20 -0800 (PST)
-Subject: Re: [PATCH v2 11/21] target/arm: Move DBGDIDR into ARMISARegisters
+ Fri, 14 Feb 2020 12:27:09 -0800 (PST)
+Subject: Re: [PATCH v2 12/21] target/arm: Read debug-related ID registers from
+ KVM
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20200214175116.9164-1-peter.maydell@linaro.org>
- <20200214175116.9164-12-peter.maydell@linaro.org>
+ <20200214175116.9164-13-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <728d0df5-3fa1-f9f4-1fd0-9671a494b3f0@linaro.org>
-Date: Fri, 14 Feb 2020 12:16:18 -0800
+Message-ID: <4bb63598-4eef-18a8-9dbc-4f6652ba12e2@linaro.org>
+Date: Fri, 14 Feb 2020 12:27:07 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200214175116.9164-12-peter.maydell@linaro.org>
+In-Reply-To: <20200214175116.9164-13-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::641
+X-Received-From: 2607:f8b0:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,21 +92,39 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 2/14/20 9:51 AM, Peter Maydell wrote:
-> We're going to want to read the DBGDIDR register from KVM in
-> a subsequent commit, which means it needs to be in the
-> ARMISARegisters sub-struct. Move it.
-> 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
->  target/arm/cpu.h       | 2 +-
->  target/arm/internals.h | 6 +++---
->  target/arm/cpu.c       | 8 ++++----
->  target/arm/cpu64.c     | 6 +++---
->  target/arm/helper.c    | 2 +-
->  5 files changed, 12 insertions(+), 12 deletions(-)
+> +        /*
+> +         * DBGDIDR is a bit complicated because the kernel doesn't
+> +         * provide an accessor for it in 64-bit mode, which is what this
+> +         * scratch VM is in, and there's no architected "64-bit sysreg
+> +         * which reads the same as the 32-bit register" the way there is
+> +         * for other ID registers. Instead we synthesize a value from the
+> +         * AArch64 ID_AA64DFR0, the same way the kernel code in
+> +         * arch/arm64/kvm/sys_regs.c:trap_dbgidr() does.
+> +         * We only do this if the CPU supports AArch32 at EL1.
+> +         */
+> +        if (FIELD_EX32(ahcf->isar.id_aa64pfr0, ID_AA64PFR0, EL1) >= 2) {
+> +            int wrps = FIELD_EX64(ahcf->isar.id_aa64dfr0, ID_AA64DFR0, WRPS);
+> +            int brps = FIELD_EX64(ahcf->isar.id_aa64dfr0, ID_AA64DFR0, BRPS);
+> +            int ctx_cmps =
+> +                FIELD_EX64(ahcf->isar.id_aa64dfr0, ID_AA64DFR0, CTX_CMPS);
+> +            int version = 6; /* ARMv8 debug architecture */
+> +            bool has_el3 =
+> +                !!FIELD_EX32(ahcf->isar.id_aa64pfr0, ID_AA64PFR0, EL3);
+> +            uint32_t dbgdidr = 0;
+> +
+> +            dbgdidr = FIELD_DP32(dbgdidr, DBGDIDR, WRPS, wrps);
+> +            dbgdidr = FIELD_DP32(dbgdidr, DBGDIDR, BRPS, brps);
+> +            dbgdidr = FIELD_DP32(dbgdidr, DBGDIDR, CTX_CMPS, ctx_cmps);
+> +            dbgdidr = FIELD_DP32(dbgdidr, DBGDIDR, VERSION, version);
+> +            dbgdidr = FIELD_DP32(dbgdidr, DBGDIDR, NSUHD_IMP, has_el3);
+> +            dbgdidr = FIELD_DP32(dbgdidr, DBGDIDR, SE_IMP, has_el3);
+> +            dbgdidr |= (1 << 16); /* RES1 bit */
 
+I see the RES1 bit as 15.
+
+Otherwise,
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-r~
 
+r~
 
