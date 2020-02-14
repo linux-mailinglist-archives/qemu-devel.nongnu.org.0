@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E7EA15E4CC
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Feb 2020 17:38:24 +0100 (CET)
-Received: from localhost ([::1]:41286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CF7D15E5BB
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Feb 2020 17:44:21 +0100 (CET)
+Received: from localhost ([::1]:41326 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j2dyx-0003Ho-8k
-	for lists+qemu-devel@lfdr.de; Fri, 14 Feb 2020 11:38:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33400)
+	id 1j2e4i-0005fY-DL
+	for lists+qemu-devel@lfdr.de; Fri, 14 Feb 2020 11:44:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34558)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jerry.geis@gmail.com>) id 1j2dy1-0002Ln-JM
- for qemu-devel@nongnu.org; Fri, 14 Feb 2020 11:37:26 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1j2e3q-0004mS-Rg
+ for qemu-devel@nongnu.org; Fri, 14 Feb 2020 11:43:27 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jerry.geis@gmail.com>) id 1j2dy0-0001Kh-Ig
- for qemu-devel@nongnu.org; Fri, 14 Feb 2020 11:37:25 -0500
-Received: from mail-qv1-xf30.google.com ([2607:f8b0:4864:20::f30]:46745)
+ (envelope-from <peter.maydell@linaro.org>) id 1j2e3p-0007fC-Ey
+ for qemu-devel@nongnu.org; Fri, 14 Feb 2020 11:43:26 -0500
+Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:39242)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <jerry.geis@gmail.com>)
- id 1j2dy0-0001KK-Cd
- for qemu-devel@nongnu.org; Fri, 14 Feb 2020 11:37:24 -0500
-Received: by mail-qv1-xf30.google.com with SMTP id y2so4523055qvu.13
- for <qemu-devel@nongnu.org>; Fri, 14 Feb 2020 08:37:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=WhR0GKpZ6Up0cBYJ65D3ATdQmjvlEAp3QKE/LPGDxJk=;
- b=XKfb9tYnLE2iA/GxiT7PMqrBksFs0NGMciy/TfO9b4NnCWZrgjGGPq1kKri31KWG/L
- uJ8Av4kOJuh2tHiX/3etLt/w5mCM6a2J7U2uy3b+ryq+di1z8E+qo3kWtwX2tzf33aZQ
- HHNpo0X3K+/KgTArxqUdXsncUz+9l3rQFACgPmWSWzKBvKymUR6YSibIjIAvCj8v6T+h
- Oryy4io361+JwOYGVKBT5n+uEijPfCXHfDpqx+2lYWlesU5WX3ywbzJBKy8yiQK1Bxb4
- X5zEGj2ORIzm5yfI8FE2zSGv8u6vtiLeZt1XBjbB8BfRdjpDohGwdrcyywT77nZWA7NL
- 4/lw==
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1j2e3p-0007er-8Z
+ for qemu-devel@nongnu.org; Fri, 14 Feb 2020 11:43:25 -0500
+Received: by mail-oi1-x242.google.com with SMTP id z2so9991514oih.6
+ for <qemu-devel@nongnu.org>; Fri, 14 Feb 2020 08:43:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+ bh=lrH3wZvxDs2JL83CPSNedZ7g3tWD/zDMvLP003y9ZxQ=;
+ b=BkWrLZ+VxWdxOowkmgnUnPFXl0BSvnwzqi+jRVtoCg1092FRlszhhviqZexgs8XVL6
+ +2xH/vtJuhlI09yTUFanqvPw16lWxYl887dDTwY8S7+tJH54WgRD2FVaRAFzTk37L8D6
+ Ygg/5wO31v6MaVlJIQd2SpcKvAGgvUgqywqeoBVfAXh5pqz5z7+Eiwjb4x0UuU/6DfNg
+ eS7E++VulaMjMBzYWRnEUHt9q4aQMAaZq+gdghS3+nzhZlGh68ySUeQmz3T2+Q0kFZoU
+ JtAObFBGCgzPo3P/Jh5K7zZoFNTIs8mCQwpq5peDI3nanWRv1g4KgCmjRDHi7XzWBKBM
+ CHIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=WhR0GKpZ6Up0cBYJ65D3ATdQmjvlEAp3QKE/LPGDxJk=;
- b=IkKkS2rqkI3HOeYXDKm4yyOZympsNgFvoEH4kPvrFYCzTAk1DJ2AfHxUgFAHTNdhX+
- +kfgg2bobCRznn52JrasrIUKLX7wHLmej4vU9jwVaou/kuTNYPOm6EEQoavMyozdYTuA
- dIgYw3YC0NH8kSwlnDyT5gMu2C5XpC2XQ6yooakGfMJHSUeW9JigCVsRtLE203riKoGv
- z/tBUbu2jl7D22p6dYWc2oYVDmnH2zUfAVgXwAgIDSpX3pO+6g0ZzzYJq2UpBXVZJVBg
- pitBTjd60Ie/N9O5fB9QFCfFkj7etygePTcoWLeB8zwFXkV4oxRGfa3ctV4uK1EE5z31
- L8Gg==
-X-Gm-Message-State: APjAAAXcIJSkmvBdL+wxycIAlCP3AkcijpZPLZ/kQ01DeLpLVUBwtA1b
- xZE/rjT9OW5kX1cHI1WU3rW1n4bKJVtViNzfVvE=
-X-Google-Smtp-Source: APXvYqzAVX4TvujyctOyHAMwTq0bXl010ibgil4qCUBsGy+6PrOI1sN1gaa676g2U34/zxlBEv4uQT/shoulj5/XQQc=
-X-Received: by 2002:ad4:5429:: with SMTP id g9mr2819542qvt.134.1581698243860; 
- Fri, 14 Feb 2020 08:37:23 -0800 (PST)
+ :message-id:subject:to;
+ bh=lrH3wZvxDs2JL83CPSNedZ7g3tWD/zDMvLP003y9ZxQ=;
+ b=Y6puSoKH/ZnGqXJ+0UmHNDKCyxGOrdbP8OsKnpcBjR9A+66+Gj9k9Q5+xV8h9xAwLW
+ aqFEP6os/p1RH7LKtr/SOUjuI80dmzcwf6E1ZWDuECsskCmYtTo5UaPbZyOjc+2MYpo9
+ Qr+p2nQQKV7oDwpJjnKazM/eK8DpEoxiNlq5klQJ5T+1amJW80JBuHIeDU1N8InthoZW
+ C5kWlguao+xiky7eJV2DpIfjFsIO22BB+/2VljIW6iXJn3hKJIZymU+LdVLmwPBT0naF
+ jmSR+2/g/B/ds5qRhunv55NG2RlX0Lncftt6bs9xOvZOCQ18dvkcOmhV+LP7Gn2HyVqN
+ VfAg==
+X-Gm-Message-State: APjAAAX+87rCaS2HnD9W1+YY+srjV2iWJeltNKMbYerxecXM14ON974L
+ 0joXlD73jQQR6Cf5v3seENt4WEILhyuWyrMjSWY13T4v
+X-Google-Smtp-Source: APXvYqzp9Tp2v8rz/tE7rXAL5sDPtL07KCxS+3i0kLzoaCnHMBy2kUabBJcuXH5/ya0mZAFeFQ6VRGh6dbRUX6fhzak=
+X-Received: by 2002:a05:6808:289:: with SMTP id
+ z9mr2417169oic.48.1581698604269; 
+ Fri, 14 Feb 2020 08:43:24 -0800 (PST)
 MIME-Version: 1.0
-References: <CABr8-B4_mEkOkodKVVe=U_eiMemWictNSQj4T5R6nEynVXCEGw@mail.gmail.com>
- <58491266-962f-4c4f-9a51-829ec30f008b@redhat.com>
-In-Reply-To: <58491266-962f-4c4f-9a51-829ec30f008b@redhat.com>
-From: Jerry Geis <jerry.geis@gmail.com>
-Date: Fri, 14 Feb 2020 11:37:23 -0500
-Message-ID: <CABr8-B6xARb1iuD7M_i9Pgs7OXF+EQQBxKDDC-o_imbiEDbMJw@mail.gmail.com>
-Subject: Re: How do UEFI on Windows host
-To: Laszlo Ersek <lersek@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000f79ce7059e8bd116"
+References: <20200213144145.818-1-peter.maydell@linaro.org>
+In-Reply-To: <20200213144145.818-1-peter.maydell@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 14 Feb 2020 16:43:13 +0000
+Message-ID: <CAFEAcA_OCDX6=0h6vU7=TxBiu_UHJpi810Yj7CkywzfCtHqO-Q@mail.gmail.com>
+Subject: Re: [PULL 00/46] target-arm queue
+To: QEMU Developers <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::f30
+X-Received-From: 2607:f8b0:4864:20::242
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,36 +72,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Weil <sw@weilnetz.de>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000f79ce7059e8bd116
-Content-Type: text/plain; charset="UTF-8"
+On Thu, 13 Feb 2020 at 14:41, Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> Big pullreq this week, since it's got RTH's PAN/UAO/ATS1E1
+> implementation in it, and also Philippe's raspi board model
+> cleanup patchset, as well as a scattering of smaller stuff.
+>
+> -- PMM
+>
+>
+> The following changes since commit 7ce9ce89930ce260af839fb3e3e5f9101f5c69a0:
+>
+>   Merge remote-tracking branch 'remotes/kraxel/tags/ui-20200212-pull-request' into staging (2020-02-13 11:06:32 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20200213
+>
+> for you to fetch changes up to dc7a88d0810ad272bdcd2e0869359af78fdd9114:
+>
+>   target/arm: Implement ARMv8.1-VMID16 extension (2020-02-13 14:30:51 +0000)
+>
+> ----------------------------------------------------------------
+> target-arm queue:
+>  * i.MX: Fix inverted sense of register bits in watchdog timer
+>  * i.MX: Add support for WDT on i.MX6
+>  * arm/virt: cleanups to ACPI tables
+>  * Implement ARMv8.1-VMID16 extension
+>  * Implement ARMv8.1-PAN
+>  * Implement ARMv8.2-UAO
+>  * Implement ARMv8.2-ATS1E1
+>  * ast2400/2500/2600: Wire up EHCI controllers
+>  * hw/char/exynos4210_uart: Fix memleaks in exynos4210_uart_init
+>  * hw/arm/raspi: Clean up the board code
+>
 
-I dont know how to get all files listing on windows. But, I cd \program
-files\qemu
-dir *.fd
-edk2-x86_64-code.fd
-edk2-x86_64-secure-code.fd
 
-It seems like from other posts these might be the files - but still not
-sure how to do "boot" a command line for UEFI.
+Applied, thanks.
 
-Jerry
+Please update the changelog at https://wiki.qemu.org/ChangeLog/5.0
+for any user-visible changes.
 
---000000000000f79ce7059e8bd116
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>I dont know how to get all files listing on windows. =
-But, I cd \program files\qemu</div><div>dir *.fd</div><div>edk2-x86_64-code=
-.fd</div><div>edk2-x86_64-secure-code.fd</div><div><br></div><div>It seems =
-like from other posts these might be the files - but still not sure how to =
-do &quot;boot&quot; a command line for UEFI.</div><div><br></div><div>Jerry=
-=C2=A0</div></div>
-
---000000000000f79ce7059e8bd116--
+-- PMM
 
