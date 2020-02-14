@@ -2,61 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7387C15D50C
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Feb 2020 10:56:45 +0100 (CET)
-Received: from localhost ([::1]:36684 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 389FE15D544
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Feb 2020 11:12:32 +0100 (CET)
+Received: from localhost ([::1]:36892 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j2XiG-00088T-Ic
-	for lists+qemu-devel@lfdr.de; Fri, 14 Feb 2020 04:56:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56419)
+	id 1j2XxX-000848-2d
+	for lists+qemu-devel@lfdr.de; Fri, 14 Feb 2020 05:12:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58827)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mprivozn@redhat.com>) id 1j2XhJ-0007Ut-E0
- for qemu-devel@nongnu.org; Fri, 14 Feb 2020 04:55:46 -0500
+ (envelope-from <jtomko@redhat.com>) id 1j2Xq1-0005O0-2c
+ for qemu-devel@nongnu.org; Fri, 14 Feb 2020 05:04:46 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mprivozn@redhat.com>) id 1j2XhI-0005Qe-9V
- for qemu-devel@nongnu.org; Fri, 14 Feb 2020 04:55:45 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:37231
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <jtomko@redhat.com>) id 1j2Xpz-0000Q7-Bp
+ for qemu-devel@nongnu.org; Fri, 14 Feb 2020 05:04:44 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:26563
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mprivozn@redhat.com>) id 1j2XhI-0005OC-5i
- for qemu-devel@nongnu.org; Fri, 14 Feb 2020 04:55:44 -0500
+ (Exim 4.71) (envelope-from <jtomko@redhat.com>) id 1j2Xpz-0000Or-6t
+ for qemu-devel@nongnu.org; Fri, 14 Feb 2020 05:04:43 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581674141;
+ s=mimecast20190719; t=1581674682;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=RupjMK2l9WVxD6SpZP0eN3EWXeXVotHyJJjTy1nrhV0=;
- b=GZdvoOHlKzhuPnUf9CrtjJhR5kWowJmJVSem2dcBQg5GImYTE6nJcUUxelAj7/DhKg5YFo
- 7y8+wtbFbF0O/f8OL7RJy5f/HETJ63RGJmCANYImmX6HbP6BScyGzGDEob5VeSXDdqx1EM
- K5fW8puIVv2TbN3T6fax99vT0IXFYYI=
+ in-reply-to:in-reply-to:references:references;
+ bh=BbbpFig12LBcDTZzX//QG1cZkkfpdQI/xFRCDW9GG8g=;
+ b=FCQGDfYvO0dMjcsfE51F4vRJcUU8c15i9LVp/r1nhQLWae54rMRMouu70eNwRewrhobf49
+ ytt/1+c2fjiLDPZrLAm4VedeSmucp1VRfZzQIKwe1hF0kcMC4KY3Q4YLSr91cX3ANXemL8
+ Q67KeL4WbXJozpP9u0LWnDW43/84AI8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-307-NoQvLwSrMbupKt0E_VJX0g-1; Fri, 14 Feb 2020 04:55:35 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-292-T_V4piqMNqiRK30iUfD8Jg-1; Fri, 14 Feb 2020 05:04:39 -0500
+X-MC-Unique: T_V4piqMNqiRK30iUfD8Jg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3BE261085959;
- Fri, 14 Feb 2020 09:55:34 +0000 (UTC)
-Received: from moe.redhat.com (unknown [10.43.2.30])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D1A9060BE2;
- Fri, 14 Feb 2020 09:55:30 +0000 (UTC)
-From: Michal Privoznik <mprivozn@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2] Report stringified errno in VFIO related errors
-Date: Fri, 14 Feb 2020 10:55:19 +0100
-Message-Id: <4949c3ecf1a32189b8a4b5eb4b0fd04c1122501d.1581674006.git.mprivozn@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 04B18107B267;
+ Fri, 14 Feb 2020 10:04:39 +0000 (UTC)
+Received: from lpt (unknown [10.43.2.81])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 50BBD1001DD8;
+ Fri, 14 Feb 2020 10:04:35 +0000 (UTC)
+Date: Fri, 14 Feb 2020 11:04:32 +0100
+From: =?iso-8859-1?B?SuFu?= Tomko <jtomko@redhat.com>
+To: Michal Privoznik <mprivozn@redhat.com>
+Subject: Re: [PATCH v2] Report stringified errno in VFIO related errors
+Message-ID: <20200214100432.GX11103@lpt>
+References: <4949c3ecf1a32189b8a4b5eb4b0fd04c1122501d.1581674006.git.mprivozn@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: NoQvLwSrMbupKt0E_VJX0g-1
+In-Reply-To: <4949c3ecf1a32189b8a4b5eb4b0fd04c1122501d.1581674006.git.mprivozn@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="NJ5+aVN4Egd/eJfU"
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,85 +70,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, alex.williamson@redhat.com
+Cc: qemu-trivial@nongnu.org, alex.williamson@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In a few places we report errno formatted as a negative integer.
-This is not as user friendly as it can be. Use strerror() and/or
-error_setg_errno() instead.
+--NJ5+aVN4Egd/eJfU
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Michal Privoznik <mprivozn@redhat.com>
----
+On Fri, Feb 14, 2020 at 10:55:19AM +0100, Michal Privoznik wrote:
+>In a few places we report errno formatted as a negative integer.
+>This is not as user friendly as it can be. Use strerror() and/or
+>error_setg_errno() instead.
+>
+>Signed-off-by: Michal Privoznik <mprivozn@redhat.com>
+>---
+>
+>v1 posted here:
+>
+>https://lists.nongnu.org/archive/html/qemu-devel/2020-02/msg03623.html
+>
+>diff to v1:
+> - Change error reporting in vfio_dma_unmap() too as I missed it in v1.
+>
+> hw/vfio/common.c    | 4 ++--
+> util/vfio-helpers.c | 6 +++---
+> 2 files changed, 5 insertions(+), 5 deletions(-)
+>
 
-v1 posted here:
+Reviewed-by: J=E1n Tomko <jtomko@redhat.com>
 
-https://lists.nongnu.org/archive/html/qemu-devel/2020-02/msg03623.html
+Jano
 
-diff to v1:
- - Change error reporting in vfio_dma_unmap() too as I missed it in v1.
+--NJ5+aVN4Egd/eJfU
+Content-Type: application/pgp-signature; name="signature.asc"
 
- hw/vfio/common.c    | 4 ++--
- util/vfio-helpers.c | 6 +++---
- 2 files changed, 5 insertions(+), 5 deletions(-)
+-----BEGIN PGP SIGNATURE-----
 
-diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-index 5ca11488d6..0b3593b3c0 100644
---- a/hw/vfio/common.c
-+++ b/hw/vfio/common.c
-@@ -319,7 +319,7 @@ static int vfio_dma_unmap(VFIOContainer *container,
-             unmap.size -=3D 1ULL << ctz64(container->pgsizes);
-             continue;
-         }
--        error_report("VFIO_UNMAP_DMA: %d", -errno);
-+        error_report("VFIO_UNMAP_DMA failed: %s", strerror(errno));
-         return -errno;
-     }
-=20
-@@ -352,7 +352,7 @@ static int vfio_dma_map(VFIOContainer *container, hwadd=
-r iova,
-         return 0;
-     }
-=20
--    error_report("VFIO_MAP_DMA: %d", -errno);
-+    error_report("VFIO_MAP_DMA failed: %s", strerror(errno));
-     return -errno;
- }
-=20
-diff --git a/util/vfio-helpers.c b/util/vfio-helpers.c
-index 813f7ec564..ddd9a96e76 100644
---- a/util/vfio-helpers.c
-+++ b/util/vfio-helpers.c
-@@ -545,7 +545,7 @@ static int qemu_vfio_do_mapping(QEMUVFIOState *s, void =
-*host, size_t size,
-     trace_qemu_vfio_do_mapping(s, host, size, iova);
-=20
-     if (ioctl(s->container, VFIO_IOMMU_MAP_DMA, &dma_map)) {
--        error_report("VFIO_MAP_DMA: %d", -errno);
-+        error_report("VFIO_MAP_DMA failed: %s", strerror(errno));
-         return -errno;
-     }
-     return 0;
-@@ -570,7 +570,7 @@ static void qemu_vfio_undo_mapping(QEMUVFIOState *s, IO=
-VAMapping *mapping,
-     assert(QEMU_IS_ALIGNED(mapping->size, qemu_real_host_page_size));
-     assert(index >=3D 0 && index < s->nr_mappings);
-     if (ioctl(s->container, VFIO_IOMMU_UNMAP_DMA, &unmap)) {
--        error_setg(errp, "VFIO_UNMAP_DMA failed: %d", -errno);
-+        error_setg_errno(errp, errno, "VFIO_UNMAP_DMA failed");
-     }
-     memmove(mapping, &s->mappings[index + 1],
-             sizeof(s->mappings[0]) * (s->nr_mappings - index - 1));
-@@ -669,7 +669,7 @@ int qemu_vfio_dma_reset_temporary(QEMUVFIOState *s)
-     trace_qemu_vfio_dma_reset_temporary(s);
-     qemu_mutex_lock(&s->lock);
-     if (ioctl(s->container, VFIO_IOMMU_UNMAP_DMA, &unmap)) {
--        error_report("VFIO_UNMAP_DMA: %d", -errno);
-+        error_report("VFIO_UNMAP_DMA failed: %s", strerror(errno));
-         qemu_mutex_unlock(&s->lock);
-         return -errno;
-     }
---=20
-2.24.1
+iQEzBAEBCAAdFiEEQeJGMrnL0ADuclbP+YPwO/Mat50FAl5GcKwACgkQ+YPwO/Ma
+t50WewgAhwOCz3sgS2qSWfEL2hw0MGPl/+f8ouWZdEOyRlIFC81A1/aRauA3/9+j
+I9w26e5HHu5XlNzgSKYe1+5IcgQ/fhDMqn5l9kiBrQztp/iAMaTK0fpAiZuvLyrP
+x36FJ2bgRcRfWmqFi4fcnlLUpg9Jd0IKqyxyPE0ItusvKTTTdtA+eru9UClE9mvd
+mfaSvT5QuTFVH51uJU4vHKrDzLC9Qu/GLCtGBofeUFmey7Mc1vBqGalqWjycSaiy
+BLFZkwcv89GhI4/YRDE4eKf4G72hG+RqfS+uNYRNOI9aEXq2mCgHgRQEHELVeboS
+uTmSONKVUrLPqcZe+hic8PWvwWUL8g==
+=BrS4
+-----END PGP SIGNATURE-----
+
+--NJ5+aVN4Egd/eJfU--
 
 
