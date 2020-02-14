@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7522D15F030
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Feb 2020 18:53:34 +0100 (CET)
-Received: from localhost ([::1]:42792 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6469715F0A9
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Feb 2020 18:57:09 +0100 (CET)
+Received: from localhost ([::1]:42950 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j2f9h-0000nr-GJ
-	for lists+qemu-devel@lfdr.de; Fri, 14 Feb 2020 12:53:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56046)
+	id 1j2fDA-0000EN-EA
+	for lists+qemu-devel@lfdr.de; Fri, 14 Feb 2020 12:57:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56121)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j2f7o-0005wb-92
- for qemu-devel@nongnu.org; Fri, 14 Feb 2020 12:51:37 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1j2f7t-0005ya-9o
+ for qemu-devel@nongnu.org; Fri, 14 Feb 2020 12:51:43 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j2f7m-0000p7-RM
- for qemu-devel@nongnu.org; Fri, 14 Feb 2020 12:51:36 -0500
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:53791)
+ (envelope-from <peter.maydell@linaro.org>) id 1j2f7q-0000sB-Tx
+ for qemu-devel@nongnu.org; Fri, 14 Feb 2020 12:51:40 -0500
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:35079)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j2f7m-0000oH-KI
- for qemu-devel@nongnu.org; Fri, 14 Feb 2020 12:51:34 -0500
-Received: by mail-wm1-x335.google.com with SMTP id s10so10844383wmh.3
- for <qemu-devel@nongnu.org>; Fri, 14 Feb 2020 09:51:34 -0800 (PST)
+ id 1j2f7o-0000pL-7K
+ for qemu-devel@nongnu.org; Fri, 14 Feb 2020 12:51:37 -0500
+Received: by mail-wr1-x444.google.com with SMTP id w12so11894048wrt.2
+ for <qemu-devel@nongnu.org>; Fri, 14 Feb 2020 09:51:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=+RSZKscRdCamXAJ0k30/EyUeGISH+9TDKdteY9Rg/DM=;
- b=LHd69Z9/E6GbSWIp12Y1fRT6SW8N7Yh8hivs/KTO/v6k1xYl46xC4xfH0aZnceSYt7
- QWbvXHvYXXZnryA4BDZj2gAWBy8QmzmkzzRF4ZmmgABKySk8kdbVH0JIwH138MnuKVNA
- AK2f2g5VstRGczRCOlDzyhHl+0DzPP0DNLHBXNLYFETqe7ObT91TzsiFr83rpwfCIDjW
- IDlrXh5692JXzmJRL3O2WtQQSsQL8jB4f7od+f/lmW6Al+b8HHjnyv61iqmZWZkIHi0O
- aYu0NnMZ5w73iKKjMC7TgssmqgWDEhQb8T1dTHiawvul7OQMTEtWdbwRH0HwQiB2kyiR
- zQ1A==
+ bh=dw/oKtuPvdBDo/uw+ysmB9G26Zom6TRdfrmN+nZGS2g=;
+ b=Ph7WIM0M+/oaSmorCsXPKgJGq8/zc+TGGs6DkwcMRbCJBSgdJMpIW8B7reKxumnrZ/
+ h0/x2oBl+N4apaqLU68eGKd28nieZ2Tmw4seXx43rnZLWQpHNNo7DhP7g4MVrhGfn/X5
+ NHALJoSAYhzG0nGnXbtdSJoLKxrT987so8TxDQDEijvLPbtDPDvGidh23o2JDQDEZy6o
+ UnHR4PIzOsFzoBxO8yfDYuqIRx6ZtrVhUytGqtw2tyvVNZdIVolzXUZTHEZ7MBw5Ry7X
+ fNKiKsgHxsYkf5mAvpKzrIJm6xUDOMkUGipFaZPltMtoUSTPoVFdCezLHYAFpZ4gFxxo
+ h0Jw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=+RSZKscRdCamXAJ0k30/EyUeGISH+9TDKdteY9Rg/DM=;
- b=c0AwIpAQgs8hKViM2XgUjapAiqiBFhnVeHDpSN3MTntLfvUO+0FG6OFk6/78UJKCSl
- poDchrLc4Wmt7c+qJtRVZGWVdp9Yt/UIltbYaZw0F1FnbmI2mpQwK0RAyQ7SYRN1pEoc
- 9XbTPnL/2WDWRRnpPq75i/BWvSRQNird1SlP4yFHwyYwJhfNiROAZzvGVbBq5rqJ6dPD
- cFATHXjJO1mafskoDn9uc/g/WhQ/mdNpnITxFm0s+Fsc7YLjV94byPhIlvVoKEN7ZDkB
- 1sEDZRI7pv9q8Lizr6spESor89bl10V+5dgOJwS/x66W/bnaQcS5c5ACTX6+XpgCJYW9
- PHAw==
-X-Gm-Message-State: APjAAAUmJaEQL8rcLx0FEDYyFcrbXsYiGuVpHgs68sKRMYueuFI/X2FJ
- 6wVo2GEBtspiPNzNIdSNIwn5Kg==
-X-Google-Smtp-Source: APXvYqzlEVGLRn00WqLArkcqinPKewDZWVKDTCAhf8FlkuJ2QG2cMi5qTOMSGCvuoQzwvdknnPaQ+w==
-X-Received: by 2002:a05:600c:21c5:: with SMTP id
- x5mr6013917wmj.72.1581702693533; 
- Fri, 14 Feb 2020 09:51:33 -0800 (PST)
+ bh=dw/oKtuPvdBDo/uw+ysmB9G26Zom6TRdfrmN+nZGS2g=;
+ b=j3fChaaDMF9UsccOqROdveFPb1Pmm0bhSRVcoqS1Fr+vUTdL4Lt48VxTDs4eaz84jI
+ wzYnUrMxrDvAl8H0G0txQ5CO3q+ymesi5ro3wFaIO1s/Lp/+kvVSkrr8uk0rZ5aNO9R3
+ dtjPF19VGa4jiILR/pk2p3qSZNd+CA5HBq8hXU78vSoCvGFvY/BKktWtuLNajuuQS/vt
+ lcFKWblGHO24eiRh4qDxnOpxCKn+ZwuQjnPehkw/NlXgAAlyObtE6RK69FIFuMugV6+1
+ keSGdKjo/XG0rb3FZ+GIeSeybopyPCEkixeysQZknSGR2ecs/BhtEGUmbCNIlQ42HwlZ
+ 3ZRw==
+X-Gm-Message-State: APjAAAVaIPs7AFNHUfWu7d1pUN5ddM46ZGHn4nuyhmcnDzJuggdqe+Ly
+ FmeI1lfABFuSpvUBGnvSeqkjlBtLVvw=
+X-Google-Smtp-Source: APXvYqx0nG2dlKhQr8/DJURN9S3a50yxke21GtXA0kNrNU5qe8Mt3g8EZHOgw3rmvF2wFFM3Q0i9xw==
+X-Received: by 2002:adf:fe50:: with SMTP id m16mr5400914wrs.217.1581702694862; 
+ Fri, 14 Feb 2020 09:51:34 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id v8sm8001857wrw.2.2020.02.14.09.51.32
+ by smtp.gmail.com with ESMTPSA id v8sm8001857wrw.2.2020.02.14.09.51.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 Feb 2020 09:51:33 -0800 (PST)
+ Fri, 14 Feb 2020 09:51:34 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH v2 10/21] target/arm: Stop assuming DBGDIDR always exists
-Date: Fri, 14 Feb 2020 17:51:05 +0000
-Message-Id: <20200214175116.9164-11-peter.maydell@linaro.org>
+Subject: [PATCH v2 11/21] target/arm: Move DBGDIDR into ARMISARegisters
+Date: Fri, 14 Feb 2020 17:51:06 +0000
+Message-Id: <20200214175116.9164-12-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200214175116.9164-1-peter.maydell@linaro.org>
 References: <20200214175116.9164-1-peter.maydell@linaro.org>
@@ -67,7 +66,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::335
+X-Received-From: 2a00:1450:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,182 +85,154 @@ Cc: Eric Auger <eric.auger@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The AArch32 DBGDIDR defines properties like the number of
-breakpoints, watchpoints and context-matching comparators.  On an
-AArch64 CPU, the register may not even exist if AArch32 is not
-supported at EL1.
-
-Currently we hard-code use of DBGDIDR to identify the number of
-breakpoints etc; this works for all our TCG CPUs, but will break if
-we ever add an AArch64-only CPU.  We also have an assert() that the
-AArch32 and AArch64 registers match, which currently works only by
-luck for KVM because we don't populate either of these ID registers
-from the KVM vCPU and so they are both zero.
-
-Clean this up so we have functions for finding the number
-of breakpoints, watchpoints and context comparators which look
-in the appropriate ID register.
-
-This allows us to drop the "check that AArch64 and AArch32 agree
-on the number of breakpoints etc" asserts:
- * we no longer look at the AArch32 versions unless that's the
-   right place to be looking
- * it's valid to have a CPU (eg AArch64-only) where they don't match
- * we shouldn't have been asserting the validity of ID registers
-   in a codepath used with KVM anyway
+We're going to want to read the DBGDIDR register from KVM in
+a subsequent commit, which means it needs to be in the
+ARMISARegisters sub-struct. Move it.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/cpu.h          |  7 +++++++
- target/arm/internals.h    | 42 +++++++++++++++++++++++++++++++++++++++
- target/arm/debug_helper.c |  6 +++---
- target/arm/helper.c       | 21 +++++---------------
- 4 files changed, 57 insertions(+), 19 deletions(-)
+ target/arm/cpu.h       | 2 +-
+ target/arm/internals.h | 6 +++---
+ target/arm/cpu.c       | 8 ++++----
+ target/arm/cpu64.c     | 6 +++---
+ target/arm/helper.c    | 2 +-
+ 5 files changed, 12 insertions(+), 12 deletions(-)
 
 diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index 98240224c0c..0f21b6ed803 100644
+index 0f21b6ed803..3c996db3e45 100644
 --- a/target/arm/cpu.h
 +++ b/target/arm/cpu.h
-@@ -1840,6 +1840,13 @@ FIELD(ID_DFR0, MPROFDBG, 20, 4)
- FIELD(ID_DFR0, PERFMON, 24, 4)
- FIELD(ID_DFR0, TRACEFILT, 28, 4)
- 
-+FIELD(DBGDIDR, SE_IMP, 12, 1)
-+FIELD(DBGDIDR, NSUHD_IMP, 14, 1)
-+FIELD(DBGDIDR, VERSION, 16, 4)
-+FIELD(DBGDIDR, CTX_CMPS, 20, 4)
-+FIELD(DBGDIDR, BRPS, 24, 4)
-+FIELD(DBGDIDR, WRPS, 28, 4)
-+
- FIELD(MVFR0, SIMDREG, 0, 4)
- FIELD(MVFR0, FPSP, 4, 4)
- FIELD(MVFR0, FPDP, 8, 4)
+@@ -866,6 +866,7 @@ struct ARMCPU {
+         uint32_t mvfr1;
+         uint32_t mvfr2;
+         uint32_t id_dfr0;
++        uint32_t dbgdidr;
+         uint64_t id_aa64isar0;
+         uint64_t id_aa64isar1;
+         uint64_t id_aa64pfr0;
+@@ -893,7 +894,6 @@ struct ARMCPU {
+     uint32_t id_mmfr4;
+     uint64_t id_aa64afr0;
+     uint64_t id_aa64afr1;
+-    uint32_t dbgdidr;
+     uint32_t clidr;
+     uint64_t mp_affinity; /* MP ID without feature bits */
+     /* The elements of this array are the CCSIDR values for each cache,
 diff --git a/target/arm/internals.h b/target/arm/internals.h
-index 052449b4826..39239186def 100644
+index 39239186def..309d2f4ea95 100644
 --- a/target/arm/internals.h
 +++ b/target/arm/internals.h
-@@ -931,6 +931,48 @@ static inline uint32_t arm_debug_exception_fsr(CPUARMState *env)
+@@ -941,7 +941,7 @@ static inline int arm_num_brps(ARMCPU *cpu)
+     if (arm_feature(&cpu->env, ARM_FEATURE_AARCH64)) {
+         return FIELD_EX64(cpu->isar.id_aa64dfr0, ID_AA64DFR0, BRPS) + 1;
+     } else {
+-        return FIELD_EX32(cpu->dbgdidr, DBGDIDR, BRPS) + 1;
++        return FIELD_EX32(cpu->isar.dbgdidr, DBGDIDR, BRPS) + 1;
      }
  }
  
-+/**
-+ * arm_num_brps: Return number of implemented breakpoints.
-+ * Note that the ID register BRPS field is "number of bps - 1",
-+ * and we return the actual number of breakpoints.
-+ */
-+static inline int arm_num_brps(ARMCPU *cpu)
-+{
-+    if (arm_feature(&cpu->env, ARM_FEATURE_AARCH64)) {
-+        return FIELD_EX64(cpu->isar.id_aa64dfr0, ID_AA64DFR0, BRPS) + 1;
-+    } else {
-+        return FIELD_EX32(cpu->dbgdidr, DBGDIDR, BRPS) + 1;
-+    }
-+}
-+
-+/**
-+ * arm_num_wrps: Return number of implemented watchpoints.
-+ * Note that the ID register WRPS field is "number of wps - 1",
-+ * and we return the actual number of watchpoints.
-+ */
-+static inline int arm_num_wrps(ARMCPU *cpu)
-+{
-+    if (arm_feature(&cpu->env, ARM_FEATURE_AARCH64)) {
-+        return FIELD_EX64(cpu->isar.id_aa64dfr0, ID_AA64DFR0, WRPS) + 1;
-+    } else {
-+        return FIELD_EX32(cpu->dbgdidr, DBGDIDR, WRPS) + 1;
-+    }
-+}
-+
-+/**
-+ * arm_num_ctx_cmps: Return number of implemented context comparators.
-+ * Note that the ID register CTX_CMPS field is "number of cmps - 1",
-+ * and we return the actual number of comparators.
-+ */
-+static inline int arm_num_ctx_cmps(ARMCPU *cpu)
-+{
-+    if (arm_feature(&cpu->env, ARM_FEATURE_AARCH64)) {
-+        return FIELD_EX64(cpu->isar.id_aa64dfr0, ID_AA64DFR0, CTX_CMPS) + 1;
-+    } else {
-+        return FIELD_EX32(cpu->dbgdidr, DBGDIDR, CTX_CMPS) + 1;
-+    }
-+}
-+
- /* Note make_memop_idx reserves 4 bits for mmu_idx, and MO_BSWAP is bit 3.
-  * Thus a TCGMemOpIdx, without any MO_ALIGN bits, fits in 8 bits.
-  */
-diff --git a/target/arm/debug_helper.c b/target/arm/debug_helper.c
-index 2e3e90c6a57..2ff72d47d19 100644
---- a/target/arm/debug_helper.c
-+++ b/target/arm/debug_helper.c
-@@ -16,8 +16,8 @@ static bool linked_bp_matches(ARMCPU *cpu, int lbn)
- {
-     CPUARMState *env = &cpu->env;
-     uint64_t bcr = env->cp15.dbgbcr[lbn];
--    int brps = extract32(cpu->dbgdidr, 24, 4);
--    int ctx_cmps = extract32(cpu->dbgdidr, 20, 4);
-+    int brps = arm_num_brps(cpu);
-+    int ctx_cmps = arm_num_ctx_cmps(cpu);
-     int bt;
-     uint32_t contextidr;
-     uint64_t hcr_el2;
-@@ -29,7 +29,7 @@ static bool linked_bp_matches(ARMCPU *cpu, int lbn)
-      * case DBGWCR<n>_EL1.LBN must indicate that breakpoint).
-      * We choose the former.
-      */
--    if (lbn > brps || lbn < (brps - ctx_cmps)) {
-+    if (lbn >= brps || lbn < (brps - ctx_cmps)) {
-         return false;
+@@ -955,7 +955,7 @@ static inline int arm_num_wrps(ARMCPU *cpu)
+     if (arm_feature(&cpu->env, ARM_FEATURE_AARCH64)) {
+         return FIELD_EX64(cpu->isar.id_aa64dfr0, ID_AA64DFR0, WRPS) + 1;
+     } else {
+-        return FIELD_EX32(cpu->dbgdidr, DBGDIDR, WRPS) + 1;
++        return FIELD_EX32(cpu->isar.dbgdidr, DBGDIDR, WRPS) + 1;
      }
+ }
  
+@@ -969,7 +969,7 @@ static inline int arm_num_ctx_cmps(ARMCPU *cpu)
+     if (arm_feature(&cpu->env, ARM_FEATURE_AARCH64)) {
+         return FIELD_EX64(cpu->isar.id_aa64dfr0, ID_AA64DFR0, CTX_CMPS) + 1;
+     } else {
+-        return FIELD_EX32(cpu->dbgdidr, DBGDIDR, CTX_CMPS) + 1;
++        return FIELD_EX32(cpu->isar.dbgdidr, DBGDIDR, CTX_CMPS) + 1;
+     }
+ }
+ 
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index 7759e0f9329..f58b4da4427 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -2298,7 +2298,7 @@ static void cortex_a8_initfn(Object *obj)
+     cpu->isar.id_isar2 = 0x21232031;
+     cpu->isar.id_isar3 = 0x11112131;
+     cpu->isar.id_isar4 = 0x00111142;
+-    cpu->dbgdidr = 0x15141000;
++    cpu->isar.dbgdidr = 0x15141000;
+     cpu->clidr = (1 << 27) | (2 << 24) | 3;
+     cpu->ccsidr[0] = 0xe007e01a; /* 16k L1 dcache. */
+     cpu->ccsidr[1] = 0x2007e01a; /* 16k L1 icache. */
+@@ -2371,7 +2371,7 @@ static void cortex_a9_initfn(Object *obj)
+     cpu->isar.id_isar2 = 0x21232041;
+     cpu->isar.id_isar3 = 0x11112131;
+     cpu->isar.id_isar4 = 0x00111142;
+-    cpu->dbgdidr = 0x35141000;
++    cpu->isar.dbgdidr = 0x35141000;
+     cpu->clidr = (1 << 27) | (1 << 24) | 3;
+     cpu->ccsidr[0] = 0xe00fe019; /* 16k L1 dcache. */
+     cpu->ccsidr[1] = 0x200fe019; /* 16k L1 icache. */
+@@ -2439,7 +2439,7 @@ static void cortex_a7_initfn(Object *obj)
+     cpu->isar.id_isar2 = 0x21232041;
+     cpu->isar.id_isar3 = 0x11112131;
+     cpu->isar.id_isar4 = 0x10011142;
+-    cpu->dbgdidr = 0x3515f005;
++    cpu->isar.dbgdidr = 0x3515f005;
+     cpu->clidr = 0x0a200023;
+     cpu->ccsidr[0] = 0x701fe00a; /* 32K L1 dcache */
+     cpu->ccsidr[1] = 0x201fe00a; /* 32K L1 icache */
+@@ -2482,7 +2482,7 @@ static void cortex_a15_initfn(Object *obj)
+     cpu->isar.id_isar2 = 0x21232041;
+     cpu->isar.id_isar3 = 0x11112131;
+     cpu->isar.id_isar4 = 0x10011142;
+-    cpu->dbgdidr = 0x3515f021;
++    cpu->isar.dbgdidr = 0x3515f021;
+     cpu->clidr = 0x0a200023;
+     cpu->ccsidr[0] = 0x701fe00a; /* 32K L1 dcache */
+     cpu->ccsidr[1] = 0x201fe00a; /* 32K L1 icache */
+diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
+index 2030e5e384b..f8f74a7ecda 100644
+--- a/target/arm/cpu64.c
++++ b/target/arm/cpu64.c
+@@ -138,7 +138,7 @@ static void aarch64_a57_initfn(Object *obj)
+     cpu->isar.id_aa64dfr0 = 0x10305106;
+     cpu->isar.id_aa64isar0 = 0x00011120;
+     cpu->isar.id_aa64mmfr0 = 0x00001124;
+-    cpu->dbgdidr = 0x3516d000;
++    cpu->isar.dbgdidr = 0x3516d000;
+     cpu->clidr = 0x0a200023;
+     cpu->ccsidr[0] = 0x701fe00a; /* 32KB L1 dcache */
+     cpu->ccsidr[1] = 0x201fe012; /* 48KB L1 icache */
+@@ -192,7 +192,7 @@ static void aarch64_a53_initfn(Object *obj)
+     cpu->isar.id_aa64dfr0 = 0x10305106;
+     cpu->isar.id_aa64isar0 = 0x00011120;
+     cpu->isar.id_aa64mmfr0 = 0x00001122; /* 40 bit physical addr */
+-    cpu->dbgdidr = 0x3516d000;
++    cpu->isar.dbgdidr = 0x3516d000;
+     cpu->clidr = 0x0a200023;
+     cpu->ccsidr[0] = 0x700fe01a; /* 32KB L1 dcache */
+     cpu->ccsidr[1] = 0x201fe00a; /* 32KB L1 icache */
+@@ -244,7 +244,7 @@ static void aarch64_a72_initfn(Object *obj)
+     cpu->isar.id_aa64dfr0 = 0x10305106;
+     cpu->isar.id_aa64isar0 = 0x00011120;
+     cpu->isar.id_aa64mmfr0 = 0x00001124;
+-    cpu->dbgdidr = 0x3516d000;
++    cpu->isar.dbgdidr = 0x3516d000;
+     cpu->clidr = 0x0a200023;
+     cpu->ccsidr[0] = 0x701fe00a; /* 32KB L1 dcache */
+     cpu->ccsidr[1] = 0x201fe012; /* 48KB L1 icache */
 diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 11b87723e47..8415cc6b154 100644
+index 8415cc6b154..1dcbb68e49b 100644
 --- a/target/arm/helper.c
 +++ b/target/arm/helper.c
-@@ -6256,23 +6256,12 @@ static void define_debug_regs(ARMCPU *cpu)
+@@ -6252,7 +6252,7 @@ static void define_debug_regs(ARMCPU *cpu)
+     ARMCPRegInfo dbgdidr = {
+         .name = "DBGDIDR", .cp = 14, .crn = 0, .crm = 0, .opc1 = 0, .opc2 = 0,
+         .access = PL0_R, .accessfn = access_tda,
+-        .type = ARM_CP_CONST, .resetvalue = cpu->dbgdidr,
++        .type = ARM_CP_CONST, .resetvalue = cpu->isar.dbgdidr,
      };
  
      /* Note that all these register fields hold "number of Xs minus 1". */
--    brps = extract32(cpu->dbgdidr, 24, 4);
--    wrps = extract32(cpu->dbgdidr, 28, 4);
--    ctx_cmps = extract32(cpu->dbgdidr, 20, 4);
-+    brps = arm_num_brps(cpu);
-+    wrps = arm_num_wrps(cpu);
-+    ctx_cmps = arm_num_ctx_cmps(cpu);
- 
-     assert(ctx_cmps <= brps);
- 
--    /* The DBGDIDR and ID_AA64DFR0_EL1 define various properties
--     * of the debug registers such as number of breakpoints;
--     * check that if they both exist then they agree.
--     */
--    if (arm_feature(&cpu->env, ARM_FEATURE_AARCH64)) {
--        assert(FIELD_EX64(cpu->isar.id_aa64dfr0, ID_AA64DFR0, BRPS) == brps);
--        assert(FIELD_EX64(cpu->isar.id_aa64dfr0, ID_AA64DFR0, WRPS) == wrps);
--        assert(FIELD_EX64(cpu->isar.id_aa64dfr0, ID_AA64DFR0, CTX_CMPS)
--               == ctx_cmps);
--    }
--
-     define_one_arm_cp_reg(cpu, &dbgdidr);
-     define_arm_cp_regs(cpu, debug_cp_reginfo);
- 
-@@ -6280,7 +6269,7 @@ static void define_debug_regs(ARMCPU *cpu)
-         define_arm_cp_regs(cpu, debug_lpae_cp_reginfo);
-     }
- 
--    for (i = 0; i < brps + 1; i++) {
-+    for (i = 0; i < brps; i++) {
-         ARMCPRegInfo dbgregs[] = {
-             { .name = "DBGBVR", .state = ARM_CP_STATE_BOTH,
-               .cp = 14, .opc0 = 2, .opc1 = 0, .crn = 0, .crm = i, .opc2 = 4,
-@@ -6299,7 +6288,7 @@ static void define_debug_regs(ARMCPU *cpu)
-         define_arm_cp_regs(cpu, dbgregs);
-     }
- 
--    for (i = 0; i < wrps + 1; i++) {
-+    for (i = 0; i < wrps; i++) {
-         ARMCPRegInfo dbgregs[] = {
-             { .name = "DBGWVR", .state = ARM_CP_STATE_BOTH,
-               .cp = 14, .opc0 = 2, .opc1 = 0, .crn = 0, .crm = i, .opc2 = 6,
 -- 
 2.20.1
 
