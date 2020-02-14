@@ -2,72 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC36E15EDEC
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Feb 2020 18:37:53 +0100 (CET)
-Received: from localhost ([::1]:42258 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5E0615F01A
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Feb 2020 18:53:00 +0100 (CET)
+Received: from localhost ([::1]:42788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j2euW-0007eP-Gn
-	for lists+qemu-devel@lfdr.de; Fri, 14 Feb 2020 12:37:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52803)
+	id 1j2f99-0007wY-Uf
+	for lists+qemu-devel@lfdr.de; Fri, 14 Feb 2020 12:52:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55768)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j2eth-0007Fo-BN
- for qemu-devel@nongnu.org; Fri, 14 Feb 2020 12:37:02 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1j2f7a-0005lM-Fc
+ for qemu-devel@nongnu.org; Fri, 14 Feb 2020 12:51:24 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j2etf-0002YR-Ro
- for qemu-devel@nongnu.org; Fri, 14 Feb 2020 12:37:00 -0500
-Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:36114)
+ (envelope-from <peter.maydell@linaro.org>) id 1j2f7Z-0000b1-1W
+ for qemu-devel@nongnu.org; Fri, 14 Feb 2020 12:51:22 -0500
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:38699)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j2etf-0002WO-Kg
- for qemu-devel@nongnu.org; Fri, 14 Feb 2020 12:36:59 -0500
-Received: by mail-ot1-x341.google.com with SMTP id j20so9920451otq.3
- for <qemu-devel@nongnu.org>; Fri, 14 Feb 2020 09:36:59 -0800 (PST)
+ id 1j2f7Y-0000aE-Pt
+ for qemu-devel@nongnu.org; Fri, 14 Feb 2020 12:51:20 -0500
+Received: by mail-wm1-x32f.google.com with SMTP id a9so11560036wmj.3
+ for <qemu-devel@nongnu.org>; Fri, 14 Feb 2020 09:51:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=oDLePT0jVxYsCDb3AIqpXBrfkuIFuI6803FAIljnHkc=;
- b=TfUPd8rp69hRVacKqcLx1gBWUOyVmInOqJezA0tOI7fikSxSfCUSNqkjT7TEgAvm3d
- +92C7OeMtQXL1xxXakhbluct4PC0NrX8f7NgVYg8inegCzP3TFjZ1X2U3Esa5KQcdr8+
- JSR2ofit213J1PYbursGvkyhjoVJs5AEHhD0F4enQrJO7lGwkCSsR3vfb1wTjdB2HN/2
- UTywgAxt6MOXSv/nEZJw14M9uRudClPVKlselhXnL11lf12QDfQTUk7kn5rs2bjzK2Te
- 3FwDdNvte6dimrmsuhU08uieFsTFRX6Wfy/ly36oRKCqMnHNCe5wQsgNTXdbB+56Ze9I
- XjCA==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=lfMPkGIi4UJZPQtmandbg313ggqz9J+Qto9iPFBLaMY=;
+ b=SkRx+UJGypsRPUL5ZKYHtYgJCALUdvzPpymRrqiGQWXayr58X4GrFAvOh1i12uH9GQ
+ aJhdfgTNf2JBTz9e8ZI4dWMFL1sXkpMG+xKwKOSJBXBSBawKbD04z49FlMapA294gSxh
+ Wr6zP5of4zzKJP9fhZKmaVVVQCvBNdIkBtxf5xioP1G4tXH6NnxJyrL1Yv5Q1ZYEuaQn
+ /wmaYnTGEa4H44yOqPqk7feiw9aAantNvaA0ZJBgwgq94GBpHAYq1NM6nmv/55ZmeWAq
+ qSVqDYnYY0rkuotrILfmHsiqPP5TH526Q72TSLzaatvgsNFjm9GpFiNjmVm3cqG3UHKg
+ R4Fg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=oDLePT0jVxYsCDb3AIqpXBrfkuIFuI6803FAIljnHkc=;
- b=Fm9BwZR+DotQVH4/PbdyGYfp7H/Xlrl3kJo3PCgu5rHGrh8CaN1nac/hDyZBffbx2a
- isNW/ZoJ3V5q/VL7EXsOfFHNy4qJIXuhaSHdH6bJ7HFEo671BznFH+oksSmKz4g6pow+
- nR6eCmRMJMDeS0NHLiNLP0wuUNJp0Pc/H2a39uAky1twUtOwFsFvVkfLyYETztj0MIlp
- HjB/LneJH9RbECZ+/P1n4MMrFKRHRo98mmj+pyURRcSpSfZEhbBMosDD6Ny+PqBdUm2j
- dZ696TN3ufnicN5mwuMdE7NBTGgHnYF0H0z96nccPLs/bEnqfIW43CrqxyeWe8z4cxEk
- ML4Q==
-X-Gm-Message-State: APjAAAWktZKfPyPeOyLZxalgH9DrgaID4I7qA+Zp8iMQdhjS1YoWt07S
- 9XxIR/DYgeI+V8mZk2bzM5eNRJBr9mNV1Kh4wfRW/Q==
-X-Google-Smtp-Source: APXvYqwA/x8SxkkLtBEfW7c8NdMIeoB1CUOM0jf2JNYh9tdmo4/U4dYL9EFmZYdpr5meCsdcToHBucfvVJ/IxhcMMHM=
-X-Received: by 2002:a05:6830:13da:: with SMTP id
- e26mr3025591otq.97.1581701818668; 
- Fri, 14 Feb 2020 09:36:58 -0800 (PST)
-MIME-Version: 1.0
-References: <20200213175647.17628-1-peter.maydell@linaro.org>
- <20200213175647.17628-2-peter.maydell@linaro.org>
- <87v9o91xvv.fsf@dusky.pond.sub.org>
- <CAFEAcA8ZPrkfzzyxe-im609GQAxEqRz_z3Ar2EFdcFqzyN4p1g@mail.gmail.com>
- <87d0ahxsv1.fsf@dusky.pond.sub.org>
- <CAFEAcA9ZQfeKA7Nb4FSmk8G3JmCFQa4VsMYLQmE2-UBj7YVeuA@mail.gmail.com>
- <87a75lqe8e.fsf@dusky.pond.sub.org>
-In-Reply-To: <87a75lqe8e.fsf@dusky.pond.sub.org>
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=lfMPkGIi4UJZPQtmandbg313ggqz9J+Qto9iPFBLaMY=;
+ b=biA9jqVfQ6IB5gCr67w0CcTHRuvTWMvtQljnUGC02iyd0hUeraQMiTk7B3HX5Irf3B
+ VT2LY2OpQH5OuahOEQEMQbhzs9Nned3VKSWjNCciQAfADg552h6B8JaGWHuIWXpZJh8p
+ 9kTathisAdgCAVWiijBjEEG89qZMAOOv5CWZoCgfFRFLSyhgaYaCuySsCTNZEi629xD6
+ Ze3K2GHXoNHgPP1uru4Y7YamqsdMH28rYyPeUVBHo5gm9kNQdZ/cJ1JvPmkH7UB7Z7eD
+ AxfB50apSSmqM2Q7oZ7FGwFdCY7xAUyqEhj5yUfWCzcFCT+0YGqU4rxw1yDLW1Sz61D4
+ P1VQ==
+X-Gm-Message-State: APjAAAWoL9FAQGd7qv21qZ3xEV0YBiuRC7XtIGJYoko1zhQ7ZQH6qyHV
+ NquJGMnxN4qLZef2iYOhmt4CMg==
+X-Google-Smtp-Source: APXvYqw0iiN/EyVQaqX0x8/Vpf3LEbNSVl610zoQ+McMNv2HCqBW3Ctf0cfTWETR+PDvxwAZDeRhHg==
+X-Received: by 2002:a7b:c190:: with SMTP id y16mr5872005wmi.107.1581702679252; 
+ Fri, 14 Feb 2020 09:51:19 -0800 (PST)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id v8sm8001857wrw.2.2020.02.14.09.51.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 14 Feb 2020 09:51:18 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 14 Feb 2020 17:36:47 +0000
-Message-ID: <CAFEAcA-BXypUoUcYkadJm8O6TbdCjGmprqyGW9KcNZiaR__Xtw@mail.gmail.com>
-Subject: Re: [PATCH v2 01/30] configure: Allow user to specify sphinx-build
- binary
-To: Markus Armbruster <armbru@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+To: qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org
+Subject: [PATCH v2 00/21] arm: ARMv8.1- and v8.4-PMU, ID reg cleanup, [H]ACTLR2
+Date: Fri, 14 Feb 2020 17:50:55 +0000
+Message-Id: <20200214175116.9164-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::341
+X-Received-From: 2a00:1450:4864:20::32f
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,90 +77,122 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: John Snow <jsnow@redhat.com>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>,
- Michael Roth <mdroth@linux.vnet.ibm.com>
+Cc: Eric Auger <eric.auger@redhat.com>,
+ Aaron Lindsay <aaron@os.amperecomputing.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 14 Feb 2020 at 17:18, Markus Armbruster <armbru@redhat.com> wrote:
-> I decided I prefer this as a separate patch, between PATCH 01 and 02.
->
-> Hmm, maybe I should squash the last hunk into PATCH 01.
->
->
-> From 10d174a9f811708807fb60a610e88084f282c222 Mon Sep 17 00:00:00 2001
-> From: Markus Armbruster <armbru@redhat.com>
-> Date: Fri, 14 Feb 2020 07:33:43 +0100
-> Subject: [PATCH] configure: Pick sphinx-build-3 when available
->
-> The next commit will require a sphinx-build that uses Python 3.  On
-> some systems, sphinx-build is fine, on others you need to use
-> sphinx-build-3.  To keep things working out of the box on both kinds
-> of systems, try sphinx-build-3, then sphinx-build.
->
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> ---
->  configure | 15 +++++++++++++--
->  1 file changed, 13 insertions(+), 2 deletions(-)
->
-> diff --git a/configure b/configure
-> index 14172909f0..4cbeb06b86 100755
-> --- a/configure
-> +++ b/configure
-> @@ -584,7 +584,6 @@ query_pkg_config() {
->  }
->  pkg_config=query_pkg_config
->  sdl2_config="${SDL2_CONFIG-${cross_prefix}sdl2-config}"
-> -sphinx_build=sphinx-build
->
->  # If the user hasn't specified ARFLAGS, default to 'rv', just as make does.
->  ARFLAGS="${ARFLAGS-rv}"
-> @@ -903,6 +902,7 @@ fi
->
->  : ${make=${MAKE-make}}
->  : ${install=${INSTALL-install}}
-> +
->  # We prefer python 3.x. A bare 'python' is traditionally
->  # python 2.x, but some distros have it as python 3.x, so
->  # we check that too
 
+This patchset implements the ARMv8.1-PMU and ARMv8.4-PMU architecture
+extensions. These are fairly small changes on top of the basic
+PMUv3 we already implement, and in fact we already had most of
+the v8.1-PMU functionality implemented but unadvertised.
 
-Stray whitespace change.
+In the course of doing this, I found that our naming and use of
+isar_feature ID register test functions was slightly inconsistent,
+so the first few patches straighten this out and align on an
+_aa32_/_aa64_/_any_ convention for which ID registers to test.
 
-> @@ -915,6 +915,17 @@ do
->          break
->      fi
->  done
-> +
-> +sphinx_build=
-> +for binary in sphinx-build-3 sphinx-build
-> +do
-> +    if has "$binary"
-> +    then
-> +        sphinx_build=$(command -v "$binary")
-> +        break
-> +    fi
-> +done
-> +
->  : ${smbd=${SMBD-/usr/sbin/smbd}}
->
->  # Default objcc to clang if available, otherwise use CC
-> @@ -4803,7 +4814,7 @@ has_sphinx_build() {
->      # sphinx-build doesn't exist at all or if it is too old.
->      mkdir -p "$TMPDIR1/sphinx"
->      touch "$TMPDIR1/sphinx/index.rst"
-> -    $sphinx_build -c "$source_path/docs" -b html "$TMPDIR1/sphinx" "$TMPDIR1/sphinx/out" >/dev/null 2>&1
-> +    "$sphinx_build" -c "$source_path/docs" -b html "$TMPDIR1/sphinx" "$TMPDIR1/sphinx/out" >/dev/null 2>&1
->  }
->
->  # Check if tools are available to build documentation.
-> --
-> 2.21.1
+The ARMv8.1-PMU extension requires:
+ * the evtCount field in PMETYPER<n>_EL0 is 16 bits, not 10
+ * MDCR_EL2.HPMD allows event counting to be disabled at EL2
+ * two new required events, STALL_FRONTEND and STALL_BACKEND
+ * ID register bits in ID_AA64DFR0_EL1 and ID_DFR0
+We already implement all of that except the new events;
+for QEMU our CPU never "stalls" in that sense, so we can
+just implement them as always-reads-zero.
 
-Otherwise
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+The ARMv8.4-PMU extension adds:
+ * one new required event, STALL (again, reads-as-zero)
+ * one new system register PMMIR_EL1, which provides information
+   about the PMU implementation. Since the only currently defined
+   field in it relates to an event we don't provide, we can
+   validly implement the register as RAZ.
 
+Two patches fix some bugs I discovered while running this through
+Eric's recent kvm-unit-tests PMU tests:
+ * we had the wrong definition of the PMCR.DP bit position
+ * we incorrectly implemented PMCR.LC as RAZ/WI
+
+I also fix some random minor bugs I noticed while cleaning up the
+ID register handling.
+
+Finally there's an implementation of ACTLR2 and HACTLR2 sysregs;
+these are pretty trivial but required from Armv8.2 onward. This is
+strictly speaking unrelated to perf, but the patch depends on all
+the preceding cleanup stuff.
+
+I don't generally use the perf emulation, so testing would be
+welcome from people who do.
+
+Changes v1->v2:
+ * now rebased on master, so patch 1 fixes up an extra new use of
+   isar_feature_jazelle
+ * patch 2 is new: take_aarch32_exception should check aa32_pan, not aa64_pan
+ * minor fixups per review comments (mostly using 64-bit versions
+   of extract/deposit where appropriate)
+ * added code to get values of ID registers from KVM
+ * when I added that code I ran into a bunch of problems which
+   stemmed from our using the 32-bit DBGDIDR as the source of truth
+   about numbers of breakpoints etc, which then breaks if the host
+   KVM CPU is AArch64-only, so some patches clean that up
+ * patch 18 fixes a cut-n-paste error I noticed where we were reading
+   entirely the wrong register in aa32_pan and aa32_ats1e1
+ * patch 19 adds an isar_feature test to replace an opencoded examination
+   of an ID register field
+ * patch 20 uses FIELD_EX32 for 32-bit ID registers rather than FIELD_EX64
+ * patch 21 implements ACTLR2 and HACTLR2
+
+Patches 1, 3-9, and 13-17 have already been reviewed;
+2, 10-12, and 18-21 are new in v2.
+
+thanks
 -- PMM
+
+
+
+Peter Maydell (21):
+  target/arm: Add _aa32_ to isar_feature functions testing 32-bit ID
+    registers
+  target/arm: Check aa32_pan in take_aarch32_exception(), not aa64_pan
+  target/arm: Add isar_feature_any_fp16 and document naming/usage
+    conventions
+  target/arm: Define and use any_predinv isar_feature test
+  target/arm: Factor out PMU register definitions
+  target/arm: Add and use FIELD definitions for ID_AA64DFR0_EL1
+  target/arm: Use FIELD macros for clearing ID_DFR0 PERFMON field
+  target/arm: Define an aa32_pmu_8_1 isar feature test function
+  target/arm: Add _aa64_ and _any_ versions of pmu_8_1 isar checks
+  target/arm: Stop assuming DBGDIDR always exists
+  target/arm: Move DBGDIDR into ARMISARegisters
+  target/arm: Read debug-related ID registers from KVM
+  target/arm: Implement ARMv8.1-PMU extension
+  target/arm: Implement ARMv8.4-PMU extension
+  target/arm: Provide ARMv8.4-PMU in '-cpu max'
+  target/arm: Correct definition of PMCRDP
+  target/arm: Correct handling of PMCR_EL0.LC bit
+  target/arm: Test correct register in aa32_pan and aa32_ats1e1 checks
+  target/arm: Use isar_feature function for testing AA32HPD feature
+  target/arm: Use FIELD_EX32 for testing 32-bit fields
+  target/arm: Correctly implement ACTLR2, HACTLR2
+
+ target/arm/cpu.h          | 143 +++++++++++++++---
+ target/arm/internals.h    |  44 +++++-
+ hw/intc/armv7m_nvic.c     |  10 +-
+ linux-user/elfload.c      |   4 +-
+ target/arm/cpu.c          | 150 +++++++++---------
+ target/arm/cpu64.c        |  58 ++++---
+ target/arm/debug_helper.c |   6 +-
+ target/arm/helper.c       | 311 ++++++++++++++++++++++----------------
+ target/arm/kvm32.c        |  25 +++
+ target/arm/kvm64.c        |  46 ++++++
+ target/arm/translate.c    |   6 +-
+ target/arm/vfp_helper.c   |   2 +-
+ 12 files changed, 544 insertions(+), 261 deletions(-)
+
+-- 
+2.20.1
+
 
