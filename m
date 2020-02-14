@@ -2,84 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 451A015DAD2
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Feb 2020 16:25:06 +0100 (CET)
-Received: from localhost ([::1]:40278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36CE115DADF
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Feb 2020 16:26:34 +0100 (CET)
+Received: from localhost ([::1]:40322 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j2cq1-0005Oj-Az
-	for lists+qemu-devel@lfdr.de; Fri, 14 Feb 2020 10:25:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46766)
+	id 1j2crR-0007wc-9E
+	for lists+qemu-devel@lfdr.de; Fri, 14 Feb 2020 10:26:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47465)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <frankja@linux.ibm.com>) id 1j2ciq-0007WF-S9
- for qemu-devel@nongnu.org; Fri, 14 Feb 2020 10:17:41 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1j2cll-0005g8-9D
+ for qemu-devel@nongnu.org; Fri, 14 Feb 2020 10:20:42 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <frankja@linux.ibm.com>) id 1j2cip-0006UE-Ug
- for qemu-devel@nongnu.org; Fri, 14 Feb 2020 10:17:40 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:1208
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <frankja@linux.ibm.com>)
- id 1j2cip-0006Iw-PM
- for qemu-devel@nongnu.org; Fri, 14 Feb 2020 10:17:39 -0500
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 01EFFxG4050318
- for <qemu-devel@nongnu.org>; Fri, 14 Feb 2020 10:17:29 -0500
-Received: from e06smtp05.uk.ibm.com (e06smtp05.uk.ibm.com [195.75.94.101])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2y5vhpkn6n-1
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Fri, 14 Feb 2020 10:17:29 -0500
-Received: from localhost
- by e06smtp05.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
- Violators will be prosecuted
- for <qemu-devel@nongnu.org> from <frankja@linux.ibm.com>;
- Fri, 14 Feb 2020 15:17:26 -0000
-Received: from b06cxnps4075.portsmouth.uk.ibm.com (9.149.109.197)
- by e06smtp05.uk.ibm.com (192.168.101.135) with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted; 
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Fri, 14 Feb 2020 15:17:23 -0000
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
- [9.149.105.59])
- by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 01EFHMxZ45744246
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 14 Feb 2020 15:17:22 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 282FAA4055;
- Fri, 14 Feb 2020 15:17:22 +0000 (GMT)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 087E1A4053;
- Fri, 14 Feb 2020 15:17:21 +0000 (GMT)
-Received: from localhost.localdomain (unknown [9.145.191.187])
- by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Fri, 14 Feb 2020 15:17:20 +0000 (GMT)
-From: Janosch Frank <frankja@linux.ibm.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 17/17] s390x: For now add unpack feature to GA1
-Date: Fri, 14 Feb 2020 10:16:36 -0500
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200214151636.8764-1-frankja@linux.ibm.com>
-References: <20200214151636.8764-1-frankja@linux.ibm.com>
+ (envelope-from <peter.maydell@linaro.org>) id 1j2clj-00014O-Su
+ for qemu-devel@nongnu.org; Fri, 14 Feb 2020 10:20:40 -0500
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:38529)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1j2clj-00013Q-MP
+ for qemu-devel@nongnu.org; Fri, 14 Feb 2020 10:20:39 -0500
+Received: by mail-ot1-x343.google.com with SMTP id z9so9463946oth.5
+ for <qemu-devel@nongnu.org>; Fri, 14 Feb 2020 07:20:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=oGP8xTna9n3xc5N0hWrzsdpLsZ4Z8Y5JKlSsBOv9kx8=;
+ b=J2MzAqciupf/AVPjMhv4bie3cpOrU9WY3+96PwzklmZvSfKKWdjqr3354CncuWINFG
+ 34jStg3P3i7OSESa7ld1pgfTetpBuqFlxaLlBtAn9AwS438dky77tUNpkfVCSKWfOjVo
+ LN5uBkxGes9A8/jSh7NxP0bITyf9EqBykmj3BMkNCDaexcbIU9lT2K4v9xxutGMe7eCT
+ 6sJb2zms62xWpDQIEExJRZ+jTF0LcT2O/I8spFbQ8gLMeojMEVCi4SJ6yhswffNG3xtX
+ BYqaq+hUjaRCroGpMxJeE59Ky3a3wU2F8HaMZ+RMalKXvdmnBS+DVNStYpdCnTlTRJZe
+ xt6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=oGP8xTna9n3xc5N0hWrzsdpLsZ4Z8Y5JKlSsBOv9kx8=;
+ b=elpD5OQALQXBDnFwg5z1DwYIgeVF2yCYPP+wymY1nVW0inX9KiVtWwMTOUj2pZm443
+ VzNNAygvLfSVEAK026d4TIvCE1OhnfO5c0oM8X9kEvV/JVPHLYiDTvaN9iRpznRUX2wi
+ TsTL6l6n7YkrjVw8djuDfS57Gu8oA6usTjLC43yEp7WreQW7TeO63ZqZX6QmNw4BrfxZ
+ P8qPUOktXoEGm5ae6Pf5BERGpJDt2dQIitYbl6jjWVGdZtXuusgQpoKqOfl7Kv+HDQYI
+ XXXL+rbKhPJAI1YjFDJ0Jv85cDyaeUwsGVYcdtVxKilSUAXuSbW75wDV5/GjH5JlcCVp
+ gK9A==
+X-Gm-Message-State: APjAAAUkRWEd5D32J0nzKC2J82q9ZZUZD0pnj2nMZ6yB1E0N/uiCdXQO
+ 62zVCfgZoU2RSU0Th+VOVd0GUDt0JNtkudDsE6Ud0Q==
+X-Google-Smtp-Source: APXvYqzQaZvqHWvdxReoUBaLq6i5VKD+05MtqWu8HwKZxtGC9m7R9Ts9kxLV8hGT/DhzRAXdK01NrSiXM+yonjGWJQs=
+X-Received: by 2002:a05:6830:1184:: with SMTP id
+ u4mr2576371otq.221.1581693637050; 
+ Fri, 14 Feb 2020 07:20:37 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-x-cbid: 20021415-0020-0000-0000-000003AA2469
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 20021415-0021-0000-0000-0000220213A1
-Message-Id: <20200214151636.8764-18-frankja@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
- definitions=2020-02-14_04:2020-02-12,
- 2020-02-14 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- bulkscore=0 mlxlogscore=803 suspectscore=1 phishscore=0 impostorscore=0
- priorityscore=1501 malwarescore=0 spamscore=0 clxscore=1015 adultscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2001150001 definitions=main-2002140121
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.158.5
+References: <20200213175647.17628-1-peter.maydell@linaro.org>
+ <20200213175647.17628-19-peter.maydell@linaro.org>
+ <87pneh1wul.fsf@dusky.pond.sub.org>
+ <87v9o9rylz.fsf@dusky.pond.sub.org>
+In-Reply-To: <87v9o9rylz.fsf@dusky.pond.sub.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 14 Feb 2020 15:20:26 +0000
+Message-ID: <CAFEAcA8b32o+CryKWZbDNj+KFcJPY8ToXW_fYaa_0FuDDE87WA@mail.gmail.com>
+Subject: Re: [PATCH v2 18/30] qapi: Delete all the "foo: dropped in n.n" notes
+To: Markus Armbruster <armbru@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,29 +75,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mihajlov@linux.ibm.com, qemu-s390x@nongnu.org, cohuck@redhat.com,
- david@redhat.com
+Cc: John Snow <jsnow@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
----
- target/s390x/gen-features.c | 1 +
- 1 file changed, 1 insertion(+)
+On Fri, 14 Feb 2020 at 15:13, Markus Armbruster <armbru@redhat.com> wrote:
+>
+> Markus Armbruster <armbru@redhat.com> writes:
+>
+> > Peter Maydell <peter.maydell@linaro.org> writes:
+> >
+> >> A handful of QAPI doc comments include lines like
+> >> "ppcemb: dropped in 3.1". The doc comment parser will just
+> >> put these into whatever the preceding section was; sometimes
+> >> that's "Notes", and sometimes it's some random other section,
+> >> as with "NetClientDriver" where the "'dump': dropped in 2.12"
+> >> line ends up in the "Since:" section.
+> >>
+> >> This tends to render wrongly, more so in the upcoming rST
+> >> generator, but sometimes even in the texinfo, as in the case
+> >> of QKeyCode:
+> >>    ac_bookmarks
+> >>        since 2.10 altgr, altgr_r: dropped in 2.10
+> >>
+> >> We now have a better place to tell users about deprecated
+> >> and deleted functionality -- qemu-deprecated.texi.
+> >> So just remove all these "dropped in" remarks entirely.
+>
+> The first sentence makes me expect we'll move these bits to the better
+> place.  The second then tells me we drop them, without giving a reason.
+>
+> Suggest:
+>
+>    Since commit 3264ffced3 (v4.2.0), we have a better place to tell
+>    users about deprecated and deleted functionality --
+>    qemu-deprecated.texi.  These "dropped in" remarks all predate it, and
+>    other feature drops of that vintage are not documented anywhere, so
+>    moving these to qemu-deprecated.texi makes little sense.  Drop them
+>    instead.
+>
+> With something like that
+> Reviewed-by: Markus Armbruster <armbru@redhat.com>
 
-diff --git a/target/s390x/gen-features.c b/target/s390x/gen-features.c
-index 6278845b12..8ddeebc544 100644
---- a/target/s390x/gen-features.c
-+++ b/target/s390x/gen-features.c
-@@ -562,6 +562,7 @@ static uint16_t full_GEN15_GA1[] = {
-     S390_FEAT_GROUP_MSA_EXT_9,
-     S390_FEAT_GROUP_MSA_EXT_9_PCKMO,
-     S390_FEAT_ETOKEN,
-+    S390_FEAT_UNPACK,
- };
- 
- /* Default features (in order of release)
--- 
-2.20.1
+Yeah, I wrote the commit message on the assumption that we'd
+be modifying the commit contents to include documenting this
+stuff somewhere else. If we're happy not to document the
+feature-drops at all then we can modify the commit message instead.
 
+thanks
+-- PMM
 
