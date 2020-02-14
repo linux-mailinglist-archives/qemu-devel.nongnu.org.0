@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 156CA15F777
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Feb 2020 21:09:49 +0100 (CET)
-Received: from localhost ([::1]:45104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FF6815F77A
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Feb 2020 21:11:16 +0100 (CET)
+Received: from localhost ([::1]:45138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j2hHY-0000h3-2e
-	for lists+qemu-devel@lfdr.de; Fri, 14 Feb 2020 15:09:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51862)
+	id 1j2hIx-0003qD-6q
+	for lists+qemu-devel@lfdr.de; Fri, 14 Feb 2020 15:11:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51898)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1j2hGM-0007KE-26
- for qemu-devel@nongnu.org; Fri, 14 Feb 2020 15:08:35 -0500
+ (envelope-from <kwolf@redhat.com>) id 1j2hGP-0007QU-9w
+ for qemu-devel@nongnu.org; Fri, 14 Feb 2020 15:08:38 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1j2hGL-0005KL-0l
- for qemu-devel@nongnu.org; Fri, 14 Feb 2020 15:08:33 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:49784)
+ (envelope-from <kwolf@redhat.com>) id 1j2hGO-0005R7-BC
+ for qemu-devel@nongnu.org; Fri, 14 Feb 2020 15:08:37 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:32481
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1j2hGK-0005Jl-Ti
- for qemu-devel@nongnu.org; Fri, 14 Feb 2020 15:08:32 -0500
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1j2hGO-0005QV-7f
+ for qemu-devel@nongnu.org; Fri, 14 Feb 2020 15:08:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581710912;
+ s=mimecast20190719; t=1581710915;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vnZOS2oQ4H/J3ETSQGIB1Fm2xH6tBJ4x5xQUIco+SIc=;
- b=A99V4+UrHqWo3QBmizycXZpTSLvrY8TxzywSlT6PqlBkwtz7A4bjVZTO+lMo4tfEVhLsRh
- CEiuIDHLWlUM6VaaphHcdo+F0ihdP7v6r+3U/vrdlPrI941/YgzmbWRbbkaWj4ICN3Xiti
- JpsCN0nso4r/Jm0x9jSD12eeiNdqF98=
+ bh=Q+WJ9A0MdHS2JVaGI30bMN+WQVzGoxwouKYg1sBf3pI=;
+ b=Mx28TSH9TvrWR7nv5SOQQAhM9LM3T9E8EaBZgqbwK/NhzCSg4t1s8lx2gi62kQJVTaZV9x
+ rdN8B9URUVh50+UKCmJTEu1qxKQhyReO3Ppz5nw6I8eCL3gMtxgBDhZr7Kddp64tA6kCsZ
+ AUYnR4E+jP57m3PwHITMbonHguIgg/0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-9-ogWNrckxOhaHxW_zV6tdzQ-1; Fri, 14 Feb 2020 15:08:30 -0500
+ us-mta-363-oj-uNuTfPsad8q9O5ZM01w-1; Fri, 14 Feb 2020 15:08:32 -0500
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 40A8113E2;
- Fri, 14 Feb 2020 20:08:29 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1161E800D53;
+ Fri, 14 Feb 2020 20:08:31 +0000 (UTC)
 Received: from linux.fritz.box.com (unknown [10.36.118.128])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 842E85C1C3;
- Fri, 14 Feb 2020 20:08:26 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8A3125C1C3;
+ Fri, 14 Feb 2020 20:08:29 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH 1/7] qapi: Document meaning of 'ignore' BlockdevOnError for
- jobs
-Date: Fri, 14 Feb 2020 21:08:06 +0100
-Message-Id: <20200214200812.28180-2-kwolf@redhat.com>
+Subject: [PATCH 2/7] commit: Remove unused bytes_written
+Date: Fri, 14 Feb 2020 21:08:07 +0100
+Message-Id: <20200214200812.28180-3-kwolf@redhat.com>
 In-Reply-To: <20200214200812.28180-1-kwolf@redhat.com>
 References: <20200214200812.28180-1-kwolf@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: ogWNrckxOhaHxW_zV6tdzQ-1
+X-MC-Unique: oj-uNuTfPsad8q9O5ZM01w-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,39 +76,37 @@ Cc: kwolf@redhat.com, pkrempa@redhat.com, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It is not obvious what 'ignore' actually means for block jobs: It could
-be continuing the job and returning success in the end despite the error
-(no block job does this). It could also mean continuing and returning
-failure in the end (this is what stream does). And it can mean retrying
-the failed request later (this is what backup, commit and mirror do).
-
-This (somewhat inconsistent) behaviour was introduced and described for
-stream and mirror in commit ae586d6158. backup and commit were
-introduced later and use the same model as mirror.
+The bytes_written variable is only ever written to, it serves no
+purpose. This has actually been the case since the commit job was first
+introduced in commit 747ff602636.
 
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- qapi/block-core.json | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ block/commit.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/qapi/block-core.json b/qapi/block-core.json
-index ef94a29686..395d205fa8 100644
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -1164,7 +1164,10 @@
- #          for jobs, cancel the job
- #
- # @ignore: ignore the error, only report a QMP event (BLOCK_IO_ERROR
--#          or BLOCK_JOB_ERROR)
-+#          or BLOCK_JOB_ERROR). The backup, mirror and commit block jobs r=
-etry
-+#          the failing request later and may still complete successfully. =
-The
-+#          stream block job continues to stream and will complete with an
-+#          error.
- #
- # @enospc: same as @stop on ENOSPC, same as @report otherwise.
- #
+diff --git a/block/commit.c b/block/commit.c
+index 23c90b3b91..cce898a4f3 100644
+--- a/block/commit.c
++++ b/block/commit.c
+@@ -140,7 +140,6 @@ static int coroutine_fn commit_run(Job *job, Error **er=
+rp)
+     int ret =3D 0;
+     int64_t n =3D 0; /* bytes */
+     void *buf =3D NULL;
+-    int bytes_written =3D 0;
+     int64_t len, base_len;
+=20
+     ret =3D len =3D blk_getlength(s->top);
+@@ -180,7 +179,6 @@ static int coroutine_fn commit_run(Job *job, Error **er=
+rp)
+         trace_commit_one_iteration(s, offset, n, ret);
+         if (copy) {
+             ret =3D commit_populate(s->top, s->base, offset, n, buf);
+-            bytes_written +=3D n;
+         }
+         if (ret < 0) {
+             BlockErrorAction action =3D
 --=20
 2.20.1
 
