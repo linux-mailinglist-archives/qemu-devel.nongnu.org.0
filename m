@@ -2,48 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 922CC15CFF6
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Feb 2020 03:31:21 +0100 (CET)
-Received: from localhost ([::1]:33910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0FA215D066
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Feb 2020 04:24:35 +0100 (CET)
+Received: from localhost ([::1]:34194 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j2QlE-0007Gn-J3
-	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 21:31:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59674)
+	id 1j2Rak-00058l-W9
+	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 22:24:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42415)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1j2Qjc-0006Qw-0H
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 21:29:41 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1j2RZr-0004IS-LU
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 22:23:41 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1j2Qja-0002Rk-PT
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 21:29:39 -0500
-Received: from ozlabs.org ([2401:3900:2:1::2]:54197)
+ (envelope-from <dgibson@ozlabs.org>) id 1j2RZq-0008LL-48
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 22:23:39 -0500
+Received: from ozlabs.org ([203.11.71.1]:57555)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1j2Qja-0002GV-E4; Thu, 13 Feb 2020 21:29:38 -0500
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>) id 1j2RZp-0008C3-6i
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 22:23:38 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 48Jclf1Qphz9sRN; Fri, 14 Feb 2020 13:29:34 +1100 (AEDT)
+ id 48Jdxw6Ph9z9sRQ; Fri, 14 Feb 2020 14:23:32 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1581647374;
- bh=ATPubIQNceGEo/hwpRJRpnl67IYMOrbb7fAvMJTDbVA=;
+ d=gibson.dropbear.id.au; s=201602; t=1581650612;
+ bh=mITNkH86hrSsroXCNXhiFNfRMe2x8EH7T4vLWRvEd0M=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ltfdz/uIVTSikXq0w3iZs+yeMR8Qx4To5V8FAsAKSCztCpzakuyOnOf5MSOBmNdcF
- ymv97sRD9MJBFVhNh4tj1sfFP/VD5eh7PEYp7YYlPv4LCFxfE9yz/AJvuR2/f6kk4O
- KCxVdFOGd/sZh9gdxPf+qClkF+UMIUumdHhMz8po=
-Date: Fri, 14 Feb 2020 13:29:25 +1100
+ b=gYZ0C/dicQwVInHKhzm03SZdeBgqGzMrPYiggJmuk0aXflsJ18Eu7pxWdzVqdtSr2
+ syAy/wOs7+POMSoytsWyLHBnVMhRz0a2BiJHNqf4AzZjpOl6MpRTBAnn4PV8NDLBui
+ HaypQnWxKKjiki51VOTjk2C9X3owRdt++rTGaXz4=
+Date: Fri, 14 Feb 2020 13:30:55 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
-To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH 0/3] spapr: Fix device unplug vs CAS or migration
-Message-ID: <20200214022925.GL124369@umbus.fritz.box>
-References: <158076936422.2118610.5626450767672103134.stgit@bahia.lan>
- <20200213161055.3d1b25aa@bahia.lan>
+To: Alexey Kardashevskiy <aik@ozlabs.ru>
+Subject: Re: VW ELF loader
+Message-ID: <20200214023055.GM124369@umbus.fritz.box>
+References: <de7e4d34-eb63-904c-3475-7feee154c72c@ozlabs.ru>
+ <8420784f-b4c7-9864-8534-b94dbc5f74ff@redhat.com>
+ <20200205055851.GH60221@umbus.fritz.box>
+ <73105e0b-c0a0-009f-aeba-fec818d3088c@redhat.com>
+ <23090d06-320e-91b5-f73e-c17e065fcad8@ozlabs.ru>
+ <dbea9886-04d8-f9fe-f79d-31d8abe76615@redhat.com>
+ <274037e5-9bd5-8507-4b4b-067a86225787@ozlabs.ru>
+ <9539866e-b3ca-cf29-5a05-164480f89075@ozlabs.ru>
+ <2dea0786-5e4b-bda0-5ca8-fdcb3a4f3e50@redhat.com>
+ <662013b2-6452-81c1-30c6-d9f0184f9eb0@ozlabs.ru>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="m+jEI8cDoTn6Mu9E"
+ protocol="application/pgp-signature"; boundary="VLAOICcq5m4DWEYr"
 Content-Disposition: inline
-In-Reply-To: <20200213161055.3d1b25aa@bahia.lan>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2401:3900:2:1::2
+In-Reply-To: <662013b2-6452-81c1-30c6-d9f0184f9eb0@ozlabs.ru>
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,59 +63,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Alexey Kardashevskiy <aik@ozlabs.ru>,
- qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Cornelia Huck <conny@cornelia-huck.de>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---m+jEI8cDoTn6Mu9E
+--VLAOICcq5m4DWEYr
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Feb 13, 2020 at 04:10:55PM +0100, Greg Kurz wrote:
-> Ping ?
+On Fri, Feb 14, 2020 at 11:01:26AM +1100, Alexey Kardashevskiy wrote:
 >=20
-> This series fixes actual bugs. Also, I have another patch on top of
-> that to cold plug (or remove) devices pending hot plug (or unplug)
-> before CAS, hence removing the need for CAS reboot in these cases.
-> This requires SLOF to correctly parse the FDT it gets at CAS. Patches
-> have been sent for that too:
 >=20
-> https://git.qemu.org/?p=3DSLOF.git;a=3Dcommitdiff;h=3D689ff6f6554d94fdab8=
-54bf4fc4ec85e2675e43d
-> https://git.qemu.org/?p=3DSLOF.git;a=3Dcommitdiff;h=3Da093be1ebe7a4832164=
-6601d94be6cf735c81e12
-> https://patchwork.ozlabs.org/patch/1235817/
+> On 13/02/2020 21:17, Paolo Bonzini wrote:
+> > On 13/02/20 02:43, Alexey Kardashevskiy wrote:
+> >>
+> >> Ok. So, I have made a small firmware which does OF CI, loads GRUB and
+> >> instantiates RTAS:
+> >> https://github.com/aik/of1275
+> >> Quite raw but gives the idea.
+> >>
+> >> It does not contain drivers and still relies on QEMU to hook an OF path
+> >> to a backend. Is this a showstopper and without drivers it is no go? T=
+hanks,
+> >=20
+> > Yes, it's really the drivers.  Something like netboot wouldn't work for
+> > example.
+> >=20
+> > I don't have a problem with relying on QEMU for opening and closing OF
+> > paths, but I really believe that read/write on ihandles should be done
+> > within the firmware and not QEMU.
+>=20
+> Moving read/write to the firmware is not a problem but there is a little
+> mix up here :)
+>=20
+> An ihandle is open from a path and nothing there suggests drivers, it is
+> up to the ihandle's "read" method what happens next.
+>=20
+> If we do PCI drivers in the firmware, then the entire ihandle (=3D=3D
+> "opened instance of a phandle") business goes to the firmware and we are
+> slowly bringing the existing mess back again.
 
-Yeah, sorry, I've been having a bit of trouble getting my head around
-the cases here.  I've sent a comment now.
-
->=20
-> On Mon, 03 Feb 2020 23:36:04 +0100
-> Greg Kurz <groug@kaod.org> wrote:
->=20
-> > While working on getting rid of CAS reboot, I realized that we currently
-> > don't handle device hot unplug properly in the following situations:
-> >=20
-> > 1) if the device is unplugged between boot and CAS, SLOF doesn't handle
-> >    the even, which is a known limitation. The device hence stays around
-> >    forever (specifically, until some other event is emitted and the gue=
-st
-> >    eventually completes the unplug or a reboot). Until we can teach SLOF
-> >    to correctly process the full FDT at CAS, we should trigger a CAS re=
-boot,
-> >    like we already do for hotplug.
-> >=20
-> > 2) if the guest is migrated after the even was emitted but before the
-> >    guest could process it, the destination is unaware of the pending
-> >    unplug operation and doesn't remove the device when the guests
-> >    releases it. The 'unplug_requested' field of the DRC is actually sta=
-te
-> >    that should be migrated.
-> >=20
->=20
+Right, even setting aside the specifics of how ihandles are managed,
+having the device tree in qemu but device handling in firmware seems
+like an even more complex interaction between qemu and firmware pieces
+of the environment, which is what we've been trying to avoid here.
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -115,25 +120,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---m+jEI8cDoTn6Mu9E
+--VLAOICcq5m4DWEYr
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl5GBgUACgkQbDjKyiDZ
-s5K1ZBAAt2MMzeR5YjupsCLavuKvoWQ6Dylni9wmf4ERLFV2vuUUoYFCi+uQh3YM
-HSds9iZDv42hSyRkv55d/oghlyJRKjWZiyeBfhX6PML1w6L79PpPl37HsH30Y0JG
-UyWHNFFkh9kTiVIuTtKraqfa3n6csylsqR1pDVZU2XLCBqZrl4eri6Boz8MsCjdL
-E8i7f9ITJPn+Zvdd9enhJutOAYyagEcOUQ/iOy1NhG9Y/pq8BBsu+Jaieqi41jyT
-iNthbYzhQCniNMfUYhajBV2K8syleXzJUkWdcLuDNjRYhfosQShMfkAGPDKSHZaT
-xG1jQDj+JK6myZm9Pmt/AcroCYsIWnM5mmxM8B4JIkl3tCcJRuLQQyvGRvRHmap4
-ssfEiFEkZexUUZdNtMyR0i5SjzI85m87xP51fhiOS3z65TTMgKzogRugaA5WO5wt
-JON4Rp7iB30d5QAJWc67BtvPxId8FF7HPJTfHadkyn2kL/hca89qpXaVBdDIORsY
-3bBlZDeg/HLWFJCFP3n0OVWDUBbtrb3zW6I8QPPTuhoJ8mPu4Q3vA3F/va9qRBXB
-+m8lZBr2OKljBZoRrQUIRs4dR4MuZZ219SO9pZeCr5EicmfHpKfkv6oK8g0wY+Tr
-B7A8AuRwlzP9RxnyvdRC6LkkxUGDGM7raZX5oA1bLZCyvsbbX6g=
-=nrnN
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl5GBl8ACgkQbDjKyiDZ
+s5LEpRAAhqfRXcp0FuSD6aTQ/hkc1nAR80rqz/qF5d1E3sUW0gCP5LYtaLg5029D
+KwOJyb/veueNs2cro1v2dA7EE08gCmguUpG7G3qMJuTnQFsOM+z4WSz9Fqd3j2z+
+aVQMFdEIrStqGdIAQkcNMEBE4sXd+MT8I/+rBncBDgsMXanq0CDHBh2vImhBbh/K
+fIvcJ9MqJHc8VO3hh6bWRcxHa/iP+hOX7AvfRy/RliRufnHgw3gIdZNEh9aIMZoY
+S2IiwPIvSIr1qqcI3uvQuwdbTM5/0sABGb6Q8kqb7ALZIT/ubobZHnZSdDlHFwg7
+oS6knIRwQd/yLPeK27/26gQD6yRIvdxFV65iAk/dthfc//SeCchNS1kjy8fEGTEH
+HF41wl2iEFC+D7IpfTMg0d2qosmtuhjJW7MeYwSxwEwzjoXs0STA5Zza0JiT21pN
+dYENjTr60QpmxORZRwsm5vnHgj0Uy2qX5s3U+kj22nFAWh0zJXOHZiqz5P8N5L1K
+81z5679iQXy6TrUnsYiZl8a6+HrhUfoLxHl1PuLZSFTnzAAoiLEZyBefw+V7LdTP
+ZGYxvPnXVhD3uV+O+maqYdI5av+F5nWJAJrLiN3ofEZ1bEPAxeXPI3upVCKRYv+e
+2XlNyDVPt/WDpwfHxW2tUijnpMVAcUoBu+N10nOHuOY6Xp/3zVE=
+=Sobr
 -----END PGP SIGNATURE-----
 
---m+jEI8cDoTn6Mu9E--
+--VLAOICcq5m4DWEYr--
 
