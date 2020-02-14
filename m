@@ -2,67 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2FEC15D85A
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Feb 2020 14:24:55 +0100 (CET)
-Received: from localhost ([::1]:38746 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D89D415D864
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Feb 2020 14:27:31 +0100 (CET)
+Received: from localhost ([::1]:38798 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j2axi-00056Z-Tb
-	for lists+qemu-devel@lfdr.de; Fri, 14 Feb 2020 08:24:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50654)
+	id 1j2b0E-0008JR-VY
+	for lists+qemu-devel@lfdr.de; Fri, 14 Feb 2020 08:27:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50864)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1j2awU-0004F1-Hv
- for qemu-devel@nongnu.org; Fri, 14 Feb 2020 08:23:39 -0500
+ (envelope-from <sebastien.boeuf@intel.com>) id 1j2axJ-0005GY-4s
+ for qemu-devel@nongnu.org; Fri, 14 Feb 2020 08:24:30 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1j2awT-0005Hd-9l
- for qemu-devel@nongnu.org; Fri, 14 Feb 2020 08:23:38 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:59344
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <sebastien.boeuf@intel.com>) id 1j2axG-00074o-UG
+ for qemu-devel@nongnu.org; Fri, 14 Feb 2020 08:24:28 -0500
+Received: from mga01.intel.com ([192.55.52.88]:60120)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1j2awT-0005GM-5m
- for qemu-devel@nongnu.org; Fri, 14 Feb 2020 08:23:37 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581686616;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=QVG7dnOOpyeOJ2MmPfRfZaFuoRCROWV/UQn1NF0IjF8=;
- b=h5NhLGgCs28GD+vEDFq8Iq6bC9ByB4Xcd2gKQuIyPPQXsRj+oGwCNAUVixfBxil9WNQNh7
- /aLxzCG8pbLbubgWTuv9fP3lKtEMKOmSwHGd07Y8yyANNk706M/udq/POn+oecFKGAE7sn
- PVgpODZwdz/RC8omixVgTlgYAjEBnV4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-97-nTnUqTYCOPixQIDt8DauRQ-1; Fri, 14 Feb 2020 08:23:26 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A669B13E2;
- Fri, 14 Feb 2020 13:23:25 +0000 (UTC)
-Received: from work-vm (unknown [10.36.118.141])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 88CB75DA7D;
- Fri, 14 Feb 2020 13:23:21 +0000 (UTC)
-Date: Fri, 14 Feb 2020 13:23:18 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: fengzhimin1@huawei.com, qemu-devel@nongnu.org
-Subject: Re: [PATCH RFC 00/14] *** multifd for RDMA v2 ***
-Message-ID: <20200214132318.GG3283@work-vm>
-References: <20200213093755.370-1-fengzhimin1@huawei.com>
- <158158885089.23372.3307991609443123651@a1bbccc8075a>
+ (Exim 4.71) (envelope-from <sebastien.boeuf@intel.com>)
+ id 1j2axG-0006ox-Lb
+ for qemu-devel@nongnu.org; Fri, 14 Feb 2020 08:24:26 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 14 Feb 2020 05:24:21 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,440,1574150400"; d="scan'208";a="223016036"
+Received: from orsmsx105.amr.corp.intel.com ([10.22.225.132])
+ by orsmga007.jf.intel.com with ESMTP; 14 Feb 2020 05:24:20 -0800
+Received: from orsmsx160.amr.corp.intel.com (10.22.226.43) by
+ ORSMSX105.amr.corp.intel.com (10.22.225.132) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Fri, 14 Feb 2020 05:24:20 -0800
+Received: from orsmsx115.amr.corp.intel.com ([169.254.4.100]) by
+ ORSMSX160.amr.corp.intel.com ([169.254.13.167]) with mapi id 14.03.0439.000;
+ Fri, 14 Feb 2020 05:24:20 -0800
+From: "Boeuf, Sebastien" <sebastien.boeuf@intel.com>
+To: "marcandre.lureau@redhat.com" <marcandre.lureau@redhat.com>
+Subject: Re: docs: Update vhost-user spec regarding backend program conventions
+Thread-Topic: docs: Update vhost-user spec regarding backend program
+ conventions
+Thread-Index: AQHV4O9TY4yCVz7xVU+TIDtOwGOnlKgXB3uAgAQw4QA=
+Date: Fri, 14 Feb 2020 13:24:19 +0000
+Message-ID: <98d72096ad005ecfd5861e4f8f74a9c503e976b2.camel@intel.com>
+References: <15a5fbc76266fb51b365e66872c105b9e2832999.camel@intel.com>
+ <CAMxuvazRMzO=7N3FjH74QBk1ehxwaM8rymFcn5_aDppU8_z+LA@mail.gmail.com>
+In-Reply-To: <CAMxuvazRMzO=7N3FjH74QBk1ehxwaM8rymFcn5_aDppU8_z+LA@mail.gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.252.24.179]
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <4F10114D1E872744B8926BCA22BF9A93@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <158158885089.23372.3307991609443123651@a1bbccc8075a>
-User-Agent: Mutt/1.13.3 (2020-01-12)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: nTnUqTYCOPixQIDt8DauRQ-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+Content-Transfer-Encoding: base64
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 192.55.52.88
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,90 +70,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: zhang.zhanghailiang@huawei.com, jemmy858585@gmail.com, armbru@redhat.com,
- quintela@redhat.com
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "stefanha@redhat.com" <stefanha@redhat.com>, "mst@redhat.com" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Make sure that it compiles OK with RDMA compiled out; I think this is a
-windows cross build that's failing, but more generally even a Linux box
-with no-RDMA libraries.
-
-Dave
-
-* no-reply@patchew.org (no-reply@patchew.org) wrote:
-> Patchew URL: https://patchew.org/QEMU/20200213093755.370-1-fengzhimin1@hu=
-awei.com/
->=20
->=20
->=20
-> Hi,
->=20
-> This series failed the docker-mingw@fedora build test. Please find the te=
-sting commands and
-> their output below. If you have Docker installed, you can probably reprod=
-uce it
-> locally.
->=20
-> =3D=3D=3D TEST SCRIPT BEGIN =3D=3D=3D
-> #! /bin/bash
-> export ARCH=3Dx86_64
-> make docker-image-fedora V=3D1 NETWORK=3D1
-> time make docker-test-mingw@fedora J=3D14 NETWORK=3D1
-> =3D=3D=3D TEST SCRIPT END =3D=3D=3D
->=20
-> /tmp/qemu-test/src/migration/multifd.c:663: undefined reference to `multi=
-fd_channel_rdma_connect'
-> ../migration/multifd.o: In function `multifd_load_cleanup':
-> /tmp/qemu-test/src/migration/multifd.c:843: undefined reference to `qemu_=
-rdma_cleanup'
-> collect2: error: ld returned 1 exit status
-> make[1]: *** [Makefile:206: qemu-system-x86_64w.exe] Error 1
-> make: *** [Makefile:497: x86_64-softmmu/all] Error 2
-> make: *** Waiting for unfinished jobs....
-> ../migration/multifd.o: In function `multifd_rdma_recv_thread':
-> /tmp/qemu-test/src/migration/multifd.c:898: undefined reference to `qemu_=
-rdma_registration_handle'
-> ---
-> /tmp/qemu-test/src/migration/multifd.c:663: undefined reference to `multi=
-fd_channel_rdma_connect'
-> ../migration/multifd.o: In function `multifd_load_cleanup':
-> /tmp/qemu-test/src/migration/multifd.c:843: undefined reference to `qemu_=
-rdma_cleanup'
-> collect2: error: ld returned 1 exit status
-> make[1]: *** [Makefile:206: qemu-system-aarch64w.exe] Error 1
-> make: *** [Makefile:497: aarch64-softmmu/all] Error 2
-> Traceback (most recent call last):
->   File "./tests/docker/docker.py", line 664, in <module>
->     sys.exit(main())
-> ---
->     raise CalledProcessError(retcode, cmd)
-> subprocess.CalledProcessError: Command '['sudo', '-n', 'docker', 'run', '=
---label', 'com.qemu.instance.uuid=3D88473d634d6543ea992045cbe9a806e1', '-u'=
-, '1003', '--security-opt', 'seccomp=3Dunconfined', '--rm', '-e', 'TARGET_L=
-IST=3D', '-e', 'EXTRA_CONFIGURE_OPTS=3D', '-e', 'V=3D', '-e', 'J=3D14', '-e=
-', 'DEBUG=3D', '-e', 'SHOW_ENV=3D', '-e', 'CCACHE_DIR=3D/var/tmp/ccache', '=
--v', '/home/patchew2/.cache/qemu-docker-ccache:/var/tmp/ccache:z', '-v', '/=
-var/tmp/patchew-tester-tmp-yiq7aevf/src/docker-src.2020-02-13-05.11.35.1374=
-:/var/tmp/qemu:z,ro', 'qemu:fedora', '/var/tmp/qemu/run', 'test-mingw']' re=
-turned non-zero exit status 2.
-> filter=3D--filter=3Dlabel=3Dcom.qemu.instance.uuid=3D88473d634d6543ea9920=
-45cbe9a806e1
-> make[1]: *** [docker-run] Error 1
-> make[1]: Leaving directory `/var/tmp/patchew-tester-tmp-yiq7aevf/src'
-> make: *** [docker-run-test-mingw@fedora] Error 2
->=20
-> real    2m35.791s
-> user    0m7.717s
->=20
->=20
-> The full log is available at
-> http://patchew.org/logs/20200213093755.370-1-fengzhimin1@huawei.com/testi=
-ng.docker-mingw@fedora/?type=3Dmessage.
-> ---
-> Email generated automatically by Patchew [https://patchew.org/].
-> Please send your feedback to patchew-devel@redhat.com
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+SGkgTWFyYy1BbmRyZSwNCg0KT24gVHVlLCAyMDIwLTAyLTExIGF0IDIyOjI0ICswMTAwLCBNYXJj
+LUFuZHLDqSBMdXJlYXUgd3JvdGU6DQo+IEhpDQo+IA0KPiBPbiBUdWUsIEZlYiAxMSwgMjAyMCBh
+dCA0OjI0IFBNIEJvZXVmLCBTZWJhc3RpZW4NCj4gPHNlYmFzdGllbi5ib2V1ZkBpbnRlbC5jb20+
+IHdyb3RlOg0KPiA+IEZyb20gYzA3M2Q1MjhiOGNkNzA4MjgzMmZkMTgyNWRjMzNkZDY1YjMwNWFh
+MiBNb24gU2VwIDE3IDAwOjAwOjAwDQo+ID4gMjAwMQ0KPiA+IEZyb206IFNlYmFzdGllbiBCb2V1
+ZiA8c2ViYXN0aWVuLmJvZXVmQGludGVsLmNvbT4NCj4gPiBEYXRlOiBUdWUsIDExIEZlYiAyMDIw
+IDE2OjAxOjIyICswMTAwDQo+ID4gU3ViamVjdDogW1BBVENIXSBkb2NzOiBVcGRhdGUgdmhvc3Qt
+dXNlciBzcGVjIHJlZ2FyZGluZyBiYWNrZW5kDQo+ID4gcHJvZ3JhbQ0KPiA+ICBjb252ZW50aW9u
+cw0KPiA+IA0KPiA+IFRoZSB2aG9zdC11c2VyIHNwZWNpZmljYXRpb24gaXMgbm90IGNsZWFybHkg
+c3RhdGluZyB0aGUgZXhwZWN0ZWQNCj4gPiBiZWhhdmlvciBmcm9tIGEgYmFja2VuZCBwcm9ncmFt
+IHdoZW5ldmVyIHRoZSBjbGllbnQgZGlzY29ubmVjdHMuDQo+ID4gDQo+ID4gVGhpcyBwYXRjaCBh
+ZGRyZXNzZXMgdGhlIGlzc3VlIGJ5IGRlZmluaW5nIHRoZSBkZWZhdWx0IGJlaGF2aW9yIGFuZA0K
+PiA+IHByb3Bvc2luZyBhbiBhbHRlcm5hdGl2ZSB0aHJvdWdoIGEgY29tbWFuZCBsaW5lIG9wdGlv
+bi4NCj4gPiANCj4gPiBCeSBkZWZhdWx0LCBhIGJhY2tlbmQgcHJvZ3JhbSB3aWxsIGhhdmUgdG8g
+a2VlcCBsaXN0ZW5pbmcgZXZlbiBpZg0KPiA+IHRoZQ0KPiA+IGNsaWVudCBkaXNjb25uZWN0cywg
+dW5sZXNzIHRvbGQgb3RoZXJ3aXNlIHRocm91Z2ggdGhlIG5ld2x5DQo+ID4gaW50cm9kdWNlZA0K
+PiA+IG9wdGlvbiAtLWV4aXQtb24tZGlzY29ubmVjdC4NCj4gPiANCj4gPiBTaWduZWQtb2ZmLWJ5
+OiBTZWJhc3RpZW4gQm9ldWYgPHNlYmFzdGllbi5ib2V1ZkBpbnRlbC5jb20+DQo+ID4gU2lnbmVk
+LW9mZi1ieTogU3RlZmFuIEhham5vY3ppIDxzdGVmYW5oYUByZWRoYXQuY29tPg0KPiA+IC0tLQ0K
+PiA+ICBkb2NzL2ludGVyb3Avdmhvc3QtdXNlci5yc3QgfCAxMCArKysrKysrKysrDQo+ID4gIDEg
+ZmlsZSBjaGFuZ2VkLCAxMCBpbnNlcnRpb25zKCspDQo+ID4gDQo+ID4gZGlmZiAtLWdpdCBhL2Rv
+Y3MvaW50ZXJvcC92aG9zdC11c2VyLnJzdCBiL2RvY3MvaW50ZXJvcC92aG9zdC0NCj4gPiB1c2Vy
+LnJzdA0KPiA+IGluZGV4IDVmOGIzYTQ1NmIuLmRhOWExZWJjNGMgMTAwNjQ0DQo+ID4gLS0tIGEv
+ZG9jcy9pbnRlcm9wL3Zob3N0LXVzZXIucnN0DQo+ID4gKysrIGIvZG9jcy9pbnRlcm9wL3Zob3N0
+LXVzZXIucnN0DQo+ID4gQEAgLTEzMjMsNiArMTMyMywxMCBAQCBUaGUgYmFja2VuZCBwcm9ncmFt
+IG11c3QgZW5kIChhcyBxdWlja2x5IGFuZA0KPiA+IGNsZWFubHkgYXMgcG9zc2libGUpIHdoZW4N
+Cj4gPiAgdGhlIFNJR1RFUk0gc2lnbmFsIGlzIHJlY2VpdmVkLiBFdmVudHVhbGx5LCBpdCBtYXkg
+cmVjZWl2ZSBTSUdLSUxMDQo+ID4gYnkNCj4gPiAgdGhlIG1hbmFnZW1lbnQgbGF5ZXIgYWZ0ZXIg
+YSBmZXcgc2Vjb25kcy4NCj4gPiANCj4gPiArQnkgZGVmYXVsdCwgdGhlIGJhY2tlbmQgcHJvZ3Jh
+bSBjb250aW51ZXMgcnVubmluZyBhZnRlciB0aGUgY2xpZW50DQo+ID4gK2Rpc2Nvbm5lY3RzLiBJ
+dCBhY2NlcHRzIG9ubHkgMSBjb25uZWN0aW9uIGF0IGEgdGltZSBvbiBlYWNoIFVOSVgNCj4gPiBk
+b21haW4NCj4gPiArc29ja2V0Lg0KPiANCj4gSSBkb24ndCB0aGluayB0aGF0J3MgdGhlIG1vc3Qg
+Y29tbW9uIGJlaGF2aW91ci4gbGlidmhvc3QtdXNlciB3aWxsDQo+IHBhbmljKCkgb24gZGlzY29u
+bmVjdCBpbiBnZW5lcmFsLCB1bmxlc3MgdGhlIGVycm9yL2V4aXQgaXMgaGFuZGxlZA0KPiBncmFj
+ZWZ1bGx5IGJ5IHRoZSBiYWNrZW5kLg0KDQpJdCdzIG5vdCB0aGUgZGVmYXVsdCBiZWhhdmlvciBm
+cm9tIGxpYnZob3N0LXVzZXIsIGJ1dCB0aGF0J3MgZXhhY3RseQ0Kc29tZXRoaW5nIEknZCBsaWtl
+IHRvIHNlZSBjaGFuZ2luZy4gVGhpcyBzaG91bGQgYmUgdGhlIG5vcm1hbCBjYXNlIGlmDQp5b3Ug
+dGhpbmsgYWJvdXQgYSBzdGFuZGFyZCBjbGllbnQvc2VydmVyIGNvbm5lY3Rpb24sIHdoZXJlIHRo
+ZSBzZXJ2ZXINCndvdWxkIHNpbXBseSBsaXN0ZW4gYWdhaW4gYWZ0ZXIgdGhlIGNsaWVudCBkaXNj
+b25uZWN0cy4NCg0KPiANCj4gVGhlIG1vc3QgY29tbW9uIGNhc2UgaXMgdG8gaGF2ZSAxLTEgcmVs
+YXRpb24gYmV0d2VlbiBkZXZpY2UvcWVtdQ0KPiBpbnN0YW5jZSBhbmQgYmFja2VuZC4NCg0KWWVz
+IHRoaXMgcGFydCBpcyBmaW5lLCBidXQgdGhhdCdzIG5vdCBhIHJlYXNvbiB3aHkgdGhlIGJhY2tl
+bmQgc2hvdWxkDQp0ZXJtaW5hdGVzLg0KDQo+IA0KPiBXaHkgbm90IHJlc3RhcnQgdGhlIGJhY2tl
+bmQgZm9yIGFub3RoZXIgaW5zdGFuY2U/DQoNCkJlY2F1c2UgeW91IG5lZWQgc29tZSBtYW5hZ2Vt
+ZW50IHRvb2wgdG8gZG8gc28uIEFuZCBJIHRoaW5rIHRoYXQgYnkNCmRlZmF1bHQgaXQgY291bGQg
+YmUgaW50ZXJlc3RpbmcgdG8gaGF2ZSB0aGUgbGVhc3QgYW1vdW50IG9mIGV4dHJhDQptYW5hZ2Vt
+ZW50IGludm9sdmVkLg0KDQo+IA0KPiA+ICsNCj4gPiAgVGhlIGZvbGxvd2luZyBjb21tYW5kIGxp
+bmUgb3B0aW9ucyBoYXZlIGFuIGV4cGVjdGVkIGJlaGF2aW91ci4NCj4gPiBUaGV5DQo+ID4gIGFy
+ZSBtYW5kYXRvcnksIHVubGVzcyBleHBsaWNpdGx5IHNhaWQgZGlmZmVyZW50bHk6DQo+ID4gDQo+
+ID4gQEAgLTEzMzcsNiArMTM0MSwxMiBAQCBhcmUgbWFuZGF0b3J5LCB1bmxlc3MgZXhwbGljaXRs
+eSBzYWlkDQo+ID4gZGlmZmVyZW50bHk6DQo+ID4gICAgdmhvc3QtdXNlciBzb2NrZXQgYXMgZmls
+ZSBkZXNjcmlwdG9yIEZETlVNLiBJdCBpcyBpbmNvbXBhdGlibGUNCj4gPiB3aXRoDQo+ID4gICAg
+LS1zb2NrZXQtcGF0aC4NCj4gPiANCj4gPiArLS1leGl0LW9uLWRpc2Nvbm5lY3QNCj4gPiArDQo+
+ID4gKyAgV2hlbiB0aGlzIG9wdGlvbiBpcyBwcm92aWRlZCwgdGhlIGJhY2tlbmQgcHJvZ3JhbSBt
+dXN0IHRlcm1pbmF0ZQ0KPiA+IHdoZW4NCj4gPiArICB0aGUgY2xpZW50IGRpc2Nvbm5lY3RzLiBU
+aGlzIGNhbiBiZSB1c2VkIHRvIGtlZXAgdGhlIGJhY2tlbmQNCj4gPiBwcm9ncmFtJ3MNCj4gPiAr
+ICBsaWZldGltZSBzeW5jaHJvbml6ZWQgd2l0aCBpdHMgY2xpZW50IHByb2Nlc3MuDQo+IA0KPiBU
+aGlzIHNlY3Rpb24gbGlzdCBvcHRpb25zIHRoYXQgYXJlIG1hbmRhdG9yeS4gSXQncyBwcm9iYWJs
+eSBhIGJpdA0KPiBsYXRlDQo+IHRvIGFkZCBtb3JlIG1hbmRhdG9yeSBvcHRpb25zIChJIHJlZ3Jl
+dCBhbHJlYWR5IHNvbWUgb2YgdGhlbSkNCg0KVGhlIHNwZWMgc3RhdGVzICJUaGV5IGFyZSBtYW5k
+YXRvcnksIHVubGVzcyBleHBsaWNpdGx5IHNhaWQNCmRpZmZlcmVudGx5IiwgYW5kIGluIHRoaXMg
+Y2FzZSBJJ20gZXhwbGljaXRlbHkgc2F5aW5nICJXaGVuIHRoaXMgb3B0aW9uDQppcyBwcm92aWRl
+ZCIsIHdoaWNoIG1lYW5zIGlmIGl0J3Mgbm90IHByb3ZpZGVkIGl0J3MgZmluZSBhbmQgd2UgY2Fu
+DQppZ25vcmUgdGhlIGZhY3QgaXQncyBub3QgdGhlcmUuDQoNCj4gDQo+IERvIHdlIG5lZWQgdG8g
+c3BlY2lmeSB0aGUgYmVoYXZpb3VyIG9uIGNsaWVudCBkaXNjb25uZWN0PyBDYW4ndCB3ZQ0KPiBs
+ZWF2ZSB0aGF0IHRvIHRoZSBiYWNrZW5kIGFuZCBtYW5hZ2VtZW50IGxheWVyIHRvIGRlY2lkZT8N
+Cg0KTXkgZ29hbCBoZXJlIGlzIHRvIG1ha2UgdGhlIHNwZWMgYSBiaXQgbGVzcyBsb29zZS4gSSBr
+bm93IGxpYnZob3N0LXVzZXIgDQppcyB0aGUgZGUtZmFjdG8gaW1wbGVtZW50YXRpb24gYnV0IHdl
+IGNhbm5vdCBqdXN0IGFzc3VtZSBldmVyeXRoaW5nIG91dA0Kb2YgdGhlIGxpYnZob3N0LXVzZXIg
+aW1wbGVtZW50YXRpb24sIGVzcGVjaWFsbHkgc2luY2UgdGhlcmUgaXMgYQ0KZGVkaWNhdGVkIHNw
+ZWMuIFRoYXQncyB0aGUgcmVhc29uIHdoeSBJIHRob3VnaHQgaXQnZCBiZSBuaWNlIHRvIGhhdmUN
+CnRoZSBiYWNrZW5kIGJlaGF2aW9yIHdlbGwgZGVmaW5lZCBpbiB0aGUgc3BlYy4NClRoZSBwb2lu
+dCBpcywgcmVseWluZyBvbiB0aGUgY3VycmVudCBkZWZpbml0aW9uLCB0aGVyZSdzIG5vdCBlbm91
+Z2gNCmluZm9ybWF0aW9uIHRvIG1ha2Ugc3VyZSBhIFZNTSB3aWxsIHByb3Blcmx5IGludGVyZmFj
+ZSB3aXRoIGEgdmhvc3QtDQp1c2VyIGJhY2tlbmQuDQoNClRoYW5rcywNClNlYmFzdGllbg0KDQo+
+IA0KPiANCj4gPiArDQo+ID4gIC0tcHJpbnQtY2FwYWJpbGl0aWVzDQo+ID4gDQo+ID4gICAgT3V0
+cHV0IHRvIHN0ZG91dCB0aGUgYmFja2VuZCBjYXBhYmlsaXRpZXMgaW4gSlNPTiBmb3JtYXQsIGFu
+ZA0KPiA+IHRoZW4NCj4gPiAtLQ0KPiA+IDIuMjAuMQ0KPiA+IA0KPiA+IC0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tDQo+ID4g
+LS0tLQ0KPiA+IEludGVsIENvcnBvcmF0aW9uIFNBUyAoRnJlbmNoIHNpbXBsaWZpZWQgam9pbnQg
+c3RvY2sgY29tcGFueSkNCj4gPiBSZWdpc3RlcmVkIGhlYWRxdWFydGVyczogIkxlcyBNb250YWxl
+dHMiLSAyLCBydWUgZGUgUGFyaXMsDQo+ID4gOTIxOTYgTWV1ZG9uIENlZGV4LCBGcmFuY2UNCj4g
+PiBSZWdpc3RyYXRpb24gTnVtYmVyOiAgMzAyIDQ1NiAxOTkgUi5DLlMuIE5BTlRFUlJFDQo+ID4g
+Q2FwaXRhbDogNCw1NzIsMDAwIEV1cm9zDQo+ID4gDQo+ID4gVGhpcyBlLW1haWwgYW5kIGFueSBh
+dHRhY2htZW50cyBtYXkgY29udGFpbiBjb25maWRlbnRpYWwgbWF0ZXJpYWwNCj4gPiBmb3INCj4g
+PiB0aGUgc29sZSB1c2Ugb2YgdGhlIGludGVuZGVkIHJlY2lwaWVudChzKS4gQW55IHJldmlldyBv
+cg0KPiA+IGRpc3RyaWJ1dGlvbg0KPiA+IGJ5IG90aGVycyBpcyBzdHJpY3RseSBwcm9oaWJpdGVk
+LiBJZiB5b3UgYXJlIG5vdCB0aGUgaW50ZW5kZWQNCj4gPiByZWNpcGllbnQsIHBsZWFzZSBjb250
+YWN0IHRoZSBzZW5kZXIgYW5kIGRlbGV0ZSBhbGwgY29waWVzLg0KLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCkludGVs
+IENvcnBvcmF0aW9uIFNBUyAoRnJlbmNoIHNpbXBsaWZpZWQgam9pbnQgc3RvY2sgY29tcGFueSkK
+UmVnaXN0ZXJlZCBoZWFkcXVhcnRlcnM6ICJMZXMgTW9udGFsZXRzIi0gMiwgcnVlIGRlIFBhcmlz
+LCAKOTIxOTYgTWV1ZG9uIENlZGV4LCBGcmFuY2UKUmVnaXN0cmF0aW9uIE51bWJlcjogIDMwMiA0
+NTYgMTk5IFIuQy5TLiBOQU5URVJSRQpDYXBpdGFsOiA0LDU3MiwwMDAgRXVyb3MKClRoaXMgZS1t
+YWlsIGFuZCBhbnkgYXR0YWNobWVudHMgbWF5IGNvbnRhaW4gY29uZmlkZW50aWFsIG1hdGVyaWFs
+IGZvcgp0aGUgc29sZSB1c2Ugb2YgdGhlIGludGVuZGVkIHJlY2lwaWVudChzKS4gQW55IHJldmll
+dyBvciBkaXN0cmlidXRpb24KYnkgb3RoZXJzIGlzIHN0cmljdGx5IHByb2hpYml0ZWQuIElmIHlv
+dSBhcmUgbm90IHRoZSBpbnRlbmRlZApyZWNpcGllbnQsIHBsZWFzZSBjb250YWN0IHRoZSBzZW5k
+ZXIgYW5kIGRlbGV0ZSBhbGwgY29waWVzLgo=
 
 
