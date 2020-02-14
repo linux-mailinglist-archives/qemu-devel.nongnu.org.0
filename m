@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D00615D98C
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Feb 2020 15:31:59 +0100 (CET)
-Received: from localhost ([::1]:39678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DE6B15D9A9
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Feb 2020 15:41:59 +0100 (CET)
+Received: from localhost ([::1]:39782 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j2c0c-0005es-Jd
-	for lists+qemu-devel@lfdr.de; Fri, 14 Feb 2020 09:31:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36893)
+	id 1j2cAH-0003PE-Vz
+	for lists+qemu-devel@lfdr.de; Fri, 14 Feb 2020 09:41:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39028)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1j2bzW-0004uU-LJ
- for qemu-devel@nongnu.org; Fri, 14 Feb 2020 09:30:52 -0500
+ (envelope-from <bounces@canonical.com>) id 1j2c9R-0002mg-K1
+ for qemu-devel@nongnu.org; Fri, 14 Feb 2020 09:41:06 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1j2bzV-00078y-DU
- for qemu-devel@nongnu.org; Fri, 14 Feb 2020 09:30:50 -0500
-Received: from indium.canonical.com ([91.189.90.7]:47784)
+ (envelope-from <bounces@canonical.com>) id 1j2c9Q-0004r6-8d
+ for qemu-devel@nongnu.org; Fri, 14 Feb 2020 09:41:05 -0500
+Received: from indium.canonical.com ([91.189.90.7]:49732)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1j2bzV-00077U-8I
- for qemu-devel@nongnu.org; Fri, 14 Feb 2020 09:30:49 -0500
+ id 1j2c9Q-0004oA-1v
+ for qemu-devel@nongnu.org; Fri, 14 Feb 2020 09:41:04 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1j2bzT-0000Se-Fd
- for <qemu-devel@nongnu.org>; Fri, 14 Feb 2020 14:30:47 +0000
+ id 1j2c9N-0001eZ-Hy
+ for <qemu-devel@nongnu.org>; Fri, 14 Feb 2020 14:41:01 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 74E7F2E80C7
- for <qemu-devel@nongnu.org>; Fri, 14 Feb 2020 14:30:47 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 76AFA2E80CB
+ for <qemu-devel@nongnu.org>; Fri, 14 Feb 2020 14:41:01 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 14 Feb 2020 14:23:33 -0000
+Date: Fri, 14 Feb 2020 14:29:24 -0000
 From: =?utf-8?q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -45,7 +45,7 @@ X-Launchpad-Bug-Commenters: yifanlu
 X-Launchpad-Bug-Reporter: Yifan (yifanlu)
 X-Launchpad-Bug-Modifier: =?utf-8?q?Alex_Benn=C3=A9e_=28ajbennee=29?=
 References: <158154486735.14935.3370403781300872079.malonedeb@soybean.canonical.com>
-Message-Id: <158169021362.31006.9994958515476028601.launchpad@wampee.canonical.com>
+Message-Id: <158169056546.30066.18116799514343303299.launchpad@wampee.canonical.com>
 Subject: [Bug 1863025] Re: Use-after-free after flush in TCG accelerator
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
@@ -53,7 +53,7 @@ Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="19413b719a8df7423ab1390528edadce9e0e4aca";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 7db19c4a2126ec545c589ae60a6e46c0ec238f90
+X-Launchpad-Hash: 804733afc77d38464eab3f239d1ef6e1d65f048d
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
@@ -70,7 +70,11 @@ Reply-To: Bug 1863025 <1863025@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Tags added: tcg
+** Changed in: qemu
+     Assignee: (unassigned) =3D> Alex Benn=C3=A9e (ajbennee)
+
+** Changed in: qemu
+       Status: New =3D> Confirmed
 
 -- =
 
