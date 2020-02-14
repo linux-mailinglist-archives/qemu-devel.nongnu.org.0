@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DC8315F2A1
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Feb 2020 19:19:40 +0100 (CET)
-Received: from localhost ([::1]:43558 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73B9715F29C
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Feb 2020 19:17:37 +0100 (CET)
+Received: from localhost ([::1]:43510 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j2fYw-0001bc-TZ
-	for lists+qemu-devel@lfdr.de; Fri, 14 Feb 2020 13:19:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60909)
+	id 1j2fWy-0006GI-GA
+	for lists+qemu-devel@lfdr.de; Fri, 14 Feb 2020 13:17:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60894)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1j2fVW-0004Um-2d
- for qemu-devel@nongnu.org; Fri, 14 Feb 2020 13:16:07 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1j2fVV-0004TM-BA
+ for qemu-devel@nongnu.org; Fri, 14 Feb 2020 13:16:06 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1j2fVV-0000Fx-03
+ (envelope-from <richard.henderson@linaro.org>) id 1j2fVU-0000FY-Dm
  for qemu-devel@nongnu.org; Fri, 14 Feb 2020 13:16:05 -0500
-Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c]:33990)
+Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:33297)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1j2fVU-0000F8-Q7
+ id 1j2fVU-0000FK-7H
  for qemu-devel@nongnu.org; Fri, 14 Feb 2020 13:16:04 -0500
-Received: by mail-pl1-x62c.google.com with SMTP id j7so4026785plt.1
+Received: by mail-pl1-x644.google.com with SMTP id ay11so4028780plb.0
  for <qemu-devel@nongnu.org>; Fri, 14 Feb 2020 10:16:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=a/LcTtPEaSKt2TqD4S4P5QmkhybGw6G87ufOx2pyeQw=;
- b=c61cqr0ruFzGdXgVtkN+YNg//bdC9gjAflB/RTCR+hibxY6RdyOLFzZxon4u+hZ8C4
- r4B3GUR2u/8Q8sD98MpGvpSbBFNCvrd+j5uRXOJBKXBTAblu8bALN3mfmTWof1kYQzsv
- N14y+wrNtk3HE6x41aUIwxr7+llq4sU7UHqnKUFFS4TaV6nHAG4gOIt4J+XJiRrM/xg0
- 81DHM+qp0ujOaFXhAKQWymt5b6+/kzNndYYYYC7iayt1zOVtq8CfhY07ocvvdzNKDrDG
- DAuqpuRD8mzqRSDJdf3pKUTnEQ9lJNp5CyaGuh43K6L+H/pysgLZ5l3fgElXeMlHZa/I
- a1lA==
+ bh=hc+/AucXa0inxq9dbV/arLbbzIae9WxdVjI4zl5RMxY=;
+ b=upfqOujZGWqMRFNIe2Y4HrByxOI+hj3ayK33nXTKGLh9nQgtl7T2uG7bkQyxpUfpgE
+ ZmgP10cb/8yOXuRakIVq4khHPFm/Wx0fOdOuvYJtthyjxbYjVPu9fLAJ6R66UMxjGQm6
+ u83i07TWr+DXx7tjIGC0AObz47i7a90B0tdWpb51vFN4wFQIzQjknvGNkvJcUItzhqpz
+ P+hA0TvbSKBomcEECSUbRln2jdEU7krQ+XMVN26zQUje6KWoq9+DPzAjesGKRB25Nm4v
+ ccdFeIo8jKQpVqX1b9mkuz7KLDnQhJblXLxhXF8AXrLHj9bBlTQVw1nAzyr7vOtWYjEH
+ XF1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=a/LcTtPEaSKt2TqD4S4P5QmkhybGw6G87ufOx2pyeQw=;
- b=mGCWy+LfcC/6mvSZlUb3HxDOx9VL3zIzBjphzfIZ/3J5f70eLwbmZiaQiG5HyF50ng
- 8wrPCMG58qJiLe15z67ktiIDGjiBjNrmiHWcoZa32uJNeQaEhmWopzJ9ZTjrnWotX5mo
- Maahv2BF5jW09sxMuRZfDmTm9NoGyvOR/fHcD3WvwSWP8rWzvOm9hj5kfMoQrCx2TCc4
- d/53DrrqZB4IPbpUQmnzRXhSYjNURKmH3osH/L+/F3HqUq+UHdWqgW43fZF/Rs4Dcsuc
- BFAAcoQLtn06jxAjubdxEIpesxX5q/z5jK0QIX4OceNd/Un06d/8xJ0We/2tzP1NU+f1
- 1zmA==
-X-Gm-Message-State: APjAAAXG7bU+4BZ/ML7vOoI4QAsrK/aoIFB2BEEtSPnjyvY1XfnZY95m
- oJSFGdoSmKFwFDIEYMQlMM/2FMYg4wY=
-X-Google-Smtp-Source: APXvYqx7iArNF4CsabU32pLpZRdIpRtFQwaoHAgWfiXUaKpOnwPwX8CQCPnLgOLjrCI3bvImxamWow==
-X-Received: by 2002:a17:90b:87:: with SMTP id bb7mr5164459pjb.49.1581704161742; 
- Fri, 14 Feb 2020 10:16:01 -0800 (PST)
+ bh=hc+/AucXa0inxq9dbV/arLbbzIae9WxdVjI4zl5RMxY=;
+ b=KncrELX3+PPxgMbagT80tmnezGRC8brw7NmroCN8yrW65/BLQoGRgAD/Wlfkuakb96
+ I3cZbVNKOI/fXnuHcmqa2zjudjHM+XP7BVRbHYkZs/KBM6D1ccOdLFkCLxuUwT/pOu8M
+ TY9xJc2YvJ4VUakHl2/xUaIuW9ZWM8mdeLr5OfZZotiegy8+gqaJ4lzmeWB1z76XXd5w
+ 4JoWIjQ8KMDaoMG7YUbH1MTbhTOaCC6E7EXzV8Zeg3eLYVfNOpazbDKabvzYcbbW2G0h
+ fLRpSo2InlwRnHmxc2O4kaDaSSmKPxu8qFNizSwO3sc/86DMq31KH7WUEoLfKSuWBanC
+ 76FA==
+X-Gm-Message-State: APjAAAVyy5hLW3VG6VNEPI2XOfOJ2CVL0aPqf/Xv4kZ4lL38p/R2QPRs
+ Ccu37QufgxZwByub9vO3IAK43sqsPX8=
+X-Google-Smtp-Source: APXvYqxqulXxdG7hk382vvxsBn259LGCN4zy9eER1fHDr7Q40c5Qzx6a1VRmv9v/Ide+z1V4gXWeEw==
+X-Received: by 2002:a17:902:a5c4:: with SMTP id
+ t4mr4694242plq.242.1581704162920; 
+ Fri, 14 Feb 2020 10:16:02 -0800 (PST)
 Received: from localhost.localdomain (97-126-123-70.tukw.qwest.net.
  [97.126.123.70])
- by smtp.gmail.com with ESMTPSA id i3sm7525123pfg.94.2020.02.14.10.16.00
+ by smtp.gmail.com with ESMTPSA id i3sm7525123pfg.94.2020.02.14.10.16.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 Feb 2020 10:16:00 -0800 (PST)
+ Fri, 14 Feb 2020 10:16:02 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 11/19] target/arm: Replace ARM_FEATURE_VFP4 with
- isar_feature_aa32_simdfmac
-Date: Fri, 14 Feb 2020 10:15:39 -0800
-Message-Id: <20200214181547.21408-12-richard.henderson@linaro.org>
+Subject: [PATCH 12/19] target/arm: Remove ARM_FEATURE_VFP check from
+ disas_vfp_insn
+Date: Fri, 14 Feb 2020 10:15:40 -0800
+Message-Id: <20200214181547.21408-13-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200214181547.21408-1-richard.henderson@linaro.org>
 References: <20200214181547.21408-1-richard.henderson@linaro.org>
@@ -67,7 +68,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::62c
+X-Received-From: 2607:f8b0:4864:20::644
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,74 +84,28 @@ Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-All remaining tests for VFP4 are for fused multiply-add insns.
+We now have proper ISA checks within each trans_* function.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/cpu.h               |  5 +++++
- target/arm/translate-vfp.inc.c | 12 ++++++++----
- target/arm/translate.c         |  2 +-
- 3 files changed, 14 insertions(+), 5 deletions(-)
+ target/arm/translate.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index 4ff28418df..f27b8e35df 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -3468,6 +3468,11 @@ static inline bool isar_feature_aa32_fp16_dpconv(const ARMISARegisters *id)
-     return FIELD_EX32(id->mvfr1, MVFR1, FPHP) > 1;
- }
- 
-+static inline bool isar_feature_aa32_simdfmac(const ARMISARegisters *id)
-+{
-+    return FIELD_EX32(id->mvfr1, MVFR1, SIMDFMAC) != 0;
-+}
-+
- static inline bool isar_feature_aa32_vsel(const ARMISARegisters *id)
- {
-     return FIELD_EX32(id->mvfr2, MVFR2, FPMISC) >= 1;
-diff --git a/target/arm/translate-vfp.inc.c b/target/arm/translate-vfp.inc.c
-index 8913320259..f6f7601fe2 100644
---- a/target/arm/translate-vfp.inc.c
-+++ b/target/arm/translate-vfp.inc.c
-@@ -1806,8 +1806,10 @@ static bool trans_VFM_sp(DisasContext *s, arg_VFM_sp *a)
-      * In v7A, UNPREDICTABLE with non-zero vector length/stride; from
-      * v8A, must UNDEF. We choose to UNDEF for both v7A and v8A.
-      */
--    if (!arm_dc_feature(s, ARM_FEATURE_VFP4) ||
--        (s->vec_len != 0 || s->vec_stride != 0)) {
-+    if (!dc_isar_feature(aa32_simdfmac, s)) {
-+        return false;
-+    }
-+    if (s->vec_len != 0 || s->vec_stride != 0) {
-         return false;
-     }
- 
-@@ -1864,8 +1866,10 @@ static bool trans_VFM_dp(DisasContext *s, arg_VFM_dp *a)
-      * In v7A, UNPREDICTABLE with non-zero vector length/stride; from
-      * v8A, must UNDEF. We choose to UNDEF for both v7A and v8A.
-      */
--    if (!arm_dc_feature(s, ARM_FEATURE_VFP4) ||
--        (s->vec_len != 0 || s->vec_stride != 0)) {
-+    if (!dc_isar_feature(aa32_simdfmac, s)) {
-+        return false;
-+    }
-+    if (s->vec_len != 0 || s->vec_stride != 0) {
-         return false;
-     }
- 
 diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 3b9bf13933..0da780102c 100644
+index 0da780102c..e8c3d4f26f 100644
 --- a/target/arm/translate.c
 +++ b/target/arm/translate.c
-@@ -4877,7 +4877,7 @@ static int disas_neon_data_insn(DisasContext *s, uint32_t insn)
-             }
-             break;
-         case NEON_3R_VFM_VQRDMLSH:
--            if (!arm_dc_feature(s, ARM_FEATURE_VFP4)) {
-+            if (!dc_isar_feature(aa32_simdfmac, s)) {
-                 return 1;
-             }
-             break;
+@@ -2652,10 +2652,6 @@ static void gen_neon_dup_high16(TCGv_i32 var)
+  */
+ static int disas_vfp_insn(DisasContext *s, uint32_t insn)
+ {
+-    if (!arm_dc_feature(s, ARM_FEATURE_VFP)) {
+-        return 1;
+-    }
+-
+     /*
+      * If the decodetree decoder handles this insn it will always
+      * emit code to either execute the insn or generate an appropriate
 -- 
 2.20.1
 
