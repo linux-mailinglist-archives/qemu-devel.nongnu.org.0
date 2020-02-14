@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7E7B15D1FC
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Feb 2020 07:22:25 +0100 (CET)
-Received: from localhost ([::1]:35210 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CB2615D1FE
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Feb 2020 07:23:31 +0100 (CET)
+Received: from localhost ([::1]:35224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j2UMq-00010Z-FF
-	for lists+qemu-devel@lfdr.de; Fri, 14 Feb 2020 01:22:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40270)
+	id 1j2UNu-0002hX-4C
+	for lists+qemu-devel@lfdr.de; Fri, 14 Feb 2020 01:23:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40296)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groeck7@gmail.com>) id 1j2ULq-0008Ry-Va
- for qemu-devel@nongnu.org; Fri, 14 Feb 2020 01:21:24 -0500
+ (envelope-from <groeck7@gmail.com>) id 1j2ULt-0008Tz-Cp
+ for qemu-devel@nongnu.org; Fri, 14 Feb 2020 01:21:26 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groeck7@gmail.com>) id 1j2ULp-0007xR-Uh
- for qemu-devel@nongnu.org; Fri, 14 Feb 2020 01:21:22 -0500
-Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:38059)
+ (envelope-from <groeck7@gmail.com>) id 1j2ULs-00084j-8r
+ for qemu-devel@nongnu.org; Fri, 14 Feb 2020 01:21:25 -0500
+Received: from mail-pj1-x1041.google.com ([2607:f8b0:4864:20::1041]:38975)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <groeck7@gmail.com>)
- id 1j2ULm-0007t3-S7; Fri, 14 Feb 2020 01:21:18 -0500
-Received: by mail-pf1-x443.google.com with SMTP id x185so4361603pfc.5;
- Thu, 13 Feb 2020 22:21:18 -0800 (PST)
+ id 1j2ULp-0007ub-1t; Fri, 14 Feb 2020 01:21:21 -0500
+Received: by mail-pj1-x1041.google.com with SMTP id e9so3485900pjr.4;
+ Thu, 13 Feb 2020 22:21:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=oWX5NGUdCW690swjYtECXPxbffDj1syFks5kugYHzIQ=;
- b=c7oP71TwLVjH05aq/GGR8CWns8f/mHWlLTxUt+TUavDbBLBj0/bbvBwbNE0lrydnUF
- LBp5Up9d1PHEWLR5a5U/yUYVFHzjPGDsFlMmtjgWeXkTaNXTJNV9yvgA7ElIhIhcfPyM
- 5JwKOiz/XNpzj+fcNCVL0ayQt26rXRtJSYwUeuIwdw9S6AIJiKkT7xiAtVEKtqvi4n1l
- uCv6qVmt/4DlSYw11mj2/lokWYjd3+RVzhKfPgD9STCXtAnvwfevytgkbtZ4yZ6Pi7cq
- 7G4AkHPyZgITswwrCT5akSucrjfNILCduUkIGyZn9qPBpFolpabtheqaarhaZXM8OIuv
- McAw==
+ bh=uSI6UGwVXPkrla+R3kIjKT7Kl55AJFmzZRtGcCUVGBI=;
+ b=seheKpj0spMk8r8qng1fvTY9miF6A5EF8l2ZSfog7Xbm1TrPTAV4sDlgOZHMPIidNC
+ BcvLDNy6dkeW6AX4mG8BIaxKO8KPETwony+rPG+KDv4xEmDMgZHoLnCufG+C2VLuPheI
+ +3FxOT0G2aLdwgW6xpkpxkxrOGmBi1+wQAnlgfG78s62HWcl5GCrDAUDPpWq0q9bgIjs
+ PMzy3jDLk/vHOMyOn7b3ocgBjoqPrlggAFuRSI4Mks9LJpgh4DDfWOSqyiNoIga9LJef
+ UAqCMw6poDV4A0WDux+tzzOp1Gw8pyMN4lHTiaOhMxhQacZQH5UjqVWvKA59dW9TSYfn
+ A7Xw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=oWX5NGUdCW690swjYtECXPxbffDj1syFks5kugYHzIQ=;
- b=dLvfqBWffahPwHNFEKPIddDPuX1SqFDQepDqSFHbG36VoRwIdzQi+qNJlJvQPkhqox
- +plykRoQQL9YBQQaZ0nNwX0lkcaZAcTWRJidEDdRndwR6Xqz+tQiV81RQ07h20siqSO2
- 95sqHv5nyBmr6pZqNEh/0OHRgi2Q+joz4s8ChOESxDaq5je0XgdZW1CHPew4deZ3Gc6j
- uYUCQ8BfJuVdl67B3AkJU32vliAPbeN5xlgpnQQuhKQSmyUjrj2PhZo/9FKVWBKEtNLr
- EL0kRwscWQBV0GTVXkcyv53vAVJ080bfTCNGwbdCDjmOea4GkWBN4KzXF6eMdSz4bmoC
- P9DA==
-X-Gm-Message-State: APjAAAV0R2CGRfR+A+FKoroxn678MbUTkbjd9CoO7RKs2rnFVxwhMEbW
- OAQiEZ9YLBpQ0Rg802XXAGI=
-X-Google-Smtp-Source: APXvYqx1wOMCGKE2wWk5BmLpbEwrAwJSnuWmVd2Kp4ozNp6mWRQA7PY2oC7eDlNXOC8JtoitF+dl7w==
-X-Received: by 2002:a63:4525:: with SMTP id s37mr1752683pga.418.1581661277905; 
- Thu, 13 Feb 2020 22:21:17 -0800 (PST)
+ bh=uSI6UGwVXPkrla+R3kIjKT7Kl55AJFmzZRtGcCUVGBI=;
+ b=U63A2yX9xyGdh8hH/nJYxoYamt67WeU7uwLgaSlrCLn8ElsTXkfrkiNJRhGTZYM1+2
+ COeT/zvkUqqI0w3Yn6VCJFJkeWIoOON50TF9jwAkmBSCfAqc35SWKAU5DFH72tfE1Z7r
+ hQf7KGv4Uujxv/loTHFL4Dg/4tZV/E1NqeK0a0DfBOMvorg9DKNN3nJRK0IHYiLlkjKD
+ 1UO/RTesW60jwWaRRvsXwxJiXwG2VltMOJEPylVmcIyeYiczE6h65DkeR/VwOmho8WtM
+ VjV/x4R1DXcFCFfKK0hKKck3dOdvF/7jCI4CxnCa8Xj7VHSzeW5ngPjb6/+g5SvTKgpq
+ 9s9A==
+X-Gm-Message-State: APjAAAUZS55HDHtIuLnOVFA+9JEQPPil4Mgz9gyjY8pEGADWgENf4b63
+ f7IgcTKYUNQYcU/i8Uv3X64=
+X-Google-Smtp-Source: APXvYqwwOPaBpd/H8KbNO5mzGooUB4/peODa8bblMzeLcdthb6I9FJNRsOgv1+tKuNGqV4gYugpVDw==
+X-Received: by 2002:a17:90a:c389:: with SMTP id
+ h9mr1733981pjt.128.1581661279995; 
+ Thu, 13 Feb 2020 22:21:19 -0800 (PST)
 Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id g2sm5383978pgn.59.2020.02.13.22.21.17
+ by smtp.gmail.com with ESMTPSA id u26sm5112210pfn.46.2020.02.13.22.21.18
  (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Thu, 13 Feb 2020 22:21:17 -0800 (PST)
+ Thu, 13 Feb 2020 22:21:19 -0800 (PST)
 From: Guenter Roeck <linux@roeck-us.net>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH 2/3] arm: allwinner: Wire up USB OHCI
-Date: Thu, 13 Feb 2020 22:21:08 -0800
-Message-Id: <20200214062109.24494-2-linux@roeck-us.net>
+Subject: [PATCH 3/3] arm: allwinner: Wire up USB EHCI
+Date: Thu, 13 Feb 2020 22:21:09 -0800
+Message-Id: <20200214062109.24494-3-linux@roeck-us.net>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200214062109.24494-1-linux@roeck-us.net>
 References: <20200214062109.24494-1-linux@roeck-us.net>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::443
+X-Received-From: 2607:f8b0:4864:20::1041
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,101 +80,84 @@ Cc: Beniamino Galvani <b.galvani@gmail.com>, qemu-arm@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Initialize OHCI controllers on Allwinner A10. With this patch applied,
-USB OHCI ports are discovered when booting the cubieboard machine with
+Initialize EHCI controllers on Allwinner A10. With this patch applied,
+USB EHCI ports are discovered when booting the cubieboard machine with
 a recent Linux kernel.
 
-ohci-platform 1c14400.usb: Generic Platform OHCI controller
-ohci-platform 1c14400.usb: new USB bus registered, assigned bus number 3
-ohci-platform 1c14400.usb: irq 27, io mem 0x01c14400
-ohci-platform 1c1c400.usb: Generic Platform OHCI controller
-ohci-platform 1c1c400.usb: new USB bus registered, assigned bus number 4
-ohci-platform 1c1c400.usb: irq 32, io mem 0x01c1c400
+ehci-platform 1c14000.usb: EHCI Host Controller
+ehci-platform 1c14000.usb: new USB bus registered, assigned bus number 1
+ehci-platform 1c14000.usb: irq 26, io mem 0x01c14000
+ehci-platform 1c14000.usb: USB 2.0 started, EHCI 1.00
+ehci-platform 1c1c000.usb: EHCI Host Controller
+ehci-platform 1c1c000.usb: new USB bus registered, assigned bus number 2
+ehci-platform 1c1c000.usb: irq 31, io mem 0x01c1c000
+ehci-platform 1c1c000.usb: USB 2.0 started, EHCI 1.00
 
 Signed-off-by: Guenter Roeck <linux@roeck-us.net>
 ---
- hw/arm/allwinner-a10.c         | 30 ++++++++++++++++++++++++++++++
+ hw/arm/allwinner-a10.c         | 17 +++++++++++++++++
  include/hw/arm/allwinner-a10.h |  2 ++
- 2 files changed, 32 insertions(+)
+ 2 files changed, 19 insertions(+)
 
 diff --git a/hw/arm/allwinner-a10.c b/hw/arm/allwinner-a10.c
-index 45cd8d2db5..818145428c 100644
+index 818145428c..f8b963b5c3 100644
 --- a/hw/arm/allwinner-a10.c
 +++ b/hw/arm/allwinner-a10.c
-@@ -24,12 +24,15 @@
- #include "hw/arm/allwinner-a10.h"
- #include "hw/misc/unimp.h"
- #include "sysemu/sysemu.h"
-+#include "hw/boards.h"
-+#include "hw/usb/hcd-ohci.h"
- 
- #define AW_A10_CCM_REG_BASE     0x01c20000
- #define AW_A10_PIC_REG_BASE     0x01c20400
+@@ -32,6 +32,7 @@
  #define AW_A10_PIT_REG_BASE     0x01c20c00
  #define AW_A10_UART0_REG_BASE   0x01c28000
  #define AW_A10_EMAC_BASE        0x01c0b000
-+#define AW_A10_OHCI_BASE        0x01c14400
++#define AW_A10_EHCI_BASE        0x01c14000
+ #define AW_A10_OHCI_BASE        0x01c14400
  #define AW_A10_SATA_BASE        0x01c18000
  
- static void aw_a10_init(Object *obj)
-@@ -53,6 +56,15 @@ static void aw_a10_init(Object *obj)
- 
-     sysbus_init_child_obj(obj, "sata", &s->sata, sizeof(s->sata),
-                           TYPE_ALLWINNER_AHCI);
-+
-+    if (machine_usb(current_machine)) {
-+        int i;
-+
-+        for (i = 0; i < ARRAY_SIZE(s->ohci); i++) {
-+            sysbus_init_child_obj(obj, "ohci[*]", OBJECT(&s->ohci[i]),
-+                                  sizeof(s->ohci[i]), TYPE_SYSBUS_OHCI);
+@@ -64,6 +65,10 @@ static void aw_a10_init(Object *obj)
+             sysbus_init_child_obj(obj, "ohci[*]", OBJECT(&s->ohci[i]),
+                                   sizeof(s->ohci[i]), TYPE_SYSBUS_OHCI);
+         }
++        for (i = 0; i < ARRAY_SIZE(s->ehci); i++) {
++            sysbus_init_child_obj(obj, "ehci[*]", OBJECT(&s->ehci[i]),
++                                  sizeof(s->ehci[i]), TYPE_PLATFORM_EHCI);
 +        }
-+    }
+     }
  }
  
- static void aw_a10_realize(DeviceState *dev, Error **errp)
-@@ -133,6 +145,24 @@ static void aw_a10_realize(DeviceState *dev, Error **errp)
-     serial_mm_init(get_system_memory(), AW_A10_UART0_REG_BASE, 2,
-                    qdev_get_gpio_in(dev, 1),
-                    115200, serial_hd(0), DEVICE_NATIVE_ENDIAN);
-+
-+    if (machine_usb(current_machine)) {
-+        int i;
-+
-+        for (i = 0; i < ARRAY_SIZE(s->ohci); i++) {
-+
-+            object_property_set_bool(OBJECT(&s->ohci[i]), true, "realized",
+@@ -162,6 +167,18 @@ static void aw_a10_realize(DeviceState *dev, Error **errp)
+             sysbus_connect_irq(SYS_BUS_DEVICE(&s->ohci[i]), 0,
+                                qdev_get_gpio_in(dev, 64 + i));
+         }
++        for (i = 0; i < ARRAY_SIZE(s->ehci); i++) {
++            object_property_set_bool(OBJECT(&s->ehci[i]), true, "realized",
 +                                     &err);
 +            if (err) {
 +                error_propagate(errp, err);
 +                return;
 +            }
-+            sysbus_mmio_map(SYS_BUS_DEVICE(&s->ohci[i]), 0,
-+                            AW_A10_OHCI_BASE + i * 0x8000);
-+            sysbus_connect_irq(SYS_BUS_DEVICE(&s->ohci[i]), 0,
-+                               qdev_get_gpio_in(dev, 64 + i));
++            sysbus_mmio_map(SYS_BUS_DEVICE(&s->ehci[i]), 0,
++                            AW_A10_EHCI_BASE + i * 0x8000);
++            sysbus_connect_irq(SYS_BUS_DEVICE(&s->ehci[i]), 0,
++                               qdev_get_gpio_in(dev, 39 + i));
 +        }
-+    }
+     }
  }
  
- static void aw_a10_class_init(ObjectClass *oc, void *data)
 diff --git a/include/hw/arm/allwinner-a10.h b/include/hw/arm/allwinner-a10.h
-index 0007a927bb..4864adbec3 100644
+index 4864adbec3..17e1ee92e2 100644
 --- a/include/hw/arm/allwinner-a10.h
 +++ b/include/hw/arm/allwinner-a10.h
-@@ -9,6 +9,7 @@
- #include "hw/intc/allwinner-a10-pic.h"
+@@ -10,6 +10,7 @@
  #include "hw/net/allwinner_emac.h"
  #include "hw/ide/ahci.h"
-+#include "hw/usb/hcd-ohci.h"
+ #include "hw/usb/hcd-ohci.h"
++#include "hw/usb/hcd-ehci.h"
  
  #include "target/arm/cpu.h"
  
-@@ -29,6 +30,7 @@ typedef struct AwA10State {
-     AwEmacState emac;
+@@ -31,6 +32,7 @@ typedef struct AwA10State {
      AllwinnerAHCIState sata;
      MemoryRegion sram_a;
-+    OHCISysBusState ohci[2];
+     OHCISysBusState ohci[2];
++    EHCISysBusState ehci[2];
  } AwA10State;
  
  #endif
