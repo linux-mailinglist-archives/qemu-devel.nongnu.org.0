@@ -2,63 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97BF415F77C
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Feb 2020 21:11:26 +0100 (CET)
-Received: from localhost ([::1]:45154 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 460F215F786
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Feb 2020 21:13:17 +0100 (CET)
+Received: from localhost ([::1]:45192 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j2hJ7-0004CO-KV
-	for lists+qemu-devel@lfdr.de; Fri, 14 Feb 2020 15:11:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52067)
+	id 1j2hKu-0007FD-B8
+	for lists+qemu-devel@lfdr.de; Fri, 14 Feb 2020 15:13:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52403)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1j2hGi-0008Gd-M6
- for qemu-devel@nongnu.org; Fri, 14 Feb 2020 15:08:58 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1j2hIS-0003xz-Vz
+ for qemu-devel@nongnu.org; Fri, 14 Feb 2020 15:10:45 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1j2hGg-0005xQ-PB
- for qemu-devel@nongnu.org; Fri, 14 Feb 2020 15:08:56 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:49444
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1j2hGg-0005wd-Ko
- for qemu-devel@nongnu.org; Fri, 14 Feb 2020 15:08:54 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581710934;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+WKpefP9BgROxoZoqUBH6uGP1/rI1g20cTiL0991K+g=;
- b=JYuJjXzFe0P8/VABVmT/wytEk5a0G0T5vloEm+QwaCjw/VvUMTwT1i9F6cjNfiLOJkp265
- 63hOe1QhLGUBMH2B73/TmkmYcfV7gZCGHhK9kfJXcFiSvGQp32UvJTBQNgLpRBDzRm7rD+
- X9UzPMn+pv/bQaKogwY3a9jhDOMYOzQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-328-Vj0VISqNPbCbXpGYBG-Aww-1; Fri, 14 Feb 2020 15:08:41 -0500
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 183EF13E2;
- Fri, 14 Feb 2020 20:08:40 +0000 (UTC)
-Received: from linux.fritz.box.com (unknown [10.36.118.128])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 927C05C1C3;
- Fri, 14 Feb 2020 20:08:38 +0000 (UTC)
-From: Kevin Wolf <kwolf@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH 7/7] iotests: Test error handling policies with block-commit
-Date: Fri, 14 Feb 2020 21:08:12 +0100
-Message-Id: <20200214200812.28180-8-kwolf@redhat.com>
-In-Reply-To: <20200214200812.28180-1-kwolf@redhat.com>
-References: <20200214200812.28180-1-kwolf@redhat.com>
+ (envelope-from <richard.henderson@linaro.org>) id 1j2hIR-0000gP-Q6
+ for qemu-devel@nongnu.org; Fri, 14 Feb 2020 15:10:44 -0500
+Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:34039)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1j2hIQ-0000eG-Sz
+ for qemu-devel@nongnu.org; Fri, 14 Feb 2020 15:10:43 -0500
+Received: by mail-pf1-x441.google.com with SMTP id i6so5405019pfc.1
+ for <qemu-devel@nongnu.org>; Fri, 14 Feb 2020 12:10:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=TkrvTu49HwWJpVtG/5gPH62PDMKR29HZzdS6ge7jRuE=;
+ b=OfS4YDWcIUhGTXPrB76n26aeF+1PDrNHzmWTXDbIkl4nIaDyrRs8omk8XV19JOt8C4
+ ODXIJRQB8RSFLTk7MCoLUQwyUZ7/mpTDcoFwqEbDl3rWUMAIKXucnUs1GaVy7fRIvI8/
+ iY3hkZe3NH9VYhhD+oog4fW3CNjP/qTB1UrZ6ZPF9xF0pgJTF5eOPOY1sVihS6hjDwxP
+ 5rbZzmj7QzK0QlrBCJ08ZcYQYph7S47oDJmAX6NtedBtrPO2c2VUvMnLTcj+Bq7sZn2y
+ uJrPCiVZp6U3uGcd+SsduL6snrZGgLJp/uWEWn888EQiVrX9gluzj4Hl6Q2hN4VokbxV
+ uXbg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=TkrvTu49HwWJpVtG/5gPH62PDMKR29HZzdS6ge7jRuE=;
+ b=Mz+m/gCd4y2zcJggQirNuPLnYC+0HTvLdU7IeQKcKlFvRjf/lc3AslKZDTgzSIzLPC
+ frPEGO3yI9timQAZT7F2esoFDgQumRD9AwH/PHgVMrQ1c6zW0H6SfCunWCNF8qYm3K22
+ 59sowCJS+vl7a+8xh/ehj8cWJharFzTRsQGC+U9+9jhBhxHJifMERQ1T9xRteVQjyC7M
+ n4Z+P5aLesqc2V14vblScsKPOBtIrK9w5eh5ixt6dqWC1aZXYOVCDhwcBr6IHbvfEniq
+ etGzlNgST8Yf3wtXDZI2ya21KA1ve+hniuJisJ5sGpvKrrL+SLhE0rqL3qnWT1UGRPGR
+ /9xw==
+X-Gm-Message-State: APjAAAXqxMGKHfg+qor1RQwbR16PsCPk5UvlJV5ak9KfhW5hPopBEmrY
+ ulvf5Gdp6XlEpxDv12spgk38HA==
+X-Google-Smtp-Source: APXvYqweF027VZE8/g3sSOAhVDwyz5h4X+O5wApGO2+4dseqle6HY4y4IK4DuV7Gz0YiGOuGQUchQg==
+X-Received: by 2002:aa7:8502:: with SMTP id v2mr4917249pfn.232.1581711041551; 
+ Fri, 14 Feb 2020 12:10:41 -0800 (PST)
+Received: from [192.168.1.11] (97-126-123-70.tukw.qwest.net. [97.126.123.70])
+ by smtp.gmail.com with ESMTPSA id
+ a19sm7374576pju.11.2020.02.14.12.10.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 14 Feb 2020 12:10:40 -0800 (PST)
+Subject: Re: [PATCH v2 02/21] target/arm: Check aa32_pan in
+ take_aarch32_exception(), not aa64_pan
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20200214175116.9164-1-peter.maydell@linaro.org>
+ <20200214175116.9164-3-peter.maydell@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <384a16ff-1251-5ef7-bdba-5470a111665a@linaro.org>
+Date: Fri, 14 Feb 2020 12:10:38 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: Vj0VISqNPbCbXpGYBG-Aww-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+In-Reply-To: <20200214175116.9164-3-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::441
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,358 +85,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, pkrempa@redhat.com, qemu-devel@nongnu.org,
- mreitz@redhat.com, nsoffer@redhat.com, jsnow@redhat.com
+Cc: Eric Auger <eric.auger@redhat.com>,
+ Aaron Lindsay <aaron@os.amperecomputing.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This tests both read failure (from the top node) and write failure (to
-the base node) for on-error=3Dreport/stop/ignore.
+On 2/14/20 9:50 AM, Peter Maydell wrote:
+> In take_aarch32_exception(), we know we are dealing with a CPU that
+> has AArch32, so the right isar_feature test is aa32_pan, not aa64_pan.
+> 
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+>  target/arm/helper.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-As block-commit actually starts two different types of block jobs
-(mirror.c for committing the active later, commit.c for intermediate
-layers), all tests are run for both cases.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
----
- tests/qemu-iotests/040     | 283 +++++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/040.out |   4 +-
- 2 files changed, 285 insertions(+), 2 deletions(-)
-
-diff --git a/tests/qemu-iotests/040 b/tests/qemu-iotests/040
-index 2e7ee0e84f..32c82b4ec6 100755
---- a/tests/qemu-iotests/040
-+++ b/tests/qemu-iotests/040
-@@ -430,6 +430,289 @@ class TestReopenOverlay(ImageCommitTestCase):
-     def test_reopen_overlay(self):
-         self.run_commit_test(self.img1, self.img0)
-=20
-+class TestErrorHandling(iotests.QMPTestCase):
-+    image_len =3D 2 * 1024 * 1024
-+
-+    def setUp(self):
-+        iotests.create_image(backing_img, self.image_len)
-+        qemu_img('create', '-f', iotests.imgfmt, '-o', 'backing_file=3D%s'=
- % backing_img, mid_img)
-+        qemu_img('create', '-f', iotests.imgfmt, '-o', 'backing_file=3D%s'=
- % mid_img, test_img)
-+
-+        qemu_io('-f', iotests.imgfmt, '-c', 'write -P 0x11 0 512k', mid_im=
-g)
-+        qemu_io('-f', iotests.imgfmt, '-c', 'write -P 0x22 0 512k', test_i=
-mg)
-+
-+        self.vm =3D iotests.VM()
-+        self.vm.launch()
-+
-+        self.blkdebug_file =3D iotests.file_path("blkdebug.conf")
-+
-+    def tearDown(self):
-+        self.vm.shutdown()
-+        os.remove(test_img)
-+        os.remove(mid_img)
-+        os.remove(backing_img)
-+
-+    def blockdev_add(self, **kwargs):
-+        result =3D self.vm.qmp('blockdev-add', **kwargs)
-+        self.assert_qmp(result, 'return', {})
-+
-+    def add_block_nodes(self, base_debug=3DNone, mid_debug=3DNone, top_deb=
-ug=3DNone):
-+        self.blockdev_add(node_name=3D'base-file', driver=3D'file',
-+                          filename=3Dbacking_img)
-+        self.blockdev_add(node_name=3D'mid-file', driver=3D'file',
-+                          filename=3Dmid_img)
-+        self.blockdev_add(node_name=3D'top-file', driver=3D'file',
-+                          filename=3Dtest_img)
-+
-+        if base_debug:
-+            self.blockdev_add(node_name=3D'base-dbg', driver=3D'blkdebug',
-+                              image=3D'base-file', inject_error=3Dbase_deb=
-ug)
-+        if mid_debug:
-+            self.blockdev_add(node_name=3D'mid-dbg', driver=3D'blkdebug',
-+                              image=3D'mid-file', inject_error=3Dmid_debug=
-)
-+        if top_debug:
-+            self.blockdev_add(node_name=3D'top-dbg', driver=3D'blkdebug',
-+                              image=3D'top-file', inject_error=3Dtop_debug=
-)
-+
-+        self.blockdev_add(node_name=3D'base-fmt', driver=3D'raw',
-+                          file=3D('base-dbg' if base_debug else 'base-file=
-'))
-+        self.blockdev_add(node_name=3D'mid-fmt', driver=3Diotests.imgfmt,
-+                          file=3D('mid-dbg' if mid_debug else 'mid-file'),
-+                          backing=3D'base-fmt')
-+        self.blockdev_add(node_name=3D'top-fmt', driver=3Diotests.imgfmt,
-+                          file=3D('top-dbg' if top_debug else 'top-file'),
-+                          backing=3D'mid-fmt')
-+
-+    def run_job(self, expected_events, error_pauses_job=3DFalse):
-+        match_device =3D {'data': {'device': 'job0'}}
-+        events =3D [
-+            ('BLOCK_JOB_COMPLETED', match_device),
-+            ('BLOCK_JOB_CANCELLED', match_device),
-+            ('BLOCK_JOB_ERROR', match_device),
-+            ('BLOCK_JOB_READY', match_device),
-+        ]
-+
-+        completed =3D False
-+        log =3D []
-+        while not completed:
-+            ev =3D self.vm.events_wait(events, timeout=3D5.0)
-+            if ev['event'] =3D=3D 'BLOCK_JOB_COMPLETED':
-+                completed =3D True
-+            elif ev['event'] =3D=3D 'BLOCK_JOB_ERROR':
-+                if error_pauses_job:
-+                    result =3D self.vm.qmp('block-job-resume', device=3D'j=
-ob0')
-+                    self.assert_qmp(result, 'return', {})
-+            elif ev['event'] =3D=3D 'BLOCK_JOB_READY':
-+                result =3D self.vm.qmp('block-job-complete', device=3D'job=
-0')
-+                self.assert_qmp(result, 'return', {})
-+            else:
-+                self.fail("Unexpected event: %s" % ev)
-+            log.append(iotests.filter_qmp_event(ev))
-+
-+        self.maxDiff =3D None
-+        self.assertEqual(expected_events, log)
-+
-+    def event_error(self, op, action):
-+        return {
-+            'event': 'BLOCK_JOB_ERROR',
-+            'data': {'action': action, 'device': 'job0', 'operation': op},
-+            'timestamp': {'microseconds': 'USECS', 'seconds': 'SECS'}
-+        }
-+
-+    def event_ready(self):
-+        return {
-+            'event': 'BLOCK_JOB_READY',
-+            'data': {'device': 'job0',
-+                     'len': 524288,
-+                     'offset': 524288,
-+                     'speed': 0,
-+                     'type': 'commit'},
-+            'timestamp': {'microseconds': 'USECS', 'seconds': 'SECS'},
-+        }
-+
-+    def event_completed(self, errmsg=3DNone, active=3DTrue):
-+        max_len =3D 524288 if active else self.image_len
-+        data =3D {
-+            'device': 'job0',
-+            'len': max_len,
-+            'offset': 0 if errmsg else max_len,
-+            'speed': 0,
-+            'type': 'commit'
-+        }
-+        if errmsg:
-+            data['error'] =3D errmsg
-+
-+        return {
-+            'event': 'BLOCK_JOB_COMPLETED',
-+            'data': data,
-+            'timestamp': {'microseconds': 'USECS', 'seconds': 'SECS'},
-+        }
-+
-+    def blkdebug_event(self, event, is_raw=3DFalse):
-+        if event:
-+            return [{
-+                'event': event,
-+                'sector': 512 if is_raw else 1024,
-+                'once': True,
-+            }]
-+        return None
-+
-+    def prepare_and_start_job(self, on_error, active=3DTrue,
-+                              top_event=3DNone, mid_event=3DNone, base_eve=
-nt=3DNone):
-+
-+        top_debug =3D self.blkdebug_event(top_event)
-+        mid_debug =3D self.blkdebug_event(mid_event)
-+        base_debug =3D self.blkdebug_event(base_event, True)
-+
-+        self.add_block_nodes(top_debug=3Dtop_debug, mid_debug=3Dmid_debug,
-+                             base_debug=3Dbase_debug)
-+
-+        result =3D self.vm.qmp('block-commit', job_id=3D'job0', device=3D'=
-top-fmt',
-+                             top_node=3D'top-fmt' if active else 'mid-fmt'=
-,
-+                             base_node=3D'mid-fmt' if active else 'base-fm=
-t',
-+                             on_error=3Don_error)
-+        self.assert_qmp(result, 'return', {})
-+
-+    def testActiveReadErrorReport(self):
-+        self.prepare_and_start_job('report', top_event=3D'read_aio')
-+        self.run_job([
-+            self.event_error('read', 'report'),
-+            self.event_completed('Input/output error')
-+        ])
-+
-+        self.vm.shutdown()
-+        self.assertFalse(iotests.compare_images(test_img, mid_img),
-+                         'target image matches source after error')
-+
-+    def testActiveReadErrorStop(self):
-+        self.prepare_and_start_job('stop', top_event=3D'read_aio')
-+        self.run_job([
-+            self.event_error('read', 'stop'),
-+            self.event_ready(),
-+            self.event_completed()
-+        ], error_pauses_job=3DTrue)
-+
-+        self.vm.shutdown()
-+        self.assertTrue(iotests.compare_images(test_img, mid_img),
-+                        'target image does not match source after commit')
-+
-+    def testActiveReadErrorIgnore(self):
-+        self.prepare_and_start_job('ignore', top_event=3D'read_aio')
-+        self.run_job([
-+            self.event_error('read', 'ignore'),
-+            self.event_ready(),
-+            self.event_completed()
-+        ])
-+
-+        # For commit, 'ignore' actually means retry, so this will succeed
-+        self.vm.shutdown()
-+        self.assertTrue(iotests.compare_images(test_img, mid_img),
-+                        'target image does not match source after commit')
-+
-+    def testActiveWriteErrorReport(self):
-+        self.prepare_and_start_job('report', mid_event=3D'write_aio')
-+        self.run_job([
-+            self.event_error('write', 'report'),
-+            self.event_completed('Input/output error')
-+        ])
-+
-+        self.vm.shutdown()
-+        self.assertFalse(iotests.compare_images(test_img, mid_img),
-+                         'target image matches source after error')
-+
-+    def testActiveWriteErrorStop(self):
-+        self.prepare_and_start_job('stop', mid_event=3D'write_aio')
-+        self.run_job([
-+            self.event_error('write', 'stop'),
-+            self.event_ready(),
-+            self.event_completed()
-+        ], error_pauses_job=3DTrue)
-+
-+        self.vm.shutdown()
-+        self.assertTrue(iotests.compare_images(test_img, mid_img),
-+                        'target image does not match source after commit')
-+
-+    def testActiveWriteErrorIgnore(self):
-+        self.prepare_and_start_job('ignore', mid_event=3D'write_aio')
-+        self.run_job([
-+            self.event_error('write', 'ignore'),
-+            self.event_ready(),
-+            self.event_completed()
-+        ])
-+
-+        # For commit, 'ignore' actually means retry, so this will succeed
-+        self.vm.shutdown()
-+        self.assertTrue(iotests.compare_images(test_img, mid_img),
-+                        'target image does not match source after commit')
-+
-+    def testIntermediateReadErrorReport(self):
-+        self.prepare_and_start_job('report', active=3DFalse, mid_event=3D'=
-read_aio')
-+        self.run_job([
-+            self.event_error('read', 'report'),
-+            self.event_completed('Input/output error', active=3DFalse)
-+        ])
-+
-+        self.vm.shutdown()
-+        self.assertFalse(iotests.compare_images(mid_img, backing_img, fmt2=
-=3D'raw'),
-+                         'target image matches source after error')
-+
-+    def testIntermediateReadErrorStop(self):
-+        self.prepare_and_start_job('stop', active=3DFalse, mid_event=3D're=
-ad_aio')
-+        self.run_job([
-+            self.event_error('read', 'stop'),
-+            self.event_completed(active=3DFalse)
-+        ], error_pauses_job=3DTrue)
-+
-+        self.vm.shutdown()
-+        self.assertTrue(iotests.compare_images(mid_img, backing_img, fmt2=
-=3D'raw'),
-+                        'target image does not match source after commit')
-+
-+    def testIntermediateReadErrorIgnore(self):
-+        self.prepare_and_start_job('ignore', active=3DFalse, mid_event=3D'=
-read_aio')
-+        self.run_job([
-+            self.event_error('read', 'ignore'),
-+            self.event_completed(active=3DFalse)
-+        ])
-+
-+        # For commit, 'ignore' actually means retry, so this will succeed
-+        self.vm.shutdown()
-+        self.assertTrue(iotests.compare_images(mid_img, backing_img, fmt2=
-=3D'raw'),
-+                        'target image does not match source after commit')
-+
-+    def testIntermediateWriteErrorReport(self):
-+        self.prepare_and_start_job('report', active=3DFalse, base_event=3D=
-'write_aio')
-+        self.run_job([
-+            self.event_error('write', 'report'),
-+            self.event_completed('Input/output error', active=3DFalse)
-+        ])
-+
-+        self.vm.shutdown()
-+        self.assertFalse(iotests.compare_images(mid_img, backing_img, fmt2=
-=3D'raw'),
-+                         'target image matches source after error')
-+
-+    def testIntermediateWriteErrorStop(self):
-+        self.prepare_and_start_job('stop', active=3DFalse, base_event=3D'w=
-rite_aio')
-+        self.run_job([
-+            self.event_error('write', 'stop'),
-+            self.event_completed(active=3DFalse)
-+        ], error_pauses_job=3DTrue)
-+
-+        self.vm.shutdown()
-+        self.assertTrue(iotests.compare_images(mid_img, backing_img, fmt2=
-=3D'raw'),
-+                        'target image does not match source after commit')
-+
-+    def testIntermediateWriteErrorIgnore(self):
-+        self.prepare_and_start_job('ignore', active=3DFalse, base_event=3D=
-'write_aio')
-+        self.run_job([
-+            self.event_error('write', 'ignore'),
-+            self.event_completed(active=3DFalse)
-+        ])
-+
-+        # For commit, 'ignore' actually means retry, so this will succeed
-+        self.vm.shutdown()
-+        self.assertTrue(iotests.compare_images(mid_img, backing_img, fmt2=
-=3D'raw'),
-+                        'target image does not match source after commit')
-+
- if __name__ =3D=3D '__main__':
-     iotests.main(supported_fmts=3D['qcow2', 'qed'],
-                  supported_protocols=3D['file'])
-diff --git a/tests/qemu-iotests/040.out b/tests/qemu-iotests/040.out
-index 220a5fa82c..6a917130b6 100644
---- a/tests/qemu-iotests/040.out
-+++ b/tests/qemu-iotests/040.out
-@@ -1,5 +1,5 @@
--...............................................
-+...........................................................
- ----------------------------------------------------------------------
--Ran 47 tests
-+Ran 59 tests
-=20
- OK
---=20
-2.20.1
-
+r~
 
