@@ -2,36 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 233E415DD5E
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Feb 2020 16:58:38 +0100 (CET)
-Received: from localhost ([::1]:40728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A36A15DB0A
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Feb 2020 16:36:19 +0100 (CET)
+Received: from localhost ([::1]:40450 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j2dMT-0006tt-73
-	for lists+qemu-devel@lfdr.de; Fri, 14 Feb 2020 10:58:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54580)
+	id 1j2d0s-0001Co-9p
+	for lists+qemu-devel@lfdr.de; Fri, 14 Feb 2020 10:36:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50503)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <balaton@eik.bme.hu>) id 1j2dLk-0006CX-H8
- for qemu-devel@nongnu.org; Fri, 14 Feb 2020 10:57:53 -0500
+ (envelope-from <alex.williamson@redhat.com>) id 1j2d04-0000bX-Tx
+ for qemu-devel@nongnu.org; Fri, 14 Feb 2020 10:35:30 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <balaton@eik.bme.hu>) id 1j2dLi-0007bY-OC
- for qemu-devel@nongnu.org; Fri, 14 Feb 2020 10:57:51 -0500
-Received: from zero.eik.bme.hu ([152.66.115.2]:17083)
+ (envelope-from <alex.williamson@redhat.com>) id 1j2d03-00078E-Ln
+ for qemu-devel@nongnu.org; Fri, 14 Feb 2020 10:35:28 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:41037
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <balaton@eik.bme.hu>)
- id 1j2dLi-0007Zt-1a; Fri, 14 Feb 2020 10:57:50 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 2AA6A7461AE;
- Fri, 14 Feb 2020 16:57:48 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 0896B745953; Fri, 14 Feb 2020 16:57:48 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-Date: Fri, 14 Feb 2020 00:57:34 +0100
-Subject: [PATCH v2] target/ppc: Fix typo in comments
-To: qemu-devel@nongnu.org
-Message-Id: <20200214155748.0896B745953@zero.eik.bme.hu>
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
-X-Received-From: 152.66.115.2
+ (Exim 4.71) (envelope-from <alex.williamson@redhat.com>)
+ id 1j2d03-000786-HX
+ for qemu-devel@nongnu.org; Fri, 14 Feb 2020 10:35:27 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1581694527;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=k7CVJ0sJI1pSRv/OIudov9/ZM9/R5TudR53FuZlrlqQ=;
+ b=VGTuvHMgvAaIHEdyTGys295BSegoAqU+FpaE6q0rtJpo4BwSecnQqXwuWAbU+LM/87V+A5
+ EFQ9OeOegX0MatG+roCyKGbLp6i4uuQt5Kvmb9RWY3L+ZqxO+7fekrUUF1BU1yvtHONymH
+ V0S9v9j7uMvujWlunCqM+DLUmzrx7qw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-262-VfzCd4qYNt-s-tzfgkoGIQ-1; Fri, 14 Feb 2020 10:35:17 -0500
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B934A8010E6;
+ Fri, 14 Feb 2020 15:35:16 +0000 (UTC)
+Received: from x1.home (ovpn-116-28.phx2.redhat.com [10.3.116.28])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 33CF65C126;
+ Fri, 14 Feb 2020 15:35:16 +0000 (UTC)
+Date: Fri, 14 Feb 2020 08:35:15 -0700
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Michal Privoznik <mprivozn@redhat.com>
+Subject: Re: [PATCH v2] Report stringified errno in VFIO related errors
+Message-ID: <20200214083515.15b94be8@x1.home>
+In-Reply-To: <4949c3ecf1a32189b8a4b5eb4b0fd04c1122501d.1581674006.git.mprivozn@redhat.com>
+References: <4949c3ecf1a32189b8a4b5eb4b0fd04c1122501d.1581674006.git.mprivozn@redhat.com>
+Organization: Red Hat
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-MC-Unique: VfzCd4qYNt-s-tzfgkoGIQ-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -43,75 +72,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
+Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-"Deferred" was misspelled as "differed" in some comments, correct this
-typo,
+On Fri, 14 Feb 2020 10:55:19 +0100
+Michal Privoznik <mprivozn@redhat.com> wrote:
 
-Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
----
-v2: Found one more where even the typo was misspelled
+> In a few places we report errno formatted as a negative integer.
+> This is not as user friendly as it can be. Use strerror() and/or
+> error_setg_errno() instead.
+> 
+> Signed-off-by: Michal Privoznik <mprivozn@redhat.com>
+> ---
+> 
+> v1 posted here:
+> 
+> https://lists.nongnu.org/archive/html/qemu-devel/2020-02/msg03623.html
+> 
+> diff to v1:
+>  - Change error reporting in vfio_dma_unmap() too as I missed it in v1.
+> 
+>  hw/vfio/common.c    | 4 ++--
+>  util/vfio-helpers.c | 6 +++---
+>  2 files changed, 5 insertions(+), 5 deletions(-)
+> 
+> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+> index 5ca11488d6..0b3593b3c0 100644
+> --- a/hw/vfio/common.c
+> +++ b/hw/vfio/common.c
+> @@ -319,7 +319,7 @@ static int vfio_dma_unmap(VFIOContainer *container,
+>              unmap.size -= 1ULL << ctz64(container->pgsizes);
+>              continue;
+>          }
+> -        error_report("VFIO_UNMAP_DMA: %d", -errno);
+> +        error_report("VFIO_UNMAP_DMA failed: %s", strerror(errno));
+>          return -errno;
+>      }
+>  
+> @@ -352,7 +352,7 @@ static int vfio_dma_map(VFIOContainer *container, hwaddr iova,
+>          return 0;
+>      }
+>  
+> -    error_report("VFIO_MAP_DMA: %d", -errno);
+> +    error_report("VFIO_MAP_DMA failed: %s", strerror(errno));
+>      return -errno;
+>  }
+>  
+> diff --git a/util/vfio-helpers.c b/util/vfio-helpers.c
+> index 813f7ec564..ddd9a96e76 100644
+> --- a/util/vfio-helpers.c
+> +++ b/util/vfio-helpers.c
+> @@ -545,7 +545,7 @@ static int qemu_vfio_do_mapping(QEMUVFIOState *s, void *host, size_t size,
+>      trace_qemu_vfio_do_mapping(s, host, size, iova);
+>  
+>      if (ioctl(s->container, VFIO_IOMMU_MAP_DMA, &dma_map)) {
+> -        error_report("VFIO_MAP_DMA: %d", -errno);
+> +        error_report("VFIO_MAP_DMA failed: %s", strerror(errno));
+>          return -errno;
+>      }
+>      return 0;
+> @@ -570,7 +570,7 @@ static void qemu_vfio_undo_mapping(QEMUVFIOState *s, IOVAMapping *mapping,
+>      assert(QEMU_IS_ALIGNED(mapping->size, qemu_real_host_page_size));
+>      assert(index >= 0 && index < s->nr_mappings);
+>      if (ioctl(s->container, VFIO_IOMMU_UNMAP_DMA, &unmap)) {
+> -        error_setg(errp, "VFIO_UNMAP_DMA failed: %d", -errno);
+> +        error_setg_errno(errp, errno, "VFIO_UNMAP_DMA failed");
+>      }
+>      memmove(mapping, &s->mappings[index + 1],
+>              sizeof(s->mappings[0]) * (s->nr_mappings - index - 1));
+> @@ -669,7 +669,7 @@ int qemu_vfio_dma_reset_temporary(QEMUVFIOState *s)
+>      trace_qemu_vfio_dma_reset_temporary(s);
+>      qemu_mutex_lock(&s->lock);
+>      if (ioctl(s->container, VFIO_IOMMU_UNMAP_DMA, &unmap)) {
+> -        error_report("VFIO_UNMAP_DMA: %d", -errno);
+> +        error_report("VFIO_UNMAP_DMA failed: %s", strerror(errno));
+>          qemu_mutex_unlock(&s->lock);
+>          return -errno;
+>      }
 
-target/ppc/fpu_helper.c            | 4 ++--
- target/ppc/translate/fp-impl.inc.c | 6 +++---
- 2 files changed, 5 insertions(+), 5 deletions(-)
+Reviewed-by: Alex Williamson <alex.williamson@redhat.com>
 
-diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
-index dc383242f7..ae43b08eb5 100644
---- a/target/ppc/fpu_helper.c
-+++ b/target/ppc/fpu_helper.c
-@@ -293,7 +293,7 @@ static void float_invalid_op_vxvc(CPUPPCState *env, bool set_fpcc,
-         env->error_code = POWERPC_EXCP_FP | POWERPC_EXCP_FP_VXVC;
-         /* Update the floating-point enabled exception summary */
-         env->fpscr |= FP_FEX;
--        /* Exception is differed */
-+        /* Exception is deferred */
-     }
- }
- 
-@@ -644,7 +644,7 @@ static void do_float_check_status(CPUPPCState *env, uintptr_t raddr)
- 
-     if (cs->exception_index == POWERPC_EXCP_PROGRAM &&
-         (env->error_code & POWERPC_EXCP_FP)) {
--        /* Differred floating-point exception after target FPR update */
-+        /* Deferred floating-point exception after target FPR update */
-         if (fp_exceptions_enabled(env)) {
-             raise_exception_err_ra(env, cs->exception_index,
-                                    env->error_code, raddr);
-diff --git a/target/ppc/translate/fp-impl.inc.c b/target/ppc/translate/fp-impl.inc.c
-index d8e27bf4d5..9f7868ee28 100644
---- a/target/ppc/translate/fp-impl.inc.c
-+++ b/target/ppc/translate/fp-impl.inc.c
-@@ -781,7 +781,7 @@ static void gen_mtfsb1(DisasContext *ctx)
-         tcg_gen_trunc_tl_i32(cpu_crf[1], cpu_fpscr);
-         tcg_gen_shri_i32(cpu_crf[1], cpu_crf[1], FPSCR_OX);
-     }
--    /* We can raise a differed exception */
-+    /* We can raise a deferred exception */
-     gen_helper_float_check_status(cpu_env);
- }
- 
-@@ -817,7 +817,7 @@ static void gen_mtfsf(DisasContext *ctx)
-         tcg_gen_trunc_tl_i32(cpu_crf[1], cpu_fpscr);
-         tcg_gen_shri_i32(cpu_crf[1], cpu_crf[1], FPSCR_OX);
-     }
--    /* We can raise a differed exception */
-+    /* We can raise a deferred exception */
-     gen_helper_float_check_status(cpu_env);
-     tcg_temp_free_i64(t1);
- }
-@@ -850,7 +850,7 @@ static void gen_mtfsfi(DisasContext *ctx)
-         tcg_gen_trunc_tl_i32(cpu_crf[1], cpu_fpscr);
-         tcg_gen_shri_i32(cpu_crf[1], cpu_crf[1], FPSCR_OX);
-     }
--    /* We can raise a differed exception */
-+    /* We can raise a deferred exception */
-     gen_helper_float_check_status(cpu_env);
- }
- 
--- 
-2.21.1
+(hoping this gets grabbed by trivial)
 
 
