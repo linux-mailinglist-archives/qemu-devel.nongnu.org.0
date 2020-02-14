@@ -2,62 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F061F15F4F8
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Feb 2020 19:29:46 +0100 (CET)
-Received: from localhost ([::1]:43868 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0503615F28F
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Feb 2020 19:12:52 +0100 (CET)
+Received: from localhost ([::1]:43318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j2fik-0003y8-1m
-	for lists+qemu-devel@lfdr.de; Fri, 14 Feb 2020 13:29:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33842)
+	id 1j2fSM-00021B-SJ
+	for lists+qemu-devel@lfdr.de; Fri, 14 Feb 2020 13:12:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59965)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1j2faF-0006BZ-Ql
- for qemu-devel@nongnu.org; Fri, 14 Feb 2020 13:21:01 -0500
+ (envelope-from <peterx@redhat.com>) id 1j2fRb-0001Zx-BQ
+ for qemu-devel@nongnu.org; Fri, 14 Feb 2020 13:12:04 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1j2faE-0004es-Ba
- for qemu-devel@nongnu.org; Fri, 14 Feb 2020 13:20:59 -0500
-Received: from indium.canonical.com ([91.189.90.7]:47328)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1j2faE-0004ea-5Q
- for qemu-devel@nongnu.org; Fri, 14 Feb 2020 13:20:58 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1j2faC-00086c-Dw
- for <qemu-devel@nongnu.org>; Fri, 14 Feb 2020 18:20:56 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 3808A2E80C9
- for <qemu-devel@nongnu.org>; Fri, 14 Feb 2020 18:20:56 +0000 (UTC)
+ (envelope-from <peterx@redhat.com>) id 1j2fRZ-0005TI-Dk
+ for qemu-devel@nongnu.org; Fri, 14 Feb 2020 13:12:02 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:43708
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <peterx@redhat.com>) id 1j2fRZ-0005SY-9M
+ for qemu-devel@nongnu.org; Fri, 14 Feb 2020 13:12:01 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1581703920;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=cCDyWW+YXuXaTwfieaGljmIX92OmsSPpwtoelgx030E=;
+ b=KnC3YZ6gqfADhkUnAYlLVQ8sgGUkfCqL6pqQjnspnVT44xCpdJsoVMmwGr6MduJ93p92em
+ dV+oAd0oEof8Ofl+HOazNeKTIsoSSQo7upanHOs4Hf+DyhVIx8TFE3Mc4cZV5cmFKKWANt
+ uG1Qp3ng49jXgRZJ2VVnmz3ojcqHeoI=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-253-y9P6ROZUP-CdJ43IajP3hA-1; Fri, 14 Feb 2020 13:11:58 -0500
+Received: by mail-qv1-f72.google.com with SMTP id z39so6230962qve.5
+ for <qemu-devel@nongnu.org>; Fri, 14 Feb 2020 10:11:58 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=aaLjfa80pqB2gzJieIfmy4toBGFs0CCwU8xIfF7/g2g=;
+ b=RhKwtNkK275YEkMO+OPGw1xxNfkg1+7lMVimU0Uz+zbvLfnHxHEUe+gLW50Tyt19zL
+ bjSqUfkirwk/Rk00Ke8OAlZ1I18D2lHwXkQRQUjrMlOuSYOWccsMH4mnNM1vM/KAtCo3
+ 0Cr39315jCbMrOAZdLfSFRB9j4AK2Bpv9TgVCKrV1qk5zLNMuUufG1E9kstfgtr5rJsE
+ bGfzCOkSH5zvSIFbCc5DqfbVibGkpSAl2gFu8tfx1JMuKj2LRitLAh4tu1DbFQymTHMv
+ QJw0CC6gHxECNFuEV3YQDn3TwYFxq2s3xwMWX31YDamiF5oa3gPrettmY9NbW72w1nYm
+ 51kw==
+X-Gm-Message-State: APjAAAWrHHlH9u8a1B8GvpHS9IVyaE26jGQwUZOGPyIYWXz32HwEYaOH
+ CAIjxHb/J9EIojZUP20lK0jtg3ICj4nR95C6pXAj7shH7HMcwbmvC2u+mSNBpYAOijoVNvTqxdW
+ Y85JOL58UTv5Rrtw=
+X-Received: by 2002:ac8:7258:: with SMTP id l24mr3576757qtp.154.1581703917937; 
+ Fri, 14 Feb 2020 10:11:57 -0800 (PST)
+X-Google-Smtp-Source: APXvYqzHXYs7TGpi86VQexOC/QYpApNEXvlDoiKDuhVap9TsPDzOQXfGWYKKe+y/4bmtngvc6IRblQ==
+X-Received: by 2002:ac8:7258:: with SMTP id l24mr3576734qtp.154.1581703917649; 
+ Fri, 14 Feb 2020 10:11:57 -0800 (PST)
+Received: from xz-x1 ([104.156.64.74])
+ by smtp.gmail.com with ESMTPSA id a13sm3778138qkh.123.2020.02.14.10.11.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 14 Feb 2020 10:11:47 -0800 (PST)
+Date: Fri, 14 Feb 2020 13:11:46 -0500
+From: Peter Xu <peterx@redhat.com>
+To: David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH RFC] memory: Don't allow to resize RAM while migrating
+Message-ID: <20200214181146.GE1163818@xz-x1>
+References: <20200213172016.196609-1-david@redhat.com>
+ <20200214102514.GB3283@work-vm>
+ <30a66b1d-184e-a684-d0d2-c3921366b478@redhat.com>
+ <20200214104230.GC3283@work-vm>
+ <cd295e35-72ca-e335-35be-f38bb9026e48@redhat.com>
+ <20200214110226.GD3283@work-vm>
+ <9a15fd0e-77d1-b3a0-4824-665f85f79c71@redhat.com>
+ <bb33b209-2b15-4bbd-7fe9-3aa813e4c194@redhat.com>
+ <20200214172933.GC1163818@xz-x1>
+ <9597c9a9-05d2-d99d-e153-8ffc112910bc@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <9597c9a9-05d2-d99d-e153-8ffc112910bc@redhat.com>
+X-MC-Unique: y9P6ROZUP-CdJ43IajP3hA-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 14 Feb 2020 18:09:23 -0000
-From: Yifan <me@yifanlu.com>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
- assignee=alex.bennee@linaro.org; 
-X-Launchpad-Bug-Tags: mttcg tcg
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ajbennee yifanlu
-X-Launchpad-Bug-Reporter: Yifan (yifanlu)
-X-Launchpad-Bug-Modifier: Yifan (yifanlu)
-References: <158154486735.14935.3370403781300872079.malonedeb@soybean.canonical.com>
-Message-Id: <158170376390.15247.4694343664393297579.malone@soybean.canonical.com>
-Subject: [Bug 1863025] Re: Use-after-free after flush in TCG accelerator
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="19413b719a8df7423ab1390528edadce9e0e4aca";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 32c4e667c55e19910ae226bd0ad33cfe5ee9dd07
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -66,142 +96,179 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1863025 <1863025@bugs.launchpad.net>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Shannon Zhao <shannon.zhao@linaro.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I found it just by launching Ubuntu 19.10 live cd with QXL driver. I
-will re-test this weekend.
+On Fri, Feb 14, 2020 at 06:32:35PM +0100, David Hildenbrand wrote:
+> On 14.02.20 18:29, Peter Xu wrote:
+> > On Fri, Feb 14, 2020 at 01:02:46PM +0100, David Hildenbrand wrote:
+> >> From c0049ac2e95d6756037db918852c507fb88297d9 Mon Sep 17 00:00:00 2001
+> >> From: David Hildenbrand <david@redhat.com>
+> >> Date: Fri, 14 Feb 2020 13:01:03 +0100
+> >> Subject: [PATCH v1] tmp
+> >>
+> >> Signed-off-by: David Hildenbrand <david@redhat.com>
+> >> ---
+> >>  migration/migration.c |  9 +++++++--
+> >>  migration/migration.h |  1 +
+> >>  migration/ram.c       | 42 ++++++++++++++++++++++++++++++++++++++++++
+> >>  3 files changed, 50 insertions(+), 2 deletions(-)
+> >>
+> >> diff --git a/migration/migration.c b/migration/migration.c
+> >> index 3a21a4686c..0e7efe2920 100644
+> >> --- a/migration/migration.c
+> >> +++ b/migration/migration.c
+> >> @@ -175,13 +175,18 @@ void migration_object_init(void)
+> >>      }
+> >>  }
+> >> =20
+> >> +void migration_cancel(void)
+> >> +{
+> >> +    migrate_fd_cancel(current_migration);
+> >> +}
+> >> +
+> >>  void migration_shutdown(void)
+> >>  {
+> >>      /*
+> >>       * Cancel the current migration - that will (eventually)
+> >>       * stop the migration using this structure
+> >>       */
+> >> -    migrate_fd_cancel(current_migration);
+> >> +    migration_cancel();
+> >>      object_unref(OBJECT(current_migration));
+> >>  }
+> >> =20
+> >> @@ -2019,7 +2024,7 @@ void qmp_migrate(const char *uri, bool has_blk, =
+bool blk,
+> >> =20
+> >>  void qmp_migrate_cancel(Error **errp)
+> >>  {
+> >> -    migrate_fd_cancel(migrate_get_current());
+> >> +    migration_cancel();
+> >>  }
+> >> =20
+> >>  void qmp_migrate_continue(MigrationStatus state, Error **errp)
+> >> diff --git a/migration/migration.h b/migration/migration.h
+> >> index 8473ddfc88..79fd74afa5 100644
+> >> --- a/migration/migration.h
+> >> +++ b/migration/migration.h
+> >> @@ -343,5 +343,6 @@ int foreach_not_ignored_block(RAMBlockIterFunc fun=
+c, void *opaque);
+> >>  void migration_make_urgent_request(void);
+> >>  void migration_consume_urgent_request(void);
+> >>  bool migration_rate_limit(void);
+> >> +void migration_cancel(void);
+> >> =20
+> >>  #endif
+> >> diff --git a/migration/ram.c b/migration/ram.c
+> >> index ed23ed1c7c..f86f32b453 100644
+> >> --- a/migration/ram.c
+> >> +++ b/migration/ram.c
+> >> @@ -52,6 +52,7 @@
+> >>  #include "migration/colo.h"
+> >>  #include "block.h"
+> >>  #include "sysemu/sysemu.h"
+> >> +#include "sysemu/runstate.h"
+> >>  #include "savevm.h"
+> >>  #include "qemu/iov.h"
+> >>  #include "multifd.h"
+> >> @@ -3710,8 +3711,49 @@ static SaveVMHandlers savevm_ram_handlers =3D {
+> >>      .resume_prepare =3D ram_resume_prepare,
+> >>  };
+> >> =20
+> >> +static void ram_mig_ram_block_resized(RAMBlockNotifier *n, void *host=
+,
+> >> +                                      size_t old_size, size_t new_siz=
+e)
+> >> +{
+> >> +    /*
+> >> +     * We don't care about resizes triggered on incoming migration (w=
+hen
+> >> +     * syncing ram blocks), or of course, when no migration is going =
+on.
+> >> +     */
+> >> +    if (migration_is_idle() || !runstate_is_running()) {
+> >> +        return;
+> >> +    }
+> >=20
+> > I feel like migration_is_idle() check is enough.  Firstly, I feel like
+> > we allow migration even with VM stopped.  At the meantime, if VM is
+> > not running, I see no reason that this resizing will happen after all? =
+:)
+>=20
+> Migration code resizes ram blocks when synchronizing the ram state. See
+> qemu_ram_resize() in ram_load_precopy()
+>=20
+> That happens on incoming migration while the vm is stopped.
 
-The workaround I had is to check the number of TLB flushes and to re-try
-obtaining the TB if the number changes. There is a penalty for the case
-where TLB is flushed but should not degrade performance in most cases. I
-think obtaining the lock earlier will slow down the VM if EXCP_ATOMIC is
-used often.
+Ah so your comment is for that which I misread.  I'm surprised even
+the incoming migration will set MigrationState and migration_is_idle()
+will return false for it, since we've got MigrationIncomingState after
+all.  But yeh that seems to be correct.
 
-Of course, I am assuming TLB flush is the only way to cause this bug.
+Then it seems fine.  It's just a bit unclear even with the comment.
+Another alternative is we only register this resize() hook when
+migration starts, and unregister it when stopped.  Then we can even
+drop the migration_is_idle().
 
-diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-index d1c2b6ea1fd..d83b578299b 100644
---- a/accel/tcg/cpu-exec.c
-+++ b/accel/tcg/cpu-exec.c
-@@ -250,8 +250,11 @@ void cpu_exec_step_atomic(CPUState *cpu)
-     uint32_t flags;
-     uint32_t cflags =3D 1;
-     uint32_t cf_mask =3D cflags & CF_HASH_MASK;
-+    unsigned flush_count;
- =
+>=20
+> >=20
+> >> +
+> >> +    if (!postcopy_is_running()) {
+> >> +        Error *err =3D NULL;
+> >> +
+> >> +        /*
+> >> +         * Precopy code cannot deal with the size of ram blocks chang=
+ing at
+> >> +         * random points in time. We're still running on the source, =
+abort
+> >> +         * the migration and continue running here. Make sure to wait=
+ until
+> >> +         * migration was canceled.
+> >> +         */
+> >> +        error_setg(&err, "RAM resized during precopy.");
+> >> +        migrate_set_error(migrate_get_current(), err);
+> >> +        error_free(err);
+> >> +        migration_cancel();
+> >> +    } else {
+> >> +        /*
+> >> +         * Postcopy code cannot deal with the size of ram blocks chan=
+ging at
+> >> +         * random points in time. We're running on the target. Fail h=
+ard.
+> >> +         *
+> >> +         * TODO: How to handle this in a better way?
+> >> +         */
+> >> +        error_report("RAM resized during postcopy.");
+> >> +        exit(-1);
+> >=20
+> > Now I'm rethinking the postcopy case....
+> >=20
+> > ram_dirty_bitmap_reload() should only happen during the postcopy
+> > recovery, and when that happens the VM should be stopped on both
+> > sides.  Which means, ram resizing should not trigger there...
+>=20
+> But that guest got the chance to run for a bit and eventually reboot
+> AFAIK. Also, there are other data races possible when used_length
+> suddenly changes, this is just the most obvious one where things will;
+> get screwed up.
 
-     if (sigsetjmp(cpu->jmp_env, 0) =3D=3D 0) {
-+retry:
-+        flush_count =3D tb_flush_count();
-         tb =3D tb_lookup__cpu_state(cpu, &pc, &cs_base, &flags, cf_mask);
-         if (tb =3D=3D NULL) {
-             mmap_lock();
-@@ -260,6 +263,11 @@ void cpu_exec_step_atomic(CPUState *cpu)
-         }
- =
+Right, the major one could be in ram_load_postcopy() where we call
+host_from_ram_block_offset().  However if FW extension is the major
+use case then it seems to still work (still better than crashing,
+isn't it? :).  Or could you let me know where else did I overlook?
 
-         start_exclusive();
-+        /* do_tb_flush() might run and make tb invalid */
-+        if (flush_count !=3D tb_flush_count()) {
-+            end_exclusive();
-+            goto retry;
-+        }
- =
+Thanks,
 
-         /* Since we got here, we know that parallel_cpus must be true.  */
-         parallel_cpus =3D false;
-diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-index 4ed9d0abaf2..ecf7d3b53ff 100644
---- a/accel/tcg/translate-all.c
-+++ b/accel/tcg/translate-all.c
-@@ -2696,6 +2696,11 @@ void tcg_flush_softmmu_tlb(CPUState *cs)
- #endif
- }
- =
+--=20
+Peter Xu
 
-+unsigned tb_flush_count(void)
-+{
-+    return atomic_read(&tb_ctx.tb_flush_count);
-+}
-+
- #if defined(CONFIG_NO_RWX)
- void tb_exec_memory_lock(void)
- {
-diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
-index 5ccc9485812..1bc61fa6d76 100644
---- a/include/exec/exec-all.h
-+++ b/include/exec/exec-all.h
-@@ -584,6 +584,7 @@ void tlb_set_dirty(CPUState *cpu, target_ulong vaddr);
- void tb_flush_jmp_cache(CPUState *cpu, target_ulong addr);
- =
-
- /* translate-all.c */
-+unsigned tb_flush_count(void);
- #if defined(CONFIG_NO_RWX)
- void tb_exec_memory_lock(void);
- bool tb_is_exec(const TranslationBlock *tb);
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1863025
-
-Title:
-  Use-after-free after flush in TCG accelerator
-
-Status in QEMU:
-  Confirmed
-
-Bug description:
-  I believe I found a UAF in TCG that can lead to a guest VM escape. The
-  security list informed me "This can not be treated as a security
-  issue." and to post it here. I am looking at the 4.2.0 source code.
-  The issue requires a race and I will try to describe it in terms of
-  three concurrent threads.
-
-  Thread A:
-
-  A1. qemu_tcg_cpu_thread_fn runs work loop
-  A2. qemu_wait_io_event =3D> qemu_wait_io_event_common =3D> process_queued=
-_cpu_work
-  A3. start_exclusive critical section entered
-  A4. do_tb_flush is called, TB memory freed/re-allocated
-  A5. end_exclusive exits critical section
-
-  Thread B:
-
-  B1. qemu_tcg_cpu_thread_fn runs work loop
-  B2. tcg_cpu_exec =3D> cpu_exec =3D> tb_find =3D> tb_gen_code
-  B3. tcg_tb_alloc obtains a new TB
-
-  Thread C:
-
-  C1. qemu_tcg_cpu_thread_fn runs work loop
-  C2. cpu_exec_step_atomic executes
-  C3. TB obtained with tb_lookup__cpu_state or tb_gen_code
-  C4. start_exclusive critical section entered
-  C5. cpu_tb_exec executes the TB code
-  C6. end_exclusive exits critical section
-
-  Consider the following sequence of events:
-  =C2=A0=C2=A0B2 =3D> B3 =3D> C3 (same TB as B2) =3D> A3 =3D> A4 (TB freed)=
- =3D> A5 =3D> B2 =3D>
-  =C2=A0=C2=A0B3 (re-allocates TB from B2) =3D> C4 =3D> C5 (freed/reused TB=
- now executing) =3D> C6
-
-  In short, because thread C uses the TB in the critical section, there
-  is no guarantee that the pointer has not been "freed" (rather the
-  memory is marked as re-usable) and therefore a use-after-free occurs.
-
-  Since the TCG generated code can be in the same memory as the TB data
-  structure, it is possible for an attacker to overwrite the UAF pointer
-  with code generated from TCG. This can overwrite key pointer values
-  and could lead to code execution on the host outside of the TCG
-  sandbox.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1863025/+subscriptions
 
