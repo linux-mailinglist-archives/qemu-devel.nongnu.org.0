@@ -2,71 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 386AA15F119
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Feb 2020 19:02:35 +0100 (CET)
-Received: from localhost ([::1]:43106 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F061F15F4F8
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Feb 2020 19:29:46 +0100 (CET)
+Received: from localhost ([::1]:43868 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j2fIQ-0008G3-59
-	for lists+qemu-devel@lfdr.de; Fri, 14 Feb 2020 13:02:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57951)
+	id 1j2fik-0003y8-1m
+	for lists+qemu-devel@lfdr.de; Fri, 14 Feb 2020 13:29:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33842)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <robert.foley@linaro.org>) id 1j2fGb-0006Sx-Fn
- for qemu-devel@nongnu.org; Fri, 14 Feb 2020 13:00:42 -0500
+ (envelope-from <bounces@canonical.com>) id 1j2faF-0006BZ-Ql
+ for qemu-devel@nongnu.org; Fri, 14 Feb 2020 13:21:01 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <robert.foley@linaro.org>) id 1j2fGa-0002Gk-HT
- for qemu-devel@nongnu.org; Fri, 14 Feb 2020 13:00:41 -0500
-Received: from mail-lj1-x242.google.com ([2a00:1450:4864:20::242]:36430)
+ (envelope-from <bounces@canonical.com>) id 1j2faE-0004es-Ba
+ for qemu-devel@nongnu.org; Fri, 14 Feb 2020 13:20:59 -0500
+Received: from indium.canonical.com ([91.189.90.7]:47328)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <robert.foley@linaro.org>)
- id 1j2fGa-0002FT-AO
- for qemu-devel@nongnu.org; Fri, 14 Feb 2020 13:00:40 -0500
-Received: by mail-lj1-x242.google.com with SMTP id r19so11689675ljg.3
- for <qemu-devel@nongnu.org>; Fri, 14 Feb 2020 10:00:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=3toDS6zflbiY4DczInEVMl4zblVU+HqLGz3G1OH81aE=;
- b=HbPWbvurxe462B8aTfwC0111uPpnI0csQOSB6toL76D9P9oTX4Zh1qa+CwGsc534Sk
- JVw6XD4juT9GvY7awFVUD5wBpJW1+NpJ3qh1TOCnf0kTGjZXbjJM6aTdMSnKE4D2Y7ny
- uGVRQCb6nL340KjQu5fLwjf3pdvjenBYOMD1AK5GWGnTVjhy+wq7ba2QmfKFs1XU2S0S
- NZPTII7NGicE/dAkT+reL8EuYGU525vMBvNkB3Vfn2petSe+8YsBGeP2MBZZH9OPKiND
- qbiYItWLebiwOBYiirOwmALqT942WP9VmX5q+FKRuZJr2M4XHdM6P2Ez7WpyKbXSnCw8
- s7XQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=3toDS6zflbiY4DczInEVMl4zblVU+HqLGz3G1OH81aE=;
- b=Hg7KQRLXn7mT9y1f3IAvmDEfLlhIxPYsgJxAYYI4Rq153Nh0Q/KNnP2d51DrxFj19F
- QIjAWswLxxle72dVK8bFiUEW6wDyKV/WO4Mh5mRattK9kBgkEWStPP4sJs+b9ODGQgcS
- kaybwqKhXlb5N5e/ELGDlQPRG1PwJ7wFYcOi5avfJrbdh9mvaFNxxG5xWCNW5TGmuJ5i
- YbElsSW0rWjWfsob6H/5IA+wR0SwZ5xxD8K+eY/ozBxLqsvI7R5Fc9P+zGfOm6QUQ0Dp
- X3gF/1ZpZjmPqL1yukkm19YM0avcPH8PUFX3Xbf/pfCyv/AnlG1RwVnfQq0SYaNuINV6
- H0Pw==
-X-Gm-Message-State: APjAAAXDaC4yL5D8mei6RGU1SMLkYwYYiesRrsU8dWxhLhMwCPx5eago
- LPM6REoAOlWJpi4krRMGXN2f0O+xuAblncie1V7vWw==
-X-Google-Smtp-Source: APXvYqw43m7+ojC28mW53Ftx9dMBXRGhVo5jp7lBX3TvYCi4mSv7uuAbducyyic9gcvVzIGZrT1KUDweA+o86wE0E+8=
-X-Received: by 2002:a2e:9744:: with SMTP id f4mr2981207ljj.267.1581703238513; 
- Fri, 14 Feb 2020 10:00:38 -0800 (PST)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1j2faE-0004ea-5Q
+ for qemu-devel@nongnu.org; Fri, 14 Feb 2020 13:20:58 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1j2faC-00086c-Dw
+ for <qemu-devel@nongnu.org>; Fri, 14 Feb 2020 18:20:56 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 3808A2E80C9
+ for <qemu-devel@nongnu.org>; Fri, 14 Feb 2020 18:20:56 +0000 (UTC)
 MIME-Version: 1.0
-References: <20200205212920.467-1-robert.foley@linaro.org>
- <20200205212920.467-9-robert.foley@linaro.org>
- <87r1yxp0t6.fsf@linaro.org>
-In-Reply-To: <87r1yxp0t6.fsf@linaro.org>
-From: Robert Foley <robert.foley@linaro.org>
-Date: Fri, 14 Feb 2020 13:00:03 -0500
-Message-ID: <CAEyhzFu8GhRKWU-HAxq8wxKy9Mo-=hKRvzCtuZFBUX+352ROng@mail.gmail.com>
-Subject: Re: [PATCH v1 08/14] tests/vm: Added configuration file support
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::242
+Date: Fri, 14 Feb 2020 18:09:23 -0000
+From: Yifan <me@yifanlu.com>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+ assignee=alex.bennee@linaro.org; 
+X-Launchpad-Bug-Tags: mttcg tcg
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ajbennee yifanlu
+X-Launchpad-Bug-Reporter: Yifan (yifanlu)
+X-Launchpad-Bug-Modifier: Yifan (yifanlu)
+References: <158154486735.14935.3370403781300872079.malonedeb@soybean.canonical.com>
+Message-Id: <158170376390.15247.4694343664393297579.malone@soybean.canonical.com>
+Subject: [Bug 1863025] Re: Use-after-free after flush in TCG accelerator
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="19413b719a8df7423ab1390528edadce9e0e4aca";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 32c4e667c55e19910ae226bd0ad33cfe5ee9dd07
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -75,35 +66,142 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, Peter Puhov <peter.puhov@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
+Reply-To: Bug 1863025 <1863025@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 14 Feb 2020 at 11:54, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
-te:
-> >  from socket_thread import SocketThread
-> > +import yaml
->
-> So this throws my setup on my Gentoo SynQuacer. Is this meant to be in
-> the standard library or is this a separate dependency?
->
-This is a separate dependency.  On Ubuntu the package is python3-yaml.
-This brings up an interesting point.
-If the yaml dependency is not there, should we expect to gracefully
-handle this in the python script, and
-simply not allow yaml files?  I suppose we could error out if a yaml
-file is supplied
-and ask for the dependency to get installed.
-Or is there something we should do earlier, maybe in the configure, to
-warn or error about the missing
-dependency?
+I found it just by launching Ubuntu 19.10 live cd with QXL driver. I
+will re-test this weekend.
 
-Thanks & Regards,
--Rob
+The workaround I had is to check the number of TLB flushes and to re-try
+obtaining the TB if the number changes. There is a penalty for the case
+where TLB is flushed but should not degrade performance in most cases. I
+think obtaining the lock earlier will slow down the VM if EXCP_ATOMIC is
+used often.
 
+Of course, I am assuming TLB flush is the only way to cause this bug.
 
-> --
-> Alex Benn=C3=A9e
+diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
+index d1c2b6ea1fd..d83b578299b 100644
+--- a/accel/tcg/cpu-exec.c
++++ b/accel/tcg/cpu-exec.c
+@@ -250,8 +250,11 @@ void cpu_exec_step_atomic(CPUState *cpu)
+     uint32_t flags;
+     uint32_t cflags =3D 1;
+     uint32_t cf_mask =3D cflags & CF_HASH_MASK;
++    unsigned flush_count;
+ =
+
+     if (sigsetjmp(cpu->jmp_env, 0) =3D=3D 0) {
++retry:
++        flush_count =3D tb_flush_count();
+         tb =3D tb_lookup__cpu_state(cpu, &pc, &cs_base, &flags, cf_mask);
+         if (tb =3D=3D NULL) {
+             mmap_lock();
+@@ -260,6 +263,11 @@ void cpu_exec_step_atomic(CPUState *cpu)
+         }
+ =
+
+         start_exclusive();
++        /* do_tb_flush() might run and make tb invalid */
++        if (flush_count !=3D tb_flush_count()) {
++            end_exclusive();
++            goto retry;
++        }
+ =
+
+         /* Since we got here, we know that parallel_cpus must be true.  */
+         parallel_cpus =3D false;
+diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+index 4ed9d0abaf2..ecf7d3b53ff 100644
+--- a/accel/tcg/translate-all.c
++++ b/accel/tcg/translate-all.c
+@@ -2696,6 +2696,11 @@ void tcg_flush_softmmu_tlb(CPUState *cs)
+ #endif
+ }
+ =
+
++unsigned tb_flush_count(void)
++{
++    return atomic_read(&tb_ctx.tb_flush_count);
++}
++
+ #if defined(CONFIG_NO_RWX)
+ void tb_exec_memory_lock(void)
+ {
+diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
+index 5ccc9485812..1bc61fa6d76 100644
+--- a/include/exec/exec-all.h
++++ b/include/exec/exec-all.h
+@@ -584,6 +584,7 @@ void tlb_set_dirty(CPUState *cpu, target_ulong vaddr);
+ void tb_flush_jmp_cache(CPUState *cpu, target_ulong addr);
+ =
+
+ /* translate-all.c */
++unsigned tb_flush_count(void);
+ #if defined(CONFIG_NO_RWX)
+ void tb_exec_memory_lock(void);
+ bool tb_is_exec(const TranslationBlock *tb);
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1863025
+
+Title:
+  Use-after-free after flush in TCG accelerator
+
+Status in QEMU:
+  Confirmed
+
+Bug description:
+  I believe I found a UAF in TCG that can lead to a guest VM escape. The
+  security list informed me "This can not be treated as a security
+  issue." and to post it here. I am looking at the 4.2.0 source code.
+  The issue requires a race and I will try to describe it in terms of
+  three concurrent threads.
+
+  Thread A:
+
+  A1. qemu_tcg_cpu_thread_fn runs work loop
+  A2. qemu_wait_io_event =3D> qemu_wait_io_event_common =3D> process_queued=
+_cpu_work
+  A3. start_exclusive critical section entered
+  A4. do_tb_flush is called, TB memory freed/re-allocated
+  A5. end_exclusive exits critical section
+
+  Thread B:
+
+  B1. qemu_tcg_cpu_thread_fn runs work loop
+  B2. tcg_cpu_exec =3D> cpu_exec =3D> tb_find =3D> tb_gen_code
+  B3. tcg_tb_alloc obtains a new TB
+
+  Thread C:
+
+  C1. qemu_tcg_cpu_thread_fn runs work loop
+  C2. cpu_exec_step_atomic executes
+  C3. TB obtained with tb_lookup__cpu_state or tb_gen_code
+  C4. start_exclusive critical section entered
+  C5. cpu_tb_exec executes the TB code
+  C6. end_exclusive exits critical section
+
+  Consider the following sequence of events:
+  =C2=A0=C2=A0B2 =3D> B3 =3D> C3 (same TB as B2) =3D> A3 =3D> A4 (TB freed)=
+ =3D> A5 =3D> B2 =3D>
+  =C2=A0=C2=A0B3 (re-allocates TB from B2) =3D> C4 =3D> C5 (freed/reused TB=
+ now executing) =3D> C6
+
+  In short, because thread C uses the TB in the critical section, there
+  is no guarantee that the pointer has not been "freed" (rather the
+  memory is marked as re-usable) and therefore a use-after-free occurs.
+
+  Since the TCG generated code can be in the same memory as the TB data
+  structure, it is possible for an attacker to overwrite the UAF pointer
+  with code generated from TCG. This can overwrite key pointer values
+  and could lead to code execution on the host outside of the TCG
+  sandbox.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1863025/+subscriptions
 
