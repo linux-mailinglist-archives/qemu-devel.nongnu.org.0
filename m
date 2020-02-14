@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEEA215F719
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Feb 2020 20:49:23 +0100 (CET)
-Received: from localhost ([::1]:44878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1224E15F71D
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Feb 2020 20:50:45 +0100 (CET)
+Received: from localhost ([::1]:44916 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j2gxm-00051D-TZ
-	for lists+qemu-devel@lfdr.de; Fri, 14 Feb 2020 14:49:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49080)
+	id 1j2gz6-0007aV-5O
+	for lists+qemu-devel@lfdr.de; Fri, 14 Feb 2020 14:50:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49104)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1j2gvK-00032M-9j
- for qemu-devel@nongnu.org; Fri, 14 Feb 2020 14:46:51 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1j2gvL-00034S-Gn
+ for qemu-devel@nongnu.org; Fri, 14 Feb 2020 14:46:52 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1j2gvJ-0003ao-Cz
- for qemu-devel@nongnu.org; Fri, 14 Feb 2020 14:46:50 -0500
-Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:36544)
+ (envelope-from <richard.henderson@linaro.org>) id 1j2gvK-0003eC-Ir
+ for qemu-devel@nongnu.org; Fri, 14 Feb 2020 14:46:51 -0500
+Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:40086)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1j2gvJ-0003Z3-88
- for qemu-devel@nongnu.org; Fri, 14 Feb 2020 14:46:49 -0500
-Received: by mail-pg1-x544.google.com with SMTP id d9so5463593pgu.3
- for <qemu-devel@nongnu.org>; Fri, 14 Feb 2020 11:46:49 -0800 (PST)
+ id 1j2gvK-0003c0-Dg
+ for qemu-devel@nongnu.org; Fri, 14 Feb 2020 14:46:50 -0500
+Received: by mail-pg1-x542.google.com with SMTP id z7so5450564pgk.7
+ for <qemu-devel@nongnu.org>; Fri, 14 Feb 2020 11:46:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=yTA4qfOsQYBcYoiqQ1YZpvzyazgjvt/ZI8cUNM+8GpQ=;
- b=SBsr7nSM2LLr4N2M5dlysnfC3xvq1pOz79clPN2umUyjEMNXBO2ufDQY6Yx7lhZoBs
- ZWN1wV7M+A6WWanRrWCkLctVs9MSPE5B75K5370jV5DTzTlHA9GvT7GzLwgg4nI3b4ze
- njnd9IIIJIUgBmSfxGexSbW8myH/YkLTvruzAUcIlnAyPKF+PXildLle84oaDbBZInTX
- MIBN637q9AXpCwQEun6o5rStncWVxlOPfagAhDhaKC6C1+r1Fdd38zFEJ/JrKAcWb2z5
- 4j3r60vZgj4KEq8SWHRZCtg1c0e6cZp8C5GICuIq81TKoy5hv4M7X23BBzQgiPo0xKPe
- Fw1w==
+ bh=HlkIYk7mnAAf7AbZuXJxcfBvUpBjMWEzz4Glx4QDkeU=;
+ b=ZJpr2yNc4bFP0OQSn9wxp9sciMybWSOPY3ZBxGD/wZw9U32RjStcE0eH70GeKj/CQD
+ 15gorhT6j8dFvMw12/T/LDxNV7BNbrX01ZbFo6xulNyW6iWvP6QHA6arflTMpR3Cwzpc
+ M5CED+VyzP4Yg7ubx+0QOg6skJqFSIOF1QmCzvvHx6rizFma9a1LXjF26dNEcPnIh8he
+ KfsOh4lgNrWXE/1vQkwaY9Pys1atlmwxZNPIqr37pZmGZP3y1UaDudf9YMP5ELPYYUvm
+ eacJT8axDZAzba6m+V/WStVmtiNGs+/+mghDQXefLaLweK0Ck7mDXACxMXSanfCVhgRO
+ Qazg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=yTA4qfOsQYBcYoiqQ1YZpvzyazgjvt/ZI8cUNM+8GpQ=;
- b=UDQJlf8NfeWsQs6h8YxQ1dwpbVo6EzTEN3ah6AeHtRYxx07LqzxgIHIHNkaxfgwohQ
- fcIfSDZAQgX9cFlLvrXKWlZIq/vH/8HNrkTv3RBzihGoixxzNK4LIVL9Tri3899S0z8j
- UXEo7sTJW8POZF2g9vXxE3Uxw23E2ZFmclMQRcpYH7M2Bcn387Pkx+hrSm9OlhAEekoh
- a7XN7xuqAtHpyz3yg9tS9+69s4Wyr7uERNWmf8MlK14Bdqk+RSxquqm3Lc7tTl+Lb3sZ
- ejpfhI8Vcdwr0alyvEsCuWZnoBpCm1yKKf7nKNOJ+tEjftUEuqeQnUy+Bd4PnJN1CfXE
- FhvQ==
-X-Gm-Message-State: APjAAAVycBlKCugU1rPqhNyJqqulnF+K91gjTrgZklv3uww1IWjV96QO
- 8L2Lcu6dwMUwx6hYUx6X9Y5Ix0timT0=
-X-Google-Smtp-Source: APXvYqycJZTYbJDDcpFsyE7CQWXXlKgn7ZWWUkiXIrqmQ/LVL2VrRKcbTqd25QHYYx93HIMawoIktg==
-X-Received: by 2002:a63:2842:: with SMTP id o63mr5291335pgo.317.1581709607947; 
- Fri, 14 Feb 2020 11:46:47 -0800 (PST)
+ bh=HlkIYk7mnAAf7AbZuXJxcfBvUpBjMWEzz4Glx4QDkeU=;
+ b=pqx5GgaaEPG/Qrc9tk+WsTyPawMnRiXPYbPTqkHQ0ThBAP58jR7MwX5eyHqt3gkGme
+ JfMF3A+ZOLP7D60vbC22IpiJJC3Y+65s9Jti47vrzTD/AFA0NsabsFUPyEIrTeKFGNz+
+ efXFv6MS7v0kruyd8CoIZEOi/DiLOckYUIFruf0J+6Cs0WpBNX2MGtV4JcYSH4neySsO
+ 0jau9X7enng9CSFSefivNi2UVedLRObhw6aTksRe1uB2mhS7Lx3S/UkELbmUrMGfQI3R
+ HN+/T099xAWjU7pQlDS8+kER5lje0mwtUXFUXoe/b2le/4Z010+2IJoqT0ix4wM5M/6m
+ xDDA==
+X-Gm-Message-State: APjAAAVEseAqyUJl3m7Ze4vhknyDx4nUtjr2KCPEhY9GlYTttTcfLY3L
+ tg4OTnaKiF0DVFnTRqMW9JFpy2QecEM=
+X-Google-Smtp-Source: APXvYqx51fEyzMIeFlHSW3wszAvuE/evubtnMJqdpkcnlDApcjTKGKOPjcHgj5e2be6cKY2Cl50wmw==
+X-Received: by 2002:a63:d18:: with SMTP id c24mr5238576pgl.218.1581709609094; 
+ Fri, 14 Feb 2020 11:46:49 -0800 (PST)
 Received: from localhost.localdomain (97-126-123-70.tukw.qwest.net.
  [97.126.123.70])
- by smtp.gmail.com with ESMTPSA id g13sm7558851pfo.169.2020.02.14.11.46.47
+ by smtp.gmail.com with ESMTPSA id g13sm7558851pfo.169.2020.02.14.11.46.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 Feb 2020 11:46:47 -0800 (PST)
+ Fri, 14 Feb 2020 11:46:48 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/4] target/arm: Flush high bits of sve register after AdvSIMD
- TBL/TBX
-Date: Fri, 14 Feb 2020 11:46:41 -0800
-Message-Id: <20200214194643.23317-3-richard.henderson@linaro.org>
+Subject: [PATCH 3/4] target/arm: Flush high bits of sve register after AdvSIMD
+ ZIP/UZP/TRN
+Date: Fri, 14 Feb 2020 11:46:42 -0800
+Message-Id: <20200214194643.23317-4-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200214194643.23317-1-richard.henderson@linaro.org>
 References: <20200214194643.23317-1-richard.henderson@linaro.org>
@@ -67,7 +67,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::544
+X-Received-From: 2607:f8b0:4864:20::542
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,17 +91,17 @@ Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
  1 file changed, 1 insertion(+)
 
 diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-index 620a429067..096a854aed 100644
+index 096a854aed..b83d09dbcd 100644
 --- a/target/arm/translate-a64.c
 +++ b/target/arm/translate-a64.c
-@@ -6964,6 +6964,7 @@ static void disas_simd_tb(DisasContext *s, uint32_t insn)
+@@ -7054,6 +7054,7 @@ static void disas_simd_zip_trn(DisasContext *s, uint32_t insn)
      tcg_temp_free_i64(tcg_resl);
      write_vec_element(s, tcg_resh, rd, 1, MO_64);
      tcg_temp_free_i64(tcg_resh);
 +    clear_vec_high(s, true, rd);
  }
  
- /* ZIP/UZP/TRN
+ /*
 -- 
 2.20.1
 
