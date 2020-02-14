@@ -2,72 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6FDA15CFED
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Feb 2020 03:26:26 +0100 (CET)
-Received: from localhost ([::1]:33876 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B0A515CFF7
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Feb 2020 03:31:23 +0100 (CET)
+Received: from localhost ([::1]:33918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j2QgT-0005E1-GD
-	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 21:26:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56780)
+	id 1j2QlG-0007Mm-IJ
+	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 21:31:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59666)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gshan@redhat.com>) id 1j2Qfc-0004gk-FQ
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 21:25:33 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1j2Qjb-0006Qv-RX
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 21:29:41 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <gshan@redhat.com>) id 1j2Qfa-0000qW-Og
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 21:25:31 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:21810
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <dgibson@ozlabs.org>) id 1j2Qja-0002Qp-Dx
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 21:29:39 -0500
+Received: from ozlabs.org ([203.11.71.1]:60515)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <gshan@redhat.com>) id 1j2Qfa-0000oC-Fr
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 21:25:30 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581647129;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=7lrAOZ9XjD+N2YIRPqwm0lN9LlzDnvRAI1rMkp2cWqc=;
- b=Ws8B7oOeF2HSUzSoIw5CW3lZcz3Ge+sbBZccwPQbJYGONKKItMSJjoCGzp0Y7BA1wBrxx7
- QFNn6P56NOVfWvZTYwn+QjgEyK3PwCR2y0tjxqFmZZPA1py6iB2SXXXQs+2bgYoHLsSuJ9
- bMig0nj+GiC7nM6tVrxb6pOr02Agd4c=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-162-guSVQx0fN4SJRXBvGUTGJw-1; Thu, 13 Feb 2020 21:25:24 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F3726800D41;
- Fri, 14 Feb 2020 02:25:22 +0000 (UTC)
-Received: from localhost.localdomain (vpn2-54-88.bne.redhat.com [10.64.54.88])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7D98719C70;
- Fri, 14 Feb 2020 02:25:16 +0000 (UTC)
-Subject: Re: [RESEND RFC PATCH v2 1/2] target/arm: Allow to inject SError
- interrupt
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20200205110541.37811-2-gshan@redhat.com>
- <8dce7dbe-c6c1-122a-f960-0fc29257dd1c@redhat.com>
- <CAFEAcA-RiVfrFFkxppB=z8x76rjorF-5onyGwVAdsHY7W1U88g@mail.gmail.com>
- <21e4051a-4d06-03cb-6d8e-5331b5b570c4@redhat.com>
- <CAFEAcA_zyMgG5SQpVCwUTx3CyU=S=enSZCLCU=2NurukHNM=AA@mail.gmail.com>
-From: Gavin Shan <gshan@redhat.com>
-Message-ID: <6d4934de-4aa6-24b4-6768-2439336a51af@redhat.com>
-Date: Fri, 14 Feb 2020 13:25:13 +1100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.0
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1j2QjZ-0002GP-Fk; Thu, 13 Feb 2020 21:29:38 -0500
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 48Jclf0rg0z9sRl; Fri, 14 Feb 2020 13:29:34 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1581647374;
+ bh=gD9io34RoQhh+1Ad1HH5FMiu6QsG3KLr1tYI7B06P8g=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Wi98cYTsEr8V+inbxCs5S3AggNNNtAfqnkSt/DnwKm/KRcEHKLdgpiulb9SWt5sJN
+ 5KvhWRJzrIlmvoWSugEUVkIMQSVcGtNf/Rs0lLGyBmm7uz4kW6ti+1H1iL/nA75zwc
+ 7wmboHSdH7K8PBCDfMvKPFWY+wFOdwsmmLtMChdU=
+Date: Fri, 14 Feb 2020 13:29:00 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH 3/3] spapr: Migrate SpaprDrc::unplug_requested
+Message-ID: <20200214022900.GK124369@umbus.fritz.box>
+References: <158076936422.2118610.5626450767672103134.stgit@bahia.lan>
+ <158076938222.2118610.14456984179352959929.stgit@bahia.lan>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA_zyMgG5SQpVCwUTx3CyU=S=enSZCLCU=2NurukHNM=AA@mail.gmail.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: guSVQx0fN4SJRXBvGUTGJw-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="5dNcufZ4prhark0F"
+Content-Disposition: inline
+In-Reply-To: <158076938222.2118610.14456984179352959929.stgit@bahia.lan>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+ [fuzzy]
+X-Received-From: 203.11.71.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,48 +55,131 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Gavin Shan <gshan@redhat.com>
-Cc: Andrew Jones <drjones@redhat.com>, jthierry@redhat.com,
- Alexey Kardashevskiy <aik@ozlabs.ru>, Marc Zyngier <maz@kernel.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Eric Auger <eric.auger@redhat.com>,
- qemu-arm <qemu-arm@nongnu.org>, Shan Gavin <shan.gavin@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Alexey Kardashevskiy <aik@ozlabs.ru>,
+ qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/13/20 9:31 PM, Peter Maydell wrote:
-> On Thu, 13 Feb 2020 at 03:49, Gavin Shan <gshan@redhat.com> wrote:
->> On 2/12/20 10:34 PM, Peter Maydell wrote:
->>> Yeah, this is on my list to look at; Richard Henderson also could
->>> have a look at it. From a quick scan I suspect you may be missing
->>> handling for AArch32.
-> 
->> Yes, the functionality is only supported on aarch64 currently by intention
->> because the next patch enables it on "max" and "host" CPU models and both
->> of them are running in aarch64 mode.
->>
->> https://patchwork.kernel.org/patch/11366119/
->>
->> If you really want to get this supported for aarch32 either, I can do
->> it. However, it seems there is a long list of aarch32 CPU models, defined
->> in target/arm/cpu.c::arm_cpus. so which CPU models you prefer to see with
->> this supported? I think we might choose one or two popular CPU models if
->> you agree.
-> 
-> I don't think you should need to care about the CPU models.
-> We should implement SError (aka "asynchronous external
-> abort" in ARMv7 and earlier) generically for all CPUs. The
-> SError/async abort should be triggered by a qemu_irq line
-> inbound to the CPU (similar to FIQ and IRQ); the board can
-> choose to wire that up to something, or not, as it likes.
-> 
 
-Yes, what I need to care about is board with this. It means
-I will get this supported on "virt" only. Thanks for the comments
-and the changes will be included in v3.
+--5dNcufZ4prhark0F
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks,
-Gavin
+On Mon, Feb 03, 2020 at 11:36:22PM +0100, Greg Kurz wrote:
+> Hot unplugging a device is an asynchronous operation. If the guest is
+> migrated after the event was sent but before it could release the
+> device with RTAS, the destination QEMU doesn't know about the pending
+> unplug operation and doesn't actually remove the device when the guest
+> finally releases it. The device
+>=20
+> Migrate SpaprDrc::unplug_requested to fix the inconsistency. This is
+> done with a subsection that is only sent if an unplug request is
+> pending. This allows to preserve migration with older guests in the
+> case of a pending hotplug request. This will cause migration to fail
+> if the destination can't handle the subsection, but this is better
+> than ending with an inconsistency.
+>=20
+> Signed-off-by: Greg Kurz <groug@kaod.org>
+> ---
+>  hw/ppc/spapr_drc.c |   27 +++++++++++++++++++++++++--
+>  1 file changed, 25 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/hw/ppc/spapr_drc.c b/hw/ppc/spapr_drc.c
+> index d512ac6e1e7f..6f5cab70fc6b 100644
+> --- a/hw/ppc/spapr_drc.c
+> +++ b/hw/ppc/spapr_drc.c
+> @@ -455,6 +455,22 @@ void spapr_drc_reset(SpaprDrc *drc)
+>      }
+>  }
+> =20
+> +static bool spapr_drc_unplug_requested_needed(void *opaque)
+> +{
+> +    return spapr_drc_unplug_requested(opaque);
+> +}
+> +
+> +static const VMStateDescription vmstate_spapr_drc_unplug_requested =3D {
+> +    .name =3D "spapr_drc/unplug_requested",
+> +    .version_id =3D 1,
+> +    .minimum_version_id =3D 1,
+> +    .needed =3D spapr_drc_unplug_requested_needed,
+> +    .fields  =3D (VMStateField []) {
+> +        VMSTATE_BOOL(unplug_requested, SpaprDrc),
+> +        VMSTATE_END_OF_LIST()
+> +    }
+> +};
+> +
+>  static bool spapr_drc_needed(void *opaque)
+>  {
+>      SpaprDrc *drc =3D (SpaprDrc *)opaque;
+> @@ -467,8 +483,11 @@ static bool spapr_drc_needed(void *opaque)
+>      /*
+>       * We need to migrate the state if it's not equal to the expected
+>       * long-term state, which is the same as the coldplugged initial
+> -     * state */
+> -    return !spapr_drc_device_ready(drc);
+> +     * state, or if an unplug request is pending.
+> +     */
+> +    return
+> +        spapr_drc_unplug_requested_needed(drc) ||
+> +        !spapr_drc_device_ready(drc);
 
+Hrm.  You start the series by splitting spapr_drc_device_ready() from
+spapr_drc_needed().  But at this point, I'm pretty sure you've now got
+all the callers of spapr_drc_device_ready() doing equivalent logic
+about them, so they might as well be one function again.  That seems
+pretty roundabout.
+
+I don't think the rationale for not using the drc_ready function from
+the CAS path really makes sense.  It's not just an accident that those
+use the same logic - in both cases what we're testing is "Is the DRC
+in a state other than that of a default cold-plugged device?".
+
+Changing the name might be sensible, but I still think we want a
+common function for the two cases.
+
+>  }
+> =20
+>  static const VMStateDescription vmstate_spapr_drc =3D {
+> @@ -479,6 +498,10 @@ static const VMStateDescription vmstate_spapr_drc =
+=3D {
+>      .fields  =3D (VMStateField []) {
+>          VMSTATE_UINT32(state, SpaprDrc),
+>          VMSTATE_END_OF_LIST()
+> +    },
+> +    .subsections =3D (const VMStateDescription * []) {
+> +        &vmstate_spapr_drc_unplug_requested,
+> +        NULL
+>      }
+>  };
+> =20
+>=20
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--5dNcufZ4prhark0F
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl5GBekACgkQbDjKyiDZ
+s5KvbxAAyxmpMOhRypSh4tt3BJnCN/uVdRUjJrzEcnb41mG4u1x0PVoOFtNrNijR
+Z3OFjSOnO0lUOM48FrQjXnvkGHYtWWb974PGMYbnO7jrcMkvnoaWn4wj/2wtOKCj
+sMwrXzArxL3oUB4CZ2cuqrsRhOJXCTG/D2h1G0O7hUUTSXwUZ3mpawjo2GbsqvEF
+hND2MBo7mVEIml3RvAM5ftRjCyfLXjnYY1K/fxm067w6yRiHhke/f821EvVmkFoG
+aoLKeeGlsfpMHzCE4vss8akN8e7ajfj1oCfVOPJWTcxduI48XG54COF9pdojiFC3
+ZqFGGn6srbBgaVMraPdvJUIv7VWN8gLum9hQcbFZ2usYfhDkQTzxPy8HevQt5W5R
+YR72lErK9jDIIF75O6YVLG7BN9ukSlFe1WpGTohR90wFcV9UOSfE7/40yRfmP4nc
+pA8A6ktyU30Tlvwfxwo2XTzaMMFNPrYBkJzPtOqPEy8DS1EFtD+zKwxJGjeRSyMy
+j4phM1yDCDY+u5pU/Y81JeHBlJGD7nNP9xjkLjL6v6FP/k8ZLyDIrI8yHnGLiIDZ
+XNdSCMjA/cvpICqbk2tHyRyFrjr/Uwk+A3UJ8QnoEq2ZSP/RT6kVcXWUiHs5rE8Z
+VcfKEwnh3xT7aQJZz64s34UjVX7+TMC1OSQVq7QYC0EI5jOCQVw=
+=Tj9N
+-----END PGP SIGNATURE-----
+
+--5dNcufZ4prhark0F--
 
