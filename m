@@ -2,57 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D89B115F787
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Feb 2020 21:13:37 +0100 (CET)
-Received: from localhost ([::1]:45196 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B41015F790
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Feb 2020 21:16:47 +0100 (CET)
+Received: from localhost ([::1]:45258 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j2hLE-00087j-Vs
-	for lists+qemu-devel@lfdr.de; Fri, 14 Feb 2020 15:13:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52645)
+	id 1j2hOI-0003Ip-2H
+	for lists+qemu-devel@lfdr.de; Fri, 14 Feb 2020 15:16:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53113)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1j2hJS-0005i5-LZ
- for qemu-devel@nongnu.org; Fri, 14 Feb 2020 15:11:48 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1j2hN1-0002XM-Rg
+ for qemu-devel@nongnu.org; Fri, 14 Feb 2020 15:15:28 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1j2hJQ-000285-Pc
- for qemu-devel@nongnu.org; Fri, 14 Feb 2020 15:11:46 -0500
-Resent-Date: Fri, 14 Feb 2020 15:11:46 -0500
-Resent-Message-Id: <E1j2hJQ-000285-Pc@eggs.gnu.org>
-Received: from sender4-of-o51.zoho.com ([136.143.188.51]:21183)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1j2hJQ-00025e-JA
- for qemu-devel@nongnu.org; Fri, 14 Feb 2020 15:11:44 -0500
-ARC-Seal: i=1; a=rsa-sha256; t=1581711100; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=iH5bHLIWOSHPYojQP3gXOFPWyoqAKnDzD1Pgfj00M0CYycGuH5CdjQZNmcM/MztSka5z97U7+/7sJIC+4SkTXWXi44vNfxMDHMJ7D+bkgdQt3qV0zT0pp2CE4U+/U/4oWd44vJ+uWR8SR8a4M2JJkFM6K+w0OweZAMQ98qT36e0=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1581711100;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=0ssgUEWH+KJ7j2FqqYk/92KicNVsRn6CoA91KG7eXEA=; 
- b=fz/+T1FqHpls/ZcZycYlrd1wI3mHGLgCY7nYGdU8UwFLHRXM1oKFY2YqV2o8RIkmNyqbkOxbMrwqzPXQO3uNj2smB8IJpQzFVU9r4eyDiIH/0Mx3Mz2QDCIxBj5gQEeW/wx4CiFU9ibbspxEgK0SKiOkVy7MPAnMeCfnNtEtjDQ=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1581711097193274.1693096627207;
- Fri, 14 Feb 2020 12:11:37 -0800 (PST)
-In-Reply-To: <20200214181547.21408-1-richard.henderson@linaro.org>
-Subject: Re: [PATCH 00/19] target/arm: vfp feature and decodetree cleanup
-Message-ID: <158171109601.6932.15086229183785710630@a1bbccc8075a>
+ (envelope-from <richard.henderson@linaro.org>) id 1j2hN0-0006zq-KL
+ for qemu-devel@nongnu.org; Fri, 14 Feb 2020 15:15:27 -0500
+Received: from mail-pj1-x1044.google.com ([2607:f8b0:4864:20::1044]:38478)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1j2hN0-0006yR-CS
+ for qemu-devel@nongnu.org; Fri, 14 Feb 2020 15:15:26 -0500
+Received: by mail-pj1-x1044.google.com with SMTP id j17so4369896pjz.3
+ for <qemu-devel@nongnu.org>; Fri, 14 Feb 2020 12:15:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=v5A8/WwtRpqCRFFnJaduKvXrVT6yYRPQfe/LQc8wy8k=;
+ b=XVd3ipzZVb29X4+EP0HhGGSn8Wjq2wxzDFZQFULgJL7GQR8COs4rCe5bzP08wtc+Fx
+ L7lcpy3PdZRRcu8M+sdd6retlginuFSbq+8xaAaQXsUHM7/F6Qm5NK4Usr7PKynKwV2H
+ qo8Mg77awLuveVMfpoLb0TYem38dpMiaB9Cx/xC4i6F9MiGfrQR98z4psYRXkXfiaMWj
+ AhcipoJsECSSjk1BUiXxOJiLxtsL7yMppTaSymlvLtdJtmXk5bs2LJVYcJe2Od7AY9L1
+ eyqnev+b0WHYNWExw8DwLvxE2RTS2kVtgNImut4qaf20NrW8KjAbNWubxfXytJpA2ReK
+ Zitw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=v5A8/WwtRpqCRFFnJaduKvXrVT6yYRPQfe/LQc8wy8k=;
+ b=XQrKphcHfdSbCXMKvxG/IX/cssycL8fjDo7AOzqzSYj8z7q6iLwQeuckwIfIdYa3pe
+ 2FjpJ6jx3fqwamq4WQXhJ/c4B+q5OUZl/oIyPSwGCkv5V1iH6xz7ZJ77O2Ur4ZXlUxd1
+ lODOpJgqBG+FIs78UtHg0Ni+FY/nE+T6jRKAMl/jJV5utkS6ulAvZjRzBx9Lz+vCqcUG
+ 7EanHnNCYPZSBaUjXrwsCVbOYmm7eGbJ2V9fnpvnFZxsKX06y/rSWvRJN2HmyPYldZ+s
+ /oqKH2MwnkIuQo95DfHi0KnoqYej8nTYMtgDaS+37FebbXdijowu5tmD+rpWMfAxWPwE
+ OuwA==
+X-Gm-Message-State: APjAAAUxo7KZEzUwLDSbIDB5k663bRbqTCT19DMsWlNMeI4GTPBwZ9mS
+ cR8fegnTJbVXF+tUj3xlwjf/Fw==
+X-Google-Smtp-Source: APXvYqyUv8mPJj7I+qy6W89xBP5RJiue2/uoX3bI7ST9GJeOp/cvoOgmbQhLQYVmK9vSTIdW21n2Qg==
+X-Received: by 2002:a17:902:8a83:: with SMTP id
+ p3mr5210422plo.56.1581711325136; 
+ Fri, 14 Feb 2020 12:15:25 -0800 (PST)
+Received: from [192.168.1.11] (97-126-123-70.tukw.qwest.net. [97.126.123.70])
+ by smtp.gmail.com with ESMTPSA id
+ p3sm8110059pfg.184.2020.02.14.12.15.22
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 14 Feb 2020 12:15:23 -0800 (PST)
+Subject: Re: [PATCH v2 10/21] target/arm: Stop assuming DBGDIDR always exists
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20200214175116.9164-1-peter.maydell@linaro.org>
+ <20200214175116.9164-11-peter.maydell@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <4d592ed0-10c3-683b-84d8-cf17a2d491dc@linaro.org>
+Date: Fri, 14 Feb 2020 12:15:21 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: richard.henderson@linaro.org
-Date: Fri, 14 Feb 2020 12:11:37 -0800 (PST)
-X-ZohoMailClient: External
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 136.143.188.51
+In-Reply-To: <20200214175116.9164-11-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::1044
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,90 +85,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org
+Cc: Eric Auger <eric.auger@redhat.com>,
+ Aaron Lindsay <aaron@os.amperecomputing.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDIxNDE4MTU0Ny4yMTQw
-OC0xLXJpY2hhcmQuaGVuZGVyc29uQGxpbmFyby5vcmcvCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2Vl
-bXMgdG8gaGF2ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBm
-b3IKbW9yZSBpbmZvcm1hdGlvbjoKClN1YmplY3Q6IFtQQVRDSCAwMC8xOV0gdGFyZ2V0L2FybTog
-dmZwIGZlYXR1cmUgYW5kIGRlY29kZXRyZWUgY2xlYW51cApNZXNzYWdlLWlkOiAyMDIwMDIxNDE4
-MTU0Ny4yMTQwOC0xLXJpY2hhcmQuaGVuZGVyc29uQGxpbmFyby5vcmcKVHlwZTogc2VyaWVzCgo9
-PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCmdpdCByZXYtcGFyc2UgYmFzZSA+
-IC9kZXYvbnVsbCB8fCBleGl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lbGltaXQg
-MApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVzIFRydWUKZ2l0IGNvbmZpZyAtLWxvY2Fs
-IGRpZmYuYWxnb3JpdGhtIGhpc3RvZ3JhbQouL3NjcmlwdHMvY2hlY2twYXRjaC5wbCAtLW1haWxi
-YWNrIGJhc2UuLgo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoKRnJvbSBodHRwczovL2dpdGh1Yi5j
-b20vcGF0Y2hldy1wcm9qZWN0L3FlbXUKICogW25ldyB0YWddICAgICAgICAgcGF0Y2hldy8yMDIw
-MDIxNDE4MTU0Ny4yMTQwOC0xLXJpY2hhcmQuaGVuZGVyc29uQGxpbmFyby5vcmcgLT4gcGF0Y2hl
-dy8yMDIwMDIxNDE4MTU0Ny4yMTQwOC0xLXJpY2hhcmQuaGVuZGVyc29uQGxpbmFyby5vcmcKU3dp
-dGNoZWQgdG8gYSBuZXcgYnJhbmNoICd0ZXN0Jwo5NTc4M2IwIHRhcmdldC9hcm06IFNwbGl0IFZN
-SU5NQVhOTSBkZWNvZGUKNzY3NTM4YiB0YXJnZXQvYXJtOiBTcGxpdCBWRk0gZGVjb2RlCmY0MmRm
-NGQgdGFyZ2V0L2FybTogQWRkIGZvcm1hdHMgZm9yIHNvbWUgdmZwIDIgYW5kIDMtcmVnaXN0ZXIg
-aW5zbnMKN2FiNjdiYiB0YXJnZXQvYXJtOiBSZW1vdmUgQVJNX0ZFQVRVUkVfVkZQKgoxNjY2YWQ5
-IGxpbnV4LXVzZXIvYXJtOiBSZXBsYWNlIEFSTV9GRUFUVVJFX1ZGUCogdGVzdHMgZm9yIEhXQ0FQ
-CjY1ZmY4MDkgdGFyZ2V0L2FybTogTW92ZSB0aGUgdmZwIGRlY29kZXRyZWUgY2FsbHMgbmV4dCB0
-byB0aGUgYmFzZSBpc2EKODY5YTBjNiB0YXJnZXQvYXJtOiBNb3ZlIFZMTERNIGFuZCBWTFNUTSB0
-byB2ZnAuZGVjb2RlCjVmNDQ5M2UgdGFyZ2V0L2FybTogUmVtb3ZlIEFSTV9GRUFUVVJFX1ZGUCBj
-aGVjayBmcm9tIGRpc2FzX3ZmcF9pbnNuCjRkZTk2NzggdGFyZ2V0L2FybTogUmVwbGFjZSBBUk1f
-RkVBVFVSRV9WRlA0IHdpdGggaXNhcl9mZWF0dXJlX2FhMzJfc2ltZGZtYWMKMThlM2E0NSB0YXJn
-ZXQvYXJtOiBBZGQgbWlzc2luZyBjaGVja3MgZm9yIGZwc3BfdjIKNzMwODAwOSB0YXJnZXQvYXJt
-OiBSZXBsYWNlIEFSTV9GRUFUVVJFX1ZGUDMgY2hlY2tzIHdpdGggZnB7c3AsIGRwfV92Mwo5YTE0
-ODk4IHRhcmdldC9hcm06IFBlcmZvcm0gZnBkcF92MiBjaGVjayBmaXJzdApjZjBkNGRkIHRhcmdl
-dC9hcm06IEFkZCBpc2FyX2ZlYXR1cmVfYWEzMl97ZnBzcF92MiwgZnBzcF92MywgZnBkcF92M30K
-ZWUzNzgxZCB0YXJnZXQvYXJtOiBSZW5hbWUgaXNhcl9mZWF0dXJlX2FhMzJfZnBkcF92MgowNjIw
-ZmYxIHRhcmdldC9hcm06IEFkZCBpc2FyX2ZlYXR1cmVfYWEzMl9zaW1kX3IxNgpjNGE0NjE1IHRh
-cmdldC9hcm06IFNldCBNVkZSMC5GUFNQIGZvciBBUk12NSBjcHVzCjBhZDZkYTAgdGFyZ2V0L2Fy
-bTogVXNlIGlzYXJfZmVhdHVyZV9hYTMyX3NpbWRfcjMyIG1vcmUgcGxhY2VzCmVhNTgwOTEgdGFy
-Z2V0L2FybTogUmVuYW1lIGlzYXJfZmVhdHVyZV9hYTMyX3NpbWRfcjMyCmZkYWJmODkgdGFyZ2V0
-L2FybTogRml4IGZpZWxkIGV4dHJhY3QgZnJvbSBNVkZSWzAtMl0KCj09PSBPVVRQVVQgQkVHSU4g
-PT09CjEvMTkgQ2hlY2tpbmcgY29tbWl0IGZkYWJmODk2ZWRiOSAodGFyZ2V0L2FybTogRml4IGZp
-ZWxkIGV4dHJhY3QgZnJvbSBNVkZSWzAtMl0pCjIvMTkgQ2hlY2tpbmcgY29tbWl0IGVhNTgwOTE3
-M2ZkNyAodGFyZ2V0L2FybTogUmVuYW1lIGlzYXJfZmVhdHVyZV9hYTMyX3NpbWRfcjMyKQpXQVJO
-SU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwojMTQzOiBGSUxFOiB0YXJnZXQvYXJtL3RyYW5z
-bGF0ZS12ZnAuaW5jLmM6MTgyNToKKyAgICBpZiAoIWRjX2lzYXJfZmVhdHVyZShhYTMyX3NpbWRf
-cjMyLCBzKSAmJiAoKGEtPnZkIHwgYS0+dm4gfCBhLT52bSkgJiAweDEwKSkgewoKdG90YWw6IDAg
-ZXJyb3JzLCAxIHdhcm5pbmdzLCAyMTYgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMi8xOSBoYXMgc3R5
-bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBm
-YWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BB
-VENIIGluIE1BSU5UQUlORVJTLgozLzE5IENoZWNraW5nIGNvbW1pdCAwYWQ2ZGEwMWJiMTcgKHRh
-cmdldC9hcm06IFVzZSBpc2FyX2ZlYXR1cmVfYWEzMl9zaW1kX3IzMiBtb3JlIHBsYWNlcykKNC8x
-OSBDaGVja2luZyBjb21taXQgYzRhNDYxNTYzMWQwICh0YXJnZXQvYXJtOiBTZXQgTVZGUjAuRlBT
-UCBmb3IgQVJNdjUgY3B1cykKNS8xOSBDaGVja2luZyBjb21taXQgMDYyMGZmMWVlYWRmICh0YXJn
-ZXQvYXJtOiBBZGQgaXNhcl9mZWF0dXJlX2FhMzJfc2ltZF9yMTYpCjYvMTkgQ2hlY2tpbmcgY29t
-bWl0IGVlMzc4MWQ4N2QzNyAodGFyZ2V0L2FybTogUmVuYW1lIGlzYXJfZmVhdHVyZV9hYTMyX2Zw
-ZHBfdjIpCjcvMTkgQ2hlY2tpbmcgY29tbWl0IGNmMGQ0ZGQ3MmJjMSAodGFyZ2V0L2FybTogQWRk
-IGlzYXJfZmVhdHVyZV9hYTMyX3tmcHNwX3YyLCBmcHNwX3YzLCBmcGRwX3YzfSkKOC8xOSBDaGVj
-a2luZyBjb21taXQgOWExNDg5OGFmY2UxICh0YXJnZXQvYXJtOiBQZXJmb3JtIGZwZHBfdjIgY2hl
-Y2sgZmlyc3QpCjkvMTkgQ2hlY2tpbmcgY29tbWl0IDczMDgwMDkwNzhjNyAodGFyZ2V0L2FybTog
-UmVwbGFjZSBBUk1fRkVBVFVSRV9WRlAzIGNoZWNrcyB3aXRoIGZwe3NwLCBkcH1fdjMpCjEwLzE5
-IENoZWNraW5nIGNvbW1pdCAxOGUzYTQ1NGM4MmEgKHRhcmdldC9hcm06IEFkZCBtaXNzaW5nIGNo
-ZWNrcyBmb3IgZnBzcF92MikKMTEvMTkgQ2hlY2tpbmcgY29tbWl0IDRkZTk2Nzg0MDc2OSAodGFy
-Z2V0L2FybTogUmVwbGFjZSBBUk1fRkVBVFVSRV9WRlA0IHdpdGggaXNhcl9mZWF0dXJlX2FhMzJf
-c2ltZGZtYWMpCjEyLzE5IENoZWNraW5nIGNvbW1pdCA1ZjQ0OTNlMDEwMzMgKHRhcmdldC9hcm06
-IFJlbW92ZSBBUk1fRkVBVFVSRV9WRlAgY2hlY2sgZnJvbSBkaXNhc192ZnBfaW5zbikKMTMvMTkg
-Q2hlY2tpbmcgY29tbWl0IDg2OWEwYzZlYTNjOSAodGFyZ2V0L2FybTogTW92ZSBWTExETSBhbmQg
-VkxTVE0gdG8gdmZwLmRlY29kZSkKMTQvMTkgQ2hlY2tpbmcgY29tbWl0IDY1ZmY4MDk4NTNkYiAo
-dGFyZ2V0L2FybTogTW92ZSB0aGUgdmZwIGRlY29kZXRyZWUgY2FsbHMgbmV4dCB0byB0aGUgYmFz
-ZSBpc2EpCkVSUk9SOiB0cmFpbGluZyB3aGl0ZXNwYWNlCiMxMDY6IEZJTEU6IHRhcmdldC9hcm0v
-dHJhbnNsYXRlLmM6MTA2NjM6CisgICAgICogTm90ZSBkaXNhc192ZnAgaXMgd3JpdHRlbiBmb3Ig
-YTMyIHdpdGggY29uZCBmaWVsZCBpbiB0aGUgJAoKdG90YWw6IDEgZXJyb3JzLCAwIHdhcm5pbmdz
-LCAxMjggbGluZXMgY2hlY2tlZAoKUGF0Y2ggMTQvMTkgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVh
-c2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJl
-cG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVS
-Uy4KCjE1LzE5IENoZWNraW5nIGNvbW1pdCAxNjY2YWQ5ZWQxZTIgKGxpbnV4LXVzZXIvYXJtOiBS
-ZXBsYWNlIEFSTV9GRUFUVVJFX1ZGUCogdGVzdHMgZm9yIEhXQ0FQKQoxNi8xOSBDaGVja2luZyBj
-b21taXQgN2FiNjdiYmU2MzQ1ICh0YXJnZXQvYXJtOiBSZW1vdmUgQVJNX0ZFQVRVUkVfVkZQKikK
-MTcvMTkgQ2hlY2tpbmcgY29tbWl0IGY0MmRmNGQxZjFhYSAodGFyZ2V0L2FybTogQWRkIGZvcm1h
-dHMgZm9yIHNvbWUgdmZwIDIgYW5kIDMtcmVnaXN0ZXIgaW5zbnMpCjE4LzE5IENoZWNraW5nIGNv
-bW1pdCA3Njc1MzhiYTdhZTAgKHRhcmdldC9hcm06IFNwbGl0IFZGTSBkZWNvZGUpCjE5LzE5IENo
-ZWNraW5nIGNvbW1pdCA5NTc4M2IwYjRmZDAgKHRhcmdldC9hcm06IFNwbGl0IFZNSU5NQVhOTSBk
-ZWNvZGUpCj09PSBPVVRQVVQgRU5EID09PQoKVGVzdCBjb21tYW5kIGV4aXRlZCB3aXRoIGNvZGU6
-IDEKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dz
-LzIwMjAwMjE0MTgxNTQ3LjIxNDA4LTEtcmljaGFyZC5oZW5kZXJzb25AbGluYXJvLm9yZy90ZXN0
-aW5nLmNoZWNrcGF0Y2gvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0
-aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91
-ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
+On 2/14/20 9:51 AM, Peter Maydell wrote:
+> The AArch32 DBGDIDR defines properties like the number of
+> breakpoints, watchpoints and context-matching comparators.  On an
+> AArch64 CPU, the register may not even exist if AArch32 is not
+> supported at EL1.
+> 
+> Currently we hard-code use of DBGDIDR to identify the number of
+> breakpoints etc; this works for all our TCG CPUs, but will break if
+> we ever add an AArch64-only CPU.  We also have an assert() that the
+> AArch32 and AArch64 registers match, which currently works only by
+> luck for KVM because we don't populate either of these ID registers
+> from the KVM vCPU and so they are both zero.
+> 
+> Clean this up so we have functions for finding the number
+> of breakpoints, watchpoints and context comparators which look
+> in the appropriate ID register.
+> 
+> This allows us to drop the "check that AArch64 and AArch32 agree
+> on the number of breakpoints etc" asserts:
+>  * we no longer look at the AArch32 versions unless that's the
+>    right place to be looking
+>  * it's valid to have a CPU (eg AArch64-only) where they don't match
+>  * we shouldn't have been asserting the validity of ID registers
+>    in a codepath used with KVM anyway
+> 
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+>  target/arm/cpu.h          |  7 +++++++
+>  target/arm/internals.h    | 42 +++++++++++++++++++++++++++++++++++++++
+>  target/arm/debug_helper.c |  6 +++---
+>  target/arm/helper.c       | 21 +++++---------------
+>  4 files changed, 57 insertions(+), 19 deletions(-)
+
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
+r~
+
 
