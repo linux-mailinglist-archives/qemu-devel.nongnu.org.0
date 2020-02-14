@@ -2,122 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7480615D85B
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Feb 2020 14:25:16 +0100 (CET)
-Received: from localhost ([::1]:38753 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9702715D841
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Feb 2020 14:18:12 +0100 (CET)
+Received: from localhost ([::1]:38630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j2ay3-0005cz-I1
-	for lists+qemu-devel@lfdr.de; Fri, 14 Feb 2020 08:25:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49904)
+	id 1j2arD-0007bi-GC
+	for lists+qemu-devel@lfdr.de; Fri, 14 Feb 2020 08:18:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48611)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <saipava@xilinx.com>) id 1j2auH-0000pL-HW
- for qemu-devel@nongnu.org; Fri, 14 Feb 2020 08:21:22 -0500
+ (envelope-from <armbru@redhat.com>) id 1j2aqB-0006yT-0J
+ for qemu-devel@nongnu.org; Fri, 14 Feb 2020 08:17:08 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <saipava@xilinx.com>) id 1j2auG-00056v-GM
- for qemu-devel@nongnu.org; Fri, 14 Feb 2020 08:21:21 -0500
-Received: from mail-eopbgr680089.outbound.protection.outlook.com
- ([40.107.68.89]:2365 helo=NAM04-BN3-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <saipava@xilinx.com>)
- id 1j2auG-00056C-9q; Fri, 14 Feb 2020 08:21:20 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NTjb5iHP77g0uOxUPZUyIti7mzPgcm6ZO+jL6izptPT1Jy59YSn1EKki5txqDJyR5RtVrkSvjnyy3FTzfeZWulNYCwFj1ulxzmGiLmSNjwd6MsuBAg0PciQe12LAT/pkWwUTBYCFRJxoYbNu7A7P1QhS7JIBXpScnkBizB4JG9kQLlinOC6wq0nsF8z3/A1N9BFQ4wLfkK/q8u8Mw6+W0DXlEhO9QNuZ84q7tYiU7B8vsbS78VXYKiWoBn0lobiGaBXRtswazEylz1Nw9gvu8nb7ljrOdia/s1V7ZYGlra+uqY5GQwvCX1TCZujcmfi9A3PyElmr7KT9mSh42d1QYw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1BJo5rEO5dzyXi04sXf9u5m3jLCW+OiBRx7qyMr5kOA=;
- b=ZBLqrk4gsDJXTyyH081Blc1/zkJtuilTAfixCIu6GIedFmWtJBPqzaBqLvBM59E57eUefWQiHZk78aAXHfPM0TtMLsWlbvCaMUO/tYj7k1wsaeADbviC9m6kfHOAoIs4GoHOxZ7RO7rabsFqSCKMoojlP2zDvWxFSRumAMc5Po4zNr7Y6AzfV+W9RicfGRyKxtsff2UHcPU7ZD5hB5N1l+FwPkQ968Cdq6qNRLT/wQgGKfG08GYlrQLKYpHYn0JfPAgK35Y9Tat5zs+PzeZ+b6sS8q8dAoCG1YdzXTyyy6ZipNxpR2lUMYmGQXrVfqW7k5j4HPSuzbpJ//lmdMDPIg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 149.199.60.83) smtp.rcpttodomain=suse.de smtp.mailfrom=xilinx.com;
- dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
- not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1BJo5rEO5dzyXi04sXf9u5m3jLCW+OiBRx7qyMr5kOA=;
- b=h5uuV+Tk7aVRH5V+E89gAvTduIjfed/7gJ+8YU45e4/nZRC0yW0wkJBmyqspjgcb8fAxs2LcmttODYFmpfVgXYzrdsuOXE5zbqlGhfvlGjVnf8QEki/P1gV5fiXc8ti/s+Vpw00UqULZqUuVht4dOlDGJsx/kXN1BgnnzqlAKyA=
-Received: from DM6PR02CA0123.namprd02.prod.outlook.com (2603:10b6:5:1b4::25)
- by DM6PR02MB5452.namprd02.prod.outlook.com (2603:10b6:5:78::25) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2707.23; Fri, 14 Feb
- 2020 13:21:17 +0000
-Received: from BL2NAM02FT052.eop-nam02.prod.protection.outlook.com
- (2a01:111:f400:7e46::207) by DM6PR02CA0123.outlook.office365.com
- (2603:10b6:5:1b4::25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2729.22 via Frontend
- Transport; Fri, 14 Feb 2020 13:21:17 +0000
-Authentication-Results: spf=pass (sender IP is 149.199.60.83)
- smtp.mailfrom=xilinx.com; suse.de; dkim=none (message not signed)
- header.d=none;suse.de; dmarc=bestguesspass action=none
- header.from=xilinx.com;
-Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
- 149.199.60.83 as permitted sender) receiver=protection.outlook.com;
- client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
-Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
- BL2NAM02FT052.mail.protection.outlook.com (10.152.77.0) with Microsoft SMTP
- Server (version=TLS1_0, cipher=TLS_RSA_WITH_AES_256_CBC_SHA) id 15.20.2729.22
- via Frontend Transport; Fri, 14 Feb 2020 13:21:17 +0000
-Received: from unknown-38-66.xilinx.com ([149.199.38.66] helo=xsj-pvapsmtp01)
- by xsj-pvapsmtpgw01 with esmtp (Exim 4.63)
- (envelope-from <sai.pavan.boddu@xilinx.com>)
- id 1j2auC-0001WX-Kf; Fri, 14 Feb 2020 05:21:16 -0800
-Received: from [127.0.0.1] (helo=xsj-smtp-dlp2.xlnx.xilinx.com)
- by xsj-pvapsmtp01 with esmtp (Exim 4.63)
- (envelope-from <sai.pavan.boddu@xilinx.com>)
- id 1j2au7-0006gE-Gy; Fri, 14 Feb 2020 05:21:11 -0800
-Received: from xsj-pvapsmtp01 (smtp3.xilinx.com [149.199.38.66])
- by xsj-smtp-dlp2.xlnx.xilinx.com (8.13.8/8.13.1) with ESMTP id 01EDLAwT008733; 
- Fri, 14 Feb 2020 05:21:10 -0800
-Received: from [10.140.6.35] (helo=xhdsaipava40.xilinx.com)
- by xsj-pvapsmtp01 with esmtp (Exim 4.63)
- (envelope-from <saipava@xhdsaipava40.xilinx.com>)
- id 1j2au6-0006g4-G9; Fri, 14 Feb 2020 05:21:10 -0800
-Received: by xhdsaipava40.xilinx.com (Postfix, from userid 14131)
- id 096ED13C04B9; Fri, 14 Feb 2020 18:47:04 +0530 (IST)
-From: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
-To: "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
- Alistair Francis <alistair@alistair23.me>,
- Peter Maydell <peter.maydell@linaro.org>,
- Anthony Liguori <anthony@codemonkey.ws>, afaerber@suse.de
-Subject: [PATCH 3/3] arm/xilinx_zynq: Set number of priority bits
-Date: Fri, 14 Feb 2020 18:46:52 +0530
-Message-Id: <1581686212-9625-4-git-send-email-sai.pavan.boddu@xilinx.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1581686212-9625-1-git-send-email-sai.pavan.boddu@xilinx.com>
-References: <1581686212-9625-1-git-send-email-sai.pavan.boddu@xilinx.com>
-X-RCIS-Action: ALLOW
-X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
-X-TM-AS-User-Approved-Sender: Yes;Yes
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-HT: Tenant
-X-Forefront-Antispam-Report: CIP:149.199.60.83; IPV:; CTRY:US; EFV:NLI;
- SFV:NSPM;
- SFS:(10009020)(4636009)(376002)(136003)(396003)(39850400004)(346002)(189003)(199004)(478600001)(4744005)(5660300002)(110136005)(36756003)(42186006)(316002)(6666004)(356004)(26005)(2906002)(186003)(2616005)(426003)(336012)(6266002)(4326008)(8676002)(81166006)(70586007)(81156014)(70206006)(8936002);
- DIR:OUT; SFP:1101; SCL:1; SRVR:DM6PR02MB5452; H:xsj-pvapsmtpgw01; FPR:;
- SPF:Pass; LANG:en; PTR:unknown-60-83.xilinx.com; MX:1; A:1; 
+ (envelope-from <armbru@redhat.com>) id 1j2aq9-0007F8-QY
+ for qemu-devel@nongnu.org; Fri, 14 Feb 2020 08:17:06 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:60404
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1j2aq9-0007By-Mg
+ for qemu-devel@nongnu.org; Fri, 14 Feb 2020 08:17:05 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1581686224;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=vybReRr96I9wEuqy4WaNp69BLJ7GIRA4iQ6HK9W5cDA=;
+ b=M2iChW4q2NdAGQUHUBJHVySTXjOY0a7TeRc/9mJIzyJ8EZ04LkktG6cZwodxwHQppPKwD9
+ +H28T+WLElo2DkbHHJ7anI395cqg39biVsjl50AvesWv1zZQkItut4B6ixXeRK1jaY1DNo
+ JNjWoMQVfJkbSOd4ByF0BZppAeAQ4K8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-214-ti0l95XEPb-hWFxu5gM8iQ-1; Fri, 14 Feb 2020 08:17:01 -0500
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1C8F68C40FF;
+ Fri, 14 Feb 2020 13:17:00 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-117-234.ams2.redhat.com
+ [10.36.117.234])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4769060BF1;
+ Fri, 14 Feb 2020 13:16:57 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id BBA8811385C9; Fri, 14 Feb 2020 14:16:55 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH 06/29] qga/qapi-schema.json: minor format fixups for rST
+References: <20200206173040.17337-1-peter.maydell@linaro.org>
+ <20200206173040.17337-7-peter.maydell@linaro.org>
+ <871rr6vlu5.fsf@dusky.pond.sub.org>
+ <CAFEAcA-DExXM7E21d_0A-JBNwYzRp1KFB==esZaGsQbvqC04pg@mail.gmail.com>
+Date: Fri, 14 Feb 2020 14:16:55 +0100
+In-Reply-To: <CAFEAcA-DExXM7E21d_0A-JBNwYzRp1KFB==esZaGsQbvqC04pg@mail.gmail.com>
+ (Peter Maydell's message of "Thu, 13 Feb 2020 16:20:45 +0000")
+Message-ID: <871rqxwbp4.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: ti0l95XEPb-hWFxu5gM8iQ-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: d48e064d-89f1-4933-105e-08d7b150c605
-X-MS-TrafficTypeDiagnostic: DM6PR02MB5452:
-X-Microsoft-Antispam-PRVS: <DM6PR02MB54527FD58A2011D210F1458CCA150@DM6PR02MB5452.namprd02.prod.outlook.com>
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-Oob-TLC-OOBClassifiers: OLM:854;
-X-Forefront-PRVS: 03137AC81E
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: cVeyM3/9/2w2bst//edilmt+gVRX6bWTZut9NNryIthck2+UwIH9HLj9v9OSpBZ4I74Qne7IxGkPCAAw660FQm5t4rLxDXfPHphtDfY2H3pTD6v0WbV8s1eNMngu4MyFs3El8ul6hwK9w8RMywxN2DakRfOCmKaO2B2/23a1uPU23io8w7EfOXODpP2sUyep25hYsGJpVPvqUlXy0OPx+DEQvzy11j5O52wLmGhG/s0x/3nnE+/4qA5DfFxyBelU7zEKledAVVe9dYBShpRzn48maox9TxjRPhxB1uLFZX7u8VRKvSHgF58ayciCwTQ6XeZHFSg1QMlzMzsreehgh42z2m+N4uJ8vPaFcxXgGlBOd6fdEPwRiFoH0Gktmlf6qy73naaRYkYXAkJbOBIhszG2FX5cA5+G1WjzpFxk5k3YfoOllTrInVJk9MLYANrw
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Feb 2020 13:21:17.2203 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: d48e064d-89f1-4933-105e-08d7b150c605
-X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.60.83];
- Helo=[xsj-pvapsmtpgw01]
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR02MB5452
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.68.89
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -129,30 +78,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
+Cc: "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>,
+ Markus Armbruster <armbru@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Arm GIC in Zynq SOC implements 5 priority bits i.e bits 7..3.
+Peter Maydell <peter.maydell@linaro.org> writes:
 
-Signed-off-by: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
----
- hw/arm/xilinx_zynq.c | 1 +
- 1 file changed, 1 insertion(+)
+> On Fri, 7 Feb 2020 at 08:33, Markus Armbruster <armbru@redhat.com> wrote:
+>>
+>> Peter Maydell <peter.maydell@linaro.org> writes:
+>>
+>> > rST format requires a blank line before the start of a bulleted
+>> > or enumerated list. Two places in qapi-schema.json were missing
+>> > this blank line.
+>> >
+>> > Some places were using an indented line as a sort of single-item
+>> > bulleted list, which in the texinfo output comes out all run
+>> > onto a single line; use a real bulleted list instead.
+>> >
+>> > Some places unnecessarily indented lists, which confuses rST.
+>> >
+>> > guest-fstrim:minimum's documentation was indented the
+>> > right amount to share a line with @minimum, but wasn't
+>> > actually doing so.
+>> >
+>> > The indent on the bulleted list in the guest-set-vcpus
+>> > Returns section meant rST misindented it.
+>> >
+>> > Changes to the generated texinfo are very minor (the new
+>> > bulletted lists, and a few extra blank lines).
+>> >
+>> > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+>
+>> > @@ -767,17 +771,17 @@
+>> >  # Returns: The length of the initial sublist that has been successful=
+ly
+>> >  #          processed. The guest agent maximizes this value. Possible =
+cases:
+>> >  #
+>> > -#          - 0:              if the @vcpus list was empty on input. G=
+uest state
+>> > -#                            has not been changed. Otherwise,
+>> > -#          - Error:          processing the first node of @vcpus fail=
+ed for the
+>> > -#                            reason returned. Guest state has not bee=
+n changed.
+>> > -#                            Otherwise,
+>> > +#          - 0: if the @vcpus list was empty on input. Guest state
+>> > +#            has not been changed. Otherwise,
+>> > +#          - Error: processing the first node of @vcpus failed for th=
+e
+>> > +#            reason returned. Guest state has not been changed.
+>> > +#            Otherwise,
+>> >  #          - < length(@vcpus): more than zero initial nodes have been=
+ processed,
+>> > -#                            but not the entire @vcpus list. Guest st=
+ate has
+>> > -#                            changed accordingly. To retrieve the err=
+or
+>> > -#                            (assuming it persists), repeat the call =
+with the
+>> > -#                            successfully processed initial sublist r=
+emoved.
+>> > -#                            Otherwise,
+>> > +#            but not the entire @vcpus list. Guest state has
+>> > +#            changed accordingly. To retrieve the error
+>> > +#            (assuming it persists), repeat the call with the
+>> > +#            successfully processed initial sublist removed.
+>> > +#            Otherwise,
+>> >  #          - length(@vcpus): call successful.
+>>
+>> Source readability suffers a bit here.
+>>
+>> Can we break the line after the colon?
+>>
+>>    #          - 0:
+>>    #            if the @vcpus list was empty on input. Guest state has
+>>    #            not been changed. Otherwise,
+>>
+>> Or would a definition list be a better fit?
+>
+> A definition list does produce nicer rendering in the rST, but
+> it breaks the rendering in the texinfo (which interprets the
+> indent of a rST definition list as meaninglist and renders it
+> all as one long run-on paragraph). For the purposes of this
+> initial cleanup, I'll put in the newlines you suggest, which
+> have no effect on rendering output for either texinfo or rST.
 
-diff --git a/hw/arm/xilinx_zynq.c b/hw/arm/xilinx_zynq.c
-index 3a0fa5b..7aa43ad 100644
---- a/hw/arm/xilinx_zynq.c
-+++ b/hw/arm/xilinx_zynq.c
-@@ -214,6 +214,7 @@ static void zynq_init(MachineState *machine)
- 
-     dev = qdev_create(NULL, TYPE_A9MPCORE_PRIV);
-     qdev_prop_set_uint32(dev, "num-cpu", 1);
-+    qdev_prop_set_uint32(dev, "num-priority-bits", 5);
-     qdev_init_nofail(dev);
-     busdev = SYS_BUS_DEVICE(dev);
-     sysbus_mmio_map(busdev, 0, MPCORE_PERIPHBASE);
--- 
-2.7.4
+Okay.  We can switch to definition lists later.
 
 
