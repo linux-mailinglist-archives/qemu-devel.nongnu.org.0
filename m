@@ -2,62 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDF3215DA21
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Feb 2020 16:02:10 +0100 (CET)
-Received: from localhost ([::1]:39944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E9A415DA38
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Feb 2020 16:03:59 +0100 (CET)
+Received: from localhost ([::1]:39978 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j2cTp-000604-RV
-	for lists+qemu-devel@lfdr.de; Fri, 14 Feb 2020 10:02:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43211)
+	id 1j2cVa-0000fr-FT
+	for lists+qemu-devel@lfdr.de; Fri, 14 Feb 2020 10:03:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43664)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1j2cSl-0004Z6-2L
- for qemu-devel@nongnu.org; Fri, 14 Feb 2020 10:01:04 -0500
+ (envelope-from <groug@kaod.org>) id 1j2cUg-0008HW-LV
+ for qemu-devel@nongnu.org; Fri, 14 Feb 2020 10:03:03 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1j2cSg-0002yY-2g
- for qemu-devel@nongnu.org; Fri, 14 Feb 2020 10:01:02 -0500
-Received: from indium.canonical.com ([91.189.90.7]:53486)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1j2cSf-0002xx-SD
- for qemu-devel@nongnu.org; Fri, 14 Feb 2020 10:00:58 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1j2cSe-00043W-Mm
- for <qemu-devel@nongnu.org>; Fri, 14 Feb 2020 15:00:56 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id A86DC2E80CB
- for <qemu-devel@nongnu.org>; Fri, 14 Feb 2020 15:00:56 +0000 (UTC)
+ (envelope-from <groug@kaod.org>) id 1j2cUf-0005cg-IW
+ for qemu-devel@nongnu.org; Fri, 14 Feb 2020 10:03:02 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:42064)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1j2cUf-0005Wu-7C
+ for qemu-devel@nongnu.org; Fri, 14 Feb 2020 10:03:01 -0500
+Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 01EF0XNT116270
+ for <qemu-devel@nongnu.org>; Fri, 14 Feb 2020 10:03:00 -0500
+Received: from e06smtp03.uk.ibm.com (e06smtp03.uk.ibm.com [195.75.94.99])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2y3u53ta75-1
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Fri, 14 Feb 2020 10:02:53 -0500
+Received: from localhost
+ by e06smtp03.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ Violators will be prosecuted
+ for <qemu-devel@nongnu.org> from <groug@kaod.org>;
+ Fri, 14 Feb 2020 15:01:21 -0000
+Received: from b06cxnps3074.portsmouth.uk.ibm.com (9.149.109.194)
+ by e06smtp03.uk.ibm.com (192.168.101.133) with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted; 
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+ Fri, 14 Feb 2020 15:01:17 -0000
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
+ [9.149.105.61])
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 01EF1Ggo58720284
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 14 Feb 2020 15:01:16 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C37BF11C050;
+ Fri, 14 Feb 2020 15:01:16 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 8A42D11C054;
+ Fri, 14 Feb 2020 15:01:16 +0000 (GMT)
+Received: from bahia.lan (unknown [9.145.71.236])
+ by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Fri, 14 Feb 2020 15:01:16 +0000 (GMT)
+Subject: [PATCH v2 0/2] spapr: Fix device unplug vs CAS or migration
+From: Greg Kurz <groug@kaod.org>
+To: David Gibson <david@gibson.dropbear.id.au>
+Date: Fri, 14 Feb 2020 16:01:16 +0100
+User-Agent: StGit/unknown-version
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 14 Feb 2020 14:51:25 -0000
-From: =?utf-8?q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
- assignee=alex.bennee@linaro.org; 
-X-Launchpad-Bug-Tags: mttcg tcg
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ajbennee yifanlu
-X-Launchpad-Bug-Reporter: Yifan (yifanlu)
-X-Launchpad-Bug-Modifier: =?utf-8?q?Alex_Benn=C3=A9e_=28ajbennee=29?=
-References: <158154486735.14935.3370403781300872079.malonedeb@soybean.canonical.com>
-Message-Id: <158169188584.24991.8510013578266900899.malone@gac.canonical.com>
-Subject: [Bug 1863025] Re: Use-after-free after flush in TCG accelerator
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="19413b719a8df7423ab1390528edadce9e0e4aca";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 27438567e46f93af39f10626cbabd13b0400ebe6
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+x-cbid: 20021415-0012-0000-0000-00000386D645
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 20021415-0013-0000-0000-000021C35D51
+Message-Id: <158169247578.3465937.4013536808417411649.stgit@bahia.lan>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
+ definitions=2020-02-14_04:2020-02-12,
+ 2020-02-14 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0
+ lowpriorityscore=0 suspectscore=0 phishscore=0 adultscore=0 malwarescore=0
+ bulkscore=0 impostorscore=0 mlxscore=0 clxscore=1034 priorityscore=1501
+ mlxlogscore=887 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2001150001 definitions=main-2002140119
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 148.163.156.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -66,74 +88,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1863025 <1863025@bugs.launchpad.net>
+Cc: Laurent Vivier <lvivier@redhat.com>, Alexey Kardashevskiy <aik@ozlabs.ru>,
+ qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I've attached a variant of the suggested patch which simply expands the
-exclusive period. It's hard to test extensively as not many things use
-the EXCP_ATOMIC mechanism. Can I ask how you found the bug and if you
-can re-test with the suggested patch?
+While working on getting rid of CAS reboot, I realized that we currently
+don't handle device hot unplug properly in the following situations:
 
--- =
+1) if the device is unplugged between boot and CAS, SLOF doesn't handle
+   the even, which is a known limitation. The device hence stays around
+   forever (specifically, until some other event is emitted and the guest
+   eventually completes the unplug or a reboot). Until we can teach SLOF
+   to correctly process the full FDT at CAS, we should trigger a CAS reboot,
+   like we already do for hotplug.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1863025
+2) if the guest is migrated after the even was emitted but before the
+   guest could process it, the destination is unaware of the pending
+   unplug operation and doesn't remove the device when the guests
+   releases it. The 'unplug_requested' field of the DRC is actually state
+   that should be migrated.
 
-Title:
-  Use-after-free after flush in TCG accelerator
+Changes since v1:
+   - new spapr_drc_transient() helper that covers pending plug and unplug
+     situations for both CAS and migration
+   - as a mechanical consequence, fix unplug for CAS an migration in the
+     same patch
 
-Status in QEMU:
-  Confirmed
+--
+Greg
 
-Bug description:
-  I believe I found a UAF in TCG that can lead to a guest VM escape. The
-  security list informed me "This can not be treated as a security
-  issue." and to post it here. I am looking at the 4.2.0 source code.
-  The issue requires a race and I will try to describe it in terms of
-  three concurrent threads.
+---
 
-  Thread A:
+Greg Kurz (2):
+      spapr: Don't use spapr_drc_needed() in CAS code
+      spapr: Fix handling of unplugged devices during CAS and migration
 
-  A1. qemu_tcg_cpu_thread_fn runs work loop
-  A2. qemu_wait_io_event =3D> qemu_wait_io_event_common =3D> process_queued=
-_cpu_work
-  A3. start_exclusive critical section entered
-  A4. do_tb_flush is called, TB memory freed/re-allocated
-  A5. end_exclusive exits critical section
 
-  Thread B:
+ hw/ppc/spapr_drc.c         |   43 ++++++++++++++++++++++++++++++++++++-------
+ hw/ppc/spapr_hcall.c       |   14 +++++++++-----
+ include/hw/ppc/spapr_drc.h |    4 +++-
+ 3 files changed, 48 insertions(+), 13 deletions(-)
 
-  B1. qemu_tcg_cpu_thread_fn runs work loop
-  B2. tcg_cpu_exec =3D> cpu_exec =3D> tb_find =3D> tb_gen_code
-  B3. tcg_tb_alloc obtains a new TB
-
-  Thread C:
-
-  C1. qemu_tcg_cpu_thread_fn runs work loop
-  C2. cpu_exec_step_atomic executes
-  C3. TB obtained with tb_lookup__cpu_state or tb_gen_code
-  C4. start_exclusive critical section entered
-  C5. cpu_tb_exec executes the TB code
-  C6. end_exclusive exits critical section
-
-  Consider the following sequence of events:
-  =C2=A0=C2=A0B2 =3D> B3 =3D> C3 (same TB as B2) =3D> A3 =3D> A4 (TB freed)=
- =3D> A5 =3D> B2 =3D>
-  =C2=A0=C2=A0B3 (re-allocates TB from B2) =3D> C4 =3D> C5 (freed/reused TB=
- now executing) =3D> C6
-
-  In short, because thread C uses the TB in the critical section, there
-  is no guarantee that the pointer has not been "freed" (rather the
-  memory is marked as re-usable) and therefore a use-after-free occurs.
-
-  Since the TCG generated code can be in the same memory as the TB data
-  structure, it is possible for an attacker to overwrite the UAF pointer
-  with code generated from TCG. This can overwrite key pointer values
-  and could lead to code execution on the host outside of the TCG
-  sandbox.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1863025/+subscriptions
 
