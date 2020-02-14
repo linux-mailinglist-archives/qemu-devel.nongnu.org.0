@@ -2,56 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA73815D067
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Feb 2020 04:24:35 +0100 (CET)
-Received: from localhost ([::1]:34192 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2BAF15D085
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Feb 2020 04:30:00 +0100 (CET)
+Received: from localhost ([::1]:34252 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j2Ral-00058h-1s
-	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 22:24:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42413)
+	id 1j2Rfz-000063-Ji
+	for lists+qemu-devel@lfdr.de; Thu, 13 Feb 2020 22:29:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45775)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1j2RZr-0004IR-LB
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 22:23:41 -0500
+ (envelope-from <zhukeqian1@huawei.com>) id 1j2Rf5-00080K-Ic
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 22:29:05 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1j2RZp-0008Ku-V8
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 22:23:39 -0500
-Received: from ozlabs.org ([2401:3900:2:1::2]:52159)
+ (envelope-from <zhukeqian1@huawei.com>) id 1j2Rf4-0005UL-1C
+ for qemu-devel@nongnu.org; Thu, 13 Feb 2020 22:29:03 -0500
+Received: from szxga04-in.huawei.com ([45.249.212.190]:2707 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>) id 1j2RZp-0008BP-1z
- for qemu-devel@nongnu.org; Thu, 13 Feb 2020 22:23:37 -0500
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 48Jdxw6n9pz9sRN; Fri, 14 Feb 2020 14:23:32 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1581650612;
- bh=2za93kHvPaRBlbK0I4XIvwq/W8gsIYGDOurnDc/bPuA=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=nxHAkWgKfShfu+yOTEyrRvlzllfvlptxDTKk3nNTfdkPcyfJs8zjE5+T3czbR64pc
- eRnIiTxnqfkcuGtO6cza7JQaEPAGir7XbJqviqwWbaVNTvv5DkajuPTXJLS/KK/Nl6
- dJ5eAlmGxUNppcN347JKXX2qlk1EIwoCTdthhz1c=
-Date: Fri, 14 Feb 2020 14:23:25 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: VW ELF loader
-Message-ID: <20200214032325.GN124369@umbus.fritz.box>
-References: <d63ba962-ffbb-9f27-34fb-657188e90194@ozlabs.ru>
- <CABgObfYwtrh_uy8zFmg2qDjK6iynniN6=jJ9_MKfNxXUaOkPKw@mail.gmail.com>
- <71d1cc16-f07d-481d-096b-17ee326157bb@ozlabs.ru>
- <CABgObfa4tUVBbpBtoY3JFSF8-0mRVxgGbzQokc+JrJGPagwPaQ@mail.gmail.com>
- <20200205060634.GI60221@umbus.fritz.box>
- <62d62fab-46a4-240b-037b-409ba859b93d@redhat.com>
- <47e6a49d-f1c7-aaf6-b9ef-7e81773cff6e@ozlabs.ru>
- <8993c6b4-2a2c-b7e5-8342-4db480d0af9d@redhat.com>
- <20200210073008.GE22584@umbus.fritz.box>
- <c40f83a1-6dbd-7223-e825-0ab153a36aed@redhat.com>
+ (Exim 4.71) (envelope-from <zhukeqian1@huawei.com>)
+ id 1j2Rf0-0004nN-2x; Thu, 13 Feb 2020 22:28:58 -0500
+Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.60])
+ by Forcepoint Email with ESMTP id 34CABA5DAE5ECF7882FD;
+ Fri, 14 Feb 2020 11:28:47 +0800 (CST)
+Received: from linux-TFkxOR.huawei.com (10.175.104.212) by
+ DGGEMS410-HUB.china.huawei.com (10.3.19.210) with Microsoft SMTP Server id
+ 14.3.439.0; Fri, 14 Feb 2020 11:28:41 +0800
+From: Keqian Zhu <zhukeqian1@huawei.com>
+To: <qemu-devel@nongnu.org>
+Subject: [PATCH] migration/throttle: Make throttle slower at tail stage
+Date: Fri, 14 Feb 2020 11:27:00 +0800
+Message-ID: <20200214032700.25011-1-zhukeqian1@huawei.com>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="NJSRbAqOy4NeGDns"
-Content-Disposition: inline
-In-Reply-To: <c40f83a1-6dbd-7223-e825-0ab153a36aed@redhat.com>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2401:3900:2:1::2
+Content-Type: text/plain
+X-Originating-IP: [10.175.104.212]
+X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 45.249.212.190
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,116 +51,243 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Alexey Kardashevskiy <aik@ozlabs.ru>,
- qemu-devel <qemu-devel@nongnu.org>, Cornelia Huck <conny@cornelia-huck.de>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- Stefano Garzarella <sgarzare@redhat.com>
+Cc: Juan Quintela <quintela@redhat.com>, "Dr. David
+ Alan Gilbert" <dgilbert@redhat.com>, Markus
+ Armbruster <armbru@redhat.com>, qemu-arm@nongnu.org, wanghaibin.wang@huawei.com,
+ Keqian Zhu <zhukeqian1@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+At the tail stage of throttle, VM is very sensitive to
+CPU percentage. We just throttle 30% of remaining CPU
+when throttle is more than 80 percentage.
 
---NJSRbAqOy4NeGDns
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This doesn't conflict with cpu_throttle_increment.
 
-On Mon, Feb 10, 2020 at 12:25:39PM +0100, Paolo Bonzini wrote:
-> On 10/02/20 08:30, David Gibson wrote:
-> >> Anything you put in the host is potential attack surface.
-> > Ok, it is attack surface you're concerned about.  That wasn't totally
-> > clear before this point.
->=20
-> Part that, part having to add backend hooks that weren't needed so far.
->=20
-> >> Plus, you're not doing a different thing than anyone else and as
-> >> you've found out it may be easy for block device but not for
-> >> everything else.
-> >
-> > Uh.. was that supposed to be "we *are* doing a different thing than
-> > anyone else"?
->=20
-> Alexey's question was "what is exactly the benefit", so "not doing a
-> different thing" is the answer (one of them).
+This may make migration time longer, and is disabled
+by default.
 
-Ah, right, I see.
+Signed-off-by: Keqian Zhu <zhukeqian1@huawei.com>
+---
+Cc: Juan Quintela <quintela@redhat.com>
+Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Eric Blake <eblake@redhat.com>
+Cc: Markus Armbruster <armbru@redhat.com>
+---
+ migration/migration.c | 13 +++++++++++++
+ migration/ram.c       | 18 ++++++++++++++++--
+ monitor/hmp-cmds.c    |  4 ++++
+ qapi/migration.json   | 21 +++++++++++++++++++++
+ 4 files changed, 54 insertions(+), 2 deletions(-)
 
-> >> Every platform that QEMU supports is just using a firmware to do
-> >> firmware things; it can be U-Boot, EDK-2, SLOF, SeaBIOS, qboot, with
-> >> varying level of complexity.  Some are doing -kernel in QEMU rather th=
-an
-> >> firmware, but that's where things end.
-> >
-> > Well, yeah, but AIUI those platforms actually have a defined hardware
-> > environment on which the firmware is running.  For PAPR we don't, we
-> > *only* have a specification for the "hardware"+"firmware" environment
-> > as seen by the OS together.
->=20
-> PAPR is a specification for the environment as seen by the OS.  But "-M
-> pseries" is already a defined hardware environment on which SLOF is
-> running.
-
-"defined" might be a bit strong.  We have on multiple occasions
-required synchronized SLOF and qemu updates in order to keep
-presenting the same guest environment.
-
-> There's nothing that prevents you from defining more of that
-> environment in order to run Linux (for petitboot) or your own
-> pseudo-OpenFirmware driver provider inside it.
-
-Well, sure, but we don't want that definition to introduce lots of
-complexity we have to maintain on top of the existing HV and firmware
-interfaces that are defined.
-
-I realized what I said about the firmware interfaces requiring HV
-privilege was a bit misleading.  For the boot time firmware
-components, such as the OF client interface, that's mostly not true
-(with the big and hairy exception of the
-ibm,client-architecture-support feature negotiation mechanism).
-
-It is, however, true of the runtime RTAS interfaces.  In fact it's
-true to the point that, at least for most of the RTAS interfaces we
-care about, it's hard to imagine an in-guest implementation doing
-anything much other than repackaging the information it gets and
-forwarding it to the hypervisor.  For most purposes RTAS is pretty
-much an alternative hypercall mechanism.  So, I think implementing the
-RTAS entirely in qemu was the right choice.
-
-Where it gets complicated is that a number of RTAS calls need to match
-IDs with stuff from the boot time firmware.  Particularly phandles of
-device nodes, and some other IDs.
-
-Which would be fine if the boot time firmware took the device tree
-=66rom qemu and used it unmodified.  But.. it doesn't, quite.  In
-particular it assigns its own phandles, because it uses them as an
-internal index.  And worse, clients can alter the device tree, and
-this is used to a small extent - grub pokes a few values in there for
-use later.
-
+diff --git a/migration/migration.c b/migration/migration.c
+index 3a21a4686c..37b569cee9 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -782,6 +782,8 @@ MigrationParameters *qmp_query_migrate_parameters(Err=
+or **errp)
+     params->cpu_throttle_initial =3D s->parameters.cpu_throttle_initial;
+     params->has_cpu_throttle_increment =3D true;
+     params->cpu_throttle_increment =3D s->parameters.cpu_throttle_increm=
+ent;
++    params->has_cpu_throttle_tailslow =3D true;
++    params->cpu_throttle_tailslow =3D s->parameters.cpu_throttle_tailslo=
+w;
+     params->has_tls_creds =3D true;
+     params->tls_creds =3D g_strdup(s->parameters.tls_creds);
+     params->has_tls_hostname =3D true;
+@@ -1287,6 +1289,10 @@ static void migrate_params_test_apply(MigrateSetPa=
+rameters *params,
+         dest->cpu_throttle_increment =3D params->cpu_throttle_increment;
+     }
+=20
++    if (params->has_cpu_throttle_tailslow) {
++        dest->cpu_throttle_tailslow =3D params->cpu_throttle_tailslow;
++    }
++
+     if (params->has_tls_creds) {
+         assert(params->tls_creds->type =3D=3D QTYPE_QSTRING);
+         dest->tls_creds =3D g_strdup(params->tls_creds->u.s);
+@@ -1368,6 +1374,10 @@ static void migrate_params_apply(MigrateSetParamet=
+ers *params, Error **errp)
+         s->parameters.cpu_throttle_increment =3D params->cpu_throttle_in=
+crement;
+     }
+=20
++    if (params->has_cpu_throttle_tailslow) {
++        s->parameters.cpu_throttle_tailslow =3D params->cpu_throttle_tai=
+lslow;
++    }
++
+     if (params->has_tls_creds) {
+         g_free(s->parameters.tls_creds);
+         assert(params->tls_creds->type =3D=3D QTYPE_QSTRING);
+@@ -3504,6 +3514,8 @@ static Property migration_properties[] =3D {
+     DEFINE_PROP_UINT8("x-cpu-throttle-increment", MigrationState,
+                       parameters.cpu_throttle_increment,
+                       DEFAULT_MIGRATE_CPU_THROTTLE_INCREMENT),
++    DEFINE_PROP_BOOL("x-cpu-throttle-tailslow", MigrationState,
++                      parameters.cpu_throttle_tailslow, false),
+     DEFINE_PROP_SIZE("x-max-bandwidth", MigrationState,
+                       parameters.max_bandwidth, MAX_THROTTLE),
+     DEFINE_PROP_UINT64("x-downtime-limit", MigrationState,
+@@ -3600,6 +3612,7 @@ static void migration_instance_init(Object *obj)
+     params->has_decompress_threads =3D true;
+     params->has_cpu_throttle_initial =3D true;
+     params->has_cpu_throttle_increment =3D true;
++    params->has_cpu_throttle_tailslow =3D true;
+     params->has_max_bandwidth =3D true;
+     params->has_downtime_limit =3D true;
+     params->has_x_checkpoint_delay =3D true;
+diff --git a/migration/ram.c b/migration/ram.c
+index ed23ed1c7c..d86413a5d1 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -29,6 +29,7 @@
+ #include "qemu/osdep.h"
+ #include "cpu.h"
+ #include <zlib.h>
++#include <math.h>
+ #include "qemu/cutils.h"
+ #include "qemu/bitops.h"
+ #include "qemu/bitmap.h"
+@@ -620,15 +621,28 @@ static void mig_throttle_guest_down(void)
+ {
+     MigrationState *s =3D migrate_get_current();
+     uint64_t pct_initial =3D s->parameters.cpu_throttle_initial;
+-    uint64_t pct_icrement =3D s->parameters.cpu_throttle_increment;
++    uint64_t pct_increment =3D s->parameters.cpu_throttle_increment;
++    bool pct_tailslow =3D s->parameters.cpu_throttle_tailslow;
+     int pct_max =3D s->parameters.max_cpu_throttle;
+=20
++    const uint64_t cpu_throttle_now =3D cpu_throttle_get_percentage();
++    uint64_t cpu_throttle_inc;
++
+     /* We have not started throttling yet. Let's start it. */
+     if (!cpu_throttle_active()) {
+         cpu_throttle_set(pct_initial);
+     } else {
+         /* Throttling already on, just increase the rate */
+-        cpu_throttle_set(MIN(cpu_throttle_get_percentage() + pct_icremen=
+t,
++        if (cpu_throttle_now >=3D 80 && pct_tailslow) {
++            /* Eat some scale of CPU from remaining */
++            cpu_throttle_inc =3D ceil((100 - cpu_throttle_now) * 0.3);
++            if (cpu_throttle_inc > pct_increment) {
++                cpu_throttle_inc =3D pct_increment;
++            }
++        } else {
++            cpu_throttle_inc =3D pct_increment;
++        }
++        cpu_throttle_set(MIN(cpu_throttle_now + cpu_throttle_inc,
+                          pct_max));
+     }
+ }
+diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+index 558fe06b8f..b5f5c0b382 100644
+--- a/monitor/hmp-cmds.c
++++ b/monitor/hmp-cmds.c
+@@ -416,6 +416,10 @@ void hmp_info_migrate_parameters(Monitor *mon, const=
+ QDict *qdict)
+         monitor_printf(mon, "%s: %u\n",
+             MigrationParameter_str(MIGRATION_PARAMETER_CPU_THROTTLE_INCR=
+EMENT),
+             params->cpu_throttle_increment);
++        assert(params->has_cpu_throttle_tailslow);
++        monitor_printf(mon, "%s: %s\n",
++            MigrationParameter_str(MIGRATION_PARAMETER_CPU_THROTTLE_TAIL=
+SLOW),
++            params->cpu_throttle_tailslow ? "on" : "off");
+         assert(params->has_max_cpu_throttle);
+         monitor_printf(mon, "%s: %u\n",
+             MigrationParameter_str(MIGRATION_PARAMETER_MAX_CPU_THROTTLE)=
+,
+diff --git a/qapi/migration.json b/qapi/migration.json
+index b7348d0c8b..0ac94e00f2 100644
+--- a/qapi/migration.json
++++ b/qapi/migration.json
+@@ -532,6 +532,12 @@
+ #                          auto-converge detects that migration is not m=
+aking
+ #                          progress. The default value is 10. (Since 2.7=
+)
+ #
++# @cpu-throttle-tailslow: Make throttle slower at tail stage
++#                         At the tail stage of throttle, VM is very sens=
+itive to
++#                         CPU percentage. We just throttle 30% of remain=
+ing CPU
++#                         when throttle is more than 80 percentage. The =
+default
++#                         value is false. (Since 4.1)
++#
+ # @tls-creds: ID of the 'tls-creds' object that provides credentials for
+ #             establishing a TLS connection over the migration data chan=
+nel.
+ #             On the outgoing side of the migration, the credentials mus=
+t
+@@ -594,6 +600,7 @@
+            'compress-level', 'compress-threads', 'decompress-threads',
+            'compress-wait-thread',
+            'cpu-throttle-initial', 'cpu-throttle-increment',
++           'cpu-throttle-tailslow',
+            'tls-creds', 'tls-hostname', 'tls-authz', 'max-bandwidth',
+            'downtime-limit', 'x-checkpoint-delay', 'block-incremental',
+            'multifd-channels',
+@@ -634,6 +641,12 @@
+ #                          auto-converge detects that migration is not m=
+aking
+ #                          progress. The default value is 10. (Since 2.7=
+)
+ #
++# @cpu-throttle-tailslow: Make throttle slower at tail stage
++#                         At the tail stage of throttle, VM is very sens=
+itive to
++#                         CPU percentage. We just throttle 30% of remain=
+ing CPU
++#                         when throttle is more than 80 percentage. The =
+default
++#                         value is false. (Since 4.1)
++#
+ # @tls-creds: ID of the 'tls-creds' object that provides credentials
+ #             for establishing a TLS connection over the migration data
+ #             channel. On the outgoing side of the migration, the creden=
+tials
+@@ -703,6 +716,7 @@
+             '*decompress-threads': 'int',
+             '*cpu-throttle-initial': 'int',
+             '*cpu-throttle-increment': 'int',
++            '*cpu-throttle-tailslow': 'bool',
+             '*tls-creds': 'StrOrNull',
+             '*tls-hostname': 'StrOrNull',
+             '*tls-authz': 'StrOrNull',
+@@ -767,6 +781,12 @@
+ #                          auto-converge detects that migration is not m=
+aking
+ #                          progress. (Since 2.7)
+ #
++# @cpu-throttle-tailslow: Make throttle slower at tail stage
++#                         At the tail stage of throttle, VM is very sens=
+itive to
++#                         CPU percentage. We just throttle 30% of remain=
+ing CPU
++#                         when throttle is more than 80 percentage. The =
+default
++#                         value is false. (Since 4.1)
++#
+ # @tls-creds: ID of the 'tls-creds' object that provides credentials
+ #             for establishing a TLS connection over the migration data
+ #             channel. On the outgoing side of the migration, the creden=
+tials
+@@ -836,6 +856,7 @@
+             '*decompress-threads': 'uint8',
+             '*cpu-throttle-initial': 'uint8',
+             '*cpu-throttle-increment': 'uint8',
++            '*cpu-throttle-tailslow': 'bool',
+             '*tls-creds': 'str',
+             '*tls-hostname': 'str',
+             '*tls-authz': 'str',
 --=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+2.19.1
 
---NJSRbAqOy4NeGDns
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl5GEqoACgkQbDjKyiDZ
-s5Kk0xAAyvkeD7FXQalS8WVA7HjqxfRfm2XATpuf93q/ewgRj4er/tAm1HdosqRE
-G7xCHhpBVdtVg5+9sYX38bVkrW8pf3rGPUAhVgWZRax7eXIFqxYDwxwHUPkAba3C
-cH+8ubcmMemYO+M8YRp9Xc+6eOmeg7Bjcoy+8irAjNTRW4UlQlTQwLT7V0AGqdqc
-GEyL/9J17e8wDEs3QuP76zxPdsSo2uR19W17oK83amYqDxtpBIjDZW6Aa5Z349s7
-K4n+pHN2pZ09RTVSm29dKcG4WnGegWVW2H1B/fNFDQ602J6axzsUhbXHO8/YAK9N
-ikzWgi7MGYxWoeJwfO6zwKx6sru2H5lHwUyzliTLSJS1RjwLdbxZEXWCx79GaNFb
-Ezd31ob0LM/03Tapz/hBmD3NANpYFsX9K0BysVPh+wRRIImNhhGx2fJ+z6YVGKCv
-okYrhQAtXxQ5/T9tFcarIqwbcfQUFegzqDzFUl8w6vTZK4DBI6s3L0V+daWcEBt3
-M9k0my9+BZDE0/AtAZ6WXKIyKbnyCaUo49qtInvRrZGh9Ld4K1xmRAzyxm8FoPBH
-3CV+MGuI5ceUil0RfuFwGzNFTbrAR+ni6mOO32joomj4xLJfKmk8CPP5wivsfmz6
-kLEG5RmrO8hWdG6mHgKH/VK5CDljVeXgXLtD6K8bvThryjW5K7o=
-=PcVG
------END PGP SIGNATURE-----
-
---NJSRbAqOy4NeGDns--
 
