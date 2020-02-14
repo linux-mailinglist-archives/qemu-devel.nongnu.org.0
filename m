@@ -2,63 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36C6115EBC1
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Feb 2020 18:23:12 +0100 (CET)
-Received: from localhost ([::1]:42120 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EFCB15EB3F
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Feb 2020 18:20:12 +0100 (CET)
+Received: from localhost ([::1]:42068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j2egJ-0000sS-AE
-	for lists+qemu-devel@lfdr.de; Fri, 14 Feb 2020 12:23:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49225)
+	id 1j2edP-0004u7-Ec
+	for lists+qemu-devel@lfdr.de; Fri, 14 Feb 2020 12:20:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49383)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@redhat.com>) id 1j2ebH-0001HK-Me
- for qemu-devel@nongnu.org; Fri, 14 Feb 2020 12:18:01 -0500
+ (envelope-from <armbru@redhat.com>) id 1j2ec7-0002vu-0D
+ for qemu-devel@nongnu.org; Fri, 14 Feb 2020 12:18:52 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1j2ebG-0007sf-44
- for qemu-devel@nongnu.org; Fri, 14 Feb 2020 12:17:59 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:47155
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <armbru@redhat.com>) id 1j2ec5-0000Vl-SK
+ for qemu-devel@nongnu.org; Fri, 14 Feb 2020 12:18:50 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:60731
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1j2ebF-0007rG-Sy
- for qemu-devel@nongnu.org; Fri, 14 Feb 2020 12:17:58 -0500
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1j2ec5-0000VV-NM
+ for qemu-devel@nongnu.org; Fri, 14 Feb 2020 12:18:49 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581700677;
+ s=mimecast20190719; t=1581700729;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=OnSEfRGmRliVSiKT2mcNbQ5S8FcvsiuOgfaoBZf3qzc=;
- b=IzPhanVW9+SL0OWDqJuEyYkL4JL6tBfXStu4noUD2otYip0rCkpTCakVvPZpuVj0kuKlhx
- VV9e2+OpexgVh94k0JLTn5DikbDa74rg6zCBLDWeC0KucVZlLy5ZLVvAJNTq2r8G6YbZHb
- 69hbYqFqUJ6yXf9Ymy7lBFEER1f/0KA=
+ bh=iQT2UGPyscxnHbGL8xA44T/WoME8l5Ip5yjZUAEWI04=;
+ b=gh5W/W0Mzys2n/9EADJVo80TBukvXzZWNHypz2KOtUNkXsXQhuTCpMnpGYQW3zxuetmIiR
+ 2+20ix9R2xuE7SX9G41njHASrd7N9XynpVH36pAi0phECA5/Ude+DUyry08/ZhQKRLcS6s
+ VqmQszhORmRUFNc6yCipKC39Cfl+At4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-394-s3250BkROFKRDPf6AzzoPQ-1; Fri, 14 Feb 2020 12:17:55 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-232-uFmEalWVNVObWY1mFUmQ-A-1; Fri, 14 Feb 2020 12:18:47 -0500
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6CB2E800D55;
- Fri, 14 Feb 2020 17:17:54 +0000 (UTC)
-Received: from localhost (ovpn-116-135.ams2.redhat.com [10.36.116.135])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D57D05DA81;
- Fri, 14 Feb 2020 17:17:48 +0000 (UTC)
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 5/5] aio-posix: make AioHandler dispatch O(1) with epoll
-Date: Fri, 14 Feb 2020 17:17:12 +0000
-Message-Id: <20200214171712.541358-6-stefanha@redhat.com>
-In-Reply-To: <20200214171712.541358-1-stefanha@redhat.com>
-References: <20200214171712.541358-1-stefanha@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1DD998017CC;
+ Fri, 14 Feb 2020 17:18:46 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-117-234.ams2.redhat.com
+ [10.36.117.234])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4983B60BE1;
+ Fri, 14 Feb 2020 17:18:43 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id C4D4C11385C9; Fri, 14 Feb 2020 18:18:41 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH v2 01/30] configure: Allow user to specify sphinx-build
+ binary
+References: <20200213175647.17628-1-peter.maydell@linaro.org>
+ <20200213175647.17628-2-peter.maydell@linaro.org>
+ <87v9o91xvv.fsf@dusky.pond.sub.org>
+ <CAFEAcA8ZPrkfzzyxe-im609GQAxEqRz_z3Ar2EFdcFqzyN4p1g@mail.gmail.com>
+ <87d0ahxsv1.fsf@dusky.pond.sub.org>
+ <CAFEAcA9ZQfeKA7Nb4FSmk8G3JmCFQa4VsMYLQmE2-UBj7YVeuA@mail.gmail.com>
+Date: Fri, 14 Feb 2020 18:18:41 +0100
+In-Reply-To: <CAFEAcA9ZQfeKA7Nb4FSmk8G3JmCFQa4VsMYLQmE2-UBj7YVeuA@mail.gmail.com>
+ (Peter Maydell's message of "Fri, 14 Feb 2020 12:39:40 +0000")
+Message-ID: <87a75lqe8e.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: s3250BkROFKRDPf6AzzoPQ-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: uFmEalWVNVObWY1mFUmQ-A-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: base64
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,137 +81,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: John Snow <jsnow@redhat.com>,
+ "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-RmlsZSBkZXNjcmlwdG9yIG1vbml0b3JpbmcgaXMgTygxKSB3aXRoIGVwb2xsKDcpLCBidXQKYWlv
-X2Rpc3BhdGNoX2hhbmRsZXJzKCkgc3RpbGwgc2NhbnMgYWxsIEFpb0hhbmRsZXJzIGluc3RlYWQg
-b2YKZGlzcGF0Y2hpbmcganVzdCB0aG9zZSB0aGF0IGFyZSByZWFkeS4gIFRoaXMgbWFrZXMgYWlv
-X3BvbGwoKSBPKG4pIHdpdGgKcmVzcGVjdCB0byB0aGUgdG90YWwgbnVtYmVyIG9mIHJlZ2lzdGVy
-ZWQgaGFuZGxlcnMuCgpBZGQgYSBsb2NhbCByZWFkeV9saXN0IHRvIGFpb19wb2xsKCkgc28gdGhh
-dCBlYWNoIG5lc3RlZCBhaW9fcG9sbCgpCmJ1aWxkcyBhIGxpc3Qgb2YgaGFuZGxlcnMgcmVhZHkg
-dG8gYmUgZGlzcGF0Y2hlZC4gIFNpbmNlIGZpbGUgZGVzY3JpcHRvcgpwb2xsaW5nIGlzIGxldmVs
-LXRyaWdnZXJlZCwgbmVzdGVkIGFpb19wb2xsKCkgY2FsbHMgYWxzbyBzZWUgZmRzIHRoYXQKd2Vy
-ZSByZWFkeSBpbiB0aGUgcGFyZW50IGJ1dCBub3QgeWV0IGRpc3BhdGNoZWQuICBUaGlzIGd1YXJh
-bnRlZXMgdGhhdApuZXN0ZWQgYWlvX3BvbGwoKSBpbnZvY2F0aW9ucyB3aWxsIGRpc3BhdGNoIGFs
-bCBmZHMsIGV2ZW4gdGhvc2UgdGhhdApiZWNhbWUgcmVhZHkgYmVmb3JlIHRoZSBuZXN0ZWQgaW52
-b2NhdGlvbi4KClNpbmNlIG9ubHkgaGFuZGxlcnMgcmVhZHkgdG8gYmUgZGlzcGF0Y2hlZCBhcmUg
-cGxhY2VkIG9udG8gdGhlCnJlYWR5X2xpc3QsIHRoZSBuZXcgYWlvX2Rpc3BhdGNoX3JlYWR5X2hh
-bmRsZXJzKCkgZnVuY3Rpb24gcHJvdmlkZXMgTygxKQpkaXNwYXRjaC4KCk5vdGUgdGhhdCBBaW9D
-b250ZXh0IHBvbGxpbmcgaXMgc3RpbGwgTyhuKSBhbmQgY3VycmVudGx5IGNhbm5vdCBiZSBmdWxs
-eQpkaXNhYmxlZC4gIFRoaXMgc3RpbGwgbmVlZHMgdG8gYmUgZml4ZWQgYmVmb3JlIGFpb19wb2xs
-KCkgaXMgZnVsbHkgTygxKS4KClNpZ25lZC1vZmYtYnk6IFN0ZWZhbiBIYWpub2N6aSA8c3RlZmFu
-aGFAcmVkaGF0LmNvbT4KLS0tCiB1dGlsL2Fpby1wb3NpeC5jIHwgMTA2ICsrKysrKysrKysrKysr
-KysrKysrKysrKysrKysrKysrKy0tLS0tLS0tLS0tLS0tCiAxIGZpbGUgY2hhbmdlZCwgNzYgaW5z
-ZXJ0aW9ucygrKSwgMzAgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvdXRpbC9haW8tcG9zaXgu
-YyBiL3V0aWwvYWlvLXBvc2l4LmMKaW5kZXggM2E5OGEyYWNiOS4uZGMzM2NhMDhhNiAxMDA2NDQK
-LS0tIGEvdXRpbC9haW8tcG9zaXguYworKysgYi91dGlsL2Fpby1wb3NpeC5jCkBAIC0zNCw2ICsz
-NCw3IEBAIHN0cnVjdCBBaW9IYW5kbGVyCiAgICAgdm9pZCAqb3BhcXVlOwogICAgIGJvb2wgaXNf
-ZXh0ZXJuYWw7CiAgICAgUUxJU1RfRU5UUlkoQWlvSGFuZGxlcikgbm9kZTsKKyAgICBRTElTVF9F
-TlRSWShBaW9IYW5kbGVyKSBub2RlX3JlYWR5OyAvKiBvbmx5IHVzZWQgZHVyaW5nIGFpb19wb2xs
-KCkgKi8KICAgICBRTElTVF9FTlRSWShBaW9IYW5kbGVyKSBub2RlX2RlbGV0ZWQ7CiB9OwogCkBA
-IC0xMDQsNyArMTA1LDE4IEBAIHN0YXRpYyB2b2lkIGFpb19lcG9sbF91cGRhdGUoQWlvQ29udGV4
-dCAqY3R4LCBBaW9IYW5kbGVyICpub2RlLCBib29sIGlzX25ldykKICAgICB9CiB9CiAKLXN0YXRp
-YyBpbnQgYWlvX2Vwb2xsKEFpb0NvbnRleHQgKmN0eCwgaW50NjRfdCB0aW1lb3V0KQorLyogQWRk
-IGEgaGFuZGxlciB0byBhIHJlYWR5IGxpc3QgKi8KK3N0YXRpYyB2b2lkIGFkZF9yZWFkeV9oYW5k
-bGVyKEFpb0hhbmRsZXJMaXN0ICpyZWFkeV9saXN0LAorICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgQWlvSGFuZGxlciAqbm9kZSwKKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGlu
-dCByZXZlbnRzKQoreworICAgIFFMSVNUX1NBRkVfUkVNT1ZFKG5vZGUsIG5vZGVfcmVhZHkpOyAv
-KiByZW1vdmUgZnJvbSBuZXN0ZWQgcGFyZW50J3MgbGlzdCAqLworICAgIG5vZGUtPnBmZC5yZXZl
-bnRzID0gcmV2ZW50czsKKyAgICBRTElTVF9JTlNFUlRfSEVBRChyZWFkeV9saXN0LCBub2RlLCBu
-b2RlX3JlYWR5KTsKK30KKworc3RhdGljIGludCBhaW9fZXBvbGwoQWlvQ29udGV4dCAqY3R4LCBB
-aW9IYW5kbGVyTGlzdCAqcmVhZHlfbGlzdCwKKyAgICAgICAgICAgICAgICAgICAgIGludDY0X3Qg
-dGltZW91dCkKIHsKICAgICBHUG9sbEZEIHBmZCA9IHsKICAgICAgICAgLmZkID0gY3R4LT5lcG9s
-bGZkLApAQCAtMTI5LDExICsxNDEsMTMgQEAgc3RhdGljIGludCBhaW9fZXBvbGwoQWlvQ29udGV4
-dCAqY3R4LCBpbnQ2NF90IHRpbWVvdXQpCiAgICAgICAgIH0KICAgICAgICAgZm9yIChpID0gMDsg
-aSA8IHJldDsgaSsrKSB7CiAgICAgICAgICAgICBpbnQgZXYgPSBldmVudHNbaV0uZXZlbnRzOwor
-ICAgICAgICAgICAgaW50IHJldmVudHMgPSAoZXYgJiBFUE9MTElOID8gR19JT19JTiA6IDApIHwK
-KyAgICAgICAgICAgICAgICAgICAgICAgICAgKGV2ICYgRVBPTExPVVQgPyBHX0lPX09VVCA6IDAp
-IHwKKyAgICAgICAgICAgICAgICAgICAgICAgICAgKGV2ICYgRVBPTExIVVAgPyBHX0lPX0hVUCA6
-IDApIHwKKyAgICAgICAgICAgICAgICAgICAgICAgICAgKGV2ICYgRVBPTExFUlIgPyBHX0lPX0VS
-UiA6IDApOworCiAgICAgICAgICAgICBub2RlID0gZXZlbnRzW2ldLmRhdGEucHRyOwotICAgICAg
-ICAgICAgbm9kZS0+cGZkLnJldmVudHMgPSAoZXYgJiBFUE9MTElOID8gR19JT19JTiA6IDApIHwK
-LSAgICAgICAgICAgICAgICAoZXYgJiBFUE9MTE9VVCA/IEdfSU9fT1VUIDogMCkgfAotICAgICAg
-ICAgICAgICAgIChldiAmIEVQT0xMSFVQID8gR19JT19IVVAgOiAwKSB8Ci0gICAgICAgICAgICAg
-ICAgKGV2ICYgRVBPTExFUlIgPyBHX0lPX0VSUiA6IDApOworICAgICAgICAgICAgYWRkX3JlYWR5
-X2hhbmRsZXIocmVhZHlfbGlzdCwgbm9kZSwgcmV2ZW50cyk7CiAgICAgICAgIH0KICAgICB9CiBv
-dXQ6CkBAIC00MzcsMzYgKzQ1MSw2MyBAQCBzdGF0aWMgdm9pZCBhaW9fZnJlZV9kZWxldGVkX2hh
-bmRsZXJzKEFpb0NvbnRleHQgKmN0eCkKICAgICBxZW11X2xvY2tjbnRfaW5jX2FuZF91bmxvY2so
-JmN0eC0+bGlzdF9sb2NrKTsKIH0KIAotc3RhdGljIGJvb2wgYWlvX2Rpc3BhdGNoX2hhbmRsZXJz
-KEFpb0NvbnRleHQgKmN0eCkKK3N0YXRpYyBib29sIGFpb19kaXNwYXRjaF9oYW5kbGVyKEFpb0Nv
-bnRleHQgKmN0eCwgQWlvSGFuZGxlciAqbm9kZSkKIHsKLSAgICBBaW9IYW5kbGVyICpub2RlLCAq
-dG1wOwogICAgIGJvb2wgcHJvZ3Jlc3MgPSBmYWxzZTsKKyAgICBpbnQgcmV2ZW50czsKIAotICAg
-IFFMSVNUX0ZPUkVBQ0hfU0FGRV9SQ1Uobm9kZSwgJmN0eC0+YWlvX2hhbmRsZXJzLCBub2RlLCB0
-bXApIHsKLSAgICAgICAgaW50IHJldmVudHM7CisgICAgcmV2ZW50cyA9IG5vZGUtPnBmZC5yZXZl
-bnRzICYgbm9kZS0+cGZkLmV2ZW50czsKKyAgICBub2RlLT5wZmQucmV2ZW50cyA9IDA7CiAKLSAg
-ICAgICAgcmV2ZW50cyA9IG5vZGUtPnBmZC5yZXZlbnRzICYgbm9kZS0+cGZkLmV2ZW50czsKLSAg
-ICAgICAgbm9kZS0+cGZkLnJldmVudHMgPSAwOworICAgIGlmICghUUxJU1RfSVNfSU5TRVJURUQo
-bm9kZSwgbm9kZV9kZWxldGVkKSAmJgorICAgICAgICAocmV2ZW50cyAmIChHX0lPX0lOIHwgR19J
-T19IVVAgfCBHX0lPX0VSUikpICYmCisgICAgICAgIGFpb19ub2RlX2NoZWNrKGN0eCwgbm9kZS0+
-aXNfZXh0ZXJuYWwpICYmCisgICAgICAgIG5vZGUtPmlvX3JlYWQpIHsKKyAgICAgICAgbm9kZS0+
-aW9fcmVhZChub2RlLT5vcGFxdWUpOwogCi0gICAgICAgIGlmICghUUxJU1RfSVNfSU5TRVJURUQo
-bm9kZSwgbm9kZV9kZWxldGVkKSAmJgotICAgICAgICAgICAgKHJldmVudHMgJiAoR19JT19JTiB8
-IEdfSU9fSFVQIHwgR19JT19FUlIpKSAmJgotICAgICAgICAgICAgYWlvX25vZGVfY2hlY2soY3R4
-LCBub2RlLT5pc19leHRlcm5hbCkgJiYKLSAgICAgICAgICAgIG5vZGUtPmlvX3JlYWQpIHsKLSAg
-ICAgICAgICAgIG5vZGUtPmlvX3JlYWQobm9kZS0+b3BhcXVlKTsKLQotICAgICAgICAgICAgLyog
-YWlvX25vdGlmeSgpIGRvZXMgbm90IGNvdW50IGFzIHByb2dyZXNzICovCi0gICAgICAgICAgICBp
-ZiAobm9kZS0+b3BhcXVlICE9ICZjdHgtPm5vdGlmaWVyKSB7Ci0gICAgICAgICAgICAgICAgcHJv
-Z3Jlc3MgPSB0cnVlOwotICAgICAgICAgICAgfQotICAgICAgICB9Ci0gICAgICAgIGlmICghUUxJ
-U1RfSVNfSU5TRVJURUQobm9kZSwgbm9kZV9kZWxldGVkKSAmJgotICAgICAgICAgICAgKHJldmVu
-dHMgJiAoR19JT19PVVQgfCBHX0lPX0VSUikpICYmCi0gICAgICAgICAgICBhaW9fbm9kZV9jaGVj
-ayhjdHgsIG5vZGUtPmlzX2V4dGVybmFsKSAmJgotICAgICAgICAgICAgbm9kZS0+aW9fd3JpdGUp
-IHsKLSAgICAgICAgICAgIG5vZGUtPmlvX3dyaXRlKG5vZGUtPm9wYXF1ZSk7CisgICAgICAgIC8q
-IGFpb19ub3RpZnkoKSBkb2VzIG5vdCBjb3VudCBhcyBwcm9ncmVzcyAqLworICAgICAgICBpZiAo
-bm9kZS0+b3BhcXVlICE9ICZjdHgtPm5vdGlmaWVyKSB7CiAgICAgICAgICAgICBwcm9ncmVzcyA9
-IHRydWU7CiAgICAgICAgIH0KICAgICB9CisgICAgaWYgKCFRTElTVF9JU19JTlNFUlRFRChub2Rl
-LCBub2RlX2RlbGV0ZWQpICYmCisgICAgICAgIChyZXZlbnRzICYgKEdfSU9fT1VUIHwgR19JT19F
-UlIpKSAmJgorICAgICAgICBhaW9fbm9kZV9jaGVjayhjdHgsIG5vZGUtPmlzX2V4dGVybmFsKSAm
-JgorICAgICAgICBub2RlLT5pb193cml0ZSkgeworICAgICAgICBub2RlLT5pb193cml0ZShub2Rl
-LT5vcGFxdWUpOworICAgICAgICBwcm9ncmVzcyA9IHRydWU7CisgICAgfQorCisgICAgcmV0dXJu
-IHByb2dyZXNzOworfQorCisvKgorICogSWYgd2UgaGF2ZSBhIGxpc3Qgb2YgcmVhZHkgaGFuZGxl
-cnMgdGhlbiB0aGlzIGlzIG1vcmUgZWZmaWNpZW50IHRoYW4KKyAqIHNjYW5uaW5nIGFsbCBoYW5k
-bGVycyB3aXRoIGFpb19kaXNwYXRjaF9oYW5kbGVycygpLgorICovCitzdGF0aWMgYm9vbCBhaW9f
-ZGlzcGF0Y2hfcmVhZHlfaGFuZGxlcnMoQWlvQ29udGV4dCAqY3R4LAorICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgIEFpb0hhbmRsZXJMaXN0ICpyZWFkeV9saXN0KQorewor
-ICAgIGJvb2wgcHJvZ3Jlc3MgPSBmYWxzZTsKKyAgICBBaW9IYW5kbGVyICpub2RlOworCisgICAg
-d2hpbGUgKChub2RlID0gUUxJU1RfRklSU1QocmVhZHlfbGlzdCkpKSB7CisgICAgICAgIFFMSVNU
-X1NBRkVfUkVNT1ZFKG5vZGUsIG5vZGVfcmVhZHkpOworICAgICAgICBwcm9ncmVzcyA9IGFpb19k
-aXNwYXRjaF9oYW5kbGVyKGN0eCwgbm9kZSkgfHwgcHJvZ3Jlc3M7CisgICAgfQorCisgICAgcmV0
-dXJuIHByb2dyZXNzOworfQorCisvKiBTbG93ZXIgdGhhbiBhaW9fZGlzcGF0Y2hfcmVhZHlfaGFu
-ZGxlcnMoKSBidXQgb25seSB1c2VkIHZpYSBnbGliICovCitzdGF0aWMgYm9vbCBhaW9fZGlzcGF0
-Y2hfaGFuZGxlcnMoQWlvQ29udGV4dCAqY3R4KQoreworICAgIEFpb0hhbmRsZXIgKm5vZGUsICp0
-bXA7CisgICAgYm9vbCBwcm9ncmVzcyA9IGZhbHNlOworCisgICAgUUxJU1RfRk9SRUFDSF9TQUZF
-X1JDVShub2RlLCAmY3R4LT5haW9faGFuZGxlcnMsIG5vZGUsIHRtcCkgeworICAgICAgICBwcm9n
-cmVzcyA9IGFpb19kaXNwYXRjaF9oYW5kbGVyKGN0eCwgbm9kZSkgfHwgcHJvZ3Jlc3M7CisgICAg
-fQogCiAgICAgcmV0dXJuIHByb2dyZXNzOwogfQpAQCAtNjI4LDYgKzY2OSw3IEBAIHN0YXRpYyBi
-b29sIHRyeV9wb2xsX21vZGUoQWlvQ29udGV4dCAqY3R4LCBpbnQ2NF90ICp0aW1lb3V0KQogCiBi
-b29sIGFpb19wb2xsKEFpb0NvbnRleHQgKmN0eCwgYm9vbCBibG9ja2luZykKIHsKKyAgICBBaW9I
-YW5kbGVyTGlzdCByZWFkeV9saXN0ID0gUUxJU1RfSEVBRF9JTklUSUFMSVpFUihyZWFkeV9saXN0
-KTsKICAgICBBaW9IYW5kbGVyICpub2RlOwogICAgIGludCBpOwogICAgIGludCByZXQgPSAwOwpA
-QCAtNjc4LDcgKzcyMCw3IEBAIGJvb2wgYWlvX3BvbGwoQWlvQ29udGV4dCAqY3R4LCBib29sIGJs
-b2NraW5nKQogICAgICAgICAvKiB3YWl0IHVudGlsIG5leHQgZXZlbnQgKi8KICAgICAgICAgaWYg
-KGFpb19lcG9sbF9jaGVja19wb2xsKGN0eCwgcG9sbGZkcywgbnBmZCwgdGltZW91dCkpIHsKICAg
-ICAgICAgICAgIG5wZmQgPSAwOyAvKiBwb2xsZmRzW10gaXMgbm90IGJlaW5nIHVzZWQgKi8KLSAg
-ICAgICAgICAgIHJldCA9IGFpb19lcG9sbChjdHgsIHRpbWVvdXQpOworICAgICAgICAgICAgcmV0
-ID0gYWlvX2Vwb2xsKGN0eCwgJnJlYWR5X2xpc3QsIHRpbWVvdXQpOwogICAgICAgICB9IGVsc2Ug
-IHsKICAgICAgICAgICAgIHJldCA9IHFlbXVfcG9sbF9ucyhwb2xsZmRzLCBucGZkLCB0aW1lb3V0
-KTsKICAgICAgICAgfQpAQCAtNzMzLDcgKzc3NSwxMSBAQCBib29sIGFpb19wb2xsKEFpb0NvbnRl
-eHQgKmN0eCwgYm9vbCBibG9ja2luZykKICAgICAvKiBpZiB3ZSBoYXZlIGFueSByZWFkYWJsZSBm
-ZHMsIGRpc3BhdGNoIGV2ZW50ICovCiAgICAgaWYgKHJldCA+IDApIHsKICAgICAgICAgZm9yIChp
-ID0gMDsgaSA8IG5wZmQ7IGkrKykgewotICAgICAgICAgICAgbm9kZXNbaV0tPnBmZC5yZXZlbnRz
-ID0gcG9sbGZkc1tpXS5yZXZlbnRzOworICAgICAgICAgICAgaW50IHJldmVudHMgPSBwb2xsZmRz
-W2ldLnJldmVudHM7CisKKyAgICAgICAgICAgIGlmIChyZXZlbnRzKSB7CisgICAgICAgICAgICAg
-ICAgYWRkX3JlYWR5X2hhbmRsZXIoJnJlYWR5X2xpc3QsIG5vZGVzW2ldLCByZXZlbnRzKTsKKyAg
-ICAgICAgICAgIH0KICAgICAgICAgfQogICAgIH0KIApAQCAtNzQyLDcgKzc4OCw3IEBAIGJvb2wg
-YWlvX3BvbGwoQWlvQ29udGV4dCAqY3R4LCBib29sIGJsb2NraW5nKQogICAgIHByb2dyZXNzIHw9
-IGFpb19iaF9wb2xsKGN0eCk7CiAKICAgICBpZiAocmV0ID4gMCkgewotICAgICAgICBwcm9ncmVz
-cyB8PSBhaW9fZGlzcGF0Y2hfaGFuZGxlcnMoY3R4KTsKKyAgICAgICAgcHJvZ3Jlc3MgfD0gYWlv
-X2Rpc3BhdGNoX3JlYWR5X2hhbmRsZXJzKGN0eCwgJnJlYWR5X2xpc3QpOwogICAgIH0KIAogICAg
-IGFpb19mcmVlX2RlbGV0ZWRfaGFuZGxlcnMoY3R4KTsKLS0gCjIuMjQuMQoK
+Peter Maydell <peter.maydell@linaro.org> writes:
+
+> On Fri, 14 Feb 2020 at 12:20, Markus Armbruster <armbru@redhat.com> wrote=
+:
+>>
+>> Peter Maydell <peter.maydell@linaro.org> writes:
+>> >>  # Default objcc to clang if available, otherwise use CC
+>> >> @@ -4803,7 +4816,7 @@ has_sphinx_build() {
+>> >>      # sphinx-build doesn't exist at all or if it is too old.
+>> >>      mkdir -p "$TMPDIR1/sphinx"
+>> >>      touch "$TMPDIR1/sphinx/index.rst"
+>> >> -    $sphinx_build -c "$source_path/docs" -b html "$TMPDIR1/sphinx" "=
+$TMPDIR1/sphinx/out" >/dev/null 2>&1
+>> >> +    "$sphinx_build" -c "$source_path/docs" -b html "$TMPDIR1/sphinx"=
+ "$TMPDIR1/sphinx/out" >/dev/null 2>&1
+>> >>  }
+>> >
+>> > This change isn't related to trying sphinx-build-3 --
+>> > did you actually need it ?
+>>
+>> If the for loop finds nothing, $sphinx_build remains empty.  Quoting the
+>> variable seems cleaner.
+>
+> Oh, I see. Anyway, yes, happy to have quotes here.
+
+I decided I prefer this as a separate patch, between PATCH 01 and 02.
+
+Hmm, maybe I should squash the last hunk into PATCH 01.
+
+
+From 10d174a9f811708807fb60a610e88084f282c222 Mon Sep 17 00:00:00 2001
+From: Markus Armbruster <armbru@redhat.com>
+Date: Fri, 14 Feb 2020 07:33:43 +0100
+Subject: [PATCH] configure: Pick sphinx-build-3 when available
+
+The next commit will require a sphinx-build that uses Python 3.  On
+some systems, sphinx-build is fine, on others you need to use
+sphinx-build-3.  To keep things working out of the box on both kinds
+of systems, try sphinx-build-3, then sphinx-build.
+
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
+---
+ configure | 15 +++++++++++++--
+ 1 file changed, 13 insertions(+), 2 deletions(-)
+
+diff --git a/configure b/configure
+index 14172909f0..4cbeb06b86 100755
+--- a/configure
++++ b/configure
+@@ -584,7 +584,6 @@ query_pkg_config() {
+ }
+ pkg_config=3Dquery_pkg_config
+ sdl2_config=3D"${SDL2_CONFIG-${cross_prefix}sdl2-config}"
+-sphinx_build=3Dsphinx-build
+=20
+ # If the user hasn't specified ARFLAGS, default to 'rv', just as make does=
+.
+ ARFLAGS=3D"${ARFLAGS-rv}"
+@@ -903,6 +902,7 @@ fi
+=20
+ : ${make=3D${MAKE-make}}
+ : ${install=3D${INSTALL-install}}
++
+ # We prefer python 3.x. A bare 'python' is traditionally
+ # python 2.x, but some distros have it as python 3.x, so
+ # we check that too
+@@ -915,6 +915,17 @@ do
+         break
+     fi
+ done
++
++sphinx_build=3D
++for binary in sphinx-build-3 sphinx-build
++do
++    if has "$binary"
++    then
++        sphinx_build=3D$(command -v "$binary")
++        break
++    fi
++done
++
+ : ${smbd=3D${SMBD-/usr/sbin/smbd}}
+=20
+ # Default objcc to clang if available, otherwise use CC
+@@ -4803,7 +4814,7 @@ has_sphinx_build() {
+     # sphinx-build doesn't exist at all or if it is too old.
+     mkdir -p "$TMPDIR1/sphinx"
+     touch "$TMPDIR1/sphinx/index.rst"
+-    $sphinx_build -c "$source_path/docs" -b html "$TMPDIR1/sphinx" "$TMPDI=
+R1/sphinx/out" >/dev/null 2>&1
++    "$sphinx_build" -c "$source_path/docs" -b html "$TMPDIR1/sphinx" "$TMP=
+DIR1/sphinx/out" >/dev/null 2>&1
+ }
+=20
+ # Check if tools are available to build documentation.
+--=20
+2.21.1
 
 
