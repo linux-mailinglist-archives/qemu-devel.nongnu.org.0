@@ -2,80 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABCE215DABE
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Feb 2020 16:23:45 +0100 (CET)
-Received: from localhost ([::1]:40240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE95615DA8B
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Feb 2020 16:20:53 +0100 (CET)
+Received: from localhost ([::1]:40160 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j2coi-0002Rr-LL
-	for lists+qemu-devel@lfdr.de; Fri, 14 Feb 2020 10:23:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46652)
+	id 1j2clw-0004qn-To
+	for lists+qemu-devel@lfdr.de; Fri, 14 Feb 2020 10:20:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46608)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <frankja@linux.ibm.com>) id 1j2cia-00077Q-AX
- for qemu-devel@nongnu.org; Fri, 14 Feb 2020 10:17:25 -0500
+ (envelope-from <frankja@linux.ibm.com>) id 1j2ciW-0006wk-MF
+ for qemu-devel@nongnu.org; Fri, 14 Feb 2020 10:17:21 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <frankja@linux.ibm.com>) id 1j2ciZ-0006Di-4T
- for qemu-devel@nongnu.org; Fri, 14 Feb 2020 10:17:24 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:41482)
+ (envelope-from <frankja@linux.ibm.com>) id 1j2ciV-0006B9-FH
+ for qemu-devel@nongnu.org; Fri, 14 Feb 2020 10:17:20 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:45924)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <frankja@linux.ibm.com>)
- id 1j2ciY-0006DJ-Sv
- for qemu-devel@nongnu.org; Fri, 14 Feb 2020 10:17:23 -0500
-Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
+ id 1j2ciV-0006AK-7t
+ for qemu-devel@nongnu.org; Fri, 14 Feb 2020 10:17:19 -0500
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 01EFGTlE063200
- for <qemu-devel@nongnu.org>; Fri, 14 Feb 2020 10:17:22 -0500
-Received: from e06smtp01.uk.ibm.com (e06smtp01.uk.ibm.com [195.75.94.97])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2y4qyuaad2-1
+ 01EFGZve006910
+ for <qemu-devel@nongnu.org>; Fri, 14 Feb 2020 10:17:18 -0500
+Received: from e06smtp02.uk.ibm.com (e06smtp02.uk.ibm.com [195.75.94.98])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2y4j8gmhq6-1
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Fri, 14 Feb 2020 10:17:20 -0500
+ for <qemu-devel@nongnu.org>; Fri, 14 Feb 2020 10:17:18 -0500
 Received: from localhost
- by e06smtp01.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ by e06smtp02.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
  Violators will be prosecuted
  for <qemu-devel@nongnu.org> from <frankja@linux.ibm.com>;
- Fri, 14 Feb 2020 15:17:15 -0000
-Received: from b06cxnps3074.portsmouth.uk.ibm.com (9.149.109.194)
- by e06smtp01.uk.ibm.com (192.168.101.131) with IBM ESMTP SMTP Gateway:
+ Fri, 14 Feb 2020 15:17:16 -0000
+Received: from b06cxnps3075.portsmouth.uk.ibm.com (9.149.109.195)
+ by e06smtp02.uk.ibm.com (192.168.101.132) with IBM ESMTP SMTP Gateway:
  Authorized Use Only! Violators will be prosecuted; 
  (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Fri, 14 Feb 2020 15:17:12 -0000
+ Fri, 14 Feb 2020 15:17:14 -0000
 Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
  [9.149.105.59])
- by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 01EFHCr82032088
+ by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 01EFHDgw37028084
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 14 Feb 2020 15:17:12 GMT
+ Fri, 14 Feb 2020 15:17:13 GMT
 Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E3A08A404D;
- Fri, 14 Feb 2020 15:17:11 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id C8874A4051;
+ Fri, 14 Feb 2020 15:17:13 +0000 (GMT)
 Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 90248A4059;
- Fri, 14 Feb 2020 15:17:10 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 6B575A4057;
+ Fri, 14 Feb 2020 15:17:12 +0000 (GMT)
 Received: from localhost.localdomain (unknown [9.145.191.187])
  by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Fri, 14 Feb 2020 15:17:10 +0000 (GMT)
+ Fri, 14 Feb 2020 15:17:12 +0000 (GMT)
 From: Janosch Frank <frankja@linux.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 11/17] s390x: protvirt: SCLP interpretation
-Date: Fri, 14 Feb 2020 10:16:30 -0500
+Subject: [PATCH v3 12/17] s390x: protvirt: Set guest IPL PSW
+Date: Fri, 14 Feb 2020 10:16:31 -0500
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200214151636.8764-1-frankja@linux.ibm.com>
 References: <20200214151636.8764-1-frankja@linux.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-x-cbid: 20021415-4275-0000-0000-000003A17B65
+x-cbid: 20021415-0008-0000-0000-00000352DDEB
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 20021415-4276-0000-0000-000038B57FD4
-Message-Id: <20200214151636.8764-12-frankja@linux.ibm.com>
+x-cbparentid: 20021415-0009-0000-0000-00004A738AF0
+Message-Id: <20200214151636.8764-13-frankja@linux.ibm.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
  definitions=2020-02-14_04:2020-02-12,
  2020-02-14 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 phishscore=0
- priorityscore=1501 suspectscore=1 mlxlogscore=745 lowpriorityscore=0
- impostorscore=0 spamscore=0 bulkscore=0 adultscore=0 mlxscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ suspectscore=1 clxscore=1015
+ phishscore=0 impostorscore=0 bulkscore=0 malwarescore=0 mlxscore=0
+ adultscore=0 spamscore=0 priorityscore=1501 mlxlogscore=999
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2001150001 definitions=main-2002140121
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
 X-Received-From: 148.163.156.1
@@ -95,77 +95,110 @@ Cc: mihajlov@linux.ibm.com, qemu-s390x@nongnu.org, cohuck@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-SCLP for a protected guest is done over the SIDAD, so we need to use
-the s390_cpu_virt_mem_* functions to access the SIDAD instead of guest
-memory when reading/writing SCBs.
-
-To not confuse the sclp emulation, we set 0x4000 as the SCCB address,
-since the function that injects the sclp external interrupt would
-reject a zero sccb address.
+Handling of CPU reset and setting of the IPL psw from guest storage at
+offset 0 is done by a Ultravisor call. Let's only fetch it if
+necessary.
 
 Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 ---
- hw/s390x/sclp.c         | 17 +++++++++++++++++
- include/hw/s390x/sclp.h |  2 ++
- target/s390x/kvm.c      |  5 +++++
- 3 files changed, 24 insertions(+)
+ hw/s390x/pv.c             |  6 ++++++
+ hw/s390x/pv.h             |  2 ++
+ linux-headers/linux/kvm.h |  1 +
+ target/s390x/cpu.c        | 23 ++++++++++++++---------
+ 4 files changed, 23 insertions(+), 9 deletions(-)
 
-diff --git a/hw/s390x/sclp.c b/hw/s390x/sclp.c
-index af0bfbc2ec..5136f5fcbe 100644
---- a/hw/s390x/sclp.c
-+++ b/hw/s390x/sclp.c
-@@ -193,6 +193,23 @@ static void sclp_execute(SCLPDevice *sclp, SCCB *sccb, uint32_t code)
-     }
+diff --git a/hw/s390x/pv.c b/hw/s390x/pv.c
+index 5b6a26cba9..845764859c 100644
+--- a/hw/s390x/pv.c
++++ b/hw/s390x/pv.c
+@@ -28,6 +28,7 @@ const char* cmd_names[] = {
+     "VM_UNSHARE_ALL",
+     "VCPU_CREATE",
+     "VCPU_DESTROY",
++    "VCPU_SET_IPL_PSW",
+     NULL
+ };
+ 
+@@ -124,6 +125,11 @@ int s390_pv_set_sec_parms(uint64_t origin, uint64_t length)
+     return s390_pv_cmd(KVM_PV_VM_SET_SEC_PARMS, &args);
  }
  
-+#define SCLP_PV_DUMMY_ADDR 0x4000
-+int sclp_service_call_protected(CPUS390XState *env, uint64_t sccb,
-+                                uint32_t code)
++void s390_pv_set_ipl_psw(CPUState *cs)
 +{
-+    SCLPDevice *sclp = get_sclp_device();
-+    SCLPDeviceClass *sclp_c = SCLP_GET_CLASS(sclp);
-+    SCCB work_sccb;
-+    hwaddr sccb_len = sizeof(SCCB);
-+
-+    s390_cpu_pv_mem_read(env_archcpu(env), 0, &work_sccb, sccb_len);
-+    sclp_c->execute(sclp, &work_sccb, code);
-+    s390_cpu_pv_mem_write(env_archcpu(env), 0, &work_sccb,
-+                          be16_to_cpu(work_sccb.h.length));
-+    sclp_c->service_interrupt(sclp, SCLP_PV_DUMMY_ADDR);
-+    return 0;
++    s390_pv_cmd_vcpu_exit(cs, KVM_PV_VCPU_SET_IPL_PSW, NULL);
 +}
 +
- int sclp_service_call(CPUS390XState *env, uint64_t sccb, uint32_t code)
+ /*
+  * Called for each component in the SE type IPL parameter block 0.
+  */
+diff --git a/hw/s390x/pv.h b/hw/s390x/pv.h
+index 7d20bdd12e..3d37af01ad 100644
+--- a/hw/s390x/pv.h
++++ b/hw/s390x/pv.h
+@@ -19,6 +19,7 @@ void s390_pv_vm_destroy(void);
+ void s390_pv_vcpu_destroy(CPUState *cs);
+ int s390_pv_vcpu_create(CPUState *cs);
+ int s390_pv_set_sec_parms(uint64_t origin, uint64_t length);
++void s390_pv_set_ipl_psw(CPUState *cs);
+ int s390_pv_unpack(uint64_t addr, uint64_t size, uint64_t tweak);
+ void s390_pv_perf_clear_reset(void);
+ int s390_pv_verify(void);
+@@ -29,6 +30,7 @@ void s390_pv_vm_destroy(void) {}
+ void s390_pv_vcpu_destroy(CPUState *cs) {}
+ int s390_pv_vcpu_create(CPUState *cs) { return 0; }
+ int s390_pv_set_sec_parms(uint64_t origin, uint64_t length) { return 0; }
++void s390_pv_set_ipl_psw(CPUState *cs) {}
+ int s390_pv_unpack(uint64_t addr, uint64_t size, uint64_t tweak) { return 0: }
+ void s390_pv_perf_clear_reset(void) {}
+ int s390_pv_verify(void) { return 0; }
+diff --git a/linux-headers/linux/kvm.h b/linux-headers/linux/kvm.h
+index c6f0d04115..85094bf443 100644
+--- a/linux-headers/linux/kvm.h
++++ b/linux-headers/linux/kvm.h
+@@ -1503,6 +1503,7 @@ enum pv_cmd_id {
+ 	KVM_PV_VM_UNSHARE_ALL,
+ 	KVM_PV_VCPU_CREATE,
+ 	KVM_PV_VCPU_DESTROY,
++	KVM_PV_VCPU_SET_IPL_PSW,
+ };
+ 
+ struct kvm_pv_cmd {
+diff --git a/target/s390x/cpu.c b/target/s390x/cpu.c
+index 1dbd84b9d7..24bb0d83ae 100644
+--- a/target/s390x/cpu.c
++++ b/target/s390x/cpu.c
+@@ -78,16 +78,21 @@ static bool s390_cpu_has_work(CPUState *cs)
+ static void s390_cpu_load_normal(CPUState *s)
  {
-     SCLPDevice *sclp = get_sclp_device();
-diff --git a/include/hw/s390x/sclp.h b/include/hw/s390x/sclp.h
-index c54413b78c..c0a3faa37d 100644
---- a/include/hw/s390x/sclp.h
-+++ b/include/hw/s390x/sclp.h
-@@ -217,5 +217,7 @@ void s390_sclp_init(void);
- void sclp_service_interrupt(uint32_t sccb);
- void raise_irq_cpu_hotplug(void);
- int sclp_service_call(CPUS390XState *env, uint64_t sccb, uint32_t code);
-+int sclp_service_call_protected(CPUS390XState *env, uint64_t sccb,
-+                                uint32_t code);
+     S390CPU *cpu = S390_CPU(s);
+-    uint64_t spsw = ldq_phys(s->as, 0);
+-
+-    cpu->env.psw.mask = spsw & 0xffffffff80000000ULL;
+-    /*
+-     * Invert short psw indication, so SIE will report a specification
+-     * exception if it was not set.
+-     */
+-    cpu->env.psw.mask ^= PSW_MASK_SHORTPSW;
+-    cpu->env.psw.addr = spsw & 0x7fffffffULL;
++    CPUS390XState *env = &cpu->env;
++    uint64_t spsw;
  
- #endif
-diff --git a/target/s390x/kvm.c b/target/s390x/kvm.c
-index e4f8242be7..29bcdf839f 100644
---- a/target/s390x/kvm.c
-+++ b/target/s390x/kvm.c
-@@ -1224,6 +1224,11 @@ static void kvm_sclp_service_call(S390CPU *cpu, struct kvm_run *run,
-     sccb = env->regs[ipbh0 & 0xf];
-     code = env->regs[(ipbh0 & 0xf0) >> 4];
- 
-+    if (run->s390_sieic.icptcode == ICPT_PV_INSTR) {
-+        sclp_service_call_protected(env, sccb, code);
-+        return;
++    if (!env->pv) {
++        spsw = ldq_phys(s->as, 0);
++        cpu->env.psw.mask = spsw & 0xffffffff80000000ULL;
++        /*
++         * Invert short psw indication, so SIE will report a specification
++         * exception if it was not set.
++         */
++        cpu->env.psw.mask ^= PSW_MASK_SHORTPSW;
++        cpu->env.psw.addr = spsw & 0x7fffffffULL;
++    } else {
++        s390_pv_set_ipl_psw(s);
 +    }
-+
-     r = sclp_service_call(env, sccb, code);
-     if (r < 0) {
-         kvm_s390_program_interrupt(cpu, -r);
+     s390_cpu_set_state(S390_CPU_STATE_OPERATING, cpu);
+ }
+ #endif
 -- 
 2.20.1
 
