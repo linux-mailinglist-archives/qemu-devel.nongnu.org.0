@@ -2,65 +2,120 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A63215D80C
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Feb 2020 14:13:25 +0100 (CET)
-Received: from localhost ([::1]:38594 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76DCA15D851
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Feb 2020 14:22:41 +0100 (CET)
+Received: from localhost ([::1]:38708 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j2amZ-0005XL-T4
-	for lists+qemu-devel@lfdr.de; Fri, 14 Feb 2020 08:13:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47360)
+	id 1j2avY-0002Dd-H1
+	for lists+qemu-devel@lfdr.de; Fri, 14 Feb 2020 08:22:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49809)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1j2ali-0004jQ-0Q
- for qemu-devel@nongnu.org; Fri, 14 Feb 2020 08:12:30 -0500
+ (envelope-from <saipava@xilinx.com>) id 1j2auD-0000iW-4y
+ for qemu-devel@nongnu.org; Fri, 14 Feb 2020 08:21:18 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1j2alg-0001mk-Ty
- for qemu-devel@nongnu.org; Fri, 14 Feb 2020 08:12:29 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:59360
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1j2alg-0001m2-Py
- for qemu-devel@nongnu.org; Fri, 14 Feb 2020 08:12:28 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581685948;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=76fYOj2p/hlVqL0xNxyP7e1V8V9UC2UUbu4VyTyOZy0=;
- b=ii759axHfVje6WQzQqf3+fe69o0Rp4LiAebtRM79E3+rDFZW3RYUAlDI4SOLl2BRzCXrBU
- v0Z8iln/URU0MqGnhNY+q/0rvKsnmcBCAoeIj0XWOzGPE56xdaez+hmCy+F+00H6ZLTnb+
- nE1BMfT99Vke2+PwYnUYvH7BZy5R+hs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-392-kWEABTSgNuu43zEN1StYeg-1; Fri, 14 Feb 2020 08:12:25 -0500
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ED51D1851FDD;
- Fri, 14 Feb 2020 13:12:24 +0000 (UTC)
-Received: from linux.fritz.box (unknown [10.36.118.128])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id ECD5C5C13E;
- Fri, 14 Feb 2020 13:12:23 +0000 (UTC)
-Date: Fri, 14 Feb 2020 14:12:22 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Hikaru Nishida <hikarupsp@gmail.com>
-Subject: Re: [PATCH] block/vvfat: Do not unref qcow on closing backing bdrv
-Message-ID: <20200214131222.GC5443@linux.fritz.box>
-References: <20200209175156.85748-1-hikarupsp@gmail.com>
+ (envelope-from <saipava@xilinx.com>) id 1j2auB-0004uZ-QM
+ for qemu-devel@nongnu.org; Fri, 14 Feb 2020 08:21:16 -0500
+Received: from mail-mw2nam10on2055.outbound.protection.outlook.com
+ ([40.107.94.55]:46529 helo=NAM10-MW2-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <saipava@xilinx.com>)
+ id 1j2auB-0004nk-CL; Fri, 14 Feb 2020 08:21:15 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=YmbCgq8r6qZVLyd2oBK7lp1NcNgAjpUMETtZAjnEYNvTWfvs610rY2tWXuw9B6vEW6MbXFoaAVNmMb4QwV7OHPWLyIkr7xq9l1OeO4CxqIjcLRBcP5FCUG5lU25fXjK0xjTu9EpH/2rCPqmTOY+2wRL6bcfITUVMQCaVUD2Fg7yMzbUzXdU6ZUySQFpqluJ/cDHgn5iHM1apSpaJtIHrgM0jBWaR6vA+mB2LuDdOzSAZ8PEF4B+j07QeBfNSnnC0gMDborpCAbMPuNsuZxoy69LaDEnZQYnCSuCyezKw7FjvHhhyh+N9Lx7YHJpmSV+ickLqx72V+uXrnk/clx0nUg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ymvym/lU3LVPyVg39R87Hg0dd3qtaLOMAeHDSox53gs=;
+ b=hGFGmZsEHwS1+fQAb1SHU6ljrcKVFdia4Z1+oSoyoix/4SB4GaDOEjZGU0jxHZMtFq5wAqDhCY1avho2LA7r23VFlURUzeTxcuzODOPoYZUpgs4Cyo7LOD2taKyaJo4+LysEtX/mw3ub0b9wbHfu9+FslwHL9S3rpQTzBZnkrEw939r6wJP7yW9CJ+vwcN6lA9k4EXQMKz3+CgWG/33PH7Z4odQ/fpudMdOeCdu81G9xRjGCdOWTF3bVCyjswpIo3U/b0AS0kll3RERtnY6En50GaTltOSRS8MV3ztE/Nh0MryE2Pk2p7dv7IiTqrjVVKikgY2WVBapsmL9Wl19ITQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 149.199.60.83) smtp.rcpttodomain=suse.de smtp.mailfrom=xilinx.com;
+ dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
+ not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ymvym/lU3LVPyVg39R87Hg0dd3qtaLOMAeHDSox53gs=;
+ b=eedu+rHdLDDcnKHpDjysVuEyXdXjeEpgzQMjdT+w7F+3eiig1b0c2UiviAttZrP32hfJS3eSdIw50uQotWUuNnfGlJcVRJ2hbfOxDP8ppP0fGoBxQ8HpC3bduXzghGit62Du1mk42IO+yeOarbdZBx5xIOs7on9LO8C27gu0qIk=
+Received: from SN4PR0201CA0050.namprd02.prod.outlook.com
+ (2603:10b6:803:20::12) by SN1PR02MB3904.namprd02.prod.outlook.com
+ (2603:10b6:802:27::14) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2729.25; Fri, 14 Feb
+ 2020 13:21:11 +0000
+Received: from SN1NAM02FT003.eop-nam02.prod.protection.outlook.com
+ (2a01:111:f400:7e44::207) by SN4PR0201CA0050.outlook.office365.com
+ (2603:10b6:803:20::12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2729.22 via Frontend
+ Transport; Fri, 14 Feb 2020 13:21:11 +0000
+Authentication-Results: spf=pass (sender IP is 149.199.60.83)
+ smtp.mailfrom=xilinx.com; suse.de; dkim=none (message not signed)
+ header.d=none;suse.de; dmarc=bestguesspass action=none
+ header.from=xilinx.com;
+Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
+ 149.199.60.83 as permitted sender) receiver=protection.outlook.com;
+ client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
+Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
+ SN1NAM02FT003.mail.protection.outlook.com (10.152.73.29) with Microsoft SMTP
+ Server (version=TLS1_0, cipher=TLS_RSA_WITH_AES_256_CBC_SHA) id 15.20.2729.22
+ via Frontend Transport; Fri, 14 Feb 2020 13:21:11 +0000
+Received: from unknown-38-66.xilinx.com ([149.199.38.66] helo=xsj-pvapsmtp01)
+ by xsj-pvapsmtpgw01 with esmtp (Exim 4.63)
+ (envelope-from <sai.pavan.boddu@xilinx.com>)
+ id 1j2au7-0001UY-5K; Fri, 14 Feb 2020 05:21:11 -0800
+Received: from [127.0.0.1] (helo=xsj-smtp-dlp1.xlnx.xilinx.com)
+ by xsj-pvapsmtp01 with esmtp (Exim 4.63)
+ (envelope-from <sai.pavan.boddu@xilinx.com>)
+ id 1j2au1-0006fS-U1; Fri, 14 Feb 2020 05:21:05 -0800
+Received: from xsj-pvapsmtp01 (maildrop.xilinx.com [149.199.38.66])
+ by xsj-smtp-dlp1.xlnx.xilinx.com (8.13.8/8.13.1) with ESMTP id 01EDL5i3013702; 
+ Fri, 14 Feb 2020 05:21:05 -0800
+Received: from [10.140.6.35] (helo=xhdsaipava40.xilinx.com)
+ by xsj-pvapsmtp01 with esmtp (Exim 4.63)
+ (envelope-from <saipava@xhdsaipava40.xilinx.com>)
+ id 1j2au0-0006fP-PX; Fri, 14 Feb 2020 05:21:05 -0800
+Received: by xhdsaipava40.xilinx.com (Postfix, from userid 14131)
+ id 4FBD513C0374; Fri, 14 Feb 2020 18:46:58 +0530 (IST)
+From: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
+To: "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
+ Alistair Francis <alistair@alistair23.me>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Anthony Liguori <anthony@codemonkey.ws>, afaerber@suse.de
+Subject: [PATCH 0/3] Fix number of priority bits in zynq gic
+Date: Fri, 14 Feb 2020 18:46:49 +0530
+Message-Id: <1581686212-9625-1-git-send-email-sai.pavan.boddu@xilinx.com>
+X-Mailer: git-send-email 2.7.4
+X-RCIS-Action: ALLOW
+X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
+X-TM-AS-User-Approved-Sender: Yes;Yes
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-HT: Tenant
+X-Forefront-Antispam-Report: CIP:149.199.60.83; IPV:; CTRY:US; EFV:NLI;
+ SFV:NSPM;
+ SFS:(10009020)(4636009)(346002)(136003)(39850400004)(396003)(376002)(199004)(189003)(426003)(4326008)(70586007)(8936002)(356004)(81156014)(8676002)(6666004)(316002)(42186006)(336012)(70206006)(2616005)(5660300002)(110136005)(6266002)(81166006)(186003)(478600001)(4744005)(2906002)(26005)(36756003);
+ DIR:OUT; SFP:1101; SCL:1; SRVR:SN1PR02MB3904; H:xsj-pvapsmtpgw01; FPR:;
+ SPF:Pass; LANG:en; PTR:unknown-60-83.xilinx.com; A:1; MX:1; 
 MIME-Version: 1.0
-In-Reply-To: <20200209175156.85748-1-hikarupsp@gmail.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: kWEABTSgNuu43zEN1StYeg-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+Content-Type: text/plain
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 847add65-cdc5-4a4d-7df5-08d7b150c298
+X-MS-TrafficTypeDiagnostic: SN1PR02MB3904:
+X-Microsoft-Antispam-PRVS: <SN1PR02MB390408240D4CA57FDCF58BABCA150@SN1PR02MB3904.namprd02.prod.outlook.com>
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-MS-Oob-TLC-OOBClassifiers: OLM:5236;
+X-Forefront-PRVS: 03137AC81E
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 49Qg4fF1s3yDnW97n15YDi8Cb5fCh47hRXMzOHPfz67yuEfvCoVtnMM95FMiUJJGmcXRW5PWV+aJsOFU+FW7REg4G/Cyr456O3K1R4X/qPt4iciq1fML3L4tx607dBlQ/PInESuvIU65hzAbD4fkMStCmSYKIhCPgD/CGnGFNgdzkBCaP79soDadtcg2CDBTt511xHMB4UrAbRjyigPf0wiJ7gQ3ImUO0fnA+tW5sC0w016FYQpkD/StlPnSXnk0QU3supuNU96+5wbWv4cxanqXr7a7oORH+MblKCEZFiZa1qlPrz9LL9QsQTMBwckT5XS8H+mAoR1lVXcv8Ji7G7daaEK+8lQ4gQDLfns/e1k/HYvJHF36y6ZMQJ2rsE5RBB0POUTJnYEbHxQgaaYXX4wHO96vDvkAgSJ9D04N3FB7BVVlpUxl9vyL21U08YeW
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Feb 2020 13:21:11.5367 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 847add65-cdc5-4a4d-7df5-08d7b150c298
+X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.60.83];
+ Helo=[xsj-pvapsmtpgw01]
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN1PR02MB3904
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 40.107.94.55
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,25 +127,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, "open list:vvfat" <qemu-block@nongnu.org>,
- Max Reitz <mreitz@redhat.com>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 09.02.2020 um 18:51 hat Hikaru Nishida geschrieben:
-> Before this commit, BDRVVVFATState.qcow is unrefed in write_target_close
-> on closing backing bdrv of vvfat. However, qcow bdrv is opend as a child
-> of vvfat in enable_write_target() so it will be also unrefed on closing
-> vvfat itself. This causes use-after-free of qcow on freeing vvfat which
-> has backing bdrv and qcow bdrv as children in this order because
-> bdrv_close(vvfat) tries to free qcow bdrv after freeing backing bdrv
-> as QLIST_FOREACH_SAFE() loop keeps next pointer, but BdrvChild of qcow
-> is already freed in bdrv_close(backing bdrv).
->=20
-> Signed-off-by: Hikaru Nishida <hikarupsp@gmail.com>
+This patch series implements the mask for un-implemented priority bits
+in arm-gic. Which will return the expected number of priority bits on
+read.
 
-Thanks, applied to the block branch.
+Sai Pavan Boddu (3):
+  arm_gic: Mask the un-supported priority bits
+  cpu/a9mpcore: Add num priority bits property
+  arm/xilinx_zynq: Set number of priority bits
 
-Kevin
+ hw/arm/xilinx_zynq.c             | 1 +
+ hw/cpu/a9mpcore.c                | 2 ++
+ hw/intc/arm_gic.c                | 9 ++++++---
+ hw/intc/arm_gic_common.c         | 1 +
+ include/hw/cpu/a9mpcore.h        | 1 +
+ include/hw/intc/arm_gic_common.h | 1 +
+ 6 files changed, 12 insertions(+), 3 deletions(-)
+
+-- 
+2.7.4
 
 
