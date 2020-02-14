@@ -2,76 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A72115F19A
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Feb 2020 19:05:45 +0100 (CET)
-Received: from localhost ([::1]:43196 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D62C615F11D
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Feb 2020 19:03:02 +0100 (CET)
+Received: from localhost ([::1]:43128 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j2fLU-0005Xd-Kw
-	for lists+qemu-devel@lfdr.de; Fri, 14 Feb 2020 13:05:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56299)
+	id 1j2fIr-0000wP-TW
+	for lists+qemu-devel@lfdr.de; Fri, 14 Feb 2020 13:03:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58017)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j2f7z-0006Bg-Om
- for qemu-devel@nongnu.org; Fri, 14 Feb 2020 12:51:48 -0500
+ (envelope-from <bounces@canonical.com>) id 1j2fH3-0007FR-5O
+ for qemu-devel@nongnu.org; Fri, 14 Feb 2020 13:01:10 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j2f7x-00018n-KP
- for qemu-devel@nongnu.org; Fri, 14 Feb 2020 12:51:46 -0500
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:36995)
+ (envelope-from <bounces@canonical.com>) id 1j2fH0-0002aP-Pn
+ for qemu-devel@nongnu.org; Fri, 14 Feb 2020 13:01:09 -0500
+Received: from indium.canonical.com ([91.189.90.7]:44172)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j2f7x-00016E-Dt
- for qemu-devel@nongnu.org; Fri, 14 Feb 2020 12:51:45 -0500
-Received: by mail-wm1-x341.google.com with SMTP id a6so11579423wme.2
- for <qemu-devel@nongnu.org>; Fri, 14 Feb 2020 09:51:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=I7VGzJKa0emO5iag6GpwHNYHbTYM9xvXNaLqgVHooL4=;
- b=mKoc/y89McFeR3+YyDh2nlQqYLnNRHzAyph+9ZMPYXnpyCs23OVW2JrjyDK/6bqERB
- FD9eXNOnHA9s7hz0LWQKGo+eWKMgJqT3f5gzjWNwJtcBF612R69bfky9l9M+IMgUDzbS
- cKBJR1woYwsVVNLsDL6gxs8usCzeo2ajQzjGuU0OuBV2a1sqjO8YJhsFJVojkA1/vUKd
- LMwNvTUNz2MJbdrffZQVBVHwV9kvMSn0eJM4y9oLCMkSpT9TOkXSrJ8FQ4FHkFxZzB9J
- u/eiVSmK8pOLwGaIjffPIQ/F0t8HPfwK94n50GJDJ2HNcLysTEnsJIiyp/mZXOGpwYB9
- aoPA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=I7VGzJKa0emO5iag6GpwHNYHbTYM9xvXNaLqgVHooL4=;
- b=Wejjd00TiOpW94H/EVZMSpcV8OnsZdGoQiNRDc4XOlE7ofq6Nn3weLGDHyuO6FPCjQ
- BXHbzxj8MycIxLDU5TKFHRDwIJDHblSdUsO9whroXh3m29y1/j+VtJaUBH1yAqKTjAl+
- B17NTWfUvOycS+OGOlsX/QZWN8RNQTgncsQzCeKsnOS+8dM1h5z9FZbfL0rYso5+e3PL
- KrQ2cncEGESz+bxf+XZtTX9PU8boTGO0pnaA8jWnka93ozXeXpZVdChu7tWVHYZJ2eAl
- yu5slaG5Tpki+TUgp3rBMllSk7XB5cnsrfKXBxbJt8rkgGNeLMuibdr8NmFmb3KSmYjL
- IHwA==
-X-Gm-Message-State: APjAAAUq+JNT8Y5Pl10PoiKsit28AM6S7Zliis6YOrfH/OTx5Og9t+vw
- Q/P5iHiP1wGzzmu7+m+AJDSP4w==
-X-Google-Smtp-Source: APXvYqwRJD9PQmGiAa66bf7koHyx8+0nw8fZzOIRho0EOnbMYHPsVmNwOqtKsVMZTSPkC61jEjFhig==
-X-Received: by 2002:a05:600c:228f:: with SMTP id
- 15mr6110868wmf.56.1581702704511; 
- Fri, 14 Feb 2020 09:51:44 -0800 (PST)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id v8sm8001857wrw.2.2020.02.14.09.51.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 Feb 2020 09:51:44 -0800 (PST)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Subject: [PATCH v2 19/21] target/arm: Use isar_feature function for testing
- AA32HPD feature
-Date: Fri, 14 Feb 2020 17:51:14 +0000
-Message-Id: <20200214175116.9164-20-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200214175116.9164-1-peter.maydell@linaro.org>
-References: <20200214175116.9164-1-peter.maydell@linaro.org>
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1j2fH0-0002Yg-KG
+ for qemu-devel@nongnu.org; Fri, 14 Feb 2020 13:01:06 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1j2fGz-0006Ni-7U
+ for <qemu-devel@nongnu.org>; Fri, 14 Feb 2020 18:01:05 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 313972E80C0
+ for <qemu-devel@nongnu.org>; Fri, 14 Feb 2020 18:01:05 +0000 (UTC)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::341
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 14 Feb 2020 17:51:15 -0000
+From: Richard Henderson <rth@twiddle.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=In Progress; importance=Undecided;
+ assignee=rth@twiddle.net; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: kawakami-k rth
+X-Launchpad-Bug-Reporter: Kentaro Kawakami (kawakami-k)
+X-Launchpad-Bug-Modifier: Richard Henderson (rth)
+References: <158168561076.14835.7019812774701035317.malonedeb@soybean.canonical.com>
+Message-Id: <158170267588.24118.3605862832730660956.malone@gac.canonical.com>
+Subject: [Bug 1863247] Re: AArch64 EXT instruction for V register does not
+ clear MSB side bits
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="19413b719a8df7423ab1390528edadce9e0e4aca";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 26476940e938761a56f362a143b48d51b32eff5a
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -80,58 +66,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eric Auger <eric.auger@redhat.com>,
- Aaron Lindsay <aaron@os.amperecomputing.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Reply-To: Bug 1863247 <1863247@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now we have moved ID_MMFR4 into the ARMISARegisters struct, we
-can define and use an isar_feature for the presence of the
-ARMv8.2-AA32HPD feature, rather than open-coding the test.
+Yep.
 
-While we're here, correct a comment typo which missed an 'A'
-from the feature name.
+** Changed in: qemu
+       Status: New =3D> In Progress
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- target/arm/cpu.h    | 5 +++++
- target/arm/helper.c | 4 ++--
- 2 files changed, 7 insertions(+), 2 deletions(-)
+** Changed in: qemu
+     Assignee: (unassigned) =3D> Richard Henderson (rth)
 
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index ba97fc75c1d..276030a5cf3 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -3526,6 +3526,11 @@ static inline bool isar_feature_aa32_pmu_8_4(const ARMISARegisters *id)
-         FIELD_EX32(id->id_dfr0, ID_DFR0, PERFMON) != 0xf;
- }
- 
-+static inline bool isar_feature_aa32_hpd(const ARMISARegisters *id)
-+{
-+    return FIELD_EX32(id->id_mmfr4, ID_MMFR4, HPDS) != 0;
-+}
-+
- /*
-  * 64-bit feature tests via id registers.
-  */
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 492741a2b0b..56b1c08f027 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -7408,8 +7408,8 @@ void register_cp_regs_for_features(ARMCPU *cpu)
-     } else {
-         define_arm_cp_regs(cpu, vmsa_pmsa_cp_reginfo);
-         define_arm_cp_regs(cpu, vmsa_cp_reginfo);
--        /* TTCBR2 is introduced with ARMv8.2-A32HPD.  */
--        if (FIELD_EX32(cpu->isar.id_mmfr4, ID_MMFR4, HPDS) != 0) {
-+        /* TTCBR2 is introduced with ARMv8.2-AA32HPD.  */
-+        if (cpu_isar_feature(aa32_hpd, cpu)) {
-             define_one_arm_cp_reg(cpu, &ttbcr2_reginfo);
-         }
-     }
--- 
-2.20.1
+-- =
 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1863247
+
+Title:
+  AArch64 EXT instruction for V register does not clear MSB side bits
+
+Status in QEMU:
+  In Progress
+
+Bug description:
+  On AArch64 CPU with SVE register, there seems to be a bug in the
+  operation when executing EXT instruction to V registers. Bits above
+  the 128 bits of the SVE register must be cleared to 0, but qemu-
+  aarch64 seems to hold the value.
+
+  Example
+  ext v0.16b, v1.16b v2.16b, 8
+
+  After executing above instruction, (N-1) to 128 bits of z0 register
+  must be 0, where N is SVE register width.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1863247/+subscriptions
 
