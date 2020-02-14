@@ -2,75 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1C1D15DA2D
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Feb 2020 16:03:43 +0100 (CET)
-Received: from localhost ([::1]:39976 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4243715DA68
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Feb 2020 16:14:13 +0100 (CET)
+Received: from localhost ([::1]:40052 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j2cVK-0000EB-V0
-	for lists+qemu-devel@lfdr.de; Fri, 14 Feb 2020 10:03:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43516)
+	id 1j2cfU-0004pp-2u
+	for lists+qemu-devel@lfdr.de; Fri, 14 Feb 2020 10:14:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45577)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groeck7@gmail.com>) id 1j2cUP-0007o7-80
- for qemu-devel@nongnu.org; Fri, 14 Feb 2020 10:02:46 -0500
+ (envelope-from <armbru@redhat.com>) id 1j2cek-0004Kt-3T
+ for qemu-devel@nongnu.org; Fri, 14 Feb 2020 10:13:27 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groeck7@gmail.com>) id 1j2cUO-0005E5-2q
- for qemu-devel@nongnu.org; Fri, 14 Feb 2020 10:02:45 -0500
-Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:39737)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <groeck7@gmail.com>)
- id 1j2cUN-0005CQ-Sd; Fri, 14 Feb 2020 10:02:44 -0500
-Received: by mail-pg1-x543.google.com with SMTP id j15so5089210pgm.6;
- Fri, 14 Feb 2020 07:02:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=L/fzSUv3LWaUZgAyFEnvD/PWp0NSUATXxB2tzCGpoCc=;
- b=bzrwGijfp9yoVCMh/AGYESeqYWo//w9yBTgRsT4YlAa9RKhWaGXgRbZ/tLK9f3kyon
- yR/otbnjJWRusFLQEPsrjcUyzvDNiJAl4tXgONXZoWOwCLm+vAlGOqDAtJUIhSHN1qIN
- 35Ab24AgPTtTWaoxEaFZMTWKvntMHLN0VL4FOcppRwzWAbVUcWsOqVC2w+789GnojszJ
- 6RHkHU5KkUBLOBcPTRv9+JRB/gAtQh64F834QkAy/6aRxK58ODewmn70rmAYUb2XUigZ
- YXOyMu/wIo1GnZPNE0L8t+o1i97E8cv20lE0NWEau4QuMKclqJc4j80lXI45GCP1xuxj
- f/Ww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=L/fzSUv3LWaUZgAyFEnvD/PWp0NSUATXxB2tzCGpoCc=;
- b=oauvAqxRekIVCv5WOS4PZxBWFKKiB2P6lvSHI2iCWmuP24HYKBOXD2SaYtAlY8WuRL
- Ff3TUvUYy28m0sDIHG0oc1m1weibHk4jZm4XeL5sQf5r30kdSk9Kxd5DvdtSF0iaS8m7
- YbV3wc9MAa+pb2LS0JFYlMdPDyNHV7KdE9R7BH1GLcIYrX9uSda5eLgYEBaIKaTkimiG
- a5krJEY4thNOlPPT8ppUvyHp5FingvqMlqg6DaW+xShBTlL4ATiSX2cutZbRDmXEo78X
- +o6bt/jUYQXAftopDKTVtaLcqvmgs7LKxXGCnlJ+oMGkCFVDlab/7RXyuzTgVQ5mZAsE
- A6Lw==
-X-Gm-Message-State: APjAAAWKwlNQvy9TrbiQlZu19ZahPzCqsn8GFcKCmL/LE24hwLMOPFTX
- oq/afWZssinnzyj7VQ2scWG1aMp0
-X-Google-Smtp-Source: APXvYqyz79IjAyZaRcyRMHxWU5KY4TtKKk0ITsRauQuG8+0JWVcK9MFsvmAa4GR+W//47FhHhWYKfg==
-X-Received: by 2002:a63:ca04:: with SMTP id n4mr3994122pgi.110.1581692562016; 
- Fri, 14 Feb 2020 07:02:42 -0800 (PST)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id
- b12sm7662557pfr.26.2020.02.14.07.02.40
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 14 Feb 2020 07:02:40 -0800 (PST)
-Subject: Re: [PATCH 1/2] hw/arm/xilinx_zynq: Fix USB port instantiation
+ (envelope-from <armbru@redhat.com>) id 1j2ceh-0001MK-Lr
+ for qemu-devel@nongnu.org; Fri, 14 Feb 2020 10:13:24 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:36398
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1j2ceh-0001JU-Gu
+ for qemu-devel@nongnu.org; Fri, 14 Feb 2020 10:13:23 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1581693200;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=4LJQgNXCpsjz/GOc5UUblCun31yzNDONvB3GsvOiWzQ=;
+ b=IeUe4K39WUzP8dSJY5QkBscwsAjN4uKqOHvgiwQ9yXkF0vYf+YJxLCH6X+ETF4apYJCk1S
+ PzDYIlXMs8ALpXnJtLP8OI6B+swo9qOK98AF9ATC0CVk/eBnQyWwkJIzesnzq9WYYGtYMM
+ 42AMXk3lcS7aeSqrEpa7qnEMLdS/B4I=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-373-phnS5me5MWessN4903LYtg-1; Fri, 14 Feb 2020 10:13:17 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AA24918A5534;
+ Fri, 14 Feb 2020 15:13:16 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-117-234.ams2.redhat.com
+ [10.36.117.234])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DA14F9009A;
+ Fri, 14 Feb 2020 15:13:13 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 6127411385C9; Fri, 14 Feb 2020 16:13:12 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-References: <20200214060548.24939-1-linux@roeck-us.net>
- <CAFEAcA9nojfAx_MevUE5Z44cJ7OQzv7Dy5wRYy22tZpbnz-NAA@mail.gmail.com>
-From: Guenter Roeck <linux@roeck-us.net>
-Message-ID: <9bfcd260-696d-c747-355e-f694d108e9df@roeck-us.net>
-Date: Fri, 14 Feb 2020 07:02:39 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+Subject: Re: [PATCH v2 18/30] qapi: Delete all the "foo: dropped in n.n" notes
+References: <20200213175647.17628-1-peter.maydell@linaro.org>
+ <20200213175647.17628-19-peter.maydell@linaro.org>
+ <87pneh1wul.fsf@dusky.pond.sub.org>
+Date: Fri, 14 Feb 2020 16:13:12 +0100
+In-Reply-To: <87pneh1wul.fsf@dusky.pond.sub.org> (Markus Armbruster's message
+ of "Fri, 14 Feb 2020 07:55:46 +0100")
+Message-ID: <87v9o9rylz.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA9nojfAx_MevUE5Z44cJ7OQzv7Dy5wRYy22tZpbnz-NAA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::543
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: phnS5me5MWessN4903LYtg-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,34 +78,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
- Alistair Francis <alistair@alistair23.me>, Gerd Hoffmann <kraxel@redhat.com>,
- qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: John Snow <jsnow@redhat.com>,
+ "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
+ qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/14/20 1:26 AM, Peter Maydell wrote:
-> On Fri, 14 Feb 2020 at 06:05, Guenter Roeck <linux@roeck-us.net> wrote:
+Markus Armbruster <armbru@redhat.com> writes:
+
+> Peter Maydell <peter.maydell@linaro.org> writes:
+>
+>> A handful of QAPI doc comments include lines like
+>> "ppcemb: dropped in 3.1". The doc comment parser will just
+>> put these into whatever the preceding section was; sometimes
+>> that's "Notes", and sometimes it's some random other section,
+>> as with "NetClientDriver" where the "'dump': dropped in 2.12"
+>> line ends up in the "Since:" section.
 >>
->> USB ports must be instantiated as TYPE_CHIPIDEA to work.
->> Linux expects and checks various chipidea registers, which
->> do not exist with the basic ehci emulation.
-> 
-> Hi; I didn't see a cover letter email for this series (sorry if
-> I missed it). Would you mind including a cover letter email
+>> This tends to render wrongly, more so in the upcoming rST
+>> generator, but sometimes even in the texinfo, as in the case
+>> of QKeyCode:
+>>    ac_bookmarks
+>>        since 2.10 altgr, altgr_r: dropped in 2.10
+>>
+>> We now have a better place to tell users about deprecated
+>> and deleted functionality -- qemu-deprecated.texi.
+>> So just remove all these "dropped in" remarks entirely.
 
-I didn't send a cover letter, sorry.
+The first sentence makes me expect we'll move these bits to the better
+place.  The second then tells me we drop them, without giving a reason.
 
-> for any more-than-one-patch set, please? It helps the
-> automatic tools and it also decreases the chances that
-> I miss the patches when I'm scanning through my email
-> (when I'm tagging things I might want to review I basically
-> look through subject lines for single patch patches
-> and for 00/nn cover letters and ignore middle-of-patchset
-> emails...)
-> 
+Suggest:
 
-Sure, NP. I'll resend with a cover letter.
+   Since commit 3264ffced3 (v4.2.0), we have a better place to tell
+   users about deprecated and deleted functionality --
+   qemu-deprecated.texi.  These "dropped in" remarks all predate it, and
+   other feature drops of that vintage are not documented anywhere, so
+   moving these to qemu-deprecated.texi makes little sense.  Drop them
+   instead.
 
-Guenter
+With something like that
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
+
+>>
+>> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+>> ---
+>> Perhaps qemu-deprecated.texi should be updated -- Markus
+>> said he'd look into that. So this patch is to some extent
+>> a placeholder to get these broken bits of doc comment out
+>> of the way.
+>
+> The appropriate place is appendix "Recently removed features", which
+> appeared in commit 3264ffced3 "dirty-bitmaps: remove deprecated autoload
+> parameter", v4.2.0.  We did not document any prior removals then.
+>
+> Perhaps we should systematically document all removals since v4.1.0.  I
+> can look into that.
+>
+> I'm not sure documenting older removals now is worth our while.  If you
+> think it is, let me know.
+>
+> All the 'dropped in' notes removed in this patch are older.  Nothing to
+> do for qemu-deprecated.texi unless we choose to systematically document
+> older removals.
+
 
