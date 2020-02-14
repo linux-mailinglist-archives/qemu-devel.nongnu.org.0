@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C06AC15F4F4
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Feb 2020 19:27:02 +0100 (CET)
-Received: from localhost ([::1]:43816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1BC015F357
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Feb 2020 19:21:40 +0100 (CET)
+Received: from localhost ([::1]:43640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j2fg5-0007sf-S7
-	for lists+qemu-devel@lfdr.de; Fri, 14 Feb 2020 13:27:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60934)
+	id 1j2fat-0006Y2-Mn
+	for lists+qemu-devel@lfdr.de; Fri, 14 Feb 2020 13:21:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60941)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1j2fVY-0004aD-Cd
- for qemu-devel@nongnu.org; Fri, 14 Feb 2020 13:16:09 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1j2fVZ-0004cJ-3E
+ for qemu-devel@nongnu.org; Fri, 14 Feb 2020 13:16:10 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1j2fVX-0000HG-1P
- for qemu-devel@nongnu.org; Fri, 14 Feb 2020 13:16:08 -0500
-Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:33844)
+ (envelope-from <richard.henderson@linaro.org>) id 1j2fVX-0000Hq-W1
+ for qemu-devel@nongnu.org; Fri, 14 Feb 2020 13:16:09 -0500
+Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:38895)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1j2fVW-0000Gh-Rq
- for qemu-devel@nongnu.org; Fri, 14 Feb 2020 13:16:06 -0500
-Received: by mail-pf1-x441.google.com with SMTP id i6so5272579pfc.1
- for <qemu-devel@nongnu.org>; Fri, 14 Feb 2020 10:16:06 -0800 (PST)
+ id 1j2fVX-0000HU-Pz
+ for qemu-devel@nongnu.org; Fri, 14 Feb 2020 13:16:07 -0500
+Received: by mail-pg1-x542.google.com with SMTP id d6so5339844pgn.5
+ for <qemu-devel@nongnu.org>; Fri, 14 Feb 2020 10:16:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=2kZ9BsLAsFQXYPLtyMT3ZoVnOYLNLzYgitMu8C6B1ag=;
- b=kfgDX/AvC7uAk2+/8dqYe+dRnlgoXukH0uruVMfMj9VSUyM3F2LxP3l93gzpy5mSH9
- lbip3mDlr+1wqQ/v1DNOo9EwUYHQgLXFdcX3hyDbeTPIApbyVQVeyrlweUp7KT6yf6zw
- 3xVb8wDIHXqI0LYzLRJonFw/EasfWyN/0EWLwb48LRKYxUjozt+eAeabiM09Sdi4x/dZ
- 1Bu089O3lo1QXr1sJozglvqtK/rvVvXkN/t0rlQIGCjqOtHigUOK8ZbFDQ4oB9cRaRcs
- pLMNoeiKXmTbOgyK2eypewi5R+yvP83qlgak9nPikfJ5rVgxt2ZXHxH5zzLfNxn3w05S
- F/Rw==
+ bh=M8UM5e+3VRfykuEhj/KpHZJCPyatXYB/tx3EOhHQRHg=;
+ b=P2a3DJc5xDlZOW9ERiwMm2spp1DfTNP6HytA05EBy4VJ6VjnjDmpDWo3u1al6wnrcu
+ 4eu6uz1lmVNk6+n8YQXvZiGj5XOPC6yDBt+InvAaKmEL8VzaJEqN8LYaPc5FyxFiTW8I
+ jgC8s+c8/9a+WSFRPcmhBnXkeQY6VAmslVw/KczReCT3bLvNxKRXX3VkJA6TL3+Et0aF
+ QZrP78lB5CGcujeJHbaIMvCTAPAi63ZochngZinYJgXgxCQIy+0lEC+TIDCZMYo08hpk
+ 4dTnDb9lPrj94DvEAsVuo1/AUPjITVSIZqKsqpcvmr0uaCwPFCmfyIuoI17/snwsk3b4
+ +EzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=2kZ9BsLAsFQXYPLtyMT3ZoVnOYLNLzYgitMu8C6B1ag=;
- b=qRjRh7y5yqMauDyRSv+IMV42yI1h2pkybxZdzVcusbTSu7ru7qQDzxaljfSfqCdaOu
- L0ttu6W8/Qs2jt7wyUZk1kua77WfD8PDHc+aZD34CToPB2yMqMrVcWbWHCmgmb4NOP7e
- CDP2WI4vynKxFZVxdbqlelT2rP0qDCzTxFopvdeBFA8TX/97aAn6bFZl/wSBu6ji0o4q
- nCJoIB9j67rBLz73fFr8pPWpi53NpTwlPUN85PtBPqOiPbzwUcQ62Qso3kesnKVc/9Km
- U2LR0AUqDdp6Gf/OjFOY/6KhkokN72pcnOe0wVBV+EbmNqrOrsWUKwxMtCg8rAQhFWb/
- bd2Q==
-X-Gm-Message-State: APjAAAWRYIYr7aD/HWq/ym3pYDwxMiIGkRISTjVyW2tTUsw7WgBQBqRj
- jCwPyJX4t9dHmjmiC+PKxRw4ZMfp8s0=
-X-Google-Smtp-Source: APXvYqwwK6+u6ob85GTch+wY+iB9rRTfZzcmgkuGythmfDj1PKt58Dqk17Squ8jVVPWLs7W7hFPazA==
-X-Received: by 2002:a65:68ce:: with SMTP id k14mr4655713pgt.336.1581704165314; 
- Fri, 14 Feb 2020 10:16:05 -0800 (PST)
+ bh=M8UM5e+3VRfykuEhj/KpHZJCPyatXYB/tx3EOhHQRHg=;
+ b=oNiJ7Ga/K1wtov2rRFMSHKTtD0/z3lEkwDJL32oN2ekmhDgNGwrWVOtgeLtM2UwqAD
+ iIHhRYpLoiUpKC5UuNZypNjSdacoMLmc2MgVbEc72YP+r1XpldH8vq5pGYtOWkep8/pd
+ I45o30G63gkuwEaiV8NJcXc1+Rh6R6F8YZPfccAI6LjkcYkKw343K3cufUtLRPWy1BbL
+ PhwrgAP/MGmRQtzjapA6MgiVbky7rrehSh7eE4TR7litY717cz62BoNFqe7b2pGnAA11
+ fZqYzzbtmjjV/jr7nZ/RH/0Nqn3RNnGqF3wzcbaC/2dhc2TJvTLElAoo8wVDkCHaw3ma
+ kMyg==
+X-Gm-Message-State: APjAAAXAjZSDaXHiZiFCIadShd9PJJGcbTbfFZloqqn5nZTzIg3RR4Bs
+ OJKYK3Pyo6tNLsvU5FBqFY+Q6mB/Sbk=
+X-Google-Smtp-Source: APXvYqzl2nh4H3juslcW0ct9JvnktgZ0ZbSimHMGZ1sL+hncyiRAImarJeZmWCehSZseN5tu+Ea7/Q==
+X-Received: by 2002:a63:5a65:: with SMTP id k37mr5002076pgm.264.1581704166488; 
+ Fri, 14 Feb 2020 10:16:06 -0800 (PST)
 Received: from localhost.localdomain (97-126-123-70.tukw.qwest.net.
  [97.126.123.70])
- by smtp.gmail.com with ESMTPSA id i3sm7525123pfg.94.2020.02.14.10.16.04
+ by smtp.gmail.com with ESMTPSA id i3sm7525123pfg.94.2020.02.14.10.16.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 Feb 2020 10:16:04 -0800 (PST)
+ Fri, 14 Feb 2020 10:16:05 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 14/19] target/arm: Move the vfp decodetree calls next to the
- base isa
-Date: Fri, 14 Feb 2020 10:15:42 -0800
-Message-Id: <20200214181547.21408-15-richard.henderson@linaro.org>
+Subject: [PATCH 15/19] linux-user/arm: Replace ARM_FEATURE_VFP* tests for HWCAP
+Date: Fri, 14 Feb 2020 10:15:43 -0800
+Message-Id: <20200214181547.21408-16-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200214181547.21408-1-richard.henderson@linaro.org>
 References: <20200214181547.21408-1-richard.henderson@linaro.org>
@@ -67,7 +66,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::441
+X-Received-From: 2607:f8b0:4864:20::542
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,154 +82,60 @@ Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Have the calls adjacent as an intermediate step toward
-actually merging the decodes.
+Use isar feature tests instead of feature bit tests.
+
+Although none of QEMUs current cpus have VFPv3 without D32,
+replace the large comment explaining why with one line that
+sets ARM_HWCAP_ARM_VFPv3D16 under the correct conditions.
+Mirror the test sequence used in the linux kernel.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/translate.c | 80 +++++++++++++-----------------------------
- 1 file changed, 24 insertions(+), 56 deletions(-)
+ linux-user/elfload.c | 24 +++++++++++++++---------
+ 1 file changed, 15 insertions(+), 9 deletions(-)
 
-diff --git a/target/arm/translate.c b/target/arm/translate.c
-index b2641b4262..5cabe6b2e9 100644
---- a/target/arm/translate.c
-+++ b/target/arm/translate.c
-@@ -2646,31 +2646,6 @@ static void gen_neon_dup_high16(TCGv_i32 var)
-     tcg_temp_free_i32(tmp);
- }
+diff --git a/linux-user/elfload.c b/linux-user/elfload.c
+index f3080a1635..c52c814a2e 100644
+--- a/linux-user/elfload.c
++++ b/linux-user/elfload.c
+@@ -468,22 +468,28 @@ static uint32_t get_elf_hwcap(void)
  
--/*
-- * Disassemble a VFP instruction.  Returns nonzero if an error occurred
-- * (ie. an undefined instruction).
-- */
--static int disas_vfp_insn(DisasContext *s, uint32_t insn)
--{
--    /*
--     * If the decodetree decoder handles this insn it will always
--     * emit code to either execute the insn or generate an appropriate
--     * exception; so we don't need to ever return non-zero to tell
--     * the calling code to emit an UNDEF exception.
--     */
--    if (extract32(insn, 28, 4) == 0xf) {
--        if (disas_vfp_uncond(s, insn)) {
--            return 0;
--        }
--    } else {
--        if (disas_vfp(s, insn)) {
--            return 0;
--        }
--    }
--    /* If the decodetree decoder didn't handle this insn, it must be UNDEF */
--    return 1;
--}
--
- static inline bool use_goto_tb(DisasContext *s, target_ulong dest)
- {
- #ifndef CONFIG_USER_ONLY
-@@ -10524,7 +10499,9 @@ static void disas_arm_insn(DisasContext *s, unsigned int insn)
-         ARCH(5);
- 
-         /* Unconditional instructions.  */
--        if (disas_a32_uncond(s, insn)) {
-+        /* TODO: Perhaps merge these into one decodetree output file.  */
-+        if (disas_a32_uncond(s, insn) ||
-+            disas_vfp_uncond(s, insn)) {
-             return;
-         }
-         /* fall back to legacy decoder */
-@@ -10551,13 +10528,6 @@ static void disas_arm_insn(DisasContext *s, unsigned int insn)
-             }
-             return;
-         }
--        if ((insn & 0x0f000e10) == 0x0e000a00) {
--            /* VFP.  */
--            if (disas_vfp_insn(s, insn)) {
--                goto illegal_op;
--            }
--            return;
--        }
-         if ((insn & 0x0e000f00) == 0x0c000100) {
-             if (arm_dc_feature(s, ARM_FEATURE_IWMMXT)) {
-                 /* iWMMXt register transfer.  */
-@@ -10588,7 +10558,9 @@ static void disas_arm_insn(DisasContext *s, unsigned int insn)
-         arm_skip_unless(s, cond);
-     }
- 
--    if (disas_a32(s, insn)) {
-+    /* TODO: Perhaps merge these into one decodetree output file.  */
-+    if (disas_a32(s, insn) ||
-+        disas_vfp(s, insn)) {
-         return;
-     }
-     /* fall back to legacy decoder */
-@@ -10597,12 +10569,7 @@ static void disas_arm_insn(DisasContext *s, unsigned int insn)
-     case 0xc:
-     case 0xd:
-     case 0xe:
--        if (((insn >> 8) & 0xe) == 10) {
--            /* VFP.  */
--            if (disas_vfp_insn(s, insn)) {
--                goto illegal_op;
--            }
--        } else if (disas_coproc_insn(s, insn)) {
-+        if (((insn >> 8) & 0xe) != 10 && disas_coproc_insn(s, insn)) {
-             /* Coprocessor.  */
-             goto illegal_op;
-         }
-@@ -10691,7 +10658,14 @@ static void disas_thumb2_insn(DisasContext *s, uint32_t insn)
-         ARCH(6T2);
-     }
- 
--    if (disas_t32(s, insn)) {
+     /* EDSP is in v5TE and above, but all our v5 CPUs are v5TE */
+     GET_FEATURE(ARM_FEATURE_V5, ARM_HWCAP_ARM_EDSP);
+-    GET_FEATURE(ARM_FEATURE_VFP, ARM_HWCAP_ARM_VFP);
+     GET_FEATURE(ARM_FEATURE_IWMMXT, ARM_HWCAP_ARM_IWMMXT);
+     GET_FEATURE(ARM_FEATURE_THUMB2EE, ARM_HWCAP_ARM_THUMBEE);
+     GET_FEATURE(ARM_FEATURE_NEON, ARM_HWCAP_ARM_NEON);
+-    GET_FEATURE(ARM_FEATURE_VFP3, ARM_HWCAP_ARM_VFPv3);
+     GET_FEATURE(ARM_FEATURE_V6K, ARM_HWCAP_ARM_TLS);
+-    GET_FEATURE(ARM_FEATURE_VFP4, ARM_HWCAP_ARM_VFPv4);
++    GET_FEATURE(ARM_FEATURE_LPAE, ARM_HWCAP_ARM_LPAE);
++
+     GET_FEATURE_ID(arm_div, ARM_HWCAP_ARM_IDIVA);
+     GET_FEATURE_ID(thumb_div, ARM_HWCAP_ARM_IDIVT);
+-    /* All QEMU's VFPv3 CPUs have 32 registers, see VFP_DREG in translate.c.
+-     * Note that the ARM_HWCAP_ARM_VFPv3D16 bit is always the inverse of
+-     * ARM_HWCAP_ARM_VFPD32 (and so always clear for QEMU); it is unrelated
+-     * to our VFP_FP16 feature bit.
 +    /*
-+     * TODO: Perhaps merge these into one decodetree output file.
-+     * Note disas_vfp is written for a32 with cond field in the 
-+     * top nibble.  The t32 encoding requires 0xe in the top nibble.
-+     */
-+    if (disas_t32(s, insn) ||
-+        disas_vfp_uncond(s, insn) ||
-+        ((insn >> 28) == 0xe && disas_vfp(s, insn))) {
-         return;
-     }
-     /* fall back to legacy decoder */
-@@ -10708,17 +10682,15 @@ static void disas_thumb2_insn(DisasContext *s, uint32_t insn)
-                 goto illegal_op; /* op0 = 0b11 : unallocated */
-             }
++     * Note that none of QEMU's cpus have double precision without single
++     * precision support in VFP, so only test the single precision field.
+      */
+-    GET_FEATURE(ARM_FEATURE_VFP3, ARM_HWCAP_ARM_VFPD32);
+-    GET_FEATURE(ARM_FEATURE_LPAE, ARM_HWCAP_ARM_LPAE);
++    GET_FEATURE_ID(aa32_fpsp_v2, ARM_HWCAP_ARM_VFP);
++    if (cpu_isar_feature(aa32_fpsp_v3, cpu)) {
++        hwcaps |= ARM_HWCAP_ARM_VFPv3;
++        if (cpu_isar_feature(aa32_simd_r32, cpu)) {
++            hwcaps |= ARM_HWCAP_ARM_VFPD32;
++        } else {
++            hwcaps |= ARM_HWCAP_ARM_VFPv3D16;
++        }
++    }
++    GET_FEATURE_ID(aa32_simdfmac, ARM_HWCAP_ARM_VFPv4);
  
--            if (disas_vfp_insn(s, insn)) {
--                if (((insn >> 8) & 0xe) == 10 &&
--                    dc_isar_feature(aa32_fpsp_v2, s)) {
--                    /* FP, and the CPU supports it */
--                    goto illegal_op;
--                } else {
--                    /* All other insns: NOCP */
--                    gen_exception_insn(s, s->pc_curr, EXCP_NOCP,
--                                       syn_uncategorized(),
--                                       default_exception_el(s));
--                }
-+            if (((insn >> 8) & 0xe) == 10 &&
-+                dc_isar_feature(aa32_fpsp_v2, s)) {
-+                /* FP, and the CPU supports it */
-+                goto illegal_op;
-+            } else {
-+                /* All other insns: NOCP */
-+                gen_exception_insn(s, s->pc_curr, EXCP_NOCP,
-+                                   syn_uncategorized(),
-+                                   default_exception_el(s));
-             }
-             break;
-         }
-@@ -10740,10 +10712,6 @@ static void disas_thumb2_insn(DisasContext *s, uint32_t insn)
-             if (disas_neon_data_insn(s, insn)) {
-                 goto illegal_op;
-             }
--        } else if (((insn >> 8) & 0xe) == 10) {
--            if (disas_vfp_insn(s, insn)) {
--                goto illegal_op;
--            }
-         } else {
-             if (insn & (1 << 28))
-                 goto illegal_op;
+     return hwcaps;
+ }
 -- 
 2.20.1
 
