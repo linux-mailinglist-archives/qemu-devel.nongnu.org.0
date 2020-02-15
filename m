@@ -2,24 +2,24 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5930C15FE26
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 Feb 2020 12:42:57 +0100 (CET)
-Received: from localhost ([::1]:50378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B82D215FE28
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 Feb 2020 12:43:01 +0100 (CET)
+Received: from localhost ([::1]:50382 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j2vqZ-00061n-Rm
-	for lists+qemu-devel@lfdr.de; Sat, 15 Feb 2020 06:42:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49653)
+	id 1j2vqe-0006EX-Nv
+	for lists+qemu-devel@lfdr.de; Sat, 15 Feb 2020 06:43:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49673)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1j2vpN-0004Rf-36
- for qemu-devel@nongnu.org; Sat, 15 Feb 2020 06:41:42 -0500
+ (envelope-from <armbru@redhat.com>) id 1j2vpO-0004Ri-2U
+ for qemu-devel@nongnu.org; Sat, 15 Feb 2020 06:41:43 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1j2vpM-0006pQ-5d
- for qemu-devel@nongnu.org; Sat, 15 Feb 2020 06:41:41 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:46382
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <armbru@redhat.com>) id 1j2vpM-0006pb-GI
+ for qemu-devel@nongnu.org; Sat, 15 Feb 2020 06:41:42 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:21635
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1j2vpM-0006pC-1q
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1j2vpM-0006pI-CP
  for qemu-devel@nongnu.org; Sat, 15 Feb 2020 06:41:40 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1581766899;
@@ -27,43 +27,41 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kW8MWC9McUlnlDBZUsLL9IawHoY7VEe1T/O93WO57SI=;
- b=TQ4rxFSMriNu75UPqZKgh3uiOhXormGWQJW+8KuIP/d5GJq5VFp5stAr/4Pn4umx4y53uF
- I6bkCVqvsl0DOjKzek4utVuR3td/z9g+AbRwgjCnsZiqpNOh12XfIOf0j4hkjDVs/S9L7w
- aDzGxP4yoK6Sh1Z7AD11EPgE+xozlx0=
+ bh=xlrLFwmr5Efn4/6uQft88TeIT1BpfwscrbQaYL0i6ys=;
+ b=VSO+6to6b676BIx09iU4YqG33Dukjgg5+WZeZ9eIkCEkMc16l2vmi6wkAktUJKj6yTFMSd
+ chgrdPXAuj/21cBfeBflVBMyRFf2BNmawAWurTBVClOTO09plzLiOdh01rAf98CkIpV3dX
+ Y9UXV/DgdEoW/nPbr6eUhEObyZbdGhc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-161-55cGBYXEMZiyD4XcpeBz2Q-1; Sat, 15 Feb 2020 06:41:37 -0500
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-358-sX-PbDNLN0OoWsejSuTRXQ-1; Sat, 15 Feb 2020 06:41:37 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 642ADDB21;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 878558017CC;
  Sat, 15 Feb 2020 11:41:36 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-117-234.ams2.redhat.com
  [10.36.117.234])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 302EB1001DF0;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 319E45D9CD;
  Sat, 15 Feb 2020 11:41:36 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 2E27F11366CE; Sat, 15 Feb 2020 12:41:33 +0100 (CET)
+ id 315C911366D0; Sat, 15 Feb 2020 12:41:33 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 06/18] qga/qapi-schema.json: Fix missing '-' in
- GuestDiskBusType doc comment
-Date: Sat, 15 Feb 2020 12:41:21 +0100
-Message-Id: <20200215114133.15097-7-armbru@redhat.com>
+Subject: [PULL 07/18] qga/qapi-schema.json: Fix indent level on doc comments
+Date: Sat, 15 Feb 2020 12:41:22 +0100
+Message-Id: <20200215114133.15097-8-armbru@redhat.com>
 In-Reply-To: <20200215114133.15097-1-armbru@redhat.com>
 References: <20200215114133.15097-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: 55cGBYXEMZiyD4XcpeBz2Q-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: sX-PbDNLN0OoWsejSuTRXQ-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,39 +79,207 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Peter Maydell <peter.maydell@linaro.org>
 
-The doc comment for GuestDiskBusType doesn't match up with the
-enumeration because of a missing hyphen in 'file-backed-virtual'.
-This means the docs are rendered wrongly:
-       "virtual"
-           Win virtual bus type "file-backed" virtual: Win file-backed bus =
-type
+The current doc generation doesn't care much about indentation levels,
+but we would like to switch to an rST format, and rST does care about
+indentation.
 
-       "file-backed-virtual"
-           Not documented
+Make the doc comments more strongly consistent about indentation
+for multiline constructs like:
 
-Add the missing hyphen.
+@arg: description line 1
+      description line 2
+
+Returns: line one
+         line 2
+
+so that there is always exactly one space after the colon, and
+subsequent lines align with the first.
+
+This commit is a purely whitespace change, and it does not alter the
+generated .texi files (because the texi generation code strips away
+all the extra whitespace).  This does mean that we end up with some
+over-length lines.
+
+Note that when the documentation for an argument fits on a single
+line like this:
+
+@arg: one line only
+
+then stray extra spaces after the ':' don't affect the rST output, so
+I have not attempted to methodically fix them, though the preference
+is a single space here too.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Eric Blake <eblake@redhat.com>
 Reviewed-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20200213175647.17628-5-peter.maydell@linaro.org>
+Message-Id: <20200213175647.17628-6-peter.maydell@linaro.org>
+[Commit message tweaked]
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- qga/qapi-schema.json | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ qga/qapi-schema.json | 62 ++++++++++++++++++++++----------------------
+ 1 file changed, 31 insertions(+), 31 deletions(-)
 
 diff --git a/qga/qapi-schema.json b/qga/qapi-schema.json
-index fb4605cc19..23ce6af597 100644
+index 23ce6af597..7661b2b3b4 100644
 --- a/qga/qapi-schema.json
 +++ b/qga/qapi-schema.json
-@@ -809,7 +809,7 @@
- # @sas: Win serial-attaches SCSI bus type
- # @mmc: Win multimedia card (MMC) bus type
- # @virtual: Win virtual bus type
--# @file-backed virtual: Win file-backed bus type
-+# @file-backed-virtual: Win file-backed bus type
+@@ -416,7 +416,7 @@
+ # Returns: GuestFsfreezeStatus ("thawed", "frozen", etc., as defined below=
+)
  #
- # Since: 2.2; 'Unknown' and all entries below since 2.4
+ # Note: This may fail to properly report the current state as a result of
+-# some other guest processes having issued an fs freeze/thaw.
++#       some other guest processes having issued an fs freeze/thaw.
+ #
+ # Since: 0.15.0
+ ##
+@@ -431,13 +431,13 @@
+ # unfreeze.
+ #
+ # Note: On Windows, the command is implemented with the help of a
+-# Volume Shadow-copy Service DLL helper. The frozen state is limited
+-# for up to 10 seconds by VSS.
++#       Volume Shadow-copy Service DLL helper. The frozen state is limited
++#       for up to 10 seconds by VSS.
+ #
+ # Returns: Number of file systems currently frozen. On error, all filesyst=
+ems
+-# will be thawed. If no filesystems are frozen as a result of this call,
+-# then @guest-fsfreeze-status will remain "thawed" and calling
+-# @guest-fsfreeze-thaw is not necessary.
++#          will be thawed. If no filesystems are frozen as a result of thi=
+s call,
++#          then @guest-fsfreeze-status will remain "thawed" and calling
++#          @guest-fsfreeze-thaw is not necessary.
+ #
+ # Since: 0.15.0
+ ##
+@@ -455,7 +455,7 @@
+ #               Invalid mount points are ignored.
+ #
+ # Returns: Number of file systems currently frozen. On error, all filesyst=
+ems
+-# will be thawed.
++#          will be thawed.
+ #
+ # Since: 2.2
+ ##
+@@ -511,12 +511,12 @@
+ # Discard (or "trim") blocks which are not in use by the filesystem.
+ #
+ # @minimum:
+-#       Minimum contiguous free range to discard, in bytes. Free ranges
+-#       smaller than this may be ignored (this is a hint and the guest
+-#       may not respect it).  By increasing this value, the fstrim
+-#       operation will complete more quickly for filesystems with badly
+-#       fragmented free space, although not all blocks will be discarded.
+-#       The default value is zero, meaning "discard every free block".
++#           Minimum contiguous free range to discard, in bytes. Free range=
+s
++#           smaller than this may be ignored (this is a hint and the guest
++#           may not respect it).  By increasing this value, the fstrim
++#           operation will complete more quickly for filesystems with badl=
+y
++#           fragmented free space, although not all blocks will be discard=
+ed.
++#           The default value is zero, meaning "discard every free block".
+ #
+ # Returns: A @GuestFilesystemTrimResponse which contains the
+ #          status of all trimmed paths. (since 2.4)
+@@ -693,7 +693,7 @@
+ # @ip-addresses: List of addresses assigned to @name
+ #
+ # @statistics: various statistic counters related to @name
+-# (since 2.11)
++#              (since 2.11)
+ #
+ # Since: 1.1
+ ##
+@@ -743,7 +743,7 @@
+ # This is a read-only operation.
+ #
+ # Returns: The list of all VCPUs the guest knows about. Each VCPU is put o=
+n the
+-# list exactly once, but their order is unspecified.
++#          list exactly once, but their order is unspecified.
+ #
+ # Since: 1.5
+ ##
+@@ -937,8 +937,8 @@
+ # This is a read-only operation.
+ #
+ # Returns: The list of all memory blocks the guest knows about.
+-# Each memory block is put on the list exactly once, but their order
+-# is unspecified.
++#          Each memory block is put on the list exactly once, but their or=
+der
++#          is unspecified.
+ #
+ # Since: 2.3
+ ##
+@@ -971,9 +971,9 @@
+ # @response: the result of memory block operation.
+ #
+ # @error-code: the error number.
+-#               When memory block operation fails, we assign the value of
+-#               'errno' to this member, it indicates what goes wrong.
+-#               When the operation succeeds, it will be omitted.
++#              When memory block operation fails, we assign the value of
++#              'errno' to this member, it indicates what goes wrong.
++#              When the operation succeeds, it will be omitted.
+ #
+ # Since: 2.3
+ ##
+@@ -1040,15 +1040,15 @@
+ # @exited: true if process has already terminated.
+ # @exitcode: process exit code if it was normally terminated.
+ # @signal: signal number (linux) or unhandled exception code
+-#       (windows) if the process was abnormally terminated.
++#          (windows) if the process was abnormally terminated.
+ # @out-data: base64-encoded stdout of the process
+ # @err-data: base64-encoded stderr of the process
+-#       Note: @out-data and @err-data are present only
+-#       if 'capture-output' was specified for 'guest-exec'
++#            Note: @out-data and @err-data are present only
++#            if 'capture-output' was specified for 'guest-exec'
+ # @out-truncated: true if stdout was not fully captured
+-#       due to size limitation.
++#                 due to size limitation.
+ # @err-truncated: true if stderr was not fully captured
+-#       due to size limitation.
++#                 due to size limitation.
+ #
+ # Since: 2.5
+ ##
+@@ -1131,8 +1131,8 @@
+=20
+ ##
+ # @GuestUser:
+-# @user:       Username
+-# @domain:     Logon domain (windows only)
++# @user: Username
++# @domain: Logon domain (windows only)
+ # @login-time: Time of login of this user on the computer. If multiple
+ #              instances of the user are logged in, the earliest login tim=
+e is
+ #              reported. The value is in fractional seconds since epoch ti=
+me.
+@@ -1156,10 +1156,10 @@
+ ##
+ # @GuestTimezone:
+ #
+-# @zone:    Timezone name. These values may differ depending on guest/OS a=
+nd
+-#           should only be used for informational purposes.
+-# @offset:  Offset to UTC in seconds, negative numbers for time zones west=
+ of
+-#           GMT, positive numbers for east
++# @zone: Timezone name. These values may differ depending on guest/OS and
++#        should only be used for informational purposes.
++# @offset: Offset to UTC in seconds, negative numbers for time zones west =
+of
++#          GMT, positive numbers for east
+ #
+ # Since: 2.10
  ##
 --=20
 2.21.1
