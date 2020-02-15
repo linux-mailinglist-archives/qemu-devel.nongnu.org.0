@@ -2,24 +2,24 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 256F715FE8F
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 Feb 2020 14:09:41 +0100 (CET)
-Received: from localhost ([::1]:51148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2501915FE8D
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 Feb 2020 14:07:46 +0100 (CET)
+Received: from localhost ([::1]:51136 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j2xCW-0005UW-8F
-	for lists+qemu-devel@lfdr.de; Sat, 15 Feb 2020 08:09:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57271)
+	id 1j2xAf-0003DX-7h
+	for lists+qemu-devel@lfdr.de; Sat, 15 Feb 2020 08:07:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57240)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1j2x8e-0000Cv-VR
- for qemu-devel@nongnu.org; Sat, 15 Feb 2020 08:05:43 -0500
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1j2x8Z-0002hS-Ip
+ (envelope-from <armbru@redhat.com>) id 1j2x8c-0000A4-2t
  for qemu-devel@nongnu.org; Sat, 15 Feb 2020 08:05:39 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:59977
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <armbru@redhat.com>) id 1j2x8Z-0002h7-FA
+ for qemu-devel@nongnu.org; Sat, 15 Feb 2020 08:05:37 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:30185
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1j2x8Z-0002fb-DI
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1j2x8Z-0002fv-06
  for qemu-devel@nongnu.org; Sat, 15 Feb 2020 08:05:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1581771933;
@@ -27,35 +27,36 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=66Qp5JInb4lAsYMwqbKyd6h5RY3qleXdsVYK/ssa7mc=;
- b=LD1dKewolzGMbj+PCQm+VMtCe5U3oopBKx090wVRuOjvUZPV9e1XKHRx6RKQWD+Bj/41Qy
- EdZM491v7Z5UjL/Z7VoNTYLM7LLBHOdazXAT/SEM53LGvs2o9X0vBsgEXT8R5u0ncsSsjW
- MpzGPfIenn0snLAbrO2uSO1fUFloxoo=
+ bh=41FcP4x2ytSyRf+bb3WRHdxlaC7aOONcpuzwqMnMcqs=;
+ b=MPpDx62+tIyOhO6y8ubB9YkV5A+IjKsvAcIal+gJ+TjI0BbjZd43bfrorPgVo6MH2hvWsi
+ WTud5Ocg74NurifUvuczqY7ksQ7L7DeWsH1Vuol2lluDva8YGNByFHCrt9MgLxCQEw+7L3
+ VDrlZ8zPBhj8leeUaVIqiCdkDF4j43g=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-360-xY7F9x27M0ac1jvY_syhdQ-1; Sat, 15 Feb 2020 08:05:30 -0500
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-364-1fY1lFJlMi6L3GEQ1dOWxQ-1; Sat, 15 Feb 2020 08:05:30 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 85ECD100550E
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5EE6513E5
  for <qemu-devel@nongnu.org>; Sat, 15 Feb 2020 13:05:29 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-117-234.ams2.redhat.com
  [10.36.117.234])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 072C190522;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 074C25D9C5;
  Sat, 15 Feb 2020 13:05:28 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 6C6E111366C3; Sat, 15 Feb 2020 14:05:27 +0100 (CET)
+ id 6FA8311366C5; Sat, 15 Feb 2020 14:05:27 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 2/5] qapi: Split control.json off misc.json
-Date: Sat, 15 Feb 2020 14:05:24 +0100
-Message-Id: <20200215130527.28861-3-armbru@redhat.com>
+Subject: [PULL 3/5] monitor: Collect "control" command handlers in
+ qmp-cmds.control.c
+Date: Sat, 15 Feb 2020 14:05:25 +0100
+Message-Id: <20200215130527.28861-4-armbru@redhat.com>
 In-Reply-To: <20200215130527.28861-1-armbru@redhat.com>
 References: <20200215130527.28861-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: xY7F9x27M0ac1jvY_syhdQ-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: 1fY1lFJlMi6L3GEQ1dOWxQ-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
@@ -79,623 +80,373 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Kevin Wolf <kwolf@redhat.com>
 
-misc.json contains definitions that are related to the system emulator,
-so it can't be used for other tools like the storage daemon. This patch
-moves basic functionality that is shared between all tools (and mostly
-related to the monitor itself) into a new control.json, which could be
-used in tools as well.
+Move all of the QMP commands handlers to implement the 'control' module
+(qapi/control.json) that can be shared between the system emulator and
+tools such as a storage daemon to a new file monitor/qmp-cmds-control.c.
 
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 Reviewed-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20200129102239.31435-3-kwolf@redhat.com>
+Message-Id: <20200129102239.31435-4-kwolf@redhat.com>
 [Commit message tweaked]
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- qapi/control.json          | 218 +++++++++++++++++++++++++++++++++++++
- qapi/misc.json             | 212 ------------------------------------
- qapi/qapi-schema.json      |   1 +
- monitor/monitor-internal.h |   1 +
- monitor/hmp-cmds.c         |   1 +
- monitor/misc.c             |   1 +
- monitor/qmp-cmds.c         |   1 +
- monitor/qmp.c              |   2 +-
- tests/qtest/qmp-test.c     |   2 +-
- ui/gtk.c                   |   1 +
- qapi/Makefile.objs         |   6 +-
- 11 files changed, 229 insertions(+), 217 deletions(-)
- create mode 100644 qapi/control.json
+ monitor/misc.c             | 110 --------------------------
+ monitor/qmp-cmds-control.c | 153 +++++++++++++++++++++++++++++++++++++
+ monitor/qmp-cmds.c         |  14 ----
+ monitor/Makefile.objs      |   3 +-
+ 4 files changed, 155 insertions(+), 125 deletions(-)
+ create mode 100644 monitor/qmp-cmds-control.c
 
-diff --git a/qapi/control.json b/qapi/control.json
-new file mode 100644
-index 0000000000..c1ed12a850
---- /dev/null
-+++ b/qapi/control.json
-@@ -0,0 +1,218 @@
-+# -*- Mode: Python -*-
-+#
-+
-+##
-+# =3D QMP monitor control
-+##
-+
-+##
-+# @qmp_capabilities:
-+#
-+# Enable QMP capabilities.
-+#
-+# Arguments:
-+#
-+# @enable:   An optional list of QMPCapability values to enable.  The
-+#            client must not enable any capability that is not
-+#            mentioned in the QMP greeting message.  If the field is not
-+#            provided, it means no QMP capabilities will be enabled.
-+#            (since 2.12)
-+#
-+# Example:
-+#
-+# -> { "execute": "qmp_capabilities",
-+#      "arguments": { "enable": [ "oob" ] } }
-+# <- { "return": {} }
-+#
-+# Notes: This command is valid exactly when first connecting: it must be
-+# issued before any other command will be accepted, and will fail once the
-+# monitor is accepting other commands. (see qemu docs/interop/qmp-spec.txt=
-)
-+#
-+# The QMP client needs to explicitly enable QMP capabilities, otherwise
-+# all the QMP capabilities will be turned off by default.
-+#
-+# Since: 0.13
-+#
-+##
-+{ 'command': 'qmp_capabilities',
-+  'data': { '*enable': [ 'QMPCapability' ] },
-+  'allow-preconfig': true }
-+
-+##
-+# @QMPCapability:
-+#
-+# Enumeration of capabilities to be advertised during initial client
-+# connection, used for agreeing on particular QMP extension behaviors.
-+#
-+# @oob:   QMP ability to support out-of-band requests.
-+#         (Please refer to qmp-spec.txt for more information on OOB)
-+#
-+# Since: 2.12
-+#
-+##
-+{ 'enum': 'QMPCapability',
-+  'data': [ 'oob' ] }
-+
-+##
-+# @VersionTriple:
-+#
-+# A three-part version number.
-+#
-+# @major:  The major version number.
-+#
-+# @minor:  The minor version number.
-+#
-+# @micro:  The micro version number.
-+#
-+# Since: 2.4
-+##
-+{ 'struct': 'VersionTriple',
-+  'data': {'major': 'int', 'minor': 'int', 'micro': 'int'} }
-+
-+
-+##
-+# @VersionInfo:
-+#
-+# A description of QEMU's version.
-+#
-+# @qemu:        The version of QEMU.  By current convention, a micro
-+#               version of 50 signifies a development branch.  A micro ver=
-sion
-+#               greater than or equal to 90 signifies a release candidate =
-for
-+#               the next minor version.  A micro version of less than 50
-+#               signifies a stable release.
-+#
-+# @package:     QEMU will always set this field to an empty string.  Downs=
-tream
-+#               versions of QEMU should set this to a non-empty string.  T=
-he
-+#               exact format depends on the downstream however it highly
-+#               recommended that a unique name is used.
-+#
-+# Since: 0.14.0
-+##
-+{ 'struct': 'VersionInfo',
-+  'data': {'qemu': 'VersionTriple', 'package': 'str'} }
-+
-+##
-+# @query-version:
-+#
-+# Returns the current version of QEMU.
-+#
-+# Returns:  A @VersionInfo object describing the current version of QEMU.
-+#
-+# Since: 0.14.0
-+#
-+# Example:
-+#
-+# -> { "execute": "query-version" }
-+# <- {
-+#       "return":{
-+#          "qemu":{
-+#             "major":0,
-+#             "minor":11,
-+#             "micro":5
-+#          },
-+#          "package":""
-+#       }
-+#    }
-+#
-+##
-+{ 'command': 'query-version', 'returns': 'VersionInfo',
-+  'allow-preconfig': true }
-+
-+##
-+# @CommandInfo:
-+#
-+# Information about a QMP command
-+#
-+# @name: The command name
-+#
-+# Since: 0.14.0
-+##
-+{ 'struct': 'CommandInfo', 'data': {'name': 'str'} }
-+
-+##
-+# @query-commands:
-+#
-+# Return a list of supported QMP commands by this server
-+#
-+# Returns: A list of @CommandInfo for all supported commands
-+#
-+# Since: 0.14.0
-+#
-+# Example:
-+#
-+# -> { "execute": "query-commands" }
-+# <- {
-+#      "return":[
-+#         {
-+#            "name":"query-balloon"
-+#         },
-+#         {
-+#            "name":"system_powerdown"
-+#         }
-+#      ]
-+#    }
-+#
-+# Note: This example has been shortened as the real response is too long.
-+#
-+##
-+{ 'command': 'query-commands', 'returns': ['CommandInfo'],
-+  'allow-preconfig': true }
-+
-+##
-+# @EventInfo:
-+#
-+# Information about a QMP event
-+#
-+# @name: The event name
-+#
-+# Since: 1.2.0
-+##
-+{ 'struct': 'EventInfo', 'data': {'name': 'str'} }
-+
-+##
-+# @query-events:
-+#
-+# Return information on QMP events.
-+#
-+# Returns: A list of @EventInfo.
-+#
-+# Since: 1.2.0
-+#
-+# Note: This command is deprecated, because its output doesn't reflect
-+# compile-time configuration.  Use query-qmp-schema instead.
-+#
-+# Example:
-+#
-+# -> { "execute": "query-events" }
-+# <- {
-+#      "return": [
-+#          {
-+#             "name":"SHUTDOWN"
-+#          },
-+#          {
-+#             "name":"RESET"
-+#          }
-+#       ]
-+#    }
-+#
-+# Note: This example has been shortened as the real response is too long.
-+#
-+##
-+{ 'command': 'query-events', 'returns': ['EventInfo'] }
-+
-+##
-+# @quit:
-+#
-+# This command will cause the QEMU process to exit gracefully.  While ever=
-y
-+# attempt is made to send the QMP response before terminating, this is not
-+# guaranteed.  When using this interface, a premature EOF would not be
-+# unexpected.
-+#
-+# Since: 0.14.0
-+#
-+# Example:
-+#
-+# -> { "execute": "quit" }
-+# <- { "return": {} }
-+##
-+{ 'command': 'quit' }
-diff --git a/qapi/misc.json b/qapi/misc.json
-index 33b94e3589..cf656e9d4b 100644
---- a/qapi/misc.json
-+++ b/qapi/misc.json
-@@ -7,159 +7,6 @@
-=20
- { 'include': 'common.json' }
-=20
--##
--# @qmp_capabilities:
--#
--# Enable QMP capabilities.
--#
--# Arguments:
--#
--# @enable:   An optional list of QMPCapability values to enable.  The
--#            client must not enable any capability that is not
--#            mentioned in the QMP greeting message.  If the field is not
--#            provided, it means no QMP capabilities will be enabled.
--#            (since 2.12)
--#
--# Example:
--#
--# -> { "execute": "qmp_capabilities",
--#      "arguments": { "enable": [ "oob" ] } }
--# <- { "return": {} }
--#
--# Notes: This command is valid exactly when first connecting: it must be
--# issued before any other command will be accepted, and will fail once the
--# monitor is accepting other commands. (see qemu docs/interop/qmp-spec.txt=
-)
--#
--# The QMP client needs to explicitly enable QMP capabilities, otherwise
--# all the QMP capabilities will be turned off by default.
--#
--# Since: 0.13
--#
--##
--{ 'command': 'qmp_capabilities',
--  'data': { '*enable': [ 'QMPCapability' ] },
--  'allow-preconfig': true }
--
--##
--# @QMPCapability:
--#
--# Enumeration of capabilities to be advertised during initial client
--# connection, used for agreeing on particular QMP extension behaviors.
--#
--# @oob:   QMP ability to support out-of-band requests.
--#         (Please refer to qmp-spec.txt for more information on OOB)
--#
--# Since: 2.12
--#
--##
--{ 'enum': 'QMPCapability',
--  'data': [ 'oob' ] }
--
--##
--# @VersionTriple:
--#
--# A three-part version number.
--#
--# @major:  The major version number.
--#
--# @minor:  The minor version number.
--#
--# @micro:  The micro version number.
--#
--# Since: 2.4
--##
--{ 'struct': 'VersionTriple',
--  'data': {'major': 'int', 'minor': 'int', 'micro': 'int'} }
--
--
--##
--# @VersionInfo:
--#
--# A description of QEMU's version.
--#
--# @qemu:        The version of QEMU.  By current convention, a micro
--#               version of 50 signifies a development branch.  A micro ver=
-sion
--#               greater than or equal to 90 signifies a release candidate =
-for
--#               the next minor version.  A micro version of less than 50
--#               signifies a stable release.
--#
--# @package:     QEMU will always set this field to an empty string.  Downs=
-tream
--#               versions of QEMU should set this to a non-empty string.  T=
-he
--#               exact format depends on the downstream however it highly
--#               recommended that a unique name is used.
--#
--# Since: 0.14.0
--##
--{ 'struct': 'VersionInfo',
--  'data': {'qemu': 'VersionTriple', 'package': 'str'} }
--
--##
--# @query-version:
--#
--# Returns the current version of QEMU.
--#
--# Returns:  A @VersionInfo object describing the current version of QEMU.
--#
--# Since: 0.14.0
--#
--# Example:
--#
--# -> { "execute": "query-version" }
--# <- {
--#       "return":{
--#          "qemu":{
--#             "major":0,
--#             "minor":11,
--#             "micro":5
--#          },
--#          "package":""
--#       }
--#    }
--#
--##
--{ 'command': 'query-version', 'returns': 'VersionInfo',
--  'allow-preconfig': true }
--
--##
--# @CommandInfo:
--#
--# Information about a QMP command
--#
--# @name: The command name
--#
--# Since: 0.14.0
--##
--{ 'struct': 'CommandInfo', 'data': {'name': 'str'} }
--
--##
--# @query-commands:
--#
--# Return a list of supported QMP commands by this server
--#
--# Returns: A list of @CommandInfo for all supported commands
--#
--# Since: 0.14.0
--#
--# Example:
--#
--# -> { "execute": "query-commands" }
--# <- {
--#      "return":[
--#         {
--#            "name":"query-balloon"
--#         },
--#         {
--#            "name":"system_powerdown"
--#         }
--#      ]
--#    }
--#
--# Note: This example has been shortened as the real response is too long.
--#
--##
--{ 'command': 'query-commands', 'returns': ['CommandInfo'],
--  'allow-preconfig': true }
--
- ##
- # @LostTickPolicy:
- #
-@@ -300,48 +147,6 @@
- ##
- { 'command': 'query-uuid', 'returns': 'UuidInfo', 'allow-preconfig': true =
-}
-=20
--##
--# @EventInfo:
--#
--# Information about a QMP event
--#
--# @name: The event name
--#
--# Since: 1.2.0
--##
--{ 'struct': 'EventInfo', 'data': {'name': 'str'} }
--
--##
--# @query-events:
--#
--# Return information on QMP events.
--#
--# Returns: A list of @EventInfo.
--#
--# Since: 1.2.0
--#
--# Note: This command is deprecated, because its output doesn't reflect
--# compile-time configuration.  Use query-qmp-schema instead.
--#
--# Example:
--#
--# -> { "execute": "query-events" }
--# <- {
--#      "return": [
--#          {
--#             "name":"SHUTDOWN"
--#          },
--#          {
--#             "name":"RESET"
--#          }
--#       ]
--#    }
--#
--# Note: This example has been shortened as the real response is too long.
--#
--##
--{ 'command': 'query-events', 'returns': ['EventInfo'] }
--
- ##
- # @IOThreadInfo:
- #
-@@ -764,23 +569,6 @@
- ##
- { 'command': 'query-pci', 'returns': ['PciInfo'] }
-=20
--##
--# @quit:
--#
--# This command will cause the QEMU process to exit gracefully.  While ever=
-y
--# attempt is made to send the QMP response before terminating, this is not
--# guaranteed.  When using this interface, a premature EOF would not be
--# unexpected.
--#
--# Since: 0.14.0
--#
--# Example:
--#
--# -> { "execute": "quit" }
--# <- { "return": {} }
--##
--{ 'command': 'quit' }
--
- ##
- # @stop:
- #
-diff --git a/qapi/qapi-schema.json b/qapi/qapi-schema.json
-index 9751b11f8f..fe980ce437 100644
---- a/qapi/qapi-schema.json
-+++ b/qapi/qapi-schema.json
-@@ -98,6 +98,7 @@
- { 'include': 'migration.json' }
- { 'include': 'transaction.json' }
- { 'include': 'trace.json' }
-+{ 'include': 'control.json' }
- { 'include': 'introspect.json' }
- { 'include': 'qom.json' }
- { 'include': 'qdev.json' }
-diff --git a/monitor/monitor-internal.h b/monitor/monitor-internal.h
-index d78f5ca190..4d402ded85 100644
---- a/monitor/monitor-internal.h
-+++ b/monitor/monitor-internal.h
-@@ -27,6 +27,7 @@
-=20
- #include "chardev/char-fe.h"
- #include "monitor/monitor.h"
-+#include "qapi/qapi-types-control.h"
- #include "qapi/qmp/dispatch.h"
- #include "qapi/qmp/json-parser.h"
- #include "qemu/readline.h"
-diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index 558fe06b8f..b237613e0d 100644
---- a/monitor/hmp-cmds.c
-+++ b/monitor/hmp-cmds.c
-@@ -31,6 +31,7 @@
- #include "qapi/qapi-builtin-visit.h"
- #include "qapi/qapi-commands-block.h"
- #include "qapi/qapi-commands-char.h"
-+#include "qapi/qapi-commands-control.h"
- #include "qapi/qapi-commands-migration.h"
- #include "qapi/qapi-commands-misc.h"
- #include "qapi/qapi-commands-net.h"
 diff --git a/monitor/misc.c b/monitor/misc.c
-index 9c3484d0a7..b4303d42d0 100644
+index b4303d42d0..4c4e47fdc4 100644
 --- a/monitor/misc.c
 +++ b/monitor/misc.c
-@@ -67,6 +67,7 @@
- #include "qemu/thread.h"
- #include "block/qapi.h"
- #include "qapi/qapi-commands-char.h"
-+#include "qapi/qapi-commands-control.h"
- #include "qapi/qapi-commands-migration.h"
+@@ -72,7 +72,6 @@
  #include "qapi/qapi-commands-misc.h"
  #include "qapi/qapi-commands-qom.h"
+ #include "qapi/qapi-commands-trace.h"
+-#include "qapi/qapi-emit-events.h"
+ #include "qapi/qapi-init-commands.h"
+ #include "qapi/error.h"
+ #include "qapi/qmp-event.h"
+@@ -233,58 +232,6 @@ static void hmp_info_help(Monitor *mon, const QDict *q=
+dict)
+     help_cmd(mon, "info");
+ }
+=20
+-static void query_commands_cb(QmpCommand *cmd, void *opaque)
+-{
+-    CommandInfoList *info, **list =3D opaque;
+-
+-    if (!cmd->enabled) {
+-        return;
+-    }
+-
+-    info =3D g_malloc0(sizeof(*info));
+-    info->value =3D g_malloc0(sizeof(*info->value));
+-    info->value->name =3D g_strdup(cmd->name);
+-    info->next =3D *list;
+-    *list =3D info;
+-}
+-
+-CommandInfoList *qmp_query_commands(Error **errp)
+-{
+-    CommandInfoList *list =3D NULL;
+-    MonitorQMP *mon;
+-
+-    assert(monitor_is_qmp(cur_mon));
+-    mon =3D container_of(cur_mon, MonitorQMP, common);
+-
+-    qmp_for_each_command(mon->commands, query_commands_cb, &list);
+-
+-    return list;
+-}
+-
+-EventInfoList *qmp_query_events(Error **errp)
+-{
+-    /*
+-     * TODO This deprecated command is the only user of
+-     * QAPIEvent_str() and QAPIEvent_lookup[].  When the command goes,
+-     * they should go, too.
+-     */
+-    EventInfoList *info, *ev_list =3D NULL;
+-    QAPIEvent e;
+-
+-    for (e =3D 0 ; e < QAPI_EVENT__MAX ; e++) {
+-        const char *event_name =3D QAPIEvent_str(e);
+-        assert(event_name !=3D NULL);
+-        info =3D g_malloc0(sizeof(*info));
+-        info->value =3D g_malloc0(sizeof(*info->value));
+-        info->value->name =3D g_strdup(event_name);
+-
+-        info->next =3D ev_list;
+-        ev_list =3D info;
+-    }
+-
+-    return ev_list;
+-}
+-
+ /*
+  * Minor hack: generated marshalling suppressed for this command
+  * ('gen': false in the schema) so we can parse the JSON string
+@@ -323,63 +270,6 @@ static void monitor_init_qmp_commands(void)
+                          qmp_marshal_qmp_capabilities, QCO_ALLOW_PRECONFIG=
+);
+ }
+=20
+-/*
+- * Accept QMP capabilities in @list for @mon.
+- * On success, set mon->qmp.capab[], and return true.
+- * On error, set @errp, and return false.
+- */
+-static bool qmp_caps_accept(MonitorQMP *mon, QMPCapabilityList *list,
+-                            Error **errp)
+-{
+-    GString *unavailable =3D NULL;
+-    bool capab[QMP_CAPABILITY__MAX];
+-
+-    memset(capab, 0, sizeof(capab));
+-
+-    for (; list; list =3D list->next) {
+-        if (!mon->capab_offered[list->value]) {
+-            if (!unavailable) {
+-                unavailable =3D g_string_new(QMPCapability_str(list->value=
+));
+-            } else {
+-                g_string_append_printf(unavailable, ", %s",
+-                                      QMPCapability_str(list->value));
+-            }
+-        }
+-        capab[list->value] =3D true;
+-    }
+-
+-    if (unavailable) {
+-        error_setg(errp, "Capability %s not available", unavailable->str);
+-        g_string_free(unavailable, true);
+-        return false;
+-    }
+-
+-    memcpy(mon->capab, capab, sizeof(capab));
+-    return true;
+-}
+-
+-void qmp_qmp_capabilities(bool has_enable, QMPCapabilityList *enable,
+-                          Error **errp)
+-{
+-    MonitorQMP *mon;
+-
+-    assert(monitor_is_qmp(cur_mon));
+-    mon =3D container_of(cur_mon, MonitorQMP, common);
+-
+-    if (mon->commands =3D=3D &qmp_commands) {
+-        error_set(errp, ERROR_CLASS_COMMAND_NOT_FOUND,
+-                  "Capabilities negotiation is already complete, command "
+-                  "ignored");
+-        return;
+-    }
+-
+-    if (!qmp_caps_accept(mon, enable, errp)) {
+-        return;
+-    }
+-
+-    mon->commands =3D &qmp_commands;
+-}
+-
+ /* Set the current CPU defined by the user. Callers must hold BQL. */
+ int monitor_set_cpu(int cpu_index)
+ {
+diff --git a/monitor/qmp-cmds-control.c b/monitor/qmp-cmds-control.c
+new file mode 100644
+index 0000000000..d5f21f90e6
+--- /dev/null
++++ b/monitor/qmp-cmds-control.c
+@@ -0,0 +1,153 @@
++/*
++ * QMP commands related to the monitor (common to sysemu and tools)
++ *
++ * Copyright (c) 2003-2004 Fabrice Bellard
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a=
+ copy
++ * of this software and associated documentation files (the "Software"), t=
+o deal
++ * in the Software without restriction, including without limitation the r=
+ights
++ * to use, copy, modify, merge, publish, distribute, sublicense, and/or se=
+ll
++ * copies of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be included=
+ in
++ * all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS=
+ OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY=
+,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
++ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OT=
+HER
++ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING=
+ FROM,
++ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS =
+IN
++ * THE SOFTWARE.
++ */
++
++#include "qemu/osdep.h"
++
++#include "monitor-internal.h"
++#include "qemu-version.h"
++#include "qapi/error.h"
++#include "qapi/qapi-commands-control.h"
++#include "qapi/qapi-emit-events.h"
++
++/*
++ * Accept QMP capabilities in @list for @mon.
++ * On success, set mon->qmp.capab[], and return true.
++ * On error, set @errp, and return false.
++ */
++static bool qmp_caps_accept(MonitorQMP *mon, QMPCapabilityList *list,
++                            Error **errp)
++{
++    GString *unavailable =3D NULL;
++    bool capab[QMP_CAPABILITY__MAX];
++
++    memset(capab, 0, sizeof(capab));
++
++    for (; list; list =3D list->next) {
++        if (!mon->capab_offered[list->value]) {
++            if (!unavailable) {
++                unavailable =3D g_string_new(QMPCapability_str(list->value=
+));
++            } else {
++                g_string_append_printf(unavailable, ", %s",
++                                      QMPCapability_str(list->value));
++            }
++        }
++        capab[list->value] =3D true;
++    }
++
++    if (unavailable) {
++        error_setg(errp, "Capability %s not available", unavailable->str);
++        g_string_free(unavailable, true);
++        return false;
++    }
++
++    memcpy(mon->capab, capab, sizeof(capab));
++    return true;
++}
++
++void qmp_qmp_capabilities(bool has_enable, QMPCapabilityList *enable,
++                          Error **errp)
++{
++    MonitorQMP *mon;
++
++    assert(monitor_is_qmp(cur_mon));
++    mon =3D container_of(cur_mon, MonitorQMP, common);
++
++    if (mon->commands =3D=3D &qmp_commands) {
++        error_set(errp, ERROR_CLASS_COMMAND_NOT_FOUND,
++                  "Capabilities negotiation is already complete, command "
++                  "ignored");
++        return;
++    }
++
++    if (!qmp_caps_accept(mon, enable, errp)) {
++        return;
++    }
++
++    mon->commands =3D &qmp_commands;
++}
++
++VersionInfo *qmp_query_version(Error **errp)
++{
++    VersionInfo *info =3D g_new0(VersionInfo, 1);
++
++    info->qemu =3D g_new0(VersionTriple, 1);
++    info->qemu->major =3D QEMU_VERSION_MAJOR;
++    info->qemu->minor =3D QEMU_VERSION_MINOR;
++    info->qemu->micro =3D QEMU_VERSION_MICRO;
++    info->package =3D g_strdup(QEMU_PKGVERSION);
++
++    return info;
++}
++
++static void query_commands_cb(QmpCommand *cmd, void *opaque)
++{
++    CommandInfoList *info, **list =3D opaque;
++
++    if (!cmd->enabled) {
++        return;
++    }
++
++    info =3D g_malloc0(sizeof(*info));
++    info->value =3D g_malloc0(sizeof(*info->value));
++    info->value->name =3D g_strdup(cmd->name);
++    info->next =3D *list;
++    *list =3D info;
++}
++
++CommandInfoList *qmp_query_commands(Error **errp)
++{
++    CommandInfoList *list =3D NULL;
++    MonitorQMP *mon;
++
++    assert(monitor_is_qmp(cur_mon));
++    mon =3D container_of(cur_mon, MonitorQMP, common);
++
++    qmp_for_each_command(mon->commands, query_commands_cb, &list);
++
++    return list;
++}
++
++EventInfoList *qmp_query_events(Error **errp)
++{
++    /*
++     * TODO This deprecated command is the only user of
++     * QAPIEvent_str() and QAPIEvent_lookup[].  When the command goes,
++     * they should go, too.
++     */
++    EventInfoList *info, *ev_list =3D NULL;
++    QAPIEvent e;
++
++    for (e =3D 0 ; e < QAPI_EVENT__MAX ; e++) {
++        const char *event_name =3D QAPIEvent_str(e);
++        assert(event_name !=3D NULL);
++        info =3D g_malloc0(sizeof(*info));
++        info->value =3D g_malloc0(sizeof(*info->value));
++        info->value->name =3D g_strdup(event_name);
++
++        info->next =3D ev_list;
++        ev_list =3D info;
++    }
++
++    return ev_list;
++}
 diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
-index c6faa3eaf0..a55d2dffc2 100644
+index a55d2dffc2..da7083087e 100644
 --- a/monitor/qmp-cmds.c
 +++ b/monitor/qmp-cmds.c
-@@ -32,6 +32,7 @@
- #include "sysemu/block-backend.h"
- #include "qapi/error.h"
- #include "qapi/qapi-commands-block-core.h"
-+#include "qapi/qapi-commands-control.h"
- #include "qapi/qapi-commands-machine.h"
- #include "qapi/qapi-commands-misc.h"
- #include "qapi/qapi-commands-ui.h"
-diff --git a/monitor/qmp.c b/monitor/qmp.c
-index 54c06ba824..8379c8f96e 100644
---- a/monitor/qmp.c
-+++ b/monitor/qmp.c
-@@ -27,7 +27,7 @@
- #include "chardev/char-io.h"
- #include "monitor-internal.h"
- #include "qapi/error.h"
--#include "qapi/qapi-commands-misc.h"
-+#include "qapi/qapi-commands-control.h"
- #include "qapi/qmp/qdict.h"
- #include "qapi/qmp/qjson.h"
- #include "qapi/qmp/qlist.h"
-diff --git a/tests/qtest/qmp-test.c b/tests/qtest/qmp-test.c
-index 1b0eb69832..1a8876b6ca 100644
---- a/tests/qtest/qmp-test.c
-+++ b/tests/qtest/qmp-test.c
-@@ -13,7 +13,7 @@
- #include "qemu/osdep.h"
- #include "libqtest.h"
- #include "qapi/error.h"
--#include "qapi/qapi-visit-misc.h"
-+#include "qapi/qapi-visit-control.h"
- #include "qapi/qmp/qdict.h"
- #include "qapi/qmp/qlist.h"
- #include "qapi/qobject-input-visitor.h"
-diff --git a/ui/gtk.c b/ui/gtk.c
-index f3f0af8921..030b251c61 100644
---- a/ui/gtk.c
-+++ b/ui/gtk.c
-@@ -32,6 +32,7 @@
+@@ -15,7 +15,6 @@
 =20
  #include "qemu/osdep.h"
- #include "qapi/error.h"
-+#include "qapi/qapi-commands-control.h"
- #include "qapi/qapi-commands-misc.h"
+ #include "qemu-common.h"
+-#include "qemu-version.h"
  #include "qemu/cutils.h"
+ #include "qemu/option.h"
+ #include "monitor/monitor.h"
+@@ -52,19 +51,6 @@ NameInfo *qmp_query_name(Error **errp)
+     return info;
+ }
 =20
-diff --git a/qapi/Makefile.objs b/qapi/Makefile.objs
-index a8f1f4c35e..20fcc37c2c 100644
---- a/qapi/Makefile.objs
-+++ b/qapi/Makefile.objs
-@@ -5,9 +5,9 @@ util-obj-y +=3D opts-visitor.o qapi-clone-visitor.o
- util-obj-y +=3D qmp-event.o
- util-obj-y +=3D qapi-util.o
-=20
--QAPI_COMMON_MODULES =3D audio authz block-core block char common crypto
--QAPI_COMMON_MODULES +=3D dump error introspect job machine migration misc =
-net
--QAPI_COMMON_MODULES +=3D qdev qom rdma rocker run-state sockets tpm
-+QAPI_COMMON_MODULES =3D audio authz block-core block char common control c=
-rypto
-+QAPI_COMMON_MODULES +=3D dump error introspect job machine migration misc
-+QAPI_COMMON_MODULES +=3D net qdev qom rdma rocker run-state sockets tpm
- QAPI_COMMON_MODULES +=3D trace transaction ui
- QAPI_TARGET_MODULES =3D machine-target misc-target
- QAPI_MODULES =3D $(QAPI_COMMON_MODULES) $(QAPI_TARGET_MODULES)
+-VersionInfo *qmp_query_version(Error **errp)
+-{
+-    VersionInfo *info =3D g_new0(VersionInfo, 1);
+-
+-    info->qemu =3D g_new0(VersionTriple, 1);
+-    info->qemu->major =3D QEMU_VERSION_MAJOR;
+-    info->qemu->minor =3D QEMU_VERSION_MINOR;
+-    info->qemu->micro =3D QEMU_VERSION_MICRO;
+-    info->package =3D g_strdup(QEMU_PKGVERSION);
+-
+-    return info;
+-}
+-
+ KvmInfo *qmp_query_kvm(Error **errp)
+ {
+     KvmInfo *info =3D g_malloc0(sizeof(*info));
+diff --git a/monitor/Makefile.objs b/monitor/Makefile.objs
+index e91a8581cd..9244d90859 100644
+--- a/monitor/Makefile.objs
++++ b/monitor/Makefile.objs
+@@ -1,3 +1,4 @@
+ obj-y +=3D misc.o
+ common-obj-y +=3D monitor.o qmp.o hmp.o
+-common-obj-y +=3D qmp-cmds.o hmp-cmds.o
++common-obj-y +=3D qmp-cmds.o qmp-cmds-control.o
++common-obj-y +=3D hmp-cmds.o
 --=20
 2.21.1
 
