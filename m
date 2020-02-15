@@ -2,60 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3439915FB5C
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 Feb 2020 01:14:08 +0100 (CET)
-Received: from localhost ([::1]:46894 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EB1715FB5A
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 Feb 2020 01:14:04 +0100 (CET)
+Received: from localhost ([::1]:46890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j2l5z-0001Nc-8J
-	for lists+qemu-devel@lfdr.de; Fri, 14 Feb 2020 19:14:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53516)
+	id 1j2l5v-0001EZ-Fl
+	for lists+qemu-devel@lfdr.de; Fri, 14 Feb 2020 19:14:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53541)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groeck7@gmail.com>) id 1j2l4q-0008Ai-8J
- for qemu-devel@nongnu.org; Fri, 14 Feb 2020 19:12:57 -0500
+ (envelope-from <groeck7@gmail.com>) id 1j2l4r-0008CA-Ok
+ for qemu-devel@nongnu.org; Fri, 14 Feb 2020 19:12:58 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groeck7@gmail.com>) id 1j2l4p-00035L-9Y
- for qemu-devel@nongnu.org; Fri, 14 Feb 2020 19:12:56 -0500
-Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:41468)
+ (envelope-from <groeck7@gmail.com>) id 1j2l4q-00038v-Eo
+ for qemu-devel@nongnu.org; Fri, 14 Feb 2020 19:12:57 -0500
+Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:46019)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <groeck7@gmail.com>)
- id 1j2l4n-0002yu-52; Fri, 14 Feb 2020 19:12:53 -0500
-Received: by mail-pg1-x544.google.com with SMTP id 70so5721885pgf.8;
- Fri, 14 Feb 2020 16:12:53 -0800 (PST)
+ id 1j2l4o-00032V-90; Fri, 14 Feb 2020 19:12:54 -0500
+Received: by mail-pg1-x544.google.com with SMTP id b9so5594978pgk.12;
+ Fri, 14 Feb 2020 16:12:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id;
- bh=GOmxZa8W36fyEtyV9Vzyxm6an40ZPWmlRGIMTwNafzg=;
- b=E34dWmd9FdfydzEKXmiuQT6Lamd0tow4bOesbRs+EjzzysxoiZN/BukqNzeDiCPZgB
- DXQAX2JnoZfFIsR5uZCMqDW+LhiCGDa7f1DAT594vRiEf3CUKLiZLfD+L4yAKNXr+mFY
- Ej14udPrE4BFgRswwx9AP9Qmd8Z9vs1e5M/hookZ9aWiYl6Mdm+h+J1L5UAUc35Pa/rN
- ZriOFoSKMPyu8LEwDBlsZIfaJ5gRY5Exj9t2HyvsMikGBrDXG0tFAVhQ7qYExDPPrSnE
- USgPIkwyq++yr8LtTbxUF4bnbJHaWt4BKcjPhdb49EHV6OjehmGpqzVRRub0dW4I7gT8
- fZlg==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=lzWIP4VkwCYbcbIQG5CcKiRH3f3/MB+GZnEQK5D3umo=;
+ b=hpoAqGYSAUvA47AEU/PM62h20f007z+dJx852KaAatQxwRGPsEi6rjW+/zXnNlrwp0
+ L+N2Wj9uH9B2ZHtZZXSiWFsEP4b7q7GOb1UfJ9DfVXjqGVOvDyF8BrHs7DrDAJrUalq8
+ oCJFGSEqxOHMyLZsNVSXDoCQa6Du46ryFFA+cJKUqiIgKkmScQwZlODFTbfhyTLT/BC1
+ xrNFTqK+DT9T6W5siA6qSj2rJCHqiNnI7T4GlBqOWjR+nOhHzGOBmXvvhE/QcuB34n/l
+ GRhF67HwKSjB27TCfjWAO5WlTG4sSoZAmd9Sm3u4fEnB4ab/oUw97O/NHnMVwceIyBb+
+ /2AQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
- bh=GOmxZa8W36fyEtyV9Vzyxm6an40ZPWmlRGIMTwNafzg=;
- b=K86kgU6ozTOBcySHXXu5nfxQK5Dg+dMNP4R9Ymh6YSeJhg+ovnLkczxE5niGV574B+
- Jy0vAz/X2ThPBsEB4u7BPTM5HmzOawfT+goeJ1ylKfJ0pjNkbzOwToWpcDGKRAwnQyhg
- rCN7PtDAsiwzYP9dSdCp6uNzE7IUAkF0L8GfrIoeKwPj9t5EjIDBCyswVXeFirnfaEcv
- 23teOYSetxAJp9zJl7Gh9nGLQeG1O9feDLh8OnLUdEYrAz/inE+h7hvWmtbGnj/oSvh8
- BizEyniYNbXxV4nVO70OOg32gKzQRqghM4CVBtezwgl9LwReVOFAncrGapjJFcWcXJLU
- w9Nw==
-X-Gm-Message-State: APjAAAW6/Wb4dojLFP4DFELi8GE15mf7B87T/Ybd2DELe3SjKWv/Dizz
- g4EItQwEFMrcWRd9DyjDnT0=
-X-Google-Smtp-Source: APXvYqxmYR7+uIKOTT2K5CzHAhtnalA/HsdGneion7hrlYqrsJ7Xdw/IyxGxrT60IySiPsU8p1c1xg==
-X-Received: by 2002:a62:d15a:: with SMTP id t26mr5875886pfl.187.1581725571958; 
- Fri, 14 Feb 2020 16:12:51 -0800 (PST)
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :in-reply-to:references;
+ bh=lzWIP4VkwCYbcbIQG5CcKiRH3f3/MB+GZnEQK5D3umo=;
+ b=o/qisdEqNcM0ycahQoWA9yfyX2ysigpbBuUhsY3eSBMda3WaJtfJ8kC+GLnGhg7zwe
+ FGPk0bpvPY2EO6gvpn8FDi/2a6OAuI3UankbvCA1+RU6wT3QE61TifFT3exyQ+rqFEEi
+ dRylFjvwdjxbnCRvxTHPUi6tUhkO2oZ/nrjHK1oIClfy1zzV+F+VNH+rVUDQVtJcWBiF
+ Au6opNULviCkqnc/oOiDgQzSimX8TA4xDAW0kmeoIziVMYJpYaa66uWN4aawfoKOQGY9
+ IpsxBBcB1xFIdHpTon+4Z1jxS3GI4CD83fIdPRmQLDz8sA7KYCtA9yW5J+Rb9ED97Zu3
+ fA6g==
+X-Gm-Message-State: APjAAAUqVA097wWKYDIAejGWLgRKzhmXT70uvp39kD3k69lQW7DS7nAg
+ 9am29auQL22pz8gtcKm6MnY=
+X-Google-Smtp-Source: APXvYqxIEo02tNg08eQujp+12a4xWk1R/Cx2WaQTGOM1ydJ3rlVx6pJB6JcdWVJNxB8TrBLxzW2d2A==
+X-Received: by 2002:a62:1a16:: with SMTP id a22mr5966524pfa.34.1581725573453; 
+ Fri, 14 Feb 2020 16:12:53 -0800 (PST)
 Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id l12sm8082854pgj.16.2020.02.14.16.12.50
+ by smtp.gmail.com with ESMTPSA id v5sm8317720pgc.11.2020.02.14.16.12.52
  (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Fri, 14 Feb 2020 16:12:51 -0800 (PST)
+ Fri, 14 Feb 2020 16:12:52 -0800 (PST)
 From: Guenter Roeck <linux@roeck-us.net>
 To: Peter Maydell <peter.maydell@linaro.org>, Gerd Hoffmann <kraxel@redhat.com>
-Subject: [PATCH v2 0/3] arm: allwinner: Wire up USB ports
-Date: Fri, 14 Feb 2020 16:12:45 -0800
-Message-Id: <20200215001248.2642-1-linux@roeck-us.net>
+Subject: [PATCH v2 1/3] hw: usb: hcd-ohci: Move OHCISysBusState and
+ TYPE_SYSBUS_OHCI to include file
+Date: Fri, 14 Feb 2020 16:12:46 -0800
+Message-Id: <20200215001248.2642-2-linux@roeck-us.net>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200215001248.2642-1-linux@roeck-us.net>
+References: <20200215001248.2642-1-linux@roeck-us.net>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
 X-Received-From: 2607:f8b0:4864:20::544
@@ -75,36 +79,78 @@ Cc: Beniamino Galvani <b.galvani@gmail.com>, qemu-arm@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Instantiate EHCI and OHCI controllers on Allwinner A10.
+We need to be able to use OHCISysBusState outside hcd-ohci.c, so move it
+to its include file.
 
-The first patch in the series moves the declaration of EHCISysBusState
-from hcd-ohci.c to hcd-ohci.h. This lets us add the structure to
-AwA10State. Similar, TYPE_SYSBUS_OHCI is moved to be able to use it
-outside its driver.
+Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+---
+v2: no changes
 
-The second patch introduces the ehci-sysbus property "companion-enable".
-This lets us use object_property_set_bool() to enable companion mode.
+ hw/usb/hcd-ohci.c | 15 ---------------
+ hw/usb/hcd-ohci.h | 16 ++++++++++++++++
+ 2 files changed, 16 insertions(+), 15 deletions(-)
 
-The third patch instantiates EHCI and OHCI ports for Allwinner-A10
-and marks the OHCI ports as companions of the respective EHCI ports.
+diff --git a/hw/usb/hcd-ohci.c b/hw/usb/hcd-ohci.c
+index 8a94bd004a..1e6e85e86a 100644
+--- a/hw/usb/hcd-ohci.c
++++ b/hw/usb/hcd-ohci.c
+@@ -1870,21 +1870,6 @@ void ohci_sysbus_die(struct OHCIState *ohci)
+     ohci_bus_stop(ohci);
+ }
+ 
+-#define TYPE_SYSBUS_OHCI "sysbus-ohci"
+-#define SYSBUS_OHCI(obj) OBJECT_CHECK(OHCISysBusState, (obj), TYPE_SYSBUS_OHCI)
+-
+-typedef struct {
+-    /*< private >*/
+-    SysBusDevice parent_obj;
+-    /*< public >*/
+-
+-    OHCIState ohci;
+-    char *masterbus;
+-    uint32_t num_ports;
+-    uint32_t firstport;
+-    dma_addr_t dma_offset;
+-} OHCISysBusState;
+-
+ static void ohci_realize_pxa(DeviceState *dev, Error **errp)
+ {
+     OHCISysBusState *s = SYSBUS_OHCI(dev);
+diff --git a/hw/usb/hcd-ohci.h b/hw/usb/hcd-ohci.h
+index 16e3f1e13a..5c8819aedf 100644
+--- a/hw/usb/hcd-ohci.h
++++ b/hw/usb/hcd-ohci.h
+@@ -22,6 +22,7 @@
+ #define HCD_OHCI_H
+ 
+ #include "sysemu/dma.h"
++#include "hw/usb.h"
+ 
+ /* Number of Downstream Ports on the root hub: */
+ #define OHCI_MAX_PORTS 15
+@@ -90,6 +91,21 @@ typedef struct OHCIState {
+     void (*ohci_die)(struct OHCIState *ohci);
+ } OHCIState;
+ 
++#define TYPE_SYSBUS_OHCI "sysbus-ohci"
++#define SYSBUS_OHCI(obj) OBJECT_CHECK(OHCISysBusState, (obj), TYPE_SYSBUS_OHCI)
++
++typedef struct {
++    /*< private >*/
++    SysBusDevice parent_obj;
++    /*< public >*/
++
++    OHCIState ohci;
++    char *masterbus;
++    uint32_t num_ports;
++    uint32_t firstport;
++    dma_addr_t dma_offset;
++} OHCISysBusState;
++
+ extern const VMStateDescription vmstate_ohci_state;
+ 
+ void usb_ohci_init(OHCIState *ohci, DeviceState *dev, uint32_t num_ports,
+-- 
+2.17.1
 
-Tested by attaching various high speed and full speed devices, and by
-booting from USB drive.
-
-v2: Add summary
-    Rewrite to instantiate OHCI in companion mode; add patch 2/3
-    Merge EHCI and OHCI instantiation into a single patch
-
-----------------------------------------------------------------
-Guenter Roeck (3):
-      hw: usb: hcd-ohci: Move OHCISysBusState and TYPE_SYSBUS_OHCI to include file
-      hcd-ehci: Introduce "companion-enable" sysbus property
-      arm: allwinner: Wire up USB ports
-
- hw/arm/allwinner-a10.c         | 43 ++++++++++++++++++++++++++++++++++++++++++
- hw/usb/hcd-ehci-sysbus.c       |  2 ++
- hw/usb/hcd-ohci.c              | 15 ---------------
- hw/usb/hcd-ohci.h              | 16 ++++++++++++++++
- include/hw/arm/allwinner-a10.h |  6 ++++++
- 5 files changed, 67 insertions(+), 15 deletions(-)
 
