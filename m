@@ -2,67 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F104E15FB47
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 Feb 2020 01:02:45 +0100 (CET)
-Received: from localhost ([::1]:46828 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3439915FB5C
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 Feb 2020 01:14:08 +0100 (CET)
+Received: from localhost ([::1]:46894 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j2kuz-00046i-2I
-	for lists+qemu-devel@lfdr.de; Fri, 14 Feb 2020 19:02:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52627)
+	id 1j2l5z-0001Nc-8J
+	for lists+qemu-devel@lfdr.de; Fri, 14 Feb 2020 19:14:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53516)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <me@yifanlu.com>) id 1j2kuC-0003bF-LL
- for qemu-devel@nongnu.org; Fri, 14 Feb 2020 19:01:57 -0500
+ (envelope-from <groeck7@gmail.com>) id 1j2l4q-0008Ai-8J
+ for qemu-devel@nongnu.org; Fri, 14 Feb 2020 19:12:57 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <me@yifanlu.com>) id 1j2kuB-0004f0-F2
- for qemu-devel@nongnu.org; Fri, 14 Feb 2020 19:01:56 -0500
-Received: from mail-il1-x144.google.com ([2607:f8b0:4864:20::144]:32949)
+ (envelope-from <groeck7@gmail.com>) id 1j2l4p-00035L-9Y
+ for qemu-devel@nongnu.org; Fri, 14 Feb 2020 19:12:56 -0500
+Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:41468)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <me@yifanlu.com>) id 1j2kuA-0004aw-VI
- for qemu-devel@nongnu.org; Fri, 14 Feb 2020 19:01:55 -0500
-Received: by mail-il1-x144.google.com with SMTP id s18so9515878iln.0
- for <qemu-devel@nongnu.org>; Fri, 14 Feb 2020 16:01:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=yifanlu-com.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=a19uAb4omz7/1mVazKdUiQwyBCTItWg+Z+WpIBipKvQ=;
- b=WwQHWltAh90HZal587QACMrf79iOaRTn3TCcDHYqZH2HXhuPNbrtvm0f0np6wntYb0
- tt06OKA/767IlLXADUDWeFE/Y6c9h5QcP9P1G62oZsCGX8COFbiR8cPCg8YoOB1DFvFb
- Zpm328O4iuc9ZoeOaPmpHRwv9NdWIdrsLG+aRSEAip0BW74+FWU5suSmFqoIBugZ/oy1
- T03tCOgvSC2Cthvs2pZ6s5ZVK/sP9CrYXAQvHno2WbDRGX3GPw4Yfo7p7Y13RChdeA9F
- THLzfCyV7PIOKk9VZJlUgdJmsV/U3uKWnSSybBzVrakeXpVLCOqsIix8uCVU5xRM5Vvy
- /Taw==
+ (Exim 4.71) (envelope-from <groeck7@gmail.com>)
+ id 1j2l4n-0002yu-52; Fri, 14 Feb 2020 19:12:53 -0500
+Received: by mail-pg1-x544.google.com with SMTP id 70so5721885pgf.8;
+ Fri, 14 Feb 2020 16:12:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id;
+ bh=GOmxZa8W36fyEtyV9Vzyxm6an40ZPWmlRGIMTwNafzg=;
+ b=E34dWmd9FdfydzEKXmiuQT6Lamd0tow4bOesbRs+EjzzysxoiZN/BukqNzeDiCPZgB
+ DXQAX2JnoZfFIsR5uZCMqDW+LhiCGDa7f1DAT594vRiEf3CUKLiZLfD+L4yAKNXr+mFY
+ Ej14udPrE4BFgRswwx9AP9Qmd8Z9vs1e5M/hookZ9aWiYl6Mdm+h+J1L5UAUc35Pa/rN
+ ZriOFoSKMPyu8LEwDBlsZIfaJ5gRY5Exj9t2HyvsMikGBrDXG0tFAVhQ7qYExDPPrSnE
+ USgPIkwyq++yr8LtTbxUF4bnbJHaWt4BKcjPhdb49EHV6OjehmGpqzVRRub0dW4I7gT8
+ fZlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=a19uAb4omz7/1mVazKdUiQwyBCTItWg+Z+WpIBipKvQ=;
- b=YrUVxyk3fFYTb8PI4WRwDcX1AzYjMW68j+azMqNU6GpPzqKm/m118cLhQkEhG1RqWG
- xfglbS6e2UimrCpQJTI1ZoTPdltLECsTsuk+lDxH+79dK3iuZufkYWmKFmXrp9FhUW3L
- E1QnM8YYU0qzv7ea84K1NCLNK4vDHDZHs+6bKsGpXpQw1W9uQwmSooJxnbjR0Fcb1vh2
- y6fz5l99CxMMhJZPSVeQRTRMFKtDwXTZ0pgXIy1oSRWRdGfSBby1HeBszyZnZWQu1N8W
- kXbMHSVATJkJnj2Uh+35H4LqWbeNbOT+MGydQPJIcAngZKhgpdt5/t9tC8PLgF4lFKMb
- cCZg==
-X-Gm-Message-State: APjAAAXg4wopGsrGd9Bv81Fzj5Blj0ztmBDa41wr9hVxKqKtUrmDJCgd
- yc5EtJGqiMnWQiqE2QKJ+tYXGmdkMou/pFtcck1AGg==
-X-Google-Smtp-Source: APXvYqyMEkMvfc5UVK/uVni38XqBr6Bk1cW5WPkEh/ODXjwxktHb+QjVXG4Ntj08eEhnN+NXVANtNF/MJ+ntTUsZ8AE=
-X-Received: by 2002:a92:b74c:: with SMTP id c12mr4961109ilm.154.1581724913429; 
- Fri, 14 Feb 2020 16:01:53 -0800 (PST)
-MIME-Version: 1.0
-References: <20200214144952.15502-1-alex.bennee@linaro.org>
- <dc224902-b8bb-934e-947a-4417449566ea@linaro.org>
-In-Reply-To: <dc224902-b8bb-934e-947a-4417449566ea@linaro.org>
-From: Yifan Lu <me@yifanlu.com>
-Date: Fri, 14 Feb 2020 16:01:17 -0800
-Message-ID: <CAP4MwtfP_+pxb96WQ4coe187A4e2HasXqTXsobTn1UH+8RFK8Q@mail.gmail.com>
-Subject: Re: [PATCH] accel/tcg: fix race in cpu_exec_step_atomic (bug 1863025)
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
+ bh=GOmxZa8W36fyEtyV9Vzyxm6an40ZPWmlRGIMTwNafzg=;
+ b=K86kgU6ozTOBcySHXXu5nfxQK5Dg+dMNP4R9Ymh6YSeJhg+ovnLkczxE5niGV574B+
+ Jy0vAz/X2ThPBsEB4u7BPTM5HmzOawfT+goeJ1ylKfJ0pjNkbzOwToWpcDGKRAwnQyhg
+ rCN7PtDAsiwzYP9dSdCp6uNzE7IUAkF0L8GfrIoeKwPj9t5EjIDBCyswVXeFirnfaEcv
+ 23teOYSetxAJp9zJl7Gh9nGLQeG1O9feDLh8OnLUdEYrAz/inE+h7hvWmtbGnj/oSvh8
+ BizEyniYNbXxV4nVO70OOg32gKzQRqghM4CVBtezwgl9LwReVOFAncrGapjJFcWcXJLU
+ w9Nw==
+X-Gm-Message-State: APjAAAW6/Wb4dojLFP4DFELi8GE15mf7B87T/Ybd2DELe3SjKWv/Dizz
+ g4EItQwEFMrcWRd9DyjDnT0=
+X-Google-Smtp-Source: APXvYqxmYR7+uIKOTT2K5CzHAhtnalA/HsdGneion7hrlYqrsJ7Xdw/IyxGxrT60IySiPsU8p1c1xg==
+X-Received: by 2002:a62:d15a:: with SMTP id t26mr5875886pfl.187.1581725571958; 
+ Fri, 14 Feb 2020 16:12:51 -0800 (PST)
+Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+ by smtp.gmail.com with ESMTPSA id l12sm8082854pgj.16.2020.02.14.16.12.50
+ (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+ Fri, 14 Feb 2020 16:12:51 -0800 (PST)
+From: Guenter Roeck <linux@roeck-us.net>
+To: Peter Maydell <peter.maydell@linaro.org>, Gerd Hoffmann <kraxel@redhat.com>
+Subject: [PATCH v2 0/3] arm: allwinner: Wire up USB ports
+Date: Fri, 14 Feb 2020 16:12:45 -0800
+Message-Id: <20200215001248.2642-1-linux@roeck-us.net>
+X-Mailer: git-send-email 2.17.1
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::144
+X-Received-From: 2607:f8b0:4864:20::544
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,102 +70,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bug 1863025 <1863025@bugs.launchpad.net>,
- Richard Henderson <rth@twiddle.net>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Beniamino Galvani <b.galvani@gmail.com>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org, Guenter Roeck <linux@roeck-us.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-What race are you thinking of in my patch? The obvious race I can
-think of is benign:
+Instantiate EHCI and OHCI controllers on Allwinner A10.
 
-Case 1:
-A: does TB flush
-B: read tb_flush_count
-A: increment tb_flush_count
-A: end_exclusive
-B: tb_lookup__cpu_state/tb_gen_code
-B: start_exclusive
-B: read tb_flush_count again (increment seen)
-B: retries
+The first patch in the series moves the declaration of EHCISysBusState
+from hcd-ohci.c to hcd-ohci.h. This lets us add the structure to
+AwA10State. Similar, TYPE_SYSBUS_OHCI is moved to be able to use it
+outside its driver.
 
-Case 2:
-B: read tb_flush_count
-A: does TB flush
-A: increment tb_flush_count
-A: end_exclusive
-B: tb_lookup__cpu_state/tb_gen_code
-B: start_exclusive
-B: read tb_flush_count again (increment seen)
-B: retries
+The second patch introduces the ehci-sysbus property "companion-enable".
+This lets us use object_property_set_bool() to enable companion mode.
 
-Case 3:
-A: does TB flush
-A: increment tb_flush_count
-A: end_exclusive
-B: read tb_flush_count
-B: tb_lookup__cpu_state/tb_gen_code
-B: start_exclusive
-B: read tb_flush_count again (no increment seen)
-B: proceeds
+The third patch instantiates EHCI and OHCI ports for Allwinner-A10
+and marks the OHCI ports as companions of the respective EHCI ports.
 
-Case 1 is the expected case. Case 2, we thought TB was stale but it
-wasn't so we get it again with tb_lookup__cpu_state with minimal extra
-overhead.
+Tested by attaching various high speed and full speed devices, and by
+booting from USB drive.
 
-Case 3 seems to be bad because we could read tb_flush_count and find
-it already incremented. But if so that means thread A is at the end of
-do_tb_flush and the lookup tables are already cleared and the TCG
-context is already reset. So it should be safe for thread B to call
-tb_lookup__cpu_state or tb_gen_code.
+v2: Add summary
+    Rewrite to instantiate OHCI in companion mode; add patch 2/3
+    Merge EHCI and OHCI instantiation into a single patch
 
-Yifan
+----------------------------------------------------------------
+Guenter Roeck (3):
+      hw: usb: hcd-ohci: Move OHCISysBusState and TYPE_SYSBUS_OHCI to include file
+      hcd-ehci: Introduce "companion-enable" sysbus property
+      arm: allwinner: Wire up USB ports
 
-On Fri, Feb 14, 2020 at 3:31 PM Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> On 2/14/20 6:49 AM, Alex Benn=C3=A9e wrote:
-> > The bug describes a race whereby cpu_exec_step_atomic can acquire a TB
-> > which is invalidated by a tb_flush before we execute it. This doesn't
-> > affect the other cpu_exec modes as a tb_flush by it's nature can only
-> > occur on a quiescent system. The race was described as:
-> >
-> >   B2. tcg_cpu_exec =3D> cpu_exec =3D> tb_find =3D> tb_gen_code
-> >   B3. tcg_tb_alloc obtains a new TB
-> >
-> >       C3. TB obtained with tb_lookup__cpu_state or tb_gen_code
-> >           (same TB as B2)
-> >
-> >           A3. start_exclusive critical section entered
-> >           A4. do_tb_flush is called, TB memory freed/re-allocated
-> >           A5. end_exclusive exits critical section
-> >
-> >   B2. tcg_cpu_exec =3D> cpu_exec =3D> tb_find =3D> tb_gen_code
-> >   B3. tcg_tb_alloc reallocates TB from B2
-> >
-> >       C4. start_exclusive critical section entered
-> >       C5. cpu_tb_exec executes the TB code that was free in A4
-> >
-> > The simplest fix is to widen the exclusive period to include the TB
-> > lookup. As a result we can drop the complication of checking we are in
-> > the exclusive region before we end it.
->
-> I'm not 100% keen on having the tb_gen_code within the exclusive region. =
- It
-> implies a much larger delay on (at least) the first execution of the atom=
-ic
-> operation.
->
-> But I suppose until recently we had a global lock around code generation,=
- and
-> this is only slightly worse.  Plus, it has the advantage of being dead si=
-mple,
-> and without the races vs tb_ctx.tb_flush_count that exist in Yifan's patc=
-h.
->
-> Applied to tcg-next.
->
->
-> r~
+ hw/arm/allwinner-a10.c         | 43 ++++++++++++++++++++++++++++++++++++++++++
+ hw/usb/hcd-ehci-sysbus.c       |  2 ++
+ hw/usb/hcd-ohci.c              | 15 ---------------
+ hw/usb/hcd-ohci.h              | 16 ++++++++++++++++
+ include/hw/arm/allwinner-a10.h |  6 ++++++
+ 5 files changed, 67 insertions(+), 15 deletions(-)
 
