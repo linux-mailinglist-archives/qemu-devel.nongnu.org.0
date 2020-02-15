@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FFCD160107
-	for <lists+qemu-devel@lfdr.de>; Sun, 16 Feb 2020 00:06:49 +0100 (CET)
-Received: from localhost ([::1]:55436 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DADEC160109
+	for <lists+qemu-devel@lfdr.de>; Sun, 16 Feb 2020 00:07:57 +0100 (CET)
+Received: from localhost ([::1]:55457 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j36WO-0000LN-Io
-	for lists+qemu-devel@lfdr.de; Sat, 15 Feb 2020 18:06:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59467)
+	id 1j36XT-0002Lg-Qu
+	for lists+qemu-devel@lfdr.de; Sat, 15 Feb 2020 18:07:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59466)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1j36VH-0007Vm-Cq
+ (envelope-from <bounces@canonical.com>) id 1j36VH-0007Vl-Cp
  for qemu-devel@nongnu.org; Sat, 15 Feb 2020 18:05:41 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1j36VG-0002I4-4k
+ (envelope-from <bounces@canonical.com>) id 1j36VG-0002IL-5x
  for qemu-devel@nongnu.org; Sat, 15 Feb 2020 18:05:39 -0500
-Received: from indium.canonical.com ([91.189.90.7]:57404)
+Received: from indium.canonical.com ([91.189.90.7]:57424)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1j36VF-0002Ch-JN
- for qemu-devel@nongnu.org; Sat, 15 Feb 2020 18:05:37 -0500
+ id 1j36VF-0002Ew-JY
+ for qemu-devel@nongnu.org; Sat, 15 Feb 2020 18:05:38 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1j36VD-0006oC-RN
- for <qemu-devel@nongnu.org>; Sat, 15 Feb 2020 23:05:35 +0000
+ id 1j36VE-0006ol-EC
+ for <qemu-devel@nongnu.org>; Sat, 15 Feb 2020 23:05:36 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id C06BC2E80C0
- for <qemu-devel@nongnu.org>; Sat, 15 Feb 2020 23:05:35 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 66E3E2E8054
+ for <qemu-devel@nongnu.org>; Sat, 15 Feb 2020 23:05:36 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 15 Feb 2020 22:55:04 -0000
+Date: Sat, 15 Feb 2020 22:56:13 -0000
 From: Ayman Khamouma <1863445@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -43,7 +43,7 @@ X-Launchpad-Bug-Commenters: ak42
 X-Launchpad-Bug-Reporter: Ayman Khamouma (ak42)
 X-Launchpad-Bug-Modifier: Ayman Khamouma (ak42)
 References: <158180717472.31124.817430819772209101.malonedeb@wampee.canonical.com>
-Message-Id: <158180730416.30066.7925555714317831037.malone@wampee.canonical.com>
+Message-Id: <158180737348.24554.5160695425889904580.malone@gac.canonical.com>
 Subject: [Bug 1863445] Re: assertion failed at translate-all.c:2523 with
  version 3.1.1 
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
@@ -52,7 +52,7 @@ Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="19413b719a8df7423ab1390528edadce9e0e4aca";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 4567c0b322edffd59d62ebde11e30dc398c5377e
+X-Launchpad-Hash: 92f708fa9e6537cfb624673f559aed96b9692ec9
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
@@ -69,18 +69,12 @@ Reply-To: Bug 1863445 <1863445@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-in order to reproduce the bug:
+tested on fedora 30:
 ```
-qemu-mipsel -g 1234 ch67
+uname -a
+Linux bigfoot.home.ak42.io 5.4.18-100.fc30.x86_64 #1 SMP Fri Feb 7 14:37:00=
+ UTC 2020 x86_64 x86_64 x86_64 GNU/Linux
 ```
-
-and then juste launch (after installing r2):
-
-```
-r2 -a mips -b 32 -d gdb://127.0.0.1:1234
-```
-
-qemu will crash
 
 -- =
 
