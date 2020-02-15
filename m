@@ -2,58 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C858215FB41
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 Feb 2020 01:01:53 +0100 (CET)
-Received: from localhost ([::1]:46818 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70AF015FB59
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 Feb 2020 01:12:04 +0100 (CET)
+Received: from localhost ([::1]:46874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j2ku8-0003EA-EJ
-	for lists+qemu-devel@lfdr.de; Fri, 14 Feb 2020 19:01:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52528)
+	id 1j2l3z-0007es-8x
+	for lists+qemu-devel@lfdr.de; Fri, 14 Feb 2020 19:12:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53246)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1j2ktG-0002NK-EH
- for qemu-devel@nongnu.org; Fri, 14 Feb 2020 19:00:59 -0500
+ (envelope-from <bounces@canonical.com>) id 1j2l2w-0007Da-Ts
+ for qemu-devel@nongnu.org; Fri, 14 Feb 2020 19:11:00 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1j2ktF-00033N-1N
- for qemu-devel@nongnu.org; Fri, 14 Feb 2020 19:00:58 -0500
-Received: from indium.canonical.com ([91.189.90.7]:43354)
+ (envelope-from <bounces@canonical.com>) id 1j2l2v-0008Oi-HA
+ for qemu-devel@nongnu.org; Fri, 14 Feb 2020 19:10:58 -0500
+Received: from indium.canonical.com ([91.189.90.7]:44404)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1j2ktE-00030m-8c
- for qemu-devel@nongnu.org; Fri, 14 Feb 2020 19:00:56 -0500
+ id 1j2l2v-0008N7-Ba
+ for qemu-devel@nongnu.org; Fri, 14 Feb 2020 19:10:57 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1j2ktC-0000BT-Gd
- for <qemu-devel@nongnu.org>; Sat, 15 Feb 2020 00:00:54 +0000
+ id 1j2l2t-0000rv-NF
+ for <qemu-devel@nongnu.org>; Sat, 15 Feb 2020 00:10:55 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 739202E80C0
- for <qemu-devel@nongnu.org>; Sat, 15 Feb 2020 00:00:54 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id AD8E72E80C3
+ for <qemu-devel@nongnu.org>; Sat, 15 Feb 2020 00:10:55 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 14 Feb 2020 23:54:04 -0000
-From: UserPC2021 <1793859@bugs.launchpad.net>
+Date: Sat, 15 Feb 2020 00:01:17 -0000
+From: Yifan <me@yifanlu.com>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: gtk gvt-g
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+ assignee=alex.bennee@linaro.org; 
+X-Launchpad-Bug-Tags: mttcg tcg
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: cuser2 s0liddi tinywrkb unknown-again
-X-Launchpad-Bug-Reporter: Ilpo Kaartinen (s0liddi)
-X-Launchpad-Bug-Modifier: UserPC2021 (unknown-again)
-References: <153760092554.29759.17075669747500120723.malonedeb@soybean.canonical.com>
-Message-Id: <158172444483.24426.14579062414692281369.malone@gac.canonical.com>
-Subject: [Bug 1793859] Re: GTK display and mouse input area scaling fails when
- using vfio-pci device
+X-Launchpad-Bug-Commenters: ajbennee yifanlu
+X-Launchpad-Bug-Reporter: Yifan (yifanlu)
+X-Launchpad-Bug-Modifier: Yifan (yifanlu)
+References: <158154486735.14935.3370403781300872079.malonedeb@soybean.canonical.com>
+Message-Id: <CAP4MwtfP_+pxb96WQ4coe187A4e2HasXqTXsobTn1UH+8RFK8Q@mail.gmail.com>
+Subject: [Bug 1863025] Re: [PATCH] accel/tcg: fix race in cpu_exec_step_atomic
+ (bug 1863025)
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="19413b719a8df7423ab1390528edadce9e0e4aca";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 140e27badb6d7fc4760dd58b6ab7eec2c1753f37
+X-Launchpad-Hash: 478c8d9d708a41d4133581151e079b7f6ea1c0a3
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
@@ -66,54 +67,161 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1793859 <1793859@bugs.launchpad.net>
+Reply-To: Bug 1863025 <1863025@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Perhaps this is due to this issue https://github.com/intel/gvt-
-linux/issues/71
+What race are you thinking of in my patch? The obvious race I can
+think of is benign:
 
-https://yadi.sk/i/Ejg_6JJEBIc-Zw
+Case 1:
+A: does TB flush
+B: read tb_flush_count
+A: increment tb_flush_count
+A: end_exclusive
+B: tb_lookup__cpu_state/tb_gen_code
+B: start_exclusive
+B: read tb_flush_count again (increment seen)
+B: retries
 
-** Bug watch added: github.com/intel/gvt-linux/issues #71
-   https://github.com/intel/gvt-linux/issues/71
+Case 2:
+B: read tb_flush_count
+A: does TB flush
+A: increment tb_flush_count
+A: end_exclusive
+B: tb_lookup__cpu_state/tb_gen_code
+B: start_exclusive
+B: read tb_flush_count again (increment seen)
+B: retries
+
+Case 3:
+A: does TB flush
+A: increment tb_flush_count
+A: end_exclusive
+B: read tb_flush_count
+B: tb_lookup__cpu_state/tb_gen_code
+B: start_exclusive
+B: read tb_flush_count again (no increment seen)
+B: proceeds
+
+Case 1 is the expected case. Case 2, we thought TB was stale but it
+wasn't so we get it again with tb_lookup__cpu_state with minimal extra
+overhead.
+
+Case 3 seems to be bad because we could read tb_flush_count and find
+it already incremented. But if so that means thread A is at the end of
+do_tb_flush and the lookup tables are already cleared and the TCG
+context is already reset. So it should be safe for thread B to call
+tb_lookup__cpu_state or tb_gen_code.
+
+Yifan
+
+On Fri, Feb 14, 2020 at 3:31 PM Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> On 2/14/20 6:49 AM, Alex Benn=C3=A9e wrote:
+> > The bug describes a race whereby cpu_exec_step_atomic can acquire a TB
+> > which is invalidated by a tb_flush before we execute it. This doesn't
+> > affect the other cpu_exec modes as a tb_flush by it's nature can only
+> > occur on a quiescent system. The race was described as:
+> >
+> >   B2. tcg_cpu_exec =3D> cpu_exec =3D> tb_find =3D> tb_gen_code
+> >   B3. tcg_tb_alloc obtains a new TB
+> >
+> >       C3. TB obtained with tb_lookup__cpu_state or tb_gen_code
+> >           (same TB as B2)
+> >
+> >           A3. start_exclusive critical section entered
+> >           A4. do_tb_flush is called, TB memory freed/re-allocated
+> >           A5. end_exclusive exits critical section
+> >
+> >   B2. tcg_cpu_exec =3D> cpu_exec =3D> tb_find =3D> tb_gen_code
+> >   B3. tcg_tb_alloc reallocates TB from B2
+> >
+> >       C4. start_exclusive critical section entered
+> >       C5. cpu_tb_exec executes the TB code that was free in A4
+> >
+> > The simplest fix is to widen the exclusive period to include the TB
+> > lookup. As a result we can drop the complication of checking we are in
+> > the exclusive region before we end it.
+>
+> I'm not 100% keen on having the tb_gen_code within the exclusive region. =
+ It
+> implies a much larger delay on (at least) the first execution of the atom=
+ic
+> operation.
+>
+> But I suppose until recently we had a global lock around code generation,=
+ and
+> this is only slightly worse.  Plus, it has the advantage of being dead si=
+mple,
+> and without the races vs tb_ctx.tb_flush_count that exist in Yifan's patc=
+h.
+>
+> Applied to tcg-next.
+>
+>
+> r~
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1793859
+https://bugs.launchpad.net/bugs/1863025
 
 Title:
-  GTK display and mouse input area scaling fails when using vfio-pci
-  device
+  Use-after-free after flush in TCG accelerator
 
 Status in QEMU:
-  New
+  Confirmed
 
 Bug description:
-  Version qemu 3.0.0-1 running on Arch. Found on Windows 8.1 and Windows
-  10 VM's when using Intel gvt-g device.
+  I believe I found a UAF in TCG that can lead to a guest VM escape. The
+  security list informed me "This can not be treated as a security
+  issue." and to post it here. I am looking at the 4.2.0 source code.
+  The issue requires a race and I will try to describe it in terms of
+  three concurrent threads.
 
-  While in fullscreen the GTK display is scaled larger than the x11
-  screen or virtual machine resolution. Without choosing zoom-to-fit
-  portions of the VM display are not shown on x11 screen regardless of
-  the VM resolution. When zoom-to-fit is done the mouse that's shown on
-  screen and actual input are off sync. The mouse can wander off screen
-  when going left and down.
+  Thread A:
 
-  This message is shown when changing from gxl-vga to vfio-pci in view menu=
-. =
+  A1. qemu_tcg_cpu_thread_fn runs work loop
+  A2. qemu_wait_io_event =3D> qemu_wait_io_event_common =3D> process_queued=
+_cpu_work
+  A3. start_exclusive critical section entered
+  A4. do_tb_flush is called, TB memory freed/re-allocated
+  A5. end_exclusive exits critical section
 
-  (qemu-system-x86_64:6472): Gtk-WARNING **: 09:50:06.663: drawing failure =
-for widget 'GtkDrawingArea': NULL pointer
-  (qemu-system-x86_64:6472): Gtk-WARNING **: 09:50:06.664: drawing failure =
-for widget 'GtkNotebook': NULL pointer
-  (qemu-system-x86_64:6472): Gtk-WARNING **: 09:50:06.664: drawing failure =
-for widget 'GtkBox': NULL pointer
-  (qemu-system-x86_64:6472): Gtk-WARNING **: 09:50:06.664: drawing failure =
-for widget 'GtkWindow': NULL pointer
+  Thread B:
+
+  B1. qemu_tcg_cpu_thread_fn runs work loop
+  B2. tcg_cpu_exec =3D> cpu_exec =3D> tb_find =3D> tb_gen_code
+  B3. tcg_tb_alloc obtains a new TB
+
+  Thread C:
+
+  C1. qemu_tcg_cpu_thread_fn runs work loop
+  C2. cpu_exec_step_atomic executes
+  C3. TB obtained with tb_lookup__cpu_state or tb_gen_code
+  C4. start_exclusive critical section entered
+  C5. cpu_tb_exec executes the TB code
+  C6. end_exclusive exits critical section
+
+  Consider the following sequence of events:
+  =C2=A0=C2=A0B2 =3D> B3 =3D> C3 (same TB as B2) =3D> A3 =3D> A4 (TB freed)=
+ =3D> A5 =3D> B2 =3D>
+  =C2=A0=C2=A0B3 (re-allocates TB from B2) =3D> C4 =3D> C5 (freed/reused TB=
+ now executing) =3D> C6
+
+  In short, because thread C uses the TB in the critical section, there
+  is no guarantee that the pointer has not been "freed" (rather the
+  memory is marked as re-usable) and therefore a use-after-free occurs.
+
+  Since the TCG generated code can be in the same memory as the TB data
+  structure, it is possible for an attacker to overwrite the UAF pointer
+  with code generated from TCG. This can overwrite key pointer values
+  and could lead to code execution on the host outside of the TCG
+  sandbox.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1793859/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1863025/+subscriptions
 
