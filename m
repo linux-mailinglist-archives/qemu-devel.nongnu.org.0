@@ -2,70 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96F0E15FEE1
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 Feb 2020 15:52:46 +0100 (CET)
-Received: from localhost ([::1]:51830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 039EE15FF10
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 Feb 2020 16:49:16 +0100 (CET)
+Received: from localhost ([::1]:52100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j2yoH-00039o-4B
-	for lists+qemu-devel@lfdr.de; Sat, 15 Feb 2020 09:52:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38789)
+	id 1j2zgx-0004Xu-31
+	for lists+qemu-devel@lfdr.de; Sat, 15 Feb 2020 10:49:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44761)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1j2ynW-0002ej-D3
- for qemu-devel@nongnu.org; Sat, 15 Feb 2020 09:51:59 -0500
+ (envelope-from <philmd@redhat.com>) id 1j2zf2-00021O-T0
+ for qemu-devel@nongnu.org; Sat, 15 Feb 2020 10:47:17 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1j2ynQ-0000t8-IY
- for qemu-devel@nongnu.org; Sat, 15 Feb 2020 09:51:57 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:35614
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1j2zf1-0001wb-Ay
+ for qemu-devel@nongnu.org; Sat, 15 Feb 2020 10:47:16 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:25030
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1j2ynQ-0000r0-Dq
- for qemu-devel@nongnu.org; Sat, 15 Feb 2020 09:51:52 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j2zf1-0001uW-0b
+ for qemu-devel@nongnu.org; Sat, 15 Feb 2020 10:47:15 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581778311;
+ s=mimecast20190719; t=1581781633;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=UKIbhaG9tpcPeye9+9rxYj/2sP1grlAm8NUchNLFZgc=;
- b=Eqq1sdQ9mykhYTvT494l+SS8xMy+ZpnMkVlA3GDDPMyDcnryDtpSfisOIcVhoJ7YePX/GF
- 9YVTUI9nvjmVu9+02g9BlbQR8ActazTJxiPmA+ZtwJh6dz4Ka/f/6xAfAC3HjFKR4bVPOw
- cfI4VrmKAeaIheuMRtFQG26KWxAQjus=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-52-rL7gq_gWMlyhB4COLqvbaQ-1; Sat, 15 Feb 2020 09:51:49 -0500
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 69AC48010C4;
- Sat, 15 Feb 2020 14:51:48 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-117-234.ams2.redhat.com
- [10.36.117.234])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EA5915C21A;
- Sat, 15 Feb 2020 14:51:47 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 5A8C611385C9; Sat, 15 Feb 2020 15:51:46 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Maxim Levitsky <mlevitsk@redhat.com>
-Subject: QAPI schema for desired state of LUKS keyslots (was: [PATCH 02/13]
- qcrypto-luks: implement encryption key management)
-References: <20200114193350.10830-1-mlevitsk@redhat.com>
- <20200114193350.10830-3-mlevitsk@redhat.com>
-Date: Sat, 15 Feb 2020 15:51:46 +0100
-In-Reply-To: <20200114193350.10830-3-mlevitsk@redhat.com> (Maxim Levitsky's
- message of "Tue, 14 Jan 2020 21:33:39 +0200")
-Message-ID: <87lfp36gzh.fsf_-_@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+ content-transfer-encoding:content-transfer-encoding;
+ bh=tYltBhqeLQxUZGR54w7qQJk4/DruklmbGosv+U0bRqA=;
+ b=PVCNzkT4fBTSksUNMHQ11nn8tq+3mqnZ+HdDanFwBm0mlcx6iH2ynThZhpfshPr4hH122V
+ OkSEU4SDMOVgG/pv9HwVks+ab3MMF0vuzc34u+Py10GVo1lEpZaGDD34jVYQGqB5HvL3H3
+ DVfgafgxc9Yn6hlf57KNbe7SsnVrVo0=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-117-ytT85LooOwSFZ5R3xbfgdQ-1; Sat, 15 Feb 2020 10:47:10 -0500
+Received: by mail-wr1-f71.google.com with SMTP id s13so5894450wrb.21
+ for <qemu-devel@nongnu.org>; Sat, 15 Feb 2020 07:47:10 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=0wxRUNRl7KOON5G37/w7XMRZyrfBR7Zs/f868HWcC2c=;
+ b=CHBvZ1NqME3PmsJrXaus+idPkadXLyGIPssUGVd28xZBMakNo8RXCPxUvxDxDOllCy
+ ae4uJH2wHylMqsrA2k9oWitniNTvTJO9Vn9iD707EjgTrg8XlpdirVdQAvmmOTSQ8ghh
+ 73pSS91Cswq26TJ108ttwMsWXsPBHgU8E66tv45duCx2pKvbHBmzxd4mr7j5naXXS57+
+ bjHHkzI3RiWnBfuiPz/up1I5AxAumYBQu91P/NJ78YuiamB1aQ+HpACsXDTXp11Fi4ir
+ V7V7DcLFiRao/VGht825OsLwlZRSuDUmUWrjB3XVwctWFUIa5VXkee2FqjeeCJbGBs+g
+ XsWw==
+X-Gm-Message-State: APjAAAXZRObY6vLK9EcTYDe9InO+jfBgVtstCLbgEZVGx4A1orhF0Q6z
+ 3WvrVV1TJAAkHO9KYI9JHQyN1XgT5oMFlM/zoscI/ZbbU4KaABP8nkpGu37H1IrUFuBEvDKWp4k
+ o+YABRZuc2K/dBOk=
+X-Received: by 2002:adf:df8f:: with SMTP id z15mr10346288wrl.282.1581781629509; 
+ Sat, 15 Feb 2020 07:47:09 -0800 (PST)
+X-Google-Smtp-Source: APXvYqxjXpSZDNpAJ43JenBouT2jCMUI/AjDNk1/MbphCJr39U2Efno7atbzqmiHXT1PRUVA/Qe9UA==
+X-Received: by 2002:adf:df8f:: with SMTP id z15mr10346277wrl.282.1581781629315; 
+ Sat, 15 Feb 2020 07:47:09 -0800 (PST)
+Received: from localhost.localdomain (78.red-88-21-202.staticip.rima-tde.net.
+ [88.21.202.78])
+ by smtp.gmail.com with ESMTPSA id w26sm11766519wmi.8.2020.02.15.07.47.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 15 Feb 2020 07:47:08 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/2] hw: Delay timer_new() from init to realize to avoid
+ memleaks
+Date: Sat, 15 Feb 2020 16:47:04 +0100
+Message-Id: <20200215154706.19837-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.21.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: rL7gq_gWMlyhB4COLqvbaQ-1
+X-MC-Unique: ytT85LooOwSFZ5R3xbfgdQ-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Type: text/plain; charset=UTF-8;
+	text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,159 +87,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
- qemu-block@nongnu.org, qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- John Snow <jsnow@redhat.com>
+Cc: Pan Nengyuan <pannengyuan@huawei.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Corey Minyard <minyard@acm.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Review of this patch led to a lengthy QAPI schema design discussion.
-Let me try to condense it into a concrete proposal.
+After reviewing various patches from Pan Nengyuan fixing errors
+reported Huawei's Euler Robot, I wrote this tiny coccinelle script
+to find all occurences of this pattern:
 
-This is about the QAPI schema, and therefore about QMP.  The
-human-friendly interface is out of scope.  Not because it's not
-important (it clearly is!), only because we need to *focus* to have a
-chance at success.
+    @ match @
+    identifier instance_init;
+    typedef Object;
+    identifier obj;
+    expression val, scale;
+    identifier clock_type, callback, opaque;
+    position pos;
+    @@
+    static void instance_init(Object *obj)
+    {
+      <...
+    (
+      val =3D timer_new@pos(clock_type, scale, callback, opaque);
+    |
+      val =3D timer_new_ns@pos(clock_type, callback, opaque);
+    |
+      val =3D timer_new_us@pos(clock_type, callback, opaque);
+    |
+      val =3D timer_new_ms@pos(clock_type, callback, opaque);
+    )
+      ...>
+    }
 
-I'm going to include a few design options.  I'll mark them "Option:".
+    @ script:python @
+    f << match.instance_init;
+    p << match.pos;
+    @@
+    print "check %s:%s:%s in %s()" % (p[0].file, p[0].line, p[0].column, f)
 
-The proposed "amend" interface takes a specification of desired state,
-and figures out how to get from here to there by itself.  LUKS keyslots
-are one part of desired state.
+The script produces:
 
-We commonly have eight LUKS keyslots.  Each keyslot is either active or
-inactive.  An active keyslot holds a secret.
+  $ docker run --rm -v $PWD:$PWD -w $PWD philmd/coccinelle \
+     --macro-file scripts/cocci-macro-file.h \
+     --sp-file scripts/coccinelle/init_timer_new.cocci
+  init_defs_builtins: /usr/lib/coccinelle/standard.h
+  init_defs: scripts/cocci-macro-file.h
+  check hw/ipmi/ipmi_bmc_extern.c:505:24 in ipmi_bmc_extern_init()
+  check hw/misc/mos6522.c:489:25 in mos6522_init()
+  check hw/rtc/pl031.c:194:15 in pl031_init()
+  check hw/arm/pxa2xx.c:1137:19 in pxa2xx_rtc_init()
+  check target/s390x/cpu.c:283:8 in s390_cpu_initfn()
+  check hw/sd/sd.c:2061:26 in sd_instance_init()
+  check hw/arm/spitz.c:527:18 in spitz_keyboard_init()
+  check hw/arm/strongarm.c:402:19 in strongarm_rtc_init()
+  check hw/arm/strongarm.c:1244:26 in strongarm_uart_init()
 
-Goal: a QAPI type for specifying desired state of LUKS keyslots.
+Pan fixed most of the occurences. This series fixes the last two.
 
-Proposal:
+Philippe Mathieu-Daud=C3=A9 (2):
+  hw/ipmi/bmc: Delay timer_new_ns() from init to realize to avoid
+    memleaks
+  hw/sd/sd: Delay timer_new_ns() from init to realize to avoid memleaks
 
-    { 'enum': 'LUKSKeyslotState',
-      'data': [ 'active', 'inactive' ] }
+ hw/ipmi/ipmi_bmc_extern.c | 12 ++++++++++--
+ hw/sd/sd.c                | 12 ++++++++++--
+ 2 files changed, 20 insertions(+), 4 deletions(-)
 
-    { 'struct': 'LUKSKeyslotActive',
-      'data': { 'secret': 'str',
-                '*iter-time': 'int } }
-
-    { 'struct': 'LUKSKeyslotInactive',
-      'data': { '*old-secret': 'str' } }
-
-    { 'union': 'LUKSKeyslotAmend',
-      'base': { '*keyslot': 'int',
-                'state': 'LUKSKeyslotState' }
-      'discriminator': 'state',
-      'data': { 'active': 'LUKSKeyslotActive',
-                'inactive': 'LUKSKeyslotInactive' } }
-
-LUKSKeyslotAmend specifies desired state for a set of keyslots.
-
-Four cases:
-
-* @state is "active"
-
-  Desired state is active holding the secret given by @secret.  Optional
-  @iter-time tweaks key stretching.
-
-  The keyslot is chosen either by the user or by the system, as follows:
-
-  - @keyslot absent
-
-    One inactive keyslot chosen by the system.  If none exists, error.
-
-  - @keyslot present
-
-    The keyslot given by @keyslot.
-
-    If it's already active holding @secret, no-op.  Rationale: the
-    current state is the desired state.
-
-    If it's already active holding another secret, error.  Rationale:
-    update in place is unsafe.
-
-    Option: delete the "already active holding @secret" case.  Feels
-    inelegant to me.  Okay if it makes things substantially simpler.
-
-* @state is "inactive"
-
-  Desired state is inactive.
-
-  Error if the current state has active keyslots, but the desired state
-  has none.
-
-  The user choses the keyslot by number and/or by the secret it holds,
-  as follows:
-
-  - @keyslot absent, @old-secret present
-
-    All active keyslots holding @old-secret.  If none exists, error.
-
-  - @keyslot present, @old-secret absent
-
-    The keyslot given by @keyslot.
-
-    If it's already inactive, no-op.  Rationale: the current state is
-    the desired state.
-
-  - both @keyslot and @old-secret present
-
-    The keyslot given by keyslot.
-
-    If it's inactive or holds a secret other than @old-secret, error.
-
-    Option: error regardless of @old-secret, if that makes things
-    simpler.
-
-  - neither @keyslot not @old-secret present
-
-    All keyslots.  Note that this will error out due to "desired state
-    has no active keyslots" unless the current state has none, either.
-
-    Option: error out unconditionally.
-
-Note that LUKSKeyslotAmend can specify only one desired state for
-commonly just one keyslot.  Rationale: this satisfies practical needs.
-An array of LUKSKeyslotAmend could specify desired state for all
-keyslots.  However, multiple array elements could then apply to the same
-slot.  We'd have to specify how to resolve such conflicts, and we'd have
-to code up conflict detection.  Not worth it.
-
-Examples:
-
-* Add a secret to some free keyslot:
-
-  { "state": "active", "secret": "CIA/GRU/MI6" }
-
-* Deactivate all keyslots holding a secret:
-
-  { "state": "inactive", "old-secret": "CIA/GRU/MI6" }
-
-* Add a secret to a specific keyslot:
-
-  { "state": "active", "secret": "CIA/GRU/MI6", "keyslot": 0 }
-
-* Deactivate a specific keyslot:
-
-  { "state": "inactive", "keyslot": 0 }
-
-  Possibly less dangerous:
-
-  { "state": "inactive", "keyslot": 0, "old-secret": "CIA/GRU/MI6" }
-
-Option: Make use of Max's patches to support optional union tag with
-default value to let us default @state to "active".  I doubt this makes
-much of a difference in QMP.  A human-friendly interface should probably
-be higher level anyway (Daniel pointed to cryptsetup).
-
-Option: LUKSKeyslotInactive member @old-secret could also be named
-@secret.  I don't care.
-
-Option: delete @keyslot.  It provides low-level slot access.
-Complicates the interface.  Fine if we need lov-level slot access.  Do
-we?
-
-I apologize for the time it has taken me to write this.
-
-Comments?
+--=20
+2.21.1
 
 
