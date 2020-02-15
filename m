@@ -2,81 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 847C915FF39
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 Feb 2020 17:17:55 +0100 (CET)
-Received: from localhost ([::1]:52406 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51B4E15FF41
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 Feb 2020 17:20:31 +0100 (CET)
+Received: from localhost ([::1]:52452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j308g-0003wA-FB
-	for lists+qemu-devel@lfdr.de; Sat, 15 Feb 2020 11:17:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47699)
+	id 1j30BC-0007fF-CE
+	for lists+qemu-devel@lfdr.de; Sat, 15 Feb 2020 11:20:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48145)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1j3071-0002Ey-F7
- for qemu-devel@nongnu.org; Sat, 15 Feb 2020 11:16:12 -0500
+ (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1j30AE-0006ns-2f
+ for qemu-devel@nongnu.org; Sat, 15 Feb 2020 11:19:30 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1j3070-0005gk-DQ
- for qemu-devel@nongnu.org; Sat, 15 Feb 2020 11:16:11 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:52690
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j3070-0005fi-9s
- for qemu-devel@nongnu.org; Sat, 15 Feb 2020 11:16:10 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581783369;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=pthG4sX1WmuDcM1pYL7nuZk6uLcNUXuiJV60qYY0Cuc=;
- b=ik/OA6FxrSQdfe2gIjtCbZAsrlXRFq3RXKHw0Tom2wwgg1EQ3J1cGzwrK+QctnCF3zU23m
- 28Mc8t32EIbUT1FIknBq2s3HEZLTOALgiDl7MIn2DRgoRMqKYVULrE04kqCfomjYvNQJyr
- 7oh+N51IzFZbUKF7iqO1V4H2QPTGaJs=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-256-T1FtHXOdOReZoR-8xe3pzA-1; Sat, 15 Feb 2020 11:16:06 -0500
-Received: by mail-wr1-f71.google.com with SMTP id s13so5932122wrb.21
- for <qemu-devel@nongnu.org>; Sat, 15 Feb 2020 08:16:06 -0800 (PST)
+ (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1j30AC-0000C6-1d
+ for qemu-devel@nongnu.org; Sat, 15 Feb 2020 11:19:29 -0500
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:51435)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1j30AB-0000B3-SF; Sat, 15 Feb 2020 11:19:28 -0500
+Received: by mail-wm1-x342.google.com with SMTP id t23so13098689wmi.1;
+ Sat, 15 Feb 2020 08:19:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=eTn2oK2dQxQzFgBTTAIiys0g5gffJIiQC/GfhEVlsF4=;
+ b=H9HuCdzNLNf5wF5E9yZCwWovzZFqAKQ08jQSCepYUtrA+g5tne/7ID+2V6XXf3oDpI
+ DtjRFNn3c+BLKf/ssniyT13Z8WBTrv5ze6E1AkSzHD3MIVqu9tvgkUC7DUaG5y4oC0EG
+ GjBnjd+/QtzwEvJpBRX1qOSv/P3W1HMGfMDF+4SrTWR07vO1RQbHXl1ufUNpMQ3+6QxV
+ 9i1+5QAvmsVsMaduNB8HMwuoj2ddXPA2UeZ0jjIxkJdlqRpJDZMN1SYPDmN2xL9g+9h+
+ LBNyrJaPZy4zjB1ko8GAnpkfsYkNzOgys/d9FE8zGOaY9gmTUGxzLMQy4M0JEA+Uq2QQ
+ HW5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=FnvdgJ+pULlElBjPbypj5ZtQBic6wsKotYOG0wxZcb4=;
- b=G/EqiyhQezSBBK4Gma1wIpeTO5DeQHES/8u/wFsBFGWaw1Y+vkT9KpAy9WAa7pTpds
- vYR3KI4u6k2mZUX++n7GVuSkNpQdugU5wB7XZQKxxiwQXNVtNlqtpsoqGIF1WaVBL7rM
- wuHgrHFQmUtoS4fzIJCJTbJzhJYD1fKpGnTqkOWhN4AzONqESvo76cCaKCLFg7v0BFRI
- jBylJPg7lBobyhm9PHiCYDHY6CaaOlcKJGcYRNXv46irP+CQZ01kz7YQm2iPdkgakCWA
- cGNEKqFJIoCIA7RvVKTNtr0uPwg/cmdVUp5AgnsBSpMbrHwC4/RS1ivWYCslrTPj0y+x
- nmdA==
-X-Gm-Message-State: APjAAAU0lxGUhb0ZOyW0xlf753j4N0lxIZwatmwI10QYTAeP604hS0Lw
- HdFcx2A+xG+8l26XoR4g+hVU6pP2swtPefuNFxbYWvwZ5vxSqpoS/2MCzMz12wZ4rjHwwo2Whao
- pQmTfOenaNlIlvbs=
-X-Received: by 2002:adf:fd0e:: with SMTP id e14mr10590725wrr.127.1581783364859; 
- Sat, 15 Feb 2020 08:16:04 -0800 (PST)
-X-Google-Smtp-Source: APXvYqy/QDpZRjslcyFsFHRjtLnaMikvruJ3gCZAD8x7auXnoxru3hRQh1UJq8R17PhP9hIZE7mF9A==
-X-Received: by 2002:adf:fd0e:: with SMTP id e14mr10590704wrr.127.1581783364655; 
- Sat, 15 Feb 2020 08:16:04 -0800 (PST)
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=eTn2oK2dQxQzFgBTTAIiys0g5gffJIiQC/GfhEVlsF4=;
+ b=VznbnAy+ysgifIkEdkh6oRNzu6+Ezp2jKDvESuUFKsm/cIeJf1VR7JKfu8dNzFK/I7
+ Q8lZKrkA2ndSxAz/PpmrUlh4PxEqBYVrL2JPHlQk+rZAYYx20rwlev09ekdNNjX3xTo+
+ KQ7mz+C/NIcePRcj4sROdLUcv1p+7genVwwTw3RWyT2obprpJItDPt5l1DqfXyDASTuG
+ 0YdFwzQ2ccGDun6EgW22W5BfL9nEKoYQWdDKLh+BW7A7XRvWpOl+/p6B0EmnZNOUyDRC
+ 09o9lCV8gHj8+f2Mn8jS3sgrmAEJfb9GK/+cjZqsDE2oqHE6XCHCxV5tu1G2E7prpJ5t
+ GKhA==
+X-Gm-Message-State: APjAAAXoUumVMD7IlXEgZH2zEBaRt9sXn7fTHrGwfALGThuj7jYXnVLS
+ mgAotUUKBoeoIfuM7BztSrwUsP4/O1M=
+X-Google-Smtp-Source: APXvYqwDeqCcaHBmMOZ7xTwSxEXmBVriU1c/6subQ0Wwg+sgp86ZRj9hZTq7zZa+rIaRuzWBCYFfZQ==
+X-Received: by 2002:a1c:65d6:: with SMTP id z205mr11205173wmb.38.1581783565941; 
+ Sat, 15 Feb 2020 08:19:25 -0800 (PST)
 Received: from localhost.localdomain (78.red-88-21-202.staticip.rima-tde.net.
  [88.21.202.78])
- by smtp.gmail.com with ESMTPSA id w26sm11855872wmi.8.2020.02.15.08.16.03
+ by smtp.gmail.com with ESMTPSA id c13sm11899255wrn.46.2020.02.15.08.19.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 15 Feb 2020 08:16:04 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+ Sat, 15 Feb 2020 08:19:25 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 3/3] hw/block/pflash_cfi02: Remove unneeded variable assignment
-Date: Sat, 15 Feb 2020 17:15:57 +0100
-Message-Id: <20200215161557.4077-4-philmd@redhat.com>
+Subject: [PATCH] hw/misc/iotkit-secctl: Fix writing to 'PPC Interrupt Clear'
+ register
+Date: Sat, 15 Feb 2020 17:19:23 +0100
+Message-Id: <20200215161923.4741-1-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.1
-In-Reply-To: <20200215161557.4077-1-philmd@redhat.com>
-References: <20200215161557.4077-1-philmd@redhat.com>
 MIME-Version: 1.0
-X-MC-Unique: T1FtHXOdOReZoR-8xe3pzA-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8;
-	text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::342
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,43 +80,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
- qemu-trivial@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Max Reitz <mreitz@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- John Snow <jsnow@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Fix warning reported by Clang static code analyzer:
 
-    CC      hw/block/pflash_cfi02.o
-  hw/block/pflash_cfi02.c:311:5: warning: Value stored to 'ret' is never re=
-ad
-      ret =3D -1;
-      ^     ~~
+    CC      hw/misc/iotkit-secctl.o
+  hw/misc/iotkit-secctl.c:343:9: warning: Value stored to 'value' is never read
+          value &= 0x00f000f3;
+          ^        ~~~~~~~~~~
 
+Fixes: b3717c23e1c
 Reported-by: Clang Static Analyzer
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/block/pflash_cfi02.c | 1 -
- 1 file changed, 1 deletion(-)
+ hw/misc/iotkit-secctl.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/block/pflash_cfi02.c b/hw/block/pflash_cfi02.c
-index 7c4744c020..12f18d401a 100644
---- a/hw/block/pflash_cfi02.c
-+++ b/hw/block/pflash_cfi02.c
-@@ -308,7 +308,6 @@ static uint64_t pflash_read(void *opaque, hwaddr offset=
-, unsigned int width)
-     hwaddr boff;
-     uint64_t ret;
-=20
--    ret =3D -1;
-     /* Lazy reset to ROMD mode after a certain amount of read accesses */
-     if (!pfl->rom_mode && pfl->wcycle =3D=3D 0 &&
-         ++pfl->read_counter > PFLASH_LAZY_ROMD_THRESHOLD) {
---=20
+diff --git a/hw/misc/iotkit-secctl.c b/hw/misc/iotkit-secctl.c
+index 609869821a..0d5556dd17 100644
+--- a/hw/misc/iotkit-secctl.c
++++ b/hw/misc/iotkit-secctl.c
+@@ -340,7 +340,7 @@ static MemTxResult iotkit_secctl_s_write(void *opaque, hwaddr addr,
+         qemu_set_irq(s->sec_resp_cfg, s->secrespcfg);
+         break;
+     case A_SECPPCINTCLR:
+-        value &= 0x00f000f3;
++        s->secppcintstat = ~value & 0x00f000f3;
+         foreach_ppc(s, iotkit_secctl_ppc_update_irq_clear);
+         break;
+     case A_SECPPCINTEN:
+-- 
 2.21.1
 
 
