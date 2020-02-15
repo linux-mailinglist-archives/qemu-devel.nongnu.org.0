@@ -2,71 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F2FC160085
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 Feb 2020 22:03:43 +0100 (CET)
-Received: from localhost ([::1]:54620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12EBE160108
+	for <lists+qemu-devel@lfdr.de>; Sun, 16 Feb 2020 00:07:53 +0100 (CET)
+Received: from localhost ([::1]:55455 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j34bG-0002bH-7E
-	for lists+qemu-devel@lfdr.de; Sat, 15 Feb 2020 16:03:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47269)
+	id 1j36XQ-0002HD-3Y
+	for lists+qemu-devel@lfdr.de; Sat, 15 Feb 2020 18:07:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59439)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1j34ZI-0001Sn-K4
- for qemu-devel@nongnu.org; Sat, 15 Feb 2020 16:01:42 -0500
+ (envelope-from <bounces@canonical.com>) id 1j36VF-0007V8-Kd
+ for qemu-devel@nongnu.org; Sat, 15 Feb 2020 18:05:39 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1j34ZG-0003fk-4r
- for qemu-devel@nongnu.org; Sat, 15 Feb 2020 16:01:40 -0500
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:34082)
+ (envelope-from <bounces@canonical.com>) id 1j36VD-0002CW-UT
+ for qemu-devel@nongnu.org; Sat, 15 Feb 2020 18:05:37 -0500
+Received: from indium.canonical.com ([91.189.90.7]:57372)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
- id 1j34ZF-0003f6-VU
- for qemu-devel@nongnu.org; Sat, 15 Feb 2020 16:01:38 -0500
-Received: by mail-ot1-x342.google.com with SMTP id j16so12549867otl.1
- for <qemu-devel@nongnu.org>; Sat, 15 Feb 2020 13:01:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=zjckl4DfQQHgHbuH63bPHYS3aV6obTSxeeuSjhnEhjQ=;
- b=qjhZCIl9mB5SRzheTH4b/LtilUoc0HydEW0NC+wwqpze0nMO2puMZ6IbiILFPf4ulq
- 89U53dduqhdHCEq1pqizk0mIkv3Y/iEGao2mIV/C7F5KxiGnDNc/iLyu3AWpGXvFpvBZ
- wX6EKU37nQOftv5CaCJq6TJNzA0CoSSWVd9QmcDJyWJ0rsz1oUj0H6od1u6XnKSocJrL
- nd/WAgGf6ZknycyGywr4sFSTB9gGeqhBE7Czm89xeRqGkO2QYGpeRed3AIvFLa4GBODd
- TJdzFwHDMRmwfrhueCaKPOhLO/kxQ3tgGdfg/g8rqmQ9Zoxi8epaABknrjoyVAdmdG3z
- 39Vg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=zjckl4DfQQHgHbuH63bPHYS3aV6obTSxeeuSjhnEhjQ=;
- b=HWEuV+6wwJd7NnULjEXkJx1aXjr8AOHmYaLWpDLFa4c9eZaNyfgwn8e/2ez2Li0Ii3
- w1l7TLm4e43ZUgv5KBGkV3KJlaCO0fLx9m0u9n2l8+2FuZUJNhFZP+QBs7Iyeq7pm2jf
- zGkHgedUOCGzciUF3rNejdQUNs9gT0SpFKc6QVe5ckhWuH4FxJ9GWcFh7KLczy37zVEC
- 5yNFiw+8xn6hKcdHsY4THTrLR4Lv03FRcjCMHcIbqYZWdz0QqIFaPhEJCteLQ17xiDjB
- dO4Tc1L1g5a33nQQaZtTFcaebF44c5dhhFLmgoR78sFJjYeCH4FRQnxx1VW5ujCK8aaG
- vm5A==
-X-Gm-Message-State: APjAAAXEWMylsS0AS4oehUrHZ1BRL8uDRS7xQg7TwN3CCdNFMVw8M1CI
- xevefBPIEusQTqHqqEoDsSmepFIIZ3Sb71lbkiQ=
-X-Google-Smtp-Source: APXvYqyqqgxSEmJSaAiifwLrXokRMNR/jQ4CIYXaidRHLLqWPaYljuL3Pi6JjpK0v1bLwSkDCYfhDRuQYKTCRE4HynQ=
-X-Received: by 2002:a9d:2184:: with SMTP id s4mr6635803otb.121.1581800496826; 
- Sat, 15 Feb 2020 13:01:36 -0800 (PST)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1j36VD-00029g-P9
+ for qemu-devel@nongnu.org; Sat, 15 Feb 2020 18:05:35 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1j36VC-0006mL-Fz
+ for <qemu-devel@nongnu.org>; Sat, 15 Feb 2020 23:05:34 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 6F3362E80C0
+ for <qemu-devel@nongnu.org>; Sat, 15 Feb 2020 23:05:34 +0000 (UTC)
 MIME-Version: 1.0
-References: <20200213175647.17628-1-peter.maydell@linaro.org>
- <20200213175647.17628-8-peter.maydell@linaro.org>
- <CAL1e-=iWXDGat9dVwNEKU1JUYTz1vc-wr2f1pTNiHP-e6zpPbA@mail.gmail.com>
- <CAAdtpL6JHhgPJOdwrMxs83qc8=9Q-1t6mrA0yJiyPjMkHSw3Lg@mail.gmail.com>
-In-Reply-To: <CAAdtpL6JHhgPJOdwrMxs83qc8=9Q-1t6mrA0yJiyPjMkHSw3Lg@mail.gmail.com>
-From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Date: Sat, 15 Feb 2020 22:01:19 +0100
-Message-ID: <CAL1e-=hgrANvvPd2oaOUTf+3EuudcsZeBtj1yOCK4Pn37nxOJg@mail.gmail.com>
-Subject: Re: [PATCH v2 07/30] qapi/block-core.json: Use literal block for
- ascii art
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philippe@mathieu-daude.net>
-Content-Type: multipart/alternative; boundary="000000000000b80bc6059ea3a0a3"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::342
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Sat, 15 Feb 2020 22:52:54 -0000
+From: Ayman Khamouma <1863445@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ak42
+X-Launchpad-Bug-Reporter: Ayman Khamouma (ak42)
+X-Launchpad-Bug-Modifier: Ayman Khamouma (ak42)
+Message-Id: <158180717472.31124.817430819772209101.malonedeb@wampee.canonical.com>
+Subject: [Bug 1863445] [NEW] assertion failed at translate-all.c:2523 with
+ version 3.1.1 
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="19413b719a8df7423ab1390528edadce9e0e4aca";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 4af479117e9a8c88e56be3c000859c09096ff3ec
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -75,114 +64,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Daniel P . Berrange" <berrange@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- Michael Roth <mdroth@linux.vnet.ibm.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>,
- Samuel Thibault <samuel.thibault@ens-lyon.org>, John Snow <jsnow@redhat.com>
+Reply-To: Bug 1863445 <1863445@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000b80bc6059ea3a0a3
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Public bug reported:
 
-9:56 PM Sub, 15.02.2020. Philippe Mathieu-Daud=C3=A9 <philippe@mathieu-daud=
-e.net>
-=D1=98=D0=B5 =D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:
->
-> Hi Aleksandar,
->
-> On Fri, Feb 14, 2020 at 12:04 AM Aleksandar Markovic
-> <aleksandar.m.mail@gmail.com> wrote:
-> >
-> > 6:59 PM =C4=8Cet, 13.02.2020. Peter Maydell <peter.maydell@linaro.org> =
-=D1=98=D0=B5
-=D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:
-> > >
-> > > The ascii-art graph
-> >
-> > Just out of couriousity, are unicode characters allowed in rst files?
->
-> I remember 2 years ago a blind developer thanked the QEMU community to
-> still restrict commits to 80 characters, because while 4K display are
-> available, he and other visually impaired developers cloud still
-> browse the QEMU codebase with their refreshable Braille display (which
-> was 80 cels). I don't know how many visually impaired developers are
-> following this project. A quick google returns " There is no concept
-> of Unicode in Braille. In that sense Braille is similar to old 8-bit
-> code pages which represented different symbols in different languages
-> for the same symbol code."
-> (
-https://superuser.com/questions/629443/represent-unicode-characters-in-brai=
-lle
-).
->
-> (I'm Cc'ing Samuel who cares about Braille displays.)
->
+I was trying to debug a userspace binary with radare2 and met the
+following assertion in qemu:
 
-Got it.
-> >
-> > The boxes could've been rendered in a much more beautifull way using
-"lines and corners" group of unicode characters.
-> >
-> > Aleksandar
+```
+qemu-mipsel: /builddir/build/BUILD/qemu-3.1.1/accel/tcg/translate-all.c:252=
+3: page_check_range: Assertion `start < ((target_ulong)1 << L1_MAP_ADDR_SPA=
+CE_BITS)' failed.
+qemu:handle_cpu_signal received signal outside vCPU context @ pc=3D0x7fd1c1=
+1c5987
+```
 
---000000000000b80bc6059ea3a0a3
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+```
+# qemu-mipsel --version                                                    =
+                               =
 
-<p dir=3D"ltr"></p>
-<p dir=3D"ltr">9:56 PM Sub, 15.02.2020. Philippe Mathieu-Daud=C3=A9 &lt;<a =
-href=3D"mailto:philippe@mathieu-daude.net">philippe@mathieu-daude.net</a>&g=
-t; =D1=98=D0=B5 =D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:<br=
->
-&gt;<br>
-&gt; Hi Aleksandar,<br>
-&gt;<br>
-&gt; On Fri, Feb 14, 2020 at 12:04 AM Aleksandar Markovic<br>
-&gt; &lt;<a href=3D"mailto:aleksandar.m.mail@gmail.com">aleksandar.m.mail@g=
-mail.com</a>&gt; wrote:<br>
-&gt; &gt;<br>
-&gt; &gt; 6:59 PM =C4=8Cet, 13.02.2020. Peter Maydell &lt;<a href=3D"mailto=
-:peter.maydell@linaro.org">peter.maydell@linaro.org</a>&gt; =D1=98=D0=B5 =
-=D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; The ascii-art graph<br>
-&gt; &gt;<br>
-&gt; &gt; Just out of couriousity, are unicode characters allowed in rst fi=
-les?<br>
-&gt;<br>
-&gt; I remember 2 years ago a blind developer thanked the QEMU community to=
-<br>
-&gt; still restrict commits to 80 characters, because while 4K display are<=
-br>
-&gt; available, he and other visually impaired developers cloud still<br>
-&gt; browse the QEMU codebase with their refreshable Braille display (which=
-<br>
-&gt; was 80 cels). I don&#39;t know how many visually impaired developers a=
-re<br>
-&gt; following this project. A quick google returns &quot; There is no conc=
-ept<br>
-&gt; of Unicode in Braille. In that sense Braille is similar to old 8-bit<b=
-r>
-&gt; code pages which represented different symbols in different languages<=
-br>
-&gt; for the same symbol code.&quot;<br>
-&gt; (<a href=3D"https://superuser.com/questions/629443/represent-unicode-c=
-haracters-in-braille">https://superuser.com/questions/629443/represent-unic=
-ode-characters-in-braille</a>).<br>
-&gt;<br>
-&gt; (I&#39;m Cc&#39;ing Samuel who cares about Braille displays.)<br>
-&gt;</p>
-<p dir=3D"ltr">Got it. <br>
-&gt; &gt;<br>
-&gt; &gt; The boxes could&#39;ve been rendered in a much more beautifull wa=
-y using &quot;lines and corners&quot; group of unicode characters.<br>
-&gt; &gt;<br>
-&gt; &gt; Aleksandar<br>
-</p>
+qemu-mipsel version 3.1.1 (qemu-3.1.1-2.fc30)
+Copyright (c) 2003-2018 Fabrice Bellard and the QEMU Project developers
+```
 
---000000000000b80bc6059ea3a0a3--
+not much to add. seems like qemu is not properly checking for valid
+addresses
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1863445
+
+Title:
+  assertion failed at translate-all.c:2523 with version 3.1.1
+
+Status in QEMU:
+  New
+
+Bug description:
+  I was trying to debug a userspace binary with radare2 and met the
+  following assertion in qemu:
+
+  ```
+  qemu-mipsel: /builddir/build/BUILD/qemu-3.1.1/accel/tcg/translate-all.c:2=
+523: page_check_range: Assertion `start < ((target_ulong)1 << L1_MAP_ADDR_S=
+PACE_BITS)' failed.
+  qemu:handle_cpu_signal received signal outside vCPU context @ pc=3D0x7fd1=
+c11c5987
+  ```
+
+  ```
+  # qemu-mipsel --version                                                  =
+                                 =
+
+  qemu-mipsel version 3.1.1 (qemu-3.1.1-2.fc30)
+  Copyright (c) 2003-2018 Fabrice Bellard and the QEMU Project developers
+  ```
+
+  not much to add. seems like qemu is not properly checking for valid
+  addresses
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1863445/+subscriptions
 
