@@ -2,84 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 958B115FF3D
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 Feb 2020 17:18:21 +0100 (CET)
-Received: from localhost ([::1]:52410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 847C915FF39
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 Feb 2020 17:17:55 +0100 (CET)
+Received: from localhost ([::1]:52406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j3095-0004eD-W1
-	for lists+qemu-devel@lfdr.de; Sat, 15 Feb 2020 11:18:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47789)
+	id 1j308g-0003wA-FB
+	for lists+qemu-devel@lfdr.de; Sat, 15 Feb 2020 11:17:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47699)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1j307R-0002vJ-JK
- for qemu-devel@nongnu.org; Sat, 15 Feb 2020 11:16:38 -0500
+ (envelope-from <philmd@redhat.com>) id 1j3071-0002Ey-F7
+ for qemu-devel@nongnu.org; Sat, 15 Feb 2020 11:16:12 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1j307Q-00068h-LB
- for qemu-devel@nongnu.org; Sat, 15 Feb 2020 11:16:37 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:53891
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1j3070-0005gk-DQ
+ for qemu-devel@nongnu.org; Sat, 15 Feb 2020 11:16:11 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:52690
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j306y-0005dK-0k
- for qemu-devel@nongnu.org; Sat, 15 Feb 2020 11:16:36 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j3070-0005fi-9s
+ for qemu-devel@nongnu.org; Sat, 15 Feb 2020 11:16:10 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581783367;
+ s=mimecast20190719; t=1581783369;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2W2KV5vhhaOPypV6UoE9INvWUy7cADf9BtseHUCCnZ8=;
- b=HpZ2DX7sf47ZuOBheWWfoNDpWt4rd1f5k+ZpMwvr55p8bAdXYHkmFW3I3ep9Y3k+7RgjMm
- k0F/aDk956uSFggwVtbFSmGqxLfm86Tsx34YawM8wz0mvL9LAUkG7jwxig4TZX4CjQm67P
- PbC05lFSoh8e6B+xfBXMuppwOWwZfEo=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-209-wLuubM3OPdicWWHTFDBTKg-1; Sat, 15 Feb 2020 11:16:04 -0500
-Received: by mail-wr1-f69.google.com with SMTP id u18so5888936wrn.11
- for <qemu-devel@nongnu.org>; Sat, 15 Feb 2020 08:16:04 -0800 (PST)
+ bh=pthG4sX1WmuDcM1pYL7nuZk6uLcNUXuiJV60qYY0Cuc=;
+ b=ik/OA6FxrSQdfe2gIjtCbZAsrlXRFq3RXKHw0Tom2wwgg1EQ3J1cGzwrK+QctnCF3zU23m
+ 28Mc8t32EIbUT1FIknBq2s3HEZLTOALgiDl7MIn2DRgoRMqKYVULrE04kqCfomjYvNQJyr
+ 7oh+N51IzFZbUKF7iqO1V4H2QPTGaJs=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-256-T1FtHXOdOReZoR-8xe3pzA-1; Sat, 15 Feb 2020 11:16:06 -0500
+Received: by mail-wr1-f71.google.com with SMTP id s13so5932122wrb.21
+ for <qemu-devel@nongnu.org>; Sat, 15 Feb 2020 08:16:06 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=t93RD3b9dRJMk744Iwvg4Pa/O1lItTONfyZhiaohMVU=;
- b=hntyLaPoW0nLc+tbKyjnMpzMYyxptWB3avpkRQUCaCpUSo/tFbvGuIM5Ppv6RF+axh
- MvkgeiUMIhv4/2DbU0zrp5JbSG7jCeH1b+UioxRjTA4UTZBZb5+RpWY0c1tYwMneWIr1
- NsicpuEU98WhQrk4p7Dfr6z1IBU154nmhDSG3qPYTrIZP7EsmsahuZtJzfk79buq55Oa
- iIiiZ/aREqzJeHWoPzySbtiualH02mYChoXrHJLtAP8pj5DZ/BqQi08OqX7AdusYGH+K
- ZQtJqsTFIvcRJ++5VDAyag/ay12OW3lxk/LzMkoPzDu5kxnLNTsWlDr34qGEnisreZRx
- SNGw==
-X-Gm-Message-State: APjAAAUYbm8WkSjddjQjba8lK6lUhGB9YDdjHyQCTZqxB5tDYnscJ1Xw
- VOsl/Infms8nj3pSnfwLYVETmhz6RJ1EPGMv4SPPpZNaiNRaumU3TxSNaB8V3RlX7CbuYyMbnUB
- dCVZboy6eLKwL6n4=
-X-Received: by 2002:a05:6000:192:: with SMTP id
- p18mr10610940wrx.218.1581783363450; 
- Sat, 15 Feb 2020 08:16:03 -0800 (PST)
-X-Google-Smtp-Source: APXvYqwj+7l1rgw3xDAlzv9WUiiMsr0WEM7lX9ZCD/FFnzJs4cYtMVSolk6GYqoQJdpfzWpU1SzzAw==
-X-Received: by 2002:a05:6000:192:: with SMTP id
- p18mr10610917wrx.218.1581783363170; 
- Sat, 15 Feb 2020 08:16:03 -0800 (PST)
+ bh=FnvdgJ+pULlElBjPbypj5ZtQBic6wsKotYOG0wxZcb4=;
+ b=G/EqiyhQezSBBK4Gma1wIpeTO5DeQHES/8u/wFsBFGWaw1Y+vkT9KpAy9WAa7pTpds
+ vYR3KI4u6k2mZUX++n7GVuSkNpQdugU5wB7XZQKxxiwQXNVtNlqtpsoqGIF1WaVBL7rM
+ wuHgrHFQmUtoS4fzIJCJTbJzhJYD1fKpGnTqkOWhN4AzONqESvo76cCaKCLFg7v0BFRI
+ jBylJPg7lBobyhm9PHiCYDHY6CaaOlcKJGcYRNXv46irP+CQZ01kz7YQm2iPdkgakCWA
+ cGNEKqFJIoCIA7RvVKTNtr0uPwg/cmdVUp5AgnsBSpMbrHwC4/RS1ivWYCslrTPj0y+x
+ nmdA==
+X-Gm-Message-State: APjAAAU0lxGUhb0ZOyW0xlf753j4N0lxIZwatmwI10QYTAeP604hS0Lw
+ HdFcx2A+xG+8l26XoR4g+hVU6pP2swtPefuNFxbYWvwZ5vxSqpoS/2MCzMz12wZ4rjHwwo2Whao
+ pQmTfOenaNlIlvbs=
+X-Received: by 2002:adf:fd0e:: with SMTP id e14mr10590725wrr.127.1581783364859; 
+ Sat, 15 Feb 2020 08:16:04 -0800 (PST)
+X-Google-Smtp-Source: APXvYqy/QDpZRjslcyFsFHRjtLnaMikvruJ3gCZAD8x7auXnoxru3hRQh1UJq8R17PhP9hIZE7mF9A==
+X-Received: by 2002:adf:fd0e:: with SMTP id e14mr10590704wrr.127.1581783364655; 
+ Sat, 15 Feb 2020 08:16:04 -0800 (PST)
 Received: from localhost.localdomain (78.red-88-21-202.staticip.rima-tde.net.
  [88.21.202.78])
- by smtp.gmail.com with ESMTPSA id w26sm11855872wmi.8.2020.02.15.08.16.01
+ by smtp.gmail.com with ESMTPSA id w26sm11855872wmi.8.2020.02.15.08.16.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 15 Feb 2020 08:16:02 -0800 (PST)
+ Sat, 15 Feb 2020 08:16:04 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/3] hw/display/qxl: Remove unneeded variable assignment
-Date: Sat, 15 Feb 2020 17:15:56 +0100
-Message-Id: <20200215161557.4077-3-philmd@redhat.com>
+Subject: [PATCH 3/3] hw/block/pflash_cfi02: Remove unneeded variable assignment
+Date: Sat, 15 Feb 2020 17:15:57 +0100
+Message-Id: <20200215161557.4077-4-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200215161557.4077-1-philmd@redhat.com>
 References: <20200215161557.4077-1-philmd@redhat.com>
 MIME-Version: 1.0
-X-MC-Unique: wLuubM3OPdicWWHTFDBTKg-1
+X-MC-Unique: T1FtHXOdOReZoR-8xe3pzA-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -102,30 +99,31 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Fix warning reported by Clang static code analyzer:
 
-  hw/display/qxl.c:1634:14: warning: Value stored to 'orig_io_port' during =
-its initialization is never read
-      uint32_t orig_io_port =3D io_port;
-               ^~~~~~~~~~~~   ~~~~~~~
+    CC      hw/block/pflash_cfi02.o
+  hw/block/pflash_cfi02.c:311:5: warning: Value stored to 'ret' is never re=
+ad
+      ret =3D -1;
+      ^     ~~
 
 Reported-by: Clang Static Analyzer
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/display/qxl.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/block/pflash_cfi02.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/hw/display/qxl.c b/hw/display/qxl.c
-index 64884da708..21a43a1d5e 100644
---- a/hw/display/qxl.c
-+++ b/hw/display/qxl.c
-@@ -1631,7 +1631,7 @@ static void ioport_write(void *opaque, hwaddr addr,
-     PCIQXLDevice *d =3D opaque;
-     uint32_t io_port =3D addr;
-     qxl_async_io async =3D QXL_SYNC;
--    uint32_t orig_io_port =3D io_port;
-+    uint32_t orig_io_port;
+diff --git a/hw/block/pflash_cfi02.c b/hw/block/pflash_cfi02.c
+index 7c4744c020..12f18d401a 100644
+--- a/hw/block/pflash_cfi02.c
++++ b/hw/block/pflash_cfi02.c
+@@ -308,7 +308,6 @@ static uint64_t pflash_read(void *opaque, hwaddr offset=
+, unsigned int width)
+     hwaddr boff;
+     uint64_t ret;
 =20
-     if (d->guest_bug && io_port !=3D QXL_IO_RESET) {
-         return;
+-    ret =3D -1;
+     /* Lazy reset to ROMD mode after a certain amount of read accesses */
+     if (!pfl->rom_mode && pfl->wcycle =3D=3D 0 &&
+         ++pfl->read_counter > PFLASH_LAZY_ROMD_THRESHOLD) {
 --=20
 2.21.1
 
