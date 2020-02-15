@@ -2,66 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 378D5160008
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 Feb 2020 20:26:14 +0100 (CET)
-Received: from localhost ([::1]:53912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B736E160005
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 Feb 2020 20:23:51 +0100 (CET)
+Received: from localhost ([::1]:53884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j334v-00019z-8l
-	for lists+qemu-devel@lfdr.de; Sat, 15 Feb 2020 14:26:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36400)
+	id 1j332c-0005gW-Pv
+	for lists+qemu-devel@lfdr.de; Sat, 15 Feb 2020 14:23:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36412)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1j331B-00040A-Mk
- for qemu-devel@nongnu.org; Sat, 15 Feb 2020 14:22:22 -0500
+ id 1j331D-00042u-Aj
+ for qemu-devel@nongnu.org; Sat, 15 Feb 2020 14:22:24 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1j331A-0000t4-Pd
- for qemu-devel@nongnu.org; Sat, 15 Feb 2020 14:22:21 -0500
-Received: from mail-ed1-x543.google.com ([2a00:1450:4864:20::543]:36147)
+ id 1j331C-0000uK-4Q
+ for qemu-devel@nongnu.org; Sat, 15 Feb 2020 14:22:23 -0500
+Received: from mail-ed1-x543.google.com ([2a00:1450:4864:20::543]:44757)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1j331A-0000r7-J6
- for qemu-devel@nongnu.org; Sat, 15 Feb 2020 14:22:20 -0500
-Received: by mail-ed1-x543.google.com with SMTP id j17so15463245edp.3
- for <qemu-devel@nongnu.org>; Sat, 15 Feb 2020 11:22:20 -0800 (PST)
+ id 1j331B-0000ta-Ue
+ for qemu-devel@nongnu.org; Sat, 15 Feb 2020 14:22:22 -0500
+Received: by mail-ed1-x543.google.com with SMTP id g19so15417529eds.11
+ for <qemu-devel@nongnu.org>; Sat, 15 Feb 2020 11:22:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=bLa+ADTgEFCmHmyq/daR6zg2jND3Ce2pdEx2x+QpKNg=;
- b=uUGFmCnCZyj2TUv2pRlmVFPGmqESQ6+XllK8LqAmVOFFZ2esG+is4tX/Vuq2LHItUG
- Om+HHUJ97Zk8Vven262Qo8qY4pAiT71zzILZLIajIjch4qnpSa65qfcfZ6/NTi7RSoQi
- pLHjttNBBpGAlZ+ipOEIIM6jwgU96yvTA6i7/lL4E/Y9YhdwcOVfrtYxpEH2r8Qw2ZmM
- qI5cAWnHMOTmqWsa1EfAZ6e0S3Hg0G/rzORKZ4MMQR4LDJrQ+KMZYI8pqZWjdxrxcF+b
- xVS7YxXVMxpxPpstgu4ncf7HgsyKSmDpwD37+iDkzVwPq5tfes6ACMSAkY1JIMIxZ0ni
- JKVA==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=T9g/uHvPBoXhUQDq2QsJ245v2/hf9EivqbEoJ3SIqVI=;
+ b=O0ZOiTqAgEDNvTqaFZl96dP515q36pnwm/o6kOFowuLoG7ZYJVZHO6qIw1NKR/PclW
+ SG+J4OwxoSJK/eMQQkfxdpJROP5QqmNWPfPG+so+KCuwGC3DDknIz0RoCeWZ791iTyk1
+ +hBjtnlgjhcfx2j2BGhSeJveVN5688BX8TkmSpoV58b+zuVhsjJrEL/RjPEBRX84xgeD
+ mB3oJvwICMmzZPj9CODdSL9qG8kX2Oxzqd1G/mKW1bBJ/DVL4/UcKt4IaajIoYzdqnpC
+ QoOSZy91sCFw2sx7q+wYHMjFW7qZSqkowTsDBX7vjjWHIxumnZ7lIhHepBRzX3bvac43
+ vUMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=bLa+ADTgEFCmHmyq/daR6zg2jND3Ce2pdEx2x+QpKNg=;
- b=bC9KJouqk1gVoyrYC4YQme9jf4He98qRaglP9qZ4CnM8nVP5rpUPn/kh4IHkbhEAe9
- BUwp+DWLRoo2LXZw+xnfaln5yZb9rpHno8tehpsdxPWcuvB6StWF63irmryVdnDuCk9+
- LwLZ5Lru3ga7bardb7OY84q2Ag5G4RHQWt8fjqYgxtvefEVHNHB+Crno+D6y9cr1DGAV
- svzJvWKUBHqbQt59tLotHVl9zh9kkOsEAYhzSfUGWmDWnxuxl/Dyj0n3FU1pDVGxV5qJ
- DuG1eOi09+MtvLNgPfOQuwOzjNKiFLBrd3tU93Rv6asYEgi8D66pYLr1kZWnlOQNmHS5
- LJ2g==
-X-Gm-Message-State: APjAAAXCmjpv0nCks8PKVzXmixxzdzDPpyT9EQKJHl95yt1qVpiEhY7F
- m9dPt6Bxw/wCdLXuFtn+y7PCDxkboG8=
-X-Google-Smtp-Source: APXvYqzrBR5p67ZUrjVHgBHMfshfUCuPUNlZzOydiYan7W6pwkAP0QarGF+To6RQYuiFDyqIfcAEiw==
-X-Received: by 2002:a50:f391:: with SMTP id g17mr8388092edm.52.1581794539227; 
- Sat, 15 Feb 2020 11:22:19 -0800 (PST)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=T9g/uHvPBoXhUQDq2QsJ245v2/hf9EivqbEoJ3SIqVI=;
+ b=hNU7vG/SsIiNSMDouv8bCNd8cqN5O9j3Z0WveZQ0JLwcC9WnzZp1UkdfpHvkfFCysS
+ DyyhiSVHMG1470I9tqHSPUybcE60G0ggdWK8SIqBP3s//1leUSiSQzU4UWDtjCGdyWnn
+ UgxDGyXcQoQgJ1WA+/lSOXQrLHmhRsMckXqfXRiLoZixXyeblwUNVHs8tmJCNMLyzv2V
+ NW/axz02Td1ig7nAp/bMf4XMNaKBkQu/JdkV8yWLFDF9lA2kWCAeWiL7TB7CfJEc0bEW
+ MUFaxLXb6qzxK5Lvmt134sC2zOqjI+jwgvOv1SgId1r6rqj5fCja3XUfSqbjxqFSYGUp
+ meXw==
+X-Gm-Message-State: APjAAAXox/ODo88Hjsjz8S64VU3DadAB6AWERNx0FxjCQe92YMjhoPBS
+ EHvSaxscECG0nXJPkF6OyZ9NqBikfxs=
+X-Google-Smtp-Source: APXvYqw9ciBVVR2btddrB8upvlmzxtHD2XfgWqRdl25JaGCJhdAcF8Km7PYbdDsh4E19K/0ucSjf8w==
+X-Received: by 2002:a17:906:5210:: with SMTP id
+ g16mr8349779ejm.305.1581794540603; 
+ Sat, 15 Feb 2020 11:22:20 -0800 (PST)
 Received: from localhost.localdomain (78.red-88-21-202.staticip.rima-tde.net.
  [88.21.202.78])
- by smtp.gmail.com with ESMTPSA id a24sm657128ejt.40.2020.02.15.11.22.18
+ by smtp.gmail.com with ESMTPSA id a24sm657128ejt.40.2020.02.15.11.22.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 15 Feb 2020 11:22:18 -0800 (PST)
+ Sat, 15 Feb 2020 11:22:20 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/8] hw/arm: Add raspi[0123] acceptance tests
-Date: Sat, 15 Feb 2020 20:22:08 +0100
-Message-Id: <20200215192216.4899-1-f4bug@amsat.org>
+Subject: [PATCH 1/8] tests/acceptance/boot_linux_console: Use raspi console
+ model as key
+Date: Sat, 15 Feb 2020 20:22:09 +0100
+Message-Id: <20200215192216.4899-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.1
+In-Reply-To: <20200215192216.4899-1-f4bug@amsat.org>
+References: <20200215192216.4899-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
@@ -87,29 +91,53 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-- Add raspi0/raspi1 Linux boot tests
-- Add raspi2/raspi3 U-Boot tests
-- Add bcm2835 framebuffer test
+Python dictionary are not that expensive. Use a key makes the
+code easier to review.
 
-I'll send another series moving these tests from boot_linux_console.py
-to machine_arm_raspi.py, but this doesn't affect the review.
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ tests/acceptance/boot_linux_console.py | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-raspi0/raspi1 are based on "hw/arm: Add raspi0 and raspi1 machines".
-Based-on: <20200215191543.3235-1-f4bug@amsat.org>
-
-Philippe Mathieu-Daudé (8):
-  tests/acceptance/boot_linux_console: Use raspi console model as key
-  tests/acceptance/boot_linux_console: Add raspi version=2 parameter
-  tests/acceptance/boot_linux_console: Test the raspi1 console
-  tests/acceptance/boot_linux_console: Test the raspi0 console
-  tests/acceptance/boot_linux_console: Test the raspi1 AUX console
-  tests/boot_linux_console: Test booting U-Boot on the Raspberry Pi 2
-  tests/boot_linux_console: Test booting U-Boot on the Raspberry Pi 3
-  tests/acceptance: Count Raspberry Pi logos displayed on framebuffer
-
- tests/acceptance/boot_linux_console.py | 207 +++++++++++++++++++++++--
- 1 file changed, 195 insertions(+), 12 deletions(-)
-
+diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
+index 34d37eba3b..8cfc758d42 100644
+--- a/tests/acceptance/boot_linux_console.py
++++ b/tests/acceptance/boot_linux_console.py
+@@ -347,14 +347,14 @@ def test_arm_emcraft_sf2(self):
+         self.vm.launch()
+         self.wait_for_console_pattern('init started: BusyBox')
+ 
+-    def do_test_arm_raspi2(self, uart_id):
++    def do_test_arm_raspi2(self, uart_model):
+         """
+         The kernel can be rebuilt using the kernel source referenced
+         and following the instructions on the on:
+         https://www.raspberrypi.org/documentation/linux/kernel/building.md
+         """
+         serial_kernel_cmdline = {
+-            0: 'earlycon=pl011,0x3f201000 console=ttyAMA0',
++            'pl011': 'earlycon=pl011,0x3f201000 console=ttyAMA0',
+         }
+         deb_url = ('http://archive.raspberrypi.org/debian/'
+                    'pool/main/r/raspberrypi-firmware/'
+@@ -366,7 +366,7 @@ def do_test_arm_raspi2(self, uart_id):
+ 
+         self.vm.set_console()
+         kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE +
+-                               serial_kernel_cmdline[uart_id])
++                               serial_kernel_cmdline[uart_model])
+         self.vm.add_args('-kernel', kernel_path,
+                          '-dtb', dtb_path,
+                          '-append', kernel_command_line)
+@@ -380,7 +380,7 @@ def test_arm_raspi2_uart0(self):
+         :avocado: tags=machine:raspi2
+         :avocado: tags=device:pl011
+         """
+-        self.do_test_arm_raspi2(0)
++        self.do_test_arm_raspi2('pl011')
+ 
+     def test_arm_exynos4210_initrd(self):
+         """
 -- 
 2.21.1
 
