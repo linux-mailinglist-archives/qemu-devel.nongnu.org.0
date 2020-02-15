@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2986515FE2E
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 Feb 2020 12:46:38 +0100 (CET)
-Received: from localhost ([::1]:50450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B06115FE2C
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 Feb 2020 12:44:32 +0100 (CET)
+Received: from localhost ([::1]:50406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j2vu9-0004y6-4I
-	for lists+qemu-devel@lfdr.de; Sat, 15 Feb 2020 06:46:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49835)
+	id 1j2vs7-0001CL-BL
+	for lists+qemu-devel@lfdr.de; Sat, 15 Feb 2020 06:44:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49749)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1j2vpU-0004dP-7n
- for qemu-devel@nongnu.org; Sat, 15 Feb 2020 06:41:49 -0500
+ (envelope-from <armbru@redhat.com>) id 1j2vpR-0004Va-14
+ for qemu-devel@nongnu.org; Sat, 15 Feb 2020 06:41:46 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1j2vpT-0006v6-4O
- for qemu-devel@nongnu.org; Sat, 15 Feb 2020 06:41:48 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:34030
+ (envelope-from <armbru@redhat.com>) id 1j2vpP-0006t8-N2
+ for qemu-devel@nongnu.org; Sat, 15 Feb 2020 06:41:44 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:23670
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1j2vpS-0006v1-W9
- for qemu-devel@nongnu.org; Sat, 15 Feb 2020 06:41:47 -0500
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1j2vpP-0006se-I5
+ for qemu-devel@nongnu.org; Sat, 15 Feb 2020 06:41:43 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581766906;
+ s=mimecast20190719; t=1581766903;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=bQVZIM30qVtywxVsKFvM36jgS73jo3ftZHSsOFgP4EY=;
- b=O33frsGpnJD7L65tEFHt4zelPKjSqbfWpLKyrCiUoJAimCf94psZbdmIveFSzqx3sceDmX
- wcSxCVDL7CeDBcxBNaoUKdBDpz3u+iVWU3ckjhr9pfublWwOPeZV597x4DwC3UvcLnOfF7
- Ksw052NDQYFZHdR1MgjjekMMWGFk3vQ=
+ bh=GKCvw87FK3WA1PhTVY1qk6PUyru/LVUw3GX+gJcKCI0=;
+ b=g5OE/HNLwwrgSANQXyiwy2aK0+WVxtQmP/Joa6ZaIl0a0176NGbCHHq6jzcm7bvzKmxt54
+ mkdYhBkzqH5tjREpQBUixMXeS910xq0dtNlVK4VQQg1mH8OxImJnkhtSj7uNr5WCD1PFjJ
+ 7J8gGHacAjXXmty+3semwGzWZDlWCXo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-343-US52eF4dOxKTXQnuyNpHOQ-1; Sat, 15 Feb 2020 06:41:41 -0500
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-386-ucRWTcwhNtaEo5a42sdHTQ-1; Sat, 15 Feb 2020 06:41:39 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 87FDF800D4E;
- Sat, 15 Feb 2020 11:41:40 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 158BB800D4E;
+ Sat, 15 Feb 2020 11:41:38 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-117-234.ams2.redhat.com
  [10.36.117.234])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D44AA5C12E;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D8AD790522;
  Sat, 15 Feb 2020 11:41:37 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 559161136368; Sat, 15 Feb 2020 12:41:33 +0100 (CET)
+ id 58D0A113636A; Sat, 15 Feb 2020 12:41:33 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 17/18] qapi/migration.json: Replace _this_ with *this*
-Date: Sat, 15 Feb 2020 12:41:32 +0100
-Message-Id: <20200215114133.15097-18-armbru@redhat.com>
+Subject: [PULL 18/18] qapi: Delete all the "foo: dropped in n.n" notes
+Date: Sat, 15 Feb 2020 12:41:33 +0100
+Message-Id: <20200215114133.15097-19-armbru@redhat.com>
 In-Reply-To: <20200215114133.15097-1-armbru@redhat.com>
 References: <20200215114133.15097-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: US52eF4dOxKTXQnuyNpHOQ-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: ucRWTcwhNtaEo5a42sdHTQ-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,61 +73,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Peter Maydell <peter.maydell@linaro.org>
 
-The MigrationInfo::setup-time documentation is the only place where we
-use _this_ inline markup for emphasis, commonly rendered in italics.
-We would like to switch the doc comments to rST format, but rST
-doesn't recognize that markup and emits literal underscores.
+A handful of QAPI doc comments include lines like
+"ppcemb: dropped in 3.1". The doc comment parser will just
+put these into whatever the preceding section was; sometimes
+that's "Notes", and sometimes it's some random other section,
+as with "NetClientDriver" where the "'dump': dropped in 2.12"
+line ends up in the "Since:" section.
 
-Switch to *this* instead.  Changes markup to strong emphasis with
-Texinfo, commonly rendered as bold.  With rST, it will go right back
-to emphasis / italics.
+This tends to render wrongly, more so in the upcoming rST
+generator, but sometimes even in the Texinfo, as in the case
+of QKeyCode:
+   ac_bookmarks
+       since 2.10 altgr, altgr_r: dropped in 2.10
 
-rST also uses **this** for strong (commonly rendered bold) where
-Texinfo uses *this*. We have one place in the doc comments
-which uses strong/bold markup, in qapi/introspect.json:
-    Note: the QAPI schema is also used to help define *internal*
-
-When we switch to rST that will be rendered as emphasis / italics.
-Markus (who wrote that) thinks that using emphasis / italics
-there is an improvement, so we leave that markup alone.
+Since commit 3264ffced3 (v4.2.0), we have a better place to tell
+users about deprecated and deleted functionality --
+qemu-deprecated.texi.  These "dropped in" remarks all predate it, and
+other feature drops of that vintage are not documented anywhere, so
+moving these to qemu-deprecated.texi makes little sense.  Drop them
+instead.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Message-Id: <20200213175647.17628-19-peter.maydell@linaro.org>
 Reviewed-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20200213175647.17628-18-peter.maydell@linaro.org>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 [Commit message tweaked]
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- qapi/migration.json | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ qapi/machine.json | 2 --
+ qapi/net.json     | 4 ----
+ qapi/ui.json      | 1 -
+ 3 files changed, 7 deletions(-)
 
-diff --git a/qapi/migration.json b/qapi/migration.json
-index 11033b7a8e..52f3429969 100644
---- a/qapi/migration.json
-+++ b/qapi/migration.json
-@@ -178,8 +178,8 @@
- #                     expected downtime in milliseconds for the guest in l=
-ast walk
- #                     of the dirty bitmap. (since 1.3)
+diff --git a/qapi/machine.json b/qapi/machine.json
+index 704b2b0fe3..6c11e3cf3a 100644
+--- a/qapi/machine.json
++++ b/qapi/machine.json
+@@ -20,8 +20,6 @@
+ #        prefix to produce the corresponding QEMU executable name. This
+ #        is true even for "qemu-system-x86_64".
  #
--# @setup-time: amount of setup time in milliseconds _before_ the
--#              iterations begin but _after_ the QMP command is issued. Thi=
-s is designed
-+# @setup-time: amount of setup time in milliseconds *before* the
-+#              iterations begin but *after* the QMP command is issued. Thi=
-s is designed
- #              to provide an accounting of any activities (such as RDMA pi=
-nning) which
- #              may be expensive, but do not actually occur during the iter=
-ative
- #              migration rounds themselves. (since 1.6)
+-# ppcemb: dropped in 3.1
+-#
+ # Since: 3.0
+ ##
+ { 'enum' : 'SysEmuTarget',
+diff --git a/qapi/net.json b/qapi/net.json
+index 80dcf0df06..1cb9a7d782 100644
+--- a/qapi/net.json
++++ b/qapi/net.json
+@@ -446,8 +446,6 @@
+ # Available netdev drivers.
+ #
+ # Since: 2.7
+-#
+-# 'dump': dropped in 2.12
+ ##
+ { 'enum': 'NetClientDriver',
+   'data': [ 'none', 'nic', 'user', 'tap', 'l2tpv3', 'socket', 'vde',
+@@ -493,8 +491,6 @@
+ # @opts: device type specific properties (legacy)
+ #
+ # Since: 1.2
+-#
+-# 'vlan': dropped in 3.0
+ ##
+ { 'struct': 'NetLegacy',
+   'data': {
+diff --git a/qapi/ui.json b/qapi/ui.json
+index 89126da395..e16e98a060 100644
+--- a/qapi/ui.json
++++ b/qapi/ui.json
+@@ -779,7 +779,6 @@
+ # @ac_forward: since 2.10
+ # @ac_refresh: since 2.10
+ # @ac_bookmarks: since 2.10
+-# altgr, altgr_r: dropped in 2.10
+ #
+ # @muhenkan: since 2.12
+ # @katakanahiragana: since 2.12
 --=20
 2.21.1
 
