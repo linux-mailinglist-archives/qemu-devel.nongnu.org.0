@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FE8815FE2A
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 Feb 2020 12:44:27 +0100 (CET)
-Received: from localhost ([::1]:50402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8011715FE30
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 Feb 2020 12:46:45 +0100 (CET)
+Received: from localhost ([::1]:50455 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j2vs2-0000wu-8h
-	for lists+qemu-devel@lfdr.de; Sat, 15 Feb 2020 06:44:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49683)
+	id 1j2vuG-0005DY-Gx
+	for lists+qemu-devel@lfdr.de; Sat, 15 Feb 2020 06:46:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49768)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1j2vpO-0004Rz-Na
- for qemu-devel@nongnu.org; Sat, 15 Feb 2020 06:41:43 -0500
+ (envelope-from <armbru@redhat.com>) id 1j2vpR-0004WT-F7
+ for qemu-devel@nongnu.org; Sat, 15 Feb 2020 06:41:48 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1j2vpN-0006qY-IG
- for qemu-devel@nongnu.org; Sat, 15 Feb 2020 06:41:42 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:34702
+ (envelope-from <armbru@redhat.com>) id 1j2vpO-0006rD-BH
+ for qemu-devel@nongnu.org; Sat, 15 Feb 2020 06:41:45 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:45028
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1j2vpN-0006qQ-Eb
- for qemu-devel@nongnu.org; Sat, 15 Feb 2020 06:41:41 -0500
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1j2vpO-0006qi-5O
+ for qemu-devel@nongnu.org; Sat, 15 Feb 2020 06:41:42 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1581766901;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZJjhiL1jL4z2tHRoIb8SPObvUXvwr23wJcik9StiPKU=;
- b=YMc6Gq5OBgf/keHSpjXrijqkWjOgfoeFWvCtEUPO+KWGKSdqb/aaDmuzZhxwPar7Uojc58
- 3/OfR30mZ6t3PWulnIdD4YrhEYwiHtLtobVTsqdgfnDb3rMLyNwB3nAv1gITiRvKPdvQUP
- zbxk1bK7k/vMzHZMnU0PK8d/GO+MGhk=
+ bh=oIOCGKSD5czZANtlyuxDIL7h3GoI4a3RyaVmBZlR3VI=;
+ b=UmEiNZpVgN1+dwQfSYRLJwFButMOskcWHV390jJjltXUV1MY1kz40lIILxKp0MzM8Fg9+o
+ TCUblwEoBJqoHuSbrlrcWPDmphaCkpV5AGnGSBiMeMFchCDYwGyjviw0zOn+qoziz23mcU
+ D3f94CFRCSn2YgA54dr57Elrpl8SOa8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-238-OVuLnBQ3PA-3G9HlK_Q8Jw-1; Sat, 15 Feb 2020 06:41:39 -0500
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-303-dunse9B6OoixF2nHW2qPlA-1; Sat, 15 Feb 2020 06:41:39 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E8CD71005512;
- Sat, 15 Feb 2020 11:41:37 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5A849107ACC9;
+ Sat, 15 Feb 2020 11:41:38 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-117-234.ams2.redhat.com
  [10.36.117.234])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B9BB95C114;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CA7A726FB6;
  Sat, 15 Feb 2020 11:41:37 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 4BC7C1136363; Sat, 15 Feb 2020 12:41:33 +0100 (CET)
+ id 4F3EC1136365; Sat, 15 Feb 2020 12:41:33 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 14/18] qapi/ui.json: Avoid `...' Texinfo style quoting
-Date: Sat, 15 Feb 2020 12:41:29 +0100
-Message-Id: <20200215114133.15097-15-armbru@redhat.com>
+Subject: [PULL 15/18] qapi: Use explicit bulleted lists
+Date: Sat, 15 Feb 2020 12:41:30 +0100
+Message-Id: <20200215114133.15097-16-armbru@redhat.com>
 In-Reply-To: <20200215114133.15097-1-armbru@redhat.com>
 References: <20200215114133.15097-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: OVuLnBQ3PA-3G9HlK_Q8Jw-1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: dunse9B6OoixF2nHW2qPlA-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,69 +80,614 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Peter Maydell <peter.maydell@linaro.org>
 
-Avoid Texinfo style quoting with `...', because we would like to
-switch the doc comments to rST format, and rST treats it as a syntax
-error. Use '...' instead, as we do in other doc comments. This looks
-OK in Texinfo, and rST formats it as paired-quotation-marks.
+A JSON block comment like this:
+     Returns: nothing on success
+              If @node is not a valid block device, DeviceNotFound
+              If @name is not found, GenericError with an explanation
+
+renders like this:
+
+     Returns: nothing on success If node is not a valid block device,
+     DeviceNotFound If name is not found, GenericError with an explanation
+
+because whitespace is not significant.
+
+Use an actual bulleted list, so that the formatting is correct.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Message-Id: <20200213175647.17628-14-peter.maydell@linaro.org>
+Message-Id: <20200213175647.17628-15-peter.maydell@linaro.org>
+Message-Id: <20200213175647.17628-16-peter.maydell@linaro.org>
+[Three commits squashed into one]
 Reviewed-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20200213175647.17628-13-peter.maydell@linaro.org>
-[Commit message tweaked]
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- qapi/ui.json | 24 ++++++++++++------------
- 1 file changed, 12 insertions(+), 12 deletions(-)
+ qapi/block-core.json | 108 +++++++++++++++++++++----------------------
+ qapi/block.json      |  33 ++++++-------
+ qapi/misc.json       |  36 +++++++--------
+ qapi/tpm.json        |   4 +-
+ qapi/ui.json         |  63 +++++++++++++------------
+ 5 files changed, 119 insertions(+), 125 deletions(-)
 
+diff --git a/qapi/block-core.json b/qapi/block-core.json
+index 31f7a1281c..082aca3f69 100644
+--- a/qapi/block-core.json
++++ b/qapi/block-core.json
+@@ -1326,8 +1326,8 @@
+ #
+ # @size:  new image size in bytes
+ #
+-# Returns: nothing on success
+-#          If @device is not a valid block device, DeviceNotFound
++# Returns: - nothing on success
++#          - If @device is not a valid block device, DeviceNotFound
+ #
+ # Since: 0.14.0
+ #
+@@ -1510,8 +1510,8 @@
+ #
+ # For the arguments, see the documentation of BlockdevSnapshotSync.
+ #
+-# Returns: nothing on success
+-#          If @device is not a valid block device, DeviceNotFound
++# Returns: - nothing on success
++#          - If @device is not a valid block device, DeviceNotFound
+ #
+ # Since: 0.14.0
+ #
+@@ -1586,9 +1586,8 @@
+ #                when specifying the string or the image chain may
+ #                not be able to be reopened again.
+ #
+-# Returns: Nothing on success
+-#
+-#          If "device" does not exist or cannot be determined, DeviceNotFo=
+und
++# Returns: - Nothing on success
++#          - If "device" does not exist or cannot be determined, DeviceNot=
+Found
+ #
+ # Since: 2.1
+ ##
+@@ -1674,9 +1673,9 @@
+ #                list without user intervention.
+ #                Defaults to true. (Since 3.1)
+ #
+-# Returns: Nothing on success
+-#          If @device does not exist, DeviceNotFound
+-#          Any other error returns a GenericError.
++# Returns: - Nothing on success
++#          - If @device does not exist, DeviceNotFound
++#          - Any other error returns a GenericError.
+ #
+ # Since: 1.3
+ #
+@@ -1704,8 +1703,8 @@
+ # The operation can be stopped before it has completed using the
+ # block-job-cancel command.
+ #
+-# Returns: nothing on success
+-#          If @device is not a valid block device, GenericError
++# Returns: - nothing on success
++#          - If @device is not a valid block device, GenericError
+ #
+ # Since: 1.6
+ #
+@@ -1730,8 +1729,8 @@
+ # The operation can be stopped before it has completed using the
+ # block-job-cancel command.
+ #
+-# Returns: nothing on success
+-#          If @device is not a valid block device, DeviceNotFound
++# Returns: - nothing on success
++#          - If @device is not a valid block device, DeviceNotFound
+ #
+ # Since: 2.3
+ #
+@@ -1925,8 +1924,8 @@
+ # format of the mirror image, default is to probe if mode=3D'existing',
+ # else the format of the source.
+ #
+-# Returns: nothing on success
+-#          If @device is not a valid block device, GenericError
++# Returns: - nothing on success
++#          - If @device is not a valid block device, GenericError
+ #
+ # Since: 1.3
+ #
+@@ -2097,9 +2096,9 @@
+ #
+ # Create a dirty bitmap with a name on the node, and start tracking the wr=
+ites.
+ #
+-# Returns: nothing on success
+-#          If @node is not a valid block device or node, DeviceNotFound
+-#          If @name is already taken, GenericError with an explanation
++# Returns: - nothing on success
++#          - If @node is not a valid block device or node, DeviceNotFound
++#          - If @name is already taken, GenericError with an explanation
+ #
+ # Since: 2.4
+ #
+@@ -2120,10 +2119,10 @@
+ # with block-dirty-bitmap-add. If the bitmap is persistent, remove it from=
+ its
+ # storage too.
+ #
+-# Returns: nothing on success
+-#          If @node is not a valid block device or node, DeviceNotFound
+-#          If @name is not found, GenericError with an explanation
+-#          if @name is frozen by an operation, GenericError
++# Returns: - nothing on success
++#          - If @node is not a valid block device or node, DeviceNotFound
++#          - If @name is not found, GenericError with an explanation
++#          - if @name is frozen by an operation, GenericError
+ #
+ # Since: 2.4
+ #
+@@ -2144,9 +2143,9 @@
+ # backup from this point in time forward will only backup clusters
+ # modified after this clear operation.
+ #
+-# Returns: nothing on success
+-#          If @node is not a valid block device, DeviceNotFound
+-#          If @name is not found, GenericError with an explanation
++# Returns: - nothing on success
++#          - If @node is not a valid block device, DeviceNotFound
++#          - If @name is not found, GenericError with an explanation
+ #
+ # Since: 2.4
+ #
+@@ -2165,9 +2164,9 @@
+ #
+ # Enables a dirty bitmap so that it will begin tracking disk changes.
+ #
+-# Returns: nothing on success
+-#          If @node is not a valid block device, DeviceNotFound
+-#          If @name is not found, GenericError with an explanation
++# Returns: - nothing on success
++#          - If @node is not a valid block device, DeviceNotFound
++#          - If @name is not found, GenericError with an explanation
+ #
+ # Since: 4.0
+ #
+@@ -2186,9 +2185,9 @@
+ #
+ # Disables a dirty bitmap so that it will stop tracking disk changes.
+ #
+-# Returns: nothing on success
+-#          If @node is not a valid block device, DeviceNotFound
+-#          If @name is not found, GenericError with an explanation
++# Returns: - nothing on success
++#          - If @node is not a valid block device, DeviceNotFound
++#          - If @name is not found, GenericError with an explanation
+ #
+ # Since: 4.0
+ #
+@@ -2215,11 +2214,11 @@
+ # of the source bitmaps. This can be used to achieve backup checkpoints, o=
+r in
+ # simpler usages, to copy bitmaps.
+ #
+-# Returns: nothing on success
+-#          If @node is not a valid block device, DeviceNotFound
+-#          If any bitmap in @bitmaps or @target is not found, GenericError
+-#          If any of the bitmaps have different sizes or granularities,
+-#              GenericError
++# Returns: - nothing on success
++#          - If @node is not a valid block device, DeviceNotFound
++#          - If any bitmap in @bitmaps or @target is not found, GenericErr=
+or
++#          - If any of the bitmaps have different sizes or granularities,
++#            GenericError
+ #
+ # Since: 4.0
+ #
+@@ -2251,10 +2250,10 @@
+ #
+ # Get bitmap SHA256.
+ #
+-# Returns: BlockDirtyBitmapSha256 on success
+-#          If @node is not a valid block device, DeviceNotFound
+-#          If @name is not found or if hashing has failed, GenericError wi=
+th an
+-#          explanation
++# Returns: - BlockDirtyBitmapSha256 on success
++#          - If @node is not a valid block device, DeviceNotFound
++#          - If @name is not found or if hashing has failed, GenericError =
+with an
++#            explanation
+ #
+ # Since: 2.10
+ ##
+@@ -2371,8 +2370,8 @@
+ # the device will be removed from its group and the rest of its
+ # members will not be affected. The 'group' parameter is ignored.
+ #
+-# Returns: Nothing on success
+-#          If @device is not a valid block device, DeviceNotFound
++# Returns: - Nothing on success
++#          - If @device is not a valid block device, DeviceNotFound
+ #
+ # Since: 1.1
+ #
+@@ -2622,7 +2621,8 @@
+ #                list without user intervention.
+ #                Defaults to true. (Since 3.1)
+ #
+-# Returns: Nothing on success. If @device does not exist, DeviceNotFound.
++# Returns: - Nothing on success.
++#          - If @device does not exist, DeviceNotFound.
+ #
+ # Since: 1.1
+ #
+@@ -2656,8 +2656,8 @@
+ # @speed: the maximum speed, in bytes per second, or 0 for unlimited.
+ #         Defaults to 0.
+ #
+-# Returns: Nothing on success
+-#          If no background operation is active on this device, DeviceNotA=
+ctive
++# Returns: - Nothing on success
++#          - If no background operation is active on this device, DeviceNo=
+tActive
+ #
+ # Since: 1.1
+ ##
+@@ -2696,8 +2696,8 @@
+ #         abandon the job immediately (even if it is paused) instead of wa=
+iting
+ #         for the destination to complete its final synchronization (since=
+ 1.3)
+ #
+-# Returns: Nothing on success
+-#          If no background operation is active on this device, DeviceNotA=
+ctive
++# Returns: - Nothing on success
++#          - If no background operation is active on this device, DeviceNo=
+tActive
+ #
+ # Since: 1.1
+ ##
+@@ -2720,8 +2720,8 @@
+ #          the name of the parameter), but since QEMU 2.7 it can have
+ #          other values.
+ #
+-# Returns: Nothing on success
+-#          If no background operation is active on this device, DeviceNotA=
+ctive
++# Returns: - Nothing on success
++#          - If no background operation is active on this device, DeviceNo=
+tActive
+ #
+ # Since: 1.3
+ ##
+@@ -2742,8 +2742,8 @@
+ #          the name of the parameter), but since QEMU 2.7 it can have
+ #          other values.
+ #
+-# Returns: Nothing on success
+-#          If no background operation is active on this device, DeviceNotA=
+ctive
++# Returns: - Nothing on success
++#          - If no background operation is active on this device, DeviceNo=
+tActive
+ #
+ # Since: 1.3
+ ##
+@@ -2770,8 +2770,8 @@
+ #          the name of the parameter), but since QEMU 2.7 it can have
+ #          other values.
+ #
+-# Returns: Nothing on success
+-#          If no background operation is active on this device, DeviceNotA=
+ctive
++# Returns: - Nothing on success
++#          - If no background operation is active on this device, DeviceNo=
+tActive
+ #
+ # Since: 1.3
+ ##
+diff --git a/qapi/block.json b/qapi/block.json
+index 65eaacf31a..da19834db4 100644
+--- a/qapi/block.json
++++ b/qapi/block.json
+@@ -115,15 +115,12 @@
+ #
+ # For the arguments, see the documentation of BlockdevSnapshotInternal.
+ #
+-# Returns: nothing on success
+-#
+-#          If @device is not a valid block device, GenericError
+-#
+-#          If any snapshot matching @name exists, or @name is empty,
+-#          GenericError
+-#
+-#          If the format of the image used does not support it,
+-#          BlockFormatFeatureNotSupported
++# Returns: - nothing on success
++#          - If @device is not a valid block device, GenericError
++#          - If any snapshot matching @name exists, or @name is empty,
++#            GenericError
++#          - If the format of the image used does not support it,
++#            BlockFormatFeatureNotSupported
+ #
+ # Since: 1.7
+ #
+@@ -154,12 +151,12 @@
+ #
+ # @name: optional the snapshot's name to be deleted
+ #
+-# Returns: SnapshotInfo on success
+-#          If @device is not a valid block device, GenericError
+-#          If snapshot not found, GenericError
+-#          If the format of the image used does not support it,
+-#          BlockFormatFeatureNotSupported
+-#          If @id and @name are both not specified, GenericError
++# Returns: - SnapshotInfo on success
++#          - If @device is not a valid block device, GenericError
++#          - If snapshot not found, GenericError
++#          - If the format of the image used does not support it,
++#            BlockFormatFeatureNotSupported
++#          - If @id and @name are both not specified, GenericError
+ #
+ # Since: 1.7
+ #
+@@ -197,10 +194,8 @@
+ # @force: If true, eject regardless of whether the drive is locked.
+ #         If not specified, the default value is false.
+ #
+-# Returns:  Nothing on success
+-#
+-#           If @device is not a valid block device, DeviceNotFound
+-#
++# Returns: - Nothing on success
++#          - If @device is not a valid block device, DeviceNotFound
+ # Notes:    Ejecting a device with no media results in success
+ #
+ # Since: 0.14.0
+diff --git a/qapi/misc.json b/qapi/misc.json
+index 46e0abdfe7..af00279e7b 100644
+--- a/qapi/misc.json
++++ b/qapi/misc.json
+@@ -430,12 +430,10 @@
+ #
+ # Return information about the balloon device.
+ #
+-# Returns: @BalloonInfo on success
+-#
+-#          If the balloon driver is enabled but not functional because the=
+ KVM
+-#          kernel module cannot support it, KvmMissingCap
+-#
+-#          If no balloon device is present, DeviceNotActive
++# Returns: - @BalloonInfo on success
++#          - If the balloon driver is enabled but not functional because t=
+he KVM
++#            kernel module cannot support it, KvmMissingCap
++#          - If no balloon device is present, DeviceNotActive
+ #
+ # Since: 0.14.0
+ #
+@@ -492,8 +490,8 @@
+ #
+ # @bar: the index of the Base Address Register for this region
+ #
+-# @type: 'io' if the region is a PIO region
+-#        'memory' if the region is a MMIO region
++# @type: - 'io' if the region is a PIO region
++#        - 'memory' if the region is a MMIO region
+ #
+ # @size: memory size
+ #
+@@ -1004,10 +1002,10 @@
+ #
+ # @value: the target size of the balloon in bytes
+ #
+-# Returns: Nothing on success
+-#          If the balloon driver is enabled but not functional because the=
+ KVM
++# Returns: - Nothing on success
++#          - If the balloon driver is enabled but not functional because t=
+he KVM
+ #            kernel module cannot support it, KvmMissingCap
+-#          If no balloon device is present, DeviceNotActive
++#          - If no balloon device is present, DeviceNotActive
+ #
+ # Notes: This command just issues a request to the guest.  When it returns=
+,
+ #        the balloon size may not have changed.  A guest can change the ba=
+lloon
+@@ -1086,8 +1084,8 @@
+ #       If @device is 'vnc' and @target is 'password', this is the new VNC
+ #       password to set.  See change-vnc-password for additional notes.
+ #
+-# Returns: Nothing on success.
+-#          If @device is not a valid block device, DeviceNotFound
++# Returns: - Nothing on success.
++#          - If @device is not a valid block device, DeviceNotFound
+ #
+ # Notes: This interface is deprecated, and it is strongly recommended that=
+ you
+ #        avoid using it.  For changing block devices, use
+@@ -1237,11 +1235,9 @@
+ #
+ # @opaque: A free-form string that can be used to describe the fd.
+ #
+-# Returns: @AddfdInfo on success
+-#
+-#          If file descriptor was not received, FdNotSupplied
+-#
+-#          If @fdset-id is a negative value, InvalidParameterValue
++# Returns: - @AddfdInfo on success
++#          - If file descriptor was not received, FdNotSupplied
++#          - If @fdset-id is a negative value, InvalidParameterValue
+ #
+ # Notes: The list of fd sets is shared by all monitor connections.
+ #
+@@ -1269,8 +1265,8 @@
+ #
+ # @fd: The file descriptor that is to be removed.
+ #
+-# Returns: Nothing on success
+-#          If @fdset-id or @fd is not found, FdNotFound
++# Returns: - Nothing on success
++#          - If @fdset-id or @fd is not found, FdNotFound
+ #
+ # Since: 1.2.0
+ #
+diff --git a/qapi/tpm.json b/qapi/tpm.json
+index 63878aa0f4..dc1f081739 100644
+--- a/qapi/tpm.json
++++ b/qapi/tpm.json
+@@ -96,8 +96,8 @@
+ #
+ # A union referencing different TPM backend types' configuration options
+ #
+-# @type: 'passthrough' The configuration options for the TPM passthrough t=
+ype
+-#        'emulator' The configuration options for TPM emulator backend typ=
+e
++# @type: - 'passthrough' The configuration options for the TPM passthrough=
+ type
++#        - 'emulator' The configuration options for TPM emulator backend t=
+ype
+ #
+ # Since: 1.5
+ ##
 diff --git a/qapi/ui.json b/qapi/ui.json
-index e8b8b708c7..088a8680ef 100644
+index 088a8680ef..e4bd3d8ea7 100644
 --- a/qapi/ui.json
 +++ b/qapi/ui.json
-@@ -12,16 +12,16 @@
+@@ -12,8 +12,8 @@
  #
  # Sets the password of a remote display session.
  #
--# @protocol: `vnc' to modify the VNC server password
--#            `spice' to modify the Spice server password
-+# @protocol: 'vnc' to modify the VNC server password
-+#            'spice' to modify the Spice server password
+-# @protocol: 'vnc' to modify the VNC server password
+-#            'spice' to modify the Spice server password
++# @protocol: - 'vnc' to modify the VNC server password
++#            - 'spice' to modify the Spice server password
  #
  # @password: the new password
  #
- # @connected: how to handle existing clients when changing the
--#             password.  If nothing is specified, defaults to `keep'
--#             `fail' to fail the command if clients are connected
--#             `disconnect' to disconnect existing clients
--#             `keep' to maintain existing clients
-+#             password.  If nothing is specified, defaults to 'keep'
-+#             'fail' to fail the command if clients are connected
-+#             'disconnect' to disconnect existing clients
-+#             'keep' to maintain existing clients
+@@ -23,8 +23,8 @@
+ #             'disconnect' to disconnect existing clients
+ #             'keep' to maintain existing clients
  #
- # Returns: Nothing on success
- #          If Spice is not enabled, DeviceNotFound
-@@ -43,16 +43,16 @@
- #
- # Expire the password of a remote display server.
- #
--# @protocol: the name of the remote display protocol `vnc' or `spice'
-+# @protocol: the name of the remote display protocol 'vnc' or 'spice'
- #
- # @time: when to expire the password.
--#        `now' to expire the password immediately
--#        `never' to cancel password expiration
--#        `+INT' where INT is the number of seconds from now (integer)
--#        `INT' where INT is the absolute time in seconds
-+#        'now' to expire the password immediately
-+#        'never' to cancel password expiration
-+#        '+INT' where INT is the number of seconds from now (integer)
-+#        'INT' where INT is the absolute time in seconds
- #
- # Returns: Nothing on success
--#          If @protocol is `spice' and Spice is not active, DeviceNotFound
-+#          If @protocol is 'spice' and Spice is not active, DeviceNotFound
+-# Returns: Nothing on success
+-#          If Spice is not enabled, DeviceNotFound
++# Returns: - Nothing on success
++#          - If Spice is not enabled, DeviceNotFound
  #
  # Since: 0.14.0
+ #
+@@ -46,13 +46,14 @@
+ # @protocol: the name of the remote display protocol 'vnc' or 'spice'
+ #
+ # @time: when to expire the password.
+-#        'now' to expire the password immediately
+-#        'never' to cancel password expiration
+-#        '+INT' where INT is the number of seconds from now (integer)
+-#        'INT' where INT is the absolute time in seconds
+ #
+-# Returns: Nothing on success
+-#          If @protocol is 'spice' and Spice is not active, DeviceNotFound
++#        - 'now' to expire the password immediately
++#        - 'never' to cancel password expiration
++#        - '+INT' where INT is the number of seconds from now (integer)
++#        - 'INT' where INT is the absolute time in seconds
++#
++# Returns: - Nothing on success
++#          - If @protocol is 'spice' and Spice is not active, DeviceNotFou=
+nd
+ #
+ # Since: 0.14.0
+ #
+@@ -201,9 +202,10 @@
+ # @tls-port: The SPICE server's TLS port number.
+ #
+ # @auth: the current authentication type used by the server
+-#        'none'  if no authentication is being used
+-#        'spice' uses SASL or direct TLS authentication, depending on comm=
+and
+-#                line options
++#
++#        - 'none'  if no authentication is being used
++#        - 'spice' uses SASL or direct TLS authentication, depending on co=
+mmand
++#          line options
+ #
+ # @mouse-mode: The mode in which the mouse cursor is displayed currently. =
+Can
+ #              be determined by the client or the server, or unknown if sp=
+ice
+@@ -433,27 +435,28 @@
+ # @host: The hostname the VNC server is bound to.  This depends on
+ #        the name resolution on the host and may be an IP address.
+ #
+-# @family: 'ipv6' if the host is listening for IPv6 connections
+-#                    'ipv4' if the host is listening for IPv4 connections
+-#                    'unix' if the host is listening on a unix domain sock=
+et
+-#                    'unknown' otherwise
++# @family: - 'ipv6' if the host is listening for IPv6 connections
++#          - 'ipv4' if the host is listening for IPv4 connections
++#          - 'unix' if the host is listening on a unix domain socket
++#          - 'unknown' otherwise
+ #
+ # @service: The service name of the server's port.  This may depends
+ #           on the host system's service database so symbolic names should=
+ not
+ #           be relied on.
+ #
+ # @auth: the current authentication type used by the server
+-#        'none' if no authentication is being used
+-#        'vnc' if VNC authentication is being used
+-#        'vencrypt+plain' if VEncrypt is used with plain text authenticati=
+on
+-#        'vencrypt+tls+none' if VEncrypt is used with TLS and no authentic=
+ation
+-#        'vencrypt+tls+vnc' if VEncrypt is used with TLS and VNC authentic=
+ation
+-#        'vencrypt+tls+plain' if VEncrypt is used with TLS and plain text =
+auth
+-#        'vencrypt+x509+none' if VEncrypt is used with x509 and no auth
+-#        'vencrypt+x509+vnc' if VEncrypt is used with x509 and VNC auth
+-#        'vencrypt+x509+plain' if VEncrypt is used with x509 and plain tex=
+t auth
+-#        'vencrypt+tls+sasl' if VEncrypt is used with TLS and SASL auth
+-#        'vencrypt+x509+sasl' if VEncrypt is used with x509 and SASL auth
++#
++#        - 'none' if no authentication is being used
++#        - 'vnc' if VNC authentication is being used
++#        - 'vencrypt+plain' if VEncrypt is used with plain text authentica=
+tion
++#        - 'vencrypt+tls+none' if VEncrypt is used with TLS and no authent=
+ication
++#        - 'vencrypt+tls+vnc' if VEncrypt is used with TLS and VNC authent=
+ication
++#        - 'vencrypt+tls+plain' if VEncrypt is used with TLS and plain tex=
+t auth
++#        - 'vencrypt+x509+none' if VEncrypt is used with x509 and no auth
++#        - 'vencrypt+x509+vnc' if VEncrypt is used with x509 and VNC auth
++#        - 'vencrypt+x509+plain' if VEncrypt is used with x509 and plain t=
+ext auth
++#        - 'vencrypt+tls+sasl' if VEncrypt is used with TLS and SASL auth
++#        - 'vencrypt+x509+sasl' if VEncrypt is used with x509 and SASL aut=
+h
+ #
+ # @clients: a list of @VncClientInfo of all currently connected clients
+ #
+@@ -840,8 +843,8 @@
+ # @hold-time: time to delay key up events, milliseconds. Defaults
+ #             to 100
+ #
+-# Returns: Nothing on success
+-#          If key is unknown or redundant, InvalidParameter
++# Returns: - Nothing on success
++#          - If key is unknown or redundant, InvalidParameter
+ #
+ # Since: 1.3.0
  #
 --=20
 2.21.1
