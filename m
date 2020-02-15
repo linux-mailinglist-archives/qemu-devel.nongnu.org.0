@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D318E15FFFB
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 Feb 2020 20:17:24 +0100 (CET)
-Received: from localhost ([::1]:53762 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 584ED15FFFE
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 Feb 2020 20:19:17 +0100 (CET)
+Received: from localhost ([::1]:53788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j32wN-0001zh-Sg
-	for lists+qemu-devel@lfdr.de; Sat, 15 Feb 2020 14:17:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35331)
+	id 1j32yC-0005rX-D8
+	for lists+qemu-devel@lfdr.de; Sat, 15 Feb 2020 14:19:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35345)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1j32v0-0008UU-Fd
- for qemu-devel@nongnu.org; Sat, 15 Feb 2020 14:15:59 -0500
+ id 1j32v1-000062-Gs
+ for qemu-devel@nongnu.org; Sat, 15 Feb 2020 14:16:01 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1j32uz-0004Ix-Cv
- for qemu-devel@nongnu.org; Sat, 15 Feb 2020 14:15:58 -0500
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:35985)
+ id 1j32v0-0004Jn-Gc
+ for qemu-devel@nongnu.org; Sat, 15 Feb 2020 14:15:59 -0500
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:39973)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1j32uz-0004IO-5j; Sat, 15 Feb 2020 14:15:57 -0500
-Received: by mail-wr1-x443.google.com with SMTP id z3so14951006wru.3;
- Sat, 15 Feb 2020 11:15:57 -0800 (PST)
+ id 1j32v0-0004JQ-AL; Sat, 15 Feb 2020 14:15:58 -0500
+Received: by mail-wr1-x444.google.com with SMTP id t3so14908650wru.7;
+ Sat, 15 Feb 2020 11:15:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=i66d8bTofo8A1vTFZIP/v8pdqf575/6M5yHqFaN2D1Y=;
- b=DVzqPDvEMgxD4sqlWzOEkOo5vTAVTPi4eNO3RVn7lo46y7UkpcxQAPjtgYqWXW9KU1
- cUs1NXiN8ntwY0zgpdB1J/g6w1UlM2ARTWXtVoaOpFC9XaeCNZfYuBq/AXLtKv4zx2C5
- DuJg1p6Hm8ZtGOiNSRY1NqKBlQojqt8Z/VzuL0G+JCy0ESgMkjY0UbxQPIB3EE0eVNQm
- oeTaMn/L4kRMvKCNPIS9RNEXHFrlmxz1Cvmp/zJXDNXqgW9PnjII2srOA+xhqL7eriOT
- 7k7XKM2M+zStTiE4uNI5dnPuhCkV+7AVYjqTAUmjq3iHNZoPDb8GRzMphp6tDeAjo4nA
- xsyw==
+ bh=uxynYOVPY9FVrupSLyC8th1oxyDcEka8bWnY9WEi7fw=;
+ b=P4ohMMxR9cNR+cL8ZEDGWT7b7v8HasOKB2ILUyTUAlhqfvqEVhxD2MXV+XcYA7dX5o
+ jtFBvrI23E9VKqqn9JbEHmfNYfbTlOzCLdkdQdIxVtG2xqai66b127D++bq581dHw3kJ
+ 5/R2Jne/3VH0DzqDJHPsyptpmAX8h0W4YNg4qRuFWuO7NSxeRc6evTPvBSD8YnKlQPSG
+ dEiEKd7UOTbTb0Ds6tT9gJCfCplIHK/0LAFu8Kvz18IudPSnt8dYNK7ttMP0nMLcZ3dE
+ 7dGM+SZ68JnUUV1HbW/7EpFCFYYkbRBUc9MAYecaC32f+z1FHDrfRVvTV6jkZlGKx76f
+ cjjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=i66d8bTofo8A1vTFZIP/v8pdqf575/6M5yHqFaN2D1Y=;
- b=fQpfRYHfN9MUGd+QyFswZVSMUZNV1s7FmDPvJn53aS4x6eELbqimv4oS66e7gQG57V
- pvpJhkSWB4jXqXpTVOtZRKs8DTUUXSYq94E1JyzeheEEKEH7lc1lpfJljsMjkNPAvbXF
- EHD9pVxizeghneAlyKqrjaA/do4HM3xA29RWIbq69ky8WcQdnPPivXKLA7D7DoawRe5S
- yGXFTBc5/Q8mLwqSb+mfew10r6MHivr0L8Jv+3njhWMI9mUdksa5CvbBQmLokr6fX4z8
- BNDPyCQziod7rMzP4A9WyZL+qlKlwPlKYlQrGxctBFHc9c1I8Lm2mAhW1cdF9okoYNJJ
- hOXg==
-X-Gm-Message-State: APjAAAWsHlMu5L9L1a3Vx0ZPe5n59uMIPj25gGCWjqYcgPkfJeJuGzkB
- ZUEWfS2x0kqHb0LQaJdLANDQ+xU8eLg=
-X-Google-Smtp-Source: APXvYqytZlWM6/Cb80eXdwPBy4l2NaBTACS/3gW/fV3fuvwnRZ3WrScQASl3axb7QNPKR/i19qGNLg==
-X-Received: by 2002:a5d:6390:: with SMTP id p16mr11767963wru.170.1581794155953; 
- Sat, 15 Feb 2020 11:15:55 -0800 (PST)
+ bh=uxynYOVPY9FVrupSLyC8th1oxyDcEka8bWnY9WEi7fw=;
+ b=B4+rV7vAD/sTr86Fd9KZRYqpisSdDxsbRhgvxVKLo18k3czD/2+YM7sgfP4G3Qdr1G
+ +M7COkZaxRiNN2BHwirNzh6mHtZjpwjcz0YFRCjLcoWOBaHlxxOPvLfhbK0li15fBQ1m
+ SFd9LfnFO+MkDrnvQUMuUYju+m2tavLWey1hoNRyv00ROAopCUAc35fsJ3CmbNfNQZy8
+ BBIMt8+R7ExxaTl4l/e+n8lUu2uCWXZGCNL+2hF/YlG2ERy39sivVIm4ta3n1gPNNmV5
+ RpJni3HWMnxSf4ws+xbtJbsSIfsfIZmx/WPKwlze75x5JujmZEVtxg+fu/lQDw7RJazE
+ GTIg==
+X-Gm-Message-State: APjAAAUHAVAqOrPXe46NGr5abqWcLHqMXw56kgQFV2vYZ8dcjuxqp3Hp
+ siM4nHOr1NsZTTHUGDYCghkx3brGfEw=
+X-Google-Smtp-Source: APXvYqyKsc1qpNlhCSnXzR+Yr5hmMPb5bgFcCDFwkJjZ4JRb34TjvATAeJMXsHC9Ez4Z44SYQSOlaQ==
+X-Received: by 2002:a5d:6144:: with SMTP id y4mr10979700wrt.367.1581794157269; 
+ Sat, 15 Feb 2020 11:15:57 -0800 (PST)
 Received: from localhost.localdomain (78.red-88-21-202.staticip.rima-tde.net.
  [88.21.202.78])
- by smtp.gmail.com with ESMTPSA id o9sm9678605wrw.20.2020.02.15.11.15.54
+ by smtp.gmail.com with ESMTPSA id o9sm9678605wrw.20.2020.02.15.11.15.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 15 Feb 2020 11:15:55 -0800 (PST)
+ Sat, 15 Feb 2020 11:15:56 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 07/12] hw/arm/bcm2836: Introduce BCM283XClass::core_count
-Date: Sat, 15 Feb 2020 20:15:38 +0100
-Message-Id: <20200215191543.3235-8-f4bug@amsat.org>
+Subject: [PATCH 08/12] hw/arm/bcm2836: Only provide "enabled-cpus" property to
+ multicore SoCs
+Date: Sat, 15 Feb 2020 20:15:39 +0100
+Message-Id: <20200215191543.3235-9-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200215191543.3235-1-f4bug@amsat.org>
 References: <20200215191543.3235-1-f4bug@amsat.org>
@@ -69,7 +70,7 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::443
+X-Received-From: 2a00:1450:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,60 +90,67 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The BCM2835 has only one core. Introduce the core_count field to
-be able to use values different than BCM283X_NCPUS (4).
+It makes no sense to set enabled-cpus=0 on single core SoCs.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/arm/bcm2836.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ hw/arm/bcm2836.c | 15 +++++++--------
+ 1 file changed, 7 insertions(+), 8 deletions(-)
 
 diff --git a/hw/arm/bcm2836.c b/hw/arm/bcm2836.c
-index 683d04d6ea..3b95ad11e9 100644
+index 3b95ad11e9..caaa4b625e 100644
 --- a/hw/arm/bcm2836.c
 +++ b/hw/arm/bcm2836.c
-@@ -21,6 +21,7 @@ typedef struct BCM283XClass {
-     DeviceClass parent_class;
-     /*< public >*/
-     const char *cpu_type;
-+    int core_count;
-     hwaddr peri_base; /* Peripheral base address seen by the CPU */
-     hwaddr ctrl_base; /* Interrupt controller and mailboxes etc. */
-     int clusterid;
-@@ -37,7 +38,7 @@ static void bcm2836_init(Object *obj)
-     BCM283XClass *bc = BCM283X_GET_CLASS(obj);
-     int n;
+@@ -32,6 +32,9 @@ typedef struct BCM283XClass {
+ #define BCM283X_GET_CLASS(obj) \
+     OBJECT_GET_CLASS(BCM283XClass, (obj), TYPE_BCM283X)
  
--    for (n = 0; n < BCM283X_NCPUS; n++) {
-+    for (n = 0; n < bc->core_count; n++) {
-         object_initialize_child(obj, "cpu[*]", &s->cpu[n].core,
++static Property bcm2836_enabled_cores_property =
++    DEFINE_PROP_UINT32("enabled-cpus", BCM283XState, enabled_cpus, 0);
++
+ static void bcm2836_init(Object *obj)
+ {
+     BCM283XState *s = BCM283X(obj);
+@@ -43,6 +46,10 @@ static void bcm2836_init(Object *obj)
                                  sizeof(s->cpu[n].core), bc->cpu_type,
                                  &error_abort, NULL);
-@@ -107,7 +108,7 @@ static void bcm2836_realize(DeviceState *dev, Error **errp)
-     sysbus_connect_irq(SYS_BUS_DEVICE(&s->peripherals), 1,
-         qdev_get_gpio_in_named(DEVICE(&s->control), "gpu-fiq", 0));
+     }
++    if (bc->core_count) {
++        qdev_property_add_static(DEVICE(obj), &bcm2836_enabled_cores_property);
++        qdev_prop_set_uint32(DEVICE(obj), "enabled-cpus", bc->core_count);
++    }
  
--    for (n = 0; n < BCM283X_NCPUS; n++) {
-+    for (n = 0; n < bc->core_count; n++) {
-         /* TODO: this should be converted to a property of ARM_CPU */
-         s->cpu[n].core.mp_affinity = (bc->clusterid << 8) | n;
+     sysbus_init_child_obj(obj, "control", &s->control, sizeof(s->control),
+                           TYPE_BCM2836_CONTROL);
+@@ -154,12 +161,6 @@ static void bcm2836_realize(DeviceState *dev, Error **errp)
+     }
+ }
  
-@@ -173,6 +174,7 @@ static void bcm2836_class_init(ObjectClass *oc, void *data)
-     BCM283XClass *bc = BCM283X_CLASS(oc);
- 
-     bc->cpu_type = ARM_CPU_TYPE_NAME("cortex-a7");
-+    bc->core_count = BCM283X_NCPUS;
-     bc->peri_base = 0x3f000000;
+-static Property bcm2836_props[] = {
+-    DEFINE_PROP_UINT32("enabled-cpus", BCM283XState, enabled_cpus,
+-                       BCM283X_NCPUS),
+-    DEFINE_PROP_END_OF_LIST()
+-};
+-
+ static void bcm283x_class_init(ObjectClass *oc, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(oc);
+@@ -179,7 +180,6 @@ static void bcm2836_class_init(ObjectClass *oc, void *data)
      bc->ctrl_base = 0x40000000;
      bc->clusterid = 0xf;
-@@ -187,6 +189,7 @@ static void bcm2837_class_init(ObjectClass *oc, void *data)
-     BCM283XClass *bc = BCM283X_CLASS(oc);
+     dc->realize = bcm2836_realize;
+-    device_class_set_props(dc, bcm2836_props);
+ };
  
-     bc->cpu_type = ARM_CPU_TYPE_NAME("cortex-a53");
-+    bc->core_count = BCM283X_NCPUS;
-     bc->peri_base = 0x3f000000;
+ #ifdef TARGET_AARCH64
+@@ -194,7 +194,6 @@ static void bcm2837_class_init(ObjectClass *oc, void *data)
      bc->ctrl_base = 0x40000000;
      bc->clusterid = 0x0;
+     dc->realize = bcm2836_realize;
+-    device_class_set_props(dc, bcm2836_props);
+ };
+ #endif
+ 
 -- 
 2.21.1
 
