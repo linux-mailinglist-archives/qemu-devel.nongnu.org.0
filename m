@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12EBE160108
-	for <lists+qemu-devel@lfdr.de>; Sun, 16 Feb 2020 00:07:53 +0100 (CET)
-Received: from localhost ([::1]:55455 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99A24160106
+	for <lists+qemu-devel@lfdr.de>; Sun, 16 Feb 2020 00:06:46 +0100 (CET)
+Received: from localhost ([::1]:55434 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j36XQ-0002HD-3Y
-	for lists+qemu-devel@lfdr.de; Sat, 15 Feb 2020 18:07:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59439)
+	id 1j36WL-0000H5-4h
+	for lists+qemu-devel@lfdr.de; Sat, 15 Feb 2020 18:06:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59440)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1j36VF-0007V8-Kd
+ (envelope-from <bounces@canonical.com>) id 1j36VF-0007V9-L3
  for qemu-devel@nongnu.org; Sat, 15 Feb 2020 18:05:39 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1j36VD-0002CW-UT
+ (envelope-from <bounces@canonical.com>) id 1j36VE-0002D0-5S
  for qemu-devel@nongnu.org; Sat, 15 Feb 2020 18:05:37 -0500
-Received: from indium.canonical.com ([91.189.90.7]:57372)
+Received: from indium.canonical.com ([91.189.90.7]:57384)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1j36VD-00029g-P9
- for qemu-devel@nongnu.org; Sat, 15 Feb 2020 18:05:35 -0500
+ id 1j36VD-0002AW-W3
+ for qemu-devel@nongnu.org; Sat, 15 Feb 2020 18:05:36 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1j36VC-0006mL-Fz
- for <qemu-devel@nongnu.org>; Sat, 15 Feb 2020 23:05:34 +0000
+ id 1j36VD-0006mK-7k
+ for <qemu-devel@nongnu.org>; Sat, 15 Feb 2020 23:05:35 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 6F3362E80C0
- for <qemu-devel@nongnu.org>; Sat, 15 Feb 2020 23:05:34 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 342CB2E80C0
+ for <qemu-devel@nongnu.org>; Sat, 15 Feb 2020 23:05:35 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 15 Feb 2020 22:52:54 -0000
+Date: Sat, 15 Feb 2020 22:53:35 -0000
 From: Ayman Khamouma <1863445@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -42,16 +42,17 @@ X-Launchpad-Bug-Security-Vulnerability: no
 X-Launchpad-Bug-Commenters: ak42
 X-Launchpad-Bug-Reporter: Ayman Khamouma (ak42)
 X-Launchpad-Bug-Modifier: Ayman Khamouma (ak42)
-Message-Id: <158180717472.31124.817430819772209101.malonedeb@wampee.canonical.com>
-Subject: [Bug 1863445] [NEW] assertion failed at translate-all.c:2523 with
- version 3.1.1 
+References: <158180717472.31124.817430819772209101.malonedeb@wampee.canonical.com>
+Message-Id: <158180721567.24464.456279008167343239.malone@gac.canonical.com>
+Subject: [Bug 1863445] Re: assertion failed at translate-all.c:2523 with
+ version 3.1.1
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="19413b719a8df7423ab1390528edadce9e0e4aca";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 4af479117e9a8c88e56be3c000859c09096ff3ec
+X-Launchpad-Hash: d66fab73a9d8e4eff3487ea269c2947773f9129c
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
@@ -68,33 +69,9 @@ Reply-To: Bug 1863445 <1863445@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
-
-I was trying to debug a userspace binary with radare2 and met the
-following assertion in qemu:
-
-```
-qemu-mipsel: /builddir/build/BUILD/qemu-3.1.1/accel/tcg/translate-all.c:252=
-3: page_check_range: Assertion `start < ((target_ulong)1 << L1_MAP_ADDR_SPA=
-CE_BITS)' failed.
-qemu:handle_cpu_signal received signal outside vCPU context @ pc=3D0x7fd1c1=
-1c5987
-```
-
-```
-# qemu-mipsel --version                                                    =
-                               =
-
-qemu-mipsel version 3.1.1 (qemu-3.1.1-2.fc30)
-Copyright (c) 2003-2018 Fabrice Bellard and the QEMU Project developers
-```
-
-not much to add. seems like qemu is not properly checking for valid
-addresses
-
-** Affects: qemu
-     Importance: Undecided
-         Status: New
+** Attachment added: "debuged binary"
+   https://bugs.launchpad.net/qemu/+bug/1863445/+attachment/5328542/+files/=
+ch67.zip
 
 -- =
 
