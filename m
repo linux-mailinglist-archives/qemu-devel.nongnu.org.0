@@ -2,66 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BA3B15FE8A
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 Feb 2020 14:06:49 +0100 (CET)
-Received: from localhost ([::1]:51122 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3863B15FE90
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 Feb 2020 14:16:32 +0100 (CET)
+Received: from localhost ([::1]:51204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j2x9k-0001Qi-3f
-	for lists+qemu-devel@lfdr.de; Sat, 15 Feb 2020 08:06:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57237)
+	id 1j2xJ9-0007lS-9D
+	for lists+qemu-devel@lfdr.de; Sat, 15 Feb 2020 08:16:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59029)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1j2x8c-0000A2-2n
- for qemu-devel@nongnu.org; Sat, 15 Feb 2020 08:05:39 -0500
+ (envelope-from <philmd@redhat.com>) id 1j2xIB-0007A4-Dl
+ for qemu-devel@nongnu.org; Sat, 15 Feb 2020 08:15:32 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1j2x8Z-0002hH-HD
- for qemu-devel@nongnu.org; Sat, 15 Feb 2020 08:05:37 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:49921
+ (envelope-from <philmd@redhat.com>) id 1j2xI9-0001kH-T0
+ for qemu-devel@nongnu.org; Sat, 15 Feb 2020 08:15:30 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:23543
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1j2x8Z-0002fn-DN
- for qemu-devel@nongnu.org; Sat, 15 Feb 2020 08:05:35 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j2xI9-0001iL-PE
+ for qemu-devel@nongnu.org; Sat, 15 Feb 2020 08:15:29 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581771933;
+ s=mimecast20190719; t=1581772529;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=I1bA5OGLFHfqXFmB475gsziHs61YshYEijMxzJbiKFM=;
- b=ZDzYp41yxHFAqnbZZZI24+jX9slDGvaodxHz7hbXMtLAJ50v+qNiwdk1gKmY/q9NkJjDzO
- mCL03sASxszb8PWKZwFHVQsFyYb56sABBt8Zu3tFsz2+VH+X78XeWTp9EqE1RG/uIbEZ3m
- C5JOcwDRLzvC6S4tjl8y4xS7WHwfjEk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-170-LczOHaqmPauq8qmlBdJkCA-1; Sat, 15 Feb 2020 08:05:31 -0500
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A15AF107ACC7
- for <qemu-devel@nongnu.org>; Sat, 15 Feb 2020 13:05:30 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-117-234.ams2.redhat.com
- [10.36.117.234])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6E8F15C1C3;
- Sat, 15 Feb 2020 13:05:30 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 75F7211366CD; Sat, 15 Feb 2020 14:05:27 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 5/5] qemu-doc: Clarify extent of build platform support
-Date: Sat, 15 Feb 2020 14:05:27 +0100
-Message-Id: <20200215130527.28861-6-armbru@redhat.com>
-In-Reply-To: <20200215130527.28861-1-armbru@redhat.com>
-References: <20200215130527.28861-1-armbru@redhat.com>
+ content-transfer-encoding:content-transfer-encoding;
+ bh=KWahX/RKIm+oXDeUGIHAua5W3Dyja8IhhkL4SAggSLk=;
+ b=QPoFpb8pcz2FCFxs4kGvTtg+KNlUWj1S5mWg4ph7wZGCcnO+6EFvegn4qSDGjAvtzEWl+s
+ I4m4DEgs6Zc5rgEOP7dVT4u/+Hr1eNJNiVvx0QZtLbpX7q3EOSH3K4GrqreaJq7bPzqR1P
+ MWdF+ZGBrorwaHs/HSOXFA/K37EwGYI=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-393-j8qdfXa0O6ySkes-FK32gg-1; Sat, 15 Feb 2020 08:15:25 -0500
+Received: by mail-ed1-f71.google.com with SMTP id y23so9724689edt.2
+ for <qemu-devel@nongnu.org>; Sat, 15 Feb 2020 05:15:24 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:to:cc:from:subject:message-id:date:user-agent
+ :mime-version:content-language:content-transfer-encoding;
+ bh=KWahX/RKIm+oXDeUGIHAua5W3Dyja8IhhkL4SAggSLk=;
+ b=rQiSKwkX+w3tfgJf/f/3hrr/iTLcB9liaMcUOT1VKA1reEDzY42TzrzKvxsWOER2i6
+ /6uoYYS4Z7CnEfn2cOCEYuyDEdY+ymiA8y7jQYKMU7ckTbyw65FqQc+Vu21kRe5gXwjk
+ G31eZL0owZH+MyY7JATIsETtTjysxh9WeD4gnoYrhD/9lPKlKKgvUMKwN0orwQLBUMuj
+ 8ZKB/KPlPFXbshNDcmy5QCxHlG5DsfLbG2zMUUX60ijdfywapKeFAMFZaCEN4YuQIG3K
+ IBQ81isH4uPT9c0nLXBDMsQZ97fdvVDp6QuAGuO3aG/j6JZMc+cuJd02oWYKkgM8SoGl
+ 3mHQ==
+X-Gm-Message-State: APjAAAUThIi3arm5gUw85wcWezAMqF6IbXLVxQbyaUw02JjxesMRh79T
+ 63K4IXgCkwPYOI0UxBL4+lXz5/kuEKQ5Xzz1adFoyrq6QQdPCuVlpYAotpGN6MwUeuya0bLw9RL
+ 0jjsGhN4jY1Vu/EE=
+X-Received: by 2002:a05:6402:1d28:: with SMTP id
+ dh8mr6735062edb.383.1581772523984; 
+ Sat, 15 Feb 2020 05:15:23 -0800 (PST)
+X-Google-Smtp-Source: APXvYqwTh3ucXNnYiVXopz14ZipdpbUxAx+ym6HFtgkSej0hRdYdQp1xA5CN7XkVO6vNkEn6LvaXEQ==
+X-Received: by 2002:a05:6402:1d28:: with SMTP id
+ dh8mr6735052edb.383.1581772523816; 
+ Sat, 15 Feb 2020 05:15:23 -0800 (PST)
+Received: from [192.168.1.35] (78.red-88-21-202.staticip.rima-tde.net.
+ [88.21.202.78])
+ by smtp.gmail.com with ESMTPSA id qw15sm662874ejb.92.2020.02.15.05.15.22
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 15 Feb 2020 05:15:23 -0800 (PST)
+To: Jiri Pirko <jiri@resnulli.us>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Subject: hw/net/rocker: Dubious code in tx_consume()
+Message-ID: <63e927fd-a462-a871-fcd7-c54dac07173e@redhat.com>
+Date: Sat, 15 Feb 2020 14:15:22 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: LczOHaqmPauq8qmlBdJkCA-1
+Content-Language: en-US
+X-MC-Unique: j8qdfXa0O6ySkes-FK32gg-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,48 +89,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: Jason Wang <jasowang@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Supporting a build platform beyond its end of life makes no sense.
-Spell that out just to be clear.
+Hi Jiri,
 
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20200213084335.15100-1-armbru@redhat.com>
-Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
----
- qemu-doc.texi | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+I am trying to understand this code Scott Feldman added in commit 
+dc488f88806:
 
-diff --git a/qemu-doc.texi b/qemu-doc.texi
-index a1ef6b6484..33b9597b1d 100644
---- a/qemu-doc.texi
-+++ b/qemu-doc.texi
-@@ -2880,10 +2880,11 @@ lifetime distros will be assumed to ship similar so=
-ftware versions.
-=20
- For distributions with long-lifetime releases, the project will aim to sup=
-port
- the most recent major version at all times. Support for the previous major
--version will be dropped 2 years after the new major version is released. F=
-or
--the purposes of identifying supported software versions, the project will =
-look
--at RHEL, Debian, Ubuntu LTS, and SLES distros. Other long-lifetime distros=
- will
--be assumed to ship similar software versions.
-+version will be dropped 2 years after the new major version is released,
-+or when it reaches ``end of life''. For the purposes of identifying
-+supported software versions, the project will look at RHEL, Debian,
-+Ubuntu LTS, and SLES distros. Other long-lifetime distros will be
-+assumed to ship similar software versions.
-=20
- @section Windows
-=20
---=20
-2.21.1
+  157 static int tx_consume(Rocker *r, DescInfo *info)
+  158 {
+  ...
+  212     if (tlvs[ROCKER_TLV_TX_TSO_MSS]) {
+  213         tx_tso_mss = rocker_tlv_get_le16(tlvs[ROCKER_TLV_TX_TSO_MSS]);
+  214     }
+  ...
+  252     if (iovcnt) {
+  253         /* XXX perform Tx offloads */
+  254         /* XXX   silence compiler for now */
+  255         tx_l3_csum_off += tx_tso_mss = tx_tso_hdr_len = 0;
+  256     }
+
+Nobody complained TSO_MSS is not implemented during almost 5 years.
+Can we remove this code?
+
+Thanks,
+
+Phil.
 
 
