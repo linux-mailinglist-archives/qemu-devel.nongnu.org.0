@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0F74160001
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 Feb 2020 20:21:08 +0100 (CET)
-Received: from localhost ([::1]:53832 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6B7A160004
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 Feb 2020 20:23:02 +0100 (CET)
+Received: from localhost ([::1]:53866 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j32zz-0001HA-V0
-	for lists+qemu-devel@lfdr.de; Sat, 15 Feb 2020 14:21:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35368)
+	id 1j331q-000485-0I
+	for lists+qemu-devel@lfdr.de; Sat, 15 Feb 2020 14:23:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35418)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1j32v4-0000Bh-5C
- for qemu-devel@nongnu.org; Sat, 15 Feb 2020 14:16:04 -0500
+ id 1j32v7-0000E5-G9
+ for qemu-devel@nongnu.org; Sat, 15 Feb 2020 14:16:06 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1j32v1-0004Ke-Uk
- for qemu-devel@nongnu.org; Sat, 15 Feb 2020 14:16:01 -0500
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:37974)
+ id 1j32v6-0004MY-09
+ for qemu-devel@nongnu.org; Sat, 15 Feb 2020 14:16:05 -0500
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:37340)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1j32v1-0004KB-Nf; Sat, 15 Feb 2020 14:15:59 -0500
-Received: by mail-wm1-x344.google.com with SMTP id a9so14362668wmj.3;
- Sat, 15 Feb 2020 11:15:59 -0800 (PST)
+ id 1j32v4-0004Kq-36; Sat, 15 Feb 2020 14:16:02 -0500
+Received: by mail-wm1-x342.google.com with SMTP id a6so14372256wme.2;
+ Sat, 15 Feb 2020 11:16:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=B1P152VP3CyxvJ0hiqDereblCgbtylimKSTziv7Dq7E=;
- b=b02hDSdS7FXswheyS6WfTKPHwGncAgZdFaS0oWDMx94sx3vmMqLXYhBbt/x749/0Pf
- Jlo6L1lCgnSGD+ZclnXtMbeBY5brq4JpbquK3aXZhEFwRXPTbrRjcOFgqJ2x17smcKJb
- IcUs3jXeqaWQJ4voYOD703veUoBHy647u/MPFPSP0XaQHVvf894ndYSvW++cyKfpARfr
- 5U2llqbF2k+bJbfy5hskIeuuOOt6NgqZEBAfpopOhEFoE2kBz7szT6S+ctT869cruEtM
- Jd9MYOyqBhpL/ROHaReDQG2flcGzd3zYCE+iZGFzxFe/jlsqpsvIHGQukdqME1+1NxOi
- 6ZNA==
+ bh=n/gOm3ZXg/TwLxJpokjY3cZbchzlNr35zqh4aJfwE0I=;
+ b=E3wkgZ93HkfEh/vy24ARsp0MQkSmvghpSkRDCgjBZko7bjTn0uUpl4oSJYEmOzAdIR
+ 0Q1iI9vWkEp+mpjgbD2YzQ3STbzIBa8FGYGDMEDNQdhKdf7GEGL3O1Wp16Un37Kf3qya
+ 6/ZDFoes/E+MyEWxfIYvUor/Lo1EET4QlOADn4GV9xSfxTF9OebouGiuWZIioAeKMQe8
+ lM93A9A1xYVWplKzbV3iIQ8qZnjFup0ym6GKdqsTpb8pB7nvT00erd8Ioo7k36Th5dz1
+ f01AqjBV/xgDnqe9RZVAdvBFoSCjYP/ma/w07kZgfvBXzZD/B16cVzWrne4IwPlPkbcg
+ 7oZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=B1P152VP3CyxvJ0hiqDereblCgbtylimKSTziv7Dq7E=;
- b=gipzU+LjTiF7AYPEgUVDes0SugybVziSO0hUkzB2p3o+LfURFuTTRRIv1zy9Z/J2/0
- KPImQxc+/AnSMmcXDEY1AHgaJ5AK+uNhyB7sODSpnksDvyvVfxwOmq/uPXDFCUQmsShE
- cUtTN9xj2HTd5/FfuyTrkAKMWUGR3GeiUC4MbbTA1q/0+VIzyDu40u3eDzttChVyZ8LX
- PDGfi1myH2SgZuCxzN8/sgVHMvWOeD/uWNMGQ1OJLUvIePUzGWrS0emxsMYrWrxLUT0W
- bsjsrI8lPECuWV+3TXnRylUX4iME1DGOpY7anLl7nErBcn5KWRWVQCOHJ2ypQUiMofOW
- i9Lg==
-X-Gm-Message-State: APjAAAWkoMAPg9L9wkNq11h0uFhKQIfk3AJauakS4ozDf4y12PCBvZLn
- ZB4Ro3g6fyGn/e1ZHe+pkb6GI/Wc1lk=
-X-Google-Smtp-Source: APXvYqyursPQ4IjFldgjC0DfwwEeYNrDnECcmKs77LaegRoOcQcf/WPaIfGr9n6Pdosu09fkXsoWig==
-X-Received: by 2002:a1c:4c13:: with SMTP id z19mr11737380wmf.75.1581794158566; 
- Sat, 15 Feb 2020 11:15:58 -0800 (PST)
+ bh=n/gOm3ZXg/TwLxJpokjY3cZbchzlNr35zqh4aJfwE0I=;
+ b=GSvcwAEsQF4bczctECi4KEs8xL/dH6H/QUMsUmIRPL05J1lqvWm59rrsnQK/ThXH3u
+ XinofsVXNfGUsk8OibgTMz629hDkh1iUu/Xym5sYfK8D0XK+PLHF58PHE9NFUlV+Nvro
+ 8FkmwZowS+8DbYK+7SYvlmkznN72Tnj6tCSwHXTe4uZwWyw8aAMqobHH+ELwPu+1SOc2
+ qOvMvxZgr9VnG3c24Y6X/F1JAIf7I9fcuRNMtvoauL/1ZNF60vKX+Re9/gNSKeyd9hvY
+ UY21gFOUvVoS4hYSaupkAYBcSoOYWi2pfBsuPk7rGLeJuhPTBY0KZOn/4U5rK0K7z2/9
+ S1CA==
+X-Gm-Message-State: APjAAAVPEqW6wPSSMf3E13OY4Y7hiW1tfLdiYwpBLBgXwHhuLkZNRODJ
+ cYDAS9Dr6yTzs7QDd/4rllUXaPywrmM=
+X-Google-Smtp-Source: APXvYqz3FZ5TktiXi1wfXe+ZQibqsJbo+zG77MucmdtvdLSG9xPAIvK1zAktqxEE2P5R/y44Hb0rLw==
+X-Received: by 2002:a7b:c8d2:: with SMTP id f18mr11352903wml.47.1581794159923; 
+ Sat, 15 Feb 2020 11:15:59 -0800 (PST)
 Received: from localhost.localdomain (78.red-88-21-202.staticip.rima-tde.net.
  [88.21.202.78])
- by smtp.gmail.com with ESMTPSA id o9sm9678605wrw.20.2020.02.15.11.15.57
+ by smtp.gmail.com with ESMTPSA id o9sm9678605wrw.20.2020.02.15.11.15.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 15 Feb 2020 11:15:58 -0800 (PST)
+ Sat, 15 Feb 2020 11:15:59 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 09/12] hw/arm/bcm2836: Split out common realize() code
-Date: Sat, 15 Feb 2020 20:15:40 +0100
-Message-Id: <20200215191543.3235-10-f4bug@amsat.org>
+Subject: [PATCH 10/12] hw/arm/bcm2836: Introduce the BCM2835 SoC
+Date: Sat, 15 Feb 2020 20:15:41 +0100
+Message-Id: <20200215191543.3235-11-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200215191543.3235-1-f4bug@amsat.org>
 References: <20200215191543.3235-1-f4bug@amsat.org>
@@ -69,7 +69,7 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::344
+X-Received-From: 2a00:1450:4864:20::342
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,78 +89,110 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The realize() function is clearly composed of two parts,
-each described by a comment:
-
-  void realize()
-  {
-     /* common peripherals from bcm2835 */
-     ...
-     /* bcm2836 interrupt controller (and mailboxes, etc.) */
-     ...
-   }
-
-Split the two part, so we can reuse the common part with other
-SoCs from this family.
-
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/arm/bcm2836.c | 23 +++++++++++++++++++----
- 1 file changed, 19 insertions(+), 4 deletions(-)
+ include/hw/arm/bcm2836.h |  1 +
+ hw/arm/bcm2836.c         | 40 ++++++++++++++++++++++++++++++++++++++++
+ hw/arm/raspi.c           |  2 ++
+ 3 files changed, 43 insertions(+)
 
+diff --git a/include/hw/arm/bcm2836.h b/include/hw/arm/bcm2836.h
+index acc75bf553..3d46469a73 100644
+--- a/include/hw/arm/bcm2836.h
++++ b/include/hw/arm/bcm2836.h
+@@ -24,6 +24,7 @@
+  * them, code using these devices should always handle them via the
+  * BCM283x base class, so they have no BCM2836(obj) etc macros.
+  */
++#define TYPE_BCM2835 "bcm2835"
+ #define TYPE_BCM2836 "bcm2836"
+ #define TYPE_BCM2837 "bcm2837"
+ 
 diff --git a/hw/arm/bcm2836.c b/hw/arm/bcm2836.c
-index caaa4b625e..2b6fe31139 100644
+index 2b6fe31139..bce5f8a866 100644
 --- a/hw/arm/bcm2836.c
 +++ b/hw/arm/bcm2836.c
-@@ -51,8 +51,10 @@ static void bcm2836_init(Object *obj)
-         qdev_prop_set_uint32(DEVICE(obj), "enabled-cpus", bc->core_count);
-     }
- 
--    sysbus_init_child_obj(obj, "control", &s->control, sizeof(s->control),
--                          TYPE_BCM2836_CONTROL);
-+    if (bc->ctrl_base) {
-+        sysbus_init_child_obj(obj, "control", &s->control,
-+                              sizeof(s->control), TYPE_BCM2836_CONTROL);
-+    }
- 
-     sysbus_init_child_obj(obj, "peripherals", &s->peripherals,
-                           sizeof(s->peripherals), TYPE_BCM2835_PERIPHERALS);
-@@ -62,13 +64,12 @@ static void bcm2836_init(Object *obj)
-                               "vcram-size", &error_abort);
+@@ -103,6 +103,31 @@ static void bcm283x_common_realize(DeviceState *dev, Error **errp)
+                             bc->peri_base, 1);
  }
  
--static void bcm2836_realize(DeviceState *dev, Error **errp)
-+static void bcm283x_common_realize(DeviceState *dev, Error **errp)
- {
-     BCM283XState *s = BCM283X(dev);
-     BCM283XClass *bc = BCM283X_GET_CLASS(dev);
-     Object *obj;
-     Error *err = NULL;
--    int n;
- 
-     /* common peripherals from bcm2835 */
- 
-@@ -100,6 +101,20 @@ static void bcm2836_realize(DeviceState *dev, Error **errp)
- 
-     sysbus_mmio_map_overlap(SYS_BUS_DEVICE(&s->peripherals), 0,
-                             bc->peri_base, 1);
-+}
-+
-+static void bcm2836_realize(DeviceState *dev, Error **errp)
++static void bcm2835_realize(DeviceState *dev, Error **errp)
 +{
 +    BCM283XState *s = BCM283X(dev);
-+    BCM283XClass *bc = BCM283X_GET_CLASS(dev);
 +    Error *err = NULL;
-+    int n;
 +
 +    bcm283x_common_realize(dev, &err);
 +    if (err) {
 +        error_propagate(errp, err);
 +        return;
 +    }
++
++    object_property_set_bool(OBJECT(&s->cpu[0].core), true,
++                             "realized", &err);
++    if (err) {
++        error_propagate(errp, err);
++        return;
++    }
++
++    /* Connect irq/fiq outputs from the interrupt controller. */
++    sysbus_connect_irq(SYS_BUS_DEVICE(&s->peripherals), 0,
++            qdev_get_gpio_in(DEVICE(&s->cpu[0].core), ARM_CPU_IRQ));
++    sysbus_connect_irq(SYS_BUS_DEVICE(&s->peripherals), 1,
++            qdev_get_gpio_in(DEVICE(&s->cpu[0].core), ARM_CPU_FIQ));
++}
++
+ static void bcm2836_realize(DeviceState *dev, Error **errp)
+ {
+     BCM283XState *s = BCM283X(dev);
+@@ -184,6 +209,17 @@ static void bcm283x_class_init(ObjectClass *oc, void *data)
+     dc->user_creatable = false;
+ }
  
-     /* bcm2836 interrupt controller (and mailboxes, etc.) */
-     object_property_set_bool(OBJECT(&s->control), true, "realized", &err);
++static void bcm2835_class_init(ObjectClass *oc, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(oc);
++    BCM283XClass *bc = BCM283X_CLASS(oc);
++
++    bc->cpu_type = ARM_CPU_TYPE_NAME("arm1176");
++    bc->core_count = 1;
++    bc->peri_base = 0x20000000;
++    dc->realize = bcm2835_realize;
++};
++
+ static void bcm2836_class_init(ObjectClass *oc, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(oc);
+@@ -214,6 +250,10 @@ static void bcm2837_class_init(ObjectClass *oc, void *data)
+ 
+ static const TypeInfo bcm283x_types[] = {
+     {
++        .name           = TYPE_BCM2835,
++        .parent         = TYPE_BCM283X,
++        .class_init     = bcm2835_class_init,
++    }, {
+         .name           = TYPE_BCM2836,
+         .parent         = TYPE_BCM283X,
+         .class_init     = bcm2836_class_init,
+diff --git a/hw/arm/raspi.c b/hw/arm/raspi.c
+index 38829195c5..6db2bf5bbe 100644
+--- a/hw/arm/raspi.c
++++ b/hw/arm/raspi.c
+@@ -70,6 +70,7 @@ FIELD(REV_CODE, MEMORY_SIZE,       20, 3);
+ FIELD(REV_CODE, STYLE,             23, 1);
+ 
+ typedef enum RaspiProcessorId {
++    PROCESSOR_ID_BCM2835 = 0,
+     PROCESSOR_ID_BCM2836 = 1,
+     PROCESSOR_ID_BCM2837 = 2,
+ } RaspiProcessorId;
+@@ -78,6 +79,7 @@ static const struct {
+     const char *type;
+     int cores_count;
+ } soc_property[] = {
++    [PROCESSOR_ID_BCM2835] = {TYPE_BCM2835, 1},
+     [PROCESSOR_ID_BCM2836] = {TYPE_BCM2836, BCM283X_NCPUS},
+     [PROCESSOR_ID_BCM2837] = {TYPE_BCM2837, BCM283X_NCPUS},
+ };
 -- 
 2.21.1
 
