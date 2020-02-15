@@ -2,24 +2,24 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EE9D15FE32
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 Feb 2020 12:48:29 +0100 (CET)
-Received: from localhost ([::1]:50472 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B4FE15FE34
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 Feb 2020 12:49:31 +0100 (CET)
+Received: from localhost ([::1]:50482 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j2vvw-0007f8-Ad
-	for lists+qemu-devel@lfdr.de; Sat, 15 Feb 2020 06:48:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49743)
+	id 1j2vww-0000qE-AL
+	for lists+qemu-devel@lfdr.de; Sat, 15 Feb 2020 06:49:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49755)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1j2vpQ-0004VR-V0
+ (envelope-from <armbru@redhat.com>) id 1j2vpR-0004Vw-5L
  for qemu-devel@nongnu.org; Sat, 15 Feb 2020 06:41:46 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1j2vpP-0006t3-Lv
- for qemu-devel@nongnu.org; Sat, 15 Feb 2020 06:41:44 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:39257
+ (envelope-from <armbru@redhat.com>) id 1j2vpQ-0006tK-0B
+ for qemu-devel@nongnu.org; Sat, 15 Feb 2020 06:41:45 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:57648
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1j2vpP-0006sa-HM
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1j2vpP-0006sw-Qt
  for qemu-devel@nongnu.org; Sat, 15 Feb 2020 06:41:43 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1581766903;
@@ -27,41 +27,43 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=q6m6UYFo1J37x7do2RDtMKIqDl/JvngWEfu3H4c5CMc=;
- b=WSV7eKdHIvMpwY5PbDsB5xYuDfPJlqpLunP4jcHLsROcZ9BIFOJywy/W+32MptPdvRrYaj
- lt/+hJJTz87u1OLuTGHaxZlt9ztmJr5SvUUeqFo9RYMBoZSkGvPLVXXZhNBMycoS/MqglL
- /bzUJ0x+j5kNFmee32LYTDg4mtkbI4k=
+ bh=wtnEPYynrWU+bMWdGCx2jW0GtVOeOZ4Ars9PSwUa4pY=;
+ b=bNL/uHBnGsW1mSVThx7owdiUNP/7thIyCVJOIJ5AK2+wC+sLvJ/+30HizQMa4EP6kEwa4M
+ EISFRIsJCxfdQGpE8qcjZgZK6smIKGAKAtzr44/Se5aXpDOg+9B1kqrgr4zcVWoO7DxLbZ
+ duuRo+ewtllVCn5OJfEqEoR1EpdGVns=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-392-n8WX7Jk_Nze_C9K-oheouA-1; Sat, 15 Feb 2020 06:41:39 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-207-GLrNkpH5M_miRfSHhSEhTw-1; Sat, 15 Feb 2020 06:41:39 -0500
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D3EACDB20;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DFDB7107ACC7;
  Sat, 15 Feb 2020 11:41:37 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-117-234.ams2.redhat.com
  [10.36.117.234])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A5BE2859BF;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B002E60BE1;
  Sat, 15 Feb 2020 11:41:37 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 4524E1136447; Sat, 15 Feb 2020 12:41:33 +0100 (CET)
+ id 4870F1136361; Sat, 15 Feb 2020 12:41:33 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 12/18] qapi: Remove hardcoded tabs
-Date: Sat, 15 Feb 2020 12:41:27 +0100
-Message-Id: <20200215114133.15097-13-armbru@redhat.com>
+Subject: [PULL 13/18] qapi/ui.json: Put input-send-event body text in the
+ right place
+Date: Sat, 15 Feb 2020 12:41:28 +0100
+Message-Id: <20200215114133.15097-14-armbru@redhat.com>
 In-Reply-To: <20200215114133.15097-1-armbru@redhat.com>
 References: <20200215114133.15097-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: n8WX7Jk_Nze_C9K-oheouA-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: GLrNkpH5M_miRfSHhSEhTw-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,64 +81,56 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Peter Maydell <peter.maydell@linaro.org>
 
-There are some stray hardcoded tabs in some of our json files;
-remove them.
+In the doc comment for input-send-event, there is a multi-line
+chunk of text ("The @device...take precedence") which is intended
+to be the main body text describing the event. However it has
+been placed after the arguments and Returns: section, which
+means that the parser actually thinks that this text is
+part of the "Returns" section text.
+
+Move the body text up to the top so that the parser correctly
+classifies it as body.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20200213175647.17628-11-peter.maydell@linaro.org>
+Message-Id: <20200213175647.17628-12-peter.maydell@linaro.org>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- qapi/block-core.json | 4 ++--
- qapi/migration.json  | 6 +++---
- 2 files changed, 5 insertions(+), 5 deletions(-)
+ qapi/ui.json | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/qapi/block-core.json b/qapi/block-core.json
-index c62b7db281..31f7a1281c 100644
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -2938,8 +2938,8 @@
-             '*pr-manager': 'str',
-             '*locking': 'OnOffAuto',
-             '*aio': 'BlockdevAioOptions',
--=09    '*drop-cache': {'type': 'bool',
--=09                    'if': 'defined(CONFIG_LINUX)'},
-+            '*drop-cache': {'type': 'bool',
-+                            'if': 'defined(CONFIG_LINUX)'},
-             '*x-check-cache-dropped': 'bool' },
-   'features': [ { 'name': 'dynamic-auto-read-only',
-                   'if': 'defined(CONFIG_POSIX)' } ] }
-diff --git a/qapi/migration.json b/qapi/migration.json
-index aa160e9e42..11033b7a8e 100644
---- a/qapi/migration.json
-+++ b/qapi/migration.json
-@@ -98,7 +98,7 @@
- ##
- { 'struct': 'CompressionStats',
-   'data': {'pages': 'int', 'busy': 'int', 'busy-rate': 'number',
--=09   'compressed-size': 'int', 'compression-rate': 'number' } }
-+           'compressed-size': 'int', 'compression-rate': 'number' } }
-=20
- ##
- # @MigrationStatus:
-@@ -713,7 +713,7 @@
-             '*multifd-channels': 'int',
-             '*xbzrle-cache-size': 'size',
-             '*max-postcopy-bandwidth': 'size',
--=09    '*max-cpu-throttle': 'int' } }
-+            '*max-cpu-throttle': 'int' } }
-=20
- ##
- # @migrate-set-parameters:
-@@ -845,7 +845,7 @@
-             '*block-incremental': 'bool' ,
-             '*multifd-channels': 'uint8',
-             '*xbzrle-cache-size': 'size',
--=09    '*max-postcopy-bandwidth': 'size',
-+            '*max-postcopy-bandwidth': 'size',
-             '*max-cpu-throttle':'uint8'} }
-=20
- ##
+diff --git a/qapi/ui.json b/qapi/ui.json
+index ba873e1e29..e8b8b708c7 100644
+--- a/qapi/ui.json
++++ b/qapi/ui.json
+@@ -949,13 +949,6 @@
+ #
+ # Send input event(s) to guest.
+ #
+-# @device: display device to send event(s) to.
+-# @head: head to send event(s) to, in case the
+-#        display device supports multiple scanouts.
+-# @events: List of InputEvent union.
+-#
+-# Returns: Nothing on success.
+-#
+ # The @device and @head parameters can be used to send the input event
+ # to specific input devices in case (a) multiple input devices of the
+ # same kind are added to the virtual machine and (b) you have
+@@ -967,6 +960,13 @@
+ # are admissible, but devices with input routing config take
+ # precedence.
+ #
++# @device: display device to send event(s) to.
++# @head: head to send event(s) to, in case the
++#        display device supports multiple scanouts.
++# @events: List of InputEvent union.
++#
++# Returns: Nothing on success.
++#
+ # Since: 2.6
+ #
+ # Note: The consoles are visible in the qom tree, under
 --=20
 2.21.1
 
