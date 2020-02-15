@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB28815FFFD
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 Feb 2020 20:19:07 +0100 (CET)
-Received: from localhost ([::1]:53786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFB3515FFFF
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 Feb 2020 20:19:39 +0100 (CET)
+Received: from localhost ([::1]:53790 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j32y2-0005bX-RT
-	for lists+qemu-devel@lfdr.de; Sat, 15 Feb 2020 14:19:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35268)
+	id 1j32yY-0006C8-OR
+	for lists+qemu-devel@lfdr.de; Sat, 15 Feb 2020 14:19:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35281)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1j32uw-0008KM-Pp
+ id 1j32ux-0008Mv-Nc
  for qemu-devel@nongnu.org; Sat, 15 Feb 2020 14:15:56 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1j32uv-0004GR-CE
- for qemu-devel@nongnu.org; Sat, 15 Feb 2020 14:15:54 -0500
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:42130)
+ id 1j32uw-0004HE-Lz
+ for qemu-devel@nongnu.org; Sat, 15 Feb 2020 14:15:55 -0500
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:37338)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1j32uv-0004Fy-5b; Sat, 15 Feb 2020 14:15:53 -0500
-Received: by mail-wr1-x444.google.com with SMTP id k11so14895819wrd.9;
- Sat, 15 Feb 2020 11:15:53 -0800 (PST)
+ id 1j32uw-0004Gn-Eg; Sat, 15 Feb 2020 14:15:54 -0500
+Received: by mail-wm1-x341.google.com with SMTP id a6so14372084wme.2;
+ Sat, 15 Feb 2020 11:15:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=vgwXjH0kKbScO8AvLlOooEIEzKYchoKqFxh3C7QVSgQ=;
- b=WAlitRsdK6XnOlQKldpaZlsLFM9ctdqv5lYmOk/dewrTKLt09P0W9wnfioy/qL6Unt
- Z07m2DLtrzRm3gFpbL0WCMiUEcciscTZthcOqCAM5zP/PkeW4v1lC/CqoPbanoNyfWet
- 0X4FkiNt4APsKFwDeKKs2oXbNjtgZxkV7dz5/JFcEXO1DwHubFUghODGFAshrS1NkcE0
- FXnYkTV92PITd86nLz2wcu/01g+uBU7P/WjE7G1ZOaDfcuXVzI19tTLbOXhBLaHptv5F
- fWQsJZu+qYD9lXZrDgTLEwi9oCIapbYJf30sGbbDfVqF49sFrTfN2PGftskrJ/mu8laV
- UMhw==
+ bh=OGYngzYgREXVWzhCGP1KWkhVF6aFvpDG4pbFEluMwuQ=;
+ b=BSwQdtmsMyoVXmvvjYpnuCj5l/+40G0pK0HDakhwOrTkgbAPecdCCtKo2NfHTs6I9F
+ OPmrbI6auTNEuV4/xI8u/zmpZEFVfRrDE9xdGkV0W3uxXcprOR7QI4CeDonyKb4rEEpt
+ YzL6ar89nfytbxiTnj+kGoCwa7hgP3wnfLgDHCHGSzgItmQaLOHSdjxzih6Wz8Xxyv/k
+ hvLqY3dA8CD5d+VB/29reb6rOHNFQdVG0UWSKjz7ED0UbngWSeysOy7YUQLXPBOCkg48
+ TI0ZnitQCtH42k3SUe58Mxezw+WHqxTxasYVW81oOVft0BooCkEZrDP0IjEVlaOISy0d
+ 3oXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=vgwXjH0kKbScO8AvLlOooEIEzKYchoKqFxh3C7QVSgQ=;
- b=lwPQ/dvBhbXlUF0FVyeAReS7uUiqtstY3terr42K3yV2cBWCjnEX/eZPgTw5BjCx1w
- 82NcXYbCYYQtVKwIhvG4qcEbWJMUNffM7gox2Y6acjG+t/98LlIZDPYHdqmAFnKd/Ywu
- N5NqDuyFBuEF1a+r/D+x0KvSWzj5LliotHw4S9rWymTey5mO7Gwn0f2rUWcU3CJB4qOi
- +LypMc9i34imNYn2nsEoyhCV7qkEeaVIMNhlftiMyTtEJMiZHzjwswVOoBjtJdjjZSgM
- klpILuZFREs1TqJzMjbbiFWuKfxAH7EqsdT4FRygOop+3dwwFq7hpoi2PxgpnwVXi2aP
- VweQ==
-X-Gm-Message-State: APjAAAVCYSYu/MqQ3da5N/2unj2c35WLeNWXtQHEOEo4yB4Fd8ZXJMO0
- ex/Ah4y316kGRqUT4dFLWnuwCEOgpOg=
-X-Google-Smtp-Source: APXvYqyYSozLG0aJ8qKSWG7+IEjy/pY1GiR6aZ6fveYZSi5+7N0D+HMplynzPI+ZqvzkKVVNFLUQ1g==
-X-Received: by 2002:adf:fd87:: with SMTP id d7mr11837100wrr.226.1581794151975; 
- Sat, 15 Feb 2020 11:15:51 -0800 (PST)
+ bh=OGYngzYgREXVWzhCGP1KWkhVF6aFvpDG4pbFEluMwuQ=;
+ b=ZIWc0NSrq0YXZ7D7CRTnXOFIYlqnkWGOltulqLWnPlNeMsv404jIYePk9cLTtRbuWH
+ mkC6AHpPcgzPPHk6pboOiE29Qu6lRLik5E3I4ae9drgsqGbdCFxaqgu+FdkiwlaZwTnC
+ 4n6kcm8oGUAUZVzehg4wX/Gmbk5oXYV09e9DC/1Y2h+xXW/yO+4DwLTsiJPJRfPIRUVe
+ wIbjjDu8AkHOq851URqRhJpyyHZ9ZlHhF0E5ssZlhai0DWlb/JRB50vUkjXPS/EtIz3m
+ vlvaCXvHDbCTtkuug0iV8vdkvrtQKGgock9BIJWXl11tdKzqz5GZHDj5NO3LAlKypYQc
+ 9/nQ==
+X-Gm-Message-State: APjAAAVIvNx2uEiBeuvpZXuFPsSVnBbzdd2SmOeoKHhNl2ASywYF7JYX
+ bn+/jcYWbQva9Te09OylTY70lkwoTdU=
+X-Google-Smtp-Source: APXvYqw7iqUSvswH7UqTR9IJcEvaQXVG0hQhID1/vck1MLmct0izTwOkPmvAcbEA9KxacJwBkOMziA==
+X-Received: by 2002:a7b:c38c:: with SMTP id s12mr11699582wmj.96.1581794153317; 
+ Sat, 15 Feb 2020 11:15:53 -0800 (PST)
 Received: from localhost.localdomain (78.red-88-21-202.staticip.rima-tde.net.
  [88.21.202.78])
- by smtp.gmail.com with ESMTPSA id o9sm9678605wrw.20.2020.02.15.11.15.50
+ by smtp.gmail.com with ESMTPSA id o9sm9678605wrw.20.2020.02.15.11.15.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 15 Feb 2020 11:15:51 -0800 (PST)
+ Sat, 15 Feb 2020 11:15:52 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 04/12] hw/arm/raspi: Remove use of the 'version' value in the
- board code
-Date: Sat, 15 Feb 2020 20:15:35 +0100
-Message-Id: <20200215191543.3235-5-f4bug@amsat.org>
+Subject: [PATCH 05/12] hw/arm/bcm2836: Restrict BCM283XClass declaration to C
+ source
+Date: Sat, 15 Feb 2020 20:15:36 +0100
+Message-Id: <20200215191543.3235-6-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200215191543.3235-1-f4bug@amsat.org>
 References: <20200215191543.3235-1-f4bug@amsat.org>
@@ -70,7 +70,7 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::444
+X-Received-From: 2a00:1450:4864:20::341
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,112 +90,68 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We expected the 'version' ID to match the board processor ID,
-but this is not always true (for example boards with revision
-id 0xa02042/0xa22042 are Raspberry Pi 2 with a BCM2837 SoC).
-This was not important because we were not modelling them, but
-since the recent refactor now allow to model these boards, it
-is safer to check the processor id directly. Remove the version
-check.
+No code out of bcm2836.c uses (or requires) this declarations.
+Move it locally to the C source file.
 
-Suggested-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/arm/raspi.c | 37 ++++++++++++++++++++-----------------
- 1 file changed, 20 insertions(+), 17 deletions(-)
+ include/hw/arm/bcm2836.h | 12 ------------
+ hw/arm/bcm2836.c         | 14 ++++++++++++++
+ 2 files changed, 14 insertions(+), 12 deletions(-)
 
-diff --git a/hw/arm/raspi.c b/hw/arm/raspi.c
-index aa0a7e6276..38829195c5 100644
---- a/hw/arm/raspi.c
-+++ b/hw/arm/raspi.c
-@@ -98,11 +98,6 @@ static RaspiProcessorId board_processor_id(uint32_t board_rev)
-     return proc_id;
- }
+diff --git a/include/hw/arm/bcm2836.h b/include/hw/arm/bcm2836.h
+index 92a6544816..acc75bf553 100644
+--- a/include/hw/arm/bcm2836.h
++++ b/include/hw/arm/bcm2836.h
+@@ -42,16 +42,4 @@ typedef struct BCM283XState {
+     BCM2835PeripheralState peripherals;
+ } BCM283XState;
  
--static int board_version(uint32_t board_rev)
--{
--    return board_processor_id(board_rev) + 1;
--}
+-typedef struct BCM283XInfo BCM283XInfo;
 -
- static const char *board_soc_type(uint32_t board_rev)
- {
-     return soc_property[board_processor_id(board_rev)].type;
-@@ -201,7 +196,8 @@ static void reset_secondary(ARMCPU *cpu, const struct arm_boot_info *info)
-     cpu_set_pc(cs, info->smp_loader_start);
- }
+-typedef struct BCM283XClass {
+-    DeviceClass parent_class;
+-    const BCM283XInfo *info;
+-} BCM283XClass;
+-
+-#define BCM283X_CLASS(klass) \
+-    OBJECT_CLASS_CHECK(BCM283XClass, (klass), TYPE_BCM283X)
+-#define BCM283X_GET_CLASS(obj) \
+-    OBJECT_GET_CLASS(BCM283XClass, (obj), TYPE_BCM283X)
+-
+ #endif /* BCM2836_H */
+diff --git a/hw/arm/bcm2836.c b/hw/arm/bcm2836.c
+index 38e2941bab..24109fef1d 100644
+--- a/hw/arm/bcm2836.c
++++ b/hw/arm/bcm2836.c
+@@ -16,6 +16,15 @@
+ #include "hw/arm/raspi_platform.h"
+ #include "hw/sysbus.h"
  
--static void setup_boot(MachineState *machine, int version, size_t ram_size)
-+static void setup_boot(MachineState *machine, RaspiProcessorId processor_id,
-+                       size_t ram_size)
- {
-     static struct arm_boot_info binfo;
-     int r;
-@@ -210,12 +206,13 @@ static void setup_boot(MachineState *machine, int version, size_t ram_size)
-     binfo.ram_size = ram_size;
-     binfo.nb_cpus = machine->smp.cpus;
- 
--    if (version <= 2) {
--        /* The rpi1 and 2 require some custom setup code to run in Secure
--         * mode before booting a kernel (to set up the SMC vectors so
--         * that we get a no-op SMC; this is used by Linux to call the
-+    if (processor_id <= PROCESSOR_ID_BCM2836) {
-+        /*
-+         * The BCM2835 and BCM2836 require some custom setup code to run
-+         * in Secure mode before booting a kernel (to set up the SMC vectors
-+         * so that we get a no-op SMC; this is used by Linux to call the
-          * firmware for some cache maintenance operations.
--         * The rpi3 doesn't need this.
-+         * The BCM2837 doesn't need this.
-          */
-         binfo.board_setup_addr = BOARDSETUP_ADDR;
-         binfo.write_board_setup = write_board_setup;
-@@ -223,10 +220,10 @@ static void setup_boot(MachineState *machine, int version, size_t ram_size)
-         binfo.secure_boot = true;
-     }
- 
--    /* Pi2 and Pi3 requires SMP setup */
--    if (version >= 2) {
-+    /* BCM2836 and BCM2837 requires SMP setup */
-+    if (processor_id >= PROCESSOR_ID_BCM2836) {
-         binfo.smp_loader_start = SMPBOOT_ADDR;
--        if (version == 2) {
-+        if (processor_id == PROCESSOR_ID_BCM2836) {
-             binfo.write_secondary_boot = write_smpboot;
-         } else {
-             binfo.write_secondary_boot = write_smpboot64;
-@@ -238,7 +235,13 @@ static void setup_boot(MachineState *machine, int version, size_t ram_size)
-      * the normal Linux boot process
-      */
-     if (machine->firmware) {
--        hwaddr firmware_addr = version == 3 ? FIRMWARE_ADDR_3 : FIRMWARE_ADDR_2;
-+        hwaddr firmware_addr;
++typedef struct BCM283XInfo BCM283XInfo;
 +
-+        if (processor_id == PROCESSOR_ID_BCM2837) {
-+            firmware_addr = FIRMWARE_ADDR_3;
-+        } else {
-+            firmware_addr = FIRMWARE_ADDR_2;
-+        }
-         /* load the firmware image (typically kernel.img) */
-         r = load_image_targphys(machine->firmware, firmware_addr,
-                                 ram_size - firmware_addr);
-@@ -259,7 +262,6 @@ static void raspi_machine_init(MachineState *machine)
-     RaspiMachineClass *mc = RASPI_MACHINE_GET_CLASS(machine);
-     RaspiMachineState *s = RASPI_MACHINE(machine);
-     uint32_t board_rev = mc->board_rev;
--    int version = board_version(board_rev);
-     uint64_t ram_size = board_ram_size(board_rev);
-     uint32_t vcram_size;
-     DriveInfo *di;
-@@ -303,7 +305,8 @@ static void raspi_machine_init(MachineState *machine)
++typedef struct BCM283XClass {
++    /*< private >*/
++    DeviceClass parent_class;
++    /*< public >*/
++    const BCM283XInfo *info;
++} BCM283XClass;
++
+ struct BCM283XInfo {
+     const char *name;
+     const char *cpu_type;
+@@ -24,6 +33,11 @@ struct BCM283XInfo {
+     int clusterid;
+ };
  
-     vcram_size = object_property_get_uint(OBJECT(&s->soc), "vcram-size",
-                                           &error_abort);
--    setup_boot(machine, version, machine->ram_size - vcram_size);
-+    setup_boot(machine, board_processor_id(mc->board_rev),
-+               machine->ram_size - vcram_size);
- }
- 
- static void raspi_machine_class_common_init(MachineClass *mc,
++#define BCM283X_CLASS(klass) \
++    OBJECT_CLASS_CHECK(BCM283XClass, (klass), TYPE_BCM283X)
++#define BCM283X_GET_CLASS(obj) \
++    OBJECT_GET_CLASS(BCM283XClass, (obj), TYPE_BCM283X)
++
+ static const BCM283XInfo bcm283x_socs[] = {
+     {
+         .name = TYPE_BCM2836,
 -- 
 2.21.1
 
