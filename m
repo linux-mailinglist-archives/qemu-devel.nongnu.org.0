@@ -2,79 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 290D015FF3A
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 Feb 2020 17:18:10 +0100 (CET)
-Received: from localhost ([::1]:52408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3C4715FF35
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 Feb 2020 17:17:40 +0100 (CET)
+Received: from localhost ([::1]:52404 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j308v-0004X3-57
-	for lists+qemu-devel@lfdr.de; Sat, 15 Feb 2020 11:18:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47755)
+	id 1j308R-0003Hs-ME
+	for lists+qemu-devel@lfdr.de; Sat, 15 Feb 2020 11:17:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47657)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1j307O-0002pI-8C
- for qemu-devel@nongnu.org; Sat, 15 Feb 2020 11:16:35 -0500
+ (envelope-from <philmd@redhat.com>) id 1j306w-00029q-Rf
+ for qemu-devel@nongnu.org; Sat, 15 Feb 2020 11:16:07 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1j307N-00064g-Ag
- for qemu-devel@nongnu.org; Sat, 15 Feb 2020 11:16:34 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:30596
+ (envelope-from <philmd@redhat.com>) id 1j306v-0005bA-NS
+ for qemu-devel@nongnu.org; Sat, 15 Feb 2020 11:16:06 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:43295
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j306u-0005Yk-L8
- for qemu-devel@nongnu.org; Sat, 15 Feb 2020 11:16:33 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j306v-0005Zj-Jv
+ for qemu-devel@nongnu.org; Sat, 15 Feb 2020 11:16:05 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581783364;
+ s=mimecast20190719; t=1581783365;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=rGxu2WAKHmWrsK5i7B1ITlPmz0WbEXAEhhFZo5Btr6I=;
- b=imnHIhkEBmxstuvf2FC4RX7tMMCM4GwVUv8BWGkFdCYLcCw7tbEMo9bqJj3Y+VtlkRODP3
- 6z/fwspKM4G1uyEAGpaAoFqlpqF+jTeQZ9ObYP/nlUgnWAH1DgutCBUb7WL36822ySN+YS
- O3jodJ9l1WgcLwfEMBFmXmwq2ZV4pfE=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-35-PQQ3-PLnOeCCELL5u3yZ4w-1; Sat, 15 Feb 2020 11:16:01 -0500
-Received: by mail-wr1-f71.google.com with SMTP id s13so5896887wru.7
- for <qemu-devel@nongnu.org>; Sat, 15 Feb 2020 08:16:01 -0800 (PST)
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Z2UBuAZivxQ/t2LSYWdCfVvdvGAny5juqMvDOKi7+08=;
+ b=YNlpnn41v51SHNGdA2nFXgR0x/oRIOxmxj7rGAMgTtP9VeI968fh54qsa4lQXIwngQTUT6
+ NGRG4Cl4ngtrWkbrTzDGDbhZM7/wqJRfMpjR8TGsDyoOpy9TjMfqxnSPMTSvlOlMZ2L1JG
+ MA/azoHWF0gITp7hcCd7s+A90gq99sc=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-14-Uyx69B92Pc2ZYxHDdjVEDA-1; Sat, 15 Feb 2020 11:16:03 -0500
+Received: by mail-wm1-f72.google.com with SMTP id w12so4854684wmc.3
+ for <qemu-devel@nongnu.org>; Sat, 15 Feb 2020 08:16:03 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=I8Qt4eqntsRD4P75qFlC97N/QHEJ2WA+14+XeTDgAcQ=;
- b=GwxAM9z7Gzrpd2CPpAcxTfMcg82qOLH/rLgx3Ak60IjiXL/0HeqWXFOVhDnNPS7yGh
- V9Wl/O0D/lmTyUaTdGKZUo4PbXKIrcKz8MxYpp8vBZMhh7U5rfixEF4PBHvZJITjQsln
- F1loYGEhhUJt1WvMC3SOOTraKm0H+RBJvWV93f8PEylf/HLu7f0UIvNKiLqaBjstZocm
- c8zleJz0y3jSSphlfEmN70YX328dgAcMFBrfnV7f8swAPMDX+l1R852/n0H7rrtgKxsI
- t1dqOf1j6F7qr+A+Id/8lcuxVWh0x/sdqzpRwWXvvQCLyV3ggdvAXYWi3brjuIymYwUg
- LHWQ==
-X-Gm-Message-State: APjAAAW3WXmdD2KhHH8w/+MM7wqbku5HeefSCDXgdjFmpms/A9p6KQfE
- 7hUCdqiRKuJJXO4/Jh2bdvS/lWa2qAzQXoq1mKkRB6XXo4b6+wc+dm3JNA4vh6PCa6Jw9LKOmzE
- GuCm6thB1JXVD7Hc=
-X-Received: by 2002:a7b:c38c:: with SMTP id s12mr11241106wmj.96.1581783360550; 
- Sat, 15 Feb 2020 08:16:00 -0800 (PST)
-X-Google-Smtp-Source: APXvYqwR7Jcu6Rjjh6mJ2IoDSuorj+uiRsbXaSzmeAatmVqX2SdSszjnTOrDW8nSYrMCF94WHKpAfw==
-X-Received: by 2002:a7b:c38c:: with SMTP id s12mr11241086wmj.96.1581783360302; 
- Sat, 15 Feb 2020 08:16:00 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=1vNqWmtTfqRpFkSvpFeliBtBQdDhN9OVYIDlRsAhO9E=;
+ b=jl+gSiCsHl3JYt5momQsQXVCNwHlEzWqOwEH7uT3wVvt0llmKoKX1gO7Rxst7c1VJQ
+ 8qNlm06ODJuB2Km/NFQo9oKZ6sGQCLSw7NH40GtqM/Q5Pk6EMbcm/CA35UbP3Sx0LHb2
+ 7JOVu3FliazEbouNu0qlBAmXALQgQVp0D/FBYboPQuO//Apxs8uV93pG8qbpsenoeN0m
+ nSht1f4H5EeNVU7+x+x2eMKogYHHX6xtZsgdv4H84Ir5rsilJqhqZE2bEs0iTbFkyQzM
+ H6zK+9c6e529cXNHQj1zyTbFNL5lW0zMbLOuX7GYBrIEYBIaHpLjh4si1UN5v64m8iWl
+ Ye8w==
+X-Gm-Message-State: APjAAAVWykPiO/itoW0NynkW3knix+qxCcpubRrd2cu0fJy6xuJ1rWw7
+ XzZ52S+yIubLz7pCCi4O6V6tl+Eaw9jb1JI9vGcTEWfWYdF15XKKV/P2tFZ6ND0lA3KaRUgsGEE
+ i3Bc8R2pi11jziWU=
+X-Received: by 2002:a1c:f60e:: with SMTP id w14mr11469963wmc.188.1581783361888; 
+ Sat, 15 Feb 2020 08:16:01 -0800 (PST)
+X-Google-Smtp-Source: APXvYqyHKeFfmpvOVz4HkZc7Il/FeQ6MQBGmlkbYvmqQyW1P76z6ZX7+OATJk6WrR8Udh7QO5nTWmA==
+X-Received: by 2002:a1c:f60e:: with SMTP id w14mr11469954wmc.188.1581783361731; 
+ Sat, 15 Feb 2020 08:16:01 -0800 (PST)
 Received: from localhost.localdomain (78.red-88-21-202.staticip.rima-tde.net.
  [88.21.202.78])
- by smtp.gmail.com with ESMTPSA id w26sm11855872wmi.8.2020.02.15.08.15.58
+ by smtp.gmail.com with ESMTPSA id w26sm11855872wmi.8.2020.02.15.08.16.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 15 Feb 2020 08:15:59 -0800 (PST)
+ Sat, 15 Feb 2020 08:16:01 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/3] hw: Remove unneeded variable assignment
-Date: Sat, 15 Feb 2020 17:15:54 +0100
-Message-Id: <20200215161557.4077-1-philmd@redhat.com>
+Subject: [PATCH 1/3] block/qcow2-bitmap: Remove unneeded variable assignment
+Date: Sat, 15 Feb 2020 17:15:55 +0100
+Message-Id: <20200215161557.4077-2-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.1
+In-Reply-To: <20200215161557.4077-1-philmd@redhat.com>
+References: <20200215161557.4077-1-philmd@redhat.com>
 MIME-Version: 1.0
-X-MC-Unique: PQQ3-PLnOeCCELL5u3yZ4w-1
+X-MC-Unique: Uyx69B92Pc2ZYxHDdjVEDA-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -95,18 +97,32 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fix few warnings reported by Clang static code analyzer.
+Fix warning reported by Clang static code analyzer:
 
-Philippe Mathieu-Daud=C3=A9 (3):
-  block/qcow2-bitmap: Remove unneeded variable assignment
-  hw/display/qxl: Remove unneeded variable assignment
-  hw/block/pflash_cfi02: Remove unneeded variable assignment
+    CC      block/qcow2-bitmap.o
+  block/qcow2-bitmap.c:650:5: warning: Value stored to 'ret' is never read
+      ret =3D -EINVAL;
+      ^     ~~~~~~~
 
- block/qcow2-bitmap.c    | 1 -
- hw/block/pflash_cfi02.c | 1 -
- hw/display/qxl.c        | 2 +-
- 3 files changed, 1 insertion(+), 3 deletions(-)
+Reported-by: Clang Static Analyzer
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+---
+ block/qcow2-bitmap.c | 1 -
+ 1 file changed, 1 deletion(-)
 
+diff --git a/block/qcow2-bitmap.c b/block/qcow2-bitmap.c
+index d41f5d049b..8cccc2c9f3 100644
+--- a/block/qcow2-bitmap.c
++++ b/block/qcow2-bitmap.c
+@@ -647,7 +647,6 @@ static Qcow2BitmapList *bitmap_list_load(BlockDriverSta=
+te *bs, uint64_t offset,
+     return bm_list;
+=20
+ broken_dir:
+-    ret =3D -EINVAL;
+     error_setg(errp, "Broken bitmap directory");
+=20
+ fail:
 --=20
 2.21.1
 
