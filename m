@@ -2,63 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C160115FE27
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 Feb 2020 12:42:57 +0100 (CET)
-Received: from localhost ([::1]:50380 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBB5915FE2B
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 Feb 2020 12:44:28 +0100 (CET)
+Received: from localhost ([::1]:50404 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j2vqa-00063M-RZ
-	for lists+qemu-devel@lfdr.de; Sat, 15 Feb 2020 06:42:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49643)
+	id 1j2vs3-00010v-S6
+	for lists+qemu-devel@lfdr.de; Sat, 15 Feb 2020 06:44:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49644)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1j2vpM-0004Rc-S2
+ (envelope-from <armbru@redhat.com>) id 1j2vpM-0004Re-Vp
  for qemu-devel@nongnu.org; Sat, 15 Feb 2020 06:41:42 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1j2vpL-0006p0-3p
+ (envelope-from <armbru@redhat.com>) id 1j2vpL-0006p7-7t
  for qemu-devel@nongnu.org; Sat, 15 Feb 2020 06:41:40 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:33349
- helo=us-smtp-delivery-1.mimecast.com)
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:32819
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1j2vpK-0006oj-Qs
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1j2vpK-0006ok-Vv
  for qemu-devel@nongnu.org; Sat, 15 Feb 2020 06:41:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1581766897;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=UekgsobMyZ+ud/Fg1J7KZNfXXDVUeaN1xJcjCWc+Pmc=;
- b=WHlfOcUGLcS4XL6XiXKIgeDPii+VKHQBsHgLbnuIeYCr2O6zDSqnWFOM3hnlgv2FAGW7xc
- t9FpwxfJy5pWTAlWrCJUUGU4hh2YAHVhQTvncUoFkbZjN6vJdwJKIym5+mAmFwLx83vxAr
- 3WsU+67rSjEIClZaSsrLDxwriC4JklY=
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=eJa6oPjmfkyLWvSO6f8qsXgZQzgTLsWKxPw5B7WCrT4=;
+ b=fLimWXMA1RvIr2MjJX/xFrgYojuGtl7PUNloV49vmpvcqmR/0wFkg7lFvUGy4x1b0Ox3uX
+ 73Q5EVi/8mHejssvV4AjsJYUZya04S4HLrgyZy6WpkSxdUyLeN74SS8+nmeoRDmAFoJkKe
+ q2qru8Xl0ONrWiJGCDAgSdFXFclMw90=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-284-cxunPCn2OEGSLLMhl6SsNg-1; Sat, 15 Feb 2020 06:41:35 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-243-BMpxWYHVOAqrxhqn-w6jhA-1; Sat, 15 Feb 2020 06:41:35 -0500
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E0ED6800D4E
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E3FD0107ACC9
  for <qemu-devel@nongnu.org>; Sat, 15 Feb 2020 11:41:34 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-117-234.ams2.redhat.com
  [10.36.117.234])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B21A15D9CD
- for <qemu-devel@nongnu.org>; Sat, 15 Feb 2020 11:41:34 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B22D884780;
+ Sat, 15 Feb 2020 11:41:34 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 1B6A711385C9; Sat, 15 Feb 2020 12:41:33 +0100 (CET)
+ id 1E4A211366C0; Sat, 15 Feb 2020 12:41:33 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/18] QAPI patches for 2020-02-15
-Date: Sat, 15 Feb 2020 12:41:15 +0100
-Message-Id: <20200215114133.15097-1-armbru@redhat.com>
+Subject: [PULL 01/18] qapi: Expand documentation for LostTickPolicy
+Date: Sat, 15 Feb 2020 12:41:16 +0100
+Message-Id: <20200215114133.15097-2-armbru@redhat.com>
+In-Reply-To: <20200215114133.15097-1-armbru@redhat.com>
+References: <20200215114133.15097-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: cxunPCn2OEGSLLMhl6SsNg-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-MC-Unique: BMpxWYHVOAqrxhqn-w6jhA-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,87 +74,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Andrew Jones <drjones@redhat.com>,
+ =?UTF-8?q?J=C3=A1n=20Tomko?= <jtomko@redhat.com>,
+ Andrea Bolognani <abologna@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 517c84cef759a453cfb8f51498aebc909a5f3b39=
-:
+From: Andrea Bolognani <abologna@redhat.com>
 
-  Merge remote-tracking branch 'remotes/kraxel/tags/vga-20200213-pull-reque=
-st' into staging (2020-02-13 18:55:57 +0000)
+The current documentation is fairly terse and not easy to decode
+for someone who's not intimately familiar with the inner workings
+of timer devices. Expand on it by providing a somewhat verbose
+description of what behavior each policy will result in, as seen
+from both the guest OS and host point of view.
 
-are available in the Git repository at:
+Signed-off-by: Andrea Bolognani <abologna@redhat.com>
+Message-Id: <20200211183744.210298-1-abologna@redhat.com>
+Reviewed-by: J=C3=A1n Tomko <jtomko@redhat.com>
+Reviewed-by: Andrew Jones <drjones@redhat.com>
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
+---
+ qapi/misc.json | 28 ++++++++++++++++++++--------
+ 1 file changed, 20 insertions(+), 8 deletions(-)
 
-  git://repo.or.cz/qemu/armbru.git tags/pull-qapi-2020-02-15
-
-for you to fetch changes up to bb5ccf225e81d2801c03e63d16c371f0617270e8:
-
-  qapi: Delete all the "foo: dropped in n.n" notes (2020-02-15 11:41:50 +01=
-00)
-
-----------------------------------------------------------------
-QAPI patches for 2020-02-15
-
-* QAPI schema doc comment fixes and cleanups, most of them in
-  preparation of the upcoming switch to rST
-
-* A Make dependency typo fix
-
-* configure improvements for sphinx-build
-
-----------------------------------------------------------------
-Andrea Bolognani (1):
-      qapi: Expand documentation for LostTickPolicy
-
-Markus Armbruster (1):
-      configure: Pick sphinx-build-3 when available
-
-Peter Maydell (16):
-      configure: Allow user to specify sphinx-build binary
-      configure: Check that sphinx-build is using Python 3
-      Makefile: Fix typo in dependency list for interop manpages
-      qga/qapi-schema.json: Fix missing '-' in GuestDiskBusType doc comment
-      qga/qapi-schema.json: Fix indent level on doc comments
-      qga/qapi-schema.json: minor format fixups for rST
-      qapi/block-core.json: Use literal block for ascii art
-      qapi: Fix incorrect "Not documented" claims in QMP documentation
-      qapi: Fix indent level on doc comments in json files
-      qapi: Remove hardcoded tabs
-      qapi/ui.json: Put input-send-event body text in the right place
-      qapi/ui.json: Avoid `...' Texinfo style quoting
-      qapi: Use explicit bulleted lists
-      qapi: Add blank lines before bulleted lists
-      qapi/migration.json: Replace _this_ with *this*
-      qapi: Delete all the "foo: dropped in n.n" notes
-
- docs/conf.py             |   10 +
- configure                |   32 +-
- Makefile                 |    4 +-
- qapi/block-core.json     | 1139 +++++++++++++++++++++++-------------------=
-----
- qapi/block.json          |   47 +-
- qapi/char.json           |   10 +-
- qapi/dump.json           |    4 +-
- qapi/introspect.json     |   12 +-
- qapi/job.json            |   32 +-
- qapi/machine-target.json |   18 +-
- qapi/machine.json        |   14 +-
- qapi/migration.json      |  206 ++++-----
- qapi/misc-target.json    |    8 +-
- qapi/misc.json           |  166 +++----
- qapi/net.json            |   26 +-
- qapi/qdev.json           |   10 +-
- qapi/qom.json            |    4 +-
- qapi/rocker.json         |   12 +-
- qapi/run-state.json      |   34 +-
- qapi/sockets.json        |    8 +-
- qapi/tpm.json            |    4 +-
- qapi/trace.json          |   15 +-
- qapi/transaction.json    |    4 +-
- qapi/ui.json             |  117 ++---
- qga/qapi-schema.json     |  156 ++++---
- 25 files changed, 1070 insertions(+), 1022 deletions(-)
-
+diff --git a/qapi/misc.json b/qapi/misc.json
+index 33b94e3589..cd7445d29f 100644
+--- a/qapi/misc.json
++++ b/qapi/misc.json
+@@ -163,17 +163,29 @@
+ ##
+ # @LostTickPolicy:
+ #
+-# Policy for handling lost ticks in timer devices.
++# Policy for handling lost ticks in timer devices.  Ticks end up getting
++# lost when, for example, the guest is paused.
+ #
+-# @discard: throw away the missed tick(s) and continue with future injecti=
+on
+-#           normally.  Guest time may be delayed, unless the OS has explic=
+it
+-#           handling of lost ticks
++# @discard: throw away the missed ticks and continue with future injection
++#           normally.  The guest OS will see the timer jump ahead by a
++#           potentially quite significant amount all at once, as if the
++#           intervening chunk of time had simply not existed; needless to
++#           say, such a sudden jump can easily confuse a guest OS which is
++#           not specifically prepared to deal with it.  Assuming the guest
++#           OS can deal correctly with the time jump, the time in the gues=
+t
++#           and in the host should now match.
+ #
+-# @delay: continue to deliver ticks at the normal rate.  Guest time will b=
+e
+-#         delayed due to the late tick
++# @delay: continue to deliver ticks at the normal rate.  The guest OS will
++#         not notice anything is amiss, as from its point of view time wil=
+l
++#         have continued to flow normally.  The time in the guest should n=
+ow
++#         be behind the time in the host by exactly the amount of time dur=
+ing
++#         which ticks have been missed.
+ #
+-# @slew: deliver ticks at a higher rate to catch up with the missed tick. =
+The
+-#        guest time should not be delayed once catchup is complete.
++# @slew: deliver ticks at a higher rate to catch up with the missed ticks.
++#        The guest OS will not notice anything is amiss, as from its point
++#        of view time will have continued to flow normally.  Once the time=
+r
++#        has managed to catch up with all the missing ticks, the time in
++#        the guest and in the host should match.
+ #
+ # Since: 2.0
+ ##
 --=20
 2.21.1
 
