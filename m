@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 638E516032A
-	for <lists+qemu-devel@lfdr.de>; Sun, 16 Feb 2020 10:42:53 +0100 (CET)
-Received: from localhost ([::1]:59216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E45716032C
+	for <lists+qemu-devel@lfdr.de>; Sun, 16 Feb 2020 10:42:55 +0100 (CET)
+Received: from localhost ([::1]:59220 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j3GRw-00024P-Ej
-	for lists+qemu-devel@lfdr.de; Sun, 16 Feb 2020 04:42:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39991)
+	id 1j3GRy-00027O-Er
+	for lists+qemu-devel@lfdr.de; Sun, 16 Feb 2020 04:42:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40005)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1j3GQu-0000ru-Fo
- for qemu-devel@nongnu.org; Sun, 16 Feb 2020 04:41:49 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1j3GQv-0000rz-JU
+ for qemu-devel@nongnu.org; Sun, 16 Feb 2020 04:41:50 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1j3GQt-00023h-F7
- for qemu-devel@nongnu.org; Sun, 16 Feb 2020 04:41:48 -0500
-Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:34497)
+ (envelope-from <richard.henderson@linaro.org>) id 1j3GQu-00023v-C5
+ for qemu-devel@nongnu.org; Sun, 16 Feb 2020 04:41:49 -0500
+Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:35263)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1j3GQt-00023X-8k
- for qemu-devel@nongnu.org; Sun, 16 Feb 2020 04:41:47 -0500
-Received: by mail-pj1-x102b.google.com with SMTP id f2so1571281pjq.1
- for <qemu-devel@nongnu.org>; Sun, 16 Feb 2020 01:41:47 -0800 (PST)
+ id 1j3GQu-00023p-6S
+ for qemu-devel@nongnu.org; Sun, 16 Feb 2020 04:41:48 -0500
+Received: by mail-pg1-x542.google.com with SMTP id v23so4075111pgk.2
+ for <qemu-devel@nongnu.org>; Sun, 16 Feb 2020 01:41:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=01a7VFoW61bNrbC3OHwoKYYtJfiLCMrQllc/DyNAeB0=;
- b=vtvGFGYIUy+te4kNNK4xI43Ybbc2WvedFR5NeD6JhphfRypQESPLIbjK2lBPWBjd76
- 73/gnly6qJqOLpCo6AzB/21q8C77ouw8HlZGBs+EhgnvOPMKlmgyPYlcwVc3Qj2mKw8w
- 9B9VHAYYecfjj1rM4ZVTMlRvymCDppRk1A7duM1o6h40TjZxP3A1r3L4RqWf4oYWp5io
- Eg41+UXIqmYs9GJ1ziZEcytuoBXJZ84usWXJq2J+hz7fyotlqNWxAawCAn12AEktpGTM
- MIFE2tyhFGoKdQ52TT6co780B4amVvsp2sO/FoUn53oklNSqXhPGPVJqM96E9SbQPKYf
- awqg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=2wtlXnnDoBZhRjp682Do8PbWI+JcM4MYW5/nGRf6l4c=;
+ b=V0VusJOABEIR3jsUOwK8IXEoXkrRy7M3UebeQ/XMKvyi3ciYzYuzg9VtJ95EXzCKmM
+ 6wCv4EYfq9xV9EzU4KuTvpim2zOJmDrV2SeRGmYlivV8culy10P6U7VVv1dA7NB4cJrJ
+ n4Q8kfy8Tsia55n4dH7yDJNXy3GtHHXHQ9/3pTEggKT7qC1CiMI+8EqlTFXQOoudLQ+F
+ 87tcMaa5qVmLvRrDeYn7uzUHXDv1M3Z9+QR9Wa+i+PWFFyT0m5t90jTE5ACIKm7zy0KJ
+ dpr08Q+MEKiRo3AmEYr2ra63ZVsX0oD1/Yo7l2fe7w4oY8nU5mm5HLWTLvVJ75bBtYvO
+ 1w6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=01a7VFoW61bNrbC3OHwoKYYtJfiLCMrQllc/DyNAeB0=;
- b=ldRMcikRwN/U1Mogu06BY5svgsm9GSyXXQmg4PoWVzX4bbC3/k9HBriLoDGHPUKh20
- /L29LZnR6JozCJtB5fU7v4QPKaQPk+wAXX4oJANwHHgneKbdeR8RNb8qIU4w0jXxMsLv
- r/CPbGfMJoDh66nklFQOzxRYGFMu3VRdseTR+3OSGiU3XYNzzudrhLpfnR7BP0xuh9BB
- L2foRz1Q1FymczyTOVpPFyn0BykLez8X3znZjq6PgvqJ/i7MHYwWvm4N78KDeSCFuOPD
- m2TbUpo7s7V/S1E/NO2E+f9g38Ovm9Q3/tytvEUdfpo9m7t4E8SZaq4qHxxls5/xsYtB
- mLtA==
-X-Gm-Message-State: APjAAAUIpzRyJlPG62tYn+RpZaXV0atI9XH6oeXz6rI89wQL6IuLrSi6
- GCEJGFx61VqwZz1zUmFvY04esWYj7bw=
-X-Google-Smtp-Source: APXvYqwCY8qezU5fqSpSrsZVM2XXuXdNv/LHt2Mb/ITe2zTp2nWb6GnebEy+JYmvrbtDpig+uX1W9A==
-X-Received: by 2002:a17:902:a706:: with SMTP id
- w6mr11291705plq.79.1581846105602; 
- Sun, 16 Feb 2020 01:41:45 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=2wtlXnnDoBZhRjp682Do8PbWI+JcM4MYW5/nGRf6l4c=;
+ b=jdp4lPpteJE9Vtt2JEXBub/n/WLXpkIZnBM3Y5eOQ8ZVhhD8PNQ37f74Z6tN8++ZU1
+ V1cXFH14WvUyFP9mLUytCpichGFPLjLz0t8w96GJgEUYLqnAcnLXPK4gesASSGH1k3Jv
+ dw06X84Oxt4UpO696er7LqR9EZxmQoioNODCZdbyhkWvg3VgTEjACgeg4S0dJpZyhP+1
+ nI7f4on1Vq1wKLTM7WxnEQQvjM18NVYCddtNUhBTCSs3ZaM7iBU9jrXqfxa13+r8aLuR
+ fVCBSqCM0dX/cIgKKC6Ywq/11ppBuyemsxbs9uPJhtTDNaJcRrYO+M7fErInjaNdBxZ/
+ E0nw==
+X-Gm-Message-State: APjAAAVTy5JzCTaBByNdkIkd3Izn77D8aeaBIgk7T9AAL1C3u1/vNDb1
+ 5/kHDOGSICgqMyq+pqQn7/Byk9vJo5Q=
+X-Google-Smtp-Source: APXvYqwgcwDN0e18M5iyLK9ONMz5Gg0kE54wHL8S7KEQQPEQPWGwUkhJx3lrNs5kjyi6+He1/l1GJQ==
+X-Received: by 2002:a63:584:: with SMTP id 126mr12404441pgf.447.1581846106780; 
+ Sun, 16 Feb 2020 01:41:46 -0800 (PST)
 Received: from localhost.localdomain (97-126-123-70.tukw.qwest.net.
  [97.126.123.70])
- by smtp.gmail.com with ESMTPSA id l15sm13023553pgi.31.2020.02.16.01.41.44
+ by smtp.gmail.com with ESMTPSA id l15sm13023553pgi.31.2020.02.16.01.41.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 16 Feb 2020 01:41:45 -0800 (PST)
+ Sun, 16 Feb 2020 01:41:46 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/2] tcg/arm: Expand epilogue inline
-Date: Sun, 16 Feb 2020 01:41:41 -0800
-Message-Id: <20200216094143.14201-1-richard.henderson@linaro.org>
+Subject: [PATCH v2 1/2] tcg/arm: Split out tcg_out_epilogue
+Date: Sun, 16 Feb 2020 01:41:42 -0800
+Message-Id: <20200216094143.14201-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200216094143.14201-1-richard.henderson@linaro.org>
+References: <20200216094143.14201-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::102b
+X-Received-From: 2607:f8b0:4864:20::542
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,20 +84,67 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <rth@twiddle.net>
 
-v1: http://patchwork.ozlabs.org/patch/1176721/
-v2 splits the patch in half, as requested by Phil.
+We will shortly use this function from tcg_out_op as well.
 
+Signed-off-by: Richard Henderson <rth@twiddle.net>
+---
+ tcg/arm/tcg-target.inc.c | 19 +++++++++++--------
+ 1 file changed, 11 insertions(+), 8 deletions(-)
 
-r~
-
-
-Richard Henderson (2):
-  tcg/arm: Split out tcg_out_epilogue
-  tcg/arm: Expand epilogue inline
-
- tcg/arm/tcg-target.inc.c | 29 ++++++++++++-----------------
- 1 file changed, 12 insertions(+), 17 deletions(-)
-
+diff --git a/tcg/arm/tcg-target.inc.c b/tcg/arm/tcg-target.inc.c
+index fffb6611e2..e1aa740ba4 100644
+--- a/tcg/arm/tcg-target.inc.c
++++ b/tcg/arm/tcg-target.inc.c
+@@ -1746,6 +1746,7 @@ static void tcg_out_qemu_st(TCGContext *s, const TCGArg *args, bool is64)
+ }
+ 
+ static tcg_insn_unit *tb_ret_addr;
++static void tcg_out_epilogue(TCGContext *s);
+ 
+ static inline void tcg_out_op(TCGContext *s, TCGOpcode opc,
+                 const TCGArg *args, const int *const_args)
+@@ -2284,19 +2285,17 @@ static void tcg_out_nop_fill(tcg_insn_unit *p, int count)
+       + TCG_TARGET_STACK_ALIGN - 1) \
+      & -TCG_TARGET_STACK_ALIGN)
+ 
++#define STACK_ADDEND  (FRAME_SIZE - PUSH_SIZE)
++
+ static void tcg_target_qemu_prologue(TCGContext *s)
+ {
+-    int stack_addend;
+-
+     /* Calling convention requires us to save r4-r11 and lr.  */
+     /* stmdb sp!, { r4 - r11, lr } */
+     tcg_out32(s, (COND_AL << 28) | 0x092d4ff0);
+ 
+     /* Reserve callee argument and tcg temp space.  */
+-    stack_addend = FRAME_SIZE - PUSH_SIZE;
+-
+     tcg_out_dat_rI(s, COND_AL, ARITH_SUB, TCG_REG_CALL_STACK,
+-                   TCG_REG_CALL_STACK, stack_addend, 1);
++                   TCG_REG_CALL_STACK, STACK_ADDEND, 1);
+     tcg_set_frame(s, TCG_REG_CALL_STACK, TCG_STATIC_CALL_ARGS_SIZE,
+                   CPU_TEMP_BUF_NLONGS * sizeof(long));
+ 
+@@ -2310,11 +2309,15 @@ static void tcg_target_qemu_prologue(TCGContext *s)
+      */
+     s->code_gen_epilogue = s->code_ptr;
+     tcg_out_movi(s, TCG_TYPE_PTR, TCG_REG_R0, 0);
+-
+-    /* TB epilogue */
+     tb_ret_addr = s->code_ptr;
++    tcg_out_epilogue(s);
++}
++
++static void tcg_out_epilogue(TCGContext *s)
++{
++    /* Release local stack frame.  */
+     tcg_out_dat_rI(s, COND_AL, ARITH_ADD, TCG_REG_CALL_STACK,
+-                   TCG_REG_CALL_STACK, stack_addend, 1);
++                   TCG_REG_CALL_STACK, STACK_ADDEND, 1);
+ 
+     /* ldmia sp!, { r4 - r11, pc } */
+     tcg_out32(s, (COND_AL << 28) | 0x08bd8ff0);
 -- 
 2.23.0
 
