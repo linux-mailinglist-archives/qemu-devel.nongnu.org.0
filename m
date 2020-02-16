@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E85B4160604
-	for <lists+qemu-devel@lfdr.de>; Sun, 16 Feb 2020 20:46:05 +0100 (CET)
-Received: from localhost ([::1]:35750 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10373160607
+	for <lists+qemu-devel@lfdr.de>; Sun, 16 Feb 2020 20:49:06 +0100 (CET)
+Received: from localhost ([::1]:35834 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j3Prg-0005jz-Vv
-	for lists+qemu-devel@lfdr.de; Sun, 16 Feb 2020 14:46:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34687)
+	id 1j3Pub-0001S8-4A
+	for lists+qemu-devel@lfdr.de; Sun, 16 Feb 2020 14:49:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34731)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1j3PpU-0003cB-Qs
- for qemu-devel@nongnu.org; Sun, 16 Feb 2020 14:43:49 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1j3PpX-0003fG-H4
+ for qemu-devel@nongnu.org; Sun, 16 Feb 2020 14:43:52 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1j3PpT-0005Vz-UO
- for qemu-devel@nongnu.org; Sun, 16 Feb 2020 14:43:48 -0500
-Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:40643)
+ (envelope-from <richard.henderson@linaro.org>) id 1j3PpV-0005Yf-Fg
+ for qemu-devel@nongnu.org; Sun, 16 Feb 2020 14:43:51 -0500
+Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:46027)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1j3PpT-0005UY-PS
- for qemu-devel@nongnu.org; Sun, 16 Feb 2020 14:43:47 -0500
-Received: by mail-pg1-x541.google.com with SMTP id z7so7889861pgk.7
- for <qemu-devel@nongnu.org>; Sun, 16 Feb 2020 11:43:47 -0800 (PST)
+ id 1j3PpV-0005XT-9q
+ for qemu-devel@nongnu.org; Sun, 16 Feb 2020 14:43:49 -0500
+Received: by mail-pf1-x443.google.com with SMTP id 2so7689141pfg.12
+ for <qemu-devel@nongnu.org>; Sun, 16 Feb 2020 11:43:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=o5rb+tTqydiafB3qvUsAq8/vvIee2NCXymu3BNnsCeA=;
- b=cxe7iddOrSkEDv3h8Adzge4QnP2tHnoLUREsspOnGULi2hA4rvwPhdK2yVcFNtYIAM
- 2UFCIxdfJOtv6rV07IukYdTNXgbJY6azbMleoBwlHGNlBu1HE+I62wWGTqywFJU/nIhD
- l9CekVxC8I3WDeRZurSNdg2ehK1Bz9AWo3KETOMwiht4fVORzmfEIYBklsLuRK4IRv4S
- uwkHw+Pbt6yGEpw7VFNcfwpaybtKiagOqXHqpGPZgzN4eIz1b/4ow9P0WXKJss7zbvW3
- at4dZbpYmk+FMbcBAU9WyqdPmOWiFWU/YoeYQKypar3JTcLQEYu/kAWBuvTRtXSuZelt
- r1tw==
+ bh=Qe8zug4Z0mtaHwBh2av/LIOpMaLY4DsO8Azuq2pRmxw=;
+ b=qcYh2Upbxze5Ns3eU6RcXNvldmM2IdObrKSayDRs42WJ4QhBY+tNoZzRnE0ShCA9au
+ FuxvVT8L3GGw3BHXuH9MaPfYJkIRHApyxdtZrPaUXI95KDFDeDTd+zbepnxVZDewi7/6
+ bqxEvwv64iz7jtJky+XhVEvq+xJijWMIF1tBvLGHjzT/Q6k4D5N/ZK86Wc2tlyOyACET
+ zyFwBQdbPEhle0mWN/pbKCPEujmhLKgI85CX3vq6S0huDw4H8IEVLuroWqUXoz7zh5mr
+ TDqAKxJX/4ksRhpVje4FNCtw7YFjlHwfe53u/zTyaucxd5wcQMhDCM5lQAUNt3cUluaQ
+ CKeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=o5rb+tTqydiafB3qvUsAq8/vvIee2NCXymu3BNnsCeA=;
- b=eAMprY6Qp9EhRMDketksJMsuzRRiZb1sNEIBOrOXeWotqDAkQ1CbNO5PhkXxt3z1vb
- U8gOtYErp4xKnmUJLAfHtnUSiMavATnpm4cZ/Ng5kDInx23LYF0bINBmE7FkBjoZrHXm
- +aRRPhncRgFdFG2Q3fKKX7kI6x43ysTReXGqvC/8rTyQko94/8IJ+kIO1WdxmDtNllqN
- HyJWI31QatQM4jlmkQfS1J6Eecm9+DtdP0xrkDMGSe1yanRHzwcKUymPXwUIzl11L4MM
- 5qUVzEq5ObOvkdQxijIMCqMaUtLSZ7Ac7VhGfuOPdigzA5xPz9IfRTXJSQbj2TAZkQq1
- gbxQ==
-X-Gm-Message-State: APjAAAVvSvBnFLvbkRPzJEhSnj2iJd6q4zin7EyNSzWzFY//yen/k305
- W1d3760itURH7eILmwtglOIZX2HW178=
-X-Google-Smtp-Source: APXvYqxEYXOVmMCGixRNMYX/kud1YkejubOHZqysEUSexJ2d9DEe9HdhOWQYdpkhc+WPHfQL4f7Hog==
-X-Received: by 2002:a63:306:: with SMTP id 6mr14143415pgd.337.1581882226497;
- Sun, 16 Feb 2020 11:43:46 -0800 (PST)
+ bh=Qe8zug4Z0mtaHwBh2av/LIOpMaLY4DsO8Azuq2pRmxw=;
+ b=pJqMzriT+nSOIxxpFNRUpbjcjqjUEIHjonkxeRiTTHL9TJSwvy7ghIK6JIKbZdrqbw
+ P3Gey60CjfRLEw52tgTHhSLDPNQKdDjhoHmtiSEYsl0ahLXNl4StKUWyhazxR9tDuYxU
+ Gri5Tac+DmxN746g/0qV8X5gNKqH1MjRjvykrfp0KVnSAfP/dtm7f29K8gzouqhDtSXh
+ YKltYEI8J18r+FJWnuXTgcPsBxPjhg1PXdZkolleTgK6u1lQcG+o23qP4FvvUoUcch32
+ JuuaFQRZb3a87xdSoSl0yB6sojsvd2AtUHpCI6gANOfjIilM7/9H3OOzm3ZnP8/+I/bY
+ NGEA==
+X-Gm-Message-State: APjAAAUm5iS6FDjCXnC2Su8u4VdZDz/BJF42Ge0A6ftcVXPMKsmovevb
+ QagUsPq4DZTdV0j4QRhPl37UiK/0MPo=
+X-Google-Smtp-Source: APXvYqzM5SFn+PvHAs8EArDYttG3fvKF5vfRIosEmJl2U88boAtbyY1uDGLJjFk/GRi0PubyKalGxA==
+X-Received: by 2002:a63:9143:: with SMTP id l64mr8829773pge.435.1581882227941; 
+ Sun, 16 Feb 2020 11:43:47 -0800 (PST)
 Received: from localhost.localdomain (97-126-123-70.tukw.qwest.net.
  [97.126.123.70])
- by smtp.gmail.com with ESMTPSA id y127sm13945188pfg.22.2020.02.16.11.43.45
+ by smtp.gmail.com with ESMTPSA id y127sm13945188pfg.22.2020.02.16.11.43.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 16 Feb 2020 11:43:45 -0800 (PST)
+ Sun, 16 Feb 2020 11:43:47 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 1/4] target/arm: Use bit 55 explicitly for pauth
-Date: Sun, 16 Feb 2020 11:43:40 -0800
-Message-Id: <20200216194343.21331-2-richard.henderson@linaro.org>
+Subject: [PATCH v3 2/4] target/arm: Fix select for aa64_va_parameters_both
+Date: Sun, 16 Feb 2020 11:43:41 -0800
+Message-Id: <20200216194343.21331-3-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200216194343.21331-1-richard.henderson@linaro.org>
 References: <20200216194343.21331-1-richard.henderson@linaro.org>
@@ -66,7 +66,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::541
+X-Received-From: 2607:f8b0:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,30 +82,80 @@ Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The psuedocode in aarch64/functions/pac/auth/Auth and
-aarch64/functions/pac/strip/Strip always uses bit 55 for
-extfield and do not consider if the current regime has 2 ranges.
+Select should always be 0 for a regime with one range.
 
-Suggested-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/pauth_helper.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ target/arm/helper.c | 46 +++++++++++++++++++++++----------------------
+ 1 file changed, 24 insertions(+), 22 deletions(-)
 
-diff --git a/target/arm/pauth_helper.c b/target/arm/pauth_helper.c
-index 9746e32bf8..b909630317 100644
---- a/target/arm/pauth_helper.c
-+++ b/target/arm/pauth_helper.c
-@@ -320,7 +320,8 @@ static uint64_t pauth_addpac(CPUARMState *env, uint64_t ptr, uint64_t modifier,
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 366dbcf460..b09a501284 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -10241,13 +10241,8 @@ ARMVAParameters aa64_va_parameters_both(CPUARMState *env, uint64_t va,
+     bool tbi, tbid, epd, hpd, using16k, using64k;
+     int select, tsz;
  
- static uint64_t pauth_original_ptr(uint64_t ptr, ARMVAParameters param)
- {
--    uint64_t extfield = -param.select;
-+    /* Note that bit 55 is used whether or not the regime has 2 ranges. */
-+    uint64_t extfield = sextract64(ptr, 55, 1);
-     int bot_pac_bit = 64 - param.tsz;
-     int top_pac_bit = 64 - 8 * param.tbi;
- 
+-    /*
+-     * Bit 55 is always between the two regions, and is canonical for
+-     * determining if address tagging is enabled.
+-     */
+-    select = extract64(va, 55, 1);
+-
+     if (!regime_has_2_ranges(mmu_idx)) {
++        select = 0;
+         tsz = extract32(tcr, 0, 6);
+         using64k = extract32(tcr, 14, 1);
+         using16k = extract32(tcr, 15, 1);
+@@ -10260,23 +10255,30 @@ ARMVAParameters aa64_va_parameters_both(CPUARMState *env, uint64_t va,
+             tbid = extract32(tcr, 29, 1);
+         }
+         epd = false;
+-    } else if (!select) {
+-        tsz = extract32(tcr, 0, 6);
+-        epd = extract32(tcr, 7, 1);
+-        using64k = extract32(tcr, 14, 1);
+-        using16k = extract32(tcr, 15, 1);
+-        tbi = extract64(tcr, 37, 1);
+-        hpd = extract64(tcr, 41, 1);
+-        tbid = extract64(tcr, 51, 1);
+     } else {
+-        int tg = extract32(tcr, 30, 2);
+-        using16k = tg == 1;
+-        using64k = tg == 3;
+-        tsz = extract32(tcr, 16, 6);
+-        epd = extract32(tcr, 23, 1);
+-        tbi = extract64(tcr, 38, 1);
+-        hpd = extract64(tcr, 42, 1);
+-        tbid = extract64(tcr, 52, 1);
++        /*
++         * Bit 55 is always between the two regions, and is canonical for
++         * determining if address tagging is enabled.
++         */
++        select = extract64(va, 55, 1);
++        if (!select) {
++            tsz = extract32(tcr, 0, 6);
++            epd = extract32(tcr, 7, 1);
++            using64k = extract32(tcr, 14, 1);
++            using16k = extract32(tcr, 15, 1);
++            tbi = extract64(tcr, 37, 1);
++            hpd = extract64(tcr, 41, 1);
++            tbid = extract64(tcr, 51, 1);
++        } else {
++            int tg = extract32(tcr, 30, 2);
++            using16k = tg == 1;
++            using64k = tg == 3;
++            tsz = extract32(tcr, 16, 6);
++            epd = extract32(tcr, 23, 1);
++            tbi = extract64(tcr, 38, 1);
++            hpd = extract64(tcr, 42, 1);
++            tbid = extract64(tcr, 52, 1);
++        }
+     }
+     tsz = MIN(tsz, 39);  /* TODO: ARMv8.4-TTST */
+     tsz = MAX(tsz, 16);  /* TODO: ARMv8.2-LVA  */
 -- 
 2.20.1
 
