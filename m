@@ -2,75 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3303716032B
-	for <lists+qemu-devel@lfdr.de>; Sun, 16 Feb 2020 10:42:55 +0100 (CET)
-Received: from localhost ([::1]:59224 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AA7016033B
+	for <lists+qemu-devel@lfdr.de>; Sun, 16 Feb 2020 10:57:55 +0100 (CET)
+Received: from localhost ([::1]:59316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j3GRy-00028F-9S
-	for lists+qemu-devel@lfdr.de; Sun, 16 Feb 2020 04:42:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40017)
+	id 1j3GgU-00083r-Kk
+	for lists+qemu-devel@lfdr.de; Sun, 16 Feb 2020 04:57:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40948)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1j3GQw-0000s4-HM
- for qemu-devel@nongnu.org; Sun, 16 Feb 2020 04:41:51 -0500
+ (envelope-from <bounces@canonical.com>) id 1j3Gfb-0007G0-S5
+ for qemu-devel@nongnu.org; Sun, 16 Feb 2020 04:57:00 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1j3GQv-00024F-F3
- for qemu-devel@nongnu.org; Sun, 16 Feb 2020 04:41:50 -0500
-Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:41876)
+ (envelope-from <bounces@canonical.com>) id 1j3Gfa-0007jo-QL
+ for qemu-devel@nongnu.org; Sun, 16 Feb 2020 04:56:59 -0500
+Received: from indium.canonical.com ([91.189.90.7]:57092)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1j3GQv-000249-9O
- for qemu-devel@nongnu.org; Sun, 16 Feb 2020 04:41:49 -0500
-Received: by mail-pg1-x542.google.com with SMTP id 70so7460423pgf.8
- for <qemu-devel@nongnu.org>; Sun, 16 Feb 2020 01:41:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=IdSf2yKwv5OJi0nRJR1iJoDfBBS6iWeqmjTw8o6ae1c=;
- b=SlkNVgPwrex617z7RVoeSa2r8wU3+Crqsf2bbWx2NwNTPexHbMLrwe7BWYLkli4pMN
- W4V1vWOy97O6s1MZzY+VJvRy2ySyJCwhl8Ytpw5QV5IU2dPUoN5kEAxtZKdjGFT0GHCQ
- oglK2OVQWx/8Y2Jx9wDhECpqIMTvF1brcVRWPBOuE4opPRIIoCEyAEb2nAdCM5XesO1F
- IRt9moLIw0axSHTGJqkvqTbdooNR1ZmPdKx5SQ19Nnl7/IOuXzB/k0mcj5aSTZBVO+6v
- UFhazmJPYLMn/m98h3iKS1cJu8HqYMRcKrtm/5+Nr+WZvJYroapA/SMGYXQ815vaEJ/8
- 1C8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=IdSf2yKwv5OJi0nRJR1iJoDfBBS6iWeqmjTw8o6ae1c=;
- b=Muyt+wus6g1wWy5dcIz4GsXBZlvj1U0HviqYbTaa9+bcoNBjbri1+6TCYr67ctk0Wl
- oDK+iuAEZBFy/pBZs26OzgVvaIt4OQN0vhLKuhErRFk7uxMzMwd6A9nKjylYjxtLEe+K
- dEgSgtnP4Wyzbc8QX72fPHtMyBhQZzZe0SHOTWrxxnOwgey1y5HNE4r80yZaTK8yf5u2
- qstThgrj+5UFdnLm8WHNqBVRFVvZsRe36NNYtWYMvzFZ6jwSR5KJp9YarJZGJQTK5Kg9
- DnMnO+DZ++UNIzGUYtzMEnRmv7wReqKwi8tELxrAKMeBywng+Q1w51xZos2HlXRMib03
- CUsA==
-X-Gm-Message-State: APjAAAWx/A/tKkQT9sZuMEjS9qW0xR4jo4dQHlQpCU8ujgycno8YLva3
- 3AvDlsewpRcTej9twjgWCVijtnaHmyY=
-X-Google-Smtp-Source: APXvYqyHszOs6EtWlNCZXE5O3Ne68L659EiYsoItuNw3rr/WtyC9S8HBQJAfrmcdAw02qX6lOfGYbQ==
-X-Received: by 2002:a63:2bc3:: with SMTP id
- r186mr12299951pgr.294.1581846108098; 
- Sun, 16 Feb 2020 01:41:48 -0800 (PST)
-Received: from localhost.localdomain (97-126-123-70.tukw.qwest.net.
- [97.126.123.70])
- by smtp.gmail.com with ESMTPSA id l15sm13023553pgi.31.2020.02.16.01.41.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 16 Feb 2020 01:41:47 -0800 (PST)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 2/2] tcg/arm: Expand epilogue inline
-Date: Sun, 16 Feb 2020 01:41:43 -0800
-Message-Id: <20200216094143.14201-3-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200216094143.14201-1-richard.henderson@linaro.org>
-References: <20200216094143.14201-1-richard.henderson@linaro.org>
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1j3Gfa-0007jZ-LF
+ for qemu-devel@nongnu.org; Sun, 16 Feb 2020 04:56:58 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1j3GfZ-0001ir-0g
+ for <qemu-devel@nongnu.org>; Sun, 16 Feb 2020 09:56:57 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id EF1EB2E80AD
+ for <qemu-devel@nongnu.org>; Sun, 16 Feb 2020 09:56:56 +0000 (UTC)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::542
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Sun, 16 Feb 2020 09:47:43 -0000
+From: Richard Henderson <rth@twiddle.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=In Progress; importance=Undecided;
+ assignee=rth@twiddle.net; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: jfreche rth
+X-Launchpad-Bug-Reporter: Julien Freche (jfreche)
+X-Launchpad-Bug-Modifier: Richard Henderson (rth)
+References: <157545185401.7205.1743602467950204624.malonedeb@gac.canonical.com>
+Message-Id: <158184646325.15247.1855309112768635808.malone@soybean.canonical.com>
+Subject: [Bug 1855072] Re: ARM: HCR.TVM traps are not implemented
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="19413b719a8df7423ab1390528edadce9e0e4aca";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 16e93b74bd76a5ccdfb96c2033421f7c9ce57b06
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -79,60 +65,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: philmd@redhat.com, Richard Henderson <rth@twiddle.net>
+Reply-To: Bug 1855072 <1855072@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <rth@twiddle.net>
+Yes to both.
 
-It is, after all, just two instructions.
+** Changed in: qemu
+       Status: New =3D> In Progress
 
-Profiling on a cortex-a15, using -d nochain to increase the number
-of exit_tb that are executed, shows a minor improvement of 0.5%.
+** Changed in: qemu
+     Assignee: (unassigned) =3D> Richard Henderson (rth)
 
-Signed-off-by: Richard Henderson <rth@twiddle.net>
----
- tcg/arm/tcg-target.inc.c | 12 ++----------
- 1 file changed, 2 insertions(+), 10 deletions(-)
+-- =
 
-diff --git a/tcg/arm/tcg-target.inc.c b/tcg/arm/tcg-target.inc.c
-index e1aa740ba4..6aa7757aac 100644
---- a/tcg/arm/tcg-target.inc.c
-+++ b/tcg/arm/tcg-target.inc.c
-@@ -1745,7 +1745,6 @@ static void tcg_out_qemu_st(TCGContext *s, const TCGArg *args, bool is64)
- #endif
- }
- 
--static tcg_insn_unit *tb_ret_addr;
- static void tcg_out_epilogue(TCGContext *s);
- 
- static inline void tcg_out_op(TCGContext *s, TCGOpcode opc,
-@@ -1756,14 +1755,8 @@ static inline void tcg_out_op(TCGContext *s, TCGOpcode opc,
- 
-     switch (opc) {
-     case INDEX_op_exit_tb:
--        /* Reuse the zeroing that exists for goto_ptr.  */
--        a0 = args[0];
--        if (a0 == 0) {
--            tcg_out_goto(s, COND_AL, s->code_gen_epilogue);
--        } else {
--            tcg_out_movi32(s, COND_AL, TCG_REG_R0, args[0]);
--            tcg_out_goto(s, COND_AL, tb_ret_addr);
--        }
-+        tcg_out_movi(s, TCG_TYPE_PTR, TCG_REG_R0, args[0]);
-+        tcg_out_epilogue(s);
-         break;
-     case INDEX_op_goto_tb:
-         {
-@@ -2309,7 +2302,6 @@ static void tcg_target_qemu_prologue(TCGContext *s)
-      */
-     s->code_gen_epilogue = s->code_ptr;
-     tcg_out_movi(s, TCG_TYPE_PTR, TCG_REG_R0, 0);
--    tb_ret_addr = s->code_ptr;
-     tcg_out_epilogue(s);
- }
- 
--- 
-2.23.0
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1855072
 
+Title:
+  ARM: HCR.TVM traps are not implemented
+
+Status in QEMU:
+  In Progress
+
+Bug description:
+  On AARCH64, setting HCR.TVM to 1 is supposed to trap all writes to
+  CTLR_EL1, TTBR0_EL1, TTBR1_EL1, TCR_EL1, ESR_EL1, FAR_EL1, AFSR0_EL1,
+  AFSR1_EL1, MAIR_EL1, AMAIR_EL1, and CONTEXTIDR_EL1. However, it
+  currently has no effect (QEMU emulator version 4.1.1).
+
+  It is also likely that TRVM will not trap, but, I didn't verify this.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1855072/+subscriptions
 
