@@ -2,51 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1164C160387
-	for <lists+qemu-devel@lfdr.de>; Sun, 16 Feb 2020 11:29:05 +0100 (CET)
-Received: from localhost ([::1]:59669 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B581A16040B
+	for <lists+qemu-devel@lfdr.de>; Sun, 16 Feb 2020 13:36:21 +0100 (CET)
+Received: from localhost ([::1]:60360 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j3HAe-0003ia-5U
-	for lists+qemu-devel@lfdr.de; Sun, 16 Feb 2020 05:29:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43590)
+	id 1j3J9o-0000jD-4b
+	for lists+qemu-devel@lfdr.de; Sun, 16 Feb 2020 07:36:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52459)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gengdongjiu@huawei.com>) id 1j3H42-0001Nu-1m
- for qemu-devel@nongnu.org; Sun, 16 Feb 2020 05:22:15 -0500
+ (envelope-from <maz@kernel.org>) id 1j3J8R-0008W1-Ad
+ for qemu-devel@nongnu.org; Sun, 16 Feb 2020 07:34:56 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <gengdongjiu@huawei.com>) id 1j3H40-0000Fq-Sx
- for qemu-devel@nongnu.org; Sun, 16 Feb 2020 05:22:13 -0500
-Received: from szxga06-in.huawei.com ([45.249.212.32]:60608 helo=huawei.com)
+ (envelope-from <maz@kernel.org>) id 1j3J8Q-0001xk-BI
+ for qemu-devel@nongnu.org; Sun, 16 Feb 2020 07:34:55 -0500
+Received: from mail.kernel.org ([198.145.29.99]:33784)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <gengdongjiu@huawei.com>)
- id 1j3H3y-0000BC-BS; Sun, 16 Feb 2020 05:22:10 -0500
-Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id A046D649C33483768618;
- Sun, 16 Feb 2020 18:22:07 +0800 (CST)
-Received: from huawei.com (10.151.151.243) by DGGEMS411-HUB.china.huawei.com
- (10.3.19.211) with Microsoft SMTP Server id 14.3.439.0; Sun, 16 Feb 2020
- 18:21:54 +0800
-From: Dongjiu Geng <gengdongjiu@huawei.com>
-To: <mst@redhat.com>, <imammedo@redhat.com>, <xiaoguangrong.eric@gmail.com>,
- <shannon.zhaosl@gmail.com>, <peter.maydell@linaro.org>, <fam@euphon.net>,
- <rth@twiddle.net>, <ehabkost@redhat.com>, <mtosatti@redhat.com>,
- <qemu-devel@nongnu.org>, <kvm@vger.kernel.org>, <qemu-arm@nongnu.org>,
- <pbonzini@redhat.com>, <james.morse@arm.com>, <lersek@redhat.com>,
- <jonathan.cameron@huawei.com>, <shameerali.kolothum.thodi@huawei.com>
-Subject: [PATCH v23 9/9] MAINTAINERS: Add ACPI/HEST/GHES entries
-Date: Sun, 16 Feb 2020 18:24:08 +0800
-Message-ID: <20200216102408.22987-11-gengdongjiu@huawei.com>
-X-Mailer: git-send-email 2.18.0.huawei.25
-In-Reply-To: <20200216102408.22987-1-gengdongjiu@huawei.com>
-References: <20200216102408.22987-1-gengdongjiu@huawei.com>
+ (Exim 4.71) (envelope-from <maz@kernel.org>)
+ id 1j3J8O-0001wJ-2d; Sun, 16 Feb 2020 07:34:52 -0500
+Received: from disco-boy.misterjones.org (disco-boy.misterjones.org
+ [51.254.78.96])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 3771D2086A;
+ Sun, 16 Feb 2020 12:34:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1581856490;
+ bh=dUVIWuUXkZXPeVyYS8JoGpyzM/AfnGwDwd9B1oozeCs=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=NwQDR9xpWb/g1pohzbOU2Tsu3zp7noSyaG4Z+uSJF6pPe+eWssbSwQ0OtWy6oKxkU
+ jN1QfM1/tGZWGDiues9HTlRh3gTbIQjXHHDj6DwDlPbHju2M0Q903VBBqBPz+IqR3S
+ GybHhU00BYY63oz6BCi3SZ5l/30DDpdCeXZ0hrZQ=
+Received: from disco-boy.misterjones.org ([51.254.78.96] helo=www.loen.fr)
+ by disco-boy.misterjones.org with esmtpsa
+ (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <maz@kernel.org>)
+ id 1j3J8J-005et3-WE; Sun, 16 Feb 2020 12:34:48 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-X-Originating-IP: [10.151.151.243]
-X-CFilter-Loop: Reflected
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date: Sun, 16 Feb 2020 12:34:47 +0000
+From: Marc Zyngier <maz@kernel.org>
+To: Gavin Shan <gshan@redhat.com>
+Subject: Re: [PATCH v3 1/2] target/arm: Support SError injection
+In-Reply-To: <20200214055950.62477-2-gshan@redhat.com>
+References: <20200214055950.62477-1-gshan@redhat.com>
+ <20200214055950.62477-2-gshan@redhat.com>
+Message-ID: <27b9c2a363d69911c003fcbaed958a5a@kernel.org>
+X-Sender: maz@kernel.org
+User-Agent: Roundcube Webmail/1.3.10
+X-SA-Exim-Connect-IP: 51.254.78.96
+X-SA-Exim-Rcpt-To: gshan@redhat.com, qemu-devel@nongnu.org, qemu-arm@nongnu.org,
+ peter.maydell@linaro.org, richard.henderson@linaro.org, pbonzini@redhat.com,
+ drjones@redhat.com, jthierry@redhat.com, eric.auger@redhat.com, aik@ozlabs.ru,
+ shan.gavin@gmail.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org);
+ SAEximRunCond expanded to false
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 45.249.212.32
+X-Received-From: 198.145.29.99
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,42 +73,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: zhengxiang9@huawei.com, gengdongjiu@huawei.com
+Cc: peter.maydell@linaro.org, drjones@redhat.com, jthierry@redhat.com,
+ aik@ozlabs.ru, richard.henderson@linaro.org, qemu-devel@nongnu.org,
+ eric.auger@redhat.com, qemu-arm@nongnu.org, shan.gavin@gmail.com,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I and Xiang are willing to review the APEI-related patches and
-volunteer as the reviewers for the HEST/GHES part.
+Hi Gavin,
 
-Signed-off-by: Dongjiu Geng <gengdongjiu@huawei.com>
-Signed-off-by: Xiang Zheng <zhengxiang9@huawei.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Acked-by: Michael S. Tsirkin <mst@redhat.com>
----
- MAINTAINERS | 9 +++++++++
- 1 file changed, 9 insertions(+)
+On 2020-02-14 05:59, Gavin Shan wrote:
+> This supports SError injection, which will be used by "virt" board to
+> simulating the behavior of NMI injection in next patch. As Peter 
+> Maydell
+> suggested, this adds a new interrupt (ARM_CPU_SERROR), which is 
+> parallel
+> to CPU_INTERRUPT_HARD. The backend depends on if kvm is enabled or not.
+> kvm_vcpu_ioctl(cpu, KVM_SET_VCPU_EVENTS) is leveraged to inject SError
+> or data abort to guest. When TCG is enabled, the behavior is simulated
+> by injecting SError and data abort to guest.
+> 
+> Signed-off-by: Gavin Shan <gshan@redhat.com>
+> ---
+>  target/arm/cpu.c      | 69 +++++++++++++++++++++++++++++++++++--------
+>  target/arm/cpu.h      | 17 ++++++-----
+>  target/arm/helper.c   |  6 ++++
+>  target/arm/m_helper.c |  8 +++++
+>  4 files changed, 81 insertions(+), 19 deletions(-)
+> 
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index c7717df..0748475 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1446,6 +1446,15 @@ F: tests/qtest/bios-tables-test.c
- F: tests/qtest/acpi-utils.[hc]
- F: tests/data/acpi/
-=20
-+ACPI/HEST/GHES
-+R: Dongjiu Geng <gengdongjiu@huawei.com>
-+R: Xiang Zheng <zhengxiang9@huawei.com>
-+L: qemu-arm@nongnu.org
-+S: Maintained
-+F: hw/acpi/ghes.c
-+F: include/hw/acpi/ghes.h
-+F: docs/specs/acpi_hest_ghes.rst
-+
- ppc4xx
- M: David Gibson <david@gibson.dropbear.id.au>
- L: qemu-ppc@nongnu.org
---=20
-1.8.3.1
+[...]
 
+> @@ -656,7 +682,8 @@ static void arm_cpu_set_irq(void *opaque, int irq,
+> int level)
+>          [ARM_CPU_IRQ] = CPU_INTERRUPT_HARD,
+>          [ARM_CPU_FIQ] = CPU_INTERRUPT_FIQ,
+>          [ARM_CPU_VIRQ] = CPU_INTERRUPT_VIRQ,
+> -        [ARM_CPU_VFIQ] = CPU_INTERRUPT_VFIQ
+> +        [ARM_CPU_VFIQ] = CPU_INTERRUPT_VFIQ,
+> +        [ARM_CPU_SERROR] = CPU_INTERRUPT_SERROR,
+
+I'm a bit concerned with this. It makes sense for a host, but doesn't
+allow the SError signal to be virtualised (there should be a VSError
+signal in this list that can be injected via HCR_EL2.VA, just like
+VIRQ is injected by HCR_EL2.VI).
+
+Given that people use QEMU as a development platform for hypervisors,
+I'd really like this functionality to be supported from day-1.
+
+There is also the whole RAS stuff which quite a lot of work, but let's
+start at least with the full ARMv8.0 semantics.
+
+Thanks,
+
+         M.
+-- 
+Jazz is not dead. It just smells funny...
 
