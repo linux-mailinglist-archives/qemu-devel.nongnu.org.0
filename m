@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DC78161BA4
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 20:32:28 +0100 (CET)
-Received: from localhost ([::1]:51919 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDE0F161B9F
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 20:31:24 +0100 (CET)
+Received: from localhost ([::1]:51874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j3m82-0003yN-T2
-	for lists+qemu-devel@lfdr.de; Mon, 17 Feb 2020 14:32:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55414)
+	id 1j3m71-0001rb-SS
+	for lists+qemu-devel@lfdr.de; Mon, 17 Feb 2020 14:31:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55486)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1j3m57-0007tw-BF
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 14:29:27 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1j3m5W-0000GB-V8
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 14:29:51 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1j3m55-0003H2-1c
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 14:29:24 -0500
-Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:46934)
+ (envelope-from <richard.henderson@linaro.org>) id 1j3m5W-0003T6-1c
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 14:29:50 -0500
+Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:34217)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1j3m53-0003FW-Kx
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 14:29:21 -0500
-Received: by mail-pf1-x444.google.com with SMTP id k29so9400702pfp.13
- for <qemu-devel@nongnu.org>; Mon, 17 Feb 2020 11:29:19 -0800 (PST)
+ id 1j3m5V-0003Sf-Ry
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 14:29:49 -0500
+Received: by mail-pg1-x542.google.com with SMTP id j4so9738255pgi.1
+ for <qemu-devel@nongnu.org>; Mon, 17 Feb 2020 11:29:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=yXWmWbTow3nfGq25Kdd4WZBXZZdNP2bAetHH/H1lBQc=;
- b=mrXkJKW2wpNH4dlTL87xlErtR5rTog2PsCwsxLNA4OdB6+Uu8CCESIcv7YTtD/9L+u
- GK8mR2GweW0SUdPf6RlWXHErSsHgP1MSxa8TIXCttysLf2Lf/K2sFXzCo8PD3K0zGyCH
- 8fiVFm+bsUmJ1SyP7JsU6a15ya3E+7m1LwtwMyrXLfbjI8YaE5WEzaEQtPN56Lx/5pBD
- 913VJQEWb0/vLabiK85FQSZgV7H7IOH4kqDoC3cUS/doa1j4UDeglmnCUB0KCRuQ1w6s
- Z8IIvpg0snb7taAKgMSqWJId4C9W24EKKVG9E/WcFtyNkPOsJKmJr6RnuFyOJk0QdOxD
- r9ag==
+ bh=IYKMF+l0xWcljN37ZmgF478eMQc/36lDVUMeDSo3v24=;
+ b=jS0x1/+wmyu9G3xxYLlDGrnBRRB7iZbkiLM5hnHFlhW4jzz8PKMtdRS/yxWUfs+yFm
+ MhsNyjk40975A+F7cob51QD4rrrTJ+FSBZiibmzxn2rFmUN1ExRd0gpl7NSRrIAC7BAh
+ ig5vTj+0ITmOWPjlpEV1phI1GuWVE6rZngUh/oCS0uY07tllnbNITOx0RAH39S+1X8sg
+ 7uisDBMUZ4pOnPt6BLKhVdX0ks0KU/x1Ee9AvXY9ARsV9w4R4R8fAE/yUJSRlgLyLavU
+ yozGZyo6/HO5tJyAE13IxyLKoEoP7gAeGFYYSSDuM2HDwCeGtvKu/n4ofxTrYSYYz39I
+ Dfcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=yXWmWbTow3nfGq25Kdd4WZBXZZdNP2bAetHH/H1lBQc=;
- b=ZHZIpCw/7CKv8WBOii66tS2ymaNlt4S8wm+jQ9vucE6C3kGoVxy7ubl3VDjfwTA1u/
- n19/WtkmsrQy7p8fSxNY5X51Tdw4dpRff2dN0pc1WUoNnpoiTo2esZyYHW17OusPXcup
- j6cPa2MCqAAK2UWeRdWngnQd6utSEogl1twnS0PCxkp6R67MKB5qQe8c/nzi2gLXJj+N
- H3XDOq1N3T7hWzu4iQRlwBiQqSJjo41ojQH6jpu4Hz3ZufGh6eQbpjhpURgpiDYJVewl
- Gf7hYDulUPdfNub8+1cejJy8eCEWwll7aVC5py5DlOMS4qr2S9O99W0UzxA/IC33o7/A
- JSHQ==
-X-Gm-Message-State: APjAAAXfbiy+fNtJ0ZSkj0dDDrG7x26BTUTjwq0bxMDdZQv9ia4lTpOl
- d7KidVnqOafMOd/zVdCcWWPZ6w==
-X-Google-Smtp-Source: APXvYqxU4B/VNbiXMgfyRH4fIRlv7NRqyQ6+CJ5KhBWVGwHlvBKzRO0vpOwG5J8/ru4Qdv42cmPGsg==
-X-Received: by 2002:a17:90a:9284:: with SMTP id n4mr622808pjo.69.1581967758719; 
- Mon, 17 Feb 2020 11:29:18 -0800 (PST)
+ bh=IYKMF+l0xWcljN37ZmgF478eMQc/36lDVUMeDSo3v24=;
+ b=jjoQ5rIXFIvEHSMBkiHiWaDjwoFjBU6JTJZw0GGap2agmVUQWegmxv4aUlFqDy+vM5
+ UYvxDxT4CUXWDTeNHXsx3QMM3BtdOIhaBF93BkuqXbxo0LZ0L8eWMzUiL6ukuWA965U0
+ Wm+pxg4R2kl9Q0UWasT208ARCLmNlY/WFubk5nGqL+2Ve+1Hgo8xY4bLsGZJRr7aUnrm
+ BzyWct08z+UisjsDUs/38HSJmGGQGcXMcDnvYL0/3iO6qsCGn4WjlRPR+7PdH61QxRH5
+ cLYRRIaAfonS00VVtlympAi3UBY8+suNAsyhU4mzuTqLMZ8IrLNvW7aIVCdCfSNg23KM
+ z2wA==
+X-Gm-Message-State: APjAAAUXQWpyQPTFUamW79KTYxba6tkne1YMgTilTQ9f43GvHMmtVlqU
+ z/8FVZy7b7kqH5N21tEVBpDjow==
+X-Google-Smtp-Source: APXvYqx6CHHiBTtCrW08tBw9EdBn5RbwKhzr202oSZM0pFOQdInue3WW/kWhh3q6U4DcQExJV0KSfA==
+X-Received: by 2002:a63:3c46:: with SMTP id i6mr19435303pgn.413.1581967788978; 
+ Mon, 17 Feb 2020 11:29:48 -0800 (PST)
 Received: from [192.168.1.11] (97-126-123-70.tukw.qwest.net. [97.126.123.70])
  by smtp.gmail.com with ESMTPSA id
- w18sm1783070pge.4.2020.02.17.11.29.17
+ z4sm1247366pfn.42.2020.02.17.11.29.48
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 17 Feb 2020 11:29:18 -0800 (PST)
-Subject: Re: [PATCH v5 44/79] lm32/lm32_boards: use memdev for RAM
+ Mon, 17 Feb 2020 11:29:48 -0800 (PST)
+Subject: Re: [PATCH v5 45/79] lm32/milkymist: use memdev for RAM
 To: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org
 References: <20200217173452.15243-1-imammedo@redhat.com>
- <20200217173452.15243-45-imammedo@redhat.com>
+ <20200217173452.15243-46-imammedo@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <8716531b-3d18-5da1-6087-ec2f1a53d49a@linaro.org>
-Date: Mon, 17 Feb 2020 11:29:16 -0800
+Message-ID: <23001699-4222-b41f-d9dc-9298350d7524@linaro.org>
+Date: Mon, 17 Feb 2020 11:29:46 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200217173452.15243-45-imammedo@redhat.com>
+In-Reply-To: <20200217173452.15243-46-imammedo@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::444
+X-Received-From: 2607:f8b0:4864:20::542
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,7 +83,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, michael@walle.cc, philmd@redhat.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>, michael@walle.cc
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -101,6 +101,7 @@ On 2/17/20 9:34 AM, Igor Mammedov wrote:
 >  out if it mismatches board expected value.
 > 
 > Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 > ---
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
