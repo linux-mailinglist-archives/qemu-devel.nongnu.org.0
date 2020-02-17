@@ -2,56 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB014161BB4
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 20:36:50 +0100 (CET)
-Received: from localhost ([::1]:52076 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7153D161BB0
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 20:35:32 +0100 (CET)
+Received: from localhost ([::1]:52032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j3mCH-0003hK-QK
-	for lists+qemu-devel@lfdr.de; Mon, 17 Feb 2020 14:36:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55728)
+	id 1j3mB1-00010U-GH
+	for lists+qemu-devel@lfdr.de; Mon, 17 Feb 2020 14:35:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55699)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1j3m71-000335-8Y
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 14:31:24 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1j3m6m-0002hm-Qt
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 14:31:09 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1j3m6z-0004AG-FS
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 14:31:22 -0500
-Resent-Date: Mon, 17 Feb 2020 14:31:22 -0500
-Resent-Message-Id: <E1j3m6z-0004AG-FS@eggs.gnu.org>
-Received: from sender4-of-o51.zoho.com ([136.143.188.51]:21138)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1j3m6z-00048k-7U; Mon, 17 Feb 2020 14:31:21 -0500
-ARC-Seal: i=1; a=rsa-sha256; t=1581967862; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=g8wLkRIptXx/LhlIcWxRe6FiHhdQh7XmmtXvjpUAe8Win+QAt6DKn4wECqVTaIOITZtI+G3hKU0o46HNHlHnjR4VwD8tQ3ISHjT8v7Egwhwoh5E7Ex0QRzbAc74utsKWjSe9sNXa6l2mcwV3iNDO1a6Xdvln/xR05Qksd7evzO8=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1581967862;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=z3lUIvAdnNmYH3TVVuu+4iaVutqqW/O+35tNj6G4BeY=; 
- b=STfEM5GL3/zKcYpvza8AGPwTTO3MDgsg8WyThDZDYFH64/kzKx0dra5WEZk2Q5DaNb965R+7IzyqM8AfbrPNtQz7jQGf5qnMOLVd4LH668dqZYx5KpwcMZG7TJvA0Qqmt3QR0dcZCvHtcYLlSo9agtcOvhvm/LsGUlFwyoEFLqg=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 158196786032577.55054764102533;
- Mon, 17 Feb 2020 11:31:00 -0800 (PST)
-In-Reply-To: <20200217150246.29180-1-vsementsov@virtuozzo.com>
-Subject: Re: [PATCH v2 00/22] Fix error handling during bitmap postcopy
-Message-ID: <158196785831.4691.4320620594865587471@a1bbccc8075a>
+ (envelope-from <richard.henderson@linaro.org>) id 1j3m6l-00042S-SP
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 14:31:08 -0500
+Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:43107)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1j3m6l-00042E-MQ
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 14:31:07 -0500
+Received: by mail-pg1-x544.google.com with SMTP id u12so9370038pgb.10
+ for <qemu-devel@nongnu.org>; Mon, 17 Feb 2020 11:31:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=s2CbYYjbFZ/h07a/T7EwnPg8q6ttk+XqV+IXi4hWi2M=;
+ b=sdOvleG+9/Qa707j/ot5Pf2jHevqP+F+LUtgwWV2DnCbzqq8+qZTy1G1Pjc4TFt3H0
+ FVCEuYu6BSoN1RO7O55RRuhZNRBS5hJrKW/xnhyTMkXhTczW3M/bvGMHgFUkMv2ShzPF
+ 24XmW5Tbg5qhPqfyPyXh3lUaTk47c2rtyxpam4y4xC2jkYaGgk4j37BcitZvwHaecBCB
+ X/lotGFZ039eFl0XKLP9vzPdnWGNaJYa+lfcXB+4FJHOzS40ut+ebznTyI+g7HqldyDu
+ CMALiPNYl5ROZTkn9FLFXgYJNdhFG2BVv+jlrGEftgK/Gkzk70WwzKBVSnGwLR6qlXmq
+ yNgw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=s2CbYYjbFZ/h07a/T7EwnPg8q6ttk+XqV+IXi4hWi2M=;
+ b=BSqf8X++k2BBan/fLpLwX0xLimIUaimaqeYPlzlpjEuejvAFi4IkK8igYc0rEbOpn7
+ 7asRXFJnyW/GEx9W7xkqFAq7VT1hci8ayqfN0Ev50dI8WoCn9rCjXjhj6oi/y72jppRm
+ fTuWYulh80EW8ZsTVwoBvXjjGGUY+efwS5eJE21m/UGORO/1Asg5RGy3wGS/UDOJ8NUV
+ KPjAqSG+rjV04OamMTS3t86fyIVqisGeu66L0uBtKBqSn3eo+1O1tBrgXSl2I2685SVs
+ ow6m9hgLHL9QjkNmkzPVpq94yPqddI3zYV03VM3edqB1auKsb4PcqesVZ5ap0v4QgbFF
+ agWw==
+X-Gm-Message-State: APjAAAUsNi5MFh6NnVejH1/dFazlXK3EZLsirXxlfSCN70dbo4xV1Q3b
+ 7gk4eylVB+hMsUuAj2fd5xHbNg==
+X-Google-Smtp-Source: APXvYqyZjTkfuPlMzCufos1m1BpovcZsa0cJa7nlBgB0nOc1vf/1GeZXZPzYBsGoErL5l+x/2MWpyA==
+X-Received: by 2002:a17:90a:a60c:: with SMTP id
+ c12mr711855pjq.28.1581967866799; 
+ Mon, 17 Feb 2020 11:31:06 -0800 (PST)
+Received: from [192.168.1.11] (97-126-123-70.tukw.qwest.net. [97.126.123.70])
+ by smtp.gmail.com with ESMTPSA id
+ w11sm1751863pgh.5.2020.02.17.11.31.05
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 17 Feb 2020 11:31:05 -0800 (PST)
+Subject: Re: [PATCH v5 49/79] m68k/next-cube: use memdev for RAM
+To: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org
+References: <20200217173452.15243-1-imammedo@redhat.com>
+ <20200217173452.15243-50-imammedo@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <f6d862ea-f149-ba5b-8fb7-53de008964a8@linaro.org>
+Date: Mon, 17 Feb 2020 11:31:04 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: vsementsov@virtuozzo.com
-Date: Mon, 17 Feb 2020 11:31:00 -0800 (PST)
-X-ZohoMailClient: External
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 136.143.188.51
+In-Reply-To: <20200217173452.15243-50-imammedo@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::544
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,44 +84,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: fam@euphon.net, kwolf@redhat.com, vsementsov@virtuozzo.com,
- ehabkost@redhat.com, qemu-block@nongnu.org, quintela@redhat.com,
- qemu-devel@nongnu.org, qemu-stable@nongnu.org, stefanha@redhat.com,
- crosa@redhat.com, andrey.shinkevich@virtuozzo.com, mreitz@redhat.com,
- jsnow@redhat.com, dgilbert@redhat.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDIxNzE1MDI0Ni4yOTE4
-MC0xLXZzZW1lbnRzb3ZAdmlydHVvenpvLmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVtcyB0
-byBoYXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZvcgpt
-b3JlIGluZm9ybWF0aW9uOgoKU3ViamVjdDogW1BBVENIIHYyIDAwLzIyXSBGaXggZXJyb3IgaGFu
-ZGxpbmcgZHVyaW5nIGJpdG1hcCBwb3N0Y29weQpNZXNzYWdlLWlkOiAyMDIwMDIxNzE1MDI0Ni4y
-OTE4MC0xLXZzZW1lbnRzb3ZAdmlydHVvenpvLmNvbQpUeXBlOiBzZXJpZXMKCj09PSBURVNUIFND
-UklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJzZSBiYXNlID4gL2Rldi9udWxs
-IHx8IGV4aXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVsaW1pdCAwCmdpdCBjb25m
-aWcgLS1sb2NhbCBkaWZmLnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5hbGdv
-cml0aG0gaGlzdG9ncmFtCi4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIC0tbWFpbGJhY2sgYmFzZS4u
-Cj09PSBURVNUIFNDUklQVCBFTkQgPT09CgpVcGRhdGluZyAzYzhjZjVhOWMyMWZmODc4MjE2NGQx
-ZGVmN2Y0NGJkODg4NzEzMzg0CmZhdGFsOiBnaXQgZmV0Y2hfcGFjazogZXhwZWN0ZWQgQUNLL05B
-SywgZ290ICdFUlIgdXBsb2FkLXBhY2s6IG5vdCBvdXIgcmVmIDI0N2I1ODhjMzU3Njk0Yzg5NmQw
-NTY4MzZkYTIzNDFkNzU0NTFjNGYnCmZhdGFsOiBUaGUgcmVtb3RlIGVuZCBodW5nIHVwIHVuZXhw
-ZWN0ZWRseQplcnJvcjogQ291bGQgbm90IGZldGNoIDNjOGNmNWE5YzIxZmY4NzgyMTY0ZDFkZWY3
-ZjQ0YmQ4ODg3MTMzODQKVHJhY2ViYWNrIChtb3N0IHJlY2VudCBjYWxsIGxhc3QpOgogIEZpbGUg
-InBhdGNoZXctdGVzdGVyL3NyYy9wYXRjaGV3LWNsaSIsIGxpbmUgNTIxLCBpbiB0ZXN0X29uZQog
-ICAgZ2l0X2Nsb25lX3JlcG8oY2xvbmUsIHJbInJlcG8iXSwgclsiaGVhZCJdLCBsb2dmLCBUcnVl
-KQogIEZpbGUgInBhdGNoZXctdGVzdGVyL3NyYy9wYXRjaGV3LWNsaSIsIGxpbmUgNDgsIGluIGdp
-dF9jbG9uZV9yZXBvCiAgICBzdGRvdXQ9bG9nZiwgc3RkZXJyPWxvZ2YpCiAgRmlsZSAiL29wdC9y
-aC9yaC1weXRob24zNi9yb290L3Vzci9saWI2NC9weXRob24zLjYvc3VicHJvY2Vzcy5weSIsIGxp
-bmUgMjkxLCBpbiBjaGVja19jYWxsCiAgICByYWlzZSBDYWxsZWRQcm9jZXNzRXJyb3IocmV0Y29k
-ZSwgY21kKQpzdWJwcm9jZXNzLkNhbGxlZFByb2Nlc3NFcnJvcjogQ29tbWFuZCAnWydnaXQnLCAn
-cmVtb3RlJywgJ2FkZCcsICctZicsICctLW1pcnJvcj1mZXRjaCcsICczYzhjZjVhOWMyMWZmODc4
-MjE2NGQxZGVmN2Y0NGJkODg4NzEzMzg0JywgJ2h0dHBzOi8vZ2l0aHViLmNvbS9wYXRjaGV3LXBy
-b2plY3QvcWVtdSddJyByZXR1cm5lZCBub24temVybyBleGl0IHN0YXR1cyAxLgoKCgpUaGUgZnVs
-bCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMjAwMjE3MTUw
-MjQ2LjI5MTgwLTEtdnNlbWVudHNvdkB2aXJ0dW96em8uY29tL3Rlc3RpbmcuY2hlY2twYXRjaC8/
-dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hl
-dyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBh
-dGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
+On 2/17/20 9:34 AM, Igor Mammedov wrote:
+> memory_region_allocate_system_memory() API is going away, so
+> replace it with memdev allocated MemoryRegion. The later is
+> initialized by generic code, so board only needs to opt in
+> to memdev scheme by providing
+>   MachineClass::default_ram_id
+> and using MachineState::ram instead of manually initializing
+> RAM memory region.
+> 
+> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+> Acked-by: Thomas Huth <thuth@redhat.com>
+> ---
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
+
+r~
+
 
