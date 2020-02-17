@@ -2,70 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD3831616CB
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 16:55:31 +0100 (CET)
-Received: from localhost ([::1]:47756 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33F691616D0
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 16:56:50 +0100 (CET)
+Received: from localhost ([::1]:47804 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j3ik6-0001df-V8
-	for lists+qemu-devel@lfdr.de; Mon, 17 Feb 2020 10:55:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51048)
+	id 1j3ilN-0003v9-9W
+	for lists+qemu-devel@lfdr.de; Mon, 17 Feb 2020 10:56:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51238)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j3ij4-0000I8-73
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 10:54:27 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1j3ijz-0002UG-Sp
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 10:55:24 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j3ij2-0007bV-Js
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 10:54:26 -0500
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:43705)
+ (envelope-from <peter.maydell@linaro.org>) id 1j3ijy-00089r-NG
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 10:55:23 -0500
+Received: from mail-ot1-x32e.google.com ([2607:f8b0:4864:20::32e]:45471)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j3ij2-0007bA-Cz
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 10:54:24 -0500
-Received: by mail-wr1-x42b.google.com with SMTP id r11so20293153wrq.10
- for <qemu-devel@nongnu.org>; Mon, 17 Feb 2020 07:54:24 -0800 (PST)
+ id 1j3ijy-00089b-Gu
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 10:55:22 -0500
+Received: by mail-ot1-x32e.google.com with SMTP id 59so16502883otp.12
+ for <qemu-devel@nongnu.org>; Mon, 17 Feb 2020 07:55:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=uARvTUAfTed0ANLAB+83sxjOhOEVAWMdCK2VFJ9k4bY=;
- b=uJZRoPNcx9m0JmKZupv9fEEEhSYb9aQf/zdQ/BByKggrb0spYPgjYztIQJUD3YLTEL
- Ul3uJZipbldPELKvQUcuH6USbuDJ6jSdc6O0uoGllOUzEBuuts89Zpo0LF8aQvjO2noX
- x9dr7wC1wP9F+vJL5GVT9FD7466TocXGS0BzPI5kH0qIFs95YyYvaNETL3KKsCjGs0jl
- eGlWsTVb0LJlxcCdyjq1Sx1FiFbwysXVqN7hOCtU3GHCbcFrwSEzf+6KxGoWfUmCFey0
- 4Ll8K2Xjmks7fO7d6QsBDKvYDFTnXQ8Oko1F8uQGyH+FZqjl9x/fWWkmOeN1kF1vFisx
- 4gHg==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=8kBDhxVVM/Gq1wwnz0BXDQtaLqVE7Wb7I+vJhj5biCE=;
+ b=tplBBtkpJM3KaRJ5XxZW0s+jwwaiw3QXLJuJiBdCwrPcP0Z2VdiUqcDvuJtR6gjFwR
+ fZbpxYnrZUBou9yKVizfOoGJDCJpTit+u4qWvIcVirIGbQ8my9Pg/JlVYP0soKrZPo+b
+ iiZA7hpXcB70c71h6s7TqHV+uNQwnN9O1r0nwObMyod9Ppg5IqAsyr15c/09Ri+DOyd8
+ nkOzGVr6KbjFDAB9OeIdtvXTzUpicTRSqYQpAgePWDgC8lj1kziY5zBf0LqE5GbW+nKc
+ 009Ox7xi/Nd0kzeuvJP/fumQ1VqLL1HOWag7Nu6xgxT9zBatjeS4JaMIKnCEd9vp9H2x
+ 9pLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=uARvTUAfTed0ANLAB+83sxjOhOEVAWMdCK2VFJ9k4bY=;
- b=hry3tnZiNfbpMSO70r6/W0LIWACoxtqT06fEdUR4+mICBCbTqjeIye4lV9qrgVZ62E
- OGvaqvUwxDtNDGopi83XJMzYdb/ql4Ay0T1qWy9NiF9n/ePDZAJ4WPTzdzehBzgYP2qk
- PFWhoEB/0auPPDM2bjHVN9rYBkN2I7AMnatFIaM/4jfb3zqmbaILpsDmEOLw3uH1cdrG
- jiQCyYV0vmwHS7O2A1FJWCfp6USNjTmJE327tTUbgbFCUfqN+p53pD41azbI3xJM9dmj
- QmDFv2X1+ZVyvgDWhgu0eAkKJKUDE6Oc+U21GD86Rc0Jir3Vhoq7nA6N7NKX0/Xv440h
- QkqA==
-X-Gm-Message-State: APjAAAWD41B2KQZLyPaTao0nHcW0tKwmqnf3EkLi32p7WdA3gnUJyni8
- WKgy7nzO3IHKsDIlf/CYEGVChiZSl9D70A==
-X-Google-Smtp-Source: APXvYqy7iwyF21R0Jklc+Hj3GDq0/FT/6bVHHILlf9azgSqUL9NoLb3XEqkvuvwHtzhXS2o9cDyW+Q==
-X-Received: by 2002:a5d:5647:: with SMTP id j7mr22933366wrw.265.1581954862875; 
- Mon, 17 Feb 2020 07:54:22 -0800 (PST)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id q9sm1465626wrx.18.2020.02.17.07.54.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Feb 2020 07:54:22 -0800 (PST)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 3/3] docs: Move tools documentation to tools manual
-Date: Mon, 17 Feb 2020 15:54:15 +0000
-Message-Id: <20200217155415.30949-4-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200217155415.30949-1-peter.maydell@linaro.org>
-References: <20200217155415.30949-1-peter.maydell@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=8kBDhxVVM/Gq1wwnz0BXDQtaLqVE7Wb7I+vJhj5biCE=;
+ b=aszesgHlEIsjVtz0t9Do8a+9bBh1IIUOoXxvXfqZDcuoFOPIT89/s/l0UImdc4O5fg
+ ScEx8Vf4Ok4epypPNpk2wJs2xhuzhXkb83ZfO3d9n5KEbgxucMQXIVLSn/ih6Jvm0qVO
+ 2USNbI1VdpJWZ9YBphk1MrrRFz3YZBKH8e+3/nvAmbyYQsDIlz3Sw9eJb04xxt/TF5pH
+ SLQRXrq+q3n4g2TIPjf19L4UjmWcSkMkyWADxtqkTx3MAAHW07K7CC2Z8MiTS9KdI1W9
+ m6IpeYCHqxm0PY6Fnmzfi/5Rr08TUK9bsDa1QilqY0Gikn9B1g0oLE5Wq3CDPxi4gdin
+ 5c7g==
+X-Gm-Message-State: APjAAAV7Orp+kpK9+6BE1+782hez81ZnF2NawTZ2tftNxNMmYNxZB8pa
+ jagrCS02oVu7ZlPFsSHc/A+yxqm0pD4fCIz9XBBErw==
+X-Google-Smtp-Source: APXvYqwg0eQgX7SXymOmnT4FwgBtMNMJ0ifa3g8Go2uNWYEDodvIAG1IV2lfv6OTaQ17I48BolMbVuLspaj/uheg+Bg=
+X-Received: by 2002:a9d:68d9:: with SMTP id i25mr448036oto.135.1581954921324; 
+ Mon, 17 Feb 2020 07:55:21 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20200217132814.9018-1-armbru@redhat.com>
+In-Reply-To: <20200217132814.9018-1-armbru@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 17 Feb 2020 15:55:10 +0000
+Message-ID: <CAFEAcA_PxO9kPLB8vZnBzZ+0Skyeisr3wGJ0XU+j2ChT45PR2w@mail.gmail.com>
+Subject: Re: [PULL v2 0/5] Monitor patches for 2020-02-15
+To: Markus Armbruster <armbru@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42b
+X-Received-From: 2607:f8b0:4864:20::32e
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,230 +71,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- "Daniel P. Berrange" <berrange@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move the following tools documentation files to the new tools manual:
+On Mon, 17 Feb 2020 at 13:31, Markus Armbruster <armbru@redhat.com> wrote:
+>
+> The following changes since commit 9ced5c7c20cb16dff0c2fa3242c3ee96b68cec2a:
+>
+>   Merge remote-tracking branch 'remotes/armbru/tags/pull-qapi-2020-02-15' into staging (2020-02-16 21:15:26 +0000)
+>
+> are available in the Git repository at:
+>
+>   git://repo.or.cz/qemu/armbru.git tags/pull-monitor-2020-02-15-v2
+>
+> for you to fetch changes up to ec95fcc8bae624e87c7601d2d4baf7c519c3814e:
+>
+>   qemu-doc: Clarify extent of build platform support (2020-02-17 13:53:47 +0100)
+>
+> ----------------------------------------------------------------
+> Monitor patches for 2020-02-15
+>
+> * Refactoring in preparation for qemu-storage-daemon
+>
+> * A doc clarification that's admittedly not about the monitor
+> ----------------------------------------------------------------
+> Kevin Wolf (4):
+>       monitor: Move monitor option parsing to monitor/monitor.c
+>       qapi: Split control.json off misc.json
+>       monitor: Collect "control" command handlers in qmp-cmds.control.c
+>       monitor: Move qmp_query_qmp_schema to qmp-cmds-control.c
+>
+> Markus Armbruster (1):
+>       qemu-doc: Clarify extent of build platform support
 
- docs/interop/qemu-img.rst
- docs/interop/qemu-nbd.rst
- docs/interop/virtfs-proxy-helper.rst
- docs/interop/qemu-trace-stap.rst
- docs/interop/virtiofsd.rst
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- Makefile                                      | 34 ++++++++++---------
- docs/interop/conf.py                          | 12 -------
- docs/interop/index.rst                        |  5 ---
- docs/tools/conf.py                            | 17 ++++++++++
- docs/tools/index.rst                          |  6 ++++
- docs/{interop => tools}/qemu-img.rst          |  0
- docs/{interop => tools}/qemu-nbd.rst          |  0
- docs/{interop => tools}/qemu-trace-stap.rst   |  0
- .../virtfs-proxy-helper.rst                   |  0
- docs/{interop => tools}/virtiofsd.rst         |  0
- 10 files changed, 41 insertions(+), 33 deletions(-)
- rename docs/{interop => tools}/qemu-img.rst (100%)
- rename docs/{interop => tools}/qemu-nbd.rst (100%)
- rename docs/{interop => tools}/qemu-trace-stap.rst (100%)
- rename docs/{interop => tools}/virtfs-proxy-helper.rst (100%)
- rename docs/{interop => tools}/virtiofsd.rst (100%)
+Applied, thanks.
 
-diff --git a/Makefile b/Makefile
-index 886d4299d54..7a9c682a2c0 100644
---- a/Makefile
-+++ b/Makefile
-@@ -345,11 +345,11 @@ endif
- 
- ifdef BUILD_DOCS
- DOCS=qemu-doc.html qemu-doc.txt qemu.1
--DOCS+=$(MANUAL_BUILDDIR)/interop/qemu-img.1
--DOCS+=$(MANUAL_BUILDDIR)/interop/qemu-nbd.8
-+DOCS+=$(MANUAL_BUILDDIR)/tools/qemu-img.1
-+DOCS+=$(MANUAL_BUILDDIR)/tools/qemu-nbd.8
- DOCS+=$(MANUAL_BUILDDIR)/interop/qemu-ga.8
- ifeq ($(CONFIG_LINUX)$(CONFIG_SECCOMP)$(CONFIG_LIBCAP_NG),yyy)
--DOCS+=$(MANUAL_BUILDDIR)/interop/virtiofsd.1
-+DOCS+=$(MANUAL_BUILDDIR)/tools/virtiofsd.1
- endif
- DOCS+=$(MANUAL_BUILDDIR)/system/qemu-block-drivers.7
- DOCS+=docs/interop/qemu-qmp-ref.html docs/interop/qemu-qmp-ref.txt docs/interop/qemu-qmp-ref.7
-@@ -357,10 +357,10 @@ DOCS+=docs/interop/qemu-ga-ref.html docs/interop/qemu-ga-ref.txt docs/interop/qe
- DOCS+=docs/qemu-cpu-models.7
- DOCS+=$(MANUAL_BUILDDIR)/index.html
- ifdef CONFIG_VIRTFS
--DOCS+=$(MANUAL_BUILDDIR)/interop/virtfs-proxy-helper.1
-+DOCS+=$(MANUAL_BUILDDIR)/tools/virtfs-proxy-helper.1
- endif
- ifdef CONFIG_TRACE_SYSTEMTAP
--DOCS+=$(MANUAL_BUILDDIR)/interop/qemu-trace-stap.1
-+DOCS+=$(MANUAL_BUILDDIR)/tools/qemu-trace-stap.1
- endif
- else
- DOCS=
-@@ -848,12 +848,12 @@ ifdef CONFIG_POSIX
- 	$(INSTALL_DATA) $(MANUAL_BUILDDIR)/system/qemu-block-drivers.7 "$(DESTDIR)$(mandir)/man7"
- 	$(INSTALL_DATA) docs/qemu-cpu-models.7 "$(DESTDIR)$(mandir)/man7"
- ifeq ($(CONFIG_TOOLS),y)
--	$(INSTALL_DATA) $(MANUAL_BUILDDIR)/interop/qemu-img.1 "$(DESTDIR)$(mandir)/man1"
-+	$(INSTALL_DATA) $(MANUAL_BUILDDIR)/tools/qemu-img.1 "$(DESTDIR)$(mandir)/man1"
- 	$(INSTALL_DIR) "$(DESTDIR)$(mandir)/man8"
--	$(INSTALL_DATA) $(MANUAL_BUILDDIR)/interop/qemu-nbd.8 "$(DESTDIR)$(mandir)/man8"
-+	$(INSTALL_DATA) $(MANUAL_BUILDDIR)/tools/qemu-nbd.8 "$(DESTDIR)$(mandir)/man8"
- endif
- ifdef CONFIG_TRACE_SYSTEMTAP
--	$(INSTALL_DATA) $(MANUAL_BUILDDIR)/interop/qemu-trace-stap.1 "$(DESTDIR)$(mandir)/man1"
-+	$(INSTALL_DATA) $(MANUAL_BUILDDIR)/tools/qemu-trace-stap.1 "$(DESTDIR)$(mandir)/man1"
- endif
- ifneq (,$(findstring qemu-ga,$(TOOLS)))
- 	$(INSTALL_DATA) $(MANUAL_BUILDDIR)/interop/qemu-ga.8 "$(DESTDIR)$(mandir)/man8"
-@@ -864,10 +864,10 @@ endif
- endif
- ifdef CONFIG_VIRTFS
- 	$(INSTALL_DIR) "$(DESTDIR)$(mandir)/man1"
--	$(INSTALL_DATA) $(MANUAL_BUILDDIR)/interop/virtfs-proxy-helper.1 "$(DESTDIR)$(mandir)/man1"
-+	$(INSTALL_DATA) $(MANUAL_BUILDDIR)/tools/virtfs-proxy-helper.1 "$(DESTDIR)$(mandir)/man1"
- endif
- ifeq ($(CONFIG_LINUX)$(CONFIG_SECCOMP)$(CONFIG_LIBCAP_NG),yyy)
--	$(INSTALL_DATA) docs/interop/virtiofsd.1 "$(DESTDIR)$(mandir)/man1"
-+	$(INSTALL_DATA) docs/tools/virtiofsd.1 "$(DESTDIR)$(mandir)/man1"
- endif
- 
- install-datadir:
-@@ -1049,7 +1049,7 @@ endef
- $(MANUAL_BUILDDIR)/devel/index.html: $(call manual-deps,devel)
- 	$(call build-manual,devel,html)
- 
--$(MANUAL_BUILDDIR)/interop/index.html: $(call manual-deps,interop) $(SRC_PATH)/qemu-img-cmds.hx $(SRC_PATH)/docs/qemu-option-trace.rst.inc
-+$(MANUAL_BUILDDIR)/interop/index.html: $(call manual-deps,interop)
- 	$(call build-manual,interop,html)
- 
- $(MANUAL_BUILDDIR)/specs/index.html: $(call manual-deps,specs)
-@@ -1058,16 +1058,18 @@ $(MANUAL_BUILDDIR)/specs/index.html: $(call manual-deps,specs)
- $(MANUAL_BUILDDIR)/system/index.html: $(call manual-deps,system)
- 	$(call build-manual,system,html)
- 
--$(MANUAL_BUILDDIR)/tools/index.html: $(call manual-deps,tools)
-+$(MANUAL_BUILDDIR)/tools/index.html: $(call manual-deps,tools) $(SRC_PATH)/qemu-img-cmds.hx $(SRC_PATH)/docs/qemu-option-trace.rst.inc
- 	$(call build-manual,tools,html)
- 
--$(call define-manpage-rule,interop,\
--       qemu-ga.8 qemu-img.1 qemu-nbd.8 qemu-trace-stap.1\
--       virtiofsd.1 virtfs-proxy-helper.1,\
--       $(SRC_PATH)/qemu-img-cmds.hx $(SRC_PATH)/docs/qemu-option-trace.rst.inc)
-+$(call define-manpage-rule,interop,qemu-ga.8)
- 
- $(call define-manpage-rule,system,qemu-block-drivers.7)
- 
-+$(call define-manpage-rule,tools,\
-+       qemu-img.1 qemu-nbd.8 qemu-trace-stap.1\
-+       virtiofsd.1 virtfs-proxy-helper.1,\
-+       $(SRC_PATH)/qemu-img-cmds.hx $(SRC_PATH)/docs/qemu-option-trace.rst.inc)
-+
- $(MANUAL_BUILDDIR)/index.html: $(SRC_PATH)/docs/index.html.in qemu-version.h
- 	@mkdir -p "$(MANUAL_BUILDDIR)"
- 	$(call quiet-command, sed "s|@@VERSION@@|${VERSION}|g" $< >$@, \
-diff --git a/docs/interop/conf.py b/docs/interop/conf.py
-index b3cda17042c..42ce7e3d365 100644
---- a/docs/interop/conf.py
-+++ b/docs/interop/conf.py
-@@ -19,16 +19,4 @@ html_theme_options['description'] = u'System Emulation Management and Interopera
- man_pages = [
-     ('qemu-ga', 'qemu-ga', u'QEMU Guest Agent',
-      ['Michael Roth <mdroth@linux.vnet.ibm.com>'], 8),
--    ('qemu-img', 'qemu-img', u'QEMU disk image utility',
--     ['Fabrice Bellard'], 1),
--    ('qemu-nbd', 'qemu-nbd', u'QEMU Disk Network Block Device Server',
--     ['Anthony Liguori <anthony@codemonkey.ws>'], 8),
--    ('qemu-trace-stap', 'qemu-trace-stap', u'QEMU SystemTap trace tool',
--     [], 1),
--    ('virtfs-proxy-helper', 'virtfs-proxy-helper',
--     u'QEMU 9p virtfs proxy filesystem helper',
--     ['M. Mohan Kumar'], 1),
--    ('virtiofsd', 'virtiofsd', u'QEMU virtio-fs shared file system daemon',
--     ['Stefan Hajnoczi <stefanha@redhat.com>',
--      'Masayoshi Mizuma <m.mizuma@jp.fujitsu.com>'], 1),
- ]
-diff --git a/docs/interop/index.rst b/docs/interop/index.rst
-index e8455b4270c..049387ac6de 100644
---- a/docs/interop/index.rst
-+++ b/docs/interop/index.rst
-@@ -18,10 +18,5 @@ Contents:
-    live-block-operations
-    pr-helper
-    qemu-ga
--   qemu-img
--   qemu-nbd
--   qemu-trace-stap
-    vhost-user
-    vhost-user-gpu
--   virtfs-proxy-helper
--   virtiofsd
-diff --git a/docs/tools/conf.py b/docs/tools/conf.py
-index 56461110b9d..9052d17d6d4 100644
---- a/docs/tools/conf.py
-+++ b/docs/tools/conf.py
-@@ -14,3 +14,20 @@ exec(compile(open(parent_config, "rb").read(), parent_config, 'exec'))
- # the manual title to appear in the sidebar.
- html_theme_options['description'] = \
-     u'Tools Guide'
-+
-+# One entry per manual page. List of tuples
-+# (source start file, name, description, authors, manual section).
-+man_pages = [
-+    ('qemu-img', 'qemu-img', u'QEMU disk image utility',
-+     ['Fabrice Bellard'], 1),
-+    ('qemu-nbd', 'qemu-nbd', u'QEMU Disk Network Block Device Server',
-+     ['Anthony Liguori <anthony@codemonkey.ws>'], 8),
-+    ('qemu-trace-stap', 'qemu-trace-stap', u'QEMU SystemTap trace tool',
-+     [], 1),
-+    ('virtfs-proxy-helper', 'virtfs-proxy-helper',
-+     u'QEMU 9p virtfs proxy filesystem helper',
-+     ['M. Mohan Kumar'], 1),
-+    ('virtiofsd', 'virtiofsd', u'QEMU virtio-fs shared file system daemon',
-+     ['Stefan Hajnoczi <stefanha@redhat.com>',
-+      'Masayoshi Mizuma <m.mizuma@jp.fujitsu.com>'], 1),
-+]
-diff --git a/docs/tools/index.rst b/docs/tools/index.rst
-index c5a4a13ec7a..232ce9f3e46 100644
---- a/docs/tools/index.rst
-+++ b/docs/tools/index.rst
-@@ -9,3 +9,9 @@ Contents:
- 
- .. toctree::
-    :maxdepth: 2
-+
-+   qemu-img
-+   qemu-nbd
-+   qemu-trace-stap
-+   virtfs-proxy-helper
-+   virtiofsd
-diff --git a/docs/interop/qemu-img.rst b/docs/tools/qemu-img.rst
-similarity index 100%
-rename from docs/interop/qemu-img.rst
-rename to docs/tools/qemu-img.rst
-diff --git a/docs/interop/qemu-nbd.rst b/docs/tools/qemu-nbd.rst
-similarity index 100%
-rename from docs/interop/qemu-nbd.rst
-rename to docs/tools/qemu-nbd.rst
-diff --git a/docs/interop/qemu-trace-stap.rst b/docs/tools/qemu-trace-stap.rst
-similarity index 100%
-rename from docs/interop/qemu-trace-stap.rst
-rename to docs/tools/qemu-trace-stap.rst
-diff --git a/docs/interop/virtfs-proxy-helper.rst b/docs/tools/virtfs-proxy-helper.rst
-similarity index 100%
-rename from docs/interop/virtfs-proxy-helper.rst
-rename to docs/tools/virtfs-proxy-helper.rst
-diff --git a/docs/interop/virtiofsd.rst b/docs/tools/virtiofsd.rst
-similarity index 100%
-rename from docs/interop/virtiofsd.rst
-rename to docs/tools/virtiofsd.rst
--- 
-2.20.1
+Please update the changelog at https://wiki.qemu.org/ChangeLog/5.0
+for any user-visible changes.
 
+-- PMM
 
