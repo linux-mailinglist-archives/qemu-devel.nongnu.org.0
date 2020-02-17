@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 135A4160DA6
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 09:40:51 +0100 (CET)
-Received: from localhost ([::1]:42090 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 016BF160DB2
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 09:44:36 +0100 (CET)
+Received: from localhost ([::1]:42116 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j3bxS-0007KL-0A
-	for lists+qemu-devel@lfdr.de; Mon, 17 Feb 2020 03:40:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45037)
+	id 1j3c15-0000vm-NR
+	for lists+qemu-devel@lfdr.de; Mon, 17 Feb 2020 03:44:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45048)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <luc.michel@greensocs.com>) id 1j3blv-000282-Ud
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 03:28:57 -0500
+ (envelope-from <luc.michel@greensocs.com>) id 1j3bm6-0002Ji-C7
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 03:29:07 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <luc.michel@greensocs.com>) id 1j3blu-0007G5-L3
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 03:28:55 -0500
-Received: from beetle.greensocs.com ([5.135.226.135]:47252)
+ (envelope-from <luc.michel@greensocs.com>) id 1j3bm4-0007Ll-SD
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 03:29:06 -0500
+Received: from beetle.greensocs.com ([5.135.226.135]:47280)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <luc.michel@greensocs.com>)
- id 1j3blu-0007Fb-Cp
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 03:28:54 -0500
+ id 1j3bm4-0007LF-KB
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 03:29:04 -0500
 Received: from [172.16.11.100] (tiramisu.bar.greensocs.com [172.16.11.100])
- by beetle.greensocs.com (Postfix) with ESMTPSA id 53A7E96F51;
- Mon, 17 Feb 2020 08:28:53 +0000 (UTC)
+ by beetle.greensocs.com (Postfix) with ESMTPSA id 1C46996F50;
+ Mon, 17 Feb 2020 08:29:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1581928133;
+ s=mail; t=1581928143;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=k8SBPmb8gvdV3IllyECufJ3GkY5fKGxx3UU+XmTXzDk=;
- b=GIHesJGDbkAsTRzKn2WMQc5eis8TkpfvQ2JF8oOo+epHmtYIdZryunxQd8a2fy53CQHLJw
- BhvZbpdI0f7cmpHbH6SC4ZeESlTsjBZoizYoUDrjbwTdPWaH2xAH6eq5jdbKohjcqSkQHo
- eHF4w3xmqjVCcBrPHgWtknc9W3PzxJY=
-Subject: Re: [PATCH 7/8] tests/boot_linux_console: Test booting U-Boot on the
- Raspberry Pi 3
+ bh=l/l+/nyo3VtMN/Jt+Vv8cGUFsVryv9bbYAXV7EkPsfo=;
+ b=27UMf5Xe/ALJr3GSNl+MFISJUQFpk6NSV43QfeXmdINUicXN3LfaOeg4dXUvpSmGYEzc6X
+ R0Ea2GY4jufD2vF+NoDs9Wkkqgvezrua64np54KUhFwc8DtWHZh+/AAgMJbiFcZc8Upiqf
+ k+/5aIzJk2XUE6RI2Tf594bNxslJXnQ=
+Subject: Re: [PATCH 8/8] tests/acceptance: Count Raspberry Pi logos displayed
+ on framebuffer
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
 References: <20200215192216.4899-1-f4bug@amsat.org>
- <20200215192216.4899-8-f4bug@amsat.org>
+ <20200215192216.4899-9-f4bug@amsat.org>
 From: Luc Michel <luc.michel@greensocs.com>
-Message-ID: <59852f0e-5462-5371-2e1b-e34dc02e867d@greensocs.com>
-Date: Mon, 17 Feb 2020 09:28:53 +0100
+Message-ID: <21dd5eac-8c4f-63eb-4288-a2fb9bfe99c9@greensocs.com>
+Date: Mon, 17 Feb 2020 09:29:02 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.2
 MIME-Version: 1.0
-In-Reply-To: <20200215192216.4899-8-f4bug@amsat.org>
+In-Reply-To: <20200215192216.4899-9-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-PH
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com; 
- s=mail; t=1581928133;
+ s=mail; t=1581928143;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=k8SBPmb8gvdV3IllyECufJ3GkY5fKGxx3UU+XmTXzDk=;
- b=UPmWnpasFToxsv9igD+W041V82VTy0TD8mS6aaMFTtC6r6AVhxWjdnakiHBoSZu4SDV+aD
- 9KNsnXzNR7U2035YQWIKbzoO59PehykHOzAYqettKQRQHUza/G2QIfxL+WqYdeiAoHncEk
- KFCEwrYENqU7kYYTpXIkFjjmJBi7C0s=
-ARC-Seal: i=1; s=mail; d=greensocs.com; t=1581928133; a=rsa-sha256; cv=none;
- b=tocNiEGSgGS/f6QXO2sgXfbsv52okMcSIhJZN/9mKNYJDy9vC2fNRYlmldR7iwB2uwJ1ci
- dHix9tYA2QebQoAxemVKYOv5ctJPjwrAxAl9i9Uy6cSjmR4XfBcwMtbXchossaXicypFvJ
- uY/BapqZeV9+SYqoUs98iW4PoiCPDHU=
+ bh=l/l+/nyo3VtMN/Jt+Vv8cGUFsVryv9bbYAXV7EkPsfo=;
+ b=OLUgacUj0r/PLe6W89e/aaUZjJOkCeDukfb2aXzVDuPXNEQVGwEPFJ7ZECP38ciObH7tja
+ 120GlAAZ0yQJ7xLcyrM4ZW2v597sdNmcMqOvGm+B4ljOQCOGdGgbsAM5vllmSoU64GePGB
+ C0qd2pVlTR67DIQM5Itrd4qk/dOeBqI=
+ARC-Seal: i=1; s=mail; d=greensocs.com; t=1581928143; a=rsa-sha256; cv=none;
+ b=DA0SpRMDMyWxxbtOWQGR4C9e+LfieBFHLMGO5CGLtNLoi6kVOatBIQt8pGf8D6tAEfrg1J
+ rIOgm5UwAN8xglj7premU41QtbYULdTcq0uY7W/yzUULOHfgKcHMfENHoiBZ19NOgkdV1b
+ W4uzkC+V9/OAJTVcC6Sl/t/oOxXCiyA=
 ARC-Authentication-Results: i=1; ORIGINATING;
  auth=pass smtp.auth=luc smtp.mailfrom=luc.michel@greensocs.com
 Content-Transfer-Encoding: quoted-printable
@@ -86,103 +86,140 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 2/15/20 8:22 PM, Philippe Mathieu-Daud=C3=A9 wrote:
-> This test runs U-Boot on the Raspberry Pi 3.
-> It is very simple and fast:
+> Add a test that verifies that each core properly displays the
+> Raspberry Pi logo on the framebuffer device.
 >=20
->   $ avocado --show=3Dapp,console run -t raspi3 -t u-boot tests/acceptan=
-ce/
->   JOB LOG    : avocado/job-results/job-2020-01-20T23.40-2424777/job.log
+> We simply follow the OpenCV "Template Matching with Multiple Objects"
+> tutorial, replacing Lionel Messi by a raspberrry:
+> https://docs.opencv.org/4.2.0/d4/dc6/tutorial_py_template_matching.html
+>=20
+> When OpenCV and NumPy are installed, this test can be run using:
+>=20
+>   $ avocado --show=3Dapp,framebuffer run -t device:bcm2835-fb tests/acc=
+eptance/
+>   JOB ID     : 9bbbc54c0a6fa180348d0b5305507f76852b4da2
+>   JOB LOG    : avocado/job-results/job-2020-01-31T23.48-9bbbc54/job.log
 >    (1/1) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_a=
-arch64_raspi3_uboot:
->   console: MMC:   mmc@7e202000: 0, sdhci@7e300000: 1
->   console: Loading Environment from FAT... WARNING at drivers/mmc/bcm28=
-35_sdhost.c:410/bcm2835_send_command()!
->   console: WARNING at drivers/mmc/bcm2835_sdhost.c:410/bcm2835_send_com=
-mand()!
->   console: Card did not respond to voltage select!
->   console: In:    serial
->   console: Out:   vidconsole
->   console: Err:   vidconsole
->   console: Net:   No ethernet found.
->   console: starting USB...
->   console: Bus usb@7e980000: Port not available.
->   console: Hit any key to stop autoboot:  0
->   console: U-Boot>
->   console: U-Boot>
->   console: U-Boot> bdinfo
->   console: arch_number =3D 0x0000000000000000
->   console: boot_params =3D 0x0000000000000100
->   console: DRAM bank   =3D 0x0000000000000000
->   console: -> start    =3D 0x0000000000000000
->   console: -> size     =3D 0x000000003c000000
->   console: baudrate    =3D 115200 bps
->   console: TLB addr    =3D 0x000000003bff0000
->   console: relocaddr   =3D 0x000000003bf57000
->   console: reloc off   =3D 0x000000003bed7000
->   console: irq_sp      =3D 0x000000003bb52dd0
->   console: sp start    =3D 0x000000003bb52dd0
->   console: FB base     =3D 0x0000000000000000
->   console: Early malloc usage: 7b0 / 2000
->   console: fdt_blob    =3D 0x000000003bfbf200
->   console: U-Boot> version
->   console: U-Boot 2020.01+dfsg-1 (Jan 08 2020 - 08:19:44 +0000)
->   console: gcc (Debian 9.2.1-22) 9.2.1 20200104
->   console: GNU ld (GNU Binutils for Debian) 2.33.1
->   console: U-Boot> reset
->   console: resetting ...
->   PASS (1.79 s)
->=20
-> U-Boot is built by the Debian project, see:
-> https://wiki.debian.org/InstallingDebianOn/Allwinner#Creating_a_bootabl=
-e_SD_Card_with_u-boot
+rm_raspi2_framebuffer_logo:
+>   framebuffer: found raspberry at position (x, y) =3D (0, 0)
+>   framebuffer: found raspberry at position (x, y) =3D (71, 0)
+>   framebuffer: found raspberry at position (x, y) =3D (142, 0)
+>   framebuffer: found raspberry at position (x, y) =3D (213, 0)
+>   PASS (11.06 s)
+>   RESULTS    : PASS 1 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT =
+0 | CANCEL 0
+>   JOB TIME   : 11.39 s
 >=20
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
 Reviewed-by: Luc Michel <luc.michel@greensocs.com>
 
 > ---
->  tests/acceptance/boot_linux_console.py | 25 +++++++++++++++++++++++++
->  1 file changed, 25 insertions(+)
+> The resulting match can be visualised at https://pasteboard.co/ISzNHtx.=
+png
+> ---
+>  tests/acceptance/boot_linux_console.py | 62 ++++++++++++++++++++++++++
+>  1 file changed, 62 insertions(+)
 >=20
 > diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/=
 boot_linux_console.py
-> index 3b1952b2df..989db7d461 100644
+> index 989db7d461..7c960051a6 100644
 > --- a/tests/acceptance/boot_linux_console.py
 > +++ b/tests/acceptance/boot_linux_console.py
-> @@ -603,6 +603,31 @@ def test_arm_raspi2_uboot(self):
->          exec_command_and_wait_for_pattern(self, 'version', 'U-Boot')
->          exec_command_and_wait_for_pattern(self, 'reset', 'resetting ..=
-.')
+> @@ -12,6 +12,7 @@
+>  import lzma
+>  import gzip
+>  import shutil
+> +import logging
 > =20
-> +    def test_aarch64_raspi3_uboot(self):
-> +        """
-> +        :avocado: tags=3Darch:aarch64
-> +        :avocado: tags=3Dmachine:raspi3
-> +        :avocado: tags=3Du-boot
-> +        """
-> +        deb_url =3D ('https://snapshot.debian.org/archive/debian/'
-> +                   '20200108T145233Z/pool/main/u/u-boot/'
-> +                   'u-boot-rpi_2020.01%2Bdfsg-1_arm64.deb')
-> +        deb_hash =3D 'f394386e02469d52f2eb3c07a2325b1c95aeb00b'
-> +        deb_path =3D self.fetch_asset(deb_url, asset_hash=3Ddeb_hash)
-> +        uboot_path =3D '/usr/lib/u-boot/rpi_3/u-boot.bin'
-> +        uboot_path =3D self.extract_from_deb(deb_path, uboot_path)
+>  from avocado import skipUnless
+>  from avocado_qemu import Test
+> @@ -22,6 +23,19 @@
+>  from avocado.utils import archive
+> =20
+> =20
+> +NUMPY_AVAILABLE =3D True
+> +try:
+> +    import numpy as np
+> +except ImportError:
+> +    NUMPY_AVAILABLE =3D False
 > +
-> +        self.vm.set_console(console_index=3D1)
-> +        self.vm.add_args('-kernel', uboot_path,
-> +                         '-no-reboot')
-> +        self.vm.launch()
-> +        interrupt_interactive_console_until_pattern(self,
-> +                                       'Hit any key to stop autoboot:'=
-,
-> +                                       'Config file not found')
-> +        exec_command_and_wait_for_pattern(self, 'bdinfo', 'U-Boot')
-> +        exec_command_and_wait_for_pattern(self, 'version', 'U-Boot')
-> +        exec_command_and_wait_for_pattern(self, 'reset', 'resetting ..=
-.')
+> +CV2_AVAILABLE =3D True
+> +try:
+> +    import cv2
+> +except ImportError:
+> +    CV2_AVAILABLE =3D False
 > +
->      def test_s390x_s390_ccw_virtio(self):
+> +
+>  class BootLinuxConsole(Test):
+>      """
+>      Boots a Linux kernel and checks that the console is operational an=
+d the
+> @@ -451,6 +465,54 @@ def test_arm_raspi2_uart1(self):
 >          """
->          :avocado: tags=3Darch:s390x
+>          self.do_test_arm_raspi(2, 'bcm2835_aux')
+> =20
+> +    @skipUnless(NUMPY_AVAILABLE, 'Python NumPy not installed')
+> +    @skipUnless(CV2_AVAILABLE, 'Python OpenCV not installed')
+> +    def test_arm_raspi2_framebuffer_logo(self):
+> +        """
+> +        :avocado: tags=3Darch:arm
+> +        :avocado: tags=3Dmachine:raspi2
+> +        :avocado: tags=3Ddevice:bcm2835-fb
+> +        """
+> +        screendump_path =3D os.path.join(self.workdir, 'screendump.pbm=
+')
+> +        rpilogo_url =3D ('https://github.com/raspberrypi/linux/raw/'
+> +                       'raspberrypi-kernel_1.20190517-1/'
+> +                       'drivers/video/logo/logo_linux_clut224.ppm')
+> +        rpilogo_hash =3D 'fff3cc20c6030acce0953147f9baac43f44ed6b0'
+> +        rpilogo_path =3D self.fetch_asset(rpilogo_url, asset_hash=3Drp=
+ilogo_hash)
+> +        deb_url =3D ('http://archive.raspberrypi.org/debian/'
+> +                   'pool/main/r/raspberrypi-firmware/'
+> +                   'raspberrypi-kernel_1.20190215-1_armhf.deb')
+> +        deb_hash =3D 'cd284220b32128c5084037553db3c482426f3972'
+> +        deb_path =3D self.fetch_asset(deb_url, asset_hash=3Ddeb_hash)
+> +        kernel_path =3D self.extract_from_deb(deb_path, '/boot/kernel7=
+.img')
+> +        dtb_path =3D self.extract_from_deb(deb_path, '/boot/bcm2709-rp=
+i-2-b.dtb')
+> +
+> +        self.vm.set_console()
+> +        kernel_command_line =3D (self.KERNEL_COMMON_COMMAND_LINE +
+> +                               'earlycon=3Dpl011,0x3f201000 console=3D=
+ttyAMA0')
+> +        self.vm.add_args('-kernel', kernel_path,
+> +                         '-dtb', dtb_path,
+> +                         '-append', kernel_command_line)
+> +        self.vm.launch()
+> +        framebuffer_ready =3D 'Console: switching to colour frame buff=
+er device'
+> +        wait_for_console_pattern(self, framebuffer_ready)
+> +        self.vm.command('human-monitor-command', command_line=3D'stop'=
+)
+> +        self.vm.command('human-monitor-command',
+> +                        command_line=3D'screendump %s' % screendump_pa=
+th)
+> +        logger =3D logging.getLogger('framebuffer')
+> +
+> +        cpu_cores_count =3D 4
+> +        match_threshold =3D 0.95
+> +        screendump_bgr =3D cv2.imread(screendump_path, cv2.IMREAD_COLO=
+R)
+> +        rpilogo_bgr =3D cv2.imread(rpilogo_path, cv2.IMREAD_COLOR)
+> +        result =3D cv2.matchTemplate(screendump_bgr, rpilogo_bgr,
+> +                                   cv2.TM_CCOEFF_NORMED)
+> +        loc =3D np.where(result >=3D match_threshold)
+> +        rpilogo_count =3D 0
+> +        for rpilogo_count, pt in enumerate(zip(*loc[::-1]), start=3D1)=
+:
+> +            logger.debug('found raspberry at position (x, y) =3D %s', =
+pt)
+> +        self.assertGreaterEqual(rpilogo_count, cpu_cores_count)
+> +
+>      def test_arm_exynos4210_initrd(self):
+>          """
+>          :avocado: tags=3Darch:arm
 >=20
 
