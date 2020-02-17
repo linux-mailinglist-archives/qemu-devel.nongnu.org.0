@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF293161908
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 18:44:45 +0100 (CET)
-Received: from localhost ([::1]:49512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7300B1618FD
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 18:43:00 +0100 (CET)
+Received: from localhost ([::1]:49488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j3kRo-0003nx-N1
-	for lists+qemu-devel@lfdr.de; Mon, 17 Feb 2020 12:44:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38171)
+	id 1j3kQ7-0000P5-FS
+	for lists+qemu-devel@lfdr.de; Mon, 17 Feb 2020 12:42:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38141)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1j3kIl-0001Id-8D
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 12:35:24 -0500
+ (envelope-from <imammedo@redhat.com>) id 1j3kIj-0001Ed-Ku
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 12:35:22 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1j3kIj-0001pr-Nc
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 12:35:23 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:53671
+ (envelope-from <imammedo@redhat.com>) id 1j3kIi-0001oZ-AD
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 12:35:21 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:35174
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1j3kIj-0001pF-JC
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 12:35:21 -0500
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1j3kIi-0001oA-5G
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 12:35:20 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581960921;
+ s=mimecast20190719; t=1581960919;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=N49iBt5mUsbw/GHz0zPTk+Np0cNFJMPgoU20U6V87I0=;
- b=FIdUojxdAHA5eaFkxzYrvDKOTPUltaeLv7YWZktLeBD2VfhPwevVMdTuAApRRi5PTDZ1dF
- Cbc5BtM7Z9wY3WNVK4F/Rkq2Dwu+2OyQE4ZjTu65872pJYGaB62+IwyZm1vzZrZzqdS5vV
- zICQ8AGczFAdv/+TCvbA9DLWus4jqhA=
+ bh=fyGiYVnyrESE+bDVRdAtrFy5/IupR4jaS3wni1rBVjQ=;
+ b=BdsP+PQHhuiO759Q+u3eFZ8aQpqxCtYuwhv+t9VilttKVxp+orTqXCQL+L2C2pbVoGjT3V
+ Hby/6UXmn0HP3KY2SvdugtqExwoiBOfsWw9Dh9k4Ptd1LCWQp1iTyIEJnwOI4UbanXBDT2
+ MRHeMqA/mRbrPSVOU7NJu9O1KPpmTiM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-312-zahwd2FmMYOLIoS1dx6qaw-1; Mon, 17 Feb 2020 12:35:17 -0500
+ us-mta-412-hkfVTUg6Pq2m8rAMRFxOhA-1; Mon, 17 Feb 2020 12:35:17 -0500
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8257C107ACCA;
- Mon, 17 Feb 2020 17:35:15 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A7F931084431;
+ Mon, 17 Feb 2020 17:35:16 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A8D189052B;
- Mon, 17 Feb 2020 17:35:14 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CDAD48CCE0;
+ Mon, 17 Feb 2020 17:35:15 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 13/79] arm/digic_boards: use memdev for RAM
-Date: Mon, 17 Feb 2020 12:33:46 -0500
-Message-Id: <20200217173452.15243-14-imammedo@redhat.com>
+Subject: [PATCH v5 14/79] arm/highbank: use memdev for RAM
+Date: Mon, 17 Feb 2020 12:33:47 -0500
+Message-Id: <20200217173452.15243-15-imammedo@redhat.com>
 In-Reply-To: <20200217173452.15243-1-imammedo@redhat.com>
 References: <20200217173452.15243-1-imammedo@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: zahwd2FmMYOLIoS1dx6qaw-1
+X-MC-Unique: hkfVTUg6Pq2m8rAMRFxOhA-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
@@ -71,7 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, antonynpavlov@gmail.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>, robh@kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -83,133 +83,78 @@ to memdev scheme by providing
 and using MachineState::ram instead of manually initializing
 RAM memory region.
 
-PS:
- remove no longer needed DigicBoardState
-
-PS2:
- while at it add check for user supplied RAM size and error
- out if it mismatches board expected value.
-
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Reviewed-by: Andrew Jones <drjones@redhat.com>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
-v3:
-  * move 'DigicState *s' declaration to the top of digic4_board_init()
-v2:
-  * fix format string causing build failure on 32-bit host
-    (Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>)
-
-CC: antonynpavlov@gmail.com
+CC: robh@kernel.org
 ---
- hw/arm/digic_boards.c | 40 +++++++++++++++++++++-------------------
- 1 file changed, 21 insertions(+), 19 deletions(-)
+ hw/arm/highbank.c | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
 
-diff --git a/hw/arm/digic_boards.c b/hw/arm/digic_boards.c
-index ef3fc2b6a5..518a63e61d 100644
---- a/hw/arm/digic_boards.c
-+++ b/hw/arm/digic_boards.c
-@@ -35,39 +35,40 @@
- #include "hw/loader.h"
- #include "sysemu/sysemu.h"
- #include "sysemu/qtest.h"
-+#include "qemu/units.h"
-+#include "qemu/cutils.h"
-=20
- #define DIGIC4_ROM0_BASE      0xf0000000
- #define DIGIC4_ROM1_BASE      0xf8000000
- #define DIGIC4_ROM_MAX_SIZE   0x08000000
-=20
--typedef struct DigicBoardState {
--    DigicState *digic;
--    MemoryRegion ram;
--} DigicBoardState;
--
- typedef struct DigicBoard {
--    hwaddr ram_size;
--    void (*add_rom0)(DigicBoardState *, hwaddr, const char *);
-+    void (*add_rom0)(DigicState *, hwaddr, const char *);
-     const char *rom0_def_filename;
--    void (*add_rom1)(DigicBoardState *, hwaddr, const char *);
-+    void (*add_rom1)(DigicState *, hwaddr, const char *);
-     const char *rom1_def_filename;
- } DigicBoard;
-=20
--static void digic4_board_init(DigicBoard *board)
-+static void digic4_board_init(MachineState *machine, DigicBoard *board)
- {
-     Error *err =3D NULL;
-+    DigicState *s =3D DIGIC(object_new(TYPE_DIGIC));
-+    MachineClass *mc =3D MACHINE_GET_CLASS(machine);
-+
-+    if (machine->ram_size !=3D mc->default_ram_size) {
-+        char *sz =3D size_to_str(mc->default_ram_size);
-+        error_report("Invalid RAM size, should be %s", sz);
-+        g_free(sz);
-+        exit(EXIT_FAILURE);
-+    }
-=20
--    DigicBoardState *s =3D g_new(DigicBoardState, 1);
--
--    s->digic =3D DIGIC(object_new(TYPE_DIGIC));
--    object_property_set_bool(OBJECT(s->digic), true, "realized", &err);
-+    object_property_set_bool(OBJECT(s), true, "realized", &err);
-     if (err !=3D NULL) {
-         error_reportf_err(err, "Couldn't realize DIGIC SoC: ");
-         exit(1);
-     }
-=20
--    memory_region_allocate_system_memory(&s->ram, NULL, "ram", board->ram_=
-size);
--    memory_region_add_subregion(get_system_memory(), 0, &s->ram);
-+    memory_region_add_subregion(get_system_memory(), 0, machine->ram);
-=20
-     if (board->add_rom0) {
-         board->add_rom0(s, DIGIC4_ROM0_BASE, board->rom0_def_filename);
-@@ -78,7 +79,7 @@ static void digic4_board_init(DigicBoard *board)
-     }
- }
-=20
--static void digic_load_rom(DigicBoardState *s, hwaddr addr,
-+static void digic_load_rom(DigicState *s, hwaddr addr,
-                            hwaddr max_size, const char *def_filename)
- {
-     target_long rom_size;
-@@ -118,7 +119,7 @@ static void digic_load_rom(DigicBoardState *s, hwaddr a=
-ddr,
-  * Samsung K8P3215UQB
-  * 64M Bit (4Mx16) Page Mode / Multi-Bank NOR Flash Memory
+diff --git a/hw/arm/highbank.c b/hw/arm/highbank.c
+index 518d935fdf..ac9de9411e 100644
+--- a/hw/arm/highbank.c
++++ b/hw/arm/highbank.c
+@@ -236,7 +236,6 @@ enum cxmachines {
   */
--static void digic4_add_k8p3215uqb_rom(DigicBoardState *s, hwaddr addr,
-+static void digic4_add_k8p3215uqb_rom(DigicState *s, hwaddr addr,
-                                       const char *def_filename)
+ static void calxeda_init(MachineState *machine, enum cxmachines machine_id=
+)
  {
- #define FLASH_K8P3215UQB_SIZE (4 * 1024 * 1024)
-@@ -135,14 +136,13 @@ static void digic4_add_k8p3215uqb_rom(DigicBoardState=
- *s, hwaddr addr,
- }
+-    ram_addr_t ram_size =3D machine->ram_size;
+     DeviceState *dev =3D NULL;
+     SysBusDevice *busdev;
+     qemu_irq pic[128];
+@@ -247,7 +246,6 @@ static void calxeda_init(MachineState *machine, enum cx=
+machines machine_id)
+     qemu_irq cpu_virq[4];
+     qemu_irq cpu_vfiq[4];
+     MemoryRegion *sysram;
+-    MemoryRegion *dram;
+     MemoryRegion *sysmem;
+     char *sysboot_filename;
 =20
- static DigicBoard digic4_board_canon_a1100 =3D {
--    .ram_size =3D 64 * 1024 * 1024,
-     .add_rom1 =3D digic4_add_k8p3215uqb_rom,
-     .rom1_def_filename =3D "canon-a1100-rom1.bin",
- };
+@@ -290,10 +288,8 @@ static void calxeda_init(MachineState *machine, enum c=
+xmachines machine_id)
+     }
 =20
- static void canon_a1100_init(MachineState *machine)
- {
--    digic4_board_init(&digic4_board_canon_a1100);
-+    digic4_board_init(machine, &digic4_board_canon_a1100);
- }
+     sysmem =3D get_system_memory();
+-    dram =3D g_new(MemoryRegion, 1);
+-    memory_region_allocate_system_memory(dram, NULL, "highbank.dram", ram_=
+size);
+     /* SDRAM at address zero.  */
+-    memory_region_add_subregion(sysmem, 0, dram);
++    memory_region_add_subregion(sysmem, 0, machine->ram);
 =20
- static void canon_a1100_machine_init(MachineClass *mc)
-@@ -150,6 +150,8 @@ static void canon_a1100_machine_init(MachineClass *mc)
-     mc->desc =3D "Canon PowerShot A1100 IS";
-     mc->init =3D &canon_a1100_init;
+     sysram =3D g_new(MemoryRegion, 1);
+     memory_region_init_ram(sysram, NULL, "highbank.sysram", 0x8000,
+@@ -387,7 +383,7 @@ static void calxeda_init(MachineState *machine, enum cx=
+machines machine_id)
+=20
+     /* TODO create and connect IDE devices for ide_drive_get() */
+=20
+-    highbank_binfo.ram_size =3D ram_size;
++    highbank_binfo.ram_size =3D machine->ram_size;
+     /* highbank requires a dtb in order to boot, and the dtb will override
+      * the board ID. The following value is ignored, so set it to -1 to be
+      * clear that the value is meaningless.
+@@ -430,6 +426,7 @@ static void highbank_class_init(ObjectClass *oc, void *=
+data)
+     mc->units_per_default_bus =3D 1;
+     mc->max_cpus =3D 4;
      mc->ignore_memory_transaction_failures =3D true;
-+    mc->default_ram_size =3D 64 * MiB;
-+    mc->default_ram_id =3D "ram";
++    mc->default_ram_id =3D "highbank.dram";
  }
 =20
- DEFINE_MACHINE("canon-a1100", canon_a1100_machine_init)
+ static const TypeInfo highbank_type =3D {
+@@ -448,6 +445,7 @@ static void midway_class_init(ObjectClass *oc, void *da=
+ta)
+     mc->units_per_default_bus =3D 1;
+     mc->max_cpus =3D 4;
+     mc->ignore_memory_transaction_failures =3D true;
++    mc->default_ram_id =3D "highbank.dram";
+ }
+=20
+ static const TypeInfo midway_type =3D {
 --=20
 2.18.1
 
