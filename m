@@ -2,77 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F467161BB1
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 20:35:46 +0100 (CET)
-Received: from localhost ([::1]:52036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05FF6161BB5
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 20:37:17 +0100 (CET)
+Received: from localhost ([::1]:52078 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j3mBF-0001e3-KM
-	for lists+qemu-devel@lfdr.de; Mon, 17 Feb 2020 14:35:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56046)
+	id 1j3mCi-0004Si-3e
+	for lists+qemu-devel@lfdr.de; Mon, 17 Feb 2020 14:37:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56184)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1j3m8W-0005w4-P3
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 14:32:57 -0500
+ (envelope-from <armbru@redhat.com>) id 1j3m9H-00075R-SX
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 14:33:45 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1j3m8V-0004wC-RI
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 14:32:56 -0500
-Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:43471)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1j3m8V-0004vu-ME
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 14:32:55 -0500
-Received: by mail-pl1-x642.google.com with SMTP id p11so7102968plq.10
- for <qemu-devel@nongnu.org>; Mon, 17 Feb 2020 11:32:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=6K0fLeUCdjVsOzMfr+p4W+4kA8q4NQnenhV460crDkc=;
- b=WQeRCjewSwc6hhDx2ZRljmdTR1ftLMtjvgLLESpEjZuxr9517889PqODO6MnTW5zOD
- IL3IsDFMHiJuF3Q38kmiZZSPJlcKuWs0ODMW0nJ2TLwjFHiSxLCb705NxwvF1wzUcXNs
- baat+W91/9sXQNPlOHkA2woMf0DPvjwE/thoqixldL/IR6e+YP2Y3qqpQ6cvkYsElKuk
- 0+arSsCPQkMdxmwgGOoGCa9aUde1t/0WgnWcVAn6WOgW/ROIeXBksczy8j4BwK1wGnJK
- G6lUGm9/hZ2a21vQpUs9XxRYQClZZJEJLz++g8TsiKdxMuZOic8mXvZJBusvGbxQThbz
- QOPQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=6K0fLeUCdjVsOzMfr+p4W+4kA8q4NQnenhV460crDkc=;
- b=CWVfbqektID12i/d/yhM409RV/HMgY3mqqctY86KvtoaIXr/SZeng2S5Hu68fm2rAZ
- Gne+Ie1oiJVxFw+Z9CqVqWRgQxvAWbqA1KvNImYbdytd+PDRf5r7kekaNYDaKC/vu+IT
- fmTZu8SigTBSjwUG2nhz3E8ZTYpgGEGc0ic1UV4nTjUnFctXTWifgDYa/g+SSWb/WwzL
- F3EBXlCkndCoyJo7cDXdYGJ7ynufRNkaTjrrLdndkLs5qdi16AsrW0QkjSNitc8xmlEZ
- 3gVAcXcKdhko5dKj1b1vqpLDW8Yuu+CFD0wLqQmF0nnUkscdthXmXJQYxR5aTA4pwzEp
- W5MQ==
-X-Gm-Message-State: APjAAAWv+BYqJRI5g9Zb0vmedrNnBz4H/d3SghwBTuurcxevnYSHEavs
- SJyWYK75/g+DVlVVozoWB+HlCQ==
-X-Google-Smtp-Source: APXvYqyIjMeGTNN+2YUBkvQ5QfStAxjoPeHCjg6UH/hVRh083NEEkkegntzPHlMH50tpwcJofMGpRA==
-X-Received: by 2002:a17:902:8542:: with SMTP id
- d2mr17831298plo.200.1581967974779; 
- Mon, 17 Feb 2020 11:32:54 -0800 (PST)
-Received: from [192.168.1.11] (97-126-123-70.tukw.qwest.net. [97.126.123.70])
- by smtp.gmail.com with ESMTPSA id
- a18sm1216760pfl.138.2020.02.17.11.32.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 17 Feb 2020 11:32:54 -0800 (PST)
-Subject: Re: [PATCH v5 61/79] ppc/mac_oldworld: use memdev for RAM
-To: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org
-References: <20200217173452.15243-1-imammedo@redhat.com>
- <20200217173452.15243-62-imammedo@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <8ad63c9e-d354-653f-3e9c-8c593f71e52c@linaro.org>
-Date: Mon, 17 Feb 2020 11:32:52 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ (envelope-from <armbru@redhat.com>) id 1j3m9F-0005Gp-4v
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 14:33:42 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:27309
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1j3m9E-0005GX-UM
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 14:33:41 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1581968020;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=evv7hGCaEjWP3NFyQveQTAWSsDuWIdyR1deSn/adqqg=;
+ b=QnCeZMd9XOw/tRgtN9zFY74UsWdnaNmTZQlN8BrWajQqqjhZlWlwx6KM9DJ7tERe53OStp
+ BXVrR/gbgRHANJ4cGhDXOUmZdpJbIxdw+WC60exbB9QnJSzS788LKZFEKkzQVvP7RrZYdA
+ 3hxAaCZzh+Y+HILypBFtxL2sYq7/zOY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-370-1jMCkWymPTaxWB0hWHosIw-1; Mon, 17 Feb 2020 14:33:38 -0500
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4344C1005516;
+ Mon, 17 Feb 2020 19:33:37 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-117-234.ams2.redhat.com
+ [10.36.117.234])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5F91660BE1;
+ Mon, 17 Feb 2020 19:33:30 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id D9A4611385C9; Mon, 17 Feb 2020 20:33:28 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH 1/2] hw/ipmi/bmc: Delay timer_new_ns() from init to
+ realize to avoid memleaks
+References: <20200215154706.19837-1-philmd@redhat.com>
+ <20200215154706.19837-2-philmd@redhat.com>
+ <CAFEAcA9cZHWziyk6VzfaxrqjCNNOmnmSkB=uuGJMp0TL521mAQ@mail.gmail.com>
+ <8c4570e1-cd9b-9d33-2756-5c223df282ee@redhat.com>
+ <CAFEAcA-hyEVPeT1wakaft6m3_WD9XG3eYFAwJJgoHRAZ1nntag@mail.gmail.com>
+Date: Mon, 17 Feb 2020 20:33:28 +0100
+In-Reply-To: <CAFEAcA-hyEVPeT1wakaft6m3_WD9XG3eYFAwJJgoHRAZ1nntag@mail.gmail.com>
+ (Peter Maydell's message of "Mon, 17 Feb 2020 14:06:10 +0000")
+Message-ID: <87k14lm2k7.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20200217173452.15243-62-imammedo@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: 1jMCkWymPTaxWB0hWHosIw-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::642
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,26 +80,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Corey Minyard <minyard@acm.org>,
+ David Hildenbrand <david@redhat.com>, Pan Nengyuan <pannengyuan@huawei.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/17/20 9:34 AM, Igor Mammedov wrote:
-> memory_region_allocate_system_memory() API is going away, so
-> replace it with memdev allocated MemoryRegion. The later is
-> initialized by generic code, so board only needs to opt in
-> to memdev scheme by providing
->   MachineClass::default_ram_id
-> and using MachineState::ram instead of manually initializing
-> RAM memory region.
-> 
-> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-> Acked-by: David Gibson <david@gibson.dropbear.id.au>
-> Acked-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> ---
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Peter Maydell <peter.maydell@linaro.org> writes:
 
+> On Mon, 17 Feb 2020 at 13:48, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.=
+com> wrote:
+>>
+>> On 2/17/20 2:25 PM, Peter Maydell wrote:
+>
+>> > So we now call timer_new in realize, and timer_del in unrealize,
+>> > but timer_free in finalize. This seems unbalanced -- why not
+>> > call timer_free in unrealize too, if we're moving things?
+>> >
+>> > Also, this is a case of code that's actually doing things right:
+>> > we free the memory that we allocated in init in finalize. So
+>> > we're not fixing any leak here, we're just moving code around
+>> > (which is reasonable if we're trying to standardize on "call
+>> > timer_new in realize, not init", but should be noted in the
+>> > commit message).
+>>
+>> While I understand your point, I am confused because the documentation
+>> on unrealize() and finalize() is rather scarce (and not obvious for
+>> non-native english speaker). I think I'm not understanding QOM instance
+>> lifetime well (in particular hotplug devices) so I will let this series =
+go.
+>
+> Yes, the documentation is really not good at all. The
+> basic structure as I understand it is that we have two-part
+> creation and two-part destruction:
+>  * instance_init is creation part 1
+>  * realize is creation part 2
+>  * unrealize is destruction part 1 and is the opposite of realize
+>  * instance_finalize is destruction part 2 and is the
+>    opposite of instance_init
+>
+> (Base QOM objects only have instance_init/instance_finalize;
+> realize/unrealize exists only for DeviceState objects
+> and their children.)
 
-r~
+The split exists so you can set property values between instance_init()
+and realize().  It's how qdev has always worked.  It permits setting
+properties one by one even when this results in intermediate states
+where invariants involving multiple property values are violated: delay
+checking them until realize(), rely on them only while the device is
+realized.
+
+Note that both realize() and unrealize() can fail.  instance_init() and
+instance_finalize() can't.
+
+> ASCII-art state diagram:
+>
+>   [start] --instance_init-> [inited] --realize-> [realized]
+>      ^                       |   ^                     |
+>      \---instance_finalize---/   \-----unrealize-------/
+>
+> In practice the only sequences we really care about are:
+>  instance_init; realize; unrealize; instance_finalize
+>    (a full object creation-use-destruction cycle;
+>     even if realize fails, unrealize will be called)
+>  instance_init; realize
+>    (a subset of the above: for non-hot-pluggable devices
+>     we will never try to unrealize them, so this is
+>     as far as it goes for most devices unless they
+>     returned an error from their realize function)
+>  instance_init; instance_finalize
+>    (the monitor does this for introspection of an object
+>     without actually wanting to create and use it; it's
+>     also the basic lifecycle for non-DeviceState objects)
+
+In theory, you can realize + unrealize multiple times.  It might even
+work in practice sometimes.
+
+> The difference between hot-pluggable and not is just
+> whether it's valid to try to unrealize the device.
+>
+> We should definitely be clearer about what belongs in
+> instance_init vs what belongs in realize. But where we
+> have both a "do thing" and a "clean up that thing" task,
+> we should put the cleanup code in the operation that is
+> the pair of the operation we put the "do thing" code in
+> (i.e. do thing in instance_init, clean it up in finalize;
+> or do thing in realize, clean it up in unrealize).
+
+Not doing so risks introspection leaks or double-frees.
 
 
