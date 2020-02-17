@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7300B1618FD
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 18:43:00 +0100 (CET)
-Received: from localhost ([::1]:49488 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5BC41618F0
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 18:39:25 +0100 (CET)
+Received: from localhost ([::1]:49424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j3kQ7-0000P5-FS
-	for lists+qemu-devel@lfdr.de; Mon, 17 Feb 2020 12:42:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38141)
+	id 1j3kMe-0001h9-NN
+	for lists+qemu-devel@lfdr.de; Mon, 17 Feb 2020 12:39:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38167)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1j3kIj-0001Ed-Ku
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 12:35:22 -0500
+ (envelope-from <imammedo@redhat.com>) id 1j3kIl-0001I6-0d
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 12:35:23 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1j3kIi-0001oZ-AD
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 12:35:21 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:35174
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <imammedo@redhat.com>) id 1j3kIj-0001q2-Qi
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 12:35:22 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:46590
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1j3kIi-0001oA-5G
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 12:35:20 -0500
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1j3kIj-0001pK-MY
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 12:35:21 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581960919;
+ s=mimecast20190719; t=1581960921;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fyGiYVnyrESE+bDVRdAtrFy5/IupR4jaS3wni1rBVjQ=;
- b=BdsP+PQHhuiO759Q+u3eFZ8aQpqxCtYuwhv+t9VilttKVxp+orTqXCQL+L2C2pbVoGjT3V
- Hby/6UXmn0HP3KY2SvdugtqExwoiBOfsWw9Dh9k4Ptd1LCWQp1iTyIEJnwOI4UbanXBDT2
- MRHeMqA/mRbrPSVOU7NJu9O1KPpmTiM=
+ bh=PoLKVuD8z1OSIeOnDJ8QRLSEIGCP8+HptdOHqvqlXlk=;
+ b=aymhT6uLX8t2eupGLzKoUtBG4FSBtz1bcOrDxSM7dfscjmnisCNOsZz6ZlNjL5HCG6YnD3
+ qo5bZAjKQ7VH1DBG8anUKu1XKMHz8BATeQn+k/LFeufHW569JjYxGEQiZGer9dGnKpuCHD
+ a0ZKL1+fr16GjSgRhvu9D0VZAZEhVWk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-412-hkfVTUg6Pq2m8rAMRFxOhA-1; Mon, 17 Feb 2020 12:35:17 -0500
+ us-mta-422-wZugAkmWMqut0vxOq6qlbA-1; Mon, 17 Feb 2020 12:35:19 -0500
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A7F931084431;
- Mon, 17 Feb 2020 17:35:16 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7C6048017DF;
+ Mon, 17 Feb 2020 17:35:18 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CDAD48CCE0;
- Mon, 17 Feb 2020 17:35:15 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F23A78CCE0;
+ Mon, 17 Feb 2020 17:35:16 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 14/79] arm/highbank: use memdev for RAM
-Date: Mon, 17 Feb 2020 12:33:47 -0500
-Message-Id: <20200217173452.15243-15-imammedo@redhat.com>
+Subject: [PATCH v5 15/79] arm/imx25_pdk: drop RAM size fixup
+Date: Mon, 17 Feb 2020 12:33:48 -0500
+Message-Id: <20200217173452.15243-16-imammedo@redhat.com>
 In-Reply-To: <20200217173452.15243-1-imammedo@redhat.com>
 References: <20200217173452.15243-1-imammedo@redhat.com>
-MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: hkfVTUg6Pq2m8rAMRFxOhA-1
+X-MC-Unique: wZugAkmWMqut0vxOq6qlbA-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,90 +70,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, robh@kernel.org
+Cc: peter.maydell@linaro.org, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-arm@nongnu.org, philmd@redhat.com, jcd@tribudubois.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-memory_region_allocate_system_memory() API is going away, so
-replace it with memdev allocated MemoryRegion. The later is
-initialized by generic code, so board only needs to opt in
-to memdev scheme by providing
-  MachineClass::default_ram_id
-and using MachineState::ram instead of manually initializing
-RAM memory region.
+If user provided non-sense RAM size, board will complain and
+continue running with max RAM size supported.
+Also RAM is going to be allocated by generic code, so it won't be
+possible for board to fix things up for user.
+
+Make it error message and exit to force user fix CLI,
+instead of accepting non-sense CLI values.
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
-CC: robh@kernel.org
+CC: jcd@tribudubois.net
+CC: peter.maydell@linaro.org
+CC: qemu-arm@nongnu.org
+CC: philmd@redhat.com
 ---
- hw/arm/highbank.c | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
+ hw/arm/imx25_pdk.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/arm/highbank.c b/hw/arm/highbank.c
-index 518d935fdf..ac9de9411e 100644
---- a/hw/arm/highbank.c
-+++ b/hw/arm/highbank.c
-@@ -236,7 +236,6 @@ enum cxmachines {
-  */
- static void calxeda_init(MachineState *machine, enum cxmachines machine_id=
-)
- {
--    ram_addr_t ram_size =3D machine->ram_size;
-     DeviceState *dev =3D NULL;
-     SysBusDevice *busdev;
-     qemu_irq pic[128];
-@@ -247,7 +246,6 @@ static void calxeda_init(MachineState *machine, enum cx=
-machines machine_id)
-     qemu_irq cpu_virq[4];
-     qemu_irq cpu_vfiq[4];
-     MemoryRegion *sysram;
--    MemoryRegion *dram;
-     MemoryRegion *sysmem;
-     char *sysboot_filename;
+diff --git a/hw/arm/imx25_pdk.c b/hw/arm/imx25_pdk.c
+index c76fc2bd94..a2b7b35dcc 100644
+--- a/hw/arm/imx25_pdk.c
++++ b/hw/arm/imx25_pdk.c
+@@ -78,10 +78,10 @@ static void imx25_pdk_init(MachineState *machine)
 =20
-@@ -290,10 +288,8 @@ static void calxeda_init(MachineState *machine, enum c=
-xmachines machine_id)
+     /* We need to initialize our memory */
+     if (machine->ram_size > (FSL_IMX25_SDRAM0_SIZE + FSL_IMX25_SDRAM1_SIZE=
+)) {
+-        warn_report("RAM size " RAM_ADDR_FMT " above max supported, "
++        error_report("RAM size " RAM_ADDR_FMT " above max supported, "
+                     "reduced to %x", machine->ram_size,
+                     FSL_IMX25_SDRAM0_SIZE + FSL_IMX25_SDRAM1_SIZE);
+-        machine->ram_size =3D FSL_IMX25_SDRAM0_SIZE + FSL_IMX25_SDRAM1_SIZ=
+E;
++        exit(EXIT_FAILURE);
      }
 =20
-     sysmem =3D get_system_memory();
--    dram =3D g_new(MemoryRegion, 1);
--    memory_region_allocate_system_memory(dram, NULL, "highbank.dram", ram_=
-size);
-     /* SDRAM at address zero.  */
--    memory_region_add_subregion(sysmem, 0, dram);
-+    memory_region_add_subregion(sysmem, 0, machine->ram);
-=20
-     sysram =3D g_new(MemoryRegion, 1);
-     memory_region_init_ram(sysram, NULL, "highbank.sysram", 0x8000,
-@@ -387,7 +383,7 @@ static void calxeda_init(MachineState *machine, enum cx=
-machines machine_id)
-=20
-     /* TODO create and connect IDE devices for ide_drive_get() */
-=20
--    highbank_binfo.ram_size =3D ram_size;
-+    highbank_binfo.ram_size =3D machine->ram_size;
-     /* highbank requires a dtb in order to boot, and the dtb will override
-      * the board ID. The following value is ignored, so set it to -1 to be
-      * clear that the value is meaningless.
-@@ -430,6 +426,7 @@ static void highbank_class_init(ObjectClass *oc, void *=
-data)
-     mc->units_per_default_bus =3D 1;
-     mc->max_cpus =3D 4;
-     mc->ignore_memory_transaction_failures =3D true;
-+    mc->default_ram_id =3D "highbank.dram";
- }
-=20
- static const TypeInfo highbank_type =3D {
-@@ -448,6 +445,7 @@ static void midway_class_init(ObjectClass *oc, void *da=
-ta)
-     mc->units_per_default_bus =3D 1;
-     mc->max_cpus =3D 4;
-     mc->ignore_memory_transaction_failures =3D true;
-+    mc->default_ram_id =3D "highbank.dram";
- }
-=20
- static const TypeInfo midway_type =3D {
+     memory_region_allocate_system_memory(&s->ram, NULL, "imx25.ram",
 --=20
 2.18.1
 
