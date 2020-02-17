@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1C0F161941
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 18:59:04 +0100 (CET)
-Received: from localhost ([::1]:49758 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B59E16193E
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 18:57:54 +0100 (CET)
+Received: from localhost ([::1]:49736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j3kff-00069k-Mw
-	for lists+qemu-devel@lfdr.de; Mon, 17 Feb 2020 12:59:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38635)
+	id 1j3keX-0003bY-Dq
+	for lists+qemu-devel@lfdr.de; Mon, 17 Feb 2020 12:57:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38668)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1j3kJY-0002w3-DF
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 12:36:13 -0500
+ (envelope-from <imammedo@redhat.com>) id 1j3kJe-0003Ac-Ql
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 12:36:19 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1j3kJX-0002NW-9g
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 12:36:12 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:36308
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <imammedo@redhat.com>) id 1j3kJd-0002TD-Mg
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 12:36:18 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:52299
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1j3kJX-0002MC-5c
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 12:36:11 -0500
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1j3kJd-0002Sa-Ie
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 12:36:17 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581960970;
+ s=mimecast20190719; t=1581960976;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=SYg7ZBYi6gj1nQP0aLyEqxTXVeao+bU4aAgvkW4CQPE=;
- b=CpKV6T4ITf0OrIXih5MRMC8C1cv+oKfpC+PrhTxD0PAO+QCJ1rkGFpCGU3HaNeuqKQl+Sg
- Q3wdm8+Lrp2ZmyK6j/kYgEU7xJz4WX+W8ay/VucKgI56ZoY1JVPBni/AZNP91fnivULcX/
- st52rblVks3RcvmADL6UP2SYNaB02rk=
+ bh=9xulXF2NUVClbIGw/RgPg/ENZpRkn/7VBe9kPPuu1No=;
+ b=LIX0j5NnWglJDiPFaK0UJEGVfNvllO3PzOGzlgB/tGA/FxnJBgps69ZGjKXgerNalH9ong
+ ttnuZcPfo3wJN4QbgECj3mqv2JYd2iYnnflSvzB+xyY5jrPZP6I68szAQeOWR2c0Y5HPLs
+ s8bZ78y94hgGIDOGe2RcRuDrep5pz84=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-316-Jt7SIlCoNb2-f5YZ5k2PEw-1; Mon, 17 Feb 2020 12:36:08 -0500
+ us-mta-99-gJW7BtmePcehJdxz9qLuSQ-1; Mon, 17 Feb 2020 12:36:14 -0500
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D83EE1084426
- for <qemu-devel@nongnu.org>; Mon, 17 Feb 2020 17:36:07 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1016518FE860;
+ Mon, 17 Feb 2020 17:36:13 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 328618CCE0;
- Mon, 17 Feb 2020 17:36:07 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AA6009052B;
+ Mon, 17 Feb 2020 17:36:11 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 50/79] mips/boston: use memdev for RAM
-Date: Mon, 17 Feb 2020 12:34:23 -0500
-Message-Id: <20200217173452.15243-51-imammedo@redhat.com>
+Subject: [PATCH v5 52/79] mips/mips_fulong2e: use memdev for RAM
+Date: Mon, 17 Feb 2020 12:34:25 -0500
+Message-Id: <20200217173452.15243-53-imammedo@redhat.com>
 In-Reply-To: <20200217173452.15243-1-imammedo@redhat.com>
 References: <20200217173452.15243-1-imammedo@redhat.com>
-MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: Jt7SIlCoNb2-f5YZ5k2PEw-1
+X-MC-Unique: gJW7BtmePcehJdxz9qLuSQ-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,7 +71,8 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, aleksandar.rikalo@rt-rk.com,
+ philmd@redhat.com, aurelien@aurel32.net, amarkovic@wavecomp.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -84,52 +85,51 @@ and using MachineState::ram instead of manually initializing
 RAM memory region.
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/mips/boston.c | 11 +++++------
- 1 file changed, 5 insertions(+), 6 deletions(-)
+CC: philmd@redhat.com
+CC: amarkovic@wavecomp.com
+CC: aurelien@aurel32.net
+CC: aleksandar.rikalo@rt-rk.com
+---
+ hw/mips/mips_fulong2e.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/hw/mips/boston.c b/hw/mips/boston.c
-index 0df3a7755a..98ecd25e8e 100644
---- a/hw/mips/boston.c
-+++ b/hw/mips/boston.c
-@@ -427,7 +427,7 @@ static void boston_mach_init(MachineState *machine)
-     DeviceState *dev;
-     BostonState *s;
-     Error *err =3D NULL;
--    MemoryRegion *flash, *ddr, *ddr_low_alias, *lcd, *platreg;
-+    MemoryRegion *flash, *ddr_low_alias, *lcd, *platreg;
-     MemoryRegion *sys_mem =3D get_system_memory();
-     XilinxPCIEHost *pcie2;
-     PCIDevice *ahci;
-@@ -473,14 +473,12 @@ static void boston_mach_init(MachineState *machine)
-     memory_region_init_rom(flash, NULL, "boston.flash", 128 * MiB, &err);
-     memory_region_add_subregion_overlap(sys_mem, 0x18000000, flash, 0);
+diff --git a/hw/mips/mips_fulong2e.c b/hw/mips/mips_fulong2e.c
+index cf00211bd2..c373ab066b 100644
+--- a/hw/mips/mips_fulong2e.c
++++ b/hw/mips/mips_fulong2e.c
+@@ -294,7 +294,6 @@ static void mips_fulong2e_init(MachineState *machine)
+     const char *initrd_filename =3D machine->initrd_filename;
+     char *filename;
+     MemoryRegion *address_space_mem =3D get_system_memory();
+-    MemoryRegion *ram =3D g_new(MemoryRegion, 1);
+     MemoryRegion *bios =3D g_new(MemoryRegion, 1);
+     long bios_size;
+     uint8_t *spd_data;
+@@ -320,13 +319,11 @@ static void mips_fulong2e_init(MachineState *machine)
+     }
 =20
--    ddr =3D g_new(MemoryRegion, 1);
--    memory_region_allocate_system_memory(ddr, NULL, "boston.ddr",
+     /* allocate RAM */
+-    memory_region_allocate_system_memory(ram, NULL, "fulong2e.ram",
 -                                         machine->ram_size);
--    memory_region_add_subregion_overlap(sys_mem, 0x80000000, ddr, 0);
-+    memory_region_add_subregion_overlap(sys_mem, 0x80000000, machine->ram,=
- 0);
+     memory_region_init_ram(bios, NULL, "fulong2e.bios", BIOS_SIZE,
+                            &error_fatal);
+     memory_region_set_readonly(bios, true);
 =20
-     ddr_low_alias =3D g_new(MemoryRegion, 1);
-     memory_region_init_alias(ddr_low_alias, NULL, "boston_low.ddr",
--                             ddr, 0, MIN(machine->ram_size, (256 * MiB)));
-+                             machine->ram, 0,
-+                             MIN(machine->ram_size, (256 * MiB)));
-     memory_region_add_subregion_overlap(sys_mem, 0, ddr_low_alias, 0);
+-    memory_region_add_subregion(address_space_mem, 0, ram);
++    memory_region_add_subregion(address_space_mem, 0, machine->ram);
+     memory_region_add_subregion(address_space_mem, 0x1fc00000LL, bios);
 =20
-     xilinx_pcie_init(sys_mem, 0,
-@@ -552,6 +550,7 @@ static void boston_mach_class_init(MachineClass *mc)
-     mc->init =3D boston_mach_init;
+     /*
+@@ -402,6 +399,7 @@ static void mips_fulong2e_machine_init(MachineClass *mc=
+)
      mc->block_default_type =3D IF_IDE;
-     mc->default_ram_size =3D 1 * GiB;
-+    mc->default_ram_id =3D "boston.ddr";
-     mc->max_cpus =3D 16;
-     mc->default_cpu_type =3D MIPS_CPU_TYPE_NAME("I6400");
+     mc->default_cpu_type =3D MIPS_CPU_TYPE_NAME("Loongson-2E");
+     mc->default_ram_size =3D 256 * MiB;
++    mc->default_ram_id =3D "fulong2e.ram";
  }
+=20
+ DEFINE_MACHINE("fulong2e", mips_fulong2e_machine_init)
 --=20
 2.18.1
 
