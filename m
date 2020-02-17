@@ -2,62 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD7FF160779
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 01:18:02 +0100 (CET)
-Received: from localhost ([::1]:38214 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00E9D160780
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 01:32:54 +0100 (CET)
+Received: from localhost ([::1]:38338 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j3U6r-0004gD-Ez
-	for lists+qemu-devel@lfdr.de; Sun, 16 Feb 2020 19:18:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59727)
+	id 1j3ULF-0002U3-1j
+	for lists+qemu-devel@lfdr.de; Sun, 16 Feb 2020 19:32:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60876)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1j3U4Z-0002rO-7r
- for qemu-devel@nongnu.org; Sun, 16 Feb 2020 19:15:40 -0500
+ (envelope-from <dgibson@ozlabs.org>) id 1j3UKH-0001Ul-AV
+ for qemu-devel@nongnu.org; Sun, 16 Feb 2020 19:31:54 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1j3U4Y-0004MS-5E
- for qemu-devel@nongnu.org; Sun, 16 Feb 2020 19:15:39 -0500
-Received: from indium.canonical.com ([91.189.90.7]:34392)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1j3U4X-0004LB-Vm
- for qemu-devel@nongnu.org; Sun, 16 Feb 2020 19:15:38 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1j3U4W-00022a-Qj
- for <qemu-devel@nongnu.org>; Mon, 17 Feb 2020 00:15:36 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id AFD9F2E8047
- for <qemu-devel@nongnu.org>; Mon, 17 Feb 2020 00:15:36 +0000 (UTC)
+ (envelope-from <dgibson@ozlabs.org>) id 1j3UKF-0006O8-U2
+ for qemu-devel@nongnu.org; Sun, 16 Feb 2020 19:31:53 -0500
+Received: from ozlabs.org ([2401:3900:2:1::2]:47481)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1j3UKF-0006Iz-5j; Sun, 16 Feb 2020 19:31:51 -0500
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 48LQ0K4Dskz9sRL; Mon, 17 Feb 2020 11:31:45 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1581899505;
+ bh=tB2JHIu2jpNN32iWn7H792GeQ4Kx98zvSsrW5mBsIKw=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=ElkHV9ZfNIeGvIY3JY4bxFeOCtLmNAFbi6ojkMAhsLm897n/A2ubf+oLwAnHhDJAy
+ I7FGNI3dmN5bcrnyDb05vv6JM9QBiVE+j0NKpM5RaibNJCIYXEYApCUmLD3hzLtcUW
+ xyW7eCz9d+x+tyBTJCJGLpIHKxUdyCp79B+e211s=
+Date: Mon, 17 Feb 2020 11:28:33 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Pan Nengyuan <pannengyuan@huawei.com>
+Subject: Re: [PATCH] ppc: free 'fdt' after reset the machine
+Message-ID: <20200217002833.GA14136@umbus.fritz.box>
+References: <20200214033206.4395-1-pannengyuan@huawei.com>
+ <20200214164816.137e1de7@bahia.lan>
+ <fe4b442b-a854-6eae-95ab-2c3af0a2986a@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 17 Feb 2020 00:06:22 -0000
-From: Richard Henderson <rth@twiddle.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=In Progress; importance=Undecided;
- assignee=rth@twiddle.net; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: helmutsch rth
-X-Launchpad-Bug-Reporter: Helmut (helmutsch)
-X-Launchpad-Bug-Modifier: Richard Henderson (rth)
-References: <158188126194.31124.5348536044519461550.malonedeb@wampee.canonical.com>
-Message-Id: <158189798283.29270.13082540984582708622.malone@chaenomeles.canonical.com>
-Subject: [Bug 1863508] Re: qemu-system-arm stops with SIGSEGV in
- helper_gvec_eq16
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="19413b719a8df7423ab1390528edadce9e0e4aca";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: e9a66d5470369249567bbeeef141cce1ec30af52
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="vtzGhvizbBRQ85DL"
+Content-Disposition: inline
+In-Reply-To: <fe4b442b-a854-6eae-95ab-2c3af0a2986a@huawei.com>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2401:3900:2:1::2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -66,64 +56,115 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1863508 <1863508@bugs.launchpad.net>
+Cc: zhang.zhanghailiang@huawei.com, qemu-devel@nongnu.org,
+ Greg Kurz <groug@kaod.org>, qemu-ppc@nongnu.org, clg@kaod.org,
+ euler.robot@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I infer from the traceback that your host does not support AVX1.
 
-** Changed in: qemu
-       Status: Incomplete =3D> In Progress
+--vtzGhvizbBRQ85DL
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-** Changed in: qemu
-     Assignee: (unassigned) =3D> Richard Henderson (rth)
+On Sat, Feb 15, 2020 at 09:30:56AM +0800, Pan Nengyuan wrote:
+>=20
+>=20
+> On 2/14/2020 11:48 PM, Greg Kurz wrote:
+> > On Fri, 14 Feb 2020 11:32:06 +0800
+> > <pannengyuan@huawei.com> wrote:
+> >=20
+> >> From: Pan Nengyuan <pannengyuan@huawei.com>
+> >>
+> >> 'fdt' forgot to clean both e500 and pnv when we call 'system_reset' on=
+ ppc,
+> >> this patch fix it. The leak stacks are as follow:
+> >>
+> >> Direct leak of 4194304 byte(s) in 4 object(s) allocated from:
+> >>     #0 0x7fafe37dd970 in __interceptor_calloc (/lib64/libasan.so.5+0xe=
+f970)
+> >>     #1 0x7fafe2e3149d in g_malloc0 (/lib64/libglib-2.0.so.0+0x5249d)
+> >>     #2 0x561876f7f80d in create_device_tree /mnt/sdb/qemu-new/qemu/dev=
+ice_tree.c:40
+> >>     #3 0x561876b7ac29 in ppce500_load_device_tree /mnt/sdb/qemu-new/qe=
+mu/hw/ppc/e500.c:364
+> >>     #4 0x561876b7f437 in ppce500_reset_device_tree /mnt/sdb/qemu-new/q=
+emu/hw/ppc/e500.c:617
+> >>     #5 0x56187718b1ae in qemu_devices_reset /mnt/sdb/qemu-new/qemu/hw/=
+core/reset.c:69
+> >>     #6 0x561876f6938d in qemu_system_reset /mnt/sdb/qemu-new/qemu/vl.c=
+:1412
+> >>     #7 0x561876f6a25b in main_loop_should_exit /mnt/sdb/qemu-new/qemu/=
+vl.c:1645
+> >>     #8 0x561876f6a398 in main_loop /mnt/sdb/qemu-new/qemu/vl.c:1679
+> >>     #9 0x561876f7da8e in main /mnt/sdb/qemu-new/qemu/vl.c:4438
+> >>     #10 0x7fafde16b812 in __libc_start_main ../csu/libc-start.c:308
+> >>     #11 0x5618765c055d in _start (/mnt/sdb/qemu-new/qemu/build/ppc64-s=
+oftmmu/qemu-system-ppc64+0x2b1555d)
+> >>
+> >> Direct leak of 1048576 byte(s) in 1 object(s) allocated from:
+> >>     #0 0x7fc0a6f1b970 in __interceptor_calloc (/lib64/libasan.so.5+0xe=
+f970)
+> >>     #1 0x7fc0a656f49d in g_malloc0 (/lib64/libglib-2.0.so.0+0x5249d)
+> >>     #2 0x55eb05acd2ca in pnv_dt_create /mnt/sdb/qemu-new/qemu/hw/ppc/p=
+nv.c:507
+> >>     #3 0x55eb05ace5bf in pnv_reset /mnt/sdb/qemu-new/qemu/hw/ppc/pnv.c=
+:578
+> >>     #4 0x55eb05f2f395 in qemu_system_reset /mnt/sdb/qemu-new/qemu/vl.c=
+:1410
+> >>     #5 0x55eb05f43850 in main /mnt/sdb/qemu-new/qemu/vl.c:4403
+> >>     #6 0x7fc0a18a9812 in __libc_start_main ../csu/libc-start.c:308
+> >>     #7 0x55eb0558655d in _start (/mnt/sdb/qemu-new/qemu/build/ppc64-so=
+ftmmu/qemu-system-ppc64+0x2b1555d)
+> >>
+> >> Reported-by: Euler Robot <pannengyuan@huawei.com>
+> >=20
+> > The recipient list and 'git log' seem to agree on the fact that 'Euler =
+Robot'
+> > has its own email address, that is not yours ;-)
+> >=20
+> > Reported-by: Euler Robot <euler.robot@huawei.com>
+> >=20
+> > I guess David can fix this when applying the patch. No need to repost
+> > unless explicitly asked to do so.
+>=20
+> Yes, your guess is right. I'm sorry for my carelessness.
 
--- =
+Corrected inline and merged, thanks.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1863508
+Oddly, the original mail of this series didn't seem to appear in my
+inbox, although the replies did, even though I see that you've CCed
+me.
 
-Title:
-  qemu-system-arm stops with SIGSEGV in helper_gvec_eq16
+I hope that just means that it did appear and I accidentally deleted
+it, not that something is wrong with my mail setup.
 
-Status in QEMU:
-  In Progress
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
-Bug description:
-  Segmentation fault when trying to start FreeBSD-arm system with qemu-
-  system-arm (version 4.1.1 on Fedora 31)
+--vtzGhvizbBRQ85DL
+Content-Type: application/pgp-signature; name="signature.asc"
 
-  Commandline:
-  gdb -q --args /bin/qemu-system-arm \
-   -name FreeBSD12,debug-threads=3Don \
-   -m 1536 -machine virt -smp 2 \
-   -M virt,highmem=3Doff -serial mon:stdio -monitor telnet::45452,server,no=
-wait \
-   -machine virt,accel=3Dtcg,usb=3Doff,dump-guest-core=3Doff,gic-version=3D=
-2 \
-   -overcommit mem-lock=3Doff -no-reboot -device virtio-rng-device \
-   -bios u-boot-qemu.bin \
-   -drive file=3DFreeBSD-12.1-RELEASE-arm-armv7-CUBIEBOARD2.img,if=3Dnone,i=
-d=3Ddrive0,format=3Draw \
-   -device ich9-ahci,id=3Dahci -device ide-drive,drive=3Ddrive0,bus=3Dahci.=
-0 =
+-----BEGIN PGP SIGNATURE-----
 
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl5J3i8ACgkQbDjKyiDZ
+s5I02A/+NFSfn9U7aF88Y86Zwh4MzA2tOU6uPYNx0y6JRehN5SqjviJA1EVgPdIn
+gqSsvNRwISjz8HRdYsdPUAvH+XLNPzaka+K0/Gt3J1b3MhSlibo0nHQG0xBpdwyJ
+SroXIg/T5zcijOCRwMoK4C1nzfkIgvQ9Hs9DRpj3Dbr2cHcZrrnP7u0qeT0EWca+
+G2TR8qmaPTSdKVzbtyh0IxxhUaUScUCw/FzEL0qZw7OqjIHuMElqWk8910iN/Z38
+PvRL2RkgNYcgzpQPS6ZYMoxDp5fxYmGQSY4sJLMOYbJvKeDTzZWnjqsH2tVbTxz0
+gj5QimhCkKIBXF8UV2VzQKPGeshqlG5b/Sjl4gbmr+9fFfEMteDQDXfAChzC20Q8
+6YE+K01tZW/Sn+BJjJSfW6BtVgIabipcX/Bng0OZHu2retUERp3RmqbUkoOPl33S
+kSpvgF/6zlCu++YatraDl8ig7g8R5wR54CjLc1cF/jisvAc371ASIPoKrwqZzYAH
+F5sOqz8c9YRKIUwjc2Hikayiv0BTTMuElP+tU23Uum+y/KhKBMMt9MY5GFdT418P
+k14r8Ovl2PIl0fbmBsewE49poFDG1kumxUBJvKK/26gV9HF77GK752+sOQcTnSZj
+Mzakeryr0Ytip1Meg8OLUJH8aKg/qRIWK8yjGRZM6/tUGYdlAaw=
+=Hk4t
+-----END PGP SIGNATURE-----
 
-  Results:
-  ....
-  Mounting local filesystems:.
-
-  Thread 4 "CPU 1/TCG" received signal SIGSEGV, Segmentation fault.
-  [Switching to Thread 0x7fffcedfe700 (LWP 53608)]
-  0x00005555558d9332 in helper_gvec_eq16 (d=3D0x5555566748d8, a=3D0x5555566=
-748e0, b=3D0x5555566748d0, desc=3D0) at /usr/src/debug/qemu-4.1.1-1.fc31.x8=
-6_64/accel/tcg/tcg-runtime-gvec.c:948
-  948     DO_CMP2(16)
-
-  Tested different versions of qemu. qemu-3.0.1 worked, but qemu-3.1.1
-  failed with the same error.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1863508/+subscriptions
+--vtzGhvizbBRQ85DL--
 
