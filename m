@@ -2,74 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D92F0161DE2
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 00:30:20 +0100 (CET)
-Received: from localhost ([::1]:54446 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB39B161DF4
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 00:37:02 +0100 (CET)
+Received: from localhost ([::1]:54610 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j3pqF-0003t0-TI
-	for lists+qemu-devel@lfdr.de; Mon, 17 Feb 2020 18:30:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58960)
+	id 1j3pwj-0006BB-Ou
+	for lists+qemu-devel@lfdr.de; Mon, 17 Feb 2020 18:37:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60039)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <nieklinnenbank@gmail.com>) id 1j3pkp-0001xd-SN
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 18:24:45 -0500
+ (envelope-from <bounces@canonical.com>) id 1j3pqm-0006Go-R1
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 18:30:54 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <nieklinnenbank@gmail.com>) id 1j3pkn-0006rS-EV
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 18:24:43 -0500
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:55020)
+ (envelope-from <bounces@canonical.com>) id 1j3pql-0001xl-Im
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 18:30:52 -0500
+Received: from indium.canonical.com ([91.189.90.7]:49616)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <nieklinnenbank@gmail.com>)
- id 1j3pkn-0006qC-6e; Mon, 17 Feb 2020 18:24:41 -0500
-Received: by mail-wm1-x344.google.com with SMTP id g1so935346wmh.4;
- Mon, 17 Feb 2020 15:24:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=7j0tFiVtvyr6UtUTZGoLDquKZYplAcz5mWt5OO2T2sw=;
- b=m+ktIijmEiEeWI9G4pj/LQfrxEHfEOTu28gS6jNOkFjk4Hn4gbldQfj9b9FKPvmO6P
- yoFC6L5AvjoXDd5w2iccobjxPZhvlQQpkdsf44SVLhBERVm98BEmm5Z4uUn2WOMwdpGk
- u/WE+GAqy0ddr1DIzWOZdl4AyjWW4Cj1SJy5GktQw5UC1afG2dOFVMISpK+Zn4gYR2Qf
- hSlXODcYW1LnwwQ5lNhFWX9ngbfzeIz7brAL2IkyBDZOeI4634u3jLUutoDeW4QPGVui
- g84fkYrhhKL2eOeK9kaYhAnV52KXr9NvyE/sQEgDm2pjzP8M4g2ZXhtqWHO49mKFwJJL
- Rj7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=7j0tFiVtvyr6UtUTZGoLDquKZYplAcz5mWt5OO2T2sw=;
- b=tcf+Cy9bNgS5J9CTaNJzLjrkVkCVlb84HoO6N4pM0UyL9gzMu0mDXBqdPiV3FtCw/0
- 2+Id4dzzZJ8S/UgUT5L1dfmF12xcCQXWeAcTpvXzd9GuC0L21LrMmkzhGMgytSBslhlU
- uPoKq34JdFoBUtfyxxokQpX5Wjn+ySN4kKpz5/Z8xQG82eTysdiEJ/3+aO6Ns/3jqD9h
- 4sI4iVldmlZxZZH83tkZAuOLRMt60GF+E8Ss++yZuVnyc+/NSMRSh2a0H53RJICEpAZE
- DsOSl+ieXrX8N35QX9MhNMmUW0XGDaVUtiK+b552GEdQPpRgdM0XM6ZyzWzdXWWszBhm
- v6Sw==
-X-Gm-Message-State: APjAAAWkfxq5r3jsPYvuC+7tb5SNj27UQ7B9AdTHaGc7qcsD3rtQOJit
- NaXre4u9pcZyFOaHiTp231E/W+Ki93o=
-X-Google-Smtp-Source: APXvYqzabXbnXBXXfNuqA0ebOn7a2IfR8al/PexyWE784ndpj6ebRm+9N4eSa/L2Wn6AReQ7Rpt/zg==
-X-Received: by 2002:a1c:cc06:: with SMTP id h6mr1308108wmb.118.1581981879726; 
- Mon, 17 Feb 2020 15:24:39 -0800 (PST)
-Received: from pavilion.home ([2a02:a456:6be8:1:8edc:d4ff:fe8b:18b7])
- by smtp.gmail.com with ESMTPSA id w1sm3244831wro.72.2020.02.17.15.24.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Feb 2020 15:24:39 -0800 (PST)
-From: Niek Linnenbank <nieklinnenbank@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v5 17/18] tests/boot_linux_console: Test booting NetBSD via
- U-Boot on OrangePi PC
-Date: Tue, 18 Feb 2020 00:24:10 +0100
-Message-Id: <20200217232411.30096-18-nieklinnenbank@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200217232411.30096-1-nieklinnenbank@gmail.com>
-References: <20200217232411.30096-1-nieklinnenbank@gmail.com>
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1j3pql-0001xG-DG
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 18:30:51 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1j3pqj-00061E-Rj
+ for <qemu-devel@nongnu.org>; Mon, 17 Feb 2020 23:30:49 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id C21B12E80C8
+ for <qemu-devel@nongnu.org>; Mon, 17 Feb 2020 23:30:49 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::344
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 17 Feb 2020 23:19:58 -0000
+From: JS <1859920@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: js1943 th-huth
+X-Launchpad-Bug-Reporter: JS (js1943)
+X-Launchpad-Bug-Modifier: JS (js1943)
+References: <157915647770.15306.7117337280333115892.malonedeb@wampee.canonical.com>
+Message-Id: <158198159884.25031.15556646452813111891.malone@gac.canonical.com>
+Subject: [Bug 1859920] Re: daemoniz not working on MacOS
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="19413b719a8df7423ab1390528edadce9e0e4aca";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 4e5af7c34d12ac037ede80af5e5b6cf949261761
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -78,182 +65,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, alex.bennee@linaro.org, jasowang@redhat.com,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- b.galvani@gmail.com, Niek Linnenbank <nieklinnenbank@gmail.com>,
- qemu-arm@nongnu.org, imammedo@redhat.com, philmd@redhat.com
+Reply-To: Bug 1859920 <1859920@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Anything else I should supply to move status away from incomplete?
 
-This test boots U-Boot then NetBSD (stored on a SD card) on
-a OrangePi PC board.
+-- =
 
-As it requires ~1.3GB of storage, it is disabled by default.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1859920
 
-U-Boot is built by the Debian project [1], and the SD card image
-is provided by the NetBSD organization [2].
+Title:
+  daemoniz not working on MacOS
 
-Once the compressed SD card image is downloaded (304MB) and
-extracted, this test is fast:
+Status in QEMU:
+  Incomplete
 
-  $ AVOCADO_ALLOW_LARGE_STORAGE=yes \
-    avocado --show=app,console run -t machine:orangepi-pc \
-      tests/acceptance/boot_linux_console.py
-  console: U-Boot SPL 2020.01+dfsg-1 (Jan 08 2020 - 08:19:44 +0000)
-  console: DRAM: 1024 MiB
-  console: U-Boot 2020.01+dfsg-1 (Jan 08 2020 - 08:19:44 +0000) Allwinner Technology
-  console: CPU:   Allwinner H3 (SUN8I 0000)
-  console: scanning bus usb@1c1b000 for devices... 1 USB Device(s) found
-  console: scanning bus usb@1c1d000 for devices... 1 USB Device(s) found
-  console: scanning usb for storage devices... 0 Storage Device(s) found
-  console: Hit any key to stop autoboot:  0
-  console: => setenv bootargs root=ld0a
-  console: => setenv kernel netbsd-GENERIC.ub
-  console: => setenv fdtfile dtb/sun8i-h3-orangepi-pc.dtb
-  console: => boot
-  console: ## Booting kernel from Legacy Image at 42000000 ...
-  console: Image Name:   NetBSD/earmv7hf 9.0_RC1
-  console: Image Type:   ARM Linux Kernel Image (no loading done) (uncompressed)
-  console: XIP Kernel Image (no loading done)
-  console: Loading Device Tree to 49ff6000, end 49fffe01 ... OK
-  console: Starting kernel ...
-  console: [   1.0000000] NetBSD/evbarm (fdt) booting ...
-  console: [   1.0000000] NetBSD 9.0 (GENERIC) #0: Fri Feb 14 00:06:28 UTC 2020
-  console: [   1.0000000]         mkrepro@mkrepro.NetBSD.org:/usr/src/sys/arch/evbarm/compile/GENERIC
-  console: [   1.0000000] total memory = 1024 MB
-  console: [   1.0000000] avail memory = 1003 MB
-  console: [   1.0000000] armfdt0 (root)
-  console: [   1.0000000] simplebus0 at armfdt0: Xunlong Orange Pi PC
-  console: [   1.0000000] cpu0 at cpus0: Cortex-A7 r0p5 (Cortex V7A core)
-  console: [   1.0000000] cpu0: DC enabled IC enabled WB enabled LABT branch prediction enabled
-  console: [   1.0000000] cpu0: 32KB/64B 2-way L1 VIPT Instruction cache
-  console: [   1.0000000] cpu0: 32KB/64B 2-way write-back-locking-C L1 PIPT Data cache
-  console: [   1.0000000] cpu0: 2304KB/64B 16-way write-through L2 PIPT Unified cache
-  console: [   1.0000000] vfp0 at cpu0: NEON MPE (VFP 3.0+), rounding, NaN propagation, denormals
-  ...
-  console: [   2.3812082] sdmmc0: SD card status: 4-bit, C0
-  console: [   2.3812082] ld0 at sdmmc0: <0xaa:0x5859:QEMU!:0x01:0xdeadbeef:0x062>
-  console: [   2.4012856] ld0: 1226 MB, 622 cyl, 64 head, 63 sec, 512 bytes/sect x 2511872 sectors
-  console: [   2.5321222] ld0: 4-bit width, High-Speed/SDR25, 50.000 MHz
-  console: [   3.1068718] WARNING: 4 errors while detecting hardware; check system log.
-  console: [   3.1179868] boot device: ld0
-  console: [   3.1470623] root on ld0a dumps on ld0b
-  console: [   3.2464436] root file system type: ffs
-  console: [   3.2897123] kern.module.path=/stand/evbarm/9.0/modules
-  console: Mon Feb 17 20:33:35 UTC 2020
-  console: Starting root file system check:
-  PASS (35.96 s)
-  RESULTS    : PASS 1 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0 | CANCEL 0
-  JOB TIME   : 36.09 s
+Bug description:
+  OS: MacOS Catalina 10.15.2
+  Qemu install via brew: brew install qemu
 
-Note, this test only took ~65 seconds to run on Travis-CI, see: [3].
+  qemu-system-x86_64 -version
+  QEMU emulator version 4.2.50 (v4.2.0-13-g084a398bf8-dirty)
+  Copyright (c) 2003-2019 Fabrice Bellard and the QEMU Project developers
 
-This test is based on a description from Niek Linnenbank from [4].
+  ---
 
-[1] https://wiki.debian.org/InstallingDebianOn/Allwinner#Creating_a_bootable_SD_Card_with_u-boot
-[2] https://wiki.netbsd.org/ports/evbarm/allwinner/
-[3] https://travis-ci.org/philmd/qemu/jobs/638823612#L3778
-[4] https://www.mail-archive.com/qemu-devel@nongnu.org/msg669347.html
+  Start Ubuntu Desktop 18.04 client as follow:
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-[NL: changed test to use NetBSD 9.0 final release and -global allwinner-rtc.base-year]
-Tested-by: Niek Linnenbank <nieklinnenbank@gmail.com>
-Signed-off-by: Niek Linnenbank <nieklinnenbank@gmail.com>
----
- tests/acceptance/boot_linux_console.py | 70 ++++++++++++++++++++++++++
- 1 file changed, 70 insertions(+)
+  IMG_CD=3D$HOME/Downloads/iso/ubuntu-18.04.3-desktop-amd64.iso
+  IMG_FILE=3D$HOME/code/vm/qemu/u64d01.qcow2
+  MAC_ADDR=3Dxx:xx:xx:xx:xx:xx
 
-diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
-index a70ac4a6cc..1369354ac2 100644
---- a/tests/acceptance/boot_linux_console.py
-+++ b/tests/acceptance/boot_linux_console.py
-@@ -16,6 +16,7 @@ import shutil
- from avocado import skipUnless
- from avocado_qemu import Test
- from avocado_qemu import exec_command_and_wait_for_pattern
-+from avocado_qemu import interrupt_interactive_console_until_pattern
- from avocado_qemu import wait_for_console_pattern
- from avocado.utils import process
- from avocado.utils import archive
-@@ -661,6 +662,75 @@ class BootLinuxConsole(Test):
-                                       'to <orangepipc>')
-         self.wait_for_console_pattern('Starting Load Kernel Modules...')
- 
-+    @skipUnless(os.getenv('AVOCADO_ALLOW_LARGE_STORAGE'), 'storage limited')
-+    def test_arm_orangepi_uboot_netbsd9(self):
-+        """
-+        :avocado: tags=arch:arm
-+        :avocado: tags=machine:orangepi-pc
-+        """
-+        # This test download a 304MB compressed image and expand it to 1.3GB...
-+        deb_url = ('http://snapshot.debian.org/archive/debian/'
-+                   '20200108T145233Z/pool/main/u/u-boot/'
-+                   'u-boot-sunxi_2020.01%2Bdfsg-1_armhf.deb')
-+        deb_hash = 'f67f404a80753ca3d1258f13e38f2b060e13db99'
-+        deb_path = self.fetch_asset(deb_url, asset_hash=deb_hash)
-+        # We use the common OrangePi PC 'plus' build of U-Boot for our secondary
-+        # program loader (SPL). We will then set the path to the more specific
-+        # OrangePi "PC" device tree blob with 'setenv fdtfile' in U-Boot prompt,
-+        # before to boot NetBSD.
-+        uboot_path = '/usr/lib/u-boot/orangepi_plus/u-boot-sunxi-with-spl.bin'
-+        uboot_path = self.extract_from_deb(deb_path, uboot_path)
-+        image_url = ('https://cdn.netbsd.org/pub/NetBSD/NetBSD-9.0/'
-+                     'evbarm-earmv7hf/binary/gzimg/armv7.img.gz')
-+        image_hash = '2babb29d36d8360adcb39c09e31060945259917a'
-+        image_path_gz = self.fetch_asset(image_url, asset_hash=image_hash)
-+        image_path = os.path.join(self.workdir, 'armv7.img')
-+        image_drive_args = 'if=sd,format=raw,snapshot=on,file=' + image_path
-+        archive.gzip_uncompress(image_path_gz, image_path)
-+
-+        # dd if=u-boot-sunxi-with-spl.bin of=armv7.img bs=1K seek=8 conv=notrunc
-+        with open(uboot_path, 'rb') as f_in:
-+            with open(image_path, 'r+b') as f_out:
-+                f_out.seek(8 * 1024)
-+                shutil.copyfileobj(f_in, f_out)
-+
-+                # Extend image, to avoid that NetBSD thinks the partition
-+                # inside the image is smaller than device size itself
-+                f_out.seek(0, 2)
-+                f_out.seek(64 * 1024 * 1024, 1)
-+                f_out.write(bytearray([0x00]))
-+
-+        self.vm.set_console()
-+        self.vm.add_args('-nic', 'user',
-+                         '-drive', image_drive_args,
-+                         '-global', 'allwinner-rtc.base-year=2000',
-+                         '-no-reboot')
-+        self.vm.launch()
-+        wait_for_console_pattern(self, 'U-Boot 2020.01+dfsg-1')
-+        interrupt_interactive_console_until_pattern(self,
-+                                       'Hit any key to stop autoboot:',
-+                                       'switch to partitions #0, OK')
-+
-+        exec_command_and_wait_for_pattern(self, '', '=>')
-+        cmd = 'setenv bootargs root=ld0a'
-+        exec_command_and_wait_for_pattern(self, cmd, '=>')
-+        cmd = 'setenv kernel netbsd-GENERIC.ub'
-+        exec_command_and_wait_for_pattern(self, cmd, '=>')
-+        cmd = 'setenv fdtfile dtb/sun8i-h3-orangepi-pc.dtb'
-+        exec_command_and_wait_for_pattern(self, cmd, '=>')
-+        cmd = ("setenv bootcmd 'fatload mmc 0:1 ${kernel_addr_r} ${kernel}; "
-+               "fatload mmc 0:1 ${fdt_addr_r} ${fdtfile}; "
-+               "fdt addr ${fdt_addr_r}; "
-+               "bootm ${kernel_addr_r} - ${fdt_addr_r}'")
-+        exec_command_and_wait_for_pattern(self, cmd, '=>')
-+
-+        exec_command_and_wait_for_pattern(self, 'boot',
-+                                          'Booting kernel from Legacy Image')
-+        wait_for_console_pattern(self, 'Starting kernel ...')
-+        wait_for_console_pattern(self, 'NetBSD 9.0 (GENERIC)')
-+        # Wait for user-space
-+        wait_for_console_pattern(self, 'Starting root file system check')
-+
-     def test_s390x_s390_ccw_virtio(self):
-         """
-         :avocado: tags=arch:s390x
--- 
-2.17.1
+  qemu-system-x86_64 \
+  -no-user-config -nodefaults \
+  -show-cursor \
+  -name u64d01 \
+  -M q35,accel=3Dhvf,usb=3Doff,vmport=3Doff \
+  -cpu host -smp 4 -m 2048 \
+  -overcommit mem-lock=3Doff \
+  -overcommit cpu-pm=3Doff \
+  -rtc base=3Dutc,clock=3Dhost \
+  \
+  -device virtio-tablet-pci \
+  -device virtio-vga \
+  \
+  -device virtio-blk-pci,drive=3Dssd1 \
+  -drive id=3Dssd1,file=3D$IMG_FILE,if=3Dnone,format=3Dqcow2 \
+  \
+  -device virtio-net-pci,netdev=3Dnic1,mac=3D$MAC_ADDR \
+  -netdev user,id=3Dnic1,ipv4=3Don,ipv6=3Don,hostname=3Du64d01,hostfwd=3Dtc=
+p::2222-:22 \
+  \
+  -device ich9-intel-hda,id=3Dsnd,msi=3Don \
+  -device hda-output,id=3Dsnd-codec0,bus=3Dsnd.0,cad=3D0,audiodev=3Dsnd0 \
+  -audiodev coreaudio,id=3Dsnd0,out.buffer-count=3D10000 \
+  \
+  -daemonize
 
+  Give following error:
+
+  objc[3432]: +[NSNumber initialize] may have been in progress in another t=
+hread when fork() was called.
+  objc[3432]: +[NSNumber initialize] may have been in progress in another t=
+hread when fork() was called. We cannot safely call it or ignore it in the =
+fork() child process. Crashing instead. Set a breakpoint on objc_initialize=
+AfterForkError to debug.
+
+  =
+
+  I checked "ps -ef|grep qemu" before and after the command, there was no q=
+emu process running.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1859920/+subscriptions
 
