@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 429F7161C3E
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 21:19:40 +0100 (CET)
-Received: from localhost ([::1]:52474 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3E5A161C4D
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 21:28:03 +0100 (CET)
+Received: from localhost ([::1]:52558 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j3mrj-000895-Bo
-	for lists+qemu-devel@lfdr.de; Mon, 17 Feb 2020 15:19:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34338)
+	id 1j3mzq-0005NS-Tr
+	for lists+qemu-devel@lfdr.de; Mon, 17 Feb 2020 15:28:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35824)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <wainersm@redhat.com>) id 1j3moa-0004iv-5S
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 15:16:25 -0500
+ (envelope-from <nieklinnenbank@gmail.com>) id 1j3mz7-0004ov-2M
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 15:27:18 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <wainersm@redhat.com>) id 1j3moZ-00041f-70
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 15:16:24 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:50308
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <wainersm@redhat.com>) id 1j3moZ-00040J-2o
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 15:16:23 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581970582;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=FmNLkF828GOUPF42Pc+E/LHyKJEHDiIv+2IbmhJ4n0I=;
- b=OepezHMHQczFGDA2Od8Q42QTHZaATiIkbwXCuVpnmlkVB2IGwnftXvZQJb2/sXC+KoI2wJ
- X+0oahSAHk/QDEIeNuddKdmc/Mwwn5MS4ayIbYr4fjwwbSCDNoJDnOa7LQ9yXwcVAu9NbM
- lf5seQS1mzWNqY5e93sF2eWbfWqbimk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-269-YkxroyfRNGaAsFABRa2OKQ-1; Mon, 17 Feb 2020 15:16:19 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1D400107ACC4;
- Mon, 17 Feb 2020 20:16:18 +0000 (UTC)
-Received: from virtlab501.virt.lab.eng.bos.redhat.com
- (virtlab501.virt.lab.eng.bos.redhat.com [10.19.152.162])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 882215D9E2;
- Mon, 17 Feb 2020 20:16:17 +0000 (UTC)
-From: Wainer dos Santos Moschetta <wainersm@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 6/6] travis.yml: Run '[aarch64] GCC check-tcg' job on
- Ubuntu Bionic
-Date: Mon, 17 Feb 2020 15:16:09 -0500
-Message-Id: <20200217201609.788825-7-wainersm@redhat.com>
-In-Reply-To: <20200217201609.788825-1-wainersm@redhat.com>
-References: <20200217201609.788825-1-wainersm@redhat.com>
+ (envelope-from <nieklinnenbank@gmail.com>) id 1j3mz5-0004Co-Kc
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 15:27:16 -0500
+Received: from mail-io1-xd41.google.com ([2607:f8b0:4864:20::d41]:45685)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <nieklinnenbank@gmail.com>)
+ id 1j3mz5-0004CJ-FD; Mon, 17 Feb 2020 15:27:15 -0500
+Received: by mail-io1-xd41.google.com with SMTP id i11so6827161ioi.12;
+ Mon, 17 Feb 2020 12:27:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=WGVGJR17GkdVB9ljDQdhlnTm1kjSiWcfZ0HqZbiRloA=;
+ b=IvygvMhBaNhgfXbBp6NGtil/Xbzq7wsYwENi/f0OjI05vAUCGN7FhYlqPLz/PU7crF
+ QdqfoHvAV+vNYNLvv3UTqiVNteKu7gwoGMF7sANoCR6HgtthbfbGan8NxEM8R1peIjLr
+ n17kDwywPlzGjY1cX7As4+Nzoi0J2O3pHFpWkOrf4m5hwA+BF7b3m5LSvMuUPpymQ5aY
+ auqaRuGagLYtuNn8oZza4m+AkOjl/TAbhaJ9l/u/6cWQtAvQigbPHYbv+/e6m95o6LRM
+ ZcJdduWO4sf1c8MtB+fZVk1gOPduXAzqQv+wcBoSOK2oIlIR95IH/i+tPbbW3y5x1B+7
+ QXog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=WGVGJR17GkdVB9ljDQdhlnTm1kjSiWcfZ0HqZbiRloA=;
+ b=ard4MSUHD8Wpq8cPp/v1yRaPFKiYJewPE/8aJtjcnAinS/xqrbaboaXzgwflJGOlvS
+ GO//B7RMVlSUlT7l21denr1IyH4Gea1evYNGPHw/whUZZQbXugExjtBskVPr2TtN58zz
+ 03zMN+6wEa6IvMcIHWXRHrza3klvXuXx1HvRfRIM+Wx5NKQ/izRHhei6Hl5O/Pa54A/j
+ okU65newDZi1HvEBmt8pngyHvkZ0qbpOhSMglN+k5o+ww8ud7OzsCVGiDWV7EJX8WcXk
+ 5B4ANOjsngH+vHfK0ig1sy0JHARzBYMMqpQDkB959jlNQ+wzleG0FKJ93HhPL7aCqVLd
+ 3IqQ==
+X-Gm-Message-State: APjAAAUWWi5G26HO9yPSscCnc7tQIEvRGLceu8tVFKELdOvgnGtil8ty
+ 2NV0wCF4l791uK2Vil1wsXXNbCSnVwVGcfhtOjM=
+X-Google-Smtp-Source: APXvYqwAlxkmUsBoeo1q6NlMIv4rrmAW6qM5cGN6Ze7uBu4VSwpaG9H/IcQQtm8EOG222B+TgYHcDRaul0AImZyjLM8=
+X-Received: by 2002:a5d:8f17:: with SMTP id f23mr13468253iof.265.1581971234763; 
+ Mon, 17 Feb 2020 12:27:14 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: YkxroyfRNGaAsFABRa2OKQ-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+References: <20200119005102.3847-1-nieklinnenbank@gmail.com>
+ <CAPan3WpV2m9HXLXZDopKUb2EfX2KE9y530m2pJG4-D96==ggCg@mail.gmail.com>
+ <ee95179f-c15f-9615-e241-80199e6948b7@redhat.com>
+In-Reply-To: <ee95179f-c15f-9615-e241-80199e6948b7@redhat.com>
+From: Niek Linnenbank <nieklinnenbank@gmail.com>
+Date: Mon, 17 Feb 2020 21:27:03 +0100
+Message-ID: <CAPan3WpG0yPu5sbS=mpHk=xNVGaqwWFrBcDBcovLLRit==5dwg@mail.gmail.com>
+Subject: Re: [PATCH v4 00/20] Add Allwinner H3 SoC and Orange Pi PC Machine
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Content-Type: multipart/alternative; boundary="0000000000007e35b1059ecb615e"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::d41
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,57 +72,199 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, philmd@redhat.com, alex.bennee@linaro.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, jasowang@redhat.com,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Beniamino Galvani <b.galvani@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Igor Mammedov <imammedo@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Converted the '[aarch64] GCC check-tcg' job to run on Ubuntu
-18.04 (Bionic).
+--0000000000007e35b1059ecb615e
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
----
- .travis.yml | 26 --------------------------
- 1 file changed, 26 deletions(-)
+Hi Philippe,
 
-diff --git a/.travis.yml b/.travis.yml
-index c6465ae807..e0d2475899 100644
---- a/.travis.yml
-+++ b/.travis.yml
-@@ -418,32 +418,6 @@ matrix:
-=20
-     - name: "[aarch64] GCC check-tcg"
-       arch: arm64
--      dist: xenial
--      addons:
--        apt_packages:
--          - libaio-dev
--          - libattr1-dev
--          - libbrlapi-dev
--          - libcap-ng-dev
--          - libgcrypt20-dev
--          - libgnutls28-dev
--          - libgtk-3-dev
--          - libiscsi-dev
--          - liblttng-ust-dev
--          - libncurses5-dev
--          - libnfs-dev
--          - libnss3-dev
--          - libpixman-1-dev
--          - libpng-dev
--          - librados-dev
--          - libsdl2-dev
--          - libseccomp-dev
--          - liburcu-dev
--          - libusb-1.0-0-dev
--          - libvdeplug-dev
--          - libvte-2.91-dev
--          # Tests dependencies
--          - genisoimage
-       env:
-         - TEST_CMD=3D"make check check-tcg V=3D1"
-         - CONFIG=3D"--disable-containers --target-list=3D${MAIN_SOFTMMU_TA=
-RGETS}"
+On Wed, Feb 12, 2020 at 11:12 PM Philippe Mathieu-Daud=C3=A9 <philmd@redhat=
+.com>
+wrote:
+
+> On 2/12/20 10:47 PM, Niek Linnenbank wrote:
+> > Hi all,
+> >
+> > Short status update regarding this series.
+> >
+> > Currently I am debugging booting NetBSD 9.0-RC2, which is recently
+> > released [1]
+> > The problem is that, apparently, RC2 can't mount the rootfs properly:
+> >
+> > [   3.1871510] vfs_mountroot: can't open root device
+> > [   3.2141370] cannot mount root, error =3D 6
+> >
+> > This only happens using the RC2 filesystem image. However, the RC2
+> > kernel can
+> > properly load & boot the RC1 filesystem image, and the RC1 kernel gives
+> > the same error
+> > on the RC2 filesystem.  But I dont think its a NetBSD-RC2 issue, becaus=
+e
+> > on a real
+> > Orange Pi PC hardware board, this problem does not show.
+>
+> Linux shows:
+>    console: mmc0: Problem switching card into high-speed mode!
+>
+> QEMU MMC support is not in good shape, and high-speed SD card support is
+> limited. I keep procrastinating at reviewing your SDHCI patch hmmmmm.
+>
+> So you added:
+>
+>   * DMA transfers
+>   * Direct FIFO I/O
+>   * Short/Long format command responses
+>
+> I'd start diffing the trace output of the following events:
+>
+> allwinner_sdhost*
+> sdcard*
+>
+> with both kernels.
+>
+> Thanks for the kind suggestions Philippe.
+Indeed, comparing the trace files of both the RC1 and RC2 kernels is one of
+the things I did, and many more.
+
+After extensive low-level debugging, I discovered that the issue is much
+more simple than I thought.
+In particular, when using -sd <file>, the emulated device gets the same
+physical size as the file.
+Normally this is not a problem, but for the NetBSD RC2 image, the kernel
+reads the MBR partition table,
+compares it with the device size and concludes that the NetBSD partition in
+the image is larger than the actual device.
+
+Unfortunately, this root cause is not printed on the NetBSD console, only
+the final  'can't open root device' message.
+Also, when running on hardware, obviously the SD card will be larger, e.g.
+4GB or more, so that is why this issue does not show.
+
+So the fix is to extend the input image by a few megabytes before booting
+it.
+And on the positive side, with this search we now have more confidence that
+the
+emulated SD/MMC device in Qemu works as expected.
+
+Kind regards,
+Niek
+
+
+> >
+> > I'm comparing traces and adding more low-level debug output to NetBSD
+> > and QEMU to find the issue.
+> >
+> > Also I processed the review remarks which were send so far.
+> >
+> > Kind regards,
+> > Niek
+> >
+> > [1] https://www.netbsd.org/releases/formal-9/NetBSD-9.0.html
+>
+>
+
 --=20
-2.24.1
+Niek Linnenbank
 
+--0000000000007e35b1059ecb615e
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Hi Philippe,<br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Feb 12, 2020 at 11:12 PM Phil=
+ippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:philmd@redhat.com">philmd@red=
+hat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"=
+margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-lef=
+t:1ex">On 2/12/20 10:47 PM, Niek Linnenbank wrote:<br>
+&gt; Hi all,<br>
+&gt; <br>
+&gt; Short status update regarding this series.<br>
+&gt; <br>
+&gt; Currently I am debugging booting NetBSD 9.0-RC2, which is recently <br=
+>
+&gt; released [1]<br>
+&gt; The problem is that, apparently, RC2 can&#39;t mount the rootfs proper=
+ly:<br>
+&gt; <br>
+&gt; [ =C2=A0 3.1871510] vfs_mountroot: can&#39;t open root device<br>
+&gt; [ =C2=A0 3.2141370] cannot mount root, error =3D 6<br>
+&gt; <br>
+&gt; This only happens using the RC2 filesystem image. However, the RC2 <br=
+>
+&gt; kernel can<br>
+&gt; properly load &amp; boot the RC1 filesystem image, and the RC1 kernel =
+gives <br>
+&gt; the same error<br>
+&gt; on the RC2 filesystem.=C2=A0 But I dont think its a NetBSD-RC2 issue, =
+because <br>
+&gt; on a real<br>
+&gt; Orange Pi PC hardware board, this problem does not show.<br>
+<br>
+Linux shows:<br>
+=C2=A0 =C2=A0console: mmc0: Problem switching card into high-speed mode!<br=
+>
+<br>
+QEMU MMC support is not in good shape, and high-speed SD card support is <b=
+r>
+limited. I keep procrastinating at reviewing your SDHCI patch hmmmmm.<br>
+<br>
+So you added:<br>
+<br>
+=C2=A0 * DMA transfers<br>
+=C2=A0 * Direct FIFO I/O<br>
+=C2=A0 * Short/Long format command responses<br>
+<br>
+I&#39;d start diffing the trace output of the following events:<br>
+<br>
+allwinner_sdhost*<br>
+sdcard*<br>
+<br>
+with both kernels.<br>
+<br></blockquote><div>Thanks for the kind suggestions Philippe. <br></div><=
+div>Indeed, comparing the trace files of both the RC1 and RC2 kernels is on=
+e of the things I did, and many more.</div><div><br></div><div>After extens=
+ive low-level debugging, I discovered that the issue is much more simple th=
+an I thought.</div><div>In particular, when using -sd &lt;file&gt;, the emu=
+lated device gets the same physical size as the file.</div><div>Normally th=
+is is not a problem, but for the NetBSD RC2 image, the kernel reads the MBR=
+ partition table,</div><div>compares it with the device size and concludes =
+that the NetBSD partition in the image is larger than the actual device.</d=
+iv><div><br></div><div>Unfortunately, this root cause is not printed on the=
+ NetBSD console, only the final=C2=A0 &#39;can&#39;t open root device&#39; =
+message.</div><div> Also, when running on hardware, obviously the SD card w=
+ill be larger, e.g. 4GB or more, so that is why this issue does not show.</=
+div><div><br></div><div>So the fix is to extend the input image by a few me=
+gabytes before booting it.<br></div><div><div>And on the positive side, wit=
+h this search we now have more confidence that the</div><div>emulated SD/MM=
+C device in Qemu works as expected.</div></div><div><br></div><div>Kind reg=
+ards,</div><div>Niek<br></div><div>=C2=A0</div><blockquote class=3D"gmail_q=
+uote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,2=
+04);padding-left:1ex">
+&gt; <br>
+&gt; I&#39;m comparing traces and adding more low-level debug output to Net=
+BSD <br>
+&gt; and QEMU to find the issue.<br>
+&gt; <br>
+&gt; Also I processed the review remarks which were send so far.<br>
+&gt; <br>
+&gt; Kind regards,<br>
+&gt; Niek<br>
+&gt; <br>
+&gt; [1] <a href=3D"https://www.netbsd.org/releases/formal-9/NetBSD-9.0.htm=
+l" rel=3D"noreferrer" target=3D"_blank">https://www.netbsd.org/releases/for=
+mal-9/NetBSD-9.0.html</a><br>
+<br>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
+mail_signature"><div dir=3D"ltr"><div>Niek Linnenbank<br><br></div></div></=
+div></div>
+
+--0000000000007e35b1059ecb615e--
 
