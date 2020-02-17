@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1DE7160D86
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 09:37:06 +0100 (CET)
-Received: from localhost ([::1]:42078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85FA6160D53
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 09:32:14 +0100 (CET)
+Received: from localhost ([::1]:42020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j3btp-000633-Lk
-	for lists+qemu-devel@lfdr.de; Mon, 17 Feb 2020 03:37:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45001)
+	id 1j3bp7-0003uG-Ek
+	for lists+qemu-devel@lfdr.de; Mon, 17 Feb 2020 03:32:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45024)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <luc.michel@greensocs.com>) id 1j3blW-0001mU-GP
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 03:28:31 -0500
+ (envelope-from <luc.michel@greensocs.com>) id 1j3blk-0001we-Gc
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 03:28:45 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <luc.michel@greensocs.com>) id 1j3blV-00071Z-2r
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 03:28:30 -0500
-Received: from beetle.greensocs.com ([5.135.226.135]:47214)
+ (envelope-from <luc.michel@greensocs.com>) id 1j3blj-00079b-8A
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 03:28:44 -0500
+Received: from beetle.greensocs.com ([5.135.226.135]:47228)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <luc.michel@greensocs.com>)
- id 1j3blU-000715-Qr
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 03:28:29 -0500
+ id 1j3blj-000797-02
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 03:28:43 -0500
 Received: from [172.16.11.100] (tiramisu.bar.greensocs.com [172.16.11.100])
- by beetle.greensocs.com (Postfix) with ESMTPSA id 6785996F50;
- Mon, 17 Feb 2020 08:28:27 +0000 (UTC)
+ by beetle.greensocs.com (Postfix) with ESMTPSA id 82DF296F50;
+ Mon, 17 Feb 2020 08:28:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1581928107;
+ s=mail; t=1581928121;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=AUxrKeu1MTKzV3kvwZDVnnGXzjhz+606AfAtMOONICY=;
- b=SGz7dyqYqE0TUSLqLv5o6fyOlImJAWiJVoy7B3seIl9XcMpxGmyBLZc8rQCA+UK8AAIdrI
- yjTaK29n2VRBPjg9L3dInY8PKgqQtg0aiIm1a3VmbIzhjfyFCJs5CycSWljhNl8cpecsuv
- LJsJwhAkGRBMSqRC26fCjTX46CGJoOo=
-Subject: Re: [PATCH 5/8] tests/acceptance/boot_linux_console: Test the raspi1
- AUX console
+ bh=UCjp1xR35FlrZa287Kwik/TLNVHebZmQG69LGZLeWvo=;
+ b=hErKRL/r6dR/+OJG/dTjmculoA1TgULVLYixFyh2mHMEkjOKvRDi4psGebDXkanSMNQwVW
+ cpuNVGtmWHnMqFnkMHQWdKTIYhfxC7cbdgySzdu0+/zU8XVfCPV9p1PxDg5fnXO6EuVA2n
+ 8xWE9itZYg+AHzHiQnLo9BB1hOlLLZE=
+Subject: Re: [PATCH 6/8] tests/boot_linux_console: Test booting U-Boot on the
+ Raspberry Pi 2
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
 References: <20200215192216.4899-1-f4bug@amsat.org>
- <20200215192216.4899-6-f4bug@amsat.org>
+ <20200215192216.4899-7-f4bug@amsat.org>
 From: Luc Michel <luc.michel@greensocs.com>
-Message-ID: <8e25bd63-85dc-343b-c4bb-8cf99feed90c@greensocs.com>
-Date: Mon, 17 Feb 2020 09:28:27 +0100
+Message-ID: <bd12d11d-6e23-9628-24c8-cd8f28440de3@greensocs.com>
+Date: Mon, 17 Feb 2020 09:28:41 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.2
 MIME-Version: 1.0
-In-Reply-To: <20200215192216.4899-6-f4bug@amsat.org>
+In-Reply-To: <20200215192216.4899-7-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-PH
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com; 
- s=mail; t=1581928107;
+ s=mail; t=1581928122;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=AUxrKeu1MTKzV3kvwZDVnnGXzjhz+606AfAtMOONICY=;
- b=HuizAoRzvZvyQhNV+VwaRDh3cKvyqilMyYMewRsgeBxg1wu7RZKuKY/crOgG9HIdVVUwEX
- 8OLjJH+BU1M8uJ8tzy8qBw9kmeYIiUNF5CLnnWeydFUUAS069W/5zPrVUmArKlJOhhdRmV
- 51UCwYy+afc3ClTFrSxueLE2/qadVM0=
-ARC-Seal: i=1; s=mail; d=greensocs.com; t=1581928107; a=rsa-sha256; cv=none;
- b=rwHT06DHbX98uw/m4V43e/TaEkGwvMMObaH0XNy+9SZl16rjPKIt9pjZ6gxaxGmWBrAYYM
- eZFzruk/sNGr9RkYwqv2bvLN1XaJPIUFR8V7JTI1krp97VfQ8l+3/+O1nn83W8fYrewE4Y
- iLOtRdifiCpt3iKsVOV1VpnxxRVnpaY=
+ bh=UCjp1xR35FlrZa287Kwik/TLNVHebZmQG69LGZLeWvo=;
+ b=B9fBZsvZsJxQ+ODjyhKqcoGvH95ikbFm/FSb6tm61bHDjmLfs9IseLfRk9HvsduCb2KI5r
+ RtI6u/pZqIEJmRtyJCQR+tnPLayYbzveHdwMeg15hcEtiZrLrxfcRsXoDbB1UAkrRL2gzs
+ XLW+qNEvDMpPezSMCYGeSmE5u2UV704=
+ARC-Seal: i=1; s=mail; d=greensocs.com; t=1581928122; a=rsa-sha256; cv=none;
+ b=VWE1TTy5zTPRTZ7SgnGbzkHQuitkt9e/UYl9bi6q62nM2N0mpFWQI6M6N7lj0Aa7EaAwu3
+ sS7LHGNN7gCQtDJrRr/aLvZUkg7mUEgxj8Ztm8h8QTVvFg4ZdBJT4r7qAfRXCz8D/up5px
+ xC59Q8+4KIuV41rvaS2Qsfu2+AnI6Kw=
 ARC-Authentication-Results: i=1; ORIGINATING;
  auth=pass smtp.auth=luc smtp.mailfrom=luc.michel@greensocs.com
 Content-Transfer-Encoding: quoted-printable
@@ -86,171 +86,109 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 2/15/20 8:22 PM, Philippe Mathieu-Daud=C3=A9 wrote:
->   $ avocado --show=3Dapp,console run -t device:bcm2835_aux tests/accept=
-ance/
->   JOB ID     : a8846d69d52da701681b1d17f80ef299009fd078
->   JOB LOG    : avocado/job-results/job-2020-02-05T23.44-a8846d6/job.log
->    (1/3) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_a=
-rm_raspi0_uart1:
->   console: [    0.000000] Booting Linux on physical CPU 0x0
->   console: [    0.000000] Linux version 4.14.98+ (dom@dom-XPS-13-9370) =
-(gcc version 4.9.3 (crosstool-NG crosstool-ng-1.22.0-88-g8460611)) #1200 =
-Tue Feb 12 20:11:02 GMT 2019
->   console: [    0.000000] CPU: ARMv6-compatible processor [410fb767] re=
-vision 7 (ARMv7), cr=3D00c5387d
->   console: [    0.000000] CPU: VIPT aliasing data cache, unknown instru=
-ction cache
->   console: [    0.000000] OF: fdt: Machine model: Raspberry Pi Zero W
->   console: [    0.000000] earlycon: uart8250 at MMIO32 0x20215040 (opti=
-ons '')
->   console: [    0.000000] bootconsole [uart8250] enabled
->   console: [    0.000000] Memory policy: Data cache writeback
->   console: [    0.000000] cma: Reserved 8 MiB at 0x1b800000
->   console: [    0.000000] Built 1 zonelists, mobility grouping on.  Tot=
-al pages: 113680
->   console: [    0.000000] Kernel command line: printk.time=3D0 earlycon=
-=3Duart8250,mmio32,0x20215040 console=3DttyS1,115200
->   PASS (13.31 s)
->    (2/3) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_a=
-rm_raspi1_uart1:
->   console: [    0.000000] Booting Linux on physical CPU 0x0
->   console: [    0.000000] Linux version 4.14.98+ (dom@dom-XPS-13-9370) =
-(gcc version 4.9.3 (crosstool-NG crosstool-ng-1.22.0-88-g8460611)) #1200 =
-Tue Feb 12 20:11:02 GMT 2019
->   console: [    0.000000] CPU: ARMv6-compatible processor [410fb767] re=
-vision 7 (ARMv7), cr=3D00c5387d
->   console: [    0.000000] CPU: VIPT aliasing data cache, unknown instru=
-ction cache
->   console: [    0.000000] OF: fdt: Machine model: Raspberry Pi Model B
->   console: [    0.000000] earlycon: uart8250 at MMIO32 0x20215040 (opti=
-ons '')
->   console: [    0.000000] bootconsole [uart8250] enabled
->   console: [    0.000000] Memory policy: Data cache writeback
->   console: [    0.000000] cma: Reserved 8 MiB at 0x1b800000
->   console: [    0.000000] Built 1 zonelists, mobility grouping on.  Tot=
-al pages: 113680
->   console: [    0.000000] Kernel command line: printk.time=3D0 earlycon=
-=3Duart8250,mmio32,0x20215040 console=3DttyS1,115200
->   PASS (13.39 s)
->    (3/3) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_a=
-rm_raspi2_uart1:
->   console: [    0.000000] Booting Linux on physical CPU 0xf00
->   console: [    0.000000] Linux version 4.14.98-v7+ (dom@dom-XPS-13-937=
-0) (gcc version 4.9.3 (crosstool-NG crosstool-ng-1.22.0-88-g8460611)) #12=
-00 SMP Tue Feb 12 20:27:48 GMT 2019
->   console: [    0.000000] CPU: ARMv7 Processor [410fc075] revision 5 (A=
-RMv7), cr=3D10c5387d
->   console: [    0.000000] CPU: div instructions available: patching div=
-ision code
->   console: [    0.000000] CPU: PIPT / VIPT nonaliasing data cache, VIPT=
- aliasing instruction cache
->   console: [    0.000000] OF: fdt: Machine model: Raspberry Pi 2 Model =
-B
->   console: [    0.000000] earlycon: uart8250 at MMIO32 0x3f215040 (opti=
-ons '')
->   console: [    0.000000] bootconsole [uart8250] enabled
->   console: [    0.000000] Memory policy: Data cache writealloc
->   console: [    0.000000] cma: Reserved 8 MiB at 0x3b800000
->   console: [    0.000000] percpu: Embedded 17 pages/cpu @baf2e000 s3872=
-0 r8192 d22720 u69632
->   console: [    0.000000] Built 1 zonelists, mobility grouping on.  Tot=
-al pages: 243600
->   console: [    0.000000] Kernel command line: printk.time=3D0 earlycon=
-=3Duart8250,mmio32,0x3f215040 console=3DttyS1,115200
->   PASS (12.46 s)
->   RESULTS    : PASS 3 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT =
-0 | CANCEL 0
->   JOB TIME   : 39.60 s
+> This test runs U-Boot on the Raspberry Pi 2.
+> It is very simple and fast:
+>=20
+>   $ avocado --show=3Dapp,console run -t raspi2 -t u-boot tests/acceptan=
+ce/
+>   JOB LOG    : avocado/job-results/job-2020-01-20T23.40-2424777/job.log
+>    (1/1) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_a=
+rm_raspi2_uboot:
+>   console: MMC:   sdhci@7e300000: 0
+>   console: Loading Environment from FAT... Card did not respond to volt=
+age select!
+>   console: In:    serial
+>   console: Out:   vidconsole
+>   console: Err:   vidconsole
+>   console: Net:   No ethernet found.
+>   console: starting USB...
+>   console: USB0:   Port not available.
+>   console: Hit any key to stop autoboot:  0
+>   console: U-Boot>
+>   console: U-Boot> bdinfo
+>   console: arch_number =3D 0x00000000
+>   console: boot_params =3D 0x00000100
+>   console: DRAM bank   =3D 0x00000000
+>   console: -> start    =3D 0x00000000
+>   console: -> size     =3D 0x3c000000
+>   console: baudrate    =3D 115200 bps
+>   console: TLB addr    =3D 0x3bff0000
+>   console: relocaddr   =3D 0x3bf64000
+>   console: reloc off   =3D 0x3bf5c000
+>   console: irq_sp      =3D 0x3bb5fec0
+>   console: sp start    =3D 0x3bb5feb0
+>   console: Early malloc usage: 2a4 / 400
+>   console: fdt_blob    =3D 0x3bfbdfb0
+>   console: U-Boot> version
+>   console: U-Boot 2019.01+dfsg-7 (May 14 2019 - 02:07:44 +0000)
+>   console: gcc (Debian 8.3.0-7) 8.3.0
+>   console: GNU ld (GNU Binutils for Debian) 2.31.1
+>   console: U-Boot> reset
+>   console: resetting ...
+>   PASS (0.46 s)
+>=20
+> U-Boot is built by the Debian project, see:
+> https://wiki.debian.org/InstallingDebianOn/Allwinner#Creating_a_bootabl=
+e_SD_Card_with_u-boot
 >=20
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
 Reviewed-by: Luc Michel <luc.michel@greensocs.com>
 
 > ---
->  tests/acceptance/boot_linux_console.py | 37 +++++++++++++++++++++++++-
->  1 file changed, 36 insertions(+), 1 deletion(-)
+>  tests/acceptance/boot_linux_console.py | 28 ++++++++++++++++++++++++++
+>  1 file changed, 28 insertions(+)
 >=20
 > diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/=
 boot_linux_console.py
-> index bd3f0fc852..3d442b6cd1 100644
+> index 3d442b6cd1..3b1952b2df 100644
 > --- a/tests/acceptance/boot_linux_console.py
 > +++ b/tests/acceptance/boot_linux_console.py
-> @@ -359,6 +359,14 @@ def do_test_arm_raspi(self, version, uart_model):
->                  1: 'earlycon=3Dpl011,0x20201000 console=3DttyAMA0',
->                  2: 'earlycon=3Dpl011,0x3f201000 console=3DttyAMA0',
->              },
-> +            'bcm2835_aux': {
-> +                0: 'earlycon=3Duart8250,mmio32,0x20215040 console=3Dtt=
-yS1,115200',
-> +                1: 'earlycon=3Duart8250,mmio32,0x20215040 console=3Dtt=
-yS1,115200',
-> +                2: 'earlycon=3Duart8250,mmio32,0x3f215040 console=3Dtt=
-yS1,115200',
-> +            },
-> +        }
-> +        uart_id =3D {
-> +            'pl011': 0, 'bcm2835_aux': 1,
->          }
->          kernel =3D {
->              0: '/boot/kernel.img',
-> @@ -378,7 +386,7 @@ def do_test_arm_raspi(self, version, uart_model):
->          kernel_path =3D self.extract_from_deb(deb_path, kernel[version=
-])
->          dtb_path =3D self.extract_from_deb(deb_path, dtb[version])
+> @@ -16,6 +16,7 @@
+>  from avocado import skipUnless
+>  from avocado_qemu import Test
+>  from avocado_qemu import exec_command_and_wait_for_pattern
+> +from avocado_qemu import interrupt_interactive_console_until_pattern
+>  from avocado_qemu import wait_for_console_pattern
+>  from avocado.utils import process
+>  from avocado.utils import archive
+> @@ -575,6 +576,33 @@ def test_arm_cubieboard_sata(self):
+>          exec_command_and_wait_for_pattern(self, 'reboot',
+>                                                  'reboot: Restarting sy=
+stem')
 > =20
-> -        self.vm.set_console()
-> +        self.vm.set_console(console_index=3Duart_id[uart_model])
->          kernel_command_line =3D (self.KERNEL_COMMON_COMMAND_LINE +
->                                 serial_kernel_cmdline[uart_model][versi=
-on])
->          self.vm.add_args('-kernel', kernel_path,
-> @@ -397,6 +405,15 @@ def test_arm_raspi0_uart0(self):
->          """
->          self.do_test_arm_raspi(0, 'pl011')
-> =20
-> +    def test_arm_raspi0_uart1(self):
-> +        """
-> +        :avocado: tags=3Darch:arm
-> +        :avocado: tags=3Dmachine:raspi0
-> +        :avocado: tags=3Dcpu:arm1176
-> +        :avocado: tags=3Ddevice:bcm2835_aux
-> +        """
-> +        self.do_test_arm_raspi(0, 'bcm2835_aux')
-> +
->      def test_arm_raspi1_uart0(self):
->          """
->          :avocado: tags=3Darch:arm
-> @@ -406,6 +423,15 @@ def test_arm_raspi1_uart0(self):
->          """
->          self.do_test_arm_raspi(1, 'pl011')
-> =20
-> +    def test_arm_raspi1_uart1(self):
-> +        """
-> +        :avocado: tags=3Darch:arm
-> +        :avocado: tags=3Dmachine:raspi1
-> +        :avocado: tags=3Dcpu:arm1176
-> +        :avocado: tags=3Ddevice:bcm2835_aux
-> +        """
-> +        self.do_test_arm_raspi(1, 'bcm2835_aux')
-> +
->      def test_arm_raspi2_uart0(self):
->          """
->          :avocado: tags=3Darch:arm
-> @@ -415,6 +441,15 @@ def test_arm_raspi2_uart0(self):
->          """
->          self.do_test_arm_raspi(2, 'pl011')
-> =20
-> +    def test_arm_raspi2_uart1(self):
+> +    def test_arm_raspi2_uboot(self):
 > +        """
 > +        :avocado: tags=3Darch:arm
 > +        :avocado: tags=3Dmachine:raspi2
-> +        :avocado: tags=3Dcpu:cortex-a7
-> +        :avocado: tags=3Ddevice:bcm2835_aux
+> +        :avocado: tags=3Du-boot
 > +        """
-> +        self.do_test_arm_raspi(2, 'bcm2835_aux')
+> +        deb_url =3D ('https://snapshot.debian.org/archive/debian/'
+> +                   '20190514T084354Z/pool/main/u/u-boot/'
+> +                   'u-boot-rpi_2019.01%2Bdfsg-7_armhf.deb')
+> +        deb_hash =3D 'ad858cf3afe623b6c3fa2e20dcdd1768fcb9ae83'
+> +        deb_path =3D self.fetch_asset(deb_url, asset_hash=3Ddeb_hash)
+> +        uboot_path =3D '/usr/lib/u-boot/rpi_2/uboot.elf'
+> +        uboot_path =3D self.extract_from_deb(deb_path, uboot_path)
 > +
->      def test_arm_exynos4210_initrd(self):
+> +        self.vm.set_console()
+> +        self.vm.add_args('-kernel', uboot_path,
+> +                         # VideoCore starts CPU with only 1 core enabl=
+ed
+> +                         '-global', 'bcm2836.enabled-cpus=3D1',
+> +                         '-no-reboot')
+> +        self.vm.launch()
+> +        interrupt_interactive_console_until_pattern(self,
+> +                                       'Hit any key to stop autoboot:'=
+,
+> +                                       'Config file not found')
+> +        exec_command_and_wait_for_pattern(self, 'bdinfo', 'U-Boot')
+> +        exec_command_and_wait_for_pattern(self, 'version', 'U-Boot')
+> +        exec_command_and_wait_for_pattern(self, 'reset', 'resetting ..=
+.')
+> +
+>      def test_s390x_s390_ccw_virtio(self):
 >          """
->          :avocado: tags=3Darch:arm
+>          :avocado: tags=3Darch:s390x
 >=20
 
