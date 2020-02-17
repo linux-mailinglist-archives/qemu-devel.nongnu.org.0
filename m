@@ -2,49 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8145161D93
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 23:48:44 +0100 (CET)
-Received: from localhost ([::1]:54036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7307E161DA0
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 23:57:36 +0100 (CET)
+Received: from localhost ([::1]:54150 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j3pBz-0002Yr-Mz
-	for lists+qemu-devel@lfdr.de; Mon, 17 Feb 2020 17:48:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55094)
+	id 1j3pKZ-0002Bf-Aj
+	for lists+qemu-devel@lfdr.de; Mon, 17 Feb 2020 17:57:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56085)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1j3pAL-0000hd-Dy
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 17:47:02 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1j3pJU-00014s-4P
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 17:56:29 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1j3pAK-0005go-04
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 17:47:00 -0500
-Received: from ozlabs.org ([203.11.71.1]:58521)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1j3pAI-0005eY-1r; Mon, 17 Feb 2020 17:46:59 -0500
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 48Lzcs6M5zz9sRY; Tue, 18 Feb 2020 09:46:53 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1581979613;
- bh=KiG+/iKVF0yJMA0tFEGpp0Qj1iriH5YkmU3y0GBUpVA=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Xh15Kt+YfS+ruZUODB+GYbFpDpyCH9dabzjIPcx/xR5FDtYzQw+V89p6BRc56BFB7
- 4lc/s5c9vX9Wv3y8BD0Ljd5BiQfAxl9ceQZiTLvgSBFbtaTjLH8M8Bkqjnl87xwmkB
- 3cXPYUvWzoB1LUZRLJrnkWvnltifRLUsYCKfhZhw=
-Date: Tue, 18 Feb 2020 09:46:47 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PULL SUBSYSTEM qemu-pseries] pseries: Update SLOF firmware image
-Message-ID: <20200217224647.GA26464@umbus.fritz.box>
-References: <20200217021217.95766-1-aik@ozlabs.ru>
- <60c5712e-beb7-e536-1252-642dcf88beec@redhat.com>
- <0beab4e0-da3d-48fb-062a-de7a6c244c3f@redhat.com>
+ (envelope-from <richard.henderson@linaro.org>) id 1j3pJR-0001Ja-Jz
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 17:56:27 -0500
+Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:35658)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1j3pJQ-0001Ig-L8
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 17:56:24 -0500
+Received: by mail-pl1-x642.google.com with SMTP id g6so7289244plt.2
+ for <qemu-devel@nongnu.org>; Mon, 17 Feb 2020 14:56:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=B/yZw8BsUCzvzPWgM/M/oVrIGRQRILRpW+5b60Kx/8o=;
+ b=Ca/oPVr973xjWW17Ed8M5C+tKVyWAMmmHGiwHbTfWHPujkA/MtwCWE9kmeLtEY6WzO
+ 7bWDCU2JApbedXk29hUYSiXkqfSTdedhvNt2gwLsI1oadkEFQf6a7pfMtTJf14i5zI4j
+ l3lbtWjOW+mOuKGC1NSGzPs0bZjGl6Ur9cT7SEEyC3B97TiRc36evF/dZCTQ1m/+uyhe
+ 3X3LGahihviDacgcFpYaoDtpFCNidwNdsHPAXk4SSg+gS9+OUSnO6bgfz0/4pwTn+qQb
+ 35/v/Bbb2pNJS653RcMGMD30wzZK9GD+F2mXdeB4keN6ykEHNJtqNXQFJvNUzSj+RmxJ
+ MV1w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=B/yZw8BsUCzvzPWgM/M/oVrIGRQRILRpW+5b60Kx/8o=;
+ b=owbcmxZ5zwqVQ0074XV2ziTpTrtdO03IGn0cVQzxM2zZ6PVT27x/ausVf3yGlVPY/+
+ v7Rfy9TneSUVim6U1fZ5kxaG9KOcuk8SIR3EpEy2AbpeiP/A3SKAhpt3wdF1Ig0rnNxG
+ ML2HPLZSRSyUhaXCwhvC3lcNndVsQwUhwG+ZBduGF5RhoP/9h3qIsik8pKkelqNB3Vvh
+ gjNAwlqEVuNCh9V1hlHMOGWhv58O2LHJD7CSEDWeVUqI38oNITwCxwXwrnbDj6wuwZus
+ 5ROZOZt1PsEqID3xIo1ahkn4SM9PQyBnLCm6e7KGz6TBpf8t7CmFdtFLoaThWvPIDoWW
+ 5eYQ==
+X-Gm-Message-State: APjAAAXtKYcVCUGgmCh3GXCkTg+eduXy2b2zNVaFtvFkA7NWJ6Pbp+i+
+ OfO6UL7Q1T18GzmUVvKWr0Uwyg==
+X-Google-Smtp-Source: APXvYqx95PwvdC4J9gaNFiuqeKHdlbvDDVPofcpdo7uKx2B23MeXO/eSgL4EFwj6vtLD+QG0QakfMg==
+X-Received: by 2002:a17:902:124:: with SMTP id
+ 33mr18460218plb.128.1581980182915; 
+ Mon, 17 Feb 2020 14:56:22 -0800 (PST)
+Received: from [192.168.1.11] (97-126-123-70.tukw.qwest.net. [97.126.123.70])
+ by smtp.gmail.com with ESMTPSA id
+ u1sm1348362pfn.133.2020.02.17.14.56.21
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 17 Feb 2020 14:56:22 -0800 (PST)
+Subject: Re: [PATCH v5 10/22] target/arm: Define arm_cpu_do_unaligned_access
+ for CONFIG_USER_ONLY
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20191011134744.2477-1-richard.henderson@linaro.org>
+ <20191011134744.2477-11-richard.henderson@linaro.org>
+ <CAFEAcA-MKN5vJYTwF5fbQVvgC_QpfezG_S4Z1gF1Qxtc5NSNoA@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <0ecaf16f-d5cc-9448-0953-64f71af4aa26@linaro.org>
+Date: Mon, 17 Feb 2020 14:56:20 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="jRHKVT23PllUwdXP"
-Content-Disposition: inline
-In-Reply-To: <0beab4e0-da3d-48fb-062a-de7a6c244c3f@redhat.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 203.11.71.1
+In-Reply-To: <CAFEAcA-MKN5vJYTwF5fbQVvgC_QpfezG_S4Z1gF1Qxtc5NSNoA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::642
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,81 +86,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexey Kardashevskiy <aik@ozlabs.ru>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 12/5/19 8:12 AM, Peter Maydell wrote:
+> For arm_cpu_tlb_fill() which handles prefetch/data aborts
+> we just have a separate much simpler codepath for
+> CONFIG_USER_ONLY which doesn't call arm_deliver_fault().
+> I think being consistent here about how we handle the
+> CONFIG_USER_ONLY case would help avoid having a codepath
+> that isn't very well tested because it's only used in
+> the odd special case of unaligned-address exceptions.
 
---jRHKVT23PllUwdXP
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Fair enough.
 
-On Mon, Feb 17, 2020 at 11:24:11AM +0100, Philippe Mathieu-Daud=E9 wrote:
-> On 2/17/20 10:26 AM, Philippe Mathieu-Daud=E9 wrote:
-> > Hi Alexey,
-> >=20
-> > On 2/17/20 3:12 AM, Alexey Kardashevskiy wrote:
-> > > The following changes since commit
-> > > 05943fb4ca41f626078014c0327781815c6584c5:
-> > >=20
-> > > =A0=A0 ppc: free 'fdt' after reset the machine (2020-02-17 11:27:23 +=
-1100)
-> > >=20
-> > > are available in the Git repository at:
-> > >=20
-> > > =A0=A0 git@github.com:aik/qemu.git tags/qemu-slof-20200217
-> > >=20
-> > > for you to fetch changes up to ea9a03e5aa023c5391bab5259898475d0298aa=
-c2:
-> > >=20
-> > > =A0=A0 pseries: Update SLOF firmware image (2020-02-17 13:08:59 +1100)
-> > >=20
-> > > ----------------------------------------------------------------
-> > > Alexey Kardashevskiy (1):
-> > > =A0=A0=A0=A0=A0=A0 pseries: Update SLOF firmware image
-> > >=20
-> > > =A0 pc-bios/README=A0=A0 |=A0=A0 2 +-
-> > > =A0 pc-bios/slof.bin | Bin 931032 -> 968560 bytes
-> > > =A0 roms/SLOF=A0=A0=A0=A0=A0=A0=A0 |=A0=A0 2 +-
-> > > =A0 3 files changed, 2 insertions(+), 2 deletions(-)
-> >=20
-> > I only received the cover, not the patch, have you posted it?
->=20
-> OK I see the SLOF binary is almost 1MB. Maybe this got blocked by spam
-> filter. FYI you can use 'git-format-patch --no-binary' to emit the patch
-> with the commit description but without the content.
+It also reminds me that I had failed to add the linux-user changes to go along
+with this to raise SIGBUS instead of SIGSEGV.
 
-Generally Alexey sends SLOF updates to me just as pull requests
-without patches in full, because a huge slab of base64 encoded
-firmware isn't particularly illuminating.
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---jRHKVT23PllUwdXP
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl5LF9YACgkQbDjKyiDZ
-s5IzkBAAqWY6cRrap+/kPsb4TXJKHAkMRJcB6r6MXYUIZifymZKugZD2mjIGlh8k
-WnKJePhshVd8ItMx4hLF4ULIPh1xMKTwlvHQ7EIEj1b5zAQXxbBO4godxvtg3Xow
-2CFUHetPOriAd2AIma3O84dAAbE2vNYNmFnTCpSiaC/dO1/8HZaI/erQtTHfvMZx
-YcAO+47SE5cjYrxeYhAe7a7wcEyEbCjit3heZVZ5T5JxzKnDOdMSK3cV+edH/q2z
-NwYTuckFjuK3SQii0xR3jdcHomPLvC5IJyH8n7/rb8wVOw6/Lt3jMyiIeFd9E56z
-w2h6ECwwgO39kWcqk+UtFZdldalnn5U9Kmi87s4fc/wb+/ppwmHDIU9LdqpNNquz
-IWBM9GLpJcrQB0Ne2e5eSBaLDSrT/euE8phZgsN2nxW2VC2npcFyyXWqBt2UGd4Z
-NFb6XeuVR72GFgAg8gFhn2T40d6TLKsehta4OXANXfrVaSQejO0PZ6dzPiyqGdZc
-fx8I8rQd1+zmCHeDB3RZHhyIWNwy6sd3Pa6BgvgZKjpJOqNODe/BUH6oCVfUZekA
-EhLo6VuygHu/9V7oNfhVnUdLQDBZtjWlGA4B4ad1v5LwyMxUlsf7Al47uZTWEor0
-JRq3XUgrhKUCYeizfDiOGWoqAM3fSaVwoGzwae+V1JyjjjesmCE=
-=PonZ
------END PGP SIGNATURE-----
-
---jRHKVT23PllUwdXP--
+r~
 
