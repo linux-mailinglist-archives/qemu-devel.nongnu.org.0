@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66EAC16112B
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 12:35:21 +0100 (CET)
-Received: from localhost ([::1]:43924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 179D1161138
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 12:38:07 +0100 (CET)
+Received: from localhost ([::1]:43966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j3egK-0007ay-2Y
-	for lists+qemu-devel@lfdr.de; Mon, 17 Feb 2020 06:35:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39419)
+	id 1j3ej0-00022z-5G
+	for lists+qemu-devel@lfdr.de; Mon, 17 Feb 2020 06:38:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39715)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@gmail.com>) id 1j3efF-00077F-56
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 06:34:14 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1j3eiI-0001dm-Pd
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 06:37:23 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@gmail.com>) id 1j3efE-0008L0-89
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 06:34:13 -0500
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:35029)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
- id 1j3efE-0008Iw-0M
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 06:34:12 -0500
-Received: by mail-wr1-x442.google.com with SMTP id w12so19287844wrt.2
- for <qemu-devel@nongnu.org>; Mon, 17 Feb 2020 03:34:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=OY0mYD4bUEBlNUTnY3tVhp8G3+SssOaM6SVKZaE7O1w=;
- b=t2zIa50Q5pNFD+Z9ItQw1f0C6xZM9GVXGitdld0iz8kr4UdU6ift4DQDf7cfmHvsV1
- BA/CLxXhCJblXjkzJjcWVWHHdYqZ4QP/0qIC/hbsUpCtrlcT3n9SAs2GywD+2dORVppO
- iLo15L0pOIxPtP6LCvcR/j/lrFS9qcGNwYN5Bb5UH9D9jhiFHbGQSY/UsDggLdqns4a4
- /jLCNvgcCuQY9b+dyGM8W2McVaSRUVGwKu3DHTmwT2HfGRrD0Sx51eMgops8hUfjhZp2
- 3cpPHyTD/YMTbYgnRcLGJDpE0vIpmZGC/s1u5NhAjzNElSC/+tO6uMqFTyYUb/O3cobu
- mV2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=OY0mYD4bUEBlNUTnY3tVhp8G3+SssOaM6SVKZaE7O1w=;
- b=acBlrPda1gSu+Ok0AjN/JwbfFSwa/vmQ65hZ8k01ZhJ0mHJ8UJ5qsf18xEcfvexdiW
- hOK07mhNvYW/IidcbmNRuE4PIO+JdjcHZUexK6k68yahkV+N/0crVrOCSKyx41zzb0Rn
- i3KGArmH9yzrrpzZXX0xncWsmSj+drwgrB3Sg68CA5th1UQ9A7i6I0pK03vq4yaV+toL
- Ncma3qUYYutreJIFjijgP4hFodAKX1rKOKBGDF2bL0QUud3R/2zbiZbVzyOH/jvSbueg
- vrhY9XLS+8n9sASBD41sZzBv1cJ35AsVNei9+2VQJS5MG1nWSWbI1dxsacLO0Pcgvo3b
- c1bw==
-X-Gm-Message-State: APjAAAUAtLu6SXGhjWXlE9rz1ZRl7hHL2SupOy9gKztEKABPajetYmaZ
- Fv2+Oh1Ukzib3b6qCA+f72gLvsfidkmVbIgSTfY=
-X-Google-Smtp-Source: APXvYqx4PuwLFi7ywqgk7Jr4NVgCjG0KnvahFRLP2dE9whc5I2Sa4RMfEd9KceD+QMx8h84LWp/ZsVNuifooRR5tRQI=
-X-Received: by 2002:a5d:550f:: with SMTP id b15mr21555783wrv.196.1581939250474; 
- Mon, 17 Feb 2020 03:34:10 -0800 (PST)
+ (envelope-from <dgilbert@redhat.com>) id 1j3eiH-0003Mg-20
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 06:37:21 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:33920
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1j3eiG-0003M8-T8
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 06:37:21 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1581939439;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=eRZ1UDAQ1p6/YSsI6P/0wcLs1ai4smUlPUPG9vEs9/4=;
+ b=gcmdwyb+qjgG8Yxl54iw20tGMbvjyC3HYlwyrb9KxLH1RaJYFokiZePHjb9vgTQVxVOkAF
+ wJWg1xgQWlwuIQw5T/w60AZOxpYuwx/24Z5Ms1Ror+o5Xb6x1TNptwFen0DeK4VkH8HBGo
+ EBDzy/cg0Blxk1UdINQM1A2/23JicrA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-398-PtY0Cq0gPz6txA82lymFOA-1; Mon, 17 Feb 2020 06:37:18 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 37931107ACC4
+ for <qemu-devel@nongnu.org>; Mon, 17 Feb 2020 11:37:17 +0000 (UTC)
+Received: from work-vm (ovpn-116-78.ams2.redhat.com [10.36.116.78])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 64F209053C;
+ Mon, 17 Feb 2020 11:37:10 +0000 (UTC)
+Date: Mon, 17 Feb 2020 11:37:08 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Subject: Re: [PATCH v2 1/3] tools/virtiofsd/passthrough_ll: Remove unneeded
+ variable assignment
+Message-ID: <20200217113708.GG3434@work-vm>
+References: <20200217094240.9927-1-philmd@redhat.com>
+ <20200217094240.9927-2-philmd@redhat.com>
 MIME-Version: 1.0
-References: <20200103074000.1006389-1-marcandre.lureau@redhat.com>
- <20200103074000.1006389-4-marcandre.lureau@redhat.com>
- <8736cqi07g.fsf@secure.laptop>
-In-Reply-To: <8736cqi07g.fsf@secure.laptop>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Mon, 17 Feb 2020 12:33:58 +0100
-Message-ID: <CAJ+F1CLgg6Yz=2V8_eCVtsJ1zPm=1-piz-Nw05KGXkSqWytLgA@mail.gmail.com>
-Subject: Re: [PATCH v2 3/3] savevm: check RAM is pagesize aligned
-To: Juan Quintela <quintela@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20200217094240.9927-2-philmd@redhat.com>
+User-Agent: Mutt/1.13.3 (2020-01-12)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: PtY0Cq0gPz6txA82lymFOA-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::442
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,30 +74,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Stefan Berger <stefanb@linux.ibm.com>,
- QEMU <qemu-devel@nongnu.org>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: =?iso-8859-1?B?SuFu?= Tomko <jtomko@redhat.com>, qemu-devel@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Juan
+* Philippe Mathieu-Daud=E9 (philmd@redhat.com) wrote:
+> Fix warning reported by Clang static code analyzer:
+>=20
+>     CC      tools/virtiofsd/passthrough_ll.o
+>   tools/virtiofsd/passthrough_ll.c:1083:5: warning: Value stored to 'save=
+rr' is never read
+>       saverr =3D ENOMEM;
+>       ^        ~~~~~~
+>=20
+> Fixes: 7c6b66027
+> Reported-by: Clang Static Analyzer
+> Reviewed-by: J=E1n Tomko <jtomko@redhat.com>
+> Signed-off-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
 
-On Wed, Jan 8, 2020 at 2:08 PM Juan Quintela <quintela@redhat.com> wrote:
->
-> Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com> wrote:
-> n> Check the host pointer is correctly aligned, otherwise we may fail
-> > during migration in ram_block_discard_range().
-> >
-> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->
-> Reviewed-by: Juan Quintela <quintela@redhat.com>
->
-> queued
->
-
-Did it get lost? thanks
+Thanks, you might want to snd that to the upstream libfuse
+(different context); it looks like it's the same there.
 
 
---=20
-Marc-Andr=C3=A9 Lureau
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+
+Dave
+
+> ---
+>  tools/virtiofsd/passthrough_ll.c | 2 --
+>  1 file changed, 2 deletions(-)
+>=20
+> diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrou=
+gh_ll.c
+> index c635fc8820..e9e71d5fc2 100644
+> --- a/tools/virtiofsd/passthrough_ll.c
+> +++ b/tools/virtiofsd/passthrough_ll.c
+> @@ -1080,8 +1080,6 @@ static void lo_mknod_symlink(fuse_req_t req, fuse_i=
+no_t parent,
+>          return;
+>      }
+> =20
+> -    saverr =3D ENOMEM;
+> -
+>      saverr =3D lo_change_cred(req, &old);
+>      if (saverr) {
+>          goto out;
+> --=20
+> 2.21.1
+>=20
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+
 
