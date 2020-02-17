@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E04E16138F
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 14:31:57 +0100 (CET)
-Received: from localhost ([::1]:45576 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3BFC1613A0
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 14:34:53 +0100 (CET)
+Received: from localhost ([::1]:45610 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j3gVA-0000ND-A6
-	for lists+qemu-devel@lfdr.de; Mon, 17 Feb 2020 08:31:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54668)
+	id 1j3gY0-0004h4-OY
+	for lists+qemu-devel@lfdr.de; Mon, 17 Feb 2020 08:34:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55189)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1j3gSl-00069H-3a
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 08:29:27 -0500
+ id 1j3gWi-0002xG-Ds
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 08:33:33 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1j3gSk-0001jL-6V
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 08:29:27 -0500
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:37031)
+ id 1j3gWh-0003kR-AT
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 08:33:32 -0500
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:50981)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1j3gSk-0001it-16; Mon, 17 Feb 2020 08:29:26 -0500
-Received: by mail-wm1-x341.google.com with SMTP id a6so18488697wme.2;
- Mon, 17 Feb 2020 05:29:25 -0800 (PST)
+ id 1j3gWh-0003k5-4D; Mon, 17 Feb 2020 08:33:31 -0500
+Received: by mail-wm1-x343.google.com with SMTP id a5so17148343wmb.0;
+ Mon, 17 Feb 2020 05:33:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=X+VUpOyrP1K99lWKDQzsDNVHm6OjkjeFpNl83oieryk=;
- b=MbrhbUoMSP03+fIiB0nFu8tl2W9xI4yB/SEQx4Gxnwi+gMjztbgMU6pAwhZPh3MKCS
- izaUyZrLKa2FOXxtp7e/6ixZArXZ52GQGoGSFIYhEVJwCvKS2ZkYK75BXp+GyH34Qcbj
- o75bbb4sVfSP2j0on/waKXKumt10pLzVSrZx5WiU1pJRlE0y7pUHPmQFi1xoRdwNxdjW
- PFD2Qq01vUtFxTpuPgKprQH463uhPAbF08n8ULOCKEMRdbUn+FoXPX7zaV9Au+eS70ZC
- u+gelUStzBdJ3tLO+LAmoJLFB0IVus3FVwJqsWvyTP+oF+/y179u2ouvdYDw1YBUz1Ta
- jBPg==
+ bh=Akr7B/6EjPnwm6unavMg229GyGf7rHs9Me2/2WnNero=;
+ b=mA4SMlf3namsK0FpuNXD5G47f4dYHn/5ZwJTjlxGfM9MuE11n6165OhHWOAeor/pB3
+ SXc+q8ZbCsi+LaHrwPj5vPlcQzo1gkh8ENX6w1vgp2Qcc4EML0Oci0AUDNXxtd/sOPEs
+ 9qm6xvFZoopN7c1Im9AH9qTpuzLAH/yroUmuL2LHE9C3tMJsPEgZvQu/id5bmu6vf0yS
+ yU5olkoOIyzxSCJMxetaZLFb5UASe4dCpaFiv+WLF9QKwsfyk5cmQ+snYLd0q9iTXqBC
+ xReVDytcR8pnFwj+p/72Fa433DSmXKxMtxpsUPKoFoMQKDqQW7OaBVsOZCqC3nGp8AZF
+ LYyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :mime-version:content-transfer-encoding;
- bh=X+VUpOyrP1K99lWKDQzsDNVHm6OjkjeFpNl83oieryk=;
- b=XiHYzztid578VG95Pwyl6/f2+f/rQma3DqC2XyoTEu8PURWt/QG6yR7eOtfVYTdhBG
- PBouNrJEqNmMQ6KyKVPRlGQqHLoaGQNLM/Lp1oejCV6air67QdQsTYXBr1wvIK3farYU
- Ouv6Y6vdXpNDih0OKYCzrcWd4KinwMAi1X+0BXCoDfexYHYN/7drp3G0NB/yGy31EEau
- t0kFEA+FRxJqvpvzSIxxUjDKkTXCnmZhEjmAspA3oAcbWCa6RbAkrixWAHAmMrA5lzvC
- He6gsYu04Fwl3SS3fY2fZHpmGRm4kaKdQxNEZRbIsPIOTw/rrMpyF/yg6DJ0UxTg/86v
- dygg==
-X-Gm-Message-State: APjAAAW2CQQsmvjLdYzbpyVml+s7PwQ/a/zDOkuaMBLegyns1GlOD+St
- P69IuWEW+z0d7WvBB7chDv5PS8IsDGc=
-X-Google-Smtp-Source: APXvYqy8By6qk+qJlzlxKdqLjG4m1+JliPYwYaVTIINQa2rN5HTBpjNqzXbO4XQgXVTs2dpyeAklDQ==
-X-Received: by 2002:a1c:a4c3:: with SMTP id n186mr22367859wme.25.1581946164404; 
- Mon, 17 Feb 2020 05:29:24 -0800 (PST)
+ bh=Akr7B/6EjPnwm6unavMg229GyGf7rHs9Me2/2WnNero=;
+ b=D8c2AqkgxjXWn9s3DmvO3o27G4+27uUQ3x33WbDWd83dLLcGyVJ/ihcdKDvFJ+fpGj
+ Yr8hAylay06A3on1MXEjkx/cXGntRd6U45FpvAJDRpJpEgEsuvhDkpaPDXBYgO02WUSA
+ iZFSImjzyM+laLcVQlXa/w0NEf8dWQn/ustX964SUj7XiS83YCoMzDC/VVcsUZ/R3zpF
+ 4ATnwA2ATyXUt3lcEQstALGpJODUZJQD/myGv6mmeykR7LBpX8hImRgGtm8ZWAJzuq2A
+ binGGYjdu0hfsK2yLU+gFrgihW57hbm21xx3DKv4ESWq7aEGoMGvnhbWRPyt1dW6IWaY
+ dc8Q==
+X-Gm-Message-State: APjAAAVhZbLV7m8r/MZbbWHEe/oNUEnF4AjUkpwqO5aE4Pqk7KnmThSF
+ XKdTKQkOd9SjhaykiyzlAZ+9Q61xu6o=
+X-Google-Smtp-Source: APXvYqy+KqNx+xpV3bIqHouHjKxAidz3kUTAqNFnVphZJGqmRKtlCOCfx//cd1Xj2aw+GaP39cuQWQ==
+X-Received: by 2002:a05:600c:d7:: with SMTP id
+ u23mr22847380wmm.145.1581946409627; 
+ Mon, 17 Feb 2020 05:33:29 -0800 (PST)
 Received: from x1w.redhat.com (78.red-88-21-202.staticip.rima-tde.net.
  [88.21.202.78])
- by smtp.gmail.com with ESMTPSA id z10sm578945wmk.31.2020.02.17.05.29.23
+ by smtp.gmail.com with ESMTPSA id x132sm28575891wmg.0.2020.02.17.05.33.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Feb 2020 05:29:23 -0800 (PST)
+ Mon, 17 Feb 2020 05:33:29 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3] hw/misc/iotkit-secctl: Fix writing to 'PPC Interrupt
- Clear' register
-Date: Mon, 17 Feb 2020 14:29:22 +0100
-Message-Id: <20200217132922.24607-1-f4bug@amsat.org>
+Subject: [PATCH v3] configure: Avoid compiling system tools on user build by
+ default
+Date: Mon, 17 Feb 2020 14:33:27 +0100
+Message-Id: <20200217133327.25144-1-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -68,7 +69,7 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::341
+X-Received-From: 2a00:1450:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,41 +81,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: qemu-block@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Aleksandar Markovic <aleksandar.m.mail@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fix warning reported by Clang static code analyzer:
+User-mode does not need the system tools. Do not build them by
+default if the user specifies --disable-system.
 
-    CC      hw/misc/iotkit-secctl.o
-  hw/misc/iotkit-secctl.c:343:9: warning: Value stored to 'value' is never read
-          value &= 0x00f000f3;
-          ^        ~~~~~~~~~~
+This disables building the following binaries on a user-only build:
 
-Fixes: b3717c23e1c
-Reported-by: Clang Static Analyzer
+- elf2dmp
+- qemu-edid
+- qemu-ga
+- qemu-img
+- qemu-io
+- qemu-nbd
+- ivshmem-client
+- ivshmem-server
+
+The qemu-user binaries are not affected by this change.
+
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
-v3: AND the register... (pm215)
-v2: Corrected bitwise-not precedence (pm215)
+v3:
+- fixed typos (Aleksandar)
+v2:
+- use simpler if/else statement (therefore not adding Richard R-b)
+- improved description (Aleksandar)
 ---
- hw/misc/iotkit-secctl.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ configure | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
 
-diff --git a/hw/misc/iotkit-secctl.c b/hw/misc/iotkit-secctl.c
-index 609869821a..9fdb82056a 100644
---- a/hw/misc/iotkit-secctl.c
-+++ b/hw/misc/iotkit-secctl.c
-@@ -340,7 +340,7 @@ static MemTxResult iotkit_secctl_s_write(void *opaque, hwaddr addr,
-         qemu_set_irq(s->sec_resp_cfg, s->secrespcfg);
-         break;
-     case A_SECPPCINTCLR:
--        value &= 0x00f000f3;
-+        s->secppcintstat &= ~(value & 0x00f000f3);
-         foreach_ppc(s, iotkit_secctl_ppc_update_irq_clear);
-         break;
-     case A_SECPPCINTEN:
+diff --git a/configure b/configure
+index 6f5d850949..efe00dd497 100755
+--- a/configure
++++ b/configure
+@@ -455,7 +455,7 @@ guest_agent_ntddscsi="no"
+ guest_agent_msi=""
+ vss_win32_sdk=""
+ win_sdk="no"
+-want_tools="yes"
++want_tools=""
+ libiscsi=""
+ libnfs=""
+ coroutine=""
+@@ -2213,6 +2213,16 @@ else
+     echo big/little test failed
+ fi
+ 
++##########################################
++# system tools
++if test -z "$want_tools"; then
++    if test "$softmmu" = "no"; then
++        want_tools=no
++    else
++        want_tools=yes
++    fi
++fi
++
+ ##########################################
+ # cocoa implies not SDL or GTK
+ # (the cocoa UI code currently assumes it is always the active UI
 -- 
 2.21.1
 
