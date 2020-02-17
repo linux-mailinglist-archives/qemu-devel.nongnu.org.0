@@ -2,95 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6095416118A
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 13:00:19 +0100 (CET)
-Received: from localhost ([::1]:44292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1F74161176
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 12:55:24 +0100 (CET)
+Received: from localhost ([::1]:44236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j3f4U-0007PL-Ej
-	for lists+qemu-devel@lfdr.de; Mon, 17 Feb 2020 07:00:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41396)
+	id 1j3ezj-0003IA-MR
+	for lists+qemu-devel@lfdr.de; Mon, 17 Feb 2020 06:55:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42023)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1j3etW-00033D-VJ
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 06:49:00 -0500
+ (envelope-from <frederic.konrad@adacore.com>) id 1j3evh-0006Ln-Nm
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 06:51:15 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1j3etV-00054Q-Mu
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 06:48:58 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:44950
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <frederic.konrad@adacore.com>) id 1j3evd-0006p4-P5
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 06:51:13 -0500
+Received: from mel.act-europe.fr ([2a02:2ab8:224:1::a0a:d2]:56379
+ helo=smtp.eu.adacore.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1j3etV-00053m-ID
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 06:48:57 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581940136;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=aIT8KxW5kd+27ldRSp5UW5iRp8xhiqNBNX+WoMUbRs8=;
- b=E5UD/VCw3VfG8Qceoa56Z0+VPaPIIPidr/pn2NKSDoqmm3E8oCfCLYhYmY4KEoNC3C2d4H
- r4CKO8vu6CJEYYhrXTv4kDrrIPhA6tZTeX2XfEW6CDNW9fCntAFb5VfiAVYibcLEcZ6+Qf
- aRlAfAngzv3n41wak3wdxVbejEO77Tc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-63-gPepL7EsN_2YIgT6Cd7chA-1; Mon, 17 Feb 2020 06:48:52 -0500
-X-MC-Unique: gPepL7EsN_2YIgT6Cd7chA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.71) (envelope-from <frederic.konrad@adacore.com>)
+ id 1j3evd-0006lT-Hr
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 06:51:09 -0500
+Received: from localhost (localhost [127.0.0.1])
+ by filtered-smtp.eu.adacore.com (Postfix) with ESMTP id 7B8F58138C;
+ Mon, 17 Feb 2020 12:51:05 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at eu.adacore.com
+Received: from smtp.eu.adacore.com ([127.0.0.1])
+ by localhost (smtp.eu.adacore.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id x2GP1_zed2AE; Mon, 17 Feb 2020 12:51:05 +0100 (CET)
+Received: from [10.10.126.96] (wifi-guest-96.act-europe.fr [10.10.126.96])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 44282477;
- Mon, 17 Feb 2020 11:48:51 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-117-191.ams2.redhat.com
- [10.36.117.191])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 258815DA75;
- Mon, 17 Feb 2020 11:48:48 +0000 (UTC)
-Subject: Re: [PATCH v2 2/7] block/block-copy: use block_status
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20191127180840.11937-1-vsementsov@virtuozzo.com>
- <20191127180840.11937-3-vsementsov@virtuozzo.com>
- <81ce033a-2ac9-21b6-4649-48df61d41797@redhat.com>
- <e6a5a095-78f3-faf1-6eaa-68843b41c490@virtuozzo.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <168c4ec7-47fa-72a1-dfa7-10754f79519d@redhat.com>
-Date: Mon, 17 Feb 2020 12:48:46 +0100
+ by smtp.eu.adacore.com (Postfix) with ESMTPSA id 6131881387;
+ Mon, 17 Feb 2020 12:51:05 +0100 (CET)
+Subject: Re: [PATCH v2] tests/acceptance/machine_sparc_leon3: Do not run
+ HelenOS test by default
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20200212203627.16592-1-philmd@redhat.com>
+From: KONRAD Frederic <frederic.konrad@adacore.com>
+Message-ID: <a5b75aae-34cb-2e38-57d1-5fb1613d4aa0@adacore.com>
+Date: Mon, 17 Feb 2020 12:51:03 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <e6a5a095-78f3-faf1-6eaa-68843b41c490@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="lF4rSxLLIMvci71L599jCzB9cSCytM345"
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+In-Reply-To: <20200212203627.16592-1-philmd@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: fr
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 2a02:2ab8:224:1::a0a:d2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -102,115 +62,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, den@openvz.org, jsnow@redhat.com, qemu-devel@nongnu.org
+Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Fabien Chouteau <chouteau@adacore.com>, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---lF4rSxLLIMvci71L599jCzB9cSCytM345
-Content-Type: multipart/mixed; boundary="VAtS4ITJpRgwOvUtUUsjVQpMtCYE7fBRs"
 
---VAtS4ITJpRgwOvUtUUsjVQpMtCYE7fBRs
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
 
-On 08.02.20 13:25, Vladimir Sementsov-Ogievskiy wrote:
-> 07.02.2020 20:46, Max Reitz wrote:
->> On 27.11.19 19:08, Vladimir Sementsov-Ogievskiy wrote:
->>> Use bdrv_block_status_above to chose effective chunk size and to handle
->>> zeroes effectively.
->>>
->>> This substitutes checking for just being allocated or not, and drops
->>> old code path for it. Assistance by backup job is dropped too, as
->>> caching block-status information is more difficult than just caching
->>> is-allocated information in our dirty bitmap, and backup job is not
->>> good place for this caching anyway.
->>>
->>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
->>> ---
->>> =A0 block/block-copy.c | 67 +++++++++++++++++++++++++++++++++++++------=
----
->>> =A0 block/trace-events |=A0 1 +
->>> =A0 2 files changed, 55 insertions(+), 13 deletions(-)
->>>
->>> diff --git a/block/block-copy.c b/block/block-copy.c
->>> index 8602e2cae7..74295d93d5 100644
->>> --- a/block/block-copy.c
->>> +++ b/block/block-copy.c
->>
->> [...]
->>
->>> @@ -336,23 +375,25 @@ int coroutine_fn block_copy(BlockCopyState *s,
->>> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 chunk_end =3D next_zero;
->>> =A0=A0=A0=A0=A0=A0=A0=A0=A0 }
->>> =A0 -=A0=A0=A0=A0=A0=A0=A0 if (s->skip_unallocated) {
->>> -=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 ret =3D block_copy_reset_unallocated=
-(s, start,
->>> &status_bytes);
->>> -=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 if (ret =3D=3D 0) {
->>> -=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 trace_block_copy_skip_ra=
-nge(s, start, status_bytes);
->>> -=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 start +=3D status_bytes;
->>> -=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 continue;
->>> -=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 }
->>> -=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 /* Clamp to known allocated region *=
-/
->>> -=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 chunk_end =3D MIN(chunk_end, start +=
- status_bytes);
->>> +=A0=A0=A0=A0=A0=A0=A0 ret =3D block_copy_block_status(s, start, chunk_=
-end - start,
->>> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 &status_bytes);
->>> +=A0=A0=A0=A0=A0=A0=A0 if (s->skip_unallocated && !(ret & BDRV_BLOCK_AL=
-LOCATED)) {
->>> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 bdrv_reset_dirty_bitmap(s->copy_bitm=
-ap, start,
->>> status_bytes);
->>> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 s->progress_reset_callback(s->progre=
-ss_opaque);
->>> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 trace_block_copy_skip_range(s, start=
-, status_bytes);
->>> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 start +=3D status_bytes;
->>> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 continue;
->>> =A0=A0=A0=A0=A0=A0=A0=A0=A0 }
->>> =A0 +=A0=A0=A0=A0=A0=A0=A0 chunk_end =3D MIN(chunk_end, start + status_=
-bytes);
->>
->> I=92m not sure how much the old =93Clamp to known allocated region=94 ac=
-tually
->> helps, but I wouldn=92t drop it anyway.
+Le 2/12/20 =C3=A0 9:36 PM, Philippe Mathieu-Daud=C3=A9 a =C3=A9crit=C2=A0=
+:
+> The www.helenos.org server is slow and downloading the Leon3 binary
+> takes too long [*]. Do not include this test in the default suite.
 >=20
-> But it may be not allocated now. We just clamp to status_bytes.
-> It's "known allocated" only if s->skip_unallocated is true.
+> Similarly to commit 471c97a69b:
+>=20
+>    Currently the Avocado framework does not distinct the time spent
+>    downloading assets vs. the time spent running a test. With big
+>    assets (like a full VM image) the tests likely fail.
+>=20
+>    This is a limitation known by the Avocado team.
+>    Until this issue get fixed, do not run this tests automatically.
+>=20
+>    Tests can still be run setting the AVOCADO_TIMEOUT_EXPECTED
+>    environment variable.
+>=20
+> [*] https://travis-ci.org/stsquad/qemu/jobs/649599880#L4198
+>=20
+> Reported-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> ---
+> v2: Add missing staged hunk...
+> ---
+>   tests/acceptance/machine_sparc_leon3.py | 4 ++++
+>   1 file changed, 4 insertions(+)
+>=20
+> diff --git a/tests/acceptance/machine_sparc_leon3.py b/tests/acceptance=
+/machine_sparc_leon3.py
+> index f77e210ccb..27e4717a51 100644
+> --- a/tests/acceptance/machine_sparc_leon3.py
+> +++ b/tests/acceptance/machine_sparc_leon3.py
+> @@ -5,6 +5,9 @@
+>   # This work is licensed under the terms of the GNU GPL, version 2 or
+>   # later. See the COPYING file in the top-level directory.
+>  =20
+> +import os
+> +
+> +from avocado import skipUnless
+>   from avocado_qemu import Test
+>   from avocado_qemu import wait_for_console_pattern
+>  =20
+> @@ -13,6 +16,7 @@ class Leon3Machine(Test):
+>  =20
+>       timeout =3D 60
+>  =20
+> +    @skipUnless(os.getenv('AVOCADO_TIMEOUT_EXPECTED'), 'Test might tim=
+eout')
+>       def test_leon3_helenos_uimage(self):
+>           """
+>           :avocado: tags=3Darch:sparc
+>=20
 
-Ah, yes, I suppose I was just thinking about that case when trying to
-understand how the code changes.  So:
+Reviewed-by: KONRAD Frederic <frederic.konrad@adacore.com>
 
-Reviewed-by: Max Reitz <mreitz@redhat.com>
-
-Max
-
-
---VAtS4ITJpRgwOvUtUUsjVQpMtCYE7fBRs--
-
---lF4rSxLLIMvci71L599jCzB9cSCytM345
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl5KfZ4ACgkQ9AfbAGHV
-z0AtHQf/YsLlDLVDo4cYeoZkGt84iwQO/fwEL3DDh/fOKU4t/B/7+FQ8uNN3No1Y
-HiCsDTmx/cvz1+c9PCQANDw6gS4hagoLIlhcUp9cF79AbPKB6fWoPKtKVaKkmU6T
-8H5e96hXwx82GlVo7SMjiLLGO0251DrKfnDWTKtlBVD1lc4rX0WCmBWYxh0fagvl
-noNq3WpSJKuoR0FjX3bFcptrAt8SmgrggMeSfyxU2bxipp58NWt7Hzi9dyJnZ/a+
-3hJWmNeQEyX8PsgGEoXbBqqDuM/5Z9rcHRjng0ni9Ne7tNgcZ0nhbHxM0X84s0H6
-ZT1t/ZcpQ8DAmYOAzrj668IJHapvgQ==
-=EQqp
------END PGP SIGNATURE-----
-
---lF4rSxLLIMvci71L599jCzB9cSCytM345--
-
+Thanks Philippe!
 
