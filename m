@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65618160F06
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 10:43:54 +0100 (CET)
-Received: from localhost ([::1]:42665 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 083DC160F0B
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 10:44:55 +0100 (CET)
+Received: from localhost ([::1]:42680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j3cwT-0003w5-Dx
-	for lists+qemu-devel@lfdr.de; Mon, 17 Feb 2020 04:43:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53903)
+	id 1j3cxS-0005ll-2j
+	for lists+qemu-devel@lfdr.de; Mon, 17 Feb 2020 04:44:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53917)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1j3cvR-0002Qn-VF
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 04:42:50 -0500
+ (envelope-from <philmd@redhat.com>) id 1j3cvS-0002Qp-Qz
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 04:42:51 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1j3cvQ-000450-Se
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 04:42:49 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:47687
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1j3cvR-00045i-Ue
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 04:42:50 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:45547
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j3cvQ-000430-PP
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 04:42:48 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j3cvR-00045K-QR
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 04:42:49 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581932567;
+ s=mimecast20190719; t=1581932569;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fSHAaR1gXXH5k9LwDaCpBNS4L+tDUAamhwQ4C2uJFaQ=;
- b=Z03rmNOayFlgT6IOO52CgYvvEQG/MeopzNaHAnsQSQYA4bHN+6lyQBcwYKhKyTFBGTP8YW
- 5fvV524ipIS1oYckTmh7u/ZbS6hQjCMc8jwg0sgd3mYEMAiacftacj/1D3EcLDICvp0Wmd
- f5lvrwUGAF1sa+XHoHaTydpAeU8jE4k=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-281-me0OdVfJODKFYx8Sa1p-Tg-1; Mon, 17 Feb 2020 04:42:46 -0500
-Received: by mail-wm1-f70.google.com with SMTP id u11so5993579wmb.4
- for <qemu-devel@nongnu.org>; Mon, 17 Feb 2020 01:42:45 -0800 (PST)
+ bh=+0K9/hhcGuMRqV64Bb6WocCgg5svmiUON88ZVzCS73g=;
+ b=RsdYhbfjK6ZVb4wkWCHDARh8Kp1b3JF0pL0WhuuNt+SXpmAcR4Y23tqP8AWwlnYx+lvtUP
+ EeYmj2uayZV92Aw2cEiz0QvuQ6XKdcWE+wWRSwMIzqTHIzoigMpMyV5yHLnvEa1tVbczmT
+ Zy/LsQqgXqq6rVGGKoyjElj1SOYd8BQ=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-341-z-6UEmF0NMqgkLIuGVmClA-1; Mon, 17 Feb 2020 04:42:47 -0500
+Received: by mail-wr1-f69.google.com with SMTP id w17so8689595wrr.9
+ for <qemu-devel@nongnu.org>; Mon, 17 Feb 2020 01:42:47 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Lmx88FjCexpm4lMxL/UVZWV2Q83uqv/LDyi8iNcgg/g=;
- b=erJer01R73VpkXRcySl6tidoxt4AWYivVh/e09X+/mN8H8AJBWocB58WJJuVoh8U+C
- WFmpeIMyCx2a6qxokgCDJ4RuxsWXq/XwpuR3JsPAroOUyKYK0MGYUA/o2qax74UDadcd
- TAblT52f1ktLbYQtknbDYdivpZ2VSoqY/e48Ws0VjplG8eBDfqjmZo3pZaGDTYn6WZ93
- mwmEaLbxU7EgJWFF3weuPEtrB64aA1KKJQre6C2hZVhRv+zzvSa5jADrM49bNuitiurQ
- JrClPdEyxlKTnx4fArZWoCp35qAvk3I1b7x6K3qde8v6LL3Z9eBDFBEyDYaj6xl/jEB6
- Ac5g==
-X-Gm-Message-State: APjAAAVIVjKxq65en/EbgUTpHW0bdmxQv4xD0dt9n2zNJSRhDs3NX/uU
- fPWEteiLaVTTwjdZNnocjcMGZ/MOZzVQFufUmSSMV7Hv90aviL12r5s8wJ38sMkuY/QZ9h9R+BK
- Vftb/6l1+c474TsE=
-X-Received: by 2002:a5d:4a91:: with SMTP id o17mr20181636wrq.232.1581932564827; 
- Mon, 17 Feb 2020 01:42:44 -0800 (PST)
-X-Google-Smtp-Source: APXvYqzGXM+zWMFzZzJ2Y57mzZo7hdo8ksdlAfktwUO7UPOq8q/9JfAsLuQhwdPE+NqjZiGoT0YriA==
-X-Received: by 2002:a5d:4a91:: with SMTP id o17mr20181616wrq.232.1581932564604; 
- Mon, 17 Feb 2020 01:42:44 -0800 (PST)
+ bh=016NXjobK1ZSPrbhkh4SMG/lamO/sVwpkeO1WxFp7YQ=;
+ b=OFyd2GwVLc1f27jaDdndMBz62YEkox1FOjgO7Lw6HKuRcIxRH7vdC+okJ0HTbJ5Hmb
+ B0V8kx2b2uKBq3Q5UjdON9JxfPbRJf2Y33kBDozGDFk85cTNMjH/vpncmBHg0TyTZfkV
+ luAYiGrXvKhv8YXet9y6pZ0qLgtz/7VKafQni2IgLsa1tlzEHcUYJeWdbSVhGmzwyiZn
+ G03Z04Mf9oPL9PFXE0V0z3uJ+Am76PIJJbvSCqLC7ATZsYe4w8Q7i1Veu5AlGUyzoGfi
+ 25EH4pkphvtNbjJNB+b7lTwUl0O1vKih/HC8LvheW2eHBDS8cfvtYM3ayxzGC4udKOFI
+ eurw==
+X-Gm-Message-State: APjAAAUdCBMz/cJPy6kBbDlzlxdzPRj7s0LAQvybYkTip+PB4aIWLgAx
+ k4a8QOM/wcAXhgWn2AYwlF7cXqCz3WbpZt1MvgnRVpVxjs3rtdr3ttml+tiWYuJZuVoDQg8H7B0
+ daljvRSXWE82RnTE=
+X-Received: by 2002:a5d:6545:: with SMTP id z5mr20756203wrv.3.1581932566337;
+ Mon, 17 Feb 2020 01:42:46 -0800 (PST)
+X-Google-Smtp-Source: APXvYqz6r2ka1BsqIqbzkkdfs3hJMWQvGzyKpdzx6zVs++fAcZaRu61dYyoaBQiBwo9Nq0oPhYOmZA==
+X-Received: by 2002:a5d:6545:: with SMTP id z5mr20756181wrv.3.1581932566093;
+ Mon, 17 Feb 2020 01:42:46 -0800 (PST)
 Received: from x1w.redhat.com (78.red-88-21-202.staticip.rima-tde.net.
  [88.21.202.78])
- by smtp.gmail.com with ESMTPSA id t187sm17789442wmt.25.2020.02.17.01.42.43
+ by smtp.gmail.com with ESMTPSA id t187sm17789442wmt.25.2020.02.17.01.42.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Feb 2020 01:42:44 -0800 (PST)
+ Mon, 17 Feb 2020 01:42:45 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 2/3] tools/virtiofsd/passthrough_ll: Remove unneeded
- variable assignment
-Date: Mon, 17 Feb 2020 10:42:39 +0100
-Message-Id: <20200217094240.9927-3-philmd@redhat.com>
+Subject: [RFC PATCH v2 3/3] tools/virtiofsd/fuse_lowlevel: Fix
+ fuse_out_header::error value
+Date: Mon, 17 Feb 2020 10:42:40 +0100
+Message-Id: <20200217094240.9927-4-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200217094240.9927-1-philmd@redhat.com>
 References: <20200217094240.9927-1-philmd@redhat.com>
 MIME-Version: 1.0
-X-MC-Unique: me0OdVfJODKFYx8Sa1p-Tg-1
+X-MC-Unique: z-6UEmF0NMqgkLIuGVmClA-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8;
@@ -78,7 +78,7 @@ Content-Type: text/plain; charset=UTF-8;
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -99,48 +99,37 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Fix warning reported by Clang static code analyzer:
 
-    CC      tools/virtiofsd/passthrough_ll.o
-  tools/virtiofsd/passthrough_ll.c:925:9: warning: Value stored to 'newfd' =
-is never read
-          newfd =3D -1;
-          ^       ~~
-  tools/virtiofsd/passthrough_ll.c:942:9: warning: Value stored to 'newfd' =
-is never read
-          newfd =3D -1;
-          ^       ~~
+    CC      tools/virtiofsd/fuse_lowlevel.o
+  tools/virtiofsd/fuse_lowlevel.c:195:9: warning: Value stored to 'error' i=
+s never read
+          error =3D -ERANGE;
+          ^       ~~~~~~~
 
-Fixes: 7c6b66027
+Fixes: 2de121f01e
 Reported-by: Clang Static Analyzer
+Reviewed-by: J=C3=A1n Tomko <jtomko@redhat.com>
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
-v2: do not set newfd, use it (jtomko)
+RFC because untested
 ---
- tools/virtiofsd/passthrough_ll.c | 2 --
- 1 file changed, 2 deletions(-)
+ tools/virtiofsd/fuse_lowlevel.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough=
-_ll.c
-index e9e71d5fc2..02ff01fad0 100644
---- a/tools/virtiofsd/passthrough_ll.c
-+++ b/tools/virtiofsd/passthrough_ll.c
-@@ -922,7 +922,6 @@ static int lo_do_lookup(fuse_req_t req, fuse_ino_t pare=
-nt, const char *name,
-     inode =3D lo_find(lo, &e->attr);
-     if (inode) {
-         close(newfd);
--        newfd =3D -1;
-     } else {
-         inode =3D calloc(1, sizeof(struct lo_inode));
-         if (!inode) {
-@@ -939,7 +938,6 @@ static int lo_do_lookup(fuse_req_t req, fuse_ino_t pare=
-nt, const char *name,
+diff --git a/tools/virtiofsd/fuse_lowlevel.c b/tools/virtiofsd/fuse_lowleve=
+l.c
+index 704c0369b2..2dd36ec03b 100644
+--- a/tools/virtiofsd/fuse_lowlevel.c
++++ b/tools/virtiofsd/fuse_lowlevel.c
+@@ -192,7 +192,7 @@ int fuse_send_reply_iov_nofree(fuse_req_t req, int erro=
+r, struct iovec *iov,
 =20
-         inode->nlookup =3D 1;
-         inode->fd =3D newfd;
--        newfd =3D -1;
-         inode->key.ino =3D e->attr.st_ino;
-         inode->key.dev =3D e->attr.st_dev;
-         pthread_mutex_init(&inode->plock_mutex, NULL);
+     if (error <=3D -1000 || error > 0) {
+         fuse_log(FUSE_LOG_ERR, "fuse: bad error value: %i\n", error);
+-        error =3D -ERANGE;
++        out.error =3D -ERANGE;
+     }
+=20
+     iov[0].iov_base =3D &out;
 --=20
 2.21.1
 
