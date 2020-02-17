@@ -2,68 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 978BE161C24
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 21:07:45 +0100 (CET)
-Received: from localhost ([::1]:52380 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D1B3161C3F
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 21:20:34 +0100 (CET)
+Received: from localhost ([::1]:52484 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j3mgC-0001kR-5C
-	for lists+qemu-devel@lfdr.de; Mon, 17 Feb 2020 15:07:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32867)
+	id 1j3msb-00012e-Ek
+	for lists+qemu-devel@lfdr.de; Mon, 17 Feb 2020 15:20:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34358)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1j3mfU-0001Gx-FY
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 15:07:01 -0500
+ (envelope-from <wainersm@redhat.com>) id 1j3moa-0004jw-TR
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 15:16:26 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1j3mfS-0007CL-Oq
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 15:06:59 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:47881
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <wainersm@redhat.com>) id 1j3moZ-000427-M6
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 15:16:24 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:45793
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1j3mfS-0007By-Kw
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 15:06:58 -0500
+ (Exim 4.71) (envelope-from <wainersm@redhat.com>) id 1j3moZ-00041j-HW
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 15:16:23 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581970017;
+ s=mimecast20190719; t=1581970583;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=J8KMNKQdexsfFba+bz6f+nuDxakbPyp4CA2QwJ1Z2Bw=;
- b=htgKQjUWAOwp7UO5rZ8xxgFzftZP8fcs0cDHCcnbDr+5dIu4JcqTVaEwieQGt3YNS6f8lW
- k0sUIlKKFLc0QZXRGwR1EvD5GadG1zswRYv3Sfvg5HVFqcyJHBzCsKWY+KIMYvR7/icbiR
- mwqLds8VI7YbGToH6U7Ula+Ex4aP2yk=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=ghy0AuavPf+zlT2qaTQtiOz8z2bWa3ToJknQXuNclPc=;
+ b=F+V1BZxS2+vN/WMkHgZmPnsyDpSeRse9kva8sd+16KsfOwzh15WA0svGpO+dMBNms/3c9u
+ pxC1nfldAZVILsZKh6B9PfJNHneK/7Hx+V3cBlUk5epw8xUA2d4FwRlsRAQzPo2/2KlM1t
+ kSfNXmCc2h1Z5stbXIVOV0PTQ1uQKRo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-215-7C4ekrZ-Mx6b9vTkt4RjSA-1; Mon, 17 Feb 2020 15:06:56 -0500
+ us-mta-101-DQIKe04sMzmjUh6MZjDXMA-1; Mon, 17 Feb 2020 15:16:15 -0500
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1317118CA240
- for <qemu-devel@nongnu.org>; Mon, 17 Feb 2020 20:06:55 +0000 (UTC)
-Received: from work-vm (ovpn-116-78.ams2.redhat.com [10.36.116.78])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1FF685D9E2;
- Mon, 17 Feb 2020 20:06:48 +0000 (UTC)
-Date: Mon, 17 Feb 2020 20:06:45 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [RFC PATCH v2 3/3] tools/virtiofsd/fuse_lowlevel: Fix
- fuse_out_header::error value
-Message-ID: <20200217200645.GF3434@work-vm>
-References: <20200217094240.9927-1-philmd@redhat.com>
- <20200217094240.9927-4-philmd@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A9BF3800D5E;
+ Mon, 17 Feb 2020 20:16:13 +0000 (UTC)
+Received: from virtlab501.virt.lab.eng.bos.redhat.com
+ (virtlab501.virt.lab.eng.bos.redhat.com [10.19.152.162])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6E2835D9E2;
+ Mon, 17 Feb 2020 20:16:10 +0000 (UTC)
+From: Wainer dos Santos Moschetta <wainersm@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [RFC PATCH 0/6] Travis: Change default environment to Ubuntu Bionic
+Date: Mon, 17 Feb 2020 15:16:03 -0500
+Message-Id: <20200217201609.788825-1-wainersm@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200217094240.9927-4-philmd@redhat.com>
-User-Agent: Mutt/1.13.3 (2020-01-12)
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: 7C4ekrZ-Mx6b9vTkt4RjSA-1
+X-MC-Unique: DQIKe04sMzmjUh6MZjDXMA-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,54 +69,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?iso-8859-1?B?SuFu?= Tomko <jtomko@redhat.com>, qemu-devel@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: fam@euphon.net, philmd@redhat.com, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Philippe Mathieu-Daud=E9 (philmd@redhat.com) wrote:
-> Fix warning reported by Clang static code analyzer:
->=20
->     CC      tools/virtiofsd/fuse_lowlevel.o
->   tools/virtiofsd/fuse_lowlevel.c:195:9: warning: Value stored to 'error'=
- is never read
->           error =3D -ERANGE;
->           ^       ~~~~~~~
->=20
-> Fixes: 2de121f01e
-> Reported-by: Clang Static Analyzer
-> Reviewed-by: J=E1n Tomko <jtomko@redhat.com>
-> Signed-off-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
+Most of the Travis jobs currently run on Ubuntu 16.04 (Xenial),
+and some are already using 18.04 (Bionic). Other job will [1]
+need the swap very soon. On Travis's Bionic environment it is
+allowed the use of nested virtualization, so some tests relying
+on kvm can be executed (currently they are skipped).
 
-Nice, this actually fixes 3db2876
+There is one problem [2] with libssh-dev on Ubuntu Bionic
+though. Considering that, on this series I simply does not install it,
+so QEMU is built without libssh support. I don't think this is
+an impediment for this change anyway, if there is a need to test libssh
+support we can add a single Xenial-based job for that.
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+This series was tested on [3]. The following jobs are intermittently
+failing, I ran 3x each:
 
-> ---
-> RFC because untested
-> ---
->  tools/virtiofsd/fuse_lowlevel.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/tools/virtiofsd/fuse_lowlevel.c b/tools/virtiofsd/fuse_lowle=
-vel.c
-> index 704c0369b2..2dd36ec03b 100644
-> --- a/tools/virtiofsd/fuse_lowlevel.c
-> +++ b/tools/virtiofsd/fuse_lowlevel.c
-> @@ -192,7 +192,7 @@ int fuse_send_reply_iov_nofree(fuse_req_t req, int er=
-ror, struct iovec *iov,
-> =20
->      if (error <=3D -1000 || error > 0) {
->          fuse_log(FUSE_LOG_ERR, "fuse: bad error value: %i\n", error);
-> -        error =3D -ERANGE;
-> +        out.error =3D -ERANGE;
->      }
-> =20
->      iov[0].iov_base =3D &out;
-> --=20
-> 2.21.1
->=20
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+'GCC check-acceptance': 1 (Interrupted test)
+'GCC plugins check-tcg (user)': 1 (job timeout)
+'GCC check-tcg (some-softmmu)': 2 (docker OCI runtime start failed)
+'GCC plugins check-tcg (some-softmmu)':  1 (OCI runtime start failed)
+
+I've seen [4] those errors related with docker OCI on Xenial too.
+
+Thanks!
+- wainer
+
+REFERENCES
+[1] https://www.mail-archive.com/qemu-devel@nongnu.org/msg677078.html
+[2] https://bugs.launchpad.net/qemu/+bug/1838763
+[3] https://travis-ci.org/wainersm/qemu/builds/651549376
+[4] https://travis-ci.org/qemu/qemu/builds/651506018
+
+Wainer dos Santos Moschetta (6):
+  travis.yml: Bump default environment to Ubuntu Bionic
+  travis.yml: Fix 'GCC9 with sanitizers' job on Ubuntu Bionic
+  travis.yml: Fix 'GCC check-acceptance' job on Ubuntu Bionic
+  travis.yml: Fix 'Clang (main-softmmu)' job on Ubuntu Bionic
+  travis.yml: Run '[ppc64] GCC check-tcg' job on Ubuntu Bionic
+  travis.yml: Run '[aarch64] GCC check-tcg' job on Ubuntu Bionic
+
+ .travis.yml | 79 ++++++++++-------------------------------------------
+ 1 file changed, 14 insertions(+), 65 deletions(-)
+
+--=20
+2.24.1
 
 
