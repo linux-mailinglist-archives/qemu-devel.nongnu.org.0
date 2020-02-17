@@ -2,61 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA4281619AC
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 19:21:27 +0100 (CET)
-Received: from localhost ([::1]:50270 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F34C2161982
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 19:15:30 +0100 (CET)
+Received: from localhost ([::1]:50058 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j3l1K-0005XI-Rh
-	for lists+qemu-devel@lfdr.de; Mon, 17 Feb 2020 13:21:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41341)
+	id 1j3kvZ-0003z7-Ux
+	for lists+qemu-devel@lfdr.de; Mon, 17 Feb 2020 13:15:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41402)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1j3kce-0000G4-Ef
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 12:55:57 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1j3kdD-0001Ue-UT
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 12:56:33 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1j3kcc-0007f7-1D
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 12:55:56 -0500
-Received: from indium.canonical.com ([91.189.90.7]:38680)
+ (envelope-from <peter.maydell@linaro.org>) id 1j3kdC-0008Qb-Gn
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 12:56:31 -0500
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:34953)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1j3kcb-0007e9-RT
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 12:55:53 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1j3kca-0000UY-4h
- for <qemu-devel@nongnu.org>; Mon, 17 Feb 2020 17:55:52 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id E25302E80C9
- for <qemu-devel@nongnu.org>; Mon, 17 Feb 2020 17:55:51 +0000 (UTC)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1j3kdB-0008QC-WE
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 12:56:30 -0500
+Received: by mail-ot1-x344.google.com with SMTP id r16so16938886otd.2
+ for <qemu-devel@nongnu.org>; Mon, 17 Feb 2020 09:56:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=qDrzRZnk5NjGIil5wI536NQxw+YDxT3rcIE25TjvA48=;
+ b=T9rXifZgTYun1CCczkjabx8AUrBVCOq4uSj+DQyhmilWSkaACbRmOMKtVJLUPFmQ7H
+ 4kn6/HI8rfYgncubjcrvAOg6JN/fHPL9TKrzon0jn3rVsujcei41ZOCymXqjNaypNM7/
+ OFZSpF1+dzG/c6qIaGdKO4+JN5SrJb2nqAxiFK5j+I7FOwhUVEQS3poB+3gU00pRp9nj
+ 2P46MNY30RVFKwCNsp7t2B3wf5yvK17PBni5C/5jMErcI17MIY5au6rTcCdEOWSxzmdn
+ 9qeqPsZXS18wqbbALDZNG+vb/htIQdJnpknLGuqBbB0Kd9YUdU0djW/UtZg+ZEukk+uT
+ /+4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=qDrzRZnk5NjGIil5wI536NQxw+YDxT3rcIE25TjvA48=;
+ b=GCf0YD3q1h9z267a7wFz0CZjcybyCVvkC8VCbL7RD4rEbb/yMxUo0yjNmIQEFusB7i
+ WrCqRqMhvtUmC9Vxk52ku59GXTTGLdepEtbmkkmOopsRO8FrydvrRI0/KlX2bwoshFnp
+ YusxwjrsqGeo9WF1km6HpvgWZTysJ5i5p27NTgK15eJPScdk16+A1bm7vgS4rxbal6Hq
+ uOmVJPBJ00kYW1szIPyA2QiFoouz6OoH0Ugwc5qGgm7Oe32qmQYakwU0CGHoY3z5OIPf
+ T6p7PTWiIq0mzKWIXbnkadDxmyR26hOdfhHoKC/gRoHrkAGBU42EadfeT+asH/z2dPe9
+ 5t9w==
+X-Gm-Message-State: APjAAAV+r31/vI6FHSlTjezNzrrG/1lDmFpzybdRgXttL+/Yk74Fo456
+ tnjzw9HpR7J7GZYzIck6lI7c/R+W1/Q/Pw8z6/HYWQ==
+X-Google-Smtp-Source: APXvYqxc3LHx6s0x5FigHquRo1Q8WsIoc9tf0f3x8EMvniBDaOv6P8Do2+KgymCORDRWX1bwWnsGG5GMlQ5bvyDLlGA=
+X-Received: by 2002:a05:6830:1184:: with SMTP id
+ u4mr12425516otq.221.1581962189067; 
+ Mon, 17 Feb 2020 09:56:29 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 17 Feb 2020 17:50:29 -0000
-From: Richard Henderson <rth@twiddle.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=In Progress; importance=Undecided;
- assignee=rth@twiddle.net; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: jfreche rth
-X-Launchpad-Bug-Reporter: Julien Freche (jfreche)
-X-Launchpad-Bug-Modifier: Richard Henderson (rth)
-References: <157545185401.7205.1743602467950204624.malonedeb@gac.canonical.com>
-Message-Id: <158196182986.30733.4885093695011171354.malone@wampee.canonical.com>
-Subject: [Bug 1855072] Re: ARM: HCR.TVM traps are not implemented
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="19413b719a8df7423ab1390528edadce9e0e4aca";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 79f41a06e8597583c92b3c0bdc4ed9017b06e073
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+References: <20200124232009.12928-1-richard.henderson@linaro.org>
+ <20200124232009.12928-3-richard.henderson@linaro.org>
+In-Reply-To: <20200124232009.12928-3-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 17 Feb 2020 17:56:18 +0000
+Message-ID: <CAFEAcA_aA1jNkkgmdxLqUhSbAz7JL2chAU1+s475HSoqKQiukg@mail.gmail.com>
+Subject: Re: [PULL v3 02/11] hppa: Add support for LASI chip with i82596 NIC
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::344
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -65,35 +73,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1855072 <1855072@bugs.launchpad.net>
+Cc: Helge Deller <deller@gmx.de>, Sven Schnelle <svens@stackframe.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Patch posted:
-https://lists.nongnu.org/archive/html/qemu-devel/2020-02/msg04401.html
+On Fri, 24 Jan 2020 at 23:20, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> From: Helge Deller <deller@gmx.de>
+>
+> LASI is a built-in multi-I/O chip which supports serial, parallel,
+> network (Intel i82596 Apricot), sound and other functionalities.
+> LASI has been used in many HP PARISC machines.
+> This patch adds the necessary parts to allow Linux and HP-UX to detect
+> LASI and the network card.
+>
+> Signed-off-by: Helge Deller <deller@gmx.de>
+> Signed-off-by: Sven Schnelle <svens@stackframe.org>
+> Message-Id: <20191220211512.3289-3-svens@stackframe.org>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-If you could help testing, that would be appreciated.
+Hi; Coverity has an issue with this code (CID 1419396):
 
--- =
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1855072
+> +#define ETHER_TYPE_LEN 2
+> +#define VLAN_TCI_LEN 2
+> +#define VLAN_HLEN (ETHER_TYPE_LEN + VLAN_TCI_LEN)
 
-Title:
-  ARM: HCR.TVM traps are not implemented
 
-Status in QEMU:
-  In Progress
+> +#define MIN_BUF_SIZE 60
+> +
+> +ssize_t i82596_receive(NetClientState *nc, const uint8_t *buf, size_t sz)
+> +{
+> +    I82596State *s = qemu_get_nic_opaque(nc);
+> +    uint32_t rfd_p;
+> +    uint32_t rbd;
+> +    uint16_t is_broadcast = 0;
+> +    size_t len = sz;
+> +    uint32_t crc;
+> +    uint8_t *crc_ptr;
+> +    uint8_t buf1[MIN_BUF_SIZE + VLAN_HLEN];
 
-Bug description:
-  On AARCH64, setting HCR.TVM to 1 is supposed to trap all writes to
-  CTLR_EL1, TTBR0_EL1, TTBR1_EL1, TCR_EL1, ESR_EL1, FAR_EL1, AFSR0_EL1,
-  AFSR1_EL1, MAIR_EL1, AMAIR_EL1, and CONTEXTIDR_EL1. However, it
-  currently has no effect (QEMU emulator version 4.1.1).
+This buffer is 60 + 2 + 2 == 64 bytes large...
 
-  It is also likely that TRVM will not trap, but, I didn't verify this.
+> +    /* if too small buffer, then expand it */
+> +    if (len < MIN_BUF_SIZE + VLAN_HLEN) {
+> +        memcpy(buf1, buf, len);
+> +        memset(buf1 + len, 0, MIN_BUF_SIZE + VLAN_HLEN - len);
+> +        buf = buf1;
+> +        if (len < MIN_BUF_SIZE) {
+> +            len = MIN_BUF_SIZE;
+> +        }
 
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1855072/+subscriptions
+...here if we're using the buf1[] buffer then len must
+be >= MIN_BUF_SIZE (60) and < MIN_BUF_SIZE + VLAN_HLEN (64),
+so it's in the range 60 to 63...
+
+> +    }
+> +
+> +    /* Calculate the ethernet checksum (4 bytes) */
+> +    len += 4;
+> +    crc = cpu_to_be32(crc32(~0, buf, sz));
+> +    crc_ptr = (uint8_t *) &crc;
+
+...but then we add 4 to len here, so it's now 64 to 67...
+
+> +    while (len) {
+
+
+
+> +            num = buffer_size & SIZE_MASK;
+> +            if (num > len) {
+> +                num = len;
+> +            }
+
+...before using len as the cap on how many bytes we write...
+
+> +            rba = get_uint32(rbd + 8);
+> +            /* printf("rba is 0x%x\n", rba); */
+> +            address_space_rw(&address_space_memory, rba,
+> +                MEMTXATTRS_UNSPECIFIED, (void *)buf, num, 1);
+
+...from the buffer into guest memory here.
+
+So we could be reading off the end of the buffer.
+
+I don't know whether the buffer should be 4 bytes
+larger to allow for the checksum, or if the len calculation
+is wrong.
+
+PS: I think calling address_space_write() with a constant
+final argument is confusing;
+"address_space_rw(as, addr, attrs, buf, len, 1)"
+is equivalent to
+"address_space_write(as, addr, attrs, buf, len)",
+except that it's more obvious that it's a write rather
+than a read, and it avoids an extra layer of function
+call. We do seem to have a surprisingly large number of
+places in the codebase that call address_space_rw() with a
+constant final argument, though...
+
+thanks
+-- PMM
 
