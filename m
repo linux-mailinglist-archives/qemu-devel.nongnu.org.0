@@ -2,77 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D8151619DE
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 19:43:16 +0100 (CET)
-Received: from localhost ([::1]:50718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A0CF1619E5
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 19:44:15 +0100 (CET)
+Received: from localhost ([::1]:50746 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j3lMR-00020E-L0
-	for lists+qemu-devel@lfdr.de; Mon, 17 Feb 2020 13:43:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48501)
+	id 1j3lNO-0003uB-92
+	for lists+qemu-devel@lfdr.de; Mon, 17 Feb 2020 13:44:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48662)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1j3lLO-0000zR-TJ
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 13:42:11 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1j3lMO-0002d4-62
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 13:43:13 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1j3lLN-00004u-TS
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 13:42:10 -0500
-Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:44145)
+ (envelope-from <richard.henderson@linaro.org>) id 1j3lMN-0000d0-6S
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 13:43:12 -0500
+Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:37798)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1j3lLN-0008VM-MD
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 13:42:09 -0500
-Received: by mail-pg1-x541.google.com with SMTP id g3so9524947pgs.11
- for <qemu-devel@nongnu.org>; Mon, 17 Feb 2020 10:42:09 -0800 (PST)
+ id 1j3lMN-0000cf-0Z
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 13:43:11 -0500
+Received: by mail-pg1-x544.google.com with SMTP id z12so9674677pgl.4
+ for <qemu-devel@nongnu.org>; Mon, 17 Feb 2020 10:43:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=9zgbaluwRbltVrZpLNNXGxJTjVUh7N3R2hFdxrS7EHI=;
- b=CdvHusJPRn3RRSr8v1K0bW/vX7RYYXS0luwk4UfwHtazZoqYIWSQl3v/HcXoXQVqv+
- ioK+0RK8TcgE2Q9sgVzOrjllD/eJOoQK5wI/8H+3d4H2PUC9Kf1TmWxn2O0a5gUkiulg
- 5qgT5HsIVlWW76gqL8KNE3yu4ADCErSBglt1mydmUQgyqrlMKeCMSdH9yx/VgCnUQjwP
- e/jhCPV5BtgVs9er29HJ0tPpLndOOlz0IEouXB1mwPb4D0z14KJJJP+vKEXWfQO1Ubkp
- RlIBgr94g6hTSEIqB8PUvtlWxKK3m2+kYwOhfgwg71Eo4QZdnXCMYJG5l8UxGwds3r/N
- 9fJw==
+ bh=neBA8Hq1GQLpQE9uLrWtM+1QvsYgKbBzd7S7LOkq7UA=;
+ b=MkPoI0fK4wxmXoBVB1SZ3BoRrdX82+kCcUYJsKrmVxILW3F1bx76geI9u9hSSX1/xl
+ MGVUzhc3HnmQi6Eu2Pvo6ONsOh+3Pkge+6q2i2vOdhQzcnD7yB5H58vbiFjtffSYnQZo
+ HvgnazythMn+vmvQ9Gsp0Te3ycLnDd2x0SiHf6up6mbUdUh/qQWE2hEjlXOCXwvq5+EW
+ AFkur8O0z0P4e1jl9LGngh7Zk6u6TSeFBJjQYS84FWu4ISoLFFkNVkbJsp2MNHHrAosK
+ kggTcXwFQIcFB8L3xBpqiQIBBH/FtuvK8xjAWC++JViiP1TV4aXSCd41AIM0JcaFtVPY
+ XDww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=9zgbaluwRbltVrZpLNNXGxJTjVUh7N3R2hFdxrS7EHI=;
- b=Xk7N0bBIcgDPJMQrwB0JXnO9yahs4+/RAaa42d7yt8xhdqgWGrFNRCwKcCUPnkYp4m
- Ykysck/7AsjmTKFC1kJVx4erFtFiDDSQuF6+e37KtTzP9KXAl+ulM6D+QnIrHQICzAmy
- WWqPv7j5SvJIKm8VwnbrhLnmnZ10rajQzKA5DnrZXTObDurMWk5mVZUfnj953NukXOzu
- WfGBJj1TiUcOO2xlIpIO/XHbrDLYouwVZcAeSbxHev75vuWeoTFZALyV0yk1Hn42kXCN
- gqa5XO+tZylHahAYL3chCKk7SHv9O7dU5sw2Qp+s9DK0KNvC8P8yZIPlcC/R+6XDUbXw
- 95iA==
-X-Gm-Message-State: APjAAAWYyD0j9auSIpax/N4IKePKHxovowYFcoP/4d338AtExv8bApjE
- 4SZtsiLwjCqpEAhDA3TUzl5UFg==
-X-Google-Smtp-Source: APXvYqxLmbCkyXjfdfRcjImGhDy+AD3FKeuwD0sFTyeWsWvJPhskQ8BvdS8nXLbJrsSCf5ZLHSgBmA==
-X-Received: by 2002:aa7:8552:: with SMTP id y18mr17831608pfn.176.1581964928393; 
- Mon, 17 Feb 2020 10:42:08 -0800 (PST)
+ bh=neBA8Hq1GQLpQE9uLrWtM+1QvsYgKbBzd7S7LOkq7UA=;
+ b=rBY4uzUxl3j/919b7DDj84CNA9YrxUEHzsIhYP8oz2ml5kNuaTQBShrNgHyICBSY8h
+ B7wzFG2r8+gPnXDX2Lq4Z+v151hvCBEYaSPZz37Dai1pfrFS19D5uuNYboMez2a9lHzU
+ GcWQhKafb9vhdPoJfq7cW9hms13pN/mBHmXhVFYWPfjtgu97W597JME9R2IkC4ivJ2gZ
+ 8oSBx0Z8d2mNi5AozU87sOpbAh6m2nz3s/8dX+JObXYN/UCInEo1EBJ85JkbA8g4X8Jl
+ hQKfV9j8nBeUD+3Fzm3IIF/a83E9/qfzfga8wawrlFRN2r8Q4DS7soupTyH3PbGdZrio
+ 6aBw==
+X-Gm-Message-State: APjAAAXLvnZrWhx/rXU2oQw0JxdZpK+PUWnMDuNzbUF02wwQwH2P0SAD
+ GNm4J+tQ/Wg2H09rQ1S8ODyBBw==
+X-Google-Smtp-Source: APXvYqxR9LUw6efxmmejX8FoH40Q7noE8wsora4g009tH3MiWCmDq2zpeLWRMI7iXrGONxYk0C4OuA==
+X-Received: by 2002:a17:90a:bd97:: with SMTP id
+ z23mr464448pjr.19.1581964989632; 
+ Mon, 17 Feb 2020 10:43:09 -0800 (PST)
 Received: from [192.168.1.11] (97-126-123-70.tukw.qwest.net. [97.126.123.70])
- by smtp.gmail.com with ESMTPSA id
- a36sm1592448pga.32.2020.02.17.10.42.07
+ by smtp.gmail.com with ESMTPSA id j8sm189372pjb.4.2020.02.17.10.43.08
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 17 Feb 2020 10:42:07 -0800 (PST)
-Subject: Re: [PATCH v5 01/79] numa: remove deprecated -mem-path fallback to
- anonymous RAM
+ Mon, 17 Feb 2020 10:43:08 -0800 (PST)
+Subject: Re: [PATCH v5 02/79] machine: introduce memory-backend property
 To: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org
 References: <20200217173452.15243-1-imammedo@redhat.com>
- <20200217173452.15243-2-imammedo@redhat.com>
+ <20200217173452.15243-3-imammedo@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <57f7dab5-afa1-7370-1d03-7e7fe735f903@linaro.org>
-Date: Mon, 17 Feb 2020 10:42:05 -0800
+Message-ID: <1acd01a5-ea66-b9a1-79b4-0a903fc916ed@linaro.org>
+Date: Mon, 17 Feb 2020 10:43:07 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200217173452.15243-2-imammedo@redhat.com>
+In-Reply-To: <20200217173452.15243-3-imammedo@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::541
+X-Received-From: 2607:f8b0:4864:20::544
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,25 +83,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, ehabkost@redhat.com
+Cc: pasic@linux.ibm.com, Paolo Bonzini <pbonzini@redhat.com>,
+ ehabkost@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 2/17/20 9:33 AM, Igor Mammedov wrote:
-> it has been deprecated since 4.0 by commit
->  cb79224b7 (deprecate -mem-path fallback to anonymous RAM)
-> Deprecation period ran out and it's time to remove it
-> so it won't get in a way of switching to using hostmem
-> backend for RAM.
+> Property will contain link to memory backend that will be
+> used for backing initial RAM.
+> Follow up commit will alias -mem-path and -mem-prealloc
+> CLI options into memory backend options to make memory
+> handling consistent (using only hostmem backend family
+> for guest RAM allocation).
 > 
 > Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 > ---
-> CC:libvir-list@redhat.com
-> CC: ehabkost@redhat.com
-> ---
->  hw/core/numa.c       | 18 +-----------------
->  qemu-deprecated.texi |  9 ---------
->  2 files changed, 1 insertion(+), 26 deletions(-)
+> v4:
+>  * make property a string, instead of a link.
+>    Fixes -M memory-backend=foo: foo not found error
+>    since foo creation is delayed well beyond point
+>    where machine's properties are set
+> v3:
+>  * rename property name from ram-memdev to memory-backend
+>    (Paolo Bonzini <pbonzini@redhat.com>)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
