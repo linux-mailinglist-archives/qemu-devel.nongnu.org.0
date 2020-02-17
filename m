@@ -2,36 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70CA2160BDF
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 08:47:38 +0100 (CET)
-Received: from localhost ([::1]:41514 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AF39160BEB
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 08:51:13 +0100 (CET)
+Received: from localhost ([::1]:41590 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j3b7x-0004bC-CU
-	for lists+qemu-devel@lfdr.de; Mon, 17 Feb 2020 02:47:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39421)
+	id 1j3bBQ-0002TN-6Q
+	for lists+qemu-devel@lfdr.de; Mon, 17 Feb 2020 02:51:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39558)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <xuyandong2@huawei.com>) id 1j3b2z-0004LA-By
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 02:42:31 -0500
+ (envelope-from <xuyandong2@huawei.com>) id 1j3b35-0004Za-B7
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 02:42:38 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <xuyandong2@huawei.com>) id 1j3b2x-0000Zz-A7
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 02:42:29 -0500
-Received: from szxga05-in.huawei.com ([45.249.212.191]:3228 helo=huawei.com)
+ (envelope-from <xuyandong2@huawei.com>) id 1j3b32-0000fg-71
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 02:42:35 -0500
+Received: from szxga05-in.huawei.com ([45.249.212.191]:3229 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <xuyandong2@huawei.com>)
- id 1j3b2r-0000PB-Tp; Mon, 17 Feb 2020 02:42:22 -0500
+ id 1j3b2t-0000RM-Ks; Mon, 17 Feb 2020 02:42:24 -0500
 Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.59])
- by Forcepoint Email with ESMTP id C8D79CF0072849C02661;
+ by Forcepoint Email with ESMTP id D4A2E50EFFD6B15E4E00;
  Mon, 17 Feb 2020 15:42:19 +0800 (CST)
 Received: from localhost (10.175.124.177) by DGGEMS413-HUB.china.huawei.com
  (10.3.19.213) with Microsoft SMTP Server id 14.3.439.0; Mon, 17 Feb 2020
- 15:42:12 +0800
+ 15:42:13 +0800
 From: Xu Yandong <xuyandong2@huawei.com>
 To: <peter.maydell@linaro.org>
-Subject: [PATCH RFC 15/16] hw/arm: move shared cpu related functions to arm.c
- and export them
-Date: Mon, 17 Feb 2020 02:51:27 -0500
-Message-ID: <1581925888-103620-16-git-send-email-xuyandong2@huawei.com>
+Subject: [PATCH RFC 16/16] hw/arm: Introduce the microvm machine type
+Date: Mon, 17 Feb 2020 02:51:28 -0500
+Message-ID: <1581925888-103620-17-git-send-email-xuyandong2@huawei.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1581925888-103620-1-git-send-email-xuyandong2@huawei.com>
 References: <1581925888-103620-1-git-send-email-xuyandong2@huawei.com>
@@ -59,297 +58,535 @@ Cc: zhang.zhanghailiang@huawei.com, slp@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move cpu related functions that will be shared between VIRT and
-non-VIRT machine types to arm.c.
+It's a minimalist machine type without PCI nor ACPI support, designed
+for short-lived guests. microvm also establishes a baseline for
+benchmarking and optimizing both QEMU and guest operating systems,
+since it is optimized for both boot time and footprint.
 
 Signed-off-by: Xu Yandong <xuyandong2@huawei.com>
 ---
- hw/arm/arm.c          | 89 ++++++++++++++++++++++++++++++++++++++++++
- hw/arm/virt.c         | 91 +------------------------------------------
- include/hw/arm/arm.h  |  3 ++
- include/hw/arm/virt.h |  1 -
- 4 files changed, 94 insertions(+), 90 deletions(-)
+ default-configs/aarch64-softmmu.mak |   2 +
+ hw/arm/Kconfig                      |   7 +
+ hw/arm/Makefile.objs                |   1 +
+ hw/arm/arm.c                        |   8 +
+ hw/arm/microvm.c                    | 303 ++++++++++++++++++++++++++++
+ hw/arm/virt.c                       |  17 +-
+ include/hw/arm/arm.h                |   2 +
+ include/hw/arm/microvm.h            |  40 ++++
+ include/hw/arm/virt.h               |   1 -
+ 9 files changed, 372 insertions(+), 9 deletions(-)
+ create mode 100644 hw/arm/microvm.c
+ create mode 100644 include/hw/arm/microvm.h
 
+diff --git a/default-configs/aarch64-softmmu.mak b/default-configs/aarch64-softmmu.mak
+index 958b1e08e4..e9e994801c 100644
+--- a/default-configs/aarch64-softmmu.mak
++++ b/default-configs/aarch64-softmmu.mak
+@@ -6,3 +6,5 @@ include arm-softmmu.mak
+ CONFIG_XLNX_ZYNQMP_ARM=y
+ CONFIG_XLNX_VERSAL=y
+ CONFIG_SBSA_REF=y
++
++CONFIG_ARM_MICROVM=y
+diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+index 3d86691ae0..153ffbabac 100644
+--- a/hw/arm/Kconfig
++++ b/hw/arm/Kconfig
+@@ -25,6 +25,13 @@ config ARM_VIRT
+     select ACPI_MEMORY_HOTPLUG
+     select ACPI_HW_REDUCED
+ 
++config ARM_MICROVM
++    bool
++    select A15MPCORE
++    select PL011 # UART
++    select PL031 # RTC
++    select VIRTIO_MMIO
++
+ config CHEETAH
+     bool
+     select OMAP
+diff --git a/hw/arm/Makefile.objs b/hw/arm/Makefile.objs
+index 51fcee2ac8..2a2f643774 100644
+--- a/hw/arm/Makefile.objs
++++ b/hw/arm/Makefile.objs
+@@ -1,6 +1,7 @@
+ obj-y += boot.o
+ obj-$(CONFIG_PLATFORM_BUS) += sysbus-fdt.o
+ obj-$(CONFIG_ARM_VIRT) += arm.o virt.o
++obj-$(CONFIG_ARM_MICROVM) += arm.o microvm.o
+ obj-$(CONFIG_ACPI) += virt-acpi-build.o
+ obj-$(CONFIG_DIGIC) += digic_boards.o
+ obj-$(CONFIG_EXYNOS4) += exynos4_boards.o
 diff --git a/hw/arm/arm.c b/hw/arm/arm.c
-index 7d880dd8e7..8bb5d92d2e 100644
+index 8bb5d92d2e..0c5bf1a2f8 100644
 --- a/hw/arm/arm.c
 +++ b/hw/arm/arm.c
-@@ -39,6 +39,28 @@
- #include "hw/intc/arm_gic.h"
- #include "kvm_arm.h"
+@@ -306,6 +306,14 @@ void qdev_create_gic(ArmMachineState *ams)
+      */
+     qdev_prop_set_uint32(ams->gic, "num-irq", NUM_IRQS + 32);
  
-+static const char *valid_cpus[] = {
-+    ARM_CPU_TYPE_NAME("cortex-a7"),
-+    ARM_CPU_TYPE_NAME("cortex-a15"),
-+    ARM_CPU_TYPE_NAME("cortex-a53"),
-+    ARM_CPU_TYPE_NAME("cortex-a57"),
-+    ARM_CPU_TYPE_NAME("cortex-a72"),
-+    ARM_CPU_TYPE_NAME("host"),
-+    ARM_CPU_TYPE_NAME("max"),
++    if (!kvm_irqchip_in_kernel()) {
++        qdev_prop_set_bit(ams->gic, "has-security-extensions", false);
++        if (type != 3) {
++            qdev_prop_set_bit(ams->gic, "has-virtualization-extensions",
++                              false);
++        }
++    }
++
+     if (type == 3) {
+         uint32_t redist0_capacity =
+                     ams->memmap[VIRT_GIC_REDIST].size / GICV3_REDIST_SIZE;
+diff --git a/hw/arm/microvm.c b/hw/arm/microvm.c
+new file mode 100644
+index 0000000000..04f98d63cb
+--- /dev/null
++++ b/hw/arm/microvm.c
+@@ -0,0 +1,303 @@
++/*
++ * ARM mach-virt emulation
++ *
++ * Copyright (c) 2013 Linaro Limited
++ * Copyright (c) 2020 Huawei.
++ *
++ * This program is free software; you can redistribute it and/or modify it
++ * under the terms and conditions of the GNU General Public License,
++ * version 2 or later, as published by the Free Software Foundation.
++ *
++ * This program is distributed in the hope it will be useful, but WITHOUT
++ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
++ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
++ * more details.
++ *
++ * You should have received a copy of the GNU General Public License along with
++ * this program.  If not, see <http://www.gnu.org/licenses/>.
++ */
++
++#include "qemu/osdep.h"
++#include "qemu/units.h"
++#include "qapi/error.h"
++#include "hw/arm/arm.h"
++#include "hw/arm/microvm.h"
++#include "sysemu/device_tree.h"
++#include "sysemu/numa.h"
++#include "sysemu/sysemu.h"
++#include "hw/loader.h"
++#include "hw/qdev-properties.h"
++#include "hw/arm/fdt.h"
++#include "kvm_arm.h"
++
++/* Number of external interrupt lines to configure the GIC with */
++#define NUM_IRQS 256
++
++#define PLATFORM_BUS_NUM_IRQS 64
++
++/* Legacy RAM limit in GB (< version 4.0) */
++#define LEGACY_RAMLIMIT_GB 255
++#define LEGACY_RAMLIMIT_BYTES (LEGACY_RAMLIMIT_GB * GiB)
++
++/* Addresses and sizes of our components.
++ * 0..128MB is space for a flash device so we can run bootrom code such as UEFI.
++ * 128MB..256MB is used for miscellaneous device I/O.
++ * 256MB..1GB is reserved for possible future PCI support (ie where the
++ * PCI memory window will go if we add a PCI host controller).
++ * 1GB and up is RAM (which may happily spill over into the
++ * high memory region beyond 4GB).
++ * This represents a compromise between how much RAM can be given to
++ * a 32 bit VM and leaving space for expansion and in particular for PCI.
++ * Note that devices should generally be placed at multiples of 0x10000,
++ * to accommodate guests using 64K pages.
++ */
++static MemMapEntry base_memmap[] = {
++    /* Space up to 0x8000000 is reserved for a boot ROM */
++    [VIRT_CPUPERIPHS] =         { 0x08000000, 0x00020000 },
++    /* GIC distributor and CPU interfaces sit inside the CPU peripheral space */
++    [VIRT_GIC_DIST] =           { 0x08000000, 0x00010000 },
++    [VIRT_GIC_CPU] =            { 0x08010000, 0x00010000 },
++    /* This redistributor space allows up to 2*64kB*123 CPUs */
++    [VIRT_GIC_REDIST] =         { 0x080A0000, 0x00F60000 },
++    [VIRT_UART] =               { 0x09000000, 0x00001000 },
++    [VIRT_RTC] =                { 0x09010000, 0x00001000 },
++    [VIRT_MMIO] =               { 0x0a000000, 0x00000200 },
++    /* Actual RAM size depends on initial RAM and device memory settings */
++    [VIRT_MEM] =                { 0x40000000, LEGACY_RAMLIMIT_BYTES },
++    /* Additional 64 MB redist region (can contain up to 512 redistributors) */
++    [VIRT_HIGH_GIC_REDIST2] =   { 0x4000000000ULL, 0x4000000 },
 +};
 +
-+bool cpu_type_valid(const char *cpu)
-+{
-+    int i;
++static const int a15irqmap[] = {
++    [VIRT_UART] = 1,
++    [VIRT_RTC] = 2,
++    [VIRT_MMIO] = 16, /* ...to 16 + NUM_VIRTIO_TRANSPORTS - 1 */
++};
 +
-+    for (i = 0; i < ARRAY_SIZE(valid_cpus); i++) {
-+        if (strcmp(cpu, valid_cpus[i]) == 0) {
-+            return true;
++static void fdt_gic_intc_node(MicrovmMachineState *mms)
++{
++    char *nodename;
++    ArmMachineState *ams = ARM_MACHINE(mms);
++
++    if (ams->gic_version == 3) {
++        return;
++    }
++
++    nodename = g_strdup_printf("/intc@%" PRIx64,
++                               ams->memmap[VIRT_GIC_DIST].base);
++
++    qemu_fdt_setprop_sized_cells(ams->fdt, nodename, "reg",
++            2, ams->memmap[VIRT_GIC_DIST].base,
++            2, ams->memmap[VIRT_GIC_DIST].size,
++            2, ams->memmap[VIRT_GIC_CPU].base,
++            2, ams->memmap[VIRT_GIC_CPU].size);
++
++    g_free(nodename);
++}
++
++
++static void create_gic(MicrovmMachineState *mms)
++{
++    ArmMachineState *ams = ARM_MACHINE(mms);
++
++    qdev_create_gic(ams);
++    qdev_init_nofail(ams->gic);
++
++    init_gic_sysbus(ams);
++    fdt_add_gic_node(ams);
++    fdt_gic_intc_node(mms);
++}
++
++static
++void microvm_machine_done(Notifier *notifier, void *data)
++{
++    ArmMachineState *ams = container_of(notifier, ArmMachineState,
++                                         machine_done);
++    MachineState *ms = MACHINE(ams);
++    ARMCPU *cpu = ARM_CPU(first_cpu);
++    struct arm_boot_info *info = &ams->bootinfo;
++    AddressSpace *as = arm_boot_address_space(cpu, info);
++
++    if (arm_load_dtb(info->dtb_start, info, info->dtb_limit, as, ms) < 0) {
++        exit(1);
++    }
++}
++
++static void microvm_init(MachineState *machine)
++{
++    ArmMachineState *ams = ARM_MACHINE(machine);
++    MicrovmMachineState *mms = MICROVM_MACHINE(machine);
++    MachineClass *mc = MACHINE_GET_CLASS(machine);
++    const CPUArchIdList *possible_cpus;
++    MemoryRegion *sysmem = get_system_memory();
++    int n, arm_max_cpus;
++    MemoryRegion *ram = g_new(MemoryRegion, 1);
++    bool aarch64 = true;
++    unsigned int smp_cpus = machine->smp.cpus;
++    unsigned int max_cpus = machine->smp.max_cpus;
++
++    /* microvm, only support KVM */
++    if (!kvm_enabled()) {
++        error_report("microvm requires KVM");
++        exit(1);
++    }
++
++    /* We can probe only here because during property set
++     * KVM is not available yet
++     */
++    if (ams->gic_version <= 0) {
++        ams->gic_version = kvm_arm_vgic_probe();
++        if (!ams->gic_version) {
++            error_report(
++                "Unable to determine GIC version supported by host");
++            exit(1);
 +        }
 +    }
-+    return false;
-+}
 +
- void create_fdt(ArmMachineState *ams)
- {
-     MachineState *ms = MACHINE(ams);
-@@ -543,6 +565,70 @@ static void virt_set_gic_version(Object *obj, const char *value, Error **errp)
-     }
- }
- 
-+static uint64_t virt_cpu_mp_affinity(ArmMachineState *ams, int idx)
-+{
-+    uint8_t clustersz = ARM_DEFAULT_CPUS_PER_CLUSTER;
-+    ArmMachineClass *amc = ARM_MACHINE_GET_CLASS(ams);
++    if (!cpu_type_valid(machine->cpu_type)) {
++        error_report("mach-virt: CPU type %s not supported", machine->cpu_type);
++        exit(1);
++    }
 +
-+    if (!amc->disallow_affinity_adjustment) {
-+        /* Adjust MPIDR like 64-bit KVM hosts, which incorporate the
-+         * GIC's target-list limitations. 32-bit KVM hosts currently
-+         * always create clusters of 4 CPUs, but that is expected to
-+         * change when they gain support for gicv3. When KVM is enabled
-+         * it will override the changes we make here, therefore our
-+         * purposes are to make TCG consistent (with 64-bit KVM hosts)
-+         * and to improve SGI efficiency.
-+         */
-+        if (ams->gic_version == 3) {
-+            clustersz = GICV3_TARGETLIST_BITS;
-+        } else {
-+            clustersz = GIC_TARGETLIST_BITS;
++    ams->psci_conduit = QEMU_PSCI_CONDUIT_HVC;
++
++    /* The maximum number of CPUs depends on the GIC version, or on how
++     * many redistributors we can fit into the memory map.
++     */
++    if (ams->gic_version == 3) {
++        arm_max_cpus =
++            ams->memmap[VIRT_GIC_REDIST].size / GICV3_REDIST_SIZE;
++        arm_max_cpus +=
++            ams->memmap[VIRT_HIGH_GIC_REDIST2].size / GICV3_REDIST_SIZE;
++    } else {
++        arm_max_cpus = GIC_NCPU;
++    }
++
++    if (max_cpus > arm_max_cpus) {
++        error_report("Number of SMP CPUs requested (%d) exceeds max CPUs "
++                     "supported by machine 'mach-microvm' (%d)",
++                     max_cpus, arm_max_cpus);
++        exit(1);
++    }
++
++    ams->smp_cpus = smp_cpus;
++
++    create_fdt(ams);
++
++    possible_cpus = mc->possible_cpu_arch_ids(machine);
++    for (n = 0; n < possible_cpus->len; n++) {
++        Object *cpuobj;
++        CPUState *cs;
++
++        if (n >= smp_cpus) {
++            break;
 +        }
++
++        cpuobj = object_new(possible_cpus->cpus[n].type);
++        object_property_set_int(cpuobj, possible_cpus->cpus[n].arch_id,
++                                "mp-affinity", NULL);
++
++        cs = CPU(cpuobj);
++        cs->cpu_index = n;
++
++        numa_cpu_pre_plug(&possible_cpus->cpus[cs->cpu_index], DEVICE(cpuobj),
++                          &error_fatal);
++
++        aarch64 &= object_property_get_bool(cpuobj, "aarch64", NULL);
++
++        object_property_set_int(cpuobj, ams->psci_conduit,
++                                    "psci-conduit", NULL);
++
++         /* Secondary CPUs start in PSCI powered-down state */
++        if (n > 0) {
++            object_property_set_bool(cpuobj, true,
++                                     "start-powered-off", NULL);
++        }
++
++        if (object_property_find(cpuobj, "pmu", NULL)) {
++            object_property_set_bool(cpuobj, false, "pmu", NULL);
++        }
++
++        if (object_property_find(cpuobj, "reset-cbar", NULL)) {
++            object_property_set_int(cpuobj, ams->memmap[VIRT_CPUPERIPHS].base,
++                                    "reset-cbar", &error_abort);
++        }
++
++        object_property_set_link(cpuobj, OBJECT(sysmem), "memory",
++                                 &error_abort);
++
++        object_property_set_bool(cpuobj, true, "realized", &error_fatal);
++        object_unref(cpuobj);
 +    }
-+    return arm_cpu_mp_affinity(idx, clustersz);
++    fdt_add_timer_nodes(ams);
++    fdt_add_cpu_nodes(ams);
++
++    memory_region_allocate_system_memory(ram, NULL, "mach-virt.ram",
++                                         machine->ram_size);
++    memory_region_add_subregion(sysmem, ams->memmap[VIRT_MEM].base, ram);
++
++    create_gic(mms);
++
++    create_uart(ams, VIRT_UART, sysmem, serial_hd(0));
++    create_rtc(ams);
++
++    /* Create mmio transports, so the user can create virtio backends
++     * (which will be automatically plugged in to the transports). If
++     * no backend is created the transport will just sit harmlessly idle.
++     */
++    create_virtio_devices(ams);
++
++    ams->bootinfo.ram_size = machine->ram_size;
++    ams->bootinfo.nb_cpus = smp_cpus;
++    ams->bootinfo.board_id = -1;
++    ams->bootinfo.loader_start = ams->memmap[VIRT_MEM].base;
++    ams->bootinfo.get_dtb = machvirt_dtb;
++    ams->bootinfo.skip_dtb_autoload = true;
++    ams->bootinfo.firmware_loaded = false;
++    arm_load_kernel(ARM_CPU(first_cpu), machine, &ams->bootinfo);
++
++    ams->machine_done.notify = microvm_machine_done;
++    qemu_add_machine_init_done_notifier(&ams->machine_done);
 +}
 +
-+
-+static CpuInstanceProperties
-+virt_cpu_index_to_props(MachineState *ms, unsigned cpu_index)
++static void microvm_class_init(ObjectClass *oc, void *data)
 +{
-+    MachineClass *mc = MACHINE_GET_CLASS(ms);
-+    const CPUArchIdList *possible_cpus = mc->possible_cpu_arch_ids(ms);
++    MachineClass *mc = MACHINE_CLASS(oc);
 +
-+    assert(cpu_index < possible_cpus->len);
-+    return possible_cpus->cpus[cpu_index].props;
++    mc->desc = "QEMU ARM MicroVM Virtual Machine";
++    mc->init = microvm_init;
++    /* Start with max_cpus set to 512, which is the maximum supported by KVM.
++     * The value may be reduced later when we have more information about the
++     * configuration of the particular instance.
++     */
++    mc->max_cpus = 512;
++    mc->default_cpu_type = ARM_CPU_TYPE_NAME("host");
++    mc->default_machine_opts = "accel=kvm";
 +}
 +
-+
-+static int64_t virt_get_default_cpu_node_id(const MachineState *ms, int idx)
++static void microvm_instance_init(Object *obj)
 +{
-+    return idx % ms->numa_state->num_nodes;
++    ArmMachineState *ams = ARM_MACHINE(obj);
++
++    ams->memmap = base_memmap;
++    ams->irqmap = a15irqmap;
 +}
 +
-+static const CPUArchIdList *virt_possible_cpu_arch_ids(MachineState *ms)
++static const TypeInfo microvm_machine_info = {
++    .name          = TYPE_MICROVM_MACHINE,
++    .parent        = TYPE_ARM_MACHINE,
++    .instance_size = sizeof(MicrovmMachineState),
++    .instance_init = microvm_instance_init,
++    .class_size    = sizeof(MicrovmMachineClass),
++    .class_init    = microvm_class_init,
++    .interfaces = (InterfaceInfo[]) {
++         { }
++    },
++};
++
++static void microvm_machine_init(void)
 +{
-+    int n;
-+    unsigned int max_cpus = ms->smp.max_cpus;
-+    ArmMachineState *ams = ARM_MACHINE(ms);
-+
-+    if (ms->possible_cpus) {
-+        assert(ms->possible_cpus->len == max_cpus);
-+        return ms->possible_cpus;
-+    }
-+
-+    ms->possible_cpus = g_malloc0(sizeof(CPUArchIdList) +
-+                                  sizeof(CPUArchId) * max_cpus);
-+    ms->possible_cpus->len = max_cpus;
-+    for (n = 0; n < ms->possible_cpus->len; n++) {
-+        ms->possible_cpus->cpus[n].type = ms->cpu_type;
-+        ms->possible_cpus->cpus[n].arch_id =
-+            virt_cpu_mp_affinity(ams, n);
-+        ms->possible_cpus->cpus[n].props.has_thread_id = true;
-+        ms->possible_cpus->cpus[n].props.thread_id = n;
-+    }
-+    return ms->possible_cpus;
++    type_register_static(&microvm_machine_info);
 +}
 +
- static void arm_machine_class_init(ObjectClass *oc, void *data)
- {
-     MachineClass *mc = MACHINE_CLASS(oc);
-@@ -555,6 +641,9 @@ static void arm_machine_class_init(ObjectClass *oc, void *data)
-     mc->default_cpu_type = ARM_CPU_TYPE_NAME("cortex-a15");
-     mc->numa_mem_supported = true;
-     mc->auto_enable_numa_with_memhp = true;
-+    mc->cpu_index_to_instance_props = virt_cpu_index_to_props;
-+    mc->get_default_cpu_node_id = virt_get_default_cpu_node_id;
-+    mc->possible_cpu_arch_ids = virt_possible_cpu_arch_ids;
- }
- 
- static void arm_instance_init(Object *obj)
++type_init(microvm_machine_init);
 diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index 2f498ea687..14d20d5c46 100644
+index 14d20d5c46..c4ffeff4aa 100644
 --- a/hw/arm/virt.c
 +++ b/hw/arm/virt.c
-@@ -182,28 +182,6 @@ static const int a15irqmap[] = {
-     [VIRT_PLATFORM_BUS] = 112, /* ...to 112 + PLATFORM_BUS_NUM_IRQS -1 */
- };
- 
--static const char *valid_cpus[] = {
--    ARM_CPU_TYPE_NAME("cortex-a7"),
--    ARM_CPU_TYPE_NAME("cortex-a15"),
--    ARM_CPU_TYPE_NAME("cortex-a53"),
--    ARM_CPU_TYPE_NAME("cortex-a57"),
--    ARM_CPU_TYPE_NAME("cortex-a72"),
--    ARM_CPU_TYPE_NAME("host"),
--    ARM_CPU_TYPE_NAME("max"),
--};
--
--static bool cpu_type_valid(const char *cpu)
--{
--    int i;
--
--    for (i = 0; i < ARRAY_SIZE(valid_cpus); i++) {
--        if (strcmp(cpu, valid_cpus[i]) == 0) {
--            return true;
--        }
--    }
--    return false;
--}
--
- static void fdt_add_its_gic_node(VirtMachineState *vms)
+@@ -979,10 +979,10 @@ static void virt_build_smbios(VirtMachineState *vms)
+ static
+ void virt_machine_done(Notifier *notifier, void *data)
  {
-     char *nodename;
-@@ -1030,30 +1008,6 @@ void virt_machine_done(Notifier *notifier, void *data)
-     virt_build_smbios(vms);
- }
- 
--static uint64_t virt_cpu_mp_affinity(VirtMachineState *vms, int idx)
--{
--    uint8_t clustersz = ARM_DEFAULT_CPUS_PER_CLUSTER;
+-    VirtMachineState *vms = container_of(notifier, VirtMachineState,
++    ArmMachineState *ams = container_of(notifier, ArmMachineState,
+                                          machine_done);
+-    MachineState *ms = MACHINE(vms);
 -    ArmMachineState *ams = ARM_MACHINE(vms);
--    VirtMachineClass *vmc = VIRT_MACHINE_GET_CLASS(vms);
--
--    if (!vmc->disallow_affinity_adjustment) {
--        /* Adjust MPIDR like 64-bit KVM hosts, which incorporate the
--         * GIC's target-list limitations. 32-bit KVM hosts currently
--         * always create clusters of 4 CPUs, but that is expected to
--         * change when they gain support for gicv3. When KVM is enabled
--         * it will override the changes we make here, therefore our
--         * purposes are to make TCG consistent (with 64-bit KVM hosts)
--         * and to improve SGI efficiency.
--         */
--        if (ams->gic_version == 3) {
--            clustersz = GICV3_TARGETLIST_BITS;
--        } else {
--            clustersz = GIC_TARGETLIST_BITS;
--        }
--    }
--    return arm_cpu_mp_affinity(idx, clustersz);
--}
--
- static void virt_set_memmap(VirtMachineState *vms)
- {
-     MachineState *ms = MACHINE(vms);
-@@ -1460,45 +1414,6 @@ static void virt_set_iommu(Object *obj, const char *value, Error **errp)
++    MachineState *ms = MACHINE(ams);
++    VirtMachineState *vms = VIRT_MACHINE(ams);
+     ARMCPU *cpu = ARM_CPU(first_cpu);
+     struct arm_boot_info *info = &ams->bootinfo;
+     AddressSpace *as = arm_boot_address_space(cpu, info);
+@@ -1056,7 +1056,7 @@ static void virt_set_memmap(VirtMachineState *vms)
+         ams->memmap[i].size = size;
+         base += size;
      }
+-    vms->highest_gpa = base - 1;
++    ams->highest_gpa = base - 1;
+     if (device_memory_size > 0) {
+         ms->device_memory = g_malloc0(sizeof(*ms->device_memory));
+         ms->device_memory->base = device_memory_base;
+@@ -1260,7 +1260,7 @@ static void machvirt_init(MachineState *machine)
+         if (aarch64 && vms->highmem) {
+             int requested_pa_size, pamax = arm_pamax(cpu);
+ 
+-            requested_pa_size = 64 - clz64(vms->highest_gpa);
++            requested_pa_size = 64 - clz64(ams->highest_gpa);
+             if (pamax < requested_pa_size) {
+                 error_report("VCPU supports less PA bits (%d) than requested "
+                             "by the memory map (%d)", pamax, requested_pa_size);
+@@ -1326,8 +1326,8 @@ static void machvirt_init(MachineState *machine)
+     ams->bootinfo.firmware_loaded = firmware_loaded;
+     arm_load_kernel(ARM_CPU(first_cpu), machine, &ams->bootinfo);
+ 
+-    vms->machine_done.notify = virt_machine_done;
+-    qemu_add_machine_init_done_notifier(&vms->machine_done);
++    ams->machine_done.notify = virt_machine_done;
++    qemu_add_machine_init_done_notifier(&ams->machine_done);
  }
  
--static CpuInstanceProperties
--virt_cpu_index_to_props(MachineState *ms, unsigned cpu_index)
--{
--    MachineClass *mc = MACHINE_GET_CLASS(ms);
--    const CPUArchIdList *possible_cpus = mc->possible_cpu_arch_ids(ms);
--
--    assert(cpu_index < possible_cpus->len);
--    return possible_cpus->cpus[cpu_index].props;
--}
--
--static int64_t virt_get_default_cpu_node_id(const MachineState *ms, int idx)
--{
--    return idx % ms->numa_state->num_nodes;
--}
--
--static const CPUArchIdList *virt_possible_cpu_arch_ids(MachineState *ms)
--{
--    int n;
--    unsigned int max_cpus = ms->smp.max_cpus;
--    VirtMachineState *vms = VIRT_MACHINE(ms);
--
--    if (ms->possible_cpus) {
--        assert(ms->possible_cpus->len == max_cpus);
--        return ms->possible_cpus;
--    }
--
--    ms->possible_cpus = g_malloc0(sizeof(CPUArchIdList) +
--                                  sizeof(CPUArchId) * max_cpus);
--    ms->possible_cpus->len = max_cpus;
--    for (n = 0; n < ms->possible_cpus->len; n++) {
--        ms->possible_cpus->cpus[n].type = ms->cpu_type;
--        ms->possible_cpus->cpus[n].arch_id =
--            virt_cpu_mp_affinity(vms, n);
--        ms->possible_cpus->cpus[n].props.has_thread_id = true;
--        ms->possible_cpus->cpus[n].props.thread_id = n;
--    }
--    return ms->possible_cpus;
--}
--
- static void virt_memory_pre_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
-                                  Error **errp)
+ static bool virt_get_secure(Object *obj, Error **errp)
+@@ -1501,13 +1501,14 @@ static HotplugHandler *virt_machine_get_hotplug_handler(MachineState *machine,
+ static int virt_kvm_type(MachineState *ms, const char *type_str)
  {
-@@ -1624,9 +1539,6 @@ static void virt_machine_class_init(ObjectClass *oc, void *data)
-     machine_class_allow_dynamic_sysbus_dev(mc, TYPE_VFIO_AMD_XGBE);
-     machine_class_allow_dynamic_sysbus_dev(mc, TYPE_RAMFB_DEVICE);
-     machine_class_allow_dynamic_sysbus_dev(mc, TYPE_VFIO_PLATFORM);
--    mc->possible_cpu_arch_ids = virt_possible_cpu_arch_ids;
--    mc->cpu_index_to_instance_props = virt_cpu_index_to_props;
--    mc->get_default_cpu_node_id = virt_get_default_cpu_node_id;
-     mc->kvm_type = virt_kvm_type;
-     assert(!mc->get_hotplug_handler);
-     mc->get_hotplug_handler = virt_machine_get_hotplug_handler;
-@@ -1833,10 +1745,11 @@ DEFINE_VIRT_MACHINE(2, 7)
- static void virt_machine_2_6_options(MachineClass *mc)
- {
-     VirtMachineClass *vmc = VIRT_MACHINE_CLASS(OBJECT_CLASS(mc));
-+    ArmMachineClass *amc = ARM_MACHINE_CLASS(OBJECT_CLASS(mc));
+     VirtMachineState *vms = VIRT_MACHINE(ms);
++    ArmMachineState *ams = ARM_MACHINE(ms);
+     int max_vm_pa_size = kvm_arm_get_max_vm_ipa_size(ms);
+     int requested_pa_size;
  
-     virt_machine_2_7_options(mc);
-     compat_props_add(mc->compat_props, hw_compat_2_6, hw_compat_2_6_len);
--    vmc->disallow_affinity_adjustment = true;
-+    amc->disallow_affinity_adjustment = true;
-     /* Disable PMU for 2.6 as PMU support was first introduced in 2.7 */
-     vmc->no_pmu = true;
- }
+     /* we freeze the memory map to compute the highest gpa */
+     virt_set_memmap(vms);
+ 
+-    requested_pa_size = 64 - clz64(vms->highest_gpa);
++    requested_pa_size = 64 - clz64(ams->highest_gpa);
+ 
+     if (requested_pa_size > max_vm_pa_size) {
+         error_report("-m and ,maxmem option values "
 diff --git a/include/hw/arm/arm.h b/include/hw/arm/arm.h
-index 372f4dea28..37a419b784 100644
+index 37a419b784..f9ec676579 100644
 --- a/include/hw/arm/arm.h
 +++ b/include/hw/arm/arm.h
-@@ -86,6 +86,7 @@ typedef struct MemMapEntry {
+@@ -92,6 +92,7 @@ typedef struct {
  
  typedef struct {
-     MachineClass parent;
-+    bool disallow_affinity_adjustment;
-     bool claim_edge_triggered_timers;
- } ArmMachineClass;
+     MachineState parent;
++    Notifier machine_done;
+     int32_t gic_version;
+     struct arm_boot_info bootinfo;
+     MemMapEntry *memmap;
+@@ -102,6 +103,7 @@ typedef struct {
+     uint32_t clock_phandle;
+     uint32_t gic_phandle;
+     int psci_conduit;
++    hwaddr highest_gpa;
+     DeviceState *gic;
+ } ArmMachineState;
  
-@@ -112,6 +113,8 @@ typedef struct {
- #define ARM_MACHINE_CLASS(klass) \
-     OBJECT_CLASS_CHECK(ArmMachineClass, klass, TYPE_ARM_MACHINE)
- 
-+bool cpu_type_valid(const char *cpu);
+diff --git a/include/hw/arm/microvm.h b/include/hw/arm/microvm.h
+new file mode 100644
+index 0000000000..be8e771b07
+--- /dev/null
++++ b/include/hw/arm/microvm.h
+@@ -0,0 +1,40 @@
++/*
++ *
++ * Copyright (c) 2015 Linaro Limited
++ * Copyright (c) 2020 Huawei.
++ *
++ * This program is free software; you can redistribute it and/or modify it
++ * under the terms and conditions of the GNU General Public License,
++ * version 2 or later, as published by the Free Software Foundation.
++ *
++ * This program is distributed in the hope it will be useful, but WITHOUT
++ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
++ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
++ * more details.
++ *
++ * You should have received a copy of the GNU General Public License along with
++ * this program.  If not, see <http://www.gnu.org/licenses/>.
++ */
 +
- void create_fdt(ArmMachineState *ams);
- 
- void fdt_add_timer_nodes(const ArmMachineState *ams);
++#ifndef QEMU_ARM_MICROVM_H
++#define QEMU_ARM_MICROVM_H
++
++#include "hw/arm/arm.h"
++
++typedef struct {
++    ArmMachineClass parent;
++} MicrovmMachineClass;
++
++typedef struct {
++    ArmMachineState parent;
++} MicrovmMachineState;
++
++#define TYPE_MICROVM_MACHINE   MACHINE_TYPE_NAME("microvm")
++#define MICROVM_MACHINE(obj) \
++    OBJECT_CHECK(MicrovmMachineState, (obj), TYPE_MICROVM_MACHINE)
++#define MICROVM_MACHINE_GET_CLASS(obj) \
++    OBJECT_GET_CLASS(MicrovmMachineClass, obj, TYPE_MICROVM_MACHINE)
++#define MICROVM_MACHINE_CLASS(klass) \
++    OBJECT_CLASS_CHECK(MicrovmMachineClass, klass, TYPE_MICROVM_MACHINE)
++
++#endif /* QEMU_ARM_MICROVM_H */
 diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
-index 8276e2c02c..aa66cd78d5 100644
+index aa66cd78d5..4e32c650b4 100644
 --- a/include/hw/arm/virt.h
 +++ b/include/hw/arm/virt.h
-@@ -47,7 +47,6 @@ typedef enum VirtIOMMUType {
- 
- typedef struct {
-     ArmMachineClass parent;
--    bool disallow_affinity_adjustment;
-     bool no_its;
-     bool no_pmu;
-     bool smbios_old_sys_ver;
+@@ -69,7 +69,6 @@ typedef struct {
+     VirtIOMMUType iommu;
+     uint32_t msi_phandle;
+     uint32_t iommu_phandle;
+-    hwaddr highest_gpa;
+     DeviceState *acpi_dev;
+     Notifier powerdown_notifier;
+ } VirtMachineState;
 -- 
 2.18.1
 
