@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A11C16157D
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 16:04:51 +0100 (CET)
-Received: from localhost ([::1]:46724 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C287316157A
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 16:04:48 +0100 (CET)
+Received: from localhost ([::1]:46720 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j3hx4-00062M-3i
-	for lists+qemu-devel@lfdr.de; Mon, 17 Feb 2020 10:04:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38954)
+	id 1j3hx1-0005vY-Q1
+	for lists+qemu-devel@lfdr.de; Mon, 17 Feb 2020 10:04:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38913)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1j3hvM-000447-I1
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 10:03:05 -0500
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1j3hvK-0007Np-BB
+ (envelope-from <vsementsov@virtuozzo.com>) id 1j3hvL-000441-Mb
  for qemu-devel@nongnu.org; Mon, 17 Feb 2020 10:03:04 -0500
-Received: from relay.sw.ru ([185.231.240.75]:47456)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1j3hvK-0007Nd-A5
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 10:03:03 -0500
+Received: from relay.sw.ru ([185.231.240.75]:47460)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1j3hvK-0007LT-0x; Mon, 17 Feb 2020 10:03:02 -0500
+ id 1j3hvJ-0007Lg-W4; Mon, 17 Feb 2020 10:03:02 -0500
 Received: from vovaso.qa.sw.ru ([10.94.3.0] helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.3)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1j3hvI-0007Zt-0Z; Mon, 17 Feb 2020 18:03:00 +0300
+ id 1j3hvI-0007Zt-Da; Mon, 17 Feb 2020 18:03:00 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 21/22] qemu-iotests/199: add early shutdown case to bitmaps
+Subject: [PATCH v2 22/22] qemu-iotests/199: add source-killed case to bitmaps
  postcopy
-Date: Mon, 17 Feb 2020 18:02:45 +0300
-Message-Id: <20200217150246.29180-22-vsementsov@virtuozzo.com>
+Date: Mon, 17 Feb 2020 18:02:46 +0300
+Message-Id: <20200217150246.29180-23-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200217150246.29180-1-vsementsov@virtuozzo.com>
 References: <20200217150246.29180-1-vsementsov@virtuozzo.com>
@@ -54,54 +54,52 @@ Cc: Kevin Wolf <kwolf@redhat.com>, vsementsov@virtuozzo.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Previous patches fixed two crashes which may occur on shutdown prior to
-bitmaps postcopy finished. Check that it works now.
+Previous patches fixes behavior of bitmaps migration, so that errors
+are handled by just removing unfinished bitmaps, and not fail or try to
+recover postcopy migration. Add corresponding test.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- tests/qemu-iotests/199     | 18 ++++++++++++++++++
+ tests/qemu-iotests/199     | 15 +++++++++++++++
  tests/qemu-iotests/199.out |  4 ++--
- 2 files changed, 20 insertions(+), 2 deletions(-)
+ 2 files changed, 17 insertions(+), 2 deletions(-)
 
 diff --git a/tests/qemu-iotests/199 b/tests/qemu-iotests/199
-index 8baa078151..0d12e6b1ae 100755
+index 0d12e6b1ae..d38913fa44 100755
 --- a/tests/qemu-iotests/199
 +++ b/tests/qemu-iotests/199
-@@ -217,6 +217,24 @@ class TestDirtyBitmapPostcopyMigration(iotests.QMPTestCase):
-             sha = self.discards1_sha256 if i % 2 else self.all_discards_sha256
-             self.assert_qmp(result, 'return/sha256', sha)
+@@ -235,6 +235,21 @@ class TestDirtyBitmapPostcopyMigration(iotests.QMPTestCase):
+         self.vm_a.launch()
+         check_bitmaps(self.vm_a, 0)
  
-+    def test_early_shutdown_destination(self):
++    def test_early_kill_source(self):
 +        self.start_postcopy()
 +
-+        self.vm_b_events += self.vm_b.get_qmp_events()
-+        self.vm_b.shutdown()
-+        # recreate vm_b, so there is no incoming option, which prevents
-+        # loading bitmaps from disk
-+        self.vm_b = iotests.VM(path_suffix='b').add_drive(disk_b)
-+        self.vm_b.launch()
-+        check_bitmaps(self.vm_b, 0)
++        self.vm_a_events = self.vm_a.get_qmp_events()
++        self.vm_a.kill()
 +
-+        result = self.vm_a.qmp('query-status')
-+        assert not result['return']['running']
-+        self.vm_a_events += self.vm_a.get_qmp_events()
-+        self.vm_a.shutdown()
 +        self.vm_a.launch()
++
++        match = {'data': {'status': 'completed'}}
++        e_complete = self.vm_b.event_wait('MIGRATION', match=match)
++        self.vm_b_events.append(e_complete)
++
 +        check_bitmaps(self.vm_a, 0)
++        check_bitmaps(self.vm_b, 0)
 +
  
  if __name__ == '__main__':
      iotests.main(supported_fmts=['qcow2'])
 diff --git a/tests/qemu-iotests/199.out b/tests/qemu-iotests/199.out
-index ae1213e6f8..fbc63e62f8 100644
+index fbc63e62f8..8d7e996700 100644
 --- a/tests/qemu-iotests/199.out
 +++ b/tests/qemu-iotests/199.out
 @@ -1,5 +1,5 @@
--.
-+..
+-..
++...
  ----------------------------------------------------------------------
--Ran 1 tests
-+Ran 2 tests
+-Ran 2 tests
++Ran 3 tests
  
  OK
 -- 
