@@ -2,75 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E90D1618CA
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 18:28:16 +0100 (CET)
-Received: from localhost ([::1]:49106 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F23551618E6
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 18:36:53 +0100 (CET)
+Received: from localhost ([::1]:49296 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j3kBq-0007DP-Ak
-	for lists+qemu-devel@lfdr.de; Mon, 17 Feb 2020 12:28:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37217)
+	id 1j3kKD-00036Z-0p
+	for lists+qemu-devel@lfdr.de; Mon, 17 Feb 2020 12:36:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37932)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j3kB4-0006oV-CT
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 12:27:27 -0500
+ (envelope-from <imammedo@redhat.com>) id 1j3kIS-0000kd-6M
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 12:35:06 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j3kB3-0002rN-87
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 12:27:26 -0500
-Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:46955)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j3kB3-0002qm-19
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 12:27:25 -0500
-Received: by mail-oi1-x242.google.com with SMTP id a22so17365967oid.13
- for <qemu-devel@nongnu.org>; Mon, 17 Feb 2020 09:27:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=pOlgU/AEoqJzvSIScV6bXKV0p3MUwxdTMDZQHvg3Viw=;
- b=w/lJnWmqaxB8O2G0g9nOf/vl6ltCznRqK0Yt4OkjqNVUFgEW7uYBJaqh3zH/cRzoiR
- pVoOgoofEdIhjlfBYcnHurZiPzJDdc5xKmsx3yyRv6eCPeuohyLTWf7gAgjLubRMtzjk
- lVqhDSvS+WQCdW5P6FL7Su2HtksNnoqa0v7c6ZFZRrnmRlO9W/94TMhcDEHzXomSGwjO
- OD1RWyOPt4VrK5trby++JmtvUuN3RSZs8p6Rpfykp4F0JZApd3FyDQCoJ6Q4imwZhtn7
- jLBig3/mDUGjYc7mJVMhNJoUgztTqOJFNOO1fq42rE8EObtRXG4KzBpK+Ph3AXWbEotG
- D4NA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=pOlgU/AEoqJzvSIScV6bXKV0p3MUwxdTMDZQHvg3Viw=;
- b=BSzhkzte6g31OFBewXVe0NRtfUbSJyaAV8OYI6Sa2NP0RPJLGnnHtlMWafIlRHfC3Q
- horBvbyDXX1wPYoX7MKDgBTzNs155vWSbXOf+UAH/t91OOLPaYHtq9wJOmUfySQ8ZJ/b
- qjf7N/7UXYGmvXmtqlnuNiYNt+r6pqrK4cnXO3iSnDnD/+lWSTjMBFHLf38bkZFqjE3/
- OjyapqGdMC6rbNFfMyG2ltIyh6H52Z1zdXEpdQ0Ch6Nx6+U/ZWdHhRpnbYmABEkUqNzu
- eJNHRco7dVNiOpRIOy32I4oFtKYttNuhAz+CiAJWz+6iJsw79l91W7y6/wOECP6bOmUi
- OUkw==
-X-Gm-Message-State: APjAAAUk5FV2xCt+Zc8Dd5r1X1693jPaW+4kJ5l5E9TjxiJfKket+sgF
- fxNLfEG1CQZUIiiwvhW/N9GG80EiqFwnt/dEWIgy4Q==
-X-Google-Smtp-Source: APXvYqxlkLxPkvqHkjB/R7HffSWkQ0t1HnI3K21U45wiImMKRUAfBHmTxWDD+0d7/IDQl4ATU5ZBjSMdRs0HZ78T1Y0=
-X-Received: by 2002:a05:6808:289:: with SMTP id z9mr93718oic.48.1581960444122; 
- Mon, 17 Feb 2020 09:27:24 -0800 (PST)
+ (envelope-from <imammedo@redhat.com>) id 1j3kIQ-0001WO-7Z
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 12:35:04 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:60997
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1j3kIQ-0001Vm-2V
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 12:35:02 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1581960901;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=3kryQNbi/1mwUaR3+D0sfsZ11Imh86x8JL2pRjo5axs=;
+ b=OkuuIikJU4/C0KR49I/FtHrMXaIka42bbryEzgJM9eSAreDlr9U4/qegE2yRHuJ8P0WuTQ
+ vgD/L2z3Up+jG8KhpYpuSS7rXJdbvdESnx/dh2BgwYVGHreU13eq69PsF2aSFy5RFioPVj
+ ZvA+8SORTD0tAZSZX87W3zQZwCx7h6s=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-348-eeVcHObFMFKlhzqEIvlP2g-1; Mon, 17 Feb 2020 12:34:58 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9D765100550E
+ for <qemu-devel@nongnu.org>; Mon, 17 Feb 2020 17:34:57 +0000 (UTC)
+Received: from dell-r430-03.lab.eng.brq.redhat.com
+ (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C5F368CCE0;
+ Mon, 17 Feb 2020 17:34:56 +0000 (UTC)
+From: Igor Mammedov <imammedo@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v5 00/79] refactor main RAM allocation to use hostmem backend
+Date: Mon, 17 Feb 2020 12:33:33 -0500
+Message-Id: <20200217173452.15243-1-imammedo@redhat.com>
 MIME-Version: 1.0
-References: <20200215154706.19837-1-philmd@redhat.com>
- <20200215154706.19837-2-philmd@redhat.com>
- <CAFEAcA9cZHWziyk6VzfaxrqjCNNOmnmSkB=uuGJMp0TL521mAQ@mail.gmail.com>
- <8c4570e1-cd9b-9d33-2756-5c223df282ee@redhat.com>
- <CAFEAcA-hyEVPeT1wakaft6m3_WD9XG3eYFAwJJgoHRAZ1nntag@mail.gmail.com>
- <e530629d-c029-1d7c-b5b7-cdbbeb397a4d@redhat.com>
- <CAFEAcA-KzWv=_kZUPNE6yyUSA36XY+q91ihJ_xh4euJ9RsyaLA@mail.gmail.com>
- <c2ae28d4-3864-dfc6-2033-93bbd7aa865e@redhat.com>
- <b9f520ba-d279-6a46-1142-e82f415f3e8a@redhat.com>
-In-Reply-To: <b9f520ba-d279-6a46-1142-e82f415f3e8a@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 17 Feb 2020 17:27:13 +0000
-Message-ID: <CAFEAcA8AD30UPqDxZ6myimhsYsgRu9A8pTCnq7WoAXewKUDN8g@mail.gmail.com>
-Subject: Re: [PATCH 1/2] hw/ipmi/bmc: Delay timer_new_ns() from init to
- realize to avoid memleaks
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: eeVcHObFMFKlhzqEIvlP2g-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::242
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,54 +68,298 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Corey Minyard <minyard@acm.org>,
- David Hildenbrand <david@redhat.com>, Pan Nengyuan <pannengyuan@huawei.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 17 Feb 2020 at 17:20, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
-m> wrote:
-> Quick check with TYPE_BITBAND which is a SysBus device, we have:
->
-> static void bitband_realize(DeviceState *dev, Error **errp)
-> {
->      BitBandState *s =3D BITBAND(dev);
->
->      if (!s->source_memory) {
->          error_setg(errp, "source-memory property not set");
->          return;
->      }
->
->      address_space_init(&s->source_as, s->source_memory, "bitband-source"=
-);
-> }
->
-> Do we need the equivalent:
->
-> static void bitband_unrealize(DeviceState *dev, Error **errp)
-> {
->      BitBandState *s =3D BITBAND(dev);
->
->      address_space_destroy(&s->source_as);
-> }
->
-> Or instead mark the device user_creatable=3Dfalse because of the link to =
-a
-> TYPE_MEMORY_REGION?
+v5:
+  - pick up new Reviewed-by-s
+  - drop "ppc/prep: use memdev for RAM" since machine was removed
+  - add patch "mips/mips_jazz: add max ram size check"
+  - extend comment for "default_ram_id" to clarify that's setting it serves
+    as optin flag for -m support. [03/79]
+  - rebase "arm/raspi: use memdev for RAM" once more
 
-I don't believe that this device is user-creatable. The
-base class sysbus_device_class_init() sets user_creatable
-to false by default for all sysbus devices, and a sysbus
-device which wants to opt into being user-created has to
-set it to true.
+v4:
+  - pick up new Reviewed-by-s
+  - Fix access to uninitialized pagesize/hpsize in
+    "[PATCH REPOST v3 74/80] exec: cleanup  qemu_minrampagesize()/qemu_maxr=
+ampagesize()"
+  - Make explicitly provided memory-backend work by using string property i=
+nstead
+    of link so it would be possible to delay access to the backend to the t=
+ime
+    when backends are initialized.
+  - added new patches to make explicit backend work nice with -m and do san=
+ity
+    check on ram_size
+      'vl.c: move -m parsing after memory backends has been processed'
+      'vl.c: ensure that ram_size matches size of machine.memory-backend"
+    all this ram_size business needs cleanup too, but that's out of the sco=
+pe
+    of this series.
+  - include m68k/q800 board into conversion
+  - drop patches that were merged through other trees
 
-Also the device's type name string is "ARM,bitband-memory"
-and the -device option at least does not like the comma
-in the middle of the name, so I don't know how you'd
-create it on the command line even if it wasn't marked
-not user-creatable.
+v3:
+  - due to libvirt not being ready, postpone till 5.1
+     * [PATCH v2 82/86] numa: forbid '-numa node,  mem' for 5.0 and newer m=
+achine types
+     and depended
+       [PATCH v2 86/86] numa: remove deprecated implicit RAM distribution  =
+between nodes
+  - drop as not related "[PATCH v2 85/86] numa: make exit() usage consisten=
+t"
+  - drop "[PATCH v2 76/86] post conversion default_ram_id cleanup"
+    so that default memory-backedend won't be created for boards that do no=
+t care
+    about -m. Which makes -m optin feature. We should decide  what do in  c=
+ase
+    board doesn't use -m (but that's out of scope of this series)
+  - use object_register_sugar_prop() instead of hacking compat props direct=
+ly
+  - simplified/reworked aspeed patches
+  - s/RAM_ADDR_FMT/size_to_str()/
+  - rename 'ram-memdev' property to 'memory-backend'
+  - minor fixes to numa-test
+  - fixes for issues noticed during review of
+       [PATCH v2 66/86] ppc/{ppc440_bamboo,sam460x}: drop RAM size fixup
 
-thanks
--- PMM
+v2:
+  - fix compile errors on mingw32 host by introducing RAM_ADDR_UFMT [11/86]
+  - replace "[PATCH 43/86] hppa: drop RAM size fixup" with alternative
+    patches made by Philippe (which effectively do the same thing but other
+    way around)
+  - ppc440: fix crash and add suggested valid RAM size in error output.
+    s/ppc4xx_sdram_adjust/ppc4xx_sdram_prep/ and simplify it by removing
+    not necessary nested loop
+  - rebase on current master due to new conflicts
+
+
+Series removes ad hoc RAM allocation API (memory_region_allocate_system_mem=
+ory)
+and consolidates it around hostmem backend. It allows to
+ * resolve conflicts between global -mem-prealloc and hostmem's "policy" op=
+tion
+   fixing premature allocation before binding policy is applied
+ * simplify complicated memory allocation routines which had to deal with 2=
+ ways
+   to allocate RAM.
+ * it allows to reuse hostmem backends of a choice for main RAM without add=
+ing
+   extra CLI options to duplicate hostmem features.
+   Recent case was -mem-shared, to enable vhost-user on targets that don't
+   support hostmem backends [1] (ex: s390)
+ * move RAM allocation from individual boards into generic machine code and
+   provide them with prepared MemoryRegion.
+ * clean up deprecated NUMA features which were tied to the old API (see pa=
+tches)
+    - "numa: remove deprecated -mem-path fallback to anonymous RAM"
+    - (POSTPONED, waiting on libvirt side) "forbid '-numa node,mem' for 5.0=
+ and newer machine types"
+    - (POSTPONED) "numa: remove deprecated implicit RAM distribution betwee=
+n nodes"
+
+Conversion introduces a new machine.memory-backend property and wrapper cod=
+e that
+aliases global -mem-path and -mem-alloc into automatically created hostmem
+backend properties (provided memory-backend was not set explicitly given by=
+ user).
+And then follows bulk of trivial patches that incrementally convert individ=
+ual
+boards to using machine.memory-backend provided MemoryRegion.
+
+Board conversion typically involves:
+ * providing MachineClass::default_ram_size and MachineClass::default_ram_i=
+d
+   so generic code could create default backend if user didn't explicitly p=
+rovide
+   memory-backend or -m options
+ * dropping memory_region_allocate_system_memory() call
+ * using convenience MachineState::ram MemoryRegion, which points to Memory=
+Region
+   allocated by ram-memdev
+On top of that for some boards:
+ * added missing ram_size checks (typically it were boards with fixed ram s=
+ize)
+ * ram_size fixups were replaced by checks and hard errors, forcing user to
+   provide correct "-m" values instead of ignoring it and continuing runnin=
+g.
+
+After all boards are converted the old API is removed and memory allocation
+routines are cleaned up.
+
+git tree for testing:
+  https://github.com/imammedo/qemu convert_main_ram_to_memdev_v5
+
+previous rev:
+  https://github.com/imammedo/qemu convert_main_ram_to_memdev_v4
+
+CC: Paolo Bonzini <pbonzini@redhat.com>
+
+Igor Mammedov (79):
+  numa: remove deprecated -mem-path fallback to anonymous RAM
+  machine: introduce memory-backend property
+  machine: alias -mem-path and -mem-prealloc into memory-foo backend
+  machine: introduce convenience MachineState::ram
+  initialize MachineState::ram in NUMA case
+  vl.c: move -m parsing after memory backends has been processed
+  vl.c: ensure that ram_size matches size of machine.memory-backend
+  alpha/dp264: use memdev for RAM
+  arm/aspeed: actually check RAM size
+  arm/aspeed: use memdev for RAM
+  arm/collie: use memdev for RAM
+  arm/cubieboard: use memdev for RAM
+  arm/digic_boards: use memdev for RAM
+  arm/highbank: use memdev for RAM
+  arm/imx25_pdk: drop RAM size fixup
+  arm/imx25_pdk: use memdev for RAM
+  arm/integratorcp: use memdev for RAM
+  arm/kzm: drop RAM size fixup
+  arm/kzm: use memdev for RAM
+  arm/mcimx6ul-evk: use memdev for RAM
+  arm/mcimx7d-sabre: use memdev for RAM
+  arm/mps2-tz: use memdev for RAM
+  arm/mps2: use memdev for RAM
+  arm/musicpal: use memdev for RAM
+  arm/nseries: use memdev for RAM
+  arm/omap_sx1: use memdev for RAM
+  arm/palm: use memdev for RAM
+  arm/sabrelite: use memdev for RAM
+  arm/raspi: use memdev for RAM
+  arm/sbsa-ref: use memdev for RAM
+  arm/versatilepb: use memdev for RAM
+  arm/vexpress: use memdev for RAM
+  arm/virt: use memdev for RAM
+  arm/xilinx_zynq: drop RAM size fixup
+  arm/xilinx_zynq: use memdev for RAM
+  arm/xlnx-versal-virt: use memdev for RAM
+  arm/xlnx-zcu102: use memdev for RAM
+  s390x/s390-virtio-ccw: use memdev for RAM
+  null-machine: use memdev for RAM
+  cris/axis_dev88: use memdev for RAM
+  hppa: use memdev for RAM
+  x86/microvm: use memdev for RAM
+  x86/pc: use memdev for RAM
+  lm32/lm32_boards: use memdev for RAM
+  lm32/milkymist: use memdev for RAM
+  m68k/an5206: use memdev for RAM
+  m68k/q800: use memdev for RAM
+  m68k/mcf5208: use memdev for RAM
+  m68k/next-cube: use memdev for RAM
+  mips/boston: use memdev for RAM
+  mips/mips_fulong2e: drop RAM size fixup
+  mips/mips_fulong2e: use memdev for RAM
+  mips/mips_jazz: use memdev for RAM
+  mips/mips_jazz: add max ram size check
+  mips/mips_malta: use memdev for RAM
+  mips/mips_mipssim: use memdev for RAM
+  mips/mips_r4k: use memdev for RAM
+  ppc/e500: drop RAM size fixup
+  ppc/e500: use memdev for RAM
+  ppc/mac_newworld: use memdev for RAM
+  ppc/mac_oldworld: use memdev for RAM
+  ppc/pnv: use memdev for RAM
+  ppc/ppc405_boards: add RAM size checks
+  ppc/ppc405_boards: use memdev for RAM
+  ppc/{ppc440_bamboo, sam460ex}: drop RAM size fixup
+  ppc/{ppc440_bamboo, sam460ex}: use memdev for RAM
+  ppc/spapr: use memdev for RAM
+  ppc/virtex_ml507: use memdev for RAM
+  sparc/leon3: use memdev for RAM
+  sparc/sun4m: use memdev for RAM
+  sparc/niagara: use memdev for RAM
+  remove no longer used memory_region_allocate_system_memory()
+  exec: cleanup qemu_minrampagesize()/qemu_maxrampagesize()
+  exec: drop bogus mem_path from qemu_ram_alloc_from_fd()
+  make mem_path local variable
+  hostmem: introduce "prealloc-threads" property
+  hostmem: fix strict bind policy
+  tests/numa-test: make top level args dynamic and g_autofree(cli)
+    cleanups
+  tests:numa-test: use explicit memdev to specify node RAM
+
+ hw/alpha/alpha_sys.h          |   2 +-
+ include/hw/boards.h           |  54 ++++++-------
+ include/hw/misc/aspeed_sdmc.h |   1 +
+ include/hw/ppc/ppc4xx.h       |   9 +--
+ include/sysemu/hostmem.h      |  20 ++++-
+ include/sysemu/numa.h         |   1 +
+ include/sysemu/sysemu.h       |   2 -
+ backends/hostmem-file.c       |   8 --
+ backends/hostmem-memfd.c      |   1 -
+ backends/hostmem-ram.c        |   2 -
+ backends/hostmem.c            |  53 +++++++++----
+ exec.c                        |  64 ++--------------
+ hw/alpha/dp264.c              |   3 +-
+ hw/alpha/typhoon.c            |   8 +-
+ hw/arm/aspeed.c               |  18 ++---
+ hw/arm/collie.c               |  17 +++--
+ hw/arm/cubieboard.c           |  25 ++----
+ hw/arm/digic_boards.c         |  40 +++++-----
+ hw/arm/highbank.c             |  10 +--
+ hw/arm/imx25_pdk.c            |  13 ++--
+ hw/arm/integratorcp.c         |   9 +--
+ hw/arm/kzm.c                  |  18 ++---
+ hw/arm/mcimx6ul-evk.c         |  25 +++---
+ hw/arm/mcimx7d-sabre.c        |  25 +++---
+ hw/arm/mps2-tz.c              |  15 +++-
+ hw/arm/mps2.c                 |  15 +++-
+ hw/arm/musicpal.c             |  18 +++--
+ hw/arm/nseries.c              |  32 ++++----
+ hw/arm/omap_sx1.c             |  20 +++--
+ hw/arm/palm.c                 |  20 +++--
+ hw/arm/raspi.c                |  10 +--
+ hw/arm/sabrelite.c            |  23 ++----
+ hw/arm/sbsa-ref.c             |   7 +-
+ hw/arm/versatilepb.c          |   7 +-
+ hw/arm/vexpress.c             |  14 ++--
+ hw/arm/virt.c                 |   7 +-
+ hw/arm/xilinx_zynq.c          |  20 +++--
+ hw/arm/xlnx-versal-virt.c     |   7 +-
+ hw/arm/xlnx-zcu102.c          |   7 +-
+ hw/core/machine.c             |  48 ++++++++++++
+ hw/core/null-machine.c        |   8 +-
+ hw/core/numa.c                | 101 +++++++------------------
+ hw/cris/axis_dev88.c          |   8 +-
+ hw/hppa/machine.c             |  10 +--
+ hw/i386/microvm.c             |  12 ++-
+ hw/i386/pc.c                  |  19 +++--
+ hw/lm32/lm32_boards.c         |  39 ++++++----
+ hw/lm32/milkymist.c           |  21 ++++--
+ hw/m68k/an5206.c              |   5 +-
+ hw/m68k/mcf5208.c             |   5 +-
+ hw/m68k/next-cube.c           |   5 +-
+ hw/m68k/q800.c                |   6 +-
+ hw/mips/boston.c              |  11 ++-
+ hw/mips/mips_fulong2e.c       |  15 ++--
+ hw/mips/mips_jazz.c           |  12 ++-
+ hw/mips/mips_malta.c          |  10 +--
+ hw/mips/mips_mipssim.c        |   9 +--
+ hw/mips/mips_r4k.c            |  12 +--
+ hw/misc/aspeed_sdmc.c         |  83 +++++++++++++++-----
+ hw/ppc/e500.c                 |  17 ++---
+ hw/ppc/e500plat.c             |   1 +
+ hw/ppc/mac_newworld.c         |   6 +-
+ hw/ppc/mac_oldworld.c         |   6 +-
+ hw/ppc/mpc8544ds.c            |   1 +
+ hw/ppc/pnv.c                  |   8 +-
+ hw/ppc/ppc405_boards.c        |  48 +++++++-----
+ hw/ppc/ppc440_bamboo.c        |  12 ++-
+ hw/ppc/ppc4xx_devs.c          |  63 ++++++++--------
+ hw/ppc/sam460ex.c             |   6 +-
+ hw/ppc/spapr.c                |   8 +-
+ hw/ppc/virtex_ml507.c         |  12 ++-
+ hw/s390x/s390-virtio-ccw.c    |   7 +-
+ hw/sparc/leon3.c              |   6 +-
+ hw/sparc/sun4m.c              |  74 +++++++++---------
+ hw/sparc64/niagara.c          |   7 +-
+ qemu-deprecated.texi          |   9 ---
+ tests/qtest/numa-test.c       | 138 ++++++++++++++++++----------------
+ vl.c                          |  78 +++++++++++++++----
+ 78 files changed, 822 insertions(+), 774 deletions(-)
+
+--=20
+2.18.1
+
 
