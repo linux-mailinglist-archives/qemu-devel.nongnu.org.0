@@ -2,47 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1666916077F
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 01:32:53 +0100 (CET)
-Received: from localhost ([::1]:38336 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3ACEB160781
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 01:34:09 +0100 (CET)
+Received: from localhost ([::1]:38350 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j3ULD-0002TA-Qq
-	for lists+qemu-devel@lfdr.de; Sun, 16 Feb 2020 19:32:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60875)
+	id 1j3UMS-000430-Aw
+	for lists+qemu-devel@lfdr.de; Sun, 16 Feb 2020 19:34:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32811)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1j3UKH-0001Uj-9T
- for qemu-devel@nongnu.org; Sun, 16 Feb 2020 19:31:54 -0500
+ (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1j3ULb-0003VU-Gd
+ for qemu-devel@nongnu.org; Sun, 16 Feb 2020 19:33:16 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1j3UKF-0006O3-To
- for qemu-devel@nongnu.org; Sun, 16 Feb 2020 19:31:53 -0500
-Received: from ozlabs.org ([2401:3900:2:1::2]:36771)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1j3UKE-0006Iy-Vy; Sun, 16 Feb 2020 19:31:51 -0500
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 48LQ0K4sZlz9sRJ; Mon, 17 Feb 2020 11:31:45 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1581899505;
- bh=QbcPdL8gZBf1hTlfBnOIoDXpFKPoT2GaZrkMXLZLG5M=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=TZVA7pnYJBQ2poRBbfUc5Qz+qyZCOONkrgDIZvTlP0LqwYBOFJIlN3PHtiZvwRROc
- hzYY9RGE092UZHAOcBugXtMBi6If2ytEq2rYMMCQGQkeOH2VAYs3MbDP+3aDwj8JrN
- uGIHHslDUaNMrau4COD+3iGS4Gi5ugcjKRh8qS4k=
-Date: Mon, 17 Feb 2020 11:31:37 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH v2 0/2] spapr: Fix device unplug vs CAS or migration
-Message-ID: <20200217003137.GB14136@umbus.fritz.box>
-References: <158169247578.3465937.4013536808417411649.stgit@bahia.lan>
+ (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1j3ULa-0007lp-B5
+ for qemu-devel@nongnu.org; Sun, 16 Feb 2020 19:33:15 -0500
+Received: from mail-yw1-f65.google.com ([209.85.161.65]:36194)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1j3ULa-0007kx-6P; Sun, 16 Feb 2020 19:33:14 -0500
+Received: by mail-yw1-f65.google.com with SMTP id n184so7173721ywc.3;
+ Sun, 16 Feb 2020 16:33:14 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=ntFayrsnLzjGEZwpem/YIw/uLhNdWCxZdWKJQxDYT9w=;
+ b=SExkCIxAwAtKHplaPAJE1mMGcgtn4TrCG9xYX3Eg6dLrJwwLUexvVCqWinW7zwcgT9
+ n/L3Igl3nh1owplsYFvatMNoZ7zaPBvY/PYqoI6VlNXkA+Sj59AOEEEA09slGKtTAAK7
+ fvtTScoUFE58WqHYODI7JYb8HJHvyDsFEyPqDAfxV1g6ICQZq9Aop2+1J3Y9B38Pap70
+ o730xqbRMmfABKXMrJO6xRnFLkwJJXyDTZvri/dR2sXAaHUVc8LjOQhiC1UR2IpTMuuQ
+ mwQEwhUeiVjr5PqNY88D13SLRCKCxzzde/UwNM1UFsbMk5e/NbF686H6uFEJQakhDkMI
+ Uq/g==
+X-Gm-Message-State: APjAAAXueaSaVBFAb3Q8Yf7himm0RUhNBKYO43tngkyjl3Wo1mkGiXzk
+ YnSnkKKGM/asQqwn4VN86OudJnO0wSmanOv+y/0=
+X-Google-Smtp-Source: APXvYqyM6FSvFDm3Ix3lL+Slmi8XTvz9m7dJdpjRviTdDtm8xQ+NL254ZPwdsc+8J59aB6SZpphOQumB0dAR7MxA85g=
+X-Received: by 2002:a81:2313:: with SMTP id j19mr11471741ywj.201.1581899593418; 
+ Sun, 16 Feb 2020 16:33:13 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="EuxKj2iCbKjpUGkD"
-Content-Disposition: inline
-In-Reply-To: <158169247578.3465937.4013536808417411649.stgit@bahia.lan>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2401:3900:2:1::2
+References: <20200215162337.5809-1-f4bug@amsat.org>
+ <CAL1e-=ij-KpK-O2e44C8_No-H7eshV-tz3iJ9cx0Q74xCLtyAQ@mail.gmail.com>
+In-Reply-To: <CAL1e-=ij-KpK-O2e44C8_No-H7eshV-tz3iJ9cx0Q74xCLtyAQ@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Date: Mon, 17 Feb 2020 01:33:02 +0100
+Message-ID: <CAAdtpL62_kO9PA8fpzdFg7+vRK2ufcYmVOSH6qOFjQrs-cZkBw@mail.gmail.com>
+Subject: Re: [PATCH] configure: Avoid compiling system tools on user build by
+ default
+To: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.85.161.65
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,68 +66,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Alexey Kardashevskiy <aik@ozlabs.ru>,
- qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ "open list:bochs" <qemu-block@nongnu.org>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Sun, Feb 16, 2020 at 8:27 PM Aleksandar Markovic
+<aleksandar.m.mail@gmail.com> wrote:
+>
+> 5:23 PM Sub, 15.02.2020. Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> =
+=D1=98=D0=B5 =D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:
+> >
+> > User-mode does not need the sytem tools. Do not build them by
+> > default if user specified --disable-system.
+> >
+> > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> > ---
+> >  configure | 11 ++++++++++-
+> >  1 file changed, 10 insertions(+), 1 deletion(-)
+> >
+>
+> It would be nice if somebody comes up with more detailed analysis on what=
+ is built for --disable-system, but in fact not needed at all.
 
---EuxKj2iCbKjpUGkD
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This patch disable building the following binary on a user-only build:
 
-On Fri, Feb 14, 2020 at 04:01:16PM +0100, Greg Kurz wrote:
-> While working on getting rid of CAS reboot, I realized that we currently
-> don't handle device hot unplug properly in the following situations:
->=20
-> 1) if the device is unplugged between boot and CAS, SLOF doesn't handle
->    the even, which is a known limitation. The device hence stays around
->    forever (specifically, until some other event is emitted and the guest
->    eventually completes the unplug or a reboot). Until we can teach SLOF
->    to correctly process the full FDT at CAS, we should trigger a CAS rebo=
-ot,
->    like we already do for hotplug.
->=20
-> 2) if the guest is migrated after the even was emitted but before the
->    guest could process it, the destination is unaware of the pending
->    unplug operation and doesn't remove the device when the guests
->    releases it. The 'unplug_requested' field of the DRC is actually state
->    that should be migrated.
->=20
-> Changes since v1:
->    - new spapr_drc_transient() helper that covers pending plug and unplug
->      situations for both CAS and migration
->    - as a mechanical consequence, fix unplug for CAS an migration in the
->      same patch
+- elf2dmp
+- qemu-edid
+- qemu-ga
+- qemu-img
+- qemu-io
+- qemu-nbd
+- ivshmem-client
+- ivshmem-server
 
-Applied to ppc-for-5.0, thanks.
+Maybe Laurent can amend that to the description, else I can respin.
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+> How does your change affect the size of the executable?
 
---EuxKj2iCbKjpUGkD
-Content-Type: application/pgp-signature; name="signature.asc"
+Their size depends of the build option used (i.e. -ggdb vs -Os -s).
 
------BEGIN PGP SIGNATURE-----
+The bigger difference is the build runs faster.
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl5J3ukACgkQbDjKyiDZ
-s5KLbxAAxpC7+r0JjQksHvcA2e50TbrxuvsglGTCZ9ivXXC7GB8wkiqJFACJxQEY
-w9VmW0erxPTZhaV4a14o+4FRLxfLDABkVtKBEiQwf67d0NBEOtPJ8XXrb3dLcLbp
-RPUSj4KZLXUunKaQYMLo7Du0XQqm3f58zRuNUk3tZAV5NvUN4e+yzHCHFVmgLNHa
-WTjRMHQnMNSgm3xSIU5DhLXBR2Pn7XfQnBu7Ldk/qRWV1B91LE01RochXgeoTJqD
-c+SGUIqQ4RSvcFFNITUYyZgre5qOkHs/PSs125C5/yaHXnWaCVXzyIzmbUjP2LM9
-/RPc5T/B8XKQjVMyHl479VbDdHJJL1a2Qy8iNtgUmGkAOAdf+lrB4e6ES6Ocnpuv
-Y4M++O5id3Lii8PRgQWyg2vnpTQWAyu3re+H+2pGhacwQCTRRWwX1adfssiwPUg3
-EJggcj1WsXVDladQVdVLX8glvP9o3euvWuKB/aYarxczAjWJbEgqNPAbbnFulM+O
-Qqb2KsVShwCu4IUlnC4CvsVfaYb49MeDcHD9pzq/TOIfbDqU963anY4ofaWnOPYT
-N20/bF5QLJaP69pfojxHhME5D56TM/8disacyiZgo4MpIBRDOLl75qoYg2hQ8ujm
-/iQY4vfhurYUzmVUU3D/LWPNdHgrMWbB9FW7H0qKLwKgFqg3xCA=
-=zAGo
------END PGP SIGNATURE-----
-
---EuxKj2iCbKjpUGkD--
+> > diff --git a/configure b/configure
+> > index 16f94cd96b..557ca4bd04 100755
+> > --- a/configure
+> > +++ b/configure
+> > @@ -455,7 +455,7 @@ guest_agent_ntddscsi=3D"no"
+> >  guest_agent_msi=3D""
+> >  vss_win32_sdk=3D""
+> >  win_sdk=3D"no"
+> > -want_tools=3D"yes"
+> > +want_tools=3D""
+> >  libiscsi=3D""
+> >  libnfs=3D""
+> >  coroutine=3D""
+> > @@ -2199,6 +2199,15 @@ else
+> >      echo big/little test failed
+> >  fi
+> >
+> > +##########################################
+> > +# system tools
+> > +if test "$want_tools" !=3D "yes" && test "$softmmu" =3D "no"; then
+> > +    want_tools=3Dno
+> > +fi
+> > +if test -z "$want_tools"; then
+> > +    want_tools=3Dyes
+> > +fi
+> > +
+> >  ##########################################
+> >  # cocoa implies not SDL or GTK
+> >  # (the cocoa UI code currently assumes it is always the active UI
+> > --
+> > 2.21.1
+> >
+> >
 
