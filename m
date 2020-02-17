@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D025E1616CA
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 16:55:25 +0100 (CET)
-Received: from localhost ([::1]:47752 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C02CA1616CF
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 16:56:44 +0100 (CET)
+Received: from localhost ([::1]:47800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j3ik0-0001Sw-QC
-	for lists+qemu-devel@lfdr.de; Mon, 17 Feb 2020 10:55:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51011)
+	id 1j3ilH-0003kZ-Rl
+	for lists+qemu-devel@lfdr.de; Mon, 17 Feb 2020 10:56:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51025)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j3ij1-0000Bv-9l
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 10:54:24 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1j3ij2-0000EG-A7
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 10:54:25 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j3ij0-0007a0-1T
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 10:54:23 -0500
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:41512)
+ (envelope-from <peter.maydell@linaro.org>) id 1j3ij1-0007aa-2f
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 10:54:24 -0500
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:39446)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j3iiz-0007ZZ-Ra
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 10:54:21 -0500
-Received: by mail-wr1-x434.google.com with SMTP id c9so20362471wrw.8
- for <qemu-devel@nongnu.org>; Mon, 17 Feb 2020 07:54:21 -0800 (PST)
+ id 1j3ij0-0007aB-Sq
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 10:54:23 -0500
+Received: by mail-wm1-x32f.google.com with SMTP id c84so19026132wme.4
+ for <qemu-devel@nongnu.org>; Mon, 17 Feb 2020 07:54:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=CxKFlXsnQYhsWYWx6B12C8s0P7Rfc/lRy7Ey0zj8/uo=;
- b=oWfZavEHVAlA7oXC33ISZFvdaeTk2/oRRUg/omJpVuGWsAoaLTSfJY4M1PYpq+m6r+
- SCFwyJNRUPEp5CghFMyvGpetwDhxtBGqrXfm597xCn1c2qyYOCFPaSjkYK3GgDSPPHQy
- snkiGumDp9Z1u1KgJGUmehNGbAxvpN2vChZlR3S2ILAoDgbrd31V2Ef7fI59CS4wzt5a
- du/+A+ZSTntg2lNs2EbxZ0XogPtWyVLrOsKLEsztSPdApkntDUoizvhWCW1cDf90f2QI
- CPAcU/ilH1oxc9J5jccbKnVoZTkrhQ+SuUxopp94/BuK4Z+s2T04AfdHtnPZk1W8jdHz
- i9vQ==
+ bh=6hI0n20giRzzyVfmQ+VBLXwlFrGhiyF16wKxV55G/0g=;
+ b=NkMX4Kbl7cCq3zYZP8DTzWESHJPYbPAO27gzdVcyyfQMgvIQCfP6A4EB1KcL+N9PXc
+ hJD4Ru5NiOBKEYCWeL7eZnYTKAzoq7Ik6KNlUSpUtH/N3yjeb05fBcGfdq2o2wGjNgGH
+ o6buvHZGuGP2x//Rj4Ac4VnbxJ/ksdPc8deupP/TRuwk41W872O0PszHuuOcAHj3iL7l
+ CgVybJbaKM2ibBBTKnzuheLgiPX2hJR+4h+jXktAcjL28xxvPbLil2GzzqZk9sDiGjBo
+ WW6YfGiFKHFgn+aG5ILH6fJYO36rAUEmM4Yy9k+UPexE0ouWM1LeqcXhh/wbSSUgMNXu
+ fqVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=CxKFlXsnQYhsWYWx6B12C8s0P7Rfc/lRy7Ey0zj8/uo=;
- b=Mi7QBglEAY5H0ljmI2ZU7aYUkqj7Owv8yI3bnEF9/5yku3DszlQ6ML6Tf2fIyhZCmB
- hSlxn1E2vIHHYRgyHmc/24uomSPCT9fjNMMShNpJHgd9BVkWSLFpcX/GjEhN6BB+qHcd
- Xnfveam4GogGVQzp9LvQGcF2hBaxG2KQhZ9cCcRcPzyk/ZAflLkd7jP82B+eP6QKi7v9
- R1vRp3/mGu//7bYG6Q/kIbsWSEf2U7yBp5HeQbgrE5xh95x0ygLUWIl98vunPwQX4doW
- RBzUVipJaZEUmVP75uN2JQYgeP2Dm/w0gui+Jg9NRLuCg8BsGeXS6SW0vMeHTWxU5KLj
- tZnw==
-X-Gm-Message-State: APjAAAXM1zzrQNt5qOzbf8oj1rxeJCzCZcTQSKObK5HlEc3OXE9RVr7T
- UDkdtBwerUdCj77oqBq6BDoPcBPcj+PFhQ==
-X-Google-Smtp-Source: APXvYqy2p1r0hfwOfNL9cUfxVqjI8B6A2W7jUL7S+tzkeJvvjQNnWQKBvcx6sbbQFr9hKJdUy05nHA==
-X-Received: by 2002:a5d:6692:: with SMTP id l18mr22149470wru.382.1581954860158; 
- Mon, 17 Feb 2020 07:54:20 -0800 (PST)
+ bh=6hI0n20giRzzyVfmQ+VBLXwlFrGhiyF16wKxV55G/0g=;
+ b=MIyFvLWKc4fk5vtxv3ClFGN2aa5LGAX/17Vx9XYDDqpnXRiY7occK5Ls7E+7O6APU3
+ cy5YgwKm6Jwjo/GzuiiXUYIrM1QEN1xJjY04vhVg/krUTer0ulig5Kwf9UwrU3RMZpsB
+ iar3yErpqvAZidzCw9RwhBHCfC3BaGgzK+CHRhK8f2Z8eftZ7J6uLOYi79revE/O/g9M
+ xhCbUnmrOlV38WbZpGhqkKgvJK7eOdUOFk5/aS5kP7HFaRWldI2CdQdtIJ0bTsDXRrRk
+ 6m7bq5wzxuZWPf0PYgWOsZC5YPuh+Xvd2jou7LFpCXiVhc9YGupFn05+agT6KgpaQdeD
+ DLyw==
+X-Gm-Message-State: APjAAAVan2Y9AZsw4IJ7EbmC784LidCKqU7laC8TP2Y7fJjNv6aEg/yd
+ o0AigTSrJ/AEpq1TIhYcJ7s8012pXrdSTw==
+X-Google-Smtp-Source: APXvYqwjqh7QxCf0PS64C/vfBFDtW59A/gWmvKGhseqHmRPTR39sleAE1s3EDlpaaFscbfRMXoIjDQ==
+X-Received: by 2002:a1c:bc08:: with SMTP id m8mr24004846wmf.189.1581954861632; 
+ Mon, 17 Feb 2020 07:54:21 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id q9sm1465626wrx.18.2020.02.17.07.54.18
+ by smtp.gmail.com with ESMTPSA id q9sm1465626wrx.18.2020.02.17.07.54.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Feb 2020 07:54:19 -0800 (PST)
+ Mon, 17 Feb 2020 07:54:21 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/3] docs: Create new 'tools' manual
-Date: Mon, 17 Feb 2020 15:54:13 +0000
-Message-Id: <20200217155415.30949-2-peter.maydell@linaro.org>
+Subject: [PATCH 2/3] docs: Move qemu-option-trace.rst.inc to docs/
+Date: Mon, 17 Feb 2020 15:54:14 +0000
+Message-Id: <20200217155415.30949-3-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200217155415.30949-1-peter.maydell@linaro.org>
 References: <20200217155415.30949-1-peter.maydell@linaro.org>
@@ -65,7 +65,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::434
+X-Received-From: 2a00:1450:4864:20::32f
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,127 +84,90 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Some of the documentation for QEMU "tools" which are standalone
-binaries like qemu-img is an awkward fit in our current 5-manual
-split. We've put it into "interop", but they're not really
-about interoperability.
+The qemu-option-trace.rst.inc file contains a rST documentation
+fragment which describes trace options common to qemu-nbd and
+qemu-img.  We put this file into interop/, but we'd like to move the
+qemu-nbd and qemu-img files into the tools/ manual.  We could move
+the .rst.inc file along with them, but we're eventually going to want
+to use it for the main QEMU binary options documentation too, and
+that will be in system/.  So move qemu-option-trace.rst.inc to the
+top-level docs/ directory, where all these files can include it via
 
-Create a new top level manual "tools" which will be a better
-home for this documentation. This commit creates an empty
-initial manual; we will move the relevant documentation
-files in a subsequent commit.
+   .. include:: ../qemu-option-trace.rst.inc
+
+This does have the slight downside that we now need to explicitly
+tell Make which manuals use this file rather than relying on
+a wildcard for all .rst.inc in the manual.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- Makefile             |  8 +++++++-
- docs/index.html.in   |  1 +
- docs/index.rst       |  1 +
- docs/tools/conf.py   | 16 ++++++++++++++++
- docs/tools/index.rst | 11 +++++++++++
- 5 files changed, 36 insertions(+), 1 deletion(-)
- create mode 100644 docs/tools/conf.py
- create mode 100644 docs/tools/index.rst
+ Makefile                                     | 5 ++---
+ docs/interop/qemu-img.rst                    | 2 +-
+ docs/interop/qemu-nbd.rst                    | 2 +-
+ docs/{interop => }/qemu-option-trace.rst.inc | 0
+ 4 files changed, 4 insertions(+), 5 deletions(-)
+ rename docs/{interop => }/qemu-option-trace.rst.inc (100%)
 
 diff --git a/Makefile b/Makefile
-index b5a7377cb18..ceb85f67c4b 100644
+index ceb85f67c4b..886d4299d54 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -773,6 +773,7 @@ distclean: clean
- 	$(call clean-manual,interop)
- 	$(call clean-manual,specs)
- 	$(call clean-manual,system)
-+	$(call clean-manual,tools)
- 	for d in $(TARGET_DIRS); do \
- 	rm -rf $$d || exit 1 ; \
-         done
-@@ -830,6 +831,7 @@ install-sphinxdocs: sphinxdocs
- 	$(call install-manual,interop)
- 	$(call install-manual,specs)
- 	$(call install-manual,system)
-+	$(call install-manual,tools)
+@@ -1036,7 +1036,6 @@ sphinxdocs: $(MANUAL_BUILDDIR)/devel/index.html \
+ build-manual = $(call quiet-command,CONFDIR="$(qemu_confdir)" $(SPHINX_BUILD) $(if $(V),,-q) -W -b $2 -D version=$(VERSION) -D release="$(FULL_VERSION)" -d .doctrees/$1-$2 $(SRC_PATH)/docs/$1 $(MANUAL_BUILDDIR)/$1 ,"SPHINX","$(MANUAL_BUILDDIR)/$1")
+ # We assume all RST files in the manual's directory are used in it
+ manual-deps = $(wildcard $(SRC_PATH)/docs/$1/*.rst) \
+-              $(wildcard $(SRC_PATH)/docs/$1/*.rst.inc) \
+               $(SRC_PATH)/docs/$1/conf.py $(SRC_PATH)/docs/conf.py
+ # Macro to write out the rule and dependencies for building manpages
+ # Usage: $(call define-manpage-rule,manualname,manpage1 manpage2...[,extradeps])
+@@ -1050,7 +1049,7 @@ endef
+ $(MANUAL_BUILDDIR)/devel/index.html: $(call manual-deps,devel)
+ 	$(call build-manual,devel,html)
  
- install-doc: $(DOCS) install-sphinxdocs
- 	$(INSTALL_DIR) "$(DESTDIR)$(qemu_docdir)"
-@@ -1023,7 +1025,8 @@ docs/version.texi: $(SRC_PATH)/VERSION config-host.mak
- sphinxdocs: $(MANUAL_BUILDDIR)/devel/index.html \
-             $(MANUAL_BUILDDIR)/interop/index.html \
-             $(MANUAL_BUILDDIR)/specs/index.html \
--            $(MANUAL_BUILDDIR)/system/index.html
-+            $(MANUAL_BUILDDIR)/system/index.html \
-+            $(MANUAL_BUILDDIR)/tools/index.html
+-$(MANUAL_BUILDDIR)/interop/index.html: $(call manual-deps,interop) $(SRC_PATH)/qemu-img-cmds.hx
++$(MANUAL_BUILDDIR)/interop/index.html: $(call manual-deps,interop) $(SRC_PATH)/qemu-img-cmds.hx $(SRC_PATH)/docs/qemu-option-trace.rst.inc
+ 	$(call build-manual,interop,html)
  
- # Canned command to build a single manual
- # Arguments: $1 = manual name, $2 = Sphinx builder ('html' or 'man')
-@@ -1056,6 +1059,9 @@ $(MANUAL_BUILDDIR)/specs/index.html: $(call manual-deps,specs)
- $(MANUAL_BUILDDIR)/system/index.html: $(call manual-deps,system)
- 	$(call build-manual,system,html)
- 
-+$(MANUAL_BUILDDIR)/tools/index.html: $(call manual-deps,tools)
-+	$(call build-manual,tools,html)
-+
+ $(MANUAL_BUILDDIR)/specs/index.html: $(call manual-deps,specs)
+@@ -1065,7 +1064,7 @@ $(MANUAL_BUILDDIR)/tools/index.html: $(call manual-deps,tools)
  $(call define-manpage-rule,interop,\
         qemu-ga.8 qemu-img.1 qemu-nbd.8 qemu-trace-stap.1\
         virtiofsd.1 virtfs-proxy-helper.1,\
-diff --git a/docs/index.html.in b/docs/index.html.in
-index 8512933d145..cf61b1cf448 100644
---- a/docs/index.html.in
-+++ b/docs/index.html.in
-@@ -13,6 +13,7 @@
-             <li><a href="interop/index.html">System Emulation Management and Interoperability Guide</a></li>
-             <li><a href="specs/index.html">System Emulation Guest Hardware Specifications</a></li>
-             <li><a href="system/index.html">System Emulation User's Guide</a></li>
-+            <li><a href="tools/index.html">Tools Guide</a></li>
-         </ul>
-     </body>
- </html>
-diff --git a/docs/index.rst b/docs/index.rst
-index 46405d4f077..acd604fa8a9 100644
---- a/docs/index.rst
-+++ b/docs/index.rst
-@@ -14,3 +14,4 @@ Welcome to QEMU's documentation!
-    devel/index
-    specs/index
-    system/index
-+   tools/index
-diff --git a/docs/tools/conf.py b/docs/tools/conf.py
-new file mode 100644
-index 00000000000..56461110b9d
---- /dev/null
-+++ b/docs/tools/conf.py
-@@ -0,0 +1,16 @@
-+# -*- coding: utf-8 -*-
-+#
-+# QEMU documentation build configuration file for the 'tools' manual.
-+#
-+# This includes the top level conf file and then makes any necessary tweaks.
-+import sys
-+import os
-+
-+qemu_docdir = os.path.abspath("..")
-+parent_config = os.path.join(qemu_docdir, "conf.py")
-+exec(compile(open(parent_config, "rb").read(), parent_config, 'exec'))
-+
-+# This slightly misuses the 'description', but is the best way to get
-+# the manual title to appear in the sidebar.
-+html_theme_options['description'] = \
-+    u'Tools Guide'
-diff --git a/docs/tools/index.rst b/docs/tools/index.rst
-new file mode 100644
-index 00000000000..c5a4a13ec7a
---- /dev/null
-+++ b/docs/tools/index.rst
-@@ -0,0 +1,11 @@
-+.. This is the top level page for the 'tools' manual
-+
-+
-+QEMU Tools Guide
-+================
-+
-+
-+Contents:
-+
-+.. toctree::
-+   :maxdepth: 2
+-       $(SRC_PATH)/qemu-img-cmds.hx)
++       $(SRC_PATH)/qemu-img-cmds.hx $(SRC_PATH)/docs/qemu-option-trace.rst.inc)
+ 
+ $(call define-manpage-rule,system,qemu-block-drivers.7)
+ 
+diff --git a/docs/interop/qemu-img.rst b/docs/interop/qemu-img.rst
+index 42e4451db4a..b6cab449750 100644
+--- a/docs/interop/qemu-img.rst
++++ b/docs/interop/qemu-img.rst
+@@ -34,7 +34,7 @@ Standard options:
+ 
+ .. option:: -T, --trace [[enable=]PATTERN][,events=FILE][,file=FILE]
+ 
+-  .. include:: qemu-option-trace.rst.inc
++  .. include:: ../qemu-option-trace.rst.inc
+ 
+ The following commands are supported:
+ 
+diff --git a/docs/interop/qemu-nbd.rst b/docs/interop/qemu-nbd.rst
+index e5484031005..667861cb22e 100644
+--- a/docs/interop/qemu-nbd.rst
++++ b/docs/interop/qemu-nbd.rst
+@@ -188,7 +188,7 @@ driver options if ``--image-opts`` is specified.
+ 
+ .. option:: -T, --trace [[enable=]PATTERN][,events=FILE][,file=FILE]
+ 
+-  .. include:: qemu-option-trace.rst.inc
++  .. include:: ../qemu-option-trace.rst.inc
+ 
+ Examples
+ --------
+diff --git a/docs/interop/qemu-option-trace.rst.inc b/docs/qemu-option-trace.rst.inc
+similarity index 100%
+rename from docs/interop/qemu-option-trace.rst.inc
+rename to docs/qemu-option-trace.rst.inc
 -- 
 2.20.1
 
