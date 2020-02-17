@@ -2,71 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F3C31619AB
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 19:20:06 +0100 (CET)
-Received: from localhost ([::1]:50214 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BBA11619B7
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 19:25:51 +0100 (CET)
+Received: from localhost ([::1]:50338 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j3l01-0003vY-JG
-	for lists+qemu-devel@lfdr.de; Mon, 17 Feb 2020 13:20:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43873)
+	id 1j3l5a-0002Z3-4P
+	for lists+qemu-devel@lfdr.de; Mon, 17 Feb 2020 13:25:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45380)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eric.auger@redhat.com>) id 1j3ktn-0001CY-II
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 13:13:41 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1j3l4H-0001XZ-7o
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 13:24:30 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eric.auger@redhat.com>) id 1j3ktl-000065-45
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 13:13:38 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:45754
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <dgilbert@redhat.com>) id 1j3l4E-0005tH-Pi
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 13:24:28 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:52178
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
- id 1j3ktl-00005c-0f
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 13:13:37 -0500
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1j3l4E-0005sR-LA
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 13:24:26 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581963216;
+ s=mimecast20190719; t=1581963865;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Vu0NDOs5bX84yqI/RzpqF8mYOzabhU2rSIpfkEV5kH0=;
- b=bPO2EUBOwQDqux7zebr0tNUODoVNkaQAWxlH60cKUTjlgVTf+08BVt9y5B40Tmf3c8/Xqz
- cH+c6t1XuYYqOQsKKJiPSS4f6Gb7LHJOmklFAwnCrYzvelWVDibM5UovJUDSWjnYNK4R0P
- wZ7ldenOOhVrsTood3zC4z4V0RMWg+E=
+ bh=uVJjsfIr2c5gRiCAbfvFGBUbypqM7ujb7TaF0DpianY=;
+ b=PPaRfg/bg3I4OCZhzHmijO+pyGQvTS6bC7ebRlxPFY/Bk+W44RCi/OP1cNQ51KXqt+y72i
+ vNXhzXcm13Ofix0/pinOrpgjtxSolzyl4BuKPyz3xvYWh9ItrSSzgsgv8O+wBnFJgiTRKg
+ gQz8iHI/3O5whDlXwDeMfwpBxye2VFc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-29-cIMbjo3UPXCX9haBMrNsIw-1; Mon, 17 Feb 2020 13:13:29 -0500
+ us-mta-386-m8pPkyPjPo6FwvcW6ewqpw-1; Mon, 17 Feb 2020 13:24:21 -0500
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A3D28189F763;
- Mon, 17 Feb 2020 18:13:27 +0000 (UTC)
-Received: from [10.36.116.239] (ovpn-116-239.ams2.redhat.com [10.36.116.239])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3E39319C69;
- Mon, 17 Feb 2020 18:13:19 +0000 (UTC)
-Subject: Re: [RFC v2 5/6] tpm: Add the SysBus TPM TIS device
-To: Stefan Berger <stefanb@linux.ibm.com>, eric.auger.pro@gmail.com,
- qemu-devel@nongnu.org, qemu-arm@nongnu.org, peter.maydell@linaro.org
-References: <20200214183704.14389-1-eric.auger@redhat.com>
- <20200214183704.14389-6-eric.auger@redhat.com>
- <b0c30022-e6f3-b52d-60f8-e94db6b6fe99@linux.ibm.com>
-From: Auger Eric <eric.auger@redhat.com>
-Message-ID: <0f249506-1d16-2a4c-c3b4-1644536a64f5@redhat.com>
-Date: Mon, 17 Feb 2020 19:13:17 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.4.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E4E83800D50;
+ Mon, 17 Feb 2020 18:24:20 +0000 (UTC)
+Received: from work-vm (ovpn-116-78.ams2.redhat.com [10.36.116.78])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9D04F19C69;
+ Mon, 17 Feb 2020 18:24:16 +0000 (UTC)
+Date: Mon, 17 Feb 2020 18:24:14 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH 3/3] docs: Move tools documentation to tools manual
+Message-ID: <20200217182414.GC3434@work-vm>
+References: <20200217155415.30949-1-peter.maydell@linaro.org>
+ <20200217155415.30949-4-peter.maydell@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <b0c30022-e6f3-b52d-60f8-e94db6b6fe99@linux.ibm.com>
-Content-Language: en-US
+In-Reply-To: <20200217155415.30949-4-peter.maydell@linaro.org>
+User-Agent: Mutt/1.13.3 (2020-01-12)
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: cIMbjo3UPXCX9haBMrNsIw-1
+X-MC-Unique: m8pPkyPjPo6FwvcW6ewqpw-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,288 +73,262 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcandre.lureau@redhat.com, lersek@redhat.com, ardb@kernel.org,
- philmd@redhat.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>, qemu-devel@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Stefan,
+* Peter Maydell (peter.maydell@linaro.org) wrote:
+> Move the following tools documentation files to the new tools manual:
+>=20
+>  docs/interop/qemu-img.rst
+>  docs/interop/qemu-nbd.rst
+>  docs/interop/virtfs-proxy-helper.rst
+>  docs/interop/qemu-trace-stap.rst
+>  docs/interop/virtiofsd.rst
+>=20
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 
-On 2/16/20 7:32 PM, Stefan Berger wrote:
-> On 2/14/20 1:37 PM, Eric Auger wrote:
->> Introduce the tpm-tis-device which is a sysbus device
->> and is bound to be used on ARM.
->>
->> Signed-off-by: Eric Auger <eric.auger@redhat.com>
->> ---
->> =C2=A0 hw/tpm/Kconfig=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 |=C2=A0=C2=A0 5 ++
->> =C2=A0 hw/tpm/Makefile.objs=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 1 +
->> =C2=A0 hw/tpm/tpm_tis_sysbus.c | 159 +++++++++++++++++++++++++++++++++++=
-+++++
->> =C2=A0 include/sysemu/tpm.h=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 1 +
->> =C2=A0 4 files changed, 166 insertions(+)
->> =C2=A0 create mode 100644 hw/tpm/tpm_tis_sysbus.c
->>
->> diff --git a/hw/tpm/Kconfig b/hw/tpm/Kconfig
->> index 686f8206bb..4794e7fe28 100644
->> --- a/hw/tpm/Kconfig
->> +++ b/hw/tpm/Kconfig
->> @@ -7,6 +7,11 @@ config TPM_TIS_ISA
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 depends on TPM && ISA_BUS
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 select TPM_TIS
->> =C2=A0 +config TPM_TIS_SYSBUS
->> +=C2=A0=C2=A0=C2=A0 bool
->> +=C2=A0=C2=A0=C2=A0 depends on TPM
->> +=C2=A0=C2=A0=C2=A0 select TPM_TIS
->> +
->> =C2=A0 config TPM_TIS
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bool
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 depends on TPM
->> diff --git a/hw/tpm/Makefile.objs b/hw/tpm/Makefile.objs
->> index 3ef2036cca..f1ec4beb95 100644
->> --- a/hw/tpm/Makefile.objs
->> +++ b/hw/tpm/Makefile.objs
->> @@ -1,6 +1,7 @@
->> =C2=A0 common-obj-$(CONFIG_TPM) +=3D tpm_util.o
->> =C2=A0 obj-$(call lor,$(CONFIG_TPM_TIS),$(CONFIG_TPM_CRB)) +=3D tpm_ppi.=
-o
->> =C2=A0 common-obj-$(CONFIG_TPM_TIS_ISA) +=3D tpm_tis_isa.o
->> +common-obj-$(CONFIG_TPM_TIS_SYSBUS) +=3D tpm_tis_sysbus.o
->> =C2=A0 common-obj-$(CONFIG_TPM_TIS) +=3D tpm_tis_common.o
->> =C2=A0 common-obj-$(CONFIG_TPM_CRB) +=3D tpm_crb.o
->> =C2=A0 common-obj-$(CONFIG_TPM_PASSTHROUGH) +=3D tpm_passthrough.o
->> diff --git a/hw/tpm/tpm_tis_sysbus.c b/hw/tpm/tpm_tis_sysbus.c
->> new file mode 100644
->> index 0000000000..18c02aed67
->> --- /dev/null
->> +++ b/hw/tpm/tpm_tis_sysbus.c
->> @@ -0,0 +1,159 @@
->> +/*
->> + * tpm_tis_sysbus.c - QEMU's TPM TIS SYSBUS Device
->> + *
->> + * Copyright (C) 2006,2010-2013 IBM Corporation
->> + *
->> + * Authors:
->> + *=C2=A0 Stefan Berger <stefanb@us.ibm.com>
->> + *=C2=A0 David Safford <safford@us.ibm.com>
->> + *
->> + * Xen 4 support: Andrease Niederl <andreas.niederl@iaik.tugraz.at>
->> + *
->> + * This work is licensed under the terms of the GNU GPL, version 2 or
->> later.
->> + * See the COPYING file in the top-level directory.
->> + *
->> + * Implementation of the TIS interface according to specs found at
->> + * http://www.trustedcomputinggroup.org. This implementation currently
->> + * supports version 1.3, 21 March 2013
->> + * In the developers menu choose the PC Client section then find the TI=
-S
->> + * specification.
->> + *
->> + * TPM TIS for TPM 2 implementation following TCG PC Client Platform
->> + * TPM Profile (PTP) Specification, Familiy 2.0, Revision 00.43
->> + */
->> +
->> +#include "qemu/osdep.h"
->> +#include "hw/qdev-properties.h"
->> +#include "migration/vmstate.h"
->> +#include "tpm_util.h"
->> +#include "hw/sysbus.h"
->> +#include "tpm_tis.h"
->> +
->> +typedef struct TPMStateSysBus {
->> +=C2=A0=C2=A0=C2=A0 /*< private >*/
->> +=C2=A0=C2=A0=C2=A0 SysBusDevice parent_obj;
->> +
->> +=C2=A0=C2=A0=C2=A0 /*< public >*/
->> +=C2=A0=C2=A0=C2=A0 TPMState state; /* not a QOM object */
->> +} TPMStateSysBus;
->> +
->> +#define TPM_TIS_SYSBUS(obj) OBJECT_CHECK(TPMStateSysBus, (obj),
->> TYPE_TPM_TIS_SYSBUS)
->> +
->> +static int tpm_tis_pre_save_sysbus(void *opaque)
->> +{
->> +=C2=A0=C2=A0=C2=A0 TPMStateSysBus *sbdev =3D opaque;
->> +
->> +=C2=A0=C2=A0=C2=A0 return tpm_tis_pre_save(&sbdev->state);
->> +}
->> +
->> +static const VMStateDescription vmstate_tpm_tis_sysbus =3D {
->> +=C2=A0=C2=A0=C2=A0 .name =3D "tpm-tis",
->> +=C2=A0=C2=A0=C2=A0 .version_id =3D 0,
->> +=C2=A0=C2=A0=C2=A0 .pre_save=C2=A0 =3D tpm_tis_pre_save_sysbus,
->> +=C2=A0=C2=A0=C2=A0 .fields =3D (VMStateField[]) {
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 VMSTATE_BUFFER(state.buffer,=
- TPMStateSysBus),
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 VMSTATE_UINT16(state.rw_offs=
-et, TPMStateSysBus),
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 VMSTATE_UINT8(state.active_l=
-octy, TPMStateSysBus),
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 VMSTATE_UINT8(state.aborting=
-_locty, TPMStateSysBus),
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 VMSTATE_UINT8(state.next_loc=
-ty, TPMStateSysBus),
->> +
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 VMSTATE_STRUCT_ARRAY(state.l=
-oc, TPMStateSysBus,
->> TPM_TIS_NUM_LOCALITIES,
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 0, vmstate_locty, TPMLocality),
->> +
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 VMSTATE_END_OF_LIST()
->> +=C2=A0=C2=A0=C2=A0 }
->> +};
->> +
->> +static void tpm_tis_sysbus_request_completed(TPMIf *ti, int ret)
->> +{
->> +=C2=A0=C2=A0=C2=A0 TPMStateSysBus *sbdev =3D TPM_TIS_SYSBUS(ti);
->> +=C2=A0=C2=A0=C2=A0 TPMState *s =3D &sbdev->state;
->> +
->> +=C2=A0=C2=A0=C2=A0 tpm_tis_request_completed(s, ret);
->> +}
->> +
->> +static enum TPMVersion tpm_tis_sysbus_get_tpm_version(TPMIf *ti)
->> +{
->> +=C2=A0=C2=A0=C2=A0 TPMStateSysBus *sbdev =3D TPM_TIS_SYSBUS(ti);
->> +=C2=A0=C2=A0=C2=A0 TPMState *s =3D &sbdev->state;
->> +
->> +=C2=A0=C2=A0=C2=A0 return tpm_tis_get_tpm_version(s);
->> +}
->> +
->> +static void tpm_tis_sysbus_reset(DeviceState *dev)
->> +{
->> +=C2=A0=C2=A0=C2=A0 TPMStateSysBus *sbdev =3D TPM_TIS_SYSBUS(dev);
->> +=C2=A0=C2=A0=C2=A0 TPMState *s =3D &sbdev->state;
->> +
->> +=C2=A0=C2=A0=C2=A0 return tpm_tis_reset(s);
->> +}
->> +
->> +static Property tpm_tis_sysbus_properties[] =3D {
->> +=C2=A0=C2=A0=C2=A0 DEFINE_PROP_UINT32("irq", TPMStateSysBus, state.irq_=
-num,
->> TPM_TIS_IRQ),
->> +=C2=A0=C2=A0=C2=A0 DEFINE_PROP_TPMBE("tpmdev", TPMStateSysBus, state.be=
-_driver),
->> +=C2=A0=C2=A0=C2=A0 DEFINE_PROP_BOOL("ppi", TPMStateSysBus, state.ppi_en=
-abled, true),
->> +=C2=A0=C2=A0=C2=A0 DEFINE_PROP_END_OF_LIST(),
->> +};
->> +
->> +static void tpm_tis_sysbus_initfn(Object *obj)
->> +{
->> +=C2=A0=C2=A0=C2=A0 TPMStateSysBus *sbdev =3D TPM_TIS_SYSBUS(obj);
->> +=C2=A0=C2=A0=C2=A0 TPMState *s =3D &sbdev->state;
->> +
->> +=C2=A0=C2=A0=C2=A0 memory_region_init_io(&s->mmio, obj, &tpm_tis_memory=
-_ops,
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 s, "tpm-tis-mmio",
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 TPM_TIS_NUM_LOCALITIES <<
->> TPM_TIS_LOCALITY_SHIFT);
->> +
->> +=C2=A0=C2=A0=C2=A0 sysbus_init_mmio(SYS_BUS_DEVICE(obj), &s->mmio);
->> +=C2=A0=C2=A0=C2=A0 sysbus_init_irq(SYS_BUS_DEVICE(obj), &s->irq);
->> +}
->> +
->> +static void tpm_tis_sysbus_realizefn(DeviceState *dev, Error **errp)
->> +{
->> +=C2=A0=C2=A0=C2=A0 TPMStateSysBus *sbdev =3D TPM_TIS_SYSBUS(dev);
->> +=C2=A0=C2=A0=C2=A0 TPMState *s =3D &sbdev->state;
->> +
->> +=C2=A0=C2=A0=C2=A0 if (!tpm_find()) {
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 error_setg(errp, "at most on=
-e TPM device is permitted");
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return;
->> +=C2=A0=C2=A0=C2=A0 }
->> +
->> +=C2=A0=C2=A0=C2=A0 if (!s->be_driver) {
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 error_setg(errp, "'tpmdev' p=
-roperty is required");
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return;
->> +=C2=A0=C2=A0=C2=A0 }
->> +}
->> +
->> +static void tpm_tis_sysbus_class_init(ObjectClass *klass, void *data)
->> +{
->> +=C2=A0=C2=A0=C2=A0 DeviceClass *dc =3D DEVICE_CLASS(klass);
->> +=C2=A0=C2=A0=C2=A0 TPMIfClass *tc =3D TPM_IF_CLASS(klass);
->> +
->> +=C2=A0=C2=A0=C2=A0 device_class_set_props(dc, tpm_tis_sysbus_properties=
-);
->> +=C2=A0=C2=A0=C2=A0 dc->vmsd=C2=A0 =3D &vmstate_tpm_tis_sysbus;
->> +=C2=A0=C2=A0=C2=A0 tc->model =3D TPM_MODEL_TPM_TIS;
->> +=C2=A0=C2=A0=C2=A0 dc->realize =3D tpm_tis_sysbus_realizefn;
->> +=C2=A0=C2=A0=C2=A0 dc->user_creatable =3D true;
->> +=C2=A0=C2=A0=C2=A0 dc->reset =3D tpm_tis_sysbus_reset;
->> +=C2=A0=C2=A0=C2=A0 tc->request_completed =3D tpm_tis_sysbus_request_com=
-pleted;
->> +=C2=A0=C2=A0=C2=A0 tc->get_version =3D tpm_tis_sysbus_get_tpm_version;
->> +}
->> +
->> +static const TypeInfo tpm_tis_sysbus_info =3D {
->> +=C2=A0=C2=A0=C2=A0 .name =3D TYPE_TPM_TIS_SYSBUS,
->> +=C2=A0=C2=A0=C2=A0 .parent =3D TYPE_SYS_BUS_DEVICE,
->> +=C2=A0=C2=A0=C2=A0 .instance_size =3D sizeof(TPMStateSysBus),
->> +=C2=A0=C2=A0=C2=A0 .instance_init =3D tpm_tis_sysbus_initfn,
->> +=C2=A0=C2=A0=C2=A0 .class_init=C2=A0 =3D tpm_tis_sysbus_class_init,
->> +=C2=A0=C2=A0=C2=A0 .interfaces =3D (InterfaceInfo[]) {
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 { TYPE_TPM_IF },
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 { }
->> +=C2=A0=C2=A0=C2=A0 }
->> +};
->> +
->> +static void tpm_tis_sysbus_register(void)
->> +{
->> +=C2=A0=C2=A0=C2=A0 type_register_static(&tpm_tis_sysbus_info);
->> +}
->> +
->> +type_init(tpm_tis_sysbus_register)
->> diff --git a/include/sysemu/tpm.h b/include/sysemu/tpm.h
->> index 1691b92c28..f37851b1aa 100644
->> --- a/include/sysemu/tpm.h
->> +++ b/include/sysemu/tpm.h
->> @@ -44,6 +44,7 @@ typedef struct TPMIfClass {
->> =C2=A0 } TPMIfClass;
->> =C2=A0 =C2=A0 #define TYPE_TPM_TIS_ISA=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "tpm-tis"
->> +#define TYPE_TPM_TIS_SYSBUS=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 "tpm-tis-device"
->=20
->=20
-> hm, replace the rather generic 'device' with 'sysbus'?
-I used the "-device" suffix because this kind of naming was used for
-virtio-<type>-device when based on MMIO rather than virtio-<type>-pci.
-For instance virtio-net-device instead of virtio-net-pci. There are
-quite a lot of devices using that suffix. I only see xen-sysbus with the
-sysbus suffix.
+Would docs/tools be the right place for the virtiofsd security guide
+(as previously posted there)?  It's not actually a manpage.
 
-Now personally I don't have any strong preference and I will pick up the
-name chosen by consensus.
+Dave
+> ---
+>  Makefile                                      | 34 ++++++++++---------
+>  docs/interop/conf.py                          | 12 -------
+>  docs/interop/index.rst                        |  5 ---
+>  docs/tools/conf.py                            | 17 ++++++++++
+>  docs/tools/index.rst                          |  6 ++++
+>  docs/{interop =3D> tools}/qemu-img.rst          |  0
+>  docs/{interop =3D> tools}/qemu-nbd.rst          |  0
+>  docs/{interop =3D> tools}/qemu-trace-stap.rst   |  0
+>  .../virtfs-proxy-helper.rst                   |  0
+>  docs/{interop =3D> tools}/virtiofsd.rst         |  0
+>  10 files changed, 41 insertions(+), 33 deletions(-)
+>  rename docs/{interop =3D> tools}/qemu-img.rst (100%)
+>  rename docs/{interop =3D> tools}/qemu-nbd.rst (100%)
+>  rename docs/{interop =3D> tools}/qemu-trace-stap.rst (100%)
+>  rename docs/{interop =3D> tools}/virtfs-proxy-helper.rst (100%)
+>  rename docs/{interop =3D> tools}/virtiofsd.rst (100%)
 >=20
+> diff --git a/Makefile b/Makefile
+> index 886d4299d54..7a9c682a2c0 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -345,11 +345,11 @@ endif
+> =20
+>  ifdef BUILD_DOCS
+>  DOCS=3Dqemu-doc.html qemu-doc.txt qemu.1
+> -DOCS+=3D$(MANUAL_BUILDDIR)/interop/qemu-img.1
+> -DOCS+=3D$(MANUAL_BUILDDIR)/interop/qemu-nbd.8
+> +DOCS+=3D$(MANUAL_BUILDDIR)/tools/qemu-img.1
+> +DOCS+=3D$(MANUAL_BUILDDIR)/tools/qemu-nbd.8
+>  DOCS+=3D$(MANUAL_BUILDDIR)/interop/qemu-ga.8
+>  ifeq ($(CONFIG_LINUX)$(CONFIG_SECCOMP)$(CONFIG_LIBCAP_NG),yyy)
+> -DOCS+=3D$(MANUAL_BUILDDIR)/interop/virtiofsd.1
+> +DOCS+=3D$(MANUAL_BUILDDIR)/tools/virtiofsd.1
+>  endif
+>  DOCS+=3D$(MANUAL_BUILDDIR)/system/qemu-block-drivers.7
+>  DOCS+=3Ddocs/interop/qemu-qmp-ref.html docs/interop/qemu-qmp-ref.txt doc=
+s/interop/qemu-qmp-ref.7
+> @@ -357,10 +357,10 @@ DOCS+=3Ddocs/interop/qemu-ga-ref.html docs/interop/=
+qemu-ga-ref.txt docs/interop/qe
+>  DOCS+=3Ddocs/qemu-cpu-models.7
+>  DOCS+=3D$(MANUAL_BUILDDIR)/index.html
+>  ifdef CONFIG_VIRTFS
+> -DOCS+=3D$(MANUAL_BUILDDIR)/interop/virtfs-proxy-helper.1
+> +DOCS+=3D$(MANUAL_BUILDDIR)/tools/virtfs-proxy-helper.1
+>  endif
+>  ifdef CONFIG_TRACE_SYSTEMTAP
+> -DOCS+=3D$(MANUAL_BUILDDIR)/interop/qemu-trace-stap.1
+> +DOCS+=3D$(MANUAL_BUILDDIR)/tools/qemu-trace-stap.1
+>  endif
+>  else
+>  DOCS=3D
+> @@ -848,12 +848,12 @@ ifdef CONFIG_POSIX
+>  =09$(INSTALL_DATA) $(MANUAL_BUILDDIR)/system/qemu-block-drivers.7 "$(DES=
+TDIR)$(mandir)/man7"
+>  =09$(INSTALL_DATA) docs/qemu-cpu-models.7 "$(DESTDIR)$(mandir)/man7"
+>  ifeq ($(CONFIG_TOOLS),y)
+> -=09$(INSTALL_DATA) $(MANUAL_BUILDDIR)/interop/qemu-img.1 "$(DESTDIR)$(ma=
+ndir)/man1"
+> +=09$(INSTALL_DATA) $(MANUAL_BUILDDIR)/tools/qemu-img.1 "$(DESTDIR)$(mand=
+ir)/man1"
+>  =09$(INSTALL_DIR) "$(DESTDIR)$(mandir)/man8"
+> -=09$(INSTALL_DATA) $(MANUAL_BUILDDIR)/interop/qemu-nbd.8 "$(DESTDIR)$(ma=
+ndir)/man8"
+> +=09$(INSTALL_DATA) $(MANUAL_BUILDDIR)/tools/qemu-nbd.8 "$(DESTDIR)$(mand=
+ir)/man8"
+>  endif
+>  ifdef CONFIG_TRACE_SYSTEMTAP
+> -=09$(INSTALL_DATA) $(MANUAL_BUILDDIR)/interop/qemu-trace-stap.1 "$(DESTD=
+IR)$(mandir)/man1"
+> +=09$(INSTALL_DATA) $(MANUAL_BUILDDIR)/tools/qemu-trace-stap.1 "$(DESTDIR=
+)$(mandir)/man1"
+>  endif
+>  ifneq (,$(findstring qemu-ga,$(TOOLS)))
+>  =09$(INSTALL_DATA) $(MANUAL_BUILDDIR)/interop/qemu-ga.8 "$(DESTDIR)$(man=
+dir)/man8"
+> @@ -864,10 +864,10 @@ endif
+>  endif
+>  ifdef CONFIG_VIRTFS
+>  =09$(INSTALL_DIR) "$(DESTDIR)$(mandir)/man1"
+> -=09$(INSTALL_DATA) $(MANUAL_BUILDDIR)/interop/virtfs-proxy-helper.1 "$(D=
+ESTDIR)$(mandir)/man1"
+> +=09$(INSTALL_DATA) $(MANUAL_BUILDDIR)/tools/virtfs-proxy-helper.1 "$(DES=
+TDIR)$(mandir)/man1"
+>  endif
+>  ifeq ($(CONFIG_LINUX)$(CONFIG_SECCOMP)$(CONFIG_LIBCAP_NG),yyy)
+> -=09$(INSTALL_DATA) docs/interop/virtiofsd.1 "$(DESTDIR)$(mandir)/man1"
+> +=09$(INSTALL_DATA) docs/tools/virtiofsd.1 "$(DESTDIR)$(mandir)/man1"
+>  endif
+> =20
+>  install-datadir:
+> @@ -1049,7 +1049,7 @@ endef
+>  $(MANUAL_BUILDDIR)/devel/index.html: $(call manual-deps,devel)
+>  =09$(call build-manual,devel,html)
+> =20
+> -$(MANUAL_BUILDDIR)/interop/index.html: $(call manual-deps,interop) $(SRC=
+_PATH)/qemu-img-cmds.hx $(SRC_PATH)/docs/qemu-option-trace.rst.inc
+> +$(MANUAL_BUILDDIR)/interop/index.html: $(call manual-deps,interop)
+>  =09$(call build-manual,interop,html)
+> =20
+>  $(MANUAL_BUILDDIR)/specs/index.html: $(call manual-deps,specs)
+> @@ -1058,16 +1058,18 @@ $(MANUAL_BUILDDIR)/specs/index.html: $(call manua=
+l-deps,specs)
+>  $(MANUAL_BUILDDIR)/system/index.html: $(call manual-deps,system)
+>  =09$(call build-manual,system,html)
+> =20
+> -$(MANUAL_BUILDDIR)/tools/index.html: $(call manual-deps,tools)
+> +$(MANUAL_BUILDDIR)/tools/index.html: $(call manual-deps,tools) $(SRC_PAT=
+H)/qemu-img-cmds.hx $(SRC_PATH)/docs/qemu-option-trace.rst.inc
+>  =09$(call build-manual,tools,html)
+> =20
+> -$(call define-manpage-rule,interop,\
+> -       qemu-ga.8 qemu-img.1 qemu-nbd.8 qemu-trace-stap.1\
+> -       virtiofsd.1 virtfs-proxy-helper.1,\
+> -       $(SRC_PATH)/qemu-img-cmds.hx $(SRC_PATH)/docs/qemu-option-trace.r=
+st.inc)
+> +$(call define-manpage-rule,interop,qemu-ga.8)
+> =20
+>  $(call define-manpage-rule,system,qemu-block-drivers.7)
+> =20
+> +$(call define-manpage-rule,tools,\
+> +       qemu-img.1 qemu-nbd.8 qemu-trace-stap.1\
+> +       virtiofsd.1 virtfs-proxy-helper.1,\
+> +       $(SRC_PATH)/qemu-img-cmds.hx $(SRC_PATH)/docs/qemu-option-trace.r=
+st.inc)
+> +
+>  $(MANUAL_BUILDDIR)/index.html: $(SRC_PATH)/docs/index.html.in qemu-versi=
+on.h
+>  =09@mkdir -p "$(MANUAL_BUILDDIR)"
+>  =09$(call quiet-command, sed "s|@@VERSION@@|${VERSION}|g" $< >$@, \
+> diff --git a/docs/interop/conf.py b/docs/interop/conf.py
+> index b3cda17042c..42ce7e3d365 100644
+> --- a/docs/interop/conf.py
+> +++ b/docs/interop/conf.py
+> @@ -19,16 +19,4 @@ html_theme_options['description'] =3D u'System Emulati=
+on Management and Interopera
+>  man_pages =3D [
+>      ('qemu-ga', 'qemu-ga', u'QEMU Guest Agent',
+>       ['Michael Roth <mdroth@linux.vnet.ibm.com>'], 8),
+> -    ('qemu-img', 'qemu-img', u'QEMU disk image utility',
+> -     ['Fabrice Bellard'], 1),
+> -    ('qemu-nbd', 'qemu-nbd', u'QEMU Disk Network Block Device Server',
+> -     ['Anthony Liguori <anthony@codemonkey.ws>'], 8),
+> -    ('qemu-trace-stap', 'qemu-trace-stap', u'QEMU SystemTap trace tool',
+> -     [], 1),
+> -    ('virtfs-proxy-helper', 'virtfs-proxy-helper',
+> -     u'QEMU 9p virtfs proxy filesystem helper',
+> -     ['M. Mohan Kumar'], 1),
+> -    ('virtiofsd', 'virtiofsd', u'QEMU virtio-fs shared file system daemo=
+n',
+> -     ['Stefan Hajnoczi <stefanha@redhat.com>',
+> -      'Masayoshi Mizuma <m.mizuma@jp.fujitsu.com>'], 1),
+>  ]
+> diff --git a/docs/interop/index.rst b/docs/interop/index.rst
+> index e8455b4270c..049387ac6de 100644
+> --- a/docs/interop/index.rst
+> +++ b/docs/interop/index.rst
+> @@ -18,10 +18,5 @@ Contents:
+>     live-block-operations
+>     pr-helper
+>     qemu-ga
+> -   qemu-img
+> -   qemu-nbd
+> -   qemu-trace-stap
+>     vhost-user
+>     vhost-user-gpu
+> -   virtfs-proxy-helper
+> -   virtiofsd
+> diff --git a/docs/tools/conf.py b/docs/tools/conf.py
+> index 56461110b9d..9052d17d6d4 100644
+> --- a/docs/tools/conf.py
+> +++ b/docs/tools/conf.py
+> @@ -14,3 +14,20 @@ exec(compile(open(parent_config, "rb").read(), parent_=
+config, 'exec'))
+>  # the manual title to appear in the sidebar.
+>  html_theme_options['description'] =3D \
+>      u'Tools Guide'
+> +
+> +# One entry per manual page. List of tuples
+> +# (source start file, name, description, authors, manual section).
+> +man_pages =3D [
+> +    ('qemu-img', 'qemu-img', u'QEMU disk image utility',
+> +     ['Fabrice Bellard'], 1),
+> +    ('qemu-nbd', 'qemu-nbd', u'QEMU Disk Network Block Device Server',
+> +     ['Anthony Liguori <anthony@codemonkey.ws>'], 8),
+> +    ('qemu-trace-stap', 'qemu-trace-stap', u'QEMU SystemTap trace tool',
+> +     [], 1),
+> +    ('virtfs-proxy-helper', 'virtfs-proxy-helper',
+> +     u'QEMU 9p virtfs proxy filesystem helper',
+> +     ['M. Mohan Kumar'], 1),
+> +    ('virtiofsd', 'virtiofsd', u'QEMU virtio-fs shared file system daemo=
+n',
+> +     ['Stefan Hajnoczi <stefanha@redhat.com>',
+> +      'Masayoshi Mizuma <m.mizuma@jp.fujitsu.com>'], 1),
+> +]
+> diff --git a/docs/tools/index.rst b/docs/tools/index.rst
+> index c5a4a13ec7a..232ce9f3e46 100644
+> --- a/docs/tools/index.rst
+> +++ b/docs/tools/index.rst
+> @@ -9,3 +9,9 @@ Contents:
+> =20
+>  .. toctree::
+>     :maxdepth: 2
+> +
+> +   qemu-img
+> +   qemu-nbd
+> +   qemu-trace-stap
+> +   virtfs-proxy-helper
+> +   virtiofsd
+> diff --git a/docs/interop/qemu-img.rst b/docs/tools/qemu-img.rst
+> similarity index 100%
+> rename from docs/interop/qemu-img.rst
+> rename to docs/tools/qemu-img.rst
+> diff --git a/docs/interop/qemu-nbd.rst b/docs/tools/qemu-nbd.rst
+> similarity index 100%
+> rename from docs/interop/qemu-nbd.rst
+> rename to docs/tools/qemu-nbd.rst
+> diff --git a/docs/interop/qemu-trace-stap.rst b/docs/tools/qemu-trace-sta=
+p.rst
+> similarity index 100%
+> rename from docs/interop/qemu-trace-stap.rst
+> rename to docs/tools/qemu-trace-stap.rst
+> diff --git a/docs/interop/virtfs-proxy-helper.rst b/docs/tools/virtfs-pro=
+xy-helper.rst
+> similarity index 100%
+> rename from docs/interop/virtfs-proxy-helper.rst
+> rename to docs/tools/virtfs-proxy-helper.rst
+> diff --git a/docs/interop/virtiofsd.rst b/docs/tools/virtiofsd.rst
+> similarity index 100%
+> rename from docs/interop/virtiofsd.rst
+> rename to docs/tools/virtiofsd.rst
+> --=20
+> 2.20.1
 >=20
-> Otherwise looks really good.
-Thank you
-
-Best Regards
-
-Eric
->=20
->=20
-> Reviewed-by: Stefan Berger <stefanb@linux.ibm.com>
->=20
->=20
->> =C2=A0 #define TYPE_TPM_CRB=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "tpm-crb"
->> =C2=A0 #define TYPE_TPM_SPAPR=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "tpm-spapr"
->> =C2=A0=20
->=20
->=20
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
