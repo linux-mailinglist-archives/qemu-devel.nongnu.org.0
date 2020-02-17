@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3864D16192F
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 18:53:41 +0100 (CET)
-Received: from localhost ([::1]:49646 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CF1816192C
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 18:53:03 +0100 (CET)
+Received: from localhost ([::1]:49641 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j3kaS-0002Va-4O
-	for lists+qemu-devel@lfdr.de; Mon, 17 Feb 2020 12:53:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38457)
+	id 1j3kZq-0001DM-5P
+	for lists+qemu-devel@lfdr.de; Mon, 17 Feb 2020 12:53:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38522)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1j3kJB-000282-Vk
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 12:35:50 -0500
+ (envelope-from <imammedo@redhat.com>) id 1j3kJJ-0002L2-Hp
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 12:35:58 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1j3kJA-00028d-Qu
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 12:35:49 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:39591
+ (envelope-from <imammedo@redhat.com>) id 1j3kJE-0002CY-Sc
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 12:35:57 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:55922
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1j3kJ9-00027U-SN
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 12:35:48 -0500
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1j3kJE-0002CJ-Nd
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 12:35:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581960945;
+ s=mimecast20190719; t=1581960952;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rIFliTm/CceMua2cnSMr1LIhZ8t2dj+zclOUgywBbuA=;
- b=T+RzNZWhzVsGtjhjKqRnLw06u4+ix3Ii7zbCClWDOpZsKm1kwVGkE0kuiCxaH0qbSPaQsL
- js2KlSDaMdFOhqD9XMjKOc69EYueTVQv5H8RzlcEgJrhs2CvyHoe2w/YIl/DuVMM7cMmu/
- NBqSw7dKtgeEijrlOIG9gWFI1UJ0BVs=
+ bh=wOoRqXxjeiKVKYqG0clNdTCyG8bZDSCIzwlXeYSDidc=;
+ b=NGuS8Xdbstn1wsB2IXOEEx8vKVdvpDC6WFNkaj36zl7pulJWRE+bTBKnB7nY3iNzIo7Roj
+ AzXGrt1pOdBbKl2ltvtua1ssRLY95o8m06t9Clb7HDEA/WeSYxr4IM9yTmUrQgnHQEVVyx
+ /fl5g52AbmVqVsQmHNaHr2UGmIoSOgs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-318-ysuqa3MgM7OQro-sCBJGbw-1; Mon, 17 Feb 2020 12:35:43 -0500
+ us-mta-58-9674rs5ZO-qlUtyC7sT2rw-1; Mon, 17 Feb 2020 12:35:44 -0500
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2E51B107ACC9
- for <qemu-devel@nongnu.org>; Mon, 17 Feb 2020 17:35:42 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2E3C7800D6C
+ for <qemu-devel@nongnu.org>; Mon, 17 Feb 2020 17:35:43 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7A50F90508;
- Mon, 17 Feb 2020 17:35:41 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7731A90508;
+ Mon, 17 Feb 2020 17:35:42 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 34/79] arm/xilinx_zynq: drop RAM size fixup
-Date: Mon, 17 Feb 2020 12:34:07 -0500
-Message-Id: <20200217173452.15243-35-imammedo@redhat.com>
+Subject: [PATCH v5 35/79] arm/xilinx_zynq: use memdev for RAM
+Date: Mon, 17 Feb 2020 12:34:08 -0500
+Message-Id: <20200217173452.15243-36-imammedo@redhat.com>
 In-Reply-To: <20200217173452.15243-1-imammedo@redhat.com>
 References: <20200217173452.15243-1-imammedo@redhat.com>
+MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: ysuqa3MgM7OQro-sCBJGbw-1
+X-MC-Unique: 9674rs5ZO-qlUtyC7sT2rw-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 205.139.110.120
@@ -74,72 +75,52 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If user provided non-sense RAM size, board will complain and
-continue running with max RAM size supported.
-Also RAM is going to be allocated by generic code, so it won't be
-possible for board to fix things up for user.
-
-Make it error message and exit to force user fix CLI,
-instead of accepting non-sense CLI values.
+memory_region_allocate_system_memory() API is going away, so
+replace it with memdev allocated MemoryRegion. The later is
+initialized by generic code, so board only needs to opt in
+to memdev scheme by providing
+  MachineClass::default_ram_id
+and using MachineState::ram instead of manually initializing
+RAM memory region.
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- hw/arm/xilinx_zynq.c | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+ hw/arm/xilinx_zynq.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
 diff --git a/hw/arm/xilinx_zynq.c b/hw/arm/xilinx_zynq.c
-index 3a0fa5b23f..df950fc400 100644
+index df950fc400..0ef9688c5a 100644
 --- a/hw/arm/xilinx_zynq.c
 +++ b/hw/arm/xilinx_zynq.c
-@@ -158,7 +158,6 @@ static inline void zynq_init_spi_flashes(uint32_t base_=
-addr, qemu_irq irq,
-=20
- static void zynq_init(MachineState *machine)
+@@ -160,7 +160,6 @@ static void zynq_init(MachineState *machine)
  {
--    ram_addr_t ram_size =3D machine->ram_size;
      ARMCPU *cpu;
      MemoryRegion *address_space_mem =3D get_system_memory();
-     MemoryRegion *ext_ram =3D g_new(MemoryRegion, 1);
-@@ -168,6 +167,12 @@ static void zynq_init(MachineState *machine)
-     qemu_irq pic[64];
-     int n;
-=20
-+    /* max 2GB ram */
-+    if (machine->ram_size > 0x80000000) {
-+        error_report("RAM size more than %d is not supported", 0x80000000)=
-;
-+        exit(EXIT_FAILURE);
-+    }
-+
-     cpu =3D ARM_CPU(object_new(machine->cpu_type));
-=20
-     /* By default A9 CPUs have EL3 enabled.  This board does not
-@@ -184,14 +189,9 @@ static void zynq_init(MachineState *machine)
-                             &error_fatal);
+-    MemoryRegion *ext_ram =3D g_new(MemoryRegion, 1);
+     MemoryRegion *ocm_ram =3D g_new(MemoryRegion, 1);
+     DeviceState *dev;
+     SysBusDevice *busdev;
+@@ -190,9 +189,7 @@ static void zynq_init(MachineState *machine)
      object_property_set_bool(OBJECT(cpu), true, "realized", &error_fatal);
 =20
--    /* max 2GB ram */
--    if (ram_size > 0x80000000) {
--        ram_size =3D 0x80000000;
--    }
--
      /* DDR remapped to address zero.  */
-     memory_region_allocate_system_memory(ext_ram, NULL, "zynq.ext_ram",
--                                         ram_size);
-+                                         machine->ram_size);
-     memory_region_add_subregion(address_space_mem, 0, ext_ram);
+-    memory_region_allocate_system_memory(ext_ram, NULL, "zynq.ext_ram",
+-                                         machine->ram_size);
+-    memory_region_add_subregion(address_space_mem, 0, ext_ram);
++    memory_region_add_subregion(address_space_mem, 0, machine->ram);
 =20
      /* 256K of on-chip memory */
-@@ -300,7 +300,7 @@ static void zynq_init(MachineState *machine)
-     sysbus_connect_irq(busdev, 0, pic[40 - IRQ_OFFSET]);
-     sysbus_mmio_map(busdev, 0, 0xF8007000);
+     memory_region_init_ram(ocm_ram, NULL, "zynq.ocm_ram", 256 * KiB,
+@@ -318,6 +315,7 @@ static void zynq_machine_init(MachineClass *mc)
+     mc->no_sdcard =3D 1;
+     mc->ignore_memory_transaction_failures =3D true;
+     mc->default_cpu_type =3D ARM_CPU_TYPE_NAME("cortex-a9");
++    mc->default_ram_id =3D "zynq.ext_ram";
+ }
 =20
--    zynq_binfo.ram_size =3D ram_size;
-+    zynq_binfo.ram_size =3D machine->ram_size;
-     zynq_binfo.nb_cpus =3D 1;
-     zynq_binfo.board_id =3D 0xd32;
-     zynq_binfo.loader_start =3D 0;
+ DEFINE_MACHINE("xilinx-zynq-a9", zynq_machine_init)
 --=20
 2.18.1
 
