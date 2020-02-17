@@ -2,82 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC6E51612B3
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 14:10:15 +0100 (CET)
-Received: from localhost ([::1]:45166 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCE961612C3
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 14:12:27 +0100 (CET)
+Received: from localhost ([::1]:45256 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j3gAA-0002zG-F1
-	for lists+qemu-devel@lfdr.de; Mon, 17 Feb 2020 08:10:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51638)
+	id 1j3gCI-0005jz-R9
+	for lists+qemu-devel@lfdr.de; Mon, 17 Feb 2020 08:12:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51973)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1j3g9A-0002YH-Q0
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 08:09:14 -0500
+ (envelope-from <gengdongjiu@huawei.com>) id 1j3gAm-0003dm-1L
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 08:10:55 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1j3g97-0007Mf-Vp
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 08:09:12 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:27780
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <gengdongjiu@huawei.com>) id 1j3gAj-0008Re-Ho
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 08:10:51 -0500
+Received: from szxga06-in.huawei.com ([45.249.212.32]:46656 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1j3g97-0007GO-Nb
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 08:09:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581944948;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=UdLbLKe0wn7wCMPnpg65stI5v6Nz4se/eh6pLqul+EQ=;
- b=ikLy4OSalKLX+6D6pmRYiZJLmnSkw4bjj/sET4l+v9Me2CC2UOzyCkuVc81IMVJlZn60FQ
- V8KWCpCQ68qb6hVhALJghudyeV3AKcRc1BhOhqBQErvavHMWP/2y/6pvb0RT8NvtIsA9iH
- WuNUqeIQG/4MhN0tKzLfMQRDiRV1zqo=
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-416-aI74K1mYOX6CUVpVu5UR_w-1; Mon, 17 Feb 2020 08:09:04 -0500
-Received: by mail-qt1-f199.google.com with SMTP id l25so10928963qtu.0
- for <qemu-devel@nongnu.org>; Mon, 17 Feb 2020 05:09:04 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=JehAu49z3Hu64Ypp7CuFNoTFSbty1kX8Ky5uATkrqxA=;
- b=I47Zl3ddWOFvBczJwaOAdTJG1XK2KkxklCCGr5mqYsn8sCuFk4Nw4Cwyr5LxlDJWQR
- rukgk1pD+bMp/EslBovRzabmCjJEErOYZDlcx52HlfBG8maNr9+9plLZm/EP9CkyCL4V
- 85qxTaQevUn+qnrgYjRk9+6JaPKbq+qwD+g4FWVG6EOD1AA01f+h6FxMrEW4HtuCLFx/
- 5F2f2EnMVs/FtjN/0gPw3WLFF/Wi/xYkdUDwgCfhpUILNNsAsSBYbBZVQLDNbPgl7STt
- S2pIWNwmystQY0/dc2/XdL9RRE9xi/ewaPBjO/CSaKQgZCD6hHVs5bdOoTz6RzxMn4Pp
- OoGw==
-X-Gm-Message-State: APjAAAX5ZmALjeXTjZFX+VbH+fUVFHJxfpcTCgQkyKvk03fDL9V2W3eQ
- 3HKbf2OIOElVC1IyIAF5eCMZhjv2XkL+n/rZw6oMhaMzEYRluUkhOPSaHE3+cFp2qwOUJ1kw//8
- sbVEPaJl0zxYs060=
-X-Received: by 2002:a37:ef13:: with SMTP id j19mr14106542qkk.188.1581944943302; 
- Mon, 17 Feb 2020 05:09:03 -0800 (PST)
-X-Google-Smtp-Source: APXvYqzijrslH74UG86VQbHia7CswE8jrVj2l7A0jFqyORz8rzVEvYFdurm6Ih4uNjSCu6VtD7QGVQ==
-X-Received: by 2002:a37:ef13:: with SMTP id j19mr14106505qkk.188.1581944942911; 
- Mon, 17 Feb 2020 05:09:02 -0800 (PST)
-Received: from redhat.com (bzq-79-176-28-95.red.bezeqint.net. [79.176.28.95])
- by smtp.gmail.com with ESMTPSA id
- q5sm193427qkf.14.2020.02.17.05.08.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Feb 2020 05:09:01 -0800 (PST)
-Date: Mon, 17 Feb 2020 08:08:57 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Yubo Miao <miaoyubo@huawei.com>
-Subject: Re: [RFC v2 1/1] arm: acpi: pci-expender-bus: Make arm to support
- PXB-PCIE
-Message-ID: <20200217080640-mutt-send-email-mst@kernel.org>
-References: <20200217111818.766-1-miaoyubo@huawei.com>
- <20200217111818.766-2-miaoyubo@huawei.com>
+ (Exim 4.71) (envelope-from <gengdongjiu@huawei.com>)
+ id 1j3gAd-0008Ew-0D; Mon, 17 Feb 2020 08:10:43 -0500
+Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.60])
+ by Forcepoint Email with ESMTP id 1410B3FD86F5D69014DE;
+ Mon, 17 Feb 2020 21:10:36 +0800 (CST)
+Received: from huawei.com (10.151.151.243) by DGGEMS410-HUB.china.huawei.com
+ (10.3.19.210) with Microsoft SMTP Server id 14.3.439.0; Mon, 17 Feb 2020
+ 21:10:27 +0800
+From: Dongjiu Geng <gengdongjiu@huawei.com>
+To: <mst@redhat.com>, <imammedo@redhat.com>, <xiaoguangrong.eric@gmail.com>,
+ <shannon.zhaosl@gmail.com>, <peter.maydell@linaro.org>, <fam@euphon.net>,
+ <rth@twiddle.net>, <ehabkost@redhat.com>, <mtosatti@redhat.com>,
+ <qemu-devel@nongnu.org>, <kvm@vger.kernel.org>, <qemu-arm@nongnu.org>,
+ <pbonzini@redhat.com>, <james.morse@arm.com>, <lersek@redhat.com>,
+ <jonathan.cameron@huawei.com>, <shameerali.kolothum.thodi@huawei.com>
+Subject: [PATCH v24 00/10] Add ARMv8 RAS virtualization support in QEMU
+Date: Mon, 17 Feb 2020 21:12:38 +0800
+Message-ID: <20200217131248.28273-1-gengdongjiu@huawei.com>
+X-Mailer: git-send-email 2.18.0.huawei.25
 MIME-Version: 1.0
-In-Reply-To: <20200217111818.766-2-miaoyubo@huawei.com>
-X-MC-Unique: aI74K1mYOX6CUVpVu5UR_w-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="UTF-8"
+X-Originating-IP: [10.151.151.243]
+X-CFilter-Loop: Reflected
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+ [fuzzy]
+X-Received-From: 45.249.212.32
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,419 +56,372 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, imammedo@redhat.com, qemu-devel@nongnu.org,
- xiexiangyou@huawei.com, shannon.zhaosl@gmail.com
+Cc: zhengxiang9@huawei.com, gengdongjiu@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Feb 17, 2020 at 07:18:18PM +0800, Yubo Miao wrote:
-> From: miaoyubo <miaoyubo@huawei.com>
->=20
-> Currently virt machine is not supported by pxb-pcie,
-> and only one main host bridge described in ACPI tables.
-> Under this circumstance, different io numas for differnt devices
-> is not possible, in order to present io numas to the guest,
-> especially for host pssthrough devices. PXB-PCIE is supproted
-> by arm and certain resource is allocated for each pxb-pcie
-> in acpi table.
->=20
-> Signed-off-by: miaoyubo <miaoyubo@huawei.com>
+In the ARMv8 platform, the CPU error types includes synchronous external =
+abort(SEA) and SError Interrupt (SEI). If exception happens in guest, hos=
+t does not know the detailed information of guest, so it is expected that=
+ guest can do the recovery.
+For example, if an exception happens in a guest user-space application, h=
+ost does
+not know which application encounters errors, only guest knows it.
 
-A unit test would be nic.
+For the ARMv8 SEA/SEI, KVM or host kernel delivers SIGBUS to notify users=
+pace.
+After user space gets the notification, it will record the CPER into gues=
+t GHES
+buffer and inject an exception or IRQ to guest.
 
-> ---
->  hw/arm/virt-acpi-build.c | 240 +++++++++++++++++++++++++++++----------
->  hw/pci-host/gpex.c       |   4 +
->  include/hw/arm/virt.h    |   1 +
->  3 files changed, 184 insertions(+), 61 deletions(-)
->=20
-> diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
-> index bd5f771e9b..fc11525042 100644
-> --- a/hw/arm/virt-acpi-build.c
-> +++ b/hw/arm/virt-acpi-build.c
-> @@ -49,6 +49,8 @@
->  #include "kvm_arm.h"
->  #include "migration/vmstate.h"
-> =20
-> +#include "hw/arm/virt.h"
-> +#include "hw/pci/pci_bus.h"
->  #define ARM_SPI_BASE 32
-> =20
->  static void acpi_dsdt_add_cpus(Aml *scope, int smp_cpus)
-> @@ -151,30 +153,12 @@ static void acpi_dsdt_add_virtio(Aml *scope,
->      }
->  }
-> =20
-> -static void acpi_dsdt_add_pci(Aml *scope, const MemMapEntry *memmap,
-> -                              uint32_t irq, bool use_highmem, bool highm=
-em_ecam)
-> +static void acpi_dsdt_add_pci_route_table(Aml *dev, Aml *scope,
-> +                                          int nr_pcie_buses,
-> +                                          uint32_t irq)
->  {
-> -    int ecam_id =3D VIRT_ECAM_ID(highmem_ecam);
-> -    Aml *method, *crs, *ifctx, *UUID, *ifctx1, *elsectx, *buf;
->      int i, bus_no;
-> -    hwaddr base_mmio =3D memmap[VIRT_PCIE_MMIO].base;
-> -    hwaddr size_mmio =3D memmap[VIRT_PCIE_MMIO].size;
-> -    hwaddr base_pio =3D memmap[VIRT_PCIE_PIO].base;
-> -    hwaddr size_pio =3D memmap[VIRT_PCIE_PIO].size;
-> -    hwaddr base_ecam =3D memmap[ecam_id].base;
-> -    hwaddr size_ecam =3D memmap[ecam_id].size;
-> -    int nr_pcie_buses =3D size_ecam / PCIE_MMCFG_SIZE_MIN;
-> -
-> -    Aml *dev =3D aml_device("%s", "PCI0");
-> -    aml_append(dev, aml_name_decl("_HID", aml_string("PNP0A08")));
-> -    aml_append(dev, aml_name_decl("_CID", aml_string("PNP0A03")));
-> -    aml_append(dev, aml_name_decl("_SEG", aml_int(0)));
-> -    aml_append(dev, aml_name_decl("_BBN", aml_int(0)));
-> -    aml_append(dev, aml_name_decl("_ADR", aml_int(0)));
-> -    aml_append(dev, aml_name_decl("_UID", aml_string("PCI0")));
-> -    aml_append(dev, aml_name_decl("_STR", aml_unicode("PCIe 0 Device")))=
-;
-> -    aml_append(dev, aml_name_decl("_CCA", aml_int(1)));
-> -
-> +    Aml *method, *crs;
->      /* Declare the PCI Routing Table. */
->      Aml *rt_pkg =3D aml_varpackage(nr_pcie_buses * PCI_NUM_PINS);
->      for (bus_no =3D 0; bus_no < nr_pcie_buses; bus_no++) {
-> @@ -190,7 +174,6 @@ static void acpi_dsdt_add_pci(Aml *scope, const MemMa=
-pEntry *memmap,
->      }
->      aml_append(dev, aml_name_decl("_PRT", rt_pkg));
-> =20
-> -    /* Create GSI link device */
->      for (i =3D 0; i < PCI_NUM_PINS; i++) {
->          uint32_t irqs =3D  irq + i;
->          Aml *dev_gsi =3D aml_device("GSI%d", i);
-> @@ -210,42 +193,11 @@ static void acpi_dsdt_add_pci(Aml *scope, const Mem=
-MapEntry *memmap,
->          aml_append(dev_gsi, method);
->          aml_append(dev, dev_gsi);
->      }
-> +}
-> =20
-> -    method =3D aml_method("_CBA", 0, AML_NOTSERIALIZED);
-> -    aml_append(method, aml_return(aml_int(base_ecam)));
-> -    aml_append(dev, method);
-> -
-> -    method =3D aml_method("_CRS", 0, AML_NOTSERIALIZED);
-> -    Aml *rbuf =3D aml_resource_template();
-> -    aml_append(rbuf,
-> -        aml_word_bus_number(AML_MIN_FIXED, AML_MAX_FIXED, AML_POS_DECODE=
-,
-> -                            0x0000, 0x0000, nr_pcie_buses - 1, 0x0000,
-> -                            nr_pcie_buses));
-> -    aml_append(rbuf,
-> -        aml_dword_memory(AML_POS_DECODE, AML_MIN_FIXED, AML_MAX_FIXED,
-> -                         AML_NON_CACHEABLE, AML_READ_WRITE, 0x0000, base=
-_mmio,
-> -                         base_mmio + size_mmio - 1, 0x0000, size_mmio));
-> -    aml_append(rbuf,
-> -        aml_dword_io(AML_MIN_FIXED, AML_MAX_FIXED, AML_POS_DECODE,
-> -                     AML_ENTIRE_RANGE, 0x0000, 0x0000, size_pio - 1, bas=
-e_pio,
-> -                     size_pio));
-> -
-> -    if (use_highmem) {
-> -        hwaddr base_mmio_high =3D memmap[VIRT_HIGH_PCIE_MMIO].base;
-> -        hwaddr size_mmio_high =3D memmap[VIRT_HIGH_PCIE_MMIO].size;
-> -
-> -        aml_append(rbuf,
-> -            aml_qword_memory(AML_POS_DECODE, AML_MIN_FIXED, AML_MAX_FIXE=
-D,
-> -                             AML_NON_CACHEABLE, AML_READ_WRITE, 0x0000,
-> -                             base_mmio_high,
-> -                             base_mmio_high + size_mmio_high - 1, 0x0000=
-,
-> -                             size_mmio_high));
-> -    }
-> -
-> -    aml_append(method, aml_name_decl("RBUF", rbuf));
-> -    aml_append(method, aml_return(rbuf));
-> -    aml_append(dev, method);
-> -
-> +static void acpi_dsdt_add_pci_osc(Aml *dev, Aml *scope)
-> +{
-> +    Aml *method, *UUID, *ifctx, *ifctx1, *elsectx, *buf;
->      /* Declare an _OSC (OS Control Handoff) method */
->      aml_append(dev, aml_name_decl("SUPP", aml_int(0)));
->      aml_append(dev, aml_name_decl("CTRL", aml_int(0)));
-> @@ -253,7 +205,8 @@ static void acpi_dsdt_add_pci(Aml *scope, const MemMa=
-pEntry *memmap,
->      aml_append(method,
->          aml_create_dword_field(aml_arg(3), aml_int(0), "CDW1"));
-> =20
-> -    /* PCI Firmware Specification 3.0
-> +    /*
-> +     * PCI Firmware Specification 3.0
->       * 4.5.1. _OSC Interface for PCI Host Bridge Devices
->       * The _OSC interface for a PCI/PCI-X/PCI Express hierarchy is
->       * identified by the Universal Unique IDentifier (UUID)
-> @@ -298,7 +251,8 @@ static void acpi_dsdt_add_pci(Aml *scope, const MemMa=
-pEntry *memmap,
-> =20
->      method =3D aml_method("_DSM", 4, AML_NOTSERIALIZED);
-> =20
-> -    /* PCI Firmware Specification 3.0
-> +    /*
-> +     * PCI Firmware Specification 3.0
->       * 4.6.1. _DSM for PCI Express Slot Information
->       * The UUID in _DSM in this context is
->       * {E5C937D0-3553-4D7A-9117-EA4D19C3434D}
-> @@ -316,6 +270,170 @@ static void acpi_dsdt_add_pci(Aml *scope, const Mem=
-MapEntry *memmap,
->      buf =3D aml_buffer(1, byte_list);
->      aml_append(method, aml_return(buf));
->      aml_append(dev, method);
-> +}
-> +
-> +static void acpi_dsdt_add_pci(Aml *scope, const MemMapEntry *memmap,
-> +                              uint32_t irq, bool use_highmem, bool highm=
-em_ecam,
-> +                              VirtMachineState *vms)
-> +{
-> +    int ecam_id =3D VIRT_ECAM_ID(highmem_ecam);
-> +    Aml *method, *dev, *crs;
-> +    int count =3D 0;
-> +    hwaddr base_mmio =3D memmap[VIRT_PCIE_MMIO].base;
-> +    hwaddr size_mmio =3D memmap[VIRT_PCIE_MMIO].size;
-> +    hwaddr base_pio =3D memmap[VIRT_PCIE_PIO].base;
-> +    hwaddr size_pio =3D memmap[VIRT_PCIE_PIO].size;
-> +    hwaddr base_ecam =3D memmap[ecam_id].base;
-> +    hwaddr size_ecam =3D memmap[ecam_id].size;
-> +    /*
-> +     * 0x600000 would be enough for pxb device
-> +     * if it is too small, there is no enough space
-> +     * for a pcie device plugged in a pcie-root port
-> +     */
-> +    hwaddr size_addr =3D 0x600000;
-> +    hwaddr size_io =3D 0x4000;
-> +    int nr_pcie_buses =3D size_ecam / PCIE_MMCFG_SIZE_MIN;
-> +    int root_bus_limit =3D 0xFF;
-> +    PCIBus *bus =3D NULL;
-> +    bus =3D VIRT_MACHINE(vms)->bus;
-> +
-> +    if (bus) {
-> +        QLIST_FOREACH(bus, &bus->child, sibling) {
-> +            uint8_t bus_num =3D pci_bus_num(bus);
-> +            uint8_t numa_node =3D pci_bus_numa_node(bus);
-> +
-> +            if (!pci_bus_is_root(bus)) {
-> +                continue;
-> +            }
-> +            if (bus_num < root_bus_limit) {
-> +                root_bus_limit =3D bus_num - 1;
-> +            }
-> +            count++;
-> +            dev =3D aml_device("PC%.02X", bus_num);
-> +            aml_append(dev, aml_name_decl("_HID", aml_string("PNP0A08"))=
-);
-> +            aml_append(dev, aml_name_decl("_CID", aml_string("PNP0A03"))=
-);
-> +            aml_append(dev, aml_name_decl("_ADR", aml_int(0)));
-> +            aml_append(dev, aml_name_decl("_CCA", aml_int(1)));
-> +            aml_append(dev, aml_name_decl("_SEG", aml_int(0)));
-> +            aml_append(dev, aml_name_decl("_BBN", aml_int(bus_num)));
-> +            aml_append(dev, aml_name_decl("_UID", aml_int(bus_num)));
-> +            aml_append(dev, aml_name_decl("_STR", aml_unicode("pxb Devic=
-e")));
-> +            if (numa_node !=3D NUMA_NODE_UNASSIGNED) {
-> +                method =3D aml_method("_PXM", 0, AML_NOTSERIALIZED);
-> +                aml_append(method, aml_return(aml_int(numa_node)));
-> +                aml_append(dev, method);
-> +            }
-> +
-> +            acpi_dsdt_add_pci_route_table(dev, scope, nr_pcie_buses, irq=
-);
-> +
-> +            method =3D aml_method("_CBA", 0, AML_NOTSERIALIZED);
-> +            aml_append(method, aml_return(aml_int(base_ecam)));
-> +            aml_append(dev, method);
-> +
-> +            method =3D aml_method("_CRS", 0, AML_NOTSERIALIZED);
-> +            Aml *rbuf =3D aml_resource_template();
-> +            aml_append(rbuf,
-> +                       aml_word_bus_number(AML_MIN_FIXED, AML_MAX_FIXED,
-> +                                           AML_POS_DECODE, 0x0000,
-> +                                           bus_num, bus_num + 1, 0x0000,
-> +                                           2));
-> +            aml_append(rbuf,
-> +                       aml_dword_memory(AML_POS_DECODE, AML_MIN_FIXED,
-> +                                        AML_MAX_FIXED, AML_NON_CACHEABLE=
-,
-> +                                        AML_READ_WRITE, 0x0000,
-> +                                        base_mmio + size_mmio -
-> +                                        size_addr * count,
-> +                                        base_mmio + size_mmio - 1 -
-> +                                        size_addr * (count - 1),
-> +                                        0x0000, size_addr));
-> +            aml_append(rbuf,
-> +                       aml_dword_io(AML_MIN_FIXED, AML_MAX_FIXED,
-> +                       AML_POS_DECODE, AML_ENTIRE_RANGE,
-> +                       0x0000, (size_pio) / 2 - size_io * count,
-> +                       (size_pio / 2) - 1 - size_io * (count - 1),
-> +                       base_pio, size_io));
-> +
-> +            if (use_highmem) {
-> +                hwaddr base_mmio_high =3D memmap[VIRT_HIGH_PCIE_MMIO].ba=
-se;
-> +                hwaddr size_mmio_high =3D memmap[VIRT_HIGH_PCIE_MMIO].si=
-ze;
-> +
-> +                aml_append(rbuf,
-> +                       aml_qword_memory(AML_POS_DECODE, AML_MIN_FIXED,
-> +                                        AML_MAX_FIXED, AML_NON_CACHEABLE=
-,
-> +                                        AML_READ_WRITE, 0x0000,
-> +                                        base_mmio_high + size_mmio_high =
--
-> +                                        size_addr * count,
-> +                                        base_mmio_high + size_mmio_high =
--
-> +                                        1 - size_addr * (count - 1),
-> +                                        0x0000, size_addr));
-> +            }
-> +
-> +            aml_append(method, aml_name_decl("RBUF", rbuf));
-> +            aml_append(method, aml_return(rbuf));
-> +            aml_append(dev, method);
-> +
-> +            acpi_dsdt_add_pci_osc(dev, scope);
-> +
-> +            Aml *dev_rp0 =3D aml_device("%s", "RP0");
-> +            aml_append(dev_rp0, aml_name_decl("_ADR", aml_int(0)));
-> +            aml_append(dev, dev_rp0);
-> +
-> +            aml_append(scope, dev);
-> +
-> +        }
-> +    }
-> +
-> +    dev =3D aml_device("%s", "PCI0");
-> +    aml_append(dev, aml_name_decl("_HID", aml_string("PNP0A08")));
-> +    aml_append(dev, aml_name_decl("_CID", aml_string("PNP0A03")));
-> +    aml_append(dev, aml_name_decl("_SEG", aml_int(0)));
-> +    aml_append(dev, aml_name_decl("_BBN", aml_int(0)));
-> +    aml_append(dev, aml_name_decl("_ADR", aml_int(0)));
-> +    aml_append(dev, aml_name_decl("_UID", aml_string("PCI0")));
-> +    aml_append(dev, aml_name_decl("_STR", aml_unicode("PCIe 0 Device")))=
-;
-> +    aml_append(dev, aml_name_decl("_CCA", aml_int(1)));
-> +
-> +    acpi_dsdt_add_pci_route_table(dev, scope, nr_pcie_buses, irq);
-> +
-> +    method =3D aml_method("_CBA", 0, AML_NOTSERIALIZED);
-> +    aml_append(method, aml_return(aml_int(base_ecam)));
-> +    aml_append(dev, method);
-> +
-> +    method =3D aml_method("_CRS", 0, AML_NOTSERIALIZED);
-> +    Aml *rbuf =3D aml_resource_template();
-> +    aml_append(rbuf,
-> +        aml_word_bus_number(AML_MIN_FIXED, AML_MAX_FIXED, AML_POS_DECODE=
-,
-> +                            0x0000, 0x0000, root_bus_limit, 0x0000,
-> +                            root_bus_limit + 1));
-> +    aml_append(rbuf,
-> +        aml_dword_memory(AML_POS_DECODE, AML_MIN_FIXED, AML_MAX_FIXED,
-> +                         AML_NON_CACHEABLE, AML_READ_WRITE, 0x0000, base=
-_mmio,
-> +                         base_mmio + size_mmio - 1 - size_addr * count,
-> +                         0x0000, size_mmio - size_addr * count));
-> +    aml_append(rbuf,
-> +        aml_dword_io(AML_MIN_FIXED, AML_MAX_FIXED, AML_POS_DECODE,
-> +                     AML_ENTIRE_RANGE, 0x0000, 0x0000,
-> +                     size_pio / 2 - 1 - size_io * count, base_pio,
-> +                     size_pio / 2 - size_io * count));
-> +
-> +    if (use_highmem) {
-> +        hwaddr base_mmio_high =3D memmap[VIRT_HIGH_PCIE_MMIO].base;
-> +        hwaddr size_mmio_high =3D memmap[VIRT_HIGH_PCIE_MMIO].size;
-> +
-> +        aml_append(rbuf,
-> +            aml_qword_memory(AML_POS_DECODE, AML_MIN_FIXED, AML_MAX_FIXE=
-D,
-> +                             AML_NON_CACHEABLE, AML_READ_WRITE, 0x0000,
-> +                             base_mmio_high,
-> +                             base_mmio_high + size_mmio_high - 1 -
-> +                             size_addr * count,
-> +                             0x0000, size_mmio_high - size_addr * count)=
-);
-> +    }
-> +
-> +    aml_append(method, aml_name_decl("RBUF", rbuf));
-> +    aml_append(method, aml_return(rbuf));
-> +    aml_append(dev, method);
-> +
-> +    acpi_dsdt_add_pci_osc(dev, scope);
-> =20
->      Aml *dev_rp0 =3D aml_device("%s", "RP0");
->      aml_append(dev_rp0, aml_name_decl("_ADR", aml_int(0)));
+In the current implementation, if the type of SIGBUS is BUS_MCEERR_AR, we=
+ will
+treat it as a synchronous exception, and notify guest with ARMv8 SEA
+notification type after recording CPER into guest.
+
+A) This series of patches are based on Qemu 4.2, which include two parts:
+1. Generate APEI/GHES table.
+2. Handle the SIGBUS signal, record the CPER in runtime and fill it into =
+guest
+   memory, then notify guest according to the type of SIGBUS.
+
+B) The solution was suggested by James(james.morse@arm.com); The APEI par=
+t solution was suggested by Laszlo(lersek@redhat.com). Show some discussi=
+ons in [1].
+
+C) This series of patches have already been tested on ARM64 platform with=
+ RAS
+feature enabled:
+1. Show the APEI part verification result in [2].
+2. Show the SIGBUS of BUS_MCEERR_AR handling verification result in [3].
+
+D) Add 'ras' option in command Line to enable guest RAS error recovery fe=
+ature, For example:
+KVM model: ./qemu-system-aarch64 --enable-kvm -cpu host --bios QEMU_EFI.f=
+d_new  -machine virt,gic-version=3D3,ras,kernel-irqchip=3Don  -smp 4 -nog=
+raphic -kernel Image  -append "rdinit=3D/init console=3DttyAMA0 mem=3D512=
+M root=3D/dev/ram0" -initrd guestfs_new.cpio.gz
+TCG model: ./qemu-system-aarch64 -cpu cortex-a57 --bios QEMU_EFI.fd_new  =
+-machine virt,gic-version=3D3,ras,kernel-irqchip=3Don  -smp 4 -nographic =
+-kernel Image  -append "rdinit=3D/init console=3DttyAMA0 mem=3D512M root=3D=
+/dev/ram0" -initrd guestfs_new.cpio.gz
+---
+Change since v23:
+1. fix a warning for uuid
+
+Change since v22:
+1. Using 1 * KiB instead of 0x400 to define max size of one error block
+2. Make the alignment to 8 bytes in bios_linker_loader_alloc()
+3. Change "Copyright (c) 2019" to "Copyright (c) 2020" in file header
+4. Fix some code style warnings/errors and add some comments in code
+5. Address Jonathan's comments to easily support CCIX error injection
+6. Add vmstate_ghes_state .subsections in vmstate_acpi_ged
+
+Change since v21:
+1. Make the user-facing 'ras' option description more clearly to address =
+Peter's comments.
+2. Update the doc description in "docs/specs/acpi_hest_ghes.rst"
+3. Split HEST/GHES patches to more patches to make the review easily
+4. Using source_id to index the location to save the CPER.
+5. Optimize and simplify the logic to build HEST/GHES table to address Ig=
+or/Michael/Beata comments.
+6. make ghes_addr_le a part of GED device.
+
+Change since v20:
+1. Move some implementation details from acpi_ghes.h to acpi_ghes.c
+2. Add the reviewers for the ACPI/APEI/GHES part
+
+Change since v19:
+1. Fix clang compile error
+2. Fix sphinx build error
+
+Change since v18:
+1. Fix some code-style and typo/grammar problems.
+2. Remove no_ras in the VirtMachineClass struct.
+3. Convert documentation to rst format.
+4. Simplize the code and add comments for some magic value.
+5. Move kvm_inject_arm_sea() function into the patch where it's used.
+6. Register the reset handler(kvm_unpoison_all()) in the kvm_init() funct=
+ion.
+
+Change since v17:
+1. Improve some commit messages and comments.
+2. Fix some code-style problems.
+3. Add a *ras* machine option.
+4. Move HEST/GHES related structures and macros into "hw/acpi/acpi_ghes.*=
+".
+5. Move HWPoison page functions into "include/sysemu/kvm_int.h".
+6. Fix some bugs.
+7. Improve the design document.
+
+Change since v16:
+1. check whether ACPI table is enabled when handling the memory error in =
+the SIGBUS handler.
+
+Change since v15:
+1. Add a doc-comment in the proper format for 'include/exec/ram_addr.h'
+2. Remove write_part_cpustate_to_list() because there is another bug fix =
+patch
+   has been merged "arm: Allow system registers for KVM guests to be chan=
+ged by QEMU code"
+3. Add some comments for kvm_inject_arm_sea() in 'target/arm/kvm64.c'
+4. Compare the arm_current_el() return value to 0,1,2,3, not to PSTATE_MO=
+DE_* constants.
+5. Change the RAS support wasn't introduced before 4.1 QEMU version.
+6. Move the no_ras flag  patch to begin in this series
+
+Change since v14:
+1. Remove the BUS_MCEERR_AO handling logic because this asynchronous sign=
+al was masked by main thread
+2. Address some Igor Mammedov's comments(ACPI part)
+   1) change the comments for the enum AcpiHestNotifyType definition and =
+remove ditto in patch 1
+   2) change some patch commit messages and separate "APEI GHES table gen=
+eration" patch to more patches.
+3. Address some peter's comments(arm64 Synchronous External Abort injecti=
+on)
+   1) change some code notes
+   2) using arm_current_el() for current EL
+   2) use the helper functions for those (syn_data_abort_*).
+
+Change since v13:
+1. Move the patches that set guest ESR and inject virtual SError out of t=
+his series
+2. Clean and optimize the APEI part patches
+3. Update the commit messages and add some comments for the code
+
+Change since v12:
+1. Address Paolo's comments to move HWPoisonPage definition to accel/kvm/=
+kvm-all.c
+2. Only call kvm_cpu_synchronize_state() when get the BUS_MCEERR_AR signa=
+l
+3. Only add and enable GPIO-Signal and ARMv8 SEA two hardware error sourc=
+es
+4. Address Michael's comments to not sync SPDX from Linux kernel header f=
+ile
+
+Change since v11:
+Address James's comments(james.morse@arm.com)
+1. Check whether KVM has the capability to to set ESR instead of detectin=
+g host CPU RAS capability
+2. For SIGBUS_MCEERR_AR SIGBUS, use Synchronous-External-Abort(SEA) notif=
+ication type
+   for SIGBUS_MCEERR_AO SIGBUS, use GPIO-Signal notification
 
 
-this will be easier to review if you first refactor existing code,
-then add pxb support on top.
+Address Shannon's comments(for ACPI part):
+1. Unify hest_ghes.c and hest_ghes.h license declaration
+2. Remove unnecessary including "qmp-commands.h" in hest_ghes.c
+3. Unconditionally add guest APEI table based on James's comments(james.m=
+orse@arm.com)
+4. Add a option to virt machine for migration compatibility. On new virt =
+machine it's on
+   by default while off for old ones, we enabled it since 2.12
+5. Refer to the ACPI spec version which introduces Hardware Error Notific=
+ation first time
+6. Add ACPI_HEST_NOTIFY_RESERVED notification type
 
-> @@ -744,7 +862,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker, Vi=
-rtMachineState *vms)
->      acpi_dsdt_add_virtio(scope, &memmap[VIRT_MMIO],
->                      (irqmap[VIRT_MMIO] + ARM_SPI_BASE), NUM_VIRTIO_TRANS=
-PORTS);
->      acpi_dsdt_add_pci(scope, memmap, (irqmap[VIRT_PCIE] + ARM_SPI_BASE),
-> -                      vms->highmem, vms->highmem_ecam);
-> +                      vms->highmem, vms->highmem_ecam, vms);
->      if (vms->acpi_dev) {
->          build_ged_aml(scope, "\\_SB."GED_DEVICE,
->                        HOTPLUG_HANDLER(vms->acpi_dev),
-> diff --git a/hw/pci-host/gpex.c b/hw/pci-host/gpex.c
-> index 0ca604dc62..2c18cdfec4 100644
-> --- a/hw/pci-host/gpex.c
-> +++ b/hw/pci-host/gpex.c
-> @@ -36,6 +36,7 @@
->  #include "hw/qdev-properties.h"
->  #include "migration/vmstate.h"
->  #include "qemu/module.h"
-> +#include "hw/arm/virt.h"
-> =20
->  /***********************************************************************=
-*****
->   * GPEX host
-> @@ -98,6 +99,9 @@ static void gpex_host_realize(DeviceState *dev, Error *=
-*errp)
->                                       pci_swizzle_map_irq_fn, s, &s->io_m=
-mio,
->                                       &s->io_ioport, 0, 4, TYPE_PCIE_BUS)=
-;
-> =20
-> +#ifdef __aarch64__
-> +    VIRT_MACHINE(qdev_get_machine())->bus =3D pci->bus;
-> +#endif
->      qdev_set_parent_bus(DEVICE(&s->gpex_root), BUS(pci->bus));
->      pci_bus_set_route_irq_fn(pci->bus, gpex_route_intx_pin_to_irq);
->      qdev_init_nofail(DEVICE(&s->gpex_root));
+Address Igor's comments(for ACPI part):
+1. Add doc patch first which will describe how it's supposed to work betw=
+een QEMU/firmware/guest
+   OS with expected flows.
+2. Move APEI diagrams into doc/spec patch
+3. Remove redundant g_malloc in ghes_record_cper()
+4. Use build_append_int_noprefix() API to compose whole error status bloc=
+k and whole APEI table,
+   and try to get rid of most structures in patch 1, as they will be left=
+ unused after that
+5. Reuse something like https://github.com/imammedo/qemu/commit/3d2fd6d13=
+a3ea298d2ee814835495ce6241d085c to build GAS
+6. Remove much offsetof() in the function
+7. Build independent tables first and only then build dependent tables pa=
+ssing to it pointers
+   to previously build table if necessary.
+8. Redefine macro GHES_ACPI_HEST_NOTIFY_RESERVED to ACPI_HEST_ERROR_SOURC=
+E_COUNT to avoid confusion
 
 
-What does all this have to do with building on aarch64?
+Address Peter Maydell's comments
+1. linux-headers is done as a patch of their own created using scripts/up=
+date-linux-headers.sh run against a mainline kernel tree
+2. Tested whether this patchset builds OK on aarch32
+3. Abstract Hwpoison page adding code  out properly into a cpu-independen=
+t source file from target/i386/kvm.c, such as kvm-all.c
+4. Add doc-comment formatted documentation comment for new globally-visib=
+le function prototype in a header
 
+---
+[1]:
+https://lkml.org/lkml/2017/2/27/246
+https://patchwork.kernel.org/patch/9633105/
+https://patchwork.kernel.org/patch/9925227/
 
-> diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
-> index 71508bf40c..cfc65dd19b 100644
-> --- a/include/hw/arm/virt.h
-> +++ b/include/hw/arm/virt.h
-> @@ -140,6 +140,7 @@ typedef struct {
->      DeviceState *gic;
->      DeviceState *acpi_dev;
->      Notifier powerdown_notifier;
-> +    PCIBus *bus;
->  } VirtMachineState;
+[2]:
+Note: the UEFI(QEMU_EFI.fd) is needed if guest want to use ACPI table.
 
-Again one bus per machine? Pls give this field a better name
-and add some comments.
+After guest boot up, dump the APEI table, then can see the initialized ta=
+ble
+(1) # iasl -p ./HEST -d /sys/firmware/acpi/tables/HEST
+(2) # cat HEST.dsl
+    /*
+     * Intel ACPI Component Architecture
+     * AML/ASL+ Disassembler version 20170728 (64-bit version)
+     * Copyright (c) 2000 - 2017 Intel Corporation
+     *
+     * Disassembly of /sys/firmware/acpi/tables/HEST, Mon Sep  5 07:59:17=
+ 2016
+     *
+     * ACPI Data Table [HEST]
+     *
+     * Format: [HexOffset DecimalOffset ByteLength]  FieldName : FieldVal=
+ue
+     */
 
-> =20
->  #define VIRT_ECAM_ID(high) (high ? VIRT_HIGH_PCIE_ECAM : VIRT_PCIE_ECAM)
-> --=20
-> 2.19.1
->=20
+    .....................................................................=
+.............
+    [308h 0776   2]                Subtable Type : 000A [Generic Hardware=
+ Error Source V2]
+    [30Ah 0778   2]                    Source Id : 0001
+    [30Ch 0780   2]            Related Source Id : FFFF
+    [30Eh 0782   1]                     Reserved : 00
+    [30Fh 0783   1]                      Enabled : 01
+    [310h 0784   4]       Records To Preallocate : 00000001
+    [314h 0788   4]      Max Sections Per Record : 00000001
+    [318h 0792   4]          Max Raw Data Length : 00001000
+
+    [31Ch 0796  12]         Error Status Address : [Generic Address Struc=
+ture]
+    [31Ch 0796   1]                     Space ID : 00 [SystemMemory]
+    [31Dh 0797   1]                    Bit Width : 40
+    [31Eh 0798   1]                   Bit Offset : 00
+    [31Fh 0799   1]         Encoded Access Width : 04 [QWord Access:64]
+    [320h 0800   8]                      Address : 00000000785D0040
+
+    [328h 0808  28]                       Notify : [Hardware Error Notifi=
+cation Structure]
+    [328h 0808   1]                  Notify Type : 08 [SEA]
+    [329h 0809   1]                Notify Length : 1C
+    [32Ah 0810   2]   Configuration Write Enable : 0000
+    [32Ch 0812   4]                 PollInterval : 00000000
+    [330h 0816   4]                       Vector : 00000000
+    [334h 0820   4]      Polling Threshold Value : 00000000
+    [338h 0824   4]     Polling Threshold Window : 00000000
+    [33Ch 0828   4]        Error Threshold Value : 00000000
+    [340h 0832   4]       Error Threshold Window : 00000000
+
+    [344h 0836   4]    Error Status Block Length : 00001000
+    [348h 0840  12]            Read Ack Register : [Generic Address Struc=
+ture]
+    [348h 0840   1]                     Space ID : 00 [SystemMemory]
+    [349h 0841   1]                    Bit Width : 40
+    [34Ah 0842   1]                   Bit Offset : 00
+    [34Bh 0843   1]         Encoded Access Width : 04 [QWord Access:64]
+    [34Ch 0844   8]                      Address : 00000000785D0098
+
+    [354h 0852   8]            Read Ack Preserve : 00000000FFFFFFFE
+    [35Ch 0860   8]               Read Ack Write : 0000000000000001
+
+    .....................................................................=
+................
+
+(3) After a synchronous external abort(SEA) happen, Qemu receive a SIGBUS=
+ and=20
+    filled the CPER into guest GHES memory.  For example, according to ab=
+ove table,
+    the address that contains the physical address of a block of memory t=
+hat holds
+    the error status data is 0x00000000785D0040
+(4) the address of error source which is SEA notification type is 0x785d8=
+0b0
+    (qemu) xp /1 0x00000000785D0040
+    00000000785d0040: 0x785d80b0
+
+(5) check the content of generic error status block and generic error dat=
+a entry
+    (qemu) xp /100x 0x785d80b0
+    00000000785d80b0: 0x00000001 0x00000000 0x00000000 0x00000098
+    00000000785d80c0: 0x00000000 0xa5bc1114 0x4ede6f64 0x833e63b8
+    00000000785d80d0: 0xb1837ced 0x00000000 0x00000300 0x00000050
+    00000000785d80e0: 0x00000000 0x00000000 0x00000000 0x00000000
+    00000000785d80f0: 0x00000000 0x00000000 0x00000000 0x00000000
+    00000000785d8100: 0x00000000 0x00000000 0x00000000 0x00004002
+(6) check the OSPM's ACK value(for example SEA)
+    /* Before OSPM acknowledges the error, check the ACK value */
+    (qemu) xp /1 0x00000000785D0098
+    00000000785d00f0: 0x00000000
+
+    /* After OSPM acknowledges the error, check the ACK value, it change =
+to 1 from 0 */
+    (qemu) xp /1 0x00000000785D0098
+    00000000785d00f0: 0x00000001
+
+[3]: KVM deliver "BUS_MCEERR_AR" to Qemu, Qemu record the guest CPER and =
+inject
+    synchronous external abort to notify guest, then guest do the recover=
+y.
+
+[ 1552.516170] Synchronous External Abort: synchronous external abort (0x=
+92000410) at 0x000000003751c6b4
+[ 1553.074073] {1}[Hardware Error]: Hardware error from APEI Generic Hard=
+ware Error Source: 8
+[ 1553.081654] {1}[Hardware Error]: event severity: recoverable
+[ 1554.034191] {1}[Hardware Error]:  Error 0, type: recoverable
+[ 1554.037934] {1}[Hardware Error]:   section_type: memory error
+[ 1554.513261] {1}[Hardware Error]:   physical_address: 0x0000000040fa600=
+0
+[ 1554.513944] {1}[Hardware Error]:   error_type: 0, unknown
+[ 1555.041451] Memory failure: 0x40fa6: Killing mca-recover:1296 due to h=
+ardware memory corruption
+[ 1555.373116] Memory failure: 0x40fa6: recovery action for dirty LRU pag=
+e: Recovered
+
+Dongjiu Geng (10):
+  acpi: nvdimm: change NVDIMM_UUID_LE to a common macro
+  hw/arm/virt: Introduce a RAS machine option
+  docs: APEI GHES generation and CPER record description
+  ACPI: Build related register address fields via hardware error fw_cfg
+    blob
+  ACPI: Build Hardware Error Source Table
+  ACPI: Record the Generic Error Status Block address
+  KVM: Move hwpoison page related functions into kvm-all.c
+  ACPI: Record Generic Error Status Block(GESB) table
+  target-arm: kvm64: handle SIGBUS signal from kernel or KVM
+  MAINTAINERS: Add ACPI/HEST/GHES entries
+
+ MAINTAINERS                            |   9 +
+ accel/kvm/kvm-all.c                    |  36 +++
+ default-configs/arm-softmmu.mak        |   1 +
+ docs/specs/acpi_hest_ghes.rst          | 110 ++++++++
+ docs/specs/index.rst                   |   1 +
+ hw/acpi/Kconfig                        |   4 +
+ hw/acpi/Makefile.objs                  |   1 +
+ hw/acpi/aml-build.c                    |   2 +
+ hw/acpi/generic_event_device.c         |  18 ++
+ hw/acpi/ghes.c                         | 450 +++++++++++++++++++++++++++=
+++++++
+ hw/acpi/nvdimm.c                       |   8 +-
+ hw/arm/virt-acpi-build.c               |  17 ++
+ hw/arm/virt.c                          |  23 ++
+ include/hw/acpi/aml-build.h            |   1 +
+ include/hw/acpi/generic_event_device.h |   2 +
+ include/hw/acpi/ghes.h                 |  74 ++++++
+ include/hw/arm/virt.h                  |   1 +
+ include/qemu/uuid.h                    |   5 +
+ include/sysemu/kvm.h                   |   3 +-
+ include/sysemu/kvm_int.h               |  12 +
+ target/arm/cpu.h                       |   4 +
+ target/arm/helper.c                    |   2 +-
+ target/arm/internals.h                 |   5 +-
+ target/arm/kvm64.c                     |  73 ++++++
+ target/arm/tlb_helper.c                |   2 +-
+ target/i386/cpu.h                      |   2 +
+ target/i386/kvm.c                      |  36 ---
+ 27 files changed, 854 insertions(+), 48 deletions(-)
+ create mode 100644 docs/specs/acpi_hest_ghes.rst
+ create mode 100644 hw/acpi/ghes.c
+ create mode 100644 include/hw/acpi/ghes.h
+
+--=20
+1.8.3.1
 
 
