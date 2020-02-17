@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8E0D160EAD
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 10:36:14 +0100 (CET)
-Received: from localhost ([::1]:42546 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E1A2160EA5
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 10:34:21 +0100 (CET)
+Received: from localhost ([::1]:42518 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j3cp3-0005P3-Sf
-	for lists+qemu-devel@lfdr.de; Mon, 17 Feb 2020 04:36:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52244)
+	id 1j3cnE-00035U-Gl
+	for lists+qemu-devel@lfdr.de; Mon, 17 Feb 2020 04:34:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52181)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1j3ckL-0007ds-Ve
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 04:31:24 -0500
+ (envelope-from <laurent@vivier.eu>) id 1j3ckF-0007ZL-5c
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 04:31:16 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1j3ckK-0001zv-D5
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 04:31:21 -0500
-Received: from mout.kundenserver.de ([212.227.126.135]:52875)
+ (envelope-from <laurent@vivier.eu>) id 1j3ckD-0001sA-9S
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 04:31:15 -0500
+Received: from mout.kundenserver.de ([212.227.126.133]:44639)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1j3ckJ-0001wE-9n
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 04:31:20 -0500
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1j3ckD-0001qO-0Z
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 04:31:13 -0500
 Received: from localhost.localdomain ([78.238.229.36]) by
  mrelayeu.kundenserver.de (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MN5Nt-1inKGo3D8v-00J3Kq; Mon, 17 Feb 2020 10:30:39 +0100
+ id 1MsZ7T-1jIoF11dwh-00u1z4; Mon, 17 Feb 2020 10:30:40 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 3/9] linux-user: m68k: Update syscall numbers to kernel 5.5
- level
-Date: Mon, 17 Feb 2020 10:30:25 +0100
-Message-Id: <20200217093031.678348-4-laurent@vivier.eu>
+Subject: [PULL 4/9] linux-user: microblaze: Update syscall numbers to kernel
+ 5.5 level
+Date: Mon, 17 Feb 2020 10:30:26 +0100
+Message-Id: <20200217093031.678348-5-laurent@vivier.eu>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200217093031.678348-1-laurent@vivier.eu>
 References: <20200217093031.678348-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:VlZCd/teDwF7wKwoVy5upIvVpL3eDaOrGdB2z0jQ5VXR1YmSyWo
- wl4EYURv/VCsvUjAQCxDwF2GkFx1wVMko2aMmFqNI3w5cHzT2QB0EEWGRv1DsKN4nxKOuuu
- /r7ZlA1BpS3hNI+8lK2MRHvU3spWHHb5DZwNOML3vQcAIz7h2ttqGDes0RTQ6vf0I+w5Cgk
- +hFgLYow6hLqHTD3b2BkQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:C3CmSuX4LEQ=:IBDrtGwcl+KmK2/40btjGZ
- h8Hn8uv2sA5JJOiBjrO270dVGFDoJKK8IWYFQxez53J/1i5u8MX5tlBnc3ViYFxzL05JNtfzd
- cB6+MGSH3PBOezmrly3PiaAwBj/xTy01PixauJD/ALUMbTzmlxtV8IUWZn+EmtFYecFyqhvHn
- WWX1/bC4t9qNFjxMBWGvVm5e/PnHVJ4eWI7bSnDy0U7H6F7fHXCHoWE2LgthHSHZFAmMtqvQq
- AVlzXf5aE1NcN+wIW8SXvEZjsu2t0TyB60qBxTQEt/YNWb51bVJ/GK5L2kFi+fEzLjmXHokWq
- zIsy8TfGn74CvjiugPwiDfoxD9umqSa51iDwU0ZAC8rS9fZqpuFd4Dnw3L1MlzkwWGGBg/3JE
- RVZz7wkiipnmlLSd2qaAIaIBBAG9CRMM3LPU51SOaHQC7sb/WiC73NaCHASpGPmW6G52MlMKI
- tinApZySp+br+8/gc6wofYb615oN02AMwhRl8kcc3c/PET30y62qeIU64syXe9dei4Eq6eDk7
- 8K8NyRFT1XrZK51fdp3ENfIdWUrWrE36bm36CCp8GBKu+A2RLopUJlu+80yU5PcitjYk233hK
- I7pH/Jz/k7vvw8aQdzcLuXulOi2xY/AWHEKog4Z5o95d7X4vASNGMmHsWrarevkPV4SsfO8iR
- o2U3+GEQ15c9n/Ed6zEMQP0107j0Pnq3RvD0doMBoXWgUqHtHGLLBBDEGDP9AYPpWsLDpr3RB
- RDjAXJaBfzO5+r3dB5MfX5JfcVbLi7IIOSaJy8nBQYe1V4AqmJNrwWVdrm5i4Sv7SqYDqFhnJ
- PpfMUWbYseC+mEO24T4pAmaeZk9XfP77+3AKThPGXE4j71WLhIVa+wt0EHyGr3oi8SVNdeb
+X-Provags-ID: V03:K1:N5CS+8b1+soucHcmLCD8OGfIuprmzUpg2UxHpgDoYFRN8aDEkSo
+ 6jFxfTTmkIzwSVhVRMxXUD8VJnv34qtZSPn9xbtfGDalo0g6h9fLE4/IuF2zbvscCVBZNeT
+ FQvDQ3GC2/wFrf/PdrIOmu6JZ49PkNgiuxdAPR7pqOFq0RYMZJ6hEisIhW6FOjgnN2z8esQ
+ YhzHPQnr/oB1Kz4zVDJvA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:ARIZpaV4CtU=:Ec/P73FGaIqmH53rZ8XFj3
+ kbJhBplAy1ocw5zN1CbIsATtfFW5asxrB8c1fXxm0rxqyICr7afCuhLzXAhP5m5iwtbwNrC4u
+ 31aDpW1MMRvUlm+K9QzZfiXG/GhHK9gJMtmEY5Ya3rVpef5z1Or14FHZT4+R1gN1PMyj8wyiQ
+ MrQuhsWlW0xIL8MGPtkDGd55kk1KrI+KKv2vAiwaPQcw2GpUNPNb3ZEAowLR3HgBWP2tQm4yu
+ erI77PqPlA+Phl4BNTDDyIVqgMGKO0CsOiOfvdAA0WcnlxMQM4E0xRlPrfWsBgFscFUQLjjb4
+ Wp8zWaulGEzX3QXvT7ALUYQE+Zxzi3T2kLHIq93jEpTNKpU5D/QMwfrpAx0vMv7fT/+OZfXyl
+ J8kEZ2jtNit5LPcb//F0Zd667YOB0B8c31P1mumblnpB3mZF3e7IcQLI1OeiG90l+9q/7yBZF
+ VUdzeBP4HFhDIOZPSi9Cn9s65bz5XAnz0OVT+75DydAw8qN6cQ+ZlCTrf1OdtXmZtONzVe2M9
+ EoUSEReqBheHtDk6Pa4AotsRegQPxUCQlPhyaJHWwQ4Ff8QttjzVbW+IRnQdU/hs3wAb6AgNF
+ INFT+fvkSQMWZ1fzt/p/h2UaL4A6ENzHvp6zV210TlRJNbLYIZEPx/9rBDzDbQx4GI3WYCxWi
+ lRXAuZiZNz/3cGdHGBgYipuf69XAbth5ulZEnWtY5zPpq873gNSMysWJJR2MG8GrQbkH9gdMK
+ tvNRCGBGMYAFtTDzrg93EjTtAi4AA9RbPBXptH9T+r/XZexfgcPdx8Z2mRuLUPm91bJhnV1+I
+ 93U0gmnWlPgaQtj43Yf/5cYatZit85OFuMM14wf7bTQfZINpIBGuANKwU7BV+zpsFNU3/Lz
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.126.135
+X-Received-From: 212.227.126.133
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,51 +64,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- Riku Voipio <riku.voipio@iki.fi>, Aleksandar Markovic <amarkovic@wavecomp.com>,
- Aurelien Jarno <aurelien@aurel32.net>, Laurent Vivier <laurent@vivier.eu>
+Cc: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>,
+ "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Aleksandar Markovic <amarkovic@wavecomp.com>
 
-Update m68k syscall numbers based on Linux kernel v5.5.
+Update microblaze syscall numbers based on Linux kernel v5.5.
 
-CC: Laurent Vivier <laurent@vivier.eu>
+CC: Edgar E. Iglesias <edgar.iglesias@gmail.com>
 Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <1581596954-2305-4-git-send-email-aleksandar.markovic@rt-rk.com>
+Message-Id: <1581596954-2305-5-git-send-email-aleksandar.markovic@rt-rk.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/m68k/syscall_nr.h | 50 +++++++++++++++++++++++++++++++++++-
- 1 file changed, 49 insertions(+), 1 deletion(-)
+ linux-user/microblaze/syscall_nr.h | 45 ++++++++++++++++++++++++++++++
+ 1 file changed, 45 insertions(+)
 
-diff --git a/linux-user/m68k/syscall_nr.h b/linux-user/m68k/syscall_nr.h
-index d33d8e98a732..01aee343a9b2 100644
---- a/linux-user/m68k/syscall_nr.h
-+++ b/linux-user/m68k/syscall_nr.h
-@@ -382,5 +382,53 @@
- #define TARGET_NR_copy_file_range       376
- #define TARGET_NR_preadv2               377
- #define TARGET_NR_pwritev2              378
--
-+#define TARGET_NR_statx                 379
-+#define TARGET_NR_seccomp               380
-+#define TARGET_NR_pkey_mprotect         381
-+#define TARGET_NR_pkey_alloc            382
-+#define TARGET_NR_pkey_free             383
-+#define TARGET_NR_rseq                  384
-+/* room for arch specific calls */
-+#define TARGET_NR_semget                393
-+#define TARGET_NR_semctl                394
-+#define TARGET_NR_shmget                395
-+#define TARGET_NR_shmctl                396
-+#define TARGET_NR_shmat                 397
-+#define TARGET_NR_shmdt                 398
-+#define TARGET_NR_msgget                399
-+#define TARGET_NR_msgsnd                400
-+#define TARGET_NR_msgrcv                401
-+#define TARGET_NR_msgctl                402
+diff --git a/linux-user/microblaze/syscall_nr.h b/linux-user/microblaze/syscall_nr.h
+index aa2eb9388177..ec1758e37434 100644
+--- a/linux-user/microblaze/syscall_nr.h
++++ b/linux-user/microblaze/syscall_nr.h
+@@ -393,5 +393,50 @@
+ #define TARGET_NR_memfd_create          386
+ #define TARGET_NR_bpf                   387
+ #define TARGET_NR_execveat              388
++#define TARGET_NR_userfaultfd           389
++#define TARGET_NR_membarrier            390
++#define TARGET_NR_mlock2                391
++#define TARGET_NR_copy_file_range       392
++#define TARGET_NR_preadv2               393
++#define TARGET_NR_pwritev2              394
++#define TARGET_NR_pkey_mprotect         395
++#define TARGET_NR_pkey_alloc            396
++#define TARGET_NR_pkey_free             397
++#define TARGET_NR_statx                 398
++#define TARGET_NR_io_pgetevents         399
++#define TARGET_NR_rseq                  400
++/* 401 and 402 are unused */
 +#define TARGET_NR_clock_gettime64       403
 +#define TARGET_NR_clock_settime64       404
 +#define TARGET_NR_clock_adjtime64       405
@@ -140,7 +137,8 @@ index d33d8e98a732..01aee343a9b2 100644
 +#define TARGET_NR_fsmount               432
 +#define TARGET_NR_fspick                433
 +#define TARGET_NR_pidfd_open            434
-+/* 435 reserved for clone3 */
++#define TARGET_NR_clone3                435
+ 
  #endif
 -- 
 2.24.1
