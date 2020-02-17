@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6976316159B
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 16:10:21 +0100 (CET)
-Received: from localhost ([::1]:46852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E091161592
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 16:08:36 +0100 (CET)
+Received: from localhost ([::1]:46816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j3i2O-0000da-Fn
-	for lists+qemu-devel@lfdr.de; Mon, 17 Feb 2020 10:10:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39271)
+	id 1j3i0h-0005Wm-If
+	for lists+qemu-devel@lfdr.de; Mon, 17 Feb 2020 10:08:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39163)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1j3hvk-0004ye-VT
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 10:03:30 -0500
+ (envelope-from <vsementsov@virtuozzo.com>) id 1j3hvf-0004k1-Jz
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 10:03:24 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1j3hvj-0007aR-37
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 10:03:28 -0500
-Received: from relay.sw.ru ([185.231.240.75]:47544)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1j3hve-0007Wu-DU
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 10:03:23 -0500
+Received: from relay.sw.ru ([185.231.240.75]:47404)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1j3hvi-0007Rc-Pu; Mon, 17 Feb 2020 10:03:26 -0500
+ id 1j3hve-0007L9-55; Mon, 17 Feb 2020 10:03:22 -0500
 Received: from vovaso.qa.sw.ru ([10.94.3.0] helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.3)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1j3hvE-0007Zt-JO; Mon, 17 Feb 2020 18:02:56 +0300
+ id 1j3hvE-0007Zt-UW; Mon, 17 Feb 2020 18:02:57 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 09/22] migration/block-dirty-bitmap: relax error handling
- in incoming part
-Date: Mon, 17 Feb 2020 18:02:33 +0300
-Message-Id: <20200217150246.29180-10-vsementsov@virtuozzo.com>
+Subject: [PATCH v2 10/22] migration/block-dirty-bitmap: cancel migration on
+ shutdown
+Date: Mon, 17 Feb 2020 18:02:34 +0300
+Message-Id: <20200217150246.29180-11-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200217150246.29180-1-vsementsov@virtuozzo.com>
 References: <20200217150246.29180-1-vsementsov@virtuozzo.com>
@@ -55,259 +55,87 @@ Cc: Fam Zheng <fam@euphon.net>, vsementsov@virtuozzo.com, qemu-block@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Bitmaps data is not critical, and we should not fail the migration (or
-use postcopy recovering) because of dirty-bitmaps migration failure.
-Instead we should just lose unfinished bitmaps.
+If target is turned of prior to postcopy finished, target crashes
+because busy bitmaps are found at shutdown.
+Canceling incoming migration helps, as it removes all unfinished (and
+therefore busy) bitmaps.
 
-Still we have to report io stream violation errors, as they affect the
-whole migration stream.
+Similarly on source we crash in bdrv_close_all which asserts that all
+bdrv states are removed, because bdrv states involved into dirty bitmap
+migration are referenced by it. So, we need to cancel outgoing
+migration as well.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- migration/block-dirty-bitmap.c | 148 +++++++++++++++++++++++++--------
- 1 file changed, 113 insertions(+), 35 deletions(-)
+ migration/migration.h          |  2 ++
+ migration/block-dirty-bitmap.c | 16 ++++++++++++++++
+ migration/migration.c          | 13 +++++++++++++
+ 3 files changed, 31 insertions(+)
 
+diff --git a/migration/migration.h b/migration/migration.h
+index 2948f2387b..2de6b8bbe2 100644
+--- a/migration/migration.h
++++ b/migration/migration.h
+@@ -332,6 +332,8 @@ void migrate_send_rp_recv_bitmap(MigrationIncomingState *mis,
+ void migrate_send_rp_resume_ack(MigrationIncomingState *mis, uint32_t value);
+ 
+ void dirty_bitmap_mig_before_vm_start(void);
++void dirty_bitmap_mig_cancel_outgoing(void);
++void dirty_bitmap_mig_cancel_incoming(void);
+ void migrate_add_address(SocketAddress *address);
+ 
+ int foreach_not_ignored_block(RAMBlockIterFunc func, void *opaque);
 diff --git a/migration/block-dirty-bitmap.c b/migration/block-dirty-bitmap.c
-index 1329db8d7d..aea5326804 100644
+index aea5326804..3ca425d95e 100644
 --- a/migration/block-dirty-bitmap.c
 +++ b/migration/block-dirty-bitmap.c
-@@ -145,6 +145,15 @@ typedef struct DBMLoadState {
- 
-     bool before_vm_start_handled; /* set in dirty_bitmap_mig_before_vm_start */
- 
-+    /*
-+     * cancelled
-+     * Incoming migration is cancelled for some reason. That means that we
-+     * still should read our chunks from migration stream, to not affect other
-+     * migration objects (like RAM), but just ignore them and do not touch any
-+     * bitmaps or nodes.
-+     */
-+    bool cancelled;
-+
-     GSList *bitmaps;
-     QemuMutex lock; /* protect bitmaps */
- } DBMLoadState;
-@@ -545,13 +554,47 @@ void dirty_bitmap_mig_before_vm_start(void)
-     qemu_mutex_unlock(&s->lock);
+@@ -585,6 +585,22 @@ static void cancel_incoming_locked(DBMLoadState *s)
+     s->bitmaps = NULL;
  }
  
-+static void cancel_incoming_locked(DBMLoadState *s)
++void dirty_bitmap_mig_cancel_outgoing(void)
 +{
-+    GSList *item;
++    dirty_bitmap_do_save_cleanup(&dbm_state.save);
++}
 +
-+    if (s->cancelled) {
-+        return;
-+    }
++void dirty_bitmap_mig_cancel_incoming(void)
++{
++    DBMLoadState *s = &dbm_state.load;
 +
-+    s->cancelled = true;
-+    s->bs = NULL;
-+    s->bitmap = NULL;
++    qemu_mutex_lock(&s->lock);
 +
-+    /* Drop all unfinished bitmaps */
-+    for (item = s->bitmaps; item; item = g_slist_next(item)) {
-+        LoadBitmapState *b = item->data;
++    cancel_incoming_locked(s);
 +
-+        /*
-+         * Bitmap must be unfinished, as finished bitmaps should already be
-+         * removed from the list.
-+         */
-+        assert(!s->before_vm_start_handled || !b->migrated);
-+        if (bdrv_dirty_bitmap_has_successor(b->bitmap)) {
-+            bdrv_reclaim_dirty_bitmap(b->bitmap, &error_abort);
-+        }
-+        bdrv_release_dirty_bitmap(b->bitmap);
-+    }
-+
-+    g_slist_free_full(s->bitmaps, g_free);
-+    s->bitmaps = NULL;
++    qemu_mutex_unlock(&s->lock);
 +}
 +
  static void dirty_bitmap_load_complete(QEMUFile *f, DBMLoadState *s)
  {
      GSList *item;
-     trace_dirty_bitmap_load_complete();
--    bdrv_dirty_bitmap_deserialize_finish(s->bitmap);
- 
--    qemu_mutex_lock(&s->lock);
-+    if (s->cancelled) {
-+        return;
-+    }
+diff --git a/migration/migration.c b/migration/migration.c
+index 515047932c..7c605ba218 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -181,6 +181,19 @@ void migration_shutdown(void)
+      */
+     migrate_fd_cancel(current_migration);
+     object_unref(OBJECT(current_migration));
 +
-+    bdrv_dirty_bitmap_deserialize_finish(s->bitmap);
- 
-     if (bdrv_dirty_bitmap_has_successor(s->bitmap)) {
-         bdrv_reclaim_dirty_bitmap(s->bitmap, &error_abort);
-@@ -569,8 +612,6 @@ static void dirty_bitmap_load_complete(QEMUFile *f, DBMLoadState *s)
-             break;
-         }
-     }
--
--    qemu_mutex_unlock(&s->lock);
++    /*
++     * Cancel outgoing migration of dirty bitmaps. It should
++     * at least unref used block nodes.
++     */
++    dirty_bitmap_mig_cancel_outgoing();
++
++    /*
++     * Cancel incoming migration of dirty bitmaps. Dirty bitmaps
++     * are non-critical data, and their loss never considered as
++     * something serious.
++     */
++    dirty_bitmap_mig_cancel_incoming();
  }
  
- static int dirty_bitmap_load_bits(QEMUFile *f, DBMLoadState *s)
-@@ -582,15 +623,32 @@ static int dirty_bitmap_load_bits(QEMUFile *f, DBMLoadState *s)
- 
-     if (s->flags & DIRTY_BITMAP_MIG_FLAG_ZEROES) {
-         trace_dirty_bitmap_load_bits_zeroes();
--        bdrv_dirty_bitmap_deserialize_zeroes(s->bitmap, first_byte, nr_bytes,
--                                             false);
-+        if (!s->cancelled) {
-+            bdrv_dirty_bitmap_deserialize_zeroes(s->bitmap, first_byte,
-+                                                 nr_bytes, false);
-+        }
-     } else {
-         size_t ret;
-         uint8_t *buf;
-         uint64_t buf_size = qemu_get_be64(f);
--        uint64_t needed_size =
--            bdrv_dirty_bitmap_serialization_size(s->bitmap,
--                                                 first_byte, nr_bytes);
-+        uint64_t needed_size;
-+
-+        buf = g_malloc(buf_size);
-+        ret = qemu_get_buffer(f, buf, buf_size);
-+        if (ret != buf_size) {
-+            error_report("Failed to read bitmap bits");
-+            g_free(buf);
-+            return -EIO;
-+        }
-+
-+        if (s->cancelled) {
-+            g_free(buf);
-+            return 0;
-+        }
-+
-+        needed_size = bdrv_dirty_bitmap_serialization_size(s->bitmap,
-+                                                           first_byte,
-+                                                           nr_bytes);
- 
-         if (needed_size > buf_size ||
-             buf_size > QEMU_ALIGN_UP(needed_size, 4 * sizeof(long))
-@@ -599,15 +657,8 @@ static int dirty_bitmap_load_bits(QEMUFile *f, DBMLoadState *s)
-             error_report("Migrated bitmap granularity doesn't "
-                          "match the destination bitmap '%s' granularity",
-                          bdrv_dirty_bitmap_name(s->bitmap));
--            return -EINVAL;
--        }
--
--        buf = g_malloc(buf_size);
--        ret = qemu_get_buffer(f, buf, buf_size);
--        if (ret != buf_size) {
--            error_report("Failed to read bitmap bits");
--            g_free(buf);
--            return -EIO;
-+            cancel_incoming_locked(s);
-+            return 0;
-         }
- 
-         bdrv_dirty_bitmap_deserialize_part(s->bitmap, buf, first_byte, nr_bytes,
-@@ -632,14 +683,16 @@ static int dirty_bitmap_load_header(QEMUFile *f, DBMLoadState *s)
-             error_report("Unable to read node name string");
-             return -EINVAL;
-         }
--        s->bs = bdrv_lookup_bs(s->node_name, s->node_name, &local_err);
--        if (!s->bs) {
--            error_report_err(local_err);
--            return -EINVAL;
-+        if (!s->cancelled) {
-+            s->bs = bdrv_lookup_bs(s->node_name, s->node_name, &local_err);
-+            if (!s->bs) {
-+                error_report_err(local_err);
-+                cancel_incoming_locked(s);
-+            }
-         }
--    } else if (!s->bs && !nothing) {
-+    } else if (!s->bs && !nothing && !s->cancelled) {
-         error_report("Error: block device name is not set");
--        return -EINVAL;
-+        cancel_incoming_locked(s);
-     }
- 
-     if (s->flags & DIRTY_BITMAP_MIG_FLAG_BITMAP_NAME) {
-@@ -647,24 +700,38 @@ static int dirty_bitmap_load_header(QEMUFile *f, DBMLoadState *s)
-             error_report("Unable to read bitmap name string");
-             return -EINVAL;
-         }
--        s->bitmap = bdrv_find_dirty_bitmap(s->bs, s->bitmap_name);
--
--        /* bitmap may be NULL here, it wouldn't be an error if it is the
--         * first occurrence of the bitmap */
--        if (!s->bitmap && !(s->flags & DIRTY_BITMAP_MIG_FLAG_START)) {
--            error_report("Error: unknown dirty bitmap "
--                         "'%s' for block device '%s'",
--                         s->bitmap_name, s->node_name);
--            return -EINVAL;
-+        if (!s->cancelled) {
-+            s->bitmap = bdrv_find_dirty_bitmap(s->bs, s->bitmap_name);
-+
-+            /*
-+             * bitmap may be NULL here, it wouldn't be an error if it is the
-+             * first occurrence of the bitmap
-+             */
-+            if (!s->bitmap && !(s->flags & DIRTY_BITMAP_MIG_FLAG_START)) {
-+                error_report("Error: unknown dirty bitmap "
-+                             "'%s' for block device '%s'",
-+                             s->bitmap_name, s->node_name);
-+                cancel_incoming_locked(s);
-+            }
-         }
--    } else if (!s->bitmap && !nothing) {
-+    } else if (!s->bitmap && !nothing && !s->cancelled) {
-         error_report("Error: block device name is not set");
--        return -EINVAL;
-+        cancel_incoming_locked(s);
-     }
- 
-     return 0;
- }
- 
-+/*
-+ * dirty_bitmap_load
-+ *
-+ * Load sequence of dirty bitmap chunks. Return error only on fatal io stream
-+ * violations. On other errors just cancel bitmaps incoming migration and return
-+ * 0.
-+ *
-+ * Note, than when incoming bitmap migration is canceled, we still must read all
-+ * our chunks (and just ignore them), to not affect other migration objects.
-+ */
- static int dirty_bitmap_load(QEMUFile *f, void *opaque, int version_id)
- {
-     DBMLoadState *s = &((DBMState *)opaque)->load;
-@@ -673,12 +740,19 @@ static int dirty_bitmap_load(QEMUFile *f, void *opaque, int version_id)
-     trace_dirty_bitmap_load_enter();
- 
-     if (version_id != 1) {
-+        qemu_mutex_lock(&s->lock);
-+        cancel_incoming_locked(s);
-+        qemu_mutex_unlock(&s->lock);
-         return -EINVAL;
-     }
- 
-     do {
-+        qemu_mutex_lock(&s->lock);
-+
-         ret = dirty_bitmap_load_header(f, s);
-         if (ret < 0) {
-+            cancel_incoming_locked(s);
-+            qemu_mutex_unlock(&s->lock);
-             return ret;
-         }
- 
-@@ -695,8 +769,12 @@ static int dirty_bitmap_load(QEMUFile *f, void *opaque, int version_id)
-         }
- 
-         if (ret) {
-+            cancel_incoming_locked(s);
-+            qemu_mutex_unlock(&s->lock);
-             return ret;
-         }
-+
-+        qemu_mutex_unlock(&s->lock);
-     } while (!(s->flags & DIRTY_BITMAP_MIG_FLAG_EOS));
- 
-     trace_dirty_bitmap_load_success();
+ /* For outgoing */
 -- 
 2.21.0
 
