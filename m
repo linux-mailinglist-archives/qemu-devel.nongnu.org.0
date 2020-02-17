@@ -2,68 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB16D161174
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 12:53:50 +0100 (CET)
-Received: from localhost ([::1]:44220 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6095416118A
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 13:00:19 +0100 (CET)
+Received: from localhost ([::1]:44292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j3eyD-0001Id-Vh
-	for lists+qemu-devel@lfdr.de; Mon, 17 Feb 2020 06:53:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41199)
+	id 1j3f4U-0007PL-Ej
+	for lists+qemu-devel@lfdr.de; Mon, 17 Feb 2020 07:00:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41396)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <marcandre.lureau@gmail.com>) id 1j3esV-0002Bt-6g
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 06:47:56 -0500
+ (envelope-from <mreitz@redhat.com>) id 1j3etW-00033D-VJ
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 06:49:00 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@gmail.com>) id 1j3esT-0004SJ-NH
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 06:47:55 -0500
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:35302)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
- id 1j3esT-0004RT-Ey
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 06:47:53 -0500
-Received: by mail-wm1-x341.google.com with SMTP id b17so18127700wmb.0
- for <qemu-devel@nongnu.org>; Mon, 17 Feb 2020 03:47:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=5FmZo3kfqSxY/nBaqvmnwPDPSKJwRrASqwzsEjuaiOo=;
- b=kWKeYmgaQ59FYdUChPOK7wjyNYQ4Ae8JuWL+6PPMB3zIMfFlB5L0InSKG8at+N153q
- KOo9ULlxlMFGSsDgzOnLo0YBZ/Vf15HKOB9CPm7AJnbPyVBcQH0yON1W4bv0sqFF+eJK
- hxnrhYLLVyXzK62P6TNVq1YrIjeZaU2L54/Y+gpClBNxqh3uaudSCcjTsSiHTOwGcPad
- 3wxYJIO1FWntjG2IbVojSqjDwahhN73C3QadaePrDFMZatyQ1KMBreTkBF+vOWKhxSEQ
- JQfqhx/gjpawUTVPmHJqDlOL9pP7fMZiMNeSEUo9q0SuxPIGTML1eXEx28Ye3ho1XCUO
- K9gQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=5FmZo3kfqSxY/nBaqvmnwPDPSKJwRrASqwzsEjuaiOo=;
- b=OCEM03dksrpg1SlFaub+Dt/Udm9SxxCP2IcAskFvJxMnHgMIfh+2DazKs7kT7T6Z0V
- SSdUXTjGHNl7b16A1rVzLpcbiA8far7mH7XIm3uKBFGCme/TE4Xg8KAzzxu3vwHG9I49
- k+Tf4pgaeLZjgsVnr/t8GhFaYhdsc/PCQmBLIbt2jSWrAWgCnrrUJ9BV3pXhv5PVRSCp
- UilAF/1tW4eW0mlyufW9EAOyJKBbf6yPDqNaDOsb/U4rsIq962stYqRO1RpN7GNp/0nd
- CGvrWusaCY+pOUeYPuROJXNN0nezmavozi0Xg4B6sFtdFgF5fIUGFykEyntY2g++Y43H
- rGhA==
-X-Gm-Message-State: APjAAAWNxUDJuuttm/5g6AG8UtgLGL3dlmjwgH4MMBdFWYdZKiS2MGUU
- HBFDeMmz9IMZZORBKz60uvkK9U5E52J7JaTOFxo=
-X-Google-Smtp-Source: APXvYqxHFP8Ygb5RsJjDpxtq4hoA7cBDoReoXCWIFF4SkGKgqYEPQ+ZvxntMUAbmnHP7ugXpm3GJAyDjNsAa9oWkjx0=
-X-Received: by 2002:a7b:cb97:: with SMTP id m23mr20902447wmi.37.1581940072409; 
- Mon, 17 Feb 2020 03:47:52 -0800 (PST)
+ (envelope-from <mreitz@redhat.com>) id 1j3etV-00054Q-Mu
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 06:48:58 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:44950
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1j3etV-00053m-ID
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 06:48:57 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1581940136;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=aIT8KxW5kd+27ldRSp5UW5iRp8xhiqNBNX+WoMUbRs8=;
+ b=E5UD/VCw3VfG8Qceoa56Z0+VPaPIIPidr/pn2NKSDoqmm3E8oCfCLYhYmY4KEoNC3C2d4H
+ r4CKO8vu6CJEYYhrXTv4kDrrIPhA6tZTeX2XfEW6CDNW9fCntAFb5VfiAVYibcLEcZ6+Qf
+ aRlAfAngzv3n41wak3wdxVbejEO77Tc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-63-gPepL7EsN_2YIgT6Cd7chA-1; Mon, 17 Feb 2020 06:48:52 -0500
+X-MC-Unique: gPepL7EsN_2YIgT6Cd7chA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 44282477;
+ Mon, 17 Feb 2020 11:48:51 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-117-191.ams2.redhat.com
+ [10.36.117.191])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 258815DA75;
+ Mon, 17 Feb 2020 11:48:48 +0000 (UTC)
+Subject: Re: [PATCH v2 2/7] block/block-copy: use block_status
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20191127180840.11937-1-vsementsov@virtuozzo.com>
+ <20191127180840.11937-3-vsementsov@virtuozzo.com>
+ <81ce033a-2ac9-21b6-4649-48df61d41797@redhat.com>
+ <e6a5a095-78f3-faf1-6eaa-68843b41c490@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <168c4ec7-47fa-72a1-dfa7-10754f79519d@redhat.com>
+Date: Mon, 17 Feb 2020 12:48:46 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-References: <20191108150123.12213-1-marcandre.lureau@redhat.com>
- <20191108150123.12213-2-marcandre.lureau@redhat.com>
- <cc27aa10-c6e2-0de8-a55f-b9a8da67dde2@greensocs.com>
-In-Reply-To: <cc27aa10-c6e2-0de8-a55f-b9a8da67dde2@greensocs.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Mon, 17 Feb 2020 12:47:40 +0100
-Message-ID: <CAJ+F1CJks+3y6Wh93w+tT6YyO3-iW9kDFNqzW96OyXJ-O+xdaA@mail.gmail.com>
-Subject: Re: [PATCH v6 01/25] qmp: constify QmpCommand and list
-To: Markus Armbruster <armbru@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::341
+In-Reply-To: <e6a5a095-78f3-faf1-6eaa-68843b41c490@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="lF4rSxLLIMvci71L599jCzB9cSCytM345"
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,223 +102,115 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Damien Hedde <damien.hedde@greensocs.com>, QEMU <qemu-devel@nongnu.org>,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: kwolf@redhat.com, den@openvz.org, jsnow@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Markus,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--lF4rSxLLIMvci71L599jCzB9cSCytM345
+Content-Type: multipart/mixed; boundary="VAtS4ITJpRgwOvUtUUsjVQpMtCYE7fBRs"
 
-Can you review/queue this patch?
+--VAtS4ITJpRgwOvUtUUsjVQpMtCYE7fBRs
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-thanks
-
-On Fri, Nov 8, 2019 at 5:52 PM Damien Hedde <damien.hedde@greensocs.com> wr=
-ote:
->
->
->
-> On 11/8/19 4:00 PM, Marc-Andr=C3=A9 Lureau wrote:
-> > Since 0b69f6f72ce47a37a749b056b6d5ec64c61f11e8 "qapi: remove
-> > qmp_unregister_command()", the command list can be declared const.
-> >
-> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> > ---
-> >  include/qapi/qmp/dispatch.h | 9 +++++----
-> >  monitor/misc.c              | 2 +-
-> >  monitor/monitor-internal.h  | 2 +-
-> >  qapi/qmp-dispatch.c         | 6 +++---
-> >  qapi/qmp-registry.c         | 6 +++---
-> >  qga/commands.c              | 2 +-
-> >  qga/main.c                  | 6 +++---
-> >  7 files changed, 17 insertions(+), 16 deletions(-)
-> >
-> > diff --git a/include/qapi/qmp/dispatch.h b/include/qapi/qmp/dispatch.h
-> > index 9aa426a398..5a9cf82472 100644
-> > --- a/include/qapi/qmp/dispatch.h
-> > +++ b/include/qapi/qmp/dispatch.h
-> > @@ -39,7 +39,8 @@ typedef QTAILQ_HEAD(QmpCommandList, QmpCommand) QmpCo=
-mmandList;
-> >
-> >  void qmp_register_command(QmpCommandList *cmds, const char *name,
-> >                            QmpCommandFunc *fn, QmpCommandOptions option=
-s);
-> > -QmpCommand *qmp_find_command(QmpCommandList *cmds, const char *name);
-> > +const QmpCommand *qmp_find_command(const QmpCommandList *cmds,
-> > +                                   const char *name);
-> >  void qmp_disable_command(QmpCommandList *cmds, const char *name);
-> >  void qmp_enable_command(QmpCommandList *cmds, const char *name);
-> >
-> > @@ -47,13 +48,13 @@ bool qmp_command_is_enabled(const QmpCommand *cmd);
-> >  const char *qmp_command_name(const QmpCommand *cmd);
-> >  bool qmp_has_success_response(const QmpCommand *cmd);
-> >  QDict *qmp_error_response(Error *err);
-> > -QDict *qmp_dispatch(QmpCommandList *cmds, QObject *request,
-> > +QDict *qmp_dispatch(const QmpCommandList *cmds, QObject *request,
-> >                      bool allow_oob);
-> >  bool qmp_is_oob(const QDict *dict);
-> >
-> > -typedef void (*qmp_cmd_callback_fn)(QmpCommand *cmd, void *opaque);
-> > +typedef void (*qmp_cmd_callback_fn)(const QmpCommand *cmd, void *opaqu=
-e);
-> >
-> > -void qmp_for_each_command(QmpCommandList *cmds, qmp_cmd_callback_fn fn=
-,
-> > +void qmp_for_each_command(const QmpCommandList *cmds, qmp_cmd_callback=
-_fn fn,
-> >                            void *opaque);
-> >
-> >  #endif
-> > diff --git a/monitor/misc.c b/monitor/misc.c
-> > index 3baa15f3bf..3052bfe8f1 100644
-> > --- a/monitor/misc.c
-> > +++ b/monitor/misc.c
-> > @@ -230,7 +230,7 @@ static void hmp_info_help(Monitor *mon, const QDict=
- *qdict)
-> >      help_cmd(mon, "info");
-> >  }
-> >
-> > -static void query_commands_cb(QmpCommand *cmd, void *opaque)
-> > +static void query_commands_cb(const QmpCommand *cmd, void *opaque)
-> >  {
-> >      CommandInfoList *info, **list =3D opaque;
-> >
-> > diff --git a/monitor/monitor-internal.h b/monitor/monitor-internal.h
-> > index d78f5ca190..3e7dac5910 100644
-> > --- a/monitor/monitor-internal.h
-> > +++ b/monitor/monitor-internal.h
-> > @@ -132,7 +132,7 @@ typedef struct {
-> >       * qmp_capabilities succeeds, we go into command mode, and
-> >       * @command becomes &qmp_commands.
-> >       */
-> > -    QmpCommandList *commands;
-> > +    const QmpCommandList *commands;
-> >      bool capab_offered[QMP_CAPABILITY__MAX]; /* capabilities offered *=
+On 08.02.20 13:25, Vladimir Sementsov-Ogievskiy wrote:
+> 07.02.2020 20:46, Max Reitz wrote:
+>> On 27.11.19 19:08, Vladimir Sementsov-Ogievskiy wrote:
+>>> Use bdrv_block_status_above to chose effective chunk size and to handle
+>>> zeroes effectively.
+>>>
+>>> This substitutes checking for just being allocated or not, and drops
+>>> old code path for it. Assistance by backup job is dropped too, as
+>>> caching block-status information is more difficult than just caching
+>>> is-allocated information in our dirty bitmap, and backup job is not
+>>> good place for this caching anyway.
+>>>
+>>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>>> ---
+>>> =A0 block/block-copy.c | 67 +++++++++++++++++++++++++++++++++++++------=
+---
+>>> =A0 block/trace-events |=A0 1 +
+>>> =A0 2 files changed, 55 insertions(+), 13 deletions(-)
+>>>
+>>> diff --git a/block/block-copy.c b/block/block-copy.c
+>>> index 8602e2cae7..74295d93d5 100644
+>>> --- a/block/block-copy.c
+>>> +++ b/block/block-copy.c
+>>
+>> [...]
+>>
+>>> @@ -336,23 +375,25 @@ int coroutine_fn block_copy(BlockCopyState *s,
+>>> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 chunk_end =3D next_zero;
+>>> =A0=A0=A0=A0=A0=A0=A0=A0=A0 }
+>>> =A0 -=A0=A0=A0=A0=A0=A0=A0 if (s->skip_unallocated) {
+>>> -=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 ret =3D block_copy_reset_unallocated=
+(s, start,
+>>> &status_bytes);
+>>> -=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 if (ret =3D=3D 0) {
+>>> -=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 trace_block_copy_skip_ra=
+nge(s, start, status_bytes);
+>>> -=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 start +=3D status_bytes;
+>>> -=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 continue;
+>>> -=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 }
+>>> -=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 /* Clamp to known allocated region *=
 /
-> >      bool capab[QMP_CAPABILITY__MAX];         /* offered and accepted *=
-/
-> >      /*
-> > diff --git a/qapi/qmp-dispatch.c b/qapi/qmp-dispatch.c
-> > index bc264b3c9b..857399c5fe 100644
-> > --- a/qapi/qmp-dispatch.c
-> > +++ b/qapi/qmp-dispatch.c
-> > @@ -75,14 +75,14 @@ static QDict *qmp_dispatch_check_obj(const QObject =
-*request, bool allow_oob,
-> >      return dict;
-> >  }
-> >
-> > -static QObject *do_qmp_dispatch(QmpCommandList *cmds, QObject *request=
-,
-> > +static QObject *do_qmp_dispatch(const QmpCommandList *cmds, QObject *r=
-equest,
-> >                                  bool allow_oob, Error **errp)
-> >  {
-> >      Error *local_err =3D NULL;
-> >      bool oob;
-> >      const char *command;
-> >      QDict *args, *dict;
-> > -    QmpCommand *cmd;
-> > +    const QmpCommand *cmd;
-> >      QObject *ret =3D NULL;
-> >
-> >      dict =3D qmp_dispatch_check_obj(request, allow_oob, errp);
-> > @@ -164,7 +164,7 @@ bool qmp_is_oob(const QDict *dict)
-> >          && !qdict_haskey(dict, "execute");
-> >  }
-> >
-> > -QDict *qmp_dispatch(QmpCommandList *cmds, QObject *request,
-> > +QDict *qmp_dispatch(const QmpCommandList *cmds, QObject *request,
-> >                      bool allow_oob)
-> >  {
-> >      Error *err =3D NULL;
-> > diff --git a/qapi/qmp-registry.c b/qapi/qmp-registry.c
-> > index ca00f74795..d0f9a1d3e3 100644
-> > --- a/qapi/qmp-registry.c
-> > +++ b/qapi/qmp-registry.c
-> > @@ -27,7 +27,7 @@ void qmp_register_command(QmpCommandList *cmds, const=
- char *name,
-> >      QTAILQ_INSERT_TAIL(cmds, cmd, node);
-> >  }
-> >
-> > -QmpCommand *qmp_find_command(QmpCommandList *cmds, const char *name)
-> > +const QmpCommand *qmp_find_command(const QmpCommandList *cmds, const c=
-har *name)
-> >  {
-> >      QmpCommand *cmd;
-> >
-> > @@ -77,10 +77,10 @@ bool qmp_has_success_response(const QmpCommand *cmd=
-)
-> >      return !(cmd->options & QCO_NO_SUCCESS_RESP);
-> >  }
-> >
-> > -void qmp_for_each_command(QmpCommandList *cmds, qmp_cmd_callback_fn fn=
-,
-> > +void qmp_for_each_command(const QmpCommandList *cmds, qmp_cmd_callback=
-_fn fn,
-> >                            void *opaque)
-> >  {
-> > -    QmpCommand *cmd;
-> > +    const QmpCommand *cmd;
-> >
-> >      QTAILQ_FOREACH(cmd, cmds, node) {
-> >          fn(cmd, opaque);
-> > diff --git a/qga/commands.c b/qga/commands.c
-> > index 0c7d1385c2..05e9ab6c3d 100644
-> > --- a/qga/commands.c
-> > +++ b/qga/commands.c
-> > @@ -54,7 +54,7 @@ void qmp_guest_ping(Error **errp)
-> >      slog("guest-ping called");
-> >  }
-> >
-> > -static void qmp_command_info(QmpCommand *cmd, void *opaque)
-> > +static void qmp_command_info(const QmpCommand *cmd, void *opaque)
-> >  {
-> >      GuestAgentInfo *info =3D opaque;
-> >      GuestAgentCommandInfo *cmd_info;
-> > diff --git a/qga/main.c b/qga/main.c
-> > index c35c2a2120..f23614528e 100644
-> > --- a/qga/main.c
-> > +++ b/qga/main.c
-> > @@ -359,7 +359,7 @@ static gint ga_strcmp(gconstpointer str1, gconstpoi=
-nter str2)
-> >  }
-> >
-> >  /* disable commands that aren't safe for fsfreeze */
-> > -static void ga_disable_non_whitelisted(QmpCommand *cmd, void *opaque)
-> > +static void ga_disable_non_whitelisted(const QmpCommand *cmd, void *op=
-aque)
-> >  {
-> >      bool whitelisted =3D false;
-> >      int i =3D 0;
-> > @@ -378,7 +378,7 @@ static void ga_disable_non_whitelisted(QmpCommand *=
-cmd, void *opaque)
-> >  }
-> >
-> >  /* [re-]enable all commands, except those explicitly blacklisted by us=
-er */
-> > -static void ga_enable_non_blacklisted(QmpCommand *cmd, void *opaque)
-> > +static void ga_enable_non_blacklisted(const QmpCommand *cmd, void *opa=
-que)
-> >  {
-> >      GList *blacklist =3D opaque;
-> >      const char *name =3D qmp_command_name(cmd);
-> > @@ -918,7 +918,7 @@ int64_t ga_get_fd_handle(GAState *s, Error **errp)
-> >      return handle;
-> >  }
-> >
-> > -static void ga_print_cmd(QmpCommand *cmd, void *opaque)
-> > +static void ga_print_cmd(const QmpCommand *cmd, void *opaque)
-> >  {
-> >      printf("%s\n", qmp_command_name(cmd));
-> >  }
-> >
->
-> Reviewed-by: Damien Hedde <damien.hedde@greensocs.com>
->
-> Damien
->
+>>> -=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 chunk_end =3D MIN(chunk_end, start +=
+ status_bytes);
+>>> +=A0=A0=A0=A0=A0=A0=A0 ret =3D block_copy_block_status(s, start, chunk_=
+end - start,
+>>> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 &status_bytes);
+>>> +=A0=A0=A0=A0=A0=A0=A0 if (s->skip_unallocated && !(ret & BDRV_BLOCK_AL=
+LOCATED)) {
+>>> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 bdrv_reset_dirty_bitmap(s->copy_bitm=
+ap, start,
+>>> status_bytes);
+>>> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 s->progress_reset_callback(s->progre=
+ss_opaque);
+>>> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 trace_block_copy_skip_range(s, start=
+, status_bytes);
+>>> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 start +=3D status_bytes;
+>>> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 continue;
+>>> =A0=A0=A0=A0=A0=A0=A0=A0=A0 }
+>>> =A0 +=A0=A0=A0=A0=A0=A0=A0 chunk_end =3D MIN(chunk_end, start + status_=
+bytes);
+>>
+>> I=92m not sure how much the old =93Clamp to known allocated region=94 ac=
+tually
+>> helps, but I wouldn=92t drop it anyway.
+>=20
+> But it may be not allocated now. We just clamp to status_bytes.
+> It's "known allocated" only if s->skip_unallocated is true.
+
+Ah, yes, I suppose I was just thinking about that case when trying to
+understand how the code changes.  So:
+
+Reviewed-by: Max Reitz <mreitz@redhat.com>
+
+Max
 
 
---=20
-Marc-Andr=C3=A9 Lureau
+--VAtS4ITJpRgwOvUtUUsjVQpMtCYE7fBRs--
+
+--lF4rSxLLIMvci71L599jCzB9cSCytM345
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl5KfZ4ACgkQ9AfbAGHV
+z0AtHQf/YsLlDLVDo4cYeoZkGt84iwQO/fwEL3DDh/fOKU4t/B/7+FQ8uNN3No1Y
+HiCsDTmx/cvz1+c9PCQANDw6gS4hagoLIlhcUp9cF79AbPKB6fWoPKtKVaKkmU6T
+8H5e96hXwx82GlVo7SMjiLLGO0251DrKfnDWTKtlBVD1lc4rX0WCmBWYxh0fagvl
+noNq3WpSJKuoR0FjX3bFcptrAt8SmgrggMeSfyxU2bxipp58NWt7Hzi9dyJnZ/a+
+3hJWmNeQEyX8PsgGEoXbBqqDuM/5Z9rcHRjng0ni9Ne7tNgcZ0nhbHxM0X84s0H6
+ZT1t/ZcpQ8DAmYOAzrj668IJHapvgQ==
+=EQqp
+-----END PGP SIGNATURE-----
+
+--lF4rSxLLIMvci71L599jCzB9cSCytM345--
+
 
