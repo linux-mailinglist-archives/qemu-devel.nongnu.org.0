@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA22F160BD5
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 08:45:03 +0100 (CET)
-Received: from localhost ([::1]:41456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7888F160BD2
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 08:43:39 +0100 (CET)
+Received: from localhost ([::1]:41424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j3b5S-0000vW-SH
-	for lists+qemu-devel@lfdr.de; Mon, 17 Feb 2020 02:45:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39375)
+	id 1j3b46-0005ws-Fr
+	for lists+qemu-devel@lfdr.de; Mon, 17 Feb 2020 02:43:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39288)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <xuyandong2@huawei.com>) id 1j3b2x-0004J2-Qu
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 02:42:29 -0500
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <xuyandong2@huawei.com>) id 1j3b2v-0000WJ-Hj
+ (envelope-from <xuyandong2@huawei.com>) id 1j3b2v-0004Hc-Kc
  for qemu-devel@nongnu.org; Mon, 17 Feb 2020 02:42:27 -0500
-Received: from szxga05-in.huawei.com ([45.249.212.191]:2790 helo=huawei.com)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <xuyandong2@huawei.com>) id 1j3b2t-0000U0-Q0
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 02:42:25 -0500
+Received: from szxga07-in.huawei.com ([45.249.212.35]:45474 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <xuyandong2@huawei.com>)
- id 1j3b2r-0000Ih-5M; Mon, 17 Feb 2020 02:42:21 -0500
-Received: from DGGEMS408-HUB.china.huawei.com (unknown [172.30.72.59])
- by Forcepoint Email with ESMTP id AA30DC16177AB9FE83FA;
- Mon, 17 Feb 2020 15:42:13 +0800 (CST)
-Received: from localhost (10.175.124.177) by DGGEMS408-HUB.china.huawei.com
- (10.3.19.208) with Microsoft SMTP Server id 14.3.439.0; Mon, 17 Feb 2020
- 15:42:05 +0800
+ id 1j3b2q-0000Jp-F4; Mon, 17 Feb 2020 02:42:20 -0500
+Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.58])
+ by Forcepoint Email with ESMTP id C1114725AEB8CBDF36BB;
+ Mon, 17 Feb 2020 15:42:14 +0800 (CST)
+Received: from localhost (10.175.124.177) by DGGEMS414-HUB.china.huawei.com
+ (10.3.19.214) with Microsoft SMTP Server id 14.3.439.0; Mon, 17 Feb 2020
+ 15:42:06 +0800
 From: Xu Yandong <xuyandong2@huawei.com>
 To: <peter.maydell@linaro.org>
-Subject: [PATCH RFC 04/16] hw/arm: move shared irqmap member to ArmMachine
-Date: Mon, 17 Feb 2020 02:51:16 -0500
-Message-ID: <1581925888-103620-5-git-send-email-xuyandong2@huawei.com>
+Subject: [PATCH RFC 05/16] hw/arm: move shared smp_cpus member to ArmMachine
+Date: Mon, 17 Feb 2020 02:51:17 -0500
+Message-ID: <1581925888-103620-6-git-send-email-xuyandong2@huawei.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1581925888-103620-1-git-send-email-xuyandong2@huawei.com>
 References: <1581925888-103620-1-git-send-email-xuyandong2@huawei.com>
@@ -40,7 +40,7 @@ X-Originating-IP: [10.175.124.177]
 X-CFilter-Loop: Reflected
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 45.249.212.191
+X-Received-From: 45.249.212.35
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,203 +59,132 @@ Cc: zhang.zhanghailiang@huawei.com, slp@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move irqmap member from VirtMachineState to ArmMachineState.
+Move smp_cpus member from VirtMachineState to ArmMachineState.
 
 Cc: Michael S. Tsirkin <mst@redhat.com>
 Cc: Igor Mammedov <imammedo@redhat.com>
 Cc: Shannon Zhao <shannon.zhaosl@gmail.com>
 Signed-off-by: Xu Yandong <xuyandong2@huawei.com>
 ---
- hw/arm/virt-acpi-build.c |  8 ++++----
- hw/arm/virt.c            | 25 +++++++++++++------------
+ hw/arm/virt-acpi-build.c |  4 ++--
+ hw/arm/virt.c            | 12 ++++++------
  include/hw/arm/arm.h     |  1 +
- include/hw/arm/virt.h    |  1 -
- 4 files changed, 18 insertions(+), 17 deletions(-)
+ include/hw/arm/virt.h    |  3 +--
+ 4 files changed, 10 insertions(+), 10 deletions(-)
 
 diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
-index ef61a651c1..27e6c95eca 100644
+index 27e6c95eca..ef2761ef77 100644
 --- a/hw/arm/virt-acpi-build.c
 +++ b/hw/arm/virt-acpi-build.c
-@@ -414,7 +414,7 @@ build_iort(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
-     its->identifiers[0] = 0; /* MADT translation_id */
+@@ -623,7 +623,7 @@ build_madt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
+     gicd->base_address = cpu_to_le64(memmap[VIRT_GIC_DIST].base);
+     gicd->version = vms->gic_version;
  
-     if (vms->iommu == VIRT_IOMMU_SMMUV3) {
--        int irq =  vms->irqmap[VIRT_SMMU] + ARM_SPI_BASE;
-+        int irq =  ams->irqmap[VIRT_SMMU] + ARM_SPI_BASE;
- 
-         /* SMMUv3 node */
-         smmu_offset = iort_node_offset + node_size;
-@@ -488,7 +488,7 @@ build_spcr(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
-     AcpiSerialPortConsoleRedirection *spcr;
-     ArmMachineState *ams = ARM_MACHINE(vms);
-     const MemMapEntry *uart_memmap = &ams->memmap[VIRT_UART];
--    int irq = vms->irqmap[VIRT_UART] + ARM_SPI_BASE;
-+    int irq = ams->irqmap[VIRT_UART] + ARM_SPI_BASE;
-     int spcr_start = table_data->len;
- 
-     spcr = acpi_data_push(table_data, sizeof(*spcr));
-@@ -609,7 +609,7 @@ build_madt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
-     ArmMachineState *ams = ARM_MACHINE(vms);
-     int madt_start = table_data->len;
-     const MemMapEntry *memmap = ams->memmap;
--    const int *irqmap = vms->irqmap;
-+    const int *irqmap = ams->irqmap;
-     AcpiMultipleApicTable *madt;
-     AcpiMadtGenericDistributor *gicd;
-     AcpiMadtGenericMsiFrame *gic_msi;
-@@ -730,7 +730,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
-     MachineState *ms = MACHINE(vms);
-     ArmMachineState *ams = ARM_MACHINE(vms);
-     const MemMapEntry *memmap = ams->memmap;
--    const int *irqmap = vms->irqmap;
-+    const int *irqmap = ams->irqmap;
- 
-     dsdt = init_aml_allocator();
-     /* Reserve space for header */
+-    for (i = 0; i < vms->smp_cpus; i++) {
++    for (i = 0; i < ams->smp_cpus; i++) {
+         AcpiMadtGenericCpuInterface *gicc = acpi_data_push(table_data,
+                                                            sizeof(*gicc));
+         ARMCPU *armcpu = ARM_CPU(qemu_get_cpu(i));
+@@ -742,7 +742,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
+      * the RTC ACPI device at all when using UEFI.
+      */
+     scope = aml_scope("\\_SB");
+-    acpi_dsdt_add_cpus(scope, vms->smp_cpus);
++    acpi_dsdt_add_cpus(scope, ams->smp_cpus);
+     acpi_dsdt_add_uart(scope, &memmap[VIRT_UART],
+                        (irqmap[VIRT_UART] + ARM_SPI_BASE));
+     acpi_dsdt_add_flash(scope, &memmap[VIRT_FLASH]);
 diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index 1dea640719..e7eee13385 100644
+index e7eee13385..9031fd6757 100644
 --- a/hw/arm/virt.c
 +++ b/hw/arm/virt.c
-@@ -544,7 +544,7 @@ static inline DeviceState *create_acpi_ged(VirtMachineState *vms)
-     DeviceState *dev;
-     MachineState *ms = MACHINE(vms);
-     ArmMachineState *ams = ARM_MACHINE(vms);
--    int irq = vms->irqmap[VIRT_ACPI_GED];
-+    int irq = ams->irqmap[VIRT_ACPI_GED];
-     uint32_t event = ACPI_GED_PWR_DOWN_EVT;
- 
-     if (ms->ram_slots) {
-@@ -588,7 +588,7 @@ static void create_v2m(VirtMachineState *vms)
- {
-     int i;
-     ArmMachineState *ams = ARM_MACHINE(vms);
--    int irq = vms->irqmap[VIRT_GIC_V2M];
-+    int irq = ams->irqmap[VIRT_GIC_V2M];
-     DeviceState *dev;
- 
-     dev = qdev_create(NULL, "arm-gicv2m");
-@@ -734,7 +734,7 @@ static void create_uart(const VirtMachineState *vms, int uart,
-     const ArmMachineState *ams = ARM_MACHINE(vms);
-     hwaddr base = ams->memmap[uart].base;
-     hwaddr size = ams->memmap[uart].size;
--    int irq = vms->irqmap[uart];
-+    int irq = ams->irqmap[uart];
-     const char compat[] = "arm,pl011\0arm,primecell";
-     const char clocknames[] = "uartclk\0apb_pclk";
-     DeviceState *dev = qdev_create(NULL, "pl011");
-@@ -782,7 +782,7 @@ static void create_rtc(const VirtMachineState *vms)
-     const ArmMachineState *ams = ARM_MACHINE(vms);
-     hwaddr base = ams->memmap[VIRT_RTC].base;
-     hwaddr size = ams->memmap[VIRT_RTC].size;
--    int irq = vms->irqmap[VIRT_RTC];
-+    int irq = ams->irqmap[VIRT_RTC];
-     const char compat[] = "arm,pl031\0arm,primecell";
- 
-     sysbus_create_simple("pl031", base, qdev_get_gpio_in(vms->gic, irq));
-@@ -820,7 +820,7 @@ static void create_gpio(const VirtMachineState *vms)
-     const ArmMachineState *ams = ARM_MACHINE(vms);
-     hwaddr base = ams->memmap[VIRT_GPIO].base;
-     hwaddr size = ams->memmap[VIRT_GPIO].size;
--    int irq = vms->irqmap[VIRT_GPIO];
-+    int irq = ams->irqmap[VIRT_GPIO];
-     const char compat[] = "arm,pl061\0arm,primecell";
- 
-     pl061_dev = sysbus_create_simple("pl061", base,
-@@ -892,7 +892,7 @@ static void create_virtio_devices(const VirtMachineState *vms)
-      * of disks users must use UUIDs or similar mechanisms.
-      */
-     for (i = 0; i < NUM_VIRTIO_TRANSPORTS; i++) {
--        int irq = vms->irqmap[VIRT_MMIO] + i;
-+        int irq = ams->irqmap[VIRT_MMIO] + i;
-         hwaddr base = ams->memmap[VIRT_MMIO].base + i * size;
- 
-         sysbus_create_simple("virtio-mmio", base,
-@@ -908,7 +908,7 @@ static void create_virtio_devices(const VirtMachineState *vms)
-      */
-     for (i = NUM_VIRTIO_TRANSPORTS - 1; i >= 0; i--) {
-         char *nodename;
--        int irq = vms->irqmap[VIRT_MMIO] + i;
-+        int irq = ams->irqmap[VIRT_MMIO] + i;
-         hwaddr base = ams->memmap[VIRT_MMIO].base + i * size;
- 
-         nodename = g_strdup_printf("/virtio_mmio@%" PRIx64, base);
-@@ -1155,7 +1155,7 @@ static void create_smmu(const VirtMachineState *vms,
-     char *node;
-     const ArmMachineState *ams = ARM_MACHINE(vms);
-     const char compat[] = "arm,smmu-v3";
--    int irq =  vms->irqmap[VIRT_SMMU];
-+    int irq = ams->irqmap[VIRT_SMMU];
-     int i;
-     hwaddr base = ams->memmap[VIRT_SMMU].base;
-     hwaddr size = ams->memmap[VIRT_SMMU].size;
-@@ -1213,7 +1213,7 @@ static void create_pcie(VirtMachineState *vms)
-     hwaddr base_ecam, size_ecam;
-     hwaddr base = base_mmio;
-     int nr_pcie_buses;
--    int irq = vms->irqmap[VIRT_PCIE];
-+    int irq = ams->irqmap[VIRT_PCIE];
-     MemoryRegion *mmio_alias;
-     MemoryRegion *mmio_reg;
-     MemoryRegion *ecam_alias;
-@@ -1349,7 +1349,7 @@ static void create_platform_bus(VirtMachineState *vms)
- 
-     s = SYS_BUS_DEVICE(dev);
-     for (i = 0; i < PLATFORM_BUS_NUM_IRQS; i++) {
--        int irq = vms->irqmap[VIRT_PLATFORM_BUS] + i;
-+        int irq = ams->irqmap[VIRT_PLATFORM_BUS] + i;
-         sysbus_connect_irq(s, i, qdev_get_gpio_in(vms->gic, irq));
+@@ -300,7 +300,7 @@ static void fdt_add_timer_nodes(const VirtMachineState *vms)
+     if (vms->gic_version == 2) {
+         irqflags = deposit32(irqflags, GIC_FDT_IRQ_PPI_CPU_START,
+                              GIC_FDT_IRQ_PPI_CPU_WIDTH,
+-                             (1 << vms->smp_cpus) - 1);
++                             (1 << ams->smp_cpus) - 1);
      }
  
-@@ -1440,7 +1440,7 @@ void virt_machine_done(Notifier *notifier, void *data)
-         platform_bus_add_all_fdt_nodes(ams->fdt, "/intc",
-                                        ams->memmap[VIRT_PLATFORM_BUS].base,
-                                        ams->memmap[VIRT_PLATFORM_BUS].size,
--                                       vms->irqmap[VIRT_PLATFORM_BUS]);
-+                                       ams->irqmap[VIRT_PLATFORM_BUS]);
+     qemu_fdt_add_subnode(ams->fdt, "/timer");
+@@ -342,7 +342,7 @@ static void fdt_add_cpu_nodes(const VirtMachineState *vms)
+      *  The simplest way to go is to examine affinity IDs of all our CPUs. If
+      *  at least one of them has Aff3 populated, we set #address-cells to 2.
+      */
+-    for (cpu = 0; cpu < vms->smp_cpus; cpu++) {
++    for (cpu = 0; cpu < ams->smp_cpus; cpu++) {
+         ARMCPU *armcpu = ARM_CPU(qemu_get_cpu(cpu));
+ 
+         if (armcpu->mp_affinity & ARM_AFF3_MASK) {
+@@ -355,7 +355,7 @@ static void fdt_add_cpu_nodes(const VirtMachineState *vms)
+     qemu_fdt_setprop_cell(ams->fdt, "/cpus", "#address-cells", addr_cells);
+     qemu_fdt_setprop_cell(ams->fdt, "/cpus", "#size-cells", 0x0);
+ 
+-    for (cpu = vms->smp_cpus - 1; cpu >= 0; cpu--) {
++    for (cpu = ams->smp_cpus - 1; cpu >= 0; cpu--) {
+         char *nodename = g_strdup_printf("/cpus/cpu@%d", cpu);
+         ARMCPU *armcpu = ARM_CPU(qemu_get_cpu(cpu));
+         CPUState *cs = CPU(armcpu);
+@@ -366,7 +366,7 @@ static void fdt_add_cpu_nodes(const VirtMachineState *vms)
+                                     armcpu->dtb_compatible);
+ 
+         if (vms->psci_conduit != QEMU_PSCI_CONDUIT_DISABLED
+-            && vms->smp_cpus > 1) {
++            && ams->smp_cpus > 1) {
+             qemu_fdt_setprop_string(ams->fdt, nodename,
+                                         "enable-method", "psci");
+         }
+@@ -525,7 +525,7 @@ static void fdt_add_pmu_nodes(const VirtMachineState *vms)
+     if (vms->gic_version == 2) {
+         irqflags = deposit32(irqflags, GIC_FDT_IRQ_PPI_CPU_START,
+                              GIC_FDT_IRQ_PPI_CPU_WIDTH,
+-                             (1 << vms->smp_cpus) - 1);
++                             (1 << ams->smp_cpus) - 1);
      }
-     if (arm_load_dtb(info->dtb_start, info, info->dtb_limit, as, ms) < 0) {
+ 
+     armcpu = ARM_CPU(qemu_get_cpu(0));
+@@ -1641,7 +1641,7 @@ static void machvirt_init(MachineState *machine)
          exit(1);
-@@ -2084,6 +2084,7 @@ static void virt_instance_init(Object *obj)
- {
-     VirtMachineState *vms = VIRT_MACHINE(obj);
-     VirtMachineClass *vmc = VIRT_MACHINE_GET_CLASS(vms);
-+    ArmMachineState *ams = ARM_MACHINE(vms);
+     }
  
-     /* EL3 is disabled by default on virt: this makes us consistent
-      * between KVM and TCG for this board, and it also allows us to
-@@ -2146,7 +2147,7 @@ static void virt_instance_init(Object *obj)
-                                     "Valid values are none and smmuv3",
-                                     NULL);
+-    vms->smp_cpus = smp_cpus;
++    ams->smp_cpus = smp_cpus;
  
--    vms->irqmap = a15irqmap;
-+    ams->irqmap = a15irqmap;
- 
-     virt_flash_create(vms);
- }
+     if (vms->virt && kvm_enabled()) {
+         error_report("mach-virt: KVM does not support providing "
 diff --git a/include/hw/arm/arm.h b/include/hw/arm/arm.h
-index f269668d41..97cb902b6a 100644
+index 97cb902b6a..469f603e77 100644
 --- a/include/hw/arm/arm.h
 +++ b/include/hw/arm/arm.h
-@@ -88,6 +88,7 @@ typedef struct {
- typedef struct {
+@@ -89,6 +89,7 @@ typedef struct {
      MachineState parent;
      MemMapEntry *memmap;
-+    const int *irqmap;
+     const int *irqmap;
++    int smp_cpus;
      void *fdt;
      int fdt_size;
  } ArmMachineState;
 diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
-index 1b460d8d31..4028821a09 100644
+index 4028821a09..dfc2a16010 100644
 --- a/include/hw/arm/virt.h
 +++ b/include/hw/arm/virt.h
 @@ -71,7 +71,6 @@ typedef struct {
      int32_t gic_version;
      VirtIOMMUType iommu;
      struct arm_boot_info bootinfo;
--    const int *irqmap;
-     int smp_cpus;
+-    int smp_cpus;
      uint32_t clock_phandle;
      uint32_t gic_phandle;
+     uint32_t msi_phandle;
+@@ -104,7 +103,7 @@ static inline int virt_gicv3_redist_region_count(VirtMachineState *vms)
+ 
+     assert(vms->gic_version == 3);
+ 
+-    return vms->smp_cpus > redist0_capacity ? 2 : 1;
++    return ams->smp_cpus > redist0_capacity ? 2 : 1;
+ }
+ 
+ #endif /* QEMU_ARM_VIRT_H */
 -- 
 2.18.1
 
