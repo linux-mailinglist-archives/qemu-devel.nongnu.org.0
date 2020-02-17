@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A355216197D
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 19:13:03 +0100 (CET)
-Received: from localhost ([::1]:50010 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D23AE161978
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 19:11:26 +0100 (CET)
+Received: from localhost ([::1]:49984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j3ktC-00078W-Lk
-	for lists+qemu-devel@lfdr.de; Mon, 17 Feb 2020 13:13:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38923)
+	id 1j3krd-0003fx-SA
+	for lists+qemu-devel@lfdr.de; Mon, 17 Feb 2020 13:11:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38891)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1j3kK1-0003yb-Ra
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 12:36:42 -0500
+ (envelope-from <imammedo@redhat.com>) id 1j3kJy-0003oG-BG
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 12:36:39 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1j3kK0-0002iw-SF
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 12:36:41 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:56351
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <imammedo@redhat.com>) id 1j3kJx-0002gz-5u
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 12:36:38 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:39294
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1j3kK0-0002ih-OW
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 12:36:40 -0500
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1j3kJx-0002gg-28
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 12:36:37 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581961000;
+ s=mimecast20190719; t=1581960996;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jieUhX9yQNqUln14pUvpvohvwUkdO1rNW66q9YQvvbI=;
- b=YIJwRmu+duvba08b+6UI3CuJrol57Rf46a6Mzz6lBHCx29s61AtP+8foLKnB7jH2gR0COw
- 8bmpDAPflWV3+oXV0Q/Be/uU7D3YOYbTJww3dVlncs9BxekahRVWHZbsOaxN2g+ePPRdIF
- hcMJsYn1jbkWIZhmTR6TBKiYcIHMf1M=
+ bh=+X4nAmZsEYaa+MdsB8sT2kQiPHAaQcvngMkKaDEqiPQ=;
+ b=ILb5fVt2S8DsV7iP9zQOhfzvMHtvTYeHbujLKH7K3X6HMh3E5Ih+UeEaY/wFNxIx1BT4+y
+ Y7xjZhwAx9RvAVXlKWT73vbkV8yG5fpCxvV4LnSVHgnunRhgu1ards2CZ2oB4Z1mEvAxD5
+ paE9UFD05F7Co3+tuYzSfaQqLkbET2Q=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-72-ApSn3NXhOQSN0QZWV38j3g-1; Mon, 17 Feb 2020 12:36:33 -0500
+ us-mta-64-uo_zm8BbPi6MAUMtAOq1Eg-1; Mon, 17 Feb 2020 12:36:34 -0500
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AD35818FE870
- for <qemu-devel@nongnu.org>; Mon, 17 Feb 2020 17:36:32 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CFCBB8010EB
+ for <qemu-devel@nongnu.org>; Mon, 17 Feb 2020 17:36:33 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 034939052B;
- Mon, 17 Feb 2020 17:36:31 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0132A9052B;
+ Mon, 17 Feb 2020 17:36:32 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 71/79] sparc/niagara: use memdev for RAM
-Date: Mon, 17 Feb 2020 12:34:44 -0500
-Message-Id: <20200217173452.15243-72-imammedo@redhat.com>
+Subject: [PATCH v5 72/79] remove no longer used
+ memory_region_allocate_system_memory()
+Date: Mon, 17 Feb 2020 12:34:45 -0500
+Message-Id: <20200217173452.15243-73-imammedo@redhat.com>
 In-Reply-To: <20200217173452.15243-1-imammedo@redhat.com>
 References: <20200217173452.15243-1-imammedo@redhat.com>
-MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: ApSn3NXhOQSN0QZWV38j3g-1
+X-MC-Unique: uo_zm8BbPi6MAUMtAOq1Eg-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,60 +71,115 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, ehabkost@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-memory_region_allocate_system_memory() API is going away, so
-replace it with memdev allocated MemoryRegion. The later is
-initialized by generic code, so board only needs to opt in
-to memdev scheme by providing
-  MachineClass::default_ram_id
-and using MachineState::ram instead of manually initializing
-RAM memory region.
+all boards were switched to using memdev backend for main RAM,
+so we can drop no longer used memory_region_allocate_system_memory()
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/sparc64/niagara.c | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+CC: ehabkost@redhat.com
+CC: pbonzini@redhat.com
+---
+ include/hw/boards.h | 32 --------------------------------
+ hw/core/numa.c      | 34 ----------------------------------
+ 2 files changed, 66 deletions(-)
 
-diff --git a/hw/sparc64/niagara.c b/hw/sparc64/niagara.c
-index 5eb2d097b9..ab5ef8c5b3 100644
---- a/hw/sparc64/niagara.c
-+++ b/hw/sparc64/niagara.c
-@@ -40,7 +40,6 @@
+diff --git a/include/hw/boards.h b/include/hw/boards.h
+index ae2b60fb5e..142b86d0ae 100644
+--- a/include/hw/boards.h
++++ b/include/hw/boards.h
+@@ -12,38 +12,6 @@
+ #include "qom/object.h"
+ #include "hw/core/cpu.h"
 =20
- typedef struct NiagaraBoardState {
-     MemoryRegion hv_ram;
--    MemoryRegion partition_ram;
-     MemoryRegion nvram;
-     MemoryRegion md_rom;
-     MemoryRegion hv_rom;
-@@ -111,11 +110,8 @@ static void niagara_init(MachineState *machine)
-                            NIAGARA_HV_RAM_SIZE, &error_fatal);
-     memory_region_add_subregion(sysmem, NIAGARA_HV_RAM_BASE, &s->hv_ram);
+-/**
+- * memory_region_allocate_system_memory - Allocate a board's main memory
+- * @mr: the #MemoryRegion to be initialized
+- * @owner: the object that tracks the region's reference count
+- * @name: name of the memory region
+- * @ram_size: size of the region in bytes
+- *
+- * This function allocates the main memory for a board model, and
+- * initializes @mr appropriately. It also arranges for the memory
+- * to be migrated (by calling vmstate_register_ram_global()).
+- *
+- * Memory allocated via this function will be backed with the memory
+- * backend the user provided using "-mem-path" or "-numa node,memdev=3D...=
+"
+- * if appropriate; this is typically used to cause host huge pages to be
+- * used. This function should therefore be called by a board exactly once,
+- * for the primary or largest RAM area it implements.
+- *
+- * For boards where the major RAM is split into two parts in the memory
+- * map, you can deal with this by calling memory_region_allocate_system_me=
+mory()
+- * once to get a MemoryRegion with enough RAM for both parts, and then
+- * creating alias MemoryRegions via memory_region_init_alias() which
+- * alias into different parts of the RAM MemoryRegion and can be mapped
+- * into the memory map in the appropriate places.
+- *
+- * Smaller pieces of memory (display RAM, static RAMs, etc) don't need
+- * to be backed via the -mem-path memory backend and can simply
+- * be created via memory_region_init_ram().
+- */
+-void memory_region_allocate_system_memory(MemoryRegion *mr, Object *owner,
+-                                          const char *name,
+-                                          uint64_t ram_size);
+-
+ #define TYPE_MACHINE_SUFFIX "-machine"
 =20
--    memory_region_allocate_system_memory(&s->partition_ram, NULL,
--                                         "sun4v-partition.ram",
--                                         machine->ram_size);
-     memory_region_add_subregion(sysmem, NIAGARA_PARTITION_RAM_BASE,
--                                &s->partition_ram);
-+                                machine->ram);
-=20
-     memory_region_init_ram(&s->nvram, NULL, "sun4v.nvram", NIAGARA_NVRAM_S=
-IZE,
-                            &error_fatal);
-@@ -173,6 +169,7 @@ static void niagara_class_init(ObjectClass *oc, void *d=
-ata)
-     mc->max_cpus =3D 1; /* XXX for now */
-     mc->default_boot_order =3D "c";
-     mc->default_cpu_type =3D SPARC_CPU_TYPE_NAME("Sun-UltraSparc-T1");
-+    mc->default_ram_id =3D "sun4v-partition.ram";
+ /* Machine class name that needs to be used for class-name-based machine
+diff --git a/hw/core/numa.c b/hw/core/numa.c
+index e6baf2c33e..316bc50d75 100644
+--- a/hw/core/numa.c
++++ b/hw/core/numa.c
+@@ -806,40 +806,6 @@ void numa_cpu_pre_plug(const CPUArchId *slot, DeviceSt=
+ate *dev, Error **errp)
+     }
  }
 =20
- static const TypeInfo niagara_type =3D {
+-static void allocate_system_memory_nonnuma(MemoryRegion *mr, Object *owner=
+,
+-                                           const char *name,
+-                                           uint64_t ram_size)
+-{
+-    if (mem_path) {
+-#ifdef __linux__
+-        memory_region_init_ram_from_file(mr, owner, name, ram_size, 0, 0,
+-                                         mem_path, &error_fatal);
+-#else
+-        fprintf(stderr, "-mem-path not supported on this host\n");
+-        exit(1);
+-#endif
+-    } else {
+-        memory_region_init_ram_nomigrate(mr, owner, name, ram_size, &error=
+_fatal);
+-    }
+-    vmstate_register_ram_global(mr);
+-}
+-
+-void memory_region_allocate_system_memory(MemoryRegion *mr, Object *owner,
+-                                          const char *name,
+-                                          uint64_t ram_size)
+-{
+-    MachineState *ms =3D MACHINE(qdev_get_machine());
+-
+-    if (ms->numa_state =3D=3D NULL ||
+-        ms->numa_state->num_nodes =3D=3D 0 || numa_uses_legacy_mem()) {
+-        allocate_system_memory_nonnuma(mr, owner, name, ram_size);
+-        return;
+-    }
+-
+-    memory_region_init(mr, owner, name, ram_size);
+-    numa_init_memdev_container(ms, mr);
+-}
+-
+ static void numa_stat_memory_devices(NumaNodeMem node_mem[])
+ {
+     MemoryDeviceInfoList *info_list =3D qmp_memory_device_list();
 --=20
 2.18.1
 
