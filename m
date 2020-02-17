@@ -2,35 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56F7A160858
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 03:52:32 +0100 (CET)
-Received: from localhost ([::1]:39458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 862E4160846
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 03:43:53 +0100 (CET)
+Received: from localhost ([::1]:39392 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j3WWN-0001Wj-EJ
-	for lists+qemu-devel@lfdr.de; Sun, 16 Feb 2020 21:52:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44075)
+	id 1j3WO0-0006u0-Ks
+	for lists+qemu-devel@lfdr.de; Sun, 16 Feb 2020 21:43:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43544)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <balaton@eik.bme.hu>) id 1j3WUg-0008My-71
- for qemu-devel@nongnu.org; Sun, 16 Feb 2020 21:50:47 -0500
+ (envelope-from <balaton@eik.bme.hu>) id 1j3WND-0006MR-1W
+ for qemu-devel@nongnu.org; Sun, 16 Feb 2020 21:43:04 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <balaton@eik.bme.hu>) id 1j3WUe-0000nz-MQ
- for qemu-devel@nongnu.org; Sun, 16 Feb 2020 21:50:46 -0500
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:40733)
+ (envelope-from <balaton@eik.bme.hu>) id 1j3WNB-0001Sk-AE
+ for qemu-devel@nongnu.org; Sun, 16 Feb 2020 21:43:02 -0500
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:28924)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <balaton@eik.bme.hu>)
- id 1j3WUe-0000n2-GC; Sun, 16 Feb 2020 21:50:44 -0500
+ id 1j3WNB-0001Qr-4L; Sun, 16 Feb 2020 21:43:01 -0500
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 4A38E747E01;
- Mon, 17 Feb 2020 03:50:43 +0100 (CET)
+ by localhost (Postfix) with SMTP id B512C747DFE;
+ Mon, 17 Feb 2020 03:42:58 +0100 (CET)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 2789F747DF8; Mon, 17 Feb 2020 03:50:43 +0100 (CET)
-Message-Id: <01eddb5c1639ab2dfb744b3515f9b907afcbb056.1581904461.git.balaton@eik.bme.hu>
-In-Reply-To: <cover.1581904461.git.balaton@eik.bme.hu>
-References: <cover.1581904461.git.balaton@eik.bme.hu>
+ id 83899746381; Mon, 17 Feb 2020 03:42:58 +0100 (CET)
+Message-Id: <cover.1581904461.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Date: Mon, 17 Feb 2020 02:19:20 +0100
-Subject: [RFC PATCH 2/2] target/ppc: Enable hardfloat for PPC
+Date: Mon, 17 Feb 2020 02:54:21 +0100
+Subject: [RFC PATCH 0/2] Enable hardfloat for PPC
 To: qemu-devel@nongnu.org
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
@@ -53,97 +51,63 @@ Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-While other targets take advantage of using host FPU to do floating
-point computations, this was disabled for PPC target because always
-clearing exception flags before every FP op made it slightly slower
-than emulating everyting with softfloat. To emulate some FPSCR bits,
-clearing of fp_status may be necessary (unless these could be handled
-e.g. using FP exceptions on host but there's no API for that in QEMU
-yet) but preserving at least the inexact flag makes hardfloat usable
-and faster than softfloat. Since most clients don't actually care
-about this flag, we can gain some speed trading some emulation
-accuracy.
+Hello,
 
-This patch implements a simple way to keep the inexact flag set for
-hardfloat while still allowing to revert to softfloat for workloads
-that need more accurate albeit slower emulation. (Set hardfloat
-property of CPU, i.e. -cpu name,hardfloat=false for that.) There are
-still more places where flags are reset so there is place for further
-improvement. Also having a conditional to test for the hardfloat flag
-every time makes the softfloat case slower than before this patch so
-some other way (like setting a function pointer once and use that
-instead if possible) may be needed to avoid this otherwise this patch
-only makes sense if the default is also set to enable hardfloat.
+This is an RFC series to start exploring the possibility of enabling
+hardfloat for PPC target that haven't progressed in the last two years.
+Hopefully we can work out something now. Previously I've explored this
+here:
 
-Because of the above this patch at the moment is mainly for testing
-different workloads to evaluate how viable would this be in practice.
-Thus, RFC and not ready for merge yet.
+https://lists.nongnu.org/archive/html/qemu-ppc/2018-07/msg00261.html
 
-Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
----
+where some ad-hoc benchmarks using lame mp3 encoder is also explained
+that has two versions: one using VMX and another only using FP. Both
+are mostly floating point bounded. I've run this test on mac99 under
+MorphOS before and after my patches, also verifying that md5sum of
+resulting mp3 matches (this is no proof for correctness but maybe
+shows it did not break too much at least those ops used by this
+program).
+
+I've got these measurements on an Intel i7-9700K CPU @ 3.60GHz (did
+not bother to take multiple samples so these are just approximate):
+
+1) before patch series using softfloat:
+lame: 4:01, lame_vmx: 3:14
+
+2) only enabling hardfloat in fpu/softfloat.c without other changes:
+lame: 4:06, lame_vmx: 2:06
+(this shows why hardfloat was disabled but VMX can benefit from this)
+
+3) with this series, hardfloat=true:
+lame: 3:15, lame_vmx: 1:59
+(so the patch does something even if there should be more places to
+preserve inexact flag to fully use hardfloat)
+
+4) with this series but forcing softfloat with hardfloat=false:
+lame: 4:11, lame_vmx: 2:08
+(unfortunately it's slower than before, likely due to adding if () to
+helper_reset_fpstatus() that should be avoided to at least get back
+previous hardfloat enabled case that's still slower than softfloat so
+this series only makes sense if the default can be hardfloat=true at
+the moment but even that would need more testing)
+
+I hope others can contribute to this by doing more testing to find out
+what else this would break or give some ideas how this could be
+improved.
+
+Regards,
+BALATON Zoltan
+
+BALATON Zoltan (2):
+  target/ppc/cpu: Add hardfloat property
+  target/ppc: Enable hardfloat for PPC
+
  fpu/softfloat.c                 | 14 +++++++-------
+ target/ppc/cpu.h                |  2 ++
  target/ppc/fpu_helper.c         |  7 ++++++-
- target/ppc/translate_init.inc.c |  2 +-
- 3 files changed, 14 insertions(+), 9 deletions(-)
+ target/ppc/translate_init.inc.c |  2 ++
+ 4 files changed, 17 insertions(+), 8 deletions(-)
 
-diff --git a/fpu/softfloat.c b/fpu/softfloat.c
-index 301ce3b537..6d3f4af72a 100644
---- a/fpu/softfloat.c
-+++ b/fpu/softfloat.c
-@@ -216,15 +216,15 @@ GEN_INPUT_FLUSH3(float64_input_flush3, float64)
- #endif
- 
- /*
-- * Some targets clear the FP flags before most FP operations. This prevents
-- * the use of hardfloat, since hardfloat relies on the inexact flag being
-- * already set.
-+ * Disable hardfloat for known problem cases.
-+ * Additionally, some targets clear the FP flags before most FP operations.
-+ * This prevents the use of hardfloat, since it relies on the inexact flag
-+ * being already set and clearing it often may result in slower computations.
-+ * Those targets could also be listed here.
-  */
--#if defined(TARGET_PPC) || defined(__FAST_MATH__)
--# if defined(__FAST_MATH__)
--#  warning disabling hardfloat due to -ffast-math: hardfloat requires an exact \
-+#if defined(__FAST_MATH__)
-+# warning disabling hardfloat due to -ffast-math: hardfloat requires an exact \
-     IEEE implementation
--# endif
- # define QEMU_NO_HARDFLOAT 1
- # define QEMU_SOFTFLOAT_ATTR QEMU_FLATTEN
- #else
-diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
-index ae43b08eb5..33aa977970 100644
---- a/target/ppc/fpu_helper.c
-+++ b/target/ppc/fpu_helper.c
-@@ -659,7 +659,12 @@ void helper_float_check_status(CPUPPCState *env)
- 
- void helper_reset_fpstatus(CPUPPCState *env)
- {
--    set_float_exception_flags(0, &env->fp_status);
-+    if (env->hardfloat) {
-+        /* hardfloat needs inexact flag already set, clear only others */
-+        set_float_exception_flags(float_flag_inexact, &env->fp_status);
-+    } else {
-+        set_float_exception_flags(0, &env->fp_status);
-+    }
- }
- 
- static void float_invalid_op_addsub(CPUPPCState *env, bool set_fpcc,
-diff --git a/target/ppc/translate_init.inc.c b/target/ppc/translate_init.inc.c
-index d6e1d66bc8..caac0c2d11 100644
---- a/target/ppc/translate_init.inc.c
-+++ b/target/ppc/translate_init.inc.c
-@@ -10869,7 +10869,7 @@ static Property ppc_cpu_properties[] = {
-                      false),
-     DEFINE_PROP_BOOL("pre-3.0-migration", PowerPCCPU, pre_3_0_migration,
-                      false),
--    DEFINE_PROP_BOOL("hardfloat", PowerPCCPU, hardfloat, false),
-+    DEFINE_PROP_BOOL("hardfloat", PowerPCCPU, hardfloat, true),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
 -- 
 2.21.1
 
