@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B4A21618EB
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 18:38:05 +0100 (CET)
-Received: from localhost ([::1]:49384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E55EC1618F3
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 18:40:50 +0100 (CET)
+Received: from localhost ([::1]:49446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j3kLM-0006XU-CX
-	for lists+qemu-devel@lfdr.de; Mon, 17 Feb 2020 12:38:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38076)
+	id 1j3kO1-0004df-T6
+	for lists+qemu-devel@lfdr.de; Mon, 17 Feb 2020 12:40:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38083)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1j3kIe-00013n-Vl
+ (envelope-from <imammedo@redhat.com>) id 1j3kIf-00014v-GU
  for qemu-devel@nongnu.org; Mon, 17 Feb 2020 12:35:18 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1j3kId-0001ke-LX
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 12:35:16 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:51334
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <imammedo@redhat.com>) id 1j3kIe-0001lK-9r
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 12:35:17 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:34533
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1j3kId-0001kO-HK
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 12:35:15 -0500
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1j3kIe-0001kr-5a
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 12:35:16 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1581960915;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6M8Cd8cuz0kDz8J7k9EkHApVheStboBJiX+Z0LxiAAE=;
- b=F0D3Vl+u/SXjBE2OlS7t+IneCDOK8dmqeSud7ZAXtpuFZxhMzBOaQht0L/gM231OviXExN
- hUXeP2B3/OUi50dnBjpPYSTvLoeRODpP+mSfk5gn6D27UXI9NYwsnWX9l82z2Y1VkS9m0P
- tCrLWAaTLcgrznUQH+sNOcgAgywt2bo=
+ bh=GX7ZP+Z3ukgokdjlGVg3Xww8w3o7m7mRnx8yNMa+F+Q=;
+ b=HUrc3uv+pPal2w56xrU1/JVR1RWToX0F1rMaxDmiX12CqXIygLLRalLO+jAzWtCpXF+aBL
+ zLMMd7IIQfD6z/13XfRrMsge4SVIogIFsi2PKzARyTKo1c68AOm136xjCWh6Jw/XoygiBG
+ 04hjj+qpixJqNd2ClQHl96GBC/CWkyY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-284-44ExbWsTMA-fmNorxip64w-1; Mon, 17 Feb 2020 12:35:13 -0500
+ us-mta-320-I6S0PUP1M6G1y1OZBQt5Hw-1; Mon, 17 Feb 2020 12:35:14 -0500
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 39DD81005512
- for <qemu-devel@nongnu.org>; Mon, 17 Feb 2020 17:35:12 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 39C8918FE860
+ for <qemu-devel@nongnu.org>; Mon, 17 Feb 2020 17:35:13 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8812490526;
- Mon, 17 Feb 2020 17:35:11 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 88F8490526;
+ Mon, 17 Feb 2020 17:35:12 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 10/79] arm/aspeed: use memdev for RAM
-Date: Mon, 17 Feb 2020 12:33:43 -0500
-Message-Id: <20200217173452.15243-11-imammedo@redhat.com>
+Subject: [PATCH v5 11/79] arm/collie: use memdev for RAM
+Date: Mon, 17 Feb 2020 12:33:44 -0500
+Message-Id: <20200217173452.15243-12-imammedo@redhat.com>
 In-Reply-To: <20200217173452.15243-1-imammedo@redhat.com>
 References: <20200217173452.15243-1-imammedo@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: 44ExbWsTMA-fmNorxip64w-1
+X-MC-Unique: I6S0PUP1M6G1y1OZBQt5Hw-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,54 +83,77 @@ to memdev scheme by providing
 and using MachineState::ram instead of manually initializing
 RAM memory region.
 
-Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
-Acked-by: Joel Stanley <joel@jms.id.au>
----
- hw/arm/aspeed.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+PS:
+ - while at it add check for user supplied RAM size and error
+   out if it mismatches board expected value.
+ - introduce RAM_ADDR_UFMT to avoid build errors on 32-bit hosts
+   when specifying format string for ram_addr_t type
 
-diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
-index 805bebd0d0..a6a2102a93 100644
---- a/hw/arm/aspeed.c
-+++ b/hw/arm/aspeed.c
-@@ -35,7 +35,6 @@ static struct arm_boot_info aspeed_board_binfo =3D {
- struct AspeedBoardState {
-     AspeedSoCState soc;
-     MemoryRegion ram_container;
--    MemoryRegion ram;
-     MemoryRegion max_ram;
+Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+Reviewed-by: Andrew Jones <drjones@redhat.com>
+---
+v2:
+  * fix format string causing build failure on 32-bit host
+    (Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>)
+v3:
+  * instead of RAM_ADDR_UFMT adding use size_to_str()
+     Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+---
+ hw/arm/collie.c | 17 ++++++++++++-----
+ 1 file changed, 12 insertions(+), 5 deletions(-)
+
+diff --git a/hw/arm/collie.c b/hw/arm/collie.c
+index 970a4405cc..024893fc9e 100644
+--- a/hw/arm/collie.c
++++ b/hw/arm/collie.c
+@@ -10,6 +10,7 @@
+  */
+ #include "qemu/osdep.h"
+ #include "qemu/units.h"
++#include "qemu/cutils.h"
+ #include "hw/sysbus.h"
+ #include "hw/boards.h"
+ #include "strongarm.h"
+@@ -20,20 +21,24 @@
+=20
+ static struct arm_boot_info collie_binfo =3D {
+     .loader_start =3D SA_SDCS0,
+-    .ram_size =3D 0x20000000,
  };
 =20
-@@ -197,6 +196,7 @@ static void aspeed_machine_init(MachineState *machine)
+ static void collie_init(MachineState *machine)
+ {
+     StrongARMState *s;
+     DriveInfo *dinfo;
+-    MemoryRegion *sdram =3D g_new(MemoryRegion, 1);
++    MachineClass *mc =3D MACHINE_GET_CLASS(machine);
++
++    if (machine->ram_size !=3D mc->default_ram_size) {
++        char *sz =3D size_to_str(mc->default_ram_size);
++        error_report("Invalid RAM size, should be %s", sz);
++        g_free(sz);
++        exit(EXIT_FAILURE);
++    }
 =20
-     memory_region_init(&bmc->ram_container, NULL, "aspeed-ram-container",
-                        UINT32_MAX);
-+    memory_region_add_subregion(&bmc->ram_container, 0, machine->ram);
+     s =3D sa1110_init(machine->cpu_type);
 =20
-     object_initialize_child(OBJECT(machine), "soc", &bmc->soc,
-                             (sizeof(bmc->soc)), amc->soc_name, &error_abor=
-t,
-@@ -232,8 +232,6 @@ static void aspeed_machine_init(MachineState *machine)
-     object_property_set_bool(OBJECT(&bmc->soc), true, "realized",
-                              &error_abort);
+-    memory_region_allocate_system_memory(sdram, NULL, "strongarm.sdram",
+-                                         collie_binfo.ram_size);
+-    memory_region_add_subregion(get_system_memory(), SA_SDCS0, sdram);
++    memory_region_add_subregion(get_system_memory(), SA_SDCS0, machine->ra=
+m);
 =20
--    memory_region_allocate_system_memory(&bmc->ram, NULL, "ram", ram_size)=
-;
--    memory_region_add_subregion(&bmc->ram_container, 0, &bmc->ram);
-     memory_region_add_subregion(get_system_memory(),
-                                 sc->memmap[ASPEED_SDRAM],
-                                 &bmc->ram_container);
-@@ -436,6 +434,7 @@ static void aspeed_machine_class_init(ObjectClass *oc, =
-void *data)
-     mc->no_floppy =3D 1;
-     mc->no_cdrom =3D 1;
-     mc->no_parallel =3D 1;
-+    mc->default_ram_id =3D "ram";
-=20
-     aspeed_machine_class_props_init(oc);
+     dinfo =3D drive_get(IF_PFLASH, 0, 0);
+     pflash_cfi01_register(SA_CS0, "collie.fl1", 0x02000000,
+@@ -57,6 +62,8 @@ static void collie_machine_init(MachineClass *mc)
+     mc->init =3D collie_init;
+     mc->ignore_memory_transaction_failures =3D true;
+     mc->default_cpu_type =3D ARM_CPU_TYPE_NAME("sa1110");
++    mc->default_ram_size =3D 0x20000000;
++    mc->default_ram_id =3D "strongarm.sdram";
  }
+=20
+ DEFINE_MACHINE("collie", collie_machine_init)
 --=20
 2.18.1
 
