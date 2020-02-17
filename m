@@ -2,72 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 659F5160F05
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 10:43:53 +0100 (CET)
-Received: from localhost ([::1]:42662 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB330160F07
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 10:43:58 +0100 (CET)
+Received: from localhost ([::1]:42666 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j3cwS-0003t4-3Q
-	for lists+qemu-devel@lfdr.de; Mon, 17 Feb 2020 04:43:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53886)
+	id 1j3cwY-00046J-0C
+	for lists+qemu-devel@lfdr.de; Mon, 17 Feb 2020 04:43:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53937)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1j3cvQ-0002Qg-R2
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 04:42:49 -0500
+ (envelope-from <philmd@redhat.com>) id 1j3cvV-0002V0-Du
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 04:42:54 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1j3cvP-00042G-Oi
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 04:42:48 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:27511
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1j3cvU-00047o-Ft
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 04:42:53 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:44785
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j3cvP-00040M-L1
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 04:42:47 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j3cvU-00047U-Bp
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 04:42:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581932566;
+ s=mimecast20190719; t=1581932571;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=avE5b+uApkPkVbTUzQsA+6m2Hgms1wpG9iE4nWPQ6Mk=;
- b=KnXVEDPsRRcNi2CcyXhK3Vo3Nro0+AuPpQoCgPDgyWplU5nMCiDaLD4xxN82NmmL8LgFSu
- e+1mBrLgK5lFRLHvjsIAq6P/FEHQKshPs/Qr1DmXkYeubCABYJ8VfDvDoOz18JhIUSsDRf
- idqC1lZjtag8ngT3djbMRtpzQLop7CA=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-170-P6vLjSAIN--A7xFH6i1jFw-1; Mon, 17 Feb 2020 04:42:43 -0500
-Received: by mail-wm1-f69.google.com with SMTP id q125so6785345wme.1
- for <qemu-devel@nongnu.org>; Mon, 17 Feb 2020 01:42:43 -0800 (PST)
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=MYAelrCTwzXEpeXTjGoeLvSObmJVSDbDIvbl+/nkeqU=;
+ b=TgtpAZKJqo9tNk5Q3Bz0jyVXLyOJI3TRyj9Rtin0hPA9hZBVODaHYzfU5dyhLFJSg6ion3
+ PUcDMfc8RNN8aQFZlclDV7MYecXAVZoVGoVXuJ2xScMMjL5Ldb93FPscWT381GJGfZ8BMj
+ t6vpRXezDDyPO6EDnCwpvhOV0GeC4ek=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-8-3eFmizFwMK2YlIw-SpOpaQ-1; Mon, 17 Feb 2020 04:42:44 -0500
+Received: by mail-wr1-f70.google.com with SMTP id n23so8658385wra.20
+ for <qemu-devel@nongnu.org>; Mon, 17 Feb 2020 01:42:44 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=MuHBnO/NSlxD8zkdzf5GhFmsSxlbSVesttlYvmiRJb4=;
- b=bGiMQGhogpRoWgCWnJ5Kj5CSr9OSiBOdLT6K8FYe/deIJC0p0jNmejqb3AYs59nsHC
- jkvnhQwTZJyl4LZY6UVMQkByV5N4p/6KB6ZFBnhDZOe255/H2Tshk5LIxYTN23ANLTWv
- ZwAor8e7FJRDztHk3XJZ3MPqTPqxNt2yFIJz/br25c/eNhY4bj6RzcSD5uggDpSdzBV+
- KbKdctyc4bmeTnTUMvU8Z3wrCnLRS4jIW0jMoL3PDwu09AJAKoNqha8tcQfNonwkfadm
- Nib5qmBrl8vJbjf1Wi4fr+j11dX7kCvNzkTSw5jnfcDw++xxW/UWakZW2mN5yZy9rvJf
- UFNQ==
-X-Gm-Message-State: APjAAAXkPCIDIlekW2lZ8rqkAU6C0NNkcFzHMKnJGMEUQUHFfCM1Vtm+
- YKjqc/+Z5RLPcqcnaSuDfRx0GZy3aBkPJGmCZkMx/dQTnY1YcNQ94PwfGo2ukxuPlSUbfwZZdkQ
- BIY34aNJSn+vVk7E=
-X-Received: by 2002:adf:d4c7:: with SMTP id w7mr21732969wrk.101.1581932562383; 
- Mon, 17 Feb 2020 01:42:42 -0800 (PST)
-X-Google-Smtp-Source: APXvYqxVtCPu0jQWBqlkTSzKF9Ji1DtCyd1xey70jOD41D0fCfpO3v+e3JeBvzB1cG9+KpeRTw9lVg==
-X-Received: by 2002:adf:d4c7:: with SMTP id w7mr21732951wrk.101.1581932562205; 
- Mon, 17 Feb 2020 01:42:42 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=nY/FwSJNIP8tGgbzcIhnsTAXLH61fhI3XyE0WWi+eWM=;
+ b=A0vS3zaCxMaLxLbe5hiv/C7ukOgBSQYCkyfPOdsP9Kshu6mr6GZmL1A4GZ+SE+y1Jb
+ CVTtZz3ISIpZ4szSbM38WmSzmWLI5DodqoYxYrvzPcxjYuXhOVSnMtrbzsNNCZcEly45
+ zFdcW99Voo6jer+4JCZ+eRam3sn5HD9rH4Tze1otfCnJ55E7RHGqjzOrDu/XxE5Z9+aT
+ y/GXSK/bjzU+EBBJyJ0sDjD8vUtxcvtiHNcyJSyx5y0ffhcB9Ssk8cxeKTxEdvT6hgD2
+ ofVV8iRe6P5Uc/BsJGswAe3MkK5USn3x6WbyhPdJkNfVbK8xtbsgD1j5aJnYqwm289AF
+ BvOw==
+X-Gm-Message-State: APjAAAVHVdT5YdHfEtzKjh+D9XTOe40r9VPwy9zyxTzG37QpIub2BVlz
+ sdnkFxIQQ9N8rPZcwmehp95x6tvJ7A/suY1Y+Iz/+6PE9+h3t87C4SrOLuybXPTqnqZKvnZweGT
+ Cp0cJwtU0m6WsgIw=
+X-Received: by 2002:adf:f80b:: with SMTP id s11mr21977817wrp.12.1581932563545; 
+ Mon, 17 Feb 2020 01:42:43 -0800 (PST)
+X-Google-Smtp-Source: APXvYqyx3EBu+FoflpE03lVufFajOhpAVZN10mLkueH2EYY9MwAIamDe3WMoSK7ys9LsyB38t1Wwcg==
+X-Received: by 2002:adf:f80b:: with SMTP id s11mr21977802wrp.12.1581932563390; 
+ Mon, 17 Feb 2020 01:42:43 -0800 (PST)
 Received: from x1w.redhat.com (78.red-88-21-202.staticip.rima-tde.net.
  [88.21.202.78])
- by smtp.gmail.com with ESMTPSA id t187sm17789442wmt.25.2020.02.17.01.42.41
+ by smtp.gmail.com with ESMTPSA id t187sm17789442wmt.25.2020.02.17.01.42.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Feb 2020 01:42:41 -0800 (PST)
+ Mon, 17 Feb 2020 01:42:42 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/3] tools/virtiofsd: Fix warning reported by Clang static
- code analyzer
-Date: Mon, 17 Feb 2020 10:42:37 +0100
-Message-Id: <20200217094240.9927-1-philmd@redhat.com>
+Subject: [PATCH v2 1/3] tools/virtiofsd/passthrough_ll: Remove unneeded
+ variable assignment
+Date: Mon, 17 Feb 2020 10:42:38 +0100
+Message-Id: <20200217094240.9927-2-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.1
+In-Reply-To: <20200217094240.9927-1-philmd@redhat.com>
+References: <20200217094240.9927-1-philmd@redhat.com>
 MIME-Version: 1.0
-X-MC-Unique: P6vLjSAIN--A7xFH6i1jFw-1
+X-MC-Unique: 3eFmizFwMK2YlIw-SpOpaQ-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8;
@@ -93,19 +96,37 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since v1:
-- Addressed J=C3=A1n Tomko review comment
-- Added J=C3=A1n Tomko R-b tag
+Fix warning reported by Clang static code analyzer:
 
-Philippe Mathieu-Daud=C3=A9 (3):
-  tools/virtiofsd/passthrough_ll: Remove unneeded variable assignment
-  tools/virtiofsd/passthrough_ll: Remove unneeded variable assignment
-  tools/virtiofsd/fuse_lowlevel: Fix fuse_out_header::error value
+    CC      tools/virtiofsd/passthrough_ll.o
+  tools/virtiofsd/passthrough_ll.c:1083:5: warning: Value stored to 'saverr=
+' is never read
+      saverr =3D ENOMEM;
+      ^        ~~~~~~
 
- tools/virtiofsd/fuse_lowlevel.c  | 2 +-
- tools/virtiofsd/passthrough_ll.c | 4 ----
- 2 files changed, 1 insertion(+), 5 deletions(-)
+Fixes: 7c6b66027
+Reported-by: Clang Static Analyzer
+Reviewed-by: J=C3=A1n Tomko <jtomko@redhat.com>
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+---
+ tools/virtiofsd/passthrough_ll.c | 2 --
+ 1 file changed, 2 deletions(-)
 
+diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough=
+_ll.c
+index c635fc8820..e9e71d5fc2 100644
+--- a/tools/virtiofsd/passthrough_ll.c
++++ b/tools/virtiofsd/passthrough_ll.c
+@@ -1080,8 +1080,6 @@ static void lo_mknod_symlink(fuse_req_t req, fuse_ino=
+_t parent,
+         return;
+     }
+=20
+-    saverr =3D ENOMEM;
+-
+     saverr =3D lo_change_cred(req, &old);
+     if (saverr) {
+         goto out;
 --=20
 2.21.1
 
