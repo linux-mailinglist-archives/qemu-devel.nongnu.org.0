@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2E7F1615EC
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 16:16:00 +0100 (CET)
-Received: from localhost ([::1]:47016 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7857C1615F5
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 16:18:19 +0100 (CET)
+Received: from localhost ([::1]:47058 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j3i7s-0000hu-2B
-	for lists+qemu-devel@lfdr.de; Mon, 17 Feb 2020 10:16:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39257)
+	id 1j3iA6-0003If-Hj
+	for lists+qemu-devel@lfdr.de; Mon, 17 Feb 2020 10:18:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39303)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1j3hvk-0004wK-6i
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 10:03:29 -0500
+ (envelope-from <vsementsov@virtuozzo.com>) id 1j3hvn-00057Q-VQ
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 10:03:36 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1j3hvj-0007aE-2G
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 10:03:28 -0500
-Received: from relay.sw.ru ([185.231.240.75]:47536)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1j3hvj-0007a4-1f
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 10:03:31 -0500
+Received: from relay.sw.ru ([185.231.240.75]:47526)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1j3hvi-0007RY-Ou; Mon, 17 Feb 2020 10:03:26 -0500
+ id 1j3hvi-0007RT-Ot; Mon, 17 Feb 2020 10:03:26 -0500
 Received: from vovaso.qa.sw.ru ([10.94.3.0] helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.3)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1j3hvD-0007Zt-0G; Mon, 17 Feb 2020 18:02:55 +0300
+ id 1j3hvD-0007Zt-7p; Mon, 17 Feb 2020 18:02:55 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 03/22] migration/block-dirty-bitmap: rename
- dirty_bitmap_mig_cleanup
-Date: Mon, 17 Feb 2020 18:02:27 +0300
-Message-Id: <20200217150246.29180-4-vsementsov@virtuozzo.com>
+Subject: [PATCH v2 04/22] migration/block-dirty-bitmap: move mutex init to
+ dirty_bitmap_mig_init
+Date: Mon, 17 Feb 2020 18:02:28 +0300
+Message-Id: <20200217150246.29180-5-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200217150246.29180-1-vsementsov@virtuozzo.com>
 References: <20200217150246.29180-1-vsementsov@virtuozzo.com>
@@ -55,54 +55,64 @@ Cc: Fam Zheng <fam@euphon.net>, vsementsov@virtuozzo.com, qemu-block@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Rename dirty_bitmap_mig_cleanup to dirty_bitmap_do_save_cleanup, to
-stress that it is on save part.
+No reasons to keep two public init functions.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- migration/block-dirty-bitmap.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ migration/migration.h          | 1 -
+ migration/block-dirty-bitmap.c | 6 +-----
+ migration/migration.c          | 2 --
+ 3 files changed, 1 insertion(+), 8 deletions(-)
 
+diff --git a/migration/migration.h b/migration/migration.h
+index 8473ddfc88..2948f2387b 100644
+--- a/migration/migration.h
++++ b/migration/migration.h
+@@ -332,7 +332,6 @@ void migrate_send_rp_recv_bitmap(MigrationIncomingState *mis,
+ void migrate_send_rp_resume_ack(MigrationIncomingState *mis, uint32_t value);
+ 
+ void dirty_bitmap_mig_before_vm_start(void);
+-void init_dirty_bitmap_incoming_migration(void);
+ void migrate_add_address(SocketAddress *address);
+ 
+ int foreach_not_ignored_block(RAMBlockIterFunc func, void *opaque);
 diff --git a/migration/block-dirty-bitmap.c b/migration/block-dirty-bitmap.c
-index 73792ab005..4e8959ae52 100644
+index 4e8959ae52..49d4cf8810 100644
 --- a/migration/block-dirty-bitmap.c
 +++ b/migration/block-dirty-bitmap.c
-@@ -259,7 +259,7 @@ static void send_bitmap_bits(QEMUFile *f, SaveBitmapState *dbms,
- }
+@@ -148,11 +148,6 @@ typedef struct LoadBitmapState {
+ static GSList *enabled_bitmaps;
+ QemuMutex finish_lock;
  
- /* Called with iothread lock taken.  */
--static void dirty_bitmap_mig_cleanup(void)
-+static void dirty_bitmap_do_save_cleanup(void)
+-void init_dirty_bitmap_incoming_migration(void)
+-{
+-    qemu_mutex_init(&finish_lock);
+-}
+-
+ static uint32_t qemu_get_bitmap_flags(QEMUFile *f)
  {
-     SaveBitmapState *dbms;
- 
-@@ -338,7 +338,7 @@ static int init_dirty_bitmap_migration(void)
-     return 0;
- 
- fail:
--    dirty_bitmap_mig_cleanup();
-+    dirty_bitmap_do_save_cleanup();
- 
-     return -1;
- }
-@@ -377,7 +377,7 @@ static void bulk_phase(QEMUFile *f, bool limit)
- /* for SaveVMHandlers */
- static void dirty_bitmap_save_cleanup(void *opaque)
+     uint8_t flags = qemu_get_byte(f);
+@@ -733,6 +728,7 @@ static SaveVMHandlers savevm_dirty_bitmap_handlers = {
+ void dirty_bitmap_mig_init(void)
  {
--    dirty_bitmap_mig_cleanup();
-+    dirty_bitmap_do_save_cleanup();
- }
+     QSIMPLEQ_INIT(&dirty_bitmap_mig_state.dbms_list);
++    qemu_mutex_init(&finish_lock);
  
- static int dirty_bitmap_save_iterate(QEMUFile *f, void *opaque)
-@@ -412,7 +412,7 @@ static int dirty_bitmap_save_complete(QEMUFile *f, void *opaque)
+     register_savevm_live("dirty-bitmap", 0, 1,
+                          &savevm_dirty_bitmap_handlers,
+diff --git a/migration/migration.c b/migration/migration.c
+index 8fb68795dc..515047932c 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -158,8 +158,6 @@ void migration_object_init(void)
+     qemu_sem_init(&current_incoming->postcopy_pause_sem_dst, 0);
+     qemu_sem_init(&current_incoming->postcopy_pause_sem_fault, 0);
  
-     trace_dirty_bitmap_save_complete_finish();
- 
--    dirty_bitmap_mig_cleanup();
-+    dirty_bitmap_do_save_cleanup();
-     return 0;
- }
- 
+-    init_dirty_bitmap_incoming_migration();
+-
+     if (!migration_object_check(current_migration, &err)) {
+         error_report_err(err);
+         exit(1);
 -- 
 2.21.0
 
