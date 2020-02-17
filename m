@@ -2,77 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7153D161BB0
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 20:35:32 +0100 (CET)
-Received: from localhost ([::1]:52032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66C33161BA7
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 20:33:35 +0100 (CET)
+Received: from localhost ([::1]:51970 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j3mB1-00010U-GH
-	for lists+qemu-devel@lfdr.de; Mon, 17 Feb 2020 14:35:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55699)
+	id 1j3m98-0005nX-EL
+	for lists+qemu-devel@lfdr.de; Mon, 17 Feb 2020 14:33:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55894)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1j3m6m-0002hm-Qt
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 14:31:09 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1j3m7i-0004QY-Rl
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 14:32:08 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1j3m6l-00042S-SP
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 14:31:08 -0500
-Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:43107)
+ (envelope-from <richard.henderson@linaro.org>) id 1j3m7h-0004YB-W8
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 14:32:06 -0500
+Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c]:45293)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1j3m6l-00042E-MQ
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 14:31:07 -0500
-Received: by mail-pg1-x544.google.com with SMTP id u12so9370038pgb.10
- for <qemu-devel@nongnu.org>; Mon, 17 Feb 2020 11:31:07 -0800 (PST)
+ id 1j3m7h-0004XD-FC
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 14:32:05 -0500
+Received: by mail-pg1-x52c.google.com with SMTP id b9so9593481pgk.12
+ for <qemu-devel@nongnu.org>; Mon, 17 Feb 2020 11:32:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=s2CbYYjbFZ/h07a/T7EwnPg8q6ttk+XqV+IXi4hWi2M=;
- b=sdOvleG+9/Qa707j/ot5Pf2jHevqP+F+LUtgwWV2DnCbzqq8+qZTy1G1Pjc4TFt3H0
- FVCEuYu6BSoN1RO7O55RRuhZNRBS5hJrKW/xnhyTMkXhTczW3M/bvGMHgFUkMv2ShzPF
- 24XmW5Tbg5qhPqfyPyXh3lUaTk47c2rtyxpam4y4xC2jkYaGgk4j37BcitZvwHaecBCB
- X/lotGFZ039eFl0XKLP9vzPdnWGNaJYa+lfcXB+4FJHOzS40ut+ebznTyI+g7HqldyDu
- CMALiPNYl5ROZTkn9FLFXgYJNdhFG2BVv+jlrGEftgK/Gkzk70WwzKBVSnGwLR6qlXmq
- yNgw==
+ bh=4/dFrR5noJxLe2AFYoJ9x3Xmktzbnp3oR+dRvkZ+kcw=;
+ b=QdinW8eD4EcJsP6Co6toZGDP2fHgyyLi3/+/HG4j71eb+0GKWKGo+IsKGCRNTUJYX3
+ mTKMYAZAvHrztVgntcsIJAkAp0eDiUSHNjZMiLa+SfvWckk0JeoPSh6JEmuTIkM9+k8u
+ W40zBinlqOESGRlb4//0UpsY2wRZz2cAzG6t/mXDThzXCNjAzcRZi3HJx8Y/kihcJKMj
+ 0EGPBIjLH2kt7ylxgGuO0rItb6g69x7KVd84pxIzLQQMK71ZK9C7ZRIarpBJvexnWu1z
+ vnlzDTp+p0vcfPqupMHPXe0I7ClJkJlLt6DT9tbo26Xj7iOjdVVYIapJ+yUqQY4Gfjq7
+ SUUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=s2CbYYjbFZ/h07a/T7EwnPg8q6ttk+XqV+IXi4hWi2M=;
- b=BSqf8X++k2BBan/fLpLwX0xLimIUaimaqeYPlzlpjEuejvAFi4IkK8igYc0rEbOpn7
- 7asRXFJnyW/GEx9W7xkqFAq7VT1hci8ayqfN0Ev50dI8WoCn9rCjXjhj6oi/y72jppRm
- fTuWYulh80EW8ZsTVwoBvXjjGGUY+efwS5eJE21m/UGORO/1Asg5RGy3wGS/UDOJ8NUV
- KPjAqSG+rjV04OamMTS3t86fyIVqisGeu66L0uBtKBqSn3eo+1O1tBrgXSl2I2685SVs
- ow6m9hgLHL9QjkNmkzPVpq94yPqddI3zYV03VM3edqB1auKsb4PcqesVZ5ap0v4QgbFF
- agWw==
-X-Gm-Message-State: APjAAAUsNi5MFh6NnVejH1/dFazlXK3EZLsirXxlfSCN70dbo4xV1Q3b
- 7gk4eylVB+hMsUuAj2fd5xHbNg==
-X-Google-Smtp-Source: APXvYqyZjTkfuPlMzCufos1m1BpovcZsa0cJa7nlBgB0nOc1vf/1GeZXZPzYBsGoErL5l+x/2MWpyA==
-X-Received: by 2002:a17:90a:a60c:: with SMTP id
- c12mr711855pjq.28.1581967866799; 
- Mon, 17 Feb 2020 11:31:06 -0800 (PST)
+ bh=4/dFrR5noJxLe2AFYoJ9x3Xmktzbnp3oR+dRvkZ+kcw=;
+ b=BnTkyS3IQ9kLz4j+CkLy7IPSQ4tM/GHxcj7YK4tKz58co5ltOoPLr66cgL/kp1npXm
+ mdzYpIPYfRIbSHs8HhgeayNOndopPliVt/G+buaq1BeW3FMA/YsTW1NmQ590tXMLonzm
+ gpB84fpSJl2mRPAooLlsr1+W4QZiTu3HWbyaPOmjNLIpcngQTPBVNXXNQ1yzaY+mStuM
+ B1a/HAudRar2KX+VzSP7rruQPBy3uHaBGUSCU733UkY1GiE+uJ5cgBym0oRzSFk7pMhB
+ 1M74ICZsEUgKM91jk72X21FMnwbzTUXTc62D6+/FDlD5rUPqWw40YZ7UYSn7Y6WaiSBB
+ rKQw==
+X-Gm-Message-State: APjAAAXq8d/yyxn2ZPMvSq7n3oBEiHBo4Rw7kLRf7Z2zPIwFJJRadZJq
+ DmTqdrJ/KXBP/5DamZa8gUNbEA==
+X-Google-Smtp-Source: APXvYqwllfxn4NukWFIitLEBoH5VAV6ciCdUtRBeCFzANBvgcQFanX0HpnpTl0n3+KcP1/jhJQyafQ==
+X-Received: by 2002:a63:8b41:: with SMTP id j62mr18188932pge.2.1581967924286; 
+ Mon, 17 Feb 2020 11:32:04 -0800 (PST)
 Received: from [192.168.1.11] (97-126-123-70.tukw.qwest.net. [97.126.123.70])
  by smtp.gmail.com with ESMTPSA id
- w11sm1751863pgh.5.2020.02.17.11.31.05
+ i27sm1617796pgn.76.2020.02.17.11.32.03
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 17 Feb 2020 11:31:05 -0800 (PST)
-Subject: Re: [PATCH v5 49/79] m68k/next-cube: use memdev for RAM
+ Mon, 17 Feb 2020 11:32:03 -0800 (PST)
+Subject: Re: [PATCH v5 58/79] ppc/e500: drop RAM size fixup
 To: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org
 References: <20200217173452.15243-1-imammedo@redhat.com>
- <20200217173452.15243-50-imammedo@redhat.com>
+ <20200217173452.15243-59-imammedo@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <f6d862ea-f149-ba5b-8fb7-53de008964a8@linaro.org>
-Date: Mon, 17 Feb 2020 11:31:04 -0800
+Message-ID: <ba075b9d-ab58-f267-758e-0aa66888e510@linaro.org>
+Date: Mon, 17 Feb 2020 11:32:01 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200217173452.15243-50-imammedo@redhat.com>
+In-Reply-To: <20200217173452.15243-59-imammedo@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::544
+X-Received-From: 2607:f8b0:4864:20::52c
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,16 +88,19 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 2/17/20 9:34 AM, Igor Mammedov wrote:
-> memory_region_allocate_system_memory() API is going away, so
-> replace it with memdev allocated MemoryRegion. The later is
-> initialized by generic code, so board only needs to opt in
-> to memdev scheme by providing
->   MachineClass::default_ram_id
-> and using MachineState::ram instead of manually initializing
-> RAM memory region.
+> If user provided non-sense RAM size, board will complain and
+> continue running with max RAM size supported.
+> Also RAM is going to be allocated by generic code, so it won't be
+> possible for board to fix things up for user.
+> 
+> Make it error message and exit to force user fix CLI,
+> instead of accepting non-sense CLI values.
+> 
+> While at it, replace usage of global ram_size with
+> machine->ram_size
 > 
 > Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-> Acked-by: Thomas Huth <thuth@redhat.com>
+> Acked-by: David Gibson <david@gibson.dropbear.id.au>
 > ---
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
