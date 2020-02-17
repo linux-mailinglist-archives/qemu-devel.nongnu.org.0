@@ -2,64 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65FDD16135B
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 14:30:08 +0100 (CET)
-Received: from localhost ([::1]:45540 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D536161395
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 14:32:42 +0100 (CET)
+Received: from localhost ([::1]:45578 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j3gTP-0006Sy-Bc
-	for lists+qemu-devel@lfdr.de; Mon, 17 Feb 2020 08:30:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54482)
+	id 1j3gVt-0000xY-8D
+	for lists+qemu-devel@lfdr.de; Mon, 17 Feb 2020 08:32:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54479)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1j3gRh-0004H9-SM
+ (envelope-from <armbru@redhat.com>) id 1j3gRh-0004Gj-SC
  for qemu-devel@nongnu.org; Mon, 17 Feb 2020 08:28:23 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1j3gRg-0000sa-1j
+ (envelope-from <armbru@redhat.com>) id 1j3gRg-0000sU-1a
  for qemu-devel@nongnu.org; Mon, 17 Feb 2020 08:28:21 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:45482
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:30738
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1j3gRf-0000rg-TY
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1j3gRf-0000rh-Pb
  for qemu-devel@nongnu.org; Mon, 17 Feb 2020 08:28:19 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581946098;
+ s=mimecast20190719; t=1581946099;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=MigBGLsrO/+pwGnF6sP4SvTd1Mfyh92oDXRaaJehpwc=;
- b=G3FxkMo7CSGs8DCYGKGl5uNJDv7rcAiwTutSpfMpL1H6ORWHjjNJV1N9qMFRLweSsBCLkl
- mHvppZD/aucPxRAeiGE3dtGZ6d0O0+KYjOvHn2OIUEWoTfYkkrWhI5T41a81dLXZAHVEVX
- wZ/tzb1plZovb4dVquFEGfv7wDPOBQc=
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Ohy+qzEbkWVza5tujlOYKwVDW93/pZDUJZRYiXcF5z4=;
+ b=eYX1gqp0OCwglBp1uVqO/dtQVj/7dAK067DBEhfQisPhN7H0c5ZnCtOX4MsLUYcAtrpwSA
+ uPhd9IkjYF2uX5Klyoc2P7besMQ8DkEh8e5vlSB8r9mU2xSY02h6Zo+erFPBze8X5oYz+G
+ pE13I19+Zjku6BXh4JrmcRL9gxPQlt8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-84-d95PijStPhS5XLibO2KT2g-1; Mon, 17 Feb 2020 08:28:17 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-72-DXZhFl5UPoeTmvrEnCXmnQ-1; Mon, 17 Feb 2020 08:28:17 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8A2668017DF
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 566881857341
  for <qemu-devel@nongnu.org>; Mon, 17 Feb 2020 13:28:16 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-117-234.ams2.redhat.com
  [10.36.117.234])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2B0E919481;
- Mon, 17 Feb 2020 13:28:16 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 278C25D9CA
+ for <qemu-devel@nongnu.org>; Mon, 17 Feb 2020 13:28:16 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id A3E7C11366C0; Mon, 17 Feb 2020 14:28:14 +0100 (CET)
+ id A16EE11385C9; Mon, 17 Feb 2020 14:28:14 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 1/5] monitor: Move monitor option parsing to
- monitor/monitor.c
-Date: Mon, 17 Feb 2020 14:28:10 +0100
-Message-Id: <20200217132814.9018-2-armbru@redhat.com>
-In-Reply-To: <20200217132814.9018-1-armbru@redhat.com>
-References: <20200217132814.9018-1-armbru@redhat.com>
+Subject: [PULL v2 0/5] Monitor patches for 2020-02-15
+Date: Mon, 17 Feb 2020 14:28:09 +0100
+Message-Id: <20200217132814.9018-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: d95PijStPhS5XLibO2KT2g-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: DXZhFl5UPoeTmvrEnCXmnQ-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 205.139.110.61
@@ -74,179 +70,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Kevin Wolf <kwolf@redhat.com>
+The following changes since commit 9ced5c7c20cb16dff0c2fa3242c3ee96b68cec2a=
+:
 
-Both the system emulators and tools with QMP support (specifically, the
-planned storage daemon) will need to parse monitor options, so move that
-code to monitor/monitor.c, which can be linked into binaries that aren't
-a system emulator.
+  Merge remote-tracking branch 'remotes/armbru/tags/pull-qapi-2020-02-15' i=
+nto staging (2020-02-16 21:15:26 +0000)
 
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20200129102239.31435-2-kwolf@redhat.com>
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
----
- include/monitor/monitor.h |  3 +++
- include/sysemu/sysemu.h   |  1 -
- monitor/monitor.c         | 48 +++++++++++++++++++++++++++++++++++++++
- vl.c                      | 45 +-----------------------------------
- 4 files changed, 52 insertions(+), 45 deletions(-)
+are available in the Git repository at:
 
-diff --git a/include/monitor/monitor.h b/include/monitor/monitor.h
-index a81eeff5f8..b7bdd2bb2a 100644
---- a/include/monitor/monitor.h
-+++ b/include/monitor/monitor.h
-@@ -10,12 +10,15 @@ typedef struct MonitorHMP MonitorHMP;
-=20
- #define QMP_REQ_QUEUE_LEN_MAX 8
-=20
-+extern QemuOptsList qemu_mon_opts;
-+
- bool monitor_cur_is_qmp(void);
-=20
- void monitor_init_globals(void);
- void monitor_init_globals_core(void);
- void monitor_init_qmp(Chardev *chr, bool pretty);
- void monitor_init_hmp(Chardev *chr, bool use_readline);
-+int monitor_init_opts(QemuOpts *opts, Error **errp);
- void monitor_cleanup(void);
-=20
- int monitor_suspend(Monitor *mon);
-diff --git a/include/sysemu/sysemu.h b/include/sysemu/sysemu.h
-index 7956e9054a..c0678c1ca3 100644
---- a/include/sysemu/sysemu.h
-+++ b/include/sysemu/sysemu.h
-@@ -125,7 +125,6 @@ extern QemuOptsList qemu_netdev_opts;
- extern QemuOptsList qemu_nic_opts;
- extern QemuOptsList qemu_net_opts;
- extern QemuOptsList qemu_global_opts;
--extern QemuOptsList qemu_mon_opts;
- extern QemuOptsList qemu_semihosting_config_opts;
-=20
- #endif
-diff --git a/monitor/monitor.c b/monitor/monitor.c
-index 12898b6448..c1a6c4460f 100644
---- a/monitor/monitor.c
-+++ b/monitor/monitor.c
-@@ -609,6 +609,54 @@ void monitor_init_globals_core(void)
-                                    NULL);
- }
-=20
-+int monitor_init_opts(QemuOpts *opts, Error **errp)
-+{
-+    Chardev *chr;
-+    bool qmp;
-+    bool pretty =3D false;
-+    const char *chardev;
-+    const char *mode;
-+
-+    mode =3D qemu_opt_get(opts, "mode");
-+    if (mode =3D=3D NULL) {
-+        mode =3D "readline";
-+    }
-+    if (strcmp(mode, "readline") =3D=3D 0) {
-+        qmp =3D false;
-+    } else if (strcmp(mode, "control") =3D=3D 0) {
-+        qmp =3D true;
-+    } else {
-+        error_setg(errp, "unknown monitor mode \"%s\"", mode);
-+        return -1;
-+    }
-+
-+    if (!qmp && qemu_opt_get(opts, "pretty")) {
-+        warn_report("'pretty' is deprecated for HMP monitors, it has no ef=
-fect "
-+                    "and will be removed in future versions");
-+    }
-+    if (qemu_opt_get_bool(opts, "pretty", 0)) {
-+        pretty =3D true;
-+    }
-+
-+    chardev =3D qemu_opt_get(opts, "chardev");
-+    if (!chardev) {
-+        error_report("chardev is required");
-+        exit(1);
-+    }
-+    chr =3D qemu_chr_find(chardev);
-+    if (chr =3D=3D NULL) {
-+        error_setg(errp, "chardev \"%s\" not found", chardev);
-+        return -1;
-+    }
-+
-+    if (qmp) {
-+        monitor_init_qmp(chr, pretty);
-+    } else {
-+        monitor_init_hmp(chr, true);
-+    }
-+    return 0;
-+}
-+
- QemuOptsList qemu_mon_opts =3D {
-     .name =3D "mon",
-     .implied_opt_name =3D "chardev",
-diff --git a/vl.c b/vl.c
-index b0ee318f99..794f2e5733 100644
---- a/vl.c
-+++ b/vl.c
-@@ -2127,50 +2127,7 @@ static int fsdev_init_func(void *opaque, QemuOpts *o=
-pts, Error **errp)
-=20
- static int mon_init_func(void *opaque, QemuOpts *opts, Error **errp)
- {
--    Chardev *chr;
--    bool qmp;
--    bool pretty =3D false;
--    const char *chardev;
--    const char *mode;
--
--    mode =3D qemu_opt_get(opts, "mode");
--    if (mode =3D=3D NULL) {
--        mode =3D "readline";
--    }
--    if (strcmp(mode, "readline") =3D=3D 0) {
--        qmp =3D false;
--    } else if (strcmp(mode, "control") =3D=3D 0) {
--        qmp =3D true;
--    } else {
--        error_setg(errp, "unknown monitor mode \"%s\"", mode);
--        return -1;
--    }
--
--    if (!qmp && qemu_opt_get(opts, "pretty")) {
--        warn_report("'pretty' is deprecated for HMP monitors, it has no ef=
-fect "
--                    "and will be removed in future versions");
--    }
--    if (qemu_opt_get_bool(opts, "pretty", 0)) {
--        pretty =3D true;
--    }
--
--    chardev =3D qemu_opt_get(opts, "chardev");
--    if (!chardev) {
--        error_report("chardev is required");
--        exit(1);
--    }
--    chr =3D qemu_chr_find(chardev);
--    if (chr =3D=3D NULL) {
--        error_setg(errp, "chardev \"%s\" not found", chardev);
--        return -1;
--    }
--
--    if (qmp) {
--        monitor_init_qmp(chr, pretty);
--    } else {
--        monitor_init_hmp(chr, true);
--    }
--    return 0;
-+    return monitor_init_opts(opts, errp);
- }
-=20
- static void monitor_parse(const char *optarg, const char *mode, bool prett=
-y)
+  git://repo.or.cz/qemu/armbru.git tags/pull-monitor-2020-02-15-v2
+
+for you to fetch changes up to ec95fcc8bae624e87c7601d2d4baf7c519c3814e:
+
+  qemu-doc: Clarify extent of build platform support (2020-02-17 13:53:47 +=
+0100)
+
+----------------------------------------------------------------
+Monitor patches for 2020-02-15
+
+* Refactoring in preparation for qemu-storage-daemon
+
+* A doc clarification that's admittedly not about the monitor
+----------------------------------------------------------------
+Kevin Wolf (4):
+      monitor: Move monitor option parsing to monitor/monitor.c
+      qapi: Split control.json off misc.json
+      monitor: Collect "control" command handlers in qmp-cmds.control.c
+      monitor: Move qmp_query_qmp_schema to qmp-cmds-control.c
+
+Markus Armbruster (1):
+      qemu-doc: Clarify extent of build platform support
+
+ qemu-doc.texi              |   9 +-
+ qapi/control.json          | 218 +++++++++++++++++++++++++++++++++++++++++=
+++++
+ qapi/misc.json             | 212 -----------------------------------------=
+--
+ qapi/qapi-schema.json      |   1 +
+ include/monitor/monitor.h  |   3 +
+ include/sysemu/sysemu.h    |   1 -
+ monitor/monitor-internal.h |   4 +
+ monitor/hmp-cmds.c         |   1 +
+ monitor/misc.c             | 127 +-------------------------
+ monitor/monitor.c          |  48 ++++++++++
+ monitor/qmp-cmds-control.c | 169 +++++++++++++++++++++++++++++++++++
+ monitor/qmp-cmds.c         |  15 +---
+ monitor/qmp.c              |   2 +-
+ tests/qtest/qmp-test.c     |   2 +-
+ ui/gtk.c                   |   1 +
+ vl.c                       |  45 +---------
+ monitor/Makefile.objs      |   3 +-
+ qapi/Makefile.objs         |   6 +-
+ 18 files changed, 460 insertions(+), 407 deletions(-)
+ create mode 100644 qapi/control.json
+ create mode 100644 monitor/qmp-cmds-control.c
+
 --=20
 2.21.1
 
