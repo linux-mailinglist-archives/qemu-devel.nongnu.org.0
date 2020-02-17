@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 289DF161931
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 18:54:34 +0100 (CET)
-Received: from localhost ([::1]:49664 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E028C161939
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 18:56:21 +0100 (CET)
+Received: from localhost ([::1]:49704 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j3kbJ-0004p1-6M
-	for lists+qemu-devel@lfdr.de; Mon, 17 Feb 2020 12:54:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38610)
+	id 1j3kd2-0008Pl-VC
+	for lists+qemu-devel@lfdr.de; Mon, 17 Feb 2020 12:56:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38609)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1j3kJW-0002qJ-8t
+ (envelope-from <imammedo@redhat.com>) id 1j3kJW-0002pg-8a
  for qemu-devel@nongnu.org; Mon, 17 Feb 2020 12:36:11 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1j3kJU-0002KZ-5I
+ (envelope-from <imammedo@redhat.com>) id 1j3kJU-0002Kf-7M
  for qemu-devel@nongnu.org; Mon, 17 Feb 2020 12:36:09 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:41287
- helo=us-smtp-delivery-1.mimecast.com)
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:60694
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1j3kJU-0002Jl-1M
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1j3kJU-0002KE-3A
  for qemu-devel@nongnu.org; Mon, 17 Feb 2020 12:36:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581960966;
+ s=mimecast20190719; t=1581960967;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Kz1q1tfok4Fs3YULYDAA2L2on8nXONnY7o1MwyQCubk=;
- b=EHXnEZ9L2lBoAaqcxVS5ghrLPSAUVVOtGcz747ZHt13prYwyw6xKjXYVa+vxFfawL/T3tt
- TSvg+zHdq1WSyr2ExuJhG+WAQqLj7paaspbCIzTxCRGCg49FI2Cce7tEwUWSka91cCWM13
- 2cQaUUA6DNZODUQCsb5JSETWImasC+o=
+ bh=R1q6h3NT5cX4nV0zYi5AnwUkQkilMBa/C8ZQ6ySXXME=;
+ b=PgBDHaQhzaL4NGh16ahcMQvfHt7kK0Zrtuvs+D3GwZ262Or6P2nYYRvYsDuznhPFF7FoLZ
+ 1ELPUqoa8SVwPWpJzmHy8+h872QpH6KGtgqRYTeWq+FCOAts0pqxevhrjOMb8ZsF66W7UL
+ O3oDNxbpsYM4RKcZf9kD87MVoNJMCBc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-346-jwsHohBCOz-JhtWarrIHdQ-1; Mon, 17 Feb 2020 12:36:04 -0500
+ us-mta-432-K06PnRfmP1iyZC1I7uLS3Q-1; Mon, 17 Feb 2020 12:36:05 -0500
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EABD818FE861
- for <qemu-devel@nongnu.org>; Mon, 17 Feb 2020 17:36:03 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E4F81DB21
+ for <qemu-devel@nongnu.org>; Mon, 17 Feb 2020 17:36:04 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 43DD290765;
- Mon, 17 Feb 2020 17:36:03 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3F2418CCE0;
+ Mon, 17 Feb 2020 17:36:04 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 46/79] m68k/an5206: use memdev for RAM
-Date: Mon, 17 Feb 2020 12:34:19 -0500
-Message-Id: <20200217173452.15243-47-imammedo@redhat.com>
+Subject: [PATCH v5 47/79] m68k/q800: use memdev for RAM
+Date: Mon, 17 Feb 2020 12:34:20 -0500
+Message-Id: <20200217173452.15243-48-imammedo@redhat.com>
 In-Reply-To: <20200217173452.15243-1-imammedo@redhat.com>
 References: <20200217173452.15243-1-imammedo@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: jwsHohBCOz-JhtWarrIHdQ-1
+X-MC-Unique: K06PnRfmP1iyZC1I7uLS3Q-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,51 +74,50 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-memory_region_allocate_system_memory() API is going away, so
-replace it with memdev allocated MemoryRegion. The later is
-initialized by generic code, so board only needs to opt in
-to memdev scheme by providing
-  MachineClass::default_ram_id
-and using MachineState::ram instead of manually initializing
+Switch to using generic main RAM allocation. To do this set
+MachineClass::default_ram_id to m68k_mac.ram and use
+MachineState::ram instead of manually initializing
 RAM memory region.
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Acked-by: Thomas Huth <thuth@redhat.com>
+Acked-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/m68k/an5206.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ hw/m68k/q800.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/hw/m68k/an5206.c b/hw/m68k/an5206.c
-index bed43a936d..846f4e40c6 100644
---- a/hw/m68k/an5206.c
-+++ b/hw/m68k/an5206.c
-@@ -33,7 +33,6 @@ static void an5206_init(MachineState *machine)
-     uint64_t elf_entry;
-     hwaddr entry;
-     MemoryRegion *address_space_mem =3D get_system_memory();
--    MemoryRegion *ram =3D g_new(MemoryRegion, 1);
-     MemoryRegion *sram =3D g_new(MemoryRegion, 1);
+diff --git a/hw/m68k/q800.c b/hw/m68k/q800.c
+index 1e32363688..a4c4bc14cb 100644
+--- a/hw/m68k/q800.c
++++ b/hw/m68k/q800.c
+@@ -160,7 +160,6 @@ static void q800_init(MachineState *machine)
+     ram_addr_t initrd_base;
+     int32_t initrd_size;
+     MemoryRegion *rom;
+-    MemoryRegion *ram;
+     MemoryRegion *io;
+     const int io_slice_nb =3D (IO_SIZE / IO_SLICE) - 1;
+     int i;
+@@ -194,9 +193,7 @@ static void q800_init(MachineState *machine)
+     qemu_register_reset(main_cpu_reset, cpu);
 =20
-     cpu =3D M68K_CPU(cpu_create(machine->cpu_type));
-@@ -46,8 +45,7 @@ static void an5206_init(MachineState *machine)
-     env->rambar0 =3D AN5206_RAMBAR_ADDR | 1;
+     /* RAM */
+-    ram =3D g_malloc(sizeof(*ram));
+-    memory_region_init_ram(ram, NULL, "m68k_mac.ram", ram_size, &error_abo=
+rt);
+-    memory_region_add_subregion(get_system_memory(), 0, ram);
++    memory_region_add_subregion(get_system_memory(), 0, machine->ram);
 =20
-     /* DRAM at address zero */
--    memory_region_allocate_system_memory(ram, NULL, "an5206.ram", ram_size=
-);
--    memory_region_add_subregion(address_space_mem, 0, ram);
-+    memory_region_add_subregion(address_space_mem, 0, machine->ram);
-=20
-     /* Internal SRAM.  */
-     memory_region_init_ram(sram, NULL, "an5206.sram", 512, &error_fatal);
-@@ -89,6 +87,7 @@ static void an5206_machine_init(MachineClass *mc)
-     mc->desc =3D "Arnewsh 5206";
-     mc->init =3D an5206_init;
-     mc->default_cpu_type =3D M68K_CPU_TYPE_NAME("m5206");
-+    mc->default_ram_id =3D "an5206.ram";
+     /*
+      * Memory from IO_BASE to IO_BASE + IO_SLICE is repeated
+@@ -443,6 +440,7 @@ static void q800_machine_class_init(ObjectClass *oc, vo=
+id *data)
+     mc->max_cpus =3D 1;
+     mc->is_default =3D 0;
+     mc->block_default_type =3D IF_SCSI;
++    mc->default_ram_id =3D "m68k_mac.ram";
  }
 =20
- DEFINE_MACHINE("an5206", an5206_machine_init)
+ static const TypeInfo q800_machine_typeinfo =3D {
 --=20
 2.18.1
 
