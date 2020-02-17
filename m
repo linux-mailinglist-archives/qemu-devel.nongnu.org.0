@@ -2,57 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1805160880
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 04:11:52 +0100 (CET)
-Received: from localhost ([::1]:39650 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A8BB1608A9
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 04:23:51 +0100 (CET)
+Received: from localhost ([::1]:39748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j3Wp5-0002I3-P3
-	for lists+qemu-devel@lfdr.de; Sun, 16 Feb 2020 22:11:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45513)
+	id 1j3X0g-0006so-4i
+	for lists+qemu-devel@lfdr.de; Sun, 16 Feb 2020 22:23:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46553)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1j3Wo0-0001bK-Uz
- for qemu-devel@nongnu.org; Sun, 16 Feb 2020 22:10:46 -0500
+ (envelope-from <pannengyuan@huawei.com>) id 1j3Wz9-0005KA-9z
+ for qemu-devel@nongnu.org; Sun, 16 Feb 2020 22:22:16 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1j3Wnz-0006Pm-83
- for qemu-devel@nongnu.org; Sun, 16 Feb 2020 22:10:44 -0500
-Resent-Date: Sun, 16 Feb 2020 22:10:44 -0500
-Resent-Message-Id: <E1j3Wnz-0006Pm-83@eggs.gnu.org>
-Received: from sender4-of-o51.zoho.com ([136.143.188.51]:21104)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1j3Wnz-0006Mw-0Q
- for qemu-devel@nongnu.org; Sun, 16 Feb 2020 22:10:43 -0500
-ARC-Seal: i=1; a=rsa-sha256; t=1581909038; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=C5zjxCOejxnC7xPgkE3VE14KRi5Y7b4Qx708OJch0jMYVB6cTolWmbQsl9JH546Yci4Vub3UR0IVD4hx1B+bXhWEkMa2piIf8TRoSzF5ZvS6GkAsuSYl3UciHy3GpqmCvawC6nMZ2ct4Oaq77b/vEmvwGRfCv5eVna12MqFM/po=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1581909038;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=GTtKibUKOkRoKJAENZRBty/aFImimokhFgpWwbsFoYg=; 
- b=a4qtremg1rblDyenX8svz+0UzZnogMstYWhXl6EMiQN4ePnb9Esx0S3UVi5tOh3a+VtmbnotA/Kok7vHh5rx1aNScbG4Btbt/P49zOgR7U+nCw6/7s/nQtFyz7TJhJZP2Tj7EMAYenhkvdlru502rOGvYZ9wEfUMD+iLZjooWpg=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1581909036175930.4571141855496;
- Sun, 16 Feb 2020 19:10:36 -0800 (PST)
-In-Reply-To: <20200217025957.12031-1-richard.henderson@linaro.org>
-Subject: Re: [PATCH 0/4] tcg: Fix for Bug 1863508
-Message-ID: <158190903522.4691.6682279640266372624@a1bbccc8075a>
+ (envelope-from <pannengyuan@huawei.com>) id 1j3Wz8-0003jW-AN
+ for qemu-devel@nongnu.org; Sun, 16 Feb 2020 22:22:15 -0500
+Received: from szxga05-in.huawei.com ([45.249.212.191]:2788 helo=huawei.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <pannengyuan@huawei.com>)
+ id 1j3Wz5-0003WK-Uz; Sun, 16 Feb 2020 22:22:12 -0500
+Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.58])
+ by Forcepoint Email with ESMTP id EEF6AA41280FCCC59048;
+ Mon, 17 Feb 2020 11:22:02 +0800 (CST)
+Received: from DESKTOP-9NTIQGG.china.huawei.com (10.173.221.136) by
+ DGGEMS412-HUB.china.huawei.com (10.3.19.212) with Microsoft SMTP Server id
+ 14.3.439.0; Mon, 17 Feb 2020 11:21:55 +0800
+From: <pannengyuan@huawei.com>
+To: <balrogg@gmail.com>, <peter.maydell@linaro.org>,
+ <mav2-rk.cave-ayland@ilande.co.uk>, <david@gibson.dropbear.id.au>,
+ <edgar.iglesias@gmail.com>, <alistair@alistair23.me>
+Subject: [PATCH v2 0/2] delay timer_new from init to realize to fix memleaks.
+Date: Mon, 17 Feb 2020 11:21:25 +0800
+Message-ID: <20200217032127.46508-1-pannengyuan@huawei.com>
+X-Mailer: git-send-email 2.21.0.windows.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: richard.henderson@linaro.org
-Date: Sun, 16 Feb 2020 19:10:36 -0800 (PST)
-X-ZohoMailClient: External
+Content-Type: text/plain; charset="UTF-8"
+X-Originating-IP: [10.173.221.136]
+X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 136.143.188.51
+X-Received-From: 45.249.212.191
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,84 +53,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: qemu-devel@nongnu.org
+Cc: zhang.zhanghailiang@huawei.com, Pan Nengyuan <pannengyuan@huawei.com>,
+ qemu-devel@nongnu.org, qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
+ euler.robot@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDIxNzAyNTk1Ny4xMjAz
-MS0xLXJpY2hhcmQuaGVuZGVyc29uQGxpbmFyby5vcmcvCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2Vl
-bXMgdG8gaGF2ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBm
-b3IKbW9yZSBpbmZvcm1hdGlvbjoKClN1YmplY3Q6IFtQQVRDSCAwLzRdIHRjZzogRml4IGZvciBC
-dWcgMTg2MzUwOApNZXNzYWdlLWlkOiAyMDIwMDIxNzAyNTk1Ny4xMjAzMS0xLXJpY2hhcmQuaGVu
-ZGVyc29uQGxpbmFyby5vcmcKVHlwZTogc2VyaWVzCgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09
-CiMhL2Jpbi9iYXNoCmdpdCByZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0IDAKZ2l0
-IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlm
-Zi5yZW5hbWVzIFRydWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhpc3RvZ3Jh
-bQouL3NjcmlwdHMvY2hlY2twYXRjaC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0gVEVTVCBTQ1JJ
-UFQgRU5EID09PQoKRnJvbSBodHRwczovL2dpdGh1Yi5jb20vcGF0Y2hldy1wcm9qZWN0L3FlbXUK
-ICogW25ldyB0YWddICAgICAgICAgcGF0Y2hldy8yMDIwMDIxNzAyNTk1Ny4xMjAzMS0xLXJpY2hh
-cmQuaGVuZGVyc29uQGxpbmFyby5vcmcgLT4gcGF0Y2hldy8yMDIwMDIxNzAyNTk1Ny4xMjAzMS0x
-LXJpY2hhcmQuaGVuZGVyc29uQGxpbmFyby5vcmcKU3dpdGNoZWQgdG8gYSBuZXcgYnJhbmNoICd0
-ZXN0JwpkY2RlNWE0IHRjZzogUmVtb3ZlIHRjZy1ydW50aW1lLWd2ZWMuYyBET19DTVAwCmQzZDcy
-OTcgdGNnOiBUaWR5IHRjZy1ydW50aW1lLWd2ZWMuYyBEVVAqCjE5MDNjYzggdGNnOiBUaWR5IHRj
-Zy1ydW50aW1lLWd2ZWMuYyB0eXBlcwpkNTdmNjJmIHRjZzogUmVtb3ZlIENPTkZJR19WRUNUT1Ix
-NgoKPT09IE9VVFBVVCBCRUdJTiA9PT0KMS80IENoZWNraW5nIGNvbW1pdCBkNTdmNjJmNWM2ZDQg
-KHRjZzogUmVtb3ZlIENPTkZJR19WRUNUT1IxNikKMi80IENoZWNraW5nIGNvbW1pdCAxOTAzY2M4
-NTZiODcgKHRjZzogVGlkeSB0Y2ctcnVudGltZS1ndmVjLmMgdHlwZXMpCkVSUk9SOiBzcGFjZXMg
-cmVxdWlyZWQgYXJvdW5kIHRoYXQgJyYnIChjdHg6V3hPKQojNDQxOiBGSUxFOiBhY2NlbC90Y2cv
-dGNnLXJ1bnRpbWUtZ3ZlYy5jOjUxMDoKKyAgICAgICAgKih1aW50NjRfdCAqKShkICsgaSkgPSAq
-KHVpbnQ2NF90ICopKGEgKyBpKSAmfiAqKHVpbnQ2NF90ICopKGIgKyBpKTsKICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBeCgpFUlJPUjogc3BhY2Ug
-cHJvaGliaXRlZCBhZnRlciB0aGF0ICd+JyAoY3R4Ok94VykKIzQ0MTogRklMRTogYWNjZWwvdGNn
-L3RjZy1ydW50aW1lLWd2ZWMuYzo1MTA6CisgICAgICAgICoodWludDY0X3QgKikoZCArIGkpID0g
-Kih1aW50NjRfdCAqKShhICsgaSkgJn4gKih1aW50NjRfdCAqKShiICsgaSk7CiAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIF4KCkVSUk9SOiBzcGFj
-ZXMgcmVxdWlyZWQgYXJvdW5kIHRoYXQgJ3wnIChjdHg6V3hPKQojNDUyOiBGSUxFOiBhY2NlbC90
-Y2cvdGNnLXJ1bnRpbWUtZ3ZlYy5jOjUyMToKKyAgICAgICAgKih1aW50NjRfdCAqKShkICsgaSkg
-PSAqKHVpbnQ2NF90ICopKGEgKyBpKSB8fiAqKHVpbnQ2NF90ICopKGIgKyBpKTsKICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBeCgpFUlJPUjogc3Bh
-Y2UgcHJvaGliaXRlZCBhZnRlciB0aGF0ICd+JyAoY3R4Ok94VykKIzQ1MjogRklMRTogYWNjZWwv
-dGNnL3RjZy1ydW50aW1lLWd2ZWMuYzo1MjE6CisgICAgICAgICoodWludDY0X3QgKikoZCArIGkp
-ID0gKih1aW50NjRfdCAqKShhICsgaSkgfH4gKih1aW50NjRfdCAqKShiICsgaSk7CiAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIF4KCkVSUk9SOiBz
-cGFjZXMgcmVxdWlyZWQgYXJvdW5kIHRoYXQgJz09JyAoY3R4Old4QikKIzY3NjogRklMRTogYWNj
-ZWwvdGNnL3RjZy1ydW50aW1lLWd2ZWMuYzo4OTc6CisgICAgRE9fQ01QMShndmVjX2VxIyNTWiwg
-dWludCMjU1ojI190LCA9PSkgICAgXAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgXgoKRVJST1I6IHNwYWNlcyByZXF1aXJlZCBhcm91bmQgdGhhdCAnIT0nIChjdHg6V3hC
-KQojNjc3OiBGSUxFOiBhY2NlbC90Y2cvdGNnLXJ1bnRpbWUtZ3ZlYy5jOjg5ODoKKyAgICBET19D
-TVAxKGd2ZWNfbmUjI1NaLCB1aW50IyNTWiMjX3QsICE9KSAgICBcCiAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICBeCgpFUlJPUjogc3BhY2VzIHJlcXVpcmVkIGFyb3VuZCB0
-aGF0ICc8JyAoY3R4Old4QikKIzY3ODogRklMRTogYWNjZWwvdGNnL3RjZy1ydW50aW1lLWd2ZWMu
-Yzo4OTk6CisgICAgRE9fQ01QMShndmVjX2x0IyNTWiwgaW50IyNTWiMjX3QsIDwpICAgICAgXAog
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBeCgpFUlJPUjogc3BhY2VzIHJl
-cXVpcmVkIGFyb3VuZCB0aGF0ICc8PScgKGN0eDpXeEIpCiM2Nzk6IEZJTEU6IGFjY2VsL3RjZy90
-Y2ctcnVudGltZS1ndmVjLmM6OTAwOgorICAgIERPX0NNUDEoZ3ZlY19sZSMjU1osIGludCMjU1oj
-I190LCA8PSkgICAgIFwKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXgoK
-RVJST1I6IHNwYWNlcyByZXF1aXJlZCBhcm91bmQgdGhhdCAnPCcgKGN0eDpXeEIpCiM2ODA6IEZJ
-TEU6IGFjY2VsL3RjZy90Y2ctcnVudGltZS1ndmVjLmM6OTAxOgorICAgIERPX0NNUDEoZ3ZlY19s
-dHUjI1NaLCB1aW50IyNTWiMjX3QsIDwpICAgIFwKICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICBeCgpFUlJPUjogc3BhY2VzIHJlcXVpcmVkIGFyb3VuZCB0aGF0ICc8PScg
-KGN0eDpXeEIpCiM2ODE6IEZJTEU6IGFjY2VsL3RjZy90Y2ctcnVudGltZS1ndmVjLmM6OTAyOgor
-ICAgIERPX0NNUDEoZ3ZlY19sZXUjI1NaLCB1aW50IyNTWiMjX3QsIDw9KQogICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgIF4KCnRvdGFsOiAxMCBlcnJvcnMsIDAgd2Fybmlu
-Z3MsIDYzMCBsaW5lcyBjaGVja2VkCgpQYXRjaCAyLzQgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVh
-c2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJl
-cG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVS
-Uy4KCjMvNCBDaGVja2luZyBjb21taXQgZDNkNzI5N2NmZmM4ICh0Y2c6IFRpZHkgdGNnLXJ1bnRp
-bWUtZ3ZlYy5jIERVUCopCjQvNCBDaGVja2luZyBjb21taXQgZGNkZTVhNDYxYTI4ICh0Y2c6IFJl
-bW92ZSB0Y2ctcnVudGltZS1ndmVjLmMgRE9fQ01QMCkKRVJST1I6IHNwYWNlcyByZXF1aXJlZCBh
-cm91bmQgdGhhdCAnKicgKGN0eDpXeFYpCiMzMDogRklMRTogYWNjZWwvdGNnL3RjZy1ydW50aW1l
-LWd2ZWMuYzo4Njk6CisgICAgICAgICooVFlQRSAqKShkICsgaSkgPSAtKCooVFlQRSAqKShhICsg
-aSkgT1AgKihUWVBFICopKGIgKyBpKSk7ICAgICAgICBcCiAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgXgoKdG90YWw6IDEgZXJyb3JzLCAwIHdhcm5pbmdz
-LCAyMyBsaW5lcyBjaGVja2VkCgpQYXRjaCA0LzQgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2Ug
-cmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9y
-dCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4K
-Cj09PSBPVVRQVVQgRU5EID09PQoKVGVzdCBjb21tYW5kIGV4aXRlZCB3aXRoIGNvZGU6IDEKCgpU
-aGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMjAw
-MjE3MDI1OTU3LjEyMDMxLTEtcmljaGFyZC5oZW5kZXJzb25AbGluYXJvLm9yZy90ZXN0aW5nLmNo
-ZWNrcGF0Y2gvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5
-IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVk
-YmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
+From: Pan Nengyuan <pannengyuan@huawei.com>
+
+v1:
+   - Delay timer_new() from init() to realize() to fix memleaks.
+v2:
+   - Similarly to other cleanups, move timer_new into realize in target/s=
+390x/cpu.c (Suggested by Philippe Mathieu-Daud=C3=A9).
+   - Send these two patches as a series instead of sending each as a sing=
+le patch but with wrong subject in v1.
+
+Pan Nengyuan (2):
+  s390x: fix memleaks in cpu_finalize
+  hw: move timer_new from init() into realize() to avoid memleaks
+
+ hw/arm/pxa2xx.c        | 17 +++++++++++------
+ hw/arm/spitz.c         |  8 +++++++-
+ hw/arm/strongarm.c     | 18 ++++++++++++------
+ hw/misc/mos6522.c      | 14 ++++++++++++--
+ hw/timer/cadence_ttc.c | 16 +++++++++++-----
+ target/s390x/cpu.c     | 22 ++++++++++++++++++----
+ 6 files changed, 71 insertions(+), 24 deletions(-)
+
+--=20
+2.21.0.windows.1
+
+
 
