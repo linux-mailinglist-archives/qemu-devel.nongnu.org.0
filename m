@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7ED4B160771
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 01:11:40 +0100 (CET)
-Received: from localhost ([::1]:38150 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD7FF160779
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 01:18:02 +0100 (CET)
+Received: from localhost ([::1]:38214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j3U0h-0008MY-3Y
-	for lists+qemu-devel@lfdr.de; Sun, 16 Feb 2020 19:11:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59360)
+	id 1j3U6r-0004gD-Ez
+	for lists+qemu-devel@lfdr.de; Sun, 16 Feb 2020 19:18:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59727)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1j3Tzp-0007dl-DC
- for qemu-devel@nongnu.org; Sun, 16 Feb 2020 19:10:46 -0500
+ (envelope-from <bounces@canonical.com>) id 1j3U4Z-0002rO-7r
+ for qemu-devel@nongnu.org; Sun, 16 Feb 2020 19:15:40 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1j3Tzo-0006cI-AX
- for qemu-devel@nongnu.org; Sun, 16 Feb 2020 19:10:45 -0500
-Received: from indium.canonical.com ([91.189.90.7]:33932)
+ (envelope-from <bounces@canonical.com>) id 1j3U4Y-0004MS-5E
+ for qemu-devel@nongnu.org; Sun, 16 Feb 2020 19:15:39 -0500
+Received: from indium.canonical.com ([91.189.90.7]:34392)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1j3Tzo-0006Yy-4n
- for qemu-devel@nongnu.org; Sun, 16 Feb 2020 19:10:44 -0500
+ id 1j3U4X-0004LB-Vm
+ for qemu-devel@nongnu.org; Sun, 16 Feb 2020 19:15:38 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1j3Tzm-0001kb-Gp
- for <qemu-devel@nongnu.org>; Mon, 17 Feb 2020 00:10:42 +0000
+ id 1j3U4W-00022a-Qj
+ for <qemu-devel@nongnu.org>; Mon, 17 Feb 2020 00:15:36 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 614B72E8047
- for <qemu-devel@nongnu.org>; Mon, 17 Feb 2020 00:10:42 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id AFD9F2E8047
+ for <qemu-devel@nongnu.org>; Mon, 17 Feb 2020 00:15:36 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 16 Feb 2020 23:59:04 -0000
+Date: Mon, 17 Feb 2020 00:06:22 -0000
 From: Richard Henderson <rth@twiddle.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -44,7 +44,7 @@ X-Launchpad-Bug-Commenters: helmutsch rth
 X-Launchpad-Bug-Reporter: Helmut (helmutsch)
 X-Launchpad-Bug-Modifier: Richard Henderson (rth)
 References: <158188126194.31124.5348536044519461550.malonedeb@wampee.canonical.com>
-Message-Id: <158189754568.30066.9937603898112491392.launchpad@wampee.canonical.com>
+Message-Id: <158189798283.29270.13082540984582708622.malone@chaenomeles.canonical.com>
 Subject: [Bug 1863508] Re: qemu-system-arm stops with SIGSEGV in
  helper_gvec_eq16
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
@@ -53,7 +53,7 @@ Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="19413b719a8df7423ab1390528edadce9e0e4aca";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 71fef7babe23af84603918bb32eaa3001ace70ca
+X-Launchpad-Hash: e9a66d5470369249567bbeeef141cce1ec30af52
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
@@ -70,8 +70,13 @@ Reply-To: Bug 1863508 <1863508@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+I infer from the traceback that your host does not support AVX1.
+
 ** Changed in: qemu
-       Status: New =3D> Incomplete
+       Status: Incomplete =3D> In Progress
+
+** Changed in: qemu
+     Assignee: (unassigned) =3D> Richard Henderson (rth)
 
 -- =
 
