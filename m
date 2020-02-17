@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 781F61615E4
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 16:14:30 +0100 (CET)
-Received: from localhost ([::1]:46978 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BCFB16157B
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 16:04:49 +0100 (CET)
+Received: from localhost ([::1]:46722 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j3i6P-0007br-H7
-	for lists+qemu-devel@lfdr.de; Mon, 17 Feb 2020 10:14:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39165)
+	id 1j3hx2-0005wP-IF
+	for lists+qemu-devel@lfdr.de; Mon, 17 Feb 2020 10:04:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38914)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1j3hvf-0004kJ-OJ
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 10:03:25 -0500
+ (envelope-from <vsementsov@virtuozzo.com>) id 1j3hvL-000442-Md
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 10:03:04 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1j3hve-0007Ws-Da
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 10:03:23 -0500
-Received: from relay.sw.ru ([185.231.240.75]:47428)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1j3hvK-0007Nh-9n
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 10:03:03 -0500
+Received: from relay.sw.ru ([185.231.240.75]:47420)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1j3hve-0007L8-50; Mon, 17 Feb 2020 10:03:22 -0500
+ id 1j3hvK-0007LF-0J; Mon, 17 Feb 2020 10:03:02 -0500
 Received: from vovaso.qa.sw.ru ([10.94.3.0] helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.3)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1j3hvH-0007Zt-Ai; Mon, 17 Feb 2020 18:02:59 +0300
+ id 1j3hvH-0007Zt-Nt; Mon, 17 Feb 2020 18:02:59 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 19/22] qemu-iotests/199: prepare for new test-cases addition
-Date: Mon, 17 Feb 2020 18:02:43 +0300
-Message-Id: <20200217150246.29180-20-vsementsov@virtuozzo.com>
+Subject: [PATCH v2 20/22] qemu-iotests/199: check persistent bitmaps
+Date: Mon, 17 Feb 2020 18:02:44 +0300
+Message-Id: <20200217150246.29180-21-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200217150246.29180-1-vsementsov@virtuozzo.com>
 References: <20200217150246.29180-1-vsementsov@virtuozzo.com>
@@ -53,111 +53,48 @@ Cc: Kevin Wolf <kwolf@redhat.com>, vsementsov@virtuozzo.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move future common part to start_postcopy() method. Move checking
-number of bitmaps to check_bitmap().
+Check that persistent bitmaps are not stored on source and that bitmaps
+are persistent on destination.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- tests/qemu-iotests/199 | 36 +++++++++++++++++++++++-------------
- 1 file changed, 23 insertions(+), 13 deletions(-)
+ tests/qemu-iotests/199 | 16 +++++++++++++++-
+ 1 file changed, 15 insertions(+), 1 deletion(-)
 
 diff --git a/tests/qemu-iotests/199 b/tests/qemu-iotests/199
-index 9a6e8dcb9d..969620b103 100755
+index 969620b103..8baa078151 100755
 --- a/tests/qemu-iotests/199
 +++ b/tests/qemu-iotests/199
-@@ -29,6 +29,8 @@ disk_b = os.path.join(iotests.test_dir, 'disk_b')
- size = '256G'
- fifo = os.path.join(iotests.test_dir, 'mig_fifo')
- 
-+granularity = 512
-+nb_bitmaps = 15
- 
- GiB = 1024 * 1024 * 1024
- 
-@@ -61,6 +63,15 @@ def event_dist(e1, e2):
-     return event_seconds(e2) - event_seconds(e1)
- 
- 
-+def check_bitmaps(vm, count):
-+    result = vm.qmp('query-block')
-+
-+    if count == 0:
-+        assert 'dirty-bitmaps' not in result['return'][0]
-+    else:
-+        assert len(result['return'][0]['dirty-bitmaps']) == count
-+
-+
- class TestDirtyBitmapPostcopyMigration(iotests.QMPTestCase):
-     def tearDown(self):
-         if debug:
-@@ -101,10 +112,8 @@ class TestDirtyBitmapPostcopyMigration(iotests.QMPTestCase):
-         self.vm_a_events = []
-         self.vm_b_events = []
- 
--    def test_postcopy(self):
--        granularity = 512
--        nb_bitmaps = 15
--
-+    def start_postcopy(self):
-+        """ Run migration until RESUME event on target. Return this event. """
+@@ -117,7 +117,8 @@ class TestDirtyBitmapPostcopyMigration(iotests.QMPTestCase):
          for i in range(nb_bitmaps):
              result = self.vm_a.qmp('block-dirty-bitmap-add', node='drive0',
                                     name='bitmap{}'.format(i),
-@@ -119,10 +128,10 @@ class TestDirtyBitmapPostcopyMigration(iotests.QMPTestCase):
+-                                   granularity=granularity)
++                                   granularity=granularity,
++                                   persistent=True)
+             self.assert_qmp(result, 'return', {})
  
          result = self.vm_a.qmp('x-debug-block-dirty-bitmap-sha256',
-                                node='drive0', name='bitmap0')
--        discards1_sha256 = result['return']['sha256']
-+        self.discards1_sha256 = result['return']['sha256']
- 
-         # Check, that updating the bitmap by discards works
--        assert discards1_sha256 != empty_sha256
-+        assert self.discards1_sha256 != empty_sha256
- 
-         # We want to calculate resulting sha256. Do it in bitmap0, so, disable
-         # other bitmaps
-@@ -135,7 +144,7 @@ class TestDirtyBitmapPostcopyMigration(iotests.QMPTestCase):
- 
-         result = self.vm_a.qmp('x-debug-block-dirty-bitmap-sha256',
-                                node='drive0', name='bitmap0')
--        all_discards_sha256 = result['return']['sha256']
-+        self.all_discards_sha256 = result['return']['sha256']
- 
-         # Now, enable some bitmaps, to be updated during migration
-         for i in range(2, nb_bitmaps, 2):
-@@ -160,6 +169,10 @@ class TestDirtyBitmapPostcopyMigration(iotests.QMPTestCase):
- 
-         e_resume = self.vm_b.event_wait('RESUME')
-         self.vm_b_events.append(e_resume)
-+        return e_resume
-+
-+    def test_postcopy_success(self):
-+        e_resume = self.start_postcopy()
- 
-         # enabled bitmaps should be updated
-         apply_discards(self.vm_b, discards2)
-@@ -180,18 +193,15 @@ class TestDirtyBitmapPostcopyMigration(iotests.QMPTestCase):
+@@ -193,6 +194,19 @@ class TestDirtyBitmapPostcopyMigration(iotests.QMPTestCase):
              print('downtime:', downtime)
              print('postcopy_time:', postcopy_time)
  
--        # Assert that bitmap migration is finished (check that successor bitmap
--        # is removed)
--        result = self.vm_b.qmp('query-block')
--        assert len(result['return'][0]['dirty-bitmaps']) == nb_bitmaps
++        # check that there are no bitmaps stored on source
++        self.vm_a_events += self.vm_a.get_qmp_events()
++        self.vm_a.shutdown()
++        self.vm_a.launch()
++        check_bitmaps(self.vm_a, 0)
++
++        # check that bitmaps are migrated and persistence works
 +        check_bitmaps(self.vm_b, nb_bitmaps)
++        self.vm_b.shutdown()
++        # recreate vm_b, so there is no incoming option, which prevents
++        # loading bitmaps from disk
++        self.vm_b = iotests.VM(path_suffix='b').add_drive(disk_b)
++        self.vm_b.launch()
+         check_bitmaps(self.vm_b, nb_bitmaps)
  
          # Check content of migrated bitmaps. Still, don't waste time checking
-         # every bitmap
-         for i in range(0, nb_bitmaps, 5):
-             result = self.vm_b.qmp('x-debug-block-dirty-bitmap-sha256',
-                                    node='drive0', name='bitmap{}'.format(i))
--            sha256 = discards1_sha256 if i % 2 else all_discards_sha256
--            self.assert_qmp(result, 'return/sha256', sha256)
-+            sha = self.discards1_sha256 if i % 2 else self.all_discards_sha256
-+            self.assert_qmp(result, 'return/sha256', sha)
- 
- 
- if __name__ == '__main__':
 -- 
 2.21.0
 
