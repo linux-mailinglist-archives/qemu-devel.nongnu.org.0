@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98E30160868
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 04:01:33 +0100 (CET)
-Received: from localhost ([::1]:39546 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 234CB16086C
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 04:03:22 +0100 (CET)
+Received: from localhost ([::1]:39580 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j3Wf6-0004QY-Jc
-	for lists+qemu-devel@lfdr.de; Sun, 16 Feb 2020 22:01:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44784)
+	id 1j3Wgr-0006nr-6T
+	for lists+qemu-devel@lfdr.de; Sun, 16 Feb 2020 22:03:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44803)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1j3Wdf-00035Q-2n
- for qemu-devel@nongnu.org; Sun, 16 Feb 2020 22:00:04 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1j3Wdf-00036R-S9
+ for qemu-devel@nongnu.org; Sun, 16 Feb 2020 22:00:05 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1j3Wdd-0003Mc-DO
- for qemu-devel@nongnu.org; Sun, 16 Feb 2020 22:00:02 -0500
-Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636]:40388)
+ (envelope-from <richard.henderson@linaro.org>) id 1j3Wde-0003Nl-4I
+ for qemu-devel@nongnu.org; Sun, 16 Feb 2020 22:00:03 -0500
+Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534]:38750)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1j3Wdd-0003LQ-5a
- for qemu-devel@nongnu.org; Sun, 16 Feb 2020 22:00:01 -0500
-Received: by mail-pl1-x636.google.com with SMTP id y1so6115870plp.7
- for <qemu-devel@nongnu.org>; Sun, 16 Feb 2020 19:00:00 -0800 (PST)
+ id 1j3Wdd-0003MV-TG
+ for qemu-devel@nongnu.org; Sun, 16 Feb 2020 22:00:02 -0500
+Received: by mail-pg1-x534.google.com with SMTP id d6so8272510pgn.5
+ for <qemu-devel@nongnu.org>; Sun, 16 Feb 2020 19:00:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:mime-version
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=lfZ/gSeSSwO+iUrhXjDeYzuRwSvkE5pc/x6+ENqbncI=;
- b=KHkAvS4YHLTytdeAX1l5JU/D4BGW2/n6DS3hRxGn+0SD51n7FogMTQhL4tRdLbVPcv
- FCEeoBLTYNT7anmh2oEzN2+pJiSRT80ziWr+YvqyjedUJkM6F9APVa0bks7TbBSy9rQU
- 2CvQPdfbUr1c9/LB1algsUyAwwFLG9MyQzk8EMdgYgUzgaznNcJjBvmGIl3uWzb55GgV
- +BYuwG190rLOF6trzUuhKTrqViInxG/K0lBR3X4XgNt/bwTFBcUzedUYMHPMo8abGLEa
- adpZQ3Hl+T+RXeFKN5QQm6IXmW3ci6PEKzZltG36NxNvt+TcBEcqNk1WlKPeHQ/SdUY4
- pNqw==
+ bh=GfGZz+uTpdMIZZzSAMPcmTLg6XJzkWWciXxWC3zVUN4=;
+ b=wgtd5Mlyysj7TC3FI4UE1BhAdvRxva1PIYnThRppnJxMiUgjwLcX/8FYppUrWhRJu8
+ ERJmHJZDn0Cu37Pb8VTNVfPrFVWnEy1Ol+6lPGvDko02o9Fjg2bl2ZBF3ncb1FtbTOmr
+ Uhc0PIpijgEdCFfUuPtot7RaLXIXg2o+6y5CXFApHkNSEixrXQiUOcqfLNz1QCqpc8gh
+ VonAi+F6462Z5E1W7cqk7tgT9uFATE8KlZ7jhjh8iB5+F1IGH+NUMP/gwNYRt38tsgON
+ fgMx1kOpT2JvwLHffpwfqiRaBw/lxBnXk5o+P9RsnkxwTk3kmOGgB6q86wIjfSdIrkbL
+ W99w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=lfZ/gSeSSwO+iUrhXjDeYzuRwSvkE5pc/x6+ENqbncI=;
- b=ILat4dW4+yN+sTjUm+Gm/uQ0YLWcPpUCQye9Fc6uzUcm4T5ze7CGJQcjFzydTYekUA
- EaQL2n1l/0okhWKp+dAOueBmZ63tlkzLdQIPcYfVW67EKVAKug1jhqKrEKRKJtPYOVaM
- jJ9MowkxxWQNPbRT+ZQritgIDKoTaTofaZQPGTNe5zK8CHYoQA4KIFrOqoqYSXmpjP95
- ko2ZSHAQwfTSTo02ZTyD4n9kH9TjOPCz0vIhwxi5h3XU+JPOyz8nhKJDz+lHlmvFZrvq
- RhFMzv5E1aJMk4mJos46/+rxaZAiHtLMmOw5OovVnoJV80bsfkbvqO5kM2Jm1gdWhGRN
- KKLw==
-X-Gm-Message-State: APjAAAUe0BdO8nnHFp4H34XSrQCJfRfh37Oih73LFZUun2W+1SkruOUs
- TYKO6rH6TjGP+AuD3llKRHiK+UARfDk=
-X-Google-Smtp-Source: APXvYqwYnJIZ0yKyBIJOWOEC7Lr2UGGcDSeMcSclEq5jCQ1MazirNlyXvybKn+OtZKcluof58dbr+Q==
-X-Received: by 2002:a17:90b:97:: with SMTP id
- bb23mr16545483pjb.53.1581908399037; 
- Sun, 16 Feb 2020 18:59:59 -0800 (PST)
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=GfGZz+uTpdMIZZzSAMPcmTLg6XJzkWWciXxWC3zVUN4=;
+ b=Nns7Vpaw1e8TGDXV6825Wk44Nn1I8YdeGxzeP2UKt7fx4v0gNF70qkEkO5+7CmOBj+
+ sr9qAIrSE8TP+u7wVXJ0/RtA/Tp+fKWo4avlmVIbnC7XzN34DmVYUo5qp5XS1KELSfOF
+ GJ+zUWMpV7XXvZUuqmw+1v6QTPKDU+WUTs6qYCh6N+FQcyyw12kZMdTCUyEYlCYZiNE9
+ 5MMiacBxsP1KZEP2fp/EGnRsQdf8/dUel21uPcy82Jxyf/9sj2A9GzWDXZkTDQegv8B/
+ MyPwbvbG5E7njlAarypuZf/qV+c2fDW3BXBy1iU+psRfxb8eypsh+2E2j/SkU/xxuBKE
+ NN+g==
+X-Gm-Message-State: APjAAAWa989eUXBoTrgDfAuK6TQcWFW9NsRaBOqlBz6bs6r3wJ02WcVe
+ +sPONi4rTxllVCgnk9bzoF9GpCg+Zis=
+X-Google-Smtp-Source: APXvYqxJMAL39sNnhiduCdMfhjpeUHmVbASMQpMN5yGegQbl9Utj7lzeJ0CtQYfUgD2/tStTxhUD1Q==
+X-Received: by 2002:a63:cc4a:: with SMTP id q10mr15387615pgi.241.1581908400224; 
+ Sun, 16 Feb 2020 19:00:00 -0800 (PST)
 Received: from localhost.localdomain (97-126-123-70.tukw.qwest.net.
  [97.126.123.70])
- by smtp.gmail.com with ESMTPSA id u2sm14741060pgj.7.2020.02.16.18.59.58
+ by smtp.gmail.com with ESMTPSA id u2sm14741060pgj.7.2020.02.16.18.59.59
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 16 Feb 2020 18:59:58 -0800 (PST)
+ Sun, 16 Feb 2020 18:59:59 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/4] tcg: Fix for Bug 1863508
-Date: Sun, 16 Feb 2020 18:59:53 -0800
-Message-Id: <20200217025957.12031-1-richard.henderson@linaro.org>
+Subject: [PATCH 1/4] tcg: Remove CONFIG_VECTOR16
+Date: Sun, 16 Feb 2020 18:59:54 -0800
+Message-Id: <20200217025957.12031-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200217025957.12031-1-richard.henderson@linaro.org>
+References: <20200217025957.12031-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::636
+X-Received-From: 2607:f8b0:4864:20::534
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,32 +86,159 @@ The comment in tcg-runtime-gvec.c about CONFIG_VECTOR16 says that
 tcg-op-gvec.c has eliminated size 8 vectors, and only passes on
 multiples of 16.  This may have been true of the first few operations,
 but is not true of all operations.
-    
+
 In particular, multiply, shift by scalar, and compare of 8- and 16-bit
 elements are not expanded inline if host vector operations are not
 supported.
-    
+
 For an x86_64 host that does not support AVX, this means that we will
 fall back to the helper, which will attempt to use SSE instructions,
 which will SEGV on an invalid 8-byte aligned memory operation.
-    
-The first patch removes the CONFIG_VECTOR16 code and configuration;
-the subsequent patches tidy up tcg-runtime-gvec.c.
 
+This patch simply removes the CONFIG_VECTOR16 code and configuration
+without further simplification.
 
-r~
+Buglink: https://bugs.launchpad.net/bugs/1863508
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ configure                    | 56 ------------------------------------
+ accel/tcg/tcg-runtime-gvec.c | 35 +---------------------
+ 2 files changed, 1 insertion(+), 90 deletions(-)
 
-
-Richard Henderson (4):
-  tcg: Remove CONFIG_VECTOR16
-  tcg: Tidy tcg-runtime-gvec.c types
-  tcg: Tidy tcg-runtime-gvec.c DUP*
-  tcg: Remove tcg-runtime-gvec.c DO_CMP0
-
- configure                    |  56 -------
- accel/tcg/tcg-runtime-gvec.c | 298 ++++++++++++++---------------------
- 2 files changed, 116 insertions(+), 238 deletions(-)
-
+diff --git a/configure b/configure
+index 16f94cd96b..bccb979aaf 100755
+--- a/configure
++++ b/configure
+@@ -5618,58 +5618,6 @@ if  test "$plugins" = "yes" &&
+       "for this purpose. You can't build with --static."
+ fi
+ 
+-########################################
+-# See if 16-byte vector operations are supported.
+-# Even without a vector unit the compiler may expand these.
+-# There is a bug in old GCC for PPC that crashes here.
+-# Unfortunately it's the system compiler for Centos 7.
+-
+-cat > $TMPC << EOF
+-typedef unsigned char U1 __attribute__((vector_size(16)));
+-typedef unsigned short U2 __attribute__((vector_size(16)));
+-typedef unsigned int U4 __attribute__((vector_size(16)));
+-typedef unsigned long long U8 __attribute__((vector_size(16)));
+-typedef signed char S1 __attribute__((vector_size(16)));
+-typedef signed short S2 __attribute__((vector_size(16)));
+-typedef signed int S4 __attribute__((vector_size(16)));
+-typedef signed long long S8 __attribute__((vector_size(16)));
+-static U1 a1, b1;
+-static U2 a2, b2;
+-static U4 a4, b4;
+-static U8 a8, b8;
+-static S1 c1;
+-static S2 c2;
+-static S4 c4;
+-static S8 c8;
+-static int i;
+-void helper(void *d, void *a, int shift, int i);
+-void helper(void *d, void *a, int shift, int i)
+-{
+-  *(U1 *)(d + i) = *(U1 *)(a + i) << shift;
+-  *(U2 *)(d + i) = *(U2 *)(a + i) << shift;
+-  *(U4 *)(d + i) = *(U4 *)(a + i) << shift;
+-  *(U8 *)(d + i) = *(U8 *)(a + i) << shift;
+-}
+-int main(void)
+-{
+-  a1 += b1; a2 += b2; a4 += b4; a8 += b8;
+-  a1 -= b1; a2 -= b2; a4 -= b4; a8 -= b8;
+-  a1 *= b1; a2 *= b2; a4 *= b4; a8 *= b8;
+-  a1 &= b1; a2 &= b2; a4 &= b4; a8 &= b8;
+-  a1 |= b1; a2 |= b2; a4 |= b4; a8 |= b8;
+-  a1 ^= b1; a2 ^= b2; a4 ^= b4; a8 ^= b8;
+-  a1 <<= i; a2 <<= i; a4 <<= i; a8 <<= i;
+-  a1 >>= i; a2 >>= i; a4 >>= i; a8 >>= i;
+-  c1 >>= i; c2 >>= i; c4 >>= i; c8 >>= i;
+-  return 0;
+-}
+-EOF
+-
+-vector16=no
+-if compile_prog "" "" ; then
+-  vector16=yes
+-fi
+-
+ ########################################
+ # See if __attribute__((alias)) is supported.
+ # This false for Xcode 9, but has been remedied for Xcode 10.
+@@ -7266,10 +7214,6 @@ if test "$atomic64" = "yes" ; then
+   echo "CONFIG_ATOMIC64=y" >> $config_host_mak
+ fi
+ 
+-if test "$vector16" = "yes" ; then
+-  echo "CONFIG_VECTOR16=y" >> $config_host_mak
+-fi
+-
+ if test "$attralias" = "yes" ; then
+   echo "CONFIG_ATTRIBUTE_ALIAS=y" >> $config_host_mak
+ fi
+diff --git a/accel/tcg/tcg-runtime-gvec.c b/accel/tcg/tcg-runtime-gvec.c
+index 5b1902d591..00da0938a5 100644
+--- a/accel/tcg/tcg-runtime-gvec.c
++++ b/accel/tcg/tcg-runtime-gvec.c
+@@ -24,32 +24,6 @@
+ #include "tcg/tcg-gvec-desc.h"
+ 
+ 
+-/* Virtually all hosts support 16-byte vectors.  Those that don't can emulate
+- * them via GCC's generic vector extension.  This turns out to be simpler and
+- * more reliable than getting the compiler to autovectorize.
+- *
+- * In tcg-op-gvec.c, we asserted that both the size and alignment of the data
+- * are multiples of 16.
+- *
+- * When the compiler does not support all of the operations we require, the
+- * loops are written so that we can always fall back on the base types.
+- */
+-#ifdef CONFIG_VECTOR16
+-typedef uint8_t vec8 __attribute__((vector_size(16)));
+-typedef uint16_t vec16 __attribute__((vector_size(16)));
+-typedef uint32_t vec32 __attribute__((vector_size(16)));
+-typedef uint64_t vec64 __attribute__((vector_size(16)));
+-
+-typedef int8_t svec8 __attribute__((vector_size(16)));
+-typedef int16_t svec16 __attribute__((vector_size(16)));
+-typedef int32_t svec32 __attribute__((vector_size(16)));
+-typedef int64_t svec64 __attribute__((vector_size(16)));
+-
+-#define DUP16(X)  { X, X, X, X, X, X, X, X, X, X, X, X, X, X, X, X }
+-#define DUP8(X)   { X, X, X, X, X, X, X, X }
+-#define DUP4(X)   { X, X, X, X }
+-#define DUP2(X)   { X, X }
+-#else
+ typedef uint8_t vec8;
+ typedef uint16_t vec16;
+ typedef uint32_t vec32;
+@@ -64,7 +38,6 @@ typedef int64_t svec64;
+ #define DUP8(X)   X
+ #define DUP4(X)   X
+ #define DUP2(X)   X
+-#endif /* CONFIG_VECTOR16 */
+ 
+ static inline void clear_high(void *d, intptr_t oprsz, uint32_t desc)
+ {
+@@ -917,13 +890,7 @@ void HELPER(gvec_sar64v)(void *d, void *a, void *b, uint32_t desc)
+     clear_high(d, oprsz, desc);
+ }
+ 
+-/* If vectors are enabled, the compiler fills in -1 for true.
+-   Otherwise, we must take care of this by hand.  */
+-#ifdef CONFIG_VECTOR16
+-# define DO_CMP0(X)  X
+-#else
+-# define DO_CMP0(X)  -(X)
+-#endif
++#define DO_CMP0(X)  -(X)
+ 
+ #define DO_CMP1(NAME, TYPE, OP)                                            \
+ void HELPER(NAME)(void *d, void *a, void *b, uint32_t desc)                \
 -- 
 2.20.1
 
