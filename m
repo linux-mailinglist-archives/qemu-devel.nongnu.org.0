@@ -2,47 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E2F5160835
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 03:32:55 +0100 (CET)
-Received: from localhost ([::1]:39348 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A4CF160867
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 04:00:56 +0100 (CET)
+Received: from localhost ([::1]:39544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j3WDO-0004te-0a
-	for lists+qemu-devel@lfdr.de; Sun, 16 Feb 2020 21:32:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43001)
+	id 1j3WeV-0003ku-J9
+	for lists+qemu-devel@lfdr.de; Sun, 16 Feb 2020 22:00:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44751)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1j3WCf-0004Mu-6Q
- for qemu-devel@nongnu.org; Sun, 16 Feb 2020 21:32:10 -0500
+ (envelope-from <gshan@redhat.com>) id 1j3WdO-0002mL-HZ
+ for qemu-devel@nongnu.org; Sun, 16 Feb 2020 21:59:47 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1j3WCd-00077Y-Lt
- for qemu-devel@nongnu.org; Sun, 16 Feb 2020 21:32:08 -0500
-Received: from ozlabs.org ([2401:3900:2:1::2]:55937)
+ (envelope-from <gshan@redhat.com>) id 1j3WdM-00037r-PK
+ for qemu-devel@nongnu.org; Sun, 16 Feb 2020 21:59:45 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:30541
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1j3WCb-00071a-QC; Sun, 16 Feb 2020 21:32:07 -0500
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 48LSg33p8cz9sRJ; Mon, 17 Feb 2020 13:31:59 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1581906719;
- bh=xZvydSx+8XHLZQ1FuFlYrZWRQmIxVJXuiWzCMKcXEZ0=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=VZVq0ZtaxXV6J1ItX8xH0XLbJMiJwxSkZEFp4NzSFR5dFaUg70+QpEvSOaBqaKukO
- YKoItGZJ1vn65AWnFEi7ZCkWWXa3y07OnBHu8jYlwvXyd7ekcO+Z07IkzoGEOxyaw/
- JEnOeizxWx27HqMV2uw6GtYAXxhvOX8eGgPaqJWM=
-Date: Mon, 17 Feb 2020 13:31:49 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Alexey Kardashevskiy <aik@ozlabs.ru>
-Subject: Re: [PULL SUBSYSTEM qemu-pseries] pseries: Update SLOF firmware image
-Message-ID: <20200217023149.GC14136@umbus.fritz.box>
-References: <20200217021217.95766-1-aik@ozlabs.ru>
+ (Exim 4.71) (envelope-from <gshan@redhat.com>) id 1j3WdL-000360-Qi
+ for qemu-devel@nongnu.org; Sun, 16 Feb 2020 21:59:44 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1581908382;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=LmoFYXdBrijMVhWal0NtASQS/e7GPwjMxtjYpYKVCWE=;
+ b=WRcXByH1Zsxw8AkznIq7BG6Z1pzAGBga2SR2Gg+oAw6knbEfZUNQLtVIBKM92JQUTtR/rU
+ mEmutExo0G1aAp0vTLGcHFljgIO7Q0/O3/W718/5MlVx/sh0GrOr7SkPWp3oX/31FljNND
+ 7ferlMGSVaUQsQ6eeZpBczKAejJspQw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-184-EJgOa8qaOI-bGgQ4_QemAQ-1; Sun, 16 Feb 2020 21:59:41 -0500
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EA72114E1;
+ Mon, 17 Feb 2020 02:59:39 +0000 (UTC)
+Received: from localhost.localdomain (vpn2-54-16.bne.redhat.com [10.64.54.16])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B99AC5C241;
+ Mon, 17 Feb 2020 02:59:33 +0000 (UTC)
+Subject: Re: [PATCH v3 1/2] target/arm: Support SError injection
+To: Marc Zyngier <maz@kernel.org>
+References: <20200214055950.62477-1-gshan@redhat.com>
+ <20200214055950.62477-2-gshan@redhat.com>
+ <27b9c2a363d69911c003fcbaed958a5a@kernel.org>
+From: Gavin Shan <gshan@redhat.com>
+Message-ID: <37c5a2c3-4ca8-1717-6672-2712161076ed@redhat.com>
+Date: Mon, 17 Feb 2020 13:59:31 +1100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="8NvZYKFJsRX2Djef"
-Content-Disposition: inline
-In-Reply-To: <20200217021217.95766-1-aik@ozlabs.ru>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2401:3900:2:1::2
+In-Reply-To: <27b9c2a363d69911c003fcbaed958a5a@kernel.org>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-MC-Unique: EJgOa8qaOI-bGgQ4_QemAQ-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=WINDOWS-1252; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,69 +76,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Reply-To: Gavin Shan <gshan@redhat.com>
+Cc: peter.maydell@linaro.org, drjones@redhat.com, jthierry@redhat.com,
+ aik@ozlabs.ru, richard.henderson@linaro.org, qemu-devel@nongnu.org,
+ eric.auger@redhat.com, qemu-arm@nongnu.org, shan.gavin@gmail.com,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi Marc,
 
---8NvZYKFJsRX2Djef
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 2/16/20 11:34 PM, Marc Zyngier wrote:
+> On 2020-02-14 05:59, Gavin Shan wrote:
+>> This supports SError injection, which will be used by "virt" board to
+>> simulating the behavior of NMI injection in next patch. As Peter Maydell
+>> suggested, this adds a new interrupt (ARM_CPU_SERROR), which is parallel
+>> to CPU_INTERRUPT_HARD. The backend depends on if kvm is enabled or not.
+>> kvm_vcpu_ioctl(cpu, KVM_SET_VCPU_EVENTS) is leveraged to inject SError
+>> or data abort to guest. When TCG is enabled, the behavior is simulated
+>> by injecting SError and data abort to guest.
+>>
+>> Signed-off-by: Gavin Shan <gshan@redhat.com>
+>> ---
+>> =A0target/arm/cpu.c=A0=A0=A0=A0=A0 | 69 ++++++++++++++++++++++++++++++++=
++++--------
+>> =A0target/arm/cpu.h=A0=A0=A0=A0=A0 | 17 ++++++-----
+>> =A0target/arm/helper.c=A0=A0 |=A0 6 ++++
+>> =A0target/arm/m_helper.c |=A0 8 +++++
+>> =A04 files changed, 81 insertions(+), 19 deletions(-)
+>>
+>=20
+> [...]
+>=20
+>> @@ -656,7 +682,8 @@ static void arm_cpu_set_irq(void *opaque, int irq,
+>> int level)
+>> =A0=A0=A0=A0=A0=A0=A0=A0 [ARM_CPU_IRQ] =3D CPU_INTERRUPT_HARD,
+>> =A0=A0=A0=A0=A0=A0=A0=A0 [ARM_CPU_FIQ] =3D CPU_INTERRUPT_FIQ,
+>> =A0=A0=A0=A0=A0=A0=A0=A0 [ARM_CPU_VIRQ] =3D CPU_INTERRUPT_VIRQ,
+>> -=A0=A0=A0=A0=A0=A0=A0 [ARM_CPU_VFIQ] =3D CPU_INTERRUPT_VFIQ
+>> +=A0=A0=A0=A0=A0=A0=A0 [ARM_CPU_VFIQ] =3D CPU_INTERRUPT_VFIQ,
+>> +=A0=A0=A0=A0=A0=A0=A0 [ARM_CPU_SERROR] =3D CPU_INTERRUPT_SERROR,
+>=20
+> I'm a bit concerned with this. It makes sense for a host, but doesn't
+> allow the SError signal to be virtualised (there should be a VSError
+> signal in this list that can be injected via HCR_EL2.VA, just like
+> VIRQ is injected by HCR_EL2.VI).
+>=20
+> Given that people use QEMU as a development platform for hypervisors,
+> I'd really like this functionality to be supported from day-1.
+>=20
+> There is also the whole RAS stuff which quite a lot of work, but let's
+> start at least with the full ARMv8.0 semantics.
+>=20
 
-On Mon, Feb 17, 2020 at 01:12:17PM +1100, Alexey Kardashevskiy wrote:
-> The following changes since commit 05943fb4ca41f626078014c0327781815c6584=
-c5:
->=20
->   ppc: free 'fdt' after reset the machine (2020-02-17 11:27:23 +1100)
->=20
-> are available in the Git repository at:
->=20
->   git@github.com:aik/qemu.git tags/qemu-slof-20200217
->=20
-> for you to fetch changes up to ea9a03e5aa023c5391bab5259898475d0298aac2:
->=20
->   pseries: Update SLOF firmware image (2020-02-17 13:08:59 +1100)
->=20
-> ----------------------------------------------------------------
-> Alexey Kardashevskiy (1):
->       pseries: Update SLOF firmware image
->=20
->  pc-bios/README   |   2 +-
->  pc-bios/slof.bin | Bin 931032 -> 968560 bytes
->  roms/SLOF        |   2 +-
->  3 files changed, 2 insertions(+), 2 deletions(-)
->=20
->=20
-> *** Note: this is not for master, this is for pseries
+Thanks for the comments. Yes, I think it's reasonable to support virtual
+SError as well. Lets have a separate patch to support it in v4. I think
+you were talking about HCR_EL2.VSE, which is defined as below in target/arm=
+/cpu.h:
 
-Merged to ppc-for-5.0, thanks.
+#define HCR_VSE       (1ULL << 8)
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+Thanks,
+Gavin
 
---8NvZYKFJsRX2Djef
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl5J+xIACgkQbDjKyiDZ
-s5La2Q/+KsF4THkHEfT1oKslGuZeM7znLHe8ofZDBBW/oTloFk2pcle1QPDzKoQL
-ibv5SFg0UuVXpYgwtHTGugs9nCLaMD4Magq7Q3tm+WhQHiYdzBVp9S6759MZmk5J
-mg3LjOsxDIxmxB9y7TCDtDIVNJtTVHVE0vFSw0sE+aPaoS54klCoWh278aKI82yh
-1i1Bj3udSt2RrLb5zdIiPnz60ZJ048ux3Avli+HAqm5LVhOGtwNqLbMHvjYTNcZ6
-xtJHrnoUdmVm3ML3R6+jJ0wq9OkW8F9LXuJNdwA25qmpfGJOvG7OcA69x44AkwZz
-R8UgiZybiE6jdNaaEjq8qxawUuBrIhJ3eJMPg6kfo8k41LUdxa6Gs6fa+m9Vdu+s
-1+qqRCQnFYJu1PYhkk/6enGqm4YcIuuii3sX8CROTsqZprOmlrHdpK1xpYsQgJCH
-6nLra+FGS31k7AXf0mp/ccSgFtKXscgCR9YSt1mi9X26QPZc2lSzHQUD2RS41tQ8
-46t4tMRY7fMokpK3cCYsyFLQRCwtzKpD9sdglkkAAy81245TBxsPyAyYcRLupxls
-hbF7GbhUxeRMXBSXM1UJHceRWUFltONoAayycnvFFzKvXt+/7G203nblrV25+TzE
-8LTMDfK2uOzirBADfCG8zkAcKRVTazFHmym5UjusAQMyE158p5k=
-=bW0V
------END PGP SIGNATURE-----
-
---8NvZYKFJsRX2Djef--
 
