@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A972A1619A6
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 19:18:15 +0100 (CET)
-Received: from localhost ([::1]:50164 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1959D161981
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 19:14:40 +0100 (CET)
+Received: from localhost ([::1]:50054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j3kyE-0000PO-Nx
-	for lists+qemu-devel@lfdr.de; Mon, 17 Feb 2020 13:18:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38905)
+	id 1j3kul-0002R4-3X
+	for lists+qemu-devel@lfdr.de; Mon, 17 Feb 2020 13:14:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38949)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1j3kK1-0003w5-0k
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 12:36:42 -0500
+ (envelope-from <imammedo@redhat.com>) id 1j3kK3-00043B-Fd
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 12:36:44 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1j3kK0-0002iP-1U
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 12:36:40 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:34559
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <imammedo@redhat.com>) id 1j3kK2-0002kH-Es
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 12:36:43 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:32140
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1j3kJz-0002iC-Tw
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 12:36:39 -0500
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1j3kK2-0002jz-BB
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 12:36:42 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581960999;
+ s=mimecast20190719; t=1581961001;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=L7LXoExNmpBdheeNqAniqkn04JcDCo9j4BVlvTo+YDI=;
- b=ilI0Dyqplf5o63r2bZnaSXY/8/98NthYSupHmwJ6JhRW4HSnHSz+yJ4dFMCOUhJpZMFvR/
- 6TIysi1IliBEynp6W56PlgDlkuzD72o7oeafoVOsqUefQqrLuQcVyJH5teVJF1XUhZ37ZP
- TUTLLsQ1nC/jn95raXJdYNBFS3dCFrE=
+ bh=mxC5ah1MMUC3SMYaZt/Nb09UfouV47cIxlszvEKWoVs=;
+ b=CKBBaSIToSW69Hu9b25V+2CqvDeuS9YtaoL1nA3033NkDvAU+p254MCIZa1DjIzN108a2R
+ df/opCJY9Gh0phl3CE8s4aFhHmd5Mf60jDceM6EBY8/HctMdnEZyXmTAcX0Jm9bmWnycvB
+ M66FkJ9MAkkff7s0gKGedBLpsekZ7TE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-290-50wj85t7Pz6T52yGeHhPHw-1; Mon, 17 Feb 2020 12:36:38 -0500
+ us-mta-203-T48SsHT5N9OBmiYv_kNFTA-1; Mon, 17 Feb 2020 12:36:39 -0500
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5C45B800D53
- for <qemu-devel@nongnu.org>; Mon, 17 Feb 2020 17:36:37 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5E71B100EE05
+ for <qemu-devel@nongnu.org>; Mon, 17 Feb 2020 17:36:38 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AA1B68CCE0;
- Mon, 17 Feb 2020 17:36:36 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A53AF8CCE0;
+ Mon, 17 Feb 2020 17:36:37 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 74/79] exec: drop bogus mem_path from
- qemu_ram_alloc_from_fd()
-Date: Mon, 17 Feb 2020 12:34:47 -0500
-Message-Id: <20200217173452.15243-75-imammedo@redhat.com>
+Subject: [PATCH v5 75/79] make mem_path local variable
+Date: Mon, 17 Feb 2020 12:34:48 -0500
+Message-Id: <20200217173452.15243-76-imammedo@redhat.com>
 In-Reply-To: <20200217173452.15243-1-imammedo@redhat.com>
 References: <20200217173452.15243-1-imammedo@redhat.com>
-MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: 50wj85t7Pz6T52yGeHhPHw-1
+X-MC-Unique: T48SsHT5N9OBmiYv_kNFTA-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,50 +75,56 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Function will report error that will mention global mem_path,
-which was valid the only if legacy -mem-path was used and
-only in case of main RAM.
+It's no longer used anywhere beside main(),
+so make it local variable that is used for CLI compat
+purposes to keep -mem-path option working.
 
-However it doesn't work with hostmem backends
-(for example:
-"
-  qemu: -object memory-backend-file,id=3Dram0,size=3D128M,mem-path=3Dfoo:
-    backing store (null) size 0x200000 does not match 'size' option 0x80000=
-00
-")
-and couldn't possibly work in general FD case the function
-is supposed to handle.
-
-Taking in account that main RAM was converted into
-memory-backend-foo object, there is no point in printing
-file name (from inappropriate place) as failing path is
-a part of backend's error message.
-
-Hence drop bogus mem_path usage from qemu_ram_alloc_from_fd(),
-it's a job of its user to add file name to error message if applicable.
+Under hood QEMU will use it to create
+  memory-backend-file,mem-path=3D...
+backend and use its MemoryRegion as main RAM.
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 ---
- exec.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+CC: pbonzini@redhat.com
+---
+ include/sysemu/sysemu.h | 1 -
+ vl.c                    | 2 +-
+ 2 files changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/exec.c b/exec.c
-index d85a8689d4..6ebff8bd3a 100644
---- a/exec.c
-+++ b/exec.c
-@@ -2307,9 +2307,9 @@ RAMBlock *qemu_ram_alloc_from_fd(ram_addr_t size, Mem=
-oryRegion *mr,
-     size =3D HOST_PAGE_ALIGN(size);
-     file_size =3D get_file_size(fd);
-     if (file_size > 0 && file_size < size) {
--        error_setg(errp, "backing store %s size 0x%" PRIx64
-+        error_setg(errp, "backing store size 0x%" PRIx64
-                    " does not match 'size' option 0x" RAM_ADDR_FMT,
--                   mem_path, file_size, size);
-+                   file_size, size);
-         return NULL;
-     }
+diff --git a/include/sysemu/sysemu.h b/include/sysemu/sysemu.h
+index c0678c1ca3..ae78b2a122 100644
+--- a/include/sysemu/sysemu.h
++++ b/include/sysemu/sysemu.h
+@@ -50,7 +50,6 @@ extern uint8_t *boot_splash_filedata;
+ extern bool enable_mlock;
+ extern bool enable_cpu_pm;
+ extern QEMUClockType rtc_clock;
+-extern const char *mem_path;
+ extern int mem_prealloc;
+=20
+ #define MAX_OPTION_ROMS 16
+diff --git a/vl.c b/vl.c
+index a7edcba094..15cc5bd565 100644
+--- a/vl.c
++++ b/vl.c
+@@ -140,7 +140,6 @@ enum vga_retrace_method vga_retrace_method =3D VGA_RETR=
+ACE_DUMB;
+ int display_opengl;
+ const char* keyboard_layout =3D NULL;
+ ram_addr_t ram_size;
+-const char *mem_path =3D NULL;
+ int mem_prealloc =3D 0; /* force preallocation of physical target memory *=
+/
+ bool enable_mlock =3D false;
+ bool enable_cpu_pm =3D false;
+@@ -2883,6 +2882,7 @@ int main(int argc, char **argv, char **envp)
+     Error *err =3D NULL;
+     bool list_data_dirs =3D false;
+     char *dir, **dirs;
++    const char *mem_path =3D NULL;
+     BlockdevOptionsQueue bdo_queue =3D QSIMPLEQ_HEAD_INITIALIZER(bdo_queue=
+);
+     QemuPluginList plugin_list =3D QTAILQ_HEAD_INITIALIZER(plugin_list);
 =20
 --=20
 2.18.1
