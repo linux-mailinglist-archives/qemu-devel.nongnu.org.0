@@ -2,47 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92B9B1607AA
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 02:22:37 +0100 (CET)
-Received: from localhost ([::1]:38652 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0590D1607BC
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 02:27:06 +0100 (CET)
+Received: from localhost ([::1]:38758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j3V7M-00031N-Lj
-	for lists+qemu-devel@lfdr.de; Sun, 16 Feb 2020 20:22:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36582)
+	id 1j3VBh-0007TO-1v
+	for lists+qemu-devel@lfdr.de; Sun, 16 Feb 2020 20:27:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37132)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <zhang.zhanghailiang@huawei.com>) id 1j3V6M-0001t3-AZ
- for qemu-devel@nongnu.org; Sun, 16 Feb 2020 20:21:35 -0500
+ (envelope-from <gengdongjiu@huawei.com>) id 1j3VAF-0005fA-0l
+ for qemu-devel@nongnu.org; Sun, 16 Feb 2020 20:25:37 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <zhang.zhanghailiang@huawei.com>) id 1j3V6L-0006Tm-6C
- for qemu-devel@nongnu.org; Sun, 16 Feb 2020 20:21:34 -0500
-Received: from szxga05-in.huawei.com ([45.249.212.191]:2785 helo=huawei.com)
+ (envelope-from <gengdongjiu@huawei.com>) id 1j3VAB-0002oU-2i
+ for qemu-devel@nongnu.org; Sun, 16 Feb 2020 20:25:34 -0500
+Received: from szxga06-in.huawei.com ([45.249.212.32]:38670 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <zhang.zhanghailiang@huawei.com>)
- id 1j3V6K-0006O0-RC
- for qemu-devel@nongnu.org; Sun, 16 Feb 2020 20:21:33 -0500
+ (Exim 4.71) (envelope-from <gengdongjiu@huawei.com>)
+ id 1j3VA5-0002fB-Kj; Sun, 16 Feb 2020 20:25:26 -0500
 Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.59])
- by Forcepoint Email with ESMTP id 93C645199E0090C9D488;
- Mon, 17 Feb 2020 09:21:29 +0800 (CST)
-Received: from huawei.com (10.133.214.142) by DGGEMS405-HUB.china.huawei.com
+ by Forcepoint Email with ESMTP id E514DCE63C4170F9DB0B;
+ Mon, 17 Feb 2020 09:25:22 +0800 (CST)
+Received: from huawei.com (10.151.151.243) by DGGEMS405-HUB.china.huawei.com
  (10.3.19.205) with Microsoft SMTP Server id 14.3.439.0; Mon, 17 Feb 2020
- 09:21:18 +0800
-From: Hailiang Zhang <zhang.zhanghailiang@huawei.com>
-To: <qemu-devel@nongnu.org>
-Subject: [PATCH 3/3] COLO: Optimize memory back-up process
-Date: Mon, 17 Feb 2020 09:20:49 +0800
-Message-ID: <20200217012049.22988-4-zhang.zhanghailiang@huawei.com>
-X-Mailer: git-send-email 2.21.0.windows.1
-In-Reply-To: <20200217012049.22988-1-zhang.zhanghailiang@huawei.com>
-References: <20200217012049.22988-1-zhang.zhanghailiang@huawei.com>
+ 09:25:15 +0800
+From: Dongjiu Geng <gengdongjiu@huawei.com>
+To: <mst@redhat.com>, <imammedo@redhat.com>, <xiaoguangrong.eric@gmail.com>,
+ <shannon.zhaosl@gmail.com>, <peter.maydell@linaro.org>, <fam@euphon.net>,
+ <rth@twiddle.net>, <ehabkost@redhat.com>, <mtosatti@redhat.com>,
+ <qemu-devel@nongnu.org>, <kvm@vger.kernel.org>, <qemu-arm@nongnu.org>,
+ <pbonzini@redhat.com>, <james.morse@arm.com>, <lersek@redhat.com>,
+ <jonathan.cameron@huawei.com>, <shameerali.kolothum.thodi@huawei.com>
+Subject: [PATCH RESEND v23 00/10] Add ARMv8 RAS virtualization support in QEMU
+Date: Mon, 17 Feb 2020 09:27:27 +0800
+Message-ID: <20200217012737.30231-1-gengdongjiu@huawei.com>
+X-Mailer: git-send-email 2.18.0.huawei.25
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.133.214.142]
+Content-Type: text/plain; charset="UTF-8"
+X-Originating-IP: [10.151.151.243]
 X-CFilter-Loop: Reflected
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 45.249.212.191
+X-Received-From: 45.249.212.32
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,151 +56,373 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: danielcho@qnap.com, chen.zhang@intel.com,
- Hailiang Zhang <zhang.zhanghailiang@huawei.com>, dgilbert@redhat.com,
- quintela@redhat.com
+Cc: zhengxiang9@huawei.com, gengdongjiu@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch will reduce the downtime of VM for the initial process,
-Privously, we copied all these memory in preparing stage of COLO
-while we need to stop VM, which is a time-consuming process.
-Here we optimize it by a trick, back-up every page while in migration
-process while COLO is enabled, though it affects the speed of the
-migration, but it obviously reduce the downtime of back-up all SVM'S
-memory in COLO preparing stage.
+In the ARMv8 platform, the CPU error types includes synchronous external =
+abort(SEA)
+and SError Interrupt (SEI). If exception happens in guest, host does not =
+know the
+detailed information of guest, so it is expected that guest can do the re=
+covery.
+For example, if an exception happens in a guest user-space application, h=
+ost does
+not know which application encounters errors, only guest knows it.
 
-Signed-off-by: Hailiang Zhang <zhang.zhanghailiang@huawei.com>
+For the ARMv8 SEA/SEI, KVM or host kernel delivers SIGBUS to notify users=
+pace.
+After user space gets the notification, it will record the CPER into gues=
+t GHES
+buffer and inject an exception or IRQ to guest.
+
+In the current implementation, if the type of SIGBUS is BUS_MCEERR_AR, we=
+ will
+treat it as a synchronous exception, and notify guest with ARMv8 SEA
+notification type after recording CPER into guest.
+
+A) This series of patches are based on Qemu 4.2, which include two parts:
+1. Generate APEI/GHES table.
+2. Handle the SIGBUS signal, record the CPER in runtime and fill it into =
+guest
+   memory, then notify guest according to the type of SIGBUS.
+
+B) The solution was suggested by James(james.morse@arm.com); The APEI par=
+t solution was suggested by Laszlo(lersek@redhat.com). Show some discussi=
+ons in [1].
+
+C) This series of patches have already been tested on ARM64 platform with=
+ RAS
+feature enabled:
+1. Show the APEI part verification result in [2].
+2. Show the SIGBUS of BUS_MCEERR_AR handling verification result in [3].
+
+D) Add 'ras' option in command Line to enable guest RAS error recovery fe=
+ature, For example:
+KVM model: ./qemu-system-aarch64 --enable-kvm -cpu host --bios QEMU_EFI.f=
+d_new  -machine virt,gic-version=3D3,ras,kernel-irqchip=3Don  -smp 4 -nog=
+raphic -kernel Image  -append "rdinit=3D/init console=3DttyAMA0 mem=3D512=
+M root=3D/dev/ram0" -initrd guestfs_new.cpio.gz
+TCG model: ./qemu-system-aarch64 -cpu cortex-a57 --bios QEMU_EFI.fd_new  =
+-machine virt,gic-version=3D3,ras,kernel-irqchip=3Don  -smp 4 -nographic =
+-kernel Image  -append "rdinit=3D/init console=3DttyAMA0 mem=3D512M root=3D=
+/dev/ram0" -initrd guestfs_new.cpio.gz
 ---
- migration/colo.c |  3 +++
- migration/ram.c  | 35 +++++++++++++++++++++++++++--------
- migration/ram.h  |  1 +
- 3 files changed, 31 insertions(+), 8 deletions(-)
+Change since v22:
+1. Using 1 * KiB instead of 0x400 to define max size of one error block
+2. Make the alignment to 8 bytes in bios_linker_loader_alloc()
+3. Change "Copyright (c) 2019" to "Copyright (c) 2020" in file header
+4. Fix some code style warnings/errors and add some comments in code
+5. Address Jonathan's comments to easily support CCIX error injection
+6. Add vmstate_ghes_state .subsections in vmstate_acpi_ged
 
-diff --git a/migration/colo.c b/migration/colo.c
-index d30c6bc4ad..febf010571 100644
---- a/migration/colo.c
-+++ b/migration/colo.c
-@@ -26,6 +26,7 @@
- #include "qemu/main-loop.h"
- #include "qemu/rcu.h"
- #include "migration/failover.h"
-+#include "migration/ram.h"
- #ifdef CONFIG_REPLICATION
- #include "replication.h"
- #endif
-@@ -906,6 +907,8 @@ void *colo_process_incoming_thread(void *opaque)
-      */
-     qemu_file_set_blocking(mis->from_src_file, true);
-=20
-+    colo_incoming_start_dirty_log();
-+
-     bioc =3D qio_channel_buffer_new(COLO_BUFFER_BASE_SIZE);
-     fb =3D qemu_fopen_channel_input(QIO_CHANNEL(bioc));
-     object_unref(OBJECT(bioc));
-diff --git a/migration/ram.c b/migration/ram.c
-index ed23ed1c7c..24a8aa3527 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -2986,7 +2986,6 @@ int colo_init_ram_cache(void)
-                 }
-                 return -errno;
-             }
--            memcpy(block->colo_cache, block->host, block->used_length);
-         }
-     }
-=20
-@@ -3005,12 +3004,16 @@ int colo_init_ram_cache(void)
-             bitmap_set(block->bmap, 0, pages);
-         }
-     }
-+
-+    return 0;
-+}
-+
-+void colo_incoming_start_dirty_log(void)
-+{
-     ram_state =3D g_new0(RAMState, 1);
-     ram_state->migration_dirty_pages =3D 0;
-     qemu_mutex_init(&ram_state->bitmap_mutex);
-     memory_global_dirty_log_start();
--
--    return 0;
- }
-=20
- /* It is need to hold the global lock to call this helper */
-@@ -3348,7 +3351,7 @@ static int ram_load_precopy(QEMUFile *f)
-=20
-     while (!ret && !(flags & RAM_SAVE_FLAG_EOS)) {
-         ram_addr_t addr, total_ram_bytes;
--        void *host =3D NULL;
-+        void *host =3D NULL, *host_bak =3D NULL;
-         uint8_t ch;
-=20
-         /*
-@@ -3378,13 +3381,26 @@ static int ram_load_precopy(QEMUFile *f)
-         if (flags & (RAM_SAVE_FLAG_ZERO | RAM_SAVE_FLAG_PAGE |
-                      RAM_SAVE_FLAG_COMPRESS_PAGE | RAM_SAVE_FLAG_XBZRLE)=
-) {
-             RAMBlock *block =3D ram_block_from_stream(f, flags);
--
-             /*
--             * After going into COLO, we should load the Page into colo_=
-cache.
-+             * After going into COLO, we should load the Page into colo_=
-cache
-+             * NOTE: We need to keep a copy of SVM's ram in colo_cache.
-+             * Privously, we copied all these memory in preparing stage =
-of COLO
-+             * while we need to stop VM, which is a time-consuming proce=
-ss.
-+             * Here we optimize it by a trick, back-up every page while =
-in
-+             * migration process while COLO is enabled, though it affect=
-s the
-+             * speed of the migration, but it obviously reduce the downt=
-ime of
-+             * back-up all SVM'S memory in COLO preparing stage.
-              */
--            if (migration_incoming_in_colo_state()) {
-+            if (migration_incoming_colo_enabled()) {
-                 host =3D colo_cache_from_block_offset(block, addr);
--            } else {
-+                /*
-+                 * After going into COLO, load the Page into colo_cache.
-+                 */
-+                if (!migration_incoming_in_colo_state()) {
-+                    host_bak =3D host;
-+                }
-+            }
-+            if (!migration_incoming_in_colo_state()) {
-                 host =3D host_from_ram_block_offset(block, addr);
-             }
-             if (!host) {
-@@ -3506,6 +3522,9 @@ static int ram_load_precopy(QEMUFile *f)
-         if (!ret) {
-             ret =3D qemu_file_get_error(f);
-         }
-+        if (!ret && host_bak && host) {
-+            memcpy(host_bak, host, TARGET_PAGE_SIZE);
-+        }
-     }
-=20
-     ret |=3D wait_for_decompress_done();
-diff --git a/migration/ram.h b/migration/ram.h
-index a553d40751..5ceaff7cb4 100644
---- a/migration/ram.h
-+++ b/migration/ram.h
-@@ -66,5 +66,6 @@ int ram_dirty_bitmap_reload(MigrationState *s, RAMBlock=
- *rb);
- /* ram cache */
- int colo_init_ram_cache(void);
- void colo_release_ram_cache(void);
-+void colo_incoming_start_dirty_log(void);
-=20
- #endif
+Change since v21:
+1. Make the user-facing 'ras' option description more clearly to address =
+Peter's comments.
+2. Update the doc description in "docs/specs/acpi_hest_ghes.rst"
+3. Split HEST/GHES patches to more patches to make the review easily
+4. Using source_id to index the location to save the CPER.
+5. Optimize and simplify the logic to build HEST/GHES table to address Ig=
+or/Michael/Beata comments.
+6. make ghes_addr_le a part of GED device.
+
+Change since v20:
+1. Move some implementation details from acpi_ghes.h to acpi_ghes.c
+2. Add the reviewers for the ACPI/APEI/GHES part
+
+Change since v19:
+1. Fix clang compile error
+2. Fix sphinx build error
+
+Change since v18:
+1. Fix some code-style and typo/grammar problems.
+2. Remove no_ras in the VirtMachineClass struct.
+3. Convert documentation to rst format.
+4. Simplize the code and add comments for some magic value.
+5. Move kvm_inject_arm_sea() function into the patch where it's used.
+6. Register the reset handler(kvm_unpoison_all()) in the kvm_init() funct=
+ion.
+
+Change since v17:
+1. Improve some commit messages and comments.
+2. Fix some code-style problems.
+3. Add a *ras* machine option.
+4. Move HEST/GHES related structures and macros into "hw/acpi/acpi_ghes.*=
+".
+5. Move HWPoison page functions into "include/sysemu/kvm_int.h".
+6. Fix some bugs.
+7. Improve the design document.
+
+Change since v16:
+1. check whether ACPI table is enabled when handling the memory error in =
+the SIGBUS handler.
+
+Change since v15:
+1. Add a doc-comment in the proper format for 'include/exec/ram_addr.h'
+2. Remove write_part_cpustate_to_list() because there is another bug fix =
+patch
+   has been merged "arm: Allow system registers for KVM guests to be chan=
+ged by QEMU code"
+3. Add some comments for kvm_inject_arm_sea() in 'target/arm/kvm64.c'
+4. Compare the arm_current_el() return value to 0,1,2,3, not to PSTATE_MO=
+DE_* constants.
+5. Change the RAS support wasn't introduced before 4.1 QEMU version.
+6. Move the no_ras flag  patch to begin in this series
+
+Change since v14:
+1. Remove the BUS_MCEERR_AO handling logic because this asynchronous sign=
+al was masked by main thread
+2. Address some Igor Mammedov's comments(ACPI part)
+   1) change the comments for the enum AcpiHestNotifyType definition and =
+remove ditto in patch 1
+   2) change some patch commit messages and separate "APEI GHES table gen=
+eration" patch to more patches.
+3. Address some peter's comments(arm64 Synchronous External Abort injecti=
+on)
+   1) change some code notes
+   2) using arm_current_el() for current EL
+   2) use the helper functions for those (syn_data_abort_*).
+
+Change since v13:
+1. Move the patches that set guest ESR and inject virtual SError out of t=
+his series
+2. Clean and optimize the APEI part patches
+3. Update the commit messages and add some comments for the code
+
+Change since v12:
+1. Address Paolo's comments to move HWPoisonPage definition to accel/kvm/=
+kvm-all.c
+2. Only call kvm_cpu_synchronize_state() when get the BUS_MCEERR_AR signa=
+l
+3. Only add and enable GPIO-Signal and ARMv8 SEA two hardware error sourc=
+es
+4. Address Michael's comments to not sync SPDX from Linux kernel header f=
+ile
+
+Change since v11:
+Address James's comments(james.morse@arm.com)
+1. Check whether KVM has the capability to to set ESR instead of detectin=
+g host CPU RAS capability
+2. For SIGBUS_MCEERR_AR SIGBUS, use Synchronous-External-Abort(SEA) notif=
+ication type
+   for SIGBUS_MCEERR_AO SIGBUS, use GPIO-Signal notification
+
+
+Address Shannon's comments(for ACPI part):
+1. Unify hest_ghes.c and hest_ghes.h license declaration
+2. Remove unnecessary including "qmp-commands.h" in hest_ghes.c
+3. Unconditionally add guest APEI table based on James's comments(james.m=
+orse@arm.com)
+4. Add a option to virt machine for migration compatibility. On new virt =
+machine it's on
+   by default while off for old ones, we enabled it since 2.12
+5. Refer to the ACPI spec version which introduces Hardware Error Notific=
+ation first time
+6. Add ACPI_HEST_NOTIFY_RESERVED notification type
+
+Address Igor's comments(for ACPI part):
+1. Add doc patch first which will describe how it's supposed to work betw=
+een QEMU/firmware/guest
+   OS with expected flows.
+2. Move APEI diagrams into doc/spec patch
+3. Remove redundant g_malloc in ghes_record_cper()
+4. Use build_append_int_noprefix() API to compose whole error status bloc=
+k and whole APEI table,
+   and try to get rid of most structures in patch 1, as they will be left=
+ unused after that
+5. Reuse something like https://github.com/imammedo/qemu/commit/3d2fd6d13=
+a3ea298d2ee814835495ce6241d085c to build GAS
+6. Remove much offsetof() in the function
+7. Build independent tables first and only then build dependent tables pa=
+ssing to it pointers
+   to previously build table if necessary.
+8. Redefine macro GHES_ACPI_HEST_NOTIFY_RESERVED to ACPI_HEST_ERROR_SOURC=
+E_COUNT to avoid confusion
+
+
+Address Peter Maydell's comments
+1. linux-headers is done as a patch of their own created using scripts/up=
+date-linux-headers.sh run against a mainline kernel tree
+2. Tested whether this patchset builds OK on aarch32
+3. Abstract Hwpoison page adding code  out properly into a cpu-independen=
+t source file from target/i386/kvm.c, such as kvm-all.c
+4. Add doc-comment formatted documentation comment for new globally-visib=
+le function prototype in a header
+
+---
+[1]:
+https://lkml.org/lkml/2017/2/27/246
+https://patchwork.kernel.org/patch/9633105/
+https://patchwork.kernel.org/patch/9925227/
+
+[2]:
+Note: the UEFI(QEMU_EFI.fd) is needed if guest want to use ACPI table.
+
+After guest boot up, dump the APEI table, then can see the initialized ta=
+ble
+(1) # iasl -p ./HEST -d /sys/firmware/acpi/tables/HEST
+(2) # cat HEST.dsl
+    /*
+     * Intel ACPI Component Architecture
+     * AML/ASL+ Disassembler version 20170728 (64-bit version)
+     * Copyright (c) 2000 - 2017 Intel Corporation
+     *
+     * Disassembly of /sys/firmware/acpi/tables/HEST, Mon Sep  5 07:59:17=
+ 2016
+     *
+     * ACPI Data Table [HEST]
+     *
+     * Format: [HexOffset DecimalOffset ByteLength]  FieldName : FieldVal=
+ue
+     */
+
+    .....................................................................=
+.............
+    [308h 0776   2]                Subtable Type : 000A [Generic Hardware=
+ Error Source V2]
+    [30Ah 0778   2]                    Source Id : 0001
+    [30Ch 0780   2]            Related Source Id : FFFF
+    [30Eh 0782   1]                     Reserved : 00
+    [30Fh 0783   1]                      Enabled : 01
+    [310h 0784   4]       Records To Preallocate : 00000001
+    [314h 0788   4]      Max Sections Per Record : 00000001
+    [318h 0792   4]          Max Raw Data Length : 00001000
+
+    [31Ch 0796  12]         Error Status Address : [Generic Address Struc=
+ture]
+    [31Ch 0796   1]                     Space ID : 00 [SystemMemory]
+    [31Dh 0797   1]                    Bit Width : 40
+    [31Eh 0798   1]                   Bit Offset : 00
+    [31Fh 0799   1]         Encoded Access Width : 04 [QWord Access:64]
+    [320h 0800   8]                      Address : 00000000785D0040
+
+    [328h 0808  28]                       Notify : [Hardware Error Notifi=
+cation Structure]
+    [328h 0808   1]                  Notify Type : 08 [SEA]
+    [329h 0809   1]                Notify Length : 1C
+    [32Ah 0810   2]   Configuration Write Enable : 0000
+    [32Ch 0812   4]                 PollInterval : 00000000
+    [330h 0816   4]                       Vector : 00000000
+    [334h 0820   4]      Polling Threshold Value : 00000000
+    [338h 0824   4]     Polling Threshold Window : 00000000
+    [33Ch 0828   4]        Error Threshold Value : 00000000
+    [340h 0832   4]       Error Threshold Window : 00000000
+
+    [344h 0836   4]    Error Status Block Length : 00001000
+    [348h 0840  12]            Read Ack Register : [Generic Address Struc=
+ture]
+    [348h 0840   1]                     Space ID : 00 [SystemMemory]
+    [349h 0841   1]                    Bit Width : 40
+    [34Ah 0842   1]                   Bit Offset : 00
+    [34Bh 0843   1]         Encoded Access Width : 04 [QWord Access:64]
+    [34Ch 0844   8]                      Address : 00000000785D0098
+
+    [354h 0852   8]            Read Ack Preserve : 00000000FFFFFFFE
+    [35Ch 0860   8]               Read Ack Write : 0000000000000001
+
+    .....................................................................=
+................
+
+(3) After a synchronous external abort(SEA) happen, Qemu receive a SIGBUS=
+ and=20
+    filled the CPER into guest GHES memory.  For example, according to ab=
+ove table,
+    the address that contains the physical address of a block of memory t=
+hat holds
+    the error status data is 0x00000000785D0040
+(4) the address of error source which is SEA notification type is 0x785d8=
+0b0
+    (qemu) xp /1 0x00000000785D0040
+    00000000785d0040: 0x785d80b0
+
+(5) check the content of generic error status block and generic error dat=
+a entry
+    (qemu) xp /100x 0x785d80b0
+    00000000785d80b0: 0x00000001 0x00000000 0x00000000 0x00000098
+    00000000785d80c0: 0x00000000 0xa5bc1114 0x4ede6f64 0x833e63b8
+    00000000785d80d0: 0xb1837ced 0x00000000 0x00000300 0x00000050
+    00000000785d80e0: 0x00000000 0x00000000 0x00000000 0x00000000
+    00000000785d80f0: 0x00000000 0x00000000 0x00000000 0x00000000
+    00000000785d8100: 0x00000000 0x00000000 0x00000000 0x00004002
+(6) check the OSPM's ACK value(for example SEA)
+    /* Before OSPM acknowledges the error, check the ACK value */
+    (qemu) xp /1 0x00000000785D0098
+    00000000785d00f0: 0x00000000
+
+    /* After OSPM acknowledges the error, check the ACK value, it change =
+to 1 from 0 */
+    (qemu) xp /1 0x00000000785D0098
+    00000000785d00f0: 0x00000001
+
+[3]: KVM deliver "BUS_MCEERR_AR" to Qemu, Qemu record the guest CPER and =
+inject
+    synchronous external abort to notify guest, then guest do the recover=
+y.
+
+[ 1552.516170] Synchronous External Abort: synchronous external abort (0x=
+92000410) at 0x000000003751c6b4
+[ 1553.074073] {1}[Hardware Error]: Hardware error from APEI Generic Hard=
+ware Error Source: 8
+[ 1553.081654] {1}[Hardware Error]: event severity: recoverable
+[ 1554.034191] {1}[Hardware Error]:  Error 0, type: recoverable
+[ 1554.037934] {1}[Hardware Error]:   section_type: memory error
+[ 1554.513261] {1}[Hardware Error]:   physical_address: 0x0000000040fa600=
+0
+[ 1554.513944] {1}[Hardware Error]:   error_type: 0, unknown
+[ 1555.041451] Memory failure: 0x40fa6: Killing mca-recover:1296 due to h=
+ardware memory corruption
+[ 1555.373116] Memory failure: 0x40fa6: recovery action for dirty LRU pag=
+e: Recovered
+
+
+
+Dongjiu Geng (10):
+  acpi: nvdimm: change NVDIMM_UUID_LE to a common macro
+  hw/arm/virt: Introduce a RAS machine option
+  docs: APEI GHES generation and CPER record description
+  ACPI: Build related register address fields via hardware error fw_cfg
+    blob
+  ACPI: Build Hardware Error Source Table
+  ACPI: Record the Generic Error Status Block address
+  KVM: Move hwpoison page related functions into kvm-all.c
+  ACPI: Record Generic Error Status Block(GESB) table
+  target-arm: kvm64: handle SIGBUS signal from kernel or KVM
+  MAINTAINERS: Add ACPI/HEST/GHES entries
+
+ MAINTAINERS                            |   9 +
+ accel/kvm/kvm-all.c                    |  36 +++
+ default-configs/arm-softmmu.mak        |   1 +
+ docs/specs/acpi_hest_ghes.rst          | 110 ++++++++
+ docs/specs/index.rst                   |   1 +
+ hw/acpi/Kconfig                        |   4 +
+ hw/acpi/Makefile.objs                  |   1 +
+ hw/acpi/aml-build.c                    |   2 +
+ hw/acpi/generic_event_device.c         |  18 ++
+ hw/acpi/ghes.c                         | 450 +++++++++++++++++++++++++++=
+++++++
+ hw/acpi/nvdimm.c                       |   8 +-
+ hw/arm/virt-acpi-build.c               |  17 ++
+ hw/arm/virt.c                          |  23 ++
+ include/hw/acpi/aml-build.h            |   1 +
+ include/hw/acpi/generic_event_device.h |   2 +
+ include/hw/acpi/ghes.h                 |  74 ++++++
+ include/hw/arm/virt.h                  |   1 +
+ include/qemu/uuid.h                    |   5 +
+ include/sysemu/kvm.h                   |   3 +-
+ include/sysemu/kvm_int.h               |  12 +
+ target/arm/cpu.h                       |   4 +
+ target/arm/helper.c                    |   2 +-
+ target/arm/internals.h                 |   5 +-
+ target/arm/kvm64.c                     |  73 ++++++
+ target/arm/tlb_helper.c                |   2 +-
+ target/i386/cpu.h                      |   2 +
+ target/i386/kvm.c                      |  36 ---
+ 27 files changed, 854 insertions(+), 48 deletions(-)
+ create mode 100644 docs/specs/acpi_hest_ghes.rst
+ create mode 100644 hw/acpi/ghes.c
+ create mode 100644 include/hw/acpi/ghes.h
+
 --=20
-2.21.0
-
+1.8.3.1
 
 
