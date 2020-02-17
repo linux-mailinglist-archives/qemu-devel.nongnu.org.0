@@ -2,72 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A40E1161186
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 12:59:10 +0100 (CET)
-Received: from localhost ([::1]:44280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB16D161174
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 12:53:50 +0100 (CET)
+Received: from localhost ([::1]:44220 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j3f3N-0006U3-OB
-	for lists+qemu-devel@lfdr.de; Mon, 17 Feb 2020 06:59:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40801)
+	id 1j3eyD-0001Id-Vh
+	for lists+qemu-devel@lfdr.de; Mon, 17 Feb 2020 06:53:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41199)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1j3eqb-0006r0-A7
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 06:45:59 -0500
+ (envelope-from <marcandre.lureau@gmail.com>) id 1j3esV-0002Bt-6g
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 06:47:56 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1j3eqa-0002Zn-0v
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 06:45:57 -0500
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:37415)
+ (envelope-from <marcandre.lureau@gmail.com>) id 1j3esT-0004SJ-NH
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 06:47:55 -0500
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:35302)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1j3eqY-0002Y2-8C; Mon, 17 Feb 2020 06:45:55 -0500
-Received: by mail-wm1-x341.google.com with SMTP id a6so18119764wme.2;
- Mon, 17 Feb 2020 03:45:54 -0800 (PST)
+ (Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1j3esT-0004RT-Ey
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 06:47:53 -0500
+Received: by mail-wm1-x341.google.com with SMTP id b17so18127700wmb.0
+ for <qemu-devel@nongnu.org>; Mon, 17 Feb 2020 03:47:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=e6o40FQDzdl6CfxP9P4N29oFY6w25k3CvNK8SZvDQSU=;
- b=kIeub963KMmxDyr5Sbk+hECgTs5ZIWGNz9Tb72w2oYXCzzU1sNViMWeNMUt8To/dkX
- DwGAHk0hYeN2P9gyjcJFVInGAHOXI8F9LWKpLQ33xkDavUSIURTKCJJBOmQ2/+1FO+Xw
- lEsvJf6u/t2C2OoNhy8KRDEF/cQfdtbjTnYeERk243xrF3SJzN09XyLpzoFGyVOXfi4J
- HzZ0KuNWU7sIV7ebCdE5qdr0jFmDaW5ywTA8SLTHGOiQZ2c032A6O7t33Qec4mP8RW5V
- ONvgTYYHKxsHu/uqTkYETQADCGHehr+2aSfzLPiwNJdPZctnYorkSeeXnBXCBqwQp6UY
- gosw==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=5FmZo3kfqSxY/nBaqvmnwPDPSKJwRrASqwzsEjuaiOo=;
+ b=kWKeYmgaQ59FYdUChPOK7wjyNYQ4Ae8JuWL+6PPMB3zIMfFlB5L0InSKG8at+N153q
+ KOo9ULlxlMFGSsDgzOnLo0YBZ/Vf15HKOB9CPm7AJnbPyVBcQH0yON1W4bv0sqFF+eJK
+ hxnrhYLLVyXzK62P6TNVq1YrIjeZaU2L54/Y+gpClBNxqh3uaudSCcjTsSiHTOwGcPad
+ 3wxYJIO1FWntjG2IbVojSqjDwahhN73C3QadaePrDFMZatyQ1KMBreTkBF+vOWKhxSEQ
+ JQfqhx/gjpawUTVPmHJqDlOL9pP7fMZiMNeSEUo9q0SuxPIGTML1eXEx28Ye3ho1XCUO
+ K9gQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=e6o40FQDzdl6CfxP9P4N29oFY6w25k3CvNK8SZvDQSU=;
- b=iaQL2jnMs/9vp6Ju1BTt/qnvRBSjwhE55fLuqmmaGmaJTZnM6nAS+UdzBkFKYfgiE0
- c5Qxg+BYhWsmfstdJLbz8+jt+LlAk0hjFe4lL+ALz4Q86oIydTTRKmQJQ6XKZu4xqOIx
- CzbZUDsR/FlfW53AULjJg9Nq3ZisZhI739RNmAmpqM2/KYz+pNAsw98D5+nqokyxobQq
- p3B6GmqHm3ALPZ1en2oHG8sYoDektkplyEXbOZNanZ9wZ2/T7Y3nIKKrkano9+7/3UtT
- LAVFORGUdiBH+7H3rDpJQEK2Qjwz5hzEDSAc0czsREbfHuJhQbLn3JySMBTZPtWI79Gu
- Q5Rg==
-X-Gm-Message-State: APjAAAX0v6di2vFl6sgrMw8ITl1cKK1HNs5kwP/uL1RtsqY4SvHrngAR
- 0EQ6S5ihHLNhSbQiPATxPLhYxeeUUlw=
-X-Google-Smtp-Source: APXvYqz8JLE0arWdW4YKhFhU/4jSZ159FDNDb40+mJuIkaiUzapNwJsiR3LKSkuXU/+DOaa6BI7UGA==
-X-Received: by 2002:a1c:988c:: with SMTP id
- a134mr21058122wme.163.1581939953007; 
- Mon, 17 Feb 2020 03:45:53 -0800 (PST)
-Received: from x1w.redhat.com (78.red-88-21-202.staticip.rima-tde.net.
- [88.21.202.78])
- by smtp.gmail.com with ESMTPSA id i2sm268149wmb.28.2020.02.17.03.45.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Feb 2020 03:45:52 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 13/13] hw/arm/raspi: Add the Raspberry Pi Zero machine
-Date: Mon, 17 Feb 2020 12:45:33 +0100
-Message-Id: <20200217114533.17779-14-f4bug@amsat.org>
-X-Mailer: git-send-email 2.21.1
-In-Reply-To: <20200217114533.17779-1-f4bug@amsat.org>
-References: <20200217114533.17779-1-f4bug@amsat.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=5FmZo3kfqSxY/nBaqvmnwPDPSKJwRrASqwzsEjuaiOo=;
+ b=OCEM03dksrpg1SlFaub+Dt/Udm9SxxCP2IcAskFvJxMnHgMIfh+2DazKs7kT7T6Z0V
+ SSdUXTjGHNl7b16A1rVzLpcbiA8far7mH7XIm3uKBFGCme/TE4Xg8KAzzxu3vwHG9I49
+ k+Tf4pgaeLZjgsVnr/t8GhFaYhdsc/PCQmBLIbt2jSWrAWgCnrrUJ9BV3pXhv5PVRSCp
+ UilAF/1tW4eW0mlyufW9EAOyJKBbf6yPDqNaDOsb/U4rsIq962stYqRO1RpN7GNp/0nd
+ CGvrWusaCY+pOUeYPuROJXNN0nezmavozi0Xg4B6sFtdFgF5fIUGFykEyntY2g++Y43H
+ rGhA==
+X-Gm-Message-State: APjAAAWNxUDJuuttm/5g6AG8UtgLGL3dlmjwgH4MMBdFWYdZKiS2MGUU
+ HBFDeMmz9IMZZORBKz60uvkK9U5E52J7JaTOFxo=
+X-Google-Smtp-Source: APXvYqxHFP8Ygb5RsJjDpxtq4hoA7cBDoReoXCWIFF4SkGKgqYEPQ+ZvxntMUAbmnHP7ugXpm3GJAyDjNsAa9oWkjx0=
+X-Received: by 2002:a7b:cb97:: with SMTP id m23mr20902447wmi.37.1581940072409; 
+ Mon, 17 Feb 2020 03:47:52 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+References: <20191108150123.12213-1-marcandre.lureau@redhat.com>
+ <20191108150123.12213-2-marcandre.lureau@redhat.com>
+ <cc27aa10-c6e2-0de8-a55f-b9a8da67dde2@greensocs.com>
+In-Reply-To: <cc27aa10-c6e2-0de8-a55f-b9a8da67dde2@greensocs.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Mon, 17 Feb 2020 12:47:40 +0100
+Message-ID: <CAJ+F1CJks+3y6Wh93w+tT6YyO3-iW9kDFNqzW96OyXJ-O+xdaA@mail.gmail.com>
+Subject: Re: [PATCH v6 01/25] qmp: constify QmpCommand and list
+To: Markus Armbruster <armbru@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
 X-Received-From: 2a00:1450:4864:20::341
@@ -82,91 +75,223 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Andrew Baumann <Andrew.Baumann@microsoft.com>, qemu-arm@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Luc Michel <luc.michel@greensocs.com>
+Cc: Damien Hedde <damien.hedde@greensocs.com>, QEMU <qemu-devel@nongnu.org>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a Raspberry Pi Zero machine.
+Hi Markus,
 
-  $ qemu-system-arm -M raspi0w -serial stdio \
-      -kernel raspberrypi/firmware/boot/kernel.img \
-      -dtb raspberrypi/firmware/boot/bcm2708-rpi-zero-w.dtb \
-      -append 'printk.time=0 earlycon=pl011,0x20201000 console=ttyAMA0'
-  [    0.000000] Booting Linux on physical CPU 0x0
-  [    0.000000] Linux version 4.19.69+ (dom@buildbot) (gcc version 4.9.3 (crosstool-NG crosstool-ng-1.22.0-88-g8460611)) #1261 Tue Sep 3 20:21:01 BST 2019
-  [    0.000000] CPU: ARMv6-compatible processor [410fb767] revision 7 (ARMv7), cr=00c5387d
-  [    0.000000] CPU: VIPT aliasing data cache, unknown instruction cache
-  [    0.000000] OF: fdt: Machine model: Raspberry Pi Zero W
-  [    0.000000] earlycon: pl11 at MMIO 0x20201000 (options '')
-  [    0.000000] bootconsole [pl11] enabled
-  [    0.000000] Memory policy: Data cache writeback
-  [    0.000000] cma: Reserved 8 MiB at 0x1b800000
-  [    0.000000] random: get_random_bytes called from start_kernel+0x8c/0x49c with crng_init=0
-  [    0.000000] Built 1 zonelists, mobility grouping on.  Total pages: 113680
-  [    0.000000] Kernel command line: printk.time=0 earlycon=pl011,0x20201000 console=ttyAMA0 root=/dev/mmcblk0 rootwait
-  Dentry cache hash table entries: 65536 (order: 6, 262144 bytes)
-  Inode-cache hash table entries: 32768 (order: 5, 131072 bytes)
-  Memory: 434380K/458752K available (6971K kernel code, 635K rwdata, 2080K rodata, 464K init, 797K bss, 16180K reserved, 8192K cma-reserved)
-  Virtual kernel memory layout:
-      vector  : 0xffff0000 - 0xffff1000   (   4 kB)
-      fixmap  : 0xffc00000 - 0xfff00000   (3072 kB)
-      vmalloc : 0xdc800000 - 0xff800000   ( 560 MB)
-      lowmem  : 0xc0000000 - 0xdc000000   ( 448 MB)
-      modules : 0xbf000000 - 0xc0000000   (  16 MB)
-        .text : 0x(ptrval) - 0x(ptrval)   (6973 kB)
-        .init : 0x(ptrval) - 0x(ptrval)   ( 464 kB)
-        .data : 0x(ptrval) - 0x(ptrval)   ( 636 kB)
-         .bss : 0x(ptrval) - 0x(ptrval)   ( 798 kB)
-  SLUB: HWalign=32, Order=0-3, MinObjects=0, CPUs=1, Nodes=1
-  ftrace: allocating 25193 entries in 74 pages
-  NR_IRQS: 16, nr_irqs: 16, preallocated irqs: 16
-  sched_clock: 32 bits at 1000kHz, resolution 1000ns, wraps every 2147483647500ns
-  clocksource: timer: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 1911260446275 ns
-  bcm2835: system timer (irq = 27)
-  Console: colour dummy device 80x30
-  ...
+Can you review/queue this patch?
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- hw/arm/raspi.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+thanks
 
-diff --git a/hw/arm/raspi.c b/hw/arm/raspi.c
-index 2d9f4e3085..d59d7c4294 100644
---- a/hw/arm/raspi.c
-+++ b/hw/arm/raspi.c
-@@ -324,6 +324,15 @@ static void raspi_machine_class_common_init(MachineClass *mc,
-     mc->default_ram_size = board_ram_size(board_rev);
- };
- 
-+static void raspi0w_machine_class_init(ObjectClass *oc, void *data)
-+{
-+    MachineClass *mc = MACHINE_CLASS(oc);
-+    RaspiMachineClass *rmc = RASPI_MACHINE_CLASS(oc);
-+
-+    rmc->board_rev = 0x9000c1;
-+    raspi_machine_class_common_init(mc, rmc->board_rev);
-+};
-+
- static void raspi1b_machine_class_init(ObjectClass *oc, void *data)
- {
-     MachineClass *mc = MACHINE_CLASS(oc);
-@@ -357,6 +366,10 @@ static void raspi3b_machine_class_init(ObjectClass *oc, void *data)
- 
- static const TypeInfo raspi_machine_types[] = {
-     {
-+        .name           = MACHINE_TYPE_NAME("raspi0w"),
-+        .parent         = TYPE_RASPI_MACHINE,
-+        .class_init     = raspi0w_machine_class_init,
-+    }, {
-         .name           = MACHINE_TYPE_NAME("raspi1b"),
-         .parent         = TYPE_RASPI_MACHINE,
-         .class_init     = raspi1b_machine_class_init,
--- 
-2.21.1
+On Fri, Nov 8, 2019 at 5:52 PM Damien Hedde <damien.hedde@greensocs.com> wr=
+ote:
+>
+>
+>
+> On 11/8/19 4:00 PM, Marc-Andr=C3=A9 Lureau wrote:
+> > Since 0b69f6f72ce47a37a749b056b6d5ec64c61f11e8 "qapi: remove
+> > qmp_unregister_command()", the command list can be declared const.
+> >
+> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> > ---
+> >  include/qapi/qmp/dispatch.h | 9 +++++----
+> >  monitor/misc.c              | 2 +-
+> >  monitor/monitor-internal.h  | 2 +-
+> >  qapi/qmp-dispatch.c         | 6 +++---
+> >  qapi/qmp-registry.c         | 6 +++---
+> >  qga/commands.c              | 2 +-
+> >  qga/main.c                  | 6 +++---
+> >  7 files changed, 17 insertions(+), 16 deletions(-)
+> >
+> > diff --git a/include/qapi/qmp/dispatch.h b/include/qapi/qmp/dispatch.h
+> > index 9aa426a398..5a9cf82472 100644
+> > --- a/include/qapi/qmp/dispatch.h
+> > +++ b/include/qapi/qmp/dispatch.h
+> > @@ -39,7 +39,8 @@ typedef QTAILQ_HEAD(QmpCommandList, QmpCommand) QmpCo=
+mmandList;
+> >
+> >  void qmp_register_command(QmpCommandList *cmds, const char *name,
+> >                            QmpCommandFunc *fn, QmpCommandOptions option=
+s);
+> > -QmpCommand *qmp_find_command(QmpCommandList *cmds, const char *name);
+> > +const QmpCommand *qmp_find_command(const QmpCommandList *cmds,
+> > +                                   const char *name);
+> >  void qmp_disable_command(QmpCommandList *cmds, const char *name);
+> >  void qmp_enable_command(QmpCommandList *cmds, const char *name);
+> >
+> > @@ -47,13 +48,13 @@ bool qmp_command_is_enabled(const QmpCommand *cmd);
+> >  const char *qmp_command_name(const QmpCommand *cmd);
+> >  bool qmp_has_success_response(const QmpCommand *cmd);
+> >  QDict *qmp_error_response(Error *err);
+> > -QDict *qmp_dispatch(QmpCommandList *cmds, QObject *request,
+> > +QDict *qmp_dispatch(const QmpCommandList *cmds, QObject *request,
+> >                      bool allow_oob);
+> >  bool qmp_is_oob(const QDict *dict);
+> >
+> > -typedef void (*qmp_cmd_callback_fn)(QmpCommand *cmd, void *opaque);
+> > +typedef void (*qmp_cmd_callback_fn)(const QmpCommand *cmd, void *opaqu=
+e);
+> >
+> > -void qmp_for_each_command(QmpCommandList *cmds, qmp_cmd_callback_fn fn=
+,
+> > +void qmp_for_each_command(const QmpCommandList *cmds, qmp_cmd_callback=
+_fn fn,
+> >                            void *opaque);
+> >
+> >  #endif
+> > diff --git a/monitor/misc.c b/monitor/misc.c
+> > index 3baa15f3bf..3052bfe8f1 100644
+> > --- a/monitor/misc.c
+> > +++ b/monitor/misc.c
+> > @@ -230,7 +230,7 @@ static void hmp_info_help(Monitor *mon, const QDict=
+ *qdict)
+> >      help_cmd(mon, "info");
+> >  }
+> >
+> > -static void query_commands_cb(QmpCommand *cmd, void *opaque)
+> > +static void query_commands_cb(const QmpCommand *cmd, void *opaque)
+> >  {
+> >      CommandInfoList *info, **list =3D opaque;
+> >
+> > diff --git a/monitor/monitor-internal.h b/monitor/monitor-internal.h
+> > index d78f5ca190..3e7dac5910 100644
+> > --- a/monitor/monitor-internal.h
+> > +++ b/monitor/monitor-internal.h
+> > @@ -132,7 +132,7 @@ typedef struct {
+> >       * qmp_capabilities succeeds, we go into command mode, and
+> >       * @command becomes &qmp_commands.
+> >       */
+> > -    QmpCommandList *commands;
+> > +    const QmpCommandList *commands;
+> >      bool capab_offered[QMP_CAPABILITY__MAX]; /* capabilities offered *=
+/
+> >      bool capab[QMP_CAPABILITY__MAX];         /* offered and accepted *=
+/
+> >      /*
+> > diff --git a/qapi/qmp-dispatch.c b/qapi/qmp-dispatch.c
+> > index bc264b3c9b..857399c5fe 100644
+> > --- a/qapi/qmp-dispatch.c
+> > +++ b/qapi/qmp-dispatch.c
+> > @@ -75,14 +75,14 @@ static QDict *qmp_dispatch_check_obj(const QObject =
+*request, bool allow_oob,
+> >      return dict;
+> >  }
+> >
+> > -static QObject *do_qmp_dispatch(QmpCommandList *cmds, QObject *request=
+,
+> > +static QObject *do_qmp_dispatch(const QmpCommandList *cmds, QObject *r=
+equest,
+> >                                  bool allow_oob, Error **errp)
+> >  {
+> >      Error *local_err =3D NULL;
+> >      bool oob;
+> >      const char *command;
+> >      QDict *args, *dict;
+> > -    QmpCommand *cmd;
+> > +    const QmpCommand *cmd;
+> >      QObject *ret =3D NULL;
+> >
+> >      dict =3D qmp_dispatch_check_obj(request, allow_oob, errp);
+> > @@ -164,7 +164,7 @@ bool qmp_is_oob(const QDict *dict)
+> >          && !qdict_haskey(dict, "execute");
+> >  }
+> >
+> > -QDict *qmp_dispatch(QmpCommandList *cmds, QObject *request,
+> > +QDict *qmp_dispatch(const QmpCommandList *cmds, QObject *request,
+> >                      bool allow_oob)
+> >  {
+> >      Error *err =3D NULL;
+> > diff --git a/qapi/qmp-registry.c b/qapi/qmp-registry.c
+> > index ca00f74795..d0f9a1d3e3 100644
+> > --- a/qapi/qmp-registry.c
+> > +++ b/qapi/qmp-registry.c
+> > @@ -27,7 +27,7 @@ void qmp_register_command(QmpCommandList *cmds, const=
+ char *name,
+> >      QTAILQ_INSERT_TAIL(cmds, cmd, node);
+> >  }
+> >
+> > -QmpCommand *qmp_find_command(QmpCommandList *cmds, const char *name)
+> > +const QmpCommand *qmp_find_command(const QmpCommandList *cmds, const c=
+har *name)
+> >  {
+> >      QmpCommand *cmd;
+> >
+> > @@ -77,10 +77,10 @@ bool qmp_has_success_response(const QmpCommand *cmd=
+)
+> >      return !(cmd->options & QCO_NO_SUCCESS_RESP);
+> >  }
+> >
+> > -void qmp_for_each_command(QmpCommandList *cmds, qmp_cmd_callback_fn fn=
+,
+> > +void qmp_for_each_command(const QmpCommandList *cmds, qmp_cmd_callback=
+_fn fn,
+> >                            void *opaque)
+> >  {
+> > -    QmpCommand *cmd;
+> > +    const QmpCommand *cmd;
+> >
+> >      QTAILQ_FOREACH(cmd, cmds, node) {
+> >          fn(cmd, opaque);
+> > diff --git a/qga/commands.c b/qga/commands.c
+> > index 0c7d1385c2..05e9ab6c3d 100644
+> > --- a/qga/commands.c
+> > +++ b/qga/commands.c
+> > @@ -54,7 +54,7 @@ void qmp_guest_ping(Error **errp)
+> >      slog("guest-ping called");
+> >  }
+> >
+> > -static void qmp_command_info(QmpCommand *cmd, void *opaque)
+> > +static void qmp_command_info(const QmpCommand *cmd, void *opaque)
+> >  {
+> >      GuestAgentInfo *info =3D opaque;
+> >      GuestAgentCommandInfo *cmd_info;
+> > diff --git a/qga/main.c b/qga/main.c
+> > index c35c2a2120..f23614528e 100644
+> > --- a/qga/main.c
+> > +++ b/qga/main.c
+> > @@ -359,7 +359,7 @@ static gint ga_strcmp(gconstpointer str1, gconstpoi=
+nter str2)
+> >  }
+> >
+> >  /* disable commands that aren't safe for fsfreeze */
+> > -static void ga_disable_non_whitelisted(QmpCommand *cmd, void *opaque)
+> > +static void ga_disable_non_whitelisted(const QmpCommand *cmd, void *op=
+aque)
+> >  {
+> >      bool whitelisted =3D false;
+> >      int i =3D 0;
+> > @@ -378,7 +378,7 @@ static void ga_disable_non_whitelisted(QmpCommand *=
+cmd, void *opaque)
+> >  }
+> >
+> >  /* [re-]enable all commands, except those explicitly blacklisted by us=
+er */
+> > -static void ga_enable_non_blacklisted(QmpCommand *cmd, void *opaque)
+> > +static void ga_enable_non_blacklisted(const QmpCommand *cmd, void *opa=
+que)
+> >  {
+> >      GList *blacklist =3D opaque;
+> >      const char *name =3D qmp_command_name(cmd);
+> > @@ -918,7 +918,7 @@ int64_t ga_get_fd_handle(GAState *s, Error **errp)
+> >      return handle;
+> >  }
+> >
+> > -static void ga_print_cmd(QmpCommand *cmd, void *opaque)
+> > +static void ga_print_cmd(const QmpCommand *cmd, void *opaque)
+> >  {
+> >      printf("%s\n", qmp_command_name(cmd));
+> >  }
+> >
+>
+> Reviewed-by: Damien Hedde <damien.hedde@greensocs.com>
+>
+> Damien
+>
 
+
+--=20
+Marc-Andr=C3=A9 Lureau
 
