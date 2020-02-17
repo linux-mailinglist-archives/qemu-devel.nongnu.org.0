@@ -2,72 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1872C161154
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 12:47:25 +0100 (CET)
-Received: from localhost ([::1]:44108 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D0CF161165
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 12:49:51 +0100 (CET)
+Received: from localhost ([::1]:44144 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j3es0-0008Cv-0g
-	for lists+qemu-devel@lfdr.de; Mon, 17 Feb 2020 06:47:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40545)
+	id 1j3euM-0003KB-86
+	for lists+qemu-devel@lfdr.de; Mon, 17 Feb 2020 06:49:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40555)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1j3eqI-0006Pq-Gk
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 06:45:39 -0500
+ id 1j3eqJ-0006Qi-Cp
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 06:45:40 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1j3eqH-0002IJ-FO
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 06:45:38 -0500
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:41983)
+ id 1j3eqI-0002K7-E0
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 06:45:39 -0500
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:38341)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1j3eqH-0002Hc-9E; Mon, 17 Feb 2020 06:45:37 -0500
-Received: by mail-wr1-x42f.google.com with SMTP id c9so19351269wrw.8;
- Mon, 17 Feb 2020 03:45:37 -0800 (PST)
+ id 1j3eqI-0002IN-7c; Mon, 17 Feb 2020 06:45:38 -0500
+Received: by mail-wr1-x443.google.com with SMTP id y17so19314236wrh.5;
+ Mon, 17 Feb 2020 03:45:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=OKKON3O0UkDeBGXdhe/eMG38enuW1oN2XE70v4ZaC5c=;
- b=pIgkCyxKcIOZYxi7YzrAu60SEKzKBROAMl1AZkI8RExOI1AfJb7Oyh2/iAUxS09PQN
- oJcGTpPxpIcYSGoVK0MIq6czedW5D8CyQ4L1zZLaS3TbhQ7kaUqC+vkZRcJ9U1hMOxqk
- yXbCzMul3cSf8rgxDyD12tQbq4dedIpGNi6pHxDStDLto8EfgDBE6Qbjz12Wd7j0IK9P
- w9SGdhKySoXgSDHZ597c1qS2b4+mVOEO74CoAF6mHLoqJ/LDKvcYEfaLdm0rCP8avGGX
- qw/vn2VGQM0ZQEZsjSsMXo0zHeXod5rr9IZn1jliNdHIVGTSmneOzwzr1ijwOdzxvsJI
- u8vg==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=CQieaLe+XzdG/scqrmf0SdvellEvi4/sJOsfkTjUk/k=;
+ b=IXIUOD/tMMjlZo2zjX9iGESFe/AKtsDvRbx/V/mhLn3FuF42j6ZcuBvCJtqv/b9lrN
+ vZK4CNKbTZnZzbFN9DAwiTMlp5OWHCpktH38QBI05Vzm5TQGW8JynuIVYxCGLjNy7qdN
+ bVkSf3cROrY2WGaZZFKFq3cHSEDqHu7KeLivWZqmtR6QykTuq6GoIFXEIPgIH8iQ/1TR
+ ypGAkGM7lkxSeWBGVR43IFUe2COBUjCcdx11eVonxxAw17JNXMiQXfhxjZqydbSjeStJ
+ YydpEdzBvFWCaqr2Qk0Ar44ZRKPnbKbHrifH47c4EBJihaOBQ2W9E7bT+qtOFfuKXW9J
+ q2bw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=OKKON3O0UkDeBGXdhe/eMG38enuW1oN2XE70v4ZaC5c=;
- b=KmR79k1Yq0iymixHBYn2bjez8aimnBqQnZo8BuCvnIYQQP+J5Xl+AN8ey9BircZ+xQ
- TXlHi+OX/vXyuD1vCjvVakvbqq7q2Yy4UxSeMzkvYwZIKWFmataak8r+6EXiJ571IvGA
- De2nSr31DaW3cG+4sMeaBtBp0rU8yow6Bsm84KVJpBOs9c1xWefIbqjipEvBAhlJ77yn
- ruCFXnHgnahwO645AW7fe/a05vnjkoO8e38+puw2C71yuYFAWJ/V/mhWdkbvktKS8FGV
- zB8BS0O1FZvhn4A2K0Yvb1Ij+QR0uESB5F2Z3gqqrie7i/XyMGotT3ZletiHnin76PgI
- Lnhw==
-X-Gm-Message-State: APjAAAUsFrpBQD0yMnPnNgablFTCizw1G/OmfNPZ4t3BZCXsovQZotRv
- BX8N+SKLrZez45l1e+1I28x2NSRM+sM=
-X-Google-Smtp-Source: APXvYqyfbVKXRRlPIwLcIfyWxh7XDX00V7hw9EV0F4dUQv3k63qbE5fnyvP38dNPQnpvhT7UqKfC8A==
-X-Received: by 2002:adf:e6cb:: with SMTP id y11mr21883714wrm.59.1581939935803; 
- Mon, 17 Feb 2020 03:45:35 -0800 (PST)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=CQieaLe+XzdG/scqrmf0SdvellEvi4/sJOsfkTjUk/k=;
+ b=pxeIHzmNdiiqDaw8+l4YK8Rl+wIsKk8kpNTECsSGAwTDJnB8AWm4Y1/GNKX5/C/5CJ
+ NoZSUriqYYlWwXG6xrNUOmBLv1kTv2MTqSkqjLz26UE9+P8+TzXEx1L+mZ9eccFkpdC3
+ ZAFdXG5JcIzbXvnXDm0Tqh0cvEDndmS3Cy4Q0gfo9FxrhXgtAxEO8c9moqkr+h5o5EGi
+ e8Jubr2lRAwFMBlH1kUHB4P/YEzYIbmDiVrygSfHLBuBGjKkJ9z9sgHeULUVtWUStB6A
+ vkkxa1t1MOOZcsTnCA6Ru4Mr8R8NBPipjf1c7+WzmvjxYkNmKWfcexMM5yvvtcX7ctHr
+ oIGg==
+X-Gm-Message-State: APjAAAViVpFNv2Ub8nC/HC8JE9N1a0maxQ0maiIByHrvuQw5g1gNRPoY
+ MgGtGgIwLe/MvtfsjnPFyzzXbxrNpZ4=
+X-Google-Smtp-Source: APXvYqyCyTaSKoOnUMXxlNNSRIZtMwfx7erIGg+tbxIRjMLG/vF1Cc1ozev3c6CJPx+/z7ZhQmHNrA==
+X-Received: by 2002:a5d:5273:: with SMTP id l19mr22952522wrc.175.1581939937009; 
+ Mon, 17 Feb 2020 03:45:37 -0800 (PST)
 Received: from x1w.redhat.com (78.red-88-21-202.staticip.rima-tde.net.
  [88.21.202.78])
- by smtp.gmail.com with ESMTPSA id i2sm268149wmb.28.2020.02.17.03.45.34
+ by smtp.gmail.com with ESMTPSA id i2sm268149wmb.28.2020.02.17.03.45.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Feb 2020 03:45:35 -0800 (PST)
+ Mon, 17 Feb 2020 03:45:36 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 00/13] hw/arm: Add raspi0 and raspi1 machines
-Date: Mon, 17 Feb 2020 12:45:20 +0100
-Message-Id: <20200217114533.17779-1-f4bug@amsat.org>
+Subject: [PATCH v2 01/13] hw/arm/raspi: Remove
+ ignore_memory_transaction_failures on the raspi2
+Date: Mon, 17 Feb 2020 12:45:21 +0100
+Message-Id: <20200217114533.17779-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.1
+In-Reply-To: <20200217114533.17779-1-f4bug@amsat.org>
+References: <20200217114533.17779-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42f
+X-Received-From: 2a00:1450:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,6 +83,7 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Andrew Baumann <Andrew.Baumann@microsoft.com>, qemu-arm@nongnu.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
@@ -87,32 +91,37 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This series addresses suggestions from Igor and Peter on the
-raspi machines, then add the raspi0 and raspi1.
+Commit 1c3db49d39 added the raspi3, which uses the same peripherals
+than the raspi2 (but with different ARM cores). The raspi3 was
+introduced without the ignore_memory_transaction_failures flag.
+Almost 2 years later, the machine is usable running U-Boot and
+Linux.
+In commit 00cbd5bd74 we mapped a lot of unimplemented devices,
+commit d442d95f added thermal block and commit 0e5bbd7406 the
+system timer.
+As we are happy with the raspi3, let's remove this flag on the
+raspi2.
 
-Since v1:
-- Use more specific machine names
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ hw/arm/raspi.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
-Philippe Mathieu-Daudé (13):
-  hw/arm/raspi: Remove ignore_memory_transaction_failures on the raspi2
-  hw/arm/raspi: Avoid using TypeInfo::class_data pointer
-  hw/arm/raspi: Use more specific machine names
-  hw/arm/raspi: Introduce RaspiProcessorId enum
-  hw/arm/raspi: Remove use of the 'version' value in the board code
-  hw/arm/bcm2836: Restrict BCM283XClass declaration to C source
-  hw/arm/bcm2836: QOM'ify more by adding class_init() to each SoC type
-  hw/arm/bcm2836: Introduce BCM283XClass::core_count
-  hw/arm/bcm2836: Only provide "enabled-cpus" property to multicore SoCs
-  hw/arm/bcm2836: Split out common realize() code
-  hw/arm/bcm2836: Introduce the BCM2835 SoC
-  hw/arm/raspi: Add the Raspberry Pi B+ machine
-  hw/arm/raspi: Add the Raspberry Pi Zero machine
-
- include/hw/arm/bcm2836.h |  13 +--
- hw/arm/bcm2836.c         | 192 ++++++++++++++++++++++++++-------------
- hw/arm/raspi.c           | 153 +++++++++++++++++++------------
- 3 files changed, 226 insertions(+), 132 deletions(-)
-
+diff --git a/hw/arm/raspi.c b/hw/arm/raspi.c
+index 90ad9b8115..221356933e 100644
+--- a/hw/arm/raspi.c
++++ b/hw/arm/raspi.c
+@@ -324,9 +324,6 @@ static void raspi_machine_class_init(ObjectClass *oc, void *data)
+     mc->no_cdrom = 1;
+     mc->default_cpus = mc->min_cpus = mc->max_cpus = cores_count(board_rev);
+     mc->default_ram_size = board_ram_size(board_rev);
+-    if (board_version(board_rev) == 2) {
+-        mc->ignore_memory_transaction_failures = true;
+-    }
+ };
+ 
+ static const TypeInfo raspi_machine_types[] = {
 -- 
 2.21.1
 
