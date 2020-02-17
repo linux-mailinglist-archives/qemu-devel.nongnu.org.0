@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEA3F160F62
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 10:58:00 +0100 (CET)
-Received: from localhost ([::1]:42896 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E86E160F66
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 10:59:00 +0100 (CET)
+Received: from localhost ([::1]:42922 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j3dA7-0006Jg-T5
-	for lists+qemu-devel@lfdr.de; Mon, 17 Feb 2020 04:57:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55842)
+	id 1j3dB5-0007LX-CD
+	for lists+qemu-devel@lfdr.de; Mon, 17 Feb 2020 04:58:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55959)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j3d9E-0005aC-Rq
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 04:57:05 -0500
+ (envelope-from <peter.maydell@linaro.org>) id 1j3dAI-0006kl-Ol
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 04:58:11 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j3d9A-0003oY-Os
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 04:57:04 -0500
-Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:46681)
+ (envelope-from <peter.maydell@linaro.org>) id 1j3dAH-0004eO-Eu
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 04:58:10 -0500
+Received: from mail-ot1-x330.google.com ([2607:f8b0:4864:20::330]:37335)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j3d9A-0003no-Jq
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 04:57:00 -0500
-Received: by mail-oi1-x242.google.com with SMTP id a22so16101943oid.13
- for <qemu-devel@nongnu.org>; Mon, 17 Feb 2020 01:57:00 -0800 (PST)
+ id 1j3dAH-0004dq-A1
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 04:58:09 -0500
+Received: by mail-ot1-x330.google.com with SMTP id l2so9322114otp.4
+ for <qemu-devel@nongnu.org>; Mon, 17 Feb 2020 01:58:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=sg+UkZAgfr2THYTi41XlM+2CEPbUNU/g6/JClAJlFcM=;
- b=Qop5AkN+18R/lWpboztqm0Ydf8U2lga/d4wByIZtpMlSPSga0UUQxWnCSiABWWFRzA
- gPyioncINFTxdJZ42V0O0ZgUNA7LnnFYhZmGJ0by1OXxB6pFJXEC7qXbSGqXWtQzWF0j
- BAyHx6fz7+rT+5C1QOHGtgX03w83y5NdVm3atM/Ff653YJaHmqUE/JVLebgeSNr9dNVo
- ud8ADDzBFoZ4+e0HZvIYY54PrPPLbMEsvyXtalNU9XH1+keKB1N3AWdoP/JMcFUeJtZX
- 6eJdIGD3uo6zExTPh2LCMB8uVxymBemtp9b4sjMgH7FxRqi+OF0HoN//JvjXASSCbhvw
- UaBA==
+ :cc; bh=b1q59jPNypXERMzVjoXBySLZ7EFDYU1VWc+pCmn2vMA=;
+ b=t/1LDNQY/XQCK2n3S+8wE8G3XbSzUU6ie/VgmYEBGjW9Ca1bXoKUvXoKVI0DXIlvxE
+ Bw2yFNPAlqLaIPEJhd9a9EHT1gVMIWRzbMWtOQHRYYdxrs4laCcPfvi9KPrjeZS3nt8w
+ wTtzFXQl1MGZZXMQPCASFfTR+izJaVqWYXCKw1k87a3frGxX+YyR78il3LqsZWMqT6mj
+ fWqA1HnvcpXC7rjJtuSc77Yb5BE2Y4ydVYLS4rjX0eBQ9aZt0MficgxjGPUO+ZRd2k7E
+ aVpbBoHqKBTj6+s8gclwEYUGc6I+Kv5xInof01XFF11AP1MkcaUjoZFiZP5ZIxpTUgPQ
+ ty4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=sg+UkZAgfr2THYTi41XlM+2CEPbUNU/g6/JClAJlFcM=;
- b=YmoHx0mzygjnOMpaxMnSe0rfdWFbUiRuL48aP2zePBf71AMFU1F+zi/shcvGgYs2sF
- dYKQ+tu+OvIXkC9og2qmfLVuk56eEV1P+HPw1ID0WYYdPqrgINGDbEjUMfYOkqkmqBId
- NvEliRNUrFKhJsTCH+mDgxNDOXQXmffMV/cEbQmXmufNDrvoT+NRRHyIrdNTYw0l/CdM
- tQ4sHIsSiczHPDtzuTHxcUwift54qqsEzuMq+Fl/j29+PzKWLnvz7V8O3Vj+ZUm6wbHo
- uGbh/xFq241oS3KqEuUlIie/nnSdPZoKMz0v2etbgSXThx3BEjyCf9YYREGsOP++qd6f
- 7iew==
-X-Gm-Message-State: APjAAAXmT0rPMduVd4naoJTIM6WQKbwoVvy8GMYDx1qUWxEh/WmNJXpL
- uHQ0/4cvIAWDDuWEVppgAeKNxN5pQM503nX5evv2/Q==
-X-Google-Smtp-Source: APXvYqybf8YZ9SUzxobgA2xrodUgdT3AHb1n4PyyRooaWMI3idjXX1mNmrSzQOT13JWJadZ8k1xyJiztS9f7qXlt3EM=
-X-Received: by 2002:a54:4f16:: with SMTP id e22mr9691959oiy.170.1581933419718; 
- Mon, 17 Feb 2020 01:56:59 -0800 (PST)
+ bh=b1q59jPNypXERMzVjoXBySLZ7EFDYU1VWc+pCmn2vMA=;
+ b=g71eZMJVwDUl/E6Du8dCaVpmNQxS2MFmLapt0968JjEkYIS0QA/xe2o4eCPqmquULm
+ i04JF+d50D5g2W9KsYGvkvn9WcZnpB32VO8f99kHKfJx05KHe4isddzEbQkMK2vuHQ7e
+ 8iKxkr1HguTq11KjcHZQuZ2iTh/gZ0GpTnT7nf5pnIbnTlTt8ijxR8NlXdB1ahHLSIsa
+ irg0nTOS3kq3QReWSvqvLwzjnrzMsr4bwpcI4UeQCPTc61oZYWyOLSBK/aF+IDsefA32
+ 8BC3M919s9CTKmi8GvirRnTEKIhrgfWBPcitVIq0gH4DHa62RKjU08LMeTMoqUDLjeqT
+ Xsfg==
+X-Gm-Message-State: APjAAAVrpA5M5mOnwQIzUMqrZAZvVwit8u8SlM1/JXAhcrYLdA3fSdKG
+ oQu+Av3wuzBdCYfkC4cKIKCKQT775YCscsjaUeFCFw==
+X-Google-Smtp-Source: APXvYqyojsiifjpI1WP8FjYr4Eo0GR1zLZeabN7uNB9A9wsoYRDkDwgnzoT2clgLraW6i9IUKxJDf8OK+vCW2azBisk=
+X-Received: by 2002:a05:6830:13da:: with SMTP id
+ e26mr10801417otq.97.1581933488367; 
+ Mon, 17 Feb 2020 01:58:08 -0800 (PST)
 MIME-Version: 1.0
-References: <1581925888-103620-1-git-send-email-xuyandong2@huawei.com>
-In-Reply-To: <1581925888-103620-1-git-send-email-xuyandong2@huawei.com>
+References: <20200215114133.15097-1-armbru@redhat.com>
+In-Reply-To: <20200215114133.15097-1-armbru@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 17 Feb 2020 09:56:48 +0000
-Message-ID: <CAFEAcA9ioqVhsBjZZXJDSnSRi-rbz80DZvSv1DsOfN0+NTGA6g@mail.gmail.com>
-Subject: Re: [PATCH RFC 00/16] Implement Microvm for aarch64 architecture
-To: Xu Yandong <xuyandong2@huawei.com>
+Date: Mon, 17 Feb 2020 09:57:57 +0000
+Message-ID: <CAFEAcA9C8H08So01rR=+AkXqimrtrnZHbbq_40zSoi=2jf+2Vg@mail.gmail.com>
+Subject: Re: [PULL 00/18] QAPI patches for 2020-02-15
+To: Markus Armbruster <armbru@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::242
+X-Received-From: 2607:f8b0:4864:20::330
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,44 +72,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: wu.wubin@huawei.com, qemu-arm <qemu-arm@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Sergio Lopez <slp@redhat.com>,
- zhanghailiang <zhang.zhanghailiang@huawei.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 17 Feb 2020 at 07:42, Xu Yandong <xuyandong2@huawei.com> wrote:
+On Sat, 15 Feb 2020 at 11:42, Markus Armbruster <armbru@redhat.com> wrote:
 >
-> Implement Microvm for aarch64 architecture
+> The following changes since commit 517c84cef759a453cfb8f51498aebc909a5f3b39:
 >
-> This series attempts to implement microvm for aarch64
-> architecture.
+>   Merge remote-tracking branch 'remotes/kraxel/tags/vga-20200213-pull-request' into staging (2020-02-13 18:55:57 +0000)
 >
-> Just like how Sergio Lopez does for implementing microvm
-> for x86 architecture. We remove parts of emulate devices which
-> are not needed in microvm, compared with normal VM,
-> We only keep PL011 (UART), PL031 (RTC) and virtio-mmio
-> devices for microvm of aarch64.
+> are available in the Git repository at:
+>
+>   git://repo.or.cz/qemu/armbru.git tags/pull-qapi-2020-02-15
+>
+> for you to fetch changes up to bb5ccf225e81d2801c03e63d16c371f0617270e8:
+>
+>   qapi: Delete all the "foo: dropped in n.n" notes (2020-02-15 11:41:50 +0100)
+>
+> ----------------------------------------------------------------
+> QAPI patches for 2020-02-15
+>
+> * QAPI schema doc comment fixes and cleanups, most of them in
+>   preparation of the upcoming switch to rST
+>
+> * A Make dependency typo fix
+>
+> * configure improvements for sphinx-build
+>
 
-For x86, 'microvm' makes sense, because the standard
-PC models are models of real hardware with a lot of
-legacy baggage. The situation is different for aarch64.
-The 'virt' board is already intended as a "minimal
-machine for booting a VM that knows it's a VM".
-Why do we need another model that's intended for the
-same purpose?
 
-It would be more interesting to look at whether there
-are reasonable places where we could allow command
-line options to have the 'virt' board not provide
-some devices where that makes a significant speed
-improvement. Analysis of where the extra time is
-actually going would also be helpful.
 
-NB: I'm pretty firmly against dropping PCI. This is
-a pluggable discoverable bus, and it's a much better
-way to provide virtio than virtio-mmio.
+Applied, thanks.
 
-thanks
+Please update the changelog at https://wiki.qemu.org/ChangeLog/5.0
+for any user-visible changes.
+
 -- PMM
 
