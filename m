@@ -2,34 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE3AF1615CA
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 16:13:02 +0100 (CET)
-Received: from localhost ([::1]:46936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0B5E161599
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Feb 2020 16:09:52 +0100 (CET)
+Received: from localhost ([::1]:46850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j3i4z-0005q3-Q0
-	for lists+qemu-devel@lfdr.de; Mon, 17 Feb 2020 10:13:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38916)
+	id 1j3i1v-0007xh-Ku
+	for lists+qemu-devel@lfdr.de; Mon, 17 Feb 2020 10:09:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38975)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1j3hvL-000444-MF
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 10:03:09 -0500
+ (envelope-from <vsementsov@virtuozzo.com>) id 1j3hvM-00044I-Vw
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 10:03:06 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1j3hvK-0007ND-7B
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 10:03:03 -0500
-Received: from relay.sw.ru ([185.231.240.75]:47452)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1j3hvK-0007O2-B9
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 10:03:04 -0500
+Received: from relay.sw.ru ([185.231.240.75]:47426)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1j3hvJ-0007LK-Un; Mon, 17 Feb 2020 10:03:02 -0500
+ id 1j3hvK-0007LC-1o; Mon, 17 Feb 2020 10:03:02 -0500
 Received: from vovaso.qa.sw.ru ([10.94.3.0] helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.3)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1j3hvG-0007Zt-CA; Mon, 17 Feb 2020 18:02:58 +0300
+ id 1j3hvG-0007Zt-Lw; Mon, 17 Feb 2020 18:02:58 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 15/22] qemu-iotests/199: improve performance: set bitmap by
- discard
-Date: Mon, 17 Feb 2020 18:02:39 +0300
-Message-Id: <20200217150246.29180-16-vsementsov@virtuozzo.com>
+Subject: [PATCH v2 16/22] qemu-iotests/199: change discard patterns
+Date: Mon, 17 Feb 2020 18:02:40 +0300
+Message-Id: <20200217150246.29180-17-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200217150246.29180-1-vsementsov@virtuozzo.com>
 References: <20200217150246.29180-1-vsementsov@virtuozzo.com>
@@ -54,90 +53,101 @@ Cc: Kevin Wolf <kwolf@redhat.com>, vsementsov@virtuozzo.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Discard dirties dirty-bitmap as well as write, but works faster. Let's
-use it instead.
+iotest 40 works too long because of many discard opertion. On the same
+time, postcopy period is very short, in spite of all these efforts.
+
+So, let's use less discards (and with more interesting patterns) to
+reduce test timing. In the next commit we'll increase postcopy period.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- tests/qemu-iotests/199 | 31 ++++++++++++++++++++-----------
- 1 file changed, 20 insertions(+), 11 deletions(-)
+ tests/qemu-iotests/199 | 44 +++++++++++++++++++++++++-----------------
+ 1 file changed, 26 insertions(+), 18 deletions(-)
 
 diff --git a/tests/qemu-iotests/199 b/tests/qemu-iotests/199
-index 6599fc6fb4..d78f81b71c 100755
+index d78f81b71c..7914fd0b2b 100755
 --- a/tests/qemu-iotests/199
 +++ b/tests/qemu-iotests/199
-@@ -67,8 +67,10 @@ class TestDirtyBitmapPostcopyMigration(iotests.QMPTestCase):
-         os.mkfifo(fifo)
-         qemu_img('create', '-f', iotests.imgfmt, disk_a, size)
-         qemu_img('create', '-f', iotests.imgfmt, disk_b, size)
--        self.vm_a = iotests.VM(path_suffix='a').add_drive(disk_a)
--        self.vm_b = iotests.VM(path_suffix='b').add_drive(disk_b)
-+        self.vm_a = iotests.VM(path_suffix='a').add_drive(disk_a,
-+                                                          'discard=unmap')
-+        self.vm_b = iotests.VM(path_suffix='b').add_drive(disk_b,
-+                                                          'discard=unmap')
-         self.vm_b.add_incoming("exec: cat '" + fifo + "'")
-         self.vm_a.launch()
-         self.vm_b.launch()
-@@ -78,7 +80,7 @@ class TestDirtyBitmapPostcopyMigration(iotests.QMPTestCase):
+@@ -30,6 +30,28 @@ size = '256G'
+ fifo = os.path.join(iotests.test_dir, 'mig_fifo')
+ 
+ 
++GiB = 1024 * 1024 * 1024
++
++discards1 = (
++    (0, GiB),
++    (2 * GiB + 512 * 5, 512),
++    (3 * GiB + 512 * 5, 512),
++    (100 * GiB, GiB)
++)
++
++discards2 = (
++    (3 * GiB + 512 * 8, 512),
++    (4 * GiB + 512 * 8, 512),
++    (50 * GiB, GiB),
++    (100 * GiB + GiB // 2, GiB)
++)
++
++
++def apply_discards(vm, discards):
++    for d in discards:
++        vm.hmp_qemu_io('drive0', 'discard {} {}'.format(*d))
++
++
+ def event_seconds(event):
+     return event['timestamp']['seconds'] + \
+         event['timestamp']['microseconds'] / 1000000.0
+@@ -80,9 +102,7 @@ class TestDirtyBitmapPostcopyMigration(iotests.QMPTestCase):
          self.vm_b_events = []
  
      def test_postcopy(self):
--        write_size = 0x40000000
-+        discard_size = 0x40000000
+-        discard_size = 0x40000000
          granularity = 512
-         chunk = 4096
+-        chunk = 4096
  
-@@ -86,25 +88,32 @@ class TestDirtyBitmapPostcopyMigration(iotests.QMPTestCase):
+         result = self.vm_a.qmp('block-dirty-bitmap-add', node='drive0',
                                 name='bitmap', granularity=granularity)
-         self.assert_qmp(result, 'return', {})
+@@ -92,14 +112,7 @@ class TestDirtyBitmapPostcopyMigration(iotests.QMPTestCase):
+                                node='drive0', name='bitmap')
+         empty_sha256 = result['return']['sha256']
  
-+        result = self.vm_a.qmp('x-debug-block-dirty-bitmap-sha256',
-+                               node='drive0', name='bitmap')
-+        empty_sha256 = result['return']['sha256']
-+
-         s = 0
--        while s < write_size:
--            self.vm_a.hmp_qemu_io('drive0', 'write %d %d' % (s, chunk))
-+        while s < discard_size:
-+            self.vm_a.hmp_qemu_io('drive0', 'discard %d %d' % (s, chunk))
-             s += 0x10000
-         s = 0x8000
--        while s < write_size:
--            self.vm_a.hmp_qemu_io('drive0', 'write %d %d' % (s, chunk))
-+        while s < discard_size:
-+            self.vm_a.hmp_qemu_io('drive0', 'discard %d %d' % (s, chunk))
-             s += 0x10000
+-        s = 0
+-        while s < discard_size:
+-            self.vm_a.hmp_qemu_io('drive0', 'discard %d %d' % (s, chunk))
+-            s += 0x10000
+-        s = 0x8000
+-        while s < discard_size:
+-            self.vm_a.hmp_qemu_io('drive0', 'discard %d %d' % (s, chunk))
+-            s += 0x10000
++        apply_discards(self.vm_a, discards1 + discards2)
  
          result = self.vm_a.qmp('x-debug-block-dirty-bitmap-sha256',
                                 node='drive0', name='bitmap')
-         sha256 = result['return']['sha256']
- 
-+        # Check, that updating the bitmap by discards works
-+        assert sha256 != empty_sha256
-+
+@@ -111,10 +124,8 @@ class TestDirtyBitmapPostcopyMigration(iotests.QMPTestCase):
          result = self.vm_a.qmp('block-dirty-bitmap-clear', node='drive0',
                                 name='bitmap')
          self.assert_qmp(result, 'return', {})
-         s = 0
--        while s < write_size:
--            self.vm_a.hmp_qemu_io('drive0', 'write %d %d' % (s, chunk))
-+        while s < discard_size:
-+            self.vm_a.hmp_qemu_io('drive0', 'discard %d %d' % (s, chunk))
-             s += 0x10000
+-        s = 0
+-        while s < discard_size:
+-            self.vm_a.hmp_qemu_io('drive0', 'discard %d %d' % (s, chunk))
+-            s += 0x10000
++
++        apply_discards(self.vm_a, discards1)
  
          caps = [{'capability': 'dirty-bitmaps', 'state': True},
-@@ -126,8 +135,8 @@ class TestDirtyBitmapPostcopyMigration(iotests.QMPTestCase):
+                 {'capability': 'events', 'state': True}]
+@@ -134,10 +145,7 @@ class TestDirtyBitmapPostcopyMigration(iotests.QMPTestCase):
+         e_resume = self.vm_b.event_wait('RESUME')
          self.vm_b_events.append(e_resume)
  
-         s = 0x8000
--        while s < write_size:
--            self.vm_b.hmp_qemu_io('drive0', 'write %d %d' % (s, chunk))
-+        while s < discard_size:
-+            self.vm_b.hmp_qemu_io('drive0', 'discard %d %d' % (s, chunk))
-             s += 0x10000
+-        s = 0x8000
+-        while s < discard_size:
+-            self.vm_b.hmp_qemu_io('drive0', 'discard %d %d' % (s, chunk))
+-            s += 0x10000
++        apply_discards(self.vm_b, discards2)
  
          match = {'data': {'status': 'completed'}}
+         e_complete = self.vm_b.event_wait('MIGRATION', match=match)
 -- 
 2.21.0
 
