@@ -2,84 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DDB2162156
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 08:06:36 +0100 (CET)
-Received: from localhost ([::1]:57640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6696E162167
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 08:13:18 +0100 (CET)
+Received: from localhost ([::1]:57702 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j3wxn-0004HS-Jz
-	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 02:06:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52779)
+	id 1j3x4H-0007rO-9e
+	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 02:13:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54181)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1j3wwf-0003AF-5q
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 02:05:26 -0500
+ (envelope-from <clg@kaod.org>) id 1j3x3V-0007Bf-Ib
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 02:12:30 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1j3wwd-0000ZX-PI
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 02:05:25 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:47615
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <clg@kaod.org>) id 1j3x3U-0003QN-3N
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 02:12:29 -0500
+Received: from 11.mo4.mail-out.ovh.net ([46.105.34.195]:44390)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j3wwd-0000Z2-LP
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 02:05:23 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582009523;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=xxkagkYJNDntQ8Y65/19NvgzKBsnFlE6A6JYwhXc3/o=;
- b=POa9Prf624uw4s5Z/4fs0Oh4VDomTUFPafqXy4zGahNVITMRMxvSV8bUQIwXpjh0Ivp3dD
- SMNJ2LY+9C4xhb9ZHEkdOkAsB2DaBmUeTi3KrEu3l2kZ5wgW5WhzlCFECTKq7b1/d4Zhlf
- 8mprOkyLyDtis3vzLCBZ427RUh06PMc=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-406-0JmVPaAlMfWLlyo8Mp8lFQ-1; Tue, 18 Feb 2020 02:05:19 -0500
-Received: by mail-wm1-f71.google.com with SMTP id y7so722229wmd.4
- for <qemu-devel@nongnu.org>; Mon, 17 Feb 2020 23:05:19 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=p1wLLSRktDVD3pbrqykm70jh35IGn5e7x7zvJMbklZ8=;
- b=ADEYXcHc9RBHkcA/G2p6l3134kdjXcpkyZZyxIZNxdJCrGwwFCn67spqnDUQ9KtzVJ
- EnkmxCsNA/n0RTxIa46HdYOf4M88fBxxRbZ+orAGaq+ZQT3V1DxRH97tDN0fBLfopWiQ
- 67Zydp7ZiWy5PE4sVIG8Caler6+mrGxETNEDVaYNAeCnBcBDRnuFR11QyiucwFlxKlDk
- KGp4nzegDn7noX/cF5cVSmvMqahnluqin5NrsMMUu549d7tUiAJCtq39h5htMQvuGNbF
- zyLjnqmU+rO5gk6UcVs9SSVJgih3J+ZL9UsMARG6E6O4Y8wLuQlIvf/DADv/Otp7L8ea
- FObg==
-X-Gm-Message-State: APjAAAUxf84aNVh56swN6aTpCoW/R8cGsA3oVXheI1vX1SgrL0RjlUwe
- YuoGIv/YdDrzuDyLw8Fy4yruwrSO6BqST29Smhxqrfb88V+nP1IjMzhTU+2xKaOQL9JHWtgB7NV
- I3lccWaM9EvUvZdI=
-X-Received: by 2002:a1c:67c3:: with SMTP id b186mr1292029wmc.36.1582009518119; 
- Mon, 17 Feb 2020 23:05:18 -0800 (PST)
-X-Google-Smtp-Source: APXvYqyov8lT3i7CTxe6+fAACq4dSP7cwbcKlJAgvqwGdN0qN/0ujYs4hS9ZhIzCf4Oi0h5QazOr+A==
-X-Received: by 2002:a1c:67c3:: with SMTP id b186mr1291992wmc.36.1582009517811; 
- Mon, 17 Feb 2020 23:05:17 -0800 (PST)
-Received: from [192.168.1.35] (78.red-88-21-202.staticip.rima-tde.net.
- [88.21.202.78])
- by smtp.gmail.com with ESMTPSA id q130sm2465733wme.19.2020.02.17.23.05.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 17 Feb 2020 23:05:17 -0800 (PST)
-Subject: Re: [PATCH v5 47/79] m68k/q800: use memdev for RAM
-To: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org
-References: <20200217173452.15243-1-imammedo@redhat.com>
- <20200217173452.15243-48-imammedo@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <e1eedb8c-9a05-72f8-bdd3-7b9303e58898@redhat.com>
-Date: Tue, 18 Feb 2020 08:05:16 +0100
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1j3x3T-0003NL-U8
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 02:12:28 -0500
+Received: from player797.ha.ovh.net (unknown [10.110.208.144])
+ by mo4.mail-out.ovh.net (Postfix) with ESMTP id E11942235F8
+ for <qemu-devel@nongnu.org>; Tue, 18 Feb 2020 08:12:25 +0100 (CET)
+Received: from kaod.org (82-64-250-170.subs.proxad.net [82.64.250.170])
+ (Authenticated sender: clg@kaod.org)
+ by player797.ha.ovh.net (Postfix) with ESMTPSA id 96428B6F10FE;
+ Tue, 18 Feb 2020 07:12:21 +0000 (UTC)
+Subject: Re: [PULL SUBSYSTEM qemu-pseries] pseries: Update SLOF firmware image
+To: Alexey Kardashevskiy <aik@ozlabs.ru>,
+ David Gibson <david@gibson.dropbear.id.au>
+References: <20200217021217.95766-1-aik@ozlabs.ru>
+ <8e67117e-e74a-fb5c-226b-78e62ac26291@kaod.org>
+ <44499677-3099-56c6-7249-afa8eccc7668@ozlabs.ru>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <bdfb7d07-c5fd-c21e-f812-4a0a747b02c3@kaod.org>
+Date: Tue, 18 Feb 2020 08:12:21 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200217173452.15243-48-imammedo@redhat.com>
+In-Reply-To: <44499677-3099-56c6-7249-afa8eccc7668@ozlabs.ru>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-X-MC-Unique: 0JmVPaAlMfWLlyo8Mp8lFQ-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+X-Ovh-Tracer-Id: 10257229628829109056
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedugedrjeejgddutdefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucffohhmrghinhepohhpvghnshhouhhrtggvrdhorhhgnecukfhppedtrddtrddtrddtpdekvddrieegrddvhedtrddujedtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrjeeljedrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhg
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-Received-From: 46.105.34.195
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,57 +60,149 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/17/20 6:34 PM, Igor Mammedov wrote:
-> Switch to using generic main RAM allocation. To do this set
-> MachineClass::default_ram_id to m68k_mac.ram and use
-> MachineState::ram instead of manually initializing
-> RAM memory region.
+On 2/18/20 1:30 AM, Alexey Kardashevskiy wrote:
 >=20
-> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-> Acked-by: Laurent Vivier <laurent@vivier.eu>
-> ---
->   hw/m68k/q800.c | 6 ++----
->   1 file changed, 2 insertions(+), 4 deletions(-)
 >=20
-> diff --git a/hw/m68k/q800.c b/hw/m68k/q800.c
-> index 1e32363688..a4c4bc14cb 100644
-> --- a/hw/m68k/q800.c
-> +++ b/hw/m68k/q800.c
-> @@ -160,7 +160,6 @@ static void q800_init(MachineState *machine)
->       ram_addr_t initrd_base;
->       int32_t initrd_size;
->       MemoryRegion *rom;
-> -    MemoryRegion *ram;
->       MemoryRegion *io;
->       const int io_slice_nb =3D (IO_SIZE / IO_SLICE) - 1;
->       int i;
-> @@ -194,9 +193,7 @@ static void q800_init(MachineState *machine)
->       qemu_register_reset(main_cpu_reset, cpu);
->  =20
->       /* RAM */
-> -    ram =3D g_malloc(sizeof(*ram));
-> -    memory_region_init_ram(ram, NULL, "m68k_mac.ram", ram_size, &error_a=
-bort);
-> -    memory_region_add_subregion(get_system_memory(), 0, ram);
-> +    memory_region_add_subregion(get_system_memory(), 0, machine->ram);
->  =20
->       /*
->        * Memory from IO_BASE to IO_BASE + IO_SLICE is repeated
-> @@ -443,6 +440,7 @@ static void q800_machine_class_init(ObjectClass *oc, =
-void *data)
->       mc->max_cpus =3D 1;
->       mc->is_default =3D 0;
->       mc->block_default_type =3D IF_SCSI;
-> +    mc->default_ram_id =3D "m68k_mac.ram";
->   }
->  =20
->   static const TypeInfo q800_machine_typeinfo =3D {
+> On 17/02/2020 20:48, C=C3=A9dric Le Goater wrote:
+>> On 2/17/20 3:12 AM, Alexey Kardashevskiy wrote:
+>>> The following changes since commit 05943fb4ca41f626078014c0327781815c=
+6584c5:
+>>>
+>>>   ppc: free 'fdt' after reset the machine (2020-02-17 11:27:23 +1100)
+>>>
+>>> are available in the Git repository at:
+>>>
+>>>   git@github.com:aik/qemu.git tags/qemu-slof-20200217
+>>>
+>>> for you to fetch changes up to ea9a03e5aa023c5391bab5259898475d0298aa=
+c2:
+>>>
+>>>   pseries: Update SLOF firmware image (2020-02-17 13:08:59 +1100)
+>>>
+>>> ----------------------------------------------------------------
+>>> Alexey Kardashevskiy (1):
+>>>       pseries: Update SLOF firmware image
+>>>
+>>>  pc-bios/README   |   2 +-
+>>>  pc-bios/slof.bin | Bin 931032 -> 968560 bytes
+>>>  roms/SLOF        |   2 +-
+>>>  3 files changed, 2 insertions(+), 2 deletions(-)
+>>>
+>>>
+>>> *** Note: this is not for master, this is for pseries
+>>>
+>>
+>> Hello Alexey,
+>>
+>> QEMU fails to boot from disk. See below.
 >=20
+>=20
+> It does boot mine (fedora 30, ubuntu 18.04), see below. I believe I
+> could have broken something but I need more detail. Thanks,
 
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+fedora31 boots but not ubuntu 19.10. Could it be GRUB version 2.04 ?=20
+
+C.
+
+
+>=20
+>=20
+>=20
+>=20
+> SLOF ******************************************************************=
+****
+> QEMU Starting
+>  Build Date =3D Feb 17 2020 13:06:47
+>  FW Version =3D git-42228d763f1fdb7b
+>  Press "s" to enter Open Firmware.
+>=20
+> Populating /vdevice methods
+> Populating /vdevice/nvram@71000000
+> Populating /vdevice/vty@71000110
+> Populating /pci@800000020000000
+>                      00 0000 (D) : 1af4 1000    virtio [ net ]
+>                      00 0800 (D) : 1af4 1004    virtio [ scsi ]
+> Populating /pci@800000020000000/scsi@1
+>        SCSI: Looking for devices
+>           100000000000000 DISK     : "QEMU     QEMU HARDDISK    2.5+"
+> No NVRAM common partition, re-initializing...
+> Scanning USB
+> Using default console: /vdevice/vty@71000110
+>=20
+>   Welcome to Open Firmware
+>=20
+>   Copyright (c) 2004, 2017 IBM Corporation All rights reserved.
+>   This program and the accompanying materials are made available
+>   under the terms of the BSD License available at
+>   http://www.opensource.org/licenses/bsd-license.php
+>=20
+>=20
+> Trying to load:  from: /pci@800000020000000/scsi@1/disk@100000000000000
+> ...   Successfully loaded
+>=20
+>=20
+>=20
+>=20
+>=20
+>=20
+>       Fedora (5.5.0-rc5-le-guest_v5.5-rc5_a+fstn1) 30 (Thirty)
+>=20
+>       Fedora (5.0.9-301.fc30.ppc64le) 30 (Thirty)
+>=20
+>       Fedora (0-rescue-8f8bbec520a44fd09da6af8e0d2c6571) 30 (Thirty)
+>=20
+>=20
+>=20
+>=20
+>>
+>> Thanks,
+>>
+>> C.
+>>
+>>
+>> QEMU Starting
+>>  Build Date =3D Feb 17 2020 13:06:47
+>>  FW Version =3D git-42228d763f1fdb7b
+>>  Press "s" to enter Open Firmware.
+>>
+>> Populating /vdevice methods
+>> Populating /vdevice/vty@71000000
+>> Populating /vdevice/nvram@71000001
+>> Populating /pci@800000020000000
+>>                      00 0800 (D) : 1af4 1004    virtio [ scsi ]
+>> Populating /pci@800000020000000/scsi@1
+>>        SCSI: Looking for devices
+>>           100000000000000 DISK     : "QEMU     QEMU HARDDISK    2.5+"
+>>                      00 1000 (D) : 1af4 1000    virtio [ net ]
+>>                      00 2000 (D) : 1b36 000d    serial bus [ usb-xhci =
+]
+>> No NVRAM common partition, re-initializing...
+>> Scanning USB=20
+>>   XHCI: Initializing
+>> Using default console: /vdevice/vty@71000000
+>>     =20
+>>   Welcome to Open Firmware
+>>
+>>   Copyright (c) 2004, 2017 IBM Corporation All rights reserved.
+>>   This program and the accompanying materials are made available
+>>   under the terms of the BSD License available at
+>>   http://www.opensource.org/licenses/bsd-license.php
+>>
+>>
+>> Trying to load:  from: /pci@800000020000000/scsi@1/disk@10000000000000=
+0 ...  slash SCSI-DISK: Access beyond end of device !=20
+>>
+>> Out of internal memory.
+>> SCSI-DISK: Access beyond end of device !=20
+>> SCSI-DISK: Access beyond end of device !=20
+>> SCSI-DISK: Access beyond end of device !=20
+>> SCSI-DISK: Access beyond end of device !=20
+>> SCSI-DISK: Access beyond end of device !=20
+>>
+>=20
 
 
