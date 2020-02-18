@@ -2,58 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8412B1626DD
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 14:11:34 +0100 (CET)
-Received: from localhost ([::1]:34506 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51ABC1626E0
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 14:12:53 +0100 (CET)
+Received: from localhost ([::1]:34572 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j42ez-0000rW-J7
-	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 08:11:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42092)
+	id 1j42gG-0002n2-6y
+	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 08:12:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42305)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1j42Tp-0000v3-20
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 08:00:02 -0500
+ (envelope-from <philmd@redhat.com>) id 1j42Uz-0002Dx-Lf
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 08:01:14 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1j42Tn-00005a-Or
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 08:00:00 -0500
-Received: from 3.mo7.mail-out.ovh.net ([46.105.34.113]:48362)
+ (envelope-from <philmd@redhat.com>) id 1j42Uy-0000r7-De
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 08:01:13 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:26626
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1j42Tn-00004s-I0
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 07:59:59 -0500
-Received: from player714.ha.ovh.net (unknown [10.108.54.119])
- by mo7.mail-out.ovh.net (Postfix) with ESMTP id 18402152E86
- for <qemu-devel@nongnu.org>; Tue, 18 Feb 2020 13:59:57 +0100 (CET)
-Received: from kaod.org (82-64-250-170.subs.proxad.net [82.64.250.170])
- (Authenticated sender: clg@kaod.org)
- by player714.ha.ovh.net (Postfix) with ESMTPSA id 0B254F6D760F;
- Tue, 18 Feb 2020 12:59:44 +0000 (UTC)
-Subject: Re: [PULL SUBSYSTEM qemu-pseries] pseries: Update SLOF firmware image
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-To: Alexey Kardashevskiy <aik@ozlabs.ru>,
- David Gibson <david@gibson.dropbear.id.au>
-References: <20200217021217.95766-1-aik@ozlabs.ru>
- <8e67117e-e74a-fb5c-226b-78e62ac26291@kaod.org>
- <44499677-3099-56c6-7249-afa8eccc7668@ozlabs.ru>
- <bdfb7d07-c5fd-c21e-f812-4a0a747b02c3@kaod.org>
- <0c21bb33-e6c0-c117-c9e7-dda16d3b13a5@ozlabs.ru>
- <4a8261b3-3842-869c-0997-b997229ff3f6@ozlabs.ru>
- <20649920-f867-7193-e86e-89b42ec6ae97@kaod.org>
- <474f7204-fcee-ae4b-eb9a-d5d0a987c4a2@kaod.org>
-Message-ID: <74ccc95e-d4bb-e540-5d63-ab057c504806@kaod.org>
-Date: Tue, 18 Feb 2020 13:59:44 +0100
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j42Uy-0000qL-9Z
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 08:01:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1582030871;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=A/PEQ/BQYEoO84xp7bUNwJiZKcwSvIp5AEb/fWos3Lk=;
+ b=hbEtEPzxAJhZA5j410YS9aWmeBZRdTt0C4Mqul6SgPs1VFqQCm6aW/ijj0+5Kl1ZtIoDi5
+ Yftdc1i14G8wV6jgKZi4KvE9bVbZqhYqPAcjiHrEYrqfYPa5JoFUlrYUePnu4VY/IsNtD1
+ CGBi2TfCzNt3SLFkH2Q3AhvA480PeXA=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-44-z1exmOS3MAmoEWBGSkiBDA-1; Tue, 18 Feb 2020 08:01:02 -0500
+Received: by mail-wr1-f69.google.com with SMTP id d8so10719843wrq.12
+ for <qemu-devel@nongnu.org>; Tue, 18 Feb 2020 05:01:02 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=ZNoIJKcRoHyoZU50osJDMxBPX5ITqrXD/I+VU9z75js=;
+ b=PrGEsVBvEkR4pZj2qT4202Ul7BAlHGn5ZIFN0SEytf9blbtM9CO4HKj0ZfRqk8LER6
+ pfY7/hZFy9u3IPTZZwC1XO781siSGYp9hJiET2tAYUO9mw8ZlfnRGXfc+yDC1VUV+8Vh
+ q51Kljc4iiTD4QMLnW7mbmrqqch4ej9NovL/9NqpDsoyWI/lFmoxpr6ZpmVnpQBpMg90
+ DJU/kNNXsWIgmM36oOxM1Iw12YUrTWGRugqNM3HKfl1JPOPHhGZGGk77bh8mBGi/qMN3
+ sYlMyyGTEolXhlw1iW5FUoiDY7Piew0/jt0ecZm7COyqF+ObcAx9vnMhAmHgrpTqj310
+ mF0Q==
+X-Gm-Message-State: APjAAAXiWhtN+ZTXYHXgD9EUdijQiDCx22uurYDVXHAi37YM/GjhojGO
+ ZAFtlasXguGYY+fT+gqPpz8Wt0OI1yq4LuZjQ8GeuR63wNKD7zIbMLUTFprcuvHLNzY3Ih73hLn
+ Xr5rhrwwFm+ROYco=
+X-Received: by 2002:adf:f012:: with SMTP id j18mr28853593wro.314.1582030861252; 
+ Tue, 18 Feb 2020 05:01:01 -0800 (PST)
+X-Google-Smtp-Source: APXvYqyg7pylGx9W+ptwNYL64XmN24qk5Jnu86wu+PCM2uHavmwuGtdcnqvmgfg2h4jtF74pQ2wodQ==
+X-Received: by 2002:adf:f012:: with SMTP id j18mr28853563wro.314.1582030861036; 
+ Tue, 18 Feb 2020 05:01:01 -0800 (PST)
+Received: from [192.168.1.35] (78.red-88-21-202.staticip.rima-tde.net.
+ [88.21.202.78])
+ by smtp.gmail.com with ESMTPSA id t128sm3582130wmf.28.2020.02.18.05.00.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 18 Feb 2020 05:01:00 -0800 (PST)
+Subject: Re: [PATCH 00/22] linux-user: generate syscall_nr.sh
+To: Aleksandar Markovic <aleksandar.m.mail@gmail.com>,
+ Laurent Vivier <laurent@vivier.eu>
+References: <20200217223558.863199-1-laurent@vivier.eu>
+ <80c66cb5-3f04-5066-8be4-a53ece4f500f@redhat.com>
+ <d2d57fb3-7b9f-71e7-57be-ae6b37cd47a1@vivier.eu>
+ <CAL1e-=hwcTXcAOapivTYD8HFONRnhdHnSGWPwT6530SkCuYCbg@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <6493e4b0-2759-2f58-a7dd-69d390d49b5d@redhat.com>
+Date: Tue, 18 Feb 2020 14:00:59 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <474f7204-fcee-ae4b-eb9a-d5d0a987c4a2@kaod.org>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <CAL1e-=hwcTXcAOapivTYD8HFONRnhdHnSGWPwT6530SkCuYCbg@mail.gmail.com>
 Content-Language: en-US
-X-Ovh-Tracer-Id: 16126264368615295808
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedugedrjeekgdegjecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefuhffvfhfkffgfgggjtgfgsehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecukfhppedtrddtrddtrddtpdekvddrieegrddvhedtrddujedtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrjedugedrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhg
+X-MC-Unique: z1exmOS3MAmoEWBGSkiBDA-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 46.105.34.113
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,137 +94,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Cc: Cornelia Huck <cohuck@redhat.com>, Riku Voipio <riku.voipio@iki.fi>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "qemu-s390x@nongnu.org" <qemu-s390x@nongnu.org>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/18/20 1:48 PM, C=C3=A9dric Le Goater wrote:
-> On 2/18/20 10:40 AM, C=C3=A9dric Le Goater wrote:
->> On 2/18/20 10:10 AM, Alexey Kardashevskiy wrote:
->>>
->>>
->>> On 18/02/2020 20:05, Alexey Kardashevskiy wrote:
->>>>
->>>>
->>>> On 18/02/2020 18:12, C=C3=A9dric Le Goater wrote:
->>>>> On 2/18/20 1:30 AM, Alexey Kardashevskiy wrote:
->>>>>>
->>>>>>
->>>>>> On 17/02/2020 20:48, C=C3=A9dric Le Goater wrote:
->>>>>>> On 2/17/20 3:12 AM, Alexey Kardashevskiy wrote:
->>>>>>>> The following changes since commit 05943fb4ca41f626078014c032778=
-1815c6584c5:
->>>>>>>>
->>>>>>>>   ppc: free 'fdt' after reset the machine (2020-02-17 11:27:23 +=
-1100)
->>>>>>>>
->>>>>>>> are available in the Git repository at:
->>>>>>>>
->>>>>>>>   git@github.com:aik/qemu.git tags/qemu-slof-20200217
->>>>>>>>
->>>>>>>> for you to fetch changes up to ea9a03e5aa023c5391bab5259898475d0=
-298aac2:
->>>>>>>>
->>>>>>>>   pseries: Update SLOF firmware image (2020-02-17 13:08:59 +1100=
-)
->>>>>>>>
->>>>>>>> ----------------------------------------------------------------
->>>>>>>> Alexey Kardashevskiy (1):
->>>>>>>>       pseries: Update SLOF firmware image
->>>>>>>>
->>>>>>>>  pc-bios/README   |   2 +-
->>>>>>>>  pc-bios/slof.bin | Bin 931032 -> 968560 bytes
->>>>>>>>  roms/SLOF        |   2 +-
->>>>>>>>  3 files changed, 2 insertions(+), 2 deletions(-)
->>>>>>>>
->>>>>>>>
->>>>>>>> *** Note: this is not for master, this is for pseries
->>>>>>>>
->>>>>>>
->>>>>>> Hello Alexey,
->>>>>>>
->>>>>>> QEMU fails to boot from disk. See below.
->>>>>>
->>>>>>
->>>>>> It does boot mine (fedora 30, ubuntu 18.04), see below. I believe =
-I
->>>>>> could have broken something but I need more detail. Thanks,
->>>>>
->>>>> fedora31 boots but not ubuntu 19.10. Could it be GRUB version 2.04 =
-?=20
->>>>
->>>>
->>>> No, not that either:
->>>
->>>
->>> but it might be because of power9 - I only tried power8, rsyncing the
->>> image to a p9 machine now...
->>
->> Here is the disk :=20
->>
->> Disk /dev/sda: 50 GiB, 53687091200 bytes, 104857600 sectors
->> Disk model: QEMU HARDDISK  =20
->> Units: sectors of 1 * 512 =3D 512 bytes
->> Sector size (logical/physical): 512 bytes / 512 bytes
->> I/O size (minimum/optimal): 512 bytes / 512 bytes
->> Disklabel type: gpt
->> Disk identifier: 27DCE458-231A-4981-9FF1-983F87C2902D
->>
->> Device         Start       End   Sectors Size Type
->> /dev/sda1       2048     16383     14336   7M PowerPC PReP boot
->> /dev/sda2      16384 100679679 100663296  48G Linux filesystem
->> /dev/sda3  100679680 104857566   4177887   2G Linux swap
->>
->>
->> GPT ?=20
+On 2/18/20 12:51 PM, Aleksandar Markovic wrote:
+> On Tuesday, February 18, 2020, Laurent Vivier <laurent@vivier.eu=20
+> <mailto:laurent@vivier.eu>> wrote:
 >=20
-> For the failure, I bisected up to :
+>     Le 18/02/2020 =C3=A0 07:13, Philippe Mathieu-Daud=C3=A9 a =C3=A9crit=
+=C2=A0:
+>      > On 2/17/20 11:35 PM, Laurent Vivier wrote:
+>      >> This series copies the files syscall.tbl from linux v5.5 and
+>     generates
+>      >> the file syscall_nr.h from them.
+>      >>
+>      > [...]
+>      >> Laurent Vivier (22):
+>      >> =C2=A0=C2=A0 linux-user: introduce parameters to generate syscall=
+_nr.h
+>      >> =C2=A0=C2=A0 linux-user,alpha: add syscall table generation suppo=
+rt
+>      >> =C2=A0=C2=A0 linux-user,hppa: add syscall table generation suppor=
+t
+>      >> =C2=A0=C2=A0 linux-user,m68k: add syscall table generation suppor=
+t
+>      >> =C2=A0=C2=A0 linux-user,xtensa: add syscall table generation supp=
+ort
+>      >> =C2=A0=C2=A0 linux-user,sh4: add syscall table generation support
+>      >> =C2=A0=C2=A0 linux-user,microblaze: add syscall table generation =
+support
+>      >> =C2=A0=C2=A0 linux-user,arm: add syscall table generation support
+>      >> =C2=A0=C2=A0 linux-user,ppc: split syscall_nr.h
+>      >> =C2=A0=C2=A0 linux-user,ppc: add syscall table generation support
+>      >> =C2=A0=C2=A0 linux-user,s390x: remove syscall definitions for !TA=
+RGET_S390X
+>      >> =C2=A0=C2=A0 linux-user,s390x: add syscall table generation suppo=
+rt
+>      >> =C2=A0=C2=A0 linux-user,sparc,sparc64: add syscall table generati=
+on support
+>      >> =C2=A0=C2=A0 linux-user,i386: add syscall table generation suppor=
+t
+>      >> =C2=A0=C2=A0 linux-user,x86_64: add syscall table generation supp=
+ort
+>      >> =C2=A0=C2=A0 linux-user,mips: add syscall table generation suppor=
+t
+>      >> =C2=A0=C2=A0 linux-user,mips64: split syscall_nr.h
+>      >> =C2=A0=C2=A0 linux-user,mips64: add syscall table generation supp=
+ort
+>      >> =C2=A0=C2=A0 linux-user,scripts: add a script to update syscall.t=
+bl
+>      >> =C2=A0=C2=A0 linux-user: update syscall.tbl from linux 0bf999f9c5=
+e7
+>      >> =C2=A0=C2=A0 linux-user,mips: move content of mips_syscall_args
+>      >> =C2=A0=C2=A0 linux-user,mips: update syscall-args-o32.c.inc
+>      >
+>      > I suppose the patch subject was generated and you meant to use
+>      > "linux-user/" instead of "linux-user,". Is that right?
+>      >
 >=20
-> f12149908705 ("ext2: Read all 64bit of inode number")
+>     No, the idea is they touch "linux-user" subsystem and "ARCH" subsyste=
+m,
+>     not especially the "linux-user/ARCH" directory
+>=20
+>=20
+> I think Laurent's marks are appropriate, in fact, very useful for these=
+=20
+> areas of code. Elsewhere,,for example, one could use "softfoat,mips" for=
+=20
+> changes in softfloat affecting mips only.
 
-Here is a possible fix for it. I did some RPN on my hp28s in the past=20
-but I am not forth fluent.
+Good example, thanks!
 
-"slash not found" is still there though.=20
-
-Cheers,
-
-C.
-
-
-From 92dc9f6dc7c6434419306d5a382adb42169b712a Mon Sep 17 00:00:00 2001
-From: =3D?UTF-8?q?C=3DC3=3DA9dric=3D20Le=3D20Goater?=3D <clg@kaod.org>
-Date: Tue, 18 Feb 2020 13:54:54 +0100
-Subject: [PATCH] ext2: Fix 64bit inode number
-MIME-Version: 1.0
-Content-Type: text/plain; charset=3DUTF-8
-Content-Transfer-Encoding: 8bit
-
-Fixes: f12149908705 ("ext2: Read all 64bit of inode number")
-Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
----
- slof/fs/packages/ext2-files.fs | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/slof/fs/packages/ext2-files.fs b/slof/fs/packages/ext2-files=
-.fs
-index b6a7880bd88e..f1d9fdfd67e2 100644
---- a/slof/fs/packages/ext2-files.fs
-+++ b/slof/fs/packages/ext2-files.fs
-@@ -152,7 +152,7 @@ CONSTANT /ext4-ee
-   dup
-   8 + l@-le               \ reads bg_inode_table_lo
-   swap 28 + l@-le         \ reads bg_inode_table_hi
--  32 lshift or
-+  32 rshift or
-   block-size @ *          \ # in group, inode table
-   swap inode-size @ * + xlsplit seek drop  inode @ inode-size @ read dro=
-p
- ;
---=20
-2.21.1
-
-
-
+>=20
+> Regards,
+> Aleksandar
+>=20
+>     Thanks,
+>     Laurent
+>=20
 
 
