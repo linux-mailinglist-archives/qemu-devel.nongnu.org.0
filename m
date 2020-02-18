@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1B0F162421
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 11:02:47 +0100 (CET)
-Received: from localhost ([::1]:59768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AEB0162437
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 11:05:47 +0100 (CET)
+Received: from localhost ([::1]:59860 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j3ziH-0007bJ-LK
-	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 05:02:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46158)
+	id 1j3zlC-0004xM-3T
+	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 05:05:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46549)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1j3zf1-0003Dz-6K
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 04:59:24 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1j3zgN-0005YE-Eh
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 05:00:48 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1j3zf0-0004hr-6N
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 04:59:23 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:53229
+ (envelope-from <dgilbert@redhat.com>) id 1j3zgM-0005nV-G2
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 05:00:47 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:27280
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1j3zf0-0004hX-29
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 04:59:22 -0500
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1j3zgM-0005my-B0
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 05:00:46 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582019961;
+ s=mimecast20190719; t=1582020045;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PSdoaDpcjuMsY9+RCbhjnC/nAltEB1nfZhS6Dcm2AS4=;
- b=Dd5ZBVddpTyWYez4+hVBIrE5NHL6eXn/GjZvUBR/zE+m3VizNGhTKlm9Z6D3Orb+M5/cbX
- +52Fta7d23f617LU+bsTrnYd7d1H4G98Cf2T5e3NCubq2Qw0YM1ZPg/5mytnb/5WPa3cS/
- Qeh++dvFlxuNlF3HWAunCGbV1KiEyaQ=
+ bh=PJALTyvcBMpA+vzSfbVeBchj5gcI3zO3pngsiwbXCAk=;
+ b=UvrhIxO8lw+X9aj4Rh6SkeXZtL155LplQa9DD7StGe2ABlVoDjCHiSQ6dztmINTV+sqS9t
+ pVtAWxWOJKK0Pfc54AYP2L3jVR6o+RJsgNyUIFHM4+vuDb1MGrE0xcsp0vAAW6RPNSLe3i
+ FOcbhXH+rUn6mDFFvTMIMTDyt8SVLUA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-230-VmESdGpZMZKUYxDtqqpbDg-1; Tue, 18 Feb 2020 04:59:20 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-129-MINsvDlFOQeXEJF8N6_s-A-1; Tue, 18 Feb 2020 05:00:02 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2E304DBA3;
- Tue, 18 Feb 2020 09:59:18 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 020241005513;
+ Tue, 18 Feb 2020 10:00:00 +0000 (UTC)
 Received: from work-vm (unknown [10.36.118.89])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3683219481;
- Tue, 18 Feb 2020 09:58:58 +0000 (UTC)
-Date: Tue, 18 Feb 2020 09:58:55 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9590E90772;
+ Tue, 18 Feb 2020 09:59:40 +0000 (UTC)
+Date: Tue, 18 Feb 2020 09:59:38 +0000
 From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH RESEND 09/13] migration/multifd: Remove superfluous
+Subject: Re: [PATCH RESEND 10/13] ui/input-barrier: Remove superfluous
  semicolon
-Message-ID: <20200218095855.GL3080@work-vm>
+Message-ID: <20200218095938.GM3080@work-vm>
 References: <20200218094402.26625-1-philmd@redhat.com>
- <20200218094402.26625-10-philmd@redhat.com>
+ <20200218094402.26625-11-philmd@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200218094402.26625-10-philmd@redhat.com>
+In-Reply-To: <20200218094402.26625-11-philmd@redhat.com>
 User-Agent: Mutt/1.13.3 (2020-01-12)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: VmESdGpZMZKUYxDtqqpbDg-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: MINsvDlFOQeXEJF8N6_s-A-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=iso-8859-1
 Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,28 +94,31 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 * Philippe Mathieu-Daud=E9 (philmd@redhat.com) wrote:
-> Fixes: d32ca5ad798
+> Fixes: 6105683da35
 > Signed-off-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
+> ---
+> Cc: Laurent Vivier <laurent@vivier.eu>
 
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
 > ---
->  migration/multifd.c | 2 +-
+>  ui/input-barrier.c | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 >=20
-> diff --git a/migration/multifd.c b/migration/multifd.c
-> index b3e8ae9bcc..cfaba1369e 100644
-> --- a/migration/multifd.c
-> +++ b/migration/multifd.c
-> @@ -305,7 +305,7 @@ static int multifd_send_pages(QEMUFile *f)
->                  + p->packet_len;
->      qemu_file_update_transfer(f, transferred);
->      ram_counters.multifd_bytes +=3D transferred;
-> -    ram_counters.transferred +=3D transferred;;
-> +    ram_counters.transferred +=3D transferred;
->      qemu_mutex_unlock(&p->mutex);
->      qemu_sem_post(&p->sem);
+> diff --git a/ui/input-barrier.c b/ui/input-barrier.c
+> index fe35049b83..527c75e130 100644
+> --- a/ui/input-barrier.c
+> +++ b/ui/input-barrier.c
+> @@ -455,7 +455,7 @@ static gboolean writecmd(InputBarrier *ib, struct bar=
+rierMsg *msg)
+>          break;
+>      default:
+>          write_cmd(p, barrierCmdEUnknown, avail);
+> -        break;;
+> +        break;
+>      }
 > =20
+>      len =3D MAX_HELLO_LENGTH - avail - sizeof(int);
 > --=20
 > 2.21.1
 >=20
