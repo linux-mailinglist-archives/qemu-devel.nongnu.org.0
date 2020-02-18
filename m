@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BE6116305F
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 20:41:34 +0100 (CET)
-Received: from localhost ([::1]:41058 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15948163068
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 20:43:10 +0100 (CET)
+Received: from localhost ([::1]:41108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j48kO-0005G4-UZ
-	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 14:41:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54912)
+	id 1j48lx-00009i-3Q
+	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 14:43:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54965)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1j48iW-0003Z1-O5
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 14:39:37 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1j48iX-0003Za-UO
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 14:39:38 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1j48iV-0004GJ-Qs
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 14:39:36 -0500
-Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c]:45753)
+ (envelope-from <richard.henderson@linaro.org>) id 1j48iW-0004Id-VP
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 14:39:37 -0500
+Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534]:43521)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1j48iV-0004EM-KJ
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 14:39:35 -0500
-Received: by mail-pf1-x42c.google.com with SMTP id 2so11142079pfg.12
- for <qemu-devel@nongnu.org>; Tue, 18 Feb 2020 11:39:35 -0800 (PST)
+ id 1j48iW-0004HA-P8
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 14:39:36 -0500
+Received: by mail-pg1-x534.google.com with SMTP id u12so11079556pgb.10
+ for <qemu-devel@nongnu.org>; Tue, 18 Feb 2020 11:39:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=9xp9YT+6BXF/GDcu+K5TvURlBEjt56+scFGDcoCg8XI=;
- b=rdq+mRnlGdvIWcenw2xPzU7WNU/j2DqSZy2NjxrUkjLMMGLByuPfYOhu9vlhDipfcm
- KlC50yJ3NYUnW6g+6l127yLp8lnj5yxhDCRCrnc6hfi/yh52v6THJrlx90ZzthLVkHr1
- KRC6c5vEKqSm2ZbqXqSVqNWHZPdC6WKJdXKwdE6lhM9jMqYjM4kNPBrJLY/xU5985nok
- ZQ6mhaDTGq8nbuG8AzaE1TUc0sWdBoNgyHazJrdppLwppQbmcHOa+srx1xKooESfO9vS
- h+3SbgWCpkpDp29UjSTPk2G6vW7J8hZpts5sJDKpzWuiDS4wWgB0yvOTvjBCyHIxAmui
- chjg==
+ bh=UwMVy3DhT2jUtkg7ZPdWAKnQO+6DWfWffPjgYExKp2o=;
+ b=USz99uwmXbaCrCFCIdZdP+xafQVcgC6G98Bq9WZr7x1asRBL5IjEieOMIxYsGBarDR
+ RWr1c2bUsWvCsjuvhg/nt8MzYfcmwmAIHKXsUDbVjQpjAbDx49WIDb2Wa4C4gwcK0F2t
+ cn8iBQkkDOsDBoBADfA2Efu40UmlE2mGaIdx+/BCSadlAFYkSolKViTwfgh23LzMqFKr
+ 4sCpKl5Q/eYBAzbcuigEbM4/49/WJLSwdZ67U4XHIl74uh8zlWNcVgZ2alp4OBWtf/5p
+ KcRi/283uE1vpmLIFwQD9MkWJf0vZfFdD8ut1QG4kofFsq7dou1NMTL3WqCCRS2/cVZg
+ HUJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=9xp9YT+6BXF/GDcu+K5TvURlBEjt56+scFGDcoCg8XI=;
- b=XfkzOo/Qb7ZCgJfr5tUILzGx/SJKcpmnJck4HyHhuzDqU1/xkC4J/SJ0+VWF8WGYPW
- ttbl3NdIFQc+hzlQEZcWWJW0J/lD20JDQhI2E+x9DDL7TNleXbboaO1Ew35DDKF3vhfv
- BdWQ9k91t2jHH0Jx3Yr1mWDZJ4KoEXZW9i1xa8dlJ01D5Up+csUggBtCSqFwUs4zoGcZ
- tveq3rUDDyrS8z4Glux9aqcjxkMLxKJW7/HcSNROv/wEsQ2bXRkZGS+0SLCfxOSbT3qy
- YRFyP50YbLbI2UyuzLI+1/uAe37+A2NHk1xL6Tm3/v5rSMNemmP9vtEfMa+Kk0VwkTbm
- alaQ==
-X-Gm-Message-State: APjAAAVmW+MhWgiXyBBMBHfL2vLozBCqdK9xLnZyD/0kxorJQn4gMDmS
- Y+bAPk2Ia6YyeB7uZydDM6K2owVMfR4=
-X-Google-Smtp-Source: APXvYqzmav0L416/hgm6vkFmeVjp5sbY85GYkqbfi3wYw+wnmMhnLT/L0EpYqCzCK+djgjDNuAsTBA==
-X-Received: by 2002:a63:78c4:: with SMTP id t187mr21661123pgc.88.1582054774237; 
- Tue, 18 Feb 2020 11:39:34 -0800 (PST)
+ bh=UwMVy3DhT2jUtkg7ZPdWAKnQO+6DWfWffPjgYExKp2o=;
+ b=gkjpAV3K6GFOWoeU3FO/n19RJj+QR5DoOpAdyfctJ7z1nTAVORyqgiOi0XN2H8aQ0s
+ VvUw70J0zMJYuC7Ps3hAx8OPThFIYoKECiapjyDb1Kv/2e3WsvsBij+1KuuBMGjU/5wu
+ YtaO0nwOE0m4ESS4pajy+EKsdXdStLP+44J8XDzganesaxlx5+60awfDcJjQE8LzYBik
+ lBB8mjQLLZBnLHnPaUsraRxWZMHJxy1RBPcyLU+XISt7rie+H4t5zpnbBFsnlHuhtSX1
+ C+IIc4NxFwb+g/YbvnXjhL2rjRfILbi3A2U6GjkdLiRbBTM1Ebr+/Gk1c+u4bkHPdJZi
+ LKgg==
+X-Gm-Message-State: APjAAAXuSny9ImHaGRPsdiJM4r/yF0CTtkjqEeriCOh7/S11S97xiKpC
+ TRm5rXL3DC6V+FhYYBE1HG337C3FT3c=
+X-Google-Smtp-Source: APXvYqyuuM7yxe9PKF8rws8qjylXhQ6D3pBz6Rj4zEYeoimt0MeF7+9anuIRUQ84btrvjNcnNP9/jA==
+X-Received: by 2002:a63:d207:: with SMTP id a7mr24561623pgg.225.1582054775469; 
+ Tue, 18 Feb 2020 11:39:35 -0800 (PST)
 Received: from localhost.localdomain (97-126-123-70.tukw.qwest.net.
  [97.126.123.70])
- by smtp.gmail.com with ESMTPSA id y15sm424395pgj.78.2020.02.18.11.39.33
+ by smtp.gmail.com with ESMTPSA id y15sm424395pgj.78.2020.02.18.11.39.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 Feb 2020 11:39:33 -0800 (PST)
+ Tue, 18 Feb 2020 11:39:34 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 2/9] hw/display/artist: Remove pointless initialization
-Date: Tue, 18 Feb 2020 11:39:22 -0800
-Message-Id: <20200218193929.11404-3-richard.henderson@linaro.org>
+Subject: [PULL 3/9] hw/display/artist: Delay some variables initialization
+Date: Tue, 18 Feb 2020 11:39:23 -0800
+Message-Id: <20200218193929.11404-4-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200218193929.11404-1-richard.henderson@linaro.org>
 References: <20200218193929.11404-1-richard.henderson@linaro.org>
@@ -67,7 +67,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::42c
+X-Received-From: 2607:f8b0:4864:20::534
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,34 +86,59 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-We are initializating incy inconditionally:
-
-    if (y1 <= y2) {
-        incy = 1;
-    } else {
-        incy = -1;
-    }
+We want to have an early exit path. Delay some initializations
+before the variables are used.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Acked-by: Sven Schnelle <svens@stackframe.org>
-Message-Id: <20200214001303.12873-3-f4bug@amsat.org>
+Message-Id: <20200214001303.12873-4-f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- hw/display/artist.c | 1 -
- 1 file changed, 1 deletion(-)
+ hw/display/artist.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/hw/display/artist.c b/hw/display/artist.c
-index abacb0e27d..47f0e9f0bc 100644
+index 47f0e9f0bc..97c811b35e 100644
 --- a/hw/display/artist.c
 +++ b/hw/display/artist.c
-@@ -572,7 +572,6 @@ static void draw_line(ARTISTState *s, int x1, int y1, int x2, int y2,
-     buf = &s->vram_buffer[ARTIST_BUFFER_AP];
+@@ -558,7 +558,7 @@ static void draw_line(ARTISTState *s, int x1, int y1, int x2, int y2,
+                       bool update_start, int skip_pix, int max_pix)
+ {
+     struct vram_buffer *buf;
+-    uint8_t color = artist_get_color(s);
++    uint8_t color;
+     int dx, dy, t, e, x, y, incy, diago, horiz;
+     bool c1;
+     uint8_t *p;
+@@ -569,10 +569,6 @@ static void draw_line(ARTISTState *s, int x1, int y1, int x2, int y2,
+         s->vram_start = (x2 << 16) | y2;
+     }
  
-     c1 = false;
--    incy = 1;
- 
+-    buf = &s->vram_buffer[ARTIST_BUFFER_AP];
+-
+-    c1 = false;
+-
      if (x2 > x1) {
          dx = x2 - x1;
+     } else {
+@@ -583,6 +579,8 @@ static void draw_line(ARTISTState *s, int x1, int y1, int x2, int y2,
+     } else {
+         dy = y1 - y2;
+     }
++
++    c1 = false;
+     if (dy > dx) {
+         t = y2;
+         y2 = x2;
+@@ -620,6 +618,8 @@ static void draw_line(ARTISTState *s, int x1, int y1, int x2, int y2,
+     }
+     x = x1;
+     y = y1;
++    color = artist_get_color(s);
++    buf = &s->vram_buffer[ARTIST_BUFFER_AP];
+ 
+     do {
+         if (c1) {
 -- 
 2.20.1
 
