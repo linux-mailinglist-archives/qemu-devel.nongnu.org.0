@@ -2,82 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69FEA162D01
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 18:33:28 +0100 (CET)
-Received: from localhost ([::1]:39200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 673DF162D15
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 18:35:44 +0100 (CET)
+Received: from localhost ([::1]:39232 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j46kR-0002Vw-DK
-	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 12:33:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53962)
+	id 1j46md-0004uM-48
+	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 12:35:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54522)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1j46hk-0007nv-QV
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 12:30:41 -0500
+ (envelope-from <cohuck@redhat.com>) id 1j46ln-0004PO-HG
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 12:34:52 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1j46hj-00007h-6n
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 12:30:40 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:39737
+ (envelope-from <cohuck@redhat.com>) id 1j46lm-0003Y3-Hk
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 12:34:51 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:60726
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j46hj-00006v-2g
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 12:30:39 -0500
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1j46lm-0003Xh-Di
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 12:34:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582047038;
+ s=mimecast20190719; t=1582047290;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=J5SJemMKMVJSIgqV6wCQezkwidOZiZSC8/oSUJOrCrk=;
- b=YvVw6n0P5HXQGXWZHd36mEDynC0VfviJ6JoPZWvFL73G3DH2u4YZ082F7iw6+IlC+2sMrz
- 33t1y7J4VZmuABOZaWOsyJ6yDCuzWOud2piiEIPQZkdnVrwY3PvvuDoygNRTEjgQ1JzkZk
- WPXrL6G0LT+FXzw/ScQezjdZWRohITE=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-100-TjXlEDmVNP-XFnx7GKZ2vA-1; Tue, 18 Feb 2020 12:30:36 -0500
-Received: by mail-wm1-f69.google.com with SMTP id b205so365932wmh.2
- for <qemu-devel@nongnu.org>; Tue, 18 Feb 2020 09:30:36 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=G8e3733M+aXIX6rmZBhB+cRGXPRQsGgiibjDcdqhXUI=;
- b=BH7v2U7p5q5XrKxiyCpv06nIgcAibTgHNlhlr50J+HusaOgu9z4CRDKjO8QmDEimpP
- RPk76pn6q3ANjlm/DEDDwcdBvZsYZM1jXh7/uuB9gNupsNMPqw6Wf+jnR/B6Sn3AB1or
- FAKi4+GcRIyh7CG4Jo/yhmOUBMIH6qAzOGUWUCDI9oGYZglIL1dSwiDVIPMhXaCv7QQm
- lcQIu/INW0YuSlkWADh53MUB4x2RncqUWhCWUmmFGubhZp/QgrLu+IKfaiVS824iQqJp
- gbamoRhv2TUyp72oVZxaszK9OVsUtvkUykMPz4fPmlu4/59ApSdSBpgeVMyPd4hZj1vQ
- YKMQ==
-X-Gm-Message-State: APjAAAU/nCUV64kyR2MRz8fhj2CPLs8dcxbnZdCAFB5Lp+yrU34HcWQF
- QTe2JDY0RTUClmxJ3mS39y5wz3juyqE69Cah2LdXSllMBgCjh4E8TYCff5KLXk7QVEAbprcPxwQ
- PpQrM2tJ81zLkW2o=
-X-Received: by 2002:adf:ec84:: with SMTP id z4mr30345872wrn.61.1582047035136; 
- Tue, 18 Feb 2020 09:30:35 -0800 (PST)
-X-Google-Smtp-Source: APXvYqzynjTXzZVSluggTBTEvNezHEis9Hl92S1bLfTMeva7ATQKaxPHEO9KEbY16PsAN8/Vj03E8Q==
-X-Received: by 2002:adf:ec84:: with SMTP id z4mr30345861wrn.61.1582047034968; 
- Tue, 18 Feb 2020 09:30:34 -0800 (PST)
-Received: from [192.168.1.35] (78.red-88-21-202.staticip.rima-tde.net.
- [88.21.202.78])
- by smtp.gmail.com with ESMTPSA id e18sm6786366wrw.70.2020.02.18.09.30.34
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 18 Feb 2020 09:30:34 -0800 (PST)
-Subject: Re: [PATCH v5 67/79] ppc/spapr: use memdev for RAM
-To: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org
-References: <20200217173452.15243-1-imammedo@redhat.com>
- <20200217173452.15243-68-imammedo@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <bcdedada-0bd0-6cfa-e525-3b4c01452c93@redhat.com>
-Date: Tue, 18 Feb 2020 18:30:33 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ bh=kT2paYm92xFi3d5d5EyqaQmTy/DF99fVEVGy9maaAvk=;
+ b=BeqbXloeM6Ban/0EYVr6Ob9mDInOxYeGWRblVTV4LLknR31aBE3Hv7/SbGD8lBR+Cc2QB1
+ c1NGmmXVj5e+uWLgo72cBsX79uS3hNGQjiensu/B2QTEnFvP39WjbOIPg0DwmXljB/1+hc
+ 0nfnajdjqCXmQWv+z8ClTtGztyuFSgU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-174-DFTLOTwqPGqMPYxwHmaYyg-1; Tue, 18 Feb 2020 12:34:48 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 71FAA8026A6;
+ Tue, 18 Feb 2020 17:34:46 +0000 (UTC)
+Received: from gondolin (dhcp-192-195.str.redhat.com [10.33.192.195])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 118B7196AE;
+ Tue, 18 Feb 2020 17:34:43 +0000 (UTC)
+Date: Tue, 18 Feb 2020 18:34:41 +0100
+From: Cornelia Huck <cohuck@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH v2] Avoid address_space_rw() with a constant is_write
+ argument
+Message-ID: <20200218183441.0f5c9155.cohuck@redhat.com>
+In-Reply-To: <20200218112457.22712-1-peter.maydell@linaro.org>
+References: <20200218112457.22712-1-peter.maydell@linaro.org>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-In-Reply-To: <20200217173452.15243-68-imammedo@redhat.com>
-Content-Language: en-US
-X-MC-Unique: TjXlEDmVNP-XFnx7GKZ2vA-1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: DFTLOTwqPGqMPYxwHmaYyg-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,65 +72,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Alistair Francis <alistair@alistair23.me>, qemu-devel@nongnu.org,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@kaod.org>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/17/20 6:34 PM, Igor Mammedov wrote:
-> memory_region_allocate_system_memory() API is going away, so
-> replace it with memdev allocated MemoryRegion. The later is
-> initialized by generic code, so board only needs to opt in
-> to memdev scheme by providing
->    MachineClass::default_ram_id
-> and using MachineState::ram instead of manually initializing
-> RAM memory region.
->=20
-> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-> Acked-by: David Gibson <david@gibson.dropbear.id.au>
-> ---
->   hw/ppc/spapr.c | 8 +++-----
->   1 file changed, 3 insertions(+), 5 deletions(-)
->=20
-> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> index c9b2e0a5e0..4d90f99195 100644
-> --- a/hw/ppc/spapr.c
-> +++ b/hw/ppc/spapr.c
-> @@ -2634,7 +2634,6 @@ static void spapr_machine_init(MachineState *machin=
-e)
->       PCIHostState *phb;
->       int i;
->       MemoryRegion *sysmem =3D get_system_memory();
-> -    MemoryRegion *ram =3D g_new(MemoryRegion, 1);
->       hwaddr node0_size =3D spapr_node0_size(machine);
->       long load_limit, fw_size;
->       char *filename;
-> @@ -2813,10 +2812,8 @@ static void spapr_machine_init(MachineState *machi=
-ne)
->           kvmppc_enable_h_page_init();
->       }
->  =20
-> -    /* allocate RAM */
-> -    memory_region_allocate_system_memory(ram, NULL, "ppc_spapr.ram",
-> -                                         machine->ram_size);
-> -    memory_region_add_subregion(sysmem, 0, ram);
-> +    /* map RAM */
-> +    memory_region_add_subregion(sysmem, 0, machine->ram);
->  =20
->       /* always allocate the device memory information */
->       machine->device_memory =3D g_malloc0(sizeof(*machine->device_memory=
-));
-> @@ -4400,6 +4397,7 @@ static void spapr_machine_class_init(ObjectClass *o=
-c, void *data)
->       mc->no_parallel =3D 1;
->       mc->default_boot_order =3D "";
->       mc->default_ram_size =3D 512 * MiB;
-> +    mc->default_ram_id =3D "ppc_spapr.ram";
->       mc->default_display =3D "std";
->       mc->kvm_type =3D spapr_kvm_type;
->       machine_class_allow_dynamic_sysbus_dev(mc, TYPE_SPAPR_PCI_HOST_BRID=
-GE);
->=20
+On Tue, 18 Feb 2020 11:24:57 +0000
+Peter Maydell <peter.maydell@linaro.org> wrote:
 
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> The address_space_rw() function allows either reads or writes
+> depending on the is_write argument passed to it; this is useful
+> when the direction of the access is determined programmatically
+> (as for instance when handling the KVM_EXIT_MMIO exit reason).
+> Under the hood it just calls either address_space_write() or
+> address_space_read_full().
+> 
+> We also use it a lot with a constant is_write argument, though,
+> which has two issues:
+>  * when reading "address_space_rw(..., 1)" this is less
+>    immediately clear to the reader as being a write than
+>    "address_space_write(...)"
+>  * calling address_space_rw() bypasses the optimization
+>    in address_space_read() that fast-paths reads of a
+>    fixed length
+> 
+> This commit was produced with the included Coccinelle script
+> scripts/coccinelle/as-rw-const.patch.
+> 
+> Two lines in hw/net/dp8393x.c that Coccinelle produced that
+> were over 80 characters were re-wrapped by hand.
+> 
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+> I could break this down into separate patches by submaintainer,
+> but the patch is not that large and I would argue that it's
+> better for the project if we can try to avoid introducing too
+> much friction into the process of doing 'safe' tree-wide
+> minor refactorings.
+> 
+> v1->v2: put the coccinelle script in scripts/coccinelle rather
+> than just in the commit message.
+> ---
+>  accel/kvm/kvm-all.c                  |  6 +--
+>  dma-helpers.c                        |  4 +-
+>  exec.c                               |  4 +-
+>  hw/dma/xlnx-zdma.c                   | 11 ++---
+>  hw/net/dp8393x.c                     | 68 ++++++++++++++--------------
+>  hw/net/i82596.c                      | 25 +++++-----
+>  hw/net/lasi_i82596.c                 |  5 +-
+>  hw/ppc/pnv_lpc.c                     |  8 ++--
+>  hw/s390x/css.c                       | 12 ++---
+
+s390 part:
+
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+
+>  qtest.c                              | 52 ++++++++++-----------
+>  target/i386/hvf/x86_mmu.c            | 12 ++---
+>  scripts/coccinelle/as_rw_const.cocci | 30 ++++++++++++
+>  12 files changed, 133 insertions(+), 104 deletions(-)
+>  create mode 100644 scripts/coccinelle/as_rw_const.cocci
 
 
