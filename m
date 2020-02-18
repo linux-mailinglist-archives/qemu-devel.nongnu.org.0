@@ -2,66 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19CA1162201
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 09:06:06 +0100 (CET)
-Received: from localhost ([::1]:58068 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A77E162247
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 09:27:28 +0100 (CET)
+Received: from localhost ([::1]:58194 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j3xtM-0006x5-Nl
-	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 03:06:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59251)
+	id 1j3yE2-0005Vd-J5
+	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 03:27:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33097)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1j3xsU-0006B0-GE
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 03:05:12 -0500
+ (envelope-from <luc.michel@greensocs.com>) id 1j3yAr-0004HL-Ak
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 03:24:10 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1j3xsS-0003dO-DM
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 03:05:09 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:47750
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <luc.michel@greensocs.com>) id 1j3yAq-0004IR-4E
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 03:24:09 -0500
+Received: from beetle.greensocs.com ([5.135.226.135]:60560)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1j3xsS-0003Z5-74
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 03:05:08 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582013107;
+ (Exim 4.71) (envelope-from <luc.michel@greensocs.com>)
+ id 1j3yAn-0004HU-35; Tue, 18 Feb 2020 03:24:05 -0500
+Received: from [172.16.11.100] (tiramisu.bar.greensocs.com [172.16.11.100])
+ by beetle.greensocs.com (Postfix) with ESMTPSA id C5F4D96EF0;
+ Tue, 18 Feb 2020 08:24:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
+ s=mail; t=1582014243;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tKEzw55XnwllSd00B0RXge+Uo4CIMNkh5vfhcxSGNyI=;
- b=bFpZxI1En+21AyEcNWPyZrv+7WI9HjV9tcD+9xeEJNzwrTurAZwgrPQaqwYu13C4BGvYo3
- M7aVlSzf8T2uVYWZ93NgwWzE8nzaApzoxAzMBtLfCEi8zj0ylAo57j8HqNKkyd/B0ANuQ8
- hxshL1IgW4CYdey39U9YB/O0xqQRrqs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-399-hAjXrQ3NM8-VI0UbjkW_DA-1; Tue, 18 Feb 2020 03:05:05 -0500
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1F53D1857343;
- Tue, 18 Feb 2020 08:05:04 +0000 (UTC)
-Received: from localhost (unknown [10.43.2.114])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C65E690F6F;
- Tue, 18 Feb 2020 08:05:00 +0000 (UTC)
-Date: Tue, 18 Feb 2020 09:04:58 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
-Subject: Re: [PATCH v5 17/79] arm/integratorcp: use memdev for RAM
-Message-ID: <20200218090458.03469ba5@redhat.com>
-In-Reply-To: <5e21adc1-a197-9d37-133c-ea510b9b9926@redhat.com>
-References: <20200217173452.15243-1-imammedo@redhat.com>
- <20200217173452.15243-18-imammedo@redhat.com>
- <5e21adc1-a197-9d37-133c-ea510b9b9926@redhat.com>
+ bh=ygKiNDKFDlJjJQdc23/TKopV5O6BaskA2TZKUl4cJAE=;
+ b=bBDlhIuzw4lptfmAw54FsXqZtBknVOVdei250bqS6R4tCUT7joMSj54UfN9/MAykhYrBg/
+ hPXGNcaJ0o2YbEEa02KHj85AlX0toNwsJ9u/FYUHHgoW0Lj2CiYtAbHTmVrtfVqrxFazRZ
+ 6cjq+An3Ydh79x87+m9BHym9ofElsRU=
+Subject: Re: [PATCH v2 04/13] hw/arm/raspi: Introduce RaspiProcessorId enum
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20200217114533.17779-1-f4bug@amsat.org>
+ <20200217114533.17779-5-f4bug@amsat.org>
+From: Luc Michel <luc.michel@greensocs.com>
+Message-ID: <6bb3c20d-9ed0-f3b0-9519-1989d13fffb0@greensocs.com>
+Date: Tue, 18 Feb 2020 09:24:02 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: hAjXrQ3NM8-VI0UbjkW_DA-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <20200217114533.17779-5-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-PH
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com; 
+ s=mail; t=1582014243;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ygKiNDKFDlJjJQdc23/TKopV5O6BaskA2TZKUl4cJAE=;
+ b=z9Css5ZDfnWU6L6rE0w7QMpR6no10bFjHqeuI9C+fvfh1IGaMsDL9mZK0cbamE1FQ51IZF
+ ZC/bnEpzy5OmBIbpuyWKC0b5zu8t2UzSv9DrBt1gkLKH0KO9q6y7caWnznR9I0m0UwOZHu
+ 7LKnBN82Jl49OJAKazLxK+bCPPIpD9c=
+ARC-Seal: i=1; s=mail; d=greensocs.com; t=1582014243; a=rsa-sha256; cv=none;
+ b=snVzuQe3UDqJoEs5X4wWX25vW55S/Tfpg+c3wB5WTY2oSMk6lpcyu/pbSeWuJuGN/80/mx
+ 45wPO+/ixnAuc+Y+HfSZJHr6Lm9W9M2FHEPhOQ243lRXbgpgjWLxo3DCpQEshxvNrSkm3F
+ wZkfBpwF3/zoR0GQiN1Ji59Q1+V7pCI=
+ARC-Authentication-Results: i=1; ORIGINATING;
+ auth=pass smtp.auth=luc smtp.mailfrom=luc.michel@greensocs.com
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 5.135.226.135
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,81 +77,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, peter.chubb@nicta.com.au,
- qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 18 Feb 2020 07:55:14 +0100
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> wrote:
+Hi Phil,
 
-> On 2/17/20 6:33 PM, Igor Mammedov wrote:
-> > memory_region_allocate_system_memory() API is going away, so
-> > replace it with memdev allocated MemoryRegion. The later is
-> > initialized by generic code, so board only needs to opt in
-> > to memdev scheme by providing
-> >    MachineClass::default_ram_id
-> > and using MachineState::ram instead of manually initializing
-> > RAM memory region.
-> >=20
-> > Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-> > Reviewed-by: Andrew Jones <drjones@redhat.com>
-> > ---
-> > CC: peter.chubb@nicta.com.au
-> > ---
-> >   hw/arm/integratorcp.c | 9 ++++-----
-> >   1 file changed, 4 insertions(+), 5 deletions(-)
-> >=20
-> > diff --git a/hw/arm/integratorcp.c b/hw/arm/integratorcp.c
-> > index 0cd94d9f09..cc845b8534 100644
-> > --- a/hw/arm/integratorcp.c
-> > +++ b/hw/arm/integratorcp.c
-> > @@ -585,7 +585,6 @@ static void integratorcp_init(MachineState *machine=
-)
-> >       Object *cpuobj;
-> >       ARMCPU *cpu;
-> >       MemoryRegion *address_space_mem =3D get_system_memory();
-> > -    MemoryRegion *ram =3D g_new(MemoryRegion, 1);
-> >       MemoryRegion *ram_alias =3D g_new(MemoryRegion, 1);
-> >       qemu_irq pic[32];
-> >       DeviceState *dev, *sic, *icp;
-> > @@ -605,14 +604,13 @@ static void integratorcp_init(MachineState *machi=
-ne)
-> >  =20
-> >       cpu =3D ARM_CPU(cpuobj);
-> >  =20
-> > -    memory_region_allocate_system_memory(ram, NULL, "integrator.ram",
-> > -                                         ram_size);
-> >       /* ??? On a real system the first 1Mb is mapped as SSRAM or boot =
-flash.  */
-> >       /* ??? RAM should repeat to fill physical memory space.  */
-> >       /* SDRAM at address zero*/
-> > -    memory_region_add_subregion(address_space_mem, 0, ram);
-> > +    memory_region_add_subregion(address_space_mem, 0, machine->ram);
-> >       /* And again at address 0x80000000 */
-> > -    memory_region_init_alias(ram_alias, NULL, "ram.alias", ram, 0, ram=
-_size);
-> > +    memory_region_init_alias(ram_alias, NULL, "ram.alias", machine->ra=
-m,
-> > +                             0, ram_size);
-> >       memory_region_add_subregion(address_space_mem, 0x80000000, ram_al=
-ias);
-> >  =20
-> >       dev =3D qdev_create(NULL, TYPE_INTEGRATOR_CM);
-> > @@ -660,6 +658,7 @@ static void integratorcp_machine_init(MachineClass =
-*mc)
-> >       mc->init =3D integratorcp_init;
-> >       mc->ignore_memory_transaction_failures =3D true;
-> >       mc->default_cpu_type =3D ARM_CPU_TYPE_NAME("arm926");
-> > +    mc->default_ram_id =3D "integrator.ram";
-> >   }
-> >  =20
-> >   DEFINE_MACHINE("integratorcp", integratorcp_machine_init)
-> >  =20
+On 2/17/20 12:45 PM, Philippe Mathieu-Daud=C3=A9 wrote:
+> As we only support a reduced set of the REV_CODE_PROCESSOR id
+> encoded in the board revision, define the PROCESSOR_ID values
+> as an enum. We can simplify the board_soc_type and cores_count
+> methods.
 >=20
-> Looking at integratorcm_realize() this machine seems to handle at most=20
-> 512MiB.
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> ---
+>  hw/arm/raspi.c | 45 +++++++++++++++++++++------------------------
+>  1 file changed, 21 insertions(+), 24 deletions(-)
 >=20
-I'll add a patch on top.
+> diff --git a/hw/arm/raspi.c b/hw/arm/raspi.c
+> index d9e8acfe3b..b628dadf34 100644
+> --- a/hw/arm/raspi.c
+> +++ b/hw/arm/raspi.c
+> @@ -69,16 +69,33 @@ FIELD(REV_CODE, MANUFACTURER,      16, 4);
+>  FIELD(REV_CODE, MEMORY_SIZE,       20, 3);
+>  FIELD(REV_CODE, STYLE,             23, 1);
+> =20
+> +typedef enum RaspiProcessorId {
+> +    PROCESSOR_ID_BCM2836 =3D 1,
+> +    PROCESSOR_ID_BCM2837 =3D 2,
+> +} RaspiProcessorId;
+> +
+> +static const struct {
+> +    const char *type;
+> +    int cores_count;
+> +} soc_property[] =3D {
+> +    [PROCESSOR_ID_BCM2836] =3D {TYPE_BCM2836, BCM283X_NCPUS},
+> +    [PROCESSOR_ID_BCM2837] =3D {TYPE_BCM2837, BCM283X_NCPUS},
+> +};
+> +
+>  static uint64_t board_ram_size(uint32_t board_rev)
+>  {
+>      assert(FIELD_EX32(board_rev, REV_CODE, STYLE)); /* Only new style =
+*/
+>      return 256 * MiB << FIELD_EX32(board_rev, REV_CODE, MEMORY_SIZE);
+>  }
+> =20
+> -static int board_processor_id(uint32_t board_rev)
+> +static RaspiProcessorId board_processor_id(uint32_t board_rev)
+>  {
+> +    int proc_id =3D FIELD_EX32(board_rev, REV_CODE, PROCESSOR);;
+You have a superfluous semicolon here.
 
+Apart from that:
+
+Reviewed-by: Luc Michel <luc.michel@greensocs.com>
+
+> +
+>      assert(FIELD_EX32(board_rev, REV_CODE, STYLE)); /* Only new style =
+*/
+> -    return FIELD_EX32(board_rev, REV_CODE, PROCESSOR);
+> +    assert(proc_id < ARRAY_SIZE(soc_property) && soc_property[proc_id]=
+.type);
+> +
+> +    return proc_id;
+>  }
+> =20
+>  static int board_version(uint32_t board_rev)
+> @@ -88,32 +105,12 @@ static int board_version(uint32_t board_rev)
+> =20
+>  static const char *board_soc_type(uint32_t board_rev)
+>  {
+> -    static const char *soc_types[] =3D {
+> -        NULL, TYPE_BCM2836, TYPE_BCM2837,
+> -    };
+> -    int proc_id =3D board_processor_id(board_rev);
+> -
+> -    if (proc_id >=3D ARRAY_SIZE(soc_types) || !soc_types[proc_id]) {
+> -        error_report("Unsupported processor id '%d' (board revision: 0=
+x%x)",
+> -                     proc_id, board_rev);
+> -        exit(1);
+> -    }
+> -    return soc_types[proc_id];
+> +    return soc_property[board_processor_id(board_rev)].type;
+>  }
+> =20
+>  static int cores_count(uint32_t board_rev)
+>  {
+> -    static const int soc_cores_count[] =3D {
+> -        0, BCM283X_NCPUS, BCM283X_NCPUS,
+> -    };
+> -    int proc_id =3D board_processor_id(board_rev);
+> -
+> -    if (proc_id >=3D ARRAY_SIZE(soc_cores_count) || !soc_cores_count[p=
+roc_id]) {
+> -        error_report("Unsupported processor id '%d' (board revision: 0=
+x%x)",
+> -                     proc_id, board_rev);
+> -        exit(1);
+> -    }
+> -    return soc_cores_count[proc_id];
+> +    return soc_property[board_processor_id(board_rev)].cores_count;
+>  }
+> =20
+>  static const char *board_type(uint32_t board_rev)
+>=20
 
