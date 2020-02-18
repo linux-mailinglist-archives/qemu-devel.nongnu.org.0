@@ -2,79 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B3A3162374
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 10:34:53 +0100 (CET)
-Received: from localhost ([::1]:58928 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AF92162379
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 10:37:21 +0100 (CET)
+Received: from localhost ([::1]:58968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j3zHI-000818-6Z
-	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 04:34:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41636)
+	id 1j3zJg-0001p9-7k
+	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 04:37:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42029)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1j3zEy-00066z-Mj
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 04:32:30 -0500
+ (envelope-from <philmd@redhat.com>) id 1j3zIF-0000tR-P3
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 04:35:53 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1j3zEx-00019H-KE
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 04:32:28 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:35902
+ (envelope-from <philmd@redhat.com>) id 1j3zIE-0002Mt-JI
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 04:35:51 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:24076
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j3zEx-00017y-GI
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 04:32:27 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j3zIE-0002MK-FN
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 04:35:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582018346;
+ s=mimecast20190719; t=1582018548;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=btZAH3Xrx0pyrx59uFmBzC/cYn5q/bWIwtOk/dCCUTM=;
- b=LIGOF4tQUl1KwVLrL0mt3CUwhEO/Hdu0ZXugUiVNSIbpidhpy6VMfd7hP26C1nLwJZhaJW
- H/LCMi2clSupxn9dVFmrWq5CHictSoJCZMd61PGFTMecjda8MBtChd+QjXuTtm25kUjeog
- IrFsJcDVTqOZpHD5G46y9UzMUdnTz9s=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-251-RFU9mo1wODuOI0iapohUCw-1; Tue, 18 Feb 2020 04:32:24 -0500
-Received: by mail-wr1-f72.google.com with SMTP id c6so10439492wrm.18
- for <qemu-devel@nongnu.org>; Tue, 18 Feb 2020 01:32:24 -0800 (PST)
+ bh=RcjxodsOG8DMb48WnefJcdzANdJn3aiE9oA0FpueFxs=;
+ b=Ahz3EcZCvAS3GT6v8uUZ7HUDL7TL6FI+IHxKjgwMKwE87y1gFyVfCIQ2F2Jo/AwsNV6Mcs
+ H4eBWeCVqVJAD/Ts943RcceO5vXgV68gVXtn4gOCbUr3THOIKtXEXLaQSCcj1ZCywSFxmY
+ 312WUaRqNmKdoOSg0MPEA1+7E75KUME=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-337-h5JQndSAPamAvHiSLJCp4Q-1; Tue, 18 Feb 2020 04:35:47 -0500
+Received: by mail-wr1-f69.google.com with SMTP id c6so10444083wrm.18
+ for <qemu-devel@nongnu.org>; Tue, 18 Feb 2020 01:35:46 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=fOzWP1vq62G/ytTmsfycrX2X8S1L1HhF+6M2xyNPCUI=;
- b=Km6Iwujb8jhegwxFGg7YnuTNuFSQ3VtYSEp1ysK0XEtVdarZ+e/OEXRfIAG99Xq+Tl
- ZogRikwbQrmu7240QJPjH7JYVI3l0MWQg4n3NqxZWW97SUiVdnHd5aCn80hVNniZ6Ycz
- fgo4CxDXqiEA1PPojnqW3Lg7xHYj8cQpJG/n6XzYPs9pMffAkxc+cDoLlQAo7Yh7hLwH
- Usn/M3Heirp+DpHs/XT9VNp1bRO3BpOfIfRYcBG3WrIcoAkvsUhxEJxtAJS3lwaGBiVY
- At6WK+GaF+kGa3QQoePE9twvlcu/MjVYXPuTmG7qEDioMOq5jynBaNFcya/duBHjZiJD
- PbnA==
-X-Gm-Message-State: APjAAAWR3ndTMqxMuHZm9ZeK5cutdG4Uq9x4ZTGMud7vt0K99JrB60b6
- 1YR10D7/l1Ii6ZnK70s/x9tZRAccGbrUfCgS0E6rcwWUoIOmu7L+bRpdscSTgrwdAQTiWSy5pGy
- QGUgkWR5KnnRNFuQ=
-X-Received: by 2002:a1c:dfd6:: with SMTP id w205mr2078139wmg.151.1582018343334; 
- Tue, 18 Feb 2020 01:32:23 -0800 (PST)
-X-Google-Smtp-Source: APXvYqwKzJTCtuZVY4mihsMSTwp6sfDROIwMS84Cw40XeYLboxOguDl8FpNkBtltMeBXHcHoTYZifA==
-X-Received: by 2002:a1c:dfd6:: with SMTP id w205mr2078014wmg.151.1582018342204; 
- Tue, 18 Feb 2020 01:32:22 -0800 (PST)
-Received: from x1w.redhat.com (78.red-88-21-202.staticip.rima-tde.net.
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=TUjVBiCP7gp2AiEE7R6Zpq5tUxB3Z8DJ7tISQBl8wxM=;
+ b=t1L7TrpUXfgaBwFuv1UxMnOiDpTBd5KXrMU3uG4KBuGH1KdB4bdG05ukB46Ft1rr0p
+ a71VTa4gKiSrlafYFIjgkbB2jOxl4dw2VbQKnzNejZaWPwcqCb+Q7My2+NQhmgF4T2D6
+ V0GcR/LUvPKdI5QDPY1pKQAyssF+RiPp5sE4WrXsxIwGdtYxtYoXRVVGZJ5jfueboQMp
+ r9VUkPN9u6pJIFvYgzwI2MR+hFyVjVrA5jUjM4LbwyEm/Au91d+u0QOyB5VKXg5CaG7K
+ evdqAXqAtY8L010e6LDcK/R5Cw90SI8htmoimLl8RWX6wMAo8N3IpUhtKI2UkBofeHaS
+ o9vw==
+X-Gm-Message-State: APjAAAViyo3kxup6fP4639upFeHDJch3V1iiaEmKx//ZUjYSAjHfa6pY
+ s24RuTHPPWERRev0zo/2DGwsHLy/VxbMxCOjELeIcmTAWvAxwwuxTxy9kIJxOshqkNLSuV+6ETg
+ slWP7TFEVm59R/GY=
+X-Received: by 2002:adf:fe50:: with SMTP id m16mr29243335wrs.217.1582018545086; 
+ Tue, 18 Feb 2020 01:35:45 -0800 (PST)
+X-Google-Smtp-Source: APXvYqz6RWMCUr4g5O4xI4KC6fzhQzxj3p1SSKvsv0J9bIJVYLeoGlS3wtwd8H6rWZulLsZMSTNQ8g==
+X-Received: by 2002:adf:fe50:: with SMTP id m16mr29243310wrs.217.1582018544852; 
+ Tue, 18 Feb 2020 01:35:44 -0800 (PST)
+Received: from [192.168.1.35] (78.red-88-21-202.staticip.rima-tde.net.
  [88.21.202.78])
- by smtp.gmail.com with ESMTPSA id v8sm5146891wrw.2.2020.02.18.01.32.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 Feb 2020 01:32:21 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 01/13] scripts/checkpatch.pl: Detect superfluous semicolon in
- C code
-Date: Tue, 18 Feb 2020 10:32:05 +0100
-Message-Id: <20200218093217.25156-2-philmd@redhat.com>
-X-Mailer: git-send-email 2.21.1
-In-Reply-To: <20200218093217.25156-1-philmd@redhat.com>
-References: <20200218093217.25156-1-philmd@redhat.com>
+ by smtp.gmail.com with ESMTPSA id v8sm5159607wrw.2.2020.02.18.01.35.43
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 18 Feb 2020 01:35:44 -0800 (PST)
+Subject: Re: [PATCH v2 12/13] hw/arm/raspi: Add the Raspberry Pi B+ machine
+To: Luc Michel <luc.michel@greensocs.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20200217114533.17779-1-f4bug@amsat.org>
+ <20200217114533.17779-13-f4bug@amsat.org>
+ <26d85b1f-b2b7-ff9f-1236-43e9cb761c30@greensocs.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <c56d4f85-b4df-643c-c017-350b7f64aec2@redhat.com>
+Date: Tue, 18 Feb 2020 10:35:43 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-X-MC-Unique: RFU9mo1wODuOI0iapohUCw-1
+In-Reply-To: <26d85b1f-b2b7-ff9f-1236-43e9cb761c30@greensocs.com>
+Content-Language: en-US
+X-MC-Unique: h5JQndSAPamAvHiSLJCp4Q-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8;
-	text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -90,59 +95,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- Michael Tokarev <mjt@tls.msk.ru>, Yuval Shaia <yuval.shaia.ml@gmail.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, qemu-block@nongnu.org,
- Juan Quintela <quintela@redhat.com>, qemu-trivial@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  Eduardo Habkost <ehabkost@redhat.com>,
- Alistair Francis <alistair@alistair23.me>, Julia Suvorova <jusual@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>, qemu-arm@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>, Aarushi Mehta <mehta.aaru20@gmail.com>,
- Richard Henderson <rth@twiddle.net>, Kevin Wolf <kwolf@redhat.com>,
- Thomas Huth <huth@tuxfamily.org>, Laurent Vivier <laurent@vivier.eu>,
- Max Reitz <mreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Luc Michel <luc.michel@greensocs.com>
+ Andrew Baumann <Andrew.Baumann@microsoft.com>,
+ Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Display error when a commit contains superfluous semicolon:
+Cc'ing Eduardo/Igor.
 
-  $ git show 6663a0a3376 | scripts/checkpatch.pl -q -
-  ERROR: superfluous trailing semicolon
-  #276: FILE: block/io_uring.c:186:
-  +                ret =3D -ENOSPC;;
-  total: 1 errors, 1 warnings, 485 lines checked
+On 2/18/20 9:48 AM, Luc Michel wrote:
+> On 2/17/20 12:45 PM, Philippe Mathieu-Daud=C3=A9 wrote:
+>>    $ qemu-system-arm -M raspi1b -serial stdio \
+>>        -kernel raspberrypi/firmware/boot/kernel.img \
+>>        -dtb raspberrypi/firmware/boot/bcm2708-rpi-b.dtb \
+>>        -append 'printk.time=3D0 earlycon=3Dpl011,0x20201000 console=3Dtt=
+yAMA0'
+>>    [    0.000000] Booting Linux on physical CPU 0x0
+>>    [    0.000000] Linux version 4.19.69+ (dom@buildbot) (gcc version 4.9=
+.3 (crosstool-NG crosstool-ng-1.22.0-88-g8460611)) #1261 Tue Sep 3 20:21:01=
+ BST 2019
+>>    [    0.000000] CPU: ARMv6-compatible processor [410fb767] revision 7 =
+(ARMv7), cr=3D00c5387d
+>>    [    0.000000] CPU: VIPT aliasing data cache, unknown instruction cac=
+he
+>>    [    0.000000] OF: fdt: Machine model: Raspberry Pi Model B
+>>    [    0.000000] earlycon: pl11 at MMIO 0x20201000 (options '')
+>>    [    0.000000] bootconsole [pl11] enabled
+>>    [    0.000000] Memory policy: Data cache writeback
+>>    [    0.000000] cma: Reserved 8 MiB at 0x1b800000
+>>    [    0.000000] random: get_random_bytes called from start_kernel+0x8c=
+/0x49c with crng_init=3D0
+>>    [    0.000000] Built 1 zonelists, mobility grouping on.  Total pages:=
+ 113680
+>>    [    0.000000] Kernel command line: printk.time=3D0 earlycon=3Dpl011,=
+0x20201000 console=3DttyAMA0
+>>    Dentry cache hash table entries: 65536 (order: 6, 262144 bytes)
+>>    Inode-cache hash table entries: 32768 (order: 5, 131072 bytes)
+>>    Memory: 434380K/458752K available (6971K kernel code, 635K rwdata, 20=
+80K rodata, 464K init, 797K bss, 16180K reserved, 8192K cma-reserved)
+>>    ...
+>>
+>> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+>> ---
+>>   hw/arm/raspi.c | 13 +++++++++++++
+>>   1 file changed, 13 insertions(+)
+>>
+>> diff --git a/hw/arm/raspi.c b/hw/arm/raspi.c
+>> index 3537a329ac..2d9f4e3085 100644
+>> --- a/hw/arm/raspi.c
+>> +++ b/hw/arm/raspi.c
+>> @@ -324,6 +324,15 @@ static void raspi_machine_class_common_init(Machine=
+Class *mc,
+>>       mc->default_ram_size =3D board_ram_size(board_rev);
+>>   };
+>>  =20
+>> +static void raspi1b_machine_class_init(ObjectClass *oc, void *data)
+>> +{
+>> +    MachineClass *mc =3D MACHINE_CLASS(oc);
+>> +    RaspiMachineClass *rmc =3D RASPI_MACHINE_CLASS(oc);
+>> +
+>> +    rmc->board_rev =3D 0x900032;
+>> +    raspi_machine_class_common_init(mc, rmc->board_rev);
+>> +};
+>> +
+>>   static void raspi2b_machine_class_init(ObjectClass *oc, void *data)
+>>   {
+>>       MachineClass *mc =3D MACHINE_CLASS(oc);
+>> @@ -348,6 +357,10 @@ static void raspi3b_machine_class_init(ObjectClass =
+*oc, void *data)
+>>  =20
+>>   static const TypeInfo raspi_machine_types[] =3D {
+>>       {
+>> +        .name           =3D MACHINE_TYPE_NAME("raspi1b"),
+> If it's the B+ model, why not call it raspi1b+ ?
 
-Reported-by: Luc Michel <luc.michel@greensocs.com>
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
-Cc: Paolo Bonzini <pbonzini@redhat.com>
----
- scripts/checkpatch.pl | 5 +++++
- 1 file changed, 5 insertions(+)
+I thought about it (and prefer it), but I'm not sure this can have some=20
+side-effect.
 
-diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index ce43a306f8..11512a8a09 100755
---- a/scripts/checkpatch.pl
-+++ b/scripts/checkpatch.pl
-@@ -1830,6 +1830,11 @@ sub process {
- =09=09=09ERROR("suspicious ; after while (0)\n" . $herecurr);
- =09=09}
-=20
-+# Check superfluous trailing ';'
-+=09=09if ($line =3D~ /;;$/) {
-+=09=09=09ERROR("superfluous trailing semicolon\n" . $herecurr);
-+=09=09}
-+
- # Check relative indent for conditionals and blocks.
- =09=09if ($line =3D~ /\b(?:(?:if|while|for)\s*\(|do\b)/ && $line !~ /^.\s*=
-#/ && $line !~ /\}\s*while\s*/) {
- =09=09=09my ($s, $c) =3D ($stat, $cond);
---=20
-2.21.1
+Eduardo, Igor, is that OK to use a '+' in a machine name?
+
+So far the names used match [a-zA-Z0-9-].
+
+>=20
+>> +        .parent         =3D TYPE_RASPI_MACHINE,
+>> +        .class_init     =3D raspi1b_machine_class_init,
+>> +    }, {
+>>           .name           =3D MACHINE_TYPE_NAME("raspi2b"),
+>>           .parent         =3D TYPE_RASPI_MACHINE,
+>>           .class_init     =3D raspi2b_machine_class_init,
+>>
+>=20
 
 
