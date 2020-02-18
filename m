@@ -2,58 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FCE21623FA
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 10:53:58 +0100 (CET)
-Received: from localhost ([::1]:59488 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FE3516240B
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 10:58:05 +0100 (CET)
+Received: from localhost ([::1]:59642 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j3zZl-0000xh-AL
-	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 04:53:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44015)
+	id 1j3zdk-0000aX-DF
+	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 04:58:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44630)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kuhn.chenqun@huawei.com>) id 1j3zSV-0005TH-Ps
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 04:46:28 -0500
+ (envelope-from <dgilbert@redhat.com>) id 1j3zVa-0001Cx-Jr
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 04:49:43 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kuhn.chenqun@huawei.com>) id 1j3zSU-0006mA-9b
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 04:46:27 -0500
-Received: from szxga01-in.huawei.com ([45.249.212.187]:2445 helo=huawei.com)
+ (envelope-from <dgilbert@redhat.com>) id 1j3zVZ-0000K0-KP
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 04:49:38 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:43670
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kuhn.chenqun@huawei.com>)
- id 1j3zST-0006kK-VE; Tue, 18 Feb 2020 04:46:26 -0500
-Received: from DGGEMM402-HUB.china.huawei.com (unknown [172.30.72.55])
- by Forcepoint Email with ESMTP id A3E3917E15AFEF0B8EC3;
- Tue, 18 Feb 2020 17:46:19 +0800 (CST)
-Received: from DGGEMM421-HUB.china.huawei.com (10.1.198.38) by
- DGGEMM402-HUB.china.huawei.com (10.3.20.210) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Tue, 18 Feb 2020 17:46:19 +0800
-Received: from DGGEMM531-MBX.china.huawei.com ([169.254.5.165]) by
- dggemm421-hub.china.huawei.com ([10.1.198.38]) with mapi id 14.03.0439.000;
- Tue, 18 Feb 2020 17:46:09 +0800
-From: "Chenqun (kuhn)" <kuhn.chenqun@huawei.com>
-To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "qemu-ppc@nongnu.org"
- <qemu-ppc@nongnu.org>, "jcmvbkbc@gmail.com" <jcmvbkbc@gmail.com>,
- "crwulff@gmail.com" <crwulff@gmail.com>, "marex@denx.de" <marex@denx.de>,
- "edgar.iglesias@gmail.com" <edgar.iglesias@gmail.com>,
- "david@gibson.dropbear.id.au" <david@gibson.dropbear.id.au>
-Subject: RE: [PATCH 0/3]hw: Fixs memleak of fdevice tree blob
-Thread-Topic: [PATCH 0/3]hw: Fixs memleak of fdevice tree blob
-Thread-Index: AQHV5jvGomOGww3FYUqlb9mV7XuhSKggsH8g
-Date: Tue, 18 Feb 2020 09:46:09 +0000
-Message-ID: <7412CDE03601674DA8197E2EBD8937E83B64D2E5@dggemm531-mbx.china.huawei.com>
-References: <20200218091154.21696-1-kuhn.chenqun@huawei.com>
-In-Reply-To: <20200218091154.21696-1-kuhn.chenqun@huawei.com>
-Accept-Language: en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.133.205.93]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1j3zVZ-0000JZ-FA
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 04:49:37 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1582019377;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=9bhLWeDmIRIbpw4WQFzMqL9ZUaH/2EcUzcdPU0bjoqQ=;
+ b=iuFPcoJxrlC3KuSvnPZcWc+iKwNukwen7Br+geqjO0P2SdTdrbLSEOwquRK/Bog44enexP
+ HABJDG1z6JnwrlEXWwlqTwkROErjT6rcQ1OTorvk0vgFY7sMLyIJXU9IMjOPdIXsHiedC6
+ e5qOFaW7FocOdxtIs07qPrWZABldFpY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-96-U8j75KKONqCjknlOdUajEA-1; Tue, 18 Feb 2020 04:49:35 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 857261B2C980;
+ Tue, 18 Feb 2020 09:49:31 +0000 (UTC)
+Received: from work-vm (unknown [10.36.118.89])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E858619756;
+ Tue, 18 Feb 2020 09:49:08 +0000 (UTC)
+Date: Tue, 18 Feb 2020 09:49:05 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Subject: Re: [PATCH RESEND 01/13] scripts/checkpatch.pl: Detect superfluous
+ semicolon in C code
+Message-ID: <20200218094905.GC3080@work-vm>
+References: <20200218094402.26625-1-philmd@redhat.com>
+ <20200218094402.26625-2-philmd@redhat.com>
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
+In-Reply-To: <20200218094402.26625-2-philmd@redhat.com>
+User-Agent: Mutt/1.13.3 (2020-01-12)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: U8j75KKONqCjknlOdUajEA-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 45.249.212.187
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,40 +74,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>,
- Pannengyuan <pannengyuan@huawei.com>,
- Zhanghailiang <zhang.zhanghailiang@huawei.com>
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+ Michael Tokarev <mjt@tls.msk.ru>, qemu-devel@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, qemu-block@nongnu.org,
+ Juan Quintela <quintela@redhat.com>, qemu-trivial@nongnu.org,
+ Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Alistair Francis <alistair@alistair23.me>, Julia Suvorova <jusual@redhat.com>,
+ Yuval Shaia <yuval.shaia.ml@gmail.com>,
+ Alex Williamson <alex.williamson@redhat.com>, qemu-arm@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>, Aarushi Mehta <mehta.aaru20@gmail.com>,
+ Richard Henderson <rth@twiddle.net>, Kevin Wolf <kwolf@redhat.com>,
+ Thomas Huth <huth@tuxfamily.org>, Laurent Vivier <laurent@vivier.eu>,
+ Max Reitz <mreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Luc Michel <luc.michel@greensocs.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-DQoNCj4tLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPkZyb206IENoZW5xdW4gKGt1aG4pDQo+
-U2VudDogVHVlc2RheSwgRmVicnVhcnkgMTgsIDIwMjAgNToxMiBQTQ0KPlRvOiBxZW11LWRldmVs
-QG5vbmdudS5vcmc7IHFlbXUtcHBjQG5vbmdudS5vcmc7IGpjbXZia2JjQGdtYWlsLmNvbTsNCj5j
-cnd1bGZmQGdtYWlsLmNvbTsgbWFyZXhAZGVueC5kZTsgZWRnYXIuaWdsZXNpYXNAZ21haWwuY29t
-Ow0KPmRhdmlkQGdpYnNvbi5kcm9wYmVhci5pZC5hdQ0KPkNjOiBaaGFuZ2hhaWxpYW5nIDx6aGFu
-Zy56aGFuZ2hhaWxpYW5nQGh1YXdlaS5jb20+OyBxZW11LQ0KPnRyaXZpYWxAbm9uZ251Lm9yZzsg
-cGJvbnppbmlAcmVkaGF0LmNvbTsgUGFubmVuZ3l1YW4NCj48cGFubmVuZ3l1YW5AaHVhd2VpLmNv
-bT47IENoZW5xdW4gKGt1aG4pDQo+PGt1aG4uY2hlbnF1bkBodWF3ZWkuY29tPg0KPlN1YmplY3Q6
-IFtQQVRDSCAwLzNdaHc6IEZpeHMgbWVtbGVhayBvZiBmZGV2aWNlIHRyZWUgYmxvYg0KPg0KPkZy
-b206IENoZW4gUXVuIDxrdWhuLmNoZW5xdW5AaHVhd2VpLmNvbT4NCj4NCkhpIGFsbCwgYWZ0ZXIg
-cmV2aWV3aW5nIHZhcmlvdXMgcGF0Y2hlcyBmcm9tIFBhbiBOZW5neXVhbiBmaXggcHBjLWU1MDAN
-CmZkdCBtZW1sZWFrcywgSSBzZWFyY2ggZm9yIHJlbGF0ZWQgY29udGVudCBhbmQgZm91bmQgUGFv
-bG8gQm9uemluaSdzDQpzaW1pbGFybHkgcGF0Y2hzLiAoc29ycnksIHRoaXMgZGVzY3JpcHRpb24g
-aXMgbWlzc2luZyBoZXJlIGJlY2F1c2Ugb2YgdGhpcyBwYXRjaCBmb3JtYXQuKQ0KDQo+VGhlIGRl
-dmljZSB0cmVlIGJsb2IgcmV0dXJuZWQgYnkgbG9hZF9kZXZpY2VfdHJlZSBpcyBtYWxsb2NlZC4N
-Cj5XZSBzaG91bGQgZnJlZSBpdCBhZnRlciBjcHVfcGh5c2ljYWxfbWVtb3J5X3dyaXRlKCkuT3Ro
-ZXJ3aXNlLA0KPmlmIHdlIHJlcGVhdGVkbHkgY2FsbCAnc3lzdGVtX3Jlc2V0JyxpdCB3aWxsIHJl
-cGVhdGVkbHkgbG9hZCBmZHQsIHNvIHRoZXJlIGFyZQ0KPm1hbnkgbWVtbGVha3MuDQo+DQo+UGFv
-bG8gQm9uemluaSA6DQo+aHR0cHM6Ly9saXN0cy5nbnUub3JnL2FyY2hpdmUvaHRtbC9xZW11LWRl
-dmVsLzIwMTktMTAvbXNnMDAxMjkuaHRtbA0KPg0KPlBhbiBOZW5neXVhbjoNCj5odHRwczovL2xp
-c3RzLmdudS5vcmcvYXJjaGl2ZS9odG1sL3FlbXUtZGV2ZWwvMjAyMC0wMi9tc2cwMzU5NC5odG1s
-DQo+DQo+QWZ0ZXIgc2VhcmNoaW5nIHRoZSBkZXZpY2UgY29kZSwgSSBmb3VuZCB0aHJlZSBzaW1p
-bGFyIGlzc3Vlcy4NCj5UaGlzIHNlcmllcyBmaXhlcyB0aGUgbGFzdCB0aHJlZS4NCj4NCj5DaGVu
-IFF1biAoMyk6DQo+ICBody9uaW9zMjpmaXggbGVhayBvZiBmZGV2aWNlIHRyZWUgYmxvYg0KPiAg
-aHcvcHBjL3ZpcnRleF9tbDUwNzpmaXggbGVhayBvZiBmZGV2aWNlIHRyZWUgYmxvYg0KPiAgaHcv
-eHRlbnNhL3h0ZnBnYTpmaXggbGVhayBvZiBmZGV2aWNlIHRyZWUgYmxvYg0KPg0KPiBody9uaW9z
-Mi9ib290LmMgICAgICAgfCAxICsNCj4gaHcvcHBjL3ZpcnRleF9tbDUwNy5jIHwgMSArDQo+IGh3
-L3h0ZW5zYS94dGZwZ2EuYyAgICB8IDEgKw0KPiAzIGZpbGVzIGNoYW5nZWQsIDMgaW5zZXJ0aW9u
-cygrKQ0KPg0KPi0tDQo+Mi4yMy4wDQo+DQoNCg==
+* Philippe Mathieu-Daud=E9 (philmd@redhat.com) wrote:
+> Display error when a commit contains superfluous semicolon:
+>=20
+>   $ git show 6663a0a3376 | scripts/checkpatch.pl -q -
+>   ERROR: superfluous trailing semicolon
+>   #276: FILE: block/io_uring.c:186:
+>   +                ret =3D -ENOSPC;;
+>   total: 1 errors, 1 warnings, 485 lines checked
+>=20
+> Reported-by: Luc Michel <luc.michel@greensocs.com>
+> Signed-off-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
+
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+
+> ---
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>  scripts/checkpatch.pl | 5 +++++
+>  1 file changed, 5 insertions(+)
+>=20
+> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+> index ce43a306f8..11512a8a09 100755
+> --- a/scripts/checkpatch.pl
+> +++ b/scripts/checkpatch.pl
+> @@ -1830,6 +1830,11 @@ sub process {
+>  =09=09=09ERROR("suspicious ; after while (0)\n" . $herecurr);
+>  =09=09}
+> =20
+> +# Check superfluous trailing ';'
+> +=09=09if ($line =3D~ /;;$/) {
+> +=09=09=09ERROR("superfluous trailing semicolon\n" . $herecurr);
+> +=09=09}
+> +
+>  # Check relative indent for conditionals and blocks.
+>  =09=09if ($line =3D~ /\b(?:(?:if|while|for)\s*\(|do\b)/ && $line !~ /^.\=
+s*#/ && $line !~ /\}\s*while\s*/) {
+>  =09=09=09my ($s, $c) =3D ($stat, $cond);
+> --=20
+> 2.21.1
+>=20
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+
 
