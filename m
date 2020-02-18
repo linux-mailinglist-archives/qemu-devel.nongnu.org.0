@@ -2,77 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA0E4162DFB
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 19:13:17 +0100 (CET)
-Received: from localhost ([::1]:39774 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E8B3162E4E
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 19:20:34 +0100 (CET)
+Received: from localhost ([::1]:39876 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j47My-0006UB-TT
-	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 13:13:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33169)
+	id 1j47Tz-00031q-NE
+	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 13:20:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44474)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pmathieu@redhat.com>) id 1j47M1-0005sO-VL
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 13:12:20 -0500
+ (envelope-from <alistair23@gmail.com>) id 1j47T2-0002Zs-L4
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 13:19:34 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pmathieu@redhat.com>) id 1j47Lz-0001Bv-9d
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 13:12:17 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:48809
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pmathieu@redhat.com>) id 1j47Lz-00018U-6A
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 13:12:15 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582049533;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=wML/uJ+u0MDichbvEgerDbC1wySMifI8PwyDwt83/9s=;
- b=ULJs8M2GT64EPmfc/Y8ucf1Yx1aadAEoSMIoTpoon9CwZWJUK7xj7UvN6HWMT+eKv90yeO
- WOuy8NkC5F1xmAcfSsTpgpNkf17PflSdA6R3yXC9a8YRY41wP3q2Ri09nBXlXbdTJMX21u
- 7Go6sGSs2ud9PZIdO7o2UClkf5Hkw58=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-385-11rmyfarNsyP5vXuV7unBA-1; Tue, 18 Feb 2020 13:12:04 -0500
-Received: by mail-wr1-f72.google.com with SMTP id n23so11237277wra.20
- for <qemu-devel@nongnu.org>; Tue, 18 Feb 2020 10:12:03 -0800 (PST)
+ (envelope-from <alistair23@gmail.com>) id 1j47T0-0006JF-8v
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 13:19:32 -0500
+Received: from mail-lj1-x243.google.com ([2a00:1450:4864:20::243]:36327)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alistair23@gmail.com>)
+ id 1j47Sw-0006A5-Ae; Tue, 18 Feb 2020 13:19:30 -0500
+Received: by mail-lj1-x243.google.com with SMTP id r19so24099355ljg.3;
+ Tue, 18 Feb 2020 10:19:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=VP3qnJmQRqV+XQYAGT9k1cSnf5/86KHVV4eznGb3P8E=;
+ b=O5MQW8n73unvJHEuhQWuNG2Jo1RE9XYZSPoPEqd9Q7ghRlGaUbaNX/ojn8prrT2yia
+ /n8w9jaeeYIBwqjGzNrB2mjYS/TeEMiC8NKyaPcNrNCtX5WuVypmssIGnmSc36c79z5Y
+ PU8EKfs0IwpQX1ZTbZaSdgfoofWkiYs/JclNsEJS5BJ3hHa0YNJfZ3D7XYWGVaDuK1G2
+ vMt8ORDAKFJLEsqY8aI8G0jN2hK0/0qxc3JlvR+2xYloFmdMmCzraK/ocUCKH9cruXIq
+ xsnWItDyFPpmx06gPT8YRvWrfMLqUKvEr10XG9w8014Y5k/hY2ekStMIvMfQ7clxNw5N
+ M2GA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=wML/uJ+u0MDichbvEgerDbC1wySMifI8PwyDwt83/9s=;
- b=MZh9XpwsPhCogR6k9pBgHcGsHIYvQ3faSdfKz5lt1wwXCyKKh6AGuVKM1t2pNnrUbR
- WMgGPskrwKdD7t9sHdN5LnYSt6hvipClv1702s9MlBoHk0GMPPfRDiTPjpBNpKwz2xfY
- 27u+nuIcxNmcHpaxQ0hj29p4JMQ8adNk+YCVO3ARZF3n563P/yI7jzVhxaR9sMp0yjeI
- MAKm7s54+67yuaAth6H3yVcuI/S4G4yFyVGg67F2wn9zjmsetw+TOTIQyjzWWaq7TgGI
- uEt/toxZxO6zo+X1pqc5btltjICz52ydCPS58fuOZjT56f2UMxkoiGWMCsYf0dbAzC+Z
- QVng==
-X-Gm-Message-State: APjAAAVXNjzlfGcx9kABPd5uYCF07hlFzzy0rs27pvUi7vkh/FiBib0J
- rh8hANvglFxoNbYBCxwaGjUt49+ykPtXPEfUYX0VN+7d3B9ffjmG+zzYgRiK5RcJfM2yHS9s+ym
- ErcLiYwkdXCt0ML3RdZ22DJa3Smjyh7Y=
-X-Received: by 2002:adf:fa50:: with SMTP id y16mr32281946wrr.204.1582049522820; 
- Tue, 18 Feb 2020 10:12:02 -0800 (PST)
-X-Google-Smtp-Source: APXvYqywoy3sIhgDxlMZvXoraL0KhwI0/oRNQHH8Pg3Q6RBavqEyAX2rSmMmGlpUOU7UxbCnkYM7Nh0ub/ukpuDYPYM=
-X-Received: by 2002:adf:fa50:: with SMTP id y16mr32281902wrr.204.1582049522527; 
- Tue, 18 Feb 2020 10:12:02 -0800 (PST)
+ :message-id:subject:to:cc;
+ bh=VP3qnJmQRqV+XQYAGT9k1cSnf5/86KHVV4eznGb3P8E=;
+ b=LlfRXbffN3IEOFczzLBMqbPew4mAcCDyLkGDTMMWfODnzizqWVFGYJdYLjhBkajoPH
+ CquvZv/+7CYEXt6LJBfVL3HfpYQXUunvRDpGqJ6Lv6sEPQ8Isg1yKf52hdg3ujDKSfxf
+ rf3+isoqkj5gT2QnzD9GHUOuTQ38LHP43iUU6JjFK+AmSfSuFquQ7QMahq1oO3uBh0uK
+ qkXaK+dzC+zT3yZLgM0O4e2xKigVUEvHkXs0A2WPs1ogpC6xhU54d/xvrkp2/EUbi3oT
+ NGyUyXhjzr2dGCNUYBHcvLFUHR7TXX+njvCIHwShZ/8T8Rxb30I+ZrbnfqbMJ9nrLuQE
+ fOsA==
+X-Gm-Message-State: APjAAAWAQeF2ENivqEz4Qtl5NYRdLwbIVxGc1ey/daZvjryoypL2j53N
+ qGmL/Dg82XFyXBN3tkUGtoCJf5M6AnUalbOA1vtH53Qs
+X-Google-Smtp-Source: APXvYqzvd6QZETwRBm/rKkax1qKeMy7myxpoWAPWR0prjq7IkMf0c3mSddKZU411exqYhSZFXyvf+5jpp5aTLO7uO4E=
+X-Received: by 2002:a2e:7818:: with SMTP id t24mr13277548ljc.195.1582049964544; 
+ Tue, 18 Feb 2020 10:19:24 -0800 (PST)
 MIME-Version: 1.0
-References: <20200201204751.17810-1-f4bug@amsat.org>
- <CAL1e-=gLg0tDH8nKtC6W6jrooGbJ=iV=X1KXDBH--cTWOV-Jxg@mail.gmail.com>
-In-Reply-To: <CAL1e-=gLg0tDH8nKtC6W6jrooGbJ=iV=X1KXDBH--cTWOV-Jxg@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Date: Tue, 18 Feb 2020 19:11:51 +0100
-Message-ID: <CAP+75-V__ACHRUWKb=U+B27Z9=FJ7_H6N_NTs=QpyDP59WK5Xw@mail.gmail.com>
-Subject: Re: [PATCH] tests/acceptance: Count multiple Tux logos displayed on
- framebuffer
-To: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-X-MC-Unique: 11rmyfarNsyP5vXuV7unBA-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+References: <cover.1580518859.git.alistair.francis@wdc.com>
+ <mhng-e63de11d-bdf1-4863-86df-b9beb15ad68b@palmerdabbelt-glaptop1>
+In-Reply-To: <mhng-e63de11d-bdf1-4863-86df-b9beb15ad68b@palmerdabbelt-glaptop1>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 18 Feb 2020 10:11:59 -0800
+Message-ID: <CAKmqyKOmnai6+_B+e0X1S0xvQN_GGwCgTn_6KZDWnJrPRN0B8Q@mail.gmail.com>
+Subject: Re: [PATCH v2 00/35] Add RISC-V Hypervisor Extension v0.5
+To: Palmer Dabbelt <palmerdabbelt@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::243
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,275 +71,141 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Thomas Huth <huth@tuxfamily.org>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Aurelien Jarno <aurelien@aurel32.net>,
- "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>,
- Aleksandar Markovic <amarkovic@wavecomp.com>, Cleber Rosa <crosa@redhat.com>,
- Leon Alrae <leon.alrae@imgtec.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Aleksandar,
-
-On Tue, Feb 18, 2020 at 7:07 PM Aleksandar Markovic
-<aleksandar.m.mail@gmail.com> wrote:
-> On Saturday, February 1, 2020, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.o=
-rg> wrote:
->>
->> Add a test that verifies that each core properly displays the Tux
->> logo on the framebuffer device.
->>
->> We simply follow the OpenCV "Template Matching with Multiple Objects"
->> tutorial, replacing Lionel Messi by Tux:
->> https://docs.opencv.org/4.2.0/d4/dc6/tutorial_py_template_matching.html
->>
->> When OpenCV and NumPy are installed, this test can be run using:
->>
->>   $ avocado --show=3Dapp,framebuffer \
->>     run -t cpu:i6400 \
->>     tests/acceptance/machine_mips_malta.py
->>   JOB ID     : 54f3d8efd8674f289b8aa01a87f5d70c5814544c
->>   JOB LOG    : avocado/job-results/job-2020-02-01T20.52-54f3d8e/job.log
->>    (1/3) tests/acceptance/machine_mips_malta.py:MaltaMachineFramebuffer.=
-test_mips_malta_i6400_framebuffer_logo_1core:
->>   framebuffer: found Tux at position (x, y) =3D (0, 0)
->>   PASS (3.37 s)
->>    (2/3) tests/acceptance/machine_mips_malta.py:MaltaMachineFramebuffer.=
-test_mips_malta_i6400_framebuffer_logo_7cores:
->>   framebuffer: found Tux at position (x, y) =3D (0, 0)
->>   framebuffer: found Tux at position (x, y) =3D (88, 0)
->>   framebuffer: found Tux at position (x, y) =3D (176, 0)
->>   framebuffer: found Tux at position (x, y) =3D (264, 0)
->>   framebuffer: found Tux at position (x, y) =3D (352, 0)
->>   framebuffer: found Tux at position (x, y) =3D (440, 0)
->>   framebuffer: found Tux at position (x, y) =3D (528, 0)
->>   PASS (5.80 s)
->>    (3/3) tests/acceptance/machine_mips_malta.py:MaltaMachineFramebuffer.=
-test_mips_malta_i6400_framebuffer_logo_8cores:
->>   framebuffer: found Tux at position (x, y) =3D (0, 0)
->>   framebuffer: found Tux at position (x, y) =3D (88, 0)
->>   framebuffer: found Tux at position (x, y) =3D (176, 0)
->>   framebuffer: found Tux at position (x, y) =3D (264, 0)
->>   framebuffer: found Tux at position (x, y) =3D (352, 0)
->>   framebuffer: found Tux at position (x, y) =3D (440, 0)
->>   framebuffer: found Tux at position (x, y) =3D (528, 0)
->>   framebuffer: found Tux at position (x, y) =3D (616, 0)
->>   PASS (6.67 s)
->>   RESULTS    : PASS 3 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0=
- | CANCEL 0
->>   JOB TIME   : 16.79 s
->>
->> If the AVOCADO_CV2_SCREENDUMP_PNG_PATH environment variable is set, the
->> test will save the screenshot with matched squares to it.
->>
->> Test inspired by the following post:
->> https://www.mips.com/blog/how-to-run-smp-linux-in-qemu-on-a-mips64-relea=
-se-6-cpu/
->> Kernel built with the following Docker file:
->> https://github.com/philmd/qemu-testing-blob/blob/malta_i6400/mips/malta/=
-mips64el/Dockerfile
->>
->> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
->> ---
->> The resulting match can be visualised at https://pasteboard.co/ISIj6ZA.p=
-ng
->> Generated using:
->>
->>   $ AVOCADO_CV2_SCREENDUMP_PNG_PATH=3D/tmp/screendump_matched.png \
->>     avocado --show=3Dapp run -t cpu:i6400 \
->>     tests/acceptance/machine_mips_malta.py
->>   JOB ID     : 54f3d8efd8674f289b8aa01a87f5d70c5814544c
->>   JOB LOG    : avocado/job-results/job-2020-02-01T20.52-54f3d8e/job.log
->>    (1/3) tests/acceptance/machine_mips_malta.py:MaltaMachineFramebuffer.=
-test_mips_malta_i6400_framebuffer_logo_1core: PASS (3.37 s)
->>    (2/3) tests/acceptance/machine_mips_malta.py:MaltaMachineFramebuffer.=
-test_mips_malta_i6400_framebuffer_logo_7cores: PASS (5.80 s)
->>    (3/3) tests/acceptance/machine_mips_malta.py:MaltaMachineFramebuffer.=
-test_mips_malta_i6400_framebuffer_logo_8cores: PASS (6.67 s)
->>   RESULTS    : PASS 3 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0=
- | CANCEL 0
->>   JOB TIME   : 16.79 s
->> ---
+On Mon, Feb 17, 2020 at 11:11 AM Palmer Dabbelt
+<palmerdabbelt@google.com> wrote:
 >
+> On Fri, 31 Jan 2020 17:01:35 PST (-0800), Alistair Francis wrote:
+> > This patch series adds the RISC-V Hypervisor extension v0.5. This is the
+> > latest draft spec of the Hypervisor extension.
+> >
+> > The Hypervisor extension is disabled by default, so this series should
+> > result in no changes to anyone using QEMU unless they enable the
+> > extension. The extention can be enabled with the -cpu property (see
+> > below).
+> >
+> > Testing of this implementation has been done by using the baremetal
+> > Xvisor Hypervisor. We are able to run two Linux guests (that's all I
+> > have tried) as guests in 64-bit. In 32-bit so far I can only run
+> > baremetal guests, but I think this is a baremetal boot loader issue and
+> > not an issue in QEMU.
+> >
+> > The RISC-V KVM implementation was also written using these patches. The
+> > KVM implementation is currently under review.
+> >
+> > At the moment this spec is in a draft state and is subject to change. As
+> > QEMU is extreamly useful in early bring up I think it makes sense for
+> > QEMU to support non-frozen extensions.
+> >
+> > Thanks to Anup for doing the initial port of Xvisor. The port is avaliable here:
+> > https://github.com/avpatel/xvisor-next and will run on QEMU.
+> >
+> > Also thanks to Atish for implementing the SBI call support in Xvisor and
+> > for lots of help debugging.
+> >
+> > To run this yourself:
+> >  1. Apply this patch series to QEMU. The latest branch can be found here:
+> >       https://github.com/alistair23/qemu/tree/mainline/alistair/riscv-hyp-ext-v0.5.next
+> >  2. Get the version of OpenSBI that supports the H extension. This can
+> >     be found here:
+> >       https://github.com/avpatel/opensbi/tree/riscv_hyp_ext_0_5_v1
+> >  3. Build the next release of Xvisor. It is available here:
+> >       https://github.com/avpatel/xvisor-next
+> >  4. Make sure you build the Xvisor tests, see here for details:
+> >       https://github.com/avpatel/xvisor-next/tree/master/tests/riscv/virt64/linux
+> >  5. Run QEMU:
+> >      ./riscv64-softmmu/qemu-system-riscv64 -nographic \
+> >        -machine virt -cpu rv64,x-h=true \
+> >        -serial mon:stdio -serial null -m 4G \
+> >        -device loader,file=vmm.bin,addr=0x80200000 \
+> >        -kernel fw_jump.elf \
+> >        -initrd vmm-disk-linux.img \
+> >        -append "vmm.console=uart@10000000 vmm.bootcmd=\"vfs mount initrd /;vfs run /boot.xscript;vfs cat /system/banner.txt\""
+> >
+> >    Once you get to the prompt you can start the geust by running:
+> >      guest kick guest0
+> >    You can then bind to the serial port using:
+> >      vserial bind guest0/uart0
+> >    Then you can start Linux using:
+> >      autoexec
+> >
+> >  This was all tested with the mainline 5.2/5.3 kernels.
+> >
+> > There is very early work on a Xen port as well which is avaliable here:
+> > https://github.com/alistair23/xen/tree/alistair/riscv-port
+> >
+> > ToDo/Issues
+> >  - Get 32-bit fully working
+> >
+> > v2:
+> >  - Don't use riscv_cpu_set_force_hs_excep() for 2nd stage MMU fauls as
+> >    the v0.5 spec has a specific fault
+> >  - Address review comments
+> >  - Rebase on master
+> >  - Remove pointers for mstatus
+> >
+> > Alistair Francis (35):
+> >   target/riscv: Convert MIP CSR to target_ulong
+> >   target/riscv: Add the Hypervisor extension
+> >   target/riscv: Add the Hypervisor CSRs to CPUState
+> >   target/riscv: Add support for the new execption numbers
+> >   target/riscv: Rename the H irqs to VS irqs
+> >   target/riscv: Add the virtulisation mode
+> >   target/riscv: Add the force HS exception mode
+> >   target/riscv: Fix CSR perm checking for HS mode
+> >   target/riscv: Print priv and virt in disas log
+> >   target/riscv: Dump Hypervisor registers if enabled
+> >   target/riscv: Add Hypervisor CSR access functions
+> >   target/riscv: Add Hypervisor virtual CSRs accesses
+> >   target/riscv: Add Hypervisor machine CSRs accesses
+> >   target/riscv: Add virtual register swapping function
+> >   target/riscv: Set VS bits in mideleg for Hyp extension
+> >   target/riscv: Extend the MIE CSR to support virtulisation
+> >   target/riscv: Extend the SIP CSR to support virtulisation
+> >   target/riscv: Add support for virtual interrupt setting
+> >   target/ricsv: Flush the TLB on virtulisation mode changes
+> >   target/riscv: Generate illegal instruction on WFI when V=1
+> >   target/riscv: Add hypvervisor trap support
+> >   target/riscv: Add Hypervisor trap return support
+> >   target/riscv: Add hfence instructions
+> >   target/riscv: Remove the hret instruction
+> >   target/riscv: Only set TB flags with FP status if enabled
+> >   target/riscv: Disable guest FP support based on virtual status
+> >   target/riscv: Mark both sstatus and msstatus_hs as dirty
+> >   target/riscv: Respect MPRV and SPRV for floating point ops
+> >   target/riscv: Allow specifying MMU stage
+> >   target/riscv: Implement second stage MMU
+> >   target/riscv: Raise the new execptions when 2nd stage translation
+> >     fails
+> >   target/riscv: Set htval and mtval2 on execptions
+> >   target/riscv: Add support for the 32-bit MSTATUSH CSR
+> >   target/riscv: Add the MSTATUS_MPV_ISSET helper macro
+> >   target/riscv: Allow enabling the Hypervisor extension
+> >
+> >  target/riscv/cpu.c                            |  57 ++-
+> >  target/riscv/cpu.h                            |  58 ++-
+> >  target/riscv/cpu_bits.h                       | 111 ++--
+> >  target/riscv/cpu_helper.c                     | 481 ++++++++++++++++--
+> >  target/riscv/csr.c                            | 369 +++++++++++++-
+> >  target/riscv/gdbstub.c                        |  11 +-
+> >  target/riscv/insn32.decode                    |  22 +-
+> >  .../riscv/insn_trans/trans_privileged.inc.c   |  45 +-
+> >  target/riscv/op_helper.c                      |  71 ++-
+> >  target/riscv/translate.c                      |  34 ++
+> >  10 files changed, 1130 insertions(+), 129 deletions(-)
 >
-> Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
->
-> I may add this file to yet another section in MAINTAINTERS (main MIPS tar=
-get section) (I'll do it while applying, no need to respin), since its impo=
-rtance is significant (tests MIPS' smp fearure).
+> OK, so everything should be reviewed and on for-master now.  I'll include it as
+> part of my next PR.
 
-Hmm you mean the "MIPS TCG CPUs"? Yes why not.
+Woo! Thanks
 
->
-> Once again, a gorgeous test!
-
-Thanks :)
+Alistair
 
 >
-> Aleksandar
->
->>
->>  MAINTAINERS                            |   1 +
->>  tests/acceptance/machine_mips_malta.py | 116 +++++++++++++++++++++++++
->>  2 files changed, 117 insertions(+)
->>  create mode 100644 tests/acceptance/machine_mips_malta.py
->>
->> diff --git a/MAINTAINERS b/MAINTAINERS
->> index 4ceb1ad882..65a3dfb564 100644
->> --- a/MAINTAINERS
->> +++ b/MAINTAINERS
->> @@ -983,6 +983,7 @@ F: hw/mips/mips_malta.c
->>  F: hw/mips/gt64xxx_pci.c
->>  F: include/hw/southbridge/piix.h
->>  F: tests/acceptance/linux_ssh_mips_malta.py
->> +F: tests/acceptance/machine_mips_malta.py
->>
->>  Mipssim
->>  M: Aleksandar Markovic <amarkovic@wavecomp.com>
->> diff --git a/tests/acceptance/machine_mips_malta.py b/tests/acceptance/m=
-achine_mips_malta.py
->> new file mode 100644
->> index 0000000000..2764143d15
->> --- /dev/null
->> +++ b/tests/acceptance/machine_mips_malta.py
->> @@ -0,0 +1,116 @@
->> +# Functional tests for the MIPS Malta board
->> +#
->> +# Copyright (c) Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
->> +#
->> +# This work is licensed under the terms of the GNU GPL, version 2 or la=
-ter.
->> +# See the COPYING file in the top-level directory.
->> +#
->> +# SPDX-License-Identifier: GPL-2.0-or-later
->> +
->> +import os
->> +import gzip
->> +import logging
->> +
->> +from avocado import skipUnless
->> +from avocado_qemu import Test
->> +from avocado_qemu import wait_for_console_pattern
->> +from avocado.utils import archive
->> +
->> +
->> +NUMPY_AVAILABLE =3D True
->> +try:
->> +    import numpy as np
->> +except ImportError:
->> +    NUMPY_AVAILABLE =3D False
->> +
->> +CV2_AVAILABLE =3D True
->> +try:
->> +    import cv2
->> +except ImportError:
->> +    CV2_AVAILABLE =3D False
->> +
->> +
->> +@skipUnless(NUMPY_AVAILABLE, 'Python NumPy not installed')
->> +@skipUnless(CV2_AVAILABLE, 'Python OpenCV not installed')
->> +class MaltaMachineFramebuffer(Test):
->> +
->> +    timeout =3D 30
->> +
->> +    KERNEL_COMMON_COMMAND_LINE =3D 'printk.time=3D0 '
->> +
->> +    def do_test_i6400_framebuffer_logo(self, cpu_cores_count):
->> +        """
->> +        Boot Linux kernel and check Tux logo is displayed on the frameb=
-uffer.
->> +        """
->> +        screendump_path =3D os.path.join(self.workdir, 'screendump.pbm'=
-)
->> +
->> +        kernel_url =3D ('https://github.com/philmd/qemu-testing-blob/ra=
-w/'
->> +                      'a5966ca4b5/mips/malta/mips64el/'
->> +                      'vmlinux-4.7.0-rc1.I6400.gz')
->> +        kernel_hash =3D '096f50c377ec5072e6a366943324622c312045f6'
->> +        kernel_path_gz =3D self.fetch_asset(kernel_url, asset_hash=3Dke=
-rnel_hash)
->> +        kernel_path =3D self.workdir + "vmlinux"
->> +        archive.gzip_uncompress(kernel_path_gz, kernel_path)
->> +
->> +        tuxlogo_url =3D ('https://github.com/torvalds/linux/raw/v2.6.12=
-/'
->> +                       'drivers/video/logo/logo_linux_vga16.ppm')
->> +        tuxlogo_hash =3D '3991c2ddbd1ddaecda7601f8aafbcf5b02dc86af'
->> +        tuxlogo_path =3D self.fetch_asset(tuxlogo_url, asset_hash=3Dtux=
-logo_hash)
->> +
->> +        self.vm.set_console()
->> +        kernel_command_line =3D (self.KERNEL_COMMON_COMMAND_LINE +
->> +                               'clocksource=3DGIC console=3Dtty0 consol=
-e=3DttyS0')
->> +        self.vm.add_args('-kernel', kernel_path,
->> +                         '-cpu', 'I6400',
->> +                         '-smp', '%u' % cpu_cores_count,
->> +                         '-vga', 'std',
->> +                         '-append', kernel_command_line)
->> +        self.vm.launch()
->> +        framebuffer_ready =3D 'Console: switching to colour frame buffe=
-r device'
->> +        wait_for_console_pattern(self, framebuffer_ready,
->> +                                 failure_message=3D'Kernel panic - not =
-syncing')
->> +        self.vm.command('human-monitor-command', command_line=3D'stop')
->> +        self.vm.command('human-monitor-command',
->> +                        command_line=3D'screendump %s' % screendump_pat=
-h)
->> +        logger =3D logging.getLogger('framebuffer')
->> +
->> +        match_threshold =3D 0.95
->> +        screendump_bgr =3D cv2.imread(screendump_path, cv2.IMREAD_COLOR=
-)
->> +        tuxlogo_bgr =3D cv2.imread(tuxlogo_path, cv2.IMREAD_COLOR)
->> +        result =3D cv2.matchTemplate(screendump_bgr, tuxlogo_bgr,
->> +                                   cv2.TM_CCOEFF_NORMED)
->> +        loc =3D np.where(result >=3D match_threshold)
->> +        tuxlogo_count =3D 0
->> +        h, w =3D tuxlogo_bgr.shape[:2]
->> +        debug_png =3D os.getenv('AVOCADO_CV2_SCREENDUMP_PNG_PATH')
->> +        for tuxlogo_count, pt in enumerate(zip(*loc[::-1]), start=3D1):
->> +            logger.debug('found Tux at position (x, y) =3D %s', pt)
->> +            cv2.rectangle(screendump_bgr, pt,
->> +                          (pt[0] + w, pt[1] + h), (0, 0, 255), 2)
->> +        if debug_png:
->> +            cv2.imwrite(debug_png, screendump_bgr)
->> +        self.assertGreaterEqual(tuxlogo_count, cpu_cores_count)
->> +
->> +    def test_mips_malta_i6400_framebuffer_logo_1core(self):
->> +        """
->> +        :avocado: tags=3Darch:mips64el
->> +        :avocado: tags=3Dmachine:malta
->> +        :avocado: tags=3Dcpu:i6400
->> +        """
->> +        self.do_test_i6400_framebuffer_logo(1)
->> +
->> +    def test_mips_malta_i6400_framebuffer_logo_7cores(self):
->> +        """
->> +        :avocado: tags=3Darch:mips64el
->> +        :avocado: tags=3Dmachine:malta
->> +        :avocado: tags=3Dcpu:i6400
->> +        """
->> +        self.do_test_i6400_framebuffer_logo(7)
->> +
->> +    def test_mips_malta_i6400_framebuffer_logo_8cores(self):
->> +        """
->> +        :avocado: tags=3Darch:mips64el
->> +        :avocado: tags=3Dmachine:malta
->> +        :avocado: tags=3Dcpu:i6400
->> +        """
->> +        self.do_test_i6400_framebuffer_logo(8)
->> --
->> 2.21.1
->>
->>
-
+> Thanks!
 
