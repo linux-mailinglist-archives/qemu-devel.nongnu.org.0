@@ -2,62 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5463D162C56
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 18:16:57 +0100 (CET)
-Received: from localhost ([::1]:38830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F089162C74
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 18:18:16 +0100 (CET)
+Received: from localhost ([::1]:38852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j46US-0005Qm-Cz
-	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 12:16:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51754)
+	id 1j46Vj-0007Iv-5B
+	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 12:18:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51774)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1j46TL-0004kx-0f
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 12:15:48 -0500
+ (envelope-from <cohuck@redhat.com>) id 1j46Te-00059G-HR
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 12:16:07 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1j46TJ-00009s-LD
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 12:15:46 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:31985)
+ (envelope-from <cohuck@redhat.com>) id 1j46Td-0000Ga-An
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 12:16:06 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:30348
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1j46TJ-00009h-Ge
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 12:15:45 -0500
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1j46Td-0000GH-6y
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 12:16:05 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582046145;
+ s=mimecast20190719; t=1582046164;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=pg0sd9662DiDnMDYJKB4bQZ2RabzVRMn3ZzPNw/v0VM=;
- b=BmmRangD2zCWSgHPfTrtUsuSAktGhxnEFPa+140ZTfHh2VRBUnwZuozHeI1VVjrVAwX/Aj
- dMyYp0L12Bx6M80WSBBKNJJjsTXiBI47TunHD5yn44r2bSqLX4M7EVlJjTzCI2mZ1N/ESQ
- TwUbeEh/P3z9IXmRYeeGggLKqhjjZTc=
+ bh=gio6zrDZoUf17NbrDcXsQzXKoJNdc8tLs747RONdiOY=;
+ b=AQ47QBrcshFj0QR3N+GQx75kblB+URAT642kK2Om5IarH4UY9i38nCR3L7YTY4p40/ATLN
+ axz4CsVnhofXHMtv2xgyCpblUFcIkxmY6U4pa7lhCszhroyS0YYUZfRiIdrJbtqaZcwT1W
+ z8YrwzrFG2SZsA7KqoRUWDfcab16PPs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-12-B4cQqyLLPFeThtmyedAsqg-1; Tue, 18 Feb 2020 12:15:38 -0500
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-37-W1Cq7WbRMGOewfQljccr-w-1; Tue, 18 Feb 2020 12:15:59 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0E8DA1857345
- for <qemu-devel@nongnu.org>; Tue, 18 Feb 2020 17:15:37 +0000 (UTC)
-Received: from localhost (unknown [10.43.2.114])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5659F90F73;
- Tue, 18 Feb 2020 17:15:27 +0000 (UTC)
-Date: Tue, 18 Feb 2020 18:15:26 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Julia Suvorova <jusual@redhat.com>
-Subject: Re: [PATCH] pcie_root_port: Add disable_hotplug option
-Message-ID: <20200218181526.30aadf0a@redhat.com>
-In-Reply-To: <20200218161717.386723-1-jusual@redhat.com>
-References: <20200218161717.386723-1-jusual@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 07449800D5A;
+ Tue, 18 Feb 2020 17:15:56 +0000 (UTC)
+Received: from gondolin (dhcp-192-195.str.redhat.com [10.33.192.195])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 675B25DA76;
+ Tue, 18 Feb 2020 17:15:54 +0000 (UTC)
+Date: Tue, 18 Feb 2020 18:15:51 +0100
+From: Cornelia Huck <cohuck@redhat.com>
+To: Laurent Vivier <laurent@vivier.eu>
+Subject: Re: [PATCH 00/22] linux-user: generate syscall_nr.sh
+Message-ID: <20200218181551.6dff3ec2.cohuck@redhat.com>
+In-Reply-To: <0769c184-dc34-c022-1986-698c6650bac1@vivier.eu>
+References: <20200217223558.863199-1-laurent@vivier.eu>
+ <20200218152748.63d608af.cohuck@redhat.com>
+ <0769c184-dc34-c022-1986-698c6650bac1@vivier.eu>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: B4cQqyLLPFeThtmyedAsqg-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: W1Cq7WbRMGOewfQljccr-w-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -69,145 +74,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>,
- "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>,
- qemu-devel@nongnu.org, Laine Stump <laine@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: Riku Voipio <riku.voipio@iki.fi>, qemu-devel@nongnu.org,
+ qemu-s390x@nongnu.org, Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 18 Feb 2020 17:17:17 +0100
-Julia Suvorova <jusual@redhat.com> wrote:
+On Tue, 18 Feb 2020 16:19:21 +0100
+Laurent Vivier <laurent@vivier.eu> wrote:
 
-> Make hot-plug/hot-unplug on PCIe Root Ports optional to allow libvirt
-> to manage it and restrict unplug for the entire machine. This is going
-> to prevent user-initiated unplug in guests (Windows mostly).
-> Usage:
->     -device pcie-root-port,disable-hotplug=true,...
-> 
-> Discussion related:
->     https://lists.gnu.org/archive/html/qemu-devel/2020-02/msg00530.html
-> 
-> Signed-off-by: Julia Suvorova <jusual@redhat.com>
-> ---
->  hw/core/machine.c                  | 1 +
->  hw/pci-bridge/pcie_root_port.c     | 3 ++-
->  hw/pci-bridge/xio3130_downstream.c | 2 +-
->  hw/pci/pcie.c                      | 8 ++++++--
->  include/hw/pci/pcie.h              | 2 +-
->  include/hw/pci/pcie_port.h         | 1 +
->  6 files changed, 12 insertions(+), 5 deletions(-)
-> 
-> diff --git a/hw/core/machine.c b/hw/core/machine.c
-> index 84812a1d1c..5ff698ac3c 100644
-> --- a/hw/core/machine.c
-> +++ b/hw/core/machine.c
-> @@ -36,6 +36,7 @@ GlobalProperty hw_compat_4_2[] = {
->      { "usb-redir", "suppress-remote-wake", "off" },
->      { "qxl", "revision", "4" },
->      { "qxl-vga", "revision", "4" },
-> +    { "pcie-root-port-base", "disable-hotplug", "false" },
-this looks unnecessary as the property is 'off' by default
+> Le 18/02/2020 =C3=A0 15:27, Cornelia Huck a =C3=A9crit=C2=A0:
+> > On Mon, 17 Feb 2020 23:35:36 +0100
+> > Laurent Vivier <laurent@vivier.eu> wrote:
+> >  =20
+> >> This series copies the files syscall.tbl from linux v5.5 and generates
+> >> the file syscall_nr.h from them.
+> >>
+> >> This is done for all the QEMU targets that have a syscall.tbl
+> >> in the linux source tree: mips, mips64, i386, x86_64, sparc, s390x,
+> >> ppc, arm, microblaze, sh4, xtensa, m68k, hppa and alpha.
+> >>
+> >> tilegx and cris are depecrated in linux (tilegx has no maintainer in Q=
+EMU)
+> >>
+> >> aarch64, nios2, openrisc and riscv have no syscall.tbl in linux.
+> >>
+> >> It seems there is a bug in QEMU that forces to disable manually arch_p=
+rctl
+> >> with i386 target: do_arch_prctl() is only defined with TARGET_ABI32 bu=
+t
+> >> TARGET_ABI32 is never defined with TARGET_I386 (nor TARGET_X86_64).
+> >>
+> >> I have also removed all syscalls in s390x/syscall_nr.h defined for
+> >> !defined(TARGET_S390X).
+> >>
+> >> I have added a script to copy all these files from linux and updated
+> >> them at the end of the series with their latest version for today.
+> >>
+> >> The two last patches manage the special case for mips O32 that needs
+> >> to know the number of arguments. We find them in strace sources. =20
+> >=20
+> > I like the idea of generating those files, but I wonder if that should
+> > interact with linux-headers updates.
+> >=20
+> > I plan to do a linux-headers update to 5.6-rc?, and I noticed that this
+> > will drag in two new syscalls (openat2 and pidfd_getfd). Now, just
+> > having the new #defines in the headers doesn't do anything, but should
+> > it be a trigger to update the syscall.tbl files as well? Or does that
+> > need manual inspection/updating? =20
+>=20
+> I think it's a good idea to update the syscall.tbl when we update
+> linux-headers, and there will be no change at linux-user level while we
+> don't implement the syscall translation in syscall.c:do_syscall1().
 
->  };
->  const size_t hw_compat_4_2_len = G_N_ELEMENTS(hw_compat_4_2);
->  
-> diff --git a/hw/pci-bridge/pcie_root_port.c b/hw/pci-bridge/pcie_root_port.c
-> index 0ba4e4dea4..d6a080bee8 100644
-> --- a/hw/pci-bridge/pcie_root_port.c
-> +++ b/hw/pci-bridge/pcie_root_port.c
-> @@ -94,7 +94,7 @@ static void rp_realize(PCIDevice *d, Error **errp)
->  
->      pcie_cap_arifwd_init(d);
->      pcie_cap_deverr_init(d);
-> -    pcie_cap_slot_init(d, s->slot);
-> +    pcie_cap_slot_init(d, s);
->      pcie_cap_root_init(d);
->  
->      pcie_chassis_create(s->chassis);
-> @@ -147,6 +147,7 @@ static Property rp_props[] = {
->      DEFINE_PROP_BIT(COMPAT_PROP_PCP, PCIDevice, cap_present,
->                      QEMU_PCIE_SLTCAP_PCP_BITNR, true),
->      DEFINE_PROP_BOOL("disable-acs", PCIESlot, disable_acs, false),
-> +    DEFINE_PROP_BOOL("disable-hotplug", PCIESlot, disable_hotplug, false),
->      DEFINE_PROP_END_OF_LIST()
->  };
->  
-> diff --git a/hw/pci-bridge/xio3130_downstream.c b/hw/pci-bridge/xio3130_downstream.c
-> index 153a4acad2..04aae72cd6 100644
-> --- a/hw/pci-bridge/xio3130_downstream.c
-> +++ b/hw/pci-bridge/xio3130_downstream.c
-> @@ -94,7 +94,7 @@ static void xio3130_downstream_realize(PCIDevice *d, Error **errp)
->      }
->      pcie_cap_flr_init(d);
->      pcie_cap_deverr_init(d);
-> -    pcie_cap_slot_init(d, s->slot);
-> +    pcie_cap_slot_init(d, s);
->      pcie_cap_arifwd_init(d);
->  
->      pcie_chassis_create(s->chassis);
-> diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c
-> index 08718188bb..6dd9b89e21 100644
-> --- a/hw/pci/pcie.c
-> +++ b/hw/pci/pcie.c
-> @@ -495,7 +495,7 @@ void pcie_cap_slot_unplug_request_cb(HotplugHandler *hotplug_dev,
->  
->  /* pci express slot for pci express root/downstream port
->     PCI express capability slot registers */
-> -void pcie_cap_slot_init(PCIDevice *dev, uint16_t slot)
-> +void pcie_cap_slot_init(PCIDevice *dev, PCIESlot *s)
->  {
->      uint32_t pos = dev->exp.exp_cap;
->  
-> @@ -505,13 +505,17 @@ void pcie_cap_slot_init(PCIDevice *dev, uint16_t slot)
->      pci_long_test_and_clear_mask(dev->config + pos + PCI_EXP_SLTCAP,
->                                   ~PCI_EXP_SLTCAP_PSN);
->      pci_long_test_and_set_mask(dev->config + pos + PCI_EXP_SLTCAP,
-> -                               (slot << PCI_EXP_SLTCAP_PSN_SHIFT) |
-> +                               (s->slot << PCI_EXP_SLTCAP_PSN_SHIFT) |
->                                 PCI_EXP_SLTCAP_EIP |
->                                 PCI_EXP_SLTCAP_HPS |
->                                 PCI_EXP_SLTCAP_HPC |
+Nod.
 
-why not to set it to begin with instead of clearing it later as afterthought?
+>=20
+> But I think we should also check manually the difference between new and
+> old generated syscall_nr.h to be sure there is nothing broken in what we
+> introduce.
+>=20
+> I always run a Linux Test Project testsuite for all architectures with a
+> debian distro when I do a pull request so I can detect regression.
+>=20
+> In the end, updating linux-headers should trigger syscall.tbl update but
+> it needs manual inspection.
 
-Also only _HPC but _HPS is left, wouldn't it confuse guests?
+I think we should make sure that updating syscall.tbl does not get
+forgotten if we do a headers update... have the update script print out
+a message? I'm not sure if we want to automate updating the syscall
+table, as we want manual inspection for it.
 
->                                 PCI_EXP_SLTCAP_PIP |
->                                 PCI_EXP_SLTCAP_AIP |
->                                 PCI_EXP_SLTCAP_ABP);
-> +    if (s->disable_hotplug) {
-> +        pci_long_test_and_clear_mask(dev->config + pos + PCI_EXP_SLTCAP,
-> +                                     PCI_EXP_SLTCAP_HPC);
+Maybe have the update script moan about syscall.tbl if unistd.h is
+changed? Should be a good enough heuristic.
 
-> +    }
->  
->      if (dev->cap_present & QEMU_PCIE_SLTCAP_PCP) {
->          pci_long_test_and_set_mask(dev->config + pos + PCI_EXP_SLTCAP,
-> diff --git a/include/hw/pci/pcie.h b/include/hw/pci/pcie.h
-> index 7064875835..14c58ebdb6 100644
-> --- a/include/hw/pci/pcie.h
-> +++ b/include/hw/pci/pcie.h
-> @@ -104,7 +104,7 @@ void pcie_cap_deverr_reset(PCIDevice *dev);
->  void pcie_cap_lnkctl_init(PCIDevice *dev);
->  void pcie_cap_lnkctl_reset(PCIDevice *dev);
->  
-> -void pcie_cap_slot_init(PCIDevice *dev, uint16_t slot);
-> +void pcie_cap_slot_init(PCIDevice *dev, PCIESlot *s);
->  void pcie_cap_slot_reset(PCIDevice *dev);
->  void pcie_cap_slot_get(PCIDevice *dev, uint16_t *slt_ctl, uint16_t *slt_sta);
->  void pcie_cap_slot_write_config(PCIDevice *dev,
-> diff --git a/include/hw/pci/pcie_port.h b/include/hw/pci/pcie_port.h
-> index 4b3d254b08..796fc8f3ab 100644
-> --- a/include/hw/pci/pcie_port.h
-> +++ b/include/hw/pci/pcie_port.h
-> @@ -55,6 +55,7 @@ struct PCIESlot {
->  
->      /* Disable ACS (really for a pcie_root_port) */
->      bool        disable_acs;
-> +    bool        disable_hotplug;
->      QLIST_ENTRY(PCIESlot) next;
->  };
->  
+That said, I'll probably queue a headers update on the s390-next branch
+right now (against current Linus master), unless someone complains --
+maybe take the syscall.tbl from that state of the kernel tree as well?
 
 
