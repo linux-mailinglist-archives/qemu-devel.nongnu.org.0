@@ -2,67 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CAFC16270D
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 14:22:42 +0100 (CET)
-Received: from localhost ([::1]:34866 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92383162714
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 14:24:41 +0100 (CET)
+Received: from localhost ([::1]:34982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j42pl-0008VT-FD
-	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 08:22:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45751)
+	id 1j42rg-0003cD-MR
+	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 08:24:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45760)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j42nk-0006Zv-M1
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 08:20:37 -0500
+ (envelope-from <philmd@redhat.com>) id 1j42nl-0006a4-LZ
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 08:20:38 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j42nj-0000WT-GC
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 08:20:36 -0500
-Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:41598)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j42ni-0000W5-QE
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 08:20:34 -0500
-Received: by mail-oi1-x244.google.com with SMTP id i1so20018760oie.8
- for <qemu-devel@nongnu.org>; Tue, 18 Feb 2020 05:20:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=e33XSujeVPSmM69bxmP6PPG5hbSgevpcKoYxIW+BlSA=;
- b=crkLfZKYA8VWOgld1aUF2vc2YhylK3y7pcJIwzBAtU/nSt6lKyRXUL3ZmjuZo58acw
- SdBiXb2k8+mBiyRkFfKjyIKnzXeMPyZ+R3Wr9LT27l2G5HLPQdiMCs6Fh7RphEWx9bHV
- To9mpwdHJq+LPEvmHATmPo75AddPV5zZyOqxmd91TZglfCaJNdHmR58y1S58Ubqv5fTt
- Oo9LlXjUPQq7kvb+VVfyYlWNKD73P7mI1vb4FPrEju10yYgy3l7M58L2FvTl+jjW+p90
- q2luvDU7oFvG1JnwJ4k5mj+zDKiNqbtVUODJMsa721oKkzLtNndHQKfBPfKXxXRxazdb
- HqAw==
+ (envelope-from <philmd@redhat.com>) id 1j42nj-0000Wd-Rf
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 08:20:37 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:58155
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j42nj-0000WD-Mn
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 08:20:35 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1582032034;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=/sFMMkb4e3qwBsA4b31ISSU5c6HT2zaacb/ZY1KC50I=;
+ b=P5XBVYcxdNka+WF/m0v3bEJPz1hCH6LZ8UJxg3H6pCwrjeB+7N8EcOdICBqDOmbp4pC/74
+ PZXN+1li5WynPnNl26+BDbUsj9tAvLr+AQWy6/5pVAbYIQ1gtKerIqfA1NG9PEKDsNozgi
+ LIMwZ4/4HWfFaSDM4j1gi9jIdWtgpGg=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-316-3ZUpG6PJNUKP1nmoTCPu1A-1; Tue, 18 Feb 2020 08:20:27 -0500
+Received: by mail-wr1-f69.google.com with SMTP id r1so10773354wrc.15
+ for <qemu-devel@nongnu.org>; Tue, 18 Feb 2020 05:20:27 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=e33XSujeVPSmM69bxmP6PPG5hbSgevpcKoYxIW+BlSA=;
- b=riQxmCjlObex7w0AeoVufhRVY3nVNmlkDm6SfCmjJuxf35zU7fir6f1d35zck9SeBG
- OTKiekuBYA3GdcIrI1LtXgivD+dpFTSriEqUd1zjsPLToyeJHZNCmUfgllyB6LzOkS7u
- OJ6VU2HGYqJxDZ3Vda9jTNBdN60/KHKNdG7kavSxuV/y5GJsDWxkkebKAk0ekWBEEBVV
- xN8d+hf7pQo1CEdMY1IsgLR2ZcJ2qqtDaj61eSFjafukGEOxCD9aYA3k0s+HQLjeO9Xi
- LS39Qk8j9Lh/HhEaazVGb4ulvW49AtVncsXKXkV8V/zzYFytFxarO5Gx3YXWL11GrjFh
- pxvQ==
-X-Gm-Message-State: APjAAAVv1QmLWXQUaEFxJIENwV/1LTAJbEkZo+ZSR0BgS0kd3RROd6d0
- bpyj80pamGXWWBa/pUzVjOvlMabIXb/MhX+5U1GVOA==
-X-Google-Smtp-Source: APXvYqySln2sw77s+nOwW5Mn2mm4KJv9a68J7L+JY+6B5m8LajUt/A38P9k+plTA3F+gyNA6iILNbyg9kCvxZv+sF8g=
-X-Received: by 2002:a05:6808:289:: with SMTP id
- z9mr1148810oic.48.1582032033516; 
- Tue, 18 Feb 2020 05:20:33 -0800 (PST)
-MIME-Version: 1.0
-References: <20200218112457.22712-1-peter.maydell@linaro.org>
- <fc70075c-0098-632e-7d60-4534202bf2f5@redhat.com>
-In-Reply-To: <fc70075c-0098-632e-7d60-4534202bf2f5@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 18 Feb 2020 13:20:22 +0000
-Message-ID: <CAFEAcA8wNVFu1ZcchFbRxkmvpKfFg3WF7p=5vxs0qevWPSMV_g@mail.gmail.com>
-Subject: Re: [PATCH v2] Avoid address_space_rw() with a constant is_write
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Q0b3JmegZIBOrzOx6D2WeXg3Fr4IgL8v1odhEcx6GCw=;
+ b=jrDMtYrGGdTUZNifqvShunMW7q4LSW8QjGFqjKziky/MvnJcghSr/Ea3CBa2TRnGnD
+ mdwlpeQH7ydp4SOpNgy0dGLsxrInOShLoCN5CqqMXwpEa+QxQiLuw/N40QnhcfhnTLW9
+ rcrf3bqVAydDunTW9a0L6F3MMo4Ue/qZvxyANKEjXTuNTkBOQBMiVA+kbT5G6q3/age1
+ /hBAEJxxKeuxU57dtZnbdkL/dFX3fEFR5bY4UlO8ph2BTZNzEidII9FhgTVZr69q6FJk
+ rXk1J60B3NmrV0Plp4qkUSgcWf9Pn1/dTGr7wN0zMgvjyuVs/fFHJKd+ZBbxmnUrTITs
+ 5FPg==
+X-Gm-Message-State: APjAAAVXpCS8h5btBs1vk0tAyoZciKKHl+04piPlqAEN048dy8eXx6Ky
+ gCQ0wXPF0pFfcMUfWSJzsbL9hIV0iRmO4fNaJsZTXy46RW85lC8/9HagXqotjX/1uo7aw1ovBqi
+ YdrAV0wN1uB5IOUA=
+X-Received: by 2002:adf:f491:: with SMTP id l17mr31157129wro.149.1582032025046; 
+ Tue, 18 Feb 2020 05:20:25 -0800 (PST)
+X-Google-Smtp-Source: APXvYqyKkQEDaHDISgH6qvq3pjfhjQ41Yebtgf20dAvgvUG3VIO2Qwt5nwgZHZ29Nv8QGZy+aHbmpw==
+X-Received: by 2002:adf:f491:: with SMTP id l17mr31157097wro.149.1582032024834; 
+ Tue, 18 Feb 2020 05:20:24 -0800 (PST)
+Received: from x1w.redhat.com (78.red-88-21-202.staticip.rima-tde.net.
+ [88.21.202.78])
+ by smtp.gmail.com with ESMTPSA id m68sm3531219wme.48.2020.02.18.05.20.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 18 Feb 2020 05:20:24 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] Avoid cpu_physical_memory_rw() with a constant is_write
  argument
-To: Laurent Vivier <lvivier@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::244
+Date: Tue, 18 Feb 2020 14:20:23 +0100
+Message-Id: <20200218132023.22936-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.21.1
+MIME-Version: 1.0
+X-MC-Unique: 3ZUpG6PJNUKP1nmoTCPu1A-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8;
+	text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,48 +86,139 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Alistair Francis <alistair@alistair23.me>,
- QEMU Developers <qemu-devel@nongnu.org>, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, Paul Durrant <paul@xen.org>,
  Paolo Bonzini <pbonzini@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+ Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 18 Feb 2020 at 13:14, Laurent Vivier <lvivier@redhat.com> wrote:
-> There is one in target/i386/hvf/vmx.h: macvm_set_cr0() you didn't change.
+This commit was produced with the included Coccinelle script
+scripts/coccinelle/as-rw-const.patch.
 
-It turns out that "spatch --dir ." only looks at .c files,
-and you need to add --include-headers to get it to look at
-.h files too. The only extra change is this one:
+Inspired-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+---
+Based-on: <20200218112457.22712-1-peter.maydell@linaro.org>
 
-diff --git a/target/i386/hvf/vmx.h b/target/i386/hvf/vmx.h
-index eb8894cd589..c245dc6d5bb 100644
---- a/target/i386/hvf/vmx.h
-+++ b/target/i386/hvf/vmx.h
-@@ -125,10 +125,9 @@ static inline void macvm_set_cr0(hv_vcpuid_t
-vcpu, uint64_t cr0)
+Maybe can be squashed in Peter's patch?
 
-     if ((cr0 & CR0_PG) && (rvmcs(vcpu, VMCS_GUEST_CR4) & CR4_PAE) &&
-         !(efer & MSR_EFER_LME)) {
--        address_space_rw(&address_space_memory,
--                         rvmcs(vcpu, VMCS_GUEST_CR3) & ~0x1f,
--                         MEMTXATTRS_UNSPECIFIED,
--                         (uint8_t *)pdpte, 32, 0);
-+        address_space_read(&address_space_memory,
-+                           rvmcs(vcpu, VMCS_GUEST_CR3) & ~0x1f,
-+                           MEMTXATTRS_UNSPECIFIED, (uint8_t *)pdpte, 32);
-         /* Only set PDPTE when appropriate. */
-         for (i = 0; i < 4; i++) {
-             wvmcs(vcpu, VMCS_GUEST_PDPTE0 + i * 2, pdpte[i]);
+Cocci script can be written as:
 
-which I propose to squash in, together with the fixes to use
-the right filename in the commit message and comment.
+    @@
+    expression E1, E2, E3, E4, E5;
+    symbol true, false;
+    @@
+    (
+    - address_space_rw(E1, E2, E3, E4, E5, false)
+    + address_space_read(E1, E2, E3, E4, E5)
+    |
+    - address_space_rw(E1, E2, E3, E4, E5, 0)
+    + address_space_read(E1, E2, E3, E4, E5)
+    |
+    - address_space_rw(E1, E2, E3, E4, E5, true)
+    + address_space_write(E1, E2, E3, E4, E5)
+    |
+    - address_space_rw(E1, E2, E3, E4, E5, 1)
+    + address_space_write(E1, E2, E3, E4, E5)
+    )
 
-thanks
--- PMM
+    @@
+    expression E1, E2, E3;
+    @@
+    (
+    - cpu_physical_memory_rw(E1, E2, E3, false)
+    + cpu_physical_memory_read(E1, E2, E3)
+    |
+    - cpu_physical_memory_rw(E1, E2, E3, 0)
+    + cpu_physical_memory_read(E1, E2, E3)
+    |
+    - cpu_physical_memory_rw(E1, E2, E3, true)
+    + cpu_physical_memory_write(E1, E2, E3)
+    |
+    - cpu_physical_memory_rw(E1, E2, E3, 1)
+    + cpu_physical_memory_write(E1, E2, E3)
+    )
+---
+ hw/xen/xen_pt_graphics.c             |  2 +-
+ target/i386/hax-all.c                |  4 ++--
+ scripts/coccinelle/as_rw_const.cocci | 20 +++++++++++++++++++-
+ 3 files changed, 22 insertions(+), 4 deletions(-)
+
+diff --git a/hw/xen/xen_pt_graphics.c b/hw/xen/xen_pt_graphics.c
+index b69732729b..a3bc7e3921 100644
+--- a/hw/xen/xen_pt_graphics.c
++++ b/hw/xen/xen_pt_graphics.c
+@@ -222,7 +222,7 @@ void xen_pt_setup_vga(XenPCIPassthroughState *s, XenHos=
+tPCIDevice *dev,
+     }
+=20
+     /* Currently we fixed this address as a primary for legacy BIOS. */
+-    cpu_physical_memory_rw(0xc0000, bios, bios_size, 1);
++    cpu_physical_memory_write(0xc0000, bios, bios_size);
+ }
+=20
+ uint32_t igd_read_opregion(XenPCIPassthroughState *s)
+diff --git a/target/i386/hax-all.c b/target/i386/hax-all.c
+index a8b6e5aeb8..f5971ccc74 100644
+--- a/target/i386/hax-all.c
++++ b/target/i386/hax-all.c
+@@ -376,8 +376,8 @@ static int hax_handle_fastmmio(CPUArchState *env, struc=
+t hax_fastmmio *hft)
+          *  hft->direction =3D=3D 2: gpa =3D=3D> gpa2
+          */
+         uint64_t value;
+-        cpu_physical_memory_rw(hft->gpa, (uint8_t *) &value, hft->size, 0)=
+;
+-        cpu_physical_memory_rw(hft->gpa2, (uint8_t *) &value, hft->size, 1=
+);
++        cpu_physical_memory_read(hft->gpa, (uint8_t *)&value, hft->size);
++        cpu_physical_memory_write(hft->gpa2, (uint8_t *)&value, hft->size)=
+;
+     }
+=20
+     return 0;
+diff --git a/scripts/coccinelle/as_rw_const.cocci b/scripts/coccinelle/as_r=
+w_const.cocci
+index 30da707701..c9a39f1abe 100644
+--- a/scripts/coccinelle/as_rw_const.cocci
++++ b/scripts/coccinelle/as_rw_const.cocci
+@@ -1,6 +1,6 @@
+ // Avoid uses of address_space_rw() with a constant is_write argument.
+ // Usage:
+-//  spatch --sp-file as-rw-const.spatch --dir . --in-place
++//  spatch --sp-file scripts/coccinelle/as_rw_const.cocci --dir . --in-pla=
+ce
+=20
+ @@
+ expression E1, E2, E3, E4, E5;
+@@ -28,3 +28,21 @@ expression E1, E2, E3, E4, E5;
+=20
+ - address_space_rw(E1, E2, E3, E4, E5, 1)
+ + address_space_write(E1, E2, E3, E4, E5)
++
++// Avoid uses of cpu_physical_memory_rw() with a constant is_write argumen=
+t.
++@@
++expression E1, E2, E3;
++@@
++(
++- cpu_physical_memory_rw(E1, E2, E3, false)
+++ cpu_physical_memory_read(E1, E2, E3)
++|
++- cpu_physical_memory_rw(E1, E2, E3, 0)
+++ cpu_physical_memory_read(E1, E2, E3)
++|
++- cpu_physical_memory_rw(E1, E2, E3, true)
+++ cpu_physical_memory_write(E1, E2, E3)
++|
++- cpu_physical_memory_rw(E1, E2, E3, 1)
+++ cpu_physical_memory_write(E1, E2, E3)
++)
+--=20
+2.21.1
+
 
