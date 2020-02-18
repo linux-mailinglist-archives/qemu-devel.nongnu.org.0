@@ -2,103 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96CC11623C8
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 10:46:09 +0100 (CET)
-Received: from localhost ([::1]:59266 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FCE21623FA
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 10:53:58 +0100 (CET)
+Received: from localhost ([::1]:59488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j3zSC-0003Uw-Lj
-	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 04:46:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43314)
+	id 1j3zZl-0000xh-AL
+	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 04:53:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44015)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1j3zQQ-0001Hh-Jv
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 04:44:19 -0500
+ (envelope-from <kuhn.chenqun@huawei.com>) id 1j3zSV-0005TH-Ps
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 04:46:28 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1j3zQP-0005sz-GR
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 04:44:18 -0500
-Received: from mail-am6eur05on2100.outbound.protection.outlook.com
- ([40.107.22.100]:61025 helo=EUR05-AM6-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1j3zQJ-0005n2-Ce; Tue, 18 Feb 2020 04:44:12 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JH1fz9sp+07lD07FViF7S4QMWO6h2Z8QnNum80BZCmsrDEQXb9qj+I05CVHdvjjZGUW7nXOikgegHK8ljjXeE5wzFAY0iuo2iJjJFgz6lHFkYW8oeorYLOVwAvOpj6Hkm3AXINTyZptQwC1b5V+eyQatt/HY9Uoew1FtHubeQXBj3kDQ9zyc2Kjr3m5h4v4AP2rSFf+a9yVvq/d6pd922YHgnpJWxbQsP/F8A82PQAIbGP9lS331hbxKtuCGRfOFvAY9vk0KR9E5buwZXNc6zt6V4PIl4QhT8Fl9TYQocYEuna9oKt3CyNEPIY9IVtpjKIJvqrQ5X2PpzbuDAWwmYA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4QbquY3nvaNd98xl9fnrswl5ZxsJlrGwwSC+QgrWGUs=;
- b=AonVwKQB6goOGz1uKNMDKEQrcsQqlxO2QtNRQmlN4VXL8urmpm/5IaR5uL2MOkPYTcJCnAnjQ24VPDkc6jE8AMiWe7OZlTz0LIk2JTETXiCPtAz+tFdDPmB5CvRT1SCppmoTw+ZpY2iAlR2znfBOL1EHMgkzne6lKqdHWmJ6yokyfu/OwHMbrsflzKE+4HurfXwzxG0nQIzf9avB+vBDNdd3FLz49ZvlE9zjh+B9oBqI7uu7eLuq12qTrBhZHqso4dCjEaLxc+PPGk9qi/j2cs20SNGeRNNtKdBxU/kAN4fhMt5p17CxLch+eTPmDOPcW5dtc+o4eR9W+V+rcEgHZQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4QbquY3nvaNd98xl9fnrswl5ZxsJlrGwwSC+QgrWGUs=;
- b=KCUtGh6jsfGWUT7lQDoC3eroEgxyClPS+dzpJ1ylwekljV4OjpCSORpkSH0L5i5XdNaIA777dH2BVzpjLMFaYIttaXhJkagIZMz5uCXmeNspYHowMwaLi2Z3OeHE2zTvkgRqfzMNeBeCm/x3Yf962MeTKSIOm9WenHs27+GnVn8=
-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=andrey.shinkevich@virtuozzo.com; 
-Received: from AM6PR08MB5048.eurprd08.prod.outlook.com (10.255.123.95) by
- AM6PR08MB3046.eurprd08.prod.outlook.com (52.135.165.11) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2729.24; Tue, 18 Feb 2020 09:44:08 +0000
-Received: from AM6PR08MB5048.eurprd08.prod.outlook.com
- ([fe80::1883:da16:865a:139d]) by AM6PR08MB5048.eurprd08.prod.outlook.com
- ([fe80::1883:da16:865a:139d%5]) with mapi id 15.20.2729.032; Tue, 18 Feb 2020
- 09:44:08 +0000
-Subject: Re: [PATCH v2 01/22] migration/block-dirty-bitmap: fix
- dirty_bitmap_mig_before_vm_start
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-devel@nongnu.org
-References: <20200217150246.29180-1-vsementsov@virtuozzo.com>
- <20200217150246.29180-2-vsementsov@virtuozzo.com>
-From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-Organization: Virtuozzo
-Message-ID: <40ee6499-92a3-9427-c5b1-efac2222bb9c@virtuozzo.com>
-Date: Tue, 18 Feb 2020 12:44:06 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
-In-Reply-To: <20200217150246.29180-2-vsementsov@virtuozzo.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: HE1PR0902CA0020.eurprd09.prod.outlook.com
- (2603:10a6:3:e5::30) To AM6PR08MB5048.eurprd08.prod.outlook.com
- (2603:10a6:20b:ee::31)
+ (envelope-from <kuhn.chenqun@huawei.com>) id 1j3zSU-0006mA-9b
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 04:46:27 -0500
+Received: from szxga01-in.huawei.com ([45.249.212.187]:2445 helo=huawei.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <kuhn.chenqun@huawei.com>)
+ id 1j3zST-0006kK-VE; Tue, 18 Feb 2020 04:46:26 -0500
+Received: from DGGEMM402-HUB.china.huawei.com (unknown [172.30.72.55])
+ by Forcepoint Email with ESMTP id A3E3917E15AFEF0B8EC3;
+ Tue, 18 Feb 2020 17:46:19 +0800 (CST)
+Received: from DGGEMM421-HUB.china.huawei.com (10.1.198.38) by
+ DGGEMM402-HUB.china.huawei.com (10.3.20.210) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Tue, 18 Feb 2020 17:46:19 +0800
+Received: from DGGEMM531-MBX.china.huawei.com ([169.254.5.165]) by
+ dggemm421-hub.china.huawei.com ([10.1.198.38]) with mapi id 14.03.0439.000;
+ Tue, 18 Feb 2020 17:46:09 +0800
+From: "Chenqun (kuhn)" <kuhn.chenqun@huawei.com>
+To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "qemu-ppc@nongnu.org"
+ <qemu-ppc@nongnu.org>, "jcmvbkbc@gmail.com" <jcmvbkbc@gmail.com>,
+ "crwulff@gmail.com" <crwulff@gmail.com>, "marex@denx.de" <marex@denx.de>,
+ "edgar.iglesias@gmail.com" <edgar.iglesias@gmail.com>,
+ "david@gibson.dropbear.id.au" <david@gibson.dropbear.id.au>
+Subject: RE: [PATCH 0/3]hw: Fixs memleak of fdevice tree blob
+Thread-Topic: [PATCH 0/3]hw: Fixs memleak of fdevice tree blob
+Thread-Index: AQHV5jvGomOGww3FYUqlb9mV7XuhSKggsH8g
+Date: Tue, 18 Feb 2020 09:46:09 +0000
+Message-ID: <7412CDE03601674DA8197E2EBD8937E83B64D2E5@dggemm531-mbx.china.huawei.com>
+References: <20200218091154.21696-1-kuhn.chenqun@huawei.com>
+In-Reply-To: <20200218091154.21696-1-kuhn.chenqun@huawei.com>
+Accept-Language: en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.133.205.93]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Received: from [172.16.24.225] (185.231.240.5) by
- HE1PR0902CA0020.eurprd09.prod.outlook.com (2603:10a6:3:e5::30) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2729.25 via Frontend Transport; Tue, 18 Feb 2020 09:44:07 +0000
-X-Originating-IP: [185.231.240.5]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 365747d8-5365-4db6-6a18-08d7b45719bb
-X-MS-TrafficTypeDiagnostic: AM6PR08MB3046:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB3046D5237A7EC3A45E41BCC8F4110@AM6PR08MB3046.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:612;
-X-Forefront-PRVS: 031763BCAF
-X-Forefront-Antispam-Report: SFV:NSPM;
- SFS:(10019020)(136003)(39840400004)(396003)(366004)(376002)(346002)(199004)(189003)(316002)(6486002)(36756003)(53546011)(26005)(31686004)(4326008)(52116002)(2616005)(36916002)(16576012)(956004)(16526019)(54906003)(186003)(44832011)(81166006)(31696002)(478600001)(86362001)(66556008)(66476007)(66946007)(2906002)(8676002)(8936002)(5660300002)(81156014)(14143004);
- DIR:OUT; SFP:1102; SCL:1; SRVR:AM6PR08MB3046;
- H:AM6PR08MB5048.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-Received-SPF: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: tN7Me51sRMukD1XaNS6gqGtwTuvDejccShcb2Lpz/1vSY2SOmALhiSec0ByJh4mLNI+KYKotapxVHPmiLpjwANvsWfSuRa9cnSlHwl4geDbJi5d53qywS7BnmzGU0TEYgn4LpRbFDw49EGcHDYRTp8P36DKOs2LYv7xvxVkI3AfbE5BZiDEwtC4y+FuUJgvLi17/Kqg6/iKp9xhIWLzpQDsyXTxOoQPwyQ0uE3OGfxgMe7bcahjX4JrFrvUQwFytEXzak6wxPy3nO5xkVV2V/4HkSrc1LcJlsv0t1FjudvqM4OWVl6cc8jDNfvfpDh7TY7Zm3pT2SE35SFtrJxHFUyxYg1thNyUryP1w5VL5VYzTwClP0RgDHO6pyEy8dLDjTLybRjNCZp2BQTsyKu6eyZUFH2rSm4SiJghiImZA8cbaeX28ddHbIHtgz7eMOiMou8MhGxN7oPImA+8XAr28tilZJtvNWa+gpUH2JS0UouF4umpc3oGrDw//LF2913I1
-X-MS-Exchange-AntiSpam-MessageData: hHlWJiZ0JxRA5xxtBrxyufmlAZ+f1dZBH73oGzjtaRB3b1t07ehm+x2+Gta9uKIdHMN7d3jGrERY7+We/VzV8Fq5PwfbAO6668qQeqtIcPvwoYtbqLe2cdMqsIlBDtzEmDAiKRaC9y+n1xQZd3v0Nw==
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 365747d8-5365-4db6-6a18-08d7b45719bb
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Feb 2020 09:44:08.4380 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: cs5XN1tuyZiow4GFo6qJ7Dmk5/M8kD5wbw+BTxTfwfvCGUooWi9ai5cj4LXs8PHRdtdfObXD5dPSM5BpXIjRiX58AS7jYw8R2Rj3sbxuPHk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3046
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.22.100
+X-CFilter-Loop: Reflected
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 45.249.212.187
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -110,41 +65,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, qemu-block@nongnu.org, quintela@redhat.com,
- qemu-stable@nongnu.org, dgilbert@redhat.com,
- Stefan Hajnoczi <stefanha@redhat.com>, John Snow <jsnow@redhat.com>
+Cc: "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>,
+ Pannengyuan <pannengyuan@huawei.com>,
+ Zhanghailiang <zhang.zhanghailiang@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 17/02/2020 18:02, Vladimir Sementsov-Ogievskiy wrote:
-> No reason to use _locked version of bdrv_enable_dirty_bitmap, as we
-> don't lock this mutex before. Moreover, the adjacent
-> bdrv_dirty_bitmap_enable_successor do lock the mutex.
-> 
-> Fixes: 58f72b965e9e1q
-> Cc: qemu-stable@nongnu.org # v3.0
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->   migration/block-dirty-bitmap.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/migration/block-dirty-bitmap.c b/migration/block-dirty-bitmap.c
-> index 7eafface61..16f1793ee3 100644
-> --- a/migration/block-dirty-bitmap.c
-> +++ b/migration/block-dirty-bitmap.c
-> @@ -498,7 +498,7 @@ void dirty_bitmap_mig_before_vm_start(void)
->           DirtyBitmapLoadBitmapState *b = item->data;
->   
->           if (b->migrated) {
-> -            bdrv_enable_dirty_bitmap_locked(b->bitmap);
-> +            bdrv_enable_dirty_bitmap(b->bitmap);
->           } else {
->               bdrv_dirty_bitmap_enable_successor(b->bitmap);
->           }
-> 
-
-Reviewed-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
--- 
-With the best regards,
-Andrey Shinkevich
+DQoNCj4tLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPkZyb206IENoZW5xdW4gKGt1aG4pDQo+
+U2VudDogVHVlc2RheSwgRmVicnVhcnkgMTgsIDIwMjAgNToxMiBQTQ0KPlRvOiBxZW11LWRldmVs
+QG5vbmdudS5vcmc7IHFlbXUtcHBjQG5vbmdudS5vcmc7IGpjbXZia2JjQGdtYWlsLmNvbTsNCj5j
+cnd1bGZmQGdtYWlsLmNvbTsgbWFyZXhAZGVueC5kZTsgZWRnYXIuaWdsZXNpYXNAZ21haWwuY29t
+Ow0KPmRhdmlkQGdpYnNvbi5kcm9wYmVhci5pZC5hdQ0KPkNjOiBaaGFuZ2hhaWxpYW5nIDx6aGFu
+Zy56aGFuZ2hhaWxpYW5nQGh1YXdlaS5jb20+OyBxZW11LQ0KPnRyaXZpYWxAbm9uZ251Lm9yZzsg
+cGJvbnppbmlAcmVkaGF0LmNvbTsgUGFubmVuZ3l1YW4NCj48cGFubmVuZ3l1YW5AaHVhd2VpLmNv
+bT47IENoZW5xdW4gKGt1aG4pDQo+PGt1aG4uY2hlbnF1bkBodWF3ZWkuY29tPg0KPlN1YmplY3Q6
+IFtQQVRDSCAwLzNdaHc6IEZpeHMgbWVtbGVhayBvZiBmZGV2aWNlIHRyZWUgYmxvYg0KPg0KPkZy
+b206IENoZW4gUXVuIDxrdWhuLmNoZW5xdW5AaHVhd2VpLmNvbT4NCj4NCkhpIGFsbCwgYWZ0ZXIg
+cmV2aWV3aW5nIHZhcmlvdXMgcGF0Y2hlcyBmcm9tIFBhbiBOZW5neXVhbiBmaXggcHBjLWU1MDAN
+CmZkdCBtZW1sZWFrcywgSSBzZWFyY2ggZm9yIHJlbGF0ZWQgY29udGVudCBhbmQgZm91bmQgUGFv
+bG8gQm9uemluaSdzDQpzaW1pbGFybHkgcGF0Y2hzLiAoc29ycnksIHRoaXMgZGVzY3JpcHRpb24g
+aXMgbWlzc2luZyBoZXJlIGJlY2F1c2Ugb2YgdGhpcyBwYXRjaCBmb3JtYXQuKQ0KDQo+VGhlIGRl
+dmljZSB0cmVlIGJsb2IgcmV0dXJuZWQgYnkgbG9hZF9kZXZpY2VfdHJlZSBpcyBtYWxsb2NlZC4N
+Cj5XZSBzaG91bGQgZnJlZSBpdCBhZnRlciBjcHVfcGh5c2ljYWxfbWVtb3J5X3dyaXRlKCkuT3Ro
+ZXJ3aXNlLA0KPmlmIHdlIHJlcGVhdGVkbHkgY2FsbCAnc3lzdGVtX3Jlc2V0JyxpdCB3aWxsIHJl
+cGVhdGVkbHkgbG9hZCBmZHQsIHNvIHRoZXJlIGFyZQ0KPm1hbnkgbWVtbGVha3MuDQo+DQo+UGFv
+bG8gQm9uemluaSA6DQo+aHR0cHM6Ly9saXN0cy5nbnUub3JnL2FyY2hpdmUvaHRtbC9xZW11LWRl
+dmVsLzIwMTktMTAvbXNnMDAxMjkuaHRtbA0KPg0KPlBhbiBOZW5neXVhbjoNCj5odHRwczovL2xp
+c3RzLmdudS5vcmcvYXJjaGl2ZS9odG1sL3FlbXUtZGV2ZWwvMjAyMC0wMi9tc2cwMzU5NC5odG1s
+DQo+DQo+QWZ0ZXIgc2VhcmNoaW5nIHRoZSBkZXZpY2UgY29kZSwgSSBmb3VuZCB0aHJlZSBzaW1p
+bGFyIGlzc3Vlcy4NCj5UaGlzIHNlcmllcyBmaXhlcyB0aGUgbGFzdCB0aHJlZS4NCj4NCj5DaGVu
+IFF1biAoMyk6DQo+ICBody9uaW9zMjpmaXggbGVhayBvZiBmZGV2aWNlIHRyZWUgYmxvYg0KPiAg
+aHcvcHBjL3ZpcnRleF9tbDUwNzpmaXggbGVhayBvZiBmZGV2aWNlIHRyZWUgYmxvYg0KPiAgaHcv
+eHRlbnNhL3h0ZnBnYTpmaXggbGVhayBvZiBmZGV2aWNlIHRyZWUgYmxvYg0KPg0KPiBody9uaW9z
+Mi9ib290LmMgICAgICAgfCAxICsNCj4gaHcvcHBjL3ZpcnRleF9tbDUwNy5jIHwgMSArDQo+IGh3
+L3h0ZW5zYS94dGZwZ2EuYyAgICB8IDEgKw0KPiAzIGZpbGVzIGNoYW5nZWQsIDMgaW5zZXJ0aW9u
+cygrKQ0KPg0KPi0tDQo+Mi4yMy4wDQo+DQoNCg==
 
