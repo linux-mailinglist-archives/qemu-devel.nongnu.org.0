@@ -2,65 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAA131626F6
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 14:14:29 +0100 (CET)
-Received: from localhost ([::1]:34608 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 693DF1626CF
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 14:09:05 +0100 (CET)
+Received: from localhost ([::1]:34448 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j42ho-0005ZM-Tw
-	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 08:14:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43007)
+	id 1j42ca-0004OV-Dq
+	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 08:09:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43248)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1j42Zc-0001Eq-11
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 08:06:04 -0500
+ (envelope-from <cohuck@redhat.com>) id 1j42aY-0002Pv-VV
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 08:07:02 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1j42Za-0003XO-Pe
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 08:05:59 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:30623
+ (envelope-from <cohuck@redhat.com>) id 1j42aX-000402-7Z
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 08:06:58 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:48098
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1j42Za-0003Wi-LO
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 08:05:58 -0500
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1j42aW-0003zf-75
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 08:06:57 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582031157;
+ s=mimecast20190719; t=1582031215;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=LVMPRxtMzmEDKU7cW6BwX/HohxlnHYsLMq8UCFg2seg=;
- b=d6VjcoC9TdIvTQaKfH38qGVBjA8Lzm+KdWtAr8+rKWsEuQxEfbfEaalomL6dvF/D3xw+QY
- OKazkyTUQ4RIUxRdgi+2oMatY0n59HodZfPO2dRPDqjFAcONSDgYOj/TOO5yeSYSAcfCTe
- OU2ZhzGv8i9XDTy3H9VCfjM+BwJqJrQ=
+ bh=ISsABtw+bYLTSS6G5GN9N8on/2aISa0jXaGQ+U6IkT0=;
+ b=CSVK8kw+VmUSqCXHy2NETDMIQNDbn5VkAvWk+clCxDauTh8IUcfWPeWjqCbQWWEvTVwlsQ
+ uPvoWTuDJLqrTzIiXXmWQaocltWp5ssjjDj2UyS6dCYSeWSIOY3hoZXgcW+wXLPCImsAJe
+ FyFemvR5lM49OTJcGhO/3YYuSQxqBiQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-277-vuT8RaWIPJenZ4HTdV1c7A-1; Tue, 18 Feb 2020 08:05:09 -0500
+ us-mta-51-HUYfNg7kNkeMyBTCIvvmHQ-1; Tue, 18 Feb 2020 08:06:48 -0500
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 39AB0800D48;
- Tue, 18 Feb 2020 13:05:08 +0000 (UTC)
-Received: from [10.3.116.180] (ovpn-116-180.phx2.redhat.com [10.3.116.180])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DAC1226571;
- Tue, 18 Feb 2020 13:05:07 +0000 (UTC)
-Subject: Re: [PATCH v3 03/33] block: Add BdrvChildRole and BdrvChildRoleBits
-To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
-References: <20200218124242.584644-1-mreitz@redhat.com>
- <20200218124242.584644-4-mreitz@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <676389c2-6ff4-97c6-506a-20aa2d2bbfe4@redhat.com>
-Date: Tue, 18 Feb 2020 07:05:07 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 657C11005513;
+ Tue, 18 Feb 2020 13:06:46 +0000 (UTC)
+Received: from gondolin (dhcp-192-195.str.redhat.com [10.33.192.195])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D587F3A4;
+ Tue, 18 Feb 2020 13:06:44 +0000 (UTC)
+Date: Tue, 18 Feb 2020 14:05:50 +0100
+From: Cornelia Huck <cohuck@redhat.com>
+To: Tony Krowiak <akrowiak@linux.ibm.com>, "Jason J . Herne"
+ <jjherne@linux.ibm.com>
+Subject: Re: [PATCH v2 0/2] docs: rstfy some s390 docs
+Message-ID: <20200218140550.437975e6.cohuck@redhat.com>
+In-Reply-To: <20200213162942.14177-1-cohuck@redhat.com>
+References: <20200213162942.14177-1-cohuck@redhat.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-In-Reply-To: <20200218124242.584644-4-mreitz@redhat.com>
-Content-Language: en-US
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: vuT8RaWIPJenZ4HTdV1c7A-1
+X-MC-Unique: HUYfNg7kNkeMyBTCIvvmHQ-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
@@ -76,35 +73,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Pierre Morel <pmorel@linux.ibm.com>, qemu-devel@nongnu.org,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/18/20 6:42 AM, Max Reitz wrote:
-> This mask will supplement BdrvChildClass when it comes to what role (or
-> combination of roles) a child takes for its parent.  It consists of
-> BdrvChildRoleBits values (which is an enum).
+On Thu, 13 Feb 2020 17:29:40 +0100
+Cornelia Huck <cohuck@redhat.com> wrote:
+
+> https://qemu.readthedocs.io/en/latest/index.html collects various
+> documents from the QEMU docs/ subdirectory; however, none of the
+> s390 files are currently included. Therefore, I set out to convert
+> the existing files to rst and hook them up.
 > 
-> Because empty enums are not allowed, let us just start with it filled.
+> s390-dasd-ipl was straightforward enough; I also found a numbering
+> issue.
 > 
-> Signed-off-by: Max Reitz <mreitz@redhat.com>
-> ---
->   include/block/block.h | 38 ++++++++++++++++++++++++++++++++++++++
->   1 file changed, 38 insertions(+)
+> vfio-ap was quite a bit more involved, but I hope I have produced
+> something readable (more review can never hurt...) I also
+> moved this into the system/ subdirectory; not sure if that is the
+> best resting place, but it seemed to be the most reasonable one.
+> 
+> Tested via running 'make html' and inspecting the output.
+> 
+> Branch: https://github.com/cohuck/qemu rstfy-s390-v2
+> 
+> Changes v1->v2 (mostly addressing feedback from Peter; thanks!):
+> - dasd ipl: fix some indentation
+> - vfio-ap: autogenerate contents table
+> - vfio-ap: use more literals
+> - vfio-ap: convert some examples to tables
+> - vfio-ap: various other formatting cleanups 
+> 
+> Cornelia Huck (2):
+>   docs: rstfy s390 dasd ipl documentation
+>   docs: rstfy vfio-ap documentation
+> 
+>  MAINTAINERS                                   |   4 +-
+>  docs/devel/index.rst                          |   1 +
+>  .../{s390-dasd-ipl.txt => s390-dasd-ipl.rst}  | 119 +--
+>  docs/system/index.rst                         |   1 +
+>  docs/{vfio-ap.txt => system/vfio-ap.rst}      | 796 +++++++++---------
+>  5 files changed, 484 insertions(+), 437 deletions(-)
+>  rename docs/devel/{s390-dasd-ipl.txt => s390-dasd-ipl.rst} (51%)
+>  rename docs/{vfio-ap.txt => system/vfio-ap.rst} (55%)
+> 
+> 
+> base-commit: 81f49abaaac2b88062bd1b07f451d9527ed1c9ce
 
-> +
-> +/* Mask of BdrvChildRoleBits values */
-> +typedef unsigned int BdrvChildRole;
-> +
-
-I like how it turned out (both the additional comments earlier on, and 
-the typedef for documentation purposes).
-
-Reviewed-by: Eric Blake <eblake@redhat.com>
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+Any further feedback? I plan to queue this on my s390-next branch.
 
 
