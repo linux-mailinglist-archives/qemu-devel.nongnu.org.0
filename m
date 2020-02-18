@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F776162818
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 15:26:44 +0100 (CET)
-Received: from localhost ([::1]:36128 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2399716280C
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 15:23:13 +0100 (CET)
+Received: from localhost ([::1]:36060 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j43pj-0002hM-3q
-	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 09:26:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53520)
+	id 1j43mK-0003Gs-5c
+	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 09:23:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53485)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1j43YK-00007D-CF
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 09:08:45 -0500
+ (envelope-from <kwolf@redhat.com>) id 1j43YI-0008V4-Rn
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 09:08:43 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1j43YJ-0001oN-6Z
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 09:08:44 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:57330
+ (envelope-from <kwolf@redhat.com>) id 1j43YH-0001nO-T0
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 09:08:42 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:55276
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1j43YJ-0001nw-2q
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 09:08:43 -0500
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1j43YH-0001n1-Q3
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 09:08:41 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582034922;
+ s=mimecast20190719; t=1582034921;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=65XsTSh/O+rcZpanfq6WZ+01FMlFRFOs93zVQdh40lU=;
- b=i26axotDrZhcYkokxiwNWjutnA6lgM5hk7sQoEAbBIxnd+PQNwJV29sU23i0qrjfQ57jFj
- rkOJucDawblCMFNOpfqXhq3jsz28qneVHGEi8DtoE9EtzJHO7xmaBfR1XPYMBl+jgIsoIV
- 1m5GbjVgjTJi85SiyDR4pEWMWgXF0rQ=
+ bh=buv+CkgXGh07bWj+N6uzrygKjHvNyVEuyPAQPdQFV+A=;
+ b=LvLDYmltwIcWSclQOCvaTDdBKVDhDZwKxMCQGHLotAqDQF7VYx3SPOoj5ft8senQwpcO6c
+ Kew/Ufs7s6oKAQufYQNekcJ1D5WMmm0M+vTynvlomkOhDU4I4M+DXLRd8bZ8QlA0EEt+Mq
+ XZbPp8IFDcczv3mhC0XXe4otyKIjHHU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-98-jiast7bzMIy3jvuUauWMHw-1; Tue, 18 Feb 2020 09:08:35 -0500
+ us-mta-157-ETP0tFnTOKSRQJJX0pRrpw-1; Tue, 18 Feb 2020 09:08:37 -0500
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 82B638010C7;
- Tue, 18 Feb 2020 14:08:34 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E23A918FE861;
+ Tue, 18 Feb 2020 14:08:35 +0000 (UTC)
 Received: from linux.fritz.box.com (ovpn-117-181.ams2.redhat.com
  [10.36.117.181])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7FA8419E9C;
- Tue, 18 Feb 2020 14:08:33 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CE8138B549;
+ Tue, 18 Feb 2020 14:08:34 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 32/36] iotests/041: Drop superfluous shutdowns
-Date: Tue, 18 Feb 2020 15:07:18 +0100
-Message-Id: <20200218140722.23876-33-kwolf@redhat.com>
+Subject: [PULL 33/36] iotests: Resolve TODOs in 041
+Date: Tue, 18 Feb 2020 15:07:19 +0100
+Message-Id: <20200218140722.23876-34-kwolf@redhat.com>
 In-Reply-To: <20200218140722.23876-1-kwolf@redhat.com>
 References: <20200218140722.23876-1-kwolf@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: jiast7bzMIy3jvuUauWMHw-1
+X-MC-Unique: ETP0tFnTOKSRQJJX0pRrpw-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+ [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,101 +78,39 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Max Reitz <mreitz@redhat.com>
 
-All tearDowns in 041 shutdown the VM.  Thus, test cases do not need to
-do it themselves (unless they need the VM to be down for some
-post-operation check).
-
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-Id: <20200218103454.296704-16-mreitz@redhat.com>
+Message-Id: <20200218103454.296704-17-mreitz@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- tests/qemu-iotests/041 | 11 -----------
- 1 file changed, 11 deletions(-)
+ tests/qemu-iotests/041 | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
 diff --git a/tests/qemu-iotests/041 b/tests/qemu-iotests/041
-index aa7d54d968..7b2cf5c2f8 100755
+index 7b2cf5c2f8..084da6baf3 100755
 --- a/tests/qemu-iotests/041
 +++ b/tests/qemu-iotests/041
-@@ -80,7 +80,6 @@ class TestSingleDrive(iotests.QMPTestCase):
-         self.cancel_and_wait(force=3DTrue)
-         result =3D self.vm.qmp('query-block')
-         self.assert_qmp(result, 'return[0]/inserted/file', test_img)
--        self.vm.shutdown()
+@@ -909,8 +909,7 @@ class TestRepairQuorum(iotests.QMPTestCase):
 =20
-     def test_cancel_after_ready(self):
-         self.assert_no_active_block_jobs()
-@@ -201,8 +200,6 @@ class TestSingleDrive(iotests.QMPTestCase):
-         self.assert_qmp(result, 'return[0]/node-name', 'top')
-         self.assert_qmp(result, 'return[0]/backing/node-name', 'base')
-=20
--        self.vm.shutdown()
--
-     def test_medium_not_found(self):
-         if iotests.qemu_default_machine !=3D 'pc':
-             return
-@@ -455,7 +452,6 @@ new_state =3D "1"
-                     self.assert_qmp(event, 'data/id', 'drive0')
-=20
-         self.assert_no_active_block_jobs()
--        self.vm.shutdown()
-=20
-     def test_ignore_read(self):
-         self.assert_no_active_block_jobs()
-@@ -475,7 +471,6 @@ new_state =3D "1"
-         result =3D self.vm.qmp('query-block-jobs')
-         self.assert_qmp(result, 'return[0]/paused', False)
-         self.complete_and_wait()
--        self.vm.shutdown()
-=20
-     def test_large_cluster(self):
-         self.assert_no_active_block_jobs()
-@@ -540,7 +535,6 @@ new_state =3D "1"
-=20
-         self.complete_and_wait(wait_ready=3DFalse)
-         self.assert_no_active_block_jobs()
--        self.vm.shutdown()
-=20
- class TestWriteErrors(iotests.QMPTestCase):
-     image_len =3D 2 * 1024 * 1024 # MB
-@@ -614,7 +608,6 @@ new_state =3D "1"
-                     completed =3D True
-=20
-         self.assert_no_active_block_jobs()
--        self.vm.shutdown()
-=20
-     def test_ignore_write(self):
-         self.assert_no_active_block_jobs()
-@@ -631,7 +624,6 @@ new_state =3D "1"
-         result =3D self.vm.qmp('query-block-jobs')
-         self.assert_qmp(result, 'return[0]/paused', False)
-         self.complete_and_wait()
--        self.vm.shutdown()
-=20
-     def test_stop_write(self):
-         self.assert_no_active_block_jobs()
-@@ -667,7 +659,6 @@ new_state =3D "1"
-=20
-         self.complete_and_wait(wait_ready=3DFalse)
-         self.assert_no_active_block_jobs()
--        self.vm.shutdown()
-=20
- class TestSetSpeed(iotests.QMPTestCase):
-     image_len =3D 80 * 1024 * 1024 # MB
-@@ -936,7 +927,6 @@ class TestRepairQuorum(iotests.QMPTestCase):
-         # here we check that the last registered quorum file has not been
-         # swapped out and unref
-         self.assert_has_block_node(None, quorum_img3)
--        self.vm.shutdown()
-=20
-     def test_cancel_after_ready(self):
-         self.assert_no_active_block_jobs()
-@@ -1043,7 +1033,6 @@ class TestRepairQuorum(iotests.QMPTestCase):
+         self.complete_and_wait(drive=3D"job0")
          self.assert_has_block_node("repair0", quorum_repair_img)
-         # TODO: a better test requiring some QEMU infrastructure will be a=
+-        # TODO: a better test requiring some QEMU infrastructure will be a=
 dded
-         #       to check that this file is really driven by quorum
--        self.vm.shutdown()
+-        #       to check that this file is really driven by quorum
++        self.vm.assert_block_path('quorum0', '/children.1', 'repair0')
+         self.vm.shutdown()
+         self.assertTrue(iotests.compare_images(quorum_img2, quorum_repair_=
+img),
+                         'target image does not match source after mirrorin=
+g')
+@@ -1031,8 +1030,7 @@ class TestRepairQuorum(iotests.QMPTestCase):
+=20
+         self.complete_and_wait('job0')
+         self.assert_has_block_node("repair0", quorum_repair_img)
+-        # TODO: a better test requiring some QEMU infrastructure will be a=
+dded
+-        #       to check that this file is really driven by quorum
++        self.vm.assert_block_path('quorum0', '/children.1', 'repair0')
 =20
  # Test mirroring with a source that does not have any parents (not even a
  # BlockBackend)
