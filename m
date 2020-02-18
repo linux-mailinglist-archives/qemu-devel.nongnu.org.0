@@ -2,89 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD998162D32
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 18:42:40 +0100 (CET)
-Received: from localhost ([::1]:39352 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90448162D6B
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 18:51:46 +0100 (CET)
+Received: from localhost ([::1]:39502 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j46tL-0003ue-NR
-	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 12:42:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55172)
+	id 1j4729-0005uV-Lp
+	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 12:51:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56598)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1j46r3-0000PB-Fl
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 12:40:18 -0500
+ (envelope-from <bounces@canonical.com>) id 1j471C-0005Hr-RC
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 12:50:47 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1j46r2-0006xE-71
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 12:40:17 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:35916
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j46r2-0006wy-3M
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 12:40:16 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582047615;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ItQAZI2wUcHaNHOfRm1cmbuwadBgZYCKs/OBkRtMPwA=;
- b=A+8EMoKLVx4d8XpTxf+95BLcXhTilA1ha3sc1zCyFxMsC+cQIUB9DHPzErehAPUiXZq+0f
- Wj+QLXhRxvlsne4JcIOwjpQLw4eSvp0HeRkpJTeEBnQVDn9I0NyVPyCs2SMc9j3/Lho64c
- ZY55i0X4q4zm3Y2R6+2RnJEN/5yXG4M=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-277-oISnwlptN6ijnG5V-MB1vQ-1; Tue, 18 Feb 2020 12:40:11 -0500
-Received: by mail-wm1-f71.google.com with SMTP id g26so369659wmk.6
- for <qemu-devel@nongnu.org>; Tue, 18 Feb 2020 09:40:11 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=dXlymn5Pjh3M4BCBOwz90QKUXa6xUli8mzyR7qUwfdY=;
- b=fJt7+liuOBmAg7fnU/5diyAlcG60fTVhcdnxV0yoF5TDsUGdOtMgO+in61RhqrM6rE
- bnl9LX/JqgYvbhqrWKvUbTJCMYWyxj6wcC3J7Qp9JVZmQTk00QSim8Kwe5znDvZYHcYU
- ZEQiKazbTLCMk2vGydgJbJA2ljN30XjAhFJs/KZqLsoowImwEOyT8aYLuMsoDz/6ZKBu
- 4U8k/DJXBOYkFi9dioJ02E0DF2dIzsHvr6xUvxrBiehBaGNke9Cn3OmSXo0U8higDZua
- +r/wQ4SfqtXJUntHhxfzjjGCvb6OZatwa0prg8ajaYUWn1bMr+PBo1xyiv3ptpwSspWq
- NnkQ==
-X-Gm-Message-State: APjAAAW/Boe5CfuURDGhJKM4ygL5m202qeokGszT8G7YUbkZTasLDA7q
- FWzTlmIVqzhvoESPvGQEAy6GhjnFHtkD4mFfm0JPnrXKSnxeliY4+JQiZ4EfnUCBdOhNryIO0o9
- lOLlw+mnA9meZycU=
-X-Received: by 2002:a1c:7317:: with SMTP id d23mr4366377wmb.165.1582047610562; 
- Tue, 18 Feb 2020 09:40:10 -0800 (PST)
-X-Google-Smtp-Source: APXvYqyLswQmAuDV1p9Ax3DupXJnije/Rqr63b+uy+nCnqIP7zIStpOC/f8ox96xS7IUZDa0QB2lTA==
-X-Received: by 2002:a1c:7317:: with SMTP id d23mr4366350wmb.165.1582047610331; 
- Tue, 18 Feb 2020 09:40:10 -0800 (PST)
-Received: from [192.168.1.35] (78.red-88-21-202.staticip.rima-tde.net.
- [88.21.202.78])
- by smtp.gmail.com with ESMTPSA id s65sm4367506wmf.48.2020.02.18.09.40.09
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 18 Feb 2020 09:40:09 -0800 (PST)
-Subject: Re: [PATCH v5 72/79] remove no longer used
- memory_region_allocate_system_memory()
-To: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org
-References: <20200217173452.15243-1-imammedo@redhat.com>
- <20200217173452.15243-73-imammedo@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <4eeb0f4a-51b8-7e68-eef5-698a578b5f22@redhat.com>
-Date: Tue, 18 Feb 2020 18:40:09 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ (envelope-from <bounces@canonical.com>) id 1j471B-00065F-Nf
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 12:50:46 -0500
+Received: from indium.canonical.com ([91.189.90.7]:37022)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1j471B-00064U-Hs
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 12:50:45 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1j4719-0003Ea-KR
+ for <qemu-devel@nongnu.org>; Tue, 18 Feb 2020 17:50:43 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 9439F2E80D3
+ for <qemu-devel@nongnu.org>; Tue, 18 Feb 2020 17:50:43 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20200217173452.15243-73-imammedo@redhat.com>
-Content-Language: en-US
-X-MC-Unique: oISnwlptN6ijnG5V-MB1vQ-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+Date: Tue, 18 Feb 2020 17:40:11 -0000
+From: Mohammadreza Ghofrani <1860742@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: bootloop xv6
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: engmrgh nametable
+X-Launchpad-Bug-Reporter: Logan Bateman (nametable)
+X-Launchpad-Bug-Modifier: Mohammadreza Ghofrani (engmrgh)
+References: <157983858012.5517.4456579868320256063.malonedeb@chaenomeles.canonical.com>
+Message-Id: <158204761127.28848.18365773199534453351.malone@chaenomeles.canonical.com>
+Subject: [Bug 1860742] Re: xv6 Bootloop
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="19413b719a8df7423ab1390528edadce9e0e4aca";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 5d658fa43db05f93bb3e08569ee5f55a9de58e96
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -93,124 +65,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, ehabkost@redhat.com
+Reply-To: Bug 1860742 <1860742@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/17/20 6:34 PM, Igor Mammedov wrote:
-> all boards were switched to using memdev backend for main RAM,
-> so we can drop no longer used memory_region_allocate_system_memory()
->=20
-> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-> ---
-> CC: ehabkost@redhat.com
-> CC: pbonzini@redhat.com
-> ---
->   include/hw/boards.h | 32 --------------------------------
->   hw/core/numa.c      | 34 ----------------------------------
->   2 files changed, 66 deletions(-)
->=20
-> diff --git a/include/hw/boards.h b/include/hw/boards.h
-> index ae2b60fb5e..142b86d0ae 100644
-> --- a/include/hw/boards.h
-> +++ b/include/hw/boards.h
-> @@ -12,38 +12,6 @@
->   #include "qom/object.h"
->   #include "hw/core/cpu.h"
->  =20
-> -/**
-> - * memory_region_allocate_system_memory - Allocate a board's main memory
-> - * @mr: the #MemoryRegion to be initialized
-> - * @owner: the object that tracks the region's reference count
-> - * @name: name of the memory region
-> - * @ram_size: size of the region in bytes
-> - *
-> - * This function allocates the main memory for a board model, and
-> - * initializes @mr appropriately. It also arranges for the memory
-> - * to be migrated (by calling vmstate_register_ram_global()).
-> - *
-> - * Memory allocated via this function will be backed with the memory
-> - * backend the user provided using "-mem-path" or "-numa node,memdev=3D.=
-.."
-> - * if appropriate; this is typically used to cause host huge pages to be
-> - * used. This function should therefore be called by a board exactly onc=
-e,
-> - * for the primary or largest RAM area it implements.
-> - *
-> - * For boards where the major RAM is split into two parts in the memory
-> - * map, you can deal with this by calling memory_region_allocate_system_=
-memory()
-> - * once to get a MemoryRegion with enough RAM for both parts, and then
-> - * creating alias MemoryRegions via memory_region_init_alias() which
-> - * alias into different parts of the RAM MemoryRegion and can be mapped
-> - * into the memory map in the appropriate places.
-> - *
-> - * Smaller pieces of memory (display RAM, static RAMs, etc) don't need
-> - * to be backed via the -mem-path memory backend and can simply
-> - * be created via memory_region_init_ram().
-> - */
-> -void memory_region_allocate_system_memory(MemoryRegion *mr, Object *owne=
-r,
-> -                                          const char *name,
-> -                                          uint64_t ram_size);
-> -
->   #define TYPE_MACHINE_SUFFIX "-machine"
->  =20
->   /* Machine class name that needs to be used for class-name-based machin=
-e
-> diff --git a/hw/core/numa.c b/hw/core/numa.c
-> index e6baf2c33e..316bc50d75 100644
-> --- a/hw/core/numa.c
-> +++ b/hw/core/numa.c
-> @@ -806,40 +806,6 @@ void numa_cpu_pre_plug(const CPUArchId *slot, Device=
-State *dev, Error **errp)
->       }
->   }
->  =20
-> -static void allocate_system_memory_nonnuma(MemoryRegion *mr, Object *own=
-er,
-> -                                           const char *name,
-> -                                           uint64_t ram_size)
-> -{
-> -    if (mem_path) {
-> -#ifdef __linux__
-> -        memory_region_init_ram_from_file(mr, owner, name, ram_size, 0, 0=
-,
-> -                                         mem_path, &error_fatal);
-> -#else
-> -        fprintf(stderr, "-mem-path not supported on this host\n");
-> -        exit(1);
-> -#endif
-> -    } else {
-> -        memory_region_init_ram_nomigrate(mr, owner, name, ram_size, &err=
-or_fatal);
-> -    }
-> -    vmstate_register_ram_global(mr);
-> -}
-> -
-> -void memory_region_allocate_system_memory(MemoryRegion *mr, Object *owne=
-r,
-> -                                          const char *name,
-> -                                          uint64_t ram_size)
-> -{
-> -    MachineState *ms =3D MACHINE(qdev_get_machine());
-> -
-> -    if (ms->numa_state =3D=3D NULL ||
-> -        ms->numa_state->num_nodes =3D=3D 0 || numa_uses_legacy_mem()) {
-> -        allocate_system_memory_nonnuma(mr, owner, name, ram_size);
-> -        return;
-> -    }
-> -
-> -    memory_region_init(mr, owner, name, ram_size);
-> -    numa_init_memdev_container(ms, mr);
-> -}
-> -
->   static void numa_stat_memory_devices(NumaNodeMem node_mem[])
->   {
->       MemoryDeviceInfoList *info_list =3D qmp_memory_device_list();
->=20
+Also in my ubuntu 19.10 system.
 
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+** Also affects: ubuntu
+   Importance: Undecided
+       Status: New
 
+** No longer affects: ubuntu
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1860742
+
+Title:
+  xv6 Bootloop
+
+Status in QEMU:
+  New
+
+Bug description:
+  Qemu Version: 4.2.0
+
+  Launch command:
+  qemu-system-x86_64 -nographic -drive file=3Dfs.img,index=3D1,media=3Ddisk=
+,format=3Draw -drive file=3Dxv6.img,index=3D0,media=3Ddisk,format=3Draw -sm=
+p 2 -m 512
+
+  How to reproduce?
+  1.)  Use/install latest release of qemu (4.2.0 at time of writing)
+
+  2.)  Download, build, and run xv6 (a simple os designed for learning
+  operating systems fundamentals)
+
+  cd /tmp
+  git clone https://github.com/mit-pdos/xv6-public.git
+  cd xv6-public
+  make qemu-nox
+
+  3.)  Qemu should now bootloop (seem to try to boot but then just
+  repeat). This is what it looks like below before it repeats:
+
+  SeaBIOS (version ?-20191223_100556-anatol)
+
+  iPXE (http://ipxe.org) 00:03.0 CA00 PCI2.10 PnP PMM+1FF92A50+1FEF2A50
+  CA00
+
+  Booting from Hard Disk..
+
+  Host: Arch Linux - Kernel version: 5.4.13
+  Guest: xv6 (https://github.com/mit-pdos/xv6-public)
+
+  Suspicion:
+
+  When I was using qemu 2.11.1 inside an ubuntu docker container, the
+  xv6 os booted with no problem. I am thinking that something changed
+  between Qemu 2.11.1 and Qemu 4.2.0 which is now causing boot problems.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1860742/+subscriptions
 
