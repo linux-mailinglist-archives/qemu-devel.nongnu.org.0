@@ -2,47 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D963162F31
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 20:00:09 +0100 (CET)
-Received: from localhost ([::1]:40258 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04E51162F35
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 20:02:30 +0100 (CET)
+Received: from localhost ([::1]:40288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j486K-0006xw-3d
-	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 14:00:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54236)
+	id 1j488b-0008IF-1f
+	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 14:02:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58139)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <sw@weilnetz.de>) id 1j485U-0006Sz-Ew
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 13:59:17 -0500
+ (envelope-from <sw@weilnetz.de>) id 1j486r-0007e2-QY
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 14:00:42 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <sw@weilnetz.de>) id 1j485T-0007q1-8J
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 13:59:16 -0500
-Received: from mail.weilnetz.de ([37.120.169.71]:50268
+ (envelope-from <sw@weilnetz.de>) id 1j486q-0002jG-Ta
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 14:00:41 -0500
+Received: from mail.weilnetz.de ([37.120.169.71]:50308
  helo=v2201612906741603.powersrv.de)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <sw@weilnetz.de>) id 1j485R-0007li-Ow
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 13:59:14 -0500
+ (Exim 4.71) (envelope-from <sw@weilnetz.de>) id 1j486q-0002gh-7m
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 14:00:40 -0500
 Received: from localhost (localhost [127.0.0.1])
- by v2201612906741603.powersrv.de (Postfix) with ESMTP id 37C52DB80E2;
- Tue, 18 Feb 2020 19:59:11 +0100 (CET)
+ by v2201612906741603.powersrv.de (Postfix) with ESMTP id AA957DB80E2;
+ Tue, 18 Feb 2020 20:00:38 +0100 (CET)
 X-Virus-Scanned: Debian amavisd-new at v2201612906741603.powersrv.de
 Received: from v2201612906741603.powersrv.de ([127.0.0.1])
  by localhost (v2201612906741603.powersrv.de [127.0.0.1]) (amavisd-new,
  port 10024)
- with ESMTP id 8Ju_kkFJxhiF; Tue, 18 Feb 2020 19:59:09 +0100 (CET)
+ with ESMTP id aLuuK9LBpjWC; Tue, 18 Feb 2020 20:00:37 +0100 (CET)
 Received: from macbook02.fritz.box (p57B42574.dip0.t-ipconnect.de
  [87.180.37.116])
  (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by v2201612906741603.powersrv.de (Postfix) with ESMTPSA id 21A18DB80E1;
- Tue, 18 Feb 2020 19:59:09 +0100 (CET)
+ by v2201612906741603.powersrv.de (Postfix) with ESMTPSA id 6D388DB80E1;
+ Tue, 18 Feb 2020 20:00:37 +0100 (CET)
 Subject: Re: [PATCH] Avoid cpu_physical_memory_rw() with a constant is_write
  argument
+From: Stefan Weil <sw@weilnetz.de>
 To: Peter Maydell <peter.maydell@linaro.org>
 References: <20200218132023.22936-1-philmd@redhat.com>
  <87e06de3-179b-54a1-3451-39a0a30b65f0@weilnetz.de>
  <CAFEAcA9Jr2Yi1K8_9MGUJYt8C=OcKbWDh1UJjTQG1EspLux3JQ@mail.gmail.com>
-From: Stefan Weil <sw@weilnetz.de>
+ <eed26f29-6cbd-7663-7f30-39596bb70422@weilnetz.de>
 Autocrypt: addr=sw@weilnetz.de; keydata=
  mQINBFXCNBcBEACUbHx9FWsS1ATrhLGAS+Nc6bFQHPR3CpUQ4v++RiMg25bF6Ov1RsYEcovI
  0DXGh6Ma+l6dRlvUXV8tMvNwqghDUr5KY7LN6tgcFKjBbXdv9VlKiWiMLKBrARcFKxx1sfLp
@@ -85,12 +86,12 @@ Autocrypt: addr=sw@weilnetz.de; keydata=
  Rm8B6J2ZK6ci1TRDiMpCUWefpnIuE+TibC5VJR5zx0Yh11rxxBFob8mWktRmLZyeEoCcZoBo
  sbJxD80QxWO03zPpkcJ7d4BrVsQ/BJkBtEe4Jn4iqHqA/OcrzwuEZSv+/MdgoqfblBZhDusm
  LYfVy7wFDeVClG6eQIiK2EnmDChLRkVIQzbkV0iG+NJVVJHLGK7/OsO47+zq
-Message-ID: <eed26f29-6cbd-7663-7f30-39596bb70422@weilnetz.de>
-Date: Tue, 18 Feb 2020 19:59:08 +0100
+Message-ID: <148e13e3-f788-8ce3-5a02-c904e12fba1f@weilnetz.de>
+Date: Tue, 18 Feb 2020 20:00:37 +0100
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
  Gecko/20100101 Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA9Jr2Yi1K8_9MGUJYt8C=OcKbWDh1UJjTQG1EspLux3JQ@mail.gmail.com>
+In-Reply-To: <eed26f29-6cbd-7663-7f30-39596bb70422@weilnetz.de>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
@@ -118,53 +119,13 @@ Cc: Stefano Stabellini <sstabellini@kernel.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 18.02.20 um 19:49 schrieb Peter Maydell:
+Am 18.02.20 um 19:59 schrieb Stefan Weil:
 
-> I think that we should fix the inconsistency where these functions
-> all take "uint8_t* buf":
->
->  - address_space_rw()
->  - address_space_read()
->  - address_space_write()
->  - address_space_write_rom()
->  - cpu_physical_memory_rw()
->  - cpu_memory_rw_debug()
->
-> but these take void*:
->  - cpu_physical_memory_read()
->  - cpu_physical_memory_write()
->  - address_space_write_cached()
->  - address_space_read_cached_slow()
->  - address_space_write_cached_slow()
->  - pci_dma_read()
->  - pci_dma_write()
->  - pci_dma_rw()
->  - dma_memory_read()
->  - dma_memory_write()
->  - dma_memory_rw()
->  - dma_memory_rw_relaxed()
->
-> Depending on which way we go we would either want to remove these
-> casts, or not.
->
-> I guess that we have more cases of 'void*', and that would
-> certainly be the easier way to convert (otherwise we probably
-> need to add a bunch of new casts to uint8_t* in various callsites),
-> but I don't have a strong opinion. Paolo ?
->
-> thanks
-> -- PMM
+> Indeed, fixing such inconsitencies would be good. 
 
 
-Indeed, fixing such inconsitencies would be good.
+s/inconsitencies/inconsistencies/
 
-Personally I like the way how the standard C library handles such
-pointers for functions like memcpy, fread, fwrite and others.
-
-Therefore I suggest to use `const void *` and `void *` and to avoid type
-casts.
-
-Regards
-Stefan
+:-)
 
 
