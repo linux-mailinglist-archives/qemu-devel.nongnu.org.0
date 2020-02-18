@@ -2,64 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDC36162CE6
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 18:31:18 +0100 (CET)
-Received: from localhost ([::1]:39144 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 342F7162CF0
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 18:32:32 +0100 (CET)
+Received: from localhost ([::1]:39176 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j46iL-0007hB-SB
-	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 12:31:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53735)
+	id 1j46jX-0000SJ-8y
+	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 12:32:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53772)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j46gK-0005iO-5B
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 12:29:13 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1j46gZ-00061j-Rv
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 12:29:28 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j46gI-0007J9-Op
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 12:29:11 -0500
-Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:35020)
+ (envelope-from <richard.henderson@linaro.org>) id 1j46gY-0007Vt-Ul
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 12:29:27 -0500
+Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:40146)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j46gI-0007HC-HP
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 12:29:10 -0500
-Received: by mail-oi1-x242.google.com with SMTP id b18so20915613oie.2
- for <qemu-devel@nongnu.org>; Tue, 18 Feb 2020 09:29:08 -0800 (PST)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1j46gY-0007Uw-O5
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 12:29:26 -0500
+Received: by mail-pf1-x441.google.com with SMTP id b185so664769pfb.7
+ for <qemu-devel@nongnu.org>; Tue, 18 Feb 2020 09:29:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=MFL3lvzBKh6IY2wBd5R4FKgAYOptiR6fvNbeRvwFmC4=;
- b=WQQJasgykmPAOBMHhe+qC9FKQ9efDZFMifdxdqoVmVQ8IEgjUZ4NFb6b3MebAAlieq
- ynJ81KOAyeSb4DzUtivOGRHRrN/gp3gA49PMA7JJhcYbi1uR6F14NFZ/c/ZYspJ+V6Ti
- oKKIMllieArx7hpctxJIGj7BIktZ/AOSq5pBffP23GXCKGhhBuwsnXVcB7RLKSOhdX2x
- h4d6ZmgvmG273ij/3+qpGqFSjudLal2PhcwlMFe/lpPgahtnAn5/WjQBiXOmwL1nbdVs
- FZYzNS/7IILlAbrAtM5+Viq789ljZdcJnrwsbKwMZK7aFR/2Er5DFgQYeVWIpRa805WF
- rWJA==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=tNymIGaDL1k9Vm6DWjh8/BMCjNDMJ8vmvxm1VFckJdA=;
+ b=CdJl1mmgYy53WpAH8CZQX1KALK5VHI1GkHEG3Wty9ltMIAYgxaiZoR5jGWVa+mDJwP
+ upQTeYv9ccn00+cWsUkMILZJyJzA9YalJjVlbbCjaCCjC5icKeRhmOCuZHDvqT9a4Yyr
+ fZ8tUnAbCzVIEaFc3mNFC7hd8XTuCNfZ6nYjdhCtQDSGPx570XtZhXPp/CzF65MyfZPw
+ eCuyFOByLxJeNv8EX7bGwlt5WaA1JpYvYP8O+VJvqeVBhu+NIf3XQ9x9tFB8M0wGu+OZ
+ s4f0W1cKTRcucCTL8z1EyoZeTDhqmBgfFzkOj/nibHVSSb1Mp1sxWVVBKxBlGTk+rVUv
+ dXrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=MFL3lvzBKh6IY2wBd5R4FKgAYOptiR6fvNbeRvwFmC4=;
- b=sHtxK3V93PLgYgGzGkMNdt2D7EyKoe2l4mKQFBDCsElBPPWneS/qDkwG6BCnMYXBuD
- TD2NV8DiqeO6KZe4Q/1lommyu5pqnFjzoZ8UwCzrV4JjElA9CtLh49uA9VARH3pnhTFh
- y7yq/e0bdy61C/0EZ+fZfGAvRn7PGc8qqDkov6nI2NZu0xiCTKXYFZSioIGzA1h+12kZ
- DlaM4+YwbNuPaVQvoW70ftfCM4AIiKVd+7fNCvD0UoGEqjVzAULrkKrMd3mYVlWup7to
- gyuUYix8xxRjUabw4gnsvxEuCzISxwad48oXUj82qYDyw8bfmQfZrLltrG2Ib9f0QIXu
- Z1VQ==
-X-Gm-Message-State: APjAAAVY97GaDJOk4Vjlg9PG3YxirKvEKEhjjMN3XHUJ5dSVUWSFJYgv
- I3UZBaJEDpOyEpFP01ewI47kkM65K/3BCRAtA6ygXQ==
-X-Google-Smtp-Source: APXvYqyBzFI7GfDpb9czpqpUzgzUUupggsVHk1LnVL7JEZUjQJxlyELZl3FDATlfNXhcFbfRPLenmH+u8tSsFANwOV4=
-X-Received: by 2002:aca:b2c5:: with SMTP id b188mr1974655oif.163.1582046947625; 
- Tue, 18 Feb 2020 09:29:07 -0800 (PST)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=tNymIGaDL1k9Vm6DWjh8/BMCjNDMJ8vmvxm1VFckJdA=;
+ b=plullFW3+NaiwOuYGuE8lFZv+OOhLU/ZAR5ElKerLuIUjNPskrXa//UusvSCPLkWsP
+ WAQ17ygh6RlxdRp4uh0VbSYoEm/iuBT/QfnaJXti8Uyik9OWwwcEQGBPUG4dzzf/xSwF
+ Bnz4wWHG4cKs2Pb1raEeW7H0scbSK3xEmwHXoBba0o9u8wJt8Qz6GMckPEd2De05qCGK
+ YBom65TGl5xiB47Zw+aUfCj3fRJeBowy9THpQkt+FUzrDPrHI5uPUYu/29SGBx91rQeM
+ gAsfQ+YoiSBpIq/QVLwXI7N4MXZK/ayvywp78snBdemM725RDMZKOMu3mcoj0Eyrk07n
+ ABvg==
+X-Gm-Message-State: APjAAAVMkfWGEGNPlPGPyv1yEq9scxj36RZaljL+RcN/w4GsStyeKIdU
+ k78HqtKBqMjQuyQL7G7Znu0YUw==
+X-Google-Smtp-Source: APXvYqybo7GNtGavtxLg1kUNZhbOecfPi4+pKBF30yyu15ZtlIgiYlN2J/jD+19qE+hpr1WIwK1K+A==
+X-Received: by 2002:a63:5807:: with SMTP id m7mr22058939pgb.83.1582046965621; 
+ Tue, 18 Feb 2020 09:29:25 -0800 (PST)
+Received: from [192.168.1.11] (97-126-123-70.tukw.qwest.net. [97.126.123.70])
+ by smtp.gmail.com with ESMTPSA id
+ 200sm4914517pfz.121.2020.02.18.09.29.24
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 18 Feb 2020 09:29:24 -0800 (PST)
+Subject: Re: [PATCH v5 24/79] arm/musicpal: use memdev for RAM
+To: Igor Mammedov <imammedo@redhat.com>
+References: <20200217173452.15243-1-imammedo@redhat.com>
+ <20200217173452.15243-25-imammedo@redhat.com>
+ <a0a461ef-b4b3-fe1a-dba3-c1672a33670a@linaro.org>
+ <20200218095905.1890f768@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <7e913182-6c8a-e52c-22a2-47d9c4322252@linaro.org>
+Date: Tue, 18 Feb 2020 09:29:22 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-References: <20200214194643.23317-1-richard.henderson@linaro.org>
-In-Reply-To: <20200214194643.23317-1-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 18 Feb 2020 17:28:56 +0000
-Message-ID: <CAFEAcA-cm8bZRz1ZTut=p9x3pTfAe6yqJGZKxMVTOU4GX8Azjw@mail.gmail.com>
-Subject: Re: [PATCH 0/4] target/arm: fix some simd writes vs sve
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20200218095905.1890f768@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::242
+X-Received-From: 2607:f8b0:4864:20::441
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,47 +85,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, jan.kiszka@web.de,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 14 Feb 2020 at 19:46, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> The launchpad bug only mentions EXT, but I found three more
-> via inspection.  I really should extend RISU so that we can
-> do AdvSIMD testing with SVE enabled...
+On 2/18/20 12:59 AM, Igor Mammedov wrote:
+>> If for some reason you need to re-spin this series again, and considering my
+>> comment re arm/imx25_pdk, I think it would be worthwhile to create a common
+>> helper for this:
+>>
+> 
+> This check is temporary, I plan to replace it with a similar
+> check in generic machine code and clean it up. The reason it
+> is not done in this series is that generalizing it is not
+> related to this series. Hence I'd prefer to keep current
+> approach in this series to avoid touching already reviewed
+> patches and generalize it later.
 
-Applied to target-arm.next, thanks.
+Fair enough.
 
-I did a quick pass through for other functions that seem to call
-write_vec_element() but not clear_vec_high() -- do any of these
-need fixes?
-- handle_vec_simd_wshli()
-- handle_3rd_widening()
-- handle_3rd_wide()
-- handle_pmull_64()
-- handle_simd_3same_pair(), "size == 3" branch
-- handle_2misc_widening()
-- handle_rev(), "size != 0" branch
-- handle_2misc_pairwise()
-- handle_shll()
-- disas_simd_indexed() final else branch (the one with the second
-  of the two identical comments about "The simplest way to handle
-  the 16x16 indexed ops")
-- disas_crypto_three_reg_sha512()
-- disas_crypto_four_reg()
-- disas_crypto_xar()
 
-Probably false positives in that list, I just did a quick eyeball.
-
-We could probably test this with risu by having the startup code
-fill in the top parts of the SVE regs with non-zero and then
-making sure they're included in the comparison after insns.
-You'd need to test each insn in a separate risu run, though,
-otherwise the first insn in the block clears the Z regs and we
-don't get to tell if the insn after it does...
-
-thanks
--- PMM
+r~
 
