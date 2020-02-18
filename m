@@ -2,71 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 589D81622F8
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 10:04:10 +0100 (CET)
-Received: from localhost ([::1]:58456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC066162302
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 10:07:36 +0100 (CET)
+Received: from localhost ([::1]:58492 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j3ynZ-0006iT-8f
-	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 04:04:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37192)
+	id 1j3yqt-00030T-RA
+	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 04:07:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37428)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <luc.michel@greensocs.com>) id 1j3yjw-0005KD-5E
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 04:00:29 -0500
+ (envelope-from <Filip.Bozuta@rt-rk.com>) id 1j3ylf-0006V5-2U
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 04:02:12 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <luc.michel@greensocs.com>) id 1j3yju-00036f-Sb
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 04:00:24 -0500
-Received: from beetle.greensocs.com ([5.135.226.135]:33516)
+ (envelope-from <Filip.Bozuta@rt-rk.com>) id 1j3yld-0003cz-MQ
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 04:02:10 -0500
+Received: from mx2.rt-rk.com ([89.216.37.149]:56657 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <luc.michel@greensocs.com>)
- id 1j3yjs-00035s-Br; Tue, 18 Feb 2020 04:00:20 -0500
-Received: from [172.16.11.100] (tiramisu.bar.greensocs.com [172.16.11.100])
- by beetle.greensocs.com (Postfix) with ESMTPSA id 377DC96EF0;
- Tue, 18 Feb 2020 09:00:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1582016419;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=izkMufESYPVKSCriGMjh5aq5ASE7rx1jv3wC35Y6KOE=;
- b=EXjV7cgXMQeSG7eW70pBOd/8PMXW5f2vrTKFwVAHiLDW/HysV+Vx97e+hCyQWbtB44vxxz
- vnMIHpsGzL/STgx+KP5PsZ6Cd0JIDe9pOC4cHrJ+QtDKSM2b1THW809YnnDWQsKwOj5ADg
- gLgIlkerqGWF5FXkSNik6AMk8ZJa6nc=
-Subject: Re: [PATCH v2 08/13] hw/arm/bcm2836: Introduce
- BCM283XClass::core_count
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20200217114533.17779-1-f4bug@amsat.org>
- <20200217114533.17779-9-f4bug@amsat.org>
-From: Luc Michel <luc.michel@greensocs.com>
-Message-ID: <57bf830e-1456-8881-7ad3-b6bc0bdb781e@greensocs.com>
-Date: Tue, 18 Feb 2020 10:00:18 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
-MIME-Version: 1.0
-In-Reply-To: <20200217114533.17779-9-f4bug@amsat.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-PH
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com; 
- s=mail; t=1582016419;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=izkMufESYPVKSCriGMjh5aq5ASE7rx1jv3wC35Y6KOE=;
- b=hVFsGSx55OZAisqeQXCFqFgWgdqHzuClg4476eJPwgDE44vlKEPuScDVk1994moLeT7pgY
- IrIC0R0CJAacS9T5PpldfuG3C+RaFbB0ABrwFWdGh04JdGu0jPX3Iga/CeOEgjgzMU/En2
- NDUDdIoq/BbCzzrO8Cls7PuPE364Fp4=
-ARC-Seal: i=1; s=mail; d=greensocs.com; t=1582016419; a=rsa-sha256; cv=none;
- b=ovVx9cYq4COg3VB4pR8QAM0RIifvso69c4q8+uraYzIkyPfx3drCENbi+i+H4e8qtGYjzE
- xDriLck/EpII0+HddnX2V9dAS99BQ4jf1/xC6vGYKGOa71bHqYqVBzqWNpm7hRH4WIXeIe
- Anj2YWtSB56IHvIWxTRCHmViIeosAk8=
-ARC-Authentication-Results: i=1; ORIGINATING;
- auth=pass smtp.auth=luc smtp.mailfrom=luc.michel@greensocs.com
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 5.135.226.135
+ (Exim 4.71) (envelope-from <Filip.Bozuta@rt-rk.com>)
+ id 1j3yld-0003NT-Fx
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 04:02:09 -0500
+Received: from localhost (localhost [127.0.0.1])
+ by mail.rt-rk.com (Postfix) with ESMTP id 945861A2176;
+ Tue, 18 Feb 2020 10:01:03 +0100 (CET)
+X-Virus-Scanned: amavisd-new at rt-rk.com
+Received: from rtrkw493-lin.domain.local (rtrkw493-lin.domain.local
+ [10.10.14.93])
+ by mail.rt-rk.com (Postfix) with ESMTPSA id 0DCDD1A1FF6;
+ Tue, 18 Feb 2020 10:00:48 +0100 (CET)
+From: Filip Bozuta <Filip.Bozuta@rt-rk.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 0/2] tests/tcg/multiarch: Add tests for implemented real
+Date: Tue, 18 Feb 2020 10:00:40 +0100
+Message-Id: <1582016442-1677-1-git-send-email-Filip.Bozuta@rt-rk.com>
+X-Mailer: git-send-email 2.7.4
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [fuzzy]
+X-Received-From: 89.216.37.149
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,72 +48,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Andrew Baumann <Andrew.Baumann@microsoft.com>
+Cc: alex.bennee@linaro.org, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/17/20 12:45 PM, Philippe Mathieu-Daud=C3=A9 wrote:
-> The BCM2835 has only one core. Introduce the core_count field to
-> be able to use values different than BCM283X_NCPUS (4).
->=20
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+This series covers tests for implemented rtc and alsa timer ioctls. The names
+of ioctls that are covered by these tests can be found in patch descriptions.
+The functionalities of each ioctl that is tested can be found in patches that
+implement them.
 
-Reviewed-by: Luc Michel <luc.michel@greensocs.com>
+Some of the features that are accessible through these ioctls are not supported
+on all test host pc's. These tests were written so that the implemented ioctls
+can be properly tested on pc's that support all of their features.
 
-> ---
->  hw/arm/bcm2836.c | 7 +++++--
->  1 file changed, 5 insertions(+), 2 deletions(-)
->=20
-> diff --git a/hw/arm/bcm2836.c b/hw/arm/bcm2836.c
-> index 683d04d6ea..3b95ad11e9 100644
-> --- a/hw/arm/bcm2836.c
-> +++ b/hw/arm/bcm2836.c
-> @@ -21,6 +21,7 @@ typedef struct BCM283XClass {
->      DeviceClass parent_class;
->      /*< public >*/
->      const char *cpu_type;
-> +    int core_count;
->      hwaddr peri_base; /* Peripheral base address seen by the CPU */
->      hwaddr ctrl_base; /* Interrupt controller and mailboxes etc. */
->      int clusterid;
-> @@ -37,7 +38,7 @@ static void bcm2836_init(Object *obj)
->      BCM283XClass *bc =3D BCM283X_GET_CLASS(obj);
->      int n;
-> =20
-> -    for (n =3D 0; n < BCM283X_NCPUS; n++) {
-> +    for (n =3D 0; n < bc->core_count; n++) {
->          object_initialize_child(obj, "cpu[*]", &s->cpu[n].core,
->                                  sizeof(s->cpu[n].core), bc->cpu_type,
->                                  &error_abort, NULL);
-> @@ -107,7 +108,7 @@ static void bcm2836_realize(DeviceState *dev, Error=
- **errp)
->      sysbus_connect_irq(SYS_BUS_DEVICE(&s->peripherals), 1,
->          qdev_get_gpio_in_named(DEVICE(&s->control), "gpu-fiq", 0));
-> =20
-> -    for (n =3D 0; n < BCM283X_NCPUS; n++) {
-> +    for (n =3D 0; n < bc->core_count; n++) {
->          /* TODO: this should be converted to a property of ARM_CPU */
->          s->cpu[n].core.mp_affinity =3D (bc->clusterid << 8) | n;
-> =20
-> @@ -173,6 +174,7 @@ static void bcm2836_class_init(ObjectClass *oc, voi=
-d *data)
->      BCM283XClass *bc =3D BCM283X_CLASS(oc);
-> =20
->      bc->cpu_type =3D ARM_CPU_TYPE_NAME("cortex-a7");
-> +    bc->core_count =3D BCM283X_NCPUS;
->      bc->peri_base =3D 0x3f000000;
->      bc->ctrl_base =3D 0x40000000;
->      bc->clusterid =3D 0xf;
-> @@ -187,6 +189,7 @@ static void bcm2837_class_init(ObjectClass *oc, voi=
-d *data)
->      BCM283XClass *bc =3D BCM283X_CLASS(oc);
-> =20
->      bc->cpu_type =3D ARM_CPU_TYPE_NAME("cortex-a53");
-> +    bc->core_count =3D BCM283X_NCPUS;
->      bc->peri_base =3D 0x3f000000;
->      bc->ctrl_base =3D 0x40000000;
->      bc->clusterid =3D 0x0;
->=20
+Both rtc and alsa timer test folders have separate files for manually written
+and remotely obtained tests. Tests that were obtained remotely run multiple ioctl
+tests at once, while the manually written tests can be used to run both individual
+and multiple ioctl tests based on the command specified when running the test.
+
+v2:
+
+    * introduced a single manual test file for all ioctls instead of individual 
+      test files for each ioctl
+
+v3:
+
+    * fixed alsa timer ioctl manual test so that it can run ioctl tests individually
+      by specifying their name when running the test program
+
+Filip Bozuta (2):
+  tests/tcg/multiarch: Add tests for implemented rtc ioctls
+  tests/tcg/multiarch: Add tests for implemented alsa sound timer ioctls
+
+ .../manual-test/alsa-timer-ioctl-manual-test.c     | 294 +++++++++++++++++
+ .../alsa-timer-ioctl-tests/remote-test/timer.c     | 158 +++++++++
+ .../manual-test/rtc-ioctl-manual-test.c            | 352 +++++++++++++++++++++
+ .../rtc-ioctl-tests/remote-test/rtc-test.c         | 226 +++++++++++++
+ 4 files changed, 1030 insertions(+)
+ create mode 100644 tests/tcg/multiarch/alsa-timer-ioctl-tests/manual-test/alsa-timer-ioctl-manual-test.c
+ create mode 100644 tests/tcg/multiarch/alsa-timer-ioctl-tests/remote-test/timer.c
+ create mode 100644 tests/tcg/multiarch/rtc-ioctl-tests/manual-test/rtc-ioctl-manual-test.c
+ create mode 100644 tests/tcg/multiarch/rtc-ioctl-tests/remote-test/rtc-test.c
+
+-- 
+2.7.4
+
 
