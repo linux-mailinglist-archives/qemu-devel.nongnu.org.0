@@ -2,82 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4444162385
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 10:38:36 +0100 (CET)
-Received: from localhost ([::1]:59014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6274E162391
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 10:40:41 +0100 (CET)
+Received: from localhost ([::1]:59054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j3zKt-00042Y-Q8
-	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 04:38:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42263)
+	id 1j3zMu-000612-G3
+	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 04:40:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42485)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1j3zJr-0002sf-9Y
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 04:37:32 -0500
+ (envelope-from <philmd@redhat.com>) id 1j3zM0-0005FR-Jl
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 04:39:45 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1j3zJq-00030R-71
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 04:37:31 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:36592
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1j3zLz-0003nZ-A5
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 04:39:44 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:60782
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j3zJq-0002zr-3W
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 04:37:30 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j3zLz-0003n5-6y
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 04:39:43 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582018649;
+ s=mimecast20190719; t=1582018782;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=btZAH3Xrx0pyrx59uFmBzC/cYn5q/bWIwtOk/dCCUTM=;
- b=iWjEZ/H5DkubydGMflWCJgcS8qTTzEHHjWeXQpFayE5/tRiWkMq5Ri9MTgHE/j7mYqGctv
- SrPsq1YczQwdZoNO1lWNQ3SI8GuD8J7SLdwXBmHRqY4ASBNm6AwZ6Rlv23okL5eYMtE8Us
- fKwqcgCWzVWnwEAEyyVGH3npVSkCd0U=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-390-7fyqJTh7N3yON_r2m89LqA-1; Tue, 18 Feb 2020 04:37:27 -0500
-Received: by mail-wr1-f70.google.com with SMTP id v17so10430856wrm.17
- for <qemu-devel@nongnu.org>; Tue, 18 Feb 2020 01:37:27 -0800 (PST)
+ bh=SDpZh9t8LLET6RXRGhAckHvfEVt6l0LA4TOOOjdMTRY=;
+ b=Fspnfxs31zPemJqZcLbCCEUiK4iMqizuQvoY9YcMUtNYs4YO21YCkQzjHvZFd95vbu44ND
+ vCaTU8d721l1bFT81LNtfaOsHH2Ddqi/XgZAFsWp3LB1D5bILl4NT0vijdXlpiMALHYv40
+ 3GljM5fD8gvgyCjuKdC6WxvlGrxoeKo=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-6-H0_eOoyzNdeWIF-YDD7h7w-1; Tue, 18 Feb 2020 04:39:41 -0500
+Received: by mail-wm1-f71.google.com with SMTP id f207so872818wme.6
+ for <qemu-devel@nongnu.org>; Tue, 18 Feb 2020 01:39:40 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=fOzWP1vq62G/ytTmsfycrX2X8S1L1HhF+6M2xyNPCUI=;
- b=sv2Q1XKUj8PArGueeGsyDIsLceBxrvg/i2Er7kX/4kSZeEd54KV6/E6ZIHbHRa3h8I
- jY9EQ6rGHLsXCOWZpX2oTvNrLnLEQVAY0wMIdz6N5KQfXs7x8QzEyWKr3kMnMRXXzXUZ
- AaYfNvFSgzxo3BfQeIO3AQh10aJRF8AtgXBfrN/hEHkBNZHWG1XqayhCvO+yQZcUpmRk
- 8kl8zZkc2B8kYrt/7J8FQO37nsPvI3u/W2Kzd17HLz0dTwNumUFPGnpIQ2upswBRgLM/
- jA0k4Y0PLd7HylHAgBwI0Bz6J+HgUi6W2DpMHzwDbpi2pQxbPkhO9AARXdo+b7ydbjiY
- w6mQ==
-X-Gm-Message-State: APjAAAVFDvxQLC48kKyxDPuV0AjkDK5T+QelqtWUfuwrfA/PrIaAAgnL
- gmjhnNdq753/5Y52z4+/RsDDoOpkOzbHKwRC3f/Mihg8b0UmW5/Q/pMhUud92f/t2pHoaesF8lB
- F7Is2TXs9ici5sE4=
-X-Received: by 2002:adf:fa86:: with SMTP id h6mr27392517wrr.418.1582018645870; 
- Tue, 18 Feb 2020 01:37:25 -0800 (PST)
-X-Google-Smtp-Source: APXvYqyTg70OncI5YQkA8HrTBP7wvax5CL6p4INAKPHOMRyenWyW1nb1mw2qqwkl+HY6l0u2kie1Pw==
-X-Received: by 2002:adf:fa86:: with SMTP id h6mr27392492wrr.418.1582018645661; 
- Tue, 18 Feb 2020 01:37:25 -0800 (PST)
-Received: from x1w.redhat.com (78.red-88-21-202.staticip.rima-tde.net.
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=1g/C6QYaKp+orHyEvN3jLzhLeWKUCNsgpCmrU0OhnIk=;
+ b=Y5RJtqpu3Ibvv3SHsuI47kUouXkM7h1sbz7+kqVCL81wVifQILFtyQJ1LlIphE08dd
+ kOwkDk8bhFoGEhzZ0i3QLDWaupiibGYGfqoQG2BLXklYW4GRs1qCFyf0LGEiA7hSFgLw
+ hQBuE/Fe/FlXXQwPoBy90vlHoRsnAMXuKSl7w0QNnSGzLlRu2L4KHEIqSAGHMEpnRhdd
+ fZNSRXJ+TYAzb2YHrI7nihMwuLUuqLXA9DxYBOCNYVahKqdU/GSpnzTxujL3Wxq/Mh3/
+ utEJUuZmbUwF0x9aHQT5Pwqg7chrqJIZabwe2MftlALdAK9Al4kmEw6e35FQKYM61lz8
+ wEYg==
+X-Gm-Message-State: APjAAAVaZ9b08+o6ZuPY+og2MxrL4e7BmQLKLzxUyc8OnkbkclKJA6mz
+ ljP0hdHk8JVoa8FEajp6nUpPejC65BwckNI+1aTojWXSdqWSIGoH0SnP5xCrppLhtlu8qW85BfG
+ 8+NZGPi2vFhteokg=
+X-Received: by 2002:adf:e3cd:: with SMTP id k13mr1489920wrm.302.1582018779830; 
+ Tue, 18 Feb 2020 01:39:39 -0800 (PST)
+X-Google-Smtp-Source: APXvYqzOTIhAo2sGoUQNcga8XH3kVCe0py6m2/WE6Df8EmJr/OFkr6cK80YvNJTw2wnEhWmy3WCIWw==
+X-Received: by 2002:adf:e3cd:: with SMTP id k13mr1489862wrm.302.1582018779527; 
+ Tue, 18 Feb 2020 01:39:39 -0800 (PST)
+Received: from [192.168.1.35] (78.red-88-21-202.staticip.rima-tde.net.
  [88.21.202.78])
- by smtp.gmail.com with ESMTPSA id 133sm2817232wme.32.2020.02.18.01.37.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 Feb 2020 01:37:25 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+ by smtp.gmail.com with ESMTPSA id k10sm5362253wrd.68.2020.02.18.01.39.37
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 18 Feb 2020 01:39:39 -0800 (PST)
+Subject: Re: [PATCH 00/13] trivial: Detect and remove superfluous semicolons
+ in C code
 To: qemu-devel@nongnu.org
-Subject: [PATCH 01/13] scripts/checkpatch.pl: Detect superfluous semicolon in
- C code
-Date: Tue, 18 Feb 2020 10:37:08 +0100
-Message-Id: <20200218093720.25640-2-philmd@redhat.com>
-X-Mailer: git-send-email 2.21.1
-In-Reply-To: <20200218093720.25640-1-philmd@redhat.com>
-References: <20200218093720.25640-1-philmd@redhat.com>
+References: <20200218093217.25156-1-philmd@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <11b9a381-b0c2-1817-bed5-d00f000b5af5@redhat.com>
+Date: Tue, 18 Feb 2020 10:39:37 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-X-MC-Unique: 7fyqJTh7N3yON_r2m89LqA-1
+In-Reply-To: <20200218093217.25156-1-philmd@redhat.com>
+Content-Language: en-US
+X-MC-Unique: H0_eOoyzNdeWIF-YDD7h7w-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8;
-	text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -94,7 +96,6 @@ Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
  Gerd Hoffmann <kraxel@redhat.com>,
  "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, qemu-block@nongnu.org,
  Juan Quintela <quintela@redhat.com>, qemu-trivial@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Eduardo Habkost <ehabkost@redhat.com>,
  Alistair Francis <alistair@alistair23.me>, Julia Suvorova <jusual@redhat.com>,
@@ -108,40 +109,33 @@ Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Display error when a commit contains superfluous semicolon:
+On 2/18/20 10:32 AM, Philippe Mathieu-Daud=C3=A9 wrote:
+> Luc noticed a superfluous trailing semicolon:
+> https://lists.gnu.org/archive/html/qemu-devel/2020-02/msg04593.html
+>=20
+> Prevent that by modifying checkpatch.pl and clean the codebase.
+>=20
+> Philippe Mathieu-Daud=C3=A9 (13):
+>    scripts/checkpatch.pl: Detect superfluous semicolon in C code
+>    audio/alsaaudio: Remove superfluous semicolons
+>    block: Remove superfluous semicolons
+>    block/io_uring: Remove superfluous semicolon
+>    hw/arm/xlnx-versal: Remove superfluous semicolon
+>    hw/m68k/next-cube: Remove superfluous semicolon
+>    hw/scsi/esp: Remove superfluous semicolon
+>    hw/vfio/display: Remove superfluous semicolon
+>    migration/multifd: Remove superfluous semicolon
+>    ui/input-barrier: Remove superfluous semicolon
+>    target/i386/whpx: Remove superfluous semicolon
+>    tests/qtest/libqos/qgraph: Remove superfluous semicolons
+>    contrib/rdmacm-mux: Remove superfluous semicolon
 
-  $ git show 6663a0a3376 | scripts/checkpatch.pl -q -
-  ERROR: superfluous trailing semicolon
-  #276: FILE: block/io_uring.c:186:
-  +                ret =3D -ENOSPC;;
-  total: 1 errors, 1 warnings, 485 lines checked
+Series incomplete, git-send-email aborted:
 
-Reported-by: Luc Michel <luc.michel@greensocs.com>
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
-Cc: Paolo Bonzini <pbonzini@redhat.com>
----
- scripts/checkpatch.pl | 5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index ce43a306f8..11512a8a09 100755
---- a/scripts/checkpatch.pl
-+++ b/scripts/checkpatch.pl
-@@ -1830,6 +1830,11 @@ sub process {
- =09=09=09ERROR("suspicious ; after while (0)\n" . $herecurr);
- =09=09}
-=20
-+# Check superfluous trailing ';'
-+=09=09if ($line =3D~ /;;$/) {
-+=09=09=09ERROR("superfluous trailing semicolon\n" . $herecurr);
-+=09=09}
-+
- # Check relative indent for conditionals and blocks.
- =09=09if ($line =3D~ /\b(?:(?:if|while|for)\s*\(|do\b)/ && $line !~ /^.\s*=
-#/ && $line !~ /\}\s*while\s*/) {
- =09=09=09my ($s, $c) =3D ($stat, $cond);
---=20
-2.21.1
+Sent [PATCH 00/13] trivial: Detect and remove superfluous semicolons in=20
+C code
+Sent [PATCH 01/13] scripts/checkpatch.pl: Detect superfluous semicolon=20
+in C code
+5.5.2 Syntax error. v8sm5146891wrw.2 - gsmtp
 
 
