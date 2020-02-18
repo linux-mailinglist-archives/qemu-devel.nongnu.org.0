@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C54E9163714
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Feb 2020 00:22:45 +0100 (CET)
-Received: from localhost ([::1]:43166 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D72391638CF
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Feb 2020 01:58:57 +0100 (CET)
+Received: from localhost ([::1]:43750 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j4CCS-0005og-Hw
-	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 18:22:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51055)
+	id 1j4DhY-0000KP-VN
+	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 19:58:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46498)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dgibson@ozlabs.org>) id 1j4CB8-0004mu-SH
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 18:21:24 -0500
+ (envelope-from <andrzej.jakowski@linux.intel.com>)
+ id 1j4Bf2-0002dP-Fx
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 17:48:17 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1j4CB6-0006tD-Th
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 18:21:22 -0500
-Received: from ozlabs.org ([203.11.71.1]:46241)
+ (envelope-from <andrzej.jakowski@linux.intel.com>)
+ id 1j4Bey-0000Hm-4d
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 17:48:11 -0500
+Received: from mga05.intel.com ([192.55.52.43]:30768)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1j4CB6-0006lu-7o; Tue, 18 Feb 2020 18:21:20 -0500
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 48McL438Kqz9sRk; Wed, 19 Feb 2020 10:21:16 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1582068076;
- bh=4tF1CYKI+JVO4OVTx2l6sCpOwJZhplWn/0SK5mY2r+U=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=c1X1qj7BDGi1d4FGiP4LDwa42tInSoTmPlSPgOaxxv91LEsQ5IV0RBs6wKKLB7j30
- 2edR9GnUrBbSOF2szpH+5Ti8AxZs6MyEYa768Rl4NposBaQ1FrqT5qznjwIhOJCd5K
- my4R4+6wGZqyBTSHqNB4IA8X4Vr92cLQCvw8B4ss=
-Date: Wed, 19 Feb 2020 10:21:05 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH] spapr: Rework hash<->radix transitions at CAS
-Message-ID: <20200218232105.GG1764@umbus.fritz.box>
-References: <158160831807.3339719.7059822505220975954.stgit@bahia.lan>
- <20200213222835.GG124369@umbus.fritz.box>
- <20200214191900.7e4f91fc@bahia.lan>
+ (Exim 4.71) (envelope-from <andrzej.jakowski@linux.intel.com>)
+ id 1j4Bex-000078-NV; Tue, 18 Feb 2020 17:48:08 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 18 Feb 2020 14:48:04 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,458,1574150400"; d="scan'208";a="408235396"
+Received: from unknown (HELO localhost.ch.intel.com) ([10.2.28.117])
+ by orsmga005.jf.intel.com with ESMTP; 18 Feb 2020 14:48:03 -0800
+From: Andrzej Jakowski <andrzej.jakowski@linux.intel.com>
+To: keith.busch@intel.com,
+	kwolf@redhat.com,
+	mreitz@redhat.com
+Subject: [PATCH v1] block/nvme: introduce PMR support from NVMe 1.4 spec
+Date: Tue, 18 Feb 2020 15:48:11 -0700
+Message-Id: <20200218224811.30050-1-andrzej.jakowski@linux.intel.com>
+X-Mailer: git-send-email 2.21.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="8S1fMsFYqgBC+BN/"
-Content-Disposition: inline
-In-Reply-To: <20200214191900.7e4f91fc@bahia.lan>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 203.11.71.1
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 192.55.52.43
+X-Mailman-Approved-At: Tue, 18 Feb 2020 19:57:12 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,311 +56,475 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexey Kardashevskiy <aik@ozlabs.ru>, Laurent Vivier <lvivier@redhat.com>,
- qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Cc: Andrzej Jakowski <andrzej.jakowski@linux.intel.com>, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This patch introduces support for PMR that has been defined as part of NVMe 1.4
+spec. User can now specify a pmr_file which will be mmap'ed into qemu address
+space and subsequently in PCI BAR 2. Guest OS can perform mmio read and writes
+to the PMR region that will stay persistent accross system reboot.
 
---8S1fMsFYqgBC+BN/
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Andrzej Jakowski <andrzej.jakowski@linux.intel.com>
+---
+ hw/block/nvme.c       | 145 ++++++++++++++++++++++++++++++++++-
+ hw/block/nvme.h       |   5 ++
+ hw/block/trace-events |   5 ++
+ include/block/nvme.h  | 172 ++++++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 326 insertions(+), 1 deletion(-)
 
-On Fri, Feb 14, 2020 at 07:19:00PM +0100, Greg Kurz wrote:
-> On Fri, 14 Feb 2020 09:28:35 +1100
-> David Gibson <david@gibson.dropbear.id.au> wrote:
->=20
-> > On Thu, Feb 13, 2020 at 04:38:38PM +0100, Greg Kurz wrote:
-> > > Until the CAS negotiation is over, an HPT can be allocated on three
-> > > different paths:
-> > >=20
-> > > 1) during machine reset if the host doesn't support radix,
-> > >=20
-> > > 2) during CAS if the guest wants hash and doesn't support HPT resizin=
-g,
-> > >    in which case we pre-emptively resize the HPT to accomodate maxram,
-> > >=20
-> > > 3) during CAS if no CAS reboot was requested, the guest wants hash but
-> > >    we're currently configured for radix.
-> > >=20
-> > > Depending on the various combinations of host or guest MMU support,
-> > > HPT resizing guest support and the possibility of a CAS reboot, it
-> > > is quite hard to know which of these allocates the HPT that will
-> > > be ultimately used by the guest that wants to do hash. Also, some of
-> > > them have bugs:
-> > >=20
-> > > - 2) calls spapr_reallocate_hpt() instead of spapr_setup_hpt_and_vrma=
-()
-> > >   and thus doesn't update the VRMA size, even though we've just exten=
-ded
-> > >   the HPT. Not sure what issues this can cause,
-> > >=20
-> > > - 3) doesn't check for HPT resizing support and will always allocate a
-> > >   small HPT based on the initial RAM size. This caps the total amount=
- of
-> > >   RAM the guest can see, especially if maxram is much higher than the
-> > >   initial ram.
-> > >=20
-> > > We only support guests that do CAS and we already assume that the HPT
-> > > isn't being used when we do the pre-emptive resizing at CAS. It thus
-> > > seems reasonable to only allocate the HPT at the end of CAS, when no
-> > > CAS reboot was requested.
-> > >=20
-> > > Consolidate the logic so that we only create the HPT during 3), ie.
-> > > when we're done with the CAS reboot cycles, and ensure HPT resizing
-> > > is taken into account. This fixes the radix->hash transition for
-> > > all cases.
-> >=20
-> > Uh.. I'm pretty sure this can't work for KVM on a POWER8 host.  We
-> > need the HPT at all times there, or there's nowhere to put VRMA
-> > entries, so we can't run even in real mode.
-> >=20
->=20
-> Well it happens to be working anyway because KVM automatically
-> creates an HPT (default size 16MB) in kvmppc_hv_setup_htab_rma()
-> if QEMU didn't do so already... Would a comment to emphasize this
-> be enough or do you prefer I don't drop the HPT allocation currently
-> performed at machine reset ?
-
-Relying on the automatic allocation is not a good idea.  With host
-kernels before HPT resizing, once that automatic allocation happens,
-we can't change the HPT size *at all*, even with a reset or CAS.
-
-So, yes, the current code is annoyingly complex, but it's that way for
-a reason.
-
-> > > The guest can theoretically call CAS several times, without a CAS
-> > > reboot in between. Linux guests don't do that, but better safe than
-> > > sorry, let's ensure we can also handle the symmetrical hash->radix
-> > > transition correctly: free the HPT and set the GR bit in PATE.
-> > > An helper is introduced for the latter since this is already what
-> > > we do during machine reset when going for radix.
-> > >=20
-> > > As a bonus, this removes one user of spapr->cas_reboot, which we
-> > > want to get rid of in the future.
-> > >=20
-> > > Signed-off-by: Greg Kurz <groug@kaod.org>
-> > > ---
-> > >  hw/ppc/spapr.c         |   25 +++++++++++++++-----
-> > >  hw/ppc/spapr_hcall.c   |   59 ++++++++++++++++++++------------------=
-----------
-> > >  include/hw/ppc/spapr.h |    1 +
-> > >  3 files changed, 44 insertions(+), 41 deletions(-)
-> > >=20
-> > > diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> > > index 828e2cc1359a..88bc0e4e3ca1 100644
-> > > --- a/hw/ppc/spapr.c
-> > > +++ b/hw/ppc/spapr.c
-> > > @@ -1573,9 +1573,19 @@ void spapr_setup_hpt_and_vrma(SpaprMachineStat=
-e *spapr)
-> > >  {
-> > >      int hpt_shift;
-> > > =20
-> > > +    /*
-> > > +     * HPT resizing is a bit of a special case, because when enabled
-> > > +     * we assume an HPT guest will support it until it says it
-> > > +     * doesn't, instead of assuming it won't support it until it says
-> > > +     * it does.  Strictly speaking that approach could break for
-> > > +     * guests which don't make a CAS call, but those are so old we
-> > > +     * don't care about them.  Without that assumption we'd have to
-> > > +     * make at least a temporary allocation of an HPT sized for max
-> > > +     * memory, which could be impossibly difficult under KVM HV if
-> > > +     * maxram is large.
-> > > +     */
-> > >      if ((spapr->resize_hpt =3D=3D SPAPR_RESIZE_HPT_DISABLED)
-> > > -        || (spapr->cas_reboot
-> > > -            && !spapr_ovec_test(spapr->ov5_cas, OV5_HPT_RESIZE))) {
-> > > +        || !spapr_ovec_test(spapr->ov5_cas, OV5_HPT_RESIZE)) {
-> > >          hpt_shift =3D spapr_hpt_shift_for_ramsize(MACHINE(spapr)->ma=
-xram_size);
-> > >      } else {
-> > >          uint64_t current_ram_size;
-> > > @@ -1604,6 +1614,12 @@ static int spapr_reset_drcs(Object *child, voi=
-d *opaque)
-> > >      return 0;
-> > >  }
-> > > =20
-> > > +void spapr_reset_patb_entry(SpaprMachineState *spapr)
-> > > +{
-> > > +    spapr->patb_entry =3D PATE1_GR;
-> > > +    spapr_set_all_lpcrs(LPCR_HR | LPCR_UPRT, LPCR_HR | LPCR_UPRT);
-> > > +}
-> > > +
-> > >  static void spapr_machine_reset(MachineState *machine)
-> > >  {
-> > >      SpaprMachineState *spapr =3D SPAPR_MACHINE(machine);
-> > > @@ -1624,10 +1640,7 @@ static void spapr_machine_reset(MachineState *=
-machine)
-> > >           * without a HPT because KVM will start them in radix mode.
-> > >           * Set the GR bit in PATE so that we know there is no HPT.
-> > >           */
-> > > -        spapr->patb_entry =3D PATE1_GR;
-> > > -        spapr_set_all_lpcrs(LPCR_HR | LPCR_UPRT, LPCR_HR | LPCR_UPRT=
-);
-> > > -    } else {
-> > > -        spapr_setup_hpt_and_vrma(spapr);
-> > > +        spapr_reset_patb_entry(spapr);
-> > >      }
-> > > =20
-> > >      qemu_devices_reset();
-> > > diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
-> > > index b8bb66b5c0d4..57ddf0fa6d05 100644
-> > > --- a/hw/ppc/spapr_hcall.c
-> > > +++ b/hw/ppc/spapr_hcall.c
-> > > @@ -1677,6 +1677,7 @@ static target_ulong h_client_architecture_suppo=
-rt(PowerPCCPU *cpu,
-> > >      bool raw_mode_supported =3D false;
-> > >      bool guest_xive;
-> > >      CPUState *cs;
-> > > +    int maxshift =3D spapr_hpt_shift_for_ramsize(MACHINE(spapr)->max=
-ram_size);
-> > > =20
-> > >      /* CAS is supposed to be called early when only the boot vCPU is=
- active. */
-> > >      CPU_FOREACH(cs) {
-> > > @@ -1739,36 +1740,6 @@ static target_ulong h_client_architecture_supp=
-ort(PowerPCCPU *cpu,
-> > > =20
-> > >      guest_xive =3D spapr_ovec_test(ov5_guest, OV5_XIVE_EXPLOIT);
-> > > =20
-> > > -    /*
-> > > -     * HPT resizing is a bit of a special case, because when enabled
-> > > -     * we assume an HPT guest will support it until it says it
-> > > -     * doesn't, instead of assuming it won't support it until it says
-> > > -     * it does.  Strictly speaking that approach could break for
-> > > -     * guests which don't make a CAS call, but those are so old we
-> > > -     * don't care about them.  Without that assumption we'd have to
-> > > -     * make at least a temporary allocation of an HPT sized for max
-> > > -     * memory, which could be impossibly difficult under KVM HV if
-> > > -     * maxram is large.
-> > > -     */
-> > > -    if (!guest_radix && !spapr_ovec_test(ov5_guest, OV5_HPT_RESIZE))=
+diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+index d28335cbf3..836cf8d426 100644
+--- a/hw/block/nvme.c
++++ b/hw/block/nvme.c
+@@ -19,10 +19,14 @@
+  *      -drive file=<file>,if=none,id=<drive_id>
+  *      -device nvme,drive=<drive_id>,serial=<serial>,id=<id[optional]>, \
+  *              cmb_size_mb=<cmb_size_mb[optional]>, \
++ *              [pmr_file=<pmr_file_path>,] \
+  *              num_queues=<N[optional]>
+  *
+  * Note cmb_size_mb denotes size of CMB in MB. CMB is assumed to be at
+  * offset 0 in BAR2 and supports only WDS, RDS and SQS for now.
++ *
++ * Either cmb or pmr - due to limitation in avaialbe BAR indexes.
++ * pmr_file file needs to be preallocated and be multiple of MiB in size.
+  */
+ 
+ #include "qemu/osdep.h"
+@@ -1141,6 +1145,26 @@ static void nvme_write_bar(NvmeCtrl *n, hwaddr offset, uint64_t data,
+         NVME_GUEST_ERR(nvme_ub_mmiowr_cmbsz_readonly,
+                        "invalid write to read only CMBSZ, ignored");
+         return;
++    case 0xE00: /* PMRCAP */
++        NVME_GUEST_ERR(nvme_ub_mmiowr_pmrcap_readonly,
++                       "invalid write to PMRCAP register, ignored");
++        return;
++    case 0xE04: /* TODO PMRCTL */
++        break;
++    case 0xE08: /* PMRSTS */
++        NVME_GUEST_ERR(nvme_ub_mmiowr_pmrsts_readonly,
++                       "invalid write to PMRSTS register, ignored");
++        return;
++    case 0xE0C: /* PMREBS */
++        NVME_GUEST_ERR(nvme_ub_mmiowr_pmrebs_readonly,
++                       "invalid write to PMREBS register, ignored");
++        return;
++    case 0xE10: /* PMRSWTP */
++        NVME_GUEST_ERR(nvme_ub_mmiowr_pmrswtp_readonly,
++                       "invalid write to PMRSWTP register, ignored");
++        return;
++    case 0xE14: /* TODO PMRMSC */
++         break;
+     default:
+         NVME_GUEST_ERR(nvme_ub_mmiowr_invalid,
+                        "invalid MMIO write,"
+@@ -1303,6 +1327,38 @@ static const MemoryRegionOps nvme_cmb_ops = {
+     },
+ };
+ 
++static void nvme_pmr_write(void *opaque, hwaddr addr, uint64_t data,
++    unsigned size)
++{
++    NvmeCtrl *n = (NvmeCtrl *)opaque;
++    stn_le_p(&n->pmrbuf[addr], size, data);
++}
++
++static uint64_t nvme_pmr_read(void *opaque, hwaddr addr, unsigned size)
++{
++    NvmeCtrl *n = (NvmeCtrl *)opaque;
++    if (!NVME_PMRCAP_PMRWBM(n->bar.pmrcap)) {
++        int ret;
++        ret = msync(n->pmrbuf, n->f_pmr_size, MS_SYNC);
++        if (!ret) {
++            NVME_GUEST_ERR(nvme_ub_mmiowr_pmrread_barrier,
++                       "error while persisting data");
++        }
++    }
++    return ldn_le_p(&n->pmrbuf[addr], size);
++}
++
++static const MemoryRegionOps nvme_pmr_ops = {
++    .read = nvme_pmr_read,
++    .write = nvme_pmr_write,
++    .endianness = DEVICE_LITTLE_ENDIAN,
++    .impl = {
++        .min_access_size = 1,
++        .max_access_size = 8,
++    },
++};
++
++
+ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
  {
-> > > -        int maxshift =3D spapr_hpt_shift_for_ramsize(MACHINE(spapr)-=
->maxram_size);
-> > > -
-> > > -        if (spapr->resize_hpt =3D=3D SPAPR_RESIZE_HPT_REQUIRED) {
-> > > -            error_report(
-> > > -                "h_client_architecture_support: Guest doesn't suppor=
-t HPT resizing, but resize-hpt=3Drequired");
-> > > -            exit(1);
-> > > -        }
-> > > -
-> > > -        if (spapr->htab_shift < maxshift) {
-> > > -            /* Guest doesn't know about HPT resizing, so we
-> > > -             * pre-emptively resize for the maximum permitted RAM.  =
-At
-> > > -             * the point this is called, nothing should have been
-> > > -             * entered into the existing HPT */
-> > > -            spapr_reallocate_hpt(spapr, maxshift, &error_fatal);
-> > > -            push_sregs_to_kvm_pr(spapr);
-> > > -        }
-> > > -    }
-> > > -
-> > >      /* NOTE: there are actually a number of ov5 bits where input fro=
-m the
-> > >       * guest is always zero, and the platform/QEMU enables them inde=
-pendently
-> > >       * of guest input. To model these properly we'd want some sort o=
-f mask,
-> > > @@ -1806,6 +1777,12 @@ static target_ulong h_client_architecture_supp=
-ort(PowerPCCPU *cpu,
-> > >              error_report("Guest requested unavailable MMU mode (hash=
-).");
-> > >              exit(EXIT_FAILURE);
-> > >          }
-> > > +        if (spapr->resize_hpt =3D=3D SPAPR_RESIZE_HPT_REQUIRED &&
-> > > +            !spapr_ovec_test(ov5_guest, OV5_HPT_RESIZE)) {
-> > > +            error_report(
-> > > +                "h_client_architecture_support: Guest doesn't suppor=
-t HPT resizing, but resize-hpt=3Drequired");
-> > > +            exit(1);
-> > > +        }
-> > >      }
-> > >      spapr->cas_pre_isa3_guest =3D !spapr_ovec_test(ov1_guest, OV1_PP=
-C_3_00);
-> > >      spapr_ovec_cleanup(ov1_guest);
-> > > @@ -1838,11 +1815,23 @@ static target_ulong h_client_architecture_sup=
-port(PowerPCCPU *cpu,
-> > >          void *fdt;
-> > >          SpaprDeviceTreeUpdateHeader hdr =3D { .version_id =3D 1 };
-> > > =20
-> > > -        /* If spapr_machine_reset() did not set up a HPT but one is =
-necessary
-> > > -         * (because the guest isn't going to use radix) then set it =
-up here. */
-> > > -        if ((spapr->patb_entry & PATE1_GR) && !guest_radix) {
-> > > -            /* legacy hash or new hash: */
-> > > -            spapr_setup_hpt_and_vrma(spapr);
-> > > +        if (!guest_radix) {
-> > > +            /*
-> > > +             * Either spapr_machine_reset() did not set up a HPT but=
- one
-> > > +             * is necessary (because the guest isn't going to use ra=
-dix),
-> > > +             * or the guest doesn't know about HPT resizing and we n=
-eed to
-> > > +             * pre-emptively resize for the maximum permitted RAM. S=
-et it
-> > > +             * up here. At the point this is called, nothing should =
-have
-> > > +             * been entered into the existing HPT.
-> > > +             */
-> > > +            if (spapr->patb_entry & PATE1_GR || spapr->htab_shift < =
-maxshift) {
-> > > +                /* legacy hash or new hash: */
-> > > +                spapr_setup_hpt_and_vrma(spapr);
-> > > +                push_sregs_to_kvm_pr(spapr);
-> > > +            }
-> > > +        } else {
-> > > +            spapr_free_hpt(spapr);
-> > > +            spapr_reset_patb_entry(spapr);
-> > >          }
-> > > =20
-> > >          if (fdt_bufsize < sizeof(hdr)) {
-> > > diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-> > > index 09110961a589..9d88b5596481 100644
-> > > --- a/include/hw/ppc/spapr.h
-> > > +++ b/include/hw/ppc/spapr.h
-> > > @@ -919,4 +919,5 @@ void spapr_check_pagesize(SpaprMachineState *spap=
-r, hwaddr pagesize,
-> > > =20
-> > >  void spapr_set_all_lpcrs(target_ulong value, target_ulong mask);
-> > >  hwaddr spapr_get_rtas_addr(void);
-> > > +void spapr_reset_patb_entry(SpaprMachineState *spapr);
-> > >  #endif /* HW_SPAPR_H */
-> > >=20
-> >=20
->=20
+     NvmeCtrl *n = NVME(pci_dev);
+@@ -1332,6 +1388,37 @@ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
+         error_setg(errp, "serial property not set");
+         return;
+     }
++
++    if (!n->cmb_size_mb && n->pmr_file) {
++        int fd;
++
++        n->f_pmr = fopen(n->pmr_file, "r+b");
++        if (!n->f_pmr) {
++            error_setg(errp, "pmr backend file open error");
++            return;
++        }
++
++        fseek(n->f_pmr, 0L, SEEK_END);
++        n->f_pmr_size = ftell(n->f_pmr);
++        fseek(n->f_pmr, 0L, SEEK_SET);
++
++        /* pmr file size needs to be multiple of MiB in size */
++        if (!n->f_pmr_size || n->f_pmr_size % (1 << 20)) {
++            error_setg(errp, "pmr backend file size needs to be greater than 0"
++                             "and multiple of MiB in size");
++            return;
++        }
++
++        fd = fileno(n->f_pmr);
++        n->pmrbuf = mmap(NULL, n->f_pmr_size,
++                         (PROT_READ | PROT_WRITE), MAP_SHARED, fd, 0);
++
++        if (n->pmrbuf == MAP_FAILED) {
++            error_setg(errp, "pmr backend file mmap error");
++            return;
++        }
++    }
++
+     blkconf_blocksizes(&n->conf);
+     if (!blkconf_apply_backend_options(&n->conf, blk_is_read_only(n->conf.blk),
+                                        false, errp)) {
+@@ -1393,7 +1480,6 @@ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
+     n->bar.intmc = n->bar.intms = 0;
+ 
+     if (n->cmb_size_mb) {
+-
+         NVME_CMBLOC_SET_BIR(n->bar.cmbloc, 2);
+         NVME_CMBLOC_SET_OFST(n->bar.cmbloc, 0);
+ 
+@@ -1415,6 +1501,52 @@ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
+             PCI_BASE_ADDRESS_SPACE_MEMORY | PCI_BASE_ADDRESS_MEM_TYPE_64 |
+             PCI_BASE_ADDRESS_MEM_PREFETCH, &n->ctrl_mem);
+ 
++    } else if (n->pmr_file) {
++        /* Controller Capabilities register */
++        NVME_CAP_SET_PMRS(n->bar.cap, 1);
++
++        /* PMR Capabities register */
++        n->bar.pmrcap = 0;
++        NVME_PMRCAP_SET_RDS(n->bar.pmrcap, 0);
++        NVME_PMRCAP_SET_WDS(n->bar.pmrcap, 0);
++        NVME_PMRCAP_SET_BIR(n->bar.pmrcap, 2);
++        NVME_PMRCAP_SET_PMRTU(n->bar.pmrcap, 0);
++        NVME_PMRCAP_SET_PMRWBM(n->bar.pmrcap, 0);
++        NVME_PMRCAP_SET_PMRTO(n->bar.pmrcap, 0);
++        NVME_PMRCAP_SET_CMSS(n->bar.pmrcap, 0);
++
++        /* PMR Control register */
++        n->bar.pmrctl = 0;
++        NVME_PMRCTL_SET_EN(n->bar.pmrctl, 0);
++
++        /* PMR Status register */
++        n->bar.pmrsts = 0;
++        NVME_PMRSTS_SET_ERR(n->bar.pmrsts, 0);
++        NVME_PMRSTS_SET_NRDY(n->bar.pmrsts, 0);
++        NVME_PMRSTS_SET_HSTS(n->bar.pmrsts, 0);
++        NVME_PMRSTS_SET_CBAI(n->bar.pmrsts, 0);
++
++        /* PMR Elasticity Buffer Size register */
++        n->bar.pmrebs = 0;
++        NVME_PMREBS_SET_PMRSZU(n->bar.pmrebs, 0);
++        NVME_PMREBS_SET_RBB(n->bar.pmrebs, 0);
++        NVME_PMREBS_SET_PMRWBZ(n->bar.pmrebs, 0);
++
++        /* PMR Sustained Write Throughput register */
++        n->bar.pmrswtp = 0;
++        NVME_PMRSWTP_SET_PMRSWTU(n->bar.pmrswtp, 0);
++        NVME_PMRSWTP_SET_PMRSWTV(n->bar.pmrswtp, 0);
++
++        /* PMR Memory Space Control register */
++        n->bar.pmrmsc = 0;
++        NVME_PMRMSC_SET_CMSE(n->bar.pmrmsc, 0);
++        NVME_PMRMSC_SET_CBA(n->bar.pmrmsc, 0);
++
++        memory_region_init_io(&n->ctrl_mem, OBJECT(n), &nvme_pmr_ops, n,
++                              "nvme-pmr", n->f_pmr_size);
++        pci_register_bar(pci_dev, NVME_PMRCAP_BIR(n->bar.pmrcap),
++            PCI_BASE_ADDRESS_SPACE_MEMORY | PCI_BASE_ADDRESS_MEM_TYPE_64 |
++            PCI_BASE_ADDRESS_MEM_PREFETCH, &n->ctrl_mem);
+     }
+ 
+     for (i = 0; i < n->num_namespaces; i++) {
+@@ -1445,11 +1577,22 @@ static void nvme_exit(PCIDevice *pci_dev)
+     if (n->cmb_size_mb) {
+         g_free(n->cmbuf);
+     }
++
++    if (n->pmr_file) {
++        if (n->pmrbuf) {
++            munmap(n->pmrbuf, n->f_pmr_size);
++        }
++
++        if (n->f_pmr) {
++            fclose(n->f_pmr);
++        }
++    }
+     msix_uninit_exclusive_bar(pci_dev);
+ }
+ 
+ static Property nvme_props[] = {
+     DEFINE_BLOCK_PROPERTIES(NvmeCtrl, conf),
++    DEFINE_PROP_STRING("pmr_file", NvmeCtrl, pmr_file),
+     DEFINE_PROP_STRING("serial", NvmeCtrl, serial),
+     DEFINE_PROP_UINT32("cmb_size_mb", NvmeCtrl, cmb_size_mb, 0),
+     DEFINE_PROP_UINT32("num_queues", NvmeCtrl, num_queues, 64),
+diff --git a/hw/block/nvme.h b/hw/block/nvme.h
+index 557194ee19..5ab734f96f 100644
+--- a/hw/block/nvme.h
++++ b/hw/block/nvme.h
+@@ -83,6 +83,11 @@ typedef struct NvmeCtrl {
+     uint64_t    timestamp_set_qemu_clock_ms;    /* QEMU clock time */
+ 
+     char            *serial;
++    char            *pmr_file;
++    FILE            *f_pmr;
++    uint64_t        f_pmr_size;
++    uint8_t         *pmrbuf;
++
+     NvmeNamespace   *namespaces;
+     NvmeSQueue      **sq;
+     NvmeCQueue      **cq;
+diff --git a/hw/block/trace-events b/hw/block/trace-events
+index c03e80c2c9..f633360f95 100644
+--- a/hw/block/trace-events
++++ b/hw/block/trace-events
+@@ -110,6 +110,11 @@ nvme_ub_mmiowr_ssreset_w1c_unsupported(void) "attempted to W1C CSTS.NSSRO but CA
+ nvme_ub_mmiowr_ssreset_unsupported(void) "attempted NVM subsystem reset but CAP.NSSRS is zero (not supported)"
+ nvme_ub_mmiowr_cmbloc_reserved(void) "invalid write to reserved CMBLOC when CMBSZ is zero, ignored"
+ nvme_ub_mmiowr_cmbsz_readonly(void) "invalid write to read only CMBSZ, ignored"
++nvme_ub_mmiowr_pmrcap_readonly(void) "invalid write to read only PMRCAP, ignored"
++nvme_ub_mmiowr_pmrsts_readonly(void) "invalid write to read only PMRSTS, ignored"
++nvme_ub_mmiowr_pmrebs_readonly(void) "invalid write to read only PMREBS, ignored"
++nvme_ub_mmiowr_pmrswtp_readonly(void) "invalid write to read only PMRSWTP, ignored"
++nvme_ub_mmiowr_pmrread_barrier(void) "failed to persists data"
+ nvme_ub_mmiowr_invalid(uint64_t offset, uint64_t data) "invalid MMIO write, offset=0x%"PRIx64", data=0x%"PRIx64""
+ nvme_ub_mmiord_misaligned32(uint64_t offset) "MMIO read not 32-bit aligned, offset=0x%"PRIx64""
+ nvme_ub_mmiord_toosmall(uint64_t offset) "MMIO read smaller than 32-bits, offset=0x%"PRIx64""
+diff --git a/include/block/nvme.h b/include/block/nvme.h
+index 8fb941c653..374262d4b7 100644
+--- a/include/block/nvme.h
++++ b/include/block/nvme.h
+@@ -15,6 +15,13 @@ typedef struct NvmeBar {
+     uint64_t    acq;
+     uint32_t    cmbloc;
+     uint32_t    cmbsz;
++    uint8_t     padding[3520]; /* not used by QEMU */
++    uint32_t    pmrcap;
++    uint32_t    pmrctl;
++    uint32_t    pmrsts;
++    uint32_t    pmrebs;
++    uint32_t    pmrswtp;
++    uint32_t    pmrmsc;
+ } NvmeBar;
+ 
+ enum NvmeCapShift {
+@@ -27,6 +34,7 @@ enum NvmeCapShift {
+     CAP_CSS_SHIFT      = 37,
+     CAP_MPSMIN_SHIFT   = 48,
+     CAP_MPSMAX_SHIFT   = 52,
++    CAP_PMR_SHIFT      = 56,
+ };
+ 
+ enum NvmeCapMask {
+@@ -39,6 +47,7 @@ enum NvmeCapMask {
+     CAP_CSS_MASK       = 0xff,
+     CAP_MPSMIN_MASK    = 0xf,
+     CAP_MPSMAX_MASK    = 0xf,
++    CAP_PMR_MASK       = 0x1,
+ };
+ 
+ #define NVME_CAP_MQES(cap)  (((cap) >> CAP_MQES_SHIFT)   & CAP_MQES_MASK)
+@@ -69,6 +78,8 @@ enum NvmeCapMask {
+                                                            << CAP_MPSMIN_SHIFT)
+ #define NVME_CAP_SET_MPSMAX(cap, val) (cap |= (uint64_t)(val & CAP_MPSMAX_MASK)\
+                                                             << CAP_MPSMAX_SHIFT)
++#define NVME_CAP_SET_PMRS(cap, val) (cap |= (uint64_t)(val & CAP_PMR_MASK)\
++                                                            << CAP_PMR_SHIFT)
+ 
+ enum NvmeCcShift {
+     CC_EN_SHIFT     = 0,
+@@ -205,6 +216,167 @@ enum NvmeCmbszMask {
+ #define NVME_CMBSZ_GETSIZE(cmbsz) \
+     (NVME_CMBSZ_SZ(cmbsz) * (1 << (12 + 4 * NVME_CMBSZ_SZU(cmbsz))))
+ 
++enum NvmePmrcapShift {
++    PMRCAP_RDS_SHIFT   = 3,
++    PMRCAP_WDS_SHIFT   = 4,
++    PMRCAP_BIR_SHIFT   = 5,
++    PMRCAP_PMRTU_SHIFT   = 8,
++    PMRCAP_PMRWBM_SHIFT   = 10,
++    PMRCAP_PMRTO_SHIFT   = 16,
++    PMRCAP_CMSS_SHIFT   = 24,
++};
++
++enum NvmePmrcapMask {
++    PMRCAP_RDS_MASK   = 0x1,
++    PMRCAP_WDS_MASK   = 0x1,
++    PMRCAP_BIR_MASK   = 0x7,
++    PMRCAP_PMRTU_MASK   = 0x3,
++    PMRCAP_PMRWBM_MASK   = 0xf,
++    PMRCAP_PMRTO_MASK   = 0xff,
++    PMRCAP_CMSS_MASK   = 0x1,
++};
++
++#define NVME_PMRCAP_RDS(pmrcap)    \
++    ((pmrcap >> PMRCAP_RDS_SHIFT)   & PMRCAP_RDS_MASK)
++#define NVME_PMRCAP_WDS(pmrcap)    \
++    ((pmrcap >> PMRCAP_WDS_SHIFT)   & PMRCAP_WDS_MASK)
++#define NVME_PMRCAP_BIR(pmrcap)    \
++    ((pmrcap >> PMRCAP_BIR_SHIFT)   & PMRCAP_BIR_MASK)
++#define NVME_PMRCAP_PMRTU(pmrcap)    \
++    ((pmrcap >> PMRCAP_PMRTU_SHIFT)   & PMRCAP_PMRTU_MASK)
++#define NVME_PMRCAP_PMRWBM(pmrcap)    \
++    ((pmrcap >> PMRCAP_PMRWBM_SHIFT)   & PMRCAP_PMRWBM_MASK)
++#define NVME_PMRCAP_PMRTO(pmrcap)    \
++    ((pmrcap >> PMRCAP_PMRTO_SHIFT)   & PMRCAP_PMRTO_MASK)
++#define NVME_PMRCAP_CMSS(pmrcap)    \
++    ((pmrcap >> PMRCAP_CMSS_SHIFT)   & PMRCAP_CMSS_MASK)
++
++#define NVME_PMRCAP_SET_RDS(pmrcap, val)   \
++    (pmrcap |= (uint64_t)(val & PMRCAP_RDS_MASK) << PMRCAP_RDS_SHIFT)
++#define NVME_PMRCAP_SET_WDS(pmrcap, val)   \
++    (pmrcap |= (uint64_t)(val & PMRCAP_WDS_MASK) << PMRCAP_WDS_SHIFT)
++#define NVME_PMRCAP_SET_BIR(pmrcap, val)   \
++    (pmrcap |= (uint64_t)(val & PMRCAP_BIR_MASK) << PMRCAP_BIR_SHIFT)
++#define NVME_PMRCAP_SET_PMRTU(pmrcap, val)   \
++    (pmrcap |= (uint64_t)(val & PMRCAP_PMRTU_MASK) << PMRCAP_PMRTU_SHIFT)
++#define NVME_PMRCAP_SET_PMRWBM(pmrcap, val)   \
++    (pmrcap |= (uint64_t)(val & PMRCAP_PMRWBM_MASK) << PMRCAP_PMRWBM_SHIFT)
++#define NVME_PMRCAP_SET_PMRTO(pmrcap, val)   \
++    (pmrcap |= (uint64_t)(val & PMRCAP_PMRTO_MASK) << PMRCAP_PMRTO_SHIFT)
++#define NVME_PMRCAP_SET_CMSS(pmrcap, val)   \
++    (pmrcap |= (uint64_t)(val & PMRCAP_CMSS_MASK) << PMRCAP_CMSS_SHIFT)
++
++enum NvmePmrctlShift {
++    PMRCTL_EN_SHIFT   = 0,
++};
++
++enum NvmePmrctlMask {
++    PMRCTL_EN_MASK   = 0x1,
++};
++
++#define NVME_PMRCTL_EN(pmrctl)  ((pmrctl >> PMRCTL_EN_SHIFT)   & PMRCTL_EN_MASK)
++
++#define NVME_PMRCTL_SET_EN(pmrctl, val)   \
++    (pmrctl |= (uint64_t)(val & PMRCTL_EN_MASK) << PMRCTL_EN_SHIFT)
++
++enum NvmePmrstsShift {
++    PMRSTS_ERR_SHIFT   = 0,
++    PMRSTS_NRDY_SHIFT   = 8,
++    PMRSTS_HSTS_SHIFT   = 9,
++    PMRSTS_CBAI_SHIFT   = 12,
++};
++
++enum NvmePmrstsMask {
++    PMRSTS_ERR_MASK   = 0xff,
++    PMRSTS_NRDY_MASK   = 0x1,
++    PMRSTS_HSTS_MASK   = 0x7,
++    PMRSTS_CBAI_MASK   = 0x1,
++};
++
++#define NVME_PMRSTS_ERR(pmrsts)     \
++    ((pmrsts >> PMRSTS_ERR_SHIFT)   & PMRSTS_ERR_MASK)
++#define NVME_PMRSTS_NRDY(pmrsts)    \
++    ((pmrsts >> PMRSTS_NRDY_SHIFT)   & PMRSTS_NRDY_MASK)
++#define NVME_PMRSTS_HSTS(pmrsts)    \
++    ((pmrsts >> PMRSTS_HSTS_SHIFT)   & PMRSTS_HSTS_MASK)
++#define NVME_PMRSTS_CBAI(pmrsts)    \
++    ((pmrsts >> PMRSTS_CBAI_SHIFT)   & PMRSTS_CBAI_MASK)
++
++#define NVME_PMRSTS_SET_ERR(pmrsts, val)   \
++    (pmrsts |= (uint64_t)(val & PMRSTS_ERR_MASK) << PMRSTS_ERR_SHIFT)
++#define NVME_PMRSTS_SET_NRDY(pmrsts, val)   \
++    (pmrsts |= (uint64_t)(val & PMRSTS_NRDY_MASK) << PMRSTS_NRDY_SHIFT)
++#define NVME_PMRSTS_SET_HSTS(pmrsts, val)   \
++    (pmrsts |= (uint64_t)(val & PMRSTS_HSTS_MASK) << PMRSTS_HSTS_SHIFT)
++#define NVME_PMRSTS_SET_CBAI(pmrsts, val)   \
++    (pmrsts |= (uint64_t)(val & PMRSTS_CBAI_MASK) << PMRSTS_CBAI_SHIFT)
++
++enum NvmePmrebsShift {
++    PMREBS_PMRSZU_SHIFT   = 0,
++    PMREBS_RBB_SHIFT   = 4,
++    PMREBS_PMRWBZ_SHIFT   = 8,
++};
++
++enum NvmePmrebsMask {
++    PMREBS_PMRSZU_MASK   = 0xf,
++    PMREBS_RBB_MASK   = 0x1,
++    PMREBS_PMRWBZ_MASK   = 0xffffff,
++};
++
++#define NVME_PMREBS_PMRSZU(pmrebs)  \
++    ((pmrebs >> PMREBS_PMRSZU_SHIFT)   & PMREBS_PMRSZU_MASK)
++#define NVME_PMREBS_RBB(pmrebs)     \
++    ((pmrebs >> PMREBS_RBB_SHIFT)   & PMREBS_RBB_MASK)
++#define NVME_PMREBS_PMRWBZ(pmrebs)  \
++    ((pmrebs >> PMREBS_PMRWBZ_SHIFT)   & PMREBS_PMRWBZ_MASK)
++
++#define NVME_PMREBS_SET_PMRSZU(pmrebs, val)   \
++    (pmrebs |= (uint64_t)(val & PMREBS_PMRSZU_MASK) << PMREBS_PMRSZU_SHIFT)
++#define NVME_PMREBS_SET_RBB(pmrebs, val)   \
++    (pmrebs |= (uint64_t)(val & PMREBS_RBB_MASK) << PMREBS_RBB_SHIFT)
++#define NVME_PMREBS_SET_PMRWBZ(pmrebs, val)   \
++    (pmrebs |= (uint64_t)(val & PMREBS_PMRWBZ_MASK) << PMREBS_PMRWBZ_SHIFT)
++
++enum NvmePmrswtpShift {
++    PMRSWTP_PMRSWTU_SHIFT   = 0,
++    PMRSWTP_PMRSWTV_SHIFT   = 8,
++};
++
++enum NvmePmrswtpMask {
++    PMRSWTP_PMRSWTU_MASK   = 0xf,
++    PMRSWTP_PMRSWTV_MASK   = 0xffffff,
++};
++
++#define NVME_PMRSWTP_PMRSWTU(pmrswtp)   \
++    ((pmrswtp >> PMRSWTP_PMRSWTU_SHIFT)   & PMRSWTP_PMRSWTU_MASK)
++#define NVME_PMRSWTP_PMRSWTV(pmrswtp)   \
++    ((pmrswtp >> PMRSWTP_PMRSWTV_SHIFT)   & PMRSWTP_PMRSWTV_MASK)
++
++#define NVME_PMRSWTP_SET_PMRSWTU(pmrswtp, val)   \
++    (pmrswtp |= (uint64_t)(val & PMRSWTP_PMRSWTU_MASK) << PMRSWTP_PMRSWTU_SHIFT)
++#define NVME_PMRSWTP_SET_PMRSWTV(pmrswtp, val)   \
++    (pmrswtp |= (uint64_t)(val & PMRSWTP_PMRSWTV_MASK) << PMRSWTP_PMRSWTV_SHIFT)
++
++enum NvmePmrmscShift {
++    PMRMSC_CMSE_SHIFT   = 1,
++    PMRMSC_CBA_SHIFT   = 12,
++};
++
++enum NvmePmrmscMask {
++    PMRMSC_CMSE_MASK   = 0x1,
++    PMRMSC_CBA_MASK   = 0xfffffffffffff,
++};
++
++#define NVME_PMRMSC_CMSE(pmrmsc)    \
++    ((pmrmsc >> PMRMSC_CMSE_SHIFT)   & PMRMSC_CMSE_MASK)
++#define NVME_PMRMSC_CBA(pmrmsc)     \
++    ((pmrmsc >> PMRMSC_CBA_SHIFT)   & PMRMSC_CBA_MASK)
++
++#define NVME_PMRMSC_SET_CMSE(pmrmsc, val)   \
++    (pmrmsc |= (uint64_t)(val & PMRMSC_CMSE_MASK) << PMRMSC_CMSE_SHIFT)
++#define NVME_PMRMSC_SET_CBA(pmrmsc, val)   \
++    (pmrmsc |= (uint64_t)(val & PMRMSC_CBA_MASK) << PMRMSC_CBA_SHIFT)
++
+ typedef struct NvmeCmd {
+     uint8_t     opcode;
+     uint8_t     fuse;
+-- 
+2.21.1
 
-
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---8S1fMsFYqgBC+BN/
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl5McWEACgkQbDjKyiDZ
-s5JjyBAAy0FkOwibMx5HDJAcf1Geuif/rgWAbiEn5Uh2YimPG3AmIIPAygEm5BsR
-7/k8SXf+ifoWTp7ZA7bWE9SIv4HA66kbKR2WWdT8mK4CuKKOawE0KrD6paj6ENci
-jO90JX5cvBbZmb/vO/LFoh23wrcW0mfD60+1MMQRuVuNjgzbJMBZZjiUKvlxpyB1
-hVkqQueo6Tjxd0PdH/y8jHyfU7tQixRmPCVpvV4eDeF3YLsPwjT2ICS1GubHUVgs
-A/noiAV3imMDugJvGEe4/QMPGaY4ZDmmOhyrC7vfZR3Eh99l6JrX9kKL649dH1xq
-P/TJTGLJPJMU0juEBUs0atI970HTlnGUfSWZs9svrbwCNEmMlCLQCL/Jv5HwyjTy
-X6NGB2c9looqTjeK0ThdJPET3Vd1+Kip/Byizg5187ftXD8kltvIAavMxynZ45SQ
-DrvqAOb+BKJznoo1UPSsz5TbWqjE5KJUpYNFKmoUQ2A3+4eFutrKclqZNQlBwC1s
-7rg/H49sOAuDNwkfQ1Rml95PUUDnFN7J/miM0rDo5T1BbVYQDSf9kc6ysEECTM5q
-GA4Uo5Bbpb7pFNtBRijkkEPARCxVDXz+4EfXKd/r9ortoJAdl5Ov+28YrblW2qdO
-HaqEAkPYPWOj25g3r3QZBpo/jrSXg3KF0W/YrqI7polDbh4ZCTs=
-=httd
------END PGP SIGNATURE-----
-
---8S1fMsFYqgBC+BN/--
 
