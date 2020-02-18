@@ -2,78 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C96F2162738
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 14:39:08 +0100 (CET)
-Received: from localhost ([::1]:35130 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90270162745
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 14:41:35 +0100 (CET)
+Received: from localhost ([::1]:35172 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j435f-0003dz-TC
-	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 08:39:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47943)
+	id 1j4382-0006VA-M0
+	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 08:41:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48346)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1j434d-0002of-Kf
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 08:38:04 -0500
+ (envelope-from <philmd@redhat.com>) id 1j4378-0005j9-8o
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 08:40:39 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1j434c-0006fq-Mo
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 08:38:03 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:60791
+ (envelope-from <philmd@redhat.com>) id 1j4377-0007Ix-6h
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 08:40:38 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:23356
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j434c-0006fV-J3
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 08:38:02 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j4377-0007Ig-2q
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 08:40:37 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582033081;
+ s=mimecast20190719; t=1582033236;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=H1URDudQA43tkpJJIFu7DKO6uQTr6PesR1xXXrF9Y2c=;
- b=O3P5hn7ukxkX9uf+MPm5cvi0DKtLJB53bgzl4bjq6Ji4vP6FbbZSeimXo/jkhLV7OCNIZx
- QToxFVRwBKqSLY5OpQDAH8zSfJtGjyyq5R/eTqIRrKPyVI5bwehaavidvr7dvBVY42M5BS
- UlwTh3eVrqGhw15HiCSv6O4S1+qj9ws=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-406-uIsOl54QMvSEq936JB0tfw-1; Tue, 18 Feb 2020 08:38:00 -0500
-Received: by mail-wr1-f70.google.com with SMTP id u8so10831722wrp.10
- for <qemu-devel@nongnu.org>; Tue, 18 Feb 2020 05:38:00 -0800 (PST)
+ bh=ZouKSL42nVgIUkLtgJ65SsCYW8y4Zu+F20jcHYFcgw0=;
+ b=ZoQrydC2mrjofZZaqTcfyxopsjnpjP0g3O2AeWwYfjxPaNxPHyuC8uR5rBbFh2v0TbXsqw
+ rrNDvIOuwCUECznXOoMvSN5PjPB5QwSkmNyImxXEqWz5YbX4wQ0KvZQIvrnRzrcJYpgD17
+ UmcNbUqiWybZMe/3w3uCf/W3RZeHL28=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-54-bvIB9TJ0O8eK90Ky4jePVg-1; Tue, 18 Feb 2020 08:40:34 -0500
+Received: by mail-wr1-f72.google.com with SMTP id u8so10837531wrp.10
+ for <qemu-devel@nongnu.org>; Tue, 18 Feb 2020 05:40:34 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=dby0bbbTN0qoct6/4D46hB2yEK0ttVkxuhLtJTaK6Dg=;
- b=NWvVV4IIGMb3q2JgUby/+h8qleidaRs7T099UR8lvbkBSyjYkb4K3LtoVLmRVHFrw1
- Rg8vW0vpaNvdk51/psCgwpxDmRd2ydFs1iu7L6W3tcv+MBsHXd+D6vHVnVxK2b6vBL/p
- jJfpaP20Y93h7kB2Gsh+QlVNzhqKTAcEZeIdQl4sYZVIGn0rniyApQL/ZejN2zBd4iTR
- OLDQ3TBPWN6IjXpCyqGrfEmqgQVRie3/mL81mRVAhXL0oFDWcWP/DMqq07q68z+X9zPy
- m5Tc88BlXoiSueNvJ/BDfE7hWy6l6LvseqGd0DNgTebImMfz05oy3Hn7NM5Q93ZQe2P+
- Oy5g==
-X-Gm-Message-State: APjAAAXxd+DjRwONRSxb5U6XW2modlSTE9kyrTW9/liJuF9yUoP7ePbx
- eNWfO6imvuOHLiS0u36lAoKsC3jmpMePWjfmGmAvEadaiuEwn8KzcRC78gXq8AoTxzOJQGvSe5p
- 2RRFvWsVVuxi35SE=
-X-Received: by 2002:a5d:6a0f:: with SMTP id m15mr30422433wru.40.1582033078373; 
- Tue, 18 Feb 2020 05:37:58 -0800 (PST)
-X-Google-Smtp-Source: APXvYqz8hDFMvcWDGsMdhzfbuC6//7cdxLJHFb3/ibbb3aPXZNXbVys06zrGJrx35qPGtqKOS/lZ/g==
-X-Received: by 2002:a5d:6a0f:: with SMTP id m15mr30422420wru.40.1582033078219; 
- Tue, 18 Feb 2020 05:37:58 -0800 (PST)
-Received: from x1w.redhat.com (78.red-88-21-202.staticip.rima-tde.net.
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=W6Q4XZLGqSzbZ63dhOe/UAwSV/H6nZjQzAzd1VdnuJA=;
+ b=Nyzri92N53drksA6kJ3N2O3oIjGZLoZT1yn6d4c77glI7oFQyGW8Jer5CFDmw1oNyK
+ gVBFKAnIIUf53OqDjIT+xIH40mvVnziX8TC+lStqjlnbt/IbfEAYvbStOrDCkUPR76sk
+ UYH8rNarp/gwA4RiHaxdS2y5+iTCEFmtUEWhvEMgAg4R0nnCQ/y6IRV+89VL3ZH9N3Eh
+ fRrpK2eO5iHOm07MzT2ucinNqNJiJaGpC1hKFSivet2m/VS0yEjAUrkDDAfjJ8Wq8xwE
+ 0VaorSfpeGLAX8d+JD9f2ZK6MsRIdIAOI7Gucr+nOkroDQlSx0WZZLKtEExoH9esVcAq
+ 4KIg==
+X-Gm-Message-State: APjAAAW6kswogD1Jt8WZO4MLWML/Lp9hWDisvK4vC/1T97srcats9XUr
+ ILLMlpoMPwqDEY4pYFXPOjZIM/xF2aVWZAE8Mv5qwRf5MWcXEG4ThjDMnNQzxsLbiJ/DGCq9Dcw
+ /dm2O+Uzs6vKhLwo=
+X-Received: by 2002:adf:f484:: with SMTP id l4mr30389306wro.207.1582033233382; 
+ Tue, 18 Feb 2020 05:40:33 -0800 (PST)
+X-Google-Smtp-Source: APXvYqya1N68l1Jcrj/plfPbJh1E16qW4thQMXiqOE37ImS2OgtY/A0RxcobfzBcLuHezxTeiPpPNg==
+X-Received: by 2002:adf:f484:: with SMTP id l4mr30389284wro.207.1582033233223; 
+ Tue, 18 Feb 2020 05:40:33 -0800 (PST)
+Received: from [192.168.1.35] (78.red-88-21-202.staticip.rima-tde.net.
  [88.21.202.78])
- by smtp.gmail.com with ESMTPSA id c13sm6377395wrn.46.2020.02.18.05.37.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 Feb 2020 05:37:57 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+ by smtp.gmail.com with ESMTPSA id a9sm6236443wrn.3.2020.02.18.05.40.32
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 18 Feb 2020 05:40:32 -0800 (PST)
+Subject: Re: [PATCH 0/3] travis-ci: Improve OSX coverage
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/3] .travis.yml: Expand OSX code coverage
-Date: Tue, 18 Feb 2020 14:37:52 +0100
-Message-Id: <20200218133755.26400-2-philmd@redhat.com>
-X-Mailer: git-send-email 2.21.1
-In-Reply-To: <20200218133755.26400-1-philmd@redhat.com>
 References: <20200218133755.26400-1-philmd@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <47de3e95-db96-694a-8baf-5afdb9f141ac@redhat.com>
+Date: Tue, 18 Feb 2020 14:40:31 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-X-MC-Unique: uIsOl54QMvSEq936JB0tfw-1
+In-Reply-To: <20200218133755.26400-1-philmd@redhat.com>
+Content-Language: en-US
+X-MC-Unique: bvIB9TJ0O8eK90Ky4jePVg-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8;
-	text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 205.139.110.61
@@ -89,75 +91,32 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Fam Zheng <fam@euphon.net>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Install more packages to cover more components:
+On 2/18/20 2:37 PM, Philippe Mathieu-Daud=C3=A9 wrote:
+> Add more packages on the Mojave OSX job (Xcode 10),
+> and duplicate the job to build on Catalina (Xcode 11).
+>=20
+> Each job takes ~34min:
+> https://travis-ci.org/philmd/qemu/builds/651473221
+>=20
+> Philippe Mathieu-Daud=C3=A9 (3):
+>    .travis.yml: Expand OSX code coverage
+>    .travis.yml: Build with ncurses on OSX
+>    .travis.yml: Test building with Xcode 11.3
+>=20
+>   .travis.yml | 48 ++++++++++++++++++++++++++++++++++++++++++++++--
+>   1 file changed, 46 insertions(+), 2 deletions(-)
+>=20
 
-    ./configure
-    [...]
-    host CPU          x86_64
-    strip binaries    yes
-    Cocoa support     yes
-    TLS priority      NORMAL
-    GNUTLS support    yes
-    nettle            yes (3.4.1)
-    libtasn1          yes
-    PAM               yes
-    iconv support     yes
-    curses support    no
-    curl support      yes
-    Audio drivers     coreaudio
-    vde support       yes
-    HAX support       yes
-    HVF support       yes
-    TCG support       yes
-    vhost-net support yes
-    vhost-crypto support yes
-    vhost-user support yes
-    vhost-user-fs support yes
-    libusb            yes
-    libiscsi support  yes
-    libssh support    yes
-    lzo support       yes
-    snappy support    yes
-    bzip2 support     yes
-    lzfse support     yes
-    [...]
+Series killed again...
 
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
- .travis.yml | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
-
-diff --git a/.travis.yml b/.travis.yml
-index 5887055951..08ef2c011c 100644
---- a/.travis.yml
-+++ b/.travis.yml
-@@ -279,10 +279,19 @@ matrix:
-         homebrew:
-           packages:
-             - ccache
-+            - libgcrypt
-+            - libiscsi
-+            - libssh2
-+            - libusb
-+            - lzfse
-+            - lzo
-+            - gettext
-             - glib
--            - pixman
-             - gnu-sed
-+            - pixman
-             - python
-+            - snappy
-+            - vde
-           update: true
-       before_script:
-         - brew link --overwrite python
---=20
-2.21.1
+   $ git publish
+   Sent [PATCH 0/3] travis-ci: Improve OSX coverage
+   Sent [PATCH 1/3] .travis.yml: Expand OSX code coverage
+   4.3.0 Temporary System Problem.  Try again later (10).=20
+c13sm6377395wrn.46 - gsmtp
 
 
