@@ -2,71 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BF8616272D
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 14:34:18 +0100 (CET)
-Received: from localhost ([::1]:35086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95818162739
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 14:39:09 +0100 (CET)
+Received: from localhost ([::1]:35132 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j430z-0001ap-2b
-	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 08:34:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47384)
+	id 1j435g-0003ff-MG
+	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 08:39:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47954)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1j430F-0001Bb-0P
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 08:33:31 -0500
+ (envelope-from <philmd@redhat.com>) id 1j434f-0002on-VZ
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 08:38:06 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1j430D-0005GS-Ib
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 08:33:30 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:33412
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <philmd@redhat.com>) id 1j434f-0006gK-0Y
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 08:38:05 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:35675
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1j430D-0005GG-F4
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 08:33:29 -0500
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1j434e-0006gC-T6
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 08:38:04 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582032808;
+ s=mimecast20190719; t=1582033084;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Y8p3mgFCnafp4RH/5PsacyvQkeCP3WO1t35oO7kJgPk=;
- b=bd1daRAWWD1hC04Z8f4bFkPw7w28YTjZQq45vcXmLTLY7t854/pXwjCRkHQsLdHq3YZxgP
- cdsLj6sztaYUK8woaOleFMSInHzsIe6rIq9rOy44/5HbV/CpxxpG5R5nTvuiN8pTUFvN97
- H+fHzAIITowfxFx/dMXFTtkTWfWIXCY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-115-ln8Cy1okO_OJ01vCqshpiQ-1; Tue, 18 Feb 2020 08:33:27 -0500
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6908C13E2;
- Tue, 18 Feb 2020 13:33:25 +0000 (UTC)
-Received: from [10.3.116.180] (ovpn-116-180.phx2.redhat.com [10.3.116.180])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 000E360C80;
- Tue, 18 Feb 2020 13:33:21 +0000 (UTC)
-Subject: Re: [PATCH v2] Avoid address_space_rw() with a constant is_write
- argument
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-References: <20200218112457.22712-1-peter.maydell@linaro.org>
- <f87dbeeb-2259-9eb9-45c7-a30819eec2ee@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <08b37e02-49b5-1485-aa71-83ead1adf407@redhat.com>
-Date: Tue, 18 Feb 2020 07:33:21 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ content-transfer-encoding:content-transfer-encoding;
+ bh=9U22auhEn+jtXpL66oZy02+rsPy7EvtN/pS/BP44Ew4=;
+ b=Sv9BHBN70dTm+DBhdL+WLR12SW6uZkCZpO1IIopIZVfs902SEx1z4LcioNhJgm6XR0H2/0
+ HHm5gN63KoEVYuaVgxgJ8hE6k6JnUggq1mcYRa0W6ftqySNtwELcvHyrPsfDgG4amQuQ0/
+ VILZzf7Ix0snMn1LYaSyDmomvHTVaYA=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-384-StXBZBnFP_-HI-50DSOFOQ-1; Tue, 18 Feb 2020 08:37:58 -0500
+Received: by mail-wr1-f70.google.com with SMTP id s13so10760991wru.7
+ for <qemu-devel@nongnu.org>; Tue, 18 Feb 2020 05:37:58 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=JixWZ4WsNWyfMmD6dkmOBqM7CVCSEFsuH/CpnwvpzlA=;
+ b=tq7OTlbfNxnAs/ceqNHazGy8qv3B4WknrtWrYjpPe/UV/LW/p40w4k1a+4mXJypQdi
+ SFpDNHZsz8fS1V6PdSiVS6apkUzUjQ4oygXIp2KiLBDr0zQ/W19vrW1Xt1fl0VOlmkOY
+ fe3KcpLA6yIt8Ane6QDlNVa+oh0z/L+Fk6Jxv517M74+LhOWnluP8uZ5e0z1WdkrL6aI
+ uKTmY7VnFYeaasxGxODJVumRNIY3K5m/YTP6RYmyDuT+DQYzdPe+HR37dmRhWjBSnZW+
+ 0zHvO93f8mEc5ljUB1PgmiF2Tip5I1biJAt20cNwIWRjRnKxtREJQzUMsrTBn+8Ol53q
+ whWg==
+X-Gm-Message-State: APjAAAXqpnQszuMU5C1pLbYHe7J3GpjwTGL0ofGA0v73g+7Ej3jrKPov
+ HnrALMSDYrrqA6w7IBUsVG3M3AG96RIfejNZ59R/snRFNJZg1O+G5U4VRUlp4P66mgTGotRvkHi
+ mjAGPX2iBnhiOCgE=
+X-Received: by 2002:a5d:5283:: with SMTP id c3mr29705291wrv.148.1582033077009; 
+ Tue, 18 Feb 2020 05:37:57 -0800 (PST)
+X-Google-Smtp-Source: APXvYqzWyCh84B3SS1oVYprzB+DlwhJNV4Fa9x/zN/J8+X5gI4lS31UMHsXhPKXHtdZ2vj0GTToMvA==
+X-Received: by 2002:a5d:5283:: with SMTP id c3mr29705281wrv.148.1582033076836; 
+ Tue, 18 Feb 2020 05:37:56 -0800 (PST)
+Received: from x1w.redhat.com (78.red-88-21-202.staticip.rima-tde.net.
+ [88.21.202.78])
+ by smtp.gmail.com with ESMTPSA id c13sm6377395wrn.46.2020.02.18.05.37.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 18 Feb 2020 05:37:56 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/3] travis-ci: Improve OSX coverage
+Date: Tue, 18 Feb 2020 14:37:51 +0100
+Message-Id: <20200218133755.26400-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.21.1
 MIME-Version: 1.0
-In-Reply-To: <f87dbeeb-2259-9eb9-45c7-a30819eec2ee@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-MC-Unique: ln8Cy1okO_OJ01vCqshpiQ-1
+X-MC-Unique: StXBZBnFP_-HI-50DSOFOQ-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=UTF-8;
+	text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,57 +85,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Alistair Francis <alistair@alistair23.me>,
- Eduardo Habkost <ehabkost@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Fam Zheng <fam@euphon.net>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/18/20 6:56 AM, Philippe Mathieu-Daud=C3=A9 wrote:
+Add more packages on the Mojave OSX job (Xcode 10),
+and duplicate the job to build on Catalina (Xcode 11).
 
->> +++ b/scripts/coccinelle/as_rw_const.cocci
->> @@ -0,0 +1,30 @@
->> +// Avoid uses of address_space_rw() with a constant is_write argument.
->> +// Usage:
->> +//=C2=A0 spatch --sp-file as-rw-const.spatch --dir . --in-place
->=20
-> Nitpick, script is now scripts/coccinelle/as_rw_const.cocci.
->=20
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
->=20
->> +
->> +@@
->> +expression E1, E2, E3, E4, E5;
->> +symbol false;
->> +@@
->> +
->> +- address_space_rw(E1, E2, E3, E4, E5, false)
->> ++ address_space_read(E1, E2, E3, E4, E5)
->> +@@
->> +expression E1, E2, E3, E4, E5;
->> +@@
->> +
->> +- address_space_rw(E1, E2, E3, E4, E5, 0)
->> ++ address_space_read(E1, E2, E3, E4, E5)
+Each job takes ~34min:
+https://travis-ci.org/philmd/qemu/builds/651473221
 
-This feels a bit redundant.  Doesn't coccinelle have enough smarts about=20
-isomorphisms (such as 0 =3D=3D false, 1 =3D=3D true) that it could get by w=
-ith=20
-one @@ hunk instead of 2, if we come up with the right way to represent=20
-any isomorphism to a constant value?  But admittedly, I don't know what=20
-that representation would actually be, and your verbose patch works even=20
-if it is not the most concise possible.  So don't let my remarks hold=20
-this patch up.
+Philippe Mathieu-Daud=C3=A9 (3):
+  .travis.yml: Expand OSX code coverage
+  .travis.yml: Build with ncurses on OSX
+  .travis.yml: Test building with Xcode 11.3
+
+ .travis.yml | 48 ++++++++++++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 46 insertions(+), 2 deletions(-)
 
 --=20
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+2.21.1
 
 
