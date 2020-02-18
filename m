@@ -2,56 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BFF4162696
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 13:58:44 +0100 (CET)
-Received: from localhost ([::1]:34154 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CD2716267B
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 13:53:06 +0100 (CET)
+Received: from localhost ([::1]:34050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j42SZ-0005ZS-JY
-	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 07:58:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39365)
+	id 1j42N7-0003oq-8k
+	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 07:53:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39391)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1j42EE-0005wS-Nv
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 07:43:55 -0500
+ (envelope-from <mreitz@redhat.com>) id 1j42EH-00065E-Qt
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 07:43:58 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1j42ED-0001by-O1
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 07:43:54 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:59543)
+ (envelope-from <mreitz@redhat.com>) id 1j42EG-0001dJ-N7
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 07:43:57 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:21385
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1j42ED-0001bl-Ka
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 07:43:53 -0500
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1j42EG-0001d4-K5
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 07:43:56 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582029833;
+ s=mimecast20190719; t=1582029836;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5wu4P+OYuoR99HutDLk8Thy7By0AAkzOBY0tAknvND8=;
- b=NE4LyeRzv/zY3Y0D3lhre4VQXnWFcvmGmVFSfAzcn2f4jR3iIeH7PMJnz1YNqzfC+FbLdN
- 8/kyTAthnbNONY64v3xsQAVZN5rLb92wN1ObeXFVgHVkFfjRpSQ9zOu/nEX42EQecdgVrD
- MM3KFLWGLXEn+/JSnVlT+mIuKdnoGJ8=
+ bh=9R9D82BvGJtOvztaohbyH9D3AYAi5Fj2oz0KyoS6kYw=;
+ b=RtapTHcDOLNGlshRtC7bIwRESGFeZi/Wo2t9BQXYIq4u0p7Xr7M+3vpqwb+M49nhs2F1kM
+ 022QONwgQGAbRkH0Zce15Fh/AZsihUCKhp/sLSpJkWHRALadqsHAylPbw/7aY26jsLIU7R
+ JrcI19BEEsnldUAb+HAkQ3hvDX7cu1M=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-17-VaKNiupOMJSxJ58bSNKtFQ-1; Tue, 18 Feb 2020 07:43:51 -0500
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-45-0V3k4Bf9PJS7pjWScHOfIQ-1; Tue, 18 Feb 2020 07:43:54 -0500
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6275B18A5500;
- Tue, 18 Feb 2020 12:43:50 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8D03E8010E5;
+ Tue, 18 Feb 2020 12:43:53 +0000 (UTC)
 Received: from localhost (unknown [10.36.118.17])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B847010001AE;
- Tue, 18 Feb 2020 12:43:49 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0892060C80;
+ Tue, 18 Feb 2020 12:43:52 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v3 20/33] block: Switch child_format users to child_of_bds
-Date: Tue, 18 Feb 2020 13:42:29 +0100
-Message-Id: <20200218124242.584644-21-mreitz@redhat.com>
+Subject: [PATCH v3 21/33] block: Drop child_format
+Date: Tue, 18 Feb 2020 13:42:30 +0100
+Message-Id: <20200218124242.584644-22-mreitz@redhat.com>
 In-Reply-To: <20200218124242.584644-1-mreitz@redhat.com>
 References: <20200218124242.584644-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: VaKNiupOMJSxJ58bSNKtFQ-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: 0V3k4Bf9PJS7pjWScHOfIQ-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
@@ -75,64 +76,69 @@ Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Both users (quorum and blkverify) use child_format for
-not-really-filtered children, so the appropriate BdrvChildRole in both
-cases is DATA.  (Note that this will cause bdrv_inherited_options() to
-force-allow format probing.)
-
 Signed-off-by: Max Reitz <mreitz@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
 ---
- block/blkverify.c | 4 ++--
- block/quorum.c    | 6 ++++--
- 2 files changed, 6 insertions(+), 4 deletions(-)
+ block.c                   | 29 -----------------------------
+ include/block/block_int.h |  1 -
+ 2 files changed, 30 deletions(-)
 
-diff --git a/block/blkverify.c b/block/blkverify.c
-index ba4f6d7b7c..1684b7aa2e 100644
---- a/block/blkverify.c
-+++ b/block/blkverify.c
-@@ -134,8 +134,8 @@ static int blkverify_open(BlockDriverState *bs, QDict *=
-options, int flags,
+diff --git a/block.c b/block.c
+index 3e5b0bc345..43df38ca30 100644
+--- a/block.c
++++ b/block.c
+@@ -1148,35 +1148,6 @@ const BdrvChildClass child_file =3D {
+     .set_aio_ctx     =3D bdrv_child_cb_set_aio_ctx,
+ };
 =20
-     /* Open the test file */
-     s->test_file =3D bdrv_open_child(qemu_opt_get(opts, "x-image"), option=
-s,
--                                   "test", bs, &child_format, 0, false,
--                                   &local_err);
-+                                   "test", bs, &child_of_bds, BDRV_CHILD_D=
-ATA,
-+                                   false, &local_err);
-     if (local_err) {
-         ret =3D -EINVAL;
-         error_propagate(errp, local_err);
-diff --git a/block/quorum.c b/block/quorum.c
-index d37b77a522..616ac3a927 100644
---- a/block/quorum.c
-+++ b/block/quorum.c
-@@ -977,7 +977,8 @@ static int quorum_open(BlockDriverState *bs, QDict *opt=
-ions, int flags,
-         assert(ret < 32);
+-/*
+- * Returns the options and flags that bs->file should get if the use of fo=
+rmats
+- * (and not only protocols) is permitted for it, based on the given option=
+s and
+- * flags for the parent BDS
+- */
+-static void bdrv_inherited_fmt_options(BdrvChildRole role,
+-                                       bool parent_is_format,
+-                                       int *child_flags, QDict *child_opti=
+ons,
+-                                       int parent_flags, QDict *parent_opt=
+ions)
+-{
+-    bdrv_inherited_options(BDRV_CHILD_DATA, false,
+-                           child_flags, child_options,
+-                           parent_flags, parent_options);
+-}
+-
+-const BdrvChildClass child_format =3D {
+-    .parent_is_bds   =3D true,
+-    .get_parent_desc =3D bdrv_child_get_parent_desc,
+-    .inherit_options =3D bdrv_inherited_fmt_options,
+-    .drained_begin   =3D bdrv_child_cb_drained_begin,
+-    .drained_poll    =3D bdrv_child_cb_drained_poll,
+-    .drained_end     =3D bdrv_child_cb_drained_end,
+-    .attach          =3D bdrv_child_cb_attach,
+-    .detach          =3D bdrv_child_cb_detach,
+-    .inactivate      =3D bdrv_child_cb_inactivate,
+-    .can_set_aio_ctx =3D bdrv_child_cb_can_set_aio_ctx,
+-    .set_aio_ctx     =3D bdrv_child_cb_set_aio_ctx,
+-};
+-
+ static void bdrv_backing_attach(BdrvChild *c)
+ {
+     BlockDriverState *parent =3D c->opaque;
+diff --git a/include/block/block_int.h b/include/block/block_int.h
+index d1d1af2a5c..75139a95ae 100644
+--- a/include/block/block_int.h
++++ b/include/block/block_int.h
+@@ -742,7 +742,6 @@ struct BdrvChildClass {
 =20
-         s->children[i] =3D bdrv_open_child(NULL, options, indexstr, bs,
--                                         &child_format, 0, false, &local_e=
-rr);
-+                                         &child_of_bds, BDRV_CHILD_DATA, f=
-alse,
-+                                         &local_err);
-         if (local_err) {
-             ret =3D -EINVAL;
-             goto close_exit;
-@@ -1053,7 +1054,8 @@ static void quorum_add_child(BlockDriverState *bs, Bl=
-ockDriverState *child_bs,
-     /* We can safely add the child now */
-     bdrv_ref(child_bs);
+ extern const BdrvChildClass child_of_bds;
+ extern const BdrvChildClass child_file;
+-extern const BdrvChildClass child_format;
+ extern const BdrvChildClass child_backing;
 =20
--    child =3D bdrv_attach_child(bs, child_bs, indexstr, &child_format, 0, =
-errp);
-+    child =3D bdrv_attach_child(bs, child_bs, indexstr, &child_of_bds,
-+                              BDRV_CHILD_DATA, errp);
-     if (child =3D=3D NULL) {
-         s->next_child_index--;
-         goto out;
+ struct BdrvChild {
 --=20
 2.24.1
 
