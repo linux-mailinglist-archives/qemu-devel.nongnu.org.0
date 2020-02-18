@@ -2,66 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B567162E3B
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 19:18:11 +0100 (CET)
-Received: from localhost ([::1]:39842 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A1BA162E6C
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 19:23:42 +0100 (CET)
+Received: from localhost ([::1]:39900 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j47Ri-0001gt-HY
-	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 13:18:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40651)
+	id 1j47X3-0004PE-57
+	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 13:23:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49225)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1j47Qk-00018y-ME
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 13:17:11 -0500
+ (envelope-from <stefanha@redhat.com>) id 1j47W3-0003yk-09
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 13:22:40 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1j47Qj-0002Rf-CW
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 13:17:10 -0500
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:35217)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1j47Qj-0002Pg-7K
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 13:17:09 -0500
-Received: by mail-ot1-x343.google.com with SMTP id r16so20487338otd.2
- for <qemu-devel@nongnu.org>; Tue, 18 Feb 2020 10:17:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=1IU1z/lDGDjqG+SqTPFK48+J0dlcBWNFWyaGTdTIn+Y=;
- b=IMOEfXBW1/AymufZSCU0E1TJjvP0pdJN27cX/ER8cmeSJ+CYBHawcV4vzfJoSfZcq+
- aFurAGQETH0gKjeRXc8/B0d/DDRFTLu/kgEbTamL9RqmdasgGmRyf6rLyc48wx/TtBV9
- 8Ungr/8xETk8h+YAiJYKP24ie4x7hiPsQsGHDQVs1HhU1kL1KM5aSB7L77bShp8alAsh
- 4Quxkq3gZfYElzk2H6eklOCcLWOoKt9uNY9ifqUWr0tyAOLApEqkFRUHU98+WqHoCjsy
- /Bs/mOzeKK9dUxnKsZ32yj2zxQUyr8QHi3UDqbq8WzNnQCmjMi5DbCP6yWeJSpH+ISmP
- Tb/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=1IU1z/lDGDjqG+SqTPFK48+J0dlcBWNFWyaGTdTIn+Y=;
- b=otLI1nFtqtLP2UULFknc95xehQB4qrIYlhzLuE54K8NHu1PVkSqsH5OFntoy7HXRWq
- vDLuDxF7ALl7uJWu6v8j7Cf4x1soIdhWhV94UWnMwq61/wBKnPBS+WLCblEVGD2UUG46
- UY4keVd2bV+HqMBf9+vbZ1lBFpjA575VZLW3AZIehm96tjR8obh3gJQVP0uR959KJT8O
- 1dMIfBTZXOcLCxgqiZSJYMQqfodvNnNvVMzHQ+FjDjCZWWDzJTV2zjaSO+MZgD0azHsv
- YyU6A70DiXtOLAH/1F6HIeSHog8U+zPRGqQ1ZCnN03GG6OiDhDUqQpegEBCEj4yFBEdc
- RPCw==
-X-Gm-Message-State: APjAAAWkzt3bc3EcKuAoGlOQVBuwr3TR7ZDlnjGuE79ujd92gu9p/71c
- GJG16n0bZ3P1pw0Ev08DArq6q40shMfoy7WFohmbyQ==
-X-Google-Smtp-Source: APXvYqwN+7gcb4hF6o+vj70HXaJHSBDOAd4/1oz5m3JpbgLNnTRP7OIxP6jy8Z6QVP+fJehLWKrPofZ4kk+X3ElmBOs=
-X-Received: by 2002:a05:6830:1184:: with SMTP id
- u4mr15946114otq.221.1582049827603; 
- Tue, 18 Feb 2020 10:17:07 -0800 (PST)
+ (envelope-from <stefanha@redhat.com>) id 1j47W1-0002zV-90
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 13:22:38 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:31559
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1j47W1-0002xY-18
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 13:22:37 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1582050156;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=vfE1X1JGFqyKfp7SozvxEPu1YK6Qig1zeUakm0hN9T0=;
+ b=YVKJ6gdlYKcY2ATq2V5HoACglfo7mF1CWyfuybrekHaIRymadk2fabkcnGShhJYo3fobjX
+ rjfJ2v2qlEucvxGgGjjCdanL6Vik9m8jAGOQRpFu0WNefPn3l82NlyH4tlFRgbIBzjlpHt
+ p01hgynjcapVUEttMn5R4L+pSH1Olmk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-234-s-h_4HsHOIiZXszZvt1Isw-1; Tue, 18 Feb 2020 13:22:34 -0500
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DF5E0107B267
+ for <qemu-devel@nongnu.org>; Tue, 18 Feb 2020 18:22:30 +0000 (UTC)
+Received: from localhost (unknown [10.36.118.13])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C59015C13B;
+ Tue, 18 Feb 2020 18:22:27 +0000 (UTC)
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] memory: batch allocate ioeventfds[] in
+ address_space_update_ioeventfds()
+Date: Tue, 18 Feb 2020 18:22:26 +0000
+Message-Id: <20200218182226.913977-1-stefanha@redhat.com>
 MIME-Version: 1.0
-References: <1581686212-9625-1-git-send-email-sai.pavan.boddu@xilinx.com>
- <1581686212-9625-3-git-send-email-sai.pavan.boddu@xilinx.com>
-In-Reply-To: <1581686212-9625-3-git-send-email-sai.pavan.boddu@xilinx.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 18 Feb 2020 18:16:56 +0000
-Message-ID: <CAFEAcA9Bs9VuZNstbpF6Q2=MhVDN_HHMnUdwfOJSf7Qm9to2nw@mail.gmail.com>
-Subject: Re: [PATCH 2/3] cpu/a9mpcore: Add num priority bits property
-To: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::343
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-MC-Unique: s-h_4HsHOIiZXszZvt1Isw-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: base64
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,58 +68,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair@alistair23.me>,
- QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
- Anthony Liguori <anthony@codemonkey.ws>,
- "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
- =?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 14 Feb 2020 at 13:21, Sai Pavan Boddu
-<sai.pavan.boddu@xilinx.com> wrote:
->
-> Set number of priority bits property of gic as guided by machine
-> configuration.
->
-> Signed-off-by: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
-> ---
->  hw/cpu/a9mpcore.c         | 2 ++
->  include/hw/cpu/a9mpcore.h | 1 +
->  2 files changed, 3 insertions(+)
->
-> diff --git a/hw/cpu/a9mpcore.c b/hw/cpu/a9mpcore.c
-> index 1f8bc8a..eb1e752 100644
-> --- a/hw/cpu/a9mpcore.c
-> +++ b/hw/cpu/a9mpcore.c
-> @@ -68,6 +68,7 @@ static void a9mp_priv_realize(DeviceState *dev, Error **errp)
->      gicdev = DEVICE(&s->gic);
->      qdev_prop_set_uint32(gicdev, "num-cpu", s->num_cpu);
->      qdev_prop_set_uint32(gicdev, "num-irq", s->num_irq);
-> +    qdev_prop_set_uint32(gicdev, "num-prio-bits", s->n_prio_bits);
->
->      /* Make the GIC's TZ support match the CPUs. We assume that
->       * either all the CPUs have TZ, or none do.
-> @@ -167,6 +168,7 @@ static Property a9mp_priv_properties[] = {
->       * Other boards may differ and should set this property appropriately.
->       */
->      DEFINE_PROP_UINT32("num-irq", A9MPPrivState, num_irq, 96),
-> +    DEFINE_PROP_UINT32("num-priority-bits", A9MPPrivState, n_prio_bits, 8),
->      DEFINE_PROP_END_OF_LIST(),
+UmVhbGxvY2luZyB0aGUgaW9ldmVudGZkc1tdIGFycmF5IGVhY2ggdGltZSBhbiBlbGVtZW50IGlz
+IGFkZGVkIGlzIHZlcnkKZXhwZW5zaXZlIGFzIHRoZSBudW1iZXIgb2YgaW9ldmVudGZkcyBpbmNy
+ZWFzZXMuICBCYXRjaCBhbGxvY2F0ZSBpbnN0ZWFkCnRvIGFtb3J0aXplIHRoZSBjb3N0IG9mIHJl
+YWxsb2MuCgpUaGlzIHBhdGNoIHJlZHVjZXMgTGludXggZ3Vlc3QgYm9vdCB0aW1lcyBmcm9tIDM2
+MnMgdG8gMTQwcyB3aGVuIHRoZXJlCmFyZSAyIHZpcnRpby1ibGsgZGV2aWNlcyB3aXRoIDEgdmly
+dHF1ZXVlIGFuZCA5OSB2aXJ0aW8tYmxrIGRldmljZXMgd2l0aAozMiB2aXJ0cXVldWVzLgoKU2ln
+bmVkLW9mZi1ieTogU3RlZmFuIEhham5vY3ppIDxzdGVmYW5oYUByZWRoYXQuY29tPgotLS0KIG1l
+bW9yeS5jIHwgMTcgKysrKysrKysrKysrKystLS0KIDEgZmlsZSBjaGFuZ2VkLCAxNCBpbnNlcnRp
+b25zKCspLCAzIGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL21lbW9yeS5jIGIvbWVtb3J5LmMK
+aW5kZXggYWVhYThkY2M5ZS4uMmQ2ZjkzMWY4YyAxMDA2NDQKLS0tIGEvbWVtb3J5LmMKKysrIGIv
+bWVtb3J5LmMKQEAgLTc5NCwxMCArNzk0LDE4IEBAIHN0YXRpYyB2b2lkIGFkZHJlc3Nfc3BhY2Vf
+dXBkYXRlX2lvZXZlbnRmZHMoQWRkcmVzc1NwYWNlICphcykKICAgICBGbGF0VmlldyAqdmlldzsK
+ICAgICBGbGF0UmFuZ2UgKmZyOwogICAgIHVuc2lnbmVkIGlvZXZlbnRmZF9uYiA9IDA7Ci0gICAg
+TWVtb3J5UmVnaW9uSW9ldmVudGZkICppb2V2ZW50ZmRzID0gTlVMTDsKKyAgICB1bnNpZ25lZCBp
+b2V2ZW50ZmRfbWF4OworICAgIE1lbW9yeVJlZ2lvbklvZXZlbnRmZCAqaW9ldmVudGZkczsKICAg
+ICBBZGRyUmFuZ2UgdG1wOwogICAgIHVuc2lnbmVkIGk7CiAKKyAgICAvKgorICAgICAqIEl0IGlz
+IGxpa2VseSB0aGF0IHRoZSBudW1iZXIgb2YgaW9ldmVudGZkcyBoYXNuJ3QgY2hhbmdlZCBtdWNo
+LCBzbyB1c2UKKyAgICAgKiB0aGUgcHJldmlvdXMgc2l6ZSBhcyB0aGUgc3RhcnRpbmcgdmFsdWUu
+CisgICAgICovCisgICAgaW9ldmVudGZkX21heCA9IGFzLT5pb2V2ZW50ZmRfbmI7CisgICAgaW9l
+dmVudGZkcyA9IGdfbmV3KE1lbW9yeVJlZ2lvbklvZXZlbnRmZCwgaW9ldmVudGZkX21heCk7CisK
+ICAgICB2aWV3ID0gYWRkcmVzc19zcGFjZV9nZXRfZmxhdHZpZXcoYXMpOwogICAgIEZPUl9FQUNI
+X0ZMQVRfUkFOR0UoZnIsIHZpZXcpIHsKICAgICAgICAgZm9yIChpID0gMDsgaSA8IGZyLT5tci0+
+aW9ldmVudGZkX25iOyArK2kpIHsKQEAgLTgwNiw4ICs4MTQsMTEgQEAgc3RhdGljIHZvaWQgYWRk
+cmVzc19zcGFjZV91cGRhdGVfaW9ldmVudGZkcyhBZGRyZXNzU3BhY2UgKmFzKQogICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgaW50MTI4X21ha2U2NChmci0+b2Zm
+c2V0X2luX3JlZ2lvbikpKTsKICAgICAgICAgICAgIGlmIChhZGRycmFuZ2VfaW50ZXJzZWN0cyhm
+ci0+YWRkciwgdG1wKSkgewogICAgICAgICAgICAgICAgICsraW9ldmVudGZkX25iOwotICAgICAg
+ICAgICAgICAgIGlvZXZlbnRmZHMgPSBnX3JlYWxsb2MoaW9ldmVudGZkcywKLSAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGlvZXZlbnRmZF9uYiAqIHNpemVvZigqaW9l
+dmVudGZkcykpOworICAgICAgICAgICAgICAgIGlmIChpb2V2ZW50ZmRfbmIgPiBpb2V2ZW50ZmRf
+bWF4KSB7CisgICAgICAgICAgICAgICAgICAgIGlvZXZlbnRmZF9tYXggKz0gNjQ7CisgICAgICAg
+ICAgICAgICAgICAgIGlvZXZlbnRmZHMgPSBnX3JlYWxsb2MoaW9ldmVudGZkcywKKyAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICBpb2V2ZW50ZmRfbWF4ICogc2l6ZW9mKCppb2V2ZW50ZmRzKSk7
+CisgICAgICAgICAgICAgICAgfQogICAgICAgICAgICAgICAgIGlvZXZlbnRmZHNbaW9ldmVudGZk
+X25iLTFdID0gZnItPm1yLT5pb2V2ZW50ZmRzW2ldOwogICAgICAgICAgICAgICAgIGlvZXZlbnRm
+ZHNbaW9ldmVudGZkX25iLTFdLmFkZHIgPSB0bXA7CiAgICAgICAgICAgICB9Ci0tIAoyLjI0LjEK
+Cg==
 
-You should be able to just directly pass through the property
-from the GIC object by calling
-    object_property_add_alias(obj, "num-priority-bits", OBJECT(&s->gic),
-                              "num-priority-bits", &error_abort);
-at the end of a9mp_priv_initfn().
-
-Then you don't need to have a DEFINE_PROP* for it, or a field in
-the state struct, or manually pass the value on in realize.
-
-(We don't do this for the existing num-irq and num-cpu properties
-because in those cases this device itself needs to know the
-values, as well as passing them on to other devices under it.)
-
-thanks
--- PMM
 
