@@ -2,61 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA96E1629B0
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 16:44:32 +0100 (CET)
-Received: from localhost ([::1]:37344 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7635C162998
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 16:41:55 +0100 (CET)
+Received: from localhost ([::1]:37290 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j4531-0004fg-Ok
-	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 10:44:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39084)
+	id 1j450U-0008Fl-8b
+	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 10:41:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38963)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1j44za-0006pb-Ml
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 10:40:59 -0500
+ (envelope-from <kwolf@redhat.com>) id 1j44zR-0006b0-I4
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 10:40:50 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1j44zZ-0001ii-DK
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 10:40:58 -0500
-Received: from indium.canonical.com ([91.189.90.7]:59186)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1j44zZ-0001hp-6C
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 10:40:57 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1j44zX-00089D-Dt
- for <qemu-devel@nongnu.org>; Tue, 18 Feb 2020 15:40:55 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 45DFD2E80C9
- for <qemu-devel@nongnu.org>; Tue, 18 Feb 2020 15:40:55 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 18 Feb 2020 15:31:49 -0000
-From: Richard Henderson <rth@twiddle.net>
+ (envelope-from <kwolf@redhat.com>) id 1j44zQ-0001cZ-9l
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 10:40:49 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:53955
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1j44zQ-0001c3-5W
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 10:40:48 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1582040447;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=V24lLa7UJYUcEBSqO5TToODE9BJIW3+b/OXUyWi1XNo=;
+ b=dYaNQEgyk0r1E2J3ryF799CSPj7fvR7PeIn354vPTq42/ry205qUux3tBkpUAKyMQEu9ML
+ 6RGTm7SYfDihfXHTsILw+/xpcTXwY7dpcgB/OL3lBBxr7KJfxKrG91CuU0llg0AXiMkjcb
+ lLpUFZoJlwVa+4CMjR8a3jVgyUU0CXk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-59-pJ__IpvWPN6q74qzxkX31Q-1; Tue, 18 Feb 2020 10:40:44 -0500
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B9ECC18B6401;
+ Tue, 18 Feb 2020 15:40:43 +0000 (UTC)
+Received: from linux.fritz.box.com (ovpn-117-181.ams2.redhat.com
+ [10.36.117.181])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8E16D5C13B;
+ Tue, 18 Feb 2020 15:40:42 +0000 (UTC)
+From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=In Progress; importance=Undecided;
- assignee=rth@twiddle.net; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: jfreche
-X-Launchpad-Bug-Reporter: Julien Freche (jfreche)
-X-Launchpad-Bug-Modifier: Richard Henderson (rth)
-References: <158198492915.29307.8701397558481624318.malonedeb@chaenomeles.canonical.com>
-Message-Id: <158203990969.24464.3855857091494987183.launchpad@gac.canonical.com>
-Subject: [Bug 1863685] Re: ARM: HCR.TSW traps are not implemented
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="19413b719a8df7423ab1390528edadce9e0e4aca";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 6754d654e79f8a8606112f38c2bf7520eb33909f
+Subject: [PATCH v5 0/4] qmp: Optionally run handlers in coroutines
+Date: Tue, 18 Feb 2020 16:40:32 +0100
+Message-Id: <20200218154036.28562-1-kwolf@redhat.com>
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-MC-Unique: pJ__IpvWPN6q74qzxkX31Q-1
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+ [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -65,41 +69,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1863685 <1863685@bugs.launchpad.net>
+Cc: kwolf@redhat.com, marcandre.lureau@gmail.com, armbru@redhat.com,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Changed in: qemu
-       Status: New =3D> In Progress
+Some QMP command handlers can block the main loop for a relatively long
+time, for example because they perform some I/O. This is quite nasty.
+Allowing such handlers to run in a coroutine where they can yield (and
+therefore release the BQL) while waiting for an event such as I/O
+completion solves the problem.
 
-** Changed in: qemu
-     Assignee: (unassigned) =3D> Richard Henderson (rth)
+This series adds the infrastructure to allow this and switches
+block_resize to run in a coroutine as a first example.
 
--- =
+This is an alternative solution to Marc-Andr=C3=A9's "monitor: add
+asynchronous command type" series.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1863685
+v5:
+- Improved comments and documentation [Markus]
 
-Title:
-  ARM: HCR.TSW traps are not implemented
+v4:
+- Forbid 'oob': true, 'coroutine': true [Markus]
+- Removed Python type hints [Markus]
+- Introduced separate bool qmp_dispatcher_co_shutdown to make it clearer
+  how a shutdown request is signalled to the dispatcher [Markus]
+- Allow using aio_poll() with iohandler_ctx and use that instead of
+  aio_bh_poll() [Markus]
+- Removed coroutine_fn from qmp_block_resize() again because at least
+  one caller (HMP) calls it outside of coroutine context [Markus]
+- Tried to make the synchronisation between dispatcher and the monitor
+  thread clearer, and fixed a race condition
+- Improved documentation and comments
 
-Status in QEMU:
-  In Progress
+v3:
+- Fix race between monitor thread and dispatcher that could schedule the
+  dispatcher coroutine twice if a second requests comes in before the
+  dispatcher can wake up [Patchew]
 
-Bug description:
-  On 32-bit and 64-bit ARM platforms, setting HCR.TSW is supposed to
-  "Trap data or unified cache maintenance instructions that operate by
-  Set/Way." Quoting the ARM manual:
+v2:
+- Fix typo in a commit message [Eric]
+- Use hyphen instead of underscore for the test command [Eric]
+- Mark qmp_block_resize() as coroutine_fn [Stefan]
 
-  If EL1 is using AArch64 state, accesses to DC ISW, DC CSW, DC CISW are tr=
-apped to EL2, reported using EC syndrome value 0x18.
-  If EL1 is using AArch32 state, accesses to DCISW, DCCSW, DCCISW are trapp=
-ed to EL2, reported using EC syndrome value 0x03.
 
-  However, QEMU does not trap those instructions/registers. This was
-  tested on the branch master of the git repo.
+Kevin Wolf (4):
+  qapi: Add a 'coroutine' flag for commands
+  vl: Initialise main loop earlier
+  qmp: Move dispatcher to a coroutine
+  block: Mark 'block_resize' as coroutine
 
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1863685/+subscriptions
+ qapi/block-core.json                    |   3 +-
+ docs/devel/qapi-code-gen.txt            |  11 +++
+ include/qapi/qmp/dispatch.h             |   2 +
+ monitor/monitor-internal.h              |   6 +-
+ monitor/monitor.c                       |  55 +++++++++--
+ monitor/qmp.c                           | 122 ++++++++++++++++++------
+ qapi/qmp-dispatch.c                     |  44 ++++++++-
+ qapi/qmp-registry.c                     |   3 +
+ tests/test-qmp-cmds.c                   |   4 +
+ util/aio-posix.c                        |   7 +-
+ vl.c                                    |  10 +-
+ scripts/qapi/commands.py                |  10 +-
+ scripts/qapi/doc.py                     |   2 +-
+ scripts/qapi/expr.py                    |  10 +-
+ scripts/qapi/introspect.py              |   2 +-
+ scripts/qapi/schema.py                  |   9 +-
+ tests/qapi-schema/test-qapi.py          |   7 +-
+ tests/Makefile.include                  |   1 +
+ tests/qapi-schema/oob-coroutine.err     |   2 +
+ tests/qapi-schema/oob-coroutine.json    |   2 +
+ tests/qapi-schema/oob-coroutine.out     |   0
+ tests/qapi-schema/qapi-schema-test.json |   1 +
+ tests/qapi-schema/qapi-schema-test.out  |   2 +
+ 23 files changed, 254 insertions(+), 61 deletions(-)
+ create mode 100644 tests/qapi-schema/oob-coroutine.err
+ create mode 100644 tests/qapi-schema/oob-coroutine.json
+ create mode 100644 tests/qapi-schema/oob-coroutine.out
+
+--=20
+2.20.1
+
 
