@@ -2,69 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD6BC161ED3
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 03:06:05 +0100 (CET)
-Received: from localhost ([::1]:55748 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7016161FCA
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 05:26:47 +0100 (CET)
+Received: from localhost ([::1]:56434 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j3sGy-00065v-Ob
-	for lists+qemu-devel@lfdr.de; Mon, 17 Feb 2020 21:06:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52935)
+	id 1j3uT8-0002ym-Ap
+	for lists+qemu-devel@lfdr.de; Mon, 17 Feb 2020 23:26:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38446)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gshan@redhat.com>) id 1j3sFs-0004cC-LC
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 21:04:57 -0500
+ (envelope-from <bounces@canonical.com>) id 1j3uSD-0002Zq-0l
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 23:25:50 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <gshan@redhat.com>) id 1j3sFr-0007ir-B4
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 21:04:56 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:28310
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <gshan@redhat.com>) id 1j3sFr-0007ia-7O
- for qemu-devel@nongnu.org; Mon, 17 Feb 2020 21:04:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1581991494;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=tySIqj25vFkbJUOWFkZJcKmdOpzjeZeQsC3TdET8Seg=;
- b=KzrE5fIuhghJPyeVDpqU5WmOdQmXgaXmmrooPf5eA7bnwT0FJIIVscBfYP359ga3DB/Iqv
- fcroTxEfU4YN8mrv6HsBsvN4y4wriTd7aI4zT+r79kQni2/zb7UyuHmACTss2m/cdBpBhy
- g0Ku54ln0rb3gQ/7l03AACJDJoOklXY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-133-EEsYTni9NtSTE5nXilQMHg-1; Mon, 17 Feb 2020 21:04:53 -0500
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3A7FB100550E;
- Tue, 18 Feb 2020 02:04:51 +0000 (UTC)
-Received: from localhost.localdomain.com (vpn2-54-110.bne.redhat.com
- [10.64.54.110])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D0F141BC6D;
- Tue, 18 Feb 2020 02:04:44 +0000 (UTC)
-From: Gavin Shan <gshan@redhat.com>
-To: qemu-devel@nongnu.org,
-	qemu-arm@nongnu.org
-Subject: [PATCH v4 3/3] hw/arm/virt: Simulate NMI injection
-Date: Tue, 18 Feb 2020 13:04:16 +1100
-Message-Id: <20200218020416.50244-4-gshan@redhat.com>
-In-Reply-To: <20200218020416.50244-1-gshan@redhat.com>
-References: <20200218020416.50244-1-gshan@redhat.com>
+ (envelope-from <bounces@canonical.com>) id 1j3uSB-0006Ye-Pb
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 23:25:48 -0500
+Received: from indium.canonical.com ([91.189.90.7]:55804)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1j3uSB-0006Y9-Jp
+ for qemu-devel@nongnu.org; Mon, 17 Feb 2020 23:25:47 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1j3uSA-0004Ow-79
+ for <qemu-devel@nongnu.org>; Tue, 18 Feb 2020 04:25:46 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 325B42E80AD
+ for <qemu-devel@nongnu.org>; Tue, 18 Feb 2020 04:25:46 +0000 (UTC)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: EEsYTni9NtSTE5nXilQMHg-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+Date: Tue, 18 Feb 2020 04:17:24 -0000
+From: Launchpad Bug Tracker <1836501@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: arm kvm
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: janitor pmaydell skandal
+X-Launchpad-Bug-Reporter: Lutz (skandal)
+X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
+References: <156313770910.15255.7682693906978508241.malonedeb@soybean.canonical.com>
+Message-Id: <158199944493.16509.12519423294109067577.malone@loganberry.canonical.com>
+Subject: [Bug 1836501] Re: cpu_address_space_init fails with assertion
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="19413b719a8df7423ab1390528edadce9e0e4aca";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 9b9725f64612b05da2652545b92bbbdbf97b925d
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -73,178 +66,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, drjones@redhat.com, jthierry@redhat.com,
- aik@ozlabs.ru, maz@kernel.org, richard.henderson@linaro.org,
- eric.auger@redhat.com, shan.gavin@gmail.com, pbonzini@redhat.com
+Reply-To: Bug 1836501 <1836501@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This implements the backend to support HMP/QMP "nmi" command, which is
-used to inject NMI interrupt to crash guest for debugging purpose. As
-ARM architecture doesn't have NMI supported, so we're simulating the
-behaviour by injecting SError or data abort to guest for "virt" board.
+[Expired for QEMU because there has been no activity for 60 days.]
 
-An additonal IRQ line is introduced for SError on each CPU. The IRQ line
-is connected to SError exception handler. The IRQ line on CPU#0 is raised
-when HMP/QMP "nmi" is issued to inject SError or data abort to crash guest.
-Note the IRQ line can be shared with other devices who want to have the
-capability of reporting errors in future.
+** Changed in: qemu
+       Status: Incomplete =3D> Expired
 
-Signed-off-by: Gavin Shan <gshan@redhat.com>
----
- hw/arm/virt.c                      | 34 +++++++++++++++++++++++++++++-
- hw/intc/arm_gic_common.c           |  3 +++
- hw/intc/arm_gicv3_common.c         |  3 +++
- include/hw/intc/arm_gic_common.h   |  1 +
- include/hw/intc/arm_gicv3_common.h |  1 +
- 5 files changed, 41 insertions(+), 1 deletion(-)
+-- =
 
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index f788fe27d6..78549faa75 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -71,6 +71,8 @@
- #include "hw/mem/pc-dimm.h"
- #include "hw/mem/nvdimm.h"
- #include "hw/acpi/generic_event_device.h"
-+#include "sysemu/hw_accel.h"
-+#include "hw/nmi.h"
-=20
- #define DEFINE_VIRT_MACHINE_LATEST(major, minor, latest) \
-     static void virt_##major##_##minor##_class_init(ObjectClass *oc, \
-@@ -690,7 +692,7 @@ static void create_gic(VirtMachineState *vms)
-         } else if (vms->virt) {
-             qemu_irq irq =3D qdev_get_gpio_in(vms->gic,
-                                             ppibase + ARCH_GIC_MAINT_IRQ);
--            sysbus_connect_irq(gicbusdev, i + 4 * smp_cpus, irq);
-+            sysbus_connect_irq(gicbusdev, i + 5 * smp_cpus, irq);
-         }
-=20
-         qdev_connect_gpio_out_named(cpudev, "pmu-interrupt", 0,
-@@ -704,6 +706,8 @@ static void create_gic(VirtMachineState *vms)
-                            qdev_get_gpio_in(cpudev, ARM_CPU_VIRQ));
-         sysbus_connect_irq(gicbusdev, i + 3 * smp_cpus,
-                            qdev_get_gpio_in(cpudev, ARM_CPU_VFIQ));
-+        sysbus_connect_irq(gicbusdev, i + 4 * smp_cpus,
-+                           qdev_get_gpio_in(cpudev, ARM_CPU_SERROR));
-     }
-=20
-     fdt_add_gic_node(vms);
-@@ -2026,10 +2030,36 @@ static int virt_kvm_type(MachineState *ms, const ch=
-ar *type_str)
-     return requested_pa_size > 40 ? requested_pa_size : 0;
- }
-=20
-+
-+static void do_inject_serror(CPUState *cpu, run_on_cpu_data data)
-+{
-+    VirtMachineState *vms =3D data.host_ptr;
-+    GICv3State *gicv3;
-+    GICState *gicv2;
-+
-+    cpu_synchronize_state(cpu);
-+
-+    if (vms->gic_version =3D=3D 3) {
-+        gicv3 =3D ARM_GICV3_COMMON(OBJECT(vms->gic));
-+        qemu_irq_raise(gicv3->cpu[0].parent_serror);
-+    } else {
-+        gicv2 =3D ARM_GIC_COMMON(OBJECT(vms->gic));
-+        qemu_irq_raise(gicv2->parent_serror[0]);
-+    }
-+}
-+
-+static void virt_inject_serror(NMIState *n, int cpu_index, Error **errp)
-+{
-+    VirtMachineState *vms =3D VIRT_MACHINE(n);
-+
-+    async_run_on_cpu(first_cpu, do_inject_serror, RUN_ON_CPU_HOST_PTR(vms)=
-);
-+}
-+
- static void virt_machine_class_init(ObjectClass *oc, void *data)
- {
-     MachineClass *mc =3D MACHINE_CLASS(oc);
-     HotplugHandlerClass *hc =3D HOTPLUG_HANDLER_CLASS(oc);
-+    NMIClass *nc =3D NMI_CLASS(oc);
-=20
-     mc->init =3D machvirt_init;
-     /* Start with max_cpus set to 512, which is the maximum supported by K=
-VM.
-@@ -2058,6 +2088,7 @@ static void virt_machine_class_init(ObjectClass *oc, =
-void *data)
-     hc->unplug_request =3D virt_machine_device_unplug_request_cb;
-     mc->numa_mem_supported =3D true;
-     mc->auto_enable_numa_with_memhp =3D true;
-+    nc->nmi_monitor_handler =3D virt_inject_serror;
- }
-=20
- static void virt_instance_init(Object *obj)
-@@ -2141,6 +2172,7 @@ static const TypeInfo virt_machine_info =3D {
-     .instance_init =3D virt_instance_init,
-     .interfaces =3D (InterfaceInfo[]) {
-          { TYPE_HOTPLUG_HANDLER },
-+         { TYPE_NMI },
-          { }
-     },
- };
-diff --git a/hw/intc/arm_gic_common.c b/hw/intc/arm_gic_common.c
-index e6c4fe7a5a..f39cefdeea 100644
---- a/hw/intc/arm_gic_common.c
-+++ b/hw/intc/arm_gic_common.c
-@@ -155,6 +155,9 @@ void gic_init_irqs_and_mmio(GICState *s, qemu_irq_handl=
-er handler,
-     for (i =3D 0; i < s->num_cpu; i++) {
-         sysbus_init_irq(sbd, &s->parent_vfiq[i]);
-     }
-+    for (i =3D 0; i < s->num_cpu; i++) {
-+        sysbus_init_irq(sbd, &s->parent_serror[i]);
-+    }
-     if (s->virt_extn) {
-         for (i =3D 0; i < s->num_cpu; i++) {
-             sysbus_init_irq(sbd, &s->maintenance_irq[i]);
-diff --git a/hw/intc/arm_gicv3_common.c b/hw/intc/arm_gicv3_common.c
-index 58ef65f589..19a04449a0 100644
---- a/hw/intc/arm_gicv3_common.c
-+++ b/hw/intc/arm_gicv3_common.c
-@@ -288,6 +288,9 @@ void gicv3_init_irqs_and_mmio(GICv3State *s, qemu_irq_h=
-andler handler,
-     for (i =3D 0; i < s->num_cpu; i++) {
-         sysbus_init_irq(sbd, &s->cpu[i].parent_vfiq);
-     }
-+    for (i =3D 0; i < s->num_cpu; i++) {
-+        sysbus_init_irq(sbd, &s->cpu[i].parent_serror);
-+    }
-=20
-     memory_region_init_io(&s->iomem_dist, OBJECT(s), ops, s,
-                           "gicv3_dist", 0x10000);
-diff --git a/include/hw/intc/arm_gic_common.h b/include/hw/intc/arm_gic_com=
-mon.h
-index b5585fec45..4cdeed7725 100644
---- a/include/hw/intc/arm_gic_common.h
-+++ b/include/hw/intc/arm_gic_common.h
-@@ -70,6 +70,7 @@ typedef struct GICState {
-     qemu_irq parent_fiq[GIC_NCPU];
-     qemu_irq parent_virq[GIC_NCPU];
-     qemu_irq parent_vfiq[GIC_NCPU];
-+    qemu_irq parent_serror[GIC_NCPU];
-     qemu_irq maintenance_irq[GIC_NCPU];
-=20
-     /* GICD_CTLR; for a GIC with the security extensions the NS banked ver=
-sion
-diff --git a/include/hw/intc/arm_gicv3_common.h b/include/hw/intc/arm_gicv3=
-_common.h
-index 31ec9a1ae4..a025a04727 100644
---- a/include/hw/intc/arm_gicv3_common.h
-+++ b/include/hw/intc/arm_gicv3_common.h
-@@ -152,6 +152,7 @@ struct GICv3CPUState {
-     qemu_irq parent_fiq;
-     qemu_irq parent_virq;
-     qemu_irq parent_vfiq;
-+    qemu_irq parent_serror;
-     qemu_irq maintenance_irq;
-=20
-     /* Redistributor */
---=20
-2.23.0
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1836501
 
+Title:
+  cpu_address_space_init fails with assertion
+
+Status in QEMU:
+  Expired
+
+Bug description:
+  qemu-system-arm does not start with version >=3D 2.6 and KVM enabled.
+
+    cpu_address_space_init: Assertion `asidx =3D=3D 0 || !kvm_enabled()'
+  failed.
+
+  Hardware is Odroid XU4 with Exynos with 4.9.61+ Tested with Debian
+  Stretch (9) or Buster (10).
+
+  Without KVM it is running fine but slow. I'm operating Debian Jessie
+  with qemu 2.1 for a long time with KVM virtualization working
+  flawlessly. When I upgraded to Stretch I ran into the trouble
+  described before. I tried Debian Stretch and Buster with all Kernels
+  provided by the Board manufacturer (Hardkernel).
+
+  It seems to be related to the feature introduced in Version 2.6:
+  https://wiki.qemu.org/ChangeLog/2.6
+  - Support for a separate EL3 address space
+
+  KVM is enabled, so I assume the adress space index asidx to be causing
+  the assert to fail.
+
+  dmesg | grep -i KVM
+  [    0.741714] kvm [1]: 8-bit VMID
+  [    0.741721] kvm [1]: IDMAP page: 40201000
+  [    0.741729] kvm [1]: HYP VA range: c0000000:ffffffff
+  [    0.742543] kvm [1]: Hyp mode initialized successfully
+  [    0.742600] kvm [1]: vgic-v2@10484000
+  [    0.742924] kvm [1]: vgic interrupt IRQ16
+  [    0.742943] kvm [1]: virtual timer IRQ60
+
+  Full command line is:
+  qemu-system-arm -M vexpress-a15 -smp 2 -m 512 -cpu host -enable-kvm -kern=
+el vmlinuz -initrd initrd.gz -dtb vexpress-v2p-ca15-tc1.dtb -device virtio-=
+blk-device,drive=3Dinst-blk -drive file=3DPATHTOFILE,id=3Dinst-blk,if=3Dnon=
+e,format=3Draw -append "vga=3Dnormal rw console=3DttyAMA0" -nographic
+
+  Is there anything to do to understand, if this is a hardware related
+  failure or probably just a missing parameter?
+
+  Regards
+
+  Lutz
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1836501/+subscriptions
 
