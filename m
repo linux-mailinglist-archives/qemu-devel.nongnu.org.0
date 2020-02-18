@@ -2,60 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4357E162663
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 13:46:30 +0100 (CET)
-Received: from localhost ([::1]:33910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6DB5162652
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 13:44:18 +0100 (CET)
+Received: from localhost ([::1]:33798 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j42Gj-00011H-8o
-	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 07:46:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38769)
+	id 1j42Eb-0005Tw-QM
+	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 07:44:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38677)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1j42DQ-0003vE-Jb
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 07:43:06 -0500
+ (envelope-from <mreitz@redhat.com>) id 1j42DI-0003lx-DR
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 07:42:57 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1j42DO-00011b-T5
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 07:43:04 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:24006
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <mreitz@redhat.com>) id 1j42DG-0000s8-V5
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 07:42:56 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:21152
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1j42DO-000117-Nw
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 07:43:02 -0500
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1j42DG-0000rl-Ry
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 07:42:54 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582029782;
+ s=mimecast20190719; t=1582029774;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=8WNff+5jxSVVPmfqG2CrWat+bu9LgTzJCpFYAi9NZII=;
- b=F0zibW98aY2FoT+iTtXedhIJARnx1WbPQup6NVR4RN8yP1gR4RFk4KZa30WtbrP+cR8td1
- g+vowMz4LYQYUgKc72T+aCSFov2KuKHBCivVjj6xHjhLvYeHCjp/8zA7oeSc1UkDtwprb0
- v22ZINYTKPt9EPKkPy6f7v+mzAK55BM=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=W6nUHkAqLbGE//sHpHWbkDZ9SsI0P2veHNCGFDv8d/w=;
+ b=TSsVHok6sbIoSDzgojlSDBZdcNBcQRL32qSM2dQrFuOpV0jlDYJYq3p1QnqbH+VJS9SMby
+ NdqdV+7eon9bNqIyDw0vo13KlmCrZnXBu8hsfxNbl2PxiTa+FPRqeLtFE+wMj7uHX8mQoB
+ XvYEeF0uXRMbhCJgr67PceMU9F3EvSk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-208-SjGQWEjfMiy7Q32EfKxH1A-1; Tue, 18 Feb 2020 07:42:47 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-42-_-JDPgsHNz27K0jmfhd0Ew-1; Tue, 18 Feb 2020 07:42:50 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1A0F618A5500;
- Tue, 18 Feb 2020 12:42:46 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5697518A5508;
+ Tue, 18 Feb 2020 12:42:49 +0000 (UTC)
 Received: from localhost (unknown [10.36.118.17])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 884C6384;
- Tue, 18 Feb 2020 12:42:45 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 99A8417DC8;
+ Tue, 18 Feb 2020 12:42:48 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v3 00/33] block: Introduce real BdrvChildRole
-Date: Tue, 18 Feb 2020 13:42:09 +0100
-Message-Id: <20200218124242.584644-1-mreitz@redhat.com>
+Subject: [PATCH v3 01/33] block: Add BlockDriver.is_format
+Date: Tue, 18 Feb 2020 13:42:10 +0100
+Message-Id: <20200218124242.584644-2-mreitz@redhat.com>
+In-Reply-To: <20200218124242.584644-1-mreitz@redhat.com>
+References: <20200218124242.584644-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: SjGQWEjfMiy7Q32EfKxH1A-1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: _-JDPgsHNz27K0jmfhd0Ew-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,158 +75,208 @@ Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Based-on: <20200218103454.296704-1-mreitz@redhat.com>
-(=E2=80=9Cblock: Fix check_to_replace_node()=E2=80=9D)
+We want to unify child_format and child_file at some point.  One of the
+important things that set format drivers apart from other drivers is
+that they do not expect other format nodes under them (except in the
+backing chain), i.e. we must not probe formats inside of formats.  That
+means we need something on which to distinguish format drivers from
+others, and hence this flag.
 
-Branch: https://github.com/XanClic/qemu.git child-role-v2
-Branch: https://git.xanclic.moe/XanClic/qemu.git child-role-v2
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
+Reviewed-by: Alberto Garcia <berto@igalia.com>
+---
+ block/bochs.c             | 1 +
+ block/cloop.c             | 1 +
+ block/crypto.c            | 2 ++
+ block/dmg.c               | 1 +
+ block/parallels.c         | 1 +
+ block/qcow.c              | 1 +
+ block/qcow2.c             | 1 +
+ block/qed.c               | 1 +
+ block/raw-format.c        | 1 +
+ block/vdi.c               | 1 +
+ block/vhdx.c              | 1 +
+ block/vmdk.c              | 1 +
+ block/vpc.c               | 1 +
+ include/block/block_int.h | 7 +++++++
+ 14 files changed, 21 insertions(+)
 
-v1: https://lists.nongnu.org/archive/html/qemu-block/2019-11/msg00908.html
-v2: https://lists.nongnu.org/archive/html/qemu-block/2020-02/msg00108.html
-
-
-Hi,
-
-For the =E2=80=9Cwhy=E2=80=9D and =E2=80=9Cwhat=E2=80=9D regarding this ser=
-ies, see the cover letter of
-v1 (linked above).
-
-
-In v3, I tried to address Eric=E2=80=99s comments:
-- Added some commit messages where there was nothing before
-
-- Patch 3: Renamed BdrvChildRole to BdrvChildRoleBits, and made
-  BdrvChildRole a plain type alias of an unsigned int with a comment
-  that explains it is only to hold BdrvChildRoleBits masks
-  - Also patch 3: Expanded comments on BDRV_CHILD_FILTERED and
-    BDRV_CHILD_COW (as requested by Eric and Berto)
-
-- Patch 29: Kept comment describing bdrv_filter_default_perms() (with a
-  slight modification, because no filter is going to use this as its
-  .bdrv_child_perm() implementation anymore)
-
-- Patches 4 and 20: Rebase conflict with v4 of the prerequisite series
-  =E2=80=9Cblock: Fix check_to_replace_node()=E2=80=9D (Quorum=E2=80=99s ch=
-ildren array
-  continues to store BdrvChild pointers instead of structured objects)
-
-
-git-backport-diff against v2:
-
-Key:
-[----] : patches are identical
-[####] : number of functional differences between upstream/downstream patch
-[down] : patch is downstream-only
-The flags [FC] indicate (F)unctional and (C)ontextual differences, respecti=
-vely
-
-001/33:[----] [--] 'block: Add BlockDriver.is_format'
-002/33:[----] [--] 'block: Rename BdrvChildRole to BdrvChildClass'
-003/33:[0019] [FC] 'block: Add BdrvChildRole'
-004/33:[0004] [FC] 'block: Add BdrvChildRole to BdrvChild'
-005/33:[----] [--] 'block: Pass BdrvChildRole to bdrv_child_perm()'
-006/33:[----] [-C] 'block: Pass BdrvChildRole to .inherit_options()'
-007/33:[----] [-C] 'block: Pass parent_is_format to .inherit_options()'
-008/33:[----] [--] 'block: Rename bdrv_inherited_options()'
-009/33:[----] [--] 'block: Add generic bdrv_inherited_options()'
-010/33:[----] [--] 'block: Use bdrv_inherited_options()'
-011/33:[----] [--] 'block: Unify bdrv_child_cb_attach()'
-012/33:[----] [--] 'block: Unify bdrv_child_cb_detach()'
-013/33:[----] [--] 'block: Add child_of_bds'
-014/33:[----] [--] 'block: Distinguish paths in *_format_default_perms'
-015/33:[----] [--] 'block: Pull out bdrv_default_perms_for_backing()'
-016/33:[----] [--] 'block: Pull out bdrv_default_perms_for_storage()'
-017/33:[----] [--] 'block: Split bdrv_default_perms_for_storage()'
-018/33:[----] [--] 'block: Add bdrv_default_perms()'
-019/33:[----] [--] 'raw-format: Split raw_read_options()'
-020/33:[0007] [FC] 'block: Switch child_format users to child_of_bds'
-021/33:[----] [--] 'block: Drop child_format'
-022/33:[----] [--] 'block: Make backing files child_of_bds children'
-023/33:[----] [--] 'block: Drop child_backing'
-024/33:[----] [--] 'block: Make format drivers use child_of_bds'
-025/33:[----] [--] 'block: Make filter drivers use child_of_bds'
-026/33:[----] [-C] 'block: Use child_of_bds in remaining places'
-027/33:[----] [--] 'tests: Use child_of_bds instead of child_file'
-028/33:[----] [--] 'block: Use bdrv_default_perms()'
-029/33:[0005] [FC] 'block: Make bdrv_filter_default_perms() static'
-030/33:[----] [--] 'block: Drop bdrv_format_default_perms()'
-031/33:[----] [--] 'block: Drop child_file'
-032/33:[----] [--] 'block: Pass BdrvChildRole in remaining cases'
-033/33:[----] [-C] 'block: Drop @child_class from bdrv_child_perm()'
-
-
-Max Reitz (33):
-  block: Add BlockDriver.is_format
-  block: Rename BdrvChildRole to BdrvChildClass
-  block: Add BdrvChildRole and BdrvChildRoleBits
-  block: Add BdrvChildRole to BdrvChild
-  block: Pass BdrvChildRole to bdrv_child_perm()
-  block: Pass BdrvChildRole to .inherit_options()
-  block: Pass parent_is_format to .inherit_options()
-  block: Rename bdrv_inherited_options()
-  block: Add generic bdrv_inherited_options()
-  block: Use bdrv_inherited_options()
-  block: Unify bdrv_child_cb_attach()
-  block: Unify bdrv_child_cb_detach()
-  block: Add child_of_bds
-  block: Distinguish paths in *_format_default_perms
-  block: Pull out bdrv_default_perms_for_backing()
-  block: Pull out bdrv_default_perms_for_storage()
-  block: Split bdrv_default_perms_for_storage()
-  block: Add bdrv_default_perms()
-  raw-format: Split raw_read_options()
-  block: Switch child_format users to child_of_bds
-  block: Drop child_format
-  block: Make backing files child_of_bds children
-  block: Drop child_backing
-  block: Make format drivers use child_of_bds
-  block: Make filter drivers use child_of_bds
-  block: Use child_of_bds in remaining places
-  tests: Use child_of_bds instead of child_file
-  block: Use bdrv_default_perms()
-  block: Make bdrv_filter_default_perms() static
-  block: Drop bdrv_format_default_perms()
-  block: Drop child_file
-  block: Pass BdrvChildRole in remaining cases
-  block: Drop @child_class from bdrv_child_perm()
-
- block.c                     | 526 ++++++++++++++++++++++--------------
- block/backup-top.c          |  11 +-
- block/blkdebug.c            |  10 +-
- block/blklogwrites.c        |  16 +-
- block/blkreplay.c           |   7 +-
- block/blkverify.c           |  10 +-
- block/block-backend.c       |  20 +-
- block/bochs.c               |   7 +-
- block/cloop.c               |   7 +-
- block/commit.c              |   2 +-
- block/copy-on-read.c        |   7 +-
- block/crypto.c              |   8 +-
- block/dmg.c                 |   7 +-
- block/filter-compress.c     |   7 +-
- block/io.c                  |  22 +-
- block/mirror.c              |   2 +-
- block/parallels.c           |   7 +-
- block/qcow.c                |   7 +-
- block/qcow2.c               |  20 +-
- block/qed.c                 |   7 +-
- block/quorum.c              |   8 +-
- block/raw-format.c          | 128 +++++----
- block/replication.c         |   5 +-
- block/throttle.c            |   7 +-
- block/vdi.c                 |   7 +-
- block/vhdx.c                |   7 +-
- block/vmdk.c                |  23 +-
- block/vpc.c                 |   7 +-
- block/vvfat.c               |  11 +-
- blockjob.c                  |   7 +-
- include/block/block.h       |  46 +++-
- include/block/block_int.h   |  57 ++--
- tests/test-bdrv-drain.c     |  72 +++--
- tests/test-bdrv-graph-mod.c |  10 +-
- tests/test-block-iothread.c |  17 +-
- 35 files changed, 688 insertions(+), 434 deletions(-)
-
+diff --git a/block/bochs.c b/block/bochs.c
+index 32bb83b268..e7bbeaa1c4 100644
+--- a/block/bochs.c
++++ b/block/bochs.c
+@@ -301,6 +301,7 @@ static BlockDriver bdrv_bochs =3D {
+     .bdrv_refresh_limits =3D bochs_refresh_limits,
+     .bdrv_co_preadv =3D bochs_co_preadv,
+     .bdrv_close=09=09=3D bochs_close,
++    .is_format          =3D true,
+ };
+=20
+ static void bdrv_bochs_init(void)
+diff --git a/block/cloop.c b/block/cloop.c
+index 4de94876d4..f90f1a4b4c 100644
+--- a/block/cloop.c
++++ b/block/cloop.c
+@@ -297,6 +297,7 @@ static BlockDriver bdrv_cloop =3D {
+     .bdrv_refresh_limits =3D cloop_refresh_limits,
+     .bdrv_co_preadv =3D cloop_co_preadv,
+     .bdrv_close     =3D cloop_close,
++    .is_format      =3D true,
+ };
+=20
+ static void bdrv_cloop_init(void)
+diff --git a/block/crypto.c b/block/crypto.c
+index 24823835c1..b81f673a51 100644
+--- a/block/crypto.c
++++ b/block/crypto.c
+@@ -673,6 +673,8 @@ static BlockDriver bdrv_crypto_luks =3D {
+     .bdrv_get_info      =3D block_crypto_get_info_luks,
+     .bdrv_get_specific_info =3D block_crypto_get_specific_info_luks,
+=20
++    .is_format          =3D true,
++
+     .strong_runtime_opts =3D block_crypto_strong_runtime_opts,
+ };
+=20
+diff --git a/block/dmg.c b/block/dmg.c
+index 4a045f2b3e..ef3c6e771d 100644
+--- a/block/dmg.c
++++ b/block/dmg.c
+@@ -753,6 +753,7 @@ static BlockDriver bdrv_dmg =3D {
+     .bdrv_child_perm     =3D bdrv_format_default_perms,
+     .bdrv_co_preadv =3D dmg_co_preadv,
+     .bdrv_close     =3D dmg_close,
++    .is_format      =3D true,
+ };
+=20
+ static void bdrv_dmg_init(void)
+diff --git a/block/parallels.c b/block/parallels.c
+index 7a01997659..30eda982bd 100644
+--- a/block/parallels.c
++++ b/block/parallels.c
+@@ -910,6 +910,7 @@ static BlockDriver bdrv_parallels =3D {
+     .bdrv_co_flush_to_os      =3D parallels_co_flush_to_os,
+     .bdrv_co_readv  =3D parallels_co_readv,
+     .bdrv_co_writev =3D parallels_co_writev,
++    .is_format      =3D true,
+     .supports_backing =3D true,
+     .bdrv_co_create      =3D parallels_co_create,
+     .bdrv_co_create_opts =3D parallels_co_create_opts,
+diff --git a/block/qcow.c b/block/qcow.c
+index fce8989868..0e4f09934c 100644
+--- a/block/qcow.c
++++ b/block/qcow.c
+@@ -1184,6 +1184,7 @@ static BlockDriver bdrv_qcow =3D {
+     .bdrv_co_create         =3D qcow_co_create,
+     .bdrv_co_create_opts    =3D qcow_co_create_opts,
+     .bdrv_has_zero_init     =3D bdrv_has_zero_init_1,
++    .is_format              =3D true,
+     .supports_backing       =3D true,
+     .bdrv_refresh_limits    =3D qcow_refresh_limits,
+=20
+diff --git a/block/qcow2.c b/block/qcow2.c
+index 3c754f616b..875eb7d5d9 100644
+--- a/block/qcow2.c
++++ b/block/qcow2.c
+@@ -5567,6 +5567,7 @@ BlockDriver bdrv_qcow2 =3D {
+     .bdrv_save_vmstate    =3D qcow2_save_vmstate,
+     .bdrv_load_vmstate    =3D qcow2_load_vmstate,
+=20
++    .is_format                  =3D true,
+     .supports_backing           =3D true,
+     .bdrv_change_backing_file   =3D qcow2_change_backing_file,
+=20
+diff --git a/block/qed.c b/block/qed.c
+index d8c4e5fb1e..eb6139acbc 100644
+--- a/block/qed.c
++++ b/block/qed.c
+@@ -1663,6 +1663,7 @@ static BlockDriver bdrv_qed =3D {
+     .format_name              =3D "qed",
+     .instance_size            =3D sizeof(BDRVQEDState),
+     .create_opts              =3D &qed_create_opts,
++    .is_format                =3D true,
+     .supports_backing         =3D true,
+=20
+     .bdrv_probe               =3D bdrv_qed_probe,
+diff --git a/block/raw-format.c b/block/raw-format.c
+index 3a76ec7dd2..2429ff0d23 100644
+--- a/block/raw-format.c
++++ b/block/raw-format.c
+@@ -567,6 +567,7 @@ BlockDriver bdrv_raw =3D {
+     .bdrv_co_copy_range_to  =3D &raw_co_copy_range_to,
+     .bdrv_co_truncate     =3D &raw_co_truncate,
+     .bdrv_getlength       =3D &raw_getlength,
++    .is_format            =3D true,
+     .has_variable_length  =3D true,
+     .bdrv_measure         =3D &raw_measure,
+     .bdrv_get_info        =3D &raw_get_info,
+diff --git a/block/vdi.c b/block/vdi.c
+index 0142da7233..7e87b205b5 100644
+--- a/block/vdi.c
++++ b/block/vdi.c
+@@ -1051,6 +1051,7 @@ static BlockDriver bdrv_vdi =3D {
+=20
+     .bdrv_get_info =3D vdi_get_info,
+=20
++    .is_format =3D true,
+     .create_opts =3D &vdi_create_opts,
+     .bdrv_co_check =3D vdi_co_check,
+ };
+diff --git a/block/vhdx.c b/block/vhdx.c
+index f02d2611be..d3c1619026 100644
+--- a/block/vhdx.c
++++ b/block/vhdx.c
+@@ -2241,6 +2241,7 @@ static BlockDriver bdrv_vhdx =3D {
+     .bdrv_co_check          =3D vhdx_co_check,
+     .bdrv_has_zero_init     =3D vhdx_has_zero_init,
+=20
++    .is_format              =3D true,
+     .create_opts            =3D &vhdx_create_opts,
+ };
+=20
+diff --git a/block/vmdk.c b/block/vmdk.c
+index 20e909d997..631fcd15ab 100644
+--- a/block/vmdk.c
++++ b/block/vmdk.c
+@@ -3058,6 +3058,7 @@ static BlockDriver bdrv_vmdk =3D {
+     .bdrv_get_info                =3D vmdk_get_info,
+     .bdrv_gather_child_options    =3D vmdk_gather_child_options,
+=20
++    .is_format                    =3D true,
+     .supports_backing             =3D true,
+     .create_opts                  =3D &vmdk_create_opts,
+ };
+diff --git a/block/vpc.c b/block/vpc.c
+index a65550298e..7cf0f87a16 100644
+--- a/block/vpc.c
++++ b/block/vpc.c
+@@ -1248,6 +1248,7 @@ static BlockDriver bdrv_vpc =3D {
+=20
+     .bdrv_get_info          =3D vpc_get_info,
+=20
++    .is_format              =3D true,
+     .create_opts            =3D &vpc_create_opts,
+     .bdrv_has_zero_init     =3D vpc_has_zero_init,
+     .strong_runtime_opts    =3D vpc_strong_runtime_opts,
+diff --git a/include/block/block_int.h b/include/block/block_int.h
+index 6f9fd5e20e..8d10c94213 100644
+--- a/include/block/block_int.h
++++ b/include/block/block_int.h
+@@ -94,6 +94,13 @@ struct BlockDriver {
+      * must implement them and return -ENOTSUP.
+      */
+     bool is_filter;
++    /*
++     * Set to true if the BlockDriver is a format driver.  Format nodes
++     * generally do not expect their children to be other format nodes
++     * (except for backing files), and so format probing is disabled
++     * on those children.
++     */
++    bool is_format;
+     /*
+      * Return true if @to_replace can be replaced by a BDS with the
+      * same data as @bs without it affecting @bs's behavior (that is,
 --=20
 2.24.1
 
