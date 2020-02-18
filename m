@@ -2,73 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A77E162247
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 09:27:28 +0100 (CET)
-Received: from localhost ([::1]:58194 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD29416226B
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 09:32:14 +0100 (CET)
+Received: from localhost ([::1]:58234 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j3yE2-0005Vd-J5
-	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 03:27:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33097)
+	id 1j3yIf-0008OY-PM
+	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 03:32:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34038)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <luc.michel@greensocs.com>) id 1j3yAr-0004HL-Ak
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 03:24:10 -0500
+ (envelope-from <bounces@canonical.com>) id 1j3yHZ-0007jB-Ag
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 03:31:06 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <luc.michel@greensocs.com>) id 1j3yAq-0004IR-4E
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 03:24:09 -0500
-Received: from beetle.greensocs.com ([5.135.226.135]:60560)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <luc.michel@greensocs.com>)
- id 1j3yAn-0004HU-35; Tue, 18 Feb 2020 03:24:05 -0500
-Received: from [172.16.11.100] (tiramisu.bar.greensocs.com [172.16.11.100])
- by beetle.greensocs.com (Postfix) with ESMTPSA id C5F4D96EF0;
- Tue, 18 Feb 2020 08:24:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1582014243;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ygKiNDKFDlJjJQdc23/TKopV5O6BaskA2TZKUl4cJAE=;
- b=bBDlhIuzw4lptfmAw54FsXqZtBknVOVdei250bqS6R4tCUT7joMSj54UfN9/MAykhYrBg/
- hPXGNcaJ0o2YbEEa02KHj85AlX0toNwsJ9u/FYUHHgoW0Lj2CiYtAbHTmVrtfVqrxFazRZ
- 6cjq+An3Ydh79x87+m9BHym9ofElsRU=
-Subject: Re: [PATCH v2 04/13] hw/arm/raspi: Introduce RaspiProcessorId enum
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20200217114533.17779-1-f4bug@amsat.org>
- <20200217114533.17779-5-f4bug@amsat.org>
-From: Luc Michel <luc.michel@greensocs.com>
-Message-ID: <6bb3c20d-9ed0-f3b0-9519-1989d13fffb0@greensocs.com>
-Date: Tue, 18 Feb 2020 09:24:02 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (envelope-from <bounces@canonical.com>) id 1j3yHX-0006Qu-Rw
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 03:31:05 -0500
+Received: from indium.canonical.com ([91.189.90.7]:38180)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1j3yHX-0006QS-Lr
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 03:31:03 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1j3yHV-0003uD-Ir
+ for <qemu-devel@nongnu.org>; Tue, 18 Feb 2020 08:31:01 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 7C4302E80C9
+ for <qemu-devel@nongnu.org>; Tue, 18 Feb 2020 08:31:01 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20200217114533.17779-5-f4bug@amsat.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-PH
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com; 
- s=mail; t=1582014243;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ygKiNDKFDlJjJQdc23/TKopV5O6BaskA2TZKUl4cJAE=;
- b=z9Css5ZDfnWU6L6rE0w7QMpR6no10bFjHqeuI9C+fvfh1IGaMsDL9mZK0cbamE1FQ51IZF
- ZC/bnEpzy5OmBIbpuyWKC0b5zu8t2UzSv9DrBt1gkLKH0KO9q6y7caWnznR9I0m0UwOZHu
- 7LKnBN82Jl49OJAKazLxK+bCPPIpD9c=
-ARC-Seal: i=1; s=mail; d=greensocs.com; t=1582014243; a=rsa-sha256; cv=none;
- b=snVzuQe3UDqJoEs5X4wWX25vW55S/Tfpg+c3wB5WTY2oSMk6lpcyu/pbSeWuJuGN/80/mx
- 45wPO+/ixnAuc+Y+HfSZJHr6Lm9W9M2FHEPhOQ243lRXbgpgjWLxo3DCpQEshxvNrSkm3F
- wZkfBpwF3/zoR0GQiN1Ji59Q1+V7pCI=
-ARC-Authentication-Results: i=1; ORIGINATING;
- auth=pass smtp.auth=luc smtp.mailfrom=luc.michel@greensocs.com
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+Date: Tue, 18 Feb 2020 08:21:21 -0000
+From: Rokas Kupstys <1846451@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: kraxel-redhat rokups th-huth
+X-Launchpad-Bug-Reporter: Rokas Kupstys (rokups)
+X-Launchpad-Bug-Modifier: Rokas Kupstys (rokups)
+References: <157008676845.21009.5220720197845563324.malonedeb@chaenomeles.canonical.com>
+Message-Id: <158201408171.14879.11526645754031512393.malone@soybean.canonical.com>
+Subject: [Bug 1846451] Re: K800 keyboard no longer works when attached to a VM
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="19413b719a8df7423ab1390528edadce9e0e4aca";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 09543ec9d1ee2b1d35febc61ab8214271cf871b9
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 5.135.226.135
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -77,111 +65,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Andrew Baumann <Andrew.Baumann@microsoft.com>
+Reply-To: Bug 1846451 <1846451@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Phil,
+Any way to get old behavior back when using `virsh attach` command?
+Devices are not attached on boot. I am stuck with qemu 4.0 because of
+this.
 
-On 2/17/20 12:45 PM, Philippe Mathieu-Daud=C3=A9 wrote:
-> As we only support a reduced set of the REV_CODE_PROCESSOR id
-> encoded in the board revision, define the PROCESSOR_ID values
-> as an enum. We can simplify the board_soc_type and cores_count
-> methods.
->=20
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> ---
->  hw/arm/raspi.c | 45 +++++++++++++++++++++------------------------
->  1 file changed, 21 insertions(+), 24 deletions(-)
->=20
-> diff --git a/hw/arm/raspi.c b/hw/arm/raspi.c
-> index d9e8acfe3b..b628dadf34 100644
-> --- a/hw/arm/raspi.c
-> +++ b/hw/arm/raspi.c
-> @@ -69,16 +69,33 @@ FIELD(REV_CODE, MANUFACTURER,      16, 4);
->  FIELD(REV_CODE, MEMORY_SIZE,       20, 3);
->  FIELD(REV_CODE, STYLE,             23, 1);
-> =20
-> +typedef enum RaspiProcessorId {
-> +    PROCESSOR_ID_BCM2836 =3D 1,
-> +    PROCESSOR_ID_BCM2837 =3D 2,
-> +} RaspiProcessorId;
-> +
-> +static const struct {
-> +    const char *type;
-> +    int cores_count;
-> +} soc_property[] =3D {
-> +    [PROCESSOR_ID_BCM2836] =3D {TYPE_BCM2836, BCM283X_NCPUS},
-> +    [PROCESSOR_ID_BCM2837] =3D {TYPE_BCM2837, BCM283X_NCPUS},
-> +};
-> +
->  static uint64_t board_ram_size(uint32_t board_rev)
->  {
->      assert(FIELD_EX32(board_rev, REV_CODE, STYLE)); /* Only new style =
-*/
->      return 256 * MiB << FIELD_EX32(board_rev, REV_CODE, MEMORY_SIZE);
->  }
-> =20
-> -static int board_processor_id(uint32_t board_rev)
-> +static RaspiProcessorId board_processor_id(uint32_t board_rev)
->  {
-> +    int proc_id =3D FIELD_EX32(board_rev, REV_CODE, PROCESSOR);;
-You have a superfluous semicolon here.
+-- =
 
-Apart from that:
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1846451
 
-Reviewed-by: Luc Michel <luc.michel@greensocs.com>
+Title:
+  K800 keyboard no longer works when attached to a VM
 
-> +
->      assert(FIELD_EX32(board_rev, REV_CODE, STYLE)); /* Only new style =
-*/
-> -    return FIELD_EX32(board_rev, REV_CODE, PROCESSOR);
-> +    assert(proc_id < ARRAY_SIZE(soc_property) && soc_property[proc_id]=
-.type);
-> +
-> +    return proc_id;
->  }
-> =20
->  static int board_version(uint32_t board_rev)
-> @@ -88,32 +105,12 @@ static int board_version(uint32_t board_rev)
-> =20
->  static const char *board_soc_type(uint32_t board_rev)
->  {
-> -    static const char *soc_types[] =3D {
-> -        NULL, TYPE_BCM2836, TYPE_BCM2837,
-> -    };
-> -    int proc_id =3D board_processor_id(board_rev);
-> -
-> -    if (proc_id >=3D ARRAY_SIZE(soc_types) || !soc_types[proc_id]) {
-> -        error_report("Unsupported processor id '%d' (board revision: 0=
-x%x)",
-> -                     proc_id, board_rev);
-> -        exit(1);
-> -    }
-> -    return soc_types[proc_id];
-> +    return soc_property[board_processor_id(board_rev)].type;
->  }
-> =20
->  static int cores_count(uint32_t board_rev)
->  {
-> -    static const int soc_cores_count[] =3D {
-> -        0, BCM283X_NCPUS, BCM283X_NCPUS,
-> -    };
-> -    int proc_id =3D board_processor_id(board_rev);
-> -
-> -    if (proc_id >=3D ARRAY_SIZE(soc_cores_count) || !soc_cores_count[p=
-roc_id]) {
-> -        error_report("Unsupported processor id '%d' (board revision: 0=
-x%x)",
-> -                     proc_id, board_rev);
-> -        exit(1);
-> -    }
-> -    return soc_cores_count[proc_id];
-> +    return soc_property[board_processor_id(board_rev)].cores_count;
->  }
-> =20
->  static const char *board_type(uint32_t board_rev)
->=20
+Status in QEMU:
+  Fix Released
+
+Bug description:
+  I use Logitech K800 keyboard which is connected to a PC through
+  Logitech unifying receiver. In order to control my windows VM i attach
+  unifying receiver USB device to a VM using "virsh attach-device VM-
+  Name ./device.xml". Device ID as seen in lsusb is 046d:c52b.
+
+  As of v4.1.0 keyboard no longer works when attached to a windows VM.
+  When attached receiver is still at least partially functional.
+  Logitech pairing utility properly displays paired keyboard, pressing
+  buttons on the keyboard shows changing indicator icon in pairing
+  utility. Pairing and unpairing works. Pressing keys however fails to
+  register any key presses.
+
+  Downgrading to v4.0.0 fixes the issue.
+
+  device.xml used to attach USB device:
+  ```
+  <hostdev mode=3D'subsystem' type=3D'usb'>
+          <source>
+                  <vendor id=3D'0x046d'/>
+                  <product id=3D'0xc52b'/>
+          </source>
+  </hostdev>
+
+  ```
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1846451/+subscriptions
 
