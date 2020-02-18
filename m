@@ -2,62 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD2D6162182
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 08:26:20 +0100 (CET)
-Received: from localhost ([::1]:57818 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15EE916220B
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 09:09:19 +0100 (CET)
+Received: from localhost ([::1]:58072 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j3xGt-0005Ia-Sn
-	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 02:26:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55217)
+	id 1j3xwU-0007m9-0z
+	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 03:09:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59225)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <miaoyubo@huawei.com>) id 1j3xFv-0004hU-9b
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 02:25:20 -0500
+ (envelope-from <luc.michel@greensocs.com>) id 1j3xsL-00065y-Rf
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 03:05:03 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <miaoyubo@huawei.com>) id 1j3xFt-0008AT-Lj
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 02:25:19 -0500
-Received: from szxga03-in.huawei.com ([45.249.212.189]:2066 helo=huawei.com)
+ (envelope-from <luc.michel@greensocs.com>) id 1j3xsK-0003JD-Gb
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 03:05:01 -0500
+Received: from beetle.greensocs.com ([5.135.226.135]:60046)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <miaoyubo@huawei.com>) id 1j3xFs-00087r-W2
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 02:25:17 -0500
-Received: from DGGEMM403-HUB.china.huawei.com (unknown [172.30.72.55])
- by Forcepoint Email with ESMTP id C6897506229ABCB8F02A;
- Tue, 18 Feb 2020 15:25:10 +0800 (CST)
-Received: from dggeme706-chm.china.huawei.com (10.1.199.102) by
- DGGEMM403-HUB.china.huawei.com (10.3.20.211) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Tue, 18 Feb 2020 15:25:10 +0800
-Received: from dggeme756-chm.china.huawei.com (10.3.19.102) by
- dggeme706-chm.china.huawei.com (10.1.199.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.1713.5; Tue, 18 Feb 2020 15:25:10 +0800
-Received: from dggeme756-chm.china.huawei.com ([10.6.80.68]) by
- dggeme756-chm.china.huawei.com ([10.6.80.68]) with mapi id 15.01.1713.004;
- Tue, 18 Feb 2020 15:25:10 +0800
-From: miaoyubo <miaoyubo@huawei.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Subject: RE: [RFC v2 1/1] arm: acpi: pci-expender-bus: Make arm to support
- PXB-PCIE
-Thread-Topic: [RFC v2 1/1] arm: acpi: pci-expender-bus: Make arm to support
- PXB-PCIE
-Thread-Index: AQHV5YP9quVYN42zHECrwbENpBoRDKge1a6AgAG3RYA=
-Date: Tue, 18 Feb 2020 07:25:09 +0000
-Message-ID: <80a1d04e006249ada203e420c4e97cb2@huawei.com>
-References: <20200217111818.766-1-miaoyubo@huawei.com>
- <20200217111818.766-2-miaoyubo@huawei.com>
- <20200217080640-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20200217080640-mutt-send-email-mst@kernel.org>
-Accept-Language: en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.173.221.29]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.71) (envelope-from <luc.michel@greensocs.com>)
+ id 1j3xsG-0003Fo-Om; Tue, 18 Feb 2020 03:04:57 -0500
+Received: from [172.16.11.100] (tiramisu.bar.greensocs.com [172.16.11.100])
+ by beetle.greensocs.com (Postfix) with ESMTPSA id BCC7496EF0;
+ Tue, 18 Feb 2020 08:04:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
+ s=mail; t=1582013094;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=tGyqGwDRbxUKf6Z/MSnBwmUozILvP3C0b36blPlMfbs=;
+ b=L9Q/iQ5c7zpBUcURA8FtfCY8SpxK+16lzs2JlB+zUrDB+KuUhicvvgGiD3XCg6XFY7Rjun
+ CNFX6E5JEmucSM2E/1MX8E6cq/GH4QdoGww4CYqfpVnAJUBb5yT4F1O6pZe5d8IcZWEw1r
+ P0v1Zks+s8giVPaHVMDxQTxCcA9q45U=
+Subject: Re: [PATCH v2] tests/boot_linux_console: Boot Trusted Firmware-A on
+ the Raspberry Pi 3
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20200217103442.30318-1-f4bug@amsat.org>
+From: Luc Michel <luc.michel@greensocs.com>
+Message-ID: <dc7d3ca4-5613-43ab-a48b-e28a6ea0cd51@greensocs.com>
+Date: Tue, 18 Feb 2020 09:04:53 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
+In-Reply-To: <20200217103442.30318-1-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-PH
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com; 
+ s=mail; t=1582013094;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=tGyqGwDRbxUKf6Z/MSnBwmUozILvP3C0b36blPlMfbs=;
+ b=frVCuOwkqqE9bpWyGevUtH51JveJGEg26QyUSs2evsUL+rbulhuE5S2lfhOfbXGrR9dm4G
+ 2/Ur7Vybhd/MZRZgR7ULX6B31lfhC3L3UJn4wT90NeP5Lx/2LuDwTqfuV3yvXHzoA4vcPL
+ /hHv7PgA2BhCzLKGXIouSWeS6cvg0cE=
+ARC-Seal: i=1; s=mail; d=greensocs.com; t=1582013094; a=rsa-sha256; cv=none;
+ b=Jan71N4/JoWLOY2WFAz+Ub/+oV3mQ3fltnCNlQQmRan92dINsAQ4S7w0YY7YmmEWA1Y/Ln
+ LktTPr1WsK7Uvtnse7JiR9twIR+ygIi/hhp4kP0Ub1c/pg+D1VXikXe6cd0hBTJ+ot8FWm
+ V4dLStN0BGjLUKNF3/kDBH6iC7e9EHo=
+ARC-Authentication-Results: i=1; ORIGINATING;
+ auth=pass smtp.auth=luc smtp.mailfrom=luc.michel@greensocs.com
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 45.249.212.189
+X-Received-From: 5.135.226.135
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -69,196 +77,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
- "imammedo@redhat.com" <imammedo@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Xiexiangyou <xiexiangyou@huawei.com>,
- "shannon.zhaosl@gmail.com" <shannon.zhaosl@gmail.com>
+Cc: qemu-arm@nongnu.org, pete@akeo.ie,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>,
+ Ard Biesheuvel <ard.biesheuvel@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-> -----Original Message-----
-> From: Michael S. Tsirkin [mailto:mst@redhat.com]
-> Sent: Monday, February 17, 2020 9:09 PM
-> To: miaoyubo <miaoyubo@huawei.com>
-> Cc: peter.maydell@linaro.org; shannon.zhaosl@gmail.com; Xiexiangyou
-> <xiexiangyou@huawei.com>; imammedo@redhat.com; qemu-
-> devel@nongnu.org
-> Subject: Re: [RFC v2 1/1] arm: acpi: pci-expender-bus: Make arm to suppor=
-t
-> PXB-PCIE
+On 2/17/20 11:34 AM, Philippe Mathieu-Daud=C3=A9 wrote:
+> This test runs Trusted Firmware-A on the Raspberry Pi 3.
+> We deliberately stop the boot process when the EDK2 UEFI version
+> is displayed.
 >=20
-> On Mon, Feb 17, 2020 at 07:18:18PM +0800, Yubo Miao wrote:
-> > From: miaoyubo <miaoyubo@huawei.com>
-> >
-> > Currently virt machine is not supported by pxb-pcie, and only one main
-> > host bridge described in ACPI tables.
-> > Under this circumstance, different io numas for differnt devices is
-> > not possible, in order to present io numas to the guest, especially
-> > for host pssthrough devices. PXB-PCIE is supproted by arm and certain
-> > resource is allocated for each pxb-pcie in acpi table.
-> >
-> > Signed-off-by: miaoyubo <miaoyubo@huawei.com>
+> The binary is build on AppVeyor CI using Pete Batard repository [1].
+> ATF v2.1 binary are used (see [2]). Extra documentation in [3].
 >=20
-> A unit test would be nic.
+> It is very simple and fast:
 >=20
+>   $ avocado --show=3Dapp,console run -t atf tests/acceptance
+>   JOB ID     : 1e748d7c9e9011cf0af3250ddc8ebf2389d6204e
+>   JOB LOG    : avocado/job-results/job-2020-02-16T18.08-1e748d7/job.log
+>    (1/1) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_a=
+arch64_raspi3_atf:
+>   console: NOTICE:  Booting Trusted Firmware
+>   console: NOTICE:  BL1: v2.1(release):v2.1
+>   console: NOTICE:  BL1: Built : 15:26:06, May 13 2019
+>   console: NOTICE:  rpi3: Detected: Raspberry Pi 3 Model B (1GB, Sony, =
+UK) [0x00a02082]
+>   console: NOTICE:  BL1: Booting BL2
+>   console: ERROR:   rpi3_sdhost: timeout status 0x40
+>   console: NOTICE:  BL2: v2.1(release):v2.1
+>   console: NOTICE:  BL2: Built : 15:26:01, May 13 2019
+>   console: NOTICE:  BL1: Booting BL31
+>   console: NOTICE:  BL31: v2.1(release):v2.1
+>   console: NOTICE:  BL31: Built : 15:26:04, May 13 2019
+>   console: =3DUEFI firmware (version UEFI Firmware v1.15 built at 11:58=
+:44 on Feb 14 2020)
+>   PASS (1.54 s)
+>   RESULTS    : PASS 1 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT =
+0 | CANCEL 0
+>   JOB TIME   : 1.88 s
+>=20
+> [1] https://github.com/pbatard/RPi3#summary
+> [2] https://github.com/ARM-software/arm-trusted-firmware/blob/v2.1/docs=
+/plat/rpi3.rst
+> [3] http://www.skylyrac.net/2018-02-01-port-arm-tf-to-rpi3.html
+>=20
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
-Thanks for replying, I will add the unit test in patch V3.
+Reviewed-by: Luc Michel <luc.michel@greensocs.com>
 
-> > ---
-> >  hw/arm/virt-acpi-build.c | 240 +++++++++++++++++++++++++++++-------
 > ---
-> >  hw/pci-host/gpex.c       |   4 +
-> >  include/hw/arm/virt.h    |   1 +
-> >  3 files changed, 184 insertions(+), 61 deletions(-)
-> >
-> > diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c index
-> > bd5f771e9b..fc11525042 100644
-> > --- a/hw/arm/virt-acpi-build.c
-> > +++ b/hw/arm/virt-acpi-build.c
-> > @@ -49,6 +49,8 @@
-> >  #include "kvm_arm.h"
-> >  #include "migration/vmstate.h"
-> >
-> > +#include "hw/arm/virt.h"
-> > +#include "hw/pci/pci_bus.h"
-> >  #define ARM_SPI_BASE 32
-> >
-> > +    method =3D aml_method("_CRS", 0, AML_NOTSERIALIZED);
-> > +    Aml *rbuf =3D aml_resource_template();
-> > +    aml_append(rbuf,
-> > +        aml_word_bus_number(AML_MIN_FIXED, AML_MAX_FIXED,
-> AML_POS_DECODE,
-> > +                            0x0000, 0x0000, root_bus_limit, 0x0000,
-> > +                            root_bus_limit + 1));
-> > +    aml_append(rbuf,
-> > +        aml_dword_memory(AML_POS_DECODE, AML_MIN_FIXED,
-> AML_MAX_FIXED,
-> > +                         AML_NON_CACHEABLE, AML_READ_WRITE, 0x0000,
-> base_mmio,
-> > +                         base_mmio + size_mmio - 1 - size_addr * count=
-,
-> > +                         0x0000, size_mmio - size_addr * count));
-> > +    aml_append(rbuf,
-> > +        aml_dword_io(AML_MIN_FIXED, AML_MAX_FIXED,
-> AML_POS_DECODE,
-> > +                     AML_ENTIRE_RANGE, 0x0000, 0x0000,
-> > +                     size_pio / 2 - 1 - size_io * count, base_pio,
-> > +                     size_pio / 2 - size_io * count));
-> > +
-> > +    if (use_highmem) {
-> > +        hwaddr base_mmio_high =3D memmap[VIRT_HIGH_PCIE_MMIO].base;
-> > +        hwaddr size_mmio_high =3D memmap[VIRT_HIGH_PCIE_MMIO].size;
-> > +
-> > +        aml_append(rbuf,
-> > +            aml_qword_memory(AML_POS_DECODE, AML_MIN_FIXED,
-> AML_MAX_FIXED,
-> > +                             AML_NON_CACHEABLE, AML_READ_WRITE, 0x0000=
-,
-> > +                             base_mmio_high,
-> > +                             base_mmio_high + size_mmio_high - 1 -
-> > +                             size_addr * count,
-> > +                             0x0000, size_mmio_high - size_addr * coun=
-t));
-> > +    }
-> > +
-> > +    aml_append(method, aml_name_decl("RBUF", rbuf));
-> > +    aml_append(method, aml_return(rbuf));
-> > +    aml_append(dev, method);
-> > +
-> > +    acpi_dsdt_add_pci_osc(dev, scope);
-> >
-> >      Aml *dev_rp0 =3D aml_device("%s", "RP0");
-> >      aml_append(dev_rp0, aml_name_decl("_ADR", aml_int(0)));
+> v2: Start with a single core powered-on
+> ---
+>  tests/acceptance/boot_linux_console.py | 24 ++++++++++++++++++++++++
+>  1 file changed, 24 insertions(+)
 >=20
+> diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/=
+boot_linux_console.py
+> index 34d37eba3b..d1288fb59c 100644
+> --- a/tests/acceptance/boot_linux_console.py
+> +++ b/tests/acceptance/boot_linux_console.py
+> @@ -507,6 +507,30 @@ def test_arm_cubieboard_sata(self):
+>          exec_command_and_wait_for_pattern(self, 'reboot',
+>                                                  'reboot: Restarting sy=
+stem')
+> =20
+> +    def test_aarch64_raspi3_atf(self):
+> +        """
+> +        :avocado: tags=3Darch:aarch64
+> +        :avocado: tags=3Dmachine:raspi3
+> +        :avocado: tags=3Dcpu:cortex-a53
+> +        :avocado: tags=3Ddevice:pl011
+> +        :avocado: tags=3Datf
+> +        """
+> +        zip_url =3D ('https://github.com/pbatard/RPi3/releases/downloa=
+d/'
+> +                   'v1.15/RPi3_UEFI_Firmware_v1.15.zip')
+> +        zip_hash =3D '74b3bd0de92683cadb14e008a7575e1d0c3cafb9'
+> +        zip_path =3D self.fetch_asset(zip_url, asset_hash=3Dzip_hash)
+> +
+> +        archive.extract(zip_path, self.workdir)
+> +        efi_fd =3D os.path.join(self.workdir, 'RPI_EFI.fd')
+> +
+> +        self.vm.set_console(console_index=3D1)
+> +        self.vm.add_args('-nodefaults',
+> +                         # VideoCore starts CPU with only 1 core enabl=
+ed
+> +                         '-global', 'bcm2836.enabled-cpus=3D1',
+> +                         '-device', 'loader,file=3D%s,force-raw=3Dtrue=
+' % efi_fd)
+> +        self.vm.launch()
+> +        self.wait_for_console_pattern('version UEFI Firmware v1.15')
+> +
+>      def test_s390x_s390_ccw_virtio(self):
+>          """
+>          :avocado: tags=3Darch:s390x
 >=20
-> this will be easier to review if you first refactor existing code, then a=
-dd pxb
-> support on top.
->=20
-
-Thanks for the suggestion, the next patch would separate this patch into tw=
-o patches,=20
-one is to refactor existing code and another one add pxb support.
-
-> > @@ -744,7 +862,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
-> VirtMachineState *vms)
-> >      acpi_dsdt_add_virtio(scope, &memmap[VIRT_MMIO],
-> >                      (irqmap[VIRT_MMIO] + ARM_SPI_BASE),
-> NUM_VIRTIO_TRANSPORTS);
-> >      acpi_dsdt_add_pci(scope, memmap, (irqmap[VIRT_PCIE] +
-> ARM_SPI_BASE),
-> > -                      vms->highmem, vms->highmem_ecam);
-> > +                      vms->highmem, vms->highmem_ecam, vms);
-> >      if (vms->acpi_dev) {
-> >          build_ged_aml(scope, "\\_SB."GED_DEVICE,
-> >                        HOTPLUG_HANDLER(vms->acpi_dev), diff --git
-> > a/hw/pci-host/gpex.c b/hw/pci-host/gpex.c index 0ca604dc62..2c18cdfec4
-> > 100644
-> > --- a/hw/pci-host/gpex.c
-> > +++ b/hw/pci-host/gpex.c
-> > @@ -36,6 +36,7 @@
-> >  #include "hw/qdev-properties.h"
-> >  #include "migration/vmstate.h"
-> >  #include "qemu/module.h"
-> > +#include "hw/arm/virt.h"
-> >
-> >
-> /**********************************************************
-> ******************
-> >   * GPEX host
-> > @@ -98,6 +99,9 @@ static void gpex_host_realize(DeviceState *dev, Error
-> **errp)
-> >                                       pci_swizzle_map_irq_fn, s, &s->io=
-_mmio,
-> >                                       &s->io_ioport, 0, 4,
-> > TYPE_PCIE_BUS);
-> >
-> > +#ifdef __aarch64__
-> > +    VIRT_MACHINE(qdev_get_machine())->bus =3D pci->bus; #endif
-> >      qdev_set_parent_bus(DEVICE(&s->gpex_root), BUS(pci->bus));
-> >      pci_bus_set_route_irq_fn(pci->bus, gpex_route_intx_pin_to_irq);
-> >      qdev_init_nofail(DEVICE(&s->gpex_root));
->=20
->=20
-> What does all this have to do with building on aarch64?
->=20
->=20
-
-gpex.c is the public file for Generic PCI Express Bridge Emulation,
-using aarch64 to avoid affect other architectures
-
-> > diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h index
-> > 71508bf40c..cfc65dd19b 100644
-> > --- a/include/hw/arm/virt.h
-> > +++ b/include/hw/arm/virt.h
-> > @@ -140,6 +140,7 @@ typedef struct {
-> >      DeviceState *gic;
-> >      DeviceState *acpi_dev;
-> >      Notifier powerdown_notifier;
-> > +    PCIBus *bus;
-> >  } VirtMachineState;
->=20
-> Again one bus per machine? Pls give this field a better name and add some
-> comments.
->=20
-
-Not one bus, the bus include the root bus and all pxb-pcie buses.=20
-it is pointer to the device objects. By go through the bus, we get the pxbs
-defined and also the numa_node, the usage and the name is just the same wit=
-h=20
-X86.(also PCIBus *bus in PCMachineState) The comments would be add in next=
-=20
-patch ,And do u have any suggestion for the better name?
-
-> >
-> >  #define VIRT_ECAM_ID(high) (high ? VIRT_HIGH_PCIE_ECAM :
-> > VIRT_PCIE_ECAM)
-> > --
-> > 2.19.1
-> >
-
-Regards,
-Miao
 
