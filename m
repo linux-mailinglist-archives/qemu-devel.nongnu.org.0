@@ -2,62 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C4C0162906
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 16:02:44 +0100 (CET)
-Received: from localhost ([::1]:36634 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1372B162956
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 16:23:10 +0100 (CET)
+Received: from localhost ([::1]:37012 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j44OZ-0004rs-2J
-	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 10:02:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32769)
+	id 1j44iL-00036S-5Y
+	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 10:23:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35906)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1j44N6-0003rg-Lv
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 10:01:13 -0500
+ (envelope-from <geert@linux-m68k.org>) id 1j44dx-0005bM-Rf
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 10:18:40 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1j44N5-0003zG-CZ
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 10:01:12 -0500
-Received: from indium.canonical.com ([91.189.90.7]:47180)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1j44N5-0003y5-73
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 10:01:11 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1j44N2-0000vo-QP
- for <qemu-devel@nongnu.org>; Tue, 18 Feb 2020 15:01:08 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id B8FB92E80C8
- for <qemu-devel@nongnu.org>; Tue, 18 Feb 2020 15:01:08 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 18 Feb 2020 14:48:35 -0000
-From: Richard Henderson <rth@twiddle.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: tcg testcase
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: amarkovic rth stvlvrn
-X-Launchpad-Bug-Reporter: Stevie Lavern (stvlvrn)
-X-Launchpad-Bug-Modifier: Richard Henderson (rth)
-References: <158038956597.5319.13308249814127344774.malonedeb@chaenomeles.canonical.com>
-Message-Id: <158203731512.15140.9628335118593104369.malone@soybean.canonical.com>
-Subject: [Bug 1861404] Re: AVX instruction VMOVDQU implementation error for
- YMM registers
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="19413b719a8df7423ab1390528edadce9e0e4aca";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 091c65c73b616e383e75e0ad69bd4b70a23320aa
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+ (envelope-from <geert@linux-m68k.org>) id 1j44dv-0006b3-OM
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 10:18:37 -0500
+Received: from laurent.telenet-ops.be ([2a02:1800:110:4::f00:19]:59228)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <geert@linux-m68k.org>)
+ id 1j44du-0006W5-Dm
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 10:18:34 -0500
+Received: from ramsan ([84.195.182.253]) by laurent.telenet-ops.be with bizsmtp
+ id 4FJD2200y5USYZQ01FJEv4; Tue, 18 Feb 2020 16:18:34 +0100
+Received: from rox.of.borg ([192.168.97.57]) by ramsan with esmtp (Exim 4.90_1)
+ (envelope-from <geert@linux-m68k.org>)
+ id 1j44dZ-0006yA-Pa; Tue, 18 Feb 2020 16:18:13 +0100
+Received: from geert by rox.of.borg with local (Exim 4.90_1)
+ (envelope-from <geert@linux-m68k.org>)
+ id 1j44dZ-00022u-MX; Tue, 18 Feb 2020 16:18:13 +0100
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: Linus Walleij <linus.walleij@linaro.org>,
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Harish Jenny K N <harish_kandiga@mentor.com>,
+ Eugeniu Rosca <erosca@de.adit-jv.com>
+Subject: [PATCH v5 0/5] gpio: Add GPIO Aggregator
+Date: Tue, 18 Feb 2020 16:18:07 +0100
+Message-Id: <20200218151812.7816-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.17.1
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 2a02:1800:110:4::f00:19
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -66,92 +52,174 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1861404 <1861404@bugs.launchpad.net>
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
+ Geert Uytterhoeven <geert+renesas@glider.be>, linux-doc@vger.kernel.org,
+ Marc Zyngier <marc.zyngier@arm.com>, Magnus Damm <magnus.damm@gmail.com>,
+ Christoffer Dall <christoffer.dall@arm.com>, linux-kernel@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, Alexander Graf <graf@amazon.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Phil Reid <preid@electromag.com.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The "AVX512 BFloat16" patch is for KVM support.
+	Hi all,
 
-As for finding the GSoC work, please follow that link,
-and the ones buried inside that.  There are hundreds
-of patches involved.
+GPIO controllers are exported to userspace using /dev/gpiochip*
+character devices.  Access control to these devices is provided by
+standard UNIX file system permissions, on an all-or-nothing basis:
+either a GPIO controller is accessible for a user, or it is not.
+Currently no mechanism exists to control access to individual GPIOs.
 
--- =
+Hence this adds a GPIO driver to aggregate existing GPIOs, and expose
+them as a new gpiochip.  This is useful for implementing access control,
+and assigning a set of GPIOs to a specific user.  Furthermore, this
+simplifies and hardens exporting GPIOs to a virtual machine, as the VM
+can just grab the full GPIO controller, and no longer needs to care
+about which GPIOs to grab and which not, reducing the attack surface.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1861404
+Recently, other use cases have been discovered[1]:
+  - Describing simple GPIO-operated devices in DT, and using the GPIO
+    Aggregator as a generic GPIO driver for userspace, which is useful
+    for industrial control.
 
-Title:
-  AVX instruction VMOVDQU implementation error for YMM registers
+Changes compared to v4[2]:
+  - Add Reviewed-by, Tested-by,
+  - Fix inconsistent indentation in documentation.
 
-Status in QEMU:
-  New
+Changes compared to v3[3] (more details in the individual patches):
+  - Drop controversial GPIO repeater,
+  - Drop support for legacy sysfs interface based name matching,
+  - Drop applied "gpiolib: Add GPIOCHIP_NAME definition",
+  - Documentation improvements,
+  - Lots of small cleanups.
 
-Bug description:
-  Hi,
+Changes compared to v2[4] (more details in the individual patches):
+  - Integrate GPIO Repeater functionality,
+  - Absorb GPIO forwarder library, as the Aggregator and Repeater are
+    now a single driver,
+  - Use the aggregator parameters to create a GPIO lookup table instead
+    of an array of GPIO descriptors,
+  - Add documentation,
+  - New patches:
+      - "gpiolib: Add GPIOCHIP_NAME definition",
+      - "gpiolib: Add support for gpiochipN-based table lookup",
+      - "gpiolib: Add support for GPIO line table lookup",
+      - "dt-bindings: gpio: Add gpio-repeater bindings",
+      - "docs: gpio: Add GPIO Aggregator/Repeater documentation",
+      - "MAINTAINERS: Add GPIO Aggregator/Repeater section".
+  - Dropped patches:
+      - "gpio: Export gpiod_{request,free}() to modular GPIO code",
+      - "gpio: Export gpiochip_get_desc() to modular GPIO code",
+      - "gpio: Export gpio_name_to_desc() to modular GPIO code",
+      - "gpio: Add GPIO Forwarder Helper".
 
-  Tested with Qemu 4.2.0, and with git version
-  bddff6f6787c916b0e9d63ef9e4d442114257739.
+Changes compared to v1[5]:
+  - Drop "virtual", rename to gpio-aggregator,
+  - Create and use new GPIO Forwarder Helper, to allow sharing code with
+    the GPIO inverter,
+  - Lift limit on the maximum number of GPIOs,
+  - Improve parsing of GPIO specifiers,
+  - Fix modular build.
 
-  The x86 AVX instruction VMOVDQU doesn't work properly with YMM registers =
-(32 bytes).
-  It works with XMM registers (16 bytes) though.
+Aggregating GPIOs and exposing them as a new gpiochip was suggested in
+response to my proof-of-concept for GPIO virtualization with QEMU[6][7].
 
-  See the attached test case `ymm.c`: when copying from memory-to-ymm0
-  and then back from ymm0-to-memory using VMOVDQU, Qemu only copies the
-  first 16 of the total 32 bytes.
+For the first use case, aggregated GPIO controllers are instantiated and
+destroyed by writing to atribute files in sysfs.
+Sample session on the Renesas Koelsch development board:
 
-  ```
-  user@ubuntu ~/Qemu % gcc -o ymm ymm.c -Wall -Wextra -Werror
+  - Unbind LEDs from leds-gpio driver:
 
-  user@ubuntu ~/Qemu % ./ymm
-  00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F 10 11 12 13 14 15 16 17 1=
-8 19 1A 1B 1C 1D 1E 1F
+        echo leds > /sys/bus/platform/drivers/leds-gpio/unbind
 
-  user@ubuntu ~/Qemu % ./x86_64-linux-user/qemu-x86_64 -cpu max ymm
-  00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F 00 00 00 00 00 00 00 00 0=
-0 00 00 00 00 00 00 00
-  ```
+  - Create aggregators:
 
-  This seems to be because in `translate.c > gen_sse()`, the case
-  handling the VMOVDQU instruction calls `gen_ldo_env_A0` which always
-  performs a 16 bytes copy using two 8 bytes load and store operations
-  (with `tcg_gen_qemu_ld_i64` and `tcg_gen_st_i64`).
+    $ echo e6052000.gpio 19,20 \
+        > /sys/bus/platform/drivers/gpio-aggregator/new_device
 
-  Instead, the `gen_ldo_env_A0` function should generate a copy with a
-  size corresponding to the used register.
+    gpio-aggregator gpio-aggregator.0: gpio 0 => gpio-953 (gpio-aggregator.0)
+    gpio-aggregator gpio-aggregator.0: gpio 1 => gpio-954 (gpio-aggregator.0)
+    gpiochip_find_base: found new base at 778
+    gpio gpiochip8: (gpio-aggregator.0): added GPIO chardev (254:8)
+    gpiochip_setup_dev: registered GPIOs 778 to 779 on device: gpiochip8 (gpio-aggregator.0)
 
-  =
+    $ echo e6052000.gpio 21 e6050000.gpio 20-22 \
+        > /sys/bus/platform/drivers/gpio-aggregator/new_device
 
-  ```
-  static void gen_sse(CPUX86State *env, DisasContext *s, int b,
-                      target_ulong pc_start, int rex_r)
-  {
-          [...]
-          case 0x26f: /* movdqu xmm, ea */
-              if (mod !=3D 3) {
-                  gen_lea_modrm(env, s, modrm);
-                  gen_ldo_env_A0(s, offsetof(CPUX86State, xmm_regs[reg]));
-              } else { =
+    gpio-aggregator gpio-aggregator.1: gpio 0 => gpio-955 (gpio-aggregator.1)
+    gpio-aggregator gpio-aggregator.1: gpio 1 => gpio-1012 (gpio-aggregator.1)
+    gpio-aggregator gpio-aggregator.1: gpio 2 => gpio-1013 (gpio-aggregator.1)
+    gpio-aggregator gpio-aggregator.1: gpio 3 => gpio-1014 (gpio-aggregator.1)
+    gpiochip_find_base: found new base at 774
+    gpio gpiochip9: (gpio-aggregator.1): added GPIO chardev (254:9)
+    gpiochip_setup_dev: registered GPIOs 774 to 777 on device: gpiochip9 (gpio-aggregator.1)
 
-          [...]
-  ```
+  - Adjust permissions on /dev/gpiochip[89] (optional)
 
-  ```
-  static inline void gen_ldo_env_A0(DisasContext *s, int offset)
-  {
-      int mem_index =3D s->mem_index;
-      tcg_gen_qemu_ld_i64(s->tmp1_i64, s->A0, mem_index, MO_LEQ);
-      tcg_gen_st_i64(s->tmp1_i64, cpu_env, offset + offsetof(ZMMReg, ZMM_Q(=
-0)));
-      tcg_gen_addi_tl(s->tmp0, s->A0, 8);
-      tcg_gen_qemu_ld_i64(s->tmp1_i64, s->tmp0, mem_index, MO_LEQ);
-      tcg_gen_st_i64(s->tmp1_i64, cpu_env, offset + offsetof(ZMMReg, ZMM_Q(=
-1)));
-  }
-  ```
+  - Control LEDs:
 
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1861404/+subscriptions
+    $ gpioset gpiochip8 0=0 1=1 # LED6 OFF, LED7 ON
+    $ gpioset gpiochip8 0=1 1=0 # LED6 ON, LED7 OFF
+    $ gpioset gpiochip9 0=0     # LED8 OFF
+    $ gpioset gpiochip9 0=1     # LED8 ON
+
+  - Destroy aggregators:
+
+    $ echo gpio-aggregator.0 \
+            > /sys/bus/platform/drivers/gpio-aggregator/delete_device
+    $ echo gpio-aggregator.1 \
+            > /sys/bus/platform/drivers/gpio-aggregator/delete_device
+
+Thanks!
+
+References:
+  [1] "[PATCH V4 2/2] gpio: inverter: document the inverter bindings"
+      (https://lore.kernel.org/r/1561699236-18620-3-git-send-email-harish_kandiga@mentor.com/)
+  [2] "[PATCH v4 0/5] gpio: Add GPIO Aggregator"
+      (https://lore.kernel.org/r/20200115181523.23556-1-geert+renesas@glider.be)
+  [3] "[PATCH v3 0/7] gpio: Add GPIO Aggregator/Repeater"
+      (https://lore.kernel.org/r/20191127084253.16356-1-geert+renesas@glider.be/)
+  [4] "[PATCH/RFC v2 0/5] gpio: Add GPIO Aggregator Driver"
+      (https://lore.kernel.org/r/20190911143858.13024-1-geert+renesas@glider.be/)
+  [5] "[PATCH RFC] gpio: Add Virtual Aggregator GPIO Driver"
+      (https://lore.kernel.org/r/20190705160536.12047-1-geert+renesas@glider.be/)
+  [6] "[PATCH QEMU POC] Add a GPIO backend"
+      (https://lore.kernel.org/r/20181003152521.23144-1-geert+renesas@glider.be/)
+  [7] "Getting To Blinky: Virt Edition / Making device pass-through
+       work on embedded ARM"
+      (https://fosdem.org/2019/schedule/event/vai_getting_to_blinky/)
+
+Geert Uytterhoeven (5):
+  gpiolib: Add support for gpiochipN-based table lookup
+  gpiolib: Add support for GPIO line table lookup
+  gpio: Add GPIO Aggregator
+  docs: gpio: Add GPIO Aggregator documentation
+  MAINTAINERS: Add GPIO Aggregator section
+
+ .../admin-guide/gpio/gpio-aggregator.rst      | 102 ++++
+ Documentation/admin-guide/gpio/index.rst      |   1 +
+ MAINTAINERS                                   |   7 +
+ drivers/gpio/Kconfig                          |  12 +
+ drivers/gpio/Makefile                         |   1 +
+ drivers/gpio/gpio-aggregator.c                | 574 ++++++++++++++++++
+ drivers/gpio/gpiolib.c                        |  33 +-
+ include/linux/gpio/machine.h                  |  15 +-
+ 8 files changed, 732 insertions(+), 13 deletions(-)
+ create mode 100644 Documentation/admin-guide/gpio/gpio-aggregator.rst
+ create mode 100644 drivers/gpio/gpio-aggregator.c
+
+-- 
+2.17.1
+
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
 
