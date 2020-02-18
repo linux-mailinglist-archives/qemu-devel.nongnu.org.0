@@ -2,32 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0916162FC7
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 20:24:28 +0100 (CET)
-Received: from localhost ([::1]:40744 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6BE4162FA6
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 20:19:42 +0100 (CET)
+Received: from localhost ([::1]:40656 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j48Tr-0005i2-O9
-	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 14:24:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58427)
+	id 1j48PF-0000Z8-Pm
+	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 14:19:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60370)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1j48Lm-0005cc-Bn
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 14:16:07 -0500
+ (envelope-from <laurent@vivier.eu>) id 1j48MR-0006iL-7r
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 14:16:48 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1j48Lh-0003Zy-CG
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 14:16:05 -0500
-Received: from mout.kundenserver.de ([212.227.126.187]:38981)
+ (envelope-from <laurent@vivier.eu>) id 1j48MQ-0005Gk-3N
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 14:16:47 -0500
+Received: from mout.kundenserver.de ([212.227.126.133]:50913)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1j48Lb-0003R5-JB; Tue, 18 Feb 2020 14:15:55 -0500
+ id 1j48ML-000508-03; Tue, 18 Feb 2020 14:16:41 -0500
 Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
- (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1N3bjH-1jVWaH3RR5-010fw9; Tue, 18 Feb 2020 20:15:47 +0100
-Subject: Re: [PATCH 2/3] hw/display/qxl: Remove unneeded variable assignment
+ (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MMp08-1ilVZv0Ejc-00IoQG; Tue, 18 Feb 2020 20:16:35 +0100
+Subject: Re: [PATCH 3/3] hw/block/pflash_cfi02: Remove unneeded variable
+ assignment
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  qemu-devel@nongnu.org
 References: <20200215161557.4077-1-philmd@redhat.com>
- <20200215161557.4077-3-philmd@redhat.com>
+ <20200215161557.4077-4-philmd@redhat.com>
 From: Laurent Vivier <laurent@vivier.eu>
 Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  mQINBFYFJhkBEAC2me7w2+RizYOKZM+vZCx69GTewOwqzHrrHSG07MUAxJ6AY29/+HYf6EY2
@@ -71,34 +72,34 @@ Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  OpKgu3nD0ahBDqANU/ZmNNarBJEwvM2vfusmNnWm3QMIwxNuJghRyuFfx694Im1js0ZY3LEU
  JGSHFG4ZynA+ZFUPA6Xf0wHeJOxGKCGIyeKORsteIqgnkINW9fnKJw2pgk8qHkwVc3Vu+wGS
  ZiJK0xFusPQehjWTHn9WjMG1zvQ5TQQHxau/2FkP45+nRPco6vVFQe8JmgtRF8WFJA==
-Message-ID: <b23eaa2a-6400-cf36-484b-230ac502f64d@vivier.eu>
-Date: Tue, 18 Feb 2020 20:15:45 +0100
+Message-ID: <8ff580e0-df11-05e6-101f-3afef1a72778@vivier.eu>
+Date: Tue, 18 Feb 2020 20:16:33 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200215161557.4077-3-philmd@redhat.com>
+In-Reply-To: <20200215161557.4077-4-philmd@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:TBdtUz+1MSKiCBFTCdmdtqkzFrlQ6J36Ol9im0NOlKNdYHnjtKR
- m7HQhBRjniSIIrJV58ABEABvNtU1HaPqL1Y6JFs8aLfEEFHVoY59CDDDrOOSVgW7ksPxZSS
- UnLwOGj2i2Fxy6YG72kw23o+xTSaxxzOVKKtTi+mNwGz2FeXprhYlRuBS54t4nKyc/uQSgf
- DdKcu1BRWaGej6I0m6q1w==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:5zqEhyqnyqc=:qzBBzpVSLJ611GyQKf+6mp
- QO7By5BaZirhTkbZwvysd6MyYf2B5B046L5yrjlCVbow/8gsPTKqFF2MAPHT0v5D3SYRoOzov
- sIe9trw2iEU6jd9vN06t9eZyY/IQmcDrZMMFUpBgkDADeQMxJmixQvg8tQhRlXoSTnETM4HK3
- msX8+RZ2Ot4tVPzCoSyiVm3c9BQH5UnA8VVjKTf/dJAWkrAwEoyVK8BMHu426JNGtisXPgRTk
- Z8jEEzwcoLBEGFuHJXlwJVbuwz/ijzyKdi6qJaf8o1t42555I3gvfVfDzewIKJxMThlqkGf9g
- rN8Ll5d4BTs5RJSc8gvHL4wzBodn0hyPGHsXmCTvHlgY9WoOGL76aN6Lk0o5Ay3x0iE5ZPPjT
- GfxrZa+KOxc5PwHTz1NfJ75poNOoumk1B06PpTNvKGb/R+j4OcSNPgszLwQdfCRR1PGglXFUQ
- pYBMg2VxpkER+RxQaI1HsM0QFMln6Mtc32aoUaIMARpsLvNKV5uu9TzMNKJN6/ApHEVDprJgO
- OsrhtP6N2nHXQ5CaaJNDqA5gkdqzURNuBXdYYHuZXktUA9u0wzIwQU0rNICeD5a300GETckbU
- 6x8BLa25Ag6r5ZNE5/KZntZWRLfcxAxU5rELCgZlldbe5M5Nw9dsKUV5CTm2RdZl9h1qg7Hu5
- ft/MRMXRNTLsMvAFLa8GY0ceUxAC2LXazYsKJWl9vYPGoydgCZ/mrWrFZvVvNS/BxEd5x6Yy6
- YClfVTP1kNVjcVYCydXV9B4jjBHeBYiwDX8WoBAumWayXyHnSlH5ovTRU7IREcm66Fj7BfJbz
- ZqPLfPb3QwrLN+zDr+TIIU5uO6UGheCtw721b4u1WGQTi6d8UqodWADBmnn43h7P4+vciDT
+X-Provags-ID: V03:K1:/7ig+46uIGVBp1xNJoBHY6N+oEHIBNpWTmqrYpZD3aZeb2Uogy4
+ uaTlvbIMGMJrQ9HwklzOaf785hxHmeF3PsWEKvkJsrZqYngxXUTCL+xUPY/tjn0r0VjbLyO
+ qxtDzOXjLfaY8YppEFbV+47THIGPHLkq3JmTWEc/BK+s5Fvw/I7uFyhma4od3jFKd6Dn4P3
+ zKmnb66vgYaS04baKqjvA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:NbehhBjCvsg=:XxKUe5j03+s11qftZTxq8E
+ J/dL+D2m/krJdM+FrDWlRb+zP6Ak2nBgELkLZ+n641zk/pAYTsZW3D/C8sKTP3WpOgUmTX0cr
+ zCYP/dssl0BWq5EqtjpO5sHW8VDJuXzV6e+KJHNJaXVLFHM6jWcJzzOfxD5nRM4qfacS9d2zZ
+ BCI9bGygmQIl9F+Y6Ifd0l0+HBFh5znBSBVQs/f+cVuw1JqD1n87dhD1I3Z2+IO5+i60h7H6F
+ wyjIF4+PX65HX5vZJf698z5E7EFgixlGIJ80qV8WE7T860bjc16Ii20uKFs0lQRyMNd4X1cz1
+ m5l4zZ81oJsXx11XyXtFfUlCM9iRb6j3uyhB4OMlhrrA6jhzvr6XWzAQWaU1NBBDJQz3cXzL3
+ nA13zp1kLqH/cYFjIhsfhetblJl4uwuR7AoakbKK02sQU/auxTmvIqr5EbfRtfWGENfIRYf6r
+ WvTqj8oQC+Crr1aabTK1VOBnYrMtc3161XJdbyLj+Zop2PlvRShYVEZtWIArUKyrEIIthX/GM
+ wc0GcaseitvrAz88RM5yMgdQy7avsrmUl0xDSm8b/Ir3yso2Tv10dzHzC/PHVzXIwJZJKAq/5
+ oIcxFdvozRjwzRxMUVBC9Wpy9rJ+wpK+DDC6dBYAbtfOCMLQYiE0HVFt7Ud+qkXevopqks523
+ TEZAPzZXaFcJrJy346uCt75TX3Q/2akNqILFZgQ/Xa+Xc1IRw0zvvbhvDPmfhpFsIf/KlxM4Q
+ NS7PRkKECSRIQWYOWeeFa64YM0KO2b00UTzcJouCPubDo//HO+vIUgZvbNJ8xidZ8025e7l4V
+ wdy894xD6b/Va+hl1BgXfiz4/6R9tTEmBEI15uFEKN3RcDrxgB31JMGusiiOO+nzRyiSz4Z
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.126.187
+X-Received-From: 212.227.126.133
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -120,33 +121,34 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Le 15/02/2020 à 17:15, Philippe Mathieu-Daudé a écrit :
 > Fix warning reported by Clang static code analyzer:
 > 
->   hw/display/qxl.c:1634:14: warning: Value stored to 'orig_io_port' during its initialization is never read
->       uint32_t orig_io_port = io_port;
->                ^~~~~~~~~~~~   ~~~~~~~
+>     CC      hw/block/pflash_cfi02.o
+>   hw/block/pflash_cfi02.c:311:5: warning: Value stored to 'ret' is never read
+>       ret = -1;
+>       ^     ~~
 > 
 > Reported-by: Clang Static Analyzer
 > Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 > ---
->  hw/display/qxl.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  hw/block/pflash_cfi02.c | 1 -
+>  1 file changed, 1 deletion(-)
 > 
-> diff --git a/hw/display/qxl.c b/hw/display/qxl.c
-> index 64884da708..21a43a1d5e 100644
-> --- a/hw/display/qxl.c
-> +++ b/hw/display/qxl.c
-> @@ -1631,7 +1631,7 @@ static void ioport_write(void *opaque, hwaddr addr,
->      PCIQXLDevice *d = opaque;
->      uint32_t io_port = addr;
->      qxl_async_io async = QXL_SYNC;
-> -    uint32_t orig_io_port = io_port;
-> +    uint32_t orig_io_port;
+> diff --git a/hw/block/pflash_cfi02.c b/hw/block/pflash_cfi02.c
+> index 7c4744c020..12f18d401a 100644
+> --- a/hw/block/pflash_cfi02.c
+> +++ b/hw/block/pflash_cfi02.c
+> @@ -308,7 +308,6 @@ static uint64_t pflash_read(void *opaque, hwaddr offset, unsigned int width)
+>      hwaddr boff;
+>      uint64_t ret;
 >  
->      if (d->guest_bug && io_port != QXL_IO_RESET) {
->          return;
+> -    ret = -1;
+>      /* Lazy reset to ROMD mode after a certain amount of read accesses */
+>      if (!pfl->rom_mode && pfl->wcycle == 0 &&
+>          ++pfl->read_counter > PFLASH_LAZY_ROMD_THRESHOLD) {
 > 
 
 Applied to my trivial-patches branch.
 
 Thanks,
 Laurent
+
 
