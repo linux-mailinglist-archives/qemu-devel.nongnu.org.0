@@ -2,66 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE3AA1626C3
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 14:05:38 +0100 (CET)
-Received: from localhost ([::1]:34379 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97B401626CC
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 14:08:35 +0100 (CET)
+Received: from localhost ([::1]:34440 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j42ZF-0008Ml-R9
-	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 08:05:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40259)
+	id 1j42c6-0003PV-Kb
+	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 08:08:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40502)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <quintela@redhat.com>) id 1j42Hl-0003vF-W3
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 07:47:34 -0500
+ (envelope-from <clg@kaod.org>) id 1j42JB-0006NJ-7F
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 07:49:04 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <quintela@redhat.com>) id 1j42Hk-0003az-W9
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 07:47:33 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:29338
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <clg@kaod.org>) id 1j42JA-0004LW-1F
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 07:49:00 -0500
+Received: from 7.mo179.mail-out.ovh.net ([46.105.61.94]:59725)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1j42Hk-0003ad-So
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 07:47:32 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582030051;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=nNfLoJ3DaY3UOWBIwgxG3fSeou/ayuvuxmGuZdRCgII=;
- b=TA4lVPba3qLyQJ7WO9fdwJT57fFQIwPnsNHlhWUJj1gVLQi0AVBa9vEnWgcEBGe5EkRHCQ
- A+fR8AmS8Y4WqT+ZhvJz09CfsLZokvnZeSSVKL8CZcywk97XJ0c1KfCCw8C06VF9jpbJ/d
- PL7REFP1/Uvp/zeH3smSY4g1H1mP0AQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-408-dP-RcCD0ND6gq_HYbI1fgQ-1; Tue, 18 Feb 2020 07:47:27 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C4C04100550E;
- Tue, 18 Feb 2020 12:47:26 +0000 (UTC)
-Received: from redhat.com (ovpn-117-81.ams2.redhat.com [10.36.117.81])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 89CBC85748;
- Tue, 18 Feb 2020 12:47:23 +0000 (UTC)
-From: Juan Quintela <quintela@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [PATCH] migration/block: rename BLOCK_SIZE macro
-In-Reply-To: <20200218110209.800294-1-stefanha@redhat.com> (Stefan Hajnoczi's
- message of "Tue, 18 Feb 2020 11:02:09 +0000")
-References: <20200218110209.800294-1-stefanha@redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
-Date: Tue, 18 Feb 2020 13:47:20 +0100
-Message-ID: <87blpwm59j.fsf@secure.laptop>
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1j42J8-0004II-SC
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 07:48:59 -0500
+Received: from player157.ha.ovh.net (unknown [10.108.42.202])
+ by mo179.mail-out.ovh.net (Postfix) with ESMTP id 7589A1598ED
+ for <qemu-devel@nongnu.org>; Tue, 18 Feb 2020 13:48:55 +0100 (CET)
+Received: from kaod.org (82-64-250-170.subs.proxad.net [82.64.250.170])
+ (Authenticated sender: clg@kaod.org)
+ by player157.ha.ovh.net (Postfix) with ESMTPSA id 44536F80E943;
+ Tue, 18 Feb 2020 12:48:51 +0000 (UTC)
+Subject: Re: [PULL SUBSYSTEM qemu-pseries] pseries: Update SLOF firmware image
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+To: Alexey Kardashevskiy <aik@ozlabs.ru>,
+ David Gibson <david@gibson.dropbear.id.au>
+References: <20200217021217.95766-1-aik@ozlabs.ru>
+ <8e67117e-e74a-fb5c-226b-78e62ac26291@kaod.org>
+ <44499677-3099-56c6-7249-afa8eccc7668@ozlabs.ru>
+ <bdfb7d07-c5fd-c21e-f812-4a0a747b02c3@kaod.org>
+ <0c21bb33-e6c0-c117-c9e7-dda16d3b13a5@ozlabs.ru>
+ <4a8261b3-3842-869c-0997-b997229ff3f6@ozlabs.ru>
+ <20649920-f867-7193-e86e-89b42ec6ae97@kaod.org>
+Message-ID: <474f7204-fcee-ae4b-eb9a-d5d0a987c4a2@kaod.org>
+Date: Tue, 18 Feb 2020 13:48:48 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: dP-RcCD0ND6gq_HYbI1fgQ-1
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+In-Reply-To: <20649920-f867-7193-e86e-89b42ec6ae97@kaod.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+X-Ovh-Tracer-Id: 15940209409176668992
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedugedrjeekgdeghecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefuhffvfhfkffgfgggjtgfgsehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecukfhppedtrddtrddtrddtpdekvddrieegrddvhedtrddujedtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrudehjedrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhg
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-Received-From: 46.105.61.94
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,23 +64,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
-Cc: Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org, qemu-block@nongnu.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Stefan Hajnoczi <stefanha@redhat.com> wrote:
-> Both <linux/fs.h> and <sys/mount.h> define BLOCK_SIZE macros.  Avoiding
-> using that name in block/migration.c.
+On 2/18/20 10:40 AM, C=C3=A9dric Le Goater wrote:
+> On 2/18/20 10:10 AM, Alexey Kardashevskiy wrote:
+>>
+>>
+>> On 18/02/2020 20:05, Alexey Kardashevskiy wrote:
+>>>
+>>>
+>>> On 18/02/2020 18:12, C=C3=A9dric Le Goater wrote:
+>>>> On 2/18/20 1:30 AM, Alexey Kardashevskiy wrote:
+>>>>>
+>>>>>
+>>>>> On 17/02/2020 20:48, C=C3=A9dric Le Goater wrote:
+>>>>>> On 2/17/20 3:12 AM, Alexey Kardashevskiy wrote:
+>>>>>>> The following changes since commit 05943fb4ca41f626078014c0327781=
+815c6584c5:
+>>>>>>>
+>>>>>>>   ppc: free 'fdt' after reset the machine (2020-02-17 11:27:23 +1=
+100)
+>>>>>>>
+>>>>>>> are available in the Git repository at:
+>>>>>>>
+>>>>>>>   git@github.com:aik/qemu.git tags/qemu-slof-20200217
+>>>>>>>
+>>>>>>> for you to fetch changes up to ea9a03e5aa023c5391bab5259898475d02=
+98aac2:
+>>>>>>>
+>>>>>>>   pseries: Update SLOF firmware image (2020-02-17 13:08:59 +1100)
+>>>>>>>
+>>>>>>> ----------------------------------------------------------------
+>>>>>>> Alexey Kardashevskiy (1):
+>>>>>>>       pseries: Update SLOF firmware image
+>>>>>>>
+>>>>>>>  pc-bios/README   |   2 +-
+>>>>>>>  pc-bios/slof.bin | Bin 931032 -> 968560 bytes
+>>>>>>>  roms/SLOF        |   2 +-
+>>>>>>>  3 files changed, 2 insertions(+), 2 deletions(-)
+>>>>>>>
+>>>>>>>
+>>>>>>> *** Note: this is not for master, this is for pseries
+>>>>>>>
+>>>>>>
+>>>>>> Hello Alexey,
+>>>>>>
+>>>>>> QEMU fails to boot from disk. See below.
+>>>>>
+>>>>>
+>>>>> It does boot mine (fedora 30, ubuntu 18.04), see below. I believe I
+>>>>> could have broken something but I need more detail. Thanks,
+>>>>
+>>>> fedora31 boots but not ubuntu 19.10. Could it be GRUB version 2.04 ?=
+=20
+>>>
+>>>
+>>> No, not that either:
+>>
+>>
+>> but it might be because of power9 - I only tried power8, rsyncing the
+>> image to a p9 machine now...
+>=20
+> Here is the disk :=20
+>=20
+> Disk /dev/sda: 50 GiB, 53687091200 bytes, 104857600 sectors
+> Disk model: QEMU HARDDISK  =20
+> Units: sectors of 1 * 512 =3D 512 bytes
+> Sector size (logical/physical): 512 bytes / 512 bytes
+> I/O size (minimum/optimal): 512 bytes / 512 bytes
+> Disklabel type: gpt
+> Disk identifier: 27DCE458-231A-4981-9FF1-983F87C2902D
+>=20
+> Device         Start       End   Sectors Size Type
+> /dev/sda1       2048     16383     14336   7M PowerPC PReP boot
+> /dev/sda2      16384 100679679 100663296  48G Linux filesystem
+> /dev/sda3  100679680 104857566   4177887   2G Linux swap
+>=20
 >
-> I noticed this when including <liburing.h> (Linux io_uring) from
-> "block/aio.h" and compilation failed.  Although patches adding that
-> include haven't been sent yet, it makes sense to rename the macro now in
-> case someone else stumbles on it in the meantime.
->
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> GPT ?=20
 
-Reviewed-by: Juan Quintela <quintela@redhat.com>
+For the failure, I bisected up to :
 
+f12149908705 ("ext2: Read all 64bit of inode number")
+
+Also, commit e05b681b32df ("disk-label: Try ext2 filesystem when
+booting from GPT partition") adds a weird "slash not found"
+message :
+
+Trying to load:  from: /pci@800000020000000/scsi@1/disk@100000000000000 .=
+..  slash  not found   Successfully loaded
+
+Thanks,
+
+C.
 
