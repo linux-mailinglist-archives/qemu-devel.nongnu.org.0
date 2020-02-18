@@ -2,63 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D64B41620DD
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 07:29:49 +0100 (CET)
-Received: from localhost ([::1]:57290 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9FA71620F8
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 07:37:17 +0100 (CET)
+Received: from localhost ([::1]:57366 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j3wOC-0006eC-VM
-	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 01:29:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48388)
+	id 1j3wVQ-0003DD-NM
+	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 01:37:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48910)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1j3wNR-0005pU-Nx
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 01:29:02 -0500
+ id 1j3wSX-000803-VX
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 01:34:20 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1j3wNQ-0005oD-RC
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 01:29:01 -0500
-Received: from mail-yw1-f68.google.com ([209.85.161.68]:41307)
+ id 1j3wSX-0007C5-0F
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 01:34:17 -0500
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:51176)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1j3wNQ-0005o6-Nx
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 01:29:00 -0500
-Received: by mail-yw1-f68.google.com with SMTP id l22so8945965ywc.8
- for <qemu-devel@nongnu.org>; Mon, 17 Feb 2020 22:29:00 -0800 (PST)
+ id 1j3wSW-00078s-Hk
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 01:34:16 -0500
+Received: by mail-wm1-x329.google.com with SMTP id a5so1545346wmb.0
+ for <qemu-devel@nongnu.org>; Mon, 17 Feb 2020 22:33:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=frPN5dFAaj2MWYJF/kX/45dwUwTy4qTt8SEaHdZJjwE=;
+ b=KnzRxtQ8DHdX58TnhtxZyzWQsX6LWzAokCYtHrmvbKZSCWMEXk3MIWTrSJVST5/KE1
+ 45nBFwPLGDZl1Bhf59sv53kDn2LRVFsTRtERG0QbCe5SonMvd75yuQJNKftd130+12Ar
+ /CM6yo9xwD6yVLk128hmx886o5oA9kyLuFwoAsHA8fGeb2uomd+kIzSYBy1TSdQFh0sC
+ 9mchya3r3tjqlftzr21w5Dh+DYvdY9wN2Kb9TE8lKhydZGHPemW8tdj0Hwr48YvSebGC
+ MExACgKXMyobr91VGejDskGCEEERsw/AMhd5PHJtMl+Q1DhiF7YPjBvMOMqymLG1Olaa
+ dmFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=LMU0TbuonwK/4gbdQQ5ytCm8TdvdcK/pDctICBh9Vig=;
- b=VzuieIlgzqwyamkUfnKEwTGmpfZh5cyTbzxmpRGgYQ9QcU0IGYI/QnwXS5m4yMjkqx
- wm7vOX3e9Uc9KKmhmroS04hT5pH254W8eEUkIGUpmBkvp9OVwZOpW53C0+tdPUKTGX+D
- ZWXmMIo+3/poKgHtZjG2NRwKwC9dBOBblMDhSPQq3GOExuNAueJbZI3EbZbdHoaO4drF
- iOU+KTDQcg/MEAhPPSqSN1sQ571hvomXcZHCBC7W3mrb51f2DF1rSU/gXNtoVaB3G55M
- I8m0emNqUplbpAby0Nz2g6chhP/LjfzimDXKMfUNMCMdyNSnlDiEjk2cyfXrICVaAw84
- Dsfw==
-X-Gm-Message-State: APjAAAUYnfVasZOkLOgzlIH2p8uNhR3fWbcoxYhiGCLtw0rwvmZQpW/r
- EQmDTrVAP1BxSXFb5u/PY7rxqPIq4PUY0u9A0po=
-X-Google-Smtp-Source: APXvYqxCz+A/WNgHAxJ/5YRIL+B8Gh04GWZT/bUOb6kaYftOX3MSZ6hQ1pqYyD90sKqbuIz0nhD5xXaXiGDx3B4EhE8=
-X-Received: by 2002:a81:4f8b:: with SMTP id
- d133mr16267541ywb.368.1582007339900; 
- Mon, 17 Feb 2020 22:28:59 -0800 (PST)
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=frPN5dFAaj2MWYJF/kX/45dwUwTy4qTt8SEaHdZJjwE=;
+ b=uD56hzwGlFcf1KxXpmj02HhL41oS6xdgJQjdUsqjhfU8clJdZW8qi49EZXX6P6E/Y0
+ S3wJI6rVqYEy8pfHN2ZPTQerEnTgbF7nGCU1JyKAaqJd/E/avUGc9rAX0IoyopYaPM2g
+ wAS2NkIX25B34qXdMXYr/f3RCmceqFlge/7RrdVox+3QcVigmTImCSWkZim/YUQeKSfI
+ 9n9Giw2O6Ku8bCGMqGwAxkhyear6Ym3aPdZ3Qs8DIVKzvtv5fMKcHyzokwEC9aW0Og39
+ qyJ7HEln4QiG4AWCOSbsFmm8izzm+ayjKQ9TC99fIrtKYFZd7SQjGrYy1oNDBzlAIlmq
+ zURw==
+X-Gm-Message-State: APjAAAVdgdAr8w044Gn3liUI+5kdWCaARCZcEeroQnfcNtwVtYkKr7Cg
+ bcnA2fWo6dkDH4dNPgdcspo=
+X-Google-Smtp-Source: APXvYqxIf2oKkm04Tz7S8RiLaFH34IKcn/sDWdi+Eq3FFVxhq443G4FD6Cf3O8WAGIzeLfPXDqILQg==
+X-Received: by 2002:a1c:6389:: with SMTP id x131mr1080177wmb.174.1582007637526; 
+ Mon, 17 Feb 2020 22:33:57 -0800 (PST)
+Received: from x1w.redhat.com (78.red-88-21-202.staticip.rima-tde.net.
+ [88.21.202.78])
+ by smtp.gmail.com with ESMTPSA id y7sm4374683wrr.56.2020.02.17.22.33.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 17 Feb 2020 22:33:57 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: Helge Deller <deller@gmx.de>, qemu-devel@nongnu.org,
+ Sven Schnelle <svens@stackframe.org>
+Subject: [PATCH v2 0/4] hw/hppa/dino: Fix Coverity 1419387 / 1419393 / 1419394
+Date: Tue, 18 Feb 2020 07:33:51 +0100
+Message-Id: <20200218063355.18577-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.21.1
 MIME-Version: 1.0
-References: <20200213234148.8434-1-f4bug@amsat.org>
- <20200213234148.8434-3-f4bug@amsat.org>
- <CAFEAcA_4=ZoBwV+X-k4ZSfNqrvDqt=hi0aetG4GFBUxXEeZBBQ@mail.gmail.com>
- <CAAdtpL6SLwxRqij30PHZ=mZuhbPcT7uTvSM+nm1ihcjhGbnRsw@mail.gmail.com>
-In-Reply-To: <CAAdtpL6SLwxRqij30PHZ=mZuhbPcT7uTvSM+nm1ihcjhGbnRsw@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Date: Tue, 18 Feb 2020 07:28:48 +0100
-Message-ID: <CAAdtpL58jg9U98j2-chswY6QnFCL6S1uz+L1iBjSFBeK8Vc9WA@mail.gmail.com>
-Subject: Re: [PATCH 2/4] hw/hppa/dino: Fix reg800_keep_bits[] overrun (CID
- 1419393 & 1419394)
-To: Peter Maydell <peter.maydell@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.161.68
+Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::329
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,29 +81,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Helge Deller <deller@gmx.de>, Sven Schnelle <svens@stackframe.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Richard Henderson <rth@twiddle.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Feb 18, 2020 at 7:19 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
-g> wrote:
-> On Mon, Feb 17, 2020 at 6:37 PM Peter Maydell <peter.maydell@linaro.org> =
-wrote:
-> > On Thu, 13 Feb 2020 at 23:44, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.=
-org> wrote:
-> >
-> >
-> > > Fixes: Covertiy CID 1419393 and 1419394 (commit 18092598a5)
-> > > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> >
-> > I think this also fixes CID 1419387 ?
->
-> Ah I missed this one, indeed it does.
+Easy fix for the overrun reported by Coverity.
 
-The description is erroneous, I'll respin.
+Since v1:
+- Fixed description to cover CID 1419387 (reported by Peter)
+  (no code change)
 
->
-> > thanks
-> > -- PMM
+Supersedes: <20200213234148.8434-1-f4bug@amsat.org>
+
+Philippe Mathieu-Daudé (4):
+  hw/hppa/dino: Add comments with register name
+  hw/hppa/dino: Fix reg800_keep_bits overrun (CID 1419387 1419393
+    1419394)
+  hw/hppa/dino: Fix bitmask for the PCIROR register
+  hw/hppa/dino: Do not accept accesses to registers 0x818 and 0x82c
+
+ hw/hppa/dino.c | 31 +++++++++++++++++--------------
+ 1 file changed, 17 insertions(+), 14 deletions(-)
+
+-- 
+2.21.1
+
 
