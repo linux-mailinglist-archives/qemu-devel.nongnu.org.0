@@ -2,57 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CF06162F77
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 20:11:38 +0100 (CET)
-Received: from localhost ([::1]:40470 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1CE1162F88
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 20:13:40 +0100 (CET)
+Received: from localhost ([::1]:40524 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j48HR-0005Z5-9h
-	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 14:11:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45132)
+	id 1j48JO-0000jQ-1l
+	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 14:13:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46553)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <geert.uytterhoeven@gmail.com>) id 1j48FK-0003zG-TU
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 14:09:27 -0500
+ (envelope-from <richard.henderson@linaro.org>) id 1j48Fv-0004pq-OK
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 14:10:04 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <geert.uytterhoeven@gmail.com>) id 1j48FJ-0000Ll-Ra
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 14:09:26 -0500
-Received: from mail-oi1-f193.google.com ([209.85.167.193]:42477)
+ (envelope-from <richard.henderson@linaro.org>) id 1j48Fu-0001iD-MZ
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 14:10:03 -0500
+Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:32972)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <geert.uytterhoeven@gmail.com>)
- id 1j48FI-0000JT-Q8
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 14:09:24 -0500
-Received: by mail-oi1-f193.google.com with SMTP id j132so21223705oih.9
- for <qemu-devel@nongnu.org>; Tue, 18 Feb 2020 11:09:24 -0800 (PST)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1j48Fu-0001gU-Gi
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 14:10:02 -0500
+Received: by mail-pl1-x641.google.com with SMTP id ay11so8468591plb.0
+ for <qemu-devel@nongnu.org>; Tue, 18 Feb 2020 11:10:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=hM3BmODxHsfSDsqzi/dhi4yKt4/pOP8vyrMHfxPPoU8=;
+ b=IMBlvJvTdEw1le/3ggdyZaL/x4azzyTn9ALiuudKi/gYoDduoPBbtbgN0FTMOgO1j8
+ qVHFGBwbMq3b4Rjrb2l5g9rTthaiXLYucS6ZH6XlZmYwpmB4Q8WKlDdXauqVl8fWQwpK
+ zFdeJintzrAHSRklojRfLwFZWLU32CwF5usFIZ8WrhmFKSS9SqcrmQVzfyOXZFhIALff
+ mkEU4zCbV2Lu0xPZwhu9AYL7KB2OP0UJimvuwmi2ZCNGv+UzmlHFYT58sSFolgyILC7d
+ 8fWWsl7FETkgJ/L5COdZOHId4kR95hk4l/Klh9d/BBCsSs7GDoB952t1RvzzPE7Mw2EX
+ j5eg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=4zbrnNvTNHgXxwjMJnfhT5sGHXVeYA3py+fC4nnQX1g=;
- b=jrOW6pUToU6TNrcDWyxhy0nsi3i9l+JLlr9P6ROo4FPwUF9TPJcO5w//QSxf038rAi
- 1R3uVahUXA9hPFt05jN+Und5Ynt+aw1PXWBNKu8a8X1+lmI6ZKCcP61vRsjF1bH3na6J
- 0xU/fipLEW8o5My6NBrMwqAtZLDHu0qZZkzAfl7p33L4WSS+EYNEhW3lq2y0ywiMGOf4
- 8Z8ttVQULbed19UzXfK7F7rUB1row4JtQgFWSvIurvgUBf4g6nTX1ac/OvLyk68gbcUk
- wkdt4OIeUOsOgMt13eJM/ytQVlNhci7ZEoZvh4s5HUUDbr3rZuFMcLw2W9JNuLIpcT/W
- kc4g==
-X-Gm-Message-State: APjAAAUblcjYrwXXA8uuA4o+gg71DtY4g1vDQb4TSKHRRocCqGupz6fg
- aTFdrNiPvtl2fFyAzleCLMCQ5BcKGngWIbl3jIM=
-X-Google-Smtp-Source: APXvYqwnKTCIB9GTLLpEL5W7g+LauaFKN7iZKQPh2++RZaJoaT+SssBYOvEoCXI/Jb080pGI7GySD9qCX6q6Z+PF39M=
-X-Received: by 2002:aca:48cd:: with SMTP id v196mr2308514oia.102.1582052963942; 
- Tue, 18 Feb 2020 11:09:23 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=hM3BmODxHsfSDsqzi/dhi4yKt4/pOP8vyrMHfxPPoU8=;
+ b=Hef0j5b9VwvJIhiUwv1TadGbQZyZyPrRq4JSCG6KYqCD47HMVthAKU+TB086AJMM5k
+ exk+rPTZplsu4Tbkq5sklF8fuRINzUJXIB12Mf2DY2M8NftpRzgI1j01qwJXyxTp2JIq
+ 8RaEKZBS3Aw/uu98UavSXc2Afz818bWXskgCiecC50HjSbzh9UWKwLJsovEIqUwWjh7+
+ UnnJKEF+0nSrrsrS6E1amPw8MZn7kgWXtSCpPQ7TJKpIqodFvPPi7SVLhwWlEDxIzU+k
+ 8yibyqhzKYJMy7vUHD8TqCVIEPDZhUTmgz7uZNmEyhY/N/NZNi503NuNi/6T9LpjElr5
+ 0ELw==
+X-Gm-Message-State: APjAAAWwXEwbMzWIZINM5tpuFKLFuPpZ5E/wu6JMJuiBqxofzo3uhl1o
+ 7b+XmnD6lwTNiheUAo8VLTZ+5mmgBg4=
+X-Google-Smtp-Source: APXvYqzwklJcSgoSdHaSqvx8RKsQc1p1Q22c2iq2bKRgvxb4pHdapH4BPPehl2gblNB0+WBCCxlwrA==
+X-Received: by 2002:a17:902:204:: with SMTP id
+ 4mr22688063plc.266.1582053000912; 
+ Tue, 18 Feb 2020 11:10:00 -0800 (PST)
+Received: from localhost.localdomain (97-126-123-70.tukw.qwest.net.
+ [97.126.123.70])
+ by smtp.gmail.com with ESMTPSA id i68sm5139399pfe.173.2020.02.18.11.09.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 18 Feb 2020 11:10:00 -0800 (PST)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 0/7] target/arm: Honor more HCR_EL2 traps
+Date: Tue, 18 Feb 2020 11:09:51 -0800
+Message-Id: <20200218190958.745-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20200218151812.7816-1-geert+renesas@glider.be>
- <20200218151812.7816-5-geert+renesas@glider.be>
- <e2530fff-a17c-ae90-ba92-360b828582da@infradead.org>
-In-Reply-To: <e2530fff-a17c-ae90-ba92-360b828582da@infradead.org>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 18 Feb 2020 20:09:12 +0100
-Message-ID: <CAMuHMdU9=vgO6ohoYTQMGjoFzhRy=4hYGjVyRsTK2uoNsU08XQ@mail.gmail.com>
-Subject: Re: [PATCH v5 4/5] docs: gpio: Add GPIO Aggregator documentation
-To: Randy Dunlap <rdunlap@infradead.org>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.167.193
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::641
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,72 +77,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Phil Reid <preid@electromag.com.au>,
- Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <marc.zyngier@arm.com>,
- Linus Walleij <linus.walleij@linaro.org>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- Magnus Damm <magnus.damm@gmail.com>,
- Christoffer Dall <christoffer.dall@arm.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
- Bartosz Golaszewski <bgolaszewski@baylibre.com>,
- Rob Herring <robh+dt@kernel.org>, Harish Jenny K N <harish_kandiga@mentor.com>,
- "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Alexander Graf <graf@amazon.com>,
- Eugeniu Rosca <erosca@de.adit-jv.com>
+Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Randy,
+Based-on: 20200214175116.9164-1-peter.maydell@linaro.org
+("arm: ARMv8.1- and v8.4-PMU, ID reg cleanup, [H]ACTLR2")
 
-On Tue, Feb 18, 2020 at 7:30 PM Randy Dunlap <rdunlap@infradead.org> wrote:
-> On 2/18/20 7:18 AM, Geert Uytterhoeven wrote:
-> > Document the GPIO Aggregator, and the two typical use-cases.
-> >
-> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Patch 1 is a latent error that I noticed while reviewing
+Peter's patch set.
 
-> > --- /dev/null
-> > +++ b/Documentation/admin-guide/gpio/gpio-aggregator.rst
-> > @@ -0,0 +1,102 @@
-> > +.. SPDX-License-Identifier: GPL-2.0-only
-> > +
-> > +GPIO Aggregator
-> > +===============
-> > +
-> > +The GPIO Aggregator allows to aggregate GPIOs, and expose them as a new
->
-> "allows" really wants an object following the verb [although the kernel sources
-> and docs have many cases of it not having an object].  Something like
->
->                        allows {you, one, someone, users, a user} to aggregate
+Patches 2 and 3 have already appeared separately on list,
+with patch 2 bearing a v2.  Thus this patch set is labeled v3.
 
-Thanks for the hint!
+Patch 4 is dependant on Peter's [H]ACTLR2 fix, and the reason
+for the Based-on tag.
 
-> > +             Example: Instantiate a new GPIO aggregator by aggregating GPIO
-> > +             19 of "e6052000.gpio" and GPIOs 20-21 of "gpiochip2" into a new
-> > +             gpio_chip:
-> > +
-> > +             .. code-block:: bash
-> > +
-> > +                 echo 'e6052000.gpio 19 gpiochip2 20-21' > new_device
-> > +
->
-> Does the above command tell the user that the new device is named
-> "gpio-aggregator.0", as used below?
 
-Yes, it will be printed through the kernel log, cfr. the sample session in
-the cover letter.
+r~
 
-Gr{oetje,eeting}s,
 
-                        Geert
+Richard Henderson (7):
+  target/arm: Set ID_MMFR4.HPDS for aarch64_max_initfn
+  target/arm: Honor the HCR_EL2.{TVM,TRVM} bits
+  target/arm: Honor the HCR_EL2.TSW bit
+  target/arm: Honor the HCR_EL2.TACR bit
+  target/arm: Honor the HCR_EL2.TPCP bit
+  target/arm: Honor the HCR_EL2.TPU bit
+  target/arm: Honor the HCR_EL2.TTLB bit
+
+ target/arm/cpu64.c  |   1 +
+ target/arm/helper.c | 284 ++++++++++++++++++++++++++++++--------------
+ 2 files changed, 196 insertions(+), 89 deletions(-)
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.20.1
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
 
