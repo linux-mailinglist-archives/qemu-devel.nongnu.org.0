@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 756A4162DA5
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 19:02:22 +0100 (CET)
-Received: from localhost ([::1]:39656 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04B88162DB6
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 19:03:51 +0100 (CET)
+Received: from localhost ([::1]:39676 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j47CP-0007Bz-I0
-	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 13:02:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58042)
+	id 1j47Dq-0000j2-2N
+	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 13:03:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58250)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1j478L-0003kB-1L
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 12:58:15 -0500
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1j4791-0004nV-GR
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 12:58:57 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1j478E-0002p5-Eb
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 12:58:08 -0500
-Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:41096)
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1j478u-0003Kz-SL
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 12:58:51 -0500
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:43118)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
- id 1j478E-0002oT-2H; Tue, 18 Feb 2020 12:58:02 -0500
-Received: by mail-oi1-x241.google.com with SMTP id i1so20965450oie.8;
- Tue, 18 Feb 2020 09:58:02 -0800 (PST)
+ id 1j478u-0003KS-FV; Tue, 18 Feb 2020 12:58:44 -0500
+Received: by mail-ot1-x343.google.com with SMTP id p8so20337270oth.10;
+ Tue, 18 Feb 2020 09:58:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:in-reply-to:references:from:date:message-id:subject:to
- :cc; bh=RqXVvc01eVUlo0HqgZi+UzVgR6TwTtC0QEqfYZRLXNo=;
- b=BJloErwv73DSqIEbc/x7Fcesuvqimst1SqImGZiFIr8Ib+/l0Szu4hR2iaA3yhmXWb
- 0pKwp9+fAkLSiFsHCTIGPK6Yq0dfJCoHdXPEo1UEQeGV8yPJdsFASJwjd38xPMy7HZWh
- TKLM7aoDs4r0uotdsBKjbpO8wbDWDlE8CIB6MwTK5X6CLWClpNzITPxF63GI5MRoh4cZ
- kmlSssDi0/TNkRMYsL0sd7UI91kDXZ+zh7y6YrWGp6CSaHYN5OhqskvGwYFsa1dA62vM
- FgPwP3j3pH08SSP3iRrteeeeufV5y3y6XO+egbjm6Qo4I9YJFhGLqsP353HBVNyKiEO6
- A33w==
+ :cc; bh=gK7oQLZ8BQLHfRsCus978wUtq+/8SHWfjMDc56DlzhI=;
+ b=K734DwgRu8pkAFqPwn/Bx7ip8151FRzWXiyhuIi9klWqqqWfuXVIXfF/F7U7RjJVQE
+ FxjYproh+loccH5VrhyA8a0qbgx34t4cZDYEGm5gNRNuae75/N88S0L5PqLrW4LL7Ras
+ cCaX454Odavb4TdteCXdFB0Jf2OnT/VRm0qG3SPEeg5dd2iRpxXxkKnMcdkbvzrW3MY4
+ IMF8OOhw5IXd2KohBd+uPCGdRtiuVGHUG9/hmFHvz2QzN1FWoLApH40yyvfWIhPj8/v6
+ gbU8WH2ekKUeumchf7OOyvgWkz94eiCiQr/NC1dFclpE79fYptw3XNx/YiCBmZLUzgDY
+ gpaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:in-reply-to:references:from:date
  :message-id:subject:to:cc;
- bh=RqXVvc01eVUlo0HqgZi+UzVgR6TwTtC0QEqfYZRLXNo=;
- b=N6A/8ALpEn3N9uFJjc4I4tZ7ugQymtDP2PS+IlHPrnRxsMkBgjcx3bmLXNZwJ31/xH
- I8zdxMAX4+AiEZav1lDQiFdDWCSlZiob5svw5CyYPI6HgSheiGBHmFQ+i9xcXQxRNH/N
- 1rKX5PgGOLIKl1U5wM/xd+WICIl4yhmluOcuRqCR8wmFLoVFwUQgaoLu7GbRW98bZ4y/
- gre31MFsFZot/fxqrzQxIw/kE4DDaFnEhrlBUOKfI23VZAQveDD5a4YsATrDbAFzvtQm
- zzfA5uHpNM6FqkHx9Qg6MPqWpZAFtRjm9CYclq8nVZU5vama23bPXA++buwjDBL+ChRl
- VjSA==
-X-Gm-Message-State: APjAAAX1dzJeBBm3MjiUTPcrQimHRDPO8s3A+YXTtWUuvM/KezLs/1Nb
- 7ZpWPwQk5F8D/BMt1Ruu+fLQ8y6HMpO4QjF1Ct4=
-X-Google-Smtp-Source: APXvYqy9X7Eau3qL3CSye1XZJj2O6LoptPyWtn8AcmWmgoyoztH5C4oFC+QhUzR3Iy1uxd3XC8Ct8kCF+fRy3DW36NM=
-X-Received: by 2002:aca:4ece:: with SMTP id c197mr2061351oib.53.1582048681194; 
- Tue, 18 Feb 2020 09:58:01 -0800 (PST)
+ bh=gK7oQLZ8BQLHfRsCus978wUtq+/8SHWfjMDc56DlzhI=;
+ b=etZUF2R4yN6sexRbRfG0gdTI/rHYV9u7tRD0azfoEhMcb919k/QBjDNHiMtjp2Neqc
+ tGOo9FLRZTe8l9VG88hUsw1rqXZRtkzeBuJvmdGoMbvU6tzN0s+cnyGjOTDgTM7TF0jA
+ 1a4ggtcd7Ro8Tso7mdE/sh0x+LLz9VbIGp7IoIVmYi4CpJAbOiXG+z8VBn46yRQMnCR4
+ 3ymAJ3MddXLYVZwp8cp/xV4wq+CexRYw1Tu1Q8OJ158lGOfgctuiBswfeZnnoWqLkQnI
+ tLcEsOt9hFYbFVAhBASgxHtGRh45jDVjaNFpGs80xHpjhOd1tI4lAfXtv28e2XFRi7LY
+ Cqiw==
+X-Gm-Message-State: APjAAAX5tX81t8lbQgyTJuZqcLX+5pyo0KnDlTJxY0rPPWVFC9NQRsbM
+ 9p1d5Lry9mRTn7pdtB8CD7g4Eyv09ULJryX1uhY=
+X-Google-Smtp-Source: APXvYqwtXRLcsQ5wR1+7+3JbIB5/G6KbK3Cx1pV/7z8YcBFb/psjn1jIYoEkAvzTLc0Nvn1PuT8Clw/8copCZVtjB/4=
+X-Received: by 2002:a05:6830:12c3:: with SMTP id
+ a3mr17214858otq.341.1582048723577; 
+ Tue, 18 Feb 2020 09:58:43 -0800 (PST)
 MIME-Version: 1.0
 Received: by 2002:a9d:d21:0:0:0:0:0 with HTTP;
- Tue, 18 Feb 2020 09:58:00 -0800 (PST)
-In-Reply-To: <20200217223558.863199-22-laurent@vivier.eu>
+ Tue, 18 Feb 2020 09:58:42 -0800 (PST)
+In-Reply-To: <20200217223558.863199-23-laurent@vivier.eu>
 References: <20200217223558.863199-1-laurent@vivier.eu>
- <20200217223558.863199-22-laurent@vivier.eu>
+ <20200217223558.863199-23-laurent@vivier.eu>
 From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Date: Tue, 18 Feb 2020 18:58:00 +0100
-Message-ID: <CAL1e-=hxuExGBLhy=mYvM3ZfXeZA2KpA6z-5=X6xta5WcM+p5A@mail.gmail.com>
-Subject: Re: [PATCH 21/22] linux-user,mips: move content of mips_syscall_args
+Date: Tue, 18 Feb 2020 18:58:42 +0100
+Message-ID: <CAL1e-=jgUR7-P+=NiBP-VoN1ha+p3WDMY_VaV8siYkgJ=ZSddQ@mail.gmail.com>
+Subject: Re: [PATCH 22/22] linux-user,mips: update syscall-args-o32.c.inc
 To: Laurent Vivier <laurent@vivier.eu>
-Content-Type: multipart/alternative; boundary="000000000000a8fa11059edd6910"
+Content-Type: multipart/alternative; boundary="0000000000002fca9f059edd6cce"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::241
+X-Received-From: 2607:f8b0:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,13 +83,12 @@ Cc: Cornelia Huck <cohuck@redhat.com>, Riku Voipio <riku.voipio@iki.fi>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000a8fa11059edd6910
+--0000000000002fca9f059edd6cce
 Content-Type: text/plain; charset="UTF-8"
 
 On Monday, February 17, 2020, Laurent Vivier <laurent@vivier.eu> wrote:
 
-> Move content of mips_syscall_args to mips-syscall-args-o32.c.inc to
-> ease automatic update. No functionnal change
+> Add a script to update the file from strace github and run it
 >
 > Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 > ---
@@ -97,21 +97,18 @@ On Monday, February 17, 2020, Laurent Vivier <laurent@vivier.eu> wrote:
 Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
 
 
->  linux-user/mips/cpu_loop.c             | 440 +------------------------
->  linux-user/mips/syscall-args-o32.c.inc | 438 ++++++++++++++++++++++++
->  2 files changed, 439 insertions(+), 439 deletions(-)
->  create mode 100644 linux-user/mips/syscall-args-o32.c.inc
+>  linux-user/mips/syscall-args-o32.c.inc | 874 ++++++++++++-------------
+>  scripts/update-mips-syscall-args.sh    |  57 ++
+>  2 files changed, 493 insertions(+), 438 deletions(-)
+>  create mode 100755 scripts/update-mips-syscall-args.sh
 >
-> diff --git a/linux-user/mips/cpu_loop.c b/linux-user/mips/cpu_loop.c
-> index 396367d81d8d..553e8ca7f576 100644
-> --- a/linux-user/mips/cpu_loop.c
-> +++ b/linux-user/mips/cpu_loop.c
-> @@ -26,447 +26,9 @@
->
->  # ifdef TARGET_ABI_MIPSO32
->  #  define MIPS_SYSCALL_NUMBER_UNUSED -1
+> diff --git a/linux-user/mips/syscall-args-o32.c.inc
+> b/linux-user/mips/syscall-args-o32.c.inc
+> index f060b061441a..0ad35857b4e4 100644
+> --- a/linux-user/mips/syscall-args-o32.c.inc
+> +++ b/linux-user/mips/syscall-args-o32.c.inc
+> @@ -1,438 +1,436 @@
 > -#  define MIPS_SYS(name, args) args,
->  static const int8_t mips_syscall_args[] = {
 > -        MIPS_SYS(sys_syscall    , 8)    /* 4000 */
 > -        MIPS_SYS(sys_exit       , 1)
 > -        MIPS_SYS(sys_fork       , 0)
@@ -548,1328 +545,1692 @@ Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
 > -        MIPS_SYS(sys_fspick, 3)
 > -        MIPS_SYS(sys_pidfd_open, 2)
 > -        MIPS_SYS(sys_clone3, 2)                    /* 435 */
-> -
-> +#include "syscall-args-o32.c.inc"
->  };
 > -#  undef MIPS_SYS
->  # endif /* O32 */
->
->  /* Break codes */
-> diff --git a/linux-user/mips/syscall-args-o32.c.inc
-> b/linux-user/mips/syscall-args-o32.c.inc
-> new file mode 100644
-> index 000000000000..f060b061441a
+> +    [   0] = 7, /* syscall */
+> +    [   1] = 1, /* exit */
+> +    [   2] = 0, /* fork */
+> +    [   3] = 3, /* read */
+> +    [   4] = 3, /* write */
+> +    [   5] = 3, /* open */
+> +    [   6] = 1, /* close */
+> +    [   7] = 3, /* waitpid */
+> +    [   8] = 2, /* creat */
+> +    [   9] = 2, /* link */
+> +    [  10] = 1, /* unlink */
+> +    [  11] = 3, /* execve */
+> +    [  12] = 1, /* chdir */
+> +    [  13] = 1, /* time */
+> +    [  14] = 3, /* mknod */
+> +    [  15] = 2, /* chmod */
+> +    [  16] = 3, /* lchown */
+> +    [  17] = 0, /* break */
+> +    [  18] = 2, /* oldstat */
+> +    [  19] = 3, /* lseek */
+> +    [  20] = 0, /* getpid */
+> +    [  21] = 5, /* mount */
+> +    [  22] = 1, /* umount */
+> +    [  23] = 1, /* setuid */
+> +    [  24] = 0, /* getuid */
+> +    [  25] = 1, /* stime */
+> +    [  26] = 4, /* ptrace */
+> +    [  27] = 1, /* alarm */
+> +    [  28] = 2, /* oldfstat */
+> +    [  29] = 0, /* pause */
+> +    [  30] = 2, /* utime */
+> +    [  31] = 0, /* stty */
+> +    [  32] = 0, /* gtty */
+> +    [  33] = 2, /* access */
+> +    [  34] = 1, /* nice */
+> +    [  35] = 1, /* ftime */
+> +    [  36] = 0, /* sync */
+> +    [  37] = 2, /* kill */
+> +    [  38] = 2, /* rename */
+> +    [  39] = 2, /* mkdir */
+> +    [  40] = 1, /* rmdir */
+> +    [  41] = 1, /* dup */
+> +    [  42] = 0, /* pipe */
+> +    [  43] = 1, /* times */
+> +    [  44] = 0, /* prof */
+> +    [  45] = 1, /* brk */
+> +    [  46] = 1, /* setgid */
+> +    [  47] = 0, /* getgid */
+> +    [  48] = 2, /* signal */
+> +    [  49] = 0, /* geteuid */
+> +    [  50] = 0, /* getegid */
+> +    [  51] = 1, /* acct */
+> +    [  52] = 2, /* umount2 */
+> +    [  53] = 0, /* lock */
+> +    [  54] = 3, /* ioctl */
+> +    [  55] = 3, /* fcntl */
+> +    [  56] = 0, /* mpx */
+> +    [  57] = 2, /* setpgid */
+> +    [  58] = 0, /* ulimit */
+> +    [  59] = 1, /* oldolduname */
+> +    [  60] = 1, /* umask */
+> +    [  61] = 1, /* chroot */
+> +    [  62] = 2, /* ustat */
+> +    [  63] = 2, /* dup2 */
+> +    [  64] = 0, /* getppid */
+> +    [  65] = 0, /* getpgrp */
+> +    [  66] = 0, /* setsid */
+> +    [  67] = 3, /* sigaction */
+> +    [  68] = 0, /* sgetmask */
+> +    [  69] = 1, /* ssetmask */
+> +    [  70] = 2, /* setreuid */
+> +    [  71] = 2, /* setregid */
+> +    [  72] = 1, /* sigsuspend */
+> +    [  73] = 1, /* sigpending */
+> +    [  74] = 2, /* sethostname */
+> +    [  75] = 2, /* setrlimit */
+> +    [  76] = 2, /* getrlimit */
+> +    [  77] = 2, /* getrusage */
+> +    [  78] = 2, /* gettimeofday */
+> +    [  79] = 2, /* settimeofday */
+> +    [  80] = 2, /* getgroups */
+> +    [  81] = 2, /* setgroups */
+> +    [  82] = 0, /* reserved82 */
+> +    [  83] = 2, /* symlink */
+> +    [  84] = 2, /* oldlstat */
+> +    [  85] = 3, /* readlink */
+> +    [  86] = 1, /* uselib */
+> +    [  87] = 2, /* swapon */
+> +    [  88] = 4, /* reboot */
+> +    [  89] = 3, /* readdir */
+> +    [  90] = 6, /* mmap */
+> +    [  91] = 2, /* munmap */
+> +    [  92] = 2, /* truncate */
+> +    [  93] = 2, /* ftruncate */
+> +    [  94] = 2, /* fchmod */
+> +    [  95] = 3, /* fchown */
+> +    [  96] = 2, /* getpriority */
+> +    [  97] = 3, /* setpriority */
+> +    [  98] = 0, /* profil */
+> +    [  99] = 2, /* statfs */
+> +    [ 100] = 2, /* fstatfs */
+> +    [ 101] = 3, /* ioperm */
+> +    [ 102] = 2, /* socketcall */
+> +    [ 103] = 3, /* syslog */
+> +    [ 104] = 3, /* setitimer */
+> +    [ 105] = 2, /* getitimer */
+> +    [ 106] = 2, /* stat */
+> +    [ 107] = 2, /* lstat */
+> +    [ 108] = 2, /* fstat */
+> +    [ 109] = 1, /* olduname */
+> +    [ 110] = 1, /* iopl */
+> +    [ 111] = 0, /* vhangup */
+> +    [ 112] = 0, /* idle */
+> +    [ 113] = 5, /* vm86 */
+> +    [ 114] = 4, /* wait4 */
+> +    [ 115] = 1, /* swapoff */
+> +    [ 116] = 1, /* sysinfo */
+> +    [ 117] = 6, /* ipc */
+> +    [ 118] = 1, /* fsync */
+> +    [ 119] = 0, /* sigreturn */
+> +    [ 120] = 5, /* clone */
+> +    [ 121] = 2, /* setdomainname */
+> +    [ 122] = 1, /* uname */
+> +    [ 123] = 0, /* modify_ldt */
+> +    [ 124] = 1, /* adjtimex */
+> +    [ 125] = 3, /* mprotect */
+> +    [ 126] = 3, /* sigprocmask */
+> +    [ 127] = 2, /* create_module */
+> +    [ 128] = 3, /* init_module */
+> +    [ 129] = 2, /* delete_module */
+> +    [ 130] = 1, /* get_kernel_syms */
+> +    [ 131] = 4, /* quotactl */
+> +    [ 132] = 1, /* getpgid */
+> +    [ 133] = 1, /* fchdir */
+> +    [ 134] = 2, /* bdflush */
+> +    [ 135] = 3, /* sysfs */
+> +    [ 136] = 1, /* personality */
+> +    [ 137] = 0, /* afs_syscall */
+> +    [ 138] = 1, /* setfsuid */
+> +    [ 139] = 1, /* setfsgid */
+> +    [ 140] = 5, /* _llseek */
+> +    [ 141] = 3, /* getdents */
+> +    [ 142] = 5, /* _newselect */
+> +    [ 143] = 2, /* flock */
+> +    [ 144] = 3, /* msync */
+> +    [ 145] = 3, /* readv */
+> +    [ 146] = 3, /* writev */
+> +    [ 147] = 3, /* cacheflush */
+> +    [ 148] = 3, /* cachectl */
+> +    [ 149] = 4, /* sysmips */
+> +    [ 150] = 0, /* setup */
+> +    [ 151] = 1, /* getsid */
+> +    [ 152] = 1, /* fdatasync */
+> +    [ 153] = 1, /* _sysctl */
+> +    [ 154] = 2, /* mlock */
+> +    [ 155] = 2, /* munlock */
+> +    [ 156] = 1, /* mlockall */
+> +    [ 157] = 0, /* munlockall */
+> +    [ 158] = 2, /* sched_setparam */
+> +    [ 159] = 2, /* sched_getparam */
+> +    [ 160] = 3, /* sched_setscheduler */
+> +    [ 161] = 1, /* sched_getscheduler */
+> +    [ 162] = 0, /* sched_yield */
+> +    [ 163] = 1, /* sched_get_priority_max */
+> +    [ 164] = 1, /* sched_get_priority_min */
+> +    [ 165] = 2, /* sched_rr_get_interval */
+> +    [ 166] = 2, /* nanosleep */
+> +    [ 167] = 5, /* mremap */
+> +    [ 168] = 3, /* accept */
+> +    [ 169] = 3, /* bind */
+> +    [ 170] = 3, /* connect */
+> +    [ 171] = 3, /* getpeername */
+> +    [ 172] = 3, /* getsockname */
+> +    [ 173] = 5, /* getsockopt */
+> +    [ 174] = 2, /* listen */
+> +    [ 175] = 4, /* recv */
+> +    [ 176] = 6, /* recvfrom */
+> +    [ 177] = 3, /* recvmsg */
+> +    [ 178] = 4, /* send */
+> +    [ 179] = 3, /* sendmsg */
+> +    [ 180] = 6, /* sendto */
+> +    [ 181] = 5, /* setsockopt */
+> +    [ 182] = 2, /* shutdown */
+> +    [ 183] = 3, /* socket */
+> +    [ 184] = 4, /* socketpair */
+> +    [ 185] = 3, /* setresuid */
+> +    [ 186] = 3, /* getresuid */
+> +    [ 187] = 5, /* query_module */
+> +    [ 188] = 3, /* poll */
+> +    [ 189] = 3, /* nfsservctl */
+> +    [ 190] = 3, /* setresgid */
+> +    [ 191] = 3, /* getresgid */
+> +    [ 192] = 5, /* prctl */
+> +    [ 193] = 0, /* rt_sigreturn */
+> +    [ 194] = 4, /* rt_sigaction */
+> +    [ 195] = 4, /* rt_sigprocmask */
+> +    [ 196] = 2, /* rt_sigpending */
+> +    [ 197] = 4, /* rt_sigtimedwait */
+> +    [ 198] = 3, /* rt_sigqueueinfo */
+> +    [ 199] = 2, /* rt_sigsuspend */
+> +    [ 200] = 6, /* pread64 */
+> +    [ 201] = 6, /* pwrite64 */
+> +    [ 202] = 3, /* chown */
+> +    [ 203] = 2, /* getcwd */
+> +    [ 204] = 2, /* capget */
+> +    [ 205] = 2, /* capset */
+> +    [ 206] = 2, /* sigaltstack */
+> +    [ 207] = 4, /* sendfile */
+> +    [ 208] = 5, /* getpmsg */
+> +    [ 209] = 5, /* putpmsg */
+> +    [ 210] = 6, /* mmap2 */
+> +    [ 211] = 4, /* truncate64 */
+> +    [ 212] = 4, /* ftruncate64 */
+> +    [ 213] = 2, /* stat64 */
+> +    [ 214] = 2, /* lstat64 */
+> +    [ 215] = 2, /* fstat64 */
+> +    [ 216] = 2, /* pivot_root */
+> +    [ 217] = 3, /* mincore */
+> +    [ 218] = 3, /* madvise */
+> +    [ 219] = 3, /* getdents64 */
+> +    [ 220] = 3, /* fcntl64 */
+> +    [ 221] = 0, /* reserved221 */
+> +    [ 222] = 0, /* gettid */
+> +    [ 223] = 5, /* readahead */
+> +    [ 224] = 5, /* setxattr */
+> +    [ 225] = 5, /* lsetxattr */
+> +    [ 226] = 5, /* fsetxattr */
+> +    [ 227] = 4, /* getxattr */
+> +    [ 228] = 4, /* lgetxattr */
+> +    [ 229] = 4, /* fgetxattr */
+> +    [ 230] = 3, /* listxattr */
+> +    [ 231] = 3, /* llistxattr */
+> +    [ 232] = 3, /* flistxattr */
+> +    [ 233] = 2, /* removexattr */
+> +    [ 234] = 2, /* lremovexattr */
+> +    [ 235] = 2, /* fremovexattr */
+> +    [ 236] = 2, /* tkill */
+> +    [ 237] = 4, /* sendfile64 */
+> +    [ 238] = 6, /* futex */
+> +    [ 239] = 3, /* sched_setaffinity */
+> +    [ 240] = 3, /* sched_getaffinity */
+> +    [ 241] = 2, /* io_setup */
+> +    [ 242] = 1, /* io_destroy */
+> +    [ 243] = 5, /* io_getevents */
+> +    [ 244] = 3, /* io_submit */
+> +    [ 245] = 3, /* io_cancel */
+> +    [ 246] = 1, /* exit_group */
+> +    [ 247] = 4, /* lookup_dcookie */
+> +    [ 248] = 1, /* epoll_create */
+> +    [ 249] = 4, /* epoll_ctl */
+> +    [ 250] = 4, /* epoll_wait */
+> +    [ 251] = 5, /* remap_file_pages */
+> +    [ 252] = 1, /* set_tid_address */
+> +    [ 253] = 0, /* restart_syscall */
+> +    [ 254] = 7, /* fadvise64 */
+> +    [ 255] = 3, /* statfs64 */
+> +    [ 256] = 3, /* fstatfs64 */
+> +    [ 257] = 3, /* timer_create */
+> +    [ 258] = 4, /* timer_settime */
+> +    [ 259] = 2, /* timer_gettime */
+> +    [ 260] = 1, /* timer_getoverrun */
+> +    [ 261] = 1, /* timer_delete */
+> +    [ 262] = 2, /* clock_settime */
+> +    [ 263] = 2, /* clock_gettime */
+> +    [ 264] = 2, /* clock_getres */
+> +    [ 265] = 4, /* clock_nanosleep */
+> +    [ 266] = 3, /* tgkill */
+> +    [ 267] = 2, /* utimes */
+> +    [ 268] = 6, /* mbind */
+> +    [ 269] = 5, /* get_mempolicy */
+> +    [ 270] = 3, /* set_mempolicy */
+> +    [ 271] = 4, /* mq_open */
+> +    [ 272] = 1, /* mq_unlink */
+> +    [ 273] = 5, /* mq_timedsend */
+> +    [ 274] = 5, /* mq_timedreceive */
+> +    [ 275] = 2, /* mq_notify */
+> +    [ 276] = 3, /* mq_getsetattr */
+> +    [ 277] = 5, /* vserver */
+> +    [ 278] = 5, /* waitid */
+> +    [ 279] = MIPS_SYSCALL_NUMBER_UNUSED,
+> +    [ 280] = 5, /* add_key */
+> +    [ 281] = 4, /* request_key */
+> +    [ 282] = 5, /* keyctl */
+> +    [ 283] = 1, /* set_thread_area */
+> +    [ 284] = 0, /* inotify_init */
+> +    [ 285] = 3, /* inotify_add_watch */
+> +    [ 286] = 2, /* inotify_rm_watch */
+> +    [ 287] = 4, /* migrate_pages */
+> +    [ 288] = 4, /* openat */
+> +    [ 289] = 3, /* mkdirat */
+> +    [ 290] = 4, /* mknodat */
+> +    [ 291] = 5, /* fchownat */
+> +    [ 292] = 3, /* futimesat */
+> +    [ 293] = 4, /* fstatat64 */
+> +    [ 294] = 3, /* unlinkat */
+> +    [ 295] = 4, /* renameat */
+> +    [ 296] = 5, /* linkat */
+> +    [ 297] = 3, /* symlinkat */
+> +    [ 298] = 4, /* readlinkat */
+> +    [ 299] = 3, /* fchmodat */
+> +    [ 300] = 3, /* faccessat */
+> +    [ 301] = 6, /* pselect6 */
+> +    [ 302] = 5, /* ppoll */
+> +    [ 303] = 1, /* unshare */
+> +    [ 304] = 6, /* splice */
+> +    [ 305] = 7, /* sync_file_range */
+> +    [ 306] = 4, /* tee */
+> +    [ 307] = 4, /* vmsplice */
+> +    [ 308] = 6, /* move_pages */
+> +    [ 309] = 2, /* set_robust_list */
+> +    [ 310] = 3, /* get_robust_list */
+> +    [ 311] = 4, /* kexec_load */
+> +    [ 312] = 3, /* getcpu */
+> +    [ 313] = 6, /* epoll_pwait */
+> +    [ 314] = 3, /* ioprio_set */
+> +    [ 315] = 2, /* ioprio_get */
+> +    [ 316] = 4, /* utimensat */
+> +    [ 317] = 3, /* signalfd */
+> +    [ 318] = 4, /* timerfd */
+> +    [ 319] = 1, /* eventfd */
+> +    [ 320] = 6, /* fallocate */
+> +    [ 321] = 2, /* timerfd_create */
+> +    [ 322] = 2, /* timerfd_gettime */
+> +    [ 323] = 4, /* timerfd_settime */
+> +    [ 324] = 4, /* signalfd4 */
+> +    [ 325] = 2, /* eventfd2 */
+> +    [ 326] = 1, /* epoll_create1 */
+> +    [ 327] = 3, /* dup3 */
+> +    [ 328] = 2, /* pipe2 */
+> +    [ 329] = 1, /* inotify_init1 */
+> +    [ 330] = 5, /* preadv */
+> +    [ 331] = 5, /* pwritev */
+> +    [ 332] = 4, /* rt_tgsigqueueinfo */
+> +    [ 333] = 5, /* perf_event_open */
+> +    [ 334] = 4, /* accept4 */
+> +    [ 335] = 5, /* recvmmsg */
+> +    [ 336] = 2, /* fanotify_init */
+> +    [ 337] = 6, /* fanotify_mark */
+> +    [ 338] = 4, /* prlimit64 */
+> +    [ 339] = 5, /* name_to_handle_at */
+> +    [ 340] = 3, /* open_by_handle_at */
+> +    [ 341] = 2, /* clock_adjtime */
+> +    [ 342] = 1, /* syncfs */
+> +    [ 343] = 4, /* sendmmsg */
+> +    [ 344] = 2, /* setns */
+> +    [ 345] = 6, /* process_vm_readv */
+> +    [ 346] = 6, /* process_vm_writev */
+> +    [ 347] = 5, /* kcmp */
+> +    [ 348] = 3, /* finit_module */
+> +    [ 349] = 3, /* sched_setattr */
+> +    [ 350] = 4, /* sched_getattr */
+> +    [ 351] = 5, /* renameat2 */
+> +    [ 352] = 3, /* seccomp */
+> +    [ 353] = 3, /* getrandom */
+> +    [ 354] = 2, /* memfd_create */
+> +    [ 355] = 3, /* bpf */
+> +    [ 356] = 5, /* execveat */
+> +    [ 357] = 1, /* userfaultfd */
+> +    [ 358] = 2, /* membarrier */
+> +    [ 359] = 3, /* mlock2 */
+> +    [ 360] = 6, /* copy_file_range */
+> +    [ 361] = 6, /* preadv2 */
+> +    [ 362] = 6, /* pwritev2 */
+> +    [ 363] = 4, /* pkey_mprotect */
+> +    [ 364] = 2, /* pkey_alloc */
+> +    [ 365] = 1, /* pkey_free */
+> +    [ 366] = 5, /* statx */
+> +    [ 367] = 4, /* rseq */
+> +    [ 368] = 6, /* io_pgetevents */
+> +    [ 369] = MIPS_SYSCALL_NUMBER_UNUSED,
+> +    [ 370] = MIPS_SYSCALL_NUMBER_UNUSED,
+> +    [ 371] = MIPS_SYSCALL_NUMBER_UNUSED,
+> +    [ 372] = MIPS_SYSCALL_NUMBER_UNUSED,
+> +    [ 373] = MIPS_SYSCALL_NUMBER_UNUSED,
+> +    [ 374] = MIPS_SYSCALL_NUMBER_UNUSED,
+> +    [ 375] = MIPS_SYSCALL_NUMBER_UNUSED,
+> +    [ 376] = MIPS_SYSCALL_NUMBER_UNUSED,
+> +    [ 377] = MIPS_SYSCALL_NUMBER_UNUSED,
+> +    [ 378] = MIPS_SYSCALL_NUMBER_UNUSED,
+> +    [ 379] = MIPS_SYSCALL_NUMBER_UNUSED,
+> +    [ 380] = MIPS_SYSCALL_NUMBER_UNUSED,
+> +    [ 381] = MIPS_SYSCALL_NUMBER_UNUSED,
+> +    [ 382] = MIPS_SYSCALL_NUMBER_UNUSED,
+> +    [ 383] = MIPS_SYSCALL_NUMBER_UNUSED,
+> +    [ 384] = MIPS_SYSCALL_NUMBER_UNUSED,
+> +    [ 385] = MIPS_SYSCALL_NUMBER_UNUSED,
+> +    [ 386] = MIPS_SYSCALL_NUMBER_UNUSED,
+> +    [ 387] = MIPS_SYSCALL_NUMBER_UNUSED,
+> +    [ 388] = MIPS_SYSCALL_NUMBER_UNUSED,
+> +    [ 389] = MIPS_SYSCALL_NUMBER_UNUSED,
+> +    [ 390] = MIPS_SYSCALL_NUMBER_UNUSED,
+> +    [ 391] = MIPS_SYSCALL_NUMBER_UNUSED,
+> +    [ 392] = MIPS_SYSCALL_NUMBER_UNUSED,
+> +    [ 393] = 3, /* semget */
+> +    [ 394] = 4, /* semctl */
+> +    [ 395] = 3, /* shmget */
+> +    [ 396] = 3, /* shmctl */
+> +    [ 397] = 3, /* shmat */
+> +    [ 398] = 1, /* shmdt */
+> +    [ 399] = 2, /* msgget */
+> +    [ 400] = 4, /* msgsnd */
+> +    [ 401] = 5, /* msgrcv */
+> +    [ 402] = 3, /* msgctl */
+> +    [ 403] = 2, /* clock_gettime64 */
+> +    [ 404] = 2, /* clock_settime64 */
+> +    [ 405] = 2, /* clock_adjtime64 */
+> +    [ 406] = 2, /* clock_getres_time64 */
+> +    [ 407] = 4, /* clock_nanosleep_time64 */
+> +    [ 408] = 2, /* timer_gettime64 */
+> +    [ 409] = 4, /* timer_settime64 */
+> +    [ 410] = 2, /* timerfd_gettime64 */
+> +    [ 411] = 4, /* timerfd_settime64 */
+> +    [ 412] = 4, /* utimensat_time64 */
+> +    [ 413] = 6, /* pselect6_time64 */
+> +    [ 414] = 5, /* ppoll_time64 */
+> +    [ 415] = MIPS_SYSCALL_NUMBER_UNUSED,
+> +    [ 416] = 6, /* io_pgetevents_time64 */
+> +    [ 417] = 5, /* recvmmsg_time64 */
+> +    [ 418] = 5, /* mq_timedsend_time64 */
+> +    [ 419] = 5, /* mq_timedreceive_time64 */
+> +    [ 420] = 4, /* semtimedop_time64 */
+> +    [ 421] = 4, /* rt_sigtimedwait_time64 */
+> +    [ 422] = 6, /* futex_time64 */
+> +    [ 423] = 2, /* sched_rr_get_interval_time64 */
+> +    [ 424] = 4, /* pidfd_send_signal */
+> +    [ 425] = 2, /* io_uring_setup */
+> +    [ 426] = 6, /* io_uring_enter */
+> +    [ 427] = 4, /* io_uring_register */
+> +    [ 428] = 3, /* open_tree */
+> +    [ 429] = 5, /* move_mount */
+> +    [ 430] = 2, /* fsopen */
+> +    [ 431] = 5, /* fsconfig */
+> +    [ 432] = 3, /* fsmount */
+> +    [ 433] = 3, /* fspick */
+> +    [ 434] = 2, /* pidfd_open */
+> +    [ 435] = 2, /* clone3 */
+> diff --git a/scripts/update-mips-syscall-args.sh
+> b/scripts/update-mips-syscall-args.sh
+> new file mode 100755
+> index 000000000000..4f0dda4b83bc
 > --- /dev/null
-> +++ b/linux-user/mips/syscall-args-o32.c.inc
-> @@ -0,0 +1,438 @@
-> +#  define MIPS_SYS(name, args) args,
-> +        MIPS_SYS(sys_syscall    , 8)    /* 4000 */
-> +        MIPS_SYS(sys_exit       , 1)
-> +        MIPS_SYS(sys_fork       , 0)
-> +        MIPS_SYS(sys_read       , 3)
-> +        MIPS_SYS(sys_write      , 3)
-> +        MIPS_SYS(sys_open       , 3)    /* 4005 */
-> +        MIPS_SYS(sys_close      , 1)
-> +        MIPS_SYS(sys_waitpid    , 3)
-> +        MIPS_SYS(sys_creat      , 2)
-> +        MIPS_SYS(sys_link       , 2)
-> +        MIPS_SYS(sys_unlink     , 1)    /* 4010 */
-> +        MIPS_SYS(sys_execve     , 0)
-> +        MIPS_SYS(sys_chdir      , 1)
-> +        MIPS_SYS(sys_time       , 1)
-> +        MIPS_SYS(sys_mknod      , 3)
-> +        MIPS_SYS(sys_chmod      , 2)    /* 4015 */
-> +        MIPS_SYS(sys_lchown     , 3)
-> +        MIPS_SYS(sys_ni_syscall , 0)
-> +        MIPS_SYS(sys_ni_syscall , 0)    /* was sys_stat */
-> +        MIPS_SYS(sys_lseek      , 3)
-> +        MIPS_SYS(sys_getpid     , 0)    /* 4020 */
-> +        MIPS_SYS(sys_mount      , 5)
-> +        MIPS_SYS(sys_umount     , 1)
-> +        MIPS_SYS(sys_setuid     , 1)
-> +        MIPS_SYS(sys_getuid     , 0)
-> +        MIPS_SYS(sys_stime      , 1)    /* 4025 */
-> +        MIPS_SYS(sys_ptrace     , 4)
-> +        MIPS_SYS(sys_alarm      , 1)
-> +        MIPS_SYS(sys_ni_syscall , 0)    /* was sys_fstat */
-> +        MIPS_SYS(sys_pause      , 0)
-> +        MIPS_SYS(sys_utime      , 2)    /* 4030 */
-> +        MIPS_SYS(sys_ni_syscall , 0)
-> +        MIPS_SYS(sys_ni_syscall , 0)
-> +        MIPS_SYS(sys_access     , 2)
-> +        MIPS_SYS(sys_nice       , 1)
-> +        MIPS_SYS(sys_ni_syscall , 0)    /* 4035 */
-> +        MIPS_SYS(sys_sync       , 0)
-> +        MIPS_SYS(sys_kill       , 2)
-> +        MIPS_SYS(sys_rename     , 2)
-> +        MIPS_SYS(sys_mkdir      , 2)
-> +        MIPS_SYS(sys_rmdir      , 1)    /* 4040 */
-> +        MIPS_SYS(sys_dup                , 1)
-> +        MIPS_SYS(sys_pipe       , 0)
-> +        MIPS_SYS(sys_times      , 1)
-> +        MIPS_SYS(sys_ni_syscall , 0)
-> +        MIPS_SYS(sys_brk                , 1)    /* 4045 */
-> +        MIPS_SYS(sys_setgid     , 1)
-> +        MIPS_SYS(sys_getgid     , 0)
-> +        MIPS_SYS(sys_ni_syscall , 0)    /* was signal(2) */
-> +        MIPS_SYS(sys_geteuid    , 0)
-> +        MIPS_SYS(sys_getegid    , 0)    /* 4050 */
-> +        MIPS_SYS(sys_acct       , 0)
-> +        MIPS_SYS(sys_umount2    , 2)
-> +        MIPS_SYS(sys_ni_syscall , 0)
-> +        MIPS_SYS(sys_ioctl      , 3)
-> +        MIPS_SYS(sys_fcntl      , 3)    /* 4055 */
-> +        MIPS_SYS(sys_ni_syscall , 2)
-> +        MIPS_SYS(sys_setpgid    , 2)
-> +        MIPS_SYS(sys_ni_syscall , 0)
-> +        MIPS_SYS(sys_olduname   , 1)
-> +        MIPS_SYS(sys_umask      , 1)    /* 4060 */
-> +        MIPS_SYS(sys_chroot     , 1)
-> +        MIPS_SYS(sys_ustat      , 2)
-> +        MIPS_SYS(sys_dup2       , 2)
-> +        MIPS_SYS(sys_getppid    , 0)
-> +        MIPS_SYS(sys_getpgrp    , 0)    /* 4065 */
-> +        MIPS_SYS(sys_setsid     , 0)
-> +        MIPS_SYS(sys_sigaction  , 3)
-> +        MIPS_SYS(sys_sgetmask   , 0)
-> +        MIPS_SYS(sys_ssetmask   , 1)
-> +        MIPS_SYS(sys_setreuid   , 2)    /* 4070 */
-> +        MIPS_SYS(sys_setregid   , 2)
-> +        MIPS_SYS(sys_sigsuspend , 0)
-> +        MIPS_SYS(sys_sigpending , 1)
-> +        MIPS_SYS(sys_sethostname        , 2)
-> +        MIPS_SYS(sys_setrlimit  , 2)    /* 4075 */
-> +        MIPS_SYS(sys_getrlimit  , 2)
-> +        MIPS_SYS(sys_getrusage  , 2)
-> +        MIPS_SYS(sys_gettimeofday, 2)
-> +        MIPS_SYS(sys_settimeofday, 2)
-> +        MIPS_SYS(sys_getgroups  , 2)    /* 4080 */
-> +        MIPS_SYS(sys_setgroups  , 2)
-> +        MIPS_SYS(sys_ni_syscall , 0)    /* old_select */
-> +        MIPS_SYS(sys_symlink    , 2)
-> +        MIPS_SYS(sys_ni_syscall , 0)    /* was sys_lstat */
-> +        MIPS_SYS(sys_readlink   , 3)    /* 4085 */
-> +        MIPS_SYS(sys_uselib     , 1)
-> +        MIPS_SYS(sys_swapon     , 2)
-> +        MIPS_SYS(sys_reboot     , 3)
-> +        MIPS_SYS(old_readdir    , 3)
-> +        MIPS_SYS(old_mmap       , 6)    /* 4090 */
-> +        MIPS_SYS(sys_munmap     , 2)
-> +        MIPS_SYS(sys_truncate   , 2)
-> +        MIPS_SYS(sys_ftruncate  , 2)
-> +        MIPS_SYS(sys_fchmod     , 2)
-> +        MIPS_SYS(sys_fchown     , 3)    /* 4095 */
-> +        MIPS_SYS(sys_getpriority        , 2)
-> +        MIPS_SYS(sys_setpriority        , 3)
-> +        MIPS_SYS(sys_ni_syscall , 0)
-> +        MIPS_SYS(sys_statfs     , 2)
-> +        MIPS_SYS(sys_fstatfs    , 2)    /* 4100 */
-> +        MIPS_SYS(sys_ni_syscall , 0)    /* was ioperm(2) */
-> +        MIPS_SYS(sys_socketcall , 2)
-> +        MIPS_SYS(sys_syslog     , 3)
-> +        MIPS_SYS(sys_setitimer  , 3)
-> +        MIPS_SYS(sys_getitimer  , 2)    /* 4105 */
-> +        MIPS_SYS(sys_newstat    , 2)
-> +        MIPS_SYS(sys_newlstat   , 2)
-> +        MIPS_SYS(sys_newfstat   , 2)
-> +        MIPS_SYS(sys_uname      , 1)
-> +        MIPS_SYS(sys_ni_syscall , 0)    /* 4110 was iopl(2) */
-> +        MIPS_SYS(sys_vhangup    , 0)
-> +        MIPS_SYS(sys_ni_syscall , 0)    /* was sys_idle() */
-> +        MIPS_SYS(sys_ni_syscall , 0)    /* was sys_vm86 */
-> +        MIPS_SYS(sys_wait4      , 4)
-> +        MIPS_SYS(sys_swapoff    , 1)    /* 4115 */
-> +        MIPS_SYS(sys_sysinfo    , 1)
-> +        MIPS_SYS(sys_ipc                , 6)
-> +        MIPS_SYS(sys_fsync      , 1)
-> +        MIPS_SYS(sys_sigreturn  , 0)
-> +        MIPS_SYS(sys_clone      , 6)    /* 4120 */
-> +        MIPS_SYS(sys_setdomainname, 2)
-> +        MIPS_SYS(sys_newuname   , 1)
-> +        MIPS_SYS(sys_ni_syscall , 0)    /* sys_modify_ldt */
-> +        MIPS_SYS(sys_adjtimex   , 1)
-> +        MIPS_SYS(sys_mprotect   , 3)    /* 4125 */
-> +        MIPS_SYS(sys_sigprocmask        , 3)
-> +        MIPS_SYS(sys_ni_syscall , 0)    /* was create_module */
-> +        MIPS_SYS(sys_init_module        , 5)
-> +        MIPS_SYS(sys_delete_module, 1)
-> +        MIPS_SYS(sys_ni_syscall , 0)    /* 4130 was get_kernel_syms */
-> +        MIPS_SYS(sys_quotactl   , 0)
-> +        MIPS_SYS(sys_getpgid    , 1)
-> +        MIPS_SYS(sys_fchdir     , 1)
-> +        MIPS_SYS(sys_bdflush    , 2)
-> +        MIPS_SYS(sys_sysfs      , 3)    /* 4135 */
-> +        MIPS_SYS(sys_personality        , 1)
-> +        MIPS_SYS(sys_ni_syscall , 0)    /* for afs_syscall */
-> +        MIPS_SYS(sys_setfsuid   , 1)
-> +        MIPS_SYS(sys_setfsgid   , 1)
-> +        MIPS_SYS(sys_llseek     , 5)    /* 4140 */
-> +        MIPS_SYS(sys_getdents   , 3)
-> +        MIPS_SYS(sys_select     , 5)
-> +        MIPS_SYS(sys_flock      , 2)
-> +        MIPS_SYS(sys_msync      , 3)
-> +        MIPS_SYS(sys_readv      , 3)    /* 4145 */
-> +        MIPS_SYS(sys_writev     , 3)
-> +        MIPS_SYS(sys_cacheflush , 3)
-> +        MIPS_SYS(sys_cachectl   , 3)
-> +        MIPS_SYS(sys_sysmips    , 4)
-> +        MIPS_SYS(sys_ni_syscall , 0)    /* 4150 */
-> +        MIPS_SYS(sys_getsid     , 1)
-> +        MIPS_SYS(sys_fdatasync  , 0)
-> +        MIPS_SYS(sys_sysctl     , 1)
-> +        MIPS_SYS(sys_mlock      , 2)
-> +        MIPS_SYS(sys_munlock    , 2)    /* 4155 */
-> +        MIPS_SYS(sys_mlockall   , 1)
-> +        MIPS_SYS(sys_munlockall , 0)
-> +        MIPS_SYS(sys_sched_setparam, 2)
-> +        MIPS_SYS(sys_sched_getparam, 2)
-> +        MIPS_SYS(sys_sched_setscheduler, 3)     /* 4160 */
-> +        MIPS_SYS(sys_sched_getscheduler, 1)
-> +        MIPS_SYS(sys_sched_yield        , 0)
-> +        MIPS_SYS(sys_sched_get_priority_max, 1)
-> +        MIPS_SYS(sys_sched_get_priority_min, 1)
-> +        MIPS_SYS(sys_sched_rr_get_interval, 2)  /* 4165 */
-> +        MIPS_SYS(sys_nanosleep, 2)
-> +        MIPS_SYS(sys_mremap     , 5)
-> +        MIPS_SYS(sys_accept     , 3)
-> +        MIPS_SYS(sys_bind       , 3)
-> +        MIPS_SYS(sys_connect    , 3)    /* 4170 */
-> +        MIPS_SYS(sys_getpeername        , 3)
-> +        MIPS_SYS(sys_getsockname        , 3)
-> +        MIPS_SYS(sys_getsockopt , 5)
-> +        MIPS_SYS(sys_listen     , 2)
-> +        MIPS_SYS(sys_recv       , 4)    /* 4175 */
-> +        MIPS_SYS(sys_recvfrom   , 6)
-> +        MIPS_SYS(sys_recvmsg    , 3)
-> +        MIPS_SYS(sys_send       , 4)
-> +        MIPS_SYS(sys_sendmsg    , 3)
-> +        MIPS_SYS(sys_sendto     , 6)    /* 4180 */
-> +        MIPS_SYS(sys_setsockopt , 5)
-> +        MIPS_SYS(sys_shutdown   , 2)
-> +        MIPS_SYS(sys_socket     , 3)
-> +        MIPS_SYS(sys_socketpair , 4)
-> +        MIPS_SYS(sys_setresuid  , 3)    /* 4185 */
-> +        MIPS_SYS(sys_getresuid  , 3)
-> +        MIPS_SYS(sys_ni_syscall , 0)    /* was sys_query_module */
-> +        MIPS_SYS(sys_poll       , 3)
-> +        MIPS_SYS(sys_nfsservctl , 3)
-> +        MIPS_SYS(sys_setresgid  , 3)    /* 4190 */
-> +        MIPS_SYS(sys_getresgid  , 3)
-> +        MIPS_SYS(sys_prctl      , 5)
-> +        MIPS_SYS(sys_rt_sigreturn, 0)
-> +        MIPS_SYS(sys_rt_sigaction, 4)
-> +        MIPS_SYS(sys_rt_sigprocmask, 4) /* 4195 */
-> +        MIPS_SYS(sys_rt_sigpending, 2)
-> +        MIPS_SYS(sys_rt_sigtimedwait, 4)
-> +        MIPS_SYS(sys_rt_sigqueueinfo, 3)
-> +        MIPS_SYS(sys_rt_sigsuspend, 0)
-> +        MIPS_SYS(sys_pread64    , 6)    /* 4200 */
-> +        MIPS_SYS(sys_pwrite64   , 6)
-> +        MIPS_SYS(sys_chown      , 3)
-> +        MIPS_SYS(sys_getcwd     , 2)
-> +        MIPS_SYS(sys_capget     , 2)
-> +        MIPS_SYS(sys_capset     , 2)    /* 4205 */
-> +        MIPS_SYS(sys_sigaltstack        , 2)
-> +        MIPS_SYS(sys_sendfile   , 4)
-> +        MIPS_SYS(sys_ni_syscall , 0)
-> +        MIPS_SYS(sys_ni_syscall , 0)
-> +        MIPS_SYS(sys_mmap2      , 6)    /* 4210 */
-> +        MIPS_SYS(sys_truncate64 , 4)
-> +        MIPS_SYS(sys_ftruncate64        , 4)
-> +        MIPS_SYS(sys_stat64     , 2)
-> +        MIPS_SYS(sys_lstat64    , 2)
-> +        MIPS_SYS(sys_fstat64    , 2)    /* 4215 */
-> +        MIPS_SYS(sys_pivot_root , 2)
-> +        MIPS_SYS(sys_mincore    , 3)
-> +        MIPS_SYS(sys_madvise    , 3)
-> +        MIPS_SYS(sys_getdents64 , 3)
-> +        MIPS_SYS(sys_fcntl64    , 3)    /* 4220 */
-> +        MIPS_SYS(sys_ni_syscall , 0)
-> +        MIPS_SYS(sys_gettid     , 0)
-> +        MIPS_SYS(sys_readahead  , 5)
-> +        MIPS_SYS(sys_setxattr   , 5)
-> +        MIPS_SYS(sys_lsetxattr  , 5)    /* 4225 */
-> +        MIPS_SYS(sys_fsetxattr  , 5)
-> +        MIPS_SYS(sys_getxattr   , 4)
-> +        MIPS_SYS(sys_lgetxattr  , 4)
-> +        MIPS_SYS(sys_fgetxattr  , 4)
-> +        MIPS_SYS(sys_listxattr  , 3)    /* 4230 */
-> +        MIPS_SYS(sys_llistxattr , 3)
-> +        MIPS_SYS(sys_flistxattr , 3)
-> +        MIPS_SYS(sys_removexattr        , 2)
-> +        MIPS_SYS(sys_lremovexattr, 2)
-> +        MIPS_SYS(sys_fremovexattr, 2)   /* 4235 */
-> +        MIPS_SYS(sys_tkill      , 2)
-> +        MIPS_SYS(sys_sendfile64 , 5)
-> +        MIPS_SYS(sys_futex      , 6)
-> +        MIPS_SYS(sys_sched_setaffinity, 3)
-> +        MIPS_SYS(sys_sched_getaffinity, 3)      /* 4240 */
-> +        MIPS_SYS(sys_io_setup   , 2)
-> +        MIPS_SYS(sys_io_destroy , 1)
-> +        MIPS_SYS(sys_io_getevents, 5)
-> +        MIPS_SYS(sys_io_submit  , 3)
-> +        MIPS_SYS(sys_io_cancel  , 3)    /* 4245 */
-> +        MIPS_SYS(sys_exit_group , 1)
-> +        MIPS_SYS(sys_lookup_dcookie, 3)
-> +        MIPS_SYS(sys_epoll_create, 1)
-> +        MIPS_SYS(sys_epoll_ctl  , 4)
-> +        MIPS_SYS(sys_epoll_wait , 3)    /* 4250 */
-> +        MIPS_SYS(sys_remap_file_pages, 5)
-> +        MIPS_SYS(sys_set_tid_address, 1)
-> +        MIPS_SYS(sys_restart_syscall, 0)
-> +        MIPS_SYS(sys_fadvise64_64, 7)
-> +        MIPS_SYS(sys_statfs64   , 3)    /* 4255 */
-> +        MIPS_SYS(sys_fstatfs64  , 2)
-> +        MIPS_SYS(sys_timer_create, 3)
-> +        MIPS_SYS(sys_timer_settime, 4)
-> +        MIPS_SYS(sys_timer_gettime, 2)
-> +        MIPS_SYS(sys_timer_getoverrun, 1)       /* 4260 */
-> +        MIPS_SYS(sys_timer_delete, 1)
-> +        MIPS_SYS(sys_clock_settime, 2)
-> +        MIPS_SYS(sys_clock_gettime, 2)
-> +        MIPS_SYS(sys_clock_getres, 2)
-> +        MIPS_SYS(sys_clock_nanosleep, 4)        /* 4265 */
-> +        MIPS_SYS(sys_tgkill     , 3)
-> +        MIPS_SYS(sys_utimes     , 2)
-> +        MIPS_SYS(sys_mbind      , 4)
-> +        MIPS_SYS(sys_ni_syscall , 0)    /* sys_get_mempolicy */
-> +        MIPS_SYS(sys_ni_syscall , 0)    /* 4270 sys_set_mempolicy */
-> +        MIPS_SYS(sys_mq_open    , 4)
-> +        MIPS_SYS(sys_mq_unlink  , 1)
-> +        MIPS_SYS(sys_mq_timedsend, 5)
-> +        MIPS_SYS(sys_mq_timedreceive, 5)
-> +        MIPS_SYS(sys_mq_notify  , 2)    /* 4275 */
-> +        MIPS_SYS(sys_mq_getsetattr, 3)
-> +        MIPS_SYS(sys_ni_syscall , 0)    /* sys_vserver */
-> +        MIPS_SYS(sys_waitid     , 4)
-> +        MIPS_SYS(sys_ni_syscall , 0)    /* available, was setaltroot */
-> +        MIPS_SYS(sys_add_key    , 5)
-> +        MIPS_SYS(sys_request_key, 4)
-> +        MIPS_SYS(sys_keyctl     , 5)
-> +        MIPS_SYS(sys_set_thread_area, 1)
-> +        MIPS_SYS(sys_inotify_init, 0)
-> +        MIPS_SYS(sys_inotify_add_watch, 3) /* 4285 */
-> +        MIPS_SYS(sys_inotify_rm_watch, 2)
-> +        MIPS_SYS(sys_migrate_pages, 4)
-> +        MIPS_SYS(sys_openat, 4)
-> +        MIPS_SYS(sys_mkdirat, 3)
-> +        MIPS_SYS(sys_mknodat, 4)        /* 4290 */
-> +        MIPS_SYS(sys_fchownat, 5)
-> +        MIPS_SYS(sys_futimesat, 3)
-> +        MIPS_SYS(sys_fstatat64, 4)
-> +        MIPS_SYS(sys_unlinkat, 3)
-> +        MIPS_SYS(sys_renameat, 4)       /* 4295 */
-> +        MIPS_SYS(sys_linkat, 5)
-> +        MIPS_SYS(sys_symlinkat, 3)
-> +        MIPS_SYS(sys_readlinkat, 4)
-> +        MIPS_SYS(sys_fchmodat, 3)
-> +        MIPS_SYS(sys_faccessat, 3)      /* 4300 */
-> +        MIPS_SYS(sys_pselect6, 6)
-> +        MIPS_SYS(sys_ppoll, 5)
-> +        MIPS_SYS(sys_unshare, 1)
-> +        MIPS_SYS(sys_splice, 6)
-> +        MIPS_SYS(sys_sync_file_range, 7) /* 4305 */
-> +        MIPS_SYS(sys_tee, 4)
-> +        MIPS_SYS(sys_vmsplice, 4)
-> +        MIPS_SYS(sys_move_pages, 6)
-> +        MIPS_SYS(sys_set_robust_list, 2)
-> +        MIPS_SYS(sys_get_robust_list, 3) /* 4310 */
-> +        MIPS_SYS(sys_kexec_load, 4)
-> +        MIPS_SYS(sys_getcpu, 3)
-> +        MIPS_SYS(sys_epoll_pwait, 6)
-> +        MIPS_SYS(sys_ioprio_set, 3)
-> +        MIPS_SYS(sys_ioprio_get, 2)
-> +        MIPS_SYS(sys_utimensat, 4)
-> +        MIPS_SYS(sys_signalfd, 3)
-> +        MIPS_SYS(sys_ni_syscall, 0)     /* was timerfd */
-> +        MIPS_SYS(sys_eventfd, 1)
-> +        MIPS_SYS(sys_fallocate, 6)      /* 4320 */
-> +        MIPS_SYS(sys_timerfd_create, 2)
-> +        MIPS_SYS(sys_timerfd_gettime, 2)
-> +        MIPS_SYS(sys_timerfd_settime, 4)
-> +        MIPS_SYS(sys_signalfd4, 4)
-> +        MIPS_SYS(sys_eventfd2, 2)       /* 4325 */
-> +        MIPS_SYS(sys_epoll_create1, 1)
-> +        MIPS_SYS(sys_dup3, 3)
-> +        MIPS_SYS(sys_pipe2, 2)
-> +        MIPS_SYS(sys_inotify_init1, 1)
-> +        MIPS_SYS(sys_preadv, 5)         /* 4330 */
-> +        MIPS_SYS(sys_pwritev, 5)
-> +        MIPS_SYS(sys_rt_tgsigqueueinfo, 4)
-> +        MIPS_SYS(sys_perf_event_open, 5)
-> +        MIPS_SYS(sys_accept4, 4)
-> +        MIPS_SYS(sys_recvmmsg, 5)       /* 4335 */
-> +        MIPS_SYS(sys_fanotify_init, 2)
-> +        MIPS_SYS(sys_fanotify_mark, 6)
-> +        MIPS_SYS(sys_prlimit64, 4)
-> +        MIPS_SYS(sys_name_to_handle_at, 5)
-> +        MIPS_SYS(sys_open_by_handle_at, 3) /* 4340 */
-> +        MIPS_SYS(sys_clock_adjtime, 2)
-> +        MIPS_SYS(sys_syncfs, 1)
-> +        MIPS_SYS(sys_sendmmsg, 4)
-> +        MIPS_SYS(sys_setns, 2)
-> +        MIPS_SYS(sys_process_vm_readv, 6) /* 345 */
-> +        MIPS_SYS(sys_process_vm_writev, 6)
-> +        MIPS_SYS(sys_kcmp, 5)
-> +        MIPS_SYS(sys_finit_module, 3)
-> +        MIPS_SYS(sys_sched_setattr, 2)
-> +        MIPS_SYS(sys_sched_getattr, 3)  /* 350 */
-> +        MIPS_SYS(sys_renameat2, 5)
-> +        MIPS_SYS(sys_seccomp, 3)
-> +        MIPS_SYS(sys_getrandom, 3)
-> +        MIPS_SYS(sys_memfd_create, 2)
-> +        MIPS_SYS(sys_bpf, 3)            /* 355 */
-> +        MIPS_SYS(sys_execveat, 5)
-> +        MIPS_SYS(sys_userfaultfd, 1)
-> +        MIPS_SYS(sys_membarrier, 2)
-> +        MIPS_SYS(sys_mlock2, 3)
-> +        MIPS_SYS(sys_copy_file_range, 6) /* 360 */
-> +        MIPS_SYS(sys_preadv2, 6)
-> +        MIPS_SYS(sys_pwritev2, 6)
-> +        MIPS_SYS(sys_pkey_mprotect, 4)
-> +        MIPS_SYS(sys_pkey_alloc, 2)
-> +        MIPS_SYS(sys_pkey_free, 1)                 /* 365 */
-> +        MIPS_SYS(sys_statx, 5)
-> +        MIPS_SYS(sys_rseq, 4)
-> +        MIPS_SYS(sys_io_pgetevents, 6)
-> +        MIPS_SYSCALL_NUMBER_UNUSED,
-> +        MIPS_SYSCALL_NUMBER_UNUSED,                /* 370 */
-> +        MIPS_SYSCALL_NUMBER_UNUSED,
-> +        MIPS_SYSCALL_NUMBER_UNUSED,
-> +        MIPS_SYSCALL_NUMBER_UNUSED,
-> +        MIPS_SYSCALL_NUMBER_UNUSED,
-> +        MIPS_SYSCALL_NUMBER_UNUSED,                /* 375 */
-> +        MIPS_SYSCALL_NUMBER_UNUSED,
-> +        MIPS_SYSCALL_NUMBER_UNUSED,
-> +        MIPS_SYSCALL_NUMBER_UNUSED,
-> +        MIPS_SYSCALL_NUMBER_UNUSED,
-> +        MIPS_SYSCALL_NUMBER_UNUSED,                /* 380 */
-> +        MIPS_SYSCALL_NUMBER_UNUSED,
-> +        MIPS_SYSCALL_NUMBER_UNUSED,
-> +        MIPS_SYSCALL_NUMBER_UNUSED,
-> +        MIPS_SYSCALL_NUMBER_UNUSED,
-> +        MIPS_SYSCALL_NUMBER_UNUSED,                /* 385 */
-> +        MIPS_SYSCALL_NUMBER_UNUSED,
-> +        MIPS_SYSCALL_NUMBER_UNUSED,
-> +        MIPS_SYSCALL_NUMBER_UNUSED,
-> +        MIPS_SYSCALL_NUMBER_UNUSED,
-> +        MIPS_SYSCALL_NUMBER_UNUSED,                /* 390 */
-> +        MIPS_SYSCALL_NUMBER_UNUSED,
-> +        MIPS_SYSCALL_NUMBER_UNUSED,
-> +        MIPS_SYS(sys_semget, 3)
-> +        MIPS_SYS(sys_semctl, 4)
-> +        MIPS_SYS(sys_shmget, 3)                    /* 395 */
-> +        MIPS_SYS(sys_shmctl, 3)
-> +        MIPS_SYS(sys_shmat, 3)
-> +        MIPS_SYS(sys_shmdt, 1)
-> +        MIPS_SYS(sys_msgget, 2)
-> +        MIPS_SYS(sys_msgsnd, 4)                    /* 400 */
-> +        MIPS_SYS(sys_msgrcv, 5)
-> +        MIPS_SYS(sys_msgctl, 3)
-> +        MIPS_SYS(sys_clock_gettime64, 2)
-> +        MIPS_SYS(sys_clock_settime64, 2)
-> +        MIPS_SYS(sys_clock_adjtime64, 2)           /* 405 */
-> +        MIPS_SYS(sys_clock_getres_time64, 2)
-> +        MIPS_SYS(sys_clock_nanosleep_time64, 4)
-> +        MIPS_SYS(sys_timer_gettime64, 2)
-> +        MIPS_SYS(sys_timer_settime64, 4)
-> +        MIPS_SYS(sys_timerfd_gettime64, 2)         /* 410 */
-> +        MIPS_SYS(sys_timerfd_settime64, 4)
-> +        MIPS_SYS(sys_utimensat_time64, 4)
-> +        MIPS_SYS(sys_pselect6_time64, 6)
-> +        MIPS_SYS(sys_ppoll_time64, 5)
-> +        MIPS_SYSCALL_NUMBER_UNUSED,                /* 415 */
-> +        MIPS_SYS(sys_io_pgetevents_time64, 6)
-> +        MIPS_SYS(sys_recvmmsg_time64, 5)
-> +        MIPS_SYS(sys_mq_timedsend_time64, 5)
-> +        MIPS_SYS(sys_mq_timedreceive_time64, 5)
-> +        MIPS_SYS(sys_semtimedop_time64, 4)         /* 420 */
-> +        MIPS_SYS(sys_rt_sigtimedwait_time64, 4)
-> +        MIPS_SYS(sys_futex_time64, 6)
-> +        MIPS_SYS(sys_sched_rr_get_interval_time64, 2)
-> +        MIPS_SYS(sys_pidfd_send_signal, 4)
-> +        MIPS_SYS(sys_io_uring_setup, 2)            /* 425 */
-> +        MIPS_SYS(sys_io_uring_enter, 6)
-> +        MIPS_SYS(sys_io_uring_register, 4)
-> +        MIPS_SYS(sys_open_tree, 3)
-> +        MIPS_SYS(sys_move_mount, 5)
-> +        MIPS_SYS(sys_fsopen, 2)                    /* 430 */
-> +        MIPS_SYS(sys_fsconfig, 5)
-> +        MIPS_SYS(sys_fsmount, 3)
-> +        MIPS_SYS(sys_fspick, 3)
-> +        MIPS_SYS(sys_pidfd_open, 2)
-> +        MIPS_SYS(sys_clone3, 2)                    /* 435 */
-> +#  undef MIPS_SYS
+> +++ b/scripts/update-mips-syscall-args.sh
+> @@ -0,0 +1,57 @@
+> +#!/bin/sh
+> +
+> +URL=https://raw.githubusercontent.com/strace/strace/master
+> +FILES="sysent.h sysent_shorthand_defs.h linux/mips/syscallent-compat.h \
+> +       linux/mips/syscallent-o32.h linux/syscallent-common-32.h \
+> +       linux/syscallent-common.h"
+> +
+> +output="$1"
+> +if [ "$output" = "" ] ; then
+> +    output="$PWD"
+> +fi
+> +
+> +INC=linux-user/mips/syscall-args-o32.c.inc
+> +
+> +TMP=$(mktemp -d)
+> +cd $TMP
+> +
+> +for file in $FILES; do
+> +    curl -O $URL/$file
+> +done
+> +
+> +> subcall32.h
+> +
+> +cat > gen_mips_o32.c <<EOF
+> +#include <stdio.h>
+> +
+> +#define LINUX_MIPSO32
+> +#define MAX_ARGS 7
+> +
+> +#include "sysent.h"
+> +#include "sysent_shorthand_defs.h"
+> +
+> +#define SEN(syscall_name) 0,0
+> +const struct_sysent sysent0[] = {
+> +#include  "syscallent-o32.h"
+> +};
+> +
+> +int main(void)
+> +{
+> +    int i;
+> +
+> +    for (i = 4000; i < sizeof(sysent0) / sizeof(struct_sysent); i++) {
+> +        if (sysent0[i].sys_name == NULL) {
+> +            printf("    [% 4d] = MIPS_SYSCALL_NUMBER_UNUSED,\n", i -
+> 4000);
+> +        } else {
+> +            printf("    [% 4d] = %d, /* %s */\n", i - 4000,
+> +                   sysent0[i].nargs, sysent0[i].sys_name);
+> +        }
+> +    }
+> +
+> +    return 0;
+> +}
+> +EOF
+> +
+> +cc -o gen_mips_o32 gen_mips_o32.c && ./gen_mips_o32 > "$output/$INC"
+> +
+> +rm -fr "$TMP"
 > --
 > 2.24.1
 >
 >
 >
 
---000000000000a8fa11059edd6910
+--0000000000002fca9f059edd6cce
 Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: quoted-printable
 
-PGJyPjxicj5PbiBNb25kYXksIEZlYnJ1YXJ5IDE3LCAyMDIwLCBMYXVyZW50IFZpdmllciAmbHQ7
-PGEgaHJlZj0ibWFpbHRvOmxhdXJlbnRAdml2aWVyLmV1Ij5sYXVyZW50QHZpdmllci5ldTwvYT4m
-Z3Q7IHdyb3RlOjxicj48YmxvY2txdW90ZSBjbGFzcz0iZ21haWxfcXVvdGUiIHN0eWxlPSJtYXJn
-aW46MCAwIDAgLjhleDtib3JkZXItbGVmdDoxcHggI2NjYyBzb2xpZDtwYWRkaW5nLWxlZnQ6MWV4
-Ij5Nb3ZlIGNvbnRlbnQgb2YgbWlwc19zeXNjYWxsX2FyZ3MgdG8gbWlwcy1zeXNjYWxsLWFyZ3Mt
-bzMyLmMuaW5jIHRvPGJyPg0KZWFzZSBhdXRvbWF0aWMgdXBkYXRlLiBObyBmdW5jdGlvbm5hbCBj
-aGFuZ2U8YnI+DQo8YnI+DQpTaWduZWQtb2ZmLWJ5OiBMYXVyZW50IFZpdmllciAmbHQ7PGEgaHJl
-Zj0ibWFpbHRvOmxhdXJlbnRAdml2aWVyLmV1Ij5sYXVyZW50QHZpdmllci5ldTwvYT4mZ3Q7PGJy
-Pg0KLS0tPC9ibG9ja3F1b3RlPjxkaXY+PGJyPjwvZGl2PjxkaXY+PHNwYW4gc3R5bGU9ImNvbG9y
-OnJnYigzNCwzNCwzNCk7Zm9udC1zaXplOjE0cHg7bGluZS1oZWlnaHQ6MjIuMTIwMDAwODM5MjMz
-NHB4Ij5SZXZpZXdlZC1ieTogQWxla3NhbmRhciBNYXJrb3ZpYyAmbHQ7PC9zcGFuPjxhIGhyZWY9
-Im1haWx0bzphbWFya292aWNAd2F2ZWNvbXAuY29tIiBzdHlsZT0iZm9udC1zaXplOjE0cHg7bGlu
-ZS1oZWlnaHQ6MjIuMTIwMDAwODM5MjMzNHB4Ij5hbWFya292aWNAd2F2ZWNvbXAuY29tPC9hPjxz
-cGFuIHN0eWxlPSJjb2xvcjpyZ2IoMzQsMzQsMzQpO2ZvbnQtc2l6ZToxNHB4O2xpbmUtaGVpZ2h0
-OjIyLjEyMDAwMDgzOTIzMzRweCI+Jmd0Ozwvc3Bhbj48YnI+PC9kaXY+PGRpdj7CoDwvZGl2Pjxi
-bG9ja3F1b3RlIGNsYXNzPSJnbWFpbF9xdW90ZSIgc3R5bGU9Im1hcmdpbjowIDAgMCAuOGV4O2Jv
-cmRlci1sZWZ0OjFweCAjY2NjIHNvbGlkO3BhZGRpbmctbGVmdDoxZXgiPg0KwqBsaW51eC11c2Vy
-L21pcHMvY3B1X2xvb3AuY8KgIMKgIMKgIMKgIMKgIMKgIMKgfCA0NDAgKy0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLTxicj4NCsKgbGludXgtdXNlci9taXBzL3N5c2NhbGwtYXJncy08d2JyPm8zMi5j
-LmluYyB8IDQzOCArKysrKysrKysrKysrKysrKysrKysrKys8YnI+DQrCoDIgZmlsZXMgY2hhbmdl
-ZCwgNDM5IGluc2VydGlvbnMoKyksIDQzOSBkZWxldGlvbnMoLSk8YnI+DQrCoGNyZWF0ZSBtb2Rl
-IDEwMDY0NCBsaW51eC11c2VyL21pcHMvc3lzY2FsbC1hcmdzLTx3YnI+bzMyLmMuaW5jPGJyPg0K
-PGJyPg0KZGlmZiAtLWdpdCBhL2xpbnV4LXVzZXIvbWlwcy9jcHVfbG9vcC5jIGIvbGludXgtdXNl
-ci9taXBzL2NwdV9sb29wLmM8YnI+DQppbmRleCAzOTYzNjdkODFkOGQuLjU1M2U4Y2E3ZjU3NiAx
-MDA2NDQ8YnI+DQotLS0gYS9saW51eC11c2VyL21pcHMvY3B1X2xvb3AuYzxicj4NCisrKyBiL2xp
-bnV4LXVzZXIvbWlwcy9jcHVfbG9vcC5jPGJyPg0KQEAgLTI2LDQ0NyArMjYsOSBAQDxicj4NCjxi
-cj4NCsKgIyBpZmRlZiBUQVJHRVRfQUJJX01JUFNPMzI8YnI+DQrCoCPCoCBkZWZpbmUgTUlQU19T
-WVNDQUxMX05VTUJFUl9VTlVTRUQgLTE8YnI+DQotI8KgIGRlZmluZSBNSVBTX1NZUyhuYW1lLCBh
-cmdzKSBhcmdzLDxicj4NCsKgc3RhdGljIGNvbnN0IGludDhfdCBtaXBzX3N5c2NhbGxfYXJnc1td
-ID0gezxicj4NCi3CoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfc3lzY2FsbMKgIMKgICwgOCnCoCDC
-oCAvKiA0MDAwICovPGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19leGl0wqAgwqAgwqAg
-wqAsIDEpPGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19mb3JrwqAgwqAgwqAgwqAsIDAp
-PGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19yZWFkwqAgwqAgwqAgwqAsIDMpPGJyPg0K
-LcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c193cml0ZcKgIMKgIMKgICwgMyk8YnI+DQotwqAgwqAg
-wqAgwqAgTUlQU19TWVMoc3lzX29wZW7CoCDCoCDCoCDCoCwgMynCoCDCoCAvKiA0MDA1ICovPGJy
-Pg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19jbG9zZcKgIMKgIMKgICwgMSk8YnI+DQotwqAg
-wqAgwqAgwqAgTUlQU19TWVMoc3lzX3dhaXRwaWTCoCDCoCAsIDMpPGJyPg0KLcKgIMKgIMKgIMKg
-IE1JUFNfU1lTKHN5c19jcmVhdMKgIMKgIMKgICwgMik8YnI+DQotwqAgwqAgwqAgwqAgTUlQU19T
-WVMoc3lzX2xpbmvCoCDCoCDCoCDCoCwgMik8YnI+DQotwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lz
-X3VubGlua8KgIMKgIMKgLCAxKcKgIMKgIC8qIDQwMTAgKi88YnI+DQotwqAgwqAgwqAgwqAgTUlQ
-U19TWVMoc3lzX2V4ZWN2ZcKgIMKgIMKgLCAwKTxicj4NCi3CoCDCoCDCoCDCoCBNSVBTX1NZUyhz
-eXNfY2hkaXLCoCDCoCDCoCAsIDEpPGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c190aW1l
-wqAgwqAgwqAgwqAsIDEpPGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19ta25vZMKgIMKg
-IMKgICwgMyk8YnI+DQotwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX2NobW9kwqAgwqAgwqAgLCAy
-KcKgIMKgIC8qIDQwMTUgKi88YnI+DQotwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX2xjaG93bsKg
-IMKgIMKgLCAzKTxicj4NCi3CoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfbmlfc3lzY2FsbCAsIDAp
-PGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19uaV9zeXNjYWxsICwgMCnCoCDCoCAvKiB3
-YXMgc3lzX3N0YXQgKi88YnI+DQotwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX2xzZWVrwqAgwqAg
-wqAgLCAzKTxicj4NCi3CoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfZ2V0cGlkwqAgwqAgwqAsIDAp
-wqAgwqAgLyogNDAyMCAqLzxicj4NCi3CoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfbW91bnTCoCDC
-oCDCoCAsIDUpPGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c191bW91bnTCoCDCoCDCoCwg
-MSk8YnI+DQotwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX3NldHVpZMKgIMKgIMKgLCAxKTxicj4N
-Ci3CoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfZ2V0dWlkwqAgwqAgwqAsIDApPGJyPg0KLcKgIMKg
-IMKgIMKgIE1JUFNfU1lTKHN5c19zdGltZcKgIMKgIMKgICwgMSnCoCDCoCAvKiA0MDI1ICovPGJy
-Pg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19wdHJhY2XCoCDCoCDCoCwgNCk8YnI+DQotwqAg
-wqAgwqAgwqAgTUlQU19TWVMoc3lzX2FsYXJtwqAgwqAgwqAgLCAxKTxicj4NCi3CoCDCoCDCoCDC
-oCBNSVBTX1NZUyhzeXNfbmlfc3lzY2FsbCAsIDApwqAgwqAgLyogd2FzIHN5c19mc3RhdCAqLzxi
-cj4NCi3CoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfcGF1c2XCoCDCoCDCoCAsIDApPGJyPg0KLcKg
-IMKgIMKgIMKgIE1JUFNfU1lTKHN5c191dGltZcKgIMKgIMKgICwgMinCoCDCoCAvKiA0MDMwICov
-PGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19uaV9zeXNjYWxsICwgMCk8YnI+DQotwqAg
-wqAgwqAgwqAgTUlQU19TWVMoc3lzX25pX3N5c2NhbGwgLCAwKTxicj4NCi3CoCDCoCDCoCDCoCBN
-SVBTX1NZUyhzeXNfYWNjZXNzwqAgwqAgwqAsIDIpPGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lT
-KHN5c19uaWNlwqAgwqAgwqAgwqAsIDEpPGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19u
-aV9zeXNjYWxsICwgMCnCoCDCoCAvKiA0MDM1ICovPGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lT
-KHN5c19zeW5jwqAgwqAgwqAgwqAsIDApPGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19r
-aWxswqAgwqAgwqAgwqAsIDIpPGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19yZW5hbWXC
-oCDCoCDCoCwgMik8YnI+DQotwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX21rZGlywqAgwqAgwqAg
-LCAyKTxicj4NCi3CoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfcm1kaXLCoCDCoCDCoCAsIDEpwqAg
-wqAgLyogNDA0MCAqLzxicj4NCi3CoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfZHVwwqAgwqAgwqAg
-wqAgwqAgwqAgwqAgwqAgLCAxKTxicj4NCi3CoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfcGlwZcKg
-IMKgIMKgIMKgLCAwKTxicj4NCi3CoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfdGltZXPCoCDCoCDC
-oCAsIDEpPGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19uaV9zeXNjYWxsICwgMCk8YnI+
-DQotwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX2Jya8KgIMKgIMKgIMKgIMKgIMKgIMKgIMKgICwg
-MSnCoCDCoCAvKiA0MDQ1ICovPGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19zZXRnaWTC
-oCDCoCDCoCwgMSk8YnI+DQotwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX2dldGdpZMKgIMKgIMKg
-LCAwKTxicj4NCi3CoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfbmlfc3lzY2FsbCAsIDApwqAgwqAg
-Lyogd2FzIHNpZ25hbCgyKSAqLzxicj4NCi3CoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfZ2V0ZXVp
-ZMKgIMKgICwgMCk8YnI+DQotwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX2dldGVnaWTCoCDCoCAs
-IDApwqAgwqAgLyogNDA1MCAqLzxicj4NCi3CoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfYWNjdMKg
-IMKgIMKgIMKgLCAwKTxicj4NCi3CoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfdW1vdW50MsKgIMKg
-ICwgMik8YnI+DQotwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX25pX3N5c2NhbGwgLCAwKTxicj4N
-Ci3CoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfaW9jdGzCoCDCoCDCoCAsIDMpPGJyPg0KLcKgIMKg
-IMKgIMKgIE1JUFNfU1lTKHN5c19mY250bMKgIMKgIMKgICwgMynCoCDCoCAvKiA0MDU1ICovPGJy
-Pg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19uaV9zeXNjYWxsICwgMik8YnI+DQotwqAgwqAg
-wqAgwqAgTUlQU19TWVMoc3lzX3NldHBnaWTCoCDCoCAsIDIpPGJyPg0KLcKgIMKgIMKgIMKgIE1J
-UFNfU1lTKHN5c19uaV9zeXNjYWxsICwgMCk8YnI+DQotwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lz
-X29sZHVuYW1lwqAgwqAsIDEpPGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c191bWFza8Kg
-IMKgIMKgICwgMSnCoCDCoCAvKiA0MDYwICovPGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5
-c19jaHJvb3TCoCDCoCDCoCwgMSk8YnI+DQotwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX3VzdGF0
-wqAgwqAgwqAgLCAyKTxicj4NCi3CoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfZHVwMsKgIMKgIMKg
-IMKgLCAyKTxicj4NCi3CoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfZ2V0cHBpZMKgIMKgICwgMCk8
-YnI+DQotwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX2dldHBncnDCoCDCoCAsIDApwqAgwqAgLyog
-NDA2NSAqLzxicj4NCi3CoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfc2V0c2lkwqAgwqAgwqAsIDAp
-PGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19zaWdhY3Rpb27CoCAsIDMpPGJyPg0KLcKg
-IMKgIMKgIMKgIE1JUFNfU1lTKHN5c19zZ2V0bWFza8KgIMKgLCAwKTxicj4NCi3CoCDCoCDCoCDC
-oCBNSVBTX1NZUyhzeXNfc3NldG1hc2vCoCDCoCwgMSk8YnI+DQotwqAgwqAgwqAgwqAgTUlQU19T
-WVMoc3lzX3NldHJldWlkwqAgwqAsIDIpwqAgwqAgLyogNDA3MCAqLzxicj4NCi3CoCDCoCDCoCDC
-oCBNSVBTX1NZUyhzeXNfc2V0cmVnaWTCoCDCoCwgMik8YnI+DQotwqAgwqAgwqAgwqAgTUlQU19T
-WVMoc3lzX3NpZ3N1c3BlbmQgLCAwKTxicj4NCi3CoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfc2ln
-cGVuZGluZyAsIDEpPGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19zZXRob3N0bmFtZcKg
-IMKgIMKgIMKgICwgMik8YnI+DQotwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX3NldHJsaW1pdMKg
-ICwgMinCoCDCoCAvKiA0MDc1ICovPGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19nZXRy
-bGltaXTCoCAsIDIpPGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19nZXRydXNhZ2XCoCAs
-IDIpPGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19nZXR0aW1lb2ZkYXksIDIpPGJyPg0K
-LcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19zZXR0aW1lb2ZkYXksIDIpPGJyPg0KLcKgIMKgIMKg
-IMKgIE1JUFNfU1lTKHN5c19nZXRncm91cHPCoCAsIDIpwqAgwqAgLyogNDA4MCAqLzxicj4NCi3C
-oCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfc2V0Z3JvdXBzwqAgLCAyKTxicj4NCi3CoCDCoCDCoCDC
-oCBNSVBTX1NZUyhzeXNfbmlfc3lzY2FsbCAsIDApwqAgwqAgLyogb2xkX3NlbGVjdCAqLzxicj4N
-Ci3CoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfc3ltbGlua8KgIMKgICwgMik8YnI+DQotwqAgwqAg
-wqAgwqAgTUlQU19TWVMoc3lzX25pX3N5c2NhbGwgLCAwKcKgIMKgIC8qIHdhcyBzeXNfbHN0YXQg
-Ki88YnI+DQotwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX3JlYWRsaW5rwqAgwqAsIDMpwqAgwqAg
-LyogNDA4NSAqLzxicj4NCi3CoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfdXNlbGliwqAgwqAgwqAs
-IDEpPGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19zd2Fwb27CoCDCoCDCoCwgMik8YnI+
-DQotwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX3JlYm9vdMKgIMKgIMKgLCAzKTxicj4NCi3CoCDC
-oCDCoCDCoCBNSVBTX1NZUyhvbGRfcmVhZGRpcsKgIMKgICwgMyk8YnI+DQotwqAgwqAgwqAgwqAg
-TUlQU19TWVMob2xkX21tYXDCoCDCoCDCoCDCoCwgNinCoCDCoCAvKiA0MDkwICovPGJyPg0KLcKg
-IMKgIMKgIMKgIE1JUFNfU1lTKHN5c19tdW5tYXDCoCDCoCDCoCwgMik8YnI+DQotwqAgwqAgwqAg
-wqAgTUlQU19TWVMoc3lzX3RydW5jYXRlwqAgwqAsIDIpPGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNf
-U1lTKHN5c19mdHJ1bmNhdGXCoCAsIDIpPGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19m
-Y2htb2TCoCDCoCDCoCwgMik8YnI+DQotwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX2ZjaG93bsKg
-IMKgIMKgLCAzKcKgIMKgIC8qIDQwOTUgKi88YnI+DQotwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lz
-X2dldHByaW9yaXR5wqAgwqAgwqAgwqAgLCAyKTxicj4NCi3CoCDCoCDCoCDCoCBNSVBTX1NZUyhz
-eXNfc2V0cHJpb3JpdHnCoCDCoCDCoCDCoCAsIDMpPGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lT
-KHN5c19uaV9zeXNjYWxsICwgMCk8YnI+DQotwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX3N0YXRm
-c8KgIMKgIMKgLCAyKTxicj4NCi3CoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfZnN0YXRmc8KgIMKg
-ICwgMinCoCDCoCAvKiA0MTAwICovPGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19uaV9z
-eXNjYWxsICwgMCnCoCDCoCAvKiB3YXMgaW9wZXJtKDIpICovPGJyPg0KLcKgIMKgIMKgIMKgIE1J
-UFNfU1lTKHN5c19zb2NrZXRjYWxsICwgMik8YnI+DQotwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lz
-X3N5c2xvZ8KgIMKgIMKgLCAzKTxicj4NCi3CoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfc2V0aXRp
-bWVywqAgLCAzKTxicj4NCi3CoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfZ2V0aXRpbWVywqAgLCAy
-KcKgIMKgIC8qIDQxMDUgKi88YnI+DQotwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX25ld3N0YXTC
-oCDCoCAsIDIpPGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19uZXdsc3RhdMKgIMKgLCAy
-KTxicj4NCi3CoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfbmV3ZnN0YXTCoCDCoCwgMik8YnI+DQot
-wqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX3VuYW1lwqAgwqAgwqAgLCAxKTxicj4NCi3CoCDCoCDC
-oCDCoCBNSVBTX1NZUyhzeXNfbmlfc3lzY2FsbCAsIDApwqAgwqAgLyogNDExMCB3YXMgaW9wbCgy
-KSAqLzxicj4NCi3CoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfdmhhbmd1cMKgIMKgICwgMCk8YnI+
-DQotwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX25pX3N5c2NhbGwgLCAwKcKgIMKgIC8qIHdhcyBz
-eXNfaWRsZSgpICovPGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19uaV9zeXNjYWxsICwg
-MCnCoCDCoCAvKiB3YXMgc3lzX3ZtODYgKi88YnI+DQotwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lz
-X3dhaXQ0wqAgwqAgwqAgLCA0KTxicj4NCi3CoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfc3dhcG9m
-ZsKgIMKgICwgMSnCoCDCoCAvKiA0MTE1ICovPGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5
-c19zeXNpbmZvwqAgwqAgLCAxKTxicj4NCi3CoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfaXBjwqAg
-wqAgwqAgwqAgwqAgwqAgwqAgwqAgLCA2KTxicj4NCi3CoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNf
-ZnN5bmPCoCDCoCDCoCAsIDEpPGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19zaWdyZXR1
-cm7CoCAsIDApPGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19jbG9uZcKgIMKgIMKgICwg
-NinCoCDCoCAvKiA0MTIwICovPGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19zZXRkb21h
-aW5uYW1lLCAyKTxicj4NCi3CoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfbmV3dW5hbWXCoCDCoCwg
-MSk8YnI+DQotwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX25pX3N5c2NhbGwgLCAwKcKgIMKgIC8q
-IHN5c19tb2RpZnlfbGR0ICovPGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19hZGp0aW1l
-eMKgIMKgLCAxKTxicj4NCi3CoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfbXByb3RlY3TCoCDCoCwg
-MynCoCDCoCAvKiA0MTI1ICovPGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19zaWdwcm9j
-bWFza8KgIMKgIMKgIMKgICwgMyk8YnI+DQotwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX25pX3N5
-c2NhbGwgLCAwKcKgIMKgIC8qIHdhcyBjcmVhdGVfbW9kdWxlICovPGJyPg0KLcKgIMKgIMKgIMKg
-IE1JUFNfU1lTKHN5c19pbml0X21vZHVsZcKgIMKgIMKgIMKgICwgNSk8YnI+DQotwqAgwqAgwqAg
-wqAgTUlQU19TWVMoc3lzX2RlbGV0ZV9tb2R1bGUsIDEpPGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNf
-U1lTKHN5c19uaV9zeXNjYWxsICwgMCnCoCDCoCAvKiA0MTMwIHdhcyBnZXRfa2VybmVsX3N5bXMg
-Ki88YnI+DQotwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX3F1b3RhY3RswqAgwqAsIDApPGJyPg0K
-LcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19nZXRwZ2lkwqAgwqAgLCAxKTxicj4NCi3CoCDCoCDC
-oCDCoCBNSVBTX1NZUyhzeXNfZmNoZGlywqAgwqAgwqAsIDEpPGJyPg0KLcKgIMKgIMKgIMKgIE1J
-UFNfU1lTKHN5c19iZGZsdXNowqAgwqAgLCAyKTxicj4NCi3CoCDCoCDCoCDCoCBNSVBTX1NZUyhz
-eXNfc3lzZnPCoCDCoCDCoCAsIDMpwqAgwqAgLyogNDEzNSAqLzxicj4NCi3CoCDCoCDCoCDCoCBN
-SVBTX1NZUyhzeXNfcGVyc29uYWxpdHnCoCDCoCDCoCDCoCAsIDEpPGJyPg0KLcKgIMKgIMKgIMKg
-IE1JUFNfU1lTKHN5c19uaV9zeXNjYWxsICwgMCnCoCDCoCAvKiBmb3IgYWZzX3N5c2NhbGwgKi88
-YnI+DQotwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX3NldGZzdWlkwqAgwqAsIDEpPGJyPg0KLcKg
-IMKgIMKgIMKgIE1JUFNfU1lTKHN5c19zZXRmc2dpZMKgIMKgLCAxKTxicj4NCi3CoCDCoCDCoCDC
-oCBNSVBTX1NZUyhzeXNfbGxzZWVrwqAgwqAgwqAsIDUpwqAgwqAgLyogNDE0MCAqLzxicj4NCi3C
-oCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfZ2V0ZGVudHPCoCDCoCwgMyk8YnI+DQotwqAgwqAgwqAg
-wqAgTUlQU19TWVMoc3lzX3NlbGVjdMKgIMKgIMKgLCA1KTxicj4NCi3CoCDCoCDCoCDCoCBNSVBT
-X1NZUyhzeXNfZmxvY2vCoCDCoCDCoCAsIDIpPGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5
-c19tc3luY8KgIMKgIMKgICwgMyk8YnI+DQotwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX3JlYWR2
-wqAgwqAgwqAgLCAzKcKgIMKgIC8qIDQxNDUgKi88YnI+DQotwqAgwqAgwqAgwqAgTUlQU19TWVMo
-c3lzX3dyaXRldsKgIMKgIMKgLCAzKTxicj4NCi3CoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfY2Fj
-aGVmbHVzaCAsIDMpPGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19jYWNoZWN0bMKgIMKg
-LCAzKTxicj4NCi3CoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfc3lzbWlwc8KgIMKgICwgNCk8YnI+
-DQotwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX25pX3N5c2NhbGwgLCAwKcKgIMKgIC8qIDQxNTAg
-Ki88YnI+DQotwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX2dldHNpZMKgIMKgIMKgLCAxKTxicj4N
-Ci3CoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfZmRhdGFzeW5jwqAgLCAwKTxicj4NCi3CoCDCoCDC
-oCDCoCBNSVBTX1NZUyhzeXNfc3lzY3RswqAgwqAgwqAsIDEpPGJyPg0KLcKgIMKgIMKgIMKgIE1J
-UFNfU1lTKHN5c19tbG9ja8KgIMKgIMKgICwgMik8YnI+DQotwqAgwqAgwqAgwqAgTUlQU19TWVMo
-c3lzX211bmxvY2vCoCDCoCAsIDIpwqAgwqAgLyogNDE1NSAqLzxicj4NCi3CoCDCoCDCoCDCoCBN
-SVBTX1NZUyhzeXNfbWxvY2thbGzCoCDCoCwgMSk8YnI+DQotwqAgwqAgwqAgwqAgTUlQU19TWVMo
-c3lzX211bmxvY2thbGwgLCAwKTxicj4NCi3CoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfc2NoZWRf
-c2V0cGFyYW0sIDIpPGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19zY2hlZF9nZXRwYXJh
-bSwgMik8YnI+DQotwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX3NjaGVkXzx3YnI+c2V0c2NoZWR1
-bGVyLCAzKcKgIMKgIMKgLyogNDE2MCAqLzxicj4NCi3CoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNf
-c2NoZWRfPHdicj5nZXRzY2hlZHVsZXIsIDEpPGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5
-c19zY2hlZF95aWVsZMKgIMKgIMKgIMKgICwgMCk8YnI+DQotwqAgwqAgwqAgwqAgTUlQU19TWVMo
-c3lzX3NjaGVkX2dldF88d2JyPnByaW9yaXR5X21heCwgMSk8YnI+DQotwqAgwqAgwqAgwqAgTUlQ
-U19TWVMoc3lzX3NjaGVkX2dldF88d2JyPnByaW9yaXR5X21pbiwgMSk8YnI+DQotwqAgwqAgwqAg
-wqAgTUlQU19TWVMoc3lzX3NjaGVkX3JyX2dldF88d2JyPmludGVydmFsLCAyKcKgIC8qIDQxNjUg
-Ki88YnI+DQotwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX25hbm9zbGVlcCwgMik8YnI+DQotwqAg
-wqAgwqAgwqAgTUlQU19TWVMoc3lzX21yZW1hcMKgIMKgIMKgLCA1KTxicj4NCi3CoCDCoCDCoCDC
-oCBNSVBTX1NZUyhzeXNfYWNjZXB0wqAgwqAgwqAsIDMpPGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNf
-U1lTKHN5c19iaW5kwqAgwqAgwqAgwqAsIDMpPGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5
-c19jb25uZWN0wqAgwqAgLCAzKcKgIMKgIC8qIDQxNzAgKi88YnI+DQotwqAgwqAgwqAgwqAgTUlQ
-U19TWVMoc3lzX2dldHBlZXJuYW1lwqAgwqAgwqAgwqAgLCAzKTxicj4NCi3CoCDCoCDCoCDCoCBN
-SVBTX1NZUyhzeXNfZ2V0c29ja25hbWXCoCDCoCDCoCDCoCAsIDMpPGJyPg0KLcKgIMKgIMKgIMKg
-IE1JUFNfU1lTKHN5c19nZXRzb2Nrb3B0ICwgNSk8YnI+DQotwqAgwqAgwqAgwqAgTUlQU19TWVMo
-c3lzX2xpc3RlbsKgIMKgIMKgLCAyKTxicj4NCi3CoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfcmVj
-dsKgIMKgIMKgIMKgLCA0KcKgIMKgIC8qIDQxNzUgKi88YnI+DQotwqAgwqAgwqAgwqAgTUlQU19T
-WVMoc3lzX3JlY3Zmcm9twqAgwqAsIDYpPGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19y
-ZWN2bXNnwqAgwqAgLCAzKTxicj4NCi3CoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfc2VuZMKgIMKg
-IMKgIMKgLCA0KTxicj4NCi3CoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfc2VuZG1zZ8KgIMKgICwg
-Myk8YnI+DQotwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX3NlbmR0b8KgIMKgIMKgLCA2KcKgIMKg
-IC8qIDQxODAgKi88YnI+DQotwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX3NldHNvY2tvcHQgLCA1
-KTxicj4NCi3CoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfc2h1dGRvd27CoCDCoCwgMik8YnI+DQot
-wqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX3NvY2tldMKgIMKgIMKgLCAzKTxicj4NCi3CoCDCoCDC
-oCDCoCBNSVBTX1NZUyhzeXNfc29ja2V0cGFpciAsIDQpPGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNf
-U1lTKHN5c19zZXRyZXN1aWTCoCAsIDMpwqAgwqAgLyogNDE4NSAqLzxicj4NCi3CoCDCoCDCoCDC
-oCBNSVBTX1NZUyhzeXNfZ2V0cmVzdWlkwqAgLCAzKTxicj4NCi3CoCDCoCDCoCDCoCBNSVBTX1NZ
-UyhzeXNfbmlfc3lzY2FsbCAsIDApwqAgwqAgLyogd2FzIHN5c19xdWVyeV9tb2R1bGUgKi88YnI+
-DQotwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX3BvbGzCoCDCoCDCoCDCoCwgMyk8YnI+DQotwqAg
-wqAgwqAgwqAgTUlQU19TWVMoc3lzX25mc3NlcnZjdGwgLCAzKTxicj4NCi3CoCDCoCDCoCDCoCBN
-SVBTX1NZUyhzeXNfc2V0cmVzZ2lkwqAgLCAzKcKgIMKgIC8qIDQxOTAgKi88YnI+DQotwqAgwqAg
-wqAgwqAgTUlQU19TWVMoc3lzX2dldHJlc2dpZMKgICwgMyk8YnI+DQotwqAgwqAgwqAgwqAgTUlQ
-U19TWVMoc3lzX3ByY3RswqAgwqAgwqAgLCA1KTxicj4NCi3CoCDCoCDCoCDCoCBNSVBTX1NZUyhz
-eXNfcnRfc2lncmV0dXJuLCAwKTxicj4NCi3CoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfcnRfc2ln
-YWN0aW9uLCA0KTxicj4NCi3CoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfcnRfc2lncHJvY21hc2ss
-IDQpIC8qIDQxOTUgKi88YnI+DQotwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX3J0X3NpZ3BlbmRp
-bmcsIDIpPGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19ydF9zaWd0aW1lZHdhaXQsIDQp
-PGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19ydF9zaWdxdWV1ZWluZm8sIDMpPGJyPg0K
-LcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19ydF9zaWdzdXNwZW5kLCAwKTxicj4NCi3CoCDCoCDC
-oCDCoCBNSVBTX1NZUyhzeXNfcHJlYWQ2NMKgIMKgICwgNinCoCDCoCAvKiA0MjAwICovPGJyPg0K
-LcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19wd3JpdGU2NMKgIMKgLCA2KTxicj4NCi3CoCDCoCDC
-oCDCoCBNSVBTX1NZUyhzeXNfY2hvd27CoCDCoCDCoCAsIDMpPGJyPg0KLcKgIMKgIMKgIMKgIE1J
-UFNfU1lTKHN5c19nZXRjd2TCoCDCoCDCoCwgMik8YnI+DQotwqAgwqAgwqAgwqAgTUlQU19TWVMo
-c3lzX2NhcGdldMKgIMKgIMKgLCAyKTxicj4NCi3CoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfY2Fw
-c2V0wqAgwqAgwqAsIDIpwqAgwqAgLyogNDIwNSAqLzxicj4NCi3CoCDCoCDCoCDCoCBNSVBTX1NZ
-UyhzeXNfc2lnYWx0c3RhY2vCoCDCoCDCoCDCoCAsIDIpPGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNf
-U1lTKHN5c19zZW5kZmlsZcKgIMKgLCA0KTxicj4NCi3CoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNf
-bmlfc3lzY2FsbCAsIDApPGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19uaV9zeXNjYWxs
-ICwgMCk8YnI+DQotwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX21tYXAywqAgwqAgwqAgLCA2KcKg
-IMKgIC8qIDQyMTAgKi88YnI+DQotwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX3RydW5jYXRlNjQg
-LCA0KTxicj4NCi3CoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfZnRydW5jYXRlNjTCoCDCoCDCoCDC
-oCAsIDQpPGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19zdGF0NjTCoCDCoCDCoCwgMik8
-YnI+DQotwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX2xzdGF0NjTCoCDCoCAsIDIpPGJyPg0KLcKg
-IMKgIMKgIMKgIE1JUFNfU1lTKHN5c19mc3RhdDY0wqAgwqAgLCAyKcKgIMKgIC8qIDQyMTUgKi88
-YnI+DQotwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX3Bpdm90X3Jvb3QgLCAyKTxicj4NCi3CoCDC
-oCDCoCDCoCBNSVBTX1NZUyhzeXNfbWluY29yZcKgIMKgICwgMyk8YnI+DQotwqAgwqAgwqAgwqAg
-TUlQU19TWVMoc3lzX21hZHZpc2XCoCDCoCAsIDMpPGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lT
-KHN5c19nZXRkZW50czY0ICwgMyk8YnI+DQotwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX2ZjbnRs
-NjTCoCDCoCAsIDMpwqAgwqAgLyogNDIyMCAqLzxicj4NCi3CoCDCoCDCoCDCoCBNSVBTX1NZUyhz
-eXNfbmlfc3lzY2FsbCAsIDApPGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19nZXR0aWTC
-oCDCoCDCoCwgMCk8YnI+DQotwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX3JlYWRhaGVhZMKgICwg
-NSk8YnI+DQotwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX3NldHhhdHRywqAgwqAsIDUpPGJyPg0K
-LcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19sc2V0eGF0dHLCoCAsIDUpwqAgwqAgLyogNDIyNSAq
-Lzxicj4NCi3CoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfZnNldHhhdHRywqAgLCA1KTxicj4NCi3C
-oCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfZ2V0eGF0dHLCoCDCoCwgNCk8YnI+DQotwqAgwqAgwqAg
-wqAgTUlQU19TWVMoc3lzX2xnZXR4YXR0csKgICwgNCk8YnI+DQotwqAgwqAgwqAgwqAgTUlQU19T
-WVMoc3lzX2ZnZXR4YXR0csKgICwgNCk8YnI+DQotwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX2xp
-c3R4YXR0csKgICwgMynCoCDCoCAvKiA0MjMwICovPGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lT
-KHN5c19sbGlzdHhhdHRyICwgMyk8YnI+DQotwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX2ZsaXN0
-eGF0dHIgLCAzKTxicj4NCi3CoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfcmVtb3ZleGF0dHLCoCDC
-oCDCoCDCoCAsIDIpPGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19scmVtb3ZleGF0dHIs
-IDIpPGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19mcmVtb3ZleGF0dHIsIDIpwqAgwqAv
-KiA0MjM1ICovPGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c190a2lsbMKgIMKgIMKgICwg
-Mik8YnI+DQotwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX3NlbmRmaWxlNjQgLCA1KTxicj4NCi3C
-oCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfZnV0ZXjCoCDCoCDCoCAsIDYpPGJyPg0KLcKgIMKgIMKg
-IMKgIE1JUFNfU1lTKHN5c19zY2hlZF88d2JyPnNldGFmZmluaXR5LCAzKTxicj4NCi3CoCDCoCDC
-oCDCoCBNSVBTX1NZUyhzeXNfc2NoZWRfPHdicj5nZXRhZmZpbml0eSwgMynCoCDCoCDCoCAvKiA0
-MjQwICovPGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19pb19zZXR1cMKgIMKgLCAyKTxi
-cj4NCi3CoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfaW9fZGVzdHJveSAsIDEpPGJyPg0KLcKgIMKg
-IMKgIMKgIE1JUFNfU1lTKHN5c19pb19nZXRldmVudHMsIDUpPGJyPg0KLcKgIMKgIMKgIMKgIE1J
-UFNfU1lTKHN5c19pb19zdWJtaXTCoCAsIDMpPGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5
-c19pb19jYW5jZWzCoCAsIDMpwqAgwqAgLyogNDI0NSAqLzxicj4NCi3CoCDCoCDCoCDCoCBNSVBT
-X1NZUyhzeXNfZXhpdF9ncm91cCAsIDEpPGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19s
-b29rdXBfZGNvb2tpZSwgMyk8YnI+DQotwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX2Vwb2xsX2Ny
-ZWF0ZSwgMSk8YnI+DQotwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX2Vwb2xsX2N0bMKgICwgNCk8
-YnI+DQotwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX2Vwb2xsX3dhaXQgLCAzKcKgIMKgIC8qIDQy
-NTAgKi88YnI+DQotwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX3JlbWFwX2ZpbGVfcGFnZXMsIDUp
-PGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19zZXRfdGlkX2FkZHJlc3MsIDEpPGJyPg0K
-LcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19yZXN0YXJ0X3N5c2NhbGwsIDApPGJyPg0KLcKgIMKg
-IMKgIMKgIE1JUFNfU1lTKHN5c19mYWR2aXNlNjRfNjQsIDcpPGJyPg0KLcKgIMKgIMKgIMKgIE1J
-UFNfU1lTKHN5c19zdGF0ZnM2NMKgIMKgLCAzKcKgIMKgIC8qIDQyNTUgKi88YnI+DQotwqAgwqAg
-wqAgwqAgTUlQU19TWVMoc3lzX2ZzdGF0ZnM2NMKgICwgMik8YnI+DQotwqAgwqAgwqAgwqAgTUlQ
-U19TWVMoc3lzX3RpbWVyX2NyZWF0ZSwgMyk8YnI+DQotwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lz
-X3RpbWVyX3NldHRpbWUsIDQpPGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c190aW1lcl9n
-ZXR0aW1lLCAyKTxicj4NCi3CoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfdGltZXJfZ2V0b3ZlcnJ1
-biwgMSnCoCDCoCDCoCDCoC8qIDQyNjAgKi88YnI+DQotwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lz
-X3RpbWVyX2RlbGV0ZSwgMSk8YnI+DQotwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX2Nsb2NrX3Nl
-dHRpbWUsIDIpPGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19jbG9ja19nZXR0aW1lLCAy
-KTxicj4NCi3CoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfY2xvY2tfZ2V0cmVzLCAyKTxicj4NCi3C
-oCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfY2xvY2tfbmFub3NsZWVwLCA0KcKgIMKgIMKgIMKgIC8q
-IDQyNjUgKi88YnI+DQotwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX3Rna2lsbMKgIMKgIMKgLCAz
-KTxicj4NCi3CoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfdXRpbWVzwqAgwqAgwqAsIDIpPGJyPg0K
-LcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19tYmluZMKgIMKgIMKgICwgNCk8YnI+DQotwqAgwqAg
-wqAgwqAgTUlQU19TWVMoc3lzX25pX3N5c2NhbGwgLCAwKcKgIMKgIC8qIHN5c19nZXRfbWVtcG9s
-aWN5ICovPGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19uaV9zeXNjYWxsICwgMCnCoCDC
-oCAvKiA0MjcwIHN5c19zZXRfbWVtcG9saWN5ICovPGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lT
-KHN5c19tcV9vcGVuwqAgwqAgLCA0KTxicj4NCi3CoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfbXFf
-dW5saW5rwqAgLCAxKTxicj4NCi3CoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfbXFfdGltZWRzZW5k
-LCA1KTxicj4NCi3CoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfbXFfdGltZWRyZWNlaXZlLCA1KTxi
-cj4NCi3CoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfbXFfbm90aWZ5wqAgLCAyKcKgIMKgIC8qIDQy
-NzUgKi88YnI+DQotwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX21xX2dldHNldGF0dHIsIDMpPGJy
-Pg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19uaV9zeXNjYWxsICwgMCnCoCDCoCAvKiBzeXNf
-dnNlcnZlciAqLzxicj4NCi3CoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfd2FpdGlkwqAgwqAgwqAs
-IDQpPGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19uaV9zeXNjYWxsICwgMCnCoCDCoCAv
-KiBhdmFpbGFibGUsIHdhcyBzZXRhbHRyb290ICovPGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lT
-KHN5c19hZGRfa2V5wqAgwqAgLCA1KTxicj4NCi3CoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfcmVx
-dWVzdF9rZXksIDQpPGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19rZXljdGzCoCDCoCDC
-oCwgNSk8YnI+DQotwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX3NldF90aHJlYWRfYXJlYSwgMSk8
-YnI+DQotwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX2lub3RpZnlfaW5pdCwgMCk8YnI+DQotwqAg
-wqAgwqAgwqAgTUlQU19TWVMoc3lzX2lub3RpZnlfYWRkXzx3YnI+d2F0Y2gsIDMpIC8qIDQyODUg
-Ki88YnI+DQotwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX2lub3RpZnlfcm1fd2F0Y2gsIDIpPGJy
-Pg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19taWdyYXRlX3BhZ2VzLCA0KTxicj4NCi3CoCDC
-oCDCoCDCoCBNSVBTX1NZUyhzeXNfb3BlbmF0LCA0KTxicj4NCi3CoCDCoCDCoCDCoCBNSVBTX1NZ
-UyhzeXNfbWtkaXJhdCwgMyk8YnI+DQotwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX21rbm9kYXQs
-IDQpwqAgwqAgwqAgwqAgLyogNDI5MCAqLzxicj4NCi3CoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNf
-ZmNob3duYXQsIDUpPGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19mdXRpbWVzYXQsIDMp
-PGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19mc3RhdGF0NjQsIDQpPGJyPg0KLcKgIMKg
-IMKgIMKgIE1JUFNfU1lTKHN5c191bmxpbmthdCwgMyk8YnI+DQotwqAgwqAgwqAgwqAgTUlQU19T
-WVMoc3lzX3JlbmFtZWF0LCA0KcKgIMKgIMKgIMKgLyogNDI5NSAqLzxicj4NCi3CoCDCoCDCoCDC
-oCBNSVBTX1NZUyhzeXNfbGlua2F0LCA1KTxicj4NCi3CoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNf
-c3ltbGlua2F0LCAzKTxicj4NCi3CoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfcmVhZGxpbmthdCwg
-NCk8YnI+DQotwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX2ZjaG1vZGF0LCAzKTxicj4NCi3CoCDC
-oCDCoCDCoCBNSVBTX1NZUyhzeXNfZmFjY2Vzc2F0LCAzKcKgIMKgIMKgIC8qIDQzMDAgKi88YnI+
-DQotwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX3BzZWxlY3Q2LCA2KTxicj4NCi3CoCDCoCDCoCDC
-oCBNSVBTX1NZUyhzeXNfcHBvbGwsIDUpPGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c191
-bnNoYXJlLCAxKTxicj4NCi3CoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfc3BsaWNlLCA2KTxicj4N
-Ci3CoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfc3luY19maWxlX3JhbmdlLCA3KSAvKiA0MzA1ICov
-PGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c190ZWUsIDQpPGJyPg0KLcKgIMKgIMKgIMKg
-IE1JUFNfU1lTKHN5c192bXNwbGljZSwgNCk8YnI+DQotwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lz
-X21vdmVfcGFnZXMsIDYpPGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19zZXRfcm9idXN0
-X2xpc3QsIDIpPGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19nZXRfcm9idXN0X2xpc3Qs
-IDMpIC8qIDQzMTAgKi88YnI+DQotwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX2tleGVjX2xvYWQs
-IDQpPGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19nZXRjcHUsIDMpPGJyPg0KLcKgIMKg
-IMKgIMKgIE1JUFNfU1lTKHN5c19lcG9sbF9wd2FpdCwgNik8YnI+DQotwqAgwqAgwqAgwqAgTUlQ
-U19TWVMoc3lzX2lvcHJpb19zZXQsIDMpPGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19p
-b3ByaW9fZ2V0LCAyKTxicj4NCi3CoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfdXRpbWVuc2F0LCA0
-KTxicj4NCi3CoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfc2lnbmFsZmQsIDMpPGJyPg0KLcKgIMKg
-IMKgIMKgIE1JUFNfU1lTKHN5c19uaV9zeXNjYWxsLCAwKcKgIMKgIMKgLyogd2FzIHRpbWVyZmQg
-Ki88YnI+DQotwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX2V2ZW50ZmQsIDEpPGJyPg0KLcKgIMKg
-IMKgIMKgIE1JUFNfU1lTKHN5c19mYWxsb2NhdGUsIDYpwqAgwqAgwqAgLyogNDMyMCAqLzxicj4N
-Ci3CoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfdGltZXJmZF9jcmVhdGUsIDIpPGJyPg0KLcKgIMKg
-IMKgIMKgIE1JUFNfU1lTKHN5c190aW1lcmZkX2dldHRpbWUsIDIpPGJyPg0KLcKgIMKgIMKgIMKg
-IE1JUFNfU1lTKHN5c190aW1lcmZkX3NldHRpbWUsIDQpPGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNf
-U1lTKHN5c19zaWduYWxmZDQsIDQpPGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19ldmVu
-dGZkMiwgMinCoCDCoCDCoCDCoC8qIDQzMjUgKi88YnI+DQotwqAgwqAgwqAgwqAgTUlQU19TWVMo
-c3lzX2Vwb2xsX2NyZWF0ZTEsIDEpPGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19kdXAz
-LCAzKTxicj4NCi3CoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfcGlwZTIsIDIpPGJyPg0KLcKgIMKg
-IMKgIMKgIE1JUFNfU1lTKHN5c19pbm90aWZ5X2luaXQxLCAxKTxicj4NCi3CoCDCoCDCoCDCoCBN
-SVBTX1NZUyhzeXNfcHJlYWR2LCA1KcKgIMKgIMKgIMKgIMKgLyogNDMzMCAqLzxicj4NCi3CoCDC
-oCDCoCDCoCBNSVBTX1NZUyhzeXNfcHdyaXRldiwgNSk8YnI+DQotwqAgwqAgwqAgwqAgTUlQU19T
-WVMoc3lzX3J0Xzx3YnI+dGdzaWdxdWV1ZWluZm8sIDQpPGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNf
-U1lTKHN5c19wZXJmX2V2ZW50X29wZW4sIDUpPGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5
-c19hY2NlcHQ0LCA0KTxicj4NCi3CoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfcmVjdm1tc2csIDUp
-wqAgwqAgwqAgwqAvKiA0MzM1ICovPGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19mYW5v
-dGlmeV9pbml0LCAyKTxicj4NCi3CoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfZmFub3RpZnlfbWFy
-aywgNik8YnI+DQotwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX3BybGltaXQ2NCwgNCk8YnI+DQot
-wqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX25hbWVfdG9faGFuZGxlXzx3YnI+YXQsIDUpPGJyPg0K
-LcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19vcGVuX2J5X2hhbmRsZV88d2JyPmF0LCAzKSAvKiA0
-MzQwICovPGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19jbG9ja19hZGp0aW1lLCAyKTxi
-cj4NCi3CoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfc3luY2ZzLCAxKTxicj4NCi3CoCDCoCDCoCDC
-oCBNSVBTX1NZUyhzeXNfc2VuZG1tc2csIDQpPGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5
-c19zZXRucywgMik8YnI+DQotwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX3Byb2Nlc3Nfdm1fcmVh
-ZHYsIDYpIC8qIDM0NSAqLzxicj4NCi3CoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfcHJvY2Vzc192
-bV88d2JyPndyaXRldiwgNik8YnI+DQotwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX2tjbXAsIDUp
-PGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19maW5pdF9tb2R1bGUsIDMpPGJyPg0KLcKg
-IMKgIMKgIMKgIE1JUFNfU1lTKHN5c19zY2hlZF9zZXRhdHRyLCAyKTxicj4NCi3CoCDCoCDCoCDC
-oCBNSVBTX1NZUyhzeXNfc2NoZWRfZ2V0YXR0ciwgMynCoCAvKiAzNTAgKi88YnI+DQotwqAgwqAg
-wqAgwqAgTUlQU19TWVMoc3lzX3JlbmFtZWF0MiwgNSk8YnI+DQotwqAgwqAgwqAgwqAgTUlQU19T
-WVMoc3lzX3NlY2NvbXAsIDMpPGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19nZXRyYW5k
-b20sIDMpPGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19tZW1mZF9jcmVhdGUsIDIpPGJy
-Pg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19icGYsIDMpwqAgwqAgwqAgwqAgwqAgwqAgLyog
-MzU1ICovPGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19leGVjdmVhdCwgNSk8YnI+DQot
-wqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX3VzZXJmYXVsdGZkLCAxKTxicj4NCi3CoCDCoCDCoCDC
-oCBNSVBTX1NZUyhzeXNfbWVtYmFycmllciwgMik8YnI+DQotwqAgwqAgwqAgwqAgTUlQU19TWVMo
-c3lzX21sb2NrMiwgMyk8YnI+DQotwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX2NvcHlfZmlsZV9y
-YW5nZSwgNikgLyogMzYwICovPGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19wcmVhZHYy
-LCA2KTxicj4NCi3CoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfcHdyaXRldjIsIDYpPGJyPg0KLcKg
-IMKgIMKgIMKgIE1JUFNfU1lTKHN5c19wa2V5X21wcm90ZWN0LCA0KTxicj4NCi3CoCDCoCDCoCDC
-oCBNSVBTX1NZUyhzeXNfcGtleV9hbGxvYywgMik8YnI+DQotwqAgwqAgwqAgwqAgTUlQU19TWVMo
-c3lzX3BrZXlfZnJlZSwgMSnCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoC8qIDM2NSAqLzxicj4N
-Ci3CoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfc3RhdHgsIDUpPGJyPg0KLcKgIMKgIMKgIMKgIE1J
-UFNfU1lTKHN5c19yc2VxLCA0KTxicj4NCi3CoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfaW9fcGdl
-dGV2ZW50cywgNik8YnI+DQotwqAgwqAgwqAgwqAgTUlQU19TWVNDQUxMX05VTUJFUl9VTlVTRUQs
-PGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTQ0FMTF9OVU1CRVJfVU5VU0VELMKgIMKgIMKgIMKg
-IMKgIMKgIMKgIMKgIC8qIDM3MCAqLzxicj4NCi3CoCDCoCDCoCDCoCBNSVBTX1NZU0NBTExfTlVN
-QkVSX1VOVVNFRCw8YnI+DQotwqAgwqAgwqAgwqAgTUlQU19TWVNDQUxMX05VTUJFUl9VTlVTRUQs
-PGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTQ0FMTF9OVU1CRVJfVU5VU0VELDxicj4NCi3CoCDC
-oCDCoCDCoCBNSVBTX1NZU0NBTExfTlVNQkVSX1VOVVNFRCw8YnI+DQotwqAgwqAgwqAgwqAgTUlQ
-U19TWVNDQUxMX05VTUJFUl9VTlVTRUQswqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgLyogMzc1ICov
-PGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTQ0FMTF9OVU1CRVJfVU5VU0VELDxicj4NCi3CoCDC
-oCDCoCDCoCBNSVBTX1NZU0NBTExfTlVNQkVSX1VOVVNFRCw8YnI+DQotwqAgwqAgwqAgwqAgTUlQ
-U19TWVNDQUxMX05VTUJFUl9VTlVTRUQsPGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTQ0FMTF9O
-VU1CRVJfVU5VU0VELDxicj4NCi3CoCDCoCDCoCDCoCBNSVBTX1NZU0NBTExfTlVNQkVSX1VOVVNF
-RCzCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCAvKiAzODAgKi88YnI+DQotwqAgwqAgwqAgwqAgTUlQ
-U19TWVNDQUxMX05VTUJFUl9VTlVTRUQsPGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTQ0FMTF9O
-VU1CRVJfVU5VU0VELDxicj4NCi3CoCDCoCDCoCDCoCBNSVBTX1NZU0NBTExfTlVNQkVSX1VOVVNF
-RCw8YnI+DQotwqAgwqAgwqAgwqAgTUlQU19TWVNDQUxMX05VTUJFUl9VTlVTRUQsPGJyPg0KLcKg
-IMKgIMKgIMKgIE1JUFNfU1lTQ0FMTF9OVU1CRVJfVU5VU0VELMKgIMKgIMKgIMKgIMKgIMKgIMKg
-IMKgIC8qIDM4NSAqLzxicj4NCi3CoCDCoCDCoCDCoCBNSVBTX1NZU0NBTExfTlVNQkVSX1VOVVNF
-RCw8YnI+DQotwqAgwqAgwqAgwqAgTUlQU19TWVNDQUxMX05VTUJFUl9VTlVTRUQsPGJyPg0KLcKg
-IMKgIMKgIMKgIE1JUFNfU1lTQ0FMTF9OVU1CRVJfVU5VU0VELDxicj4NCi3CoCDCoCDCoCDCoCBN
-SVBTX1NZU0NBTExfTlVNQkVSX1VOVVNFRCw8YnI+DQotwqAgwqAgwqAgwqAgTUlQU19TWVNDQUxM
-X05VTUJFUl9VTlVTRUQswqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgLyogMzkwICovPGJyPg0KLcKg
-IMKgIMKgIMKgIE1JUFNfU1lTQ0FMTF9OVU1CRVJfVU5VU0VELDxicj4NCi3CoCDCoCDCoCDCoCBN
-SVBTX1NZU0NBTExfTlVNQkVSX1VOVVNFRCw8YnI+DQotwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lz
-X3NlbWdldCwgMyk8YnI+DQotwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX3NlbWN0bCwgNCk8YnI+
-DQotwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX3NobWdldCwgMynCoCDCoCDCoCDCoCDCoCDCoCDC
-oCDCoCDCoCDCoCAvKiAzOTUgKi88YnI+DQotwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX3NobWN0
-bCwgMyk8YnI+DQotwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX3NobWF0LCAzKTxicj4NCi3CoCDC
-oCDCoCDCoCBNSVBTX1NZUyhzeXNfc2htZHQsIDEpPGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lT
-KHN5c19tc2dnZXQsIDIpPGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19tc2dzbmQsIDQp
-wqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgLyogNDAwICovPGJyPg0KLcKgIMKgIMKgIMKg
-IE1JUFNfU1lTKHN5c19tc2dyY3YsIDUpPGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19t
-c2djdGwsIDMpPGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19jbG9ja19nZXR0aW1lNjQs
-IDIpPGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19jbG9ja19zZXR0aW1lNjQsIDIpPGJy
-Pg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19jbG9ja19hZGp0aW1lNjQsIDIpwqAgwqAgwqAg
-wqAgwqAgwqAvKiA0MDUgKi88YnI+DQotwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX2Nsb2NrX2dl
-dHJlc188d2JyPnRpbWU2NCwgMik8YnI+DQotwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX2Nsb2Nr
-X25hbm9zbGVlcF88d2JyPnRpbWU2NCwgNCk8YnI+DQotwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lz
-X3RpbWVyX2dldHRpbWU2NCwgMik8YnI+DQotwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX3RpbWVy
-X3NldHRpbWU2NCwgNCk8YnI+DQotwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX3RpbWVyZmRfPHdi
-cj5nZXR0aW1lNjQsIDIpwqAgwqAgwqAgwqAgwqAvKiA0MTAgKi88YnI+DQotwqAgwqAgwqAgwqAg
-TUlQU19TWVMoc3lzX3RpbWVyZmRfPHdicj5zZXR0aW1lNjQsIDQpPGJyPg0KLcKgIMKgIMKgIMKg
-IE1JUFNfU1lTKHN5c191dGltZW5zYXRfdGltZTY0LCA0KTxicj4NCi3CoCDCoCDCoCDCoCBNSVBT
-X1NZUyhzeXNfcHNlbGVjdDZfdGltZTY0LCA2KTxicj4NCi3CoCDCoCDCoCDCoCBNSVBTX1NZUyhz
-eXNfcHBvbGxfdGltZTY0LCA1KTxicj4NCi3CoCDCoCDCoCDCoCBNSVBTX1NZU0NBTExfTlVNQkVS
-X1VOVVNFRCzCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCAvKiA0MTUgKi88YnI+DQotwqAgwqAgwqAg
-wqAgTUlQU19TWVMoc3lzX2lvX3BnZXRldmVudHNfPHdicj50aW1lNjQsIDYpPGJyPg0KLcKgIMKg
-IMKgIMKgIE1JUFNfU1lTKHN5c19yZWN2bW1zZ190aW1lNjQsIDUpPGJyPg0KLcKgIMKgIMKgIMKg
-IE1JUFNfU1lTKHN5c19tcV90aW1lZHNlbmRfPHdicj50aW1lNjQsIDUpPGJyPg0KLcKgIMKgIMKg
-IMKgIE1JUFNfU1lTKHN5c19tcV90aW1lZHJlY2VpdmVfPHdicj50aW1lNjQsIDUpPGJyPg0KLcKg
-IMKgIMKgIMKgIE1JUFNfU1lTKHN5c19zZW10aW1lZG9wXzx3YnI+dGltZTY0LCA0KcKgIMKgIMKg
-IMKgIMKgLyogNDIwICovPGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19ydF9zaWd0aW1l
-ZHdhaXRfPHdicj50aW1lNjQsIDQpPGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19mdXRl
-eF90aW1lNjQsIDYpPGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19zY2hlZF9ycl9nZXRf
-PHdicj5pbnRlcnZhbF90aW1lNjQsIDIpPGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19w
-aWRmZF9zZW5kXzx3YnI+c2lnbmFsLCA0KTxicj4NCi3CoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNf
-aW9fdXJpbmdfc2V0dXAsIDIpwqAgwqAgwqAgwqAgwqAgwqAgLyogNDI1ICovPGJyPg0KLcKgIMKg
-IMKgIMKgIE1JUFNfU1lTKHN5c19pb191cmluZ19lbnRlciwgNik8YnI+DQotwqAgwqAgwqAgwqAg
-TUlQU19TWVMoc3lzX2lvX3VyaW5nXzx3YnI+cmVnaXN0ZXIsIDQpPGJyPg0KLcKgIMKgIMKgIMKg
-IE1JUFNfU1lTKHN5c19vcGVuX3RyZWUsIDMpPGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5
-c19tb3ZlX21vdW50LCA1KTxicj4NCi3CoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfZnNvcGVuLCAy
-KcKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIC8qIDQzMCAqLzxicj4NCi3CoCDCoCDCoCDC
-oCBNSVBTX1NZUyhzeXNfZnNjb25maWcsIDUpPGJyPg0KLcKgIMKgIMKgIMKgIE1JUFNfU1lTKHN5
-c19mc21vdW50LCAzKTxicj4NCi3CoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfZnNwaWNrLCAzKTxi
-cj4NCi3CoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfcGlkZmRfb3BlbiwgMik8YnI+DQotwqAgwqAg
-wqAgwqAgTUlQU19TWVMoc3lzX2Nsb25lMywgMinCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDC
-oCAvKiA0MzUgKi88YnI+DQotPGJyPg0KKyNpbmNsdWRlICZxdW90O3N5c2NhbGwtYXJncy1vMzIu
-Yy5pbmMmcXVvdDs8YnI+DQrCoH07PGJyPg0KLSPCoCB1bmRlZiBNSVBTX1NZUzxicj4NCsKgIyBl
-bmRpZiAvKiBPMzIgKi88YnI+DQo8YnI+DQrCoC8qIEJyZWFrIGNvZGVzICovPGJyPg0KZGlmZiAt
-LWdpdCBhL2xpbnV4LXVzZXIvbWlwcy9zeXNjYWxsLTx3YnI+YXJncy1vMzIuYy5pbmMgYi9saW51
-eC11c2VyL21pcHMvc3lzY2FsbC08d2JyPmFyZ3MtbzMyLmMuaW5jPGJyPg0KbmV3IGZpbGUgbW9k
-ZSAxMDA2NDQ8YnI+DQppbmRleCAwMDAwMDAwMDAwMDAuLmYwNjBiMDYxNDQxYTxicj4NCi0tLSAv
-ZGV2L251bGw8YnI+DQorKysgYi9saW51eC11c2VyL21pcHMvc3lzY2FsbC08d2JyPmFyZ3MtbzMy
-LmMuaW5jPGJyPg0KQEAgLTAsMCArMSw0MzggQEA8YnI+DQorI8KgIGRlZmluZSBNSVBTX1NZUyhu
-YW1lLCBhcmdzKSBhcmdzLDxicj4NCivCoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfc3lzY2FsbMKg
-IMKgICwgOCnCoCDCoCAvKiA0MDAwICovPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19l
-eGl0wqAgwqAgwqAgwqAsIDEpPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19mb3JrwqAg
-wqAgwqAgwqAsIDApPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19yZWFkwqAgwqAgwqAg
-wqAsIDMpPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c193cml0ZcKgIMKgIMKgICwgMyk8
-YnI+DQorwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX29wZW7CoCDCoCDCoCDCoCwgMynCoCDCoCAv
-KiA0MDA1ICovPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19jbG9zZcKgIMKgIMKgICwg
-MSk8YnI+DQorwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX3dhaXRwaWTCoCDCoCAsIDMpPGJyPg0K
-K8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19jcmVhdMKgIMKgIMKgICwgMik8YnI+DQorwqAgwqAg
-wqAgwqAgTUlQU19TWVMoc3lzX2xpbmvCoCDCoCDCoCDCoCwgMik8YnI+DQorwqAgwqAgwqAgwqAg
-TUlQU19TWVMoc3lzX3VubGlua8KgIMKgIMKgLCAxKcKgIMKgIC8qIDQwMTAgKi88YnI+DQorwqAg
-wqAgwqAgwqAgTUlQU19TWVMoc3lzX2V4ZWN2ZcKgIMKgIMKgLCAwKTxicj4NCivCoCDCoCDCoCDC
-oCBNSVBTX1NZUyhzeXNfY2hkaXLCoCDCoCDCoCAsIDEpPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNf
-U1lTKHN5c190aW1lwqAgwqAgwqAgwqAsIDEpPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5
-c19ta25vZMKgIMKgIMKgICwgMyk8YnI+DQorwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX2NobW9k
-wqAgwqAgwqAgLCAyKcKgIMKgIC8qIDQwMTUgKi88YnI+DQorwqAgwqAgwqAgwqAgTUlQU19TWVMo
-c3lzX2xjaG93bsKgIMKgIMKgLCAzKTxicj4NCivCoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfbmlf
-c3lzY2FsbCAsIDApPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19uaV9zeXNjYWxsICwg
-MCnCoCDCoCAvKiB3YXMgc3lzX3N0YXQgKi88YnI+DQorwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lz
-X2xzZWVrwqAgwqAgwqAgLCAzKTxicj4NCivCoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfZ2V0cGlk
-wqAgwqAgwqAsIDApwqAgwqAgLyogNDAyMCAqLzxicj4NCivCoCDCoCDCoCDCoCBNSVBTX1NZUyhz
-eXNfbW91bnTCoCDCoCDCoCAsIDUpPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c191bW91
-bnTCoCDCoCDCoCwgMSk8YnI+DQorwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX3NldHVpZMKgIMKg
-IMKgLCAxKTxicj4NCivCoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfZ2V0dWlkwqAgwqAgwqAsIDAp
-PGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19zdGltZcKgIMKgIMKgICwgMSnCoCDCoCAv
-KiA0MDI1ICovPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19wdHJhY2XCoCDCoCDCoCwg
-NCk8YnI+DQorwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX2FsYXJtwqAgwqAgwqAgLCAxKTxicj4N
-CivCoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfbmlfc3lzY2FsbCAsIDApwqAgwqAgLyogd2FzIHN5
-c19mc3RhdCAqLzxicj4NCivCoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfcGF1c2XCoCDCoCDCoCAs
-IDApPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c191dGltZcKgIMKgIMKgICwgMinCoCDC
-oCAvKiA0MDMwICovPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19uaV9zeXNjYWxsICwg
-MCk8YnI+DQorwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX25pX3N5c2NhbGwgLCAwKTxicj4NCivC
-oCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfYWNjZXNzwqAgwqAgwqAsIDIpPGJyPg0KK8KgIMKgIMKg
-IMKgIE1JUFNfU1lTKHN5c19uaWNlwqAgwqAgwqAgwqAsIDEpPGJyPg0KK8KgIMKgIMKgIMKgIE1J
-UFNfU1lTKHN5c19uaV9zeXNjYWxsICwgMCnCoCDCoCAvKiA0MDM1ICovPGJyPg0KK8KgIMKgIMKg
-IMKgIE1JUFNfU1lTKHN5c19zeW5jwqAgwqAgwqAgwqAsIDApPGJyPg0KK8KgIMKgIMKgIMKgIE1J
-UFNfU1lTKHN5c19raWxswqAgwqAgwqAgwqAsIDIpPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lT
-KHN5c19yZW5hbWXCoCDCoCDCoCwgMik8YnI+DQorwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX21r
-ZGlywqAgwqAgwqAgLCAyKTxicj4NCivCoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfcm1kaXLCoCDC
-oCDCoCAsIDEpwqAgwqAgLyogNDA0MCAqLzxicj4NCivCoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNf
-ZHVwwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgLCAxKTxicj4NCivCoCDCoCDCoCDCoCBNSVBTX1NZ
-UyhzeXNfcGlwZcKgIMKgIMKgIMKgLCAwKTxicj4NCivCoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNf
-dGltZXPCoCDCoCDCoCAsIDEpPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19uaV9zeXNj
-YWxsICwgMCk8YnI+DQorwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX2Jya8KgIMKgIMKgIMKgIMKg
-IMKgIMKgIMKgICwgMSnCoCDCoCAvKiA0MDQ1ICovPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lT
-KHN5c19zZXRnaWTCoCDCoCDCoCwgMSk8YnI+DQorwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX2dl
-dGdpZMKgIMKgIMKgLCAwKTxicj4NCivCoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfbmlfc3lzY2Fs
-bCAsIDApwqAgwqAgLyogd2FzIHNpZ25hbCgyKSAqLzxicj4NCivCoCDCoCDCoCDCoCBNSVBTX1NZ
-UyhzeXNfZ2V0ZXVpZMKgIMKgICwgMCk8YnI+DQorwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX2dl
-dGVnaWTCoCDCoCAsIDApwqAgwqAgLyogNDA1MCAqLzxicj4NCivCoCDCoCDCoCDCoCBNSVBTX1NZ
-UyhzeXNfYWNjdMKgIMKgIMKgIMKgLCAwKTxicj4NCivCoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNf
-dW1vdW50MsKgIMKgICwgMik8YnI+DQorwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX25pX3N5c2Nh
-bGwgLCAwKTxicj4NCivCoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfaW9jdGzCoCDCoCDCoCAsIDMp
-PGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19mY250bMKgIMKgIMKgICwgMynCoCDCoCAv
-KiA0MDU1ICovPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19uaV9zeXNjYWxsICwgMik8
-YnI+DQorwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX3NldHBnaWTCoCDCoCAsIDIpPGJyPg0KK8Kg
-IMKgIMKgIMKgIE1JUFNfU1lTKHN5c19uaV9zeXNjYWxsICwgMCk8YnI+DQorwqAgwqAgwqAgwqAg
-TUlQU19TWVMoc3lzX29sZHVuYW1lwqAgwqAsIDEpPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lT
-KHN5c191bWFza8KgIMKgIMKgICwgMSnCoCDCoCAvKiA0MDYwICovPGJyPg0KK8KgIMKgIMKgIMKg
-IE1JUFNfU1lTKHN5c19jaHJvb3TCoCDCoCDCoCwgMSk8YnI+DQorwqAgwqAgwqAgwqAgTUlQU19T
-WVMoc3lzX3VzdGF0wqAgwqAgwqAgLCAyKTxicj4NCivCoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNf
-ZHVwMsKgIMKgIMKgIMKgLCAyKTxicj4NCivCoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfZ2V0cHBp
-ZMKgIMKgICwgMCk8YnI+DQorwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX2dldHBncnDCoCDCoCAs
-IDApwqAgwqAgLyogNDA2NSAqLzxicj4NCivCoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfc2V0c2lk
-wqAgwqAgwqAsIDApPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19zaWdhY3Rpb27CoCAs
-IDMpPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19zZ2V0bWFza8KgIMKgLCAwKTxicj4N
-CivCoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfc3NldG1hc2vCoCDCoCwgMSk8YnI+DQorwqAgwqAg
-wqAgwqAgTUlQU19TWVMoc3lzX3NldHJldWlkwqAgwqAsIDIpwqAgwqAgLyogNDA3MCAqLzxicj4N
-CivCoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfc2V0cmVnaWTCoCDCoCwgMik8YnI+DQorwqAgwqAg
-wqAgwqAgTUlQU19TWVMoc3lzX3NpZ3N1c3BlbmQgLCAwKTxicj4NCivCoCDCoCDCoCDCoCBNSVBT
-X1NZUyhzeXNfc2lncGVuZGluZyAsIDEpPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19z
-ZXRob3N0bmFtZcKgIMKgIMKgIMKgICwgMik8YnI+DQorwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lz
-X3NldHJsaW1pdMKgICwgMinCoCDCoCAvKiA0MDc1ICovPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNf
-U1lTKHN5c19nZXRybGltaXTCoCAsIDIpPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19n
-ZXRydXNhZ2XCoCAsIDIpPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19nZXR0aW1lb2Zk
-YXksIDIpPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19zZXR0aW1lb2ZkYXksIDIpPGJy
-Pg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19nZXRncm91cHPCoCAsIDIpwqAgwqAgLyogNDA4
-MCAqLzxicj4NCivCoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfc2V0Z3JvdXBzwqAgLCAyKTxicj4N
-CivCoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfbmlfc3lzY2FsbCAsIDApwqAgwqAgLyogb2xkX3Nl
-bGVjdCAqLzxicj4NCivCoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfc3ltbGlua8KgIMKgICwgMik8
-YnI+DQorwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX25pX3N5c2NhbGwgLCAwKcKgIMKgIC8qIHdh
-cyBzeXNfbHN0YXQgKi88YnI+DQorwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX3JlYWRsaW5rwqAg
-wqAsIDMpwqAgwqAgLyogNDA4NSAqLzxicj4NCivCoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfdXNl
-bGliwqAgwqAgwqAsIDEpPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19zd2Fwb27CoCDC
-oCDCoCwgMik8YnI+DQorwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX3JlYm9vdMKgIMKgIMKgLCAz
-KTxicj4NCivCoCDCoCDCoCDCoCBNSVBTX1NZUyhvbGRfcmVhZGRpcsKgIMKgICwgMyk8YnI+DQor
-wqAgwqAgwqAgwqAgTUlQU19TWVMob2xkX21tYXDCoCDCoCDCoCDCoCwgNinCoCDCoCAvKiA0MDkw
-ICovPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19tdW5tYXDCoCDCoCDCoCwgMik8YnI+
-DQorwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX3RydW5jYXRlwqAgwqAsIDIpPGJyPg0KK8KgIMKg
-IMKgIMKgIE1JUFNfU1lTKHN5c19mdHJ1bmNhdGXCoCAsIDIpPGJyPg0KK8KgIMKgIMKgIMKgIE1J
-UFNfU1lTKHN5c19mY2htb2TCoCDCoCDCoCwgMik8YnI+DQorwqAgwqAgwqAgwqAgTUlQU19TWVMo
-c3lzX2ZjaG93bsKgIMKgIMKgLCAzKcKgIMKgIC8qIDQwOTUgKi88YnI+DQorwqAgwqAgwqAgwqAg
-TUlQU19TWVMoc3lzX2dldHByaW9yaXR5wqAgwqAgwqAgwqAgLCAyKTxicj4NCivCoCDCoCDCoCDC
-oCBNSVBTX1NZUyhzeXNfc2V0cHJpb3JpdHnCoCDCoCDCoCDCoCAsIDMpPGJyPg0KK8KgIMKgIMKg
-IMKgIE1JUFNfU1lTKHN5c19uaV9zeXNjYWxsICwgMCk8YnI+DQorwqAgwqAgwqAgwqAgTUlQU19T
-WVMoc3lzX3N0YXRmc8KgIMKgIMKgLCAyKTxicj4NCivCoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNf
-ZnN0YXRmc8KgIMKgICwgMinCoCDCoCAvKiA0MTAwICovPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNf
-U1lTKHN5c19uaV9zeXNjYWxsICwgMCnCoCDCoCAvKiB3YXMgaW9wZXJtKDIpICovPGJyPg0KK8Kg
-IMKgIMKgIMKgIE1JUFNfU1lTKHN5c19zb2NrZXRjYWxsICwgMik8YnI+DQorwqAgwqAgwqAgwqAg
-TUlQU19TWVMoc3lzX3N5c2xvZ8KgIMKgIMKgLCAzKTxicj4NCivCoCDCoCDCoCDCoCBNSVBTX1NZ
-UyhzeXNfc2V0aXRpbWVywqAgLCAzKTxicj4NCivCoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfZ2V0
-aXRpbWVywqAgLCAyKcKgIMKgIC8qIDQxMDUgKi88YnI+DQorwqAgwqAgwqAgwqAgTUlQU19TWVMo
-c3lzX25ld3N0YXTCoCDCoCAsIDIpPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19uZXds
-c3RhdMKgIMKgLCAyKTxicj4NCivCoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfbmV3ZnN0YXTCoCDC
-oCwgMik8YnI+DQorwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX3VuYW1lwqAgwqAgwqAgLCAxKTxi
-cj4NCivCoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfbmlfc3lzY2FsbCAsIDApwqAgwqAgLyogNDEx
-MCB3YXMgaW9wbCgyKSAqLzxicj4NCivCoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfdmhhbmd1cMKg
-IMKgICwgMCk8YnI+DQorwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX25pX3N5c2NhbGwgLCAwKcKg
-IMKgIC8qIHdhcyBzeXNfaWRsZSgpICovPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19u
-aV9zeXNjYWxsICwgMCnCoCDCoCAvKiB3YXMgc3lzX3ZtODYgKi88YnI+DQorwqAgwqAgwqAgwqAg
-TUlQU19TWVMoc3lzX3dhaXQ0wqAgwqAgwqAgLCA0KTxicj4NCivCoCDCoCDCoCDCoCBNSVBTX1NZ
-UyhzeXNfc3dhcG9mZsKgIMKgICwgMSnCoCDCoCAvKiA0MTE1ICovPGJyPg0KK8KgIMKgIMKgIMKg
-IE1JUFNfU1lTKHN5c19zeXNpbmZvwqAgwqAgLCAxKTxicj4NCivCoCDCoCDCoCDCoCBNSVBTX1NZ
-UyhzeXNfaXBjwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgLCA2KTxicj4NCivCoCDCoCDCoCDCoCBN
-SVBTX1NZUyhzeXNfZnN5bmPCoCDCoCDCoCAsIDEpPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lT
-KHN5c19zaWdyZXR1cm7CoCAsIDApPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19jbG9u
-ZcKgIMKgIMKgICwgNinCoCDCoCAvKiA0MTIwICovPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lT
-KHN5c19zZXRkb21haW5uYW1lLCAyKTxicj4NCivCoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfbmV3
-dW5hbWXCoCDCoCwgMSk8YnI+DQorwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX25pX3N5c2NhbGwg
-LCAwKcKgIMKgIC8qIHN5c19tb2RpZnlfbGR0ICovPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lT
-KHN5c19hZGp0aW1leMKgIMKgLCAxKTxicj4NCivCoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfbXBy
-b3RlY3TCoCDCoCwgMynCoCDCoCAvKiA0MTI1ICovPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lT
-KHN5c19zaWdwcm9jbWFza8KgIMKgIMKgIMKgICwgMyk8YnI+DQorwqAgwqAgwqAgwqAgTUlQU19T
-WVMoc3lzX25pX3N5c2NhbGwgLCAwKcKgIMKgIC8qIHdhcyBjcmVhdGVfbW9kdWxlICovPGJyPg0K
-K8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19pbml0X21vZHVsZcKgIMKgIMKgIMKgICwgNSk8YnI+
-DQorwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX2RlbGV0ZV9tb2R1bGUsIDEpPGJyPg0KK8KgIMKg
-IMKgIMKgIE1JUFNfU1lTKHN5c19uaV9zeXNjYWxsICwgMCnCoCDCoCAvKiA0MTMwIHdhcyBnZXRf
-a2VybmVsX3N5bXMgKi88YnI+DQorwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX3F1b3RhY3RswqAg
-wqAsIDApPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19nZXRwZ2lkwqAgwqAgLCAxKTxi
-cj4NCivCoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfZmNoZGlywqAgwqAgwqAsIDEpPGJyPg0KK8Kg
-IMKgIMKgIMKgIE1JUFNfU1lTKHN5c19iZGZsdXNowqAgwqAgLCAyKTxicj4NCivCoCDCoCDCoCDC
-oCBNSVBTX1NZUyhzeXNfc3lzZnPCoCDCoCDCoCAsIDMpwqAgwqAgLyogNDEzNSAqLzxicj4NCivC
-oCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfcGVyc29uYWxpdHnCoCDCoCDCoCDCoCAsIDEpPGJyPg0K
-K8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19uaV9zeXNjYWxsICwgMCnCoCDCoCAvKiBmb3IgYWZz
-X3N5c2NhbGwgKi88YnI+DQorwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX3NldGZzdWlkwqAgwqAs
-IDEpPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19zZXRmc2dpZMKgIMKgLCAxKTxicj4N
-CivCoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfbGxzZWVrwqAgwqAgwqAsIDUpwqAgwqAgLyogNDE0
-MCAqLzxicj4NCivCoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfZ2V0ZGVudHPCoCDCoCwgMyk8YnI+
-DQorwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX3NlbGVjdMKgIMKgIMKgLCA1KTxicj4NCivCoCDC
-oCDCoCDCoCBNSVBTX1NZUyhzeXNfZmxvY2vCoCDCoCDCoCAsIDIpPGJyPg0KK8KgIMKgIMKgIMKg
-IE1JUFNfU1lTKHN5c19tc3luY8KgIMKgIMKgICwgMyk8YnI+DQorwqAgwqAgwqAgwqAgTUlQU19T
-WVMoc3lzX3JlYWR2wqAgwqAgwqAgLCAzKcKgIMKgIC8qIDQxNDUgKi88YnI+DQorwqAgwqAgwqAg
-wqAgTUlQU19TWVMoc3lzX3dyaXRldsKgIMKgIMKgLCAzKTxicj4NCivCoCDCoCDCoCDCoCBNSVBT
-X1NZUyhzeXNfY2FjaGVmbHVzaCAsIDMpPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19j
-YWNoZWN0bMKgIMKgLCAzKTxicj4NCivCoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfc3lzbWlwc8Kg
-IMKgICwgNCk8YnI+DQorwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX25pX3N5c2NhbGwgLCAwKcKg
-IMKgIC8qIDQxNTAgKi88YnI+DQorwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX2dldHNpZMKgIMKg
-IMKgLCAxKTxicj4NCivCoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfZmRhdGFzeW5jwqAgLCAwKTxi
-cj4NCivCoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfc3lzY3RswqAgwqAgwqAsIDEpPGJyPg0KK8Kg
-IMKgIMKgIMKgIE1JUFNfU1lTKHN5c19tbG9ja8KgIMKgIMKgICwgMik8YnI+DQorwqAgwqAgwqAg
-wqAgTUlQU19TWVMoc3lzX211bmxvY2vCoCDCoCAsIDIpwqAgwqAgLyogNDE1NSAqLzxicj4NCivC
-oCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfbWxvY2thbGzCoCDCoCwgMSk8YnI+DQorwqAgwqAgwqAg
-wqAgTUlQU19TWVMoc3lzX211bmxvY2thbGwgLCAwKTxicj4NCivCoCDCoCDCoCDCoCBNSVBTX1NZ
-UyhzeXNfc2NoZWRfc2V0cGFyYW0sIDIpPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19z
-Y2hlZF9nZXRwYXJhbSwgMik8YnI+DQorwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX3NjaGVkXzx3
-YnI+c2V0c2NoZWR1bGVyLCAzKcKgIMKgIMKgLyogNDE2MCAqLzxicj4NCivCoCDCoCDCoCDCoCBN
-SVBTX1NZUyhzeXNfc2NoZWRfPHdicj5nZXRzY2hlZHVsZXIsIDEpPGJyPg0KK8KgIMKgIMKgIMKg
-IE1JUFNfU1lTKHN5c19zY2hlZF95aWVsZMKgIMKgIMKgIMKgICwgMCk8YnI+DQorwqAgwqAgwqAg
-wqAgTUlQU19TWVMoc3lzX3NjaGVkX2dldF88d2JyPnByaW9yaXR5X21heCwgMSk8YnI+DQorwqAg
-wqAgwqAgwqAgTUlQU19TWVMoc3lzX3NjaGVkX2dldF88d2JyPnByaW9yaXR5X21pbiwgMSk8YnI+
-DQorwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX3NjaGVkX3JyX2dldF88d2JyPmludGVydmFsLCAy
-KcKgIC8qIDQxNjUgKi88YnI+DQorwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX25hbm9zbGVlcCwg
-Mik8YnI+DQorwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX21yZW1hcMKgIMKgIMKgLCA1KTxicj4N
-CivCoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfYWNjZXB0wqAgwqAgwqAsIDMpPGJyPg0KK8KgIMKg
-IMKgIMKgIE1JUFNfU1lTKHN5c19iaW5kwqAgwqAgwqAgwqAsIDMpPGJyPg0KK8KgIMKgIMKgIMKg
-IE1JUFNfU1lTKHN5c19jb25uZWN0wqAgwqAgLCAzKcKgIMKgIC8qIDQxNzAgKi88YnI+DQorwqAg
-wqAgwqAgwqAgTUlQU19TWVMoc3lzX2dldHBlZXJuYW1lwqAgwqAgwqAgwqAgLCAzKTxicj4NCivC
-oCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfZ2V0c29ja25hbWXCoCDCoCDCoCDCoCAsIDMpPGJyPg0K
-K8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19nZXRzb2Nrb3B0ICwgNSk8YnI+DQorwqAgwqAgwqAg
-wqAgTUlQU19TWVMoc3lzX2xpc3RlbsKgIMKgIMKgLCAyKTxicj4NCivCoCDCoCDCoCDCoCBNSVBT
-X1NZUyhzeXNfcmVjdsKgIMKgIMKgIMKgLCA0KcKgIMKgIC8qIDQxNzUgKi88YnI+DQorwqAgwqAg
-wqAgwqAgTUlQU19TWVMoc3lzX3JlY3Zmcm9twqAgwqAsIDYpPGJyPg0KK8KgIMKgIMKgIMKgIE1J
-UFNfU1lTKHN5c19yZWN2bXNnwqAgwqAgLCAzKTxicj4NCivCoCDCoCDCoCDCoCBNSVBTX1NZUyhz
-eXNfc2VuZMKgIMKgIMKgIMKgLCA0KTxicj4NCivCoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfc2Vu
-ZG1zZ8KgIMKgICwgMyk8YnI+DQorwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX3NlbmR0b8KgIMKg
-IMKgLCA2KcKgIMKgIC8qIDQxODAgKi88YnI+DQorwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX3Nl
-dHNvY2tvcHQgLCA1KTxicj4NCivCoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfc2h1dGRvd27CoCDC
-oCwgMik8YnI+DQorwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX3NvY2tldMKgIMKgIMKgLCAzKTxi
-cj4NCivCoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfc29ja2V0cGFpciAsIDQpPGJyPg0KK8KgIMKg
-IMKgIMKgIE1JUFNfU1lTKHN5c19zZXRyZXN1aWTCoCAsIDMpwqAgwqAgLyogNDE4NSAqLzxicj4N
-CivCoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfZ2V0cmVzdWlkwqAgLCAzKTxicj4NCivCoCDCoCDC
-oCDCoCBNSVBTX1NZUyhzeXNfbmlfc3lzY2FsbCAsIDApwqAgwqAgLyogd2FzIHN5c19xdWVyeV9t
-b2R1bGUgKi88YnI+DQorwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX3BvbGzCoCDCoCDCoCDCoCwg
-Myk8YnI+DQorwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX25mc3NlcnZjdGwgLCAzKTxicj4NCivC
-oCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfc2V0cmVzZ2lkwqAgLCAzKcKgIMKgIC8qIDQxOTAgKi88
-YnI+DQorwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX2dldHJlc2dpZMKgICwgMyk8YnI+DQorwqAg
-wqAgwqAgwqAgTUlQU19TWVMoc3lzX3ByY3RswqAgwqAgwqAgLCA1KTxicj4NCivCoCDCoCDCoCDC
-oCBNSVBTX1NZUyhzeXNfcnRfc2lncmV0dXJuLCAwKTxicj4NCivCoCDCoCDCoCDCoCBNSVBTX1NZ
-UyhzeXNfcnRfc2lnYWN0aW9uLCA0KTxicj4NCivCoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfcnRf
-c2lncHJvY21hc2ssIDQpIC8qIDQxOTUgKi88YnI+DQorwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lz
-X3J0X3NpZ3BlbmRpbmcsIDIpPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19ydF9zaWd0
-aW1lZHdhaXQsIDQpPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19ydF9zaWdxdWV1ZWlu
-Zm8sIDMpPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19ydF9zaWdzdXNwZW5kLCAwKTxi
-cj4NCivCoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfcHJlYWQ2NMKgIMKgICwgNinCoCDCoCAvKiA0
-MjAwICovPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19wd3JpdGU2NMKgIMKgLCA2KTxi
-cj4NCivCoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfY2hvd27CoCDCoCDCoCAsIDMpPGJyPg0KK8Kg
-IMKgIMKgIMKgIE1JUFNfU1lTKHN5c19nZXRjd2TCoCDCoCDCoCwgMik8YnI+DQorwqAgwqAgwqAg
-wqAgTUlQU19TWVMoc3lzX2NhcGdldMKgIMKgIMKgLCAyKTxicj4NCivCoCDCoCDCoCDCoCBNSVBT
-X1NZUyhzeXNfY2Fwc2V0wqAgwqAgwqAsIDIpwqAgwqAgLyogNDIwNSAqLzxicj4NCivCoCDCoCDC
-oCDCoCBNSVBTX1NZUyhzeXNfc2lnYWx0c3RhY2vCoCDCoCDCoCDCoCAsIDIpPGJyPg0KK8KgIMKg
-IMKgIMKgIE1JUFNfU1lTKHN5c19zZW5kZmlsZcKgIMKgLCA0KTxicj4NCivCoCDCoCDCoCDCoCBN
-SVBTX1NZUyhzeXNfbmlfc3lzY2FsbCAsIDApPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5
-c19uaV9zeXNjYWxsICwgMCk8YnI+DQorwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX21tYXAywqAg
-wqAgwqAgLCA2KcKgIMKgIC8qIDQyMTAgKi88YnI+DQorwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lz
-X3RydW5jYXRlNjQgLCA0KTxicj4NCivCoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfZnRydW5jYXRl
-NjTCoCDCoCDCoCDCoCAsIDQpPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19zdGF0NjTC
-oCDCoCDCoCwgMik8YnI+DQorwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX2xzdGF0NjTCoCDCoCAs
-IDIpPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19mc3RhdDY0wqAgwqAgLCAyKcKgIMKg
-IC8qIDQyMTUgKi88YnI+DQorwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX3Bpdm90X3Jvb3QgLCAy
-KTxicj4NCivCoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfbWluY29yZcKgIMKgICwgMyk8YnI+DQor
-wqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX21hZHZpc2XCoCDCoCAsIDMpPGJyPg0KK8KgIMKgIMKg
-IMKgIE1JUFNfU1lTKHN5c19nZXRkZW50czY0ICwgMyk8YnI+DQorwqAgwqAgwqAgwqAgTUlQU19T
-WVMoc3lzX2ZjbnRsNjTCoCDCoCAsIDMpwqAgwqAgLyogNDIyMCAqLzxicj4NCivCoCDCoCDCoCDC
-oCBNSVBTX1NZUyhzeXNfbmlfc3lzY2FsbCAsIDApPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lT
-KHN5c19nZXR0aWTCoCDCoCDCoCwgMCk8YnI+DQorwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX3Jl
-YWRhaGVhZMKgICwgNSk8YnI+DQorwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX3NldHhhdHRywqAg
-wqAsIDUpPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19sc2V0eGF0dHLCoCAsIDUpwqAg
-wqAgLyogNDIyNSAqLzxicj4NCivCoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfZnNldHhhdHRywqAg
-LCA1KTxicj4NCivCoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfZ2V0eGF0dHLCoCDCoCwgNCk8YnI+
-DQorwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX2xnZXR4YXR0csKgICwgNCk8YnI+DQorwqAgwqAg
-wqAgwqAgTUlQU19TWVMoc3lzX2ZnZXR4YXR0csKgICwgNCk8YnI+DQorwqAgwqAgwqAgwqAgTUlQ
-U19TWVMoc3lzX2xpc3R4YXR0csKgICwgMynCoCDCoCAvKiA0MjMwICovPGJyPg0KK8KgIMKgIMKg
-IMKgIE1JUFNfU1lTKHN5c19sbGlzdHhhdHRyICwgMyk8YnI+DQorwqAgwqAgwqAgwqAgTUlQU19T
-WVMoc3lzX2ZsaXN0eGF0dHIgLCAzKTxicj4NCivCoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfcmVt
-b3ZleGF0dHLCoCDCoCDCoCDCoCAsIDIpPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19s
-cmVtb3ZleGF0dHIsIDIpPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19mcmVtb3ZleGF0
-dHIsIDIpwqAgwqAvKiA0MjM1ICovPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c190a2ls
-bMKgIMKgIMKgICwgMik8YnI+DQorwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX3NlbmRmaWxlNjQg
-LCA1KTxicj4NCivCoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfZnV0ZXjCoCDCoCDCoCAsIDYpPGJy
-Pg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19zY2hlZF88d2JyPnNldGFmZmluaXR5LCAzKTxi
-cj4NCivCoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfc2NoZWRfPHdicj5nZXRhZmZpbml0eSwgMynC
-oCDCoCDCoCAvKiA0MjQwICovPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19pb19zZXR1
-cMKgIMKgLCAyKTxicj4NCivCoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfaW9fZGVzdHJveSAsIDEp
-PGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19pb19nZXRldmVudHMsIDUpPGJyPg0KK8Kg
-IMKgIMKgIMKgIE1JUFNfU1lTKHN5c19pb19zdWJtaXTCoCAsIDMpPGJyPg0KK8KgIMKgIMKgIMKg
-IE1JUFNfU1lTKHN5c19pb19jYW5jZWzCoCAsIDMpwqAgwqAgLyogNDI0NSAqLzxicj4NCivCoCDC
-oCDCoCDCoCBNSVBTX1NZUyhzeXNfZXhpdF9ncm91cCAsIDEpPGJyPg0KK8KgIMKgIMKgIMKgIE1J
-UFNfU1lTKHN5c19sb29rdXBfZGNvb2tpZSwgMyk8YnI+DQorwqAgwqAgwqAgwqAgTUlQU19TWVMo
-c3lzX2Vwb2xsX2NyZWF0ZSwgMSk8YnI+DQorwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX2Vwb2xs
-X2N0bMKgICwgNCk8YnI+DQorwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX2Vwb2xsX3dhaXQgLCAz
-KcKgIMKgIC8qIDQyNTAgKi88YnI+DQorwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX3JlbWFwX2Zp
-bGVfcGFnZXMsIDUpPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19zZXRfdGlkX2FkZHJl
-c3MsIDEpPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19yZXN0YXJ0X3N5c2NhbGwsIDAp
-PGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19mYWR2aXNlNjRfNjQsIDcpPGJyPg0KK8Kg
-IMKgIMKgIMKgIE1JUFNfU1lTKHN5c19zdGF0ZnM2NMKgIMKgLCAzKcKgIMKgIC8qIDQyNTUgKi88
-YnI+DQorwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX2ZzdGF0ZnM2NMKgICwgMik8YnI+DQorwqAg
-wqAgwqAgwqAgTUlQU19TWVMoc3lzX3RpbWVyX2NyZWF0ZSwgMyk8YnI+DQorwqAgwqAgwqAgwqAg
-TUlQU19TWVMoc3lzX3RpbWVyX3NldHRpbWUsIDQpPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lT
-KHN5c190aW1lcl9nZXR0aW1lLCAyKTxicj4NCivCoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfdGlt
-ZXJfZ2V0b3ZlcnJ1biwgMSnCoCDCoCDCoCDCoC8qIDQyNjAgKi88YnI+DQorwqAgwqAgwqAgwqAg
-TUlQU19TWVMoc3lzX3RpbWVyX2RlbGV0ZSwgMSk8YnI+DQorwqAgwqAgwqAgwqAgTUlQU19TWVMo
-c3lzX2Nsb2NrX3NldHRpbWUsIDIpPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19jbG9j
-a19nZXR0aW1lLCAyKTxicj4NCivCoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfY2xvY2tfZ2V0cmVz
-LCAyKTxicj4NCivCoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfY2xvY2tfbmFub3NsZWVwLCA0KcKg
-IMKgIMKgIMKgIC8qIDQyNjUgKi88YnI+DQorwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX3Rna2ls
-bMKgIMKgIMKgLCAzKTxicj4NCivCoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfdXRpbWVzwqAgwqAg
-wqAsIDIpPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19tYmluZMKgIMKgIMKgICwgNCk8
-YnI+DQorwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX25pX3N5c2NhbGwgLCAwKcKgIMKgIC8qIHN5
-c19nZXRfbWVtcG9saWN5ICovPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19uaV9zeXNj
-YWxsICwgMCnCoCDCoCAvKiA0MjcwIHN5c19zZXRfbWVtcG9saWN5ICovPGJyPg0KK8KgIMKgIMKg
-IMKgIE1JUFNfU1lTKHN5c19tcV9vcGVuwqAgwqAgLCA0KTxicj4NCivCoCDCoCDCoCDCoCBNSVBT
-X1NZUyhzeXNfbXFfdW5saW5rwqAgLCAxKTxicj4NCivCoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNf
-bXFfdGltZWRzZW5kLCA1KTxicj4NCivCoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfbXFfdGltZWRy
-ZWNlaXZlLCA1KTxicj4NCivCoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfbXFfbm90aWZ5wqAgLCAy
-KcKgIMKgIC8qIDQyNzUgKi88YnI+DQorwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX21xX2dldHNl
-dGF0dHIsIDMpPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19uaV9zeXNjYWxsICwgMCnC
-oCDCoCAvKiBzeXNfdnNlcnZlciAqLzxicj4NCivCoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfd2Fp
-dGlkwqAgwqAgwqAsIDQpPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19uaV9zeXNjYWxs
-ICwgMCnCoCDCoCAvKiBhdmFpbGFibGUsIHdhcyBzZXRhbHRyb290ICovPGJyPg0KK8KgIMKgIMKg
-IMKgIE1JUFNfU1lTKHN5c19hZGRfa2V5wqAgwqAgLCA1KTxicj4NCivCoCDCoCDCoCDCoCBNSVBT
-X1NZUyhzeXNfcmVxdWVzdF9rZXksIDQpPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19r
-ZXljdGzCoCDCoCDCoCwgNSk8YnI+DQorwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX3NldF90aHJl
-YWRfYXJlYSwgMSk8YnI+DQorwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX2lub3RpZnlfaW5pdCwg
-MCk8YnI+DQorwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX2lub3RpZnlfYWRkXzx3YnI+d2F0Y2gs
-IDMpIC8qIDQyODUgKi88YnI+DQorwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX2lub3RpZnlfcm1f
-d2F0Y2gsIDIpPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19taWdyYXRlX3BhZ2VzLCA0
-KTxicj4NCivCoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfb3BlbmF0LCA0KTxicj4NCivCoCDCoCDC
-oCDCoCBNSVBTX1NZUyhzeXNfbWtkaXJhdCwgMyk8YnI+DQorwqAgwqAgwqAgwqAgTUlQU19TWVMo
-c3lzX21rbm9kYXQsIDQpwqAgwqAgwqAgwqAgLyogNDI5MCAqLzxicj4NCivCoCDCoCDCoCDCoCBN
-SVBTX1NZUyhzeXNfZmNob3duYXQsIDUpPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19m
-dXRpbWVzYXQsIDMpPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19mc3RhdGF0NjQsIDQp
-PGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c191bmxpbmthdCwgMyk8YnI+DQorwqAgwqAg
-wqAgwqAgTUlQU19TWVMoc3lzX3JlbmFtZWF0LCA0KcKgIMKgIMKgIMKgLyogNDI5NSAqLzxicj4N
-CivCoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfbGlua2F0LCA1KTxicj4NCivCoCDCoCDCoCDCoCBN
-SVBTX1NZUyhzeXNfc3ltbGlua2F0LCAzKTxicj4NCivCoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNf
-cmVhZGxpbmthdCwgNCk8YnI+DQorwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX2ZjaG1vZGF0LCAz
-KTxicj4NCivCoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfZmFjY2Vzc2F0LCAzKcKgIMKgIMKgIC8q
-IDQzMDAgKi88YnI+DQorwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX3BzZWxlY3Q2LCA2KTxicj4N
-CivCoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfcHBvbGwsIDUpPGJyPg0KK8KgIMKgIMKgIMKgIE1J
-UFNfU1lTKHN5c191bnNoYXJlLCAxKTxicj4NCivCoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfc3Bs
-aWNlLCA2KTxicj4NCivCoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfc3luY19maWxlX3JhbmdlLCA3
-KSAvKiA0MzA1ICovPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c190ZWUsIDQpPGJyPg0K
-K8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c192bXNwbGljZSwgNCk8YnI+DQorwqAgwqAgwqAgwqAg
-TUlQU19TWVMoc3lzX21vdmVfcGFnZXMsIDYpPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5
-c19zZXRfcm9idXN0X2xpc3QsIDIpPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19nZXRf
-cm9idXN0X2xpc3QsIDMpIC8qIDQzMTAgKi88YnI+DQorwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lz
-X2tleGVjX2xvYWQsIDQpPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19nZXRjcHUsIDMp
-PGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19lcG9sbF9wd2FpdCwgNik8YnI+DQorwqAg
-wqAgwqAgwqAgTUlQU19TWVMoc3lzX2lvcHJpb19zZXQsIDMpPGJyPg0KK8KgIMKgIMKgIMKgIE1J
-UFNfU1lTKHN5c19pb3ByaW9fZ2V0LCAyKTxicj4NCivCoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNf
-dXRpbWVuc2F0LCA0KTxicj4NCivCoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfc2lnbmFsZmQsIDMp
-PGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19uaV9zeXNjYWxsLCAwKcKgIMKgIMKgLyog
-d2FzIHRpbWVyZmQgKi88YnI+DQorwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX2V2ZW50ZmQsIDEp
-PGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19mYWxsb2NhdGUsIDYpwqAgwqAgwqAgLyog
-NDMyMCAqLzxicj4NCivCoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfdGltZXJmZF9jcmVhdGUsIDIp
-PGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c190aW1lcmZkX2dldHRpbWUsIDIpPGJyPg0K
-K8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c190aW1lcmZkX3NldHRpbWUsIDQpPGJyPg0KK8KgIMKg
-IMKgIMKgIE1JUFNfU1lTKHN5c19zaWduYWxmZDQsIDQpPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNf
-U1lTKHN5c19ldmVudGZkMiwgMinCoCDCoCDCoCDCoC8qIDQzMjUgKi88YnI+DQorwqAgwqAgwqAg
-wqAgTUlQU19TWVMoc3lzX2Vwb2xsX2NyZWF0ZTEsIDEpPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNf
-U1lTKHN5c19kdXAzLCAzKTxicj4NCivCoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfcGlwZTIsIDIp
-PGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19pbm90aWZ5X2luaXQxLCAxKTxicj4NCivC
-oCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfcHJlYWR2LCA1KcKgIMKgIMKgIMKgIMKgLyogNDMzMCAq
-Lzxicj4NCivCoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfcHdyaXRldiwgNSk8YnI+DQorwqAgwqAg
-wqAgwqAgTUlQU19TWVMoc3lzX3J0Xzx3YnI+dGdzaWdxdWV1ZWluZm8sIDQpPGJyPg0KK8KgIMKg
-IMKgIMKgIE1JUFNfU1lTKHN5c19wZXJmX2V2ZW50X29wZW4sIDUpPGJyPg0KK8KgIMKgIMKgIMKg
-IE1JUFNfU1lTKHN5c19hY2NlcHQ0LCA0KTxicj4NCivCoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNf
-cmVjdm1tc2csIDUpwqAgwqAgwqAgwqAvKiA0MzM1ICovPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNf
-U1lTKHN5c19mYW5vdGlmeV9pbml0LCAyKTxicj4NCivCoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNf
-ZmFub3RpZnlfbWFyaywgNik8YnI+DQorwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX3BybGltaXQ2
-NCwgNCk8YnI+DQorwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX25hbWVfdG9faGFuZGxlXzx3YnI+
-YXQsIDUpPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19vcGVuX2J5X2hhbmRsZV88d2Jy
-PmF0LCAzKSAvKiA0MzQwICovPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19jbG9ja19h
-ZGp0aW1lLCAyKTxicj4NCivCoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfc3luY2ZzLCAxKTxicj4N
-CivCoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfc2VuZG1tc2csIDQpPGJyPg0KK8KgIMKgIMKgIMKg
-IE1JUFNfU1lTKHN5c19zZXRucywgMik8YnI+DQorwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX3By
-b2Nlc3Nfdm1fcmVhZHYsIDYpIC8qIDM0NSAqLzxicj4NCivCoCDCoCDCoCDCoCBNSVBTX1NZUyhz
-eXNfcHJvY2Vzc192bV88d2JyPndyaXRldiwgNik8YnI+DQorwqAgwqAgwqAgwqAgTUlQU19TWVMo
-c3lzX2tjbXAsIDUpPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19maW5pdF9tb2R1bGUs
-IDMpPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19zY2hlZF9zZXRhdHRyLCAyKTxicj4N
-CivCoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfc2NoZWRfZ2V0YXR0ciwgMynCoCAvKiAzNTAgKi88
-YnI+DQorwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX3JlbmFtZWF0MiwgNSk8YnI+DQorwqAgwqAg
-wqAgwqAgTUlQU19TWVMoc3lzX3NlY2NvbXAsIDMpPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lT
-KHN5c19nZXRyYW5kb20sIDMpPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19tZW1mZF9j
-cmVhdGUsIDIpPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19icGYsIDMpwqAgwqAgwqAg
-wqAgwqAgwqAgLyogMzU1ICovPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19leGVjdmVh
-dCwgNSk8YnI+DQorwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX3VzZXJmYXVsdGZkLCAxKTxicj4N
-CivCoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfbWVtYmFycmllciwgMik8YnI+DQorwqAgwqAgwqAg
-wqAgTUlQU19TWVMoc3lzX21sb2NrMiwgMyk8YnI+DQorwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lz
-X2NvcHlfZmlsZV9yYW5nZSwgNikgLyogMzYwICovPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lT
-KHN5c19wcmVhZHYyLCA2KTxicj4NCivCoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfcHdyaXRldjIs
-IDYpPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19wa2V5X21wcm90ZWN0LCA0KTxicj4N
-CivCoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfcGtleV9hbGxvYywgMik8YnI+DQorwqAgwqAgwqAg
-wqAgTUlQU19TWVMoc3lzX3BrZXlfZnJlZSwgMSnCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoC8q
-IDM2NSAqLzxicj4NCivCoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfc3RhdHgsIDUpPGJyPg0KK8Kg
-IMKgIMKgIMKgIE1JUFNfU1lTKHN5c19yc2VxLCA0KTxicj4NCivCoCDCoCDCoCDCoCBNSVBTX1NZ
-UyhzeXNfaW9fcGdldGV2ZW50cywgNik8YnI+DQorwqAgwqAgwqAgwqAgTUlQU19TWVNDQUxMX05V
-TUJFUl9VTlVTRUQsPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lTQ0FMTF9OVU1CRVJfVU5VU0VE
-LMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIC8qIDM3MCAqLzxicj4NCivCoCDCoCDCoCDCoCBNSVBT
-X1NZU0NBTExfTlVNQkVSX1VOVVNFRCw8YnI+DQorwqAgwqAgwqAgwqAgTUlQU19TWVNDQUxMX05V
-TUJFUl9VTlVTRUQsPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lTQ0FMTF9OVU1CRVJfVU5VU0VE
-LDxicj4NCivCoCDCoCDCoCDCoCBNSVBTX1NZU0NBTExfTlVNQkVSX1VOVVNFRCw8YnI+DQorwqAg
-wqAgwqAgwqAgTUlQU19TWVNDQUxMX05VTUJFUl9VTlVTRUQswqAgwqAgwqAgwqAgwqAgwqAgwqAg
-wqAgLyogMzc1ICovPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lTQ0FMTF9OVU1CRVJfVU5VU0VE
-LDxicj4NCivCoCDCoCDCoCDCoCBNSVBTX1NZU0NBTExfTlVNQkVSX1VOVVNFRCw8YnI+DQorwqAg
-wqAgwqAgwqAgTUlQU19TWVNDQUxMX05VTUJFUl9VTlVTRUQsPGJyPg0KK8KgIMKgIMKgIMKgIE1J
-UFNfU1lTQ0FMTF9OVU1CRVJfVU5VU0VELDxicj4NCivCoCDCoCDCoCDCoCBNSVBTX1NZU0NBTExf
-TlVNQkVSX1VOVVNFRCzCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCAvKiAzODAgKi88YnI+DQorwqAg
-wqAgwqAgwqAgTUlQU19TWVNDQUxMX05VTUJFUl9VTlVTRUQsPGJyPg0KK8KgIMKgIMKgIMKgIE1J
-UFNfU1lTQ0FMTF9OVU1CRVJfVU5VU0VELDxicj4NCivCoCDCoCDCoCDCoCBNSVBTX1NZU0NBTExf
-TlVNQkVSX1VOVVNFRCw8YnI+DQorwqAgwqAgwqAgwqAgTUlQU19TWVNDQUxMX05VTUJFUl9VTlVT
-RUQsPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lTQ0FMTF9OVU1CRVJfVU5VU0VELMKgIMKgIMKg
-IMKgIMKgIMKgIMKgIMKgIC8qIDM4NSAqLzxicj4NCivCoCDCoCDCoCDCoCBNSVBTX1NZU0NBTExf
-TlVNQkVSX1VOVVNFRCw8YnI+DQorwqAgwqAgwqAgwqAgTUlQU19TWVNDQUxMX05VTUJFUl9VTlVT
-RUQsPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lTQ0FMTF9OVU1CRVJfVU5VU0VELDxicj4NCivC
-oCDCoCDCoCDCoCBNSVBTX1NZU0NBTExfTlVNQkVSX1VOVVNFRCw8YnI+DQorwqAgwqAgwqAgwqAg
-TUlQU19TWVNDQUxMX05VTUJFUl9VTlVTRUQswqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgLyogMzkw
-ICovPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lTQ0FMTF9OVU1CRVJfVU5VU0VELDxicj4NCivC
-oCDCoCDCoCDCoCBNSVBTX1NZU0NBTExfTlVNQkVSX1VOVVNFRCw8YnI+DQorwqAgwqAgwqAgwqAg
-TUlQU19TWVMoc3lzX3NlbWdldCwgMyk8YnI+DQorwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX3Nl
-bWN0bCwgNCk8YnI+DQorwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX3NobWdldCwgMynCoCDCoCDC
-oCDCoCDCoCDCoCDCoCDCoCDCoCDCoCAvKiAzOTUgKi88YnI+DQorwqAgwqAgwqAgwqAgTUlQU19T
-WVMoc3lzX3NobWN0bCwgMyk8YnI+DQorwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX3NobWF0LCAz
-KTxicj4NCivCoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfc2htZHQsIDEpPGJyPg0KK8KgIMKgIMKg
-IMKgIE1JUFNfU1lTKHN5c19tc2dnZXQsIDIpPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5
-c19tc2dzbmQsIDQpwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgLyogNDAwICovPGJyPg0K
-K8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19tc2dyY3YsIDUpPGJyPg0KK8KgIMKgIMKgIMKgIE1J
-UFNfU1lTKHN5c19tc2djdGwsIDMpPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19jbG9j
-a19nZXR0aW1lNjQsIDIpPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19jbG9ja19zZXR0
-aW1lNjQsIDIpPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19jbG9ja19hZGp0aW1lNjQs
-IDIpwqAgwqAgwqAgwqAgwqAgwqAvKiA0MDUgKi88YnI+DQorwqAgwqAgwqAgwqAgTUlQU19TWVMo
-c3lzX2Nsb2NrX2dldHJlc188d2JyPnRpbWU2NCwgMik8YnI+DQorwqAgwqAgwqAgwqAgTUlQU19T
-WVMoc3lzX2Nsb2NrX25hbm9zbGVlcF88d2JyPnRpbWU2NCwgNCk8YnI+DQorwqAgwqAgwqAgwqAg
-TUlQU19TWVMoc3lzX3RpbWVyX2dldHRpbWU2NCwgMik8YnI+DQorwqAgwqAgwqAgwqAgTUlQU19T
-WVMoc3lzX3RpbWVyX3NldHRpbWU2NCwgNCk8YnI+DQorwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lz
-X3RpbWVyZmRfPHdicj5nZXR0aW1lNjQsIDIpwqAgwqAgwqAgwqAgwqAvKiA0MTAgKi88YnI+DQor
-wqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX3RpbWVyZmRfPHdicj5zZXR0aW1lNjQsIDQpPGJyPg0K
-K8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c191dGltZW5zYXRfdGltZTY0LCA0KTxicj4NCivCoCDC
-oCDCoCDCoCBNSVBTX1NZUyhzeXNfcHNlbGVjdDZfdGltZTY0LCA2KTxicj4NCivCoCDCoCDCoCDC
-oCBNSVBTX1NZUyhzeXNfcHBvbGxfdGltZTY0LCA1KTxicj4NCivCoCDCoCDCoCDCoCBNSVBTX1NZ
-U0NBTExfTlVNQkVSX1VOVVNFRCzCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCAvKiA0MTUgKi88YnI+
-DQorwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX2lvX3BnZXRldmVudHNfPHdicj50aW1lNjQsIDYp
-PGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19yZWN2bW1zZ190aW1lNjQsIDUpPGJyPg0K
-K8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19tcV90aW1lZHNlbmRfPHdicj50aW1lNjQsIDUpPGJy
-Pg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19tcV90aW1lZHJlY2VpdmVfPHdicj50aW1lNjQs
-IDUpPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19zZW10aW1lZG9wXzx3YnI+dGltZTY0
-LCA0KcKgIMKgIMKgIMKgIMKgLyogNDIwICovPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5
-c19ydF9zaWd0aW1lZHdhaXRfPHdicj50aW1lNjQsIDQpPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNf
-U1lTKHN5c19mdXRleF90aW1lNjQsIDYpPGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19z
-Y2hlZF9ycl9nZXRfPHdicj5pbnRlcnZhbF90aW1lNjQsIDIpPGJyPg0KK8KgIMKgIMKgIMKgIE1J
-UFNfU1lTKHN5c19waWRmZF9zZW5kXzx3YnI+c2lnbmFsLCA0KTxicj4NCivCoCDCoCDCoCDCoCBN
-SVBTX1NZUyhzeXNfaW9fdXJpbmdfc2V0dXAsIDIpwqAgwqAgwqAgwqAgwqAgwqAgLyogNDI1ICov
-PGJyPg0KK8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19pb191cmluZ19lbnRlciwgNik8YnI+DQor
-wqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX2lvX3VyaW5nXzx3YnI+cmVnaXN0ZXIsIDQpPGJyPg0K
-K8KgIMKgIMKgIMKgIE1JUFNfU1lTKHN5c19vcGVuX3RyZWUsIDMpPGJyPg0KK8KgIMKgIMKgIMKg
-IE1JUFNfU1lTKHN5c19tb3ZlX21vdW50LCA1KTxicj4NCivCoCDCoCDCoCDCoCBNSVBTX1NZUyhz
-eXNfZnNvcGVuLCAyKcKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIC8qIDQzMCAqLzxicj4N
-CivCoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfZnNjb25maWcsIDUpPGJyPg0KK8KgIMKgIMKgIMKg
-IE1JUFNfU1lTKHN5c19mc21vdW50LCAzKTxicj4NCivCoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNf
-ZnNwaWNrLCAzKTxicj4NCivCoCDCoCDCoCDCoCBNSVBTX1NZUyhzeXNfcGlkZmRfb3BlbiwgMik8
-YnI+DQorwqAgwqAgwqAgwqAgTUlQU19TWVMoc3lzX2Nsb25lMywgMinCoCDCoCDCoCDCoCDCoCDC
-oCDCoCDCoCDCoCDCoCAvKiA0MzUgKi88YnI+DQorI8KgIHVuZGVmIE1JUFNfU1lTPGJyPg0KLS0g
-PGJyPg0KMi4yNC4xPGJyPg0KPGJyPg0KPGJyPg0KPC9ibG9ja3F1b3RlPg0K
---000000000000a8fa11059edd6910--
+<br><br>On Monday, February 17, 2020, Laurent Vivier &lt;<a href=3D"mailto:=
+laurent@vivier.eu">laurent@vivier.eu</a>&gt; wrote:<br><blockquote class=3D=
+"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding=
+-left:1ex">Add a script to update the file from strace github and run it<br=
+>
+<br>
+Signed-off-by: Laurent Vivier &lt;<a href=3D"mailto:laurent@vivier.eu">laur=
+ent@vivier.eu</a>&gt;<br>
+---</blockquote><div><br></div><div><span style=3D"color:rgb(34,34,34);font=
+-size:14px;line-height:22.1200008392334px">Reviewed-by: Aleksandar Markovic=
+ &lt;</span><a href=3D"mailto:amarkovic@wavecomp.com" style=3D"font-size:14=
+px;line-height:22.1200008392334px">amarkovic@wavecomp.com</a><span style=3D=
+"color:rgb(34,34,34);font-size:14px;line-height:22.1200008392334px">&gt;</s=
+pan></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margi=
+n:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+=C2=A0linux-user/mips/syscall-args-<wbr>o32.c.inc | 874 ++++++++++++-------=
+------<br>
+=C2=A0scripts/update-mips-syscall-<wbr>args.sh=C2=A0 =C2=A0 |=C2=A0 57 ++<b=
+r>
+=C2=A02 files changed, 493 insertions(+), 438 deletions(-)<br>
+=C2=A0create mode 100755 scripts/update-mips-syscall-<wbr>args.sh<br>
+<br>
+diff --git a/linux-user/mips/syscall-<wbr>args-o32.c.inc b/linux-user/mips/=
+syscall-<wbr>args-o32.c.inc<br>
+index f060b061441a..0ad35857b4e4 100644<br>
+--- a/linux-user/mips/syscall-<wbr>args-o32.c.inc<br>
++++ b/linux-user/mips/syscall-<wbr>args-o32.c.inc<br>
+@@ -1,438 +1,436 @@<br>
+-#=C2=A0 define MIPS_SYS(name, args) args,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_syscall=C2=A0 =C2=A0 , 8)=C2=A0 =
+=C2=A0 /* 4000 */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_exit=C2=A0 =C2=A0 =C2=A0 =C2=A0, =
+1)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_fork=C2=A0 =C2=A0 =C2=A0 =C2=A0, =
+0)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_read=C2=A0 =C2=A0 =C2=A0 =C2=A0, =
+3)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_write=C2=A0 =C2=A0 =C2=A0 , 3)<br=
+>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_open=C2=A0 =C2=A0 =C2=A0 =C2=A0, =
+3)=C2=A0 =C2=A0 /* 4005 */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_close=C2=A0 =C2=A0 =C2=A0 , 1)<br=
+>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_waitpid=C2=A0 =C2=A0 , 3)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_creat=C2=A0 =C2=A0 =C2=A0 , 2)<br=
+>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_link=C2=A0 =C2=A0 =C2=A0 =C2=A0, =
+2)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_unlink=C2=A0 =C2=A0 =C2=A0, 1)=C2=
+=A0 =C2=A0 /* 4010 */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_execve=C2=A0 =C2=A0 =C2=A0, 0)<br=
+>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_chdir=C2=A0 =C2=A0 =C2=A0 , 1)<br=
+>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_time=C2=A0 =C2=A0 =C2=A0 =C2=A0, =
+1)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_mknod=C2=A0 =C2=A0 =C2=A0 , 3)<br=
+>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_chmod=C2=A0 =C2=A0 =C2=A0 , 2)=C2=
+=A0 =C2=A0 /* 4015 */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_lchown=C2=A0 =C2=A0 =C2=A0, 3)<br=
+>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_ni_syscall , 0)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_ni_syscall , 0)=C2=A0 =C2=A0 /* w=
+as sys_stat */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_lseek=C2=A0 =C2=A0 =C2=A0 , 3)<br=
+>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_getpid=C2=A0 =C2=A0 =C2=A0, 0)=C2=
+=A0 =C2=A0 /* 4020 */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_mount=C2=A0 =C2=A0 =C2=A0 , 5)<br=
+>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_umount=C2=A0 =C2=A0 =C2=A0, 1)<br=
+>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_setuid=C2=A0 =C2=A0 =C2=A0, 1)<br=
+>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_getuid=C2=A0 =C2=A0 =C2=A0, 0)<br=
+>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_stime=C2=A0 =C2=A0 =C2=A0 , 1)=C2=
+=A0 =C2=A0 /* 4025 */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_ptrace=C2=A0 =C2=A0 =C2=A0, 4)<br=
+>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_alarm=C2=A0 =C2=A0 =C2=A0 , 1)<br=
+>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_ni_syscall , 0)=C2=A0 =C2=A0 /* w=
+as sys_fstat */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_pause=C2=A0 =C2=A0 =C2=A0 , 0)<br=
+>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_utime=C2=A0 =C2=A0 =C2=A0 , 2)=C2=
+=A0 =C2=A0 /* 4030 */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_ni_syscall , 0)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_ni_syscall , 0)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_access=C2=A0 =C2=A0 =C2=A0, 2)<br=
+>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_nice=C2=A0 =C2=A0 =C2=A0 =C2=A0, =
+1)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_ni_syscall , 0)=C2=A0 =C2=A0 /* 4=
+035 */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_sync=C2=A0 =C2=A0 =C2=A0 =C2=A0, =
+0)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_kill=C2=A0 =C2=A0 =C2=A0 =C2=A0, =
+2)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_rename=C2=A0 =C2=A0 =C2=A0, 2)<br=
+>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_mkdir=C2=A0 =C2=A0 =C2=A0 , 2)<br=
+>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_rmdir=C2=A0 =C2=A0 =C2=A0 , 1)=C2=
+=A0 =C2=A0 /* 4040 */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_dup=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 , 1)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_pipe=C2=A0 =C2=A0 =C2=A0 =C2=A0, =
+0)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_times=C2=A0 =C2=A0 =C2=A0 , 1)<br=
+>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_ni_syscall , 0)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_brk=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 , 1)=C2=A0 =C2=A0 /* 4045 */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_setgid=C2=A0 =C2=A0 =C2=A0, 1)<br=
+>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_getgid=C2=A0 =C2=A0 =C2=A0, 0)<br=
+>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_ni_syscall , 0)=C2=A0 =C2=A0 /* w=
+as signal(2) */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_geteuid=C2=A0 =C2=A0 , 0)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_getegid=C2=A0 =C2=A0 , 0)=C2=A0 =
+=C2=A0 /* 4050 */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_acct=C2=A0 =C2=A0 =C2=A0 =C2=A0, =
+0)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_umount2=C2=A0 =C2=A0 , 2)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_ni_syscall , 0)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_ioctl=C2=A0 =C2=A0 =C2=A0 , 3)<br=
+>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_fcntl=C2=A0 =C2=A0 =C2=A0 , 3)=C2=
+=A0 =C2=A0 /* 4055 */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_ni_syscall , 2)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_setpgid=C2=A0 =C2=A0 , 2)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_ni_syscall , 0)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_olduname=C2=A0 =C2=A0, 1)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_umask=C2=A0 =C2=A0 =C2=A0 , 1)=C2=
+=A0 =C2=A0 /* 4060 */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_chroot=C2=A0 =C2=A0 =C2=A0, 1)<br=
+>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_ustat=C2=A0 =C2=A0 =C2=A0 , 2)<br=
+>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_dup2=C2=A0 =C2=A0 =C2=A0 =C2=A0, =
+2)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_getppid=C2=A0 =C2=A0 , 0)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_getpgrp=C2=A0 =C2=A0 , 0)=C2=A0 =
+=C2=A0 /* 4065 */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_setsid=C2=A0 =C2=A0 =C2=A0, 0)<br=
+>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_sigaction=C2=A0 , 3)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_sgetmask=C2=A0 =C2=A0, 0)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_ssetmask=C2=A0 =C2=A0, 1)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_setreuid=C2=A0 =C2=A0, 2)=C2=A0 =
+=C2=A0 /* 4070 */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_setregid=C2=A0 =C2=A0, 2)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_sigsuspend , 0)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_sigpending , 1)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_sethostname=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 , 2)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_setrlimit=C2=A0 , 2)=C2=A0 =C2=A0=
+ /* 4075 */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_getrlimit=C2=A0 , 2)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_getrusage=C2=A0 , 2)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_gettimeofday, 2)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_settimeofday, 2)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_getgroups=C2=A0 , 2)=C2=A0 =C2=A0=
+ /* 4080 */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_setgroups=C2=A0 , 2)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_ni_syscall , 0)=C2=A0 =C2=A0 /* o=
+ld_select */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_symlink=C2=A0 =C2=A0 , 2)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_ni_syscall , 0)=C2=A0 =C2=A0 /* w=
+as sys_lstat */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_readlink=C2=A0 =C2=A0, 3)=C2=A0 =
+=C2=A0 /* 4085 */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_uselib=C2=A0 =C2=A0 =C2=A0, 1)<br=
+>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_swapon=C2=A0 =C2=A0 =C2=A0, 2)<br=
+>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_reboot=C2=A0 =C2=A0 =C2=A0, 3)<br=
+>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(old_readdir=C2=A0 =C2=A0 , 3)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(old_mmap=C2=A0 =C2=A0 =C2=A0 =C2=A0, =
+6)=C2=A0 =C2=A0 /* 4090 */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_munmap=C2=A0 =C2=A0 =C2=A0, 2)<br=
+>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_truncate=C2=A0 =C2=A0, 2)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_ftruncate=C2=A0 , 2)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_fchmod=C2=A0 =C2=A0 =C2=A0, 2)<br=
+>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_fchown=C2=A0 =C2=A0 =C2=A0, 3)=C2=
+=A0 =C2=A0 /* 4095 */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_getpriority=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 , 2)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_setpriority=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 , 3)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_ni_syscall , 0)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_statfs=C2=A0 =C2=A0 =C2=A0, 2)<br=
+>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_fstatfs=C2=A0 =C2=A0 , 2)=C2=A0 =
+=C2=A0 /* 4100 */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_ni_syscall , 0)=C2=A0 =C2=A0 /* w=
+as ioperm(2) */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_socketcall , 2)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_syslog=C2=A0 =C2=A0 =C2=A0, 3)<br=
+>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_setitimer=C2=A0 , 3)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_getitimer=C2=A0 , 2)=C2=A0 =C2=A0=
+ /* 4105 */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_newstat=C2=A0 =C2=A0 , 2)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_newlstat=C2=A0 =C2=A0, 2)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_newfstat=C2=A0 =C2=A0, 2)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_uname=C2=A0 =C2=A0 =C2=A0 , 1)<br=
+>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_ni_syscall , 0)=C2=A0 =C2=A0 /* 4=
+110 was iopl(2) */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_vhangup=C2=A0 =C2=A0 , 0)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_ni_syscall , 0)=C2=A0 =C2=A0 /* w=
+as sys_idle() */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_ni_syscall , 0)=C2=A0 =C2=A0 /* w=
+as sys_vm86 */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_wait4=C2=A0 =C2=A0 =C2=A0 , 4)<br=
+>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_swapoff=C2=A0 =C2=A0 , 1)=C2=A0 =
+=C2=A0 /* 4115 */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_sysinfo=C2=A0 =C2=A0 , 1)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_ipc=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 , 6)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_fsync=C2=A0 =C2=A0 =C2=A0 , 1)<br=
+>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_sigreturn=C2=A0 , 0)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_clone=C2=A0 =C2=A0 =C2=A0 , 6)=C2=
+=A0 =C2=A0 /* 4120 */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_setdomainname, 2)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_newuname=C2=A0 =C2=A0, 1)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_ni_syscall , 0)=C2=A0 =C2=A0 /* s=
+ys_modify_ldt */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_adjtimex=C2=A0 =C2=A0, 1)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_mprotect=C2=A0 =C2=A0, 3)=C2=A0 =
+=C2=A0 /* 4125 */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_sigprocmask=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 , 3)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_ni_syscall , 0)=C2=A0 =C2=A0 /* w=
+as create_module */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_init_module=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 , 5)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_delete_module, 1)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_ni_syscall , 0)=C2=A0 =C2=A0 /* 4=
+130 was get_kernel_syms */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_quotactl=C2=A0 =C2=A0, 0)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_getpgid=C2=A0 =C2=A0 , 1)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_fchdir=C2=A0 =C2=A0 =C2=A0, 1)<br=
+>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_bdflush=C2=A0 =C2=A0 , 2)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_sysfs=C2=A0 =C2=A0 =C2=A0 , 3)=C2=
+=A0 =C2=A0 /* 4135 */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_personality=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 , 1)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_ni_syscall , 0)=C2=A0 =C2=A0 /* f=
+or afs_syscall */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_setfsuid=C2=A0 =C2=A0, 1)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_setfsgid=C2=A0 =C2=A0, 1)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_llseek=C2=A0 =C2=A0 =C2=A0, 5)=C2=
+=A0 =C2=A0 /* 4140 */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_getdents=C2=A0 =C2=A0, 3)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_select=C2=A0 =C2=A0 =C2=A0, 5)<br=
+>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_flock=C2=A0 =C2=A0 =C2=A0 , 2)<br=
+>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_msync=C2=A0 =C2=A0 =C2=A0 , 3)<br=
+>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_readv=C2=A0 =C2=A0 =C2=A0 , 3)=C2=
+=A0 =C2=A0 /* 4145 */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_writev=C2=A0 =C2=A0 =C2=A0, 3)<br=
+>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_cacheflush , 3)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_cachectl=C2=A0 =C2=A0, 3)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_sysmips=C2=A0 =C2=A0 , 4)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_ni_syscall , 0)=C2=A0 =C2=A0 /* 4=
+150 */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_getsid=C2=A0 =C2=A0 =C2=A0, 1)<br=
+>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_fdatasync=C2=A0 , 0)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_sysctl=C2=A0 =C2=A0 =C2=A0, 1)<br=
+>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_mlock=C2=A0 =C2=A0 =C2=A0 , 2)<br=
+>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_munlock=C2=A0 =C2=A0 , 2)=C2=A0 =
+=C2=A0 /* 4155 */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_mlockall=C2=A0 =C2=A0, 1)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_munlockall , 0)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_sched_setparam, 2)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_sched_getparam, 2)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_sched_<wbr>setscheduler, 3)=C2=A0=
+ =C2=A0 =C2=A0/* 4160 */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_sched_<wbr>getscheduler, 1)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_sched_yield=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 , 0)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_sched_get_<wbr>priority_max, 1)<b=
+r>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_sched_get_<wbr>priority_min, 1)<b=
+r>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_sched_rr_get_<wbr>interval, 2)=C2=
+=A0 /* 4165 */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_nanosleep, 2)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_mremap=C2=A0 =C2=A0 =C2=A0, 5)<br=
+>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_accept=C2=A0 =C2=A0 =C2=A0, 3)<br=
+>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_bind=C2=A0 =C2=A0 =C2=A0 =C2=A0, =
+3)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_connect=C2=A0 =C2=A0 , 3)=C2=A0 =
+=C2=A0 /* 4170 */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_getpeername=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 , 3)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_getsockname=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 , 3)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_getsockopt , 5)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_listen=C2=A0 =C2=A0 =C2=A0, 2)<br=
+>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_recv=C2=A0 =C2=A0 =C2=A0 =C2=A0, =
+4)=C2=A0 =C2=A0 /* 4175 */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_recvfrom=C2=A0 =C2=A0, 6)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_recvmsg=C2=A0 =C2=A0 , 3)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_send=C2=A0 =C2=A0 =C2=A0 =C2=A0, =
+4)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_sendmsg=C2=A0 =C2=A0 , 3)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_sendto=C2=A0 =C2=A0 =C2=A0, 6)=C2=
+=A0 =C2=A0 /* 4180 */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_setsockopt , 5)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_shutdown=C2=A0 =C2=A0, 2)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_socket=C2=A0 =C2=A0 =C2=A0, 3)<br=
+>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_socketpair , 4)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_setresuid=C2=A0 , 3)=C2=A0 =C2=A0=
+ /* 4185 */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_getresuid=C2=A0 , 3)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_ni_syscall , 0)=C2=A0 =C2=A0 /* w=
+as sys_query_module */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_poll=C2=A0 =C2=A0 =C2=A0 =C2=A0, =
+3)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_nfsservctl , 3)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_setresgid=C2=A0 , 3)=C2=A0 =C2=A0=
+ /* 4190 */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_getresgid=C2=A0 , 3)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_prctl=C2=A0 =C2=A0 =C2=A0 , 5)<br=
+>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_rt_sigreturn, 0)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_rt_sigaction, 4)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_rt_sigprocmask, 4) /* 4195 */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_rt_sigpending, 2)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_rt_sigtimedwait, 4)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_rt_sigqueueinfo, 3)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_rt_sigsuspend, 0)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_pread64=C2=A0 =C2=A0 , 6)=C2=A0 =
+=C2=A0 /* 4200 */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_pwrite64=C2=A0 =C2=A0, 6)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_chown=C2=A0 =C2=A0 =C2=A0 , 3)<br=
+>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_getcwd=C2=A0 =C2=A0 =C2=A0, 2)<br=
+>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_capget=C2=A0 =C2=A0 =C2=A0, 2)<br=
+>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_capset=C2=A0 =C2=A0 =C2=A0, 2)=C2=
+=A0 =C2=A0 /* 4205 */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_sigaltstack=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 , 2)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_sendfile=C2=A0 =C2=A0, 4)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_ni_syscall , 0)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_ni_syscall , 0)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_mmap2=C2=A0 =C2=A0 =C2=A0 , 6)=C2=
+=A0 =C2=A0 /* 4210 */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_truncate64 , 4)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_ftruncate64=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 , 4)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_stat64=C2=A0 =C2=A0 =C2=A0, 2)<br=
+>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_lstat64=C2=A0 =C2=A0 , 2)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_fstat64=C2=A0 =C2=A0 , 2)=C2=A0 =
+=C2=A0 /* 4215 */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_pivot_root , 2)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_mincore=C2=A0 =C2=A0 , 3)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_madvise=C2=A0 =C2=A0 , 3)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_getdents64 , 3)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_fcntl64=C2=A0 =C2=A0 , 3)=C2=A0 =
+=C2=A0 /* 4220 */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_ni_syscall , 0)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_gettid=C2=A0 =C2=A0 =C2=A0, 0)<br=
+>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_readahead=C2=A0 , 5)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_setxattr=C2=A0 =C2=A0, 5)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_lsetxattr=C2=A0 , 5)=C2=A0 =C2=A0=
+ /* 4225 */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_fsetxattr=C2=A0 , 5)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_getxattr=C2=A0 =C2=A0, 4)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_lgetxattr=C2=A0 , 4)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_fgetxattr=C2=A0 , 4)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_listxattr=C2=A0 , 3)=C2=A0 =C2=A0=
+ /* 4230 */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_llistxattr , 3)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_flistxattr , 3)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_removexattr=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 , 2)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_lremovexattr, 2)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_fremovexattr, 2)=C2=A0 =C2=A0/* 4=
+235 */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_tkill=C2=A0 =C2=A0 =C2=A0 , 2)<br=
+>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_sendfile64 , 5)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_futex=C2=A0 =C2=A0 =C2=A0 , 6)<br=
+>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_sched_<wbr>setaffinity, 3)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_sched_<wbr>getaffinity, 3)=C2=A0 =
+=C2=A0 =C2=A0 /* 4240 */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_io_setup=C2=A0 =C2=A0, 2)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_io_destroy , 1)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_io_getevents, 5)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_io_submit=C2=A0 , 3)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_io_cancel=C2=A0 , 3)=C2=A0 =C2=A0=
+ /* 4245 */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_exit_group , 1)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_lookup_dcookie, 3)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_epoll_create, 1)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_epoll_ctl=C2=A0 , 4)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_epoll_wait , 3)=C2=A0 =C2=A0 /* 4=
+250 */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_remap_file_pages, 5)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_set_tid_address, 1)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_restart_syscall, 0)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_fadvise64_64, 7)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_statfs64=C2=A0 =C2=A0, 3)=C2=A0 =
+=C2=A0 /* 4255 */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_fstatfs64=C2=A0 , 2)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_timer_create, 3)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_timer_settime, 4)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_timer_gettime, 2)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_timer_getoverrun, 1)=C2=A0 =C2=A0=
+ =C2=A0 =C2=A0/* 4260 */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_timer_delete, 1)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_clock_settime, 2)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_clock_gettime, 2)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_clock_getres, 2)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_clock_nanosleep, 4)=C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 /* 4265 */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_tgkill=C2=A0 =C2=A0 =C2=A0, 3)<br=
+>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_utimes=C2=A0 =C2=A0 =C2=A0, 2)<br=
+>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_mbind=C2=A0 =C2=A0 =C2=A0 , 4)<br=
+>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_ni_syscall , 0)=C2=A0 =C2=A0 /* s=
+ys_get_mempolicy */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_ni_syscall , 0)=C2=A0 =C2=A0 /* 4=
+270 sys_set_mempolicy */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_mq_open=C2=A0 =C2=A0 , 4)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_mq_unlink=C2=A0 , 1)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_mq_timedsend, 5)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_mq_timedreceive, 5)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_mq_notify=C2=A0 , 2)=C2=A0 =C2=A0=
+ /* 4275 */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_mq_getsetattr, 3)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_ni_syscall , 0)=C2=A0 =C2=A0 /* s=
+ys_vserver */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_waitid=C2=A0 =C2=A0 =C2=A0, 4)<br=
+>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_ni_syscall , 0)=C2=A0 =C2=A0 /* a=
+vailable, was setaltroot */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_add_key=C2=A0 =C2=A0 , 5)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_request_key, 4)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_keyctl=C2=A0 =C2=A0 =C2=A0, 5)<br=
+>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_set_thread_area, 1)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_inotify_init, 0)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_inotify_add_<wbr>watch, 3) /* 428=
+5 */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_inotify_rm_watch, 2)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_migrate_pages, 4)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_openat, 4)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_mkdirat, 3)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_mknodat, 4)=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 /* 4290 */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_fchownat, 5)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_futimesat, 3)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_fstatat64, 4)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_unlinkat, 3)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_renameat, 4)=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0/* 4295 */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_linkat, 5)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_symlinkat, 3)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_readlinkat, 4)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_fchmodat, 3)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_faccessat, 3)=C2=A0 =C2=A0 =C2=A0=
+ /* 4300 */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_pselect6, 6)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_ppoll, 5)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_unshare, 1)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_splice, 6)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_sync_file_range, 7) /* 4305 */<br=
+>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_tee, 4)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_vmsplice, 4)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_move_pages, 6)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_set_robust_list, 2)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_get_robust_list, 3) /* 4310 */<br=
+>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_kexec_load, 4)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_getcpu, 3)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_epoll_pwait, 6)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_ioprio_set, 3)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_ioprio_get, 2)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_utimensat, 4)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_signalfd, 3)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_ni_syscall, 0)=C2=A0 =C2=A0 =C2=
+=A0/* was timerfd */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_eventfd, 1)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_fallocate, 6)=C2=A0 =C2=A0 =C2=A0=
+ /* 4320 */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_timerfd_create, 2)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_timerfd_gettime, 2)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_timerfd_settime, 4)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_signalfd4, 4)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_eventfd2, 2)=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0/* 4325 */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_epoll_create1, 1)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_dup3, 3)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_pipe2, 2)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_inotify_init1, 1)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_preadv, 5)=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0/* 4330 */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_pwritev, 5)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_rt_<wbr>tgsigqueueinfo, 4)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_perf_event_open, 5)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_accept4, 4)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_recvmmsg, 5)=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0/* 4335 */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_fanotify_init, 2)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_fanotify_mark, 6)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_prlimit64, 4)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_name_to_handle_<wbr>at, 5)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_open_by_handle_<wbr>at, 3) /* 434=
+0 */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_clock_adjtime, 2)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_syncfs, 1)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_sendmmsg, 4)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_setns, 2)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_process_vm_readv, 6) /* 345 */<br=
+>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_process_vm_<wbr>writev, 6)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_kcmp, 5)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_finit_module, 3)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_sched_setattr, 2)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_sched_getattr, 3)=C2=A0 /* 350 */=
+<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_renameat2, 5)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_seccomp, 3)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_getrandom, 3)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_memfd_create, 2)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_bpf, 3)=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 /* 355 */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_execveat, 5)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_userfaultfd, 1)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_membarrier, 2)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_mlock2, 3)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_copy_file_range, 6) /* 360 */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_preadv2, 6)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_pwritev2, 6)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_pkey_mprotect, 4)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_pkey_alloc, 2)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_pkey_free, 1)=C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* 365 */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_statx, 5)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_rseq, 4)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_io_pgetevents, 6)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYSCALL_NUMBER_UNUSED,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYSCALL_NUMBER_UNUSED,=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* 370 */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYSCALL_NUMBER_UNUSED,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYSCALL_NUMBER_UNUSED,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYSCALL_NUMBER_UNUSED,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYSCALL_NUMBER_UNUSED,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYSCALL_NUMBER_UNUSED,=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* 375 */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYSCALL_NUMBER_UNUSED,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYSCALL_NUMBER_UNUSED,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYSCALL_NUMBER_UNUSED,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYSCALL_NUMBER_UNUSED,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYSCALL_NUMBER_UNUSED,=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* 380 */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYSCALL_NUMBER_UNUSED,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYSCALL_NUMBER_UNUSED,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYSCALL_NUMBER_UNUSED,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYSCALL_NUMBER_UNUSED,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYSCALL_NUMBER_UNUSED,=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* 385 */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYSCALL_NUMBER_UNUSED,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYSCALL_NUMBER_UNUSED,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYSCALL_NUMBER_UNUSED,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYSCALL_NUMBER_UNUSED,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYSCALL_NUMBER_UNUSED,=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* 390 */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYSCALL_NUMBER_UNUSED,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYSCALL_NUMBER_UNUSED,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_semget, 3)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_semctl, 4)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_shmget, 3)=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* 395 */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_shmctl, 3)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_shmat, 3)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_shmdt, 1)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_msgget, 2)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_msgsnd, 4)=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* 400 */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_msgrcv, 5)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_msgctl, 3)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_clock_gettime64, 2)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_clock_settime64, 2)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_clock_adjtime64, 2)=C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0/* 405 */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_clock_getres_<wbr>time64, 2)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_clock_nanosleep_<wbr>time64, 4)<b=
+r>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_timer_gettime64, 2)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_timer_settime64, 4)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_timerfd_<wbr>gettime64, 2)=C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0/* 410 */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_timerfd_<wbr>settime64, 4)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_utimensat_time64, 4)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_pselect6_time64, 6)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_ppoll_time64, 5)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYSCALL_NUMBER_UNUSED,=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* 415 */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_io_pgetevents_<wbr>time64, 6)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_recvmmsg_time64, 5)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_mq_timedsend_<wbr>time64, 5)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_mq_timedreceive_<wbr>time64, 5)<b=
+r>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_semtimedop_<wbr>time64, 4)=C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0/* 420 */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_rt_sigtimedwait_<wbr>time64, 4)<b=
+r>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_futex_time64, 6)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_sched_rr_get_<wbr>interval_time64=
+, 2)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_pidfd_send_<wbr>signal, 4)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_io_uring_setup, 2)=C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* 425 */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_io_uring_enter, 6)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_io_uring_<wbr>register, 4)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_open_tree, 3)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_move_mount, 5)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_fsopen, 2)=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* 430 */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_fsconfig, 5)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_fsmount, 3)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_fspick, 3)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_pidfd_open, 2)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 MIPS_SYS(sys_clone3, 2)=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* 435 */<br>
+-#=C2=A0 undef MIPS_SYS<br>
++=C2=A0 =C2=A0 [=C2=A0 =C2=A00] =3D 7, /* syscall */<br>
++=C2=A0 =C2=A0 [=C2=A0 =C2=A01] =3D 1, /* exit */<br>
++=C2=A0 =C2=A0 [=C2=A0 =C2=A02] =3D 0, /* fork */<br>
++=C2=A0 =C2=A0 [=C2=A0 =C2=A03] =3D 3, /* read */<br>
++=C2=A0 =C2=A0 [=C2=A0 =C2=A04] =3D 3, /* write */<br>
++=C2=A0 =C2=A0 [=C2=A0 =C2=A05] =3D 3, /* open */<br>
++=C2=A0 =C2=A0 [=C2=A0 =C2=A06] =3D 1, /* close */<br>
++=C2=A0 =C2=A0 [=C2=A0 =C2=A07] =3D 3, /* waitpid */<br>
++=C2=A0 =C2=A0 [=C2=A0 =C2=A08] =3D 2, /* creat */<br>
++=C2=A0 =C2=A0 [=C2=A0 =C2=A09] =3D 2, /* link */<br>
++=C2=A0 =C2=A0 [=C2=A0 10] =3D 1, /* unlink */<br>
++=C2=A0 =C2=A0 [=C2=A0 11] =3D 3, /* execve */<br>
++=C2=A0 =C2=A0 [=C2=A0 12] =3D 1, /* chdir */<br>
++=C2=A0 =C2=A0 [=C2=A0 13] =3D 1, /* time */<br>
++=C2=A0 =C2=A0 [=C2=A0 14] =3D 3, /* mknod */<br>
++=C2=A0 =C2=A0 [=C2=A0 15] =3D 2, /* chmod */<br>
++=C2=A0 =C2=A0 [=C2=A0 16] =3D 3, /* lchown */<br>
++=C2=A0 =C2=A0 [=C2=A0 17] =3D 0, /* break */<br>
++=C2=A0 =C2=A0 [=C2=A0 18] =3D 2, /* oldstat */<br>
++=C2=A0 =C2=A0 [=C2=A0 19] =3D 3, /* lseek */<br>
++=C2=A0 =C2=A0 [=C2=A0 20] =3D 0, /* getpid */<br>
++=C2=A0 =C2=A0 [=C2=A0 21] =3D 5, /* mount */<br>
++=C2=A0 =C2=A0 [=C2=A0 22] =3D 1, /* umount */<br>
++=C2=A0 =C2=A0 [=C2=A0 23] =3D 1, /* setuid */<br>
++=C2=A0 =C2=A0 [=C2=A0 24] =3D 0, /* getuid */<br>
++=C2=A0 =C2=A0 [=C2=A0 25] =3D 1, /* stime */<br>
++=C2=A0 =C2=A0 [=C2=A0 26] =3D 4, /* ptrace */<br>
++=C2=A0 =C2=A0 [=C2=A0 27] =3D 1, /* alarm */<br>
++=C2=A0 =C2=A0 [=C2=A0 28] =3D 2, /* oldfstat */<br>
++=C2=A0 =C2=A0 [=C2=A0 29] =3D 0, /* pause */<br>
++=C2=A0 =C2=A0 [=C2=A0 30] =3D 2, /* utime */<br>
++=C2=A0 =C2=A0 [=C2=A0 31] =3D 0, /* stty */<br>
++=C2=A0 =C2=A0 [=C2=A0 32] =3D 0, /* gtty */<br>
++=C2=A0 =C2=A0 [=C2=A0 33] =3D 2, /* access */<br>
++=C2=A0 =C2=A0 [=C2=A0 34] =3D 1, /* nice */<br>
++=C2=A0 =C2=A0 [=C2=A0 35] =3D 1, /* ftime */<br>
++=C2=A0 =C2=A0 [=C2=A0 36] =3D 0, /* sync */<br>
++=C2=A0 =C2=A0 [=C2=A0 37] =3D 2, /* kill */<br>
++=C2=A0 =C2=A0 [=C2=A0 38] =3D 2, /* rename */<br>
++=C2=A0 =C2=A0 [=C2=A0 39] =3D 2, /* mkdir */<br>
++=C2=A0 =C2=A0 [=C2=A0 40] =3D 1, /* rmdir */<br>
++=C2=A0 =C2=A0 [=C2=A0 41] =3D 1, /* dup */<br>
++=C2=A0 =C2=A0 [=C2=A0 42] =3D 0, /* pipe */<br>
++=C2=A0 =C2=A0 [=C2=A0 43] =3D 1, /* times */<br>
++=C2=A0 =C2=A0 [=C2=A0 44] =3D 0, /* prof */<br>
++=C2=A0 =C2=A0 [=C2=A0 45] =3D 1, /* brk */<br>
++=C2=A0 =C2=A0 [=C2=A0 46] =3D 1, /* setgid */<br>
++=C2=A0 =C2=A0 [=C2=A0 47] =3D 0, /* getgid */<br>
++=C2=A0 =C2=A0 [=C2=A0 48] =3D 2, /* signal */<br>
++=C2=A0 =C2=A0 [=C2=A0 49] =3D 0, /* geteuid */<br>
++=C2=A0 =C2=A0 [=C2=A0 50] =3D 0, /* getegid */<br>
++=C2=A0 =C2=A0 [=C2=A0 51] =3D 1, /* acct */<br>
++=C2=A0 =C2=A0 [=C2=A0 52] =3D 2, /* umount2 */<br>
++=C2=A0 =C2=A0 [=C2=A0 53] =3D 0, /* lock */<br>
++=C2=A0 =C2=A0 [=C2=A0 54] =3D 3, /* ioctl */<br>
++=C2=A0 =C2=A0 [=C2=A0 55] =3D 3, /* fcntl */<br>
++=C2=A0 =C2=A0 [=C2=A0 56] =3D 0, /* mpx */<br>
++=C2=A0 =C2=A0 [=C2=A0 57] =3D 2, /* setpgid */<br>
++=C2=A0 =C2=A0 [=C2=A0 58] =3D 0, /* ulimit */<br>
++=C2=A0 =C2=A0 [=C2=A0 59] =3D 1, /* oldolduname */<br>
++=C2=A0 =C2=A0 [=C2=A0 60] =3D 1, /* umask */<br>
++=C2=A0 =C2=A0 [=C2=A0 61] =3D 1, /* chroot */<br>
++=C2=A0 =C2=A0 [=C2=A0 62] =3D 2, /* ustat */<br>
++=C2=A0 =C2=A0 [=C2=A0 63] =3D 2, /* dup2 */<br>
++=C2=A0 =C2=A0 [=C2=A0 64] =3D 0, /* getppid */<br>
++=C2=A0 =C2=A0 [=C2=A0 65] =3D 0, /* getpgrp */<br>
++=C2=A0 =C2=A0 [=C2=A0 66] =3D 0, /* setsid */<br>
++=C2=A0 =C2=A0 [=C2=A0 67] =3D 3, /* sigaction */<br>
++=C2=A0 =C2=A0 [=C2=A0 68] =3D 0, /* sgetmask */<br>
++=C2=A0 =C2=A0 [=C2=A0 69] =3D 1, /* ssetmask */<br>
++=C2=A0 =C2=A0 [=C2=A0 70] =3D 2, /* setreuid */<br>
++=C2=A0 =C2=A0 [=C2=A0 71] =3D 2, /* setregid */<br>
++=C2=A0 =C2=A0 [=C2=A0 72] =3D 1, /* sigsuspend */<br>
++=C2=A0 =C2=A0 [=C2=A0 73] =3D 1, /* sigpending */<br>
++=C2=A0 =C2=A0 [=C2=A0 74] =3D 2, /* sethostname */<br>
++=C2=A0 =C2=A0 [=C2=A0 75] =3D 2, /* setrlimit */<br>
++=C2=A0 =C2=A0 [=C2=A0 76] =3D 2, /* getrlimit */<br>
++=C2=A0 =C2=A0 [=C2=A0 77] =3D 2, /* getrusage */<br>
++=C2=A0 =C2=A0 [=C2=A0 78] =3D 2, /* gettimeofday */<br>
++=C2=A0 =C2=A0 [=C2=A0 79] =3D 2, /* settimeofday */<br>
++=C2=A0 =C2=A0 [=C2=A0 80] =3D 2, /* getgroups */<br>
++=C2=A0 =C2=A0 [=C2=A0 81] =3D 2, /* setgroups */<br>
++=C2=A0 =C2=A0 [=C2=A0 82] =3D 0, /* reserved82 */<br>
++=C2=A0 =C2=A0 [=C2=A0 83] =3D 2, /* symlink */<br>
++=C2=A0 =C2=A0 [=C2=A0 84] =3D 2, /* oldlstat */<br>
++=C2=A0 =C2=A0 [=C2=A0 85] =3D 3, /* readlink */<br>
++=C2=A0 =C2=A0 [=C2=A0 86] =3D 1, /* uselib */<br>
++=C2=A0 =C2=A0 [=C2=A0 87] =3D 2, /* swapon */<br>
++=C2=A0 =C2=A0 [=C2=A0 88] =3D 4, /* reboot */<br>
++=C2=A0 =C2=A0 [=C2=A0 89] =3D 3, /* readdir */<br>
++=C2=A0 =C2=A0 [=C2=A0 90] =3D 6, /* mmap */<br>
++=C2=A0 =C2=A0 [=C2=A0 91] =3D 2, /* munmap */<br>
++=C2=A0 =C2=A0 [=C2=A0 92] =3D 2, /* truncate */<br>
++=C2=A0 =C2=A0 [=C2=A0 93] =3D 2, /* ftruncate */<br>
++=C2=A0 =C2=A0 [=C2=A0 94] =3D 2, /* fchmod */<br>
++=C2=A0 =C2=A0 [=C2=A0 95] =3D 3, /* fchown */<br>
++=C2=A0 =C2=A0 [=C2=A0 96] =3D 2, /* getpriority */<br>
++=C2=A0 =C2=A0 [=C2=A0 97] =3D 3, /* setpriority */<br>
++=C2=A0 =C2=A0 [=C2=A0 98] =3D 0, /* profil */<br>
++=C2=A0 =C2=A0 [=C2=A0 99] =3D 2, /* statfs */<br>
++=C2=A0 =C2=A0 [ 100] =3D 2, /* fstatfs */<br>
++=C2=A0 =C2=A0 [ 101] =3D 3, /* ioperm */<br>
++=C2=A0 =C2=A0 [ 102] =3D 2, /* socketcall */<br>
++=C2=A0 =C2=A0 [ 103] =3D 3, /* syslog */<br>
++=C2=A0 =C2=A0 [ 104] =3D 3, /* setitimer */<br>
++=C2=A0 =C2=A0 [ 105] =3D 2, /* getitimer */<br>
++=C2=A0 =C2=A0 [ 106] =3D 2, /* stat */<br>
++=C2=A0 =C2=A0 [ 107] =3D 2, /* lstat */<br>
++=C2=A0 =C2=A0 [ 108] =3D 2, /* fstat */<br>
++=C2=A0 =C2=A0 [ 109] =3D 1, /* olduname */<br>
++=C2=A0 =C2=A0 [ 110] =3D 1, /* iopl */<br>
++=C2=A0 =C2=A0 [ 111] =3D 0, /* vhangup */<br>
++=C2=A0 =C2=A0 [ 112] =3D 0, /* idle */<br>
++=C2=A0 =C2=A0 [ 113] =3D 5, /* vm86 */<br>
++=C2=A0 =C2=A0 [ 114] =3D 4, /* wait4 */<br>
++=C2=A0 =C2=A0 [ 115] =3D 1, /* swapoff */<br>
++=C2=A0 =C2=A0 [ 116] =3D 1, /* sysinfo */<br>
++=C2=A0 =C2=A0 [ 117] =3D 6, /* ipc */<br>
++=C2=A0 =C2=A0 [ 118] =3D 1, /* fsync */<br>
++=C2=A0 =C2=A0 [ 119] =3D 0, /* sigreturn */<br>
++=C2=A0 =C2=A0 [ 120] =3D 5, /* clone */<br>
++=C2=A0 =C2=A0 [ 121] =3D 2, /* setdomainname */<br>
++=C2=A0 =C2=A0 [ 122] =3D 1, /* uname */<br>
++=C2=A0 =C2=A0 [ 123] =3D 0, /* modify_ldt */<br>
++=C2=A0 =C2=A0 [ 124] =3D 1, /* adjtimex */<br>
++=C2=A0 =C2=A0 [ 125] =3D 3, /* mprotect */<br>
++=C2=A0 =C2=A0 [ 126] =3D 3, /* sigprocmask */<br>
++=C2=A0 =C2=A0 [ 127] =3D 2, /* create_module */<br>
++=C2=A0 =C2=A0 [ 128] =3D 3, /* init_module */<br>
++=C2=A0 =C2=A0 [ 129] =3D 2, /* delete_module */<br>
++=C2=A0 =C2=A0 [ 130] =3D 1, /* get_kernel_syms */<br>
++=C2=A0 =C2=A0 [ 131] =3D 4, /* quotactl */<br>
++=C2=A0 =C2=A0 [ 132] =3D 1, /* getpgid */<br>
++=C2=A0 =C2=A0 [ 133] =3D 1, /* fchdir */<br>
++=C2=A0 =C2=A0 [ 134] =3D 2, /* bdflush */<br>
++=C2=A0 =C2=A0 [ 135] =3D 3, /* sysfs */<br>
++=C2=A0 =C2=A0 [ 136] =3D 1, /* personality */<br>
++=C2=A0 =C2=A0 [ 137] =3D 0, /* afs_syscall */<br>
++=C2=A0 =C2=A0 [ 138] =3D 1, /* setfsuid */<br>
++=C2=A0 =C2=A0 [ 139] =3D 1, /* setfsgid */<br>
++=C2=A0 =C2=A0 [ 140] =3D 5, /* _llseek */<br>
++=C2=A0 =C2=A0 [ 141] =3D 3, /* getdents */<br>
++=C2=A0 =C2=A0 [ 142] =3D 5, /* _newselect */<br>
++=C2=A0 =C2=A0 [ 143] =3D 2, /* flock */<br>
++=C2=A0 =C2=A0 [ 144] =3D 3, /* msync */<br>
++=C2=A0 =C2=A0 [ 145] =3D 3, /* readv */<br>
++=C2=A0 =C2=A0 [ 146] =3D 3, /* writev */<br>
++=C2=A0 =C2=A0 [ 147] =3D 3, /* cacheflush */<br>
++=C2=A0 =C2=A0 [ 148] =3D 3, /* cachectl */<br>
++=C2=A0 =C2=A0 [ 149] =3D 4, /* sysmips */<br>
++=C2=A0 =C2=A0 [ 150] =3D 0, /* setup */<br>
++=C2=A0 =C2=A0 [ 151] =3D 1, /* getsid */<br>
++=C2=A0 =C2=A0 [ 152] =3D 1, /* fdatasync */<br>
++=C2=A0 =C2=A0 [ 153] =3D 1, /* _sysctl */<br>
++=C2=A0 =C2=A0 [ 154] =3D 2, /* mlock */<br>
++=C2=A0 =C2=A0 [ 155] =3D 2, /* munlock */<br>
++=C2=A0 =C2=A0 [ 156] =3D 1, /* mlockall */<br>
++=C2=A0 =C2=A0 [ 157] =3D 0, /* munlockall */<br>
++=C2=A0 =C2=A0 [ 158] =3D 2, /* sched_setparam */<br>
++=C2=A0 =C2=A0 [ 159] =3D 2, /* sched_getparam */<br>
++=C2=A0 =C2=A0 [ 160] =3D 3, /* sched_setscheduler */<br>
++=C2=A0 =C2=A0 [ 161] =3D 1, /* sched_getscheduler */<br>
++=C2=A0 =C2=A0 [ 162] =3D 0, /* sched_yield */<br>
++=C2=A0 =C2=A0 [ 163] =3D 1, /* sched_get_priority_max */<br>
++=C2=A0 =C2=A0 [ 164] =3D 1, /* sched_get_priority_min */<br>
++=C2=A0 =C2=A0 [ 165] =3D 2, /* sched_rr_get_interval */<br>
++=C2=A0 =C2=A0 [ 166] =3D 2, /* nanosleep */<br>
++=C2=A0 =C2=A0 [ 167] =3D 5, /* mremap */<br>
++=C2=A0 =C2=A0 [ 168] =3D 3, /* accept */<br>
++=C2=A0 =C2=A0 [ 169] =3D 3, /* bind */<br>
++=C2=A0 =C2=A0 [ 170] =3D 3, /* connect */<br>
++=C2=A0 =C2=A0 [ 171] =3D 3, /* getpeername */<br>
++=C2=A0 =C2=A0 [ 172] =3D 3, /* getsockname */<br>
++=C2=A0 =C2=A0 [ 173] =3D 5, /* getsockopt */<br>
++=C2=A0 =C2=A0 [ 174] =3D 2, /* listen */<br>
++=C2=A0 =C2=A0 [ 175] =3D 4, /* recv */<br>
++=C2=A0 =C2=A0 [ 176] =3D 6, /* recvfrom */<br>
++=C2=A0 =C2=A0 [ 177] =3D 3, /* recvmsg */<br>
++=C2=A0 =C2=A0 [ 178] =3D 4, /* send */<br>
++=C2=A0 =C2=A0 [ 179] =3D 3, /* sendmsg */<br>
++=C2=A0 =C2=A0 [ 180] =3D 6, /* sendto */<br>
++=C2=A0 =C2=A0 [ 181] =3D 5, /* setsockopt */<br>
++=C2=A0 =C2=A0 [ 182] =3D 2, /* shutdown */<br>
++=C2=A0 =C2=A0 [ 183] =3D 3, /* socket */<br>
++=C2=A0 =C2=A0 [ 184] =3D 4, /* socketpair */<br>
++=C2=A0 =C2=A0 [ 185] =3D 3, /* setresuid */<br>
++=C2=A0 =C2=A0 [ 186] =3D 3, /* getresuid */<br>
++=C2=A0 =C2=A0 [ 187] =3D 5, /* query_module */<br>
++=C2=A0 =C2=A0 [ 188] =3D 3, /* poll */<br>
++=C2=A0 =C2=A0 [ 189] =3D 3, /* nfsservctl */<br>
++=C2=A0 =C2=A0 [ 190] =3D 3, /* setresgid */<br>
++=C2=A0 =C2=A0 [ 191] =3D 3, /* getresgid */<br>
++=C2=A0 =C2=A0 [ 192] =3D 5, /* prctl */<br>
++=C2=A0 =C2=A0 [ 193] =3D 0, /* rt_sigreturn */<br>
++=C2=A0 =C2=A0 [ 194] =3D 4, /* rt_sigaction */<br>
++=C2=A0 =C2=A0 [ 195] =3D 4, /* rt_sigprocmask */<br>
++=C2=A0 =C2=A0 [ 196] =3D 2, /* rt_sigpending */<br>
++=C2=A0 =C2=A0 [ 197] =3D 4, /* rt_sigtimedwait */<br>
++=C2=A0 =C2=A0 [ 198] =3D 3, /* rt_sigqueueinfo */<br>
++=C2=A0 =C2=A0 [ 199] =3D 2, /* rt_sigsuspend */<br>
++=C2=A0 =C2=A0 [ 200] =3D 6, /* pread64 */<br>
++=C2=A0 =C2=A0 [ 201] =3D 6, /* pwrite64 */<br>
++=C2=A0 =C2=A0 [ 202] =3D 3, /* chown */<br>
++=C2=A0 =C2=A0 [ 203] =3D 2, /* getcwd */<br>
++=C2=A0 =C2=A0 [ 204] =3D 2, /* capget */<br>
++=C2=A0 =C2=A0 [ 205] =3D 2, /* capset */<br>
++=C2=A0 =C2=A0 [ 206] =3D 2, /* sigaltstack */<br>
++=C2=A0 =C2=A0 [ 207] =3D 4, /* sendfile */<br>
++=C2=A0 =C2=A0 [ 208] =3D 5, /* getpmsg */<br>
++=C2=A0 =C2=A0 [ 209] =3D 5, /* putpmsg */<br>
++=C2=A0 =C2=A0 [ 210] =3D 6, /* mmap2 */<br>
++=C2=A0 =C2=A0 [ 211] =3D 4, /* truncate64 */<br>
++=C2=A0 =C2=A0 [ 212] =3D 4, /* ftruncate64 */<br>
++=C2=A0 =C2=A0 [ 213] =3D 2, /* stat64 */<br>
++=C2=A0 =C2=A0 [ 214] =3D 2, /* lstat64 */<br>
++=C2=A0 =C2=A0 [ 215] =3D 2, /* fstat64 */<br>
++=C2=A0 =C2=A0 [ 216] =3D 2, /* pivot_root */<br>
++=C2=A0 =C2=A0 [ 217] =3D 3, /* mincore */<br>
++=C2=A0 =C2=A0 [ 218] =3D 3, /* madvise */<br>
++=C2=A0 =C2=A0 [ 219] =3D 3, /* getdents64 */<br>
++=C2=A0 =C2=A0 [ 220] =3D 3, /* fcntl64 */<br>
++=C2=A0 =C2=A0 [ 221] =3D 0, /* reserved221 */<br>
++=C2=A0 =C2=A0 [ 222] =3D 0, /* gettid */<br>
++=C2=A0 =C2=A0 [ 223] =3D 5, /* readahead */<br>
++=C2=A0 =C2=A0 [ 224] =3D 5, /* setxattr */<br>
++=C2=A0 =C2=A0 [ 225] =3D 5, /* lsetxattr */<br>
++=C2=A0 =C2=A0 [ 226] =3D 5, /* fsetxattr */<br>
++=C2=A0 =C2=A0 [ 227] =3D 4, /* getxattr */<br>
++=C2=A0 =C2=A0 [ 228] =3D 4, /* lgetxattr */<br>
++=C2=A0 =C2=A0 [ 229] =3D 4, /* fgetxattr */<br>
++=C2=A0 =C2=A0 [ 230] =3D 3, /* listxattr */<br>
++=C2=A0 =C2=A0 [ 231] =3D 3, /* llistxattr */<br>
++=C2=A0 =C2=A0 [ 232] =3D 3, /* flistxattr */<br>
++=C2=A0 =C2=A0 [ 233] =3D 2, /* removexattr */<br>
++=C2=A0 =C2=A0 [ 234] =3D 2, /* lremovexattr */<br>
++=C2=A0 =C2=A0 [ 235] =3D 2, /* fremovexattr */<br>
++=C2=A0 =C2=A0 [ 236] =3D 2, /* tkill */<br>
++=C2=A0 =C2=A0 [ 237] =3D 4, /* sendfile64 */<br>
++=C2=A0 =C2=A0 [ 238] =3D 6, /* futex */<br>
++=C2=A0 =C2=A0 [ 239] =3D 3, /* sched_setaffinity */<br>
++=C2=A0 =C2=A0 [ 240] =3D 3, /* sched_getaffinity */<br>
++=C2=A0 =C2=A0 [ 241] =3D 2, /* io_setup */<br>
++=C2=A0 =C2=A0 [ 242] =3D 1, /* io_destroy */<br>
++=C2=A0 =C2=A0 [ 243] =3D 5, /* io_getevents */<br>
++=C2=A0 =C2=A0 [ 244] =3D 3, /* io_submit */<br>
++=C2=A0 =C2=A0 [ 245] =3D 3, /* io_cancel */<br>
++=C2=A0 =C2=A0 [ 246] =3D 1, /* exit_group */<br>
++=C2=A0 =C2=A0 [ 247] =3D 4, /* lookup_dcookie */<br>
++=C2=A0 =C2=A0 [ 248] =3D 1, /* epoll_create */<br>
++=C2=A0 =C2=A0 [ 249] =3D 4, /* epoll_ctl */<br>
++=C2=A0 =C2=A0 [ 250] =3D 4, /* epoll_wait */<br>
++=C2=A0 =C2=A0 [ 251] =3D 5, /* remap_file_pages */<br>
++=C2=A0 =C2=A0 [ 252] =3D 1, /* set_tid_address */<br>
++=C2=A0 =C2=A0 [ 253] =3D 0, /* restart_syscall */<br>
++=C2=A0 =C2=A0 [ 254] =3D 7, /* fadvise64 */<br>
++=C2=A0 =C2=A0 [ 255] =3D 3, /* statfs64 */<br>
++=C2=A0 =C2=A0 [ 256] =3D 3, /* fstatfs64 */<br>
++=C2=A0 =C2=A0 [ 257] =3D 3, /* timer_create */<br>
++=C2=A0 =C2=A0 [ 258] =3D 4, /* timer_settime */<br>
++=C2=A0 =C2=A0 [ 259] =3D 2, /* timer_gettime */<br>
++=C2=A0 =C2=A0 [ 260] =3D 1, /* timer_getoverrun */<br>
++=C2=A0 =C2=A0 [ 261] =3D 1, /* timer_delete */<br>
++=C2=A0 =C2=A0 [ 262] =3D 2, /* clock_settime */<br>
++=C2=A0 =C2=A0 [ 263] =3D 2, /* clock_gettime */<br>
++=C2=A0 =C2=A0 [ 264] =3D 2, /* clock_getres */<br>
++=C2=A0 =C2=A0 [ 265] =3D 4, /* clock_nanosleep */<br>
++=C2=A0 =C2=A0 [ 266] =3D 3, /* tgkill */<br>
++=C2=A0 =C2=A0 [ 267] =3D 2, /* utimes */<br>
++=C2=A0 =C2=A0 [ 268] =3D 6, /* mbind */<br>
++=C2=A0 =C2=A0 [ 269] =3D 5, /* get_mempolicy */<br>
++=C2=A0 =C2=A0 [ 270] =3D 3, /* set_mempolicy */<br>
++=C2=A0 =C2=A0 [ 271] =3D 4, /* mq_open */<br>
++=C2=A0 =C2=A0 [ 272] =3D 1, /* mq_unlink */<br>
++=C2=A0 =C2=A0 [ 273] =3D 5, /* mq_timedsend */<br>
++=C2=A0 =C2=A0 [ 274] =3D 5, /* mq_timedreceive */<br>
++=C2=A0 =C2=A0 [ 275] =3D 2, /* mq_notify */<br>
++=C2=A0 =C2=A0 [ 276] =3D 3, /* mq_getsetattr */<br>
++=C2=A0 =C2=A0 [ 277] =3D 5, /* vserver */<br>
++=C2=A0 =C2=A0 [ 278] =3D 5, /* waitid */<br>
++=C2=A0 =C2=A0 [ 279] =3D MIPS_SYSCALL_NUMBER_UNUSED,<br>
++=C2=A0 =C2=A0 [ 280] =3D 5, /* add_key */<br>
++=C2=A0 =C2=A0 [ 281] =3D 4, /* request_key */<br>
++=C2=A0 =C2=A0 [ 282] =3D 5, /* keyctl */<br>
++=C2=A0 =C2=A0 [ 283] =3D 1, /* set_thread_area */<br>
++=C2=A0 =C2=A0 [ 284] =3D 0, /* inotify_init */<br>
++=C2=A0 =C2=A0 [ 285] =3D 3, /* inotify_add_watch */<br>
++=C2=A0 =C2=A0 [ 286] =3D 2, /* inotify_rm_watch */<br>
++=C2=A0 =C2=A0 [ 287] =3D 4, /* migrate_pages */<br>
++=C2=A0 =C2=A0 [ 288] =3D 4, /* openat */<br>
++=C2=A0 =C2=A0 [ 289] =3D 3, /* mkdirat */<br>
++=C2=A0 =C2=A0 [ 290] =3D 4, /* mknodat */<br>
++=C2=A0 =C2=A0 [ 291] =3D 5, /* fchownat */<br>
++=C2=A0 =C2=A0 [ 292] =3D 3, /* futimesat */<br>
++=C2=A0 =C2=A0 [ 293] =3D 4, /* fstatat64 */<br>
++=C2=A0 =C2=A0 [ 294] =3D 3, /* unlinkat */<br>
++=C2=A0 =C2=A0 [ 295] =3D 4, /* renameat */<br>
++=C2=A0 =C2=A0 [ 296] =3D 5, /* linkat */<br>
++=C2=A0 =C2=A0 [ 297] =3D 3, /* symlinkat */<br>
++=C2=A0 =C2=A0 [ 298] =3D 4, /* readlinkat */<br>
++=C2=A0 =C2=A0 [ 299] =3D 3, /* fchmodat */<br>
++=C2=A0 =C2=A0 [ 300] =3D 3, /* faccessat */<br>
++=C2=A0 =C2=A0 [ 301] =3D 6, /* pselect6 */<br>
++=C2=A0 =C2=A0 [ 302] =3D 5, /* ppoll */<br>
++=C2=A0 =C2=A0 [ 303] =3D 1, /* unshare */<br>
++=C2=A0 =C2=A0 [ 304] =3D 6, /* splice */<br>
++=C2=A0 =C2=A0 [ 305] =3D 7, /* sync_file_range */<br>
++=C2=A0 =C2=A0 [ 306] =3D 4, /* tee */<br>
++=C2=A0 =C2=A0 [ 307] =3D 4, /* vmsplice */<br>
++=C2=A0 =C2=A0 [ 308] =3D 6, /* move_pages */<br>
++=C2=A0 =C2=A0 [ 309] =3D 2, /* set_robust_list */<br>
++=C2=A0 =C2=A0 [ 310] =3D 3, /* get_robust_list */<br>
++=C2=A0 =C2=A0 [ 311] =3D 4, /* kexec_load */<br>
++=C2=A0 =C2=A0 [ 312] =3D 3, /* getcpu */<br>
++=C2=A0 =C2=A0 [ 313] =3D 6, /* epoll_pwait */<br>
++=C2=A0 =C2=A0 [ 314] =3D 3, /* ioprio_set */<br>
++=C2=A0 =C2=A0 [ 315] =3D 2, /* ioprio_get */<br>
++=C2=A0 =C2=A0 [ 316] =3D 4, /* utimensat */<br>
++=C2=A0 =C2=A0 [ 317] =3D 3, /* signalfd */<br>
++=C2=A0 =C2=A0 [ 318] =3D 4, /* timerfd */<br>
++=C2=A0 =C2=A0 [ 319] =3D 1, /* eventfd */<br>
++=C2=A0 =C2=A0 [ 320] =3D 6, /* fallocate */<br>
++=C2=A0 =C2=A0 [ 321] =3D 2, /* timerfd_create */<br>
++=C2=A0 =C2=A0 [ 322] =3D 2, /* timerfd_gettime */<br>
++=C2=A0 =C2=A0 [ 323] =3D 4, /* timerfd_settime */<br>
++=C2=A0 =C2=A0 [ 324] =3D 4, /* signalfd4 */<br>
++=C2=A0 =C2=A0 [ 325] =3D 2, /* eventfd2 */<br>
++=C2=A0 =C2=A0 [ 326] =3D 1, /* epoll_create1 */<br>
++=C2=A0 =C2=A0 [ 327] =3D 3, /* dup3 */<br>
++=C2=A0 =C2=A0 [ 328] =3D 2, /* pipe2 */<br>
++=C2=A0 =C2=A0 [ 329] =3D 1, /* inotify_init1 */<br>
++=C2=A0 =C2=A0 [ 330] =3D 5, /* preadv */<br>
++=C2=A0 =C2=A0 [ 331] =3D 5, /* pwritev */<br>
++=C2=A0 =C2=A0 [ 332] =3D 4, /* rt_tgsigqueueinfo */<br>
++=C2=A0 =C2=A0 [ 333] =3D 5, /* perf_event_open */<br>
++=C2=A0 =C2=A0 [ 334] =3D 4, /* accept4 */<br>
++=C2=A0 =C2=A0 [ 335] =3D 5, /* recvmmsg */<br>
++=C2=A0 =C2=A0 [ 336] =3D 2, /* fanotify_init */<br>
++=C2=A0 =C2=A0 [ 337] =3D 6, /* fanotify_mark */<br>
++=C2=A0 =C2=A0 [ 338] =3D 4, /* prlimit64 */<br>
++=C2=A0 =C2=A0 [ 339] =3D 5, /* name_to_handle_at */<br>
++=C2=A0 =C2=A0 [ 340] =3D 3, /* open_by_handle_at */<br>
++=C2=A0 =C2=A0 [ 341] =3D 2, /* clock_adjtime */<br>
++=C2=A0 =C2=A0 [ 342] =3D 1, /* syncfs */<br>
++=C2=A0 =C2=A0 [ 343] =3D 4, /* sendmmsg */<br>
++=C2=A0 =C2=A0 [ 344] =3D 2, /* setns */<br>
++=C2=A0 =C2=A0 [ 345] =3D 6, /* process_vm_readv */<br>
++=C2=A0 =C2=A0 [ 346] =3D 6, /* process_vm_writev */<br>
++=C2=A0 =C2=A0 [ 347] =3D 5, /* kcmp */<br>
++=C2=A0 =C2=A0 [ 348] =3D 3, /* finit_module */<br>
++=C2=A0 =C2=A0 [ 349] =3D 3, /* sched_setattr */<br>
++=C2=A0 =C2=A0 [ 350] =3D 4, /* sched_getattr */<br>
++=C2=A0 =C2=A0 [ 351] =3D 5, /* renameat2 */<br>
++=C2=A0 =C2=A0 [ 352] =3D 3, /* seccomp */<br>
++=C2=A0 =C2=A0 [ 353] =3D 3, /* getrandom */<br>
++=C2=A0 =C2=A0 [ 354] =3D 2, /* memfd_create */<br>
++=C2=A0 =C2=A0 [ 355] =3D 3, /* bpf */<br>
++=C2=A0 =C2=A0 [ 356] =3D 5, /* execveat */<br>
++=C2=A0 =C2=A0 [ 357] =3D 1, /* userfaultfd */<br>
++=C2=A0 =C2=A0 [ 358] =3D 2, /* membarrier */<br>
++=C2=A0 =C2=A0 [ 359] =3D 3, /* mlock2 */<br>
++=C2=A0 =C2=A0 [ 360] =3D 6, /* copy_file_range */<br>
++=C2=A0 =C2=A0 [ 361] =3D 6, /* preadv2 */<br>
++=C2=A0 =C2=A0 [ 362] =3D 6, /* pwritev2 */<br>
++=C2=A0 =C2=A0 [ 363] =3D 4, /* pkey_mprotect */<br>
++=C2=A0 =C2=A0 [ 364] =3D 2, /* pkey_alloc */<br>
++=C2=A0 =C2=A0 [ 365] =3D 1, /* pkey_free */<br>
++=C2=A0 =C2=A0 [ 366] =3D 5, /* statx */<br>
++=C2=A0 =C2=A0 [ 367] =3D 4, /* rseq */<br>
++=C2=A0 =C2=A0 [ 368] =3D 6, /* io_pgetevents */<br>
++=C2=A0 =C2=A0 [ 369] =3D MIPS_SYSCALL_NUMBER_UNUSED,<br>
++=C2=A0 =C2=A0 [ 370] =3D MIPS_SYSCALL_NUMBER_UNUSED,<br>
++=C2=A0 =C2=A0 [ 371] =3D MIPS_SYSCALL_NUMBER_UNUSED,<br>
++=C2=A0 =C2=A0 [ 372] =3D MIPS_SYSCALL_NUMBER_UNUSED,<br>
++=C2=A0 =C2=A0 [ 373] =3D MIPS_SYSCALL_NUMBER_UNUSED,<br>
++=C2=A0 =C2=A0 [ 374] =3D MIPS_SYSCALL_NUMBER_UNUSED,<br>
++=C2=A0 =C2=A0 [ 375] =3D MIPS_SYSCALL_NUMBER_UNUSED,<br>
++=C2=A0 =C2=A0 [ 376] =3D MIPS_SYSCALL_NUMBER_UNUSED,<br>
++=C2=A0 =C2=A0 [ 377] =3D MIPS_SYSCALL_NUMBER_UNUSED,<br>
++=C2=A0 =C2=A0 [ 378] =3D MIPS_SYSCALL_NUMBER_UNUSED,<br>
++=C2=A0 =C2=A0 [ 379] =3D MIPS_SYSCALL_NUMBER_UNUSED,<br>
++=C2=A0 =C2=A0 [ 380] =3D MIPS_SYSCALL_NUMBER_UNUSED,<br>
++=C2=A0 =C2=A0 [ 381] =3D MIPS_SYSCALL_NUMBER_UNUSED,<br>
++=C2=A0 =C2=A0 [ 382] =3D MIPS_SYSCALL_NUMBER_UNUSED,<br>
++=C2=A0 =C2=A0 [ 383] =3D MIPS_SYSCALL_NUMBER_UNUSED,<br>
++=C2=A0 =C2=A0 [ 384] =3D MIPS_SYSCALL_NUMBER_UNUSED,<br>
++=C2=A0 =C2=A0 [ 385] =3D MIPS_SYSCALL_NUMBER_UNUSED,<br>
++=C2=A0 =C2=A0 [ 386] =3D MIPS_SYSCALL_NUMBER_UNUSED,<br>
++=C2=A0 =C2=A0 [ 387] =3D MIPS_SYSCALL_NUMBER_UNUSED,<br>
++=C2=A0 =C2=A0 [ 388] =3D MIPS_SYSCALL_NUMBER_UNUSED,<br>
++=C2=A0 =C2=A0 [ 389] =3D MIPS_SYSCALL_NUMBER_UNUSED,<br>
++=C2=A0 =C2=A0 [ 390] =3D MIPS_SYSCALL_NUMBER_UNUSED,<br>
++=C2=A0 =C2=A0 [ 391] =3D MIPS_SYSCALL_NUMBER_UNUSED,<br>
++=C2=A0 =C2=A0 [ 392] =3D MIPS_SYSCALL_NUMBER_UNUSED,<br>
++=C2=A0 =C2=A0 [ 393] =3D 3, /* semget */<br>
++=C2=A0 =C2=A0 [ 394] =3D 4, /* semctl */<br>
++=C2=A0 =C2=A0 [ 395] =3D 3, /* shmget */<br>
++=C2=A0 =C2=A0 [ 396] =3D 3, /* shmctl */<br>
++=C2=A0 =C2=A0 [ 397] =3D 3, /* shmat */<br>
++=C2=A0 =C2=A0 [ 398] =3D 1, /* shmdt */<br>
++=C2=A0 =C2=A0 [ 399] =3D 2, /* msgget */<br>
++=C2=A0 =C2=A0 [ 400] =3D 4, /* msgsnd */<br>
++=C2=A0 =C2=A0 [ 401] =3D 5, /* msgrcv */<br>
++=C2=A0 =C2=A0 [ 402] =3D 3, /* msgctl */<br>
++=C2=A0 =C2=A0 [ 403] =3D 2, /* clock_gettime64 */<br>
++=C2=A0 =C2=A0 [ 404] =3D 2, /* clock_settime64 */<br>
++=C2=A0 =C2=A0 [ 405] =3D 2, /* clock_adjtime64 */<br>
++=C2=A0 =C2=A0 [ 406] =3D 2, /* clock_getres_time64 */<br>
++=C2=A0 =C2=A0 [ 407] =3D 4, /* clock_nanosleep_time64 */<br>
++=C2=A0 =C2=A0 [ 408] =3D 2, /* timer_gettime64 */<br>
++=C2=A0 =C2=A0 [ 409] =3D 4, /* timer_settime64 */<br>
++=C2=A0 =C2=A0 [ 410] =3D 2, /* timerfd_gettime64 */<br>
++=C2=A0 =C2=A0 [ 411] =3D 4, /* timerfd_settime64 */<br>
++=C2=A0 =C2=A0 [ 412] =3D 4, /* utimensat_time64 */<br>
++=C2=A0 =C2=A0 [ 413] =3D 6, /* pselect6_time64 */<br>
++=C2=A0 =C2=A0 [ 414] =3D 5, /* ppoll_time64 */<br>
++=C2=A0 =C2=A0 [ 415] =3D MIPS_SYSCALL_NUMBER_UNUSED,<br>
++=C2=A0 =C2=A0 [ 416] =3D 6, /* io_pgetevents_time64 */<br>
++=C2=A0 =C2=A0 [ 417] =3D 5, /* recvmmsg_time64 */<br>
++=C2=A0 =C2=A0 [ 418] =3D 5, /* mq_timedsend_time64 */<br>
++=C2=A0 =C2=A0 [ 419] =3D 5, /* mq_timedreceive_time64 */<br>
++=C2=A0 =C2=A0 [ 420] =3D 4, /* semtimedop_time64 */<br>
++=C2=A0 =C2=A0 [ 421] =3D 4, /* rt_sigtimedwait_time64 */<br>
++=C2=A0 =C2=A0 [ 422] =3D 6, /* futex_time64 */<br>
++=C2=A0 =C2=A0 [ 423] =3D 2, /* sched_rr_get_interval_time64 */<br>
++=C2=A0 =C2=A0 [ 424] =3D 4, /* pidfd_send_signal */<br>
++=C2=A0 =C2=A0 [ 425] =3D 2, /* io_uring_setup */<br>
++=C2=A0 =C2=A0 [ 426] =3D 6, /* io_uring_enter */<br>
++=C2=A0 =C2=A0 [ 427] =3D 4, /* io_uring_register */<br>
++=C2=A0 =C2=A0 [ 428] =3D 3, /* open_tree */<br>
++=C2=A0 =C2=A0 [ 429] =3D 5, /* move_mount */<br>
++=C2=A0 =C2=A0 [ 430] =3D 2, /* fsopen */<br>
++=C2=A0 =C2=A0 [ 431] =3D 5, /* fsconfig */<br>
++=C2=A0 =C2=A0 [ 432] =3D 3, /* fsmount */<br>
++=C2=A0 =C2=A0 [ 433] =3D 3, /* fspick */<br>
++=C2=A0 =C2=A0 [ 434] =3D 2, /* pidfd_open */<br>
++=C2=A0 =C2=A0 [ 435] =3D 2, /* clone3 */<br>
+diff --git a/scripts/update-mips-syscall-<wbr>args.sh b/scripts/update-mips=
+-syscall-<wbr>args.sh<br>
+new file mode 100755<br>
+index 000000000000..4f0dda4b83bc<br>
+--- /dev/null<br>
++++ b/scripts/update-mips-syscall-<wbr>args.sh<br>
+@@ -0,0 +1,57 @@<br>
++#!/bin/sh<br>
++<br>
++URL=3D<a href=3D"https://raw.githubusercontent.com/strace/strace/master" t=
+arget=3D"_blank">https://raw.<wbr>githubusercontent.com/strace/<wbr>strace/=
+master</a><br>
++FILES=3D&quot;sysent.h sysent_shorthand_defs.h linux/mips/syscallent-compa=
+t.h \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0linux/mips/syscallent-o32.h linux/syscallent-co=
+mmon-32.h \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0linux/syscallent-common.h&quot;<br>
++<br>
++output=3D&quot;$1&quot;<br>
++if [ &quot;$output&quot; =3D &quot;&quot; ] ; then<br>
++=C2=A0 =C2=A0 output=3D&quot;$PWD&quot;<br>
++fi<br>
++<br>
++INC=3Dlinux-user/mips/syscall-<wbr>args-o32.c.inc<br>
++<br>
++TMP=3D$(mktemp -d)<br>
++cd $TMP<br>
++<br>
++for file in $FILES; do<br>
++=C2=A0 =C2=A0 curl -O $URL/$file<br>
++done<br>
++<br>
++&gt; subcall32.h<br>
++<br>
++cat &gt; gen_mips_o32.c &lt;&lt;EOF<br>
++#include &lt;stdio.h&gt;<br>
++<br>
++#define LINUX_MIPSO32<br>
++#define MAX_ARGS 7<br>
++<br>
++#include &quot;sysent.h&quot;<br>
++#include &quot;sysent_shorthand_defs.h&quot;<br>
++<br>
++#define SEN(syscall_name) 0,0<br>
++const struct_sysent sysent0[] =3D {<br>
++#include=C2=A0 &quot;syscallent-o32.h&quot;<br>
++};<br>
++<br>
++int main(void)<br>
++{<br>
++=C2=A0 =C2=A0 int i;<br>
++<br>
++=C2=A0 =C2=A0 for (i =3D 4000; i &lt; sizeof(sysent0) / sizeof(struct_syse=
+nt); i++) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (sysent0[i].sys_name =3D=3D NULL) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 printf(&quot;=C2=A0 =C2=A0 [% 4d=
+] =3D MIPS_SYSCALL_NUMBER_UNUSED,\n&quot;<wbr>, i - 4000);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 } else {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 printf(&quot;=C2=A0 =C2=A0 [% 4d=
+] =3D %d, /* %s */\n&quot;, i - 4000,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0sysen=
+t0[i].nargs, sysent0[i].sys_name);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 }<br>
++<br>
++=C2=A0 =C2=A0 return 0;<br>
++}<br>
++EOF<br>
++<br>
++cc -o gen_mips_o32 gen_mips_o32.c &amp;&amp; ./gen_mips_o32 &gt; &quot;$ou=
+tput/$INC&quot;<br>
++<br>
++rm -fr &quot;$TMP&quot;<br>
+-- <br>
+2.24.1<br>
+<br>
+<br>
+</blockquote>
+
+--0000000000002fca9f059edd6cce--
 
