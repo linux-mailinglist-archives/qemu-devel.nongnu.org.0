@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37E891627EF
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 15:18:13 +0100 (CET)
-Received: from localhost ([::1]:35938 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 232FE162806
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Feb 2020 15:22:52 +0100 (CET)
+Received: from localhost ([::1]:36046 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1j43hU-0002UM-8s
-	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 09:18:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53094)
+	id 1j43lz-0002I9-3d
+	for lists+qemu-devel@lfdr.de; Tue, 18 Feb 2020 09:22:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53229)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1j43Xy-0007Xl-DF
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 09:08:23 -0500
+ (envelope-from <kwolf@redhat.com>) id 1j43Y5-0007v5-Ox
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 09:08:30 -0500
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1j43Xx-0001Zx-Cw
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 09:08:22 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:41998
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <kwolf@redhat.com>) id 1j43Y4-0001fC-I7
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 09:08:29 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:47082
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1j43Xx-0001ZQ-8s
- for qemu-devel@nongnu.org; Tue, 18 Feb 2020 09:08:21 -0500
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1j43Y4-0001et-Eh
+ for qemu-devel@nongnu.org; Tue, 18 Feb 2020 09:08:28 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1582034900;
+ s=mimecast20190719; t=1582034908;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mCX3NN0DT+Vwo2IddupCK1dTsED3T98z+W2k5kqdIIw=;
- b=P90eBh5YKoGNLbPvAFMaE9xaVPZZzclPWHFIIkg3jBVpK4G+V6A+FQp9M7gxvhiXYnefZt
- NgPT1QYMToT6TILmPt4nsWf6RROu5qunpBmxM3rMnSWLguzL9dhk5mTBUM2LRKPxXPH4yp
- ctfHGU+U6/8hYsPQeHDag7PYHFIfZl4=
+ bh=O3/1rcC4a+nzJzgF3qet+s4hp4XaeIHxsJi1NGPbiwo=;
+ b=XBoHxf/s4n13ymFNpTgO7GW83IejBcwttzn/WMkLFDMP7w6dXv8U4gZgZRRuwC8m0V48pd
+ Nvj0BFeU+vQ32CdRCn8EOzAz2AirZDXm2PqI6HLEP3T6q5a22nGjY6XEoqSuUDteIrH3+Y
+ tXx9yrSJpHse03RBE3sMJ5kp3x1ZclU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-325-H7GF4KhsOVu3jLZ0ktSeJA-1; Tue, 18 Feb 2020 09:08:18 -0500
+ us-mta-380-oIXSXC9yP5SDzQ2AJvH8kg-1; Tue, 18 Feb 2020 09:08:19 -0500
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 32670107ACCA;
- Tue, 18 Feb 2020 14:08:17 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 81ACBDB60;
+ Tue, 18 Feb 2020 14:08:18 +0000 (UTC)
 Received: from linux.fritz.box.com (ovpn-117-181.ams2.redhat.com
  [10.36.117.181])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2F6418B549;
- Tue, 18 Feb 2020 14:08:16 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7B27B19E9C;
+ Tue, 18 Feb 2020 14:08:17 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 19/36] blockdev: Allow resizing everywhere
-Date: Tue, 18 Feb 2020 15:07:05 +0100
-Message-Id: <20200218140722.23876-20-kwolf@redhat.com>
+Subject: [PULL 20/36] block: Drop bdrv_is_first_non_filter()
+Date: Tue, 18 Feb 2020 15:07:06 +0100
+Message-Id: <20200218140722.23876-21-kwolf@redhat.com>
 In-Reply-To: <20200218140722.23876-1-kwolf@redhat.com>
 References: <20200218140722.23876-1-kwolf@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: H7GF4KhsOVu3jLZ0ktSeJA-1
+X-MC-Unique: oIXSXC9yP5SDzQ2AJvH8kg-1
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 207.211.31.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,36 +77,72 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Max Reitz <mreitz@redhat.com>
 
-Block nodes that do not allow resizing should not share BLK_PERM_RESIZE.
-It does not matter whether they are the first non-filter in their chain
-or not.
+It is unused now.  (And it was ugly because it needed to explore all BDS
+chains from the top.)
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-Id: <20200218103454.296704-3-mreitz@redhat.com>
+Message-Id: <20200218103454.296704-4-mreitz@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- blockdev.c | 5 -----
- 1 file changed, 5 deletions(-)
+ include/block/block.h |  1 -
+ block.c               | 26 --------------------------
+ 2 files changed, 27 deletions(-)
 
-diff --git a/blockdev.c b/blockdev.c
-index d83bb2beda..45de0ba37e 100644
---- a/blockdev.c
-+++ b/blockdev.c
-@@ -3331,11 +3331,6 @@ void qmp_block_resize(bool has_device, const char *d=
-evice,
-     aio_context =3D bdrv_get_aio_context(bs);
-     aio_context_acquire(aio_context);
+diff --git a/include/block/block.h b/include/block/block.h
+index 6cd566324d..6a8462a5bc 100644
+--- a/include/block/block.h
++++ b/include/block/block.h
+@@ -394,7 +394,6 @@ int bdrv_amend_options(BlockDriverState *bs_new, QemuOp=
+ts *opts,
+ /* external snapshots */
+ bool bdrv_recurse_is_first_non_filter(BlockDriverState *bs,
+                                       BlockDriverState *candidate);
+-bool bdrv_is_first_non_filter(BlockDriverState *candidate);
 =20
--    if (!bdrv_is_first_non_filter(bs)) {
--        error_setg(errp, QERR_FEATURE_DISABLED, "resize");
--        goto out;
+ /* check if a named node can be replaced when doing drive-mirror */
+ BlockDriverState *check_to_replace_node(BlockDriverState *parent_bs,
+diff --git a/block.c b/block.c
+index 9db0b973fe..145d0baf5e 100644
+--- a/block.c
++++ b/block.c
+@@ -6234,32 +6234,6 @@ bool bdrv_recurse_is_first_non_filter(BlockDriverSta=
+te *bs,
+     return false;
+ }
+=20
+-/* This function checks if the candidate is the first non filter bs down i=
+t's
+- * bs chain. Since we don't have pointers to parents it explore all bs cha=
+ins
+- * from the top. Some filters can choose not to pass down the recursion.
+- */
+-bool bdrv_is_first_non_filter(BlockDriverState *candidate)
+-{
+-    BlockDriverState *bs;
+-    BdrvNextIterator it;
+-
+-    /* walk down the bs forest recursively */
+-    for (bs =3D bdrv_first(&it); bs; bs =3D bdrv_next(&it)) {
+-        bool perm;
+-
+-        /* try to recurse in this top level bs */
+-        perm =3D bdrv_recurse_is_first_non_filter(bs, candidate);
+-
+-        /* candidate is the first non filter */
+-        if (perm) {
+-            bdrv_next_cleanup(&it);
+-            return true;
+-        }
 -    }
 -
-     if (size < 0) {
-         error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "size", "a >0 size"=
-);
-         goto out;
+-    return false;
+-}
+-
+ BlockDriverState *check_to_replace_node(BlockDriverState *parent_bs,
+                                         const char *node_name, Error **err=
+p)
+ {
 --=20
 2.20.1
 
